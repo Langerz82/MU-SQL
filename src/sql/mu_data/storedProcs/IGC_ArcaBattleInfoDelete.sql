@@ -1,0 +1,28 @@
+DELIMITER $$
+CREATE PROCEDURE `IGC_ArcaBattleInfoDelete`()
+BEGIN  
+ DECLARE v_return int;
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION
+  BEGIN
+    ROLLBACK;
+    SET v_return = -1;
+  END;
+ 
+EndProc: BEGIN
+ 
+	SET v_return = 0;  
+
+	start transaction;  
+
+	DELETE FROM IGC_ARCA_BATTLE_MEMBER_JOIN_INFO;
+	DELETE FROM IGC_ARCA_BATTLE_GUILD_JOIN_INFO;
+	DELETE FROM IGC_ARCA_BATTLE_WIN_GUILD_INFO;
+
+	commit;	
+
+END EndProc;
+	
+SELECT v_return;
+
+END$$
+DELIMITER ;
