@@ -4000,7 +4000,7 @@ public:
 private:
 	std::vector<USERWAREHOUSE_DATA> m_vtWarehouseData;
 	CRITICAL_SECTION m_WareDataCriti;
-	//CQuery m_WareDB;
+	CQuery m_WareDB;
 };
 
 #define MAX_CS_GUILDLIST 100
