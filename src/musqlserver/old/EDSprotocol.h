@@ -12,11 +12,10 @@
 using namespace std;
 
 #include <map>
+#include "prodef.h"
 #include "Common.h"
 #include "GensSystemProtocol.h"
 #include "Fprotocol.h"
-#include "prodef.h"
-
 
 #define MAX_MEMBER_GUILD	80
 

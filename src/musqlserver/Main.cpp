@@ -8,13 +8,13 @@
 #include "Common.h"
 
 // old includes
-#include "old/DataServer.h"
+//#include "old/DataServer.h"
 #include "old/ServerEngine.h"
 #include "old/DSprotocol.h"
 #include "old/Sprotocol.h"
 //#include "old/TLog.h"
 #include "old/Giocp.h"
-#include "old/TServerInfoDisplayer.h"
+//#include "old/TServerInfoDisplayer.h"
 #include "old/EDSprotocol.h"
 //#include "old/winutil.h"
 #include "old/MapServerManager.h"
@@ -55,6 +55,9 @@ int m_ServiceStatus = -1;
 
 // Defines
 #define MAX_ACCOUNT_LEN 10
+#define MAX_TYPE_PLAYER 8
+#define MAX_NUMBER_MAP 101
+#define CHECK_LIMIT(value, limit) (((value)< 0)?FALSE:((value)> limit-1)?FALSE:TRUE)
 
 // GLobals thats whats up.
 TCHAR szWANIP[150];
@@ -317,12 +320,12 @@ extern int main(int argc, char** argv)
 	LoadAllowableIpList("./AllowedIPList.ini");
 	GetPrivateProfileString("SETTINGS", "MapServerInfoPath", "..\\Data\\MapServerInfo.ini", g_MapSvrFilePath, sizeof(g_MapSvrFilePath), ".\\DataServer.ini");
 	GetPrivateProfileString("SETTINGS", "WanIP", "127.0.0.1", szWANIP, 150, ".\\DataServer.ini");
-	memcpy(szWANIP, ValidateAndResolveIP(szWANIP), 15);
+	//std::memcpy(szWANIP, ValidateAndResolveIP(szWANIP), 15); // temp
 	g_MapServerManager.LoadMapData(g_MapSvrFilePath);
-	SendMessage(ghWnd, WM_TIMER, WM_LOG_PAINT, NULL);
+	//SendMessage(ghWnd, WM_TIMER, WM_LOG_PAINT, NULL);
 
 	gObjServerInit();
-	IniteDataServer();
+	//IniteDataServer();
 	IocpServerStart();
 
 ////OLD CODE END

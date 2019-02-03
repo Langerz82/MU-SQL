@@ -21,7 +21,6 @@ private:
 	CRITICAL_SECTION m_ItemSerialCriti;
 	UINT64 m_dwItemSerial;
 	UINT64 m_dwLastSerial;
-	////CQuery m_Query;
 };
 
 extern CItemSerial g_ItemSerial;

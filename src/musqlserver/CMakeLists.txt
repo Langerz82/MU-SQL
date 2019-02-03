@@ -26,20 +26,18 @@ set(EXECUTABLE_NAME muMySQLServer)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
 #MuMySQL Server Files
-file(GLOB_RECURSE SRC_GRP_REALM muMySQLServer/*.cpp muMySQLServer/*.h)
-source_group("muMySQLServer" FILES ${SRC_GRP_MUMYSQLSERVER})
+file(GLOB_RECURSE SRC_GRP_MUSQLSERVER *.cpp *.h)
+#source_group("muMySQLServer" FILES ${SRC_GRP_MUMYSQLSERVER})
 
-#MuMySQL Server Files
-file(GLOB_RECURSE SRC_GRP_REALM muMySQLServer/old/*.cpp muMySQLServer/old/*.h muMySQLServer/old/*.hpp)
-source_group("muMySQLServer" FILES ${SRC_GRP_MUMYSQLSERVER_OLD})
+ADD_SUBDIRECTORY("old")
 
 #Socket Buffer Files
 file(GLOB_RECURSE SRC_GRP_SOCKB SocketBuffer/*.cpp SocketBuffer/*.h)
 source_group("Socket Buffer" FILES ${SRC_GRP_SOCKB})
 
 set(EXECUTABLE_SRCS
-    ${SRC_GRP_MUMYSQLSERVER}
-	${SRC_GRP_MUMYSQLSERVER_OLD}
+    ${SRC_GRP_MUSQLSERVER}
+	${SRC_GRP_MUSQLSERVER_OLD}
     ${SRC_GRP_SOCKB}
     Main.cpp
 )
@@ -94,7 +92,7 @@ else()
     target_link_libraries(${EXECUTABLE_NAME} ACE)
 endif()
 
-include_directories(${BOOST_INCLUDE_DIR})
+include_directories(${Boost_INCLUDE_DIRS})
 target_link_libraries(${EXECUTABLE_NAME} ${BOOST_LIBRARY})
 
 if(POSTGRESQL)

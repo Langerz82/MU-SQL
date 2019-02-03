@@ -2,11 +2,8 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-//#include "stdafx.h"
 #include "DSprotocol.h"
 #include "giocp.h"
-//#include "tlog.h"
-//#include "winutil.h"
 #include "ItemSerial.h"
 #include "ServerEngine.h"
 #include "MapServerManager.h"

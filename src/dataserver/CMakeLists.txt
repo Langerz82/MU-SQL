@@ -22,6 +22,7 @@
 # * and lore are copyrighted by Blizzard Entertainment, Inc.
 # */
 
+set(EXECUTABLE_NAME muMySQLServer)
 set(LIBRARY_NAME dataserver)
 
 file(GLOB SRC_GRP_DATASERVER *.*)
@@ -34,5 +35,8 @@ set(LIBRARY_SRCS
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+include_directories(${Boost_INCLUDE_DIRS})
+target_link_libraries(${EXECUTABLE_NAME} ${BOOST_LIBRARY})
 
 add_library(${LIBRARY_NAME} STATIC ${LIBRARY_SRCS})

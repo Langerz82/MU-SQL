@@ -13,10 +13,10 @@
 
 #include "Common.h"
 
-#ifndef MAX_ACCOUNT_LEN
+;// #ifndef MAX_ACCOUNT_LEN
 	#define MAX_ACCOUNT_LEN	10
 	#define MAX_GUILD_LEN	8
-#endif
+//#endif
 
 // PACKET HEAD DEFINITIONS
 

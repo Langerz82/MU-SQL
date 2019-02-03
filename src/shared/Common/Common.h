@@ -199,6 +199,12 @@ inline float finiteAlways(float f) { return finite(f) ? f : 0.0f; }
 #define PAIR32_HIPART(x)   (uint16)((uint32(x) >> 16) & 0x0000FFFF)
 #define PAIR32_LOPART(x)   (uint16)(uint32(x)         & 0x0000FFFF)
 
+
+#define MAX_ACCOUNT_LEN 10
+#define MAX_TYPE_PLAYER 8
+#define MAX_NUMBER_MAP 101
+#define CHECK_LIMIT(value, limit) (((value)< 0)?FALSE:((value)> limit-1)?FALSE:TRUE)
+
 typedef unsigned char BYTE;
 typedef unsigned long DWORD;
 
