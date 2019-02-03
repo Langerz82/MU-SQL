@@ -5,6 +5,7 @@
 #if !defined(AFX_DSPROTOCOL_H__2BBE1FF8_64DE_46AC_8344_13E7059DCBE3__INCLUDED_)
 #define AFX_DSPROTOCOL_H__2BBE1FF8_64DE_46AC_8344_13E7059DCBE3__INCLUDED_
 
+#include "classdef.h"
 #include "Query.h"
 
 #if _MSC_VER > 1000
@@ -3358,7 +3359,7 @@ struct PMSG_REQ_CLASSDEF
 	PBMSG_HEAD h;
 };
 
-struct CLASSDEF_DATA
+/*struct CLASSDEF_DATA
 {
 	int Class;
 	int Str;
@@ -3372,7 +3373,7 @@ struct CLASSDEF_DATA
 	float VitalityToLife;
 	float EnergyToMana;
 	int Leadership;
-};
+};*/
 
 struct PMSG_ANS_CLASSDEF
 {

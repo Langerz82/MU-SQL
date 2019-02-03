@@ -10,8 +10,8 @@
 #include "stdafx.h"
 #include "SetItemOption.h"
 #include "WzMemScript.h"
-#include "..\source\logproc.h"
-#include "..\include\readscript.h"
+#include "TLog.h"
+#include "readscript.h"
 
 CSetItemOption gSetItemOption;
 

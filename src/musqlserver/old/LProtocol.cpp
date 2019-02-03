@@ -5,7 +5,7 @@
 #include "giocp.h"
 #include "Sprotocol.h"
 #include "ServerEngine.h"
-// #include "readscript.h" // Cant find maybe a windows file?
+#include "readscript.h" // Cant find maybe a windows file?
 #include "prodef.h"
 
 using namespace std; 
