@@ -5,59 +5,13 @@
 // Date : 2007-05-09
 // ------------------------------
 
-#include "StdAfx.h"
+//#include "StdAfx.h"
 #include "classdef.h"
-#include "user.h"
-#include "GameMain.h"
-#include "winutil.h"
+//#include "user.h"
+//#include "GameMain.h"
+//#include "winutil.h"
 // GS-N 0.99.60T 0x004A36F0
 //	GS-N	1.00.18	JPN	0x004C14B0	-	Completed
-
-void CItem::Clear() {
-	this->m_Type = -1;
-	this->m_Level = 0;
-	this->m_Part = 0;
-	this->m_Class = 0;
-	this->m_TwoHand = 0;
-	this->m_AttackSpeed = 0;
-	this->m_DamageMin = 0;
-	this->m_DamageMax = 0;
-	this->m_SuccessfulBlocking = 0;
-	this->m_Defense = 0;
-	this->m_MagicDefense = 0;
-	this->m_Durability = 0;
-	this->m_SpecialNum = 0;
-	this->m_Value = 0;
-	this->m_Option1 = 0;
-	this->m_Option2 = 0;
-	this->m_Option3 = 0;
-	this->m_NewOption = 0;
-	this->m_Number = 0;
-	this->m_DurabilitySmall = 0;
-	this->m_iPShopValue = -1;
-	this->m_bItemExist = true;
-	this->m_CurrentDurabilityState = -1;
-	this->m_SetOption = 0;
-	this->m_QuestItem = false;
-
-	memset(this->m_Special, 0, sizeof(this->m_Special));
-	memset(this->m_SpecialValue, 0, sizeof(this->m_SpecialValue));
-	memset(this->m_Resistance, 0, sizeof(this->m_Resistance));
-
-	this->m_IsLoadPetItemInfo = 0;
-	this->m_PetItem_Level = 1;
-	this->m_PetItem_Exp = 0;
-	this->m_Leadership = 0;
-	this->m_JewelOfHarmonyOption = 0;
-	this->m_ItemOptionEx = 0;
-	this->m_BonusSocketOption = -1;
-	memset(this->m_SocketOption, -1, sizeof(this->m_SocketOption));
-	this->m_PeriodItemOption = 0;
-	this->m_ImproveDurabilityRate = 0;
-	this->m_wPShopBlessValue = 0;
-	this->m_wPShopSoulValue = 0;
-	this->m_wPShopChaosValue = 0;
-}
 
 classdef::classdef()
 {
@@ -74,7 +28,7 @@ void classdef::GDReqClassDefData()
 	PMSG_REQ_CLASSDEF pMsg;
 	PHeadSetB((LPBYTE)&pMsg, 0x02, sizeof(pMsg));
 
-	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void classdef::DGAnsClassDefData(PMSG_ANS_CLASSDEF *lpMsg)

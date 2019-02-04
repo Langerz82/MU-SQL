@@ -18,7 +18,7 @@ private:
 	UINT64 MakeSerial();
 	BOOL GetSerialFromDB(UINT64 & serial, int MakeSerialCount);
 
-	CRITICAL_SECTION m_ItemSerialCriti;
+	//CRITICAL_SECTION m_ItemSerialCriti;
 	UINT64 m_dwItemSerial;
 	UINT64 m_dwLastSerial;
 };

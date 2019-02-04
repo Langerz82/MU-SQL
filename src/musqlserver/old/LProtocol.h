@@ -158,7 +158,7 @@ public:
 void LProtocolCore(int aIndex, BYTE hCode, LPBYTE aRecv, int aLen);
 void AddServer(PMSG_SERVERINFO * pMsg);
 void LSProtocolCore(BYTE hCode, LPBYTE aRecv, int aLen);
-extern WzUdp g_CSSocket;
+//extern WzUdp g_CSSocket;
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -11,7 +11,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "StdAfx.h"
+//#include "StdAfx.h"
 #include "custTypedef.h"
 
 #define MAX_TYPE_PLAYER 8 
@@ -268,6 +268,8 @@ typedef struct
 
 extern  ITEM_ATTRIBUTE ItemAttribute[MAX_ITEMS];
 
+typedef ITEM_ATTRIBUTE* LPITEM_ATTRIBUTE;
+
 
 class CItem
 {
@@ -293,7 +295,7 @@ public:
 	int ItemDamageMin();
 	int ItemDefense();
 	int IsClass(char aClass, int ChangeUP);
-	LPSTR GetName();
+	char* GetName();
 	int GetLevel();
 	void PlusSpecial(int* Value, int Special);
 	void PlusSpecialPercent(int* Value, int Special, WORD Percent);
@@ -448,8 +450,8 @@ extern int g_MaxItemIndexOfEachItemType[MAX_TYPE_ITEMS];
 void BufferItemtoConvert3(unsigned char* buf, int& type, BYTE& level, BYTE& op1, BYTE& op2, BYTE& op3, BYTE& dur);
 void ItemByteConvert7(unsigned char * buf, CItem * const item , int maxitem);
 void ItemByteConvert10(unsigned char * buf, CItem * const item , int maxitem);
-void ItemByteConvert16(LPBYTE buf, CItem * const item , int maxitem);
-void ItemByteConvert32(LPBYTE buf, CItem * const item , int maxitem);
+void ItemByteConvert16(BYTE* buf, CItem * const item , int maxitem);
+void ItemByteConvert32(BYTE* buf, CItem * const item , int maxitem);
 void ItemByteConvert(unsigned char* buf, CItem item);
 void ItemByteConvert(unsigned char* buf, int type, BYTE Option1, BYTE Option2, BYTE Option3, BYTE level, BYTE dur, BYTE Noption, BYTE SetOption, BYTE JewelOfHarmonyOption, BYTE ItemEffectEx, BYTE *SocketOption, BYTE SocketBonusOption, BYTE PeriodItemOption);
 int ItemGetNumberMake(int type, int index);
@@ -467,7 +469,7 @@ int zzzItemLevel(int type, int index, int level);
 int GetLevelItem(int type, int index, int level);
 int GetSerialItem(int type);
 int IsItem(int item_num);
-LP_ITEM_ATTRIBUTE GetItemAttr(int item_num);
+ITEM_ATTRIBUTE* GetItemAttr(int item_num);
 int GetItemGroup(int item_num);
 int GetItemGroupPentagram(int item_num);
 int IsDumpItem(int item_num);
@@ -477,7 +479,7 @@ int IsStoreWarehouseItem(int item_num);
 int IsSellToNPCItem(int item_num);
 int IsRepairItem(int item_num);
 int IsOverlapItem(int item_num);
-void LoadResetItemList(LPSTR szFile);
+void LoadResetItemList(const char* szFile);
 int IsJumpingEventItem(int iItemCode);
 int IsExpensiveItem(CItem * item);
 int GetItemKindA(int item_num);
