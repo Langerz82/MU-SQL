@@ -1,0 +1,58 @@
+void ItemByteConvert(unsigned char* buf, CItem item)
+{
+	int n=0;
+
+	memset(buf, 0, 12);
+	buf[n] = item.m_Type & 0xFF;
+	n++;
+	buf[n] = 0;
+	buf[n] |= item.m_Level * 8;
+	buf[n] |= item.m_Option1 * 128;
+	buf[n] |= item.m_Option2 * 4;
+	buf[n] |= item.m_Option3 & 3;
+	n++;
+	buf[n] = item.m_Durability;
+	n++;
+	buf[n] = 0;
+	buf[n] |= ((item.m_Type & 0x100) >> 1);
+
+	if ( item.m_Option3 > 3 )
+	{
+		buf[n] |= 0x40; // item +16 option
+	}
+
+	buf[n] |= item.m_NewOption;
+	n++;
+	buf[n] = item.m_SetOption;
+ 	n++;
+	buf[n] |= (item.m_Type & 0x1E00 ) >> 5;
+
+	BYTE btItemEffectFor380 = 0;
+	btItemEffectFor380 = (item.m_ItemOptionEx & 0x80 ) >> 4;
+	buf[n] |= btItemEffectFor380;
+	buf[n] |= 2 * item.m_PeriodItemOption;
+	n++;
+	buf[n] = item.m_JewelOfHarmonyOption;
+
+	if (g_SocketOptionSystem.IsSocketItem(&item) == true)
+	{
+		buf[n] = item.m_BonusSocketOption;
+	}
+
+	if (g_PentagramSystem.IsPentagramItem(&item) == true || g_PentagramSystem.IsPentagramJewel(&item) == true)
+		buf[n] = item.m_BonusSocketOption;
+	if (g_CMuunSystem.IsMuunItem(&item) == 1)
+		buf[n] = item.m_BonusSocketOption;
+	if (g_CMuunSystem.IsStoneofEvolution(&item) == 1)
+		buf[n] = 0;
+	n++;
+	buf[n] = item.m_SocketOption[0];
+	n++;
+	buf[n] = item.m_SocketOption[1];
+	n++;
+	buf[n] = item.m_SocketOption[2];
+	n++;
+	buf[n] = item.m_SocketOption[3];
+	n++;
+	buf[n] = item.m_SocketOption[4];
+}

@@ -17,11 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+set (CMAKE_SYSTEM_VERSION 8.1 CACHE TYPE INTERNAL FORCE)
 project(MuMySQLServer)
 cmake_minimum_required(VERSION 3.0)
-
-set(MANGOS_VERSION 0.21)
-set(MANGOS_EXP "CLASSIC")
 
 # Set the correct macro directory path
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
@@ -38,11 +36,8 @@ INCLUDE(${CMAKE_MODULE_PATH}/FindBoost.cmake)
 # FIND_MYSQL()
 # ADD_DEFINITIONS(-DDO_MYSQL)
 
-MESSAGE("-- Check Boost")
-find_package(Boost)
-
 # Define available cmake options below
-if(WIN32)
+if(WIN32)	
     set(CONF_DIR "" CACHE STRING "Path to the configs, can be absolute or relative.")
 else()
     set(CONF_DIR "etc/" CACHE STRING "Path to the configs, can be absolute or relative.")
@@ -82,6 +77,7 @@ find_package(Platform REQUIRED)
 find_package(Git)
 find_package(PCHSupport)
 find_package(OpenSSL REQUIRED)
+find_package(Boost REQUIRED)
 
 if(ACE_USE_EXTERNAL)
     find_package(ACE)

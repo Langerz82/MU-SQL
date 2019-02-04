@@ -7,16 +7,16 @@
 // GS-N 0.99.60T 0x004E5740 - Status Completed :)
 // GS-N	1.00.18	JPN	0x0051E110	-	Completed.
 
-#include "StdAfx.h"
+//#include "StdAfx.h"
 #include "zzzitem.h"
 #include "SetItemOption.h"
-#include "TLog.h"
+//#include "TLog.h"
 #include "JewelOfHarmonySystem.h"
 #include "ItemSystemFor380.h"
 #include "user.h"
 #include "ItemSocketOptionSystem.h"
 #include "configread.h"
-#include "GameMain.h"
+//#include "GameMain.h"
 #include "classdef.h"
 #include "LuckyItemManager.h"
 #include "PentagramSystem.h"

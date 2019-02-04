@@ -1,0 +1,82 @@
+[GS/GSCS/DS/DB/CS/Other] [Author] [Description]
+// [DI - Dudi] [DE - Drake] [W - Wizzy] [S - Supron]
+
+11.07.2013 (8.0.2.0) (DS 1.6.0.0)
+[DS] [DI] Added Queue System for packets
+[GS/GSCS] [DI] Fixed crashes on Attribute System (hack)
+[GS] [DI] Fixed Imperial Event crash
+[GS/GSCS] [DI] Fixed MuBot disconnect issue
+[GS/GSCS] [DI] Fixed monster kill count for new quests in party
+[GS/GSCS] [DI] Added some options for DG/CS
+[GS/Other] [DI] Fixed David NPC (now user cannot use ticket if has improper class (ex: RF cannot use gloves ticket)
+[GS/GSCS/DS/DB] [DI] Removed old Period Item System, added New (WARNING: All period items and seals will disappear! or u must wait for converter)
+[GS/GSCS] [DI] Fixes in Master Skill Tree (cannot add/use normal skill if u have master skill)
+[GS/GSCS] [DI] Fixed Pet bug issue (Uniria & Dinorant)
+[GS/GSCS] [DI] Fixed News System
+[GS/GSCS] [DI] Fixed Berserker skill issue (Negative Mana)
+[GS] [DI] Fixed DoppelGanger chest issue (they was moving ^^)
+[GS/GSCS] [DI] Added check for Marry Trace if user has correct level
+[GS/GSCS] [DI] Fixed issues with master skills bonus (like fortidude)
+[GSCS] [DI] Fixed Attribute System (errtel can disappear while moving to GSCS)
+[Other] Other fixes from BT
+[CS] Changed Auth IP to correct
+[GS/GSCS/DS/CS] Fixed IOCP crash bug on machines with 2 processors
+
+
+
+12.06.2013 (8.0.1.94) (DS 1.0.1.0)
+[Other] [DI] Fixed Lucky Items (wrong item id in config file)
+[DS] [DI] Fixed VIP System (does not give VIP using card)
+[GS/GSCS] [DI] Fixed Lucky Item System (bug with loading section for 2nd items)
+
+
+10.06.2013 (8.0.1.93) ( DS 1.0.0.6)
+[GS/DS] [DE] Added Monster Kill Counter
+[GS] [DE] Added new options for PvP Damage rates for all classes
+[GS/GSCS] [DI] Rewrited Pentagram System (fixed Trade/PShop/Disappears/Effects etc.)
+[GS/GSCS] [DI] Rewrited Lucky Item System - config file added, fixed chaos mix (David NPC)
+[GS/GSCS] [DI] Fixed Expiration Pet Items [effect stay when u are ingame and pet has expired]
+[Other] [DI] Fixed Master Skill Tree Ex700 skills values (config file added)
+06.05.2013 (8.0.1.92) (DS 1.0.0.5)
+[GS] [DI] Fixed crash on Imperial Fort
+[GS/GSCS] [DI] Added Config for Dark Side Skill
+[GSCS] [DI] Fixed Castle Siege issues with guild save/load
+[DS] [DI] Fixed Castle Siege packets
+[DB] [DI] Fixed Castle Siege procedures (scripts included)
+[GS/GSCS] [DI] Fixed Raklion Event DC error
+[GS/GSCS] [DI] Fixed Exp Increase by fenrir option
+[GS/GSCS] [DI] Added protection against send packets without header (may cause DC)
+[DS] [DI] Fixed Friend System (not remove invitation after decline request)
+
+04.05.2013 (8.0.1.91) (DS 1.0.0.4)
+[GS/GSCS] [DI] Fixed deadlock/crash on MLS
+
+02.05.2013 (8.0.1.9) (DS 1.0.0.4)
+[GS] [DI] Fixed Imperial Fort Event
+[GSCS] [DI] Fixed Castle Siege issues
+[GS/GSCS] [DI] Fixed Pentagram disappear in inventory
+
+01.05.2013 (8.0.1.81) (DS 1.0.0.3)
+[GS/GSCS] [DI] Fixed Dark Side Skill in PvP
+[GS] [DI] Fixed Medusa Spawn
+
+30.04.2013 (8.0.1.8) (DS 1.0.0.3)
+
+[GSCS] [DI] Crash Fixed after finish 3rd Quest
+[GS/GSCS] [DI] Fixed Crash Bug when Key of DevilSquare Drop Rate is set to ZERO
+[GS/GSCS] [DI] Fixed MLS AG Recovery Skill
+[GS/GSCS] [DI] FIxed Elf SD Recovery Skill Calculation
+[GS/GSCS] [DI] Fixed Old Bugs from BT
+[GS/GSCS] [DI] Fixed Buff Duration when it was casted by Bot (now read from config file)
+
+29.04.2013 (8.0.1.7) (DS 1.0.0.3)
+
+[GS/GSCS] [DI] Crash bug on S5/S6/EX70X Quests Fixed
+[GS/GSCS] [DI] Fixed Buff Effect remove effects after logout
+[GS/GSCS] [DI] Fixed Exp decrease after death issue
+[GS/GSCS] [DI] Fixed Cash-Shop Inventory Equipment Items (can not deactive after moving in inventory)
+[GS/GSCS] [DI] Fixed IGCDropManager issue with -1 value for Min/Max Monster Level
+[GS/GSCS] [DI] Fixed Reflect Damage Summoner Buff cast
+[GS/GSCS] [DI] Fixed Berserker Buff casting from Bot Buffer
+[GS/GSCS/DS] [DI] Fixed Warehouse Expansion Item move bug
+[CS] [DI] Added UAC-requirement manifest to application

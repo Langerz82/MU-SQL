@@ -22,6 +22,7 @@
 # * and lore are copyrighted by Blizzard Entertainment, Inc.
 # */
 
+set (CMAKE_SYSTEM_VERSION 8.1 CACHE TYPE INTERNAL FORCE)
 set(EXECUTABLE_NAME muMySQLServer)
 set(LIBRARY_NAME dataserver)
 
