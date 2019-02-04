@@ -11,7 +11,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "Common.h"
+#include "custTypedef.h"
 
 ;// #ifndef MAX_ACCOUNT_LEN
 	#define MAX_ACCOUNT_LEN	10
@@ -34,7 +34,6 @@
 #define MAKE_NUMBERW(x,y)  ( (WORD)(((BYTE)((y)&0xFF)) |   ((BYTE)((x)&0xFF)<<8 ))  )
 #define MAKE_NUMBERDW(x,y) ( (DWORD)(((WORD)((y)&0xFFFF)) | ((WORD)((x)&0xFFFF)<<16))  )
 
-typedef unsigned char BYTE;
 
 /* ------------------------------------------------*
  * ::::::::::::::::::::::::::::::::::::::::::::::::*

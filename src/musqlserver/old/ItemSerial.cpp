@@ -9,12 +9,12 @@ CItemSerial g_ItemSerial;
 
 CItemSerial::CItemSerial(void)
 {
-	InitializeCriticalSection(&this->m_ItemSerialCriti);
+	//InitializeCriticalSection(&this->m_ItemSerialCriti);
 }
 
 CItemSerial::~CItemSerial(void)
 {
-	DeleteCriticalSection(&this->m_ItemSerialCriti);
+	//DeleteCriticalSection(&this->m_ItemSerialCriti);
 }
 
 bool CItemSerial::Init()
@@ -45,7 +45,7 @@ UINT64 CItemSerial::MakeSerial()
 
 UINT64 CItemSerial::GenerateSerial()
 {
-	EnterCriticalSection(&this->m_ItemSerialCriti);
+	//EnterCriticalSection(&this->m_ItemSerialCriti);
 	
 	if ( this->m_dwItemSerial >= this->m_dwLastSerial )
 	{
@@ -56,7 +56,7 @@ UINT64 CItemSerial::GenerateSerial()
 
 	this->m_dwItemSerial++;
 
-	LeaveCriticalSection(&this->m_ItemSerialCriti);
+	//LeaveCriticalSection(&this->m_ItemSerialCriti);
 
 	return retserial;
 }

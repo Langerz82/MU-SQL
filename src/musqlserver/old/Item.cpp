@@ -9,7 +9,7 @@
 
 //#include "StdAfx.h"
 
-#include "zzzitem.h"
+#include "Item.h"
 //#include "SetItemOption.h"
 //#include "TLog.h"
 //#include "JewelOfHarmonySystem.h"
@@ -17,7 +17,8 @@
 //#include "user.h"
 //#include "ItemSocketOptionSystem.h"
 //#include "configread.h"
-#include "GameMain.h"
+#include "Main.h"
+#include "ServerEngine.h"
 #include "classdef.h"
 //#include "LuckyItemManager.h"
 //#include "PentagramSystem.h"
@@ -4147,7 +4148,7 @@ int CItem::NormalWeaponDurabilityDown(int defense, int aIndex)
 
 	if (damagemin == 0)
 	{
-		g_Log.Add("MinDamage is 0!");
+		sLog.outBasic("MinDamage is 0!");
 		return 0;
 	}
 

@@ -157,7 +157,7 @@ BOOL CreateListenSocket(DWORD dwServerCountIndex)
 	
 	if ( nRet == -1 )
 	{
-		g_Log.AddMSB("bind error : eDataServer can't be launched twice");
+		sLog.outError("bind error : eDataServer can't be launched twice");
 		SendMessage(ghWnd, WM_CLOSE, 0,0);	// Kill aplication
 		return FALSE;
 	}
@@ -201,7 +201,7 @@ unsigned long __stdcall IocpServerWorker(DWORD pIocpServerParameter)
 	if ( g_dwThreadCount[dwServerCountIndex] > MAX_IO_THREAD_HANDLES )
 	{
 		g_dwThreadCount[dwServerCountIndex] = MAX_IO_THREAD_HANDLES;
-		g_Log.AddC(TColor::Orange, "[WARNING]: IOCP Thread Handles set to 16");
+		sLog.outError("[WARNING]: IOCP Thread Handles set to 16");
 	}
 
 	__try
@@ -672,7 +672,7 @@ BOOL RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 				m_EXDSQueue.AddToQueue((LPBYTE)(recvbuf + lOfs), size, headcode, uIndex, g_DelayHandler.GetQuerySessionId());
 			}
 
-			g_ServerInfoDisplayer.SetState(SERVER_ACTIVE);
+			//g_ServerInfoDisplayer.SetState(SERVER_ACTIVE);
 
 			lOfs += size;
 			lpIOContext->nSentBytes  -= size;

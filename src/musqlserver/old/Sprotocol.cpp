@@ -6,7 +6,7 @@
 #include "Sprotocol.h"
 #include "giocp.h"
 //#include "tlog.h"
-#include "winutil.h"
+#include "util.h"
 #include "MD5.h"
 #include "WzUdp.h"
 #include "ServerEngine.h"

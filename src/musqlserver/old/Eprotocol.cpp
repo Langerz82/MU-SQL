@@ -19,13 +19,13 @@ void InitEventDB()
 		return;
 	}
 
-	if ( g_EventDB.Connect(g_EventServerDNS, g_UserID, g_Password,g_ServerName) == TRUE )
+	if ( TRUE )
 	{
-		LogAddC(4, "[EventDB] Connection Successfull!");
+		sLog.outBasic("[EventDB] Connection Successfull!");
 	}
 	else
 	{
-		LogAddC(2, "[EventDB] Error On Connection!");
+		sLog.outError("[EventDB] Error On Connection!");
 	}
 }
 
@@ -35,7 +35,7 @@ void EProtocolCore(int aIndex, BYTE HeadCode, LPBYTE aRecv, int iSize)
 #if (TRACE_PACKET == 1 )
 	LogAddHeadHex("EVENT_SERVER", aRecv, iSize);
 #endif
-	g_ServerInfoDisplayer.CheckEVDSConnection(TRUE);
+	//g_ServerInfoDisplayer.CheckEVDSConnection(TRUE);
 	switch ( HeadCode )
 	{
 	case 0x01:
@@ -78,7 +78,7 @@ void EProtocolCore(int aIndex, BYTE HeadCode, LPBYTE aRecv, int iSize)
 		EGAnsLuckyCoinInfo(aIndex,(PMSG_REQ_LUCKYCOIN *)aRecv);
 		break;
 	}
-	g_ServerInfoDisplayer.CheckEVDSConnection(FALSE);
+	//g_ServerInfoDisplayer.CheckEVDSConnection(FALSE);
 }
 
 void EGAnsEventChipInfo(int aIndex,PMSG_REQ_VIEW_EC_MN * lpMsg)
@@ -91,46 +91,9 @@ void EGAnsEventChipInfo(int aIndex,PMSG_REQ_VIEW_EC_MN * lpMsg)
 	pMsg.h.size = sizeof(pMsg);
 
 	pMsg.iINDEX = lpMsg->iINDEX;
-	memcpy(pMsg.szUID,lpMsg->szUID,sizeof(pMsg.szUID));
+	std::memcpy(pMsg.szUID,lpMsg->szUID,sizeof(pMsg.szUID));
 	pMsg.szUID[10] = 0;
 
-	if(g_EventDB.Exe//CQuery("SELECT EventChips, Check_Code, MuttoNumber FROM T_MU2003_EVENT WHERE AccountID='%s'",lpMsg->szUID) == FALSE)
-	{
-		pMsg.bSUCCESS = FALSE;
-	}
-	else
-	{
-		if(g_EventDB.Fetch() != false)
-		{
-			if(g_EventDB.GetAsInteger("Check_Code") != 0)
-			{
-				pMsg.nEVENT_CHIPS = 0;
-			}
-			else
-			{
-				pMsg.nEVENT_CHIPS = (short)g_EventDB.GetAsInteger("EventChips");
-			}
-
-			pMsg.iMUTO_NUM = g_EventDB.GetAsInteger("MuttonNumber");
-			pMsg.bSUCCESS = TRUE;
-		}
-		else
-		{
-			g_EventDB.Close();
-			if(g_EventDB.Exe//CQuery("INSERT INTO T_MU2003_EVENT (AccountID) VALUES ('%s')",pMsg.szUID) == FALSE)
-			{
-				pMsg.bSUCCESS = FALSE;
-			}
-			else
-			{
-				pMsg.nEVENT_CHIPS = 0;
-				pMsg.iMUTO_NUM = 0;
-				pMsg.bSUCCESS = TRUE;
-			}
-		}
-	}
-
-	g_EventDB.Close();
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
@@ -149,26 +112,6 @@ void EGAnsRegEventChipInfo(int aIndex,PMSG_REQ_REGISTER_EVENTCHIP * lpMsg)
 	pMsg.szUID[10] = 0x00;
 	pMsg.bSUCCESS = FALSE;
 
-	if(g_EventDB.Exe//CQuery("UPDATE T_MU2003_EVENT SET EventChips = EventChips + 1 WHERE AccountID = '%s'",pMsg.szUID))
-	{
-		g_EventDB.Close();
-
-		if(g_EventDB.Exe//CQuery("SELECT EventChips FROM T_MU2003_EVENT WHERE AccountID='%s'",pMsg.szUID))
-		{
-			if(g_EventDB.Fetch() != false)
-			{
-				pMsg.nEVENT_CHIPS = (short)g_EventDB.GetAsInteger("EventChips");
-
-				if(pMsg.nEVENT_CHIPS != -1)
-				{
-					pMsg.nEVENT_CHIPS = TRUE;
-				}
-			}
-		}
-	}
-
-	g_EventDB.Close();
-
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
@@ -183,17 +126,6 @@ void EGAnsResetEventChip(int aIndex,PMSG_REQ_RESET_EVENTCHIP * lpMsg)
 	pMsg.iINDEX = lpMsg->iINDEX;
 	strcpy(pMsg.szUID,lpMsg->szUID);
 	pMsg.szUID[10] = 0;
-
-	if(g_EventDB.Exe//CQuery("UPDATE T_MU2003_EVENT SET Check_Code = 2 WHERE AccountID = '%s'",pMsg.szUID))
-	{
-		pMsg.bSUCCESS = TRUE;
-	}
-	else
-	{
-		pMsg.bSUCCESS = FALSE;
-	}
-
-	g_EventDB.Close();
 
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
@@ -210,37 +142,6 @@ void EGAnsEventStoneInfo(int aIndex,PMSG_REQ_VIEW_EC_MN * lpMsg)
 	strcpy(pMsg.szUID,lpMsg->szUID);
 	pMsg.szUID[10] = 0x00;
 
-	if(g_EventDB.Exe//CQuery("SELECT StoneCount, Check_Code FROM T_BLOOD_CASTLE WHERE AccountID='%s'",pMsg.szUID) == FALSE)
-	{
-		pMsg.bSUCCESS = FALSE;
-	}
-	else
-	{
-		if(g_EventDB.Fetch() != false)
-		{
-			if(g_EventDB.GetAsInteger("Check_Code") != 0)
-			{
-				pMsg.iStoneCount = 0;
-			}
-			else
-			{
-				pMsg.iStoneCount = g_EventDB.GetAsInteger("StoneCount");
-			}
-			pMsg.bSUCCESS = TRUE;
-		}
-		else
-		{
-			g_EventDB.Close();
-
-			if(g_EventDB.Exe//CQuery("INSERT INTO T_BLOOD_CASTLE (AccountID) VALUES ('%s')",pMsg.szUID))
-			{
-				pMsg.bSUCCESS = TRUE;
-				pMsg.iStoneCount = 0;
-			}
-		}
-	}
-
-	g_EventDB.Close();
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
@@ -257,32 +158,6 @@ void EGAnsRegEventStoneInfo(int aIndex,PMSG_REQ_REGISTER_STONES * lpMsg)
 	strcpy(pMsg.szUID,lpMsg->szUID);
 	pMsg.szUID[10] = 0x00;
 
-	if(g_EventDB.Exe//CQuery("UPDATE T_BLOOD_CASTLE SET StoneCount = StoneCount + 1 WHERE AccountID = '%s'",pMsg.szUID))
-	{
-		g_EventDB.Close();
-		if(g_EventDB.Exe//CQuery("SELECT StoneCount FROM T_BLOOD_CASTLE WHERE AccountID='%s'",pMsg.szUID))
-		{
-			if(g_EventDB.Fetch() != false)
-			{
-				pMsg.iStoneCount = g_EventDB.GetAsInteger("StoneCount");
-
-				if(pMsg.iStoneCount != -1)
-				{
-					pMsg.bSUCCESS = TRUE;
-				}
-			}
-			else
-			{
-				pMsg.bSUCCESS = FALSE;
-			}
-		}
-	}
-	else
-	{
-		pMsg.bSUCCESS = FALSE;
-	}
-
-	g_EventDB.Close();
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
@@ -300,31 +175,6 @@ void EGAnsDeleteStones(int aIndex,PMSG_REQ_DELETE_STONES * lpMsg)
 
 	pMsg.bSUCCESS = FALSE;
 
-	if(g_EventDB.Exe//CQuery("SELECT StoneCount FROM T_BLOOD_CASTLE WHERE AccountID='%s'",pMsg.szUID) == FALSE || g_EventDB.Fetch() == false)
-	{
-		pMsg.bSUCCESS = FALSE;
-	}
-	else
-	{
-		int Stones = g_EventDB.GetAsInteger("StoneCount");
-
-		g_EventDB.Close();
-
-		if(Stones != -1 && Stones >= lpMsg->iStoneCount)
-		{
-			if(g_EventDB.Exe//CQuery("UPDATE T_BLOOD_CASTLE SET StoneCount = StoneCount - %d WHERE AccountID='%s'",lpMsg->iStoneCount, pMsg.szUID) == FALSE)
-			{
-
-			}
-			else
-			{
-				pMsg.bSUCCESS = TRUE;
-				pMsg.iStoneCount = Stones - lpMsg->iStoneCount;
-			}
-		}
-	}
-
-	g_EventDB.Close();
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
@@ -342,22 +192,6 @@ void EGAns2AnivRegSerial(int aIndex,PMSG_REQ_2ANIV_SERIAL * lpMsg)
 	pMsg.iINDEX = lpMsg->iINDEX;
 	memcpy(pMsg.szUID, szName, 10);
 
-	if(g_EventDB.Exe//CQuery("EXEC SP_REG_SERIAL '%s', '%d', '%s', '%s', '%s'",lpMsg->szUID,lpMsg->iMEMB_GUID,lpMsg->SERIAL1,lpMsg->SERIAL2,lpMsg->SERIAL3) && g_EventDB.Fetch() != false)
-	{
-		pMsg.btIsRegistered = (BYTE)g_EventDB.GetAsInteger("RegResult");
-		pMsg.iGiftNumber = g_EventDB.GetAsInteger("F_Register_Section");
-
-		if(pMsg.iGiftNumber == -1)
-		{
-			pMsg.btIsRegistered = 4;
-		}
-	}
-	else
-	{
-		pMsg.btIsRegistered = 4;
-	}
-
-	g_EventDB.Close();
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
@@ -376,16 +210,6 @@ void EGAnsResetStoneInfo(int aIndex,PMSG_REQ_RESET_EVENTCHIP * lpMsg)
 	memcpy(pMsg.szUID, szName, 10);
 	pMsg.szUID[10] = 0;
 
-	if(g_EventDB.Exe//CQuery("UPDATE T_BLOOD_CASTLE SET Check_Code = 2 WHERE AccountID = '%s'",lpMsg->szUID) == FALSE)
-	{
-		pMsg.bSUCCESS = FALSE;
-	}
-	else
-	{
-		pMsg.bSUCCESS = TRUE;
-	}
-
-	g_EventDB.Close();
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
@@ -406,20 +230,6 @@ void EGAnsRegCCOfflineGift(int aIndex,PMSG_REQ_REG_CC_OFFLINE_GIFT * lpMsg)
 	
 	pMsg.iResultCode = 0;
 
-	if(g_EventDB.Exe//CQuery("EXEC SP_REG_CC_OFFLINE_GIFT '%s', '%s', %d",lpMsg->szUID,lpMsg->szNAME,lpMsg->wServerCode) == FALSE || g_EventDB.Fetch() == false)
-	{
-
-	}
-	else
-	{
-		pMsg.iResultCode = g_EventDB.GetAsInteger("ResultCode");
-		if(pMsg.iResultCode != -1)
-		{
-			g_EventDB.GetAsString("GiftName",pMsg.szGIFT_NAME,sizeof(pMsg.szGIFT_NAME) - 1);
-		}
-	}
-
-	g_EventDB.Close();
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
@@ -440,20 +250,6 @@ void EGAnsRegDLOfflineGift(int aIndex,PMSG_REQ_REG_DL_OFFLINE_GIFT * lpMsg)
 	
 	pMsg.iResultCode = 0;
 
-	if(g_EventDB.Exe//CQuery("EXEC SP_REG_DL_OFFLINE_GIFT '%s', '%s', %d",lpMsg->szUID,lpMsg->szNAME,lpMsg->wServerCode) == FALSE || g_EventDB.Fetch() == false)
-	{
-
-	}
-	else
-	{
-		pMsg.iResultCode = g_EventDB.GetAsInteger("ResultCode");
-		if(pMsg.iResultCode != -1)
-		{
-			g_EventDB.GetAsString("GiftName",pMsg.szGIFT_NAME,sizeof(pMsg.szGIFT_NAME));
-		}
-	}
-
-	g_EventDB.Close();
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
@@ -474,20 +270,6 @@ void EGAnsRegHTOfflineGift(int aIndex,PMSG_REQ_REG_HT_OFFLINE_GIFT * lpMsg)
 	
 	pMsg.iResultCode = 0;
 
-	if(g_EventDB.Exe//CQuery("EXEC SP_REG_HT_OFFLINE_GIFT '%s', '%s', %d",lpMsg->szUID,lpMsg->szNAME,lpMsg->wServerCode) == FALSE || g_EventDB.Fetch() == false)
-	{
-
-	}
-	else
-	{
-		pMsg.iResultCode = g_EventDB.GetAsInteger("ResultCode");
-		if(pMsg.iResultCode != -1)
-		{
-			g_EventDB.GetAsString("GiftName",pMsg.szGIFT_NAME,sizeof(pMsg.szGIFT_NAME));
-		}
-	}
-
-	g_EventDB.Close();
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
@@ -504,31 +286,6 @@ void EGAnsLuckyCoinInfo(int aIndex,PMSG_REQ_LUCKYCOIN * lpMsg)
 	memcpy(pMsg.szUID,lpMsg->szUID, sizeof(pMsg.szUID));
 	pMsg.szUID[10] = 0;
 
-	if(g_EventDB.Exe//CQuery("SELECT LuckyCoin FROM T_LuckyCoin WHERE AccountID='%s'",lpMsg->szUID) == FALSE)
-	{
-		pMsg.LuckyCoins = 0;
-	}
-	else
-	{
-		if(g_EventDB.Fetch() != false)
-		{
-			pMsg.LuckyCoins = (short)g_EventDB.GetAsInteger("LuckyCoin");
-		}
-		else
-		{
-			g_EventDB.Close();
-			if(g_EventDB.Exe//CQuery("INSERT INTO T_LuckyCoin (AccountID) VALUES ('%s')",pMsg.szUID) == FALSE)
-			{
-				pMsg.LuckyCoins = 0;
-			}
-			else
-			{
-				pMsg.LuckyCoins = 0;
-			}
-		}
-	}
-
-	g_EventDB.Close();
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
@@ -546,26 +303,6 @@ void EGAnsRegLuckyCoin(int aIndex,PMSG_REQ_REGISTER_LUCKYCOIN * lpMsg)
 	strcpy(pMsg.szUID,lpMsg->szAccountID);
 	pMsg.szUID[10] = 0x00;
 	pMsg.Result = FALSE;
-
-	if(g_EventDB.Exe//CQuery("UPDATE T_LuckyCoin SET LuckyCoin = LuckyCoin + 1 WHERE AccountID = '%s'",pMsg.szUID))
-	{
-		g_EventDB.Close();
-
-		if(g_EventDB.Exe//CQuery("SELECT LuckyCoin FROM T_LuckyCoin WHERE AccountID='%s'",pMsg.szUID))
-		{
-			if(g_EventDB.Fetch() != false)
-			{
-				pMsg.LuckyCoins = (short)g_EventDB.GetAsInteger("LuckyCoin");
-
-				if(pMsg.LuckyCoins != -1)
-				{
-					pMsg.Result = TRUE;
-				}
-			}
-		}
-	}
-
-	g_EventDB.Close();
 
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }

@@ -5,7 +5,7 @@
 #include "Common.h"
 #include "Fprotocol.h"
 #include "EDSprotocol.h"
-#include "winutil.h"
+#include "util.h"
 #include "giocp.h"
 #include "ServerEngine.h"
 #include <string.h>
