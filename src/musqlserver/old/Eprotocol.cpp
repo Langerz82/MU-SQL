@@ -2,11 +2,10 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-//#include "stdafx.h"
 #include "Eprotocol.h"
 #include "giocp.h"
-#include "Logproc.h"
-#include "winutil.h"
+#include "Main.h"
+#include "ServerEngine.h"
 
 #define szModule "EProtocol"
 

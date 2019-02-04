@@ -1,12 +1,13 @@
 // EDSprotocol.cpp: implementation of the EDSprotocol class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "giocp.h"
+#include "Main.h"
 #include "EDSprotocol.h"
 #include "ServerEngine.h"
 #include "DSProtocol.h"
-#include "giocp.h"
 #include "Fprotocol.h"
+#include "pugixml.hpp"
 
 CExDataServerProtocol::CExDataServerProtocol()
 {
@@ -787,60 +788,12 @@ int CExDataServerProtocol::CreateDBGuild(char* szGuild, char* szMaster, LPBYTE p
 		return 1;
 	}
 
-	// check if player is already in guild
-
-
-
-	{
-
-		sLog.outBasic( "[%s] is already in guild", szMaster);
-		return 2;
-	}
-
-
-
-	// create guild
-
-	{
-
-		sLog.outError("Error executing WZ_GuildCreate");
-		return 3;
-	}
-	
-
-	{
-
-		sLog.outError("Error executing WZ_GuildCreate");
-		return 3;
-	}
-
-
-
-
-	if( res != 0)
-	{
-		sLog.outError("WZ_GuildCreate error: [%d]", res);
-		return 3;
-	}
-
-	// set G_Mark
-	char szTmp[128]={0};
-	wsprintf(szTmp, "UPDATE Guild SET G_Mark=? where G_Name='%s'", szGuild);
-
-
 	return 0;
 }
 
 int CExDataServerProtocol::GetDBGuildNumber(char *szGuild)
 {
-
-
-
-
-
-
-
-	return num;
+	return 0;
 }
 
 BOOL CExDataServerProtocol::AddGuild(char *szGuild, char *szMaster, int iNumber, char *lpNotice, int iScore, LPBYTE pMark, int iType)
@@ -891,36 +844,18 @@ BOOL CExDataServerProtocol::MasterDBExists(char *szMaster)
 {
 	BOOL res = FALSE;
 
-	{
-
-			res = FALSE;
-		else
-			res = TRUE;
-	}
-
-
-
 	return TRUE;
 }
 
 BOOL CExDataServerProtocol::DelDBGuild(char *szGuild)
 {
 	BOOL res;
-
-
-
-
 	return res;
 }
 
 BOOL CExDataServerProtocol::DelAllDBGuildMember(char *szGuild)
 {
 	BOOL res;
-
-
-
-
-
 	return res;
 }
 
@@ -947,16 +882,7 @@ BOOL CExDataServerProtocol::AddGuildMember(char *szGuild, char *szName, BYTE btS
 
 BOOL CExDataServerProtocol::UpdateGuildMemberStatus(char *szGuild, char *szName, BYTE btStatus)
 {
-
-		btStatus, szName) == FALSE)
-	{
-
-		return FALSE;
-	}
-	
-
-
-	LPGUILD_MEMBER lpMemb;
+	GUILD_MEMBER* lpMemb;
 	lpMemb = GetGuildMember(szGuild, szName);
 	if(lpMemb == NULL)
 	{
@@ -1063,21 +989,6 @@ void CExDataServerProtocol::SendGuildMemberInfo(int aIndex, char *szName, int iU
 
 BOOL CExDataServerProtocol::GetGuildMemberInfo(char *szName, OUT char *szGuild, OUT int& riLevel, OUT int& riStatus)
 {
-
-		szName);
-
-
-	if(res == false && res != SQL_SUCCESS && res != SQL_SUCCESS_WITH_INFO)
-	{
-
-		return FALSE;
-	}
-
-
-
-
-
-
 
 	return TRUE;
 }
@@ -2840,7 +2751,7 @@ void CExDataServerProtocol::FriendChatRoomCreateReq(int aIndex, FHP_FRIEND_CHATR
 		return;
 	}
 
-
+	int FriendServerId = 0; // stub
 	if(FriendServerId < 0)
 	{
 		FriendChatRoomCreateAns(-1, &Result);
@@ -2896,7 +2807,7 @@ void CExDataServerProtocol::FriendChatRoomInvitationReq(int aIndex, FHP_FRIEND_I
 	sLog.outBasic("[ChatRoom Invitation Request] Name[%s] Room[%d] FriendName[%s].", szMaster, lpMsg->RoomNumber, szFriend);
 	if(this->m_FriendSystemEDS.FriendExists(szMaster, szFriend))
 	{
-
+		int FriendServerId; // stub
 		if(FriendServerId > -1)
 		{
 			FCHChatRoomInvitationReq(GetChatServer(), lpMsg->RoomNumber, 
@@ -2936,7 +2847,7 @@ void CExDataServerProtocol::GensRankingProcess()
 
 // Gens System Class
 
-GensSystem_EDS::GensSystem_EDS() : m_RankingLog("Gens_Ranking", ".\\GENS_RANKING_LOG", 256)
+GensSystem_EDS::GensSystem_EDS() //: m_RankingLog("Gens_Ranking", ".\\GENS_RANKING_LOG", 256)
 {
 	InitializeCriticalSection(&this->m_GensCriticalSection);
 	memset(this->m_GensRankingData, 0x00, sizeof(this->m_GensRankingData));
@@ -3000,14 +2911,14 @@ BOOL GensSystem_EDS::LoadGensData(LPSTR lpszFileName)
 		return FALSE;
 	}
 
-	pugi::xml_node main = file.child("GensSystem");
-	pugi::xml_node reward = main.child("RewardSettings");
+	pugi::xml_node mainXML = file.child("GensSystem");
+	pugi::xml_node reward = mainXML.child("RewardSettings");
 
 	this->m_GensRewardStartDay = reward.attribute("StartDay").as_int();
 	this->m_GensRewardEndDay = reward.attribute("EndDay").as_int();
 	this->m_MinRankToGainReward = reward.attribute("MinRankToGainReward").as_int(300);
 
-	pugi::xml_node ranking = main.child("RankingSettings");
+	pugi::xml_node ranking = mainXML.child("RankingSettings");
 
 	for (pugi::xml_node gens = ranking.child("Gens"); gens; gens = gens.next_sibling())
 	{
@@ -3204,7 +3115,7 @@ void GensSystem_EDS::GDReqRegGensMember(int aIndex, _tagPMSG_REQ_REG_GENS_MEMBER
 		else if(pMsg.bInfluence == 2)
 		{
 			this->m_mapGensRankVanert[aRecv->Name] = pUser;
-			g_Log.AddC(TColor::Blue, "[Gens System] Add New User (VANERT) (NAME:%s)", pUser.Name);
+			sLog.outBasic("[Gens System] Add New User (VANERT) (NAME:%s)", pUser.Name);
 		}
 	}
 
@@ -3252,7 +3163,7 @@ void GensSystem_EDS::GDReqSecedeGensMember(int aIndex, _tagPMSG_REQ_SECEDE_GENS_
 			if(It != this->m_mapGensRankVanert.end())
 			{
 				this->m_mapGensRankVanert.erase(It);
-				g_Log.AddC(TColor::Blue, "[Gens System] Delete User (VANERT) (NAME:%s)", aRecv->Name);
+				sLog.outBasic("[Gens System] Delete User (VANERT) (NAME:%s)", aRecv->Name);
 			}
 		}
 	}
@@ -3266,12 +3177,7 @@ void GensSystem_EDS::GDReqSaveContributePoint(int aIndex, _tagPMSG_REQ_SAVE_CONT
 {
 	EnterCriticalSection(&this->m_GensCriticalSection);
 
-
-
-
-
-
-
+	int iResult = 1; // stub
 	if(iResult == 1)
 	{
 		sLog.outBasic("[Gens System] Save Result: OK (Name:%s ContributePoint:%d GensClass:%d)", aRecv->Name, aRecv->iContributePoint, aRecv->iGensClass);
@@ -3447,8 +3353,8 @@ void GensSystem_EDS::MakeRanking()
 {
 	EnterCriticalSection(&this->m_GensCriticalSection);
 
-	g_Log.AddC(TColor::Yellow, "[Gens System] Ranking Making [START]");
-	this->m_RankingLog.Output("--------------- [ GENS RANKING START ] ---------------");
+	sLog.outBasic("[Gens System] Ranking Making [START]");
+	//this->m_RankingLog.Output("--------------- [ GENS RANKING START ] ---------------");
 
 	this->m_mapGensRankDuprian.clear();
 	this->m_mapGensRankVanert.clear();
@@ -3458,151 +3364,21 @@ void GensSystem_EDS::MakeRanking()
 	int DBRank;
 	float DPoint = 0.0, VPoint = 0.0, AllPoints = 0.0;
 
-
-
-
-	{
-		GENS_USER pRank;
-
-		pRank.Name[MAX_ACCOUNT_LEN] = 0;
-
-
-		pRank.iRank = Position;
-
-
-
-
-		pRank.iGensClass = CalcGensClass(pRank.iContributePoint, pRank.iRank);
-
-
-
-		if(pRank.iGensClass != Class)
-		{
-
-		}
-
-		if(pRank.iRank != DBRank)
-		{
-
-		}
-
-		this->m_mapGensRankDuprian[pRank.Name] = pRank;
-
-		Position++;
-		DPoint += pRank.iContributePoint;
-	}
-
-
-
-	Position = 1;
-
-
-
-
-	{
-		GENS_USER pRank;
-
-		pRank.Name[MAX_ACCOUNT_LEN] = 0;
-
-
-		pRank.iRank = Position;
-
-
-
-
-		pRank.iGensClass = CalcGensClass(pRank.iContributePoint, pRank.iRank);
-
-
-
-
-		if(pRank.iGensClass != Class)
-		{
-
-		}
-
-		if(pRank.iRank != DBRank)
-		{
-
-		}
-
-		this->m_mapGensRankVanert[pRank.Name] = pRank;
-
-		Position++;
-		VPoint += pRank.iContributePoint;
-	}
-
-
-
 	AllPoints = VPoint + DPoint;
 
 	SYSTEMTIME m_CurrentTime;
 	GetLocalTime(&m_CurrentTime);
 
-	if(this->m_RewardMonth != m_CurrentTime.wMonth)
-	{
-		this->m_RewardMonth = m_CurrentTime.wMonth;
-
-
-		if(m_CurrentTime.wDay >= this->m_GensRewardStartDay && m_CurrentTime.wDay <= this->m_GensRewardEndDay)
-		{
-			std::map<string, GENS_USER, strCmp>::iterator It;
-
-			for(It = this->m_mapGensRankDuprian.begin(); It != this->m_mapGensRankDuprian.end(); It++)
-			{
-				if(It->second.iRank <= this->m_MinRankToGainReward)
-				{
-					if(this->m_GensRankingData[It->second.iGensClass-1].RewardItemCount > 0)
-					{
-						sLog.outBasic( "[Gens System] [DUPRIAN] [%s] Reward available [RANK:%d]", It->first.c_str(), It->second.iRank);
-
-					}
-
-					else
-					{
-
-					}
-				}
-
-				else
-				{
-
-				}
-			}
-
-			for(It = this->m_mapGensRankVanert.begin(); It != this->m_mapGensRankVanert.end(); It++)
-			{
-				if(It->second.iRank <= this->m_MinRankToGainReward)
-				{
-					if(this->m_GensRankingData[It->second.iGensClass-1].RewardItemCount > 0)
-					{
-						g_Log.AddC(TColor::Blue, "[Gens System] [VANERT] [%s] Reward available [RANK:%d]", It->first.c_str(), It->second.iRank);
-
-					}
-
-					else
-					{
-
-					}
-				}
-
-				else
-				{
-
-				}
-			}
-		}
-	}
-
 	for(std::map<string, GENS_USER, strCmp>::iterator It = this->m_mapGensRankDuprian.begin(); It != this->m_mapGensRankDuprian.end(); It++)
 	{
 		sLog.outBasic( "[Gens System] RANKING (DUPRIAN): [NAME:%s] [CONTRIBUTION:%d] [CLASS:%d] [RANK:%d]", It->second.Name, It->second.iContributePoint, It->second.iGensClass, It->second.iRank);
-		this->m_RankingLog.Output("RANKING (DUPRIAN): [NAME:%s] [CONTRIBUTION:%d] [CLASS:%d] [RANK:%d]", It->second.Name, It->second.iContributePoint, It->second.iGensClass, It->second.iRank);
+		//this->m_RankingLog.Output("RANKING (DUPRIAN): [NAME:%s] [CONTRIBUTION:%d] [CLASS:%d] [RANK:%d]", It->second.Name, It->second.iContributePoint, It->second.iGensClass, It->second.iRank);
 	}
 
 	for(std::map<string, GENS_USER, strCmp>::iterator It = this->m_mapGensRankVanert.begin(); It != this->m_mapGensRankVanert.end(); It++)
 	{
-		g_Log.AddC(TColor::Blue, "[Gens System] RANKING (VANERT): [NAME:%s] [CONTRIBUTION:%d] [CLASS:%d] [RANK:%d]", It->second.Name, It->second.iContributePoint, It->second.iGensClass, It->second.iRank);
-		this->m_RankingLog.Output("RANKING (VANERT): [NAME:%s] [CONTRIBUTION:%d] [CLASS:%d] [RANK:%d]", It->second.Name, It->second.iContributePoint, It->second.iGensClass, It->second.iRank);
+		sLog.outBasic("[Gens System] RANKING (VANERT): [NAME:%s] [CONTRIBUTION:%d] [CLASS:%d] [RANK:%d]", It->second.Name, It->second.iContributePoint, It->second.iGensClass, It->second.iRank);
+		//this->m_RankingLog.Output("RANKING (VANERT): [NAME:%s] [CONTRIBUTION:%d] [CLASS:%d] [RANK:%d]", It->second.Name, It->second.iContributePoint, It->second.iGensClass, It->second.iRank);
 	}
 
 	float DPercent = 0.0;
@@ -3614,18 +3390,18 @@ void GensSystem_EDS::MakeRanking()
 		VPoint *= 100.0 / AllPoints;
 	}
 
-	g_Log.AddC(TColor::Yellow, "[Gens System] (D:%0.2f) VS (V:%0.2f)", DPercent, VPercent);
-	this->m_RankingLog.Output("RANKING RESULTS: (D:%f) VS (V:%f)", DPercent, VPercent);
+	sLog.outBasic("[Gens System] (D:%0.2f) VS (V:%0.2f)", DPercent, VPercent);
+	//this->m_RankingLog.Output("RANKING RESULTS: (D:%f) VS (V:%f)", DPercent, VPercent);
 
-	g_Log.AddC(TColor::Yellow, "[Gens System] Ranking Making [END]");
-	this->m_RankingLog.Output("--------------- [ GENS RANKING END ] ---------------");
+	sLog.outBasic("[Gens System] Ranking Making [END]");
+	//this->m_RankingLog.Output("--------------- [ GENS RANKING END ] ---------------");
 
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
 
 void GensSystem_EDS::ManualRefreshRanking(BYTE Type)
 {
-	g_Log.AddC(TColor::Yellow, "[Gens System] Processing Ranking refresh (Manual, by: %s)", Type == 0 ? "System Administrator" : "Game Master");
+	sLog.outBasic("[Gens System] Processing Ranking refresh (Manual, by: %s)", Type == 0 ? "System Administrator" : "Game Master");
 
 	this->ReloadCurrentMonth();
 	this->MakeRanking();
@@ -3635,46 +3411,15 @@ void CExDataServerProtocol::GDReqGuildMatchingList(int aIndex, _stReqGuildMatchi
 {
 	_stAnsGuildMatchingList pMsg;
 
-
-	int nCount = 0;
-
-	do
-	{
-
-			break;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		nCount++;
-
-	} while (nCount < 9);
-
-
-
-
-
-
-
-
-
-
 	PHeadSubSetW((LPBYTE)&pMsg, 0xA3, 0x00, sizeof(pMsg));
 
 	pMsg.nUserIndex = lpMsg->nUserIndex;
 	pMsg.nPage = lpMsg->nPage;
 
 	int nTotalPage = 0;
+
+	int nTotalEntry = 0; // stub
+	int nCount = 0; // stub
 
 	if (nTotalEntry > 0)
 	{
@@ -3711,39 +3456,7 @@ void CExDataServerProtocol::GDReqGuildMatchingListSearchWord(int aIndex, _stReqG
 {
 	_stAnsGuildMatchingList pMsg;
 
-
 	int nCount = 0;
-
-	do
-	{
-
-			break;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		nCount++;
-
-	} while (nCount < 9);
-
-
-
-
-
-
-
-
-
 
 	PHeadSubSetW((LPBYTE)&pMsg, 0xA3, 0x00, sizeof(pMsg));
 
@@ -3752,6 +3465,7 @@ void CExDataServerProtocol::GDReqGuildMatchingListSearchWord(int aIndex, _stReqG
 
 	int nTotalPage = 0;
 
+	int nTotalEntry = 0; //stub
 	if (nTotalEntry > 0)
 	{
 		nTotalPage = nTotalEntry / 9;
@@ -3787,14 +3501,6 @@ void CExDataServerProtocol::GDReqRegGuildMatchingList(int aIndex, _stReqGuildMat
 {
 	_stAnsGuildMatchingData pMsg;
 
-
-		lpMsg->_stGuildMatchingList.szGuildName, lpMsg->_stGuildMatchingList.szRegistrant, lpMsg->_stGuildMatchingList.nGuildNumber, lpMsg->_stGuildMatchingList.nGuildMasterLevel,
-		lpMsg->_stGuildMatchingList.btGuildMasterClass, lpMsg->_stGuildMatchingList.btGuildMemberCnt, lpMsg->_stGuildMatchingList.szMemo, lpMsg->_stGuildMatchingList.btInterestType,
-		lpMsg->_stGuildMatchingList.btLevelRange, lpMsg->_stGuildMatchingList.btClassType, lpMsg->_stGuildMatchingList.btGensType);
-
-
-
-
 	pMsg.nUserIndex = lpMsg->nUserIndex;
 	pMsg.nResult = 0;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA3, 0x02, sizeof(pMsg));
@@ -3806,11 +3512,6 @@ void CExDataServerProtocol::GDReqDelMatchingList(int aIndex, _stReqDelGuildMatch
 {
 	_stAnsDelGuildMatchingList pMsg;
 	_stGuildMatchingAllowListDB stAllowList[80];
-
-
-	
-
-
 
 	pMsg.nResult = 0;
 	pMsg.nUserIndex = lpMsg->nUserIndex;
@@ -3827,26 +3528,15 @@ void CExDataServerProtocol::GDReqDelMatchingList(int aIndex, _stReqDelGuildMatch
 	memset(&stAllowList, 0x00, sizeof(stAllowList));
 
 
-
-	int Count = 0;
-
-
-	{
-
-
-
-
-		Count++;
-	}
-
-
-
 	_stAnsNotiGuildMatching pNotiMsg;
 	PHeadSubSetB((LPBYTE)&pNotiMsg, 0xA3, 0x09, sizeof(pNotiMsg));
 
 	LPFRIEND_MASTER lpUser = NULL;
 
 	EnterCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+
+	int Count = 0; // stub
+	int ServerIndex = 0; // stub
 
 	for (int i = 0; i < Count && i < 80; i++)
 	{
@@ -3879,39 +3569,7 @@ void CExDataServerProtocol::GDReqJoinGuildMatchingList(int aIndex, _stRegWaitGui
 {
 	_stAnsWaitGuildMatching pMsg;
 
-
-
 	int State = -1;
-
-
-	{
-
-	}
-
-
-
-	if (State >= 0)
-	{
-		pMsg.nResult = -1;
-	}
-
-	else
-	{
-
-			lpMsg->stAllowList.nGuildNumber, lpMsg->stAllowList.szApplicantName, lpMsg->stAllowList.btApplicantClass,
-			lpMsg->stAllowList.nApplicantLevel, lpMsg->stAllowList.btState) != TRUE)
-		{
-			pMsg.nResult = -4;
-		}
-
-		else
-		{
-			pMsg.nResult = 0;
-		}
-
-
-
-	}
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA3, 0x04, sizeof(pMsg));
 	pMsg.nUserIndex = lpMsg->nUserIndex;

@@ -9,8 +9,9 @@
 //#include "stdafx.h"
 #include "giocp.h"
 //#include "tlog.h"
-#include "DataServer.h"
-#include "ServerEngine.h"
+//#include "DataServer.h"
+//#include "ServerEngine.h"
+#include "Main.cpp"
 #include "DelayHandler.h"
 
 #define szModule "GIocp"

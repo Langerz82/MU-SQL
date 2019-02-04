@@ -8,15 +8,13 @@
 #include "Common.h"
 
 // old includes
-//#include "old/DataServer.h"
-#include "old/ServerEngine.h"
+
+#include "Main.h"
 #include "old/DSprotocol.h"
 #include "old/Sprotocol.h"
-//#include "old/TLog.h"
+
 #include "old/Giocp.h"
-//#include "old/TServerInfoDisplayer.h"
 #include "old/EDSprotocol.h"
-//#include "old/winutil.h"
 #include "old/MapServerManager.h"
 #include "old/ItemSerial.h"
 
