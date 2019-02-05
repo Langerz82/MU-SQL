@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-set(LIBRARY_NAME muEventos)
+
 
 file(GLOB SRC_GRP_AcheronGuardianEvent AcheronGuardianEvent/*.cpp AcheronGuardianEvent/*.h)
 source_group("AcheronGuardianEvent" FILES ${SRC_GRP_AcheronGuardianEvent})
@@ -33,14 +33,6 @@ source_group("BloodCastle" FILES ${SRC_GRP_BloodCastle})
 
 file(GLOB SRC_GRP_BonusEvent BonusEvent/*.cpp BonusEvent/*.h)
 source_group("BonusEvent" FILES ${SRC_GRP_BonusEvent})
-
-set(LIBRARY_SRCS
-    ${SRC_GRP_AcheronGuardianEvent}
-    ${SRC_GRP_ArcaBattle}
-    ${SRC_GRP_AttackEvent}
-    ${SRC_GRP_BloodCastle}
-    ${SRC_GRP_BonusEvent}
-)
 
 # OS specific files
 if(WIN32)
@@ -58,4 +50,3 @@ include_directories(
     ${CMAKE_BINARY_DIR}
 )
 
-add_library(${LIBRARY_NAME} STATIC ${LIBRARY_SRCS})

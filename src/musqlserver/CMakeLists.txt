@@ -25,28 +25,16 @@
 set(EXECUTABLE_NAME muMySQLServer)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
-#MuMySQL Server Files
-file(GLOB_RECURSE SRC_GRP_MUSQLSERVER *.cpp *.h *.hpp)
-#source_group("muMySQLServer" FILES ${SRC_GRP_MUMYSQLSERVER})
-
-file(GLOB_RECURSE SRC_GRP_MUSQLSERVER_OLD old/*.cpp old/*.h old/*.hpp)
-source_group("old" FILES ${SRC_GRP_MUSQLSERVER_OLD})
-
-file(GLOB_RECURSE SRC_GRP_MUSQLSERVER_ITEM old/Item/*.cpp old/Item/*.h old/Item/*.hpp)
-source_group("item" FILES ${SRC_GRP_MUSQLSERVER_ITEM})
-
-file(GLOB_RECURSE SRC_GRP_MUSQLSERVER_PROTOCOLS old/Protocols/*.cpp old/Protocols/*.h old/Protocols/*.hpp)
-source_group("protocols" FILES ${SRC_GRP_MUSQLSERVER_PROTOCOLS})
-
-
-#Socket Buffer Files
-file(GLOB_RECURSE SRC_GRP_SOCKB SocketBuffer/*.cpp SocketBuffer/*.h)
-source_group("Socket Buffer" FILES ${SRC_GRP_SOCKB})
+file(GLOB_RECURSE _source_list *.cpp* *.h* *.hpp*)
+foreach(_source IN ITEMS ${_source_list})
+    get_filename_component(_source_path "${_source}" PATH)
+    string(REPLACE "${CMAKE_SOURCE_DIR}/src/musqlserver" "" _group_path "${_source_path}")
+    string(REPLACE "/" "\\" _group_path "${_group_path}")
+    source_group("${_group_path}" FILES "${_source}")
+endforeach()
 
 set(EXECUTABLE_SRCS
-    ${SRC_GRP_MUSQLSERVER}
-	${SRC_GRP_MUSQLSERVER_OLD}
-    ${SRC_GRP_SOCKB}
+    ${_source_list}
     Main.cpp
 )
 

@@ -17,18 +17,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-set(LIBRARY_NAME muCustom)
-
 file(GLOB SRC_GRP_CustomEventDrop CustomEventDrop/*.cpp CustomEventDrop/*.h)
 source_group("CustomEventDrop" FILES ${SRC_GRP_CustomEventDrop})
 
 file(GLOB SRC_GRP_CustomItemValue CustomItemValue/*.cpp CustomItemValue/*.h)
 source_group("CustomItemValue" FILES ${SRC_GRP_CustomItemValue})
-
-set(LIBRARY_SRCS
-    ${SRC_GRP_CustomEventDrop}
-    ${SRC_GRP_CustomItemValue}
-)
 
 # OS specific files
 if(WIN32)
@@ -46,4 +39,3 @@ include_directories(
     ${CMAKE_BINARY_DIR}
 )
 
-add_library(${LIBRARY_NAME} STATIC ${LIBRARY_SRCS})

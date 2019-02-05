@@ -7,6 +7,8 @@
 
 //#include "StdAfx.h"
 #include "classdef.h"
+#include "util.h"
+
 //#include "user.h"
 //#include "GameMain.h"
 //#include "winutil.h"
