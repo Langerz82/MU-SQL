@@ -4,7 +4,7 @@
 
 #include "stdafx.h"
 #include "CastleSiege.h"
-#include "user.h"
+#include "User/user.h"
 #include "Log/Log.h"
 #include "CastleDeepEvent.h"
 #include "configread.h"

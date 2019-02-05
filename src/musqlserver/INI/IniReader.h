@@ -6,7 +6,7 @@
 #include "custTypedef.h"
 #include <string>
 #include "Log/Log.h"
-#include "INICReader.h"
+#include "INI/INIReaderImp.h"
 
 class CIniReader
 {
@@ -14,7 +14,7 @@ public:
 	CIniReader(LPSTR szFile)
 	{
 		m_iniReader = new INIReaderImp(szFile);
-		if (m_iniReader.ParseError())
+		if (m_iniReader->ParseError())
 			sLog.outError("Error - cannot load %s file", szFile);
 	}
 
@@ -22,6 +22,7 @@ public:
 	{
 		//iniparser_freedict(this->m_IniDictionary);
 		//this->m_IniDictionary = NULL;
+		delete m_iniReader;
 		m_iniReader = NULL;
 	}
 
@@ -31,7 +32,7 @@ public:
 		//sprintf(szFormatKey, "%s:%s", szSection, szKey);
 
 		//return iniparser_getint(this->m_IniDictionary, szFormatKey, Default);
-		return m_iniReader.GetInteger(szSection, szKey, Default);
+		return m_iniReader->GetInteger(szSection, szKey, Default);
 	}
 
 	DWORD ReadDword(LPSTR szSection, LPSTR szKey, DWORD Default)
@@ -40,7 +41,7 @@ public:
 		//sprintf(szFormatKey, "%s:%s", szSection, szKey);
 
 		//return iniparser_getuint(this->m_IniDictionary, szFormatKey, Default);
-		return m_iniReader.GetInteger(szSection, szKey, Default);
+		return m_iniReader->GetInteger(szSection, szKey, Default);
 	}
 
 	std::string ReadString(LPSTR szSection, LPSTR szKey, std::string Default)
@@ -50,7 +51,7 @@ public:
 
 		//char* szReturnStr = iniparser_getstring(this->m_IniDictionary, szFormatKey, (char *)Default.c_str());
 
-		char* szReturnStr = m_iniReader.GetString(szSection, szKey, Default);
+		const char* szReturnStr = m_iniReader->GetString(szSection, szKey, Default).c_str();
 
 		return szReturnStr;
 	}
@@ -61,13 +62,13 @@ public:
 		//sprintf(szFormatKey, "%s:%s", szSection, szKey);
 
 		//return (float)iniparser_getdouble(this->m_IniDictionary, szFormatKey, Default);
-		return m_iniReader.GetFloat(szSection, szKey, Default);
+		return m_iniReader->GetReal(szSection, szKey, Default);
 	}
 
 private:
 
 	//dictionary * m_IniDictionary;
-	INIReaderImp m_iniReader;
+	INIReaderImp* m_iniReader;
 }; 
 
 #endif

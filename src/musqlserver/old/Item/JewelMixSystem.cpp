@@ -11,7 +11,7 @@
 #include "PeriodItemEx.h"
 #include "DSprotocol.h"
 #include "Log/Log.h"
-#include "user.h"
+#include "User/user.h"
 #include "configread.h"
 
 int CJewelMixSystem::UnMixJewelPrice;

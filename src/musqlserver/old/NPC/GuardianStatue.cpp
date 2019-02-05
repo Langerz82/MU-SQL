@@ -4,7 +4,7 @@
 
 #include "stdafx.h"
 #include "GuardianStatue.h"
-#include "user.h"
+#include "User/user.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

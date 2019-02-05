@@ -9,7 +9,7 @@
 #include "stdafx.h"
 #include "MultiCheckSum.h"
 #include "Log/Log.h"
-#include "user.h"
+#include "User/user.h"
 
 CMultiCheckSum g_MultiChecksum;
 

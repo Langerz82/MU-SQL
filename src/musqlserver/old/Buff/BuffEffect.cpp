@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "User.h"
+#include "User/user.h"
 #include "BuffEffect.h"
 #include "BuffEffectSlot.h"
 #include "Prodef.H"

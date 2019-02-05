@@ -2,7 +2,7 @@
 // PersonalStore.cpp
 #include "stdafx.h"
 #include "PersonalStore.h"
-#include "user.h"
+#include "User/user.h"
 #include "GameMain.h"
 #include "util.h"
 #include "Log/Log.h"

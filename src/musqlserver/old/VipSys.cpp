@@ -2,7 +2,7 @@
 // VipSys.cpp
 #include "stdafx.h"
 #include "VipSys.h"
-#include "user.h"
+#include "User/user.h"
 #include "protocol.h"
 #include "Log/Log.h"
 #include "ChaosBox.h"

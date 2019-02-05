@@ -5,7 +5,7 @@
 #include "QuestExpProtocol.h"
 #include "QuestExpUserMng.h"
 #include "QuestExpLuaBind.h"
-#include "user.h"
+#include "User/user.h"
 #include "QuestExpProgMng.h"
 #include "NpcTalk.h"
 #include "util.h"

@@ -8,7 +8,7 @@
 #endif // _MSC_VER > 1000
 
 #include "MagicInf.h"
-#include "user.h"
+#include "User/user.h"
 #include "MuLua.h"
 
 struct SkillConfig

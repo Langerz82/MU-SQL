@@ -12,7 +12,7 @@
 	void SkillFrustrum()	-	Wrong Symbol NAmes of the zzmath functions
 */
 //#include "stdafx.h"
-#include "user.h"
+#include "User/user.h"
 #include "Log/Log.h"
 //#include "LogToFile.h"
 //#include "GameServer.h"

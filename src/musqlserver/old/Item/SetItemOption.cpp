@@ -7,16 +7,14 @@
 // GS-N 0.99.60T 0x004E3170
 //	GS-N	1.00.18	JPN	0x0050BB90	-	Completed
 
-//#include "stdafx.h"
+#include "stdafx.h"
 #include "SetItemOption.h"
 #include "custTypedef.h"
 #include "prodef.h"
 #include "util.h"
-#include "Common.h"
+#include "Log/Log.h"
 
-////#include "pugixml.hpp"
-
-//#include "WzMemScript.h"
+#include "WzMemScript.h"
 //#include "..\source\logproc.h"
 #include "readscript.h"
 #include <string>

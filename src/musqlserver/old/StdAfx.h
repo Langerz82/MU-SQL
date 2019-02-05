@@ -26,9 +26,9 @@
 #include <tchar.h>
 #include <strsafe.h>
 #include <time.h>
-#include <Rpc.h>
+//#include <Rpc.h>
 #include <regex>
-#include <atltime.h>
+//#include <atltime.h>
 #include "strtk.hpp"
 #include <cstdlib>
 #include <map>

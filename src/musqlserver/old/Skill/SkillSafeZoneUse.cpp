@@ -2,7 +2,7 @@
 // SkillSafeZoneUse.cpp
 #include "stdafx.h"
 #include "SkillSafeZoneUse.h"
-#include "user.h"
+#include "User/user.h"
 #include "MagicInf.h"
 
 CSkillSafeZoneUse g_SkillSafeZone;

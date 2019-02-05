@@ -7,7 +7,7 @@
 #include "PeriodItemEx.h"
 #include "BuffEffectSlot.h"
 #include "ItemAddOption.h"
-#include "user.h"
+#include "User/user.h"
 #include "ObjUseSkill.h"
 #include "ObjCalCharacter.h"
 #include "DSProtocol.h"

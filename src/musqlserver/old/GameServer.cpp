@@ -8,7 +8,7 @@
 //------------------------------------------
 //	GS-N	1.00.18	JPN	0x0052D520	-	Completed
 #include "stdafx.h"
-#include "user.h"
+#include "User/user.h"
 #include "Lang.h"
 #include "resource.h"
 #include "GameServer.h"

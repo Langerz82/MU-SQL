@@ -8,7 +8,7 @@
 #include "MapClass.h"
 #include "Log/Log.h"
 #include "GameMain.h"
-#include "user.h"
+#include "User/user.h"
 #include "Protocol.h"
 #include "./Eventos/BloodCastle/BloodCastle.h"
 #include "IllusionTempleEvent_Renewal.h"

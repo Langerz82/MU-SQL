@@ -2,7 +2,7 @@
 // SetItemDrop.cpp
 #include "stdafx.h"
 #include "SetItemDrop.h"
-#include "user.h"
+#include "User/user.h"
 #include "SetItemOption.h"
 #include "DSProtocol.h"
 #include "ItemOptionTypeMng.h"

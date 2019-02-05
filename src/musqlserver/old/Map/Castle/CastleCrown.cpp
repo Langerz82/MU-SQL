@@ -5,7 +5,7 @@
 #include "stdafx.h"
 #include "CastleCrown.h"
 #include "CastleSiege.h"
-#include "user.h"
+#include "User/user.h"
 #include "Log/Log.h"
 
 CCastleCrown g_CsNPC_CastleCrown;

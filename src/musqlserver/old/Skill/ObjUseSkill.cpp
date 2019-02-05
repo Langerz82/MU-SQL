@@ -5,7 +5,7 @@
 #include "ObjCalCharacter.h"
 #include "GameMain.h"
 #include "ChaosCastle.h"
-#include "user.h"
+#include "User/user.h"
 #include "zzzmathlib.h"
 #include "SkillHitBox.h"
 #include "MoveCommand.h"

@@ -7,7 +7,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "user.h"
+#include "User/user.h"
 
 #define MAX_DEVILSQUARE_GROUND	7
 #define MAX_ST_DEVILSQUARE_MONSTER	15

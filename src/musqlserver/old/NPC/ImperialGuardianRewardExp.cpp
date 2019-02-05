@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include "ImperialGuardianRewardExp.h"
 #include "Log/Log.h"
-#include "user.h"
+#include "User/user.h"
 
 CImperialGuardianRewardExp::CImperialGuardianRewardExp(void)
 {

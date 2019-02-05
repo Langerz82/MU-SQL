@@ -3,7 +3,7 @@
 #pragma once
 // -------------------------------------------------------------------------------
 
-#include "user.h"
+#include "User/user.h"
 // -------------------------------------------------------------------------------
 #define FILE_CUSTOM_USERDIEITEMDROP		"Custom\\UserDieItemDrop.xml"
 

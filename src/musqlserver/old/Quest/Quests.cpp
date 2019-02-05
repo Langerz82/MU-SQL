@@ -7,7 +7,7 @@
 #include "Log/Log.h"
 #include "GameMain.h"
 #include "MasterSkillSystemS6.h"
-#include "user.h"
+#include "User/user.h"
 #include "DSProtocol.h"
 #include "BuffEffect.h"
 #include "BuffEffectSlot.h"

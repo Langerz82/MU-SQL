@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // NpcTalk.cpp
 #include "stdafx.h"
-#include "user.h"
+#include "User/user.h"
 #include "NpcTalk.h"
 #include "gObjMonster.h"
 #include "util.h"
@@ -22,7 +22,7 @@
 #include "configread.h"
 #include "GensSystem.h"
 #include "NewPVP.h"
-#include "user.h"
+#include "User/user.h"
 #include "QuestExpProgMng.h"
 #include "PentagramMixSystem.h"
 #include "RuudStore.h"

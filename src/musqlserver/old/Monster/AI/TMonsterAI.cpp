@@ -11,7 +11,7 @@
 #include "CrywolfUtil.h"
 #include "BuffEffectSlot.h"
 #include "BuffEffect.h"
-#include "user.h"
+#include "User/user.h"
 #include "configread.h"
 
 static TMonsterAIUtil MONSTER_UTIL;

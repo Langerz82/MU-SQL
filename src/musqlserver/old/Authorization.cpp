@@ -2,7 +2,7 @@
 // Authorization.cpp
 #include "stdafx.h"
 #include "Authorization.h"
-#include "user.h"
+#include "User/user.h"
 #include "GameMain.h"
 #include "Log/Log.h"
 #include "configread.h"

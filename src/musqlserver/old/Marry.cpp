@@ -5,7 +5,7 @@
 #include "protocol.h"
 #include "Log/Log.h"
 #include "util.h"
-#include "user.h"
+#include "User/user.h"
 #include "DSProtocol.h"
 #include "GameMain.h"
 CMarry Marry;

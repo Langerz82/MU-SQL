@@ -2,7 +2,7 @@
 // EventMonSetBase.cpp
 #include "stdafx.h"
 #include "EventMonSetBase.h"
-#include "user.h"
+#include "User/user.h"
 #include "MapClass.h"
 #include "GameMain.h"
 #include "MapServerManager.h"

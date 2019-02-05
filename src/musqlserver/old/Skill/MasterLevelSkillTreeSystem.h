@@ -4,7 +4,7 @@
 #define MASTERLEVELSKILLTREESYSTEM_H
 
 #include "stdafx.h"
-#include "user.h"
+#include "User/user.h"
 #include "classdef.h"
 #include "MasterSkillSystem.h"
 #include "MuLua.h"

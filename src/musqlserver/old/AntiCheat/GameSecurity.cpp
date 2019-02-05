@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include "GameSecurity.h"
 #include "Log/Log.h"
-#include "user.h"
+#include "User/user.h"
 CGameSecurity gGameSecurity;
 
 CGameSecurity::CGameSecurity()

@@ -2,7 +2,7 @@
 // CItemDrop.cpp
 #include "stdafx.h"
 #include "CItemDrop.h"
-#include "user.h"
+#include "User/user.h"
 #include "DSProtocol.h"
 #include "configread.h"
 #include "ItemOptionTypeMng.h"

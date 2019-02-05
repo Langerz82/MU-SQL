@@ -7,7 +7,7 @@
 #include "CastleSiege.h"
 #include "CastleSiegeSync.h"
 #include "Gamemain.h"
-#include "user.h"
+#include "User/user.h"
 #include "MapClass.h"
 #include "Log/Log.h"
 #include "configread.h"

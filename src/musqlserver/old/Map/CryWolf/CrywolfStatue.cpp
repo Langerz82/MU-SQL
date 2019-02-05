@@ -6,7 +6,7 @@
 #include "CrywolfStatue.h"
 #include "CrywolfAltar.h"
 #include "CrywolfUtil.h"
-#include "user.h"
+#include "User/user.h"
 #include "BuffEffectSlot.h"
 
 CCrywolfStatue g_CrywolfNPC_Statue;

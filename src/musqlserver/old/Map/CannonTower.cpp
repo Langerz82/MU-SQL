@@ -5,7 +5,7 @@
 #include "stdafx.h"
 #include "GameServer.h"
 #include "CannonTower.h"
-#include "user.h"
+#include "User/user.h"
 
 //#include "..\include\readscript.h"
 #include "util.h"

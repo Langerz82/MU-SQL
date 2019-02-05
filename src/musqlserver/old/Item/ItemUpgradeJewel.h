@@ -2,7 +2,7 @@
 // ItemUpgradeJewel.h
 #pragma once
 
-#include "user.h"
+#include "User/user.h"
 
 #define ENABLETEST_ITEMUPGRADEJEWELS	TRUE
 

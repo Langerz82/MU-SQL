@@ -2,7 +2,7 @@
 // ExtraEXP.cpp
 #include "stdafx.h"
 #include "ExtraEXP.h"
-#include "user.h"
+#include "User/user.h"
 #include "Log/Log.h"
 CExtraEXP g_ExtraEXP; // we must put the externed name here so it initializes
 void CExtraEXP::LoadFile(LPSTR file) // file is argument look. now we will call the function so it reads the data, so now to read the file, we must find a place where gs calls all loading functions

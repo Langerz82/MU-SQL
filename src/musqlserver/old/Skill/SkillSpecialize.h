@@ -3,7 +3,7 @@
 #ifndef SKILLSPECIALIZE_H
 #define SKILLSPECIALIZE_H
 
-#include "user.h"
+#include "User/user.h"
 #include "MuLua.h"
 
 #pragma once

@@ -7,7 +7,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "user.h"
+#include "StdAfx.h"
+#include "User/user.h"
 
 #define MAX_EVENTCHIP_TYPE	5
 

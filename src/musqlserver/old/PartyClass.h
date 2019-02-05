@@ -7,7 +7,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "user.h"
+#include "User/user.h"
 
 #define FILE_PARTYBONUS "IGC_PartyBonus.xml"
 

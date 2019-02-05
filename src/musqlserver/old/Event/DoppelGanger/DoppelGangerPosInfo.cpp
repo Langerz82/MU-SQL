@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include "DoppelGangerPosInfo.h"
 #include "Log/Log.h"
-#include "user.h"
+#include "User/user.h"
 
 CDoppelGangerPosInfo::CDoppelGangerPosInfo(void)
 {

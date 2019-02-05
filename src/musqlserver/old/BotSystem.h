@@ -3,7 +3,7 @@
 #ifndef BOTSYSTEM_H
 #define BOTSYSTEM_H
 
-#include "user.h"
+#include "User/user.h"
 
 #define MAX_BUFFS_PER_BOT 10
 

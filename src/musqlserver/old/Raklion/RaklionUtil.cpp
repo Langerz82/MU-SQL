@@ -6,7 +6,7 @@
 #include "RaklionUtil.h"
 #include "util.h"
 #include "Raklion.h"
-#include "user.h"
+#include "User/user.h"
 #include "TNotice.h"
 #include "RaklionBattleUserMng.h"
 #include "GameMain.h"

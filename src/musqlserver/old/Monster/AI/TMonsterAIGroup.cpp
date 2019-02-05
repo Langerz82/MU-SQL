@@ -4,7 +4,7 @@
 
 #include "stdafx.h"
 #include "TMonsterAIGroup.h"
-#include "user.h"
+#include "User/user.h"
 #include "Gamemain.h"
 #include "Log/Log.h"
 

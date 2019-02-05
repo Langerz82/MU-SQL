@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include "Bag.h"
 #include "Log/Log.h"
-#include "user.h"
+#include "User/user.h"
 #include "LuaBag.h"
 #include "util.h"
 #include "GameMain.h"

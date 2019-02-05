@@ -2,7 +2,7 @@
 // ComboAttack.cpp
 #include "stdafx.h"
 #include "ComboAttack.h"
-#include "user.h"
+#include "User/user.h"
 #include "MasterLevelSkillTreeSystem.h"
 // GS-N 0.99.60T 0x004A42C0 : Completed
 //	GS-N	1.00.18	JPN	0x004C2270	-	Completed

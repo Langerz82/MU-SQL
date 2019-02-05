@@ -5,7 +5,7 @@
 #include "stdafx.h"
 #include "RaklionSelupan.h"
 #include "RaklionMonsterMng.h"
-#include "user.h"
+#include "User/user.h"
 #include "gObjMonster.h"
 #include "TMonsterSkillManager.h"
 #include "Log/Log.h"

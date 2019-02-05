@@ -2,7 +2,7 @@
 // LastManStanding.cpp
 #include "stdafx.h"
 #include "LastManStanding.h"
-#include "user.h"
+#include "User/user.h"
 #include "Log/Log.h"
 #include "TNotice.h"
 #include "configread.h"

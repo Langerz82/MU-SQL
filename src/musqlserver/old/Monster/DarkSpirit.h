@@ -7,7 +7,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "user.h"
+#include "User/user.h"
 #include "MagicInf.h"
 #include "zzzitem.h"
 #include "ObjBaseAttack.h"

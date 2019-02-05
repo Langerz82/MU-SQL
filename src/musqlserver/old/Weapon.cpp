@@ -2,7 +2,7 @@
 // Weapon.cpp
 #include "stdafx.h"
 #include "Weapon.h"
-#include "user.h"
+#include "User/user.h"
 #include "ObjAttack.h"
 #include "BuffEffect.h"
 #include "BuffEffectSlot.h"

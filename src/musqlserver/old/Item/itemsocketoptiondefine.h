@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include "custTypedef.h"
+
 enum
 {
 	SOCKET_OPTION_TYPE_NONE = 0x0,

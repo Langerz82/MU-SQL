@@ -8,7 +8,7 @@
 #endif // _MSC_VER > 1000
 
 #include "Log/Log.h"
-#include "user.h"
+#include "User/user.h"
 
 #define MAX_QUEST_TELEPORT 4
 #define RING_OF_TRANSFORM_BASE_RATE 10000

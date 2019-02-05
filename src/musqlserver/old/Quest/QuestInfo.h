@@ -12,7 +12,7 @@
 #endif // _MSC_VER > 1000
 
 #include "classdef.h"
-#include "user.h"
+#include "User/user.h"
 
 #define MAX_QUEST_INFO 200
 #define MAX_SUBINFO_QUEST 10

@@ -3,7 +3,7 @@
 #ifndef STATSPECIALIZE_H
 #define STATSPECIALIZE_H
 
-#include "user.h"
+#include "User/user.h"
 #include "classdef.h"
 #include "MuLua.h"
 

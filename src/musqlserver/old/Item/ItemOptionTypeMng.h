@@ -4,7 +4,7 @@
 #define ITEMOPTIONTYPEMNG_H
 
 #include "zzzitem.h"
-#include "user.h"
+#include "User/user.h"
 
 #define MAX_EXCELLENT_COMMON_OPTIONS 20
 #define MAX_EXCELLENT_WING_OPTIONS 40

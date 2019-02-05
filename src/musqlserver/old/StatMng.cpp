@@ -6,7 +6,7 @@
 // ------------------------------
 #include "stdafx.h"
 #include "StatMng.h"
-#include "user.h"
+#include "User/user.h"
 
 // GS-N 0.99.60T 0x004A4121
 //	GS-N	1.00.18	JPN	0x004C1DD0	-	Completed

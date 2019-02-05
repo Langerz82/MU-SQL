@@ -7,7 +7,7 @@
 #include "Log/Log.h"
 #include "TNotice.h"
 #include "DSProtocol.h"
-#include "user.h"
+#include "User/user.h"
 #include "./Eventos/BloodCastle/BloodCastle.h"
 #include "LargeRand.h"
 #include "BuffEffectSlot.h"

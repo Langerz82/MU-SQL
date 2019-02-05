@@ -11,7 +11,7 @@
 #define MAX_WEAPON_DAMAGED_TARGET_INFO 100
 #define MAX_WEAPON_CAL_DAMAGER_INFO 50
 
-#include "user.h"
+#include "User/user.h"
 
 struct ST_WEAPON_DAMAGED_TARGET_INFO
 {

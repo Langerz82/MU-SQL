@@ -4,7 +4,7 @@
 #define PENTAGRAMSYSTEM_H
 
 #include "zzzitem.h"
-#include "user.h"
+#include "User/user.h"
 
 #define EL_NONE			0
 #define EL_FIRE			1

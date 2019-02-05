@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include "ExpManager.h"
 #include "Log/Log.h"
-#include "user.h"
+#include "User/user.h"
 #include "MasterLevelSkillTreeSystem.h"
 
 CExpManager g_ExpManager;

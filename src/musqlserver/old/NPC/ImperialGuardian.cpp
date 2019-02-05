@@ -6,7 +6,7 @@
 #include "stdafx.h"
 #include "ImperialGuardian.h"
 #include "Log/Log.h"
-#include "user.h"
+#include "User/user.h"
 #include "GameMain.h"
 #include "prodef.h"
 #include "util.h"

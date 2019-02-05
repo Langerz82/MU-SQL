@@ -11,7 +11,7 @@
 #include "TMonsterAIGroup.h"
 #include "Gamemain.h"
 #include "configread.h"
-#include "user.h"
+#include "User/user.h"
 #include "BuffEffectSlot.h"
 #include "MapServerManager.h"
 #include "DSprotocol.h"

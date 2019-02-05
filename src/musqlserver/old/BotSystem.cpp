@@ -2,7 +2,7 @@
 // BotSystem.cpp
 #include "stdafx.h"
 #include "BotSystem.h"
-#include "user.h"
+#include "User/user.h"
 #include "protocol.h"
 #include "Log/Log.h"
 #include "GameMain.h"

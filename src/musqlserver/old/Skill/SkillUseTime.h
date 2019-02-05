@@ -4,7 +4,7 @@
 #define SKILL_USE_TIME
 
 #include "stdafx.h"
-#include "user.h"
+#include "User/user.h"
 
 struct SKILL_TIME_INFO
 {

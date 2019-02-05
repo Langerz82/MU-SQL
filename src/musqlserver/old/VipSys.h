@@ -3,7 +3,7 @@
 #ifndef VIPSYS_H
 #define VIPSYS_H
 
-#include "user.h"
+#include "User/user.h"
 
 #define VIP_EFFECT_NONE -1
 #define VIP_EFFECT_DAY 0

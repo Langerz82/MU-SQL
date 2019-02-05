@@ -8,7 +8,7 @@
 #endif // _MSC_VER > 1000
 
 #include "./Eventos/BloodCastle/BloodCastle.h"
-#include "user.h"
+#include "User/user.h"
 #include "GMMng.h"
 
 #define MAX_CHAOSCASTLE_MONSTER	100

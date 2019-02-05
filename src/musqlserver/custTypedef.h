@@ -3,7 +3,7 @@
 
 #ifndef USER_H__
 #define USER_H__
-#include "user.h"
+#include "User/user.h"
 #endif
 
 typedef int BOOL;
@@ -23,7 +23,7 @@ typedef char* LPSTR;
 typedef long long LONGLONG;
 typedef long long time_t;
 
-
+/*
 #ifndef _SYSTEMTIME
 #define _SYSTEMTIME
 typedef struct _SYSTEMTIME {
@@ -38,6 +38,7 @@ typedef struct _SYSTEMTIME {
 } SYSTEMTIME, *PSYSTEMTIME, *LPSYSTEMTIME;
 typedef SYSTEMTIME* LPSYSTEMTIME;
 #endif
+*/
 
 #ifndef NULL
 	#define NULL 0

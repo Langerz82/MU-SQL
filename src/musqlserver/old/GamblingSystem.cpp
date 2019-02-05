@@ -4,7 +4,7 @@
 
 #include "stdafx.h"
 #include "GamblingSystem.h"
-#include "user.h"
+#include "User/user.h"
 #include "LargeRand.h"
 #include "DSProtocol.h"
 #include "Log/Log.h"

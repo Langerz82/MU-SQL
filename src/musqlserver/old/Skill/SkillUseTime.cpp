@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include "SkillUseTime.h"
 #include "Log/Log.h"
-#include "user.h"
+#include "User/user.h"
 
 CSkillUseTime g_SkillUseTime;
 

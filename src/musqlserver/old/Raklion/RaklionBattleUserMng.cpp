@@ -4,7 +4,7 @@
 
 #include "stdafx.h"
 #include "RaklionBattleUserMng.h"
-#include "user.h"
+#include "User/user.h"
 #include "Raklion.h"
 #include "RaklionUtil.h"
 #include "Log/Log.h"

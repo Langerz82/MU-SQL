@@ -4,7 +4,7 @@
 #include "UpgradeCmd.h"
 #include "zzzitem.h"
 #include "Log/Log.h"
-#include "user.h"
+#include "User/user.h"
 #include "DSProtocol.h"
 #include "SetItemOption.h"
 #include "ItemOptionTypeMng.h"

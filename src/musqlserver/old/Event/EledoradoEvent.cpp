@@ -8,7 +8,7 @@
 #include "EledoradoEvent.h"
 #include "Gamemain.h"
 #include "Log/Log.h"
-#include "user.h"
+#include "User/user.h"
 #include "TNotice.h"
 #include "configread.h"
 #include "MapServerManager.h"

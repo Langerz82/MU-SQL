@@ -2,7 +2,7 @@
 // MathAuthenticator.cpp
 #include "stdafx.h"/*
 #include "MathAuthenticator.h"
-#include "user.h"
+#include "User/user.h"
 #include "GameMain.h"
 #include "util.h"
 #include "configread.h"

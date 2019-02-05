@@ -7,7 +7,7 @@
 #include "QuestExpUserInfo.h"
 #include "QuestExpInfo.h"
 #include "gObjMonster.h"
-#include "user.h"
+#include "User/user.h"
 #include "NpcTalk.h"
 #include "MasterLevelSkillTreeSystem.h"
 #include "GensSystem.h"

@@ -5,7 +5,7 @@
 #include "TMonsterSkillElementInfo.h"
 
 #include "protocol.h"
-#include "user.h"
+#include "User/user.h"
 #include "BuffEffectSlot.h"
 //////////////////////////////////////////////////////////////////////
 // Construction

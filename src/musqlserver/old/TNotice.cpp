@@ -2,7 +2,7 @@
 // TNotice.cpp
 #include "stdafx.h"
 #include "TNotice.h"
-#include "user.h"
+#include "User/user.h"
 #include "giocp.h"
 #include "util.h"
 #include "GameMain.h"

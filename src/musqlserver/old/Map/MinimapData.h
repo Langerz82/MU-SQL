@@ -5,7 +5,7 @@
 
 #include "util.h"
 #include "PartyClass.h"
-#include "user.h"
+#include "User/user.h"
 
 enum MAPOBJECT_TYPE
 {

@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // OfflineLevelling.cpp
 #include "stdafx.h"
-#include "user.h"
+#include "User/user.h"
 #include "ObjUseSkill.h"
 #include "OfflineLevelling.h"
 #include "Log/Log.h"

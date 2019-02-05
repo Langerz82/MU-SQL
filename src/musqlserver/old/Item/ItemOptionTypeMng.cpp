@@ -2,7 +2,7 @@
 // ItemOptionTypeMng.cpp
 #include "stdafx.h"
 #include "ItemOptionTypeMng.h"
-#include "user.h"
+#include "User/user.h"
 #include "zzzitem.h"
 #include "Log/Log.h"
 #include "FormulaParse.h"

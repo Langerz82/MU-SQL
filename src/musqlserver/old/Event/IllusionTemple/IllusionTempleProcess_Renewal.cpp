@@ -8,7 +8,7 @@
 #include "Log/Log.h"
 #include "util.h"
 #include "SendNPCInfo.h"
-#include "user.h"
+#include "User/user.h"
 #include "protocol.h"
 #include "BuffEffectSlot.h"
 #include "TNotice.h"

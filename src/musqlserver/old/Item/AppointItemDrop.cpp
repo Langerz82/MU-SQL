@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include "Log/Log.h"
 #include "LargeRand.h"
-#include "user.h"
+#include "User/user.h"
 #include "DSProtocol.h"
 #include "gObjMonster.h"
 #include "ItemOptionTypeMng.h"

@@ -2,7 +2,7 @@
 // MasterSkillSystemS6.h
 #pragma once
 #include "masterskillsystem.h"
-#include "user.h"
+#include "User/user.h"
 
 enum {
 	MST_DK = 1,

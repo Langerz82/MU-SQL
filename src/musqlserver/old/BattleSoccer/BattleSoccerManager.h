@@ -13,7 +13,7 @@
 
 #define MAX_BATTLESOCCER_TIME 600000
 
-#include "user.h"
+#include "User/user.h"
 
 class CBattleSoccerManager
 {

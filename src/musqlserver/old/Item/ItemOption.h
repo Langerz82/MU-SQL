@@ -5,7 +5,7 @@
 #pragma once
 
 #include "zzzitem.h"
-#include "User.h"
+#include "User/user.h"
 
 //#define ENABLE_CUSTOM_ITEMOPTION
 #define FILE_CUSTOM_ITEMOPTIONXX		"Custom\\IGC_ItemOption.ini"

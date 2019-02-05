@@ -7,7 +7,7 @@
 // import
 #include "prodef.h"
 #include "Log/Log.h"
-#include "user.h"
+#include "User/user.h"
 
 // defines
 #define USERCHATBLOCK_LIST_LIMIT	50

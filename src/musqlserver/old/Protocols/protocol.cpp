@@ -10,7 +10,7 @@
 // void GameProtocol::CGCloseWindow(int aIndex) Weird form of compilation
 //#include "stdafx.h"
 #include "protocol.h"
-#include "user.h"
+#include "User/user.h"
 #include "giocp.h"
 #include "Event.h"
 #include "../Log/Log.h"

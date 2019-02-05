@@ -2,7 +2,7 @@
 // EvolutionMonsterInfo.cpp
 #include "stdafx.h"
 #include "EvolutionMonsterInfo.h"
-#include "user.h"
+#include "User/user.h"
 
 CEvolutionMonsterInfo::CEvolutionMonsterInfo()
 {

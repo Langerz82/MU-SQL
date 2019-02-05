@@ -3,7 +3,7 @@
 #ifndef ITL_PROCESS_H
 #define ITL_PROCESS_H
 
-#include "user.h"
+#include "User/user.h"
 #include <list>
 
 struct __ITL_OBJECT_DATA

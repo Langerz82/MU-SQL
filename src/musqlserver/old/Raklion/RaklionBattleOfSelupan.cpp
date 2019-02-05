@@ -7,7 +7,7 @@
 #include "RaklionBattleUserMng.h"
 #include "RaklionUtil.h"
 #include "Raklion.h"
-#include "User.h"
+#include "User/user.h"
 #include "Log/Log.h"
 #include "gObjMonster.h"
 

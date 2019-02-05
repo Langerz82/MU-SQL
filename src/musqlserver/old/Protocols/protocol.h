@@ -11,7 +11,7 @@
 
 #include "prodef.h"
 //#include "GuildClass.h"
-#include "user.h"
+#include "User/user.h"
 //#include "MapClass.h"
 #include "GensSystemProtocol.h"
 #include "Shop.h"

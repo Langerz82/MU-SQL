@@ -7,7 +7,7 @@
 #include "Log/Log.h"
 #include "giocp.h"
 #include "GameMain.h"
-#include "user.h"
+#include "User/user.h"
 #include "GameServer.h"
 #include "ObjCalCharacter.h"
 #include "configread.h"
