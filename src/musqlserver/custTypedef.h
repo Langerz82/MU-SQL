@@ -6,8 +6,10 @@
 typedef int BOOL;
 typedef wchar_t WCHAR;
 
+typedef unsigned char UCHAR;
 typedef unsigned char* LPBYTE;
 typedef unsigned char BYTE;
+typedef unsigned short USHORT;
 typedef unsigned short WORD;
 typedef const WCHAR* LPCWSTR;
 typedef unsigned long DWORD;
@@ -29,5 +31,8 @@ typedef struct _SYSTEMTIME {
 	WORD wMilliseconds;
 } SYSTEMTIME, *PSYSTEMTIME, *LPSYSTEMTIME;
 typedef SYSTEMTIME* LPSYSTEMTIME;
+
+
+//typedef OBJECTSTRUCT* LPOBJECTSTRUCT;
 
 #endif

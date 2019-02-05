@@ -183,6 +183,21 @@ BOOL PercentSyntaxCheck(char* string)
 	}
 }
 
+BOOL QuoteSpaceSyntexCheck(char* string)
+{
+	char* temp;
+
+	temp = strchr(string, 39);
+	if (temp == 0)
+	{
+		return SpaceSyntexCheck(string);
+	}
+	else
+	{
+		return  FALSE;
+	}
+}
+
 void FileSaveString(char* filename, char* string)
 {
 	FILE* fp;

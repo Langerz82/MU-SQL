@@ -7,6 +7,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "classdef.h"
 #include <map>
 
 #define MAX_MAP_GROUPS 20
@@ -44,7 +45,7 @@ public:
 	_MAPSVR_DATA m_MAPSVR_DATA[20][20];
 	int m_iMAPSVR_GROUP_COUNT[20];
 	std::map<int,_MAPSVR_DATA *> m_mapSVRCODE_MAP;
-	CRITICAL_SECTION m_critSVRCODE_MAP;
+	//CRITICAL_SECTION m_critSVRCODE_MAP;
 	_MAPSVR_DATA* m_lpThisMapSvrData;
 };
 

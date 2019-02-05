@@ -16,6 +16,7 @@
 //#include "protocol.h"
 //#include "user.h"
 #include "prodef.h"
+#include "configread.h"
 #include <string>
 
 #define TRUE 1
@@ -36,6 +37,7 @@
 //------------------------------------------
 
 void BuxConvert(char* buf, int size);
+BOOL QuoteSpaceSyntexCheck(char* string);
 BOOL SQLSyntexCheck(char* SQLString);
 BOOL SQLSyntexCheckConvert(char* SQLString);
 BOOL SpaceSyntexCheck(char* string);
@@ -95,7 +97,13 @@ private:
 
 };
 
+inline bool ObjectMaxRange(int Index)
+{
+	if (Index < 0 || Index > g_ConfigRead.server.GetObjectMax() - 1)
+		return false;
 
+	return true;
+}
 
 #endif
 

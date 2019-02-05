@@ -5,18 +5,20 @@
 //#include "stdafx.h"
 
 #include "JewelOfHarmonySystem.h"
-#include "Main.h"
+#include "../../Main.h"
 //#include "TLog.h"
 //#include "CastleSiegeSync.h"
-#include "util.h"
-#include "DSProtocol.h"
+#include "../user.h"
+#include "../util.h"
+#include "../DSProtocol.h"
+#include "../configread.h"
+#include "../pugixml.hpp"
 
 // Will be uncommented later.
 //#include "ChaosBox.h"
-//#include "configread.h"
-//#include "ItemSocketOptionSystem.h"
-//#include "LuckyItemManager.h"
-//#include "SocketItemType.h"
+#include "ItemSocketOptionSystem.h"
+#include "LuckyItemManager.h"
+#include "SocketItemType.h"
 
 CJewelOfHarmonySystem g_kJewelOfHarmonySystem;
 
@@ -44,6 +46,9 @@ void CJewelOfHarmonySystem::_InitOption()
 	this->JEWEL_OF_HARMONY_SMELT_EXT_ITEMINDEX = ITEMGET(14,44);
 
 	memset(this->m_itemOption, 0, sizeof(this->m_itemOption));
+
+	/* 
+	// Fix ini parser first
 	CIniReader ReadHarmony(g_ConfigRead.GetPath("IGC_HarmonySystem.ini"));
 
 	this->m_bSystemPrutiyJewel			= ReadHarmony.ReadInt("HarmonySystem", "HarmonyJewelMix", 0);
@@ -60,6 +65,7 @@ void CJewelOfHarmonySystem::_InitOption()
 	this->m_iRateStrengthenSuccess		= ReadHarmony.ReadInt("HarmonyMix", "StrengthenItemSuccessRate", 0);
 	this->m_iRateSmeltingSuccessNor		= ReadHarmony.ReadInt("HarmonyMix", "SmeltingItemSuccessRate_Normal", 0);
 	this->m_iRateSmeltingSuccessExt		= ReadHarmony.ReadInt("HarmonyMix", "SmeltingItemSuccessRate_Enhanced", 0);
+	*/
 }
 
 
@@ -71,21 +77,21 @@ BOOL CJewelOfHarmonySystem::LoadScript(LPSTR lpszFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("Error loading %s file (%s)", lpszFileName, res.description());
+		sLog.outError("Error loading %s file (%s)", lpszFileName, res.description());
 		return FALSE;
 	}
 
 	this->_InitOption();
 
-	pugi::xml_node main = file.child("HarmonySystem");
+	pugi::xml_node mainXML = file.child("HarmonySystem");
 
-	for (pugi::xml_node type = main.child("Type"); type; type = type.next_sibling())
+	for (pugi::xml_node type = mainXML.child("Type"); type; type = type.next_sibling())
 	{
 		int iType = type.attribute("ID").as_int();
 
 		if (iType <= JEWELOFHARMONY_ITEM_TYPE_NULL || iType > JEWELOFHARMONY_ITEM_TYPE_DEFENSE)
 		{
-			g_Log.MsgBox("%s - wrong Type ID (%d)", lpszFileName, iType);
+			sLog.outError("%s - wrong Type ID (%d)", lpszFileName, iType);
 			continue;
 		}
 
@@ -95,7 +101,7 @@ BOOL CJewelOfHarmonySystem::LoadScript(LPSTR lpszFileName)
 
 			if (iOptionIndex < 0 || iOptionIndex >= MAX_JOH_ITEM_INDEX)
 			{
-				g_Log.MsgBox("%s (Type ID:%d) - wrong Option Index (%d)", lpszFileName, iType, iOptionIndex);
+				sLog.outError("%s (Type ID:%d) - wrong Option Index (%d)", lpszFileName, iType, iOptionIndex);
 				continue;
 			}
 
@@ -133,15 +139,15 @@ BOOL CJewelOfHarmonySystem::LoadScriptOfSmelt(LPSTR lpszFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("Error loading %s file (%s)", lpszFileName, res.description());
+		sLog.outError("Error loading %s file (%s)", lpszFileName, res.description());
 		return FALSE;
 	}
 
 	this->m_mapEnableMixList.clear();
 
-	pugi::xml_node main = file.child("HarmonySystem");
+	pugi::xml_node mainXML = file.child("HarmonySystem");
 
-	for (pugi::xml_node section = main.child("Section"); section; section = section.next_sibling())
+	for (pugi::xml_node section = mainXML.child("Section"); section; section = section.next_sibling())
 	{
 		int iItemType = section.attribute("ID").as_int();
 
@@ -154,7 +160,7 @@ BOOL CJewelOfHarmonySystem::LoadScriptOfSmelt(LPSTR lpszFileName)
 
 			if (iItemID == -1)
 			{
-				g_Log.MsgBox("ERROR - Wrong Item found (%d) in (%s)", ITEMGET(iItemType, iItemIndex), lpszFileName);
+				sLog.outError("ERROR - Wrong Item found (%d) in (%s)", ITEMGET(iItemType, iItemIndex), lpszFileName);
 				continue;
 			}
 
@@ -226,7 +232,7 @@ void CJewelOfHarmonySystem::SetEnableToUsePuritySystem(BOOL bEnable)
 {
 	this->m_bEnable = bEnable;
 
-	g_Log.Add("[JewelOfHarmony][PuritySystem] Enable %d", bEnable);
+	sLog.outBasic("[JewelOfHarmony][PuritySystem] Enable %d", bEnable);
 }
 
 BOOL CJewelOfHarmonySystem::IsEnableToUsePuritySystem()
@@ -343,7 +349,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(LPOBJ lpObj, int source,
 {
 	if ( this->m_bSystemStrengthenItem == FALSE )
 	{
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,281), lpObj->m_Index, 1);
+		//GSProtocol.GCServerMsgStringSend(Lang.GetText(0,281), lpObj->m_Index, 1);
 		return FALSE;
 	}
 
@@ -369,7 +375,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(LPOBJ lpObj, int source,
 
 	if ( this->IsStrengthenByJewelOfHarmony(pTarget) == TRUE )
 	{
-		g_Log.Add("[LuckyItem][Strengthen Item] Already Strengthened [%s][%s]",
+		sLog.outBasic("[LuckyItem][Strengthen Item] Already Strengthened [%s][%s]",
 			lpObj->AccountID, lpObj->Name);
 
 		return FALSE;
@@ -379,7 +385,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(LPOBJ lpObj, int source,
 
 	if ( iItemType == JEWELOFHARMONY_ITEM_TYPE_NULL )
 	{
-		g_Log.Add("[LuckyItem][Strengthen Item] Strengthen Fail [%s][%s] Name[%s] Type[%d] Serial[%I64d] Invalid ItemType[%d]",
+		sLog.outBasic("[LuckyItem][Strengthen Item] Strengthen Fail [%s][%s] Name[%s] Type[%d] Serial[%I64d] Invalid ItemType[%d]",
 			lpObj->AccountID, lpObj->Name, pTarget->GetName(), pTarget->m_Type,
 			pTarget->m_Number, iItemType);
 		
@@ -390,7 +396,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(LPOBJ lpObj, int source,
 
 	if ( iItemOption == AT_JEWELOFHARMONY_NOT_STRENGTHEN_ITEM )
 	{
-		g_Log.Add("[LuckyItem][Strengthen Item] Strengthen Fail - NOT OPTION [%s][%s] Name[%s] Type[%d] Serial[%I64d] ItemType[%d]",
+		sLog.outBasic("[LuckyItem][Strengthen Item] Strengthen Fail - NOT OPTION [%s][%s] Name[%s] Type[%d] Serial[%I64d] ItemType[%d]",
 			lpObj->AccountID, lpObj->Name, pTarget->GetName(), pTarget->m_Type,
 			pTarget->m_Number, iItemType);
 		
@@ -402,7 +408,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(LPOBJ lpObj, int source,
 
 	if ( iSuccessRate >= this->m_iRateStrengthenSuccess )
 	{
-		g_Log.Add("[LuckyItem][Strengthen Item] Strengthen Fail [%s][%s] Name[%s] Type[%d] Serial[%I64d]  Rate (%d/%d)",
+		sLog.outBasic("[LuckyItem][Strengthen Item] Strengthen Fail [%s][%s] Name[%s] Type[%d] Serial[%I64d]  Rate (%d/%d)",
 			lpObj->AccountID, lpObj->Name, pTarget->GetName(), pTarget->m_Type,
 			pTarget->m_Number, iSuccessRate, this->m_iRateStrengthenSuccess);
 		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,274), lpObj->m_Index, 1);
@@ -411,7 +417,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(LPOBJ lpObj, int source,
 
 	this->_MakeOption(pTarget, iItemOption, iItemOptionLevel);
 
-	g_Log.Add("[LuckyItem][Strengthen Item] Strengthen Success [%s][%s] Name[%s] Type[%d] Serial[%I64d] Rate (%d/%d) Option %d OptionLevel %d",
+	sLog.outBasic("[LuckyItem][Strengthen Item] Strengthen Success [%s][%s] Name[%s] Type[%d] Serial[%I64d] Rate (%d/%d) Option %d OptionLevel %d",
 		lpObj->AccountID, lpObj->Name, pTarget->GetName(), pTarget->m_Type,
 		pTarget->m_Number, iSuccessRate, this->m_iRateStrengthenSuccess,
 		iItemOption, iItemOptionLevel);

@@ -9,7 +9,10 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "classdef.h"
 #include "prodef.h"
+#include <string>
+#include <vector>
 
 /*
  *	MAP OF DB ITEMS
@@ -3353,10 +3356,10 @@ struct _tagPMSG_ANS_AE_PLAY_DS
 	BYTE btPlay;
 };
 
-struct PMSG_REQ_CLASSDEF
+/*struct PMSG_REQ_CLASSDEF
 {
 	PBMSG_HEAD h;
-};
+};*/
 
 /*struct CLASSDEF_DATA
 {
@@ -3374,12 +3377,12 @@ struct PMSG_REQ_CLASSDEF
 	int Leadership;
 };*/
 
-struct PMSG_ANS_CLASSDEF
+/*struct PMSG_ANS_CLASSDEF
 {
 	PWMSG_HEAD h;
 	int iCount;
 	CLASSDEF_DATA m_ClassData[MAX_TYPE_PLAYER];
-};
+};*/
 
 struct PMSG_REQ_SWITCHWARE
 {
@@ -3999,7 +4002,7 @@ public:
 
 private:
 	std::vector<USERWAREHOUSE_DATA> m_vtWarehouseData;
-	CRITICAL_SECTION m_WareDataCriti;
+	//CRITICAL_SECTION m_WareDataCriti;
 
 };
 

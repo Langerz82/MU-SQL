@@ -48,7 +48,7 @@ int CLoginServerData::MuLoginFindServer(WORD ServerCode)
 	return -1;
 }
 
-BOOL CLoginServerData::MuLoginAddServer(int ServerIndex, LPTSTR ServerName, WORD ServerCode, WORD Port, BYTE ServerVIP, WORD MaxHWIDUseCount)
+BOOL CLoginServerData::MuLoginAddServer(int ServerIndex, LPSTR ServerName, WORD ServerCode, WORD Port, BYTE ServerVIP, WORD MaxHWIDUseCount)
 {
 	if ( MuLoginFindServer(ServerCode) != -1 )
 	{
@@ -124,7 +124,7 @@ void CLoginUserData::Init()
 	}
 }
 
-DWORD CLoginUserData::MakeAccountKey(LPTSTR lpszAccountID)
+DWORD CLoginUserData::MakeAccountKey(LPSTR lpszAccountID)
 {
 	int len = (int)strlen(lpszAccountID);
 
@@ -315,7 +315,7 @@ BOOL CLoginUserData::CheckMoveTimeOut(char * szAccountID)
 	return FALSE;
 }
 
-int CLoginUserData::CheckAccountID(LPTSTR szAccountID)
+int CLoginUserData::CheckAccountID(LPSTR szAccountID)
 {
 	for(int i=0;i<MAX_LOGIN_USER;i++)
 	{	
@@ -333,7 +333,7 @@ int CLoginUserData::CheckAccountID(LPTSTR szAccountID)
 	return FALSE;
 }
 
-bool CLoginUserData::CheckHWIDLimit_Group(WORD ServerGroup, LPTSTR szHWID)
+bool CLoginUserData::CheckHWIDLimit_Group(WORD ServerGroup, LPSTR szHWID)
 {
 	DWORD HWIDCount = 0;
 
@@ -359,7 +359,7 @@ bool CLoginUserData::CheckHWIDLimit_Group(WORD ServerGroup, LPTSTR szHWID)
 	return TRUE;
 }
 
-bool CLoginUserData::CheckHWIDLimit_Local(WORD ServerCode, LPTSTR szHWID, DWORD HWIDMaxUse)
+bool CLoginUserData::CheckHWIDLimit_Local(WORD ServerCode, LPSTR szHWID, DWORD HWIDMaxUse)
 {
 	DWORD HWIDCount = 0;
 
@@ -385,7 +385,7 @@ bool CLoginUserData::CheckHWIDLimit_Local(WORD ServerCode, LPTSTR szHWID, DWORD 
 	return TRUE;
 }
 
-int CLoginUserData::SetVIPData(LPTSTR szAccountID, int VIPType, LPTSTR szDate, int Minutes)
+int CLoginUserData::SetVIPData(LPSTR szAccountID, int VIPType, LPSTR szDate, int Minutes)
 {
 	int UserIndex = this->MuLoginFindUser(szAccountID);
 
@@ -462,7 +462,7 @@ unsigned long __stdcall CLoginServerProtocol::ConnectServerThread(LPVOID pThis)
 	return TRUE;
 }
 
-void CLoginServerProtocol::InsertDataMuLog(LPTSTR ServerName, LPTSTR Id, LPTSTR Ip, LPTSTR State, LPTSTR HWID)
+void CLoginServerProtocol::InsertDataMuLog(LPSTR ServerName, LPSTR Id, LPSTR Ip, LPSTR State, LPSTR HWID)
 {
 
 		Id, ServerName, Ip, State, HWID);
@@ -1002,7 +1002,7 @@ void CLoginServerProtocol::GCJoinBillCheckSend(int aIndex, SDHP_BILLSEARCH * aRe
 	DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 }
 
-void CLoginServerProtocol::JGOtherJoin(int aIndex, LPTSTR szAccountID)
+void CLoginServerProtocol::JGOtherJoin(int aIndex, LPSTR szAccountID)
 {
 	SDHP_OTHERJOINMSG pMsg;
 
@@ -1314,7 +1314,7 @@ void CLoginServerProtocol::GJNotifyMaxUserCount(int aIndex, PMSG_NOTIFY_MAXUSER 
 	}
 }
 
-BOOL CLoginServerProtocol::DisconnectPlayer(LPTSTR szAccountID)
+BOOL CLoginServerProtocol::DisconnectPlayer(LPSTR szAccountID)
 {
 	int iUserIndex = this->m_UserData.MuLoginFindUser(szAccountID);
 

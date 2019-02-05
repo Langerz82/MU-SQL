@@ -9,6 +9,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "custTypedef.h"
 #include "prodef.h"
 
 #include "MapServerManager.h"
@@ -520,7 +521,7 @@ public:
 
 	void MuLoginDeleteServer(WORD ServerCode);
 	int MuLoginFindServer(WORD ServerCode);
-	int MuLoginAddServer(int ServerIndex, LPTSTR ServerName, WORD ServerCode, WORD Port, BYTE ServerVIP, WORD MaxHWIDUseCount);
+	int MuLoginAddServer(int ServerIndex, LPSTR ServerName, WORD ServerCode, WORD Port, BYTE ServerVIP, WORD MaxHWIDUseCount);
 
 	int GetVIPLevel(int Index)
 	{
@@ -532,7 +533,7 @@ public:
 		return this->m_MuLoginServerData[Index].m_MaxHWIDUseCount;
 	}
 
-	LPTSTR GetServerName(int Index)
+	LPSTR GetServerName(int Index)
 	{
 		return this->m_MuLoginServerData[Index].m_szServerName;
 	}
@@ -581,13 +582,13 @@ public:
 	void MuLoginDeleteMapMove(char * szAccountID);
 	void MuLoginDeleteUser(char * szAccountID);
 	void MuLoginDeleteUser(WORD ServerCode, WORD ServerGroup);
-	unsigned long MakeAccountKey(LPTSTR lpszAccountID);
+	unsigned long MakeAccountKey(LPSTR lpszAccountID);
 	int CheckMoveTimeOut(char * szAccountID);
-	int CheckAccountID(LPTSTR szAccountID);
-	int SetVIPData(LPTSTR szAccountID, int VIPType, LPTSTR szDate, int Minutes);
+	int CheckAccountID(LPSTR szAccountID);
+	int SetVIPData(LPSTR szAccountID, int VIPType, LPSTR szDate, int Minutes);
 
-	bool CheckHWIDLimit_Group(WORD ServerGroup, LPTSTR szHWID);
-	bool CheckHWIDLimit_Local(WORD ServerCode, LPTSTR szHWID, DWORD HWIDMaxUse);
+	bool CheckHWIDLimit_Group(WORD ServerGroup, LPSTR szHWID);
+	bool CheckHWIDLimit_Local(WORD ServerCode, LPSTR szHWID, DWORD HWIDMaxUse);
 
 	//CRITICAL_SECTION critUserData;
 	std::vector<tagUSER_DATA> m_vecMapMove;
@@ -680,7 +681,7 @@ public:
 	~CLoginServerProtocol();
 	BOOL Init();
 	static void ProtocolCore(int aIndex, BYTE HeadCode, LPBYTE aRecv, int iSize);
-	BOOL DisconnectPlayer(LPTSTR szAccountID);
+	BOOL DisconnectPlayer(LPSTR szAccountID);
 	void DisconnectServer(WORD ServerCode);
 	void CheckVIPTimeProc();
 
@@ -691,7 +692,7 @@ private:
 	void GJPAccountFail(int aIndex, SDHP_JOINFAIL * aRecv);
 	void GJPAccountBlock(int aIndex, SDHP_COMMAND_BLOCK * aRecv);
 	void GJPUserClose(int aIndex, SDHP_USERCLOSE_ID * aRecv );
-	void JGOtherJoin(int aIndex, LPTSTR szAccountID);
+	void JGOtherJoin(int aIndex, LPSTR szAccountID);
 	void GCUserKillSend(int MuLoginIndex, bool IsForceDC);
 	void GCJoinBillCheckSend(int aIndex, SDHP_BILLSEARCH * aRecv);
 	void LoveHeartEventRecv(int aIndex, SDHP_LOVEHEARTEVENT * aRecv);
@@ -703,9 +704,9 @@ private:
 	void WJKillUser(int aIndex,SDHP_USERCLOSE_ID * aRecv);
 	void GJReqVipAdd(int aIndex, ISHOP_VIP_BUY *aRecv);
 	static unsigned long __stdcall ConnectServerThread(LPVOID);
-	void InsertDataMuLog(LPTSTR ServerName, LPTSTR Id, LPTSTR Ip, LPTSTR State, LPTSTR HWID);
+	void InsertDataMuLog(LPSTR ServerName, LPSTR Id, LPSTR Ip, LPSTR State, LPSTR HWID);
 
-	CRITICAL_SECTION userCheck;
+	//CRITICAL_SECTION userCheck;
 	char m_Salt[30];
 	//WzUdp m_ConnecServerUDP;
 

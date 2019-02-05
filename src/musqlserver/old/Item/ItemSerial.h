@@ -3,6 +3,8 @@
 #ifndef ITEMSERIAL_H
 #define ITEMSERIAL_H
 
+#include "custTypedef.h"
+
 class CItemSerial
 {
 public:

@@ -7,6 +7,7 @@
 #ifndef LPROTOCOL_H
 #define LPROTOCOL_H
 
+#include "custTypedef.h"
 #include "prodef.h"
 
 enum 
@@ -96,9 +97,9 @@ struct P_ADD_NEWS{
 	WORD year;
 
 	// text color etc
-	COLORREF dateColor;
-	COLORREF titleColor;
-	COLORREF textColor;
+	DWORD dateColor;
+	DWORD titleColor;
+	DWORD textColor;
 
 	char title[40];
 	

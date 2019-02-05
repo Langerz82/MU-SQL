@@ -9,6 +9,10 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "custTypedef.h"
+#include <map>
+#include "Item.h"
+
 //#include "zzzitem.h"
 //#include "TRandomPoolMgr.h"
 
@@ -159,7 +163,6 @@ private:
 	int m_iRateSmeltingSuccessExt;	// 5348
 	std::map<int,int> m_mapEnableMixList;	// 534C
 	//TRandomPoolMgr m_kRandomPool;	// 535C
-
 };
 
 extern CJewelOfHarmonySystem g_kJewelOfHarmonySystem;

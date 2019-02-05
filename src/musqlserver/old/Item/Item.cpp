@@ -10,22 +10,30 @@
 //#include "StdAfx.h"
 
 #include "Item.h"
-#include "SetItemOption.h"
-//#include "TLog.h"
-#include "JewelOfHarmonySystem.h"
+
+
+#include "Main.h"
 //#include "ItemSystemFor380.h"
 //#include "user.h"
-//#include "ItemSocketOptionSystem.h"
-#include "configread.h"
-#include "Main.h"
-#include "ServerEngine.h"
-#include "classdef.h"
-//#include "LuckyItemManager.h"
-//#include "PentagramSystem.h"
-//#include "MuunSystem.h"
+
+#include "../configread.h"
+
+#include "../ServerEngine.h"
+#include "../classdef.h"
+#include "../pugixml.hpp"
+#include "../util.h"
+
+#include "Log/Log.h"
+
+#include "SetItemOption.h"
+#include "JewelOfHarmonySystem.h"
+#include "ItemSocketOptionSystem.h"
+#include "LuckyItemManager.h"
+#include "PentagramSystem.h"
+#include "MuunSystem.h"
+#include "ItemOption.h"
+#include "SocketItemType.h"
 //#include "./Custom/CustomItemValue/CustomItemValue.h"
-//#include "ItemOption.h"
-//#include "SocketItemType.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -124,7 +132,7 @@ void CItem::Convert(int type, BYTE Option1, BYTE Option2, BYTE Option3, BYTE Att
 
 	if (_type > MAX_ITEMS - 1)
 	{
-		sLog.ouError("error-L1 : ItemIndex error %d", _type);
+		sLog.outError("error-L1 : ItemIndex error %d", _type);
 	}
 
 	p = &ItemAttribute[_type];
@@ -318,7 +326,7 @@ void CItem::Convert(int type, BYTE Option1, BYTE Option2, BYTE Option3, BYTE Att
 
 	for (int i = 0; i < 5; i++)
 	{
-		//	g_Log.Add("[K2][3] %d",
+		//	sLog.outBasic("[K2][3] %d",
 		//		this->m_SocketOption[i]);
 		//SocketOption[i] = lpObj->pChaosBox[PlusItemPos].m_SocketOption[i]; //[K2]
 
@@ -2992,10 +3000,10 @@ void CItem::Value()
 		}
 	}
 
-	if (g_kItemSystemFor380.Is380OptionItem(this) == TRUE)
+	/*if (g_kItemSystemFor380.Is380OptionItem(this) == TRUE)
 	{
 		Gold += (UINT64)(Gold * 16.0 / 100.0);
-	}
+	}*/
 
 	if (g_SocketOptionSystem.IsSocketItem(this) == TRUE)
 	{
@@ -3017,6 +3025,8 @@ void CItem::Value()
 
 	int value = 0;
 
+	/*
+	// re-write global.
 	if (gItemValue.GetItemValue(this, &value) != 0)
 	{
 		this->m_BuyMoney = value;
@@ -3033,6 +3043,7 @@ void CItem::Value()
 
 		return;
 	}
+	*/
 
 	if (g_PentagramSystem.IsPentagramItem(this) == TRUE)
 	{
@@ -3272,21 +3283,21 @@ BOOL CItem::IsClass(char aClass, int ChangeUP)
 {
 	if ((aClass < 0) || (aClass >= MAX_TYPE_PLAYER))
 	{
-		g_Log.Add("CItem: Invalid class: %d (%s %d)", aClass, __FILE__, __LINE__);
+		sLog.outError("CItem: Invalid class: %d (%s %d)", aClass, __FILE__, __LINE__);
 		return 0;
 	}
 
 	int requireclass = this->m_RequireClass[aClass];
 	if (requireclass == 0)
 	{
-		g_Log.Add("CItem: Wrong Class (%d)", aClass);
+		sLog.outError("CItem: Wrong Class (%d)", aClass);
 		return 0;
 	}
 	if (requireclass > 1)
 	{
 		if (requireclass > (ChangeUP + 1))
 		{
-			g_Log.Add("CItem: Wrong Quest State");
+			sLog.outError("CItem: Wrong Quest State");
 			return 0;
 		}
 	}
@@ -4050,10 +4061,10 @@ int CItem::DurabilityDown(int dur, int aIndex)
 
 	int iBaseDurSmall = 564;
 
-	if (gObj[aIndex].m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction2 > 0.0)
+	/*if (gObj[aIndex].m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction2 > 0.0)
 	{
 		iBaseDurSmall += gObj[aIndex].m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction2;
-	}
+	}*/
 
 	if (this->m_DurabilitySmall > iBaseDurSmall)
 	{
@@ -4098,10 +4109,10 @@ int CItem::DurabilityDown2(int dur, int aIndex)
 
 	int iBaseDurSmall = 1000;
 
-	if (gObj[aIndex].m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 > 0.0)
+	/*if (gObj[aIndex].m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 > 0.0)
 	{
 		iBaseDurSmall += gObj[aIndex].m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1;
-	}
+	}*/
 
 	if (this->m_DurabilitySmall > iBaseDurSmall)
 	{
@@ -4172,10 +4183,10 @@ int CItem::NormalWeaponDurabilityDown(int defense, int aIndex)
 
 	int iBaseDurSmall = 846;
 
-	if (gObj[aIndex].m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 > 0.0)
+	/*if (gObj[aIndex].m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 > 0.0)
 	{
 		iBaseDurSmall += gObj[aIndex].m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1;
-	}
+	}*/
 
 	if (this->m_DurabilitySmall > iBaseDurSmall)
 	{
@@ -4240,10 +4251,10 @@ int CItem::BowWeaponDurabilityDown(int defense, int aIndex)
 
 	int iBaseDurSmall = 1170;
 
-	if (gObj[aIndex].m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 > 0.0)
+	/*if (gObj[aIndex].m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 > 0.0)
 	{
 		iBaseDurSmall += gObj[aIndex].m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1;
-	}
+	}*/
 
 	if (this->m_DurabilitySmall > iBaseDurSmall)
 	{
@@ -4306,10 +4317,10 @@ int CItem::StaffWeaponDurabilityDown(int defence, int aIndex)
 
 	int iBaseDurSmall = 1575;
 
-	if (gObj[aIndex].m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 > 0.0)
+	/*if (gObj[aIndex].m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 > 0.0)
 	{
 		iBaseDurSmall += gObj[aIndex].m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1;
-	}
+	}*/
 
 	if (this->m_DurabilitySmall > iBaseDurSmall)
 	{
@@ -4468,10 +4479,10 @@ int CItem::ArmorDurabilityDown(int damagemin, int aIndex)
 
 	int iBaseDurSmall = 69;
 
-	if (gObj[aIndex].m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 > 0.0)
+	/*if (gObj[aIndex].m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 > 0.0)
 	{
 		iBaseDurSmall += gObj[aIndex].m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1;
-	}
+	}*/
 
 	if (this->m_DurabilitySmall > iBaseDurSmall)
 	{
@@ -5016,7 +5027,7 @@ int ItemGetDurability(int index, int itemLevel, int ExcellentItem, int SetItem)
 {
 	if (index < 0 || index > MAX_ITEMS)
 	{
-		sLog.ouError("BAD INDEX %d", index);
+		sLog.outError("BAD INDEX %d", index);
 		return 0;
 	}
 
@@ -5156,7 +5167,7 @@ BOOL OpenItemScript(char* FileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("Error loading %s file (%s)", FileName, res.description());
+		sLog.outError("Error loading %s file (%s)", FileName, res.description());
 		return FALSE;
 	}
 
@@ -5171,8 +5182,8 @@ BOOL OpenItemScript(char* FileName)
 
 	int iItemCount = 0;
 
-	pugi::xml_node main = file.child("ItemList");
-	for (pugi::xml_node section = main.child("Section"); section; section = section.next_sibling())
+	pugi::xml_node mainXML = file.child("ItemList");
+	for (pugi::xml_node section = mainXML.child("Section"); section; section = section.next_sibling())
 	{
 		int ItemType = section.attribute("Index").as_int();
 
@@ -5182,7 +5193,7 @@ BOOL OpenItemScript(char* FileName)
 
 			if (ITEMGET(ItemType, ItemIndex) < 0 || ITEMGET(ItemType, ItemIndex) >= ITEMGET(17, 0))
 			{
-				g_Log.MsgBox("Error - wrong Item configuration (ItemType:%d ItemIndex:%d) in Section:%d", ItemType, ItemIndex, ItemType);
+				sLog.outError("Error - wrong Item configuration (ItemType:%d ItemIndex:%d) in Section:%d", ItemType, ItemIndex, ItemType);
 				return FALSE;
 			}
 
@@ -5443,7 +5454,7 @@ BOOL OpenItemScript(char* FileName)
 		}
 	}
 
-	g_Log.Add("(OpenItemScript) LoadItem complete. (ItemCount:%d)", iItemCount);
+	sLog.outBasic("(OpenItemScript) LoadItem complete. (ItemCount:%d)", iItemCount);
 	return TRUE;
 }
 
@@ -5912,14 +5923,14 @@ void LoadResetItemList(LPSTR szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("Error loading %s file (%s)", szFile, res.description());
+		sLog.outError("Error loading %s file (%s)", szFile, res.description());
 		return;
 	}
 
-	pugi::xml_node main = file.child("Reset");
+	pugi::xml_node mainXML = file.child("Reset");
 	int iCount = 0;
 
-	for (pugi::xml_node item = main.child("Item"); item; item = item.next_sibling())
+	for (pugi::xml_node item = mainXML.child("Item"); item; item = item.next_sibling())
 	{
 		int iCat = item.attribute("Cat").as_int();
 		int iIndex = item.attribute("Index").as_int();
@@ -5930,7 +5941,7 @@ void LoadResetItemList(LPSTR szFile)
 		iCount++;
 	}
 
-	g_Log.AddC(TColor::DarkOrange, "[%s]::LoadFile() -> Success!", szFile);
+	sLog.outBasic("[%s]::LoadFile() -> Success!", szFile);
 }
 
 bool CheckCanWearResetItem(int aIndex, int itemid)
@@ -5938,6 +5949,7 @@ bool CheckCanWearResetItem(int aIndex, int itemid)
 	if (!ObjectMaxRange(aIndex))
 		return false;
 
+	/*
 	LPOBJ lpObj = &gObj[aIndex];
 
 	for (int i = 0; i < 1000; i++)
@@ -5954,6 +5966,8 @@ bool CheckCanWearResetItem(int aIndex, int itemid)
 
 		}
 	}
+	*/
+
 	return true;
 }
 

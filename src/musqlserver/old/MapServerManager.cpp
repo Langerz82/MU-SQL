@@ -48,12 +48,12 @@ CMapServerManager::CMapServerManager()
 	this->m_bMapDataLoadOk = FALSE;
 	this->m_lpThisMapSvrData = NULL;
 
-	InitializeCriticalSection(&this->m_critSVRCODE_MAP);
+	//InitializeCriticalSection(&this->m_critSVRCODE_MAP);
 }
 
 CMapServerManager::~CMapServerManager()
 {
-	DeleteCriticalSection(&this->m_critSVRCODE_MAP);
+	//DeleteCriticalSection(&this->m_critSVRCODE_MAP);
 }
 
 BOOL CMapServerManager::LoadMapData(char* lpszFileName)
@@ -64,7 +64,7 @@ BOOL CMapServerManager::LoadMapData(char* lpszFileName)
 		ExitProcess(1);
 	}
 
-	EnterCriticalSection(&this->m_critSVRCODE_MAP);
+	//EnterCriticalSection(&this->m_critSVRCODE_MAP);
 
 	this->m_bMapDataLoadOk = FALSE;
 
@@ -245,7 +245,7 @@ BOOL CMapServerManager::LoadMapData(char* lpszFileName)
 	}
 
 	this->m_bMapDataLoadOk = TRUE;
-	LeaveCriticalSection(&this->m_critSVRCODE_MAP);	
+	//LeaveCriticalSection(&this->m_critSVRCODE_MAP);	
 	return TRUE;
 } 
 
@@ -258,7 +258,7 @@ BOOL CMapServerManager::GetSvrCodeData(WORD wServerCode, char* lpszIpAddress, WO
 
 	_MAPSVR_DATA * lpMapSvrData = NULL;
 
-	EnterCriticalSection(&this->m_critSVRCODE_MAP);
+	//EnterCriticalSection(&this->m_critSVRCODE_MAP);
 
 	std::map<int, _MAPSVR_DATA *>::iterator it = this->m_mapSVRCODE_MAP.find(wServerCode);
 
@@ -267,7 +267,7 @@ BOOL CMapServerManager::GetSvrCodeData(WORD wServerCode, char* lpszIpAddress, WO
 		lpMapSvrData = it->second;
 	}
 
-	LeaveCriticalSection(&this->m_critSVRCODE_MAP);
+	//LeaveCriticalSection(&this->m_critSVRCODE_MAP);
 
 	if ( lpMapSvrData == NULL )
 	{
@@ -284,7 +284,7 @@ int CMapServerManager::GetMapSvrGroup(WORD wServerCode)
 {
 	_MAPSVR_DATA* lpMapSvrData = NULL;
 
-	EnterCriticalSection(&this->m_critSVRCODE_MAP);
+	//EnterCriticalSection(&this->m_critSVRCODE_MAP);
 
 	std::map<int, _MAPSVR_DATA*>::iterator it = this->m_mapSVRCODE_MAP.find(wServerCode);
 
@@ -293,7 +293,7 @@ int CMapServerManager::GetMapSvrGroup(WORD wServerCode)
 		lpMapSvrData = it->second;
 	}
 
-	LeaveCriticalSection(&this->m_critSVRCODE_MAP);
+	//LeaveCriticalSection(&this->m_critSVRCODE_MAP);
 
 	if(lpMapSvrData != NULL)
 	{

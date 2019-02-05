@@ -191,7 +191,7 @@ void CConServ::LoadNewsFile(LPSTR szFile)
 {
 	for(int i = 0; i < 10; i++ )
 	{
-		gObjNews[i].dateColor = 0;
+		//gObjNews[i].dateColor = 0;
 		gObjNews[i].day = 0;
 		gObjNews[i].month = 0;
 		gObjNews[i].textColor = 0;
@@ -293,7 +293,7 @@ void CConServ::LoadNewsFile(LPSTR szFile)
 						Token = GetToken();
 						Year = TokenNumber;
 						// store data
-						gObjNews[iIndex].dateColor = RGB(dateR,dateG,dateB);
+						//gObjNews[iIndex].dateColor = RGB(dateR,dateG,dateB);
 						gObjNews[iIndex].titleColor = RGB(TitleR,TitleG,TitleB);
 						gObjNews[iIndex].textColor = RGB(TextR,TextG,TextB);
 
@@ -345,7 +345,7 @@ void CConServ::SendNews(int aIndex)
 
 		strcpy_s(pMsg.title,gObjNews[i].title);
 
-		pMsg.dateColor = gObjNews[i].dateColor;
+		//pMsg.dateColor = gObjNews[i].dateColor;
 		pMsg.titleColor = gObjNews[i].titleColor;
 		pMsg.textColor = gObjNews[i].textColor;
 

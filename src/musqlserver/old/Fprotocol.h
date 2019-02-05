@@ -10,7 +10,7 @@
 #endif // _MSC_VER > 1000
 
 #include "prodef.h"
-#include "Common.h"
+//#include "Common.h"
 
 using namespace std;
 
@@ -388,7 +388,7 @@ public:
 	int DBReadMail(int iMemoId, int iGuid, MEMO_READ * lpMemoRead, LPDWORD lpdwMemoSize, LPBYTE lpPhoto, LPBYTE lpPhotoSize);
 	int DBDelMail(char *szName, int iMemoId);
 
-	CRITICAL_SECTION m_csMapFriendMaster;
+	//CRITICAL_SECTION m_csMapFriendMaster;
 
 private:
 

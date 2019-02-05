@@ -14,12 +14,12 @@ using namespace std;
 CFriendSystem::CFriendSystem()
 {
 	this->m_iMaxFriends = 50;
-	InitializeCriticalSection(&m_csMapFriendMaster);
+	//InitializeCriticalSection(&m_csMapFriendMaster);
 }
 
 CFriendSystem::~CFriendSystem()
 {
-	DeleteCriticalSection(&m_csMapFriendMaster);
+	//DeleteCriticalSection(&m_csMapFriendMaster);
 }
 
 LPFRIEND_MASTER CFriendSystem::GetFriendMaster(char *szMaster)
@@ -52,12 +52,12 @@ BOOL CFriendSystem::FriendExists(char *szMaster, char *szFriend)
 	char szF[11] = {0};
 	std::strncpy(szF, szFriend, 10);
 
-	EnterCriticalSection(&m_csMapFriendMaster);
+	//EnterCriticalSection(&m_csMapFriendMaster);
 	lpMaster = GetFriendMaster(szM);
 
 	if(lpMaster == NULL)
 	{
-		LeaveCriticalSection(&m_csMapFriendMaster);
+		//LeaveCriticalSection(&m_csMapFriendMaster);
 		return FALSE;
 	}
 
@@ -69,7 +69,7 @@ BOOL CFriendSystem::FriendExists(char *szMaster, char *szFriend)
 			break;
 	}
 
-	LeaveCriticalSection(&m_csMapFriendMaster);
+	//LeaveCriticalSection(&m_csMapFriendMaster);
 	if(i == size)
 		return FALSE;
 	else
@@ -97,9 +97,9 @@ BOOL CFriendSystem::CreateFriendMaster(char *szMaster, int iNumber, int iServer)
 	Master.m_iServer = iServer;
 	Master.m_btState = iServer;
 
-	EnterCriticalSection(&this->m_csMapFriendMaster);
+	//EnterCriticalSection(&this->m_csMapFriendMaster);
 	this->m_MapFriendManager[szM] = Master;
-	LeaveCriticalSection(&this->m_csMapFriendMaster);
+	//LeaveCriticalSection(&this->m_csMapFriendMaster);
 
 	return TRUE;
 }
@@ -111,16 +111,16 @@ BOOL CFriendSystem::DeleteFriendMaster(char *szMaster)
 	char szM[11] = {0};
 	std::strncpy(szM, szMaster, 10);
 
-	EnterCriticalSection(&m_csMapFriendMaster);
+	//EnterCriticalSection(&m_csMapFriendMaster);
 	it = this->m_MapFriendManager.find(szM);
 	if(it == this->m_MapFriendManager.end())
 	{
-		LeaveCriticalSection(&m_csMapFriendMaster);
+		//LeaveCriticalSection(&m_csMapFriendMaster);
 		return FALSE;
 	}
 
 	this->m_MapFriendManager.erase(it);
-	LeaveCriticalSection(&m_csMapFriendMaster);
+	//LeaveCriticalSection(&m_csMapFriendMaster);
 
 	return TRUE;
 		
@@ -134,12 +134,12 @@ int CFriendSystem::GetFriendGuid(char *szMaster)
 
 	int guid = -1;
 	LPFRIEND_MASTER lpMaster;
-	EnterCriticalSection(&m_csMapFriendMaster);
+	//EnterCriticalSection(&m_csMapFriendMaster);
 
 	lpMaster = this->GetFriendMaster(szM);
 	if(lpMaster)
 		guid = lpMaster->m_iGUID;
-	LeaveCriticalSection(&m_csMapFriendMaster);
+	//LeaveCriticalSection(&m_csMapFriendMaster);
 
 	return guid;
 }
@@ -149,12 +149,12 @@ BYTE CFriendSystem::GetFriendState(char *szMaster)
 	BYTE btState = -1;
 	LPFRIEND_MASTER lpMaster;
 
-	EnterCriticalSection(&m_csMapFriendMaster);
+	//EnterCriticalSection(&m_csMapFriendMaster);
 
 	lpMaster = GetFriendMaster(szMaster);
 	if(lpMaster)
 		btState = lpMaster->m_btState;
-	LeaveCriticalSection(&m_csMapFriendMaster);
+	//LeaveCriticalSection(&m_csMapFriendMaster);
 
 	return btState;
 }
@@ -164,12 +164,12 @@ int CFriendSystem::GetFriendServer(char *szMaster)
 	int iServer = -1;
 	LPFRIEND_MASTER lpMaster;
 
-	EnterCriticalSection(&m_csMapFriendMaster);
+	//EnterCriticalSection(&m_csMapFriendMaster);
 
 	lpMaster = GetFriendMaster(szMaster);
 	if(lpMaster)
 		iServer = lpMaster->m_iServer;
-	LeaveCriticalSection(&m_csMapFriendMaster);
+	//LeaveCriticalSection(&m_csMapFriendMaster);
 
 	return iServer;
 }
@@ -179,12 +179,12 @@ int CFriendSystem::GetFriendNumber(char *szMaster)
 	int iNumber = -1;
 	LPFRIEND_MASTER lpMaster;
 
-	EnterCriticalSection(&m_csMapFriendMaster);
+	//EnterCriticalSection(&m_csMapFriendMaster);
 
 	lpMaster = GetFriendMaster(szMaster);
 	if(lpMaster)
 		iNumber = lpMaster->m_iNumber;
-	LeaveCriticalSection(&m_csMapFriendMaster);
+	//LeaveCriticalSection(&m_csMapFriendMaster);
 
 	return iNumber;
 }
@@ -985,8 +985,9 @@ void CFriendSystem::FriendMemoSend( int aIndex, FHP_FRIEND_MEMO_SEND* lpMsg)
 	std::strncpy(memo_head.RecvName, lpMsg->ToName, 10);
 	std::strncpy(memo_head.SendName, lpMsg->Name, 10);
 	
+	// TODO
 	SYSTEMTIME st;
-	GetLocalTime(&st);
+	//GetLocalTime(&st);
 
 	wsprintf(memo_head.Date, "%04d-%02d-%02d %02d:%02d:%02d", st.wYear, st.wMonth, st.wDay,
 		st.wHour, st.wMinute, st.wSecond);

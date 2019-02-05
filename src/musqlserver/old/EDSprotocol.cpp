@@ -1,6 +1,8 @@
 // EDSprotocol.cpp: implementation of the EDSprotocol class.
 //
 //////////////////////////////////////////////////////////////////////
+#include "custTypedef.h"
+#include "util.h"
 #include "giocp.h"
 #include "Main.h"
 #include "EDSprotocol.h"
@@ -687,7 +689,7 @@ void CExDataServerProtocol::GDGuildCreateSend(int aIndex, SDHP_GUILDCREATE * aRe
 		return;
 	}
 
-	else if(!QuoteSpaceSyntexCheck(aRecv->GuildName))
+	else if(!QuoteSpaceSyntaxCheck(aRecv->GuildName))
 	{
 		Result.Result = 5;
 		Result.Flag = 1;
