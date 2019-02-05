@@ -6,7 +6,7 @@
 #pragma once
 #endif // _MSC_VER > 1000.
 
-#include "Item.h"
+#include "Item\Item.h"
 #include "prodef.h"
 
 #define TRACE_PACKET 0	

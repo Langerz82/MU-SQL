@@ -2,12 +2,15 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "ItemOption.h"
 #include "ItemOptionTypeMng.h"
-#include "MemScript.h"
-#include "winutil.h"
-#include "TLog.h"
+#include "../MemScript.h"
+#include "../util.h"
+#include "../Log/Log.h"
+#include <map>
+#include <vector>
+#include <string>
 
 CItemOption gItemOption;
 //////////////////////////////////////////////////////////////////////

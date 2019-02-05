@@ -91,7 +91,7 @@ void EGAnsEventChipInfo(int aIndex,PMSG_REQ_VIEW_EC_MN * lpMsg)
 	pMsg.h.size = sizeof(pMsg);
 
 	pMsg.iINDEX = lpMsg->iINDEX;
-	std::memcpy(pMsg.szUID,lpMsg->szUID,sizeof(pMsg.szUID));
+	std::memcpy(pMsg.szUID, lpMsg->szUID,sizeof(pMsg.szUID));
 	pMsg.szUID[10] = 0;
 
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));

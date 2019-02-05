@@ -2,6 +2,10 @@
 #ifndef __CUSTTYPEDEF_H
 #define __CUSTTYPEDEF_H
 
+#ifndef USER_H__
+#define USER_H__
+#include "user.h"
+#endif
 
 typedef int BOOL;
 typedef wchar_t WCHAR;
@@ -20,6 +24,9 @@ typedef char* LPSTR;
 typedef long long LONGLONG;
 typedef long long time_t;
 
+/*
+#ifndef _SYSTEMTIME
+#define _SYSTEMTIME
 typedef struct _SYSTEMTIME {
 	WORD wYear;
 	WORD wMonth;
@@ -31,8 +38,9 @@ typedef struct _SYSTEMTIME {
 	WORD wMilliseconds;
 } SYSTEMTIME, *PSYSTEMTIME, *LPSYSTEMTIME;
 typedef SYSTEMTIME* LPSYSTEMTIME;
+#endif
+*/
 
-
-//typedef OBJECTSTRUCT* LPOBJECTSTRUCT;
+typedef OBJECTSTRUCT* LPOBJECTSTRUCT;
 
 #endif

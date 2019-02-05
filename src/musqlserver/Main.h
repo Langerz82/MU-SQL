@@ -7,11 +7,12 @@
 
 
 #include "old/resource.h"
-#include "old/DSprotocol.h"
-#include "old/Sprotocol.h"
-#include "old/EDSprotocol.h"
+#include "old/Protocols/DSprotocol.h"
+#include "old/Protocols/protocol.h"
+#include "old/Protocols/EDSprotocol.h"
+#include "old/Protocols/Fprotocol.h"
 #include "old/ServerEngine.h"
-//#include "Fprotocol.h"
+
 
 #define SET_NUMBERH(x) ( (BYTE)((DWORD)(x)>>(DWORD)8) )
 #define SET_NUMBERL(x) ( (BYTE)((DWORD)(x) & 0xFF) )

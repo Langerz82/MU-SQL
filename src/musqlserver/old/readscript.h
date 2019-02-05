@@ -3,6 +3,12 @@
 #ifndef	_READ_SCRIPT_H_
 #define	_READ_SCRIPT_H_
 
+#include <cstdlib>
+#include <stdio.h>
+#include <ctype.h>
+
+using namespace std;
+
 static enum SMDToken 
 {
 	NAME, 

@@ -10,13 +10,13 @@
 // old includes
 
 #include "Main.h"
-#include "old/DSprotocol.h"
-#include "old/Sprotocol.h"
+#include "old/Protocols/DSprotocol.h"
+#include "old/Protocols/Sprotocol.h"
 
 #include "old/Giocp.h"
-#include "old/EDSprotocol.h"
+#include "old/Protocols/EDSprotocol.h"
 #include "old/MapServerManager.h"
-#include "old/ItemSerial.h"
+#include "old/Item/ItemSerial.h"
 
 #include "Database/DatabaseEnv.h"
 #include "Config/Config.h"

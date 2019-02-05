@@ -4,6 +4,7 @@
 #define GENSSYSTEMPROTOCOL_H
 
 #include "prodef.h"
+#include <string>
 
 #if _MSC_VER > 1000
 #pragma once

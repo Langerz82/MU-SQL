@@ -22,8 +22,8 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#ifndef MANGOSSERVER_COMMON_H
-#define MANGOSSERVER_COMMON_H
+#ifndef MUSQLSERVER_COMMON_H
+#define MUSQLSERVER_COMMON_H
 
 // config.h needs to be included 1st
 #ifdef HAVE_CONFIG_H

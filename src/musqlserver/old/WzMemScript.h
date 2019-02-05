@@ -1,9 +1,3 @@
-////////////////////////////////////////////////////////////////////////////////
-// WzMemScript2.h
-// ------------------------------
-// Decompiled by Deathway
-// Date : 2007-03-09
-// ------------------------------
 #ifndef WZMEMSCRIPT
 #define WZMEMSCRIPT
 
@@ -11,7 +5,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "..\include\ReadScript.h"
+#include "custTypedef.h"
+#include "ReadScript.h"
 
 
 
@@ -48,8 +43,3 @@ private:
 };
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

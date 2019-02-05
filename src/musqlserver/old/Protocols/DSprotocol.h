@@ -177,7 +177,11 @@
 
 #define DBI_GET_TYPE(x) ( ((x)&((MAX_TYPE_ITEMS-1)<<8))>>4 )
 #define DBI_GET_INDEX(x) ( (x) & 0xFF )
+
+#ifndef DBI_GET_LEVEL
 #define DBI_GET_LEVEL(x)  ( ((x)>>3)& MAX_ITEM_LEVEL )
+#endif
+
 #define DBI_GET_SKILL(x)  ( ((x) >> 7) & 0x01)
 #define DBI_GET_LUCK(x)  ( ((x) >> 2) & 0x01)
 #define DBI_GET_OPTION(x)  ( ( (x) ) & 0x03 )

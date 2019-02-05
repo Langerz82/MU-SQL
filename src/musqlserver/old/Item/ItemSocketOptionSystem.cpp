@@ -1,12 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ItemSocketOptionSystem.cpp
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "ItemSocketOptionSystem.h"
-#include "LargeRand.h"
-#include "user.h"
-#include "Protocol.h"
-#include "TLog.h"
-#include "configread.h"
+#include "../LargeRand.h"
+#include "../user.h"
+#include "../Protocol.h"
+#include "Log/Log.h"
+#include "../configread.h"
 
 CItemSocketOptionSystem	g_SocketOptionSystem;
 

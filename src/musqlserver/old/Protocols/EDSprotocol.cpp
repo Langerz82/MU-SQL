@@ -1725,7 +1725,7 @@ void CExDataServerProtocol::GDGuildMemberAddWithoutUserIndex(int aIndex, SDHP_GU
 		sLog.outBasic("error-L3: Failed to add member [%s] to guild [%s]", Result.MemberID, Result.GuildName);
 	}
 
-	EnterCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+	//EnterCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 
 	LPFRIEND_MASTER lpUserData = this->m_FriendSystemEDS.GetFriendMaster(Result.MemberID);
 
@@ -1734,7 +1734,7 @@ void CExDataServerProtocol::GDGuildMemberAddWithoutUserIndex(int aIndex, SDHP_GU
 		Result.Number = lpUserData->m_iNumber;
 	}
 
-	LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+	//LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 
 	for (int i = 0; i < g_dwMaxServerGroups; i++)
 	{
@@ -3535,7 +3535,7 @@ void CExDataServerProtocol::GDReqDelMatchingList(int aIndex, _stReqDelGuildMatch
 
 	LPFRIEND_MASTER lpUser = NULL;
 
-	EnterCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+	//EnterCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 
 	int Count = 0; // stub
 	int ServerIndex = 0; // stub
@@ -3562,7 +3562,7 @@ void CExDataServerProtocol::GDReqDelMatchingList(int aIndex, _stReqDelGuildMatch
 		DataSend(ServerIndex, (LPBYTE)&pNotiMsg, pNotiMsg.h.size, __FUNCTION__);
 	}
 
-	LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+	//LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
@@ -3634,7 +3634,7 @@ void CExDataServerProtocol::GDReqAllowJoinGuildMatching(int aIndex, _stReqAllowJ
 	_stAnsNotiGuildMatching pNotiMsg;
 	PHeadSubSetB((LPBYTE)&pNotiMsg, 0xA3, 0x09, sizeof(pNotiMsg));
 
-	EnterCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+	//EnterCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 
 	LPFRIEND_MASTER lpUser = this->m_FriendSystemEDS.GetFriendMaster(pMsg.szMemberName);
 	BOOL IsUserFound = FALSE;
@@ -3660,7 +3660,7 @@ void CExDataServerProtocol::GDReqAllowJoinGuildMatching(int aIndex, _stReqAllowJ
 		}
 	}
 
-	LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+	//LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 }
 
 void CExDataServerProtocol::GDReqWaitGuildMatchingList(int aIndex, _stReqWaitGuildMatchingList * lpMsg)
@@ -3725,13 +3725,13 @@ void CExDataServerProtocol::SendNotiGuildMatchingForGuildMaster(int nGuildNumber
 		return;
 	}
 
-	EnterCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+	//EnterCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 
 	LPFRIEND_MASTER lpUser = this->m_FriendSystemEDS.GetFriendMaster(lpGuild->m_szGuildMaster);
 
 	if (!lpUser)
 	{
-		LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+		//LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 		return;
 	}
 
@@ -3741,7 +3741,7 @@ void CExDataServerProtocol::SendNotiGuildMatchingForGuildMaster(int nGuildNumber
 
 	if (nResult != 1)
 	{
-		LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+		//LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 		return;
 	}
 
@@ -3754,12 +3754,12 @@ void CExDataServerProtocol::SendNotiGuildMatchingForGuildMaster(int nGuildNumber
 	int ServerIndex = 0;
 	if (ServerIndex == -1)
 	{
-		LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+		//LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 		return;
 	}
 
 	DataSend(ServerIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
-	LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+	//LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 }
 
 void CExDataServerProtocol::SendUseGuildMatchingGuild(char* szName, int nGuildNumber)
@@ -3773,20 +3773,20 @@ void CExDataServerProtocol::SendUseGuildMatchingGuild(char* szName, int nGuildNu
 		return;
 	}
 
-	EnterCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+	//EnterCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 
 	LPFRIEND_MASTER lpUser = this->m_FriendSystemEDS.GetFriendMaster(szName);
 
 	if (!lpUser)
 	{
-		LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+		//LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 		return;
 	}
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA3, 0x11, sizeof(pMsg));
 	pMsg.nUserIndex = lpUser->m_iNumber;
 
-	LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+	//LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 
 	int ServerIndex = 0;
 	if (ServerIndex == -1)
@@ -3808,7 +3808,7 @@ void CExDataServerProtocol::GDReqRegWantedPartyMember(int aIndex, _stReqRegWante
 {
 	_stAnsRegWantedPartyMember pMsg;
 
-	EnterCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+	//EnterCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 
 	LPFRIEND_MASTER lpLeaderData = this->m_FriendSystemEDS.GetFriendMaster(lpMsg->szPartyLeaderName);
 
@@ -3818,7 +3818,7 @@ void CExDataServerProtocol::GDReqRegWantedPartyMember(int aIndex, _stReqRegWante
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA4, 0x00, sizeof(pMsg));
 
 
-	LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+	//LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
@@ -3867,7 +3867,7 @@ void CExDataServerProtocol::GDReqJoinMemberPartyMatching(int aIndex, _stReqJoinM
 
 	BOOL bExistOnWaitList = FALSE;
 
-	EnterCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+	//EnterCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 
 	LPFRIEND_MASTER lpPartyMaster = this->m_FriendSystemEDS.GetFriendMaster(lpMsg->szLeaderName);
 	LPFRIEND_MASTER lpPartyMember = this->m_FriendSystemEDS.GetFriendMaster(lpMsg->szMemberName);
@@ -3888,7 +3888,7 @@ void CExDataServerProtocol::GDReqJoinMemberPartyMatching(int aIndex, _stReqJoinM
 
 	pMsg.nUserIndex = lpMsg->nUserIndex;
 
-	LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+	//LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
@@ -3921,7 +3921,7 @@ void CExDataServerProtocol::GDReqAcceptMemberJoin(int aIndex, _stReqAddPartyMemb
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA4, 0x05, sizeof(pMsg));
 
 	BOOL bUserFound = FALSE;
-	EnterCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+	//EnterCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 	LPFRIEND_MASTER lpMember = this->m_FriendSystemEDS.GetFriendMaster(lpMsg->szMemberName);
 	std::memcpy(pMsg.szMemberName, lpMsg->szMemberName, MAX_ACCOUNT_LEN + 1);
 
@@ -3943,7 +3943,7 @@ void CExDataServerProtocol::GDReqAcceptMemberJoin(int aIndex, _stReqAddPartyMemb
 		nMemberServer = g_Server[aIndex].m_ServerCode;
 	}
 
-	LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+	//LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 
 	pMsg.nUserIndex = lpMsg->nUserIndex;
 	pMsg.nMemberIndex = nMemberIndex;
@@ -4109,7 +4109,7 @@ void CExDataServerProtocol::GDReqCancelPartyMatching(int aIndex, _stReqCancelPar
 
 				if (nCount > 0)
 				{
-					EnterCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+					//EnterCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 
 					for (int i = 0; i < nCount; i++)
 					{
@@ -4127,7 +4127,7 @@ void CExDataServerProtocol::GDReqCancelPartyMatching(int aIndex, _stReqCancelPar
 						}
 					}
 
-					LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+					//LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 				}
 			}
 		}
@@ -4239,14 +4239,14 @@ void CExDataServerProtocol::GDSendChatMsgPartyMatching(int aIndex, _stReqChattin
 
 void CExDataServerProtocol::AutoAddPartyMember(char *szLeaderName, char *szMemberName, int nUserIndex, int nServerIndex)
 {
-	EnterCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+	//EnterCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 
 	LPFRIEND_MASTER lpMaster = this->m_FriendSystemEDS.GetFriendMaster(szLeaderName);
 	LPFRIEND_MASTER lpUser = this->m_FriendSystemEDS.GetFriendMaster(szMemberName);
 
 	if (!lpMaster || !lpUser)
 	{
-		LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+		//LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 		return;
 	}
 
@@ -4265,7 +4265,7 @@ void CExDataServerProtocol::AutoAddPartyMember(char *szLeaderName, char *szMembe
 		DataSend(nServerIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 
 		sLog.outBasic("[Party Matching] Add Error - party with leader (%s) not exists", szLeaderName);
-		LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+		//LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 		return;
 	}
 
@@ -4287,7 +4287,7 @@ void CExDataServerProtocol::AutoAddPartyMember(char *szLeaderName, char *szMembe
 		this->FixAddPartyMember(lpMaster->m_iNumber, lpUser->m_iNumber, nServerIndex);
 	}
 
-	LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
+	//LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 	this->SendPartyMatchingMemberList(szLeaderName, 0);
 }
 

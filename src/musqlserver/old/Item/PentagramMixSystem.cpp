@@ -1,16 +1,19 @@
 ////////////////////////////////////////////////////////////////////////////////
 // PentagramMixSystem.cpp
-#include "StdAfx.h"
+
 #include "PentagramMixSystem.h"
-#include "TLog.h"
-#include "CastleSiegeSync.h"
-#include "ChaosBox.h"
-#include "protocol.h"
-#include "winutil.h"
-#include "GameMain.h"
-#include "DSProtocol.h"
-#include "RandomManager.h"
-#include "LargeRand.h"
+#include "Log/Log.h"
+#include "../pugixml.hpp"
+#include "../user.h"
+
+// #include "../CastleSiegeSync.h"
+// #include "../ChaosBox.h"
+#include "../protocol.h"
+#include "util.h"
+#include "Main.h"
+#include "../DSProtocol.h"
+// #include "../RandomManager.h"
+// #include "../LargeRand.h"
 
 CPentagramMixSystem g_PentagramMixSystem;
 

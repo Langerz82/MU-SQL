@@ -29,7 +29,15 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 file(GLOB_RECURSE SRC_GRP_MUSQLSERVER *.cpp *.h *.hpp)
 #source_group("muMySQLServer" FILES ${SRC_GRP_MUMYSQLSERVER})
 
-ADD_SUBDIRECTORY("old")
+file(GLOB_RECURSE SRC_GRP_MUSQLSERVER_OLD old/*.cpp old/*.h old/*.hpp)
+source_group("old" FILES ${SRC_GRP_MUSQLSERVER_OLD})
+
+file(GLOB_RECURSE SRC_GRP_MUSQLSERVER_ITEM old/Item/*.cpp old/Item/*.h old/Item/*.hpp)
+source_group("item" FILES ${SRC_GRP_MUSQLSERVER_ITEM})
+
+file(GLOB_RECURSE SRC_GRP_MUSQLSERVER_PROTOCOLS old/Protocols/*.cpp old/Protocols/*.h old/Protocols/*.hpp)
+source_group("protocols" FILES ${SRC_GRP_MUSQLSERVER_PROTOCOLS})
+
 
 #Socket Buffer Files
 file(GLOB_RECURSE SRC_GRP_SOCKB SocketBuffer/*.cpp SocketBuffer/*.h)

@@ -4,6 +4,7 @@
 #include "configread.h"
 //#include "TLog.h"
 #include "pugixml.hpp"
+#include "IniReader.h"
 
 //#include "MuRummyMng.h"
 //#include "JewelMixSystem.h"
@@ -391,7 +392,8 @@ void CConfigread::ReadConfig()
 	this->data.common.EventEndDate.wHour = ReadCommon.ReadInt("EventInventory", "EventEndHour", 0);
 	this->data.common.EventEndDate.wMinute = ReadCommon.ReadInt("EventInventory", "EventEndMinute", 0);
 
-	g_CMuRummyMng.LoadPreFixData(this->GetPath("IGC_MuRummy.ini"));
+	// TODO
+	//g_CMuRummyMng.LoadPreFixData(this->GetPath("IGC_MuRummy.ini"));
 	
 	this->data.common.PetEventBookMoonRabbitSpawnRate = ReadCommon.ReadInt("EggEvent", "MoonRabbitSpawnRateFromBook", 3000);
 	this->data.common.PetEventBookLuckyBagSpawnRate = ReadCommon.ReadInt("EggEvent", "PouchBlessingSpawnRateFromBook", 3000);
@@ -453,10 +455,14 @@ void CConfigread::ReadConfig()
 	this->data.common.joinmuDisableWarpLevelBenefits = ReadCommon.ReadInt("joinmu","DisableWarpLevelBenefits", 0);
 	this->data.common.joinmuRemoveItemSellDropRestriction = ReadCommon.ReadInt("joinmu", "RemoveItemSellDropRestriction", 0);
 	this->data.common.joinmuMultiChannelWhisper = ReadCommon.ReadInt("joinmu","IsMultiChannelWhisper",0);
+	
+	// TODO
+	/*
 	CJewelMixSystem::LoadMixJewelPrice();
 
 	g_ChangeCmd.LoadFile(this->GetPath("IGC_JoinMu_ChangeCommand.xml"));
 	g_UpgradeCmd.LoadFile(this->GetPath("IGC_JoinMu_UpgradeCommand.xml"));
+	*/
 }
 
 void CConfigread::ReadPetSettings()
@@ -707,7 +713,10 @@ void CConfigread::ReadPKSettings()
 
 			if (strcmp("MAX", level_range.attribute("End").as_string()) == 0)
 			{
+				// TODO
+				/*
 				pkExp.iLevelMax = this->data.common.UserMaxLevel + g_MaxStatsInfo.GetClass.MLUserMaxLevel;
+				*/
 			}
 
 			else
