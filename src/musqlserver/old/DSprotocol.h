@@ -3358,7 +3358,7 @@ struct PMSG_REQ_CLASSDEF
 	PBMSG_HEAD h;
 };
 
-struct CLASSDEF_DATA
+/*struct CLASSDEF_DATA
 {
 	int Class;
 	int Str;
@@ -3372,7 +3372,7 @@ struct CLASSDEF_DATA
 	float VitalityToLife;
 	float EnergyToMana;
 	int Leadership;
-};
+};*/
 
 struct PMSG_ANS_CLASSDEF
 {

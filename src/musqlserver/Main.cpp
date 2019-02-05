@@ -234,7 +234,8 @@ extern int main(int argc, char** argv)
     std::string pidfile = "";
     if (!pidfile.empty())
     {
-        uint32 pid = CreatePIDFile(pidfile);
+        //uint32 pid = CreatePIDFile(pidfile);
+		int32 pid = 0; // stub
         if (!pid)
         {
             sLog.outError("Can not create PID file %s.\n", pidfile.c_str());

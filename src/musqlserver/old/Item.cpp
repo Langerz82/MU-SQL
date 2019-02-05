@@ -10,13 +10,13 @@
 //#include "StdAfx.h"
 
 #include "Item.h"
-//#include "SetItemOption.h"
+#include "SetItemOption.h"
 //#include "TLog.h"
-//#include "JewelOfHarmonySystem.h"
+#include "JewelOfHarmonySystem.h"
 //#include "ItemSystemFor380.h"
 //#include "user.h"
 //#include "ItemSocketOptionSystem.h"
-//#include "configread.h"
+#include "configread.h"
 #include "Main.h"
 #include "ServerEngine.h"
 #include "classdef.h"
@@ -124,7 +124,7 @@ void CItem::Convert(int type, BYTE Option1, BYTE Option2, BYTE Option3, BYTE Att
 
 	if (_type > MAX_ITEMS - 1)
 	{
-		g_Log.AddC(TColor::Red, "error-L1 : ItemIndex error %d", _type);
+		sLog.ouError("error-L1 : ItemIndex error %d", _type);
 	}
 
 	p = &ItemAttribute[_type];
@@ -4345,7 +4345,7 @@ int CItem::LuckyItemArmorDurabilityDown(int damagemin, int aIndex)
 
 	if (this->m_DefenseOrigin == 0)
 	{
-		g_Log.Add("Defense is 0!");
+		sLog.outBasic("Defense is 0!");
 		return 0;
 	}
 
@@ -4409,7 +4409,7 @@ int CItem::ArmorDurabilityDown(int damagemin, int aIndex)
 
 	if (def == 0)
 	{
-		g_Log.Add("def = 0!");
+		sLog.outBasic("def = 0!");
 		return 0;
 	}
 
@@ -5016,7 +5016,7 @@ int ItemGetDurability(int index, int itemLevel, int ExcellentItem, int SetItem)
 {
 	if (index < 0 || index > MAX_ITEMS)
 	{
-		g_Log.AddC(TColor::Red, "BAD INDEX %d", index);
+		sLog.ouError("BAD INDEX %d", index);
 		return 0;
 	}
 

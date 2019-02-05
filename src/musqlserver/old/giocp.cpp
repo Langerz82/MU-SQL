@@ -722,7 +722,7 @@ BOOL DataSend(int aIndex, unsigned char* lpMsg, DWORD dwSize, char* szFunction)
 
 	if ( aIndex < 0 || aIndex > (g_dwMaxServerGroups-1) )
 	{
-		sLog.outBasic("error-L2 : Index(%d) %x %x %x (%s) ", dwSize, lpMsg[0], lpMsg[1], lpMsg[2], szFunction);
+		sLog.outError("error-L2 : Index(%d) %x %x %x (%s) ", dwSize, lpMsg[0], lpMsg[1], lpMsg[2], szFunction);
 		return false;
 	}
 
@@ -739,7 +739,7 @@ BOOL DataSend(int aIndex, unsigned char* lpMsg, DWORD dwSize, char* szFunction)
 
 	if ( SendBuf[0] != 0xC1 && SendBuf[0] != 0xC2 )
 	{
-		sLog.outBasic("error : header error");
+		sLog.outError("error : header error");
 	}
 
 	if ( g_Server[aIndex].m_State < SS_CONNECTED )

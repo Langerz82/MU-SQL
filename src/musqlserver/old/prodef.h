@@ -26,13 +26,27 @@
 
 #define MAX_CHAT_LEN 90
 
+#define SET_NUMBERHB(x) ((BYTE)((DWORD)(x)>>(DWORD)8))
+#define SET_NUMBERLB(x) ((BYTE)((DWORD)(x)&0xFF))
+
 #define SET_NUMBERH(x) ( (BYTE)((DWORD)(x)>>(DWORD)8) )
 #define SET_NUMBERL(x) ( (BYTE)((DWORD)(x) & 0xFF) )
+
 #define SET_NUMBERHW(x) ( (WORD)((DWORD)(x)>>(DWORD)16) )
 #define SET_NUMBERLW(x) ( (WORD)((DWORD)(x) & 0xFFFF) )
 
+#define SET_NUMBERHDW(x) ((DWORD)((QWORD)(x)>>(QWORD)32))
+#define SET_NUMBERLDW(x) ((DWORD)((QWORD)(x)&0xFFFFFFFF))
+
+//#define SET_NUMBERHDW(x) ( (DWORD)((__int64)(x)>>(__int64)64) )
+//#define SET_NUMBERLDW(x) ( (DWORD)((__int64)(x) & 0xFFFFFFFF) )
+
 #define MAKE_NUMBERW(x,y)  ( (WORD)(((BYTE)((y)&0xFF)) |   ((BYTE)((x)&0xFF)<<8 ))  )
 #define MAKE_NUMBERDW(x,y) ( (DWORD)(((WORD)((y)&0xFFFF)) | ((WORD)((x)&0xFFFF)<<16))  )
+#define MAKEQWORD(a,b) ((__int64)( ((__int64) ((DWORD) (a))) << 32 | ((DWORD) (b))))
+
+#define LODWORD(l)   ((DWORD)(l))
+#define HIDWORD(l)   ((DWORD)(((__int64)(l) >> 32) & 0xFFFFFFFF))
 
 
 /* ------------------------------------------------*

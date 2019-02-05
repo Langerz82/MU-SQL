@@ -7,8 +7,10 @@
 // GS-N 0.99.60T Status : Completed
 //	GS-N	1.00.18	JPN	0x00596280	-	Completed
 
-#include "stdafx.h"
+
 #include "WzMemScript.h"
+#include "readscript.h"
+#include <string>
 
 CWzMemScript::CWzMemScript()
 {

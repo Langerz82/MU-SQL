@@ -80,7 +80,7 @@ BOOL CreateListenSocket(DWORD dwServerCountIndex);
 unsigned long __stdcall IocpServerWorker(DWORD pIocpServerParameter);
 unsigned long __stdcall ServerWorkerThread(HANDLE CompletionPortID);
 BOOL RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex);
-BOOL DataSend(int aIndex, unsigned char* lpMsg, DWORD dwSize, char* szFunction);
+BOOL DataSend(int aIndex, unsigned char* lpMsg, DWORD dwSize, char* szFunction = nullptr);
 BOOL IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext);
 BOOL IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext);
 BOOL UpdateCompletionPort(SOCKET sd, int ClientIndex, DWORD dwServerTypeCount);

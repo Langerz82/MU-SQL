@@ -589,7 +589,7 @@ public:
 	bool CheckHWIDLimit_Group(WORD ServerGroup, LPTSTR szHWID);
 	bool CheckHWIDLimit_Local(WORD ServerCode, LPTSTR szHWID, DWORD HWIDMaxUse);
 
-	CRITICAL_SECTION critUserData;
+	//CRITICAL_SECTION critUserData;
 	std::vector<tagUSER_DATA> m_vecMapMove;
 
 	void IncUserNumber()

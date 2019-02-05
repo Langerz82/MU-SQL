@@ -13,6 +13,7 @@
 
 //#include "StdAfx.h"
 #include "custTypedef.h"
+#include "prodef.h"
 
 #define MAX_TYPE_PLAYER 8 
 #define MAX_ITEM_LEVEL	15

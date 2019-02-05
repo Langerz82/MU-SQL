@@ -11,7 +11,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "zzzitem.h"
+//#include "zzzitem.h"
 #include "classdef.h"
 
 #define MAX_SETITEM_OPTION	80

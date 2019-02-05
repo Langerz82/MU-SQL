@@ -74,9 +74,9 @@ struct PMSG_SEND_NEWS
 	BYTE Month;
 	WORD year;
 
-	COLORREF dateColor;
-	COLORREF titleColor;
-	COLORREF textColor;
+	DWORD dateColor;
+	DWORD titleColor;
+	DWORD textColor;
 	char title[40];
 	WORD textLen;
 	//char Text[2048];

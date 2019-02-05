@@ -1,8 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ItemSerial.cpp
-//#include "stdafx.h"
+
 #include "ItemSerial.h"
-//#include "DataServer.h"
+#include "Common.h"
 #include "DSprotocol.h"
 
 CItemSerial g_ItemSerial;

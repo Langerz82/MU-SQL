@@ -9,9 +9,17 @@
 
 //#include "stdafx.h"
 #include "SetItemOption.h"
-#include "WzMemScript.h"
-#include "..\source\logproc.h"
-#include "..\include\readscript.h"
+#include "custTypedef.h"
+#include "prodef.h"
+#include "util.h"
+#include "Common.h"
+
+////#include "pugixml.hpp"
+
+//#include "WzMemScript.h"
+//#include "..\source\logproc.h"
+#include "readscript.h"
+#include <string>
 
 CSetItemOption gSetItemOption;
 
@@ -406,7 +414,7 @@ int CSetItemOption::IsSetItem(int itemnum)
 {
 	if (itemnum<0 || itemnum > MAX_ITEMS-1)
 	{
-		LogAdd("IsSetItem Check error: (itemnum:%d)", itemnum);
+		sLog.outError("IsSetItem Check error: (itemnum:%d)", itemnum);
 		return 0;
 	}
 	return this->m_SetItemTypeInfo[itemnum].IsLoad ;
@@ -417,13 +425,13 @@ int CSetItemOption::GetOptionTableIndex(int itemnum, int setoption)
 {
 	if (itemnum<0 || itemnum > MAX_ITEMS-1)
 	{
-		LogAdd("GetOptionTableIndex Check error: (itemnum:%d)", itemnum);
+		sLog.outError("GetOptionTableIndex Check error: (itemnum:%d)", itemnum);
 		return -1;
 	}
 
 	if (setoption != 1 && setoption != 2)
 	{
-		LogAdd("GetOptionTableIndex setoption Check error: (itemnum:%d)", itemnum);
+		sLog.outError("GetOptionTableIndex setoption Check error: (itemnum:%d)", itemnum);
 		return -1;
 	}
 
@@ -440,7 +448,7 @@ char * CSetItemOption::GetSetOptionName(int optionindex)
 {
 	if ( optionindex < 0 || optionindex > MAX_SETITEM_OPTION-1)
 	{
-		LogAdd("GetSetOptionName Check error: (itemnum:%d)", optionindex);
+		sLog.outError("GetSetOptionName Check error: (itemnum:%d)", optionindex);
 		return "";
 	}
 	if (this->m_SetItemOptionInfo[optionindex].IsLoad   ==0)
@@ -459,7 +467,7 @@ LPSTR CSetItemOption::GetSetOptionName(int itemnum, int settype)
 
 	if (itemnum<0 || itemnum > MAX_ITEMS-1)
 	{
-		LogAdd("GetSetOptionName Check error: (itemnum:%d)", itemnum);
+		sLog.outError("GetSetOptionName Check error: (itemnum:%d)", itemnum);
 		return "";
 	}
 
@@ -472,7 +480,7 @@ LPSTR CSetItemOption::GetSetOptionName(int itemnum, int settype)
 	
 	if (optionindex<0 || optionindex > MAX_SETITEM_OPTION-1)
 	{	
-		LogAdd("GetSetOptionName Check error: (itemnum:%d)", optionindex);
+		sLog.outError("GetSetOptionName Check error: (itemnum:%d)", optionindex);
 		return "";
 	}
 
@@ -491,7 +499,7 @@ int CSetItemOption::GetSetOption(int optionindex, int optablenum, int& op1, int&
 
 	if (optionindex <0 || optionindex > MAX_SETITEM_OPTION-1)
 	{
-		LogAdd("GetSetOption Check error: (itemnum:%d)", optionindex);
+		sLog.outError("GetSetOption Check error: (itemnum:%d)", optionindex);
 		return 0;
 	}
 
@@ -570,7 +578,7 @@ int CSetItemOption::GetMaxSetOptionCount(int optionindex)
 {
 	if (optionindex <0 || optionindex > MAX_SETITEM_OPTION-1)
 	{
-		LogAdd("GetMaxOptionCount Check error: (itemnum:%d)", optionindex);
+		sLog.outError("GetMaxOptionCount Check error: (itemnum:%d)", optionindex);
 		return -1;
 	}
 
@@ -592,7 +600,7 @@ int CSetItemOption::GetGetFullSetOption(int optionindex, int& op1, int& op2, int
 
 	if (optionindex <0 || optionindex > MAX_SETITEM_OPTION-1)
 	{
-		LogAdd("GetMaxOptionCount Check error: (itemnum:%d)", optionindex);
+		sLog.outError("GetMaxOptionCount Check error: (itemnum:%d)", optionindex);
 		return 0;
 	}
 
@@ -691,7 +699,7 @@ BOOL CSetItemOption::IsRequireClass(int optionindex, int Class, int ChangeUP)
 	
 	if (optionindex <0 || optionindex > MAX_SETITEM_OPTION-1)
 	{
-		LogAdd("GetMaxOptionCount Check error: (itemnum:%d)", optionindex);
+		sLog.outError("GetMaxOptionCount Check error: (itemnum:%d)", optionindex);
 		return 0;
 	}
 
@@ -732,7 +740,7 @@ int CSetItemOption::CheckMixContition(int itemnum, int mixitemlevel)
 
 	if ( itemnum <0 || itemnum > MAX_ITEMS-1)
 	{
-		LogAdd("MakeSetOption Check error: (itemnum:%d)", itemnum);
+		sLog.outError("MakeSetOption Check error: (itemnum:%d)", itemnum);
 		return 0;
 	}
 
@@ -753,7 +761,7 @@ int CSetItemOption::MakeSetOption(int itemnum, int mixitemlevel)
 {
 	if ( itemnum <0 || itemnum > MAX_ITEMS-1)
 	{
-		LogAdd("MakeSetOption Check error: (itemnum:%d)", itemnum);
+		sLog.outError("MakeSetOption Check error: (itemnum:%d)", itemnum);
 		return 0;
 	}
 
@@ -800,7 +808,7 @@ int CSetItemOption::GenSetOption(int itemnum)
 {
 	if ( itemnum < 0 || itemnum > MAX_ITEMS-1)
 	{
-		LogAdd("GenSetType Check error: (itemnum:%d)", itemnum);
+		sLog.outError("GenSetType Check error: (itemnum:%d)", itemnum);
 		return FALSE;
 	}
 

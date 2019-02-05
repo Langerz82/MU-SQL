@@ -3,7 +3,6 @@
 #ifndef ITEMSERIAL_H
 #define ITEMSERIAL_H
 
-#pragma once
 class CItemSerial
 {
 public:
