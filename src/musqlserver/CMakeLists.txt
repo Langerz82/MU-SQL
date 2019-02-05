@@ -73,6 +73,34 @@ include_directories(
     ${OPENSSL_INCLUDE_DIR}
 	${CMAKE_SOURCE_DIR}/src/musqlserver
 	${CMAKE_SOURCE_DIR}/src/musqlserver/old
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/AntiCheat
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Bag
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Event
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Event/BattleSoccer
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Event/DoppelGanger
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Event/IllusionTemple
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Exe
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Item
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Lua
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Map
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Map/Castle
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Map/CryWolf
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Map/DevilSquare
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Map/Kanturu
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Map/Raklion
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Maths
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Monster
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Monster/AI
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Muun
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/NPC
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Network/Packet
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Network/Protocols
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Quest
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/RSA
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Shop
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Skill
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/Skill/Buff
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old/User
 	${CMAKE_SOURCE_DIR}/../muServerDeps/_Include
 )
 
