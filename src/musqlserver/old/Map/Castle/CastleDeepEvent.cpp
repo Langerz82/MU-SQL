@@ -5,7 +5,7 @@
 #include "stdafx.h"
 #include "CastleSiege.h"
 #include "user.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "CastleDeepEvent.h"
 #include "configread.h"
 #include "GameMain.h"
@@ -32,7 +32,7 @@ void CCastleDeepEvent::StartEvent()
 {
 	if(m_vtAssultType.size() <= 0)
 	{
-		g_Log.Add("[CastleDeep Event] Start Fail - No Assult Data");
+		sLog.outBasic("[CastleDeep Event] Start Fail - No Assult Data");
 		SetState(CD_STATE_NONE);
 		return;
 	}
@@ -57,7 +57,7 @@ void CCastleDeepEvent::StartEvent()
 
 	if(bDoStart == FALSE)
 	{
-		g_Log.Add("[CastleDeep Event] Start Fail - bDoStart == FALSE");
+		sLog.outBasic("[CastleDeep Event] Start Fail - bDoStart == FALSE");
 		SetState(CD_STATE_NONE);
 		return;
 	}
@@ -111,7 +111,7 @@ int CCastleDeepEvent::Load(char * lpszFileName)
 
 	if(res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("[CastleDeep Event] Info file Load Fail [%s] [%s]", lpszFileName, res.description());
+		sLog.outError("[CastleDeep Event] Info file Load Fail [%s] [%s]", lpszFileName, res.description());
 		return false;
 	}
 
@@ -126,10 +126,10 @@ int CCastleDeepEvent::Load(char * lpszFileName)
 
 	this->m_bHasData = FALSE;
 
-	pugi::xml_node main = file.child("LorenDeepEvent");
+	pugi::xml_node mainXML = file.child("LorenDeepEvent");
 	this->m_bDoEvent = g_ConfigRead.server.GetStateFromEventTable(g_ConfigRead.server.GetServerType(), EV_TABLE_DEEP) == true ? main.attribute("Enable").as_int() : false;
 
-	pugi::xml_node schedule = main.child("Schedule");
+	pugi::xml_node schedule = mainXML.child("Schedule");
 
 	for (pugi::xml_node start = schedule.child("Start"); start; start = start.next_sibling())
 	{
@@ -141,7 +141,7 @@ int CCastleDeepEvent::Load(char * lpszFileName)
 		this->m_vtEventTime.push_back(pRET);
 	}
 
-	pugi::xml_node assaulttype = main.child("AssaultTypeSettings");
+	pugi::xml_node assaulttype = mainXML.child("AssaultTypeSettings");
 
 	for (pugi::xml_node assault = assaulttype.child("Assault"); assault; assault = assault.next_sibling())
 	{
@@ -159,7 +159,7 @@ int CCastleDeepEvent::Load(char * lpszFileName)
 		this->m_vtAssultTypeRate.push_back(iAssultRate);
 	}
 
-	pugi::xml_node assaultgroup = main.child("AssaultGroupSettings");
+	pugi::xml_node assaultgroup = mainXML.child("AssaultGroupSettings");
 
 	for (pugi::xml_node assault = assaultgroup.child("Assault"); assault; assault = assault.next_sibling())
 	{
@@ -182,7 +182,7 @@ int CCastleDeepEvent::Load(char * lpszFileName)
 		LeaveCriticalSection(&this->m_critEventData);
 	}
 
-	pugi::xml_node assaultmember = main.child("AssaultGroupMember");
+	pugi::xml_node assaultmember = mainXML.child("AssaultGroupMember");
 
 	for(pugi::xml_node assault = assaultmember.child("Assault"); assault; assault = assault.next_sibling())
 	{
@@ -381,7 +381,7 @@ void CCastleDeepEvent::ProcState_Closed()
 			SetState(CD_STATE_NONE);
 		}
 
-		g_Log.Add("[CastleDeep Event] - Event Started");
+		sLog.outBasic("[CastleDeep Event] - Event Started");
 	}
 }
 
@@ -438,7 +438,7 @@ using namespace std;
 			}
 		}
 
-		g_Log.Add("[CastleDeep Event] - Event Ended");
+		sLog.outBasic("[CastleDeep Event] - Event Ended");
 	}
 }
 

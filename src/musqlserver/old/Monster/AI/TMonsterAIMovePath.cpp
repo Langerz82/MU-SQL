@@ -4,7 +4,7 @@
 
 #include "stdafx.h"
 #include "TMonsterAIMovePath.h"
-#include "TLog.h"
+#include "Log/Log.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -29,13 +29,13 @@ BOOL TMonsterAIMovePath::LoadData(LPSTR lpszFileName, LPSTR lpszSectionType)
 
 	if ( !lpszFileName || !strcmp(lpszFileName, ""))
 	{
-		g_Log.MsgBox("[Monster AI MovePath] - File load error : File Name Error");
+		sLog.outError("[Monster AI MovePath] - File load error : File Name Error");
 		return FALSE;
 	}
 
 	if ( !lpszSectionType || !strcmp(lpszSectionType, ""))
 	{
-		g_Log.MsgBox("[Monster AI MovePath] - File load error : Section Name Error");
+		sLog.outError("[Monster AI MovePath] - File load error : Section Name Error");
 		return FALSE;
 	}
 
@@ -46,16 +46,16 @@ BOOL TMonsterAIMovePath::LoadData(LPSTR lpszFileName, LPSTR lpszSectionType)
 
 		if ( res.status != pugi::status_ok )
 		{
-			g_Log.MsgBox("[Monster AI MovePath] - Can't Load %s (%s)", lpszFileName, res.description());
+			sLog.outError("[Monster AI MovePath] - Can't Load %s (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
 		this->DelAllAIMonsterMovePath();
 
-		pugi::xml_node main = file.child("AIMovePath");
-		pugi::xml_node section = main.child(lpszSectionType);
+		pugi::xml_node mainXML = file.child("AIMovePath");
+		pugi::xml_node section = mainXML.child(lpszSectionType);
 
-		for (pugi::xml_node spot = main.child("Spot"); spot; spot = spot.next_sibling())
+		for (pugi::xml_node spot = mainXML.child("Spot"); spot; spot = spot.next_sibling())
 		{
 			int iSpotType = spot.attribute("Type").as_int();
 			int iMapNumber = spot.attribute("MapNumber").as_int();
@@ -71,7 +71,7 @@ BOOL TMonsterAIMovePath::LoadData(LPSTR lpszFileName, LPSTR lpszSectionType)
 
 			if ( this->m_iMovePathSpotCount > MAX_MONSTER_AI_MOVE_PATH )
 			{
-				g_Log.MsgBox("[Monster AI MovePath] Exceed Max Move Path-Spot ");
+				sLog.outError("[Monster AI MovePath] Exceed Max Move Path-Spot ");
 				this->DelAllAIMonsterMovePath();
 				return FALSE;
 			}
@@ -82,7 +82,7 @@ BOOL TMonsterAIMovePath::LoadData(LPSTR lpszFileName, LPSTR lpszSectionType)
 
 	catch(DWORD)
 	{
-		g_Log.MsgBox("[Monster AI MovePath] - Loading Exception Error (%s) File. ", lpszFileName);
+		sLog.outError("[Monster AI MovePath] - Loading Exception Error (%s) File. ", lpszFileName);
 	}
 
 	return FALSE;

@@ -1,15 +1,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 // CustomMichi.cpp
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "CustomMichi.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "MuRummyMng.h"
 #include "JewelMixSystem.h"
 #include "ChangeCmd.h"
 #include "UpgradeCmd.h"
 #include "MasterLevelSkillTreeSystem.h"
 #include "readscript.h"
-#include "winutil.h"
+#include "util.h"
 
 CConfigMichi g_Michi;
 

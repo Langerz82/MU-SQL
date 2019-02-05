@@ -3,8 +3,8 @@
 #include "stdafx.h"
 #include "MasterSkillSystemS6.h"
 #include "ReadScript.h"
-#include "winutil.h"
-#include "TLog.h"
+#include "util.h"
+#include "Log/Log.h"
 #include "giocp.h"
 #include "GameMain.h"
 #include "user.h"
@@ -49,7 +49,7 @@ bool CMasterSkillSystemS6::LoadDataFile(LPSTR lpszFile)
 
 	if(!SMDFile)
 	{
-		g_Log.MsgBox("%s file not found", lpszFile);
+		sLog.outError("%s file not found", lpszFile);
 		return false;
 	}
 
@@ -123,7 +123,7 @@ bool CMasterSkillSystemS6::LoadInfoFile(LPSTR lpszFile)
 
 	if(!SMDFile)
 	{
-		g_Log.MsgBox("%s file not found", lpszFile);
+		sLog.outError("%s file not found", lpszFile);
 		return false;
 	}
 

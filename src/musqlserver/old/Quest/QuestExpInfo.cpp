@@ -1,8 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 // QuestExpInfo.cpp
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "QuestExpInfo.h"
-#include "TLog.h"
+#include "Log/Log.h"
 
 QuestExpInfo::QuestExpInfo()
 {
@@ -23,7 +23,7 @@ void QuestExpInfo::SetQuestExpAsk(QuestExpAsk *pQuestExpAsk)
 
 	if (IsQuestAskInfo(iIndexID) == false)
 	{
-		g_Log.MsgBox("[QuestExp] - Error - AskIndex Overflow iIndexID [%d] [%s] [%d]", iIndexID, __FILE__, __LINE__);
+		sLog.outError("[QuestExp] - Error - AskIndex Overflow iIndexID [%d] [%s] [%d]", iIndexID, __FILE__, __LINE__);
 		return;
 	}
 
@@ -34,7 +34,7 @@ void QuestExpInfo::SetQuestExpAsk(QuestExpAsk *pQuestExpAsk, int iIndexID)
 {
 	if (IsQuestAskInfo(iIndexID) == false)
 	{
-		g_Log.MsgBox("[QuestExp] - Error - AskIndex Overflow iIndexID [%d] [%s] Line:[%d]", iIndexID, __FILE__, __LINE__);
+		sLog.outError("[QuestExp] - Error - AskIndex Overflow iIndexID [%d] [%s] Line:[%d]", iIndexID, __FILE__, __LINE__);
 		return;
 	}
 
@@ -51,7 +51,7 @@ void QuestExpInfo::SetQuestReward(QuestExpReward *pQuestExpReward)
 {
 	if (IsQuestRewardInfo(this->m_iRewardID) == false)
 	{
-		g_Log.MsgBox("[QuestExp] - Error - RewardIndex Overflow m_iRewardID [%d] [%s] Line:[%d]", this->m_iRewardID, __FILE__, __LINE__);
+		sLog.outError("[QuestExp] - Error - RewardIndex Overflow m_iRewardID [%d] [%s] Line:[%d]", this->m_iRewardID, __FILE__, __LINE__);
 		return;
 	}
 
@@ -280,7 +280,7 @@ void QuestExpManager::AddQuestExpRewardKind(QuestExpRewardKind *pQuestExpRewardK
 {
 	if (pQuestExpRewardKind == nullptr)
 	{
-		g_Log.MsgBox("[QuestExp] - Error -  AddQuestExpRewardKind dwQuestInfoIndexID 0x%08x", dwQuestInfoIndexID);
+		sLog.outError("[QuestExp] - Error -  AddQuestExpRewardKind dwQuestInfoIndexID 0x%08x", dwQuestInfoIndexID);
 		return;
 	}
 
@@ -298,7 +298,7 @@ void QuestExpManager::AddQuestExpRewardKind(QuestExpRewardKind *pQuestExpRewardK
 {
 	if (pQuestExpRewardKind == nullptr)
 	{
-		g_Log.MsgBox("[QuestExp] - Error -  AddQuestExpRewardKind");
+		sLog.outError("[QuestExp] - Error -  AddQuestExpRewardKind");
 		return;
 	}
 
@@ -331,7 +331,7 @@ QuestExpAsk* QuestExpManager::GetQuestExpAsk(int iEpisodeNum, int iQuestSwitch, 
 
 	if (pQuestExpInfo == nullptr)
 	{
-		g_Log.Add("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
+		sLog.outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
 		return nullptr;
 	}
 
@@ -357,7 +357,7 @@ QuestExpAsk* QuestExpManager::GetQuestExpAsk(DWORD dwQuestIndexID, int iIndexID)
 
 	if (pQuestExpInfo == nullptr)
 	{
-		g_Log.Add("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
+		sLog.outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
 		return nullptr;
 	}
 
@@ -382,7 +382,7 @@ QuestExpReward* QuestExpManager::GetQuestExpReward(int iEpisodeNum, int iQuestSw
 
 	if (pQuestExpInfo == nullptr)
 	{
-		g_Log.Add("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
+		sLog.outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
 		return nullptr;
 	}
 

@@ -1,8 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ProhibitedSymbols.cpp
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "ProhibitedSymbols.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include <regex>
 
 CProhibitedSymbols g_prohibitedSymbols;
@@ -17,7 +17,7 @@ void CProhibitedSymbols::LoadSymbolFile(LPSTR szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("%s file loading error - %s", szFile, res.description());
+		sLog.outError("%s file loading error - %s", szFile, res.description());
 		return;
 	}
 
@@ -50,7 +50,7 @@ void CProhibitedSymbols::LoadSymbolFile(LPSTR szFile)
 		this->regex[nSystem] = regextype.attribute("Regex").as_string();
 	}
 
-	g_Log.Add("Loaded %d prohibited symbols", this->m_ProhibitedSymbols.size());
+	sLog.outBasic("Loaded %d prohibited symbols", this->m_ProhibitedSymbols.size());
 }
 
 bool CProhibitedSymbols::Validate(char* string, int len, BYTE Type)

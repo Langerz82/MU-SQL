@@ -4,6 +4,8 @@
 
 #include "stdafx.h"
 #include "TMonsterAIRuleInfo.h"
+#include "custTypedef.h"
+#include <string>
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

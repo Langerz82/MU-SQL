@@ -8,7 +8,7 @@
 #include "KanturuBattleUserMng.h"
 #include "KanturuUtil.h"
 #include "Gamemain.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "CashShop.h"
 #include "configread.h"
 
@@ -52,7 +52,7 @@ BOOL CKanturu::LoadData(LPSTR lpszFileName)
 
 	if ( !lpszFileName || !strcmp(lpszFileName, ""))
 	{
-		g_Log.MsgBox("[Kanturu] - File load error : File Name Error");
+		sLog.outError("[Kanturu] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -63,23 +63,23 @@ BOOL CKanturu::LoadData(LPSTR lpszFileName)
 
 		if ( res.status != pugi::status_ok )
 		{
-			g_Log.MsgBox("[Kanturu] - Can't Load %s (%s)", lpszFileName, res.description());
+			sLog.outError("[Kanturu] - Can't Load %s (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
 		this->ResetAllData();
 
-		pugi::xml_node main = file.child("KanturuEvent");
+		pugi::xml_node mainXML = file.child("KanturuEvent");
 
 		this->SetKanturuEnable(g_ConfigRead.server.GetStateFromEventTable(g_ConfigRead.server.GetServerType(), EV_TABLE_KANTURU) == true ? main.attribute("Enable").as_bool() : false);
 		this->SetEnableCheckMoonStone(main.attribute("MoonStoneCheck").as_bool());
 
-		pugi::xml_node item_drop = main.child("Item");
+		pugi::xml_node item_drop = mainXML.child("Item");
 
 		this->m_iKanturuMoonStoneDropRate = item_drop.attribute("MoonStoneDropRate").as_int();
 		this->m_iKanturuJewelOfHarmonyDropRate = item_drop.attribute("JewelOfHarmonyDropRate").as_int();
 
-		pugi::xml_node states = main.child("GeneralStates");
+		pugi::xml_node states = mainXML.child("GeneralStates");
 
 		for (pugi::xml_node state = states.child("Event"); state; state = state.next_sibling())
 		{
@@ -89,7 +89,7 @@ BOOL CKanturu::LoadData(LPSTR lpszFileName)
 
 			if ( this->m_StateInfoCount < 0 || this->m_StateInfoCount >= MAX_KANTURU_STATE_INFO )
 			{
-				g_Log.MsgBox("[Kanturu] - Exceed Max State Time (%d)", this->m_StateInfoCount);
+				sLog.outError("[Kanturu] - Exceed Max State Time (%d)", this->m_StateInfoCount);
 				break;
 			}
 
@@ -114,7 +114,7 @@ BOOL CKanturu::LoadData(LPSTR lpszFileName)
 
 	catch ( DWORD )
 	{
-		g_Log.MsgBox("[Kanturu] - Loading Exception Error (%s) File. ", lpszFileName);
+		sLog.outError("[Kanturu] - Loading Exception Error (%s) File. ", lpszFileName);
 	}
 
 	return this->m_bFileDataLoad;

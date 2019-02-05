@@ -5,7 +5,7 @@
 #include "Gamemain.h"
 #include "DarkSpirit.h"
 #include "SetItemOption.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "ItemSocketOptionSystem.h"
 #include "BuffEffect.h"
 #include "BuffEffectSlot.h"
@@ -15,7 +15,7 @@
 #include "MuunSystem.h"
 #include "ItemOptionTypeMng.h"
 #include "StatSpecialize.h"
-#include "winutil.h"
+#include "util.h"
 #include "ItemOption.h"
 #include "PeriodItemEx.h"
 
@@ -1795,7 +1795,7 @@ void CObjCalCharacter::CalcSetItemStat(LPOBJ lpObj)
 		//if (lpObj->pInventory[i].IsSetItem() && lpObj->pInventory[i].m_IsValidItem && lpObj->pInventory[i].m_Durability != 0.0f && IsBloodAngelItem(lpObj->pInventory[i].m_Type))
 		//{
 			//if (lpObj->pInventory[i].m_SetAddStat)
-		//	g_Log.Add("lpObj->pInventory[i].m_SetAddStat %d lpObj->pInventory[i].m_SetOption %d", lpObj->pInventory[i].m_SetAddStat, lpObj->pInventory[i].m_SetOption);
+		//	sLog.outBasic("lpObj->pInventory[i].m_SetAddStat %d lpObj->pInventory[i].m_SetOption %d", lpObj->pInventory[i].m_SetAddStat, lpObj->pInventory[i].m_SetOption);
 		//}
 		if (lpObj->pInventory[i].IsSetItem() && lpObj->pInventory[i].m_IsValidItem && lpObj->pInventory[i].m_Durability != 0.0f && IsBloodAngelItem(lpObj->pInventory[i].m_Type))
 		{

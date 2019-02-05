@@ -8,7 +8,7 @@
 //	GS-N	1.00.18	JPN	0x00489FD0	-	Completed
 #include "stdafx.h"
 #include "IOCP.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "Engine.h"
 #include "protocol.h"
 #include "ConnectServer.h"
@@ -84,7 +84,7 @@ bool CIOCP::CreateListenSocket()
 		
 		if ( nRet == -1 )
 		{
-			g_Log.MsgBox("BIND ERROR - Port in use already");
+			sLog.outError("BIND ERROR - Port in use already");
 			return 0 ;
 		}
 		else

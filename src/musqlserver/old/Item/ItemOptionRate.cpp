@@ -12,8 +12,8 @@
 #include "RandomManager.h"
 #include "SetItemOption.h"
 #include "ItemSocketOptionSystem.h"
-#include "winutil.h"
-#include "TLog.h"
+#include "util.h"
+#include "Log/Log.h"
 #include "LargeRand.h"
 #include "SocketItemType.h"
 
@@ -50,13 +50,13 @@ void CItemOptionRate::Load(char* path) // OK
 
 	if (lpMemScript == 0)
 	{
-		g_Log.MsgBox(MEM_SCRIPT_ALLOC_ERROR, path);
+		sLog.outError(MEM_SCRIPT_ALLOC_ERROR, path);
 		return;
 	}
 
 	if (lpMemScript->SetBuffer(path) == 0)
 	{
-		g_Log.MsgBox(lpMemScript->GetLastError());
+		sLog.outError(lpMemScript->GetLastError());
 		delete lpMemScript;
 		return;
 	}
@@ -223,7 +223,7 @@ void CItemOptionRate::Load(char* path) // OK
 	}
 	catch (...)
 	{
-		g_Log.MsgBox(lpMemScript->GetLastError());
+		sLog.outError(lpMemScript->GetLastError());
 	}
 
 	delete lpMemScript;

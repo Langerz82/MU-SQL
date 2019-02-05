@@ -2,7 +2,7 @@
 // PacketCheckSum.cpp
 #include "stdafx.h"
 #include "PacketCheckSum.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "configread.h"
 #include "GameMain.h"
 // GS-N 0.99.60T 0x00452B80
@@ -56,7 +56,7 @@ void CPacketCheckSum::Check(int aIndex)
 		{
 			char szPacketError[256];
 
-			g_Log.Add("PacketCheckSum Error [%d][%s][%s] %d",
+			sLog.outBasic("PacketCheckSum Error [%d][%s][%s] %d",
 				aIndex, gObj[aIndex].AccountID, gObj[aIndex].Name, i);
 			
 			wsprintf(szPacketError, "PacketCheckSum Error %d", i);
@@ -72,7 +72,7 @@ void CPacketCheckSum::Check(int aIndex)
 		}
 	}
 
-	g_Log.Add("Check PacketCheckSum [%d][%s][%s]", aIndex, gObj[aIndex].AccountID, gObj[aIndex].Name);
+	sLog.outBasic("Check PacketCheckSum [%d][%s][%s]", aIndex, gObj[aIndex].AccountID, gObj[aIndex].Name);
 	this->ClearCheckSum(aIndex);
 }
 
@@ -104,7 +104,7 @@ BOOL CPacketCheckSum::Add(int aIndex, int funcindex, DWORD checksum)
 	{
 		char szPacketError[256];
 
-		g_Log.Add("PacketCheckSum : Compare Fail : [%d][%s][%s] (%d,%d)", aIndex,
+		sLog.outBasic("PacketCheckSum : Compare Fail : [%d][%s][%s] (%d,%d)", aIndex,
 			gObj[aIndex].AccountID, gObj[aIndex].Name, funcindex, checksum);
 
 		wsprintf(szPacketError, "PacketCheckSum : Compare Fail : (%d,%d)", funcindex, checksum);
@@ -124,7 +124,7 @@ void CPacketCheckSum::AddCheckSum(int aIndex, int funcindex, DWORD checksum)
 {
 	if ( funcindex < 0 || funcindex >= MAX_PACKET_CHECKSUM_FUNCTION_INDEX )
 	{
-		g_Log.Add("PacketCheckSum : Invalid FuncIndex : %d, %d", aIndex, funcindex);
+		sLog.outBasic("PacketCheckSum : Invalid FuncIndex : %d, %d", aIndex, funcindex);
 		return;
 	}
 
@@ -143,7 +143,7 @@ void CPacketCheckSum::AddCheckSum(int aIndex, int funcindex, DWORD checksum)
 	this->m_ChecksumTableAVG[funcindex][this->m_ChecksumTableAVGCount[funcindex] % MAX_CHECKSUM_TABLE_AVG] = checksum;
 	this->m_ChecksumTableAVGCount[funcindex]++;
 
-	g_Log.Add("Insert PacketCheckSum %d, %d,%d", funcindex, this->m_ChecksumTableAVGCount[funcindex], checksum);
+	sLog.outBasic("Insert PacketCheckSum %d, %d,%d", funcindex, this->m_ChecksumTableAVGCount[funcindex], checksum);
 
 	if ( this->m_ChecksumTableAVGCount[funcindex] >= MAX_CHECKSUM_TABLE_AVG )
 	{
@@ -183,12 +183,12 @@ void CPacketCheckSum::SetClearChecksumFunc(int funcindex)
 
 		if ( this->m_ChecksumTableAllClearState != FALSE )
 		{
-			g_Log.Add("Complete Init Checksum");
+			sLog.outBasic("Complete Init Checksum");
 
 			for (int i=0;i<MAX_PACKET_CHECKSUM_FUNCTION_INDEX;i++)
 			{
 				this->m_ChecksumTable[i] = this->m_ChecksumTableAVG[i][0];
-				g_Log.Add("%d, %d", i, this->m_ChecksumTable[i]);
+				sLog.outBasic("%d, %d", i, this->m_ChecksumTable[i]);
 			}
 		}
 	}

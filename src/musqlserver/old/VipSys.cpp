@@ -4,7 +4,7 @@
 #include "VipSys.h"
 #include "user.h"
 #include "protocol.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "ChaosBox.h"
 #include "MasterLevelSkillTreeSystem.h"
 #include "configread.h"
@@ -32,7 +32,7 @@ void CVipSystem::ReadFile(char *filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("Error - failed to load %s file (%s)", filename, res.description());
+		sLog.outError("Error - failed to load %s file (%s)", filename, res.description());
 
 		LeaveCriticalSection(&this->m_criti);
 		return;
@@ -105,7 +105,7 @@ void CVipSystem::ReadFile(char *filename)
 	}
 
 	this->m_bFileLoad = true;
-	g_Log.Add("[VIP System] Loaded %d VIP types", this->m_mapVipInfo.size());
+	sLog.outBasic("[VIP System] Loaded %d VIP types", this->m_mapVipInfo.size());
 	LeaveCriticalSection(&this->m_criti);
 }
 

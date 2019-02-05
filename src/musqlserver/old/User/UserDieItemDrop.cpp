@@ -5,7 +5,7 @@
 #include "GameMain.h"
 #include "LargeRand.h"
 #include "configread.h"
-#include "TLog.h"
+#include "Log/Log.h"
 // -------------------------------------------------------------------------------
 
 using namespace pugi;
@@ -62,7 +62,7 @@ void UserDieItemDrop::Read(LPSTR File)
 	// ----
 	if (Result.status != status_ok)
 	{
-		g_Log.MsgBox("[UserDieItemDrop] File %s not found!", File);
+		sLog.outError("[UserDieItemDrop] File %s not found!", File);
 		return;
 	}
 	// ----
@@ -226,7 +226,7 @@ void UserDieItemDrop::Drop(LPOBJ lpUser, LPOBJ lpKiller)
 				// ----
 				if (GSProtocol.CGItemDropRequest(&lpMsg, lpUser->m_Index, 1))
 				{
-					g_Log.Add("[UserDieItemDrop] [%s][%s] Item has been droped (Slot: %d)",	lpUser->AccountID, lpUser->Name);
+					sLog.outBasic("[UserDieItemDrop] [%s][%s] Item has been droped (Slot: %d)",	lpUser->AccountID, lpUser->Name);
 					break;
 				}
 			}

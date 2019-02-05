@@ -1,22 +1,21 @@
 ﻿////////////////////////////////////////////////////////////////////////////////
 // GensSystem.cpp
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "GameMain.h"
 #include "GuildClass.h"
-#include "DSProtocol.h"
+#include "Protocols/DSProtocol.h"
 #include "giocp.h"
-#include "user.h"
-#include "BuffEffectSlot.h"
-#include "TLog.h"
+#include "User/user.h"
+#include "Buff/BuffEffectSlot.h"
 #include "configread.h"
-#include "PentagramSystem.h"
-#include "PeriodItemEx.h"
+#include "Item/PentagramSystem.h"
+#include "Item/PeriodItemEx.h"
 #include "MoveCommand.h"
-#include "winutil.h"
+#include "util.h"
 #include "GensSystem.h"
-#include "GensSystemProtocol.h"
-#include "BuffEffect.h"
-#include "MasterLevelSkillTreeSystem.h"
+#include "Protocols/GensSystemProtocol.h"
+#include "Buff/BuffEffect.h"
+#include "Skill/MasterLevelSkillTreeSystem.h"
 #include "CustomMaxStats.h"
 
 char *szInfluence[] = { "NONE_INFLUENCE", "Duprian", "Vanert" };
@@ -88,7 +87,7 @@ void GensSystem::ReqRegGensMember(LPOBJ lpObj, unsigned char btInfluence) // don
 	{
 		if ( btInfluence != VANERT_INFLUENCE && btInfluence != DUPRIAN_INFLUENCE )
 		{
-			g_Log.Add("[GensSystem] - Error - %s %s Line: %d", "btInfluence", __FILE__, __LINE__);   
+			sLog.outBasic("[GensSystem] - Error - %s %s Line: %d", "btInfluence", __FILE__, __LINE__);   
 			return;
 		}
 
@@ -404,7 +403,7 @@ void GensSystem::SetGensInfluence(LPOBJ lpObj, int iInfluence)
 
 	if (iInfluence != VANERT_INFLUENCE && iInfluence != DUPRIAN_INFLUENCE && iInfluence != LEAVED_INFLUENCE && iInfluence != NONE_INFLUENCE)
 	{
-		g_Log.Add("[GensSystem] - Error - [%s][%s] Influence[%d] %s %d",	
+		sLog.outBasic("[GensSystem] - Error - [%s][%s] Influence[%d] %s %d",	
 			lpObj->AccountID, lpObj->Name, iInfluence, __FILE__, __LINE__);
 	}
 	else
@@ -447,7 +446,7 @@ int GensSystem::GetGensInfluence(LPOBJ lpObj)
 
 	if (lpObj->m_PlayerData->m_GensInfluence == LEAVED_INFLUENCE || lpObj->m_PlayerData->m_GensInfluence < NONE_INFLUENCE || lpObj->m_PlayerData->m_GensInfluence > VANERT_INFLUENCE) 
 	{
-		g_Log.Add("[GensSystem] Error [%s][%s] GensInfluence [%d]", lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->m_GensInfluence); 
+		sLog.outBasic("[GensSystem] Error [%s][%s] GensInfluence [%d]", lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->m_GensInfluence); 
 		return 0;
 	}
 
@@ -464,7 +463,7 @@ char *GensSystem::GetGensInfluenceName(LPOBJ lpObj)
 	}	
 	if (lpObj->m_PlayerData->m_GensInfluence == LEAVED_INFLUENCE || lpObj->m_PlayerData->m_GensInfluence < NONE_INFLUENCE || lpObj->m_PlayerData->m_GensInfluence > VANERT_INFLUENCE) 
 	{
-		g_Log.Add("[GensSystem] Error [%s][%s] GensInfluence [%d]", lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->m_GensInfluence);
+		sLog.outBasic("[GensSystem] Error [%s][%s] GensInfluence [%d]", lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->m_GensInfluence);
 		return NULL;
 	}
 	return szInfluence[lpObj->m_PlayerData->m_GensInfluence];
@@ -871,7 +870,7 @@ void GensSystem::CalcContributePoint(LPOBJ lpObj, LPOBJ lpTargetObj)
 
 		else
 		{
-			g_Log.Add("[GensSystem] - Error NONE_INFLUENCE - %s Line: %d", __FILE__, __LINE__);
+			sLog.outBasic("[GensSystem] - Error NONE_INFLUENCE - %s Line: %d", __FILE__, __LINE__);
 		}
 	 }
 }
@@ -991,7 +990,7 @@ int GensSystem::InsertKillUserName(LPOBJ lpObj, char *szCharName)
 
 	for (int i = 0; i < lpObj->m_PlayerData->m_KillUserTotCnt; ++i)
 	{
-		g_Log.Add("[GensSystem] Abusing List [%s][%s] KillUserName[%s] Cnt[%d]", lpObj->AccountID, lpObj->Name, &lpObj->m_PlayerData->KillUserName[iKillUserToCnt*11], lpObj->m_PlayerData->m_KillUserCnt[iKillUserToCnt]);
+		sLog.outBasic("[GensSystem] Abusing List [%s][%s] KillUserName[%s] Cnt[%d]", lpObj->AccountID, lpObj->Name, &lpObj->m_PlayerData->KillUserName[iKillUserToCnt*11], lpObj->m_PlayerData->m_KillUserCnt[iKillUserToCnt]);
 		iKillUserToCnt = i + 1;
 	}
 
@@ -1470,7 +1469,7 @@ int GensSystem::LoadData(char *lpszFileName)
 
 	if (lpszFileName == NULL)
 	{
-		g_Log.MsgBox("[ GensRanking ] - File load error : File Name Error");
+		sLog.outError("[ GensRanking ] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -1479,11 +1478,11 @@ int GensSystem::LoadData(char *lpszFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("[ GensRanking ] - Can't Load %s (%s)", lpszFileName, res.description());
+		sLog.outError("[ GensRanking ] - Can't Load %s (%s)", lpszFileName, res.description());
 		return FALSE;
 	}
 
-	pugi::xml_node main = file.child("GensSystem");
+	pugi::xml_node mainXML = file.child("GensSystem");
 
 	this->m_bGensMapFromMuBlue = main.attribute("BlueMuMode").as_bool();
 	this->m_iGensInitialContributePoint = main.attribute("InitialContributePoint").as_int();
@@ -1493,7 +1492,7 @@ int GensSystem::LoadData(char *lpszFileName)
 	this->m_iGensPkPenaltyAddNeedZenMapMove = main.attribute("PkPenaltyAddNeedZenMapMove").as_int();
 	this->m_iGensDamageReduction = main.attribute("DamageReduction").as_int();
 
-	pugi::xml_node general = main.child("General");
+	pugi::xml_node general = mainXML.child("General");
 
 	this->m_bGensCanSeeOppositeGensChat = general.attribute("CanSeeOppositeGensChat").as_bool();
 	this->m_bGensCanJoinPartyWhileOppositeGens = general.attribute("CanJoinPartyWhileOppositeGens").as_bool();
@@ -1502,7 +1501,7 @@ int GensSystem::LoadData(char *lpszFileName)
 	this->m_bGensCanCreatePartyOnBattleZone = general.attribute("CanCreatePartyOnBattleZone").as_bool();
 	this->m_iGensAttackWarpDelay = general.attribute("GensAttackWarpDelay").as_int(0); // custom for joinmu
 
-	pugi::xml_node ranking = main.child("RankingSettings");
+	pugi::xml_node ranking = mainXML.child("RankingSettings");
 
 	for (pugi::xml_node gens = ranking.child("Gens"); gens; gens = gens.next_sibling())
 	{
@@ -1510,7 +1509,7 @@ int GensSystem::LoadData(char *lpszFileName)
 
 		if (iClass < 1 || iClass > MAX_GENS_CLASS)
 		{
-			g_Log.MsgBox("Wrong Gens Class in %s file (%d)", lpszFileName, iClass);
+			sLog.outError("Wrong Gens Class in %s file (%d)", lpszFileName, iClass);
 			continue;
 		}
 
@@ -1522,7 +1521,7 @@ int GensSystem::LoadData(char *lpszFileName)
 		this->m_GensRanking[iClass - 1].RewardItemCount = gens.attribute("RewardItemCount").as_int();
 	}
 
-	pugi::xml_node battlezone = main.child("BattleZoneSettings");
+	pugi::xml_node battlezone = mainXML.child("BattleZoneSettings");
 	pugi::xml_node maplist = battlezone.child("MapList");
 
 	for (pugi::xml_node map = maplist.child("Map"); map; map = map.next_sibling())
@@ -1531,7 +1530,7 @@ int GensSystem::LoadData(char *lpszFileName)
 
 		if (iMapNumber < 0 || iMapNumber > MAX_NUMBER_MAP-1)
 		{
-			g_Log.MsgBox("Wrong Map Number in %s file (%d)", lpszFileName, iMapNumber);
+			sLog.outError("Wrong Map Number in %s file (%d)", lpszFileName, iMapNumber);
 			continue;
 		}
 
@@ -1542,7 +1541,7 @@ int GensSystem::LoadData(char *lpszFileName)
 
 		if (this->m_mapBattleZoneData.find(iMapNumber) != this->m_mapBattleZoneData.end())
 		{
-			g_Log.MsgBox("BattleZone Map Number already exists (%s) (Map:%d)", lpszFileName, iMapNumber);
+			sLog.outError("BattleZone Map Number already exists (%s) (Map:%d)", lpszFileName, iMapNumber);
 			continue;
 		}
 
@@ -1581,7 +1580,7 @@ int GensSystem::LoadData(char *lpszFileName)
 
 		if (iWarpNumber < 0 || iWarpNumber > MAX_MOVE_COMMAND-1)
 		{
-			g_Log.MsgBox("Wrong Warp Number in %s file (%d)", lpszFileName, iWarpNumber);
+			sLog.outError("Wrong Warp Number in %s file (%d)", lpszFileName, iWarpNumber);
 			continue;
 		}
 

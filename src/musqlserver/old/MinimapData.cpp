@@ -1,10 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MinimapData.cpp
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "MinimapData.h"
 #include "GameMain.h"
 #include "ReadScript.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "configread.h"
 
 CMinimapData g_MinimapData;
@@ -33,7 +33,7 @@ bool CMinimapData::LoadFile(char * szFile)
 
 	if(SMDFile == NULL)
 	{
-		g_Log.MsgBox("Cannot load %s file", szFile);
+		sLog.outError("Cannot load %s file", szFile);
 		return false;
 	}
 

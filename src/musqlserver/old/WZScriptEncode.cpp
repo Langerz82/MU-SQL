@@ -1,11 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// WZScriptEncode.cpp
-// ------------------------------
-// Decompiled by Deathway
-// Date : 2007-05-09
-// ------------------------------
-#include "stdafx.h"
 #include "WZScriptEncode.h"
+#include <iostream>
 
 // GS-N 0.99.60T // 48c100 Status : Completed 2007-4-30
 //	GS-N	1.00.18	JPN	0x004A7270	-	Completed
@@ -17,7 +11,6 @@ CWZScriptEncode::CWZScriptEncode()
 	this->m_pBuffer=0;
 	this->m_iBufferSize=0;
 	this->m_iBufferCount=0;
-	this->m_hFile=INVALID_HANDLE_VALUE;
 }
 
 CWZScriptEncode::~CWZScriptEncode()
@@ -28,35 +21,35 @@ CWZScriptEncode::~CWZScriptEncode()
 int CWZScriptEncode::Open(char* filename)
 {
 	int filesize;
-	char* pBuffer;
-	int iReadFileSize;
+	FILE* file = fopen(filename, "r");
 
-	if ( this->m_hFile != INVALID_HANDLE_VALUE )
+	if (file == NULL)
 	{
-		CloseHandle( this->m_hFile );
-	}
-
-	this->m_hFile = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0x80 , NULL); // 0x80 == NORMAL
-
-	if ( this->m_hFile == INVALID_HANDLE_VALUE )
-	{
+		fclose(file);
 		return 0;
 	}
 
-	filesize = GetFileSize(this->m_hFile , NULL);
-	pBuffer = (char*)malloc(filesize);
-	ReadFile(this->m_hFile, (void*)pBuffer, filesize, (unsigned long*)&iReadFileSize, 0);
+	fseek(file, 0, SEEK_END);
+	filesize = ftell(file);
+	rewind(file);
 
-	if ( iReadFileSize == 0 )
+	this->m_pBuffer = new char[filesize];
+	if (this->m_pBuffer == 0)
 	{
-		this->Close();
+		fclose(file);
+		Close();
 		return 0;
 	}
 
-	this->Encode(pBuffer, iReadFileSize);
-	this->SetScriptParsingBuffer(pBuffer, iReadFileSize);
+	int  result = fread(this->m_pBuffer, 1, filesize, file);
+	if (result != filesize)
+	{
+		fclose(file);
+		Close();
+		return 0;
+	}
+	fclose(file);
 
-	CloseHandle(this->m_hFile );
 	return 1;
 }
 
@@ -244,9 +237,3 @@ enum WZSMDToken CWZScriptEncode::GetToken()
 	}
 
 }
-
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

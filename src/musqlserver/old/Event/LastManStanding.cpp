@@ -1,9 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // LastManStanding.cpp
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "LastManStanding.h"
 #include "user.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "TNotice.h"
 #include "configread.h"
 #include "GameMain.h"
@@ -44,18 +44,18 @@ void CLastManStanding::LoadConfig(LPSTR lpszFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("[PVP_LastManStanding] - Can't Load %s (%s)", lpszFileName, res.description());
+		sLog.outError("[PVP_LastManStanding] - Can't Load %s (%s)", lpszFileName, res.description());
 		return;
 	}
 
-	pugi::xml_node main = file.child("LastManStanding");
+	pugi::xml_node mainXML = file.child("LastManStanding");
 
 	this->m_Cfg.bEnable = main.attribute("Enable").as_int();
 	this->m_Cfg.iDieCount = main.attribute("DieCount").as_int();
 	this->m_Cfg.iMinPlayers = main.attribute("MinPlayers").as_int();
 	this->m_Cfg.iMaxPlayers = main.attribute("MaxPlayers").as_int();
 
-	pugi::xml_node event_cfg = main.child("Event");
+	pugi::xml_node event_cfg = mainXML.child("Event");
 	
 	this->m_Cfg.iDuration	= event_cfg.attribute("Duration").as_int();
 	this->m_Cfg.iPVPMap		= event_cfg.attribute("MapNumber").as_int();
@@ -64,7 +64,7 @@ void CLastManStanding::LoadConfig(LPSTR lpszFileName)
 	this->m_Cfg.iPVPMapX2	= event_cfg.attribute("EndX").as_int();
 	this->m_Cfg.iPVPMapY2	= event_cfg.attribute("EndY").as_int();
 
-	pugi::xml_node register_cfg = main.child("Registration");
+	pugi::xml_node register_cfg = mainXML.child("Registration");
 
 	this->m_Cfg.iRegTime		= register_cfg.attribute("Time").as_int(15);
 	this->m_Cfg.iNPCId			= register_cfg.attribute("NPCIndex").as_int();
@@ -79,7 +79,7 @@ void CLastManStanding::LoadConfig(LPSTR lpszFileName)
 	this->m_Cfg.iReqItemCount	= register_cfg.attribute("SpecialItemCount").as_int();
 	this->m_Cfg.iReqZen			= register_cfg.attribute("ReqMoney").as_int();
 
-	pugi::xml_node schedule = main.child("Schedule");
+	pugi::xml_node schedule = mainXML.child("Schedule");
 
 	for (pugi::xml_node start = schedule.child("Start"); start; start = start.next_sibling())
 	{
@@ -91,7 +91,7 @@ void CLastManStanding::LoadConfig(LPSTR lpszFileName)
 		this->m_vtStartList.push_back(sTime);
 	}
 
-	pugi::xml_node rooms_cfg = main.child("RoomSettings");
+	pugi::xml_node rooms_cfg = mainXML.child("RoomSettings");
 	int count = 0;
 
 	for (pugi::xml_node room = rooms_cfg.child("Room"); room; room = room.next_sibling())

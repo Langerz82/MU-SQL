@@ -7,7 +7,7 @@
 // GS-N 0.99.60T 0x004E5740 - Status Completed :)
 // GS-N	1.00.18	JPN	0x0051E110	-	Completed.
 
-//#include "StdAfx.h"
+//#include "stdafx.h"
 
 #include "Item.h"
 

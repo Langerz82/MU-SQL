@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include "EventDungeonItemBag.h"
 #include "SetItemOption.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "user.h"
 #include "DSProtocol.h"
 #include "LargeRand.h"
@@ -31,8 +31,8 @@ void CEventDungeonItemBag::LoadScript(char* szFileName)
 		return;
 	}
 
-	pugi::xml_node main = file.child("ImperialGuardian");
-	pugi::xml_node level_range = main.child("LevelRangeSettings");
+	pugi::xml_node mainXML = file.child("ImperialGuardian");
+	pugi::xml_node level_range = mainXML.child("LevelRangeSettings");
 
 	for (pugi::xml_node section = level_range.child("Section"); section; section = section.next_sibling())
 	{
@@ -40,7 +40,7 @@ void CEventDungeonItemBag::LoadScript(char* szFileName)
 
 		if (nLevelIndex >= 10)
 		{
-			g_Log.MsgBox("Level index max over - %s", szFileName);
+			sLog.outError("Level index max over - %s", szFileName);
 			return;
 		}
 
@@ -50,7 +50,7 @@ void CEventDungeonItemBag::LoadScript(char* szFileName)
 		this->eventDungeonItemInfo[nLevelIndex].m_nMaxLevel = section.attribute("PlayerMaxLevel").as_int();
 	}
 
-	pugi::xml_node money_rate = main.child("MoneyDropSettings");
+	pugi::xml_node money_rate = mainXML.child("MoneyDropSettings");
 
 	for (pugi::xml_node section = money_rate.child("Section"); section; section = section.next_sibling())
 	{
@@ -58,14 +58,14 @@ void CEventDungeonItemBag::LoadScript(char* szFileName)
 
 		if (nLevelIndex >= 10)
 		{
-			g_Log.MsgBox("Level index max over - %s", szFileName);
+			sLog.outError("Level index max over - %s", szFileName);
 			return;
 		}
 
 		this->eventDungeonItemInfo[nLevelIndex].m_nDropZen = section.attribute("MoneyCount").as_int();
 	}
 
-	pugi::xml_node exc_rate = main.child("ExcItemDropSettings");
+	pugi::xml_node exc_rate = mainXML.child("ExcItemDropSettings");
 
 	for (pugi::xml_node section = exc_rate.child("Section"); section; section = section.next_sibling())
 	{
@@ -73,21 +73,21 @@ void CEventDungeonItemBag::LoadScript(char* szFileName)
 
 		if (nLevelIndex >= 10)
 		{
-			g_Log.MsgBox("Level index max over - %s", szFileName);
+			sLog.outError("Level index max over - %s", szFileName);
 			return;
 		}
 
 		this->eventDungeonItemInfo[nLevelIndex].m_nExOptionAddCntRate = section.attribute("SuccessRate").as_int();
 	}
 
-	for (pugi::xml_node item_section = main.child("Section"); item_section; item_section = item_section.next_sibling())
+	for (pugi::xml_node item_section = mainXML.child("Section"); item_section; item_section = item_section.next_sibling())
 	{
 		int nCnt = 0;
 		int nLevelIndex = item_section.attribute("ID").as_int();
 
 		if (nLevelIndex >= 10)
 		{
-			g_Log.MsgBox("Level index max over - %s", szFileName);
+			sLog.outError("Level index max over - %s", szFileName);
 			return;
 		}
 
@@ -366,7 +366,7 @@ BOOL CEventDungeonItemBag::CreateNormalItem(int nIndex, int nMaxUserLevel, CEven
 	}
 
 	ItemSerialCreateSend(nIndex, lpObj->MapNumber, btDropX, btDropY, nType, nLevel, 0, Option1, Option2, Option3, nIndex, ExOption, 0, 0, 0, 0);
-	g_Log.Add("[IMPERIALGUARDIAN] Drop Item : (%d)(%d/%d) Item:(%s)%d Level:%d op1:%d op2:%d op3:%d ExOp:%d",
+	sLog.outBasic("[IMPERIALGUARDIAN] Drop Item : (%d)(%d/%d) Item:(%s)%d Level:%d op1:%d op2:%d op3:%d ExOp:%d",
 		lpObj->MapNumber, btDropX, btDropY, ItemAttribute[nType].Name, nType, nLevel, Option1, Option2, Option3, ExOption);
 
 	return TRUE;
@@ -435,7 +435,7 @@ int CEventDungeonItemBag::CreateSetItem(int nIndex, CEventItemBagAttr BagObject)
 	}
 
 	ItemSerialCreateSend(nIndex, btMapNumber, btDropX, btDropY, nType, 0, 0, TRUE, Option2, Option3, nIndex, 0, SetOption, 0, 0, 0);
-	g_Log.Add("[IMPERIALGUARDIAN] Drop Set Item [%s][%s] : (%d)(%d/%d) Itemnum:[%d] skill:[%d] luck:[%d] option:[%d] SetOption:[%d], SetName:[%s]",
+	sLog.outBasic("[IMPERIALGUARDIAN] Drop Set Item [%s][%s] : (%d)(%d/%d) Itemnum:[%d] skill:[%d] luck:[%d] option:[%d] SetOption:[%d], SetName:[%s]",
 		lpObj->AccountID, lpObj->Name, btMapNumber, btDropX, btDropY, nType, TRUE, Option2, Option3, SetOption, gSetItemOption.GetSetOptionName(tmpSetOption));
 
 	return TRUE;

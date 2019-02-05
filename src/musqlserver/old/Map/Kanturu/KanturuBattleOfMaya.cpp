@@ -5,13 +5,14 @@
 #include "stdafx.h"
 
 #include "KanturuBattleOfMaya.h"
-#include "Gamemain.h"
-#include "TMonsterAIGroup.h"
+#include "../../GameMain.h"
+#include "../../Monster/AI/TMonsterAIGroup.h"
 #include "Kanturu.h"
 #include "KanturuMonsterMng.h"
 #include "KanturuBattleUserMng.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "KanturuUtil.h"
+#include "../../pugixml.hpp"
 
 static CKanturuUtil KANTURU_UTIL;
 
@@ -82,7 +83,7 @@ BOOL CKanturuBattleOfMaya::LoadData(LPSTR lpszFileName)
 
 	if ( !lpszFileName || !strcmp(lpszFileName , "") )
 	{
-		g_Log.MsgBox("[Kanturu][Battle of Maya] - File load error : File Name Error");
+		sLog.outError("[Kanturu][Battle of Maya] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -93,14 +94,14 @@ BOOL CKanturuBattleOfMaya::LoadData(LPSTR lpszFileName)
 
 		if ( res.status != pugi::status_ok )
 		{
-			g_Log.MsgBox("[Kanturu][Battle of Maya] - Can't Load %s (%s)", lpszFileName, res.description());
+			sLog.outError("[Kanturu][Battle of Maya] - Can't Load %s (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
 		this->ResetAllData();
 
-		pugi::xml_node main = file.child("KanturuEvent");
-		pugi::xml_node battle_maya = main.child("BattleOfMaya");
+		pugi::xml_node mainXML = file.child("KanturuEvent");
+		pugi::xml_node battle_maya = mainXML.child("BattleOfMaya");
 
 		this->m_iMayaIceStormUsingRate = battle_maya.attribute("IceStormCastRate").as_int();
 
@@ -114,7 +115,7 @@ BOOL CKanturuBattleOfMaya::LoadData(LPSTR lpszFileName)
 
 			if ( this->m_StateInfoCount < 0 || this->m_StateInfoCount >= KANTURU_MAYA_STATE_INFO )
 			{
-				g_Log.MsgBox("[Kanturu][Battle of Maya] - Exceed Max State Time (%d)", this->m_StateInfoCount);
+				sLog.outError("[Kanturu][Battle of Maya] - Exceed Max State Time (%d)", this->m_StateInfoCount);
 				break;
 			}
 
@@ -138,7 +139,7 @@ BOOL CKanturuBattleOfMaya::LoadData(LPSTR lpszFileName)
 
 			if ( this->m_BattleTimeInfoCount < 0 || this->m_BattleTimeInfoCount >= KANTURU_MAYA_TIME_INFO )
 			{
-				g_Log.MsgBox("[Kanturu][Battle of Maya] - Exceed Max Scene (%d)", this->m_BattleTimeInfoCount);
+				sLog.outError("[Kanturu][Battle of Maya] - Exceed Max Scene (%d)", this->m_BattleTimeInfoCount);
 				break;
 			}
 
@@ -160,7 +161,7 @@ BOOL CKanturuBattleOfMaya::LoadData(LPSTR lpszFileName)
 
 			if ( this->m_iMayaHAndGroupNumberCount < 0 || this->m_iMayaHAndGroupNumberCount >= KANTURU_MAYA_GROUP_NUMBER )
 			{
-				g_Log.MsgBox("[Kanturu][Battle of Maya] - Maya Hand AI Group Read Error(%d)", this->m_iMayaHAndGroupNumberCount);
+				sLog.outError("[Kanturu][Battle of Maya] - Maya Hand AI Group Read Error(%d)", this->m_iMayaHAndGroupNumberCount);
 				break;
 			}
 					
@@ -174,7 +175,7 @@ BOOL CKanturuBattleOfMaya::LoadData(LPSTR lpszFileName)
 
 			if ( this->m_iMayaHandAIChangeTimeCount < 0 || this->m_iMayaHandAIChangeTimeCount >= KANTURU_MAYA_AI_CHANGE_TIME )
 			{
-				g_Log.MsgBox("[Kanturu][Battle of Maya] - Exceed Maya Hand AI Change Time(%d)", this->m_iMayaHandAIChangeTimeCount);
+				sLog.outError("[Kanturu][Battle of Maya] - Exceed Maya Hand AI Change Time(%d)", this->m_iMayaHandAIChangeTimeCount);
 				break;
 			}
 					
@@ -187,7 +188,7 @@ BOOL CKanturuBattleOfMaya::LoadData(LPSTR lpszFileName)
 
 	catch ( DWORD )
 	{
-		g_Log.MsgBox("[Kanturu][Battle of Maya] - Loading Exception Error (%s) File. ", lpszFileName);
+		sLog.outError("[Kanturu][Battle of Maya] - Loading Exception Error (%s) File. ", lpszFileName);
 	}
 
 	return this->m_bFileDataLoad;

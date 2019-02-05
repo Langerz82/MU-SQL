@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include "EvolutionMonsterMng.h"
 #include "protocol.h"
-#include "winutil.h"
+#include "util.h"
 #include "./Eventos/BloodCastle/BloodCastle.h"
 #include "DevilSquare.h"
 #include "ChaosCastle.h"
@@ -49,21 +49,21 @@ void CEvolutionMonsterMng::LoadFile(char *szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("Error - cannot load %s file (%s)", szFile, res.description());
+		sLog.outError("Error - cannot load %s file (%s)", szFile, res.description());
 		return;
 	}
 
-	pugi::xml_node main = file.child("EvolutionMonster");
+	pugi::xml_node mainXML = file.child("EvolutionMonster");
 
 	this->m_bEnable = main.attribute("Enable").as_bool();
 	this->m_iEvoMonTimeLimit = main.attribute("TimeLimit").as_int();
 
-	pugi::xml_node summon_scroll = main.child("SummonScroll");
+	pugi::xml_node summon_scroll = mainXML.child("SummonScroll");
 
 	this->m_iSummonScrollDropRate = summon_scroll.attribute("DropRate").as_int();
 	this->m_iSummonScrollDropLevel = summon_scroll.attribute("DropLevel").as_int();
 
-	pugi::xml_node evo_data = main.child("EvolutionData");
+	pugi::xml_node evo_data = mainXML.child("EvolutionData");
 
 	for (pugi::xml_node evolution = evo_data.child("Evolution"); evolution; evolution = evolution.next_sibling())
 	{
@@ -80,7 +80,7 @@ void CEvolutionMonsterMng::LoadFile(char *szFile)
 		this->m_mapEvoMonData.insert(std::pair<int, EVOMON_MONSTER_DATA>(m_Data.m_wLevel, m_Data));
 	}
 
-	pugi::xml_node reward_range = main.child("RewardRange");
+	pugi::xml_node reward_range = mainXML.child("RewardRange");
 
 	for (pugi::xml_node reward = reward_range.child("Reward"); reward; reward = reward.next_sibling())
 	{
@@ -93,7 +93,7 @@ void CEvolutionMonsterMng::LoadFile(char *szFile)
 		this->m_vtRewardRange.push_back(m_Reward);
 	}
 
-	pugi::xml_node special_evomon = main.child("SpecialEvolution");
+	pugi::xml_node special_evomon = mainXML.child("SpecialEvolution");
 
 	this->m_btSpecialEvoMonRewardType = special_evomon.attribute("RewardType").as_int();
 

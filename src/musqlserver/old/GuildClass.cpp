@@ -2,9 +2,9 @@
 // GuildClass.cpp
 #include "stdafx.h"
 #include "GuildClass.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "GameMain.h"
-#include "protocol.h"
+#include "Protocols/protocol.h"
 
 // GS-N 0.99.60T 0x0048F590
 //BOOL CGuildClass::SetGuildMemberStatus(char* szGuildName, char* szMemberName, int iGuildStatus) - Special IF
@@ -76,7 +76,7 @@ _GUILD_INFO_STRUCT * CGuildClass::AddGuild(int number, char* guildname, GUILDMAR
 		this->BuildMemberTotal(pNewNode);
 		this->AddTail(pNewNode);
 
-		g_Log.Add("[Guild System] Add Guild (%s) (%d)", guildname, number);
+		sLog.outBasic("[Guild System] Add Guild (%s) (%d)", guildname, number);
 
 		return pNewNode;
 	}
@@ -483,7 +483,7 @@ BOOL CGuildClass::SetGuildMemberStatus(char* szGuildName, char* szMemberName, in
 	{
 		if ( gObjIsConnectedGP(pNode->Index[iKey]) == FALSE )
 		{
-			g_Log.Add("SetGuildMemberStatus() error-L2 : Index %s %d", __FILE__, __LINE__);
+			sLog.outBasic("SetGuildMemberStatus() error-L2 : Index %s %d", __FILE__, __LINE__);
 			return false;
 		}
 
@@ -540,7 +540,7 @@ BOOL CGuildClass::SetGuildType(char* szGuildName, int iGuildType)
 			{
 				if ( gObjIsConnectedGP(pNode->Index[n]) == FALSE )
 				{
-					g_Log.Add("SetGuildType() error-L2 : Index %s %d", __FILE__, __LINE__);
+					sLog.outBasic("SetGuildType() error-L2 : Index %s %d", __FILE__, __LINE__);
 					continue;
 				}
 

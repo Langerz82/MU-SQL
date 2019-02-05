@@ -25,14 +25,14 @@ void CSkillSafeZoneUse::LoadFile(char *szFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("Error loading %s file (%s)", szFileName, res.description());
+		sLog.outError("Error loading %s file (%s)", szFileName, res.description());
 		return;
 	}
 
-	pugi::xml_node main = file.child("SkillUseArea");
+	pugi::xml_node mainXML = file.child("SkillUseArea");
 	this->m_vtSkillData.clear();
 
-	for (pugi::xml_node skill = main.child("Skill"); skill; skill = skill.next_sibling())
+	for (pugi::xml_node skill = mainXML.child("Skill"); skill; skill = skill.next_sibling())
 	{
 		SKILL_SAFEZONE_USE m_Skill;
 

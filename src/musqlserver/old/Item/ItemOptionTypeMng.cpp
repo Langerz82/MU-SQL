@@ -1,10 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ItemOptionTypeMng.cpp
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "ItemOptionTypeMng.h"
 #include "user.h"
 #include "zzzitem.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "FormulaParse.h"
 #include "MasterLevelSkillTreeSystem.h"
 
@@ -35,12 +35,12 @@ bool CItemOptionTypeMng::LoadScript(char *pchFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("Failed to load %s file (%s)", pchFileName, res.description());
+		sLog.outError("Failed to load %s file (%s)", pchFileName, res.description());
 		return false;
 	}
 
-	pugi::xml_node main = file.child("ExcellentOptions");
-	pugi::xml_node common = main.child("Common");
+	pugi::xml_node mainXML = file.child("ExcellentOptions");
+	pugi::xml_node common = mainXML.child("Common");
 	int OptionCount = 0;
 
 	for (pugi::xml_node option = common.child("Option"); option; option = option.next_sibling())
@@ -59,7 +59,7 @@ bool CItemOptionTypeMng::LoadScript(char *pchFileName)
 		OptionCount++;
 	}
 
-	pugi::xml_node common_effect = main.child("CommonOptionEffect");
+	pugi::xml_node common_effect = mainXML.child("CommonOptionEffect");
 
 	for (pugi::xml_node option = common_effect.child("Option"); option; option = option.next_sibling())
 	{
@@ -79,7 +79,7 @@ bool CItemOptionTypeMng::LoadScript(char *pchFileName)
 		this->m_CommonExtOptionType[iOptionID].OptionEffect[6] = option.attribute("Skill").as_int();
 	}
 
-	pugi::xml_node wings = main.child("Wings");
+	pugi::xml_node wings = mainXML.child("Wings");
 	OptionCount = 0;
 
 	for (pugi::xml_node option = wings.child("Option"); option; option = option.next_sibling())
@@ -97,7 +97,7 @@ bool CItemOptionTypeMng::LoadScript(char *pchFileName)
 		OptionCount++;
 	}
 
-	pugi::xml_node wing_effect = main.child("WingOptionEffect");
+	pugi::xml_node wing_effect = mainXML.child("WingOptionEffect");
 
 	for (pugi::xml_node option = wing_effect.child("Option"); option; option = option.next_sibling())
 	{
@@ -117,7 +117,7 @@ bool CItemOptionTypeMng::LoadScript(char *pchFileName)
 		this->m_WingExtOptionType[iOptionID].OptionEffect[6] = option.attribute("Skill").as_int();
 	}
 
-	pugi::xml_node optionrate = main.child("OptionDropRate");
+	pugi::xml_node optionrate = mainXML.child("OptionDropRate");
 	pugi::xml_node commonrate = optionrate.child("Common");
 
 	this->m_ExcellentOptionRate.m_CommonOptionRate[0] = commonrate.attribute("One").as_int();
@@ -173,13 +173,13 @@ bool CItemOptionTypeMng::LoadAccessoryItemOptionScript(char *pchFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("[ItemOptionTypeMng] AccessoryItem Option Script file Load failed. (%s) (%s)", pchFileName, res.description());
+		sLog.outError("[ItemOptionTypeMng] AccessoryItem Option Script file Load failed. (%s) (%s)", pchFileName, res.description());
 		return false;
 	}
 
-	pugi::xml_node main = file.child("AccessoryItems");
+	pugi::xml_node mainXML = file.child("AccessoryItems");
 
-	for (pugi::xml_node item = main.child("Item"); item; item = item.next_sibling())
+	for (pugi::xml_node item = mainXML.child("Item"); item; item = item.next_sibling())
 	{
 		memset((char *)&AccessoryItemOptionValue, 0, sizeof(AccessoryItemOptionValue));
 			
@@ -208,7 +208,7 @@ int CItemOptionTypeMng::CommonExcOptionRand(int ItemKindA, BYTE *btSocketExcOpti
 	int iExcOption = 0;
 	for (int i = 0; i < 20; i++)
 	{
-		//	g_Log.MsgBox("[K2]1# ItemKindA %d %d %d [%d]", this->m_CommonExtOptionType[i].ItemKindA_1, this->m_CommonExtOptionType[i].ItemKindA_2, this->m_CommonExtOptionType[i].ItemKindA_3, ItemKindA);
+		//	sLog.outError("[K2]1# ItemKindA %d %d %d [%d]", this->m_CommonExtOptionType[i].ItemKindA_1, this->m_CommonExtOptionType[i].ItemKindA_2, this->m_CommonExtOptionType[i].ItemKindA_3, ItemKindA);
 		if (this->m_CommonExtOptionType[i].ItemKindA_1 == ItemKindA ||	this->m_CommonExtOptionType[i].ItemKindA_2 == ItemKindA ||
 			this->m_CommonExtOptionType[i].ItemKindA_3 == ItemKindA)
 		{
@@ -294,7 +294,7 @@ int CItemOptionTypeMng::CommonExcOptionRand(int ItemKindA, BYTE *btSocketExcOpti
 	{
 		iOptionCount = iExcOption;
 	}
-	//g_Log.MsgBox("[K2]1# RuudShop %d", iOptionCount);
+	//sLog.outError("[K2]1# RuudShop %d", iOptionCount);
 	//g_Log.AddC(TColor::Yellow, "[K2] iOptionCount %d", iOptionCount);
 	BYTE ExcOption = 0;
 
@@ -369,7 +369,7 @@ int CItemOptionTypeMng::CommonExcOptionRand(int ItemKindA, BYTE *btSocketExcOpti
 	int iExcOption = 0;
 	for (int i = 0; i < 20; i++)
 	{
-	//	g_Log.MsgBox("[K2]1# ItemKindA %d %d %d [%d]", this->m_CommonExtOptionType[i].ItemKindA_1, this->m_CommonExtOptionType[i].ItemKindA_2, this->m_CommonExtOptionType[i].ItemKindA_3, ItemKindA);
+	//	sLog.outError("[K2]1# ItemKindA %d %d %d [%d]", this->m_CommonExtOptionType[i].ItemKindA_1, this->m_CommonExtOptionType[i].ItemKindA_2, this->m_CommonExtOptionType[i].ItemKindA_3, ItemKindA);
 		if (this->m_CommonExtOptionType[i].ItemKindA_1 == ItemKindA ||
 			this->m_CommonExtOptionType[i].ItemKindA_2 == ItemKindA ||
 			this->m_CommonExtOptionType[i].ItemKindA_3 == ItemKindA)
@@ -456,7 +456,7 @@ int CItemOptionTypeMng::CommonExcOptionRand(int ItemKindA, BYTE *btSocketExcOpti
 	{
 		iOptionCount = iExcOption;
 	}
-	//g_Log.MsgBox("[K2]1# RuudShop %d", iOptionCount);
+	//sLog.outError("[K2]1# RuudShop %d", iOptionCount);
 	//g_Log.AddC(TColor::Yellow, "[K2] iOptionCount %d", iOptionCount);
 	BYTE ExcOption = 0;
 

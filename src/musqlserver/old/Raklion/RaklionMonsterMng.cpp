@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include "RaklionMonsterMng.h"
 #include "GameMain.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "configread.h"
 CRaklionMonsterMng g_RaklionMonsterMng;
 
@@ -37,7 +37,7 @@ BOOL CRaklionMonsterMng::LoadData(LPSTR lpszFileName)
 
 	if (!lpszFileName || !strcmp(lpszFileName, ""))
 	{
-		g_Log.MsgBox("[Raklion][MonsterSetBase] - File load error : File Name Error");
+		sLog.outError("[Raklion][MonsterSetBase] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -48,15 +48,15 @@ BOOL CRaklionMonsterMng::LoadData(LPSTR lpszFileName)
 
 		if (res.status != pugi::status_ok)
 		{
-			g_Log.MsgBox("[Raklion][MonsterSetBase] - Can't Load %s (%s)", lpszFileName, res.description());
+			sLog.outError("[Raklion][MonsterSetBase] - Can't Load %s (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
 		this->ResetLoadData();
 
-		pugi::xml_node main = file.child("RaklionEvent");
+		pugi::xml_node mainXML = file.child("RaklionEvent");
 
-		for (pugi::xml_node monster = main.child("Monster"); monster; monster = monster.next_sibling())
+		for (pugi::xml_node monster = mainXML.child("Monster"); monster; monster = monster.next_sibling())
 		{
 			BYTE btGroup = monster.attribute("Group").as_int();
 			WORD wType = monster.attribute("Index").as_int();
@@ -68,7 +68,7 @@ BOOL CRaklionMonsterMng::LoadData(LPSTR lpszFileName)
 
 			if (this->m_iMaxMonsterCount < 0 || this->m_iMaxMonsterCount >= MAX_RAKLION_MONSTER)
 			{
-				g_Log.MsgBox("[Raklion][MonsterSetBase] - Exceed Max Info Count (%d)", this->m_iMaxMonsterCount);
+				sLog.outError("[Raklion][MonsterSetBase] - Exceed Max Info Count (%d)", this->m_iMaxMonsterCount);
 				break;
 			}
 
@@ -81,7 +81,7 @@ BOOL CRaklionMonsterMng::LoadData(LPSTR lpszFileName)
 
 	catch (DWORD)
 	{
-		g_Log.MsgBox("[Raklion][MonsterSetBase] Loading Exception Error (%s) File. ", lpszFileName);
+		sLog.outError("[Raklion][MonsterSetBase] Loading Exception Error (%s) File. ", lpszFileName);
 	}
 
 	return this->m_iFileDataLoad;
@@ -106,7 +106,7 @@ void CRaklionMonsterMng::SetAllMonsters()
 
 		if (result == -1)
 		{
-			g_Log.MsgBox("Error - cannot add Raklion Monster");
+			sLog.outError("Error - cannot add Raklion Monster");
 			return;
 		}
 
@@ -119,13 +119,13 @@ int CRaklionMonsterMng::SetPosition(int iMonsterIndex, int iTableNum)
 {
 	if (!ObjectMaxRange(iMonsterIndex))
 	{
-		g_Log.Add("ERROR : %s %d", __FILE__, __LINE__);
+		sLog.outBasic("ERROR : %s %d", __FILE__, __LINE__);
 		return FALSE;
 	}
 
 	if (iTableNum < 0 || iTableNum > MAX_RAKLION_MONSTER - 1)
 	{
-		g_Log.Add("ERROR : %s %d", __FILE__, __LINE__);
+		sLog.outBasic("ERROR : %s %d", __FILE__, __LINE__);
 		return FALSE;
 	}
 
@@ -145,7 +145,7 @@ int CRaklionMonsterMng::SetPosition(int iMonsterIndex, int iTableNum)
 
 	if (this->GetPosition(iTableNum, lpObj->MapNumber, lpObj->X, lpObj->Y) == FALSE)
 	{
-		g_Log.Add("Error location Raklion Monster Error (%d) (%d)", iMonsterIndex, iTableNum);
+		sLog.outBasic("Error location Raklion Monster Error (%d) (%d)", iMonsterIndex, iTableNum);
 		return FALSE;
 	}
 
@@ -171,7 +171,7 @@ int CRaklionMonsterMng::GetPosition(int TableNum, short MapNumber, short & x, sh
 {
 	if (TableNum < 0 || TableNum > MAX_RAKLION_MONSTER - 1)
 	{
-		g_Log.Add("ERROR : %s %d", __FILE__, __LINE__);
+		sLog.outBasic("ERROR : %s %d", __FILE__, __LINE__);
 		return FALSE;
 	}
 

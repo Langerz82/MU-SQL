@@ -11,6 +11,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "custTypedef.h"
+
 #define MAX_IP_CACHE	2000
 
 struct IPINFO 

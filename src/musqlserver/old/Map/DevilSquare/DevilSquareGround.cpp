@@ -4,8 +4,8 @@
 #include "DevilSquareGround.h"
 #include "DevilSquare.h"
 #include "GameMain.h"
-#include "TLog.h"
-#include "winutil.h"
+#include "Log/Log.h"
+#include "util.h"
 #include "CrywolfSync.h"
 #include "CashShop.h"
 #include "BuffEffectSlot.h"
@@ -201,7 +201,7 @@ void CDevilSquareGround::RegenBossMonster(int currtime)
 					int x = gObj[iMonIndex].X;
 					int y = gObj[iMonIndex].Y;
 
-					//g_Log.Add("[DevilSquare] Boss %d %d %d create ", map, x, y);
+					//sLog.outBasic("[DevilSquare] Boss %d %d %d create ", map, x, y);
 
 					gObj[iMonIndex].TX = gObj[iMonIndex].X;
 					gObj[iMonIndex].TY = gObj[iMonIndex].Y;
@@ -373,7 +373,7 @@ void CDevilSquareGround::SendScore()
 
 	Itor = this->m_DevilSquareRankList.begin();
 
-	//g_Log.Add("[DevilSquare] Rank [%d]", this->m_iIndex);
+	//sLog.outBasic("[DevilSquare] Rank [%d]", this->m_iIndex);
 
 	for ( ; Itor != this->m_DevilSquareRankList.end(); Itor++ )
 	{

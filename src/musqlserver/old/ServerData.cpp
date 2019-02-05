@@ -1,9 +1,9 @@
 //////////////////////////////////////////////////////////////////////
 // ServerData.cpp
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "ServerData.h"
 #include "readscript.h"
-#include "TLog.h"
+#include "Log/Log.h"
 
 CServerData m_ServerData;
 
@@ -22,14 +22,14 @@ void CServerData::LoadServerFile(LPSTR lpszFile)
 
 	if(res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("%s load fail (%s)", lpszFile, res.description());
+		sLog.outError("%s load fail (%s)", lpszFile, res.description());
 		return;
 	}
 
-	pugi::xml_node main = file.child("ServerList");
+	pugi::xml_node mainXML = file.child("ServerList");
 	int count = 0;
 
-	for(pugi::xml_node server = main.child("Server"); server; server = server.next_sibling())
+	for(pugi::xml_node server = mainXML.child("Server"); server; server = server.next_sibling())
 	{
 		this->m_Servers[count].MaxUserCount = 0;
 		this->m_Servers[count].UserCount = 0;
@@ -61,7 +61,7 @@ void CServerData::LoadNewsFile(LPSTR lpszFile)
 
 	if(SMDFile == NULL)
 	{
-		g_Log.MsgBox("%s load fail", lpszFile);
+		sLog.outError("%s load fail", lpszFile);
 		return;
 	}
 

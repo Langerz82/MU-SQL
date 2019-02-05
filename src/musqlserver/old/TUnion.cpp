@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include "TUnion.h"
 #include "TUnionInfo.h"
-#include "TLog.h"
+#include "Log/Log.h"
 
 // GS-N 0.99.60T 0x004ACBE9
 //	GS-N	1.00.18	JPN	0x004CB350	-	Completed
@@ -104,7 +104,7 @@ BOOL TUnion::AddUnion(int iMasterGuildNumber, char* szUnionMasterGuildName)
 		pUnionInfo = new TUnionInfo;
 		pUnionInfo->SetUnionMaster(iMasterGuildNumber, szUnionMasterGuildName);
 		this->m_mpUnion[iMasterGuildNumber] = pUnionInfo;
-		g_Log.Add("[Union System] Add Union (%d) (%s)", iMasterGuildNumber, szUnionMasterGuildName);
+		sLog.outBasic("[Union System] Add Union (%d) (%s)", iMasterGuildNumber, szUnionMasterGuildName);
 		this->m_Sync.Unlock();
 		return TRUE;
 	}

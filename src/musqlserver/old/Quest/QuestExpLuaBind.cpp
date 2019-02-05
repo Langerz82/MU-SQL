@@ -749,7 +749,7 @@ int QuestExpLuaBind::Make_QuestIndexIDToEP(lua_State *L)
 
 	if (IsEpisode(iEpisode) == false)
 	{
-		g_Log.Add("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
+		sLog.outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
 		return 0;
 	}
 
@@ -772,7 +772,7 @@ int QuestExpLuaBind::GetQuestSwitch(lua_State *L)
 
 	if (iQuestSwitch == -1)
 	{
-		g_Log.Add("[QuestExp] - Error - LuaGetQuestSwitch [%s][%s] Episode[%d]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, iEpisode);
+		sLog.outBasic("[QuestExp] - Error - LuaGetQuestSwitch [%s][%s] Episode[%d]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, iEpisode);
 		return 0;
 	}
 

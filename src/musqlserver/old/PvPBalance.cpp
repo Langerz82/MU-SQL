@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include "PvPBalance.h"
 #include "GameMain.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "configread.h"
 
 PvPBalance g_PvPBalance;
@@ -31,7 +31,7 @@ void PvPBalance::Read(const char* File)
 
 	if (Result.status != status_ok)
 	{
-		g_Log.MsgBox("[PvPBalance] File %s not found!", File);
+		sLog.outError("[PvPBalance] File %s not found!", File);
 		return;
 	}
 

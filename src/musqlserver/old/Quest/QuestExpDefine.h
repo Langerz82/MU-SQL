@@ -3,7 +3,6 @@
 #ifndef QUESTEXPDEFINE_H
 #define QUESTEXPDEFINE_H
 
-#pragma once
 
 #define MAX_QUESTEXP_ASK_INFO				5
 #define MAX_QUESTEXP_REWARD_INFO			5

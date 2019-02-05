@@ -1,8 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 // QuestExpUserInfo.cpp
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "QuestExpUserInfo.h"
-#include "TLog.h"
+#include "Log/Log.h"
 
 void UserQuestInfo::Init()
 {
@@ -46,7 +46,7 @@ bool UserQuestInfo::SetEpisode(int iEp)
 {
 	if (IsEpisode(iEp) == false)
 	{
-		g_Log.Add("[QuestExp] - Error - (UserQuestInfo::SetEpisode) EP[%d]", iEp);
+		sLog.outError("[QuestExp] - Error - (UserQuestInfo::SetEpisode) EP[%d]", iEp);
 		return false;
 	}
 
@@ -63,7 +63,7 @@ bool UserQuestInfo::SetQuestSwitch(int iQS)
 {
 	if (IsQuestSwitch(iQS) == false)
 	{
-		g_Log.Add("[QuestExp] - Error - (UserQuestInfo::SetQuestSwitch) QS[%d]", iQS);
+		sLog.outError("[QuestExp] - Error - (UserQuestInfo::SetQuestSwitch) QS[%d]", iQS);
 		return false;
 	}
 
@@ -80,7 +80,7 @@ void UserQuestInfo::SetAskCnt(int iAsk)
 {
 	if (IsQuestAskInfo(iAsk) == false)
 	{
-		g_Log.Add("[QuestExp] - Error - iAsk [%d] [%s] Line:[%d]", iAsk, __FILE__, __LINE__);
+		sLog.outError("[QuestExp] - Error - iAsk [%d] [%s] Line:[%d]", iAsk, __FILE__, __LINE__);
 		return;
 	}
 
@@ -91,7 +91,7 @@ int UserQuestInfo::GetAskCnt()
 {
 	if (IsQuestAskInfo(this->m_iAskCnt) == false)
 	{
-		g_Log.Add("[QuestExp] - Error - m_iAskCnt [%d] [%s] Line:[%d]", this->m_iAskCnt, __FILE__, __LINE__);
+		sLog.outError("[QuestExp] - Error - m_iAskCnt [%d] [%s] Line:[%d]", this->m_iAskCnt, __FILE__, __LINE__);
 		return 0;
 	}
 

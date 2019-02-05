@@ -7,11 +7,11 @@
 #include "BuffEffect.h"
 #include "BuffEffectSlot.h"
 #include "Prodef.H"
-#include "Winutil.h"
+#include "util.h"
 #include "Protocol.h"
 #include "GameMain.h"
 #include "PeriodItemEx.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "./Eventos/ArcaBattle/ArcaBattle.h"
 #include "configread.h"
 #include "ObjUseSkill.h"
@@ -710,7 +710,7 @@ void CBuffEffect::RequestGuildPeriodBuffInsert(char *szGuildName, _tagPeriodBuff
  
 	wsExDbCli.DataSend((char*)&pMsg, pMsg.head.size);
   
-	g_Log.Add("[PeriodBuff][Insert] Request Insert Guild PeriodBuff. GuildName : %s, BuffIndex : %d, Duration : %d, lExpireDate : %d",
+	sLog.outBasic("[PeriodBuff][Insert] Request Insert Guild PeriodBuff. GuildName : %s, BuffIndex : %d, Duration : %d, lExpireDate : %d",
 		szGuildName, lpBuffInfo->wBuffIndex, lpBuffInfo->lDuration, pMsg.lExpireDate);
 }
 
@@ -732,7 +732,7 @@ void CBuffEffect::RequestGuildPeriodBuffDelete(WORD *wBuffIndex, char btGuildCnt
 	PHeadSubSetB((LPBYTE)&pMsg, 0x53, 2, sizeof(pMsg));
 
 	wsExDbCli.DataSend((char*)&pMsg, pMsg.head.size);
-	g_Log.Add("[PeriodBuff][Delete] Request All Delete Guild PeriodBuff");
+	sLog.outBasic("[PeriodBuff][Delete] Request All Delete Guild PeriodBuff");
 }
 
 struct PMSG_REQ_PERIODBUFF_DELETE
@@ -753,7 +753,7 @@ void CBuffEffect::RequestPeriodBuffDelete(OBJECTSTRUCT *lpObj, WORD wBuffIndex)
 	PHeadSubSetB((LPBYTE)&pMsg, 0xE4, 2, sizeof(pMsg));
   
 	wsDataCli.DataSend((char*)&pMsg, pMsg.head.size);
-	g_Log.Add("[PeriodBuff][Delete] Request Delete PeriodBuff. User Id : %s(%d), Name : %s, BuffIndex : %d", lpObj->AccountID, lpObj->DBNumber, lpObj->Name, wBuffIndex);
+	sLog.outBasic("[PeriodBuff][Delete] Request Delete PeriodBuff. User Id : %s(%d), Name : %s, BuffIndex : %d", lpObj->AccountID, lpObj->DBNumber, lpObj->Name, wBuffIndex);
 }
 
 void CBuffEffect::RequestPeriodBuffDelete(char *szName, WORD wBuffIndex)
@@ -766,7 +766,7 @@ void CBuffEffect::RequestPeriodBuffDelete(char *szName, WORD wBuffIndex)
 	PHeadSubSetB((LPBYTE)&pMsg, 0xE4, 2, sizeof(pMsg));
 
 	wsDataCli.DataSend((char*)&pMsg, pMsg.head.size);
-	g_Log.Add("[PeriodBuff][Delete] Request Delete PeriodBuff.Name : %s, BuffIndex : %d", szName, wBuffIndex);
+	sLog.outBasic("[PeriodBuff][Delete] Request Delete PeriodBuff.Name : %s, BuffIndex : %d", szName, wBuffIndex);
 }
 
 struct PMSG_REQ_PERIODBUFF_INSERT
@@ -795,7 +795,7 @@ void CBuffEffect::RequestPeriodBuffInsert(OBJECTSTRUCT *lpObj, _tagPeriodBuffInf
 	PHeadSubSetB((LPBYTE)&pMsg, 0xE4, 1, sizeof(pMsg));
 
 	wsDataCli.DataSend((char*)&pMsg, pMsg.head.size);
-	g_Log.Add("[PeriodBuff][Insert] Request Insert PeriodBuff. User Id : %s(%d), Name : %s, BuffIndex : %d, Duration %d, lExpireDate%d",
+	sLog.outBasic("[PeriodBuff][Insert] Request Insert PeriodBuff. User Id : %s(%d), Name : %s, BuffIndex : %d, Duration %d, lExpireDate%d",
 	lpObj->AccountID, lpObj->DBNumber, lpObj->Name, lpBuffInfo->wBuffIndex, lpBuffInfo->lDuration, pMsg.lExpireDate);
 }
 
@@ -852,13 +852,13 @@ void CBuffEffect::DGPeriodItemExSelect(PMSG_ANS_PERIODBUFF_SELECT *lpMsg)
 
 	if ( gObjAddPeriodBuffEffect(lpObj, lpPeriBuff, lLeftDate) == FALSE )
 	{
-		g_Log.Add("[PeriodBuff][Error][Select] Answer Select PeriodBuff. User Id : %s(%d), Name : %s, BuffIndex : %d Type1 : %d Type2 : %d ExpireDate : %d ResultCode : %d",
+		sLog.outBasic("[PeriodBuff][Error][Select] Answer Select PeriodBuff. User Id : %s(%d), Name : %s, BuffIndex : %d Type1 : %d Type2 : %d ExpireDate : %d ResultCode : %d",
 			lpObj->AccountID, lpObj->DBNumber, lpObj->Name, lpMsg->wBuffIndex, lpMsg->btEffectType1, lpMsg->btEffectType2, lpMsg->lExpireDate, lpMsg->btResultCode);
 	}
 
 	else
 	{
-		g_Log.Add("[PeriodBuff][Select] Answer Select PeriodBuff. User Id : %s(%d), Name : %s, BuffIndex : %d Type1 : %d Type2 : %d ExpireDate : %d ResultCode : %d",
+		sLog.outBasic("[PeriodBuff][Select] Answer Select PeriodBuff. User Id : %s(%d), Name : %s, BuffIndex : %d Type1 : %d Type2 : %d ExpireDate : %d ResultCode : %d",
 			lpObj->AccountID, lpObj->DBNumber, lpObj->Name, lpMsg->wBuffIndex, lpMsg->btEffectType1, lpMsg->btEffectType2, lpMsg->lExpireDate, lpMsg->btResultCode);
 	}
 }

@@ -1,14 +1,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 // OfflineLevelling.cpp
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "user.h"
 #include "ObjUseSkill.h"
 #include "OfflineLevelling.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "configread.h"
 #include "protocol.h"
 #include "GameMain.h"
-#include "winutil.h"
+#include "util.h"
 #include "DSProtocol.h"
 #include "ItemSocketOptionSystem.h"
 #include "CashShop.h"
@@ -65,7 +65,7 @@ BOOL COfflineLevelling::LoadSkillDefinitions(LPCSTR szFile)
 
 	if(res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("%s file load fail (%s)", szFile, res.description());
+		sLog.outError("%s file load fail (%s)", szFile, res.description());
 		return 0;
 	}
 
@@ -84,7 +84,7 @@ BOOL COfflineLevelling::LoadFile(LPCSTR szFile)
 
 	if(res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("%s file load fail (%s)", szFile, res.description());
+		sLog.outError("%s file load fail (%s)", szFile, res.description());
 		return 0;
 	}
 
@@ -168,7 +168,7 @@ BOOL COfflineLevelling::AddUser(int aIndex, WORD wSkillId)
 
 	if(iter != m_OffPlayerData.end())
 	{
-		g_Log.Add("[OfflineLevelling] User Already exist %d",aIndex);
+		sLog.outBasic("[OfflineLevelling] User Already exist %d",aIndex);
 		LeaveCriticalSection(&m_OfflevelCriti);
 		return false;
 	}
@@ -178,7 +178,7 @@ BOOL COfflineLevelling::AddUser(int aIndex, WORD wSkillId)
 	obj.dwOffTime = GetTickCount();
 	m_OffPlayerData.insert(std::pair<int, OFF_LEVEL_PLAYERS>(aIndex,obj));
 
-	g_Log.Add("[OfflineLevelling] Add user %d Skill Id %d",aIndex, wSkillId);
+	sLog.outBasic("[OfflineLevelling] Add user %d Skill Id %d",aIndex, wSkillId);
 
 	LeaveCriticalSection(&m_OfflevelCriti);
 	return true;
@@ -192,12 +192,12 @@ BOOL COfflineLevelling::DeleteUser(int aIndex)
 
 	if(iter == m_OffPlayerData.end())
 	{
-		g_Log.Add("[OfflineLevelling] User does not exist %d",aIndex);
+		sLog.outBasic("[OfflineLevelling] User does not exist %d",aIndex);
 		return false;
 	}
 
 	m_OffPlayerData.erase(iter);
-	g_Log.Add("[OfflineLevelling] User %d removed from Offlevelling system",aIndex);
+	sLog.outBasic("[OfflineLevelling] User %d removed from Offlevelling system",aIndex);
 	LeaveCriticalSection(&m_OfflevelCriti);
 	return true;
 }
@@ -220,7 +220,7 @@ void COfflineLevelling::FindAndAttack(LPOBJ user)
 						lpMagic = gObjGetMagicSearch(user,obj.wSkillNumber);
 						if(lpMagic == NULL)
 						{
-							g_Log.Add("[OfflineLevelling] [%s][%s] Skill %d not found", user->AccountID, user->Name,obj.wSkillNumber);
+							sLog.outBasic("[OfflineLevelling] [%s][%s] Skill %d not found", user->AccountID, user->Name,obj.wSkillNumber);
 							return;
 						}
 						
@@ -273,7 +273,7 @@ void COfflineLevelling::FindAndAttack(LPOBJ user)
 
 						if(lpMagic == NULL)
 						{
-								g_Log.Add("[OfflineLevelling] [%s][%s] Skill %d not found", user->AccountID, user->Name,obj.wSkillNumber);
+								sLog.outBasic("[OfflineLevelling] [%s][%s] Skill %d not found", user->AccountID, user->Name,obj.wSkillNumber);
 								return;
 						}
 
@@ -339,7 +339,7 @@ void COfflineLevelling::FindAndAttack(LPOBJ user)
 						lpMagic = gObjGetMagicSearch(user,obj.wSkillNumber);
 						if(lpMagic == NULL)
 						{
-							g_Log.Add("[OfflineLevelling] [%s][%s] Skill %d not found", user->AccountID, user->Name,obj.wSkillNumber);
+							sLog.outBasic("[OfflineLevelling] [%s][%s] Skill %d not found", user->AccountID, user->Name,obj.wSkillNumber);
 							return;
 						}
 						gObjAttack(user, tObj, lpMagic, TRUE, 1, 0, FALSE, 0, 0);
@@ -611,7 +611,7 @@ bool COfflineLevelling::CheckUseTime(int aIndex)
 			lpObj->m_bOff = false;
 			lpObj->m_bOffLevel = false;
 			this->DeleteUser(lpObj->m_Index);
-			g_Log.Add("[OffLevel][%d][%s][%s] Exceed max use time [Hours:%d] [Vip:%d]",aIndex,lpObj->AccountID,lpObj->Name,(useTime * 1000 *3600), lpObj->m_PlayerData->VipType);
+			sLog.outBasic("[OffLevel][%d][%s][%s] Exceed max use time [Hours:%d] [Vip:%d]",aIndex,lpObj->AccountID,lpObj->Name,(useTime * 1000 *3600), lpObj->m_PlayerData->VipType);
 		}
 	}
 	else
@@ -621,7 +621,7 @@ bool COfflineLevelling::CheckUseTime(int aIndex)
 			lpObj->m_bOff = false;
 			lpObj->m_bOffLevel = false;
 			this->DeleteUser(lpObj->m_Index);
-			g_Log.Add("[OffLevel][%d][%s][%s] Exceed max use time [Hours:%d] [Vip:%d]",aIndex,lpObj->AccountID,lpObj->Name,(useTime * 1000 *3600), lpObj->m_PlayerData->VipType);
+			sLog.outBasic("[OffLevel][%d][%s][%s] Exceed max use time [Hours:%d] [Vip:%d]",aIndex,lpObj->AccountID,lpObj->Name,(useTime * 1000 *3600), lpObj->m_PlayerData->VipType);
 		}
 	}
 

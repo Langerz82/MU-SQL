@@ -4,7 +4,7 @@
 #include "TNotice.h"
 #include "user.h"
 #include "giocp.h"
-#include "winutil.h"
+#include "util.h"
 #include "GameMain.h"
 #include "configread.h"
 

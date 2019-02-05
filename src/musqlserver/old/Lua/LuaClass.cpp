@@ -2,7 +2,7 @@
 // LuaClass.cpp
 #include "stdafx.h"
 #include "LuaClass.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "configread.h"
 
 bool g_Generic_Call(lua_State *L, const char* func, const char* sig, ...)
@@ -172,13 +172,13 @@ bool CLuaClass::DoFile(const char* szFileName)
 {
 	if ( luaL_loadfile(this->m_pLuaState, szFileName) != 0 )
 	{
-		g_Log.MsgBox("Error: %s", lua_tolstring(this->m_pLuaState, -1, 0));
+		sLog.outError("Error: %s", lua_tolstring(this->m_pLuaState, -1, 0));
 		return false;
 	}
 
 	if ( lua_pcall(this->m_pLuaState, 0, -1, 0) != 0 )
 	{
-		g_Log.MsgBox("Error: %s", lua_tolstring(this->m_pLuaState, -1, 0));
+		sLog.outError("Error: %s", lua_tolstring(this->m_pLuaState, -1, 0));
 		return false;
 	}
 

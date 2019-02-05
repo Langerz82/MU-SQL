@@ -3,7 +3,7 @@
 #include "stdafx.h"
 
 #if FILE_FLOOD_SYSTEMSWITCH
-#include "TLog.h"
+#include "Log/Log.h"
 #include "User.h"
 #include "LogToFile.h"
 #include "readscript.h"
@@ -44,7 +44,7 @@ void cAntiFlood::ReadBlackList(LPSTR filename)
 	if (SMDFile == NULL)
 	{
 
-		g_Log.MsgBox("Error reading file %s", filename);
+		sLog.outError("Error reading file %s", filename);
 		exit(1);
 	}
 
@@ -62,7 +62,7 @@ void cAntiFlood::ReadBlackList(LPSTR filename)
 		if (this->AddToBlackList(TokenString) == false)
 		{
 
-			g_Log.MsgBox("error-L3 : Max IP count in BlackList reached!");
+			sLog.outError("error-L3 : Max IP count in BlackList reached!");
 			exit(1);
 		}
 		//}

@@ -2,7 +2,7 @@
 // Engine.cpp
 #include "stdafx.h"
 #include "Engine.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "ConnectServer.h"
 #include "protocol.h"
 
@@ -59,7 +59,7 @@ short UserAdd(SOCKET s, char *IP)
 			Users[count].PacketCount = 0;
 			Users[count].i64PacketTime = GetTickCount64();
 			SCount++;
-			g_Log.Add("Connection Accept: %s", IP);
+			sLog.outBasic("Connection Accept: %s", IP);
 			return (short)count;
 		}
 
@@ -91,7 +91,7 @@ short UserDelete(int index)
 	Users[index].ConnectionState = 0;
 	SCount--;
 
-	g_Log.Add("Disconnected: %s (%d)", Users[index].IP, index);
+	sLog.outBasic("Disconnected: %s (%d)", Users[index].IP, index);
 
 	return 1;
 }

@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include "MasterLevelSkillTreeSystem.h"
 #include "MasterSkillSystem.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "GameMain.h"
 #include "configread.h"
 #include "ObjCalCharacter.h"
@@ -17,7 +17,7 @@
 #include "GensSystem.h"
 #include "ObjAttack.h"
 #include "./Eventos/ArcaBattle/ArcaBattle.h"
-#include "winutil.h"
+#include "util.h"
 #include "CustomMaxStats.h"
 
 CMasterLevelSkillTreeSystem g_MasterLevelSkillTreeSystem;
@@ -71,7 +71,7 @@ void CMasterLevelSkillTreeSystem::Init()
 
 	if (pLuaState == NULL)
 	{
-		g_Log.Add("[MasterLevelSkillTreeSystem] - Error - [%s] [%d]", __FILE__, __LINE__);
+		sLog.outBasic("[MasterLevelSkillTreeSystem] - Error - [%s] [%d]", __FILE__, __LINE__);
 		return;
 	}
 
@@ -85,7 +85,7 @@ void CMasterLevelSkillTreeSystem::AddToValueTable(int iSkillValueID, const char 
 {
 	if (iSkillValueID < 0 || iSkillValueID > MAX_MASTER_SKILL_TYPE)
 	{
-		g_Log.Add("[MasterLevelSkillTreeSystem] - Error - Wrong iSkillValueID [%d] - [%s] [%d]", iSkillValueID, __FILE__, __LINE__);
+		sLog.outBasic("[MasterLevelSkillTreeSystem] - Error - Wrong iSkillValueID [%d] - [%s] [%d]", iSkillValueID, __FILE__, __LINE__);
 		return;
 	}
 
@@ -108,19 +108,19 @@ void CMasterLevelSkillTreeSystem::Load(const char *lpszFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("[MasterLevelSkillTreeSystem] - Can't Load %s (%s)", lpszFileName, res.description());
+		sLog.outError("[MasterLevelSkillTreeSystem] - Can't Load %s (%s)", lpszFileName, res.description());
 		return;
 	}
 
 	int iIndex = -1;
 	int iTempIndex, iRank, iPos, iPoint, iMaxPoint, iParentSkill1, iParentSkill2, iSkillID;
 
-	pugi::xml_node main = file.child("MasterSkillTree");
+	pugi::xml_node mainXML = file.child("MasterSkillTree");
 
 	this->m_wMaxMasterSkillLevel = main.attribute("MaxSkillLevel").as_int(20); // private custom !!!
 	this->Init();
 
-	for (pugi::xml_node class_node = main.child("Class"); class_node; class_node = class_node.next_sibling())
+	for (pugi::xml_node class_node = mainXML.child("Class"); class_node; class_node = class_node.next_sibling())
 	{
 		int iClass = class_node.attribute("ID").as_int();
 
@@ -891,7 +891,7 @@ int CMasterLevelSkillTreeSystem::gObjMagicAdd_MLS(OBJECTSTRUCT *lpObj, int iMLSk
 
 		if (reqeng < 0)
 		{
-			g_Log.Add("error-L2: Skill energy not enough");
+			sLog.outBasic("error-L2: Skill energy not enough");
 			return -1;
 		}
 
@@ -904,14 +904,14 @@ int CMasterLevelSkillTreeSystem::gObjMagicAdd_MLS(OBJECTSTRUCT *lpObj, int iMLSk
 
 		if ((lpObj->m_PlayerData->Energy + lpObj->AddEnergy) < reqeng)
 		{
-			g_Log.Add("error-L2: Skill energy not enough");
+			sLog.outBasic("error-L2: Skill energy not enough");
 			return -1;
 		}
 	}
 
 	if (MagicDamageC.SkillGetRequireClass(lpObj->Class, lpObj->m_PlayerData->ChangeUP, iMLSkill) < 1 && lpObj->Type == OBJ_USER && lpObj->m_PlayerData->ISBOT == false)
 	{
-		g_Log.Add("error-L2: His class is not allowed to use the skill [ID: %d]", iMLSkill);
+		sLog.outBasic("error-L2: His class is not allowed to use the skill [ID: %d]", iMLSkill);
 		return -1;
 	}
 
@@ -919,7 +919,7 @@ int CMasterLevelSkillTreeSystem::gObjMagicAdd_MLS(OBJECTSTRUCT *lpObj, int iMLSk
 	{
 		if (lpObj->Magic[n].IsMagic() == TRUE && lpObj->Magic[n].m_Skill == iMLSkill && lpObj->Magic[n].m_Level == iSkillLevel)
 		{
-			g_Log.Add("Same skill already exists %d %d", lpObj->Magic[n].m_Skill, iMLSkill);
+			sLog.outBasic("Same skill already exists %d %d", lpObj->Magic[n].m_Skill, iMLSkill);
 			return -1;
 		}
 	}
@@ -995,13 +995,13 @@ int CMasterLevelSkillTreeSystem::gObjMagicAdd_MLS(OBJECTSTRUCT *lpObj, int iMLSk
 
 			else
 			{
-				g_Log.Add("Same magic already exists %s %d", __FILE__, __LINE__);
+				sLog.outBasic("Same magic already exists %s %d", __FILE__, __LINE__);
 				return -1;
 			}
 		}
 	}
 
-	g_Log.Add("No space to add magic %s %d", __FILE__, __LINE__);
+	sLog.outBasic("No space to add magic %s %d", __FILE__, __LINE__);
 	return -1;
 }
 
@@ -1093,7 +1093,7 @@ void CMasterLevelSkillTreeSystem::CGReqGetMasterLevelSkill(PMSG_REQ_MASTERLEVEL_
 
 	if (lpObj->m_IfState.use && lpObj->m_IfState.type == 1)
 	{
-		g_Log.Add("[MasterSkill] [%s][%s] Fail(Use Trade Interface) - Add Magic List", lpObj->AccountID, lpObj->Name);
+		sLog.outBasic("[MasterSkill] [%s][%s] Fail(Use Trade Interface) - Add Magic List", lpObj->AccountID, lpObj->Name);
 
 		pMsg.btResult = 6;
 		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
@@ -1106,7 +1106,7 @@ void CMasterLevelSkillTreeSystem::CGReqGetMasterLevelSkill(PMSG_REQ_MASTERLEVEL_
 
 	if (iResult != TRUE)
 	{
-		g_Log.Add("[MasterSkill] [%s][%s] Fail - Result:%d, Skill:%d Level:%d MLPoint:%d",
+		sLog.outBasic("[MasterSkill] [%s][%s] Fail - Result:%d, Skill:%d Level:%d MLPoint:%d",
 			lpObj->AccountID, lpObj->Name, iResult, lpMsg->iMasterLevelSkill, iSkillLevel, lpObj->m_PlayerData->MasterPoint);
 		pMsg.btResult = iResult;
 	}
@@ -1115,7 +1115,7 @@ void CMasterLevelSkillTreeSystem::CGReqGetMasterLevelSkill(PMSG_REQ_MASTERLEVEL_
 	{
 		if (this->gObjMagicAdd_MLS(lpObj, lpMsg->iMasterLevelSkill, iSkillLevel) < 0)
 		{
-			g_Log.Add("[MasterSkill] [%s][%s] Fail - Add Magic List, Skill:%d Level:%d", lpObj->AccountID, lpObj->Name, lpMsg->iMasterLevelSkill, iSkillLevel);
+			sLog.outBasic("[MasterSkill] [%s][%s] Fail - Add Magic List, Skill:%d Level:%d", lpObj->AccountID, lpObj->Name, lpMsg->iMasterLevelSkill, iSkillLevel);
 		}
 
 		else
@@ -1158,7 +1158,7 @@ void CMasterLevelSkillTreeSystem::CGReqGetMasterLevelSkill(PMSG_REQ_MASTERLEVEL_
 
 			this->CalcPassiveSkillData(lpObj, lpMsg->iMasterLevelSkill, iSkillLevel);
 
-			//g_Log.Add("[MasterSkill] [%s][%s] Success - Add Magic List, Skill:%d Level:%d MLPoint:%d",lpObj->AccountID, lpObj->Name, lpMsg->iMasterLevelSkill, iSkillLevel, lpObj->m_PlayerData->MasterPoint);
+			//sLog.outBasic("[MasterSkill] [%s][%s] Success - Add Magic List, Skill:%d Level:%d MLPoint:%d",lpObj->AccountID, lpObj->Name, lpMsg->iMasterLevelSkill, iSkillLevel, lpObj->m_PlayerData->MasterPoint);
 		}
 	}
 
@@ -2514,7 +2514,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillInfinityArrow(int aIndex, int aTarget
 	gObjAddBuffEffect(lpObj, BUFFTYPE_INFINITY_ARROW_STR, 0, 0, 0, 0, -10);
 	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, lpObj->m_Index, TRUE);
 
-	g_Log.Add("[%s][%s] Use Infinity Arrow Skill (Time:%d)(Character Level : %d)(ChangeUp: %d)",
+	sLog.outBasic("[%s][%s] Use Infinity Arrow Skill (Time:%d)(Character Level : %d)(ChangeUp: %d)",
 		lpObj->AccountID, lpObj->Name, g_SkillAdditionInfo.GetInfinityArrowSkillTime(), lpObj->Level, lpObj->m_PlayerData->ChangeUP);
 }
 
@@ -3785,7 +3785,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMonkBarrageJustOneTarget(int aIndex, 
 
 	if (ObjectMaxRange(aTargetIndex) == FALSE)
 	{
-		g_Log.Add("[InvalidTargetIndex][MLS_SkillMonkBarrageJustOneTarget] Index :%d , AccountID : %s", aIndex, gObj[aIndex].AccountID);
+		sLog.outBasic("[InvalidTargetIndex][MLS_SkillMonkBarrageJustOneTarget] Index :%d , AccountID : %s", aIndex, gObj[aIndex].AccountID);
 		return;
 	}
 
@@ -4649,7 +4649,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillPartyHealing(int aIndex, int aTargetI
 
 	if (partynum > -1 && partynum != lpTargetObj->PartyNumber)
 	{
-		g_Log.Add("[party healing] mismatch party number. target : %d, (%d - %d)", aTargetIndex, lpObj->PartyNumber, lpTargetObj->PartyNumber);
+		sLog.outBasic("[party healing] mismatch party number. target : %d, (%d - %d)", aTargetIndex, lpObj->PartyNumber, lpTargetObj->PartyNumber);
 		return;
 	}
 
@@ -5783,7 +5783,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillHellBust(int aIndex, int aTargetIndex
 
 	if (lpObj->m_PlayerData->SkillStrengthenHellFire2State == 0)
 	{
-		g_Log.Add("[%s][%s] [MLS] Nova skill didn't cast", lpObj->AccountID, lpObj->Name); //HermeX Fix
+		sLog.outBasic("[%s][%s] [MLS] Nova skill didn't cast", lpObj->AccountID, lpObj->Name); //HermeX Fix
 		return;
 	}
 
@@ -5871,7 +5871,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillHellBustStart(int aIndex, CMagicInf *
 
 	if (lpObj->m_PlayerData->SkillStrengthenHellFire2State != 0)
 	{
-		g_Log.Add("[%s][%s] [MLS] Nova skill already casted", lpObj->AccountID, lpObj->Name);
+		sLog.outBasic("[%s][%s] [MLS] Nova skill already casted", lpObj->AccountID, lpObj->Name);
 		return;
 	}
 
@@ -7094,13 +7094,13 @@ int CMasterLevelSkillTreeSystem::GetRequireMLPoint(int iClass, int iSkill)
 {
 	if (iClass < 0 || iClass >= MAX_TYPE_PLAYER)
 	{
-		g_Log.Add("[MasterLevelSkillTreeSystem] GetRequireMLPoint - Invalid Class Code  : %d", iClass);
+		sLog.outBasic("[MasterLevelSkillTreeSystem] GetRequireMLPoint - Invalid Class Code  : %d", iClass);
 		return -1;
 	}
 
 	if (iSkill < 0 || iSkill > 722)
 	{
-		g_Log.Add("[MasterLevelSkillTreeSystem] GetRequireMLPoint - Invalid Skill Code  : %d", iSkill);
+		sLog.outBasic("[MasterLevelSkillTreeSystem] GetRequireMLPoint - Invalid Skill Code  : %d", iSkill);
 		return -1;
 	}
 
@@ -7125,13 +7125,13 @@ int CMasterLevelSkillTreeSystem::GetMaxPointOfMasterSkill(int iClass, int iSkill
 {
 	if (iClass < 0 || iClass >= MAX_TYPE_PLAYER)
 	{
-		g_Log.Add("[MasterLevelSkillTreeSystem] GetMaxPointOfMasterSkill - Invalid Class Code  : %d", iClass);
+		sLog.outBasic("[MasterLevelSkillTreeSystem] GetMaxPointOfMasterSkill - Invalid Class Code  : %d", iClass);
 		return -1;
 	}
 
 	if (iSkill < 0 || iSkill > 722)
 	{
-		g_Log.Add("[MasterLevelSkillTreeSystem] GetMaxPointOfMasterSkill - Invalid Skill Code  : %d", iSkill);
+		sLog.outBasic("[MasterLevelSkillTreeSystem] GetMaxPointOfMasterSkill - Invalid Skill Code  : %d", iSkill);
 		return -1;
 	}
 
@@ -7860,7 +7860,7 @@ int CMasterLevelSkillTreeSystem::GetScriptClassCode(int iClass)
 {
 	if (iClass < 0 || iClass >= MAX_TYPE_PLAYER)
 	{
-		g_Log.Add("[MasterLevelSkillTreeSystem] GetScriptClassCode - Invalid Class Code  : %d", iClass);
+		sLog.outBasic("[MasterLevelSkillTreeSystem] GetScriptClassCode - Invalid Class Code  : %d", iClass);
 		return -1;
 	}
 
@@ -7960,7 +7960,7 @@ BYTE CMasterLevelSkillTreeSystem::ResetMasterSkill(int aIndex, int nTreeType)
 		}
 	}
 
-	g_Log.Add("[%s][%s] Master Skill Reset (TreeType: %d)", lpObj->AccountID, lpObj->Name, nTreeType);
+	sLog.outBasic("[%s][%s] Master Skill Reset (TreeType: %d)", lpObj->AccountID, lpObj->Name, nTreeType);
 	gObjCloseSet(lpObj->m_Index, 1);
 
 	return 0;
@@ -8062,7 +8062,7 @@ float CMasterLevelSkillTreeSystem::GetSkillAttackDamage(LPOBJ lpObj, int iSkill)
 
 		if (nCnt > 2)
 		{
-			g_Log.Add("[GetSkillAttackDamage] fail!!! - %d", iSkill);
+			sLog.outBasic("[GetSkillAttackDamage] fail!!! - %d", iSkill);
 			iBrandOfSkill = 0;
 			break;
 		}

@@ -5,9 +5,9 @@
 #include "stdafx.h"
 #include "TMonsterAIUtil.h"
 #include "BuffEffectSlot.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "Gamemain.h"
-#include "winutil.h"
+#include "util.h"
 #include "configread.h"
 
 //////////////////////////////////////////////////////////////////////
@@ -430,7 +430,7 @@ BOOL TMonsterAIUtil::SendMonsterMoveMsg(LPOBJ lpObj)
 
 	if ( lpObj->Class == 541 )
 	{
-		g_Log.Add("CHUJ!");
+		sLog.outBasic("CHUJ!");
 		return FALSE;
 	}
 

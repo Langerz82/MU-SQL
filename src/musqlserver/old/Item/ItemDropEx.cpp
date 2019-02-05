@@ -1,8 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ItemDropEx.cpp
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "ItemDropEx.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "Readscript.h"
 #include "DSProtocol.h"
 #include "gObjMonster.h"

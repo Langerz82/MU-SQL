@@ -8,7 +8,7 @@
 #include "RaklionUtil.h"
 #include "Raklion.h"
 #include "User.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "gObjMonster.h"
 
 //////////////////////////////////////////////////////////////////////
@@ -212,7 +212,7 @@ void CRaklionBattleOfSelupan::SetState_DIE()
 
 	for(int iCount=0; iCount<g_RaklionBattleUserMng.GetUserCount(); iCount++)
 	{
-		g_Log.Add("[Raklion][SelupanDie] %d/%d/%d %d:%d:%d %dth Winner : %s (%s)",	
+		sLog.outBasic("[Raklion][SelupanDie] %d/%d/%d %d:%d:%d %dth Winner : %s (%s)",	
 			pCurrentTime->tm_year+1900, pCurrentTime->tm_mon+1, pCurrentTime->tm_mday, 
 			pCurrentTime->tm_hour, pCurrentTime->tm_min, pCurrentTime->tm_sec, iCount+1, 
 			gObj[g_RaklionBattleUserMng.GetUserObjIndex(iCount)].Name, 

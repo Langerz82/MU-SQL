@@ -2,7 +2,7 @@
 // ItemUpgradeJewel.cpp
 #include "stdafx.h"
 #include "ItemUpgradeJewel.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "GameMain.h"
 #include "SetItemOption.h"
 #include "configread.h"
@@ -45,7 +45,7 @@ void ItemUpgradeJewels::Read(LPSTR File)
 	// ----
 	if (Result.status != status_ok)
 	{
-		g_Log.MsgBox("[IGC_ItemUpgradeJewel] File %s not found!", File);
+		sLog.outError("[IGC_ItemUpgradeJewel] File %s not found!", File);
 		return;
 	}
 	// ----

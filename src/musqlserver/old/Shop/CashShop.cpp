@@ -6,10 +6,10 @@
 #include "CashShop.h"
 #include "GameServer.h"
 #include "GameMain.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "DSProtocol.h"
 #include "SProtocol.h"
-#include "winutil.h"
+#include "util.h"
 #include "gObjMonster.h"
 #include "LogToFile.h"
 #include "configread.h"
@@ -172,7 +172,7 @@ void CItemShop::LoadItemInfo(LPSTR pchFilename)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("[ItemShop][ItemInfo] List load failed. [%s] [%s]", pchFilename, res.description());
+		sLog.outError("[ItemShop][ItemInfo] List load failed. [%s] [%s]", pchFilename, res.description());
 		return;
 	}
 
@@ -180,9 +180,9 @@ void CItemShop::LoadItemInfo(LPSTR pchFilename)
 
 	ITEMSHOP_ITEMINFO ItemInfo;
 
-	pugi::xml_node main = file.child("CashItemInfo");
+	pugi::xml_node mainXML = file.child("CashItemInfo");
 
-	for (pugi::xml_node item = main.child("Item"); item; item = item.next_sibling())
+	for (pugi::xml_node item = mainXML.child("Item"); item; item = item.next_sibling())
 	{
 		ItemInfo.wGUID = item.attribute("GUID").as_int();
 		ItemInfo.wID = item.attribute("ID").as_int();
@@ -215,7 +215,7 @@ void CItemShop::LoadItemList(LPSTR pchFilename)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("[ItemShop][ItemList] List load failed. [%s] [%s]", pchFilename, res.description());
+		sLog.outError("[ItemShop][ItemList] List load failed. [%s] [%s]", pchFilename, res.description());
 		return;
 	}
 
@@ -223,9 +223,9 @@ void CItemShop::LoadItemList(LPSTR pchFilename)
 
 	ITEMSHOP_ITEMLIST ItemList;
 
-	pugi::xml_node main = file.child("CashItemList");
+	pugi::xml_node mainXML = file.child("CashItemList");
 
-	for (pugi::xml_node item = main.child("Item"); item; item = item.next_sibling())
+	for (pugi::xml_node item = mainXML.child("Item"); item; item = item.next_sibling())
 	{
 		ItemList.btGuid = item.attribute("GUID").as_int();
 		ItemList.wItemIndex = item.attribute("iIndex").as_int();
@@ -254,7 +254,7 @@ void CItemShop::LoadPackages(LPSTR pchFilename)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("[ItemShop][PackageList] File load fail: %s [%s]", pchFilename, res.description());
+		sLog.outError("[ItemShop][PackageList] File load fail: %s [%s]", pchFilename, res.description());
 		return;
 	}
 
@@ -262,9 +262,9 @@ void CItemShop::LoadPackages(LPSTR pchFilename)
 
 	this->VecPackageList.clear();
 
-	pugi::xml_node main = file.child("CashItemPackage");
+	pugi::xml_node mainXML = file.child("CashItemPackage");
 
-	for (pugi::xml_node package = main.child("Package"); package; package = package.next_sibling())
+	for (pugi::xml_node package = mainXML.child("Package"); package; package = package.next_sibling())
 	{
 		PackInfo.Guid = package.attribute("GUID").as_int();
 		PackInfo.PackageID = package.attribute("ID").as_int();
@@ -292,16 +292,16 @@ void CItemShop::LoadGPMonsterData(LPSTR pchFilename)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("[ItemShop][GPMonsterList] File load fail: %s [%s]", pchFilename, res.description());
+		sLog.outError("[ItemShop][GPMonsterList] File load fail: %s [%s]", pchFilename, res.description());
 		return;
 	}
 
 	GP_PERMONSTER_DATA GPInfo;
 	this->VecGpMonster.clear();
 
-	pugi::xml_node main = file.child("MonsterGPInfo");
+	pugi::xml_node mainXML = file.child("MonsterGPInfo");
 
-	for (pugi::xml_node monster = main.child("Monster"); monster; monster = monster.next_sibling())
+	for (pugi::xml_node monster = mainXML.child("Monster"); monster; monster = monster.next_sibling())
 	{
 		if (monster.attribute("Enable").as_bool() == false)
 		{

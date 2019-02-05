@@ -3,8 +3,8 @@
 #include "stdafx.h"
 #include "Marry.h"
 #include "protocol.h"
-#include "TLog.h"
-#include "winutil.h"
+#include "Log/Log.h"
+#include "util.h"
 #include "user.h"
 #include "DSProtocol.h"
 #include "GameMain.h"
@@ -31,19 +31,19 @@ void CMarry::LoadFile(char * filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("Error loading %s file (%s)", filename, res.description());
+		sLog.outError("Error loading %s file (%s)", filename, res.description());
 
 		LeaveCriticalSection(&this->m_criti);
 		return;
 	}
 
-	pugi::xml_node main = file.child("MarrySystem");
+	pugi::xml_node mainXML = file.child("MarrySystem");
 
 	this->m_bMarryEnable = main.attribute("Enable").as_bool();
 	this->m_iMarryMinUserLevel = main.attribute("ReqLevel").as_int();
 	this->m_iMarryNeedMoney = main.attribute("ReqMoney").as_int();
 
-	pugi::xml_node location = main.child("Location");
+	pugi::xml_node location = mainXML.child("Location");
 
 	this->m_wMarryMapNumber = location.attribute("MapNumber").as_int();
 	this->m_btMarryStartX = location.attribute("StartX").as_int();
@@ -51,7 +51,7 @@ void CMarry::LoadFile(char * filename)
 	this->m_btMarryEndX = location.attribute("EndX").as_int();
 	this->m_btMarryEndY = location.attribute("EndY").as_int();
 
-	pugi::xml_node wedding = main.child("WeddingSettings");
+	pugi::xml_node wedding = mainXML.child("WeddingSettings");
 
 	this->m_bHomoSexualAllow = wedding.attribute("Homosexual").as_bool();
 	this->m_bNeedSpecialItemForMarry = wedding.attribute("ReqSpecialItem").as_bool();
@@ -67,7 +67,7 @@ void CMarry::LoadFile(char * filename)
 
 		if (iItemID == -1)
 		{
-			g_Log.MsgBox("ERROR - Wrong item in %s file (%d %d)", filename, item.attribute("ItemCat").as_int(), item.attribute("ItemIndex").as_int());
+			sLog.outError("ERROR - Wrong item in %s file (%d %d)", filename, item.attribute("ItemCat").as_int(), item.attribute("ItemIndex").as_int());
 			continue;
 		}
 
@@ -77,7 +77,7 @@ void CMarry::LoadFile(char * filename)
 		this->m_vtMarryItem.push_back(m_Item);
 	}
 
-	pugi::xml_node gift = main.child("WeddingGift");
+	pugi::xml_node gift = mainXML.child("WeddingGift");
 
 	this->m_bGiftEnable = gift.attribute("Enable").as_bool();
 
@@ -92,7 +92,7 @@ void CMarry::LoadFile(char * filename)
 
 		if (iItemID == -1)
 		{
-			g_Log.MsgBox("ERROR - Wrong item in %s file (%d %d)", filename, item.attribute("ItemCat").as_int(), item.attribute("ItemIndex").as_int());
+			sLog.outError("ERROR - Wrong item in %s file (%d %d)", filename, item.attribute("ItemCat").as_int(), item.attribute("ItemIndex").as_int());
 			continue;
 		}
 
@@ -102,7 +102,7 @@ void CMarry::LoadFile(char * filename)
 		this->m_vtGiftItem.push_back(m_Item);
 	}
 
-	pugi::xml_node divorce = main.child("DivorceSettings");
+	pugi::xml_node divorce = mainXML.child("DivorceSettings");
 
 	this->m_bDivorceAllow = divorce.attribute("Allow").as_bool();
 	this->m_bNeedSpecialItemForDivorce = divorce.attribute("ReqSpecialItem").as_bool();
@@ -118,7 +118,7 @@ void CMarry::LoadFile(char * filename)
 
 		if (iItemID == -1)
 		{
-			g_Log.MsgBox("ERROR - Wrong item in %s file (%d %d)", filename, item.attribute("ItemCat").as_int(), item.attribute("ItemIndex").as_int());
+			sLog.outError("ERROR - Wrong item in %s file (%d %d)", filename, item.attribute("ItemCat").as_int(), item.attribute("ItemIndex").as_int());
 			continue;
 		}
 
@@ -210,7 +210,7 @@ void CMarry::Propose(int aIndex, int uIndex)
 	GSProtocol.GCServerMsgStringSend(msg, uIndex, 1);
 	GSProtocol.GCServerMsgStringSend(Lang.GetText(0,381), aIndex, 1);
 
-	g_Log.Add("[Marry][%s][%s] Request to marry with [%s][%s]", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[uIndex].AccountID, gObj[uIndex].Name);
+	sLog.outBasic("[Marry][%s][%s] Request to marry with [%s][%s]", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[uIndex].AccountID, gObj[uIndex].Name);
 }
 
 bool CMarry::Accept(int aIndex)
@@ -305,7 +305,7 @@ bool CMarry::Accept(int aIndex)
 	wsprintf(info, Lang.GetText(0,389), gObj[uIndex].Name, gObj[aIndex].Name);
 	GSProtocol.AllSendServerMsg(info);
 
-	g_Log.Add("[Marry] New Marriage: %s [%d]  %s [%d]", gObj[uIndex].Name, gObj[aIndex].Married, gObj[aIndex].Name, gObj[uIndex].Married);
+	sLog.outBasic("[Marry] New Marriage: %s [%d]  %s [%d]", gObj[uIndex].Name, gObj[aIndex].Married, gObj[aIndex].Name, gObj[uIndex].Married);
 	return true;
 }
 
@@ -345,7 +345,7 @@ void CMarry::Divorce(int aIndex)
 
 	this->DeleteDivorceItem(aIndex);
 
-	g_Log.Add("[Marry] Divorce: [%s] [%d]", gObj[aIndex].Name, gObj[uIndex].Name);
+	sLog.outBasic("[Marry] Divorce: [%s] [%d]", gObj[aIndex].Name, gObj[uIndex].Name);
 }
 
 bool CMarry::CheckPosition(int aIndex, int uIndex)

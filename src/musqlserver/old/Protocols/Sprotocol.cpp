@@ -5,7 +5,7 @@
 //#include "stdafx.h"
 #include "Sprotocol.h"
 #include "giocp.h"
-//#include "tlog.h"
+//#include "Log/Log.h"
 #include "util.h"
 #include "MD5.h"
 #include "WzUdp.h"

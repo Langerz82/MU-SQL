@@ -2,7 +2,7 @@
 // EventManagement.cpp
 #include "stdafx.h"
 #include "EventManagement.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "DragonEvent.h"
 #include "./Eventos/AttackEvent/AttackEvent.h"
 #include "EledoradoEvent.h"
@@ -201,7 +201,7 @@ void CEventManagement::Run()
 			(*(it)).m_bEventStarted = false;
 		}
 
-		g_Log.Add("[Event Management] Wrong date: %02d %02d %02d %02d", this->m_wToday_Year, this->m_wToday_Month, this->m_wToday_Day, this->m_wToday_DayOfWeek);	// Deathway Need Translation
+		sLog.outBasic("[Event Management] Wrong date: %02d %02d %02d %02d", this->m_wToday_Year, this->m_wToday_Month, this->m_wToday_Day, this->m_wToday_DayOfWeek);	// Deathway Need Translation
 
 		this->m_wToday_Year = sysTime.wYear;
 		this->m_wToday_Month = sysTime.wMonth;
@@ -213,7 +213,7 @@ void CEventManagement::Run()
 	{
 		if ( sysTime.wHour == (*(it)).m_iHour && sysTime.wMinute == (*(it)).m_iMinute && (sysTime.wDayOfWeek == (*(it)).m_iDayOfWeek || (*(it)).m_iDayOfWeek == -1) && (*(it)).m_bEventStarted == false )
 		{
-			g_Log.Add("[Event Management] Found Event: (%d) %02d %02d (state=%d)",
+			sLog.outBasic("[Event Management] Found Event: (%d) %02d %02d (state=%d)",
 				(*(it)).m_eEventKind , (*(it)).m_iHour, sysTime.wMinute , (*(it)).m_bEventStarted);	// #error Deathway Need Translation
 
 			(*(it)).m_bEventStarted = true;
@@ -303,16 +303,16 @@ bool CEventManagement::Load(LPSTR lpszFileName)
 
 	if ( res.status != pugi::status_ok )
 	{
-		g_Log.MsgBox("[DOTH] Info file Load Fail [%s] [%s]", lpszFileName, res.description());
+		sLog.outError("[DOTH] Info file Load Fail [%s] [%s]", lpszFileName, res.description());
 
 		return false;
 	}
 
-	pugi::xml_node main = file.child("InvasionManager");
+	pugi::xml_node mainXML = file.child("InvasionManager");
 
 	this->m_bEventStart = main.attribute("Enable").as_bool();
 
-	for (pugi::xml_node invasion = main.child("Invasion"); invasion; invasion = invasion.next_sibling())
+	for (pugi::xml_node invasion = mainXML.child("Invasion"); invasion; invasion = invasion.next_sibling())
 	{
 		EVENT_ID_TIME EIT;
 

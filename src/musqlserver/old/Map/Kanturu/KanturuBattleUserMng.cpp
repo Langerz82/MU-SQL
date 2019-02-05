@@ -6,7 +6,7 @@
 #include "KanturuBattleUserMng.h"
 #include "KanturuUtil.h"
 #include "GameMain.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "configread.h"
 
 CKanturuBattleUserMng g_KanturuBattleUserMng;

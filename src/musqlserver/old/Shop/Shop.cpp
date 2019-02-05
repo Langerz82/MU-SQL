@@ -48,7 +48,7 @@ BOOL CShop::InsertItem(int type, int index, int level, int dur, int op1, int op2
 
 	if (itemp < 0)
 	{
-		g_Log.MsgBox("Error in creating item at shop %s %d Item: %d %d", __FILE__, __LINE__, type, index);
+		sLog.outError("Error in creating item at shop %s %d Item: %d %d", __FILE__, __LINE__, type, index);
 		return false;
 	}
 
@@ -56,7 +56,7 @@ BOOL CShop::InsertItem(int type, int index, int level, int dur, int op1, int op2
 
 	if (!p)
 	{
-		g_Log.MsgBox("error-L2: %s %d", __FILE__, __LINE__);
+		sLog.outError("error-L2: %s %d", __FILE__, __LINE__);
 		return FALSE;
 	}
 
@@ -65,7 +65,7 @@ BOOL CShop::InsertItem(int type, int index, int level, int dur, int op1, int op2
 	if (width < 0 || height < 0)
 	{
 		// Error in getting item size in shop %s %d
-		g_Log.MsgBox("Error in getting item size in shop %s %d", __FILE__, __LINE__);
+		sLog.outError("Error in getting item size in shop %s %d", __FILE__, __LINE__);
 		return FALSE;
 	}
 
@@ -87,7 +87,7 @@ BOOL CShop::InsertItem(int type, int index, int level, int dur, int op1, int op2
 
 	if (blank < 0)
 	{
-		g_Log.MsgBox("error-L2 : %s %d", __FILE__, __LINE__);
+		sLog.outError("error-L2 : %s %d", __FILE__, __LINE__);
 		return FALSE;
 	}
 
@@ -251,7 +251,7 @@ BOOL CShop::LoadShopItem(char* filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("Failed to load %s file! (%s", filename, res.description());
+		sLog.outError("Failed to load %s file! (%s", filename, res.description());
 		return FALSE;
 	}
 
@@ -285,7 +285,7 @@ BOOL CShop::LoadShopItem(char* filename)
 
 		if (this->InsertItem(type, index, level, dur, op1, op2, op3, newop, setop, socketcount, elemental, serial) == FALSE)
 		{
-			g_Log.MsgBox("error-L3 : %s %s %d", filename, __FILE__, __LINE__);
+			sLog.outError("error-L3 : %s %s %d", filename, __FILE__, __LINE__);
 		}
 	}
 
@@ -311,7 +311,7 @@ void CShopMng::LoadShopList(char* filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("Failed to load %s file! (%s", filename, res.description());
+		sLog.outError("Failed to load %s file! (%s", filename, res.description());
 		return;
 	}
 
@@ -471,7 +471,7 @@ void CShopMng::SetShopNpcs()
 		{
 			continue;
 		}
-		//g_Log.Add("SetShopNpcs - Map %d %d %d", it->btMapNumber, it->btPosX, it->btPosY);	// Memory allocation error
+		//sLog.outBasic("SetShopNpcs - Map %d %d %d", it->btMapNumber, it->btPosX, it->btPosY);	// Memory allocation error
 		gObjSetMonster(iResult, it->iNpcIndex);
 		gObj[iResult].m_MoveRange = 0;
 		gObj[iResult].MapNumber = it->btMapNumber;
@@ -489,7 +489,7 @@ void CShopMng::SetShopNpcs()
 		gObj[iResult].m_State = TRUE;
 		gObj[iResult].m_btNpcType = NPC_TYPES::NPC_SHOP;
 
-		//g_Log.Add("[Shops] Spawn Shop NPC (Index:%d) [MAP:%d][X:%d][Y:%d][NPCID:%d][DIR:%d]",iResult, it->btMapNumber, it->btPosX, it->btPosY, it->iNpcIndex, it->btDir);
+		//sLog.outBasic("[Shops] Spawn Shop NPC (Index:%d) [MAP:%d][X:%d][Y:%d][NPCID:%d][DIR:%d]",iResult, it->btMapNumber, it->btPosX, it->btPosY, it->iNpcIndex, it->btDir);
 
 		if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE)
 		{

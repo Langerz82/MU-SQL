@@ -2,7 +2,7 @@
 // DoppelGangerPosInfo.cpp
 #include "stdafx.h"
 #include "DoppelGangerPosInfo.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "user.h"
 
 CDoppelGangerPosInfo::CDoppelGangerPosInfo(void)
@@ -22,12 +22,12 @@ void CDoppelGangerPosInfo::LoadDoppelgangerPosInfo(LPSTR lpFile)
 
 	if ( res.status != pugi::status_ok )
 	{
-		g_Log.MsgBox("%s load fail (%s)", lpFile, res.description());
+		sLog.outError("%s load fail (%s)", lpFile, res.description());
 		return;
 	}
 
-	pugi::xml_node main = file.child("DoppelGanger");
-	pugi::xml_node pos_info = main.child("PositionInfo");
+	pugi::xml_node mainXML = file.child("DoppelGanger");
+	pugi::xml_node pos_info = mainXML.child("PositionInfo");
 
 	for (pugi::xml_node map = pos_info.child("Map"); map; map = map.next_sibling())
 	{
@@ -35,7 +35,7 @@ void CDoppelGangerPosInfo::LoadDoppelgangerPosInfo(LPSTR lpFile)
 
 		if (iMapNumber < MAP_INDEX_DOPPELGANGER1 || iMapNumber > MAP_INDEX_DOPPELGANGER4)
 		{
-			g_Log.MsgBox("Error: Wrong Map Number (%d) (%s)", iMapNumber, lpFile);
+			sLog.outError("Error: Wrong Map Number (%d) (%s)", iMapNumber, lpFile);
 			return;
 		}
 
@@ -51,7 +51,7 @@ void CDoppelGangerPosInfo::LoadDoppelgangerPosInfo(LPSTR lpFile)
 		}
 	}
 
-	pugi::xml_node waiting_zones = main.child("WaitingZones");
+	pugi::xml_node waiting_zones = mainXML.child("WaitingZones");
 
 	for (pugi::xml_node map = waiting_zones.child("Map"); map; map = map.next_sibling())
 	{
@@ -59,7 +59,7 @@ void CDoppelGangerPosInfo::LoadDoppelgangerPosInfo(LPSTR lpFile)
 
 		if (iMapNumber < MAP_INDEX_DOPPELGANGER1 || iMapNumber > MAP_INDEX_DOPPELGANGER4)
 		{
-			g_Log.MsgBox("Error: Wrong Map Number (%d) (%s)", iMapNumber, lpFile);
+			sLog.outError("Error: Wrong Map Number (%d) (%s)", iMapNumber, lpFile);
 			return;
 		}
 

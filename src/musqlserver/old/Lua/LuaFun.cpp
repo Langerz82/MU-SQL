@@ -7,7 +7,7 @@
 
 #include "stdafx.h"
 #include "LuaFun.h"
-#include "TLog.h"
+#include "Log/Log.h"
 
 static int Debug_Print(lua_State *L)
 {
@@ -79,7 +79,7 @@ bool g_Generic_Call(lua_State * LState, const char * Func, const char * Sig, ...
 
 			default:
 			{
-				g_Log.Add("luacall_Generic_Call invalid option (%c)", *(Sig - 1));
+				sLog.outBasic("luacall_Generic_Call invalid option (%c)", *(Sig - 1));
 				return false;
 			}
 		}
@@ -93,7 +93,7 @@ bool g_Generic_Call(lua_State * LState, const char * Func, const char * Sig, ...
 
 	if (lua_pcall(LState, nArg, nRes, 0) != 0)
 	{
-		g_Log.Add("luacall_Generic_Call error running function '%s': '%s'", Func, lua_tolstring(LState, -1, 0));
+		sLog.outBasic("luacall_Generic_Call error running function '%s': '%s'", Func, lua_tolstring(LState, -1, 0));
 		return false;
 	}
 

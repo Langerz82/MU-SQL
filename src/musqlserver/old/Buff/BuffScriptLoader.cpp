@@ -77,9 +77,9 @@ bool CBuffScriptLoader::Load(char* pchFileName)
 	WORD wEffectValue2 = 0;
 	DWORD dwDuration = 0;
 
-	pugi::xml_node main = file.child("BuffEffectManager");
-	pugi::xml_node general = main.child("General");
-	pugi::xml_node period = main.child("Period");
+	pugi::xml_node mainXML = file.child("BuffEffectManager");
+	pugi::xml_node general = mainXML.child("General");
+	pugi::xml_node period = mainXML.child("Period");
 
 	for (pugi::xml_node buff = general.child("Buff"); buff; buff = buff.next_sibling())
 	{

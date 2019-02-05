@@ -16,21 +16,25 @@
 #include "wsJoinServerCli.h"
 #include "wsGameServer.h"
 #include "DirPath.h"
-#include "MapClass.h"
+#include "Map/MapClass.h"
 #include "classdef.h"
 #include "CLoginCount.h"
-#include "DragonEvent.h"
-#include "./Eventos/AttackEvent/AttackEvent.h"
+#include "Event/DragonEvent.h"
+//#include "AttackEvent.h" // TODO include in project.
 #include "WhisperCash.h"
-#include "WzUdp.h"
+//#include "WzUdp.h"
 #include "giocp.h"
-#include "MonsterAttr.h"
-#include "MonsterSetBase.h"
+#include "Monster/MonsterAttr.h"
+#include "Monster/MonsterSetBase.h"
 #include "PartyClass.h"
-#include "LogToFile.h"
-#include "CastleSiege.h"
-#include "CastleDeepEvent.h"
-#include "Crywolf.h"
+
+#include "Map/Castle/CastleSiege.h"
+#include "Map/Castle/CastleDeepEvent.h"
+#include "Map/CryWolf/Crywolf.h"
+
+#ifndef MAX_CHECKSUM_KEY
+	#define MAX_CHECKSUM_KEY 1024
+#endif
 
 struct PMSG_FRIEND_STATE
 {
@@ -157,8 +161,8 @@ extern classdef DCInfo;	// line 252:
 extern CWhisperCash WhisperCash;	// line 253
 extern PartyClass gParty;	// line 254
 extern CGuildClass Guild;	// line 265
-extern WzUdp gUdpSoc;	// line 256
-extern WzUdp gLauncherUdp;
+//extern WzUdp gUdpSoc;	// line 256
+//extern WzUdp gLauncherUdp;
 extern CLoginCount gLCount[3];	// line 329
 extern UINT64 * gLevelExperience;
 extern char szGameServerExeSerial[24];
@@ -323,12 +327,12 @@ extern int gIsDropSetItemInCastleHuntZone;
 extern int gSetItemInCastleHuntZoneDropRate;
 extern int gSetItemInCastleHuntZoneDropLevel;
 
-extern CLogToFile * GMLog;
-extern CLogToFile * MsgLog;
-extern CLogToFile * TradeLog;
-extern CLogToFile * AntiHackLog;
-extern CLogToFile * BotShopLog;
-extern CLogToFile * SerialCheck;
+//extern CLogToFile * GMLog;
+//extern CLogToFile * MsgLog;
+//extern CLogToFile * TradeLog;
+//extern CLogToFile * AntiHackLog;
+//extern CLogToFile * BotShopLog;
+//extern CLogToFile * SerialCheck;
 
 //------------------------------------------
 // GameMain.cpp Functions - Prototypes List - Completed

@@ -3178,7 +3178,7 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic, int 
 
 	/*if (lpObj->Class == CLASS_ELF && lpObj->Level == 1 && AttackDamage > 10)
 	{
-		g_Log.Add("error-Level1 : [%s][%s] Str:%d %d %d %d %d %d %d",
+		sLog.outBasic("error-Level1 : [%s][%s] Str:%d %d %d %d %d %d %d",
 			lpObj->AccountID, lpObj->Name, Strength,
 			lpObj->m_AttackDamageMinRight, lpObj->m_AttackDamageMaxRight,
 			lpObj->m_AttackDamageMinLeft, lpObj->m_AttackDamageMaxLeft,
@@ -3890,7 +3890,7 @@ int  CObjAttack::GetAttackDamage(LPOBJ lpObj, LPOBJ lpTargetObj, int targetDefen
 
 		if (sub < 0)
 		{
-			g_Log.Add("Monster Class [%d] Damage is 0, check files configuration", lpObj->Class);
+			sLog.outBasic("Monster Class [%d] Damage is 0, check files configuration", lpObj->Class);
 			return 0;
 		}
 

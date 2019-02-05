@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include "ObjBaseAttack.h"
 #include "GameMain.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "DevilSquare.h"
 #include "./Eventos/BloodCastle/BloodCastle.h"
 #include "ChaosCastle.h"
@@ -139,7 +139,7 @@ BOOL CObjBaseAttack::CheckAttackArea(LPOBJ lpObj, LPOBJ lpTargetObj)
 
 		if ( iRet != 0 )
 		{
-			g_Log.Add("[%s][%s] Try Attack In Not Attack Area (%s,%d,%d) errortype = %d",lpObj->AccountID, lpObj->Name, Lang.GetMap(0,0+lpObj->MapNumber),
+			sLog.outBasic("[%s][%s] Try Attack In Not Attack Area (%s,%d,%d) errortype = %d",lpObj->AccountID, lpObj->Name, Lang.GetMap(0,0+lpObj->MapNumber),
 				lpObj->X, lpObj->Y, iRet);
 
 			if ( bIsIgnorePacketSpeedHackDetect != FALSE )
@@ -701,7 +701,7 @@ BOOL CObjBaseAttack::MissCheck(LPOBJ lpObj, LPOBJ lpTargetObj, int skill, int sk
 	}
 	__except (iAttackRate = 1, 1)
 	{
-		g_Log.Add("error2: %s's level is 0", lpObj->Name);
+		sLog.outBasic("error2: %s's level is 0", lpObj->Name);
 		return FALSE;
 	}
 
@@ -864,7 +864,7 @@ BOOL CObjBaseAttack::MissCheckPvP(LPOBJ lpObj , LPOBJ lpTargetObj, int skill, in
 		{
 			if ( lpObj->m_PlayerData->comboSkill.ProgressIndex >= 0 )
 			{
-				g_Log.Add("[Shield] ComboSkill Cancel! [%s][%s]",lpObj->AccountID, lpObj->Name);
+				sLog.outBasic("[Shield] ComboSkill Cancel! [%s][%s]",lpObj->AccountID, lpObj->Name);
 				lpObj->m_PlayerData->comboSkill.Init();
 			}
 		}

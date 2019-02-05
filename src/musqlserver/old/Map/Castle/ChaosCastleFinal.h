@@ -3,7 +3,7 @@
 #ifndef CHAOSCASTLEFINAL_H
 #define CHAOSCASTLEFINAL_H
 
-#include "winutil.h"
+#include "util.h"
 
 #define MAX_CCF_TRAP_STEP	4
 #define MAX_CCF_HOLLOW_ZONE	4

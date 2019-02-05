@@ -6,8 +6,8 @@
 // ------------------------------
 #include "stdafx.h"
 #include "SkillHitBox.h"
-#include "winutil.h"
-#include "TLog.h"
+#include "util.h"
+#include "Log/Log.h"
 
 // GS-N 0.99.60T 0x46E710
 //	GS-N	1.00.18	JPN	0x004856C0	-	Completed
@@ -70,7 +70,7 @@ BOOL CSkillHitBox::Load(char * filename )
 {
 	if(!IsFile(filename))
 	{
-		g_Log.MsgBox("%s file load fail", filename);
+		sLog.outError("%s file load fail", filename);
 		return FALSE;
 	}
 
@@ -83,7 +83,7 @@ BOOL CSkillHitBox::Load(char * filename )
 
 	if ((int)fileSize != sizeof(this->m_Table))
 	{
-		g_Log.MsgBox("Wrong file size - %s", filename);
+		sLog.outError("Wrong file size - %s", filename);
 		return FALSE;
 	}
 

@@ -11,6 +11,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "custTypedef.h"
+
 typedef struct _ListNode
 {
 	_ListNode * lpNodePre;	// 0

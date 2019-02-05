@@ -49,7 +49,7 @@ private:
 	char* m_pBuffer;	// 4
 	int m_iBufferSize;	// 8
 	int m_iBufferCount;	// C
-	HANDLE m_hFile;	// 10
+	//HANDLE m_hFile;	// 10
 	char * m_Token;	// 14
 	float TokenNumber;	// 18
 	char TokenString[100];	// 1C

@@ -2,9 +2,9 @@
 // StatSpecialize.cpp
 #include "stdafx.h"
 #include "StatSpecialize.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "configread.h"
-#include "winutil.h"
+#include "util.h"
 #include "GameMain.h"
 
 CStatSpecialize g_StatSpec;
@@ -27,14 +27,14 @@ bool CStatSpecialize::LoadFile(char *szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("Failed to load %s file (%s)", szFile, res.description());
+		sLog.outError("Failed to load %s file (%s)", szFile, res.description());
 		return false;
 	}
 
-	pugi::xml_node main = file.child("StatSpecialize");
+	pugi::xml_node mainXML = file.child("StatSpecialize");
 	int Count = 0;
 
-	for(pugi::xml_node option = main.child("Option"); option; option = option.next_sibling())
+	for(pugi::xml_node option = mainXML.child("Option"); option; option = option.next_sibling())
 	{
 		this->m_StatOptions[Count].StatOptionID = option.attribute("ID").as_int();
 		this->m_StatOptions[Count].StatOptionClass[CLASS_KNIGHT] = option.attribute("DK").as_bool();

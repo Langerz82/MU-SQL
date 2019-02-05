@@ -5,7 +5,7 @@
 #include "user.h"
 #include "MonsterAttr.h"
 #include "GameMain.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "LargeRand.h"
 #include "CashShop.h"
 #include "LuckyItemManager.h"
@@ -156,7 +156,7 @@ void CMonsterItemMng::LoadMonsterItemDropRate()
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("File Read Error: IGC_MonsterItemDropRate.xml (%s)", res.description());
+		sLog.outError("File Read Error: IGC_MonsterItemDropRate.xml (%s)", res.description());
 		return;
 	}
 
@@ -169,7 +169,7 @@ void CMonsterItemMng::LoadMonsterItemDropRate()
 
 		if (nLevel >= MAX_LEVEL_MONSTER)
 		{
-			g_Log.MsgBox("Error - Wrong Monster Level (%d) (Maximum is %d) (%s)", nLevel, MAX_LEVEL_MONSTER - 1, __FUNCTION__);
+			sLog.outError("Error - Wrong Monster Level (%d) (Maximum is %d) (%s)", nLevel, MAX_LEVEL_MONSTER - 1, __FUNCTION__);
 			continue;
 		}
 
@@ -238,7 +238,7 @@ void CMonsterItemMng::MagicBookGiveItemSearch(int monsterlevel, int maxlevel)
 {
 	if (monsterlevel >= MAX_LEVEL_MONSTER)
 	{
-		g_Log.Add("[INFO] Monster Level greater than max drop Level (%d) excluded from general drop, line: %d", MAX_LEVEL_MONSTER - 1, __LINE__);
+		sLog.outBasic("[INFO] Monster Level greater than max drop Level (%d) excluded from general drop, line: %d", MAX_LEVEL_MONSTER - 1, __LINE__);
 		return;
 	}
 
@@ -339,7 +339,7 @@ void CMonsterItemMng::NormalGiveItemSearchEx(int monsterlevel, int maxlevel)
 
 	if (monsterlevel >= MAX_LEVEL_MONSTER)
 	{
-		g_Log.Add("[INFO] Monster (%s) Level greater than max drop Level (%d) excluded from general drop, line: %d", this->MonsterName, MAX_LEVEL_MONSTER - 1, __LINE__);
+		sLog.outBasic("[INFO] Monster (%s) Level greater than max drop Level (%d) excluded from general drop, line: %d", this->MonsterName, MAX_LEVEL_MONSTER - 1, __LINE__);
 		return;
 	}
 
@@ -603,7 +603,7 @@ void CMonsterItemMng::NormalGiveItemSearch(int monsterlevel, int maxlevel)
 				return;
 		}
 	}
-	g_Log.Add("error-L3 : Monster Level Overflow~ %s %d", __FILE__, __LINE__);
+	sLog.outBasic("error-L3 : Monster Level Overflow~ %s %d", __FILE__, __LINE__);
 
 }
 

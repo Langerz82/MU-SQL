@@ -9,7 +9,7 @@
 #include "BuffEffect.h"
 #include "ItemAddOption.h"
 #include "ObjCalCharacter.h"
-#include "Winutil.h"
+#include "util.h"
 #include "zzzitem.h"
 #include "ProDef.h"
 #include "Protocol.h"

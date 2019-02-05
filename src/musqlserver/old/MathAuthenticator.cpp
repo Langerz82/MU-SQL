@@ -4,7 +4,7 @@
 #include "MathAuthenticator.h"
 #include "user.h"
 #include "GameMain.h"
-#include "winutil.h"
+#include "util.h"
 #include "configread.h"
 
 // It's class used by eX700 and later clients to authorize... something?

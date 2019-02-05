@@ -7,7 +7,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "TLog.h"
+#include "Log/Log.h"
 #include "user.h"
 
 #define MAX_QUEST_TELEPORT 4
@@ -66,7 +66,7 @@ public:
 	{
 		EnterCriticalSection(&this->CsRef);
 		this->RefCount++;
-		g_Log.Add("%s RefCount Inc = %d", this->m_strNPCName.c_str(), this->RefCount);
+		sLog.outBasic("%s RefCount Inc = %d", this->m_strNPCName.c_str(), this->RefCount);
 		LeaveCriticalSection(&this->CsRef);
 		
 	};	// line : 123
@@ -81,7 +81,7 @@ public:
 			this->RefCount = 0;
 		}
 		
-		g_Log.Add("%s RefCount Dec= %d", this->m_strNPCName.c_str(), this->RefCount);
+		sLog.outBasic("%s RefCount Dec= %d", this->m_strNPCName.c_str(), this->RefCount);
 		LeaveCriticalSection(&this->CsRef);
 	};	// line : 135
 

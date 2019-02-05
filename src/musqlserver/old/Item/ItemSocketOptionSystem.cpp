@@ -67,8 +67,8 @@ bool CItemSocketOptionSystem::LoadOptionScript(char *pchFileName)
 	int iBonusSocketOptionDataCount = 0;
 	int iSetSocketOptionDataCount = 0;
 
-	pugi::xml_node main = file.child("SocketSystem");
-	pugi::xml_node item_option = main.child("SocketItemOptionSettings");
+	pugi::xml_node mainXML = file.child("SocketSystem");
+	pugi::xml_node item_option = mainXML.child("SocketItemOptionSettings");
 
 	for (pugi::xml_node option = item_option.child("Option"); option; option = option.next_sibling())
 	{
@@ -103,7 +103,7 @@ bool CItemSocketOptionSystem::LoadOptionScript(char *pchFileName)
 		}
 	}
 
-	pugi::xml_node bonus_option = main.child("SocketBonusSettings");
+	pugi::xml_node bonus_option = mainXML.child("SocketBonusSettings");
 
 	for (pugi::xml_node option = bonus_option.child("Option"); option; option = option.next_sibling())
 	{
@@ -163,7 +163,7 @@ bool CItemSocketOptionSystem::LoadOptionScript(char *pchFileName)
 		iBonusSocketOptionDataCount++;
 	}
 
-	pugi::xml_node set_option = main.child("SpecialOptionSettings");
+	pugi::xml_node set_option = mainXML.child("SpecialOptionSettings");
 
 	for (pugi::xml_node option = set_option.child("Option"); option; option = option.next_sibling())
 	{
@@ -235,12 +235,12 @@ void CItemSocketOptionSystem::LoadScript()
 		return;
 	}
 
-	pugi::xml_node main = file.child("SocketSystem");
+	pugi::xml_node mainXML = file.child("SocketSystem");
 
 	m_SphereDropOn = main.attribute("SphereDrop").as_int();
 	m_TetraDropOn = main.attribute("TetraDrop").as_int();
 
-	pugi::xml_node sphere_drop = main.child("SphereDrop");
+	pugi::xml_node sphere_drop = mainXML.child("SphereDrop");
 	pugi::xml_node sphere_rate = sphere_drop.child("Rate");
 	pugi::xml_node sphere_level = sphere_drop.child("Level");
 
@@ -256,7 +256,7 @@ void CItemSocketOptionSystem::LoadScript()
 		m_SphereDropLevel[iCount++] = level.as_int();
 	}
 
-	pugi::xml_node tetra_drop = main.child("TetraDrop");
+	pugi::xml_node tetra_drop = mainXML.child("TetraDrop");
 	pugi::xml_node tetra_bronze = tetra_drop.child("Bronze");
 	pugi::xml_node tetra_silver = tetra_drop.child("Silver");
 	pugi::xml_node tetra_gold = tetra_drop.child("Gold");
@@ -273,7 +273,7 @@ void CItemSocketOptionSystem::LoadScript()
 	m_TetraDropMaxLevel[1] = tetra_silver.attribute("LevelMax").as_int();
 	m_TetraDropMaxLevel[2] = tetra_gold.attribute("LevelMax").as_int();
 
-	pugi::xml_node seed_mixes = main.child("Seed");
+	pugi::xml_node seed_mixes = mainXML.child("Seed");
 	pugi::xml_node seedsphere_mixes = seed_mixes.child("Sphere");
 
 	m_RequireMoneyForSeedExtract = seed_mixes.attribute("ExtractMoney").as_int();
@@ -281,7 +281,7 @@ void CItemSocketOptionSystem::LoadScript()
 	m_RequireMoneyForSeedSphereSet = seedsphere_mixes.attribute("SetMoney").as_int();
 	m_RequireMoneyForSeedSphereRemove = seedsphere_mixes.attribute("RemoveMoney").as_int();
 
-	pugi::xml_node socketrate = main.child("SocketRateSettings");
+	pugi::xml_node socketrate = mainXML.child("SocketRateSettings");
 
 	int ItemCat;
 	int SlotRate[5];
@@ -338,9 +338,9 @@ bool CItemSocketOptionSystem::LoadSocketSlotRateFile(char *pchFileName)
 	int SlotRate[5];
 	TRandomPoolMgr Pool;
 
-	pugi::xml_node main = file.child("SocketRateSettings");
+	pugi::xml_node mainXML = file.child("SocketRateSettings");
 
-	for (pugi::xml_node socket = main.child("Socket"); socket; socket = socket.next_sibling())
+	for (pugi::xml_node socket = mainXML.child("Socket"); socket; socket = socket.next_sibling())
 	{
 		Pool.InitPool();
 
@@ -359,7 +359,7 @@ bool CItemSocketOptionSystem::LoadSocketSlotRateFile(char *pchFileName)
 		this->m_mapSocketSlotCountPool.insert(std::pair<int, TRandomPoolMgr>(ItemCat, Pool));
 	}
 
-	pugi::xml_node twohand = main.child("TwoHandWeapons");
+	pugi::xml_node twohand = mainXML.child("TwoHandWeapons");
 
 	SlotRate[0] = twohand.attribute("Count1").as_int();
 	SlotRate[1] = twohand.attribute("Count2").as_int();

@@ -6,9 +6,9 @@
 #include "KanturuEntranceNPC.h"
 #include "Kanturu.h"
 #include "KanturuBattleUserMng.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "KanturuUtil.h"
-#include "winutil.h"
+#include "util.h"
 #include "configread.h"
 
 static CKanturuUtil KANTURU_UTIL;

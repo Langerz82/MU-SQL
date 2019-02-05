@@ -7,9 +7,9 @@
 #include "QuestExpUserMng.h"
 #include "QuestExpLuaBind.h"
 #include "user.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "GameMain.h"
-#include "winutil.h"
+#include "util.h"
 #include "gObjMonster.h"
 #include "BuffEffectSlot.h"
 #include "DSProtocol.h"
@@ -52,7 +52,7 @@ void QuestExpProgMng::QuestExpGiveUpBtnClick(DWORD dwQuestInfoIndexID, int iObjI
 	int iEpisode = GetQuestEpisodeFromInfoIndexId(dwQuestInfoIndexID);
 	int iQS = GetQuestSwitchFromInfoIndexId(dwQuestInfoIndexID);
 
-	//g_Log.Add("[QuestExp] Give Up [%s][%s] Ep[%d] QS[%d]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, iEpisode, iQS);
+	//sLog.outBasic("[QuestExp] Give Up [%s][%s] Ep[%d] QS[%d]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, iEpisode, iQS);
 
 	int iUserQuestSwitch = gObj[iObjIndex].m_PlayerData->m_UserQuestInfo[iEpisode].GetQuestSwitch();
 
@@ -60,7 +60,7 @@ void QuestExpProgMng::QuestExpGiveUpBtnClick(DWORD dwQuestInfoIndexID, int iObjI
 
 	if (!L)
 	{
-		g_Log.Add("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
+		sLog.outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
 		return;
 	}
 
@@ -70,7 +70,7 @@ void QuestExpProgMng::QuestExpGiveUpBtnClick(DWORD dwQuestInfoIndexID, int iObjI
 
 	int iSendQS = gObj[iObjIndex].m_PlayerData->m_UserQuestInfo[iEpisode].GetQuestSwitch();
 
-	//g_Log.Add("[QuestExp] Give Up - SetQuestSwitch [%s][%s] Ep[%d] QS[%d]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, iEpisode, iSendQS);
+	//sLog.outBasic("[QuestExp] Give Up - SetQuestSwitch [%s][%s] Ep[%d] QS[%d]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, iEpisode, iSendQS);
 
 	PMSG_QUEST_GIVEUP_ANS pMsg;
 	pMsg.dwQuestInfoIndexID = GetQuestInfoIndexId(iEpisode, iSendQS);
@@ -108,7 +108,7 @@ void QuestExpProgMng::SendQuestProgress(DWORD dwQuestInfoIndexID, int iObjIndex)
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF6, 0x0B, sizeof(pMsg));
 	IOCP.DataSend(iObjIndex, (LPBYTE)&pMsg, pMsg.h.size);
 
-	//g_Log.Add("[QuestExp] - Ans Send User : Selection Statements Choose One [%s][%s] QuestIndexID[0x%x]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, dwQuestInfoIndexID);
+	//sLog.outBasic("[QuestExp] - Ans Send User : Selection Statements Choose One [%s][%s] QuestIndexID[0x%x]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, dwQuestInfoIndexID);
 }
 
 #pragma pack (1)
@@ -165,7 +165,7 @@ void QuestExpProgMng::SendQuestProgress(QuestExpInfo* pQuestExpInfo, DWORD dwQue
 
 	if (!bGetSendQuestInfo)
 	{
-		g_Log.Add("[QuestExp] - Error - SendQuestProgress() [%s] [%d]", __FILE__, __LINE__);
+		sLog.outBasic("[QuestExp] - Error - SendQuestProgress() [%s] [%d]", __FILE__, __LINE__);
 		return;
 	}
 
@@ -196,7 +196,7 @@ void QuestExpProgMng::SendQuestProgress(QuestExpInfo* pQuestExpInfo, DWORD dwQue
 	memcpy(sendBuff, &pMsg, sizeof(pMsg));
 	IOCP.DataSend(iObjIndex, sendBuff, lOfs);
 
-	//g_Log.Add("[QuestExp] Send QuestInfo From NPC To User : [%s][%s] Ep[%d] QS[%d]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, GetQuestEpisodeFromInfoIndexId(dwQuestInfoIndexID), GetQuestSwitchFromInfoIndexId(dwQuestInfoIndexID));
+	//sLog.outBasic("[QuestExp] Send QuestInfo From NPC To User : [%s][%s] Ep[%d] QS[%d]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, GetQuestEpisodeFromInfoIndexId(dwQuestInfoIndexID), GetQuestSwitchFromInfoIndexId(dwQuestInfoIndexID));
 }
 
 void QuestExpProgMng::SendQuestProgress(int iEpisode, int iQS, int iObjIndex)
@@ -205,7 +205,7 @@ void QuestExpProgMng::SendQuestProgress(int iEpisode, int iQS, int iObjIndex)
 
 	if (this->ChkQuestIndexIDToEpAndQSLimit(dwQuestInfoIndexID, iObjIndex) == false)
 	{
-		g_Log.Add("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
+		sLog.outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
 		return;
 	}
 
@@ -244,7 +244,7 @@ void QuestExpProgMng::SendQuestProgressInfo(QuestExpInfo* pQuestExpInfo, DWORD d
 
 	if (!bGetSendQuestInfo)
 	{
-		g_Log.Add("[QuestExp] - Error - SendQuestProgressInfo() [%s] [%d]", __FILE__, __LINE__);
+		sLog.outBasic("[QuestExp] - Error - SendQuestProgressInfo() [%s] [%d]", __FILE__, __LINE__);
 	}
 
 	memcpy(&sendBuff[lOfs], &NpcQuestExpInfo, sizeof(NpcQuestExpInfo));
@@ -274,7 +274,7 @@ void QuestExpProgMng::SendQuestProgressInfo(QuestExpInfo* pQuestExpInfo, DWORD d
 	memcpy(sendBuff, &pMsg, sizeof(pMsg));
 	IOCP.DataSend(iObjIndex, sendBuff, lOfs);
 
-	//g_Log.Add("[QuestExp] Send Quest Info To QuestList : [%s][%s] Ep[%d] QS[%d]",
+	//sLog.outBasic("[QuestExp] Send Quest Info To QuestList : [%s][%s] Ep[%d] QS[%d]",
 	//	gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, GetQuestEpisodeFromInfoIndexId(dwQuestInfoIndexID), GetQuestSwitchFromInfoIndexId(dwQuestInfoIndexID));
 
 
@@ -287,7 +287,7 @@ bool QuestExpProgMng::ChkQuestAsk(int iEpisode, int iObjIndex)
 
 	if (!pUserQuestInfo)
 	{
-		g_Log.Add("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
+		sLog.outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
 		return false;
 	}
 
@@ -297,7 +297,7 @@ bool QuestExpProgMng::ChkQuestAsk(int iEpisode, int iObjIndex)
 
 	if (!pQuestExpInfo)
 	{
-		g_Log.Add("[QuestExp] - Error - ChkQuestAsk : [%s][%s] QuestIndexID[0x%x]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, dwQuestInfoIndexID);
+		sLog.outBasic("[QuestExp] - Error - ChkQuestAsk : [%s][%s] QuestIndexID[0x%x]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, dwQuestInfoIndexID);
 		return false;
 	}
 
@@ -315,13 +315,13 @@ bool QuestExpProgMng::ChkQuestAsk(int iEpisode, int iObjIndex)
 
 		if (!pQuestExpAsk)
 		{
-			g_Log.Add("[QuestExp] - Error - ChkQuestAsk *** : [%s][%s] QuestIndexID[0x%x]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, dwQuestInfoIndexID);
+			sLog.outBasic("[QuestExp] - Error - ChkQuestAsk *** : [%s][%s] QuestIndexID[0x%x]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, dwQuestInfoIndexID);
 			return false;
 		}
 
 		if (IsQuestAskInfo(iAskCnt) == false)
 		{
-			g_Log.Add("[QuestExp] - Error - iAskCnt [%d] [%s] [%d]", iAskCnt, __FILE__, __LINE__);
+			sLog.outBasic("[QuestExp] - Error - iAskCnt [%d] [%s] [%d]", iAskCnt, __FILE__, __LINE__);
 			return false;
 		}
 
@@ -383,7 +383,7 @@ bool QuestExpProgMng::ChkQuestAsk(int iEpisode, int iObjIndex)
 		break;
 
 		default:
-			g_Log.Add("[QuestExp] - Error - Unknown Ask Type [%d] [%s] [%d]", iQuestType, __FILE__, __LINE__);
+			sLog.outBasic("[QuestExp] - Error - Unknown Ask Type [%d] [%s] [%d]", iQuestType, __FILE__, __LINE__);
 			return false;
 		}
 
@@ -401,7 +401,7 @@ bool QuestExpProgMng::GetSendQuestInfo(QuestExpInfo* pQuestExpInfo, DWORD dwQues
 
 	if (!pUserQuestInfo)
 	{
-		g_Log.Add("[QuestExp] - Error - GetSendQuestInfo()  pUserQuestInfo == NULL : [%s][%s]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name);
+		sLog.outBasic("[QuestExp] - Error - GetSendQuestInfo()  pUserQuestInfo == NULL : [%s][%s]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name);
 		return false;
 	}
 
@@ -420,13 +420,13 @@ bool QuestExpProgMng::GetSendQuestInfo(QuestExpInfo* pQuestExpInfo, DWORD dwQues
 
 		if (!pQuestExpAsk)
 		{
-			g_Log.Add("[QuestExp] - Error - GetSendQuestInfo *** : [%s][%s] QuestIndexID[0x%x]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, dwQuestInfoIndexID);
+			sLog.outBasic("[QuestExp] - Error - GetSendQuestInfo *** : [%s][%s] QuestIndexID[0x%x]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, dwQuestInfoIndexID);
 			return false;
 		}
 
 		if (IsQuestAskInfo(iAskCnt) == false)
 		{
-			g_Log.Add("[QuestExp] - Error - iAskCnt [%d] [%s] [%d]", iAskCnt, __FILE__, __LINE__);
+			sLog.outBasic("[QuestExp] - Error - iAskCnt [%d] [%s] [%d]", iAskCnt, __FILE__, __LINE__);
 			return false;
 		}
 
@@ -581,7 +581,7 @@ bool QuestExpProgMng::GetSendQuestInfo(QuestExpInfo* pQuestExpInfo, DWORD dwQues
 
 		default:
 
-			g_Log.Add("[QuestExp] - Error - Unknown Ask Type [%d] [%s] [%d]", iQuestType, __FILE__, __LINE__);
+			sLog.outBasic("[QuestExp] - Error - Unknown Ask Type [%d] [%s] [%d]", iQuestType, __FILE__, __LINE__);
 			return false;
 		}
 
@@ -620,13 +620,13 @@ bool QuestExpProgMng::GetSendQuestInfo(QuestExpInfo* pQuestExpInfo, DWORD dwQues
 
 		if (!pQuestExpReward)
 		{
-			g_Log.Add("[QuestExp] - Error - GetSendQuestInfo *** : [%s][%s] QuestIndexID[0x%x]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, dwQuestInfoIndexID);
+			sLog.outBasic("[QuestExp] - Error - GetSendQuestInfo *** : [%s][%s] QuestIndexID[0x%x]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, dwQuestInfoIndexID);
 			return false;
 		}
 
 		if (IsQuestRewardInfo(iReward) == false)
 		{
-			g_Log.Add("[QuestExp] - Error - iReward [%d] [%s] [%d]", iReward, __FILE__, __LINE__);
+			sLog.outBasic("[QuestExp] - Error - iReward [%d] [%s] [%d]", iReward, __FILE__, __LINE__);
 			return false;
 		}
 
@@ -704,7 +704,7 @@ bool QuestExpProgMng::GetSendQuestInfo(QuestExpInfo* pQuestExpInfo, DWORD dwQues
 		break;
 
 		default:
-			g_Log.Add("[QuestExp] - Error - Unknown Reward Type %d %s %d", iRewardType, __FILE__, __LINE__);
+			sLog.outBasic("[QuestExp] - Error - Unknown Reward Type %d %s %d", iRewardType, __FILE__, __LINE__);
 			return false;
 		}
 
@@ -851,7 +851,7 @@ void QuestExpProgMng::DeleteInventoryItem(QuestGetItem* pQuestGetItem, int iObjI
 			BYTE NewOption[MAX_EXOPTION_SIZE] = { 0 };
 			ItemIsBufExOption(NewOption, &gObj[iObjIndex].pInventory[x]);
 
-			/*g_Log.Add("[QuestExp] DeleteInvenItem [%s][%s] Delete Item Info - Item:[%s,%d,%d,%d,%d] serial:[%I64d][%d] Ex:[%d,%d,%d,%d,%d,%d,%d] Set[%d] 380:[%d] HO:[%d,%d] SC[%d,%d,%d,%d,%d] BonusOption[%d]",
+			/*sLog.outBasic("[QuestExp] DeleteInvenItem [%s][%s] Delete Item Info - Item:[%s,%d,%d,%d,%d] serial:[%I64d][%d] Ex:[%d,%d,%d,%d,%d,%d,%d] Set[%d] 380:[%d] HO:[%d,%d] SC[%d,%d,%d,%d,%d] BonusOption[%d]",
 				gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, gObj[iObjIndex].pInventory[x].GetName(), gObj[iObjIndex].pInventory[x].m_Level, gObj[iObjIndex].pInventory[x].m_Option1,
 				gObj[iObjIndex].pInventory[x].m_Option2, gObj[iObjIndex].pInventory[x].m_Option3, gObj[iObjIndex].pInventory[x].m_Number, (int)gObj[iObjIndex].pInventory[x].m_Durability,
 				NewOption[0], NewOption[1], NewOption[2], NewOption[3], NewOption[4], NewOption[5], NewOption[6], gObj[iObjIndex].pInventory[x].m_SetOption,
@@ -878,7 +878,7 @@ void QuestExpProgMng::DeleteInventoryItem(QuestGetItem* pQuestGetItem, int iObjI
 				BYTE NewOption[MAX_EXOPTION_SIZE] = { 0 };
 				ItemIsBufExOption(NewOption, &gObj[iObjIndex].pInventory[x]);
 
-				//g_Log.Add("[QuestExp] DeleteInvenItem [%s][%s] Delete Item Info - Item:[%s,%d,%d,%d,%d] serial:[%I64d][%d] Ex:[%d,%d,%d,%d,%d,%d,%d] Set[%d] 380:[%d] HO:[%d,%d] SC[%d,%d,%d,%d,%d] BonusOption[%d]",
+				//sLog.outBasic("[QuestExp] DeleteInvenItem [%s][%s] Delete Item Info - Item:[%s,%d,%d,%d,%d] serial:[%I64d][%d] Ex:[%d,%d,%d,%d,%d,%d,%d] Set[%d] 380:[%d] HO:[%d,%d] SC[%d,%d,%d,%d,%d] BonusOption[%d]",
 				//	gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, gObj[iObjIndex].pInventory[x].GetName(), gObj[iObjIndex].pInventory[x].m_Level, gObj[iObjIndex].pInventory[x].m_Option1,
 				//	gObj[iObjIndex].pInventory[x].m_Option2, gObj[iObjIndex].pInventory[x].m_Option3, gObj[iObjIndex].pInventory[x].m_Number, (int)gObj[iObjIndex].pInventory[x].m_Durability,
 				//	NewOption[0], NewOption[1], NewOption[2], NewOption[3], NewOption[4], NewOption[5], NewOption[6], gObj[iObjIndex].pInventory[x].m_SetOption,
@@ -1008,7 +1008,7 @@ void QuestExpProgMng::ChkMonsterKillPartyPlay(DWORD dwQuestInfoIndexID, int iAsk
 	{
 		pUserQuestAskInfo->SetValue(pUserQuestAskInfo->GetValue() + 1);
 
-		//g_Log.Add("[QuestExp] Party Play Ask Kill Monster [%s][%s] Ep[%d] QS[%d] MonName[%s] AskKillCnt[%d] KillCnt[%d] ",
+		//sLog.outBasic("[QuestExp] Party Play Ask Kill Monster [%s][%s] Ep[%d] QS[%d] MonName[%s] AskKillCnt[%d] KillCnt[%d] ",
 		//	lpObj->AccountID, lpObj->Name, iEpisode, iQS, lpMonsterObj->Name, pUserQuestAskInfo->GetValue(), pQuestMonsterKill->GetMonsterKillCnt());
 	}
 
@@ -1102,13 +1102,13 @@ void QuestExpProgMng::ChkUserQuestType(int iQuestType, OBJECTSTRUCT *lpObj, OBJE
 
 					if (!pQuestMonsterKill->IsPartyPlay() || lpObj->PartyNumber == -1)
 					{
-						//g_Log.Add("[QuestExp] Ask Kill Monster [%s][%s] Ep[%d] QS[%d] MonName[%s] AskKillCnt[%d] KillCnt[%d] ",
+						//sLog.outBasic("[QuestExp] Ask Kill Monster [%s][%s] Ep[%d] QS[%d] MonName[%s] AskKillCnt[%d] KillCnt[%d] ",
 						//	lpObj->AccountID, lpObj->Name, iEpisode, iQS, lpMonsterObj->Name, pQuestMonsterKill->GetMonsterKillCnt(), pUserQuestAskInfo->GetValue());
 					}
 
 					else
 					{
-						//g_Log.Add("[QuestExp] Party Play Ask Kill Monster [%s][%s] Ep[%d] QS[%d] MonName[%s] AskKillCnt[%d] KillCnt[%d] MonsterKiller[%s][%s]",
+						//sLog.outBasic("[QuestExp] Party Play Ask Kill Monster [%s][%s] Ep[%d] QS[%d] MonName[%s] AskKillCnt[%d] KillCnt[%d] MonsterKiller[%s][%s]",
 						//	lpObj->AccountID, lpObj->Name, iEpisode, iQS, lpMonsterObj->Name, pQuestMonsterKill->GetMonsterKillCnt(), pUserQuestAskInfo->GetValue(),
 						//	gObj[iKillerObjIndex].AccountID, gObj[iKillerObjIndex].Name);
 					}
@@ -1203,7 +1203,7 @@ void QuestExpProgMng::ChkUserQuestTypeEventMap(int iQuestType, OBJECTSTRUCT *lpO
 					{
 						pUserQuestAskInfo->SetValue(pUserQuestAskInfo->GetValue() + 1);
 
-						//g_Log.Add("[QuestExp] Ask Kill User [%s][%s] Ep[%d] QS[%d] RequestType[0x08%X] MapLevel[%d] AskKillCnt[%d] KillCnt[%d]",
+						//sLog.outBasic("[QuestExp] Ask Kill User [%s][%s] Ep[%d] QS[%d] RequestType[0x08%X] MapLevel[%d] AskKillCnt[%d] KillCnt[%d]",
 						//	lpObj->AccountID, lpObj->Name, iEpisode, iQS, iQuestType, iMapLevel, pQuestEventMapKillPoint->GetQuestEventMapKillCnt(), pUserQuestAskInfo->GetValue());
 					}
 				}
@@ -1232,7 +1232,7 @@ void QuestExpProgMng::ChkUserQuestTypeEventMap(int iQuestType, OBJECTSTRUCT *lpO
 						pUserQuestAskInfo->SetComplete(true);
 						pUserQuestAskInfo->SetValue(1);
 
-						//g_Log.Add("[QuestExp] Ask Event Map Clear - Complete - [%s][%s] Ep[%d] QS[%d] QuestType[0x%08X]",
+						//sLog.outBasic("[QuestExp] Ask Event Map Clear - Complete - [%s][%s] Ep[%d] QS[%d] QuestType[0x%08X]",
 						//	lpObj->AccountID, lpObj->Name, iEpisode, iQS, iQuestType);
 					}
 				}
@@ -1251,7 +1251,7 @@ void QuestExpProgMng::ChkUserQuestTypeEventMap(int iQuestType, OBJECTSTRUCT *lpO
 					{
 						pUserQuestAskInfo->SetValue(iValue + pUserQuestAskInfo->GetValue());
 
-						//g_Log.Add("[QuestExp] Ask Devil Point [%s][%s] Ep[%d] QS[%d] RequestType[0x%08X] MapLevel[%d] AskDevilPoint[%d] CurDevilPoint[%d]",
+						//sLog.outBasic("[QuestExp] Ask Devil Point [%s][%s] Ep[%d] QS[%d] RequestType[0x%08X] MapLevel[%d] AskDevilPoint[%d] CurDevilPoint[%d]",
 						//	lpObj->AccountID, lpObj->Name, iEpisode, iQS, iQuestType, iMapLevel, pQuestEventMapDevilPoint->GetQuestEventMapDevilPoint(), pUserQuestAskInfo->GetValue());
 					}
 				}
@@ -1276,7 +1276,7 @@ void QuestExpProgMng::ChkUserQuestTypeEventMap(int iQuestType, OBJECTSTRUCT *lpO
 					{
 						pUserQuestAskInfo->SetValue(pUserQuestAskInfo->GetValue() + 1);
 
-						//g_Log.Add("[QuestExp] Ask PVP [%s][%s] Ep[%d] QS[%d] RequestType[0x08%X] MapNum[%d] AskKillCnt[%d] KillCnt[%d]",
+						//sLog.outBasic("[QuestExp] Ask PVP [%s][%s] Ep[%d] QS[%d] RequestType[0x08%X] MapNum[%d] AskKillCnt[%d] KillCnt[%d]",
 						//	lpObj->AccountID, lpObj->Name, iEpisode, iQS, iQuestType, iMapLevel, iDevilPoint->GetQuestPVP_Point(), pUserQuestAskInfo->GetValue());
 					}
 				}
@@ -1302,7 +1302,7 @@ void QuestExpProgMng::AddQuestSwitchList(int iEpisode, int iQS)
 {
 	if (IsEpisode(iEpisode) == false)
 	{
-		g_Log.Add("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
+		sLog.outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
 		return;
 	}
 
@@ -1345,15 +1345,15 @@ void QuestExpProgMng::SendQuestSwitchList(int iObjIndex, int iSendType)
 
 		/*if (iSendType == QUESTEXP_SEND_NPC)
 		{
-			g_Log.Add("[QuestExp] Send Quest List To NPC: [%s][%s] Ep[%d] QS[%d] QuestListCnt[%d]",	gObj[iIndex].AccountID, gObj[iIndex].Name, iEpisode, iQS, QuestList.wQuestCnt);
+			sLog.outBasic("[QuestExp] Send Quest List To NPC: [%s][%s] Ep[%d] QS[%d] QuestListCnt[%d]",	gObj[iIndex].AccountID, gObj[iIndex].Name, iEpisode, iQS, QuestList.wQuestCnt);
 		}
 		else if (iSendType == QUESTEXP_SEND_EVENT)
 		{
-			g_Log.Add("[QuestExp] Send Quest List To Event: [%s][%s] Ep[%d] QS[%d] QuestListCnt[%d]",gObj[iIndex].AccountID, gObj[iIndex].Name, iEpisode, iQS, QuestList.wQuestCnt);
+			sLog.outBasic("[QuestExp] Send Quest List To Event: [%s][%s] Ep[%d] QS[%d] QuestListCnt[%d]",gObj[iIndex].AccountID, gObj[iIndex].Name, iEpisode, iQS, QuestList.wQuestCnt);
 		}
 		else if (iSendType == QUESTEXP_SEND_ITEM)
 		{
-			g_Log.Add("[QuestExp] Send Quest List Item Used: [%s][%s] Ep[%d] QS[%d] QuestListCnt[%d]",gObj[iIndex].AccountID, gObj[iIndex].Name, iEpisode, iQS, QuestList.wQuestCnt);
+			sLog.outBasic("[QuestExp] Send Quest List Item Used: [%s][%s] Ep[%d] QS[%d] QuestListCnt[%d]",gObj[iIndex].AccountID, gObj[iIndex].Name, iEpisode, iQS, QuestList.wQuestCnt);
 		}*/
 	}
 
@@ -1407,7 +1407,7 @@ void QuestExpProgMng::GCANSQuestCompleteBtnClick(int iObjIndex, DWORD dwQuestInf
 {
 	if (ChkQuestIndexIDToEpAndQSLimit(dwQuestInfoIndexID, iObjIndex) == false)
 	{
-		g_Log.Add("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
+		sLog.outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
 		return;
 	}
 
@@ -1417,7 +1417,7 @@ void QuestExpProgMng::GCANSQuestCompleteBtnClick(int iObjIndex, DWORD dwQuestInf
 	pMsg.btResult = btResult;
 	PHeadSubSetB((BYTE *)&pMsg, 0xF6, 0x0D, sizeof(pMsg));
 
-	//g_Log.Add("[QuestExp] Ans Complete [%s][%s] Ep [%d] QS [%d] Result [%d]", gObj[iObjIndex].Name, gObj[iObjIndex].AccountID, GetQuestEpisodeFromInfoIndexId(dwQuestInfoIndexID), GetQuestSwitchFromInfoIndexId(dwQuestInfoIndexID), btResult);
+	//sLog.outBasic("[QuestExp] Ans Complete [%s][%s] Ep [%d] QS [%d] Result [%d]", gObj[iObjIndex].Name, gObj[iObjIndex].AccountID, GetQuestEpisodeFromInfoIndexId(dwQuestInfoIndexID), GetQuestSwitchFromInfoIndexId(dwQuestInfoIndexID), btResult);
 	IOCP.DataSend(iObjIndex, (BYTE*)&pMsg, pMsg.h.size);
 }
 
@@ -1460,7 +1460,7 @@ void QuestExpProgMng::SendProgressQuestList(int iObjIndex)
 		lOfs += sizeof(dwQuestInfoIndexID);
 		btQuestCnt++;
 
-		//g_Log.Add("[QuestExp] Send QuestProg List : [%s][%s] Ep[%d] QS[%d]",gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, iEpisode, iQS);
+		//sLog.outBasic("[QuestExp] Send QuestProg List : [%s][%s] Ep[%d] QS[%d]",gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, iEpisode, iQS);
 	}
 
 	pMsg.btQuestCnt = btQuestCnt;
@@ -1476,7 +1476,7 @@ void QuestExpProgMng::SetQuestProg(int iEpisode, int iObjIndex, int iState)
 {
 	if (IsEpisode(iEpisode) == false)
 	{
-		g_Log.Add("[QuestExp] - Error - SetQuestProg : [%s][%s] Ep[%d]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, iEpisode);
+		sLog.outBasic("[QuestExp] - Error - SetQuestProg : [%s][%s] Ep[%d]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, iEpisode);
 		return;
 	}
 
@@ -1492,7 +1492,7 @@ bool QuestExpProgMng::ChkQuestIndexIDToEpLimit(DWORD dwQuestInfoIndexID, int iOb
 
 	if (IsEpisode(iEpisode) == false)
 	{
-		g_Log.Add("[QuestExp] - Error - ChkEpisodeLimit : [%s][%s] Ep[%d] QuestIndexID[0x%x]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, iEpisode, dwQuestInfoIndexID);
+		sLog.outBasic("[QuestExp] - Error - ChkEpisodeLimit : [%s][%s] Ep[%d] QuestIndexID[0x%x]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, iEpisode, dwQuestInfoIndexID);
 		return false;
 	}
 
@@ -1505,7 +1505,7 @@ bool QuestExpProgMng::ChkQuestIndexIDToQSLimit(DWORD dwQuestInfoIndexID, int iOb
 
 	if (IsQuestSwitch(iQS) == false)
 	{
-		g_Log.Add("[QuestExp] - Error - ChkQuestSwitchLimit : [%s][%s] QS[%d] QuestIndexID[0x%x]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, iQS, dwQuestInfoIndexID);
+		sLog.outBasic("[QuestExp] - Error - ChkQuestSwitchLimit : [%s][%s] QS[%d] QuestIndexID[0x%x]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, iQS, dwQuestInfoIndexID);
 		return false;
 	}
 
@@ -1519,20 +1519,20 @@ bool QuestExpProgMng::ChkQuestIndexIDToEpAndQSLimit(DWORD dwQuestInfoIndexID, in
 
 	if (!ObjectMaxRange(iObjIndex))
 	{
-		g_Log.Add("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
+		sLog.outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
 
 		return false;
 	}
 
 	if (!IsEpisode(iEpisode))
 	{
-		g_Log.Add("[QuestExp] - Error - ChkEpAndQSLimit : [%s][%s] Ep[%d] QuestIndexID[0x%x]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, iEpisode, dwQuestInfoIndexID);
+		sLog.outBasic("[QuestExp] - Error - ChkEpAndQSLimit : [%s][%s] Ep[%d] QuestIndexID[0x%x]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, iEpisode, dwQuestInfoIndexID);
 		return false;
 	}
 
 	if (!IsQuestSwitch(iQS))
 	{
-		g_Log.Add("[QuestExp] - Error - ChkEpAndQSLimit : [%s][%s] QS[%d] QuestIndexID[0x%x]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, iQS, dwQuestInfoIndexID);
+		sLog.outBasic("[QuestExp] - Error - ChkEpAndQSLimit : [%s][%s] QS[%d] QuestIndexID[0x%x]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, iQS, dwQuestInfoIndexID);
 		return false;
 	}
 
@@ -1573,7 +1573,7 @@ void QuestExpProgMng::QuestMonsterItemDrop(DWORD dwQuestInfoIndexID, OBJECTSTRUC
 			int iItemLevel = pQuestDropItemInfo->GetItemLevel();
 
 			ItemSerialCreateSend(lpObj->m_Index, lpObj->MapNumber, lpObj->X, lpObj->Y, iItemNum, iItemLevel, 0, 0, 0, 0, iMaxHitUserIndex, 0, 0, 0, 0, 0);
-			//g_Log.Add("[QuestExp] Monster Kill Quest Item Drop - MonsterName[%s]: [%s][%s] ItemNum[%d]", lpMonsterObj->Name, lpObj->AccountID, lpObj->Name, iItemNum);
+			//sLog.outBasic("[QuestExp] Monster Kill Quest Item Drop - MonsterName[%s]: [%s][%s] ItemNum[%d]", lpMonsterObj->Name, lpObj->AccountID, lpObj->Name, iItemNum);
 		}
 	}
 }
@@ -1646,7 +1646,7 @@ bool QuestExpProgMng::IsQuestDropItem(int iIndex, WORD nType, WORD nLevel)
 		{
 			if (!ChkQuestAsk(iEpisode, iIndex))
 			{
-				g_Log.Add("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
+				sLog.outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
 				return false;
 			}
 
@@ -1682,7 +1682,7 @@ void QuestExpProgMng::SetQuestTimeLimit(int iObjIndex, DWORD dwQuestIndexID, int
 			UnixTimeToSystemTime(lpObj->m_PlayerData->m_UserQuestInfo[i].GetStartDate(), &tStartTime);
 			UnixTimeToSystemTime(lpObj->m_PlayerData->m_UserQuestInfo[i].GetEndDate(), &tEndTime);
 
-			//g_Log.Add("[QuestExp] SetQuestTimeLimit [%s][%s] Ep[%d] QS[%d] StartDate : %d-%.2d-%.2d %.2d:%.2d:%.2d EndDate : %d-%.2d-%.2d %.2d:%.2d:%.2d",
+			//sLog.outBasic("[QuestExp] SetQuestTimeLimit [%s][%s] Ep[%d] QS[%d] StartDate : %d-%.2d-%.2d %.2d:%.2d:%.2d EndDate : %d-%.2d-%.2d %.2d:%.2d:%.2d",
 			//	lpObj->AccountID, lpObj->Name, iEpisode, iQS,tStartTime.wYear, tStartTime.wMonth, tStartTime.wDay, tStartTime.wHour, tStartTime.wMinute, tStartTime.wSecond,
 			//	tEndTime.wYear, tEndTime.wMonth, tEndTime.wDay, tEndTime.wHour, tEndTime.wMinute, tEndTime.wSecond);
 

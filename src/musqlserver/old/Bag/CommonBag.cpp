@@ -2,7 +2,7 @@
 // CommonBag.cpp
 #include "stdafx.h"
 #include "CommonBag.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "user.h"
 #include "LuaBag.h"
 #include "MapClass.h"

@@ -2,7 +2,8 @@
 // FormulaParse.cpp
 #include "stdafx.h"
 #include "FormulaParse.h"
-#include "TLog.h"
+#include "Log/Log.h"
+#include "pugixml.hpp"
 
 CFormulaParse g_FormulaParse;
 
@@ -26,13 +27,13 @@ void CFormulaParse::LoadFile(char * szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("%s file load fail (%s)", szFile, res.description());
+		sLog.outError("%s file load fail (%s)", szFile, res.description());
 		return;
 	}
 
-	pugi::xml_node main = file.child("FormulaData");
-	pugi::xml_node exp_data = main.child("Exp");
-	pugi::xml_node excopt_data = main.child("ExcellentOption");
+	pugi::xml_node mainXML = file.child("FormulaData");
+	pugi::xml_node exp_data = mainXML.child("Exp");
+	pugi::xml_node excopt_data = mainXML.child("ExcellentOption");
 
 	for (pugi::xml_node formula = exp_data.child("Formula"); formula; formula = formula.next_sibling())
 	{

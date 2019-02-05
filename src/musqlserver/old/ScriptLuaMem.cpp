@@ -2,8 +2,8 @@
 // ScriptLuaMem.cpp
 #include "stdafx.h"
 #include "ScriptLuaMem.h"
-#include "winutil.h"
-#include "TLog.h"
+#include "util.h"
+#include "Log/Log.h"
 #include "MuLua.h"
 
 CScriptLuaMem::CScriptLuaMem()
@@ -23,7 +23,7 @@ bool CScriptLuaMem::LoadScript(LPSTR pchFileName)
 
 	if (!IsFile(pchFileName))
 	{
-		g_Log.MsgBox("%s file load fail!", pchFileName);
+		sLog.outError("%s file load fail!", pchFileName);
 		return false;
 	}
 
@@ -42,7 +42,7 @@ bool CScriptLuaMem::LoadScript(LPSTR pchFileName)
 
 	if (this->chScriptData == NULL)
 	{
-		g_Log.MsgBox("Memory allocation failed!");
+		sLog.outError("Memory allocation failed!");
 		return false;
 	}
 

@@ -3,7 +3,7 @@
 #ifndef MINIMAPDATA_H
 #define MINIMAPDATA_H
 
-#include "winutil.h"
+#include "util.h"
 #include "PartyClass.h"
 #include "user.h"
 

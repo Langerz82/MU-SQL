@@ -8,7 +8,7 @@
 #include "user.h"
 
 //#include "..\include\readscript.h"
-#include "winutil.h"
+#include "util.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

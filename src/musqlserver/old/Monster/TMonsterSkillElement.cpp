@@ -10,8 +10,8 @@
 #include "protocol.h"
 #include "gObjMonster.h"
 #include "Gamemain.h"
-#include "TLog.h"
-#include "winutil.h"
+#include "Log/Log.h"
+#include "util.h"
 #include "BuffEffect.h"
 #include "BuffEffectSlot.h"
 #include "LuckyItemManager.h"
@@ -53,7 +53,7 @@ BOOL TMonsterSkillElement::LoadData(LPSTR lpszFileName)
 
 	if ( !lpszFileName || !strcmp(lpszFileName, ""))
 	{
-		g_Log.MsgBox("[Monster Element] - File load error : File Name Error");
+		sLog.outError("[Monster Element] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -64,15 +64,15 @@ BOOL TMonsterSkillElement::LoadData(LPSTR lpszFileName)
 
 		if ( res.status != pugi::status_ok )
 		{
-			g_Log.MsgBox("[Monster Element] - Can't Load %s (%s)", lpszFileName, res.description());
+			sLog.outError("[Monster Element] - Can't Load %s (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
 		TMonsterSkillElement::DelAllSkillElement();
 
-		pugi::xml_node main = file.child("MonsterSkill");
+		pugi::xml_node mainXML = file.child("MonsterSkill");
 
-		for (pugi::xml_node element = main.child("Element"); element; element = element.next_sibling())
+		for (pugi::xml_node element = mainXML.child("Element"); element; element = element.next_sibling())
 		{
 			char szElementName[50] = {0};
 			memcpy(szElementName, element.attribute("Name").as_string(), sizeof(szElementName));
@@ -89,7 +89,7 @@ BOOL TMonsterSkillElement::LoadData(LPSTR lpszFileName)
 
 			if ( iElementNumber < 0 || iElementNumber >= MAX_MONSTER_SKILL_ELEMENT )
 			{
-				g_Log.MsgBox("[Monster Element] - ElementNumber(%d) Error (%s) File. ", iElementNumber, lpszFileName);
+				sLog.outError("[Monster Element] - ElementNumber(%d) Error (%s) File. ", iElementNumber, lpszFileName);
 				continue;
 			}
 
@@ -110,7 +110,7 @@ BOOL TMonsterSkillElement::LoadData(LPSTR lpszFileName)
 
 	catch (DWORD)
 	{
-		g_Log.MsgBox("[Monster Element] - Loading Exception Error (%s) File. ", lpszFileName);	
+		sLog.outError("[Monster Element] - Loading Exception Error (%s) File. ", lpszFileName);	
 	}
 
 	return FALSE;
@@ -563,7 +563,7 @@ BOOL TMonsterSkillElement::ApplyElementSummon(int iIndex, int iTargetIndex)
 
 	if (lpObj->Class == 459 && lpObj->Connected == PLAYER_PLAYING && lpObj->MapNumber == MAP_INDEX_HATCHERY && iIndex == iTargetIndex)//Season 4.5 addon
 	{
-		g_Log.Add("[TMonsterSkillElement][ApplyElementSummon] Selupan use summon.");
+		sLog.outBasic("[TMonsterSkillElement][ApplyElementSummon] Selupan use summon.");
 		return FALSE;
 	}
 

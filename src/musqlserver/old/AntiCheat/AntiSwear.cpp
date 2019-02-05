@@ -1,8 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // AntiSwear.cpp
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "AntiSwear.h"
-#include "TLog.h"
+#include "Log/Log.h"
+#include "../pugixml.hpp"
 
 CAntiSwear SwearFilter;
 
@@ -23,7 +24,7 @@ bool CAntiSwear::LoadFile(const char* File)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("%s file load failed - %s", File, res.description());
+		sLog.outError("%s file load failed - %s", File, res.description());
 		return false;
 	}
 
@@ -36,7 +37,7 @@ bool CAntiSwear::LoadFile(const char* File)
 		this->m_SwearWords.push_back(Swear);
 	}
 
-	g_Log.Add("Loaded %d prohibited words", this->m_SwearWords.size());
+	sLog.outBasic("Loaded %d prohibited words", this->m_SwearWords.size());
 	return true;
 }
 

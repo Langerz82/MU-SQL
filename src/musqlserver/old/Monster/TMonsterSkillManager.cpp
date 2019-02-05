@@ -6,7 +6,7 @@
 #include "TMonsterSkillManager.h"
 #include "ObjUseSkill.h"
 #include "SkillHitBox.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "configread.h"
 
 TMonsterSkillInfo TMonsterSkillManager::s_MonsterSkillInfoArray[MAX_MONSTER_SKILL_INFO_ARRAY];
@@ -34,7 +34,7 @@ BOOL TMonsterSkillManager::LoadData(LPSTR lpszFileName)
 
 	if ( !lpszFileName || !strcmp(lpszFileName, ""))
 	{
-		g_Log.MsgBox("[Monster Skill Manager] - File load error : File Name Error");
+		sLog.outError("[Monster Skill Manager] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -45,15 +45,15 @@ BOOL TMonsterSkillManager::LoadData(LPSTR lpszFileName)
 
 		if ( res.status != pugi::status_ok )
 		{
-			g_Log.MsgBox("[Monster Skill Manager] - Can't Load %s (%s)", lpszFileName, res.description());
+			sLog.outError("[Monster Skill Manager] - Can't Load %s (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
 		TMonsterSkillManager::DelAllSkillManagerInfo();
 
-		pugi::xml_node main = file.child("MonsterSkill");
+		pugi::xml_node mainXML = file.child("MonsterSkill");
 
-		for (pugi::xml_node skill = main.child("Skill"); skill; skill = skill.next_sibling())
+		for (pugi::xml_node skill = mainXML.child("Skill"); skill; skill = skill.next_sibling())
 		{
 			BOOL bVerified = TRUE;
 			int iMonsterIndex = skill.attribute("MonsterIndex").as_int();
@@ -90,7 +90,7 @@ BOOL TMonsterSkillManager::LoadData(LPSTR lpszFileName)
 
 			if ( iMonsterIndex >= MAX_MONSTER_SKILL_INFO_ARRAY )
 			{
-				g_Log.MsgBox("[Monster Manager] - MonsterIndex(%d) Error (%s) File. ", iMonsterIndex, lpszFileName);
+				sLog.outError("[Monster Manager] - MonsterIndex(%d) Error (%s) File. ", iMonsterIndex, lpszFileName);
 				continue;
 			}
 
@@ -115,7 +115,7 @@ BOOL TMonsterSkillManager::LoadData(LPSTR lpszFileName)
 
 	catch(DWORD)
 	{
-		g_Log.MsgBox("[Monster Skill Manager] - Loading Exception Error (%s) File. ", lpszFileName);
+		sLog.outError("[Monster Skill Manager] - Loading Exception Error (%s) File. ", lpszFileName);
 	}
 
 	return FALSE;
@@ -260,7 +260,7 @@ void TMonsterSkillManager::UseMonsterSkill(int iIndex, int iTargetIndex, int iMo
 		return;
 	}
 
-	/* g_Log.Add("[TMonsterSkillManager] [%s] Used skill at INDEX:%d (UNITTYPE:%d UNIT:%d)",
+	/* sLog.outBasic("[TMonsterSkillManager] [%s] Used skill at INDEX:%d (UNITTYPE:%d UNIT:%d)",
 		gObj[iIndex].Name, iTargetIndex, iMonsterSkillUnitType, iMonsterSkillUnit); */
 
 	LPOBJ lpObj = &gObj[iIndex];

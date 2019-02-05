@@ -1,9 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // PVPZone.cpp
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "PVPZone.h"
 #include "GameMain.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "readscript.h"
 #include "configread.h"
 // -------------------------------------------------------------------------------
@@ -44,7 +44,7 @@ void PVPZone::ReadData(char * File)
 
 	if (Result.status != status_ok)
 	{
-		g_Log.MsgBox("[IGC_PVPZone] File %s not found!", File);
+		sLog.outError("[IGC_PVPZone] File %s not found!", File);
 		return;
 	}
 

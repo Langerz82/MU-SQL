@@ -5,7 +5,7 @@
 #include "stdafx.h"
 #include "KanturuMonsterMng.h"
 #include "Gamemain.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "configread.h"
 
 CKanturuMonsterMng g_KanturuMonsterMng;
@@ -83,7 +83,7 @@ BOOL CKanturuMonsterMng::LoadData(LPSTR lpszFileName)
 
 	if ( !lpszFileName || !strcmp(lpszFileName , "") )
 	{
-		g_Log.MsgBox("[Kanturu][MonsterSetBase] - File load error : File Name Error");
+		sLog.outError("[Kanturu][MonsterSetBase] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -94,15 +94,15 @@ BOOL CKanturuMonsterMng::LoadData(LPSTR lpszFileName)
 
 		if ( res.status != pugi::status_ok )
 		{
-			g_Log.MsgBox("[Kanturu][MonsterSetBase] - Can't Load %s (%s)", lpszFileName, res.description());
+			sLog.outError("[Kanturu][MonsterSetBase] - Can't Load %s (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
 		this->ResetLoadData();
 
-		pugi::xml_node main = file.child("KanturuEvent");
+		pugi::xml_node mainXML = file.child("KanturuEvent");
 
-		for (pugi::xml_node monster = main.child("Monster"); monster; monster = monster.next_sibling())
+		for (pugi::xml_node monster = mainXML.child("Monster"); monster; monster = monster.next_sibling())
 		{
 			BYTE btGroup = monster.attribute("Group").as_int();
 			WORD wType = monster.attribute("Index").as_int();
@@ -114,7 +114,7 @@ BOOL CKanturuMonsterMng::LoadData(LPSTR lpszFileName)
 
 			if ( this->m_iMaxMonsterCount < 0 || this->m_iMaxMonsterCount >= MAX_KANTURU_MONSTER )
 			{
-				g_Log.MsgBox("[Kanturu][MonsterSetBase] - Exceed Max Info Count (%d)", this->m_iMaxMonsterCount);
+				sLog.outError("[Kanturu][MonsterSetBase] - Exceed Max Info Count (%d)", this->m_iMaxMonsterCount);
 				break;
 			}
 
@@ -127,7 +127,7 @@ BOOL CKanturuMonsterMng::LoadData(LPSTR lpszFileName)
 
 	catch ( DWORD )
 	{
-		g_Log.MsgBox("[Kanturu][MonsterSetBase] Loading Exception Error (%s) File. ", lpszFileName);
+		sLog.outError("[Kanturu][MonsterSetBase] Loading Exception Error (%s) File. ", lpszFileName);
 	}
 
 	return this->m_bFileDataLoad;
@@ -231,7 +231,7 @@ BOOL CKanturuMonsterMng::GetPosition(int TableNum, short MapNumber, short & x, s
 {
 	if ( TableNum < 0 || TableNum > MAX_KANTURU_MONSTER-1 )
 	{
-		g_Log.Add("ERROR : %s %d", __FILE__, __LINE__);
+		sLog.outBasic("ERROR : %s %d", __FILE__, __LINE__);
 		return FALSE;
 	}
 

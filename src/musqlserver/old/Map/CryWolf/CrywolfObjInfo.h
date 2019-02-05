@@ -9,6 +9,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "custTypedef.h"
+
 #define MAX_CRYWOLF_OBJ_INFO	300
 
 class CCrywolfObjInfo  

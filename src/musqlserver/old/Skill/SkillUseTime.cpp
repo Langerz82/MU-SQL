@@ -2,7 +2,7 @@
 // SkillUseTime.cpp
 #include "stdafx.h"
 #include "SkillUseTime.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "user.h"
 
 CSkillUseTime g_SkillUseTime;
@@ -44,15 +44,15 @@ bool CSkillUseTime::LoadFile(LPSTR lpFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("%s File Load Error (%s)", lpFile, res.description());
+		sLog.outError("%s File Load Error (%s)", lpFile, res.description());
 		return false;
 	}
 
 	SKILL_TIME_INFO m_SkillInfo;
 	
-	pugi::xml_node main = file.child("SkillUseTime");
+	pugi::xml_node mainXML = file.child("SkillUseTime");
 
-	for (pugi::xml_node skill = main.child("Skill"); skill; skill = skill.next_sibling())
+	for (pugi::xml_node skill = mainXML.child("Skill"); skill; skill = skill.next_sibling())
 	{
 		m_SkillInfo.iSkill = skill.attribute("Number").as_int();
 		m_SkillInfo.iMinMagicSpeed = skill.attribute("MinMagicSpeed").as_int();
@@ -63,7 +63,7 @@ bool CSkillUseTime::LoadFile(LPSTR lpFile)
 	}
 
 	this->m_bFileLoad = true;
-	g_Log.Add("Loaded file %s (count:%d)", lpFile, this->m_vtSkillTimeInfo.size());
+	sLog.outBasic("Loaded file %s (count:%d)", lpFile, this->m_vtSkillTimeInfo.size());
 
 	return true;
 }
@@ -89,7 +89,7 @@ bool CSkillUseTime::CheckSkillTime(LPOBJ lpObj, int iSkill)
 
 	if ( this->m_bDebugMode )
 	{
-		g_Log.Add("[DEBUG] UseSkill (%d) Time(%d) MagicSpeed(%d)", iSkill, iTimeDiff, lpObj->m_MagicSpeed);
+		sLog.outBasic("[DEBUG] UseSkill (%d) Time(%d) MagicSpeed(%d)", iSkill, iTimeDiff, lpObj->m_MagicSpeed);
 	}
 
 	for(std::vector<SKILL_TIME_INFO>::iterator It = this->m_vtSkillTimeInfo.begin(); It != this->m_vtSkillTimeInfo.end(); It++)

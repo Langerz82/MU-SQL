@@ -6,7 +6,7 @@
 #include "TMonsterAIAutomata.h"
 #include "TMonsterAIGroup.h"
 #include "TMonsterAIUtil.h"
-#include "TLog.h"
+#include "Log/Log.h"
 
 bool TMonsterAIAutomata::s_bDataLoad = FALSE;
 TMonsterAIAutomata TMonsterAIAutomata::s_MonsterAIAutomataArray[MAX_MONSTER_AI_AUTOMATA];
@@ -51,7 +51,7 @@ bool TMonsterAIAutomata::LoadData(LPSTR lpszFileName)
 
 	if ( lpszFileName == NULL || strcmp(lpszFileName, "") == 0 )
 	{
-		g_Log.MsgBox("[Monster AI Automata] - File load error : File Name Error");
+		sLog.outError("[Monster AI Automata] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -62,15 +62,15 @@ bool TMonsterAIAutomata::LoadData(LPSTR lpszFileName)
 
 		if ( res.status != pugi::status_ok )
 		{
-			g_Log.MsgBox("[Monster AI Automata] - Can't Load %s (%s)", lpszFileName, res.description());
+			sLog.outError("[Monster AI Automata] - Can't Load %s (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
 		TMonsterAIAutomata::DelAllAutomata();
 
-		pugi::xml_node main = file.child("MonsterAI");
+		pugi::xml_node mainXML = file.child("MonsterAI");
 
-		for (pugi::xml_node automata = main.child("Automata"); automata; automata = automata.next_sibling())
+		for (pugi::xml_node automata = mainXML.child("Automata"); automata; automata = automata.next_sibling())
 		{
 			char szStateTransitionDesc[100] = {0};
 			memcpy(szStateTransitionDesc, automata.attribute("Name").as_string(), sizeof(szStateTransitionDesc));
@@ -87,25 +87,25 @@ bool TMonsterAIAutomata::LoadData(LPSTR lpszFileName)
 
 			if ( iAutomataNumber < 0 || iAutomataNumber >= MAX_MONSTER_AI_AUTOMATA )
 			{
-				g_Log.MsgBox("[Monster AI Automata] - AutomataNumber(%d) Error (%s) File. ",iAutomataNumber, lpszFileName);
+				sLog.outError("[Monster AI Automata] - AutomataNumber(%d) Error (%s) File. ",iAutomataNumber, lpszFileName);
 				continue;
 			}
 
 			if ( iCurrentState < 0 || iCurrentState >= MAX_AI_STATE )
 			{
-				g_Log.MsgBox("[Monster AI Automata] - CurrentState(%d) Error (%s) File. ",iCurrentState, lpszFileName);
+				sLog.outError("[Monster AI Automata] - CurrentState(%d) Error (%s) File. ",iCurrentState, lpszFileName);
 				continue;
 			}
 
 			if ( iNextState < 0 || iNextState >= MAX_AI_STATE )
 			{
-				g_Log.MsgBox("[Monster AI Automata] - NextState(%d) Error (%s) File. ",iNextState, lpszFileName);
+				sLog.outError("[Monster AI Automata] - NextState(%d) Error (%s) File. ",iNextState, lpszFileName);
 				continue;
 			}
 
 			if ( iPriority < 0 || iPriority >= MAX_AI_PRIORITY )
 			{
-				g_Log.MsgBox("[Monster AI Automata] - Priority(%d) Error (%s) File. ",iPriority, lpszFileName);
+				sLog.outError("[Monster AI Automata] - Priority(%d) Error (%s) File. ",iPriority, lpszFileName);
 				continue;
 			}
 
@@ -131,7 +131,7 @@ bool TMonsterAIAutomata::LoadData(LPSTR lpszFileName)
 
 	catch(DWORD)
 	{
-		g_Log.MsgBox("[Monster AI Automata] - Loading Exception Error (%s) File. ", lpszFileName);
+		sLog.outError("[Monster AI Automata] - Loading Exception Error (%s) File. ", lpszFileName);
 	}
 
 	return FALSE;
@@ -153,7 +153,7 @@ TMonsterAIAutomata * TMonsterAIAutomata::FindAutomata(int iAutomataNumber)
 {
 	if ( iAutomataNumber < 0 || iAutomataNumber >= MAX_MONSTER_AI_AUTOMATA )
 	{
-		g_Log.Add("[Monster AI Automata] FindAutomata() Error - (AutomataNumber=%d) ", iAutomataNumber);
+		sLog.outBasic("[Monster AI Automata] FindAutomata() Error - (AutomataNumber=%d) ", iAutomataNumber);
 		return NULL;
 	}
 
@@ -162,7 +162,7 @@ TMonsterAIAutomata * TMonsterAIAutomata::FindAutomata(int iAutomataNumber)
 		return &TMonsterAIAutomata::s_MonsterAIAutomataArray[iAutomataNumber];
 	}
 	
-	g_Log.Add("[Monster AI Automata] FindAutomata() Error - (AutomataNumber=%d) ", iAutomataNumber);
+	sLog.outBasic("[Monster AI Automata] FindAutomata() Error - (AutomataNumber=%d) ", iAutomataNumber);
 
 	return NULL;
 }

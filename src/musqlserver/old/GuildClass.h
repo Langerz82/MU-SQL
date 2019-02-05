@@ -151,7 +151,7 @@ struct _GUILD_INFO_STRUCT
 
 	BOOL CheckTimeStamp(int iTime)	// line : 127
 	{
-		return (iTime == this->iTimeStamp )? TRUE : FALSE;
+		return (iTime == this->iTimeStamp )? 1 : 0;
 	}	// line : 129
 };
 

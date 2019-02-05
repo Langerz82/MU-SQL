@@ -5,13 +5,13 @@
 // Date : 2007-05-09
 // ------------------------------
 
-//#include "StdAfx.h"
+//#include "stdafx.h"
 #include "classdef.h"
 #include "util.h"
 
 //#include "user.h"
 //#include "GameMain.h"
-//#include "winutil.h"
+//#include "util.h"
 // GS-N 0.99.60T 0x004A36F0
 //	GS-N	1.00.18	JPN	0x004C14B0	-	Completed
 

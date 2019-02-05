@@ -3,7 +3,7 @@
 #ifndef MASTERLEVELSKILLTREESYSTEM_H
 #define MASTERLEVELSKILLTREESYSTEM_H
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "user.h"
 #include "classdef.h"
 #include "MasterSkillSystem.h"

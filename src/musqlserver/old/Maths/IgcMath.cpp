@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "IgcMath.h"
 
 #pragma optimize("g", on)

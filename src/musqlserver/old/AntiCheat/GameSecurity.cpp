@@ -2,7 +2,7 @@
 // GameSecurity.cpp
 #include "stdafx.h"
 #include "GameSecurity.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "user.h"
 CGameSecurity gGameSecurity;
 

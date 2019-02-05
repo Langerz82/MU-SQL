@@ -2,7 +2,7 @@
 // LuaExport.h
 #pragma once
 
-#include "winutil.h"
+#include "util.h"
 #include "BuffEffectSlot.h"
 #include "gObjMonster.h"
 #include "DSProtocol.h"
@@ -13,7 +13,7 @@
 #include "ItemSocketOptionSystem.h"
 #include "PentagramSystem.h"
 #include "MuunSystem.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "ItemOptionTypeMng.h"
 #include "MasterLevelSkillTreeSystem.h"
 #include "LargeRand.h"
@@ -37,7 +37,7 @@ public:
 
 	static BOOL		LuaLogAdd(lua_State * Lua)
 	{
-		g_Log.Add("%s", (char*)lua_tostring(Lua, 1));
+		sLog.outBasic("%s", (char*)lua_tostring(Lua, 1));
 		return true;
 	};
 

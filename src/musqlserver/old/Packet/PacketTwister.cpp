@@ -2,7 +2,7 @@
 // PacketTwister.cpp
 #include "stdafx.h"
 #include "PacketTwister.h"
-#include "TLog.h"
+#include "Log/Log.h"
 
 void PacketTwister_1::Twist(BYTE *data, int length)
 {

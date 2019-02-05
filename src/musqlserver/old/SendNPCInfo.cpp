@@ -1,9 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // SendNPCInfo.cpp
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "SendNPCInfo.h"
 #include "GameMain.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "configread.h"
 
 CSendNPCInfo g_SendNPCInfo;
@@ -23,7 +23,7 @@ void CSendNPCInfo::LoadScript(char *lpFileName)
 
 	if (!lpFileName)
 	{
-		g_Log.Add("[SendNPCInfo] lpFileName is null!!");
+		sLog.outBasic("[SendNPCInfo] lpFileName is null!!");
 		return;
 	}
 
@@ -32,7 +32,7 @@ void CSendNPCInfo::LoadScript(char *lpFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.Add("%s load fail (%s)", lpFileName, res.description());
+		sLog.outBasic("%s load fail (%s)", lpFileName, res.description());
 		return;
 	}
 
@@ -77,7 +77,7 @@ void CSendNPCInfo::SendNpcCoordinate(int nDestUserIndex, BYTE btMapIndex, BYTE b
 
 	if (ObjectMaxRange(nDestUserIndex) == false)
 	{
-		g_Log.Add("error : %s %d", __FILE__, __LINE__);
+		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -195,7 +195,7 @@ void CSendNPCInfo::SendPortalCoordinate(int nDestUserIndex, BYTE btMapNumber)
 
 	if (ObjectMaxRange(nDestUserIndex) == false)
 	{
-		g_Log.Add("error : %s %d", __FILE__, __LINE__);
+		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -245,7 +245,7 @@ void CSendNPCInfo::SendITLNpcCoordinate(int nDestUserIndex, BYTE btMapIndex)
 
 	if (ObjectMaxRange(nDestUserIndex) == false)
 	{
-		g_Log.Add("error : %s %d", __FILE__, __LINE__);
+		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
 		return;
 	}
 

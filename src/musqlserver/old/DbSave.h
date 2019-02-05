@@ -11,7 +11,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-
+#include "custTypedef.h"
 #include "WZQueue.h"
 
 class CDbSave
@@ -34,7 +34,7 @@ private:
 	HANDLE m_ThreadHandle;	// 8
 	DWORD m_dwThreadID;	// C
 	BOOL m_bIsRunning;	// 10
-	CRITICAL_SECTION criti;	// 14
+	//CRITICAL_SECTION criti;	// 14
 };
 
 #endif

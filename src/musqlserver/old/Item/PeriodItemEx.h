@@ -3,7 +3,7 @@
 #ifndef PERIODITEMEX_H
 #define PERIODITEMEX_H
 
-#include "winutil.h"
+#include "util.h"
 #pragma once
 
 #define MAX_PERIOD_ITEMS 30

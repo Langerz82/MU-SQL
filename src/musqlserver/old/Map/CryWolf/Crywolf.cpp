@@ -17,8 +17,8 @@
 #include "DSprotocol.h"
 #include "CashShop.h"
 #include "MasterLevelSkillTreeSystem.h"
-#include "winutil.h"
-#include "TLog.h"
+#include "util.h"
+#include "Log/Log.h"
 #include "protocol.h"
 
 CCrywolf g_Crywolf;
@@ -56,7 +56,7 @@ BOOL CCrywolf::LoadData(LPSTR lpszFileName)
 
 	if ( !lpszFileName || !strcmp(lpszFileName, "") )
 	{
-		g_Log.MsgBox("[Crywolf Main Job] - File load error : File Name Error");
+		sLog.outError("[Crywolf Main Job] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -65,13 +65,13 @@ BOOL CCrywolf::LoadData(LPSTR lpszFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("[Crywolf Main Job] - Can't Open %s (%s)", lpszFileName, res.description());
+		sLog.outError("[Crywolf Main Job] - Can't Open %s (%s)", lpszFileName, res.description());
 		return FALSE;
 	}
 
 	this->DelAllData();
 
-	pugi::xml_node main = file.child("CryWolf");
+	pugi::xml_node mainXML = file.child("CryWolf");
 
 	bool bEnable = main.attribute("Enable").as_bool();
 
@@ -82,7 +82,7 @@ BOOL CCrywolf::LoadData(LPSTR lpszFileName)
 
 	g_CrywolfSync.SetEnableCrywolf(bEnable);
 
-	pugi::xml_node schedule = main.child("Schedule");
+	pugi::xml_node schedule = mainXML.child("Schedule");
 
 	for (pugi::xml_node start = schedule.child("Start"); start; start = start.next_sibling())
 	{
@@ -97,7 +97,7 @@ BOOL CCrywolf::LoadData(LPSTR lpszFileName)
 
 		if ( this->m_StartTimeInfoCount <= -1 || this->m_StartTimeInfoCount >= MAX_CRYWOLF_STATE_TIME )
 		{
-			g_Log.MsgBox("[Crywolf Main Job] - Excced MAX StartTime (%d)", this->m_StartTimeInfoCount);
+			sLog.outError("[Crywolf Main Job] - Excced MAX StartTime (%d)", this->m_StartTimeInfoCount);
 			return FALSE;
 		}
 
@@ -113,7 +113,7 @@ BOOL CCrywolf::LoadData(LPSTR lpszFileName)
 		this->m_StartTimeInfoCount++;
 	}
 
-	pugi::xml_node cyclesettings = main.child("CycleSettings");
+	pugi::xml_node cyclesettings = mainXML.child("CycleSettings");
 
 	for (pugi::xml_node cycle = cyclesettings.child("Cycle"); cycle; cycle = cycle.next_sibling())
 	{
@@ -130,7 +130,7 @@ BOOL CCrywolf::LoadData(LPSTR lpszFileName)
 		this->m_StateTimeInfo[iStateNumber].m_bUsed = TRUE;
 	}
 
-	pugi::xml_node monstergroupsettings = main.child("MonsterGroupSettings");
+	pugi::xml_node monstergroupsettings = mainXML.child("MonsterGroupSettings");
 
 	this->m_iBossGroupNumber = monstergroupsettings.attribute("BalgassAIGroup").as_int();
 	this->m_iBossTurnUpTime = monstergroupsettings.attribute("BalgassTurnUpTime").as_int();
@@ -142,7 +142,7 @@ BOOL CCrywolf::LoadData(LPSTR lpszFileName)
 
 		if ( iGroupNumber <= -1 || iGroupNumber >= MAX_CRYWOLF_MONSTER_GROUP )
 		{
-			g_Log.MsgBox("[Crywolf Main Job] - Invalid Monster Group Number (%d)", iGroupNumber);
+			sLog.outError("[Crywolf Main Job] - Invalid Monster Group Number (%d)", iGroupNumber);
 			return FALSE;
 		}
 
@@ -150,7 +150,7 @@ BOOL CCrywolf::LoadData(LPSTR lpszFileName)
 		this->m_iMonsterGroupNumberCount++;
 	}
 
-	pugi::xml_node mvp_kill = main.child("MvP_ScoreKillReward");
+	pugi::xml_node mvp_kill = mainXML.child("MvP_ScoreKillReward");
 
 	this->m_iMVPScoreTable[0] = mvp_kill.attribute("Balgass").as_int();
 	this->m_iMVPScoreTable[1] = mvp_kill.attribute("DarkElf").as_int();
@@ -160,7 +160,7 @@ BOOL CCrywolf::LoadData(LPSTR lpszFileName)
 	this->m_iMVPScoreTable[5] = mvp_kill.attribute("Tanker").as_int();
 	this->m_iMVPScoreTable[6] = mvp_kill.attribute("Contractor").as_int();
 
-	pugi::xml_node mvp_point = main.child("MvP_RankScoreReward");
+	pugi::xml_node mvp_point = mainXML.child("MvP_RankScoreReward");
 
 	this->m_iMVPRankScoreTable[0] = mvp_point.attribute("RankD").as_int();
 	this->m_iMVPRankScoreTable[1] = mvp_point.attribute("RankC").as_int();
@@ -168,7 +168,7 @@ BOOL CCrywolf::LoadData(LPSTR lpszFileName)
 	this->m_iMVPRankScoreTable[3] = mvp_point.attribute("RankA").as_int();
 	this->m_iMVPRankScoreTable[4] = mvp_point.attribute("RankS").as_int();
 
-	pugi::xml_node mvp_exp = main.child("MvP_RankExpReward");
+	pugi::xml_node mvp_exp = mainXML.child("MvP_RankExpReward");
 
 	this->m_iMVPRankExpTable[0] = mvp_exp.attribute("RankD").as_int();
 	this->m_iMVPRankExpTable[1] = mvp_exp.attribute("RankC").as_int();
@@ -178,7 +178,7 @@ BOOL CCrywolf::LoadData(LPSTR lpszFileName)
 
 	if (g_ConfigRead.server.GetStateFromEventTable(g_ConfigRead.server.GetServerType(), EV_TABLE_CW) == true)
 	{
-		pugi::xml_node benefit = main.child("Benefit");
+		pugi::xml_node benefit = mainXML.child("Benefit");
 
 		int iBenefitEnable = benefit.attribute("Enable").as_int();
 		int iPlusChaosRate = benefit.attribute("PlusChaosRate").as_int();
@@ -190,7 +190,7 @@ BOOL CCrywolf::LoadData(LPSTR lpszFileName)
 		g_CrywolfSync.SetMonHPBenefitRate(iMonHPRate);
 		g_CrywolfSync.SetKundunHPRefillState(iKundunHPRefill);
 
-		pugi::xml_node penalty = main.child("Penalty");
+		pugi::xml_node penalty = mainXML.child("Penalty");
 
 		int iPenaltyEnable = penalty.attribute("Enable").as_int();
 		int iGemDropPenaltyRate = penalty.attribute("GemDropPenaltyRate").as_int();

@@ -1,4 +1,4 @@
-﻿#include "StdAfx.h"
+﻿#include "stdafx.h"
 #include "SRSA.h"
 #include "CRC.h"
 #include "IgcInt.h"

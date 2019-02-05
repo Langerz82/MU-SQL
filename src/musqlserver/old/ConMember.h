@@ -12,6 +12,9 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include <string>
+#include <map>
+
 class CConMember
 {
 public:

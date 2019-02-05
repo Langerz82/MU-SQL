@@ -5,7 +5,7 @@
 #include "stdafx.h"
 #include "ItemAddOption.h"
 #include "Protocol.h"
-#include "TLog.h"
+#include "Log/Log.h"
 
 CItemAddOption	g_ItemAddOption;
 
@@ -32,15 +32,15 @@ void CItemAddOption::Load(char *chFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("Failed to load %s file (%s)", chFileName, res.description());
+		sLog.outError("Failed to load %s file (%s)", chFileName, res.description());
 		return;
 	}
 
 	int iItemAddOptionIndex = 0;
 
-	pugi::xml_node main = file.child("ItemOptionManager");
+	pugi::xml_node mainXML = file.child("ItemOptionManager");
 
-	for (pugi::xml_node section = main.child("Section"); section; section = section.next_sibling())
+	for (pugi::xml_node section = mainXML.child("Section"); section; section = section.next_sibling())
 	{
 		int iSectionID = section.attribute("ID").as_int();
 
@@ -73,7 +73,7 @@ void CItemAddOption::Load(char *chFileName)
 			iItemAddOptionIndex++;
 			if (iItemAddOptionIndex > 100 )
 			{
-				g_Log.MsgBox("[ItemAddOption] Overflow ItemAddOption Table Index");
+				sLog.outError("[ItemAddOption] Overflow ItemAddOption Table Index");
 			}
 		}
 	}

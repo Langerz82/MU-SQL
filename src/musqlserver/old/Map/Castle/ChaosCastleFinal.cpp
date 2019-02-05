@@ -4,7 +4,7 @@
 #include "ChaosCastleFinal.h"
 #include "configread.h"
 #include "GameMain.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "TNotice.h"
 #include "DSProtocol.h"
 #include "user.h"
@@ -161,7 +161,7 @@ void ChaosCastleFinal::Load_CCFMonster(char *Filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("[ChaosCastleFinal] SetBase File Load Fail %s (%s)", Filename, res.description());
+		sLog.outError("[ChaosCastleFinal] SetBase File Load Fail %s (%s)", Filename, res.description());
 		return;
 	}
 
@@ -180,7 +180,7 @@ void ChaosCastleFinal::Load_CCFMonster(char *Filename)
 
 	if (nCount == 100 || nCount < 0)
 	{
-		g_Log.Add("[ChaosCastleFinal][LoadMonster] Monster Count Invalid");
+		sLog.outBasic("[ChaosCastleFinal][LoadMonster] Monster Count Invalid");
 		nCount = 100;
 	}
 
@@ -194,7 +194,7 @@ void ChaosCastleFinal::Load_CCFInfo(char *Filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("[ChaosCastleFinal] Info File Load Fail %s (%s)", Filename, res.description());
+		sLog.outError("[ChaosCastleFinal] Info File Load Fail %s (%s)", Filename, res.description());
 		return;
 	}
 
@@ -269,7 +269,7 @@ void ChaosCastleFinal::Load_CCFInfo(char *Filename)
 
 		if (nTimeTableCnt > 40)
 		{
-			g_Log.MsgBox("ChaosCastleFinal TimeTable MaxOver [%s] ", Filename);
+			sLog.outError("ChaosCastleFinal TimeTable MaxOver [%s] ", Filename);
 			break;
 		}
 
@@ -359,7 +359,7 @@ void ChaosCastleFinal::ProcState_Closed()
 				{
 					if (this->m_stCCFData.m_nCCF_REMAIN_MSEC <= 60000 * this->m_iCCF_TIME_MIN_ALL_NOTIFY && this->m_stCCFData.m_bCCF_CAN_ENTER == false && this->m_stCCFData.m_bCCF_MSG_ALL_NOTIFY == false)
 					{
-						g_Log.Add("[Chaos Castle Survival] Notify = 1");
+						sLog.outBasic("[Chaos Castle Survival] Notify = 1");
 
 						this->m_stCCFData.m_bCCF_MSG_ALL_NOTIFY = true;
 						this->GD_SendCCFInfoAllServer(this->m_iCCF_TIME_MIN_ALL_NOTIFY, this->Check_CCF_DayType());
@@ -372,7 +372,7 @@ void ChaosCastleFinal::ProcState_Closed()
 						this->m_stCCFData.m_bCCF_CAN_PARTY = 1;
 						this->m_stCCFData.m_byCCF_TYPE = this->Check_CCF_DayType();
 
-						g_Log.Add("[Chaos Castle Survival] Opened.");
+						sLog.outBasic("[Chaos Castle Survival] Opened.");
 					}
 
 					if (this->m_stCCFData.m_nCCF_REMAIN_MSEC <= 60000 * this->m_iCCF_TIME_MIN_OPEN && this->m_stCCFData.m_nCCF_REMAIN_MSEC > 0 && this->m_stCCFData.m_nCCF_REMAIN_MSEC / 60000 != this->m_stCCFData.m_nCCF_NOTIFY_COUNT)
@@ -383,7 +383,7 @@ void ChaosCastleFinal::ProcState_Closed()
 						TNotice::MakeNoticeMsgEx(&pNotice, 0, Lang.GetText(0,590), this->m_stCCFData.m_nCCF_NOTIFY_COUNT + 1);
 
 						this->SendAllUserAnyMsg((LPBYTE)&pNotice, pNotice.h.size);
-						g_Log.Add("[Chaos Castle Survival] Event starts in %d minutes", this->m_stCCFData.m_nCCF_NOTIFY_COUNT + 1);
+						sLog.outBasic("[Chaos Castle Survival] Event starts in %d minutes", this->m_stCCFData.m_nCCF_NOTIFY_COUNT + 1);
 					}
 
 					if (this->m_stCCFData.m_nCCF_REMAIN_MSEC <= 30000 && this->m_stCCFData.m_nCCF_REMAIN_MSEC > 0 && !this->m_stCCFData.m_bCCF_MSG_BEFORE_ENTER)
@@ -461,7 +461,7 @@ void ChaosCastleFinal::SetState(int iCCF_STATE, int nFlag)
 				break;
 		}
 
-		g_Log.Add("[Chaos Castle Survival] Change State: %s -> %s", temp2, temp1);
+		sLog.outBasic("[Chaos Castle Survival] Change State: %s -> %s", temp2, temp1);
 		this->m_stCCFData.m_nCCF_STATE = iCCF_STATE;
 
 		switch (this->m_stCCFData.m_nCCF_STATE)
@@ -534,7 +534,7 @@ void ChaosCastleFinal::ProcState_Playing()
 			this->SendNoticeState(5);
 			this->m_bIsCCF_Ranking_Renew = false;
 
-			g_Log.Add("[Chaos Castle Survival] Started. (UserCount:%d)", this->GetCurPlayUser());
+			sLog.outBasic("[Chaos Castle Survival] Started. (UserCount:%d)", this->GetCurPlayUser());
 		}
 
 		if (this->m_stCCFData.m_bCCF_PLAY_START == false &&
@@ -545,7 +545,7 @@ void ChaosCastleFinal::ProcState_Playing()
 			if (iCurPlayUser == 0)
 			{
 				this->SetState(1, 0);
-				g_Log.Add("[Chaos Castle Survival] Closed - No User");
+				sLog.outBasic("[Chaos Castle Survival] Closed - No User");
 				return;
 			}
 		}
@@ -574,7 +574,7 @@ void ChaosCastleFinal::ProcState_Playing()
 
 				if (iCCF_LEFT_MONSTER_COUNT > 0)
 				{
-					g_Log.Add("[Chaos Castle Survival][CCS1] Has No Winner : Monster Left (%d)", this->m_stCCFData.m_lCCF_CURRENT_MONSTER_COUNT);
+					sLog.outBasic("[Chaos Castle Survival][CCS1] Has No Winner : Monster Left (%d)", this->m_stCCFData.m_lCCF_CURRENT_MONSTER_COUNT);
 				}
 
 				else
@@ -584,12 +584,12 @@ void ChaosCastleFinal::ProcState_Playing()
 
 					if (iCCF_WINNER_INDEX == -1)
 					{
-						g_Log.Add("[Chaos Castle Survival][CCS1] Has No Winner.");
+						sLog.outBasic("[Chaos Castle Survival][CCS1] Has No Winner.");
 					}
 
 					else
 					{
-						g_Log.Add("[Chaos Castle Survival][CCS1] [%s][%s][%s][ServerCode: %d] is Winner. [CharInfoSave : Class=%d, Level=%d, LvPoint=%d, Exp=%d, Str=%d, Dex=%d, Vit=%d, Energy=%d, LeaderShip=%d, Map=%d, Pk=%d]",
+						sLog.outBasic("[Chaos Castle Survival][CCS1] [%s][%s][%s][ServerCode: %d] is Winner. [CharInfoSave : Class=%d, Level=%d, LvPoint=%d, Exp=%d, Str=%d, Dex=%d, Vit=%d, Energy=%d, LeaderShip=%d, Map=%d, Pk=%d]",
 							gObj[iCCF_WINNER_INDEX].AccountID, gObj[iCCF_WINNER_INDEX].Name, gObj[iCCF_WINNER_INDEX].m_PlayerData->m_RealNameOfUBF,
 							gObj[iCCF_WINNER_INDEX].m_PlayerData->m_nServerCodeOfHomeWorld, gObj[iCCF_WINNER_INDEX].m_PlayerData->DbClass,
 							gObj[iCCF_WINNER_INDEX].Level, gObj[iCCF_WINNER_INDEX].m_PlayerData->LevelUpPoint, gObj[iCCF_WINNER_INDEX].m_PlayerData->Experience,
@@ -613,7 +613,7 @@ void ChaosCastleFinal::ProcState_Playing()
 
 				if (iCCF_LEFT_MONSTER_COUNT > 0)
 				{
-					g_Log.Add("[Chaos Castle Survival][CCS2] Has No Winner : Monster Left (%d)", this->m_stCCFData.m_lCCF_CURRENT_MONSTER_COUNT);
+					sLog.outBasic("[Chaos Castle Survival][CCS2] Has No Winner : Monster Left (%d)", this->m_stCCFData.m_lCCF_CURRENT_MONSTER_COUNT);
 				}
 
 				else
@@ -623,12 +623,12 @@ void ChaosCastleFinal::ProcState_Playing()
 
 					if (iCCF_WINNER_INDEX == -1)
 					{
-						g_Log.Add("[Chaos Castle Survival][CCS2] Has No Winner.");
+						sLog.outBasic("[Chaos Castle Survival][CCS2] Has No Winner.");
 					}
 
 					else
 					{
-						g_Log.Add("[Chaos Castle Survival][CCS2] [%s][%s][%s][ServerCode: %d] is Winner. [CharInfoSave : Class=%d, Level=%d, LvPoint=%d, Exp=%d, Str=%d, Dex=%d, Vit=%d, Energy=%d, LeaderShip=%d, Map=%d, Pk=%d]",
+						sLog.outBasic("[Chaos Castle Survival][CCS2] [%s][%s][%s][ServerCode: %d] is Winner. [CharInfoSave : Class=%d, Level=%d, LvPoint=%d, Exp=%d, Str=%d, Dex=%d, Vit=%d, Energy=%d, LeaderShip=%d, Map=%d, Pk=%d]",
 							gObj[iCCF_WINNER_INDEX].AccountID, gObj[iCCF_WINNER_INDEX].Name, gObj[iCCF_WINNER_INDEX].m_PlayerData->m_RealNameOfUBF,
 							gObj[iCCF_WINNER_INDEX].m_PlayerData->m_nServerCodeOfHomeWorld, gObj[iCCF_WINNER_INDEX].m_PlayerData->DbClass,
 							gObj[iCCF_WINNER_INDEX].Level, gObj[iCCF_WINNER_INDEX].m_PlayerData->LevelUpPoint, gObj[iCCF_WINNER_INDEX].m_PlayerData->Experience,
@@ -652,7 +652,7 @@ void ChaosCastleFinal::ProcState_Playing()
 
 	if (this->m_stCCFData.m_nCCF_REMAIN_MSEC <= 0)
 	{
-		g_Log.Add("[Chaos Castle Survival] is Over : TIME-OUT (Left User:%d, Monster:%d)",
+		sLog.outBasic("[Chaos Castle Survival] is Over : TIME-OUT (Left User:%d, Monster:%d)",
 			this->GetMonsterListCount(), this->GetCurPlayUser());
 
 		int iCCF_WINNER_INDEX = -1;
@@ -673,7 +673,7 @@ void ChaosCastleFinal::ProcState_Playing()
 								gObj[iMonsterIndex].MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL &&
 								gObj[iMonsterIndex].Connected > 0)
 							{
-								g_Log.Add("[Chaos Castle Survival][Bug Tracker] Left Monster AttrInfo %d/%d",
+								sLog.outBasic("[Chaos Castle Survival][Bug Tracker] Left Monster AttrInfo %d/%d",
 									gObj[iMonsterIndex].X, gObj[iMonsterIndex].Y);
 							}
 						}
@@ -688,7 +688,7 @@ void ChaosCastleFinal::ProcState_Playing()
 
 			else
 			{
-				g_Log.Add("[Chaos Castle Survival][CCS4]  Has No Winner : Monster Left (%d)",
+				sLog.outBasic("[Chaos Castle Survival][CCS4]  Has No Winner : Monster Left (%d)",
 					this->m_stCCFData.m_lCCF_MONSTER_COUNT);
 			}
 		}
@@ -700,12 +700,12 @@ void ChaosCastleFinal::ProcState_Playing()
 
 			if (iCCF_WINNER_INDEX == -1)
 			{
-				g_Log.Add("[Chaos Castle Survival][CCS3] Has No Winner.");
+				sLog.outBasic("[Chaos Castle Survival][CCS3] Has No Winner.");
 			}
 
 			else
 			{
-				g_Log.Add("[Chaos Castle Survival][CCS3] [%s][%s][%s][ServerCode: %d] is Winner. [CharInfoSave : Class=%d, Level=%d, LvPoint=%d, Exp=%d, Str=%d, Dex=%d, Vit=%d, Energy=%d, LeaderShip=%d, Map=%d, Pk=%d]",
+				sLog.outBasic("[Chaos Castle Survival][CCS3] [%s][%s][%s][ServerCode: %d] is Winner. [CharInfoSave : Class=%d, Level=%d, LvPoint=%d, Exp=%d, Str=%d, Dex=%d, Vit=%d, Energy=%d, LeaderShip=%d, Map=%d, Pk=%d]",
 					gObj[iCCF_WINNER_INDEX].AccountID, gObj[iCCF_WINNER_INDEX].Name, gObj[iCCF_WINNER_INDEX].m_PlayerData->m_RealNameOfUBF,
 					gObj[iCCF_WINNER_INDEX].m_PlayerData->m_nServerCodeOfHomeWorld, gObj[iCCF_WINNER_INDEX].m_PlayerData->DbClass,
 					gObj[iCCF_WINNER_INDEX].Level, gObj[iCCF_WINNER_INDEX].m_PlayerData->LevelUpPoint, gObj[iCCF_WINNER_INDEX].m_PlayerData->Experience,
@@ -785,29 +785,29 @@ void ChaosCastleFinal::SetState_PlayEnd(int nFlag)
 	this->m_stCCFData.m_bCCF_MSG_ALL_NOTIFY = false;
 
 	this->m_stCCFData.m_byCCF_TYPE = this->Check_CCF_DayType();
-	g_Log.Add("[Chaos Castle Survival] [ItemDropCount Reset] m_byBoxDropCnt: %d ",
+	sLog.outBasic("[Chaos Castle Survival] [ItemDropCount Reset] m_byBoxDropCnt: %d ",
 		this->m_byBoxDropCnt);
 
 	if (!this->m_bIsCCF_Ranking_Renew)
 	{
-		g_Log.Add("[Chaos Castle Survival] Ranking list START");
+		sLog.outBasic("[Chaos Castle Survival] Ranking list START");
 
 		for (int i = 0; i < 50; i++)
 		{
 			if (this->m_CCFRanking[i].byRank > 0)
-				g_Log.Add("[Chaos Castle Survival] No.%d Name: %s Point: %d", this->m_CCFRanking[i].byRank, this->m_CCFRanking[i].szCharName, this->m_CCFRanking[i].nPoint);
+				sLog.outBasic("[Chaos Castle Survival] No.%d Name: %s Point: %d", this->m_CCFRanking[i].byRank, this->m_CCFRanking[i].szCharName, this->m_CCFRanking[i].nPoint);
 		}
 
-		g_Log.Add("[Chaos Castle Survival] Ranking list END");
+		sLog.outBasic("[Chaos Castle Survival] Ranking list END");
 
 		this->GD_Renew_CCF_Ranking(this->m_stCCFData.m_byCCF_TYPE);
 		this->m_bIsCCF_Ranking_Renew = true;
-		g_Log.Add("[Chaos Castle Survival][SetState_PlayEnd][REQ DataServer Renew Ranking] tick :%d", GetTickCount());
+		sLog.outBasic("[Chaos Castle Survival][SetState_PlayEnd][REQ DataServer Renew Ranking] tick :%d", GetTickCount());
 	}
 
 	if (this->Check_CCF_DayType() == 3)
 	{
-		g_Log.Add("[Chaos Castle Survival][FINALDAY WAR END]");
+		sLog.outBasic("[Chaos Castle Survival][FINALDAY WAR END]");
 
 		if (this->IsRealFinalDayEnd() == 1)
 		{
@@ -817,7 +817,7 @@ void ChaosCastleFinal::SetState_PlayEnd(int nFlag)
 
 	this->m_stCCFData.m_nCCF_REMAIN_MSEC = 60000 * this->m_iCCF_TIME_MIN_REST;
 
-	g_Log.Add("[Chaos Castle Survival] SetState PLAYEND");
+	sLog.outBasic("[Chaos Castle Survival] SetState PLAYEND");
 }
 
 void ChaosCastleFinal::SetState_Playing()
@@ -828,13 +828,13 @@ void ChaosCastleFinal::SetState_Playing()
 
 	if (this->CheckCanStart_CCF())
 	{
-		g_Log.Add("[Chaos Castle Survival] SetState PLAYING");
+		sLog.outBasic("[Chaos Castle Survival] SetState PLAYING");
 	}
 	else
 	{
 		this->CCF_Start_Fail_So_RollBack();
 		this->SetState_Closed();
-		g_Log.Add("[Chaos Castle Survival] Failed to Start ChaosCastleFinal : Lack of User");
+		sLog.outBasic("[Chaos Castle Survival] Failed to Start ChaosCastleFinal : Lack of User");
 	}
 }
 
@@ -857,8 +857,8 @@ void ChaosCastleFinal::SetState_Closed()
 	this->CheckSync();
 	this->GD_Load_CCF_RankingList(this->CCF_Ranking_DayType());
 
-	g_Log.Add("[Chaos Castle Survival][SetState_Closed][GD_Load_CCF_RankingList] tick %d ", GetTickCount());
-	g_Log.Add("[Chaos Castle Survival] SetState CLOSED");
+	sLog.outBasic("[Chaos Castle Survival][SetState_Closed][GD_Load_CCF_RankingList] tick %d ", GetTickCount());
+	sLog.outBasic("[Chaos Castle Survival] SetState CLOSED");
 }
 
 void ChaosCastleFinal::SetState_None()
@@ -870,7 +870,7 @@ void ChaosCastleFinal::SendAllLoserFailMessage(int iWinnerIndex)
 {
 	if (iWinnerIndex != -1 && !ObjectMaxRange(iWinnerIndex))
 	{
-		g_Log.Add("[Chaos Castle Survival][SendAllLoserFailMessage] return ERROR iWinnerIndex : %d", iWinnerIndex);
+		sLog.outBasic("[Chaos Castle Survival][SendAllLoserFailMessage] return ERROR iWinnerIndex : %d", iWinnerIndex);
 		return;
 	}
 
@@ -900,7 +900,7 @@ void ChaosCastleFinal::SendAllLoserFailMessage(int iWinnerIndex)
 				IOCP.DataSend(this->m_stCCFData.m_UserData[i].m_nIndex, (LPBYTE)&pMsg, pMsg.h.size);
 
 				gObj[this->m_stCCFData.m_UserData[i].m_nIndex].m_bCCF_Quit_Msg = true;
-				g_Log.Add("[Chaos Castle Survival][GAME-RESULT][FAIL-CASE] NAME:[%s] UBFNAME:[%s] SERVERCODE:[%d],MOBKILL:[%d],USERKILL:[%d],POINT:[%d]",
+				sLog.outBasic("[Chaos Castle Survival][GAME-RESULT][FAIL-CASE] NAME:[%s] UBFNAME:[%s] SERVERCODE:[%d],MOBKILL:[%d],USERKILL:[%d],POINT:[%d]",
 					gObj[this->m_stCCFData.m_UserData[i].m_nIndex].Name,
 					gObj[this->m_stCCFData.m_UserData[i].m_nIndex].m_PlayerData->m_RealNameOfUBF,
 					gObj[this->m_stCCFData.m_UserData[i].m_nIndex].m_PlayerData->m_nServerCodeOfHomeWorld,
@@ -950,7 +950,7 @@ void ChaosCastleFinal::SendCCFWinMessage(int iWinnerIndex, int nPoint, bool bFin
 		IOCP.DataSend(iWinnerIndex, (LPBYTE)&pMsg, pMsg.h.size);
 
 		gObj[iWinnerIndex].m_bCCF_Quit_Msg = true;
-		g_Log.Add("[Chaos Castle Survival][GAME-RESULT][WIN-CASE] NAME:[%s] UBFNAME:[%s] SERVERCODE:[%d],MOBKILL:[%d],USERKILL:[%d],POINT:[%d]",
+		sLog.outBasic("[Chaos Castle Survival][GAME-RESULT][WIN-CASE] NAME:[%s] UBFNAME:[%s] SERVERCODE:[%d],MOBKILL:[%d],USERKILL:[%d],POINT:[%d]",
 			gObj[iWinnerIndex].Name,
 			gObj[iWinnerIndex].m_PlayerData->m_RealNameOfUBF,
 			gObj[iWinnerIndex].m_PlayerData->m_nServerCodeOfHomeWorld,
@@ -1009,7 +1009,7 @@ void ChaosCastleFinal::SearchNBlowObjs(int iMapNumber, int iX, int iY)
 				{
 					this->AddFallUser(iIndex);
 
-					g_Log.Add("[Chaos Castle Survival] [%s][%s] User Dead In Chaos Castle : Fall from Castle (X:%d, Y:%d)",
+					sLog.outBasic("[Chaos Castle Survival] [%s][%s] User Dead In Chaos Castle : Fall from Castle (X:%d, Y:%d)",
 						gObj[iIndex].AccountID, gObj[iIndex].Name, iX, iY);
 				}
 			}
@@ -1639,7 +1639,7 @@ void ChaosCastleFinal::CheckUserInDieTile()
 						GSProtocol.GCDiePlayerSend(&gObj[this->m_stCCFData.m_UserData[i].m_nIndex],
 							this->m_stCCFData.m_UserData[i].m_nIndex, 0, 0);
 
-						g_Log.Add("[Chaos Castle Survival] [%s][%s] User Dead In Chaos Castle : Fall from Castle (X:%d, Y:%d)",
+						sLog.outBasic("[Chaos Castle Survival] [%s][%s] User Dead In Chaos Castle : Fall from Castle (X:%d, Y:%d)",
 							gObj[this->m_stCCFData.m_UserData[i].m_nIndex].AccountID,
 							gObj[this->m_stCCFData.m_UserData[i].m_nIndex].Name,
 							iSX, iSY);
@@ -1933,11 +1933,11 @@ void ChaosCastleFinal::SearchCCFNDropMonsterItem(int iMonsterIndex, int iMaxHitU
 	{
 		ItemSerialCreateSend(iMaxHitUserIndex, gObj[iMaxHitUserIndex].MapNumber, gObj[iMaxHitUserIndex].X, gObj[iMaxHitUserIndex].Y, iItemType, iLevel, 0, 0, 0, 0, iMaxHitUserIndex, 0, 0, 0, 0, 0);
 
-		g_Log.Add("[Chaos Castle Survival] Monster Dropped ChaosCastleFinal Item To [%s][%s] (%d)(Item:%s)",
+		sLog.outBasic("[Chaos Castle Survival] Monster Dropped ChaosCastleFinal Item To [%s][%s] (%d)(Item:%s)",
 			gObj[iMaxHitUserIndex].AccountID, gObj[iMaxHitUserIndex].Name, iMonsterIndex, ItemAttribute[iItemType].Name);
 	}
 
-	g_Log.Add("[Chaos Castle Survival][SearchCCFNDropMonsterItem] BoxCount :%d, Random %d ",
+	sLog.outBasic("[Chaos Castle Survival][SearchCCFNDropMonsterItem] BoxCount :%d, Random %d ",
 		this->m_byBoxDropCnt, nRand);
 
 	LeaveCriticalSection(&this->m_stCCFData.m_CCFDropCriti);
@@ -1969,7 +1969,7 @@ void ChaosCastleFinal::SetItemsToMonster(int iCCFType)
 				MID.m_nItemKind = g_iCCF_MonsterItems[iCCFType-1][0];
 				this->m_stCCFData.m_mapCCFMonsterItemList.insert(std::pair<int, _CCF_MONSTER_ITEM_DROP>(iMONSTER_INDEX, MID));
 
-				g_Log.Add("[Chaos Castle Survival] Set Monster Drop Item (%d)(Item:%s)",
+				sLog.outBasic("[Chaos Castle Survival] Set Monster Drop Item (%d)(Item:%s)",
 					iMONSTER_INDEX, ItemAttribute[MID.m_nItemKind].Name);
 				break;
 			}
@@ -1978,7 +1978,7 @@ void ChaosCastleFinal::SetItemsToMonster(int iCCFType)
 
 	LeaveCriticalSection(&this->m_stCCFData.m_CCFDropCriti);
 	
-	g_Log.Add("[Chaos Castle Survival] Set Monster Drop Item Count (%d)", this->m_stCCFData.m_mapCCFMonsterItemList.size());
+	sLog.outBasic("[Chaos Castle Survival] Set Monster Drop Item Count (%d)", this->m_stCCFData.m_mapCCFMonsterItemList.size());
 }
 
 int ChaosCastleFinal::SetMonster()
@@ -2017,7 +2017,7 @@ int ChaosCastleFinal::SetMonster()
 				this->AddMonsterList(result);
 			}
 
-			g_Log.Add("gObjAddMonster return %d", result);
+			sLog.outBasic("gObjAddMonster return %d", result);
 		}
 	}
 
@@ -2038,7 +2038,7 @@ void ChaosCastleFinal::AddMonsterList(int iMonsterIndex)
 
 void ChaosCastleFinal::DelMonsterList(int iMonsterIndex)
 {
-	g_Log.Add("[Chaos Castle Survival] [Bug Tracker] MONSTER DEL Count(%d) : ENTER - Index(%d)",
+	sLog.outBasic("[Chaos Castle Survival] [Bug Tracker] MONSTER DEL Count(%d) : ENTER - Index(%d)",
 		this->m_stCCFData.m_lCCF_CURRENT_MONSTER_COUNT, iMonsterIndex);
 
 	for (int iMON = 0; iMON < 100; iMON++)
@@ -2057,7 +2057,7 @@ void ChaosCastleFinal::DelMonsterList(int iMonsterIndex)
 		this->m_stCCFData.m_lCCF_CURRENT_MONSTER_COUNT = 0;
 	}
 
-	g_Log.Add("[Chaos Castle Survival] [Bug Tracker] MONSTER DEL Count(%d) : OUT - Index(%d)",
+	sLog.outBasic("[Chaos Castle Survival] [Bug Tracker] MONSTER DEL Count(%d) : OUT - Index(%d)",
 		this->m_stCCFData.m_lCCF_CURRENT_MONSTER_COUNT, iMonsterIndex);
 }
 
@@ -2177,7 +2177,7 @@ void ChaosCastleFinal::ClearMonster()
 		}
 	}
 
-	g_Log.Add("[Chaos Castle Survival]  Clear Monster");
+	sLog.outBasic("[Chaos Castle Survival]  Clear Monster");
 }
 
 void ChaosCastleFinal::CheckSync()
@@ -2290,7 +2290,7 @@ void ChaosCastleFinal::RewardUserEXP(BOOL bWinner)
 			int iTOT_EXP = iKILLCOUNT_USER * g_nCCF_ExpTable[0] + iKILLCOUNT_MONSTER * g_nCCF_ExpTable[1];
 			int iREWARD_EXP = this->CalcSendRewardEXP(this->m_stCCFData.m_UserData[i].m_nIndex, iTOT_EXP, iKILLCOUNT_USER, iKILLCOUNT_MONSTER);
 
-			g_Log.Add("[Chaos Castle Survival] [%s][%s] Reward User EXP (USER_KILL:%d, MON_KILL:%d, TOT_EXP:%d, TOT_REWARD_EXP:%d)",
+			sLog.outBasic("[Chaos Castle Survival] [%s][%s] Reward User EXP (USER_KILL:%d, MON_KILL:%d, TOT_EXP:%d, TOT_REWARD_EXP:%d)",
 				gObj[this->m_stCCFData.m_UserData[i].m_nIndex].AccountID, gObj[this->m_stCCFData.m_UserData[i].m_nIndex].Name,
 				iKILLCOUNT_USER, iKILLCOUNT_MONSTER, iTOT_EXP, iREWARD_EXP);
 		}
@@ -2424,7 +2424,7 @@ void ChaosCastleFinal::SendFailMessage(int iLoserIndex)
 	pMsg.PCKillCnt = gObj[iLoserIndex].m_byKillUserCount;
 
 	IOCP.DataSend(iLoserIndex, (LPBYTE)&pMsg, pMsg.h.size);
-	g_Log.Add("[Chaos Castle Survival][GAME-RESULT] NAME:[%s],MOBKILL:[%d],USERKILL:[%d],POINT[%d]",
+	sLog.outBasic("[Chaos Castle Survival][GAME-RESULT] NAME:[%s],MOBKILL:[%d],USERKILL:[%d],POINT[%d]",
 		gObj[iLoserIndex].Name, gObj[iLoserIndex].m_byKillMobCount, gObj[iLoserIndex].m_byKillUserCount, nPoint);
 
 	gObj[iLoserIndex].m_bCCF_Quit_Msg = true;
@@ -2517,7 +2517,7 @@ BOOL ChaosCastleFinal::LevelUp(int iUserIndex, int iAddExp)
 
 	int iLEFT_EXP = 0;
 
-	g_Log.Add("[Chaos Castle Survival] Experience : [%s][%s](%d) Experience: %d + %d",
+	sLog.outBasic("[Chaos Castle Survival] Experience : [%s][%s](%d) Experience: %d + %d",
 		gObj[iUserIndex].AccountID, gObj[iUserIndex].Name,
 		gObj[iUserIndex].Level, gObj[iUserIndex].m_PlayerData->Experience,
 		iAddExp);
@@ -2556,7 +2556,7 @@ BOOL ChaosCastleFinal::LevelUp(int iUserIndex, int iAddExp)
 			{
 				gObj[iUserIndex].m_PlayerData->LevelUpPoint++;
 
-				//g_Log.Add("[%s][%s] LevelUp PlusStatQuest Clear AddStat %d",gObj[iUserIndex].AccountID, gObj[iUserIndex].Name, gObj[iUserIndex].m_PlayerData->LevelUpPoint);
+				//sLog.outBasic("[%s][%s] LevelUp PlusStatQuest Clear AddStat %d",gObj[iUserIndex].AccountID, gObj[iUserIndex].Name, gObj[iUserIndex].m_PlayerData->LevelUpPoint);
 			}
 		}
 
@@ -2568,7 +2568,7 @@ BOOL ChaosCastleFinal::LevelUp(int iUserIndex, int iAddExp)
 		gObjSetBP(iUserIndex);
 		GSProtocol.GCLevelUpMsgSend(gObj[iUserIndex].m_Index, 1);
 		gObjCalcMaxLifePower(gObj[iUserIndex].m_Index);
-		g_Log.Add("Level Up [%s][%s][%d]", gObj[iUserIndex].AccountID, gObj[iUserIndex].Name, gObj[iUserIndex].Level);
+		sLog.outBasic("Level Up [%s][%s][%d]", gObj[iUserIndex].AccountID, gObj[iUserIndex].Name, gObj[iUserIndex].Level);
 		return 0;
 	}
 
@@ -2640,7 +2640,7 @@ bool ChaosCastleFinal::CheckCanStart_CCF()
 
 	else
 	{
-		g_Log.Add("[Chaos Castle Survival][CheckCanStart_CCS] GetCurPlayUser() FAILED (UserCount:%d) (NeedMinCount:%d)", nEnteredUserCount, this->m_nCCF_MinUserCount);
+		sLog.outBasic("[Chaos Castle Survival][CheckCanStart_CCS] GetCurPlayUser() FAILED (UserCount:%d) (NeedMinCount:%d)", nEnteredUserCount, this->m_nCCF_MinUserCount);
 		return false;
 	}
 }
@@ -2664,7 +2664,7 @@ void ChaosCastleFinal::CCF_Start_Fail_So_RollBack()
 
 				GSProtocol.GCMoneySend(this->m_stCCFData.m_UserData[i].m_nIndex, gObj[this->m_stCCFData.m_UserData[i].m_nIndex].m_PlayerData->Money);
 				gObjMoveGate(this->m_stCCFData.m_UserData[i].m_nIndex, 333);
-				g_Log.Add("[Chaos Castle Survival][CCF_Start_Fail_So_RollBack] INDEX: %d ", this->m_stCCFData.m_UserData[i].m_nIndex);
+				sLog.outBasic("[Chaos Castle Survival][CCF_Start_Fail_So_RollBack] INDEX: %d ", this->m_stCCFData.m_UserData[i].m_nIndex);
 
 				PMSG_NOTICE pNotice;
 				TNotice::MakeNoticeMsgEx(&pNotice, 1, Lang.GetText(0,592));
@@ -2739,7 +2739,7 @@ BOOL ChaosCastleFinal::CheckUserEnterMoney(int iUserIndex, BYTE byBattleType)
 
 	if (gObj[iUserIndex].m_PlayerData->Money < nEnterFee)
 	{
-		g_Log.Add("[Chaos Castle Survival] %s don't have EnterCCF_Fee: %d , User Money: %d ",
+		sLog.outBasic("[Chaos Castle Survival] %s don't have EnterCCF_Fee: %d , User Money: %d ",
 			gObj[iUserIndex].Name, nEnterFee, gObj[iUserIndex].m_PlayerData->Money);
 
 		return FALSE;
@@ -2752,31 +2752,31 @@ void ChaosCastleFinal::GD_Req_Save_CCF_Result(int index, char *Name, int Point, 
 {
 	if (ObjectMaxRange(index) == false)
 	{
-		g_Log.Add("[Chaos Castle Survival][GD_Req_Save_CCF_Result] CHECK_LIMIT index: %d", index);
+		sLog.outBasic("[Chaos Castle Survival][GD_Req_Save_CCF_Result] CHECK_LIMIT index: %d", index);
 		return;
 	}
 
 	if (gObjIsConnected(index) == false)
 	{
-		g_Log.Add("[Chaos Castle Survival][GD_Req_Save_CCF_Result] gObjIsConnected is NOT index: %d", index);
+		sLog.outBasic("[Chaos Castle Survival][GD_Req_Save_CCF_Result] gObjIsConnected is NOT index: %d", index);
 		return;
 	}
 
 	if (gObj[index].Type != OBJ_USER)
 	{
-		g_Log.Add("[Chaos Castle Survival][GD_Req_Save_CCF_Result] index is NOT USER: %d", index);
+		sLog.outBasic("[Chaos Castle Survival][GD_Req_Save_CCF_Result] index is NOT USER: %d", index);
 		return;
 	}
 
 	if (Point < 0)
 	{
-		g_Log.Add("[Chaos Castle Survival][GD_Req_Save_CCF_Result] index: %d, Under Zero Point: %d", index, Point);
+		sLog.outBasic("[Chaos Castle Survival][GD_Req_Save_CCF_Result] index: %d, Under Zero Point: %d", index, Point);
 		return;
 	}
 
 	if (Point > 200)
 	{
-		g_Log.Add("[Chaos Castle Survival][GD_Req_Save_CCF_Result] index: %d, Over 200 Point: %d", index, Point);
+		sLog.outBasic("[Chaos Castle Survival][GD_Req_Save_CCF_Result] index: %d, Over 200 Point: %d", index, Point);
 		return;
 	}
 
@@ -2799,7 +2799,7 @@ void ChaosCastleFinal::GD_Req_Save_CCF_Result(int index, char *Name, int Point, 
 		pMsg.byCCFType = this->Check_CCF_DayType();
 	}
 
-	g_Log.Add("[Chaos Castle Survival][GD_Req_Save_CCF_Result] pMsg.szCharName:%s, obj.Name :%s", pMsg.szCharName, gObj[index].Name);
+	sLog.outBasic("[Chaos Castle Survival][GD_Req_Save_CCF_Result] pMsg.szCharName:%s, obj.Name :%s", pMsg.szCharName, gObj[index].Name);
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
@@ -2820,7 +2820,7 @@ void ChaosCastleFinal::GD_Load_CCF_RankingList(BYTE byCCFType)
 {
 	if (byCCFType != 2 && byCCFType != 1)
 	{
-		g_Log.Add("[Chaos Castle Survival][GD_Load_CCF_RankingList] byCCF_Type : %d ", byCCFType);
+		sLog.outBasic("[Chaos Castle Survival][GD_Load_CCF_RankingList] byCCF_Type : %d ", byCCFType);
 		return;
 	}
 
@@ -2860,7 +2860,7 @@ void ChaosCastleFinal::GD_Req_Get_Permission(OBJECTSTRUCT *lpObj)
 	pMsg.nIndex = lpObj->m_Index;
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
-	g_Log.Add("[Chaos Castle Survival][GD_Req_Get_Permission] NAME:%s,CCFTYPE:%d",
+	sLog.outBasic("[Chaos Castle Survival][GD_Req_Get_Permission] NAME:%s,CCFTYPE:%d",
 		lpObj->Name, pMsg.byCCFType);
 }
 
@@ -2922,7 +2922,7 @@ int ChaosCastleFinal::CheckRankingReqValid(BYTE byCCFType)
 	{
 		if (byCCFType != 2 || sysTime.wDay != this->m_bySemiFinal1 && sysTime.wDay != this->m_bySemiFinal2 && sysTime.wDay != this->m_byFinal)
 		{
-			g_Log.Add("[Chaos Castle Survival][CheckRankingReqValid] USER req :%d Today :%d ", byCCFType, sysTime.wDay);
+			sLog.outBasic("[Chaos Castle Survival][CheckRankingReqValid] USER req :%d Today :%d ", byCCFType, sysTime.wDay);
 			return -1;
 		}
 
@@ -2946,7 +2946,7 @@ void ChaosCastleFinal::DG_Ans_CCF_Rank(_tagPMSG_ANS_CCF_RANK * lpMsg)
 	}
 
 	int nUserCnt = lpMsg->byUserCnt;
-	g_Log.Add("[Chaos Castle Survival] Received ranking, count:%d", nUserCnt);
+	sLog.outBasic("[Chaos Castle Survival] Received ranking, count:%d", nUserCnt);
 
 	for (int i = 0; i < nUserCnt; i++)
 	{
@@ -2962,7 +2962,7 @@ void ChaosCastleFinal::DG_Ans_CCF_Rank(_tagPMSG_ANS_CCF_RANK * lpMsg)
 			memcpy(this->m_CCFRanking[i].szCharName, lpMsg->RankingInfo[i].szCharName, MAX_ACCOUNT_LEN + 1);
 			this->m_CCFRanking[i].byRank = lpMsg->RankingInfo[i].byRank;
 			this->m_CCFRanking[i].nPoint = lpMsg->RankingInfo[i].nPoint;
-			g_Log.Add("[Chaos Castle Survival] (%d) rank: (Name:%s) (Point:%d)",
+			sLog.outBasic("[Chaos Castle Survival] (%d) rank: (Name:%s) (Point:%d)",
 				this->m_CCFRanking[i].byRank, this->m_CCFRanking[i].szCharName, this->m_CCFRanking[i].nPoint);
 		}
 	}
@@ -3007,20 +3007,20 @@ void ChaosCastleFinal::Send_RankingInfo(BYTE byCCFType, int aIndex)
 		if (CanIsSeeRankingInfo == -1)
 		{
 			pMsg.btResult = 2;
-			g_Log.Add("[Chaos Castle Survival][Send_RangkingInfo][ERROR] CANNOT SEE RANKING==> CanIseeRankInfo:%d, nUserCnt:%d ", -1, nUserCnt);
+			sLog.outBasic("[Chaos Castle Survival][Send_RangkingInfo][ERROR] CANNOT SEE RANKING==> CanIseeRankInfo:%d, nUserCnt:%d ", -1, nUserCnt);
 		}
 
 		else
 		{
 			pMsg.btResult = 0;
-			g_Log.Add("[Chaos Castle Survival][Send_RangkingInfo] RankingInfo ==> CanIseeRankInfo:%d, nUserCnt:%d ", CanIsSeeRankingInfo, nUserCnt);
+			sLog.outBasic("[Chaos Castle Survival][Send_RangkingInfo] RankingInfo ==> CanIseeRankInfo:%d, nUserCnt:%d ", CanIsSeeRankingInfo, nUserCnt);
 		}
 	}
 
 	else
 	{
 		pMsg.btResult = 1;
-		g_Log.Add("[Chaos Castle Survival][Send_RangkingInfo][ERROR] No RankingInfo ==> CanIseeRankInfo:%d, nUserCnt:%d ", CanIsSeeRankingInfo, nUserCnt);
+		sLog.outBasic("[Chaos Castle Survival][Send_RangkingInfo][ERROR] No RankingInfo ==> CanIseeRankInfo:%d, nUserCnt:%d ", CanIsSeeRankingInfo, nUserCnt);
 	}
 
 	if (this->Check_CCF_DayType() != 3 || this->m_stCCFData.m_bCCF_PLAY_START != true)
@@ -3028,13 +3028,13 @@ void ChaosCastleFinal::Send_RankingInfo(BYTE byCCFType, int aIndex)
 		if (this->m_bFinalDayEnd == true)
 		{
 			pMsg.btResult = 2;
-			g_Log.Add("[Chaos Castle Survival][Send_RangkingInfo][ERROR] FINAL WAR END");
+			sLog.outBasic("[Chaos Castle Survival][Send_RangkingInfo][ERROR] FINAL WAR END");
 		}
 	}
 	else
 	{
 		pMsg.btResult = 2;
-		g_Log.Add("[Chaos Castle Survival][Send_RangkingInfo][ERROR] NOW FINAL FIGHT");
+		sLog.outBasic("[Chaos Castle Survival][Send_RangkingInfo][ERROR] NOW FINAL FIGHT");
 	}
 
 	pMsg.btCnt = nUserCnt;
@@ -3136,7 +3136,7 @@ void ChaosCastleFinal::GD_SendCCFInfoAllServer(int nMinute, int nType)
 	pMsg.wMapSvrNum = g_MapServerManager.GetMapSvrGroup();
 
 	wsDataCli.DataSend((char*)&pMsg, sizeof(pMsg));
-	g_Log.Add("[CCS][GD_SendCCFInfoAllServer] Send Notify To DATA svr TYPE:%d, SVR_GRP %d", nType, pMsg.wMapSvrNum);
+	sLog.outBasic("[CCS][GD_SendCCFInfoAllServer] Send Notify To DATA svr TYPE:%d, SVR_GRP %d", nType, pMsg.wMapSvrNum);
 }
 
 void ChaosCastleFinal::SendAllMemberOfCCF(int index)
@@ -3261,7 +3261,7 @@ bool ChaosCastleFinal::IsRealFinalDayEnd()
 	{
 		if (it->m_nFinal == 3 && sysTime.wMinute + 60 * sysTime.wHour > it->m_nMinute + 60 * it->m_nHour)
 		{
-			g_Log.Add("[Chaos Castle Survival][RealFinalDayEnd] SystemTime %dh:%dm,FinalTime %dh:%dm",
+			sLog.outBasic("[Chaos Castle Survival][RealFinalDayEnd] SystemTime %dh:%dm,FinalTime %dh:%dm",
 				sysTime.wHour, sysTime.wMinute, it->m_nHour, it->m_nMinute);
 
 			return true;
@@ -3285,7 +3285,7 @@ void ChaosCastleFinal::GDReqSetCCFReward_UBF(int iUserIndex, BYTE btCCFType, BYT
 		return;
 	}
 
-	g_Log.Add("[UBF][ChaosCastleFinal][GDReqSetCCFWinerInformation]ACC:%s , NAME :%s,Real NAME :%s, CCFType:%d, RewardType:%d",
+	sLog.outBasic("[UBF][ChaosCastleFinal][GDReqSetCCFWinerInformation]ACC:%s , NAME :%s,Real NAME :%s, CCFType:%d, RewardType:%d",
 		lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->m_RealNameOfUBF, btCCFType, btRewardType);
 
 	SDHP_REQ_SET_CCF_WINNER_INFO pMsg;
@@ -3307,7 +3307,7 @@ void ChaosCastleFinal::SetOpenTodaySchedule()
 
 	if (byToday != 1 && byToday != 2 && byToday != 3)
 	{
-		g_Log.Add("[ChaosCastleFinal][SetOpenTodaySchedule] No related ChaosCastleFinal Day, Count:[%d]", byCount);
+		sLog.outBasic("[ChaosCastleFinal][SetOpenTodaySchedule] No related ChaosCastleFinal Day, Count:[%d]", byCount);
 		return;
 	}
 
@@ -3317,7 +3317,7 @@ void ChaosCastleFinal::SetOpenTodaySchedule()
 
 		if (pRET.m_nTryout != byToday && pRET.m_nSemiFinal != byToday && pRET.m_nFinal != byToday)
 		{
-			g_Log.Add("[ChaosCastleFinal][SetOpenTodaySchedule] NO DayType:[%d], Hour:[%d],minute[%d],Count:[%d] ",
+			sLog.outBasic("[ChaosCastleFinal][SetOpenTodaySchedule] NO DayType:[%d], Hour:[%d],minute[%d],Count:[%d] ",
 				byToday, pRET.m_nHour, pRET.m_nMinute, byCount);
 		}
 
@@ -3325,7 +3325,7 @@ void ChaosCastleFinal::SetOpenTodaySchedule()
 		{
 			this->m_vtCCFOpenTime.push_back(pRET);
 
-			g_Log.Add("[ChaosCastleFinal][SetOpenTodaySchedule] DayType:[%d], Hour:[%d],minute[%d],Count:[%d] ",
+			sLog.outBasic("[ChaosCastleFinal][SetOpenTodaySchedule] DayType:[%d], Hour:[%d],minute[%d],Count:[%d] ",
 				byToday, pRET.m_nHour, pRET.m_nMinute, byCount);
 			byCount++;
 		}

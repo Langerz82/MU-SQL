@@ -7,7 +7,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "TLog.h"
+#include "Log/Log.h"
 #include "prodef.h"
 
 // GS-N 0.99.60T - 0x00474A10 - Completed 

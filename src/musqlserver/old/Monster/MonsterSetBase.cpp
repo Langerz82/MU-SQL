@@ -2,7 +2,7 @@
 #include "MonsterSetBase.h"
 #include "GameMain.h"
 #include "MapServerManager.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "LargeRand.h"
 #include "configread.h"
 // GS-N 0.99.60T 0x0041AB30 - Completed
@@ -163,15 +163,15 @@ void CMonsterSetBase::LoadSetBase(char * filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("file open error %s (%s)", filename, res.description());
+		sLog.outError("file open error %s (%s)", filename, res.description());
 		return;
 	}
 
 	this->m_Count = 0;
 
-	pugi::xml_node main = file.child("MonsterSpawn");
+	pugi::xml_node mainXML = file.child("MonsterSpawn");
 
-	for (pugi::xml_node map = main.child("Map"); map; map = map.next_sibling())
+	for (pugi::xml_node map = mainXML.child("Map"); map; map = map.next_sibling())
 	{
 		int iMapNumber = map.attribute("Number").as_int();
 
@@ -186,7 +186,7 @@ void CMonsterSetBase::LoadSetBase(char * filename)
 
 			if (iSpotType < Arrange_NpcSpawn || iSpotType > Arrange_ElementalMonsterMultiSpawn)
 			{
-				g_Log.MsgBox("Error in %s file: Wrong Spot Type: %d", filename, iSpotType);
+				sLog.outError("Error in %s file: Wrong Spot Type: %d", filename, iSpotType);
 				continue;
 			}
 
@@ -259,7 +259,7 @@ void CMonsterSetBase::LoadSetBase(char * filename)
 
 							if (this->m_Count > g_ConfigRead.server.GetObjectMaxMonster() - 1)
 							{
-								g_Log.MsgBox("Monster attribute max over %s %d", __FILE__, __LINE__);
+								sLog.outError("Monster attribute max over %s %d", __FILE__, __LINE__);
 								return;
 							}
 
@@ -292,7 +292,7 @@ void CMonsterSetBase::LoadSetBase(char * filename)
 
 				if (this->m_Count > g_ConfigRead.server.GetObjectMaxMonster() - 1)
 				{
-					g_Log.MsgBox("Monster attribute max over %d (%s %d)", this->m_Count, __FILE__, __LINE__);
+					sLog.outError("Monster attribute max over %d (%s %d)", this->m_Count, __FILE__, __LINE__);
 					return;
 				}
 			}
@@ -304,7 +304,7 @@ void CMonsterSetBase::GetPentagramMainAttribute(int TableNum, int* iPentagramMai
 {
 	if ( TableNum < 0 || TableNum > g_ConfigRead.server.GetObjectMaxMonster()-1 )
 	{
-		g_Log.Add("ERROR : %s %d", ".\\MonsterSetBase.cpp", __LINE__);
+		sLog.outBasic("ERROR : %s %d", ".\\MonsterSetBase.cpp", __LINE__);
 		return;
 	}
 

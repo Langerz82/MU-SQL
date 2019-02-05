@@ -4,13 +4,13 @@
 #include "NewPVP.h"
 #include "GameMain.h"
 #include "TNotice.h"
-#include "winutil.h"
+#include "util.h"
 #include "BuffEffect.h"
 #include "BuffEffectSlot.h"
 #include "MoveCommand.h"
 #include "DarkSpirit.h"
 #include "Gate.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "PartyClass.h"
 #include "BagManager.h"
 #include "MineSystem.h"
@@ -56,7 +56,7 @@ void CNewPVP::LoadData()
 	m_bNewPVP = ReadDuel.ReadInt("DuelSystem", "Enable", FALSE);
 	m_iDuelDamageReduction = ReadDuel.ReadInt("DuelSystem", "DamageReduction", 60);
 
-	g_Log.Add("[NewPVP] Info Set Enable:%d DamageReduction:%d", m_bNewPVP, m_iDuelDamageReduction);
+	sLog.outBasic("[NewPVP] Info Set Enable:%d DamageReduction:%d", m_bNewPVP, m_iDuelDamageReduction);
 }
 
 static int g_GateObserver[DUEL_CHANNEL_MAX] =  {	303,304,305,306 };
@@ -336,7 +336,7 @@ int CNewPVP::Reserve(OBJECTSTRUCT & requester,OBJECTSTRUCT& responsor)
 
 	LPMOVE_COMMAND_DATA lpData = gMoveCommand.GetMoveCommandData(42);
 	if(lpData == NULL){ 
-		g_Log.Add("%s\t%s\t%s\t%s\t%d","lpData","ENEWPVP::E_NOT_FOUND_MOVEREQUESTDATA","NULL",__FILE__, __LINE__);
+		sLog.outBasic("%s\t%s\t%s\t%s\t%d","lpData","ENEWPVP::E_NOT_FOUND_MOVEREQUESTDATA","NULL",__FILE__, __LINE__);
 		return ENEWPVP::E_NOT_FOUND_MOVEREQUESTDATA; }
 
 	if( !IsVulcanusMap(requester.MapNumber) )
@@ -362,7 +362,7 @@ int CNewPVP::Reserve(OBJECTSTRUCT & requester,OBJECTSTRUCT& responsor)
 	std::pair< std::map<int,_tagWaiting>::iterator, bool > pair = m_Waiting.insert( std::make_pair(requester.m_Index,  waiting) );
 	if(pair.second == false)
 	{
-		g_Log.Add("%s\t%s\t%s\t%s\t%d","pair.second","ENEWPVP::E_FAILED_ENTER","NULL",__FILE__,__LINE__);
+		sLog.outBasic("%s\t%s\t%s\t%s\t%d","pair.second","ENEWPVP::E_FAILED_ENTER","NULL",__FILE__,__LINE__);
 
 		LeaveCriticalSection(&this->m_csWaiting);
 		return ENEWPVP::E_FAILED_ENTER;
@@ -396,7 +396,7 @@ int CNewPVP::Join(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor)
 
 	if(!(iter!=m_Waiting.end()))
 	{ 
-		g_Log.Add("%s\t%s\t%s\t%s\t%d","iter!=m_Waiting.end()","ENEWPVP::E_NOT_EXIST_USER","NULL", __FILE__,  __LINE__);
+		sLog.outBasic("%s\t%s\t%s\t%s\t%d","iter!=m_Waiting.end()","ENEWPVP::E_NOT_EXIST_USER","NULL", __FILE__,  __LINE__);
 
 		LeaveCriticalSection(&this->m_csWaiting);
 		return ENEWPVP::E_NOT_EXIST_USER;
@@ -409,10 +409,10 @@ int CNewPVP::Join(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor)
 	int	nId = GetDuelChannelId();
 	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ) return ENEWPVP::E_DUEL_MAX;
 
-	if( m_DuelChannel[nId].nStatus != DC_IDLE ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","m_DuelChannel[nId].nStatus==DC_IDLE","ENEWPVP::E_INVALID_STATUS","NULL", __FILE__, __LINE__); return ENEWPVP::E_INVALID_STATUS; }
+	if( m_DuelChannel[nId].nStatus != DC_IDLE ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","m_DuelChannel[nId].nStatus==DC_IDLE","ENEWPVP::E_INVALID_STATUS","NULL", __FILE__, __LINE__); return ENEWPVP::E_INVALID_STATUS; }
 
 	LPMOVE_COMMAND_DATA lpData = gMoveCommand.GetMoveCommandData(42);	
-	if( lpData == NULL ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","lpData","ENEWPVP::E_NOT_FOUND_MOVEREQUESTDATA","NULL",__FILE__, __LINE__); return ENEWPVP::E_NOT_FOUND_MOVEREQUESTDATA; }
+	if( lpData == NULL ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","lpData","ENEWPVP::E_NOT_FOUND_MOVEREQUESTDATA","NULL",__FILE__, __LINE__); return ENEWPVP::E_NOT_FOUND_MOVEREQUESTDATA; }
 
 	if( !CheckLimitLevel(requester.m_Index, g_GateRequester[nId]) )	return ENEWPVP::E_LIMIT_LEVEL;
 	if( !CheckLimitLevel(responsor.m_Index, g_GateResponsor[nId]) ) return ENEWPVP::E_LIMIT_LEVEL;
@@ -470,7 +470,7 @@ int CNewPVP::Join(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor)
 	TNotice::MakeNoticeMsgEx(&pNotice, 0, Lang.GetText(0,309), responsor.Name, requester.Name, nId+1);
 	TNotice::SendNoticeToAllUser(&pNotice);
 
-	g_Log.Add("[NewPVP] [%s][%s] Duel Started [%s][%s]",responsor.AccountID,responsor.Name,requester.AccountID, requester.Name);
+	sLog.outBasic("[NewPVP] [%s][%s] Duel Started [%s][%s]",responsor.AccountID,responsor.Name,requester.AccountID, requester.Name);
 	return 0;
 }
 
@@ -481,7 +481,7 @@ void CNewPVP::Cancel(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor, BOOL bSen
 
 	if(!(iter!=m_Waiting.end()))
 	{ 
-		g_Log.Add("%s\t%s\t%s\t%s\t%d","iter!=m_Waiting.end()","0","NULL", __FILE__,  __LINE__);
+		sLog.outBasic("%s\t%s\t%s\t%s\t%d","iter!=m_Waiting.end()","0","NULL", __FILE__,  __LINE__);
 		LeaveCriticalSection(&this->m_csWaiting);
 		return; 
 	}
@@ -510,8 +510,8 @@ void CNewPVP::Cancel(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor, BOOL bSen
 int CNewPVP::Leave(OBJECTSTRUCT &obj)
 {
 	int nId = GetDuelChannelId(obj.m_Index);
-	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){	g_Log.Add("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","ENEWPVP::E_INVALID_CHANNELID","NULL",__FILE__, __LINE__); return ENEWPVP::E_INVALID_CHANNELID; }
-	if( !IS_START(m_DuelChannel[nId].nStatus ) && m_DuelChannel[nId].nStatus != DC_RESERVEDEND ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)||m_DuelChannel[nId].nStatus==DC_RESERVEDEND", "ENEWPVP::E_INVALID_STATUS","NULL",__FILE__, __LINE__); return ENEWPVP::E_INVALID_STATUS; }	
+	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){	sLog.outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","ENEWPVP::E_INVALID_CHANNELID","NULL",__FILE__, __LINE__); return ENEWPVP::E_INVALID_CHANNELID; }
+	if( !IS_START(m_DuelChannel[nId].nStatus ) && m_DuelChannel[nId].nStatus != DC_RESERVEDEND ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)||m_DuelChannel[nId].nStatus==DC_RESERVEDEND", "ENEWPVP::E_INVALID_STATUS","NULL",__FILE__, __LINE__); return ENEWPVP::E_INVALID_STATUS; }	
 
 	LPOBJECTSTRUCT lpTargetObj = NULL;
 
@@ -519,7 +519,7 @@ int CNewPVP::Leave(OBJECTSTRUCT &obj)
 
 	if( IsDuel(obj) )	lpTargetObj = (LPOBJECTSTRUCT)&gObj[obj.m_iDuelUser];
 
-	if(lpTargetObj == NULL){ g_Log.Add("%s\t%s\t%s\t%s\t%d","lpTargetObj","ENEWPVP::E_INVALID_INDEX","NULL", __FILE__, __LINE__); return ENEWPVP::E_INVALID_INDEX; }
+	if(lpTargetObj == NULL){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","lpTargetObj","ENEWPVP::E_INVALID_INDEX","NULL", __FILE__, __LINE__); return ENEWPVP::E_INVALID_INDEX; }
 
 	if( m_DuelChannel[nId].nStatus != DC_RESERVEDEND )
     {
@@ -532,8 +532,8 @@ int CNewPVP::Leave(OBJECTSTRUCT &obj)
 void CNewPVP::Leave(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor)
 {
 	int nId = GetDuelChannelId(requester.m_Index);
-	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){ g_Log.Add("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
-	if( !IS_START(m_DuelChannel[nId].nStatus) && m_DuelChannel[nId].nStatus != DC_RESERVEDEND ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)||m_DuelChannel[nId].nStatus==DC_RESERVEDEND", "0","NULL",__FILE__, __LINE__); return; }	
+	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
+	if( !IS_START(m_DuelChannel[nId].nStatus) && m_DuelChannel[nId].nStatus != DC_RESERVEDEND ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)||m_DuelChannel[nId].nStatus==DC_RESERVEDEND", "0","NULL",__FILE__, __LINE__); return; }	
 
 	PMSG_ANS_DUEL_EXIT res = {0};
 	res.h.c = 0xC1;
@@ -576,16 +576,16 @@ void CNewPVP::Leave(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor)
 void CNewPVP::SetScore(OBJECTSTRUCT &obj)
 {
 	int nId = GetDuelChannelId(obj.m_Index);
-	if(nId < 0 || nId >= DUEL_CHANNEL_MAX) { g_Log.Add("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return;	}
-	if( !IS_START(m_DuelChannel[nId].nStatus) ) { g_Log.Add("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)", "0","NULL",__FILE__, __LINE__); return; }
+	if(nId < 0 || nId >= DUEL_CHANNEL_MAX) { sLog.outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return;	}
+	if( !IS_START(m_DuelChannel[nId].nStatus) ) { sLog.outBasic("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)", "0","NULL",__FILE__, __LINE__); return; }
     obj.m_btDuelScore++;
 }
 
 void CNewPVP::CheckScore(OBJECTSTRUCT& obj, OBJECTSTRUCT& target)
 {
 	int nId = GetDuelChannelId(obj.m_Index);
-	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){ g_Log.Add("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
-	if( !IS_START(m_DuelChannel[nId].nStatus) ) { g_Log.Add("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)", "0","NULL",__FILE__, __LINE__); return; }
+	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
+	if( !IS_START(m_DuelChannel[nId].nStatus) ) { sLog.outBasic("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)", "0","NULL",__FILE__, __LINE__); return; }
 
 	LPDUEL_CHANNEL lpChannel = &m_DuelChannel[nId];
 
@@ -612,7 +612,7 @@ void CNewPVP::CheckScore(OBJECTSTRUCT& obj, OBJECTSTRUCT& target)
 		TNotice::MakeNoticeMsgEx(&pNotice, 0, Lang.GetText(0,310), obj.Name, target.Name);
 		TNotice::SendNoticeToAllUser(&pNotice);
 
-		g_Log.Add("[NewPVP] [%s][%s] Win Duel, Loser [%s][%s]", obj.AccountID, obj.Name, target.AccountID, target.Name);
+		sLog.outBasic("[NewPVP] [%s][%s] Win Duel, Loser [%s][%s]", obj.AccountID, obj.Name, target.AccountID, target.Name);
 		return;
 	}
 
@@ -622,7 +622,7 @@ void CNewPVP::CheckScore(OBJECTSTRUCT& obj, OBJECTSTRUCT& target)
 
 void CNewPVP::ReFill(OBJECTSTRUCT &obj)
 {
-	if( !gObjIsConnected(&obj) ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","gObjIsConnected(&obj)","0","NULL", __FILE__, __LINE__); return; }
+	if( !gObjIsConnected(&obj) ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","gObjIsConnected(&obj)","0","NULL", __FILE__, __LINE__); return; }
 
 	obj.BP = obj.MaxBP + obj.AddBP;
 	obj.Mana = obj.MaxMana + obj.AddMana;
@@ -728,7 +728,7 @@ int CNewPVP::GetChannelIdByObserver(OBJECTSTRUCT & obj)
 
 	if( info.nId < 0 || info.nId >= DUEL_CHANNEL_MAX)
     {
-		g_Log.Add("%s\t%s\t%s\t%s\t%d","info.nId>=0 && info.nId<DUEL_CHANNEL_MAX","-1","NULL",__FILE__, __LINE__);
+		sLog.outBasic("%s\t%s\t%s\t%s\t%d","info.nId>=0 && info.nId<DUEL_CHANNEL_MAX","-1","NULL",__FILE__, __LINE__);
 		LeaveCriticalSection(&this->m_csObserver);
 		return -1;
     }
@@ -741,8 +741,8 @@ int CNewPVP::GetChannelIdByObserver(OBJECTSTRUCT & obj)
 
 int CNewPVP::CheckUsersOnConnect(int nId)
 {  
-	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){ g_Log.Add("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","FALSE","NULL",__FILE__, __LINE__); return FALSE; }
-	if( !IS_START(m_DuelChannel[nId].nStatus) ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)", "FALSE","NULL",__FILE__, __LINE__); return FALSE; }
+	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","FALSE","NULL",__FILE__, __LINE__); return FALSE; }
+	if( !IS_START(m_DuelChannel[nId].nStatus) ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)", "FALSE","NULL",__FILE__, __LINE__); return FALSE; }
 
 	OBJECTSTRUCT & requester = gObj[m_DuelChannel[nId].nIndex1];
 	OBJECTSTRUCT & responsor = gObj[m_DuelChannel[nId].nIndex2];
@@ -762,8 +762,8 @@ void CNewPVP::ChatMsgSend(OBJECTSTRUCT& obj,BYTE* Msg, int size)
 	}
 
 	else nId = GetChannelIdByObserver(obj);
-	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){ g_Log.Add("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
-	if(m_DuelChannel[nId].nStatus == DC_IDLE){ g_Log.Add("%s\t%s\t%s\t%s\t%d","m_DuelChannel[nId].nStatus!=DC_IDLE","0","NULL",__FILE__, __LINE__); return; }
+	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
+	if(m_DuelChannel[nId].nStatus == DC_IDLE){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","m_DuelChannel[nId].nStatus!=DC_IDLE","0","NULL",__FILE__, __LINE__); return; }
 
 	LPDUEL_CHANNEL lpChannel = &m_DuelChannel[nId];
 
@@ -829,11 +829,11 @@ void CNewPVP::GetObserverList(int nId, PMSG_DUEL_OBSERVERLIST_BROADCAST& res)
 
 int CNewPVP::JoinChannel(int nId,OBJECTSTRUCT& obj)
 {
-	if( IsDuel(obj) ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","!IsDuel(obj)","ENEWPVP::E_ALREADY_DUELLING", "NULL", __FILE__,  __LINE__); return ENEWPVP::E_ALREADY_DUELLING; }
-	if( IsDuelRequested(obj) ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","!IsDuelRequested(obj)","ENEWPVP::E_ALREADY_DUELREQUESTED","NULL",  __FILE__,  __LINE__); return ENEWPVP::E_ALREADY_DUELREQUESTED; }
-	if( IsDuelReserved(obj) ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","!IsDuelReserved(obj)","ENEWPVP::E_ALREADY_DUELRESERVED","NULL", __FILE__,  __LINE__); return ENEWPVP::E_ALREADY_DUELRESERVED; }
-	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){ g_Log.Add("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","ENEWPVP::E_INVALID_CHANNELID","NULL",__FILE__, __LINE__); return ENEWPVP::E_INVALID_CHANNELID; }
-	if( !IS_START(m_DuelChannel[nId].nStatus) ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)", "ENEWPVP::E_INVALID_STATUS","NULL",__FILE__, __LINE__); return ENEWPVP::E_INVALID_STATUS; }
+	if( IsDuel(obj) ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","!IsDuel(obj)","ENEWPVP::E_ALREADY_DUELLING", "NULL", __FILE__,  __LINE__); return ENEWPVP::E_ALREADY_DUELLING; }
+	if( IsDuelRequested(obj) ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","!IsDuelRequested(obj)","ENEWPVP::E_ALREADY_DUELREQUESTED","NULL",  __FILE__,  __LINE__); return ENEWPVP::E_ALREADY_DUELREQUESTED; }
+	if( IsDuelReserved(obj) ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","!IsDuelReserved(obj)","ENEWPVP::E_ALREADY_DUELRESERVED","NULL", __FILE__,  __LINE__); return ENEWPVP::E_ALREADY_DUELRESERVED; }
+	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","ENEWPVP::E_INVALID_CHANNELID","NULL",__FILE__, __LINE__); return ENEWPVP::E_INVALID_CHANNELID; }
+	if( !IS_START(m_DuelChannel[nId].nStatus) ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)", "ENEWPVP::E_INVALID_STATUS","NULL",__FILE__, __LINE__); return ENEWPVP::E_INVALID_STATUS; }
 	if( m_ObserverCount[nId] + 1 > 10 )	return ENEWPVP::E_OBSERVER_MAX;
 	if( !CheckLimitLevel(obj.m_Index, g_GateObserver[nId]) )	return ENEWPVP::E_LIMIT_LEVEL;
 
@@ -897,7 +897,7 @@ int CNewPVP::JoinChannel(int nId,OBJECTSTRUCT& obj)
 
 	if( Msg.nCount!=m_ObserverCount[nId] )
     {
-		g_Log.Add("[NewPVP] ChannelId[%d] Count[%d][%d]", nId, Msg.nCount, m_ObserverCount[nId]);
+		sLog.outBasic("[NewPVP] ChannelId[%d] Count[%d][%d]", nId, Msg.nCount, m_ObserverCount[nId]);
 		
 		g_Log.AddC(TColor::Yellow, "[NewPVP] [Debug] %s(%d):",obj.Name,Msg.nCount);
 		for(int n = 0; n < Msg.nCount; n++)
@@ -916,8 +916,8 @@ int CNewPVP::JoinChannel(int nId,OBJECTSTRUCT& obj)
 
 int CNewPVP::LeaveChannel(int nId,OBJECTSTRUCT& obj)
 {
-	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){ g_Log.Add("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","ENEWPVP::E_INVALID_CHANNELID","NULL",__FILE__, __LINE__); return ENEWPVP::E_INVALID_CHANNELID; }
-	if( !IS_START(m_DuelChannel[nId].nStatus) ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)", "ENEWPVP::E_INVALID_STATUS","NULL",__FILE__, __LINE__); return ENEWPVP::E_INVALID_STATUS; }	
+	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","ENEWPVP::E_INVALID_CHANNELID","NULL",__FILE__, __LINE__); return ENEWPVP::E_INVALID_CHANNELID; }
+	if( !IS_START(m_DuelChannel[nId].nStatus) ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)", "ENEWPVP::E_INVALID_STATUS","NULL",__FILE__, __LINE__); return ENEWPVP::E_INVALID_STATUS; }	
 
 	EnterCriticalSection(&this->m_csObserver);
 	std::map<int, _tagObserverInfo>::iterator iter = m_ObserverInfoList.find(obj.m_Index); 
@@ -1034,8 +1034,8 @@ void CNewPVP::CheckChannelListInfo(int nId)
 
 void CNewPVP::BroadcastScore(int nId, BYTE nFlag)
 {
-	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
-	if( !IS_START(m_DuelChannel[nId].nStatus) ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)", "0","NULL",__FILE__, __LINE__); return; }
+	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
+	if( !IS_START(m_DuelChannel[nId].nStatus) ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)", "0","NULL",__FILE__, __LINE__); return; }
 
 	OBJECTSTRUCT & requester = gObj[m_DuelChannel[nId].nIndex1];
     OBJECTSTRUCT & responsor = gObj[m_DuelChannel[nId].nIndex2];
@@ -1065,10 +1065,10 @@ void CNewPVP::BroadcastScore(int nId, BYTE nFlag)
 
 void CNewPVP::BroadcastResult(int nId, BYTE nFlag, OBJECTSTRUCT &obj)
 {
-	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
-	if( m_DuelChannel[nId].nStatus != DC_RESERVEDEND ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","m_DuelChannel[nId].nStatus==DC_RESERVEDEND", "0","NULL",__FILE__, __LINE__); return;	}
-	if( !gObjIsConnected(obj.m_Index) ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","gObjIsConnected(obj.m_Index)", "0","NULL",__FILE__, __LINE__); return; }
-	if( !IsDuel(obj) ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","IsDuel(obj)", "0","NULL",__FILE__, __LINE__); return; }
+	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
+	if( m_DuelChannel[nId].nStatus != DC_RESERVEDEND ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","m_DuelChannel[nId].nStatus==DC_RESERVEDEND", "0","NULL",__FILE__, __LINE__); return;	}
+	if( !gObjIsConnected(obj.m_Index) ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","gObjIsConnected(obj.m_Index)", "0","NULL",__FILE__, __LINE__); return; }
+	if( !IsDuel(obj) ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","IsDuel(obj)", "0","NULL",__FILE__, __LINE__); return; }
 
 	OBJECTSTRUCT & targetObj = gObj[obj.m_iDuelUser];
      
@@ -1093,7 +1093,7 @@ void CNewPVP::BroadcastResult(int nId, BYTE nFlag, OBJECTSTRUCT &obj)
 
 void CNewPVP::BroadcastDuelInfo(int nId, BYTE nFlag)
 {
-	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
+	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
 	if( !IS_START(m_DuelChannel[nId].nStatus) ) return;
 
 	OBJECTSTRUCT & requester = gObj[m_DuelChannel[nId].nIndex1];
@@ -1156,8 +1156,8 @@ void CNewPVP::BroadcastDuelInfo(int nId, BYTE nFlag)
 
 void CNewPVP::BroadcastJoinChannel(int nId, OBJECTSTRUCT &obj)
 {
-	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
-	if( !IS_START(m_DuelChannel[nId].nStatus) ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)","0","NULL",__FILE__, __LINE__); return; }
+	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
+	if( !IS_START(m_DuelChannel[nId].nStatus) ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)","0","NULL",__FILE__, __LINE__); return; }
 
 	PMSG_DUEL_JOINCNANNEL_BROADCAST res = {0};
 	res.h.c = 0xC1;
@@ -1170,8 +1170,8 @@ void CNewPVP::BroadcastJoinChannel(int nId, OBJECTSTRUCT &obj)
 
 void CNewPVP::BroadcastLeaveChannel(int nId, OBJECTSTRUCT &obj)
 {
-	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
-	if( !IS_START(m_DuelChannel[nId].nStatus) ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)","0","NULL",__FILE__, __LINE__); return; }
+	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
+	if( !IS_START(m_DuelChannel[nId].nStatus) ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)","0","NULL",__FILE__, __LINE__); return; }
 
 	PMSG_DUEL_LEAVECNANNEL_BROADCAST res = {0};
 	res.h.c = 0xC1;
@@ -1213,7 +1213,7 @@ void CNewPVP::BroadcastToObserver( int nId, BYTE *lpData, int nSize)
 
 void CNewPVP::BroadcastMessage( int nId, BYTE nFlag, BYTE nMsgType, int nNotifySec)
 {
-	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
+	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
 	if( nNotifySec <= 0 )	return;
 
 	OBJECTSTRUCT &requester = gObj[m_DuelChannel[nId].nIndex1];
@@ -1242,7 +1242,7 @@ void CNewPVP::BroadcastMessage( int nId, BYTE nFlag, BYTE nMsgType, int nNotifyS
 
 void CNewPVP::BroadcastRound(int nId, BYTE nFlag, BOOL bEnd)
 {
-	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
+	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
 
 	OBJECTSTRUCT &requester = gObj[m_DuelChannel[nId].nIndex1];
     OBJECTSTRUCT &responsor = gObj[m_DuelChannel[nId].nIndex2];
@@ -1311,8 +1311,8 @@ BOOL CNewPVP::IsGuildWar(LPOBJECTSTRUCT lpObj)
 
 BOOL CNewPVP::DropItem(LPOBJECTSTRUCT lpObj, LPOBJECTSTRUCT lpMonsterObj)
 {
-	if( !IsVulcanusMap(lpObj->MapNumber) ){ g_Log.Add("%s\t%s\t%s\t%s\t%d","IsVulcanusMap(lpObj->MapNumber)","FALSE","NULL",__FILE__,  __LINE__); return FALSE; }
-	if( m_bNewPVP != TRUE){ g_Log.Add("%s\t%s\t%s\t%s\t%d","m_bNewPVP==TRUE","FALSE","NULL", __FILE__,  __LINE__); return FALSE; }
+	if( !IsVulcanusMap(lpObj->MapNumber) ){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","IsVulcanusMap(lpObj->MapNumber)","FALSE","NULL",__FILE__,  __LINE__); return FALSE; }
+	if( m_bNewPVP != TRUE){ sLog.outBasic("%s\t%s\t%s\t%s\t%d","m_bNewPVP==TRUE","FALSE","NULL", __FILE__,  __LINE__); return FALSE; }
 	if( !gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_GLORYOFGLADIATOR) )	return FALSE;
 	if( !gObjGetTotalValueOfEffect(lpObj, EFFECTTYPE_VULCANUS_ITEMDROPRATE) )	return FALSE;
 

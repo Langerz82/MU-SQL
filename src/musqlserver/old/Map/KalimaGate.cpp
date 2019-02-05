@@ -8,7 +8,7 @@
 //	GS-N	1.00.18	JPN	0x004102D0	-	Completed
 #include "stdafx.h"
 #include "KalimaGate.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "DevilSquare.h"
 #include "./Eventos/BloodCastle/BloodCastle.h"
 #include "ChaosCastle.h"
@@ -58,7 +58,7 @@ BOOL CKalimaGate::CreateKalimaGate(int iIndex, BYTE btLevel, BYTE cTX, BYTE cTY)
 			return false;
 		}
 
-		g_Log.Add("[Kalima] [%s][%s] Try to Create Kalima Gate", gObj[iIndex].AccountID, gObj[iIndex].Name);
+		sLog.outBasic("[Kalima] [%s][%s] Try to Create Kalima Gate", gObj[iIndex].AccountID, gObj[iIndex].Name);
 		iKalimaGateLevel = this->GetKalimaGateLevel(iIndex);
 
 		if ( iKalimaGateLevel < btLevel-1 )
@@ -100,7 +100,7 @@ BOOL CKalimaGate::CreateKalimaGate(int iIndex, BYTE btLevel, BYTE cTX, BYTE cTY)
 
 		if ( KALIMA_FLOOR_RANGE(iKalimaGateLevel)== FALSE )
 		{
-			g_Log.Add("[Kalima] [%s][%s] Failed to Summon Kalima Gate - Gate Level Check Error : %d",
+			sLog.outBasic("[Kalima] [%s][%s] Failed to Summon Kalima Gate - Gate Level Check Error : %d",
 				gObj[iIndex].AccountID, gObj[iIndex].Name, iKalimaGateLevel+1);
 			return false;
 		}
@@ -111,7 +111,7 @@ BOOL CKalimaGate::CreateKalimaGate(int iIndex, BYTE btLevel, BYTE cTX, BYTE cTY)
 
 		if ( btMapAttr &1 != 0 )
 		{
-			g_Log.Add("[Kalima] [%s][%s] Failed to Summon Kalima Gate - Called in Saftey Area (Map:%d, X:%d, Y:%d)",
+			sLog.outBasic("[Kalima] [%s][%s] Failed to Summon Kalima Gate - Called in Saftey Area (Map:%d, X:%d, Y:%d)",
 				gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].MapNumber,
 				gObj[iIndex].X, gObj[iIndex].Y);
 			return false;
@@ -120,7 +120,7 @@ BOOL CKalimaGate::CreateKalimaGate(int iIndex, BYTE btLevel, BYTE cTX, BYTE cTY)
 		if ( gObj[iIndex].m_cKalimaGateExist == TRUE )
 		{
 			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,150), iIndex, 1);
-			g_Log.Add("[Kalima] [%s][%s] Failed to Summon Kalima Gate - Already Have Gate (SummonIndex:%d)",
+			sLog.outBasic("[Kalima] [%s][%s] Failed to Summon Kalima Gate - Already Have Gate (SummonIndex:%d)",
 				gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_iKalimaGateIndex);
 			return false;
 		}
@@ -135,7 +135,7 @@ BOOL CKalimaGate::CreateKalimaGate(int iIndex, BYTE btLevel, BYTE cTX, BYTE cTY)
 		{
 			if (this->GetRandomLocation(iMapNumber, cX, cY) == 0)
 			{
-			g_Log.Add("[Kalima] [%s][%s] Failed to Summon Kalima Gate - Failed to get Location (MapNumber:%d, X:%d, Y:%d)",
+			sLog.outBasic("[Kalima] [%s][%s] Failed to Summon Kalima Gate - Failed to get Location (MapNumber:%d, X:%d, Y:%d)",
 				gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].MapNumber, cX, cY);
 			return false;
 			}
@@ -143,7 +143,7 @@ BOOL CKalimaGate::CreateKalimaGate(int iIndex, BYTE btLevel, BYTE cTX, BYTE cTY)
 
 		if ( gObj[iIndex].MapNumber == 10 )
 		{
-			g_Log.Add("[Kalima] [%s][%s] Failed to Summon Kalima Gate - Uable to Summon in this Map (MapNumber:%d)",
+			sLog.outBasic("[Kalima] [%s][%s] Failed to Summon Kalima Gate - Uable to Summon in this Map (MapNumber:%d)",
 				gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].MapNumber);
 			return false;
 		}
@@ -157,7 +157,7 @@ BOOL CKalimaGate::CreateKalimaGate(int iIndex, BYTE btLevel, BYTE cTX, BYTE cTY)
 			if ( lpMATTR == NULL )
 			{
 				gObjDel(iMonsterIndex);
-				g_Log.Add("[Kalima] [%s][%s] Kalima Gate Vanished - lpMATTR == NULL (SummonIndex:%d)",
+				sLog.outBasic("[Kalima] [%s][%s] Kalima Gate Vanished - lpMATTR == NULL (SummonIndex:%d)",
 					gObj[iIndex].AccountID, gObj[iIndex].Name, iMonsterIndex);
 				return false;
 			}
@@ -194,7 +194,7 @@ BOOL CKalimaGate::CreateKalimaGate(int iIndex, BYTE btLevel, BYTE cTX, BYTE cTY)
 			gObj[iMonsterIndex].m_Attribute = iKalimaGateLevel + 51;
 			gObj[iMonsterIndex].DieRegen = FALSE;
 			
-			g_Log.Add("[Kalima] [%s][%s] Create Kalima Gate Successfuly (Live:%d, GateTick:%u, DieRegen:%d, Map:%d, X:%d, Y:%d, SummonIndex:%d, OwnerIndex:%d, GateNo.:%d)",
+			sLog.outBasic("[Kalima] [%s][%s] Create Kalima Gate Successfuly (Live:%d, GateTick:%u, DieRegen:%d, Map:%d, X:%d, Y:%d, SummonIndex:%d, OwnerIndex:%d, GateNo.:%d)",
 				gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iMonsterIndex].Live, gObj[iMonsterIndex].RegenTime,
 				gObj[iMonsterIndex].DieRegen, gObj[iMonsterIndex].MapNumber, gObj[iMonsterIndex].X,
 				gObj[iMonsterIndex].Y, iMonsterIndex, iIndex, iKalimaGateLevel+1);
@@ -230,7 +230,7 @@ void CKalimaGate::KalimaGateAct(int iIndex)
 
 	if ( gObjIsConnected( gObj[iIndex].m_RecallMon ) == PLAYER_EMPTY )
 	{
-		g_Log.Add("[Kalima] Kalima Gate Vanished - Summoner Vanished (SummonIndex:%d, EnterCount:%d)",
+		sLog.outBasic("[Kalima] Kalima Gate Vanished - Summoner Vanished (SummonIndex:%d, EnterCount:%d)",
 			iIndex, gObj[iIndex].m_cKalimaGateEnterCount );
 		GSProtocol.GCDiePlayerSend( &gObj[iIndex], iIndex, 0, 0);
 		gObjDel(iIndex);
@@ -246,7 +246,7 @@ void CKalimaGate::KalimaGateAct(int iIndex)
 		lpObjCallOwner->AccountID[MAX_ACCOUNT_LEN]=0;
 		lpObjCallOwner->Name[MAX_ACCOUNT_LEN]=0;
 
-		g_Log.Add("[Kalima] [%s][%s] Kalima Gate Vanished - Summoner Died (SummonIndex:%d, EnterCount:%d)",
+		sLog.outBasic("[Kalima] [%s][%s] Kalima Gate Vanished - Summoner Died (SummonIndex:%d, EnterCount:%d)",
 			lpObjCallOwner->AccountID, lpObjCallOwner->Name,
 			iIndex, gObj[iIndex].m_cKalimaGateEnterCount );
 		this->DeleteKalimaGate(iIndex, gObj[iIndex].m_RecallMon);
@@ -258,7 +258,7 @@ void CKalimaGate::KalimaGateAct(int iIndex)
 		lpObjCallOwner->AccountID[MAX_ACCOUNT_LEN]=0;
 		lpObjCallOwner->Name[MAX_ACCOUNT_LEN]=0;
 		
-		g_Log.Add("[Kalima] [%s][%s] Kalima Gate Vanished - Enter Count Over (SummonIndex:%d, EnterCount:%d)",
+		sLog.outBasic("[Kalima] [%s][%s] Kalima Gate Vanished - Enter Count Over (SummonIndex:%d, EnterCount:%d)",
 			lpObjCallOwner->AccountID, lpObjCallOwner->Name,
 			iIndex, gObj[iIndex].m_cKalimaGateEnterCount );
 		this->DeleteKalimaGate(iIndex, gObj[iIndex].m_RecallMon);
@@ -272,7 +272,7 @@ void CKalimaGate::KalimaGateAct(int iIndex)
 		lpObjCallOwner->AccountID[MAX_ACCOUNT_LEN]=0;
 		lpObjCallOwner->Name[MAX_ACCOUNT_LEN]=0;
 		
-		g_Log.Add("[Kalima] [%s][%s] Kalima Gate Vanished - Time Out (SummonIndex:%d, EnterCount:%d)",
+		sLog.outBasic("[Kalima] [%s][%s] Kalima Gate Vanished - Time Out (SummonIndex:%d, EnterCount:%d)",
 			lpObjCallOwner->AccountID, lpObjCallOwner->Name,
 			iIndex, gObj[iIndex].m_cKalimaGateEnterCount );
 		this->DeleteKalimaGate(lpObj->m_Index, lpObjCallOwner->m_Index);
@@ -311,13 +311,13 @@ void CKalimaGate::KalimaGateAct(int iIndex)
 								{
 									if ( gObjMoveGate(tObjNum, iGateNumber) == FALSE )
 									{
-										g_Log.Add("[Kalima] [%s][%s] - [%s][%s] move fail (MapNumber:%d)", 
+										sLog.outBasic("[Kalima] [%s][%s] - [%s][%s] move fail (MapNumber:%d)", 
 											lpObjCallOwner->AccountID, lpObjCallOwner->Name,
 											gObj[tObjNum].AccountID, gObj[tObjNum].Name, iMapNumber);
 									}
 									else
 									{
-										g_Log.Add("[Kalima] [%s][%s] - [%s][%s] Transported by Kalima Gate (SummonIndex:%d, GateNo.:%d, MapNumber:%d)",
+										sLog.outBasic("[Kalima] [%s][%s] - [%s][%s] Transported by Kalima Gate (SummonIndex:%d, GateNo.:%d, MapNumber:%d)",
 											lpObjCallOwner->AccountID, lpObjCallOwner->Name, 
 											gObj[tObjNum].AccountID, gObj[tObjNum].Name, iIndex, iMoveMapLevel + 1, iMapNumber);
 										gObj[iIndex].m_cKalimaGateEnterCount ++;
@@ -434,7 +434,7 @@ BOOL CKalimaGate::DeleteKalimaGate(int iKalimaGateIndex, int iCallOwnerIndex)
 	{
 		if ( !ObjectMaxRange(iKalimaGateIndex ) || !ObjectMaxRange(iCallOwnerIndex ))
 		{
-			g_Log.Add("[Kalima] DeleteKalimaGate() - out of Index (iKalimaGateIndex:%d, iCallOwnerIndex:%d)",
+			sLog.outBasic("[Kalima] DeleteKalimaGate() - out of Index (iKalimaGateIndex:%d, iCallOwnerIndex:%d)",
 				iKalimaGateIndex, iCallOwnerIndex);
 			return 0;
 		}
@@ -459,7 +459,7 @@ BOOL CKalimaGate::DeleteKalimaGate(int iCallOwnerIndex)
 {
 	if ( ObjectMaxRange(iCallOwnerIndex ) == FALSE )
 	{	
-		g_Log.Add("[Kalima] DeleteKalimaGate() - out of Index (iCallOwnerIndex:%d)",
+		sLog.outBasic("[Kalima] DeleteKalimaGate() - out of Index (iCallOwnerIndex:%d)",
 			iCallOwnerIndex);
 		return false;
 	}
@@ -492,12 +492,12 @@ BOOL CKalimaGate::CreateKalimaGate2(int iIndex, int iMonMapNumber, BYTE cTX, BYT
 		if ( !gObjIsConnected(iIndex))
 			return FALSE;
 
-		g_Log.Add("[Kalima] [%s][%s] Try to Create Kalima Gate (NextMap)",
+		sLog.outBasic("[Kalima] [%s][%s] Try to Create Kalima Gate (NextMap)",
 			gObj[iIndex].AccountID, gObj[iIndex].Name);
 
 		if ( iMonMapNumber < MAP_INDEX_KALIMA1 || iMonMapNumber > MAP_INDEX_KALIMA6-1 )
 		{
-			g_Log.Add("[Kalima] [%s][%s] Failed to Summon Kalima Gate (NextMap) - MapNumber Error : %d",
+			sLog.outBasic("[Kalima] [%s][%s] Failed to Summon Kalima Gate (NextMap) - MapNumber Error : %d",
 				gObj[iIndex].AccountID, gObj[iIndex].Name, iMonMapNumber);
 
 			return FALSE;
@@ -507,7 +507,7 @@ BOOL CKalimaGate::CreateKalimaGate2(int iIndex, int iMonMapNumber, BYTE cTX, BYT
 		{
 			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,150), iIndex, 1);
 
-			g_Log.Add("[Kalima] [%s][%s] Failed to Summon Kalima Gate (NextMap) - Already Have Gate (SummonIndex:%d)",
+			sLog.outBasic("[Kalima] [%s][%s] Failed to Summon Kalima Gate (NextMap) - Already Have Gate (SummonIndex:%d)",
 				gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_iKalimaGateIndex);
 	
 			return FALSE;
@@ -522,7 +522,7 @@ BOOL CKalimaGate::CreateKalimaGate2(int iIndex, int iMonMapNumber, BYTE cTX, BYT
 		{
 			if ( this->GetRandomLocation(iMonMapNumber, cX, cY) == FALSE )
 			{
-				g_Log.Add("[Kalima] [%s][%s] Failed to Summon Kalima Gate (NextMap) - Failed to get Location (MapNumber:%d, X:%d, Y:%d)",
+				sLog.outBasic("[Kalima] [%s][%s] Failed to Summon Kalima Gate (NextMap) - Failed to get Location (MapNumber:%d, X:%d, Y:%d)",
 					gObj[iIndex].AccountID, gObj[iIndex].Name, iMonMapNumber, cX, cY);
 
 				return FALSE;
@@ -539,7 +539,7 @@ BOOL CKalimaGate::CreateKalimaGate2(int iIndex, int iMonMapNumber, BYTE cTX, BYT
 			{
 				gObjDel(iMonsterIndex);
 
-				g_Log.Add("[Kalima] [%s][%s] Kalima Gate Vanished (NextMap) - lpMATTR == NULL (SummonIndex:%d)",
+				sLog.outBasic("[Kalima] [%s][%s] Kalima Gate Vanished (NextMap) - lpMATTR == NULL (SummonIndex:%d)",
 					gObj[iIndex].AccountID, gObj[iIndex].Name, iMonsterIndex);
 
 				return FALSE;
@@ -577,7 +577,7 @@ BOOL CKalimaGate::CreateKalimaGate2(int iIndex, int iMonMapNumber, BYTE cTX, BYT
 			gObj[iMonsterIndex].m_Attribute = 58;
 			gObj[iMonsterIndex].DieRegen = FALSE;
 			
-			g_Log.Add("[Kalima] [%s][%s] Create Kalima Gate Successfuly (NextMap) (Live:%d, GateTick:%u, DieRegen:%d, Map:%d, X:%d, Y:%d, SummonIndex:%d, OwnerIndex:%d)",
+			sLog.outBasic("[Kalima] [%s][%s] Create Kalima Gate Successfuly (NextMap) (Live:%d, GateTick:%u, DieRegen:%d, Map:%d, X:%d, Y:%d, SummonIndex:%d, OwnerIndex:%d)",
 				gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iMonsterIndex].Live, gObj[iMonsterIndex].RegenTime,
 				gObj[iMonsterIndex].DieRegen, gObj[iMonsterIndex].MapNumber, gObj[iMonsterIndex].X,
 				gObj[iMonsterIndex].Y, iMonsterIndex, iIndex);
@@ -609,7 +609,7 @@ void CKalimaGate::KalimaGateAct2(int iIndex)
 
 	if ( !gObjIsConnected(gObj[iIndex].m_RecallMon ) )
 	{
-		g_Log.Add("[Kalima] Kalima Gate Vanished (NextMap) - Summoner Vanished (SummonIndex:%d, EnterCount:%d)",
+		sLog.outBasic("[Kalima] Kalima Gate Vanished (NextMap) - Summoner Vanished (SummonIndex:%d, EnterCount:%d)",
 			iIndex, gObj[iIndex].m_cKalimaGateEnterCount);
 
 		GSProtocol.GCDiePlayerSend(&gObj[iIndex], iIndex, 0, 0);
@@ -627,7 +627,7 @@ void CKalimaGate::KalimaGateAct2(int iIndex)
 		lpObjCallOwner->AccountID[MAX_ACCOUNT_LEN]=0;
 		lpObjCallOwner->Name[MAX_ACCOUNT_LEN]=0;
 
-		g_Log.Add("[Kalima] [%s][%s] Kalima Gate Vanished - Enter Count Over (SummonIndex:%d, EnterCount:%d)",
+		sLog.outBasic("[Kalima] [%s][%s] Kalima Gate Vanished - Enter Count Over (SummonIndex:%d, EnterCount:%d)",
 			lpObjCallOwner->AccountID, lpObjCallOwner->Name, iIndex, gObj[iIndex].m_cKalimaGateEnterCount);
 
 		this->DeleteKalimaGate(iIndex, gObj[iIndex].m_RecallMon);
@@ -642,7 +642,7 @@ void CKalimaGate::KalimaGateAct2(int iIndex)
 		lpObjCallOwner->AccountID[MAX_ACCOUNT_LEN]=0;
 		lpObjCallOwner->Name[MAX_ACCOUNT_LEN]=0;
 
-		g_Log.Add("[Kalima] [%s][%s] Kalima Gate Vanished (NextMap) - Time Out (SummonIndex:%d, EnterCount:%d)",
+		sLog.outBasic("[Kalima] [%s][%s] Kalima Gate Vanished (NextMap) - Time Out (SummonIndex:%d, EnterCount:%d)",
 			lpObjCallOwner->AccountID, lpObjCallOwner->Name, iIndex, gObj[iIndex].m_cKalimaGateEnterCount);
 
 		this->DeleteKalimaGate(lpObj->m_Index, lpObjCallOwner->m_Index);
@@ -679,14 +679,14 @@ void CKalimaGate::KalimaGateAct2(int iIndex)
 
 								if ( !gObjMoveGate(tObjNum, iGateNumber))
 								{
-									g_Log.Add("[Kalima] [%s][%s] - [%s][%s] move fail (MapNumber:%d)",
+									sLog.outBasic("[Kalima] [%s][%s] - [%s][%s] move fail (MapNumber:%d)",
 										lpObjCallOwner->AccountID, lpObjCallOwner->Name,
 										gObj[tObjNum].AccountID, gObj[tObjNum].Name,
 										lpObj->MapNumber);
 								}
 								else
 								{
-									g_Log.Add("[Kalima] [%s][%s] - [%s][%s] Transported by Kalima Gate (NextMap) (SummonIndex:%d, GateNo.:%d, MapNumber:%d)",
+									sLog.outBasic("[Kalima] [%s][%s] - [%s][%s] Transported by Kalima Gate (NextMap) (SummonIndex:%d, GateNo.:%d, MapNumber:%d)",
 										lpObjCallOwner->AccountID, lpObjCallOwner->Name,
 										gObj[tObjNum].AccountID, gObj[tObjNum].Name,
 										iIndex, iMoveMapLevel+1, lpObj->MapNumber);

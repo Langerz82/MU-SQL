@@ -7,7 +7,7 @@
 //	GS-N	1.00.18	JPN	0x004A3220	-	Completed
 #include "stdafx.h"
 #include "IpCache.h"
-
+#include "Common.h"
 
 CIpCache IpCache;
 

@@ -3,6 +3,9 @@
 #ifndef FORMULA_PARSE_H
 #define FORMULA_PARSE_H
 
+#include <map>
+#include <vector>
+
 enum FORMULA_DATA_TYPE
 {
 	FORMULA_TYPE_EXP = 0,

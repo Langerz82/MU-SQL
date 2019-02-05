@@ -2,8 +2,8 @@
 // GremoryCase.cpp
 #include "stdafx.h"
 #include "GremoryCase.h"
-#include "winutil.h"
-#include "TLog.h"
+#include "util.h"
+#include "Log/Log.h"
 #include "GameMain.h"
 #include "DSProtocol.h"
 #include "ItemSocketOptionSystem.h"

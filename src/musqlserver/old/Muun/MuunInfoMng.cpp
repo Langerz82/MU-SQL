@@ -1,10 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MuunInfoMng.cpp
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "MuunInfoMng.h"
 #include "user.h"
-#include "TLog.h"
-#include "winutil.h"
+#include "Log/Log.h"
+#include "util.h"
 #include "MuunOpt.h"
 
 CMuunInfoMng::CMuunInfoMng()
@@ -24,7 +24,7 @@ bool CMuunInfoMng::LoadScriptMuunSystemInfo(char *lpszFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("Error loading %s file (%s)", lpszFileName, res.description());
+		sLog.outError("Error loading %s file (%s)", lpszFileName, res.description());
 		return false;
 	}
 
@@ -64,8 +64,8 @@ bool CMuunInfoMng::LoadScriptMuunSystemInfo(char *lpszFileName)
 
 		if (nIndex < 0 || nIndex > MAX_MUUN_ITEM -1)
 		{
-			g_Log.Add("[MuunSystem][LoadScriptMuunSystemInfo] Invalid Index");
-			g_Log.MsgBox("[MuunSystem] Invalid Index : %d", nIndex);
+			sLog.outBasic("[MuunSystem][LoadScriptMuunSystemInfo] Invalid Index");
+			sLog.outError("[MuunSystem] Invalid Index : %d", nIndex);
 
 			return FALSE;
 		}
@@ -95,7 +95,7 @@ bool CMuunInfoMng::LoadScriptMuunSystemOption(const char *lpszFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("Error loading %s file (%s)", lpszFileName, res.description());
+		sLog.outError("Error loading %s file (%s)", lpszFileName, res.description());
 		return false;
 	}
 
@@ -121,8 +121,8 @@ bool CMuunInfoMng::LoadScriptMuunSystemOption(const char *lpszFileName)
 
 		if (nIndex < 0 || nIndex > 70 - 1)
 		{
-			g_Log.Add("[MuunSystem][LoadScriptMuunSystemOption] Invalid Index");
-			g_Log.MsgBox("[MuunSystem] Invalid Index : %s %d", lpszFileName, nIndex);
+			sLog.outBasic("[MuunSystem][LoadScriptMuunSystemOption] Invalid Index");
+			sLog.outError("[MuunSystem] Invalid Index : %s %d", lpszFileName, nIndex);
 
 			return 0;
 		}

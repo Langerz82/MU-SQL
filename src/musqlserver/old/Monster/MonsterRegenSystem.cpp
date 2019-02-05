@@ -1,9 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MonsterRegenSystem.cpp
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "user.h"
 #include "MonsterRegenSystem.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "MapClass.h"
 #include "GameMain.h"
 #include "./Eventos/ArcaBattle/ArcaBattle.h"
@@ -27,7 +27,7 @@ void CMonsterRegenSystem::LoadScript(char* lpFileName)
 
 	if (!lpFileName)
 	{
-		g_Log.Add("[MonsterGroupRegen] lpFileName is null!!");
+		sLog.outBasic("[MonsterGroupRegen] lpFileName is null!!");
 		return;
 	}
 
@@ -54,7 +54,7 @@ void CMonsterRegenSystem::LoadScript(char* lpFileName)
 
 		if (nGroupNumber < 0 || nGroupNumber > MAX_MONSTER_GROUP_INFO)
 		{
-			g_Log.Add("[MonsterGroupRegen] Invalid monster groupNumber");
+			sLog.outBasic("[MonsterGroupRegen] Invalid monster groupNumber");
 			return;
 		}
 
@@ -73,7 +73,7 @@ void CMonsterRegenSystem::LoadScript(char* lpFileName)
 
 		if (nGroupNumber < 0 || nGroupNumber > MAX_MONSTER_GROUP_INFO)
 		{
-			g_Log.Add("[MonsterGroupRegen] Invalid Monster groupNumber");
+			sLog.outBasic("[MonsterGroupRegen] Invalid Monster groupNumber");
 			return;
 		}
 		int nAreaCnt = 0;
@@ -97,13 +97,13 @@ void CMonsterRegenSystem::LoadScript(char* lpFileName)
 
 		if (nGroupNumber < 0 || nGroupNumber > MAX_MONSTER_GROUP_INFO)
 		{
-			g_Log.Add("[MonsterGroupRegen] Invalid Monster groupNumber");
+			sLog.outBasic("[MonsterGroupRegen] Invalid Monster groupNumber");
 			return;
 		}
 
 		if (this->m_stMonsterPosition[nGroupNumber].m_nGroupNumber < 0)
 		{
-			g_Log.Add("[MonsterGroupRegen] Invalid groupNumber(%d) ", nGroupNumber);
+			sLog.outBasic("[MonsterGroupRegen] Invalid groupNumber(%d) ", nGroupNumber);
 			return;
 		}
 		int nArrayIndex = 0;
@@ -125,7 +125,7 @@ void CMonsterRegenSystem::LoadScript(char* lpFileName)
 
 		if (nArrayIndex >= MAX_MONSTER_INDEX_INFO)
 		{
-			g_Log.Add("[MonsterGroupRegen] Out of Max MonsterKindIndex");
+			sLog.outBasic("[MonsterGroupRegen] Out of Max MonsterKindIndex");
 			return;
 		}
 	}
@@ -136,13 +136,13 @@ void CMonsterRegenSystem::LoadScript(char* lpFileName)
 
 		if (nGroupNumber < 0 || nGroupNumber > MAX_MONSTER_GROUP_INFO)
 		{
-			g_Log.Add("[MonsterGroupRegen] Invalid Monster groupNumber");
+			sLog.outBasic("[MonsterGroupRegen] Invalid Monster groupNumber");
 			return;
 		}
 
 		if (this->m_stMonsterGroupInfo[nGroupNumber].m_nGroupNumber < 0)
 		{
-			g_Log.Add("[MonsterGroupRegen] Invalid groupNumber(%d) ", nGroupNumber);
+			sLog.outBasic("[MonsterGroupRegen] Invalid groupNumber(%d) ", nGroupNumber);
 			return;
 		}
 		int nTimeArrayIndex = 0;
@@ -157,7 +157,7 @@ void CMonsterRegenSystem::LoadScript(char* lpFileName)
 
 		if (nTimeArrayIndex >= MAX_REGEN_TIME_TABLE)
 		{
-			g_Log.Add("[MonsterGroupRegen] Out of Max TimeTable");
+			sLog.outBasic("[MonsterGroupRegen] Out of Max TimeTable");
 			return;
 		}
 	}
@@ -195,7 +195,7 @@ void CMonsterRegenSystem::Run() // used SYSTETIME instead of ATL::CTime, we dont
 
 			this->DeleteMonster(i);
 			this->RegenMonster(i);
-			g_Log.Add("[MonsterGroupRegen] regen attempt [GROUP]:%d", i);
+			sLog.outBasic("[MonsterGroupRegen] regen attempt [GROUP]:%d", i);
 		}
 
 	}
@@ -205,7 +205,7 @@ void CMonsterRegenSystem::RegenMonster(int nGroupNumber)
 {
 	if (nGroupNumber < 0 || nGroupNumber > MAX_MONSTER_GROUP_INFO - 1)
 	{
-		g_Log.Add("error : %s %d", __FILE__, __LINE__);
+		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -232,7 +232,7 @@ void CMonsterRegenSystem::RegenMonster(int nGroupNumber)
 
 			if (nResult < 0)
 			{
-				g_Log.Add("[MonsterGroupRegen] Add Monster fail!! [GROUP]: %d, [INDEX]: %d", nGroupNumber, nMonsterIndex);
+				sLog.outBasic("[MonsterGroupRegen] Add Monster fail!! [GROUP]: %d, [INDEX]: %d", nGroupNumber, nMonsterIndex);
 			}
 
 			else
@@ -294,7 +294,7 @@ bool CMonsterRegenSystem::SetPosMonster(int aIndex, int nMapNumber, int nBeginX,
 {
 	if (!ObjectMaxRange(aIndex))
 	{
-		g_Log.Add("error : %s %d", __FILE__, __LINE__);
+		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
 		return false;
 	}
 
@@ -383,7 +383,7 @@ void CMonsterRegenSystem::DeleteMonster(int nGroupNumber)
 	for (int i = 0; i < MAX_MONSTER_ACCOUNT_NUM_INFO && this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[i].m_nIndex > -1; i++)
 	{
 		gObjDel(this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[i].m_nIndex);
-		g_Log.Add("[MonsterGroupRegen] Delete Monster - %d", this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[i].m_nIndex);
+		sLog.outBasic("[MonsterGroupRegen] Delete Monster - %d", this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[i].m_nIndex);
 		this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[i].m_nIndex = -1;
 	}
 }
@@ -413,7 +413,7 @@ bool CMonsterRegenSystem::IsRegenTime(int nGroupNumber, int nCurHour, int nCurMi
 					else
 					{
 						this->m_stMonsterGroupInfo[nGroupNumber].m_stRegenTimeTable[i].m_bFailedAppearanceRate = true;
-						g_Log.Add("[MonsterRegenSystem] Invasion time has arrived but Appearance rate was unsuccesful");
+						sLog.outBasic("[MonsterRegenSystem] Invasion time has arrived but Appearance rate was unsuccesful");
 						return false;
 					}
 

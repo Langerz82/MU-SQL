@@ -2,7 +2,7 @@
 // MagicInf.cpp
 #include "stdafx.h"
 #include "MagicInf.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "GameMain.h"
 #include "MasterLevelSkillTreeSystem.h"
 // GS-N 0.99.60T 0x0046DE00
@@ -197,7 +197,7 @@ int CMagicInf::Set(BYTE aType, WORD aIndex, BYTE aLevel)
 {
 	if ( this->m_Skill != -1 )
 	{
-		g_Log.Add("No space to add %s %d", __FILE__, __LINE__);
+		sLog.outBasic("No space to add %s %d", __FILE__, __LINE__);
 		return -1;
 	}
 
@@ -224,7 +224,7 @@ int CMagicInf::GetDamage()
 
 	if ( this->m_Skill == -1 )
 	{
-		//g_Log.Add("Damage value doesn't exist (%s %d)", __FILE__, __LINE__);
+		//sLog.outBasic("Damage value doesn't exist (%s %d)", __FILE__, __LINE__);
 		return 0;
 	}
 
@@ -236,7 +236,7 @@ int CMagicInf::GetDamage()
 	}
 	__except(subd=1,1)
 	{
-		g_Log.Add("error2 : %s %d", __FILE__, __LINE__);
+		sLog.outBasic("error2 : %s %d", __FILE__, __LINE__);
 	}
 
 	return damage;
@@ -329,7 +329,7 @@ int CMagicInf::UpdateMasterSkill(int iSkill, BYTE btLevel)
 {
 	if ( this->m_Skill == -1 )
 	{
-		g_Log.Add("[MasterSkill] [ERROR!!] Fail - Update Master Skill:%d, Level:%d", iSkill, btLevel);
+		sLog.outBasic("[MasterSkill] [ERROR!!] Fail - Update Master Skill:%d, Level:%d", iSkill, btLevel);
 		return -1;
 	}
 

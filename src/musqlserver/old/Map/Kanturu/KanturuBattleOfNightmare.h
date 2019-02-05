@@ -9,6 +9,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "custTypedef.h"
 #include "KanturuStateInfo.h"
 
 #define KANTURU_NIGHTMARE_STATE_INFO	6

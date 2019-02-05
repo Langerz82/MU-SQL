@@ -2,7 +2,7 @@
 // DoppelGangerItemBag.cpp
 #include "stdafx.h"
 #include "DoppelGangerItemBag.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "GameMain.h"
 #include "LargeRand.h"
 #include "configread.h"
@@ -30,12 +30,12 @@ void CDoppelGangerItemBag::LoadDoppelgangerItemBag(LPSTR lpFile)
 
 	if ( res.status != pugi::status_ok )
 	{
-		g_Log.MsgBox("%s load fail (%s)", lpFile, res.description());
+		sLog.outError("%s load fail (%s)", lpFile, res.description());
 		return;
 	}
 
-	pugi::xml_node main = file.child("DoppelGanger");
-	pugi::xml_node section_rates = main.child("SectionRateSettings");
+	pugi::xml_node mainXML = file.child("DoppelGanger");
+	pugi::xml_node section_rates = mainXML.child("SectionRateSettings");
 
 	for (pugi::xml_node section = section_rates.child("Section"); section; section = section.next_sibling())
 	{
@@ -50,14 +50,14 @@ void CDoppelGangerItemBag::LoadDoppelgangerItemBag(LPSTR lpFile)
 		this->vtDPItemBag.insert(std::pair<int, __tagDOPPELGANGER_DROP_ITEM_GROUP_INFO>(tmpItemGroupInfo.nGroupIndex, tmpItemGroupInfo));
 	}
 
-	pugi::xml_node item_option = main.child("ItemOptionDrawSettings");
+	pugi::xml_node item_option = mainXML.child("ItemOptionDrawSettings");
 	int iCount = 0;
 
 	for (pugi::xml_attribute rate = item_option.first_attribute(); rate; rate = rate.next_attribute())
 	{
 		if (iCount >= 7)
 		{
-			g_Log.MsgBox("Load Script Error %s", lpFile);
+			sLog.outError("Load Script Error %s", lpFile);
 			break;
 		}
 
@@ -65,14 +65,14 @@ void CDoppelGangerItemBag::LoadDoppelgangerItemBag(LPSTR lpFile)
 		iCount++;
 	}
 
-	pugi::xml_node exc_option_count = main.child("ExcOptionCountDrawSettings");
+	pugi::xml_node exc_option_count = mainXML.child("ExcOptionCountDrawSettings");
 	iCount = 0;
 
 	for (pugi::xml_attribute rate = exc_option_count.first_attribute(); rate; rate = rate.next_attribute())
 	{
 		if (iCount >= 6)
 		{
-			g_Log.MsgBox("Load Script Error %s", lpFile);
+			sLog.outError("Load Script Error %s", lpFile);
 			break;
 		}
 
@@ -80,14 +80,14 @@ void CDoppelGangerItemBag::LoadDoppelgangerItemBag(LPSTR lpFile)
 		iCount++;
 	}
 
-	pugi::xml_node exc_option_type = main.child("ExcOptionTypeDrawSettings");
+	pugi::xml_node exc_option_type = mainXML.child("ExcOptionTypeDrawSettings");
 	iCount = 0;
 
 	for (pugi::xml_attribute rate = exc_option_type.first_attribute(); rate; rate = rate.next_attribute())
 	{
 		if (iCount >= 6)
 		{
-			g_Log.MsgBox("Load Script Error %s", lpFile);
+			sLog.outError("Load Script Error %s", lpFile);
 			break;
 		}
 
@@ -95,13 +95,13 @@ void CDoppelGangerItemBag::LoadDoppelgangerItemBag(LPSTR lpFile)
 		iCount++;
 	}
 
-	for (pugi::xml_node item_section = main.child("Section"); item_section; item_section = item_section.next_sibling())
+	for (pugi::xml_node item_section = mainXML.child("Section"); item_section; item_section = item_section.next_sibling())
 	{
 		int iSectionID = item_section.attribute("ID").as_int();
 
 		if (this->vtDPItemBag.find(iSectionID) == this->vtDPItemBag.end())
 		{
-			g_Log.MsgBox("Load Script Error (Section %d not found) %s", iSectionID, lpFile);
+			sLog.outError("Load Script Error (Section %d not found) %s", iSectionID, lpFile);
 			break;
 		}
 
@@ -178,7 +178,7 @@ BOOL CDoppelGangerItemBag::DoppelgangerItemDrop(OBJECTSTRUCT *lpObj, int nItemBa
 
 		if ( this->vtDPItemBag[nTmpItemBagIndex].vtDropItemGroup.size() == 0 )
 		{
-			g_Log.Add("Error : DOPPELGANGER ItemBag is count 0");
+			sLog.outBasic("Error : DOPPELGANGER ItemBag is count 0");
 			return FALSE;
 		}
 

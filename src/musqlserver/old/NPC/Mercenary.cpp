@@ -5,7 +5,7 @@
 #include "protocol.h"
 #include "GameMain.h"
 #include "configread.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "CastleSiege.h"
 #include "CastleSiegeSync.h"
 
@@ -119,13 +119,13 @@ BOOL CMercenary::CreateMercenary(int iIndex, int iMercenaryTypeIndex, BYTE cTX, 
 
 			if (lpObj->m_PlayerData->lpGuild)
 			{
-				g_Log.Add("[CastleSiege] Mercenary is summoned [%d] - [%d][%d] [%s][%s][%d] - (Guild : %s)",
+				sLog.outBasic("[CastleSiege] Mercenary is summoned [%d] - [%d][%d] [%s][%s][%d] - (Guild : %s)",
 					iMonsterIndex, iMercenaryTypeIndex, this->m_iMercenaryCount,
 					lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->GuildStatus, lpObj->m_PlayerData->lpGuild->Name);
 			}
 			else
 			{
-				g_Log.Add("[CastleSiege] Mercenary is summoned [%d] - [%d][%d] [%s][%s][%d]",
+				sLog.outBasic("[CastleSiege] Mercenary is summoned [%d] - [%d][%d] [%s][%s][%d]",
 					iMonsterIndex, iMercenaryTypeIndex, this->m_iMercenaryCount,
 					lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->GuildStatus);
 			}
@@ -148,7 +148,7 @@ BOOL CMercenary::DeleteMercenary(int iIndex)
 
 	this->m_iMercenaryCount--;
 
-	g_Log.Add("[CastleSiege] Mercenary is broken [%d] - [%d]", iIndex, this->m_iMercenaryCount);
+	sLog.outBasic("[CastleSiege] Mercenary is broken [%d] - [%d]", iIndex, this->m_iMercenaryCount);
 
 	if ( this->m_iMercenaryCount < 0 )
 	{

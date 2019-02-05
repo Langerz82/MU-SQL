@@ -3,7 +3,7 @@
 #ifndef SENDNPCINFO_H
 #define SENDNPCINFO_H
 
-#include "winutil.h"
+#include "util.h"
 
 struct _stSendNPCInfo
 {

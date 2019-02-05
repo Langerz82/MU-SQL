@@ -9,6 +9,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "custTypedef.h"
 #include "KanturuStateInfo.h"
 #include "KanturuMaya.h"
 
@@ -94,7 +95,7 @@ public:
 	void SetBattleSceneState(int iScene)
 	{
 		this->m_iSceneState = iScene;
-		this->m_bIsSceneSuccess = FALSE;
+		this->m_bIsSceneSuccess = 0;
 	}
 
 	int GetBattleSceneState(){return this->m_iSceneState;}

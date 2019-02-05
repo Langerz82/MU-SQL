@@ -31,8 +31,6 @@ bool CMemScript::SetBuffer(char* path) // OK
 {
 	strcpy_s(this->m_path,path);
 
-	// TODO Cross-platform.
-	//HANDLE file = CreateFile(this->m_path,GENERIC_READ,FILE_SHARE_READ,0,OPEN_EXISTING,FILE_ATTRIBUTE_ARCHIVE,0);
 	FILE* file = fopen(path, "r");
 
 	if(file == NULL)

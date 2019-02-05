@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include "NewsSystem.h"
 #include "TNotice.h"
-#include "TLog.h"
+#include "Log/Log.h"
 
 CNewsSystem g_NewsSystem;
 
@@ -24,7 +24,7 @@ bool CNewsSystem::LoadFile(LPSTR lpFile)
 
 	if(res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("%s load fail (%s)", lpFile, res.description());
+		sLog.outError("%s load fail (%s)", lpFile, res.description());
 		return false;
 	}
 	
@@ -34,12 +34,12 @@ bool CNewsSystem::LoadFile(LPSTR lpFile)
 
 	NEWS_DATA m_News;
 
-	pugi::xml_node main = file.child("NewsSystem");
+	pugi::xml_node mainXML = file.child("NewsSystem");
 
 	this->m_bEnable = main.attribute("Enable").as_int();
 	this->m_iMinuteDelay = main.attribute("DisplayInterval").as_int();
 
-	for (pugi::xml_node news = main.child("News"); news; news = news.next_sibling())
+	for (pugi::xml_node news = mainXML.child("News"); news; news = news.next_sibling())
 	{
 		m_News.GUID = news.attribute("ID").as_int();
 
@@ -49,7 +49,7 @@ bool CNewsSystem::LoadFile(LPSTR lpFile)
 
 			if (iLine < 0 || iLine > 2)
 			{
-				g_Log.MsgBox("NewsSystem: NewsID is WRONG - must be 0,1 or 2");
+				sLog.outError("NewsSystem: NewsID is WRONG - must be 0,1 or 2");
 				continue;
 			}
 
@@ -59,7 +59,7 @@ bool CNewsSystem::LoadFile(LPSTR lpFile)
 		this->m_NewsData.push_back(m_News);
 	}
 
-	g_Log.Add("%d news load!", m_NewsData.size());
+	sLog.outBasic("%d news load!", m_NewsData.size());
 	return true;
 }
 

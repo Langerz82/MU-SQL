@@ -7,7 +7,7 @@
 
 #include "CastleSiege.h"
 #include "user.h"
-#include "TLog.h"
+#include "Log/Log.h"
 
 CCastleCrownSwitch g_CsNPC_CastleCrownSwitch;
 //////////////////////////////////////////////////////////////////////
@@ -82,7 +82,7 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(int iIndex)
 				g_CastleSiege.NotifyCrownState(1);
 			}
 
-			g_Log.Add("[CastleSiege] [%s][%s] Push Castle Crown Switch Canceled (GUILD:%s) - CS X:%d/Y:%d",
+			sLog.outBasic("[CastleSiege] [%s][%s] Push Castle Crown Switch Canceled (GUILD:%s) - CS X:%d/Y:%d",
 				lpUserObj->AccountID, lpUserObj->Name, lpUserObj->m_PlayerData->GuildName, lpObj->X, lpObj->Y);
 		}
 	}

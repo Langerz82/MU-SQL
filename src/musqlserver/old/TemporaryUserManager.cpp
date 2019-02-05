@@ -4,7 +4,7 @@
 #include "TemporaryUserManager.h"
 #include "GameMain.h"
 #include "PartyClass.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "protocol.h"
 #include "DBSockMng.h"
 #include "BloodCastle.h"
@@ -13,7 +13,7 @@
 #include "ImperialGuardian.h"
 #include "IllusionTempleEvent.h"
 #include "IllusionTempleProcess.h"
-#include "winutil.h"
+#include "util.h"
 
 CTemporaryUserManager * CTemporaryUserManager::m_pInstance = NULL;
 

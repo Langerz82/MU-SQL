@@ -8,7 +8,7 @@
 #include "KanturuMonsterMng.h"
 #include "KanturuBattleUserMng.h"
 #include "Gamemain.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "KanturuUtil.h"
 #include "configread.h"
 
@@ -53,7 +53,7 @@ BOOL CKanturuBattleStanby::LoadData(LPSTR lpszFileName)
 
 	if ( !lpszFileName || !strcmp(lpszFileName, ""))
 	{
-		g_Log.MsgBox("[Kanturu][Battle Standby] - File load error : File Name Error");
+		sLog.outError("[Kanturu][Battle Standby] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -64,14 +64,14 @@ BOOL CKanturuBattleStanby::LoadData(LPSTR lpszFileName)
 
 		if ( res.status != pugi::status_ok )
 		{
-			g_Log.MsgBox("[Kanturu][Battle Standby] - Can't Load %s (%s)", lpszFileName, res.description());
+			sLog.outError("[Kanturu][Battle Standby] - Can't Load %s (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
 		this->ResetAllData();
 
-		pugi::xml_node main = file.child("KanturuEvent");
-		pugi::xml_node battle_standby = main.child("BattleStandBy");
+		pugi::xml_node mainXML = file.child("KanturuEvent");
+		pugi::xml_node battle_standby = mainXML.child("BattleStandBy");
 
 		pugi::xml_node state = battle_standby.child("State");
 
@@ -83,7 +83,7 @@ BOOL CKanturuBattleStanby::LoadData(LPSTR lpszFileName)
 
 			if ( this->m_StateInfoCount < 0 || this->m_StateInfoCount >= KANTURU_STANBY_STATE_INFO )
 			{
-				g_Log.MsgBox("[Kanturu][Battle Standby] - Exceed Max State Time (%d)", this->m_StateInfoCount);
+				sLog.outError("[Kanturu][Battle Standby] - Exceed Max State Time (%d)", this->m_StateInfoCount);
 				break;
 			}
 
@@ -102,7 +102,7 @@ BOOL CKanturuBattleStanby::LoadData(LPSTR lpszFileName)
 
 	catch (DWORD)
 	{
-		g_Log.MsgBox("[Kanturu][Battle Standby] - Loading Exception Error (%s) File. ", lpszFileName);
+		sLog.outError("[Kanturu][Battle Standby] - Loading Exception Error (%s) File. ", lpszFileName);
 	}
 
 	return this->m_bFileDataLoad;

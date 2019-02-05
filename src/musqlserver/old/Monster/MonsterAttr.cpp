@@ -2,7 +2,7 @@
 // MonsterAttr.cpp
 #include "stdafx.h"
 #include "MonsterAttr.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "user.h"
 
 // GS-N 0.99.60T 0x00418C10 - Completed - Just few disorders with same result int LoadAttr
@@ -38,7 +38,7 @@ void CMonsterAttr::LoadAttr(char* filename)
 
 	if (result.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("load error %s (%s)", filename, result.description());
+		sLog.outError("load error %s (%s)", filename, result.description());
 		return;
 	}
 
@@ -126,7 +126,7 @@ void CCustomMonsterAttr::Load(char* szFileName)
 	// ----
 	if (Result.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("[MonsterStatInfo] File %s not found!", szFileName);
+		sLog.outError("[MonsterStatInfo] File %s not found!", szFileName);
 		return;
 	}
 	// ----

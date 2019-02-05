@@ -2,9 +2,9 @@
 // PartyClass.cpp
 #include "stdafx.h"
 #include "PartyClass.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "Protocol.h"
-#include "winutil.h"
+#include "util.h"
 #include "configread.h"
 #include "GameMain.h"
 #include "IllusionTempleEvent_Renewal.h"
@@ -616,7 +616,7 @@ void PartyClass::ClearPartyAuthITL(int partynumber)
 		this->m_PartyS[partynumber].bITLEnterOK[i] = FALSE;
 	}
 
-	g_Log.Add("[ ITL ][ClearPartyAuthITL]PartyID:%d", partynumber);
+	sLog.outBasic("[ ITL ][ClearPartyAuthITL]PartyID:%d", partynumber);
 }
 
 bool PartyClass::AllAgreeEnterITL(int partynumber)
@@ -690,7 +690,7 @@ void PartyClass::ClearPartyAuthITR(int partynumber)
 		this->m_PartyS[partynumber].bITRWithYouOk[i] = FALSE;
 	}
 
-	g_Log.Add("[ ITR ][ClearPartyAuthITR]PartyID:%d", partynumber);
+	sLog.outBasic("[ ITR ][ClearPartyAuthITR]PartyID:%d", partynumber);
 }
 
 bool PartyClass::AllAgreeEnterITR(int partynumber)
@@ -764,7 +764,7 @@ void PartyClass::ClearPartyAuthDSF(int partynumber)
 		this->m_PartyS[partynumber].bDSFEnterOK[i] = FALSE;
 	}
 
-	g_Log.Add("[DSF][ClearPartyAuthDSF]PartyID:%d", partynumber);
+	sLog.outBasic("[DSF][ClearPartyAuthDSF]PartyID:%d", partynumber);
 }
 
 bool PartyClass::AllAgreeEnterDSF(int partynumber)
@@ -819,7 +819,7 @@ void PartyClass::ReadBonusInfo(LPSTR File) //FILE_PARTYBONUS
 	// ----
 	if (Result.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("[Notice] File %s not found!", File);
+		sLog.outError("[Notice] File %s not found!", File);
 		return;
 	}
 	// ----

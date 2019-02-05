@@ -9,7 +9,7 @@
 #include "KanturuMonsterMng.h"
 #include "KanturuBattleUserMng.h"
 #include "TMonsterAIGroup.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "KanturuUtil.h"
 
 static CKanturuUtil KANTURU_UTIL;
@@ -50,7 +50,7 @@ BOOL CKanturuBattleOfNightmare::LoadData(LPSTR lpszFileName)
 
 	if ( !lpszFileName || !strcmp(lpszFileName, ""))
 	{
-		g_Log.MsgBox("[Kanturu][Battle of Nightmare] - File load error : File Name Error");
+		sLog.outError("[Kanturu][Battle of Nightmare] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -61,14 +61,14 @@ BOOL CKanturuBattleOfNightmare::LoadData(LPSTR lpszFileName)
 
 		if ( res.status != pugi::status_ok )
 		{
-			g_Log.MsgBox("[Kanturu][Battle of Nightmare] - Can't Load %s (%s)", lpszFileName, res.description());
+			sLog.outError("[Kanturu][Battle of Nightmare] - Can't Load %s (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
 		this->ResetAllData();
 
-		pugi::xml_node main = file.child("KanturuEvent");
-		pugi::xml_node battle_nightmare = main.child("BattleOfNightMare");
+		pugi::xml_node mainXML = file.child("KanturuEvent");
+		pugi::xml_node battle_nightmare = mainXML.child("BattleOfNightMare");
 
 		this->m_iNightmareAIGroupNumber = battle_nightmare.attribute("AIGroup").as_int();
 
@@ -82,7 +82,7 @@ BOOL CKanturuBattleOfNightmare::LoadData(LPSTR lpszFileName)
 
 			if ( this->m_StateInfoCount < 0 || this->m_StateInfoCount >= KANTURU_NIGHTMARE_STATE_INFO )
 			{
-				g_Log.MsgBox("[Kanturu][Battle of Nightmare] - Exceed Max State Time (%d)", this->m_StateInfoCount);
+				sLog.outError("[Kanturu][Battle of Nightmare] - Exceed Max State Time (%d)", this->m_StateInfoCount);
 				break;
 			}
 
@@ -101,7 +101,7 @@ BOOL CKanturuBattleOfNightmare::LoadData(LPSTR lpszFileName)
 
 	catch ( DWORD )
 	{
-		g_Log.MsgBox("[Kanturu][Battle of Nightmare] - Loading Exception Error (%s) File. ", lpszFileName);
+		sLog.outError("[Kanturu][Battle of Nightmare] - Loading Exception Error (%s) File. ", lpszFileName);
 	}
 
 	return this->m_bFileDataLoad;

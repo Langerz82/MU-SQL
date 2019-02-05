@@ -3,8 +3,8 @@
 #include "stdafx.h"
 #include "Quests.h"
 #include "ReadScript.h"
-#include "winutil.h"
-#include "TLog.h"
+#include "util.h"
+#include "Log/Log.h"
 #include "GameMain.h"
 #include "MasterSkillSystemS6.h"
 #include "user.h"
@@ -36,7 +36,7 @@ void CQuests::LoadData(LPSTR lpszFile)
 
 	if(SMDFile == NULL)
 	{
-		g_Log.MsgBox("%s load fail", lpszFile);
+		sLog.outError("%s load fail", lpszFile);
 		return;
 	}
 
@@ -87,7 +87,7 @@ void CQuests::LoadData(LPSTR lpszFile)
 
 				else
 				{
-					g_Log.MsgBox("%s load fail - error in file", lpszFile);
+					sLog.outError("%s load fail - error in file", lpszFile);
 					fclose(SMDFile);
 					return;
 				}
@@ -154,7 +154,7 @@ void CQuests::LoadData(LPSTR lpszFile)
 
 				if(btINDEX < 0 && btINDEX >= 21)
 				{
-					g_Log.MsgBox("%s load fail - error in file", lpszFile);
+					sLog.outError("%s load fail - error in file", lpszFile);
 					fclose(SMDFile);
 					return;
 				}
@@ -164,7 +164,7 @@ void CQuests::LoadData(LPSTR lpszFile)
 
 				if(btID < 0 || btID > 4)
 				{
-					g_Log.MsgBox("%s load fail - error in file", lpszFile);
+					sLog.outError("%s load fail - error in file", lpszFile);
 					fclose(SMDFile);
 					return;
 				}
@@ -195,7 +195,7 @@ void CQuests::LoadData(LPSTR lpszFile)
 
 				if(btINDEX < 0 && btINDEX >= 21)
 				{
-					g_Log.MsgBox("%s load fail - error in file", lpszFile);
+					sLog.outError("%s load fail - error in file", lpszFile);
 					fclose(SMDFile);
 					return;
 				}
@@ -205,7 +205,7 @@ void CQuests::LoadData(LPSTR lpszFile)
 
 				if(btID < 0 || btID > 4)
 				{
-					g_Log.MsgBox("%s load fail - error in file", lpszFile);
+					sLog.outError("%s load fail - error in file", lpszFile);
 					fclose(SMDFile);
 					return;
 				}

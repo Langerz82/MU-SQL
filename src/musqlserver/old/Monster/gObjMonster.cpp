@@ -5,7 +5,7 @@
 #include "gObjMonster.h"
 #include "MonsterSetBase.h"
 #include "GameMain.h"
-#include "winutil.h"
+#include "util.h"
 #include "BattleSoccerManager.h"
 #include "Mercenary.h"
 #include "protocol.h"
@@ -267,7 +267,7 @@ BOOL gObjMonsterRegen(LPOBJ lpObj)
 	//	));
 		BLOODCASTLE_MONSTER_POSITION * lpPos = g_BloodCastle.GetMonsterPosData(lpObj->m_PosNum, iBridgeIndex, lpObj->Class);
 
-		//g_Log.Add("[Blood Castle][Bug Tracker] (%d) Regen Monster (Class:%d) (Index:%d) (PosNum:%d) (lpPos:%d)",
+		//sLog.outBasic("[Blood Castle][Bug Tracker] (%d) Regen Monster (Class:%d) (Index:%d) (PosNum:%d) (lpPos:%d)",
 		//	iBridgeIndex + 1, lpObj->Class, lpObj->m_Index, lpObj->m_PosNum, lpPos != nullptr ? true : false);
 
 		if (lpPos == nullptr)
@@ -517,7 +517,7 @@ void gObjMonsterSetHitDamage(LPOBJ lpObj, int hit_player, int hit_damage)
 	}
 	else
 	{
-		g_Log.Add("error-L2 : Hit Damage Set error");
+		sLog.outBasic("error-L2 : Hit Damage Set error");
 	}
 }
 
@@ -805,7 +805,7 @@ BOOL gObjMonsterMoveCheck(LPOBJ lpObj, int tx, int ty)
 
 		if (dis > 30)
 		{
-			g_Log.Add("[ KANTURU/RAKLION ][ Debug - m_PosNum ] Fail %s(Index:%d) X%d-Y%d -> X%d-Y%d(%d)",
+			sLog.outBasic("[ KANTURU/RAKLION ][ Debug - m_PosNum ] Fail %s(Index:%d) X%d-Y%d -> X%d-Y%d(%d)",
 				lpObj->Name, lpObj->Class, lpObj->StartX, lpObj->StartY, tx, ty, dis);
 			return FALSE;
 		}
@@ -2137,7 +2137,7 @@ void gObjMonsterBeattackRecv(BYTE * lpRecv, int aIndex)
 
 	if ( lpMagic == NULL )
 	{
-		g_Log.Add("error-L3 %s %d", __FILE__, __LINE__);
+		sLog.outBasic("error-L3 %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -3472,7 +3472,7 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 			nMaxHitUser = lpTargetObj->m_Index;
 		}
 
-		g_Log.Add("[AcheronGuardianEvent] BossName: %s, CharacterName: %s", lpObj->Name, gObj[nMaxHitUser].Name);
+		sLog.outBasic("[AcheronGuardianEvent] BossName: %s, CharacterName: %s", lpObj->Name, gObj[nMaxHitUser].Name);
 		g_AcheronGuardianEvent.DestroyObelisk(&gObj[nMaxHitUser], lpObj->MapNumber, lpObj->X, lpObj->Y, nMaxHitUser);
 		return;
 	}
@@ -4758,7 +4758,7 @@ BOOL gEventMonsterItemDrop(LPOBJ lpObj, LPOBJ lpTargetObj)
 
 						if (ObjectMaxRange(MaxHitUser))
 						{
-							g_Log.Add("[Castle HuntZone] Drop SetItem [%s][%s] ", gObj[MaxHitUser].AccountID, gObj[MaxHitUser].Name);
+							sLog.outBasic("[Castle HuntZone] Drop SetItem [%s][%s] ", gObj[MaxHitUser].AccountID, gObj[MaxHitUser].Name);
 							::MakeRewardSetItem(MaxHitUser, lpObj->X, lpObj->Y, 0, lpObj->MapNumber);
 							return TRUE;
 						}
@@ -5469,7 +5469,7 @@ void CQeustNpcTeleport::Run(int aIndex)
 		gObj[aIndex].m_State = 1;
 		gObj[aIndex].PathCount = 0;
 
-		g_Log.Add("[Quest] %s Teleport MAP : %s", this->m_strNPCName.c_str(), Lang.GetMap(0, this->m_QuestNPCTeleportPos[tableindex].mapnum));
+		sLog.outBasic("[Quest] %s Teleport MAP : %s", this->m_strNPCName.c_str(), Lang.GetMap(0, this->m_QuestNPCTeleportPos[tableindex].mapnum));
 	}
 }
 

@@ -8,7 +8,7 @@
 #include "CashLotterySystem.h"
 #include "LargeRand.h"
 #include "user.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "readscript.h"
 
 
@@ -69,7 +69,7 @@ void CCashLotterySystem::Load(LPSTR pchFilename)
 
 	if (SMDFile == NULL)
 	{
-		g_Log.MsgBox("[CashLoterrySystem] Lottery Item List load failed. [%s]", pchFilename);
+		sLog.outError("[CashLoterrySystem] Lottery Item List load failed. [%s]", pchFilename);
 		return;
 	}
 

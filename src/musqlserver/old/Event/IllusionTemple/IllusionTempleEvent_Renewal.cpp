@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include "IllusionTempleEvent_Renewal.h"
 #include "configread.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "GameMain.h"
 
 CIllusionTempleEvent_Renewal g_IT_Event;
@@ -53,14 +53,14 @@ void CIllusionTempleEvent_Renewal::Load_ITR_NPC_Position(char *filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("[ ITR ] IllusionTempleRenewalNpc.xml File Load Fail %s (%s)", filename, res.description());
+		sLog.outError("[ ITR ] IllusionTempleRenewalNpc.xml File Load Fail %s (%s)", filename, res.description());
 		return;
 	}
 
-	pugi::xml_node main = file.child("IllusionTempleRenewal");
+	pugi::xml_node mainXML = file.child("IllusionTempleRenewal");
 	int nCount = 0;
 
-	for (pugi::xml_node npc = main.child("NPC"); npc; npc = npc.next_sibling())
+	for (pugi::xml_node npc = mainXML.child("NPC"); npc; npc = npc.next_sibling())
 	{
 		this->m_ITR_NPC[nCount].wNpcType = npc.attribute("Index").as_int();
 		this->m_ITR_NPC[nCount].byMapNumber = npc.attribute("MapNumber").as_int();
@@ -82,7 +82,7 @@ void CIllusionTempleEvent_Renewal::Load_ITR_Script(char* filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("[Illusion Temple] Info file Load Fail [%s] [%s]", filename, res.description());
+		sLog.outError("[Illusion Temple] Info file Load Fail [%s] [%s]", filename, res.description());
 		return;
 	}
 
@@ -184,7 +184,7 @@ BOOL CIllusionTempleEvent_Renewal::Enter_ITR(int aIndex, BYTE byTempleIndex, BYT
 
 	if (this->m_cITR_Proc[byTempleIndex].EnterUserIllusionTemple(aIndex, byTempleIndex, lpObj->PartyNumber) == TRUE)
 	{
-		g_Log.Add("[ ITR ] ITR index:(%d) EnterUser: (%s)(%s) class:%d",
+		sLog.outBasic("[ ITR ] ITR index:(%d) EnterUser: (%s)(%s) class:%d",
 			byTempleIndex + 1, lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->DbClass);
 
 		this->m_cITR_Proc[byTempleIndex].SendIllusionTempleState(0, lpObj->m_Index);
@@ -194,7 +194,7 @@ BOOL CIllusionTempleEvent_Renewal::Enter_ITR(int aIndex, BYTE byTempleIndex, BYT
 
 	else
 	{
-		g_Log.Add("[ ITR ] ITR index:(%d) EnterUser FAIL: (%s)(%s) class:%d",
+		sLog.outBasic("[ ITR ] ITR index:(%d) EnterUser FAIL: (%s)(%s) class:%d",
 			byTempleIndex + 1, lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->DbClass);
 
 		return FALSE;
@@ -337,13 +337,13 @@ void CIllusionTempleEvent_Renewal::ITR_USeSkill(int iIndex, WORD MagicNumber, in
 {
 	if (!ObjectMaxRange(iIndex))
 	{
-		g_Log.Add("ITR_UseSkill Error #1 iIndex :%d ", iIndex);
+		sLog.outBasic("ITR_UseSkill Error #1 iIndex :%d ", iIndex);
 		return;
 	}
 
 	if (!IT_MAP_RANGE(gObj[iIndex].MapNumber))
 	{
-		g_Log.Add("ITR_UseSkill Error #2 iIndex :%d Map:%d ", iIndex, gObj[iIndex].MapNumber);
+		sLog.outBasic("ITR_UseSkill Error #2 iIndex :%d Map:%d ", iIndex, gObj[iIndex].MapNumber);
 		return;
 	}
 

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // PentagramSystem.cpp
-//#include "StdAfx.h"
+//#include "stdafx.h"
 #include "PentagramSystem.h"
 #include "PentagramMixSystem.h"
 #include "../user.h"

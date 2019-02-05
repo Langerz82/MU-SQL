@@ -72,7 +72,7 @@ BOOL CRaklion::LoadData(char *lpszFileName)
 
 	if( lpszFileName == NULL || strcmp(lpszFileName,"") == 0 )
 	{
-		g_Log.MsgBox("[ RAKLION ] - File load error : File Name Error");
+		sLog.outError("[ RAKLION ] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -83,11 +83,11 @@ BOOL CRaklion::LoadData(char *lpszFileName)
 
 		if (res.status != pugi::status_ok)
 		{
-			g_Log.MsgBox("[ RAKLION ] - Can't Load %s (%s)", lpszFileName, res.description());
+			sLog.outError("[ RAKLION ] - Can't Load %s (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
-		pugi::xml_node main = file.child("RaklionEvent");
+		pugi::xml_node mainXML = file.child("RaklionEvent");
 
 		iRaklionEnable = main.attribute("Enable").as_int();
 
@@ -96,7 +96,7 @@ BOOL CRaklion::LoadData(char *lpszFileName)
 			iRaklionEnable = FALSE;
 		}
 
-		pugi::xml_node time = main.child("Time");
+		pugi::xml_node time = mainXML.child("Time");
 
 		m_iBossAppearanceDelay	= time.attribute("BossAppearance").as_int() * 1000;
 		m_iBosszoneCloseDelay	= time.attribute("BossZoneClose").as_int() * 1000;
@@ -106,30 +106,30 @@ BOOL CRaklion::LoadData(char *lpszFileName)
 
 		if( iBossSkillDelay < 0)
 		{
-			g_Log.MsgBox("[ RAKLION ] - BossSkillDelay count error : (%d)", iBossSkillDelay);
+			sLog.outError("[ RAKLION ] - BossSkillDelay count error : (%d)", iBossSkillDelay);
 			return FALSE;
 		}
 
 		m_BattleOfSelupan.SetSelupanSkillDelay(iBossSkillDelay);
 
-		pugi::xml_node eggcount = main.child("EggCount");
+		pugi::xml_node eggcount = mainXML.child("EggCount");
 
 		m_iBossEggHalf = eggcount.attribute("Half").as_int();
 		m_iBossEggMax = eggcount.attribute("Max").as_int();
 
 		if(m_iBossEggHalf < 0 )
 		{
-			g_Log.MsgBox("[ RAKLION ] - BossEggHalf count error : (%d)", m_iBossEggHalf);
+			sLog.outError("[ RAKLION ] - BossEggHalf count error : (%d)", m_iBossEggHalf);
 			return FALSE;
 		}
 
 		if(m_iBossEggMax < 0 )
 		{
-			g_Log.MsgBox("[ RAKLION ] - BossEggMax count error : (%d)", m_iBossEggMax);
+			sLog.outError("[ RAKLION ] - BossEggMax count error : (%d)", m_iBossEggMax);
 			return FALSE;
 		}
 
-		pugi::xml_node skill_patterns = main.child("SkillPatterns");
+		pugi::xml_node skill_patterns = mainXML.child("SkillPatterns");
 		int iBossPatternCondition[6] = { 0 };
 		int iCount = 0;
 
@@ -148,7 +148,7 @@ BOOL CRaklion::LoadData(char *lpszFileName)
 		{
 			if(iBossPatternCondition[iCount] < 0)
 			{
-				g_Log.MsgBox("[ RAKLION ] - BossPatternCondition[%d] error : (%d)", iCount, iBossPatternCondition[iCount]);
+				sLog.outError("[ RAKLION ] - BossPatternCondition[%d] error : (%d)", iCount, iBossPatternCondition[iCount]);
 				return FALSE;
 			}
 
@@ -160,7 +160,7 @@ BOOL CRaklion::LoadData(char *lpszFileName)
 
 	catch(...)
 	{
-		g_Log.MsgBox("[ RAKLION ] - Loading Exception Error (%s) File. ", lpszFileName);
+		sLog.outError("[ RAKLION ] - Loading Exception Error (%s) File. ", lpszFileName);
 	}
 
 	if (m_bFileDataLoad == TRUE)
@@ -210,7 +210,7 @@ void CRaklion::Run()
 					gObj[iCount].Type == OBJ_USER )
 				{
 					iRaklionUserCount++;
-					g_Log.Add("[RAKLION][IsInRaklionEvent] %d/%d/%d %dth User : %s (%s)", pCurrentTime->tm_year+1900, pCurrentTime->tm_mon+1, pCurrentTime->tm_mday, iRaklionUserCount, gObj[iCount].Name, gObj[iCount].AccountID);
+					sLog.outBasic("[RAKLION][IsInRaklionEvent] %d/%d/%d %dth User : %s (%s)", pCurrentTime->tm_year+1900, pCurrentTime->tm_mon+1, pCurrentTime->tm_mday, iRaklionUserCount, gObj[iCount].Name, gObj[iCount].AccountID);
 				}
 			}
 		}
@@ -562,12 +562,12 @@ int CRaklion::CheckEnterRaklion(int iUserIndex)
 
 	if( GetRaklionState() == RAKLION_STATE_CLOSE_DOOR )
 	{
-		g_Log.Add("[ RAKLION ][ Entrance Fail ] [%s][%s] State(%d)", gObj[iUserIndex].AccountID, gObj[iUserIndex].Name, GetRaklionState());
+		sLog.outBasic("[ RAKLION ][ Entrance Fail ] [%s][%s] State(%d)", gObj[iUserIndex].AccountID, gObj[iUserIndex].Name, GetRaklionState());
 		return 3;
 	}
 	if( gObj[iUserIndex].MapNumber != MAP_INDEX_HATCHERY ) 
 	{
-		g_Log.Add("[ RAKLION ][ Entrance Fail ] Invalid Map Number(%d) [%s][%s] State(%d)", gObj[iUserIndex].MapNumber, gObj[iUserIndex].AccountID, gObj[iUserIndex].Name, GetRaklionState());
+		sLog.outBasic("[ RAKLION ][ Entrance Fail ] Invalid Map Number(%d) [%s][%s] State(%d)", gObj[iUserIndex].MapNumber, gObj[iUserIndex].AccountID, gObj[iUserIndex].Name, GetRaklionState());
 		return 4;
 	}
 	return 0;

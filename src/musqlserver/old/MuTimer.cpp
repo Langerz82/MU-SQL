@@ -280,7 +280,7 @@ VOID WINAPI TimerProcQueue(LPVOID lpParameter, BOOL TimerOrWaitFired)
 								ChaosCastleFinal::m_bCCFDayChange = false;
 								ChaosCastleFinal::m_byCCFTimer = 0;
 
-								g_Log.Add("[ChaosCastleFinal][End of Day] Resetting Event...");
+								sLog.outBasic("[ChaosCastleFinal][End of Day] Resetting Event...");
 								g_ChaosCastleFinal.Init();
 							}
 						}
@@ -310,17 +310,17 @@ VOID WINAPI TimerProcQueue(LPVOID lpParameter, BOOL TimerOrWaitFired)
 					g_ChaosCastleFinal.m_bCCF_EVENT_ENABLE = false;
 					ChaosCastleFinal::m_bCCFDayChange = true;
 
-					g_Log.Add("[ChaosCastleFinal][End of Day] Preparing for reset.");
+					sLog.outBasic("[ChaosCastleFinal][End of Day] Preparing for reset.");
 
 					if (g_DevilSquareFinal.WhatIsTodayTypeOfDSF() == 0)
 					{
-						g_Log.Add("[DSF] Not a DSF Day - disable Event");
+						sLog.outBasic("[DSF] Not a DSF Day - disable Event");
 						g_DevilSquareFinal.m_bEVENT_ENABLE = false;
 					}
 
 					else
 					{
-						g_Log.Add("[DSF] DSF Day Found - enable Event");
+						sLog.outBasic("[DSF] DSF Day Found - enable Event");
 						g_DevilSquareFinal.m_bEVENT_ENABLE = true;
 					}
 				}

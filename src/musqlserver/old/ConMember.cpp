@@ -8,7 +8,8 @@
 //	GS-N	1.00.18	JPN	0x0049F450	-	Completed
 #include "stdafx.h"
 #include "ConMember.h"
-#include "TLog.h"
+#include "Log/Log.h"
+#include "pugixml.hpp"
 
 CConMember ConMember;
 
@@ -58,13 +59,13 @@ void CConMember::Load(char* filename)
 
 	if ( res.status != pugi::status_ok )
 	{
-		g_Log.MsgBox("File %s not found (%s)", filename, res.description());
+		sLog.outError("File %s not found (%s)", filename, res.description());
 		return;
 	}
 
-	pugi::xml_node main = file.child("ConnectMember");
+	pugi::xml_node mainXML = file.child("ConnectMember");
 
-	for (pugi::xml_node account = main.child("Account"); account; account = account.next_sibling())
+	for (pugi::xml_node account = mainXML.child("Account"); account; account = account.next_sibling())
 	{
 		this->m_szAccount.insert(std::pair<std::string, int>(account.attribute("Name").as_string(), 0));
 	}

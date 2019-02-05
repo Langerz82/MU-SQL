@@ -2,7 +2,7 @@
 // ImperialGuardianRewardExp.cpp
 #include "stdafx.h"
 #include "ImperialGuardianRewardExp.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "user.h"
 
 CImperialGuardianRewardExp::CImperialGuardianRewardExp(void)
@@ -33,11 +33,11 @@ void CImperialGuardianRewardExp::LoadScript(const char* lpFileName)
 		return;
 	}
 
-	pugi::xml_node main = file.child("ImperialGuardian");
+	pugi::xml_node mainXML = file.child("ImperialGuardian");
 
 	_stRewardExpInfo rewardExpInfo;
 
-	for (pugi::xml_node range = main.child("Range"); range; range = range.next_sibling())
+	for (pugi::xml_node range = mainXML.child("Range"); range; range = range.next_sibling())
 	{
 		rewardExpInfo.m_nMinLevel = range.attribute("PlayerMinLevel").as_int();
 		rewardExpInfo.m_nMaxLevel = range.attribute("PlayerMaxLevel").as_int();

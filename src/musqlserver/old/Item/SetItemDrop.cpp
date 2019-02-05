@@ -32,15 +32,15 @@ void CSetItemDrop::LoadFile(LPSTR lpFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("%s file load fail (%s)", lpFile, res.description());
+		sLog.outError("%s file load fail (%s)", lpFile, res.description());
 		return;
 	}
 
-	pugi::xml_node main = file.child("SetItemDropManager");
+	pugi::xml_node mainXML = file.child("SetItemDropManager");
 
 	this->m_dwDropUseRate = main.attribute("DropUseRate").as_int();
 
-	for (pugi::xml_node rule = main.child("Rule"); rule; rule = rule.next_sibling())
+	for (pugi::xml_node rule = mainXML.child("Rule"); rule; rule = rule.next_sibling())
 	{
 		SETITEM_DROP_RULE m_Rule;
 

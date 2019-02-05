@@ -6,10 +6,10 @@
 #include "LargeRand.h"
 #include "SetItemOption.h"
 #include "DSProtocol.h"
-#include "winutil.h"
+#include "util.h"
 #include "gObjMonster.h"
 #include "TNotice.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "ItemSocketOptionSystem.h"
 #include "TRandomPoolMgr.h"
 #include "configread.h"
@@ -69,7 +69,7 @@ void EventItemBag::Read(LPSTR File)
 	// ----
 	if (Result.status != status_ok)
 	{
-		g_Log.MsgBox("[GoldenInvasion] File %s not found!", File);
+		sLog.outError("[GoldenInvasion] File %s not found!", File);
 		return;
 	}
 	// ----
@@ -82,7 +82,7 @@ void EventItemBag::Read(LPSTR File)
 	// ----
 	if (this->m_MinMoney > this->m_MaxMoney)
 	{
-		g_Log.MsgBox("[GoldenInvasion] %s\n[Error] MinMoney > MaxMoney", File);
+		sLog.outError("[GoldenInvasion] %s\n[Error] MinMoney > MaxMoney", File);
 		return;
 	}
 	int Op1Rate = Settings.child("excoption").attribute("op1").as_int();
@@ -127,7 +127,7 @@ void EventItemBag::Read(LPSTR File)
 			// ----
 			if (lpItem.m_MinLevel > lpItem.m_MaxLevel)
 			{
-				g_Log.MsgBox("[GoldenInvasion] %s\n[Error] MinLvl > MaxLvl", File);
+				sLog.outError("[GoldenInvasion] %s\n[Error] MinLvl > MaxLvl", File);
 				return;
 			}
 			// ----
@@ -139,7 +139,7 @@ void EventItemBag::Read(LPSTR File)
 			// ----
 			if (lpItem.m_MinExcCount > lpItem.m_MaxExcCount)
 			{
-				g_Log.MsgBox("[GoldenInvasion] %s\n[Error] ExcMin > ExcMax", File);
+				sLog.outError("[GoldenInvasion] %s\n[Error] ExcMin > ExcMax", File);
 				return;
 			}
 			// ----
@@ -218,7 +218,7 @@ bool EventItemBag::Open(int UserIndex, int MapNumber, BYTE X, BYTE Y)
 		}
 		// ----
 		MapC[lpObj->MapNumber].MoneyItemDrop(Money, X, Y);
-		//g_Log.Add("[%s][%s] [GoldenInvasion] (%s) Money drop %d",lpObj->AccountID, lpObj->Name, this->GetBagName(), Money);
+		//sLog.outBasic("[%s][%s] [GoldenInvasion] (%s) Money drop %d",lpObj->AccountID, lpObj->Name, this->GetBagName(), Money);
 		return true;
 	}
 	// ----
@@ -376,14 +376,14 @@ void EventItemBagManager::Read(LPSTR File)
 	// ----
 	if (Result.status != status_ok)
 	{
-		g_Log.MsgBox("[GoldenInvasion] File %s not found!", File);
+		sLog.outError("[GoldenInvasion] File %s not found!", File);
 		return;
 	}
 	// ----
 	xml_node Main = Document.child("GoldenInvasion");
-	xml_node ItemList = Main.child("itemdrop");
-	xml_node MonsterList = Main.child("monsterdie");
-	xml_node SpecialList = Main.child("Monster");
+	xml_node ItemList = mainXML.child("itemdrop");
+	xml_node MonsterList = mainXML.child("monsterdie");
+	xml_node SpecialList = mainXML.child("Monster");
 	xml_node Node;
 	EventItemBag ItemBag;
 	// ----
@@ -535,7 +535,7 @@ BYTE EventItemBagManager::OpenMonster(int MonsterIndex)
 				if (rand() % EVENTBAG_MAX_RATE < this->m_ItemBagList[i].m_SetItemRate)
 				{
 					MakeRewardSetItem(UserIndex, X, Y, 1, gObj[MonsterIndex].MapNumber);
-					g_Log.Add("[%s][%s] [GoldenInvasion] (%s) Set item drop",	gObj[UserIndex].AccountID, gObj[UserIndex].Name, this->m_ItemBagList[i].GetBagName());
+					sLog.outBasic("[%s][%s] [GoldenInvasion] (%s) Set item drop",	gObj[UserIndex].AccountID, gObj[UserIndex].Name, this->m_ItemBagList[i].GetBagName());
 					continue;
 				}
 				// ----

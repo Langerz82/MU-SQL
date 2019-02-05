@@ -2,7 +2,7 @@
 // MagicDamage.cpp
 #include "stdafx.h"
 #include "MagicDamage.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "GameMain.h"
 #include "configread.h"
 #include "MasterLevelSkillTreeSystem.h"
@@ -39,11 +39,11 @@ void CMagicDamage::LogSkillList(char * filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("%s load status - fail, error (%s)", filename, res.description());
+		sLog.outError("%s load status - fail, error (%s)", filename, res.description());
 		return;
 	}
 
-	pugi::xml_node main = file.child("SkillList");
+	pugi::xml_node mainXML = file.child("SkillList");
 
 	int number;
 	char name[50];
@@ -75,7 +75,7 @@ void CMagicDamage::LogSkillList(char * filename)
 	BYTE btIsDamage;
 	BYTE btBufIndex;
 
-	for (pugi::xml_node skill = main.child("Skill"); skill; skill = skill.next_sibling())
+	for (pugi::xml_node skill = mainXML.child("Skill"); skill; skill = skill.next_sibling())
 	{
 		number			= skill.attribute("Index").as_int();
 
@@ -134,13 +134,13 @@ void CMagicDamage::SetMasterLevelSkillInfo(int iSkill, int iSkillRank, int iSkil
 {
 	if ( iSkill < 0 || iSkill > MAX_SKILL -1 )
 	{
-		g_Log.MsgBox("Skill limit error: (%s %d), ID: %d", __FILE__, __LINE__, iSkill);
+		sLog.outError("Skill limit error: (%s %d), ID: %d", __FILE__, __LINE__, iSkill);
 		return;
 	}
 
 	if ( this->m_Damage[iSkill] == -1 )
 	{
-		g_Log.MsgBox("Damage value is already set (%s %d)", __FILE__, __LINE__);
+		sLog.outError("Damage value is already set (%s %d)", __FILE__, __LINE__);
 		return;
 	}
 
@@ -158,13 +158,13 @@ void CMagicDamage::SetEx(int iSkill, int iSkillUseType, int iSkillBrand, int iKi
 {
 	if ( iSkill < 0 || iSkill > MAX_SKILL -1 )
 	{
-		g_Log.MsgBox("Skill limit error: (%s %d), ID: %d", __FILE__, __LINE__, iSkill);
+		sLog.outError("Skill limit error: (%s %d), ID: %d", __FILE__, __LINE__, iSkill);
 		return;
 	}
 
 	if ( this->m_Damage[iSkill] == -1 )
 	{
-		g_Log.MsgBox("Damage value is already set (%s %d)", __FILE__, __LINE__);
+		sLog.outError("Damage value is already set (%s %d)", __FILE__, __LINE__);
 		return;
 	}
 
@@ -178,13 +178,13 @@ void CMagicDamage::Set(char* name, int skill, int damage,  int rlevel,  int mana
 {
 	if ( skill < 0 || skill > MAX_SKILL -1 )
 	{
-		g_Log.MsgBox("Skill limit error: (%s %d), ID: %d", __FILE__, __LINE__, skill);
+		sLog.outError("Skill limit error: (%s %d), ID: %d", __FILE__, __LINE__, skill);
 		return;
 	}
 
 	if ( this->m_Damage[skill] != -1 )
 	{
-		g_Log.MsgBox("Damage value is already set (%s %d)", __FILE__, __LINE__);
+		sLog.outError("Damage value is already set (%s %d)", __FILE__, __LINE__);
 		return;
 	}
 

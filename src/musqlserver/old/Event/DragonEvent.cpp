@@ -9,7 +9,7 @@
 #include "stdafx.h"
 #include "DragonEvent.h"
 #include "GameMain.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "Protocol.h"
 #include "MapServerManager.h"
 
@@ -49,15 +49,15 @@ void CDragonEvent::LoadScript(char *szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("%s load fail (%s)", szFile, res.description());
+		sLog.outError("%s load fail (%s)", szFile, res.description());
 		return;
 	}
 
 	DRAGON_EVENT_INFO m_Info;
 
-	pugi::xml_node main = file.child("DragonEvent");
+	pugi::xml_node mainXML = file.child("DragonEvent");
 
-	for (pugi::xml_node monster = main.child("Monster"); monster; monster = monster.next_sibling())
+	for (pugi::xml_node monster = mainXML.child("Monster"); monster; monster = monster.next_sibling())
 	{
 		m_Info.m_Type = monster.attribute("Index").as_int();
 		m_Info.m_Dis = monster.attribute("Distance").as_int();
@@ -132,7 +132,7 @@ void CDragonEvent::Start()
 void CDragonEvent::End()
 {
 	GSProtocol.GCMapEventStateSend(this->m_MapNumber, 0, 1);
-	g_Log.Add("[Red Dragon] Event End");
+	sLog.outBasic("[Red Dragon] Event End");
 	this->EventState=0;
 	this->ClearMonster();
 }
@@ -239,7 +239,7 @@ void CDragonEvent::Run()
 		{
 			this->EventState = 2;
 			GSProtocol.GCMapEventStateSend(this->m_MapNumber , 1, 1 );
-			g_Log.Add("[Red Dragon] Event Start");
+			sLog.outBasic("[Red Dragon] Event Start");
 			this->DragonActive();
 			this->EventStartTime = GetTickCount64();
 			return;
@@ -262,7 +262,7 @@ void CDragonEvent::Run()
 void CDragonEvent::Start_Menual()
 {
 	this->SetMenualStart(TRUE);
-	g_Log.Add("[Event Management] [Start] Red Dragon Event");
+	sLog.outBasic("[Event Management] [Start] Red Dragon Event");
 	this->EventState=0;
 	this->Start();
 }

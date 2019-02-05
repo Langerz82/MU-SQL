@@ -7,8 +7,8 @@
 #include "Kanturu.h"
 #include "KanturuUtil.h"
 #include "KanturuBattleUserMng.h"
-#include "TLog.h"
-#include "winutil.h"
+#include "Log/Log.h"
+#include "util.h"
 #include "TNotice.h"
 #include "configread.h"
 

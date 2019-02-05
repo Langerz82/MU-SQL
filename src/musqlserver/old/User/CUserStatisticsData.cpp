@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // CUserStatisticsData.cpp
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "CUserStatisticsData.h"
 
 void CUserStatisticsData::IncrementMonsterKillCount(int MonsterType)

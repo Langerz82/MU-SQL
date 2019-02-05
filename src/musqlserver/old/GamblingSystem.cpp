@@ -7,7 +7,7 @@
 #include "user.h"
 #include "LargeRand.h"
 #include "DSProtocol.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "configread.h"
 #include "ItemOptionTypeMng.h"
 
@@ -55,11 +55,11 @@ void CGamblingItemBag::LoadItem(char *script_file)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.Add("Error loading %s file (%s)", script_file, res.description());
+		sLog.outBasic("Error loading %s file (%s)", script_file, res.description());
 		return;
 	}
 
-	pugi::xml_node main = file.child("GamblingSystem");
+	pugi::xml_node mainXML = file.child("GamblingSystem");
 
 	this->m_bEnabled = main.attribute("Enable").as_bool();
 	this->m_iGamblingValue = main.attribute("GamblingPrice").as_int();
@@ -68,13 +68,13 @@ void CGamblingItemBag::LoadItem(char *script_file)
 	int nDropRatePerItemCnt=0;
 	int nRateCnt=0;
 	int iCount=0;
-	pugi::xml_node ratesettings = main.child("ItemRewardRateSettings");
+	pugi::xml_node ratesettings = mainXML.child("ItemRewardRateSettings");
 
 	for (pugi::xml_node rate = ratesettings.child("Rate"); rate; rate = rate.next_sibling())
 	{
 		if( iCount >= 25 )
 		{
-			g_Log.MsgBox("Load Script Error %s",script_file);
+			sLog.outError("Load Script Error %s",script_file);
 			break;
 		}
 
@@ -87,13 +87,13 @@ void CGamblingItemBag::LoadItem(char *script_file)
 	}
 
 	iCount = 0;
-	pugi::xml_node optionchance = main.child("ItemOptionChance");
+	pugi::xml_node optionchance = mainXML.child("ItemOptionChance");
 
 	for (pugi::xml_attribute option = optionchance.first_attribute(); option; option = option.next_attribute())
 	{
 		if( iCount >= 7 )
 		{
-			g_Log.MsgBox("Load Script Error %s",script_file);
+			sLog.outError("Load Script Error %s",script_file);
 			break;
 		}
 
@@ -102,13 +102,13 @@ void CGamblingItemBag::LoadItem(char *script_file)
 	}
 
 	iCount = 0;
-	pugi::xml_node rareitemchance = main.child("RareItemRewardChance");
+	pugi::xml_node rareitemchance = mainXML.child("RareItemRewardChance");
 
 	for (pugi::xml_attribute rareitem = rareitemchance.first_attribute(); rareitem; rareitem = rareitem.next_attribute())
 	{
 		if( iCount >= 5 )
 		{
-			g_Log.MsgBox("Load Script Error %s",script_file);
+			sLog.outError("Load Script Error %s",script_file);
 			break;
 		}
 
@@ -117,13 +117,13 @@ void CGamblingItemBag::LoadItem(char *script_file)
 	}
 
 	iCount = 0;
-	pugi::xml_node excoptionchance = main.child("ExcOptionCountChance");
+	pugi::xml_node excoptionchance = mainXML.child("ExcOptionCountChance");
 
 	for (pugi::xml_attribute exc = excoptionchance.first_attribute(); exc; exc = exc.next_attribute())
 	{
 		if( iCount >= 6 )
 		{
-			g_Log.MsgBox("Load Script Error %s",script_file);
+			sLog.outError("Load Script Error %s",script_file);
 			break;
 		}
 
@@ -132,13 +132,13 @@ void CGamblingItemBag::LoadItem(char *script_file)
 	}
 
 	iCount = 0;
-	pugi::xml_node excoptselectrate = main.child("ExcOptionSelectionRate");
+	pugi::xml_node excoptselectrate = mainXML.child("ExcOptionSelectionRate");
 
 	for (pugi::xml_node excrate = excoptselectrate.child("Rate"); excrate; excrate = excrate.next_sibling())
 	{
 		if( iCount >= 6 )
 		{
-			g_Log.MsgBox("Load Script Error %s",script_file);
+			sLog.outError("Load Script Error %s",script_file);
 			break;
 		}
 
@@ -148,7 +148,7 @@ void CGamblingItemBag::LoadItem(char *script_file)
 	}
 
 	nDropRatePerItemCnt = 0;
-	pugi::xml_node itemrewardlist = main.child("ItemRewardList");
+	pugi::xml_node itemrewardlist = mainXML.child("ItemRewardList");
 
 	for (pugi::xml_node section = itemrewardlist.child("Section"); section; section = section.next_sibling())
 	{
@@ -168,7 +168,7 @@ void CGamblingItemBag::LoadItem(char *script_file)
 			if( BagObject[m_iBagObjectCount].m_minLevel > 
 				BagObject[m_iBagObjectCount].m_maxLevel )
 			{
-				g_Log.MsgBox("Load Script Error %s",script_file);
+				sLog.outError("Load Script Error %s",script_file);
 				return;
 			}
 					

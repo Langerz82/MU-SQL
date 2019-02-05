@@ -8,7 +8,7 @@
 //	GS-N	1.00.18	JPN	0x0048D70	-	Completed
 #include "stdafx.h"
 #include "wsGameServer.h"
-#include "TLog.h"
+#include "Log/Log.h"
 
 
 
@@ -36,7 +36,7 @@ BOOL CwsGameServer::CreateServer(LPSTR ip_addr, WORD port, DWORD WinServerMsg, D
 	
 	if (this->m_hWnd == 0 )
 	{
-		g_Log.MsgBox("windows handle error");
+		sLog.outError("windows handle error");
 		return 0;
 	}
 
@@ -50,7 +50,7 @@ BOOL CwsGameServer::CreateServer(LPSTR ip_addr, WORD port, DWORD WinServerMsg, D
 
 	if ( nResult == -1 )
 	{
-		g_Log.Add("Server bind error %d", WSAGetLastError() );
+		sLog.outBasic("Server bind error %d", WSAGetLastError() );
 		closesocket(this->m_socket);
 		return 0;
 	}
@@ -60,7 +60,7 @@ BOOL CwsGameServer::CreateServer(LPSTR ip_addr, WORD port, DWORD WinServerMsg, D
 	if (nResult == -1)
 	{
 		closesocket(this->m_socket );
-		g_Log.Add("Server listen error %d", WSAGetLastError() );
+		sLog.outBasic("Server listen error %d", WSAGetLastError() );
 		return 0;
 	}
 
@@ -69,7 +69,7 @@ BOOL CwsGameServer::CreateServer(LPSTR ip_addr, WORD port, DWORD WinServerMsg, D
 	if (nResult == -1)
 	{
 		closesocket(this->m_socket);
-		g_Log.Add("Server WSAAsyncSelect error %d", WSAGetLastError());
+		sLog.outBasic("Server WSAAsyncSelect error %d", WSAGetLastError());
 		return 0;
 	}
 
@@ -124,7 +124,7 @@ BOOL CwsGameServer::DataSocketSend(SOCKET socket,  char* buf, int len)
 
 	if (socket == INVALID_SOCKET )
 	{
-		g_Log.Add("INVALID_SOCKET %s %d", __FILE__, __LINE__);
+		sLog.outBasic("INVALID_SOCKET %s %d", __FILE__, __LINE__);
 		return 0;
 	}
 

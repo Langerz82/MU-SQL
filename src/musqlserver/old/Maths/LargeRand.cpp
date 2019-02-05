@@ -1,6 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // LargeRand.cpp
 #include "stdafx.h"
+#include "custTypedef.h"
 #include "LargeRand.h"
 
 // GS-N 0.99.60T 0x00522860

@@ -4,8 +4,8 @@
 #include "PersonalStore.h"
 #include "user.h"
 #include "GameMain.h"
-#include "winutil.h"
-#include "TLog.h"
+#include "util.h"
+#include "Log/Log.h"
 #include "configread.h"
 #include "NewPVP.h"
 #include "ChaosCastle.h"
@@ -228,7 +228,7 @@ void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, int aIndex)
 
 			if (!bEnablePShopOpen)
 			{
-				g_Log.Add("[PShop] [%s][%s] ERROR : m_IfState.type is Using : %d", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_IfState.type);
+				sLog.outBasic("[PShop] [%s][%s] ERROR : m_IfState.type is Using : %d", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_IfState.type);
 			}
 		}
 		else
@@ -239,7 +239,7 @@ void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, int aIndex)
 
 	if (!::gObjFixInventoryPointer(aIndex))
 	{
-		g_Log.Add("[Fix Inv.Ptr] False Location - %s, %d", __FILE__, __LINE__);
+		sLog.outBasic("[Fix Inv.Ptr] False Location - %s, %d", __FILE__, __LINE__);
 	}
 
 	if (gObj[aIndex].pTransaction == 1)
@@ -412,7 +412,7 @@ void CPersonalStore::CGPShopReqBuyList(PMSG_REQ_BUYLIST_FROM_PSHOP * lpMsg, int 
 	if (gObj[aSourceIndex].m_bMapSvrMoveQuit == true || gObj[aSourceIndex].m_bMapSvrMoveReq == true || gObj[aSourceIndex].m_bMapSvrMoveReq_2 == true ||
 		lpObj->m_bMapSvrMoveQuit == true || lpObj->m_bMapSvrMoveReq == true || lpObj->m_bMapSvrMoveReq_2 == true)
 	{
-		g_Log.Add("[PShop][SuspectCheating] Map Of Move request was trying to Shop List. Buyer ID[%s]Name[%s] Seller Name[%s]",
+		sLog.outBasic("[PShop][SuspectCheating] Map Of Move request was trying to Shop List. Buyer ID[%s]Name[%s] Seller Name[%s]",
 			gObj[aSourceIndex].AccountID, gObj[aSourceIndex].Name, lpObj->Name);
 		return;
 	}
@@ -445,7 +445,7 @@ void CPersonalStore::CGPShopReqBuyList(PMSG_REQ_BUYLIST_FROM_PSHOP * lpMsg, int 
 
 	if (!::gObjFixInventoryPointer(aSourceIndex))
 	{
-		g_Log.Add("[Fix Inv.Ptr] False Location - %s, %d", __FILE__, __LINE__);
+		sLog.outBasic("[Fix Inv.Ptr] False Location - %s, %d", __FILE__, __LINE__);
 	}
 
 	if (gObj[aSourceIndex].pTransaction == 1)
@@ -677,7 +677,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 
 		if (gObjFixInventoryPointer(aSourceIndex) == false)
 		{
-			g_Log.Add("[Fix Inv.Ptr] False Location - %s, %d",
+			sLog.outBasic("[Fix Inv.Ptr] False Location - %s, %d",
 				__FILE__, __LINE__);
 		}
 
@@ -1255,7 +1255,7 @@ void CPersonalStore::PShop_ViewportListRegenarate(short aIndex)
 			}
 			else
 			{
-				g_Log.Add("[PShop] ERROR : lpObj->m_wVpPShopPlayerCount is OUT of BOUND : %d", lpObj->m_wVpPShopPlayerCount);
+				sLog.outBasic("[PShop] ERROR : lpObj->m_wVpPShopPlayerCount is OUT of BOUND : %d", lpObj->m_wVpPShopPlayerCount);
 			}
 		}
 	}
@@ -1273,7 +1273,7 @@ void CPersonalStore::PShop_ViewportListRegenarate(short aIndex)
 	}
 	else if (iVpOpenCount != 0)
 	{
-		g_Log.Add("[PShop] ERROR : iVpOpenCount is OUT of BOUND: %d", iVpOpenCount);
+		sLog.outBasic("[PShop] ERROR : iVpOpenCount is OUT of BOUND: %d", iVpOpenCount);
 	}
 
 	if (iVpAddCount > 0 && iVpAddCount <= MAX_VIEWPORT)
@@ -1284,7 +1284,7 @@ void CPersonalStore::PShop_ViewportListRegenarate(short aIndex)
 	}
 	else if (iVpAddCount != 0)
 	{
-		g_Log.Add("[PShop] ERROR : iVpAddCount is OUT of BOUND: %d", iVpAddCount);
+		sLog.outBasic("[PShop] ERROR : iVpAddCount is OUT of BOUND: %d", iVpAddCount);
 	}
 
 	if (gObj[aIndex].m_bPShopWantDeal == 1)
@@ -1365,7 +1365,7 @@ void CPersonalStore::gObjInventoryItemSet_PShop(int aIndex, int itempos, BYTE se
 
 	if (gObj[aIndex].Inventory1[itempos].GetSize((int&)width, (int &)height) == 0)
 	{
-		g_Log.Add("error: Item does not exist %s %d", __FILE__, __LINE__);
+		sLog.outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -1400,7 +1400,7 @@ void CPersonalStore::gObjInventoryItemBoxSet_PShop(int aIndex, int itempos, int 
 			}
 			else
 			{
-				g_Log.Add("error : %s %d", __FILE__, __LINE__);
+				sLog.outBasic("error : %s %d", __FILE__, __LINE__);
 				return;
 			}
 		}
@@ -1452,13 +1452,13 @@ void CPersonalStore::CGReqPShopLog(PMSG_REQ_PSHOP_LOG *lpMsg, int aIndex)
 
 	if (lpMsg->btLogKind == 0)
 	{
-		g_Log.Add("[PShopLog] [%s][%s] Whisper To [%s][%s]",
+		sLog.outBasic("[PShopLog] [%s][%s] Whisper To [%s][%s]",
 			lpObj->AccountID, lpObj->Name, lpTargetObj->AccountID, lpTargetObj->Name);
 	}
 
 	else if (lpMsg->btLogKind == 1)
 	{
-		g_Log.Add("[PShopLog] [%s][%s] Mail To [%s][%s]",
+		sLog.outBasic("[PShopLog] [%s][%s] Mail To [%s][%s]",
 			lpObj->AccountID, lpObj->Name, lpTargetObj->AccountID, lpTargetObj->Name);
 	}
 }

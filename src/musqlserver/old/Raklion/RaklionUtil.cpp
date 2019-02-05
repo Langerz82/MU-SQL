@@ -4,7 +4,7 @@
 
 #include "stdafx.h"
 #include "RaklionUtil.h"
-#include "Winutil.h"
+#include "util.h"
 #include "Raklion.h"
 #include "user.h"
 #include "TNotice.h"

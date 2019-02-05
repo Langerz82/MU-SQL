@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MuunSystem.cpp
-//#include "StdAfx.h"
+//#include "stdafx.h"
 #include "../Protocols/protocol.h"
 #include "../Log/Log.h"
 #include "../Protocols/DSProtocol.h"
@@ -2875,8 +2875,8 @@ bool CMuunSystem::LoadScriptMuunExchange(char *lpszFileName)
 		return false;
 	}
 
-	pugi::xml_node main = file.child("MuunSystem");
-	pugi::xml_node energy_converter = main.child("EnergyConvertSettings");
+	pugi::xml_node mainXML = file.child("MuunSystem");
+	pugi::xml_node energy_converter = mainXML.child("EnergyConvertSettings");
 
 	this->m_iStoneOfEvolutionPt = energy_converter.attribute("StoneOfEvolutionPoint").as_int();
 
@@ -2897,7 +2897,7 @@ bool CMuunSystem::LoadScriptMuunExchange(char *lpszFileName)
 		iCount++;
 	}
 
-	pugi::xml_node required_items = main.child("RequiredItemsExchange");
+	pugi::xml_node required_items = mainXML.child("RequiredItemsExchange");
 	iCount = 0;
 
 	for (pugi::xml_node item = required_items.child("Item"); item; item = item.next_sibling())
@@ -2916,7 +2916,7 @@ bool CMuunSystem::LoadScriptMuunExchange(char *lpszFileName)
 		iCount++;
 	}
 
-	pugi::xml_node bag_list = main.child("BagListSettings");
+	pugi::xml_node bag_list = mainXML.child("BagListSettings");
 	iCount = 0;
 
 	for (pugi::xml_node bag = bag_list.child("Bag"); bag; bag = bag.next_sibling())

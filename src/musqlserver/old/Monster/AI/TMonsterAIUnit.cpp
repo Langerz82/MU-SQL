@@ -4,7 +4,7 @@
 
 #include "stdafx.h"
 #include "TMonsterAIUnit.h"
-#include "TLog.h"
+#include "Log/Log.h"
 
 bool TMonsterAIUnit::s_bDataLoad = FALSE;
 TMonsterAIUnit TMonsterAIUnit::s_MonsterAIUnitArray[MAX_MONSTER_AI_UNIT];
@@ -53,7 +53,7 @@ BOOL TMonsterAIUnit::LoadData(LPSTR lpszFileName)
 
 	if ( !lpszFileName || !strcmp(lpszFileName, ""))
 	{
-		g_Log.MsgBox("[Monster AI Unit] - File load error : File Name Error");
+		sLog.outError("[Monster AI Unit] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -64,15 +64,15 @@ BOOL TMonsterAIUnit::LoadData(LPSTR lpszFileName)
 
 		if ( res.status != pugi::status_ok )
 		{
-			g_Log.MsgBox("[Monster AI Unit] - Can't Load %s (%s)", lpszFileName, res.description());
+			sLog.outError("[Monster AI Unit] - Can't Load %s (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
 		TMonsterAIUnit::DelAllAIUnit();
 
-		pugi::xml_node main = file.child("MonsterAI");
+		pugi::xml_node mainXML = file.child("MonsterAI");
 
-		for (pugi::xml_node unit = main.child("Unit"); unit; unit = unit.next_sibling())
+		for (pugi::xml_node unit = mainXML.child("Unit"); unit; unit = unit.next_sibling())
 		{
 			char szUnitName[50]={0};
 			memcpy(szUnitName, unit.attribute("Name").as_string(), sizeof(szUnitName));
@@ -91,13 +91,13 @@ BOOL TMonsterAIUnit::LoadData(LPSTR lpszFileName)
 
 			if ( iUnitNumber < 0 || iUnitNumber >= MAX_MONSTER_AI_UNIT )
 			{
-				g_Log.MsgBox("[Monster AI Unit] - UnitNumber(%d) Error (%s) File. ", iUnitNumber, lpszFileName);
+				sLog.outError("[Monster AI Unit] - UnitNumber(%d) Error (%s) File. ", iUnitNumber, lpszFileName);
 				continue;
 			}
 
 			if ( iAutomata < 0 || iAutomata >= MAX_MONSTER_AI_AUTOMATA )
 			{
-				g_Log.MsgBox("[Monster AI Unit] - AutomataNumber(%d) Error (%s) File. ", iAutomata, lpszFileName);
+				sLog.outError("[Monster AI Unit] - AutomataNumber(%d) Error (%s) File. ", iAutomata, lpszFileName);
 				continue;
 			}
 
@@ -120,7 +120,7 @@ BOOL TMonsterAIUnit::LoadData(LPSTR lpszFileName)
 
 	catch(DWORD)
 	{
-		g_Log.MsgBox("[Monster AI Unit] - Loading Exception Error (%s) File. ", lpszFileName);
+		sLog.outError("[Monster AI Unit] - Loading Exception Error (%s) File. ", lpszFileName);
 	}
 
 	return FALSE;
@@ -140,7 +140,7 @@ TMonsterAIUnit * TMonsterAIUnit::FindAIUnit(int iUnitNumber)
 {
 	if ( iUnitNumber < 0 || iUnitNumber >= MAX_MONSTER_AI_UNIT )
 	{
-		g_Log.Add("[Monster AI Unit] FindAIUnit() Error - (UnitNumber=%d) ",
+		sLog.outBasic("[Monster AI Unit] FindAIUnit() Error - (UnitNumber=%d) ",
 			iUnitNumber);
 
 		return NULL;
@@ -151,7 +151,7 @@ TMonsterAIUnit * TMonsterAIUnit::FindAIUnit(int iUnitNumber)
 		return &TMonsterAIUnit::s_MonsterAIUnitArray[iUnitNumber];
 	}
 
-	g_Log.Add("[Monster AI Unit] FindAIUnit() Error - (UnitNumber=%d) ",
+	sLog.outBasic("[Monster AI Unit] FindAIUnit() Error - (UnitNumber=%d) ",
 		iUnitNumber);
 
 	return NULL;

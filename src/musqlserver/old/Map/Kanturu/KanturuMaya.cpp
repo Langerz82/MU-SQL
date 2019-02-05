@@ -5,7 +5,7 @@
 #include "stdafx.h"
 #include "KanturuMaya.h"
 #include "TMonsterSkillManager.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "KanturuUtil.h"
 #include "configread.h"
 

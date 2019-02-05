@@ -45,7 +45,7 @@
 #include "BattleSoccerManager.h"
 #include "TUnion.h"
 #include "TMonsterAIElement.h"
-#include "winutil.h"
+#include "util.h"
 #include "Weapon.h"
 //#include "CrywolfSync.h"
 #include "Kanturu.h"
@@ -998,7 +998,7 @@ void gObjInit()
 
 	catch (std::exception e)
 	{
-		g_Log.MsgBox("%s", e.what());
+		sLog.outError("%s", e.what());
 		return;
 	}
 
@@ -3435,7 +3435,7 @@ int gObjSetMonster(int aIndex, int MonsterClass)
 
 	if (lpm == NULL)
 	{
-		g_Log.MsgBox("Warning! Cannot find monster attribute %d (%s %d)", lpObj->Class, __FILE__, __LINE__);
+		sLog.outError("Warning! Cannot find monster attribute %d (%s %d)", lpObj->Class, __FILE__, __LINE__);
 		return false;
 	}
 

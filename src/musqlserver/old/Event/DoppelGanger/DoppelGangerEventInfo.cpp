@@ -2,7 +2,8 @@
 // DoppelGangerEventInfo.cpp
 #include "stdafx.h"
 #include "DoppelGangerEventInfo.h"
-#include "TLog.h"
+#include "Log/Log.h"
+#include "../../pugixml.hpp"
 
 CDoppelGangerEventInfo::CDoppelGangerEventInfo(void)
 {
@@ -22,15 +23,15 @@ void CDoppelGangerEventInfo::LoadDoppelgangerEventInfo(LPSTR lpFile)
 
 	if ( res.status != pugi::status_ok )
 	{
-		g_Log.MsgBox("%s load fail (%s)", lpFile, res.description());
+		sLog.outError("%s load fail (%s)", lpFile, res.description());
 		return;
 	}
 
 	_tagDOPPELGANGER_EVENT_INFO m_DGInfo;
 
-	pugi::xml_node main = file.child("DoppelGanger");
+	pugi::xml_node mainXML = file.child("DoppelGanger");
 
-	for (pugi::xml_node range = main.child("Range"); range; range = range.next_sibling())
+	for (pugi::xml_node range = mainXML.child("Range"); range; range = range.next_sibling())
 	{
 		m_DGInfo.nUserMaxLevel = range.attribute("MaxPlayerLevel").as_int();
 

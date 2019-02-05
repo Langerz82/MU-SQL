@@ -6,7 +6,7 @@
 #include "KanturuTowerOfRefinement.h"
 #include "Kanturu.h"
 #include "KanturuBattleUserMng.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "KanturuUtil.h"
 #include "configread.h"
 
@@ -55,7 +55,7 @@ BOOL CKanturuTowerOfRefinement::LoadData(LPSTR lpszFileName)
 
 	if ( !lpszFileName || !strcmp(lpszFileName, ""))
 	{
-		g_Log.MsgBox("[Kanturu][Tower of Refinement] - File load error : File Name Error");
+		sLog.outError("[Kanturu][Tower of Refinement] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -66,12 +66,12 @@ BOOL CKanturuTowerOfRefinement::LoadData(LPSTR lpszFileName)
 
 		if ( res.status != pugi::status_ok )
 		{
-			g_Log.MsgBox("[Kanturu][Tower of Refinement] - Can't Load %s file (%s)", lpszFileName, res.description());
+			sLog.outError("[Kanturu][Tower of Refinement] - Can't Load %s file (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
-		pugi::xml_node main = file.child("KanturuEvent");
-		pugi::xml_node tower_refinement = main.child("TowerOfRefinement");
+		pugi::xml_node mainXML = file.child("KanturuEvent");
+		pugi::xml_node tower_refinement = mainXML.child("TowerOfRefinement");
 
 		this->ResetAllData();
 
@@ -85,7 +85,7 @@ BOOL CKanturuTowerOfRefinement::LoadData(LPSTR lpszFileName)
 
 			if ( this->m_StateInfoCount < 0 || this->m_StateInfoCount >= KANTURU_TOWER_OF_REFINEMENT_STATE_INFO )
 			{
-				g_Log.MsgBox("[Kanturu][Tower of Refinement] - Exceed Max State Time (%d)", this->m_StateInfoCount);
+				sLog.outError("[Kanturu][Tower of Refinement] - Exceed Max State Time (%d)", this->m_StateInfoCount);
 				break;
 			}
 
@@ -104,7 +104,7 @@ BOOL CKanturuTowerOfRefinement::LoadData(LPSTR lpszFileName)
 
 	catch ( DWORD )
 	{
-		g_Log.MsgBox("[Kanturu][Tower of Refinement] - Loading Exception Error (%s) File. ", lpszFileName);
+		sLog.outError("[Kanturu][Tower of Refinement] - Loading Exception Error (%s) File. ", lpszFileName);
 	}
 
 	return this->m_bFileDataLoad;

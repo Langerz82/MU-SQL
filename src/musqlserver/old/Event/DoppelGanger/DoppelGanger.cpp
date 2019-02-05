@@ -2,12 +2,12 @@
 // DoppelGanger.cpp
 #include "stdafx.h"
 #include "DoppelGanger.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "gObjMonster.h"
 #include "MonsterAttr.h"
 #include "GameMain.h"
 #include "BuffEffectSlot.h"
-#include "winutil.h"
+#include "util.h"
 #include "configread.h"
 #include "TNotice.h"
 #include "./Eventos/BloodCastle/BloodCastle.h"
@@ -2182,7 +2182,7 @@ void CDoppelGanger::MoveDoppelgangerMonsterProc()
 
 								if (lpObj->Type == OBJ_USER && ((attr & 4) == 4 || (attr & 8) == 8))
 								{
-									g_Log.Add("[ CHECK POSITION ] MoveMosterProc [%s][%s] Map[%d]-(%d,%d) User(%d,%d) Can not Move Position Attr[%d]",
+									sLog.outBasic("[ CHECK POSITION ] MoveMosterProc [%s][%s] Map[%d]-(%d,%d) User(%d,%d) Can not Move Position Attr[%d]",
 										lpObj->AccountID, lpObj->Name, lpObj->MapNumber, nextX, nextY, lpObj->X, lpObj->Y, attr);
 
 									for (int n = 0; n < 15; n++)
@@ -2322,7 +2322,7 @@ BOOL CDoppelGanger::AddMiddleTreasureBoxAll(BYTE btX, BYTE btY)
 
 			if (bRet == FALSE)
 			{
-				g_Log.Add("MiddleTreasureBox RandLocation Error [%d, %d]", cX, cY);
+				sLog.outBasic("MiddleTreasureBox RandLocation Error [%d, %d]", cX, cY);
 				cX = btX;
 				cY = btY;
 			}
@@ -2547,7 +2547,7 @@ LPMONSTER_ATTRIBUTE CDoppelGanger::GetDefaultMonsterInfo(int nClass)
 
 	if (lpm == NULL)
 	{
-		g_Log.MsgBox("Warning! : Can't find monster attribute. %d (%s %d)", nClass, __FILE__, __LINE__);
+		sLog.outError("Warning! : Can't find monster attribute. %d (%s %d)", nClass, __FILE__, __LINE__);
 		return NULL;
 	}
 

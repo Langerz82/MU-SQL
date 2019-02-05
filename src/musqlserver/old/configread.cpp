@@ -1,8 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 // configread.cpp
-//#include "StdAfx.h"
+//#include "stdafx.h"
 #include "configread.h"
-//#include "TLog.h"
+//#include "Log/Log.h"
 #include "pugixml.hpp"
 #include "IniReader.h"
 

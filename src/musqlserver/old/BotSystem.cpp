@@ -1,10 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // BotSystem.cpp
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "BotSystem.h"
 #include "user.h"
 #include "protocol.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "GameMain.h"
 #include "ObjCalCharacter.h"
 #include "configread.h"
@@ -886,7 +886,7 @@ bool CBotSystem::StoreAddItems(int botIndex)
 		}
 		else
 		{
-			g_Log.MsgBox(1,"ERROR","Bot Shop id:[%d] OUT OF SPACE",botIndex);
+			sLog.outError(1,"ERROR","Bot Shop id:[%d] OUT OF SPACE",botIndex);
 		}
 	}
 	gObj[aIndex].m_bPShopOpen = true;

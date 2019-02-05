@@ -4,7 +4,7 @@
 
 #include "stdafx.h"
 #include "RandomManager.h"
-#include "winutil.h"
+#include "util.h"
 #include "LargeRand.h"
 
 //////////////////////////////////////////////////////////////////////

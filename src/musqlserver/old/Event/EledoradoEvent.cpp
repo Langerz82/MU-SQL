@@ -7,7 +7,7 @@
 #include "stdafx.h"
 #include "EledoradoEvent.h"
 #include "Gamemain.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "user.h"
 #include "TNotice.h"
 #include "configread.h"
@@ -58,12 +58,12 @@ void CEledoradoEvent::Init()
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("%s load fail (%s)", szFile, res.description());
+		sLog.outError("%s load fail (%s)", szFile, res.description());
 		return;
 	}
 
-	pugi::xml_node main = file.child("GoldenInvasion");
-	pugi::xml_node spot = main.child("Spot");
+	pugi::xml_node mainXML = file.child("GoldenInvasion");
+	pugi::xml_node spot = mainXML.child("Spot");
 
 	for (pugi::xml_node spawn = spot.child("Spawn"); spawn; spawn = spawn.next_sibling())
 	{
@@ -721,7 +721,7 @@ void CEledoradoEvent::Start_Menual()
 	this->SetMenualStart(TRUE);
 	this->ClearMonster();
 
-	g_Log.Add("[Event Management] [Start] Eledorado Event!");
+	sLog.outBasic("[Event Management] [Start] Eledorado Event!");
 
 	this->RegenGoldGoblen();
 	this->RegenTitan();

@@ -5,6 +5,8 @@
 
 #define MAX_KANTURU_OBJ_INDEX	800
 
+#include "custTypedef.h"
+
 class CKanturuObjInfo
 {
 

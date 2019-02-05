@@ -6,8 +6,8 @@
 #include "GameMain.h"
 #include "DSProtocol.h"
 #include "protocol.h"
-#include "TLog.h"
-#include "winutil.h"
+#include "Log/Log.h"
+#include "util.h"
 #include "BuffEffectSlot.h"
 #include "configread.h"
 
@@ -52,7 +52,7 @@ BOOL CRingMonsterHerd::MonsterHerdItemDrop(LPOBJ lpObj)
 		char szTemp[256];
 		wsprintf(szTemp, Lang.GetText(0,101), gObj[iIndex].Name, Lang.GetMap(0, lpObj->MapNumber));	// #error Apply Deathway fix here
 		GSProtocol.AllSendServerMsg( szTemp ); 
-		g_Log.Add("[Ring Event] White Wizard Killed by [%s][%s], MapNumber:%d",
+		sLog.outBasic("[Ring Event] White Wizard Killed by [%s][%s], MapNumber:%d",
 			gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].MapNumber);
 
 		return TRUE;
@@ -148,7 +148,7 @@ void CRingMonsterHerd::SendEventGiftWinner(int iIndex, int iGiftKind)
 
 	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
 
-	g_Log.Add("[Ring Event] [%s][%s] Request to Register Gift - Gift Kind (%d)",
+	sLog.outBasic("[Ring Event] [%s][%s] Request to Register Gift - Gift Kind (%d)",
 		gObj[iIndex].AccountID, gObj[iIndex].Name,  iGiftKind);
 
 }
@@ -222,11 +222,11 @@ void CRingAttackEvent::StartEvent()
 		{
 			if ( this->m_vtMonsterAddData.empty() != false )
 			{
-				g_Log.Add("[Ring Event] - Error : No Monster Data Exist");
+				sLog.outBasic("[Ring Event] - Error : No Monster Data Exist");
 				continue;
 			}
 
-			g_Log.Add("[Ring Event] - Monster Start Position MapNumber:%d, X:%d, Y:%d",
+			sLog.outBasic("[Ring Event] - Monster Start Position MapNumber:%d, X:%d, Y:%d",
 				g_RingEventMapNum[i], iRandX, iRandY);
 		}
 
@@ -286,7 +286,7 @@ BOOL CRingAttackEvent::Load(char * lpszFileName)
 
 	if ( res.status != pugi::status_ok )
 	{
-		g_Log.MsgBox("[Ring Event] Info file Load Fail [%s] [%s]", lpszFileName, res.description());
+		sLog.outError("[Ring Event] Info file Load Fail [%s] [%s]", lpszFileName, res.description());
 		return FALSE;
 	}
 
@@ -298,7 +298,7 @@ BOOL CRingAttackEvent::Load(char * lpszFileName)
 
 	this->m_bHasData = FALSE;
 
-	pugi::xml_node main = file.child("WhiteWizard");
+	pugi::xml_node mainXML = file.child("WhiteWizard");
 
 	bool bEnable = main.attribute("Enable").as_bool();
 
@@ -309,19 +309,19 @@ BOOL CRingAttackEvent::Load(char * lpszFileName)
 
 	this->SetEventEnable(bEnable);
 
-	pugi::xml_node time = main.child("Time");
+	pugi::xml_node time = mainXML.child("Time");
 	
 	this->m_iTIME_MIN_OPEN = time.attribute("ToOpen").as_int();
 	this->m_iTIME_MIN_PLAY = time.attribute("PlayDuration").as_int();
 	this->m_iTIME_MONSTER_TO_DEST = time.attribute("ToClose").as_int();
 
-	pugi::xml_node move = main.child("Move");
+	pugi::xml_node move = mainXML.child("Move");
 
 	this->m_iMOVE_RAND_SIZE = move.attribute("RandomSize").as_int();
 	this->m_iRADIUS_MIN = move.attribute("MinRadius").as_int();
 	this->m_iRADIUS_MAX = move.attribute("MaxRadius").as_int();
 
-	pugi::xml_node schedule = main.child("Schedule");
+	pugi::xml_node schedule = mainXML.child("Schedule");
 
 	for (pugi::xml_node start = schedule.child("Start"); start; start = start.next_sibling())
 	{
@@ -333,7 +333,7 @@ BOOL CRingAttackEvent::Load(char * lpszFileName)
 		this->m_vtEventTime.push_back(pRET);
 	}
 
-	pugi::xml_node spawn_settings = main.child("SpawnSettings");
+	pugi::xml_node spawn_settings = mainXML.child("SpawnSettings");
 
 	for (pugi::xml_node monster = spawn_settings.child("Monster"); monster; monster = monster.next_sibling())
 	{
@@ -505,7 +505,7 @@ void CRingAttackEvent::ProcState_Closed()
 
 					GSProtocol.DataSendAll((LPBYTE)&pMsg, pMsg.h.size);
 
-					g_Log.Add("[Ring Event] - Before 3 minutes - Advertise");
+					sLog.outBasic("[Ring Event] - Before 3 minutes - Advertise");
 				}
 			}
 		}
@@ -533,7 +533,7 @@ void CRingAttackEvent::ProcState_Closed()
 			this->SetState(0);
 		}
 
-		g_Log.Add("[Ring Event] - Event Started");
+		sLog.outBasic("[Ring Event] - Event Started");
 	}
 }
 
@@ -617,7 +617,7 @@ void CRingAttackEvent::ProcState_Playing()
 			this->SetState(0);
 		}
 
-		g_Log.Add("[Ring Event] - Event Ended");
+		sLog.outBasic("[Ring Event] - Event Ended");
 	}
 }
 
@@ -702,7 +702,7 @@ void CRingAttackEvent::Start_Menual()
 	this->SetMenualStart(TRUE);
 	this->StopEvent();
 
-	g_Log.Add("[Event Management] [Start] RingAttack Event!");
+	sLog.outBasic("[Event Management] [Start] RingAttack Event!");
 	this->m_iTIME_MIN_PLAY = 30;
 
 	char szTemp[256];

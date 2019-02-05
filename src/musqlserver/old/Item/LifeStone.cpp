@@ -9,7 +9,7 @@
 #include "Gamemain.h"
 #include "user.h"
 #include "MapClass.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "configread.h"
 
 //////////////////////////////////////////////////////////////////////
@@ -120,7 +120,7 @@ int CLifeStone::CreateLifeStone(int iIndex)
 
 		MsgOutput(iIndex, Lang.GetText(0,180));
 
-		g_Log.Add("[CastleSiege] LifeStone is created - [%s] [%s][%s] (Map:%d)(X:%d, Y:%d)",
+		sLog.outBasic("[CastleSiege] LifeStone is created - [%s] [%s][%s] (Map:%d)(X:%d, Y:%d)",
 			lpObj->m_PlayerData->lpGuild->Name, lpObj->AccountID, lpObj->Name, lpObj->MapNumber, cX, cY);
 
 		lpObj->m_btLifeStoneCount++;
@@ -144,7 +144,7 @@ int CLifeStone::DeleteLifeStone(int iIndex)
 
 	if ( lpLifeStone->m_PlayerData->lpGuild )
 	{
-		g_Log.Add("[CastleSiege] LifeStone is broken - [%s]", lpLifeStone->m_PlayerData->lpGuild->Name);
+		sLog.outBasic("[CastleSiege] LifeStone is broken - [%s]", lpLifeStone->m_PlayerData->lpGuild->Name);
 		lpLifeStone->m_PlayerData->lpGuild->lpLifeStone = NULL;
 		delete lpLifeStone->m_PlayerData;
 	}

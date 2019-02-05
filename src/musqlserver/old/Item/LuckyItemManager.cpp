@@ -1,10 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // LuckyItemManager.cpp
-//#include "StdAfx.h"
+//#include "stdafx.h"
 #include "LargeRand.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "ChaosBox.h"
-#include "winutil.h"
+#include "util.h"
 #include "GameMain.h"
 #include "SetItemOption.h"
 #include "DSProtocol.h"
@@ -52,8 +52,8 @@ int	LuckyItemManager::LoadLuckyItemEquipment(int iType, _LUCKY_ITEM_INFO * pLuck
 		return false;
 	}
 
-	pugi::xml_node main = file.child("LuckyItem");
-	pugi::xml_node ticket_list = main.child("TicketItemList");
+	pugi::xml_node mainXML = file.child("LuckyItem");
+	pugi::xml_node ticket_list = mainXML.child("TicketItemList");
 
 	for (pugi::xml_node list = ticket_list.child("List"); list; list = list.next_sibling())
 	{
@@ -95,8 +95,8 @@ int LuckyItemManager::LoadLuckyItemInfo(char * lpszFileName)
 	int iTicketCount					= 0;
 	_LUCKY_ITEM_INFO LuckyItemInfo[5];
 
-	pugi::xml_node main = file.child("LuckyItem");
-	pugi::xml_node ticket = main.child("TicketSettings");
+	pugi::xml_node mainXML = file.child("LuckyItem");
+	pugi::xml_node ticket = mainXML.child("TicketSettings");
 
 	for (pugi::xml_node item = ticket.child("Item"); item; item = item.next_sibling())
 	{
@@ -116,7 +116,7 @@ int LuckyItemManager::LoadLuckyItemInfo(char * lpszFileName)
 		this->m_iTicketCnt = iTicketCount;
 	}
 
-	pugi::xml_node ticket_list = main.child("TicketItemList");
+	pugi::xml_node ticket_list = mainXML.child("TicketItemList");
 
 	for (pugi::xml_node list = ticket_list.child("List"); list; list = list.next_sibling())
 	{
@@ -129,7 +129,7 @@ int LuckyItemManager::LoadLuckyItemInfo(char * lpszFileName)
 		}
 	}
 
-	pugi::xml_node item_level = main.child("ItemLevelDrawSettings");
+	pugi::xml_node item_level = mainXML.child("ItemLevelDrawSettings");
 
 	for (pugi::xml_node list = item_level.child("List"); list; list = list.next_sibling())
 	{
@@ -151,7 +151,7 @@ int LuckyItemManager::LoadLuckyItemInfo(char * lpszFileName)
 		}
 	}
 
-	pugi::xml_node item_option = main.child("ItemOptionDrawSettings");
+	pugi::xml_node item_option = mainXML.child("ItemOptionDrawSettings");
 
 	for (pugi::xml_node list = item_option.child("List"); list; list = list.next_sibling())
 	{
@@ -172,7 +172,7 @@ int LuckyItemManager::LoadLuckyItemInfo(char * lpszFileName)
 		}
 	}
 
-	pugi::xml_node set_option = main.child("SetItemDrawSettings");
+	pugi::xml_node set_option = mainXML.child("SetItemDrawSettings");
 
 	for (pugi::xml_node list = set_option.child("List"); list; list = list.next_sibling())
 	{
@@ -188,7 +188,7 @@ int LuckyItemManager::LoadLuckyItemInfo(char * lpszFileName)
 		LuckyItemInfo[iListID].iAddSetOptRate[1] = list.attribute("TierII").as_int();
 	}
 
-	pugi::xml_node smelt_option = main.child("SmeltDrawSettings");
+	pugi::xml_node smelt_option = mainXML.child("SmeltDrawSettings");
 
 	for (pugi::xml_node list = smelt_option.child("List"); list; list = list.next_sibling())
 	{

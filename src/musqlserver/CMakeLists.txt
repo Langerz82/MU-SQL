@@ -71,6 +71,9 @@ include_directories(
     ${CMAKE_BINARY_DIR}/src/shared
     ${ACE_INCLUDE_DIR}
     ${OPENSSL_INCLUDE_DIR}
+	${CMAKE_SOURCE_DIR}/src/musqlserver
+	${CMAKE_SOURCE_DIR}/src/musqlserver/old
+	${CMAKE_SOURCE_DIR}/../muServerDeps/_Include
 )
 
 add_executable(${EXECUTABLE_NAME} ${EXECUTABLE_SRCS})

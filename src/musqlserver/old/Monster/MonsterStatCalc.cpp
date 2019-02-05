@@ -2,7 +2,7 @@
 // MonsterStatCalc.cpp
 #include "stdafx.h"
 #include "MonsterStatCalc.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "MonsterAttr.h"
 #include "GameMain.h"
 
@@ -28,10 +28,10 @@ void CMonsterStatCalc::LoadScript(LPSTR Filename)
 		return;
 	}
 
-	pugi::xml_node main = file.child("ImperialGuardian");
+	pugi::xml_node mainXML = file.child("ImperialGuardian");
 	_stMonsterStatRef monsterStatRef;
 
-	for (pugi::xml_node monster = main.child("Monster"); monster; monster = monster.next_sibling())
+	for (pugi::xml_node monster = mainXML.child("Monster"); monster; monster = monster.next_sibling())
 	{
 		monsterStatRef.m_nMinLevel = monster.attribute("PlayerMinLevel").as_int();
 		monsterStatRef.m_nMaxLevel = monster.attribute("PlayerMaxLevel").as_int();

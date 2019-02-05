@@ -11,7 +11,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-//#include "StdAfx.h"
+//#include "stdafx.h"
 #include "custTypedef.h"
 #include "prodef.h"
 

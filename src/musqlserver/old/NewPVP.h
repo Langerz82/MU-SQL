@@ -14,7 +14,7 @@
 #include <map>
 using namespace std;
 
-#include "Winutil.h"
+#include "util.h"
 #include "configread.h"
 
 class OBJECTSTRUCT;

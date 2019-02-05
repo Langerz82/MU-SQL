@@ -8,7 +8,7 @@
 #include "user.h"
 #include "gObjMonster.h"
 #include "TMonsterSkillManager.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "configread.h"
 
 //////////////////////////////////////////////////////////////////////
@@ -51,7 +51,7 @@ void CRaklionSelupan::RaklionSelupanAct_FirstSkill()
 		TMonsterSkillManager::UseMonsterSkill(iSelupanIndex, iTargetIndex, 31, 0, &cMagicInf);
 	}
 
-	g_Log.Add("[ RAKLION ][ FirstSkill ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
+	sLog.outBasic("[ RAKLION ][ FirstSkill ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_PoisonAttack()
@@ -73,7 +73,7 @@ void CRaklionSelupan::RaklionSelupanAct_PoisonAttack()
 		TMonsterSkillManager::UseMonsterSkill(iSelupanIndex, iTargetIndex, 1, 1, &cMagicInf);
 	}
 
-	g_Log.Add("[ RAKLION ][ PoisonAttack ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
+	sLog.outBasic("[ RAKLION ][ PoisonAttack ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_IceStorm()
@@ -95,7 +95,7 @@ void CRaklionSelupan::RaklionSelupanAct_IceStorm()
 		TMonsterSkillManager::UseMonsterSkill(iSelupanIndex, iTargetIndex, 1, 2, &cMagicInf);
 	}
 
-	g_Log.Add("[ RAKLION ][ IceStorm ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
+	sLog.outBasic("[ RAKLION ][ IceStorm ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_IceStrike()
@@ -117,7 +117,7 @@ void CRaklionSelupan::RaklionSelupanAct_IceStrike()
 		TMonsterSkillManager::UseMonsterSkill(iSelupanIndex, iTargetIndex, 1, 3, &cMagicInf);
 	}
 
-	g_Log.Add("[ RAKLION ][ IceStrike ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
+	sLog.outBasic("[ RAKLION ][ IceStrike ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_SummonMonster()
@@ -130,7 +130,7 @@ void CRaklionSelupan::RaklionSelupanAct_SummonMonster()
 	
 	RegenSummonMonster();
 	
-	g_Log.Add("[ RAKLION ][ SummonMonster ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
+	sLog.outBasic("[ RAKLION ][ SummonMonster ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_Heal()
@@ -141,7 +141,7 @@ void CRaklionSelupan::RaklionSelupanAct_Heal()
 
 	TMonsterSkillManager::UseMonsterSkill(iSelupanIndex, iTargetIndex, 20, 5, NULL);
 
-	g_Log.Add("[ RAKLION ][ Heal ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
+	sLog.outBasic("[ RAKLION ][ Heal ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_Freeze()
@@ -157,7 +157,7 @@ void CRaklionSelupan::RaklionSelupanAct_Freeze()
 	}
 	else TMonsterSkillManager::UseMonsterSkill(iSelupanIndex, iTargetIndex, 1, 6, NULL);
 
-	g_Log.Add("[ RAKLION ][ Freeze ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
+	sLog.outBasic("[ RAKLION ][ Freeze ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_Teleport()
@@ -170,7 +170,7 @@ void CRaklionSelupan::RaklionSelupanAct_Teleport()
 	if( iTargetIndex < 0 )	iTargetIndex = iSelupanIndex;
 
 	TMonsterSkillManager::UseMonsterSkill(iSelupanIndex, iTargetIndex, 1, 7, NULL);
-	g_Log.Add("[ RAKLION ][ Teleport ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
+	sLog.outBasic("[ RAKLION ][ Teleport ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_Invincibility()
@@ -181,7 +181,7 @@ void CRaklionSelupan::RaklionSelupanAct_Invincibility()
 
 	TMonsterSkillManager::UseMonsterSkill(iSelupanIndex, iTargetIndex, 10, 8, NULL);
 	
-	g_Log.Add("[ RAKLION ][ Invincibility ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
+	sLog.outBasic("[ RAKLION ][ Invincibility ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_Berserk_Cancel()
@@ -192,7 +192,7 @@ void CRaklionSelupan::RaklionSelupanAct_Berserk_Cancel()
 	lpObj->m_AttackDamageMin = m_iSelupanMinDamage;
 	lpObj->m_AttackDamageMax = m_iSelupanMaxDamage;
 	
-	g_Log.Add("[ RAKLION ][ Berserk Cancel ] MinDamage(%d) Damage(%d~%d)", lpObj->m_AttackDamageMin, lpObj->m_AttackDamageMin, lpObj->m_AttackDamageMax);
+	sLog.outBasic("[ RAKLION ][ Berserk Cancel ] MinDamage(%d) Damage(%d~%d)", lpObj->m_AttackDamageMin, lpObj->m_AttackDamageMin, lpObj->m_AttackDamageMax);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_Berserk1()
@@ -211,7 +211,7 @@ void CRaklionSelupan::RaklionSelupanAct_Berserk1()
 	lpObj->m_AttackDamageMin = m_iSelupanMinDamage + iIncreaseAttackValue;
 	lpObj->m_AttackDamageMax = m_iSelupanMaxDamage + iIncreaseAttackValue;
 
-	g_Log.Add("[ RAKLION ][ Berserk1 ] Skill Using : Index(%d) Damage(%d~%d)", iSelupanIndex, lpObj->m_AttackDamageMin, lpObj->m_AttackDamageMax);
+	sLog.outBasic("[ RAKLION ][ Berserk1 ] Skill Using : Index(%d) Damage(%d~%d)", iSelupanIndex, lpObj->m_AttackDamageMin, lpObj->m_AttackDamageMax);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_Berserk2()
@@ -230,7 +230,7 @@ void CRaklionSelupan::RaklionSelupanAct_Berserk2()
 	lpObj->m_AttackDamageMin = m_iSelupanMinDamage + iIncreaseAttackValue;
 	lpObj->m_AttackDamageMax = m_iSelupanMaxDamage + iIncreaseAttackValue;
 
-	g_Log.Add("[ RAKLION ][ Berserk2 ] Skill Using : Index(%d) Damage(%d~%d)", iSelupanIndex, lpObj->m_AttackDamageMin, lpObj->m_AttackDamageMax);
+	sLog.outBasic("[ RAKLION ][ Berserk2 ] Skill Using : Index(%d) Damage(%d~%d)", iSelupanIndex, lpObj->m_AttackDamageMin, lpObj->m_AttackDamageMax);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_Berserk3()
@@ -249,7 +249,7 @@ void CRaklionSelupan::RaklionSelupanAct_Berserk3()
 	lpObj->m_AttackDamageMin = m_iSelupanMinDamage + iIncreaseAttackValue;
 	lpObj->m_AttackDamageMax = m_iSelupanMaxDamage + iIncreaseAttackValue;
 
-	g_Log.Add("[ RAKLION ][ Berserk3 ] Skill Using : Index(%d) Damage(%d~%d)", iSelupanIndex, lpObj->m_AttackDamageMin, lpObj->m_AttackDamageMax);
+	sLog.outBasic("[ RAKLION ][ Berserk3 ] Skill Using : Index(%d) Damage(%d~%d)", iSelupanIndex, lpObj->m_AttackDamageMin, lpObj->m_AttackDamageMax);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_Berserk4()
@@ -268,7 +268,7 @@ void CRaklionSelupan::RaklionSelupanAct_Berserk4()
 	lpObj->m_AttackDamageMin = m_iSelupanMinDamage + iIncreaseAttackValue;
 	lpObj->m_AttackDamageMax = m_iSelupanMaxDamage + iIncreaseAttackValue;
 
-	g_Log.Add("[ RAKLION ][ Berserk4 ] Skill Using : Index(%d) Damage(%d~%d)", iSelupanIndex, lpObj->m_AttackDamageMin, lpObj->m_AttackDamageMax);
+	sLog.outBasic("[ RAKLION ][ Berserk4 ] Skill Using : Index(%d) Damage(%d~%d)", iSelupanIndex, lpObj->m_AttackDamageMin, lpObj->m_AttackDamageMax);
 }
 
 DWORD CRaklionSelupan::GetSelupanHP()
@@ -318,7 +318,7 @@ BOOL CRaklionSelupan::RegenSelupan()
 
 	if (result < 0)
 	{
-		g_Log.Add("[RAKLION] CreateSelupan error");
+		sLog.outBasic("[RAKLION] CreateSelupan error");
 		return FALSE;
 	}
 
@@ -332,7 +332,7 @@ BOOL CRaklionSelupan::RegenSelupan()
 	gObj[result].DieRegen = 0;
 	gObj[result].m_State = 1;
 
-	g_Log.Add("[RAKLION] Create Selupan : X (%d) / Y(%d)", lpObj->X, lpObj->Y);
+	sLog.outBasic("[RAKLION] Create Selupan : X (%d) / Y(%d)", lpObj->X, lpObj->Y);
 
 	LPOBJ lpObjUser = NULL;
 
@@ -483,7 +483,7 @@ void CRaklionSelupan::RegenSummonMonster()
 
 			if (result < 0)
 			{
-				g_Log.Add("[RAKLION] CreateSelupan error");
+				sLog.outBasic("[RAKLION] CreateSelupan error");
 				return;
 			}
 
@@ -491,7 +491,7 @@ void CRaklionSelupan::RegenSummonMonster()
 			gObjSetMonster(result, iClass);
 			lpObj->Live = 1;
 			lpObj->DieRegen = 0;
-			g_Log.Add("[RAKLION] Summoned Monster : %s => X-(%d) Y-(%d)", lpObj->Name, lpObj->X, lpObj->Y);
+			sLog.outBasic("[RAKLION] Summoned Monster : %s => X-(%d) Y-(%d)", lpObj->Name, lpObj->X, lpObj->Y);
 		}
 	}
 }

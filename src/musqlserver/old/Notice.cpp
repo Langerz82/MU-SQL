@@ -5,8 +5,8 @@
 #include "stdafx.h"
 #include "Notice.h"
 #include "MemScript.h"
-#include "winutil.h"
-#include "TLog.h"
+#include "util.h"
+#include "Log/Log.h"
 #include "configread.h"
 
 CNotice gNotice;
@@ -34,13 +34,13 @@ void CNotice::Load(char* path) // OK
 
 	if (lpMemScript == 0)
 	{
-		g_Log.MsgBox(MEM_SCRIPT_ALLOC_ERROR, path);
+		sLog.outError(MEM_SCRIPT_ALLOC_ERROR, path);
 		return;
 	}
 
 	if (lpMemScript->SetBuffer(path) == 0)
 	{
-		g_Log.MsgBox(lpMemScript->GetLastError());
+		sLog.outError(lpMemScript->GetLastError());
 		delete lpMemScript;
 		return;
 	}
@@ -86,7 +86,7 @@ void CNotice::Load(char* path) // OK
 	}
 	catch (...)
 	{
-		g_Log.MsgBox(lpMemScript->GetLastError());
+		sLog.outError(lpMemScript->GetLastError());
 	}
 
 	delete lpMemScript;

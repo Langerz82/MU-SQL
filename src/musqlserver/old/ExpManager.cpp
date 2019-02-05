@@ -1,8 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ExpManager.cpp
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "ExpManager.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "user.h"
 #include "MasterLevelSkillTreeSystem.h"
 
@@ -30,23 +30,23 @@ void CExpManager::LoadScript(LPSTR szFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("[Exp Manager] Cannot load %s file (%s)", szFileName, res.description());
+		sLog.outError("[Exp Manager] Cannot load %s file (%s)", szFileName, res.description());
 		return;
 	}
 
-	pugi::xml_node main = file.child("ExpSystem");
+	pugi::xml_node mainXML = file.child("ExpSystem");
 
 	this->m_iExpCalcType = main.attribute("CalcType").as_int();
 	this->m_bDebugMode = main.attribute("DebugMode").as_bool();
 
-	pugi::xml_node static_exp = main.child("StaticExp");
+	pugi::xml_node static_exp = mainXML.child("StaticExp");
 
 	this->m_fStaticExp = static_exp.attribute("Normal").as_float();
 	this->m_fStaticMLExp = static_exp.attribute("Master").as_float();
 	this->m_fEventExp = static_exp.attribute("Event").as_float();
 	this->m_fQuestExp = static_exp.attribute("Quest").as_float();
 
-	pugi::xml_node dynamic_exp = main.child("DynamicExpRangeList");
+	pugi::xml_node dynamic_exp = mainXML.child("DynamicExpRangeList");
 	this->m_vtExpRanges.clear();
 
 	for (pugi::xml_node range = dynamic_exp.child("Range"); range; range = range.next_sibling())

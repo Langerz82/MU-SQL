@@ -2,7 +2,7 @@
 // MapAttribute.cpp
 #include "stdafx.h"
 #include "MapAttribute.h"
-#include "TLog.h"
+#include "Log/Log.h"
 
 CMapAttribute g_MapAttr;
 
@@ -26,7 +26,7 @@ void CMapAttribute::LoadFile(char * szFile)
 
 	if (result.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("Failed to load %s file!", szFile);
+		sLog.outError("Failed to load %s file!", szFile);
 		g_Log.AddC(TColor::Red, "[ERROR] MapAttribute load failed: %s", szFile);
 		return;
 	}
@@ -40,7 +40,7 @@ void CMapAttribute::LoadFile(char * szFile)
 
 		if ( MapNumber < 0 || MapNumber > MAX_NUMBER_MAP )
 		{
-			g_Log.MsgBox("[Map Attribute] Invalid MapNumber (%d)", MapNumber);
+			sLog.outError("[Map Attribute] Invalid MapNumber (%d)", MapNumber);
 			continue;
 		}
 

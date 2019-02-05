@@ -4,7 +4,7 @@
 #include "user.h"
 #include "NpcTalk.h"
 #include "gObjMonster.h"
-#include "winutil.h"
+#include "util.h"
 #include "protocol.h"
 #include "GameMain.h"
 #include "./Eventos/BloodCastle/BloodCastle.h"
@@ -33,7 +33,7 @@
 BOOL NpcTalk(LPOBJ lpNpc, LPOBJ lpObj)
 {
 	int npcnum = lpNpc->Class;
-	//g_Log.MsgBox("[K2] %d", npcnum);
+	//sLog.outError("[K2] %d", npcnum);
 	if (npcnum < 0)
 	{
 		return FALSE;
@@ -776,7 +776,7 @@ BOOL NpcChaosCardMaster(LPOBJ lpNpc, LPOBJ lpObj)
 
 		if (lpObj->m_bPShopOpen == true)
 		{
-			g_Log.Add("[%s][%s] is Already Opening PShop, ChaosBox Failed",
+			sLog.outBasic("[%s][%s] is Already Opening PShop, ChaosBox Failed",
 				lpObj->AccountID, lpObj->Name);
 
 			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 112), lpObj->m_Index, 1);
@@ -1055,7 +1055,7 @@ BOOL NpcDarkSpiritTrainer(LPOBJ lpNpc, LPOBJ lpObj)
 
 		if (lpObj->m_bPShopOpen == true)
 		{
-			g_Log.Add("[%s][%s] is Already Opening PShop, ChaosBox Failed",
+			sLog.outBasic("[%s][%s] is Already Opening PShop, ChaosBox Failed",
 				lpObj->AccountID, lpObj->Name);
 			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 112), lpObj->m_Index, 1);
 
@@ -1081,7 +1081,7 @@ BOOL NpcDarkSpiritTrainer(LPOBJ lpNpc, LPOBJ lpObj)
 		GSProtocol.GCAnsCsMapSvrTaxInfo(lpObj->m_Index, 1, g_CastleSiegeSync.GetTaxRateChaos(lpObj->m_Index));
 		gObjInventoryTrans(lpObj->m_Index);
 
-		g_Log.Add("[%s][%s] Open Chaos Box", lpObj->AccountID, lpObj->Name);
+		sLog.outBasic("[%s][%s] Open Chaos Box", lpObj->AccountID, lpObj->Name);
 		gObjItemTextSave(lpObj);
 		gObjWarehouseTextSave(lpObj);
 	}
@@ -1288,7 +1288,7 @@ BOOL NpcElderCircle(LPOBJ lpNpc, LPOBJ lpObj) //GS-CS Decompiled 100%
 		GSProtocol.GCAnsCsMapSvrTaxInfo(lpObj->m_Index, 1, g_CastleSiegeSync.GetTaxRateChaos(lpObj->m_Index));
 		gObjInventoryTrans(lpObj->m_Index);
 
-		g_Log.Add("[%s][%s] Open Chaos Box", lpObj->AccountID, lpObj->Name);
+		sLog.outBasic("[%s][%s] Open Chaos Box", lpObj->AccountID, lpObj->Name);
 		gObjItemTextSave(lpObj);
 		gObjWarehouseTextSave(lpObj);
 	}
@@ -1463,14 +1463,14 @@ BOOL NpcCastleCrown(LPOBJ lpNpc, LPOBJ lpObj) //GS-CS Decompiled 100%
 
 		if (gObjIsConnected(iSwitchIndex1) == FALSE || gObjIsConnected(iSwitchIndex2) == FALSE)
 		{
-			g_Log.Add("[CastleSiege] [%s][%s] Failed to Register Castle Crown (GUILD:%s)", lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->GuildName);
+			sLog.outBasic("[CastleSiege] [%s][%s] Failed to Register Castle Crown (GUILD:%s)", lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->GuildName);
 			return TRUE;
 		}
 
 		if (lpObj->m_btCsJoinSide != gObj[iSwitchIndex1].m_btCsJoinSide || lpObj->m_btCsJoinSide != gObj[iSwitchIndex2].m_btCsJoinSide)
 		{
 			GSProtocol.GCAnsCsAccessCrownState(lpObj->m_Index, 4);
-			g_Log.Add("[CastleSiege] [%s][%s] Failed to Register Castle Crown (GUILD:%s) (S1:%s/%s)(S2:%s/%s)", lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->GuildName, gObj[iSwitchIndex1].Name, gObj[iSwitchIndex1].m_PlayerData->GuildName, gObj[iSwitchIndex2].Name, gObj[iSwitchIndex2].m_PlayerData->GuildName);
+			sLog.outBasic("[CastleSiege] [%s][%s] Failed to Register Castle Crown (GUILD:%s) (S1:%s/%s)(S2:%s/%s)", lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->GuildName, gObj[iSwitchIndex1].Name, gObj[iSwitchIndex1].m_PlayerData->GuildName, gObj[iSwitchIndex2].Name, gObj[iSwitchIndex2].m_PlayerData->GuildName);
 			return TRUE;
 		}
 		else
@@ -1481,7 +1481,7 @@ BOOL NpcCastleCrown(LPOBJ lpNpc, LPOBJ lpObj) //GS-CS Decompiled 100%
 			g_CastleSiege.SetCrownAccessUserY(lpObj->Y);
 			g_CastleSiege.SetCrownAccessTickCount();
 			g_CastleSiege.NotifyAllUserCsProgState(0, lpObj->m_PlayerData->GuildName);
-			g_Log.Add("[CastleSiege] [%s][%s] Start to Register Castle Crown (GUILD:%s)", lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->GuildName);
+			sLog.outBasic("[CastleSiege] [%s][%s] Start to Register Castle Crown (GUILD:%s)", lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->GuildName);
 		}
 	}
 	else if (lpObj->m_Index != iUserIndex)
@@ -1533,7 +1533,7 @@ BOOL NpcCastleSwitch(LPOBJ lpNpc, LPOBJ lpObj) //GS-CS Decompiled 100%
 	{
 		GSProtocol.GCAnsCsAccessSwitchState(lpObj->m_Index, lpNpc->m_Index, -1, 1);
 		g_CastleSiege.SetCrownSwitchUserIndex(lpNpc->Class, lpObj->m_Index);
-		g_Log.Add("[CastleSiege] [%s][%s] Start to Push Castle Crown Switch (GUILD:%s) - CS X:%d/Y:%d", lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->GuildName, lpNpc->X, lpNpc->Y);
+		sLog.outBasic("[CastleSiege] [%s][%s] Start to Push Castle Crown Switch (GUILD:%s) - CS X:%d/Y:%d", lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->GuildName, lpNpc->X, lpNpc->Y);
 	}
 	else if (lpObj->m_Index != iUserIndex)
 	{
@@ -1580,7 +1580,7 @@ BOOL NpcSeedResearcher(LPOBJ lpNpc, LPOBJ lpObj)
 
 	gObjInventoryTrans(lpObj->m_Index);
 
-	g_Log.Add("[SeedResearcher][%s][%s] Open Chaos Box",
+	sLog.outBasic("[SeedResearcher][%s][%s] Open Chaos Box",
 		lpObj->AccountID, lpObj->Name);
 
 	gObjItemTextSave(lpObj);
@@ -1786,7 +1786,7 @@ bool NpcDavid(LPOBJ lpNpc, LPOBJ lpObj)
 	lpObj->m_IfState.use = 1;
 	lpObj->bIsChaosMixCompleted = false;
 
-	g_Log.Add("[LuckyItem Master][%s][%s] Open Chaos Box",
+	sLog.outBasic("[LuckyItem Master][%s][%s] Open Chaos Box",
 		lpObj->AccountID, lpObj->Name);
 
 	gObjItemTextSave(lpObj);
@@ -1815,7 +1815,7 @@ bool NpcLeoHelper(LPOBJ lpNpc, LPOBJ lpObj)
 
 	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
-	g_Log.Add("%x", msg);
+	sLog.outBasic("%x", msg);
 
 	return TRUE;
 }
@@ -1859,7 +1859,7 @@ bool NpcAcheronEntrance(LPOBJ lpNpc, LPOBJ lpObj)
 
 	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
-	g_Log.Add("[NPC] [%s][%s] Talk with Acheron Entrance NPC", lpObj->AccountID, lpObj->Name);
+	sLog.outBasic("[NPC] [%s][%s] Talk with Acheron Entrance NPC", lpObj->AccountID, lpObj->Name);
 
 	return TRUE;
 }
@@ -1879,7 +1879,7 @@ bool NpcArcaWar(LPOBJ lpNpc, LPOBJ lpObj)
 
 	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
-	g_Log.Add("[NPC] [%s][%s] Talk with Arca War NPC", lpObj->AccountID, lpObj->Name);
+	sLog.outBasic("[NPC] [%s][%s] Talk with Arca War NPC", lpObj->AccountID, lpObj->Name);
 
 	return TRUE;
 }
@@ -1891,7 +1891,7 @@ bool NpcElementalMaster(LPOBJ lpNpc, LPOBJ lpObj)
 
 	if (lpObj->m_bPShopOpen == true)
 	{
-		g_Log.Add("[%s][%s] is Already Opening PShop, PentagramMixBox Failed",
+		sLog.outBasic("[%s][%s] is Already Opening PShop, PentagramMixBox Failed",
 			lpObj->AccountID, lpObj->Name);
 
 		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 112), lpObj->m_Index, 1);
@@ -1912,7 +1912,7 @@ bool NpcElementalMaster(LPOBJ lpNpc, LPOBJ lpObj)
 	gObjInventoryTrans(lpObj->m_Index);
 	g_PentagramMixSystem.PentagramMixBoxInit(lpObj);
 
-	g_Log.Add("[PentagramMix] [%s][%s] Pentagram Mix Start",
+	sLog.outBasic("[PentagramMix] [%s][%s] Pentagram Mix Start",
 		lpObj->AccountID, lpObj->Name);
 
 	gObjItemTextSave(lpObj);
@@ -1939,7 +1939,7 @@ bool Npc_Dialog(LPOBJ lpNpc, LPOBJ lpObj) //-> Complete
 			pResult.dwContributePoint = g_GensSystem.GetContributePoint(lpObj);
 			GensName = g_GensSystem.GetGensInfluenceName(lpObj);
 
-			g_Log.Add("[Gens System] Gens_Duprian_NPC [%s][%s] GensName [%s] Total ContributePoint [%d]", lpObj->AccountID, lpObj->Name, GensName, pResult.dwContributePoint);
+			sLog.outBasic("[Gens System] Gens_Duprian_NPC [%s][%s] GensName [%s] Total ContributePoint [%d]", lpObj->AccountID, lpObj->Name, GensName, pResult.dwContributePoint);
 		}
 		break;
 
@@ -1948,7 +1948,7 @@ bool Npc_Dialog(LPOBJ lpNpc, LPOBJ lpObj) //-> Complete
 			pResult.dwContributePoint = g_GensSystem.GetContributePoint(lpObj);
 			GensName = g_GensSystem.GetGensInfluenceName(lpObj);
 
-			g_Log.Add("[Gens System] Gens_Vanert_NPC [%s][%s] GensName [%s] Total ContributePoint [%d]", lpObj->AccountID, lpObj->Name, GensName, pResult.dwContributePoint);
+			sLog.outBasic("[Gens System] Gens_Vanert_NPC [%s][%s] GensName [%s] Total ContributePoint [%d]", lpObj->AccountID, lpObj->Name, GensName, pResult.dwContributePoint);
 		}
 		break;
 

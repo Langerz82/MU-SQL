@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include "UpgradeCmd.h"
 #include "zzzitem.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "user.h"
 #include "DSProtocol.h"
 #include "SetItemOption.h"
@@ -33,13 +33,13 @@ void CUpgradeCmd::LoadFile(char * szFile)
 		return;
 	}
 
-	pugi::xml_node main = file.child("JoinMu");
+	pugi::xml_node mainXML = file.child("JoinMu");
 
 	this->m_bSystemEnable = main.attribute("Enable").as_bool();
 
 	UPGRADECMD_DATA m_Upgrade;
 
-	for (pugi::xml_node need_item = main.child("NeedItem"); need_item; need_item = need_item.next_sibling())
+	for (pugi::xml_node need_item = mainXML.child("NeedItem"); need_item; need_item = need_item.next_sibling())
 	{
 		for (pugi::xml_node item = need_item.child("Item"); item; item = item.next_sibling())
 		{
@@ -51,7 +51,7 @@ void CUpgradeCmd::LoadFile(char * szFile)
 
 			if (m_Upgrade.m_NeedItem.wItemID == (WORD)-1)
 			{
-				g_Log.MsgBox("Upgrade Item Cmd - Wrong Need Item found (System disabled) (%d/%d)", btItemCat, wItemIndex);
+				sLog.outError("Upgrade Item Cmd - Wrong Need Item found (System disabled) (%d/%d)", btItemCat, wItemIndex);
 				this->m_bSystemEnable = false;
 				return;
 			}
@@ -72,7 +72,7 @@ void CUpgradeCmd::LoadFile(char * szFile)
 
 	std::map<int, UPGRADECMD_DATA>::iterator Iter;
 
-	for (pugi::xml_node get_item = main.child("GetItem"); get_item; get_item = get_item.next_sibling())
+	for (pugi::xml_node get_item = mainXML.child("GetItem"); get_item; get_item = get_item.next_sibling())
 	{
 		for (pugi::xml_node item = get_item.child("Item"); item; item = item.next_sibling())
 		{
@@ -81,7 +81,7 @@ void CUpgradeCmd::LoadFile(char * szFile)
 
 			if (Iter == this->m_mapUpgradeData.end())
 			{
-				g_Log.MsgBox("Upgrade Item Cmd - Wrong Get Item found (not matched with Need Item) (System disabled) (%d)", iUpgradeID);
+				sLog.outError("Upgrade Item Cmd - Wrong Get Item found (not matched with Need Item) (System disabled) (%d)", iUpgradeID);
 				this->m_bSystemEnable = false;
 				return;
 			}
@@ -93,7 +93,7 @@ void CUpgradeCmd::LoadFile(char * szFile)
 
 			if (Iter->second.m_GetItem.wItemID == (WORD)-1)
 			{
-				g_Log.MsgBox("Upgrade Item Cmd - Wrong Get Item found (System disabled) (%d/%d)", btItemCat, wItemIndex);
+				sLog.outError("Upgrade Item Cmd - Wrong Get Item found (System disabled) (%d/%d)", btItemCat, wItemIndex);
 				this->m_bSystemEnable = false;
 				return;
 			}
@@ -102,7 +102,7 @@ void CUpgradeCmd::LoadFile(char * szFile)
 
 			if (p == NULL)
 			{
-				g_Log.MsgBox("Upgrade Item Cmd - Wrong Get Item found (Not exists in ItemList.xml) (System disabled) (%d/%d)", btItemCat, wItemIndex);
+				sLog.outError("Upgrade Item Cmd - Wrong Get Item found (Not exists in ItemList.xml) (System disabled) (%d/%d)", btItemCat, wItemIndex);
 				this->m_bSystemEnable = false;
 				return;
 			}

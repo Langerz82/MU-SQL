@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MonsterKillCount.cpp
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "user.h"
 #include "MonsterKillCount.h"
 #include "DSProtocol.h"
@@ -38,14 +38,14 @@ void CKillCountMng::ReadConfig(LPSTR szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("Error loading %s file (%s)", szFile, res.description());
+		sLog.outError("Error loading %s file (%s)", szFile, res.description());
 		return;
 	}
 
-	pugi::xml_node main = file.child("MonsterKillCount");
+	pugi::xml_node mainXML = file.child("MonsterKillCount");
 	int cnt = 0;
 
-	for (pugi::xml_node monster = main.child("Monster"); monster; monster = monster.next_sibling())
+	for (pugi::xml_node monster = mainXML.child("Monster"); monster; monster = monster.next_sibling())
 	{
 		int iMonsterIndex = monster.attribute("Index").as_int();
 		bool bEnable = monster.attribute("Enable").as_bool();

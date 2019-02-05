@@ -8,13 +8,13 @@
 // GS-N	1.00.18	JPN	0x00462B60	-	Completed
 #include "stdafx.h"
 #include "DevilSquare.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "GameMain.h"
 #include "TNotice.h"
 #include "gObjMonster.h"
 #include "./Eventos/BloodCastle/BloodCastle.h"
 #include "ChaosCastle.h"
-#include "winutil.h"
+#include "util.h"
 #include "CrywolfSync.h"
 #include "MasterLevelSkillTreeSystem.h"
 #include "configread.h"
@@ -123,11 +123,11 @@ void CDevilSquare::Load(char * filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("[DevilSquare] Info file Load Fail [%s] [%s]", filename, res.description());
+		sLog.outError("[DevilSquare] Info file Load Fail [%s] [%s]", filename, res.description());
 		return;
 	}
 
-	pugi::xml_node main = file.child("DevilSquare_Classic");
+	pugi::xml_node mainXML = file.child("DevilSquare_Classic");
 
 	bool bEnable = main.attribute("Enable").as_bool();
 
@@ -142,13 +142,13 @@ void CDevilSquare::Load(char * filename)
 	this->SetKeyDropRate(main.attribute("DevilsKeyDropRate").as_int());
 	this->SetMaxEnterCount(main.attribute("MaxEnterCount").as_int(4));
 
-	pugi::xml_node time = main.child("Time");
+	pugi::xml_node time = mainXML.child("Time");
 
 	this->m_iCloseTime = time.attribute("Close").as_int();
 	this->m_iOpenTime = time.attribute("ToOpen").as_int();
 	this->m_iPlaytime = time.attribute("PlayDuration").as_int();
 
-	pugi::xml_node schedule = main.child("Schedule");
+	pugi::xml_node schedule = mainXML.child("Schedule");
 
 	for (pugi::xml_node start = schedule.child("Start"); start; start = start.next_sibling())
 	{
@@ -160,7 +160,7 @@ void CDevilSquare::Load(char * filename)
 		this->m_vtDevilSquareTime.push_back(Time);
 	}
 
-	pugi::xml_node monster_settings = main.child("MonsterAppearanceSettings");
+	pugi::xml_node monster_settings = mainXML.child("MonsterAppearanceSettings");
 
 	for (pugi::xml_node square = monster_settings.child("Square"); square; square = square.next_sibling())
 	{
@@ -171,14 +171,14 @@ void CDevilSquare::Load(char * filename)
 
 		if (nSquare < 0 || nSquare >= MAX_DEVILSQUARE_GROUND)
 		{
-			g_Log.MsgBox("[DevilSquare] Invalid Square Index [%d]", nSquare);
+			sLog.outError("[DevilSquare] Invalid Square Index [%d]", nSquare);
 			return;
 		}
 
 		this->m_DevilSquareGround[nSquare].Set(nMonsterType, nStartTime, nEndTime);
 	}
 
-	pugi::xml_node boss_settings = main.child("BossAppearanceSettings");
+	pugi::xml_node boss_settings = mainXML.child("BossAppearanceSettings");
 
 	for (pugi::xml_node square = boss_settings.child("Square"); square; square = square.next_sibling())
 	{
@@ -192,14 +192,14 @@ void CDevilSquare::Load(char * filename)
 
 		if (nSquare < 0 || nSquare >= MAX_DEVILSQUARE_GROUND)
 		{
-			g_Log.MsgBox("[DevilSquare] Invalid Square Index [%d]", nSquare);
+			sLog.outError("[DevilSquare] Invalid Square Index [%d]", nSquare);
 			return;
 		}
 
 		this->m_DevilSquareGround[nSquare].SetBoss(nMonsterType, nSpawnTime, nStartX, nStartY, nEndX, nEndY);
 	}
 
-	pugi::xml_node ranking_settings = main.child("RankingBonusSettings");
+	pugi::xml_node ranking_settings = mainXML.child("RankingBonusSettings");
 
 	for (pugi::xml_node square = ranking_settings.child("Square"); square; square = square.next_sibling())
 	{
@@ -210,14 +210,14 @@ void CDevilSquare::Load(char * filename)
 
 		if (nSquare < 0 || nSquare >= MAX_DEVILSQUARE_GROUND)
 		{
-			g_Log.MsgBox("[DevilSquare] Invalid Square Index [%d]", nSquare);
+			sLog.outError("[DevilSquare] Invalid Square Index [%d]", nSquare);
 			return;
 		}
 
 		this->m_DevilSquareGround[nSquare].SetBonus(nRank, nZen, nExp);
 	}
 
-	pugi::xml_node exp_settings = main.child("RewardExpSettings");
+	pugi::xml_node exp_settings = mainXML.child("RewardExpSettings");
 
 	for (pugi::xml_node square = exp_settings.child("Square"); square; square = square.next_sibling())
 	{
@@ -226,7 +226,7 @@ void CDevilSquare::Load(char * filename)
 
 		if (nSquare < 0 || nSquare >= MAX_DEVILSQUARE_GROUND)
 		{
-			g_Log.MsgBox("[DevilSquare] Invalid Square Index [%d]", nSquare);
+			sLog.outError("[DevilSquare] Invalid Square Index [%d]", nSquare);
 			return;
 		}
 
@@ -242,14 +242,14 @@ void CDevilSquare::LoadMonster(LPSTR szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("%s file load fail (%s)", szFile, res.description());
+		sLog.outError("%s file load fail (%s)", szFile, res.description());
 		return;
 	}
 
-	pugi::xml_node main = file.child("DevilSquare_Classic");
+	pugi::xml_node mainXML = file.child("DevilSquare_Classic");
 	int nCount = 0;
 
-	for (pugi::xml_node monster = main.child("Monster"); monster; monster = monster.next_sibling())
+	for (pugi::xml_node monster = mainXML.child("Monster"); monster; monster = monster.next_sibling())
 	{
 		int iEventLevel = monster.attribute("EventLevel").as_int();
 		nCount = 0;
@@ -282,7 +282,7 @@ void CDevilSquare::LoadMonster(LPSTR szFile)
 
 		if (nCount == 10 || nCount < 0)
 		{
-			g_Log.Add("[DevilSquare][LoadMonster] Monster Count Invalid");
+			sLog.outBasic("[DevilSquare][LoadMonster] Monster Count Invalid");
 			nCount = 10;
 		}
 
@@ -310,7 +310,7 @@ void CDevilSquare::SetState(enum eDevilSquareState eState)
 
 void CDevilSquare::SetClose()
 {
-	//g_Log.Add("[DevilSquare] Close");
+	//sLog.outBasic("[DevilSquare] Close");
 
 	this->ClearMonstr();
 	this->CalcScore();
@@ -903,7 +903,7 @@ void CDevilSquare::gDevilSquareMonsterRegen(LPOBJ lpObj)
 
 	if (devilsquareindex < 0 || devilsquareindex >= MAX_DEVILSQUARE_GROUND)
 	{
-		g_Log.Add("[DevilSquare] Invalid DevilSquareIndex [%d]", devilsquareindex);
+		sLog.outBasic("[DevilSquare] Invalid DevilSquareIndex [%d]", devilsquareindex);
 		return;
 	}
 
@@ -917,7 +917,7 @@ void CDevilSquare::gDevilSquareMonsterRegen(LPOBJ lpObj)
 
 	if (monstertype == (BYTE)-1)
 	{
-		g_Log.Add("[DevilSquare] [%d] Invalid MonterType", monstertype);
+		sLog.outBasic("[DevilSquare] [%d] Invalid MonterType", monstertype);
 		return;
 	}
 
@@ -933,7 +933,7 @@ void CDevilSquare::gDevilSquareMonsterRegen(LPOBJ lpObj)
 	lpObj->m_bDevilSquareIndex = devilsquareindex;
 	lpObj->MaxRegenTime = 1000;
 
-	//g_Log.Add("[DevilSquare] Monster Regen [%d][%d][%d,%d]",
+	//sLog.outBasic("[DevilSquare] Monster Regen [%d][%d][%d,%d]",
 	//	monstertype, devilsquareindex, lpObj->X, lpObj->Y);
 }
 
@@ -964,7 +964,7 @@ void CDevilSquare::SendEventStartMsg()
 		}
 	}
 
-	g_Log.Add("[DevilSquare] Start Event");
+	sLog.outBasic("[DevilSquare] Start Event");
 }
 
 
@@ -1012,7 +1012,7 @@ void CDevilSquare::DieProcDevilSquare(LPOBJ lpObj)
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 
-	g_Log.Add("[DevilSquare] Dead [%s][%s][%d][%d]",
+	sLog.outBasic("[DevilSquare] Dead [%s][%s][%d][%d]",
 		lpObj->AccountID, lpObj->Name,
 		lpObj->m_nEventExp, lpObj->m_nEventScore);
 

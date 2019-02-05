@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // CItemDrop.cpp
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "CItemDrop.h"
 #include "user.h"
 #include "DSProtocol.h"
@@ -36,14 +36,14 @@ bool CItemDrop::LoadFile(const char *szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("Error loading %s file (%s)", szFile, res.description());
+		sLog.outError("Error loading %s file (%s)", szFile, res.description());
 		return false;
 	}
 
-	pugi::xml_node main = file.child("DropManager");
+	pugi::xml_node mainXML = file.child("DropManager");
 	this->m_dwDropUseRate = main.attribute("DropUseRate").as_int();
 
-	for (pugi::xml_node monster = main.child("Monster"); monster; monster = monster.next_sibling())
+	for (pugi::xml_node monster = mainXML.child("Monster"); monster; monster = monster.next_sibling())
 	{
 		boost::shared_ptr<ITEMDROP_MONSTER> itemdrop_monster_ptr_(new ITEMDROP_MONSTER);
 		itemdrop_monster_ptr_->wMonsterID = monster.attribute("Index").as_int();
@@ -510,19 +510,19 @@ bool CItemDrop::LoadZenDropFile(const char *szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("Failed to load %s file (%s)", szFile, res.description());
+		sLog.outError("Failed to load %s file (%s)", szFile, res.description());
 		return false;
 	}
 
 	this->m_mapZenDrop.clear();
 
-	pugi::xml_node main = file.child("ZenDropSystem");
+	pugi::xml_node mainXML = file.child("ZenDropSystem");
 
 	this->m_bZenDropEnable = main.attribute("Enable").as_bool();
 	this->m_bMultiplyZenDropByMonLevel = main.attribute("MultiplyByMonsterLevel").as_bool();
 	this->m_dwMultiplyZenChanceRate = main.attribute("MultiplyChanceRate").as_int();
 
-	for (pugi::xml_node map = main.child("Map"); map; map = map.next_sibling())
+	for (pugi::xml_node map = mainXML.child("Map"); map; map = map.next_sibling())
 	{
 		ZEN_DROP ZenDrop;
 

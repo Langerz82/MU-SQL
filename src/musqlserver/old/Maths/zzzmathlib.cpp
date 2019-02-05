@@ -16,9 +16,8 @@
 #pragma warning( disable : 4237 )
 #pragma warning( disable : 4305 )
 
-#include "StdAfx.h"
-//#include "cmdlib.h"
 #include "ZzzMathLib.h"
+#include <math.h>
 
 vec3_t vec3_origin = {0,0,0};
 

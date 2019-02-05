@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 // AntiSpeed.cpp
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "User.h"
 #include "AntiSpeed.h"
 #include "ObjUseSkill.h"
 #include "protocol.h"
-#include "TLog.h"
+#include "Log/Log.h"
 
 /*
 CAttackMelee::CAttackMelee( LPOBJ lpObj, LPOBJ lpTargetObj )

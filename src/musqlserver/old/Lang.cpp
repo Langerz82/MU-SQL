@@ -2,7 +2,7 @@
 // Lang.cpp
 #include "stdafx.h"
 #include "Lang.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "GameMain.h"
 #include "configread.h"
 
@@ -19,14 +19,14 @@ void CLanguage::Init()
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("Error - %s file load failed! (%s)", szFile, res.description());
+		sLog.outError("Error - %s file load failed! (%s)", szFile, res.description());
 		ExitProcess(0);
 	}
 
-	pugi::xml_node main = file.child("LanguageSystem");
+	pugi::xml_node mainXML = file.child("LanguageSystem");
 	this->m_LangData.DefaultLang = main.attribute("DefaultLang").as_int();
 
-	for (pugi::xml_node lang = main.child("Lang"); lang; lang = lang.next_sibling())
+	for (pugi::xml_node lang = mainXML.child("Lang"); lang; lang = lang.next_sibling())
 	{
 		Language m_Lang;
 		
@@ -63,12 +63,12 @@ bool CLanguage::LoadLanguage(Language & Lang)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("Error - %s file load failed! (%s)", szTemp, res.description());
+		sLog.outError("Error - %s file load failed! (%s)", szTemp, res.description());
 		return false;
 	}
 
-	pugi::xml_node main = file.child("Language");
-	pugi::xml_node message = main.child("Message");
+	pugi::xml_node mainXML = file.child("Language");
+	pugi::xml_node message = mainXML.child("Message");
 
 	for (pugi::xml_node msg = message.child("Msg"); msg; msg = msg.next_sibling())
 	{
@@ -78,7 +78,7 @@ bool CLanguage::LoadLanguage(Language & Lang)
 		Lang.m_vtText.insert(std::pair<int, std::string>(iMsg, szText));
 	}
 
-	pugi::xml_node map = main.child("Map");
+	pugi::xml_node map = mainXML.child("Map");
 
 	for (pugi::xml_node msg = map.child("Msg"); msg; msg = msg.next_sibling())
 	{

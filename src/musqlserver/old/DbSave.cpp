@@ -11,7 +11,7 @@
 #include "stdafx.h"
 #include "DbSave.h"
 #include "WZQueue.h"
-#include "TLog.h"
+#include "Log/Log.h"
 #include "GameMain.h"
 
 
@@ -40,7 +40,7 @@ BOOL CDbSave::Initialize()
 		return FALSE;
 	}
 	
-	InitializeCriticalSection(&this->criti );
+	//InitializeCriticalSection(&this->criti );
 	return TRUE;
 }
 
@@ -52,17 +52,17 @@ BOOL CDbSave::Feee()
 		this->m_lpWzQueue = 0;
 	}
 
-	DeleteCriticalSection(&this->criti );
+	//DeleteCriticalSection(&this->criti );
 	return TRUE;
 }
 
 BOOL CDbSave::Add(LPBYTE pObject, int nSize, BYTE headcode,  int index)
 {
-	EnterCriticalSection(&this->criti);
+	//EnterCriticalSection(&this->criti);
 
 	BOOL bRet=this->m_lpWzQueue->AddToQueue(pObject, nSize, headcode, index);
 
-	LeaveCriticalSection(&this->criti);
+	//LeaveCriticalSection(&this->criti);
 	return bRet;
 }
 
@@ -79,7 +79,7 @@ BOOL CDbSave::Begin()
 
 	if ( this->m_ThreadHandle == 0 )
 	{
-		g_Log.MsgBox("Thread create error %s %d", __FILE__, __LINE__);
+		sLog.outError("Thread create error %s %d", __FILE__, __LINE__);
 		return FALSE;
 	}
 
@@ -113,7 +113,7 @@ DWORD CDbSave::ThreadProc()
 
 	while ( true )
 	{
-		EnterCriticalSection(&this->criti);
+		//EnterCriticalSection(&this->criti);
 		count=this->m_lpWzQueue->GetCount();
 
 		if ( count != 0 )
@@ -122,11 +122,11 @@ DWORD CDbSave::ThreadProc()
 			{
 				if (wsDataCli.DataSend((PCHAR)RecvData, nSize) == 0 )
 				{
-					g_Log.Add(0, __FILE__, __FUNCTION__, "[%d][%d] Character save fail", count, uindex);
+					sLog.outError("[%d][%d] Character save fail", count, uindex);
 				}
 				else
 				{
-					g_Log.Add(0, __FILE__, __FUNCTION__, "[%d][%d] Character save success", count, uindex);
+					sLog.outBasic("[%d][%d] Character save success", count, uindex);
 				}
 			}
 		}
@@ -136,7 +136,7 @@ DWORD CDbSave::ThreadProc()
 			break;
 		}
 
-		LeaveCriticalSection(&this->criti);
+		//LeaveCriticalSection(&this->criti);
 		WaitForSingleObject(this->m_ThreadHandle , 300);
 	}
 	return FALSE;
