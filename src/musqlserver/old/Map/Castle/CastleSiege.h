@@ -9,7 +9,7 @@
 
 using namespace std;
 
-#include "protocol.h"
+#include "Protocols/protocol.h"
 
 #define CS_MAX_UPGRADE 3
 

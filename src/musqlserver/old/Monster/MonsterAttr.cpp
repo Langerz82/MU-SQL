@@ -97,7 +97,7 @@ void CMonsterAttr::LoadAttr(char* filename)
 	}
 }
 
-#include "BuffEffect.h"
+#include "Buff/BuffEffect.h"
 
 CCustomMonsterAttr gCMAttr;
 

@@ -51,7 +51,7 @@ typedef SYSTEMTIME* LPSYSTEMTIME;
 	#define FALSE 0
 #endif
 
-
-//typedef OBJECTSTRUCT* LPOBJECTSTRUCT;
+struct OBJECTSTRUCT;
+typedef OBJECTSTRUCT* LPOBJ;
 
 #endif

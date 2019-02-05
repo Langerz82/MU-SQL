@@ -3,7 +3,7 @@
 #ifndef PENTAGRAMSYSTEM_H
 #define PENTAGRAMSYSTEM_H
 
-#include "zzzitem.h"
+#include "Item/Item.h"
 #include "User/user.h"
 
 #define EL_NONE			0

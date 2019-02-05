@@ -7,7 +7,6 @@
 #include "User/user.h"
 #include "classdef.h"
 #include "MasterSkillSystem.h"
-#include "MuLua.h"
 #include "ObjAttack.h"
 
 #define MAX_SKILL_POS 4

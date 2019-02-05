@@ -3,9 +3,9 @@
 #include "stdafx.h"
 #include "CastleSiegeSync.h"
 #include "TUnion.h"
-#include "protocol.h"
-#include "DSProtocol.h"
-#include "MapServerManager.h"
+#include "Protocols/protocol.h"
+#include "Protocols/DSProtocol.h"
+#include "Map/MapServerManager.h"
 
 // GS-N 0.99.60T 0x0051B7C0 - Completed
 //	GS-N	1.00.18	JPN	0x0054D150	-	Completed

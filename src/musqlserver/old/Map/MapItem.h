@@ -11,7 +11,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "zzzitem.h"
+#include "Item/Item.h"
 #include "User/user.h"
 
 class CMapItem : public CItem

@@ -2,7 +2,7 @@
 // CQueue.h
 #ifndef __CQUEUE_H__
 #define __CQUEUE_H__
-#include <winsock2.h>
+//#include <winsock2.h>
 
 #define MAX_BUFF_SIZE		100000
 
@@ -71,7 +71,7 @@ private:
 	ListNode*		m_pTail;
 	ListNode*		m_pCur;
 
-	CRITICAL_SECTION	m_CriticalSection;
+	//CRITICAL_SECTION	m_CriticalSection;
 };
 
 #endif

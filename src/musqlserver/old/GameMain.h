@@ -13,8 +13,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "wsJoinServerCli.h"
-#include "wsGameServer.h"
+//#include "wsJoinServerCli.h"
+//#include "wsGameServer.h"
 #include "DirPath.h"
 #include "Map/MapClass.h"
 #include "classdef.h"

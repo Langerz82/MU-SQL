@@ -8,6 +8,7 @@
 #include "TMonsterAIUtil.h"
 #include "Log/Log.h"
 
+
 bool TMonsterAIAutomata::s_bDataLoad = FALSE;
 TMonsterAIAutomata TMonsterAIAutomata::s_MonsterAIAutomataArray[MAX_MONSTER_AI_AUTOMATA];
 static TMonsterAIUtil MONSTER_UTIL;

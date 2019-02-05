@@ -13,7 +13,7 @@
 #include <map>
 #include "Item.h"
 
-//#include "zzzitem.h"
+//#include "Item/Item.h"
 //#include "TRandomPoolMgr.h"
 
 #define MAX_JOH_ITEM_TYPE	4

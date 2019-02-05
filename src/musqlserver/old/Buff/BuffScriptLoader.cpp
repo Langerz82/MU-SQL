@@ -3,9 +3,9 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "./Eventos/ArcaBattle/ArcaBattle.h"
+//#include "./Event/ArcaBattle/ArcaBattle.h"
 #include "BuffScriptLoader.h"
-#include "zzzitem.h"
+#include "Item/Item.h"
 
 CBuffScriptLoader	g_BuffScript;
 

@@ -3,7 +3,7 @@
 #ifndef ITEMOPTIONTYPEMNG_H
 #define ITEMOPTIONTYPEMNG_H
 
-#include "zzzitem.h"
+#include "Item/Item.h"
 #include "User/user.h"
 
 #define MAX_EXCELLENT_COMMON_OPTIONS 20

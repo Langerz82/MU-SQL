@@ -4,7 +4,7 @@
 #define PENTAGRAM_MIX_SYSTEM_H
 
 #include "User/user.h"
-#include "zzzitem.h"
+#include "Item/Item.h"
 #include "PentagramSystem.h"
 
 #define PENTAGRAM_MIX_UPGRADE_FAILED				0xE1

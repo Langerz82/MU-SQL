@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include "zzzitem.h"
-#include "ItemOptionTypeMng.h"
+#include "Item/Item.h"
+#include "Item/ItemOptionTypeMng.h"
 
 struct BAG_ITEM
 {

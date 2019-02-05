@@ -9,7 +9,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "MapClass.h"
+#include "Map/MapClass.h"
 #include "CrywolfObjInfo.h"
 #include "CrywolfStateTimeInfo.h"
 

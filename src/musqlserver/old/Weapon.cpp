@@ -1,11 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Weapon.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Weapon.h"
-#include "User/user.h"
 #include "ObjAttack.h"
-#include "BuffEffect.h"
-#include "BuffEffectSlot.h"
+#include "Buff/BuffEffect.h"
+#include "Buff/BuffEffectSlot.h"
 #include "GameMain.h"
 #include "configread.h"
 

@@ -11,7 +11,7 @@
 #define MAX_GMCOMMAND_LEN 20
 #define MAX_GAME_MASTER 5
 
-#include "User/user.h"
+#include "stdafx.h"
 
 namespace Command
 {

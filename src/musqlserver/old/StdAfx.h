@@ -36,8 +36,11 @@
 
 //#include <vld.h>
 // Local Header Files
+#include "classdef.h"
 #include "Lang.h"
+#include "prodef.h"
 #include "INI/IniReader.h"
+#include "User/user.h"
 
 // Crypto++
 #include "cryptopp/sha.h"
