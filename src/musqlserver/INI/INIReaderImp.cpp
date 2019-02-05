@@ -82,13 +82,17 @@ string INIReaderImp::MakeKey(const string& section, const string& name)
     return key;
 }
 
+
 int INIReaderImp::ValueHandler(void* user, const char* section, const char* name,
                             const char* value)
 {
+	/*
+	// TODO Make it work cunt.
     INIReader* reader = static_cast<INIReader*>(user);
     string key = MakeKey(section, name);
     if (reader->_values[key].size() > 0)
         reader->_values[key] += "\n";
     reader->_values[key] += value;
+	*/
     return 1;
 }

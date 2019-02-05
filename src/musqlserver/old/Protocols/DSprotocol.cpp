@@ -3,12 +3,12 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "DSprotocol.h"
-#include "giocp.h"
-#include "Item\ItemSerial.h"
-#include "ServerEngine.h"
-#include "MapServerManager.h"
-#include "Main.h"
-#include "Util.h"
+#include "..\giocp.h"
+#include "..\Item\ItemSerial.h"
+#include "..\ServerEngine.h"
+#include "..\MapServerManager.h"
+#include "..\..\Main.h"
+#include "..\util.h"
 
 #define szModule "DSProtocol"
 
