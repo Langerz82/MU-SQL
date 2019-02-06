@@ -255,7 +255,7 @@ int CBotSystem::AddBot(_sBOT_SETTINGS pBot)
 	lpBotObj->MapNumber = pBot.btMap;
 	lpBotObj->X = pBot.btX;
 	lpBotObj->Y = pBot.btY;
-	lpBotObj->m_PlayerData = new USER_DATA();
+	lpBotObj->m_PlayerData = new USER_DATA(aIndex);
 	lpBotObj->ConnectCheckTime = GetTickCount();
 	lpBotObj->TargetNumber = -1;
 	lpBotObj->TargetNpcNumber = -1;

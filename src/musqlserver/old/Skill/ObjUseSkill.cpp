@@ -31,7 +31,7 @@
 #include "MineSystem.h"
 #include "PentagramSystem.h"
 #include "BotSystem.h"
-#include "./Eventos/ArcaBattle/ArcaBattle.h"
+#include "Event/ArcaBattle/ArcaBattle.h"
 #include "MapAttribute.h"
 #include "SkillSafeZoneUse.h"
 

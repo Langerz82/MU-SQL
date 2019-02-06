@@ -16,7 +16,7 @@
 #include "zzzmathlib.h"
 #include "GensSystem.h"
 #include "ObjAttack.h"
-#include "./Eventos/ArcaBattle/ArcaBattle.h"
+#include "Event/ArcaBattle/ArcaBattle.h"
 #include "util.h"
 #include "CustomMaxStats.h"
 

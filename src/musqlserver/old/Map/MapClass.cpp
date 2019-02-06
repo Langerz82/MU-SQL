@@ -10,7 +10,7 @@
 #include "GameMain.h"
 #include "User/user.h"
 #include "Protocol.h"
-#include "./Eventos/BloodCastle/BloodCastle.h"
+#include "Event/BloodCastle/BloodCastle.h"
 #include "IllusionTempleEvent_Renewal.h"
 #include "configread.h"
 #include "readscript.h"

@@ -8,11 +8,14 @@
 #ifndef MULUA_H
 #define MULUA_H
 
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
 #include "StdAfx.h"
+#include "lua/lauxlib.h"
 
 #define LUA_REGULARSKILL_SCRIPT_PATH "\\Scripts\\Skills\\RegularSkillCalc.lua"
-
-#pragma once
 
 class MULua
 {

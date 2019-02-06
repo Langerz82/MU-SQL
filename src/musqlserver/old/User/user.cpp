@@ -100,9 +100,9 @@
 #include "Shop.h"
 #include "PersonalStore.h"
 #include "LargeRand.h"
-#include "./Eventos/AcheronGuardianEvent/AcheronGuardianEvent.h"
+#include "Event/AcheronGuardianEvent/AcheronGuardianEvent.h"
 #include "ItemOptionTypeMng.h"
-#include "./Eventos/BonusEvent/BonusEvent.h"
+#include "Event/BonusEvent/BonusEvent.h"
 #include "CItemDrop.h"
 #include "DevilSquareFinal.h"
 #include "BotSystem.h"
@@ -121,8 +121,9 @@ inline bool ObjectMaxRange(int Index)
 	return true;
 }
 
-USER_DATA::USER_DATA()
+USER_DATA::USER_DATA(int IDNumber)
 {
+	this->IDNumber;
 	InitializeCriticalSection(&this->m_MasterSkillCriti);
 	InitializeCriticalSection(&this->m_DarkSideRFCriti);
 	InitializeCriticalSection(&this->AgiCheckCriti);
@@ -345,6 +346,7 @@ void USER_DATA::Init(bool VipReset)
 	this->MovingIgnore = 0;
 	this->RageDMG = 0;
 
+	this->m_AttackQueue = new CAttackQueue(this->IDNumber);
 }
 
 //Y
@@ -381,7 +383,7 @@ MessageStateMachine ** gSMMsg;
 ExMessageStateMachine ** gSMAttackProcMsg;
 BILL_CLASS * m_ObjBill;	// line : 193
 static CRaklionUtil RAKLION_UTIL;
-static CLogToFile * CharSaveLog;
+//static CLogToFile * CharSaveLog;
 CItem * pTempInventory;
 BYTE * pTempInventoryMap;
 
@@ -946,7 +948,7 @@ void gObjInit()
 
 			if (n >= g_ConfigRead.server.GetObjectStartUserIndex())
 			{
-				gObj[n].m_PlayerData = new USER_DATA();
+				gObj[n].m_PlayerData = new USER_DATA(n);
 				gObj[n].Inventory1 = new CItem[INVENTORY_SIZE];
 				gObj[n].Inventory2 = new CItem[INVENTORY_SIZE];
 				gObj[n].InventoryMap1 = new BYTE[INVENTORY_MAP_SIZE];

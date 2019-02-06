@@ -1,11 +1,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 // LuaBag.h
-#ifndef LUABAG_H
-#define LUABAG_H
+#ifndef _LUABAG_H
+#define _LUABAG_H
+
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "Bag.h"
-#include "MuLua.h"
+#include "Bag/Bag.h"
+#include "Lua/MuLua.h"
 #include "Item/Item.h"
 #include "GremoryCase.h"
 
@@ -34,7 +38,7 @@ public:
 	bool DropMonsterBag(int aIndex, int iMonsterIndex, BYTE MapNumber, BYTE DropX, BYTE DropY, BAG_ITEM * m_Item);
 	bool DropEventBag(int aIndex, int iMonsterIndex, BYTE MapNumber, BYTE DropX, BYTE DropY, BAG_ITEM * m_Item);
 	bool MakeItemFromBag(int aIndex, BAG_ITEM * m_Item, CItem & Item, time_t & Duration);
-	bool MakeItemFromBagForGremoryCase(int aIndex, BAG_ITEM * m_Item, _stGremoryCaseItem & Item);
+	bool MakeItemFromBagForGremoryCase(int aIndex, BAG_ITEM* m_Item, _stGremoryCaseItem &Item);
 
 	void LoadItemBag();
 

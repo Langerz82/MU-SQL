@@ -8,7 +8,7 @@
 #include "TNotice.h"
 #include "DSProtocol.h"
 #include "User/user.h"
-#include "./Eventos/BloodCastle/BloodCastle.h"
+#include "Event/BloodCastle/BloodCastle.h"
 #include "LargeRand.h"
 #include "BuffEffectSlot.h"
 #include "CrywolfSync.h"

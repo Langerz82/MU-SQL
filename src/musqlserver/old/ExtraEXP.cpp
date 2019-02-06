@@ -18,7 +18,7 @@ void CExtraEXP::LoadFile(LPSTR file) // file is argument look. now we will call 
 		this->m_ExtraExpData.MapsParty[i] =  GetPrivateProfileIntA("PartyExtraExp",Name,0,file);
 	}
 	// now we can access info from file in gs memory.. so we find the function that calculates how much exp player gets... to do that u must research gs abit
-	g_Log.AddC(0, __FILE__, __FUNCTION__, TColor::DarkOrange, "CExtraEXP::LoadFile() -> Success!"); // so we put breakpoint here at the end of func before last call and check our struct for info, u saw i put som erandom values in file? yea
+	sLog.outDebug("CExtraEXP::LoadFile() -> Success!"); // so we put breakpoint here at the end of func before last call and check our struct for info, u saw i put som erandom values in file? yea
 
 }
 

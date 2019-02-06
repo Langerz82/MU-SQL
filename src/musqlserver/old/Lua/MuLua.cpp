@@ -1,15 +1,6 @@
-////////////////////////////////////////////////////////////////////////////////
-// MuLua.cpp
-// ------------------------------
-// Decompiled by Hybrid
-// 1.01.00
-// requires CWinConsole decompilation
-// ------------------------------
 
-//#include "StdAfx.h"
 #include "MuLua.h"
 #include "Log/Log.h"
-//#include "WinConsole.h"
 #include "configread.h"
 #include "LuaExport.h"
 
@@ -381,17 +372,19 @@ void MULua::CreateWinConsole(HINSTANCE hInstance)
 {
 	HWND hWnd = NULL;
 
+	// TODO
+	/*
 	hWnd = CWinConsole::StartConsole(hInstance, m_luaState);
 
 	if ( hWnd )
 		ShowWindow(hWnd, SW_HIDE);
-
+	*/
 }
 
 // no references found
 void MULua::DestroyWinConsole()
 {
-	CWinConsole::StopConsole();
+	//CWinConsole::StopConsole();
 }
 
 static const int sentinel_ = 0;
@@ -440,8 +433,3 @@ int IncludeLuaQuest(lua_State* L)
 
 	return 1;
 }
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

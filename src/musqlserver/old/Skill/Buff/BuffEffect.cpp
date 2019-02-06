@@ -12,7 +12,7 @@
 #include "GameMain.h"
 #include "PeriodItemEx.h"
 #include "Log/Log.h"
-#include "./Eventos/ArcaBattle/ArcaBattle.h"
+#include "Event/ArcaBattle/ArcaBattle.h"
 #include "configread.h"
 #include "ObjUseSkill.h"
 

@@ -10,7 +10,7 @@
 #include "KalimaGate.h"
 #include "Log/Log.h"
 #include "DevilSquare.h"
-#include "./Eventos/BloodCastle/BloodCastle.h"
+#include "Event/BloodCastle/BloodCastle.h"
 #include "ChaosCastle.h"
 #include "GameMain.h"
 

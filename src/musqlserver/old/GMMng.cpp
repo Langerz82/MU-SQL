@@ -22,7 +22,7 @@
 #include "MapServerManager.h"
 #include "DSProtocol.h"
 #include "Crywolf.h"
-#include "./Eventos/BloodCastle/BloodCastle.h"
+#include "Event/BloodCastle/BloodCastle.h"
 #include "BagManager.h"
 #include "DevilSquare.h"
 #include "ChaosCastle.h"

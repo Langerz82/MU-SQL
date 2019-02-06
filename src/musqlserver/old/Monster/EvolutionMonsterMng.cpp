@@ -4,7 +4,7 @@
 #include "EvolutionMonsterMng.h"
 #include "protocol.h"
 #include "util.h"
-#include "./Eventos/BloodCastle/BloodCastle.h"
+#include "Event/BloodCastle/BloodCastle.h"
 #include "DevilSquare.h"
 #include "ChaosCastle.h"
 #include "KalimaGate.h"

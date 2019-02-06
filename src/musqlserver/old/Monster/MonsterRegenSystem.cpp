@@ -6,7 +6,7 @@
 #include "Log/Log.h"
 #include "MapClass.h"
 #include "GameMain.h"
-#include "./Eventos/ArcaBattle/ArcaBattle.h"
+#include "Event/ArcaBattle/ArcaBattle.h"
 #include "TNotice.h"
 #include "configread.h"
 #include "BagManager.h"

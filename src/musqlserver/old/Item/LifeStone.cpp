@@ -88,7 +88,7 @@ int CLifeStone::CreateLifeStone(int iIndex)
 
 		gObjSetMonster(iMonsterIndex, 278);
 		
-		gObj[iMonsterIndex].m_PlayerData = new USER_DATA();
+		gObj[iMonsterIndex].m_PlayerData = new USER_DATA(iMonsterIndex);
 		gObj[iMonsterIndex].Live = TRUE;
 		gObj[iMonsterIndex].Life = MAttr->m_Hp;
 		gObj[iMonsterIndex].MaxLife = MAttr->m_Hp;

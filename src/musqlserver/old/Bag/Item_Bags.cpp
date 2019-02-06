@@ -380,7 +380,7 @@ void EventItemBagManager::Read(LPSTR File)
 		return;
 	}
 	// ----
-	xml_node Main = Document.child("GoldenInvasion");
+	xml_node mainXML = Document.child("GoldenInvasion");
 	xml_node ItemList = mainXML.child("itemdrop");
 	xml_node MonsterList = mainXML.child("monsterdie");
 	xml_node SpecialList = mainXML.child("Monster");

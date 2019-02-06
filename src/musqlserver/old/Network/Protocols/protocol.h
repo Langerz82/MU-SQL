@@ -2,8 +2,8 @@
 // Decompiled by Deathway
 // Date : 2007-05-09
 // ------------------------------
-#ifndef _PROTOCOL_H
-#define _PROTOCOL_H
+#ifndef _MUPROTOCOL_H
+#define _MUPROTOCOL_H
 
 #if _MSC_VER > 1000
 #pragma once

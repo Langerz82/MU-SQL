@@ -284,7 +284,7 @@ bool CLuaBag::MakeItemFromBag(int aIndex, BAG_ITEM * m_Item, CItem & Item, time_
 	return true;
 }
 
-bool CLuaBag::MakeItemFromBagForGremoryCase(int aIndex, BAG_ITEM * m_Item, _stGremoryCaseItem & Item)
+bool CLuaBag::MakeItemFromBagForGremoryCase(int aIndex, BAG_ITEM* m_Item, _stGremoryCaseItem &Item)
 {
 	this->InsertItemMap(m_Item);
 

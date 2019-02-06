@@ -5,7 +5,7 @@
 #include "GameMain.h"
 #include "Log/Log.h"
 #include "DevilSquare.h"
-#include "./Eventos/BloodCastle/BloodCastle.h"
+#include "Event/BloodCastle/BloodCastle.h"
 #include "ChaosCastle.h"
 #include "IllusionTempleEvent_Renewal.h"
 #include "BuffEffectSlot.h"

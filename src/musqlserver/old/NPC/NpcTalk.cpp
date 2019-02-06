@@ -7,7 +7,7 @@
 #include "util.h"
 #include "protocol.h"
 #include "GameMain.h"
-#include "./Eventos/BloodCastle/BloodCastle.h"
+#include "Event/BloodCastle/BloodCastle.h"
 #include "DevilSquare.h"
 #include "QuestInfo.h"
 #include "CastleSiegeSync.h"

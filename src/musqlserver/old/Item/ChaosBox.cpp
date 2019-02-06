@@ -7,7 +7,7 @@
 #include "util.h"
 #include "DSProtocol.h"
 #include "CastleSiegeSync.h"
-#include "./Eventos/BloodCastle/BloodCastle.h"
+#include "Event/BloodCastle/BloodCastle.h"
 #include "DevilSquare.h"
 #include "SetItemOption.h"
 #include "JewelOfHarmonySystem.h"

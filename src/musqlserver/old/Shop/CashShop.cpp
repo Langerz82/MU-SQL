@@ -16,7 +16,7 @@
 #include "PeriodItemEx.h"
 #include "PentagramSystem.h"
 #include "ItemSocketOptionSystem.h"
-#include "./Eventos/BloodCastle/BloodCastle.h"
+#include "Event/BloodCastle/BloodCastle.h"
 #include "DevilSquare.h"
 #include "ChaosCastle.h"
 #include "IniReader.h"

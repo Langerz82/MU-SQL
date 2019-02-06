@@ -32,6 +32,7 @@
 #include "GremoryCase.h"
 //#include "UnityBattleField.h"
 #include "EvolutionMonsterInfo.h"
+#include "AntiSpeed.h"
 
 #define CRYWOLF_MAP_RANGE(map) ( ( ((map)) == MAP_INDEX_CRYWOLF_FIRSTZONE  )?TRUE:FALSE  )
 #define IMPERIAL_MAP_RANGE(mapnumber) ( ((mapnumber) < MAP_INDEX_IMPERIAL1)?FALSE:((mapnumber) > MAP_INDEX_IMPERIAL4 )?FALSE:TRUE )
@@ -1071,12 +1072,13 @@ extern MessageStateMachine ** gSMMsg;
 class USER_DATA
 {
 public:
-	USER_DATA();
+	USER_DATA(int IDNumber);
 	virtual ~USER_DATA();
 
 	void Init(bool VipReset = true);
 
 public:
+	int IDNumber;
 	char Ip_addr[16];	// 18
 	char HWID[100];
 	UINT64 Experience;	// AC
@@ -1279,6 +1281,7 @@ public:
 	short MovingDistance;
 	BYTE  MovingIgnore;
 	int RageDMG;
+	CAttackQueue* m_AttackQueue;
 };
 
 enum NPC_TYPES

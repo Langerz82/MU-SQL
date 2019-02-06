@@ -20,7 +20,7 @@
 #include "classdef.h"
 #include "CLoginCount.h"
 #include "Event/DragonEvent.h"
-//#include "AttackEvent.h" // TODO include in project.
+#include "AttackEvent.h" // TODO include in project.
 #include "WhisperCash.h"
 //#include "WzUdp.h"
 #include "giocp.h"
@@ -110,7 +110,7 @@ extern BOOL DataServerConnected;
 extern BOOL GameServerCreated;
 extern BOOL IsEventChipServerConnected;
 extern CDragonEvent * DragonEvent;
-extern CAttackEvent * AttackEvent;
+//extern CAttackEvent * AttackEvent; ///// TODO
 
 extern int	gCheckSumSwitch;
 extern int  gSpeedHackPenalty;
@@ -149,10 +149,10 @@ extern BOOL GSInfoSendFlag;
 //float gItemBuyPriceMultiplier;
 //float gItemSellPriceMultiplier;
 extern DWORD JoinServerDCTime;
-extern CwsGameServer wsGServer;	// line : 213GameServer
-extern wsJoinServerCli wsJServerCli;	// line : 214 Join Server
-extern wsJoinServerCli wsDataCli;	// line : 215 DataServer
-extern wsJoinServerCli wsExDbCli;	// line : 239 Extra DataBase Server
+//extern CwsGameServer wsGServer;	// line : 213GameServer
+//extern wsJoinServerCli wsJServerCli;	// line : 214 Join Server
+//extern wsJoinServerCli wsDataCli;	// line : 215 DataServer
+//extern wsJoinServerCli wsExDbCli;	// line : 239 Extra DataBase Server
 extern CDirPath gDirPath;	// line : 248 Directory Path
 extern MapClass MapC[MAX_NUMBER_MAP];	// line 249	// Map Manager
 extern CMonsterAttr gMAttr;	// line 250

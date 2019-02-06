@@ -14,7 +14,7 @@
 #include "MonsterStatCalc.h"
 #include "gObjMonster.h"
 #include "MapClass.h"
-#include "./Eventos/BloodCastle/BloodCastle.h"
+#include "Event/BloodCastle/BloodCastle.h"
 #include "DSProtocol.h"
 #include "configread.h"
 #include "CashShop.h"

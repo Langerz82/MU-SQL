@@ -4,7 +4,7 @@
 //#include "User/user.h"
 #include "ObjUseSkill.h"
 #include "protocol.h"
-#include "Log/Log.h"
+//#include "Log/Log.h"
 
 
 CAttackMelee::CAttackMelee( LPOBJ lpObj, LPOBJ lpTargetObj )
@@ -78,7 +78,7 @@ void CAttackQueue::Push( unsigned char* msg, int len, int type )
 
 	catch ( char * szMsg )
 	{
-		g_Log.AddC(0, __FILE__, __FUNCTION__, TColor::Red, szMsg);
+		sLog.outError(szMsg);
 	}
 }
 
@@ -165,25 +165,26 @@ void CAttackQueue::ProcessQueue()
 }
 
 bool CAttackQueue::ThreadActive = true;
-VOID CAttackQueue::AttackQueueProc()
+VOID CAttackQueue::AttackQueueProc(std::vector<LPOBJ> gObj)
 {
 	while(ThreadActive)
 	{
-		for(int i = OBJ_STARTUSERINDEX; i < OBJMAX; i++)
+		//for(int i = OBJ_STARTUSERINDEX; i < OBJMAX; i++)
+		for each(LPOBJ Obj in gObj)
 		{
-			if(gObj[i].m_AttackQueue == NULL)
+			if(Obj->m_PlayerData->m_AttackQueue == NULL)
 			{
 				continue;
 			}
 
-			if(gObj[i].Connected >= PLAYER_CONNECTED)
+			if(Obj->Connected >= PLAYER_CONNECTED)
 			{
-				if(gObj[i].Connected >= PLAYER_PLAYING)
+				if(Obj->Connected >= PLAYER_PLAYING)
 				{
-					gObj[i].m_AttackQueue->ProcessQueue();
+					Obj->m_PlayerData->m_AttackQueue->ProcessQueue();
 				}
 				else{
-					gObj[i].m_AttackQueue->Clear();
+					Obj->m_PlayerData->m_AttackQueue->Clear();
 				}
 			}
 		}
