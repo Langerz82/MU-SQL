@@ -2,7 +2,7 @@
 // MoveCommand.cpp
 //GameServer 1.00.77 JPN - Completed
 //GameServer 1.00.90 JPN - Completed
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "MoveCommand.h"
 #include "DevilSquare.h"
 #include "KalimaGate.h"

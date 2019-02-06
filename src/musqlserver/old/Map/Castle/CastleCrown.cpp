@@ -2,7 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "CastleCrown.h"
 #include "CastleSiege.h"
 #include "User/user.h"

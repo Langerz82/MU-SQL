@@ -1,7 +1,7 @@
 // TMonsterSkillElementInfo.cpp: implementation of the TMonsterSkillElementInfo class.
 //	GS-N	1.00.18	JPN	0x00557A00	-	Completed
 //////////////////////////////////////////////////////////////////////
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "TMonsterSkillElementInfo.h"
 
 #include "protocol.h"

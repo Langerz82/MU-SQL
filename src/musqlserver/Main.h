@@ -5,8 +5,9 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-
+#include "StdAfx.h"
 #include "resource.h"
+#include "Network/Protocols/Sprotocol.h"
 #include "Network/Protocols/DSprotocol.h"
 #include "Network/Protocols/protocol.h"
 #include "Network/Protocols/EDSprotocol.h"

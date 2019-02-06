@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // GameSecurity.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "GameSecurity.h"
 #include "Log/Log.h"
 #include "User/user.h"

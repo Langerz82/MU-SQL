@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MoveCheck.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "MoveCheck.h"
 
 // GS-N 0.99.60T Status : Completed - Change with true Names

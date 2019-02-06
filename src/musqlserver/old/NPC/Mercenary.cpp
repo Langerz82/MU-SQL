@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Mercenary.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Mercenary.h"
 #include "protocol.h"
 #include "GameMain.h"

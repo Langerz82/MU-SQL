@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x0055A7A0	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "gObjMonster.h"
 #include "TMonsterAI.h"
 #include "TMonsterAIRule.h"

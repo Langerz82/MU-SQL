@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ExpManager.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ExpManager.h"
 #include "Log/Log.h"
 #include "User/user.h"

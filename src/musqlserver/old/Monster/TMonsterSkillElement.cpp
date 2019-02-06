@@ -4,7 +4,7 @@
 		BOOL TMonsterSkillElement::ApplyElementMP(int iIndex, int iTargetIndex)	-	Wrong compilation with same result*/
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "TMonsterSkillElement.h"
 #include "ObjUseSkill.h"
 #include "protocol.h"
@@ -226,7 +226,7 @@ void TMonsterSkillElement::ForceSkillElement(int iIndex, int iTargetIndex)
 			this->ApplyElementPercentDamageNormalAttack(iIndex, iTargetIndex);
 			break;
 		default:
-			g_Log.AddC(TColor::Red,  "[TMonsterSkillElement] ForceSkillElement(): m_iElementType unknown value: %d", this->m_iElementType);
+			sLog.outError(  "[TMonsterSkillElement] ForceSkillElement(): m_iElementType unknown value: %d", this->m_iElementType);
 			break;
 	}
 }
@@ -769,7 +769,7 @@ BOOL TMonsterSkillElement::ApplyElementTeleportSkill(int iIndex, int iTargetInde
 
 	if ( gObjCheckTeleportArea(iIndex, x, y) == FALSE )
 	{
-		g_Log.AddC(TColor::Red,  "[%s][%s] Try Teleport Not Move Area [%d,%d]",
+		sLog.outError(  "[%s][%s] Try Teleport Not Move Area [%d,%d]",
 			lpObj->AccountID, lpObj->Name,	x, y);
 		
 		return FALSE;

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ObjCalCharacter.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ObjCalCharacter.h"
 #include "Gamemain.h"
 #include "DarkSpirit.h"

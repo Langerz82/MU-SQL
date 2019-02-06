@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x00567640	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "CrywolfStatue.h"
 #include "CrywolfAltar.h"
 #include "CrywolfUtil.h"

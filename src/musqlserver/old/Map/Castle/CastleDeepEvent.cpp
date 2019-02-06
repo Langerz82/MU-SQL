@@ -2,7 +2,7 @@
 // GS-CS	1.00.18	JPN	0x00593630	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "CastleSiege.h"
 #include "User/user.h"
 #include "Log/Log.h"
@@ -219,7 +219,7 @@ void CCastleDeepEvent::CheckSync()
 {
 	if(this->m_vtEventTime.empty())
 	{
-		g_Log.AddC(TColor::Red, "[CastleDeep Event] No Schedule Time Data");
+		sLog.outError( "[CastleDeep Event] No Schedule Time Data");
 		this->SetState(CD_STATE_NONE);
 		return;
 	}
@@ -270,7 +270,7 @@ void CCastleDeepEvent::CheckSync()
 		this->m_iTIME_MSEC_REMAIN = ( ( ((iMIN_HOUR + 24) * 60) * 60 + iMIN_MINUTE * 60 ) - ( (sysTime.wHour * 60) * 60 + sysTime.wMinute * 60 + sysTime.wSecond ) ) * 1000;
 		break;
 	default:
-		g_Log.AddC(TColor::Red, "[CastleDeep Event] No Schedule Time Data");
+		sLog.outError( "[CastleDeep Event] No Schedule Time Data");
 		this->SetState(CD_STATE_NONE);
 		return;
 	}

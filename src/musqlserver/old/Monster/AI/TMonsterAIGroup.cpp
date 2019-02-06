@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x0055FB90	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "TMonsterAIGroup.h"
 #include "User/user.h"
 #include "Gamemain.h"

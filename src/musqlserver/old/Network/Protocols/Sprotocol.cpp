@@ -2,7 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-//#include "stdafx.h"
+//#include "StdAfx.h"
 #include "Sprotocol.h"
 #include "giocp.h"
 //#include "Log/Log.h"

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // QuestExpInfo.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "QuestExpInfo.h"
 #include "Log/Log.h"
 

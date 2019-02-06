@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // CUserStatistics.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "CUserStatistics.h"
 #include "DSProtocol.h"
 #include "DBSockMng.h"

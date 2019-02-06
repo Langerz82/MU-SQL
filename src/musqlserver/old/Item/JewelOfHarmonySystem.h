@@ -9,12 +9,11 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "custTypedef.h"
+#include "StdAfx.h"
 #include <map>
 #include "Item.h"
 
-//#include "Item/Item.h"
-//#include "TRandomPoolMgr.h"
+#include "TRandomPoolMgr.h"
 
 #define MAX_JOH_ITEM_TYPE	4
 #define MAX_JOH_ITEM_INDEX	16

@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x00562270	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "TMonsterAIRule.h"
 #include "Log/Log.h"
 

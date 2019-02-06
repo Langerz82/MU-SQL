@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // PacketCheckSum.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "PacketCheckSum.h"
 #include "Log/Log.h"
 #include "configread.h"

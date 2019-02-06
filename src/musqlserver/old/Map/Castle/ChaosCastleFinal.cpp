@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ChaosCastleFinal.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ChaosCastleFinal.h"
 #include "configread.h"
 #include "GameMain.h"
@@ -2184,7 +2184,7 @@ void ChaosCastleFinal::CheckSync()
 {
 	if (this->m_vtCCFOpenTime.empty() != false)
 	{
-		g_Log.AddC(TColor::Red, "[Chaos Castle Survival] No Schedule Time Data - Chaos Castle Survival Terminated (m_vtCCFOpenTime.empty())");
+		sLog.outError( "[Chaos Castle Survival] No Schedule Time Data - Chaos Castle Survival Terminated (m_vtCCFOpenTime.empty())");
 		this->SetState(0, 0);
 		return;
 	}
@@ -2241,7 +2241,7 @@ void ChaosCastleFinal::CheckSync()
 		break;
 
 	default:
-		g_Log.AddC(TColor::Red, "[Chaos Castle Survival] No Schedule Time Data - Chaos Castle Terminated (bTIME_CHANGED=%d)", bTIME_CHANGED);
+		sLog.outError( "[Chaos Castle Survival] No Schedule Time Data - Chaos Castle Terminated (bTIME_CHANGED=%d)", bTIME_CHANGED);
 		this->SetState(0, 0);
 		return;
 

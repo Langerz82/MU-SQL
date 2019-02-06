@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Quests.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Quests.h"
 #include "ReadScript.h"
 #include "util.h"

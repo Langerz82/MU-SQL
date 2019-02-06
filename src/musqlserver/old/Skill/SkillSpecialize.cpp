@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // SkillSpecialize.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "SkillSpecialize.h"
 #include "configread.h"
 

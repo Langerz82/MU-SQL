@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // LargeRand.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "custTypedef.h"
 #include "LargeRand.h"
 

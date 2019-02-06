@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // gObjMonster.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "GameServer.h"
 #include "gObjMonster.h"
 #include "MonsterSetBase.h"
@@ -272,7 +272,7 @@ BOOL gObjMonsterRegen(LPOBJ lpObj)
 
 		if (lpPos == nullptr)
 		{
-			g_Log.AddC(TColor::Red, "[Blood Castle][Error] lpPos == nullptr (%d) (%d) (%d)", lpObj->m_PosNum, iBridgeIndex, lpObj->Class);
+			sLog.outError( "[Blood Castle][Error] lpPos == nullptr (%d) (%d) (%d)", lpObj->m_PosNum, iBridgeIndex, lpObj->Class);
 			return FALSE;
 		}
 
@@ -1399,7 +1399,7 @@ void gObjMonsterStateProc(LPOBJ lpObj, int aMsgCode, int aIndex, int aMsgSubCode
 
 							if (MAX_MAP_RANGE(map) == FALSE)
 							{
-								g_Log.AddC(TColor::Red, "[ERROR] map is out of range %s %d", __FILE__, __LINE__);
+								sLog.outError( "[ERROR] map is out of range %s %d", __FILE__, __LINE__);
 								return;
 							}
 
@@ -2852,7 +2852,7 @@ void gObjMonsterBaseAct(LPOBJ lpObj)
 
 				if ( MAX_MAP_RANGE(map) == FALSE )
 				{
-					g_Log.AddC(TColor::Red, "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", map);
+					sLog.outError( "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", map);
 					return;
 				}
 
@@ -2881,7 +2881,7 @@ void gObjMonsterBaseAct(LPOBJ lpObj)
 				{
 					if ( MAX_MAP_RANGE(lpObj->MapNumber) == FALSE )
 					{
-						g_Log.AddC(TColor::Red, "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", lpObj->MapNumber);
+						sLog.outError( "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", lpObj->MapNumber);
 						return;
 					}
 

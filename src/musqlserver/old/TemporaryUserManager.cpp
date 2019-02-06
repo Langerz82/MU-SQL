@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // TemporaryUserManager.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "TemporaryUserManager.h"
 #include "GameMain.h"
 #include "PartyClass.h"

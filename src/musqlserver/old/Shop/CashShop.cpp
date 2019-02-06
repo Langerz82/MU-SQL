@@ -2,7 +2,7 @@
 // GS-N 1.00.18 JPN	0x00585620	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "CashShop.h"
 #include "GameServer.h"
 #include "GameMain.h"

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ItemUpgradeJewel.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ItemUpgradeJewel.h"
 #include "Log/Log.h"
 #include "GameMain.h"

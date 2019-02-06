@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Guardian.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Guardian.h"
 #include "User/user.h"
 #include "configread.h"

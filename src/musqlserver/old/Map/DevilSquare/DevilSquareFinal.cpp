@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DevilSquareFinal.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "DevilSquareFinal.h"
 #include "Log/Log.h"
 #include "protocol.h"
@@ -98,15 +98,15 @@ void CDevilSquareFinal::Load_DSFScheduleScript(char *pchFileName)
 
 	else
 	{
-		this->m_bEVENT_ENABLE = main.attribute("Enable").as_int();
+		this->m_bEVENT_ENABLE = mainXML.attribute("Enable").as_int();
 	}
 
-	this->m_DSFUnitInfo.PartyMinUser = main.attribute("MinUserInParty").as_int();
-	this->m_DSFUnitInfo.DSFMinLevel = main.attribute("MinLevel").as_int();
-	this->m_DSFUnitInfo.MinTeamCount = main.attribute("MinTeamsToStart").as_int();
-	this->m_DSFUnitInfo.MinUserCount = main.attribute("MinUserToStart").as_int();
-	this->m_DSFUnitInfo.MaxEnterCount = main.attribute("MaxEnterCount").as_int();
-	this->m_DSFUnitInfo.MonsterUnitNumber = main.attribute("MonsterUnitNumber").as_int();
+	this->m_DSFUnitInfo.PartyMinUser = mainXML.attribute("MinUserInParty").as_int();
+	this->m_DSFUnitInfo.DSFMinLevel = mainXML.attribute("MinLevel").as_int();
+	this->m_DSFUnitInfo.MinTeamCount = mainXML.attribute("MinTeamsToStart").as_int();
+	this->m_DSFUnitInfo.MinUserCount = mainXML.attribute("MinUserToStart").as_int();
+	this->m_DSFUnitInfo.MaxEnterCount = mainXML.attribute("MaxEnterCount").as_int();
+	this->m_DSFUnitInfo.MonsterUnitNumber = mainXML.attribute("MonsterUnitNumber").as_int();
 
 	pugi::xml_node time = mainXML.child("Time");
 

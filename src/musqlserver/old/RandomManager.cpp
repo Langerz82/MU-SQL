@@ -2,7 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "RandomManager.h"
 #include "util.h"
 #include "LargeRand.h"

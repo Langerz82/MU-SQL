@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x0057F810	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "KanturuTowerOfRefinement.h"
 #include "Kanturu.h"
 #include "KanturuBattleUserMng.h"

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // NpcTalk.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "User/user.h"
 #include "NpcTalk.h"
 #include "gObjMonster.h"

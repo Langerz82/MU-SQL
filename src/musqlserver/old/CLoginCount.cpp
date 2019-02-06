@@ -8,7 +8,7 @@
 // GS-N 0.99.60T Status : Completed
 // GS-N 1.00.18	0x0049EC20	JPN - Completed
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "CLoginCount.h"
 
 

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ChaosBox.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ChaosBox.h"
 #include "Log/Log.h"
 #include "GameMain.h"
@@ -6255,7 +6255,7 @@ BOOL CMixSystem::SocketItemUpgradeMixS12(int aIndex, BYTE ItemPos, BYTE SocketUp
 		pMsg.Result1 = 0;
 		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 
-		//g_Log.AddC(TColor::Red, " Socket Item Upgrade Mix Failed");
+		//sLog.outError( " Socket Item Upgrade Mix Failed");
 		return FALSE;
 	}
 }

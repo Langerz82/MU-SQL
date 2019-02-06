@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x00570590	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ItemSystemFor380.h"
 #include "Gamemain.h"
 #include "CastleSiegeSync.h"

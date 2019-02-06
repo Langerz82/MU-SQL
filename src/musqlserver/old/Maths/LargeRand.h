@@ -7,6 +7,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "custTypedef.h"
+
 #define MAX_LARGE_RAND_STATE	625
 
 class CLargeRand
@@ -57,7 +59,6 @@ class CRandomMersenne {
 #define MERS_A   0x9908B0DF
 #define MERS_B   0x9D2C5680
 #define MERS_C   0xEFC60000
-#endif
 
 public:
 	CRandomMersenne(int seed)
@@ -82,7 +83,4 @@ private:
 
 extern CRandomMersenne g_MersenneRand;
 
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-
+#endif

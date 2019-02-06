@@ -6,8 +6,8 @@
 #pragma once
 #endif // _MSC_VER > 1000.
 
-#include "Item\Item.h"
 #include "prodef.h"
+#include "Item\Item.h"
 
 #define TRACE_PACKET 0	
 #define CURRENT_DB_VERSION 3

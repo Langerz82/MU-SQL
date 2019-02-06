@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ProhibitedSymbols.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ProhibitedSymbols.h"
 #include "Log/Log.h"
 #include <regex>

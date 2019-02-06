@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // QueueTimer.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "QueueTimer.h"
 
 CQueueTimer::CQueueTimer()

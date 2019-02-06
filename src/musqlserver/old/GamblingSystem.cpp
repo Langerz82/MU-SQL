@@ -2,7 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "GamblingSystem.h"
 #include "User/user.h"
 #include "LargeRand.h"

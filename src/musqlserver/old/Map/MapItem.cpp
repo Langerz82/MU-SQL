@@ -4,7 +4,7 @@
 // Decompiled by Deathway
 // Date : 2007-05-09
 // ------------------------------
-#include "stdafx.h"
+#include "StdAfx.h"
 //#include "MapItem.h"
 #include "GameMain.h"
 

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Shop.cpp
-//#include "stdafx.h"
+//#include "StdAfx.h"
 //#include "GameServer.h"
 #include "../Log/Log.h"
 #include "Main.h"
@@ -10,7 +10,7 @@
 #include "GensSystem.h"
 #include "protocol.h"
 //#include "Crywolf.h"
-#include "util.h"
+//#include "util.h"
 #include "VipSys.h"
 #include "SocketItemType.h"
 

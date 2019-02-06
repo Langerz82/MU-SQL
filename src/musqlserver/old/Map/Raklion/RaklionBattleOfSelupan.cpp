@@ -2,7 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "RaklionBattleOfSelupan.h"
 #include "RaklionBattleUserMng.h"
 #include "RaklionUtil.h"
@@ -114,7 +114,7 @@ void CRaklionBattleOfSelupan::SetState(int iBattleOfSelupanState)
 
 void CRaklionBattleOfSelupan::SetState_NONE()
 {
-	g_Log.AddC(TColor::Brown, "[ RAKLION ][ BattleOfSelupan ] State(%d) -> NONE", m_iBattleOfSelupanState);
+	sLog.outBasic("[ RAKLION ][ BattleOfSelupan ] State(%d) -> NONE", m_iBattleOfSelupanState);
 	
 	m_RaklionSelupan.RaklionSelupanAct_Berserk_Cancel();
 	SetBattleOfSelupanState(0);
@@ -122,7 +122,7 @@ void CRaklionBattleOfSelupan::SetState_NONE()
 
 void CRaklionBattleOfSelupan::SetState_STANDBY()
 {
-	g_Log.AddC(TColor::Brown, "[ RAKLION ][ BattleOfSelupan ] State(%d) -> STANDBY", m_iBattleOfSelupanState);
+	sLog.outBasic("[ RAKLION ][ BattleOfSelupan ] State(%d) -> STANDBY", m_iBattleOfSelupanState);
 	
 	m_RaklionSelupan.InitSelupanIndex();
 	m_RaklionSelupan.RegenSelupan();
@@ -131,7 +131,7 @@ void CRaklionBattleOfSelupan::SetState_STANDBY()
 }
 void CRaklionBattleOfSelupan::SetState_PATTERN_1()
 {
-	g_Log.AddC(TColor::Brown, "[ RAKLION ][ BattleOfSelupan ] State(%d) -> PATTERN_1 // Life(%d/4800000)", m_iBattleOfSelupanState, m_RaklionSelupan.GetSelupanHP());
+	sLog.outBasic("[ RAKLION ][ BattleOfSelupan ] State(%d) -> PATTERN_1 // Life(%d/4800000)", m_iBattleOfSelupanState, m_RaklionSelupan.GetSelupanHP());
 	
 	m_RaklionSelupan.RaklionSelupanAct_Berserk_Cancel();
 	SetBattleOfSelupanState(2);
@@ -139,7 +139,7 @@ void CRaklionBattleOfSelupan::SetState_PATTERN_1()
 
 void CRaklionBattleOfSelupan::SetState_PATTERN_2()
 {
-	g_Log.AddC(TColor::Brown, "[ RAKLION ][ BattleOfSelupan ] State(%d) -> PATTERN_2 // Life(%d/4800000)", m_iBattleOfSelupanState, m_RaklionSelupan.GetSelupanHP());
+	sLog.outBasic("[ RAKLION ][ BattleOfSelupan ] State(%d) -> PATTERN_2 // Life(%d/4800000)", m_iBattleOfSelupanState, m_RaklionSelupan.GetSelupanHP());
 
 	m_RaklionSelupan.RaklionSelupanAct_Berserk1();  
 	SetBattleOfSelupanState(3);
@@ -147,7 +147,7 @@ void CRaklionBattleOfSelupan::SetState_PATTERN_2()
 
 void CRaklionBattleOfSelupan::SetState_PATTERN_3()
 {
-	g_Log.AddC(TColor::Brown, "[ RAKLION ][ BattleOfSelupan ] State(%d) -> PATTERN_3 // Life(%d/4800000)", m_iBattleOfSelupanState, m_RaklionSelupan.GetSelupanHP());
+	sLog.outBasic("[ RAKLION ][ BattleOfSelupan ] State(%d) -> PATTERN_3 // Life(%d/4800000)", m_iBattleOfSelupanState, m_RaklionSelupan.GetSelupanHP());
 	
 	m_RaklionSelupan.RaklionSelupanAct_Berserk2();
 	SetBattleOfSelupanState(4);
@@ -155,7 +155,7 @@ void CRaklionBattleOfSelupan::SetState_PATTERN_3()
 
 void CRaklionBattleOfSelupan::SetState_PATTERN_4()
 {
-	g_Log.AddC(TColor::Brown, "[ RAKLION ][ BattleOfSelupan ] State(%d) -> PATTERN_4 // Life(%d/4800000)", m_iBattleOfSelupanState, m_RaklionSelupan.GetSelupanHP());
+	sLog.outBasic("[ RAKLION ][ BattleOfSelupan ] State(%d) -> PATTERN_4 // Life(%d/4800000)", m_iBattleOfSelupanState, m_RaklionSelupan.GetSelupanHP());
 	
 	if( m_RaklionSelupan.GetBerserkLevel() != 2 )	m_RaklionSelupan.RaklionSelupanAct_Berserk2();
 	SetBattleOfSelupanState(5);
@@ -163,7 +163,7 @@ void CRaklionBattleOfSelupan::SetState_PATTERN_4()
 
 void CRaklionBattleOfSelupan::SetState_PATTERN_5()
 {
-	g_Log.AddC(TColor::Brown, "[ RAKLION ][ BattleOfSelupan ] State(%d) -> PATTERN_5 // Life(%d/4800000)", m_iBattleOfSelupanState, m_RaklionSelupan.GetSelupanHP());
+	sLog.outBasic("[ RAKLION ][ BattleOfSelupan ] State(%d) -> PATTERN_5 // Life(%d/4800000)", m_iBattleOfSelupanState, m_RaklionSelupan.GetSelupanHP());
 	
 	m_RaklionSelupan.RaklionSelupanAct_Berserk3();
 	SetBattleOfSelupanState(6);
@@ -171,7 +171,7 @@ void CRaklionBattleOfSelupan::SetState_PATTERN_5()
 
 void CRaklionBattleOfSelupan::SetState_PATTERN_6()
 {
-	g_Log.AddC(TColor::Brown, "[ RAKLION ][ BattleOfSelupan ] State(%d) -> PATTERN_6 // Life(%d/4800000)", m_iBattleOfSelupanState, m_RaklionSelupan.GetSelupanHP());
+	sLog.outBasic("[ RAKLION ][ BattleOfSelupan ] State(%d) -> PATTERN_6 // Life(%d/4800000)", m_iBattleOfSelupanState, m_RaklionSelupan.GetSelupanHP());
 	
 	m_RaklionSelupan.RaklionSelupanAct_Berserk4();
 	SetBattleOfSelupanState(7);
@@ -179,7 +179,7 @@ void CRaklionBattleOfSelupan::SetState_PATTERN_6()
 
 void CRaklionBattleOfSelupan::SetState_PATTERN_7()
 {
-	g_Log.AddC(TColor::Brown, "[ RAKLION ][ BattleOfSelupan ] State(%d) -> PATTERN_7 // Life(%d/4800000)", m_iBattleOfSelupanState, m_RaklionSelupan.GetSelupanHP());
+	sLog.outBasic("[ RAKLION ][ BattleOfSelupan ] State(%d) -> PATTERN_7 // Life(%d/4800000)", m_iBattleOfSelupanState, m_RaklionSelupan.GetSelupanHP());
 	
 	if( m_RaklionSelupan.GetBerserkLevel() != 4 )	m_RaklionSelupan.RaklionSelupanAct_Berserk4();
 	SetBattleOfSelupanState(8);
@@ -187,7 +187,7 @@ void CRaklionBattleOfSelupan::SetState_PATTERN_7()
 
 void CRaklionBattleOfSelupan::SetState_DIE()
 {
-	g_Log.AddC(TColor::Brown, "[ RAKLION ][ BattleOfSelupan ] State(%d) -> DIE", m_iBattleOfSelupanState);
+	sLog.outBasic("[ RAKLION ][ BattleOfSelupan ] State(%d) -> DIE", m_iBattleOfSelupanState);
 	
 	m_RaklionSelupan.RaklionSelupanAct_Berserk_Cancel();
 	DeleteSummonMonster();
@@ -334,7 +334,7 @@ void CRaklionBattleOfSelupan::SetPatternCondition(int iPatternNum, int iConditio
 {
 	if( iPatternNum < 0 || iCondition < 0 )
 	{
-		g_Log.AddC(TColor::Red, "[RAKLION][SetPatternCondition] error : PatternNum(%d), Condition(%d)", iPatternNum, iCondition);
+		sLog.outError( "[RAKLION][SetPatternCondition] error : PatternNum(%d), Condition(%d)", iPatternNum, iCondition);
 	}
 
 	m_iSelupanPatternCondition[iPatternNum] = iCondition;
@@ -361,14 +361,14 @@ void CRaklionBattleOfSelupan::SetBattleOfSelupanStateAuto()
 	iSelupanMAXLife = lpObj->AddLife + lpObj->MaxLife;
 	if(iSelupanMAXLife <= 0)
 	{
-		g_Log.AddC(TColor::Red, "[RAKLION] SelupanMAXLife error : Index(%d), MaxLife(%d)", lpObj->m_Index, lpObj->MaxLife);
+		sLog.outError( "[RAKLION] SelupanMAXLife error : Index(%d), MaxLife(%d)", lpObj->m_Index, lpObj->MaxLife);
 		return;
 	}	
 
 	iSelupanLifePercent = m_RaklionSelupan.GetSelupanHP() * 100 / iSelupanMAXLife;
 	if( iSelupanLifePercent < 0 )
 	{
-		g_Log.AddC(TColor::Red, "[RAKLION] SelupanLifePercent error : Index(%d), MaxLife(%d)", lpObj->m_Index, iSelupanLifePercent);
+		sLog.outError( "[RAKLION] SelupanLifePercent error : Index(%d), MaxLife(%d)", lpObj->m_Index, iSelupanLifePercent);
 		return;
 	}
 	
@@ -465,7 +465,7 @@ void CRaklionBattleOfSelupan::GmCommandSelupanPattern(int iPatternNumber)
 {
 	if( iPatternNumber < 2 || iPatternNumber > 8 )
 	{
-		g_Log.AddC(TColor::Red, "[RAKLION] [GmCommandSelupanPattern] Invalid pattern number : %d", iPatternNumber);
+		sLog.outError( "[RAKLION] [GmCommandSelupanPattern] Invalid pattern number : %d", iPatternNumber);
 		return;
 	}
 	

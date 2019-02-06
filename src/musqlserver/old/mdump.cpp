@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // mdump.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include <windows.h>
 #include "mdump.h"
 #include <DBGHELP.H>

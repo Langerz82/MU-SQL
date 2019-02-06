@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // configread.cpp
-//#include "stdafx.h"
+//#include "StdAfx.h"
 #include "configread.h"
 //#include "Log/Log.h"
 #include "pugixml.hpp"

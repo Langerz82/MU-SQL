@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 // MonsterItemMng.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "MonsterItemMng.h"
 #include "User/user.h"
 #include "MonsterAttr.h"

@@ -6,7 +6,7 @@
 // ------------------------------
 // GS-N 0.99.60T 0x00453780
 // GS-N	1.00.18	JPN	0x00462B60	-	Completed
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "DevilSquare.h"
 #include "Log/Log.h"
 #include "GameMain.h"
@@ -129,7 +129,7 @@ void CDevilSquare::Load(char * filename)
 
 	pugi::xml_node mainXML = file.child("DevilSquare_Classic");
 
-	bool bEnable = main.attribute("Enable").as_bool();
+	bool bEnable = mainXML.attribute("Enable").as_bool();
 
 	if (g_ConfigRead.server.GetStateFromEventTable(g_ConfigRead.server.GetServerType(), EV_TABLE_DS) == false)
 	{
@@ -1500,7 +1500,7 @@ void CDevilSquare::CheckInvalidUser()
 			{
 				if (this->m_eState == DevilSquare_CLOSE)
 				{
-					g_Log.AddC(TColor::Red, "[DevilSquare] [%s][%s] Found user in DevilSquare [State:Close]",
+					sLog.outError( "[DevilSquare] [%s][%s] Found user in DevilSquare [State:Close]",
 						gObj[n].AccountID, gObj[n].Name);
 					gObjUserKill(gObj[n].m_Index);
 				}

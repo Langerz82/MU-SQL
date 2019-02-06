@@ -6,7 +6,7 @@
 
 // GS-N 0.99.60T 0x00473020 - Status : Completed :)
 //	GS-N	1.00.18	JPN	0x00489FD0	-	Completed
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "IOCP.h"
 #include "Log/Log.h"
 #include "Engine.h"
@@ -35,7 +35,7 @@ bool CIOCP::CreateGIocp(int server_port)
 
 	if ( g_IocpThreadHandle == 0 )
 	{
-		g_Log.AddC(TColor::Red, "CreateThread() failed with error %d", GetLastError());
+		sLog.outError( "CreateThread() failed with error %d", GetLastError());
 		return 0;
 	}
 	else
@@ -72,7 +72,7 @@ bool CIOCP::CreateListenSocket()
 
 	if ( g_Listen == -1 )
 	{
-		g_Log.AddC(TColor::Red, "WSASocket() failed with error %d", WSAGetLastError() );
+		sLog.outError( "WSASocket() failed with error %d", WSAGetLastError() );
 		return 0;
 	}
 	else
@@ -92,7 +92,7 @@ bool CIOCP::CreateListenSocket()
 			nRet=listen(g_Listen, 5);
 			if (nRet == -1)
 			{
-				g_Log.AddC(TColor::Red, "listen() failed with error %d", WSAGetLastError());
+				sLog.outError( "listen() failed with error %d", WSAGetLastError());
 				return 0;
 			}
 			else
@@ -140,7 +140,7 @@ DWORD CIOCP::IocpServerWorker(void * p)
 
 		if ( g_CompletionPort == NULL )
 		{
-			g_Log.AddC(TColor::Red, "CreateIoCompletionPort failed with error: %d", GetLastError());
+			sLog.outError( "CreateIoCompletionPort failed with error: %d", GetLastError());
 			__leave;
 		}
 
@@ -150,7 +150,7 @@ DWORD CIOCP::IocpServerWorker(void * p)
 
 			if ( hThread == 0 )
 			{
-				g_Log.AddC(TColor::Red, "CreateThread() failed with error %d", GetLastError() );
+				sLog.outError( "CreateThread() failed with error %d", GetLastError() );
 				__leave;
 			}
 
@@ -172,7 +172,7 @@ DWORD CIOCP::IocpServerWorker(void * p)
 				if ( Accept == -1 )
 				{
 					EnterCriticalSection(&criti);
-					g_Log.AddC(TColor::Red, "WSAAccept() failed with error %d", WSAGetLastError() );
+					sLog.outError( "WSAAccept() failed with error %d", WSAGetLastError() );
 					LeaveCriticalSection(&criti);
 					continue;
 				}
@@ -184,7 +184,7 @@ DWORD CIOCP::IocpServerWorker(void * p)
 
 				if ( ClientIndex == -1 )
 				{
-					//g_Log.AddC(TColor::Red, "error-L2: ClientIndex = -1");
+					//sLog.outError( "error-L2: ClientIndex = -1");
 					closesocket(Accept);
 					LeaveCriticalSection(&criti);
 					continue;
@@ -192,7 +192,7 @@ DWORD CIOCP::IocpServerWorker(void * p)
 
 				if (UpdateCompletionPort(Accept, ClientIndex, 1) == 0 )
 				{
-					g_Log.AddC(TColor::Red, "error-L1: %d %d CreateIoCompletionPort failed with error %d", Accept, ClientIndex, GetLastError() );
+					sLog.outError( "error-L1: %d %d CreateIoCompletionPort failed with error %d", Accept, ClientIndex, GetLastError() );
 					closesocket(Accept);
 					LeaveCriticalSection(&criti);
 					continue;
@@ -226,7 +226,7 @@ DWORD CIOCP::IocpServerWorker(void * p)
 				{
 					if ( WSAGetLastError() != WSA_IO_PENDING )
 					{
-						g_Log.AddC(TColor::Red, "error-L1: WSARecv() failed with error %d", WSAGetLastError() );
+						sLog.outError( "error-L1: WSARecv() failed with error %d", WSAGetLastError() );
 						Users[ClientIndex].PerSocketContext->IOContext[0].nWaitIO = 4;
 						CloseClient(Users[ClientIndex].PerSocketContext, 0);
 						LeaveCriticalSection(&criti);
@@ -308,7 +308,7 @@ DWORD CIOCP::ServerWorkerThread()
 				if ( (aError != ERROR_NETNAME_DELETED) && (aError != ERROR_CONNECTION_ABORTED) && (aError != ERROR_OPERATION_ABORTED) && (aError != ERROR_SEM_TIMEOUT) && (aError != ERROR_HOST_UNREACHABLE) )
 				{
 					EnterCriticalSection(&criti);
-					g_Log.AddC(TColor::Red, "Error Thread: GetQueueCompletionStatus( %d )", GetLastError());
+					sLog.outError( "Error Thread: GetQueueCompletionStatus( %d )", GetLastError());
 					LeaveCriticalSection(&criti);
 					return 0;
 				}
@@ -366,7 +366,7 @@ DWORD CIOCP::ServerWorkerThread()
 
 			if ( RecvDataParse(lpIOContext, lpPerSocketContext->nIndex ) == 0 )
 			{
-				g_Log.AddC(TColor::Red, "error-L1: Socket Header error %d, %d", WSAGetLastError(), lpPerSocketContext->nIndex);
+				sLog.outError( "error-L1: Socket Header error %d, %d", WSAGetLastError(), lpPerSocketContext->nIndex);
 				CloseClient(lpPerSocketContext, 0);
 				LeaveCriticalSection(&criti);
 				continue;
@@ -386,7 +386,7 @@ DWORD CIOCP::ServerWorkerThread()
 			{
 				if ( WSAGetLastError() != WSA_IO_PENDING)
 				{
-					g_Log.AddC(TColor::Red, "WSARecv() failed with error %d", WSAGetLastError() );
+					sLog.outError( "WSARecv() failed with error %d", WSAGetLastError() );
 					CloseClient(lpPerSocketContext, 0);
 					LeaveCriticalSection(&criti);
 					continue;
@@ -448,14 +448,14 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 
 		else
 		{
-			g_Log.AddC(TColor::Red, "error-L1: Header error (%s %d)lOfs:%d, size:%d", __FILE__, __LINE__, lOfs, lpIOContext->nSentBytes);
+			sLog.outError( "error-L1: Header error (%s %d)lOfs:%d, size:%d", __FILE__, __LINE__, lOfs, lpIOContext->nSentBytes);
 			lpIOContext->nSentBytes = 0;
 			return false;
 		}
 
 		if ( size <= 0 )
 		{
-			g_Log.AddC(TColor::Red, "error-L1: size %d",
+			sLog.outError( "error-L1: size %d",
 				size);
 
 			return false;
@@ -467,7 +467,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 
 			if (Users[uIndex].PacketCount >= g_MaxPacketPerSec && strcmp(Users[uIndex].IP, g_WhiteListIP))
 			{
-				g_Log.AddC(TColor::Red, "[ANTI-FLOOD] Packets Per Second: %d / %d, IP: %d", Users[uIndex].PacketCount, g_MaxPacketPerSec, Users[uIndex].IP);
+				sLog.outError( "[ANTI-FLOOD] Packets Per Second: %d / %d, IP: %d", Users[uIndex].PacketCount, g_MaxPacketPerSec, Users[uIndex].IP);
 				this->CloseClient(uIndex);
 				return false;
 			}
@@ -486,14 +486,14 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 		{
 			if ( lpIOContext->nSentBytes < 1 )
 			{
-				g_Log.AddC(TColor::Red, "error-L1: recvbuflen 1 %s %d", __FILE__, __LINE__);
+				sLog.outError( "error-L1: recvbuflen 1 %s %d", __FILE__, __LINE__);
 				break;
 			}
 
 			if ( lpIOContext->nSentBytes < MAX_IO_BUFFER_SIZE ) 
 			{
 				memcpy(recvbuf, &recvbuf[lOfs], lpIOContext->nSentBytes);
-				g_Log.AddC(TColor::Red, "Message copy %d", lpIOContext->nSentBytes);
+				sLog.outError( "Message copy %d", lpIOContext->nSentBytes);
 			}
 			break;
 		
@@ -525,7 +525,7 @@ bool CIOCP::DataSend(int aIndex, unsigned char* lpMsg, DWORD dwSize, bool Encryp
 
 	if ( ((aIndex < 0)? FALSE : (aIndex > 1000-1)? FALSE : TRUE )  == FALSE )
 	{
-		g_Log.AddC(TColor::Red, "error-L2: Index(%d) %x %x %x ", dwSize, lpMsg[0], lpMsg[1], lpMsg[2]);
+		sLog.outError( "error-L2: Index(%d) %x %x %x ", dwSize, lpMsg[0], lpMsg[1], lpMsg[2]);
 		LeaveCriticalSection(&criti);
 		return false;
 	}
@@ -542,7 +542,7 @@ bool CIOCP::DataSend(int aIndex, unsigned char* lpMsg, DWORD dwSize, bool Encryp
 
 	if ( dwSize > sizeof(lpPerSocketContext->IOContext[0].Buffer))
 	{
-		g_Log.AddC(TColor::Red, "Error: Max msg(%d) %s %d", dwSize, __FILE__, __LINE__);
+		sLog.outError( "Error: Max msg(%d) %s %d", dwSize, __FILE__, __LINE__);
 		CloseClient(aIndex);
 		LeaveCriticalSection(&criti);
 		return false;
@@ -556,7 +556,7 @@ bool CIOCP::DataSend(int aIndex, unsigned char* lpMsg, DWORD dwSize, bool Encryp
 	{
 		if ( ( lpIoCtxt->nSecondOfs + dwSize ) > MAX_IO_BUFFER_SIZE-1 )
 		{
-			g_Log.AddC(TColor::Red, "(%d)error-L2: MAX BUFFER OVER %d %d %d", aIndex, lpIoCtxt->nTotalBytes, lpIoCtxt->nSecondOfs, dwSize);
+			sLog.outError( "(%d)error-L2: MAX BUFFER OVER %d %d %d", aIndex, lpIoCtxt->nTotalBytes, lpIoCtxt->nSecondOfs, dwSize);
 			lpIoCtxt->nWaitIO = 0;
 			CloseClient(aIndex);
 			LeaveCriticalSection(&criti);
@@ -580,7 +580,7 @@ bool CIOCP::DataSend(int aIndex, unsigned char* lpMsg, DWORD dwSize, bool Encryp
 
 	if ( (lpIoCtxt->nTotalBytes+dwSize) > MAX_IO_BUFFER_SIZE-1 )
 	{
-		g_Log.AddC(TColor::Red, "(%d)error-L2: MAX BUFFER OVER %d %d", aIndex, lpIoCtxt->nTotalBytes, dwSize);
+		sLog.outError( "(%d)error-L2: MAX BUFFER OVER %d %d", aIndex, lpIoCtxt->nTotalBytes, dwSize);
 		lpIoCtxt->nWaitIO = 0;
 		CloseClient(aIndex);
 		LeaveCriticalSection(&criti);
@@ -605,12 +605,12 @@ bool CIOCP::DataSend(int aIndex, unsigned char* lpMsg, DWORD dwSize, bool Encryp
 
 			if ( lpIoCtxt->wsabuf.buf[0] == 0xC1 )
 			{
-				g_Log.AddC(TColor::Red, "(%d)WSASend(%d) failed with error [%x][%x] %d %s ", __LINE__, aIndex, (BYTE)lpIoCtxt->wsabuf.buf[0],
+				sLog.outError( "(%d)WSASend(%d) failed with error [%x][%x] %d %s ", __LINE__, aIndex, (BYTE)lpIoCtxt->wsabuf.buf[0],
 					(BYTE)lpIoCtxt->wsabuf.buf[2], WSAGetLastError(), Users[aIndex].IP);
 			}
 			else if ( lpIoCtxt->wsabuf.buf[0] == 0xC2 )
 			{
-				g_Log.AddC(TColor::Red, "(%d)WSASend(%d) failed with error [%x][%x] %d %s ", __LINE__, aIndex, (BYTE)lpIoCtxt->wsabuf.buf[0],
+				sLog.outError( "(%d)WSASend(%d) failed with error [%x][%x] %d %s ", __LINE__, aIndex, (BYTE)lpIoCtxt->wsabuf.buf[0],
 					(BYTE)lpIoCtxt->wsabuf.buf[3], WSAGetLastError(), Users[aIndex].IP);
 			}
 			CloseClient(aIndex);
@@ -668,7 +668,7 @@ bool CIOCP::IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 	{
 		if ( WSAGetLastError() != WSA_IO_PENDING )
 		{
-			g_Log.AddC(TColor::Red, "WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), Users[aIndex].IP);
+			sLog.outError( "WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), Users[aIndex].IP);
 			CloseClient(aIndex);
 			LeaveCriticalSection(&criti);
 			return false;
@@ -709,7 +709,7 @@ bool CIOCP::IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 	{
 		if ( WSAGetLastError() != WSA_IO_PENDING )
 		{
-			g_Log.AddC(TColor::Red, "WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), Users[aIndex].IP);
+			sLog.outError( "WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), Users[aIndex].IP);
 			CloseClient(aIndex);
 			LeaveCriticalSection(&criti);
 			return false;
@@ -734,7 +734,7 @@ bool CIOCP::UpdateCompletionPort(SOCKET sd, int ClientIndex, BOOL bAddToList)
 
 	if ( cp == 0 )
 	{
-		g_Log.AddC(TColor::Red, "CreateIoCompletionPort: %d", GetLastError() );
+		sLog.outError( "CreateIoCompletionPort: %d", GetLastError() );
 		return FALSE;
 	}
 
@@ -769,13 +769,13 @@ void CIOCP::CloseClient(int index)
 {
 	if ( index < 0 || index > 1000-1 )
 	{
-		g_Log.AddC(TColor::Red, "error-L1 : CloseClient index error");
+		sLog.outError( "error-L1 : CloseClient index error");
 		return;
 	}
 
 	if ( Users[index].ConnectionState == 0 )
 	{
-		g_Log.AddC(TColor::Red, "error-L1 : CloseClient connect error");
+		sLog.outError( "error-L1 : CloseClient connect error");
 		return;
 	}
 
@@ -799,13 +799,13 @@ void CIOCP::ResponErrorCloseClient(int index)
 {
 	if ( index < 0 || index > 1000-1 )
 	{
-		g_Log.AddC(TColor::Red, "error-L1 : CloseClient index error");
+		sLog.outError( "error-L1 : CloseClient index error");
 		return;
 	}
 
 	if ( Users[index].ConnectionState == 0 )
 	{
-		g_Log.AddC(TColor::Red, "error-L1 : CloseClient connect error");
+		sLog.outError( "error-L1 : CloseClient connect error");
 		return;
 	}
 

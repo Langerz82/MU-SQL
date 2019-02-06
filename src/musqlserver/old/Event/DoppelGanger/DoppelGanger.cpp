@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DoppelGanger.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "DoppelGanger.h"
 #include "Log/Log.h"
 #include "gObjMonster.h"
@@ -306,7 +306,7 @@ void CDoppelGangerMonsterHerd::MonsterBaseAct(LPOBJ lpObj)
 				{
 					if (MAX_MAP_RANGE(lpObj->MapNumber) == FALSE)
 					{
-						g_Log.AddC(TColor::Red, "[ERROR] MAX_MAP_RANGE (MonsterHerd DG) == FALSE (%d)", lpObj->MapNumber);
+						sLog.outError( "[ERROR] MAX_MAP_RANGE (MonsterHerd DG) == FALSE (%d)", lpObj->MapNumber);
 						break;
 					}
 
@@ -346,7 +346,7 @@ void CDoppelGangerMonsterHerd::MonsterBaseAct(LPOBJ lpObj)
 
 				if (MAX_MAP_RANGE(map) == FALSE)
 				{
-					g_Log.AddC(TColor::Red, "[ERROR] MAX_MAP_RANGE (MonsterHerd DG) == FALSE (%d)", map);
+					sLog.outError( "[ERROR] MAX_MAP_RANGE (MonsterHerd DG) == FALSE (%d)", map);
 					break;
 				}
 

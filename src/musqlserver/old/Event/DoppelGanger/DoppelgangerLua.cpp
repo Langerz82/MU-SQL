@@ -5,7 +5,7 @@
 // 1.01.00
 // ------------------------------
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "DoppelgangerLua.h"
 #include "Doppelganger.h"
 

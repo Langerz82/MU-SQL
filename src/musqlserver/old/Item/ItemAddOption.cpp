@@ -2,7 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ItemAddOption.h"
 #include "Protocol.h"
 #include "Log/Log.h"

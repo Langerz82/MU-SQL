@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // BattleGround.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "BattleGround.h"
 // GS-N 0.99.60T 0x004596B0 Completed
 // GS-N 1.00.18 0x00468DC0 - Completed

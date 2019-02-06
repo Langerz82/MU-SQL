@@ -7,7 +7,7 @@
 // GS-N 0.99.60T 0x004E3170
 //	GS-N	1.00.18	JPN	0x0050BB90	-	Completed
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "SetItemOption.h"
 #include "custTypedef.h"
 #include "prodef.h"

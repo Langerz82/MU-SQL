@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DarkSpirit.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "DarkSpirit.h"
 #include "MapClass.h"
 #include "GameMain.h"

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // QuestExpLuaBind.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "QuestExpLuaBind.h"
 #include "QuestExpUserMng.h"
 #include "QuestExpProgMng.h"

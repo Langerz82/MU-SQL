@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MonsterBag.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "MonsterBag.h"
 #include "Log/Log.h"
 #include "User/user.h"

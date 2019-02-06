@@ -3,7 +3,7 @@
 // Status: 100%
 // Last update: 02/04/2014
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ImperialGuardian.h"
 #include "Log/Log.h"
 #include "User/user.h"
@@ -2376,7 +2376,7 @@ void CImperialGuardian::MonsterBaseAct(LPOBJ lpObj)
 
 				if ( MAX_MAP_RANGE(map) == FALSE )
 				{
-					g_Log.AddC(TColor::Red, "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", map);
+					sLog.outError( "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", map);
 					return;
 				}
 
@@ -2407,7 +2407,7 @@ void CImperialGuardian::MonsterBaseAct(LPOBJ lpObj)
 				{
 					if ( MAX_MAP_RANGE(lpObj->MapNumber) == FALSE )
 					{
-						g_Log.AddC(TColor::Red, "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", lpObj->MapNumber);
+						sLog.outError( "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", lpObj->MapNumber);
 						return;
 					}
 
@@ -2435,7 +2435,7 @@ void CImperialGuardian::MonsterBaseAct(LPOBJ lpObj)
 					{
 						if ( MAX_MAP_RANGE(lpObj->MapNumber) == FALSE )
 						{
-							g_Log.AddC(TColor::Red, "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", lpObj->MapNumber);
+							sLog.outError( "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", lpObj->MapNumber);
 							return;
 						}
 

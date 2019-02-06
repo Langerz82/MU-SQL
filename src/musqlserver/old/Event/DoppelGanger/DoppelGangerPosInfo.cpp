@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DoppelGangerPosInfo.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "DoppelGangerPosInfo.h"
 #include "Log/Log.h"
 #include "User/user.h"

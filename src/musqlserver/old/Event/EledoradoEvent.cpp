@@ -4,7 +4,7 @@
 // Decompiled by Deathway
 // Date : 2007-05-09
 // ------------------------------
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "EledoradoEvent.h"
 #include "Gamemain.h"
 #include "Log/Log.h"
@@ -120,7 +120,7 @@ void CEledoradoEvent::RegenGoldGoblen()
 
 		if (MapNumber == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s MapNumber == -1", __FUNCTION__);
+			sLog.outError( "%s MapNumber == -1", __FUNCTION__);
 			return;
 		}
 
@@ -128,7 +128,7 @@ void CEledoradoEvent::RegenGoldGoblen()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s result == -1", __FUNCTION__);
+			sLog.outError( "%s result == -1", __FUNCTION__);
 			return;
 		}
 
@@ -196,7 +196,7 @@ void CEledoradoEvent::RegenTitan()
 
 		if (MapNumber == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s MapNumber == -1", __FUNCTION__);
+			sLog.outError( "%s MapNumber == -1", __FUNCTION__);
 			return;
 		}
 
@@ -204,7 +204,7 @@ void CEledoradoEvent::RegenTitan()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s result == -1", __FUNCTION__);
+			sLog.outError( "%s result == -1", __FUNCTION__);
 			return;
 		}
 
@@ -266,7 +266,7 @@ void CEledoradoEvent::RegenTitan()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s result == -1", __FUNCTION__);
+			sLog.outError( "%s result == -1", __FUNCTION__);
 			return;
 		}
 
@@ -331,7 +331,7 @@ void CEledoradoEvent::RegenGoldDercon()
 
 		if (MapNumber == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s MapNumber == -1", __FUNCTION__);
+			sLog.outError( "%s MapNumber == -1", __FUNCTION__);
 			return;
 		}
 
@@ -349,7 +349,7 @@ void CEledoradoEvent::RegenGoldDercon()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s result == -1", __FUNCTION__);
+			sLog.outError( "%s result == -1", __FUNCTION__);
 			return;
 		}
 
@@ -432,7 +432,7 @@ void CEledoradoEvent::RegenDevilLizardKing()
 
 		if (MapNumber == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s MapNumber == -1", __FUNCTION__);
+			sLog.outError( "%s MapNumber == -1", __FUNCTION__);
 			return;
 		}
 
@@ -440,7 +440,7 @@ void CEledoradoEvent::RegenDevilLizardKing()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s result == -1", __FUNCTION__);
+			sLog.outError( "%s result == -1", __FUNCTION__);
 			return;
 		}
 
@@ -502,7 +502,7 @@ void CEledoradoEvent::RegenDevilLizardKing()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s result == -1", __FUNCTION__);
+			sLog.outError( "%s result == -1", __FUNCTION__);
 			return;
 		}
 
@@ -566,7 +566,7 @@ void CEledoradoEvent::RegenKantur()
 
 		if (MapNumber == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s MapNumber == -1", __FUNCTION__);
+			sLog.outError( "%s MapNumber == -1", __FUNCTION__);
 			return;
 		}
 
@@ -574,7 +574,7 @@ void CEledoradoEvent::RegenKantur()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s result == -1", __FUNCTION__);
+			sLog.outError( "%s result == -1", __FUNCTION__);
 			return;
 		}
 
@@ -636,7 +636,7 @@ void CEledoradoEvent::RegenKantur()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s result == -1", __FUNCTION__);
+			sLog.outError( "%s result == -1", __FUNCTION__);
 			return;
 		}
 
@@ -769,7 +769,7 @@ void CEledoradoEvent::RegenRabbit()
 
 		if (MapNumber == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s MapNumber == -1", __FUNCTION__);
+			sLog.outError( "%s MapNumber == -1", __FUNCTION__);
 			return;
 		}
 
@@ -777,7 +777,7 @@ void CEledoradoEvent::RegenRabbit()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s result == -1", __FUNCTION__);
+			sLog.outError( "%s result == -1", __FUNCTION__);
 			return;
 		}
 
@@ -844,7 +844,7 @@ void CEledoradoEvent::RegenDarkKnight()
 
 		if (MapNumber == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s MapNumber == -1", __FUNCTION__);
+			sLog.outError( "%s MapNumber == -1", __FUNCTION__);
 			return;
 		}
 
@@ -852,7 +852,7 @@ void CEledoradoEvent::RegenDarkKnight()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s result == -1", __FUNCTION__);
+			sLog.outError( "%s result == -1", __FUNCTION__);
 			return;
 		}
 
@@ -919,7 +919,7 @@ void CEledoradoEvent::RegenDevil()
 
 		if (MapNumber == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s MapNumber == -1", __FUNCTION__);
+			sLog.outError( "%s MapNumber == -1", __FUNCTION__);
 			return;
 		}
 
@@ -927,7 +927,7 @@ void CEledoradoEvent::RegenDevil()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s result == -1", __FUNCTION__);
+			sLog.outError( "%s result == -1", __FUNCTION__);
 			return;
 		}
 
@@ -994,7 +994,7 @@ void CEledoradoEvent::RegenDarkKnightAida()
 
 		if (MapNumber == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s MapNumber == -1", __FUNCTION__);
+			sLog.outError( "%s MapNumber == -1", __FUNCTION__);
 			return;
 		}
 
@@ -1002,7 +1002,7 @@ void CEledoradoEvent::RegenDarkKnightAida()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s result == -1", __FUNCTION__);
+			sLog.outError( "%s result == -1", __FUNCTION__);
 			return;
 		}
 
@@ -1069,7 +1069,7 @@ void CEledoradoEvent::RegenCrust()
 
 		if (MapNumber == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s MapNumber == -1", __FUNCTION__);
+			sLog.outError( "%s MapNumber == -1", __FUNCTION__);
 			return;
 		}
 
@@ -1077,7 +1077,7 @@ void CEledoradoEvent::RegenCrust()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s result == -1", __FUNCTION__);
+			sLog.outError( "%s result == -1", __FUNCTION__);
 			return;
 		}
 
@@ -1144,7 +1144,7 @@ void CEledoradoEvent::RegenSatiros()
 
 		if (MapNumber == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s MapNumber == -1", __FUNCTION__);
+			sLog.outError( "%s MapNumber == -1", __FUNCTION__);
 			return;
 		}
 
@@ -1152,7 +1152,7 @@ void CEledoradoEvent::RegenSatiros()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s result == -1", __FUNCTION__);
+			sLog.outError( "%s result == -1", __FUNCTION__);
 			return;
 		}
 
@@ -1219,7 +1219,7 @@ void CEledoradoEvent::RegenTwinTail()
 
 		if (MapNumber == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s MapNumber == -1", __FUNCTION__);
+			sLog.outError( "%s MapNumber == -1", __FUNCTION__);
 			return;
 		}
 
@@ -1227,7 +1227,7 @@ void CEledoradoEvent::RegenTwinTail()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s result == -1", __FUNCTION__);
+			sLog.outError( "%s result == -1", __FUNCTION__);
 			return;
 		}
 
@@ -1294,7 +1294,7 @@ void CEledoradoEvent::RegenIronKnight()
 
 		if (MapNumber == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s MapNumber == -1", __FUNCTION__);
+			sLog.outError( "%s MapNumber == -1", __FUNCTION__);
 			return;
 		}
 
@@ -1302,7 +1302,7 @@ void CEledoradoEvent::RegenIronKnight()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s result == -1", __FUNCTION__);
+			sLog.outError( "%s result == -1", __FUNCTION__);
 			return;
 		}
 
@@ -1369,7 +1369,7 @@ void CEledoradoEvent::RegenNeipin()
 
 		if (MapNumber == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s MapNumber == -1", __FUNCTION__);
+			sLog.outError( "%s MapNumber == -1", __FUNCTION__);
 			return;
 		}
 
@@ -1377,7 +1377,7 @@ void CEledoradoEvent::RegenNeipin()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s result == -1", __FUNCTION__);
+			sLog.outError( "%s result == -1", __FUNCTION__);
 			return;
 		}
 
@@ -1444,7 +1444,7 @@ void CEledoradoEvent::RegenGreatDragon()
 
 		if (MapNumber == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s MapNumber == -1", __FUNCTION__);
+			sLog.outError( "%s MapNumber == -1", __FUNCTION__);
 			return;
 		}
 
@@ -1452,7 +1452,7 @@ void CEledoradoEvent::RegenGreatDragon()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s result == -1", __FUNCTION__);
+			sLog.outError( "%s result == -1", __FUNCTION__);
 			return;
 		}
 

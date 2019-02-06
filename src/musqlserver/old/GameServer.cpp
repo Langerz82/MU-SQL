@@ -7,7 +7,7 @@
 //				 Start all servers
 //------------------------------------------
 //	GS-N	1.00.18	JPN	0x0052D520	-	Completed
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "User/user.h"
 #include "Lang.h"
 #include "resource.h"
@@ -646,7 +646,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 						g_OffLevel.LoadSkillDefinitions(g_ConfigRead.GetPath("\\Skills\\IGC_SkillCategory.xml"));	
 					/*}
 					else {
-						g_Log.AddC(TColor::Red, "Your license does not have Offlevel plugin purchased, please disable Off-Level system");
+						sLog.outError( "Your license does not have Offlevel plugin purchased, please disable Off-Level system");
 					}*/
 					break;
 				case ID_LICENSE_SHOWINFO:
@@ -798,7 +798,7 @@ LRESULT CALLBACK GSDisconnect(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 
 					if(sLen <= 0 || sLen > sizeof(szAccount))
 					{
-						g_Log.AddC(TColor::Red,  "[GameServer] could not read account name");
+						sLog.outError(  "[GameServer] could not read account name");
 					}
 					else
 					{
@@ -837,7 +837,7 @@ LRESULT CALLBACK GSDisconnect(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 
 					if(sLen <= 0 || sLen > sizeof(szAccount))
 					{
-						g_Log.AddC(TColor::Red,  "[GameServer] could not read character name");
+						sLog.outError(  "[GameServer] could not read character name");
 					}
 					else
 					{

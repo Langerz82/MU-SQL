@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DevilSquareGround.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "DevilSquareGround.h"
 #include "DevilSquare.h"
 #include "GameMain.h"

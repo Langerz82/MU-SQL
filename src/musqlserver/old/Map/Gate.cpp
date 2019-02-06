@@ -6,7 +6,7 @@
 // GS-N 0.99.60T 0x004FF2E0
 //	GS-N	1.00.18	JPN	0x0052F200	-	Completed
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "gate.h"
 #include "Log/Log.h"
 #include "GameMain.h"

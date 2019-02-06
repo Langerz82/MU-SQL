@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // CustomMichi.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "CustomMichi.h"
 #include "Log/Log.h"
 #include "MuRummyMng.h"
@@ -35,7 +35,7 @@ void CConfigMichi::LoadPotionHack()
 	this->FixHackPotions.Potion2 = PotionHackConfig.ReadDword("HealingPotionHackCheck", "LifePotionRate3", 30);
 	this->FixHackPotions.Potion3 = PotionHackConfig.ReadDword("HealingPotionHackCheck", "LifePotionRate4", 40);
 
-	g_Log.AddC(TColor::Red, "Healing: AutoPotionHack:(On: %s), AutoPotionHackTolerance: %d ", this->FixHackPotions.m_CheckHealingAutoPotionHack == true ? "Yes" : "No", this->FixHackPotions.m_CheckAutoHealingPotionHackTolerance);
+	sLog.outError( "Healing: AutoPotionHack:(On: %s), AutoPotionHackTolerance: %d ", this->FixHackPotions.m_CheckHealingAutoPotionHack == true ? "Yes" : "No", this->FixHackPotions.m_CheckAutoHealingPotionHackTolerance);
 
 }
 

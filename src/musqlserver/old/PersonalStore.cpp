@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // PersonalStore.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "PersonalStore.h"
 #include "User/user.h"
 #include "GameMain.h"

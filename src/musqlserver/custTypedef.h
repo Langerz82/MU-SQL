@@ -1,10 +1,14 @@
-#ifndef __CUSTTYPEDEF_H
-#define __CUSTTYPEDEF_H
+#ifndef _CUSTTYPEDEF_H
+#define _CUSTTYPEDEF_H
 
-#ifndef USER_H__
-#define USER_H__
-#include "User/user.h"
-#endif
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000.
+
+//#ifndef USER_H__
+//#define USER_H__
+//#include "User/user.h"
+//#endif
 
 typedef int BOOL;
 typedef wchar_t WCHAR;

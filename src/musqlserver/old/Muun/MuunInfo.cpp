@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MuunInfo.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "MuunInfo.h"
 
 CMuunInfo::CMuunInfo()

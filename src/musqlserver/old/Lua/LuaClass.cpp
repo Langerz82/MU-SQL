@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // LuaClass.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "LuaClass.h"
 #include "Log/Log.h"
 #include "configread.h"

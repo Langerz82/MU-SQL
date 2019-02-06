@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // UserChatBlockMng.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "UserChatBlockMng.hpp"
 
 UserChatBlockMng* UserChatBlockMng::m_Instance = NULL;

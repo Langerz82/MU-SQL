@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MuunInfoMng.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "MuunInfoMng.h"
 #include "User/user.h"
 #include "Log/Log.h"

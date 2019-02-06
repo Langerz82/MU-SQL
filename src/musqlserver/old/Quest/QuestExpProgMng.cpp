@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // QuestExpProgMng.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "QuestExpProgMng.h"
 #include "QuestExpInfo.h"
 #include "QuestExpUserInfo.h"

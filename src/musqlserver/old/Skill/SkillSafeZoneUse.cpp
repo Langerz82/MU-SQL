@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // SkillSafeZoneUse.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "SkillSafeZoneUse.h"
 #include "User/user.h"
 #include "MagicInf.h"

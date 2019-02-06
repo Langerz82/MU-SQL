@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // VipSys.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "VipSys.h"
 #include "User/user.h"
 #include "protocol.h"

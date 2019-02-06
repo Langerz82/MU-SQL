@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ItemSocketOptionSystem.cpp
-//#include "stdafx.h"
+//#include "StdAfx.h"
 #include "ItemSocketOptionSystem.h"
 #include "../LargeRand.h"
 #include "../user.h"
@@ -237,8 +237,8 @@ void CItemSocketOptionSystem::LoadScript()
 
 	pugi::xml_node mainXML = file.child("SocketSystem");
 
-	m_SphereDropOn = main.attribute("SphereDrop").as_int();
-	m_TetraDropOn = main.attribute("TetraDrop").as_int();
+	m_SphereDropOn = mainXML.attribute("SphereDrop").as_int();
+	m_TetraDropOn = mainXML.attribute("TetraDrop").as_int();
 
 	pugi::xml_node sphere_drop = mainXML.child("SphereDrop");
 	pugi::xml_node sphere_rate = sphere_drop.child("Rate");

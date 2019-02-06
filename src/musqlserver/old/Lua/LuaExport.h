@@ -318,7 +318,7 @@ public:
 
 		if (Div == 0)
 		{
-			g_Log.AddC(TColor::Red, "[LUA] ERROR - LuaGetRandomValue Divider == 0");
+			sLog.outError( "[LUA] ERROR - LuaGetRandomValue Divider == 0");
 			return false;
 		}
 
@@ -333,7 +333,7 @@ public:
 
 		if (Div == 0)
 		{
-			g_Log.AddC(TColor::Red, "[LUA] ERROR - LuaGetLargeRandomValue Divider == 0");
+			sLog.outError( "[LUA] ERROR - LuaGetLargeRandomValue Divider == 0");
 			return false;
 		}
 

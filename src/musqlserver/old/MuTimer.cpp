@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MuTimer.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "MuTimer.h"
 #include "GameMain.h"
 #include "GameServer.h"
@@ -184,7 +184,7 @@ VOID WINAPI TimerProcQueue(LPVOID lpParameter, BOOL TimerOrWaitFired)
 					if (gCloseMsgTime == 1)
 					{
 						GSProtocol.AllSendServerMsg(Lang.GetText(0,1));
-						g_Log.AddC(TColor::Red, "GameServer closed");
+						sLog.outError( "GameServer closed");
 					}
 				}
 				else
@@ -195,7 +195,7 @@ VOID WINAPI TimerProcQueue(LPVOID lpParameter, BOOL TimerOrWaitFired)
 
 						wsprintf(szTemp, Lang.GetText(0,2), gCloseMsgTime);
 						GSProtocol.AllSendServerMsg(szTemp);
-						g_Log.AddC(TColor::Red, "Server close automatically in %d second(s)", gCloseMsgTime);
+						sLog.outError( "Server close automatically in %d second(s)", gCloseMsgTime);
 					}
 				}
 

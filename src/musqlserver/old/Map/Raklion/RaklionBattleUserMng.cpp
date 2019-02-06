@@ -2,7 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "RaklionBattleUserMng.h"
 #include "User/user.h"
 #include "Raklion.h"
@@ -55,7 +55,7 @@ BOOL CRaklionBattleUserMng::DeleteUserData(int iIndex)
 {
 	if( iIndex < 0 || iIndex > g_ConfigRead.server.GetObjectMax()-1 )
 	{
-		g_Log.AddC(TColor::Red, "[ RAKLION ][ BattleUser ] Delete User Fail - Unvalid Index:%d", iIndex);
+		sLog.outError( "[ RAKLION ][ BattleUser ] Delete User Fail - Unvalid Index:%d", iIndex);
 		return FALSE;
 	}
 

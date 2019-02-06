@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // NewPVP.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "NewPVP.h"
 #include "GameMain.h"
 #include "TNotice.h"

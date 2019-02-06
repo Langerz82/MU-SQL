@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MagicInf.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "MagicInf.h"
 #include "Log/Log.h"
 #include "GameMain.h"

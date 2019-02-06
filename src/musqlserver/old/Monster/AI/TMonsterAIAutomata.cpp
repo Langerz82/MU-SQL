@@ -2,7 +2,7 @@
 //	GS-N	1.00.18 JPN 0x0055BC30	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "TMonsterAIAutomata.h"
 #include "TMonsterAIGroup.h"
 #include "TMonsterAIUtil.h"

@@ -11,7 +11,7 @@
 	BOOL gObjJoominCheck(int aIndex, char* szInJN)	-	strcmpi comflict symbols
 	void SkillFrustrum()	-	Wrong Symbol NAmes of the zzmath functions
 */
-//#include "stdafx.h"
+//#include "StdAfx.h"
 #include "User/user.h"
 #include "Log/Log.h"
 //#include "LogToFile.h"
@@ -3904,7 +3904,7 @@ void gObjAllLogOut()
 	gDisconnect = 1;
 	gObjAllDisconnect();
 	Sleep(1000);
-	g_Log.AddC(TColor::Red, "Whole connection closed");
+	sLog.outError( "Whole connection closed");
 }
 
 
@@ -6230,7 +6230,7 @@ BOOL gObjLevelUpPointAdd(BYTE type, LPOBJ lpObj, int aIndex)	// type : [1:Streng
 {
 	if (lpObj->Type != OBJ_USER)
 	{
-		g_Log.AddC(TColor::Red, "error-L1: LevelUp point value error %s %s %s %d", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		sLog.outError( "error-L1: LevelUp point value error %s %s %s %d", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return FALSE;
 	}
 
@@ -9446,7 +9446,7 @@ UINT64 gObjMonsterExpSingleRenewal(LPOBJ lpObj, LPOBJ lpTargetObj, int dmg, int 
 
 	if (lpObj->Type != OBJ_USER)
 	{
-		g_Log.AddC(TColor::Red, "[ERROR] lpObj->Type != OBJ_USER (%s)(%d)", __FILE__, __LINE__);
+		sLog.outError( "[ERROR] lpObj->Type != OBJ_USER (%s)(%d)", __FILE__, __LINE__);
 		return 0;
 	}
 
@@ -11619,7 +11619,7 @@ BOOL CheckInventoryEmptySpace(LPOBJ lpObj, int iItemHeight, int iItemWidth)
 
 BOOL gObjIsItemPut(LPOBJ lpObj, CItem * lpItem, int pos) // check this
 {
-	//g_Log.AddC(TColor::Red, "[K2] lpItem->m_TwoHand %d lpObj->pInventory[1].IsItem() %d", lpItem->m_TwoHand, lpObj->pInventory[1].IsItem());
+	//sLog.outError( "[K2] lpItem->m_TwoHand %d lpObj->pInventory[1].IsItem() %d", lpItem->m_TwoHand, lpObj->pInventory[1].IsItem());
 	if (lpItem->m_TwoHand == 1)
 	{
 		if (pos == 0 || pos == 1)
@@ -12809,7 +12809,7 @@ BYTE gObjInventoryMoveItem(int aIndex, unsigned char source, unsigned char targe
 
 	if (lpObj->m_bMapSvrMoveReq == true || lpObj->m_bMapSvrMoveQuit == true || lpObj->m_State == 32)
 	{
-		g_Log.AddC(TColor::Red, "[gObjInventoryMoveItem] Can't move item in inventory - MapServerMove");
+		sLog.outError( "[gObjInventoryMoveItem] Can't move item in inventory - MapServerMove");
 		return -1;
 	}
 
@@ -18019,7 +18019,7 @@ void gObjSetState()
 						{
 							if (m_Result == -1)
 							{
-								g_Log.AddC(TColor::Red, "[MapServerMng] Map Server Move Fail : CheckMoveMapSvr() == -1 [%s][%s] (%d)", lpObj->AccountID, lpObj->Name, lpObj->m_Index);
+								sLog.outError( "[MapServerMng] Map Server Move Fail : CheckMoveMapSvr() == -1 [%s][%s] (%d)", lpObj->AccountID, lpObj->Name, lpObj->m_Index);
 								continue;
 							}
 
@@ -18362,7 +18362,7 @@ void gObjSecondProc()
 					{
 						//BYTE btKillClient[] = { 0xC1, 0x04, 0xFA, 0xA6 };
 						//IOCP.DataSend(lpObj->m_Index, btKillClient, sizeof(btKillClient));
-					//	g_Log.AddC(TColor::Red, "(%d)[%s][%s][%s] User did not disconnect upon request. Modified client?", lpObj->m_Index, lpObj->m_PlayerData->Ip_addr, lpObj->AccountID, lpObj->Name);
+					//	sLog.outError( "(%d)[%s][%s][%s] User did not disconnect upon request. Modified client?", lpObj->m_Index, lpObj->m_PlayerData->Ip_addr, lpObj->AccountID, lpObj->Name);
 					}
 				}
 
@@ -18533,7 +18533,7 @@ void gObjSecondProc()
 
 			if (lpObj->m_PlayerData->AntiHackCheckTime > 0 && GetTickCount() - lpObj->m_PlayerData->AntiHackCheckTime > 180000 && lpObj->m_bOff == false)
 			{
-				/*	g_Log.AddC(TColor::Red, "[%s][%s][%s][%s] AntiHack breach #1-> No response",
+				/*	sLog.outError( "[%s][%s][%s][%s] AntiHack breach #1-> No response",
 					   lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr, lpObj->m_PlayerData->HWID);
 
 				   AntiHackLog->Output("[%s][%s][%s][%s] AntiHack breach #1-> No response",
@@ -18551,7 +18551,7 @@ void gObjSecondProc()
 			{
 				if (lpObj->m_PlayerData->dwLastHitHackTick > 0 && GetTickCount64() - lpObj->m_PlayerData->dwLastHitHackTick > 180000 && lpObj->m_bOff == false)
 				{
-					g_Log.AddC(TColor::Red, "[%s][%s][%s][%s] AntiHack breach #2 -> No response",
+					sLog.outError( "[%s][%s][%s][%s] AntiHack breach #2 -> No response",
 						lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr, lpObj->m_PlayerData->HWID);
 
 					if (g_ConfigRead.antihack.AntiHackBreachDisconnectUser == true)
@@ -18571,7 +18571,7 @@ void gObjSecondProc()
 
 				if (lpObj->CrcCheckTime > 0 && GetTickCount() - lpObj->CrcCheckTime > 30000)
 				{
-					g_Log.AddC(TColor::Red, "[CRC] [%s][%s] No response - DC", lpObj->AccountID, lpObj->Name);
+					sLog.outError( "[CRC] [%s][%s] No response - DC", lpObj->AccountID, lpObj->Name);
 					GSProtocol.GCSendDisableReconnect(n);
 					//IOCP.CloseClient(n);
 				}
@@ -21267,7 +21267,7 @@ BOOL gObjMoveGate(int aIndex, int gt)
 				{
 					if (sSvrCode == -1)
 					{
-						g_Log.AddC(TColor::Red, "[MapServerMng] Map Server Move Fail : CheckMoveMapSvr() == -1 [%s][%s] (%d)", lpObj->AccountID, lpObj->Name, lpObj->m_Index);
+						sLog.outError( "[MapServerMng] Map Server Move Fail : CheckMoveMapSvr() == -1 [%s][%s] (%d)", lpObj->AccountID, lpObj->Name, lpObj->m_Index);
 						return false;
 					}
 
@@ -21484,7 +21484,7 @@ void gObjTeleport(int aIndex, int map, int x, int y)
 		{
 			if (sSvrCode == -1)
 			{
-				g_Log.AddC(TColor::Red, "[MapServerMng] Map Server Move Fail : CheckMoveMapSvr() == -1 [%s][%s] (%d)", lpObj->AccountID, lpObj->Name, lpObj->m_Index);
+				sLog.outError( "[MapServerMng] Map Server Move Fail : CheckMoveMapSvr() == -1 [%s][%s] (%d)", lpObj->AccountID, lpObj->Name, lpObj->m_Index);
 				return;
 			}
 
@@ -26945,7 +26945,7 @@ void gObjAutoPartySet(LPOBJ lpObj /* master */, LPOBJ lpTargetObj /*requestor*/)
 {
 	if (lpObj->Type != OBJ_USER || lpTargetObj->Type != OBJ_USER)
 	{
-		g_Log.AddC(TColor::Red, "error %d", __LINE__);
+		sLog.outError( "error %d", __LINE__);
 		return;
 	}
 
@@ -27785,7 +27785,7 @@ BYTE gObjEventInventoryTradeMove(LPOBJ lpObj, BYTE source, BYTE target)
 
 	if (lpObj->m_bMapSvrMoveReq == true || lpObj->m_bMapSvrMoveQuit == true || lpObj->m_State == 32)
 	{
-		g_Log.AddC(TColor::Red, "[gObjEventInventoryTradeMove] Can't move item in inventory - MapServerMove");
+		sLog.outError( "[gObjEventInventoryTradeMove] Can't move item in inventory - MapServerMove");
 		return -1;
 	}
 

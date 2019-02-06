@@ -5,7 +5,7 @@
 // WinUtil.cpp
 //	GS-N	1.00.18	JPN	0x004A4E40	-	Completed
 
-//#include "stdafx.h"
+//#include "StdAfx.h"
 //#include "custTypedef.h"
 #include "util.h"
 #include <string>

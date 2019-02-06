@@ -8,6 +8,8 @@
 #ifndef MULUA_H
 #define MULUA_H
 
+#include "StdAfx.h"
+
 #define LUA_REGULARSKILL_SCRIPT_PATH "\\Scripts\\Skills\\RegularSkillCalc.lua"
 
 #pragma once

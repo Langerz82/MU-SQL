@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MagicDamage.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "MagicDamage.h"
 #include "Log/Log.h"
 #include "GameMain.h"

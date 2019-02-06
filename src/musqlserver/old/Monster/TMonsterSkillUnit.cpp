@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x00559910	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "TMonsterSkillUnit.h"
 #include "Log/Log.h"
 
@@ -177,7 +177,7 @@ void TMonsterSkillUnit::RunSkill(int iIndex, int iTargetIndex)
 	{
 		if ( this->m_lpElementsSlot[i] == NULL )
 		{
-			g_Log.AddC(TColor::Red,  "[Monster SkillUnit] SkillElement is NULL");
+			sLog.outError(  "[Monster SkillUnit] SkillElement is NULL");
 			continue;
 		}
 

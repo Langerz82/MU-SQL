@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // OfflineLevelling.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "User/user.h"
 #include "ObjUseSkill.h"
 #include "OfflineLevelling.h"
@@ -151,7 +151,7 @@ int COfflineLevelling::FindUser(int aIndex)
 	
 	if(iter == m_OffPlayerData.end())
 	{
-		//..g_Log.AddC(TColor::Red,"User %d not found LINE: %d",aIndex,__LINE__);
+		//..sLog.outError("User %d not found LINE: %d",aIndex,__LINE__);
 		LeaveCriticalSection(&m_OfflevelCriti);
 		return -1;
 	}

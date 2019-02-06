@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x0055D120	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "TMonsterAIElement.h"
 #include "TMonsterAIGroup.h"
 #include "TMonsterSkillManager.h"
@@ -767,7 +767,7 @@ BOOL TMonsterAIElement::ApplyElementSkillAttack(int iIndex, int iTargetIndex, TM
 BOOL TMonsterAIElement::ApplyElementAIChange(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
 	TMonsterAIGroup::ChangeAIOrder(this->m_iTargetType, this->m_iX);
-	g_Log.AddC(TColor::Red,  "[AI Change] Group %d AI Order %d",
+	sLog.outError(  "[AI Change] Group %d AI Order %d",
 		this->m_iTargetType, this->m_iX);
 
 	return FALSE;

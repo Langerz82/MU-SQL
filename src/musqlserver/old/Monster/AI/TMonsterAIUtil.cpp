@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x00564930	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "TMonsterAIUtil.h"
 #include "BuffEffectSlot.h"
 #include "Log/Log.h"

@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 // ServerData.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ServerData.h"
 #include "readscript.h"
 #include "Log/Log.h"

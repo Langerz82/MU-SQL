@@ -3,12 +3,12 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "DSprotocol.h"
-#include "..\giocp.h"
-#include "..\Item\ItemSerial.h"
-#include "..\ServerEngine.h"
-#include "..\MapServerManager.h"
-#include "..\..\Main.h"
-#include "..\util.h"
+#include "giocp.h"
+#include "Item/ItemSerial.h"
+#include "ServerEngine.h"
+#include "Map/MapServerManager.h"
+//#include "Main.h"
+#include "util.h"
 
 #define szModule "DSProtocol"
 
@@ -614,10 +614,10 @@ void CDataServerProtocol::ProtocolCore(int aIndex, BYTE HeadCode, LPBYTE aRecv, 
 			m_DSProtocol.JGCharDelRequest(aIndex, (SDHP_CHARDELETE *)aRecv);
 			break;
 		case 0x06:
-
+			// TODO
 			break;
 		case 0x07:
-
+			
 			break;
 		case 0x08:
 

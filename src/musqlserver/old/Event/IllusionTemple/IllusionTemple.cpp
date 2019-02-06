@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // IllusionTemple.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "BloodCastle.h"
 #include "ChaosCastle.h"
 #include "IllusionTemple.h"

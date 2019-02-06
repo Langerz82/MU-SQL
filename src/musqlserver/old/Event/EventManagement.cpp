@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // EventManagement.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "EventManagement.h"
 #include "Log/Log.h"
 #include "DragonEvent.h"
@@ -310,7 +310,7 @@ bool CEventManagement::Load(LPSTR lpszFileName)
 
 	pugi::xml_node mainXML = file.child("InvasionManager");
 
-	this->m_bEventStart = main.attribute("Enable").as_bool();
+	this->m_bEventStart = mainXML.attribute("Enable").as_bool();
 
 	for (pugi::xml_node invasion = mainXML.child("Invasion"); invasion; invasion = invasion.next_sibling())
 	{

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // StatSpecialize.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "StatSpecialize.h"
 #include "Log/Log.h"
 #include "configread.h"

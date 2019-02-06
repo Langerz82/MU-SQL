@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MuRummyMng.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "MuRummyMng.h"
 #include "LargeRand.h"
 #include "GameMain.h"

@@ -5,7 +5,7 @@
 // 1.01.00
 // ------------------------------
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "LuaFun.h"
 #include "Log/Log.h"
 

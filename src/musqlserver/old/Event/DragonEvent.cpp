@@ -6,7 +6,7 @@
 // ------------------------------
 // GS-N 0.99.60T 45a900
 // GS-N	1.00.18	JPN	0x0046A1F0	-	Completed
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "DragonEvent.h"
 #include "GameMain.h"
 #include "Log/Log.h"
@@ -158,7 +158,7 @@ void CDragonEvent::DragonActive()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s result == -1", __FUNCTION__);
+			sLog.outError( "%s result == -1", __FUNCTION__);
 			return;
 		}
 
@@ -180,7 +180,7 @@ void CDragonEvent::DragonActive()
 		if (bSpawnFind == false)
 		{
 			gObjDel(result);
-			g_Log.AddC(TColor::Red, "%s bSpawnFind == false", __FUNCTION__);
+			sLog.outError( "%s bSpawnFind == false", __FUNCTION__);
 			return;
 		}
 

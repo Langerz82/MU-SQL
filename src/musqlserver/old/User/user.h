@@ -4,8 +4,8 @@
 // Decompiled by Deathway
 // Date : 2007-05-09
 // ------------------------------
-#ifndef USER_H__
-#define USER_H__
+#ifndef __MUUSER_H__
+#define __MUUSER_H__
 
 #if _MSC_VER > 1000
 #pragma once
@@ -14,21 +14,21 @@
 #include "ComboAttack.h"
 #include "MagicInf.h"
 #include "giocp.h"
-#include "Item\Item.h"
+#include "Item/Item.h"
 #include "classdef.h"
 #include "GuildClass.h"
 #include "TDurMagicKeyChecker.h"
 #include "TMonsterAIAgro.h"
 #include "TMonsterSkillElementInfo.h"
-#include "Item\JewelOfHarmonySystem.h"
+#include "Item/JewelOfHarmonySystem.h"
 #include "ItemSystemFor380.h"
 #include "QuestExpUserInfo.h"
 #include "itemsocketoptiondefine.h"
-//#include "MuLua.h"
-#include "Item\MuunInfo.h"
-#include "Item\MuRummyInfo.h"
-#include "SkillDelay.h"
-#include "Shop.h"
+#include "Lua/MuLua.h"
+#include "Muun/MuunInfo.h"
+#include "MuRummyInfo.h"
+#include "Skill/SkillDelay.h"
+#include "Shop/Shop.h"
 #include "GremoryCase.h"
 //#include "UnityBattleField.h"
 #include "EvolutionMonsterInfo.h"
@@ -364,8 +364,10 @@ enum EVENTENTRY_TYPE
 	#define CS_BOOTS2		9
 	#define CS_BOOTS3		5
 
-
+#ifndef CHECK_LIMIT
 #define CHECK_LIMIT(value, limit) ( ((value)<0)?FALSE:((value)>((limit)-1))?FALSE:TRUE  )
+#endif
+
 #define CHECK_LIMIT2(value, base, limit) ( ((value)<base)?FALSE:((value)>((limit)-1))?FALSE:TRUE  )
 #define CHECK_CLASS(value, type) ( ((value)!=(type))?FALSE:TRUE )
 

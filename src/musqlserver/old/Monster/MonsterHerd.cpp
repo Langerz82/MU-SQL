@@ -4,7 +4,7 @@
 // Decompiled by Deathway
 // Date : 2007-03-09
 // ------------------------------
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "MonsterHerd.h"
 #include "MapClass.h"
 #include "GameMain.h"
@@ -637,7 +637,7 @@ void MonsterHerd::MonsterBaseAct(LPOBJ lpObj)
 
 					if ( MAX_MAP_RANGE(map) == FALSE )
 					{
-						g_Log.AddC(TColor::Red, "[ERROR] MAX_MAP_RANGE (MonsterHerd) == FALSE (%d)", map);
+						sLog.outError( "[ERROR] MAX_MAP_RANGE (MonsterHerd) == FALSE (%d)", map);
 						break;
 					}
 
@@ -667,7 +667,7 @@ void MonsterHerd::MonsterBaseAct(LPOBJ lpObj)
 					{
 						if ( MAX_MAP_RANGE(lpObj->MapNumber) == FALSE )
 						{
-							g_Log.AddC(TColor::Red, "[ERROR] MAX_MAP_RANGE (MonsterHerd) == FALSE (%d)", lpObj->MapNumber);
+							sLog.outError( "[ERROR] MAX_MAP_RANGE (MonsterHerd) == FALSE (%d)", lpObj->MapNumber);
 							break;
 						}
 

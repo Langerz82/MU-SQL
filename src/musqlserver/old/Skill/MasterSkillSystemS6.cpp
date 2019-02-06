@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MasterSkillSystemS6.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "MasterSkillSystemS6.h"
 #include "ReadScript.h"
 #include "util.h"

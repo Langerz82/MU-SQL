@@ -8,7 +8,7 @@
 //	GS-N	1.00.18	JPN	0x0042FBF0	-	Completed
 // PMoveProc - Weird form of compilation
 // void GameProtocol::CGCloseWindow(int aIndex) Weird form of compilation
-//#include "stdafx.h"
+//#include "StdAfx.h"
 #include "protocol.h"
 //#include "User/user.h"
 //#include "giocp.h"
@@ -55,9 +55,7 @@
 #include "CashShop.h"
 #include "PentagramSystem.h"
 #include "IllusionTempleEvent_Renewal.h"
-#include "Sprotocol.h"
-//#include "DSProtocol.h"
-//#include "EDSProtocol.h"
+//#include "Sprotocol.h"
 #include "Mercenary.h"
 #include "ItemSocketOptionSystem.h"
 #include "Guardian.h"
@@ -163,7 +161,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 			}
 		}
 	}
-	//g_Log.AddC(TColor::Red, "K2(ProtocolCore) : %x %x %x", aRecv[0], aRecv[1], aRecv[2]);
+	//sLog.outError( "K2(ProtocolCore) : %x %x %x", aRecv[0], aRecv[1], aRecv[2]);
 	if (protoNum == 0xF1 || protoNum == 0xF3)
 	{
 		switch (protoNum)
@@ -852,7 +850,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 				break;
 			}
 			default:
-				g_Log.AddC(TColor::Red, "%X %X %X %X %X %X %X %X %X %X %X %X", aRecv[0], aRecv[1], aRecv[2], aRecv[3], aRecv[4], aRecv[5], aRecv[6], aRecv[7], aRecv[8], aRecv[9], aRecv[10], aRecv[11]);
+				sLog.outError( "%X %X %X %X %X %X %X %X %X %X %X %X", aRecv[0], aRecv[1], aRecv[2], aRecv[3], aRecv[4], aRecv[5], aRecv[6], aRecv[7], aRecv[8], aRecv[9], aRecv[10], aRecv[11]);
 			}
 		}
 		break;
@@ -1147,7 +1145,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 				g_CashShop.CGCashInventoryItemUseInfo(lpObj, (PMSG_REQ_INGAMESHOP_ITEMUSEINFO *)aRecv);
 				break;
 			default:
-				g_Log.AddC(TColor::Red, "InGameShop Unknown Packet: %X %X", lpDef->h.headcode, lpDef->subcode);
+				sLog.outError( "InGameShop Unknown Packet: %X %X", lpDef->h.headcode, lpDef->subcode);
 			}
 		}
 		break;
@@ -1193,7 +1191,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 				break;
 
 			default:
-				g_Log.AddC(TColor::Red, "%X %X %X %X %X %X %X %X %X %X %X %X", aRecv[0], aRecv[1], aRecv[2], aRecv[3], aRecv[4], aRecv[5], aRecv[6], aRecv[7], aRecv[8], aRecv[9], aRecv[10], aRecv[11]);
+				sLog.outError( "%X %X %X %X %X %X %X %X %X %X %X %X", aRecv[0], aRecv[1], aRecv[2], aRecv[3], aRecv[4], aRecv[5], aRecv[6], aRecv[7], aRecv[8], aRecv[9], aRecv[10], aRecv[11]);
 				break;
 			}
 		}
@@ -1342,7 +1340,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 				break;
 
 			default:
-				g_Log.AddC(TColor::Red, "UNKNOWN QUEST PROTOCOL (%x/%x/%x)", aRecv[2], aRecv[3], aRecv[4]);
+				sLog.outError( "UNKNOWN QUEST PROTOCOL (%x/%x/%x)", aRecv[2], aRecv[3], aRecv[4]);
 				break;
 			}
 		}
@@ -1351,7 +1349,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 		{
 			PMSG_DEFAULT2 * lpDef = (PMSG_DEFAULT2 *)aRecv;
 
-			//g_Log.AddC(TColor::Red, "rare Item ticket 0x01");
+			//sLog.outError( "rare Item ticket 0x01");
 
 			//int Slot = aRecv[4];
 			//CItem * lpItem = NULL;;
@@ -1608,7 +1606,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 		case 0x59:
 			break;
 		default:
-			//g_Log.AddC(TColor::Red, "error-L2 (ProtocolCore) : Account: %s Name: %s : Invalid packet received OP: %X (%s,%d) Connection State: %d",
+			//sLog.outError( "error-L2 (ProtocolCore) : Account: %s Name: %s : Invalid packet received OP: %X (%s,%d) Connection State: %d",
 			//	gObj[aIndex].AccountID, gObj[aIndex].Name, protoNum, __FILE__, __LINE__, gObj[aIndex].Connected);
 			this->GCSendDisableReconnect(aIndex);
 			//IOCP.CloseClient(aIndex);
@@ -1668,14 +1666,14 @@ void GameProtocol::CGLiveClient(PMSG_CLIENTTIME * lpClientTime, short aIndex)
 
 	if (gObj[aIndex].Connected == PLAYER_PLAYING && g_ConfigRead.m_CheckSpeedHack != 0 && lpClientTime->AttackSpeed > gObj[aIndex].m_AttackSpeed && abs((int)(gObj[aIndex].m_AttackSpeed - lpClientTime->AttackSpeed)) > g_ConfigRead.m_CheckSpeedHackTolerance)
 	{
-		g_Log.AddC(TColor::Red, "[%s][%s] Client Speed Hack Detected [%d][%d]", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_AttackSpeed, lpClientTime->AttackSpeed);
+		sLog.outError( "[%s][%s] Client Speed Hack Detected [%d][%d]", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_AttackSpeed, lpClientTime->AttackSpeed);
 		IOCP.CloseClient(aIndex);
 		return;
 	}
 
 	if (gObj[aIndex].Connected == PLAYER_PLAYING && g_ConfigRead.m_CheckSpeedHack != 0 && lpClientTime->MagicSpeed > gObj[aIndex].m_MagicSpeed && abs((int)(gObj[aIndex].m_MagicSpeed - lpClientTime->MagicSpeed)) > g_ConfigRead.m_CheckSpeedHackTolerance)
 	{
-		g_Log.AddC(TColor::Red, "[%s][%s] Client Speed Hack Detected [%d][%d]", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_MagicSpeed, lpClientTime->MagicSpeed);
+		sLog.outError( "[%s][%s] Client Speed Hack Detected [%d][%d]", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_MagicSpeed, lpClientTime->MagicSpeed);
 		IOCP.CloseClient(aIndex);
 		return;
 	}
@@ -1686,7 +1684,7 @@ void GameProtocol::CGLiveClient(PMSG_CLIENTTIME * lpClientTime, short aIndex)
 		{
 			if ((gObj[aIndex].m_AttackSpeed + g_ConfigRead.m_CheckSpeedHackTolerance) < lpClientTime->AttackSpeed || (gObj[aIndex].m_MagicSpeed + g_ConfigRead.m_CheckSpeedHackTolerance) < lpClientTime->MagicSpeed)
 			{
-				g_Log.AddC(TColor::Red, "[%s][%s][%s] ClientSpeedHack Detected : Editing AttackSpeed [%d][%d] [%d][%d]", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_PlayerData->Ip_addr, gObj[aIndex].m_AttackSpeed, lpClientTime->AttackSpeed, gObj[aIndex].m_MagicSpeed, lpClientTime->MagicSpeed);
+				sLog.outError( "[%s][%s][%s] ClientSpeedHack Detected : Editing AttackSpeed [%d][%d] [%d][%d]", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_PlayerData->Ip_addr, gObj[aIndex].m_AttackSpeed, lpClientTime->AttackSpeed, gObj[aIndex].m_MagicSpeed, lpClientTime->MagicSpeed);
 
 				gObj[aIndex].m_AttackSpeedHackDetectedCount++;
 
@@ -1963,7 +1961,7 @@ void GameProtocol::PChatProc(PMSG_CHATDATA * lpChat, short aIndex)
 
 		if (lpObj->m_ChatFloodCount > 6)
 		{
-			g_Log.AddC(TColor::Red, "lpObj->m_ChatFloodCOunt > 6");
+			sLog.outError( "lpObj->m_ChatFloodCOunt > 6");
 			//this->GCSendDisableReconnect(aIndex);
 			IOCP.CloseClient(aIndex);
 			return;
@@ -2672,7 +2670,7 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 
 	if (lpMsg->ServerSeason != g_AuthSys.GetSeason())
 	{
-		g_Log.AddC(TColor::Red, "[IP: %s][aIndex: %d] connecting with DLL for different Game Season, review and correct (if required) %d", gObj[aIndex].m_PlayerData->Ip_addr, aIndex, lpMsg->ServerSeason);
+		sLog.outError( "[IP: %s][aIndex: %d] connecting with DLL for different Game Season, review and correct (if required) %d", gObj[aIndex].m_PlayerData->Ip_addr, aIndex, lpMsg->ServerSeason);
 
 		//this->GCServerMsgStringSend(Lang.GetText(0,547), aIndex, 0);
 		//GCJoinResult(JS_BAD_CLIENT_VERSION, aIndex);
@@ -13166,7 +13164,7 @@ void GameProtocol::CGBeattackRecv(unsigned char* lpRecv, int aIndex, int magic_s
 		// No longer that 8 seconds
 		if ((GetTickCount() - gObj[aIndex].UseMagicTime) > 8000)
 		{
-			g_Log.AddC(TColor::Red, "Too long time passed after casting magic [%s][%s] (%d)(%d)",
+			sLog.outError( "Too long time passed after casting magic [%s][%s] (%d)(%d)",
 				gObj[aIndex].AccountID, gObj[aIndex].Name, lpMagic->m_Skill, GetTickCount() - gObj[aIndex].UseMagicTime);
 
 			return;
@@ -16545,7 +16543,7 @@ void GameProtocol::CGReqMoveOtherServer(PMSG_REQ_MOVE_OTHERSERVER * lpMsg, int a
 
 	if (!gObjIsConnectedGP(aIndex))
 	{
-		g_Log.AddC(TColor::Red, "error-L3 [%s][%d]", __FILE__, __LINE__);
+		sLog.outError( "error-L3 [%s][%d]", __FILE__, __LINE__);
 		return;
 	}
 
@@ -17545,7 +17543,7 @@ void GameProtocol::CGReqMapSvrAuth(PMSG_REQ_MAPSERVERAUTH * lpMsg, int iIndex)
 
 		if ( strcmp((char*)btSerial, szGameServerExeSerial) )
 		{
-			g_Log.AddC(TColor::Red,  "error-L1: Serial error [%s] [%s]", id, btSerial);
+			sLog.outError(  "error-L1: Serial error [%s] [%s]", id, btSerial);
 			GCAnsMapSvrAuth(iIndex, 6);
 			IOCP.CloseClient(iIndex);
 
@@ -17627,7 +17625,7 @@ void GameProtocol::GCAnsMapSvrAuth(int iIndex, int iResult)
 {
 	if (!ObjectMaxRange(iIndex))
 	{
-		g_Log.AddC(TColor::Red, "[MapServerMng] Packet Error JG [0x7B] - Index out of bound : %d", iIndex);
+		sLog.outError( "[MapServerMng] Packet Error JG [0x7B] - Index out of bound : %d", iIndex);
 		return;
 	}
 
@@ -18012,7 +18010,7 @@ void GameProtocol::CGReqNpcBuy(PMSG_REQ_NPCBUY * lpMsg, int iIndex)
 
 	if (g_CastleSiege.CheckGuildOwnCastle(gObj[iIndex].m_PlayerData->GuildName) == FALSE || (gObj[iIndex].m_PlayerData->GuildStatus != G_MASTER && gObj[iIndex].m_PlayerData->GuildStatus != G_SUB_MASTER))
 	{
-		g_Log.AddC(TColor::Red, "[CastleSiege] CGReqNpcBuy() ERROR - Authority Fail [%s][%s], Guild:(%s)(%d), Npc:(CLS:%d, IDX:%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus, lpMsg->iNpcNumber, lpMsg->iNpcIndex);
+		sLog.outError( "[CastleSiege] CGReqNpcBuy() ERROR - Authority Fail [%s][%s], Guild:(%s)(%d), Npc:(CLS:%d, IDX:%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus, lpMsg->iNpcNumber, lpMsg->iNpcIndex);
 	}
 	else
 	{
@@ -18023,11 +18021,11 @@ void GameProtocol::CGReqNpcBuy(PMSG_REQ_NPCBUY * lpMsg, int iIndex)
 		if (bRETVAL == FALSE)
 		{
 			GCAnsNpcBuy(iIndex, btResult, lpMsg->iNpcNumber, lpMsg->iNpcIndex);
-			g_Log.AddC(TColor::Red, "[CastleSiege] CGReqNpcBuy() ERROR - CCastleSiege::CheckAddDbNPC() [%s][%s], Guild:(%s)(%d), Npc:(CLS:%d, IDX:%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus, lpMsg->iNpcNumber, lpMsg->iNpcIndex);
+			sLog.outError( "[CastleSiege] CGReqNpcBuy() ERROR - CCastleSiege::CheckAddDbNPC() [%s][%s], Guild:(%s)(%d), Npc:(CLS:%d, IDX:%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus, lpMsg->iNpcNumber, lpMsg->iNpcIndex);
 		}
 		else
 		{
-			g_Log.AddC(TColor::Red, "[CastleSiege] CGReqNpcBuy() OK - [%s][%s], Guild:(%s)(%d), Npc:(CLS:%d, IDX:%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus, lpMsg->iNpcNumber, lpMsg->iNpcIndex);
+			sLog.outError( "[CastleSiege] CGReqNpcBuy() OK - [%s][%s], Guild:(%s)(%d), Npc:(CLS:%d, IDX:%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus, lpMsg->iNpcNumber, lpMsg->iNpcIndex);
 		}
 	}
 }
@@ -18062,7 +18060,7 @@ void GameProtocol::CGReqNpcRepair(PMSG_REQ_NPCREPAIR * lpMsg, int iIndex)
 
 	if ((g_CastleSiege.CheckGuildOwnCastle(gObj[iIndex].m_PlayerData->GuildName) == FALSE) || (gObj[iIndex].m_PlayerData->GuildStatus != G_MASTER) && (gObj[iIndex].m_PlayerData->GuildStatus != G_SUB_MASTER))
 	{
-		g_Log.AddC(TColor::Red, "[CastleSiege] CGReqNpcRepair() ERROR - Authority Fail [%s][%s], Guild:(%s)(%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus);
+		sLog.outError( "[CastleSiege] CGReqNpcRepair() ERROR - Authority Fail [%s][%s], Guild:(%s)(%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus);
 		return;
 	}
 
@@ -18076,7 +18074,7 @@ void GameProtocol::CGReqNpcRepair(PMSG_REQ_NPCREPAIR * lpMsg, int iIndex)
 	if (bRETVAL == FALSE)
 	{
 		GCAnsNpcRepair(iIndex, 0, lpMsg->iNpcNumber, lpMsg->iNpcIndex, 0, 0);
-		g_Log.AddC(TColor::Red, "[CastleSiege] CGReqNpcRepair() ERROR - CL Request Fail [%s][%s], Guild:(%s)(%d), Npc:(CLS:%d, IDX:%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus, lpMsg->iNpcNumber, lpMsg->iNpcIndex);
+		sLog.outError( "[CastleSiege] CGReqNpcRepair() ERROR - CL Request Fail [%s][%s], Guild:(%s)(%d), Npc:(CLS:%d, IDX:%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus, lpMsg->iNpcNumber, lpMsg->iNpcIndex);
 		return;
 	}
 	else
@@ -18086,13 +18084,13 @@ void GameProtocol::CGReqNpcRepair(PMSG_REQ_NPCREPAIR * lpMsg, int iIndex)
 		if (gObjIsConnected(iNpcIndex) == FALSE)
 		{
 			GCAnsNpcRepair(iIndex, 0, lpMsg->iNpcNumber, lpMsg->iNpcIndex, 0, 0);
-			g_Log.AddC(TColor::Red, "[CastleSiege] CGReqNpcRepair() ERROR - Npc Alive Data Mismatch [%s][%s], Guild:(%s)(%d), Npc:(CLS:%d, IDX:%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus, pNpcData.m_iNPC_NUM, pNpcData.m_iNPC_INDEX);
+			sLog.outError( "[CastleSiege] CGReqNpcRepair() ERROR - Npc Alive Data Mismatch [%s][%s], Guild:(%s)(%d), Npc:(CLS:%d, IDX:%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus, pNpcData.m_iNPC_NUM, pNpcData.m_iNPC_INDEX);
 			return;
 		}
 		else if (gObj[iNpcIndex].Live == 0)
 		{
 			GCAnsNpcRepair(iIndex, 0, lpMsg->iNpcNumber, lpMsg->iNpcIndex, 0, 0);
-			g_Log.AddC(TColor::Red, "[CastleSiege] CGReqNpcRepair() ERROR - Npc Alive Data Mismatch [%s][%s], Guild:(%s)(%d), Npc:(CLS:%d, IDX:%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus, pNpcData.m_iNPC_NUM, pNpcData.m_iNPC_INDEX);
+			sLog.outError( "[CastleSiege] CGReqNpcRepair() ERROR - Npc Alive Data Mismatch [%s][%s], Guild:(%s)(%d), Npc:(CLS:%d, IDX:%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus, pNpcData.m_iNPC_NUM, pNpcData.m_iNPC_INDEX);
 			return;
 		}
 		else
@@ -18123,12 +18121,12 @@ void GameProtocol::CGReqNpcRepair(PMSG_REQ_NPCREPAIR * lpMsg, int iIndex)
 				if (gObj[iIndex].m_PlayerData->Money < iRepairCost)
 				{
 					GCAnsNpcRepair(iIndex, 3, lpMsg->iNpcNumber, lpMsg->iNpcIndex, 0, 0);
-					g_Log.AddC(TColor::Red, "[CastleSiege] CGReqNpcRepair() ERROR - Money isn't enough [%s][%s], Guild:(%s)(%d), Npc:(CLS:%d, IDX:%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus, pNpcData.m_iNPC_NUM, pNpcData.m_iNPC_INDEX);
+					sLog.outError( "[CastleSiege] CGReqNpcRepair() ERROR - Money isn't enough [%s][%s], Guild:(%s)(%d), Npc:(CLS:%d, IDX:%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus, pNpcData.m_iNPC_NUM, pNpcData.m_iNPC_INDEX);
 					return;
 				}
 				else
 				{
-					g_Log.AddC(TColor::Red, "[CastleSiege] CGReqNpcRepair() OK - [%s][%s], Guild:(%s)(%d), Npc:(CLS:%d, IDX:%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus, pNpcData.m_iNPC_NUM, pNpcData.m_iNPC_INDEX);
+					sLog.outError( "[CastleSiege] CGReqNpcRepair() OK - [%s][%s], Guild:(%s)(%d), Npc:(CLS:%d, IDX:%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus, pNpcData.m_iNPC_NUM, pNpcData.m_iNPC_INDEX);
 					GS_GDReqCastleNpcRepair(g_MapServerManager.GetMapSvrGroup(), iIndex, lpMsg->iNpcNumber, lpMsg->iNpcIndex, iRepairCost);
 					//return;
 				}
@@ -18422,7 +18420,7 @@ void GameProtocol::CGReqTaxMoneyInfo(PMSG_REQ_TAXMONEYINFO * lpMsg, int iIndex)
 
 	if ((g_CastleSiege.CheckGuildOwnCastle(gObj[iIndex].m_PlayerData->GuildName) == FALSE) || (gObj[iIndex].m_PlayerData->GuildStatus != G_MASTER))
 	{
-		g_Log.AddC(TColor::Red, "[CastleSiege] CGReqTaxMoneyInfo() ERROR - Authority Fail [%s][%s], Guild:(%s)(%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus);
+		sLog.outError( "[CastleSiege] CGReqTaxMoneyInfo() ERROR - Authority Fail [%s][%s], Guild:(%s)(%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus);
 	}
 	else
 	{
@@ -18468,7 +18466,7 @@ void GameProtocol::CGReqTaxRateChange(PMSG_REQ_TAXRATECHANGE * lpMsg, int iIndex
 
 	if ((g_CastleSiege.CheckGuildOwnCastle(gObj[iIndex].m_PlayerData->GuildName) == FALSE) || (gObj[iIndex].m_PlayerData->GuildStatus != G_MASTER))
 	{
-		g_Log.AddC(TColor::Red, "[CastleSiege] CGReqTaxRateChange() ERROR - Authority Fail [%s][%s], Guild:(%s)(%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus);
+		sLog.outError( "[CastleSiege] CGReqTaxRateChange() ERROR - Authority Fail [%s][%s], Guild:(%s)(%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus);
 	}
 	else
 	{
@@ -18534,7 +18532,7 @@ void GameProtocol::CGReqMoneyDrawOut(PMSG_REQ_MONEYDRAWOUT * lpMsg, int iIndex)
 
 	if ((g_CastleSiege.CheckGuildOwnCastle(gObj[iIndex].m_PlayerData->GuildName) == FALSE) || (gObj[iIndex].m_PlayerData->GuildStatus != G_MASTER))
 	{
-		g_Log.AddC(TColor::Red, "[CastleSiege] CGReqMoneyDrawOut() ERROR - Authority Fail [%s][%s], Guild:(%s)(%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus);
+		sLog.outError( "[CastleSiege] CGReqMoneyDrawOut() ERROR - Authority Fail [%s][%s], Guild:(%s)(%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus);
 	}
 	else
 	{
@@ -18935,7 +18933,7 @@ void GameProtocol::CGReqNpcDbList(PMSG_REQ_NPCDBLIST * lpMsg, int iIndex)
 
 	if (g_CastleSiege.CheckGuildOwnCastle(gObj[iIndex].m_PlayerData->GuildName) == FALSE || ((gObj[iIndex].m_PlayerData->GuildStatus != 128) && (gObj[iIndex].m_PlayerData->GuildStatus != 64)))
 	{
-		g_Log.AddC(TColor::Red, "[CastleSiege] CGReqNpcDbList() ERROR - Authority Fail [%s][%s], Guild:(%s)(%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus);
+		sLog.outError( "[CastleSiege] CGReqNpcDbList() ERROR - Authority Fail [%s][%s], Guild:(%s)(%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName, gObj[iIndex].m_PlayerData->GuildStatus);
 		pResult.h.set((LPBYTE)&pResult, 0xB3, sizeof(pResult));
 		pResult.iCount = 0;
 		pResult.btResult = 2;
@@ -19716,7 +19714,7 @@ void GameProtocol::CGReqAntiCheatRecv(int aIndex, PMSG_SEND_AH_INFO *aRecv)
 
 		if (tick < g_ConfigRead.antihack.PacketTimeMinTime)
 		{
-			g_Log.AddC(TColor::Red, "[ANTI-HACK] (%s)(%s)(%s) (Map:%d)(X:%d)(Y:%d) SpeedHack detected -> Tick (Current:%d/Minimum:%d)",
+			sLog.outError( "[ANTI-HACK] (%s)(%s)(%s) (Map:%d)(X:%d)(Y:%d) SpeedHack detected -> Tick (Current:%d/Minimum:%d)",
 				gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_PlayerData->Ip_addr, gObj[aIndex].MapNumber, gObj[aIndex].X, gObj[aIndex].Y, tick, g_ConfigRead.antihack.PacketTimeMinTime);
 
 			AntiHackLog->Output("[ANTI-HACK] (%s)(%s)(%s) (Map:%d)(X:%d)(Y:%d) SpeedHack detected -> Tick (Current:%d/Minimum:%d)",
@@ -19770,7 +19768,7 @@ void GameProtocol::CGReqAntiCheatRecv(int aIndex, PMSG_SEND_AH_INFO *aRecv)
 	{
 		if (AgilityDiff <= -30 || AgilityDiff >= 30)
 		{
-			g_Log.AddC(TColor::Red, "[ANTI-HACK] (%s)(%s)(%s) Dexterity check error: %d/%d", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_PlayerData->Ip_addr,
+			sLog.outError( "[ANTI-HACK] (%s)(%s)(%s) Dexterity check error: %d/%d", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_PlayerData->Ip_addr,
 				Agility, aRecv->Agi);
 
 			AntiHackLog->Output("[ANTI-HACK] (%s)(%s)(%s) Dexterity check error: %d/%d", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_PlayerData->Ip_addr,
@@ -19797,7 +19795,7 @@ void GameProtocol::CGReqAntiCheatRecv(int aIndex, PMSG_SEND_AH_INFO *aRecv)
 	}
 	else
 	{
-		g_Log.AddC(TColor::Red, "[ANTI-HACK] (%s)(%s)(%s) Cheat detected: %s", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_PlayerData->Ip_addr,
+		sLog.outError( "[ANTI-HACK] (%s)(%s)(%s) Cheat detected: %s", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_PlayerData->Ip_addr,
 			aRecv->Agi == 0 ? "SpeedHack" : "Proxy");
 
 		AntiHackLog->Output("[ANTI-HACK] (%s)(%s)(%s) Cheat detected: %s", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_PlayerData->Ip_addr,
@@ -19981,7 +19979,7 @@ void GameProtocol::GCChaosMachinePriceSend(int aIndex)
 {
 	if (gObj[aIndex].Type != OBJ_USER)
 	{
-		g_Log.AddC(TColor::Red, "[ERROR] Index %d not USER", aIndex);
+		sLog.outError( "[ERROR] Index %d not USER", aIndex);
 		return;
 	}
 
@@ -20020,7 +20018,7 @@ void GameProtocol::GCPriceSend(int aIndex, BYTE type, SHOP_DATA *lpShopData)
 {
 	if (gObj[aIndex].Type != OBJ_USER)
 	{
-		g_Log.AddC(TColor::Red, "[ERROR] Index %d not USER", aIndex);
+		sLog.outError( "[ERROR] Index %d not USER", aIndex);
 		return;
 	}
 
@@ -21115,7 +21113,7 @@ void GameProtocol::CGReqAntihackBreach(int aIndex, PMSG_ANTIHACK_BREACH *lpMsg)
 		return;
 	}
 
-	g_Log.AddC(TColor::Red, "[%s][%s][%s][%s] AntiHack breach -> Code:%d",
+	sLog.outError( "[%s][%s][%s][%s] AntiHack breach -> Code:%d",
 		lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr, lpObj->m_PlayerData->HWID, lpMsg->dwErrorCode);
 
 	AntiHackLog->Output("[%s][%s][%s][%s] AntiHack breach -> Code: %d",
@@ -21141,7 +21139,7 @@ void GameProtocol::CGReqAntihackCheck(int aIndex, PMSG_ANTIHACK_CHECK *lpMsg)
 
 	if (memcmp(lpMsg->checkdata, MainRecvHeader, 5) != 0 && g_ConfigRead.antihack.AntiHackRecvHookProtect == true) // data is wrong, recv is probably hooked
 	{
-		g_Log.AddC(TColor::Red, "[%s][%s][%s][%s] AntiHack breach -> Recv header data is wrong",
+		sLog.outError( "[%s][%s][%s][%s] AntiHack breach -> Recv header data is wrong",
 			lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr, lpObj->m_PlayerData->HWID);
 
 		AntiHackLog->Output("[%s][%s][%s][%s] AntiHack breach -> Recv header data is wrong",
@@ -25146,7 +25144,7 @@ void GameProtocol::CGRecvHitHackValues(int aIndex, PMSG_SEND_HITHACK_INFO * lpMs
 
 	if (bIsAllValues1Equal || bIsAllValues2Equal)
 	{
-		g_Log.AddC(TColor::Red, "[AntiHack][%s][%s][%s] Hit Hack detected", lpObj->m_PlayerData->Ip_addr, lpObj->AccountID, lpObj->Name);
+		sLog.outError( "[AntiHack][%s][%s][%s] Hit Hack detected", lpObj->m_PlayerData->Ip_addr, lpObj->AccountID, lpObj->Name);
 		AntiHackLog->Output("[AntiHack][%s][%s][%s] Hit Hack detected", lpObj->m_PlayerData->Ip_addr, lpObj->AccountID, lpObj->Name);
 		GSProtocol.GCSendDisableReconnect(aIndex);
 	}

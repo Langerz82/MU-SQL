@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // GremoryCase.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "GremoryCase.h"
 #include "util.h"
 #include "Log/Log.h"

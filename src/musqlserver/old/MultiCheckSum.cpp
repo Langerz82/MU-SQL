@@ -6,7 +6,7 @@
 // GS-N 0.99.60T 0x00523EC7 Status : Completed :)
 //	GS-N	1.00.18	JPN	0x00595CA0	-	Completed
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "MultiCheckSum.h"
 #include "Log/Log.h"
 #include "User/user.h"

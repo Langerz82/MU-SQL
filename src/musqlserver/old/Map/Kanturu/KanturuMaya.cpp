@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x005785B0	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "KanturuMaya.h"
 #include "TMonsterSkillManager.h"
 #include "Log/Log.h"

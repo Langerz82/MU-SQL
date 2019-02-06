@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x00	0x0056F470	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "CrywolfSync.h"
 
 CCrywolfSync g_CrywolfSync;

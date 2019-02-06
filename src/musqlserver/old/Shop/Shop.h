@@ -7,10 +7,13 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "StdAfx.h"
 #include "Item/Item.h"
 #include "Item/ItemOptionTypeMng.h"
 
 #define MAX_ITEM_IN_SHOP 120
+#define MAX_ITEM_INFO 12
+#define MAX_DBITEM_INFO 32
 
 class CShop
 {
@@ -236,6 +239,8 @@ public:
 extern CCancelItemSale g_CancelItemSale;
 
 #endif
+
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //

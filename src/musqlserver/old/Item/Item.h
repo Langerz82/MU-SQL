@@ -11,9 +11,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-//#include "stdafx.h"
-#include "custTypedef.h"
-#include "prodef.h"
+#include "StdAfx.h"
 
 #define MAX_TYPE_PLAYER 8 
 #define MAX_ITEM_LEVEL	15

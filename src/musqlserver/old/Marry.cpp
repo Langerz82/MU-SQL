@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Marry.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Marry.h"
 #include "protocol.h"
 #include "Log/Log.h"
@@ -39,9 +39,9 @@ void CMarry::LoadFile(char * filename)
 
 	pugi::xml_node mainXML = file.child("MarrySystem");
 
-	this->m_bMarryEnable = main.attribute("Enable").as_bool();
-	this->m_iMarryMinUserLevel = main.attribute("ReqLevel").as_int();
-	this->m_iMarryNeedMoney = main.attribute("ReqMoney").as_int();
+	this->m_bMarryEnable = mainXML.attribute("Enable").as_bool();
+	this->m_iMarryMinUserLevel = mainXML.attribute("ReqLevel").as_int();
+	this->m_iMarryNeedMoney = mainXML.attribute("ReqMoney").as_int();
 
 	pugi::xml_node location = mainXML.child("Location");
 

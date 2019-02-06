@@ -1290,7 +1290,7 @@ void CPentagramMixSystem::CGPentagramJewelRefineRecv(PMSG_PENTAGRAM_JEWEL_REFINE
 	{
 	case 1:
 		//this->PentagramJewelMix(aIndex);
-		g_Log.AddC(TColor::Red, "[PentagramJewelMix] in Progress..");
+		sLog.outError( "[PentagramJewelMix] in Progress..");
 	    break;
 	default:
 		sLog.outBasic("[%s][%s] Undefine PentagramJewelMix type detect %d", lpObj->AccountID, lpObj->Name, lpMsg->type);
@@ -1394,14 +1394,14 @@ BOOL CPentagramMixSystem::PentagramJewelMix(int aIndex) // OK
 		ItemSerialCreateSend(aIndex, 235, 0, 0, NewItem.m_Type, 0, 0, 0, 0, 0, aIndex, 0, 0, 0, NewItem.m_SocketOption, NewItem.m_BonusSocketOption);
 		gObjInventoryCommit(aIndex);
 
-		g_Log.AddC(TColor::Red,"[Elemental System][Elixir Mix] [%s][%s] CBMix Success, Money : %d",
+		sLog.outError("[Elemental System][Elixir Mix] [%s][%s] CBMix Success, Money : %d",
 			lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Money);
 	}
 	else
 	{
 		pMsg.Result = 0;
 		IOCP.DataSend(aIndex, (UCHAR*)&pMsg, pMsg.h.size);
-		g_Log.AddC(TColor::Red, "[Elemental System][Elixir Mix] [%s][%s] CBMix Fail, Money : %d ",
+		sLog.outError( "[Elemental System][Elixir Mix] [%s][%s] CBMix Fail, Money : %d ",
 			lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Money);
 	}
 	return 1;

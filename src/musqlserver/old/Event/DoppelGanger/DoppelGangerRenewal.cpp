@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DoppelGangerRenewal.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "DoppelGangerRenewal.h"
 
 CDoppelGangerRenewal::CDoppelGangerRenewal()

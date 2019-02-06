@@ -2,7 +2,7 @@
 //	GS-CS	1.00.19	JPN	0x00562650	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "LifeStone.h"
 #include "CastleSiege.h"
 #include "CastleSiegeSync.h"

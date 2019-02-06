@@ -8,7 +8,7 @@
 // GS-N 0.99.60T 0x0041C820 Status : Completed
 //	GS-N	1.00.18	0x004232A0	-	Completed
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "DbSave.h"
 #include "WZQueue.h"
 #include "Log/Log.h"

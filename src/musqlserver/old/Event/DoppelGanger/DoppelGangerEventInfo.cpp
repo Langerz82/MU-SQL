@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DoppelGangerEventInfo.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "DoppelGangerEventInfo.h"
 #include "Log/Log.h"
 #include "../../pugixml.hpp"

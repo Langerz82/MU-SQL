@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ObjAttack.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ObjAttack.h"
 #include "BattleSoccer/BattleSoccerManager.h"
 #include "Monster/DarkSpirit.h"

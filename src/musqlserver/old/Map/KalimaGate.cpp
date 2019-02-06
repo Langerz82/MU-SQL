@@ -6,7 +6,7 @@
 // ------------------------------
 // GS-N 0.99.60T 0x0040D2F0
 //	GS-N	1.00.18	JPN	0x004102D0	-	Completed
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "KalimaGate.h"
 #include "Log/Log.h"
 #include "DevilSquare.h"

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // LuckyItemManager.cpp
-//#include "stdafx.h"
+//#include "StdAfx.h"
 #include "LargeRand.h"
 #include "Log/Log.h"
 #include "ChaosBox.h"

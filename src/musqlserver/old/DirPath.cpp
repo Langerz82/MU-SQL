@@ -6,7 +6,7 @@
 // 4f5557 GS-N 0.99.60T Status : Completed
 // GS-N	1.00.18	JPN	0x004A3650	-	Completed
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "dirpath.h"
 
 CDirPath::CDirPath()

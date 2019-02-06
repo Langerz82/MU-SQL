@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x00578BB0	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "KanturuMonsterMng.h"
 #include "Gamemain.h"
 #include "Log/Log.h"

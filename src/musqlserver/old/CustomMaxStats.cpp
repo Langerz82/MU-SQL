@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // CustomMaxStats.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "CustomMaxStats.h"
 #include "GameMain.h"
 #include "Log/Log.h"

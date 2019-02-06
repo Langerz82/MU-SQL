@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // XMasAttackEvent.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "XMasAttackEvent.h"
 #include "gObjMonster.h"
 #include "GameMain.h"
@@ -318,7 +318,7 @@ BOOL CXMasAttackEvent::Load(char * lpszFileName)
 
 	pugi::xml_node mainXML = file.child("XMasAttack");
 
-	bool bEnable = main.attribute("Enable").as_bool();
+	bool bEnable = mainXML.attribute("Enable").as_bool();
 
 	if (g_ConfigRead.server.GetStateFromEventTable(g_ConfigRead.server.GetServerType(), EV_TABLE_XMAS) == false)
 	{
@@ -403,7 +403,7 @@ void CXMasAttackEvent::CheckSync()
 {
 	if ( this->m_vtEventTime.empty() != 0 )
 	{
-		g_Log.AddC(TColor::Red,  "[XMas Event] No Schedule Time Data");
+		sLog.outError(  "[XMas Event] No Schedule Time Data");
 		this->SetState(0);
 
 		return;

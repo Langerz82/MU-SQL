@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // PvPBalance.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "PvPBalance.h"
 #include "GameMain.h"
 #include "Log/Log.h"

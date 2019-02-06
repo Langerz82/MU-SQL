@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x00565f30	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "CrywolfAltar.h"
 #include "CrywolfUtil.h"
 #include "Log/Log.h"

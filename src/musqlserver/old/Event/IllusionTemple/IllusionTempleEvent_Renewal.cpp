@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // IllusionTempleEvent_Renewal.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "IllusionTempleEvent_Renewal.h"
 #include "configread.h"
 #include "Log/Log.h"

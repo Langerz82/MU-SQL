@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // IllusionTempleProcess_Renewal.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "IllusionTempleProcess_Renewal.h"
 #include "IllusionTempleEvent_Renewal.h"
 #include "PartyClass.h"
@@ -1631,13 +1631,13 @@ void CIllusionTempleProcess_Renewal::Check_RegisterRelics(OBJECTSTRUCT *lpNpc, O
 {
 	if (!lpNpc || !lpObj)
 	{
-		g_Log.AddC(TColor::Red, "[ITR] Error (%s) - lpNpc or lpObj == NULL", __FUNCTION__);
+		sLog.outError( "[ITR] Error (%s) - lpNpc or lpObj == NULL", __FUNCTION__);
 		return;
 	}
 
 	if (abs(lpObj->Y - lpNpc->Y) > 3 || abs(lpObj->X - lpNpc->X) > 3)
 	{
-		g_Log.AddC(TColor::Red, "[ITR] Error (%s) - abs > 3 (%d/%d) (%d/%d)", __FUNCTION__, lpObj->Y, lpNpc->Y, lpObj->X, lpNpc->X);
+		sLog.outError( "[ITR] Error (%s) - abs > 3 (%d/%d) (%d/%d)", __FUNCTION__, lpObj->Y, lpNpc->Y, lpObj->X, lpNpc->X);
 		return;
 	}
 
@@ -1645,7 +1645,7 @@ void CIllusionTempleProcess_Renewal::Check_RegisterRelics(OBJECTSTRUCT *lpNpc, O
 
 	if (lpObj->m_bITR_RegisteringRelics == true)
 	{
-		g_Log.AddC(TColor::Red, "[ITR] Error (%s) lpObj->m_bITR_RegisteringRelics == true", __FUNCTION__);
+		sLog.outError( "[ITR] Error (%s) lpObj->m_bITR_RegisteringRelics == true", __FUNCTION__);
 		bFail = TRUE;
 	}
 

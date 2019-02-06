@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // CQueue.cpp
 //Decompilation Completed -> All Same as WebZen
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "CQueue.h"
 
 CQueue::CQueue(unsigned int nMaxNode)

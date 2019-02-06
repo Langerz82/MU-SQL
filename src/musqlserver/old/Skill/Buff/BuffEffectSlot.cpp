@@ -2,7 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "User/user.h"
 #include "MasterLevelSkillTreeSystem.h"
 #include "BuffEffectSlot.h"

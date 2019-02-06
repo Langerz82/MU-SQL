@@ -4,17 +4,12 @@
 /// @{
 /// \file
 
-
+#include "Main.h"
 #include "Common.h"
 
 // old includes
-
-#include "Main.h"
-#include "Network/Protocols/DSprotocol.h"
-#include "Network/Protocols/Sprotocol.h"
-
 #include "Giocp.h"
-#include "Network/Protocols/EDSprotocol.h"
+
 #include "MapServerManager.h"
 #include "Item/ItemSerial.h"
 

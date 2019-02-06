@@ -3,7 +3,7 @@
 // Decompiled by Dudas [IGC] July 2013
 // Status: 100%
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "PeriodItemEx.h"
 #include "BuffEffectSlot.h"
 #include "ItemAddOption.h"

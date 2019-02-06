@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // BotSystem.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "BotSystem.h"
 #include "User/user.h"
 #include "Protocols/protocol.h"

@@ -4,8 +4,8 @@
 // Decompiled by Deathway
 // Date : 2007-03-09
 // ------------------------------
-#ifndef PRODEF_H
-#define PRODEF_H
+#ifndef _PRODEF_H
+#define _PRODEF_H
 
 #if _MSC_VER > 1000
 #pragma once
@@ -13,7 +13,7 @@
 
 #include "custTypedef.h"
 
-;// #ifndef MAX_ACCOUNT_LEN
+// #ifndef MAX_ACCOUNT_LEN
 	#define MAX_ACCOUNT_LEN	10
 	#define MAX_GUILD_LEN	8
 //#endif

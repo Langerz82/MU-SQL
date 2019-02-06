@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 // Engine.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Engine.h"
 #include "Log/Log.h"
 #include "ConnectServer.h"
@@ -46,7 +46,7 @@ short UserAdd(SOCKET s, char *IP)
 	{
 		if (iReturnIpCount(IP) > g_MaxConnectionsPerIP && strcmpi(IP, g_WhiteListIP) != 0)
 		{
-			g_Log.AddC(TColor::Red, "IP: [%s] Reached Maximum Allowed Connections", IP);
+			sLog.outError( "IP: [%s] Reached Maximum Allowed Connections", IP);
 			return -1;
 		}
 

@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "StdAfx.h"
+
 #define ADD_MONTH(month,add_month) ((((month)+(add_month))>12)?((add_month)-(12-(month))):((month)+(add_month)))
 #define ADD_YEAR(year,add_year,month,add_month) ((((month)+(add_month))>12)?((year)+((add_year)+1)):((year)+(add_year)))
 

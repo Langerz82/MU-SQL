@@ -2,7 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-//#include "stdafx.h"
+//#include "StdAfx.h"
 #include "ItemOption.h"
 #include "ItemOptionTypeMng.h"
 #include "../MemScript.h"

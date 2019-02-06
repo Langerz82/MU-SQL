@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // IllusionTempleLeagueProcess.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "IllusionTempleLeagueProcess.h"
 #include "IllusionTempleLeagueEvent.h"
 #include "PartyClass.h"

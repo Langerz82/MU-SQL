@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // IllusionTempleLeagueEvent.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "IllusionTempleLeagueEvent.h"
 #include "configread.h"
 #include "IniReader.h"

@@ -6,7 +6,7 @@
 // ------------------------------
 // GS-N 0.99060T 0x00476C40 Status : Completed
 //	GS-N	1.00.18	JPN	0x48DC10	-	Completed
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "WzQueue.h"
 
 WZQueue::WZQueue(UINT nMaxNode)

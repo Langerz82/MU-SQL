@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MinimapData.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "MinimapData.h"
 #include "GameMain.h"
 #include "ReadScript.h"

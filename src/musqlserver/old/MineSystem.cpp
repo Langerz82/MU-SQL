@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MineSystem.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "MineSystem.h"
 #include "configread.h"
 #include "Log/Log.h"
@@ -592,7 +592,7 @@ void CMineSystem::SetTwinklesInfo()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "[MineSystem][SetTwinkleInfo][ERROR] Cannot add Twinkle [Type:%d][Map:%d]", It->second.wType, It->second.byMapNumber);
+			sLog.outError( "[MineSystem][SetTwinkleInfo][ERROR] Cannot add Twinkle [Type:%d][Map:%d]", It->second.wType, It->second.byMapNumber);
 			return;
 		}
 

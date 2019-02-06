@@ -8,7 +8,7 @@
 #ifndef ZZZPATH_H
 #define ZZZPATH_H
 
-#include "stdafx.h"
+#include "StdAfx.h"
 
 #if _MSC_VER > 1000
 #pragma once

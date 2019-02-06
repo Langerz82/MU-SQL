@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DoppelGangerItemBag.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "DoppelGangerItemBag.h"
 #include "Log/Log.h"
 #include "GameMain.h"

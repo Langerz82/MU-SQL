@@ -3,7 +3,7 @@
 #ifndef SKILL_USE_TIME
 #define SKILL_USE_TIME
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "User/user.h"
 
 struct SKILL_TIME_INFO

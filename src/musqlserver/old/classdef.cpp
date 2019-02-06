@@ -5,7 +5,7 @@
 // Date : 2007-05-09
 // ------------------------------
 
-//#include "stdafx.h"
+//#include "StdAfx.h"
 #include "classdef.h"
 #include "util.h"
 

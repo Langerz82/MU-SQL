@@ -7,7 +7,7 @@
 // GS-N 0.99.60T 0x0048C960
 //	GS-N	1.00.18	JPN	0x004A7AD0	-	Completed
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "CWhatsUpDummyServer.h"
 #include "GameServer.h"
 

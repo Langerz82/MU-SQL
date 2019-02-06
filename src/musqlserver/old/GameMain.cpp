@@ -7,7 +7,7 @@
 //------------------------------------------
 // GS-N 0.99.60T 0x004F4490
 //	GS-N	1.00.18	JPN	0x0051FE00	-	Completed
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Lang.h"
 #include "gamemain.h"
 #include "util.h"
@@ -494,7 +494,7 @@ void GameMainInit(HWND hWnd)
 		g_Log.AddC(TColor::Green, "Offline Leveling Active");
 		g_ConfigRead.OffLevel = TRUE;
 	DragonEvent = new CDragonEvent;
-//	g_Log.AddC(TColor::Red,"%s %s %s %d %s %s %d %i %s %d %d");
+//	sLog.outError("%s %s %s %d %s %s %d %i %s %d %d");
 	if ( DragonEvent == 0 )
 	{
 		sLog.outError("CDragonEvent - Memory allocation error");	// Memory allocation error
@@ -949,7 +949,7 @@ void GMJoinClientMsgProc(WPARAM wParam, LPARAM lParam)
 			break;
 
 		case 32:
-			g_Log.AddC(TColor::Red,  "Game server closed because Authentication server is closed.");
+			sLog.outError(  "Game server closed because Authentication server is closed.");
 			gObjAllDisconnect();
 			wsJServerCli.Close();
 			break;
@@ -984,7 +984,7 @@ void ExDataClientMsgProc(WPARAM wParam, LPARAM lParam)
 			break;
 
 		case 32:
-			g_Log.AddC(TColor::Red,  "Gamer server closed because Data server is closed.");
+			sLog.outError(  "Gamer server closed because Data server is closed.");
 			wsExDbCli.Close();
 
 			for ( int i =0;i<g_ConfigRead.server.GetObjectMax();i++)
@@ -1022,7 +1022,7 @@ void ExDataClientMsgProc(WPARAM wParam, LPARAM lParam)
 			}
 
 			sLog.outBasic("Error-L1 : Friend Server Down (State Send Ok)");
-			g_Log.AddC(TColor::Red,  "Error-L1 : Friend Server Down (State Send Ok)");
+			sLog.outError(  "Error-L1 : Friend Server Down (State Send Ok)");
 			break;
 	}
 }
@@ -1044,7 +1044,7 @@ void GMDataClientMsgProc(WPARAM wParam, LPARAM lParam)
 
 		case 32:
 			wsDataCli.Close();
-			g_Log.AddC(TColor::Red,  "Gamer server closed because Data server is closed.");
+			sLog.outError(  "Gamer server closed because Data server is closed.");
 			break;
 	}
 }

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ObjBaseAttack.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ObjBaseAttack.h"
 #include "GameMain.h"
 #include "Log/Log.h"

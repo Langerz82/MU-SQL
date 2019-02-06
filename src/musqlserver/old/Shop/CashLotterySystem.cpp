@@ -4,7 +4,7 @@
 // GS-N	1.00.18	JPN	0x00593630	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "CashLotterySystem.h"
 #include "LargeRand.h"
 #include "User/user.h"

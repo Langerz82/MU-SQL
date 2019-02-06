@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // LuaExport.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "LuaExport.h"
 #include "configread.h"
 #include "DevilSquare.h"

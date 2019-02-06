@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x00562FB0	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "TMonsterAIRuleInfo.h"
 #include "custTypedef.h"
 #include <string>

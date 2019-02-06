@@ -6,7 +6,7 @@
 //	GS-N	1.00.18	JPN	0x00596140	-	Completed
 // TSync.cpp
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "TSync.h"
 
 TSync::TSync()

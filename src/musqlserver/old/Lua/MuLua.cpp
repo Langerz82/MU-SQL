@@ -6,10 +6,10 @@
 // requires CWinConsole decompilation
 // ------------------------------
 
-#include "stdafx.h"
+//#include "StdAfx.h"
 #include "MuLua.h"
 #include "Log/Log.h"
-#include "WinConsole.h"
+//#include "WinConsole.h"
 #include "configread.h"
 #include "LuaExport.h"
 

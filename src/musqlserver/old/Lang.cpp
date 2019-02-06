@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Lang.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Lang.h"
 #include "Log/Log.h"
 #include "GameMain.h"
@@ -24,7 +24,7 @@ void CLanguage::Init()
 	}
 
 	pugi::xml_node mainXML = file.child("LanguageSystem");
-	this->m_LangData.DefaultLang = main.attribute("DefaultLang").as_int();
+	this->m_LangData.DefaultLang = mainXML.attribute("DefaultLang").as_int();
 
 	for (pugi::xml_node lang = mainXML.child("Lang"); lang; lang = lang.next_sibling())
 	{

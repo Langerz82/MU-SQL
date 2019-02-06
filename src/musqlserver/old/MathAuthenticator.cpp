@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MathAuthenticator.cpp
-#include "stdafx.h"/*
+#include "StdAfx.h"/*
 #include "MathAuthenticator.h"
 #include "User/user.h"
 #include "GameMain.h"

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ResetTable.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ResetTable.h"
 #include "MemScript.h"
 

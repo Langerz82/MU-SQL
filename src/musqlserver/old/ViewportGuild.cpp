@@ -6,7 +6,7 @@
 // ------------------------------
 // GS-N 0.99.60T 4964D0// Status Completed
 //	GS-N	1.00.18	JPN	0x004B14E0	-	Completed
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ViewportGuild.h"
 
 

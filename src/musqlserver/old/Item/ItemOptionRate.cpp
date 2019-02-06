@@ -4,7 +4,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ItemOptionRate.h"
 #include "Item/Item.h"
 #include "MemScript.h"

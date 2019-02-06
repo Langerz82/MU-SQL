@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // CastleSiegeSync.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "CastleSiegeSync.h"
 #include "TUnion.h"
 #include "Protocols/protocol.h"

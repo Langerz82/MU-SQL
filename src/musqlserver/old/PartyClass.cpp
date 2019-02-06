@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // PartyClass.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "PartyClass.h"
 #include "Log/Log.h"
 #include "Protocol.h"

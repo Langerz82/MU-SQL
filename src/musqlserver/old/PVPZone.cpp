@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // PVPZone.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "PVPZone.h"
 #include "GameMain.h"
 #include "Log/Log.h"

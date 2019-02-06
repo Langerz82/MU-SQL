@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MapAttribute.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "MapAttribute.h"
 #include "Log/Log.h"
 
@@ -27,7 +27,7 @@ void CMapAttribute::LoadFile(char * szFile)
 	if (result.status != pugi::status_ok)
 	{
 		sLog.outError("Failed to load %s file!", szFile);
-		g_Log.AddC(TColor::Red, "[ERROR] MapAttribute load failed: %s", szFile);
+		sLog.outError( "[ERROR] MapAttribute load failed: %s", szFile);
 		return;
 	}
 

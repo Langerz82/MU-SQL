@@ -2,7 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Raklion.h"
 #include "User/user.h"
 #include "RaklionUtil.h"
@@ -89,7 +89,7 @@ BOOL CRaklion::LoadData(char *lpszFileName)
 
 		pugi::xml_node mainXML = file.child("RaklionEvent");
 
-		iRaklionEnable = main.attribute("Enable").as_int();
+		iRaklionEnable = mainXML.attribute("Enable").as_int();
 
 		if (g_ConfigRead.server.GetStateFromEventTable(g_ConfigRead.server.GetServerType(), EV_TABLE_RAKLION) == false)
 		{
@@ -477,7 +477,7 @@ void CRaklion::BossEggDieIncrease()
 {
 	if( m_iBossEggDieCount >= m_iBossEggMax )
 	{
-		g_Log.AddC(TColor::Red, "[RAKLION] BossEggDieCount Error : (%d)", m_iBossEggDieCount);
+		sLog.outError( "[RAKLION] BossEggDieCount Error : (%d)", m_iBossEggDieCount);
 		return;
 	}
 	m_iBossEggDieCount++;
@@ -487,7 +487,7 @@ void CRaklion::BossEggDieDecrease()
 {
 	if( m_iBossEggDieCount <= 0 )
 	{
-		g_Log.AddC(TColor::Red, "[RAKLION] BossEggDieCount Error : (%d)", m_iBossEggDieCount);
+		sLog.outError( "[RAKLION] BossEggDieCount Error : (%d)", m_iBossEggDieCount);
 		return;
 	}
 	m_iBossEggDieCount--;
@@ -550,7 +550,7 @@ void CRaklion::CheckUserOnRaklionBossMap()
 			if (gObj[iCount].RegenOk == 0 && gObj[iCount].m_State == 2 && gObj[iCount].Live == 1)
 			{
 				gObjMoveGate(iCount, 286);
-				g_Log.AddC(TColor::Red, "[ RAKLION ][ Invalid User ] Invalid Raklion Boss Map User[%s][%s]", gObj[iCount].AccountID, gObj[iCount].Name);
+				sLog.outError( "[ RAKLION ][ Invalid User ] Invalid Raklion Boss Map User[%s][%s]", gObj[iCount].AccountID, gObj[iCount].Name);
 			}
 		}
 	}

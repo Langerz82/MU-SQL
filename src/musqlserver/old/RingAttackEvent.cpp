@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // RingAttackEvent.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "RingAttackEvent.h"
 #include "gObjMonster.h"
 #include "GameMain.h"
@@ -300,7 +300,7 @@ BOOL CRingAttackEvent::Load(char * lpszFileName)
 
 	pugi::xml_node mainXML = file.child("WhiteWizard");
 
-	bool bEnable = main.attribute("Enable").as_bool();
+	bool bEnable = mainXML.attribute("Enable").as_bool();
 
 	if (g_ConfigRead.server.GetStateFromEventTable(g_ConfigRead.server.GetServerType(), EV_TABLE_RING) == false)
 	{
@@ -378,7 +378,7 @@ void CRingAttackEvent::CheckSync()
 {
 	if ( this->m_vtEventTime.empty() != 0 )
 	{
-		g_Log.AddC(TColor::Red,  "[Ring Event] No Schedule Time Data");
+		sLog.outError(  "[Ring Event] No Schedule Time Data");
 		this->SetState(0);
 
 		return;

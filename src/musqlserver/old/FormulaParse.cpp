@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // FormulaParse.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "FormulaParse.h"
 #include "Log/Log.h"
 #include "pugixml.hpp"

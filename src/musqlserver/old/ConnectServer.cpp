@@ -1,7 +1,7 @@
 // ConnectServer.cpp : Defines the entry point for the application.
 //
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ConnectServer.h"
 #include "IOCP.h"
 #include "Log/Log.h"
@@ -69,7 +69,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_IGCCS));
 
 	g_Log.LogInit(TRUE, 256);
-	g_Log.AddC(TColor::Red, "Initializing...");
+	sLog.outError( "Initializing...");
 	UserInit();
 	IOCP.GiocpInit();
 

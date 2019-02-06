@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MasterLevelSkillTreeSystem.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "MasterLevelSkillTreeSystem.h"
 #include "MasterSkillSystem.h"
 #include "Log/Log.h"
@@ -117,7 +117,7 @@ void CMasterLevelSkillTreeSystem::Load(const char *lpszFileName)
 
 	pugi::xml_node mainXML = file.child("MasterSkillTree");
 
-	this->m_wMaxMasterSkillLevel = main.attribute("MaxSkillLevel").as_int(20); // private custom !!!
+	this->m_wMaxMasterSkillLevel = mainXML.attribute("MaxSkillLevel").as_int(20); // private custom !!!
 	this->Init();
 
 	for (pugi::xml_node class_node = mainXML.child("Class"); class_node; class_node = class_node.next_sibling())

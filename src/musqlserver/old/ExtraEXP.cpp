@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ExtraEXP.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ExtraEXP.h"
 #include "User/user.h"
 #include "Log/Log.h"

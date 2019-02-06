@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x0057A2C0	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 
 #include "KanturuBattleOfMaya.h"
 #include "../../GameMain.h"

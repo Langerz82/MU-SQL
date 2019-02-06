@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x00561880	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "TMonsterAIMovePath.h"
 #include "Log/Log.h"
 

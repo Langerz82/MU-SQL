@@ -2,7 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "SocketItemType.h"
 #include "ItemOptionTypeMng.h"
 #include "MemScript.h"

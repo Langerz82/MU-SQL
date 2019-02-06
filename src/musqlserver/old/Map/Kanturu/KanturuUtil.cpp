@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x005845B0	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Gamemain.h"
 #include "Kanturu.h"
 #include "KanturuUtil.h"

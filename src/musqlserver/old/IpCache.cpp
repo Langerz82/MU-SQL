@@ -5,7 +5,7 @@
 // IpCache.cpp	
 // GS-N 0.99.60T 0x00488260 : Status : Completed;
 //	GS-N	1.00.18	JPN	0x004A3220	-	Completed
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "IpCache.h"
 #include "Common.h"
 

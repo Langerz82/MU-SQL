@@ -2,7 +2,7 @@
 //	GS-N	JPN	1.00.18	0x00568190	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Crywolf.h"
 #include "CrywolfAltar.h"
 #include "CrywolfStatue.h"
@@ -73,7 +73,7 @@ BOOL CCrywolf::LoadData(LPSTR lpszFileName)
 
 	pugi::xml_node mainXML = file.child("CryWolf");
 
-	bool bEnable = main.attribute("Enable").as_bool();
+	bool bEnable = mainXML.attribute("Enable").as_bool();
 
 	if (g_ConfigRead.server.GetStateFromEventTable(g_ConfigRead.server.GetServerType(), EV_TABLE_CW) == false)
 	{

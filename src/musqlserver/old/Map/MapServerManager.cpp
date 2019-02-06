@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MapServerManager.cpp
 #include "Common.h"
-//#include "stdafx.h"
+//#include "StdAfx.h"
 #include "MapServerManager.h"
 //#include "Log/Log.h"
 #include "pugixml.hpp"

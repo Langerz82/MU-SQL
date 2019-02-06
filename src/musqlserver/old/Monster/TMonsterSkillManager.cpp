@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x00558440	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "TMonsterSkillManager.h"
 #include "ObjUseSkill.h"
 #include "SkillHitBox.h"
@@ -96,7 +96,7 @@ BOOL TMonsterSkillManager::LoadData(LPSTR lpszFileName)
 
 			if (bVerified == FALSE)
 			{
-				g_Log.AddC(TColor::Red, "[Monster Manager] - Invalid SkillInfo : MIndex(%d)", iMonsterIndex);
+				sLog.outError( "[Monster Manager] - Invalid SkillInfo : MIndex(%d)", iMonsterIndex);
 			}
 
 			TMonsterSkillManager::s_MonsterSkillInfoArray[iMonsterIndex].m_iMonsterIndex = iMonsterIndex;
@@ -164,7 +164,7 @@ BOOL TMonsterSkillManager::AddMonsterSkillDelayInfo(int iIndex, int iTargetIndex
 		}
 	}
 
-	g_Log.AddC(TColor::Red,  "[Monster Skill Manager] - (MonsterSkillDelayInfo) Slot Full!! ");
+	sLog.outError(  "[Monster Skill Manager] - (MonsterSkillDelayInfo) Slot Full!! ");
 	return FALSE;
 }
 
@@ -250,13 +250,13 @@ void TMonsterSkillManager::UseMonsterSkill(int iIndex, int iTargetIndex, int iMo
 {
 	if(!OBJMON_RANGE(iIndex))
 	{
-		g_Log.AddC(TColor::Red, "[TMonsterSkillManager][UserMonsterSkill] error: iIndex(%d)", iIndex);
+		sLog.outError( "[TMonsterSkillManager][UserMonsterSkill] error: iIndex(%d)", iIndex);
 		return;
 	}
 
 	if(!ObjectMaxRange(iTargetIndex))
 	{
-		g_Log.AddC(TColor::Red, "[TMonsterSkillManager][UserMonsterSkill] error: iTargetIndex(%d)", iTargetIndex);
+		sLog.outError( "[TMonsterSkillManager][UserMonsterSkill] error: iTargetIndex(%d)", iTargetIndex);
 		return;
 	}
 
@@ -283,7 +283,7 @@ void TMonsterSkillManager::UseMonsterSkill(int iIndex, int iTargetIndex, int iMo
 
 	if ( lpMonsterSkillUnit == NULL )
 	{
-		g_Log.AddC(TColor::Red,  "[Monster Skill Manager] SkillUnit is NULL ");
+		sLog.outError(  "[Monster Skill Manager] SkillUnit is NULL ");
 		return;
 	}
 

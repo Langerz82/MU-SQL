@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // SkillUseTime.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "SkillUseTime.h"
 #include "Log/Log.h"
 #include "User/user.h"
@@ -106,7 +106,7 @@ bool CSkillUseTime::CheckSkillTime(LPOBJ lpObj, int iSkill)
 					{
 						if ( lpObj->m_PlayerData->LastSkillUseCount >= this->m_iNumberOfBadSkillUseDC )
 						{
-							g_Log.AddC(TColor::Red, "[ANTI-HACK] [%s][%s][%s] Used skill too fast %d times -> Disconnect", lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr, lpObj->m_PlayerData->LastSkillUseCount);
+							sLog.outError( "[ANTI-HACK] [%s][%s][%s] Used skill too fast %d times -> Disconnect", lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr, lpObj->m_PlayerData->LastSkillUseCount);
 							GSProtocol.GCSendDisableReconnect(lpObj->m_Index);
 							//IOCP.CloseClient(lpObj->m_Index);
 						}

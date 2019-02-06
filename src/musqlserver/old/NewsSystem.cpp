@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // NewsSystem.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "NewsSystem.h"
 #include "TNotice.h"
 #include "Log/Log.h"
@@ -36,8 +36,8 @@ bool CNewsSystem::LoadFile(LPSTR lpFile)
 
 	pugi::xml_node mainXML = file.child("NewsSystem");
 
-	this->m_bEnable = main.attribute("Enable").as_int();
-	this->m_iMinuteDelay = main.attribute("DisplayInterval").as_int();
+	this->m_bEnable = mainXML.attribute("Enable").as_int();
+	this->m_iMinuteDelay = mainXML.attribute("DisplayInterval").as_int();
 
 	for (pugi::xml_node news = mainXML.child("News"); news; news = news.next_sibling())
 	{

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Authorization.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Authorization.h"
 #include "User/user.h"
 #include "GameMain.h"
@@ -174,7 +174,7 @@ void CAuthSystem::ValidateServer(PMSG_ACTIVATE *pMsg)
 				char Text[200];
 				wsprintf(Text, "Your license expired and will stop being supported in %d day(s). \nPlease to extend subscription by making appropriate payment.", 7-abs(this->GetExpiryTime()));
 				sLog.outError(MB_OK | MB_ICONWARNING, "Warning", Text);
-				g_Log.AddC(TColor::Red, "License is EXPIRED, please Renew (Days left: %d)", 7-abs(this->GetExpiryTime()) );
+				sLog.outError( "License is EXPIRED, please Renew (Days left: %d)", 7-abs(this->GetExpiryTime()) );
 			}
 */
 			AllServerStart();
@@ -256,7 +256,7 @@ void CAuthSystem::SendLicenseInfo(LPBYTE aRecv)
 
 	if(this->MakeAuthKey(aRecv) == false)
 	{
-		g_Log.AddC(TColor::Red, "[Auth] Login failed - cannot create Authorization Key");
+		sLog.outError( "[Auth] Login failed - cannot create Authorization Key");
 		return;
 	}
 
@@ -299,7 +299,7 @@ void CAuthSystem::Ping(PMSG_AUTH *pMsg)
 {
 	if(this->GetSeason() != pMsg->SEASON)
 	{
-		g_Log.AddC(TColor::Red, "[Auth] Internal Error - Season code is wrong!");
+		sLog.outError( "[Auth] Internal Error - Season code is wrong!");
 		return;
 	}
 
@@ -659,7 +659,7 @@ bool CAuthSystem::MakeAuthKey(LPBYTE lpRecv)
 
 	else
 	{
-		g_Log.AddC(TColor::Red, "[ERROR] AUTH KEY IS NOT NULL!");	
+		sLog.outError( "[ERROR] AUTH KEY IS NOT NULL!");	
 		delete [] EKey;
 		delete [] NKey;
 
@@ -676,7 +676,7 @@ void CAuthSystem::SendData(LPBYTE lpMsg, DWORD dwSize, BOOL Encrypt)
 	{
 		if ( this->m_AuthKey == NULL )
 		{
-			g_Log.AddC(TColor::Red, "[ERROR] Auth Key is EMPTY!");
+			sLog.outError( "[ERROR] Auth Key is EMPTY!");
 			return;
 		}
 

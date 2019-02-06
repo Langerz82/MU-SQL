@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // BattleSoccerManager.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "BattleSoccer.h"
 #include "BattleSoccerManager.h"
 #include "GMMng.h"

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // TUnionInfo.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "TUnionInfo.h"
 // GS-N 0.99.60T 0x004B0B80
 //	GS-N	1.00.18	JPN	0x004CED60	-	Completed

@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x00578150	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "TRandomPoolMgr.h"
 #include "LargeRand.h"
 

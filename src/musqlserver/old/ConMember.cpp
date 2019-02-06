@@ -6,7 +6,7 @@
 // ------------------------------
 // GS-N 0.99.60T 0x00483EE0 - Emulated completed :)
 //	GS-N	1.00.18	JPN	0x0049F450	-	Completed
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ConMember.h"
 #include "Log/Log.h"
 #include "pugixml.hpp"

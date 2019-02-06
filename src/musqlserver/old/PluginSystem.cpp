@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // PluginSystem.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "PluginSystem.h"
 
 CPluginSystem g_IGCPlugins;

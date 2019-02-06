@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MonsterKillCount.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "User/user.h"
 #include "MonsterKillCount.h"
 #include "DSProtocol.h"

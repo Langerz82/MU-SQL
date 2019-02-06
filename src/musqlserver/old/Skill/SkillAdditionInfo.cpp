@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x00485060	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "SkillAdditionInfo.h"
 #include "Log/Log.h"
 #include "configread.h"

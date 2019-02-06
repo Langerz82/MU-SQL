@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // UserDieItemDrop.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "UserDieItemDrop.h"
 #include "GameMain.h"
 #include "LargeRand.h"

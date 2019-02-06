@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // RaklionMonsterMng.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "RaklionMonsterMng.h"
 #include "GameMain.h"
 #include "Log/Log.h"

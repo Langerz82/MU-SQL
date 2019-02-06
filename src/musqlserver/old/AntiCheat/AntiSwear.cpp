@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // AntiSwear.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "AntiSwear.h"
 #include "Log/Log.h"
 #include "../pugixml.hpp"

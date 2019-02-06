@@ -1,7 +1,7 @@
 // SimpleModulus.cpp : Defines the entry point for the application.
 //
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "SimpleModulus.h"
 
 #define EX700 1
@@ -12,7 +12,7 @@
 // SimpleModulus.cpp : Defines the entry point for the application.
 //
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "SimpleModulus.h"
 
 DWORD CSimpleModulus::s_dwSaveLoadXOR[4]={0x3F08A79B, 0xE25CC287, 0x93D27AB9, 0x20DEA7BF};
@@ -1055,7 +1055,7 @@ void CSimpleModulus::FixPacket_F3(unsigned char* lpBody,int iSize)
 // SimpleModulus.cpp : Defines the entry point for the application.
 //
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "SimpleModulus.h"
 
 DWORD CSimpleModulus::s_dwSaveLoadXOR[4]={0x3F08A79B, 0xE25CC287, 0x93D27AB9, 0x20DEA7BF};

@@ -2,7 +2,7 @@
 //	GS-CS	1.00.19	JPN	0x00561370	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "CastleCrownSwitch.h"
 
 #include "CastleSiege.h"

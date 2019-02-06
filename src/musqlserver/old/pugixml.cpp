@@ -1,4 +1,4 @@
-//#include "stdafx.h"
+//#include "StdAfx.h"
 /**
  * pugixml parser - version 1.4
  * --------------------------------------------------------

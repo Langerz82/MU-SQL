@@ -7,25 +7,20 @@
 // GS-N 0.99.60T 0x004E5740 - Status Completed :)
 // GS-N	1.00.18	JPN	0x0051E110	-	Completed.
 
-//#include "stdafx.h"
+//#include "StdAfx.h"
 
 #include "Item.h"
 
 
 #include "Main.h"
-//#include "ItemSystemFor380.h"
-//#include "User/user.h"
-
-#include "../configread.h"
-
-#include "../ServerEngine.h"
-#include "../classdef.h"
-#include "../pugixml.hpp"
-#include "../util.h"
-
+#include "ItemSystemFor380.h"
+#include "configread.h"
+#include "ServerEngine.h"
+#include "classdef.h"
+#include "pugixml.hpp"
+#include "util.h"
 #include "Log/Log.h"
-
-#include "SetItemOption.h"
+#include "Item/SetItemOption.h"
 #include "JewelOfHarmonySystem.h"
 #include "ItemSocketOptionSystem.h"
 #include "LuckyItemManager.h"

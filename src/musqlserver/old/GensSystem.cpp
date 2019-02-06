@@ -1,6 +1,6 @@
 ﻿////////////////////////////////////////////////////////////////////////////////
 // GensSystem.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "GameMain.h"
 #include "GuildClass.h"
 #include "Protocols/DSProtocol.h"
@@ -1484,13 +1484,13 @@ int GensSystem::LoadData(char *lpszFileName)
 
 	pugi::xml_node mainXML = file.child("GensSystem");
 
-	this->m_bGensMapFromMuBlue = main.attribute("BlueMuMode").as_bool();
-	this->m_iGensInitialContributePoint = main.attribute("InitialContributePoint").as_int();
-	this->m_iGensAbusingPenaltyWarning = main.attribute("AbusingPenaltyWarning").as_int();
-	this->m_iGensAbusingPenaltyLimit= main.attribute("AbusingPenaltyLimit").as_int();
-	this->m_iGensAbusingResetTime = main.attribute("AbusingResetTime").as_int();
-	this->m_iGensPkPenaltyAddNeedZenMapMove = main.attribute("PkPenaltyAddNeedZenMapMove").as_int();
-	this->m_iGensDamageReduction = main.attribute("DamageReduction").as_int();
+	this->m_bGensMapFromMuBlue = mainXML.attribute("BlueMuMode").as_bool();
+	this->m_iGensInitialContributePoint = mainXML.attribute("InitialContributePoint").as_int();
+	this->m_iGensAbusingPenaltyWarning = mainXML.attribute("AbusingPenaltyWarning").as_int();
+	this->m_iGensAbusingPenaltyLimit= mainXML.attribute("AbusingPenaltyLimit").as_int();
+	this->m_iGensAbusingResetTime = mainXML.attribute("AbusingResetTime").as_int();
+	this->m_iGensPkPenaltyAddNeedZenMapMove = mainXML.attribute("PkPenaltyAddNeedZenMapMove").as_int();
+	this->m_iGensDamageReduction = mainXML.attribute("DamageReduction").as_int();
 
 	pugi::xml_node general = mainXML.child("General");
 

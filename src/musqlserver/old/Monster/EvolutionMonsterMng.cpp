@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // EvolutionMonsterMng.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "EvolutionMonsterMng.h"
 #include "protocol.h"
 #include "util.h"
@@ -55,8 +55,8 @@ void CEvolutionMonsterMng::LoadFile(char *szFile)
 
 	pugi::xml_node mainXML = file.child("EvolutionMonster");
 
-	this->m_bEnable = main.attribute("Enable").as_bool();
-	this->m_iEvoMonTimeLimit = main.attribute("TimeLimit").as_int();
+	this->m_bEnable = mainXML.attribute("Enable").as_bool();
+	this->m_iEvoMonTimeLimit = mainXML.attribute("TimeLimit").as_int();
 
 	pugi::xml_node summon_scroll = mainXML.child("SummonScroll");
 

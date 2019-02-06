@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // GMMng.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "GMMng.h"
 #include "LogToFile.h"
 #include "Log/Log.h"
@@ -1678,7 +1678,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 
 			if (Item.m_Type == -1)
 			{
-				g_Log.AddC(TColor::Red, "[Game Master][Create Item][%s][%s][%s] - Wrong ItemType (%d)",
+				sLog.outError( "[Game Master][Create Item][%s][%s][%s] - Wrong ItemType (%d)",
 					lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr, Item.m_Type);
 
 				return 0;
@@ -2546,7 +2546,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 		}
 		lpObj->m_PlayerData->Money = 0;
 		GSProtocol.GCMoneySend(lpObj->m_Index, lpObj->m_PlayerData->Money);
-		g_Log.AddC(TColor::Red, "[%s][%s] Cleared inventory", lpObj->AccountID, lpObj->Name);
+		sLog.outError( "[%s][%s] Cleared inventory", lpObj->AccountID, lpObj->Name);
 		MsgOutput(lpObj->m_Index, Lang.GetText(0, 465));
 		break;
 	case 420:

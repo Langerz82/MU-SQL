@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MuRummyInfo.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "MuRummyInfo.h"
 
 CMuRummyInfo::CMuRummyInfo()

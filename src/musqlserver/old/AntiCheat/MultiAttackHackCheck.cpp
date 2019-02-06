@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MultiAttackHackCheck.cpp
-//#include "stdafx.h"
+//#include "StdAfx.h"
 #include "MultiAttackHackCheck.h"
 #include "SkillAdditionInfo.h"
 #include "gObjMonster.h"

@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x0057D3F0	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 
 #include "KanturuBattleOfNightmare.h"
 #include "Kanturu.h"

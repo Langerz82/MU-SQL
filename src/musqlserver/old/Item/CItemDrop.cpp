@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // CItemDrop.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "CItemDrop.h"
 #include "User/user.h"
 #include "DSProtocol.h"
@@ -137,7 +137,7 @@ bool CItemDrop::DropItem(LPOBJ lpUser, LPOBJ lpMonster)
 		if (ItemNumber == -1)
 		{
 			delete [] lpItems;
-			g_Log.AddC(TColor::Red, "ERROR - Bad Index (%d) CItemDrop::DropItem (%s)(%d)", ItemNumber, lpUser->Name, lpMonster->Class);
+			sLog.outError( "ERROR - Bad Index (%d) CItemDrop::DropItem (%s)(%d)", ItemNumber, lpUser->Name, lpMonster->Class);
 			return false;
 		}
 
@@ -146,7 +146,7 @@ bool CItemDrop::DropItem(LPOBJ lpUser, LPOBJ lpMonster)
 		if (!p)
 		{
 			delete [] lpItems;
-			g_Log.AddC(TColor::Red, "ERROR - Item not found (%d) CItemDrop::DropItem (%s)(%d)", ItemNumber, lpUser->Name, lpMonster->Class);
+			sLog.outError( "ERROR - Item not found (%d) CItemDrop::DropItem (%s)(%d)", ItemNumber, lpUser->Name, lpMonster->Class);
 			return false;
 		}
 

@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x00571D60	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-//#include "stdafx.h"
+//#include "StdAfx.h"
 
 #include "JewelOfHarmonySystem.h"
 #include "../../Main.h"

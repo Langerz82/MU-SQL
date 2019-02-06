@@ -9,7 +9,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Item/Item.h"
 
 #define FILE_CUSTOM_NEWSOCKETTYPE		"SocketSystem\\IGC_SocketItemType.ini"

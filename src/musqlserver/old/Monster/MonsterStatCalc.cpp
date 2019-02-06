@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MonsterStatCalc.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "MonsterStatCalc.h"
 #include "Log/Log.h"
 #include "MonsterAttr.h"

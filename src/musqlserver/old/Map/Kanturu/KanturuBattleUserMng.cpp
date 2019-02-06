@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x00580A30	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "KanturuBattleUserMng.h"
 #include "KanturuUtil.h"
 #include "GameMain.h"

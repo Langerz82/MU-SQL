@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ScriptLuaMem.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ScriptLuaMem.h"
 #include "util.h"
 #include "Log/Log.h"

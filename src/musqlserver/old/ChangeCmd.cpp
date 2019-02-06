@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ChangeCmd.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ChangeCmd.h"
 #include "Item/Item.h"
 #include "Log/Log.h"

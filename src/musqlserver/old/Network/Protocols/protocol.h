@@ -9,11 +9,13 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "GuildClass.h"
 #include "Map/MapClass.h"
 #include "GensSystemProtocol.h"
 #include "Shop/Shop.h"
+
+#define MAX_CHAT_LEN 90
 
 struct PWMSG_COUNT 
 {

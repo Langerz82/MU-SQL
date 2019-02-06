@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x0056F8E0	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "CrywolfUtil.h"
 #include "DSProtocol.h"
 #include "MapServerManager.h"

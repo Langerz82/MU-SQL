@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x0057E8B0	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "KanturuBattleStanby.h"
 #include "Kanturu.h"
 #include "KanturuMonsterMng.h"

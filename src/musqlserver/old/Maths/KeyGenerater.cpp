@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // KeyGenerater.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "KeyGenerater.h"
 #include "LargeRand.h"
 

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ChaosCastle.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ChaosCastle.h"
 #include "./Eventos/BloodCastle/BloodCastle.h"
 #include "GameMain.h"
@@ -176,8 +176,8 @@ void CChaosCastle::Load(LPSTR filename)
 	pugi::xml_node mainXML = file.child("ChaosCastle");
 
 	this->m_bCC_EVENT_ENABLE = g_ConfigRead.server.GetStateFromEventTable(g_ConfigRead.server.GetServerType(), EV_TABLE_CC) == true ? main.attribute("Enable").as_int() : false;
-	this->m_iCC_MIN_USER_START = main.attribute("MinPlayer").as_int();
-	this->m_iCC_MAX_ENTER_COUNT = main.attribute("MaxEnterCount").as_int(4);
+	this->m_iCC_MIN_USER_START = mainXML.attribute("MinPlayer").as_int();
+	this->m_iCC_MAX_ENTER_COUNT = mainXML.attribute("MaxEnterCount").as_int(4);
 
 	pugi::xml_node time = mainXML.child("Time");
 
@@ -266,7 +266,7 @@ void CChaosCastle::CheckSync(int iChaosCastleIndex)
 
 	if ( this->m_vtChaosCastleOpenTime.empty() != false )
 	{
-		//g_Log.AddC(TColor::Red,  "[Chaos Castle] (%d) No Schedule Time Data - Chaos Castle Terminated (m_vtChaosCastleOpenTime.empty())", iChaosCastleIndex);
+		//sLog.outError(  "[Chaos Castle] (%d) No Schedule Time Data - Chaos Castle Terminated (m_vtChaosCastleOpenTime.empty())", iChaosCastleIndex);
 		this->SetState(iChaosCastleIndex, CC_STATE_NONE);
 		
 		return;
@@ -324,7 +324,7 @@ void CChaosCastle::CheckSync(int iChaosCastleIndex)
 			break;
 
 		default:
-			//g_Log.AddC(TColor::Red,  "[Chaos Castle] (%d) No Schedule Time Data - Chaos Castle Terminated (bTIME_CHANGED=%d)",	iChaosCastleIndex + 1, bTIME_CHANGED);
+			//sLog.outError(  "[Chaos Castle] (%d) No Schedule Time Data - Chaos Castle Terminated (bTIME_CHANGED=%d)",	iChaosCastleIndex + 1, bTIME_CHANGED);
 			this->SetState(iChaosCastleIndex, CC_STATE_NONE);
 			return;
 
@@ -693,7 +693,7 @@ void CChaosCastle::PullObjInnerPlace(int iChaosCastleIndex, int iTRAP_STEP)
 
 				if (MAX_MAP_RANGE(iMapNumber) == FALSE)
 				{
-					//g_Log.AddC(TColor::Red, "[ERROR] iMapNumber is out of range %s %d", __FILE__, __LINE__);
+					//sLog.outError( "[ERROR] iMapNumber is out of range %s %d", __FILE__, __LINE__);
 					return;
 				}
 
@@ -2730,7 +2730,7 @@ void CChaosCastle::CheckMonsterInDieTile(int iChaosCastleIndex)
 
 				if (!MAX_MAP_RANGE(iMapNumber))
 				{
-					//g_Log.AddC(TColor::Red, "[ERROR] iMapNumber is out of range %s %d", __FILE__, __LINE__);
+					//sLog.outError( "[ERROR] iMapNumber is out of range %s %d", __FILE__, __LINE__);
 					return;
 				}
 

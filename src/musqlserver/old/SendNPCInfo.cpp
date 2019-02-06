@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // SendNPCInfo.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "SendNPCInfo.h"
 #include "GameMain.h"
 #include "Log/Log.h"

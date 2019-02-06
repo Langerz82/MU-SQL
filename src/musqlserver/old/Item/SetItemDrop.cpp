@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // SetItemDrop.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "SetItemDrop.h"
 #include "User/user.h"
 #include "SetItemOption.h"
@@ -160,13 +160,13 @@ bool CSetItemDrop::DropItem(LPOBJ lpMonster, LPOBJ lpUser)
 
 		if (!p)
 		{
-			g_Log.AddC(TColor::Red, "ERROR - Item not found (%d) CSetItemDrop::DropItem (%s)(%d)", iItemType, lpUser->Name, lpMonster->Class);
+			sLog.outError( "ERROR - Item not found (%d) CSetItemDrop::DropItem (%s)(%d)", iItemType, lpUser->Name, lpMonster->Class);
 			return false;
 		}
 
 		if (iSetItemOption == 0)
 		{
-			g_Log.AddC(TColor::Red, "ERROR - Set Item Option not found (%d) (Cat:%d) CSetItemDrop::DropItem (%s)(%d)", iItemType, lpDropItem->ItemCat, lpUser->Name, lpMonster->Class);
+			sLog.outError( "ERROR - Set Item Option not found (%d) (Cat:%d) CSetItemDrop::DropItem (%s)(%d)", iItemType, lpDropItem->ItemCat, lpUser->Name, lpMonster->Class);
 			return false;
 		}
 

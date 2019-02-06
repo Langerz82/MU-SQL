@@ -4,7 +4,7 @@
 // Decompiled by Deathway
 // Date : 2007-03-09
 // ------------------------------
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "SkillHitBox.h"
 #include "util.h"
 #include "Log/Log.h"

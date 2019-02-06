@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // RuudStore.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "RuudStore.h"
 #include "Log/Log.h"
 #include "ItemSocketOptionSystem.h"
@@ -36,8 +36,8 @@ void CRuudStore::LoadFile(char * szFile)
 	}
 
 	pugi::xml_node mainXML = file.child("RuudShop");
-	this->m_bEnable = main.attribute("Enable").as_bool();
-	this->m_iShopTime = main.attribute("ShopTime").as_int();
+	this->m_bEnable = mainXML.attribute("Enable").as_bool();
+	this->m_iShopTime = mainXML.attribute("ShopTime").as_int();
 
 	int iCount = 0;
 

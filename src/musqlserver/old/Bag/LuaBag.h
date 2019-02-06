@@ -3,13 +3,11 @@
 #ifndef LUABAG_H
 #define LUABAG_H
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Bag.h"
 #include "MuLua.h"
 #include "Item/Item.h"
 #include "GremoryCase.h"
-
-#pragma once
 
 #define MAX_ITEM_VARIABLES 29
 #define ITEMBAG_SCRIPT_FILE "\\Scripts\\ItemBags\\ItemBagScript.lua"

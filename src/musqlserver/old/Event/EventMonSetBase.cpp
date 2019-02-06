@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // EventMonSetBase.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "EventMonSetBase.h"
 #include "User/user.h"
 #include "MapClass.h"

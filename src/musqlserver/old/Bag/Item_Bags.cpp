@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Item_Bags.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Item_Bags.h"
 #include "GameMain.h"
 #include "LargeRand.h"

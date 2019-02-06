@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // FloodSystem.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 
 #if FILE_FLOOD_SYSTEMSWITCH
 #include "Log/Log.h"
@@ -103,7 +103,7 @@ void cAntiFlood::AutoClose(char * IP)
 			{
 				if (this->IsDebugEnabled == 1)
 				{
-					g_Log.AddC(TColor::Red, "[AutoClose] Index: %d", n);
+					sLog.outError( "[AutoClose] Index: %d", n);
 				}
 				IOCP.CloseClient(n);
 			}
@@ -120,7 +120,7 @@ bool cAntiFlood::Check(char * IP)
 
 			if (this->IsDebugEnabled == 1)
 			{
-				g_Log.AddC(TColor::Red, "[BlackList] Rejected IP %s", IP);
+				sLog.outError( "[BlackList] Rejected IP %s", IP);
 			}
 			return false;
 		}
@@ -135,7 +135,7 @@ bool cAntiFlood::Check(char * IP)
 
 					if (this->IsDebugEnabled == 1)
 					{
-						g_Log.AddC(TColor::Red, "[BlackList] IP: %s Added to Black List - Flood Attempt: %d", IP, this->MaxIPConnection);
+						sLog.outError( "[BlackList] IP: %s Added to Black List - Flood Attempt: %d", IP, this->MaxIPConnection);
 					}
 				}
 				else
@@ -143,7 +143,7 @@ bool cAntiFlood::Check(char * IP)
 
 					if (this->IsDebugEnabled == 1)
 					{
-						g_Log.AddC(TColor::Red, "[BlackList][BLACKLIST FULL] IP: %s Fail Add to Black List - Flood Attempt: %d", IP, this->MaxIPConnection);
+						sLog.outError( "[BlackList][BLACKLIST FULL] IP: %s Fail Add to Black List - Flood Attempt: %d", IP, this->MaxIPConnection);
 					}
 				}
 				if (this->AutoCloseFloodCon == 1)

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // EventBag.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "EventBag.h"
 #include "Log/Log.h"
 #include "User/user.h"

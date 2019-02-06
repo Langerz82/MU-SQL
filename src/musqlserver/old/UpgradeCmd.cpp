@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // UpgradeCmd.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "UpgradeCmd.h"
 #include "Item/Item.h"
 #include "Log/Log.h"
@@ -35,7 +35,7 @@ void CUpgradeCmd::LoadFile(char * szFile)
 
 	pugi::xml_node mainXML = file.child("JoinMu");
 
-	this->m_bSystemEnable = main.attribute("Enable").as_bool();
+	this->m_bSystemEnable = mainXML.attribute("Enable").as_bool();
 
 	UPGRADECMD_DATA m_Upgrade;
 

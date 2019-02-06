@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ObjUseSkill.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ObjUseSkill.h"
 #include "ObjCalCharacter.h"
 #include "GameMain.h"

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MonsterAttr.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "MonsterAttr.h"
 #include "Log/Log.h"
 #include "User/user.h"

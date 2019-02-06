@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // TNotice.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "TNotice.h"
 #include "User/user.h"
 #include "giocp.h"

@@ -2,7 +2,7 @@
 // LuckyItemManager.h
 #pragma once
 
-#include "stdafx.h"
+#include "StdAfx.h"
 //#include "User/user.h"
 
 #define	MAX_LUCKYINFO_LEVELRATE			16

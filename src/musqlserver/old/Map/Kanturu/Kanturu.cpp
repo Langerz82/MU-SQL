@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x00581CD0	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Kanturu.h"
 #include "KanturuMonsterMng.h"
 #include "KanturuBattleUserMng.h"
@@ -620,7 +620,7 @@ void CKanturu::OperateGmCommand(int iUserIndex, int iCommand)
 			break;
 	}
 
-	g_Log.AddC(TColor::Red,  "[ADMIN COMMAND] [%s][%s][%s] Used KANTURU Command ID: %d",
+	sLog.outError(  "[ADMIN COMMAND] [%s][%s][%s] Used KANTURU Command ID: %d",
 		gObj[iUserIndex].AccountID, gObj[iUserIndex].Name,
 		gObj[iUserIndex].m_PlayerData->Ip_addr, iCommand);
 }

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ItemDropEx.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ItemDropEx.h"
 #include "Log/Log.h"
 #include "Readscript.h"

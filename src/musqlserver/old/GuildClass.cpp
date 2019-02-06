@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // GuildClass.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "GuildClass.h"
 #include "Log/Log.h"
 #include "GameMain.h"

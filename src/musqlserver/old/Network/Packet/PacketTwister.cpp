@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // PacketTwister.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "PacketTwister.h"
 #include "Log/Log.h"
 

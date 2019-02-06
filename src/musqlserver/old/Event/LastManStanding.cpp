@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // LastManStanding.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "LastManStanding.h"
 #include "User/user.h"
 #include "Log/Log.h"
@@ -50,10 +50,10 @@ void CLastManStanding::LoadConfig(LPSTR lpszFileName)
 
 	pugi::xml_node mainXML = file.child("LastManStanding");
 
-	this->m_Cfg.bEnable = main.attribute("Enable").as_int();
-	this->m_Cfg.iDieCount = main.attribute("DieCount").as_int();
-	this->m_Cfg.iMinPlayers = main.attribute("MinPlayers").as_int();
-	this->m_Cfg.iMaxPlayers = main.attribute("MaxPlayers").as_int();
+	this->m_Cfg.bEnable = mainXML.attribute("Enable").as_int();
+	this->m_Cfg.iDieCount = mainXML.attribute("DieCount").as_int();
+	this->m_Cfg.iMinPlayers = mainXML.attribute("MinPlayers").as_int();
+	this->m_Cfg.iMaxPlayers = mainXML.attribute("MaxPlayers").as_int();
 
 	pugi::xml_node event_cfg = mainXML.child("Event");
 	

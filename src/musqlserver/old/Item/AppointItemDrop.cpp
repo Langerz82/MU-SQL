@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // AppointItemDrop.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Log/Log.h"
 #include "LargeRand.h"
 #include "User/user.h"

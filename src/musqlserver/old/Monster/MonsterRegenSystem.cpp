@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MonsterRegenSystem.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "User/user.h"
 #include "MonsterRegenSystem.h"
 #include "Log/Log.h"
@@ -36,7 +36,7 @@ void CMonsterRegenSystem::LoadScript(char* lpFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.AddC(TColor::Red, "[%s] file load error [%s]", lpFileName, res.description());
+		sLog.outError( "[%s] file load error [%s]", lpFileName, res.description());
 		return;
 	}
 

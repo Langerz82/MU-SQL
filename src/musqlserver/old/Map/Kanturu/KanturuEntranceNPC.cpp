@@ -2,7 +2,7 @@
 //	GS-N	1.00.18	JPN	0x00581670	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "KanturuEntranceNPC.h"
 #include "Kanturu.h"
 #include "KanturuBattleUserMng.h"

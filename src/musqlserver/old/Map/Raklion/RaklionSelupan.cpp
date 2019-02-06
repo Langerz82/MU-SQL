@@ -2,7 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "RaklionSelupan.h"
 #include "RaklionMonsterMng.h"
 #include "User/user.h"
@@ -299,7 +299,7 @@ void CRaklionSelupan::InitSelupanIndex()
 
 	if (this->m_iSelupanObjIndex == -1)
 	{
-		g_Log.AddC(TColor::Red, "[Raklion][InitSelupanIndex] error : SelupanObjIndex(%d)", this->m_iSelupanObjIndex);
+		sLog.outError( "[Raklion][InitSelupanIndex] error : SelupanObjIndex(%d)", this->m_iSelupanObjIndex);
 	}
 }
 
@@ -409,7 +409,7 @@ void CRaklionSelupan::SetSelupanSkillDelay(int iDelay)
 {
 	if( iDelay < 0 || iDelay > (1000*50) )
 	{
-		g_Log.AddC(TColor::Red, "[ RAKLION ][ SetSelupanSkillDelay ] SkillDelay error : Delay(%d)", m_iSkillDelay);
+		sLog.outError( "[ RAKLION ][ SetSelupanSkillDelay ] SkillDelay error : Delay(%d)", m_iSkillDelay);
 		return;
 	}
 	m_iSkillDelay = iDelay;
@@ -419,7 +419,7 @@ int CRaklionSelupan::GetSelupanSkillDelay()
 {
 	if( m_iSkillDelay < 0 || m_iSkillDelay > 50000 )
 	{
-		g_Log.AddC(TColor::Red, "[ RAKLION ][ GetSelupanSkillDelay ] SkillDelay error : Delay(%d)", m_iSkillDelay);
+		sLog.outError( "[ RAKLION ][ GetSelupanSkillDelay ] SkillDelay error : Delay(%d)", m_iSkillDelay);
 		return -1;
 	}
 	return m_iSkillDelay;
@@ -440,7 +440,7 @@ void CRaklionSelupan::SetSelupanObjIndex(int iIndex)
 {
 	if( iIndex < 0 || iIndex > g_ConfigRead.server.GetObjectMaxMonster() ) 
 	{
-		g_Log.AddC(TColor::Red, "[ RAKLION ][ SetSelupanObjIndex ] SelupanObjIndex error : Index(%d)", iIndex);
+		sLog.outError( "[ RAKLION ][ SetSelupanObjIndex ] SelupanObjIndex error : Index(%d)", iIndex);
 		return;
 	}
 	m_iSelupanObjIndex = iIndex;

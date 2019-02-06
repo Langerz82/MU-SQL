@@ -4,7 +4,7 @@
 //Made for GameServer 1.00.90_2 JPN Version (Season4.5)
 //Status: 100% Functional and _ASM Code 100% Identical as Original GameServer.exe file!!!
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "CastleSiege.h"
 #include "CastleDeepEvent.h"
 #include "DSProtocol.h"
@@ -420,7 +420,7 @@ int CCastleSiege::LoadData(char * lpszFileName)
 
 	if (this->m_iCastleDataLoadState != CASTLESIEGE_DATALOAD_1)
 	{
-		g_Log.AddC(TColor::Red, "[CastleSiege] CCastleSiege::LoadData() - m_iCastleDataLoadState != CASTLESIEGE_DATALOAD_1 (%d)", this->m_iCastleDataLoadState);
+		sLog.outError( "[CastleSiege] CCastleSiege::LoadData() - m_iCastleDataLoadState != CASTLESIEGE_DATALOAD_1 (%d)", this->m_iCastleDataLoadState);
 		return false;
 	}
 
@@ -452,7 +452,7 @@ int CCastleSiege::LoadData(char * lpszFileName)
 
 	if (iCastleSiegeCycle <= 0)
 	{
-		g_Log.AddC(TColor::Red, "[CastleSiege] CCastleSiege::LoadData() - iCastleSiegeCycle <= 0 : %d", iCastleSiegeCycle);
+		sLog.outError( "[CastleSiege] CCastleSiege::LoadData() - iCastleSiegeCycle <= 0 : %d", iCastleSiegeCycle);
 		return false;
 	}
 
@@ -483,7 +483,7 @@ int CCastleSiege::LoadData(char * lpszFileName)
 				{
 					if (pScheduleData.m_iSTATE == iSTATE)
 					{
-						g_Log.AddC(TColor::Red, "[CastleSiege] CCastleSiege::LoadData() - Same State Exist : %d", iSTATE);
+						sLog.outError( "[CastleSiege] CCastleSiege::LoadData() - Same State Exist : %d", iSTATE);
 						return false;
 					}
 
@@ -494,7 +494,7 @@ int CCastleSiege::LoadData(char * lpszFileName)
 
 						if (iSTATE1_TIME <= iSTATE2_TIME)
 						{
-							g_Log.AddC(TColor::Red, "[CastleSiege] CCastleSiege::LoadData() - Date Order is wrong : %d", iSTATE2_TIME);
+							sLog.outError( "[CastleSiege] CCastleSiege::LoadData() - Date Order is wrong : %d", iSTATE2_TIME);
 							return false;
 						}
 					}
@@ -504,7 +504,7 @@ int CCastleSiege::LoadData(char * lpszFileName)
 						int iSTATE2_TIME = iSTART_DAY * 24 * 60 + iSTART_HOUR * 60 + iSTART_MIN;
 						if (iSTATE1_TIME >= iSTATE2_TIME)
 						{
-							g_Log.AddC(TColor::Red, "[CastleSiege] CCastleSiege::LoadData() - Date Order is wrong : %d", iSTATE2_TIME);
+							sLog.outError( "[CastleSiege] CCastleSiege::LoadData() - Date Order is wrong : %d", iSTATE2_TIME);
 							return false;
 						}
 					}
@@ -832,7 +832,7 @@ int CCastleSiege::LoadData(char * lpszFileName)
 
 				if(iIDX_RESULT < 0)
 				{
-					g_Log.AddC(TColor::Red, "[CastleSiege] CCastleSiege::LoadData() - Date Order is wrong (sort fail) : %d-%d", this->m_vtScheduleData[iIDX].m_iSTATE, this->m_vtScheduleData[iIDX+1].m_iSTATE);
+					sLog.outError( "[CastleSiege] CCastleSiege::LoadData() - Date Order is wrong (sort fail) : %d-%d", this->m_vtScheduleData[iIDX].m_iSTATE, this->m_vtScheduleData[iIDX+1].m_iSTATE);
 				}
 				else
 				{
@@ -890,19 +890,19 @@ int CCastleSiege::DataRequest()
 {
 	if(this->m_bFileDataLoadOK == FALSE)
 	{
-		g_Log.AddC(TColor::Red, "[CastleSiege] CCastleSiege::DataRequest() - m_bFileDataLoadOK == FALSE");
+		sLog.outError( "[CastleSiege] CCastleSiege::DataRequest() - m_bFileDataLoadOK == FALSE");
 		return false;
 	}
 
 	if(this->m_iMapSvrGroup < 0)
 	{
-		g_Log.AddC(TColor::Red, "[CastleSiege] CCastleSiege::DataRequest() - m_iMapSvrGroup < 0");
+		sLog.outError( "[CastleSiege] CCastleSiege::DataRequest() - m_iMapSvrGroup < 0");
 		return false;
 	}
 
 	if(this->m_iCastleDataLoadState != CASTLESIEGE_DATALOAD_2)
 	{
-		g_Log.AddC(TColor::Red, "[CastleSiege] CCastleSiege::DataRequest() - m_iCastleDataLoadState != CASTLESIEGE_DATALOAD_2 (%d)",m_iCastleDataLoadState);
+		sLog.outError( "[CastleSiege] CCastleSiege::DataRequest() - m_iCastleDataLoadState != CASTLESIEGE_DATALOAD_2 (%d)",m_iCastleDataLoadState);
 		return false;
 	}
 
@@ -918,7 +918,7 @@ int CCastleSiege::DataRequest()
 	{
 		bDbRequestData = TRUE;
 		m_dwDbDataLoadTickCount = GetTickCount();
-		g_Log.AddC(TColor::Red, "[CastleSiege] CCastleSiege::DataRequest() - REQUEST DATA AGAIN");
+		sLog.outError( "[CastleSiege] CCastleSiege::DataRequest() - REQUEST DATA AGAIN");
 	}
 
 	if(bDbRequestData != FALSE)
@@ -933,14 +933,14 @@ int CCastleSiege::Init()
 {
 	if(this->m_iCastleDataLoadState != CASTLESIEGE_DATALOAD_4)
 	{
-		g_Log.AddC(TColor::Red, "[CastleSiege] CCastleSiege::Init() - m_iCastleDataLoadState != CASTLESIEGE_DATALOAD_4 (%d)",this->m_iCastleDataLoadState);
+		sLog.outError( "[CastleSiege] CCastleSiege::Init() - m_iCastleDataLoadState != CASTLESIEGE_DATALOAD_4 (%d)",this->m_iCastleDataLoadState);
 		sLog.outError("[CastleSiege] CCastleSiege::Init() - m_iCastleDataLoadState != CASTLESIEGE_DATALOAD_4 (%d)",this->m_iCastleDataLoadState);
 		return false;
 	}
 
 	if(this->m_bFileDataLoadOK == FALSE || this->m_bDbDataLoadOK == FALSE)
 	{
-		g_Log.AddC(TColor::Red, "[CastleSiege] CCastleSiege::Init() - Data Load Fail (FILE:%d, DB:%d)", this->m_bFileDataLoadOK, this->m_bDbDataLoadOK);
+		sLog.outError( "[CastleSiege] CCastleSiege::Init() - Data Load Fail (FILE:%d, DB:%d)", this->m_bFileDataLoadOK, this->m_bDbDataLoadOK);
 		sLog.outError("[CastleSiege] CCastleSiege::Init() - Data Load Fail (FILE:%d, DB:%d)", this->m_bFileDataLoadOK, this->m_bDbDataLoadOK);
 		return false;
 	}
@@ -953,7 +953,7 @@ int CCastleSiege::Init()
 
 	if(this->CheckSync() == FALSE)
 	{
-		g_Log.AddC(TColor::Red, "[CastleSiege] CCastleSiege::Init() - CheckSync() == FALSE");
+		sLog.outError( "[CastleSiege] CCastleSiege::Init() - CheckSync() == FALSE");
 		sLog.outError("[CastleSiege] CCastleSiege::Init() - CheckSync() == FALSE");
 		return false;
 	}
@@ -1292,7 +1292,7 @@ void CCastleSiege::SetState_STARTSIEGE(BOOL bSetRemainMsec)
 	{
 		this->CheckCastleSiegeResult();
 		this->SetState(CASTLESIEGE_STATE_ENDSIEGE,TRUE);
-		g_Log.AddC(TColor::Red, "[CastleSiege] CCastleSiege::SetState_STARTSIEGE() - CheckAttackGuildExist() == FALSE");
+		sLog.outError( "[CastleSiege] CCastleSiege::SetState_STARTSIEGE() - CheckAttackGuildExist() == FALSE");
 	}
 	else
 	{
@@ -1673,7 +1673,7 @@ BOOL CCastleSiege::FirstCreateDbNPC()
 	
 	if( this->m_iCastleDataLoadState != CASTLESIEGE_DATALOAD_4 )
 	{
-		g_Log.AddC(TColor::Red,  "[CastleSiege] CCastleSiege::FirstCreateDbNPC() - m_iCastleDataLoadState != CASTLESIEGE_DATALOAD_4");
+		sLog.outError(  "[CastleSiege] CCastleSiege::FirstCreateDbNPC() - m_iCastleDataLoadState != CASTLESIEGE_DATALOAD_4");
 		return FALSE;
 	}
 	
@@ -1724,7 +1724,7 @@ BOOL CCastleSiege::SetCastleInitData(CSP_ANS_CSINITDATA* lpMsg)
 {
 	if( this->m_iCastleDataLoadState != CASTLESIEGE_DATALOAD_3 )
 	{
-		g_Log.AddC(TColor::Red,  "[CastleSiege] CCastleSiege::SetCastleInitData() - m_iCastleDataLoadState != CASTLESIEGE_DATALOAD_3");
+		sLog.outError(  "[CastleSiege] CCastleSiege::SetCastleInitData() - m_iCastleDataLoadState != CASTLESIEGE_DATALOAD_3");
 		return FALSE;
 	}
 
@@ -1772,7 +1772,7 @@ BOOL CCastleSiege::SetCastleInitData(CSP_ANS_CSINITDATA* lpMsg)
 
 	if( iSTART_DATE_NUM > iEND_DATE_NUM )
 	{
-		g_Log.AddC(TColor::Red,  "[CastleSiege] CCastleSiege::SetCastleInitData() - iSTART_DATE_NUM > iEND_DATE_NUM");
+		sLog.outError(  "[CastleSiege] CCastleSiege::SetCastleInitData() - iSTART_DATE_NUM > iEND_DATE_NUM");
 		return FALSE;
 	}
 	return TRUE;
@@ -1782,7 +1782,7 @@ BOOL CCastleSiege::SetCastleNpcData(CSP_CSINITDATA* lpMsg, int iCOUNT)
 {
 	if( this->m_iCastleDataLoadState != CASTLESIEGE_DATALOAD_3 )
 	{
-		g_Log.AddC(TColor::Red,  "[CastleSiege] CCastleSiege::SetCastleNpcData() - m_iCastleDataLoadState != CASTLESIEGE_DATALOAD_3");
+		sLog.outError(  "[CastleSiege] CCastleSiege::SetCastleNpcData() - m_iCastleDataLoadState != CASTLESIEGE_DATALOAD_3");
 		return FALSE;
 	}
 
@@ -1874,7 +1874,7 @@ int CCastleSiege::CheckSync()
 {
 	if(this->m_bFileDataLoadOK == FALSE)
 	{
-		g_Log.AddC(TColor::Red, "[CastleSiege] CCastleSiege::CheckSync() - m_bFileDataLoadOK == FALSE");
+		sLog.outError( "[CastleSiege] CCastleSiege::CheckSync() - m_bFileDataLoadOK == FALSE");
 		return false;
 	}
 
@@ -2191,7 +2191,7 @@ int CCastleSiege::CalcCastleLeftSiegeDate()
 
 		if( iGAP_SEC == 0 )
 		{
-			g_Log.AddC(TColor::Red,  "[CastleSiege] CCastleSiege::CalcCastleLeftSiegeDate() - iGAP_SEC == 0");
+			sLog.outError(  "[CastleSiege] CCastleSiege::CalcCastleLeftSiegeDate() - iGAP_SEC == 0");
 		}
 
 		return iGAP_SEC;
@@ -2427,13 +2427,13 @@ void CCastleSiege::CreateDbNPC()
 
 							if(bRETVAL == FALSE)
 							{
-								g_Log.AddC(TColor::Red, "[CastleSiege] CCastleSiege::CreateDbNPC() ERROR - Failed to Create Gate Lever : GateIndex:%d",pNpcData.m_iNPC_INDEX);
+								sLog.outError( "[CastleSiege] CCastleSiege::CreateDbNPC() ERROR - Failed to Create Gate Lever : GateIndex:%d",pNpcData.m_iNPC_INDEX);
 							}
 						}
 						else
 						{
 							it->m_iCS_GATE_LEVER_INDEX = -1;
-							g_Log.AddC(TColor::Red, "[CastleSiege] CCastleSiege::CreateDbNPC() ERROR - Failed to Create Gate Lever : GateIndex:%d",pNpcData.m_iNPC_INDEX);
+							sLog.outError( "[CastleSiege] CCastleSiege::CreateDbNPC() ERROR - Failed to Create Gate Lever : GateIndex:%d",pNpcData.m_iNPC_INDEX);
 						}
 					}
 					else
@@ -2442,7 +2442,7 @@ void CCastleSiege::CreateDbNPC()
 
 						if(bRETVAL == FALSE)
 						{
-							g_Log.AddC(TColor::Red, "[CastleSiege] CCastleSiege::CreateDbNPC() ERROR - Failed to Create Gate Lever : GateIndex:%d",pNpcData.m_iNPC_INDEX);
+							sLog.outError( "[CastleSiege] CCastleSiege::CreateDbNPC() ERROR - Failed to Create Gate Lever : GateIndex:%d",pNpcData.m_iNPC_INDEX);
 						}
 					}
 				}
@@ -2725,13 +2725,13 @@ int CCastleSiege::AddDbNPC(int iNpcType, int iNpcIndex)
 
 							if( iLinkIndex == 0 )
 							{
-								::g_Log.AddC(TColor::Red,  "[CastleSiege] CCastleSiege::CreateDbNPC() ERROR - Failed to Create Gate Lever : GateIndex:%d", NpcData.m_iNPC_INDEX);
+								::sLog.outError(  "[CastleSiege] CCastleSiege::CreateDbNPC() ERROR - Failed to Create Gate Lever : GateIndex:%d", NpcData.m_iNPC_INDEX);
 							}
 						}
 						else
 						{
 							it->m_iCS_GATE_LEVER_INDEX = -1;
-							::g_Log.AddC(TColor::Red,  "[CastleSiege] CCastleSiege::CreateDbNPC() ERROR - Failed to Create Gate Lever : GateIndex:%d", NpcData.m_iNPC_INDEX);
+							::sLog.outError(  "[CastleSiege] CCastleSiege::CreateDbNPC() ERROR - Failed to Create Gate Lever : GateIndex:%d", NpcData.m_iNPC_INDEX);
 						}
 					}
 					else
@@ -2740,7 +2740,7 @@ int CCastleSiege::AddDbNPC(int iNpcType, int iNpcIndex)
 
 						if( iLinkIndex == 0 )
 						{
-							::g_Log.AddC(TColor::Red,  "[CastleSiege] CCastleSiege::CreateDbNPC() ERROR - Failed to Create Gate Lever : GateIndex:%d", NpcData.m_iNPC_INDEX);
+							::sLog.outError(  "[CastleSiege] CCastleSiege::CreateDbNPC() ERROR - Failed to Create Gate Lever : GateIndex:%d", NpcData.m_iNPC_INDEX);
 						}
 					}
 				}
@@ -2887,7 +2887,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 
 	if( CS_CHECK_UPGRADE(iNpcUpIndex) == FALSE )
 	{
-		g_Log.AddC(TColor::Red,  "[CastleSiege] CCastleSiege::PayForUpgradeDbNpc() ERROR - lpMsg->iNpcUpIndex is Out of Bound : %d", iNpcUpIndex);
+		sLog.outError(  "[CastleSiege] CCastleSiege::PayForUpgradeDbNpc() ERROR - lpMsg->iNpcUpIndex is Out of Bound : %d", iNpcUpIndex);
 		return FALSE;
 	}
 
@@ -2897,7 +2897,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 
 	if( bIsLive == FALSE )
 	{
-		g_Log.AddC(TColor::Red,  "[CastleSiege] CCastleSiege::PayForUpgradeDbNpc() ERROR - bIsLive == FALSE", iNpcUpIndex);
+		sLog.outError(  "[CastleSiege] CCastleSiege::PayForUpgradeDbNpc() ERROR - bIsLive == FALSE", iNpcUpIndex);
 		return FALSE;
 	}
 
@@ -3050,7 +3050,7 @@ BOOL CCastleSiege::UpgradeDbNPC(int iIndex, int iNpcType, int iNpcIndex, int iNp
 {
 	if( CS_CHECK_UPGRADE(iNpcUpIndex) == FALSE )
 	{
-		g_Log.AddC(TColor::Red,  "[CastleSiege] CCastleSiege::UpgradeDbNPC() ERROR - lpMsg->iNpcUpIndex is Out of Bound : %d", iNpcUpIndex);
+		sLog.outError(  "[CastleSiege] CCastleSiege::UpgradeDbNPC() ERROR - lpMsg->iNpcUpIndex is Out of Bound : %d", iNpcUpIndex);
 		return FALSE;
 	}
 
@@ -3061,7 +3061,7 @@ BOOL CCastleSiege::UpgradeDbNPC(int iIndex, int iNpcType, int iNpcIndex, int iNp
 
 	if( bIsLive == FALSE )
 	{
-		g_Log.AddC(TColor::Red,  "[CastleSiege] CCastleSiege::UpgradeDbNPC() ERROR - bIsLive == FALSE", iNpcUpIndex);
+		sLog.outError(  "[CastleSiege] CCastleSiege::UpgradeDbNPC() ERROR - bIsLive == FALSE", iNpcUpIndex);
 		return FALSE;
 	}
 
@@ -3523,7 +3523,7 @@ void CCastleSiege::CreateAllCsGateLever()
 				else
 				{
 					it->m_iCS_GATE_LEVER_INDEX = -1;
-					g_Log.AddC(TColor::Red, "[CastleSiege] CCastleSiege::CreateAllCsGateLever() ERROR - Failed to Create Gate Lever : GateIndex:%d",pNpcData.m_iNPC_INDEX);
+					sLog.outError( "[CastleSiege] CCastleSiege::CreateAllCsGateLever() ERROR - Failed to Create Gate Lever : GateIndex:%d",pNpcData.m_iNPC_INDEX);
 				}
 			}
 		}
@@ -4025,12 +4025,12 @@ void CCastleSiege::MakeCsTotalGuildInfo(CSP_CSGUILDUNIONINFO* lpMsg, int iCOUNT)
 
 	if( this->m_bCsBasicGuildInfoLoadOK == FALSE )
 	{
-		g_Log.AddC(TColor::Red,  "[CastleSiege] CCastleSiege::MakeCsTotalGuildInfo() ERROR - m_bCsBasicGuildInfoLoadOK == FALSE");
+		sLog.outError(  "[CastleSiege] CCastleSiege::MakeCsTotalGuildInfo() ERROR - m_bCsBasicGuildInfoLoadOK == FALSE");
 		return;
 	}
 	if( iCOUNT <= 0 )
 	{
-		g_Log.AddC(TColor::Red,  "[CastleSiege] CCastleSiege::MakeCsTotalGuildInfo() ERROR - iCOUNT <= 0 : %d", iCOUNT);
+		sLog.outError(  "[CastleSiege] CCastleSiege::MakeCsTotalGuildInfo() ERROR - iCOUNT <= 0 : %d", iCOUNT);
 		return;
 	}
 
@@ -4069,7 +4069,7 @@ void CCastleSiege::SaveCsTotalGuildInfo()
 {
 	if( this->m_bCsTotalGuildInfoLoadOK == FALSE )
 	{
-		g_Log.AddC(TColor::Red,  "[CastleSiege] CCastleSiege::SaveCsTotalGuildInfo() ERROR - m_bCsTotalGuildInfoLoadOK == FALSE");
+		sLog.outError(  "[CastleSiege] CCastleSiege::SaveCsTotalGuildInfo() ERROR - m_bCsTotalGuildInfoLoadOK == FALSE");
 		return;
 	}
 
@@ -4133,7 +4133,7 @@ void CCastleSiege::SetCsTotalGuildInfo(CSP_CSLOADTOTALGUILDINFO* lpMsg, int iCOU
 
 	if( iCOUNT <= 0 )
 	{
-		g_Log.AddC(TColor::Red,  "[CastleSiege] CCastleSiege::SetCsTotalGuildInfo() ERROR - iCOUNT <= 0 : %d", iCOUNT);
+		sLog.outError(  "[CastleSiege] CCastleSiege::SetCsTotalGuildInfo() ERROR - iCOUNT <= 0 : %d", iCOUNT);
 		return;
 	}
 
@@ -5574,13 +5574,13 @@ void CCastleSiege::NotifyCrownState(BYTE btState)
 {
 	if( gObjIsConnected(m_iCrownIndex) == FALSE )
 	{
-		g_Log.AddC(TColor::Red,  "[CastleSiege] CCastleSiege::NotifyCrownState() - m_iCrownIndex isn't Valid");
+		sLog.outError(  "[CastleSiege] CCastleSiege::NotifyCrownState() - m_iCrownIndex isn't Valid");
 		return;
 	}
 
 	if( gObj[m_iCrownIndex].Class != 216 )
 	{
-		g_Log.AddC(TColor::Red,  "[CastleSiege] CCastleSiege::NotifyCrownState() - m_iCrownIndex isn't Valid");
+		sLog.outError(  "[CastleSiege] CCastleSiege::NotifyCrownState() - m_iCrownIndex isn't Valid");
 		return;
 	}
 
@@ -5627,13 +5627,13 @@ void CCastleSiege::NotifyCrownSwitchInfo(int iCrownSwitchIndex)
 {
 	if( gObjIsConnected(iCrownSwitchIndex) == FALSE )
 	{
-		g_Log.AddC(TColor::Red,  "[CastleSiege] CCastleSiege::NotifyCrownSwitchInfo() - iCrownSwitchIndex is Invalid");
+		sLog.outError(  "[CastleSiege] CCastleSiege::NotifyCrownSwitchInfo() - iCrownSwitchIndex is Invalid");
 		return;
 	}
 
 	if( (gObj[iCrownSwitchIndex].Class != 217) && (gObj[iCrownSwitchIndex].Class != 218) )
 	{
-		g_Log.AddC(TColor::Red,  "[CastleSiege] CCastleSiege::NotifyCrownSwitchInfo() - iCrownSwitchIndex is Invalid");
+		sLog.outError(  "[CastleSiege] CCastleSiege::NotifyCrownSwitchInfo() - iCrownSwitchIndex is Invalid");
 		return;
 	}
 
@@ -5849,7 +5849,7 @@ void CCastleSiege::OperateGmCommand(int iIndex, int iGmCommand, void* lpParam)
 
 				if( this->CheckSync() == FALSE )
 				{
-					g_Log.AddC(TColor::Red,  "[CastleSiege] CCastleSiege::Init() - CheckSync() == FALSE");
+					sLog.outError(  "[CastleSiege] CCastleSiege::Init() - CheckSync() == FALSE");
 					sLog.outError("[CastleSiege] CCastleSiege::Init() - CheckSync() == FALSE");
 					MsgOutput(iIndex, "[Error]: Sync failed!");
 					return;
