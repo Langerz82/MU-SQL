@@ -163,7 +163,7 @@ public:
 	bool GetMuunItemValueOfOptType(OBJECTSTRUCT *lpObj, int iMuunOtpIndex, int *EffectValue1, int *EffectValue2);
 
 	void GDReqLoadMuunInvenItem(OBJECTSTRUCT *obj);
-	void DGLoadMuunInvenItem(_tagSDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg);
+	void DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg);
 	void GDReqSaveMuunInvenItem(OBJECTSTRUCT *obj);
 
 	void GCSendConditionStatus(int aIndex, int iPos, int iStatus);

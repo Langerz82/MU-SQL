@@ -1016,7 +1016,7 @@ bool CIllusionTempleLeagueEvent::IsRewardRenewDay()
 
 void CIllusionTempleLeagueEvent::GD_LoadGuildCount(char *GuildName, int UserIndex)
 {
-	_tagPMSG_REQ_ITL_GUILDCOUNT_REQ pMsg;
+	PMSG_REQ_ITL_GUILDCOUNT_REQ pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.headcode = 0xF0;
@@ -1030,7 +1030,7 @@ void CIllusionTempleLeagueEvent::GD_LoadGuildCount(char *GuildName, int UserInde
 
 void CIllusionTempleLeagueEvent::GD_Load_ITLUserEnterCount(char *CharName, int UserIndex)
 {
-	_tagPMSG_REQ_ITL_USERCOUNT_REQ pMsg;
+	PMSG_REQ_ITL_USERCOUNT_REQ pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.headcode = 0xF0;
@@ -1043,7 +1043,7 @@ void CIllusionTempleLeagueEvent::GD_Load_ITLUserEnterCount(char *CharName, int U
 
 void CIllusionTempleLeagueEvent::GD_ITL_GuildRank_Renew(BYTE byITLType)
 {
-	_tagPMSG_REQ_ITL_GUILDRANKRENEW pMsg;
+	PMSG_REQ_ITL_GUILDRANKRENEW pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -1056,7 +1056,7 @@ void CIllusionTempleLeagueEvent::GD_ITL_GuildRank_Renew(BYTE byITLType)
 
 void CIllusionTempleLeagueEvent::GD_ITL_GuildRank_Get()
 {
-	_tagPMSG_REQ_ITL_GUILDRANK pMsg;
+	PMSG_REQ_ITL_GUILDRANK pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -1068,7 +1068,7 @@ void CIllusionTempleLeagueEvent::GD_ITL_GuildRank_Get()
 
 void CIllusionTempleLeagueEvent::GD_ITL_TournamentRank_Get(BYTE byITLType)
 {
-	_tagPMSG_REQ_ITL_GUILD_TOURNAMENTRANK pMsg;
+	PMSG_REQ_ITL_GUILD_TOURNAMENTRANK pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -1079,7 +1079,7 @@ void CIllusionTempleLeagueEvent::GD_ITL_TournamentRank_Get(BYTE byITLType)
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CIllusionTempleLeagueEvent::DG_ITL_Tournament_Get(_tagPMSG_ANS_ITL_TOURNAMENT *lpMsg)
+void CIllusionTempleLeagueEvent::DG_ITL_Tournament_Get(PMSG_ANS_ITL_TOURNAMENT *lpMsg)
 {
 	if (!lpMsg)
 	{
@@ -1113,7 +1113,7 @@ void CIllusionTempleLeagueEvent::DG_ITL_Tournament_Get(_tagPMSG_ANS_ITL_TOURNAME
 	}
 }
 
-void CIllusionTempleLeagueEvent::DG_ITL_RewardList_Get(_tagPMSG_ANS_ITL_REWARDLIST *lpMsg)
+void CIllusionTempleLeagueEvent::DG_ITL_RewardList_Get(PMSG_ANS_ITL_REWARDLIST *lpMsg)
 {
 	if (!lpMsg)
 	{
@@ -1150,7 +1150,7 @@ void CIllusionTempleLeagueEvent::DG_ITL_RewardList_Get(_tagPMSG_ANS_ITL_REWARDLI
 	CIllusionTempleLeagueEvent::m_bLoadOk_RewardList = true;
 }
 
-void CIllusionTempleLeagueEvent::DG_ITL_UserCount(_tagPMSG_ANS_ITL_USERCOUNTANS *lpMsg)
+void CIllusionTempleLeagueEvent::DG_ITL_UserCount(PMSG_ANS_ITL_USERCOUNTANS *lpMsg)
 {
 	if (!lpMsg)
 	{
@@ -1176,7 +1176,7 @@ void CIllusionTempleLeagueEvent::DG_ITL_UserCount(_tagPMSG_ANS_ITL_USERCOUNTANS 
 		lpObj->Name, lpObj->m_byEnterITLUserCount);
 }
 
-void CIllusionTempleLeagueEvent::DG_ITL_GuildCount(_tagPMSG_ANS_ITL_GUILDCOUNTANS *lpMsg)
+void CIllusionTempleLeagueEvent::DG_ITL_GuildCount(PMSG_ANS_ITL_GUILDCOUNTANS *lpMsg)
 {
 	int aIndex = lpMsg->nUserIndex;
 
@@ -1198,7 +1198,7 @@ void CIllusionTempleLeagueEvent::DG_ITL_GuildCount(_tagPMSG_ANS_ITL_GUILDCOUNTAN
 		lpObj->Name, lpMsg->byCount);
 }
 
-void CIllusionTempleLeagueEvent::DG_ITL_GuildLeagueRank_Get(_tagPMSG_ANS_ITL_GUILDLEAGUERANK *lpMsg)
+void CIllusionTempleLeagueEvent::DG_ITL_GuildLeagueRank_Get(PMSG_ANS_ITL_GUILDLEAGUERANK *lpMsg)
 {
 	if (!lpMsg)
 	{
@@ -1453,7 +1453,7 @@ void CIllusionTempleLeagueEvent::Send_RewardList(int aIndex, BYTE byError)
 
 void CIllusionTempleLeagueEvent::Renew_ITL_RewardList()
 {
-	_tagPMSG_REQ_ITL_RENEW_REWARD pMsg;
+	PMSG_REQ_ITL_RENEW_REWARD pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -1466,7 +1466,7 @@ void CIllusionTempleLeagueEvent::Renew_ITL_RewardList()
 
 void CIllusionTempleLeagueEvent::Get_ITL_RewardList()
 {
-	_tagPMSG_REQ_ITL_GET_REWARDLIST pMsg;
+	PMSG_REQ_ITL_GET_REWARDLIST pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -1479,7 +1479,7 @@ void CIllusionTempleLeagueEvent::Get_ITL_RewardList()
 
 void CIllusionTempleLeagueEvent::Update_ITL_RewardFlag(char *Name)
 {
-	_tagPMSG_REQ_ITL_REWARD_GOTRECEIVED pMsg;
+	PMSG_REQ_ITL_REWARD_GOTRECEIVED pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);

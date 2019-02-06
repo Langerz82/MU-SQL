@@ -20,12 +20,12 @@ struct _tagMuRummyCardInfo
 	BYTE btSlotNum;
 };
 
-struct _tagPMSG_REQ_MURUMMY_EVENT_OPEN
+struct PMSG_REQ_MURUMMY_EVENT_OPEN
 {
 	PBMSG_HEAD2 h;
 };
 
-struct _tagPMSG_ANS_MURUMMY_EVENT_OPEN
+struct PMSG_ANS_MURUMMY_EVENT_OPEN
 {
 	PBMSG_HEAD2 h;
 	BYTE btResult;
@@ -35,15 +35,15 @@ struct _tagPMSG_ANS_MURUMMY_EVENT_OPEN
 	BYTE btEventTime4;
 };
 
-struct _tagPMSG_REQ_MURUMMY_INFO
+struct PMSG_REQ_MURUMMY_INFO
 {
 	PBMSG_HEAD2 h;
 	BYTE btGameType;
 };
 
-struct _tagPMSG_ANS_MURUMMY_INFO
+struct PMSG_ANS_MURUMMY_INFO
 {
-	_tagPMSG_ANS_MURUMMY_INFO()
+	PMSG_ANS_MURUMMY_INFO()
 	{
 		this->btTotScoreH = 0;
 		this->btTotScoreL = 0;
@@ -64,26 +64,26 @@ struct _tagPMSG_ANS_MURUMMY_INFO
 	_tagMuRummyCardInfo stMuRummyCardInfo[6];
 };
 
-struct _tagPMSG_REQ_REVEAL_CARD
+struct PMSG_REQ_REVEAL_CARD
 {
 	PBMSG_HEAD2 h;
 };
 
-struct _tagPMSG_ANS_REVEAL_CARD
+struct PMSG_ANS_REVEAL_CARD
 {
 	PBMSG_HEAD2 h;
 	_tagMuRummyCardInfo stMuRummyCardInfo[6];
 	BYTE btCardDeckCnt;
 };
 
-struct _tagPMSG_REQ_CARD_MOVE
+struct PMSG_REQ_CARD_MOVE
 {
 	PBMSG_HEAD2 h;
 	BYTE sSlot;
 	BYTE tSlot;
 };
 
-struct _tagPMSG_ANS_CARD_MOVE
+struct PMSG_ANS_CARD_MOVE
 {
 	PBMSG_HEAD2 h;
 	BYTE sSlot;
@@ -92,19 +92,19 @@ struct _tagPMSG_ANS_CARD_MOVE
 	BYTE btNumber;
 };
 
-struct _tagPMSG_REQ_CARD_REMOVE
+struct PMSG_REQ_CARD_REMOVE
 {
 	PBMSG_HEAD2 h;
 	BYTE btSlot;
 };
 
-struct _tagPMSG_ANS_CARD_REMOVE
+struct PMSG_ANS_CARD_REMOVE
 {
 	PBMSG_HEAD2 h;
 	BYTE btResult;
 };
 
-struct _tagPMSG_REQ_CARD_MATCH
+struct PMSG_REQ_CARD_MATCH
 {
 	PBMSG_HEAD2 h;
 };
@@ -123,7 +123,7 @@ struct _tagMuRummyCardUpdateDS
 	BYTE btStatus;
 };
 
-struct _tagPMSG_ANS_CARD_MATCH
+struct PMSG_ANS_CARD_MATCH
 {
 	PBMSG_HEAD2 h;
 	BYTE btScoreH;
@@ -133,24 +133,24 @@ struct _tagPMSG_ANS_CARD_MATCH
 	BYTE btResult;
 };
 
-struct _tagPMSG_REQ_MURUMMY_END
+struct PMSG_REQ_MURUMMY_END
 {
 	PBMSG_HEAD2 h;
 };
 
-struct _tagPMSG_ANS_MURUMMY_END
+struct PMSG_ANS_MURUMMY_END
 {
 	PBMSG_HEAD2 h;
 	BYTE btResult;
 };
 
-struct _tagPMSG_SEND_SLOTCARD_LIST
+struct PMSG_SEND_SLOTCARD_LIST
 {
 	PBMSG_HEAD2 h;
 	_tagMuRummyCardInfo stMuRummyCardInfo[6];
 };
 
-struct _tagPMSG_SEND_MURUMMY_MSG
+struct PMSG_SEND_MURUMMY_MSG
 {
 	PBMSG_HEAD2 h;
 	BYTE btNotiIndex;
@@ -158,7 +158,7 @@ struct _tagPMSG_SEND_MURUMMY_MSG
 	BYTE btValueL;
 };
 
-struct _tagPMSG_REQ_MURUMMY_SELECT_DS
+struct PMSG_REQ_MURUMMY_SELECT_DS
 {
 	PBMSG_HEAD2 h;
 	char AccountID[11];
@@ -184,7 +184,7 @@ struct _tagMuRummyCardInfoDS
 	BYTE btStatus;
 };
 
-struct _tagPMSG_ANS_MURUMMY_SELECT_DS
+struct PMSG_ANS_MURUMMY_SELECT_DS
 {
 	PBMSG_HEAD2 h;
 	WORD aIndex;
@@ -193,7 +193,7 @@ struct _tagPMSG_ANS_MURUMMY_SELECT_DS
 	_tagMuRummyCardInfoDS stMuRummyCardInfoDS[24];
 };
 
-struct _tagPMSG_REQ_MURUMMY_INSERT_DS
+struct PMSG_REQ_MURUMMY_INSERT_DS
 {
 	PBMSG_HEAD2 h;
 	char AccountID[11];
@@ -202,7 +202,7 @@ struct _tagPMSG_REQ_MURUMMY_INSERT_DS
 	_tagMuRummyCardInfoDS stMuRummyCardInfoDS[24];
 };
 
-struct _tagPMSG_REQ_MURUMMY_SCORE_UPDATE_DS
+struct PMSG_REQ_MURUMMY_SCORE_UPDATE_DS
 {
 	PBMSG_HEAD2 h;
 	char AccountID[11];
@@ -211,7 +211,7 @@ struct _tagPMSG_REQ_MURUMMY_SCORE_UPDATE_DS
 	_tagMuRummyCardUpdateDS stCardUpdateDS[3];
 };
 
-struct _tagPMSG_REQ_MURUMMY_UPDATE_DS
+struct PMSG_REQ_MURUMMY_UPDATE_DS
 {
 	PBMSG_HEAD2 h;
 	char AccountID[11];
@@ -221,14 +221,14 @@ struct _tagPMSG_REQ_MURUMMY_UPDATE_DS
 	BYTE btSequence;
 };
 
-struct _tagPMSG_REQ_MURUMMY_DELETE_DS
+struct PMSG_REQ_MURUMMY_DELETE_DS
 {
 	PBMSG_HEAD2 h;
 	char AccountID[11];
 	char Name[11];
 };
 
-struct _tagPMSG_REQ_MURUMMY_SLOTUPDATE_DS
+struct PMSG_REQ_MURUMMY_SLOTUPDATE_DS
 {
 	PBMSG_HEAD2 h;
 	char AccountID[11];
@@ -236,7 +236,7 @@ struct _tagPMSG_REQ_MURUMMY_SLOTUPDATE_DS
 	_tagMuRummyCardUpdateDS stCardUpdateDS;
 };
 
-struct _tagPMSG_REQ_MURUMMY_INFO_UPDATE_DS
+struct PMSG_REQ_MURUMMY_INFO_UPDATE_DS
 {
 	PBMSG_HEAD2 h;
 	char AccountID[11];
@@ -245,7 +245,7 @@ struct _tagPMSG_REQ_MURUMMY_INFO_UPDATE_DS
 	_tagMuRummyCardUpdateDS stMuRummyCardUpdateDS[24];
 };
 
-struct _tagPMSG_REQ_MURUMMY_LOG_INSERT_DS
+struct PMSG_REQ_MURUMMY_LOG_INSERT_DS
 {
 	PBMSG_HEAD2 h;
 	char AccountID[11];
@@ -283,13 +283,13 @@ public:
 	int IsCardNumber(CMuRummyCardInfo *pCCardInfo);
 	BYTE GetColorName(int iColorNum);
 
-	void CGReqMuRummyEventOpen(_tagPMSG_REQ_MURUMMY_EVENT_OPEN *lpMsg, int aIndex);
-	void CGReqMuRummyStart(_tagPMSG_REQ_MURUMMY_INFO *lpMsg, int aIndex);
-	void CGReqCardReveal(_tagPMSG_REQ_REVEAL_CARD *lpMsg, int aIndex);
-	void CGReqCardMove(_tagPMSG_REQ_CARD_MOVE *lpMsg, int aIndex);
-	void CGReqCardReMove(_tagPMSG_REQ_CARD_REMOVE *lpMsg, int aIndex);
-	void CGReqCardMatch(_tagPMSG_REQ_CARD_MATCH *lpMsg, int aIndex);
-	void CGReqMuRummyEnd(_tagPMSG_REQ_MURUMMY_END *lpMsg, int aIndex);
+	void CGReqMuRummyEventOpen(PMSG_REQ_MURUMMY_EVENT_OPEN *lpMsg, int aIndex);
+	void CGReqMuRummyStart(PMSG_REQ_MURUMMY_INFO *lpMsg, int aIndex);
+	void CGReqCardReveal(PMSG_REQ_REVEAL_CARD *lpMsg, int aIndex);
+	void CGReqCardMove(PMSG_REQ_CARD_MOVE *lpMsg, int aIndex);
+	void CGReqCardReMove(PMSG_REQ_CARD_REMOVE *lpMsg, int aIndex);
+	void CGReqCardMatch(PMSG_REQ_CARD_MATCH *lpMsg, int aIndex);
+	void CGReqMuRummyEnd(PMSG_REQ_MURUMMY_END *lpMsg, int aIndex);
 
 	void GCSendCardList(int aIndex);
 	void GCSendMsg(int aIndex, BYTE btNotiIndex, int iValue);
@@ -299,7 +299,7 @@ public:
 	void CheatSetScore(CMuRummyInfo *pMuRummyInfo, int iScore, int aIndex);
 
 	void GDReqCardInfo(OBJECTSTRUCT *lpObj);
-	void GDAnsCardInfo(_tagPMSG_ANS_MURUMMY_SELECT_DS *lpMsg);
+	void GDAnsCardInfo(PMSG_ANS_MURUMMY_SELECT_DS *lpMsg);
 	void GDReqCardInfoInsert(OBJECTSTRUCT *lpObj);
 	void GDReqScoreUpdate(OBJECTSTRUCT *lpObj, WORD wScore, _tagMuRummyCardUpdateDS *pCardUpdateDS);
 	void GDReqCardInfoUpdate(OBJECTSTRUCT *lpObj, CMuRummyCardInfo *pCCardInfo, int iSeq);

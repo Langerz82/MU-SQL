@@ -356,7 +356,7 @@ void CAcheronGuardianEvent::ProcStateChannelClose()
 		if (!this->m_bWindowClose && this->m_i64_REMAIN_MSEC <= 10000 && this->m_i64_REMAIN_MSEC > 0)
 		{
 			this->m_bWindowClose = true;
-			_tagPMSG_SEND_WINDOW_CLOSE pMsg;
+			PMSG_SEND_WINDOW_CLOSE pMsg;
 
 			pMsg.h.c = 0xC1;
 			pMsg.h.size = sizeof(pMsg);
@@ -800,7 +800,7 @@ void CAcheronGuardianEvent::DestroyObelisk(OBJECTSTRUCT *lpObj, BYTE btMapNumber
 	this->SetProcState(6);
 }
 
-void CAcheronGuardianEvent::CGReqAcheronEventEnter(_tagPMSG_REQ_ACHERON_EVENT_ENTER *lpMsg, int iIndex)
+void CAcheronGuardianEvent::CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER *lpMsg, int iIndex)
 {
 	if (!ObjectMaxRange(iIndex))
 	{
@@ -841,7 +841,7 @@ void CAcheronGuardianEvent::CGReqAcheronEventEnter(_tagPMSG_REQ_ACHERON_EVENT_EN
 		return;
 	}
 
-	_tagPMSG_ANS_ACHERON_EVENT_ENTER pMsg;
+	PMSG_ANS_ACHERON_EVENT_ENTER pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -865,7 +865,7 @@ void CAcheronGuardianEvent::CGReqAcheronEventEnter(_tagPMSG_REQ_ACHERON_EVENT_EN
 
 void CAcheronGuardianEvent::GDReqAcheronEventProcMultiCast(BYTE btPlay)
 {
-	_tagPMSG_REQ_AE_PLAY_DS pMsg;
+	PMSG_REQ_AE_PLAY_DS pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -877,7 +877,7 @@ void CAcheronGuardianEvent::GDReqAcheronEventProcMultiCast(BYTE btPlay)
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CAcheronGuardianEvent::DGAnsAcheronEventProcMultiCast(_tagPMSG_ANS_AE_PLAY_DS *lpMsg)
+void CAcheronGuardianEvent::DGAnsAcheronEventProcMultiCast(PMSG_ANS_AE_PLAY_DS *lpMsg)
 {
 	if (g_ArcaBattle.IsArcaBattleServer() == FALSE)
 	{

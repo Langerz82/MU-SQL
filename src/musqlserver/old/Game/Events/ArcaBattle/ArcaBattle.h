@@ -456,31 +456,31 @@ struct _stArcaBattleObeliskInfo
   _stAuraInfo m_StAuraInfo[3];
 };
 
-struct _tagPMSG_ARCA_BATTLE_PLAY_INFO
+struct PMSG_ARCA_BATTLE_PLAY_INFO
 {
 	PBMSG_HEAD2 h;
 	WORD wGuildGroupNum;
 	_stArcaBattleObeliskInfo m_stObeliskInfo[5];
 };
 
-struct _tagPMSG_REQ_REMOVE_ALL_GUILD_BUFF_DS
+struct PMSG_REQ_REMOVE_ALL_GUILD_BUFF_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wMapSvrNum;
 };
 
-struct _tagPMSG_ANS_REMOVE_ALL_GUILD_BUFF_DS
+struct PMSG_ANS_REMOVE_ALL_GUILD_BUFF_DS
 {
 	PBMSG_HEAD2 h;
 };
 
-struct _tagPMSG_ANS_REMOVE_GUILD_BUFF_DS
+struct PMSG_ANS_REMOVE_GUILD_BUFF_DS
 {
   PBMSG_HEAD2 h;
   char szGuildName[9];
 };
 
-struct _tagPMSG_SEND_AB_WIN_GUILD_INFO
+struct PMSG_SEND_AB_WIN_GUILD_INFO
 {
   PBMSG_HEAD2 h;
   char szGuildName[9];
@@ -494,13 +494,13 @@ struct _stObeliskLife
 };
 
 /* 3636 */
-struct _tagPMSG_SEND_OBELISK_LIFE
+struct PMSG_SEND_OBELISK_LIFE
 {
   PBMSG_HEAD2 h;
   _stObeliskLife m_stObeliskLife[5];
 };
 
-struct _tagPMSG_SEND_OBELISK_STATE
+struct PMSG_SEND_OBELISK_STATE
 {
   PBMSG_HEAD2 h;
   char btObeliskAttribute;
@@ -508,14 +508,14 @@ struct _tagPMSG_SEND_OBELISK_STATE
   char btAuraState;
 };
 
-struct _tagPMSG_ARCA_BATTLE_OBELISK_INFO
+struct PMSG_ARCA_BATTLE_OBELISK_INFO
 {
   PBMSG_HEAD2 h;
   char m_btObeliskAttribute;
   char m_btAuraState[3];
 };
 
-struct _tagPMSG_ARCA_BATTLE_STATE
+struct PMSG_ARCA_BATTLE_STATE
 {
   PBMSG_HEAD2 h;
   char m_btArcaBattleState;
@@ -527,7 +527,7 @@ struct _stABObeliskOccupy
   char szGuildName[9];
 };
 
-struct _tagPMSG_AB_RESULT
+struct PMSG_AB_RESULT
 {
 	PBMSG_HEAD2 h;
 	char btABResult;
@@ -539,13 +539,13 @@ struct _tagPMSG_AB_RESULT
 };
 
 // DS
-struct _tagPMSG_REQ_AB_WIN_GUILD_INFO_DS
+struct PMSG_REQ_AB_WIN_GUILD_INFO_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wNumber;
 };
 
-struct _tagPMSG_REQ_AB_PROC_STATE_DS
+struct PMSG_REQ_AB_PROC_STATE_DS
 {
 	PBMSG_HEAD2 h;
 };
@@ -558,7 +558,7 @@ struct _stABWinGuildInfoDS
 	WORD wObeliskGroup;
 };
 
-struct _tagPMSG_REQ_AB_WIN_GUILD_INFO_INSERT_DS
+struct PMSG_REQ_AB_WIN_GUILD_INFO_INSERT_DS
 {
 	PBMSG_HEAD2 h;
 	char btGuildCnt;
@@ -566,25 +566,25 @@ struct _tagPMSG_REQ_AB_WIN_GUILD_INFO_INSERT_DS
 	_stABWinGuildInfoDS m_stABWinGuildInfoDS[5];
 };
 
-struct _tagPMSG_REQ_ARCA_BATTLE_INFO_DS
+struct PMSG_REQ_ARCA_BATTLE_INFO_DS
 {
 	PBMSG_HEAD2 h;
 };
 
-struct _tagPMSG_REQ_AB_PROC_INSERT_DS
+struct PMSG_REQ_AB_PROC_INSERT_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wMapSvrNum;
 	BYTE btProcState;
 };
 
-struct _tagPMSG_REQ_AB_JOIN_MEMBER_UNDER_DS
+struct PMSG_REQ_AB_JOIN_MEMBER_UNDER_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wMapSvrNum;
 };
 
-struct _tagPMSG_REQ_AB_JOIN_CANCEL_DS
+struct PMSG_REQ_AB_JOIN_CANCEL_DS
 {
 	PBMSG_HEAD2 h;
 	BYTE btMinGuildMemNum;
@@ -596,33 +596,33 @@ struct _stCancelGuildNames
 	char szGuildNames[9];
 };
 
-struct _tagPMSG_ANS_AB_JOIN_CANCEL_DS
+struct PMSG_ANS_AB_JOIN_CANCEL_DS
 {
 	PBMSG_HEAD2 h;
 	BYTE btGuildCnt;
 	_stCancelGuildNames CancelGuildNames[6];
 };
 
-struct _tagPMSG_SEND_AB_JOIN_CANCEL
+struct PMSG_SEND_AB_JOIN_CANCEL
 {
 	PBMSG_HEAD2 h;
 };
 
-struct _tagPMSG_ANS_AB_REG_MEMBER_CNT_DS
+struct PMSG_ANS_AB_REG_MEMBER_CNT_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wNumber;
 	BYTE btRegMemCnt;
 };
 
-struct _tagPMSG_ANS_AB_REG_MEMBER_CNT
+struct PMSG_ANS_AB_REG_MEMBER_CNT
 {
 	PBMSG_HEAD2 h;
 	BYTE btResult;
 	BYTE btRegMemCnt;
 };
 
-struct _tagPMSG_REQ_AB_REG_MEMBER_CNT_DS
+struct PMSG_REQ_AB_REG_MEMBER_CNT_DS
 {
 	PBMSG_HEAD2 h;
 	int iIndex;
@@ -636,14 +636,14 @@ struct PMSG_ANS_REGISTERED_MEMBER_CNT
 	BYTE unk2;
 };
 
-struct _tagPMSG_ANS_AB_WIN_GUILD_INFO_DS
+struct PMSG_ANS_AB_WIN_GUILD_INFO_DS
 {
 	PBMSG_HEAD2 h;
 	char btGuildCnt;
 	_stABWinGuildInfoDS m_stABWinGuildInfoDS[5];
 };
 
-struct _tagPMSG_REQ_ARCA_BATTLE_IS_TOP_RANK
+struct PMSG_REQ_ARCA_BATTLE_IS_TOP_RANK
 {
 	PBMSG_HEAD2 h;
 	WORD wNumber;
@@ -657,7 +657,7 @@ struct _stArcaBattleMarkTopRankDS
 	DWORD dwMarkCnt;
 };
 
-struct _tagPMSG_ANS_ARCA_BATTLE_MARK_RANK_DS
+struct PMSG_ANS_ARCA_BATTLE_MARK_RANK_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wNumber;
@@ -667,21 +667,21 @@ struct _tagPMSG_ANS_ARCA_BATTLE_MARK_RANK_DS
 	_stArcaBattleMarkTopRankDS ArcaBattleMarkTopRank[6];
 };
 
-struct _tagPMSG_REQ_ARCA_BATTLE_MARK_RANK_DS
+struct PMSG_REQ_ARCA_BATTLE_MARK_RANK_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wNumber;
 	DWORD dwGuildNum;
 };
 
-struct _tagPMSG_REQ_ARCA_BATTLE_MARK_CNT_DS
+struct PMSG_REQ_ARCA_BATTLE_MARK_CNT_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wNumber;
 	DWORD dwGuildNum;
 };
 
-struct _tagPMSG_ANS_ARCA_BATTLE_MARK_CNT_DS
+struct PMSG_ANS_ARCA_BATTLE_MARK_CNT_DS
 {
 	PBMSG_HEAD2 h;
 	BYTE btResult;
@@ -689,7 +689,7 @@ struct _tagPMSG_ANS_ARCA_BATTLE_MARK_CNT_DS
 	DWORD dwMarkCnt;
 };
 
-struct _tagPMSG_REQ_ARCA_BATTLE_MARK_REG_DS
+struct PMSG_REQ_ARCA_BATTLE_MARK_REG_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wNumber;
@@ -699,25 +699,25 @@ struct _tagPMSG_REQ_ARCA_BATTLE_MARK_REG_DS
 	DWORD dwGuildNum;
 };
 
-struct _tagPMSG_REQ_ARCA_BATTLE_MARK_REG_DEL_DS
+struct PMSG_REQ_ARCA_BATTLE_MARK_REG_DEL_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wNumber;
 	DWORD dwGuildNum;
 };
 
-struct _tagPMSG_REQ_AB_MARK_REG_ALL_DEL_DS
+struct PMSG_REQ_AB_MARK_REG_ALL_DEL_DS
 {
 	PBMSG_HEAD2 h;
 };
 
-struct _tagPMSG_ANS_ARCA_BATTLE_MARK_REG_DS
+struct PMSG_ANS_ARCA_BATTLE_MARK_REG_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wNumber;
 };
 
-struct _tagPMSG_REQ_ALL_GUILD_MARK_CNT_DS
+struct PMSG_REQ_ALL_GUILD_MARK_CNT_DS
 {
 	PBMSG_HEAD2 h;
 };
@@ -728,26 +728,26 @@ struct _stABAllGuildMark
 	DWORD dwMarkCnt;
 };
 
-struct _tagPMSG_ANS_ALL_GUILD_MARK_CNT_DS
+struct PMSG_ANS_ALL_GUILD_MARK_CNT_DS
 {
 	PWMSG_HEAD2 h;
 	WORD wGuildCnt;
 	_stABAllGuildMark ABAllGuildMark[250];
 };
 
-struct _tagPMSG_REQ_AB_MARK_REG_UPDATE_DS
+struct PMSG_REQ_AB_MARK_REG_UPDATE_DS
 {
 	PBMSG_HEAD2 h;
 	DWORD dwGuildNum;
 	DWORD dwMarkCnt;
 };
 
-struct _tagPMSG_REQ_GUILD_REG_INIT
+struct PMSG_REQ_GUILD_REG_INIT
 {
 	PBMSG_HEAD2 h;
 };
 
-struct _tagPMSG_REQ_AB_ALL_JOIN_USER_DS
+struct PMSG_REQ_AB_ALL_JOIN_USER_DS
 {
 	PBMSG_HEAD h;
 };
@@ -759,7 +759,7 @@ struct _stABJoinUserInfoDS
 	char szUserName[MAX_ACCOUNT_LEN+1];
 };
 
-struct _tagPMSG_ANS_AB_ALL_JOIN_USER_DS
+struct PMSG_ANS_AB_ALL_JOIN_USER_DS
 {
 	PWMSG_HEAD h;
 	BYTE btUserCnt;
@@ -800,9 +800,9 @@ struct _stPMSG_AB_JOIN_USER_COUNT
 	BYTE btGuildMasterPosY;
 };
 
-struct _tagPMSG_ARCA_BATTLE_CURRENT_STATUS
+struct PMSG_ARCA_BATTLE_CURRENT_STATUS
 {
-	_tagPMSG_ARCA_BATTLE_CURRENT_STATUS()
+	PMSG_ARCA_BATTLE_CURRENT_STATUS()
 	{
 		this->iObelGroupNum = 0;
 		this->iAttrKind = 0;
@@ -819,7 +819,7 @@ struct _tagPMSG_ARCA_BATTLE_CURRENT_STATUS
 	char szGuildName[MAX_GUILD_LEN+1];
 };
 
-struct _tagPMSG_ANS_MARK_REG
+struct PMSG_ANS_MARK_REG
 {
 	PBMSG_HEAD2 h;
 	BYTE btMarkCnt1;
@@ -828,7 +828,7 @@ struct _tagPMSG_ANS_MARK_REG
 	BYTE btMarkCnt4;
 };
 
-struct _tagPMSG_ANS_MARK_REG_ERROR_CODE
+struct PMSG_ANS_MARK_REG_ERROR_CODE
 {
 	PBMSG_HEAD2 h;
 	BYTE btResult;
@@ -844,9 +844,9 @@ struct _stArcaBattleMarkTopRank
 	BYTE btMarkCnt4;
 };
 
-struct _tagPMSG_ANS_MARK_RANK
+struct PMSG_ANS_MARK_RANK
 {
-	_tagPMSG_ANS_MARK_RANK()
+	PMSG_ANS_MARK_RANK()
 	{
 		this->btRank = 0;
 		this->btMarkCnt1 = 0;
@@ -865,7 +865,7 @@ struct _tagPMSG_ANS_MARK_RANK
 	BYTE btGuildCnt;
 };
 
-struct _tagPMSG_ARCA_BATTLE_NOTI_MSG
+struct PMSG_ARCA_BATTLE_NOTI_MSG
 {
 	PBMSG_HEAD2 h;
 	int iNotiIndex;
@@ -913,7 +913,7 @@ public:
 	void GiveRewardBuffWinningGuild();
 	void ReqRemoveRewardGuildBuff(char *szGuildName);
 	void ReqRemoveRewardBuffWinningGuild();
-	void DGAnsRemoveRewardBuff(_tagPMSG_ANS_REMOVE_GUILD_BUFF_DS *lpMsg);
+	void DGAnsRemoveRewardBuff(PMSG_ANS_REMOVE_GUILD_BUFF_DS *lpMsg);
 	void RemoveGuildBuff(char *szGuildName, WORD wBuffIndex);
 	void RemoveRewardBuff(char *szGuildName);
 	void DGAnsRemoveAllRewardBuff();
@@ -1004,8 +1004,8 @@ public:
 	void GDReqDeleteArcaBattleInfo();
 	void GDReqJoinMemberUnder();
 	void GDReqArcaBattleJoinMemberUnderReq();
-	void DGAnsArcaBattleJoinMemberUnderReq(_tagPMSG_ANS_AB_JOIN_CANCEL_DS *lpMsg);
-	void DGAnsRegisteredMemberCnt(_tagPMSG_ANS_AB_REG_MEMBER_CNT_DS *lpMsg);
+	void DGAnsArcaBattleJoinMemberUnderReq(PMSG_ANS_AB_JOIN_CANCEL_DS *lpMsg);
+	void DGAnsRegisteredMemberCnt(PMSG_ANS_AB_REG_MEMBER_CNT_DS *lpMsg);
 
 	int GetGuildMasterPos(OBJECTSTRUCT *obj, int nGateNum, short & x, short & y);
 	void SetGuildMasterGateNum(int nGateNum, int nGuildNum);
@@ -1027,15 +1027,15 @@ public:
 	void GCAnsMarkRank(int iIndex, BYTE btRank, DWORD dwMarkCnt, BYTE btTopRankCnt, _stArcaBattleMarkTopRankDS *pArcaBattleMarkTopRank);
 
 	void GDReqMarkCnt(int iIndex, DWORD dwGuildNum);
-	void DGAnsMarkCnt(_tagPMSG_ANS_ARCA_BATTLE_MARK_CNT_DS *lpMsg);
+	void DGAnsMarkCnt(PMSG_ANS_ARCA_BATTLE_MARK_CNT_DS *lpMsg);
 	void GDReqMarkReg(int iIndex, DWORD dwMarkCnt);
 	void GDReqMarkRank(int iIndex, DWORD dwGuildNum);
-	void DGAnsMarkRank(_tagPMSG_ANS_ARCA_BATTLE_MARK_RANK_DS *lpMsg);
+	void DGAnsMarkRank(PMSG_ANS_ARCA_BATTLE_MARK_RANK_DS *lpMsg);
 	void GDReqMarkRegDel(int iIndex, DWORD dwGuildNum);
 	void GDReqMarkRegAllDel();
-	void DGAnsMarkReg(_tagPMSG_ANS_ARCA_BATTLE_MARK_REG_DS *lpMsg);
+	void DGAnsMarkReg(PMSG_ANS_ARCA_BATTLE_MARK_REG_DS *lpMsg);
 	void GDReqAllGuildMarkCnt();
-	void DGAnsAllGuildMarkCnt(_tagPMSG_ANS_ALL_GUILD_MARK_CNT_DS *lpMsg);
+	void DGAnsAllGuildMarkCnt(PMSG_ANS_ALL_GUILD_MARK_CNT_DS *lpMsg);
 
 	void SetRegenObelisk(int iGroupNum, int iAttribute);
 
@@ -1060,7 +1060,7 @@ public:
 	void PrintGuildMemberLog(_GUILD_INFO_STRUCT *lpGuild);
 
 	void GDReqArcaBattleAllJoinUser();
-	void DGAnsArcaBattleAllJoinUser(_tagPMSG_ANS_AB_ALL_JOIN_USER_DS *lpMsg);
+	void DGAnsArcaBattleAllJoinUser(PMSG_ANS_AB_ALL_JOIN_USER_DS *lpMsg);
 
 	void SetDataLoadProcState(int bReqABProcState);
 

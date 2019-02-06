@@ -11,7 +11,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "Map/BattleGround.h"
+#include "BattleGround.h"
 #include "GuildClass.h"
 
 #define MAX_BATTLESOCCER_GROUND	1

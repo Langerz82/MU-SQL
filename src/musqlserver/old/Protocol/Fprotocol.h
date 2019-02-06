@@ -14,6 +14,21 @@
 
 using namespace std;
 
+struct FHP_FRIENDLIST_REQ;
+struct FHP_FRIEND_STATE_C;
+struct FHP_FRIEND_ADD_REQ;
+struct FHP_WAITFRIEND_ADD_REQ;
+struct FHP_FRIEND_ADD_REQ;
+struct FHP_FRIEND_MEMO_SEND;
+struct FHP_FRIEND_MEMO_LIST_REQ;
+struct FHP_FRIEND_MEMO_RECV_REQ;
+struct FHP_FRIEND_MEMO_DEL_REQ;
+struct FRIEND_MASTER;
+struct MEMO_HEADER;
+struct MEMO_SEND_HEADER;
+struct MEMO_READ;
+struct FRIEND_MASTER;
+
 class CFriendSystem
 {
 public:

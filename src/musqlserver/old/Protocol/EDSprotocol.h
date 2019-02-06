@@ -23,6 +23,52 @@ struct PARTYMATCHING_PARTYDATA;
 struct PARTYMATCHING_PARTYUSERDATA;
 struct GENS_USER;
 struct strCmp;
+struct SDHP_SERVERINFO;
+struct SDHP_USERCLOSE;
+struct SDHP_GUILDCREATE;
+struct SDHP_GUILDDESTROY;
+struct SDHP_GUILDMEMBERADD;
+struct SDHP_GUILDMEMBERADD_WITHOUT_USERINDEX;
+struct SDHP_GUILDMEMBERDEL;
+struct SDHP_GUILDMEMBER_INFO_REQUEST;
+struct SDHP_GUILDSCOREUPDATE;
+struct SDHP_GUILDNOTICE;
+struct EXSDHP_GUILD_ASSIGN_STATUS_REQ;
+struct EXSDHP_GUILD_ASSIGN_TYPE_REQ;
+struct EXSDHP_SERVERGROUP_GUILD_CHATTING_RECV;
+struct EXSDHP_SERVERGROUP_UNION_CHATTING_RECV;
+struct EXSDHP_SERVERGROUP_GENS_CHATTING_RECV;
+struct EXSDHP_RELATIONSHIP_JOIN_REQ;
+struct EXSDHP_RELATIONSHIP_BREAKOFF_REQ;
+struct EXSDHP_UNION_LIST_REQ;
+struct EXSDHP_KICKOUT_UNIONMEMBER_REQ;
+struct SDHP_GUILDMEMBER_INFO_GUILDNAME_REQUEST;
+struct FHP_FRIEND_CHATROOM_CREATE_REQ;
+struct FCHP_CHATROOM_CREATE_RESULT;
+struct FHP_FRIEND_INVITATION_REQ;
+struct _GUILD_INFO_STRUCT;
+struct _GUILD_MEMBER;
+struct UNION_DATA;
+struct _GUILD_INFO_STRUCT;
+struct _stReqGuildMatchingList;
+struct _stReqGuildMatchingListSearchWord;
+struct _stReqGuildMatchingData;
+struct _stReqDelGuildMatchingList;
+struct _stRegWaitGuildMatching;
+struct _stReqDelWaitGuildMatchingList;
+struct _stReqAllowJoinGuildMatching;
+struct _stReqWaitGuildMatchingList;
+struct _stReqWaitStateListGuildMatching;
+struct _stReqRegWantedPartyMember;
+struct _stReqGetPartyMatchingList;
+struct _stReqJoinMemberPartyMatching;
+struct _stReqJoinMemberStateListPartyMatching;
+struct _stReqWaitListPartyMatching;
+struct _stReqAddPartyMember;
+struct _stReqCancelPartyMatching;
+struct _stReqDelPartyUserPartyMatching;
+struct _stReqSendPartyMemberList;
+struct _stReqChattingPartyMatching;
 
 
 class CPartyMatchingData
@@ -72,17 +118,17 @@ public:
 	BOOL LoadGensData(LPSTR lpszFile);
 	int GetGensInfluence(char *szUserName);
 
-	void GDReqRegGensMember(int aIndex, _tagPMSG_REQ_REG_GENS_MEMBER_EXDB *aRecv);
-	void GDReqSecedeGensMember(int aIndex, _tagPMSG_REQ_SECEDE_GENS_MEMBER_EXDB *aRecv);
-	void GDReqAbusingInfo(int aIndex, _tagPMSG_REQ_ABUSING_INFO *aRecv);
-	void GDReqGensInfo(int aIndex, _tagPMSG_REQ_ABUSING_INFO *aRecv);
-	void GDReqSaveContributePoint(int aIndex, _tagPMSG_REQ_SAVE_CONTRIBUTE_POINT_EXDB *aRecv);
-	void GDReqSaveAbusingKillUserName(int aIndex, _tagPMSG_REQ_SAVE_ABUSING_KILLUSER_EXDB *aRecv);
-	void GDReqGensRewardCheck(int aIndex, _tagPMSG_REQ_GENS_REWARD_CHECK_EXDB *aRecv);
-	void GDReqGensRewardComplete(int aIndex, _tagPMSG_REQ_GENS_REWARD_COMPLETE_EXDB *aRecv);
-	void GDReqGensMemberCount(int aIndex, _tagPMSG_REQ_GENS_MEMBER_COUNT *aRecv);
-	void GDReqSetGensRewardDay(int aIndex, _tagPMSG_SET_GENS_REWARD_DAY_EXDB *aRecv);
-	void GDReqGensRewardDay(int aIndex, _tagPMSG_REQ_GENS_REWARD_DAY *aRecv);
+	void GDReqRegGensMember(int aIndex, PMSG_REQ_REG_GENS_MEMBER_EXDB *aRecv);
+	void GDReqSecedeGensMember(int aIndex, PMSG_REQ_SECEDE_GENS_MEMBER_EXDB *aRecv);
+	void GDReqAbusingInfo(int aIndex, PMSG_REQ_ABUSING_INFO *aRecv);
+	void GDReqGensInfo(int aIndex, PMSG_REQ_ABUSING_INFO *aRecv);
+	void GDReqSaveContributePoint(int aIndex, PMSG_REQ_SAVE_CONTRIBUTE_POINT_EXDB *aRecv);
+	void GDReqSaveAbusingKillUserName(int aIndex, PMSG_REQ_SAVE_ABUSING_KILLUSER_EXDB *aRecv);
+	void GDReqGensRewardCheck(int aIndex, PMSG_REQ_GENS_REWARD_CHECK_EXDB *aRecv);
+	void GDReqGensRewardComplete(int aIndex, PMSG_REQ_GENS_REWARD_COMPLETE_EXDB *aRecv);
+	void GDReqGensMemberCount(int aIndex, PMSG_REQ_GENS_MEMBER_COUNT *aRecv);
+	void GDReqSetGensRewardDay(int aIndex, PMSG_SET_GENS_REWARD_DAY_EXDB *aRecv);
+	void GDReqGensRewardDay(int aIndex, PMSG_REQ_GENS_REWARD_DAY *aRecv);
 
 private:
 
@@ -169,7 +215,7 @@ private:
 	_GUILD_INFO_STRUCT* GetGuild(int iNumber);
 	_GUILD_MEMBER* GetGuildMember(char *szGuild, char *szName);
 	_GUILD_MEMBER* GetGuildMember(int nGuildNumber, char *szName);
-	LPUNION_DATA GetUnionData(int iGuild);
+	UNION_DATA* GetUnionData(int iGuild);
 
 	int GetGuildMemberCount(char *szGuild);
 	int GetGuildMemberCount(int nGuildNumber);
@@ -257,8 +303,8 @@ private:
 	void SendPartyMatchingOneList(char *szMemberName);
 	void AutoAddPartyMember(char *szLeaderName, char *szMemberName, int nUserIndex, int nServerIndex);
 
-	std::map<std::string, tagGUILD_INFO_STRUCT,strCmp> m_MapGuildManager;
-	std::map<int, tagUNION_DATA> m_MapUnionManager;
+	std::map<std::string, _GUILD_INFO_STRUCT,strCmp> m_MapGuildManager;
+	std::map<int, UNION_DATA> m_MapUnionManager;
 
 	GensSystem_EDS				m_GensSystemEDS;
 	CFriendSystem				m_FriendSystemEDS;

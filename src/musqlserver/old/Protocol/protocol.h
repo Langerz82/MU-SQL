@@ -702,10 +702,10 @@ public:
 	int OnCGLeaveDuel(PMSG_REQ_DUEL_EXIT* lpMsg, int aIndex);
 	int OnDuelChannelJoin(PMSG_REQ_DUEL_JOINCNANNEL* lpMsg, int aIndex);
 	int OnDuelChannelLeave(PMSG_REQ_DUEL_LEAVECNANNEL* lpMsg, int aIndex);
-	void CGReqRegGensMember(_tagPMSG_REQ_REG_GENS_MEMBER *lpMsg, int iIndex);
-	void CGReqSecedeGensMember(_tagPMSG_REQ_SEGEDE_GENS_MEMBER *lpMsg, int iIndex);
-	void CGReqGensReward(_tagPMSG_GENS_REWARD_CODE *lpMsg, int iIndex);
-	void CGReqGensMemberInfo(_tagPMSG_REQ_GENS_INFO *lpMsg, int iIndex);
+	void CGReqRegGensMember(PMSG_REQ_REG_GENS_MEMBER *lpMsg, int iIndex);
+	void CGReqSecedeGensMember(PMSG_REQ_SEGEDE_GENS_MEMBER *lpMsg, int iIndex);
+	void CGReqGensReward(PMSG_GENS_REWARD_CODE *lpMsg, int iIndex);
+	void CGReqGensMemberInfo(PMSG_REQ_GENS_INFO *lpMsg, int iIndex);
 	void CGInventoryEquipment(PMSG_REQ_INVENTORY_EQUIPMENT_ITEM *lpMsg, int aIndex);
 	void CGReqUseTransformationRing(PMSG_REQ_USETRANSFORMATIONRING *lpMsg, int iIndex);
 	void GCSendAttackSpeed(int iIndex);
@@ -723,8 +723,8 @@ public:
 	void GCAnsPentagramJewelInOut(int iIndex, BYTE btResult);
 	void CGReqArcaBattleGuildMasterJoin(PMSG_REQ_ARCA_BATTLE_JOIN *lpMsg, int iIndex);
 	void CGReqArcaBattleGuildMemberJoin(PMSG_REQ_ARCA_BATTLE_JOIN *lpMsg, int iIndex);
-	void CGReqArcaBattleEnter(_tagPMSG_REQ_ARCA_BATTLE_ENTER *lpMsg, int iIndex);
-	void CGReqAcheronEnter(_tagPMSG_REQ_ACHERON_ENTER *lpMsg, int iIndex);
+	void CGReqArcaBattleEnter(PMSG_REQ_ARCA_BATTLE_ENTER *lpMsg, int iIndex);
+	void CGReqAcheronEnter(PMSG_REQ_ACHERON_ENTER *lpMsg, int iIndex);
 	void CGReqArcaBattleBootyExchange(int iIndex);
 	void CGReqSpritemapExchange(int iIndex);
 	void CGReqRegisteredMemberCnt(int iIndex);
@@ -810,7 +810,7 @@ public:
 	void CGReqUseBoxInInventory(int aIndex, PMSG_REQ_USE_BOX * aRecv);
 
 	void CGEventEntryNotice(int EventType, BYTE state); // event entry notify
-	void CGReqNixieBossEnter(_tagPMSG_REQ_NIXIELAKE_ENTER *lpMsg, int iIndex);
+	void CGReqNixieBossEnter(PMSG_REQ_NIXIELAKE_ENTER *lpMsg, int iIndex);
 	void CGReqHuntingLog(int iIndex);
 
 	void GCPlayerStatsPanelRates(int aIndex);

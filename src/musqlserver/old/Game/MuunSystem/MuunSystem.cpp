@@ -1294,7 +1294,7 @@ void CMuunSystem::GDReqLoadMuunInvenItem(OBJECTSTRUCT *obj)
 	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
-void CMuunSystem::DGLoadMuunInvenItem(_tagSDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
+void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 {
 	int aIndex = lpMsg->aIndex;
 	char szId[11];
@@ -1615,7 +1615,7 @@ std::string hexStr(BYTE *data, int len)
 		}
 	}
 
-	_tagSDHP_REQ_DBMUUN_INVEN_SAVE pMsg;
+	SDHP_REQ_DBMUUN_INVEN_SAVE pMsg;
 	memcpy(pMsg.AccountID, lpObj->AccountID, MAX_ACCOUNT_LEN+1);
 	memcpy(pMsg.Name, lpObj->Name, MAX_ACCOUNT_LEN+1);
 

@@ -167,7 +167,7 @@ struct _stCCFRankingInfo
 	int nPoint;
 };
 
-struct _tagPMSG_REQ_CCF_PERMISSION
+struct PMSG_REQ_CCF_PERMISSION
 {
 	PBMSG_HEAD2 h;
 	char szCharName[MAX_ACCOUNT_LEN + 1];
@@ -188,7 +188,7 @@ struct SDHP_RENEW_RANKING
 	BYTE byRankingType;
 };
 
-struct _tagPMSG_REQ_SAVE_CCF_RESULT
+struct PMSG_REQ_SAVE_CCF_RESULT
 {
 	PBMSG_HEAD2 h;
 	char szCharName[MAX_ACCOUNT_LEN + 1];
@@ -199,7 +199,7 @@ struct _tagPMSG_REQ_SAVE_CCF_RESULT
 	BYTE byCCFType;
 };
 
-struct _tagPMSG_ANS_CCF_RANK
+struct PMSG_ANS_CCF_RANK
 {
 	PWMSG_HEAD h;
 	BYTE byUserCnt;
@@ -399,7 +399,7 @@ public:
 	int PayUserEnterMoney(int iUserIndex, int nCCFType);
 	int EnterCCF(int iUserIndex, int & nCCFUserIndex);
 	int CheckRankingReqValid(BYTE byCCFType);
-	void DG_Ans_CCF_Rank(_tagPMSG_ANS_CCF_RANK *lpMsg);
+	void DG_Ans_CCF_Rank(PMSG_ANS_CCF_RANK *lpMsg);
 	void Send_RankingInfo(BYTE byCCFType, int aIndex);
 	void GiveCCFWinnerItem(int iWinnerIndex, BYTE byCCFType, BYTE byRewardType);
 	void SendNoticeMessage(char* lpszMSG);

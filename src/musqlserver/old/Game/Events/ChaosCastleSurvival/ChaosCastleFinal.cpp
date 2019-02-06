@@ -2780,7 +2780,7 @@ void ChaosCastleFinal::GD_Req_Save_CCF_Result(int index, char *Name, int Point, 
 		return;
 	}
 
-	_tagPMSG_REQ_SAVE_CCF_RESULT pMsg;
+	PMSG_REQ_SAVE_CCF_RESULT pMsg;
 	pMsg.szCharName[MAX_CHARNAME_LEN] = 0;
 	memcpy(pMsg.szCharName, gObj[index].Name, MAX_ACCOUNT_LEN);
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF9, 0xA1, sizeof(pMsg));
@@ -2848,7 +2848,7 @@ void ChaosCastleFinal::GD_Req_Get_Permission(OBJECTSTRUCT *lpObj)
 		return;
 	}
 
-	_tagPMSG_REQ_CCF_PERMISSION pMsg;
+	PMSG_REQ_CCF_PERMISSION pMsg;
 
 	pMsg.szCharName[MAX_ACCOUNT_LEN] = 0;
 	memcpy(pMsg.szCharName, lpObj->Name, MAX_ACCOUNT_LEN);
@@ -2938,7 +2938,7 @@ int ChaosCastleFinal::CheckRankingReqValid(BYTE byCCFType)
 	}
 }
 
-void ChaosCastleFinal::DG_Ans_CCF_Rank(_tagPMSG_ANS_CCF_RANK * lpMsg)
+void ChaosCastleFinal::DG_Ans_CCF_Rank(PMSG_ANS_CCF_RANK * lpMsg)
 {
 	if (g_ConfigRead.server.GetServerType() != SERVER_BATTLECORE)
 	{

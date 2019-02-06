@@ -142,7 +142,7 @@ BOOL CArcaBattle::GetBootyRewardItem(int iBootyCnt, _tagARCA_BATTLE_BOOTY_REWARD
 
 void  CArcaBattle::SendArcaBattlePlayInfo(OBJECTSTRUCT *lpObj, WORD wGuildGroupNum)
 {
-	_tagPMSG_ARCA_BATTLE_PLAY_INFO pMsg; 
+	PMSG_ARCA_BATTLE_PLAY_INFO pMsg; 
 
 	if ( lpObj->Connected < PLAYER_LOGGED )
 	{
@@ -250,7 +250,7 @@ void CArcaBattle::ReqRemoveRewardGuildBuff(char *szGuildName)
 
 void CArcaBattle::ReqRemoveRewardBuffWinningGuild()
 {
-	_tagPMSG_REQ_REMOVE_ALL_GUILD_BUFF_DS pMsg;
+	PMSG_REQ_REMOVE_ALL_GUILD_BUFF_DS pMsg;
 	WORD wBuffIndex[5];
 
 	wBuffIndex[0] = BUFFTYPE_ARCA_FIRETOWER;
@@ -272,7 +272,7 @@ void CArcaBattle::ReqRemoveRewardBuffWinningGuild()
 	g_Log.Add( "[ArcaBattle] Request MultiCast Remove All Reward Guild Buff");
 }
 
-void CArcaBattle::DGAnsRemoveRewardBuff(_tagPMSG_ANS_REMOVE_GUILD_BUFF_DS *lpMsg)
+void CArcaBattle::DGAnsRemoveRewardBuff(PMSG_ANS_REMOVE_GUILD_BUFF_DS *lpMsg)
 {
 	for (int i = 0; i < this->m_iWinGuildCnt; i++ )
 	{
@@ -474,7 +474,7 @@ BOOL CArcaBattle::IsArcaBattleOccupyZone(OBJECTSTRUCT *lpObj, int gt)
 
 void CArcaBattle::SendArcaBattleOccupyZone(OBJECTSTRUCT *obj, int gt)
 {
-	_tagPMSG_SEND_AB_WIN_GUILD_INFO pMsg;
+	PMSG_SEND_AB_WIN_GUILD_INFO pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -1088,7 +1088,7 @@ void CArcaBattle::ProcStateChannelClose()
 		if ( this->m_bWindowClose == false && this->m_i64_AB_REMAIN_MSEC <= 10000 && this->m_i64_AB_REMAIN_MSEC > 0)
 		{
 			this->m_bWindowClose = true;
-			_tagPMSG_SEND_WINDOW_CLOSE pMsg;
+			PMSG_SEND_WINDOW_CLOSE pMsg;
 
 			pMsg.h.c = 0xC1;
 			pMsg.h.size = sizeof(pMsg);
@@ -1284,7 +1284,7 @@ _tagArcaBattleUserInfo * CArcaBattle::GetUserInfo(char *szName)
 
 void CArcaBattle::SendObeliskLife()
 {
-	_tagPMSG_SEND_OBELISK_LIFE pMsg;
+	PMSG_SEND_OBELISK_LIFE pMsg;
 
 	for (int i = 0; i < 5; i++)
 	{
@@ -1326,7 +1326,7 @@ void CArcaBattle::SendObeliskLife()
 
 void CArcaBattle::SendObeliskState()
 {
-	_tagPMSG_SEND_OBELISK_STATE pMsg; 
+	PMSG_SEND_OBELISK_STATE pMsg; 
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -1734,7 +1734,7 @@ void CArcaBattle::ChkAuraUserHover()
 		}
 	}
 
-	_tagPMSG_ARCA_BATTLE_OBELISK_INFO pMsg;
+	PMSG_ARCA_BATTLE_OBELISK_INFO pMsg;
  
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -1880,7 +1880,7 @@ int CArcaBattle::IsPkEnable(LPOBJ lpObj, LPOBJ lpTargetObj)
 
 void CArcaBattle::SendArcaBattleStateAll(int iState)
 {
-	_tagPMSG_ARCA_BATTLE_STATE pMsg;
+	PMSG_ARCA_BATTLE_STATE pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -1901,7 +1901,7 @@ void CArcaBattle::SendArcaBattleStateAll(int iState)
 
 void CArcaBattle::SendArcaBattleCurrentState(OBJECTSTRUCT *obj)
 {
-	_tagPMSG_ARCA_BATTLE_STATE pMsg;
+	PMSG_ARCA_BATTLE_STATE pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -2022,7 +2022,7 @@ void CArcaBattle::GDReqWinGuildInfo()
 		return;
 	}
 
-	_tagPMSG_REQ_AB_WIN_GUILD_INFO_DS pMsg; 
+	PMSG_REQ_AB_WIN_GUILD_INFO_DS pMsg; 
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -2035,7 +2035,7 @@ void CArcaBattle::GDReqWinGuildInfo()
 
 void CArcaBattle::GDReqProcState()
 {
-	_tagPMSG_REQ_AB_PROC_STATE_DS pMsg;
+	PMSG_REQ_AB_PROC_STATE_DS pMsg;
 
 	if ( g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE )
 	{
@@ -2058,7 +2058,7 @@ void CArcaBattle::GDReqProcState()
 void CArcaBattle::GDReqWinGuildInfoInsert()
 {
 	int iGuildCnt = 0; 
-	_tagPMSG_REQ_AB_WIN_GUILD_INFO_INSERT_DS pMsg; 
+	PMSG_REQ_AB_WIN_GUILD_INFO_INSERT_DS pMsg; 
 
 	for ( int i = 0; i < 5; i++ )
 	{
@@ -2091,7 +2091,7 @@ void CArcaBattle::GDReqWinGuildInfoInsert()
 void CArcaBattle::SendPlayResult()
 {
 	int iCnt = 0;
-	_tagPMSG_AB_RESULT pMsg; 
+	PMSG_AB_RESULT pMsg; 
 
 	for ( int i = 0; i < 5; i++ )
 	{
@@ -2651,7 +2651,7 @@ int CArcaBattle::DropItem(OBJECTSTRUCT *lpObj, OBJECTSTRUCT *lpMonsterObj)
 
 void CArcaBattle::GDReqDeleteArcaBattleInfo()
 {
-	_tagPMSG_REQ_ARCA_BATTLE_INFO_DS pMsg;
+	PMSG_REQ_ARCA_BATTLE_INFO_DS pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -2662,7 +2662,7 @@ void CArcaBattle::GDReqDeleteArcaBattleInfo()
 
 void CArcaBattle::GDReqArcaBattleProcMultiCast(int iState)
 {
-	_tagPMSG_REQ_AB_PROC_INSERT_DS pMsg; 
+	PMSG_REQ_AB_PROC_INSERT_DS pMsg; 
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.headcode = 0xF8;
@@ -2675,7 +2675,7 @@ void CArcaBattle::GDReqArcaBattleProcMultiCast(int iState)
 
 void CArcaBattle::GDReqJoinMemberUnder()
 {
-	_tagPMSG_REQ_AB_JOIN_MEMBER_UNDER_DS pMsg; 
+	PMSG_REQ_AB_JOIN_MEMBER_UNDER_DS pMsg; 
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.headcode = 0xF8;
@@ -2688,7 +2688,7 @@ void CArcaBattle::GDReqJoinMemberUnder()
 
 void CArcaBattle::GDReqArcaBattleJoinMemberUnderReq()
 {
-	_tagPMSG_REQ_AB_JOIN_CANCEL_DS pMsg; 
+	PMSG_REQ_AB_JOIN_CANCEL_DS pMsg; 
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.headcode = 0xF8;
@@ -2700,12 +2700,12 @@ void CArcaBattle::GDReqArcaBattleJoinMemberUnderReq()
 	wsDataCli.DataSend((char*)&pMsg, sizeof(pMsg));
 }
 
-void CArcaBattle::DGAnsArcaBattleJoinMemberUnderReq(_tagPMSG_ANS_AB_JOIN_CANCEL_DS *lpMsg)
+void CArcaBattle::DGAnsArcaBattleJoinMemberUnderReq(PMSG_ANS_AB_JOIN_CANCEL_DS *lpMsg)
 {
 
 	_GUILD_INFO_STRUCT *lpGuild;
 	int iGuildCnt;
-	_tagPMSG_SEND_AB_JOIN_CANCEL pMsg;
+	PMSG_SEND_AB_JOIN_CANCEL pMsg;
 
 	iGuildCnt = lpMsg->btGuildCnt;
 	pMsg.h.c = 0xC1;
@@ -2730,9 +2730,9 @@ void CArcaBattle::DGAnsArcaBattleJoinMemberUnderReq(_tagPMSG_ANS_AB_JOIN_CANCEL_
 	}
 }
 
-void CArcaBattle::DGAnsRegisteredMemberCnt(_tagPMSG_ANS_AB_REG_MEMBER_CNT_DS *lpMsg)
+void CArcaBattle::DGAnsRegisteredMemberCnt(PMSG_ANS_AB_REG_MEMBER_CNT_DS *lpMsg)
 {
-	_tagPMSG_ANS_AB_REG_MEMBER_CNT pMsg; 
+	PMSG_ANS_AB_REG_MEMBER_CNT pMsg; 
 	BYTE nResult = 0; 
 
 	if ( !lpMsg->btRegMemCnt )
@@ -2923,7 +2923,7 @@ void CArcaBattle::SetArcaBattleProcMultiCast(int bABInitState)
 
 void CArcaBattle::GDReqArcaBattleIsTopRank(int iIndex, DWORD dwGuildNum)
 {
-	_tagPMSG_REQ_ARCA_BATTLE_IS_TOP_RANK pMsg;
+	PMSG_REQ_ARCA_BATTLE_IS_TOP_RANK pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -2974,7 +2974,7 @@ bool CArcaBattle::CGReqMarkReg(int iIndex)
 
 void CArcaBattle::GCAnsMarkReg(int iIndex, DWORD dwMarkCnt)
 {
-	_tagPMSG_ANS_MARK_REG pMsg;
+	PMSG_ANS_MARK_REG pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -3006,7 +3006,7 @@ void CArcaBattle::GCAnsMarkRegErrCode(int iResult, int iIndex)
 			break;
 	}
 
-	_tagPMSG_ANS_MARK_REG_ERROR_CODE pMsg;
+	PMSG_ANS_MARK_REG_ERROR_CODE pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -3118,7 +3118,7 @@ void CArcaBattle::GCAnsMarkRank(int iIndex, BYTE btRank, DWORD dwMarkCnt, BYTE b
 		return;
 	}
 
-	_tagPMSG_ANS_MARK_RANK pMsg;
+	PMSG_ANS_MARK_RANK pMsg;
 
 	if (btTopRankCnt == 0)
 	{
@@ -3131,7 +3131,7 @@ void CArcaBattle::GCAnsMarkRank(int iIndex, BYTE btRank, DWORD dwMarkCnt, BYTE b
 		return;
 	}
 
-	int lOfs = sizeof(_tagPMSG_ANS_MARK_RANK);
+	int lOfs = sizeof(PMSG_ANS_MARK_RANK);
 	BYTE sendbuf[255];
 	memset(sendbuf, 0x00, sizeof(sendbuf));
 
@@ -3167,7 +3167,7 @@ void CArcaBattle::GCAnsMarkRank(int iIndex, BYTE btRank, DWORD dwMarkCnt, BYTE b
 
 void CArcaBattle::GDReqMarkCnt(int iIndex, DWORD dwGuildNum)
 {
-	_tagPMSG_REQ_ARCA_BATTLE_MARK_CNT_DS pMsg;
+	PMSG_REQ_ARCA_BATTLE_MARK_CNT_DS pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -3179,7 +3179,7 @@ void CArcaBattle::GDReqMarkCnt(int iIndex, DWORD dwGuildNum)
 	wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
 }
 
-void CArcaBattle::DGAnsMarkCnt(_tagPMSG_ANS_ARCA_BATTLE_MARK_CNT_DS *lpMsg)
+void CArcaBattle::DGAnsMarkCnt(PMSG_ANS_ARCA_BATTLE_MARK_CNT_DS *lpMsg)
 {
 	int iIndex = lpMsg->wNumber;
 
@@ -3233,7 +3233,7 @@ void CArcaBattle::GDReqMarkReg(int iIndex, DWORD dwMarkCnt)
 		return;
 	}
 
-	_tagPMSG_REQ_ARCA_BATTLE_MARK_REG_DS pMsg;
+	PMSG_REQ_ARCA_BATTLE_MARK_REG_DS pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -3258,7 +3258,7 @@ void CArcaBattle::GDReqMarkReg(int iIndex, DWORD dwMarkCnt)
 
 void CArcaBattle::GDReqMarkRank(int iIndex, DWORD dwGuildNum)
 {
-	_tagPMSG_REQ_ARCA_BATTLE_MARK_RANK_DS pMsg;
+	PMSG_REQ_ARCA_BATTLE_MARK_RANK_DS pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -3270,14 +3270,14 @@ void CArcaBattle::GDReqMarkRank(int iIndex, DWORD dwGuildNum)
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CArcaBattle::DGAnsMarkRank(_tagPMSG_ANS_ARCA_BATTLE_MARK_RANK_DS *lpMsg)
+void CArcaBattle::DGAnsMarkRank(PMSG_ANS_ARCA_BATTLE_MARK_RANK_DS *lpMsg)
 {
 	this->GCAnsMarkRank(lpMsg->wNumber, lpMsg->btRank, lpMsg->dwMarkCnt, lpMsg->btGuildCnt, lpMsg->ArcaBattleMarkTopRank);
 }
 
 void CArcaBattle::GDReqMarkRegDel(int iIndex, DWORD dwGuildNum)
 {
-	_tagPMSG_REQ_ARCA_BATTLE_MARK_REG_DEL_DS pMsg;
+	PMSG_REQ_ARCA_BATTLE_MARK_REG_DEL_DS pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -3291,7 +3291,7 @@ void CArcaBattle::GDReqMarkRegDel(int iIndex, DWORD dwGuildNum)
 
 void CArcaBattle::GDReqMarkRegAllDel()
 {
-	_tagPMSG_REQ_AB_MARK_REG_ALL_DEL_DS pMsg;
+	PMSG_REQ_AB_MARK_REG_ALL_DEL_DS pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -3301,7 +3301,7 @@ void CArcaBattle::GDReqMarkRegAllDel()
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CArcaBattle::DGAnsMarkReg(_tagPMSG_ANS_ARCA_BATTLE_MARK_REG_DS *lpMsg)
+void CArcaBattle::DGAnsMarkReg(PMSG_ANS_ARCA_BATTLE_MARK_REG_DS *lpMsg)
 {
 	int iIndex = lpMsg->wNumber;
 
@@ -3316,7 +3316,7 @@ void CArcaBattle::DGAnsMarkReg(_tagPMSG_ANS_ARCA_BATTLE_MARK_REG_DS *lpMsg)
 
 void CArcaBattle::GDReqAllGuildMarkCnt()
 {
-	_tagPMSG_REQ_ALL_GUILD_MARK_CNT_DS pMsg;
+	PMSG_REQ_ALL_GUILD_MARK_CNT_DS pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -3326,7 +3326,7 @@ void CArcaBattle::GDReqAllGuildMarkCnt()
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CArcaBattle::DGAnsAllGuildMarkCnt(_tagPMSG_ANS_ALL_GUILD_MARK_CNT_DS *lpMsg)
+void CArcaBattle::DGAnsAllGuildMarkCnt(PMSG_ANS_ALL_GUILD_MARK_CNT_DS *lpMsg)
 {
 	WORD wGuildCnt = lpMsg->wGuildCnt;
 
@@ -3450,7 +3450,7 @@ void CArcaBattle::CheatGDReqMarkReg(int iIndex, char *szGuildName, DWORD dwGuild
 		return;
 	}
 
-	_tagPMSG_REQ_ARCA_BATTLE_MARK_REG_DS pMsg;
+	PMSG_REQ_ARCA_BATTLE_MARK_REG_DS pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -3485,7 +3485,7 @@ void CArcaBattle::CheatGDReqMarkRegSet(int iIndex, DWORD dwMarkCnt)
 		return;
 	}
 
-	_tagPMSG_REQ_AB_MARK_REG_UPDATE_DS pMsg;
+	PMSG_REQ_AB_MARK_REG_UPDATE_DS pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -3608,7 +3608,7 @@ void CArcaBattle::GuildMemberAssignStatus(OBJECTSTRUCT *lpObj, int iGuildStatus)
 
 void CArcaBattle::GDReqGuildRegInit()
 {
-	_tagPMSG_REQ_GUILD_REG_INIT pMsg;
+	PMSG_REQ_GUILD_REG_INIT pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -3673,13 +3673,13 @@ void CArcaBattle::GDReqArcaBattleAllJoinUser()
 		this->m_stABJoinUserInfo[i].Clear();
 	}
 
-	_tagPMSG_REQ_AB_ALL_JOIN_USER_DS pMsg;
+	PMSG_REQ_AB_ALL_JOIN_USER_DS pMsg;
 	PHeadSetB((LPBYTE)&pMsg, 0xE5, sizeof(pMsg));
 
 	wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
 }
 
-void CArcaBattle::DGAnsArcaBattleAllJoinUser(_tagPMSG_ANS_AB_ALL_JOIN_USER_DS *lpMsg)
+void CArcaBattle::DGAnsArcaBattleAllJoinUser(PMSG_ANS_AB_ALL_JOIN_USER_DS *lpMsg)
 {
 	int iUserCnt = lpMsg->btUserCnt;
 	this->m_iABJoinUserCnt = iUserCnt;
@@ -3942,7 +3942,7 @@ EndFunc:
 
 void CArcaBattle::GCArcaBattleCurrentStatus(int iObeliskIndex, int iAttrKind, BYTE btObeliskState, int iGuildNum, char *szGuildName, int iUserIndex)
 {
-	_tagPMSG_ARCA_BATTLE_CURRENT_STATUS pMsg;
+	PMSG_ARCA_BATTLE_CURRENT_STATUS pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -3979,7 +3979,7 @@ void CArcaBattle::GCArcaBattleCurrentStatus(int iObeliskIndex, int iAttrKind, BY
 
 void CArcaBattle::GCArcaBattleSendNotiMsg(BYTE btNoticeType, int iNoticeValue, char* szGuildName)
 {
-	_tagPMSG_ARCA_BATTLE_NOTI_MSG pMsg;
+	PMSG_ARCA_BATTLE_NOTI_MSG pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);

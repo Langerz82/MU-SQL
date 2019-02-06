@@ -13,24 +13,22 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-//#include "wsJoinServerCli.h"
-//#include "wsGameServer.h"
 #include "DirPath.h"
-#include "Map/MapClass.h"
+#include "MapClass.h"
 #include "classdef.h"
 #include "CLoginCount.h"
-#include "Event/DragonEvent.h"
-#include "Event/AttackEvent/AttackEvent.h" // TODO include in project.
+#include "DragonEvent.h"
+#include "AttackEvent.h" // TODO include in project.
 #include "WhisperCash.h"
-//#include "WzUdp.h"
+
 #include "giocp.h"
-#include "Monster/MonsterAttr.h"
-#include "Monster/MonsterSetBase.h"
+#include "MonsterAttr.h"
+#include "MonsterSetBase.h"
 #include "PartyClass.h"
 
-#include "Map/Castle/CastleSiege.h"
-#include "Map/Castle/CastleDeepEvent.h"
-#include "Map/CryWolf/Crywolf.h"
+#include "CastleSiege.h"
+#include "CastleDeepEvent.h"
+#include "Crywolf.h"
 
 #ifndef MAX_CHECKSUM_KEY
 	#define MAX_CHECKSUM_KEY 1024

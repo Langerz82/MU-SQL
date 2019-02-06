@@ -116,14 +116,14 @@ struct _tagAcheronEventTime
 
 // DS
 
-struct _tagPMSG_REQ_AE_PLAY_DS
+struct PMSG_REQ_AE_PLAY_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wMapSvrNum;
 	BYTE btPlay;
 };
 
-struct _tagPMSG_ANS_AE_PLAY_DS
+struct PMSG_ANS_AE_PLAY_DS
 {
 	PBMSG_HEAD2 h;
 	BYTE btPlay;
@@ -164,10 +164,10 @@ public:
 
 	void DestroyObelisk(OBJECTSTRUCT *lpObj, BYTE btMapNumber, BYTE cX, BYTE cY, int nMaxHitUser);
 
-	void CGReqAcheronEventEnter(_tagPMSG_REQ_ACHERON_EVENT_ENTER *lpMsg, int iIndex);
+	void CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER *lpMsg, int iIndex);
 
 	void GDReqAcheronEventProcMultiCast(BYTE btPlay);
-	void DGAnsAcheronEventProcMultiCast(_tagPMSG_ANS_AE_PLAY_DS *lpMsg);
+	void DGAnsAcheronEventProcMultiCast(PMSG_ANS_AE_PLAY_DS *lpMsg);
 	void SetAcheronEventProcMultiCast(int bAEInitState);
 
 	void SendMapServerGroupMsg(void *lpszMsg);

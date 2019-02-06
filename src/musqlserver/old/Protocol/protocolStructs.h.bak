@@ -1955,14 +1955,14 @@ struct PMSG_REQ_LUCKYCOIN_TRADE
 	int iLuckyCoinTradeCount;
 };
 
-struct _tagPMSG_REQ_INVENTORY_EQUIPMENT_ITEM
+struct PMSG_REQ_INVENTORY_EQUIPMENT_ITEM
 {
 	PBMSG_HEAD2 h;
 	BYTE btItemPos;
 	BYTE btValue;
 };
 
-struct _tagPMSG_ANS_INVENTORY_EQUIPMENT_ITEM
+struct PMSG_ANS_INVENTORY_EQUIPMENT_ITEM
 {
 	PBMSG_HEAD2 h;
 	BYTE btItemPos;
@@ -2173,7 +2173,7 @@ struct PMSG_PRICE_ITEM_LIST
 /************************************************************************/
 /* STRUCTS BELOW FOR PROTOCOL CLIENT ONLY                               */
 /************************************************************************/
-typedef struct _tagPMSG_REQ_DUEL_INVITE
+typedef struct PMSG_REQ_DUEL_INVITE
 {
 	PBMSG_HEAD2 h;
 	BYTE NumberH;
@@ -2181,7 +2181,7 @@ typedef struct _tagPMSG_REQ_DUEL_INVITE
 	char szName[MAX_ACCOUNT_LEN];
 } PMSG_REQ_DUEL_INVITE, *LPPMSG_REQ_DUEL_INVITE;
 
-typedef struct _tagPMSG_ANS_DUEL_ANSWER
+typedef struct PMSG_ANS_DUEL_ANSWER
 {
 	PBMSG_HEAD2 h;
 	BYTE bDuelOK;
@@ -2189,40 +2189,40 @@ typedef struct _tagPMSG_ANS_DUEL_ANSWER
 	BYTE NumberL;
 } PMSG_ANS_DUEL_ANSWER, *LPPMSG_ANS_DUEL_ANSWER;
 
-typedef struct _tagPMSG_REQ_DUEL_EXIT
+typedef struct PMSG_REQ_DUEL_EXIT
 {
 	PBMSG_HEAD2 h;
 } PMSG_REQ_DUEL_EXIT, *LPPMSG_REQ_DUEL_EXIT;
 
-typedef struct _tagPMSG_REQ_DUEL_JOINCNANNEL
+typedef struct PMSG_REQ_DUEL_JOINCNANNEL
 {
 	PBMSG_HEAD2 h;
 	BYTE nChannelId;
 } PMSG_REQ_DUEL_JOINCNANNEL, *LPPMSG_REQ_DUEL_JOINCNANNEL;
 
-typedef struct _tagPMSG_REQ_DUEL_LEAVECNANNEL
+typedef struct PMSG_REQ_DUEL_LEAVECNANNEL
 {
 	PBMSG_HEAD2 h;
 	BYTE nChannelId;
 } PMSG_REQ_DUEL_LEAVECNANNEL, *LPPMSG_REQ_DUEL_LEAVECNANNEL;
 
-struct _tagPMSG_REQ_ARCA_BATTLE_JOIN
+struct PMSG_REQ_ARCA_BATTLE_JOIN
 {
 	PBMSG_HEAD2 h;
 };
 
-struct _tagPMSG_REQ_ARCA_BATTLE_ENTER
+struct PMSG_REQ_ARCA_BATTLE_ENTER
 {
 	PBMSG_HEAD2 h;
 	char btEnterSeq;
 };
 
-struct _tagPMSG_REQ_ACHERON_ENTER
+struct PMSG_REQ_ACHERON_ENTER
 {
 	PBMSG_HEAD2 h;
 };
 
-struct _tagPMSG_ANS_ACHERON_ENTER
+struct PMSG_ANS_ACHERON_ENTER
 {
 	PBMSG_HEAD2 h;
 	char btResult;
@@ -2313,12 +2313,12 @@ struct PMSG_STATS_RESULT
 	float ExcellentDMGInc2;
 };
 
-struct _tagPMSG_REQ_NIXIELAKE_ENTER
+struct PMSG_REQ_NIXIELAKE_ENTER
 {
 	PBMSG_HEAD2 h;
 };
 
-struct _tagPMSG_ANS_NIXIELAKE_ENTER
+struct PMSG_ANS_NIXIELAKE_ENTER
 {
 	PBMSG_HEAD2 h;
 	char btResult;
@@ -3082,18 +3082,18 @@ struct _tagITL_REWARDLIST
 	char szGuildName[MAX_GUILD_LEN + 1];
 };
 
-struct _tagPMSG_REQ_ACHERON_EVENT_ENTER
+struct PMSG_REQ_ACHERON_EVENT_ENTER
 {
 	PBMSG_HEAD2 h;
 };
 
-struct _tagPMSG_ANS_ACHERON_EVENT_ENTER
+struct PMSG_ANS_ACHERON_EVENT_ENTER
 {
 	PBMSG_HEAD2 h;
 	BYTE btResult;
 };
 
-struct _tagPMSG_SEND_WINDOW_CLOSE
+struct PMSG_SEND_WINDOW_CLOSE
 {
 	PBMSG_HEAD2 h;
 };
@@ -3496,7 +3496,7 @@ struct PMSG_ANS_USE_BOX
 };
 
 // test hunting log
-struct _tagPMSG_REQ_HUNTING_LOG
+struct PMSG_REQ_HUNTING_LOG
 {
 	PBMSG_HEAD2 h;
 	WORD unk1;
@@ -3505,7 +3505,7 @@ struct _tagPMSG_REQ_HUNTING_LOG
 	WORD unk4;
 };
 
-struct _tagPMSG_ANS_HUNTING_LOG
+struct PMSG_ANS_HUNTING_LOG
 {
 	PBMSG_HEAD2 h;
 	WORD unk1;
@@ -6708,7 +6708,7 @@ typedef struct
 	PERIOD_EXPIRED_ITEM ExpiredItem[90];
 }PERIOD_EXPIRED_ITEMLIST, *LPPERIOD_EXPIRED_ITEMLIST;
 
-struct _tagPMSG_REQ_ARCA_BATTLE_GUILD_JOIN_DS
+struct PMSG_REQ_ARCA_BATTLE_GUILD_JOIN_DS
 {
 	PBMSG_HEAD2 h;
 	char szGuildMaster[11];
@@ -6717,14 +6717,14 @@ struct _tagPMSG_REQ_ARCA_BATTLE_GUILD_JOIN_DS
 	WORD wNumber;
 };
 
-struct _tagPMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS
+struct PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS
 {
 	PBMSG_HEAD2 h;
 	char btResult;
 	WORD wNumber;
 };
 
-struct _tagPMSG_REQ_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS
+struct PMSG_REQ_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS
 {
 	PBMSG_HEAD2 h;
 	char szCharName[11];
@@ -6733,14 +6733,14 @@ struct _tagPMSG_REQ_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS
 	WORD wNumber;
 };
 
-struct _tagPMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS
+struct PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS
 {
 	PBMSG_HEAD2 h;
 	char btResult;
 	WORD wNumber;
 };
 
-struct _tagPMSG_REQ_ARCA_BATTLE_ENTER_DS
+struct PMSG_REQ_ARCA_BATTLE_ENTER_DS
 {
 	PBMSG_HEAD2 h;
 	char szCharName[11];
@@ -6748,7 +6748,7 @@ struct _tagPMSG_REQ_ARCA_BATTLE_ENTER_DS
 	WORD wNumber;
 };
 
-struct _tagPMSG_ANS_ARCA_BATTLE_ENTER_DS
+struct PMSG_ANS_ARCA_BATTLE_ENTER_DS
 {
 	PBMSG_HEAD2 h;
 	char btResult;
@@ -6764,7 +6764,7 @@ struct _stABWinGuildInfoDS
 	WORD wObeliskGroup;
 };
 
-struct _tagPMSG_REQ_AB_WIN_GUILD_INFO_INSERT_DS
+struct PMSG_REQ_AB_WIN_GUILD_INFO_INSERT_DS
 {
 	PBMSG_HEAD2 h;
 	char btGuildCnt;
@@ -6772,38 +6772,38 @@ struct _tagPMSG_REQ_AB_WIN_GUILD_INFO_INSERT_DS
 	_stABWinGuildInfoDS m_stABWinGuildInfoDS[5];
 };
 
-struct _tagPMSG_REQ_AB_WIN_GUILD_INFO_DS
+struct PMSG_REQ_AB_WIN_GUILD_INFO_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wNumber;
 };
 
-struct _tagPMSG_ANS_AB_WIN_GUILD_INFO_DS
+struct PMSG_ANS_AB_WIN_GUILD_INFO_DS
 {
 	PBMSG_HEAD2 h;
 	char btGuildCnt;
 	_stABWinGuildInfoDS m_stABWinGuildInfoDS[5];
 };
 
-struct _tagPMSG_REQ_AB_PROC_INSERT_DS
+struct PMSG_REQ_AB_PROC_INSERT_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wMapSvrNum;
 	BYTE btProcState;
 };
 
-struct _tagPMSG_REQ_AB_PROC_STATE_DS
+struct PMSG_REQ_AB_PROC_STATE_DS
 {
 	PBMSG_HEAD2 h;
 };
 
-struct _tagPMSG_ANS_AB_PROC_STATE_DS
+struct PMSG_ANS_AB_PROC_STATE_DS
 {
 	PBMSG_HEAD2 h;
 	BYTE btProcState;
 };
 
-struct _tagPMSG_REQ_AB_JOIN_MEMBER_UNDER_DS
+struct PMSG_REQ_AB_JOIN_MEMBER_UNDER_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wMapSvrNum;
@@ -6815,14 +6815,14 @@ struct _stGuildUnderMember
 	char szGuildNames[9];
 };
 
-struct _tagPMSG_ANS_AB_JOIN_MEMBER_UNDER_DS
+struct PMSG_ANS_AB_JOIN_MEMBER_UNDER_DS
 {
 	PBMSG_HEAD2 h;
 	BYTE btGuildCnt;
 	_stGuildUnderMember GuildMemberCnt[6];
 };
 
-struct _tagPMSG_REQ_AB_JOIN_CANCEL_DS
+struct PMSG_REQ_AB_JOIN_CANCEL_DS
 {
 	PBMSG_HEAD2 h;
 	BYTE btMinGuildMemNum;
@@ -6834,46 +6834,46 @@ struct _stCancelGuildNames
 	char szGuildNames[9];
 };
 
-struct _tagPMSG_ANS_AB_JOIN_CANCEL_DS
+struct PMSG_ANS_AB_JOIN_CANCEL_DS
 {
 	PBMSG_HEAD2 h;
 	BYTE btGuildCnt;
 	_stCancelGuildNames CancelGuildNames[6];
 };
 
-struct _tagPMSG_REQ_AB_REG_MEMBER_CNT_DS
+struct PMSG_REQ_AB_REG_MEMBER_CNT_DS
 {
 	PBMSG_HEAD2 h;
 	int iIndex;
 	int iGuildNumber;
 };
 
-struct _tagPMSG_ANS_AB_REG_MEMBER_CNT_DS
+struct PMSG_ANS_AB_REG_MEMBER_CNT_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wNumber;
 	BYTE btRegMemCnt;
 };
 
-struct _tagPMSG_REQ_REMOVE_ALL_GUILD_BUFF_DS
+struct PMSG_REQ_REMOVE_ALL_GUILD_BUFF_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wMapSvrNum;
 };
 
-struct _tagPMSG_ANS_REMOVE_ALL_GUILD_BUFF_DS
+struct PMSG_ANS_REMOVE_ALL_GUILD_BUFF_DS
 {
 	PBMSG_HEAD2 h;
 };
 
-struct _tagPMSG_REQ_ARCA_BATTLE_MARK_CNT_DS
+struct PMSG_REQ_ARCA_BATTLE_MARK_CNT_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wNumber;
 	DWORD dwGuildNum;
 };
 
-struct _tagPMSG_ANS_ARCA_BATTLE_MARK_CNT_DS
+struct PMSG_ANS_ARCA_BATTLE_MARK_CNT_DS
 {
 	PBMSG_HEAD2 h;
 	BYTE btResult;
@@ -6881,7 +6881,7 @@ struct _tagPMSG_ANS_ARCA_BATTLE_MARK_CNT_DS
 	DWORD dwMarkCnt;
 };
 
-struct _tagPMSG_REQ_ARCA_BATTLE_MARK_REG_DS
+struct PMSG_REQ_ARCA_BATTLE_MARK_REG_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wNumber;
@@ -6891,13 +6891,13 @@ struct _tagPMSG_REQ_ARCA_BATTLE_MARK_REG_DS
 	DWORD dwGuildNum;
 };
 
-struct _tagPMSG_ANS_ARCA_BATTLE_MARK_REG_DS
+struct PMSG_ANS_ARCA_BATTLE_MARK_REG_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wNumber;
 };
 
-struct _tagPMSG_REQ_ARCA_BATTLE_MARK_RANK_DS
+struct PMSG_REQ_ARCA_BATTLE_MARK_RANK_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wNumber;
@@ -6911,7 +6911,7 @@ struct _stArcaBattleMarkTopRankDS
 	DWORD dwMarkCnt;
 };
 
-struct _tagPMSG_ANS_ARCA_BATTLE_MARK_RANK_DS
+struct PMSG_ANS_ARCA_BATTLE_MARK_RANK_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wNumber;
@@ -6921,26 +6921,26 @@ struct _tagPMSG_ANS_ARCA_BATTLE_MARK_RANK_DS
 	_stArcaBattleMarkTopRankDS ArcaBattleMarkTopRank[6];
 };
 
-struct _tagPMSG_REQ_ARCA_BATTLE_MARK_REG_DEL_DS
+struct PMSG_REQ_ARCA_BATTLE_MARK_REG_DEL_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wNumber;
 	DWORD dwGuildNum;
 };
 
-struct _tagPMSG_REQ_ARCA_BATTLE_IS_TOP_RANK
+struct PMSG_REQ_ARCA_BATTLE_IS_TOP_RANK
 {
 	PBMSG_HEAD2 h;
 	WORD wNumber;
 	DWORD dwGuildNum;
 };
 
-struct _tagPMSG_REQ_AB_MARK_REG_ALL_DEL_DS
+struct PMSG_REQ_AB_MARK_REG_ALL_DEL_DS
 {
 	PBMSG_HEAD2 h;
 };
 
-struct _tagPMSG_REQ_ALL_GUILD_MARK_CNT_DS
+struct PMSG_REQ_ALL_GUILD_MARK_CNT_DS
 {
 	PBMSG_HEAD2 h;
 };
@@ -6951,26 +6951,26 @@ struct _stABAllGuildMark
 	DWORD dwMarkCnt;
 };
 
-struct _tagPMSG_ANS_ALL_GUILD_MARK_CNT_DS
+struct PMSG_ANS_ALL_GUILD_MARK_CNT_DS
 {
 	PWMSG_HEAD2 h;
 	WORD wGuildCnt;
 	_stABAllGuildMark ABAllGuildMark[250];
 };
 
-struct _tagPMSG_REQ_AB_MARK_REG_UPDATE_DS
+struct PMSG_REQ_AB_MARK_REG_UPDATE_DS
 {
 	PBMSG_HEAD2 h;
 	DWORD dwGuildNum;
 	DWORD dwMarkCnt;
 };
 
-struct _tagPMSG_REQ_GUILD_REG_INIT
+struct PMSG_REQ_GUILD_REG_INIT
 {
 	PBMSG_HEAD2 h;
 };
 
-struct _tagPMSG_REQ_AB_ALL_JOIN_USER_DS
+struct PMSG_REQ_AB_ALL_JOIN_USER_DS
 {
 	PBMSG_HEAD h;
 };
@@ -6982,7 +6982,7 @@ struct _stABJoinUserInfoDS
 	char szUserName[MAX_ACCOUNT_LEN + 1];
 };
 
-struct _tagPMSG_ANS_AB_ALL_JOIN_USER_DS
+struct PMSG_ANS_AB_ALL_JOIN_USER_DS
 {
 	PWMSG_HEAD h;
 	BYTE btUserCnt;
@@ -7111,7 +7111,7 @@ struct _stCCFRankingInfo
 	int nPoint;
 };
 
-struct _tagPMSG_REQ_CCF_PERMISSION
+struct PMSG_REQ_CCF_PERMISSION
 {
 	PBMSG_HEAD2 h;
 	char szCharName[MAX_ACCOUNT_LEN + 1];
@@ -7132,7 +7132,7 @@ struct SDHP_RENEW_RANKING
 	BYTE byRankingType;
 };
 
-struct _tagPMSG_REQ_SAVE_CCF_RESULT
+struct PMSG_REQ_SAVE_CCF_RESULT
 {
 	PBMSG_HEAD2 h;
 	char szCharName[MAX_ACCOUNT_LEN + 1];
@@ -7143,7 +7143,7 @@ struct _tagPMSG_REQ_SAVE_CCF_RESULT
 	BYTE byCCFType;
 };
 
-struct _tagPMSG_ANS_CCF_RANK
+struct PMSG_ANS_CCF_RANK
 {
 	PWMSG_HEAD h;
 	BYTE byUserCnt;
@@ -7166,7 +7166,7 @@ struct SDHP_REQ_DBMUUN_INVEN_LOAD
 	WORD aIndex;
 };
 
-struct _tagSDHP_ANS_DBMUUN_INVEN_LOAD
+struct SDHP_ANS_DBMUUN_INVEN_LOAD
 {
 	PWMSG_HEAD h;
 	BYTE dbItems[1984];
@@ -7174,7 +7174,7 @@ struct _tagSDHP_ANS_DBMUUN_INVEN_LOAD
 	WORD aIndex;
 };
 
-struct _tagSDHP_REQ_DBMUUN_INVEN_SAVE
+struct SDHP_REQ_DBMUUN_INVEN_SAVE
 {
 	PWMSG_HEAD h;
 	char AccountID[11];
@@ -7182,7 +7182,7 @@ struct _tagSDHP_REQ_DBMUUN_INVEN_SAVE
 	BYTE dbInventory[1984];
 };
 
-struct _tagSDHP_REQ_DBEVENT_INVEN_SAVE
+struct SDHP_REQ_DBEVENT_INVEN_SAVE
 {
 	PWMSG_HEAD h;
 	char AccountID[11];
@@ -7190,7 +7190,7 @@ struct _tagSDHP_REQ_DBEVENT_INVEN_SAVE
 	BYTE dbInventory[1024];
 };
 
-struct _tagSDHP_REQ_DBEVENT_INVEN_LOAD
+struct SDHP_REQ_DBEVENT_INVEN_LOAD
 {
 	PBMSG_HEAD h;
 	char AccountID[11];
@@ -7198,7 +7198,7 @@ struct _tagSDHP_REQ_DBEVENT_INVEN_LOAD
 	WORD aIndex;
 };
 
-struct _tagSDHP_ANS_DBEVENT_INVEN_LOAD
+struct SDHP_ANS_DBEVENT_INVEN_LOAD
 {
 	PWMSG_HEAD h;
 	BYTE dbItems[1024];
@@ -7219,7 +7219,7 @@ struct _tagMuRummyCardUpdateDS
 	BYTE btStatus;
 };
 
-struct _tagPMSG_REQ_MURUMMY_SELECT_DS
+struct PMSG_REQ_MURUMMY_SELECT_DS
 {
 	PBMSG_HEAD2 h;
 	char AccountID[11];
@@ -7245,7 +7245,7 @@ struct _tagMuRummyCardInfoDS
 	BYTE btStatus;
 };
 
-struct _tagPMSG_ANS_MURUMMY_SELECT_DS
+struct PMSG_ANS_MURUMMY_SELECT_DS
 {
 	PBMSG_HEAD2 h;
 	WORD aIndex;
@@ -7254,7 +7254,7 @@ struct _tagPMSG_ANS_MURUMMY_SELECT_DS
 	_tagMuRummyCardInfoDS stMuRummyCardInfoDS[24];
 };
 
-struct _tagPMSG_REQ_MURUMMY_INSERT_DS
+struct PMSG_REQ_MURUMMY_INSERT_DS
 {
 	PBMSG_HEAD2 h;
 	char AccountID[11];
@@ -7263,7 +7263,7 @@ struct _tagPMSG_REQ_MURUMMY_INSERT_DS
 	_tagMuRummyCardInfoDS stMuRummyCardInfoDS[24];
 };
 
-struct _tagPMSG_REQ_MURUMMY_SCORE_UPDATE_DS
+struct PMSG_REQ_MURUMMY_SCORE_UPDATE_DS
 {
 	PBMSG_HEAD2 h;
 	char AccountID[11];
@@ -7272,7 +7272,7 @@ struct _tagPMSG_REQ_MURUMMY_SCORE_UPDATE_DS
 	_tagMuRummyCardUpdateDS stCardUpdateDS[3];
 };
 
-struct _tagPMSG_REQ_MURUMMY_UPDATE_DS
+struct PMSG_REQ_MURUMMY_UPDATE_DS
 {
 	PBMSG_HEAD2 h;
 	char AccountID[11];
@@ -7282,14 +7282,14 @@ struct _tagPMSG_REQ_MURUMMY_UPDATE_DS
 	BYTE btSequence;
 };
 
-struct _tagPMSG_REQ_MURUMMY_DELETE_DS
+struct PMSG_REQ_MURUMMY_DELETE_DS
 {
 	PBMSG_HEAD2 h;
 	char AccountID[11];
 	char Name[11];
 };
 
-struct _tagPMSG_REQ_MURUMMY_SLOTUPDATE_DS
+struct PMSG_REQ_MURUMMY_SLOTUPDATE_DS
 {
 	PBMSG_HEAD2 h;
 	char AccountID[11];
@@ -7297,7 +7297,7 @@ struct _tagPMSG_REQ_MURUMMY_SLOTUPDATE_DS
 	_tagMuRummyCardUpdateDS stCardUpdateDS;
 };
 
-struct _tagPMSG_REQ_MURUMMY_INFO_UPDATE_DS
+struct PMSG_REQ_MURUMMY_INFO_UPDATE_DS
 {
 	PBMSG_HEAD2 h;
 	char AccountID[11];
@@ -7306,7 +7306,7 @@ struct _tagPMSG_REQ_MURUMMY_INFO_UPDATE_DS
 	_tagMuRummyCardUpdateDS stMuRummyCardUpdateDS[24];
 };
 
-struct _tagPMSG_REQ_MURUMMY_LOG_INSERT_DS
+struct PMSG_REQ_MURUMMY_LOG_INSERT_DS
 {
 	PBMSG_HEAD2 h;
 	char AccountID[11];
@@ -7401,14 +7401,14 @@ struct PMSG_MOVE_PSHOPITEM
 	int nNewPShopItemInvenNum;
 };
 
-struct _tagPMSG_REQ_AE_PLAY_DS
+struct PMSG_REQ_AE_PLAY_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wMapSvrNum;
 	BYTE btPlay;
 };
 
-struct _tagPMSG_ANS_AE_PLAY_DS
+struct PMSG_ANS_AE_PLAY_DS
 {
 	PBMSG_HEAD2 h;
 	BYTE btPlay;

@@ -46,7 +46,7 @@ int GensSystem::GDReqAbusingInfo(LPOBJ lpObj)  // done
 
 	if (gObjIsConnected(lpObj))
 	{
-		_tagPMSG_REQ_ABUSING_INFO pMsg;		
+		PMSG_REQ_ABUSING_INFO pMsg;		
 		
 		PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x09, sizeof(pMsg));		
 		memcpy(pMsg.Name, lpObj->Name, 10);
@@ -67,7 +67,7 @@ int GensSystem::ReqExDBGensInfo(LPOBJ lpObj) // done
 
 	if (gObjIsConnected(lpObj))
 	{
-		_tagPMSG_REQ_ABUSING_INFO pMsg;			
+		PMSG_REQ_ABUSING_INFO pMsg;			
 
 		PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x01, sizeof(pMsg));	
 		memcpy(pMsg.Name, lpObj->Name, 10);
@@ -91,7 +91,7 @@ void GensSystem::ReqRegGensMember(LPOBJ lpObj, unsigned char btInfluence) // don
 			return;
 		}
 
-		_tagPMSG_REQ_REG_GENS_MEMBER_EXDB pMsg;	
+		PMSG_REQ_REG_GENS_MEMBER_EXDB pMsg;	
 		memset(&pMsg, 0x00, sizeof(pMsg));
 
 		pMsg.AccountID[10] = 0;
@@ -148,7 +148,7 @@ int GensSystem::ReqSecedeGensMember(LPOBJ lpObj) // done
 
 	if (gObjIsConnected(lpObj->m_Index))
 	{
-		_tagPMSG_REQ_SECEDE_GENS_MEMBER_EXDB pMsg;
+		PMSG_REQ_SECEDE_GENS_MEMBER_EXDB pMsg;
 
 		PHeadSubSetBE((LPBYTE)&pMsg, 0xF8, 0x05, sizeof(pMsg)); 
 
@@ -178,7 +178,7 @@ int GensSystem::SendGensInfo(LPOBJ lpObj)
 
 	if (gObjIsConnected(lpObj))
 	{
-		_tagPMSG_SEND_GENS_INFO pMsg;
+		PMSG_SEND_GENS_INFO pMsg;
 
 		PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x7, sizeof(pMsg));
 		
@@ -226,7 +226,7 @@ int GensSystem::GDReqSaveContributePoint(LPOBJ lpObj)  // done
 	{
 		if (this->IsRegGensInfluence(lpObj))
 		{
-			_tagPMSG_REQ_SAVE_CONTRIBUTE_POINT_EXDB pMsg;
+			PMSG_REQ_SAVE_CONTRIBUTE_POINT_EXDB pMsg;
 
 			PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x07, sizeof(pMsg));
 			pMsg.Name[10] = 0;
@@ -258,7 +258,7 @@ int GensSystem::DBSaveAbusingKillUserName(LPOBJ lpObj) // done
 		{
 			EnterCriticalSection(&criti);
 
-			_tagPMSG_REQ_SAVE_ABUSING_KILLUSER_EXDB pMsg;
+			PMSG_REQ_SAVE_ABUSING_KILLUSER_EXDB pMsg;
 
 			pMsg.AccountID[10] = 0;
 			pMsg.Name[10] = 0;
@@ -326,13 +326,13 @@ void GensSystem::GensViewportListProtocol(LPOBJ lpObj)
 		return;
 	}
 
-	_tagPMSG_GENS_MEMBER_VIEWPORT_INFO pGensMsg;
-	_tagPMSG_SEND_GENS_MEMBER_VIEWPORT pGensCount;
+	PMSG_GENS_MEMBER_VIEWPORT_INFO pGensMsg;
+	PMSG_SEND_GENS_MEMBER_VIEWPORT pGensCount;
 
 	BYTE GensBuf[2048];
 	int GensCount = 0;
 	
-	int GensInfoOfs = sizeof(_tagPMSG_SEND_GENS_MEMBER_VIEWPORT);
+	int GensInfoOfs = sizeof(PMSG_SEND_GENS_MEMBER_VIEWPORT);
 
 	memset(GensBuf, 0, sizeof(GensBuf));
 
@@ -344,13 +344,13 @@ void GensSystem::GensViewportListProtocol(LPOBJ lpObj)
 		pGensMsg.iGensRanking = lpObj->m_PlayerData->m_GensRanking;
 		pGensMsg.iGensClass = this->GetGensClass(lpObj);
 		pGensMsg.iContributePoint = this->GetContributePoint(lpObj); 
-		memcpy(&GensBuf[GensInfoOfs], &pGensMsg, sizeof(_tagPMSG_GENS_MEMBER_VIEWPORT_INFO));
+		memcpy(&GensBuf[GensInfoOfs], &pGensMsg, sizeof(PMSG_GENS_MEMBER_VIEWPORT_INFO));
 	
-		GensInfoOfs += sizeof(_tagPMSG_GENS_MEMBER_VIEWPORT_INFO);
+		GensInfoOfs += sizeof(PMSG_GENS_MEMBER_VIEWPORT_INFO);
 
 		PHeadSubSetW((LPBYTE)&pGensCount, 0xF8, 0x05, GensInfoOfs); 	
 		pGensCount.Count = GensCount;
-		memcpy(&GensBuf, &pGensCount, sizeof(_tagPMSG_SEND_GENS_MEMBER_VIEWPORT));
+		memcpy(&GensBuf, &pGensCount, sizeof(PMSG_SEND_GENS_MEMBER_VIEWPORT));
 
 		for (int n = 0; n < MAX_VIEWPORT; n++)
 		{
@@ -1300,7 +1300,7 @@ int GensSystem::ReqExDBGensRewardCheck(LPOBJ lpObj, int iInfluence) // done
 
 	if (gObjIsConnected(lpObj))
 	{
-		_tagPMSG_REQ_GENS_REWARD_CHECK_EXDB pMsg;	
+		PMSG_REQ_GENS_REWARD_CHECK_EXDB pMsg;	
 
 		PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x0C, sizeof(pMsg));
 	
@@ -1324,7 +1324,7 @@ int GensSystem::ReqExDBGensRewardComplete(LPOBJ lpObj) // done
 
 	if (gObjIsConnected(lpObj))
 	{
-		_tagPMSG_REQ_GENS_REWARD_COMPLETE_EXDB pMsg;
+		PMSG_REQ_GENS_REWARD_COMPLETE_EXDB pMsg;
 
 		PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x0E, sizeof(pMsg));
 
@@ -1347,7 +1347,7 @@ int GensSystem::SendGensReward(LPOBJ lpObj, unsigned char btResult)
 
 	if (gObjIsConnected(lpObj))
 	{
-		_tagPMSG_SEND_GENS_REWARD pMsg;
+		PMSG_SEND_GENS_REWARD pMsg;
 
 		PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x0A, sizeof(pMsg));
 
@@ -1423,7 +1423,7 @@ int GensSystem::ReqExDBGensMemberCount(LPOBJ lpObj) // done
 
 	if (gObjIsConnected(lpObj))
 	{
-		_tagPMSG_REQ_GENS_MEMBER_COUNT pMsg;
+		PMSG_REQ_GENS_MEMBER_COUNT pMsg;
 
 		PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x0F, sizeof(pMsg));
 
@@ -1442,7 +1442,7 @@ int GensSystem::ReqExDBGensMemberCount(LPOBJ lpObj) // done
 //-> Completed
 int GensSystem::ReqExDBSetGensRewardDay(void) // done
 {
-	_tagPMSG_SET_GENS_REWARD_DAY_EXDB pMsg;
+	PMSG_SET_GENS_REWARD_DAY_EXDB pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x11, sizeof(pMsg));
 
@@ -1599,7 +1599,7 @@ int GensSystem::LoadData(char *lpszFileName)
 
 int GensSystem::ReqGensRewardDay(LPOBJ lpObj)
 {
-	_tagPMSG_REQ_GENS_REWARD_DAY pMsg;
+	PMSG_REQ_GENS_REWARD_DAY pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x13, sizeof(pMsg));
 	pMsg.bIndexH = SET_NUMBERH(lpObj->m_Index);
@@ -1610,7 +1610,7 @@ int GensSystem::ReqGensRewardDay(LPOBJ lpObj)
 
 // CUSTOM PACKET (BATTLE ZONE & WARP LIST)
 
-struct _tagPMSG_SEND_GENS_BATTLEZONE_DATA
+struct PMSG_SEND_GENS_BATTLEZONE_DATA
 {
 	PWMSG_HEAD2 h;
 	WORD iMapList[MAX_NUMBER_MAP];
@@ -1619,7 +1619,7 @@ struct _tagPMSG_SEND_GENS_BATTLEZONE_DATA
 
 void GensSystem::SendBattleZoneData(LPOBJ lpObj)
 {
-	_tagPMSG_SEND_GENS_BATTLEZONE_DATA pMsg;
+	PMSG_SEND_GENS_BATTLEZONE_DATA pMsg;
 
 	PHeadSubSetW((LPBYTE)&pMsg, 0xFA, 0xF8, sizeof(pMsg));
 

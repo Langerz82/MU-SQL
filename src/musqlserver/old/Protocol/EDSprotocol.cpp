@@ -485,7 +485,7 @@ void CExDataServerProtocol::ProtocolCore(int aIndex, BYTE HeadCode, LPBYTE aRecv
 				switch ( lpMsg->subcode )
 				{
 					case 0x01:
-						m_EXDSProtocol.m_GensSystemEDS.GDReqGensInfo(aIndex, (_tagPMSG_REQ_ABUSING_INFO *) aRecv);
+						m_EXDSProtocol.m_GensSystemEDS.GDReqGensInfo(aIndex, (PMSG_REQ_ABUSING_INFO *) aRecv);
 						break;
 
 					case 0x03:
@@ -505,7 +505,7 @@ void CExDataServerProtocol::ProtocolCore(int aIndex, BYTE HeadCode, LPBYTE aRecv
 						break;
 						
 					case 0x09:
-						m_EXDSProtocol.m_GensSystemEDS.GDReqAbusingInfo(aIndex, (_tagPMSG_REQ_ABUSING_INFO *)aRecv);
+						m_EXDSProtocol.m_GensSystemEDS.GDReqAbusingInfo(aIndex, (PMSG_REQ_ABUSING_INFO *)aRecv);
 						break;
 
 					case 0x0C:
@@ -517,11 +517,11 @@ void CExDataServerProtocol::ProtocolCore(int aIndex, BYTE HeadCode, LPBYTE aRecv
 						break;
 
 					case 0x0F:
-						m_EXDSProtocol.m_GensSystemEDS.GDReqGensMemberCount(aIndex, (_tagPMSG_REQ_GENS_MEMBER_COUNT *)aRecv);
+						m_EXDSProtocol.m_GensSystemEDS.GDReqGensMemberCount(aIndex, (PMSG_REQ_GENS_MEMBER_COUNT *)aRecv);
 						break;
 
 					case 0x11:
-						m_EXDSProtocol.m_GensSystemEDS.GDReqGensMemberCount(aIndex, (_tagPMSG_REQ_GENS_MEMBER_COUNT *)aRecv);
+						m_EXDSProtocol.m_GensSystemEDS.GDReqGensMemberCount(aIndex, (PMSG_REQ_GENS_MEMBER_COUNT *)aRecv);
 						break;
 
 					case 0x12:
@@ -529,7 +529,7 @@ void CExDataServerProtocol::ProtocolCore(int aIndex, BYTE HeadCode, LPBYTE aRecv
 						break;
 
 					case 0x13:
-						m_EXDSProtocol.m_GensSystemEDS.GDReqGensRewardDay(aIndex, (_tagPMSG_REQ_GENS_REWARD_DAY *)aRecv);
+						m_EXDSProtocol.m_GensSystemEDS.GDReqGensRewardDay(aIndex, (PMSG_REQ_GENS_REWARD_DAY *)aRecv);
 						break;
 
 				}
@@ -3068,11 +3068,11 @@ void GensSystem_EDS::GensRankingProcess()
 	this->m_GensRankingUpdateTimeTick = GetTickCount();
 }
 
-void GensSystem_EDS::GDReqGensInfo(int aIndex, _tagPMSG_REQ_ABUSING_INFO *aRecv)
+void GensSystem_EDS::GDReqGensInfo(int aIndex, PMSG_REQ_ABUSING_INFO *aRecv)
 {
 	EnterCriticalSection(&this->m_GensCriticalSection);
 
-	_tagPMSG_ANS_GENS_INFO_EXDB pMsg;
+	PMSG_ANS_GENS_INFO_EXDB pMsg;
 	
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x02, sizeof(pMsg));
 
@@ -3084,11 +3084,11 @@ void GensSystem_EDS::GDReqGensInfo(int aIndex, _tagPMSG_REQ_ABUSING_INFO *aRecv)
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
 
-void GensSystem_EDS::GDReqRegGensMember(int aIndex, _tagPMSG_REQ_REG_GENS_MEMBER_EXDB *aRecv)
+void GensSystem_EDS::GDReqRegGensMember(int aIndex, PMSG_REQ_REG_GENS_MEMBER_EXDB *aRecv)
 {
 	EnterCriticalSection(&this->m_GensCriticalSection);
 
-	_tagPMSG_ANS_REG_GENS_MEMBER_EXDB pMsg;
+	PMSG_ANS_REG_GENS_MEMBER_EXDB pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x04, sizeof(pMsg));
 
@@ -3126,11 +3126,11 @@ void GensSystem_EDS::GDReqRegGensMember(int aIndex, _tagPMSG_REQ_REG_GENS_MEMBER
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
 	
-void GensSystem_EDS::GDReqSecedeGensMember(int aIndex, _tagPMSG_REQ_SECEDE_GENS_MEMBER_EXDB *aRecv)
+void GensSystem_EDS::GDReqSecedeGensMember(int aIndex, PMSG_REQ_SECEDE_GENS_MEMBER_EXDB *aRecv)
 {
 	EnterCriticalSection(&this->m_GensCriticalSection);
 
-	_tagPMSG_ANS_SECEDE_GENS_MEMBER_EXDB pMsg;
+	PMSG_ANS_SECEDE_GENS_MEMBER_EXDB pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x06, sizeof(pMsg));
 
@@ -3175,7 +3175,7 @@ void GensSystem_EDS::GDReqSecedeGensMember(int aIndex, _tagPMSG_REQ_SECEDE_GENS_
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
 
-void GensSystem_EDS::GDReqSaveContributePoint(int aIndex, _tagPMSG_REQ_SAVE_CONTRIBUTE_POINT_EXDB *aRecv)
+void GensSystem_EDS::GDReqSaveContributePoint(int aIndex, PMSG_REQ_SAVE_CONTRIBUTE_POINT_EXDB *aRecv)
 {
 	EnterCriticalSection(&this->m_GensCriticalSection);
 
@@ -3193,7 +3193,7 @@ void GensSystem_EDS::GDReqSaveContributePoint(int aIndex, _tagPMSG_REQ_SAVE_CONT
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
 
-void GensSystem_EDS::GDReqSaveAbusingKillUserName(int aIndex, _tagPMSG_REQ_SAVE_ABUSING_KILLUSER_EXDB *aRecv)
+void GensSystem_EDS::GDReqSaveAbusingKillUserName(int aIndex, PMSG_REQ_SAVE_ABUSING_KILLUSER_EXDB *aRecv)
 {
 	EnterCriticalSection(&this->m_GensCriticalSection);
 
@@ -3202,11 +3202,11 @@ void GensSystem_EDS::GDReqSaveAbusingKillUserName(int aIndex, _tagPMSG_REQ_SAVE_
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
 
-void GensSystem_EDS::GDReqAbusingInfo(int aIndex, _tagPMSG_REQ_ABUSING_INFO *aRecv)
+void GensSystem_EDS::GDReqAbusingInfo(int aIndex, PMSG_REQ_ABUSING_INFO *aRecv)
 {
 	EnterCriticalSection(&this->m_GensCriticalSection);
 
-	_tagPMSG_ANS_ABUSING_INFO pMsg;
+	PMSG_ANS_ABUSING_INFO pMsg;
 
 
 
@@ -3227,11 +3227,11 @@ void GensSystem_EDS::GDReqAbusingInfo(int aIndex, _tagPMSG_REQ_ABUSING_INFO *aRe
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
 
-void GensSystem_EDS::GDReqGensRewardCheck(int aIndex, _tagPMSG_REQ_GENS_REWARD_CHECK_EXDB *aRecv)
+void GensSystem_EDS::GDReqGensRewardCheck(int aIndex, PMSG_REQ_GENS_REWARD_CHECK_EXDB *aRecv)
 {
 	EnterCriticalSection(&this->m_GensCriticalSection);
 
-	_tagPMSG_ANS_GENS_REWARD_EXDB pMsg;
+	PMSG_ANS_GENS_REWARD_EXDB pMsg;
 	SYSTEMTIME CurrTime;
 	GetLocalTime(&CurrTime);
 
@@ -3286,7 +3286,7 @@ void GensSystem_EDS::GDReqGensRewardCheck(int aIndex, _tagPMSG_REQ_GENS_REWARD_C
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
 
-void GensSystem_EDS::GDReqGensRewardComplete(int aIndex, _tagPMSG_REQ_GENS_REWARD_COMPLETE_EXDB *aRecv)
+void GensSystem_EDS::GDReqGensRewardComplete(int aIndex, PMSG_REQ_GENS_REWARD_COMPLETE_EXDB *aRecv)
 {
 	EnterCriticalSection(&this->m_GensCriticalSection);
 
@@ -3294,11 +3294,11 @@ void GensSystem_EDS::GDReqGensRewardComplete(int aIndex, _tagPMSG_REQ_GENS_REWAR
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
 
-void GensSystem_EDS::GDReqGensMemberCount(int aIndex, _tagPMSG_REQ_GENS_MEMBER_COUNT *aRecv)
+void GensSystem_EDS::GDReqGensMemberCount(int aIndex, PMSG_REQ_GENS_MEMBER_COUNT *aRecv)
 {
 	EnterCriticalSection(&this->m_GensCriticalSection);
 
-	_tagPMSG_ANS_GENS_MEMBER_COUNT_EXDB pMsg;
+	PMSG_ANS_GENS_MEMBER_COUNT_EXDB pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x10, sizeof(pMsg));
 
@@ -3310,11 +3310,11 @@ void GensSystem_EDS::GDReqGensMemberCount(int aIndex, _tagPMSG_REQ_GENS_MEMBER_C
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
 
-void GensSystem_EDS::GDReqGensRewardDay(int aIndex, _tagPMSG_REQ_GENS_REWARD_DAY *aRecv)
+void GensSystem_EDS::GDReqGensRewardDay(int aIndex, PMSG_REQ_GENS_REWARD_DAY *aRecv)
 {
 	EnterCriticalSection(&this->m_GensCriticalSection);
 
-	_tagPMSG_ANS_GENS_REWARD_DAY_CHECK_EXDB pMsg;
+	PMSG_ANS_GENS_REWARD_DAY_CHECK_EXDB pMsg;
 	SYSTEMTIME CurrTime;
 	GetLocalTime(&CurrTime);
 

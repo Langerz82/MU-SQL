@@ -702,7 +702,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 			}
 			break;
 			case 0x20:
-				this->CGInventoryEquipment((_tagPMSG_REQ_INVENTORY_EQUIPMENT_ITEM *)aRecv, aIndex);
+				this->CGInventoryEquipment((PMSG_REQ_INVENTORY_EQUIPMENT_ITEM *)aRecv, aIndex);
 				break;
 			case 0x6A:
 				this->CGReq_ITL_Relics((PMSG_REQ_ITL_RELATE_RELICS *)aRecv, aIndex);
@@ -939,7 +939,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 
 			case MSG_DUEL_JOINCNANNEL:
 			{
-				int nRet = OnDuelChannelJoin((LPPMSG_REQ_DUEL_JOINCNANNEL)aRecv, aIndex);
+				int nRet = OnDuelChannelJoin((PMSG_REQ_DUEL_JOINCNANNEL*)aRecv, aIndex);
 				if (nRet != ENEWPVP::E_NO_ERROR)
 				{
 					PMSG_ANS_DUEL_JOINCNANNEL res = { 0 };
@@ -955,7 +955,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 
 			case MSG_DUEL_LEAVECNANNEL:
 			{
-				LPPMSG_REQ_DUEL_LEAVECNANNEL lpReq = (LPPMSG_REQ_DUEL_LEAVECNANNEL)aRecv;
+				PMSG_REQ_DUEL_LEAVECNANNEL* lpReq = (PMSG_REQ_DUEL_LEAVECNANNEL*)aRecv;
 				int nRet = OnDuelChannelLeave(lpReq, aIndex);
 				if (nRet != ENEWPVP::E_NO_ERROR)
 				{
@@ -1366,28 +1366,28 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 			switch (lpDef->subcode)
 			{
 			case 0x01:
-				this->CGReqRegGensMember((_tagPMSG_REQ_REG_GENS_MEMBER *)aRecv, aIndex);
+				this->CGReqRegGensMember((PMSG_REQ_REG_GENS_MEMBER *)aRecv, aIndex);
 				break;
 			case 0x03:
-				this->CGReqSecedeGensMember((_tagPMSG_REQ_SEGEDE_GENS_MEMBER *)aRecv, aIndex);
+				this->CGReqSecedeGensMember((PMSG_REQ_SEGEDE_GENS_MEMBER *)aRecv, aIndex);
 				break;
 			case 0x09:
-				this->CGReqGensReward((_tagPMSG_GENS_REWARD_CODE *)aRecv, aIndex);
+				this->CGReqGensReward((PMSG_GENS_REWARD_CODE *)aRecv, aIndex);
 				break;
 			case 0x0B:
-				this->CGReqGensMemberInfo((_tagPMSG_REQ_GENS_INFO *)aRecv, aIndex);
+				this->CGReqGensMemberInfo((PMSG_REQ_GENS_INFO *)aRecv, aIndex);
 				break;
 			case 0x20:
-				this->CGReqAcheronEnter((_tagPMSG_REQ_ACHERON_ENTER *)aRecv, aIndex);
+				this->CGReqAcheronEnter((PMSG_REQ_ACHERON_ENTER *)aRecv, aIndex);
 				break;
 			case 0x30:
-				this->CGReqArcaBattleGuildMasterJoin((_tagPMSG_REQ_ARCA_BATTLE_JOIN *)aRecv, aIndex);
+				this->CGReqArcaBattleGuildMasterJoin((PMSG_REQ_ARCA_BATTLE_JOIN *)aRecv, aIndex);
 				break;
 			case 0x32:
-				this->CGReqArcaBattleGuildMemberJoin((_tagPMSG_REQ_ARCA_BATTLE_JOIN *)aRecv, aIndex);
+				this->CGReqArcaBattleGuildMemberJoin((PMSG_REQ_ARCA_BATTLE_JOIN *)aRecv, aIndex);
 				break;
 			case 0x34:
-				this->CGReqArcaBattleEnter((_tagPMSG_REQ_ARCA_BATTLE_ENTER *)aRecv, aIndex);
+				this->CGReqArcaBattleEnter((PMSG_REQ_ARCA_BATTLE_ENTER *)aRecv, aIndex);
 				break;
 			case 0x36:
 				this->CGReqArcaBattleBootyExchange(aIndex);
@@ -1405,7 +1405,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 				g_ArcaBattle.CGReqMarkRank(aIndex);
 				break;
 			case 0x4B:
-				g_AcheronGuardianEvent.CGReqAcheronEventEnter((_tagPMSG_REQ_ACHERON_EVENT_ENTER *)aRecv, aIndex);
+				g_AcheronGuardianEvent.CGReqAcheronEventEnter((PMSG_REQ_ACHERON_EVENT_ENTER *)aRecv, aIndex);
 				break;
 			default:
 				g_Log.AddC(TColor::Blue, "UNKNOWN F8 PACKET: %x %x %x %x %x %x %x %x %x %x", aRecv[0], aRecv[1], aRecv[2], aRecv[3], aRecv[4], aRecv[5], aRecv[6], aRecv[7], aRecv[8], aRecv[9]);
@@ -1488,22 +1488,22 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 				this->CGReqEventInvenOpen(aRecv, aIndex);
 				break;
 			case 0x10:
-				g_CMuRummyMng.CGReqMuRummyStart((_tagPMSG_REQ_MURUMMY_INFO *)aRecv, aIndex);
+				g_CMuRummyMng.CGReqMuRummyStart((PMSG_REQ_MURUMMY_INFO *)aRecv, aIndex);
 				break;
 			case 0x11:
-				g_CMuRummyMng.CGReqCardReveal((_tagPMSG_REQ_REVEAL_CARD *)aRecv, aIndex);
+				g_CMuRummyMng.CGReqCardReveal((PMSG_REQ_REVEAL_CARD *)aRecv, aIndex);
 				break;
 			case 0x12:
-				g_CMuRummyMng.CGReqCardMove((_tagPMSG_REQ_CARD_MOVE *)aRecv, aIndex);
+				g_CMuRummyMng.CGReqCardMove((PMSG_REQ_CARD_MOVE *)aRecv, aIndex);
 				break;
 			case 0x13:
-				g_CMuRummyMng.CGReqCardReMove((_tagPMSG_REQ_CARD_REMOVE *)aRecv, aIndex);
+				g_CMuRummyMng.CGReqCardReMove((PMSG_REQ_CARD_REMOVE *)aRecv, aIndex);
 				break;
 			case 0x14:
-				g_CMuRummyMng.CGReqCardMatch((_tagPMSG_REQ_CARD_MATCH *)aRecv, aIndex);
+				g_CMuRummyMng.CGReqCardMatch((PMSG_REQ_CARD_MATCH *)aRecv, aIndex);
 				break;
 			case 0x15:
-				g_CMuRummyMng.CGReqMuRummyEnd((_tagPMSG_REQ_MURUMMY_END *)aRecv, aIndex);
+				g_CMuRummyMng.CGReqMuRummyEnd((PMSG_REQ_MURUMMY_END *)aRecv, aIndex);
 				break;
 			}
 		}
@@ -1578,7 +1578,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 			switch (lpDef->subcode)
 			{
 			case 0x01:
-				this->CGReqNixieBossEnter((_tagPMSG_REQ_NIXIELAKE_ENTER *)aRecv, aIndex);
+				this->CGReqNixieBossEnter((PMSG_REQ_NIXIELAKE_ENTER *)aRecv, aIndex);
 				break;
 			}
 		}
@@ -20000,7 +20000,7 @@ int GameProtocol::OnCGInviteDuel(PMSG_REQ_DUEL_INVITE* lpMsg, int aIndex)
 	return ENEWPVP::E_NO_ERROR;
 }
 
-int GameProtocol::OnCGAnswerDuel(LPPMSG_ANS_DUEL_ANSWER lpMsg, int aIndex)
+int GameProtocol::OnCGAnswerDuel(PMSG_ANS_DUEL_ANSWER* lpMsg, int aIndex)
 {
 	if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE)
 	{
@@ -20101,7 +20101,7 @@ int GameProtocol::OnDuelChannelLeave(LPPMSG_REQ_DUEL_LEAVECNANNEL lpMsg, int aIn
 	return ENEWPVP::E_NO_ERROR;
 }
 
-void GameProtocol::CGReqRegGensMember(_tagPMSG_REQ_REG_GENS_MEMBER *lpMsg, int iIndex)
+void GameProtocol::CGReqRegGensMember(PMSG_REQ_REG_GENS_MEMBER *lpMsg, int iIndex)
 {
 	unsigned char bRet;
 
@@ -20113,7 +20113,7 @@ void GameProtocol::CGReqRegGensMember(_tagPMSG_REQ_REG_GENS_MEMBER *lpMsg, int i
 
 	if (gObjIsConnectedGP(iIndex))
 	{
-		_tagPMSG_ANS_REG_GENS_MEMBER_EXDB pMsg;
+		PMSG_ANS_REG_GENS_MEMBER_EXDB pMsg;
 
 		pMsg.bInfluence = lpMsg->bResult;
 
@@ -20178,13 +20178,13 @@ void GameProtocol::CGReqRegGensMember(_tagPMSG_REQ_REG_GENS_MEMBER *lpMsg, int i
 		{
 			pMsg.bIndexH = SET_NUMBERH(iIndex);
 			pMsg.bIndexL = SET_NUMBERL(iIndex);
-			DGAnsRegGensMember((_tagPMSG_ANS_REG_GENS_MEMBER_EXDB*)&pMsg);
+			DGAnsRegGensMember((PMSG_ANS_REG_GENS_MEMBER_EXDB*)&pMsg);
 		}
 	}
 }
 
 //-> Completed
-void GameProtocol::CGReqSecedeGensMember(_tagPMSG_REQ_SEGEDE_GENS_MEMBER *lpMsg, int iIndex)
+void GameProtocol::CGReqSecedeGensMember(PMSG_REQ_SEGEDE_GENS_MEMBER *lpMsg, int iIndex)
 {
 	if (!ObjectMaxRange(iIndex))
 		return;
@@ -20195,7 +20195,7 @@ void GameProtocol::CGReqSecedeGensMember(_tagPMSG_REQ_SEGEDE_GENS_MEMBER *lpMsg,
 
 	if (gObjIsConnectedGP(iIndex))
 	{
-		_tagPMSG_ANS_SECEDE_GENS_MEMBER_EXDB pMsg;
+		PMSG_ANS_SECEDE_GENS_MEMBER_EXDB pMsg;
 
 		if (!g_GensSystem.IsInfluenceNPC(lpObj))
 		{
@@ -20232,13 +20232,13 @@ void GameProtocol::CGReqSecedeGensMember(_tagPMSG_REQ_SEGEDE_GENS_MEMBER *lpMsg,
 		{
 			pMsg.bIndexH = SET_NUMBERH(iIndex);
 			pMsg.bIndexL = SET_NUMBERL(iIndex);
-			DGAnsSecedeGensMember((_tagPMSG_ANS_SECEDE_GENS_MEMBER_EXDB*)&pMsg);
+			DGAnsSecedeGensMember((PMSG_ANS_SECEDE_GENS_MEMBER_EXDB*)&pMsg);
 		}
 	}
 }
 
 //-> Completed
-void GameProtocol::CGReqGensReward(_tagPMSG_GENS_REWARD_CODE *lpMsg, int iIndex)
+void GameProtocol::CGReqGensReward(PMSG_GENS_REWARD_CODE *lpMsg, int iIndex)
 {
 	if (!ObjectMaxRange(iIndex))
 		return;
@@ -20254,7 +20254,7 @@ void GameProtocol::CGReqGensReward(_tagPMSG_GENS_REWARD_CODE *lpMsg, int iIndex)
 }
 
 //-> Completed
-void GameProtocol::CGReqGensMemberInfo(_tagPMSG_REQ_GENS_INFO *lpMsg, int iIndex)
+void GameProtocol::CGReqGensMemberInfo(PMSG_REQ_GENS_INFO *lpMsg, int iIndex)
 {
 	if (!ObjectMaxRange(iIndex)) return;
 
@@ -20268,7 +20268,7 @@ void GameProtocol::CGReqGensMemberInfo(_tagPMSG_REQ_GENS_INFO *lpMsg, int iIndex
 		}
 	}
 }
-void GameProtocol::CGInventoryEquipment(_tagPMSG_REQ_INVENTORY_EQUIPMENT_ITEM *lpMsg, int iIndex)
+void GameProtocol::CGInventoryEquipment(PMSG_REQ_INVENTORY_EQUIPMENT_ITEM *lpMsg, int iIndex)
 {
 	if (ObjectMaxRange(iIndex) == FALSE)
 	{
@@ -20287,7 +20287,7 @@ void GameProtocol::CGInventoryEquipment(_tagPMSG_REQ_INVENTORY_EQUIPMENT_ITEM *l
 
 	LPOBJ lpObj = &gObj[iIndex];
 
-	_tagPMSG_ANS_INVENTORY_EQUIPMENT_ITEM pMsg = { 0 };
+	PMSG_ANS_INVENTORY_EQUIPMENT_ITEM pMsg = { 0 };
 
 	pMsg.btResult = 0;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xBF, 0x20, sizeof(pMsg));
@@ -20553,7 +20553,7 @@ void GameProtocol::GCSendAttackSpeed(int aIndex)
 	IOCP.DataSend(aIndex, (BYTE*)&pMsg, pMsg.h.size);
 }
 
-void GameProtocol::CGReqArcaBattleGuildMasterJoin(_tagPMSG_REQ_ARCA_BATTLE_JOIN *lpMsg, int iIndex)
+void GameProtocol::CGReqArcaBattleGuildMasterJoin(PMSG_REQ_ARCA_BATTLE_JOIN *lpMsg, int iIndex)
 {
 	if (ObjectMaxRange(iIndex) == false)
 	{
@@ -20568,14 +20568,14 @@ void GameProtocol::CGReqArcaBattleGuildMasterJoin(_tagPMSG_REQ_ARCA_BATTLE_JOIN 
 	}
 
 	_GUILD_INFO_STRUCT * lpGuildInfo = lpObj->m_PlayerData->lpGuild;
-	_tagPMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS pMsg;
+	PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS pMsg;
 
 	pMsg.wNumber = iIndex;
 
 	if (!lpGuildInfo)
 	{
 		pMsg.btResult = 1;
-		DGAnsArcaBattleGuildJoinSelect((_tagPMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *)&pMsg);
+		DGAnsArcaBattleGuildJoinSelect((PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *)&pMsg);
 		return;
 	}
 
@@ -20584,30 +20584,30 @@ void GameProtocol::CGReqArcaBattleGuildMasterJoin(_tagPMSG_REQ_ARCA_BATTLE_JOIN 
 	if (iArcaBattleState != 3)
 	{
 		pMsg.btResult = 5;
-		DGAnsArcaBattleGuildJoinSelect((_tagPMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *)&pMsg);
+		DGAnsArcaBattleGuildJoinSelect((PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *)&pMsg);
 		return;
 	}
 
 	if (lpObj->m_PlayerData->GuildStatus != GUILD_MASTER)
 	{
 		pMsg.btResult = 1;
-		DGAnsArcaBattleGuildJoinSelect((_tagPMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *)&pMsg);
+		DGAnsArcaBattleGuildJoinSelect((PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *)&pMsg);
 		return;
 	}
 
 	if (lpGuildInfo->Count < g_ArcaBattle.GetJoinMemberCnt())
 	{
 		pMsg.btResult = 2;
-		DGAnsArcaBattleGuildJoinSelect((_tagPMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *)&pMsg);
+		DGAnsArcaBattleGuildJoinSelect((PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *)&pMsg);
 		return;
 	}
 
 	g_ArcaBattle.GDReqArcaBattleIsTopRank(lpObj->m_Index, lpObj->m_PlayerData->GuildNumber);
 }
 
-void GameProtocol::CGReqArcaBattleGuildMemberJoin(_tagPMSG_REQ_ARCA_BATTLE_JOIN *lpMsg, int iIndex)
+void GameProtocol::CGReqArcaBattleGuildMemberJoin(PMSG_REQ_ARCA_BATTLE_JOIN *lpMsg, int iIndex)
 {
-	_tagPMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS pMsg;
+	PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS pMsg;
 
 	if (ObjectMaxRange(iIndex) == false)
 	{
@@ -20626,14 +20626,14 @@ void GameProtocol::CGReqArcaBattleGuildMemberJoin(_tagPMSG_REQ_ARCA_BATTLE_JOIN 
 	if (lpObj->m_PlayerData->lpGuild == NULL)
 	{
 		pMsg.btResult = 7;
-		DGAnsArcaBattleGuildMemberJoin((_tagPMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *)&pMsg);
+		DGAnsArcaBattleGuildMemberJoin((PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *)&pMsg);
 		return;
 	}
 
 	if (lpObj->m_PlayerData->GuildStatus == GUILD_MASTER)
 	{
 		pMsg.btResult = 13;
-		DGAnsArcaBattleGuildMemberJoin((_tagPMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *)&pMsg);
+		DGAnsArcaBattleGuildMemberJoin((PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *)&pMsg);
 		return;
 	}
 
@@ -20642,23 +20642,23 @@ void GameProtocol::CGReqArcaBattleGuildMemberJoin(_tagPMSG_REQ_ARCA_BATTLE_JOIN 
 	if (iArcaBattleState < 4)
 	{
 		pMsg.btResult = 14;
-		DGAnsArcaBattleGuildMemberJoin((_tagPMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *)&pMsg);
+		DGAnsArcaBattleGuildMemberJoin((PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *)&pMsg);
 		return;
 	}
 
 	if (iArcaBattleState >= 7)
 	{
 		pMsg.btResult = 10;
-		DGAnsArcaBattleGuildMemberJoin((_tagPMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *)&pMsg);
+		DGAnsArcaBattleGuildMemberJoin((PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *)&pMsg);
 		return;
 	}
 
 	GDReqArcaBattleGuildMemberJoin(lpObj);
 }
 
-void GameProtocol::CGReqArcaBattleEnter(_tagPMSG_REQ_ARCA_BATTLE_ENTER *lpMsg, int iIndex)
+void GameProtocol::CGReqArcaBattleEnter(PMSG_REQ_ARCA_BATTLE_ENTER *lpMsg, int iIndex)
 {
-	_tagPMSG_ANS_ARCA_BATTLE_ENTER_DS pMsg;
+	PMSG_ANS_ARCA_BATTLE_ENTER_DS pMsg;
 
 	if (ObjectMaxRange(iIndex) == false)
 	{
@@ -20698,14 +20698,14 @@ void GameProtocol::CGReqArcaBattleEnter(_tagPMSG_REQ_ARCA_BATTLE_ENTER *lpMsg, i
 		{
 			pMsg.wNumber = iIndex;
 			pMsg.btResult = 12;
-			DGAnsArcaBattleEnter((_tagPMSG_ANS_ARCA_BATTLE_ENTER_DS *)&pMsg);
+			DGAnsArcaBattleEnter((PMSG_ANS_ARCA_BATTLE_ENTER_DS *)&pMsg);
 		}
 	}
 }
 
-void GameProtocol::CGReqAcheronEnter(_tagPMSG_REQ_ACHERON_ENTER *lpMsg, int iIndex)
+void GameProtocol::CGReqAcheronEnter(PMSG_REQ_ACHERON_ENTER *lpMsg, int iIndex)
 {
-	_tagPMSG_ANS_ACHERON_ENTER pMsg;
+	PMSG_ANS_ACHERON_ENTER pMsg;
 
 	if (ObjectMaxRange(iIndex) == false)
 	{
@@ -20806,8 +20806,8 @@ void GameProtocol::CGReqSpritemapExchange(int iIndex)
 
 void GameProtocol::CGReqRegisteredMemberCnt(int aIndex)
 {
-	_tagPMSG_REQ_AB_REG_MEMBER_CNT_DS pMsg;
-	_tagPMSG_ANS_AB_REG_MEMBER_CNT pAnsMsg;
+	PMSG_REQ_AB_REG_MEMBER_CNT_DS pMsg;
+	PMSG_ANS_AB_REG_MEMBER_CNT pAnsMsg;
 
 	if (ObjectMaxRange(aIndex))
 	{
@@ -22774,13 +22774,13 @@ void GameProtocol::CGReqEventInvenOpen(LPBYTE lpRecv, int aIndex)
 {
 	if (g_CMuRummyMng.IsMuRummyEventOn() == true)
 	{
-		g_CMuRummyMng.CGReqMuRummyEventOpen((_tagPMSG_REQ_MURUMMY_EVENT_OPEN *)lpRecv, aIndex);
+		g_CMuRummyMng.CGReqMuRummyEventOpen((PMSG_REQ_MURUMMY_EVENT_OPEN *)lpRecv, aIndex);
 		return;
 	}
 
 	if (g_ConfigRead.data.common.EventInventoryOpen)
 	{
-		_tagPMSG_ANS_MURUMMY_EVENT_OPEN pMsg;
+		PMSG_ANS_MURUMMY_EVENT_OPEN pMsg;
 		PHeadSubSetB((LPBYTE)&pMsg, 0x4D, 0x0F, sizeof(pMsg));
 
 		pMsg.btResult = 3;
@@ -24955,7 +24955,7 @@ void GameProtocol::CGEventEntryNotice(int iEventType, BYTE state)
 	}
 }
 
-void GameProtocol::CGReqNixieBossEnter(_tagPMSG_REQ_NIXIELAKE_ENTER *lpMsg, int iIndex)
+void GameProtocol::CGReqNixieBossEnter(PMSG_REQ_NIXIELAKE_ENTER *lpMsg, int iIndex)
 {
 	LPOBJ lpObj = &gObj[iIndex];
 
@@ -24975,7 +24975,7 @@ void GameProtocol::CGReqNixieBossEnter(_tagPMSG_REQ_NIXIELAKE_ENTER *lpMsg, int 
 		return;
 	}
 
-	_tagPMSG_ANS_NIXIELAKE_ENTER pMsg;
+	PMSG_ANS_NIXIELAKE_ENTER pMsg;
 
 	for (int pos = INVETORY_WEAR_SIZE; pos < MAIN_INVENTORY_SIZE; pos++)
 	{
@@ -25133,7 +25133,7 @@ void GameProtocol::GCPlayerStatsPanelRates(int aIndex)
 
 void GameProtocol::CGReqHuntingLog(int iIndex)
 {
-	_tagPMSG_ANS_HUNTING_LOG pMsg;
+	PMSG_ANS_HUNTING_LOG pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xEC, 0x50, sizeof(pMsg));
 	pMsg.unk1 = 1;
 	pMsg.unk2 = 125;

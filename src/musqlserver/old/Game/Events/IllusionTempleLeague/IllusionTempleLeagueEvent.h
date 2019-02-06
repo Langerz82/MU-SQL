@@ -91,11 +91,11 @@ public:
 	void GD_ITL_GuildRank_Renew(BYTE byITLType);
 	void GD_ITL_GuildRank_Get();
 	void GD_ITL_TournamentRank_Get(BYTE byITLType);
-	void DG_ITL_Tournament_Get(_tagPMSG_ANS_ITL_TOURNAMENT *lpMsg);
-	void DG_ITL_RewardList_Get(_tagPMSG_ANS_ITL_REWARDLIST *lpMsg);
-	void DG_ITL_UserCount(_tagPMSG_ANS_ITL_USERCOUNTANS *lpMsg);
-	void DG_ITL_GuildCount(_tagPMSG_ANS_ITL_GUILDCOUNTANS *lpMsg);
-	void DG_ITL_GuildLeagueRank_Get(_tagPMSG_ANS_ITL_GUILDLEAGUERANK *lpMsg);
+	void DG_ITL_Tournament_Get(PMSG_ANS_ITL_TOURNAMENT *lpMsg);
+	void DG_ITL_RewardList_Get(PMSG_ANS_ITL_REWARDLIST *lpMsg);
+	void DG_ITL_UserCount(PMSG_ANS_ITL_USERCOUNTANS *lpMsg);
+	void DG_ITL_GuildCount(PMSG_ANS_ITL_GUILDCOUNTANS *lpMsg);
+	void DG_ITL_GuildLeagueRank_Get(PMSG_ANS_ITL_GUILDLEAGUERANK *lpMsg);
 
 	void ResetITL_FlagAll();
 

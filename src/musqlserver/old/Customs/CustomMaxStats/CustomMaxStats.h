@@ -3,7 +3,7 @@
 #pragma once
 
 #include "classdef.h"
-#include "Map/MapClass.h"
+#include "Maps/MapClass.h"
 
 #define FILE_CUSTOM_MAXSTATS "IGC_PlayerInfo.xml"
 

@@ -19972,7 +19972,7 @@ void gObjViewportListProtocol(short aIndex)
 
 								if (g_GensSystem.GetGensInfluence(lpTargetObj))
 								{
-									_tagPMSG_GENS_MEMBER_VIEWPORT_INFO pGensMsg;
+									PMSG_GENS_MEMBER_VIEWPORT_INFO pGensMsg;
 
 									pGensMsg.btInfluence = g_GensSystem.GetGensInfluence(lpTargetObj);
 									pGensMsg.NumberH = SET_NUMBERH(lpTargetObj->m_Index);
@@ -20298,7 +20298,7 @@ void gObjViewportListProtocol(short aIndex)
 
 			if (GensInfoCount != 0)
 			{
-				_tagPMSG_SEND_GENS_MEMBER_VIEWPORT pGensCount;
+				PMSG_SEND_GENS_MEMBER_VIEWPORT pGensCount;
 				pGensCount.h.c = 0xC2;
 				pGensCount.h.headcode = 0xF8;
 				pGensCount.h.subcode = 0x05;
@@ -29927,7 +29927,7 @@ void gObjInvenPetDamage(LPOBJ lpObj, int damage)
 			sLog.outBasic("[CRenewal][InvenPet][ZeroDur][%s][%s] PetIndex:[%d], Pos:[%d] InvenPet Durability is Zero. => Remove Inven Pet",
 				lpObj->AccountID, lpObj->Name, sprite->m_Type, iInvenPetPos);
 
-			_tagPMSG_REQ_INVENTORY_EQUIPMENT_ITEM pMsg;
+			PMSG_REQ_INVENTORY_EQUIPMENT_ITEM pMsg;
 			pMsg.btItemPos = iInvenPetPos;
 			pMsg.btValue = (BYTE)-1;
 
@@ -29964,7 +29964,7 @@ void gObjInvenPetDamage(LPOBJ lpObj, int damage)
 
 				else
 				{
-					_tagPMSG_REQ_INVENTORY_EQUIPMENT_ITEM pMsg;
+					PMSG_REQ_INVENTORY_EQUIPMENT_ITEM pMsg;
 					pMsg.btItemPos = iInvenPetPos;
 					pMsg.btValue = (BYTE)-2;
 

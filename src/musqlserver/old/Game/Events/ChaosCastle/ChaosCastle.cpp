@@ -3363,7 +3363,7 @@ void CChaosCastle::GD_Req_Save_KillPoint_UBF(int index, char *Name, int KillPoin
 		return;
 	}
 
-	_tagPMSG_REQ_SAVE_CHAOSCASTLE_KILLPOINT_UBF pMsg;
+	PMSG_REQ_SAVE_CHAOSCASTLE_KILLPOINT_UBF pMsg;
 
 	memcpy(pMsg.szCharName, Name, MAX_ACCOUNT_LEN);
 	pMsg.h.c = 0xC1;

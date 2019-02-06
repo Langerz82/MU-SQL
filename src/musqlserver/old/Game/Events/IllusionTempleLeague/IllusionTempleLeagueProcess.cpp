@@ -3142,7 +3142,7 @@ BYTE CIllusionTempleLeagueProcess::SetGuild(int nGuildIndex, BYTE bySlotOrder, B
 
 void CIllusionTempleLeagueProcess::GDSaveITLGuildPoint(char* GuildName, int Type, BYTE btWin, BYTE btLose, BYTE byOccCnt, BYTE byEnterCnt)
 {
-	_tagPMSG_REQ_SAVE_ITL_GUILDPOINT pMsg;
+	PMSG_REQ_SAVE_ITL_GUILDPOINT pMsg;
 
 	memcpy(pMsg.GuildName, GuildName, MAX_GUILD_LEN + 1);
 	pMsg.h.c = 0xC1;
@@ -3162,7 +3162,7 @@ void CIllusionTempleLeagueProcess::GDSaveITLGuildPoint(char* GuildName, int Type
 
 void CIllusionTempleLeagueProcess::GDSaveITLUserPoint(int index, char* UserName, char* GuildName, int nOccupiedCount, int KillPoint, int nInvalidationCount, int nType, int nEnterCount, int nWin)
 {
-	_tagPMSG_REQ_SAVE_ITL_USERPOINT pMsg;
+	PMSG_REQ_SAVE_ITL_USERPOINT pMsg;
 
 	memcpy(pMsg.UserName, UserName, MAX_ACCOUNT_LEN + 1);
 	memcpy(pMsg.GName, GuildName, MAX_GUILD_LEN + 1);

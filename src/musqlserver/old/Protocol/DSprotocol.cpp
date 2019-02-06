@@ -1030,7 +1030,7 @@ void CDataServerProtocol::ProtocolCore(int aIndex, BYTE HeadCode, LPBYTE aRecv, 
 			}
 			break;
 		case 0xE5:
-			m_DSProtocol.GDReqArcaBattleAllJoinUser(aIndex, (_tagPMSG_REQ_AB_ALL_JOIN_USER_DS *)aRecv);
+			m_DSProtocol.GDReqArcaBattleAllJoinUser(aIndex, (PMSG_REQ_AB_ALL_JOIN_USER_DS *)aRecv);
 			break;
 		case 0xE6:
 
@@ -1045,25 +1045,25 @@ void CDataServerProtocol::ProtocolCore(int aIndex, BYTE HeadCode, LPBYTE aRecv, 
 				switch (lpMsg->subcode)
 				{
 					case 0x00:
-						m_DSProtocol.GDReqCardInfo(aIndex, (_tagPMSG_REQ_MURUMMY_SELECT_DS *)aRecv);
+						m_DSProtocol.GDReqCardInfo(aIndex, (PMSG_REQ_MURUMMY_SELECT_DS *)aRecv);
 						break;
 					case 0x01:
-						m_DSProtocol.GDReqCardInfoInsert(aIndex, (_tagPMSG_REQ_MURUMMY_INSERT_DS *)aRecv);
+						m_DSProtocol.GDReqCardInfoInsert(aIndex, (PMSG_REQ_MURUMMY_INSERT_DS *)aRecv);
 						break;
 					case 0x02:
-						m_DSProtocol.GDReqScoreUpdate(aIndex, (_tagPMSG_REQ_MURUMMY_SCORE_UPDATE_DS *)aRecv);
+						m_DSProtocol.GDReqScoreUpdate(aIndex, (PMSG_REQ_MURUMMY_SCORE_UPDATE_DS *)aRecv);
 						break;
 					case 0x03:
-						m_DSProtocol.GDReqCardInfoUpdate(aIndex, (_tagPMSG_REQ_MURUMMY_UPDATE_DS *)aRecv);
+						m_DSProtocol.GDReqCardInfoUpdate(aIndex, (PMSG_REQ_MURUMMY_UPDATE_DS *)aRecv);
 						break;
 					case 0x04:
-						m_DSProtocol.GDReqScoreDelete(aIndex, (_tagPMSG_REQ_MURUMMY_DELETE_DS *)aRecv);
+						m_DSProtocol.GDReqScoreDelete(aIndex, (PMSG_REQ_MURUMMY_DELETE_DS *)aRecv);
 						break;
 					case 0x05:
-						m_DSProtocol.GDReqSlotInfoUpdate(aIndex, (_tagPMSG_REQ_MURUMMY_SLOTUPDATE_DS *)aRecv);
+						m_DSProtocol.GDReqSlotInfoUpdate(aIndex, (PMSG_REQ_MURUMMY_SLOTUPDATE_DS *)aRecv);
 						break;
 					case 0x06:
-						m_DSProtocol.GDReqMuRummyInfoUpdate(aIndex, (_tagPMSG_REQ_MURUMMY_INFO_UPDATE_DS *)aRecv);
+						m_DSProtocol.GDReqMuRummyInfoUpdate(aIndex, (PMSG_REQ_MURUMMY_INFO_UPDATE_DS *)aRecv);
 						break;
 					case 0x07:
 
@@ -1108,67 +1108,67 @@ void CDataServerProtocol::ProtocolCore(int aIndex, BYTE HeadCode, LPBYTE aRecv, 
 				switch ( lpMsg->subcode )
 				{
 					case 0x30:
-						m_DSProtocol.GDReqArcaBattleGuildJoin(aIndex, (_tagPMSG_REQ_ARCA_BATTLE_GUILD_JOIN_DS *)(aRecv));
+						m_DSProtocol.GDReqArcaBattleGuildJoin(aIndex, (PMSG_REQ_ARCA_BATTLE_GUILD_JOIN_DS *)(aRecv));
 						break;
 					case 0x32:
-						m_DSProtocol.GDReqArcaBattleGuildMemberJoin(aIndex, (_tagPMSG_REQ_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *)(aRecv));
+						m_DSProtocol.GDReqArcaBattleGuildMemberJoin(aIndex, (PMSG_REQ_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *)(aRecv));
 						break;
 					case 0x34:
-						m_DSProtocol.GDReqArcaBattleEnter(aIndex, (_tagPMSG_REQ_ARCA_BATTLE_ENTER_DS *)(aRecv));
+						m_DSProtocol.GDReqArcaBattleEnter(aIndex, (PMSG_REQ_ARCA_BATTLE_ENTER_DS *)(aRecv));
 						break;
 					case 0x38:
-						m_DSProtocol.GDReqArcaBattleWinGuildInfoInsert(aIndex, (_tagPMSG_REQ_AB_WIN_GUILD_INFO_INSERT_DS *)(aRecv));
+						m_DSProtocol.GDReqArcaBattleWinGuildInfoInsert(aIndex, (PMSG_REQ_AB_WIN_GUILD_INFO_INSERT_DS *)(aRecv));
 						break;
 					case 0x39:
-						m_DSProtocol.GDReqArcaBattleWinGuildInfo(aIndex, (_tagPMSG_REQ_AB_WIN_GUILD_INFO_DS *)(aRecv));
+						m_DSProtocol.GDReqArcaBattleWinGuildInfo(aIndex, (PMSG_REQ_AB_WIN_GUILD_INFO_DS *)(aRecv));
 						break;
 					case 0x3D:
 						m_DSProtocol.GDReqDeleteArcaBattleInfo(aIndex);
 						break;
 					case 0x3E:
-						m_DSProtocol.GDReqArcaBattleProcMultiCast(aIndex, (_tagPMSG_REQ_AB_PROC_INSERT_DS *)(aRecv));
+						m_DSProtocol.GDReqArcaBattleProcMultiCast(aIndex, (PMSG_REQ_AB_PROC_INSERT_DS *)(aRecv));
 						break;
 					case 0x3F:
-						m_DSProtocol.GDReqArcaBattleProcState(aIndex, (_tagPMSG_REQ_AB_PROC_STATE_DS *)(aRecv));
+						m_DSProtocol.GDReqArcaBattleProcState(aIndex, (PMSG_REQ_AB_PROC_STATE_DS *)(aRecv));
 						break;
 					case 0x41:
-						m_DSProtocol.GDReqArcaBattleJoinMemberUnder(aIndex, (_tagPMSG_REQ_AB_JOIN_MEMBER_UNDER_DS *)(aRecv));
+						m_DSProtocol.GDReqArcaBattleJoinMemberUnder(aIndex, (PMSG_REQ_AB_JOIN_MEMBER_UNDER_DS *)(aRecv));
 						break;
 					case 0x43:
-						m_DSProtocol.GDReqArcaBattleJoinMemberUnderReq(aIndex, (_tagPMSG_REQ_AB_JOIN_CANCEL_DS *)(aRecv));
+						m_DSProtocol.GDReqArcaBattleJoinMemberUnderReq(aIndex, (PMSG_REQ_AB_JOIN_CANCEL_DS *)(aRecv));
 						break;
 					case 0x45:
-						m_DSProtocol.GDReqArcaBattleRegisteredMemberCnt(aIndex, (_tagPMSG_REQ_AB_REG_MEMBER_CNT_DS *)(aRecv));
+						m_DSProtocol.GDReqArcaBattleRegisteredMemberCnt(aIndex, (PMSG_REQ_AB_REG_MEMBER_CNT_DS *)(aRecv));
 						break;
 					case 0x47:
-						m_DSProtocol.GDReqRemoveAllGuildBuffMultiCast(aIndex, (_tagPMSG_REQ_REMOVE_ALL_GUILD_BUFF_DS *)(aRecv));
+						m_DSProtocol.GDReqRemoveAllGuildBuffMultiCast(aIndex, (PMSG_REQ_REMOVE_ALL_GUILD_BUFF_DS *)(aRecv));
 						break;
 					case 0x4D:
-						m_DSProtocol.GDReqArcaBattleMarkCnt(aIndex, (_tagPMSG_REQ_ARCA_BATTLE_MARK_CNT_DS *)aRecv);
+						m_DSProtocol.GDReqArcaBattleMarkCnt(aIndex, (PMSG_REQ_ARCA_BATTLE_MARK_CNT_DS *)aRecv);
 						break;
 					case 0x4F:
-						m_DSProtocol.GDReqArcaBattleMarkReg(aIndex, (_tagPMSG_REQ_ARCA_BATTLE_MARK_REG_DS *)aRecv);
+						m_DSProtocol.GDReqArcaBattleMarkReg(aIndex, (PMSG_REQ_ARCA_BATTLE_MARK_REG_DS *)aRecv);
 						break;
 					case 0x51:
-						m_DSProtocol.GDReqArcaBattleMarkRank(aIndex, (_tagPMSG_REQ_ARCA_BATTLE_MARK_RANK_DS *)aRecv);
+						m_DSProtocol.GDReqArcaBattleMarkRank(aIndex, (PMSG_REQ_ARCA_BATTLE_MARK_RANK_DS *)aRecv);
 						break;
 					case 0x53:
-						m_DSProtocol.GDReqArcaBattleMarkRegDel(aIndex, (_tagPMSG_REQ_ARCA_BATTLE_MARK_REG_DEL_DS *)aRecv);
+						m_DSProtocol.GDReqArcaBattleMarkRegDel(aIndex, (PMSG_REQ_ARCA_BATTLE_MARK_REG_DEL_DS *)aRecv);
 						break;
 					case 0x54:
-						m_DSProtocol.GDReqArcaBattleIsTopRank(aIndex, (_tagPMSG_REQ_ARCA_BATTLE_IS_TOP_RANK *)aRecv);
+						m_DSProtocol.GDReqArcaBattleIsTopRank(aIndex, (PMSG_REQ_ARCA_BATTLE_IS_TOP_RANK *)aRecv);
 						break;
 					case 0x55:
 						m_DSProtocol.GDReqArcaBattleMarkRegAllDel(aIndex);
 						break;
 					case 0xF0:
-						m_DSProtocol.GDReqAcheronGuardianProcMultiCast(aIndex, (_tagPMSG_REQ_AE_PLAY_DS *)aRecv);
+						m_DSProtocol.GDReqAcheronGuardianProcMultiCast(aIndex, (PMSG_REQ_AE_PLAY_DS *)aRecv);
 						break;
 					case 0xFD:
-						m_DSProtocol.GDReqArcaBattleMarkRegSet(aIndex, (_tagPMSG_REQ_AB_MARK_REG_UPDATE_DS *)aRecv);
+						m_DSProtocol.GDReqArcaBattleMarkRegSet(aIndex, (PMSG_REQ_AB_MARK_REG_UPDATE_DS *)aRecv);
 						break;
 					case 0xFE:
-						m_DSProtocol.GDReqArcaBattleGuildRegInit(aIndex, (_tagPMSG_REQ_GUILD_REG_INIT *)aRecv);
+						m_DSProtocol.GDReqArcaBattleGuildRegInit(aIndex, (PMSG_REQ_GUILD_REG_INIT *)aRecv);
 						break;
 					default:
 						if (aRecv[4] == 0xFB)
@@ -1190,10 +1190,10 @@ void CDataServerProtocol::ProtocolCore(int aIndex, BYTE HeadCode, LPBYTE aRecv, 
 						m_DSProtocol.GDReqUBFSetCCBattleReward(aIndex, (SDHP_REQ_SET_CC_WINNER_INFO_UBF *)aRecv);
 						break;
 					case 0xA1:
-						m_DSProtocol.GDReqChaosCastleFinalSave(aIndex, (_tagPMSG_REQ_SAVE_CCF_RESULT *)aRecv);
+						m_DSProtocol.GDReqChaosCastleFinalSave(aIndex, (PMSG_REQ_SAVE_CCF_RESULT *)aRecv);
 						break;
 					case 0xA2:
-						m_DSProtocol.GDReqChaosCastleFinalPermission(aIndex, (_tagPMSG_REQ_CCF_PERMISSION *)aRecv);
+						m_DSProtocol.GDReqChaosCastleFinalPermission(aIndex, (PMSG_REQ_CCF_PERMISSION *)aRecv);
 						break;
 					case 0xA3:
 						m_DSProtocol.GDReqChaosCastleFinalLoad(aIndex, (SDHP_REQ_CCF_RANKING *)aRecv);
@@ -3302,9 +3302,9 @@ void CDataServerProtocol::ReqSavePlayerKiller(short aIndex,DS_SAVE_PLAYERKILLER 
 
 }
 
-void CDataServerProtocol::GDReqArcaBattleGuildJoin(int aIndex, _tagPMSG_REQ_ARCA_BATTLE_GUILD_JOIN_DS * aRecv)
+void CDataServerProtocol::GDReqArcaBattleGuildJoin(int aIndex, PMSG_REQ_ARCA_BATTLE_GUILD_JOIN_DS * aRecv)
 {
-	_tagPMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS pMsg;
+	PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x31, sizeof(pMsg));
 
@@ -3318,9 +3318,9 @@ void CDataServerProtocol::GDReqArcaBattleGuildJoin(int aIndex, _tagPMSG_REQ_ARCA
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqArcaBattleGuildMemberJoin(int aIndex, _tagPMSG_REQ_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleGuildMemberJoin(int aIndex, PMSG_REQ_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *aRecv)
 {
-	_tagPMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS pMsg;
+	PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x33, sizeof(pMsg));
 
@@ -3334,9 +3334,9 @@ void CDataServerProtocol::GDReqArcaBattleGuildMemberJoin(int aIndex, _tagPMSG_RE
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqArcaBattleEnter(int aIndex, _tagPMSG_REQ_ARCA_BATTLE_ENTER_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleEnter(int aIndex, PMSG_REQ_ARCA_BATTLE_ENTER_DS *aRecv)
 {
-	_tagPMSG_ANS_ARCA_BATTLE_ENTER_DS pMsg;
+	PMSG_ANS_ARCA_BATTLE_ENTER_DS pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x35, sizeof(pMsg));
 
@@ -3351,9 +3351,9 @@ void CDataServerProtocol::GDReqArcaBattleEnter(int aIndex, _tagPMSG_REQ_ARCA_BAT
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqArcaBattleWinGuildInfoInsert(int aIndex, _tagPMSG_REQ_AB_WIN_GUILD_INFO_INSERT_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleWinGuildInfoInsert(int aIndex, PMSG_REQ_AB_WIN_GUILD_INFO_INSERT_DS *aRecv)
 {
-	_tagPMSG_ANS_AB_WIN_GUILD_INFO_DS pMsg;
+	PMSG_ANS_AB_WIN_GUILD_INFO_DS pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x3A, sizeof(pMsg));
 
@@ -3379,9 +3379,9 @@ void CDataServerProtocol::GDReqArcaBattleWinGuildInfoInsert(int aIndex, _tagPMSG
 	}
 }
 
-void CDataServerProtocol::GDReqArcaBattleWinGuildInfo(int aIndex, _tagPMSG_REQ_AB_WIN_GUILD_INFO_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleWinGuildInfo(int aIndex, PMSG_REQ_AB_WIN_GUILD_INFO_DS *aRecv)
 {
-	_tagPMSG_ANS_AB_WIN_GUILD_INFO_DS pMsg;
+	PMSG_ANS_AB_WIN_GUILD_INFO_DS pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x3A, sizeof(pMsg));
 	pMsg.btGuildCnt = 0;
@@ -3398,9 +3398,9 @@ void CDataServerProtocol::GDReqDeleteArcaBattleInfo(int aIndex)
 
 }
 
-void CDataServerProtocol::GDReqArcaBattleProcMultiCast(int aIndex, _tagPMSG_REQ_AB_PROC_INSERT_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleProcMultiCast(int aIndex, PMSG_REQ_AB_PROC_INSERT_DS *aRecv)
 {
-	_tagPMSG_ANS_AB_PROC_STATE_DS pMsg;
+	PMSG_ANS_AB_PROC_STATE_DS pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x40, sizeof(pMsg));
 
@@ -3421,9 +3421,9 @@ void CDataServerProtocol::GDReqArcaBattleProcMultiCast(int aIndex, _tagPMSG_REQ_
 	}
 }
 
-void CDataServerProtocol::GDReqArcaBattleProcState(int aIndex, _tagPMSG_REQ_AB_PROC_STATE_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleProcState(int aIndex, PMSG_REQ_AB_PROC_STATE_DS *aRecv)
 {
-	_tagPMSG_ANS_AB_PROC_STATE_DS pMsg;
+	PMSG_ANS_AB_PROC_STATE_DS pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x40, sizeof(pMsg));
 
@@ -3431,9 +3431,9 @@ void CDataServerProtocol::GDReqArcaBattleProcState(int aIndex, _tagPMSG_REQ_AB_P
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqArcaBattleJoinMemberUnder(int aIndex, _tagPMSG_REQ_AB_JOIN_MEMBER_UNDER_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleJoinMemberUnder(int aIndex, PMSG_REQ_AB_JOIN_MEMBER_UNDER_DS *aRecv)
 {
-	_tagPMSG_ANS_AB_JOIN_MEMBER_UNDER_DS pMsg;
+	PMSG_ANS_AB_JOIN_MEMBER_UNDER_DS pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x42, sizeof(pMsg));
 	pMsg.btGuildCnt = 0;
@@ -3456,9 +3456,9 @@ void CDataServerProtocol::GDReqArcaBattleJoinMemberUnder(int aIndex, _tagPMSG_RE
 	}
 }
 
-void CDataServerProtocol::GDReqArcaBattleJoinMemberUnderReq(int aIndex, _tagPMSG_REQ_AB_JOIN_CANCEL_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleJoinMemberUnderReq(int aIndex, PMSG_REQ_AB_JOIN_CANCEL_DS *aRecv)
 {
-	_tagPMSG_ANS_AB_JOIN_CANCEL_DS pMsg;
+	PMSG_ANS_AB_JOIN_CANCEL_DS pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x44, sizeof(pMsg));
 	pMsg.btGuildCnt = 0;
@@ -3502,9 +3502,9 @@ void CDataServerProtocol::GDReqArcaBattleJoinMemberUnderReq(int aIndex, _tagPMSG
 	}
 }
 
-void CDataServerProtocol::GDReqArcaBattleRegisteredMemberCnt(int aIndex, _tagPMSG_REQ_AB_REG_MEMBER_CNT_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleRegisteredMemberCnt(int aIndex, PMSG_REQ_AB_REG_MEMBER_CNT_DS *aRecv)
 {
-	_tagPMSG_ANS_AB_REG_MEMBER_CNT_DS pMsg;
+	PMSG_ANS_AB_REG_MEMBER_CNT_DS pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x46, sizeof(pMsg));
 
@@ -3518,9 +3518,9 @@ void CDataServerProtocol::GDReqArcaBattleRegisteredMemberCnt(int aIndex, _tagPMS
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqRemoveAllGuildBuffMultiCast(int aIndex, _tagPMSG_REQ_REMOVE_ALL_GUILD_BUFF_DS *aRecv)
+void CDataServerProtocol::GDReqRemoveAllGuildBuffMultiCast(int aIndex, PMSG_REQ_REMOVE_ALL_GUILD_BUFF_DS *aRecv)
 {
-	_tagPMSG_ANS_REMOVE_ALL_GUILD_BUFF_DS pMsg;
+	PMSG_ANS_REMOVE_ALL_GUILD_BUFF_DS pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x48, sizeof(pMsg));
 
@@ -3535,9 +3535,9 @@ void CDataServerProtocol::GDReqRemoveAllGuildBuffMultiCast(int aIndex, _tagPMSG_
 	}
 }
 
-void CDataServerProtocol::GDReqArcaBattleMarkCnt(int aIndex, _tagPMSG_REQ_ARCA_BATTLE_MARK_CNT_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleMarkCnt(int aIndex, PMSG_REQ_ARCA_BATTLE_MARK_CNT_DS *aRecv)
 {
-	_tagPMSG_ANS_ARCA_BATTLE_MARK_CNT_DS pMsg;
+	PMSG_ANS_ARCA_BATTLE_MARK_CNT_DS pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x4E, sizeof(pMsg));
 
@@ -3549,9 +3549,9 @@ void CDataServerProtocol::GDReqArcaBattleMarkCnt(int aIndex, _tagPMSG_REQ_ARCA_B
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqArcaBattleMarkReg(int aIndex, _tagPMSG_REQ_ARCA_BATTLE_MARK_REG_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleMarkReg(int aIndex, PMSG_REQ_ARCA_BATTLE_MARK_REG_DS *aRecv)
 {
-	_tagPMSG_ANS_ARCA_BATTLE_MARK_REG_DS pMsg;
+	PMSG_ANS_ARCA_BATTLE_MARK_REG_DS pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x50, sizeof(pMsg));
 
@@ -3573,9 +3573,9 @@ void CDataServerProtocol::GDReqArcaBattleMarkReg(int aIndex, _tagPMSG_REQ_ARCA_B
 	}
 }
 
-void CDataServerProtocol::GDReqArcaBattleMarkRank(int aIndex, _tagPMSG_REQ_ARCA_BATTLE_MARK_RANK_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleMarkRank(int aIndex, PMSG_REQ_ARCA_BATTLE_MARK_RANK_DS *aRecv)
 {
-	_tagPMSG_ANS_ARCA_BATTLE_MARK_RANK_DS pMsg;
+	PMSG_ANS_ARCA_BATTLE_MARK_RANK_DS pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x52, sizeof(pMsg));
 
@@ -3605,16 +3605,16 @@ void CDataServerProtocol::GDReqArcaBattleMarkRank(int aIndex, _tagPMSG_REQ_ARCA_
 
 }
 
-void CDataServerProtocol::GDReqArcaBattleMarkRegDel(int aIndex, _tagPMSG_REQ_ARCA_BATTLE_MARK_REG_DEL_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleMarkRegDel(int aIndex, PMSG_REQ_ARCA_BATTLE_MARK_REG_DEL_DS *aRecv)
 {
 
 
 
 }
 
-void CDataServerProtocol::GDReqArcaBattleIsTopRank(int aIndex, _tagPMSG_REQ_ARCA_BATTLE_IS_TOP_RANK *aRecv)
+void CDataServerProtocol::GDReqArcaBattleIsTopRank(int aIndex, PMSG_REQ_ARCA_BATTLE_IS_TOP_RANK *aRecv)
 {
-	_tagPMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS pMsg;
+	PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x2B, sizeof(pMsg));
 
@@ -3633,7 +3633,7 @@ void CDataServerProtocol::GDReqArcaBattleMarkRegAllDel(int aIndex)
 
 void CDataServerProtocol::GDReqArcaBattleAllGuildMarkCnt(int aIndex)
 {
-	_tagPMSG_ANS_ALL_GUILD_MARK_CNT_DS pMsg;
+	PMSG_ANS_ALL_GUILD_MARK_CNT_DS pMsg;
 
 	PHeadSubSetW((LPBYTE)&pMsg, 0xF8, 0xFC, sizeof(pMsg));
 
@@ -3644,21 +3644,21 @@ void CDataServerProtocol::GDReqArcaBattleAllGuildMarkCnt(int aIndex)
 	DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqArcaBattleMarkRegSet(int aIndex, _tagPMSG_REQ_AB_MARK_REG_UPDATE_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleMarkRegSet(int aIndex, PMSG_REQ_AB_MARK_REG_UPDATE_DS *aRecv)
 {
 
 }
 
-void CDataServerProtocol::GDReqArcaBattleGuildRegInit(int aIndex, _tagPMSG_REQ_GUILD_REG_INIT *aRecv)
+void CDataServerProtocol::GDReqArcaBattleGuildRegInit(int aIndex, PMSG_REQ_GUILD_REG_INIT *aRecv)
 {
 
 
 
 }
 
-void CDataServerProtocol::GDReqArcaBattleAllJoinUser(int aIndex, _tagPMSG_REQ_AB_ALL_JOIN_USER_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleAllJoinUser(int aIndex, PMSG_REQ_AB_ALL_JOIN_USER_DS *aRecv)
 {
-	_tagPMSG_ANS_AB_ALL_JOIN_USER_DS pMsg;
+	PMSG_ANS_AB_ALL_JOIN_USER_DS pMsg;
 
 	PHeadSetW((LPBYTE)&pMsg, 0xE5, sizeof(pMsg));
 
@@ -3859,14 +3859,14 @@ void CDataServerProtocol::GDReqInsertPentagramJewel(int aIndex, PMSG_INSERT_PENT
 
 }
 
-void CDataServerProtocol::GDReqChaosCastleFinalSave(int aIndex, _tagPMSG_REQ_SAVE_CCF_RESULT* lpMsg)
+void CDataServerProtocol::GDReqChaosCastleFinalSave(int aIndex, PMSG_REQ_SAVE_CCF_RESULT* lpMsg)
 {
 
 
 
 }
 
-void CDataServerProtocol::GDReqChaosCastleFinalPermission(int aIndex, _tagPMSG_REQ_CCF_PERMISSION* lpMsg)
+void CDataServerProtocol::GDReqChaosCastleFinalPermission(int aIndex, PMSG_REQ_CCF_PERMISSION* lpMsg)
 {
 	SDHP_ANS_CCF_GETPERMISSION pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF9, 0xA3, sizeof(pMsg));
@@ -3878,7 +3878,7 @@ void CDataServerProtocol::GDReqChaosCastleFinalPermission(int aIndex, _tagPMSG_R
 
 void CDataServerProtocol::GDReqChaosCastleFinalLoad(int aIndex, SDHP_REQ_CCF_RANKING* lpMsg)
 {
-	_tagPMSG_ANS_CCF_RANK pMsg;
+	PMSG_ANS_CCF_RANK pMsg;
 	PHeadSetW((LPBYTE)&pMsg, 0xF5, sizeof(pMsg));
 
 
@@ -3913,7 +3913,7 @@ void CDataServerProtocol::GDReqChaosCastleFinalSendMsgAllSvr(int aIndex, PMSG_SE
 
 void CDataServerProtocol::GDReqLoadMuunInvenItem(int aIndex, SDHP_REQ_DBMUUN_INVEN_LOAD* lpMsg)
 {
-	_tagSDHP_ANS_DBMUUN_INVEN_LOAD pMsg;
+	SDHP_ANS_DBMUUN_INVEN_LOAD pMsg;
 	PHeadSetW((LPBYTE)&pMsg, 0xF1, sizeof(pMsg));
 
 	char szTemp[250];
@@ -3925,7 +3925,7 @@ void CDataServerProtocol::GDReqLoadMuunInvenItem(int aIndex, SDHP_REQ_DBMUUN_INV
 	DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqSaveMuunInvenItem(int aIndex, _tagSDHP_REQ_DBMUUN_INVEN_SAVE * aRecv)
+void CDataServerProtocol::GDReqSaveMuunInvenItem(int aIndex, SDHP_REQ_DBMUUN_INVEN_SAVE * aRecv)
 {
 	char szName[11] = { 0 };
 	std::memcpy(szName, aRecv->Name, MAX_ACCOUNT_LEN); //
@@ -3937,9 +3937,9 @@ void CDataServerProtocol::GDReqSaveMuunInvenItem(int aIndex, _tagSDHP_REQ_DBMUUN
 
 }
 
-void CDataServerProtocol::GDReqLoadEventInvenItem(int aIndex, _tagSDHP_REQ_DBEVENT_INVEN_LOAD * aRecv)
+void CDataServerProtocol::GDReqLoadEventInvenItem(int aIndex, SDHP_REQ_DBEVENT_INVEN_LOAD * aRecv)
 {
-	_tagSDHP_ANS_DBEVENT_INVEN_LOAD pMsg;
+	SDHP_ANS_DBEVENT_INVEN_LOAD pMsg;
 	PHeadSetW((LPBYTE)&pMsg, 0xE6, sizeof(pMsg));
 
 	char szTemp[1024];
@@ -3951,16 +3951,16 @@ void CDataServerProtocol::GDReqLoadEventInvenItem(int aIndex, _tagSDHP_REQ_DBEVE
 	DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqSaveEventInvenItem(int aIndex, _tagSDHP_REQ_DBEVENT_INVEN_SAVE * aRecv)
+void CDataServerProtocol::GDReqSaveEventInvenItem(int aIndex, SDHP_REQ_DBEVENT_INVEN_SAVE * aRecv)
 {
 	char szTemp[1024];
 	wsprintf(szTemp, "UPDATE T_Event_Inventory SET Inventory=? WHERE Name = '%s'", aRecv->Name);
 
 }
 
-void CDataServerProtocol::GDReqCardInfo(int aIndex, _tagPMSG_REQ_MURUMMY_SELECT_DS * aRecv)
+void CDataServerProtocol::GDReqCardInfo(int aIndex, PMSG_REQ_MURUMMY_SELECT_DS * aRecv)
 {
-	_tagPMSG_ANS_MURUMMY_SELECT_DS pMsg;
+	PMSG_ANS_MURUMMY_SELECT_DS pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xE8, 0x00, sizeof(pMsg));
 
 	int iCount = 0;
@@ -3995,35 +3995,35 @@ void CDataServerProtocol::GDReqCardInfo(int aIndex, _tagPMSG_REQ_MURUMMY_SELECT_
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqCardInfoInsert(int aIndex, _tagPMSG_REQ_MURUMMY_INSERT_DS * aRecv)
+void CDataServerProtocol::GDReqCardInfoInsert(int aIndex, PMSG_REQ_MURUMMY_INSERT_DS * aRecv)
 {
 
 
 
 }
 
-void CDataServerProtocol::GDReqScoreUpdate(int aIndex, _tagPMSG_REQ_MURUMMY_SCORE_UPDATE_DS * aRecv)
+void CDataServerProtocol::GDReqScoreUpdate(int aIndex, PMSG_REQ_MURUMMY_SCORE_UPDATE_DS * aRecv)
 {
 
 
 
 }
 
-void CDataServerProtocol::GDReqCardInfoUpdate(int aIndex, _tagPMSG_REQ_MURUMMY_UPDATE_DS * aRecv)
+void CDataServerProtocol::GDReqCardInfoUpdate(int aIndex, PMSG_REQ_MURUMMY_UPDATE_DS * aRecv)
 {
 
 
 
 }
 
-void CDataServerProtocol::GDReqScoreDelete(int aIndex, _tagPMSG_REQ_MURUMMY_DELETE_DS * aRecv)
+void CDataServerProtocol::GDReqScoreDelete(int aIndex, PMSG_REQ_MURUMMY_DELETE_DS * aRecv)
 {
 
 
 
 }
 
-void CDataServerProtocol::GDReqSlotInfoUpdate(int aIndex, _tagPMSG_REQ_MURUMMY_SLOTUPDATE_DS * aRecv)
+void CDataServerProtocol::GDReqSlotInfoUpdate(int aIndex, PMSG_REQ_MURUMMY_SLOTUPDATE_DS * aRecv)
 {
 	if (aRecv->stCardUpdateDS.btSeq == 255 || aRecv->stCardUpdateDS.btSeq >= 8)
 	{
@@ -4035,7 +4035,7 @@ void CDataServerProtocol::GDReqSlotInfoUpdate(int aIndex, _tagPMSG_REQ_MURUMMY_S
 
 }
 
-void CDataServerProtocol::GDReqMuRummyInfoUpdate(int aIndex, _tagPMSG_REQ_MURUMMY_INFO_UPDATE_DS * aRecv)
+void CDataServerProtocol::GDReqMuRummyInfoUpdate(int aIndex, PMSG_REQ_MURUMMY_INFO_UPDATE_DS * aRecv)
 {
 
 
@@ -4043,7 +4043,7 @@ void CDataServerProtocol::GDReqMuRummyInfoUpdate(int aIndex, _tagPMSG_REQ_MURUMM
 
 }
 
-void CDataServerProtocol::GDReqMuRummyDBLog(int aIndex, _tagPMSG_REQ_MURUMMY_LOG_INSERT_DS * aRecv)
+void CDataServerProtocol::GDReqMuRummyDBLog(int aIndex, PMSG_REQ_MURUMMY_LOG_INSERT_DS * aRecv)
 {
 
 
@@ -4105,9 +4105,9 @@ void CDataServerProtocol::GDMovePShopItem(int aIndex, PMSG_MOVE_PSHOPITEM * aRec
 
 }
 
-void CDataServerProtocol::GDReqAcheronGuardianProcMultiCast(int aIndex, _tagPMSG_REQ_AE_PLAY_DS * aRecv)
+void CDataServerProtocol::GDReqAcheronGuardianProcMultiCast(int aIndex, PMSG_REQ_AE_PLAY_DS * aRecv)
 {
-	_tagPMSG_ANS_AE_PLAY_DS pMsg;
+	PMSG_ANS_AE_PLAY_DS pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0xF1, sizeof(pMsg));
 
 	pMsg.btPlay = aRecv->btPlay;

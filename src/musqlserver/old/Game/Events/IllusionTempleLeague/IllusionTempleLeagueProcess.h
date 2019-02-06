@@ -102,7 +102,7 @@ struct ITL_NPC_POSITIONINFO
 
 // DS
 
-struct _tagPMSG_REQ_SAVE_ITL_GUILDPOINT
+struct PMSG_REQ_SAVE_ITL_GUILDPOINT
 {
 	PBMSG_HEAD2 h;
 	char GuildName[MAX_GUILD_LEN + 1];
@@ -113,7 +113,7 @@ struct _tagPMSG_REQ_SAVE_ITL_GUILDPOINT
 	BYTE byEnterCnt;
 };
 
-struct _tagPMSG_REQ_SAVE_ITL_USERPOINT
+struct PMSG_REQ_SAVE_ITL_USERPOINT
 {
 	PBMSG_HEAD2 h;
 	char UserName[MAX_ACCOUNT_LEN + 1];
@@ -126,7 +126,7 @@ struct _tagPMSG_REQ_SAVE_ITL_USERPOINT
 	int nWin;
 };
 
-struct _tagPMSG_REQ_ITL_GUILDCOUNT_REQ
+struct PMSG_REQ_ITL_GUILDCOUNT_REQ
 {
 	PBMSG_HEAD2 h;
 	char GuildName[MAX_GUILD_LEN + 1];
@@ -134,31 +134,31 @@ struct _tagPMSG_REQ_ITL_GUILDCOUNT_REQ
 	WORD wMapSvrNum;
 };
 
-struct _tagPMSG_REQ_ITL_USERCOUNT_REQ
+struct PMSG_REQ_ITL_USERCOUNT_REQ
 {
 	PBMSG_HEAD2 h;
 	char CharName[MAX_ACCOUNT_LEN + 1];
 	int nUserIndex;
 };
 
-struct _tagPMSG_REQ_ITL_GUILDRANKRENEW
+struct PMSG_REQ_ITL_GUILDRANKRENEW
 {
 	PBMSG_HEAD2 h;
 	BYTE byITLType;
 };
 
-struct _tagPMSG_REQ_ITL_GUILDRANK
+struct PMSG_REQ_ITL_GUILDRANK
 {
 	PBMSG_HEAD2 h;
 };
 
-struct _tagPMSG_REQ_ITL_GUILD_TOURNAMENTRANK
+struct PMSG_REQ_ITL_GUILD_TOURNAMENTRANK
 {
 	PBMSG_HEAD2 h;
 	BYTE byITLType;
 };
 
-struct _tagPMSG_ANS_ITL_TOURNAMENT
+struct PMSG_ANS_ITL_TOURNAMENT
 {
 	PWMSG_HEAD2 h;
 	BYTE byGuildCount;
@@ -175,47 +175,47 @@ struct _stITLRewardList
 	BYTE byGotReward;
 };
 
-struct _tagPMSG_ANS_ITL_REWARDLIST
+struct PMSG_ANS_ITL_REWARDLIST
 {
 	PWMSG_HEAD2 h;
 	BYTE byCount;
 	_stITLRewardList m_stRewardList[5];
 };
 
-struct _tagPMSG_ANS_ITL_USERCOUNTANS
+struct PMSG_ANS_ITL_USERCOUNTANS
 {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	BYTE byCount;
 };
 
-struct _tagPMSG_ANS_ITL_GUILDCOUNTANS
+struct PMSG_ANS_ITL_GUILDCOUNTANS
 {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	BYTE byCount;
 };
 
-struct _tagPMSG_ANS_ITL_GUILDLEAGUERANK
+struct PMSG_ANS_ITL_GUILDLEAGUERANK
 {
 	PWMSG_HEAD2 h;
 	BYTE byGuildCount;
 	__ITL_GUILD_RANK m_GuildLeagueRank[56];
 };
 
-struct _tagPMSG_REQ_ITL_RENEW_REWARD
+struct PMSG_REQ_ITL_RENEW_REWARD
 {
 	PBMSG_HEAD2 h;
 	WORD wMapSvrNum;
 };
 
-struct _tagPMSG_REQ_ITL_GET_REWARDLIST
+struct PMSG_REQ_ITL_GET_REWARDLIST
 {
 	PBMSG_HEAD2 h;
 	WORD wMapSvrNum;
 };
 
-struct _tagPMSG_REQ_ITL_REWARD_GOTRECEIVED
+struct PMSG_REQ_ITL_REWARD_GOTRECEIVED
 {
 	PBMSG_HEAD2 h;
 	char CharName[MAX_ACCOUNT_LEN + 1];
