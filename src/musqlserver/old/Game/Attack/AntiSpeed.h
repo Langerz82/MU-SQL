@@ -1,9 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // AntiSpeed.h
-#ifndef ANTI_SPEED_H
-#define ANTI_SPEED_H
+#ifndef _ANTI_SPEED_H
+#define _ANTI_SPEED_H
 
 #include "StdAfx.h"
+#include "protocol.h"
 
 //#define USE_NEW_AH
 #define ATTACK_TOLERANCE 3

@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "./Custom/CustomEventDrop/CustomEventDrop.h"
+#include "CustomEventDrop.h"
 #include "DSProtocol.h"
 #include "MapClass.h"
 #include "MapServerManager.h"

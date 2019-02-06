@@ -109,6 +109,7 @@
 //#pragma comment(lib, "Comctl32.lib")
 //#pragma comment(lib, "mpir64.lib")
 
+/*
 #ifdef GS_AUTHORITY
 #include <WinlicenseSDK.h>
 #else
@@ -133,6 +134,7 @@
 #define CLEAR_START
 #define CLEAR_END
 #endif
+*/
 
 #define TEST_FIX_MUUN 0
 

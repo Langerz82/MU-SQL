@@ -3,7 +3,7 @@
 #ifndef ITEMSERIAL_H
 #define ITEMSERIAL_H
 
-#include "custTypedef.h"
+#include "StdAfx.h"
 
 class CItemSerial
 {
@@ -19,12 +19,13 @@ private:
 	UINT64 MakeSerial();
 	BOOL GetSerialFromDB(UINT64 & serial, int MakeSerialCount);
 
-	//CRITICAL_SECTION m_ItemSerialCriti;
+	CRITICAL_SECTION m_ItemSerialCriti;
 	UINT64 m_dwItemSerial;
 	UINT64 m_dwLastSerial;
 };
 
 extern CItemSerial g_ItemSerial;
+
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -37,10 +37,14 @@ typedef struct _WSAOVERLAPPED {
 	DWORD	 hEvent;
 } WSAOVERLAPPED, FAR * LPWSAOVERLAPPED;
 
+/*
+#ifndef WSABUF
 typedef struct _WSABUF {
-	ULONG len;     /* the length of the buffer */
-	_Field_size_bytes_(len) CHAR FAR *buf; /* the pointer to the buffer */
-} WSABUF, FAR * LPWSABUF;
+	ULONG len;
+	CHAR* buf;
+} WSABUF, *LPWSABUF;
+#endif
+*/
 
 /*
 #ifndef _SYSTEMTIME

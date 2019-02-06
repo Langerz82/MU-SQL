@@ -915,14 +915,14 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 
 			case MSG_DUEL_ANSWER:
 			{
-				LPPMSG_ANS_DUEL_ANSWER lpReq = (LPPMSG_ANS_DUEL_ANSWER)aRecv;
+				PMSG_ANS_DUEL_ANSWER* lpReq = (PMSG_ANS_DUEL_ANSWER*)aRecv;
 				int nRet = OnCGAnswerDuel(lpReq, aIndex);
 			}
 			break;
 
 			case MSG_DUEL_LEAVE:
 			{
-				LPPMSG_REQ_DUEL_EXIT lpReq = (LPPMSG_REQ_DUEL_EXIT)aRecv;
+				PMSG_REQ_DUEL_EXIT* lpReq = (PMSG_REQ_DUEL_EXIT*)aRecv;
 				int nRet = OnCGLeaveDuel(lpReq, aIndex);
 				if (nRet != ENEWPVP::E_NO_ERROR)
 				{
@@ -11857,14 +11857,14 @@ void GameProtocol::CGActionRecv(PMSG_ACTION * lpMsg, int aIndex)
 
 
 
-void GameProtocol::CGMagicAttack(LPBYTE lpRecv, int aIndex)
+void GameProtocol::CGMagicAttack(PMSG_MAGICATTACK* lpMsg, int aIndex)
 {
 	if (aIndex < 0 || aIndex > g_ConfigRead.server.GetObjectMax() - 1)
 	{
 		return;
 	}
 
-	PMSG_MAGICATTACK * lpMsg = (PMSG_MAGICATTACK *)(lpRecv);
+	//PMSG_MAGICATTACK * lpMsg = (PMSG_MAGICATTACK *)(lpRecv);
 
 	LPOBJ lpObj;
 	LPOBJ lpTargetObj;
@@ -13320,14 +13320,14 @@ void GameProtocol::CGBeattackRecv(unsigned char* lpRecv, int aIndex, int magic_s
 	}
 }
 
-void GameProtocol::CGDurationMagicRecv(LPBYTE lpRecv, int aIndex)
+void GameProtocol::CGDurationMagicRecv(PMSG_DURATION_MAGIC_RECV* lpMsg, int aIndex)
 {
 	if (aIndex < 0 || aIndex > g_ConfigRead.server.GetObjectMax() - 1)
 	{
 		return;
 	}
 
-	PMSG_DURATION_MAGIC_RECV * lpMsg = (PMSG_DURATION_MAGIC_RECV *)(lpRecv);
+	//PMSG_DURATION_MAGIC_RECV * lpMsg = (PMSG_DURATION_MAGIC_RECV *)(lpRecv);
 
 	CMagicInf * lpMagic;
 	LPOBJ lpObj = &gObj[aIndex];
@@ -19859,7 +19859,7 @@ void GameProtocol::GCPriceSend(int aIndex, BYTE type, SHOP_DATA *lpShopData)
 	}
 }
 
-int GameProtocol::OnCGInviteDuel(LPPMSG_REQ_DUEL_INVITE lpMsg, int aIndex)
+int GameProtocol::OnCGInviteDuel(PMSG_REQ_DUEL_INVITE* lpMsg, int aIndex)
 {
 	if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE)
 	{

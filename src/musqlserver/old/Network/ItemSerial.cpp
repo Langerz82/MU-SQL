@@ -2,7 +2,6 @@
 // ItemSerial.cpp
 
 #include "ItemSerial.h"
-#include "Common.h"
 #include "DSprotocol.h"
 
 CItemSerial g_ItemSerial;

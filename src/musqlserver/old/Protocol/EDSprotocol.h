@@ -14,11 +14,16 @@ using namespace std;
 
 #include "StdAfx.h"
 #include "ProtocolStructs.h"
-#include "GensSystemProtocol.h"
 #include "Fprotocol.h"
 #include "GuildClass.h"
 
 #define MAX_MEMBER_GUILD	80
+
+struct PARTYMATCHING_PARTYDATA;
+struct PARTYMATCHING_PARTYUSERDATA;
+struct GENS_USER;
+struct strCmp;
+
 
 class CPartyMatchingData
 {

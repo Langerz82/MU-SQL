@@ -8,7 +8,11 @@
 
 #include "StdAfx.h"
 #include "ItemManagement/Item.h"
-#include "Protocol/ProtocolStructs.h"
+
+#ifndef _MUPROTOCOLSTRUCTS_H
+#define _MUPROTOCOLSTRUCTS_H
+#include "protocolStructs.h"
+#endif
 
 #define TRACE_PACKET 0	
 #define CURRENT_DB_VERSION 3
@@ -19,6 +23,9 @@
 #define DATASERVER_VERSION "13.0.0.0"
 
 #define MAX_PLAYER_EQUIPMENT 12	// need to redo agin aññ with this macro
+
+struct DEFAULTCLASSTYPE;
+struct PMSG_ANS_CLASSDEF;
 
 enum DBClassNumber
 {

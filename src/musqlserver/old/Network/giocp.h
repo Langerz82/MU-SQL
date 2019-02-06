@@ -39,6 +39,39 @@ struct _PER_IO_CONTEXT
 
 }; 
 
+typedef struct tagIocpServerParameter
+{
+	DWORD dwServerCount;
+	eSERVER_TYPE eServerType;
+
+} IocpServerParameter;
+
+struct _PER_SOCKET_CONTEXT
+{
+	SOCKET m_socket;	// 0
+	int nIndex;	// 4
+	_PER_IO_CONTEXT IOContext[2];	// 8
+	int dwIOCount;	// 5E28
+};
+
+struct PacketQueue
+{
+	PacketQueue()
+	{
+		this->nSize = 0;
+		this->headcode = 0;
+		this->uindex = -1;
+		this->iSessionId = -1;
+	}
+
+	boost::shared_ptr<unsigned char[]> pData;
+	unsigned short nSize;
+	unsigned char headcode;
+	int uindex;
+	int iSessionId;
+};
+
+
 class CIOCP
 {
 public:
@@ -84,38 +117,6 @@ private:
 	DWORD IocpServerWorker(void * p);
 	DWORD ServerWorkerThread();
 
-};
-
-typedef struct tagIocpServerParameter
-{
-	DWORD dwServerCount;
-	eSERVER_TYPE eServerType;
-
-} IocpServerParameter;
-
-struct _PER_SOCKET_CONTEXT
-{
-	SOCKET m_socket;	// 0
-	int nIndex;	// 4
-	_PER_IO_CONTEXT IOContext[2];	// 8
-	int dwIOCount;	// 5E28
-}; 
-
-struct PacketQueue
-{
-	PacketQueue()
-	{
-		this->nSize = 0;
-		this->headcode = 0;
-		this->uindex = -1;
-		this->iSessionId = -1;
-	}
-
-	boost::shared_ptr<unsigned char[]> pData;
-	unsigned short nSize;
-	unsigned char headcode;
-	int uindex;
-	int iSessionId;
 };
 
 extern CRITICAL_SECTION scriti;

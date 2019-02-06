@@ -3,7 +3,7 @@
 #include "AntiSpeed.h"
 //#include "User/user.h"
 #include "ObjUseSkill.h"
-#include "protocol.h"
+//#include "protocol.h"
 //#include "Log/Log.h"
 
 
@@ -54,7 +54,7 @@ void CAttackRange::Process()
 	if(m_Type == 0)
 		GSProtocol.CGBeattackRecv(m_Msg, m_Obj->m_Index, FALSE);
 	else
-		GSProtocol.CGDurationMagicRecv((PMSG_DURATION_MAGIC_RECV *)m_Msg, m_Obj->m_Index);
+		GSProtocol.CGDurationMagicRecv((PMSG_DURATION_MAGIC_RECV*) m_Msg, m_Obj->m_Index);
 }
 
 
@@ -283,13 +283,13 @@ void CAttackMsg::Process()
 		GSProtocol.CGAttack((PMSG_ATTACK*)m_Msg, m_Obj->m_Index);
 		break;
 	case ATTACK_MAGIC:
-		GSProtocol.CGMagicAttack(m_Msg, m_Obj->m_Index);
+		GSProtocol.CGMagicAttack((PMSG_MAGICATTACK*)m_Msg, m_Obj->m_Index);
 		break;
 	case ATTACK_RANGE_OLD:
 		GSProtocol.CGBeattackRecv(m_Msg, m_Obj->m_Index, FALSE);
 		break;
 	case ATTACK_RANGE_NEW:
-		GSProtocol.CGDurationMagicRecv(m_Msg, m_Obj->m_Index);
+		GSProtocol.CGDurationMagicRecv((PMSG_DURATION_MAGIC_RECV*)m_Msg, m_Obj->m_Index);
 		break;
 	case ATTACK_RAGE_FIGHTER:
 		//
