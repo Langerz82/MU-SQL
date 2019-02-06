@@ -1,20 +1,19 @@
 ////////////////////////////////////////////////////////////////////////////////
 // AcheronGuardianEvent.cpp
 #include "stdafx.h"
-#include "./Eventos/AcheronGuardianEvent/AcheronGuardianEvent.h"
-#include "./Eventos/ArcaBattle/ArcaBattle.h"
-#include "TLog.h"
+#include "Event/AcheronGuardianEvent/AcheronGuardianEvent.h"
+#include "Event/ArcaBattle/ArcaBattle.h"
+//#include "TLog.h"
 #include "GameMain.h"
 #include "TNotice.h"
 #include "user.h"
 #include "protocol.h"
 #include "BagManager.h"
 #include "LargeRand.h"
-#include "winutil.h"
+//#include "winutil.h"
 #include "MapServerManager.h"
 #include "DSProtocol.h"
 #include "configread.h"
-#include "winutil.h"
 
 CAcheronGuardianEvent g_AcheronGuardianEvent;
 

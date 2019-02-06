@@ -152,53 +152,6 @@ struct PMSG_ANS_NOTIFYCSJOINSIDE
 	BYTE btCsJoinSide;
 };
 
-struct CSP_REQ_NPCUPDATEDATA
-{
-	PWMSG_HEAD h;
-	WORD wMapSvrNum;
-	int iCount;
-};
-
-struct CSP_NPCUPDATEDATA
-{
-	int iNpcNumber;
-	int iNpcIndex;
-	int iNpcDfLevel;
-	int iNpcRgLevel;
-	int iNpcMaxHp;
-	int iNpcHp;
-	BYTE btNpcX;
-	BYTE btNpcY;
-	BYTE btNpcDIR;
-};
-
-struct CSP_REQ_NPCSAVEDATA
-{
-	PWMSG_HEAD h;
-	WORD wMapSvrNum;
-	int iCount;
-};
-
-struct CSP_NPCSAVEDATA
-{
-	int iNpcNumber;
-	int iNpcIndex;
-	int iNpcDfLevel;
-	int iNpcRgLevel;
-	int iNpcMaxHp;
-	int iNpcHp;
-	BYTE btNpcX;
-	BYTE btNpcY;
-	BYTE btNpcDIR;
-};
-
-struct CSP_REQ_CSGUILDUNIONINFO
-{
-    PWMSG_HEAD h;
-    WORD wMapSvrNum;
-    int iCount;
-};
-
 struct PMSG_ANS_SENDMINIMAPDATA
 {
     PWMSG_HEAD h;
@@ -230,23 +183,6 @@ struct PMSG_NPCDBLIST
     BYTE btNpcY;
     BYTE btNpcLive;
 };
-
-#pragma pack (1)
-struct CSP_REQ_CSSAVETOTALGUILDINFO
-{
-	PWMSG_HEAD h;
-	WORD wMapSvrNum;
-	int iCount;
-};
-
-struct CSP_CSSAVETOTALGUILDINFO
-{
-	char szGuildName[8];
-	int iCsGuildID;
-	int iGuildInvolved;
-	int iGuildScore; //season 2.5 add-on
-};
-#pragma pack ()
 
 struct PMSG_ANS_NOTIFY_CROWNSWITCH_INFO
 {

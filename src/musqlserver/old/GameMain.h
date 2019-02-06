@@ -20,7 +20,7 @@
 #include "classdef.h"
 #include "CLoginCount.h"
 #include "Event/DragonEvent.h"
-#include "AttackEvent.h" // TODO include in project.
+#include "Event/AttackEvent/AttackEvent.h" // TODO include in project.
 #include "WhisperCash.h"
 //#include "WzUdp.h"
 #include "giocp.h"

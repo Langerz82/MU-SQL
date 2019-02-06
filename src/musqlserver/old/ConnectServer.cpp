@@ -6,10 +6,10 @@
 #include "IOCP.h"
 #include "Log/Log.h"
 #include "Engine.h"
-#include "WzUdp.h"
+//#include "WzUdp.h"
 #include "protocol.h"
 #include "ServerData.h"
-#include "wsJoinServerCli.h"
+//#include "wsJoinServerCli.h"
 #include "mdump.h"
 
 #define MAX_LOADSTRING 100

@@ -2,18 +2,18 @@
 // ConnectServer.h
 #pragma once
 
-#include "resource.h"
-#include "WzUdp.h"
-#include "wsJoinServerCli.h"
+//#include "resource.h"
+//#include "WzUdp.h"
+//#include "wsJoinServerCli.h"
 #include "IOCP.h"
 
 extern HWND hWnd;
-extern CIOCP IOCP;
+//extern CIOCP IOCP;
 extern WORD g_ConnectServerPort;
 extern WORD g_ConnectServerUDP;
 extern DWORD g_MaxConnectionsPerIP;
 extern DWORD g_MaxPacketPerSec;
-extern WzUdp g_UDPPort;
+//extern WzUdp g_UDPPort;
 extern WORD g_FTPPort;
 extern char g_HostURL[100];
 extern char g_FTPLogin[20];

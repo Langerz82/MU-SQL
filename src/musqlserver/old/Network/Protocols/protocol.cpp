@@ -238,19 +238,6 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 				break;
 			case 0x15: // by drakelv & wizzy
 			{
-				struct PMSG_CHARCHECK
-				{
-					PBMSG_HEAD2 h; // C1:15
-					char szName[MAX_ACCOUNT_LEN];
-				};
-
-				struct PMSG_CHARCHECK_RESULT
-				{
-					PBMSG_HEAD2 h; // C1:15
-					char szName[MAX_ACCOUNT_LEN];
-					BYTE bIsFromOtherAccount; // if i put 0x0e == 1 it pop's the selection screen
-				};
-
 				//C1 20 EC 29 00 00 00 00 00 00 00 00 1C 00 00 00 14 00 00 00 19 00 00 00 0A 00 00 00 FF 00 00 00 
 				PMSG_CHARCHECK_RESULT pMsg;
 
@@ -1702,11 +1689,6 @@ void GameProtocol::CGLiveClient(PMSG_CLIENTTIME * lpClientTime, short aIndex)
 }
 
 
-struct PMSG_CHECK_MAINEXE
-{
-	PBMSG_HEAD h;	// C1:03
-	WORD m_wKey;	// 4
-};
 
 
 void GameProtocol::GCCheckMainExeKeySend(int aIndex)
@@ -1917,19 +1899,6 @@ void GameProtocol::ChatTargetSend(LPOBJ lpObj, char * szChat, int senduser)
 
 	IOCP.DataSend(senduser, (UCHAR*)&pMsg, pMsg.h.size);
 }
-
-
-
-struct CHAT_LOG_DATA
-{
-	PBMSG_HEAD h;	// C1:02
-	WORD wServer;	// 4
-	char AccountID[11];	// 6
-	char Name[11];	// 11
-	BYTE btType;	// 1C
-	char szChatMsg[90];	// 1D
-	char szTargetName[5][11];	// 5A
-};
 
 void GameProtocol::PChatProc(PMSG_CHATDATA * lpChat, short aIndex)
 {
@@ -2389,11 +2358,6 @@ void GameProtocol::CGChatRecv(PMSG_CHATDATA_NUMBER * lpMsg, int aIndex)
 
 
 
-struct PMSG_SERVERMSG
-{
-	PBMSG_HEAD h;	// C1:0C
-	BYTE MsgNumber;	// 3
-};
 
 void GameProtocol::GCServerMsgSend(BYTE msg, int aIndex)
 {
@@ -2461,15 +2425,6 @@ void GameProtocol::GCServerMsgStringSendGuild(_GUILD_INFO_STRUCT* lpNode, LPSTR 
 		}
 	}
 }
-
-
-
-struct PMSG_EVENT
-{
-	PBMSG_HEAD h;	// C1:0B
-	BYTE State;	// 3
-	BYTE Event;	// 4
-};
 
 void GameProtocol::GCEventStateSend(int aIndex, BYTE state, BYTE event)
 {
@@ -2605,20 +2560,6 @@ void GameProtocol::CGChatWhisperRecv(PMSG_CHATDATA_WHISPER* lpMsg, int aIndex)
 		}
 	}
 }
-
-
-
-#pragma pack (1)
-struct PMSG_JOINRESULT
-{
-	PBMSG_HEAD h;	// C1:F1
-	BYTE scode;	// 3
-	BYTE result;	// 4
-	BYTE NumberH;	// 5
-	BYTE NumberL;	// 6
-	BYTE CliVersion[5];	// 7
-};
-#pragma pack ()
 
 void GameProtocol::SCPJoinResultSend(int aIndex, BYTE result)
 {
@@ -2792,13 +2733,6 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 	lpObj->m_btDestY = 0;
 }
 
-struct SDHP_BILLSEARCH
-{
-	PBMSG_HEAD h;	// C1:06
-	char Id[10];	// 3
-	short Number;	// E
-};
-
 void GameProtocol::GCJoinBillCheckSend(LPSTR AccountId, int aIndex)
 {
 	SDHP_BILLSEARCH pMsg;
@@ -2901,17 +2835,6 @@ void GameProtocol::CGClientMsg(PMSG_CLIENTMSG* lpMsg, int aIndex)
 
 	wsprintf(msg, "Client HackCheck %d", lpMsg->Flag);
 }
-
-struct SDHP_CREATECHAR
-{
-	PBMSG_HEAD h;	// C1:04
-	int UserNumber;	// 4
-	int DBNumber;	// 8
-	short Number;	// C
-	char AccountId[11];	// E
-	char Name[11];	// 18
-	BYTE ClassSkin;	// 22
-};
 
 void GameProtocol::CGPCharacterCreate(PMSG_CHARCREATE * lpMsg, int aIndex)
 {
@@ -3072,21 +2995,6 @@ void GameProtocol::CGPCharacterCreate(PMSG_CHARCREATE * lpMsg, int aIndex)
 		}
 	}
 }
-
-
-
-
-struct SDHP_CHARDELETE
-{
-	PBMSG_HEAD h;	// C1:05
-	short Number;	// 4
-	char AccountID[11];	// 6
-	char Name[11];	// 10
-	BYTE Guild;	// [0:NoGuild] [1:Master] [2:Member] 1A
-	char GuildName[8];	// 1B
-};
-
-
 
 void GameProtocol::CGPCharDel(PMSG_CHARDELETE * lpMsg, int aIndex)
 {
@@ -3253,26 +3161,6 @@ void GameProtocol::CGPCharacterMapJoinRequest(PMSG_CHARMAPJOIN * lpMsg, int aInd
 	wsDataCli.DataSend((char*)&pCRequest, pCRequest.h.size);
 }
 
-
-struct PMSG_LEVELUP
-{
-	PBMSG_HEAD h;	// C1:F3:05
-	BYTE subcode;	// 3
-	WORD Level;	// 4
-	WORD LevelUpPoint;	// 6
-	WORD MaxLife;	// 8
-	WORD MaxMana;	// A
-	WORD wMaxShield;	// C
-	WORD MaxBP;	// E
-	short AddPoint;	// 10
-	short MaxAddPoint;	// 12
-	short MinusPoint;	// 14
-	short MaxMinusPoint;	// 16
-	int IGCMaxLife;
-	int IGCMaxMana;
-};
-
-
 void GameProtocol::GCLevelUpMsgSend(int aIndex, int iSendEffect)
 {
 	if (!ObjectMaxRange(aIndex))
@@ -3376,16 +3264,6 @@ void GameProtocol::CGLevelUpPointAdd(PMSG_LVPOINTADD * lpMsg, int aIndex)
 	GSProtocol.GCPlayerStatsPanelRates(aIndex);
 }
 
-
-struct PMSG_INVENTORYITEMMODIFY
-{
-	PBMSG_HEAD h;	// C1:F3:14
-	BYTE subcode;	// 3
-	BYTE Pos;	// 4
-	BYTE ItemInfo[MAX_ITEM_INFO];	// 5
-
-};
-
 void GameProtocol::GCInventoryItemOneSend(int aIndex, int pos)
 {
 	if (!gObj[aIndex].pInventory[pos].IsItem())
@@ -3400,16 +3278,6 @@ void GameProtocol::GCInventoryItemOneSend(int aIndex, int pos)
 	IOCP.DataSend(aIndex, (UCHAR *)&pMsg, pMsg.h.size);
 }
 
-
-struct PMSG_PKLEVEL
-{
-	PBMSG_HEAD h;	// C1:F3:08
-	BYTE subcode;	// 3
-	BYTE NumberH;	// 4
-	BYTE NumberL;	// 5
-	BYTE PkLevel;	// 6
-};
-
 void GameProtocol::GCPkLevelSend(int aIndex, BYTE pklevel)
 {
 	PMSG_PKLEVEL pMsg;
@@ -3422,25 +3290,6 @@ void GameProtocol::GCPkLevelSend(int aIndex, BYTE pklevel)
 	IOCP.DataSend(aIndex, (UCHAR*)&pMsg, pMsg.h.size);
 	MsgSendV2(&gObj[aIndex], (UCHAR*)&pMsg, pMsg.h.size);
 }
-
-
-
-#pragma pack(1)
-struct PMSG_MAGICLIST	//Revised to 1.01.03
-{
-	char Pos;	// 0
-	WORD wSkillNum; //3
-	BYTE btSkillLevel;	// 5
-};
-#pragma pack()
-
-struct PMSG_MAGICLISTCOUNT
-{
-	PWMSG_HEAD h;
-	BYTE subcode;
-	BYTE Count;
-	BYTE btListType;
-};
 
 void GameProtocol::GCMagicListOneSend(int aIndex, char Pos, WORD type, BYTE level, WORD skill, BYTE btListType)
 {
@@ -3582,17 +3431,6 @@ void GameProtocol::GCMagicListMultiSend(LPOBJ lpObj, BYTE btListType)
 	IOCP.DataSend(lpObj->m_Index, sendbuf, lOfs);
 }
 
-
-
-struct PMSG_EQUIPMENTLIST
-{
-	PBMSG_HEAD h;	// C1:F3:13
-	BYTE subcode;	// 3
-	BYTE NumberH;	// 4
-	BYTE NumberL;	// 5
-	BYTE Equipment[CHAR_SET_SIZE];	// 6
-};
-
 void GameProtocol::GCEquipmentSend(int aIndex)
 {
 	PMSG_EQUIPMENTLIST pMsg;
@@ -3607,14 +3445,6 @@ void GameProtocol::GCEquipmentSend(int aIndex)
 	MsgSendV2(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-
-struct PMSG_RECALLMONLIFE
-{
-	PBMSG_HEAD h;	// C1:F3:20
-	BYTE subcode;	// 3
-	BYTE Life;	// 4
-};
-
 void GameProtocol::GCRecallMonLife(int aIndex, int maxlife, int life)
 {
 	if (maxlife <= 0)
@@ -3628,15 +3458,6 @@ void GameProtocol::GCRecallMonLife(int aIndex, int maxlife, int life)
 	IOCP.DataSend(aIndex, (UCHAR*)&pMsg, pMsg.h.size);
 }
 
-
-
-struct PMSG_TIMEVIEW
-{
-	PBMSG_HEAD h;	// C1:F3:22
-	BYTE subcode;	// 3
-	WORD Second;	// 4
-};
-
 void GameProtocol::GCTimeViewSend(int aIndex, int second)
 {
 	PMSG_TIMEVIEW pMsg;
@@ -3646,18 +3467,6 @@ void GameProtocol::GCTimeViewSend(int aIndex, int second)
 
 	IOCP.DataSend(aIndex, (UCHAR *)&pMsg, pMsg.h.size);
 }
-
-
-
-struct PMSG_GOALSEND
-{
-	PBMSG_HEAD h;	// C1:F3:23
-	BYTE subcode;	// 3
-	char RedTeamName[8];	// 4
-	BYTE RedTeamScore;	// C
-	char BlueTeamName[8];	// D
-	BYTE BlueTeamScore;	// 15
-};
 
 void GameProtocol::GCGoalSend(int aIndex, char* Name1, BYTE score1, char* Name2, BYTE score2)
 {
@@ -3671,8 +3480,6 @@ void GameProtocol::GCGoalSend(int aIndex, char* Name1, BYTE score1, char* Name2,
 
 	IOCP.DataSend(aIndex, (UCHAR*)&pMsg, pMsg.h.size);
 }
-
-
 
 void GameProtocol::GCSkillKeyRecv(PMSG_SKILLKEY * lpMsg, int aIndex)
 {
@@ -3688,10 +3495,6 @@ void GameProtocol::GCSkillKeyRecv(PMSG_SKILLKEY * lpMsg, int aIndex)
 		lpMsg->SkillKey, lpMsg->GameOption,
 		lpMsg->QkeyDefine, lpMsg->WkeyDefine, lpMsg->EkeyDefine, lpMsg->ChatWindow, lpMsg->RkeyDefine, ntohl(lpMsg->QWERLevel), gObj[aIndex].m_PlayerData->m_EnableUseChangeSkin);
 }
-
-
-
-
 
 void GameProtocol::GCSkillKeySend(int aIndex, LPBYTE keybuffer, BYTE GO, BYTE Qk, BYTE Wk, BYTE Ek, BYTE ChatWnd, BYTE Rk, int QWER)
 {
@@ -3709,18 +3512,6 @@ void GameProtocol::GCSkillKeySend(int aIndex, LPBYTE keybuffer, BYTE GO, BYTE Qk
 
 	IOCP.DataSend(aIndex, (UCHAR*)&pMsg, pMsg.h.size);
 }
-
-
-struct PMSG_ITEMGETRESULT
-{
-	PBMSG_HEAD h;	// C1:22
-	BYTE result;	// [0xFE:Money] 3
-	BYTE i;
-	BYTE ii;
-	BYTE Data[MAX_ITEM_INFO];	// 4
-	BYTE x;
-	BYTE xx;
-};
 
 void GameProtocol::GCMoneySend(int aIndex, DWORD money)
 {
@@ -5491,20 +5282,6 @@ bool GameProtocol::CGItemDropRequest(PMSG_ITEMTHROW * lpMsg, int aIndex, BOOL dr
 	return pResult.Result;
 }
 
-
-
-
-
-
-struct PMSG_INVENTORYITEMMOVE_RESULT
-{
-	PBMSG_HEAD h;	// C3:24
-	BYTE result;	// 3
-	BYTE Pos;	// 4
-	BYTE ItemInfo[MAX_ITEM_INFO];	// 5
-};
-
-
 void GameProtocol::GCItemMoveResultSend(int aIndex, BYTE result, BYTE pos, LPBYTE const ItemInfo)
 {
 	PMSG_INVENTORYITEMMOVE_RESULT pMsg;
@@ -5529,9 +5306,6 @@ void GameProtocol::GCItemMoveResultSend(int aIndex, BYTE result, BYTE pos, LPBYT
 
 	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
-
-
-
 
 void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, int aIndex)
 {

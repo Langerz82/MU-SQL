@@ -3,7 +3,7 @@
 #ifndef AUTHORIZATION_H
 #define AUTHORIZATION_H
 
-#include "wsJoinServerCli.h"
+//#include "wsJoinServerCli.h"
 
 #define MAX_AUTH_SERVERS 2
 #define AUTH_PORT 52854 // IGC
@@ -280,7 +280,7 @@ private:
 
 	CRsa * m_RSA;
 	CPublicRsaKey * m_AuthKey;
-	wsJoinServerCli m_AuthServer;
+	//wsJoinServerCli m_AuthServer;
 	BYTE m_btAuthServerID;
 	BYTE m_KeyTable[20];
 };

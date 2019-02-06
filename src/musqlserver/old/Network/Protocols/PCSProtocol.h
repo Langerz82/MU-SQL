@@ -3,70 +3,11 @@
 #ifndef PCSPROTOCOL_H__
 #define PCSPROTOCOL_H__
 
-//#include "..\common\zzzitem.h"
+#include "StdAfx.h"
+#include "ProtocolStructs.h"
 
 #define MAX_NTF_TRANSACTIONS	16
 
-#pragma pack(1)
-struct sellItemPrice
-{
-	DWORD dwPriceGuid;	// 0
-	DWORD dwItemGuid;	// 4
-	DWORD dwUseTime;	// 8
-	DWORD dwAmount;	// C
-	DWORD dwPrice;	// 10
-	DWORD dwSellRate;	// 14
-};
-
-struct sellItem
-{
-	DWORD dwItemGuid;	// 0
-	DWORD dwItemCODE;	// 4
-	DWORD dwCategoryID;	// 8
-	DWORD dwUseType;	// C
-	DWORD dwBuyType;	// 10
-	DWORD dwCoolTime;	// 14
-	double dbVarEndDate;	// 18
-	DWORD dwLimitSellCount;	// 20
-	DWORD dwState;	// 24
-	char szItemName[64];	// 28
-	char szItemDesc[128];	// 68
-	DWORD dwPriceCount;	// E8
-	sellItemPrice itemPrice[8];	// EC
-};
-
-struct sellPackage
-{
-	DWORD dwPackageGuid;	// 0
-	sellItemPrice itemPrice;	// 4
-	DWORD dwImageCode;	// 1C
-	DWORD dwCategory;	// 20
-	DWORD dwBuyType;	// 24
-	DWORD dwLimitSellCount;	// 28
-	DWORD dwInItemCount;	// 2C
-	double dbVarEndDate;	// 30
-	DWORD dwState;	// 38
-	sellItemPrice inItemPrices[16];	// 3C
-	char szPackageName[64];	// 1BC
-	char szPackageDesc[128];	// 1FC
-};
-
-struct buyItemTransaction
-{
-	DWORD dwTransactionGuid;	// 0
-	DWORD dwPriceGuid;	// 4
-	DWORD dwResult;	// 8
-};
-
-struct itemBranch
-{
-	DWORD dwBranchID;	// 0
-	DWORD dwGuid;	// 4
-	DWORD dwItemType;	// 8
-};
-
-
-#pragma pack()
 
 
 namespace protocol

@@ -202,16 +202,6 @@ struct PENTAGRAM_SOCKET_RATE_BY_GRADE
 	int SocketRate[5];
 };
 
-#pragma pack (1)
-struct PMSG_ANS_PENTAGRAMJEWEL
-{
-	PWMSG_HEAD h;
-	BYTE btJewelCnt;
-	int iUserIndex;
-	int iAnsType;
-};
-#pragma pack ()
-
 enum
 {
 	ELEMENT_NONE = 0,
