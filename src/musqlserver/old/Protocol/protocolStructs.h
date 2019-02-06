@@ -8,7 +8,6 @@
 
 #include "StdAfx.h"
 #include "GensSystemProtocol.h"
-//#include "User/user.h"
 
 #include <string>
 #include <map>
@@ -965,11 +964,11 @@ struct ServerInfo;
 struct ServerList;
 struct STAT_BONUS;
 struct stMemberPosInfo;
-struct tagGUILD_INFO_STRUCT;
-struct tagJOIN_SERVER_SERVER_DATA;
-struct tagJOIN_SERVER_USER_DATA;
-struct tagUNION_DATA;
-struct tagUSER_DATA;
+struct GUILD_INFO_STRUCT;
+struct JOIN_SERVER_SERVER_DATA;
+struct JOIN_SERVER_USER_DATA;
+struct UNION_MEMBER_DATA;
+struct USER_CONNECT_DATA;
 struct USERWAREHOUSE_DATA;
 
 
@@ -8221,7 +8220,7 @@ struct strCmp
 	}
 };
 
-typedef struct tagGUILD_INFO_STRUCT {
+typedef struct GUILD_INFO_STRUCT {
 	int m_iNumber;
 	char m_szGuildName[9];
 	char m_szGuildMaster[11];
@@ -8248,7 +8247,7 @@ typedef struct tagGUILD_INFO_STRUCT {
 	}
 } GUILD_INFO_STRUCT, *LPGUILD_INFO_STRUCT;
 
-struct tagJOIN_SERVER_SERVER_DATA {
+struct JOIN_SERVER_SERVER_DATA {
 	int m_ServerIndex;
 	char m_szServerName[50];
 	WORD m_wServerCode;
@@ -8259,7 +8258,7 @@ struct tagJOIN_SERVER_SERVER_DATA {
 	WORD m_MaxHWIDUseCount;
 };
 
-struct tagJOIN_SERVER_USER_DATA {
+struct JOIN_SERVER_USER_DATA {
 	char m_AccoundID[11];
 	char m_HWID[100];
 	WORD m_ServerCode;
@@ -8277,11 +8276,13 @@ struct tagJOIN_SERVER_USER_DATA {
 	char IpAddr[17];
 };
 
-typedef struct tagUNION_DATA {
+typedef struct UNION_MEMBER_DATA {
 	std::vector<int> m_vecUnionMember;
-} UNION_DATA, *LPUNION_DATA;
+} UNION_MEMBER_DATA, *LPUNION_MEMBER_DATA;
 
-struct tagUSER_DATA {
+#pragma pack(1)
+struct USER_CONNECT_DATA
+{
 	PMSG_ANS_MAPSVRMOVE pMapServerMoveData;
 	int iUserNumber;
 	DWORD dwTick;
@@ -8289,6 +8290,7 @@ struct tagUSER_DATA {
 	DWORD dwSecurityCode;
 	char szPassword[20];
 };
+#pragma pack()
 
 struct USERWAREHOUSE_DATA {
 	char szAccountID[MAX_ACCOUNT_LEN + 1];

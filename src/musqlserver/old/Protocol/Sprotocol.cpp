@@ -2,15 +2,16 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-//#include "StdAfx.h"
 #include "Sprotocol.h"
 #include "giocp.h"
-//#include "Log/Log.h"
-#include "util.h"
-#include "MD5.h"
-#include "WzUdp.h"
+#include "Utility/util.h"
+#include "RSA/MD5.h"
 #include "ServerEngine.h"
-#include "md5_hash.h"
+#include "RSA/md5_hash.h"
+
+struct SDHP_IDPASSRESULT;
+struct USER_CONNECT_DATA;
+
 
 CLoginServerData::CLoginServerData()
 {
@@ -199,14 +200,14 @@ void CLoginUserData::MuLoginDeleteMapMove(char * szAccountID)
 {
 	EnterCriticalSection(&this->critUserData);
 
-	tagUSER_DATA pDataUser;
-	std::vector<tagUSER_DATA>::iterator it;
+	USER_CONNECT_DATA pDataUser;
+	std::vector<USER_CONNECT_DATA>::iterator it;
 
 	if(!this->m_vecMapMove.empty())
 	{
 		for(it = this->m_vecMapMove.begin(); it != this->m_vecMapMove.end() ; )
 		{
-			pDataUser = tagUSER_DATA(*it);
+			pDataUser = USER_CONNECT_DATA(*it);
 
 			if (tolower(pDataUser.pMapServerMoveData.szAccountID[0]) == tolower(szAccountID[0]) )
 			{
@@ -280,14 +281,14 @@ BOOL CLoginUserData::CheckMoveTimeOut(char * szAccountID)
 	int bDelete = FALSE;
 	EnterCriticalSection(&this->critUserData);
 
-	tagUSER_DATA pDataUser;
-	std::vector<tagUSER_DATA>::iterator it;
+	USER_CONNECT_DATA pDataUser;
+	std::vector<USER_CONNECT_DATA>::iterator it;
 
 	if(!this->m_vecMapMove.empty())
 	{
 		for(it = this->m_vecMapMove.begin(); it != this->m_vecMapMove.end() ; it++)
 		{
-			pDataUser = tagUSER_DATA(*it);
+			pDataUser = USER_CONNECT_DATA(*it);
 
 			if (tolower(pDataUser.pMapServerMoveData.szAccountID[0]) != tolower(szAccountID[0]) )
 				continue;
@@ -309,7 +310,8 @@ BOOL CLoginUserData::CheckMoveTimeOut(char * szAccountID)
 	if(bDelete == TRUE)
 	{
 		sLog.outBasic("[JoinServer] Account has timeout for MapServerMove (%s)", szAccountID);
-		return m_JSProtocol.DisconnectPlayer(szAccountID);
+		//return m_JSProtocol.DisconnectPlayer(szAccountID);
+		return TRUE;
 	}
 
 	return FALSE;
@@ -670,7 +672,7 @@ void CLoginServerProtocol::JGPAccountRequest(int aIndex, SDHP_IDPASS * aRecv)
 			{
 
 
-				if ( Result == false )
+				if (false) // stub
 				{
 					pResult.result = 2;
 					bErrorFlag = TRUE;
@@ -765,7 +767,8 @@ void CLoginServerProtocol::JGPAccountRequest(int aIndex, SDHP_IDPASS * aRecv)
 
 
 
-
+					int VIP = 0; // stub
+					int Type = 0; // stub
 
 					if(VIP == 0)
 					{
@@ -785,10 +788,7 @@ void CLoginServerProtocol::JGPAccountRequest(int aIndex, SDHP_IDPASS * aRecv)
 
 				if(bErrorFlag == FALSE)
 				{
-
-
-
-					if ( btResult == SQL_SUCCESS )
+					if (false) // stub
 					{
 						pResult.result = 5;
 						bErrorFlag = TRUE;

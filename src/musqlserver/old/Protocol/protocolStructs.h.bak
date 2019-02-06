@@ -8421,10 +8421,10 @@ typedef struct GENS_USER
 	int	 iReward;
 } GENS_USER;
 
-typedef struct tagUNION_DATA
+typedef struct tagUNION_MEMBER_DATA
 {
 	std::vector<int>	m_vecUnionMember;
-}UNION_DATA, *LPUNION_DATA;
+}UNION_MEMBER_DATA, *LPUNION_MEMBER_DATA;
 
 #pragma pack ()
 

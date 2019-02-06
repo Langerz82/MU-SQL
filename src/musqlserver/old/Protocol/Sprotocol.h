@@ -11,7 +11,7 @@
 
 #include "StdAfx.h"
 #include "ProtocolStructs.h"
-#include "GensSystemProtocol.h"
+#include "WzUdp.h"
 
 #include "MapServerManager.h"
 
@@ -44,6 +44,24 @@ extern void MuLoginDeleteMapMove(char * szAccountID);
 #define EVENTINFO_RELOAD	4
 #define ETCINFO_RELOAD		5
 #define OPTION_CONTROL		6
+
+struct JOIN_SERVER_SERVER_DATA;
+struct JOIN_SERVER_USER_DATA;
+struct SDHP_SERVERINFO;
+struct SDHP_IDPASS;
+struct SDHP_JOINFAIL;
+struct SDHP_COMMAND_BLOCK;
+struct SDHP_USERCLOSE_ID;
+struct SDHP_BILLSEARCH;
+struct SDHP_LOVEHEARTEVENT;
+struct SDHP_LOVEHEARTCREATE;
+struct PMSG_REQ_MAPSVRMOVE;
+struct PMSG_REQ_MAPSVRAUTH;
+struct PMSG_NOTIFY_MAXUSER;
+struct PMSG_SET_OFFTRADE;
+struct SDHP_USERCLOSE_ID;
+struct ISHOP_VIP_BUY;
+struct USER_CONNECT_DATA;
 
 class CLoginServerData
 {
@@ -97,7 +115,7 @@ public:
 
 private:
 
-	tagJOIN_SERVER_SERVER_DATA m_MuLoginServerData[MAX_LOGIN_SERVER];
+	JOIN_SERVER_SERVER_DATA m_MuLoginServerData[MAX_LOGIN_SERVER];
 	int m_MuLoginServerDataCount;
 
 };
@@ -125,8 +143,8 @@ public:
 	bool CheckHWIDLimit_Group(WORD ServerGroup, LPSTR szHWID);
 	bool CheckHWIDLimit_Local(WORD ServerCode, LPSTR szHWID, DWORD HWIDMaxUse);
 
-	//CRITICAL_SECTION critUserData;
-	std::vector<tagUSER_DATA> m_vecMapMove;
+	CRITICAL_SECTION critUserData;
+	std::vector<USER_CONNECT_DATA> m_vecMapMove;
 
 	void IncUserNumber()
 	{
@@ -204,7 +222,7 @@ public:
 	}
 	int m_MuLoginUserDataCount;
 private:
-	tagJOIN_SERVER_USER_DATA m_MuLoginUserData[MAX_LOGIN_USER];
+	JOIN_SERVER_USER_DATA m_MuLoginUserData[MAX_LOGIN_USER];
 	int m_iUserNumber;
 };
 
@@ -241,9 +259,9 @@ private:
 	static unsigned long __stdcall ConnectServerThread(LPVOID);
 	void InsertDataMuLog(LPSTR ServerName, LPSTR Id, LPSTR Ip, LPSTR State, LPSTR HWID);
 
-	//CRITICAL_SECTION userCheck;
+	CRITICAL_SECTION userCheck;
 	char m_Salt[30];
-	//WzUdp m_ConnecServerUDP;
+	WzUdp m_ConnecServerUDP;
 
 
 

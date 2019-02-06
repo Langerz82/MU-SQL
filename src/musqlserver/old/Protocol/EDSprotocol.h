@@ -48,7 +48,7 @@ struct FCHP_CHATROOM_CREATE_RESULT;
 struct FHP_FRIEND_INVITATION_REQ;
 struct _GUILD_INFO_STRUCT;
 struct _GUILD_MEMBER;
-struct UNION_DATA;
+struct UNION_MEMBER_DATA;
 struct _GUILD_INFO_STRUCT;
 struct _stReqGuildMatchingList;
 struct _stReqGuildMatchingListSearchWord;
@@ -215,7 +215,7 @@ private:
 	_GUILD_INFO_STRUCT* GetGuild(int iNumber);
 	_GUILD_MEMBER* GetGuildMember(char *szGuild, char *szName);
 	_GUILD_MEMBER* GetGuildMember(int nGuildNumber, char *szName);
-	UNION_DATA* GetUnionData(int iGuild);
+	UNION_MEMBER_DATA* GetUnionData(int iGuild);
 
 	int GetGuildMemberCount(char *szGuild);
 	int GetGuildMemberCount(int nGuildNumber);
@@ -304,7 +304,7 @@ private:
 	void AutoAddPartyMember(char *szLeaderName, char *szMemberName, int nUserIndex, int nServerIndex);
 
 	std::map<std::string, _GUILD_INFO_STRUCT,strCmp> m_MapGuildManager;
-	std::map<int, UNION_DATA> m_MapUnionManager;
+	std::map<int, UNION_MEMBER_DATA> m_MapUnionManager;
 
 	GensSystem_EDS				m_GensSystemEDS;
 	CFriendSystem				m_FriendSystemEDS;

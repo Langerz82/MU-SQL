@@ -130,9 +130,9 @@ BOOL CExDataServerProtocol::GuildMemberExists(char *szGuild, char *szName)
 		return FALSE;
 }
 
-LPUNION_DATA CExDataServerProtocol::GetUnionData(int iGuild)
+LPUNION_MEMBER_DATA CExDataServerProtocol::GetUnionData(int iGuild)
 {
-	std::map<int, tagUNION_DATA>::iterator it;
+	std::map<int, tagUNION_MEMBER_DATA>::iterator it;
 	it = this->m_MapUnionManager.find(iGuild);
 	if(it == this->m_MapUnionManager.end())
 		return NULL;
@@ -1857,7 +1857,7 @@ BOOL CExDataServerProtocol::CreateRelationShipData(int iGuild)
 	if(GetUnionData(iGuild))
 		return FALSE;
 
-	UNION_DATA ud;
+	UNION_MEMBER_DATA ud;
 	ud.m_vecUnionMember.push_back(iGuild);
 
 	this->m_MapUnionManager[iGuild] = ud;
@@ -1998,7 +1998,7 @@ void CExDataServerProtocol::DGUnionListRecv(int aIndex, EXSDHP_UNION_LIST_REQ * 
 	EXSDHP_UNION_LIST *lpList;
 	EXSDHP_UNION_LIST_COUNT *lpListCnt;
 
-	LPUNION_DATA lpUD = NULL;
+	LPUNION_MEMBER_DATA lpUD = NULL;
 	int cnt = 0, size, res = 0;
 
 	sLog.outBasic("[Union List Request] UnionMasterGuild Number: [%d]", aRecv->iUnionMasterGuildNumber);
@@ -2030,7 +2030,7 @@ void CExDataServerProtocol::DGUnionListRecv(int aIndex, EXSDHP_UNION_LIST_REQ * 
 
 	if(lpGuild && cnt != 0)
 	{
-		LPUNION_DATA lpUD;
+		LPUNION_MEMBER_DATA lpUD;
 		if(lpGuild->m_iUnionGuild)
 			lpUD = GetUnionData(lpGuild->m_iUnionGuild);
 		else
@@ -2053,7 +2053,7 @@ void CExDataServerProtocol::DGUnionListRecv(int aIndex, EXSDHP_UNION_LIST_REQ * 
 				if(lpG == NULL)
 					continue;
 
-				LPUNION_DATA lpUD2;
+				LPUNION_MEMBER_DATA lpUD2;
 				if(lpG->m_iUnionGuild)
 					lpUD2 = GetUnionData(lpG->m_iUnionGuild);
 				else
@@ -2275,7 +2275,7 @@ BOOL CExDataServerProtocol::AddUnion(int iReqGuild, int iTargGuild)
 	if(iReqGuild == iTargGuild)
 		return FALSE;
 
-	LPUNION_DATA lpUD = GetUnionData(iTargGuild);
+	LPUNION_MEMBER_DATA lpUD = GetUnionData(iTargGuild);
 	if(lpUD == NULL)
 	{
 		if(iTargGuild)
@@ -2299,7 +2299,7 @@ BOOL CExDataServerProtocol::KickUnion(GUILD_INFO_STRUCT lpMasterGuild, GUILD_INF
 	if(lpMasterGuild->m_iNumber == lpKickGuild->m_iNumber)
 		return FALSE;
 
-	LPUNION_DATA lpUD = GetUnionData(lpMasterGuild->m_iNumber);
+	LPUNION_MEMBER_DATA lpUD = GetUnionData(lpMasterGuild->m_iNumber);
 	if(lpUD == NULL)
 		return FALSE;
 	
@@ -2371,7 +2371,7 @@ void CExDataServerProtocol::DGRelationShipListSend(int aIndex, int iGuild, int r
 
 	if(relation_type == 1)
 	{
-		LPUNION_DATA lpUD = GetUnionData(lpGuild->m_iNumber);
+		LPUNION_MEMBER_DATA lpUD = GetUnionData(lpGuild->m_iNumber);
 		if(lpUD == NULL)
 		{
 			sLog.outBasic("[RelationShip List Send] error: No union data for Guild [%s].", lpGuild->m_szGuildName);
@@ -2389,7 +2389,7 @@ void CExDataServerProtocol::DGRelationShipListSend(int aIndex, int iGuild, int r
 	else if(relation_type == 2)
 	{
 
-		LPUNION_DATA lpUD = GetUnionData(lpGuild->m_iNumber);
+		LPUNION_MEMBER_DATA lpUD = GetUnionData(lpGuild->m_iNumber);
 		if(lpUD == NULL)
 		{
 			sLog.outBasic("[RelationShip List Send] error: No union data for Guild [%s].", lpGuild->m_szGuildName);
@@ -2416,7 +2416,7 @@ void CExDataServerProtocol::DGRelationShipListSend(int aIndex, int iGuild, int r
 			if(lpG == NULL)
 				continue;
 
-			LPUNION_DATA lpUD2 = NULL;
+			LPUNION_MEMBER_DATA lpUD2 = NULL;
 
 			// get allies of rival guild
 			if(lpG->m_iUnionGuild)
@@ -2446,7 +2446,7 @@ void CExDataServerProtocol::DGRelationShipListSend(int aIndex, int iGuild, int r
 /*
 		if(lpGuild->m_iRivalGuild)
 		{
-			LPUNION_DATA lpUD = GetUnionData(lpGuild->m_iRivalGuild);
+			LPUNION_MEMBER_DATA lpUD = GetUnionData(lpGuild->m_iRivalGuild);
 			if(lpUD == NULL)
 				return;
 
@@ -2507,7 +2507,7 @@ void CExDataServerProtocol::DGRelationShipNotificationSend(int iGuild, int iUpda
 
 	sLog.outBasic("[RelationShip Notification Send] UnionMasterGuild: [%d].", iGuild);
 
-	LPUNION_DATA lpUD;
+	LPUNION_MEMBER_DATA lpUD;
 
 	lpUD = GetUnionData(iGuild);
 	if(lpUD == NULL)
@@ -2612,7 +2612,7 @@ void CExDataServerProtocol::SendListToAllRivals(GUILD_INFO_STRUCT lpGuild)
 	if(lpGuild == NULL)
 		return;
 
-	LPUNION_DATA lpUD = GetUnionData(lpGuild->m_iNumber);
+	LPUNION_MEMBER_DATA lpUD = GetUnionData(lpGuild->m_iNumber);
 	if(lpUD == NULL)
 		return;
 

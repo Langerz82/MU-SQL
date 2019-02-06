@@ -13,6 +13,7 @@
 //#include "ServerEngine.h"
 #include "Main.cpp"
 #include "DataServer/DelayHandler.h"
+#include "CQueue.h"
 
 //#define szModule "GIocp"
 
@@ -29,13 +30,13 @@ SOCKET g_Listen[MAX_SERVER_TYPE] = {INVALID_SOCKET,
 									INVALID_SOCKET,
 									INVALID_SOCKET};
 
-//CQueue m_DSQueue1;
-//CQueue m_DSQueue2;
-//CQueue m_DSQueue3;
-//CQueue m_DSQueue4;
-//CQueue m_DSQueue5;
-//CQueue m_JSQueue;
-//CQueue m_EXDSQueue;
+CQueue m_DSQueue1;
+CQueue m_DSQueue2;
+CQueue m_DSQueue3;
+CQueue m_DSQueue4;
+CQueue m_DSQueue5;
+CQueue m_JSQueue;
+CQueue m_EXDSQueue;
 
 DWORD WINAPI ServerRecvWorkerThread_DS_Q1(DWORD p);
 DWORD WINAPI ServerRecvWorkerThread_DS_Q2(DWORD p);

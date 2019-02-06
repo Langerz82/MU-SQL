@@ -427,6 +427,8 @@ enum EVENTENTRY_TYPE
 
 #include "ViewPortGuild.h"
 
+class CAttackQueue;
+
 typedef union tagPATHTABLE
 {
 	short sPathTable[16];

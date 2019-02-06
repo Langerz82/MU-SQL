@@ -7,9 +7,7 @@
 // GS-N 0.99.60T 0x00477D6B Status : Completed
 // GS-N	1.00.18	JPN	0x0048E8D0 - Completed - Error on WzUdpRecvThread 
 
-#include "stdafx.h"
 #include "WzUdp.h"
-
 
 #define WZ_UPD_WINSOCK_VERSION 0x202
 
@@ -78,7 +76,7 @@ int WzUdp::CreateSocket()
 	return 1;
 }
 
-int WzUdp::SendSet(char* ip, int port)
+int WzUdp::SendSet(LPSTR ip, int port)
 {
 	this->m_Port = port;
 	this->m_SockAddr.sin_family=AF_INET;
