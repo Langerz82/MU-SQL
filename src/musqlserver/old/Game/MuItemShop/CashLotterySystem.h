@@ -8,7 +8,7 @@
 #endif // _MSC_VER > 1000
 
 #include "TRandomPoolMgr.h"
-#include "Item/Item.h"
+#include "ItemManagement/Item.h"
 
 #define MAX_LOTTERY_ITEM_CATEGORY	23
 #define MAX_LOTTERY_ITEM_COUNT	130

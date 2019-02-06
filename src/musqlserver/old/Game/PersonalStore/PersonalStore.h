@@ -4,7 +4,7 @@
 #define PERSONALSTORE_H
 
 #include "prodef.h"
-#include "Item/Item.h"
+#include "ItemManagement/Item.h"
 #include "User/user.h"
 
 #pragma once

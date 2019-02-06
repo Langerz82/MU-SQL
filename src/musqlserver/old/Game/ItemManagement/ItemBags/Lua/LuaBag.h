@@ -10,7 +10,7 @@
 #include "StdAfx.h"
 #include "Bag/Bag.h"
 #include "Lua/MuLua.h"
-#include "Item/Item.h"
+#include "ItemManagement/Item.h"
 #include "GremoryCase.h"
 
 #define MAX_ITEM_VARIABLES 29

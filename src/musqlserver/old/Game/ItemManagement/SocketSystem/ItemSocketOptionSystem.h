@@ -10,7 +10,7 @@
 #endif // _MSC_VER > 1000
 
 #include "itemsocketoptiondefine.h"
-#include "Item/Item.h"
+#include "ItemManagement/Item.h"
 #include "TRandomPoolMgr.h"
 #include "ItemSeedSphere.h"
 

@@ -2,7 +2,7 @@
 // UpgradeCmd.cpp
 #include "StdAfx.h"
 #include "UpgradeCmd.h"
-#include "Item/Item.h"
+#include "ItemManagement/Item.h"
 #include "Log/Log.h"
 #include "User/user.h"
 #include "DSProtocol.h"

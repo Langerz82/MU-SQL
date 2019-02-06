@@ -11,8 +11,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "Common.h"
-#include "CQueue.h"
+#include "StdAfx.h"
+//#include "CQueue.h"
 
 enum eSERVER_TYPE
 {
@@ -38,6 +38,53 @@ struct _PER_IO_CONTEXT
 	int nWaitIO; // 2F0C
 
 }; 
+
+class CIOCP
+{
+public:
+
+	void GiocpInit();
+	void GiocpDelete();
+	bool CreateGIocp(int server_port);
+	void DestroyGIocp();
+	bool CreateListenSocket();
+	bool RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex);
+	bool DataSend(int aIndex, unsigned char* lpMsg, DWORD dwSize, bool Encrypt = true);
+	bool IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext);
+	bool IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext);
+	bool UpdateCompletionPort(SOCKET sd, int ClientIndex, BOOL bAddToList);
+	void CloseClient(_PER_SOCKET_CONTEXT * lpPerSocketContext, int result);
+	void CloseClient(int index);
+	void ResponErrorCloseClient(int index);
+
+private:
+
+	unsigned char* ExSendBuf;
+	int g_ServerPort;
+	HANDLE g_IocpThreadHandle;
+	HANDLE g_ThreadHandles[MAX_IO_THREAD_HANDLES];
+	CRITICAL_SECTION criti;
+	enum SOCKET_FLAG;
+	DWORD g_dwThreadCount;
+	HANDLE g_CompletionPort;
+	SOCKET g_Listen;
+
+	static void IocpServerWorkerEP(void *pThis)
+	{
+		CIOCP *pt = (CIOCP*)pThis;
+		pt->IocpServerWorker(pThis);
+	}
+
+	static void ServerWorkerThreadEP(void *pThis)
+	{
+		CIOCP *pt = (CIOCP*)pThis;
+		pt->ServerWorkerThread();
+	}
+
+	DWORD IocpServerWorker(void * p);
+	DWORD ServerWorkerThread();
+
+};
 
 typedef struct tagIocpServerParameter
 {
@@ -88,6 +135,7 @@ void CloseClient(_PER_SOCKET_CONTEXT * lpPerSocketContext, int result);
 void CloseClient(int index);
 void ResponErrorCloseClient(int index);
 
+/*
 extern CQueue m_DSQueue1;
 extern CQueue m_DSQueue2;
 extern CQueue m_DSQueue3;
@@ -95,6 +143,8 @@ extern CQueue m_DSQueue4;
 extern CQueue m_DSQueue5;
 extern CQueue m_JSQueue;
 extern CQueue m_EXDSQueue;
+*/
+extern CIOCP IOCP;
 
 #endif
 

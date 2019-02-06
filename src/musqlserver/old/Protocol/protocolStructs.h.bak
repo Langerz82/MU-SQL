@@ -8377,7 +8377,7 @@ typedef struct _GUILD_MEMBER
 		m_btConnected = -1;
 		m_iUserIndex = -1;
 	}
-}GUILD_MEMBER, *LPGUILD_MEMBER;
+}GUILD_MEMBER, *GUILD_MEMBER;
 
 typedef map<string, GUILD_MEMBER, strCmp> MAP_GUILD_MEMBER;
 
@@ -8410,7 +8410,7 @@ typedef struct tagGUILD_INFO_STRUCT
 		m_bGSHasData = FALSE;
 	}
 
-}GUILD_INFO_STRUCT, *LPGUILD_INFO_STRUCT;
+}GUILD_INFO_STRUCT, *GUILD_INFO_STRUCT;
 
 typedef struct GENS_USER
 {

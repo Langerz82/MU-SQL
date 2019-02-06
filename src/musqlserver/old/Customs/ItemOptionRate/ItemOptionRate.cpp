@@ -6,7 +6,7 @@
 
 #include "StdAfx.h"
 #include "ItemOptionRate.h"
-#include "Item/Item.h"
+#include "ItemManagement/Item.h"
 #include "MemScript.h"
 #include "PentagramSystem.h"
 #include "RandomManager.h"

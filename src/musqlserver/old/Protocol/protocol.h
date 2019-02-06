@@ -143,7 +143,7 @@ public:
 	void GCMagicAttackNumberSend(LPOBJ lpObj, WORD MagicNumber, int usernumber, unsigned char skillsuccess);
 	void GCMonkMagicAttack(LPOBJ lpObj, WORD MagicNumber, int usernumber,  unsigned char skillsuccess);
 	void GCMagicCancelSend(LPOBJ lpObj, WORD MagicNumber);
-	void GCMagicCancel(PMSG_MAGICCANCEL * lpMsg, int aIndex);
+	void GCMagicCancel(PMSG_MAGICCANCEL* lpMsg, int aIndex);
 	void GCUseEffectItem(LPOBJ lpObj, int iEffectUseOption, int iOptionType, int iEffectType, int iLeftTime);
 	void GCUseEffectItem2(LPOBJ lpObj, int iEffectUseOption, int iOptionType, int iEffectType, int iLeftTime);
 	void CGMagicCancel(PMSG_MAGICCANCEL* lpMsg, int aIndex);
@@ -282,11 +282,11 @@ public:
 	void GCObjectLifeInfo(int iIndex, short sObjNum, int iMaxLife, int iCurLife);
 	void CGAgilityRecv(int aIndex, PMSG_AGILITYSEND * aRecv);
 	void GCPriceSend(int aIndex, BYTE type, SHOP_DATA *lpShopData);
-	int OnCGInviteDuel(LPPMSG_REQ_DUEL_INVITE lpMsg, int aIndex);
-	int OnCGAnswerDuel(LPPMSG_ANS_DUEL_ANSWER lpMsg, int aIndex);
-	int OnCGLeaveDuel(LPPMSG_REQ_DUEL_EXIT lpMsg, int aIndex);
-	int OnDuelChannelJoin(LPPMSG_REQ_DUEL_JOINCNANNEL lpMsg, int aIndex);
-	int OnDuelChannelLeave(LPPMSG_REQ_DUEL_LEAVECNANNEL lpMsg, int aIndex);
+	int OnCGInviteDuel(PMSG_REQ_DUEL_INVITE* lpMsg, int aIndex);
+	int OnCGAnswerDuel(PMSG_ANS_DUEL_ANSWER* lpMsg, int aIndex);
+	int OnCGLeaveDuel(PMSG_REQ_DUEL_EXIT* lpMsg, int aIndex);
+	int OnDuelChannelJoin(PMSG_REQ_DUEL_JOINCNANNEL* lpMsg, int aIndex);
+	int OnDuelChannelLeave(PMSG_REQ_DUEL_LEAVECNANNEL* lpMsg, int aIndex);
 	void CGReqRegGensMember(_tagPMSG_REQ_REG_GENS_MEMBER *lpMsg, int iIndex);
 	void CGReqSecedeGensMember(_tagPMSG_REQ_SEGEDE_GENS_MEMBER *lpMsg, int iIndex);
 	void CGReqGensReward(_tagPMSG_GENS_REWARD_CODE *lpMsg, int iIndex);
@@ -306,8 +306,8 @@ public:
 	void CGReqUpgradePentagramJewel(PMSG_REQ_UPGRADE_PENTAGRAM_JEWEL *lpMsg, int aIndex);
 	void GCAnsUpgradePentagramJewel(int iIndex, BYTE btResult);
 	void GCAnsPentagramJewelInOut(int iIndex, BYTE btResult);
-	void CGReqArcaBattleGuildMasterJoin(_tagPMSG_REQ_ARCA_BATTLE_JOIN *lpMsg, int iIndex);
-	void CGReqArcaBattleGuildMemberJoin(_tagPMSG_REQ_ARCA_BATTLE_JOIN *lpMsg, int iIndex);
+	void CGReqArcaBattleGuildMasterJoin(PMSG_REQ_ARCA_BATTLE_JOIN *lpMsg, int iIndex);
+	void CGReqArcaBattleGuildMemberJoin(PMSG_REQ_ARCA_BATTLE_JOIN *lpMsg, int iIndex);
 	void CGReqArcaBattleEnter(_tagPMSG_REQ_ARCA_BATTLE_ENTER *lpMsg, int iIndex);
 	void CGReqAcheronEnter(_tagPMSG_REQ_ACHERON_ENTER *lpMsg, int iIndex);
 	void CGReqArcaBattleBootyExchange(int iIndex);

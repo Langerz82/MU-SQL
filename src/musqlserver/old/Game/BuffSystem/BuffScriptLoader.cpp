@@ -5,7 +5,7 @@
 #include "StdAfx.h"
 //#include "./Event/ArcaBattle/ArcaBattle.h"
 #include "BuffScriptLoader.h"
-#include "Item/Item.h"
+#include "ItemManagement/Item.h"
 
 CBuffScriptLoader	g_BuffScript;
 

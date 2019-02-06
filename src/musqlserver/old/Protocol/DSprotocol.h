@@ -11,8 +11,8 @@
 
 #include "StdAfx.h"
 #include "ProtocolStructs.h"
-#include "Shop/Shop.h"
-#include "Map/CryWolf/Crywolf.h"
+#include "Shop.h"
+#include "CryWolf/Crywolf.h"
 
 /*
  *	MAP OF DB ITEMS
@@ -429,9 +429,9 @@ private:
 	void GDReqEvoMonMaxScore(int aIndex, PMSG_REQ_EVOMON_MAXSCORE * aRecv);
 	void GDReqEvoMonSaveScore(int aIndex, PMSG_REQ_SAVE_EVOMON_RESULT * aRecv);
 
-	void DGMuBotOptionRecv(LPMUBOT_SETTINGS_REQ_SAVE lpMsg, int aIndex);
-	void MuBotSaveOption(char* szName, LPMUBOT_SETTINGS_REQ_SAVE lpMsg);
-	void GetMuBotData(char* szName, LPMUBOT_SETTINGS_SEND lpMsg);
+	void DGMuBotOptionRecv(MUBOT_SETTINGS_REQ_SAVE* lpMsg, int aIndex);
+	void MuBotSaveOption(char* szName, MUBOT_SETTINGS_REQ_SAVE* lpMsg);
+	void GetMuBotData(char* szName, MUBOT_SETTINGS_SEND* lpMsg);
 
 
 

@@ -8,14 +8,11 @@
 //	GS-N	1.00.18	JPN	0x0042FBF0	-	Completed
 // PMoveProc - Weird form of compilation
 // void GameProtocol::CGCloseWindow(int aIndex) Weird form of compilation
-//#include "StdAfx.h"
+
 #include "protocol.h"
-//#include "User/user.h"
 //#include "giocp.h"
 #include "Event.h"
-//#include "../Log/Log.h"
 #include "Main.h"
-//#include "util.h"
 #include "TNotice.h"
 #include "QuestInfo.h"
 #include "ConMember.h"
@@ -88,8 +85,8 @@
 #include "PersonalStore.h"
 #include "MuunSystem.h"
 #include "MuRummyMng.h"
-#include "Maths/KeyGenerater.h"
-//#include "Event/AcheronGuardianEvent/AcheronGuardianEvent.h"
+#include "KeyGenerater.h"
+#include "AcheronGuardianEvent.h"
 #include "GremoryCase.h"
 #include "DevilSquareFinal.h"
 #include "BotSystem.h"
@@ -901,7 +898,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 			{
 			case MSG_DUEL_INVITE:
 			{
-				LPPMSG_REQ_DUEL_INVITE lpReq = (LPPMSG_REQ_DUEL_INVITE)aRecv;
+				PMSG_REQ_DUEL_INVITE* lpReq = (PMSG_REQ_DUEL_INVITE*)aRecv;
 				int nRet = OnCGInviteDuel(lpReq, aIndex);
 				if (nRet != ENEWPVP::E_NO_ERROR)
 				{
@@ -20754,6 +20751,7 @@ void GameProtocol::CGReqArcaBattleBootyExchange(int iIndex)
 		return;
 	}
 
+	int bCanChaosBox = 1; // stub.
 	if (bCanChaosBox == TRUE && !lpObj->m_IfState.use)
 	{
 		if (lpObj->m_bPShopOpen == TRUE)
@@ -20783,6 +20781,7 @@ void GameProtocol::CGReqSpritemapExchange(int iIndex)
 
 	if (gObjIsConnected(iIndex))
 	{
+		int bCanChaosBox = 1; // stub;
 		if (bCanChaosBox == 1 && !(lpObj->m_IfState.type & 3))
 		{
 			if (lpObj->m_bPShopOpen == 1)

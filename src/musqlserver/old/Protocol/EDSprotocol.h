@@ -16,6 +16,7 @@ using namespace std;
 #include "ProtocolStructs.h"
 #include "GensSystemProtocol.h"
 #include "Fprotocol.h"
+#include "GuildClass.h"
 
 #define MAX_MEMBER_GUILD	80
 
@@ -159,10 +160,10 @@ private:
 
 	void CloseExDataServer();
 
-	LPGUILD_INFO_STRUCT GetGuild(char *szGuild);
-	LPGUILD_INFO_STRUCT GetGuild(int iNumber);
-	LPGUILD_MEMBER GetGuildMember(char *szGuild, char *szName);
-	LPGUILD_MEMBER GetGuildMember(int nGuildNumber, char *szName);
+	_GUILD_INFO_STRUCT* GetGuild(char *szGuild);
+	_GUILD_INFO_STRUCT* GetGuild(int iNumber);
+	_GUILD_MEMBER* GetGuildMember(char *szGuild, char *szName);
+	_GUILD_MEMBER* GetGuildMember(int nGuildNumber, char *szName);
 	LPUNION_DATA GetUnionData(int iGuild);
 
 	int GetGuildMemberCount(char *szGuild);
@@ -201,23 +202,23 @@ private:
 
 	int RelationShipOperation(int iReqGuild, int iTargGuild, int relation_type, int operation);
 
-	int RelationShipJoin(LPGUILD_INFO_STRUCT lpReqGuild, LPGUILD_INFO_STRUCT lpTargGuild, int type);
-	int UnionJoin(LPGUILD_INFO_STRUCT lpReqGuild, LPGUILD_INFO_STRUCT lpTargGuild);
-	int RivalJoin(LPGUILD_INFO_STRUCT lpReqGuild, LPGUILD_INFO_STRUCT lpTargGuild);
+	int RelationShipJoin(_GUILD_INFO_STRUCT* lpReqGuild, _GUILD_INFO_STRUCT* lpTargGuild, int type);
+	int UnionJoin(_GUILD_INFO_STRUCT* lpReqGuild, _GUILD_INFO_STRUCT* lpTargGuild);
+	int RivalJoin(_GUILD_INFO_STRUCT* lpReqGuild, _GUILD_INFO_STRUCT* lpTargGuild);
 
-	int RelationShipBreak(LPGUILD_INFO_STRUCT lpMasterGuild, LPGUILD_INFO_STRUCT lpKickGuild, int type);
-	int UnionBreak(LPGUILD_INFO_STRUCT lpMasterGuild, LPGUILD_INFO_STRUCT lpKickGuild);
-	int RivalBreak(LPGUILD_INFO_STRUCT lpMasterGuild, LPGUILD_INFO_STRUCT lpKickGuild);
+	int RelationShipBreak(_GUILD_INFO_STRUCT* lpMasterGuild, _GUILD_INFO_STRUCT* lpKickGuild, int type);
+	int UnionBreak(_GUILD_INFO_STRUCT* lpMasterGuild, _GUILD_INFO_STRUCT* lpKickGuild);
+	int RivalBreak(_GUILD_INFO_STRUCT* lpMasterGuild, _GUILD_INFO_STRUCT* lpKickGuild);
 
-	BOOL AddUnion(LPGUILD_INFO_STRUCT lpReqGuild, LPGUILD_INFO_STRUCT lpTargGuild);
+	BOOL AddUnion(_GUILD_INFO_STRUCT* lpReqGuild, _GUILD_INFO_STRUCT* lpTargGuild);
 	BOOL AddUnion(int iReqGuild, int iTargGuild);
-	BOOL KickUnion(LPGUILD_INFO_STRUCT lpMasterGuild, LPGUILD_INFO_STRUCT lpKickGuild);
+	BOOL KickUnion(_GUILD_INFO_STRUCT* lpMasterGuild, _GUILD_INFO_STRUCT* lpKickGuild);
 
 	BOOL UpdateDBUnion(int iGuild, int iUnion);
 	BOOL UpdateDBRival(int iGuild, int iRival);
 
 	void RelationShipBreakSend(int iGuild, int iType);
-	void SendListToAllRivals(LPGUILD_INFO_STRUCT lpGuild);
+	void SendListToAllRivals(_GUILD_INFO_STRUCT* lpGuild);
 
 	int GetChatServer();
 

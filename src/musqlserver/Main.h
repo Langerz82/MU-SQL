@@ -7,14 +7,13 @@
 
 #include "StdAfx.h"
 #include "resource.h"
-#include "Network/Protocols/protocol.h"
-#include "Network/Protocols/Sprotocol.h"
-#include "Network/Protocols/DSprotocol.h"
-#include "Network/Protocols/protocol.h"
-#include "Network/Protocols/EDSprotocol.h"
-#include "Network/Protocols/Fprotocol.h"
+#include "Protocol/protocol.h"
+#include "Protocol/Sprotocol.h"
+#include "Protocol/DSprotocol.h"
+#include "Protocol/protocol.h"
+#include "Protocol/EDSprotocol.h"
+#include "Protocol/Fprotocol.h"
 #include "ServerEngine.h"
-
 
 #define SET_NUMBERH(x) ( (BYTE)((DWORD)(x)>>(DWORD)8) )
 #define SET_NUMBERL(x) ( (BYTE)((DWORD)(x) & 0xFF) )

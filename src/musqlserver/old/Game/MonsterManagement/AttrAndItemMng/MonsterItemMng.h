@@ -7,7 +7,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "Item/Item.h"
+#include "ItemManagement/Item.h"
 
 #define MAX_ITEM_IN_MONSTER 1000
 #define MAX_LEVEL_MONSTER 255

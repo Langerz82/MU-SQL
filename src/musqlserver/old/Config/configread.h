@@ -3,13 +3,14 @@
 #ifndef CONFIGREAD_H
 #define CONFIGREAD_H
 
-#include "classdef.h"
-#include "Log/Log.h"
+#include "StdAfx.h"
+//#include "classdef.h"
+//#include "Log/Log.h"
 //#include "Log/Log.h"
 //#include "MuLua.h"
 //#include "MapClass.h"
-#include <string>
-#include <vector>
+//#include <string>
+//#include <vector>
 
 
 #define MAX_VIP 4

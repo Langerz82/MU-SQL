@@ -10,8 +10,13 @@
 #include "GensSystemProtocol.h"
 #include "User/user.h"
 
+#include <string>
+#include <map>
 
 #define MAX_CHAT_LEN 90
+
+typedef map<string, GUILD_MEMBER, strCmp> MAP_GUILD_MEMBER;
+
 
 struct __ITL_GUILD_RANK {
 	char szGuildName[MAX_GUILD_LEN + 1];
@@ -21,7 +26,7 @@ struct __ITL_GUILD_RANK {
 	BYTE byLose;
 };
 
-struct _GUILD_MEMBER {
+typedef struct _GUILD_MEMBER {
 	char m_szMemberName[11];
 	BYTE m_btStatus;
 	BYTE m_btConnected;
@@ -32,7 +37,7 @@ struct _GUILD_MEMBER {
 		m_btConnected = -1;
 		m_iUserIndex = -1;
 	}
-};
+} GUILD_MEMBER, *LPGUILD_MEMBER;
 
 struct _ITL_AnswerEnter {
 	PBMSG_HEAD2 h;
@@ -2386,11 +2391,11 @@ struct MEMO_SEND_HEADER {
 	unsigned char Action;
 };
 
-struct MUBOT_SETTINGS_REQ_SAVE {
+typedef struct MUBOT_SETTINGS_REQ_SAVE {
 	PWMSG_HEAD h;
 	char szName[11];
 	BYTE btDATA[512];
-};
+} *LPMUBOT_SETTINGS_REQ_SAVE;
 
 struct MUBOT_SETTINGS_SEND {
 	PWMSG_HEAD h;
@@ -7250,7 +7255,15 @@ struct stMemberPosInfo {
 	BYTE btPosY;
 };
 
-struct tagGUILD_INFO_STRUCT {
+struct strCmp
+{
+	bool operator()(const std::string s1, const std::string s2) const
+	{
+		return strcmp(s1.data(), s2.data()) < 0;
+	}
+};
+
+typedef struct tagGUILD_INFO_STRUCT {
 	int m_iNumber;
 	char m_szGuildName[9];
 	char m_szGuildMaster[11];
@@ -7275,7 +7288,7 @@ struct tagGUILD_INFO_STRUCT {
 		m_mapGuildMember.clear();
 		m_bGSHasData = FALSE;
 	}
-};
+} GUILD_INFO_STRUCT, *LPGUILD_INFO_STRUCT;
 
 struct tagJOIN_SERVER_SERVER_DATA {
 	int m_ServerIndex;
@@ -7306,9 +7319,9 @@ struct tagJOIN_SERVER_USER_DATA {
 	char IpAddr[17];
 };
 
-struct tagUNION_DATA {
+typedef struct tagUNION_DATA {
 	std::vector<int> m_vecUnionMember;
-};
+} UNION_DATA, *LPUNION_DATA;
 
 struct tagUSER_DATA {
 	PMSG_ANS_MAPSVRMOVE pMapServerMoveData;

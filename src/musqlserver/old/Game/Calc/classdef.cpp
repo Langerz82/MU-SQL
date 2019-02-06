@@ -1,19 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// classdef.cpp
-// ------------------------------
-// Decompiled by Deathway
-// Date : 2007-05-09
-// ------------------------------
-
-//#include "StdAfx.h"
 #include "classdef.h"
-#include "util.h"
-
-//#include "User/user.h"
-//#include "GameMain.h"
-//#include "util.h"
-// GS-N 0.99.60T 0x004A36F0
-//	GS-N	1.00.18	JPN	0x004C14B0	-	Completed
+#include "Utility/util.h"
 
 classdef::classdef()
 {
@@ -136,8 +122,3 @@ int classdef::GetDefPoint(int char_class)
 
 	return this->DefClass[char_class].Strength + this->DefClass[char_class].Dexterity + this->DefClass[char_class].Vitality + this->DefClass[char_class].Energy + this->DefClass[char_class].Leadership;
 }
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

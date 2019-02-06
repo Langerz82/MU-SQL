@@ -4,11 +4,11 @@
 
 #include "DSprotocol.h"
 #include "giocp.h"
-#include "Item/ItemSerial.h"
+#include "ItemSerial.h"
 #include "ServerEngine.h"
-#include "Map/MapServerManager.h"
-//#include "Main.h"
-#include "util.h"
+#include "MapServerManager.h"
+#include "Main.h"
+#include "Utility/util.h"
 
 #define szModule "DSProtocol"
 
@@ -689,7 +689,7 @@ void CDataServerProtocol::ProtocolCore(int aIndex, BYTE HeadCode, LPBYTE aRecv, 
 			m_DSProtocol.DGOptionDataRecv(aIndex, (SDHP_SKILLKEYDATA *) aRecv);
 			break;
 		case 0x61:
-			m_DSProtocol.DGMuBotOptionRecv((LPMUBOT_SETTINGS_REQ_SAVE)aRecv, aIndex);
+			m_DSProtocol.DGMuBotOptionRecv((MUBOT_SETTINGS_REQ_SAVE*)aRecv, aIndex);
 			break;
 		case 0x6F:
 			{
@@ -698,16 +698,16 @@ void CDataServerProtocol::ProtocolCore(int aIndex, BYTE HeadCode, LPBYTE aRecv, 
 				switch(lpDef1->subcode)
 				{
 					case 0x00:
-						m_DSProtocol.GDReqReBuyItemList(aIndex, (SDHP_REQ_SHOP_REBUY_LIST *) aRecv);
+						m_DSProtocol.GDReqReBuyItemList(aIndex, (SDHP_REQ_SHOP_REBUY_LIST*) aRecv);
 						break;
 					case 0x01:
-						m_DSProtocol.GDReqReBuyAddItem(aIndex, (SDHP_REQ_SHOP_REBUY_ADD_ITEM *) aRecv);
+						m_DSProtocol.GDReqReBuyAddItem(aIndex, (SDHP_REQ_SHOP_REBUY_ADD_ITEM*) aRecv);
 						break;
 					case 0x02:
-						m_DSProtocol.GDReqReBuyGetItem(aIndex, (SDHP_REQ_SHOP_REBUY_GET_ITEM *) aRecv);
+						m_DSProtocol.GDReqReBuyGetItem(aIndex, (SDHP_REQ_SHOP_REBUY_GET_ITEM*) aRecv);
 						break;
 					case 0x03:
-						m_DSProtocol.GDReqDeleteSoldItem(aIndex, (SDHP_REQ_SHOP_REBUY_DELETE_ITEM *) aRecv);
+						m_DSProtocol.GDReqDeleteSoldItem(aIndex, (SDHP_REQ_SHOP_REBUY_DELETE_ITEM*) aRecv);
 						break;
 				}
 			}
@@ -4575,7 +4575,7 @@ void CDataServerProtocol::GDReqEvoMonMaxScore(int aIndex, PMSG_REQ_EVOMON_MAXSCO
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqEvoMonSaveScore(int aIndex, PMSG_REQ_SAVE_EVOMON_RESULT * aRecv)
+void CDataServerProtocol::GDReqEvoMonSaveScore(int aIndex, PMSG_REQ_SAVE_EVOMON_RESULT* aRecv)
 {
 
 }
@@ -4589,7 +4589,7 @@ void CDataServerProtocol::DGMuBotOptionRecv(LPMUBOT_SETTINGS_REQ_SAVE lpMsg, int
 	MuBotSaveOption(szName, lpMsg);
 }
 
-void CDataServerProtocol::MuBotSaveOption(char* szName, LPMUBOT_SETTINGS_REQ_SAVE lpMsg)
+void CDataServerProtocol::MuBotSaveOption(char* szName, MUBOT_SETTINGS_REQ_SAVE* lpMsg)
 {
 	char szQuery[512];
 	sprintf(szQuery, "UPDATE OptionData SET MuBot = ? WHERE Name = '%s'", szName);
@@ -4597,7 +4597,7 @@ void CDataServerProtocol::MuBotSaveOption(char* szName, LPMUBOT_SETTINGS_REQ_SAV
 
 }
 
-void CDataServerProtocol::GetMuBotData(char* szName, LPMUBOT_SETTINGS_SEND lpMsg)
+void CDataServerProtocol::GetMuBotData(char* szName, MUBOT_SETTINGS_SEND* lpMsg)
 {
 	char szQuery[512];
 	sprintf(szQuery, "SELECT * FROM OptionData WHERE Name='%s'", szName);
@@ -4619,9 +4619,3 @@ void CDataServerProtocol::GetMuBotData(char* szName, LPMUBOT_SETTINGS_SEND lpMsg
 
 
 }
-
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

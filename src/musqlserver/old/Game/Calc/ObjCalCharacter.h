@@ -8,7 +8,7 @@
 #endif // _MSC_VER > 1000
 
 #include "User/user.h"
-#include "Item/Item.h"
+#include "ItemManagement/Item.h"
 
 class CObjCalCharacter
 {

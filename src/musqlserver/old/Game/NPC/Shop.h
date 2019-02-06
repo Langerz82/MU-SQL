@@ -8,8 +8,8 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "Item/Item.h"
-#include "Item/ItemOptionTypeMng.h"
+#include "ItemManagement/Item.h"
+#include "ItemOptionTypeMng.h"
 
 #define MAX_ITEM_IN_SHOP 120
 #define MAX_ITEM_INFO 12

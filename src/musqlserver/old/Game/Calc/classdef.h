@@ -7,8 +7,8 @@
 #endif // _MSC_VER > 1000.
 
 #include "StdAfx.h"
-#include "Item/Item.h"
-#include "Network/Protocols/ProtocolStructs.h"
+#include "ItemManagement/Item.h"
+#include "Protocol/ProtocolStructs.h"
 
 #define TRACE_PACKET 0	
 #define CURRENT_DB_VERSION 3

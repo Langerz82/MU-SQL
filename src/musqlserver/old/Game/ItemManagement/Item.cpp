@@ -20,7 +20,7 @@
 #include "pugixml.hpp"
 #include "util.h"
 #include "Log/Log.h"
-#include "Item/SetItemOption.h"
+#include "ItemManagement/SetItemOption.h"
 #include "JewelOfHarmonySystem.h"
 #include "ItemSocketOptionSystem.h"
 #include "LuckyItemManager.h"
@@ -28,7 +28,7 @@
 #include "MuunSystem.h"
 #include "ItemOption.h"
 #include "SocketItemType.h"
-//#include "./Custom/CustomItemValue/CustomItemValue.h"
+#include "CustomItemValue.h"
 #include <stdio.h>
 #include <string.h>
 

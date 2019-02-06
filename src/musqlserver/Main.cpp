@@ -11,7 +11,7 @@
 #include "Giocp.h"
 
 #include "MapServerManager.h"
-#include "Item/ItemSerial.h"
+#include "ItemSerial.h"
 
 #include "Database/DatabaseEnv.h"
 #include "Config/Config.h"

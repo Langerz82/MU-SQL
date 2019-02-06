@@ -19,13 +19,28 @@ typedef unsigned char BYTE;
 typedef unsigned short USHORT;
 typedef unsigned short WORD;
 typedef const WCHAR* LPCWSTR;
-typedef unsigned long DWORD;
+typedef unsigned long DWORD, ULONG;
 typedef void* HANDLE;
 typedef unsigned long long UINT64;
 typedef char* LPSTR;
 
 typedef long long LONGLONG;
 typedef long long time_t;
+
+typedef unsigned long long SOCKET;
+
+typedef struct _WSAOVERLAPPED {
+	DWORD    Internal;
+	DWORD    InternalHigh;
+	DWORD    Offset;
+	DWORD    OffsetHigh;
+	DWORD	 hEvent;
+} WSAOVERLAPPED, FAR * LPWSAOVERLAPPED;
+
+typedef struct _WSABUF {
+	ULONG len;     /* the length of the buffer */
+	_Field_size_bytes_(len) CHAR FAR *buf; /* the pointer to the buffer */
+} WSABUF, FAR * LPWSABUF;
 
 /*
 #ifndef _SYSTEMTIME

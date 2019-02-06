@@ -15,7 +15,7 @@
 #include "ImperialGuardian.h"
 #include "GensSystem.h"
 #include "Event/AcheronGuardianEvent/AcheronGuardianEvent.h"
-#include "Item/Item.h"
+#include "ItemManagement/Item.h"
 #include "NewPVP.h"
 #include "Event/ArcaBattle/ArcaBattle.h"
 #include "EvolutionMonsterMng.h"

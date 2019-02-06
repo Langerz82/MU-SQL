@@ -4,7 +4,7 @@
 #define ITEMOPTIONTYPEMNG_H
 
 #include "StdAfx.h"
-#include "Item/Item.h"
+#include "ItemManagement/Item.h"
 #include "User/user.h"
 
 #define MAX_EXCELLENT_COMMON_OPTIONS 20

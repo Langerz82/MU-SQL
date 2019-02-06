@@ -8,7 +8,7 @@
 #endif // _MSC_VER > 1000
 
 #include "protocol.h"
-#include "Item/Item.h"
+#include "ItemManagement/Item.h"
 
 #define MAX_TALISMAN_OF_LUCK 10
 #define CHAOS_BOX_SIZE 32

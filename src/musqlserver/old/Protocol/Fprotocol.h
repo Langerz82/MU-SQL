@@ -14,14 +14,6 @@
 
 using namespace std;
 
-struct strCmp
-{
-	bool operator()( const std::string s1, const std::string s2 ) const 
-	{
-		return strcmp( s1.data(), s2.data() ) < 0;
-	}
-};
-
 class CFriendSystem
 {
 public:
@@ -77,7 +69,7 @@ public:
 	BOOL CreateFriendMaster(char *szMaster, int iNumber, int iServer);
 	BOOL DeleteFriendMaster(char *szMaster);
 
-	LPFRIEND_MASTER GetFriendMaster(char *szMaster);
+	FRIEND_MASTER* GetFriendMaster(char *szMaster);
 
 	void MemoHeaderSend(int aIndex, WORD wNumber, MEMO_HEADER * lpMemoHead );
 	void MemoListSend(int aIndex, WORD wNumber, char *szName);

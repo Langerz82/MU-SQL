@@ -39,7 +39,7 @@
 #include "prodef.h"
 #include "classdef.h"
 #include "Lang.h"
-#include "INI/IniReader.h"
+#include "Config/iniReader/IniReader.h"
 #include "user.h"
 
 // Crypto++

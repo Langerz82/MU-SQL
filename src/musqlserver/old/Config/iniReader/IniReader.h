@@ -6,7 +6,7 @@
 #include "custTypedef.h"
 #include <string>
 #include "Log/Log.h"
-#include "INI/INIReaderImp.h"
+#include "iniReader/INIReaderImp.h"
 
 class CIniReader
 {

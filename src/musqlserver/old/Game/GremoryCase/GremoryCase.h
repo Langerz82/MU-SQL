@@ -4,7 +4,7 @@
 #define GREMORYCASE_H
 
 #include "prodef.h"
-#include "Item/Item.h"
+#include "ItemManagement/Item.h"
 
 #define MAX_GREMORYCASE_STORAGE_TYPES 2
 #define MAX_GREMORYCASE_STORAGE_ITEMS 50

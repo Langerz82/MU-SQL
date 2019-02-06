@@ -3,8 +3,8 @@
 //#include "StdAfx.h"
 #include "configread.h"
 //#include "Log/Log.h"
-#include "pugixml.hpp"
-#include "IniReader.h"
+//#include "pugixml.hpp"
+#include "iniReader/IniReader.h"
 
 //#include "MuRummyMng.h"
 //#include "JewelMixSystem.h"

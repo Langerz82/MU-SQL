@@ -4,9 +4,9 @@
 
 #include "stdafx.h"
 #include "Eprotocol.h"
-#include "giocp.h"
-#include "Logproc.h"
-#include "winutil.h"
+//#include "giocp.h"
+//#include "Logproc.h"
+//#include "winutil.h"
 
 #define szModule "EProtocol"
 

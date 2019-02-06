@@ -4,7 +4,7 @@
 //#include "GameServer.h"
 #include "../Log/Log.h"
 #include "Main.h"
-#include "Item/ItemSocketOptionSystem.h"
+#include "ItemManagement/ItemSocketOptionSystem.h"
 #include "configread.h"
 #include "PentagramSystem.h"
 #include "GensSystem.h"
