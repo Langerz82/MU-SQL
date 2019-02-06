@@ -3,9 +3,16 @@
 #ifndef MULTIATTACKHACKCHECK_H
 #define MULTIATTACKHACKCHECK_H
 
+#include "StdAfx.h"
+
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
+
+
+#ifndef OBJ_MONSTER
+	#define OBJ_MONSTER 2
+#endif
 
 #define MAX_MULTI_ATTACK_INFO 40
 #define MULTI_ATTACK_SERIAL_SIZE 255
@@ -25,7 +32,7 @@ public:
 	virtual ~CMultiAttackHackCheck();
 
 	void Init();
-	int Insert(int aTargetIndex, BYTE skillnum, BYTE serial);
+	BOOL Insert(LPOBJ aTarget, BYTE skillnum, BYTE serial);
 	int CheckPenetrationSkill(int aTargetIndex, BYTE skillnum, BYTE serial);
 	int CheckFireScreamSkill(int iTargetIndex, BYTE btSkillnum, BYTE btSerial);
 

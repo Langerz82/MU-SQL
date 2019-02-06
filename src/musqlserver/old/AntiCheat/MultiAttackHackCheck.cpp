@@ -1,9 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MultiAttackHackCheck.cpp
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "MultiAttackHackCheck.h"
 #include "SkillAdditionInfo.h"
 #include "gObjMonster.h"
+#include "User/user.h"
 
 // GS-N 0x00452273 - 0.99.60T
 // GS-N	1.00.18	JPN	0x00461400	-	Completed
@@ -35,9 +36,9 @@ void CMultiAttackHackCheck::Init()
 
 
 
-BOOL CMultiAttackHackCheck::Insert(int aTargetIndex, BYTE skillnum, BYTE serial)
+BOOL CMultiAttackHackCheck::Insert(LPOBJ aTarget, BYTE skillnum, BYTE serial)
 {
-	if ( gObj[aTargetIndex].Type == OBJ_MONSTER )
+	if (aTarget->Type == OBJ_MONSTER )
 	{
 		return TRUE;
 	}
@@ -49,7 +50,7 @@ BOOL CMultiAttackHackCheck::Insert(int aTargetIndex, BYTE skillnum, BYTE serial)
 
 	for ( int i=0;i<MAX_MULTI_ATTACK_INFO;i++)
 	{
-		if ( this->m_Table[i].number == aTargetIndex )
+		if ( this->m_Table[i].number == aTarget->UserNumber)
 		{
 			if ( serial == (BYTE)-1  && this->m_Table[i].Serial[serial]  != 0 )
 			{
@@ -72,7 +73,7 @@ BOOL CMultiAttackHackCheck::Insert(int aTargetIndex, BYTE skillnum, BYTE serial)
 		}
 	}
 
-	this->m_Table[this->m_iCount].number = aTargetIndex;
+	this->m_Table[this->m_iCount].number = aTarget->UserNumber;
 	this->m_Table[this->m_iCount].Serial[serial]++;
 	this->m_iCount++;
 

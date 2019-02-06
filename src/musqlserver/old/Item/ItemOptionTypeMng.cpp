@@ -1,9 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ItemOptionTypeMng.cpp
-#include "stdafx.h"
 #include "ItemOptionTypeMng.h"
-#include "User/user.h"
-#include "Item/Item.h"
 #include "Log/Log.h"
 #include "FormulaParse.h"
 #include "MasterLevelSkillTreeSystem.h"

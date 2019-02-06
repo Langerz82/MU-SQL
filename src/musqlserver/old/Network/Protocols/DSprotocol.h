@@ -9,10 +9,10 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "../classdef.h"
-#include "../prodef.h"
-#include <string>
-#include <vector>
+#include "stdafx.h"
+//#include "../prodef.h"
+//#include <string>
+//#include <vector>
 
 /*
  *	MAP OF DB ITEMS

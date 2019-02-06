@@ -71,7 +71,7 @@ private:
 	ListNode*		m_pTail;
 	ListNode*		m_pCur;
 
-	//CRITICAL_SECTION	m_CriticalSection;
+	CRITICAL_SECTION	m_CriticalSection;
 };
 
 #endif

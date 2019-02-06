@@ -36,8 +36,8 @@ void CExpManager::LoadScript(LPSTR szFileName)
 
 	pugi::xml_node mainXML = file.child("ExpSystem");
 
-	this->m_iExpCalcType = main.attribute("CalcType").as_int();
-	this->m_bDebugMode = main.attribute("DebugMode").as_bool();
+	this->m_iExpCalcType = mainXML.attribute("CalcType").as_int();
+	this->m_bDebugMode = mainXML.attribute("DebugMode").as_bool();
 
 	pugi::xml_node static_exp = mainXML.child("StaticExp");
 

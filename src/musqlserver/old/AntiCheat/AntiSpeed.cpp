@@ -1,13 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 // AntiSpeed.cpp
-#include "stdafx.h"
-#include "User/user.h"
 #include "AntiSpeed.h"
+//#include "User/user.h"
 #include "ObjUseSkill.h"
 #include "protocol.h"
 #include "Log/Log.h"
 
-/*
+
 CAttackMelee::CAttackMelee( LPOBJ lpObj, LPOBJ lpTargetObj )
 {
 	m_Obj = lpObj;
@@ -58,7 +57,7 @@ void CAttackRange::Process()
 		GSProtocol.CGDurationMagicRecv((PMSG_DURATION_MAGIC_RECV *)m_Msg, m_Obj->m_Index);
 }
 
-*/
+
 CAttackQueue::CAttackQueue(int aIndex)
 {
 	if(aIndex < OBJ_STARTUSERINDEX || aIndex > OBJMAX-1)
@@ -85,19 +84,19 @@ void CAttackQueue::Push( unsigned char* msg, int len, int type )
 
 void CAttackQueue::ProcessQueue()
 {
-	LPOBJ m_Obj = &gObj[this->aIndex];
+	//LPOBJ m_Obj = &gObj[this->aIndex];
 
 	EnterCriticalSection(&this->m_CritQueue);
 	int TickCount = GetTickCount();
-	float dt = (float)(TickCount-m_Obj->m_LastAttackTime);
+	float dt = (float)(TickCount - m_Obj->m_LastAttackTime);
 
 	float HitPerSec;
 	// By hand
-	m_HandDelay = (0.0142333198777464*m_Obj->m_AttackSpeed)+(2.03207312150395);
+	m_HandDelay = (0.0142333198777464 * m_Obj->m_AttackSpeed) + (2.03207312150395);
 	// By sword
-	m_SwordDelay = (0.0109365655658977*m_Obj->m_AttackSpeed)+(1.0853155620929);
+	m_SwordDelay = (0.0109365655658977 * m_Obj->m_AttackSpeed) + (1.0853155620929);
 	// Magic
-	m_MagicDelay = (0.0142333198777464*m_Obj->m_AttackSpeed)+(2.03207312150395);
+	m_MagicDelay = (0.0142333198777464 * m_Obj->m_AttackSpeed) + (2.03207312150395);
 
 	CheckSize();
 	if(m_Obj->Class == CLASS_WIZARD)	// DW

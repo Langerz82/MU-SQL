@@ -35,7 +35,7 @@ void CChangeCmd::LoadFile(char * szFile)
 
 	pugi::xml_node mainXML = file.child("JoinMu");
 	 
-	this->m_bSystemEnable = main.attribute("Enable").as_bool();
+	this->m_bSystemEnable = mainXML.attribute("Enable").as_bool();
 
 	CHANGE_ITEM_DATA m_ChangeData;
 

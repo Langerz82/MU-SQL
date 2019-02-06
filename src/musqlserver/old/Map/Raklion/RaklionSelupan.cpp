@@ -10,6 +10,7 @@
 #include "TMonsterSkillManager.h"
 #include "Log/Log.h"
 #include "configread.h"
+#include "MagicInf.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -43,7 +44,7 @@ void CRaklionSelupan::RaklionSelupanAct_FirstSkill()
 	{
 		iTargetIndex = iSelupanIndex;
 	}
-	//else
+	else
 	{
 		CMagicInf cMagicInf;
 		memset(&cMagicInf, 0, sizeof(cMagicInf));

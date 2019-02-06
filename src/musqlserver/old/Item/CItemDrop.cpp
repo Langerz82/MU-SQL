@@ -41,7 +41,7 @@ bool CItemDrop::LoadFile(const char *szFile)
 	}
 
 	pugi::xml_node mainXML = file.child("DropManager");
-	this->m_dwDropUseRate = main.attribute("DropUseRate").as_int();
+	this->m_dwDropUseRate = mainXML.attribute("DropUseRate").as_int();
 
 	for (pugi::xml_node monster = mainXML.child("Monster"); monster; monster = monster.next_sibling())
 	{
@@ -518,9 +518,9 @@ bool CItemDrop::LoadZenDropFile(const char *szFile)
 
 	pugi::xml_node mainXML = file.child("ZenDropSystem");
 
-	this->m_bZenDropEnable = main.attribute("Enable").as_bool();
-	this->m_bMultiplyZenDropByMonLevel = main.attribute("MultiplyByMonsterLevel").as_bool();
-	this->m_dwMultiplyZenChanceRate = main.attribute("MultiplyChanceRate").as_int();
+	this->m_bZenDropEnable = mainXML.attribute("Enable").as_bool();
+	this->m_bMultiplyZenDropByMonLevel = mainXML.attribute("MultiplyByMonsterLevel").as_bool();
+	this->m_dwMultiplyZenChanceRate = mainXML.attribute("MultiplyChanceRate").as_int();
 
 	for (pugi::xml_node map = mainXML.child("Map"); map; map = map.next_sibling())
 	{

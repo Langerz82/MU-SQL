@@ -3,6 +3,7 @@
 #ifndef LUABAG_H
 #define LUABAG_H
 
+#include "stdafx.h"
 #include "Bag.h"
 #include "MuLua.h"
 #include "Item/Item.h"

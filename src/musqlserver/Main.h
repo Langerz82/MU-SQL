@@ -6,12 +6,12 @@
 #endif // _MSC_VER > 1000
 
 
-#include "old/resource.h"
-#include "old/Protocols/DSprotocol.h"
-#include "old/Protocols/protocol.h"
-#include "old/Protocols/EDSprotocol.h"
-#include "old/Protocols/Fprotocol.h"
-#include "old/ServerEngine.h"
+#include "resource.h"
+#include "Network/Protocols/DSprotocol.h"
+#include "Network/Protocols/protocol.h"
+#include "Network/Protocols/EDSprotocol.h"
+#include "Network/Protocols/Fprotocol.h"
+#include "ServerEngine.h"
 
 
 #define SET_NUMBERH(x) ( (BYTE)((DWORD)(x)>>(DWORD)8) )

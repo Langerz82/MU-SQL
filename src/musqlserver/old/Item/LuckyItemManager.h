@@ -2,8 +2,8 @@
 // LuckyItemManager.h
 #pragma once
 
-#include "prodef.h"
-#include "User/user.h"
+#include "stdafx.h"
+//#include "User/user.h"
 
 #define	MAX_LUCKYINFO_LEVELRATE			16
 #define MAX_LUCKYINFO_ITEMEQUIPMENT		8

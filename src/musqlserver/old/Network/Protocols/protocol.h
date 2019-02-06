@@ -2,19 +2,18 @@
 // Decompiled by Deathway
 // Date : 2007-05-09
 // ------------------------------
-#ifndef PROTOCOL_H
-#define PROTOCOL_H
+#ifndef _PROTOCOL_H
+#define _PROTOCOL_H
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "prodef.h"
-//#include "GuildClass.h"
-#include "User/user.h"
-//#include "MapClass.h"
+#include "stdafx.h"
+#include "GuildClass.h"
+#include "Map/MapClass.h"
 #include "GensSystemProtocol.h"
-#include "Shop.h"
+#include "Shop/Shop.h"
 
 struct PWMSG_COUNT 
 {
@@ -4011,7 +4010,7 @@ private:
 extern GameProtocol GSProtocol;
 
 
-#endif
+#endif // _PROTOCOL_H
 
 ////////////////////////////////////////////////////////////////////////////////
 //  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // LuaBag.cpp
-#include "stdafx.h"
+
 #include "LuaBag.h"
 #include "configread.h"
 #include "MuunSystem.h"

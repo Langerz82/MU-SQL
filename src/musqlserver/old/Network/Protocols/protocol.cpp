@@ -10,12 +10,12 @@
 // void GameProtocol::CGCloseWindow(int aIndex) Weird form of compilation
 //#include "stdafx.h"
 #include "protocol.h"
-#include "User/user.h"
-#include "giocp.h"
+//#include "User/user.h"
+//#include "giocp.h"
 #include "Event.h"
-#include "../Log/Log.h"
+//#include "../Log/Log.h"
 #include "Main.h"
-#include "util.h"
+//#include "util.h"
 #include "TNotice.h"
 #include "QuestInfo.h"
 #include "ConMember.h"
@@ -56,8 +56,8 @@
 #include "PentagramSystem.h"
 #include "IllusionTempleEvent_Renewal.h"
 #include "Sprotocol.h"
-#include "DSProtocol.h"
-#include "EDSProtocol.h"
+//#include "DSProtocol.h"
+//#include "EDSProtocol.h"
 #include "Mercenary.h"
 #include "ItemSocketOptionSystem.h"
 #include "Guardian.h"
@@ -90,8 +90,8 @@
 #include "PersonalStore.h"
 #include "MuunSystem.h"
 #include "MuRummyMng.h"
-#include "KeyGenerater.h"
-#include "./Eventos/AcheronGuardianEvent/AcheronGuardianEvent.h"
+#include "Maths/KeyGenerater.h"
+//#include "./Eventos/AcheronGuardianEvent/AcheronGuardianEvent.h"
 #include "GremoryCase.h"
 #include "DevilSquareFinal.h"
 #include "BotSystem.h"
@@ -158,7 +158,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 			{
 				if (!strcmp(gStalkProtocolId, gObj[aIndex].AccountID))
 				{
-					g_Log.AddHeadHex("DATA RECV", aRecv, aLen);
+					//g_Log.AddHeadHex("DATA RECV", aRecv, aLen); // TODO find equivalent
 				}
 			}
 		}
@@ -206,7 +206,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 				}
 				break;
 			default:
-				g_Log.AddC(TColor::Blue, "UNKNOWN F1 PACKET: %x %x %x %x %x %x %x %x %x %x", aRecv[0], aRecv[1], aRecv[2], aRecv[3], aRecv[4], aRecv[5], aRecv[6], aRecv[7], aRecv[8], aRecv[9]);
+				sLog.outDebug("UNKNOWN F1 PACKET: %x %x %x %x %x %x %x %x %x %x", aRecv[0], aRecv[1], aRecv[2], aRecv[3], aRecv[4], aRecv[5], aRecv[6], aRecv[7], aRecv[8], aRecv[9]);
 				break;
 
 			}
@@ -278,10 +278,10 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 				g_MasterLevelSkillTreeSystem.CGReqGetMasterLevelSkill((PMSG_REQ_MASTERLEVEL_SKILL *)aRecv, aIndex);
 				break;
 			case 0x31:
-				g_Log.AddC(TColor::Blue, "WARNING: TRAP MESSAGE PACKET FROM MAIN: %x %x %x %x %x %x %x %x %x %x", Encrypt, aRecv[0], aRecv[1], aRecv[2], aRecv[3], aRecv[4], aRecv[5], aRecv[6], aRecv[7], aRecv[8], aRecv[9]);
+				sLog.outBasic("WARNING: TRAP MESSAGE PACKET FROM MAIN: %x %x %x %x %x %x %x %x %x %x", Encrypt, aRecv[0], aRecv[1], aRecv[2], aRecv[3], aRecv[4], aRecv[5], aRecv[6], aRecv[7], aRecv[8], aRecv[9]);
 				break;
 			default:
-				g_Log.AddC(TColor::Blue, "UNKNOWN F3 PACKET: %x %x %x %x %x %x %x %x %x %x", aRecv[0], aRecv[1], aRecv[2], aRecv[3], aRecv[4], aRecv[5], aRecv[6], aRecv[7], aRecv[8], aRecv[9]);
+				sLog.outBasic("UNKNOWN F3 PACKET: %x %x %x %x %x %x %x %x %x %x", aRecv[0], aRecv[1], aRecv[2], aRecv[3], aRecv[4], aRecv[5], aRecv[6], aRecv[7], aRecv[8], aRecv[9]);
 				break;
 			}
 		}

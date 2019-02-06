@@ -3,6 +3,7 @@
 #ifndef ITEMOPTIONTYPEMNG_H
 #define ITEMOPTIONTYPEMNG_H
 
+#include "stdafx.h"
 #include "Item/Item.h"
 #include "User/user.h"
 

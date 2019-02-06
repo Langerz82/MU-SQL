@@ -2,13 +2,15 @@
 // AntiSpeed.h
 #ifndef ANTI_SPEED_H
 #define ANTI_SPEED_H
-#include "User/user.h"
+
+#include "stdafx.h"
+
 //#define USE_NEW_AH
 #define ATTACK_TOLERANCE 3
 
 #include <queue>
 
-/*
+
 class CAttackBase{
 public:
 	bool m_InUse;
@@ -43,7 +45,7 @@ public:
 
 	void Process();
 };
-*/
+
 
 enum ATTACK_TYPE{
 	ATTACK_MELEE = 0,

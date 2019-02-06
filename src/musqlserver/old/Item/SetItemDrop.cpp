@@ -38,7 +38,7 @@ void CSetItemDrop::LoadFile(LPSTR lpFile)
 
 	pugi::xml_node mainXML = file.child("SetItemDropManager");
 
-	this->m_dwDropUseRate = main.attribute("DropUseRate").as_int();
+	this->m_dwDropUseRate = mainXML.attribute("DropUseRate").as_int();
 
 	for (pugi::xml_node rule = mainXML.child("Rule"); rule; rule = rule.next_sibling())
 	{

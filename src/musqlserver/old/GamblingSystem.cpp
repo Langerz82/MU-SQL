@@ -61,9 +61,9 @@ void CGamblingItemBag::LoadItem(char *script_file)
 
 	pugi::xml_node mainXML = file.child("GamblingSystem");
 
-	this->m_bEnabled = main.attribute("Enable").as_bool();
-	this->m_iGamblingValue = main.attribute("GamblingPrice").as_int();
-	this->m_iGamblingShopTime = main.attribute("ShoppingDelayTime").as_int();
+	this->m_bEnabled = mainXML.attribute("Enable").as_bool();
+	this->m_iGamblingValue = mainXML.attribute("GamblingPrice").as_int();
+	this->m_iGamblingShopTime = mainXML.attribute("ShoppingDelayTime").as_int();
 
 	int nDropRatePerItemCnt=0;
 	int nRateCnt=0;
