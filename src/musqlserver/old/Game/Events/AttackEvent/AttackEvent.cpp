@@ -47,7 +47,7 @@ void CAttackEvent::LoadScript(char *szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("%s file load fail (%s)", szFile, res.description());
+		sLog.outError("%s file load fail (%s)", szFile, res.description());
 		return;
 	}
 

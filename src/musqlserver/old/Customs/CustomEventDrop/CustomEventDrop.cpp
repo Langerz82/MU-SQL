@@ -2,7 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "CustomEventDrop.h"
 #include "DSProtocol.h"
 #include "MapClass.h"
@@ -11,7 +11,7 @@
 #include "TNotice.h"
 #include "ScheduleManager.h"
 #include "User.h"
-#include "TLog.h"
+//#include "TLog.h"
 #include "protocol.h"
 #include "configread.h"
 #include "MapAttribute.h"
@@ -20,7 +20,7 @@
 #include "gObjMonster.h"
 #include "SetItemOption.h"
 #include "Event.h"
-#include "winutil.h"
+#include "Utility/util.h"
 #include "Notice.h"
 #include "CustomMichi.h"
 
@@ -71,13 +71,13 @@ void CCustomEventDrop::Load(char* path) // OK
 
 	if (lpMemScript == 0)
 	{
-		g_Log.MsgBox(MEM_SCRIPT_ALLOC_ERROR, path);
+		sLog.outError(MEM_SCRIPT_ALLOC_ERROR, path);
 		return;
 	}
 
 	if (lpMemScript->SetBuffer(path) == 0)
 	{
-		g_Log.MsgBox(lpMemScript->GetLastError());
+		sLog.outError(lpMemScript->GetLastError());
 		delete lpMemScript;
 		return;
 	}
@@ -204,7 +204,7 @@ void CCustomEventDrop::Load(char* path) // OK
 	}
 	catch (...)
 	{
-		g_Log.MsgBox(lpMemScript->GetLastError());
+		sLog.outError(lpMemScript->GetLastError());
 	}
 
 	delete lpMemScript;
@@ -254,7 +254,7 @@ void CCustomEventDrop::ProcState_EMPTY(CUSTOM_EVENT_DROP_INFO* lpInfo) // OK
 			PMSG_NOTICE pNotice;
 			TNotice::MakeNoticeMsgEx(&pNotice, 0, "[%s] Will Start in %d Minute(s)", lpInfo->RuleInfo.Name, (lpInfo->AlarmMinLeft + 1));
 			TNotice::SendNoticeToAllUser(&pNotice);
-			g_Log.AddC(TColor::Violet, "[%s] Will Start in %d Minute(s)", lpInfo->RuleInfo.Name, (lpInfo->AlarmMinLeft + 1));
+			sLog.outBasic("[%s] Will Start in %d Minute(s)", lpInfo->RuleInfo.Name, (lpInfo->AlarmMinLeft + 1));
 		}
 	}
 
@@ -263,7 +263,7 @@ void CCustomEventDrop::ProcState_EMPTY(CUSTOM_EVENT_DROP_INFO* lpInfo) // OK
 		PMSG_NOTICE pNotice;
 		TNotice::MakeNoticeMsgEx(&pNotice, 0, "[%s] Started", lpInfo->RuleInfo.Name);
 		TNotice::SendNoticeToAllUser(&pNotice);
-		g_Log.AddC(TColor::Aqua, "[%s] Started", lpInfo->RuleInfo.Name);
+		sLog.outBasic("[%s] Started", lpInfo->RuleInfo.Name);
 		this->SetState(lpInfo, CUSTOM_EVENT_DROP_STATE_START);
 	}
 }

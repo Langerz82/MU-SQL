@@ -36,7 +36,7 @@ BOOL CwsGameServer::CreateServer(LPSTR ip_addr, WORD port, DWORD WinServerMsg, D
 	
 	if (this->m_hWnd == 0 )
 	{
-		g_Log.MsgBox("windows handle error");
+		sLog.outError("windows handle error");
 		return 0;
 	}
 

@@ -16,13 +16,13 @@ using namespace std;
 
 CWarehouseUserData::CWarehouseUserData()
 {
-	//InitializeCriticalSection(&this->m_WareDataCriti);
+	InitializeCriticalSection(&this->m_WareDataCriti);
 	this->m_vtWarehouseData.clear();
 }
 
 CWarehouseUserData::~CWarehouseUserData()
 {
-	//DeleteCriticalSection(&this->m_WareDataCriti);
+	DeleteCriticalSection(&this->m_WareDataCriti);
 }
 
 void CWarehouseUserData::Init()
@@ -38,7 +38,7 @@ void CWarehouseUserData::AddUserData(char * szAccountID)
 {
 	EnterCriticalSection(&this->m_WareDataCriti);
 
-	for (std::vector<USERWAREHOUSE_DATA**>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
+	for (std::vector<USERWAREHOUSE_DATA*>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
 	{
 		if ( strcmp(szAccountID, it->szAccountID) == 0 )
 		{
@@ -57,12 +57,12 @@ void CWarehouseUserData::AddUserData(char * szAccountID)
 
 	this->m_vtWarehouseData.push_back(m_UserWareData);
 
-	//LeaveCriticalSection(&this->m_WareDataCriti);
+	LeaveCriticalSection(&this->m_WareDataCriti);
 }
 
 void CWarehouseUserData::DelUserData(char * szAccountID)
 {
-	for (std::vector<USERWAREHOUSE_DATA**>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
+	for (std::vector<USERWAREHOUSE_DATA*>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
 	{
 		if ( strcmp(szAccountID, it->szAccountID) == 0 )
 		{
@@ -89,7 +89,7 @@ int CWarehouseUserData::SwitchWarehouse(char *szAccountID, int WarehouseID)
 {
 	USERWAREHOUSE_DATA* pData = NULL;
 
-	for (std::vector<USERWAREHOUSE_DATA**>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
+	for (std::vector<USERWAREHOUSE_DATA*>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
 	{
 		if ( strcmp(szAccountID, it->szAccountID) == 0 )
 		{
@@ -132,7 +132,7 @@ int CWarehouseUserData::GetWarehouseID(char * szAccountID)
 {
 	int WareID = 0;
 
-	for (std::vector<USERWAREHOUSE_DATA**>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
+	for (std::vector<USERWAREHOUSE_DATA*>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
 	{
 		if ( strcmp(szAccountID, it->szAccountID) == 0 )
 		{
@@ -170,7 +170,7 @@ void CWarehouseUserData::SetWarehouseOpenState(char * szAccountID, bool bState)
 
 void CWarehouseUserData::GDReqSwitchWarehouse(int aIndex, PMSG_REQ_SWITCHWARE * aRecv)
 {
-	//EnterCriticalSection(&this->m_WareDataCriti);
+	EnterCriticalSection(&this->m_WareDataCriti);
 
 	PMSG_ANS_SWITCHWARE pMsg;
 	PHeadSetB((LPBYTE)&pMsg, 0x03, sizeof(pMsg));
@@ -180,7 +180,7 @@ void CWarehouseUserData::GDReqSwitchWarehouse(int aIndex, PMSG_REQ_SWITCHWARE * 
 	std::memcpy(pMsg.szAccountID, aRecv->szAccountID, MAX_ACCOUNT_LEN+1);
 	pMsg.Result = this->SwitchWarehouse(aRecv->szAccountID, aRecv->WarehouseID);
 
-	//LeaveCriticalSection(&this->m_WareDataCriti);
+	LeaveCriticalSection(&this->m_WareDataCriti);
 
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 	sLog.outBasic("[Warehouse][%s] Switch to Warehouse:%d Result:%d", pMsg.szAccountID, pMsg.WarehouseID, pMsg.Result);
@@ -188,7 +188,7 @@ void CWarehouseUserData::GDReqSwitchWarehouse(int aIndex, PMSG_REQ_SWITCHWARE * 
 
 void CWarehouseUserData::DGGetWarehouseList(int aIndex, SDHP_GETWAREHOUSEDB * aRecv)
 {
-	//EnterCriticalSection(&this->m_WareDataCriti);
+	EnterCriticalSection(&this->m_WareDataCriti);
 
 	char szAccountID[11]={0};
 	szAccountID[10] = 0;
@@ -204,7 +204,7 @@ void CWarehouseUserData::DGGetWarehouseList(int aIndex, SDHP_GETWAREHOUSEDB * aR
 	{
 		sLog.outError("[Warehouse] (%s) - trying to open already opened warehouse.", szAccountID);
 
-		//LeaveCriticalSection(&this->m_WareDataCriti);
+		LeaveCriticalSection(&this->m_WareDataCriti);
 		return;
 	}
 
@@ -220,7 +220,7 @@ void CWarehouseUserData::DGGetWarehouseList(int aIndex, SDHP_GETWAREHOUSEDB * aR
 		pMsg.aIndex = aRecv->aIndex;
 		std::memcpy(pMsg.AccountID, szAccountID, 11);
 		
-		//LeaveCriticalSection(&this->m_WareDataCriti);
+		LeaveCriticalSection(&this->m_WareDataCriti);
 		DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 		return;
 	}
@@ -250,7 +250,7 @@ void CWarehouseUserData::DGGetWarehouseList(int aIndex, SDHP_GETWAREHOUSEDB * aR
 		this->SetChangeEnableState(szAccountID, TRUE);
 		this->SetWarehouseOpenState(szAccountID, false);
 
-		//LeaveCriticalSection(&this->m_WareDataCriti);
+		LeaveCriticalSection(&this->m_WareDataCriti);
 		return;
 	}
 
@@ -267,13 +267,13 @@ void CWarehouseUserData::DGGetWarehouseList(int aIndex, SDHP_GETWAREHOUSEDB * aR
 		}
 	}
 
-	//LeaveCriticalSection(&this->m_WareDataCriti);
+	LeaveCriticalSection(&this->m_WareDataCriti);
 	DataSend(aIndex, (LPBYTE)&pResult, sizeof(pResult), __FUNCTION__);
 }
 
 void CWarehouseUserData::GDSetWarehouseList(int aIndex, SDHP_GETWAREHOUSEDB_SAVE * aRecv)
 {
-	//EnterCriticalSection(&this->m_WareDataCriti);
+	EnterCriticalSection(&this->m_WareDataCriti);
 
 	char szAccountID[11]={0};
 	szAccountID[10] = 0;
@@ -319,20 +319,20 @@ void CWarehouseUserData::GDSetWarehouseList(int aIndex, SDHP_GETWAREHOUSEDB_SAVE
 	pMsg.CloseWindow = aRecv->CloseWindow;
 	pMsg.iIndex = aRecv->aIndex;
 
-	//LeaveCriticalSection(&this->m_WareDataCriti);
+	LeaveCriticalSection(&this->m_WareDataCriti);
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CWarehouseUserData::GDSetWarehouseMoney(int aIndex, SDHP_WAREHOUSEMONEY_SAVE * aRecv)
 {
-	//EnterCriticalSection(&this->m_WareDataCriti);
+	EnterCriticalSection(&this->m_WareDataCriti);
 
 	char szAccountID[11] = { 0 };
 	szAccountID[10] = 0;
 	std::memcpy(szAccountID, aRecv->AccountID, 10);
 	
 
-	//LeaveCriticalSection(&this->m_WareDataCriti);
+	LeaveCriticalSection(&this->m_WareDataCriti);
 }
 
 CDataServerProtocol::CDataServerProtocol()

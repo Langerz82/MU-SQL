@@ -4091,7 +4091,7 @@ bool CArcaBattle::LoadScriptArcaBattle(char *lpszFileName)
 {
 	if ( lpszFileName == NULL )
 	{
-		g_Log.MsgBox("[ArcaBattle] file load error - File Name Error");
+		sLog.outError("[ArcaBattle] file load error - File Name Error");
 		return false;
 	}
 
@@ -4100,7 +4100,7 @@ bool CArcaBattle::LoadScriptArcaBattle(char *lpszFileName)
 
 	if ( res.status != pugi::status_ok )
 	{
-		g_Log.MsgBox("[ArcaBattle] file load error - load_file() : %s (%s)", lpszFileName, res.description());
+		sLog.outError("[ArcaBattle] file load error - load_file() : %s (%s)", lpszFileName, res.description());
 		return false;
 	}
 
@@ -4191,7 +4191,7 @@ bool CArcaBattle::LoadScriptArcaBattle(char *lpszFileName)
 						
 		if ( this->m_stObeliskInfo[GroupNumber].m_iMapIndex != iMapNumber )
 		{
-			g_Log.MsgBox("[ArcaBattle] file load error - Not Match MapIndex");
+			sLog.outError("[ArcaBattle] file load error - Not Match MapIndex");
 		}
 
 		this->m_stObeliskInfo[GroupNumber].m_stAuraInfo[AuraCnt].m_iMapIndex = iMapNumber;
@@ -4327,7 +4327,7 @@ int CArcaBattle::LoadScriptBootyMix(char *lpszFileName)
 
 	if(res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("[ArcaBattle][BootyExchange] %s File Load Error (%s)", lpszFileName, res.description());
+		sLog.outError("[ArcaBattle][BootyExchange] %s File Load Error (%s)", lpszFileName, res.description());
 		return FALSE;
 	}
 
@@ -4353,7 +4353,7 @@ int CArcaBattle::LoadScriptBootyMix(char *lpszFileName)
         
 		if ( this->m_iBootyMixCnt < Level )
 		{
-			g_Log.MsgBox("[ArcaBattle] BootyMix %s File Load Error - BootyMixCnt Over", lpszFileName);
+			sLog.outError("[ArcaBattle] BootyMix %s File Load Error - BootyMixCnt Over", lpszFileName);
 			break;
 		}
 		

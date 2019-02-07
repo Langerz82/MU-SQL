@@ -33,7 +33,7 @@ void CBonusEvent::LoadFile(char *szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("Error loading %s file (%s)", szFile, res.description());
+		sLog.outError("Error loading %s file (%s)", szFile, res.description());
 		LeaveCriticalSection(&this->m_criti);
 		return;
 	}

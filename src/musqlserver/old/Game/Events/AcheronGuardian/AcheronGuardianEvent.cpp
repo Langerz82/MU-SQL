@@ -58,7 +58,7 @@ bool CAcheronGuardianEvent::LoadScriptAcheronEvent(char *lpszFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("Error loading %s file (%s)", lpszFileName, res.description());
+		sLog.outError("Error loading %s file (%s)", lpszFileName, res.description());
 		return false;
 	}
 
@@ -96,7 +96,7 @@ bool CAcheronGuardianEvent::LoadScriptAcheronEvent(char *lpszFileName)
 
 		if (nGroupNumber < 0 || nGroupNumber > 5)
 		{
-			g_Log.MsgBox("[AcheronGuardian][MonsterGroupRegen] Invalid Obelisk groupNumber");
+			sLog.outError("[AcheronGuardian][MonsterGroupRegen] Invalid Obelisk groupNumber");
 			return false;
 		}
 
@@ -115,7 +115,7 @@ bool CAcheronGuardianEvent::LoadScriptAcheronEvent(char *lpszFileName)
 
 		if (nGroupNumber < 0 || nGroupNumber > 5)
 		{
-			g_Log.MsgBox("[AcheronGuardian][MonsterGroupRegen] Invalid Monster groupNumber");
+			sLog.outError("[AcheronGuardian][MonsterGroupRegen] Invalid Monster groupNumber");
 			return false;
 		}
 
@@ -135,7 +135,7 @@ bool CAcheronGuardianEvent::LoadScriptAcheronEvent(char *lpszFileName)
 
 		if (nGroupNumber < 0 || nGroupNumber > 5)
 		{
-			g_Log.MsgBox("[AcheronGuardian][MonsterGroupRegen] Invalid Monster groupNumber");
+			sLog.outError("[AcheronGuardian][MonsterGroupRegen] Invalid Monster groupNumber");
 			return false;
 		}
 
@@ -165,7 +165,7 @@ bool CAcheronGuardianEvent::LoadScriptAcheronEvent(char *lpszFileName)
 
 		if (nGroupNumber < 0 || nGroupNumber > 5)
 		{
-			g_Log.MsgBox("[AcheronGuardian][MonsterGroupRegen] Invalid Monster groupNumber");
+			sLog.outError("[AcheronGuardian][MonsterGroupRegen] Invalid Monster groupNumber");
 			return false;
 		}
 
@@ -177,7 +177,7 @@ bool CAcheronGuardianEvent::LoadScriptAcheronEvent(char *lpszFileName)
 
 		if (this->m_stMonsterPosition[nGroupNumber].m_nGroupNumber < 0)
 		{
-			g_Log.MsgBox("[AcheronGuardianEvent][MonsterGroupRegen] Invalid groupNumber(%d)", nGroupNumber);
+			sLog.outError("[AcheronGuardianEvent][MonsterGroupRegen] Invalid groupNumber(%d)", nGroupNumber);
 			return false;
 		}
 
@@ -189,7 +189,7 @@ bool CAcheronGuardianEvent::LoadScriptAcheronEvent(char *lpszFileName)
 
 		if (nArrayIndex >= 20)
 		{
-			g_Log.MsgBox("[AcheronGuardianEvent][MonsterGroupRegen] Out of Max MonsterKindIndex");
+			sLog.outError("[AcheronGuardianEvent][MonsterGroupRegen] Out of Max MonsterKindIndex");
 			return false;
 		}
 

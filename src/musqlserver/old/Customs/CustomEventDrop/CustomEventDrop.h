@@ -1,15 +1,19 @@
 // CustomEventDrop.h: interface for the CCustomEventDrop class.
 //
 //////////////////////////////////////////////////////////////////////
+#ifndef _CUSTOM_EVENT_DROP_H
+#define _CUSTOM_EVENT_DROP_H
 
+#if _MSC_VER > 1000
 #pragma once
+#endif // _MSC_VER > 1000
 
 #define MAX_CUSTOM_EVENT_DROP 10
 #define CUSTOMEVENT_EFFECT_NONE		0
 #define CUSTOMEVENT_EFFECT_FIREWORK	1
 #define CUSTOMEVENT_EFFECT_CHERRY		2
 
-#define FILE_CUSTOM_EVENTDROP "Custom\\CustomEventDrop.ini"
+#define FILE_CUSTOM_EVENTDROP "Custom\CustomEventDrop.ini"
 
 enum eCustomEventDropState
 {
@@ -97,8 +101,4 @@ private:
 
 extern CCustomEventDrop gCustomEventDrop;
 
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-
+#endif
