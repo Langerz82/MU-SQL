@@ -2,14 +2,8 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#ifndef _SOCKETITEMTYPE_H
-#define _SOCKETITEMTYPE_H
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-#include "StdAfx.h"
 #include "Item/Item.h"
 
 #define FILE_CUSTOM_NEWSOCKETTYPE		"SocketSystem\\IGC_SocketItemType.ini"
@@ -32,10 +26,7 @@ private:
 	std::map<int, SOCKET_ITEM_TYPE_INFO> m_SocketItemTypeInfo;
 };
 
-#endif // _SOCKETITEMTYPE_H
-
 extern CSocketItemType gSocketItemType;
-
 
 
 ////////////////////////////////////////////////////////////////////////////////
