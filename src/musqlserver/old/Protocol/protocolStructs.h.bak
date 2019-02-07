@@ -8381,7 +8381,7 @@ typedef struct _GUILD_MEMBER
 
 typedef map<string, GUILD_MEMBER, strCmp> MAP_GUILD_MEMBER;
 
-typedef struct tagGUILD_INFO_STRUCT
+typedef struct_GUILD_INFO_STRUCT
 {
 	int m_iNumber;
 	char m_szGuildName[9];
@@ -8395,7 +8395,7 @@ typedef struct tagGUILD_INFO_STRUCT
 	int m_Score;
 	char m_Notice[128];
 	BOOL m_bGSHasData;
-	tagGUILD_INFO_STRUCT()
+	GUILD_INFO_STRUCT()
 	{
 		m_iNumber = -1;
 		memset(m_szGuildName, 0, sizeof(m_szGuildName));
@@ -8424,7 +8424,7 @@ typedef struct GENS_USER
 typedef struct tagUNION_MEMBER_DATA
 {
 	std::vector<int>	m_vecUnionMember;
-}UNION_MEMBER_DATA, *LPUNION_MEMBER_DATA;
+}UNION_MEMBER_DATA, *UNION_MEMBER_DATA*;
 
 #pragma pack ()
 
@@ -9386,7 +9386,7 @@ typedef struct _FRIEND_MASTER
 		m_iServer = -1;
 		m_vecFriends.clear();
 	}
-}FRIEND_MASTER, *LPFRIEND_MASTER;
+}FRIEND_MASTER, *FRIEND_MASTER*;
 
 typedef struct _REQUEST_CMD
 {

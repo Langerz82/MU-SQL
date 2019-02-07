@@ -22,7 +22,7 @@ CFriendSystem::~CFriendSystem()
 	//DeleteCriticalSection(&m_csMapFriendMaster);
 }
 
-LPFRIEND_MASTER CFriendSystem::GetFriendMaster(char *szMaster)
+FRIEND_MASTER* CFriendSystem::GetFriendMaster(char *szMaster)
 {
 	if(szMaster == NULL)
 		return NULL;
@@ -44,7 +44,7 @@ LPFRIEND_MASTER CFriendSystem::GetFriendMaster(char *szMaster)
 BOOL CFriendSystem::FriendExists(char *szMaster, char *szFriend)
 {
 	int i;
-	LPFRIEND_MASTER lpMaster;
+	FRIEND_MASTER* lpMaster;
 
 	char szM[11] = {0};
 	std::strncpy(szM, szMaster, 10);
@@ -82,7 +82,7 @@ BOOL CFriendSystem::CreateFriendMaster(char *szMaster, int iNumber, int iServer)
 	char szM[11] = {0};
 	std::strncpy(szM, szMaster, 10);
 
-	LPFRIEND_MASTER lpM;
+	FRIEND_MASTER* lpM;
 	lpM = GetFriendMaster(szM);
 	if(lpM)
 	{
@@ -133,7 +133,7 @@ int CFriendSystem::GetFriendGuid(char *szMaster)
 	std::strncpy(szM, szMaster, 10);
 
 	int guid = -1;
-	LPFRIEND_MASTER lpMaster;
+	FRIEND_MASTER* lpMaster;
 	//EnterCriticalSection(&m_csMapFriendMaster);
 
 	lpMaster = this->GetFriendMaster(szM);
@@ -147,7 +147,7 @@ int CFriendSystem::GetFriendGuid(char *szMaster)
 BYTE CFriendSystem::GetFriendState(char *szMaster)
 {
 	BYTE btState = -1;
-	LPFRIEND_MASTER lpMaster;
+	FRIEND_MASTER* lpMaster;
 
 	//EnterCriticalSection(&m_csMapFriendMaster);
 
@@ -162,7 +162,7 @@ BYTE CFriendSystem::GetFriendState(char *szMaster)
 int CFriendSystem::GetFriendServer(char *szMaster)
 {
 	int iServer = -1;
-	LPFRIEND_MASTER lpMaster;
+	FRIEND_MASTER* lpMaster;
 
 	//EnterCriticalSection(&m_csMapFriendMaster);
 
@@ -177,7 +177,7 @@ int CFriendSystem::GetFriendServer(char *szMaster)
 int CFriendSystem::GetFriendNumber(char *szMaster)
 {
 	int iNumber = -1;
-	LPFRIEND_MASTER lpMaster;
+	FRIEND_MASTER* lpMaster;
 
 	//EnterCriticalSection(&m_csMapFriendMaster);
 
@@ -233,7 +233,7 @@ void CFriendSystem::FriendClose(int aIndex, LPBYTE lpMsg)
 
 	std::strncpy(szMaster, ((SDHP_USERCLOSE *)lpMsg)->CharName, 10);
 	
-	LPFRIEND_MASTER lpMaster;
+	FRIEND_MASTER* lpMaster;
 	lpMaster = GetFriendMaster(szMaster);
 	if(lpMaster == NULL)
 		return;
@@ -264,7 +264,7 @@ BOOL CFriendSystem::GetDBGuidAndMemoTotal(char *szName, int& guid, int& memo_tot
 
 BOOL CFriendSystem::GetDBFriendList(char *szMaster)
 {
-	LPFRIEND_MASTER lpMaster;
+	FRIEND_MASTER* lpMaster;
 
 	BOOL res = TRUE;
 	lpMaster = GetFriendMaster(szMaster);
@@ -294,7 +294,7 @@ BOOL CFriendSystem::GetDBFriendList(char *szMaster)
 
 void CFriendSystem::FriendListSend(int aIndex, char *szMaster)
 {
-	LPFRIEND_MASTER lpMaster;
+	FRIEND_MASTER* lpMaster;
 
 	sLog.outBasic("[Friend List Send] Name[%s].", szMaster);
 	lpMaster = GetFriendMaster(szMaster);
@@ -324,7 +324,7 @@ void CFriendSystem::FriendListSend(int aIndex, char *szMaster)
 	sLog.outBasic("[Friend List Send] Friend Count[%d].", cnt);
 	for(int i=0; i < cnt; i++)
 	{
-		LPFRIEND_MASTER lpFr;
+		FRIEND_MASTER* lpFr;
 		int iServ = -1;
 		lpFr = GetFriendMaster(lpMaster->m_vecFriends[i].m_szName);
 		if(lpFr)
@@ -349,7 +349,7 @@ void CFriendSystem::FriendListSend(int aIndex, char *szMaster)
 
 BOOL CFriendSystem::GetDBWaitFriend(char *szMaster, OUT char *szWaitFriend)
 {
-	LPFRIEND_MASTER lpMaster;
+	FRIEND_MASTER* lpMaster;
 	lpMaster = GetFriendMaster(szMaster);
 
 	if(lpMaster == NULL)
@@ -370,7 +370,7 @@ BOOL CFriendSystem::FriendWaitSend(int aIndex, char *szMaster)
 	
 	char szWaitFriend[11] = {0};
 
-	LPFRIEND_MASTER lpMaster;
+	FRIEND_MASTER* lpMaster;
 	lpMaster = GetFriendMaster(szMaster);
 	if(lpMaster == NULL)
 		return FALSE;
@@ -404,7 +404,7 @@ void CFriendSystem::SendState(int aIndex, char *szMaster, int iNumber, char *szN
 
 void CFriendSystem::SendStateToAllFriends(int aIndex, char *szMaster)
 {
-	LPFRIEND_MASTER lpMaster;
+	FRIEND_MASTER* lpMaster;
 	lpMaster = GetFriendMaster(szMaster);
 	if(lpMaster == NULL)
 		return;
@@ -413,7 +413,7 @@ void CFriendSystem::SendStateToAllFriends(int aIndex, char *szMaster)
 
 	for(int i=0; i < cnt; i++)
 	{
-		LPFRIEND_MASTER lpFr;
+		FRIEND_MASTER* lpFr;
 		lpFr = GetFriendMaster(lpMaster->m_vecFriends[i].m_szName);
 		if(lpFr)
 		{
@@ -494,7 +494,7 @@ void CFriendSystem::FriendListRequest(int aIndex, FHP_FRIENDLIST_REQ* lpMsg)
 
 BOOL CFriendSystem::AddFriend(char *szMaster, char *szFriend)
 {
-	LPFRIEND_MASTER lpMaster;
+	FRIEND_MASTER* lpMaster;
 	lpMaster = GetFriendMaster(szMaster);
 	if(lpMaster == NULL)
 		return FALSE;
@@ -547,7 +547,7 @@ void CFriendSystem::FriendAddRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
 		return;
 	}
 
-	LPFRIEND_MASTER lpMaster;
+	FRIEND_MASTER* lpMaster;
 	lpMaster = GetFriendMaster(szMaster);
 	if(lpMaster == NULL)
 	{
@@ -604,7 +604,7 @@ void CFriendSystem::FriendAddRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
 		return;
 	}
 
-	LPFRIEND_MASTER lpFr;
+	FRIEND_MASTER* lpFr;
 	lpFr = GetFriendMaster(szFriend);
 
 	Result.Server = -1;
@@ -678,7 +678,7 @@ BOOL CFriendSystem::DelDBFriend(char *szMaster, char *szFriend)
 
 int CFriendSystem::WaitFriendAdd(char *szMaster, char *szFriend)
 {
-	LPFRIEND_MASTER lpMaster;
+	FRIEND_MASTER* lpMaster;
 
 	lpMaster = GetFriendMaster(szMaster);
 	if(lpMaster == NULL)
@@ -699,7 +699,7 @@ int CFriendSystem::WaitFriendAdd(char *szMaster, char *szFriend)
 	if(AddFriend(szMaster, szFriend) == FALSE)
 		return 0;
 
-	LPFRIEND_MASTER lpFr;
+	FRIEND_MASTER* lpFr;
 	lpFr = GetFriendMaster(szFriend);
 	if(lpFr)
 	{
@@ -742,7 +742,7 @@ void CFriendSystem::WaitFriendAddRequest( int aIndex,  FHP_WAITFRIEND_ADD_REQ* l
 
 	sLog.outBasic("[WaitFriend Add Request] [%s] accepted [%s]'s request to be a friend.", szMaster, szFriend);
 
-	LPFRIEND_MASTER lpFr;
+	FRIEND_MASTER* lpFr;
 	lpFr = GetFriendMaster(szFriend);
 	if(lpFr)
 		Result.pServer = lpFr->m_btState;
@@ -762,7 +762,7 @@ void CFriendSystem::FriendStateClientRecv( int aIndex, FHP_FRIEND_STATE_C* lpMsg
 	std::strncpy(szMaster, lpMsg->Name, 10);
 
 	sLog.outBasic("[Friend State Receive] Name: [%s], State: [%d].", szMaster, lpMsg->State);
-	LPFRIEND_MASTER lpMaster; 
+	FRIEND_MASTER* lpMaster; 
 	lpMaster = GetFriendMaster(szMaster);
 	if(lpMaster == NULL)
 	{
@@ -792,7 +792,7 @@ void CFriendSystem::FriendStateClientRecv( int aIndex, FHP_FRIEND_STATE_C* lpMsg
 
 BOOL CFriendSystem::DelFriend(char *szMaster, char *szFriend)
 {
-	LPFRIEND_MASTER lpMaster;
+	FRIEND_MASTER* lpMaster;
 	lpMaster = GetFriendMaster(szMaster);
 	if(lpMaster == NULL)
 		return FALSE;
@@ -841,7 +841,7 @@ void CFriendSystem::FriendDelRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
 	sLog.outBasic("[Friend Delete Request] Send Result [%d].", Result.Result);
 	DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 
-	LPFRIEND_MASTER lpFr;
+	FRIEND_MASTER* lpFr;
 	lpFr = GetFriendMaster(szFriend);
 	if(lpFr)
 	{
@@ -970,7 +970,7 @@ void CFriendSystem::FriendMemoSend( int aIndex, FHP_FRIEND_MEMO_SEND* lpMsg)
 		return;
 	
 	
-	LPFRIEND_MASTER lpFr;
+	FRIEND_MASTER* lpFr;
 	lpFr = GetFriendMaster(szMaster);
 
 	if(!lpFr)

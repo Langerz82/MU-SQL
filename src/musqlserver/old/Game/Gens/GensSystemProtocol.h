@@ -210,7 +210,7 @@ struct PMSG_REQ_SAVE_ABUSING_KILLUSER_EXDB //0xB0 (176)
 	//b155
 };
 
-struct _tagGENS_RANKING
+struct _GENS_RANKING
 {
 	int GensClass;
 	int ContributePoint;
