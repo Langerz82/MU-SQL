@@ -21,7 +21,6 @@ using namespace std;
 
 struct _GENS_RANKING;
 struct GUILD_INFO_STRUCT;
-struct GUILD_MEMBER;
 struct _PARTY_MEMBER_WAIT_LIST;
 struct _stRegWaitGuildMatching;
 struct _stReqAddPartyMember;
@@ -88,15 +87,11 @@ struct FHP_FRIEND_STATE_C;
 struct FHP_FRIENDLIST_REQ;
 struct FHP_WAITFRIEND_ADD_REQ;
 struct FRIEND_MASTER;
-struct FRIEND_MASTER;
-struct GENS_USER;
 struct GENS_USER;
 struct GUILD_INFO_STRUCT;
-struct GUILD_MEMBER;
 struct NONE_INFLUENCE;
 struct PARTYMATCHING_PARTYDATA;
 struct PARTYMATCHING_PARTYDATA;
-struct PARTYMATCHING_PARTYUSERDATA;
 struct PARTYMATCHING_PARTYUSERDATA;
 struct PMSG_ANS_ABUSING_INFO;
 struct PMSG_ANS_GENS_INFO_EXDB;
@@ -161,8 +156,7 @@ struct SS_CHAT;
 struct SS_CHAT;
 struct SS_GUILD;
 struct ST_EXDATASERVER;
-struct strCmp;
-struct UNION_MEMBER_DATA;
+struct STR_UNION_MEMBER_DATA;
 struct _stAnsGuildMatchingList;
 struct _stAnsGuildMatchingData;
 struct _stAnsDelGuildMatchingList;
@@ -253,7 +247,7 @@ private:
 	std::map<string, GENS_USER, strCmp> m_mapGensRankDuprian;
 	std::map<string, GENS_USER, strCmp> m_mapGensRankVanert;
 
-	_GENS_RANKING m_GensRankingData[14];
+	STR_GENS_RANKING m_GensRankingData[14];
 
 	CRITICAL_SECTION m_GensCriticalSection;
 	DWORD m_GensRankingUpdateTimeTick;
@@ -329,7 +323,7 @@ private:
 	GUILD_INFO_STRUCT* GetGuild(int iNumber);
 	GUILD_MEMBER* GetGuildMember(char *szGuild, char *szName);
 	GUILD_MEMBER* GetGuildMember(int nGuildNumber, char *szName);
-	UNION_MEMBER_DATA* GetUnionData(int iGuild);
+	STR_UNION_MEMBER_DATA* GetUnionData(int iGuild);
 
 	int GetGuildMemberCount(char *szGuild);
 	int GetGuildMemberCount(int nGuildNumber);

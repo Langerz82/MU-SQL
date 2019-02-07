@@ -869,10 +869,10 @@ struct STAT_BONUS;
 struct Save_PetItem_Info;
 struct ServerInfo;
 struct ServerList;
-struct UNION_MEMBER_DATA;
+struct STR_UNION_MEMBER_DATA;
 struct USERWAREHOUSE_DATA;
 struct USER_CONNECT_DATA;
-struct _GUILD_MEMBER;
+struct STR_GUILD_MEMBER;
 struct _ITL_AnswerEnter;
 struct _ITR_AcceptEnter;
 struct _PARTY_INFO_LIST;
@@ -945,6 +945,8 @@ struct sellItemPrice;
 struct sellPackage;
 struct stMemberPosInfo;
 struct STR_STRINGCOMPARE;
+struct STR_GENS_RANKING;
+struct GUILD_MEMBER;
 
 typedef struct STR_STRINGCOMPARE
 {
@@ -954,9 +956,15 @@ typedef struct STR_STRINGCOMPARE
 	}
 } strCmp;
 
-typedef map<string, GUILD_MEMBER*, strCmp> MAP_GUILD_MEMBER;
-typedef map<std::string, GUILD_INFO_STRUCT*, strCmp> MAP_GUILD_INFO;
-typedef map<int, UNION_MEMBER_DATA*> MAP_MEMBER_DATA;
+typedef std::map<std::string, STR_GUILD_MEMBER*, strCmp> MAP_GUILD_MEMBER;
+typedef std::map<std::string, GUILD_INFO_STRUCT*, strCmp> MAP_GUILD_INFO;
+typedef std::map<int, STR_UNION_MEMBER_DATA*> MAP_MEMBER_DATA;
+
+
+struct STR_GENS_RANKING
+{
+	PBMSG_HEAD2 h;
+};
 
 struct _ITL_GUILD_RANK {
 	char szGuildName[MAX_GUILD_LEN + 1];
@@ -966,12 +974,12 @@ struct _ITL_GUILD_RANK {
 	BYTE byLose;
 };
 
-typedef struct _GUILD_MEMBER {
+typedef struct STR_GUILD_MEMBER {
 	char m_szMemberName[11];
 	BYTE m_btStatus;
 	BYTE m_btConnected;
 	int m_iUserIndex;
-	_GUILD_MEMBER() {
+	STR_GUILD_MEMBER() {
 		ZeroMemory(m_szMemberName, sizeof(m_szMemberName));
 		m_btStatus = 0;
 		m_btConnected = -1;
@@ -8251,9 +8259,9 @@ struct JOIN_SERVER_USER_DATA {
 	char IpAddr[17];
 };
 
-typedef struct UNION_MEMBER_DATA {
+typedef struct STR_UNION_MEMBER_DATA {
 	std::vector<int> m_vecUnionMember;
-} UNION_MEMBER_DATA, *UNION_MEMBER_DATA*;
+} STR_UNION_MEMBER_DATA, *LP_STR_UNION_MEMBER_DATA;
 
 struct USER_CONNECT_DATA
 {
