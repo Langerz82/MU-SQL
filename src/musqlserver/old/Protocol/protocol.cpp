@@ -10,7 +10,7 @@
 // void GameProtocol::CGCloseWindow(int aIndex) Weird form of compilation
 
 #include "protocol.h"
-//#include "giocp.h"
+#include "giocp.h"
 #include "Event.h"
 #include "Main.h"
 #include "TNotice.h"
@@ -52,7 +52,7 @@
 #include "CashShop.h"
 #include "PentagramSystem.h"
 #include "IllusionTempleEvent_Renewal.h"
-//#include "Sprotocol.h"
+#include "Sprotocol.h"
 #include "Mercenary.h"
 #include "ItemSocketOptionSystem.h"
 #include "Guardian.h"

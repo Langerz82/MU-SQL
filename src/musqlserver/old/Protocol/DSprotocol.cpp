@@ -36,9 +36,9 @@ void CWarehouseUserData::Init()
 
 void CWarehouseUserData::AddUserData(char * szAccountID)
 {
-	//EnterCriticalSection(&this->m_WareDataCriti);
+	EnterCriticalSection(&this->m_WareDataCriti);
 
-	for (std::vector<USERWAREHOUSE_DATA>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
+	for (std::vector<USERWAREHOUSE_DATA**>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
 	{
 		if ( strcmp(szAccountID, it->szAccountID) == 0 )
 		{
@@ -62,7 +62,7 @@ void CWarehouseUserData::AddUserData(char * szAccountID)
 
 void CWarehouseUserData::DelUserData(char * szAccountID)
 {
-	for (std::vector<USERWAREHOUSE_DATA>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
+	for (std::vector<USERWAREHOUSE_DATA**>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
 	{
 		if ( strcmp(szAccountID, it->szAccountID) == 0 )
 		{
@@ -74,7 +74,7 @@ void CWarehouseUserData::DelUserData(char * szAccountID)
 
 void CWarehouseUserData::SetChangeEnableState(char * szAccountID, int State)
 {
-	for (std::vector<USERWAREHOUSE_DATA>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
+	for (std::vector<USERWAREHOUSE_DATA*>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
 	{
 		if ( strcmp(szAccountID, it->szAccountID) == 0 )
 		{
@@ -87,9 +87,9 @@ void CWarehouseUserData::SetChangeEnableState(char * szAccountID, int State)
 
 int CWarehouseUserData::SwitchWarehouse(char *szAccountID, int WarehouseID)
 {
-	USERWAREHOUSE_DATA * pData = NULL;
+	USERWAREHOUSE_DATA* pData = NULL;
 
-	for (std::vector<USERWAREHOUSE_DATA>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
+	for (std::vector<USERWAREHOUSE_DATA**>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
 	{
 		if ( strcmp(szAccountID, it->szAccountID) == 0 )
 		{
@@ -132,7 +132,7 @@ int CWarehouseUserData::GetWarehouseID(char * szAccountID)
 {
 	int WareID = 0;
 
-	for (std::vector<USERWAREHOUSE_DATA>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
+	for (std::vector<USERWAREHOUSE_DATA**>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
 	{
 		if ( strcmp(szAccountID, it->szAccountID) == 0 )
 		{
@@ -146,7 +146,7 @@ int CWarehouseUserData::GetWarehouseID(char * szAccountID)
 
 bool CWarehouseUserData::GetWarehouseOpenState(char * szAccountID)
 {
-	for (std::vector<USERWAREHOUSE_DATA>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
+	for (std::vector<USERWAREHOUSE_DATA*>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
 	{
 		if (strcmp(szAccountID, it->szAccountID) == 0)
 		{
@@ -159,7 +159,7 @@ bool CWarehouseUserData::GetWarehouseOpenState(char * szAccountID)
 
 void CWarehouseUserData::SetWarehouseOpenState(char * szAccountID, bool bState)
 {
-	for (std::vector<USERWAREHOUSE_DATA>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
+	for (std::vector<USERWAREHOUSE_DATA*>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
 	{
 		if (strcmp(szAccountID, it->szAccountID) == 0)
 		{
