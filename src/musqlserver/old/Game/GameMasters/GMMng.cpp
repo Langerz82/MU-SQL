@@ -732,7 +732,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 			return 0;
 		}
 
-		_GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild(pId);
+		GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild(pId);
 		int iIndex;
 
 		if (lpGuild != NULL)
@@ -874,7 +874,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 		int iTokenNumber1 = this->GetTokenNumber();
 		int iTokenNumber2 = this->GetTokenNumber();
 		int iTokenNumber3 = this->GetTokenNumber();
-		_GUILD_INFO_STRUCT* lpGuild = Guild.SearchGuild(pId);
+		GUILD_INFO_STRUCT* lpGuild = Guild.SearchGuild(pId);
 		int iIndex;
 
 		if (lpGuild != NULL)

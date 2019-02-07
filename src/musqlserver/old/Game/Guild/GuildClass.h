@@ -89,7 +89,7 @@ enum GUILD_REQ_COMMON_RESULT
 	GUILD_ANS_WRONG_GENS = 0xA3
 };
 
-struct _GUILD_INFO_STRUCT
+struct GUILD_INFO_STRUCT
 {
 	int Number;	//0
 	char Name[9];	//4
@@ -102,7 +102,7 @@ struct _GUILD_INFO_STRUCT
 	char pServer[MAX_USER_GUILD];	//490
 	char TargetGuildName[9];	//4E0
 	short TargetIndex[MAX_USER_GUILD];	//4EA
-	struct _GUILD_INFO_STRUCT* lpTargetGuildNode;	//58C
+	struct GUILD_INFO_STRUCT* lpTargetGuildNode;	//58C
 	unsigned char WarDeclareState;	//590
 	unsigned char WarState;	//591
 	unsigned char WarType;	//592
@@ -117,13 +117,13 @@ struct _GUILD_INFO_STRUCT
 	int iGuildRival;	//720
 	int iTimeStamp;	//724
 	char szGuildRivalName[9];	//728
-	struct _GUILD_INFO_STRUCT* back;	//734
-	struct _GUILD_INFO_STRUCT* next;	//738
+	struct GUILD_INFO_STRUCT* back;	//734
+	struct GUILD_INFO_STRUCT* next;	//738
 	struct OBJECTSTRUCT* lpLifeStone;
 	int btLifeStoneCount;
 
 	// #error Deathay Fix here
-	_GUILD_INFO_STRUCT(){return;};
+	GUILD_INFO_STRUCT(){return;};
 	int  GetGuildUnion(){return this->iGuildUnion;};
 	int  GetGuildRival(){return this->iGuildRival;};
 
@@ -166,33 +166,33 @@ public:
 	virtual ~CGuildClass();
 	
 	void Init();
-	_GUILD_INFO_STRUCT* AddGuild(int number, LPSTR guildname, LPBYTE mark, LPSTR mastername,  int score);
-	_GUILD_INFO_STRUCT* AddMember(_GUILD_INFO_STRUCT* pNode, LPSTR player_name, int aIndex, int totalcount, int pServer);
-	_GUILD_INFO_STRUCT* AddMember(LPSTR guild_name, LPSTR player_name, int aIndex, int totalcount, int iGuildStatus,  int pServer);
+	GUILD_INFO_STRUCT* AddGuild(int number, LPSTR guildname, LPBYTE mark, LPSTR mastername,  int score);
+	GUILD_INFO_STRUCT* AddMember(GUILD_INFO_STRUCT* pNode, LPSTR player_name, int aIndex, int totalcount, int pServer);
+	GUILD_INFO_STRUCT* AddMember(LPSTR guild_name, LPSTR player_name, int aIndex, int totalcount, int iGuildStatus,  int pServer);
 	int GetGuildMemberStatus(LPSTR szGuildName, LPSTR szMemberName);
 	int SetGuildMemberStatus(LPSTR szGuildName, LPSTR szMemberName, int iGuildStatus);
 	int GetGuildType(LPSTR szGuildName);
 	int SetGuildType(LPSTR szGuildName, int iGuildType);
-	int BuildMemberTotal(_GUILD_INFO_STRUCT* lpNode);
+	int BuildMemberTotal(GUILD_INFO_STRUCT* lpNode);
 	int DelMember(LPSTR guild_name, LPSTR player_name);
-	void AddTail(_GUILD_INFO_STRUCT* pNewNode);
+	void AddTail(GUILD_INFO_STRUCT* pNewNode);
 	int DeleteGuild(LPSTR guildname, LPSTR commader);
 	void AllDelete();
 	void Print();
 	void PrintGuild(LPSTR guildname);
-	int ConnectUser(_GUILD_INFO_STRUCT* lpNode, LPSTR guild_name, LPSTR player_name,  int aIndex, int pServer);
+	int ConnectUser(GUILD_INFO_STRUCT* lpNode, LPSTR guild_name, LPSTR player_name,  int aIndex, int pServer);
 	int SetServer(LPSTR guild_name, LPSTR player_name, int pServer);
-	_GUILD_INFO_STRUCT* SearchGuild(LPSTR guildname);
-	_GUILD_INFO_STRUCT* SearchGuild_Number(int number);
-	_GUILD_INFO_STRUCT* SearchGuild_NumberAndId(int number, LPSTR name);
+	GUILD_INFO_STRUCT* SearchGuild(LPSTR guildname);
+	GUILD_INFO_STRUCT* SearchGuild_Number(int number);
+	GUILD_INFO_STRUCT* SearchGuild_NumberAndId(int number, LPSTR name);
 	int CloseMember(LPSTR guild_name, LPSTR player_name);
 
 private:
 
-	_GUILD_INFO_STRUCT* head;	// 4
-	_GUILD_INFO_STRUCT* tail;	// 8
-	std::map<std::string,_GUILD_INFO_STRUCT *> m_GuildMap;	// C
-	std::map<int,_GUILD_INFO_STRUCT *> m_GuildNumberMap;	// 1C
+	GUILD_INFO_STRUCT* head;	// 4
+	GUILD_INFO_STRUCT* tail;	// 8
+	std::map<std::string,GUILD_INFO_STRUCT *> m_GuildMap;	// C
+	std::map<int,GUILD_INFO_STRUCT *> m_GuildNumberMap;	// 1C
 
 };
 

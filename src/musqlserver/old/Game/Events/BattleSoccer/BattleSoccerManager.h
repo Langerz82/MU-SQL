@@ -31,7 +31,7 @@ void ClearBattleSoccer();
 BOOL gCheckBlankBattleGround();
 int gCheckBattleGroundTimer();
 void gBattleGroundEnable(int n, BOOL enable);
-void gSetBattleTeamMaster(int ground, int team, char * szname, _GUILD_INFO_STRUCT * lpGuild);
+void gSetBattleTeamMaster(int ground, int team, char * szname, GUILD_INFO_STRUCT * lpGuild);
 void gBattleGetTeamPosition(int ground, int team, short & X, short & Y);
 char * GetBattleTeamName(int ground, int team);
 void SetBattleTeamScore(int ground, int team, int score);

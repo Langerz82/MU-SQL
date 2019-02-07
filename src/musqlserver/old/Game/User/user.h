@@ -1099,7 +1099,7 @@ public:
 	WORD Energy;	// BE
 	BYTE  DbClass;	// 9E
 	BYTE  ChangeUP; // 9F
-	_GUILD_INFO_STRUCT * lpGuild;	// 2D4
+	GUILD_INFO_STRUCT * lpGuild;	// 2D4
 	char GuildName[11]; // 2D8
 	int GuildStatus;	// 2E4
 	int iGuildUnionTimeStamp;	// 2E8
@@ -2094,13 +2094,13 @@ int gObjItemRandomLevelUp(LPOBJ lpObj, int source, int target);
 int gObjItemRandomOption3Up(LPOBJ lpObj, int source, int target);
 void gObjAbilityReSet(LPOBJ lpObj);
 int gObjTargetGuildWarCheck(LPOBJ lpObj, LPOBJ lpTargetObj);
-void gObjGuildWarEndSend(struct _GUILD_INFO_STRUCT* lpGuild1, struct _GUILD_INFO_STRUCT* lpGuild2, unsigned char Result1, unsigned char Result2);
+void gObjGuildWarEndSend(struct GUILD_INFO_STRUCT* lpGuild1, struct GUILD_INFO_STRUCT* lpGuild2, unsigned char Result1, unsigned char Result2);
 void gObjGuildWarEndSend(LPOBJ lpObj, unsigned char Result1, unsigned char Result2);
-void gObjGuildWarEnd(struct _GUILD_INFO_STRUCT* lpGuild, struct _GUILD_INFO_STRUCT* lpTargetGuild);
-int gObjGuildWarProc(struct _GUILD_INFO_STRUCT* lpGuild1, struct _GUILD_INFO_STRUCT* lpGuild2, int score);
+void gObjGuildWarEnd(struct GUILD_INFO_STRUCT* lpGuild, struct GUILD_INFO_STRUCT* lpTargetGuild);
+int gObjGuildWarProc(struct GUILD_INFO_STRUCT* lpGuild1, struct GUILD_INFO_STRUCT* lpGuild2, int score);
 int gObjGuildWarCheck(LPOBJ lpObj, LPOBJ lpTargetObj);
 int gObjGuildWarMasterClose(LPOBJ lpObj);
-int gObjGuildWarItemGive(struct _GUILD_INFO_STRUCT* lpWinGuild, struct _GUILD_INFO_STRUCT* lpLoseGuild);
+int gObjGuildWarItemGive(struct GUILD_INFO_STRUCT* lpWinGuild, struct GUILD_INFO_STRUCT* lpLoseGuild);
 int gObjGetPkTime(LPOBJ lpObj, int& hour, int& min);
 int gObjMonsterCall(int aIndex, int MonsterType, int x, int y);
 void gObjMonsterCallKill(int aIndex);

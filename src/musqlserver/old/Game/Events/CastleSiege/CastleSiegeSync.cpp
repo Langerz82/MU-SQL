@@ -182,7 +182,7 @@ BOOL CCastleSiegeSync::CheckCastleOwnerUnionMember(int iIndex)
 		return FALSE;
 	}
 
-	_GUILD_INFO_STRUCT * lpGuildInfo = gObj[iIndex].m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT * lpGuildInfo = gObj[iIndex].m_PlayerData->lpGuild;
 	
 	if ( lpGuildInfo == NULL )
 	{

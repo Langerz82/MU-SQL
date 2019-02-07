@@ -452,7 +452,7 @@ public:
 	void GCServerMsgStringSendEx(int aIndex, BYTE type, LPSTR szMsg, ...);
 	void GCServerMsgStringSendAll(LPSTR  szMsg, BYTE type);
 	void GCServerMsgStringSendAllEx(BYTE type, LPSTR szMsg, ...);
-	void GCServerMsgStringSendGuild(_GUILD_INFO_STRUCT* lpNode, char* szMsg, unsigned char type);
+	void GCServerMsgStringSendGuild(GUILD_INFO_STRUCT* lpNode, char* szMsg, unsigned char type);
 	void GCEventStateSend(int aIndex, unsigned char state, unsigned char event);
 	void GCMapEventStateSend(int map, unsigned char state, unsigned char event);
 	void CGChatWhisperRecv(PMSG_CHATDATA_WHISPER* lpMsg, int aIndex);

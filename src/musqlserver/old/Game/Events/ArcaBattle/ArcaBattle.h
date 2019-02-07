@@ -1057,7 +1057,7 @@ public:
 
 	void GDReqGuildRegInit();
 
-	void PrintGuildMemberLog(_GUILD_INFO_STRUCT *lpGuild);
+	void PrintGuildMemberLog(GUILD_INFO_STRUCT *lpGuild);
 
 	void GDReqArcaBattleAllJoinUser();
 	void DGAnsArcaBattleAllJoinUser(PMSG_ANS_AB_ALL_JOIN_USER_DS *lpMsg);

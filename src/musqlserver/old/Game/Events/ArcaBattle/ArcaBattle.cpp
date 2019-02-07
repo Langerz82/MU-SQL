@@ -208,7 +208,7 @@ void CArcaBattle::GiveRewardBuffWinningGuild()
 				g_Log.Add("[ArcaBattle] Error Obelisk Attribute %d", this->m_stObeliskInfo[i].m_iAttrKind);
 			}
 
-			_GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild(this->m_stObeliskState[i].m_szOccupyGuildName);
+			GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild(this->m_stObeliskState[i].m_szOccupyGuildName);
 
 			if ( lpGuild )
 			{
@@ -312,7 +312,7 @@ void CArcaBattle::RemoveRewardBuff(char *szGuildName)
 
 void CArcaBattle::RemoveGuildBuff(char *szGuildName, WORD wBuffIndex)
 {
-	_GUILD_INFO_STRUCT *lpGuild = Guild.SearchGuild(szGuildName);
+	GUILD_INFO_STRUCT *lpGuild = Guild.SearchGuild(szGuildName);
 
 	if ( !lpGuild )
 	{
@@ -407,7 +407,7 @@ void CArcaBattle::AddArcaBattleWinGuildInfo(_stABWinGuildInfoDS *pABWinGuildInfo
 		this->m_stABWinGuildInfo[i].wOccupyObelisk = pABWinGuildInfoDS[i].wOccupyObelisk;
 		this->m_stABWinGuildInfo[i].wObeliskGroup = pABWinGuildInfoDS[i].wObeliskGroup;
 
-		_GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild(this->m_stABWinGuildInfo[i].szGuildName);
+		GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild(this->m_stABWinGuildInfo[i].szGuildName);
 
 		if ( lpGuild )
 		{
@@ -1670,7 +1670,7 @@ void CArcaBattle::ChkAuraUserHover()
 					this->m_stObeliskState[i].m_iOccupyGuildNum != gObj[iUserIndex].m_PlayerData->GuildNumber)
 				{
 					this->m_stObeliskState[i].m_iAuraReleaseGuildNum = gObj[iUserIndex].m_PlayerData->GuildNumber;
-					_GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild_Number(this->m_stObeliskState[i].m_iAuraReleaseGuildNum);
+					GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild_Number(this->m_stObeliskState[i].m_iAuraReleaseGuildNum);
 
 					if (!lpGuild)
 					{
@@ -1845,8 +1845,8 @@ BOOL CArcaBattle::IsEnableAttackObelisk(OBJECTSTRUCT *lpObj, int iMonNumber)
 
 int CArcaBattle::IsPkEnable(LPOBJ lpObj, LPOBJ lpTargetObj)
 {
-	_GUILD_INFO_STRUCT * lpGuildInfo = lpObj->m_PlayerData->lpGuild;
-	_GUILD_INFO_STRUCT *lpTarGuildInfo = lpTargetObj->m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT * lpGuildInfo = lpObj->m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT *lpTarGuildInfo = lpTargetObj->m_PlayerData->lpGuild;
 
 	if ( g_ConfigRead.server.GetServerType() != SERVER_ARCA )
 	{
@@ -2703,7 +2703,7 @@ void CArcaBattle::GDReqArcaBattleJoinMemberUnderReq()
 void CArcaBattle::DGAnsArcaBattleJoinMemberUnderReq(PMSG_ANS_AB_JOIN_CANCEL_DS *lpMsg)
 {
 
-	_GUILD_INFO_STRUCT *lpGuild;
+	GUILD_INFO_STRUCT *lpGuild;
 	int iGuildCnt;
 	PMSG_SEND_AB_JOIN_CANCEL pMsg;
 
@@ -2946,7 +2946,7 @@ bool CArcaBattle::CGReqMarkReg(int iIndex)
 	}
 
 	LPOBJ lpObj = &gObj[iIndex];
-	_GUILD_INFO_STRUCT * lpGuildInfo = lpObj->m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT * lpGuildInfo = lpObj->m_PlayerData->lpGuild;
 
 	if (!lpGuildInfo)
 	{
@@ -3225,7 +3225,7 @@ void CArcaBattle::DGAnsMarkCnt(PMSG_ANS_ARCA_BATTLE_MARK_CNT_DS *lpMsg)
 
 void CArcaBattle::GDReqMarkReg(int iIndex, DWORD dwMarkCnt)
 {
-	_GUILD_INFO_STRUCT *lpGuild = gObj[iIndex].m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT *lpGuild = gObj[iIndex].m_PlayerData->lpGuild;
 
 	if (!lpGuild)
 	{
@@ -3442,7 +3442,7 @@ void CArcaBattle::SetJoinMemberCnt(int iJoinGuildMemberCnt)
 
 void CArcaBattle::CheatGDReqMarkReg(int iIndex, char *szGuildName, DWORD dwGuildNum, DWORD dwMarkCnt)
 {
-	_GUILD_INFO_STRUCT *lpGuild = gObj[iIndex].m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT *lpGuild = gObj[iIndex].m_PlayerData->lpGuild;
 
 	if (!lpGuild)
 	{
@@ -3477,7 +3477,7 @@ void CArcaBattle::CheatGDReqMarkReg(int iIndex, char *szGuildName, DWORD dwGuild
 
 void CArcaBattle::CheatGDReqMarkRegSet(int iIndex, DWORD dwMarkCnt)
 {
-	_GUILD_INFO_STRUCT *lpGuild = gObj[iIndex].m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT *lpGuild = gObj[iIndex].m_PlayerData->lpGuild;
 
 	if (!lpGuild)
 	{
@@ -3618,7 +3618,7 @@ void CArcaBattle::GDReqGuildRegInit()
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CArcaBattle::PrintGuildMemberLog(_GUILD_INFO_STRUCT *lpGuild)
+void CArcaBattle::PrintGuildMemberLog(GUILD_INFO_STRUCT *lpGuild)
 {
 	if ( !lpGuild )
 	{
@@ -3807,7 +3807,7 @@ void CArcaBattle::GCArcaBattleUserInfo(int iUserIndex)
 
 	_stPMSG_AB_JOIN_USER_COUNT pMsg;
 	_stABCurJoinGuildUserInfo stABCurJoinGuildUser;
-	_GUILD_INFO_STRUCT * lpGuild;
+	GUILD_INFO_STRUCT * lpGuild;
 
 	int lOfs = sizeof(pMsg);
 	int count = 0;
@@ -4003,7 +4003,7 @@ void CArcaBattle::GCArcaBattleSendNotiMsg(BYTE btNoticeType, int iNoticeValue, c
 
 	else
 	{
-		_GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild(szGuildName);
+		GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild(szGuildName);
 
 		if (!lpGuild)
 		{
@@ -4043,7 +4043,7 @@ void CArcaBattle::GCArcaBattleCurrentStatusForReConnectUser(int iUserIndex)
 		{
 			if (this->m_stObeliskState[i].m_iAuraState == 2)
 			{
-				_GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild_Number(this->m_stObeliskState[i].m_iAuraReleaseGuildNum);
+				GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild_Number(this->m_stObeliskState[i].m_iAuraReleaseGuildNum);
 
 				if (!lpGuild)
 				{
@@ -4064,7 +4064,7 @@ void CArcaBattle::GCArcaBattleCurrentStatusForReConnectUser(int iUserIndex)
 
 			else
 			{
-				_GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild_Number(this->m_stObeliskState[i].m_iOccupyGuildNum);
+				GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild_Number(this->m_stObeliskState[i].m_iOccupyGuildNum);
 				this->GCArcaBattleCurrentStatus(this->m_stObeliskInfo[i].m_iGroupNumber, this->m_stObeliskInfo[i].m_iAttrKind, ARCA_BATTLE_OBELISK_CAPTURED, this->m_stObeliskState[i].m_iOccupyGuildNum, lpGuild->Name, iUserIndex);
 			}
 		}
@@ -4073,7 +4073,7 @@ void CArcaBattle::GCArcaBattleCurrentStatusForReConnectUser(int iUserIndex)
 		{
 			if (this->m_stObeliskState[i].m_iAuraState == 2)
 			{
-				_GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild_Number(this->m_stObeliskState[i].m_iAuraReleaseGuildNum);
+				GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild_Number(this->m_stObeliskState[i].m_iAuraReleaseGuildNum);
 
 				if (!lpGuild)
 				{

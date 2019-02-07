@@ -22447,7 +22447,7 @@ void gObjGuildWarEndSend(LPOBJ lpObj, BYTE Result1, BYTE Result2)
 	TNotice::SendNoticeToAllUser(&pNotice);
 }
 
-void gObjGuildWarEndSend(_GUILD_INFO_STRUCT * lpGuild1, _GUILD_INFO_STRUCT * lpGuild2, BYTE Result1, BYTE Result2)
+void gObjGuildWarEndSend(GUILD_INFO_STRUCT * lpGuild1, GUILD_INFO_STRUCT * lpGuild2, BYTE Result1, BYTE Result2)
 {
 	if (lpGuild1 == 0 || lpGuild2 == 0)
 	{
@@ -22485,7 +22485,7 @@ void gObjGuildWarEndSend(_GUILD_INFO_STRUCT * lpGuild1, _GUILD_INFO_STRUCT * lpG
 
 
 
-void gObjGuildWarEnd(_GUILD_INFO_STRUCT * lpGuild, _GUILD_INFO_STRUCT * lpTargetGuild)
+void gObjGuildWarEnd(GUILD_INFO_STRUCT * lpGuild, GUILD_INFO_STRUCT * lpTargetGuild)
 {
 	if (lpGuild == 0 || lpTargetGuild == 0)
 	{
@@ -22502,7 +22502,7 @@ void gObjGuildWarEnd(_GUILD_INFO_STRUCT * lpGuild, _GUILD_INFO_STRUCT * lpTarget
 
 		if (lpGuild->lpTargetGuildNode != 0)
 		{
-			_GUILD_INFO_STRUCT * lpTguild = lpGuild->lpTargetGuildNode;
+			GUILD_INFO_STRUCT * lpTguild = lpGuild->lpTargetGuildNode;
 
 			lpGuild->lpTargetGuildNode = 0;
 			lpTguild->lpTargetGuildNode = 0;
@@ -22517,7 +22517,7 @@ void gObjGuildWarEnd(_GUILD_INFO_STRUCT * lpGuild, _GUILD_INFO_STRUCT * lpTarget
 
 
 
-BOOL gObjGuildWarProc(_GUILD_INFO_STRUCT * lpGuild1, _GUILD_INFO_STRUCT * lpGuild2, int score)
+BOOL gObjGuildWarProc(GUILD_INFO_STRUCT * lpGuild1, GUILD_INFO_STRUCT * lpGuild2, int score)
 {
 	int totalscore;
 	int n;
@@ -22605,8 +22605,8 @@ BOOL gObjGuildWarCheck(LPOBJ lpObj, LPOBJ lpTargetObj)
 		score = 2;
 	}
 
-	_GUILD_INFO_STRUCT * lpGuild = lpObj->m_PlayerData->lpGuild;
-	_GUILD_INFO_STRUCT * lpTargetGuild = lpTargetObj->m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT * lpGuild = lpObj->m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT * lpTargetGuild = lpTargetObj->m_PlayerData->lpGuild;
 
 	if (gObjGuildWarProc(lpGuild, lpTargetGuild, score) == 1)
 	{
@@ -22655,7 +22655,7 @@ BOOL gObjGuildWarMasterClose(LPOBJ lpObj)
 
 
 
-int gObjGuildWarItemGive(_GUILD_INFO_STRUCT * lpWinGuild, _GUILD_INFO_STRUCT * lpLoseGuild)
+int gObjGuildWarItemGive(GUILD_INFO_STRUCT * lpWinGuild, GUILD_INFO_STRUCT * lpLoseGuild)
 {
 	return true;
 	int n;
@@ -25365,7 +25365,7 @@ void gObjUnionUpdateProc(int iIndex)
 
 }
 
-// _GUILD_INFO_STRUCT 0x4e0a10
+// GUILD_INFO_STRUCT 0x4e0a10
 
 
 

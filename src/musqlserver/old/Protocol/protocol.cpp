@@ -2190,7 +2190,7 @@ void GameProtocol::PChatProc(PMSG_CHATDATA * lpChat, short aIndex)
 				{
 					for (int i = 0; i < iGuildCount; i++)
 					{
-						_GUILD_INFO_STRUCT *lpGuildInfo = Guild.SearchGuild_Number(iGuildList[i]);
+						GUILD_INFO_STRUCT *lpGuildInfo = Guild.SearchGuild_Number(iGuildList[i]);
 
 						if (!lpGuildInfo)
 							continue;
@@ -2407,7 +2407,7 @@ void GameProtocol::GCServerMsgStringSendEx(int aIndex, BYTE type, LPSTR szMsg, .
 }
 
 
-void GameProtocol::GCServerMsgStringSendGuild(_GUILD_INFO_STRUCT* lpNode, LPSTR szMsg, BYTE type)
+void GameProtocol::GCServerMsgStringSendGuild(GUILD_INFO_STRUCT* lpNode, LPSTR szMsg, BYTE type)
 {
 	if (lpNode == NULL)
 	{
@@ -8867,7 +8867,7 @@ void GameProtocol::CGGuildListAll(int pnumber)
 		{
 			for (int i = 0; i < iGuildCount; i++)
 			{
-				_GUILD_INFO_STRUCT *lpGuildInfo = Guild.SearchGuild_Number(iGuildList[i]);
+				GUILD_INFO_STRUCT *lpGuildInfo = Guild.SearchGuild_Number(iGuildList[i]);
 
 				if (!lpGuildInfo)
 					continue;
@@ -9185,7 +9185,7 @@ void GameProtocol::CGGuildMasterCreateCancel(int aIndex)
 
 void GameProtocol::GCGuildViewportNowPaint(int aIndex, char* guildname, BYTE* mark, BOOL isGuildMaster)
 {
-	_GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild(guildname);
+	GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild(guildname);
 
 	if (lpGuild == NULL)
 		return;
@@ -9265,7 +9265,7 @@ void GameProtocol::GCGuildViewportDelNow(int aIndex, BOOL isGuildMaster)
 
 void GameProtocol::GCManagerGuildWarEnd(char * GuildName)
 {
-	_GUILD_INFO_STRUCT * lpNode = Guild.SearchGuild(GuildName);
+	GUILD_INFO_STRUCT * lpNode = Guild.SearchGuild(GuildName);
 
 	if (lpNode == NULL)
 	{
@@ -9344,7 +9344,7 @@ void GameProtocol::GCManagerGuildWarEnd(char * GuildName)
 
 void GameProtocol::GCManagerGuildWarSet(LPSTR GuildName1, LPSTR GuildName2, int type)
 {
-	_GUILD_INFO_STRUCT * lpNode = Guild.SearchGuild(GuildName1);
+	GUILD_INFO_STRUCT * lpNode = Guild.SearchGuild(GuildName1);
 
 	if (lpNode == NULL)
 	{
@@ -9417,7 +9417,7 @@ void GameProtocol::GCGuildWarRequestResult(LPSTR GuildName, int aIndex, int type
 		return;
 	}
 
-	_GUILD_INFO_STRUCT * lpMyGuild = gObj[aIndex].m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT * lpMyGuild = gObj[aIndex].m_PlayerData->lpGuild;
 
 	if (!lpMyGuild)
 	{
@@ -9461,7 +9461,7 @@ void GameProtocol::GCGuildWarRequestResult(LPSTR GuildName, int aIndex, int type
 	if (!strncmp(lpMyGuild->Name, GuildName, MAX_GUILD_LEN))
 		return;
 
-	_GUILD_INFO_STRUCT * lpNode = Guild.SearchGuild(_guildname);
+	GUILD_INFO_STRUCT * lpNode = Guild.SearchGuild(_guildname);
 
 	if (lpNode)
 	{
@@ -9618,7 +9618,7 @@ void GameProtocol::GCGuildWarRequestSendRecv(PMSG_GUILDWARSEND_RESULT * lpMsg, i
 	PHeadSetB((LPBYTE)&pMsg, 0x62, sizeof(pMsg));
 	pMsg.Type = 0;
 
-	_GUILD_INFO_STRUCT * lpMyNode = gObj[aIndex].m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT * lpMyNode = gObj[aIndex].m_PlayerData->lpGuild;
 
 	if (!lpMyNode)
 	{
@@ -16677,7 +16677,7 @@ void GameProtocol::GCGuildViewportInfo(PMSG_REQ_GUILDVIEWPORT * aRecv, int aInde
 
 	LPOBJ lpObj = &gObj[aIndex];
 	DWORD dwGuildNumber = aRecv->GuildNumber;
-	_GUILD_INFO_STRUCT * lpGuildInfo = Guild.SearchGuild_Number(dwGuildNumber);
+	GUILD_INFO_STRUCT * lpGuildInfo = Guild.SearchGuild_Number(dwGuildNumber);
 
 	if (lpGuildInfo)
 	{
@@ -16951,8 +16951,8 @@ void GameProtocol::CGRelationShipReqJoinBreakOff(PMSG_RELATIONSHIP_JOIN_BREAKOFF
 		return;
 	}
 
-	_GUILD_INFO_STRUCT * lpGuildInfo = gObj[aIndex].m_PlayerData->lpGuild;
-	_GUILD_INFO_STRUCT * lpTargetGuildInfo = gObj[iTargetUserIndex].m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT * lpGuildInfo = gObj[aIndex].m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT * lpTargetGuildInfo = gObj[iTargetUserIndex].m_PlayerData->lpGuild;
 	BYTE btRelationShip = gObjGetRelationShip(lpObj, lpTargetObj);
 
 	if (aRecv->btRequestType == 1)
@@ -18879,7 +18879,7 @@ void GameProtocol::CGReqGuildMarkOfCastleOwner(PMSG_REQ_GUILDMARK_OF_CASTLEOWNER
 
 	if (szGuildName)
 	{
-		_GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild(szGuildName);
+		GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild(szGuildName);
 
 		if (lpGuild != NULL)
 		{
@@ -20107,7 +20107,7 @@ void GameProtocol::CGReqRegGensMember(PMSG_REQ_REG_GENS_MEMBER *lpMsg, int iInde
 
 	LPOBJ lpObj = &gObj[iIndex];
 
-	_GUILD_INFO_STRUCT *lpGuildInfo = gObj[iIndex].m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT *lpGuildInfo = gObj[iIndex].m_PlayerData->lpGuild;
 
 	if (!ObjectMaxRange(iIndex)) return;
 
@@ -20567,7 +20567,7 @@ void GameProtocol::CGReqArcaBattleGuildMasterJoin(PMSG_REQ_ARCA_BATTLE_JOIN *lpM
 		return;
 	}
 
-	_GUILD_INFO_STRUCT * lpGuildInfo = lpObj->m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT * lpGuildInfo = lpObj->m_PlayerData->lpGuild;
 	PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS pMsg;
 
 	pMsg.wNumber = iIndex;
@@ -21119,7 +21119,7 @@ void GameProtocol::CGReqRegGuildMatchingList(PMSG_REQ_REGGUILDMATCHINGDATA *lpMs
 	}
 
 	int nGuildNumber = lpObj->m_PlayerData->GuildNumber;
-	_GUILD_INFO_STRUCT * lpstGuildInfo = Guild.SearchGuild_Number(nGuildNumber);
+	GUILD_INFO_STRUCT * lpstGuildInfo = Guild.SearchGuild_Number(nGuildNumber);
 	_stGuildMatchingList stGuildMatchingList;
 
 	PMSG_ANS_REGGUILDMATCHINGDATA pMsg;
@@ -21182,7 +21182,7 @@ void GameProtocol::CGReqCancelGuildMatchingList(PMSG_REQ_CANCEL_GUILDMATCHINGLIS
 	}
 
 	int nGuildNumber = lpObj->m_PlayerData->GuildNumber;
-	_GUILD_INFO_STRUCT * lpstGuildInfo = Guild.SearchGuild_Number(nGuildNumber);
+	GUILD_INFO_STRUCT * lpstGuildInfo = Guild.SearchGuild_Number(nGuildNumber);
 
 	PMSG_ANS_CANCEL_GUILDMATCHINGLIST pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xED, 0x03, sizeof(pMsg));
@@ -21309,7 +21309,7 @@ void GameProtocol::CGReqGetAllowListJoinGuildMatching(PMSG_REQ_ALLOWLIST_GUILDMA
 	}
 
 	int nGuildNumber = lpObj->m_PlayerData->GuildNumber;
-	_GUILD_INFO_STRUCT * lpstGuildInfo = Guild.SearchGuild_Number(nGuildNumber);
+	GUILD_INFO_STRUCT * lpstGuildInfo = Guild.SearchGuild_Number(nGuildNumber);
 
 	PMSG_ANS_WAIT_GUILDMATCHING pMsg;
 	PHeadSubSetW((LPBYTE)&pMsg, 0xED, 0x07, sizeof(pMsg));
@@ -21367,7 +21367,7 @@ void GameProtocol::CGReqRegWantedPartyMember(PMSG_REQ_REG_WANTED_PARTYMEMBER *lp
 		nPartyNumber = lpObj->PartyNumber;
 	}
 
-	_PARTY_INFO_LISTDB stList;
+	PARTY_INFO_LISTDB stList;
 
 	if (bAlreadyParty)
 	{

@@ -367,23 +367,23 @@ private:
 
 	int RelationShipOperation(int iReqGuild, int iTargGuild, int relation_type, int operation);
 
-	int RelationShipJoin(_GUILD_INFO_STRUCT* lpReqGuild, _GUILD_INFO_STRUCT* lpTargGuild, int type);
-	int UnionJoin(_GUILD_INFO_STRUCT* lpReqGuild, _GUILD_INFO_STRUCT* lpTargGuild);
-	int RivalJoin(_GUILD_INFO_STRUCT* lpReqGuild, _GUILD_INFO_STRUCT* lpTargGuild);
+	int RelationShipJoin(GUILD_INFO_STRUCT* lpReqGuild, GUILD_INFO_STRUCT* lpTargGuild, int type);
+	int UnionJoin(GUILD_INFO_STRUCT* lpReqGuild, GUILD_INFO_STRUCT* lpTargGuild);
+	int RivalJoin(GUILD_INFO_STRUCT* lpReqGuild, GUILD_INFO_STRUCT* lpTargGuild);
 
-	int RelationShipBreak(_GUILD_INFO_STRUCT* lpMasterGuild, _GUILD_INFO_STRUCT* lpKickGuild, int type);
-	int UnionBreak(_GUILD_INFO_STRUCT* lpMasterGuild, _GUILD_INFO_STRUCT* lpKickGuild);
-	int RivalBreak(_GUILD_INFO_STRUCT* lpMasterGuild, _GUILD_INFO_STRUCT* lpKickGuild);
+	int RelationShipBreak(GUILD_INFO_STRUCT* lpMasterGuild, GUILD_INFO_STRUCT* lpKickGuild, int type);
+	int UnionBreak(GUILD_INFO_STRUCT* lpMasterGuild, GUILD_INFO_STRUCT* lpKickGuild);
+	int RivalBreak(GUILD_INFO_STRUCT* lpMasterGuild, GUILD_INFO_STRUCT* lpKickGuild);
 
-	BOOL AddUnion(_GUILD_INFO_STRUCT* lpReqGuild, _GUILD_INFO_STRUCT* lpTargGuild);
+	BOOL AddUnion(GUILD_INFO_STRUCT* lpReqGuild, GUILD_INFO_STRUCT* lpTargGuild);
 	BOOL AddUnion(int iReqGuild, int iTargGuild);
-	BOOL KickUnion(_GUILD_INFO_STRUCT* lpMasterGuild, _GUILD_INFO_STRUCT* lpKickGuild);
+	BOOL KickUnion(GUILD_INFO_STRUCT* lpMasterGuild, GUILD_INFO_STRUCT* lpKickGuild);
 
 	BOOL UpdateDBUnion(int iGuild, int iUnion);
 	BOOL UpdateDBRival(int iGuild, int iRival);
 
 	void RelationShipBreakSend(int iGuild, int iType);
-	void SendListToAllRivals(_GUILD_INFO_STRUCT* lpGuild);
+	void SendListToAllRivals(GUILD_INFO_STRUCT* lpGuild);
 
 	int GetChatServer();
 
@@ -417,8 +417,8 @@ private:
 	void SendPartyMatchingOneList(char *szMemberName);
 	void AutoAddPartyMember(char *szLeaderName, char *szMemberName, int nUserIndex, int nServerIndex);
 
-	std::map<std::string, GUILD_INFO_STRUCT*,strCmp> m_MapGuildManager;
-	std::map<int, UNION_MEMBER_DATA*> m_MapUnionManager;
+	MAP_GUILD_INFO m_MapGuildManager;
+	MAP_MEMBER_DATA m_MapUnionManager;
 
 	GensSystem_EDS				m_GensSystemEDS;
 	CFriendSystem				m_FriendSystemEDS;

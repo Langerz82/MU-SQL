@@ -1,6 +1,6 @@
 
-#ifndef _MUPROTOCOLSTRUCTS_H
-#define _MUPROTOCOLSTRUCTS_H
+#ifndef _PROTOCOLSTRUCTS_H
+#define _PROTOCOLSTRUCTS_H
 
 #if _MSC_VER > 1000
 #pragma once
@@ -8,6 +8,7 @@
 
 #include "StdAfx.h"
 #include "GensSystemProtocol.h"
+#include "User/user.h"
 
 #include <string>
 #include <map>
@@ -943,9 +944,19 @@ struct sellItem;
 struct sellItemPrice;
 struct sellPackage;
 struct stMemberPosInfo;
+struct STR_STRINGCOMPARE;
+
+typedef struct STR_STRINGCOMPARE
+{
+	bool operator()(const std::string s1, const std::string s2) const
+	{
+		return strcmp(s1.data(), s2.data()) < 0;
+	}
+} strCmp;
 
 typedef map<string, GUILD_MEMBER*, strCmp> MAP_GUILD_MEMBER;
 typedef map<std::string, GUILD_INFO_STRUCT*, strCmp> MAP_GUILD_INFO;
+typedef map<int, UNION_MEMBER_DATA*> MAP_MEMBER_DATA;
 
 struct _ITL_GUILD_RANK {
 	char szGuildName[MAX_GUILD_LEN + 1];
@@ -974,7 +985,7 @@ struct _ITL_AnswerEnter {
 	char Name[MAX_ACCOUNT_LEN + 1];
 };
 
-struct _PARTY_INFO_LIST {
+struct PARTY_INFO_LIST {
 	char szLeaderName[MAX_ACCOUNT_LEN + 1];
 	char szTitle[41];
 	WORD nMinLevel;
@@ -990,7 +1001,7 @@ struct _PARTY_INFO_LIST {
 	BYTE btGensType;
 };
 
-struct _PARTY_INFO_LISTDB {
+struct PARTY_INFO_LISTDB {
 	char szLeaderName[MAX_ACCOUNT_LEN + 1];
 	char szTitle[41];
 	char szPassword[5];
@@ -1136,7 +1147,7 @@ struct _stAnsGetPartyMatchingList {
 	int nPage;
 	int nTotalPage;
 	int nResult;
-	_PARTY_INFO_LIST stPartyInfoList[6];
+	PARTY_INFO_LIST stPartyInfoList[6];
 };
 
 struct _stAnsGuildMatchingData {
@@ -8184,14 +8195,6 @@ struct stMemberPosInfo {
 	BYTE btPosY;
 };
 
-struct strCmp
-{
-	bool operator()(const std::string s1, const std::string s2) const
-	{
-		return strcmp(s1.data(), s2.data()) < 0;
-	}
-};
-
 typedef struct GUILD_INFO_STRUCT {
 	int m_iNumber;
 	char m_szGuildName[9];
@@ -8217,7 +8220,7 @@ typedef struct GUILD_INFO_STRUCT {
 		m_mapGuildMember.clear();
 		m_bGSHasData = FALSE;
 	}
-} _GUILD_INFO_STRUCT, *LPGUILD_INFO_STRUCT;
+} *LPGUILD_INFO_STRUCT;
 
 struct JOIN_SERVER_SERVER_DATA {
 	int m_ServerIndex;
@@ -8252,7 +8255,6 @@ typedef struct UNION_MEMBER_DATA {
 	std::vector<int> m_vecUnionMember;
 } UNION_MEMBER_DATA, *UNION_MEMBER_DATA*;
 
-#pragma pack(1)
 struct USER_CONNECT_DATA
 {
 	PMSG_ANS_MAPSVRMOVE pMapServerMoveData;
@@ -8262,7 +8264,7 @@ struct USER_CONNECT_DATA
 	DWORD dwSecurityCode;
 	char szPassword[20];
 };
-#pragma pack()
+
 
 struct USERWAREHOUSE_DATA {
 	char szAccountID[MAX_ACCOUNT_LEN + 1];

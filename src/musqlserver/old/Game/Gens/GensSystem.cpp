@@ -144,7 +144,7 @@ bool GensSystem::IsInfluenceNPC(LPOBJ lpObj)
 //-> Completed
 int GensSystem::ReqSecedeGensMember(LPOBJ lpObj) // done
 {
-	_GUILD_INFO_STRUCT *lpGuildInfo = lpObj->m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT *lpGuildInfo = lpObj->m_PlayerData->lpGuild;
 
 	if (gObjIsConnected(lpObj->m_Index))
 	{

@@ -113,7 +113,7 @@ void gBattleGroundEnable(int n, BOOL enable)
 	}
 }
 
-void gSetBattleTeamMaster(int ground, int team, char * szname, _GUILD_INFO_STRUCT * lpGuild)
+void gSetBattleTeamMaster(int ground, int team, char * szname, GUILD_INFO_STRUCT * lpGuild)
 {
 	if ( BATTLE_SOCCER_GROUND_RANGE(ground)  == FALSE )
 		return;
@@ -212,8 +212,8 @@ BOOL gBattleSoccerScoreUpdate(int ground, int team)
 
 	int score = 20;
 	int totalscore = 1;
-	_GUILD_INFO_STRUCT * lpGuild;
-	_GUILD_INFO_STRUCT * lpTargetGuild;
+	GUILD_INFO_STRUCT * lpGuild;
+	GUILD_INFO_STRUCT * lpTargetGuild;
 	bool bGoalTeam;
 
 	if ( team == 0 )

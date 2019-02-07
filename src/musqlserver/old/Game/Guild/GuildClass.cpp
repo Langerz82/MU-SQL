@@ -28,17 +28,17 @@ void CGuildClass::Init()
 	this->m_GuildNumberMap.clear();
 }
 
-_GUILD_INFO_STRUCT * CGuildClass::AddGuild(int number, char* guildname, GUILDMARK mark, char * mastername, int score)
+GUILD_INFO_STRUCT * CGuildClass::AddGuild(int number, char* guildname, GUILDMARK mark, char * mastername, int score)
 {
-	_GUILD_INFO_STRUCT * pNewNode;
-	_GUILD_INFO_STRUCT * pSearchGuild = this->SearchGuild(guildname);
+	GUILD_INFO_STRUCT * pNewNode;
+	GUILD_INFO_STRUCT * pSearchGuild = this->SearchGuild(guildname);
 
 	if ( pSearchGuild != NULL )
 	{
 		return pSearchGuild;
 	}
 
-	pNewNode = (_GUILD_INFO_STRUCT*)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(_GUILD_INFO_STRUCT));
+	pNewNode = (GUILD_INFO_STRUCT*)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(GUILD_INFO_STRUCT));
 
 	if ( pNewNode != NULL )
 	{
@@ -83,7 +83,7 @@ _GUILD_INFO_STRUCT * CGuildClass::AddGuild(int number, char* guildname, GUILDMAR
 	return NULL;
 }
 
-void CGuildClass::AddTail(_GUILD_INFO_STRUCT * pNewNode)
+void CGuildClass::AddTail(GUILD_INFO_STRUCT * pNewNode)
 {
 	pNewNode->back = this->tail;
 	pNewNode->next = NULL;
@@ -106,7 +106,7 @@ void CGuildClass::AddTail(_GUILD_INFO_STRUCT * pNewNode)
 
 void CGuildClass::Print()
 {
-	_GUILD_INFO_STRUCT * pNode = this->head;
+	GUILD_INFO_STRUCT * pNode = this->head;
 
 	while ( pNode != NULL )
 	{
@@ -116,14 +116,14 @@ void CGuildClass::Print()
 
 void CGuildClass::PrintGuild(char* guildname)
 {
-	_GUILD_INFO_STRUCT * pNode = this->SearchGuild(guildname);
+	GUILD_INFO_STRUCT * pNode = this->SearchGuild(guildname);
 }
 
 
 void CGuildClass::AllDelete()
 {
-	_GUILD_INFO_STRUCT * pNode = this->head;
-	_GUILD_INFO_STRUCT * pTemp;
+	GUILD_INFO_STRUCT * pNode = this->head;
+	GUILD_INFO_STRUCT * pTemp;
 
 	while ( pNode != NULL )
 	{
@@ -141,23 +141,23 @@ void CGuildClass::AllDelete()
 
 BOOL CGuildClass::DeleteGuild(char* guildname, char* commander)
 {
-	_GUILD_INFO_STRUCT * pNode = this->SearchGuild(guildname);
-	_GUILD_INFO_STRUCT * pprev;
-	_GUILD_INFO_STRUCT * pnext;
+	GUILD_INFO_STRUCT * pNode = this->SearchGuild(guildname);
+	GUILD_INFO_STRUCT * pprev;
+	GUILD_INFO_STRUCT * pnext;
 
 	if ( pNode == NULL )
 	{
 		return false;
 	}
 
-	std::map<std::string, _GUILD_INFO_STRUCT *>::iterator Itor = this->m_GuildMap.find(guildname);
+	std::map<std::string, GUILD_INFO_STRUCT *>::iterator Itor = this->m_GuildMap.find(guildname);
 
 	if( Itor != this->m_GuildMap.end() )
 	{
 		this->m_GuildMap.erase(Itor);
 	}
 
-	std::map<int , _GUILD_INFO_STRUCT *>::iterator _Itor = this->m_GuildNumberMap.find(pNode->Number);
+	std::map<int , GUILD_INFO_STRUCT *>::iterator _Itor = this->m_GuildNumberMap.find(pNode->Number);
 
 	if ( _Itor != this->m_GuildNumberMap.end() )
 	{
@@ -201,9 +201,9 @@ BOOL CGuildClass::DeleteGuild(char* guildname, char* commander)
 
 	
 
-_GUILD_INFO_STRUCT * CGuildClass::SearchGuild(char* guildname)
+GUILD_INFO_STRUCT * CGuildClass::SearchGuild(char* guildname)
 {
-	std::map<std::string, _GUILD_INFO_STRUCT *>::iterator Itor = this->m_GuildMap.find(guildname);
+	std::map<std::string, GUILD_INFO_STRUCT *>::iterator Itor = this->m_GuildMap.find(guildname);
 
 	if( Itor == this->m_GuildMap.end() )
 	{
@@ -215,9 +215,9 @@ _GUILD_INFO_STRUCT * CGuildClass::SearchGuild(char* guildname)
 
 
 
-_GUILD_INFO_STRUCT * CGuildClass::SearchGuild_Number(int number)
+GUILD_INFO_STRUCT * CGuildClass::SearchGuild_Number(int number)
 {
-	std::map<int , _GUILD_INFO_STRUCT *>::iterator Itor = this->m_GuildNumberMap.find(number);
+	std::map<int , GUILD_INFO_STRUCT *>::iterator Itor = this->m_GuildNumberMap.find(number);
 
 	if ( Itor == this->m_GuildNumberMap.end() )
 	{
@@ -228,9 +228,9 @@ _GUILD_INFO_STRUCT * CGuildClass::SearchGuild_Number(int number)
 }
 
 
-_GUILD_INFO_STRUCT * CGuildClass::SearchGuild_NumberAndId(int number, char* name)
+GUILD_INFO_STRUCT * CGuildClass::SearchGuild_NumberAndId(int number, char* name)
 {
-	_GUILD_INFO_STRUCT * pNode = this->SearchGuild_Number(number);
+	GUILD_INFO_STRUCT * pNode = this->SearchGuild_Number(number);
 
 	if ( pNode != NULL )
 	{
@@ -246,7 +246,7 @@ _GUILD_INFO_STRUCT * CGuildClass::SearchGuild_NumberAndId(int number, char* name
 	return NULL;
 }
 
-BOOL CGuildClass::ConnectUser(_GUILD_INFO_STRUCT * lpNode, char* guild_name, char* player_name, int aIndex, int pServer)
+BOOL CGuildClass::ConnectUser(GUILD_INFO_STRUCT * lpNode, char* guild_name, char* player_name, int aIndex, int pServer)
 {
 	if ( lpNode == NULL )
 	{
@@ -284,9 +284,9 @@ BOOL CGuildClass::ConnectUser(_GUILD_INFO_STRUCT * lpNode, char* guild_name, cha
 }
 
 
-_GUILD_INFO_STRUCT * CGuildClass::AddMember(char* guild_name, char* player_name, int aIndex, int totalcount, int iGuildStatus, int pServer)
+GUILD_INFO_STRUCT * CGuildClass::AddMember(char* guild_name, char* player_name, int aIndex, int totalcount, int iGuildStatus, int pServer)
 {
-	_GUILD_INFO_STRUCT * pNode = this->SearchGuild(guild_name);
+	GUILD_INFO_STRUCT * pNode = this->SearchGuild(guild_name);
 	int blank = -1;
 
 	if ( pNode == NULL )
@@ -355,7 +355,7 @@ _GUILD_INFO_STRUCT * CGuildClass::AddMember(char* guild_name, char* player_name,
 
 
 
-_GUILD_INFO_STRUCT * CGuildClass::AddMember(_GUILD_INFO_STRUCT * pNode, char* player_name, int aIndex, int totalcount, int pServer)
+GUILD_INFO_STRUCT * CGuildClass::AddMember(GUILD_INFO_STRUCT * pNode, char* player_name, int aIndex, int totalcount, int pServer)
 {
 	int blank = -1;
 
@@ -422,7 +422,7 @@ _GUILD_INFO_STRUCT * CGuildClass::AddMember(_GUILD_INFO_STRUCT * pNode, char* pl
 int CGuildClass::GetGuildMemberStatus(char* szGuildName, char* szMemberName)
 {
 	int iGuildStatus = 0;
-	_GUILD_INFO_STRUCT * pNode = this->SearchGuild(szGuildName);
+	GUILD_INFO_STRUCT * pNode = this->SearchGuild(szGuildName);
 	int iKey = -1;
 
 	if ( pNode == NULL )
@@ -453,7 +453,7 @@ int CGuildClass::GetGuildMemberStatus(char* szGuildName, char* szMemberName)
 
 BOOL CGuildClass::SetGuildMemberStatus(char* szGuildName, char* szMemberName, int iGuildStatus)
 {
-	_GUILD_INFO_STRUCT * pNode = this->SearchGuild(szGuildName);
+	GUILD_INFO_STRUCT * pNode = this->SearchGuild(szGuildName);
 	int iKey = -1;
 
 	if ( pNode == NULL )
@@ -509,7 +509,7 @@ BOOL CGuildClass::SetGuildMemberStatus(char* szGuildName, char* szMemberName, in
 int CGuildClass::GetGuildType(char* szGuildName)
 {
 	int iGuildType = 0;
-	_GUILD_INFO_STRUCT * pNode = this->SearchGuild(szGuildName);
+	GUILD_INFO_STRUCT * pNode = this->SearchGuild(szGuildName);
 
 	if (pNode == NULL )
 	{
@@ -523,7 +523,7 @@ int CGuildClass::GetGuildType(char* szGuildName)
 BOOL CGuildClass::SetGuildType(char* szGuildName, int iGuildType)
 {
 	
-	_GUILD_INFO_STRUCT * pNode = this->SearchGuild(szGuildName);
+	GUILD_INFO_STRUCT * pNode = this->SearchGuild(szGuildName);
 
 	if (pNode == NULL )
 	{
@@ -558,7 +558,7 @@ BOOL CGuildClass::SetGuildType(char* szGuildName, int iGuildType)
 	return TRUE;
 }
 
-BOOL CGuildClass::BuildMemberTotal(_GUILD_INFO_STRUCT * lpNode)
+BOOL CGuildClass::BuildMemberTotal(GUILD_INFO_STRUCT * lpNode)
 {
 	if (lpNode == NULL )
 	{
@@ -586,7 +586,7 @@ BOOL CGuildClass::BuildMemberTotal(_GUILD_INFO_STRUCT * lpNode)
 
 BOOL CGuildClass::DelMember(char* guild_name, char* player_name)
 {
-	_GUILD_INFO_STRUCT * pNode = this->SearchGuild(guild_name);
+	GUILD_INFO_STRUCT * pNode = this->SearchGuild(guild_name);
 
 	if (pNode == NULL )
 	{
@@ -612,7 +612,7 @@ BOOL CGuildClass::DelMember(char* guild_name, char* player_name)
 
 BOOL CGuildClass::CloseMember(char* guild_name, char* player_name)
 {
-	_GUILD_INFO_STRUCT * pNode = this->SearchGuild(guild_name);
+	GUILD_INFO_STRUCT * pNode = this->SearchGuild(guild_name);
 
 	if (pNode == NULL )
 	{
@@ -639,7 +639,7 @@ BOOL CGuildClass::CloseMember(char* guild_name, char* player_name)
 
 BOOL CGuildClass::SetServer(char* guild_name, char* player_name, int pServer)
 {
-	_GUILD_INFO_STRUCT * pNode = this->SearchGuild(guild_name);
+	GUILD_INFO_STRUCT * pNode = this->SearchGuild(guild_name);
 
 	if (pNode == NULL )
 	{

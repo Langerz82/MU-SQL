@@ -3111,7 +3111,7 @@ BYTE CIllusionTempleLeagueProcess::SetGuild(int nGuildIndex, BYTE bySlotOrder, B
 		return -1;
 	}
 
-	_GUILD_INFO_STRUCT *lpG = Guild.SearchGuild_Number(nGuildIndex);
+	GUILD_INFO_STRUCT *lpG = Guild.SearchGuild_Number(nGuildIndex);
 
 	if (!lpG)
 	{
