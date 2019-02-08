@@ -34,7 +34,7 @@ bool CBag::LoadBag(const char* lpFileName)
 
 	if (result.status != pugi::status_ok)
 	{
-		sLog.outError("Failed to load %s file!", lpFileName);
+		sLog->outError("Failed to load %s file!", lpFileName);
 		return false;
 	}
 
@@ -66,7 +66,7 @@ bool CBag::LoadBag(const char* lpFileName)
 
 	if(this->m_BagData.dwItemDropRate < 10000 && this->m_BagData.dwDropMoney == 0)
 	{
-		sLog.outError("Error - %s bag has ItemDropRate lower than maximum and DropMoney is zero", lpFileName);
+		sLog->outError("Error - %s bag has ItemDropRate lower than maximum and DropMoney is zero", lpFileName);
 	}
 
 	int SectionNumber;
@@ -99,7 +99,7 @@ bool CBag::LoadBag(const char* lpFileName)
 
 		if ( m_DropSection.btUseSectionAllowedMapNum != 0xFF && MAX_MAP_RANGE(m_DropSection.btUseSectionAllowedMapNum) == FALSE )
 		{
-			sLog.outError("Error: Bag (%s), DropAllow Section:%d, btUseSectionAllowedMapNum value is wrong", lpFileName, m_DropSection.btUseSectionAllowedMapNum);
+			sLog->outError("Error: Bag (%s), DropAllow Section:%d, btUseSectionAllowedMapNum value is wrong", lpFileName, m_DropSection.btUseSectionAllowedMapNum);
 			continue;
 		}
 
@@ -141,7 +141,7 @@ bool CBag::LoadBag(const char* lpFileName)
 
 				if (ItemGetNumberMake(m_Item.btItemType, m_Item.wItemIndex) == -1)
 				{
-					sLog.outError("Error: Wrong Item in %s bag (Cat: %d Index: %d)", this->m_BagData.szBagName, m_Item.btItemType, m_Item.wItemIndex);
+					sLog->outError("Error: Wrong Item in %s bag (Cat: %d Index: %d)", this->m_BagData.szBagName, m_Item.btItemType, m_Item.wItemIndex);
 					continue;
 				}
 
@@ -398,7 +398,7 @@ void CBag::AddCoin(int aIndex)
 	char *CoinTypes[] = { "C", "P", "G" };
 	GDReqInGameShopPointAdd(aIndex, this->m_BagData.btAddCoinType, this->m_BagData.dwAddCoinValue);
 	MsgOutput(aIndex, Lang.GetText(0,502), CoinTypes[this->m_BagData.btAddCoinType], this->m_BagData.dwAddCoinValue);
-	sLog.outBasic("[Bag Manager] (%s)(%s) Add Coin: (Type:%d) (Amount:%d) (Bag:%s)", lpObj->AccountID, lpObj->Name, this->m_BagData.btAddCoinType, this->m_BagData.dwAddCoinValue, this->m_BagData.szBagName);
+	sLog->outBasic("[Bag Manager] (%s)(%s) Add Coin: (Type:%d) (Amount:%d) (Bag:%s)", lpObj->AccountID, lpObj->Name, this->m_BagData.btAddCoinType, this->m_BagData.dwAddCoinValue, this->m_BagData.szBagName);
 }
 
 void CBag::DropSummonItem(int aIndex)

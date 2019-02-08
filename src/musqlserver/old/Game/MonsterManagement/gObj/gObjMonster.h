@@ -66,7 +66,7 @@ public:
 	{
 		EnterCriticalSection(&this->CsRef);
 		this->RefCount++;
-		sLog.outBasic("%s RefCount Inc = %d", this->m_strNPCName.c_str(), this->RefCount);
+		sLog->outBasic("%s RefCount Inc = %d", this->m_strNPCName.c_str(), this->RefCount);
 		LeaveCriticalSection(&this->CsRef);
 		
 	};	// line : 123
@@ -81,7 +81,7 @@ public:
 			this->RefCount = 0;
 		}
 		
-		sLog.outBasic("%s RefCount Dec= %d", this->m_strNPCName.c_str(), this->RefCount);
+		sLog->outBasic("%s RefCount Dec= %d", this->m_strNPCName.c_str(), this->RefCount);
 		LeaveCriticalSection(&this->CsRef);
 	};	// line : 135
 

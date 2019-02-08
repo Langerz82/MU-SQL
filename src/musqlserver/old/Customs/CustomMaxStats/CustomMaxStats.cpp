@@ -19,7 +19,7 @@ void CMaxStatsInfo::Read(const char* File)
 
 	if (Result.status != status_ok)
 	{
-		sLog.outError("[IGC_PlayerInfo] File %s not found!", File);
+		sLog->outError("[IGC_PlayerInfo] File %s not found!", File);
 		return;
 	}
 
@@ -105,7 +105,7 @@ void CMaxStatsInfo::ReadDrop(const char* File)
 
 	if (Result.status != status_ok)
 	{
-		sLog.outError("[IGC_GeneralDrop] File %s not found!", File);
+		sLog->outError("[IGC_GeneralDrop] File %s not found!", File);
 		return;
 	}
 
@@ -132,7 +132,7 @@ void CMaxStatsInfo::ReadMapNonPK(const char* File)
 
 	if (Result.status != status_ok)
 	{
-		sLog.outError("[IGC_MapNonPK] File %s not found!", File);
+		sLog->outError("[IGC_MapNonPK] File %s not found!", File);
 		return;
 	}
 

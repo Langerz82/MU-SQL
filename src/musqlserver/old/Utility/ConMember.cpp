@@ -59,7 +59,7 @@ void CConMember::Load(char* filename)
 
 	if ( res.status != pugi::status_ok )
 	{
-		sLog.outError("File %s not found (%s)", filename, res.description());
+		sLog->outError("File %s not found (%s)", filename, res.description());
 		return;
 	}
 

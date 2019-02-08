@@ -30,7 +30,7 @@ void CDoppelGangerItemBag::LoadDoppelgangerItemBag(LPSTR lpFile)
 
 	if ( res.status != pugi::status_ok )
 	{
-		sLog.outError("%s load fail (%s)", lpFile, res.description());
+		sLog->outError("%s load fail (%s)", lpFile, res.description());
 		return;
 	}
 
@@ -57,7 +57,7 @@ void CDoppelGangerItemBag::LoadDoppelgangerItemBag(LPSTR lpFile)
 	{
 		if (iCount >= 7)
 		{
-			sLog.outError("Load Script Error %s", lpFile);
+			sLog->outError("Load Script Error %s", lpFile);
 			break;
 		}
 
@@ -72,7 +72,7 @@ void CDoppelGangerItemBag::LoadDoppelgangerItemBag(LPSTR lpFile)
 	{
 		if (iCount >= 6)
 		{
-			sLog.outError("Load Script Error %s", lpFile);
+			sLog->outError("Load Script Error %s", lpFile);
 			break;
 		}
 
@@ -87,7 +87,7 @@ void CDoppelGangerItemBag::LoadDoppelgangerItemBag(LPSTR lpFile)
 	{
 		if (iCount >= 6)
 		{
-			sLog.outError("Load Script Error %s", lpFile);
+			sLog->outError("Load Script Error %s", lpFile);
 			break;
 		}
 
@@ -101,7 +101,7 @@ void CDoppelGangerItemBag::LoadDoppelgangerItemBag(LPSTR lpFile)
 
 		if (this->vtDPItemBag.find(iSectionID) == this->vtDPItemBag.end())
 		{
-			sLog.outError("Load Script Error (Section %d not found) %s", iSectionID, lpFile);
+			sLog->outError("Load Script Error (Section %d not found) %s", iSectionID, lpFile);
 			break;
 		}
 
@@ -178,7 +178,7 @@ BOOL CDoppelGangerItemBag::DoppelgangerItemDrop(OBJECTSTRUCT *lpObj, int nItemBa
 
 		if ( this->vtDPItemBag[nTmpItemBagIndex].vtDropItemGroup.size() == 0 )
 		{
-			sLog.outBasic("Error : DOPPELGANGER ItemBag is count 0");
+			sLog->outBasic("Error : DOPPELGANGER ItemBag is count 0");
 			return FALSE;
 		}
 

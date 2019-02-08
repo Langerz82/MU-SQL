@@ -44,7 +44,7 @@ void CLastManStanding::LoadConfig(LPSTR lpszFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("[PVP_LastManStanding] - Can't Load %s (%s)", lpszFileName, res.description());
+		sLog->outError("[PVP_LastManStanding] - Can't Load %s (%s)", lpszFileName, res.description());
 		return;
 	}
 

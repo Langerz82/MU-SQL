@@ -25,7 +25,7 @@ void CSkillSafeZoneUse::LoadFile(char *szFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("Error loading %s file (%s)", szFileName, res.description());
+		sLog->outError("Error loading %s file (%s)", szFileName, res.description());
 		return;
 	}
 

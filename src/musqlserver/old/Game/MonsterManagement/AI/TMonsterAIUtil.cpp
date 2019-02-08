@@ -430,7 +430,7 @@ BOOL TMonsterAIUtil::SendMonsterMoveMsg(LPOBJ lpObj)
 
 	if ( lpObj->Class == 541 )
 	{
-		sLog.outBasic("CHUJ!");
+		sLog->outBasic("CHUJ!");
 		return FALSE;
 	}
 

@@ -163,7 +163,7 @@ void CMonsterSetBase::LoadSetBase(char * filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("file open error %s (%s)", filename, res.description());
+		sLog->outError("file open error %s (%s)", filename, res.description());
 		return;
 	}
 
@@ -186,7 +186,7 @@ void CMonsterSetBase::LoadSetBase(char * filename)
 
 			if (iSpotType < Arrange_NpcSpawn || iSpotType > Arrange_ElementalMonsterMultiSpawn)
 			{
-				sLog.outError("Error in %s file: Wrong Spot Type: %d", filename, iSpotType);
+				sLog->outError("Error in %s file: Wrong Spot Type: %d", filename, iSpotType);
 				continue;
 			}
 
@@ -259,7 +259,7 @@ void CMonsterSetBase::LoadSetBase(char * filename)
 
 							if (this->m_Count > g_ConfigRead.server.GetObjectMaxMonster() - 1)
 							{
-								sLog.outError("Monster attribute max over %s %d", __FILE__, __LINE__);
+								sLog->outError("Monster attribute max over %s %d", __FILE__, __LINE__);
 								return;
 							}
 
@@ -292,7 +292,7 @@ void CMonsterSetBase::LoadSetBase(char * filename)
 
 				if (this->m_Count > g_ConfigRead.server.GetObjectMaxMonster() - 1)
 				{
-					sLog.outError("Monster attribute max over %d (%s %d)", this->m_Count, __FILE__, __LINE__);
+					sLog->outError("Monster attribute max over %d (%s %d)", this->m_Count, __FILE__, __LINE__);
 					return;
 				}
 			}
@@ -304,7 +304,7 @@ void CMonsterSetBase::GetPentagramMainAttribute(int TableNum, int* iPentagramMai
 {
 	if ( TableNum < 0 || TableNum > g_ConfigRead.server.GetObjectMaxMonster()-1 )
 	{
-		sLog.outBasic("ERROR : %s %d", ".\\MonsterSetBase.cpp", __LINE__);
+		sLog->outBasic("ERROR : %s %d", ".\\MonsterSetBase.cpp", __LINE__);
 		return;
 	}
 

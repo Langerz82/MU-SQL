@@ -23,18 +23,18 @@ void CGReqQuestSwitch(PMSG_REQ_QUESTEXP *pMsg, int aIndex)
 
     if( !g_QuestExpProgMng.ChkQuestIndexIDToEpLimit(pMsg->dwQuestInfoIndexID, aIndex) )
     {
-        sLog.outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
+        sLog->outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
         return;
     }
 
-	sLog.outBasic("[QuestExp] Selection Episode List Choose One [%s][%s] QuestInfoIndexID[0x%x] Choose[%d]",
+	sLog->outBasic("[QuestExp] Selection Episode List Choose One [%s][%s] QuestInfoIndexID[0x%x] Choose[%d]",
 		gObj[aIndex].AccountID, gObj[aIndex].Name, pMsg->dwQuestInfoIndexID, pMsg->btResult);
 
 	lua_State* L = g_MuLuaQuestExp.GetLua();
 
 	if (!L)
 	{
-		sLog.outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
+		sLog->outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
 		return;
 	}
 
@@ -65,18 +65,18 @@ void CGReqQuestProgress(PMSG_REQ_QUESTEXP *pMsg, int aIndex)
 
     if( !g_QuestExpProgMng.ChkQuestIndexIDToEpLimit(pMsg->dwQuestInfoIndexID, aIndex) )
     {
-        sLog.outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
+        sLog->outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
         return;
     }
 
-    sLog.outBasic("[QuestExp] Selection Statements Choose One - User NPC Talking [%s][%s] QuestInfoIndexID[0x%x] Choose[%d]",
+    sLog->outBasic("[QuestExp] Selection Statements Choose One - User NPC Talking [%s][%s] QuestInfoIndexID[0x%x] Choose[%d]",
 		gObj[aIndex].AccountID, gObj[aIndex].Name, pMsg->dwQuestInfoIndexID,pMsg->btResult);
 
 	lua_State* L = g_MuLuaQuestExp.GetLua();
 
 	if (!L)
 	{
-		sLog.outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
+		sLog->outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
 		return;
 	}
 
@@ -95,17 +95,17 @@ void CGReqQuestComplete(PMSG_REQ_QUESTEXP_COMPLETE *pMsg, int aIndex)
 
     if( !g_QuestExpProgMng.ChkQuestIndexIDToEpLimit(pMsg->dwQuestInfoIndexID, aIndex) )
     {
-        sLog.outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
+        sLog->outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
         return;
     }
 
-    sLog.outBasic("[QuestExp] ReqQuestComplete [%s][%s] QuestInfoIndexID[0x%x]", gObj[aIndex].AccountID, gObj[aIndex].Name, pMsg->dwQuestInfoIndexID);
+    sLog->outBasic("[QuestExp] ReqQuestComplete [%s][%s] QuestInfoIndexID[0x%x]", gObj[aIndex].AccountID, gObj[aIndex].Name, pMsg->dwQuestInfoIndexID);
 
 	lua_State* L = g_MuLuaQuestExp.GetLua();
 
 	if (!L)
 	{
-		sLog.outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
+		sLog->outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
 		return;
 	}
 
@@ -122,7 +122,7 @@ void CGReqQuestGiveUp(PMSG_REQ_QUESTEXP_GIVEUP *pMsg, int aIndex)
 
     if( !g_QuestExpProgMng.ChkQuestIndexIDToEpLimit(pMsg->dwQuestInfoIndexID, aIndex) )
     {
-        sLog.outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
+        sLog->outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
         return;
     }
 
@@ -139,7 +139,7 @@ void CGReqTutorialKeyComplete(PMSG_REQ_QUESTEXP_ASK_COMPLETE *pMsg, int aIndex)
 
     if( !g_QuestExpProgMng.ChkQuestIndexIDToEpLimit(pMsg->dwQuestInfoIndexID, aIndex) )
     {
-        sLog.outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
+        sLog->outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
         return;
     }
 
@@ -167,7 +167,7 @@ void CGReqProgressQuestInfo(PMSG_REQ_QUESTEXP_PROGRESS_INFO *pMsg, int aIndex)
 
     if( !g_QuestExpProgMng.ChkQuestIndexIDToEpLimit(pMsg->dwQuestInfoIndexID, aIndex) )
     {
-        sLog.outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
+        sLog->outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
         return;
 
     }    
@@ -187,7 +187,7 @@ void CGReqEventItemQuestList(PMSG_REQ_EVENT_ITEM_EP_LIST *pMsg, int aIndex)
 
 	if (!L)
 	{
-		sLog.outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
+		sLog->outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
 		return;
 	}
 
@@ -213,7 +213,7 @@ void CGReqQuestExp(PMSG_REQ_NPC_QUESTEXP *pMsg, int aIndex)
 
 		if (!L)
 		{
-			sLog.outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
+			sLog->outBasic("[QuestExp] - Error - [%s] [%d]", __FILE__, __LINE__);
 			return;
 		}
 

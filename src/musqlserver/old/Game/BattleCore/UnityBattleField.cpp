@@ -58,7 +58,7 @@ void CUnityBattleField::GDReqJoinUnityBattleField(int aIndex)
 
 	if (this->m_bUBFEnable == false)
 	{
-		sLog.outBasic("[UBF][GDReqJoinUnityBattleField][%s][%s][%s][ServerCode:%d] UBF not available.",
+		sLog->outBasic("[UBF][GDReqJoinUnityBattleField][%s][%s][%s][ServerCode:%d] UBF not available.",
 			lpObj->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF, lpObj->Name, lpObj->m_PlayerData->m_nServerCodeOfHomeWorld);
 
 		return;
@@ -66,7 +66,7 @@ void CUnityBattleField::GDReqJoinUnityBattleField(int aIndex)
 
 	if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 	{
-		sLog.outBasic("[UBF][GDReqJoinUnityBattleField][%s][%s][%s][ServerCode:%d] In UBF, Can not be Requested Join",
+		sLog->outBasic("[UBF][GDReqJoinUnityBattleField][%s][%s][%s][ServerCode:%d] In UBF, Can not be Requested Join",
 			lpObj->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF, lpObj->Name, lpObj->m_PlayerData->m_nServerCodeOfHomeWorld);
 
 		return;
@@ -74,7 +74,7 @@ void CUnityBattleField::GDReqJoinUnityBattleField(int aIndex)
 
 	if (lpObj->m_bMapSvrMoveQuit == true || lpObj->m_bMapSvrMoveReq == true || lpObj->m_bMapSvrMoveReq_2 == true)
 	{
-		sLog.outBasic("[UBF][GDReqJoinUnityBattleField][%s][%s][%s][ServerCode:%d] Map Of Move request was trying to Join UnityBattleField.",
+		sLog->outBasic("[UBF][GDReqJoinUnityBattleField][%s][%s][%s][ServerCode:%d] Map Of Move request was trying to Join UnityBattleField.",
 			lpObj->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF, lpObj->Name, lpObj->m_PlayerData->m_nServerCodeOfHomeWorld);
 
 		return;
@@ -83,7 +83,7 @@ void CUnityBattleField::GDReqJoinUnityBattleField(int aIndex)
 	if (lpObj->m_IfState.use && lpObj->m_IfState.type == 1)
 	{
 		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 634), aIndex, 1);
-		sLog.outBasic("[UBF][GDReqJoinUnityBattleField][%s][%s][%s][ServerCode:%d] Trading can't be to Join UnityBattleField.",
+		sLog->outBasic("[UBF][GDReqJoinUnityBattleField][%s][%s][%s][ServerCode:%d] Trading can't be to Join UnityBattleField.",
 			lpObj->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF, lpObj->Name, lpObj->m_PlayerData->m_nServerCodeOfHomeWorld);
 
 		return;
@@ -92,13 +92,13 @@ void CUnityBattleField::GDReqJoinUnityBattleField(int aIndex)
 	if (lpObj->m_bPShopOpen == true)
 	{
 		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 633), aIndex, 1);
-		sLog.outBasic("[UBF][GDReqJoinUnityBattleField][%s][%s][%s][ServerCode:%d] Opened PShop can't be to Join UnityBattleField.",
+		sLog->outBasic("[UBF][GDReqJoinUnityBattleField][%s][%s][%s][ServerCode:%d] Opened PShop can't be to Join UnityBattleField.",
 			lpObj->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF, lpObj->Name, lpObj->m_PlayerData->m_nServerCodeOfHomeWorld);
 
 		return;
 	}
 
-	sLog.outBasic("[UBF][GDReqJoinUnityBattleField][%s][%s] Request To Join UnityBattleField",
+	sLog->outBasic("[UBF][GDReqJoinUnityBattleField][%s][%s] Request To Join UnityBattleField",
 		lpObj->AccountID, lpObj->Name);
 	GJSetCharacterInfo(lpObj, lpObj->m_Index, 0);
 
@@ -134,7 +134,7 @@ void CUnityBattleField::DGAnsJoinUnityBattleField(int aIndex, BYTE Result, WORD 
 		return;
 	}
 
-	sLog.outBasic("[UBF][DGAnsJoinUnityBattleField][%s][%s] Answer is To Join UBF ResultCode: %d (0:NewJoin Succ/1:ReJoin Succ/2:Joined State/3:Already apply/4:2 PersonUpper/5:Server Limit)",
+	sLog->outBasic("[UBF][DGAnsJoinUnityBattleField][%s][%s] Answer is To Join UBF ResultCode: %d (0:NewJoin Succ/1:ReJoin Succ/2:Joined State/3:Already apply/4:2 PersonUpper/5:Server Limit)",
 		lpObj->AccountID, lpObj->Name, Result);
 
 	PMSG_ANS_UBF_JOIN pMsg;
@@ -177,7 +177,7 @@ void CUnityBattleField::GDReqCopyCharacterInfo(int aIndex, BYTE CharacterSlot)
 
 	if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 	{
-		sLog.outBasic("[UBF][GDReqCopyCharcterInfo][%s][%s] Move(Copy Off) Fail, Don't Move because UBFServer",
+		sLog->outBasic("[UBF][GDReqCopyCharcterInfo][%s][%s] Move(Copy Off) Fail, Don't Move because UBFServer",
 			lpObj->AccountID, lpObj->Name);
 		return;
 	}
@@ -192,7 +192,7 @@ void CUnityBattleField::GDReqCopyCharacterInfo(int aIndex, BYTE CharacterSlot)
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF3, 0x03, sizeof(pMsg));
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 
-	sLog.outBasic("[UBF][GDReqCopyCharcterInfo][%s][%s] Move(Copy On) the Character Into UnityBattleField ",
+	sLog->outBasic("[UBF][GDReqCopyCharcterInfo][%s][%s] Move(Copy On) the Character Into UnityBattleField ",
 		lpObj->AccountID, lpObj->Name);
 
 	GDReqCopyPetItemInfo(lpObj->m_Index);
@@ -215,22 +215,22 @@ void CUnityBattleField::DGAnsCopyCharacterInfo(int aIndex, BYTE result, BYTE sub
 	if (result != TRUE)
 	{
 		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 630), aIndex, 1);
-		sLog.outBasic("[UBF][DGAnsCopyCharcterInfo][%s][%s] Character Move(Copy Fail) Result: %d (2,3:Fail), ErrCode: %d (2:No UserInfo / 3: No CharSlot)",
+		sLog->outBasic("[UBF][DGAnsCopyCharcterInfo][%s][%s] Character Move(Copy Fail) Result: %d (2,3:Fail), ErrCode: %d (2:No UserInfo / 3: No CharSlot)",
 			lpObj->AccountID, lpObj->Name, result, subResult);
 		return;
 	}
 
 	GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 629), aIndex, 1);
-	sLog.outBasic("[UBF][DGAnsCopyCharcterInfo][%s][%s] Character Move(Copy) Result: %d (1:Succes) ",
+	sLog->outBasic("[UBF][DGAnsCopyCharcterInfo][%s][%s] Character Move(Copy) Result: %d (1:Succes) ",
 		lpObj->AccountID, lpObj->Name, result);
 
-	sLog.outBasic("[UBF][DGAnsCopyCharcterInfo][Copy Complete][%s][%s] CharInfoSave : Class=%d Level=%d LVPoint=%d Exp=%I64d Str=%d Dex=%d Vit=%d Energy=%d Leadership:%d Map=%d Pk=%d",
+	sLog->outBasic("[UBF][DGAnsCopyCharcterInfo][Copy Complete][%s][%s] CharInfoSave : Class=%d Level=%d LVPoint=%d Exp=%I64d Str=%d Dex=%d Vit=%d Energy=%d Leadership:%d Map=%d Pk=%d",
 		lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->DbClass, lpObj->Level, lpObj->m_PlayerData->LevelUpPoint, lpObj->m_PlayerData->Experience, lpObj->m_PlayerData->Strength, lpObj->m_PlayerData->Dexterity,
 		lpObj->m_PlayerData->Vitality, lpObj->m_PlayerData->Energy, lpObj->Leadership, lpObj->MapNumber, lpObj->m_PK_Level);
 	gObjItemTextSave(lpObj);
 	gObjMagicTextSave(lpObj);
 
-	sLog.outBasic("[UBF][DGAnsCopyCharacterInfo][%s][%s] Copy Infomation End", lpObj->AccountID, lpObj->Name);
+	sLog->outBasic("[UBF][DGAnsCopyCharacterInfo][%s][%s] Copy Infomation End", lpObj->AccountID, lpObj->Name);
 }
 
 void CUnityBattleField::GDReqCheckJoinedUnityBattleField(int aIndex, int IsUnityBattleFieldServer, BYTE ObServerMode)
@@ -323,7 +323,7 @@ void CUnityBattleField::GDReqCancelUnityBattleField(int aIndex, BYTE btCancelTyp
 
 	if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 	{
-		sLog.outBasic("[UBF][GDReqCancelUnityBattleField][%s][%s] In UBF, Can not be canceled", lpObj->AccountID, lpObj->Name);
+		sLog->outBasic("[UBF][GDReqCancelUnityBattleField][%s][%s] In UBF, Can not be canceled", lpObj->AccountID, lpObj->Name);
 		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 628), aIndex, 1);
 		return;
 	}
@@ -338,7 +338,7 @@ void CUnityBattleField::GDReqCancelUnityBattleField(int aIndex, BYTE btCancelTyp
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF3, 0x07, sizeof(pMsg));
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);;
 
-	sLog.outBasic("[UBF][GDReqCancelUnityBattleField][%s][%s] Request to Cancel UBF",
+	sLog->outBasic("[UBF][GDReqCancelUnityBattleField][%s][%s] Request to Cancel UBF",
 		lpObj->AccountID, lpObj->Name);
 }
 
@@ -358,7 +358,7 @@ void CUnityBattleField::GDReqCancelUnityBattleField(int aIndex, BYTE btCancelTyp
 
 	if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 	{
-		sLog.outBasic("[UBF][GDReqCancelUnityBattleField][%s][%s] In UBF, Can not be canceled", lpObj->AccountID, lpObj->Name);
+		sLog->outBasic("[UBF][GDReqCancelUnityBattleField][%s][%s] In UBF, Can not be canceled", lpObj->AccountID, lpObj->Name);
 		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 628), aIndex, 1);
 		return;
 	}
@@ -373,7 +373,7 @@ void CUnityBattleField::GDReqCancelUnityBattleField(int aIndex, BYTE btCancelTyp
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF3, 0x06, sizeof(pMsg));
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);;
 
-	sLog.outBasic("[UBF][GDReqCancelUnityBattleField][%s][%s] Request to Cancel UBF",
+	sLog->outBasic("[UBF][GDReqCancelUnityBattleField][%s][%s] Request to Cancel UBF",
 		lpObj->AccountID, lpObj->Name);
 }
 
@@ -397,7 +397,7 @@ void CUnityBattleField::DGAnsCancelUnityBattleField(int aIndex, BYTE aCanceledRe
 		lpObj->m_PlayerData->m_JoinUnityBattle = false;
 	}
 
-	sLog.outBasic("[UBF][DGAnsCancelUnityBattleField][%s][%s] Answer CancelUnityBattleField CancelResult:%d (1:Success), deleteResult:%d (1:Success) ",
+	sLog->outBasic("[UBF][DGAnsCancelUnityBattleField][%s][%s] Answer CancelUnityBattleField CancelResult:%d (1:Success), deleteResult:%d (1:Success) ",
 		lpObj->AccountID, lpObj->Name, aCanceledResult, deletedResult);
 
 	PMSG_ANS_UBF_CANCEL pResult;
@@ -473,7 +473,7 @@ void CUnityBattleField::GDReqUBFGetReward(int aIndex, BYTE btBattleKind)
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF3, 0x06, sizeof(pMsg));
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 
-	sLog.outBasic("[UBF][GDReqUBFGetReward][%d][%s][%s] UnityBattleFiled is asking WinnerItem",
+	sLog->outBasic("[UBF][GDReqUBFGetReward][%d][%s][%s] UnityBattleFiled is asking WinnerItem",
 		aIndex, lpObj->AccountID, lpObj->Name);
 }
 
@@ -507,7 +507,7 @@ void CUnityBattleField::GDReqSetReceivedWinnerItem(int aIndex, BYTE btBattleKind
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF3, 0x05, sizeof(pMsg));
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 
-	sLog.outBasic("[UBF][GDReqSetReceivedWinnerItem] Index:%d ID:%s Name:%s RequestSetReceived WinnerItem ",
+	sLog->outBasic("[UBF][GDReqSetReceivedWinnerItem] Index:%d ID:%s Name:%s RequestSetReceived WinnerItem ",
 		aIndex, lpObj->AccountID, lpObj->Name);
 }
 
@@ -532,13 +532,13 @@ void CUnityBattleField::DGAnsSetReceivedWinnerItem(int aIndex, BYTE btReturn)
 
 	if (btReturn == TRUE)
 	{
-		sLog.outBasic("[UBF][DGAnsSetReceivedWinnerItem] Index:%d ID:%s Name:%s Received WinnerItem Success",
+		sLog->outBasic("[UBF][DGAnsSetReceivedWinnerItem] Index:%d ID:%s Name:%s Received WinnerItem Success",
 			aIndex, lpObj->AccountID, lpObj->Name);
 	}
 
 	else
 	{
-		sLog.outBasic("[UBF][DGAnsSetReceivedWinnerItem] Index:%d ID:%s Name:%s WinnerItem Failed to complete the process ErrCode :%d",
+		sLog->outBasic("[UBF][DGAnsSetReceivedWinnerItem] Index:%d ID:%s Name:%s WinnerItem Failed to complete the process ErrCode :%d",
 			aIndex, lpObj->AccountID, lpObj->Name, btReturn);
 	}
 }

@@ -1,6 +1,10 @@
 #ifndef _MUSQL_PREPAREDSTATEMENT_H
 #define _MUSQL_PREPAREDSTATEMENT_H
 
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
 #include "Common\Common.h"
 #include "SQLOperation.h"
 #include <future>

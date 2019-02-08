@@ -187,7 +187,7 @@ int CCrywolfUtil::CrywolfMVPLevelUp(int iUserIndex, int iAddExp)
 
 	int iLEFT_EXP = 0;
 
-	sLog.outBasic("[ Crywolf ][MVP Exp.] : [%s][%s](%d) %u %d",
+	sLog->outBasic("[ Crywolf ][MVP Exp.] : [%s][%s](%d) %u %d",
 		gObj[iUserIndex].AccountID, gObj[iUserIndex].Name,
 		gObj[iUserIndex].Level, gObj[iUserIndex].m_PlayerData->Experience,
 		iAddExp);
@@ -197,7 +197,7 @@ int CCrywolfUtil::CrywolfMVPLevelUp(int iUserIndex, int iAddExp)
 		return g_MasterLevelSkillTreeSystem.MasterLevelUp(&gObj[iUserIndex], iAddExp, 0, "Crywolf");
 	}
 
-	sLog.outBasic("[Crywolf] Experience : [%s][%s](%d) Experience: %d + %d",
+	sLog->outBasic("[Crywolf] Experience : [%s][%s](%d) Experience: %d + %d",
 		gObj[iUserIndex].AccountID, gObj[iUserIndex].Name,
 		gObj[iUserIndex].Level, gObj[iUserIndex].m_PlayerData->Experience, iAddExp);
 
@@ -235,7 +235,7 @@ int CCrywolfUtil::CrywolfMVPLevelUp(int iUserIndex, int iAddExp)
 			{
 				gObj[iUserIndex].m_PlayerData->LevelUpPoint++;
 
-				//sLog.outBasic("[ Crywolf ][MVP Exp.] [%s][%s] LevelUp PlusStatQuest Clear AddStat %d",
+				//sLog->outBasic("[ Crywolf ][MVP Exp.] [%s][%s] LevelUp PlusStatQuest Clear AddStat %d",
 				//	gObj[iUserIndex].AccountID, gObj[iUserIndex].Name,gObj[iUserIndex].m_PlayerData->LevelUpPoint);
 			}
 
@@ -253,7 +253,7 @@ int CCrywolfUtil::CrywolfMVPLevelUp(int iUserIndex, int iAddExp)
 		GSProtocol.GCLevelUpMsgSend(gObj[iUserIndex].m_Index, 1);
 		gObjCalcMaxLifePower(gObj[iUserIndex].m_Index);
 
-		sLog.outBasic("Level Up [%s][%s][%d]", gObj[iUserIndex].AccountID,
+		sLog->outBasic("Level Up [%s][%s][%d]", gObj[iUserIndex].AccountID,
 			gObj[iUserIndex].Name, gObj[iUserIndex].Level);
 	}
 

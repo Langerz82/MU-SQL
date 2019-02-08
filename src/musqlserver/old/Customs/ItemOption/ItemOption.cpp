@@ -33,13 +33,13 @@ void CItemOption::Load(char* path) // OK
 
 	if (lpMemScript == 0)
 	{
-		sLog.outError(MEM_SCRIPT_ALLOC_ERROR, path);
+		sLog->outError(MEM_SCRIPT_ALLOC_ERROR, path);
 		return;
 	}
 
 	if (lpMemScript->SetBuffer(path) == 0)
 	{
-		sLog.outError(lpMemScript->GetLastError());
+		sLog->outError(lpMemScript->GetLastError());
 		delete lpMemScript;
 		return;
 	}
@@ -94,7 +94,7 @@ void CItemOption::Load(char* path) // OK
 	}
 	catch (...)
 	{
-		sLog.outError(lpMemScript->GetLastError());
+		sLog->outError(lpMemScript->GetLastError());
 	}
 
 	delete lpMemScript;

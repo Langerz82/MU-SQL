@@ -52,7 +52,7 @@ BOOL CRingMonsterHerd::MonsterHerdItemDrop(LPOBJ lpObj)
 		char szTemp[256];
 		wsprintf(szTemp, Lang.GetText(0,101), gObj[iIndex].Name, Lang.GetMap(0, lpObj->MapNumber));	// #error Apply Deathway fix here
 		GSProtocol.AllSendServerMsg( szTemp ); 
-		sLog.outBasic("[Ring Event] White Wizard Killed by [%s][%s], MapNumber:%d",
+		sLog->outBasic("[Ring Event] White Wizard Killed by [%s][%s], MapNumber:%d",
 			gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].MapNumber);
 
 		return TRUE;
@@ -148,7 +148,7 @@ void CRingMonsterHerd::SendEventGiftWinner(int iIndex, int iGiftKind)
 
 	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
 
-	sLog.outBasic("[Ring Event] [%s][%s] Request to Register Gift - Gift Kind (%d)",
+	sLog->outBasic("[Ring Event] [%s][%s] Request to Register Gift - Gift Kind (%d)",
 		gObj[iIndex].AccountID, gObj[iIndex].Name,  iGiftKind);
 
 }
@@ -222,11 +222,11 @@ void CRingAttackEvent::StartEvent()
 		{
 			if ( this->m_vtMonsterAddData.empty() != false )
 			{
-				sLog.outBasic("[Ring Event] - Error : No Monster Data Exist");
+				sLog->outBasic("[Ring Event] - Error : No Monster Data Exist");
 				continue;
 			}
 
-			sLog.outBasic("[Ring Event] - Monster Start Position MapNumber:%d, X:%d, Y:%d",
+			sLog->outBasic("[Ring Event] - Monster Start Position MapNumber:%d, X:%d, Y:%d",
 				g_RingEventMapNum[i], iRandX, iRandY);
 		}
 
@@ -286,7 +286,7 @@ BOOL CRingAttackEvent::Load(char * lpszFileName)
 
 	if ( res.status != pugi::status_ok )
 	{
-		sLog.outError("[Ring Event] Info file Load Fail [%s] [%s]", lpszFileName, res.description());
+		sLog->outError("[Ring Event] Info file Load Fail [%s] [%s]", lpszFileName, res.description());
 		return FALSE;
 	}
 
@@ -378,7 +378,7 @@ void CRingAttackEvent::CheckSync()
 {
 	if ( this->m_vtEventTime.empty() != 0 )
 	{
-		sLog.outError(  "[Ring Event] No Schedule Time Data");
+		sLog->outError(  "[Ring Event] No Schedule Time Data");
 		this->SetState(0);
 
 		return;
@@ -505,7 +505,7 @@ void CRingAttackEvent::ProcState_Closed()
 
 					GSProtocol.DataSendAll((LPBYTE)&pMsg, pMsg.h.size);
 
-					sLog.outBasic("[Ring Event] - Before 3 minutes - Advertise");
+					sLog->outBasic("[Ring Event] - Before 3 minutes - Advertise");
 				}
 			}
 		}
@@ -533,7 +533,7 @@ void CRingAttackEvent::ProcState_Closed()
 			this->SetState(0);
 		}
 
-		sLog.outBasic("[Ring Event] - Event Started");
+		sLog->outBasic("[Ring Event] - Event Started");
 	}
 }
 
@@ -617,7 +617,7 @@ void CRingAttackEvent::ProcState_Playing()
 			this->SetState(0);
 		}
 
-		sLog.outBasic("[Ring Event] - Event Ended");
+		sLog->outBasic("[Ring Event] - Event Ended");
 	}
 }
 
@@ -702,7 +702,7 @@ void CRingAttackEvent::Start_Menual()
 	this->SetMenualStart(TRUE);
 	this->StopEvent();
 
-	sLog.outBasic("[Event Management] [Start] RingAttack Event!");
+	sLog->outBasic("[Event Management] [Start] RingAttack Event!");
 	this->m_iTIME_MIN_PLAY = 30;
 
 	char szTemp[256];

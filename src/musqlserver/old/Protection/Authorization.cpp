@@ -93,7 +93,7 @@ bool CAuthSystem::ConnectToAuth()
 		if(this->m_AuthServer.Connect(g_AuthServers[i].IP, AUTH_PORT, WM_GM_AUTH_SERVER_MSG_PROC) == TRUE)
 		{
 			this->m_btAuthServerID = i;
-			sLog.outBasic("[Auth] Connected to Auth (%d)", this->m_btAuthServerID+1);
+			sLog->outBasic("[Auth] Connected to Auth (%d)", this->m_btAuthServerID+1);
 			return true;
 		}
 
@@ -115,7 +115,7 @@ bool CAuthSystem::Reconnect()
 		if(this->m_AuthServer.Connect(g_AuthServers[i].IP, AUTH_PORT, WM_GM_AUTH_SERVER_MSG_PROC) == TRUE)
 		{
 			this->m_btAuthServerID = i;
-			sLog.outBasic("[Auth] Reconnected to Auth (%d)", this->m_btAuthServerID+1);
+			sLog->outBasic("[Auth] Reconnected to Auth (%d)", this->m_btAuthServerID+1);
 			return true;
 		}
 
@@ -124,7 +124,7 @@ bool CAuthSystem::Reconnect()
 			this->m_AuthServer.CreateSocket(ghWnd);
 		}
 	}
-	sLog.outBasic("[Auth] Unable to reconnect -> waiting for next reconnection (30s)");
+	sLog->outBasic("[Auth] Unable to reconnect -> waiting for next reconnection (30s)");
 	return false;
 	
 }
@@ -145,7 +145,7 @@ void CAuthSystem::RecvConnResult(PMSG_CONNRESULT *pMsg)
 
 	else
 	{
-		sLog.outBasic("[Auth] Module Initializing Completed");
+		sLog->outBasic("[Auth] Module Initializing Completed");
 		this->AuthServerLogin();
 	}
 
@@ -173,8 +173,8 @@ void CAuthSystem::ValidateServer(PMSG_ACTIVATE *pMsg)
 			{
 				char Text[200];
 				wsprintf(Text, "Your license expired and will stop being supported in %d day(s). \nPlease to extend subscription by making appropriate payment.", 7-abs(this->GetExpiryTime()));
-				sLog.outError(MB_OK | MB_ICONWARNING, "Warning", Text);
-				sLog.outError( "License is EXPIRED, please Renew (Days left: %d)", 7-abs(this->GetExpiryTime()) );
+				sLog->outError(MB_OK | MB_ICONWARNING, "Warning", Text);
+				sLog->outError( "License is EXPIRED, please Renew (Days left: %d)", 7-abs(this->GetExpiryTime()) );
 			}
 */
 			AllServerStart();
@@ -185,7 +185,7 @@ void CAuthSystem::ValidateServer(PMSG_ACTIVATE *pMsg)
 	{
 		if(memcmp(&this->m_KeyTable, KeyTable, 20) == 0 && pMsg->Status == TRUE)
 		{
-			sLog.outBasic("[Auth] License re-Sync OK");
+			sLog->outBasic("[Auth] License re-Sync OK");
 			this->AuthDCTime = 0;
 			
 		}
@@ -234,7 +234,7 @@ void CAuthSystem::AuthServerLogin()
 	// UNSECURED PACKET
 	this->SendData((LPBYTE)&Buff, p.SIZE, FALSE);
 
-	sLog.outBasic("[Auth] Logging to Auth ID: %d", this->m_btAuthServerID+1);
+	sLog->outBasic("[Auth] Logging to Auth ID: %d", this->m_btAuthServerID+1);
 
 	//VM_DOLPHIN_RED_END
 }
@@ -248,7 +248,7 @@ void CAuthSystem::SendLicenseInfo(LPBYTE aRecv)
 
 	if(lpMsg->PROTOCOLVERSION != AUTH_PROTOCOL_VERSION)
 	{
-		sLog.outBasic("[Auth] Protocol Version MISMATCH (Auth:%d Client:%d)", lpMsg->PROTOCOLVERSION, AUTH_PROTOCOL_VERSION);
+		sLog->outBasic("[Auth] Protocol Version MISMATCH (Auth:%d Client:%d)", lpMsg->PROTOCOLVERSION, AUTH_PROTOCOL_VERSION);
 		this->SendMessage(INCORRECT_GAMESERVER_AUTH_PROTOCOL_VERSION);
 		this->MessageHandle(INCORRECT_GAMESERVER_AUTH_PROTOCOL_VERSION);
 		return;
@@ -256,13 +256,13 @@ void CAuthSystem::SendLicenseInfo(LPBYTE aRecv)
 
 	if(this->MakeAuthKey(aRecv) == false)
 	{
-		sLog.outError( "[Auth] Login failed - cannot create Authorization Key");
+		sLog->outError( "[Auth] Login failed - cannot create Authorization Key");
 		return;
 	}
 
 	else
 	{
-		sLog.outBasic("[Auth] Login Success, checking license data... (Season Code:%X) (GameServer Type:%X)", this->GetSeason(), this->GetGSType());
+		sLog->outBasic("[Auth] Login Success, checking license data... (Season Code:%X) (GameServer Type:%X)", this->GetSeason(), this->GetGSType());
 	}
 
 	if(WLRegGetStatus(NULL) == wlIsRegistered)
@@ -299,7 +299,7 @@ void CAuthSystem::Ping(PMSG_AUTH *pMsg)
 {
 	if(this->GetSeason() != pMsg->SEASON)
 	{
-		sLog.outError( "[Auth] Internal Error - Season code is wrong!");
+		sLog->outError( "[Auth] Internal Error - Season code is wrong!");
 		return;
 	}
 
@@ -659,7 +659,7 @@ bool CAuthSystem::MakeAuthKey(LPBYTE lpRecv)
 
 	else
 	{
-		sLog.outError( "[ERROR] AUTH KEY IS NOT NULL!");	
+		sLog->outError( "[ERROR] AUTH KEY IS NOT NULL!");	
 		delete [] EKey;
 		delete [] NKey;
 
@@ -676,7 +676,7 @@ void CAuthSystem::SendData(LPBYTE lpMsg, DWORD dwSize, BOOL Encrypt)
 	{
 		if ( this->m_AuthKey == NULL )
 		{
-			sLog.outError( "[ERROR] Auth Key is EMPTY!");
+			sLog->outError( "[ERROR] Auth Key is EMPTY!");
 			return;
 		}
 

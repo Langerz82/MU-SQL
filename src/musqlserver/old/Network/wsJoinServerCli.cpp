@@ -40,7 +40,7 @@ BOOL wsJoinServerCli::Connect(LPSTR ip_addr, WORD port, DWORD WinMsgNum)
 
 	if ( this->m_hWnd  == 0 )
 	{
-		sLog.outBasic("Connect Error %s %d", __FILE__, __LINE__);
+		sLog->outBasic("Connect Error %s %d", __FILE__, __LINE__);
 		return FALSE;
 	}
 
@@ -59,7 +59,7 @@ BOOL wsJoinServerCli::Connect(LPSTR ip_addr, WORD port, DWORD WinMsgNum)
 		host = gethostbyname(ip_addr);
 		if ( host == 0 )
 		{
-			sLog.outBasic("server name not found [%s]", ip_addr);
+			sLog->outBasic("server name not found [%s]", ip_addr);
 			return FALSE;
 		}
 
@@ -84,7 +84,7 @@ BOOL wsJoinServerCli::Connect(LPSTR ip_addr, WORD port, DWORD WinMsgNum)
 	if ( nResult == -1 )
 	{
 		closesocket(this->m_socket );
-		sLog.outBasic("Client WSAAsyncSelect error %d", WSAGetLastError());
+		sLog->outBasic("Client WSAAsyncSelect error %d", WSAGetLastError());
 		return FALSE;
 	}
 	this->m_SendBufLen=0;
@@ -140,7 +140,7 @@ BOOL wsJoinServerCli::DataSend(PCHAR buf, int len)
 		{
 			if ( WSAGetLastError() != WSAEWOULDBLOCK )
 			{
-				sLog.outBasic("error-L3 : %d (%s %d)", WSAGetLastError(), __FILE__, __LINE__);
+				sLog->outBasic("error-L3 : %d (%s %d)", WSAGetLastError(), __FILE__, __LINE__);
 				*sendbuflen=0;
 				this->Close(this->m_socket );
 				return FALSE;
@@ -148,7 +148,7 @@ BOOL wsJoinServerCli::DataSend(PCHAR buf, int len)
 
 			if ( (*sendbuflen + nLeft) > 819200 )
 			{
-				sLog.outError("error-L3 : buffer error closed %d, %d", (*sendbuflen+nLeft), 819200);
+				sLog->outError("error-L3 : buffer error closed %d, %d", (*sendbuflen+nLeft), 819200);
 				*sendbuflen = 0;
 				this->Close(this->m_socket);
 				return FALSE;
@@ -161,13 +161,13 @@ BOOL wsJoinServerCli::DataSend(PCHAR buf, int len)
 				
 				this->m_SendBufLen +=nLeft;
 
-				sLog.outBasic("error-L3 : Copy1 : nLeft:%d len:%d nDx:%d", nLeft, this->m_SendBufLen , nDx);
+				sLog->outBasic("error-L3 : Copy1 : nLeft:%d len:%d nDx:%d", nLeft, this->m_SendBufLen , nDx);
 				return TRUE;
 			}
 		}
 		else if ( nResult == 0 )
 		{
-			sLog.outBasic("error-L3 : send()  result is zero", WSAGetLastError());
+			sLog->outBasic("error-L3 : send()  result is zero", WSAGetLastError());
 			break;
 		}
 
@@ -210,22 +210,22 @@ BOOL wsJoinServerCli::FDWRITE_MsgDataSend()
 		{
 			if ( WSAGetLastError() != WSAEWOULDBLOCK)
 			{
-				sLog.outBasic("FD_WRITE send() 에러 %d %d", WSAGetLastError(), *sendbuflen);
+				sLog->outBasic("FD_WRITE send() 에러 %d %d", WSAGetLastError(), *sendbuflen);
 				this->Close();
 				return FALSE;
 			}
 			else
 			{
-				sLog.outBasic("FD_WRITE send() WSAEWOULDBLOCK : %d", WSAGetLastError());
+				sLog->outBasic("FD_WRITE send() WSAEWOULDBLOCK : %d", WSAGetLastError());
 				break;
 			}
 		}
 		if (nResult <= 0)
 		{
-			sLog.outBasic("send() result is zero %d", WSAGetLastError());
+			sLog->outBasic("send() result is zero %d", WSAGetLastError());
 			break;
 		}
-		sLog.outBasic("error-L3 : nDx %d m_SendBufLen %d", nDx, this->m_SendBufLen );
+		sLog->outBasic("error-L3 : nDx %d m_SendBufLen %d", nDx, this->m_SendBufLen );
 
 		if (nResult > 0)
 		{
@@ -233,7 +233,7 @@ BOOL wsJoinServerCli::FDWRITE_MsgDataSend()
 			*sendbuflen -= nResult;
 		}
 
-		sLog.outBasic("error-L3 : nDx %d m_SendBufLen %d", nDx, this->m_SendBufLen );
+		sLog->outBasic("error-L3 : nDx %d m_SendBufLen %d", nDx, this->m_SendBufLen );
 	}
 	return TRUE;
 }
@@ -254,7 +254,7 @@ int wsJoinServerCli::DataRecv()
 
 	if ( nResult == 0 )
 	{
-		sLog.outBasic("error-L3 : closed %d - buff:%d(%d) ",
+		sLog->outBasic("error-L3 : closed %d - buff:%d(%d) ",
 			WSAGetLastError(), this->m_RecvBufLen, 819200 - *recvbuflen);
 
 		return 1;
@@ -265,7 +265,7 @@ int wsJoinServerCli::DataRecv()
 		{
 			return 1;
 		}
-		sLog.outBasic("error-L3 : recv error %d", WSAGetLastError() );
+		sLog->outBasic("error-L3 : recv error %d", WSAGetLastError() );
 		return 1;
 	}
 
@@ -295,7 +295,7 @@ int wsJoinServerCli::DataRecv()
 
 				if ( PrvKey == NULL )
 				{
-					sLog.outError( "[PACKET-ENCODE] ERROR: PrvKey Pointer is NULL");
+					sLog->outError( "[PACKET-ENCODE] ERROR: PrvKey Pointer is NULL");
 					break;
 				}
 
@@ -317,7 +317,7 @@ int wsJoinServerCli::DataRecv()
 
 				if ( size <= 0 )
 				{
-					sLog.outBasic("error-L2 : size %d", size);
+					sLog->outBasic("error-L2 : size %d", size);
 					return 0;
 				}
 
@@ -356,7 +356,7 @@ int wsJoinServerCli::DataRecv()
 
 				if ( size <= 0 )
 				{
-					sLog.outBasic("error-L2 : size %d",size);
+					sLog->outBasic("error-L2 : size %d",size);
 					return 0;
 				}
 
@@ -405,14 +405,14 @@ int wsJoinServerCli::DataRecv()
 			}
 			else
 			{
-				sLog.outBasic("error-L2 : header error (%s %d)lOfs:%d, size:%d", __FILE__, __LINE__, lOfs, *recvbuflen);
+				sLog->outBasic("error-L2 : header error (%s %d)lOfs:%d, size:%d", __FILE__, __LINE__, lOfs, *recvbuflen);
 				*recvbuflen = 0;
 				return 0;
 			}
 
 			if ( size <= 0 )
 			{
-				sLog.outBasic("error-L2 : size %d", size);
+				sLog->outBasic("error-L2 : size %d", size);
 				return 0;
 			}
 

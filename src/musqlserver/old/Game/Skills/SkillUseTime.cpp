@@ -44,7 +44,7 @@ bool CSkillUseTime::LoadFile(LPSTR lpFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("%s File Load Error (%s)", lpFile, res.description());
+		sLog->outError("%s File Load Error (%s)", lpFile, res.description());
 		return false;
 	}
 
@@ -63,7 +63,7 @@ bool CSkillUseTime::LoadFile(LPSTR lpFile)
 	}
 
 	this->m_bFileLoad = true;
-	sLog.outBasic("Loaded file %s (count:%d)", lpFile, this->m_vtSkillTimeInfo.size());
+	sLog->outBasic("Loaded file %s (count:%d)", lpFile, this->m_vtSkillTimeInfo.size());
 
 	return true;
 }
@@ -89,7 +89,7 @@ bool CSkillUseTime::CheckSkillTime(LPOBJ lpObj, int iSkill)
 
 	if ( this->m_bDebugMode )
 	{
-		sLog.outBasic("[DEBUG] UseSkill (%d) Time(%d) MagicSpeed(%d)", iSkill, iTimeDiff, lpObj->m_MagicSpeed);
+		sLog->outBasic("[DEBUG] UseSkill (%d) Time(%d) MagicSpeed(%d)", iSkill, iTimeDiff, lpObj->m_MagicSpeed);
 	}
 
 	for(std::vector<SKILL_TIME_INFO>::iterator It = this->m_vtSkillTimeInfo.begin(); It != this->m_vtSkillTimeInfo.end(); It++)
@@ -106,7 +106,7 @@ bool CSkillUseTime::CheckSkillTime(LPOBJ lpObj, int iSkill)
 					{
 						if ( lpObj->m_PlayerData->LastSkillUseCount >= this->m_iNumberOfBadSkillUseDC )
 						{
-							sLog.outError( "[ANTI-HACK] [%s][%s][%s] Used skill too fast %d times -> Disconnect", lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr, lpObj->m_PlayerData->LastSkillUseCount);
+							sLog->outError( "[ANTI-HACK] [%s][%s][%s] Used skill too fast %d times -> Disconnect", lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr, lpObj->m_PlayerData->LastSkillUseCount);
 							GSProtocol.GCSendDisableReconnect(lpObj->m_Index);
 							//IOCP.CloseClient(lpObj->m_Index);
 						}

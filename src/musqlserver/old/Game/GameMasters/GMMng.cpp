@@ -440,8 +440,8 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 		//	lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr, szCmdToken,F
 		//	lpObj->Authority);
 	}
-	//sLog.outBasic("Use GM Command -> [ %d ]", command_number);
-	//sLog.outBasic("Use GM Command -> [ %d ]", command_number);
+	//sLog->outBasic("Use GM Command -> [ %d ]", command_number);
+	//sLog->outBasic("Use GM Command -> [ %d ]", command_number);
 	//return 0;
 	switch (command_number)
 	{
@@ -656,7 +656,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 			return 0;
 		}
 
-		sLog.outBasic("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s",
+		sLog->outBasic("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s",
 			lpObj->m_PlayerData->Ip_addr, lpObj->AccountID, lpObj->Name,
 			"User Stat (connection)");
 		int lc151 = 0;
@@ -717,7 +717,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 			return 0;
 		}
 
-		sLog.outBasic("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s",
+		sLog->outBasic("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s",
 			lpObj->m_PlayerData->Ip_addr, lpObj->AccountID, lpObj->Name,
 			"Guild Disconnect");
 
@@ -745,7 +745,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 
 					if (iIndex >= 0)
 					{
-						sLog.outBasic("%s is forced to disconnect", pId);
+						sLog->outBasic("%s is forced to disconnect", pId);
 						IOCP.CloseClient(iIndex);
 					}
 				}
@@ -1678,7 +1678,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 
 			if (Item.m_Type == -1)
 			{
-				sLog.outError( "[Game Master][Create Item][%s][%s][%s] - Wrong ItemType (%d)",
+				sLog->outError( "[Game Master][Create Item][%s][%s][%s] - Wrong ItemType (%d)",
 					lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr, Item.m_Type);
 
 				return 0;
@@ -2037,7 +2037,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 			return 0;
 		}
 
-		sLog.outBasic("[KUNDUN] Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj->m_PlayerData->Ip_addr, lpObj->AccountID,
+		sLog->outBasic("[KUNDUN] Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj->m_PlayerData->Ip_addr, lpObj->AccountID,
 			lpObj->Name, "Kundun Event Start");
 
 		for (int n = 0; n < MAX_VIEWPORT; n++)
@@ -2078,7 +2078,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 			return 0;
 		}
 
-		sLog.outBasic("[KUNDUN] Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj->m_PlayerData->Ip_addr, lpObj->AccountID,
+		sLog->outBasic("[KUNDUN] Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj->m_PlayerData->Ip_addr, lpObj->AccountID,
 			lpObj->Name, "Kundun SetHP");
 
 		int iLife = this->GetTokenNumber();
@@ -2131,7 +2131,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 			return 0;
 		}
 
-		sLog.outBasic("[KUNDUN] Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj->m_PlayerData->Ip_addr, lpObj->AccountID,
+		sLog->outBasic("[KUNDUN] Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj->m_PlayerData->Ip_addr, lpObj->AccountID,
 			lpObj->Name, "Kundun SetHPRefill");
 
 		int RefillHP = this->GetTokenNumber();
@@ -2164,7 +2164,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 			return 0;
 		}
 
-		sLog.outBasic("[KUNDUN] Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj->m_PlayerData->Ip_addr, lpObj->AccountID,
+		sLog->outBasic("[KUNDUN] Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj->m_PlayerData->Ip_addr, lpObj->AccountID,
 			lpObj->Name, "Kundun SetHPRefillSec");
 
 		int RefillHPSec = this->GetTokenNumber();
@@ -2196,7 +2196,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 			return 0;
 		}
 
-		sLog.outBasic("[KUNDUN] Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj->m_PlayerData->Ip_addr, lpObj->AccountID,
+		sLog->outBasic("[KUNDUN] Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj->m_PlayerData->Ip_addr, lpObj->AccountID,
 			lpObj->Name, "Kundun SetHPRefillTime");
 
 		int RefillHPTime = this->GetTokenNumber();
@@ -2546,7 +2546,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 		}
 		lpObj->m_PlayerData->Money = 0;
 		GSProtocol.GCMoneySend(lpObj->m_Index, lpObj->m_PlayerData->Money);
-		sLog.outError( "[%s][%s] Cleared inventory", lpObj->AccountID, lpObj->Name);
+		sLog->outError( "[%s][%s] Cleared inventory", lpObj->AccountID, lpObj->Name);
 		MsgOutput(lpObj->m_Index, Lang.GetText(0, 465));
 		break;
 	case 420:
@@ -2966,7 +2966,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 			return 0;
 		}
 
-		sLog.outBasic("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] / Target : [%s][%s] : %s",
+		sLog->outBasic("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] / Target : [%s][%s] : %s",
 			lpObj->m_PlayerData->Ip_addr, lpObj->AccountID, lpObj->Name, lpTargetObj->AccountID,
 			lpTargetObj->Name, "User Trans");
 
@@ -3327,7 +3327,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 
 		g_GremoryCase.GDReqAddItemToGremoryCase(lpTargetObj->m_Index, stItem, DaysToExpire);
 
-		sLog.outBasic("[%s][%s][%s] Added GM Gift to Gremory Case using Admin Command (%s/%d/%d) Auth: %d Target: %s", lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr, Lang.GetMap(0, lpObj->MapNumber), lpObj->X, lpObj->Y, lpObj->Authority, lpTargetObj->Name);
+		sLog->outBasic("[%s][%s][%s] Added GM Gift to Gremory Case using Admin Command (%s/%d/%d) Auth: %d Target: %s", lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr, Lang.GetMap(0, lpObj->MapNumber), lpObj->X, lpObj->Y, lpObj->Authority, lpTargetObj->Name);
 		GMLog->Output("[%s][%s][%s] Created Added GM Gift to Gremory Case using Admin Command (%s/%d/%d) Auth: %d Target: %s", lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr, Lang.GetMap(0, lpObj->MapNumber), lpObj->X, lpObj->Y, lpObj->Authority, lpTargetObj->Name);
 	}
 	break;
@@ -3402,7 +3402,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 		}
 
 		g_ChaosCastleFinal.m_bCCF_CHEAT_BLOW = iBlow;
-		sLog.outBasic("[ChaosCastleFinal][CHEAT][CCF BLOW] [%s]Changed m_bCCF_CHEAT_BLOW:%d ", lpObj->Name, g_ChaosCastleFinal.m_bCCF_CHEAT_BLOW);
+		sLog->outBasic("[ChaosCastleFinal][CHEAT][CCF BLOW] [%s]Changed m_bCCF_CHEAT_BLOW:%d ", lpObj->Name, g_ChaosCastleFinal.m_bCCF_CHEAT_BLOW);
 	}
 	break;
 	case 453:
@@ -3421,7 +3421,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 		}
 
 		g_ChaosCastleFinal.m_bCCF_CHEAT_TRAP = iTrap;
-		sLog.outBasic("[ChaosCastleFinal][CHEAT][CCF BLOW] [%s]Changed m_bCCF_CHEAT_TRAP:%d ", lpObj->Name, g_ChaosCastleFinal.m_bCCF_CHEAT_TRAP);
+		sLog->outBasic("[ChaosCastleFinal][CHEAT][CCF BLOW] [%s]Changed m_bCCF_CHEAT_TRAP:%d ", lpObj->Name, g_ChaosCastleFinal.m_bCCF_CHEAT_TRAP);
 	}
 	break;
 	case 454:

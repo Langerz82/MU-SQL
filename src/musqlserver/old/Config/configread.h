@@ -548,7 +548,7 @@ struct PK_CONFIG
 	{
 		if (iPKLevel < 0 || iPKLevel >= 7)
 		{
-			sLog.outError("Error %s - wrong PK Level (%d)", __FUNCTION__, iPKLevel);
+			sLog->outError("Error %s - wrong PK Level (%d)", __FUNCTION__, iPKLevel);
 			return 0;
 		}
 
@@ -559,7 +559,7 @@ struct PK_CONFIG
 	{
 		if (iPKLevel < 0 || iPKLevel >= 7)
 		{
-			sLog.outError("Error %s - wrong PK Level (%d)", __FUNCTION__, iPKLevel);
+			sLog->outError("Error %s - wrong PK Level (%d)", __FUNCTION__, iPKLevel);
 			return 0;
 		}
 
@@ -578,7 +578,7 @@ struct PK_CONFIG
 	{
 		if (iPKLevel < 0 || iPKLevel >= 7)
 		{
-			sLog.outError("Error %s - wrong PK Level (%d)", __FUNCTION__, iPKLevel);
+			sLog->outError("Error %s - wrong PK Level (%d)", __FUNCTION__, iPKLevel);
 			return 0;
 		}
 
@@ -597,7 +597,7 @@ struct PK_CONFIG
 	{
 		if (iPKLevel < 0 || iPKLevel >= 7)
 		{
-			sLog.outError("Error %s - wrong PK Level (%d)", __FUNCTION__, iPKLevel);
+			sLog->outError("Error %s - wrong PK Level (%d)", __FUNCTION__, iPKLevel);
 			return 0;
 		}
 
@@ -608,7 +608,7 @@ struct PK_CONFIG
 	{
 		if (iPKLevel < 0 || iPKLevel >= 7)
 		{
-			sLog.outError("Error %s - wrong PK Level (%d)", __FUNCTION__, iPKLevel);
+			sLog->outError("Error %s - wrong PK Level (%d)", __FUNCTION__, iPKLevel);
 			return true;
 		}
 
@@ -619,7 +619,7 @@ struct PK_CONFIG
 	{
 		if (iPKLevel < 0 || iPKLevel >= 7)
 		{
-			sLog.outError("Error %s - wrong PK Level (%d)", __FUNCTION__, iPKLevel);
+			sLog->outError("Error %s - wrong PK Level (%d)", __FUNCTION__, iPKLevel);
 			return 0;
 		}
 

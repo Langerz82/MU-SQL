@@ -47,7 +47,7 @@ BOOL TMonsterSkillUnit::LoadData(LPSTR lpszFileName)
 
 	if ( lpszFileName == NULL || strcmp(lpszFileName, "") == 0 )
 	{
-		sLog.outError("[Monster Skill Unit] - File load error : File Name Error");
+		sLog->outError("[Monster Skill Unit] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -58,7 +58,7 @@ BOOL TMonsterSkillUnit::LoadData(LPSTR lpszFileName)
 
 		if ( res.status != pugi::status_ok )
 		{
-			sLog.outError("[Monster Skill Unit] - Can't Load %s (%s)", lpszFileName, res.description());
+			sLog->outError("[Monster Skill Unit] - Can't Load %s (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
@@ -90,7 +90,7 @@ BOOL TMonsterSkillUnit::LoadData(LPSTR lpszFileName)
 
 			if ( iUnitNumber < 0 || iUnitNumber >= MAX_MONSTER_SKILL_UNIT_ARRAY )
 			{
-				sLog.outError("[Monster SkillUnit] - Unit(%d) Error (%s) File. ", iUnitNumber , lpszFileName);
+				sLog->outError("[Monster SkillUnit] - Unit(%d) Error (%s) File. ", iUnitNumber , lpszFileName);
 				continue;
 			}
 
@@ -130,7 +130,7 @@ BOOL TMonsterSkillUnit::LoadData(LPSTR lpszFileName)
 
 	catch(DWORD)
 	{
-		sLog.outError("[Monster Skill Unit] - Loading Exception Error (%s) File. ", lpszFileName);
+		sLog->outError("[Monster Skill Unit] - Loading Exception Error (%s) File. ", lpszFileName);
 	}
 
 	return FALSE;
@@ -152,7 +152,7 @@ TMonsterSkillUnit * TMonsterSkillUnit::FindSkillUnit(int iUnitNumber)
 {
 	if ( iUnitNumber < 0 || iUnitNumber >= MAX_MONSTER_SKILL_UNIT_ARRAY )
 	{
-		sLog.outBasic("[Monster SkillUnit] FindSkillUnit() Error - (UnitNumber=%d) ",
+		sLog->outBasic("[Monster SkillUnit] FindSkillUnit() Error - (UnitNumber=%d) ",
 			iUnitNumber);
 
 		return NULL;
@@ -163,7 +163,7 @@ TMonsterSkillUnit * TMonsterSkillUnit::FindSkillUnit(int iUnitNumber)
 		return &TMonsterSkillUnit::s_MonsterSkillUnitArray[iUnitNumber];
 	}
 
-	sLog.outBasic("[Monster SkillUnit] FindSkillUnit() Error - (UnitNumber=%d) ",
+	sLog->outBasic("[Monster SkillUnit] FindSkillUnit() Error - (UnitNumber=%d) ",
 		iUnitNumber);
 
 	return FALSE;
@@ -177,7 +177,7 @@ void TMonsterSkillUnit::RunSkill(int iIndex, int iTargetIndex)
 	{
 		if ( this->m_lpElementsSlot[i] == NULL )
 		{
-			sLog.outError(  "[Monster SkillUnit] SkillElement is NULL");
+			sLog->outError(  "[Monster SkillUnit] SkillElement is NULL");
 			continue;
 		}
 

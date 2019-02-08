@@ -30,7 +30,7 @@ void CExpManager::LoadScript(LPSTR szFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("[Exp Manager] Cannot load %s file (%s)", szFileName, res.description());
+		sLog->outError("[Exp Manager] Cannot load %s file (%s)", szFileName, res.description());
 		return;
 	}
 

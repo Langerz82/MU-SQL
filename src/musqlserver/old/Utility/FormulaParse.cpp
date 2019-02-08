@@ -27,7 +27,7 @@ void CFormulaParse::LoadFile(char * szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("%s file load fail (%s)", szFile, res.description());
+		sLog->outError("%s file load fail (%s)", szFile, res.description());
 		return;
 	}
 

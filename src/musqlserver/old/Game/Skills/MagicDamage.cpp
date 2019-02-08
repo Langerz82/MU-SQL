@@ -39,7 +39,7 @@ void CMagicDamage::LogSkillList(char * filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("%s load status - fail, error (%s)", filename, res.description());
+		sLog->outError("%s load status - fail, error (%s)", filename, res.description());
 		return;
 	}
 
@@ -134,13 +134,13 @@ void CMagicDamage::SetMasterLevelSkillInfo(int iSkill, int iSkillRank, int iSkil
 {
 	if ( iSkill < 0 || iSkill > MAX_SKILL -1 )
 	{
-		sLog.outError("Skill limit error: (%s %d), ID: %d", __FILE__, __LINE__, iSkill);
+		sLog->outError("Skill limit error: (%s %d), ID: %d", __FILE__, __LINE__, iSkill);
 		return;
 	}
 
 	if ( this->m_Damage[iSkill] == -1 )
 	{
-		sLog.outError("Damage value is already set (%s %d)", __FILE__, __LINE__);
+		sLog->outError("Damage value is already set (%s %d)", __FILE__, __LINE__);
 		return;
 	}
 
@@ -158,13 +158,13 @@ void CMagicDamage::SetEx(int iSkill, int iSkillUseType, int iSkillBrand, int iKi
 {
 	if ( iSkill < 0 || iSkill > MAX_SKILL -1 )
 	{
-		sLog.outError("Skill limit error: (%s %d), ID: %d", __FILE__, __LINE__, iSkill);
+		sLog->outError("Skill limit error: (%s %d), ID: %d", __FILE__, __LINE__, iSkill);
 		return;
 	}
 
 	if ( this->m_Damage[iSkill] == -1 )
 	{
-		sLog.outError("Damage value is already set (%s %d)", __FILE__, __LINE__);
+		sLog->outError("Damage value is already set (%s %d)", __FILE__, __LINE__);
 		return;
 	}
 
@@ -178,13 +178,13 @@ void CMagicDamage::Set(char* name, int skill, int damage,  int rlevel,  int mana
 {
 	if ( skill < 0 || skill > MAX_SKILL -1 )
 	{
-		sLog.outError("Skill limit error: (%s %d), ID: %d", __FILE__, __LINE__, skill);
+		sLog->outError("Skill limit error: (%s %d), ID: %d", __FILE__, __LINE__, skill);
 		return;
 	}
 
 	if ( this->m_Damage[skill] != -1 )
 	{
-		sLog.outError("Damage value is already set (%s %d)", __FILE__, __LINE__);
+		sLog->outError("Damage value is already set (%s %d)", __FILE__, __LINE__);
 		return;
 	}
 

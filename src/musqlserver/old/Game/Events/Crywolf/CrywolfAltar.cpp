@@ -149,7 +149,7 @@ void CCrywolfAltar::SetAltarValidContract(int iAltarObjIndex, int iClass)
 		MsgOutput(AltarInfo->m_iUserIndex, Lang.GetText(0,243), iAltarNumber);
 		UTIL.SendCrywolfUserAnyMsg(2, Lang.GetText(0,244), gObj[AltarInfo->m_iUserIndex].Name, iAltarNumber);
 
-		sLog.outBasic("[Crywolf][Altar op.]  [%s][%s] Set Valid Contract Altar[%d]",
+		sLog->outBasic("[Crywolf][Altar op.]  [%s][%s] Set Valid Contract Altar[%d]",
 			gObj[AltarInfo->m_iUserIndex].AccountID, gObj[AltarInfo->m_iUserIndex].Name, iAltarNumber);
 
 		AltarInfo->SetAltarState(1);
@@ -211,7 +211,7 @@ BOOL CCrywolfAltar::SetAltarUserIndex(int iAltarObjIndex, int iClass, int iUserI
 
 	UTIL.SendCrywolfUserAnyMsg(2, Lang.GetText(0,249), gObj[AltarInfo->m_iUserIndex].Name, iAltarNumber);
 
-	sLog.outBasic("[Crywolf][Altar Op.] [%s][%s] Attempt to contract Altar[%d]",
+	sLog->outBasic("[Crywolf][Altar Op.] [%s][%s] Attempt to contract Altar[%d]",
 		gObj[AltarInfo->m_iUserIndex].AccountID, gObj[AltarInfo->m_iUserIndex].Name,
 		iAltarNumber);
 
@@ -230,7 +230,7 @@ void CCrywolfAltar::ResetAltarUserIndex(int iAltarObjIndex, int iClass)
 	if ( gObjIsConnected(AltarInfo->m_iUserIndex) != FALSE )
 	{
 		MsgOutput(AltarInfo->m_iUserIndex, Lang.GetText(0,252), iAltarNumber);
-		sLog.outBasic("[Crywolf][Altar Op.] [%s][%s] Remove contract Altar[%d]",
+		sLog->outBasic("[Crywolf][Altar Op.] [%s][%s] Remove contract Altar[%d]",
 		gObj[AltarInfo->m_iUserIndex].AccountID, gObj[AltarInfo->m_iUserIndex].Name,
 		iAltarNumber);
 	}

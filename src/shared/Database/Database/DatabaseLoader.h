@@ -1,6 +1,10 @@
 #ifndef _MUSQL_DATABASELOADER_H_
 #define _MUSQL_DATABASELOADER_H_
 
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
 #include "Common/Common.h"
 #include <functional>
 #include <queue>

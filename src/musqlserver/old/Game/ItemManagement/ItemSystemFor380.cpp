@@ -49,7 +49,7 @@ BOOL CItemSystemFor380::Load380ItemOptionInfo(LPSTR filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("Failed to load %s file (%s)", filename, res.description());
+		sLog->outError("Failed to load %s file (%s)", filename, res.description());
 		return FALSE;
 	}
 
@@ -104,7 +104,7 @@ BOOL CItemSystemFor380::Is380Item(CItem const *  pItem)
 
 	if (pItem->m_Type < 0 || pItem->m_Type > MAX_ITEMS - 1)
 	{
-		sLog.outBasic("[380Item] OptionItem Check error: (iItemNum:%d)", pItem->m_Type);
+		sLog->outBasic("[380Item] OptionItem Check error: (iItemNum:%d)", pItem->m_Type);
 		return FALSE;
 	}
 
@@ -345,7 +345,7 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(LPOBJ lpObj)
 
 	GSProtocol.GCMoneySend(lpObj->m_Index, lpObj->m_PlayerData->Money);
 	g_MixSystem.LogChaosItem(lpObj, "[380Item][Item Mix");
-	sLog.outBasic("[380Item][Item Mix] - Mix Start");
+	sLog->outBasic("[380Item][Item Mix] - Mix Start");
 
 	int iRate = rand() % 100;
 	int iRateSuccess = this->m_iRateSuccessRateForMix1;
@@ -375,7 +375,7 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(LPOBJ lpObj)
 		this->_SetOption(pTargetItem, TRUE);
 		GSProtocol.GCUserChaosBoxSend(lpObj, 0);
 
-		sLog.outBasic("[380Item][ItemMix] Mix Success [%s][%s], Money(%d-%d) Rate(%d/%d) Option(%d,%d) OptionValue(%d,%d)",
+		sLog->outBasic("[380Item][ItemMix] Mix Success [%s][%s], Money(%d-%d) Rate(%d/%d) Option(%d,%d) OptionValue(%d,%d)",
 			lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Money,
 			iMixPrice, iRate, iRateSuccess,
 			this->m_itemOption[(pTargetItem->m_Type)].m_Option1,
@@ -388,7 +388,7 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(LPOBJ lpObj)
 		GSProtocol.GCUserChaosBoxSend(lpObj, 0);
 		IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
-		sLog.outBasic("[380Item][ItemMix] Mix Fail [%s][%s], Money(%d-%d) Rate(%d/%d)",
+		sLog->outBasic("[380Item][ItemMix] Mix Fail [%s][%s], Money(%d-%d) Rate(%d/%d)",
 			lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Money,
 			iMixPrice, iRate, iRateSuccess);
 

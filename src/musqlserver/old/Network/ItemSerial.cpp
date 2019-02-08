@@ -22,7 +22,7 @@ bool CItemSerial::Init()
 	//if (this->m_Query.Connect(g_MuOnlineDNS, g_UserID, g_Password, g_ServerName) == FALSE)
 	if (false) // stub
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return false;
 	}
 

@@ -32,7 +32,7 @@ void CSetItemDrop::LoadFile(LPSTR lpFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("%s file load fail (%s)", lpFile, res.description());
+		sLog->outError("%s file load fail (%s)", lpFile, res.description());
 		return;
 	}
 
@@ -160,13 +160,13 @@ bool CSetItemDrop::DropItem(LPOBJ lpMonster, LPOBJ lpUser)
 
 		if (!p)
 		{
-			sLog.outError( "ERROR - Item not found (%d) CSetItemDrop::DropItem (%s)(%d)", iItemType, lpUser->Name, lpMonster->Class);
+			sLog->outError( "ERROR - Item not found (%d) CSetItemDrop::DropItem (%s)(%d)", iItemType, lpUser->Name, lpMonster->Class);
 			return false;
 		}
 
 		if (iSetItemOption == 0)
 		{
-			sLog.outError( "ERROR - Set Item Option not found (%d) (Cat:%d) CSetItemDrop::DropItem (%s)(%d)", iItemType, lpDropItem->ItemCat, lpUser->Name, lpMonster->Class);
+			sLog->outError( "ERROR - Set Item Option not found (%d) (Cat:%d) CSetItemDrop::DropItem (%s)(%d)", iItemType, lpDropItem->ItemCat, lpUser->Name, lpMonster->Class);
 			return false;
 		}
 

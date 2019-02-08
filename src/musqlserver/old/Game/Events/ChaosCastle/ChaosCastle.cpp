@@ -163,7 +163,7 @@ void CChaosCastle::Load(LPSTR filename)
 
 	if ( res.status != pugi::status_ok )
 	{
-		sLog.outError("[Chaos Castle] Info file Load Fail [%s] [%s]", filename, res.description());
+		sLog->outError("[Chaos Castle] Info file Load Fail [%s] [%s]", filename, res.description());
 		return;
 	}
 
@@ -218,7 +218,7 @@ void CChaosCastle::LoadMonster(char* filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("[ChaosCastle] SetBase File Load Fail %s (%s)", filename, res.description());
+		sLog->outError("[ChaosCastle] SetBase File Load Fail %s (%s)", filename, res.description());
 		return;
 	}
 
@@ -248,7 +248,7 @@ void CChaosCastle::LoadMonster(char* filename)
 
 		if (nCount == 100 || nCount < 0)
 		{
-			sLog.outBasic("[ChaosCastle][LoadMonster] Monster Count Invalid");
+			sLog->outBasic("[ChaosCastle][LoadMonster] Monster Count Invalid");
 			nCount = 100;
 		}
 
@@ -266,7 +266,7 @@ void CChaosCastle::CheckSync(int iChaosCastleIndex)
 
 	if ( this->m_vtChaosCastleOpenTime.empty() != false )
 	{
-		//sLog.outError(  "[Chaos Castle] (%d) No Schedule Time Data - Chaos Castle Terminated (m_vtChaosCastleOpenTime.empty())", iChaosCastleIndex);
+		//sLog->outError(  "[Chaos Castle] (%d) No Schedule Time Data - Chaos Castle Terminated (m_vtChaosCastleOpenTime.empty())", iChaosCastleIndex);
 		this->SetState(iChaosCastleIndex, CC_STATE_NONE);
 		
 		return;
@@ -324,7 +324,7 @@ void CChaosCastle::CheckSync(int iChaosCastleIndex)
 			break;
 
 		default:
-			//sLog.outError(  "[Chaos Castle] (%d) No Schedule Time Data - Chaos Castle Terminated (bTIME_CHANGED=%d)",	iChaosCastleIndex + 1, bTIME_CHANGED);
+			//sLog->outError(  "[Chaos Castle] (%d) No Schedule Time Data - Chaos Castle Terminated (bTIME_CHANGED=%d)",	iChaosCastleIndex + 1, bTIME_CHANGED);
 			this->SetState(iChaosCastleIndex, CC_STATE_NONE);
 			return;
 
@@ -332,7 +332,7 @@ void CChaosCastle::CheckSync(int iChaosCastleIndex)
 
 	this->m_stChaosCastleData[iChaosCastleIndex].m_iCC_TICK_COUNT = GetTickCount();
 
-	//sLog.outBasic("[Chaos Castle] (%d) Sync Start Time. [%d] min remain (START HOUR:%d, MIN:%d)",iChaosCastleIndex+1, this->m_stChaosCastleData[iChaosCastleIndex].m_iCC_REMAIN_MSEC / 60000,
+	//sLog->outBasic("[Chaos Castle] (%d) Sync Start Time. [%d] min remain (START HOUR:%d, MIN:%d)",iChaosCastleIndex+1, this->m_stChaosCastleData[iChaosCastleIndex].m_iCC_REMAIN_MSEC / 60000,
 	//	iMIN_HOUR, iMIN_MINUTE);
 
 }
@@ -482,7 +482,7 @@ void CChaosCastle::ProcState_Playing(int iChaosCastleIndex)
 			this->SetItemsToMonster(iChaosCastleIndex);
 			this->SendNoticeState(iChaosCastleIndex, 5);
 			
-			//sLog.outBasic("[Chaos Castle] (%d) Chaos Castle Quest Start (UserCount:%d)",iChaosCastleIndex+1, this->GetCurPlayUser(iChaosCastleIndex));
+			//sLog->outBasic("[Chaos Castle] (%d) Chaos Castle Quest Start (UserCount:%d)",iChaosCastleIndex+1, this->GetCurPlayUser(iChaosCastleIndex));
 		}
 
 		if ( this->m_stChaosCastleData[iChaosCastleIndex].m_bCC_PLAY_START == false &&
@@ -493,7 +493,7 @@ void CChaosCastle::ProcState_Playing(int iChaosCastleIndex)
 			if (iCurPlayUser == 0 )
 			{
 				this->SetState(iChaosCastleIndex, CC_STATE_CLOSED);
-				//sLog.outBasic("[Chaos Castle] (%d) Chaos Castle Quest Closed - No User",iChaosCastleIndex+1);
+				//sLog->outBasic("[Chaos Castle] (%d) Chaos Castle Quest Closed - No User",iChaosCastleIndex+1);
 
 				return;
 			}
@@ -531,7 +531,7 @@ void CChaosCastle::ProcState_Playing(int iChaosCastleIndex)
 
 					if ( iWinnerIndex != -1 )
 					{
-						//sLog.outBasic("[Chaos Castle] (%d) [%s][%s] is Winner. [CharInfoSave : Class=%d, Level=%d, LvPoint=%d, Exp=%d, Str=%d, Dex=%d, Vit=%d, Energy=%d, LeaderShip=%d, Map=%d, Pk=%d]",
+						//sLog->outBasic("[Chaos Castle] (%d) [%s][%s] is Winner. [CharInfoSave : Class=%d, Level=%d, LvPoint=%d, Exp=%d, Str=%d, Dex=%d, Vit=%d, Energy=%d, LeaderShip=%d, Map=%d, Pk=%d]",
 						//	iChaosCastleIndex+1, gObj[iWinnerIndex].AccountID, gObj[iWinnerIndex].Name,	gObj[iWinnerIndex].Class, gObj[iWinnerIndex].Level, gObj[iWinnerIndex].m_PlayerData->LevelUpPoint,
 						//	gObj[iWinnerIndex].m_PlayerData->Experience, gObj[iWinnerIndex].m_PlayerData->Strength,	gObj[iWinnerIndex].m_PlayerData->Dexterity, gObj[iWinnerIndex].m_PlayerData->Vitality, gObj[iWinnerIndex].m_PlayerData->Energy,
 						//	gObj[iWinnerIndex].Leadership, gObj[iWinnerIndex].MapNumber, gObj[iWinnerIndex].m_PK_Level);
@@ -541,12 +541,12 @@ void CChaosCastle::ProcState_Playing(int iChaosCastleIndex)
 					}
 					else
 					{
-						//sLog.outBasic("[Chaos Castle] (%d) Has No Winner.", iChaosCastleIndex+1);
+						//sLog->outBasic("[Chaos Castle] (%d) Has No Winner.", iChaosCastleIndex+1);
 					}
 				}
 				else
 				{
-					//sLog.outBasic("[Chaos Castle] (%d) Has No Winner : Monster Left (%d)",	iChaosCastleIndex+1, this->m_stChaosCastleData[iChaosCastleIndex].m_lCC_CURRENT_MONSTER_COUNT);
+					//sLog->outBasic("[Chaos Castle] (%d) Has No Winner : Monster Left (%d)",	iChaosCastleIndex+1, this->m_stChaosCastleData[iChaosCastleIndex].m_lCC_CURRENT_MONSTER_COUNT);
 				}
 
 				this->SendAllLoserFailMessage(iChaosCastleIndex, iWinnerIndex);
@@ -566,7 +566,7 @@ void CChaosCastle::ProcState_Playing(int iChaosCastleIndex)
 
 					if ( iWinnerIndex != -1 )
 					{
-						//sLog.outBasic("[Chaos Castle] (%d) [%s][%s] is Winner. [CharInfoSave : Class=%d, Level=%d, LvPoint=%d, Exp=%d, Str=%d, Dex=%d, Vit=%d, Energy=%d, LeaderShip=%d, Map=%d, Pk=%d]",
+						//sLog->outBasic("[Chaos Castle] (%d) [%s][%s] is Winner. [CharInfoSave : Class=%d, Level=%d, LvPoint=%d, Exp=%d, Str=%d, Dex=%d, Vit=%d, Energy=%d, LeaderShip=%d, Map=%d, Pk=%d]",
 						//	iChaosCastleIndex+1, gObj[iWinnerIndex].AccountID, gObj[iWinnerIndex].Name,gObj[iWinnerIndex].Class, gObj[iWinnerIndex].Level, gObj[iWinnerIndex].m_PlayerData->LevelUpPoint,
 						//	gObj[iWinnerIndex].m_PlayerData->Experience, gObj[iWinnerIndex].m_PlayerData->Strength,	gObj[iWinnerIndex].m_PlayerData->Dexterity, gObj[iWinnerIndex].m_PlayerData->Vitality, gObj[iWinnerIndex].m_PlayerData->Energy,
 						//	gObj[iWinnerIndex].Leadership, gObj[iWinnerIndex].MapNumber, gObj[iWinnerIndex].m_PK_Level);
@@ -576,12 +576,12 @@ void CChaosCastle::ProcState_Playing(int iChaosCastleIndex)
 					}
 					else
 					{
-						//sLog.outBasic("[Chaos Castle] (%d) Has No Winner.", iChaosCastleIndex+1);
+						//sLog->outBasic("[Chaos Castle] (%d) Has No Winner.", iChaosCastleIndex+1);
 					}
 				}
 				else
 				{
-					//sLog.outBasic("[Chaos Castle] (%d) Has No Winner : Monster Left (%d)",	iChaosCastleIndex+1, this->m_stChaosCastleData[iChaosCastleIndex].m_lCC_CURRENT_MONSTER_COUNT);
+					//sLog->outBasic("[Chaos Castle] (%d) Has No Winner : Monster Left (%d)",	iChaosCastleIndex+1, this->m_stChaosCastleData[iChaosCastleIndex].m_lCC_CURRENT_MONSTER_COUNT);
 				}
 
 				this->SendAllLoserFailMessage(iChaosCastleIndex, iWinnerIndex);
@@ -599,7 +599,7 @@ void CChaosCastle::ProcState_Playing(int iChaosCastleIndex)
 
 	if ( this->m_stChaosCastleData[iChaosCastleIndex].m_iCC_REMAIN_MSEC <= 0 )
 	{
-		//sLog.outBasic("[Chaos Castle] (%d) is Over : TIME-OUT (Left User:%d, Monster:%d)",iChaosCastleIndex+1, this->GetCurPlayUser(iChaosCastleIndex), this->GetMonsterListCount(iChaosCastleIndex));
+		//sLog->outBasic("[Chaos Castle] (%d) is Over : TIME-OUT (Left User:%d, Monster:%d)",iChaosCastleIndex+1, this->GetCurPlayUser(iChaosCastleIndex), this->GetMonsterListCount(iChaosCastleIndex));
 
 		int iWinnerIndex = -1;
 		int iMonsterCount = this->GetMonsterListCount(iChaosCastleIndex);
@@ -610,7 +610,7 @@ void CChaosCastle::ProcState_Playing(int iChaosCastleIndex)
 
 			if ( iWinnerIndex != -1 )
 			{
-				//sLog.outBasic("[Chaos Castle] (%d) [%s][%s] is Winner. [CharInfoSave : Class=%d, Level=%d, LvPoint=%d, Exp=%d, Str=%d, Dex=%d, Vit=%d, Energy=%d, LeaderShip=%d, Map=%d, Pk=%d]",
+				//sLog->outBasic("[Chaos Castle] (%d) [%s][%s] is Winner. [CharInfoSave : Class=%d, Level=%d, LvPoint=%d, Exp=%d, Str=%d, Dex=%d, Vit=%d, Energy=%d, LeaderShip=%d, Map=%d, Pk=%d]",
 				//	iChaosCastleIndex+1, gObj[iWinnerIndex].AccountID, gObj[iWinnerIndex].Name,	gObj[iWinnerIndex].Class, gObj[iWinnerIndex].Level, gObj[iWinnerIndex].m_PlayerData->LevelUpPoint,
 				//	gObj[iWinnerIndex].m_PlayerData->Experience, gObj[iWinnerIndex].m_PlayerData->Strength,	gObj[iWinnerIndex].m_PlayerData->Dexterity, gObj[iWinnerIndex].m_PlayerData->Vitality, gObj[iWinnerIndex].m_PlayerData->Energy,
 				//	gObj[iWinnerIndex].Leadership, gObj[iWinnerIndex].MapNumber, gObj[iWinnerIndex].m_PK_Level);
@@ -620,7 +620,7 @@ void CChaosCastle::ProcState_Playing(int iChaosCastleIndex)
 			}
 			else
 			{
-				//sLog.outBasic("[Chaos Castle] (%d) Has No Winner.", iChaosCastleIndex+1);
+				//sLog->outBasic("[Chaos Castle] (%d) Has No Winner.", iChaosCastleIndex+1);
 			}
 		}
 		else
@@ -648,7 +648,7 @@ void CChaosCastle::ProcState_Playing(int iChaosCastleIndex)
 						{
 							if(gObj[CC_MONSTER_COUNT].Connected > 0)
 							{
-								//sLog.outBasic("[Chaos Castle][Bug Tracer] (%d) Left Monster AttrInfo %d/%d", iChaosCastleIndex+1, gObj[CC_MONSTER_COUNT].X, gObj[CC_MONSTER_COUNT].Y);
+								//sLog->outBasic("[Chaos Castle][Bug Tracer] (%d) Left Monster AttrInfo %d/%d", iChaosCastleIndex+1, gObj[CC_MONSTER_COUNT].X, gObj[CC_MONSTER_COUNT].Y);
 							}
 						}
 					}
@@ -657,7 +657,7 @@ void CChaosCastle::ProcState_Playing(int iChaosCastleIndex)
 
 			else
 			{
-				//sLog.outBasic("[Chaos Castle] (%d) Has No Winner : Monster Left (%d)",
+				//sLog->outBasic("[Chaos Castle] (%d) Has No Winner : Monster Left (%d)",
 				//	iChaosCastleIndex+1, this->m_stChaosCastleData[iChaosCastleIndex].m_lCC_CURRENT_MONSTER_COUNT);
 			}
 		}
@@ -693,7 +693,7 @@ void CChaosCastle::PullObjInnerPlace(int iChaosCastleIndex, int iTRAP_STEP)
 
 				if (MAX_MAP_RANGE(iMapNumber) == FALSE)
 				{
-					//sLog.outError( "[ERROR] iMapNumber is out of range %s %d", __FILE__, __LINE__);
+					//sLog->outError( "[ERROR] iMapNumber is out of range %s %d", __FILE__, __LINE__);
 					return;
 				}
 
@@ -992,7 +992,7 @@ void CChaosCastle::SetState_Closed(int iChaosCastleIndex)
 	this->SetMapAttrFill(iChaosCastleIndex);
 	this->CheckSync(iChaosCastleIndex);
 
-	//sLog.outBasic("[Chaos Castle] (%d) SetState CLOSED", iChaosCastleIndex+1);
+	//sLog->outBasic("[Chaos Castle] (%d) SetState CLOSED", iChaosCastleIndex+1);
 }
 
 
@@ -1011,12 +1011,12 @@ void CChaosCastle::SetState_Playing(int iChaosCastleIndex)
 	if ( this->CheckCanStartPlay(iChaosCastleIndex) == false )
 	{
 		this->PlayFailedRollBack(iChaosCastleIndex);
-		//sLog.outBasic("[Chaos Castle] (%d) Failed to Start Chaos Castle : Lack of User", iChaosCastleIndex +1 );
+		//sLog->outBasic("[Chaos Castle] (%d) Failed to Start Chaos Castle : Lack of User", iChaosCastleIndex +1 );
 		this->SetState_Closed(iChaosCastleIndex);
 	}
 	else
 	{
-		//sLog.outBasic("[Chaos Castle] (%d) SetState PLAYING", iChaosCastleIndex + 1 );
+		//sLog->outBasic("[Chaos Castle] (%d) SetState PLAYING", iChaosCastleIndex + 1 );
 	}
 }
 
@@ -1034,7 +1034,7 @@ void CChaosCastle::SetState_PlayEnd(int iChaosCastleIndex)
 	this->m_stChaosCastleData[iChaosCastleIndex].m_bCC_CAN_ENTER = false;
 	this->m_stChaosCastleData[iChaosCastleIndex].m_iCC_REMAIN_MSEC = this->m_iCC_TIME_MIN_REST * 60 * 1000;
 
-	//sLog.outBasic("[Chaos Castle] (%d) SetState PLAYEND", iChaosCastleIndex+1);
+	//sLog->outBasic("[Chaos Castle] (%d) SetState PLAYEND", iChaosCastleIndex+1);
 
 }
 
@@ -1169,7 +1169,7 @@ void CChaosCastle::DelMonsterList(int iChaosCastleIndex, int iMonsterIndex)
 		return;
 	}
 
-	//sLog.outBasic("[Chaos Castle][Bug Tracer] MONSTER DEL (%d) Count(%d) : ENTER - Index(%d)",
+	//sLog->outBasic("[Chaos Castle][Bug Tracer] MONSTER DEL (%d) Count(%d) : ENTER - Index(%d)",
 	//	iChaosCastleIndex+1, this->m_stChaosCastleData[iChaosCastleIndex].m_lCC_CURRENT_MONSTER_COUNT, iMonsterIndex);
 
 	for ( int iMON =0;iMON<MAX_CC_MONSTERS;iMON++)
@@ -1188,7 +1188,7 @@ void CChaosCastle::DelMonsterList(int iChaosCastleIndex, int iMonsterIndex)
 		this->m_stChaosCastleData[iChaosCastleIndex].m_lCC_CURRENT_MONSTER_COUNT = 0;
 	}
 
-	//sLog.outBasic("[Chaos Castle][Bug Tracer] MONSTER DEL (%d) Count(%d) : OUT - Index(%d)",
+	//sLog->outBasic("[Chaos Castle][Bug Tracer] MONSTER DEL (%d) Count(%d) : OUT - Index(%d)",
 	//	iChaosCastleIndex+1, this->m_stChaosCastleData[iChaosCastleIndex].m_lCC_CURRENT_MONSTER_COUNT, iMonsterIndex);
 }
 
@@ -1336,7 +1336,7 @@ void CChaosCastle::SearchNDropMonsterItem(int iChaosCastleIndex, int iMonsterInd
 
 	if ( ObjectMaxRange(iMaxHitUserIndex) != FALSE )
 	{
-		//sLog.outBasic("[Chaos Castle] (%d) Monster Dropped ChaosCastle Item To [%s][%s] (Item:%s)",
+		//sLog->outBasic("[Chaos Castle] (%d) Monster Dropped ChaosCastle Item To [%s][%s] (Item:%s)",
 		//	iChaosCastleIndex+1, gObj[iMaxHitUserIndex].AccountID, gObj[iMaxHitUserIndex].Name,	ItemAttribute[iType].Name);
 	}
 }
@@ -1951,7 +1951,7 @@ BOOL CChaosCastle::LevelUp(int iUserIndex, int iAddExp)
 
 	int iLEFT_EXP = 0;
 
-	//sLog.outBasic("[Chaos Castle] Experience : [%s][%s](%d) Experience: %d + %d",gObj[iUserIndex].AccountID,	gObj[iUserIndex].Name,
+	//sLog->outBasic("[Chaos Castle] Experience : [%s][%s](%d) Experience: %d + %d",gObj[iUserIndex].AccountID,	gObj[iUserIndex].Name,
 	//	gObj[iUserIndex].Level, gObj[iUserIndex].m_PlayerData->Experience,iAddExp);
 
 	::gObjSetExpPetItem(iUserIndex, iAddExp);
@@ -1988,7 +1988,7 @@ BOOL CChaosCastle::LevelUp(int iUserIndex, int iAddExp)
 			{
 				gObj[iUserIndex].m_PlayerData->LevelUpPoint++;
 
-				//sLog.outBasic("[%s][%s] LevelUp PlusStatQuest Clear AddStat %d",gObj[iUserIndex].AccountID, gObj[iUserIndex].Name, gObj[iUserIndex].m_PlayerData->LevelUpPoint);
+				//sLog->outBasic("[%s][%s] LevelUp PlusStatQuest Clear AddStat %d",gObj[iUserIndex].AccountID, gObj[iUserIndex].Name, gObj[iUserIndex].m_PlayerData->LevelUpPoint);
 			}
 		}
 
@@ -2000,7 +2000,7 @@ BOOL CChaosCastle::LevelUp(int iUserIndex, int iAddExp)
 		gObjSetBP(iUserIndex);
 		GSProtocol.GCLevelUpMsgSend(gObj[iUserIndex].m_Index, 1);
 		gObjCalcMaxLifePower(gObj[iUserIndex].m_Index);
-		sLog.outBasic("Level Up [%s][%s][%d]", gObj[iUserIndex].AccountID, gObj[iUserIndex].Name, gObj[iUserIndex].Level);
+		sLog->outBasic("Level Up [%s][%s][%d]", gObj[iUserIndex].AccountID, gObj[iUserIndex].Name, gObj[iUserIndex].Level);
 		return 0;
 	}
 
@@ -2197,7 +2197,7 @@ bool CChaosCastle::CheckCanStartPlay(int iChaosCastleIndex)
 
 	if ( iEnteredUser < this->m_iCC_MIN_USER_START )
 	{
-		//sLog.outBasic("[Chaos Castle] (%d) GetCurPlayUser() FAILED (UserCount:%d)", iChaosCastleIndex+1, iEnteredUser);
+		//sLog->outBasic("[Chaos Castle] (%d) GetCurPlayUser() FAILED (UserCount:%d)", iChaosCastleIndex+1, iEnteredUser);
 
 		return false;
 	}
@@ -2462,7 +2462,7 @@ void CChaosCastle::SearchNBlowObjs(int iMapNumber, int iX, int iY)
 				{
 					this->AddFallUser(iChaosCastleIndex, iIndex);
 
-					//sLog.outBasic("[Chaos Castle] (%d) [%s][%s] User Dead In Chaos Castle : Fall from Castle (X:%d, Y:%d)",
+					//sLog->outBasic("[Chaos Castle] (%d) [%s][%s] User Dead In Chaos Castle : Fall from Castle (X:%d, Y:%d)",
 					//	iChaosCastleIndex+1, gObj[iIndex].AccountID, gObj[iIndex].Name, iX, iY);
 				}
 			}
@@ -2730,7 +2730,7 @@ void CChaosCastle::CheckMonsterInDieTile(int iChaosCastleIndex)
 
 				if (!MAX_MAP_RANGE(iMapNumber))
 				{
-					//sLog.outError( "[ERROR] iMapNumber is out of range %s %d", __FILE__, __LINE__);
+					//sLog->outError( "[ERROR] iMapNumber is out of range %s %d", __FILE__, __LINE__);
 					return;
 				}
 
@@ -2832,7 +2832,7 @@ void CChaosCastle::CheckUserInDieTile(int iChaosCastleIndex)
 						GSProtocol.GCDiePlayerSend(&gObj[this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex],
 							this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex, 0, 0);
 
-						//sLog.outBasic("[Chaos Castle] (%d) [%s][%s] User Dead In Chaos Castle : Fall from Castle (X:%d, Y:%d)",	iChaosCastleIndex+1, gObj[this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex].AccountID,
+						//sLog->outBasic("[Chaos Castle] (%d) [%s][%s] User Dead In Chaos Castle : Fall from Castle (X:%d, Y:%d)",	iChaosCastleIndex+1, gObj[this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex].AccountID,
 						//	gObj[this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex].Name,iSX, iSY);
 
 						this->SendFailMessage(iChaosCastleIndex, this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex);
@@ -2876,7 +2876,7 @@ void CChaosCastle::PlayFailedRollBack(int iChaosCastleIndex)
 
 				IOCP.DataSend(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex, (LPBYTE)&Notice, Notice.h.size);
 
-				//sLog.outBasic("[Chaos Castle] (%d) [%s][%s] Payback to User ChaosCastle Money (FIRST:%d, PAYBACK:%d, FINAL:%d)",	iChaosCastleIndex+1, gObj[this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex].AccountID,
+				//sLog->outBasic("[Chaos Castle] (%d) [%s][%s] Payback to User ChaosCastle Money (FIRST:%d, PAYBACK:%d, FINAL:%d)",	iChaosCastleIndex+1, gObj[this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex].AccountID,
 				//	gObj[this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex].Name,	iFIRST_MONEY, iPAYBACK_MONEY, iNOW_MONEY);
 
 			}
@@ -2935,7 +2935,7 @@ void CChaosCastle::RewardUserEXP(int iChaosCastleIndex, int iChaosCastleSubIndex
 			this->ChaosCastleRank(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[iChaosCastleSubIndex].m_iIndex, iKILLCOUNT_USER,
 				iKILLCOUNT_MONSTER, iTOT_EXP, bWinner);
 
-			//sLog.outBasic("[Chaos Castle] (%d) [%s][%s] Reward User EXP (USER_KILL:%d, MON_KILL:%d, TOT_EXP:%d, TOT_REWARD_EXP:%d)",iChaosCastleIndex+1, gObj[this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[iChaosCastleSubIndex].m_iIndex].AccountID,
+			//sLog->outBasic("[Chaos Castle] (%d) [%s][%s] Reward User EXP (USER_KILL:%d, MON_KILL:%d, TOT_EXP:%d, TOT_REWARD_EXP:%d)",iChaosCastleIndex+1, gObj[this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[iChaosCastleSubIndex].m_iIndex].AccountID,
 			//	gObj[this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[iChaosCastleSubIndex].m_iIndex].Name,	iKILLCOUNT_USER, iKILLCOUNT_MONSTER, iTOT_EXP, iREWARD_EXP);
 		}
 	}
@@ -3375,7 +3375,7 @@ void CChaosCastle::GD_Req_Save_KillPoint_UBF(int index, char *Name, int KillPoin
 	pMsg.nCastleIndex = CastleIndex;
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
-	sLog.outBasic("[CChaosCastle][GD_Req_Save_KillPoint][%s][%s][%s] Save Requested To DB, KillPoint:%d Castle Index:%d",
+	sLog->outBasic("[CChaosCastle][GD_Req_Save_KillPoint][%s][%s][%s] Save Requested To DB, KillPoint:%d Castle Index:%d",
 		gObj[index].AccountID, gObj[index].m_PlayerData->m_RealNameOfUBF, gObj[index].Name, KillPoint, CastleIndex);
 }
 
@@ -3444,7 +3444,7 @@ void CChaosCastle::RewardUserKillPointUBF(int iChaosCastleIndex, int iChaosCastl
 		PHeadSubSetB((LPBYTE)&pUBFMsg, 0x93, 0x01, sizeof(pUBFMsg));
 		IOCP.DataSend(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[iChaosCastleSubIndex].m_iIndex, (LPBYTE)&pUBFMsg, pUBFMsg.h.size);
 
-		sLog.outBasic("[UBF][Chaos Castle] (%d) [%s][%s][%s] GameResult (USER_KILL:%d, MON_KILL:%d, TOT_KILLPOINT:%d, TOT_REWARD_EXP:%d)",
+		sLog->outBasic("[UBF][Chaos Castle] (%d) [%s][%s][%s] GameResult (USER_KILL:%d, MON_KILL:%d, TOT_KILLPOINT:%d, TOT_REWARD_EXP:%d)",
 			iChaosCastleIndex + 1, gObj[this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[iChaosCastleSubIndex].m_iIndex].AccountID,
 			gObj[this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[iChaosCastleSubIndex].m_iIndex].Name,
 			gObj[this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[iChaosCastleSubIndex].m_iIndex].m_PlayerData->m_RealNameOfUBF,
@@ -3473,7 +3473,7 @@ void CChaosCastle::GDReqSetUBFReward_CCBattle(int iUserIndex, BYTE byRewardType)
 		return;
 	}
 
-	sLog.outBasic("[UBF][Chaos Castle][GDReqSetUBFReward_CCBattle]ACC:%s , NAME :%s,Real NAME :%s, RewardType:%d",
+	sLog->outBasic("[UBF][Chaos Castle][GDReqSetUBFReward_CCBattle]ACC:%s , NAME :%s,Real NAME :%s, RewardType:%d",
 		lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->m_RealNameOfUBF, byRewardType);
 
 	SDHP_REQ_SET_CC_WINNER_INFO_UBF pMsg;

@@ -849,7 +849,7 @@ void MoveMonsterProc()
 						if (lpObj->Type == OBJ_USER &&
 							((attr & 4) == 4 || (attr & 8) == 8))
 						{
-							sLog.outBasic("[ CHECK POSITION ] MoveMosterProc [%s][%s] Map[%d]-(%d,%d) User(%d,%d) Can not Move Position Attr[%d]",
+							sLog->outBasic("[ CHECK POSITION ] MoveMosterProc [%s][%s] Map[%d]-(%d,%d) User(%d,%d) Can not Move Position Attr[%d]",
 								lpObj->AccountID, lpObj->Name, lpObj->MapNumber, nextX, nextY, lpObj->X, lpObj->Y, attr);
 							for (int n = 0; n < 15; n++)
 							{
@@ -1000,7 +1000,7 @@ void gObjInit()
 
 	catch (std::exception e)
 	{
-		sLog.outError("%s", e.what());
+		sLog->outError("%s", e.what());
 		return;
 	}
 
@@ -1538,7 +1538,7 @@ void gObjCharZeroSet(int aIndex)
 
 		if (!pCMuRummyInfo)
 		{
-			sLog.outBasic("[MuRummy][Error] pCMuRummyInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+			sLog->outBasic("[MuRummy][Error] pCMuRummyInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		}
 
 		else
@@ -1550,7 +1550,7 @@ void gObjCharZeroSet(int aIndex)
 
 		if (!pCEvoMonInfo)
 		{
-			sLog.outBasic("[EvoMon][Error] pCEvoMonInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+			sLog->outBasic("[EvoMon][Error] pCEvoMonInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		}
 
 		else
@@ -1849,7 +1849,7 @@ void DbItemSetInByte(LPOBJ lpObj, struct SDHP_DBCHAR_INFORESULT* lpMsg, bool* bA
 				if (g_kItemSystemFor380.Is380Item(&item) == false)
 				{
 					item.m_ItemOptionEx = 0;
-					sLog.outBasic("[380Item][%s][%s] Invalid 380 Item Option in Inventory pos[%d]",
+					sLog->outBasic("[380Item][%s][%s] Invalid 380 Item Option in Inventory pos[%d]",
 						lpObj->AccountID, lpObj->Name, n);
 				}
 			}
@@ -2606,7 +2606,7 @@ bool gObjSetCharacter(LPBYTE lpdata, int aIndex)
 		}
 		else
 		{
-			sLog.outBasic("error : %d (%s %d)", result, __FILE__, __LINE__);
+			sLog->outBasic("error : %d (%s %d)", result, __FILE__, __LINE__);
 		}
 	}
 
@@ -2873,7 +2873,7 @@ bool gObjSetCharacter(LPBYTE lpdata, int aIndex)
 
 					if (iAddSkillPosition > 0)
 					{
-						//sLog.outBasic("[%s][%s] Add Infinity Arrow Skill (Character Level : %d)(ChangeUp: %d)",
+						//sLog->outBasic("[%s][%s] Add Infinity Arrow Skill (Character Level : %d)(ChangeUp: %d)",
 						//	lpObj->AccountID, lpObj->Name, lpObj->Level, lpObj->m_PlayerData->ChangeUP);
 					}
 				}
@@ -3334,7 +3334,7 @@ int gObjSetMonster(int aIndex, int MonsterClass)
 
 	if (ObjectMaxRange(aIndex) == FALSE)
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return false;
 	}
 
@@ -3437,7 +3437,7 @@ int gObjSetMonster(int aIndex, int MonsterClass)
 
 	if (lpm == NULL)
 	{
-		sLog.outError("Warning! Cannot find monster attribute %d (%s %d)", lpObj->Class, __FILE__, __LINE__);
+		sLog->outError("Warning! Cannot find monster attribute %d (%s %d)", lpObj->Class, __FILE__, __LINE__);
 		return false;
 	}
 
@@ -3445,7 +3445,7 @@ int gObjSetMonster(int aIndex, int MonsterClass)
 
 	if (lpm->m_Level == 0)
 	{
-		sLog.outBasic("Monster level can't be 0, Class: %d, %s %d", lpObj->Class, __FILE__, __LINE__);
+		sLog->outBasic("Monster level can't be 0, Class: %d, %s %d", lpObj->Class, __FILE__, __LINE__);
 	}
 
 	lpObj->Level = lpm->m_Level;
@@ -3750,7 +3750,7 @@ short gObjAdd(SOCKET aSocket, char* ip, int aIndex)
 	gObj[aIndex].Type = OBJ_USER;
 	m_ObjBill[aIndex - g_ConfigRead.server.GetObjectStartUserIndex()].Init();
 	strcpy(gObj[aIndex].m_PlayerData->Ip_addr, ip);
-	sLog.outBasic("Connection Accept : [%d][%s]", aIndex, ip);
+	sLog->outBasic("Connection Accept : [%d][%s]", aIndex, ip);
 	gObjCount++;
 
 	if (gObjCount >= g_ConfigRead.server.GetObjectMax())
@@ -3828,7 +3828,7 @@ short gObjAddMonster(int iMapNumber)
 
 		if (totalcount >= g_ConfigRead.server.GetObjectMaxMonster())
 		{
-			sLog.outBasic("error: Cannnot add any more. %s %d", __FILE__, __LINE__);
+			sLog->outBasic("error: Cannnot add any more. %s %d", __FILE__, __LINE__);
 			return -1;
 		}
 	}
@@ -3874,7 +3874,7 @@ short gObjAddCallMon()
 
 		if (totalcount >= g_ConfigRead.server.GetObjectMaxCallMonster())
 		{
-			sLog.outBasic("error: Cannnot add any more %s %d", __FILE__, __LINE__);
+			sLog->outBasic("error: Cannnot add any more %s %d", __FILE__, __LINE__);
 			return -1;
 		}
 	}
@@ -3906,7 +3906,7 @@ void gObjAllLogOut()
 	gDisconnect = 1;
 	gObjAllDisconnect();
 	Sleep(1000);
-	sLog.outError( "Whole connection closed");
+	sLog->outError( "Whole connection closed");
 }
 
 
@@ -3948,11 +3948,11 @@ void gObjTradeSave(LPOBJ lpObj, int index)
 			wsprintf(szTemp, Lang.GetText(0, 14), lpObj->Name);
 			GSProtocol.GCServerMsgStringSend((char*)szTemp, tObjNum, 1);
 			gObjTradeCancel(tObjNum);
-			sLog.outBasic("Opposite canceled trade: [%s][%s]", gObj[tObjNum].AccountID, gObj[tObjNum].Name);
+			sLog->outBasic("Opposite canceled trade: [%s][%s]", gObj[tObjNum].AccountID, gObj[tObjNum].Name);
 		}
 
 		gObjTradeCancel(index);
-		sLog.outBasic("Cancel trade: [%s][%s]", lpObj->AccountID, lpObj->Name);
+		sLog->outBasic("Cancel trade: [%s][%s]", lpObj->AccountID, lpObj->Name);
 	}
 }
 
@@ -4019,7 +4019,7 @@ void gObjBillRequest(LPOBJ lpObj)
 		wsprintf(szMsg, Lang.GetText(0, 148), m_ObjBill[lpObj->m_Index - g_ConfigRead.server.GetObjectStartUserIndex()].GetEndTime(), szYear, szMonth,
 			szDay, szHour, szMin);
 
-		sLog.outBasic("[%s][%s] BillType : (Time) RemainPoint : (%d)",
+		sLog->outBasic("[%s][%s] BillType : (Time) RemainPoint : (%d)",
 			lpObj->AccountID, lpObj->Name, m_ObjBill[lpObj->m_Index - g_ConfigRead.server.GetObjectStartUserIndex()].GetEndTime(), g_VipSystem.GetVipName(lpObj->m_PlayerData->VipType));
 	}
 	else if (m_ObjBill[lpObj->m_Index - g_ConfigRead.server.GetObjectStartUserIndex()].GetPayCode() == 4)
@@ -4034,20 +4034,20 @@ void gObjBillRequest(LPOBJ lpObj)
 
 		wsprintf(szMsg, Lang.GetText(0, 149), szYear, szMonth, szDay, g_VipSystem.GetVipName(lpObj->m_PlayerData->VipType));
 
-		sLog.outBasic("[%s][%s] BillType : (Date) RemainDate : (%s-%s-%s)",
+		sLog->outBasic("[%s][%s] BillType : (Date) RemainDate : (%s-%s-%s)",
 			lpObj->AccountID, lpObj->Name, szYear, szMonth, szDay);
 	}
 	else if (m_ObjBill[lpObj->m_Index - g_ConfigRead.server.GetObjectStartUserIndex()].GetPayCode() == 5)		// FREE
 	{
 		wsprintf(szMsg, Lang.GetText(0, 150));
-		sLog.outBasic("[%s][%s] BillType : (NoCharge)", lpObj->AccountID, lpObj->Name);
+		sLog->outBasic("[%s][%s] BillType : (NoCharge)", lpObj->AccountID, lpObj->Name);
 	}
 	else	// Pospaid Account
 	{
 		wsprintf(szMsg, Lang.GetText(0, 26), g_VipSystem.GetVipName(lpObj->m_PlayerData->VipType));
 	}
 
-	sLog.outBasic(szMsg);
+	sLog->outBasic(szMsg);
 	GSProtocol.GCServerMsgStringSend(szMsg, lpObj->m_Index, 1);
 }
 
@@ -4066,7 +4066,7 @@ short gObjMemFree(int index)
 
 	if (index < 0 || index > g_ConfigRead.server.GetObjectMax())
 	{
-		sLog.outBasic("(%s)(%d) = index over error (%d)", __FILE__, __LINE__, index);
+		sLog->outBasic("(%s)(%d) = index over error (%d)", __FILE__, __LINE__, index);
 		return false;
 	}
 
@@ -4141,7 +4141,7 @@ BOOL gObjGameClose(int aIndex)
 {
 	if (aIndex < g_ConfigRead.server.GetObjectStartUserIndex() || aIndex > g_ConfigRead.server.GetObjectMax())	// Deathway fix
 	{
-		sLog.outBasic("(%s)(%d) = index over error (%d)", __FILE__, __LINE__, aIndex);
+		sLog->outBasic("(%s)(%d) = index over error (%d)", __FILE__, __LINE__, aIndex);
 
 		return FALSE;
 	}
@@ -4155,7 +4155,7 @@ BOOL gObjGameClose(int aIndex)
 
 	if (lpObj->Type != OBJ_USER)
 	{
-		sLog.outBasic("Invalid character type causes failure to close (%s/%s)", lpObj->AccountID, lpObj->Name);
+		sLog->outBasic("Invalid character type causes failure to close (%s/%s)", lpObj->AccountID, lpObj->Name);
 		return FALSE;
 	}
 
@@ -4298,7 +4298,7 @@ BOOL gObjGameClose(int aIndex)
 
 	if (gObjFixInventoryPointer(aIndex) == false)
 	{
-		sLog.outBasic("[Fix Inv.Ptr] False Location - %s, %d", __FILE__, __LINE__);
+		sLog->outBasic("[Fix Inv.Ptr] False Location - %s, %d", __FILE__, __LINE__);
 	}
 
 	g_PeriodItemEx.RemovePeriodInfo(lpObj);
@@ -4314,7 +4314,7 @@ BOOL gObjGameClose(int aIndex)
 
 	GJSetCharacterInfo(lpObj, aIndex, 0);
 	gObjViewportClose(lpObj);
-	sLog.outBasic("(%d)(%s)(%s) Character closed", lpObj->m_Index, lpObj->AccountID, lpObj->Name);
+	sLog->outBasic("(%d)(%s)(%s) Character closed", lpObj->m_Index, lpObj->AccountID, lpObj->Name);
 
 	if (lpObj->Name)
 	{
@@ -4355,7 +4355,7 @@ short gObjDel(int index)
 
 	if (index < 0 || index > g_ConfigRead.server.GetObjectMax())
 	{
-		sLog.outBasic("(%s)(%d) = index over error (%d)", __FILE__, __LINE__, index);
+		sLog->outBasic("(%s)(%d) = index over error (%d)", __FILE__, __LINE__, index);
 		return 0;
 	}
 
@@ -4374,7 +4374,7 @@ short gObjDel(int index)
 
 	if (IMPERIAL_MAP_RANGE(lpObj->MapNumber) == TRUE)
 	{
-		sLog.outBasic("[IMPERIALGUARDIAN_TEST] gObjDel() => Class:%d, Index:%d", lpObj->Class, index);
+		sLog->outBasic("[IMPERIALGUARDIAN_TEST] gObjDel() => Class:%d, Index:%d", lpObj->Class, index);
 	}
 
 	int UserConnectState = lpObj->Connected;
@@ -4446,7 +4446,7 @@ short gObjSometimeClose(int index)
 
 	if (index < 0 || index > g_ConfigRead.server.GetObjectMax())	// deathway fix needed
 	{
-		sLog.outBasic("(%s)(%d) = index over error (%d)", __FILE__, __LINE__, index);
+		sLog->outBasic("(%s)(%d) = index over error (%d)", __FILE__, __LINE__, index);
 		return 0;
 	}
 
@@ -4739,7 +4739,7 @@ BOOL gObjCheckXYMapTile(LPOBJ lpObj, int iDbgName)
 		{
 			if (lpObj->MapNumber != MAP_INDEX_NORIA)
 			{
-				sLog.outBasic("%s %d %d %d Invalid location causes to force to move", lpObj->Name, lpObj->MapNumber, lpObj->X, lpObj->Y);
+				sLog->outBasic("%s %d %d %d Invalid location causes to force to move", lpObj->Name, lpObj->MapNumber, lpObj->X, lpObj->Y);
 				PMSG_TELEPORT pMsg;
 				pMsg.MoveNumber = 27;
 				gObjMoveGate(lpObj->m_Index, pMsg.MoveNumber);
@@ -4750,7 +4750,7 @@ BOOL gObjCheckXYMapTile(LPOBJ lpObj, int iDbgName)
 		{
 			if (lpObj->Level < 0)
 			{
-				sLog.outBasic("%s %d %d %d Invalid location causes to force to move", lpObj->Name, lpObj->MapNumber, lpObj->X, lpObj->Y);
+				sLog->outBasic("%s %d %d %d Invalid location causes to force to move", lpObj->Name, lpObj->MapNumber, lpObj->X, lpObj->Y);
 				PMSG_TELEPORT pMsg;
 				pMsg.MoveNumber = 17;
 				gObjMoveGate(lpObj->m_Index, pMsg.MoveNumber);
@@ -4769,7 +4769,7 @@ BOOL gObjCheckXYMapTile(LPOBJ lpObj, int iDbgName)
 
 		if (attr2 > 1 && attr3 > 1 && attr4 > 1 && attr5 > 1)
 		{
-			sLog.outBasic("[ CHECK POSITION ] DbgName[%d] [%s][%s] Map[%d]-(%d,%d) Invalid location causes to force to move", iDbgName, lpObj->AccountID, lpObj->Name, lpObj->MapNumber, lpObj->X, lpObj->Y);
+			sLog->outBasic("[ CHECK POSITION ] DbgName[%d] [%s][%s] Map[%d]-(%d,%d) Invalid location causes to force to move", iDbgName, lpObj->AccountID, lpObj->Name, lpObj->MapNumber, lpObj->X, lpObj->Y);
 
 			PMSG_TELEPORT pMsg;
 
@@ -4840,19 +4840,19 @@ BOOL gObjSetAccountLogin(int aIndex, char * szId, int aUserNumber, int aDBNumber
 {
 	if (!ObjectMaxRange(aIndex))
 	{
-		sLog.outBasic("error: %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error: %s %d", __FILE__, __LINE__);
 		return 0;
 	}
 
 	if (gObj[aIndex].Connected != PLAYER_CONNECTED)
 	{
-		sLog.outBasic("error-L2: [%d] User(%s) is not connected. DBNumber: %d %s %d", aIndex, szId, aDBNumber, __FILE__, __LINE__);
+		sLog->outBasic("error-L2: [%d] User(%s) is not connected. DBNumber: %d %s %d", aIndex, szId, aDBNumber, __FILE__, __LINE__);
 		return 0;
 	}
 
 	if (strcmp(gObj[aIndex].AccountID, szId) != 0)
 	{
-		sLog.outBasic("error: %s did not request to authenticate.", szId);
+		sLog->outBasic("error: %s did not request to authenticate.", szId);
 		return 0;
 	}
 
@@ -4889,7 +4889,7 @@ BOOL gObjGetUserNumber(int aIndex)
 
 	if (!ObjectMaxRange(aIndex))
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return 0;
 	}
 
@@ -4905,7 +4905,7 @@ BOOL gObjGetNumber(int aIndex, int& UN, int& DBN)
 {
 	if (aIndex < 0 || aIndex > g_ConfigRead.server.GetObjectMax() - 1)
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return 0;
 	}
 	UN = gObj[aIndex].UserNumber;
@@ -4922,7 +4922,7 @@ char* gObjGetAccountId(int aIndex)
 {
 	if (aIndex < 0 || aIndex > g_ConfigRead.server.GetObjectMax() - 1)
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return 0;
 	}
 
@@ -4963,7 +4963,7 @@ BOOL gObjUserIdConnectCheck(char* szId, int index)
 {
 	if (index < 0 || index > g_ConfigRead.server.GetObjectMax())	// Deathway Fix Here
 	{
-		sLog.outBasic("error : index error !! %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : index error !! %s %d", __FILE__, __LINE__);
 		return 0;
 	}
 
@@ -5474,13 +5474,13 @@ void gObjStateProc(LPOBJ lpObj, int aMsgCode, int aIndex, int SubCode)
 {
 	if (lpObj == NULL)
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return;
 	}
 
 	if (ObjectMaxRange(aIndex) == FALSE)
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -5611,7 +5611,7 @@ void gObjStateAttackProc(LPOBJ lpObj, int aMsgCode, int aIndex, int SubCode, int
 {
 	if (ObjectMaxRange(aIndex) == FALSE)
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -5702,7 +5702,7 @@ BOOL gObjBackSpring(LPOBJ lpObj, LPOBJ lpTargetObj)
 
 	if (MAX_MAP_RANGE(lpObj->MapNumber) == FALSE)
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return FALSE;
 	}
 
@@ -5940,7 +5940,7 @@ BOOL gObjBackSpring2(LPOBJ lpObj, LPOBJ lpTargetObj, int count)
 
 	if (MAX_MAP_RANGE(lpObj->MapNumber) == FALSE)
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return FALSE;
 	}
 
@@ -6126,7 +6126,7 @@ bool gObjLevelUp(LPOBJ lpObj, UINT64 addexp, int iMonsterType, const char * szEv
 		return g_MasterLevelSkillTreeSystem.MasterLevelUp(lpObj, addexp, iMonsterType, szEventType);
 	}
 
-	//sLog.outBasic("[%s] Experience : Map[%s]-(%d,%d) [%s][%s](%d) Experience: %I64d + %I64d  MonsterClass : %d",szEventType, Lang.GetMap(0, lpObj->MapNumber),lpObj->X,lpObj->Y,lpObj->AccountID,lpObj->Name,lpObj->Level,lpObj->m_PlayerData->Experience - addexp,addexp,iMonsterType);
+	//sLog->outBasic("[%s] Experience : Map[%s]-(%d,%d) [%s][%s](%d) Experience: %I64d + %I64d  MonsterClass : %d",szEventType, Lang.GetMap(0, lpObj->MapNumber),lpObj->X,lpObj->Y,lpObj->AccountID,lpObj->Name,lpObj->Level,lpObj->m_PlayerData->Experience - addexp,addexp,iMonsterType);
 
 	if (lpObj->Level >= g_ConfigRead.data.common.UserMaxLevel && lpObj->m_PlayerData->Experience >= gLevelExperience[lpObj->Level])
 	{
@@ -6176,7 +6176,7 @@ bool gObjLevelUp(LPOBJ lpObj, UINT64 addexp, int iMonsterType, const char * szEv
 		{
 
 			lpObj->m_PlayerData->LevelUpPoint += 1;
-			//sLog.outBasic("[%s][%s] LevelUp PlusStatQuest Clear AddStat %d",lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->LevelUpPoint);
+			//sLog->outBasic("[%s][%s] LevelUp PlusStatQuest Clear AddStat %d",lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->LevelUpPoint);
 
 		}
 	}
@@ -6196,7 +6196,7 @@ bool gObjLevelUp(LPOBJ lpObj, UINT64 addexp, int iMonsterType, const char * szEv
 	GSProtocol.GCReFillSend(lpObj->m_Index, lpObj->Life, -1, 0, lpObj->iShield);
 
 	gObjNextExpCal(lpObj);
-	//sLog.outBasic("Level Up [%s][%s][%d]", lpObj->AccountID, lpObj->Name, lpObj->Level);
+	//sLog->outBasic("Level Up [%s][%s][%d]", lpObj->AccountID, lpObj->Name, lpObj->Level);
 
 	if (lpObj->Class == CLASS_ELF)
 	{
@@ -6207,11 +6207,11 @@ bool gObjLevelUp(LPOBJ lpObj, UINT64 addexp, int iMonsterType, const char * szEv
 			if (iAddSkillPosition >= 0)
 			{
 				GSProtocol.GCMagicListOneSend(lpObj->m_Index, iAddSkillPosition, 0x4D, 0xDC, 0, 0);
-				//sLog.outBasic("[%s][%s] Add Infinity Arrow Skill (Character Level : %d)(ChangeUp: %d)",	lpObj->AccountID,lpObj->Name,lpObj->Level,lpObj->m_PlayerData->ChangeUP);
+				//sLog->outBasic("[%s][%s] Add Infinity Arrow Skill (Character Level : %d)(ChangeUp: %d)",	lpObj->AccountID,lpObj->Name,lpObj->Level,lpObj->m_PlayerData->ChangeUP);
 			}
 			else
 			{
-				//sLog.outBasic("[%s][%s] Fail - Add Infinity Arrow Skill (Character Level : %d)(ChangeUp: %d)",lpObj->AccountID,lpObj->Name,lpObj->Level,lpObj->m_PlayerData->ChangeUP);
+				//sLog->outBasic("[%s][%s] Fail - Add Infinity Arrow Skill (Character Level : %d)(ChangeUp: %d)",lpObj->AccountID,lpObj->Name,lpObj->Level,lpObj->m_PlayerData->ChangeUP);
 			}
 		}
 	}
@@ -6232,7 +6232,7 @@ BOOL gObjLevelUpPointAdd(BYTE type, LPOBJ lpObj, int aIndex)	// type : [1:Streng
 {
 	if (lpObj->Type != OBJ_USER)
 	{
-		sLog.outError( "error-L1: LevelUp point value error %s %s %s %d", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		sLog->outError( "error-L1: LevelUp point value error %s %s %s %d", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return FALSE;
 	}
 
@@ -6829,7 +6829,7 @@ void gObjUserDie(LPOBJ lpObj, LPOBJ lpTargetObj)
 
 			if (mAttr != 0)
 			{
-				sLog.outBasic("[DevilSquare] Dead In DevilSquare [%s][%s][%s]", lpObj->AccountID, lpObj->Name, mAttr->m_Name);
+				sLog->outBasic("[DevilSquare] Dead In DevilSquare [%s][%s][%s]", lpObj->AccountID, lpObj->Name, mAttr->m_Name);
 			}
 		}
 
@@ -6849,12 +6849,12 @@ void gObjUserDie(LPOBJ lpObj, LPOBJ lpTargetObj)
 
 		if (g_BloodCastle.GetCurrentState(iBridgeIndex + 1) == BC_STATE_PLAYING)
 		{
-			sLog.outBasic("[Blood Castle] (%d) Try to drop Ultimate Weapon [%s][%s]", iBridgeIndex + 1, lpObj->AccountID, lpObj->Name);
+			sLog->outBasic("[Blood Castle] (%d) Try to drop Ultimate Weapon [%s][%s]", iBridgeIndex + 1, lpObj->AccountID, lpObj->Name);
 			g_BloodCastle.SearchUserDropQuestItem(lpObj->m_Index);
 		}
 		else
 		{
-			sLog.outBasic("[Blood Castle] (%d) Try to delete Ultimate Weapon [%s][%s]", iBridgeIndex + 1, lpObj->AccountID, lpObj->Name);
+			sLog->outBasic("[Blood Castle] (%d) Try to delete Ultimate Weapon [%s][%s]", iBridgeIndex + 1, lpObj->AccountID, lpObj->Name);
 			g_BloodCastle.SearchUserDeleteQuestItem(lpObj->m_Index);
 		}
 
@@ -6864,13 +6864,13 @@ void gObjUserDie(LPOBJ lpObj, LPOBJ lpTargetObj)
 
 			if (mAttr != 0)
 			{
-				sLog.outBasic("[Blood Castle] (%d) Dead In Blood Castle, Killed by Monster [%s][%s][%s]", iBridgeIndex + 1, lpObj->AccountID, lpObj->Name, mAttr->m_Name);
+				sLog->outBasic("[Blood Castle] (%d) Dead In Blood Castle, Killed by Monster [%s][%s][%s]", iBridgeIndex + 1, lpObj->AccountID, lpObj->Name, mAttr->m_Name);
 				g_BloodCastle.SearchUserDropQuestItem(lpObj->m_Index);
 			}
 		}
 		else if (lpTargetObj->Type == OBJ_USER)
 		{
-			sLog.outBasic("[Blood Castle] (%d) Dead In Blood Castle, Killed by Other User [%s][%s][%s]", iBridgeIndex + 1, lpObj->AccountID, lpObj->Name, lpTargetObj->Name);
+			sLog->outBasic("[Blood Castle] (%d) Dead In Blood Castle, Killed by Other User [%s][%s][%s]", iBridgeIndex + 1, lpObj->AccountID, lpObj->Name, lpTargetObj->Name);
 			g_BloodCastle.SearchUserDropQuestItem(lpObj->m_Index);
 		}
 		return;
@@ -7060,7 +7060,7 @@ void gObjUserDie(LPOBJ lpObj, LPOBJ lpTargetObj)
 						if (GSProtocol.CGItemDropRequest(&lpMsg, lpObj->m_Index, 1) == 1)
 						{
 							dropresult = 1;
-							sLog.outBasic("[%s][%s] User Die Item Drop, ItemName:%s", lpObj->AccountID, lpObj->Name, lpObj->pInventory[number].GetName());
+							sLog->outBasic("[%s][%s] User Die Item Drop, ItemName:%s", lpObj->AccountID, lpObj->Name, lpObj->pInventory[number].GetName());
 							break;
 						}
 					}
@@ -7687,11 +7687,11 @@ BOOL gObjInventoryEquipment(LPOBJ lpObj)
 	{
 		LPBUFF_EFFECT_DATE lpEffect = g_BuffEffectSlot.GetEffectDataFromItemCode(lpObj->pInventory[lpObj->m_btInvenPetPos].m_Type);
 
-		//sLog.outBasic("[CRenewal][InvenPet][InvenPetBuff][%s][%s] PetIndex:[%d], Pos:[%d]",lpObj->AccountID, lpObj->Name, lpObj->pInventory[lpObj->m_btInvenPetPos].m_Type, lpObj->m_btInvenPetPos);
+		//sLog->outBasic("[CRenewal][InvenPet][InvenPetBuff][%s][%s] PetIndex:[%d], Pos:[%d]",lpObj->AccountID, lpObj->Name, lpObj->pInventory[lpObj->m_btInvenPetPos].m_Type, lpObj->m_btInvenPetPos);
 
 		if (lpEffect == NULL)
 		{
-			//sLog.outBasic("[CRenewal][InvenPet][InvenPetBuff][%s][%s] PetIndex:[%d], Pos:[%d] [Fail] lpBuffData is Null",lpObj->AccountID, lpObj->Name, lpObj->pInventory[lpObj->m_btInvenPetPos].m_Type, lpObj->m_btInvenPetPos);
+			//sLog->outBasic("[CRenewal][InvenPet][InvenPetBuff][%s][%s] PetIndex:[%d], Pos:[%d] [Fail] lpBuffData is Null",lpObj->AccountID, lpObj->Name, lpObj->pInventory[lpObj->m_btInvenPetPos].m_Type, lpObj->m_btInvenPetPos);
 			return FALSE;
 		}
 
@@ -7704,7 +7704,7 @@ BOOL gObjInventoryEquipment(LPOBJ lpObj)
 
 			gObjAddBuffEffect(lpObj, lpEffect->BuffIndex);
 
-			//sLog.outBasic("[CRenewal][InvenPet][ReqInvenPetBuff][%s][%s] PetIndex:[%d], Pos:[%d] [Success] Register InvenPet Buff",	lpObj->AccountID, lpObj->Name, lpObj->pInventory[lpObj->m_btInvenPetPos].m_Type, lpObj->m_btInvenPetPos);
+			//sLog->outBasic("[CRenewal][InvenPet][ReqInvenPetBuff][%s][%s] PetIndex:[%d], Pos:[%d] [Success] Register InvenPet Buff",	lpObj->AccountID, lpObj->Name, lpObj->pInventory[lpObj->m_btInvenPetPos].m_Type, lpObj->m_btInvenPetPos);
 
 			CItem * lpItem = &lpObj->pInventory[lpObj->m_btInvenPetPos];
 
@@ -7725,7 +7725,7 @@ BOOL gObjInventoryEquipment(LPOBJ lpObj)
 		{
 			gObjRemoveBuffEffect(lpObj, lpEffect->BuffIndex);
 
-			//sLog.outBasic("[CRenewal][InvenPet][RemoveInvenPetBuff][%s][%s] PetIndex:[%d], Pos:[%d] [Success] Remove InvenPet Buff",lpObj->AccountID, lpObj->Name, lpObj->pInventory[lpObj->m_btInvenPetPos].m_Type, lpObj->m_btInvenPetPos);
+			//sLog->outBasic("[CRenewal][InvenPet][RemoveInvenPetBuff][%s][%s] PetIndex:[%d], Pos:[%d] [Success] Remove InvenPet Buff",lpObj->AccountID, lpObj->Name, lpObj->pInventory[lpObj->m_btInvenPetPos].m_Type, lpObj->m_btInvenPetPos);
 
 			int result = gObjMagicDel(lpObj, lpObj->pInventory[lpObj->m_btInvenPetPos].m_Special[0], lpObj->pInventory[lpObj->m_btInvenPetPos].m_Level);
 
@@ -7900,7 +7900,7 @@ void gObjSpriteDamage(LPOBJ lpObj, int damage)
 		{
 			int itemnum = sprite->m_Type;
 
-			sLog.outBasic("[%s][%s] %s+%d Item is broken because durability is exhausted", lpObj->AccountID, lpObj->Name,
+			sLog->outBasic("[%s][%s] %s+%d Item is broken because durability is exhausted", lpObj->AccountID, lpObj->Name,
 				lpObj->pInventory[8].GetName(), lpObj->pInventory[8].m_Level);
 			gObjInventoryDeleteItem(lpObj->m_Index, 8);
 			GSProtocol.GCInventoryItemDeleteSend(lpObj->m_Index, 8, 1); // flag changed ( 0 -> 1 )
@@ -8262,7 +8262,7 @@ void gObjChangeDurProc(LPOBJ lpObj) //season 4.5 add-on
 				if (dur == 0)
 				{
 					gObjUseSkill.SkillChangeUse(lpObj->m_Index);
-					sLog.outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[10].GetName(), lpObj->pInventory[10].m_Level, dur);
+					sLog->outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[10].GetName(), lpObj->pInventory[10].m_Level, dur);
 					lpObj->pInventory[10].Clear();
 					GSProtocol.GCInventoryItemDeleteSend(lpObj->m_Index, 10, 0);
 				}
@@ -8288,7 +8288,7 @@ void gObjChangeDurProc(LPOBJ lpObj) //season 4.5 add-on
 				if (dur == 0)
 				{
 					gObjUseSkill.SkillChangeUse(lpObj->m_Index);
-					sLog.outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[10].GetName(), lpObj->pInventory[10].m_Level, dur);
+					sLog->outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[10].GetName(), lpObj->pInventory[10].m_Level, dur);
 					lpObj->pInventory[10].Clear();
 					GSProtocol.GCInventoryItemDeleteSend(lpObj->m_Index, 10, 0);
 				}
@@ -8315,7 +8315,7 @@ void gObjChangeDurProc(LPOBJ lpObj) //season 4.5 add-on
 				if (dur == 0)
 				{
 					gObjUseSkill.SkillChangeUse(lpObj->m_Index);
-					sLog.outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[10].GetName(), lpObj->pInventory[10].m_Level, dur);
+					sLog->outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[10].GetName(), lpObj->pInventory[10].m_Level, dur);
 					lpObj->pInventory[10].Clear();
 					GSProtocol.GCInventoryItemDeleteSend(lpObj->m_Index, 10, 0);
 				}
@@ -8342,7 +8342,7 @@ void gObjChangeDurProc(LPOBJ lpObj) //season 4.5 add-on
 				if (dur == 0)
 				{
 					gObjUseSkill.SkillChangeUse(lpObj->m_Index);
-					sLog.outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[10].GetName(), lpObj->pInventory[10].m_Level, dur);
+					sLog->outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[10].GetName(), lpObj->pInventory[10].m_Level, dur);
 					lpObj->pInventory[10].Clear();
 					GSProtocol.GCInventoryItemDeleteSend(lpObj->m_Index, 10, 0);
 				}
@@ -8368,7 +8368,7 @@ void gObjChangeDurProc(LPOBJ lpObj) //season 4.5 add-on
 				if (dur == 0)
 				{
 					gObjUseSkill.SkillChangeUse(lpObj->m_Index);
-					sLog.outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[10].GetName(), lpObj->pInventory[10].m_Level, dur);
+					sLog->outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[10].GetName(), lpObj->pInventory[10].m_Level, dur);
 					lpObj->pInventory[10].Clear();
 					GSProtocol.GCInventoryItemDeleteSend(lpObj->m_Index, 10, 0);
 				}
@@ -8395,7 +8395,7 @@ void gObjChangeDurProc(LPOBJ lpObj) //season 4.5 add-on
 				if (dur == 0)
 				{
 					gObjUseSkill.SkillChangeUse(lpObj->m_Index);
-					sLog.outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[10].GetName(), lpObj->pInventory[10].m_Level, dur);
+					sLog->outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[10].GetName(), lpObj->pInventory[10].m_Level, dur);
 					lpObj->pInventory[10].Clear();
 					GSProtocol.GCInventoryItemDeleteSend(lpObj->m_Index, 10, 0);
 				}
@@ -8421,7 +8421,7 @@ void gObjChangeDurProc(LPOBJ lpObj) //season 4.5 add-on
 				if (dur == 0)
 				{
 					gObjUseSkill.SkillChangeUse(lpObj->m_Index);
-					sLog.outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[10].GetName(), lpObj->pInventory[10].m_Level, dur);
+					sLog->outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[10].GetName(), lpObj->pInventory[10].m_Level, dur);
 					lpObj->pInventory[10].Clear();
 					GSProtocol.GCInventoryItemDeleteSend(lpObj->m_Index, 10, 0);
 				}
@@ -8451,7 +8451,7 @@ void gObjChangeDurProc(LPOBJ lpObj) //season 4.5 add-on
 				if (dur == 0)
 				{
 					gObjUseSkill.SkillChangeUse(lpObj->m_Index);
-					sLog.outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[10].GetName(), lpObj->pInventory[11].m_Level, dur); //wz bug
+					sLog->outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[10].GetName(), lpObj->pInventory[11].m_Level, dur); //wz bug
 					lpObj->pInventory[11].Clear();
 					GSProtocol.GCInventoryItemDeleteSend(lpObj->m_Index, 11, 0);
 				}
@@ -8477,7 +8477,7 @@ void gObjChangeDurProc(LPOBJ lpObj) //season 4.5 add-on
 				if (dur == 0)
 				{
 					gObjUseSkill.SkillChangeUse(lpObj->m_Index);
-					sLog.outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[11].GetName(), lpObj->pInventory[11].m_Level, dur);
+					sLog->outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[11].GetName(), lpObj->pInventory[11].m_Level, dur);
 					lpObj->pInventory[11].Clear();
 					GSProtocol.GCInventoryItemDeleteSend(lpObj->m_Index, 11, 0);
 				}
@@ -8504,7 +8504,7 @@ void gObjChangeDurProc(LPOBJ lpObj) //season 4.5 add-on
 				if (dur == 0)
 				{
 					gObjUseSkill.SkillChangeUse(lpObj->m_Index);
-					sLog.outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[11].GetName(), lpObj->pInventory[11].m_Level, dur);
+					sLog->outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[11].GetName(), lpObj->pInventory[11].m_Level, dur);
 					lpObj->pInventory[11].Clear();
 					GSProtocol.GCInventoryItemDeleteSend(lpObj->m_Index, 11, 0);
 				}
@@ -8531,7 +8531,7 @@ void gObjChangeDurProc(LPOBJ lpObj) //season 4.5 add-on
 				if (dur == 0)
 				{
 					gObjUseSkill.SkillChangeUse(lpObj->m_Index);
-					sLog.outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[11].GetName(), lpObj->pInventory[11].m_Level, dur);
+					sLog->outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[11].GetName(), lpObj->pInventory[11].m_Level, dur);
 					lpObj->pInventory[11].Clear();
 					GSProtocol.GCInventoryItemDeleteSend(lpObj->m_Index, 11, 0);
 				}
@@ -8558,7 +8558,7 @@ void gObjChangeDurProc(LPOBJ lpObj) //season 4.5 add-on
 				if (dur == 0)
 				{
 					gObjUseSkill.SkillChangeUse(lpObj->m_Index);
-					sLog.outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[11].GetName(), lpObj->pInventory[11].m_Level, dur);
+					sLog->outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[11].GetName(), lpObj->pInventory[11].m_Level, dur);
 					lpObj->pInventory[11].Clear();
 					GSProtocol.GCInventoryItemDeleteSend(lpObj->m_Index, 11, 0);
 				}
@@ -8586,7 +8586,7 @@ void gObjChangeDurProc(LPOBJ lpObj) //season 4.5 add-on
 				if (dur == 0)
 				{
 					gObjUseSkill.SkillChangeUse(lpObj->m_Index);
-					sLog.outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[11].GetName(), lpObj->pInventory[11].m_Level, dur);
+					sLog->outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[11].GetName(), lpObj->pInventory[11].m_Level, dur);
 					lpObj->pInventory[11].Clear();
 					GSProtocol.GCInventoryItemDeleteSend(lpObj->m_Index, 11, 0);
 				}
@@ -8613,7 +8613,7 @@ void gObjChangeDurProc(LPOBJ lpObj) //season 4.5 add-on
 				if (dur == 0)
 				{
 					gObjUseSkill.SkillChangeUse(lpObj->m_Index);
-					sLog.outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[11].GetName(), lpObj->pInventory[11].m_Level, dur);
+					sLog->outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[11].GetName(), lpObj->pInventory[11].m_Level, dur);
 					lpObj->pInventory[11].Clear();
 					GSProtocol.GCInventoryItemDeleteSend(lpObj->m_Index, 11, 0);
 				}
@@ -8643,12 +8643,12 @@ void gObjWingDurProc(LPOBJ lpObj)
 			GSProtocol.GCItemDurSend(lpObj->m_Index, 7, send_dur, 0);
 			if (send_dur == 0)
 			{
-				sLog.outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[7].GetName(), lpObj->pInventory[7].m_Level, send_dur);
+				sLog->outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", lpObj->AccountID, lpObj->Name, lpObj->pInventory[7].GetName(), lpObj->pInventory[7].m_Level, send_dur);
 				lpObj->pInventory[7].Clear();
 				GSProtocol.GCInventoryItemDeleteSend(lpObj->m_Index, 7, 0);
 			}
 		}
-		//sLog.outBasic("???? ?????? %f",lpObj->pInventory[7].m_Durability);
+		//sLog->outBasic("???? ?????? %f",lpObj->pInventory[7].m_Durability);
 		return;
 	}
 }
@@ -9029,7 +9029,7 @@ void gObjCheckSelfDefense(LPOBJ lpObj, int aTargetIndex)
 
 	if (blank < 0)
 	{
-		sLog.outBasic("Self-defense count exceeds");
+		sLog->outBasic("Self-defense count exceeds");
 		return;
 	}
 
@@ -9448,7 +9448,7 @@ UINT64 gObjMonsterExpSingleRenewal(LPOBJ lpObj, LPOBJ lpTargetObj, int dmg, int 
 
 	if (lpObj->Type != OBJ_USER)
 	{
-		sLog.outError( "[ERROR] lpObj->Type != OBJ_USER (%s)(%d)", __FILE__, __LINE__);
+		sLog->outError( "[ERROR] lpObj->Type != OBJ_USER (%s)(%d)", __FILE__, __LINE__);
 		return 0;
 	}
 
@@ -9610,7 +9610,7 @@ void gObjExpParty(LPOBJ lpObj, LPOBJ lpTargetObj, int AttackDamage, int MSBFlag)
 
 	if (!ObjectMaxRange(partynum))
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -10270,7 +10270,7 @@ void gObjLifeCheck(LPOBJ lpTargetObj, LPOBJ lpObj, int AttackDamage, int DamageS
 			{
 				g_IT_Event.IncreaseKillCount(lpCallObj->m_Index, lpCallObj->MapNumber, 1);
 
-				sLog.outBasic("[ ITR ] [IncreaseKillCount] Map:%d, (%s)(%s) Kill User TargetInfo (%s)(%s)",
+				sLog->outBasic("[ ITR ] [IncreaseKillCount] Map:%d, (%s)(%s) Kill User TargetInfo (%s)(%s)",
 					lpCallObj->MapNumber - 44, lpCallObj->AccountID, lpCallObj->Name, lpTargetObj->AccountID, lpTargetObj->Name);
 			}
 		}
@@ -10521,7 +10521,7 @@ void gObjLifeCheck(LPOBJ lpTargetObj, LPOBJ lpObj, int AttackDamage, int DamageS
 				g_DevilSquareFinal.MonsterKillPointCalc(lpObj->m_Index, nPoint);
 				g_DevilSquareFinal.DSFDropReward(lpObj, lpTargetObj);
 
-				sLog.outBasic("[DSF][MonsterKill][%s][%s][%s][%d] MonsterType:%d, KillPoint:%d",
+				sLog->outBasic("[DSF][MonsterKill][%s][%s][%s][%d] MonsterType:%d, KillPoint:%d",
 					lpObj->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF,
 					lpObj->Name, lpObj->m_PlayerData->m_nServerCodeOfHomeWorld,
 					lpTargetObj->Class, nPoint);
@@ -10565,7 +10565,7 @@ void gObjLifeCheck(LPOBJ lpTargetObj, LPOBJ lpObj, int AttackDamage, int DamageS
 
 				g_ChaosCastle.SendFailMessage(g_ChaosCastle.GetChaosCastleIndex(lpTargetObj->MapNumber), lpTargetObj->m_Index);
 
-				sLog.outBasic("[Chaos Castle] (%d) [%s][%s] User Dead In Chaos Castle : Killed by [%s][%s]", g_ChaosCastle.GetChaosCastleIndex(lpTargetObj->MapNumber) + 1, lpTargetObj->AccountID, lpTargetObj->Name, lpCallObj->AccountID, lpCallObj->Name);
+				sLog->outBasic("[Chaos Castle] (%d) [%s][%s] User Dead In Chaos Castle : Killed by [%s][%s]", g_ChaosCastle.GetChaosCastleIndex(lpTargetObj->MapNumber) + 1, lpTargetObj->AccountID, lpTargetObj->Name, lpCallObj->AccountID, lpCallObj->Name);
 			}
 
 			if (lpTargetObj->MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
@@ -10579,8 +10579,8 @@ void gObjLifeCheck(LPOBJ lpTargetObj, LPOBJ lpObj, int AttackDamage, int DamageS
 
 				g_ChaosCastleFinal.SendFailMessage(lpTargetObj->m_Index);
 
-				sLog.outBasic("[Chaos Castle Survival] [%s][%s] User Dead In Chaos Castle Survival : Killed by [%s][%s]", lpTargetObj->AccountID, lpTargetObj->Name, lpCallObj->AccountID, lpCallObj->Name);
-				sLog.outBasic("[Chaos Castle Survival] [gObjLifeCheck] NAME :%s, Index :%d ", lpTargetObj->Name, lpTargetObj->m_Index);
+				sLog->outBasic("[Chaos Castle Survival] [%s][%s] User Dead In Chaos Castle Survival : Killed by [%s][%s]", lpTargetObj->AccountID, lpTargetObj->Name, lpCallObj->AccountID, lpCallObj->Name);
+				sLog->outBasic("[Chaos Castle Survival] [gObjLifeCheck] NAME :%s, Index :%d ", lpTargetObj->Name, lpTargetObj->m_Index);
 			}
 
 			lpTargetObj->KillerType = 0;
@@ -10639,19 +10639,19 @@ void gObjLifeCheck(LPOBJ lpTargetObj, LPOBJ lpObj, int AttackDamage, int DamageS
 
 		if (lpObj->Class == 523)
 		{
-			sLog.outBasic("[IMPERIALGUARDIAN] Player Killed by Trap [AccountID]:%s, [NAME]:%s, [ZONE]:%d",
+			sLog->outBasic("[IMPERIALGUARDIAN] Player Killed by Trap [AccountID]:%s, [NAME]:%s, [ZONE]:%d",
 				lpTargetObj->AccountID, lpTargetObj->Name, lpObj->m_nZoneIndex + 1);
 		}
 
 		if (lpObj->Class >= 504 && lpObj->Class <= 521)
 		{
-			sLog.outBasic("[IMPERIALGUARDIAN] Player Dead [Zone]:%d [AccountID]:%s, [NAME]:%s by Monster => %s(%d)",
+			sLog->outBasic("[IMPERIALGUARDIAN] Player Dead [Zone]:%d [AccountID]:%s, [NAME]:%s by Monster => %s(%d)",
 				lpObj->m_nZoneIndex + 1, lpTargetObj->AccountID, lpTargetObj->Name, lpObj->Name, lpObj->m_Index);
 		}
 
 		if (lpTargetObj->Class >= 504 && lpTargetObj->Class <= 521)
 		{
-			sLog.outBasic("[IMPERIALGUARDIAN] Monster Dead [TYPE]: %d,[NAME]: %s, [ZONE]:%d",
+			sLog->outBasic("[IMPERIALGUARDIAN] Monster Dead [TYPE]: %d,[NAME]: %s, [ZONE]:%d",
 				lpTargetObj->Class, lpTargetObj->Name, lpTargetObj->m_nZoneIndex + 1);
 		}
 
@@ -11099,7 +11099,7 @@ BYTE gObjInventoryInsertItem(int aIndex, int item_num)
 
 	if (MapC[map_num].m_cItem[item_num].GetSize((int &)iwidth, (int &)iheight) == 0)
 	{
-		sLog.outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
 		return -1;
 	}
 
@@ -11147,7 +11147,7 @@ BYTE gObjInventoryInsertItem(int aIndex, CItem item)
 
 	if (item.GetSize((int&)iwidth, (int&)iheight) == 0)
 	{
-		sLog.outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
 		return -1;
 	}
 
@@ -11197,7 +11197,7 @@ BYTE gObjOnlyInventoryInsertItem(int aIndex, CItem item)
 
 	if (item.GetSize((int&)iwidth, (int&)iheight) == 0)
 	{
-		sLog.outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
 		return -1;
 	}
 
@@ -11349,7 +11349,7 @@ BYTE gObjShopBuyInventoryInsertItem(int aIndex, CItem item)
 
 	if (item.GetSize(iwidth, iheight) == 0)
 	{
-		sLog.outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
 		return -1;
 	}
 
@@ -11388,7 +11388,7 @@ BYTE gObjShopBuyMuunInventoryInsertItem(int aIndex, CItem item)
 
 	if (item.GetSize(iwidth, iheight) == 0)
 	{
-		sLog.outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
 		return -1;
 	}
 
@@ -11402,7 +11402,7 @@ BYTE gObjShopBuyEventInventoryInsertItem(int aIndex, CItem item)
 
 	if (item.GetSize(iwidth, iheight) == 0)
 	{
-		sLog.outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
 		return -1;
 	}
 
@@ -11442,7 +11442,7 @@ BYTE gObjInventoryInsertItemTemp(LPOBJ lpObj, CMapItem * Item)
 
 	if (Item->GetSize((int &)iwidth, (int &)iheight) == 0)
 	{
-		sLog.outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
 		return -1;
 	}
 
@@ -11518,7 +11518,7 @@ BYTE gObjInventoryRectCheck(int aIndex, int sx, int sy, int width, int height)
 			}
 			else
 			{
-				sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+				sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 				return -1;
 			}
 		}
@@ -11580,7 +11580,7 @@ BYTE gObjOnlyInventoryRectCheck(int aIndex, int sx, int sy, int width, int heigh
 			}
 			else
 			{
-				sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+				sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 				return -1;
 			}
 		}
@@ -11621,7 +11621,7 @@ BOOL CheckInventoryEmptySpace(LPOBJ lpObj, int iItemHeight, int iItemWidth)
 
 BOOL gObjIsItemPut(LPOBJ lpObj, CItem * lpItem, int pos) // check this
 {
-	//sLog.outError( "[K2] lpItem->m_TwoHand %d lpObj->pInventory[1].IsItem() %d", lpItem->m_TwoHand, lpObj->pInventory[1].IsItem());
+	//sLog->outError( "[K2] lpItem->m_TwoHand %d lpObj->pInventory[1].IsItem() %d", lpItem->m_TwoHand, lpObj->pInventory[1].IsItem());
 	if (lpItem->m_TwoHand == 1)
 	{
 		if (pos == 0 || pos == 1)
@@ -12252,7 +12252,7 @@ BYTE gObjWerehouseRectCheck(int aIndex, int sx, int sy, int width, int height)
 			}
 			else
 			{
-				sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+				sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 				return -1;
 			}
 		}
@@ -12303,7 +12303,7 @@ BYTE gObjMapRectCheck(BYTE * lpMapBuf, int sx, int sy, int ex, int ey, int width
 			}
 			else
 			{
-				sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+				sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 				return -1;
 			}
 		}
@@ -12347,7 +12347,7 @@ void gObjWarehouseItemBoxSet(int aIndex, int itempos, int xl, int yl, BYTE set_b
 			}
 			else
 			{
-				sLog.outBasic("error : %d/%d  %s %d", xx, yy, __FILE__, __LINE__);
+				sLog->outBasic("error : %d/%d  %s %d", xx, yy, __FILE__, __LINE__);
 				return;
 			}
 		}
@@ -12372,7 +12372,7 @@ void gObjWarehouseItemSet(int aIndex, int itempos, BYTE set_byte)
 
 	if (gObj[aIndex].pWarehouse[itempos].GetSize((int&)width, (int &)height) == 0)
 	{
-		sLog.outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -12403,7 +12403,7 @@ void gObjChaosItemBoxSet(int aIndex, int itempos, int xl, int yl, BYTE set_byte)
 			}
 			else
 			{
-				sLog.outBasic("error : %d/%d  %s %d", xx, yy, __FILE__, __LINE__);
+				sLog->outBasic("error : %d/%d  %s %d", xx, yy, __FILE__, __LINE__);
 				return;
 			}
 		}
@@ -12430,7 +12430,7 @@ void gObjChaosItemSet(int aIndex, int itempos, BYTE set_byte)
 
 	if (gObj[aIndex].pChaosBox[itempos].GetSize((int&)width, (int &)height) == 0)
 	{
-		sLog.outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -12615,7 +12615,7 @@ BYTE gObjInventoryInsertItemPos(int aIndex, CItem item, int pos, BOOL RequestChe
 
 		if (useClass == 0)
 		{
-			sLog.outBasic("error-L2: It is not his class");
+			sLog->outBasic("error-L2: It is not his class");
 			return -1;
 		}
 
@@ -12728,7 +12728,7 @@ BOOL gObjInventorySearchSerialNumber(LPOBJ lpObj, UINT64 serial)
 
 		if (s_num != 0 && s_num == serial && s_num != (UINT64)-1)
 		{
-			sLog.outBasic("error-L1: CopyItem Id[%s] Char[%s] Item[%s] InventoryPos[%d] serial[%I64d]", lpObj->AccountID, lpObj->Name, lpObj->pInventory[n].GetName(), n, s_num);
+			sLog->outBasic("error-L1: CopyItem Id[%s] Char[%s] Item[%s] InventoryPos[%d] serial[%I64d]", lpObj->AccountID, lpObj->Name, lpObj->pInventory[n].GetName(), n, s_num);
 			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 15), lpObj->m_Index, 1);
 			gObjUserKill(lpObj->m_Index);
 		}
@@ -12776,7 +12776,7 @@ BOOL gObjWarehouseSearchSerialNumber(LPOBJ lpObj, UINT64 sirial)
 
 		if (s_num != 0 && s_num == sirial && s_num != (UINT64)-1)
 		{
-			sLog.outBasic("error-L1: CopyItem Id[%s] Char[%s] Item[%s] warehousepos[%d] serial[%I64d]", lpObj->AccountID, lpObj->Name, lpObj->pWarehouse[n].GetName(), n, s_num);
+			sLog->outBasic("error-L1: CopyItem Id[%s] Char[%s] Item[%s] warehousepos[%d] serial[%I64d]", lpObj->AccountID, lpObj->Name, lpObj->pWarehouse[n].GetName(), n, s_num);
 			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 15), lpObj->m_Index, 1);
 			gObjUserKill(lpObj->m_Index);
 		}
@@ -12811,7 +12811,7 @@ BYTE gObjInventoryMoveItem(int aIndex, unsigned char source, unsigned char targe
 
 	if (lpObj->m_bMapSvrMoveReq == true || lpObj->m_bMapSvrMoveQuit == true || lpObj->m_State == 32)
 	{
-		sLog.outError( "[gObjInventoryMoveItem] Can't move item in inventory - MapServerMove");
+		sLog->outError( "[gObjInventoryMoveItem] Can't move item in inventory - MapServerMove");
 		return -1;
 	}
 
@@ -13475,7 +13475,7 @@ BYTE gObjInventoryMoveItem(int aIndex, unsigned char source, unsigned char targe
 				}
 				else
 				{
-					sLog.outBasic("[PShop] [%s][%s] PShop Item Move Request Failed : Already Trade With Other", gObj[aIndex].AccountID, gObj[aIndex].Name);
+					sLog->outBasic("[PShop] [%s][%s] PShop Item Move Request Failed : Already Trade With Other", gObj[aIndex].AccountID, gObj[aIndex].Name);
 					LeaveCriticalSection(&lpObj->m_critPShopTrade);
 					return -1;
 				}
@@ -13708,7 +13708,7 @@ BYTE gObjInventoryMoveItem(int aIndex, unsigned char source, unsigned char targe
 			if (lpObj->pInventory[source].m_Type == ITEMGET(14, 223))
 			{
 				g_IT_Event.SetRelicsInventoryPos(lpObj->MapNumber, aIndex, target);
-				sLog.outBasic("[ ITR ][gObjInventoryMoveItem]Name:%s,Index:%d,target:%d", lpObj->Name, aIndex, target);
+				sLog->outBasic("[ ITR ][gObjInventoryMoveItem]Name:%s,Index:%d,target:%d", lpObj->Name, aIndex, target);
 			}
 		}
 
@@ -17756,7 +17756,7 @@ void gObjSetState()
 									BuffInfo.lDuration = lpPeriBuff->dwDuration;
 
 									g_BuffEffect.RequestPeriodBuffInsert(lpObj, &BuffInfo);
-									sLog.outBasic("[ArcaBattle] ArcaBattle Die Penalty [%s][%s]", lpObj->AccountID, lpObj->Name);
+									sLog->outBasic("[ArcaBattle] ArcaBattle Die Penalty [%s][%s]", lpObj->AccountID, lpObj->Name);
 								}
 							}
 
@@ -18021,7 +18021,7 @@ void gObjSetState()
 						{
 							if (m_Result == -1)
 							{
-								sLog.outError( "[MapServerMng] Map Server Move Fail : CheckMoveMapSvr() == -1 [%s][%s] (%d)", lpObj->AccountID, lpObj->Name, lpObj->m_Index);
+								sLog->outError( "[MapServerMng] Map Server Move Fail : CheckMoveMapSvr() == -1 [%s][%s] (%d)", lpObj->AccountID, lpObj->Name, lpObj->m_Index);
 								continue;
 							}
 
@@ -18034,7 +18034,7 @@ void gObjSetState()
 							lpObj->Y = y;
 
 							GJReqMapSvrMove(lpObj->m_Index, m_Result, _map, _x, _y);
-							sLog.outBasic("[MapServerMng] Request to Move Map Server : (%d) - [%s][%s] (%d)", m_Result, lpObj->AccountID, lpObj->Name, lpObj->m_Index);
+							sLog->outBasic("[MapServerMng] Request to Move Map Server : (%d) - [%s][%s] (%d)", m_Result, lpObj->AccountID, lpObj->Name, lpObj->m_Index);
 							continue;
 						}
 
@@ -18130,7 +18130,7 @@ void gObjSetState()
 
 						if (IT_MAP_RANGE(lpObj->MapNumber) && lpObj->Class == 380)
 						{
-							sLog.outBasic("[Illusion Temple] (%d) Status Regen OK (%d: %d/%d)",
+							sLog->outBasic("[Illusion Temple] (%d) Status Regen OK (%d: %d/%d)",
 								lpObj->MapNumber - 44, lpObj->MapNumber,
 								lpObj->X, lpObj->Y);
 						}
@@ -18254,7 +18254,7 @@ void gObjSecondProc()
 						lpObj->PathCount = 0;
 						lpObj->m_Disappear_Monster = 0;
 
-						sLog.outBasic("[ColossusEvent][GoldMonsterTimeout] MonsterClass : [%d], MonsterIndex : [%d], Map[%d], X[%d], Y[%d]",
+						sLog->outBasic("[ColossusEvent][GoldMonsterTimeout] MonsterClass : [%d], MonsterIndex : [%d], Map[%d], X[%d], Y[%d]",
 							lpObj->Class, lpObj->m_Index, lpObj->MapNumber, lpObj->X, lpObj->Y);
 
 						gObjDel(lpObj->m_Index);
@@ -18272,7 +18272,7 @@ void gObjSecondProc()
 						lpObj->PathCount = 0;
 						lpObj->m_Disappear_Monster = 0;
 
-						sLog.outBasic("[PetEvent][GoldMonsterTimeout] MonsterClass : [%d], MonsterIndex : [%d], Map[%d], X[%d], Y[%d]",
+						sLog->outBasic("[PetEvent][GoldMonsterTimeout] MonsterClass : [%d], MonsterIndex : [%d], Map[%d], X[%d], Y[%d]",
 							lpObj->Class, lpObj->m_Index, lpObj->MapNumber, lpObj->X, lpObj->Y);
 
 						gObjDel(lpObj->m_Index);
@@ -18364,7 +18364,7 @@ void gObjSecondProc()
 					{
 						//BYTE btKillClient[] = { 0xC1, 0x04, 0xFA, 0xA6 };
 						//IOCP.DataSend(lpObj->m_Index, btKillClient, sizeof(btKillClient));
-					//	sLog.outError( "(%d)[%s][%s][%s] User did not disconnect upon request. Modified client?", lpObj->m_Index, lpObj->m_PlayerData->Ip_addr, lpObj->AccountID, lpObj->Name);
+					//	sLog->outError( "(%d)[%s][%s][%s] User did not disconnect upon request. Modified client?", lpObj->m_Index, lpObj->m_PlayerData->Ip_addr, lpObj->AccountID, lpObj->Name);
 					}
 				}
 
@@ -18535,7 +18535,7 @@ void gObjSecondProc()
 
 			if (lpObj->m_PlayerData->AntiHackCheckTime > 0 && GetTickCount() - lpObj->m_PlayerData->AntiHackCheckTime > 180000 && lpObj->m_bOff == false)
 			{
-				/*	sLog.outError( "[%s][%s][%s][%s] AntiHack breach #1-> No response",
+				/*	sLog->outError( "[%s][%s][%s][%s] AntiHack breach #1-> No response",
 					   lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr, lpObj->m_PlayerData->HWID);
 
 				   AntiHackLog->Output("[%s][%s][%s][%s] AntiHack breach #1-> No response",
@@ -18553,7 +18553,7 @@ void gObjSecondProc()
 			{
 				if (lpObj->m_PlayerData->dwLastHitHackTick > 0 && GetTickCount64() - lpObj->m_PlayerData->dwLastHitHackTick > 180000 && lpObj->m_bOff == false)
 				{
-					sLog.outError( "[%s][%s][%s][%s] AntiHack breach #2 -> No response",
+					sLog->outError( "[%s][%s][%s][%s] AntiHack breach #2 -> No response",
 						lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr, lpObj->m_PlayerData->HWID);
 
 					if (g_ConfigRead.antihack.AntiHackBreachDisconnectUser == true)
@@ -18573,7 +18573,7 @@ void gObjSecondProc()
 
 				if (lpObj->CrcCheckTime > 0 && GetTickCount() - lpObj->CrcCheckTime > 30000)
 				{
-					sLog.outError( "[CRC] [%s][%s] No response - DC", lpObj->AccountID, lpObj->Name);
+					sLog->outError( "[CRC] [%s][%s] No response - DC", lpObj->AccountID, lpObj->Name);
 					GSProtocol.GCSendDisableReconnect(n);
 					//IOCP.CloseClient(n);
 				}
@@ -18621,7 +18621,7 @@ void gObjSecondProc()
 					if (GetTickCount() - lpObj->ConnectCheckTime > 60000)
 					{
 						IOCP.CloseClient(lpObj->PerSocketContext, 0);
-						sLog.outBasic("Game working response error causes conclusion [%d][%s][%s][%s]", lpObj->m_Index, lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr);
+						sLog->outBasic("Game working response error causes conclusion [%d][%s][%s][%s]", lpObj->m_Index, lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr);
 					}
 				}
 				else
@@ -18629,7 +18629,7 @@ void gObjSecondProc()
 					if (GetTickCount() - lpObj->ConnectCheckTime > 30000)
 					{
 						IOCP.CloseClient(lpObj->PerSocketContext, 0);
-						sLog.outBasic("Response error after connection causes conclusion [%d][%s][%s][%s]", lpObj->m_Index, lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr);
+						sLog->outBasic("Response error after connection causes conclusion [%d][%s][%s][%s]", lpObj->m_Index, lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr);
 					}
 				}
 #endif
@@ -18644,7 +18644,7 @@ void gObjSecondProc()
 				if (lpObj->m_PlayerData->MovingIgnore == 0 && lpObj->m_PlayerData->MovingDistance >= g_ConfigRead.MovingSpeedDistance && lpObj->MapNumber != MAP_INDEX_HATCHERY)
 				{
 					if (g_ConfigRead.MovingSpeedLog != 0)
-						sLog.outBasic("[%s][%s] Move Speed Hack Detected [%d]", lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->MovingDistance);
+						sLog->outBasic("[%s][%s] Move Speed Hack Detected [%d]", lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->MovingDistance);
 
 					if (g_ConfigRead.MovingSpeedDC)
 						IOCP.CloseClient(lpObj->m_Index);
@@ -19202,7 +19202,7 @@ void gObjViewportListProtocolCreate(LPOBJ lpObj)
 
 			if (strlen(pViewportCreateChange.Id) < 1)
 			{
-				sLog.outBasic("[UBF][gObjViewportListProtocolCreate][Name Setting Failed] (%d) ID : %s, Name: %s)",
+				sLog->outBasic("[UBF][gObjViewportListProtocolCreate][Name Setting Failed] (%d) ID : %s, Name: %s)",
 					lpObj->m_Index, lpObj->AccountID, lpObj->Name);
 			}
 
@@ -19278,7 +19278,7 @@ void gObjViewportListProtocolCreate(LPOBJ lpObj)
 
 			if (strlen(pViewportCreate.Id) < 1)
 			{
-				sLog.outBasic("[UBF][gObjViewportListProtocolCreate_2][Name Setting Failed] (%d) ID : %s, Name: %s)",
+				sLog->outBasic("[UBF][gObjViewportListProtocolCreate_2][Name Setting Failed] (%d) ID : %s, Name: %s)",
 					lpObj->m_Index, lpObj->AccountID, lpObj->Name);
 			}
 
@@ -19786,7 +19786,7 @@ void gObjViewportListProtocol(short aIndex)
 
 								if (strlen(pViewportCreateChange.Id) < 1)
 								{
-									sLog.outBasic("[UBF][gObjViewportListProtocol][Name Setting Failed] (%d) ID : %s, Name: %s)",
+									sLog->outBasic("[UBF][gObjViewportListProtocol][Name Setting Failed] (%d) ID : %s, Name: %s)",
 										lpObj->m_Index, lpObj->AccountID, lpObj->Name);
 								}
 
@@ -19877,7 +19877,7 @@ void gObjViewportListProtocol(short aIndex)
 
 								if (strlen(pViewportCreate.Id) < 1)
 								{
-									sLog.outBasic("[UBF][gObjViewportListProtocol_2][Name Setting Failed] (%d) ID : %s, Name: %s)",
+									sLog->outBasic("[UBF][gObjViewportListProtocol_2][Name Setting Failed] (%d) ID : %s, Name: %s)",
 										lpObj->m_Index, lpObj->AccountID, lpObj->Name);
 								}
 
@@ -20407,7 +20407,7 @@ BOOL gObjMoveGate(int aIndex, int gt)
 
 	if (gObj[aIndex].RegenOk != 0)
 	{
-		sLog.outBasic("Regen OK %s %d", __FILE__, __LINE__);
+		sLog->outBasic("Regen OK %s %d", __FILE__, __LINE__);
 		x = lpObj->X;
 		y = lpObj->Y;
 		mapNumber = lpObj->MapNumber;
@@ -20435,7 +20435,7 @@ BOOL gObjMoveGate(int aIndex, int gt)
 	if (gGateC.IsGate(gt) == false)
 	{
 
-		sLog.outBasic("Cannnot find gate number %d (%s %d)", gt, __FILE__, __LINE__);
+		sLog->outBasic("Cannnot find gate number %d (%s %d)", gt, __FILE__, __LINE__);
 
 		x = lpObj->X;
 		y = lpObj->Y;
@@ -20465,7 +20465,7 @@ BOOL gObjMoveGate(int aIndex, int gt)
 	{
 		if (gObj[aIndex].m_bDevilSquareAuth == 0)
 		{
-			sLog.outBasic("[DevilSquare] [%s][%s] Not Used DevilSquare Invitation In DevilSquare", gObj[aIndex].AccountID, gObj[aIndex].Name);
+			sLog->outBasic("[DevilSquare] [%s][%s] Not Used DevilSquare Invitation In DevilSquare", gObj[aIndex].AccountID, gObj[aIndex].Name);
 			return false;
 		}
 		else
@@ -20478,7 +20478,7 @@ BOOL gObjMoveGate(int aIndex, int gt)
 
 	if (result < 0)
 	{
-		sLog.outBasic("error : %d (%s %d)", result, __FILE__, __LINE__);
+		sLog->outBasic("error : %d (%s %d)", result, __FILE__, __LINE__);
 
 		x = lpObj->X;
 		y = lpObj->Y;
@@ -20602,7 +20602,7 @@ BOOL gObjMoveGate(int aIndex, int gt)
 
 		if (bMove == 0)
 		{
-			sLog.outBasic("[PSHOP ITEM CLONNING] Move Failed : %d (%s %s)", result, lpObj->AccountID, lpObj->Name);
+			sLog->outBasic("[PSHOP ITEM CLONNING] Move Failed : %d (%s %s)", result, lpObj->AccountID, lpObj->Name);
 
 			x = lpObj->X;
 			y = lpObj->Y;
@@ -21050,7 +21050,7 @@ BOOL gObjMoveGate(int aIndex, int gt)
 
 		if (g_KalimaGate.DeleteKalimaGate(lpObj->m_Index))
 		{
-			sLog.outBasic("[Kalima] [%s][%s] Kalima Gate Vanished - User MoveGate (SummonIndex:%d, EnterCount:%d)", lpObj->AccountID, lpObj->Name, iKalimaGateIndex, gObj[iKalimaGateIndex].m_cKalimaGateEnterCount);
+			sLog->outBasic("[Kalima] [%s][%s] Kalima Gate Vanished - User MoveGate (SummonIndex:%d, EnterCount:%d)", lpObj->AccountID, lpObj->Name, iKalimaGateIndex, gObj[iKalimaGateIndex].m_cKalimaGateEnterCount);
 		}
 	}
 
@@ -21261,7 +21261,7 @@ BOOL gObjMoveGate(int aIndex, int gt)
 			{
 				if (MapNumberCheck(mapNumber) == 0)
 				{
-					sLog.outBasic("error-L3 : %s %d", __FILE__, __LINE__);
+					sLog->outBasic("error-L3 : %s %d", __FILE__, __LINE__);
 					return false;
 				}
 				short sSvrCode = g_MapServerManager.CheckMoveMapSvr(lpObj->m_Index, mapNumber, lpObj->m_sPrevMapSvrCode);
@@ -21269,7 +21269,7 @@ BOOL gObjMoveGate(int aIndex, int gt)
 				{
 					if (sSvrCode == -1)
 					{
-						sLog.outError( "[MapServerMng] Map Server Move Fail : CheckMoveMapSvr() == -1 [%s][%s] (%d)", lpObj->AccountID, lpObj->Name, lpObj->m_Index);
+						sLog->outError( "[MapServerMng] Map Server Move Fail : CheckMoveMapSvr() == -1 [%s][%s] (%d)", lpObj->AccountID, lpObj->Name, lpObj->m_Index);
 						return false;
 					}
 
@@ -21313,7 +21313,7 @@ BOOL gObjMoveGate(int aIndex, int gt)
 					}
 
 					GJReqMapSvrMove(lpObj->m_Index, sSvrCode, mapNumber, x, y);
-					sLog.outBasic("[MapServerMng] Request to Move Map Server : (%d) - [%s][%s] (%d)", sSvrCode, lpObj->AccountID, lpObj->Name, lpObj->m_Index);
+					sLog->outBasic("[MapServerMng] Request to Move Map Server : (%d) - [%s][%s] (%d)", sSvrCode, lpObj->AccountID, lpObj->Name, lpObj->m_Index);
 					return false;
 				}
 			}
@@ -21474,7 +21474,7 @@ void gObjTeleport(int aIndex, int map, int x, int y)
 
 	if (MapNumberCheck(map) == 0)
 	{
-		sLog.outBasic("error-L3 : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L3 : %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -21486,12 +21486,12 @@ void gObjTeleport(int aIndex, int map, int x, int y)
 		{
 			if (sSvrCode == -1)
 			{
-				sLog.outError( "[MapServerMng] Map Server Move Fail : CheckMoveMapSvr() == -1 [%s][%s] (%d)", lpObj->AccountID, lpObj->Name, lpObj->m_Index);
+				sLog->outError( "[MapServerMng] Map Server Move Fail : CheckMoveMapSvr() == -1 [%s][%s] (%d)", lpObj->AccountID, lpObj->Name, lpObj->m_Index);
 				return;
 			}
 
 			GJReqMapSvrMove(lpObj->m_Index, sSvrCode, map, x, y);
-			sLog.outBasic("[MapServerMng] Request to Move Map Server : (%d) - [%s][%s] (%d)", sSvrCode, lpObj->AccountID, lpObj->Name, lpObj->m_Index);
+			sLog->outBasic("[MapServerMng] Request to Move Map Server : (%d) - [%s][%s] (%d)", sSvrCode, lpObj->AccountID, lpObj->Name, lpObj->m_Index);
 			return;
 		}
 	}
@@ -21557,7 +21557,7 @@ class CMagicInf* gObjGetMagic(LPOBJ lpObj, int mIndex)
 {
 	if (mIndex < 0 || mIndex > MAX_MAGIC - 1)
 	{
-		sLog.outBasic("Number of magic exceeds (%s %d)", __FILE__, __LINE__);
+		sLog->outBasic("Number of magic exceeds (%s %d)", __FILE__, __LINE__);
 		return NULL;
 	}
 
@@ -21864,7 +21864,7 @@ int  gObjMagicAdd(LPOBJ lpObj, WORD aSkill, BYTE Level)
 			else
 			{
 				lpObj->MagicCount++;
-				//sLog.outBasic("[gObjMagicAdd] (%s) %d - Skill:%d, Level:%d", lpObj->Name, lpObj->MagicCount, aSkill, Level);
+				//sLog->outBasic("[gObjMagicAdd] (%s) %d - Skill:%d, Level:%d", lpObj->Name, lpObj->MagicCount, aSkill, Level);
 				return n;
 			}
 		}
@@ -22389,25 +22389,25 @@ void gObjGuildWarEndSend(LPOBJ lpObj, BYTE Result1, BYTE Result2)
 {
 	if (lpObj == 0)
 	{
-		sLog.outBasic("error-L3 : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L3 : %s %d", __FILE__, __LINE__);
 		return;
 	}
 
 	if (lpObj->m_PlayerData->lpGuild == 0)
 	{
-		sLog.outBasic("error-L3 : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L3 : %s %d", __FILE__, __LINE__);
 		return;
 	}
 
 	if (lpObj->m_PlayerData->lpGuild->WarState != 1)
 	{
-		sLog.outBasic("error-L3 : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L3 : %s %d", __FILE__, __LINE__);
 		return;
 	}
 
 	if (lpObj->m_PlayerData->lpGuild->lpTargetGuildNode == 0)
 	{
-		sLog.outBasic("error-L3 : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L3 : %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -22535,7 +22535,7 @@ BOOL gObjGuildWarProc(GUILD_INFO_STRUCT * lpGuild1, GUILD_INFO_STRUCT * lpGuild2
 	lpGuild1->PlayScore += score;
 
 	wsprintf(szTemp, "%s ( %d ) VS %s ( %d )", lpGuild1->Name, lpGuild1->PlayScore, lpGuild2->Name, lpGuild2->PlayScore);
-	sLog.outBasic(szTemp);
+	sLog->outBasic(szTemp);
 
 	if (lpGuild1->WarType == 1)
 	{
@@ -22673,7 +22673,7 @@ int gObjGuildWarItemGive(GUILD_INFO_STRUCT * lpWinGuild, GUILD_INFO_STRUCT * lpL
 
 	if (r_usercount < 1)
 	{
-		sLog.outBasic("error2: No user in the loser guild  is in game %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error2: No user in the loser guild  is in game %s %d", __FILE__, __LINE__);
 		return false;
 	}
 
@@ -22681,13 +22681,13 @@ int gObjGuildWarItemGive(GUILD_INFO_STRUCT * lpWinGuild, GUILD_INFO_STRUCT * lpL
 
 	if (lose_user < 0)
 	{
-		sLog.outBasic("error2: No user in the loser guild  is in game %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error2: No user in the loser guild  is in game %s %d", __FILE__, __LINE__);
 		return false;
 	}
 
 	if (gObj[lose_user].Connected < PLAYER_PLAYING)
 	{
-		sLog.outBasic("error2: No user in the loser guild  is in game %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error2: No user in the loser guild  is in game %s %d", __FILE__, __LINE__);
 		return false;
 	}
 
@@ -22704,7 +22704,7 @@ int gObjGuildWarItemGive(GUILD_INFO_STRUCT * lpWinGuild, GUILD_INFO_STRUCT * lpL
 
 	if (r_usercount < 1)
 	{
-		sLog.outBasic("error2: No user in the winner guild is in game");
+		sLog->outBasic("error2: No user in the winner guild is in game");
 		return false;
 	}
 
@@ -22712,13 +22712,13 @@ int gObjGuildWarItemGive(GUILD_INFO_STRUCT * lpWinGuild, GUILD_INFO_STRUCT * lpL
 
 	if (win_user < 0)
 	{
-		sLog.outBasic("error2: No user in the winner guild is in game");
+		sLog->outBasic("error2: No user in the winner guild is in game");
 		return false;
 	}
 
 	if (gObj[win_user].Connected < PLAYER_PLAYING)
 	{
-		sLog.outBasic("error2: No user in the winner guild is in game");
+		sLog->outBasic("error2: No user in the winner guild is in game");
 		return false;
 	}
 
@@ -22844,7 +22844,7 @@ BOOL gObjMonsterCall(int aIndex, int MonsterType, int x, int y)
 		gObj[result].m_MoveRange = 15;
 
 		GSProtocol.GCRecallMonLife(gObj[result].m_RecallMon, gObj[result].MaxLife, gObj[result].Life);
-		sLog.outBasic("[Summon Monster] [%s][%s] Try to Summon Monster - Succeed (SummonIndex:%d)", gObj[aIndex].AccountID, gObj[aIndex].Name, result);
+		sLog->outBasic("[Summon Monster] [%s][%s] Try to Summon Monster - Succeed (SummonIndex:%d)", gObj[aIndex].AccountID, gObj[aIndex].Name, result);
 		return true;
 	}
 	return false;
@@ -22856,7 +22856,7 @@ BOOL gObjMonsterCall(int aIndex, int MonsterType, int x, int y)
 void gObjMonsterCallKill(int aIndex)
 {
 
-	sLog.outBasic("[Summon Monster] [%s][%s] Try to Kill Summoned Monster", gObj[aIndex].AccountID, gObj[aIndex].Name);
+	sLog->outBasic("[Summon Monster] [%s][%s] Try to Kill Summoned Monster", gObj[aIndex].AccountID, gObj[aIndex].Name);
 
 	if (gObj[aIndex].m_RecallMon < 0)
 	{
@@ -22884,7 +22884,7 @@ void gObjMonsterCallKill(int aIndex)
 	{
 		if (gObjIsConnected(gObj[aIndex].m_RecallMon) == 1)
 		{
-			sLog.outBasic("[Summon Monster] [%s][%s] Try to Kill Summoned Monster - Found Summoned Monster (SummonIndex:%d)", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_RecallMon);
+			sLog->outBasic("[Summon Monster] [%s][%s] Try to Kill Summoned Monster - Found Summoned Monster (SummonIndex:%d)", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_RecallMon);
 			gObj[gObj[aIndex].m_RecallMon].m_RecallMon = -1;
 		}
 	}
@@ -22892,7 +22892,7 @@ void gObjMonsterCallKill(int aIndex)
 	gObj[aIndex].m_RecallMon = -1;
 	gObjDel(callmon);
 
-	sLog.outBasic("[Summon Monster] [%s][%s] Try to Kill Summoned Monster - Finished to Kill Summoned Monster (SummonIndex:%d)", gObj[aIndex].AccountID, gObj[aIndex].Name, callmon);
+	sLog->outBasic("[Summon Monster] [%s][%s] Try to Kill Summoned Monster - Finished to Kill Summoned Monster (SummonIndex:%d)", gObj[aIndex].AccountID, gObj[aIndex].Name, callmon);
 }
 
 
@@ -23266,7 +23266,7 @@ BOOL gObjDelete10EventChip(int aIndex)
 			{
 				gObjInventoryDeleteItem(aIndex, n);
 				GSProtocol.GCInventoryItemDeleteSend(aIndex, n, 1);
-				sLog.outBasic("[EventChip] [%s][%s] Delete Rena (%d)", lpObj->AccountID, lpObj->Name, n);
+				sLog->outBasic("[EventChip] [%s][%s] Delete Rena (%d)", lpObj->AccountID, lpObj->Name, n);
 				count++;
 
 				if (count >= 10)
@@ -23427,7 +23427,7 @@ void gObjDelteItemCountInInventory(int aIndex, int itemtype, int itemindex, int 
 			{
 				gObjInventoryDeleteItem(aIndex, n);
 				GSProtocol.GCInventoryItemDeleteSend(aIndex, n, 1);
-				sLog.outBasic("[DeleteItem] [%s][%s] Delete (%d,%d)(%d)", lpObj->AccountID, lpObj->Name, itemtype, itemindex, n);
+				sLog->outBasic("[DeleteItem] [%s][%s] Delete (%d,%d)(%d)", lpObj->AccountID, lpObj->Name, itemtype, itemindex, n);
 				delcount++;
 
 				if (delcount >= count)
@@ -23667,7 +23667,7 @@ void gObjUseCircle(int aIndex, int pos)
 		return;
 	}
 
-	sLog.outBasic("[StatUp] [%s][%s] Use StatUpItem Level:%d Pos:%d serial:%I64d", gObj[aIndex].AccountID, gObj[aIndex].Name, level, pos, iSerial);
+	sLog->outBasic("[StatUp] [%s][%s] Use StatUpItem Level:%d Pos:%d serial:%I64d", gObj[aIndex].AccountID, gObj[aIndex].Name, level, pos, iSerial);
 
 	gObjInventoryItemSet(aIndex, pos, 0xFF);
 	gObj[aIndex].pInventory[pos].Clear();
@@ -23740,7 +23740,7 @@ void gObjUseCircle(int aIndex, int pos)
 
 		incvalue = AddStat;
 
-		sLog.outBasic("[StatUp] [%s][%s] Success [%d][%d] %d", gObj[aIndex].AccountID, gObj[aIndex].Name, level, incvalue, iSerial);
+		sLog->outBasic("[StatUp] [%s][%s] Success [%d][%d] %d", gObj[aIndex].AccountID, gObj[aIndex].Name, level, incvalue, iSerial);
 	}
 	else
 	{
@@ -23749,7 +23749,7 @@ void gObjUseCircle(int aIndex, int pos)
 		pResult.result = pResult.result;
 
 		IOCP.DataSend(aIndex, (unsigned char *)&pResult, pResult.h.size);
-		sLog.outBasic("[StatUp] [%s][%s] Fail [%d] %d", gObj[aIndex].AccountID, gObj[aIndex].Name, level, iSerial);
+		sLog->outBasic("[StatUp] [%s][%s] Fail [%d] %d", gObj[aIndex].AccountID, gObj[aIndex].Name, level, iSerial);
 		return;
 	}
 
@@ -23836,7 +23836,7 @@ void gObjUsePlusStatFruit(int aIndex, int pos)
 		return;
 	}
 
-	sLog.outBasic("[StatUp] [%s][%s] Use StatUpItem Level:%d Pos:%d serial:%I64d",
+	sLog->outBasic("[StatUp] [%s][%s] Use StatUpItem Level:%d Pos:%d serial:%I64d",
 		gObj[aIndex].AccountID, gObj[aIndex].Name, iItemLevel, pos, iItemSerial);
 
 	gObjInventoryItemSet(aIndex, pos, 0xFF);
@@ -23916,7 +23916,7 @@ void gObjUsePlusStatFruit(int aIndex, int pos)
 		IOCP.DataSend(aIndex, (unsigned char *)&pResult, pResult.h.size);
 		iIncStat = AddStat;
 
-		sLog.outBasic("[StatUp] [%s][%s] Success [%d][%d] %d",
+		sLog->outBasic("[StatUp] [%s][%s] Success [%d][%d] %d",
 			gObj[aIndex].AccountID, gObj[aIndex].Name, iItemLevel, iIncStat, iItemSerial);
 	}
 	else
@@ -23927,7 +23927,7 @@ void gObjUsePlusStatFruit(int aIndex, int pos)
 
 		IOCP.DataSend(aIndex, (unsigned char *)&pResult, pResult.h.size);
 
-		sLog.outBasic("[StatUp] [%s][%s] Fail [%d] %d",
+		sLog->outBasic("[StatUp] [%s][%s] Fail [%d] %d",
 			gObj[aIndex].AccountID, gObj[aIndex].Name, iItemLevel, iItemSerial);
 		return;
 	}
@@ -24083,7 +24083,7 @@ void gObjUseMinusStatFruit(int aIndex, int pos)
 		return;
 	}
 
-	sLog.outBasic("[StatDown] [%s][%s] Use StatDownItem Level:%d Pos:%d serial:%I64d",
+	sLog->outBasic("[StatDown] [%s][%s] Use StatDownItem Level:%d Pos:%d serial:%I64d",
 		gObj[aIndex].AccountID, gObj[aIndex].Name, iItemLevel, pos, iItemSerial);
 
 	gObjInventoryItemSet(aIndex, pos, 0xFF);
@@ -24150,7 +24150,7 @@ void gObjUseMinusStatFruit(int aIndex, int pos)
 		pResult.btStatValue = iDecStat;
 
 		IOCP.DataSend(aIndex, (unsigned char *)&pResult, pResult.h.size);
-		sLog.outBasic("[StatDown] [%s][%s] Success [%d][%d] %d",
+		sLog->outBasic("[StatDown] [%s][%s] Success [%d][%d] %d",
 			gObj[aIndex].AccountID, gObj[aIndex].Name, iItemLevel, iDecStat, iItemSerial);
 	}
 	else
@@ -24159,7 +24159,7 @@ void gObjUseMinusStatFruit(int aIndex, int pos)
 		pResult.btFruitType = iItemLevel;
 		pResult.btStatValue = 0;
 		IOCP.DataSend(aIndex, (unsigned char *)&pResult, pResult.h.size);
-		sLog.outBasic("[StatDown] [%s][%s] Fail [%d] %d",
+		sLog->outBasic("[StatDown] [%s][%s] Fail [%d] %d",
 			gObj[aIndex].AccountID, gObj[aIndex].Name, iItemLevel, iItemSerial);
 		return;
 	}
@@ -24191,7 +24191,7 @@ void gObjUseMinusStatFruit(int aIndex, int pos)
 	int iOldFruitPoint = gObj[aIndex].m_PlayerData->LevelUpPoint;
 	gObj[aIndex].m_PlayerData->iFruitPoint += iDecStat;
 
-	sLog.outBasic("[StatDown] [%s][%s] MinusStat[%d] -> LevelUpPoint Old(%d)/New(%d)  FruitPoint Old(%d)/New(%d)",
+	sLog->outBasic("[StatDown] [%s][%s] MinusStat[%d] -> LevelUpPoint Old(%d)/New(%d)  FruitPoint Old(%d)/New(%d)",
 		gObj[aIndex].AccountID, gObj[aIndex].Name, iDecStat, iOldLevelUpPoint, gObj[aIndex].m_PlayerData->LevelUpPoint, iOldFruitPoint, gObj[aIndex].m_PlayerData->iFruitPoint);
 
 	gObjCalCharacter.CalcCharacter(aIndex);
@@ -24326,7 +24326,7 @@ void CashShopExMinusStatFruit(int aIndex, int pos) //GS-CS Need Decompile
 
 	if (bEnableFruit)
 	{
-		sLog.outBasic("[InGameShop][ExMinusStatPoint] [%s][%s] Use StatDownItem Level:%d,Pos:%d,Dur:%d,Serial:%I64d",
+		sLog->outBasic("[InGameShop][ExMinusStatPoint] [%s][%s] Use StatDownItem Level:%d,Pos:%d,Dur:%d,Serial:%I64d",
 			gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].pInventory[pos].m_Level,
 			pos, gObj[aIndex].pInventory[pos].m_Durability, iItemSerial);
 
@@ -24364,7 +24364,7 @@ void CashShopExMinusStatFruit(int aIndex, int pos) //GS-CS Need Decompile
 		pResult.result = 38;
 		IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
 
-		sLog.outBasic("[InGameShop][ExMinusStatPoint] [%s][%s] MinusStat[%d]",
+		sLog->outBasic("[InGameShop][ExMinusStatPoint] [%s][%s] MinusStat[%d]",
 			gObj[aIndex].AccountID, gObj[aIndex].Name, iStatPoint);
 
 		gObjCalCharacter.CalcCharacter(aIndex);
@@ -24743,12 +24743,12 @@ void MakeRewardSetItem(int aIndex, BYTE cDropX, BYTE cDropY, int iRewardType, in
 
 	if (iRewardType == 1)
 	{
-		sLog.outBasic("[Reward][KUNDUN] [%s][%s] Set Item itemnum:[%d] skill:[%d] luck:[%d] option:[%d] SetOption:[%d]",
+		sLog->outBasic("[Reward][KUNDUN] [%s][%s] Set Item itemnum:[%d] skill:[%d] luck:[%d] option:[%d] SetOption:[%d]",
 			gObj[aIndex].AccountID, gObj[aIndex].Name, itemnum, Option1, Option2, Option3, SetOption);
 	}
 	else
 	{
-		sLog.outBasic("[Reward][Etc] [%s][%s] Set Item itemnum:[%d] skill:[%d] luck:[%d] option:[%d] SetOption:[%d]",
+		sLog->outBasic("[Reward][Etc] [%s][%s] Set Item itemnum:[%d] skill:[%d] luck:[%d] option:[%d] SetOption:[%d]",
 			gObj[aIndex].AccountID, gObj[aIndex].Name, itemnum, Option1, Option2, Option3, SetOption);
 	}
 }
@@ -24820,12 +24820,12 @@ void MakeRewardSetItem(int aIndex, BYTE cDropX, BYTE cDropY, int iRewardType, in
 
 	if (iRewardType == 1)
 	{
-		sLog.outBasic("[Reward][KUNDUN] [%s][%s] Set Item itemnum:[%d] skill:[%d] luck:[%d] option:[%d] SetOption:[%d]",
+		sLog->outBasic("[Reward][KUNDUN] [%s][%s] Set Item itemnum:[%d] skill:[%d] luck:[%d] option:[%d] SetOption:[%d]",
 			gObj[aIndex].AccountID, gObj[aIndex].Name, itemnum, Option1, Option2, Option3, SetOption);
 	}
 	else
 	{
-		sLog.outBasic("[Reward][Etc] [%s][%s] Set Item itemnum:[%d] skill:[%d] luck:[%d] option:[%d] SetOption:[%d]",
+		sLog->outBasic("[Reward][Etc] [%s][%s] Set Item itemnum:[%d] skill:[%d] luck:[%d] option:[%d] SetOption:[%d]",
 			gObj[aIndex].AccountID, gObj[aIndex].Name, itemnum, Option1, Option2, Option3, SetOption);
 	}
 }
@@ -24907,7 +24907,7 @@ void gObjSetExpPetItem(int aIndex, UINT64 exp)
 			}
 			else
 			{
-				sLog.outBasic("[%s][%s][PetItemLevelUp] [%s] Level:[%d]Exp:[%I64d]AddExp:[%I64d]",
+				sLog->outBasic("[%s][%s][PetItemLevelUp] [%s] Level:[%d]Exp:[%I64d]AddExp:[%I64d]",
 					lpObj->AccountID, lpObj->Name, lpObj->pInventory[lpObj->m_btInvenPetPos].GetName(), lpObj->pInventory[lpObj->m_btInvenPetPos].m_PetItem_Level, lpObj->pInventory[lpObj->m_btInvenPetPos].m_PetItem_Exp, addexp);
 				CDarkSpirit::SendLevelmsg(lpObj->m_Index, lpObj->m_btInvenPetPos, 0, 0xFE);
 				gObjCalCharacter.CalcCharacter(lpObj->m_Index);
@@ -24923,7 +24923,7 @@ void gObjSetExpPetItem(int aIndex, UINT64 exp)
 			}
 			else
 			{
-				sLog.outBasic("[%s][%s][PetItemLevelUp] [%s] Level:[%d]Exp:[%I64d]AddExp:[%I64d]",
+				sLog->outBasic("[%s][%s][PetItemLevelUp] [%s] Level:[%d]Exp:[%I64d]AddExp:[%I64d]",
 					lpObj->AccountID, lpObj->Name, lpObj->pInventory[lpObj->m_btInvenPetPos].GetName(), lpObj->pInventory[lpObj->m_btInvenPetPos].m_PetItem_Level, lpObj->pInventory[lpObj->m_btInvenPetPos].m_PetItem_Exp, addexp);
 				CDarkSpirit::SendLevelmsg(lpObj->m_Index, lpObj->m_btInvenPetPos, 1, 0xFE);
 				gObjCalCharacter.CalcCharacter(lpObj->m_Index);
@@ -24961,7 +24961,7 @@ void gObjSetExpPetItem(int aIndex, UINT64 exp)
 			}
 			else
 			{
-				sLog.outBasic("[%s][%s][PetItemLevelUp] [%s] Level:[%d]Exp:[%I64d]AddExp:[%I64d]",
+				sLog->outBasic("[%s][%s][PetItemLevelUp] [%s] Level:[%d]Exp:[%I64d]AddExp:[%I64d]",
 					lpObj->AccountID, lpObj->Name, lpObj->pInventory[lpObj->m_btInvenPetPos].GetName(), lpObj->pInventory[lpObj->m_btInvenPetPos].m_PetItem_Level, lpObj->pInventory[lpObj->m_btInvenPetPos].m_PetItem_Exp, addexp);
 				CDarkSpirit::SendLevelmsg(lpObj->m_Index, lpObj->m_btInvenPetPos, 0, 0xFE);
 				gObjCalCharacter.CalcCharacter(lpObj->m_Index);
@@ -25260,7 +25260,7 @@ void gObjNotifyUpdateUnionV1(LPOBJ lpObj)
 	{
 		if (iVp1Count != 0)
 		{
-			sLog.outBasic("[Union ViewPort] ERROR : iVp1Count is OUT of BOUND: %d", iVp1Count);
+			sLog->outBasic("[Union ViewPort] ERROR : iVp1Count is OUT of BOUND: %d", iVp1Count);
 		}
 	}
 }
@@ -26106,7 +26106,7 @@ int gObjCheckInventorySerial0Item(LPOBJ lpObj)
 
 		if (iItemSerial == 0)
 		{
-			sLog.outBasic("[ANTI-HACK][Serial 0 Item] (%s)(%s) Item(%s) Pos(%d)",
+			sLog->outBasic("[ANTI-HACK][Serial 0 Item] (%s)(%s) Item(%s) Pos(%d)",
 				lpObj->AccountID, lpObj->Name, lpObj->pInventory[i].GetName(), i);
 			iCount++;
 		}
@@ -26145,7 +26145,7 @@ BOOL gCheckSkillDistance(int aIndex, int aTargetIndex, int iSkillNum)
 	if (abs(lpObj->X - lpTargetObj->X) > iSkillDistance ||
 		abs(lpObj->Y - lpTargetObj->Y) > iSkillDistance)
 	{
-		sLog.outBasic("[SKILL DISTANCE CHECK] [%s][%s] Invalid Skill attacker(%d, %d), defender(%d, %d), skillnum:%d skilldistance:%d",
+		sLog->outBasic("[SKILL DISTANCE CHECK] [%s][%s] Invalid Skill attacker(%d, %d), defender(%d, %d), skillnum:%d skilldistance:%d",
 			lpObj->AccountID, lpObj->Name, lpObj->X, lpObj->Y, lpTargetObj->X, lpTargetObj->Y, iSkillNum, iSkillDistance);
 		return FALSE;
 	}
@@ -26163,7 +26163,7 @@ void gObjSaveChaosBoxItemList(LPOBJ lpObj)
 		{
 			ItemIsBufExOption(ExOption, &lpObj->pChaosBox[n]);
 
-			sLog.outBasic("[ChaosBoxItemList][Lost ItemList] [%s][%s] [%d,%s,%d,%d,%d,%d] Serial:[%I64d][%d] Ex:[%d,%d,%d,%d,%d,%d,%d] Set:[%d] 380:[%d] HO:[%d,%d] E:[%d]",
+			sLog->outBasic("[ChaosBoxItemList][Lost ItemList] [%s][%s] [%d,%s,%d,%d,%d,%d] Serial:[%I64d][%d] Ex:[%d,%d,%d,%d,%d,%d,%d] Set:[%d] 380:[%d] HO:[%d,%d] E:[%d]",
 				lpObj->AccountID, lpObj->Name, n, lpObj->pChaosBox[n].GetName(), lpObj->pChaosBox[n].m_Level, lpObj->pChaosBox[n].m_Option1, lpObj->pChaosBox[n].m_Option2, lpObj->pChaosBox[n].m_Option3, lpObj->pChaosBox[n].m_Number,
 				(int)lpObj->pChaosBox[n].m_Durability, ExOption[0], ExOption[1], ExOption[2], ExOption[3], ExOption[4], ExOption[5], ExOption[6], lpObj->pChaosBox[n].m_SetOption,
 				lpObj->pChaosBox[n].m_ItemOptionEx >> 7, g_kJewelOfHarmonySystem.GetItemStrengthenOption(&lpObj->pChaosBox[n]), g_kJewelOfHarmonySystem.GetItemOptionLevel(&lpObj->pChaosBox[n]),
@@ -26237,7 +26237,7 @@ void gObjReqMapSvrAuth(LPOBJ lpObj)
 {
 	if (lpObj->Connected != PLAYER_CONNECTED)
 	{
-		sLog.outBasic("%s is not connected", lpObj->AccountID);
+		sLog->outBasic("%s is not connected", lpObj->AccountID);
 		IOCP.CloseClient(lpObj->m_Index);
 		return;
 	}
@@ -26246,7 +26246,7 @@ void gObjReqMapSvrAuth(LPOBJ lpObj)
 		lpObj->m_MapServerAuthInfo.iJA1, lpObj->m_MapServerAuthInfo.iJA2,
 		lpObj->m_MapServerAuthInfo.iJA3, lpObj->m_MapServerAuthInfo.iJA4);
 
-	sLog.outBasic("[MapServerMng] Map Server Join Send : [%s][%s](%d)",
+	sLog->outBasic("[MapServerMng] Map Server Join Send : [%s][%s](%d)",
 		lpObj->AccountID, lpObj->m_MapServerAuthInfo.szCharName, lpObj->m_Index);
 
 	memset(lpObj->m_MapServerAuthInfo.szCharName, 0x00, MAX_ACCOUNT_LEN + 2);
@@ -26364,7 +26364,7 @@ void gObjPentagramMixBoxSet(int aIndex, int itempos, int xl, int yl, BYTE set_by
 			}
 			else
 			{
-				sLog.outBasic("error : %d/%d  %s %d", xx, yy, __FILE__, __LINE__);
+				sLog->outBasic("error : %d/%d  %s %d", xx, yy, __FILE__, __LINE__);
 				return;
 			}
 		}
@@ -26386,7 +26386,7 @@ void gObjPentagramMixItemSet(int aIndex, int itempos, BYTE set_byte)
 
 	if (gObj[aIndex].m_PlayerData->pPentagramMixBox[itempos].GetSize((int&)width, (int &)height) == 0)
 	{
-		sLog.outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -26531,7 +26531,7 @@ BYTE gObjPentagramMixBoxRectCheck(int aIndex, int sx, int sy, int width, int hei
 			}
 			else
 			{
-				sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+				sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 				return -1;
 			}
 		}
@@ -26584,7 +26584,7 @@ BOOL gTransPentagramJewelInfoTest(int aIndex, int targetIndex, CItem sourceItem)
 
 	if (iTargetDBJewelIndex == 0xFF)
 	{
-		sLog.outBasic("[ gTransPentagramJewelInfo ] PentagramJewelIndex Area Not Exist!!");
+		sLog->outBasic("[ gTransPentagramJewelInfo ] PentagramJewelIndex Area Not Exist!!");
 		return FALSE;
 	}
 
@@ -26653,7 +26653,7 @@ int gTransPentagramJewelInfo(int aIndex, BYTE madeItemPos, int targetIndex, CIte
 
 			if (btTargetDBJewelIndex == 0xFF)
 			{
-				sLog.outBasic("[TransPentagramJewelInfo][%s][%s] PentagramJewelIndex Area Not Exist!!", lpObj->AccountID, lpObj->Name);
+				sLog->outBasic("[TransPentagramJewelInfo][%s][%s] PentagramJewelIndex Area Not Exist!!", lpObj->AccountID, lpObj->Name);
 				return FALSE;
 			}
 
@@ -26717,7 +26717,7 @@ int gTransPentagramJewelInfo(int aIndex, BYTE madeItemPos, int targetIndex, CIte
 				btRank2OptionNum, btRank2Level, btRank3OptionNum, btRank3Level,
 				btRank4OptionNum, btRank4Level, btRank5OptionNum, btRank5Level);
 
-			sLog.outBasic("[TransPentagramJewelInfo][%s][%s] PentagramJewel DB Save : DBIndex = %d, ItemType = %d, ItemIndex = %d, MainAttribute = %d, 1RankN/L = %d/%d, 2RankN/L = %d/%d, 3RankN/L = %d/%d, 4RankN/L = %d/%d, 5RankN/L = %d/%d ",
+			sLog->outBasic("[TransPentagramJewelInfo][%s][%s] PentagramJewel DB Save : DBIndex = %d, ItemType = %d, ItemIndex = %d, MainAttribute = %d, 1RankN/L = %d/%d, 2RankN/L = %d/%d, 3RankN/L = %d/%d, 4RankN/L = %d/%d, 5RankN/L = %d/%d ",
 				lpObj->AccountID, lpObj->Name, btTargetDBJewelIndex, btItemType, wItemIndex, btMainAttribute, btRank1OptionNum, btRank1Level,
 				btRank2OptionNum, btRank2Level, btRank3OptionNum, btRank3Level, btRank4OptionNum, btRank4Level, btRank5OptionNum, btRank5Level);
 
@@ -26947,7 +26947,7 @@ void gObjAutoPartySet(LPOBJ lpObj /* master */, LPOBJ lpTargetObj /*requestor*/)
 {
 	if (lpObj->Type != OBJ_USER || lpTargetObj->Type != OBJ_USER)
 	{
-		sLog.outError( "error %d", __LINE__);
+		sLog->outError( "error %d", __LINE__);
 		return;
 	}
 
@@ -27098,7 +27098,7 @@ bool gObjFixMuunInventoryPointer(int aIndex)
 {
 	if (!gObjIsConnected(aIndex))
 	{
-		sLog.outBasic("[Fix Muun Inv.Ptr] [%s][%s] - disconnected", gObj[aIndex].AccountID, gObj[aIndex].Name);
+		sLog->outBasic("[Fix Muun Inv.Ptr] [%s][%s] - disconnected", gObj[aIndex].AccountID, gObj[aIndex].Name);
 		return false;
 	}
 
@@ -27111,11 +27111,11 @@ bool gObjFixMuunInventoryPointer(int aIndex)
 	{
 		if (gObj[aIndex].pTransaction == 1)
 		{
-			sLog.outBasic("[Fix Muun Inv.Ptr] [%s][%s] - Transaction == 1, Do not change Pointer", gObj[aIndex].AccountID, gObj[aIndex].Name);
+			sLog->outBasic("[Fix Muun Inv.Ptr] [%s][%s] - Transaction == 1, Do not change Pointer", gObj[aIndex].AccountID, gObj[aIndex].Name);
 			return false;
 		}
 
-		sLog.outBasic("[Fix Muun Inv.Ptr] [%s][%s] - Muun Inventory Pointer was 2", gObj[aIndex].AccountID, gObj[aIndex].Name);
+		sLog->outBasic("[Fix Muun Inv.Ptr] [%s][%s] - Muun Inventory Pointer was 2", gObj[aIndex].AccountID, gObj[aIndex].Name);
 
 		for (int n = 0; n < MUUN_INVENTORY_SIZE; n++)
 		{
@@ -27125,7 +27125,7 @@ bool gObjFixMuunInventoryPointer(int aIndex)
 
 	else
 	{
-		sLog.outBasic("[Fix Muun Inv.Ptr] [%s][%s] - Muun Inventory Pointer was Wrong", gObj[aIndex].AccountID, gObj[aIndex].Name);
+		sLog->outBasic("[Fix Muun Inv.Ptr] [%s][%s] - Muun Inventory Pointer was Wrong", gObj[aIndex].AccountID, gObj[aIndex].Name);
 	}
 
 	gObjSetMuunInventory1Pointer(&gObj[aIndex]);
@@ -27159,7 +27159,7 @@ BYTE gObjMuunInventoryInsertItem(int aIndex, CItem item)
 
 	if (item.GetSize(iwidth, iheight) == 0)
 	{
-		sLog.outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
 		return -1;
 	}
 
@@ -27237,19 +27237,19 @@ BYTE gObjMuunInvenMove(OBJECTSTRUCT *lpObj, int *durSsend, int *durTsend, BYTE s
 {
 	if (source < 0 > source > MUUN_INVENTORY_SIZE - 1)
 	{
-		sLog.outBasic("error : %d", __LINE__);
+		sLog->outBasic("error : %d", __LINE__);
 		return -1;
 	}
 
 	if (target < 0 > target > MUUN_INVENTORY_SIZE - 1)
 	{
-		sLog.outBasic("error : %d", __LINE__);
+		sLog->outBasic("error : %d", __LINE__);
 		return -1;
 	}
 
 	if (source == target)
 	{
-		sLog.outBasic("error : %d", __LINE__);
+		sLog->outBasic("error : %d", __LINE__);
 		return -1;
 	}
 
@@ -27366,7 +27366,7 @@ int gObjMuunInventorySearchSerialNumber(OBJECTSTRUCT *lpObj, UINT64 serial)
 					if (s_numa && s_numa == serial)
 					{
 						GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 565), lpObj->m_Index, 1);
-						sLog.outBasic("MuunInventory CopyItem %s", lpObj->AccountID);
+						sLog->outBasic("MuunInventory CopyItem %s", lpObj->AccountID);
 						gObjUserKill(lpObj->m_Index);
 					}
 				}
@@ -27400,7 +27400,7 @@ void gObjEventInventoryItemSet(int aIndex, int itempos, BYTE set_byte)
 
 	if (gObj[aIndex].pEventInventory[itempos].GetSize(width, height) == 0)
 	{
-		sLog.outBasic("error %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -27423,7 +27423,7 @@ void gObjEventInventoryItemBoxSet(int aIndex, int itempos, int xl, int yl, BYTE 
 
 			else
 			{
-				sLog.outBasic("error %s %d", __FILE__, __LINE__);
+				sLog->outBasic("error %s %d", __FILE__, __LINE__);
 				return;
 			}
 		}
@@ -27434,7 +27434,7 @@ bool gObjFixEventInventoryPointer(int aIndex)
 {
 	if (gObjIsConnected(aIndex) == 0)
 	{
-		sLog.outBasic("[Fix Event Inv.Ptr] [%s][%s] - disconnected", gObj[aIndex].AccountID, gObj[aIndex].Name);
+		sLog->outBasic("[Fix Event Inv.Ptr] [%s][%s] - disconnected", gObj[aIndex].AccountID, gObj[aIndex].Name);
 		return false;
 	}
 
@@ -27447,12 +27447,12 @@ bool gObjFixEventInventoryPointer(int aIndex)
 	{
 		if (gObj[aIndex].pTransaction == 1)
 		{
-			sLog.outBasic("[Fix Event Inv.Ptr] [%s][%s] - Transaction == 1, Do not change Pointer", gObj[aIndex].AccountID, gObj[aIndex].Name);
+			sLog->outBasic("[Fix Event Inv.Ptr] [%s][%s] - Transaction == 1, Do not change Pointer", gObj[aIndex].AccountID, gObj[aIndex].Name);
 			return false;
 		}
 		else
 		{
-			sLog.outBasic("[Fix Event Inv.Ptr] [%s][%s] - Event Inventory Pointer was 2", gObj[aIndex].AccountID, gObj[aIndex].Name);
+			sLog->outBasic("[Fix Event Inv.Ptr] [%s][%s] - Event Inventory Pointer was 2", gObj[aIndex].AccountID, gObj[aIndex].Name);
 
 			for (int n = 0; n < INVENTORY_SIZE; n++)
 			{
@@ -27462,7 +27462,7 @@ bool gObjFixEventInventoryPointer(int aIndex)
 	}
 	else
 	{
-		sLog.outBasic("[Fix Event Inv.Ptr] [%s][%s] - Event Inventory Pointer was Wrong", gObj[aIndex].AccountID, gObj[aIndex].Name);
+		sLog->outBasic("[Fix Event Inv.Ptr] [%s][%s] - Event Inventory Pointer was Wrong", gObj[aIndex].AccountID, gObj[aIndex].Name);
 	}
 
 	gObjSetEventInventory1Pointer(&gObj[aIndex]);
@@ -27486,7 +27486,7 @@ BYTE gObjEventInventoryInsertItemTemp(LPOBJ lpObj, CMapItem * Item)
 
 	if (Item->GetSize((int &)iwidth, (int &)iheight) == 0)
 	{
-		sLog.outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
 		return -1;
 	}
 
@@ -27568,7 +27568,7 @@ BYTE gObjEventInventoryInsertItem(int aIndex, CItem item)
 
 	if (item.GetSize((int&)iwidth, (int&)iheight) == 0)
 	{
-		sLog.outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
 		return -1;
 	}
 
@@ -27787,13 +27787,13 @@ BYTE gObjEventInventoryTradeMove(LPOBJ lpObj, BYTE source, BYTE target)
 
 	if (lpObj->m_bMapSvrMoveReq == true || lpObj->m_bMapSvrMoveQuit == true || lpObj->m_State == 32)
 	{
-		sLog.outError( "[gObjEventInventoryTradeMove] Can't move item in inventory - MapServerMove");
+		sLog->outError( "[gObjEventInventoryTradeMove] Can't move item in inventory - MapServerMove");
 		return -1;
 	}
 
 	if (source > EVENT_INVENTORY_SIZE)
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return -1;
 	}
 
@@ -27835,7 +27835,7 @@ BYTE gObjEventInventoryTradeMove(LPOBJ lpObj, BYTE source, BYTE target)
 	if (gObjCheckSerial0ItemList(&lpObj->pEventInventory[source]) != 0)
 	{
 		MsgOutput(lpObj->m_Index, Lang.GetText(0, 259));
-		sLog.outBasic("[ANTI-HACK][Serial 0 Item] [Trade] (%s)(%s) Item(%s) Pos(%d)", lpObj->AccountID, lpObj->Name, lpObj->pEventInventory[source].GetName(), source);
+		sLog->outBasic("[ANTI-HACK][Serial 0 Item] [Trade] (%s)(%s) Item(%s) Pos(%d)", lpObj->AccountID, lpObj->Name, lpObj->pEventInventory[source].GetName(), source);
 		return -1;
 	}
 
@@ -27881,13 +27881,13 @@ BYTE gObjTradeEventInventoryMove(LPOBJ lpObj, BYTE source, BYTE target)
 
 	if (source > TRADE_BOX_SIZE)
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return -1;
 	}
 
 	if (target > EVENT_INVENTORY_SIZE)
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return -1;
 	}
 
@@ -27931,7 +27931,7 @@ BYTE gObjTradeEventInventoryMove(LPOBJ lpObj, BYTE source, BYTE target)
 	if (gObjCheckSerial0ItemList(&lpObj->Trade[source]) != 0)
 	{
 		MsgOutput(lpObj->m_Index, Lang.GetText(0, 259));
-		sLog.outBasic("[ANTI-HACK][Serial 0 Item] [Trade] (%s)(%s) Item(%s) Pos(%d)", lpObj->AccountID, lpObj->Name, lpObj->Trade[source].GetName(), source);
+		sLog->outBasic("[ANTI-HACK][Serial 0 Item] [Trade] (%s)(%s) Item(%s) Pos(%d)", lpObj->AccountID, lpObj->Name, lpObj->Trade[source].GetName(), source);
 		return -1;
 	}
 
@@ -27997,7 +27997,7 @@ BYTE gObjTempEventInventoryInsertItem(LPOBJ lpObj, CItem item, BYTE * TempMap)
 
 	if (item.GetSize(iwidth, iheight) == 0)
 	{
-		sLog.outBasic("Item does not exist [%s][%d] %d", __FILE__, __LINE__, item.m_Type);
+		sLog->outBasic("Item does not exist [%s][%d] %d", __FILE__, __LINE__, item.m_Type);
 		return -1;
 	}
 
@@ -28109,7 +28109,7 @@ BYTE gObjEventInventoryRectCheck(int aIndex, int sx, int sy, int width, int heig
 			}
 			else
 			{
-				sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+				sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 				return -1;
 			}
 		}
@@ -28217,7 +28217,7 @@ BOOL gObjEventInventorySearchSerialNum(LPOBJ lpObj, UINT64 serial)
 
 		if (s_num != 0 && s_num == serial && s_num != (UINT64)-1)
 		{
-			sLog.outBasic("error-L1: CopyItem Id[%s] Char[%s] Item[%s] InventoryPos[%d] serial[%I64d]", lpObj->AccountID, lpObj->Name, lpObj->pEventInventory[n].GetName(), n, s_num);
+			sLog->outBasic("error-L1: CopyItem Id[%s] Char[%s] Item[%s] InventoryPos[%d] serial[%I64d]", lpObj->AccountID, lpObj->Name, lpObj->pEventInventory[n].GetName(), n, s_num);
 			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 15), lpObj->m_Index, 1);
 			gObjUserKill(lpObj->m_Index);
 		}
@@ -28324,7 +28324,7 @@ BOOL UseBundleOfBlessJewel(LPOBJ lpObj, int source, int target)
 	}
 
 	ItemPickax->m_Durability += sRepairValue;
-	sLog.outBasic("[MineSystem][PICKAX][BUNDLE_REPAIR][SUCCESS][%s][%s][Type:%d][Index:%d][Level:%d][Serial:%I64d] - %d/255 (+%d)",
+	sLog->outBasic("[MineSystem][PICKAX][BUNDLE_REPAIR][SUCCESS][%s][%s][Type:%d][Index:%d][Level:%d][Serial:%I64d] - %d/255 (+%d)",
 		lpObj->AccountID, lpObj->Name, lpObj->pInventory[source].m_Type / 512, lpObj->pInventory[source].m_Type % 512, lpObj->pInventory[source].m_Level,
 		lpObj->pInventory[source].m_Number, (int)lpObj->pInventory[source].m_Durability, sRepairValue);
 
@@ -28362,13 +28362,13 @@ BOOL IsExceptionJewelOfBlessInchant(LPOBJ lpObj, int source, int target)
 
 			MsgOutput(lpObj->m_Index, Lang.GetText(0, 257), int(ItemFenrir->m_Durability));
 
-			sLog.outBasic("[FENRIR REPAIR][SUCCESS] [%s][%s] - %d/255 (+%d)", lpObj->AccountID, lpObj->Name, (int)ItemFenrir->m_Durability, iAddDur);
+			sLog->outBasic("[FENRIR REPAIR][SUCCESS] [%s][%s] - %d/255 (+%d)", lpObj->AccountID, lpObj->Name, (int)ItemFenrir->m_Durability, iAddDur);
 		}
 		else
 		{
 			MsgOutput(lpObj->m_Index, Lang.GetText(0, 258));
 
-			sLog.outBasic("[FENRIR REPAIR][FAILED] [%s][%s] - %d/255", lpObj->AccountID, lpObj->Name, (int)ItemFenrir->m_Durability);
+			sLog->outBasic("[FENRIR REPAIR][FAILED] [%s][%s] - %d/255", lpObj->AccountID, lpObj->Name, (int)ItemFenrir->m_Durability);
 		}
 
 		return true;
@@ -28390,7 +28390,7 @@ BOOL IsExceptionJewelOfBlessInchant(LPOBJ lpObj, int source, int target)
 		}
 
 		ItemPickax->m_Durability += sRepairValue;
-		sLog.outBasic("[MineSystem][PICKAX][REPAIR][SUCCESS][%s][%s][Type:%d][Index:%d][Level:%d][Serial:%I64d] - %d/255 (+%d)",
+		sLog->outBasic("[MineSystem][PICKAX][REPAIR][SUCCESS][%s][%s][Type:%d][Index:%d][Level:%d][Serial:%I64d] - %d/255 (+%d)",
 			lpObj->AccountID, lpObj->Name, lpObj->pInventory[source].m_Type / 512, lpObj->pInventory[source].m_Type % 512, lpObj->pInventory[source].m_Level,
 			lpObj->pInventory[source].m_Number, (int)lpObj->pInventory[source].m_Durability, sRepairValue);
 
@@ -28415,7 +28415,7 @@ BOOL IsExceptionJewelOfBlessInchant(LPOBJ lpObj, int source, int target)
 			DSFRing->m_Durability += 50;
 		}
 
-		sLog.outBasic("[DSF_REWARD][SUCCESS] [%s][%s] - %d/255 (+%d)", lpObj->AccountID, lpObj->Name, (int)DSFRing->m_Durability, 50);
+		sLog->outBasic("[DSF_REWARD][SUCCESS] [%s][%s] - %d/255 (+%d)", lpObj->AccountID, lpObj->Name, (int)DSFRing->m_Durability, 50);
 
 		return TRUE;
 	}
@@ -29022,7 +29022,7 @@ BOOL gJewelInventoryPut(int aBuyerIndex, int aSellerIndex, short sBlessJewelPric
 		{
 			ItemSerialCreateSend(lpSellerObj->m_Index, 235, lpSellerObj->X, lpSellerObj->Y, ITEMGET(12, 30), 2, 0, 0, 0, 0, lpSellerObj->m_Index, 0, 0, 0, 0, 0);
 
-			sLog.outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
+			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				lpSellerObj->AccountID, lpSellerObj->Name, ItemAttribute[ITEMGET(12, 30)].Name, ITEMGET(12, 30), 2);
 		}
 	}
@@ -29033,7 +29033,7 @@ BOOL gJewelInventoryPut(int aBuyerIndex, int aSellerIndex, short sBlessJewelPric
 		{
 			ItemSerialCreateSend(lpSellerObj->m_Index, 235, lpSellerObj->X, lpSellerObj->Y, ITEMGET(12, 30), 1, 0, 0, 0, 0, lpSellerObj->m_Index, 0, 0, 0, 0, 0);
 
-			sLog.outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
+			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				lpSellerObj->AccountID, lpSellerObj->Name, ItemAttribute[ITEMGET(12, 30)].Name, ITEMGET(12, 30), 1);
 		}
 	}
@@ -29044,7 +29044,7 @@ BOOL gJewelInventoryPut(int aBuyerIndex, int aSellerIndex, short sBlessJewelPric
 		{
 			ItemSerialCreateSend(lpSellerObj->m_Index, 235, lpSellerObj->X, lpSellerObj->Y, ITEMGET(12, 30), 0, 0, 0, 0, 0, lpSellerObj->m_Index, 0, 0, 0, 0, 0);
 
-			sLog.outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
+			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				lpSellerObj->AccountID, lpSellerObj->Name, ItemAttribute[ITEMGET(12, 30)].Name, ITEMGET(12, 30), 0);
 		}
 	}
@@ -29055,7 +29055,7 @@ BOOL gJewelInventoryPut(int aBuyerIndex, int aSellerIndex, short sBlessJewelPric
 		{
 			ItemSerialCreateSend(lpSellerObj->m_Index, 235, lpSellerObj->X, lpSellerObj->Y, ITEMGET(14, 13), 0, 0, 0, 0, 0, lpSellerObj->m_Index, 0, 0, 0, 0, 0);
 
-			sLog.outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
+			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				lpSellerObj->AccountID, lpSellerObj->Name, ItemAttribute[ITEMGET(14, 13)].Name, ITEMGET(14, 13), 0);
 		}
 	}
@@ -29066,7 +29066,7 @@ BOOL gJewelInventoryPut(int aBuyerIndex, int aSellerIndex, short sBlessJewelPric
 		{
 			ItemSerialCreateSend(lpSellerObj->m_Index, 235, lpSellerObj->X, lpSellerObj->Y, ITEMGET(12, 31), 2, 0, 0, 0, 0, lpSellerObj->m_Index, 0, 0, 0, 0, 0);
 
-			sLog.outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
+			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				lpSellerObj->AccountID, lpSellerObj->Name, ItemAttribute[ITEMGET(12, 31)].Name, ITEMGET(12, 31), 2);
 		}
 	}
@@ -29077,7 +29077,7 @@ BOOL gJewelInventoryPut(int aBuyerIndex, int aSellerIndex, short sBlessJewelPric
 		{
 			ItemSerialCreateSend(lpSellerObj->m_Index, 235, lpSellerObj->X, lpSellerObj->Y, ITEMGET(12, 31), 1, 0, 0, 0, 0, lpSellerObj->m_Index, 0, 0, 0, 0, 0);
 
-			sLog.outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
+			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				lpSellerObj->AccountID, lpSellerObj->Name, ItemAttribute[ITEMGET(12, 31)].Name, ITEMGET(12, 31), 1);
 		}
 	}
@@ -29088,7 +29088,7 @@ BOOL gJewelInventoryPut(int aBuyerIndex, int aSellerIndex, short sBlessJewelPric
 		{
 			ItemSerialCreateSend(lpSellerObj->m_Index, 235, lpSellerObj->X, lpSellerObj->Y, ITEMGET(12, 31), 0, 0, 0, 0, 0, lpSellerObj->m_Index, 0, 0, 0, 0, 0);
 
-			sLog.outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
+			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				lpSellerObj->AccountID, lpSellerObj->Name, ItemAttribute[ITEMGET(12, 31)].Name, ITEMGET(12, 31), 0);
 		}
 	}
@@ -29099,7 +29099,7 @@ BOOL gJewelInventoryPut(int aBuyerIndex, int aSellerIndex, short sBlessJewelPric
 		{
 			ItemSerialCreateSend(lpSellerObj->m_Index, 235, lpSellerObj->X, lpSellerObj->Y, ITEMGET(14, 14), 0, 0, 0, 0, 0, lpSellerObj->m_Index, 0, 0, 0, 0, 0);
 
-			sLog.outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
+			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				lpSellerObj->AccountID, lpSellerObj->Name, ItemAttribute[ITEMGET(14, 14)].Name, ITEMGET(14, 14), 0);
 		}
 	}
@@ -29110,7 +29110,7 @@ BOOL gJewelInventoryPut(int aBuyerIndex, int aSellerIndex, short sBlessJewelPric
 		{
 			ItemSerialCreateSend(lpSellerObj->m_Index, 235, lpSellerObj->X, lpSellerObj->Y, ITEMGET(12, 141), 2, 0, 0, 0, 0, lpSellerObj->m_Index, 0, 0, 0, 0, 0);
 
-			sLog.outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
+			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				lpSellerObj->AccountID, lpSellerObj->Name, ItemAttribute[ITEMGET(12, 141)].Name, ITEMGET(12, 141), 2);
 		}
 	}
@@ -29121,7 +29121,7 @@ BOOL gJewelInventoryPut(int aBuyerIndex, int aSellerIndex, short sBlessJewelPric
 		{
 			ItemSerialCreateSend(lpSellerObj->m_Index, 235, lpSellerObj->X, lpSellerObj->Y, ITEMGET(12, 141), 1, 0, 0, 0, 0, lpSellerObj->m_Index, 0, 0, 0, 0, 0);
 
-			sLog.outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
+			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				lpSellerObj->AccountID, lpSellerObj->Name, ItemAttribute[ITEMGET(12, 141)].Name, ITEMGET(12, 141), 1);
 		}
 	}
@@ -29132,7 +29132,7 @@ BOOL gJewelInventoryPut(int aBuyerIndex, int aSellerIndex, short sBlessJewelPric
 		{
 			ItemSerialCreateSend(lpSellerObj->m_Index, 235, lpSellerObj->X, lpSellerObj->Y, ITEMGET(12, 141), 0, 0, 0, 0, 0, lpSellerObj->m_Index, 0, 0, 0, 0, 0);
 
-			sLog.outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
+			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				lpSellerObj->AccountID, lpSellerObj->Name, ItemAttribute[ITEMGET(12, 141)].Name, ITEMGET(12, 141), 0);
 		}
 	}
@@ -29143,7 +29143,7 @@ BOOL gJewelInventoryPut(int aBuyerIndex, int aSellerIndex, short sBlessJewelPric
 		{
 			ItemSerialCreateSend(lpSellerObj->m_Index, 235, lpSellerObj->X, lpSellerObj->Y, ITEMGET(12, 15), 0, 0, 0, 0, 0, lpSellerObj->m_Index, 0, 0, 0, 0, 0);
 
-			sLog.outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
+			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				lpSellerObj->AccountID, lpSellerObj->Name, ItemAttribute[ITEMGET(12, 15)].Name, ITEMGET(12, 15), 0);
 		}
 	}
@@ -29301,7 +29301,7 @@ BOOL SummonGoldColossusMonster(LPOBJ lpObj, int monsterIndex, int nCount, int bI
 		if (bIsHelpMon == 1)
 			gObj[nResult].m_bIsHelpMon = 1;
 
-		sLog.outBasic("[ColossusEvent][SummonMonster][%s][%s] MonsterClass : [%d], MonsterIndex : [%d], Map[%d], X[%d], Y[%d]",
+		sLog->outBasic("[ColossusEvent][SummonMonster][%s][%s] MonsterClass : [%d], MonsterIndex : [%d], Map[%d], X[%d], Y[%d]",
 			lpObj->AccountID, lpObj->Name, monsterIndex, nResult, gObj[nResult].MapNumber, gObj[nResult].X, gObj[nResult].Y);
 		return TRUE;
 	}
@@ -29457,7 +29457,7 @@ BOOL SummonPetEventMonster(LPOBJ lpObj)
 	gObj[nResult].MaxRegenTime = 5000;
 	gObj[nResult].Dir = rand() % 8;
 
-	sLog.outBasic("[PetEvent][SummonMonster][%s][%s] MonsterClass : [%d], MonsterIndex : [%d], Map[%d], X[%d], Y[%d]",
+	sLog->outBasic("[PetEvent][SummonMonster][%s][%s] MonsterClass : [%d], MonsterIndex : [%d], Map[%d], X[%d], Y[%d]",
 		lpObj->AccountID, lpObj->Name, monsterIndex, nResult, gObj[nResult].MapNumber, gObj[nResult].X, gObj[nResult].Y);
 
 	return TRUE;
@@ -29722,7 +29722,7 @@ char * CNameConvert::ConvertSlotIndexToName(int slotindex)
 	if (slotindex > 2 && slotindex > -1)
 	{
 		SlotNumber = 0;
-		sLog.outBasic("[UBF][CNAMECONVERT][ConvertSlotIndexToName] Map Join Request Fail, Wrong SlotIndex :%d. Default (ChName,RealName): (%s,%s)",
+		sLog->outBasic("[UBF][CNAMECONVERT][ConvertSlotIndexToName] Map Join Request Fail, Wrong SlotIndex :%d. Default (ChName,RealName): (%s,%s)",
 			slotindex, this->m_perCharacterInfo[0].szCharacterName, this->m_perCharacterInfo[0].szCharacterNameOfUBF);
 	}
 
@@ -29834,14 +29834,14 @@ void gObjInvenPetDamage(LPOBJ lpObj, int damage)
 
 				if (sprite->DecPetItemExp(10) != FALSE)
 				{
-					sLog.outBasic("[%s][%s][PetItemExpDown] [%s] Level:[%d]Exp:[%I64d]DecExp[%I64d]",
+					sLog->outBasic("[%s][%s][PetItemExpDown] [%s] Level:[%d]Exp:[%I64d]DecExp[%I64d]",
 						lpObj->AccountID, lpObj->Name, lpObj->pInventory[lpObj->m_btInvenPetPos].GetName(),
 						lpObj->pInventory[lpObj->m_btInvenPetPos].m_PetItem_Level, lpObj->pInventory[lpObj->m_btInvenPetPos].m_PetItem_Exp,
 						iPetExperience - lpObj->pInventory[lpObj->m_btInvenPetPos].m_PetItem_Exp);
 					CDarkSpirit::SendLevelmsg(lpObj->m_Index, lpObj->m_btInvenPetPos, 1, (BYTE)-1);
 				}
 
-				sLog.outBasic("[%s][%s] Dark Lord Pet is Broken because durability is exhausted [%I64d]",
+				sLog->outBasic("[%s][%s] Dark Lord Pet is Broken because durability is exhausted [%I64d]",
 					lpObj->AccountID, lpObj->Name, lpObj->pInventory[lpObj->m_btInvenPetPos].m_Number);
 			}
 
@@ -29921,10 +29921,10 @@ void gObjInvenPetDamage(LPOBJ lpObj, int damage)
 			int itemnum = sprite->m_Type;
 			int iInvenPetPos = lpObj->m_btInvenPetPos;
 
-			sLog.outBasic("[%s][%s] %s+%d Item is broken because durability is exhausted", lpObj->AccountID, lpObj->Name,
+			sLog->outBasic("[%s][%s] %s+%d Item is broken because durability is exhausted", lpObj->AccountID, lpObj->Name,
 				lpObj->pInventory[iInvenPetPos].GetName(), lpObj->pInventory[iInvenPetPos].m_Level);
 
-			sLog.outBasic("[CRenewal][InvenPet][ZeroDur][%s][%s] PetIndex:[%d], Pos:[%d] InvenPet Durability is Zero. => Remove Inven Pet",
+			sLog->outBasic("[CRenewal][InvenPet][ZeroDur][%s][%s] PetIndex:[%d], Pos:[%d] InvenPet Durability is Zero. => Remove Inven Pet",
 				lpObj->AccountID, lpObj->Name, sprite->m_Type, iInvenPetPos);
 
 			PMSG_REQ_INVENTORY_EQUIPMENT_ITEM pMsg;
@@ -30349,7 +30349,7 @@ void Check_SameSerialItem(int aIndex, BYTE bCase, bool & bCheckFail)
 			SerialCheck->Output("[SERIAL CHECK] ACC:[%s],NAME:[%s],IP:[%s] - DISCONNECT",
 				lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr);
 
-			sLog.outBasic("[SERIAL CHECK] ACC:[%s],NAME:[%s],IP:[%s] - DISCONNECT",
+			sLog->outBasic("[SERIAL CHECK] ACC:[%s],NAME:[%s],IP:[%s] - DISCONNECT",
 				lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr);
 
 			GSProtocol.GCSendDisableReconnect(aIndex);
@@ -30427,7 +30427,7 @@ void Check_SameSerialItem(int aIndex, BYTE bCase, bool & bCheckFail)
 			SerialCheck->Output("[SERIAL CHECK] ACC:[%s],NAME:[%s],IP:[%s] - DISCONNECT",
 				lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr);
 
-			sLog.outBasic("[SERIAL CHECK] ACC:[%s],NAME:[%s],IP:[%s] - DISCONNECT",
+			sLog->outBasic("[SERIAL CHECK] ACC:[%s],NAME:[%s],IP:[%s] - DISCONNECT",
 				lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr);
 
 			GSProtocol.GCSendDisableReconnect(aIndex);

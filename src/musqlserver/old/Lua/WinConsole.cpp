@@ -170,7 +170,7 @@ void CWinConsole::CreateDbgFile(void)
 	CWinConsole::g_DbgFp = fopen(szTemp, "a+tc");
 
 	if ( !CWinConsole::g_DbgFp )
-		sLog.outBasic("LuaDbgLog file create error");
+		sLog->outBasic("LuaDbgLog file create error");
 
 }
 

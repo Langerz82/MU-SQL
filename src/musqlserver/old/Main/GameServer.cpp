@@ -172,7 +172,7 @@ BOOL AllServerStart(void){
 	{
 		if (GMJoinServerConnect(g_ConfigRead.server.GetJoinServerIP(), WM_GM_JOIN_CLIENT_MSG_PROC) == 0)
 		{	
-			sLog.outError("JoinServer Connect fail");
+			sLog->outError("JoinServer Connect fail");
 			return 0;
 		}
 	}
@@ -181,13 +181,13 @@ BOOL AllServerStart(void){
 	{
 		if (GMDataServerConnect(g_ConfigRead.server.GetDataServerIP(), WM_GM_DATA_CLIENT_MSG_PROC) == 0)
 		{
-			sLog.outError("DataServer connect fail");
+			sLog->outError("DataServer connect fail");
 			return 0;
 		}
 
 		if (ExDataServerConnect(g_ConfigRead.server.GetExDBIP(), WM_GM_EXDATA_CLIENT_MSG_PROC) == 0)
 		{
-			sLog.outError("DataServer connect fail");
+			sLog->outError("DataServer connect fail");
 			return 0;
 		}
 	}
@@ -201,15 +201,15 @@ BOOL GameServerStart(void)
 
 	if (GameMainServerCreate(WM_GM_SERVER_MSG_PROC, WM_GM_CLIENT_MSG_PROC) == FALSE )
 	{
-		sLog.outError("GameServer failed to run");
+		sLog->outError("GameServer failed to run");
 		return FALSE;
 	}
 
 	IOCP.CreateGIocp(g_ConfigRead.server.GetGameServerPort());
 
-	sLog.outBasic("Server version: %s Compiled at: %s %s", GAMESERVER_VERSION, __DATE__, __TIME__);
-	sLog.outBasic("Created and developed by IGC-Network, released by MuEMU. ");
-	sLog.outBasic("// Powered by vnDev.games - Trong.LIVE - Dao Van Trong //");
+	sLog->outBasic("Server version: %s Compiled at: %s %s", GAMESERVER_VERSION, __DATE__, __TIME__);
+	sLog->outBasic("Created and developed by IGC-Network, released by MuEMU. ");
+	sLog->outBasic("// Powered by vnDev.games - Trong.LIVE - Dao Van Trong //");
 
 	SetTimer(ghWnd, WM_LOG_PAINT, 1000, NULL);
 	SetTimer(ghWnd, WM_CONNECT_DATASERVER, 10000, NULL);
@@ -646,7 +646,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 						g_OffLevel.LoadSkillDefinitions(g_ConfigRead.GetPath("\\Skills\\IGC_SkillCategory.xml"));	
 					/*}
 					else {
-						sLog.outError( "Your license does not have Offlevel plugin purchased, please disable Off-Level system");
+						sLog->outError( "Your license does not have Offlevel plugin purchased, please disable Off-Level system");
 					}*/
 					break;
 				case ID_LICENSE_SHOWINFO:
@@ -798,7 +798,7 @@ LRESULT CALLBACK GSDisconnect(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 
 					if(sLen <= 0 || sLen > sizeof(szAccount))
 					{
-						sLog.outError(  "[GameServer] could not read account name");
+						sLog->outError(  "[GameServer] could not read account name");
 					}
 					else
 					{
@@ -837,7 +837,7 @@ LRESULT CALLBACK GSDisconnect(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 
 					if(sLen <= 0 || sLen > sizeof(szAccount))
 					{
-						sLog.outError(  "[GameServer] could not read character name");
+						sLog->outError(  "[GameServer] could not read character name");
 					}
 					else
 					{

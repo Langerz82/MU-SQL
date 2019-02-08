@@ -193,17 +193,17 @@ BOOL CFriendSystem::FriendDBConnect()
 {
 
 	{
-		sLog.outError("[ERROR] - FRIEND DB CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - FRIEND DB CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
 
 	{
-		sLog.outError("[ERROR] - FRIEND DB CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - FRIEND DB CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
-	sLog.outBasic("[SUCCESS] - FRIEND DB CONNECT MSSQL SUCCESS");
+	sLog->outBasic("[SUCCESS] - FRIEND DB CONNECT MSSQL SUCCESS");
 
 	return TRUE;
 }
@@ -296,11 +296,11 @@ void CFriendSystem::FriendListSend(int aIndex, char *szMaster)
 {
 	FRIEND_MASTER* lpMaster;
 
-	sLog.outBasic("[Friend List Send] Name[%s].", szMaster);
+	sLog->outBasic("[Friend List Send] Name[%s].", szMaster);
 	lpMaster = GetFriendMaster(szMaster);
 	if(lpMaster == NULL)
 	{
-		sLog.outBasic("[Friend List Send] FrienMaster[%s] not found.", szMaster);
+		sLog->outBasic("[Friend List Send] FrienMaster[%s] not found.", szMaster);
 		return;
 	}
 
@@ -321,7 +321,7 @@ void CFriendSystem::FriendListSend(int aIndex, char *szMaster)
 	lpFriendListCnt->Server = lpMaster->m_iServer;
 	std::strncpy(lpFriendListCnt->Name, szMaster, 10);
 	
-	sLog.outBasic("[Friend List Send] Friend Count[%d].", cnt);
+	sLog->outBasic("[Friend List Send] Friend Count[%d].", cnt);
 	for(int i=0; i < cnt; i++)
 	{
 		FRIEND_MASTER* lpFr;
@@ -339,7 +339,7 @@ void CFriendSystem::FriendListSend(int aIndex, char *szMaster)
 		
 		char szFriend[11] = {0};
 		std::strncpy(szFriend, lpFriendList[i].Name, 10);
-		sLog.outBasic("[Friend List Send] Friend[%s] send.", szFriend);
+		sLog->outBasic("[Friend List Send] Friend[%s] send.", szFriend);
 	}
 
 	DataSend(aIndex, lpData, size, __FUNCTION__);
@@ -438,7 +438,7 @@ void CFriendSystem::FriendListRequest(int aIndex, FHP_FRIENDLIST_REQ* lpMsg)
 	char szMaster[11]={0};
 	std::strncpy(szMaster, lpMsg->Name, 10);
 
-	sLog.outBasic("[Friend List Request] Name[%s].", szMaster);
+	sLog->outBasic("[Friend List Request] Name[%s].", szMaster);
 	if(CreateFriendMaster(szMaster, lpMsg->Number, lpMsg->pServer) == FALSE)
 		return;
 
@@ -501,13 +501,13 @@ BOOL CFriendSystem::AddFriend(char *szMaster, char *szFriend)
 
 	if( lpMaster->m_vecFriends.size() == this->m_iMaxFriends)
 	{
-		sLog.outBasic("[%s]'s friend list is full - %d", szMaster, this->m_iMaxFriends);
+		sLog->outBasic("[%s]'s friend list is full - %d", szMaster, this->m_iMaxFriends);
 		return FALSE;
 	}
 
 	lpMaster->m_vecFriends.push_back(szFriend);
 
-	sLog.outBasic("[%s] became [%s]'s friend.", szFriend, szMaster);
+	sLog->outBasic("[%s] became [%s]'s friend.", szFriend, szMaster);
 	return TRUE;
 }
 
@@ -535,14 +535,14 @@ void CFriendSystem::FriendAddRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
 	std::strncpy(szMaster, Result.Name, 10);
 	std::strncpy(szFriend, Result.FriendName, 10);
 
-	sLog.outBasic("[Friend Add Request] Name[%s] FriendName[%s].", szMaster, szFriend);
+	sLog->outBasic("[Friend Add Request] Name[%s] FriendName[%s].", szMaster, szFriend);
 
 	if(strcmp(szMaster, szFriend) == 0)
 	{
 		// own id
 		Result.Result = 5;
 
-		sLog.outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
+		sLog->outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
 		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
@@ -551,7 +551,7 @@ void CFriendSystem::FriendAddRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
 	lpMaster = GetFriendMaster(szMaster);
 	if(lpMaster == NULL)
 	{
-		sLog.outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
+		sLog->outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
 		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
@@ -560,7 +560,7 @@ void CFriendSystem::FriendAddRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
 	{
 		Result.Result = 4;
 
-		sLog.outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
+		sLog->outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
 		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
@@ -569,7 +569,7 @@ void CFriendSystem::FriendAddRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
 	{
 		Result.Result = 3;
 
-		sLog.outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
+		sLog->outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
 		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
@@ -581,7 +581,7 @@ void CFriendSystem::FriendAddRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
 	{
 		Result.Result = 0;
 
-		sLog.outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
+		sLog->outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
 		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
@@ -590,7 +590,7 @@ void CFriendSystem::FriendAddRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
 	if(res == 6)
 	{
 		Result.Result = 6;
-		sLog.outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
+		sLog->outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
 		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
@@ -599,7 +599,7 @@ void CFriendSystem::FriendAddRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
 	if(res != 0 && res != 8)
 	{
 		Result.Result = 2;
-		sLog.outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
+		sLog->outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
 		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
@@ -628,7 +628,7 @@ void CFriendSystem::FriendAddRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
 
 	Result.Result = 1;
 
-	sLog.outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
+	sLog->outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
 	DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 
 }
@@ -642,13 +642,13 @@ int CFriendSystem::DelDBWaitFriend(char *szMaster, char *szFriend)
 		if(false)
 		{
 			if(res != 0)
-				sLog.outError("WZ_WaitFriendDel returned: [%d]", res);
+				sLog->outError("WZ_WaitFriendDel returned: [%d]", res);
 		}
 		else
-			sLog.outError("WZ_WaitFriendDel no result returned.");
+			sLog->outError("WZ_WaitFriendDel no result returned.");
 	}
 	else
-		sLog.outError("Error executing WZ_WaitFriendDel.");
+		sLog->outError("Error executing WZ_WaitFriendDel.");
 
 	return res;
 }
@@ -689,7 +689,7 @@ int CFriendSystem::WaitFriendAdd(char *szMaster, char *szFriend)
 
 	if(lpMaster->m_vecFriends.size() == this->m_iMaxFriends)
 	{
-		sLog.outBasic("[%s]'s friend list is full - %d", szMaster, m_iMaxFriends);
+		sLog->outBasic("[%s]'s friend list is full - %d", szMaster, m_iMaxFriends);
 		return 3;
 	}
 
@@ -729,18 +729,18 @@ void CFriendSystem::WaitFriendAddRequest( int aIndex,  FHP_WAITFRIEND_ADD_REQ* l
 	std::strncpy(szMaster, lpMsg->Name, 10);
 	std::strncpy(szFriend, lpMsg->FriendName, 10);
 
-	sLog.outBasic("[WaitFriend Add Request] Name[%s], FriendName[%s].", szMaster, szFriend);
+	sLog->outBasic("[WaitFriend Add Request] Name[%s], FriendName[%s].", szMaster, szFriend);
 
 	if(lpMsg->Result == 0)
 	{
 		Result.Result = 2;
 		DelDBWaitFriend(szMaster, szFriend);
-		sLog.outBasic("[WaitFriend Add Request] [%s] declined [%s]'s request to be a friend.", szMaster, szFriend);
+		sLog->outBasic("[WaitFriend Add Request] [%s] declined [%s]'s request to be a friend.", szMaster, szFriend);
 		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
-	sLog.outBasic("[WaitFriend Add Request] [%s] accepted [%s]'s request to be a friend.", szMaster, szFriend);
+	sLog->outBasic("[WaitFriend Add Request] [%s] accepted [%s]'s request to be a friend.", szMaster, szFriend);
 
 	FRIEND_MASTER* lpFr;
 	lpFr = GetFriendMaster(szFriend);
@@ -761,12 +761,12 @@ void CFriendSystem::FriendStateClientRecv( int aIndex, FHP_FRIEND_STATE_C* lpMsg
 	char szMaster[11] = {0};
 	std::strncpy(szMaster, lpMsg->Name, 10);
 
-	sLog.outBasic("[Friend State Receive] Name: [%s], State: [%d].", szMaster, lpMsg->State);
+	sLog->outBasic("[Friend State Receive] Name: [%s], State: [%d].", szMaster, lpMsg->State);
 	FRIEND_MASTER* lpMaster; 
 	lpMaster = GetFriendMaster(szMaster);
 	if(lpMaster == NULL)
 	{
-		sLog.outBasic("[Friend State Receive] error: FriendMaster [%s] not found.", szMaster);
+		sLog->outBasic("[Friend State Receive] error: FriendMaster [%s] not found.", szMaster);
 		return;
 	}
 
@@ -806,7 +806,7 @@ BOOL CFriendSystem::DelFriend(char *szMaster, char *szFriend)
 		if(strcmp(lpMaster->m_vecFriends[i].m_szName, szFriend) == 0)
 		{
 			lpMaster->m_vecFriends.erase(lpMaster->m_vecFriends.begin()+i);
-			sLog.outBasic("[%s] dropped [%s] from his friend list.", szMaster, szFriend);
+			sLog->outBasic("[%s] dropped [%s] from his friend list.", szMaster, szFriend);
 			break;
 		}
 
@@ -832,13 +832,13 @@ void CFriendSystem::FriendDelRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
 	std::strncpy(szMaster, lpMsg->Name, 10);
 	std::strncpy(szFriend, lpMsg->FriendName, 10);
 
-	sLog.outBasic("[Friend Delete Request] Name[%s], FriendName[%s].", szMaster, szFriend);
+	sLog->outBasic("[Friend Delete Request] Name[%s], FriendName[%s].", szMaster, szFriend);
 
 	Result.Result = DelFriend(szMaster, szFriend);
 	if(Result.Result)
 		Result.Result = DelDBFriend(szMaster, szFriend);
 
-	sLog.outBasic("[Friend Delete Request] Send Result [%d].", Result.Result);
+	sLog->outBasic("[Friend Delete Request] Send Result [%d].", Result.Result);
 	DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 
 	FRIEND_MASTER* lpFr;
@@ -876,18 +876,18 @@ void CFriendSystem::MemoListSend(int aIndex, WORD wNumber, char *szName)
 	char szMaster[11] = {0};
 	std::strncpy(szMaster, szName, 10);
 
-	sLog.outBasic("[Mail List Send] Name: [%s].", szMaster);
+	sLog->outBasic("[Mail List Send] Name: [%s].", szMaster);
 	int guid = GetFriendGuid(szMaster);
 	if(guid == -1)
 	{
-		sLog.outBasic("[Mail List Send] error: GUID = -1.");
+		sLog->outBasic("[Mail List Send] error: GUID = -1.");
 		return;
 	}
 
 	int cnt = 0;
 
 
-	sLog.outBasic("[Mail List Send] Mail Count: %d.", cnt);
+	sLog->outBasic("[Mail List Send] Mail Count: %d.", cnt);
 }
 
 void CFriendSystem::FriendMemoListReq( int aIndex, FHP_FRIEND_MEMO_LIST_REQ* lpMsg)
@@ -896,7 +896,7 @@ void CFriendSystem::FriendMemoListReq( int aIndex, FHP_FRIEND_MEMO_LIST_REQ* lpM
 	char szName[11] = {0};
 	std::strncpy(szName, lpMsg->Name, 10);
 
-	sLog.outBasic("[Mail List Request] Name[%s].", szName);
+	sLog->outBasic("[Mail List Request] Name[%s].", szName);
 	MemoListSend(aIndex, lpMsg->Number, szName);
 }
 
@@ -942,7 +942,7 @@ void CFriendSystem::FriendMemoSend( int aIndex, FHP_FRIEND_MEMO_SEND* lpMsg)
 	char szMaster[11]={0};
 	std::strncpy(szMaster, lpMsg->ToName, 10);
 
-	sLog.outBasic("[Mail Send Request] Name[%s], ToName[%s], MailSize[%d], PhotoSize[%d].", 
+	sLog->outBasic("[Mail Send Request] Name[%s], ToName[%s], MailSize[%d], PhotoSize[%d].", 
 		szName, szMaster, lpMsg->MemoSize, photo_size);
 
 	int res = -1;
@@ -950,7 +950,7 @@ void CFriendSystem::FriendMemoSend( int aIndex, FHP_FRIEND_MEMO_SEND* lpMsg)
 	if(lpMsg->MemoSize <= 1000)
 		res = DBWriteMail(&head, lpPhoto, photo_size, (char *)lpMemo, lpMsg->MemoSize);
 	else
-		sLog.outBasic("[Mail Send Request] error: Mail Size > 1000.");
+		sLog->outBasic("[Mail Send Request] error: Mail Size > 1000.");
 
 	if(res == -2)
 		Result.Result = 2;
@@ -963,7 +963,7 @@ void CFriendSystem::FriendMemoSend( int aIndex, FHP_FRIEND_MEMO_SEND* lpMsg)
 	else
 		Result.Result = 1;
 
-	sLog.outBasic("[Mail Send Request] Send Result [%d].", Result.Result);
+	sLog->outBasic("[Mail Send Request] Send Result [%d].", Result.Result);
 	DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 	
 	if(Result.Result != 1)
@@ -1016,12 +1016,12 @@ void CFriendSystem::FriendMemoReadReq( int aIndex, FHP_FRIEND_MEMO_RECV_REQ* lpM
 	char szMaster[11]={0};
 	std::strncpy(szMaster, lpMsg->Name, 10);
 
-	sLog.outBasic("[Mail Read Request] Name: [%s], MemoIndex: [%d].", szMaster, lpMsg->MemoIndex);
+	sLog->outBasic("[Mail Read Request] Name: [%s], MemoIndex: [%d].", szMaster, lpMsg->MemoIndex);
 	int guid = -1;
 	guid = GetFriendGuid(szMaster);
 	if(guid < 0)
 	{
-		sLog.outBasic("[Mail Read Request] error: GUID = -1.");
+		sLog->outBasic("[Mail Read Request] error: GUID = -1.");
 		return;
 	}
 
@@ -1042,7 +1042,7 @@ void CFriendSystem::FriendMemoReadReq( int aIndex, FHP_FRIEND_MEMO_RECV_REQ* lpM
 		
 		DataSend(aIndex, (LPBYTE)&Result, sizeof(Result)-sizeof(Result.Memo)+memo_size, __FUNCTION__);
 
-		sLog.outBasic("[Mail Read Request] Send Mail: size[%d], photo size[%d].", memo_size, btPhotoSize);
+		sLog->outBasic("[Mail Read Request] Send Mail: size[%d], photo size[%d].", memo_size, btPhotoSize);
 	}
 }
 
@@ -1067,11 +1067,11 @@ void CFriendSystem::FriendMemoDelReq( int aIndex, FHP_FRIEND_MEMO_DEL_REQ* lpMsg
 	char szName[11]={0};
 	std::strncpy(szName, lpMsg->Name, 10);
 
-	sLog.outBasic("[Mail Delete Request] Name[%s], MamoIndex[%d].", szName, lpMsg->MemoIndex);
+	sLog->outBasic("[Mail Delete Request] Name[%s], MamoIndex[%d].", szName, lpMsg->MemoIndex);
 
 	Result.Result = DBDelMail(szName, lpMsg->MemoIndex);
 
-	sLog.outBasic("[Mail Delete Request] Send Result [%d].", Result.Result);
+	sLog->outBasic("[Mail Delete Request] Send Result [%d].", Result.Result);
 	DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 }
 

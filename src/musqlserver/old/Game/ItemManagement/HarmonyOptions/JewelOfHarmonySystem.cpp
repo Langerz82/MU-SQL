@@ -77,7 +77,7 @@ BOOL CJewelOfHarmonySystem::LoadScript(LPSTR lpszFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("Error loading %s file (%s)", lpszFileName, res.description());
+		sLog->outError("Error loading %s file (%s)", lpszFileName, res.description());
 		return FALSE;
 	}
 
@@ -91,7 +91,7 @@ BOOL CJewelOfHarmonySystem::LoadScript(LPSTR lpszFileName)
 
 		if (iType <= JEWELOFHARMONY_ITEM_TYPE_NULL || iType > JEWELOFHARMONY_ITEM_TYPE_DEFENSE)
 		{
-			sLog.outError("%s - wrong Type ID (%d)", lpszFileName, iType);
+			sLog->outError("%s - wrong Type ID (%d)", lpszFileName, iType);
 			continue;
 		}
 
@@ -101,7 +101,7 @@ BOOL CJewelOfHarmonySystem::LoadScript(LPSTR lpszFileName)
 
 			if (iOptionIndex < 0 || iOptionIndex >= MAX_JOH_ITEM_INDEX)
 			{
-				sLog.outError("%s (Type ID:%d) - wrong Option Index (%d)", lpszFileName, iType, iOptionIndex);
+				sLog->outError("%s (Type ID:%d) - wrong Option Index (%d)", lpszFileName, iType, iOptionIndex);
 				continue;
 			}
 
@@ -139,7 +139,7 @@ BOOL CJewelOfHarmonySystem::LoadScriptOfSmelt(LPSTR lpszFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("Error loading %s file (%s)", lpszFileName, res.description());
+		sLog->outError("Error loading %s file (%s)", lpszFileName, res.description());
 		return FALSE;
 	}
 
@@ -160,7 +160,7 @@ BOOL CJewelOfHarmonySystem::LoadScriptOfSmelt(LPSTR lpszFileName)
 
 			if (iItemID == -1)
 			{
-				sLog.outError("ERROR - Wrong Item found (%d) in (%s)", ITEMGET(iItemType, iItemIndex), lpszFileName);
+				sLog->outError("ERROR - Wrong Item found (%d) in (%s)", ITEMGET(iItemType, iItemIndex), lpszFileName);
 				continue;
 			}
 
@@ -232,7 +232,7 @@ void CJewelOfHarmonySystem::SetEnableToUsePuritySystem(BOOL bEnable)
 {
 	this->m_bEnable = bEnable;
 
-	sLog.outBasic("[JewelOfHarmony][PuritySystem] Enable %d", bEnable);
+	sLog->outBasic("[JewelOfHarmony][PuritySystem] Enable %d", bEnable);
 }
 
 BOOL CJewelOfHarmonySystem::IsEnableToUsePuritySystem()
@@ -375,7 +375,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(LPOBJ lpObj, int source,
 
 	if ( this->IsStrengthenByJewelOfHarmony(pTarget) == TRUE )
 	{
-		sLog.outBasic("[LuckyItem][Strengthen Item] Already Strengthened [%s][%s]",
+		sLog->outBasic("[LuckyItem][Strengthen Item] Already Strengthened [%s][%s]",
 			lpObj->AccountID, lpObj->Name);
 
 		return FALSE;
@@ -385,7 +385,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(LPOBJ lpObj, int source,
 
 	if ( iItemType == JEWELOFHARMONY_ITEM_TYPE_NULL )
 	{
-		sLog.outBasic("[LuckyItem][Strengthen Item] Strengthen Fail [%s][%s] Name[%s] Type[%d] Serial[%I64d] Invalid ItemType[%d]",
+		sLog->outBasic("[LuckyItem][Strengthen Item] Strengthen Fail [%s][%s] Name[%s] Type[%d] Serial[%I64d] Invalid ItemType[%d]",
 			lpObj->AccountID, lpObj->Name, pTarget->GetName(), pTarget->m_Type,
 			pTarget->m_Number, iItemType);
 		
@@ -396,7 +396,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(LPOBJ lpObj, int source,
 
 	if ( iItemOption == AT_JEWELOFHARMONY_NOT_STRENGTHEN_ITEM )
 	{
-		sLog.outBasic("[LuckyItem][Strengthen Item] Strengthen Fail - NOT OPTION [%s][%s] Name[%s] Type[%d] Serial[%I64d] ItemType[%d]",
+		sLog->outBasic("[LuckyItem][Strengthen Item] Strengthen Fail - NOT OPTION [%s][%s] Name[%s] Type[%d] Serial[%I64d] ItemType[%d]",
 			lpObj->AccountID, lpObj->Name, pTarget->GetName(), pTarget->m_Type,
 			pTarget->m_Number, iItemType);
 		
@@ -408,7 +408,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(LPOBJ lpObj, int source,
 
 	if ( iSuccessRate >= this->m_iRateStrengthenSuccess )
 	{
-		sLog.outBasic("[LuckyItem][Strengthen Item] Strengthen Fail [%s][%s] Name[%s] Type[%d] Serial[%I64d]  Rate (%d/%d)",
+		sLog->outBasic("[LuckyItem][Strengthen Item] Strengthen Fail [%s][%s] Name[%s] Type[%d] Serial[%I64d]  Rate (%d/%d)",
 			lpObj->AccountID, lpObj->Name, pTarget->GetName(), pTarget->m_Type,
 			pTarget->m_Number, iSuccessRate, this->m_iRateStrengthenSuccess);
 		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,274), lpObj->m_Index, 1);
@@ -417,7 +417,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(LPOBJ lpObj, int source,
 
 	this->_MakeOption(pTarget, iItemOption, iItemOptionLevel);
 
-	sLog.outBasic("[LuckyItem][Strengthen Item] Strengthen Success [%s][%s] Name[%s] Type[%d] Serial[%I64d] Rate (%d/%d) Option %d OptionLevel %d",
+	sLog->outBasic("[LuckyItem][Strengthen Item] Strengthen Success [%s][%s] Name[%s] Type[%d] Serial[%I64d] Rate (%d/%d) Option %d OptionLevel %d",
 		lpObj->AccountID, lpObj->Name, pTarget->GetName(), pTarget->m_Type,
 		pTarget->m_Number, iSuccessRate, this->m_iRateStrengthenSuccess,
 		iItemOption, iItemOptionLevel);

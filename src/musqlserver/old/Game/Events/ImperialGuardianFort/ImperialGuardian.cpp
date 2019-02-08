@@ -113,7 +113,7 @@ void CImperialGuardian::LoadMonsterScript(LPSTR Filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("File load error: %s (%s)", Filename, res.description());
+		sLog->outError("File load error: %s (%s)", Filename, res.description());
 		return;
 	}
 
@@ -445,7 +445,7 @@ void CImperialGuardian::ProcAllWarpNextZone(int nZoneIndex)
 {
 	if ( nZoneIndex < 0 || nZoneIndex > 3 )
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -490,7 +490,7 @@ void CImperialGuardian::ProcAllKick(int nZoneIndex)
 {
 	if ( nZoneIndex < 0 || nZoneIndex > 3 )
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -513,32 +513,32 @@ void CImperialGuardian::ProcAllKick(int nZoneIndex)
 	for (int i = 0; i < nCount; i++)
 	{			
 		gObjMoveGate(nUserIndex[i], 22);
-		sLog.outBasic("[IMPERIALGUARDIAN] Leave Player Zone -> [ZONE]:%d [AccountID]:%s [Name]:%s", nZoneIndex+1,
+		sLog->outBasic("[IMPERIALGUARDIAN] Leave Player Zone -> [ZONE]:%d [AccountID]:%s [Name]:%s", nZoneIndex+1,
 			gObj[nUserIndex[i]].AccountID, gObj[nUserIndex[i]].Name);
 	}
 
 	this->InitZone(nZoneIndex);
 	this->SetZoneState(nZoneIndex, 0);
-	sLog.outBasic("[IMPERIALGUARDIAN] ALL KICK USER -> [ZONE]:%d", nZoneIndex+1);
+	sLog->outBasic("[IMPERIALGUARDIAN] ALL KICK USER -> [ZONE]:%d", nZoneIndex+1);
 }
 
 void CImperialGuardian::ProcMissionFail(int nZoneIndex)
 {
 	if ( nZoneIndex < 0 || nZoneIndex > 3 )
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return;
 	}
 
 	this->GCMissionFail(nZoneIndex);
-	sLog.outBasic("[IMPERIALGUARDIAN] MISSION FAIL -> [ZONE]:%d", nZoneIndex+1);
+	sLog->outBasic("[IMPERIALGUARDIAN] MISSION FAIL -> [ZONE]:%d", nZoneIndex+1);
 	this->SetZoneState(nZoneIndex, 6);
 }
 
 void CImperialGuardian::ProcMissionClear(int nZoneIndex)
 {
 	this->GCNotifyAllZoneClear(nZoneIndex);
-	sLog.outBasic("[IMPERIALGUARDIAN] SUCCESS MISSION CLEAR  -> [ZONE]:%d", nZoneIndex+1);
+	sLog->outBasic("[IMPERIALGUARDIAN] SUCCESS MISSION CLEAR  -> [ZONE]:%d", nZoneIndex+1);
 
 	EnterCriticalSection(&this->m_criUserIndex);
 
@@ -548,7 +548,7 @@ void CImperialGuardian::ProcMissionClear(int nZoneIndex)
 		{
 			if ( IMPERIAL_MAP_RANGE(gObj[*it].MapNumber) == TRUE )
 			{
-				sLog.outBasic("[IMPERIALGUARDIAN] MISSION CLEAR USER ->[AccountID]:%s [Name]:%s", gObj[*it].AccountID, gObj[*it].Name);
+				sLog->outBasic("[IMPERIALGUARDIAN] MISSION CLEAR USER ->[AccountID]:%s [Name]:%s", gObj[*it].AccountID, gObj[*it].Name);
 			}
 		}
 	}
@@ -590,7 +590,7 @@ void CImperialGuardian::KickInvalidUser()
 					if ( this->m_nCheatMode == 0 && gObj[i].PartyNumber < 0 )
 					{
 						gObjMoveGate(i, 22);
-						sLog.outBasic("[IMPERIALGUARDIAN][ Invalid User ] User is not a party [%s][%s]", gObj[i].AccountID, gObj[i].Name);
+						sLog->outBasic("[IMPERIALGUARDIAN][ Invalid User ] User is not a party [%s][%s]", gObj[i].AccountID, gObj[i].Name);
 					}
 				}
 
@@ -599,7 +599,7 @@ void CImperialGuardian::KickInvalidUser()
 					if ( gObj[i].Live == TRUE )
 					{
 						gObjMoveGate(i, 22);
-						sLog.outBasic("[IMPERIALGUARDIAN][ Invalid User ] [%s][%s]", gObj[i].AccountID, gObj[i].Name);
+						sLog->outBasic("[IMPERIALGUARDIAN][ Invalid User ] [%s][%s]", gObj[i].AccountID, gObj[i].Name);
 					}
 				}
 			}			
@@ -958,8 +958,8 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 					}
 				}
 
-				sLog.outBasic("[IMPERIALGUARDIAN] Enter Zone User -> [AccountID]:%s [NAME]:%s [ZONE]:%d", lpObj->AccountID, lpObj->Name, nDestZoneIndex+1);
-				sLog.outBasic("[IMPERIALGUARDIAN] [%d ZONE USER COUNT] : %d", nDestZoneIndex+1, this->GetPlayerCount(nDestZoneIndex));
+				sLog->outBasic("[IMPERIALGUARDIAN] Enter Zone User -> [AccountID]:%s [NAME]:%s [ZONE]:%d", lpObj->AccountID, lpObj->Name, nDestZoneIndex+1);
+				sLog->outBasic("[IMPERIALGUARDIAN] [%d ZONE USER COUNT] : %d", nDestZoneIndex+1, this->GetPlayerCount(nDestZoneIndex));
 			}
 		}
 	}
@@ -969,13 +969,13 @@ void CImperialGuardian::RegenMonster(int nZoneIndex, int nMonsterRegenTableIndex
 {
 	if (nZoneIndex < 0 || nZoneIndex > 3)
 	{
-		sLog.outBasic("[IMPERIALGUARDIAN][RegenMonsterFunc] Invalid zone index => %d", nZoneIndex + 1);
+		sLog->outBasic("[IMPERIALGUARDIAN][RegenMonsterFunc] Invalid zone index => %d", nZoneIndex + 1);
 		return;
 	}
 
 	if (nMonsterRegenTableIndex < 0 || nMonsterRegenTableIndex > 6)
 	{
-		sLog.outBasic("[IMPERIALGUARDIAN][RegenMonsterFunc] Invalid MonsterRegenTable Index => %d", nMonsterRegenTableIndex);
+		sLog->outBasic("[IMPERIALGUARDIAN][RegenMonsterFunc] Invalid MonsterRegenTable Index => %d", nMonsterRegenTableIndex);
 		return;
 	}
 
@@ -1006,7 +1006,7 @@ void CImperialGuardian::RegenMonster(int nZoneIndex, int nMonsterRegenTableIndex
 
 			if (nResult < 0)
 			{
-				sLog.outBasic("[IMPERIALGUARDIAN][RegenMonsterFunc] gObjAddMonster fail (ErrorCode: %d, MonsterClass: %d)",
+				sLog->outBasic("[IMPERIALGUARDIAN][RegenMonsterFunc] gObjAddMonster fail (ErrorCode: %d, MonsterClass: %d)",
 					nResult, It->m_Type);
 
 				return;
@@ -1015,14 +1015,14 @@ void CImperialGuardian::RegenMonster(int nZoneIndex, int nMonsterRegenTableIndex
 			if (this->SetPosMonster(nResult, It) == FALSE)
 			{
 				gObjDel(nResult);
-				sLog.outBasic("error : %s %d", ".\\ImperialGuardian.cpp", __FILE__, __LINE__);
+				sLog->outBasic("error : %s %d", ".\\ImperialGuardian.cpp", __FILE__, __LINE__);
 				return;
 			}
 
 			if (this->SetMonster(nResult, It->m_Type, nMaxLevel) == FALSE)
 			{
 				gObjDel(nResult);
-				sLog.outBasic("error : %s %d", ".\\ImperialGuardian.cpp", __FILE__, __LINE__);
+				sLog->outBasic("error : %s %d", ".\\ImperialGuardian.cpp", __FILE__, __LINE__);
 				return;
 			}
 
@@ -1038,7 +1038,7 @@ void CImperialGuardian::RegenMonster(int nZoneIndex, int nMonsterRegenTableIndex
 
 				this->m_stZoneInfo[nZoneIndex].m_bStartRegenMonster = true;
 
-				sLog.outBasic("[IMPERIALGUARDIAN] AddMonster => %s, MapNumber => %d ,Zone => %d PosX => %d, PosY => %d, Connected => %d, STATE => %d",
+				sLog->outBasic("[IMPERIALGUARDIAN] AddMonster => %s, MapNumber => %d ,Zone => %d PosX => %d, PosY => %d, Connected => %d, STATE => %d",
 					gObj[nResult].Name, gObj[nResult].MapNumber, gObj[nResult].m_nZoneIndex, gObj[nResult].X, gObj[nResult].Y, gObj[nResult].Connected, gObj[nResult].m_State);
 			}
 
@@ -1050,7 +1050,7 @@ void CImperialGuardian::RegenMonster(int nZoneIndex, int nMonsterRegenTableIndex
 
 				if (It->m_Type >= 524 && It->m_Type <= 528 && It->m_Type != 526)
 				{
-					sLog.outBasic("[IMPERIALGUARDIAN] AddGate => %s, MapNumber => %d ,Zone => %d PosX => %d, PosY => %d",
+					sLog->outBasic("[IMPERIALGUARDIAN] AddGate => %s, MapNumber => %d ,Zone => %d PosX => %d, PosY => %d",
 						gObj[nResult].Name, gObj[nResult].MapNumber, gObj[nResult].m_nZoneIndex, gObj[nResult].X, gObj[nResult].Y);
 				}
 			}
@@ -1083,14 +1083,14 @@ void CImperialGuardian::DeleteMonster(int nZoneIndex, int nMonsterRegenTableInde
 		It++;
 	}
 
-	sLog.outBasic("[IMPERIALGUARDIAN] DELETE ALL MONSTER -> [ZONE]:%d [COUNT]:%d", nZoneIndex+1, nCount);
+	sLog->outBasic("[IMPERIALGUARDIAN] DELETE ALL MONSTER -> [ZONE]:%d [COUNT]:%d", nZoneIndex+1, nCount);
 }
 
 void CImperialGuardian::InitZone(int nZoneIndex)
 {
 	if ( this->m_bLoadScript == false )
 	{
-		sLog.outError("[EVENTDUNGEON] script file not loaded");
+		sLog->outError("[EVENTDUNGEON] script file not loaded");
 		return;
 	}
 
@@ -1125,7 +1125,7 @@ bool CImperialGuardian::SetPosMonster(int nIndex, std::vector<_stIFMonsterPos>::
 {
 	if (!ObjectMaxRange(nIndex))
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return false;
 	}
 
@@ -1150,7 +1150,7 @@ bool CImperialGuardian::SetMonster(int nIndex, int MonsterClass, int nMaxLevel)
 {
 	if ( !ObjectMaxRange(nIndex) )
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return false;
 	}
 
@@ -1223,7 +1223,7 @@ int CImperialGuardian::GetGateNumber(int nZoneIndex, int nDayOfWeek)
 				nGateNumber = 328;
 			break;
 		default:
-			sLog.outBasic("[IMPERIALGUARDIAN][GetGateNumberFunc] Invalid zoneIndex : %d", nZoneIndex+1);
+			sLog->outBasic("[IMPERIALGUARDIAN][GetGateNumberFunc] Invalid zoneIndex : %d", nZoneIndex+1);
 			break;
 	}
 
@@ -1316,7 +1316,7 @@ void CImperialGuardian::CheckLiveMonster(int nZoneIndex)
 		{
 			if ( gObj[it->m_nIndex].m_State != 1 && gObj[it->m_nIndex].m_State != 2 )
 			{
-				sLog.outBasic("[IMPERIALGUARDIAN][RESTORE] [NAME]:%s [INDEX]:%d [TYPE]:%d [STATE]:%d", gObj[it->m_nIndex].Name, it->m_nIndex,
+				sLog->outBasic("[IMPERIALGUARDIAN][RESTORE] [NAME]:%s [INDEX]:%d [TYPE]:%d [STATE]:%d", gObj[it->m_nIndex].Name, it->m_nIndex,
 					gObj[it->m_nIndex].Class, gObj[it->m_nIndex].m_State);
 
 				gObj[it->m_nIndex].m_State = 1;
@@ -1384,7 +1384,7 @@ void CImperialGuardian::RemoveUserInZone(int nZoneIndex, int nUserNumber)
 		if ( *it == nUserNumber )
 		{
 			this->m_stZoneInfo[nZoneIndex].m_vtUserIndex.erase(it);
-			sLog.outBasic("[IMPERIALGUARDIAN] Leave Player Zone [ZONE]:%d, [AccountID]:%s, [Name]:%s", nZoneIndex, gObj[nUserNumber].AccountID, gObj[nUserNumber].Name);
+			sLog->outBasic("[IMPERIALGUARDIAN] Leave Player Zone [ZONE]:%d, [AccountID]:%s, [Name]:%s", nZoneIndex, gObj[nUserNumber].AccountID, gObj[nUserNumber].Name);
 			break;
 		}
 	}
@@ -1489,7 +1489,7 @@ bool CImperialGuardian::GCNotifyAllZoneClear(int nZoneIndex)
 
 		this->ImperialGuardianLevelUp(nUserIndex[i], pMsg.m_nRewardExp);
 			
-		sLog.outBasic("[IMPERIALGUARDIAN] [ACCOUNTID]:%s, [NAME]:%s, [Reward Exp] : %d", gObj[nUserIndex[i]].AccountID, gObj[nUserIndex[i]].Name, pMsg.m_nRewardExp);
+		sLog->outBasic("[IMPERIALGUARDIAN] [ACCOUNTID]:%s, [NAME]:%s, [Reward Exp] : %d", gObj[nUserIndex[i]].AccountID, gObj[nUserIndex[i]].Name, pMsg.m_nRewardExp);
 
 		if ( g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&gObj[nUserIndex[i]]) == false )
 		{
@@ -1617,7 +1617,7 @@ void CImperialGuardian::GCNotifyRemainTickCount(int nZoneIndex, char btMsgType, 
 
 	else
 	{
-		sLog.outBasic("[IMPERIALGUARDIAN][GCNotifyRemainTickCountFunc] Invalid MsgType : %d", btMsgType);
+		sLog->outBasic("[IMPERIALGUARDIAN][GCNotifyRemainTickCountFunc] Invalid MsgType : %d", btMsgType);
 		return;
 	}
 
@@ -1842,10 +1842,10 @@ void CImperialGuardian::GCSendCastleGateInfo(int nGateIndex, int nZoneIndex, int
 	{
 		IOCP.DataSend(nUserIndex, (LPBYTE)&cTEMP_BUF, (sizeof(PMSG_SETMAPATTR_COUNT)+6*sizeof(PMSG_SETMAPATTR)));
 
-		sLog.outBasic("[IMPERIALGUARDIAN] SEND GATE STATE -> [ZONE]:%d [AccountID]:%s, [NAME]:%s [STATE]:%d",
+		sLog->outBasic("[IMPERIALGUARDIAN] SEND GATE STATE -> [ZONE]:%d [AccountID]:%s, [NAME]:%s [STATE]:%d",
 			nZoneIndex+1, gObj[nUserIndex].AccountID, gObj[nUserIndex].Name, iGateState);
 
-		sLog.outBasic("[IMPERIALGUARDIAN] beginX : %d, beginY : %d , endX :%d , endY : %d",
+		sLog->outBasic("[IMPERIALGUARDIAN] beginX : %d, beginY : %d , endX :%d , endY : %d",
 			lpMsgBody[0].btX, lpMsgBody[0].btY, lpMsgBody[1].btX, lpMsgBody[1].btY);
 	}
 }
@@ -1874,7 +1874,7 @@ void CImperialGuardian::DropItem(int nIndex, int nMonsterIndex)
 
 	if ( gObj[nMonsterIndex].Class == 504 ) // Gaion
 	{
-		sLog.outBasic("[IMPERIALGUARDIAN] Kill the boss monster => %s [ZONE]:%d [AccountID]:%s [Name]:%s",
+		sLog->outBasic("[IMPERIALGUARDIAN] Kill the boss monster => %s [ZONE]:%d [AccountID]:%s [Name]:%s",
 			gObj[nMonsterIndex].Name, nZoneIndex+1, gObj[nIndex].AccountID, gObj[nIndex].Name);
 
 		this->pEventDungeonItemBagGaion->DropEventItem(nIndex, nMaxLevel);
@@ -1882,7 +1882,7 @@ void CImperialGuardian::DropItem(int nIndex, int nMonsterIndex)
 
 	else if ( gObj[nMonsterIndex].Class == 526 ) // Statue
 	{
-		sLog.outBasic("[IMPERIALGUARDIAN] Broken Statue => %s [ZONE]:%d [AccountID]:%s [Name]:%s",
+		sLog->outBasic("[IMPERIALGUARDIAN] Broken Statue => %s [ZONE]:%d [AccountID]:%s [Name]:%s",
 			gObj[nMonsterIndex].Name, nZoneIndex+1, gObj[nIndex].AccountID, gObj[nIndex].Name);
 
 		this->pEventDungeonItemBagStatue->DropEventItem(nIndex, nMaxLevel);
@@ -1890,7 +1890,7 @@ void CImperialGuardian::DropItem(int nIndex, int nMonsterIndex)
 
 	else
 	{
-		sLog.outBasic("[IMPERIALGUARDIAN] Kill the boss monster => %s [ZONE]:%d [AccountID]:%s [Name]:%s",
+		sLog->outBasic("[IMPERIALGUARDIAN] Kill the boss monster => %s [ZONE]:%d [AccountID]:%s [Name]:%s",
 			gObj[nMonsterIndex].Name, nZoneIndex+1, gObj[nIndex].AccountID, gObj[nIndex].Name);
 
 		this->pEventDungeonItemBag->DropEventItem(nIndex, nMaxLevel);
@@ -1950,7 +1950,7 @@ void CImperialGuardian::DropItem(int nIndex, int nMonsterIndex)
 			}
 
 			ItemSerialCreateSend(nIndex, gObj[nIndex].MapNumber, btDropX, btDropY, nType, 0, 0, 0, 0, 0, nIndex, 0, 0, 0, 0, 0);
-			sLog.outBasic("[IMPERIALGUARDIAN] Drop Item : (%d)(%d/%d) Item:(%s)%d Level:%d op1:%d op2:%d op3:%d",
+			sLog->outBasic("[IMPERIALGUARDIAN] Drop Item : (%d)(%d/%d) Item:(%s)%d Level:%d op1:%d op2:%d op3:%d",
 				gObj[nIndex].MapNumber, btDropX, btDropY, ItemAttribute[nType].Name, nType, 0, 0, 0, 0);
 		}
 	}
@@ -1983,7 +1983,7 @@ int CImperialGuardian::CheckGaionOrderPaper(int nIndex)
 {
 	if ( ObjectMaxRange(nIndex) == false )
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return -2;
 	}
 
@@ -2022,7 +2022,7 @@ int CImperialGuardian::CheckFullSecromicon(int nIndex)
 {
 	if ( ObjectMaxRange(nIndex) == false )
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return -2;
 	}
 
@@ -2077,13 +2077,13 @@ void CImperialGuardian::SetAtackAbleState(int nZoneIndex, int nMonsterClass, boo
 {
 	if ( nZoneIndex < 0 || nZoneIndex > 3 )
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return;
 	}
 
 	if ( this->m_stZoneInfo[nZoneIndex].m_vtMonsterIndexInfo.size() == 0 )
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -2126,13 +2126,13 @@ void CImperialGuardian::SetTargetMoveAllMonster(int nZoneIndex, int nTargetNumbe
 {
 	if ( ObjectMaxRange(nTargetNumber) == false )
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return;
 	}
 
 	if ( gObj[nTargetNumber].Connected < PLAYER_CONNECTED )
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -2194,7 +2194,7 @@ void CImperialGuardian::DestroyGate(int nZoneIndex, int nIndex, int nTargetIndex
 
 	this->m_stZoneInfo[nZoneIndex].m_vtOpenedGate.push_back(nIndex);
 
-	sLog.outBasic("[IMPERIALGUARDIAN] DestroyGate -> [ZONE]:%d, [AccountID]:%s, [NAME]:%s, [GATE INDEX]:%d, [USER COUNT]:%d",
+	sLog->outBasic("[IMPERIALGUARDIAN] DestroyGate -> [ZONE]:%d, [AccountID]:%s, [NAME]:%s, [GATE INDEX]:%d, [USER COUNT]:%d",
 		nZoneIndex, gObj[nTargetIndex].AccountID, gObj[nTargetIndex].Name, nIndex, this->m_stZoneInfo[nZoneIndex].m_vtUserIndex.size());
 }
 
@@ -2237,7 +2237,7 @@ int CImperialGuardian::ImperialGuardianLevelUp(int iIndex, int iAddExp)
 
 	int iLEFT_EXP = 0;
 
-	sLog.outBasic("[Imperial Guardian] Experience : [%s][%s](%d) Experience: %d + %d",	
+	sLog->outBasic("[Imperial Guardian] Experience : [%s][%s](%d) Experience: %d + %d",	
 		gObj[iIndex].AccountID,	gObj[iIndex].Name,
 		gObj[iIndex].Level, gObj[iIndex].m_PlayerData->Experience,
 		iAddExp);
@@ -2276,7 +2276,7 @@ int CImperialGuardian::ImperialGuardianLevelUp(int iIndex, int iAddExp)
 			{
 				gObj[iIndex].m_PlayerData->LevelUpPoint++;
 
-				//sLog.outBasic("[%s][%s] LevelUp PlusStatQuest Clear AddStat %d",gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->LevelUpPoint);
+				//sLog->outBasic("[%s][%s] LevelUp PlusStatQuest Clear AddStat %d",gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->LevelUpPoint);
 			}
 		}
 
@@ -2288,7 +2288,7 @@ int CImperialGuardian::ImperialGuardianLevelUp(int iIndex, int iAddExp)
 		gObjSetBP(iIndex);
 		GSProtocol.GCLevelUpMsgSend(gObj[iIndex].m_Index, 1);
 		gObjCalcMaxLifePower(gObj[iIndex].m_Index);
-		sLog.outBasic("Level Up [%s][%s][%d]", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].Level);
+		sLog->outBasic("Level Up [%s][%s][%d]", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].Level);
 		return 0;
 	}
 
@@ -2376,7 +2376,7 @@ void CImperialGuardian::MonsterBaseAct(LPOBJ lpObj)
 
 				if ( MAX_MAP_RANGE(map) == FALSE )
 				{
-					sLog.outError( "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", map);
+					sLog->outError( "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", map);
 					return;
 				}
 
@@ -2407,7 +2407,7 @@ void CImperialGuardian::MonsterBaseAct(LPOBJ lpObj)
 				{
 					if ( MAX_MAP_RANGE(lpObj->MapNumber) == FALSE )
 					{
-						sLog.outError( "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", lpObj->MapNumber);
+						sLog->outError( "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", lpObj->MapNumber);
 						return;
 					}
 
@@ -2435,7 +2435,7 @@ void CImperialGuardian::MonsterBaseAct(LPOBJ lpObj)
 					{
 						if ( MAX_MAP_RANGE(lpObj->MapNumber) == FALSE )
 						{
-							sLog.outError( "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", lpObj->MapNumber);
+							sLog->outError( "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", lpObj->MapNumber);
 							return;
 						}
 

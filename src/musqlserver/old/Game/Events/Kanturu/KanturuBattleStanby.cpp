@@ -53,7 +53,7 @@ BOOL CKanturuBattleStanby::LoadData(LPSTR lpszFileName)
 
 	if ( !lpszFileName || !strcmp(lpszFileName, ""))
 	{
-		sLog.outError("[Kanturu][Battle Standby] - File load error : File Name Error");
+		sLog->outError("[Kanturu][Battle Standby] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -64,7 +64,7 @@ BOOL CKanturuBattleStanby::LoadData(LPSTR lpszFileName)
 
 		if ( res.status != pugi::status_ok )
 		{
-			sLog.outError("[Kanturu][Battle Standby] - Can't Load %s (%s)", lpszFileName, res.description());
+			sLog->outError("[Kanturu][Battle Standby] - Can't Load %s (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
@@ -83,7 +83,7 @@ BOOL CKanturuBattleStanby::LoadData(LPSTR lpszFileName)
 
 			if ( this->m_StateInfoCount < 0 || this->m_StateInfoCount >= KANTURU_STANBY_STATE_INFO )
 			{
-				sLog.outError("[Kanturu][Battle Standby] - Exceed Max State Time (%d)", this->m_StateInfoCount);
+				sLog->outError("[Kanturu][Battle Standby] - Exceed Max State Time (%d)", this->m_StateInfoCount);
 				break;
 			}
 
@@ -102,7 +102,7 @@ BOOL CKanturuBattleStanby::LoadData(LPSTR lpszFileName)
 
 	catch (DWORD)
 	{
-		sLog.outError("[Kanturu][Battle Standby] - Loading Exception Error (%s) File. ", lpszFileName);
+		sLog->outError("[Kanturu][Battle Standby] - Loading Exception Error (%s) File. ", lpszFileName);
 	}
 
 	return this->m_bFileDataLoad;

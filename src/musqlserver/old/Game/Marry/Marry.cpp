@@ -31,7 +31,7 @@ void CMarry::LoadFile(char * filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("Error loading %s file (%s)", filename, res.description());
+		sLog->outError("Error loading %s file (%s)", filename, res.description());
 
 		LeaveCriticalSection(&this->m_criti);
 		return;
@@ -67,7 +67,7 @@ void CMarry::LoadFile(char * filename)
 
 		if (iItemID == -1)
 		{
-			sLog.outError("ERROR - Wrong item in %s file (%d %d)", filename, item.attribute("ItemCat").as_int(), item.attribute("ItemIndex").as_int());
+			sLog->outError("ERROR - Wrong item in %s file (%d %d)", filename, item.attribute("ItemCat").as_int(), item.attribute("ItemIndex").as_int());
 			continue;
 		}
 
@@ -92,7 +92,7 @@ void CMarry::LoadFile(char * filename)
 
 		if (iItemID == -1)
 		{
-			sLog.outError("ERROR - Wrong item in %s file (%d %d)", filename, item.attribute("ItemCat").as_int(), item.attribute("ItemIndex").as_int());
+			sLog->outError("ERROR - Wrong item in %s file (%d %d)", filename, item.attribute("ItemCat").as_int(), item.attribute("ItemIndex").as_int());
 			continue;
 		}
 
@@ -118,7 +118,7 @@ void CMarry::LoadFile(char * filename)
 
 		if (iItemID == -1)
 		{
-			sLog.outError("ERROR - Wrong item in %s file (%d %d)", filename, item.attribute("ItemCat").as_int(), item.attribute("ItemIndex").as_int());
+			sLog->outError("ERROR - Wrong item in %s file (%d %d)", filename, item.attribute("ItemCat").as_int(), item.attribute("ItemIndex").as_int());
 			continue;
 		}
 
@@ -210,7 +210,7 @@ void CMarry::Propose(int aIndex, int uIndex)
 	GSProtocol.GCServerMsgStringSend(msg, uIndex, 1);
 	GSProtocol.GCServerMsgStringSend(Lang.GetText(0,381), aIndex, 1);
 
-	sLog.outBasic("[Marry][%s][%s] Request to marry with [%s][%s]", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[uIndex].AccountID, gObj[uIndex].Name);
+	sLog->outBasic("[Marry][%s][%s] Request to marry with [%s][%s]", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[uIndex].AccountID, gObj[uIndex].Name);
 }
 
 bool CMarry::Accept(int aIndex)
@@ -305,7 +305,7 @@ bool CMarry::Accept(int aIndex)
 	wsprintf(info, Lang.GetText(0,389), gObj[uIndex].Name, gObj[aIndex].Name);
 	GSProtocol.AllSendServerMsg(info);
 
-	sLog.outBasic("[Marry] New Marriage: %s [%d]  %s [%d]", gObj[uIndex].Name, gObj[aIndex].Married, gObj[aIndex].Name, gObj[uIndex].Married);
+	sLog->outBasic("[Marry] New Marriage: %s [%d]  %s [%d]", gObj[uIndex].Name, gObj[aIndex].Married, gObj[aIndex].Name, gObj[uIndex].Married);
 	return true;
 }
 
@@ -345,7 +345,7 @@ void CMarry::Divorce(int aIndex)
 
 	this->DeleteDivorceItem(aIndex);
 
-	sLog.outBasic("[Marry] Divorce: [%s] [%d]", gObj[aIndex].Name, gObj[uIndex].Name);
+	sLog->outBasic("[Marry] Divorce: [%s] [%d]", gObj[aIndex].Name, gObj[uIndex].Name);
 }
 
 bool CMarry::CheckPosition(int aIndex, int uIndex)

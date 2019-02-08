@@ -44,7 +44,7 @@ void PVPZone::ReadData(char * File)
 
 	if (Result.status != status_ok)
 	{
-		sLog.outError("[IGC_PVPZone] File %s not found!", File);
+		sLog->outError("[IGC_PVPZone] File %s not found!", File);
 		return;
 	}
 

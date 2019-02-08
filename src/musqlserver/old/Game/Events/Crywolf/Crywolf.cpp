@@ -56,7 +56,7 @@ BOOL CCrywolf::LoadData(LPSTR lpszFileName)
 
 	if ( !lpszFileName || !strcmp(lpszFileName, "") )
 	{
-		sLog.outError("[Crywolf Main Job] - File load error : File Name Error");
+		sLog->outError("[Crywolf Main Job] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -65,7 +65,7 @@ BOOL CCrywolf::LoadData(LPSTR lpszFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("[Crywolf Main Job] - Can't Open %s (%s)", lpszFileName, res.description());
+		sLog->outError("[Crywolf Main Job] - Can't Open %s (%s)", lpszFileName, res.description());
 		return FALSE;
 	}
 
@@ -97,7 +97,7 @@ BOOL CCrywolf::LoadData(LPSTR lpszFileName)
 
 		if ( this->m_StartTimeInfoCount <= -1 || this->m_StartTimeInfoCount >= MAX_CRYWOLF_STATE_TIME )
 		{
-			sLog.outError("[Crywolf Main Job] - Excced MAX StartTime (%d)", this->m_StartTimeInfoCount);
+			sLog->outError("[Crywolf Main Job] - Excced MAX StartTime (%d)", this->m_StartTimeInfoCount);
 			return FALSE;
 		}
 
@@ -142,7 +142,7 @@ BOOL CCrywolf::LoadData(LPSTR lpszFileName)
 
 		if ( iGroupNumber <= -1 || iGroupNumber >= MAX_CRYWOLF_MONSTER_GROUP )
 		{
-			sLog.outError("[Crywolf Main Job] - Invalid Monster Group Number (%d)", iGroupNumber);
+			sLog->outError("[Crywolf Main Job] - Invalid Monster Group Number (%d)", iGroupNumber);
 			return FALSE;
 		}
 

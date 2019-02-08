@@ -146,29 +146,29 @@ BOOL CExDataServerProtocol::DBConnect()
 {
 	if (FALSE)
 	{
-		sLog.outError("[ERROR] - EXDATASERVER CANNOT CONNECT TO MSSQL (GUILD)");
+		sLog->outError("[ERROR] - EXDATASERVER CANNOT CONNECT TO MSSQL (GUILD)");
 		return FALSE;
 	}
 
 	if (FALSE)
 	{
-		sLog.outError("[ERROR] - EXDATASERVER CANNOT CONNECT TO MSSQL (UNION)");
+		sLog->outError("[ERROR] - EXDATASERVER CANNOT CONNECT TO MSSQL (UNION)");
 		return FALSE;
 	}
 
 	if (FALSE)
 	{
-		sLog.outError("[ERROR] - EXDATASERVER CANNOT CONNECT TO MSSQL (GUILD MATCHING)");
+		sLog->outError("[ERROR] - EXDATASERVER CANNOT CONNECT TO MSSQL (GUILD MATCHING)");
 		return FALSE;
 	}
 
 	if (FALSE)
 	{
-		sLog.outError("[ERROR] - EXDATASERVER CANNOT CONNECT TO MSSQL (PARTY MATCHING)");
+		sLog->outError("[ERROR] - EXDATASERVER CANNOT CONNECT TO MSSQL (PARTY MATCHING)");
 		return FALSE;
 	}
 
-	sLog.outBasic("[SUCCESS] - EXDATASERVER CONNECT MSSQL SUCCESS");
+	sLog->outBasic("[SUCCESS] - EXDATASERVER CONNECT MSSQL SUCCESS");
 
 	return TRUE;
 }
@@ -189,7 +189,7 @@ BOOL CExDataServerProtocol::Init()
 
 	if(FALSE)
 	{
-		sLog.outError("[MuOnlineDB] Guild Info is missing");
+		sLog->outError("[MuOnlineDB] Guild Info is missing");
 		return FALSE;
 	}
 
@@ -221,7 +221,7 @@ BOOL CExDataServerProtocol::Init()
 			}
 			else
 			{
-				sLog.outError("Can't add guild [%s][%s]", szGuildName, szMaster);
+				sLog->outError("Can't add guild [%s][%s]", szGuildName, szMaster);
 			}
 
 
@@ -252,7 +252,7 @@ BOOL CExDataServerProtocol::Init()
 		guild = (GUILD_INFO_STRUCT*)it->second;
 		AddUnion(guild->m_iNumber, guild->m_iUnionGuild);
 	}
-	sLog.outBasic( "[MuOnlineDB] GuildData Loaded in %d msec", GetTickCount() - dwStartTickCount);
+	sLog->outBasic( "[MuOnlineDB] GuildData Loaded in %d msec", GetTickCount() - dwStartTickCount);
 
 
 	this->m_GensSystemEDS.InitGensSystem();
@@ -574,12 +574,12 @@ void CExDataServerProtocol::ExDataServerLogin(int aIndex, SDHP_SERVERINFO * lpMs
 			for (; it != end; it++)
 				((GUILD_INFO_STRUCT*)it->second)->m_bGSHasData = 0;
 
-			sLog.outBasic("[ExDB] GameServer with ServerCode[%d] connected.", lpMsg->ServerCode);
+			sLog->outBasic("[ExDB] GameServer with ServerCode[%d] connected.", lpMsg->ServerCode);
 
 		}
 		else
 		{
-			sLog.outError("[ExDB] GameServer with ServerCode[%d] is already connected.", lpMsg->ServerCode);
+			sLog->outError("[ExDB] GameServer with ServerCode[%d] is already connected.", lpMsg->ServerCode);
 			pResult.Result = 0;
 		}
 	}
@@ -587,7 +587,7 @@ void CExDataServerProtocol::ExDataServerLogin(int aIndex, SDHP_SERVERINFO * lpMs
 	else if ( lpMsg->Type == 2 )
 	{
 		g_Server[aIndex].m_State = SS_CHAT;
-		sLog.outError("[ChatServer] Chat Server Connected");
+		sLog->outError("[ChatServer] Chat Server Connected");
 	}
 
 	DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
@@ -627,7 +627,7 @@ void CExDataServerProtocol::GDCharCloseRecv(int aIndex, SDHP_USERCLOSE * aRecv)
 		}
 			
 
-		sLog.outBasic("[ExDB] member close: [%s]", aRecv->CharName);
+		sLog->outBasic("[ExDB] member close: [%s]", aRecv->CharName);
 
 		for(int i=0; i < g_dwMaxServerGroups; i++)
 		{
@@ -663,9 +663,9 @@ void CExDataServerProtocol::GDGuildCreateSend(int aIndex, SDHP_GUILDCREATE * aRe
 	{
 		Result.Result = 2;
 		Result.Flag = 1;
-		sLog.outBasic( "GuildName is too short [%s]", aRecv->GuildName);
+		sLog->outBasic( "GuildName is too short [%s]", aRecv->GuildName);
 
-		sLog.outBasic("[Guild Create Request] Send Result [%d].", Result.Result);
+		sLog->outBasic("[Guild Create Request] Send Result [%d].", Result.Result);
 		DataSend(aIndex, (LPBYTE)&Result, sizeof(Result), __FUNCTION__);
 		return;
 	}
@@ -674,9 +674,9 @@ void CExDataServerProtocol::GDGuildCreateSend(int aIndex, SDHP_GUILDCREATE * aRe
 	{
 		Result.Result = 2;
 		Result.Flag = 1;
-		sLog.outBasic( "GuildMaster Name is too short [%s]", aRecv->Master);
+		sLog->outBasic( "GuildMaster Name is too short [%s]", aRecv->Master);
 
-		sLog.outBasic("[Guild Create Request] Send Result [%d].", Result.Result);
+		sLog->outBasic("[Guild Create Request] Send Result [%d].", Result.Result);
 		DataSend(aIndex, (LPBYTE)&Result, sizeof(Result), __FUNCTION__);
 		return;
 	}
@@ -686,7 +686,7 @@ void CExDataServerProtocol::GDGuildCreateSend(int aIndex, SDHP_GUILDCREATE * aRe
 		Result.Result = 4;
 		Result.Flag = 1;
 
-		sLog.outBasic("[Guild Create Request] Send Result [%d].", Result.Result);
+		sLog->outBasic("[Guild Create Request] Send Result [%d].", Result.Result);
 		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
@@ -696,7 +696,7 @@ void CExDataServerProtocol::GDGuildCreateSend(int aIndex, SDHP_GUILDCREATE * aRe
 		Result.Result = 5;
 		Result.Flag = 1;
 
-		sLog.outBasic("[Guild Create Request] Send Result [%d].", Result.Result);
+		sLog->outBasic("[Guild Create Request] Send Result [%d].", Result.Result);
 		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
@@ -706,14 +706,14 @@ void CExDataServerProtocol::GDGuildCreateSend(int aIndex, SDHP_GUILDCREATE * aRe
 		Result.Result = 5;
 		Result.Flag = 1;
 
-		sLog.outBasic("[Guild Create Request] Send Result [%d].", Result.Result);
+		sLog->outBasic("[Guild Create Request] Send Result [%d].", Result.Result);
 		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
 	else
 	{
-		sLog.outBasic("[Guild Create Request] Guild [%s], GuildMaster [%s].", Result.GuildName, Result.Master);
+		sLog->outBasic("[Guild Create Request] Guild [%s], GuildMaster [%s].", Result.GuildName, Result.Master);
 		int res = CreateDBGuild(aRecv->GuildName, aRecv->Master, aRecv->Mark);
 		
 		switch(res)
@@ -754,30 +754,30 @@ void CExDataServerProtocol::GDGuildCreateSend(int aIndex, SDHP_GUILDCREATE * aRe
 									Result.Flag = 1;
 								else
 									Result.Flag = 0;
-								sLog.outBasic("[Guild Create Request] Send Result [%d] to Server [%d]", Result.Result, g_Server[i].m_ServerCode);			
+								sLog->outBasic("[Guild Create Request] Send Result [%d] to Server [%d]", Result.Result, g_Server[i].m_ServerCode);			
 								DataSend(i, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 							}
 						}
 						
 						DGGuildMasterListSend(aRecv->GuildName);
 						SendGuildMemberInfo(aIndex, aRecv->Master, MAKE_NUMBERW(Result.NumberH, Result.NumberL));
-						sLog.outBasic("[Guild Create Request] Create Guild: [%s], Master: [%s]", aRecv->GuildName, aRecv->Master);
+						sLog->outBasic("[Guild Create Request] Create Guild: [%s], Master: [%s]", aRecv->GuildName, aRecv->Master);
 						return;
 					}
 					else
 					{
-						sLog.outBasic("[Guild Create Request] [ERROR] UpdateGuildType: Guild: [%s], Type: [%d]", aRecv->GuildName, aRecv->btGuildType);
+						sLog->outBasic("[Guild Create Request] [ERROR] UpdateGuildType: Guild: [%s], Type: [%d]", aRecv->GuildName, aRecv->btGuildType);
 					}
 				}
 				else
 				{
-					sLog.outBasic("[Guild Create Request] [ERROR] UpdateGuildMemberStatus: Guild: [%s], Member: [%s]", aRecv->GuildName, aRecv->Master);
+					sLog->outBasic("[Guild Create Request] [ERROR] UpdateGuildMemberStatus: Guild: [%s], Member: [%s]", aRecv->GuildName, aRecv->Master);
 				}
 			}
 		}
 		else
 		{
-			sLog.outBasic("[Guild Create Request] Send Result [%d].", Result.Result);
+			sLog->outBasic("[Guild Create Request] Send Result [%d].", Result.Result);
 			DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 			return;
 		}
@@ -788,7 +788,7 @@ int CExDataServerProtocol::CreateDBGuild(char* szGuild, char* szMaster, LPBYTE p
 {
 	if(this->GuildExists(szGuild))
 	{
-		sLog.outBasic( "Guild [%s] already exists.", szGuild);
+		sLog->outBasic( "Guild [%s] already exists.", szGuild);
 		return 1;
 	}
 
@@ -826,7 +826,7 @@ BOOL CExDataServerProtocol::AddGuild(char *szGuild, char *szMaster, int iNumber,
 
 	CreateRelationShipData(iNumber);
 
-	sLog.outBasic("[AddGuild] Guild [%s][%d] Create Guild Master: [%s]", Guild->m_szGuildName, iNumber, Guild->m_szGuildMaster);
+	sLog->outBasic("[AddGuild] Guild [%s][%d] Create Guild Master: [%s]", Guild->m_szGuildName, iNumber, Guild->m_szGuildMaster);
 
 	return TRUE;
 }
@@ -880,7 +880,7 @@ BOOL CExDataServerProtocol::AddGuildMember(char *szGuild, char *szName, BYTE btS
 
 	lpGuild->m_mapGuildMember[szName] = Memb;
 	
-	sLog.outBasic("[AddGuildMember] Guild [%s] Member Add: [%s]", szGuild, Memb->m_szMemberName);
+	sLog->outBasic("[AddGuildMember] Guild [%s] Member Add: [%s]", szGuild, Memb->m_szMemberName);
 	return TRUE;
 }
 
@@ -892,12 +892,12 @@ BOOL CExDataServerProtocol::UpdateGuildMemberStatus(char *szGuild, char *szName,
 	{
 		if(GuildExists(szGuild))
 		{
-			sLog.outBasic( "[ERROR] Guild Member Status: member [%s] doesn't exist in guild [%s]", szName, szGuild);
+			sLog->outBasic( "[ERROR] Guild Member Status: member [%s] doesn't exist in guild [%s]", szName, szGuild);
 			return FALSE;
 		}
 		else
 		{
-			sLog.outBasic( "[ERROR] Guild Member Status: guild [%s] doesn't exist", szGuild);
+			sLog->outBasic( "[ERROR] Guild Member Status: guild [%s] doesn't exist", szGuild);
 			return FALSE;
 		}
 	}
@@ -914,7 +914,7 @@ BOOL CExDataServerProtocol::UpdateGuildType(char *szGuild, BYTE btType)
 	
 	if(lpGuild == NULL)
 	{
-		sLog.outError("[ERROR] Guild Type: guild [%s] doesn't exist", szGuild);
+		sLog->outError("[ERROR] Guild Type: guild [%s] doesn't exist", szGuild);
 		return FALSE;
 	}
 
@@ -932,7 +932,7 @@ void CExDataServerProtocol::SendGuildMemberInfo(int aIndex, char *szName, int iU
 	int iLevel, iStatus;
 	if(GetGuildMemberInfo(szName, szGuild, iLevel, iStatus) == FALSE)
 	{
-		sLog.outBasic("[Send Guild Member Info] No info returned from DB.");
+		sLog->outBasic("[Send Guild Member Info] No info returned from DB.");
 		return;
 	}
 
@@ -942,14 +942,14 @@ void CExDataServerProtocol::SendGuildMemberInfo(int aIndex, char *szName, int iU
 	lpGuild = GetGuild(szGuild);
 	if(lpGuild == NULL)
 	{
-		sLog.outBasic("[Send Guild Member Info] error: Guild [%s] not found.", szGuild );
+		sLog->outBasic("[Send Guild Member Info] error: Guild [%s] not found.", szGuild );
 		return;
 	}
 
 	lpMemb = GetGuildMember(szGuild, szName);
 	if(lpMemb == NULL)
 	{
-		sLog.outBasic("[Send Guild Member Info] error: Member [%s] not found in Guild [%s].", szName, szGuild );
+		sLog->outBasic("[Send Guild Member Info] error: Member [%s] not found in Guild [%s].", szName, szGuild );
 		return;
 	}
 
@@ -971,7 +971,7 @@ void CExDataServerProtocol::SendGuildMemberInfo(int aIndex, char *szName, int iU
 	GuildMembInfo.btGuildType = lpGuild->m_btGuildType;
 	strncpy(GuildMembInfo.GuildName, lpGuild->m_szGuildName, 8);
 
-	sLog.outBasic("[Send Guild Member Info] Guild information send: Name[%s] Guild[%s]", szName, szGuild);
+	sLog->outBasic("[Send Guild Member Info] Guild information send: Name[%s] Guild[%s]", szName, szGuild);
 
 	for(int i=0; i < g_dwMaxServerGroups; i++)
 	{
@@ -1050,7 +1050,7 @@ void CExDataServerProtocol::DGGuildMasterListSend(char *szGuild)
 		lpGuildAll[i].btGuildStatus = it->second->m_btStatus;
 		lpGuildAll[i].pServer = it->second->m_btConnected;
 
-		sLog.outBasic("[GuildMasterListSend] Guild [%s] Member send[%s]", szGuild, it->second->m_szMemberName);
+		sLog->outBasic("[GuildMasterListSend] Guild [%s] Member send[%s]", szGuild, it->second->m_szMemberName);
 	}
 
 	lpGuildAllCnt->Count = i;
@@ -1128,7 +1128,7 @@ void CExDataServerProtocol::DGGuildInfoRequest(int aIndex, SDHP_GUILDMEMBER_INFO
 		lpGuildAll[i].btGuildStatus = it->second->m_btStatus;
 		lpGuildAll[i].pServer = it->second->m_btConnected;
 
-		sLog.outBasic("[GuildMasterListSend] Guild [%s] Member send[%s]", aRecv->szGuildName, it->second->m_szMemberName);
+		sLog->outBasic("[GuildMasterListSend] Guild [%s] Member send[%s]", aRecv->szGuildName, it->second->m_szMemberName);
 	}
 
 	lpGuildAllCnt->Count = i;
@@ -1158,7 +1158,7 @@ void CExDataServerProtocol::DGGuildMemberInfoRequest(int aIndex, SDHP_GUILDMEMBE
 	char szName[11] = {0};
 	strncpy(szName, aRecv->MemberID, 10);
 
-	sLog.outBasic("[Guild Member Info Request] Member [%s].",szName);
+	sLog->outBasic("[Guild Member Info Request] Member [%s].",szName);
 
 	int iUserIndex = MAKE_NUMBERW(aRecv->NumberH, aRecv->NumberL);
 
@@ -1179,17 +1179,17 @@ void CExDataServerProtocol::GDGuildDestroyRecv(int aIndex, SDHP_GUILDDESTROY * a
 	DelResult.Flag = 1;
 	DelResult.Result = 0;
 
-	sLog.outBasic("[Guild Destroy Request] GuildName [%s], GuildMaster [%s].", DelResult.GuildName, DelResult.Master);
+	sLog->outBasic("[Guild Destroy Request] GuildName [%s], GuildMaster [%s].", DelResult.GuildName, DelResult.Master);
 
 	if(strlen(DelResult.Master) < 3)
 	{
-		sLog.outBasic( "error-L3 MasterName < 3: [%s]", DelResult.Master);
+		sLog->outBasic( "error-L3 MasterName < 3: [%s]", DelResult.Master);
 		DelResult.Result = 3;
 	}
 
 	if(strlen(DelResult.GuildName) < 2)
 	{
-		sLog.outBasic( "error-L3 GuildName < 2: [%s]", DelResult.GuildName);
+		sLog->outBasic( "error-L3 GuildName < 2: [%s]", DelResult.GuildName);
 		DelResult.Result = 3;
 	}
 
@@ -1206,7 +1206,7 @@ void CExDataServerProtocol::GDGuildDestroyRecv(int aIndex, SDHP_GUILDDESTROY * a
 					else
 						DelResult.Flag = 0;
 
-					sLog.outBasic("[Guild Destroy Request] Send Result [%d] to Server [%d].", DelResult.Result, g_Server[i].m_ServerCode);
+					sLog->outBasic("[Guild Destroy Request] Send Result [%d] to Server [%d].", DelResult.Result, g_Server[i].m_ServerCode);
 					DataSend(i, (LPBYTE)&DelResult, DelResult.h.size, __FUNCTION__);
 				}
 		}
@@ -1228,7 +1228,7 @@ void CExDataServerProtocol::GDGuildDestroyRecv(int aIndex, SDHP_GUILDDESTROY * a
 					else
 						DelResult.Flag = 0;
 				
-					sLog.outBasic("[Guild Destroy Request] Send Result [%d] to Server [%d].", DelResult.Result, g_Server[i].m_ServerCode);
+					sLog->outBasic("[Guild Destroy Request] Send Result [%d] to Server [%d].", DelResult.Result, g_Server[i].m_ServerCode);
 					DataSend(i, (LPBYTE)&DelResult, DelResult.h.size, __FUNCTION__);
 				}
 		}
@@ -1261,7 +1261,7 @@ void CExDataServerProtocol::GDGuildDestroyRecv(int aIndex, SDHP_GUILDDESTROY * a
 
 	}
 	else
-		sLog.outBasic("[Guild Destroy Request] Guild [%s] not found.", DelResult.Result);
+		sLog->outBasic("[Guild Destroy Request] Guild [%s] not found.", DelResult.Result);
 
 	if(DelResult.Result == 3)
 	{
@@ -1276,7 +1276,7 @@ void CExDataServerProtocol::GDGuildDestroyRecv(int aIndex, SDHP_GUILDDESTROY * a
 					else
 						DelResult.Flag = 0;
 
-					sLog.outBasic("[Guild Destroy Request] Send Result [%d] to Server [%d].", DelResult.Result, g_Server[i].m_ServerCode);
+					sLog->outBasic("[Guild Destroy Request] Send Result [%d] to Server [%d].", DelResult.Result, g_Server[i].m_ServerCode);
 					DataSend(i, (LPBYTE)&DelResult, DelResult.h.size, __FUNCTION__);
 				}
 		}
@@ -1294,16 +1294,16 @@ void CExDataServerProtocol::GDGuildDestroyRecv(int aIndex, SDHP_GUILDDESTROY * a
 			}
 			else
 			{
-				sLog.outBasic("[Guild Destroy Request] [DelAllDBGuildMember] Failed to delete All GuildMember in DB : %s", DelResult.GuildName);
+				sLog->outBasic("[Guild Destroy Request] [DelAllDBGuildMember] Failed to delete All GuildMember in DB : %s", DelResult.GuildName);
 			}
 		}
 		else
 		{
-			sLog.outBasic("[Guild Destroy Request] [DelDBGuild] Failed to delete Guild in DB : %s", DelResult.GuildName);
+			sLog->outBasic("[Guild Destroy Request] [DelDBGuild] Failed to delete Guild in DB : %s", DelResult.GuildName);
 		}
 	}
 	else
-		sLog.outBasic("[Guild Destroy Request] GuildMaster [%s] not found in DB.", DelResult.Result);
+		sLog->outBasic("[Guild Destroy Request] GuildMaster [%s] not found in DB.", DelResult.Result);
 
 	for(int i=0; i < g_dwMaxServerGroups; i++)
 	{
@@ -1316,7 +1316,7 @@ void CExDataServerProtocol::GDGuildDestroyRecv(int aIndex, SDHP_GUILDDESTROY * a
 				else
 					DelResult.Flag = 0;
 
-				sLog.outBasic("[Guild Destroy Request] Send Result [%d] to Server [%d].", DelResult.Result, g_Server[i].m_ServerCode);
+				sLog->outBasic("[Guild Destroy Request] Send Result [%d] to Server [%d].", DelResult.Result, g_Server[i].m_ServerCode);
 				DataSend(i, (LPBYTE)&DelResult, DelResult.h.size, __FUNCTION__);
 			}
 	}
@@ -1357,18 +1357,18 @@ BOOL CExDataServerProtocol::SaveNotice(char *szGuild, char *szNotice)
 
 void CExDataServerProtocol::DGGuildScoreUpdate(int aIndex, SDHP_GUILDSCOREUPDATE * aRecv)
 {
-	sLog.outBasic("[Guild Score Update Request] GuildName [%s], Score [%d]", aRecv->GuildName, aRecv->Score);
+	sLog->outBasic("[Guild Score Update Request] GuildName [%s], Score [%d]", aRecv->GuildName, aRecv->Score);
 
 	if(strlen(aRecv->GuildName) < 4)
 	{
-		sLog.outBasic( "error-L2: [%s] guild name is short", aRecv->GuildName);
+		sLog->outBasic( "error-L2: [%s] guild name is short", aRecv->GuildName);
 		return;
 	}
 
 	if(UpdateScore(aRecv->GuildName, aRecv->Score))
 	{
 
-		sLog.outBasic("[Guild Score Update Request] Score updated.");
+		sLog->outBasic("[Guild Score Update Request] Score updated.");
 		for(int i=0; i < g_dwMaxServerGroups; i++)
 		{
 			if(g_Server[i].m_Index != -1
@@ -1380,16 +1380,16 @@ void CExDataServerProtocol::DGGuildScoreUpdate(int aIndex, SDHP_GUILDSCOREUPDATE
 		}
 	}
 	else
-		sLog.outBasic("[Guild Score Update Request] Failed to update guild score.");
+		sLog->outBasic("[Guild Score Update Request] Failed to update guild score.");
 }
 
 void CExDataServerProtocol::GDGuildNoticeSave(int aIndex, SDHP_GUILDNOTICE * aRecv)
 {
-	sLog.outBasic("[Guild Notice Save Request] GuildName [%s].", aRecv->GuildName);
+	sLog->outBasic("[Guild Notice Save Request] GuildName [%s].", aRecv->GuildName);
 
 	if(strlen(aRecv->GuildName) < 4)
 	{
-		sLog.outBasic( "error-L2: [%s] guild name is short", aRecv->GuildName);
+		sLog->outBasic( "error-L2: [%s] guild name is short", aRecv->GuildName);
 		return;
 	}
 
@@ -1401,7 +1401,7 @@ void CExDataServerProtocol::GDGuildNoticeSave(int aIndex, SDHP_GUILDNOTICE * aRe
 	if(SaveNotice(aRecv->GuildName, aRecv->szGuildNotice))
 	{
 
-		sLog.outBasic("[Guild Notice Save Request] Notice Saved.");
+		sLog->outBasic("[Guild Notice Save Request] Notice Saved.");
 		for(int i=0; i < g_dwMaxServerGroups; i++)
 		{
 			if(g_Server[i].m_Index != -1
@@ -1414,7 +1414,7 @@ void CExDataServerProtocol::GDGuildNoticeSave(int aIndex, SDHP_GUILDNOTICE * aRe
 		}
 	}
 	else
-		sLog.outBasic("[Guild Notice Save Request] Failed to save.");
+		sLog->outBasic("[Guild Notice Save Request] Failed to save.");
 
 }
 
@@ -1490,7 +1490,7 @@ void CExDataServerProtocol::GDGuildReqAssignStatus(int aIndex, EXSDHP_GUILD_ASSI
 	strncpy(Result.szTargetName, aRecv->szTargetName, 10);
 	Result.wUserIndex = aRecv->wUserIndex;
 
-	sLog.outBasic("[GuildMember Assign Status Request] GuildName [%s], Member [%s], Status [%d].",
+	sLog->outBasic("[GuildMember Assign Status Request] GuildName [%s], Member [%s], Status [%d].",
 		Result.szGuildName, Result.szTargetName, Result.btGuildStatus);
 
 	Result.btFlag = 1;
@@ -1501,7 +1501,7 @@ void CExDataServerProtocol::GDGuildReqAssignStatus(int aIndex, EXSDHP_GUILD_ASSI
 		Result.btResult = 1;
 	}
 
-	sLog.outBasic("[GuildMember Assign Status Request] Send Result [%d].", Result.btResult);
+	sLog->outBasic("[GuildMember Assign Status Request] Send Result [%d].", Result.btResult);
 	DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 
 	if(Result.btResult)
@@ -1515,7 +1515,7 @@ void CExDataServerProtocol::GDGuildReqAssignStatus(int aIndex, EXSDHP_GUILD_ASSI
 				{
 					if(i != aIndex)
 					{
-						sLog.outBasic("[GuildMember Assign Status Request] Send Result [%d] to Server [%d].", Result.btResult, g_Server[i].m_ServerCode);
+						sLog->outBasic("[GuildMember Assign Status Request] Send Result [%d] to Server [%d].", Result.btResult, g_Server[i].m_ServerCode);
 						DataSend(i, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 					}
 				}
@@ -1533,7 +1533,7 @@ void CExDataServerProtocol::GDGuildReqAssignType(int aIndex, EXSDHP_GUILD_ASSIGN
 	strncpy(Result.szGuildName, aRecv->szGuildName, 8);
 	Result.wUserIndex = aRecv->wUserIndex;
 
-	sLog.outBasic("[Guild Assign Type Request] GuildName [%s], Type [%d].", Result.szGuildName, Result.btGuildType);
+	sLog->outBasic("[Guild Assign Type Request] GuildName [%s], Type [%d].", Result.szGuildName, Result.btGuildType);
 
 	Result.btFlag = 1;
 	Result.btResult = 0;
@@ -1543,7 +1543,7 @@ void CExDataServerProtocol::GDGuildReqAssignType(int aIndex, EXSDHP_GUILD_ASSIGN
 		Result.btResult = 1;
 	}
 
-	sLog.outBasic("[Guild Assign Type Request] Send Result [%d].", Result.btResult);
+	sLog->outBasic("[Guild Assign Type Request] Send Result [%d].", Result.btResult);
 	DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 
 	if(Result.btResult)
@@ -1557,7 +1557,7 @@ void CExDataServerProtocol::GDGuildReqAssignType(int aIndex, EXSDHP_GUILD_ASSIGN
 				{
 					if(i != aIndex)
 					{
-						sLog.outBasic("[Guild Assign Type Request] Send Result [%d] to Server [%d].", Result.btResult, g_Server[i].m_ServerCode);
+						sLog->outBasic("[Guild Assign Type Request] Send Result [%d] to Server [%d].", Result.btResult, g_Server[i].m_ServerCode);
 						DataSend(i, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 					}
 				}
@@ -1590,7 +1590,7 @@ void CExDataServerProtocol::GDGuildMemberAdd(int aIndex, SDHP_GUILDMEMBERADD * a
 	strncpy(Result.GuildName, aRecv->GuildName, 8);
 	strncpy(Result.MemberID, aRecv->MemberID, 10);
 
-	sLog.outBasic("[Guild Join Request] GuildName [%s], Member [%s].", Result.GuildName, Result.MemberID);
+	sLog->outBasic("[Guild Join Request] GuildName [%s], Member [%s].", Result.GuildName, Result.MemberID);
 
 	Result.pServer = g_Server[aIndex].m_ServerCode;
 	Result.Flag = 1;
@@ -1598,9 +1598,9 @@ void CExDataServerProtocol::GDGuildMemberAdd(int aIndex, SDHP_GUILDMEMBERADD * a
 	if(strlen(Result.GuildName) < 4)
 	{
 		Result.Result = 0;
-		sLog.outBasic( "error-L2: [%s] Guild Name is short", Result.GuildName);
+		sLog->outBasic( "error-L2: [%s] Guild Name is short", Result.GuildName);
 
-		sLog.outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
+		sLog->outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
 		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
@@ -1608,9 +1608,9 @@ void CExDataServerProtocol::GDGuildMemberAdd(int aIndex, SDHP_GUILDMEMBERADD * a
 	if(strlen(Result.MemberID) < 4)
 	{
 		Result.Result = 0;
-		sLog.outBasic( "error-L2: [%s] Member Name is short", Result.MemberID);
+		sLog->outBasic( "error-L2: [%s] Member Name is short", Result.MemberID);
 
-		sLog.outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
+		sLog->outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
 		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
@@ -1618,9 +1618,9 @@ void CExDataServerProtocol::GDGuildMemberAdd(int aIndex, SDHP_GUILDMEMBERADD * a
 	if(DBGuildMemberExists(Result.MemberID))
 	{
 		Result.Result = 4;
-		sLog.outBasic("[Guild Join Request] [DBGuildMemberExists] Member [%s] is already in guild", Result.MemberID);
+		sLog->outBasic("[Guild Join Request] [DBGuildMemberExists] Member [%s] is already in guild", Result.MemberID);
 
-		sLog.outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
+		sLog->outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
 		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
@@ -1628,9 +1628,9 @@ void CExDataServerProtocol::GDGuildMemberAdd(int aIndex, SDHP_GUILDMEMBERADD * a
 	if(AddDBGuildMember(Result.GuildName, Result.MemberID) == FALSE)
 	{
 		Result.Result = 4;
-		sLog.outBasic( "[Guild Join Request] [AddDBGuildMember] failed to add [%s] in guild [%s]", Result.MemberID, Result.GuildName);
+		sLog->outBasic( "[Guild Join Request] [AddDBGuildMember] failed to add [%s] in guild [%s]", Result.MemberID, Result.GuildName);
 
-		sLog.outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
+		sLog->outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
 		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
@@ -1639,7 +1639,7 @@ void CExDataServerProtocol::GDGuildMemberAdd(int aIndex, SDHP_GUILDMEMBERADD * a
 
 	if(AddGuildMember(Result.GuildName, Result.MemberID, 0, g_Server[aIndex].m_ServerCode) == FALSE)
 	{
-		sLog.outBasic("error-L3: Failed to add member [%s] to guild [%s]", Result.MemberID, Result.GuildName);
+		sLog->outBasic("error-L3: Failed to add member [%s] to guild [%s]", Result.MemberID, Result.GuildName);
 	}
 
 	for(int i=0; i < g_dwMaxServerGroups; i++)
@@ -1653,7 +1653,7 @@ void CExDataServerProtocol::GDGuildMemberAdd(int aIndex, SDHP_GUILDMEMBERADD * a
 			else
 				Result.Flag = 0;
 
-			sLog.outBasic("[Guild Join Request] Send Result [%d] to Server [%d]", Result.Result, g_Server[i].m_ServerCode);
+			sLog->outBasic("[Guild Join Request] Send Result [%d] to Server [%d]", Result.Result, g_Server[i].m_ServerCode);
 
 			DataSend(i, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 
@@ -1674,7 +1674,7 @@ void CExDataServerProtocol::GDGuildMemberAddWithoutUserIndex(int aIndex, SDHP_GU
 	strncpy(Result.GuildName, aRecv->GuildName, 8);
 	strncpy(Result.MemberID, aRecv->MemberID, 10);
 
-	sLog.outBasic("[Guild Join Request] GuildName [%s], Member [%s].", Result.GuildName, Result.MemberID);
+	sLog->outBasic("[Guild Join Request] GuildName [%s], Member [%s].", Result.GuildName, Result.MemberID);
 
 	Result.pServer = g_Server[aIndex].m_ServerCode;
 	Result.Flag = 1;
@@ -1683,9 +1683,9 @@ void CExDataServerProtocol::GDGuildMemberAddWithoutUserIndex(int aIndex, SDHP_GU
 	if (strlen(Result.GuildName) < 4)
 	{
 		Result.Result = 0;
-		sLog.outBasic( "error-L2: [%s] Guild Name is short", Result.GuildName);
+		sLog->outBasic( "error-L2: [%s] Guild Name is short", Result.GuildName);
 
-		sLog.outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
+		sLog->outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
 		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
@@ -1693,9 +1693,9 @@ void CExDataServerProtocol::GDGuildMemberAddWithoutUserIndex(int aIndex, SDHP_GU
 	if (strlen(Result.MemberID) < 4)
 	{
 		Result.Result = 0;
-		sLog.outBasic( "error-L2: [%s] Member Name is short", Result.MemberID);
+		sLog->outBasic( "error-L2: [%s] Member Name is short", Result.MemberID);
 
-		sLog.outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
+		sLog->outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
 		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
@@ -1703,9 +1703,9 @@ void CExDataServerProtocol::GDGuildMemberAddWithoutUserIndex(int aIndex, SDHP_GU
 	if (DBGuildMemberExists(Result.MemberID))
 	{
 		Result.Result = 4;
-		sLog.outBasic("[Guild Join Request] [DBGuildMemberExists] Member [%s] is already in guild", Result.MemberID);
+		sLog->outBasic("[Guild Join Request] [DBGuildMemberExists] Member [%s] is already in guild", Result.MemberID);
 
-		sLog.outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
+		sLog->outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
 		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
@@ -1713,9 +1713,9 @@ void CExDataServerProtocol::GDGuildMemberAddWithoutUserIndex(int aIndex, SDHP_GU
 	if (AddDBGuildMember(Result.GuildName, Result.MemberID) == FALSE)
 	{
 		Result.Result = 4;
-		sLog.outBasic( "[Guild Join Request] [AddDBGuildMember] failed to add [%s] in guild [%s]", Result.MemberID, Result.GuildName);
+		sLog->outBasic( "[Guild Join Request] [AddDBGuildMember] failed to add [%s] in guild [%s]", Result.MemberID, Result.GuildName);
 
-		sLog.outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
+		sLog->outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
 		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
@@ -1724,7 +1724,7 @@ void CExDataServerProtocol::GDGuildMemberAddWithoutUserIndex(int aIndex, SDHP_GU
 
 	if (AddGuildMember(Result.GuildName, Result.MemberID, 0, g_Server[aIndex].m_ServerCode) == FALSE)
 	{
-		sLog.outBasic("error-L3: Failed to add member [%s] to guild [%s]", Result.MemberID, Result.GuildName);
+		sLog->outBasic("error-L3: Failed to add member [%s] to guild [%s]", Result.MemberID, Result.GuildName);
 	}
 
 	//EnterCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
@@ -1749,7 +1749,7 @@ void CExDataServerProtocol::GDGuildMemberAddWithoutUserIndex(int aIndex, SDHP_GU
 			else
 				Result.Flag = 0;
 
-			sLog.outBasic("[Guild Join Request] Send Result [%d] to Server [%d]", Result.Result, g_Server[i].m_ServerCode);
+			sLog->outBasic("[Guild Join Request] Send Result [%d] to Server [%d]", Result.Result, g_Server[i].m_ServerCode);
 
 			DataSend(i, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 
@@ -1795,41 +1795,41 @@ void CExDataServerProtocol::GDGuildMemberDel(int aIndex, SDHP_GUILDMEMBERDEL * a
 	strncpy(Result.GuildName, aRecv->GuildName, 8);
 	strncpy(Result.MemberID, aRecv->MemberID, 10);
 
-	sLog.outBasic("[Guild Member Withdraw Request] GuildName [%s], Member [%s].", Result.GuildName, Result.MemberID);
+	sLog->outBasic("[Guild Member Withdraw Request] GuildName [%s], Member [%s].", Result.GuildName, Result.MemberID);
 
 	Result.Flag = 1;
 	Result.Result = 3;
 
 	if(strlen(Result.GuildName) < 4)
 	{
-		sLog.outBasic( "error-L2: [%s] Guild Name is short", Result.GuildName);
+		sLog->outBasic( "error-L2: [%s] Guild Name is short", Result.GuildName);
 		
-		sLog.outBasic("[Guild Member Withdraw Request] Send Result [%d]", Result.Result);
+		sLog->outBasic("[Guild Member Withdraw Request] Send Result [%d]", Result.Result);
 		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
 	if(strlen(Result.MemberID) < 4)
 	{
-		sLog.outBasic( "error-L2: [%s] Member Name is short", Result.MemberID);
+		sLog->outBasic( "error-L2: [%s] Member Name is short", Result.MemberID);
 
-		sLog.outBasic("[Guild Member Withdraw Request] Send Result [%d]", Result.Result);
+		sLog->outBasic("[Guild Member Withdraw Request] Send Result [%d]", Result.Result);
 		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
 	if(DelDBGuildMember(Result.MemberID) == FALSE)
 	{
-		sLog.outBasic("[Guild Member Withdraw Request] [DelDBGuildMember] Failed delete member [%s] from guild [%s]", Result.MemberID, Result.GuildName);
+		sLog->outBasic("[Guild Member Withdraw Request] [DelDBGuildMember] Failed delete member [%s] from guild [%s]", Result.MemberID, Result.GuildName);
 
-		sLog.outBasic("[Guild Member Withdraw Request] Send Result [%d]", Result.Result);
+		sLog->outBasic("[Guild Member Withdraw Request] Send Result [%d]", Result.Result);
 		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
 	if(DelGuildMember(Result.GuildName, Result.MemberID) == FALSE)
 	{
-		sLog.outBasic("[Guild Member Withdraw Request] [DelGuildMember] Guild[%s] Member[%s] delete fail.", Result.GuildName, Result.MemberID);
+		sLog->outBasic("[Guild Member Withdraw Request] [DelGuildMember] Guild[%s] Member[%s] delete fail.", Result.GuildName, Result.MemberID);
 	}
 	else
 		Result.Result = 1;
@@ -1845,7 +1845,7 @@ void CExDataServerProtocol::GDGuildMemberDel(int aIndex, SDHP_GUILDMEMBERDEL * a
 				else
 					Result.Flag = 0;
 
-				sLog.outBasic("[Guild Member Withdraw Request] Send Result [%d] to Server[%d]", Result.Result, g_Server[i].m_ServerCode);
+				sLog->outBasic("[Guild Member Withdraw Request] Send Result [%d] to Server[%d]", Result.Result, g_Server[i].m_ServerCode);
 
 				DataSend(i, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 			}
@@ -1864,7 +1864,7 @@ BOOL CExDataServerProtocol::CreateRelationShipData(int iGuild)
 
 	this->m_MapUnionManager.emplace(iGuild, ud);
 
-	sLog.outBasic("[CreateRelationShipData] Guild:[%d]", iGuild);
+	sLog->outBasic("[CreateRelationShipData] Guild:[%d]", iGuild);
 
 	return TRUE;
 }
@@ -1880,7 +1880,7 @@ void CExDataServerProtocol::DGRelationShipAnsJoin(int aIndex, EXSDHP_RELATIONSHI
 
 	PHeadSetB((LPBYTE)&Result, 0xE5, sizeof(Result));
 
-	sLog.outBasic("[RelationShip Join Request] RelationShipType [%d], RequestGuild [%d], TargetGuild [%d].",
+	sLog->outBasic("[RelationShip Join Request] RelationShipType [%d], RequestGuild [%d], TargetGuild [%d].",
 		aRecv->btRelationShipType, aRecv->iRequestGuildNum, aRecv->iTargetGuildNum);
 
 	Result.btRelationShipType = aRecv->btRelationShipType;
@@ -1904,14 +1904,14 @@ void CExDataServerProtocol::DGRelationShipAnsJoin(int aIndex, EXSDHP_RELATIONSHI
 	else
 	{
 		if(lpRG == NULL)
-			sLog.outBasic("[RelationShip Join Request] RequestGuild with number [%d] not found.", aRecv->iRequestGuildNum);
+			sLog->outBasic("[RelationShip Join Request] RequestGuild with number [%d] not found.", aRecv->iRequestGuildNum);
 
 		if(lpTG == NULL)
-			sLog.outBasic("[RelationShip Join Request] TargetGuild with number [%d] not found.", aRecv->iTargetGuildNum);
+			sLog->outBasic("[RelationShip Join Request] TargetGuild with number [%d] not found.", aRecv->iTargetGuildNum);
 
 	}
 
-	sLog.outBasic("[RelationShip Join Request] Send Result [%d]", Result.btResult);
+	sLog->outBasic("[RelationShip Join Request] Send Result [%d]", Result.btResult);
 	DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 
 	if(Result.btResult != 0 && Result.btResult != 0x10)
@@ -1925,7 +1925,7 @@ void CExDataServerProtocol::DGRelationShipAnsJoin(int aIndex, EXSDHP_RELATIONSHI
 				{
 					if(i != aIndex)
 					{
-						sLog.outBasic("[RelationShip Join Request] Send Result [%d] to Server [%d]", 
+						sLog->outBasic("[RelationShip Join Request] Send Result [%d] to Server [%d]", 
 							Result.btResult, g_Server[i].m_ServerCode);
 
 						DataSend(i, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
@@ -1942,7 +1942,7 @@ void CExDataServerProtocol::DGRelationShipAnsBreakOff(int aIndex, EXSDHP_RELATIO
 
 	PHeadSetB((LPBYTE)&Result, 0xE6, sizeof(Result));
 
-	sLog.outBasic("[RelationShip Break Request] RelationShipType [%d], RequestGuild [%d], TargetGuild [%d].", 
+	sLog->outBasic("[RelationShip Break Request] RelationShipType [%d], RequestGuild [%d], TargetGuild [%d].", 
 		aRecv->btRelationShipType, aRecv->iRequestGuildNum, aRecv->iTargetGuildNum);
 
 	Result.btRelationShipType = aRecv->btRelationShipType;
@@ -1965,14 +1965,14 @@ void CExDataServerProtocol::DGRelationShipAnsBreakOff(int aIndex, EXSDHP_RELATIO
 	else
 	{
 		if(lpRG == NULL)
-			sLog.outBasic("[RelationShip Break Request] RequestGuild with number [%d] not found.", aRecv->iRequestGuildNum);
+			sLog->outBasic("[RelationShip Break Request] RequestGuild with number [%d] not found.", aRecv->iRequestGuildNum);
 
 		if(lpTG == NULL)
-			sLog.outBasic("[RelationShip Break Request] TargetGuild with number [%d] not found.", aRecv->iTargetGuildNum);
+			sLog->outBasic("[RelationShip Break Request] TargetGuild with number [%d] not found.", aRecv->iTargetGuildNum);
 
 	}
 
-	sLog.outBasic("[RelationShip Break Request] Send Result [%d]", Result.btResult);
+	sLog->outBasic("[RelationShip Break Request] Send Result [%d]", Result.btResult);
 	DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 
 	if(Result.btResult != 0 && Result.btResult != 0x10)
@@ -1986,7 +1986,7 @@ void CExDataServerProtocol::DGRelationShipAnsBreakOff(int aIndex, EXSDHP_RELATIO
 				{
 					if(i != aIndex)
 					{
-						sLog.outBasic("[RelationShip Break Request] Send Result [%d] to Server [%d]", 
+						sLog->outBasic("[RelationShip Break Request] Send Result [%d] to Server [%d]", 
 							Result.btResult, g_Server[i].m_ServerCode);
 
 						DataSend(i, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
@@ -2005,7 +2005,7 @@ void CExDataServerProtocol::DGUnionListRecv(int aIndex, EXSDHP_UNION_LIST_REQ * 
 	STR_UNION_MEMBER_DATA* lpUD = NULL;
 	int cnt = 0, size, res = 0;
 
-	sLog.outBasic("[Union List Request] UnionMasterGuild Number: [%d]", aRecv->iUnionMasterGuildNumber);
+	sLog->outBasic("[Union List Request] UnionMasterGuild Number: [%d]", aRecv->iUnionMasterGuildNumber);
 
 	GUILD_INFO_STRUCT* lpGuild;
 	GUILD_INFO_STRUCT* lpG;
@@ -2014,9 +2014,9 @@ void CExDataServerProtocol::DGUnionListRecv(int aIndex, EXSDHP_UNION_LIST_REQ * 
 	{
 		lpGuild = GetGuild(aRecv->iUnionMasterGuildNumber);
 		if(lpGuild)
-			sLog.outBasic("[Union List Request] UnionMasterGuild Name: [%s]", lpGuild->m_szGuildName);
+			sLog->outBasic("[Union List Request] UnionMasterGuild Name: [%s]", lpGuild->m_szGuildName);
 		else
-			sLog.outBasic("[Union List Request] Guild with number [%d] not found.", aRecv->iUnionMasterGuildNumber);
+			sLog->outBasic("[Union List Request] Guild with number [%d] not found.", aRecv->iUnionMasterGuildNumber);
 		lpUD = GetUnionData(aRecv->iUnionMasterGuildNumber);
 		cnt = (int)lpUD->m_vecUnionMember.size();
 	}
@@ -2081,14 +2081,14 @@ void CExDataServerProtocol::DGUnionListRecv(int aIndex, EXSDHP_UNION_LIST_REQ * 
 				lpList[i].btMemberNum = (unsigned char)lpG->m_mapGuildMember.size();
 				std::memcpy(lpList[i].Mark, lpG->m_Mark, 32);
 				strncpy(lpList[i].szGuildName, lpG->m_szGuildName, 8);
-				sLog.outBasic("[Union List Request] Send GuildName: [%s].", lpG->m_szGuildName);
+				sLog->outBasic("[Union List Request] Send GuildName: [%s].", lpG->m_szGuildName);
 			}
 		}
 
 		lpListCnt->btResult = 1;
 	}
 
-	sLog.outBasic("[Union List Request] Send UnionList with result: [%d]", lpListCnt->btResult);
+	sLog->outBasic("[Union List Request] Send UnionList with result: [%d]", lpListCnt->btResult);
 
 	DataSend(aIndex, lpData, size, __FUNCTION__);
 
@@ -2284,14 +2284,14 @@ BOOL CExDataServerProtocol::AddUnion(int iReqGuild, int iTargGuild)
 	if(lpUD == NULL)
 	{
 		if(iTargGuild)
-			sLog.outBasic("[AddUnion] FAILED - ReqGuild: [%d], TargGuild: [%d]", iReqGuild, iTargGuild);
+			sLog->outBasic("[AddUnion] FAILED - ReqGuild: [%d], TargGuild: [%d]", iReqGuild, iTargGuild);
 
 		return FALSE;
 	}
 
 	lpUD->m_vecUnionMember.push_back(iReqGuild);
 
-	sLog.outBasic("[AddUnion] SUCCESS - ReqGuild: [%d], TargGuild: [%d]", iReqGuild, iTargGuild);
+	sLog->outBasic("[AddUnion] SUCCESS - ReqGuild: [%d], TargGuild: [%d]", iReqGuild, iTargGuild);
 	return TRUE;
 
 }
@@ -2344,7 +2344,7 @@ void CExDataServerProtocol::DGRelationShipListSend(int aIndex, int iGuild, int r
 	EXSDHP_UNION_RELATIONSHIP_LIST List;
 	ZeroMemory(&List, sizeof(List));
 
-	sLog.outBasic("[RelationShip List Send] RelationShipType [%d], GuildNumber [%d].", relation_type, iGuild);
+	sLog->outBasic("[RelationShip List Send] RelationShipType [%d], GuildNumber [%d].", relation_type, iGuild);
 
 	PHeadSetW((LPBYTE)&List, 0xE7, sizeof(List));
 	List.btRelationShipType = relation_type;
@@ -2353,19 +2353,19 @@ void CExDataServerProtocol::DGRelationShipListSend(int aIndex, int iGuild, int r
 	lpGuild = GetGuild(iGuild);
 	if(lpGuild == NULL)
 	{
-		sLog.outBasic("[RelationShip List Send] error: Guild with number [%d] not found.", iGuild);
+		sLog->outBasic("[RelationShip List Send] error: Guild with number [%d] not found.", iGuild);
 		return;
 	}
 
 	if(lpGuild->m_iUnionGuild != 0)
 		iGuild = lpGuild->m_iUnionGuild;
 
-	sLog.outBasic("[RelationShip List Send] UnionMasterGuild: [%d]", iGuild);
+	sLog->outBasic("[RelationShip List Send] UnionMasterGuild: [%d]", iGuild);
 
 	lpGuild = GetGuild(iGuild);
 	if(lpGuild == NULL)
 	{
-		sLog.outBasic("[RelationShip List Send] error: Guild with number [%d] not found.", iGuild);
+		sLog->outBasic("[RelationShip List Send] error: Guild with number [%d] not found.", iGuild);
 		return;
 	}
 
@@ -2379,7 +2379,7 @@ void CExDataServerProtocol::DGRelationShipListSend(int aIndex, int iGuild, int r
 		STR_UNION_MEMBER_DATA* lpUD = GetUnionData(lpGuild->m_iNumber);
 		if(lpUD == NULL)
 		{
-			sLog.outBasic("[RelationShip List Send] error: No union data for Guild [%s].", lpGuild->m_szGuildName);
+			sLog->outBasic("[RelationShip List Send] error: No union data for Guild [%s].", lpGuild->m_szGuildName);
 			return;
 		}
 
@@ -2389,7 +2389,7 @@ void CExDataServerProtocol::DGRelationShipListSend(int aIndex, int iGuild, int r
 			List.iRelationShipMember[i] = lpUD->m_vecUnionMember[i];	
 		
 		List.btRelationShipMemberCount = size;
-		sLog.outBasic("[RelationShip List Send] RelationShipMemberCount: [%d] sent.", size);
+		sLog->outBasic("[RelationShip List Send] RelationShipMemberCount: [%d] sent.", size);
 	}
 	else if(relation_type == 2)
 	{
@@ -2397,7 +2397,7 @@ void CExDataServerProtocol::DGRelationShipListSend(int aIndex, int iGuild, int r
 		STR_UNION_MEMBER_DATA* lpUD = GetUnionData(lpGuild->m_iNumber);
 		if(lpUD == NULL)
 		{
-			sLog.outBasic("[RelationShip List Send] error: No union data for Guild [%s].", lpGuild->m_szGuildName);
+			sLog->outBasic("[RelationShip List Send] error: No union data for Guild [%s].", lpGuild->m_szGuildName);
 			return;
 		}
 
@@ -2446,7 +2446,7 @@ void CExDataServerProtocol::DGRelationShipListSend(int aIndex, int iGuild, int r
 
 		List.btRelationShipMemberCount = cnt;
 
-		sLog.outBasic("[RelationShip List Send] RelationShipMemberCount[%d] send.", cnt);
+		sLog->outBasic("[RelationShip List Send] RelationShipMemberCount[%d] send.", cnt);
 
 /*
 		if(lpGuild->m_iRivalGuild)
@@ -2478,7 +2478,7 @@ void CExDataServerProtocol::DGRelationShipListSend(int aIndex, int iGuild, int r
 				&& g_Server[i].m_State == SS_GUILD)
 				{
 
-					sLog.outBasic("[RelationShip List Send] List Send to Server [%d].", g_Server[i].m_ServerCode);
+					sLog->outBasic("[RelationShip List Send] List Send to Server [%d].", g_Server[i].m_ServerCode);
 					DataSend(i, (LPBYTE)&List, sizeof(List), __FUNCTION__);
 				}
 		}
@@ -2486,11 +2486,11 @@ void CExDataServerProtocol::DGRelationShipListSend(int aIndex, int iGuild, int r
 	{
 		if(aIndex != -1)
 		{
-			sLog.outBasic("[RelationShip List Send] List Send.");
+			sLog->outBasic("[RelationShip List Send] List Send.");
 			DataSend(aIndex, (LPBYTE)&List, sizeof(List), __FUNCTION__);
 		}
 		else
-			sLog.outBasic("[RelationShip List Send] error: ServerIndex = -1.");
+			sLog->outBasic("[RelationShip List Send] error: ServerIndex = -1.");
 	}
 }
 
@@ -2499,25 +2499,25 @@ void CExDataServerProtocol::DGRelationShipNotificationSend(int iGuild, int iUpda
 	GUILD_INFO_STRUCT* lpGuild;
 	lpGuild = GetGuild(iGuild);
 
-	sLog.outBasic("[RelationShip Notification Send] Guild [%d].", iGuild);
+	sLog->outBasic("[RelationShip Notification Send] Guild [%d].", iGuild);
 
 	if(lpGuild == NULL)
 	{
-		sLog.outBasic("[RelationShip Notification Send] error: Guild [%d] not found.", iGuild);
+		sLog->outBasic("[RelationShip Notification Send] error: Guild [%d] not found.", iGuild);
 		return;
 	}
 
 	if(lpGuild->m_iUnionGuild != 0)
 		iGuild = lpGuild->m_iUnionGuild;
 
-	sLog.outBasic("[RelationShip Notification Send] UnionMasterGuild: [%d].", iGuild);
+	sLog->outBasic("[RelationShip Notification Send] UnionMasterGuild: [%d].", iGuild);
 
 	STR_UNION_MEMBER_DATA* lpUD;
 
 	lpUD = GetUnionData(iGuild);
 	if(lpUD == NULL)
 	{
-		sLog.outBasic("[RelationShip Notification Send] error: No union data for Guild [%d].", iGuild);
+		sLog->outBasic("[RelationShip Notification Send] error: No union data for Guild [%d].", iGuild);
 		return;
 	}
 
@@ -2529,7 +2529,7 @@ void CExDataServerProtocol::DGRelationShipNotificationSend(int iGuild, int iUpda
 	int size = (int)lpUD->m_vecUnionMember.size();
 	List.btGuildListCount = size;
 	
-	sLog.outBasic("[RelationShip Notification Send] Guild List Count: [%d].", size);
+	sLog->outBasic("[RelationShip Notification Send] Guild List Count: [%d].", size);
 
 	int i;
 	for(i=0; i < size; i++)
@@ -2544,7 +2544,7 @@ void CExDataServerProtocol::DGRelationShipNotificationSend(int iGuild, int iUpda
 			&& g_Server[i].m_State == SS_GUILD)
 			{
 
-				sLog.outBasic("[RelationShip Notification Send] Send to Server [%d].", g_Server[i].m_ServerCode);
+				sLog->outBasic("[RelationShip Notification Send] Send to Server [%d].", g_Server[i].m_ServerCode);
 				DataSend(i, (LPBYTE)&List, sizeof(List), __FUNCTION__);
 			}
 	}
@@ -2564,7 +2564,7 @@ void CExDataServerProtocol::DGRelationShipAnsKickOutUnionMember(int aIndex, EXSD
 	Result.btResult = 0;
 	Result.btFlag = 1;
 
-	sLog.outBasic("[Kick Union Member Request] UnionMasterGuild [%s], UnionMemberGuild [%s]", Result.
+	sLog->outBasic("[Kick Union Member Request] UnionMasterGuild [%s], UnionMemberGuild [%s]", Result.
 		szUnionMasterGuildName, Result.szUnionMemberGuildName);
 
 	GUILD_INFO_STRUCT* lpMasterGuild;
@@ -2579,13 +2579,13 @@ void CExDataServerProtocol::DGRelationShipAnsKickOutUnionMember(int aIndex, EXSD
 	else
 	{
 		if(lpMasterGuild == NULL)
-			sLog.outBasic("[Kick Union Member Request] error: UnionMasterGuild [%s] not found.", Result.szUnionMasterGuildName);
+			sLog->outBasic("[Kick Union Member Request] error: UnionMasterGuild [%s] not found.", Result.szUnionMasterGuildName);
 
 		if(lpKickGuild)
-			sLog.outBasic("[Kick Union Member Request] error: UnionMemberGuild [%s] not found.", Result.szUnionMemberGuildName);
+			sLog->outBasic("[Kick Union Member Request] error: UnionMemberGuild [%s] not found.", Result.szUnionMemberGuildName);
 	}
 
-	sLog.outBasic("[Kick Union Member Request] Send Result [%d].", Result.btResult);
+	sLog->outBasic("[Kick Union Member Request] Send Result [%d].", Result.btResult);
 	DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 
 	if(Result.btResult != 0 && Result.btResult != 0x10)
@@ -2599,7 +2599,7 @@ void CExDataServerProtocol::DGRelationShipAnsKickOutUnionMember(int aIndex, EXSD
 				{
 					if(i != aIndex)
 					{
-						sLog.outBasic("[Kick Union Member Request] Send Result [%d] to Server [%d]", Result.btResult, g_Server[i].m_ServerCode);
+						sLog->outBasic("[Kick Union Member Request] Send Result [%d] to Server [%d]", Result.btResult, g_Server[i].m_ServerCode);
 						DataSend(i, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 					}
 				}
@@ -2655,10 +2655,10 @@ int CExDataServerProtocol::GetChatServer()
 
 void CExDataServerProtocol::FCHRoomCreateReq(int aIndex, char *szName, char *szFriendName, short Number, short ServerId, short FriendNumber, short FriendServerId)
 {
-	sLog.outBasic("[ChatServer] Room Create Request Name [%s], FriendName [%s].", szName, szFriendName);
+	sLog->outBasic("[ChatServer] Room Create Request Name [%s], FriendName [%s].", szName, szFriendName);
 	if(aIndex < 0)
 	{
-		sLog.outError("error-L3: ChatServer index: [%d]", aIndex);
+		sLog->outError("error-L3: ChatServer index: [%d]", aIndex);
 		return;
 	}
 
@@ -2706,12 +2706,12 @@ void CExDataServerProtocol::FriendChatRoomCreateAns(int aIndex, FCHP_CHATROOM_CR
 
 	if(lpMsg->Result)
 	{
-		sLog.outBasic("[ChatServer] Room Create Result [%d], Name [%s], Friend [%s], Room [%d], Ticket[%d]", 
+		sLog->outBasic("[ChatServer] Room Create Result [%d], Name [%s], Friend [%s], Room [%d], Ticket[%d]", 
 			lpMsg->Result, szName, szFriend, lpMsg->RoomNumber, lpMsg->Ticket);
 	}
 	else
 	{
-		sLog.outBasic("[ChatServer] Room Create Result [%d], Name [%s], Friend [%s].", 
+		sLog->outBasic("[ChatServer] Room Create Result [%d], Name [%s], Friend [%s].", 
 			lpMsg->Result, szName, szFriend);
 
 	}
@@ -2737,13 +2737,13 @@ void CExDataServerProtocol::FriendChatRoomCreateReq(int aIndex, FHP_FRIEND_CHATR
 	strncpy(szMaster, lpMsg->Name, 10);
 	strncpy(szFriend, lpMsg->fName, 10);
 
-	sLog.outBasic("[ChatRoom Create Request] Name [%s], FriendName [%s].", szMaster, szFriend);
+	sLog->outBasic("[ChatRoom Create Request] Name [%s], FriendName [%s].", szMaster, szFriend);
 	int ChatId = GetChatServer();
 
 	if(ChatId < 0)
 	{
 		Result.Result = 2;
-		sLog.outBasic( "error-L1: ChatServer Not Found.");
+		sLog->outBasic( "error-L1: ChatServer Not Found.");
 		FriendChatRoomCreateAns(-1, &Result);
 		return;
 	}
@@ -2754,7 +2754,7 @@ void CExDataServerProtocol::FriendChatRoomCreateReq(int aIndex, FHP_FRIEND_CHATR
 
 	if(this->m_FriendSystemEDS.FriendExists(szMaster, szFriend) == FALSE)
 	{
-		sLog.outBasic("[ChatRoom Create Request] Friend [%s] not found in [%s]'s friend list.", szFriend, szMaster);
+		sLog->outBasic("[ChatRoom Create Request] Friend [%s] not found in [%s]'s friend list.", szFriend, szMaster);
 		FriendChatRoomCreateAns(-1, &Result);
 		return;
 	}
@@ -2773,11 +2773,11 @@ void CExDataServerProtocol::FriendChatRoomCreateReq(int aIndex, FHP_FRIEND_CHATR
 
 void CExDataServerProtocol::FCHChatRoomInvitationReq(int aIndex, short RoomNumber,	char *szName, short Number,	short ServerId,	BYTE Type)
 {
-	sLog.outBasic("[ChatServer] Room: [%d] Invitation Request - FriendName: [%s].", RoomNumber, szName);
+	sLog->outBasic("[ChatServer] Room: [%d] Invitation Request - FriendName: [%s].", RoomNumber, szName);
 
 	if(aIndex < 0)
 	{
-		sLog.outError("error-L3: ChatServer index: [%d]", aIndex);
+		sLog->outError("error-L3: ChatServer index: [%d]", aIndex);
 		return;
 	}
 
@@ -2812,7 +2812,7 @@ void CExDataServerProtocol::FriendChatRoomInvitationReq(int aIndex, FHP_FRIEND_I
 	strncpy(szMaster, lpMsg->Name, 10);
 	strncpy(szFriend, lpMsg->FriendName, 10);
 
-	sLog.outBasic("[ChatRoom Invitation Request] Name[%s] Room[%d] FriendName[%s].", szMaster, lpMsg->RoomNumber, szFriend);
+	sLog->outBasic("[ChatRoom Invitation Request] Name[%s] Room[%d] FriendName[%s].", szMaster, lpMsg->RoomNumber, szFriend);
 	if(this->m_FriendSystemEDS.FriendExists(szMaster, szFriend))
 	{
 		int FriendServerId; // stub
@@ -2824,7 +2824,7 @@ void CExDataServerProtocol::FriendChatRoomInvitationReq(int aIndex, FHP_FRIEND_I
 		}
 	}
 	
-	sLog.outBasic("[ChatRoom Invitation Request] Send Result [%d].", Result.Result);
+	sLog->outBasic("[ChatRoom Invitation Request] Send Result [%d].", Result.Result);
 	DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 }
 
@@ -2836,7 +2836,7 @@ void CExDataServerProtocol::GensManualRefreshRanking(BYTE Type)
 	}
 	else
 	{
-		sLog.outError("Option available only with ExDataServer enabled");
+		sLog->outError("Option available only with ExDataServer enabled");
 		return;
 	}
 }
@@ -2888,14 +2888,14 @@ BOOL GensSystem_EDS::InitGensSystem()
 		return FALSE;
 	}
 
-	sLog.outBasic("[Gens System] Initializing Gens...");
+	sLog->outBasic("[Gens System] Initializing Gens...");
 
 	g_GensRankingUpdateTime = GetPrivateProfileInt("GensSystem", "GensRankingUpdateTimeHour", 2, ".\\DataServer.ini");
 	GetPrivateProfileString("GensSystem", "GensRankingPath", "..\\Data\\Character\\GensSystem.ini", g_GensRankingPath, sizeof(g_GensRankingPath), ".\\DataServer.ini");
 
 	this->LoadGensData(g_GensRankingPath);
 
-	sLog.outBasic("[Gens System] Current Month: %d", this->m_RewardMonth);
+	sLog->outBasic("[Gens System] Current Month: %d", this->m_RewardMonth);
 
 	this->MakeRanking();
 
@@ -2906,7 +2906,7 @@ BOOL GensSystem_EDS::LoadGensData(LPSTR lpszFileName)
 {
 	if (lpszFileName == NULL)
 	{
-		sLog.outBasic("[ GensRanking ] - File load error : File Name Error");
+		sLog->outBasic("[ GensRanking ] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -2915,7 +2915,7 @@ BOOL GensSystem_EDS::LoadGensData(LPSTR lpszFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outBasic("[ GensRanking ] - Can't Load %s (%s)", lpszFileName, res.description());
+		sLog->outBasic("[ GensRanking ] - Can't Load %s (%s)", lpszFileName, res.description());
 		return FALSE;
 	}
 
@@ -2934,7 +2934,7 @@ BOOL GensSystem_EDS::LoadGensData(LPSTR lpszFileName)
 
 		if (iClass < 1 || iClass > MAX_GENS_CLASS)
 		{
-			sLog.outBasic("Wrong Gens Class in %s file (%d)", lpszFileName, iClass);
+			sLog->outBasic("Wrong Gens Class in %s file (%d)", lpszFileName, iClass);
 			continue;
 		}
 
@@ -3070,7 +3070,7 @@ void GensSystem_EDS::GensRankingProcess()
 
 	this->MakeRanking();
 
-	sLog.outBasic("[Gens System] Processing Ranking Refresh (by Timer)");
+	sLog->outBasic("[Gens System] Processing Ranking Refresh (by Timer)");
 	this->m_GensRankingUpdateTimeTick = GetTickCount();
 }
 
@@ -3102,7 +3102,7 @@ void GensSystem_EDS::GDReqRegGensMember(int aIndex, PMSG_REQ_REG_GENS_MEMBER_EXD
 	pMsg.bIndexL = aRecv->bIndexL;
 	pMsg.bInfluence = aRecv->bInfluence;
 
-	sLog.outBasic("[Gens System] Request to Register: Name:%s Influence:%d -> RESULT: %d", aRecv->Name, aRecv->bInfluence, pMsg.bResult);
+	sLog->outBasic("[Gens System] Request to Register: Name:%s Influence:%d -> RESULT: %d", aRecv->Name, aRecv->bInfluence, pMsg.bResult);
 
 	if(pMsg.bResult == 0)
 	{
@@ -3117,13 +3117,13 @@ void GensSystem_EDS::GDReqRegGensMember(int aIndex, PMSG_REQ_REG_GENS_MEMBER_EXD
 		if(pMsg.bInfluence == 1)
 		{
 			this->m_mapGensRankDuprian[aRecv->Name] = pUser;
-			sLog.outBasic( "[Gens System] Add New User (DUPRIAN) (NAME:%s)", pUser.Name);
+			sLog->outBasic( "[Gens System] Add New User (DUPRIAN) (NAME:%s)", pUser.Name);
 		}
 		
 		else if(pMsg.bInfluence == 2)
 		{
 			this->m_mapGensRankVanert[aRecv->Name] = pUser;
-			sLog.outBasic("[Gens System] Add New User (VANERT) (NAME:%s)", pUser.Name);
+			sLog->outBasic("[Gens System] Add New User (VANERT) (NAME:%s)", pUser.Name);
 		}
 	}
 
@@ -3150,7 +3150,7 @@ void GensSystem_EDS::GDReqSecedeGensMember(int aIndex, PMSG_REQ_SECEDE_GENS_MEMB
 	pMsg.bIndexH = aRecv->bIndexH;
 	pMsg.bIndexL = aRecv->bIndexL;
 
-	sLog.outBasic("[Gens System] Request to Secede: Name:%s -> RESULT: %d", aRecv->Name, pMsg.bResult);
+	sLog->outBasic("[Gens System] Request to Secede: Name:%s -> RESULT: %d", aRecv->Name, pMsg.bResult);
 
 	if(pMsg.bResult == 0)
 	{
@@ -3161,7 +3161,7 @@ void GensSystem_EDS::GDReqSecedeGensMember(int aIndex, PMSG_REQ_SECEDE_GENS_MEMB
 		if(It != this->m_mapGensRankDuprian.end())
 		{
 			this->m_mapGensRankDuprian.erase(It);
-			sLog.outBasic( "[Gens System] Delete User (DUPRIAN) (NAME:%s)", aRecv->Name);
+			sLog->outBasic( "[Gens System] Delete User (DUPRIAN) (NAME:%s)", aRecv->Name);
 		}
 
 		else
@@ -3171,7 +3171,7 @@ void GensSystem_EDS::GDReqSecedeGensMember(int aIndex, PMSG_REQ_SECEDE_GENS_MEMB
 			if(It != this->m_mapGensRankVanert.end())
 			{
 				this->m_mapGensRankVanert.erase(It);
-				sLog.outBasic("[Gens System] Delete User (VANERT) (NAME:%s)", aRecv->Name);
+				sLog->outBasic("[Gens System] Delete User (VANERT) (NAME:%s)", aRecv->Name);
 			}
 		}
 	}
@@ -3188,12 +3188,12 @@ void GensSystem_EDS::GDReqSaveContributePoint(int aIndex, PMSG_REQ_SAVE_CONTRIBU
 	int iResult = 1; // stub
 	if(iResult == 1)
 	{
-		sLog.outBasic("[Gens System] Save Result: OK (Name:%s ContributePoint:%d GensClass:%d)", aRecv->Name, aRecv->iContributePoint, aRecv->iGensClass);
+		sLog->outBasic("[Gens System] Save Result: OK (Name:%s ContributePoint:%d GensClass:%d)", aRecv->Name, aRecv->iContributePoint, aRecv->iGensClass);
 	}
 
 	else
 	{
-		sLog.outBasic("[Gens System] Save Result: FAIL (Name:%s ContributePoint:%d GensClass:%d)", aRecv->Name, aRecv->iContributePoint, aRecv->iGensClass);
+		sLog->outBasic("[Gens System] Save Result: FAIL (Name:%s ContributePoint:%d GensClass:%d)", aRecv->Name, aRecv->iContributePoint, aRecv->iGensClass);
 	}
 
 	LeaveCriticalSection(&this->m_GensCriticalSection);
@@ -3361,7 +3361,7 @@ void GensSystem_EDS::MakeRanking()
 {
 	EnterCriticalSection(&this->m_GensCriticalSection);
 
-	sLog.outBasic("[Gens System] Ranking Making [START]");
+	sLog->outBasic("[Gens System] Ranking Making [START]");
 	//this->m_RankingLog.Output("--------------- [ GENS RANKING START ] ---------------");
 
 	this->m_mapGensRankDuprian.clear();
@@ -3379,13 +3379,13 @@ void GensSystem_EDS::MakeRanking()
 
 	for(std::map<string, GENS_USER, strCmp>::iterator It = this->m_mapGensRankDuprian.begin(); It != this->m_mapGensRankDuprian.end(); It++)
 	{
-		sLog.outBasic( "[Gens System] RANKING (DUPRIAN): [NAME:%s] [CONTRIBUTION:%d] [CLASS:%d] [RANK:%d]", It->second.Name, It->second.iContributePoint, It->second.iGensClass, It->second.iRank);
+		sLog->outBasic( "[Gens System] RANKING (DUPRIAN): [NAME:%s] [CONTRIBUTION:%d] [CLASS:%d] [RANK:%d]", It->second.Name, It->second.iContributePoint, It->second.iGensClass, It->second.iRank);
 		//this->m_RankingLog.Output("RANKING (DUPRIAN): [NAME:%s] [CONTRIBUTION:%d] [CLASS:%d] [RANK:%d]", It->second.Name, It->second.iContributePoint, It->second.iGensClass, It->second.iRank);
 	}
 
 	for(std::map<string, GENS_USER, strCmp>::iterator It = this->m_mapGensRankVanert.begin(); It != this->m_mapGensRankVanert.end(); It++)
 	{
-		sLog.outBasic("[Gens System] RANKING (VANERT): [NAME:%s] [CONTRIBUTION:%d] [CLASS:%d] [RANK:%d]", It->second.Name, It->second.iContributePoint, It->second.iGensClass, It->second.iRank);
+		sLog->outBasic("[Gens System] RANKING (VANERT): [NAME:%s] [CONTRIBUTION:%d] [CLASS:%d] [RANK:%d]", It->second.Name, It->second.iContributePoint, It->second.iGensClass, It->second.iRank);
 		//this->m_RankingLog.Output("RANKING (VANERT): [NAME:%s] [CONTRIBUTION:%d] [CLASS:%d] [RANK:%d]", It->second.Name, It->second.iContributePoint, It->second.iGensClass, It->second.iRank);
 	}
 
@@ -3398,10 +3398,10 @@ void GensSystem_EDS::MakeRanking()
 		VPoint *= 100.0 / AllPoints;
 	}
 
-	sLog.outBasic("[Gens System] (D:%0.2f) VS (V:%0.2f)", DPercent, VPercent);
+	sLog->outBasic("[Gens System] (D:%0.2f) VS (V:%0.2f)", DPercent, VPercent);
 	//this->m_RankingLog.Output("RANKING RESULTS: (D:%f) VS (V:%f)", DPercent, VPercent);
 
-	sLog.outBasic("[Gens System] Ranking Making [END]");
+	sLog->outBasic("[Gens System] Ranking Making [END]");
 	//this->m_RankingLog.Output("--------------- [ GENS RANKING END ] ---------------");
 
 	LeaveCriticalSection(&this->m_GensCriticalSection);
@@ -3409,7 +3409,7 @@ void GensSystem_EDS::MakeRanking()
 
 void GensSystem_EDS::ManualRefreshRanking(BYTE Type)
 {
-	sLog.outBasic("[Gens System] Processing Ranking refresh (Manual, by: %s)", Type == 0 ? "System Administrator" : "Game Master");
+	sLog->outBasic("[Gens System] Processing Ranking refresh (Manual, by: %s)", Type == 0 ? "System Administrator" : "Game Master");
 
 	this->ReloadCurrentMonth();
 	this->MakeRanking();
@@ -4199,7 +4199,7 @@ void CExDataServerProtocol::GDReqDeletePartyUser(int aIndex, _stReqDelPartyUserP
 
 		if (nUserServerIndex < 0)
 		{
-			sLog.outBasic("[Party Matching] User not connected (%s)", lpMsg->szTargetName);
+			sLog->outBasic("[Party Matching] User not connected (%s)", lpMsg->szTargetName);
 			return;
 		}
 
@@ -4268,7 +4268,7 @@ void CExDataServerProtocol::AutoAddPartyMember(char *szLeaderName, char *szMembe
 
 		DataSend(nServerIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 
-		sLog.outBasic("[Party Matching] Add Error - party with leader (%s) not exists", szLeaderName);
+		sLog->outBasic("[Party Matching] Add Error - party with leader (%s) not exists", szLeaderName);
 		LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 		return;
 	}
@@ -4466,7 +4466,7 @@ void CPartyMatchingData::CreateParty(int Server, int ServerIndex, int nLeaderInd
 
 	if (this->GetPartyDataByMaster(szLeaderName) != NULL)
 	{
-		sLog.outError("[Party Matching] ERROR - Party with Leader %s already exists", szLeaderName);
+		sLog->outError("[Party Matching] ERROR - Party with Leader %s already exists", szLeaderName);
 		return;
 	}
 
@@ -4484,7 +4484,7 @@ void CPartyMatchingData::CreateParty(int Server, int ServerIndex, int nLeaderInd
 
 	this->m_vtPartyData.push_back(m_PartyData);
 
-	sLog.outBasic("[Party Matching] Create Party (Leader: %s) (Total Party Count:%d)", szLeaderName, this->m_vtPartyData.size());
+	sLog->outBasic("[Party Matching] Create Party (Leader: %s) (Total Party Count:%d)", szLeaderName, this->m_vtPartyData.size());
 
 	LeaveCriticalSection(&this->m_criti);
 }
@@ -4505,7 +4505,7 @@ void CPartyMatchingData::DeleteParty(char *szLeaderName)
 		{
 			this->m_vtPartyData.erase(it);
 
-			sLog.outBasic("[Party Matching] Delete Party (Leader: %s) (Total Party Count:%d)", szLeaderName, this->m_vtPartyData.size());
+			sLog->outBasic("[Party Matching] Delete Party (Leader: %s) (Total Party Count:%d)", szLeaderName, this->m_vtPartyData.size());
 			break;
 		}
 	}
@@ -4560,7 +4560,7 @@ int CPartyMatchingData::AddPartyMember(char *szLeaderName, char *szMemberName, i
 					lpPartyData->m_UserData[i].iServerIndex = nMemberServerIndex;
 					std::memcpy(lpPartyData->m_UserData[i].szUserName, szMemberName, MAX_ACCOUNT_LEN + 1);
 
-					sLog.outBasic("[Party Matching] Add Party Member (Leader: %s) (Member: %s) (Total users in party: %d)", szLeaderName, szMemberName, lpPartyData->m_UserCount);
+					sLog->outBasic("[Party Matching] Add Party Member (Leader: %s) (Member: %s) (Total users in party: %d)", szLeaderName, szMemberName, lpPartyData->m_UserCount);
 					bResult = 0;
 					break;
 				}
@@ -4599,7 +4599,7 @@ int CPartyMatchingData::DelPartyMember(char *szLeaderName, char *szMemberName)
 				memset(lpPartyData->m_UserData[i].szUserName, 0x00, sizeof(lpPartyData->m_UserData[i].szUserName));
 				lpPartyData->m_UserCount--;
 
-				sLog.outBasic("[Party Matching] Delete Party Member (Leader: %s) (Member: %s) (Total users in party: %d)", szLeaderName, szMemberName, lpPartyData->m_UserCount);
+				sLog->outBasic("[Party Matching] Delete Party Member (Leader: %s) (Member: %s) (Total users in party: %d)", szLeaderName, szMemberName, lpPartyData->m_UserCount);
 
 				LeaveCriticalSection(&this->m_criti);
 				return 0;
@@ -4641,7 +4641,7 @@ int CPartyMatchingData::ConnectMember(char *szMemberName, int nMemberIndex, int 
 	lpPartyData->m_UserData[iArrayNum].iServerIndex = nChannelIndex;
 	lpPartyData->m_UserData[iArrayNum].iUserConnected = TRUE;
 
-	sLog.outBasic("[Party Matching] Member connected (Name:%s) (Leader:%s)", szMemberName, lpPartyData->szLeaderName);
+	sLog->outBasic("[Party Matching] Member connected (Name:%s) (Leader:%s)", szMemberName, lpPartyData->szLeaderName);
 	LeaveCriticalSection(&this->m_criti);
 
 	return 1;
@@ -4669,7 +4669,7 @@ int CPartyMatchingData::DisconnectMember(char *szMemberName)
 			lpPartyData->m_UserData[i].iServerNumber = -1;
 			lpPartyData->m_UserData[i].iUserConnected = FALSE;
 
-			sLog.outBasic("[Party Matching] Member disconnected (Name:%s) (Leader:%s)", szMemberName, lpPartyData->szLeaderName);
+			sLog->outBasic("[Party Matching] Member disconnected (Name:%s) (Leader:%s)", szMemberName, lpPartyData->szLeaderName);
 			bMemberFound = TRUE;
 		}
 

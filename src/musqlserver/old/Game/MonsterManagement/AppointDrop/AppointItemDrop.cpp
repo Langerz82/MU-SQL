@@ -31,7 +31,7 @@ void CAppointItemDrop::LoadAppointItemDropScript()
 
 	if(res.status != pugi::status_ok)
 	{
-		sLog.outError("Error loading %s file (%s)", g_ConfigRead.GetPath("IGC_AppointItemDrop.xml"), res.description());
+		sLog->outError("Error loading %s file (%s)", g_ConfigRead.GetPath("IGC_AppointItemDrop.xml"), res.description());
 		return;
 	}
 
@@ -60,7 +60,7 @@ void CAppointItemDrop::LoadAppointItemDropScript()
 
 		else	
 		{
-			sLog.outError("[IGC_AppointItemDrop.xml] Error - link already exists (%d) (%d)", tmpMonsterItemGroupLink.iMonsterIndex, tmpMonsterItemGroupLink.iDropItemGroup);
+			sLog->outError("[IGC_AppointItemDrop.xml] Error - link already exists (%d) (%d)", tmpMonsterItemGroupLink.iMonsterIndex, tmpMonsterItemGroupLink.iDropItemGroup);
 		}
 	}
 
@@ -73,7 +73,7 @@ void CAppointItemDrop::LoadAppointItemDropScript()
 
 		if (tmpDropItemGroup.iDropRateDenominator <= 0)
 		{
-			sLog.outError("[IGC_AppointItemDrop.xml] Error - Denominator is ZERO (Group:%d)", tmpDropItemGroup.iDropItemGroup);
+			sLog->outError("[IGC_AppointItemDrop.xml] Error - Denominator is ZERO (Group:%d)", tmpDropItemGroup.iDropItemGroup);
 			return;
 		}
 
@@ -95,7 +95,7 @@ void CAppointItemDrop::LoadAppointItemDropScript()
 
 			if (ItemGetNumberMake(tmpDropItem.iType, tmpDropItem.iIndex) == -1)
 			{
-				sLog.outError("[ !! ERROR !! ]  at 'IGC_AppointItemDrop.xml' Wrong Item Index Found Type:%d, Index:%d", tmpDropItem.iType, tmpDropItem.iIndex);
+				sLog->outError("[ !! ERROR !! ]  at 'IGC_AppointItemDrop.xml' Wrong Item Index Found Type:%d, Index:%d", tmpDropItem.iType, tmpDropItem.iIndex);
 			}
 
 			tmpDropItemGroup.vecDropItem.push_back(tmpDropItem);

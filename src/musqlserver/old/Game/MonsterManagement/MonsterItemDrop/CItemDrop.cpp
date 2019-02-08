@@ -36,7 +36,7 @@ bool CItemDrop::LoadFile(const char *szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("Error loading %s file (%s)", szFile, res.description());
+		sLog->outError("Error loading %s file (%s)", szFile, res.description());
 		return false;
 	}
 
@@ -137,7 +137,7 @@ bool CItemDrop::DropItem(LPOBJ lpUser, LPOBJ lpMonster)
 		if (ItemNumber == -1)
 		{
 			delete [] lpItems;
-			sLog.outError( "ERROR - Bad Index (%d) CItemDrop::DropItem (%s)(%d)", ItemNumber, lpUser->Name, lpMonster->Class);
+			sLog->outError( "ERROR - Bad Index (%d) CItemDrop::DropItem (%s)(%d)", ItemNumber, lpUser->Name, lpMonster->Class);
 			return false;
 		}
 
@@ -146,7 +146,7 @@ bool CItemDrop::DropItem(LPOBJ lpUser, LPOBJ lpMonster)
 		if (!p)
 		{
 			delete [] lpItems;
-			sLog.outError( "ERROR - Item not found (%d) CItemDrop::DropItem (%s)(%d)", ItemNumber, lpUser->Name, lpMonster->Class);
+			sLog->outError( "ERROR - Item not found (%d) CItemDrop::DropItem (%s)(%d)", ItemNumber, lpUser->Name, lpMonster->Class);
 			return false;
 		}
 
@@ -510,7 +510,7 @@ bool CItemDrop::LoadZenDropFile(const char *szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("Failed to load %s file (%s)", szFile, res.description());
+		sLog->outError("Failed to load %s file (%s)", szFile, res.description());
 		return false;
 	}
 

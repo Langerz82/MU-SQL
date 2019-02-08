@@ -626,7 +626,7 @@ void CPeriodItemEx::RequestPeriodItemDelete(LPOBJ lpObj, ITEM_DATA * lpItemData)
 	pMsg.Serial = lpItemData->Serial;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xD0, 0x02, sizeof(pMsg));
-	sLog.outBasic("[PeriodItemEx][Delete PeriodItem] Request Delete PeriodItem Data. User Id : %s(%d), Name : %s, Item : %s(%d), Type : %d, Serial : %I64d",
+	sLog->outBasic("[PeriodItemEx][Delete PeriodItem] Request Delete PeriodItem Data. User Id : %s(%d), Name : %s, Item : %s(%d), Type : %d, Serial : %I64d",
 		lpObj->AccountID, lpObj->DBNumber, lpObj->Name, ItemAttribute[lpItemData->wItemCode].Name, lpItemData->wItemCode, lpItemData->btItemType, lpItemData->Serial);
 	
 	wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
@@ -691,7 +691,7 @@ void CPeriodItemEx::DGPeriodItemExDelete(PMSG_ANS_PERIODITEMEX_DELETE * lpMsg)
 	}
 	else
 	{
-		sLog.outBasic("[PeriodItemEx][Delete PeriodItem] OnRequest Delete PeriodItem Data. User Id : %s(%d), Name : %s, Result : %d",
+		sLog->outBasic("[PeriodItemEx][Delete PeriodItem] OnRequest Delete PeriodItem Data. User Id : %s(%d), Name : %s, Result : %d",
 			lpObj->AccountID, lpObj->DBNumber, lpObj->Name, lpMsg->btResultCode);
 	}
 }
@@ -725,7 +725,7 @@ void CPeriodItemEx::DGPeriodItemExExpiredItemList(PMSG_ANS_PERIODITEMEX_EXPIRED_
 
 		if ( pos != -1 )
 		{
-			sLog.outBasic("[PeriodItemEx][SetExpiredItemList] OnRequest Expired Item Set Disable. User Id : %s(%d), Name : %s, Item : %s(%d), Serial : %I64d",
+			sLog->outBasic("[PeriodItemEx][SetExpiredItemList] OnRequest Expired Item Set Disable. User Id : %s(%d), Name : %s, Item : %s(%d), Serial : %I64d",
 				lpObj->AccountID, lpObj->DBNumber, lpObj->Name, ItemAttribute[lpMsg->wItemCode[i]].Name, lpMsg->wItemCode[i], lpMsg->Serial[i]);
 
 			this->SetDisableItemToExpire(lpObj, pos);

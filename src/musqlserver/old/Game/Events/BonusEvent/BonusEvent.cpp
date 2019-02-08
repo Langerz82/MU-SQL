@@ -33,7 +33,7 @@ void CBonusEvent::LoadFile(char *szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("Error loading %s file (%s)", szFile, res.description());
+		sLog->outError("Error loading %s file (%s)", szFile, res.description());
 		LeaveCriticalSection(&this->m_criti);
 		return;
 	}
@@ -116,7 +116,7 @@ void CBonusEvent::Run(void *lpParam)
 					TNotice::MakeNoticeMsgEx(&pNotice, 0, Lang.GetText(0,600), active_event_ptr->wEndHour - active_event_ptr->wStartHour, nRemainMin);
 					TNotice::SendNoticeToAllUser(&pNotice);
 
-					sLog.outBasic("[Bonus Event] Started Event (AddExp:%f) (AddMLExp:%f) (AddDrop:%f) (AddExcDrop:%f)",
+					sLog->outBasic("[Bonus Event] Started Event (AddExp:%f) (AddMLExp:%f) (AddDrop:%f) (AddExcDrop:%f)",
 						active_event_ptr->AddExp, active_event_ptr->AddMLExp, active_event_ptr->AddDrop, active_event_ptr->AddExcDrop);
 				}
 

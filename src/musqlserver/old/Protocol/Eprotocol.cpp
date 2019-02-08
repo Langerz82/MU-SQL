@@ -21,11 +21,11 @@ void InitEventDB()
 
 	if ( TRUE )
 	{
-		sLog.outBasic("[EventDB] Connection Successfull!");
+		sLog->outBasic("[EventDB] Connection Successfull!");
 	}
 	else
 	{
-		sLog.outError("[EventDB] Error On Connection!");
+		sLog->outError("[EventDB] Error On Connection!");
 	}
 }
 

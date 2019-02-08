@@ -39,7 +39,7 @@ BOOL CRaklionBattleUserMng::AddUserData(int iIndex)
 {
 	if(gObjIsConnected(iIndex) == FALSE)
 	{
-		sLog.outBasic("[ RAKLION ][ BattleUser ] Add User Fail - Disconnect User [%s][%s]", gObj[iIndex].AccountID, gObj[iIndex].Name);
+		sLog->outBasic("[ RAKLION ][ BattleUser ] Add User Fail - Disconnect User [%s][%s]", gObj[iIndex].AccountID, gObj[iIndex].Name);
 		return FALSE;
 	}
 
@@ -47,7 +47,7 @@ BOOL CRaklionBattleUserMng::AddUserData(int iIndex)
 
 	g_RaklionUtil.NotifyRaklionCurrentState(iIndex, g_Raklion.GetRaklionState(), g_Raklion.GetRaklionStateDetail());
 
-	sLog.outBasic("[ RAKLION ][ Battle User ] Add User [%s][%s] Current Battle User:%d", gObj[iIndex].AccountID, gObj[iIndex].Name, m_BattleUser.size());
+	sLog->outBasic("[ RAKLION ][ Battle User ] Add User [%s][%s] Current Battle User:%d", gObj[iIndex].AccountID, gObj[iIndex].Name, m_BattleUser.size());
 	return TRUE;
 }
 
@@ -55,7 +55,7 @@ BOOL CRaklionBattleUserMng::DeleteUserData(int iIndex)
 {
 	if( iIndex < 0 || iIndex > g_ConfigRead.server.GetObjectMax()-1 )
 	{
-		sLog.outError( "[ RAKLION ][ BattleUser ] Delete User Fail - Unvalid Index:%d", iIndex);
+		sLog->outError( "[ RAKLION ][ BattleUser ] Delete User Fail - Unvalid Index:%d", iIndex);
 		return FALSE;
 	}
 
@@ -64,7 +64,7 @@ BOOL CRaklionBattleUserMng::DeleteUserData(int iIndex)
 		if(m_BattleUser[iCount] == iIndex)
 		{
 			m_BattleUser.erase(m_BattleUser.begin()+iCount);
-			sLog.outBasic("[ RAKLION ][ BattleUser ] Delete User - [%s][%s] Current Battle User:%d", gObj[iIndex].AccountID, gObj[iIndex].Name, m_BattleUser.size());
+			sLog->outBasic("[ RAKLION ][ BattleUser ] Delete User - [%s][%s] Current Battle User:%d", gObj[iIndex].AccountID, gObj[iIndex].Name, m_BattleUser.size());
 			return TRUE;
 		}
 	}
@@ -78,7 +78,7 @@ void CRaklionBattleUserMng::CheckUserState()
 		if( !gObjIsConnected(m_BattleUser[iCount]))
 		{
 			DeleteUserData(m_BattleUser[iCount]);
-			sLog.outBasic("[ RAKLION ][ BattleUser ] Delete User - Disconnect [%s][%s]", gObj[m_BattleUser[iCount]].AccountID, gObj[m_BattleUser[iCount]].Name);
+			sLog->outBasic("[ RAKLION ][ BattleUser ] Delete User - Disconnect [%s][%s]", gObj[m_BattleUser[iCount]].AccountID, gObj[m_BattleUser[iCount]].Name);
 		}
 
 		if( gObj[m_BattleUser[iCount]].MapNumber != MAP_INDEX_HATCHERY &&
@@ -87,7 +87,7 @@ void CRaklionBattleUserMng::CheckUserState()
 			 gObj[m_BattleUser[iCount]].m_SkillInfo.LordSummonMapNumber != MAP_INDEX_HATCHERY )
 		{
 			DeleteUserData(m_BattleUser[iCount]);
-			sLog.outBasic("[ RAKLION ][ BattleUser ] Delete User - Map Move [%s][%s]", gObj[m_BattleUser[iCount]].AccountID, gObj[m_BattleUser[iCount]].Name);
+			sLog->outBasic("[ RAKLION ][ BattleUser ] Delete User - Map Move [%s][%s]", gObj[m_BattleUser[iCount]].AccountID, gObj[m_BattleUser[iCount]].Name);
 		}
 	}
 }
@@ -101,12 +101,12 @@ BOOL CRaklionBattleUserMng::MoveAllUser(int iGateNumber)
 		bMoveGateSuccess = gObjMoveGate(m_BattleUser[iCount], iGateNumber);
 		if(bMoveGateSuccess == TRUE)
 		{
-			sLog.outBasic("[ RAKLION ][ BattleUser ] [%s][%s] MoveGate(%d)", gObj[m_BattleUser[iCount]].AccountID, gObj[m_BattleUser[iCount]].Name, iGateNumber);
+			sLog->outBasic("[ RAKLION ][ BattleUser ] [%s][%s] MoveGate(%d)", gObj[m_BattleUser[iCount]].AccountID, gObj[m_BattleUser[iCount]].Name, iGateNumber);
 		}
 		else
 		{
 			DeleteUserData(m_BattleUser[iCount]);
-			sLog.outBasic("[ RAKLION ][ BattleUser ] [%s][%s] MoveGate Fail (%d)", gObj[m_BattleUser[iCount]].AccountID, gObj[m_BattleUser[iCount]].Name, iGateNumber);
+			sLog->outBasic("[ RAKLION ][ BattleUser ] [%s][%s] MoveGate Fail (%d)", gObj[m_BattleUser[iCount]].AccountID, gObj[m_BattleUser[iCount]].Name, iGateNumber);
 			gObjMoveGate(m_BattleUser[iCount], 286); //Raklion Entrance
 		}
 	}

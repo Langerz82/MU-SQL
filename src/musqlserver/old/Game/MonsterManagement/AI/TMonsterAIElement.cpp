@@ -60,7 +60,7 @@ BOOL TMonsterAIElement::LoadData(LPSTR lpszFileName)
 
 	if ( lpszFileName == NULL || strcmp(lpszFileName, "") == 0 )
 	{
-		sLog.outError("[Monster AI Element] - File load error : File Name Error");
+		sLog->outError("[Monster AI Element] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -71,7 +71,7 @@ BOOL TMonsterAIElement::LoadData(LPSTR lpszFileName)
 
 		if ( res.status != pugi::status_ok )
 		{
-			sLog.outError("[Monster AI Element] - Can't Load %s (%s)", lpszFileName, res.description());
+			sLog->outError("[Monster AI Element] - Can't Load %s (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
@@ -95,13 +95,13 @@ BOOL TMonsterAIElement::LoadData(LPSTR lpszFileName)
 
 			if ( iElementNumber < 0 || iElementNumber >= MAX_AI_ELEMENT )
 			{
-				sLog.outError("[Monster AI Element] - ElementNumber(%d) Error (%s) File. ", iElementNumber, lpszFileName);
+				sLog->outError("[Monster AI Element] - ElementNumber(%d) Error (%s) File. ", iElementNumber, lpszFileName);
 				continue;
 			}
 
 			if ( iElementClass < 0 || iElementClass >= MAX_AI_ELEMENT_CLASS )
 			{
-				sLog.outError("[Monster AI Element] - ElementClass(%d) Error (%s) File. ", iElementClass, lpszFileName);
+				sLog->outError("[Monster AI Element] - ElementClass(%d) Error (%s) File. ", iElementClass, lpszFileName);
 				continue;
 			}
 
@@ -121,7 +121,7 @@ BOOL TMonsterAIElement::LoadData(LPSTR lpszFileName)
 
 	catch (DWORD)
 	{
-		sLog.outError("[Monster AI Element] - Loading Exception Error (%s) File. ", lpszFileName);
+		sLog->outError("[Monster AI Element] - Loading Exception Error (%s) File. ", lpszFileName);
 	}
 
 	TMonsterAIElement::s_MonsterAIMovePath[MAP_INDEX_CRYWOLF_FIRSTZONE].LoadData(g_ConfigRead.GetPath("\\Monsters\\AI\\IGC_Monster_AI_MovePath.xml"), "CryWolf");
@@ -767,7 +767,7 @@ BOOL TMonsterAIElement::ApplyElementSkillAttack(int iIndex, int iTargetIndex, TM
 BOOL TMonsterAIElement::ApplyElementAIChange(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
 	TMonsterAIGroup::ChangeAIOrder(this->m_iTargetType, this->m_iX);
-	sLog.outError(  "[AI Change] Group %d AI Order %d",
+	sLog->outError(  "[AI Change] Group %d AI Order %d",
 		this->m_iTargetType, this->m_iX);
 
 	return FALSE;

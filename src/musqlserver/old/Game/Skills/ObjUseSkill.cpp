@@ -226,7 +226,7 @@ BOOL CObjUseSkill::SpeedHackCheck(int aIndex)
 
 			if (gIsKickDetecHackCountLimit != 0 && lpObj->m_DetectedHackKickCount > gDetectedHackKickCount)
 			{
-				sLog.outBasic("[%s][%s] Kick DetecHackCountLimit Over User (%d)", lpObj->AccountID, lpObj->Name, lpObj->m_DetectedHackKickCount);
+				sLog->outBasic("[%s][%s] Kick DetecHackCountLimit Over User (%d)", lpObj->AccountID, lpObj->Name, lpObj->m_DetectedHackKickCount);
 				GSProtocol.GCSendDisableReconnect(aIndex);
 				//IOCP.CloseClient(aIndex);
 				return false;
@@ -236,7 +236,7 @@ BOOL CObjUseSkill::SpeedHackCheck(int aIndex)
 
 			if (gIsKickDetecHackCountLimit != 0)
 			{
-				sLog.outBasic("[%s][%s] Attack Speed Is Wrong MagicSkill (%d)(%d) Penalty %d", lpObj->AccountID, lpObj->Name, lpObj->m_DetectSpeedHackTime, lpObj->m_SumLastAttackTime / lpObj->m_DetectCount, lpObj->m_SpeedHackPenalty);
+				sLog->outBasic("[%s][%s] Attack Speed Is Wrong MagicSkill (%d)(%d) Penalty %d", lpObj->AccountID, lpObj->Name, lpObj->m_DetectSpeedHackTime, lpObj->m_SumLastAttackTime / lpObj->m_DetectCount, lpObj->m_SpeedHackPenalty);
 			}
 		}
 	}
@@ -251,7 +251,7 @@ BOOL CObjUseSkill::SpeedHackCheck(int aIndex)
 	if (bIsIgnorePacketSpeedHackDetect != 0 && lpObj->m_SpeedHackPenalty > 0)
 	{
 		lpObj->m_SpeedHackPenalty--;
-		sLog.outBasic("[%s][%s] Apply Attack Speed Penalty (%d left)", lpObj->AccountID, lpObj->Name, lpObj->m_SpeedHackPenalty);
+		sLog->outBasic("[%s][%s] Apply Attack Speed Penalty (%d left)", lpObj->AccountID, lpObj->Name, lpObj->m_SpeedHackPenalty);
 		return false;
 	}
 	return true;
@@ -854,7 +854,7 @@ void CObjUseSkill::UseSkill(int aIndex, CMagicInf * lpMagic, BYTE x, BYTE y, BYT
 		{
 			if (ObjectMaxRange(aTargetIndex) == FALSE)
 			{
-				sLog.outBasic("[InvalidTargetIndex][CObjUseSkill.UseSkill][AT_SKILL_DRAGON_ROAR] Index :%d , AccountID : %s ", aIndex, gObj[aIndex].AccountID);
+				sLog->outBasic("[InvalidTargetIndex][CObjUseSkill.UseSkill][AT_SKILL_DRAGON_ROAR] Index :%d , AccountID : %s ", aIndex, gObj[aIndex].AccountID);
 				return;
 			}
 
@@ -870,7 +870,7 @@ void CObjUseSkill::UseSkill(int aIndex, CMagicInf * lpMagic, BYTE x, BYTE y, BYT
 		{
 			if (ObjectMaxRange(aTargetIndex) == FALSE)
 			{
-				sLog.outBasic("[InvalidTargetIndex][CObjUseSkill.UseSkill][AT_SKILL_PHOENIXSHOT] Index :%d , AccountID : %s ", aIndex, gObj[aIndex].AccountID);
+				sLog->outBasic("[InvalidTargetIndex][CObjUseSkill.UseSkill][AT_SKILL_PHOENIXSHOT] Index :%d , AccountID : %s ", aIndex, gObj[aIndex].AccountID);
 				return;
 			}
 
@@ -2725,7 +2725,7 @@ BOOL CObjUseSkill::SkillHellFire2(int aIndex, int aTargetIndex, CMagicInf * lpMa
 
 	if (lpObj->m_PlayerData->SkillHellFire2State == 0)
 	{
-		sLog.outBasic("[%s][%s] Nova skill didn't cast", lpObj->AccountID, lpObj->Name); //HermeX Fix
+		sLog->outBasic("[%s][%s] Nova skill didn't cast", lpObj->AccountID, lpObj->Name); //HermeX Fix
 		return false;
 	}
 
@@ -2816,7 +2816,7 @@ BOOL CObjUseSkill::SkillHellFire2Start(int aIndex, CMagicInf * lpMagic)
 
 	if (lpObj->m_PlayerData->SkillHellFire2State != 0)
 	{
-		sLog.outBasic("[%s][%s] Nova skill already casted", lpObj->AccountID, lpObj->Name); // HermeX Fix
+		sLog->outBasic("[%s][%s] Nova skill already casted", lpObj->AccountID, lpObj->Name); // HermeX Fix
 		return false;
 	}
 
@@ -4339,7 +4339,7 @@ BOOL CObjUseSkill::SkillCloaking(int aIndex, int aTargetIndex, CMagicInf * lpMag
 
 	if (lpTargetObj->Type != OBJ_USER)
 	{
-		sLog.outBasic("[ANTI-HACK][Cloaking Skill] [%s][%s] Invalid Targeting  TargetType [%d] TargetClass [%d]",
+		sLog->outBasic("[ANTI-HACK][Cloaking Skill] [%s][%s] Invalid Targeting  TargetType [%d] TargetClass [%d]",
 			lpObj->AccountID, lpObj->Name, lpTargetObj->Type, lpTargetObj->Class);
 		return false;
 	}
@@ -4754,7 +4754,7 @@ int CObjUseSkill::SkillInfinityArrow(int aIndex, int aTargetIndex, CMagicInf * l
 
 	gObjAddBuffEffect(lpObj, BUFFTYPE_INFINITY_ARROW, 0, 0, 0, 0, -10);
 	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, lpObj->m_Index, 1);
-	sLog.outBasic("[%s][%s] Use Infinity Arrow Skill (Time:%d)(Character Level : %d)(ChangeUp: %d)",
+	sLog->outBasic("[%s][%s] Use Infinity Arrow Skill (Time:%d)(Character Level : %d)(ChangeUp: %d)",
 		lpObj->AccountID, lpObj->Name, Time, lpObj->Level, lpObj->m_PlayerData->ChangeUP);
 
 	return true;
@@ -6578,7 +6578,7 @@ int CObjUseSkill::SkillMonkBarrageJustOneTarget(int aIndex, CMagicInf * lpMagic,
 
 	if (ObjectMaxRange(aTargetIndex) == FALSE)
 	{
-		sLog.outBasic("[InvalidTargetIndex][SkillMonkBarrageJustOneTarget] Index :%d , AccountID : %s", aIndex, gObj[aIndex].AccountID);
+		sLog->outBasic("[InvalidTargetIndex][SkillMonkBarrageJustOneTarget] Index :%d , AccountID : %s", aIndex, gObj[aIndex].AccountID);
 		return FALSE;
 	}
 
@@ -7120,7 +7120,7 @@ void CObjUseSkill::SkillGrowLancerAttackOneTarget(int aIndex, int aTargetIndex, 
 
 	if (ObjectMaxRange(aTargetIndex) == FALSE)
 	{
-		sLog.outBasic("[InvalidTargetIndex][SkillGrowLancerAttackOneTarget] Index :%d , AccountID : %s", aIndex, gObj[aIndex].AccountID);
+		sLog->outBasic("[InvalidTargetIndex][SkillGrowLancerAttackOneTarget] Index :%d , AccountID : %s", aIndex, gObj[aIndex].AccountID);
 		return;
 	}
 

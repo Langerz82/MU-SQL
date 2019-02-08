@@ -1,7 +1,10 @@
 #ifndef _WORKERTHREAD_H
 #define _WORKERTHREAD_H
 
-//#include "Define.h"
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
 #include <atomic>
 #include <thread>
 

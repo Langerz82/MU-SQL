@@ -185,7 +185,7 @@ bool IniteDataServer()
 
 	SetWindowText(ghWnd, szText);
 
-	sLog.outBasic("Current Global Connections Limit (HWiD) per ServerGroup: %d", g_MachineIDConnectionLimitPerGroup);
+	sLog->outBasic("Current Global Connections Limit (HWiD) per ServerGroup: %d", g_MachineIDConnectionLimitPerGroup);
 
 	return true;
 
@@ -386,7 +386,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					}
 					else
 					{
-						sLog.outError("Option available only with enabled Join Server");
+						sLog->outError("Option available only with enabled Join Server");
 						return false;
 					}
 					break;
@@ -489,7 +489,7 @@ BOOL CALLBACK JSDisconnect (HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPar
 				{
 					if ( g_UseJoinServer == FALSE )
 					{
-						sLog.outError("[JoinServer] - not used");
+						sLog->outError("[JoinServer] - not used");
 						EndDialog(hWnd, 0);
 						break;
 					}
@@ -628,13 +628,13 @@ void PrintLicenseInfo()
 	int Days = WLRegDateDaysLeft();
 
 	g_Log.AddC(TColor::Orange, "License Information:");
-	sLog.outBasic("Customer: Trong.LIVE - Dao Van Trong");
+	sLog->outBasic("Customer: Trong.LIVE - Dao Van Trong");
 	/*
-	sLog.outBasic("Customer: %s Server: %s", User, Server);
+	sLog->outBasic("Customer: %s Server: %s", User, Server);
 
 	if(Days != 0)
 	{
-		sLog.outBasic("License expiration: %d days", WLRegDateDaysLeft());
+		sLog->outBasic("License expiration: %d days", WLRegDateDaysLeft());
 	}
 */
 	VM_DOLPHIN_RED_END

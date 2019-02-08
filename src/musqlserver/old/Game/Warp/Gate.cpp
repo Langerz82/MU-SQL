@@ -43,7 +43,7 @@ void CGate::Load(char* filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("%s file not found - Please rename IGC_GateSettings.xml.s6 or IGC_GateSettings.xml.s8 to IGC_GateSettings.xml in your Data folder according to server version", filename);
+		sLog->outError("%s file not found - Please rename IGC_GateSettings.xml.s6 or IGC_GateSettings.xml.s8 to IGC_GateSettings.xml in your Data folder according to server version", filename);
 		ExitProcess(1);
 	}
 

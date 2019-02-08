@@ -57,7 +57,7 @@ bool CItemSocketOptionSystem::LoadOptionScript(char *pchFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("[SocketOption] SocketOption Script file Load failed. (%s) (%s)", pchFileName, res.description());
+		sLog->outError("[SocketOption] SocketOption Script file Load failed. (%s) (%s)", pchFileName, res.description());
 		return false;
 	}
 
@@ -98,7 +98,7 @@ bool CItemSocketOptionSystem::LoadOptionScript(char *pchFileName)
 
 		if (iSeedOptionDataCount > 50)
 		{
-			sLog.outError("[ERROR] MAX SeedSphere Option Data Overflow! [%d]", iSeedOptionDataCount);
+			sLog->outError("[ERROR] MAX SeedSphere Option Data Overflow! [%d]", iSeedOptionDataCount);
 			break;
 		}
 	}
@@ -231,7 +231,7 @@ void CItemSocketOptionSystem::LoadScript()
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("%s load fail (%s)", pchFileName, res.description());
+		sLog->outError("%s load fail (%s)", pchFileName, res.description());
 		return;
 	}
 
@@ -330,7 +330,7 @@ bool CItemSocketOptionSystem::LoadSocketSlotRateFile(char *pchFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("%s load fail (%s)", pchFileName, res.description());
+		sLog->outError("%s load fail (%s)", pchFileName, res.description());
 		return false;
 	}
 

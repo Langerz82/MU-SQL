@@ -201,7 +201,7 @@ void CDevilSquareGround::RegenBossMonster(int currtime)
 					int x = gObj[iMonIndex].X;
 					int y = gObj[iMonIndex].Y;
 
-					//sLog.outBasic("[DevilSquare] Boss %d %d %d create ", map, x, y);
+					//sLog->outBasic("[DevilSquare] Boss %d %d %d create ", map, x, y);
 
 					gObj[iMonIndex].TX = gObj[iMonIndex].X;
 					gObj[iMonIndex].TY = gObj[iMonIndex].Y;
@@ -373,7 +373,7 @@ void CDevilSquareGround::SendScore()
 
 	Itor = this->m_DevilSquareRankList.begin();
 
-	//sLog.outBasic("[DevilSquare] Rank [%d]", this->m_iIndex);
+	//sLog->outBasic("[DevilSquare] Rank [%d]", this->m_iIndex);
 
 	for ( ; Itor != this->m_DevilSquareRankList.end(); Itor++ )
 	{

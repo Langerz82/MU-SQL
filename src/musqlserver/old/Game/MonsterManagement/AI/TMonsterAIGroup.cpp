@@ -33,7 +33,7 @@ bool TMonsterAIGroup::LoadData(LPSTR lpszFileName)
 
 	if ( !lpszFileName || !strcmp(lpszFileName, ""))
 	{
-		sLog.outError("[Monster AI Group] - File load error : File Name Error");
+		sLog->outError("[Monster AI Group] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -44,7 +44,7 @@ bool TMonsterAIGroup::LoadData(LPSTR lpszFileName)
 
 		if ( res.status != pugi::status_ok )
 		{
-			sLog.outError("[Monster AI Group] - Can't Load %s (%s)", lpszFileName, res.description());
+			sLog->outError("[Monster AI Group] - Can't Load %s (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
@@ -69,13 +69,13 @@ bool TMonsterAIGroup::LoadData(LPSTR lpszFileName)
 
 			if ( iGroupNumber > MAX_MONSTER_AI_GROUP )
 			{
-				sLog.outError("[Monster AI Group] Exceed Max GroupNumber %d", iGroupNumber);
+				sLog->outError("[Monster AI Group] Exceed Max GroupNumber %d", iGroupNumber);
 				continue;
 			}
 
 			if ( iGuid > MAX_MONSTER_AI_GROUP_MEMBER)
 			{
-				sLog.outError("[Monster AI Group] Exceed Max GroupMember %d, %d ", iGroupNumber, iGuid);
+				sLog->outError("[Monster AI Group] Exceed Max GroupMember %d, %d ", iGroupNumber, iGuid);
 				continue;
 			}
 
@@ -101,7 +101,7 @@ bool TMonsterAIGroup::LoadData(LPSTR lpszFileName)
 
 	catch ( DWORD )
 	{
-		sLog.outError("[Monster AI Group] - Loading Exception Error (%s) File. ", lpszFileName);
+		sLog->outError("[Monster AI Group] - Loading Exception Error (%s) File. ", lpszFileName);
 	}
 
 	return FALSE;
@@ -113,7 +113,7 @@ void TMonsterAIGroup::ChangeAIOrder(int iGroupNumber, int iAIOrder)
 {
 	if ( iGroupNumber < 0 || iGroupNumber >= MAX_MONSTER_AI_GROUP )
 	{
-		sLog.outBasic("[Monster AI Group] ChangeAIOrder() Error - (GroupNumber=%d)", iGroupNumber);
+		sLog->outBasic("[Monster AI Group] ChangeAIOrder() Error - (GroupNumber=%d)", iGroupNumber);
 		return;
 	}
 
@@ -155,7 +155,7 @@ bool TMonsterAIGroup::DelGroupInstance(int iGroupNumber)
 {
 	if ( iGroupNumber < 0 || iGroupNumber >= MAX_MONSTER_AI_GROUP )
 	{
-		sLog.outBasic("[Monster AI Group] DelGroup() Error - (GroupNumber=%d)", iGroupNumber);
+		sLog->outBasic("[Monster AI Group] DelGroup() Error - (GroupNumber=%d)", iGroupNumber);
 		return FALSE;
 	}
 
@@ -199,7 +199,7 @@ int TMonsterAIGroup::FindGroupLeader(int iGroupNumber)
 {
 	if ( iGroupNumber < 0 || iGroupNumber >= MAX_MONSTER_AI_GROUP )
 	{
-		sLog.outBasic("[Monster AI Group] FindGroupLeader() Error - (GroupNumber=%d)", iGroupNumber);
+		sLog->outBasic("[Monster AI Group] FindGroupLeader() Error - (GroupNumber=%d)", iGroupNumber);
 		return -1;
 	}
 
@@ -220,7 +220,7 @@ int TMonsterAIGroup::FindGroupMemberObjectIndex(int iGroupNumber, int iGuid)
 {
 	if ( iGroupNumber < 0 || iGroupNumber >= MAX_MONSTER_AI_GROUP )
 	{
-		sLog.outBasic("[Monster AI Group] FindGroupMemberObjectIndex() Error - (GroupNumber=%d Guid=%d)", iGroupNumber, iGuid);
+		sLog->outBasic("[Monster AI Group] FindGroupMemberObjectIndex() Error - (GroupNumber=%d Guid=%d)", iGroupNumber, iGuid);
 		return -1;
 	}
 
@@ -241,7 +241,7 @@ TMonsterAIGroupMember * TMonsterAIGroup::FindGroupMember(int iGroupNumber, int i
 {
 	if ( iGroupNumber < 0 || iGroupNumber >= MAX_MONSTER_AI_GROUP )
 	{
-		sLog.outBasic("[Monster AI Group] FindGroupMember() Error - (GroupNumber=%d)(Guid=%d) ", iGroupNumber, iGuid);
+		sLog->outBasic("[Monster AI Group] FindGroupMember() Error - (GroupNumber=%d)(Guid=%d) ", iGroupNumber, iGuid);
 		return NULL;
 	}
 
@@ -251,7 +251,7 @@ TMonsterAIGroupMember * TMonsterAIGroup::FindGroupMember(int iGroupNumber, int i
 		return &TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][iGuid];
 	}
 
-	sLog.outBasic("[Monster AI Group] FindGroupMember() Error - (GroupNumber=%d)(Guid=%d) ", iGroupNumber, iGuid);
+	sLog->outBasic("[Monster AI Group] FindGroupMember() Error - (GroupNumber=%d)(Guid=%d) ", iGroupNumber, iGuid);
 
 	return NULL;
 }
@@ -445,7 +445,7 @@ void TMonsterAIGroup::Init(int iGroupNumber)
 				continue;
 			}
 
-			sLog.outBasic("[ AI SetMonster ] %s(Index:%d ObjIndex:%d) Map:%d-[%d][%d]",
+			sLog->outBasic("[ AI SetMonster ] %s(Index:%d ObjIndex:%d) Map:%d-[%d][%d]",
 				gObj[iResult].Name, gObj[iResult].Class, iResult, gObj[iResult].MapNumber,
 				gObj[iResult].X, gObj[iResult].Y);
 		}

@@ -60,7 +60,7 @@ BOOL CMapServerManager::LoadMapData(char* lpszFileName)
 {
 	if ( (lpszFileName == NULL) || ( strcmp(lpszFileName, "") == 0 ) ) 
 	{
-		sLog.outBasic("File not found %s", lpszFileName);
+		sLog->outBasic("File not found %s", lpszFileName);
 		ExitProcess(1);
 	}
 
@@ -85,7 +85,7 @@ BOOL CMapServerManager::LoadMapData(char* lpszFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outBasic("File not found %s", lpszFileName);
+		sLog->outBasic("File not found %s", lpszFileName);
 		ExitProcess(1);
 	}
 
@@ -109,35 +109,35 @@ BOOL CMapServerManager::LoadMapData(char* lpszFileName)
 
 		if (sSVR_CODE < 0)
 		{
-			sLog.outBasic("[MapServerMng] file load error - sSVR_CODE < 0 (SVR: %d) - 1",
+			sLog->outBasic("[MapServerMng] file load error - sSVR_CODE < 0 (SVR: %d) - 1",
 				sSVR_CODE);
 			return FALSE;
 		}
 
 		if (iInitSetVal != -1 && iInitSetVal != 0 && iInitSetVal != 1)
 		{
-			sLog.outBasic("[MapServerMng] file load error - iInitSetting Value:%d (SVR: %d) - 1",
+			sLog->outBasic("[MapServerMng] file load error - iInitSetting Value:%d (SVR: %d) - 1",
 				iInitSetVal, sSVR_CODE);
 			return FALSE;
 		}
 
 		if (!strcmp(szIpAddr, ""))
 		{
-			sLog.outBasic("[MapServerMng] file load error - No IpAddress (SVR: %d)",
+			sLog->outBasic("[MapServerMng] file load error - No IpAddress (SVR: %d)",
 				sSVR_CODE);
 			return FALSE;
 		}
 
 		if (CHECK_LIMIT(sMAPSVR_GROUP, 20) == FALSE)
 		{
-			sLog.outBasic("[MapServerMng] file load error - Map Server Group Index (IDX: %d)",
+			sLog->outBasic("[MapServerMng] file load error - Map Server Group Index (IDX: %d)",
 				sMAPSVR_GROUP);
 			return FALSE;
 		}
 
 		if (this->m_iMAPSVR_GROUP_COUNT[sMAPSVR_GROUP] >= 20)
 		{
-			sLog.outBasic("[MapServerMng] file load error - No Space to Save SvrInfo (SVR: %d)",
+			sLog->outBasic("[MapServerMng] file load error - No Space to Save SvrInfo (SVR: %d)",
 				sSVR_CODE);
 			return FALSE;
 		}
@@ -171,14 +171,14 @@ BOOL CMapServerManager::LoadMapData(char* lpszFileName)
 
 		if (sSVR_CODE < 0)
 		{
-			sLog.outBasic("[MapServerMng] file load error - sSVR_CODE < 0 (SVR: %d) - 2",
+			sLog->outBasic("[MapServerMng] file load error - sSVR_CODE < 0 (SVR: %d) - 2",
 				sSVR_CODE);
 			return FALSE;
 		}
 
 		if (sDEST_SVR_CODE < -2)
 		{
-			sLog.outBasic("[MapServerMng] file load error - sDEST_SVR_CODE < -1 (SVR:%d, DEST_SVR: %d) - 2",
+			sLog->outBasic("[MapServerMng] file load error - sDEST_SVR_CODE < -1 (SVR:%d, DEST_SVR: %d) - 2",
 				sSVR_CODE, sDEST_SVR_CODE);
 			return FALSE;
 		}
@@ -187,7 +187,7 @@ BOOL CMapServerManager::LoadMapData(char* lpszFileName)
 
 		if (it == this->m_mapSVRCODE_MAP.end())
 		{
-			sLog.outBasic("[MapServerMng] file load error - sSVR_CODE wasn't registered (SVR: %d)",
+			sLog->outBasic("[MapServerMng] file load error - sSVR_CODE wasn't registered (SVR: %d)",
 				sSVR_CODE);
 			return FALSE;
 		}
@@ -196,35 +196,35 @@ BOOL CMapServerManager::LoadMapData(char* lpszFileName)
 
 		if (lpMapSvrData == NULL)
 		{
-			sLog.outBasic("[MapServerMng] file load error - lpMapSvrData == NULL (SVR: %d)",
+			sLog->outBasic("[MapServerMng] file load error - lpMapSvrData == NULL (SVR: %d)",
 				sSVR_CODE);
 			return FALSE;
 		}
 
 		if (lpMapSvrData->m_bIN_USE == FALSE)
 		{
-			sLog.outBasic("[MapServerMng] file load error - lpMapSvrData->m_bIN_USE == FALSE (SVR: %d)",
+			sLog->outBasic("[MapServerMng] file load error - lpMapSvrData->m_bIN_USE == FALSE (SVR: %d)",
 				sSVR_CODE);
 			return FALSE;
 		}
 
 		if (lpMapSvrData->m_sSVR_CODE != sSVR_CODE)
 		{
-			sLog.outBasic("[MapServerMng] file load error - lpMapSvrData->m_sSVR_CODE != sSVR_CODE (SVR: %d)",
+			sLog->outBasic("[MapServerMng] file load error - lpMapSvrData->m_sSVR_CODE != sSVR_CODE (SVR: %d)",
 				sSVR_CODE);
 			return FALSE;
 		}
 
 		if (btNotMoveOption != 0 && btNotMoveOption != 1)
 		{
-			sLog.outBasic("[MapServerMng] file load error - lpMapSvrData->m_sSVR_CODE != sSVR_CODE (SVR: %d, OPT: %d)",
+			sLog->outBasic("[MapServerMng] file load error - lpMapSvrData->m_sSVR_CODE != sSVR_CODE (SVR: %d, OPT: %d)",
 				sSVR_CODE, btNotMoveOption);
 			return FALSE;
 		}
 
 		if (CHECK_LIMIT(wMapNum, MAX_NUMBER_MAP) == FALSE)
 		{
-			sLog.outBasic("[MapServerMng] file load error - Map Number is out of bound (SVR: %d, MAP: %d)",
+			sLog->outBasic("[MapServerMng] file load error - Map Number is out of bound (SVR: %d, MAP: %d)",
 				sSVR_CODE, wMapNum);
 			return FALSE;
 		}
@@ -238,7 +238,7 @@ BOOL CMapServerManager::LoadMapData(char* lpszFileName)
 			lpMapSvrData->m_sMAP_MOVE[wMapNum] = -3;
 			break;
 		default:
-			sLog.outBasic("[MapServerMng] file load error - lpMapSvrData->m_sSVR_CODE != sSVR_CODE (SVR: %d, OPT: %d)",
+			sLog->outBasic("[MapServerMng] file load error - lpMapSvrData->m_sSVR_CODE != sSVR_CODE (SVR: %d, OPT: %d)",
 				sSVR_CODE, btNotMoveOption);
 			break;
 		}

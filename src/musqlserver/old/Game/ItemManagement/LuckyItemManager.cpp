@@ -39,7 +39,7 @@ int	LuckyItemManager::LoadLuckyItemEquipment(int iType, _LUCKY_ITEM_INFO * pLuck
 
 	if( !pLuckyItemEquipment )
 	{
-		sLog.outError("Load LuckyItem Script Error ItemType %d", iType);
+		sLog->outError("Load LuckyItem Script Error ItemType %d", iType);
 		return false;
 	}
 
@@ -48,7 +48,7 @@ int	LuckyItemManager::LoadLuckyItemEquipment(int iType, _LUCKY_ITEM_INFO * pLuck
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("%s File Load Error (%s)", lpszFileName, res.description());
+		sLog->outError("%s File Load Error (%s)", lpszFileName, res.description());
 		return false;
 	}
 
@@ -87,7 +87,7 @@ int LuckyItemManager::LoadLuckyItemInfo(char * lpszFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("%s File Load Error (%s)", lpszFileName, res.description());
+		sLog->outError("%s File Load Error (%s)", lpszFileName, res.description());
 		return false;
 	}
 	
@@ -105,7 +105,7 @@ int LuckyItemManager::LoadLuckyItemInfo(char * lpszFileName)
 
 		if (ItemGetNumberMake(iType, iIndex) == -1)
 		{
-			sLog.outError("Error: Wrong Item in %s file (Cat: %d Index: %d)", lpszFileName, iType, iIndex);
+			sLog->outError("Error: Wrong Item in %s file (Cat: %d Index: %d)", lpszFileName, iType, iIndex);
 			continue;
 		}
 
@@ -124,7 +124,7 @@ int LuckyItemManager::LoadLuckyItemInfo(char * lpszFileName)
 
 		if (!this->LoadLuckyItemEquipment(iListID, LuckyItemInfo, lpszFileName))
 		{
-			sLog.outError("Error - (%s) LoadLuckyItemEquipment fail (ListID: %d)", lpszFileName, iListID);
+			sLog->outError("Error - (%s) LoadLuckyItemEquipment fail (ListID: %d)", lpszFileName, iListID);
 			return false;
 		}
 	}
@@ -137,7 +137,7 @@ int LuckyItemManager::LoadLuckyItemInfo(char * lpszFileName)
 
 		if (iListID < 0 || iListID >= 5)
 		{
-			sLog.outError("Error: %s file - wrong List ID (%d)", lpszFileName, list.attribute("ID").as_int());
+			sLog->outError("Error: %s file - wrong List ID (%d)", lpszFileName, list.attribute("ID").as_int());
 			continue;
 		}
 
@@ -159,7 +159,7 @@ int LuckyItemManager::LoadLuckyItemInfo(char * lpszFileName)
 
 		if (iListID < 0 || iListID >= 5)
 		{
-			sLog.outError("Error: %s file - wrong List ID (%d)", lpszFileName, list.attribute("ID").as_int());
+			sLog->outError("Error: %s file - wrong List ID (%d)", lpszFileName, list.attribute("ID").as_int());
 			continue;
 		}
 
@@ -180,7 +180,7 @@ int LuckyItemManager::LoadLuckyItemInfo(char * lpszFileName)
 
 		if (iListID < 0 || iListID >= 5)
 		{
-			sLog.outError("Error: %s file - wrong List ID (%d)", lpszFileName, list.attribute("ID").as_int());
+			sLog->outError("Error: %s file - wrong List ID (%d)", lpszFileName, list.attribute("ID").as_int());
 			continue;
 		}
 
@@ -196,7 +196,7 @@ int LuckyItemManager::LoadLuckyItemInfo(char * lpszFileName)
 
 		if (iListID < 0 || iListID >= 5)
 		{
-			sLog.outError("Error: %s file - wrong List ID (%d)", lpszFileName, list.attribute("ID").as_int());
+			sLog->outError("Error: %s file - wrong List ID (%d)", lpszFileName, list.attribute("ID").as_int());
 			continue;
 		}
 
@@ -364,7 +364,7 @@ void LuckyItemManager::LuckyItemTicketExchange(LPOBJ lpObj)
 	
 	if( !CheckInventoryEmptySpace(lpObj, iItemHeight, iItemWidth) )
 	{
-		sLog.outBasic("[LuckyItem] - Fail - Not Empty Inventory [%s][%s] CharClass[%d]", lpObj->AccountID, lpObj->Name, lpObj->Class);
+		sLog->outBasic("[LuckyItem] - Fail - Not Empty Inventory [%s][%s] CharClass[%d]", lpObj->AccountID, lpObj->Name, lpObj->Class);
 		pMsg.Result = 0xF1;
 		IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		lpObj->ChaosLock = false;
@@ -392,7 +392,7 @@ void LuckyItemManager::LuckyItemTicketExchange(LPOBJ lpObj)
 	
 	if( iValidItemCount != 1 || iInvalidItemCount != 0 || iItemPos == -1 )
 	{
-		sLog.outBasic("[LuckyItem] - Can Not be Exchanged [%s][%s] CharClass[%d] ItemNum[%d] ItemName[%s]", lpObj->AccountID, lpObj->Name, lpObj->Class,
+		sLog->outBasic("[LuckyItem] - Can Not be Exchanged [%s][%s] CharClass[%d] ItemNum[%d] ItemName[%s]", lpObj->AccountID, lpObj->Name, lpObj->Class,
 			lpObj->pChaosBox[iItemPos].m_Type, ItemAttribute[lpObj->pChaosBox[iItemPos].m_Type].Name);
 		pMsg.Result = 0x20;
 		IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
@@ -401,7 +401,7 @@ void LuckyItemManager::LuckyItemTicketExchange(LPOBJ lpObj)
 	}
 	
 	g_MixSystem.LogChaosItem(lpObj, "[LuckyItem] Item Exchange");
-	sLog.outBasic("[LuckyItem] - Exchange Start");
+	sLog->outBasic("[LuckyItem] - Exchange Start");
 	
 	int	iCharType		= 0;
 	int Type			= 0;
@@ -419,7 +419,7 @@ void LuckyItemManager::LuckyItemTicketExchange(LPOBJ lpObj)
 	
 	if( pLuckyItemEquipment == 0 || pItemLevelRandRate == 0 || piAddSetOptRate == 0)
 	{
-		sLog.outBasic("[LuckyItem] --- Error --- [%s][%s] CharClass[%d] ItemNum[%d] ItemName[%s]", lpObj->AccountID, lpObj->Name, lpObj->Class,
+		sLog->outBasic("[LuckyItem] --- Error --- [%s][%s] CharClass[%d] ItemNum[%d] ItemName[%s]", lpObj->AccountID, lpObj->Name, lpObj->Class,
 			lpObj->pChaosBox[iItemPos].m_Type, ItemAttribute[lpObj->pChaosBox[iItemPos].m_Type].Name);
 		IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		lpObj->ChaosLock = false;
@@ -573,7 +573,7 @@ void LuckyItemManager::LuckyItemSmelting(LPOBJ lpObj)
 	}
 	else
 	{
-		sLog.outBasic("[LuckyItemSmelting] - Smelting Start");
+		sLog->outBasic("[LuckyItemSmelting] - Smelting Start");
 		g_MixSystem.LogChaosItem(lpObj, "[LuckyItem] Item Smelting");
 		
 		int bGambleLuckyItemSmelting = this->GambleLuckyItemSmelting(lpObj->pChaosBox[iItemPos].m_Type, (int)lpObj->pChaosBox[iItemPos].m_Durability);
@@ -593,7 +593,7 @@ void LuckyItemManager::LuckyItemSmelting(LPOBJ lpObj)
 			GSProtocol.GCUserChaosBoxSend(lpObj, 0);
 			IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 			
-			sLog.outBasic("[LuckyItem][Smelt Item Mix] Mix Fail [%s][%s] ", lpObj->AccountID, lpObj->Name);
+			sLog->outBasic("[LuckyItem][Smelt Item Mix] Mix Fail [%s][%s] ", lpObj->AccountID, lpObj->Name);
 			
 			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,505), lpObj->m_Index, 0x01);
 			lpObj->ChaosLock = false;
@@ -604,7 +604,7 @@ void LuckyItemManager::LuckyItemSmelting(LPOBJ lpObj)
 			ItemSerialCreateSend(lpObj->m_Index, 0xFF, 0, 0, Type, level, 1, Op1, Op2, Op3, lpObj->m_Index, 0, 0, 0, 0, 0);
 		}
 		
-		sLog.outBasic("[LuckyItem][Smelt Item Mix] Mix Success [%s][%s] ItemName[%s] ItemNum[%d] Level[%d] Dur[%d] skill[%d] luck[%d] option[%d]",
+		sLog->outBasic("[LuckyItem][Smelt Item Mix] Mix Success [%s][%s] ItemName[%s] ItemNum[%d] Level[%d] Dur[%d] skill[%d] luck[%d] option[%d]",
 			lpObj->AccountID, lpObj->Name, ItemAttribute[Type].Name, Type, level, dur, Op1, Op2, Op3);
 		
 		gObjInventoryCommit(lpObj->m_Index);
@@ -628,7 +628,7 @@ int LuckyItemManager::GambleLuckyItemSmelting(int iItemNum, int iDur)
 	}
 	
 	int iRand = rand() % 100;
-	sLog.outBasic("[LuckyItem] - Gamble Smelting iRand %d iRandRate %d Dur %d", iRand, iRandRate, iDur);
+	sLog->outBasic("[LuckyItem] - Gamble Smelting iRand %d iRandRate %d Dur %d", iRand, iRandRate, iDur);
 	
 	if( iRand < iRandRate )
 	{
@@ -681,7 +681,7 @@ int LuckyItemManager::LuckyItemRepaire(OBJECTSTRUCT * lpObj, int source, int tar
 	if( !bLuckyItemEquipment )
 	{
 		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,506), lpObj->m_Index, 1);
-		sLog.outBasic("[LuckyItem][RepaireItemUsed] - Fail - Not LuckyItem Equipment [%s][%s] Serial[%I64d]",
+		sLog->outBasic("[LuckyItem][RepaireItemUsed] - Fail - Not LuckyItem Equipment [%s][%s] Serial[%I64d]",
 			lpObj->AccountID, lpObj->Name, LuckyItemEquipment->m_serial);
 		return false;
 	}
@@ -689,7 +689,7 @@ int LuckyItemManager::LuckyItemRepaire(OBJECTSTRUCT * lpObj, int source, int tar
 	if( LuckyItemEquipment->m_Durability == 0.0f )
 	{
 		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,507), lpObj->m_Index, 1);
-		sLog.outBasic("[LuckyItem][RepaireItemUsed] - Fail - Durability Zero [%s][%s] Serial[%I64d]",
+		sLog->outBasic("[LuckyItem][RepaireItemUsed] - Fail - Durability Zero [%s][%s] Serial[%I64d]",
 			lpObj->AccountID, lpObj->Name, LuckyItemEquipment->m_serial);
 		return false;
 	}
@@ -697,7 +697,7 @@ int LuckyItemManager::LuckyItemRepaire(OBJECTSTRUCT * lpObj, int source, int tar
 	if( ItemAttribute[LuckyItemEquipment->m_Type].Durability < LuckyItemEquipment->m_Durability )
 	{
 		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,508), lpObj->m_Index, 1);
-		sLog.outBasic("[LuckyItem][RepaireItemUsed] - Fail - Equipment Full Durability [%s][%s] Serial[%I64d]",
+		sLog->outBasic("[LuckyItem][RepaireItemUsed] - Fail - Equipment Full Durability [%s][%s] Serial[%I64d]",
 			lpObj->AccountID, lpObj->Name, LuckyItemEquipment->m_serial);
 		return false;
 	}
@@ -712,7 +712,7 @@ int LuckyItemManager::LuckyItemRepaire(OBJECTSTRUCT * lpObj, int source, int tar
 	}
 	
 	GSProtocol.GCServerMsgStringSend(Lang.GetText(0,509), lpObj->m_Index, 1);
-	sLog.outBasic("[LuckyItem][RepaireItemUsed] - Success - [%s][%s] Serial[%I64d]",
+	sLog->outBasic("[LuckyItem][RepaireItemUsed] - Success - [%s][%s] Serial[%I64d]",
 		lpObj->AccountID, lpObj->Name, LuckyItemEquipment->m_serial);
 	
 	return true;
@@ -791,7 +791,7 @@ void LuckyItemManager::GDReqLuckyItemDelete(short wItemCode, UINT64 Serial, int 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xD0, 0x23, sizeof(PMSG_REQ_LUCKYITEM_DELETE));
 	wsDataCli.DataSend((char *)&pMsg, pMsg.head.size);
 	
-	sLog.outBasic("[LuckyItem] GDReqLuckyItemDelete [%s][%s] ItemCode[%d] Serial[%I64d]",
+	sLog->outBasic("[LuckyItem] GDReqLuckyItemDelete [%s][%s] ItemCode[%d] Serial[%I64d]",
 		lpObj->AccountID, lpObj->Name, wItemCode, Serial);
 }
 

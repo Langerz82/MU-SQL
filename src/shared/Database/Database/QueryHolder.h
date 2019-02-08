@@ -18,6 +18,10 @@
 #ifndef _QUERYHOLDER_H
 #define _QUERYHOLDER_H
 
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
 #include "SQLOperation.h"
 
 class  SQLQueryHolder

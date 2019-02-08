@@ -52,7 +52,7 @@ bool CPentagramSystem::LoadDropScript(char *pchFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("[PentagramSystem] PentagramSystem Drop Script file Load failed. (%s) (%s)", pchFileName, res.description());
+		sLog->outError("[PentagramSystem] PentagramSystem Drop Script file Load failed. (%s) (%s)", pchFileName, res.description());
 		return false;
 	}
 
@@ -135,7 +135,7 @@ bool CPentagramSystem::LoadJewelOutRate(char *pchFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("[PentagramSystem] PentagramSystem JewelOutRate Script file Load failed. (%s) (%s)", pchFileName, res.description());
+		sLog->outError("[PentagramSystem] PentagramSystem JewelOutRate Script file Load failed. (%s) (%s)", pchFileName, res.description());
 		return false;
 	}
 
@@ -177,7 +177,7 @@ bool CPentagramSystem::LoadPentagramSetOptionScript(char *pchFileName)
 
 	if (SMDFile == NULL)
 	{
-	sLog.outError("[PentagramSystem] PentagramSystem PentagramSetOption Script file Load failed. (%s)", pchFileName);
+	sLog->outError("[PentagramSystem] PentagramSystem PentagramSetOption Script file Load failed. (%s)", pchFileName);
 	return false;
 	}
 
@@ -381,7 +381,7 @@ bool CPentagramSystem::LoadPentagramOptionScript(char *pchFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("[PentagramSystem] PentagramSystem PentagramOption Script file Load failed. (%s) (%s)", pchFileName, res.description());
+		sLog->outError("[PentagramSystem] PentagramSystem PentagramOption Script file Load failed. (%s) (%s)", pchFileName, res.description());
 		return false;
 	}
 
@@ -1469,7 +1469,7 @@ int CPentagramSystem::AttributeMonsterItemDrop(LPOBJ lpObj)
 	{
 		int ItemNumber = ItemGetNumberMake(DropItemType, DropItemIndex);
 		ItemSerialCreateSend(lpObj->m_Index, lpObj->MapNumber, lpObj->X, lpObj->Y, ItemNumber, 0, ItemGetDurability(ItemNumber, 0, 0, 0), 0, 0, 0, MaxHitUser, 0, 0, 0, 0, iMainAttribute | 0x10);
-		//sLog.outBasic("[PentagramSystem] Pentagram Item Drop [%s]: [%s][%s] (type:%d)", lpObj->Name, lpUser->AccountID, lpUser->Name, ItemNumber);
+		//sLog->outBasic("[PentagramSystem] Pentagram Item Drop [%s]: [%s][%s] (type:%d)", lpObj->Name, lpUser->AccountID, lpUser->Name, ItemNumber);
 
 		return true;
 	}
@@ -2236,7 +2236,7 @@ bool CPentagramSystem::AddPentagramJewelInfo(int aIndex, int iJewelPos, int iJew
 
 	if (iAddSuccess == false)
 	{
-		sLog.outBasic("[AddPentagramJewelInfo] - Error - [%s] [%d]", __FILE__, __LINE__);
+		sLog->outBasic("[AddPentagramJewelInfo] - Error - [%s] [%d]", __FILE__, __LINE__);
 		return iAddSuccess;
 	}
 
@@ -2338,7 +2338,7 @@ bool CPentagramSystem::DelPentagramJewelInfo(int aIndex, int iJewelPos, int iJew
 
 	if (iDelSuccess == false)
 	{
-		sLog.outBasic("[DelPentagramJewelInfo] - Error - [%s] [%d]", __FILE__, __LINE__);
+		sLog->outBasic("[DelPentagramJewelInfo] - Error - [%s] [%d]", __FILE__, __LINE__);
 		return iDelSuccess;
 	}
 
@@ -2385,7 +2385,7 @@ void CPentagramSystem::DBANS_GetPentagramJewel(LPBYTE lpRecv)
 
 	if (lpMsg->btJewelCnt < 0 || lpMsg->btJewelCnt > 249)
 	{
-		sLog.outBasic("[PentagramJewel] - Error - [%s] [%d]", __FILE__, __LINE__);
+		sLog->outBasic("[PentagramJewel] - Error - [%s] [%d]", __FILE__, __LINE__);
 		return;
 	}
 
@@ -2791,7 +2791,7 @@ BOOL CPentagramSystem::PentagramJewel_IN(int aIndex, int iPentagramItemPos, int 
 
 	if (lpObj->pInventory[iPentagramItemPos].IsItem() == FALSE || lpObj->pInventory[iJewelItemPos].IsItem() == FALSE)
 	{
-		sLog.outBasic("[PentagramJewel_IN] PentagramItem Is Not Exist [%s][%s]",
+		sLog->outBasic("[PentagramJewel_IN] PentagramItem Is Not Exist [%s][%s]",
 			lpObj->AccountID, lpObj->Name);
 		return FALSE;
 	}
@@ -2843,7 +2843,7 @@ BOOL CPentagramSystem::PentagramJewel_IN(int aIndex, int iPentagramItemPos, int 
 
 	if (lpObj->pInventory[iPentagramItemPos].m_SocketOption[iJewelKind] != 0xFE)
 	{
-		sLog.outBasic("[PentagramJewel_IN] PentagramItem Socket is Not Empty [%s][%s]",lpObj->AccountID, lpObj->Name);
+		sLog->outBasic("[PentagramJewel_IN] PentagramItem Socket is Not Empty [%s][%s]",lpObj->AccountID, lpObj->Name);
 		return FALSE;
 	}
 
@@ -3007,7 +3007,7 @@ BOOL CPentagramSystem::PentagramJewel_OUT(int aIndex, int iPentagramItemPos, BYT
 
 			if ((rand() % 10000) >= iOutRate)
 			{
-				sLog.outBasic("[PentagramJewel_OUT][%s][%s] PentagramJewel Out Fail - JewelDBIndex = %d, ItemType = %d, ItemIndex = %d",
+				sLog->outBasic("[PentagramJewel_OUT][%s][%s] PentagramJewel Out Fail - JewelDBIndex = %d, ItemType = %d, ItemIndex = %d",
 					lpObj->AccountID, lpObj->Name, btJewelDBIndex, iItemType, iItemIndex);
 
 				iReturnValue = 2;
@@ -3028,7 +3028,7 @@ BOOL CPentagramSystem::PentagramJewel_OUT(int aIndex, int iPentagramItemPos, BYT
 				btSocketOption[4] = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5OptionNum | 0x10 * lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5Level;
 
 				ItemSerialCreateSend(aIndex, 231, 0, 0, iResultItemCode, iJewelLevel, iItemDurability, 0, 0, 0, 0, 0, 0, 0, btSocketOption, lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btMainAttribute);
-				sLog.outBasic("[PentagramJewel_OUT][%s][%s] PentagramJewel Out Success - JewelDBIndex = %d, ItemType = %d, ItemIndex = %d",
+				sLog->outBasic("[PentagramJewel_OUT][%s][%s] PentagramJewel Out Success - JewelDBIndex = %d, ItemType = %d, ItemIndex = %d",
 					lpObj->AccountID, lpObj->Name, iJewelDBIndex, iItemType, iItemIndex);
 			}
 
@@ -3261,7 +3261,7 @@ BOOL CPentagramSystem::IsEnableTransPentagramJewelInfo(int aIndex, int targetInd
 
 					if (iTargetDBJewelIndex == 0xFF)
 					{
-						sLog.outBasic("[IsEnableTransPentagramJewelInfo][%s][%s] PentagramJewelIndex Area Not Exist!!",
+						sLog->outBasic("[IsEnableTransPentagramJewelInfo][%s][%s] PentagramJewelIndex Area Not Exist!!",
 							lpTargetObj->AccountID, lpTargetObj->Name);
 
 						bRet = FALSE;
@@ -3300,7 +3300,7 @@ BOOL CPentagramSystem::IsEnableTransPentagramJewelInfo(int aIndex, int targetInd
 
 					if (iTargetDBJewelIndex == 0xFF)
 					{
-						sLog.outBasic("[IsEnableTransPentagramJewelInfo][%s][%s] PentagramJewelIndex Area Not Exist!!",
+						sLog->outBasic("[IsEnableTransPentagramJewelInfo][%s][%s] PentagramJewelIndex Area Not Exist!!",
 							lpObj->AccountID, lpObj->Name);
 
 						bRet = FALSE;
@@ -3380,7 +3380,7 @@ void CPentagramSystem::LoadOptionMaps(const char* File)
 
 	if (Result.status != status_ok)
 	{
-		sLog.outError("[IGC_PentagramDropMaps] File %s not found!", File);
+		sLog->outError("[IGC_PentagramDropMaps] File %s not found!", File);
 		return;
 	}
 

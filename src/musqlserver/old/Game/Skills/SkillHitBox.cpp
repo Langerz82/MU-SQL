@@ -70,7 +70,7 @@ BOOL CSkillHitBox::Load(char * filename )
 {
 	if(!IsFile(filename))
 	{
-		sLog.outError("%s file load fail", filename);
+		sLog->outError("%s file load fail", filename);
 		return FALSE;
 	}
 
@@ -83,7 +83,7 @@ BOOL CSkillHitBox::Load(char * filename )
 
 	if ((int)fileSize != sizeof(this->m_Table))
 	{
-		sLog.outError("Wrong file size - %s", filename);
+		sLog->outError("Wrong file size - %s", filename);
 		return FALSE;
 	}
 

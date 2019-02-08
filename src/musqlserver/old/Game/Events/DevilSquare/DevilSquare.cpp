@@ -123,7 +123,7 @@ void CDevilSquare::Load(char * filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("[DevilSquare] Info file Load Fail [%s] [%s]", filename, res.description());
+		sLog->outError("[DevilSquare] Info file Load Fail [%s] [%s]", filename, res.description());
 		return;
 	}
 
@@ -171,7 +171,7 @@ void CDevilSquare::Load(char * filename)
 
 		if (nSquare < 0 || nSquare >= MAX_DEVILSQUARE_GROUND)
 		{
-			sLog.outError("[DevilSquare] Invalid Square Index [%d]", nSquare);
+			sLog->outError("[DevilSquare] Invalid Square Index [%d]", nSquare);
 			return;
 		}
 
@@ -192,7 +192,7 @@ void CDevilSquare::Load(char * filename)
 
 		if (nSquare < 0 || nSquare >= MAX_DEVILSQUARE_GROUND)
 		{
-			sLog.outError("[DevilSquare] Invalid Square Index [%d]", nSquare);
+			sLog->outError("[DevilSquare] Invalid Square Index [%d]", nSquare);
 			return;
 		}
 
@@ -210,7 +210,7 @@ void CDevilSquare::Load(char * filename)
 
 		if (nSquare < 0 || nSquare >= MAX_DEVILSQUARE_GROUND)
 		{
-			sLog.outError("[DevilSquare] Invalid Square Index [%d]", nSquare);
+			sLog->outError("[DevilSquare] Invalid Square Index [%d]", nSquare);
 			return;
 		}
 
@@ -226,7 +226,7 @@ void CDevilSquare::Load(char * filename)
 
 		if (nSquare < 0 || nSquare >= MAX_DEVILSQUARE_GROUND)
 		{
-			sLog.outError("[DevilSquare] Invalid Square Index [%d]", nSquare);
+			sLog->outError("[DevilSquare] Invalid Square Index [%d]", nSquare);
 			return;
 		}
 
@@ -242,7 +242,7 @@ void CDevilSquare::LoadMonster(LPSTR szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("%s file load fail (%s)", szFile, res.description());
+		sLog->outError("%s file load fail (%s)", szFile, res.description());
 		return;
 	}
 
@@ -282,7 +282,7 @@ void CDevilSquare::LoadMonster(LPSTR szFile)
 
 		if (nCount == 10 || nCount < 0)
 		{
-			sLog.outBasic("[DevilSquare][LoadMonster] Monster Count Invalid");
+			sLog->outBasic("[DevilSquare][LoadMonster] Monster Count Invalid");
 			nCount = 10;
 		}
 
@@ -310,7 +310,7 @@ void CDevilSquare::SetState(enum eDevilSquareState eState)
 
 void CDevilSquare::SetClose()
 {
-	//sLog.outBasic("[DevilSquare] Close");
+	//sLog->outBasic("[DevilSquare] Close");
 
 	this->ClearMonstr();
 	this->CalcScore();
@@ -601,7 +601,7 @@ void CDevilSquare::ProcClose()
 					}
 				}
 
-				//sLog.outBasic(pNotice.Notice);
+				//sLog->outBasic(pNotice.Notice);
 				this->SetState(DevilSquare_OPEN);
 			}
 
@@ -654,7 +654,7 @@ void CDevilSquare::ProcClose()
 					}
 				}
 
-				//sLog.outBasic((char*)pNotice.Notice);
+				//sLog->outBasic((char*)pNotice.Notice);
 			}
 		}
 
@@ -750,7 +750,7 @@ void CDevilSquare::ProcOpen()
 					}
 				}
 
-				//sLog.outBasic((char*)pNotice.Notice);
+				//sLog->outBasic((char*)pNotice.Notice);
 
 				this->m_iTime = GetTickCount64();
 			}
@@ -814,7 +814,7 @@ void CDevilSquare::ProcPlaying()
 					PMSG_NOTICE pNotice;
 
 					TNotice::MakeNoticeMsgEx((TNotice *)&pNotice, 0, Lang.GetText(0, 7), this->m_iRemainTime);
-					sLog.outBasic((char*)pNotice.Notice);
+					sLog->outBasic((char*)pNotice.Notice);
 					GSProtocol.AllSendSameMapMsg((UCHAR*)&pNotice, pNotice.h.size, MAP_INDEX_DEVILSQUARE);
 					GSProtocol.AllSendSameMapMsg((UCHAR*)&pNotice, pNotice.h.size, MAP_INDEX_DEVILSQUARE2);
 				}
@@ -903,7 +903,7 @@ void CDevilSquare::gDevilSquareMonsterRegen(LPOBJ lpObj)
 
 	if (devilsquareindex < 0 || devilsquareindex >= MAX_DEVILSQUARE_GROUND)
 	{
-		sLog.outBasic("[DevilSquare] Invalid DevilSquareIndex [%d]", devilsquareindex);
+		sLog->outBasic("[DevilSquare] Invalid DevilSquareIndex [%d]", devilsquareindex);
 		return;
 	}
 
@@ -917,7 +917,7 @@ void CDevilSquare::gDevilSquareMonsterRegen(LPOBJ lpObj)
 
 	if (monstertype == (BYTE)-1)
 	{
-		sLog.outBasic("[DevilSquare] [%d] Invalid MonterType", monstertype);
+		sLog->outBasic("[DevilSquare] [%d] Invalid MonterType", monstertype);
 		return;
 	}
 
@@ -933,7 +933,7 @@ void CDevilSquare::gDevilSquareMonsterRegen(LPOBJ lpObj)
 	lpObj->m_bDevilSquareIndex = devilsquareindex;
 	lpObj->MaxRegenTime = 1000;
 
-	//sLog.outBasic("[DevilSquare] Monster Regen [%d][%d][%d,%d]",
+	//sLog->outBasic("[DevilSquare] Monster Regen [%d][%d][%d,%d]",
 	//	monstertype, devilsquareindex, lpObj->X, lpObj->Y);
 }
 
@@ -964,7 +964,7 @@ void CDevilSquare::SendEventStartMsg()
 		}
 	}
 
-	sLog.outBasic("[DevilSquare] Start Event");
+	sLog->outBasic("[DevilSquare] Start Event");
 }
 
 
@@ -1012,7 +1012,7 @@ void CDevilSquare::DieProcDevilSquare(LPOBJ lpObj)
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 
-	sLog.outBasic("[DevilSquare] Dead [%s][%s][%d][%d]",
+	sLog->outBasic("[DevilSquare] Dead [%s][%s][%d][%d]",
 		lpObj->AccountID, lpObj->Name,
 		lpObj->m_nEventExp, lpObj->m_nEventScore);
 
@@ -1500,7 +1500,7 @@ void CDevilSquare::CheckInvalidUser()
 			{
 				if (this->m_eState == DevilSquare_CLOSE)
 				{
-					sLog.outError( "[DevilSquare] [%s][%s] Found user in DevilSquare [State:Close]",
+					sLog->outError( "[DevilSquare] [%s][%s] Found user in DevilSquare [State:Close]",
 						gObj[n].AccountID, gObj[n].Name);
 					gObjUserKill(gObj[n].m_Index);
 				}

@@ -415,7 +415,7 @@ void PartyClass::Paint(int party_number)
 		}
 	}
 
-	sLog.outBasic(this->m_szTempPaint);
+	sLog->outBasic(this->m_szTempPaint);
 }
 
 
@@ -616,7 +616,7 @@ void PartyClass::ClearPartyAuthITL(int partynumber)
 		this->m_PartyS[partynumber].bITLEnterOK[i] = FALSE;
 	}
 
-	sLog.outBasic("[ ITL ][ClearPartyAuthITL]PartyID:%d", partynumber);
+	sLog->outBasic("[ ITL ][ClearPartyAuthITL]PartyID:%d", partynumber);
 }
 
 bool PartyClass::AllAgreeEnterITL(int partynumber)
@@ -690,7 +690,7 @@ void PartyClass::ClearPartyAuthITR(int partynumber)
 		this->m_PartyS[partynumber].bITRWithYouOk[i] = FALSE;
 	}
 
-	sLog.outBasic("[ ITR ][ClearPartyAuthITR]PartyID:%d", partynumber);
+	sLog->outBasic("[ ITR ][ClearPartyAuthITR]PartyID:%d", partynumber);
 }
 
 bool PartyClass::AllAgreeEnterITR(int partynumber)
@@ -764,7 +764,7 @@ void PartyClass::ClearPartyAuthDSF(int partynumber)
 		this->m_PartyS[partynumber].bDSFEnterOK[i] = FALSE;
 	}
 
-	sLog.outBasic("[DSF][ClearPartyAuthDSF]PartyID:%d", partynumber);
+	sLog->outBasic("[DSF][ClearPartyAuthDSF]PartyID:%d", partynumber);
 }
 
 bool PartyClass::AllAgreeEnterDSF(int partynumber)
@@ -819,7 +819,7 @@ void PartyClass::ReadBonusInfo(LPSTR File) //FILE_PARTYBONUS
 	// ----
 	if (Result.status != pugi::status_ok)
 	{
-		sLog.outError("[Notice] File %s not found!", File);
+		sLog->outError("[Notice] File %s not found!", File);
 		return;
 	}
 	// ----

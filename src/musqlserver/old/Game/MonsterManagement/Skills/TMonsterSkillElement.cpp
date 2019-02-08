@@ -53,7 +53,7 @@ BOOL TMonsterSkillElement::LoadData(LPSTR lpszFileName)
 
 	if ( !lpszFileName || !strcmp(lpszFileName, ""))
 	{
-		sLog.outError("[Monster Element] - File load error : File Name Error");
+		sLog->outError("[Monster Element] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -64,7 +64,7 @@ BOOL TMonsterSkillElement::LoadData(LPSTR lpszFileName)
 
 		if ( res.status != pugi::status_ok )
 		{
-			sLog.outError("[Monster Element] - Can't Load %s (%s)", lpszFileName, res.description());
+			sLog->outError("[Monster Element] - Can't Load %s (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
@@ -89,7 +89,7 @@ BOOL TMonsterSkillElement::LoadData(LPSTR lpszFileName)
 
 			if ( iElementNumber < 0 || iElementNumber >= MAX_MONSTER_SKILL_ELEMENT )
 			{
-				sLog.outError("[Monster Element] - ElementNumber(%d) Error (%s) File. ", iElementNumber, lpszFileName);
+				sLog->outError("[Monster Element] - ElementNumber(%d) Error (%s) File. ", iElementNumber, lpszFileName);
 				continue;
 			}
 
@@ -110,7 +110,7 @@ BOOL TMonsterSkillElement::LoadData(LPSTR lpszFileName)
 
 	catch (DWORD)
 	{
-		sLog.outError("[Monster Element] - Loading Exception Error (%s) File. ", lpszFileName);	
+		sLog->outError("[Monster Element] - Loading Exception Error (%s) File. ", lpszFileName);	
 	}
 
 	return FALSE;
@@ -226,7 +226,7 @@ void TMonsterSkillElement::ForceSkillElement(int iIndex, int iTargetIndex)
 			this->ApplyElementPercentDamageNormalAttack(iIndex, iTargetIndex);
 			break;
 		default:
-			sLog.outError(  "[TMonsterSkillElement] ForceSkillElement(): m_iElementType unknown value: %d", this->m_iElementType);
+			sLog->outError(  "[TMonsterSkillElement] ForceSkillElement(): m_iElementType unknown value: %d", this->m_iElementType);
 			break;
 	}
 }
@@ -563,7 +563,7 @@ BOOL TMonsterSkillElement::ApplyElementSummon(int iIndex, int iTargetIndex)
 
 	if (lpObj->Class == 459 && lpObj->Connected == PLAYER_PLAYING && lpObj->MapNumber == MAP_INDEX_HATCHERY && iIndex == iTargetIndex)//Season 4.5 addon
 	{
-		sLog.outBasic("[TMonsterSkillElement][ApplyElementSummon] Selupan use summon.");
+		sLog->outBasic("[TMonsterSkillElement][ApplyElementSummon] Selupan use summon.");
 		return FALSE;
 	}
 
@@ -769,7 +769,7 @@ BOOL TMonsterSkillElement::ApplyElementTeleportSkill(int iIndex, int iTargetInde
 
 	if ( gObjCheckTeleportArea(iIndex, x, y) == FALSE )
 	{
-		sLog.outError(  "[%s][%s] Try Teleport Not Move Area [%d,%d]",
+		sLog->outError(  "[%s][%s] Try Teleport Not Move Area [%d,%d]",
 			lpObj->AccountID, lpObj->Name,	x, y);
 		
 		return FALSE;

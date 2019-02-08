@@ -78,7 +78,7 @@ void CAttackQueue::Push( unsigned char* msg, int len, int type )
 
 	catch ( char * szMsg )
 	{
-		sLog.outError(szMsg);
+		sLog->outError(szMsg);
 	}
 }
 

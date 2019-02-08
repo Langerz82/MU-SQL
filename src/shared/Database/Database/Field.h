@@ -18,7 +18,10 @@
 #ifndef _SQLFIELD_H
 #define _SQLFIELD_H
 
-//#include "Define.h"
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
 #include "DatabaseEnvFwd.h"
 #include <vector>
 

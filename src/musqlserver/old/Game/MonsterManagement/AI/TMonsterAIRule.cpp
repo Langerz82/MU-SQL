@@ -34,7 +34,7 @@ bool TMonsterAIRule::LoadData(LPSTR lpszFileName)
 
 	if ( !lpszFileName || !strcmp(lpszFileName, ""))
 	{
-		sLog.outError("[Monster AI Rule] - File load error : File Name Error");
+		sLog->outError("[Monster AI Rule] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -45,7 +45,7 @@ bool TMonsterAIRule::LoadData(LPSTR lpszFileName)
 
 		if ( res.status != pugi::status_ok )
 		{
-			sLog.outError("[Monster AI Rule] - Can't Load %s (%s)", lpszFileName, res.description());
+			sLog->outError("[Monster AI Rule] - Can't Load %s (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
@@ -73,13 +73,13 @@ bool TMonsterAIRule::LoadData(LPSTR lpszFileName)
 
 			if ( iAIRuleNumber  < 0 || iAIRuleNumber >= MAX_MONSTER_AI_RULE_INFO )
 			{
-				sLog.outError("[Monster AI Rule] - AIRuleNumber(%d) Error (%s) File. ", iAIRuleNumber, lpszFileName);
+				sLog->outError("[Monster AI Rule] - AIRuleNumber(%d) Error (%s) File. ", iAIRuleNumber, lpszFileName);
 				continue;
 			}
 
 			if ( iMonsterClass  < 0 || iMonsterClass >= MAX_MONSTER_AI_RULE_TABLE )
 			{
-				sLog.outError("[Monster AI Rule] - MonsterClass(%d) Error (%s) File. ", iMonsterClass, lpszFileName);
+				sLog->outError("[Monster AI Rule] - MonsterClass(%d) Error (%s) File. ", iMonsterClass, lpszFileName);
 				continue;
 			}
 
@@ -94,7 +94,7 @@ bool TMonsterAIRule::LoadData(LPSTR lpszFileName)
 
 	catch(DWORD)
 	{
-		sLog.outError("[Monster AI Rule] - Loading Exception Error (%s) File. ", lpszFileName);
+		sLog->outError("[Monster AI Rule] - Loading Exception Error (%s) File. ", lpszFileName);
 	}
 
 	return FALSE;
@@ -122,7 +122,7 @@ int TMonsterAIRule::GetCurrentAIUnit(int iMonsterClass)
 {
 	if ( iMonsterClass < 0 || iMonsterClass >= MAX_MONSTER_AI_RULE_TABLE )
 	{
-		sLog.outBasic("[Monster AI Rule] GetCurrentAIUnit() Error - (MonsterClass=%d) ", iMonsterClass);
+		sLog->outBasic("[Monster AI Rule] GetCurrentAIUnit() Error - (MonsterClass=%d) ", iMonsterClass);
 		return 0;
 	}
 

@@ -38,7 +38,7 @@ void CMuRummyMng::LoadPreFixData(char *lpszFileName)
 	{
 		if (this->IsMuRummyEventOn() == true)
 		{
-			sLog.outError("MuRummy Error - Check Score configuration (can't be zero)");
+			sLog->outError("MuRummy Error - Check Score configuration (can't be zero)");
 		}
 	}
 }
@@ -203,7 +203,7 @@ bool CMuRummyMng::SetPlayCardInfo(CMuRummyInfo *pMuRummyInfo, _tagMuRummyCardInf
 
 	if (!pCCardInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pCCardInfo is NULL [%s, %d]", __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pCCardInfo is NULL [%s, %d]", __FILE__, __LINE__);
 		return false;
 	}
 
@@ -211,7 +211,7 @@ bool CMuRummyMng::SetPlayCardInfo(CMuRummyInfo *pMuRummyInfo, _tagMuRummyCardInf
 
 	if (!pSlotIndexInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pSlotIndexInfo is NULL [%s, %d]", __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pSlotIndexInfo is NULL [%s, %d]", __FILE__, __LINE__);
 		return false;
 	}
 
@@ -267,13 +267,13 @@ void CMuRummyMng::CGReqMuRummyEventOpen(PMSG_REQ_MURUMMY_EVENT_OPEN *lpMsg, int 
 	if (lpObj->m_IfState.use && (lpObj->m_IfState.type == 6 ||
 		lpObj->m_IfState.type == 3 || lpObj->m_IfState.type == 12))
 	{
-		//sLog.outBasic("[MuRummy][Error] [%s][%s] : not event time", lpObj->AccountID, lpObj->Name);
+		//sLog->outBasic("[MuRummy][Error] [%s][%s] : not event time", lpObj->AccountID, lpObj->Name);
 		return;
 	}
 
 	if (lpObj->m_bPShopOpen == true || lpObj->ChaosLock == TRUE)
 	{
-		//sLog.outBasic("[MuRummy][Error] [%s][%s] : not event time", lpObj->AccountID, lpObj->Name);
+		//sLog->outBasic("[MuRummy][Error] [%s][%s] : not event time", lpObj->AccountID, lpObj->Name);
 		return;
 	}
 
@@ -281,13 +281,13 @@ void CMuRummyMng::CGReqMuRummyEventOpen(PMSG_REQ_MURUMMY_EVENT_OPEN *lpMsg, int 
 
 	if (!pMuRummyInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pMuRummyInfo is NULL [%s][%s] [%s, %d]",lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pMuRummyInfo is NULL [%s][%s] [%s, %d]",lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
 
 	if (pMuRummyInfo->IsWaitReward() == true)
 	{
-		//sLog.outBasic("[MuRummy][DebugLog][%s][%s] Waiting Item Reward(Req Open)", lpObj->AccountID, lpObj->Name);
+		//sLog->outBasic("[MuRummy][DebugLog][%s][%s] Waiting Item Reward(Req Open)", lpObj->AccountID, lpObj->Name);
 		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,561), aIndex, 1);
 		return;
 	}
@@ -317,7 +317,7 @@ void CMuRummyMng::CGReqMuRummyEventOpen(PMSG_REQ_MURUMMY_EVENT_OPEN *lpMsg, int 
 			IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 		}
 
-		//sLog.outBasic("[MuRummy] [%s][%s] : Mini Game Open", lpObj->AccountID, lpObj->Name);
+		//sLog->outBasic("[MuRummy] [%s][%s] : Mini Game Open", lpObj->AccountID, lpObj->Name);
 	}
 }
 
@@ -340,7 +340,7 @@ void CMuRummyMng::CGReqMuRummyStart(PMSG_REQ_MURUMMY_INFO *lpMsg, int aIndex)
 
 	if (!lpObj)
 	{
-		//sLog.outBasic("[MuRummy][Error] lpObj is NULL [%s, %d]", __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] lpObj is NULL [%s, %d]", __FILE__, __LINE__);
 		return;
 	}
 
@@ -353,13 +353,13 @@ void CMuRummyMng::CGReqMuRummyStart(PMSG_REQ_MURUMMY_INFO *lpMsg, int aIndex)
 
 	if (!pMuRummyInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pMuRummyInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pMuRummyInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
 
 	if (!pMuRummyInfo->IsMuRummyInfoLoad())
 	{
-		//sLog.outBasic("[MuRummy][Error] IsMuRummyInfoLoad fail [%s][%s]", lpObj->AccountID, lpObj->Name);
+		//sLog->outBasic("[MuRummy][Error] IsMuRummyInfoLoad fail [%s][%s]", lpObj->AccountID, lpObj->Name);
 		return;
 	}
 
@@ -370,9 +370,9 @@ void CMuRummyMng::CGReqMuRummyStart(PMSG_REQ_MURUMMY_INFO *lpMsg, int aIndex)
 	{
 		if (this->SetPlayCardInfo(pMuRummyInfo, stCardInfo) == true)
 		{
-			sLog.outBasic("[%s][%s][Mu Rummy] Event Open", lpObj->AccountID, lpObj->Name);
-			//sLog.outBasic("[%s][%s][Mu Rummy] Event Card Cnt(%d)", lpObj->AccountID, lpObj->Name, pMuRummyInfo->GetCardDeckCnt());
-			//sLog.outBasic("[%s][%s][Mu Rummy] Event Point(%d)", lpObj->AccountID, lpObj->Name, pMuRummyInfo->GetScore());
+			sLog->outBasic("[%s][%s][Mu Rummy] Event Open", lpObj->AccountID, lpObj->Name);
+			//sLog->outBasic("[%s][%s][Mu Rummy] Event Card Cnt(%d)", lpObj->AccountID, lpObj->Name, pMuRummyInfo->GetCardDeckCnt());
+			//sLog->outBasic("[%s][%s][Mu Rummy] Event Point(%d)", lpObj->AccountID, lpObj->Name, pMuRummyInfo->GetScore());
 
 			this->Slot5Log(lpObj, 1);
 			this->Slot3Log(lpObj, 1);
@@ -382,7 +382,7 @@ void CMuRummyMng::CGReqMuRummyStart(PMSG_REQ_MURUMMY_INFO *lpMsg, int aIndex)
 
 		else
 		{
-			//sLog.outBasic("[MuRummy][Error] SetPlayCardInfo fail [%s][%s]", lpObj->AccountID, lpObj->Name);
+			//sLog->outBasic("[MuRummy][Error] SetPlayCardInfo fail [%s][%s]", lpObj->AccountID, lpObj->Name);
 		}
 	}
 
@@ -400,8 +400,8 @@ void CMuRummyMng::CGReqMuRummyStart(PMSG_REQ_MURUMMY_INFO *lpMsg, int aIndex)
 		{
 			if (lpObj->pEventInventory[x].IsItem() == TRUE && lpObj->pEventInventory[x].m_Type == ITEMGET(14, 216))
 			{
-				//sLog.outBasic("[%s][%s][Mu Rummy] Event Start", lpObj->AccountID, lpObj->Name);
-				//sLog.outBasic("[%s][%s][Mu Rummy] Event Card register success (%I64d)", lpObj->AccountID, lpObj->Name, lpObj->pEventInventory[x].m_Number);
+				//sLog->outBasic("[%s][%s][Mu Rummy] Event Start", lpObj->AccountID, lpObj->Name);
+				//sLog->outBasic("[%s][%s][Mu Rummy] Event Card register success (%I64d)", lpObj->AccountID, lpObj->Name, lpObj->pEventInventory[x].m_Number);
 				gObjEventInventoryDeleteItem(aIndex, x);
 				GSProtocol.GCEventInventoryItemDeleteSend(aIndex, x, 1);
 				bItem = true;
@@ -411,7 +411,7 @@ void CMuRummyMng::CGReqMuRummyStart(PMSG_REQ_MURUMMY_INFO *lpMsg, int aIndex)
 
 		if (!bItem)
 		{
-			//sLog.outBasic("[%s][%s][Mu Rummy] Event Start Fail (0)", lpObj->AccountID, lpObj->Name);
+			//sLog->outBasic("[%s][%s][Mu Rummy] Event Start Fail (0)", lpObj->AccountID, lpObj->Name);
 			this->GCSendMsg(aIndex, 0, 0);
 			return;
 		}
@@ -461,7 +461,7 @@ void CMuRummyMng::CGReqCardReveal(PMSG_REQ_REVEAL_CARD *lpMsg, int aIndex)
 
 	if (!lpObj)
 	{
-		//sLog.outBasic("[MuRummy][Error] lpObj is NULL [%s, %d]", __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] lpObj is NULL [%s, %d]", __FILE__, __LINE__);
 		return;
 	}
 
@@ -474,7 +474,7 @@ void CMuRummyMng::CGReqCardReveal(PMSG_REQ_REVEAL_CARD *lpMsg, int aIndex)
 
 	if (!pMuRummyInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pMuRummyInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pMuRummyInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
 
@@ -482,7 +482,7 @@ void CMuRummyMng::CGReqCardReveal(PMSG_REQ_REVEAL_CARD *lpMsg, int aIndex)
 
 	if (!pCCardInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pCCardInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pCCardInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
 
@@ -496,7 +496,7 @@ void CMuRummyMng::CGReqCardReveal(PMSG_REQ_REVEAL_CARD *lpMsg, int aIndex)
 
 	if (!pSlotIndexInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pSlotIndexInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pSlotIndexInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
 
@@ -520,7 +520,7 @@ void CMuRummyMng::CGReqCardReveal(PMSG_REQ_REVEAL_CARD *lpMsg, int aIndex)
 
 		if (bRet)
 		{
-			//sLog.outBasic("[%s][%s][Mu Rummy] Event Card Cnt(%d) (%d)", lpObj->AccountID, lpObj->Name, iBeforeCardCnt, pMuRummyInfo->GetCardDeckCnt());
+			//sLog->outBasic("[%s][%s][Mu Rummy] Event Card Cnt(%d) (%d)", lpObj->AccountID, lpObj->Name, iBeforeCardCnt, pMuRummyInfo->GetCardDeckCnt());
 			this->Slot5Log(lpObj, 0);
 
 			memcpy(pMsg.stMuRummyCardInfo, stCardInfo, sizeof(stCardInfo));
@@ -536,7 +536,7 @@ bool CMuRummyMng::FillEmptySlotCard(CMuRummyInfo *pMuRummyInfo, _tagMuRummyCardI
 
 	if (!pCCardInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pCCardInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pCCardInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return false;
 	}
 
@@ -544,7 +544,7 @@ bool CMuRummyMng::FillEmptySlotCard(CMuRummyInfo *pMuRummyInfo, _tagMuRummyCardI
 
 	if (!pSlotIndexInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pSlotIndexInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pSlotIndexInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return false;
 	}
 
@@ -564,7 +564,7 @@ bool CMuRummyMng::FillEmptySlotCard(CMuRummyInfo *pMuRummyInfo, _tagMuRummyCardI
 
 			if (24 - nCardDeckCnt >= 24)
 			{
-				//sLog.outBasic("[MuRummy][Error] Card Cnt Over [%d] [%s, %d]", nCardSeq, __FILE__, __LINE__);
+				//sLog->outBasic("[MuRummy][Error] Card Cnt Over [%d] [%s, %d]", nCardSeq, __FILE__, __LINE__);
 				return false;
 			}
 
@@ -580,7 +580,7 @@ bool CMuRummyMng::FillEmptySlotCard(CMuRummyInfo *pMuRummyInfo, _tagMuRummyCardI
 
 			if (pMuRummyInfo->GetCardDeckCnt() < 0)
 			{
-				//sLog.outBasic("[MuRummy][Error] CardDeck cnt [%d] [%s, %d]", pMuRummyInfo->GetCardDeckCnt(), __FILE__, __LINE__);
+				//sLog->outBasic("[MuRummy][Error] CardDeck cnt [%d] [%s, %d]", pMuRummyInfo->GetCardDeckCnt(), __FILE__, __LINE__);
 				return false;
 			}
 
@@ -648,7 +648,7 @@ void CMuRummyMng::CGReqCardMove(PMSG_REQ_CARD_MOVE *lpMsg, int aIndex)
 
 	if (!lpObj)
 	{
-		//sLog.outBasic("[MuRummy][Error] lpObj is NULL [%s, %d]", __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] lpObj is NULL [%s, %d]", __FILE__, __LINE__);
 		return;
 	}
 
@@ -668,7 +668,7 @@ void CMuRummyMng::CGReqCardMove(PMSG_REQ_CARD_MOVE *lpMsg, int aIndex)
 
 			if (!pCMuRummyInfo)
 			{
-				//sLog.outBasic("[MuRummy][Error] pCMuRummyInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+				//sLog->outBasic("[MuRummy][Error] pCMuRummyInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 				return;
 			}
 
@@ -700,7 +700,7 @@ BYTE CMuRummyMng::CardSlotMove(CMuRummyInfo *pCMuRummyInfo, int sSlot, int tSlot
 
 	if (!pCCardInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pCCardInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pCCardInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return -1;
 	}
 
@@ -708,7 +708,7 @@ BYTE CMuRummyMng::CardSlotMove(CMuRummyInfo *pCMuRummyInfo, int sSlot, int tSlot
 
 	if (!pSlotIndexInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pSlotIndexInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pSlotIndexInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return -1;
 	}
 
@@ -722,13 +722,13 @@ BYTE CMuRummyMng::CardSlotMove(CMuRummyInfo *pCMuRummyInfo, int sSlot, int tSlot
 
 	if (tCardArr != 255)
 	{
-		//sLog.outBasic("[MuRummy][Error] slot Not Empty [%s][%s] %d ", lpObj->AccountID, lpObj->Name, tCardArr);
+		//sLog->outBasic("[MuRummy][Error] slot Not Empty [%s][%s] %d ", lpObj->AccountID, lpObj->Name, tCardArr);
 		return -2;
 	}
 
 	if (sCardArr < 0 || sCardArr > 23)
 	{
-		//sLog.outBasic("[MuRummy][Error] CardInfo Index is Overflow [%s][%s][%d] [%s, %d]", lpObj->AccountID, lpObj->Name, sCardArr, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] CardInfo Index is Overflow [%s][%s][%d] [%s, %d]", lpObj->AccountID, lpObj->Name, sCardArr, __FILE__, __LINE__);
 		return -2;
 	}
 
@@ -739,14 +739,14 @@ BYTE CMuRummyMng::CardSlotMove(CMuRummyInfo *pCMuRummyInfo, int sSlot, int tSlot
 
 	if (sSlot < 5 && tSlot >= 5)
 	{
-		//sLog.outBasic("[%s][%s][Mu Rummy] Slot[5] - Move Slot[%d] %c : %d",	lpObj->AccountID, lpObj->Name,
+		//sLog->outBasic("[%s][%s][Mu Rummy] Slot[5] - Move Slot[%d] %c : %d",	lpObj->AccountID, lpObj->Name,
 		//	pCCardInfo[sCardArr].GetSlotNum() + 1,this->GetColorName(pCCardInfo[sCardArr].GetColor() - 1),
 		//	pCCardInfo[sCardArr].GetNumber());
 	}
 
 	if (sSlot >= 5 && tSlot < 5)
 	{
-		//sLog.outBasic("[%s][%s][Mu Rummy] Slot[3] - Move Slot[%d] %c : %d",	lpObj->AccountID, lpObj->Name,
+		//sLog->outBasic("[%s][%s][Mu Rummy] Slot[3] - Move Slot[%d] %c : %d",	lpObj->AccountID, lpObj->Name,
 		//	pCCardInfo[sCardArr].GetSlotNum() - 4,	this->GetColorName(pCCardInfo[sCardArr].GetColor() - 1),
 		//	pCCardInfo[sCardArr].GetNumber());
 	}
@@ -758,7 +758,7 @@ BYTE CMuRummyMng::CardSlotMove(CMuRummyInfo *pCMuRummyInfo, int sSlot, int tSlot
 
 	if (sSlot < 5 && tSlot >= 5)
 	{
-		//sLog.outBasic("[%s][%s][Mu Rummy] Slot[3] - Register Slot[%d] %c : %d",	lpObj->AccountID, lpObj->Name,
+		//sLog->outBasic("[%s][%s][Mu Rummy] Slot[3] - Register Slot[%d] %c : %d",	lpObj->AccountID, lpObj->Name,
 		//	pCCardInfo[sCardArr].GetSlotNum() - 4,	this->GetColorName(pCCardInfo[sCardArr].GetColor() - 1),
 		//	pCCardInfo[sCardArr].GetNumber());
 
@@ -767,7 +767,7 @@ BYTE CMuRummyMng::CardSlotMove(CMuRummyInfo *pCMuRummyInfo, int sSlot, int tSlot
 
 	if (sSlot >= 5 && tSlot < 5)
 	{
-		//sLog.outBasic("[%s][%s][Mu Rummy] Slot[5] - Register Slot[%d] %c : %d",
+		//sLog->outBasic("[%s][%s][Mu Rummy] Slot[5] - Register Slot[%d] %c : %d",
 		//	lpObj->AccountID, lpObj->Name,
 		//	pCCardInfo[sCardArr].GetSlotNum() + 1,
 		//	this->GetColorName(pCCardInfo[sCardArr].GetColor() - 1),
@@ -798,7 +798,7 @@ void CMuRummyMng::CGReqCardReMove(PMSG_REQ_CARD_REMOVE *lpMsg, int aIndex)
 
 	if (!lpObj)
 	{
-		//sLog.outBasic("[MuRummy][Error] lpObj is NULL [%s, %d]", __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] lpObj is NULL [%s, %d]", __FILE__, __LINE__);
 		return;
 	}
 
@@ -811,7 +811,7 @@ void CMuRummyMng::CGReqCardReMove(PMSG_REQ_CARD_REMOVE *lpMsg, int aIndex)
 
 	if (sSlot >= 8)
 	{
-		//sLog.outBasic("[MuRummy][Error] dump fail Slot Num [%d] [%s][%s] [%s, %d]",
+		//sLog->outBasic("[MuRummy][Error] dump fail Slot Num [%d] [%s][%s] [%s, %d]",
 		//	sSlot, lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
@@ -820,7 +820,7 @@ void CMuRummyMng::CGReqCardReMove(PMSG_REQ_CARD_REMOVE *lpMsg, int aIndex)
 
 	if (!pCMuRummyInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pCMuRummyInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pCMuRummyInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
 
@@ -828,7 +828,7 @@ void CMuRummyMng::CGReqCardReMove(PMSG_REQ_CARD_REMOVE *lpMsg, int aIndex)
 
 	if (Ret == 255)
 	{
-		//sLog.outBasic("[MuRummy][Error] dump Card fail [%s][%s] ", lpObj->AccountID, lpObj->Name);
+		//sLog->outBasic("[MuRummy][Error] dump Card fail [%s][%s] ", lpObj->AccountID, lpObj->Name);
 		return;
 	}
 
@@ -836,7 +836,7 @@ void CMuRummyMng::CGReqCardReMove(PMSG_REQ_CARD_REMOVE *lpMsg, int aIndex)
 
 	if (!pCCardInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pCCardInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pCCardInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
 
@@ -846,7 +846,7 @@ void CMuRummyMng::CGReqCardReMove(PMSG_REQ_CARD_REMOVE *lpMsg, int aIndex)
 	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 
 	this->GCSendMsg(aIndex, 4, 0);
-	//sLog.outBasic("[%s][%s][Mu Rummy] Slot[5] - Junk Slot[%d] %c : %d",		lpObj->AccountID,
+	//sLog->outBasic("[%s][%s][Mu Rummy] Slot[5] - Junk Slot[%d] %c : %d",		lpObj->AccountID,
 	//	lpObj->Name,sSlot,	this->GetColorName(pCCardInfo[Ret].GetColor() - 1),
 	//	pCCardInfo[Ret].GetNumber());
 
@@ -859,7 +859,7 @@ BYTE CMuRummyMng::CardSlotReMove(CMuRummyInfo *pCMuRummyInfo, int sSlot)
 
 	if (!pCCardInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pCCardInfo is NULL SlotNum [%d] [%s, %d]",
+		//sLog->outBasic("[MuRummy][Error] pCCardInfo is NULL SlotNum [%d] [%s, %d]",
 		//	sSlot, __FILE__, __LINE__);
 
 		return -1;
@@ -869,7 +869,7 @@ BYTE CMuRummyMng::CardSlotReMove(CMuRummyInfo *pCMuRummyInfo, int sSlot)
 
 	if (!pSlotIndexInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pCSlotIndexInfo is NULL SlotNum [%d] [%s, %d]",
+		//sLog->outBasic("[MuRummy][Error] pCSlotIndexInfo is NULL SlotNum [%d] [%s, %d]",
 		//	sSlot, __FILE__, __LINE__);
 
 		return -1;
@@ -877,7 +877,7 @@ BYTE CMuRummyMng::CardSlotReMove(CMuRummyInfo *pCMuRummyInfo, int sSlot)
 
 	if (pSlotIndexInfo[sSlot] == 255)
 	{
-		//sLog.outBasic("[MuRummy][Error] Slot is Empty SlotNum [%d] [%s, %d]",
+		//sLog->outBasic("[MuRummy][Error] Slot is Empty SlotNum [%d] [%s, %d]",
 		//	sSlot, __FILE__, __LINE__);
 
 		return -1;
@@ -887,7 +887,7 @@ BYTE CMuRummyMng::CardSlotReMove(CMuRummyInfo *pCMuRummyInfo, int sSlot)
 
 	if (pCCardInfo[sCardArr].GetSlotNum() != sSlot)
 	{
-		//sLog.outBasic("[MuRummy][Error] Slot Num diff [%s, %d]", __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] Slot Num diff [%s, %d]", __FILE__, __LINE__);
 		return -1;
 	}
 
@@ -916,7 +916,7 @@ void CMuRummyMng::CGReqCardMatch(PMSG_REQ_CARD_MATCH *lpMsg, int aIndex)
 
 	if (!lpObj)
 	{
-		//sLog.outBasic("[MuRummy][Error] lpObj is NULL [%s, %d]", __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] lpObj is NULL [%s, %d]", __FILE__, __LINE__);
 		return;
 	}
 
@@ -924,7 +924,7 @@ void CMuRummyMng::CGReqCardMatch(PMSG_REQ_CARD_MATCH *lpMsg, int aIndex)
 
 	if (!pCMuRummyInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pCMuRummyInfo is NULL [%s][%s] [%s, %d]",
+		//sLog->outBasic("[MuRummy][Error] pCMuRummyInfo is NULL [%s][%s] [%s, %d]",
 		//	lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
@@ -936,14 +936,14 @@ void CMuRummyMng::CGReqCardMatch(PMSG_REQ_CARD_MATCH *lpMsg, int aIndex)
 
 	if (!pCMuRummyInfo->GetCardInfo())
 	{
-		//sLog.outBasic("[MuRummy][Error] pCCardInfo is NULL [%s, %d]", __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pCCardInfo is NULL [%s, %d]", __FILE__, __LINE__);
 		return;
 	}
 
 	if (btRet)
 	{
 		this->GCSendMsg(aIndex, 6, 0);
-		//sLog.outBasic("[%s][%s][Mu Rummy] Slot[3] - Combine Fail", lpObj->AccountID, lpObj->Name);
+		//sLog->outBasic("[%s][%s][Mu Rummy] Slot[3] - Combine Fail", lpObj->AccountID, lpObj->Name);
 	}
 
 	else
@@ -958,7 +958,7 @@ void CMuRummyMng::CGReqCardMatch(PMSG_REQ_CARD_MATCH *lpMsg, int aIndex)
 		this->GCSendMsg(aIndex, 5, 0);
 		this->GDReqScoreUpdate(lpObj, pCMuRummyInfo->GetScore(), stCardUpdateDS);
 
-		//sLog.outBasic("[%s][%s][Mu Rummy] Slot[3] - Combine Success Gain Point(%d) (%d)",
+		//sLog->outBasic("[%s][%s][Mu Rummy] Slot[3] - Combine Success Gain Point(%d) (%d)",
 		//	lpObj->AccountID,lpObj->Name,nScore,pCMuRummyInfo->GetScore());
 	}
 
@@ -971,7 +971,7 @@ BYTE CMuRummyMng::CardMatchCheck(CMuRummyInfo *pCMuRummyInfo, int *iOutScore, _t
 
 	if (!pCCardInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pCCardInfo is NULL [%s, %d]", __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pCCardInfo is NULL [%s, %d]", __FILE__, __LINE__);
 		return -1;
 	}
 
@@ -979,7 +979,7 @@ BYTE CMuRummyMng::CardMatchCheck(CMuRummyInfo *pCMuRummyInfo, int *iOutScore, _t
 
 	if (!pSlotIndexInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pCSlotIndexInfo is NULL [%s, %d]", __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pCSlotIndexInfo is NULL [%s, %d]", __FILE__, __LINE__);
 		return -1;
 	}
 
@@ -1047,7 +1047,7 @@ BYTE CMuRummyMng::CardMatchCheck(CMuRummyInfo *pCMuRummyInfo, int *iOutScore, _t
 
 				if (nArrNum < 0 || nArrNum > 23)
 				{
-					//sLog.outBasic("[MuRummy][Error] Combine CardInfo Index is Overflow [%s][%s][%d] [%s, %d]",
+					//sLog->outBasic("[MuRummy][Error] Combine CardInfo Index is Overflow [%s][%s][%d] [%s, %d]",
 					//	lpObj->AccountID, lpObj->Name, nArrNum, __FILE__, __LINE__);
 
 					return -2;
@@ -1082,7 +1082,7 @@ BYTE CMuRummyMng::CardMatchCheck(CMuRummyInfo *pCMuRummyInfo, int *iOutScore, _t
 
 			if (nArrNum < 0 || nArrNum > 23)
 			{
-				//sLog.outBasic("[MuRummy][Error] CardInfo Index is Overflow [%s][%s][%d] [%s, %d]",
+				//sLog->outBasic("[MuRummy][Error] CardInfo Index is Overflow [%s][%s][%d] [%s, %d]",
 				//	lpObj->AccountID, lpObj->Name, nArrNum, __FILE__, __LINE__);
 
 				return -2;
@@ -1197,7 +1197,7 @@ void CMuRummyMng::CGReqMuRummyEnd(PMSG_REQ_MURUMMY_END *lpMsg, int aIndex)
 
 	if (!lpObj)
 	{
-		//sLog.outBasic("[MuRummy][Error] lpObj is NULL [%s, %d]", __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] lpObj is NULL [%s, %d]", __FILE__, __LINE__);
 		return;
 	}
 
@@ -1210,19 +1210,19 @@ void CMuRummyMng::CGReqMuRummyEnd(PMSG_REQ_MURUMMY_END *lpMsg, int aIndex)
 
 	if (!pCMuRummyInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pCMuRummyInfo is NULL [%s][%s] [%s, %d]",	lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pCMuRummyInfo is NULL [%s][%s] [%s, %d]",	lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
 
 	if (pCMuRummyInfo->IsGetPlayCard() == false)
 	{
-		//sLog.outBasic("[MuRummy][Error] MuRummy not started [%s][%s] [%s, %d]",	lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] MuRummy not started [%s][%s] [%s, %d]",	lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
 
 	if (pCMuRummyInfo->IsWaitReward() == true)
 	{
-		//sLog.outBasic("[MuRummy][DebugLog][%s][%s] Waiting Item Reward(Req End)", lpObj->AccountID, lpObj->Name);
+		//sLog->outBasic("[MuRummy][DebugLog][%s][%s] Waiting Item Reward(Req End)", lpObj->AccountID, lpObj->Name);
 		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,561), aIndex, 1);
 		return;
 	}
@@ -1296,8 +1296,8 @@ void CMuRummyMng::CGReqMuRummyEnd(PMSG_REQ_MURUMMY_END *lpMsg, int aIndex)
 
 				this->GCSendMsg(aIndex, 8, 0);
 
-				//sLog.outBasic("[%s][%s][Mu Rummy] Event Reward Result [Point : %d, RewardZen : %d]", lpObj->AccountID, lpObj->Name, pCMuRummyInfo->GetScore(), 500000);
-				//sLog.outBasic("[%s][%s][Mu Rummy] Event end", lpObj->AccountID, lpObj->Name);
+				//sLog->outBasic("[%s][%s][Mu Rummy] Event Reward Result [Point : %d, RewardZen : %d]", lpObj->AccountID, lpObj->Name, pCMuRummyInfo->GetScore(), 500000);
+				//sLog->outBasic("[%s][%s][Mu Rummy] Event end", lpObj->AccountID, lpObj->Name);
 
 				this->GDReqMuRummyDBLog(lpObj, pCMuRummyInfo->GetScore());
 				pCMuRummyInfo->Clear();
@@ -1307,7 +1307,7 @@ void CMuRummyMng::CGReqMuRummyEnd(PMSG_REQ_MURUMMY_END *lpMsg, int aIndex)
 			else
 			{
 				this->GCSendMsg(aIndex, 11, 0);
-				//sLog.outBasic("[%s][%s][Mu Rummy] Event Reward fail (0)", lpObj->AccountID, lpObj->Name);
+				//sLog->outBasic("[%s][%s][Mu Rummy] Event Reward fail (0)", lpObj->AccountID, lpObj->Name);
 			}
 		}
 	}
@@ -1315,7 +1315,7 @@ void CMuRummyMng::CGReqMuRummyEnd(PMSG_REQ_MURUMMY_END *lpMsg, int aIndex)
 	else
 	{
 		this->GCSendMsg(aIndex, 7, 0);
-		//sLog.outBasic("[%s][%s][Mu Rummy] Event Reward fail (1)", lpObj->AccountID, lpObj->Name);
+		//sLog->outBasic("[%s][%s][Mu Rummy] Event Reward fail (1)", lpObj->AccountID, lpObj->Name);
 	}
 }
 
@@ -1338,7 +1338,7 @@ void CMuRummyMng::GCSendCardList(int aIndex)
 
 	if (!lpObj)
 	{
-		//sLog.outBasic("[MuRummy][Error] lpObj is NULL [%s, %d]", __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] lpObj is NULL [%s, %d]", __FILE__, __LINE__);
 		return;
 	}
 
@@ -1346,7 +1346,7 @@ void CMuRummyMng::GCSendCardList(int aIndex)
 
 	if (!pCMuRummyInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pCMuRummyInfo is NULL [%s][%s] [%s, %d]",	lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pCMuRummyInfo is NULL [%s][%s] [%s, %d]",	lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
 
@@ -1354,7 +1354,7 @@ void CMuRummyMng::GCSendCardList(int aIndex)
 
 	if (!pCCardInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pCCardInfo is NULL [%s, %d]",__FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pCCardInfo is NULL [%s, %d]",__FILE__, __LINE__);
 
 		return;
 	}
@@ -1363,7 +1363,7 @@ void CMuRummyMng::GCSendCardList(int aIndex)
 
 	if (!pSlotIndexInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pCSlotIndexInfo is NULL SlotNum [%s, %d]",__FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pCSlotIndexInfo is NULL SlotNum [%s, %d]",__FILE__, __LINE__);
 
 		return;
 	}
@@ -1456,7 +1456,7 @@ void CMuRummyMng::GDAnsCardInfo(PMSG_ANS_MURUMMY_SELECT_DS *lpMsg)
 
 	if (!lpObj)
 	{
-		//sLog.outBasic("[MuRummy][Error] lpObj is NULL [%s, %d]", __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] lpObj is NULL [%s, %d]", __FILE__, __LINE__);
 		return;
 	}
 
@@ -1464,7 +1464,7 @@ void CMuRummyMng::GDAnsCardInfo(PMSG_ANS_MURUMMY_SELECT_DS *lpMsg)
 
 	if (!pMuRummyInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pMuRummyInfo is NULL [%s][%s] [%s, %d]",lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pMuRummyInfo is NULL [%s][%s] [%s, %d]",lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
 
@@ -1472,7 +1472,7 @@ void CMuRummyMng::GDAnsCardInfo(PMSG_ANS_MURUMMY_SELECT_DS *lpMsg)
 
 	if (!pCCardInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pCCardInfo is NULL [%s, %d]",__FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pCCardInfo is NULL [%s, %d]",__FILE__, __LINE__);
 
 		return;
 	}
@@ -1515,12 +1515,12 @@ void CMuRummyMng::GDAnsCardInfo(PMSG_ANS_MURUMMY_SELECT_DS *lpMsg)
 				iCardCnt++;
 			}
 
-			//sLog.outBasic("[MuRummy] MuRummy Card Info Load [%s][%s] Seq:[%d] [%d][%c][%d][%d]",
+			//sLog->outBasic("[MuRummy] MuRummy Card Info Load [%s][%s] Seq:[%d] [%d][%c][%d][%d]",
 			//	lpObj->AccountID,lpObj->Name,nArr,pCCardInfo[nArr].GetSlotNum(),this->GetColorName(pCCardInfo[nArr].GetColor() - 1),
 			//	pCCardInfo[nArr].GetNumber(),pCCardInfo[nArr].GetState());
 		}
 
-		//sLog.outBasic("[MuRummy] MuRummy Card Info Load [%s][%s] CardDeckCnt:[%d]",lpObj->AccountID, lpObj->Name, iCardCnt);
+		//sLog->outBasic("[MuRummy] MuRummy Card Info Load [%s][%s] CardDeckCnt:[%d]",lpObj->AccountID, lpObj->Name, iCardCnt);
 
 		pMuRummyInfo->SetCardDeckCnt(iCardCnt);
 		pMuRummyInfo->SetGetPlayCard(1);
@@ -1555,7 +1555,7 @@ void CMuRummyMng::GDReqCardInfoInsert(OBJECTSTRUCT *lpObj)
 
 	if (!pMuRummyInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pMuRummyInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pMuRummyInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
 
@@ -1568,7 +1568,7 @@ void CMuRummyMng::GDReqCardInfoInsert(OBJECTSTRUCT *lpObj)
 
 	if (!pCCardInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pCCardInfo is NULL [%s, %d]", __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pCCardInfo is NULL [%s, %d]", __FILE__, __LINE__);
 
 		return;
 	}
@@ -1577,7 +1577,7 @@ void CMuRummyMng::GDReqCardInfoInsert(OBJECTSTRUCT *lpObj)
 
 	if (!pSlotIndexInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pSlotIndexInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pSlotIndexInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
 
@@ -1656,7 +1656,7 @@ void CMuRummyMng::GDReqSlotInfoUpdate(OBJECTSTRUCT *lpObj, BYTE btSeq, BYTE btSl
 
 	if (btSlotNum < 0 || btSlotNum > 4)
 	{
-		//sLog.outBasic("[MuRummy][Error] btSlotNum[%d]  [%s][%s] [%s, %d]",	btSlotNum, lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] btSlotNum[%d]  [%s][%s] [%s, %d]",	btSlotNum, lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
 
@@ -1695,7 +1695,7 @@ void CMuRummyMng::GDReqMuRummyInfoUpdate(OBJECTSTRUCT *lpObj)
 
 	if (!pMuRummyInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pMuRummyInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pMuRummyInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
 
@@ -1708,7 +1708,7 @@ void CMuRummyMng::GDReqMuRummyInfoUpdate(OBJECTSTRUCT *lpObj)
 
 	if (!pCCardInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pCCardInfo is NULL [%s, %d]", __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pCCardInfo is NULL [%s, %d]", __FILE__, __LINE__);
 
 		return;
 	}
@@ -1726,7 +1726,7 @@ void CMuRummyMng::GDReqMuRummyInfoUpdate(OBJECTSTRUCT *lpObj)
 
 		if (pCCardInfo[i].GetColor() != 255)
 		{
-			//sLog.outBasic("[MuRummy] MuRummy Info Save [%s][%s] [%d][%c][%d][%d] ",	lpObj->AccountID, lpObj->Name,
+			//sLog->outBasic("[MuRummy] MuRummy Info Save [%s][%s] [%d][%c][%d][%d] ",	lpObj->AccountID, lpObj->Name,
 			//	pCCardInfo[i].GetSlotNum(),	this->GetColorName(pCCardInfo[i].GetColor() - 1),
 			//	pCCardInfo[i].GetNumber(),	pCCardInfo[i].GetState());
 		}
@@ -1746,7 +1746,7 @@ void CMuRummyMng::CheatSetCardColorAsc(CMuRummyInfo *pMuRummyInfo, int aIndex)
 
 	if (!pMuRummyInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pMuRummyInfo is NULL [%s][%s] [%s, %d]", gObj[aIndex].AccountID, gObj[aIndex].Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pMuRummyInfo is NULL [%s][%s] [%s, %d]", gObj[aIndex].AccountID, gObj[aIndex].Name, __FILE__, __LINE__);
 		return;
 	}
 
@@ -1754,7 +1754,7 @@ void CMuRummyMng::CheatSetCardColorAsc(CMuRummyInfo *pMuRummyInfo, int aIndex)
 
 	if (!pCCardInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pCCardInfo is NULL [%s, %d]", __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pCCardInfo is NULL [%s, %d]", __FILE__, __LINE__);
 
 		return;
 	}
@@ -1857,7 +1857,7 @@ void CMuRummyMng::Slot5Log(OBJECTSTRUCT *lpObj, int iLogType)
 
 	if (!pMuRummyInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pMuRummyInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pMuRummyInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
 
@@ -1865,7 +1865,7 @@ void CMuRummyMng::Slot5Log(OBJECTSTRUCT *lpObj, int iLogType)
 
 	if (!pCCardInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pCCardInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pCCardInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
 
@@ -1873,7 +1873,7 @@ void CMuRummyMng::Slot5Log(OBJECTSTRUCT *lpObj, int iLogType)
 
 	if (!pSlotIndexInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pSlotIndexInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pSlotIndexInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
 
@@ -1905,12 +1905,12 @@ void CMuRummyMng::Slot5Log(OBJECTSTRUCT *lpObj, int iLogType)
 
 	if (iLogType)
 	{
-		//sLog.outBasic("[%s][%s][Mu Rummy] Slot[5] - Register Result [ %s ]", lpObj->AccountID, lpObj->Name, szTemp);
+		//sLog->outBasic("[%s][%s][Mu Rummy] Slot[5] - Register Result [ %s ]", lpObj->AccountID, lpObj->Name, szTemp);
 	}
 
 	else
 	{
-		//sLog.outBasic("[%s][%s][Mu Rummy] Slot[5] - [ %s ]", lpObj->AccountID, lpObj->Name, szTemp);
+		//sLog->outBasic("[%s][%s][Mu Rummy] Slot[5] - [ %s ]", lpObj->AccountID, lpObj->Name, szTemp);
 	}
 }
 
@@ -1925,7 +1925,7 @@ void CMuRummyMng::Slot3Log(OBJECTSTRUCT *lpObj, int iLogType)
 
 	if (!pMuRummyInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pMuRummyInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pMuRummyInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
 
@@ -1933,7 +1933,7 @@ void CMuRummyMng::Slot3Log(OBJECTSTRUCT *lpObj, int iLogType)
 
 	if (!pCCardInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pCCardInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pCCardInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
 
@@ -1941,7 +1941,7 @@ void CMuRummyMng::Slot3Log(OBJECTSTRUCT *lpObj, int iLogType)
 
 	if (!pSlotIndexInfo)
 	{
-		//sLog.outBasic("[MuRummy][Error] pSlotIndexInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pSlotIndexInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
 
@@ -1973,12 +1973,12 @@ void CMuRummyMng::Slot3Log(OBJECTSTRUCT *lpObj, int iLogType)
 
 	if (iLogType)
 	{
-		//sLog.outBasic("[%s][%s][Mu Rummy] Slot[3] - Register Result [ %s ]", lpObj->AccountID, lpObj->Name, szTemp);
+		//sLog->outBasic("[%s][%s][Mu Rummy] Slot[3] - Register Result [ %s ]", lpObj->AccountID, lpObj->Name, szTemp);
 	}
 
 	else
 	{
-		//sLog.outBasic("[%s][%s][Mu Rummy] Slot[3] - [ %s ]", lpObj->AccountID, lpObj->Name, szTemp);
+		//sLog->outBasic("[%s][%s][Mu Rummy] Slot[3] - [ %s ]", lpObj->AccountID, lpObj->Name, szTemp);
 	}
 }
 

@@ -49,7 +49,7 @@ void CDragonEvent::LoadScript(char *szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("%s load fail (%s)", szFile, res.description());
+		sLog->outError("%s load fail (%s)", szFile, res.description());
 		return;
 	}
 
@@ -132,7 +132,7 @@ void CDragonEvent::Start()
 void CDragonEvent::End()
 {
 	GSProtocol.GCMapEventStateSend(this->m_MapNumber, 0, 1);
-	sLog.outBasic("[Red Dragon] Event End");
+	sLog->outBasic("[Red Dragon] Event End");
 	this->EventState=0;
 	this->ClearMonster();
 }
@@ -158,7 +158,7 @@ void CDragonEvent::DragonActive()
 
 		if (result == -1)
 		{
-			sLog.outError( "%s result == -1", __FUNCTION__);
+			sLog->outError( "%s result == -1", __FUNCTION__);
 			return;
 		}
 
@@ -180,7 +180,7 @@ void CDragonEvent::DragonActive()
 		if (bSpawnFind == false)
 		{
 			gObjDel(result);
-			sLog.outError( "%s bSpawnFind == false", __FUNCTION__);
+			sLog->outError( "%s bSpawnFind == false", __FUNCTION__);
 			return;
 		}
 
@@ -239,7 +239,7 @@ void CDragonEvent::Run()
 		{
 			this->EventState = 2;
 			GSProtocol.GCMapEventStateSend(this->m_MapNumber , 1, 1 );
-			sLog.outBasic("[Red Dragon] Event Start");
+			sLog->outBasic("[Red Dragon] Event Start");
 			this->DragonActive();
 			this->EventStartTime = GetTickCount64();
 			return;
@@ -262,7 +262,7 @@ void CDragonEvent::Run()
 void CDragonEvent::Start_Menual()
 {
 	this->SetMenualStart(TRUE);
-	sLog.outBasic("[Event Management] [Start] Red Dragon Event");
+	sLog->outBasic("[Event Management] [Start] Red Dragon Event");
 	this->EventState=0;
 	this->Start();
 }

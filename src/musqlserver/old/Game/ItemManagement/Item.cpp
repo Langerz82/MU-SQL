@@ -127,7 +127,7 @@ void CItem::Convert(int type, BYTE Option1, BYTE Option2, BYTE Option3, BYTE Att
 
 	if (_type > MAX_ITEMS - 1)
 	{
-		sLog.outError("error-L1 : ItemIndex error %d", _type);
+		sLog->outError("error-L1 : ItemIndex error %d", _type);
 	}
 
 	p = &ItemAttribute[_type];
@@ -321,7 +321,7 @@ void CItem::Convert(int type, BYTE Option1, BYTE Option2, BYTE Option3, BYTE Att
 
 	for (int i = 0; i < 5; i++)
 	{
-		//	sLog.outBasic("[K2][3] %d",
+		//	sLog->outBasic("[K2][3] %d",
 		//		this->m_SocketOption[i]);
 		//SocketOption[i] = lpObj->pChaosBox[PlusItemPos].m_SocketOption[i]; //[K2]
 
@@ -3278,21 +3278,21 @@ BOOL CItem::IsClass(char aClass, int ChangeUP)
 {
 	if ((aClass < 0) || (aClass >= MAX_TYPE_PLAYER))
 	{
-		sLog.outError("CItem: Invalid class: %d (%s %d)", aClass, __FILE__, __LINE__);
+		sLog->outError("CItem: Invalid class: %d (%s %d)", aClass, __FILE__, __LINE__);
 		return 0;
 	}
 
 	int requireclass = this->m_RequireClass[aClass];
 	if (requireclass == 0)
 	{
-		sLog.outError("CItem: Wrong Class (%d)", aClass);
+		sLog->outError("CItem: Wrong Class (%d)", aClass);
 		return 0;
 	}
 	if (requireclass > 1)
 	{
 		if (requireclass > (ChangeUP + 1))
 		{
-			sLog.outError("CItem: Wrong Quest State");
+			sLog->outError("CItem: Wrong Quest State");
 			return 0;
 		}
 	}
@@ -4154,7 +4154,7 @@ int CItem::NormalWeaponDurabilityDown(int defense, int aIndex)
 
 	if (damagemin == 0)
 	{
-		sLog.outBasic("MinDamage is 0!");
+		sLog->outBasic("MinDamage is 0!");
 		return 0;
 	}
 
@@ -4351,7 +4351,7 @@ int CItem::LuckyItemArmorDurabilityDown(int damagemin, int aIndex)
 
 	if (this->m_DefenseOrigin == 0)
 	{
-		sLog.outBasic("Defense is 0!");
+		sLog->outBasic("Defense is 0!");
 		return 0;
 	}
 
@@ -4415,7 +4415,7 @@ int CItem::ArmorDurabilityDown(int damagemin, int aIndex)
 
 	if (def == 0)
 	{
-		sLog.outBasic("def = 0!");
+		sLog->outBasic("def = 0!");
 		return 0;
 	}
 
@@ -5022,7 +5022,7 @@ int ItemGetDurability(int index, int itemLevel, int ExcellentItem, int SetItem)
 {
 	if (index < 0 || index > MAX_ITEMS)
 	{
-		sLog.outError("BAD INDEX %d", index);
+		sLog->outError("BAD INDEX %d", index);
 		return 0;
 	}
 
@@ -5162,7 +5162,7 @@ BOOL OpenItemScript(char* FileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("Error loading %s file (%s)", FileName, res.description());
+		sLog->outError("Error loading %s file (%s)", FileName, res.description());
 		return FALSE;
 	}
 
@@ -5188,7 +5188,7 @@ BOOL OpenItemScript(char* FileName)
 
 			if (ITEMGET(ItemType, ItemIndex) < 0 || ITEMGET(ItemType, ItemIndex) >= ITEMGET(17, 0))
 			{
-				sLog.outError("Error - wrong Item configuration (ItemType:%d ItemIndex:%d) in Section:%d", ItemType, ItemIndex, ItemType);
+				sLog->outError("Error - wrong Item configuration (ItemType:%d ItemIndex:%d) in Section:%d", ItemType, ItemIndex, ItemType);
 				return FALSE;
 			}
 
@@ -5449,7 +5449,7 @@ BOOL OpenItemScript(char* FileName)
 		}
 	}
 
-	sLog.outBasic("(OpenItemScript) LoadItem complete. (ItemCount:%d)", iItemCount);
+	sLog->outBasic("(OpenItemScript) LoadItem complete. (ItemCount:%d)", iItemCount);
 	return TRUE;
 }
 
@@ -5918,7 +5918,7 @@ void LoadResetItemList(LPSTR szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("Error loading %s file (%s)", szFile, res.description());
+		sLog->outError("Error loading %s file (%s)", szFile, res.description());
 		return;
 	}
 
@@ -5936,7 +5936,7 @@ void LoadResetItemList(LPSTR szFile)
 		iCount++;
 	}
 
-	sLog.outBasic("[%s]::LoadFile() -> Success!", szFile);
+	sLog->outBasic("[%s]::LoadFile() -> Success!", szFile);
 }
 
 bool CheckCanWearResetItem(int aIndex, int itemid)

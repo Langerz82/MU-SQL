@@ -48,7 +48,7 @@ void CChangeCmd::LoadFile(char * szFile)
 
 		if (m_ChangeData.ItemID == (WORD)-1)
 		{
-			sLog.outError("Change Item Cmd - Wrong item found (System disabled) (%d/%d)", ItemCat, ItemIndex);
+			sLog->outError("Change Item Cmd - Wrong item found (System disabled) (%d/%d)", ItemCat, ItemIndex);
 			this->m_bSystemEnable = false;
 			return;
 		}
@@ -57,7 +57,7 @@ void CChangeCmd::LoadFile(char * szFile)
 
 		if (m_ChangeData.CoinType < 0 || m_ChangeData.CoinType > 3)
 		{
-			sLog.outError("Change Item Cmd - Wrong Coin Type (System disabled) (%d/%d) (%d)", ItemCat, ItemIndex, m_ChangeData.CoinType);
+			sLog->outError("Change Item Cmd - Wrong Coin Type (System disabled) (%d/%d) (%d)", ItemCat, ItemIndex, m_ChangeData.CoinType);
 			this->m_bSystemEnable = false;
 			return;
 		}
@@ -66,7 +66,7 @@ void CChangeCmd::LoadFile(char * szFile)
 
 		if (this->m_mapChangeData.find(m_ChangeData.ItemID) != this->m_mapChangeData.end())
 		{
-			sLog.outError("Change Item Cmd - Already Exist item (System disabled) (%d/%d)", ItemCat, ItemIndex);
+			sLog->outError("Change Item Cmd - Already Exist item (System disabled) (%d/%d)", ItemCat, ItemIndex);
 			this->m_bSystemEnable = false;
 			return;
 		}

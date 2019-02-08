@@ -306,7 +306,7 @@ void CDoppelGangerMonsterHerd::MonsterBaseAct(LPOBJ lpObj)
 				{
 					if (MAX_MAP_RANGE(lpObj->MapNumber) == FALSE)
 					{
-						sLog.outError( "[ERROR] MAX_MAP_RANGE (MonsterHerd DG) == FALSE (%d)", lpObj->MapNumber);
+						sLog->outError( "[ERROR] MAX_MAP_RANGE (MonsterHerd DG) == FALSE (%d)", lpObj->MapNumber);
 						break;
 					}
 
@@ -346,7 +346,7 @@ void CDoppelGangerMonsterHerd::MonsterBaseAct(LPOBJ lpObj)
 
 				if (MAX_MAP_RANGE(map) == FALSE)
 				{
-					sLog.outError( "[ERROR] MAX_MAP_RANGE (MonsterHerd DG) == FALSE (%d)", map);
+					sLog->outError( "[ERROR] MAX_MAP_RANGE (MonsterHerd DG) == FALSE (%d)", map);
 					break;
 				}
 
@@ -752,7 +752,7 @@ void CDoppelGanger::SetDoppelgangerStatePlaying()
 
 	LeaveCriticalSection(&this->m_critUserData);
 
-	sLog.outBasic(PlayerLog);
+	sLog->outBasic(PlayerLog);
 
 	this->SendDoppelgangerState(DOPPELGANGER_STATE_PLAY);
 	this->SendMapTileInfoAll(1);
@@ -2182,7 +2182,7 @@ void CDoppelGanger::MoveDoppelgangerMonsterProc()
 
 								if (lpObj->Type == OBJ_USER && ((attr & 4) == 4 || (attr & 8) == 8))
 								{
-									sLog.outBasic("[ CHECK POSITION ] MoveMosterProc [%s][%s] Map[%d]-(%d,%d) User(%d,%d) Can not Move Position Attr[%d]",
+									sLog->outBasic("[ CHECK POSITION ] MoveMosterProc [%s][%s] Map[%d]-(%d,%d) User(%d,%d) Can not Move Position Attr[%d]",
 										lpObj->AccountID, lpObj->Name, lpObj->MapNumber, nextX, nextY, lpObj->X, lpObj->Y, attr);
 
 									for (int n = 0; n < 15; n++)
@@ -2322,7 +2322,7 @@ BOOL CDoppelGanger::AddMiddleTreasureBoxAll(BYTE btX, BYTE btY)
 
 			if (bRet == FALSE)
 			{
-				sLog.outBasic("MiddleTreasureBox RandLocation Error [%d, %d]", cX, cY);
+				sLog->outBasic("MiddleTreasureBox RandLocation Error [%d, %d]", cX, cY);
 				cX = btX;
 				cY = btY;
 			}
@@ -2547,7 +2547,7 @@ LPMONSTER_ATTRIBUTE CDoppelGanger::GetDefaultMonsterInfo(int nClass)
 
 	if (lpm == NULL)
 	{
-		sLog.outError("Warning! : Can't find monster attribute. %d (%s %d)", nClass, __FILE__, __LINE__);
+		sLog->outError("Warning! : Can't find monster attribute. %d (%s %d)", nClass, __FILE__, __LINE__);
 		return NULL;
 	}
 

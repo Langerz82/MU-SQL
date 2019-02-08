@@ -72,7 +72,7 @@ bool CPentagramMixSystem::LoadMixNeedSourceScript(char* pchFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("[PentagramMixSystem] PentagramSystem NeedSource Script file Load failed. (%s) (%s)", pchFileName, res.description());
+		sLog->outError("[PentagramMixSystem] PentagramSystem NeedSource Script file Load failed. (%s) (%s)", pchFileName, res.description());
 		return false;
 	}
 
@@ -242,7 +242,7 @@ bool CPentagramMixSystem::LoadJewelOptionScript(char *pchFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("[PentagramMixSystem] PentagramSystem Jewel Upgrade Script file Load failed. (%s) (%s)", pchFileName, res.description());
+		sLog->outError("[PentagramMixSystem] PentagramSystem Jewel Upgrade Script file Load failed. (%s) (%s)", pchFileName, res.description());
 		return false;
 	}
 
@@ -1290,10 +1290,10 @@ void CPentagramMixSystem::CGPentagramJewelRefineRecv(PMSG_PENTAGRAM_JEWEL_REFINE
 	{
 	case 1:
 		//this->PentagramJewelMix(aIndex);
-		sLog.outError( "[PentagramJewelMix] in Progress..");
+		sLog->outError( "[PentagramJewelMix] in Progress..");
 	    break;
 	default:
-		sLog.outBasic("[%s][%s] Undefine PentagramJewelMix type detect %d", lpObj->AccountID, lpObj->Name, lpMsg->type);
+		sLog->outBasic("[%s][%s] Undefine PentagramJewelMix type detect %d", lpObj->AccountID, lpObj->Name, lpMsg->type);
 		break;
 	}
 }
@@ -1394,14 +1394,14 @@ BOOL CPentagramMixSystem::PentagramJewelMix(int aIndex) // OK
 		ItemSerialCreateSend(aIndex, 235, 0, 0, NewItem.m_Type, 0, 0, 0, 0, 0, aIndex, 0, 0, 0, NewItem.m_SocketOption, NewItem.m_BonusSocketOption);
 		gObjInventoryCommit(aIndex);
 
-		sLog.outError("[Elemental System][Elixir Mix] [%s][%s] CBMix Success, Money : %d",
+		sLog->outError("[Elemental System][Elixir Mix] [%s][%s] CBMix Success, Money : %d",
 			lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Money);
 	}
 	else
 	{
 		pMsg.Result = 0;
 		IOCP.DataSend(aIndex, (UCHAR*)&pMsg, pMsg.h.size);
-		sLog.outError( "[Elemental System][Elixir Mix] [%s][%s] CBMix Fail, Money : %d ",
+		sLog->outError( "[Elemental System][Elixir Mix] [%s][%s] CBMix Fail, Money : %d ",
 			lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Money);
 	}
 	return 1;

@@ -55,20 +55,20 @@ BOOL IocpServerStart()
 
 	if(g_DSMode == FALSE)
 	{
-		sLog.outBasic("[IOCP] Using normal functionality");
+		sLog->outBasic("[IOCP] Using normal functionality");
 
 		if (g_UseJoinServer == TRUE && CreateGIocp(g_JoinServerListPort, ST_JOINSERVER) == TRUE )
-			sLog.outBasic("[IOCP] ST_JOINSERVER Start! PORT [ %d ]", g_JoinServerListPort);
+			sLog->outBasic("[IOCP] ST_JOINSERVER Start! PORT [ %d ]", g_JoinServerListPort);
 
 		Sleep(100);
 
 		if (g_UseDataServer == TRUE && CreateGIocp(g_DataServerListPort, ST_DATASERVER) == TRUE )
-			sLog.outBasic("[IOCP] ST_DATASERVER Start! PORT [ %d ]", g_DataServerListPort);
+			sLog->outBasic("[IOCP] ST_DATASERVER Start! PORT [ %d ]", g_DataServerListPort);
 
 		Sleep(100);
 
 		if (g_UseExDataServer == TRUE && CreateGIocp(g_ExDataServerListPort, ST_EXDATASERVER) == TRUE )
-			sLog.outBasic("[IOCP] ST_EXDATASERVER Start! PORT [ %d ]", g_ExDataServerListPort);
+			sLog->outBasic("[IOCP] ST_EXDATASERVER Start! PORT [ %d ]", g_ExDataServerListPort);
 
 		Sleep(100);
 	}
@@ -76,11 +76,11 @@ BOOL IocpServerStart()
 	else
 	{
 		if (g_UseDataServer == TRUE && CreateGIocp(g_DataServerListPort, ST_DATASERVER) == TRUE )
-			sLog.outBasic("[IOCP] ST_DATASERVER Start! PORT [ %d ]", g_DataServerListPort);
+			sLog->outBasic("[IOCP] ST_DATASERVER Start! PORT [ %d ]", g_DataServerListPort);
 
 		Sleep(100);
 
-		sLog.outBasic("[IOCP] Using DataServer-ONLY functionality");
+		sLog->outBasic("[IOCP] Using DataServer-ONLY functionality");
 
 	}
 
@@ -102,7 +102,7 @@ BOOL CreateGIocp(int server_port, eSERVER_TYPE eServerType)
 
 	if ( g_IocpThreadHandle[g_dwServerCount] == NULL )
 	{
-		sLog.outBasic("[IOCP] CreateThread() failed with error %d - ServerCount : %d", GetLastError(), g_dwServerCount);
+		sLog->outBasic("[IOCP] CreateThread() failed with error %d - ServerCount : %d", GetLastError(), g_dwServerCount);
 		return FALSE;
 	}
 	
@@ -147,7 +147,7 @@ BOOL CreateListenSocket(DWORD dwServerCountIndex)
 
 	if ( g_Listen[dwServerCountIndex] == INVALID_SOCKET )
 	{
-		sLog.outBasic("WSASocket() failed with error %d", WSAGetLastError() );
+		sLog->outBasic("WSASocket() failed with error %d", WSAGetLastError() );
 		return FALSE;
 	}
 
@@ -158,7 +158,7 @@ BOOL CreateListenSocket(DWORD dwServerCountIndex)
 	
 	if ( nRet == -1 )
 	{
-		sLog.outError("bind error : eDataServer can't be launched twice");
+		sLog->outError("bind error : eDataServer can't be launched twice");
 		SendMessage(ghWnd, WM_CLOSE, 0,0);	// Kill aplication
 		return FALSE;
 	}
@@ -166,7 +166,7 @@ BOOL CreateListenSocket(DWORD dwServerCountIndex)
 	nRet=listen(g_Listen[dwServerCountIndex], 5);
 	if (nRet == -1)
 	{
-		sLog.outBasic("listen() failed with error %d", WSAGetLastError());
+		sLog->outBasic("listen() failed with error %d", WSAGetLastError());
 		return FALSE;
 	}
 
@@ -202,7 +202,7 @@ unsigned long __stdcall IocpServerWorker(DWORD pIocpServerParameter)
 	if ( g_dwThreadCount[dwServerCountIndex] > MAX_IO_THREAD_HANDLES )
 	{
 		g_dwThreadCount[dwServerCountIndex] = MAX_IO_THREAD_HANDLES;
-		sLog.outError("[WARNING]: IOCP Thread Handles set to 16");
+		sLog->outError("[WARNING]: IOCP Thread Handles set to 16");
 	}
 
 	__try
@@ -212,7 +212,7 @@ unsigned long __stdcall IocpServerWorker(DWORD pIocpServerParameter)
 
 		if ( g_CompletionPort[dwServerCountIndex] == NULL )
 		{
-			sLog.outBasic("CreateIoCompletionPort failed with error: %d", GetLastError());
+			sLog->outBasic("CreateIoCompletionPort failed with error: %d", GetLastError());
 			__leave;
 		}
 
@@ -222,7 +222,7 @@ unsigned long __stdcall IocpServerWorker(DWORD pIocpServerParameter)
 
 			if ( hThread == NULL )
 			{
-				sLog.outBasic("CreateThread() failed with error %d", GetLastError() );
+				sLog->outBasic("CreateThread() failed with error %d", GetLastError() );
 				__leave;
 			}
 
@@ -236,7 +236,7 @@ unsigned long __stdcall IocpServerWorker(DWORD pIocpServerParameter)
 
 			if ( hThread == NULL )
 			{
-				sLog.outBasic("CreateThread() failed with error %d", GetLastError() );
+				sLog->outBasic("CreateThread() failed with error %d", GetLastError() );
 				__leave;
 			}
 
@@ -244,14 +244,14 @@ unsigned long __stdcall IocpServerWorker(DWORD pIocpServerParameter)
 
 			if ( SetThreadPriority(hThread, THREAD_PRIORITY_HIGHEST) == FALSE )
 			{
-				sLog.outBasic("SetThreadPriority() failed with error %d", GetLastError());
+				sLog->outBasic("SetThreadPriority() failed with error %d", GetLastError());
 			}
 
 			hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ServerRecvWorkerThread_DS_Q2, (LPVOID)eType, 0, &ThreadID);
 
 			if ( hThread == NULL )
 			{
-				sLog.outBasic("CreateThread() (2) failed with error %d", GetLastError() );
+				sLog->outBasic("CreateThread() (2) failed with error %d", GetLastError() );
 				__leave;
 			}
 
@@ -261,7 +261,7 @@ unsigned long __stdcall IocpServerWorker(DWORD pIocpServerParameter)
 
 			if ( hThread == NULL )
 			{
-				sLog.outBasic("CreateThread() (3) failed with error %d", GetLastError() );
+				sLog->outBasic("CreateThread() (3) failed with error %d", GetLastError() );
 				__leave;
 			}
 
@@ -271,7 +271,7 @@ unsigned long __stdcall IocpServerWorker(DWORD pIocpServerParameter)
 
 			if ( hThread == NULL )
 			{
-				sLog.outBasic("CreateThread() (4) failed with error %d", GetLastError() );
+				sLog->outBasic("CreateThread() (4) failed with error %d", GetLastError() );
 				__leave;
 			}
 
@@ -279,14 +279,14 @@ unsigned long __stdcall IocpServerWorker(DWORD pIocpServerParameter)
 
 			if (SetThreadPriority(hThread, THREAD_PRIORITY_ABOVE_NORMAL) == FALSE)
 			{
-				sLog.outBasic("SetThreadPriority() failed with error %d", GetLastError());
+				sLog->outBasic("SetThreadPriority() failed with error %d", GetLastError());
 			}
 
 			hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ServerRecvWorkerThread_DS_Q5, (LPVOID)eType, 0, &ThreadID);
 
 			if (hThread == NULL)
 			{
-				sLog.outBasic("CreateThread() (5) failed with error %d", GetLastError());
+				sLog->outBasic("CreateThread() (5) failed with error %d", GetLastError());
 				__leave;
 			}
 
@@ -299,7 +299,7 @@ unsigned long __stdcall IocpServerWorker(DWORD pIocpServerParameter)
 
 			if ( hThread == NULL )
 			{
-				sLog.outBasic("CreateThread() failed with error %d", GetLastError() );
+				sLog->outBasic("CreateThread() failed with error %d", GetLastError() );
 				__leave;
 			}
 
@@ -312,7 +312,7 @@ unsigned long __stdcall IocpServerWorker(DWORD pIocpServerParameter)
 
 			if ( hThread == NULL )
 			{
-				sLog.outBasic("CreateThread() failed with error %d", GetLastError() );
+				sLog->outBasic("CreateThread() failed with error %d", GetLastError() );
 				__leave;
 			}
 			
@@ -332,7 +332,7 @@ unsigned long __stdcall IocpServerWorker(DWORD pIocpServerParameter)
 				if ( Accept == -1 )
 				{
 					EnterCriticalSection(&criti[eType]);
-					sLog.outBasic("WSAAccept() failed with error %d", WSAGetLastError() );
+					sLog->outBasic("WSAAccept() failed with error %d", WSAGetLastError() );
 					LeaveCriticalSection(&criti[eType]);
 					continue;
 				}
@@ -346,7 +346,7 @@ unsigned long __stdcall IocpServerWorker(DWORD pIocpServerParameter)
 
 				if ( ClientIndex == -1 )
 				{
-					sLog.outError("error-L2 : ServerIndex = -1");
+					sLog->outError("error-L2 : ServerIndex = -1");
 					closesocket(Accept);
 					LeaveCriticalSection(&scriti);
 					LeaveCriticalSection(&criti[eType]);
@@ -355,7 +355,7 @@ unsigned long __stdcall IocpServerWorker(DWORD pIocpServerParameter)
 
 				if (UpdateCompletionPort(Accept, ClientIndex, dwServerCountIndex) == 0 )
 				{
-					sLog.outError("error-L1 : %d %d CreateIoCompletionPort failed with error %d", Accept, ClientIndex, GetLastError() );
+					sLog->outError("error-L1 : %d %d CreateIoCompletionPort failed with error %d", Accept, ClientIndex, GetLastError() );
 					closesocket(Accept);
 					LeaveCriticalSection(&scriti);
 					LeaveCriticalSection(&criti[eType]);
@@ -364,7 +364,7 @@ unsigned long __stdcall IocpServerWorker(DWORD pIocpServerParameter)
 
 				if (gObjServerAdd(Accept, inet_ntoa(cInAddr), ClientIndex, eSERVER_TYPE(eType) ) == -1 )
 				{
-					sLog.outError("error-L1 : %d %d gObjAdd() failed with error %d", Accept, ClientIndex, GetLastError() );
+					sLog->outError("error-L1 : %d %d gObjAdd() failed with error %d", Accept, ClientIndex, GetLastError() );
 					LeaveCriticalSection(&scriti);
 					LeaveCriticalSection(&criti[eType]);
 					closesocket(Accept);
@@ -402,7 +402,7 @@ unsigned long __stdcall IocpServerWorker(DWORD pIocpServerParameter)
 				{
 					if ( WSAGetLastError() != WSA_IO_PENDING )
 					{
-						sLog.outError("error-L1 : WSARecv() failed with error %d", WSAGetLastError() );
+						sLog->outError("error-L1 : WSARecv() failed with error %d", WSAGetLastError() );
 						g_Server[ClientIndex].PerSocketContext->IOContext[0].nWaitIO = 4;
 						CloseClient(g_Server[ClientIndex].PerSocketContext, 0);
 						LeaveCriticalSection(&criti[eType]);
@@ -484,7 +484,7 @@ unsigned long __stdcall ServerWorkerThread(HANDLE CompletionPortID)
 				if ( (aError != ERROR_NETNAME_DELETED) && (aError != ERROR_CONNECTION_ABORTED) && (aError != ERROR_OPERATION_ABORTED) )
 				{
 					//EnterCriticalSection(&criti[dwServerCountIndex]);
-					sLog.outBasic("Error Thread : GetQueueCompletionStatus( %d )", GetLastError());
+					sLog->outBasic("Error Thread : GetQueueCompletionStatus( %d )", GetLastError());
 					//LeaveCriticalSection(&criti[dwServerCountIndex]);
 					return 0;
 				}
@@ -495,7 +495,7 @@ unsigned long __stdcall ServerWorkerThread(HANDLE CompletionPortID)
 
 		if (eType <= ST_NONE || eType > ST_EXDATASERVER)
 		{
-			sLog.outBasic("Error - eType is wrong (%d) %s %d", eType, __FILE__, __LINE__);
+			sLog->outBasic("Error - eType is wrong (%d) %s %d", eType, __FILE__, __LINE__);
 			continue;
 		}
 
@@ -506,7 +506,7 @@ unsigned long __stdcall ServerWorkerThread(HANDLE CompletionPortID)
 				
 		if ( dwIoSize == 0 )
 		{
-			sLog.outBasic("Connection Closed, dwIoSize == 0 (Index:%d)", lpPerSocketContext->nIndex);
+			sLog->outBasic("Connection Closed, dwIoSize == 0 (Index:%d)", lpPerSocketContext->nIndex);
 			CloseClient(lpPerSocketContext, 0);
 			LeaveCriticalSection(&criti[eType]);
 			continue;
@@ -545,7 +545,7 @@ unsigned long __stdcall ServerWorkerThread(HANDLE CompletionPortID)
 
 			if ( RecvDataParse(lpIOContext, lpPerSocketContext->nIndex ) == 0 )
 			{
-				sLog.outBasic("error-L1 : Socket Header error %d, %d", WSAGetLastError(), lpPerSocketContext->nIndex);
+				sLog->outBasic("error-L1 : Socket Header error %d, %d", WSAGetLastError(), lpPerSocketContext->nIndex);
 				CloseClient(lpPerSocketContext, 0);
 				LeaveCriticalSection(&criti[eType]);
 				continue;
@@ -565,7 +565,7 @@ unsigned long __stdcall ServerWorkerThread(HANDLE CompletionPortID)
 			{
 				if ( WSAGetLastError() != WSA_IO_PENDING)
 				{
-					sLog.outBasic("WSARecv() failed with error %d", WSAGetLastError() );
+					sLog->outBasic("WSARecv() failed with error %d", WSAGetLastError() );
 					CloseClient(lpPerSocketContext, 0);
 					LeaveCriticalSection(&criti[eType]);
 					continue;
@@ -628,7 +628,7 @@ BOOL RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 		// Check Size is leess thant 0
 		if ( size <= 0 )
 		{
-			sLog.outBasic("error-L1 : size %d",size);
+			sLog->outBasic("error-L1 : size %d",size);
 			return false;
 		}
 
@@ -687,14 +687,14 @@ BOOL RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 		{
 			if ( lpIOContext->nSentBytes < 1 )
 			{
-				sLog.outBasic("error-L1 : recvbuflen 1 %s %d", __FILE__, __LINE__);
+				sLog->outBasic("error-L1 : recvbuflen 1 %s %d", __FILE__, __LINE__);
 				break;
 			}
 
 			if ( lpIOContext->nSentBytes < MAX_IO_BUFFER_SIZE ) 
 			{
 				memcpy(recvbuf, &recvbuf[lOfs], lpIOContext->nSentBytes);
-				sLog.outBasic("Message copy %d", lpIOContext->nSentBytes);
+				sLog->outBasic("Message copy %d", lpIOContext->nSentBytes);
 			}
 			break;
 		
@@ -723,7 +723,7 @@ BOOL DataSend(int aIndex, unsigned char* lpMsg, DWORD dwSize, char* szFunction)
 
 	if ( aIndex < 0 || aIndex > (g_dwMaxServerGroups-1) )
 	{
-		sLog.outError("error-L2 : Index(%d) %x %x %x (%s) ", dwSize, lpMsg[0], lpMsg[1], lpMsg[2], szFunction);
+		sLog->outError("error-L2 : Index(%d) %x %x %x (%s) ", dwSize, lpMsg[0], lpMsg[1], lpMsg[2], szFunction);
 		return false;
 	}
 
@@ -740,7 +740,7 @@ BOOL DataSend(int aIndex, unsigned char* lpMsg, DWORD dwSize, char* szFunction)
 
 	if ( SendBuf[0] != 0xC1 && SendBuf[0] != 0xC2 )
 	{
-		sLog.outError("error : header error");
+		sLog->outError("error : header error");
 	}
 
 	if ( g_Server[aIndex].m_State < SS_CONNECTED )
@@ -753,7 +753,7 @@ BOOL DataSend(int aIndex, unsigned char* lpMsg, DWORD dwSize, char* szFunction)
 
 	if ( dwSize > sizeof(lpPerSocketContext->IOContext[0].Buffer))
 	{
-		sLog.outBasic("Error : Max msg(%d) %s %d", dwSize, __FILE__, __LINE__);
+		sLog->outBasic("Error : Max msg(%d) %s %d", dwSize, __FILE__, __LINE__);
 		CloseClient(aIndex);
 		LeaveCriticalSection(&criti[eType]);
 		return false;
@@ -767,7 +767,7 @@ BOOL DataSend(int aIndex, unsigned char* lpMsg, DWORD dwSize, char* szFunction)
 	{
 		if ( ( lpIoCtxt->nSecondOfs + dwSize ) > MAX_IO_BUFFER_SIZE-1 )
 		{
-			sLog.outBasic("(%d)error-L2 MAX BUFFER OVER %d %d %d",
+			sLog->outBasic("(%d)error-L2 MAX BUFFER OVER %d %d %d",
 				aIndex, lpIoCtxt->nTotalBytes, lpIoCtxt->nSecondOfs, dwSize);
 
 			lpIoCtxt->nWaitIO = 0;
@@ -793,7 +793,7 @@ BOOL DataSend(int aIndex, unsigned char* lpMsg, DWORD dwSize, char* szFunction)
 
 	if ( (lpIoCtxt->nTotalBytes+dwSize) > MAX_IO_BUFFER_SIZE-1 )
 	{
-		sLog.outBasic("(%d)error-L2 MAX BUFFER OVER %d %d %d",
+		sLog->outBasic("(%d)error-L2 MAX BUFFER OVER %d %d %d",
 				aIndex, lpIoCtxt->nTotalBytes, lpIoCtxt->nSecondOfs, dwSize);
 
 		lpIoCtxt->nWaitIO = 0;
@@ -820,12 +820,12 @@ BOOL DataSend(int aIndex, unsigned char* lpMsg, DWORD dwSize, char* szFunction)
 
 			if ( lpIoCtxt->wsabuf.buf[0] == 0xC1 )
 			{
-				sLog.outBasic("(%d)WSASend(%d) failed with error [%x][%x] %d %s ", __LINE__, aIndex, (BYTE)lpIoCtxt->wsabuf.buf[0],
+				sLog->outBasic("(%d)WSASend(%d) failed with error [%x][%x] %d %s ", __LINE__, aIndex, (BYTE)lpIoCtxt->wsabuf.buf[0],
 					(BYTE)lpIoCtxt->wsabuf.buf[2], WSAGetLastError(), g_Server[aIndex].m_ServerIp);
 			}
 			else if ( lpIoCtxt->wsabuf.buf[0] == 0xC2 )
 			{
-				sLog.outBasic("(%d)WSASend(%d) failed with error [%x][%x] %d %s ", __LINE__, aIndex, (BYTE)lpIoCtxt->wsabuf.buf[0],
+				sLog->outBasic("(%d)WSASend(%d) failed with error [%x][%x] %d %s ", __LINE__, aIndex, (BYTE)lpIoCtxt->wsabuf.buf[0],
 					(BYTE)lpIoCtxt->wsabuf.buf[3], WSAGetLastError(), g_Server[aIndex].m_ServerIp);
 			}
 			CloseClient(aIndex);
@@ -888,7 +888,7 @@ BOOL IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 	{
 		if ( WSAGetLastError() != WSA_IO_PENDING )
 		{
-			sLog.outBasic("WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), g_Server[aIndex].m_ServerIp);
+			sLog->outBasic("WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), g_Server[aIndex].m_ServerIp);
 			CloseClient(aIndex);
 			LeaveCriticalSection(&criti[eType]);
 			return false;
@@ -932,7 +932,7 @@ BOOL IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 	{
 		if ( WSAGetLastError() != WSA_IO_PENDING )
 		{
-			sLog.outBasic("WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), g_Server[aIndex].m_ServerIp);
+			sLog->outBasic("WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), g_Server[aIndex].m_ServerIp);
 			CloseClient(aIndex);
 			LeaveCriticalSection(&criti[eType]);
 			return false;
@@ -956,7 +956,7 @@ BOOL UpdateCompletionPort(SOCKET sd, int ClientIndex, DWORD dwServerTypeCount)
 
 	if ( cp == NULL )
 	{
-		sLog.outBasic("CreateIoCompletionPort: %d", GetLastError() );
+		sLog->outBasic("CreateIoCompletionPort: %d", GetLastError() );
 		return FALSE;
 	}
 
@@ -998,13 +998,13 @@ void CloseClient(int index)
 {
 	if ( index < 0 || index >= g_dwMaxServerGroups )
 	{
-		sLog.outBasic("error-L1 : CloseClient index error");
+		sLog->outBasic("error-L1 : CloseClient index error");
 		return;
 	}
 
 	if ( g_Server[index].m_State == SS_CLOSED )
 	{
-		sLog.outBasic("error-L1 : CloseClient connect error");
+		sLog->outBasic("error-L1 : CloseClient connect error");
 		return;
 	}
 
@@ -1017,7 +1017,7 @@ void CloseClient(int index)
 	}
 	else
 	{
-		sLog.outBasic("error-L1 : CloseClient INVALID_SOCKET");
+		sLog->outBasic("error-L1 : CloseClient INVALID_SOCKET");
 	}
 
 	LeaveCriticalSection(&criti[g_Server[index].m_Type]);
@@ -1027,13 +1027,13 @@ void ResponErrorCloseClient(int index)
 {
 	if ( index < 0 || index >= g_dwMaxServerGroups )
 	{
-		sLog.outBasic("error-L1 : CloseClient index error");
+		sLog->outBasic("error-L1 : CloseClient index error");
 		return;
 	}
 
 	if ( g_Server[index].m_State == SS_CLOSED )
 	{
-		sLog.outBasic("error-L1 : CloseClient connect error");
+		sLog->outBasic("error-L1 : CloseClient connect error");
 		return;
 	}
 
@@ -1043,7 +1043,7 @@ void ResponErrorCloseClient(int index)
 
 	if ( g_Server[index].m_Socket == INVALID_SOCKET )
 	{
-		sLog.outBasic("error-L1 : CloseClient INVALID_SOCKET");
+		sLog->outBasic("error-L1 : CloseClient INVALID_SOCKET");
 	}
 
 	gObjServerDel(index);
@@ -1071,7 +1071,7 @@ DWORD WINAPI ServerRecvWorkerThread_DS_Q1(DWORD p)
 		if (loopN > MAX_NODE - 1)
 		{
 			loopN = MAX_NODE - 1;
-			sLog.outBasic("error : Q1 Loop MAX %s %d", __FILE__, __LINE__);
+			sLog->outBasic("error : Q1 Loop MAX %s %d", __FILE__, __LINE__);
 		}
 		LeaveCriticalSection(&criti[eType]);
 
@@ -1086,7 +1086,7 @@ DWORD WINAPI ServerRecvWorkerThread_DS_Q1(DWORD p)
 
 				else
 				{
-					sLog.outBasic("[DelayHandler] ProtocolCore IS NULL -> Index : %d", uindex);
+					sLog->outBasic("[DelayHandler] ProtocolCore IS NULL -> Index : %d", uindex);
 				}
 			}
 		}
@@ -1116,7 +1116,7 @@ DWORD WINAPI ServerRecvWorkerThread_DS_Q2(DWORD p)
 		if (loopN > MAX_NODE - 1)
 		{
 			loopN = MAX_NODE - 1;
-			sLog.outBasic("error : Q2 Loop MAX %s %d", __FILE__, __LINE__);
+			sLog->outBasic("error : Q2 Loop MAX %s %d", __FILE__, __LINE__);
 		}
 		LeaveCriticalSection(&criti[eType]);
 
@@ -1131,7 +1131,7 @@ DWORD WINAPI ServerRecvWorkerThread_DS_Q2(DWORD p)
 
 				else
 				{
-					sLog.outBasic("[DelayHandler] ProtocolCore IS NULL -> Index : %d", uindex);
+					sLog->outBasic("[DelayHandler] ProtocolCore IS NULL -> Index : %d", uindex);
 				}
 			}
 		}
@@ -1161,7 +1161,7 @@ DWORD WINAPI ServerRecvWorkerThread_DS_Q3(DWORD p)
 		if (loopN > MAX_NODE - 1)
 		{
 			loopN = MAX_NODE - 1;
-			sLog.outBasic("error : Q3 Loop MAX %s %d", __FILE__, __LINE__);
+			sLog->outBasic("error : Q3 Loop MAX %s %d", __FILE__, __LINE__);
 		}
 		LeaveCriticalSection(&criti[eType]);
 
@@ -1176,7 +1176,7 @@ DWORD WINAPI ServerRecvWorkerThread_DS_Q3(DWORD p)
 
 				else
 				{
-					sLog.outBasic("[DelayHandler] ProtocolCore IS NULL -> Index : %d", uindex);
+					sLog->outBasic("[DelayHandler] ProtocolCore IS NULL -> Index : %d", uindex);
 				}
 			}
 		}
@@ -1206,7 +1206,7 @@ DWORD WINAPI ServerRecvWorkerThread_DS_Q4(DWORD p)
 		if (loopN > MAX_NODE - 1)
 		{
 			loopN = MAX_NODE - 1;
-			sLog.outBasic("error : Q4 Loop MAX %s %d", __FILE__, __LINE__);
+			sLog->outBasic("error : Q4 Loop MAX %s %d", __FILE__, __LINE__);
 		}
 		LeaveCriticalSection(&criti[eType]);
 
@@ -1221,7 +1221,7 @@ DWORD WINAPI ServerRecvWorkerThread_DS_Q4(DWORD p)
 
 				else
 				{
-					sLog.outBasic("[DelayHandler] ProtocolCore IS NULL -> Index : %d", uindex);
+					sLog->outBasic("[DelayHandler] ProtocolCore IS NULL -> Index : %d", uindex);
 				}
 			}
 		}
@@ -1251,7 +1251,7 @@ DWORD WINAPI ServerRecvWorkerThread_DS_Q5(DWORD p)
 		if (loopN > MAX_NODE - 1)
 		{
 			loopN = MAX_NODE - 1;
-			sLog.outBasic("error : Q5 Loop MAX %s %d", __FILE__, __LINE__);
+			sLog->outBasic("error : Q5 Loop MAX %s %d", __FILE__, __LINE__);
 		}
 		LeaveCriticalSection(&criti[eType]);
 
@@ -1266,7 +1266,7 @@ DWORD WINAPI ServerRecvWorkerThread_DS_Q5(DWORD p)
 
 				else
 				{
-					sLog.outBasic("[DelayHandler] ProtocolCore IS NULL -> Index : %d", uindex);
+					sLog->outBasic("[DelayHandler] ProtocolCore IS NULL -> Index : %d", uindex);
 				}
 			}
 		}
@@ -1296,7 +1296,7 @@ DWORD WINAPI ServerRecvWorkerThread_JS(DWORD p)
 		if (loopN > MAX_NODE - 1)
 		{
 			loopN = MAX_NODE - 1;
-			sLog.outBasic("error : JSQ Loop MAX %s %d", __FILE__, __LINE__);
+			sLog->outBasic("error : JSQ Loop MAX %s %d", __FILE__, __LINE__);
 		}
 		LeaveCriticalSection(&criti[eType]);
 
@@ -1311,7 +1311,7 @@ DWORD WINAPI ServerRecvWorkerThread_JS(DWORD p)
 
 				else
 				{
-					sLog.outBasic("[DelayHandler] ProtocolCore IS NULL -> Index : %d", uindex);
+					sLog->outBasic("[DelayHandler] ProtocolCore IS NULL -> Index : %d", uindex);
 				}
 			}
 		}
@@ -1341,7 +1341,7 @@ DWORD WINAPI ServerRecvWorkerThread_EXDS(DWORD p)
 		if (loopN > MAX_NODE - 1)
 		{
 			loopN = MAX_NODE - 1;
-			sLog.outBasic("error : EXDSQ Loop MAX %s %d", __FILE__, __LINE__);
+			sLog->outBasic("error : EXDSQ Loop MAX %s %d", __FILE__, __LINE__);
 		}
 		LeaveCriticalSection(&criti[eType]);
 
@@ -1356,7 +1356,7 @@ DWORD WINAPI ServerRecvWorkerThread_EXDS(DWORD p)
 
 				else
 				{
-					sLog.outBasic("[DelayHandler] ProtocolCore IS NULL -> Index : %d", uindex);
+					sLog->outBasic("[DelayHandler] ProtocolCore IS NULL -> Index : %d", uindex);
 				}
 			}
 		}

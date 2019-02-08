@@ -15,10 +15,13 @@ void AppenderDB::_write(LogMessage const* message)
     if (!enabled || (message->type.find("sql") != std::string::npos))
         return;
 
+	/*
     PreparedStatement* stmt = ConnectDatabase.GetPreparedStatement(LOG_INS_LOG);
     stmt->setUInt64(0, message->mtime);
     stmt->setString(1, message->type);
     stmt->setUInt8(2, uint8(message->level));
     stmt->setString(3, message->text);
     ConnectDatabase.Execute(stmt);
+	*/
+
 }

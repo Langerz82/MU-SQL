@@ -494,10 +494,10 @@ void GameMainInit(HWND hWnd)
 		g_Log.AddC(TColor::Green, "Offline Leveling Active");
 		g_ConfigRead.OffLevel = TRUE;
 	DragonEvent = new CDragonEvent;
-//	sLog.outError("%s %s %s %d %s %s %d %i %s %d %d");
+//	sLog->outError("%s %s %s %d %s %s %d %i %s %d %d");
 	if ( DragonEvent == 0 )
 	{
-		sLog.outError("CDragonEvent - Memory allocation error");	// Memory allocation error
+		sLog->outError("CDragonEvent - Memory allocation error");	// Memory allocation error
 		return;
 	}
 
@@ -505,13 +505,13 @@ void GameMainInit(HWND hWnd)
 	
 	if ( AttackEvent == 0 )
 	{
-		sLog.outError("AttackEvent - Memory allocation error");	// Memory allocation error
+		sLog->outError("AttackEvent - Memory allocation error");	// Memory allocation error
 		return;
 	}
 
 	if ( gUdpSoc.CreateSocket() == 0)
 	{
-		sLog.outError("UDP Socket create error");
+		sLog->outError("UDP Socket create error");
 		return;
 	}
 
@@ -569,7 +569,7 @@ void GameMainInit(HWND hWnd)
 
 	if ( gLevelExperience == NULL )
 	{
-		sLog.outError("error - memory allocation failed");
+		sLog->outError("error - memory allocation failed");
 		return;
 	}
 
@@ -585,7 +585,7 @@ void GameMainInit(HWND hWnd)
 	{
 		TempLua->Generic_Call("SetExpTable_Normal", "i>d", n, &exp);
 		gLevelExperience[n] = exp;
-		//sLog.outBasic("[NORMAL EXP] [LEVEL %d] [EXP %I64d]", n, gLevelExperience[n]);
+		//sLog->outBasic("[NORMAL EXP] [LEVEL %d] [EXP %I64d]", n, gLevelExperience[n]);
 	}
 
 	delete TempLua;
@@ -852,7 +852,7 @@ BOOL GMJoinServerConnect(LPSTR ConnectServer, DWORD wMsg)
 
 	GJServerLogin();
 
-	sLog.outBasic("JoinServer Connected (%s)", ConnectServer);
+	sLog->outBasic("JoinServer Connected (%s)", ConnectServer);
 	return TRUE;
 
 }
@@ -870,12 +870,12 @@ BOOL GMDataServerConnect(char* ConnectServer, WPARAM wMsg)
 
 	if ( result == 0 )
 	{
-		sLog.outBasic("DataServer connect fail IP [ %s ] PORT [ %d ]", ConnectServer, g_ConfigRead.server.GetDataServerPort());
+		sLog->outBasic("DataServer connect fail IP [ %s ] PORT [ %d ]", ConnectServer, g_ConfigRead.server.GetDataServerPort());
 		return FALSE;
 	}
 
 	DataServerLogin();
-	sLog.outBasic("DataServer connect IP [ %s ] PORT [ %d ]", ConnectServer, g_ConfigRead.server.GetDataServerPort());
+	sLog->outBasic("DataServer connect IP [ %s ] PORT [ %d ]", ConnectServer, g_ConfigRead.server.GetDataServerPort());
 	return TRUE;
 }
 
@@ -896,18 +896,18 @@ BOOL ExDataServerConnect(char* ConnectServer, DWORD wMsg)
 	int result = wsExDbCli.Connect(ConnectServer, g_ConfigRead.server.GetExDBPort(), wMsg);
 	if ( result == 0 )
 	{
-		sLog.outBasic("ExDataServer connect fail IP [ %s ] PORT [ %d ]", ConnectServer, g_ConfigRead.server.GetExDBPort());
+		sLog->outBasic("ExDataServer connect fail IP [ %s ] PORT [ %d ]", ConnectServer, g_ConfigRead.server.GetExDBPort());
 		return FALSE;
 	}
 
 	ExDataServerLogin();
-	sLog.outBasic("ExDataServer connect IP [ %s ] PORT [ %d ]", ConnectServer, g_ConfigRead.server.GetExDBPort());
+	sLog->outBasic("ExDataServer connect IP [ %s ] PORT [ %d ]", ConnectServer, g_ConfigRead.server.GetExDBPort());
 	return TRUE;
 }
 
 BOOL GameMainServerCreate(DWORD sMsg, DWORD cMsg)
 {
-	sLog.outBasic( "GameServer create PORT [ %d ]", g_ConfigRead.server.GetGameServerPort());
+	sLog->outBasic( "GameServer create PORT [ %d ]", g_ConfigRead.server.GetGameServerPort());
 	return TRUE;
 }
 
@@ -949,7 +949,7 @@ void GMJoinClientMsgProc(WPARAM wParam, LPARAM lParam)
 			break;
 
 		case 32:
-			sLog.outError(  "Game server closed because Authentication server is closed.");
+			sLog->outError(  "Game server closed because Authentication server is closed.");
 			gObjAllDisconnect();
 			wsJServerCli.Close();
 			break;
@@ -984,7 +984,7 @@ void ExDataClientMsgProc(WPARAM wParam, LPARAM lParam)
 			break;
 
 		case 32:
-			sLog.outError(  "Gamer server closed because Data server is closed.");
+			sLog->outError(  "Gamer server closed because Data server is closed.");
 			wsExDbCli.Close();
 
 			for ( int i =0;i<g_ConfigRead.server.GetObjectMax();i++)
@@ -1021,8 +1021,8 @@ void ExDataClientMsgProc(WPARAM wParam, LPARAM lParam)
 				}
 			}
 
-			sLog.outBasic("Error-L1 : Friend Server Down (State Send Ok)");
-			sLog.outError(  "Error-L1 : Friend Server Down (State Send Ok)");
+			sLog->outBasic("Error-L1 : Friend Server Down (State Send Ok)");
+			sLog->outError(  "Error-L1 : Friend Server Down (State Send Ok)");
 			break;
 	}
 }
@@ -1044,7 +1044,7 @@ void GMDataClientMsgProc(WPARAM wParam, LPARAM lParam)
 
 		case 32:
 			wsDataCli.Close();
-			sLog.outError(  "Gamer server closed because Data server is closed.");
+			sLog->outError(  "Gamer server closed because Data server is closed.");
 			break;
 	}
 }
@@ -1108,7 +1108,7 @@ void ReadCommonServerInfo()
 
 	if (!IsFile(g_ConfigRead.GetPath("IGC_CommonServer.cfg")))
 	{
-		sLog.outError("[commonserver.cfg] file not found");
+		sLog->outError("[commonserver.cfg] file not found");
 	}
 
 	g_ConfigRead.ReadConfig();
@@ -1118,10 +1118,10 @@ void ReadCommonServerInfo()
 
 	if (gStalkProtocol != 0)
 	{
-		sLog.outBasic("Stalk Protocol ID = '%s' ", gStalkProtocolId);
+		sLog->outBasic("Stalk Protocol ID = '%s' ", gStalkProtocolId);
 	}
 
-	sLog.outBasic("[Option] Connect Server IP(%s) / PORT(%d)", g_ConfigRead.server.GetConnectServerIP(), g_ConfigRead.server.GetConnectServerPort());
+	sLog->outBasic("[Option] Connect Server IP(%s) / PORT(%d)", g_ConfigRead.server.GetConnectServerIP(), g_ConfigRead.server.GetConnectServerPort());
 
 	CheckSumFileLoad(g_ConfigRead.GetPath("CheckSum.dat"));
 
@@ -1215,11 +1215,11 @@ void ReadCommonServerInfo()
 
 	if(bCanTrade != 0)
 	{
-		sLog.outBasic("[Option] Trade on");
+		sLog->outBasic("[Option] Trade on");
 	}
 	else
 	{
-		sLog.outBasic("[Option] Trade off");
+		sLog->outBasic("[Option] Trade off");
 	}
 
 	bCanChaosBox = GetPrivateProfileInt("Common","IsChaosMachine",0, g_ConfigRead.GetPath("IGC_ChaosBox.ini"));
@@ -1228,13 +1228,13 @@ void ReadCommonServerInfo()
 
 	if(gMonsterHp != 0)
 	{
-		sLog.outBasic("[Option] Monster HP %d%% Down", gMonsterHp);
+		sLog->outBasic("[Option] Monster HP %d%% Down", gMonsterHp);
 	}
 	gLootingTime = GetPrivateProfileInt("GameServerInfo", "LootingTime", 3, g_ConfigRead.GetPath("IGC_CommonServer.cfg"));
 
 	if(gLootingTime != 0)
 	{
-		sLog.outBasic("[Option] Auto Looting Time Set : %d", gLootingTime);
+		sLog->outBasic("[Option] Auto Looting Time Set : %d", gLootingTime);
 	}
 
 	gEventChipEvent = GetPrivateProfileInt("GameServerInfo","EventChipEvent",0, g_ConfigRead.GetPath("IGC_CommonServer.cfg"));
@@ -1456,7 +1456,7 @@ void ReadCommonServerInfo()
 			strcat(szTemp, " [Arca War]");
 		}
 
-		sLog.outBasic("User Object Size = %d", sizeof(OBJECTSTRUCT));
+		sLog->outBasic("User Object Size = %d", sizeof(OBJECTSTRUCT));
 
 		SetWindowText(ghWnd, szTemp);
 
@@ -1621,7 +1621,7 @@ void CheckSumFileLoad(char * szCheckSum)
 {
 	if(!IsFile(szCheckSum))
 	{
-		sLog.outBasic("%s file load fail", szCheckSum);
+		sLog->outBasic("%s file load fail", szCheckSum);
 		return;
 	}
 
@@ -1645,7 +1645,7 @@ void LoadMapFile()
 
 	if (result.status != pugi::status_ok)
 	{
-		sLog.outError("Failed to load IGC_MapList.xml file!");
+		sLog->outError("Failed to load IGC_MapList.xml file!");
 		ExitProcess(1);
 		return;
 	}
@@ -1796,7 +1796,7 @@ void ReadEventInfo(MU_EVENT_TYPE eEventType)
 	if (gHappyNewYearNpcEvent != 0)
 	{
 		// (Option) Happy-new-year NPC speaks
-		sLog.outBasic("[Option] Happy-new-year NPC speaks");
+		sLog->outBasic("[Option] Happy-new-year NPC speaks");
 	}
 
 	gMerryXMasNpcEvent = GetPrivateProfileInt("GameServerInfo", "MerryXMasTalkNpc", 0, g_ConfigRead.GetPath("IGC_CommonServer.cfg"));
@@ -1804,7 +1804,7 @@ void ReadEventInfo(MU_EVENT_TYPE eEventType)
 	if (gMerryXMasNpcEvent != 0)
 	{
 		// (Option) Christmas NPC speaks
-		sLog.outBasic("[Option] Christmas NPC speaks");
+		sLog->outBasic("[Option] Christmas NPC speaks");
 	}
 
 	g_ChaosCastle.Load(g_ConfigRead.GetPath("\\Events\\ChaosCastle\\IGC_ChaosCastle.xml"));
@@ -1916,7 +1916,7 @@ void ReadEventInfo(MU_EVENT_TYPE eEventType)
 
 	if (g_ArcaBattle.IsArcaBattleDay() == TRUE && g_AcheronGuardianEvent.IsAcheronGuardianDay() == TRUE)
 	{
-		sLog.outError(MB_OK | MB_ICONERROR, "Error", "Error - ArcaBattle and AcheronGuardian cannot be active at the same day.");
+		sLog->outError(MB_OK | MB_ICONERROR, "Error", "Error - ArcaBattle and AcheronGuardian cannot be active at the same day.");
 		ExitProcess(1);
 	}
 }
@@ -2083,7 +2083,7 @@ void ReloadEvent(MU_EVENT_RELOAD eEvent)
 
 			if (g_ArcaBattle.IsArcaBattleDay() == TRUE && g_AcheronGuardianEvent.IsAcheronGuardianDay() == TRUE)
 			{
-				sLog.outError("Error - ArcaBattle and AcheronGuardian cannot be active at the same day - ArcaBattle disabled.");
+				sLog->outError("Error - ArcaBattle and AcheronGuardian cannot be active at the same day - ArcaBattle disabled.");
 				g_ArcaBattle.SetEventEnable(false);
 			}
 
@@ -2094,7 +2094,7 @@ void ReloadEvent(MU_EVENT_RELOAD eEvent)
 	
 			if (g_ArcaBattle.IsArcaBattleDay() == TRUE && g_AcheronGuardianEvent.IsAcheronGuardianDay() == TRUE)
 			{
-				sLog.outError("Error - ArcaBattle and AcheronGuardian cannot be active at the same day - Acheron Guardian disabled.");
+				sLog->outError("Error - ArcaBattle and AcheronGuardian cannot be active at the same day - Acheron Guardian disabled.");
 				g_AcheronGuardianEvent.SetEventEnable(false);
 			}
 

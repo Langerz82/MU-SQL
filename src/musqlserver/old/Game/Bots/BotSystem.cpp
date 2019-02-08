@@ -886,7 +886,7 @@ bool CBotSystem::StoreAddItems(int botIndex)
 		}
 		else
 		{
-			sLog.outError(1,"ERROR","Bot Shop id:[%d] OUT OF SPACE",botIndex);
+			sLog->outError(1,"ERROR","Bot Shop id:[%d] OUT OF SPACE",botIndex);
 		}
 	}
 	gObj[aIndex].m_bPShopOpen = true;

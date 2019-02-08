@@ -71,13 +71,13 @@ void CCustomEventDrop::Load(char* path) // OK
 
 	if (lpMemScript == 0)
 	{
-		sLog.outError(MEM_SCRIPT_ALLOC_ERROR, path);
+		sLog->outError(MEM_SCRIPT_ALLOC_ERROR, path);
 		return;
 	}
 
 	if (lpMemScript->SetBuffer(path) == 0)
 	{
-		sLog.outError(lpMemScript->GetLastError());
+		sLog->outError(lpMemScript->GetLastError());
 		delete lpMemScript;
 		return;
 	}
@@ -204,7 +204,7 @@ void CCustomEventDrop::Load(char* path) // OK
 	}
 	catch (...)
 	{
-		sLog.outError(lpMemScript->GetLastError());
+		sLog->outError(lpMemScript->GetLastError());
 	}
 
 	delete lpMemScript;
@@ -254,7 +254,7 @@ void CCustomEventDrop::ProcState_EMPTY(CUSTOM_EVENT_DROP_INFO* lpInfo) // OK
 			PMSG_NOTICE pNotice;
 			TNotice::MakeNoticeMsgEx(&pNotice, 0, "[%s] Will Start in %d Minute(s)", lpInfo->RuleInfo.Name, (lpInfo->AlarmMinLeft + 1));
 			TNotice::SendNoticeToAllUser(&pNotice);
-			sLog.outBasic("[%s] Will Start in %d Minute(s)", lpInfo->RuleInfo.Name, (lpInfo->AlarmMinLeft + 1));
+			sLog->outBasic("[%s] Will Start in %d Minute(s)", lpInfo->RuleInfo.Name, (lpInfo->AlarmMinLeft + 1));
 		}
 	}
 
@@ -263,7 +263,7 @@ void CCustomEventDrop::ProcState_EMPTY(CUSTOM_EVENT_DROP_INFO* lpInfo) // OK
 		PMSG_NOTICE pNotice;
 		TNotice::MakeNoticeMsgEx(&pNotice, 0, "[%s] Started", lpInfo->RuleInfo.Name);
 		TNotice::SendNoticeToAllUser(&pNotice);
-		sLog.outBasic("[%s] Started", lpInfo->RuleInfo.Name);
+		sLog->outBasic("[%s] Started", lpInfo->RuleInfo.Name);
 		this->SetState(lpInfo, CUSTOM_EVENT_DROP_STATE_START);
 	}
 }

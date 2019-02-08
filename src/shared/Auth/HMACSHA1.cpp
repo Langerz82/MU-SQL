@@ -72,7 +72,7 @@ void HMACSHA1::Finalize()
 #else
     HMAC_Final(m_ctx, (uint8*)m_digest, &length);
 #endif
-    MANGOS_//ASSERT(length == SHA_DIGEST_LENGTH);
+    //MANGOS_ASSERT(length == SHA_DIGEST_LENGTH);
 }
 
 uint8 *HMACSHA1::ComputeHash(BigNumber *bn)

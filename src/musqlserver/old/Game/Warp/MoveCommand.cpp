@@ -48,7 +48,7 @@ int CMoveCommand::Load(char* filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("%s File Load Error (%s)", filename, res.description());
+		sLog->outError("%s File Load Error (%s)", filename, res.description());
 		return 0;
 	}
 
@@ -69,7 +69,7 @@ int CMoveCommand::Load(char* filename)
 
 		if (counter >= MAX_MOVE_COMMAND)
 		{
-			sLog.outError("Warp List Limit Reached (60)");
+			sLog->outError("Warp List Limit Reached (60)");
 			break;
 		}
 	}
@@ -86,7 +86,7 @@ int CMoveCommand::LoadMoveLevel(char* filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("MoveLevel %s File Load Error (%s)", filename, res.description());
+		sLog->outError("MoveLevel %s File Load Error (%s)", filename, res.description());
 		return 0;
 	}
 
@@ -333,7 +333,7 @@ BOOL CMoveCommand::Move(LPOBJ lpObj, int iMapIndex)
 
 	if (index == -1)
 	{
-		sLog.outBasic("[MapMove Failed] Invalid Map Index (%s/%s) (Index : %d)", lpObj->AccountID, lpObj->Name, iMapIndex);
+		sLog->outBasic("[MapMove Failed] Invalid Map Index (%s/%s) (Index : %d)", lpObj->AccountID, lpObj->Name, iMapIndex);
 		return FALSE;
 	}
 
@@ -368,7 +368,7 @@ BOOL CMoveCommand::Move(LPOBJ lpObj, int iMapIndex)
 		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,500), lpObj->m_Index, 1);
 		g_GensSystem.MoveInBattleZonePartySplit(lpObj);
 	}
-	//sLog.outBasic("#4 TEST %d", g_CastleSiegeSync.GetCastleState());
+	//sLog->outBasic("#4 TEST %d", g_CastleSiegeSync.GetCastleState());
 	if ( nMoveIndex == 24 ) //season 3.0 changed
 	{
 		if ( g_CastleSiegeSync.GetCastleState() == 7 )
@@ -381,7 +381,7 @@ BOOL CMoveCommand::Move(LPOBJ lpObj, int iMapIndex)
 			//return FALSE;
 		}
 	}
-	//sLog.outBasic("#5 TEST");
+	//sLog->outBasic("#5 TEST");
 	if(IT_MAP_RANGE(lpObj->MapNumber) != FALSE) //season 3.0 add-on
 	{
 		if(nMoveIndex == 11 || nMoveIndex == 12 || nMoveIndex == 13 || nMoveIndex == 23)
@@ -498,7 +498,7 @@ BOOL CMoveCommand::Move(LPOBJ lpObj, LPSTR mapname)
 
 	if (index == -1)
 	{
-		sLog.outBasic("[MapMove Failed] Invalid Map Index (%s/%s) (Index : %d)", lpObj->AccountID, lpObj->Name, mapname);
+		sLog->outBasic("[MapMove Failed] Invalid Map Index (%s/%s) (Index : %d)", lpObj->AccountID, lpObj->Name, mapname);
 		return FALSE;
 	}
 
@@ -533,7 +533,7 @@ BOOL CMoveCommand::Move(LPOBJ lpObj, LPSTR mapname)
 		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 500), lpObj->m_Index, 1);
 		g_GensSystem.MoveInBattleZonePartySplit(lpObj);
 	}
-	//sLog.outBasic("#4 TEST %d", g_CastleSiegeSync.GetCastleState());
+	//sLog->outBasic("#4 TEST %d", g_CastleSiegeSync.GetCastleState());
 	if (nMoveIndex == 24) //season 3.0 changed
 	{
 		if (g_CastleSiegeSync.GetCastleState() == 7)
@@ -546,7 +546,7 @@ BOOL CMoveCommand::Move(LPOBJ lpObj, LPSTR mapname)
 			//return FALSE;
 		}
 	}
-	//sLog.outBasic("#5 TEST");
+	//sLog->outBasic("#5 TEST");
 	if (IT_MAP_RANGE(lpObj->MapNumber) != FALSE) //season 3.0 add-on
 	{
 		if (nMoveIndex == 11 || nMoveIndex == 12 || nMoveIndex == 13 || nMoveIndex == 23)

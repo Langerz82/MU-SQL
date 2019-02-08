@@ -44,7 +44,7 @@ void cAntiFlood::ReadBlackList(LPSTR filename)
 	if (SMDFile == NULL)
 	{
 
-		sLog.outError("Error reading file %s", filename);
+		sLog->outError("Error reading file %s", filename);
 		exit(1);
 	}
 
@@ -62,7 +62,7 @@ void cAntiFlood::ReadBlackList(LPSTR filename)
 		if (this->AddToBlackList(TokenString) == false)
 		{
 
-			sLog.outError("error-L3 : Max IP count in BlackList reached!");
+			sLog->outError("error-L3 : Max IP count in BlackList reached!");
 			exit(1);
 		}
 		//}
@@ -103,7 +103,7 @@ void cAntiFlood::AutoClose(char * IP)
 			{
 				if (this->IsDebugEnabled == 1)
 				{
-					sLog.outError( "[AutoClose] Index: %d", n);
+					sLog->outError( "[AutoClose] Index: %d", n);
 				}
 				IOCP.CloseClient(n);
 			}
@@ -120,7 +120,7 @@ bool cAntiFlood::Check(char * IP)
 
 			if (this->IsDebugEnabled == 1)
 			{
-				sLog.outError( "[BlackList] Rejected IP %s", IP);
+				sLog->outError( "[BlackList] Rejected IP %s", IP);
 			}
 			return false;
 		}
@@ -135,7 +135,7 @@ bool cAntiFlood::Check(char * IP)
 
 					if (this->IsDebugEnabled == 1)
 					{
-						sLog.outError( "[BlackList] IP: %s Added to Black List - Flood Attempt: %d", IP, this->MaxIPConnection);
+						sLog->outError( "[BlackList] IP: %s Added to Black List - Flood Attempt: %d", IP, this->MaxIPConnection);
 					}
 				}
 				else
@@ -143,7 +143,7 @@ bool cAntiFlood::Check(char * IP)
 
 					if (this->IsDebugEnabled == 1)
 					{
-						sLog.outError( "[BlackList][BLACKLIST FULL] IP: %s Fail Add to Black List - Flood Attempt: %d", IP, this->MaxIPConnection);
+						sLog->outError( "[BlackList][BLACKLIST FULL] IP: %s Fail Add to Black List - Flood Attempt: %d", IP, this->MaxIPConnection);
 					}
 				}
 				if (this->AutoCloseFloodCon == 1)

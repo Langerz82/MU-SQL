@@ -50,7 +50,7 @@ BOOL CLoginServerData::MuLoginAddServer(int ServerIndex, LPTSTR ServerName, WORD
 {
 	if (MuLoginFindServer(ServerCode) != -1)
 	{
-		sLog.outError("[MeMuOnlineDB] GameServer %s trying to connect with a ServerCode %d already used",
+		sLog->outError("[MeMuOnlineDB] GameServer %s trying to connect with a ServerCode %d already used",
 			ServerName, ServerCode);
 
 		return FALSE;
@@ -142,7 +142,7 @@ BOOL CLoginUserData::MuLoginAddUser(WORD ServerCode, WORD ServerGroup, char * sz
 {
 	if (this->MuLoginFindUser(szAccountID) != -1)
 	{
-		sLog.outError("[JoinServer Error] - Account already exists (%s)", szAccountID);
+		sLog->outError("[JoinServer Error] - Account already exists (%s)", szAccountID);
 		return 2;
 	}
 
@@ -164,7 +164,7 @@ BOOL CLoginUserData::MuLoginAddUser(WORD ServerCode, WORD ServerGroup, char * sz
 				this->m_MuLoginUserData[i].m_bOffTrade = false;
 				this->m_iUserNumber++;
 				this->m_MuLoginUserDataCount++;
-				sLog.outBasic("[JoinServer] Add User (%s) (ServerCode:%d) (ServerGroup:%d) (Index:%d) (IP:%s) (HWID:%s)",
+				sLog->outBasic("[JoinServer] Add User (%s) (ServerCode:%d) (ServerGroup:%d) (Index:%d) (IP:%s) (HWID:%s)",
 					szAccountID, ServerCode, ServerGroup, UserIndex, szIp, szHWID);
 				return TRUE;
 			}
@@ -245,7 +245,7 @@ void CLoginUserData::MuLoginDeleteUser(char * szAccountID)
 					this->m_MuLoginUserData[i].m_bOffTrade = false;
 					this->m_MuLoginUserData[i].iUserNumber = -1;
 					this->m_MuLoginUserDataCount--;
-					sLog.outBasic("[JoinServer] Delete User (%s)", szAccountID);
+					sLog->outBasic("[JoinServer] Delete User (%s)", szAccountID);
 					break;
 				}
 			}
@@ -265,7 +265,7 @@ void CLoginUserData::MuLoginDeleteUser(WORD ServerCode, WORD ServerGroup)
 			this->m_MuLoginUserData[n].m_bRequestMapSvrMove = FALSE;
 			this->m_MuLoginUserData[n].m_ServerCode = -1;
 			this->m_MuLoginUserData[n].m_ServerGroup = -1;
-			sLog.outBasic("[JoinServer] Delete User From Server (Code:%d) (Group:%d)", ServerCode, ServerGroup);
+			sLog->outBasic("[JoinServer] Delete User From Server (Code:%d) (Group:%d)", ServerCode, ServerGroup);
 		}
 	}
 }
@@ -300,7 +300,7 @@ BOOL CLoginUserData::CheckMoveTimeOut(char * szAccountID)
 
 	if (bDelete == TRUE)
 	{
-		sLog.outBasic("[JoinServer] Account has timeout for MapServerMove (%s)", szAccountID);
+		sLog->outBasic("[JoinServer] Account has timeout for MapServerMove (%s)", szAccountID);
 		return m_JSProtocol.DisconnectPlayer(szAccountID);
 	}
 
@@ -471,26 +471,26 @@ BOOL CLoginServerProtocol::Init()
 
 	if (this->m_AccountDB.Connect(g_MeMuOnlineDNS, g_DBPort, g_UserID, g_Password, g_ServerName) == FALSE)
 	{
-		sLog.outError("[ERROR] - JOIN SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - JOIN SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
 	if (this->m_LogDB.Connect(g_MeMuOnlineDNS, g_DBPort, g_UserID, g_Password, g_ServerName) == FALSE)
 	{
-		sLog.outError("[ERROR] - JOIN SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - JOIN SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
 	if (this->m_VIPDB.Connect(g_MeMuOnlineDNS, g_DBPort, g_UserID, g_Password, g_ServerName) == FALSE)
 	{
-		sLog.outError("[ERROR] - JOIN SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - JOIN SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
 	this->m_ServerData.Init();
 	this->m_UserData.Init();
 
-	sLog.outBasic("[SUCCESS] - JOIN SERVER CONNECT MSSQL SUCCESS");
+	sLog->outBasic("[SUCCESS] - JOIN SERVER CONNECT MSSQL SUCCESS");
 
 	this->m_ConnecServerUDP.CreateSocket();
 	this->m_ConnecServerUDP.SendSet("127.0.0.1", 55557);
@@ -582,7 +582,7 @@ void CLoginServerProtocol::JoinServerLogin(int aIndex, SDHP_SERVERINFO * lpMsg)
 
 	if (this->m_ServerData.MuLoginAddServer(aIndex, lpMsg->ServerName, lpMsg->ServerCode, lpMsg->Port, lpMsg->ServerVIP, lpMsg->MaxHWIDUseCount) == TRUE)
 	{
-		sLog.outBasic("[Join Server] GameServer connected %s PORT : %d CODE : %d VIP : %d HWIDCount : %d",
+		sLog->outBasic("[Join Server] GameServer connected %s PORT : %d CODE : %d VIP : %d HWIDCount : %d",
 			lpMsg->ServerName, lpMsg->Port, lpMsg->ServerCode, lpMsg->ServerVIP, lpMsg->MaxHWIDUseCount);
 
 		g_Server[aIndex].m_ServerCode = lpMsg->ServerCode;
@@ -666,7 +666,7 @@ void CLoginServerProtocol::JGPAccountRequest(int aIndex, SDHP_IDPASS * aRecv)
 				{
 					pResult.result = 2;
 					bErrorFlag = TRUE;
-					sLog.outBasic("[MeMuOnline] Account doesn't exist - ID : %s", szAccountID);
+					sLog->outBasic("[MeMuOnline] Account doesn't exist - ID : %s", szAccountID);
 				}
 
 				if (bErrorFlag == FALSE)
@@ -694,7 +694,7 @@ void CLoginServerProtocol::JGPAccountRequest(int aIndex, SDHP_IDPASS * aRecv)
 							{
 								bErrorFlag = TRUE;
 								pResult.result = 0;
-								sLog.outBasic("[MeMuOnlineDB] Password field is blank - ID : %s", szAccountID);
+								sLog->outBasic("[MeMuOnlineDB] Password field is blank - ID : %s", szAccountID);
 							}
 
 							DWORD dwAccKey = this->m_UserData.MakeAccountKey(szAccountID);
@@ -705,7 +705,7 @@ void CLoginServerProtocol::JGPAccountRequest(int aIndex, SDHP_IDPASS * aRecv)
 							{
 								pResult.result = 0;
 								bErrorFlag = TRUE;
-								sLog.outBasic("[MeMuOnline] Wrong Password - ID : %s", szAccountID);
+								sLog->outBasic("[MeMuOnline] Wrong Password - ID : %s", szAccountID);
 							}
 						}
 						else if (g_PwEncrypt == PWENC_MD5)
@@ -723,14 +723,14 @@ void CLoginServerProtocol::JGPAccountRequest(int aIndex, SDHP_IDPASS * aRecv)
 							{
 								bErrorFlag = TRUE;
 								pResult.result = 0;
-								sLog.outBasic("[MeMuOnlineDB] Password field is blank - ID : %s", szAccountID);
+								sLog->outBasic("[MeMuOnlineDB] Password field is blank - ID : %s", szAccountID);
 							}
 
 							if (md5(std::string(szPass)).compare(std::string(szPassword)) != 0)
 							{
 								pResult.result = 0;
 								bErrorFlag = TRUE;
-								sLog.outBasic("[MeMuOnline] Wrong Password - ID : %s", szAccountID);
+								sLog->outBasic("[MeMuOnline] Wrong Password - ID : %s", szAccountID);
 							}
 						}
 					}
@@ -743,7 +743,7 @@ void CLoginServerProtocol::JGPAccountRequest(int aIndex, SDHP_IDPASS * aRecv)
 						{
 							pResult.result = 0;
 							bErrorFlag = TRUE;
-							sLog.outBasic("[MeMuOnline] Wrong Password - ID : %s", szAccountID);
+							sLog->outBasic("[MeMuOnline] Wrong Password - ID : %s", szAccountID);
 						}
 					}
 				}
@@ -763,14 +763,14 @@ void CLoginServerProtocol::JGPAccountRequest(int aIndex, SDHP_IDPASS * aRecv)
 					{
 						pResult.result = 64;
 						bErrorFlag = TRUE;
-						sLog.outBasic("[MeMuOnline] Account is not a VIP - ID : %s", szAccountID);
+						sLog->outBasic("[MeMuOnline] Account is not a VIP - ID : %s", szAccountID);
 					}
 
 					else if (Type < this->m_ServerData.GetVIPLevel(this->m_ServerData.MuLoginFindServer(g_Server[aIndex].m_ServerCode)))
 					{
 						pResult.result = 64;
 						bErrorFlag = TRUE;
-						sLog.outBasic("[MeMuOnline] Account has too low VIP level - ID : %s", szAccountID);
+						sLog->outBasic("[MeMuOnline] Account has too low VIP level - ID : %s", szAccountID);
 					}
 
 				}
@@ -784,7 +784,7 @@ void CLoginServerProtocol::JGPAccountRequest(int aIndex, SDHP_IDPASS * aRecv)
 					{
 						pResult.result = 5;
 						bErrorFlag = TRUE;
-						sLog.outBasic("[MeMuOnline] MachineID banned: %s", aRecv->HWID);
+						sLog->outBasic("[MeMuOnline] MachineID banned: %s", aRecv->HWID);
 					}
 
 					this->m_AccountDB.Close();
@@ -822,7 +822,7 @@ void CLoginServerProtocol::JGPAccountRequest(int aIndex, SDHP_IDPASS * aRecv)
 
 			if (this->m_UserData.CheckAccountID(szAccountID) == TRUE && this->m_UserData.CheckMoveTimeOut(szAccountID) == FALSE)
 			{
-				sLog.outBasic("[MeMuOnline] Account already connected ID : %s", szAccountID);
+				sLog->outBasic("[MeMuOnline] Account already connected ID : %s", szAccountID);
 				JGOtherJoin(aIndex, szAccountID);
 				pResult.result = 3;
 				bErrorFlag = TRUE;
@@ -830,7 +830,7 @@ void CLoginServerProtocol::JGPAccountRequest(int aIndex, SDHP_IDPASS * aRecv)
 
 			if (this->m_UserData.CheckHWIDLimit_Local(g_Server[aIndex].m_ServerCode, aRecv->HWID, this->m_ServerData.GetHWIDUseCount(this->m_ServerData.MuLoginFindServer(g_Server[aIndex].m_ServerCode))) == FALSE)
 			{
-				sLog.outBasic("[MeMuOnline] Machine ID Limit Reached (Local) (%d) ServerCode (%d) : Account:%s HWID:%s", this->m_ServerData.GetHWIDUseCount(this->m_ServerData.MuLoginFindServer(g_Server[aIndex].m_ServerCode)), g_Server[aIndex].m_ServerCode, szAccountID, aRecv->HWID);
+				sLog->outBasic("[MeMuOnline] Machine ID Limit Reached (Local) (%d) ServerCode (%d) : Account:%s HWID:%s", this->m_ServerData.GetHWIDUseCount(this->m_ServerData.MuLoginFindServer(g_Server[aIndex].m_ServerCode)), g_Server[aIndex].m_ServerCode, szAccountID, aRecv->HWID);
 				JGOtherJoin(aIndex, szAccountID);
 				pResult.result = 4;
 				bErrorFlag = TRUE;
@@ -838,7 +838,7 @@ void CLoginServerProtocol::JGPAccountRequest(int aIndex, SDHP_IDPASS * aRecv)
 
 			if (this->m_UserData.CheckHWIDLimit_Group(g_MapServerManager.GetMapSvrGroup(g_Server[aIndex].m_ServerCode), aRecv->HWID) == FALSE)
 			{
-				sLog.outBasic("[MeMuOnline] Machine ID Limit Reached (Group) (%d) MapSvrGroup (%d) : Account:%s HWID:%s", g_MachineIDConnectionLimitPerGroup, g_MapServerManager.GetMapSvrGroup(g_Server[aIndex].m_ServerCode), szAccountID, aRecv->HWID);
+				sLog->outBasic("[MeMuOnline] Machine ID Limit Reached (Group) (%d) MapSvrGroup (%d) : Account:%s HWID:%s", g_MachineIDConnectionLimitPerGroup, g_MapServerManager.GetMapSvrGroup(g_Server[aIndex].m_ServerCode), szAccountID, aRecv->HWID);
 				JGOtherJoin(aIndex, szAccountID);
 				pResult.result = 4;
 				bErrorFlag = TRUE;
@@ -1057,7 +1057,7 @@ void CLoginServerProtocol::LoveHeartEventRecv(int aIndex, SDHP_LOVEHEARTEVENT * 
 				dwHeartCount, szAccountID, this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[aIndex].m_ServerCode)), szName);
 			pResult.Result = 1;
 
-			sLog.outError("[MeMuOnlineDB] [LOVE HEART] Event Winner : %s:%s - Server : %s",
+			sLog->outError("[MeMuOnlineDB] [LOVE HEART] Event Winner : %s:%s - Server : %s",
 				szAccountID, szName, this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[aIndex].m_ServerCode)));
 		}
 	}
@@ -1105,7 +1105,7 @@ void CLoginServerProtocol::GJReqMapSvrMove(int aIndex, PMSG_REQ_MAPSVRMOVE * aRe
 	if (iOldServerIndex == -1 || iNewServerIndex == -1)
 	{
 		fResult = 2;
-		sLog.outBasic("[JoinServer] GJReqMapSvrMove() -> ServerIndex = -1 ( cur:%d | dest: %d) Account:(%s)", aRecv->wCurMapSvrCode, aRecv->wDstMapSvrCode, aRecv->szAccountID);
+		sLog->outBasic("[JoinServer] GJReqMapSvrMove() -> ServerIndex = -1 ( cur:%d | dest: %d) Account:(%s)", aRecv->wCurMapSvrCode, aRecv->wDstMapSvrCode, aRecv->szAccountID);
 	}
 
 	// Limit User reached
@@ -1116,7 +1116,7 @@ void CLoginServerProtocol::GJReqMapSvrMove(int aIndex, PMSG_REQ_MAPSVRMOVE * aRe
 		int CurUser, MaxUser;
 		this->m_ServerData.GetUserLimitData(iNewServerIndex, CurUser, MaxUser);
 
-		sLog.outBasic("[JoinServer] GJReqMapSvrMove -> Server(%d) UserLimit reached (cur:%d | max:%d)", aRecv->wDstMapSvrCode, CurUser, MaxUser);
+		sLog->outBasic("[JoinServer] GJReqMapSvrMove -> Server(%d) UserLimit reached (cur:%d | max:%d)", aRecv->wDstMapSvrCode, CurUser, MaxUser);
 	}
 
 	else
@@ -1128,19 +1128,19 @@ void CLoginServerProtocol::GJReqMapSvrMove(int aIndex, PMSG_REQ_MAPSVRMOVE * aRe
 		if (iUserIndex == -1)
 		{
 			fResult = 1;
-			sLog.outBasic("[JoinServer] GJReqMapSvrMove -> iUserIndex == -1 (%s)(%s)", aRecv->szAccountID, aRecv->szCharName);
+			sLog->outBasic("[JoinServer] GJReqMapSvrMove -> iUserIndex == -1 (%s)(%s)", aRecv->szAccountID, aRecv->szCharName);
 		}
 
 		else if (this->m_UserData.CheckHWIDLimit_Local(aRecv->wDstMapSvrCode, this->m_UserData.GetHWID(iUserIndex), this->m_ServerData.GetHWIDUseCount(iNewServerIndex)) == FALSE)
 		{
 			fResult = 3;
-			sLog.outBasic("[JoinServer] GJReqMapSvrMove -> Server(%d) HWID limit reached (max:%d)", aRecv->wDstMapSvrCode, this->m_ServerData.GetHWIDUseCount(iNewServerIndex));
+			sLog->outBasic("[JoinServer] GJReqMapSvrMove -> Server(%d) HWID limit reached (max:%d)", aRecv->wDstMapSvrCode, this->m_ServerData.GetHWIDUseCount(iNewServerIndex));
 		}
 
 		else if (this->m_UserData.CheckMapServerMove(iUserIndex) != false)
 		{
 			fResult = 4;
-			sLog.outBasic("[JoinServer] GJReqMapSvrMove -> m_bRequestMapSvrMove == TRUE (%s)(%s)", aRecv->szAccountID, aRecv->szCharName);
+			sLog->outBasic("[JoinServer] GJReqMapSvrMove -> m_bRequestMapSvrMove == TRUE (%s)(%s)", aRecv->szAccountID, aRecv->szCharName);
 		}
 
 		else
@@ -1157,7 +1157,7 @@ void CLoginServerProtocol::GJReqMapSvrMove(int aIndex, PMSG_REQ_MAPSVRMOVE * aRe
 			this->m_UserData.m_vecMapMove.push_back(pUserData);
 			LeaveCriticalSection(&this->m_UserData.critUserData);
 
-			sLog.outBasic("[JoinServer] GJReqMapSvrMove -> fResult == SUCCESS, (%s)(%s) dest:(%d) map(%d)",
+			sLog->outBasic("[JoinServer] GJReqMapSvrMove -> fResult == SUCCESS, (%s)(%s) dest:(%d) map(%d)",
 				aRecv->szAccountID, aRecv->szCharName, aRecv->wDstMapSvrCode, aRecv->wMapNumber);
 		}
 	}
@@ -1292,7 +1292,7 @@ void CLoginServerProtocol::GJReqMapSvrAuth(int aIndex, PMSG_REQ_MAPSVRAUTH * aRe
 
 	DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 
-	sLog.outBasic("[JoinServer] GJReqMapSvrAuth() -> User(%s) Character(%s) fResult(%d)",
+	sLog->outBasic("[JoinServer] GJReqMapSvrAuth() -> User(%s) Character(%s) fResult(%d)",
 		pResult.szAccountID, pResult.szCharName, pResult.iResult);
 }
 
@@ -1371,13 +1371,13 @@ void CLoginServerProtocol::CheckVIPTimeProc()
 							if (VIP == 0)
 							{
 								this->GCUserKillSend(i, false);
-								sLog.outBasic("[VIP] Account expired - ID : %s", this->m_UserData.m_MuLoginUserData[i].m_AccoundID);
+								sLog->outBasic("[VIP] Account expired - ID : %s", this->m_UserData.m_MuLoginUserData[i].m_AccoundID);
 							}
 
 							else if (Type < this->m_ServerData.GetVIPLevel(this->m_ServerData.MuLoginFindServer(g_Server[aIndex].m_ServerCode)))
 							{
 								this->GCUserKillSend(i, false);
-								sLog.outBasic("[VIP] Account expired - ID : %s", this->m_UserData.m_MuLoginUserData[i].m_AccoundID);
+								sLog->outBasic("[VIP] Account expired - ID : %s", this->m_UserData.m_MuLoginUserData[i].m_AccoundID);
 							}
 
 							else
@@ -1404,7 +1404,7 @@ void CLoginServerProtocol::GJReqSetOffTrade(int aIndex, PMSG_SET_OFFTRADE * aRec
 	}
 
 	this->m_UserData.SetOffTrade(iUserIndex, aRecv->m_bState);
-	sLog.outBasic("[JoinServer] (%s)(%s) Set OffTrade State: %d", aRecv->szAccountID, aRecv->szName, aRecv->m_bState);
+	sLog->outBasic("[JoinServer] (%s)(%s) Set OffTrade State: %d", aRecv->szAccountID, aRecv->szName, aRecv->m_bState);
 }
 
 void CLoginServerProtocol::GJReqVipAdd(int aIndex, ISHOP_VIP_BUY *aRecv)

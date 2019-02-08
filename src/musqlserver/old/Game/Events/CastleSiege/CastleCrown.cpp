@@ -61,7 +61,7 @@ void CCastleCrown::CastleCrownAct(int iIndex)
 				{
 					DWORD dwTime = GetTickCount() - g_CastleSiege.GetCrownAccessTickCount();
 		
-					sLog.outBasic("[CastleSiege] [Reg. Accumulating] Accumulated Crown AccessTime : acc(%d) + %d [%s](%s)(%s)",
+					sLog->outBasic("[CastleSiege] [Reg. Accumulating] Accumulated Crown AccessTime : acc(%d) + %d [%s](%s)(%s)",
 						lpUserObj->m_iAccumulatedCrownAccessTime, dwTime,
 						lpUserObj->m_PlayerData->GuildName, lpUserObj->AccountID, lpUserObj->Name);
 
@@ -74,7 +74,7 @@ void CCastleCrown::CastleCrownAct(int iIndex)
 					g_CastleSiege.SetCrownAccessUserY(0);
 					g_CastleSiege.ResetCrownAccessTickCount();
 
-					sLog.outBasic("[CastleSiege] [%s][%s] Register Castle Crown Canceled (GUILD:%s)",
+					sLog->outBasic("[CastleSiege] [%s][%s] Register Castle Crown Canceled (GUILD:%s)",
 						lpUserObj->AccountID, lpUserObj->Name, lpUserObj->m_PlayerData->GuildName);
 				}
 			}

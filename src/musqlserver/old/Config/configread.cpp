@@ -133,7 +133,7 @@ void SERVER_CONFIG::ReadServerInfo(bool bObjInit)
 
 		if (this->iServerType < SERVER_NORMAL || this->iServerType > SERVER_BATTLECORE)
 		{
-			sLog.outError("Error - wrong ServerType. Please set correct value and run GameServer again.");
+			sLog->outError("Error - wrong ServerType. Please set correct value and run GameServer again.");
 			ExitProcess(0);
 		}
 	}
@@ -243,7 +243,7 @@ void CConfigread::ReadConfig()
 
 	if (this->data.common.GuardSayText.length() > 60)
 	{
-		sLog.outError("Error -  Guard Say text is too long");
+		sLog->outError("Error -  Guard Say text is too long");
 	}
 
 	this->data.common.WelcomeMessage = ReadCommon.ReadString("General", "WelcomeMessage", "Welcome to our Mu Online server!");
@@ -615,7 +615,7 @@ void CConfigread::ReadOffTradeConfig()
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("%s File Load Error (%s)", this->GetPath("IGC_OffTrade.xml"), res.description());
+		sLog->outError("%s File Load Error (%s)", this->GetPath("IGC_OffTrade.xml"), res.description());
 		return;
 	}
 
@@ -630,7 +630,7 @@ void CConfigread::ReadOffTradeConfig()
 
 		if (iMapNumber < 0 || iMapNumber >= MAX_NUMBER_MAP)
 		{
-			sLog.outError("%s - Wrong map number %d", this->GetPath("IGC_OffTrade.xml"), iMapNumber);
+			sLog->outError("%s - Wrong map number %d", this->GetPath("IGC_OffTrade.xml"), iMapNumber);
 			continue;
 		}
 
@@ -647,7 +647,7 @@ void CConfigread::ReadPKSettings()
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("PK Config load failed (%s)", res.description());
+		sLog->outError("PK Config load failed (%s)", res.description());
 		return;
 	}
 
@@ -679,7 +679,7 @@ void CConfigread::ReadPKSettings()
 
 		if (iPKLevel < 0 || iPKLevel >= 7)
 		{
-			sLog.outError("PK Config - Wrong PK Level (%d)", iPKLevel);
+			sLog->outError("PK Config - Wrong PK Level (%d)", iPKLevel);
 			return;
 		}
 
@@ -701,7 +701,7 @@ void CConfigread::ReadPKSettings()
 
 		if (iPKLevel < 0 || iPKLevel >= 7)
 		{
-			sLog.outError("PK Config - Wrong PK Level (%d)", iPKLevel);
+			sLog->outError("PK Config - Wrong PK Level (%d)", iPKLevel);
 			return;
 		}	
 
@@ -948,7 +948,7 @@ void CConfigread::ReadMuHelperSettings()
 	this->data.mubot.viplevel = ReadMuHelper.ReadInt("MuHelper", "NeedVipLvl", 0);
 	this->data.mubot.autodisabletime = ReadMuHelper.ReadInt("MuHelper", "AutoOffTime", 0);
 
-	sLog.outBasic("MuHelper: Enabled: %s , MinLevel: %d , MinReset: %d ", this->data.mubot.enable == true ? "Yes" : "No", this->data.mubot.minlevel, this->data.mubot.minreset);
+	sLog->outBasic("MuHelper: Enabled: %s , MinLevel: %d , MinReset: %d ", this->data.mubot.enable == true ? "Yes" : "No", this->data.mubot.minlevel, this->data.mubot.minreset);
 
 }
 /*------------------------------------------------------------*/

@@ -637,7 +637,7 @@ void MonsterHerd::MonsterBaseAct(LPOBJ lpObj)
 
 					if ( MAX_MAP_RANGE(map) == FALSE )
 					{
-						sLog.outError( "[ERROR] MAX_MAP_RANGE (MonsterHerd) == FALSE (%d)", map);
+						sLog->outError( "[ERROR] MAX_MAP_RANGE (MonsterHerd) == FALSE (%d)", map);
 						break;
 					}
 
@@ -667,7 +667,7 @@ void MonsterHerd::MonsterBaseAct(LPOBJ lpObj)
 					{
 						if ( MAX_MAP_RANGE(lpObj->MapNumber) == FALSE )
 						{
-							sLog.outError( "[ERROR] MAX_MAP_RANGE (MonsterHerd) == FALSE (%d)", lpObj->MapNumber);
+							sLog->outError( "[ERROR] MAX_MAP_RANGE (MonsterHerd) == FALSE (%d)", lpObj->MapNumber);
 							break;
 						}
 

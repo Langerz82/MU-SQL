@@ -34,7 +34,7 @@ BOOL TMonsterSkillManager::LoadData(LPSTR lpszFileName)
 
 	if ( !lpszFileName || !strcmp(lpszFileName, ""))
 	{
-		sLog.outError("[Monster Skill Manager] - File load error : File Name Error");
+		sLog->outError("[Monster Skill Manager] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -45,7 +45,7 @@ BOOL TMonsterSkillManager::LoadData(LPSTR lpszFileName)
 
 		if ( res.status != pugi::status_ok )
 		{
-			sLog.outError("[Monster Skill Manager] - Can't Load %s (%s)", lpszFileName, res.description());
+			sLog->outError("[Monster Skill Manager] - Can't Load %s (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
@@ -90,13 +90,13 @@ BOOL TMonsterSkillManager::LoadData(LPSTR lpszFileName)
 
 			if ( iMonsterIndex >= MAX_MONSTER_SKILL_INFO_ARRAY )
 			{
-				sLog.outError("[Monster Manager] - MonsterIndex(%d) Error (%s) File. ", iMonsterIndex, lpszFileName);
+				sLog->outError("[Monster Manager] - MonsterIndex(%d) Error (%s) File. ", iMonsterIndex, lpszFileName);
 				continue;
 			}
 
 			if (bVerified == FALSE)
 			{
-				sLog.outError( "[Monster Manager] - Invalid SkillInfo : MIndex(%d)", iMonsterIndex);
+				sLog->outError( "[Monster Manager] - Invalid SkillInfo : MIndex(%d)", iMonsterIndex);
 			}
 
 			TMonsterSkillManager::s_MonsterSkillInfoArray[iMonsterIndex].m_iMonsterIndex = iMonsterIndex;
@@ -115,7 +115,7 @@ BOOL TMonsterSkillManager::LoadData(LPSTR lpszFileName)
 
 	catch(DWORD)
 	{
-		sLog.outError("[Monster Skill Manager] - Loading Exception Error (%s) File. ", lpszFileName);
+		sLog->outError("[Monster Skill Manager] - Loading Exception Error (%s) File. ", lpszFileName);
 	}
 
 	return FALSE;
@@ -164,7 +164,7 @@ BOOL TMonsterSkillManager::AddMonsterSkillDelayInfo(int iIndex, int iTargetIndex
 		}
 	}
 
-	sLog.outError(  "[Monster Skill Manager] - (MonsterSkillDelayInfo) Slot Full!! ");
+	sLog->outError(  "[Monster Skill Manager] - (MonsterSkillDelayInfo) Slot Full!! ");
 	return FALSE;
 }
 
@@ -250,17 +250,17 @@ void TMonsterSkillManager::UseMonsterSkill(int iIndex, int iTargetIndex, int iMo
 {
 	if(!OBJMON_RANGE(iIndex))
 	{
-		sLog.outError( "[TMonsterSkillManager][UserMonsterSkill] error: iIndex(%d)", iIndex);
+		sLog->outError( "[TMonsterSkillManager][UserMonsterSkill] error: iIndex(%d)", iIndex);
 		return;
 	}
 
 	if(!ObjectMaxRange(iTargetIndex))
 	{
-		sLog.outError( "[TMonsterSkillManager][UserMonsterSkill] error: iTargetIndex(%d)", iTargetIndex);
+		sLog->outError( "[TMonsterSkillManager][UserMonsterSkill] error: iTargetIndex(%d)", iTargetIndex);
 		return;
 	}
 
-	/* sLog.outBasic("[TMonsterSkillManager] [%s] Used skill at INDEX:%d (UNITTYPE:%d UNIT:%d)",
+	/* sLog->outBasic("[TMonsterSkillManager] [%s] Used skill at INDEX:%d (UNITTYPE:%d UNIT:%d)",
 		gObj[iIndex].Name, iTargetIndex, iMonsterSkillUnitType, iMonsterSkillUnit); */
 
 	LPOBJ lpObj = &gObj[iIndex];
@@ -283,7 +283,7 @@ void TMonsterSkillManager::UseMonsterSkill(int iIndex, int iTargetIndex, int iMo
 
 	if ( lpMonsterSkillUnit == NULL )
 	{
-		sLog.outError(  "[Monster Skill Manager] SkillUnit is NULL ");
+		sLog->outError(  "[Monster Skill Manager] SkillUnit is NULL ");
 		return;
 	}
 

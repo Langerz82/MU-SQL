@@ -22,7 +22,7 @@ void CDoppelGangerPosInfo::LoadDoppelgangerPosInfo(LPSTR lpFile)
 
 	if ( res.status != pugi::status_ok )
 	{
-		sLog.outError("%s load fail (%s)", lpFile, res.description());
+		sLog->outError("%s load fail (%s)", lpFile, res.description());
 		return;
 	}
 
@@ -35,7 +35,7 @@ void CDoppelGangerPosInfo::LoadDoppelgangerPosInfo(LPSTR lpFile)
 
 		if (iMapNumber < MAP_INDEX_DOPPELGANGER1 || iMapNumber > MAP_INDEX_DOPPELGANGER4)
 		{
-			sLog.outError("Error: Wrong Map Number (%d) (%s)", iMapNumber, lpFile);
+			sLog->outError("Error: Wrong Map Number (%d) (%s)", iMapNumber, lpFile);
 			return;
 		}
 
@@ -59,7 +59,7 @@ void CDoppelGangerPosInfo::LoadDoppelgangerPosInfo(LPSTR lpFile)
 
 		if (iMapNumber < MAP_INDEX_DOPPELGANGER1 || iMapNumber > MAP_INDEX_DOPPELGANGER4)
 		{
-			sLog.outError("Error: Wrong Map Number (%d) (%s)", iMapNumber, lpFile);
+			sLog->outError("Error: Wrong Map Number (%d) (%s)", iMapNumber, lpFile);
 			return;
 		}
 

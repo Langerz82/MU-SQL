@@ -38,7 +38,7 @@ void CMonsterAttr::LoadAttr(char* filename)
 
 	if (result.status != pugi::status_ok)
 	{
-		sLog.outError("load error %s (%s)", filename, result.description());
+		sLog->outError("load error %s (%s)", filename, result.description());
 		return;
 	}
 
@@ -126,7 +126,7 @@ void CCustomMonsterAttr::Load(char* szFileName)
 	// ----
 	if (Result.status != pugi::status_ok)
 	{
-		sLog.outError("[MonsterStatInfo] File %s not found!", szFileName);
+		sLog->outError("[MonsterStatInfo] File %s not found!", szFileName);
 		return;
 	}
 	// ----

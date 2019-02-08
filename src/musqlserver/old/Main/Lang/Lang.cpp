@@ -19,7 +19,7 @@ void CLanguage::Init()
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("Error - %s file load failed! (%s)", szFile, res.description());
+		sLog->outError("Error - %s file load failed! (%s)", szFile, res.description());
 		ExitProcess(0);
 	}
 
@@ -63,7 +63,7 @@ bool CLanguage::LoadLanguage(Language & Lang)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("Error - %s file load failed! (%s)", szTemp, res.description());
+		sLog->outError("Error - %s file load failed! (%s)", szTemp, res.description());
 		return false;
 	}
 

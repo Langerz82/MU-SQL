@@ -1,6 +1,10 @@
 #ifndef _QUERY_CALLBACK_H
 #define _QUERY_CALLBACK_H
 
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
 #include "Common\Common.h"
 #include "DatabaseEnvFwd.h"
 #include <functional>

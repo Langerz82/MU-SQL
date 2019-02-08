@@ -1,6 +1,8 @@
 #include "CSDatabase.h"
 #include "database/Database/PreparedStatement.h"
 
+DatabaseWorkerPool<MySQLConnection> ConnectDatabase;
+
 void ConnectDatabaseConnection::DoPrepareStatements()
 {
     if (!m_reconnecting)

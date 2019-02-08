@@ -58,7 +58,7 @@ bool CAcheronGuardianEvent::LoadScriptAcheronEvent(char *lpszFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("Error loading %s file (%s)", lpszFileName, res.description());
+		sLog->outError("Error loading %s file (%s)", lpszFileName, res.description());
 		return false;
 	}
 
@@ -96,7 +96,7 @@ bool CAcheronGuardianEvent::LoadScriptAcheronEvent(char *lpszFileName)
 
 		if (nGroupNumber < 0 || nGroupNumber > 5)
 		{
-			sLog.outError("[AcheronGuardian][MonsterGroupRegen] Invalid Obelisk groupNumber");
+			sLog->outError("[AcheronGuardian][MonsterGroupRegen] Invalid Obelisk groupNumber");
 			return false;
 		}
 
@@ -115,7 +115,7 @@ bool CAcheronGuardianEvent::LoadScriptAcheronEvent(char *lpszFileName)
 
 		if (nGroupNumber < 0 || nGroupNumber > 5)
 		{
-			sLog.outError("[AcheronGuardian][MonsterGroupRegen] Invalid Monster groupNumber");
+			sLog->outError("[AcheronGuardian][MonsterGroupRegen] Invalid Monster groupNumber");
 			return false;
 		}
 
@@ -135,7 +135,7 @@ bool CAcheronGuardianEvent::LoadScriptAcheronEvent(char *lpszFileName)
 
 		if (nGroupNumber < 0 || nGroupNumber > 5)
 		{
-			sLog.outError("[AcheronGuardian][MonsterGroupRegen] Invalid Monster groupNumber");
+			sLog->outError("[AcheronGuardian][MonsterGroupRegen] Invalid Monster groupNumber");
 			return false;
 		}
 
@@ -165,7 +165,7 @@ bool CAcheronGuardianEvent::LoadScriptAcheronEvent(char *lpszFileName)
 
 		if (nGroupNumber < 0 || nGroupNumber > 5)
 		{
-			sLog.outError("[AcheronGuardian][MonsterGroupRegen] Invalid Monster groupNumber");
+			sLog->outError("[AcheronGuardian][MonsterGroupRegen] Invalid Monster groupNumber");
 			return false;
 		}
 
@@ -177,7 +177,7 @@ bool CAcheronGuardianEvent::LoadScriptAcheronEvent(char *lpszFileName)
 
 		if (this->m_stMonsterPosition[nGroupNumber].m_nGroupNumber < 0)
 		{
-			sLog.outError("[AcheronGuardianEvent][MonsterGroupRegen] Invalid groupNumber(%d)", nGroupNumber);
+			sLog->outError("[AcheronGuardianEvent][MonsterGroupRegen] Invalid groupNumber(%d)", nGroupNumber);
 			return false;
 		}
 
@@ -189,7 +189,7 @@ bool CAcheronGuardianEvent::LoadScriptAcheronEvent(char *lpszFileName)
 
 		if (nArrayIndex >= 20)
 		{
-			sLog.outError("[AcheronGuardianEvent][MonsterGroupRegen] Out of Max MonsterKindIndex");
+			sLog->outError("[AcheronGuardianEvent][MonsterGroupRegen] Out of Max MonsterKindIndex");
 			return false;
 		}
 
@@ -225,7 +225,7 @@ bool CAcheronGuardianEvent::CheckSync()
 		{
 			if (this->m_vtAcheronEventTime.empty() == true)
 			{
-				sLog.outError("[AcheronEvent] No Schedule Time Data - Acheron Event terminated (m_vtArcaBattleOpenTime.empty())");
+				sLog->outError("[AcheronEvent] No Schedule Time Data - Acheron Event terminated (m_vtArcaBattleOpenTime.empty())");
 				return false;
 			}
 
@@ -276,7 +276,7 @@ bool CAcheronGuardianEvent::CheckSync()
 
 			else
 			{
-				sLog.outError("[AcheronEvent] No Schedule Time Data - Acheron Event Terminated (bTIME_CHANGED=%d)", bTIME_CHANGED);
+				sLog->outError("[AcheronEvent] No Schedule Time Data - Acheron Event Terminated (bTIME_CHANGED=%d)", bTIME_CHANGED);
 				return false;
 			}
 		}
@@ -289,7 +289,7 @@ bool CAcheronGuardianEvent::CheckSync()
 
 	else
 	{
-		sLog.outError("[AcheronEvent] Error DayOfWeek -  wDayOfWeek [%d]", wDayOfWeek);
+		sLog->outError("[AcheronEvent] Error DayOfWeek -  wDayOfWeek [%d]", wDayOfWeek);
 		return false;
 	}
 }
@@ -371,7 +371,7 @@ void CAcheronGuardianEvent::ProcStateChannelClose()
 				}
 			}
 
-			sLog.outBasic("[AcheronGuardianEvent] Send Close Window Sec[%d]", this->m_i64_REMAIN_MSEC / 1000);
+			sLog->outBasic("[AcheronGuardianEvent] Send Close Window Sec[%d]", this->m_i64_REMAIN_MSEC / 1000);
 		}
 
 		if (this->m_i64_REMAIN_MSEC <= 0)
@@ -435,11 +435,11 @@ void CAcheronGuardianEvent::ProcStateReady()
 
 	if (this->m_iGroupNum < 0 || this->m_iGroupNum > 2)
 	{
-		sLog.outBasic("[AcheronGuardianEvent] Error Obelisk GroupNum [%d]", this->m_iGroupNum);
+		sLog->outBasic("[AcheronGuardianEvent] Error Obelisk GroupNum [%d]", this->m_iGroupNum);
 		this->m_iGroupNum = 0;
 	}
 
-	sLog.outBasic("[AcheronGuardianEvent] Obelisk GroupNum %d", this->m_iGroupNum);
+	sLog->outBasic("[AcheronGuardianEvent] Obelisk GroupNum %d", this->m_iGroupNum);
 
 	this->SetRandomObeliskAttr();
 	this->GenObelisk(this->m_iGroupNum);
@@ -499,7 +499,7 @@ void CAcheronGuardianEvent::GenObelisk(int iGroupNum)
 		gObj[result].DieRegen = 0;
 		gObj[result].m_State = 1;
 		gObj[result].MaxRegenTime = 0;
-		sLog.outBasic("[AcheronGuardianEvent] (%d) Obelisk be created.", result);
+		sLog->outBasic("[AcheronGuardianEvent] (%d) Obelisk be created.", result);
 	}
 }
 
@@ -511,7 +511,7 @@ void CAcheronGuardianEvent::DelObelisk()
 
 		if (iIndex >= 0)
 		{
-			sLog.outBasic("[AcheronGuardianEvent][Obelisk] Delete Monster - %d ", iIndex);
+			sLog->outBasic("[AcheronGuardianEvent][Obelisk] Delete Monster - %d ", iIndex);
 			gObjDel(iIndex);
 		}
 	}
@@ -639,31 +639,31 @@ void CAcheronGuardianEvent::RegenMonster(int nGroupNumber, int iGenSeq, int iGen
 
 		if (nResult < 0)
 		{
-			sLog.outBasic("[AcheronGuardianEvent][MonsterGroupRegen] AddMonster fail!! [GROUP]:%d, [INDEX]:%d", nGroupNumber, nMonsterIndex);
+			sLog->outBasic("[AcheronGuardianEvent][MonsterGroupRegen] AddMonster fail!! [GROUP]:%d, [INDEX]:%d", nGroupNumber, nMonsterIndex);
 			return;
 		}
 
 		if (this->SetPosMonster(nResult, nMapNumber, nBeginX, nBeginY, nEndX, nEndY) == FALSE)
 		{
 			gObjDel(nResult);
-			sLog.outBasic("[AcheronGuardianEvent] error : %s %d", __FILE__, __LINE__);
+			sLog->outBasic("[AcheronGuardianEvent] error : %s %d", __FILE__, __LINE__);
 			return;
 		}
 
 		if (gObjSetMonster(nResult, nMonsterIndex) == FALSE)
 		{
 			gObjDel(nResult);
-			sLog.outBasic("[AcheronGuardianEvent] error : %s %d", __FILE__, __LINE__);
+			sLog->outBasic("[AcheronGuardianEvent] error : %s %d", __FILE__, __LINE__);
 			return;
 		}
 
 		nMonsterArrayIndex++;
-		sLog.outBasic("[AcheronGuardianEvent][MonsterGroupRegen] Group: %d, MonsterIndex: %d, MapNumber: %d, X: %d, Y: %d",
+		sLog->outBasic("[AcheronGuardianEvent][MonsterGroupRegen] Group: %d, MonsterIndex: %d, MapNumber: %d, X: %d, Y: %d",
 			nGroupNumber, nMonsterIndex, nMapNumber, gObj[nResult].X, gObj[nResult].Y);
 	}
 
 	this->m_stMonsterGroupInfo[nGroupNumber].m_nGenTotCnt = nMonsterArrayIndex;
-	sLog.outBasic("[AcheronGuardianEvent][MonsterGroupRegen] Group: %d, MonsterTotCnt: %d",
+	sLog->outBasic("[AcheronGuardianEvent][MonsterGroupRegen] Group: %d, MonsterTotCnt: %d",
 		nGroupNumber, this->m_stMonsterGroupInfo[nGroupNumber].m_nGenTotCnt);
 }
 
@@ -671,7 +671,7 @@ int CAcheronGuardianEvent::SetPosMonster(int aIndex, int nMapNumber, int nBeginX
 {
 	if (!ObjectMaxRange(aIndex))
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return false;
 	}
 
@@ -751,7 +751,7 @@ void CAcheronGuardianEvent::DeleteMonster(int nGroupNumber)
 			if (gObj[nIndex].Live == FALSE)
 			{
 				gObjDel(nIndex);
-				sLog.outBasic("[AcheronGuardianEvent][MonsterGroupRegen] Delete Monster - %d ",
+				sLog->outBasic("[AcheronGuardianEvent][MonsterGroupRegen] Delete Monster - %d ",
 					this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[i].m_nIndex);
 
 				this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[i].m_nIndex = -1;
@@ -776,7 +776,7 @@ void CAcheronGuardianEvent::DeleteAcheronEventAllMonster()
 				if (this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[i].m_nIndex > -1)
 				{
 					gObjDel(this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[i].m_nIndex);
-					sLog.outBasic("[AcheronGuardianEvent][MonsterGroupRegen] Delete Monster - %d ", this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[i].m_nIndex);
+					sLog->outBasic("[AcheronGuardianEvent][MonsterGroupRegen] Delete Monster - %d ", this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[i].m_nIndex);
 					this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[i].m_nIndex = -1;
 				}
 			}
@@ -788,7 +788,7 @@ void CAcheronGuardianEvent::DeleteAcheronEventAllMonster()
 
 void CAcheronGuardianEvent::DestroyObelisk(OBJECTSTRUCT *lpObj, BYTE btMapNumber, BYTE cX, BYTE cY, int nMaxHitUser)
 {
-	sLog.outBasic("[AcheronGuardianEvent] Destroyed an Obelisk. [%s][%s]", lpObj->AccountID, lpObj->Name);
+	sLog->outBasic("[AcheronGuardianEvent] Destroyed an Obelisk. [%s][%s]", lpObj->AccountID, lpObj->Name);
 
 	g_BagManager.SearchAndUseBag(lpObj->m_Index, BAG_EVENT, EVENTBAG_ACHERONGUARDIAN, lpObj->m_Index);
 
@@ -851,7 +851,7 @@ void CAcheronGuardianEvent::CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER 
 
 	if (this->IsPlayStart() == TRUE)
 	{
-		sLog.outBasic("[AcheronGuardianEvent] [%s][%s] Acheron Event Enter",
+		sLog->outBasic("[AcheronGuardianEvent] [%s][%s] Acheron Event Enter",
 			gObj[iIndex].AccountID, gObj[iIndex].Name);
 
 		gObjMoveGate(iIndex, 426);
@@ -884,7 +884,7 @@ void CAcheronGuardianEvent::DGAnsAcheronEventProcMultiCast(PMSG_ANS_AE_PLAY_DS *
 		this->SetPlayStart(lpMsg->btPlay);
 	}
 
-	sLog.outBasic("[AcheronGuardianEvent] Acheron Event Play [%d]", lpMsg->btPlay);
+	sLog->outBasic("[AcheronGuardianEvent] Acheron Event Play [%d]", lpMsg->btPlay);
 }
 
 void CAcheronGuardianEvent::SetAcheronEventProcMultiCast(int bABInitState)

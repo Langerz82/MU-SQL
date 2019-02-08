@@ -41,7 +41,7 @@ protected:
 	{
 		if ( iStart < iEnd  )
 		{
-			sLog.outError(  "CStreamPacketEngine XorData Error %d,%d", iStart, iEnd);
+			sLog->outError(  "CStreamPacketEngine XorData Error %d,%d", iStart, iEnd);
 			return false;
 		}
 
@@ -93,7 +93,7 @@ public:
 	{
 		if ( ((this->m_wSize + wSize) >=  2048) ||  (wSize == 0) )
 		{
-			sLog.outError( "CStreamPacketEngine Adding Buffer Size Error %d", this->m_wSize + wSize);
+			sLog->outError( "CStreamPacketEngine Adding Buffer Size Error %d", this->m_wSize + wSize);
 			int iSize = 2048;
 			return FALSE;
 		}

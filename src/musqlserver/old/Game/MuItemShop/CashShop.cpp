@@ -172,7 +172,7 @@ void CItemShop::LoadItemInfo(LPSTR pchFilename)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("[ItemShop][ItemInfo] List load failed. [%s] [%s]", pchFilename, res.description());
+		sLog->outError("[ItemShop][ItemInfo] List load failed. [%s] [%s]", pchFilename, res.description());
 		return;
 	}
 
@@ -215,7 +215,7 @@ void CItemShop::LoadItemList(LPSTR pchFilename)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("[ItemShop][ItemList] List load failed. [%s] [%s]", pchFilename, res.description());
+		sLog->outError("[ItemShop][ItemList] List load failed. [%s] [%s]", pchFilename, res.description());
 		return;
 	}
 
@@ -254,7 +254,7 @@ void CItemShop::LoadPackages(LPSTR pchFilename)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("[ItemShop][PackageList] File load fail: %s [%s]", pchFilename, res.description());
+		sLog->outError("[ItemShop][PackageList] File load fail: %s [%s]", pchFilename, res.description());
 		return;
 	}
 
@@ -292,7 +292,7 @@ void CItemShop::LoadGPMonsterData(LPSTR pchFilename)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("[ItemShop][GPMonsterList] File load fail: %s [%s]", pchFilename, res.description());
+		sLog->outError("[ItemShop][GPMonsterList] File load fail: %s [%s]", pchFilename, res.description());
 		return;
 	}
 

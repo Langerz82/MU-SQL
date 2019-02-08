@@ -267,12 +267,12 @@ BOOL gObjMonsterRegen(LPOBJ lpObj)
 	//	));
 		BLOODCASTLE_MONSTER_POSITION * lpPos = g_BloodCastle.GetMonsterPosData(lpObj->m_PosNum, iBridgeIndex, lpObj->Class);
 
-		//sLog.outBasic("[Blood Castle][Bug Tracker] (%d) Regen Monster (Class:%d) (Index:%d) (PosNum:%d) (lpPos:%d)",
+		//sLog->outBasic("[Blood Castle][Bug Tracker] (%d) Regen Monster (Class:%d) (Index:%d) (PosNum:%d) (lpPos:%d)",
 		//	iBridgeIndex + 1, lpObj->Class, lpObj->m_Index, lpObj->m_PosNum, lpPos != nullptr ? true : false);
 
 		if (lpPos == nullptr)
 		{
-			sLog.outError( "[Blood Castle][Error] lpPos == nullptr (%d) (%d) (%d)", lpObj->m_PosNum, iBridgeIndex, lpObj->Class);
+			sLog->outError( "[Blood Castle][Error] lpPos == nullptr (%d) (%d) (%d)", lpObj->m_PosNum, iBridgeIndex, lpObj->Class);
 			return FALSE;
 		}
 
@@ -517,7 +517,7 @@ void gObjMonsterSetHitDamage(LPOBJ lpObj, int hit_player, int hit_damage)
 	}
 	else
 	{
-		sLog.outBasic("error-L2 : Hit Damage Set error");
+		sLog->outBasic("error-L2 : Hit Damage Set error");
 	}
 }
 
@@ -805,7 +805,7 @@ BOOL gObjMonsterMoveCheck(LPOBJ lpObj, int tx, int ty)
 
 		if (dis > 30)
 		{
-			sLog.outBasic("[ KANTURU/RAKLION ][ Debug - m_PosNum ] Fail %s(Index:%d) X%d-Y%d -> X%d-Y%d(%d)",
+			sLog->outBasic("[ KANTURU/RAKLION ][ Debug - m_PosNum ] Fail %s(Index:%d) X%d-Y%d -> X%d-Y%d(%d)",
 				lpObj->Name, lpObj->Class, lpObj->StartX, lpObj->StartY, tx, ty, dis);
 			return FALSE;
 		}
@@ -1399,7 +1399,7 @@ void gObjMonsterStateProc(LPOBJ lpObj, int aMsgCode, int aIndex, int aMsgSubCode
 
 							if (MAX_MAP_RANGE(map) == FALSE)
 							{
-								sLog.outError( "[ERROR] map is out of range %s %d", __FILE__, __LINE__);
+								sLog->outError( "[ERROR] map is out of range %s %d", __FILE__, __LINE__);
 								return;
 							}
 
@@ -2137,7 +2137,7 @@ void gObjMonsterBeattackRecv(BYTE * lpRecv, int aIndex)
 
 	if ( lpMagic == NULL )
 	{
-		sLog.outBasic("error-L3 %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L3 %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -2852,7 +2852,7 @@ void gObjMonsterBaseAct(LPOBJ lpObj)
 
 				if ( MAX_MAP_RANGE(map) == FALSE )
 				{
-					sLog.outError( "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", map);
+					sLog->outError( "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", map);
 					return;
 				}
 
@@ -2881,7 +2881,7 @@ void gObjMonsterBaseAct(LPOBJ lpObj)
 				{
 					if ( MAX_MAP_RANGE(lpObj->MapNumber) == FALSE )
 					{
-						sLog.outError( "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", lpObj->MapNumber);
+						sLog->outError( "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", lpObj->MapNumber);
 						return;
 					}
 
@@ -3472,7 +3472,7 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 			nMaxHitUser = lpTargetObj->m_Index;
 		}
 
-		sLog.outBasic("[AcheronGuardianEvent] BossName: %s, CharacterName: %s", lpObj->Name, gObj[nMaxHitUser].Name);
+		sLog->outBasic("[AcheronGuardianEvent] BossName: %s, CharacterName: %s", lpObj->Name, gObj[nMaxHitUser].Name);
 		g_AcheronGuardianEvent.DestroyObelisk(&gObj[nMaxHitUser], lpObj->MapNumber, lpObj->X, lpObj->Y, nMaxHitUser);
 		return;
 	}
@@ -4758,7 +4758,7 @@ BOOL gEventMonsterItemDrop(LPOBJ lpObj, LPOBJ lpTargetObj)
 
 						if (ObjectMaxRange(MaxHitUser))
 						{
-							sLog.outBasic("[Castle HuntZone] Drop SetItem [%s][%s] ", gObj[MaxHitUser].AccountID, gObj[MaxHitUser].Name);
+							sLog->outBasic("[Castle HuntZone] Drop SetItem [%s][%s] ", gObj[MaxHitUser].AccountID, gObj[MaxHitUser].Name);
 							::MakeRewardSetItem(MaxHitUser, lpObj->X, lpObj->Y, 0, lpObj->MapNumber);
 							return TRUE;
 						}
@@ -5469,7 +5469,7 @@ void CQeustNpcTeleport::Run(int aIndex)
 		gObj[aIndex].m_State = 1;
 		gObj[aIndex].PathCount = 0;
 
-		sLog.outBasic("[Quest] %s Teleport MAP : %s", this->m_strNPCName.c_str(), Lang.GetMap(0, this->m_QuestNPCTeleportPos[tableindex].mapnum));
+		sLog->outBasic("[Quest] %s Teleport MAP : %s", this->m_strNPCName.c_str(), Lang.GetMap(0, this->m_QuestNPCTeleportPos[tableindex].mapnum));
 	}
 }
 

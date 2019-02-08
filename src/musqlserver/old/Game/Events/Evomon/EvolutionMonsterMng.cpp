@@ -49,7 +49,7 @@ void CEvolutionMonsterMng::LoadFile(char *szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("Error - cannot load %s file (%s)", szFile, res.description());
+		sLog->outError("Error - cannot load %s file (%s)", szFile, res.description());
 		return;
 	}
 

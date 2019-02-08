@@ -1,10 +1,14 @@
 #ifndef _MUSQL_DATABASEENVWD_H_
 #define _MUSQL_DATABASEENVWD_H_
 
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
 #include "DatabaseEnv.h"
 //#include "QueryResult.h"
 //#include "PreparedStatement.h"
-#include "Transaction.h"
+//#include "Transaction.h"
 #include "mysql.h"
 
 #include <future>

@@ -184,7 +184,7 @@ VOID WINAPI TimerProcQueue(LPVOID lpParameter, BOOL TimerOrWaitFired)
 					if (gCloseMsgTime == 1)
 					{
 						GSProtocol.AllSendServerMsg(Lang.GetText(0,1));
-						sLog.outError( "GameServer closed");
+						sLog->outError( "GameServer closed");
 					}
 				}
 				else
@@ -195,7 +195,7 @@ VOID WINAPI TimerProcQueue(LPVOID lpParameter, BOOL TimerOrWaitFired)
 
 						wsprintf(szTemp, Lang.GetText(0,2), gCloseMsgTime);
 						GSProtocol.AllSendServerMsg(szTemp);
-						sLog.outError( "Server close automatically in %d second(s)", gCloseMsgTime);
+						sLog->outError( "Server close automatically in %d second(s)", gCloseMsgTime);
 					}
 				}
 
@@ -280,7 +280,7 @@ VOID WINAPI TimerProcQueue(LPVOID lpParameter, BOOL TimerOrWaitFired)
 								ChaosCastleFinal::m_bCCFDayChange = false;
 								ChaosCastleFinal::m_byCCFTimer = 0;
 
-								sLog.outBasic("[ChaosCastleFinal][End of Day] Resetting Event...");
+								sLog->outBasic("[ChaosCastleFinal][End of Day] Resetting Event...");
 								g_ChaosCastleFinal.Init();
 							}
 						}
@@ -310,17 +310,17 @@ VOID WINAPI TimerProcQueue(LPVOID lpParameter, BOOL TimerOrWaitFired)
 					g_ChaosCastleFinal.m_bCCF_EVENT_ENABLE = false;
 					ChaosCastleFinal::m_bCCFDayChange = true;
 
-					sLog.outBasic("[ChaosCastleFinal][End of Day] Preparing for reset.");
+					sLog->outBasic("[ChaosCastleFinal][End of Day] Preparing for reset.");
 
 					if (g_DevilSquareFinal.WhatIsTodayTypeOfDSF() == 0)
 					{
-						sLog.outBasic("[DSF] Not a DSF Day - disable Event");
+						sLog->outBasic("[DSF] Not a DSF Day - disable Event");
 						g_DevilSquareFinal.m_bEVENT_ENABLE = false;
 					}
 
 					else
 					{
-						sLog.outBasic("[DSF] DSF Day Found - enable Event");
+						sLog->outBasic("[DSF] DSF Day Found - enable Event");
 						g_DevilSquareFinal.m_bEVENT_ENABLE = true;
 					}
 				}

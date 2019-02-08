@@ -85,7 +85,7 @@ void CDevilSquareFinal::Load_DSFScheduleScript(char *pchFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("Failed to load %s file (%s)", pchFileName, res.description());
+		sLog->outError("Failed to load %s file (%s)", pchFileName, res.description());
 		return;
 	}
 
@@ -192,7 +192,7 @@ void CDevilSquareFinal::Load_DSFMonsterScript(char *pchFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("Failed to load %s file (%s)", pchFileName, res.description());
+		sLog->outError("Failed to load %s file (%s)", pchFileName, res.description());
 		return;
 	}
 
@@ -299,7 +299,7 @@ void CDevilSquareFinal::DSFEventInit()
 		return;
 	}
 
-	sLog.outBasic("[DSF] Event Initializing...");
+	sLog->outBasic("[DSF] Event Initializing...");
 
 	this->m_nDSF_TYPE = this->WhatIsTodayTypeOfDSF();
 	EnterCriticalSection(&this->m_criPartyData);
@@ -726,7 +726,7 @@ void CDevilSquareFinal::Proc_DSFState_None(int nCurTime)
 						sprintf(szTemp, "Tormented Square will be opened after %d minutes", this->m_nRemainTimeMin);
 						GS_GDReqMapSvrMsgMultiCast(g_MapServerManager.GetMapSvrGroup(), szTemp);
 
-						sLog.outBasic("[DSF] %d minutes to open", this->m_nRemainTimeMin);
+						sLog->outBasic("[DSF] %d minutes to open", this->m_nRemainTimeMin);
 						this->m_nRemainTimeMin++;
 						break;
 					}
@@ -748,7 +748,7 @@ void CDevilSquareFinal::Proc_DSFState_None(int nCurTime)
 					TNotice::MakeNoticeMsgEx(&pNotice, 0, "Tormented Square will close doors after %d minutes", this->m_nRemainTimeMin);
 					this->SendAllUserAnyMsg((LPBYTE)&pNotice, pNotice.h.size);
 
-					sLog.outBasic("[DSF] %d minutes to close", this->m_nRemainTimeMin);
+					sLog->outBasic("[DSF] %d minutes to close", this->m_nRemainTimeMin);
 				}
 			}
 
@@ -764,7 +764,7 @@ void CDevilSquareFinal::Proc_DSFState_None(int nCurTime)
 				if ( this->m_nRemainTimeMin <= this->m_DSFTimeRuleInfo.BeforeEnterMinute && this->m_nRemainTimeMsec > 5000 && this->m_bEntrance == false)
 				{
 					this->m_bEntrance = true;
-					sLog.outBasic("[DSF] Event has been opened.");
+					sLog->outBasic("[DSF] Event has been opened.");
 				}
 
 				if (this->m_nRemainTimeMsec <= 5000 && this->m_bEntrance == true)
@@ -775,7 +775,7 @@ void CDevilSquareFinal::Proc_DSFState_None(int nCurTime)
 					TNotice::MakeNoticeMsgEx(&pNotice, 0, "Tormented Square is closed.");
 					this->SendAllUserAnyMsg((LPBYTE)&pNotice, pNotice.h.size);
 
-					sLog.outBasic("[DSF] Event has been closed.");
+					sLog->outBasic("[DSF] Event has been closed.");
 				}
 			}
 
@@ -804,7 +804,7 @@ void CDevilSquareFinal::Proc_DSFState_None(int nCurTime)
 							gObjMoveGate(this->m_UserData[j].m_nIndex, 333);
 							this->ClearUserData(j);
 
-							sLog.outBasic("[DSF][Proc_DSFState_None][%s][%s][%s][%d] Not PartyUser Kick Out",
+							sLog->outBasic("[DSF][Proc_DSFState_None][%s][%s][%s][%d] Not PartyUser Kick Out",
 								gObj[this->m_UserData[j].m_nIndex].AccountID, gObj[this->m_UserData[j].m_nIndex].m_PlayerData->m_RealNameOfUBF,
 								gObj[this->m_UserData[j].m_nIndex].Name, gObj[this->m_UserData[j].m_nIndex].m_PlayerData->m_nServerCodeOfHomeWorld);
 						}
@@ -855,9 +855,9 @@ void CDevilSquareFinal::Proc_DSFState_None(int nCurTime)
 						this->SaveWinnerPartyPoint();
 					}
 
-					sLog.outBasic("[DSF][Proc_DSFState_None] Failed to Start DSF (UserCount: %d) (m_nRemainTimeMin:%d)(m_nRemainTimeMsec:%d)",
+					sLog->outBasic("[DSF][Proc_DSFState_None] Failed to Start DSF (UserCount: %d) (m_nRemainTimeMin:%d)(m_nRemainTimeMsec:%d)",
 						this->m_nUserCount, this->m_nRemainTimeMin, this->m_nRemainTimeMsec);
-					sLog.outBasic("[DSF][Proc_DSFState_None] StartFail : Not Enough User!");
+					sLog->outBasic("[DSF][Proc_DSFState_None] StartFail : Not Enough User!");
 
 					this->Set_DSFState(3);
 				}
@@ -1104,7 +1104,7 @@ void CDevilSquareFinal::Set_DSFState_None()
 	this->SendDSFState(0, -1);
 	this->DSF_ProcessInit();
 
-	sLog.outBasic("[DSF] SetState NONE");
+	sLog->outBasic("[DSF] SetState NONE");
 }
 
 void CDevilSquareFinal::Set_DSFState_Ready()
@@ -1181,7 +1181,7 @@ void CDevilSquareFinal::Set_DSFState_Ready()
 	}
 
 	this->SendDSFState(1, -1);
-	sLog.outBasic("[DSF] SetState READY");
+	sLog->outBasic("[DSF] SetState READY");
 }
 
 void CDevilSquareFinal::Set_DSFState_Playing()
@@ -1189,7 +1189,7 @@ void CDevilSquareFinal::Set_DSFState_Playing()
 	this->m_nRemainTimeMsec = 60000 * this->m_DSFTimeRuleInfo.EachRoundMinute;
 	this->SetMonster();
 	this->SendDSFState(2, -1);
-	sLog.outBasic("[DSF] SetState PLAYING");
+	sLog->outBasic("[DSF] SetState PLAYING");
 }
 
 void CDevilSquareFinal::Set_DSFState_RoundBreak()
@@ -1229,12 +1229,12 @@ void CDevilSquareFinal::Set_DSFState_RoundBreak()
 		{
 			this->m_nTeamPoint[k] += nAfterRoundPoint * this->m_nTeamUserCount[k];
 
-			sLog.outBasic("[DSF] [Round %d Break] %d Team, UserCount:%d, TeamPoint:%d",
+			sLog->outBasic("[DSF] [Round %d Break] %d Team, UserCount:%d, TeamPoint:%d",
 				this->m_btDSFRound, k, this->m_nTeamUserCount[k], this->m_nTeamPoint[k]);
 		}
 	}
 
-	sLog.outBasic("[DSF] SetState ROUND_BREAK");
+	sLog->outBasic("[DSF] SetState ROUND_BREAK");
 }
 
 void CDevilSquareFinal::Set_DSFState_End()
@@ -1242,7 +1242,7 @@ void CDevilSquareFinal::Set_DSFState_End()
 	this->m_nRemainTimeMsec = 1000 * this->m_DSFTimeRuleInfo.AfterRoundSecond;
 	this->ClearMonster();
 	this->SendDSFState(3, -1);
-	sLog.outBasic("[DSF] SetState END");
+	sLog->outBasic("[DSF] SetState END");
 }
 
 BOOL CDevilSquareFinal::IsAlreadyExistUserInDSF(int aIndex)
@@ -1278,7 +1278,7 @@ char CDevilSquareFinal::Find_PartySlot(int nPartyNumber, BYTE & btSlotNum)
 		if (this->m_PartyDataSave[i].nPartyNo == nPartyNumber)
 		{
 			btSlotNum = i;
-			sLog.outBasic("[DSF] Party Number %d find Party Slot:%d", nPartyNumber, btSlotNum);
+			sLog->outBasic("[DSF] Party Number %d find Party Slot:%d", nPartyNumber, btSlotNum);
 			return 0;
 		}
 	}
@@ -1298,7 +1298,7 @@ char CDevilSquareFinal::Find_EmptyPartySlot(int nPartyNumber, BYTE & btSlotNum)
 		if (this->m_PartyDataSave[i].nPartyNo < 0)
 		{
 			btSlotNum = i;
-			sLog.outBasic("[DSF] Party Number %d find Empty Party Slot:%d", nPartyNumber, btSlotNum);
+			sLog->outBasic("[DSF] Party Number %d find Empty Party Slot:%d", nPartyNumber, btSlotNum);
 			return 0;
 		}
 	}
@@ -1483,7 +1483,7 @@ BOOL CDevilSquareFinal::Enter_DSF(int aIndex, BYTE btSlotNum)
 {
 	if (this->m_bEVENT_ENABLE == false)
 	{
-		sLog.outBasic("[DSF] Enter Error: DSF is not active");
+		sLog->outBasic("[DSF] Enter Error: DSF is not active");
 		return FALSE;
 	}
 
@@ -1491,19 +1491,19 @@ BOOL CDevilSquareFinal::Enter_DSF(int aIndex, BYTE btSlotNum)
 
 	if (!lpObj)
 	{
-		sLog.outBasic("[DSF] Enter Error: Critical Error (lpObj)");
+		sLog->outBasic("[DSF] Enter Error: Critical Error (lpObj)");
 		return FALSE;
 	}
 
 	if (this->m_btDSFCurState >= 1)
 	{
-		sLog.outBasic("[DSF] Enter Error: DSF is ongoing!");
+		sLog->outBasic("[DSF] Enter Error: DSF is ongoing!");
 		return FALSE;
 	}
 
 	if (gObj[aIndex].m_nDSFIndex != -1)
 	{
-		sLog.outBasic("[DSF][Enter_DSF] Enter Error: DSFIndex Fail %d", gObj[aIndex].m_nDSFIndex);
+		sLog->outBasic("[DSF][Enter_DSF] Enter Error: DSFIndex Fail %d", gObj[aIndex].m_nDSFIndex);
 		return FALSE;
 	}
 
@@ -1529,7 +1529,7 @@ BOOL CDevilSquareFinal::Enter_DSF(int aIndex, BYTE btSlotNum)
 				bResult = TRUE;
 				ArrayIndex = i;
 
-				sLog.outBasic("[DSF][Enter_DSF][%s][%s][%s][%d] UserCnt:[%d], DSFIndex:[%d], Team:%d",
+				sLog->outBasic("[DSF][Enter_DSF][%s][%s][%s][%d] UserCnt:[%d], DSFIndex:[%d], Team:%d",
 					gObj[aIndex].AccountID, gObj[aIndex].m_PlayerData->m_RealNameOfUBF, gObj[aIndex].Name,
 					gObj[aIndex].m_PlayerData->m_nServerCodeOfHomeWorld, this->m_nUserCount, gObj[aIndex].m_nDSFIndex,
 					this->m_UserData[i].m_btTeam);
@@ -1554,7 +1554,7 @@ BOOL CDevilSquareFinal::Enter_DSF(int aIndex, BYTE btSlotNum)
 
 	if (bResult == TRUE)
 	{
-		sLog.outBasic("[DSF][Enter_DSF][%s][%s][%s][%d] Enter Success, class : %d",
+		sLog->outBasic("[DSF][Enter_DSF][%s][%s][%s][%d] Enter Success, class : %d",
 			lpObj->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF, lpObj->Name,
 			lpObj->m_PlayerData->m_nServerCodeOfHomeWorld, lpObj->m_PlayerData->DbClass);
 
@@ -1564,7 +1564,7 @@ BOOL CDevilSquareFinal::Enter_DSF(int aIndex, BYTE btSlotNum)
 
 	else
 	{
-		sLog.outBasic("[DSF][Enter_DSF][%s][%s][%s][%d] Enter Fail, class : %d",
+		sLog->outBasic("[DSF][Enter_DSF][%s][%s][%s][%d] Enter Fail, class : %d",
 			lpObj->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF, lpObj->Name,
 			lpObj->m_PlayerData->m_nServerCodeOfHomeWorld, lpObj->m_PlayerData->DbClass);
 
@@ -1601,7 +1601,7 @@ BOOL CDevilSquareFinal::Leave_DSF(int aIndex)
 			if (this->m_UserData[gObj[aIndex].m_nDSFIndex].m_btTeam == this->m_PartyDataSave[i].btTeamIndex &&
 				nUserCount == 0)
 			{
-				sLog.outBasic("[DSF][Leave_DSF][%s][%s][%s][%d] All PartyUser Leave : Game is not start, TeamIndex:[%d], PartyUserName1:%s, PartyUserName2:%s",
+				sLog->outBasic("[DSF][Leave_DSF][%s][%s][%s][%d] All PartyUser Leave : Game is not start, TeamIndex:[%d], PartyUserName1:%s, PartyUserName2:%s",
 					gObj[aIndex].AccountID, gObj[aIndex].m_PlayerData->m_RealNameOfUBF, gObj[aIndex].Name, gObj[aIndex].m_PlayerData->m_nServerCodeOfHomeWorld,
 					this->m_PartyDataSave[i].btTeamIndex, this->m_PartyDataSave[i].szRequestUserRealName, this->m_PartyDataSave[i].sz2ndPartyUserRealName);
 
@@ -1612,7 +1612,7 @@ BOOL CDevilSquareFinal::Leave_DSF(int aIndex)
 		}
 	}
 
-	sLog.outBasic("[DSF][Leave_DSF][%s][%s][%s][%d] User Leave, UserCnt:[%d], DSFIndex:[%d]",
+	sLog->outBasic("[DSF][Leave_DSF][%s][%s][%s][%d] User Leave, UserCnt:[%d], DSFIndex:[%d]",
 		gObj[aIndex].AccountID, gObj[aIndex].m_PlayerData->m_RealNameOfUBF, gObj[aIndex].Name,
 		gObj[aIndex].m_PlayerData->m_nServerCodeOfHomeWorld, this->m_nUserCount, gObj[aIndex].m_nDSFIndex);
 
@@ -1759,7 +1759,7 @@ bool CDevilSquareFinal::CanStartDSFBattle()
 
 	BOOL bCanStart = nCanEnterPartyCount >= this->m_DSFUnitInfo.MinTeamCount;
 
-	sLog.outBasic("[DSF][CanStartDSFBattle] Result %s nCanEnterPartyCount:%d", bCanStart == TRUE ? "TRUE" : "FALSE", nCanEnterPartyCount);
+	sLog->outBasic("[DSF][CanStartDSFBattle] Result %s nCanEnterPartyCount:%d", bCanStart == TRUE ? "TRUE" : "FALSE", nCanEnterPartyCount);
 	return bCanStart;
 }
 
@@ -1812,7 +1812,7 @@ void CDevilSquareFinal::SendDSFResult(int aIndex)
 	{
 		if (this->m_PartyDataSave[i].nPartyNo >= 0)
 		{
-			sLog.outBasic("[DSF][SendDSFResult] - [%s][%s][%s][%d] / [%s][%s][%s][%d] DSF Result - Point : %d",
+			sLog->outBasic("[DSF][SendDSFResult] - [%s][%s][%s][%d] / [%s][%s][%s][%d] DSF Result - Point : %d",
 				this->m_PartyDataSave[i].szRequestUserID, this->m_PartyDataSave[i].szRequestUserRealName,
 				this->m_PartyDataSave[i].szRequestUserName, this->m_PartyDataSave[i].nRequestUserServerCode,
 				this->m_PartyDataSave[i].sz2ndPartyUserID, this->m_PartyDataSave[i].sz2ndPartyUserRealName,
@@ -2286,7 +2286,7 @@ void CDevilSquareFinal::SaveWinnerPartyPoint()
 		}
 	}
 
-	sLog.outBasic("[DSF][SaveWinnerPartyPoint] 1stTeam:%d, 2ndTeam:%d, 3rdTeam:%d, 4thTeam:%d",
+	sLog->outBasic("[DSF][SaveWinnerPartyPoint] 1stTeam:%d, 2ndTeam:%d, 3rdTeam:%d, 4thTeam:%d",
 		n1stTeam, n2ndTeam, n3rdTeam, n4thTeam);
 
 	for (int j = 0; j < 10; j++)
@@ -2309,7 +2309,7 @@ void CDevilSquareFinal::SaveWinnerPartyPoint()
 					this->m_PartyDataSave[j].nPoint,
 					1);
 
-				sLog.outBasic("[DSF][SaveWinnerPartyPoint] - [%s][%s][%s][%d][%d][%d] / [%s][%s][%s][%d][%d][%d] DSF League Result - DSFType:%d, Point:%d, TeamIndex:%d",
+				sLog->outBasic("[DSF][SaveWinnerPartyPoint] - [%s][%s][%s][%d][%d][%d] / [%s][%s][%s][%d][%d][%d] DSF League Result - DSFType:%d, Point:%d, TeamIndex:%d",
 					this->m_PartyDataSave[j].szRequestUserID,
 					this->m_PartyDataSave[j].szRequestUserRealName,
 					this->m_PartyDataSave[j].szRequestUserName,
@@ -2345,7 +2345,7 @@ void CDevilSquareFinal::SaveWinnerPartyPoint()
 					this->m_PartyDataSave[j].nPoint,
 					1);
 
-				sLog.outBasic("[DSF][SaveWinnerPartyPoint] - [%s][%s][%s][%d][%d][%d] / [%s][%s][%s][%d][%d][%d] DSF SemiFinal Result - DSFType:%d, Point:%d, TeamIndex:%d",
+				sLog->outBasic("[DSF][SaveWinnerPartyPoint] - [%s][%s][%s][%d][%d][%d] / [%s][%s][%s][%d][%d][%d] DSF SemiFinal Result - DSFType:%d, Point:%d, TeamIndex:%d",
 					this->m_PartyDataSave[j].szRequestUserID,
 					this->m_PartyDataSave[j].szRequestUserRealName,
 					this->m_PartyDataSave[j].szRequestUserName,
@@ -2380,7 +2380,7 @@ void CDevilSquareFinal::SaveWinnerPartyPoint()
 					this->m_PartyDataSave[j].nPoint,
 					1);
 
-				sLog.outBasic("[DSF][SaveWinnerPartyPoint] - [%s][%s][%s][%d][%d][%d] / [%s][%s][%s][%d][%d][%d] DSF Final Result - DSFType:%d, Point:%d, TeamIndex:%d",
+				sLog->outBasic("[DSF][SaveWinnerPartyPoint] - [%s][%s][%s][%d][%d][%d] / [%s][%s][%s][%d][%d][%d] DSF Final Result - DSFType:%d, Point:%d, TeamIndex:%d",
 					this->m_PartyDataSave[j].szRequestUserID,
 					this->m_PartyDataSave[j].szRequestUserRealName,
 					this->m_PartyDataSave[j].szRequestUserName,
@@ -2439,7 +2439,7 @@ void CDevilSquareFinal::GDSaveDSFPartyPoint(char *szAccountID1, char *szUserName
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 
-	sLog.outBasic("[DSF][GDSaveDSFPartyPoint] AccountID1:[%s], UserName1:[%s], User1Level:[%d], AccountID2:[%s], UserName2:[%s], User2Level:[%d], DSFType:[%d], Point:[%d]",
+	sLog->outBasic("[DSF][GDSaveDSFPartyPoint] AccountID1:[%s], UserName1:[%s], User1Level:[%d], AccountID2:[%s], UserName2:[%s], User2Level:[%d], DSFType:[%d], Point:[%d]",
 		szAccountID1, szUserName1, nUser1Level, szAccountID2, szUserName2, nUser2Level, iDSFType, iPoint);
 
 	if (iDSFType == 4)
@@ -2536,7 +2536,7 @@ void CDevilSquareFinal::GDReqGetReward(int aIndex)
 	pMsg.btRewardDay = time.wDay;
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
-	sLog.outBasic("[DSF][GDReqGetReward][%s][%s][%s][%d] Request Get Reward",
+	sLog->outBasic("[DSF][GDReqGetReward][%s][%s][%s][%d] Request Get Reward",
 		gObj[aIndex].AccountID, gObj[aIndex].m_PlayerData->m_RealNameOfUBF, 
 		gObj[aIndex].Name, gObj[aIndex].m_PlayerData->m_nServerCodeOfHomeWorld);
 }
@@ -2732,7 +2732,7 @@ void CDevilSquareFinal::DSFMonsterRegen(OBJECTSTRUCT * lpObj)
 {
 	if (lpObj->Class == -1)
 	{
-		sLog.outBasic("[DSF][DSFMonsterRegen] [%d] Invalid MonterClass", lpObj->Class);
+		sLog->outBasic("[DSF][DSFMonsterRegen] [%d] Invalid MonterClass", lpObj->Class);
 		return;
 	}
 
@@ -2764,7 +2764,7 @@ void CDevilSquareFinal::DSFMonsterRegen(OBJECTSTRUCT * lpObj)
 	lpObj->MTY = lpObj->Y;
 	CreateFrustrum(lpObj->X, lpObj->Y, lpObj->m_Index);
 
-	sLog.outBasic("[DSF][DSFMonsterRegen] Monster Regen [%d][%d,%d]", lpObj->Class, lpObj->X, lpObj->Y);
+	sLog->outBasic("[DSF][DSFMonsterRegen] Monster Regen [%d][%d,%d]", lpObj->Class, lpObj->X, lpObj->Y);
 }
 
 void CDevilSquareFinal::ClearMonster()
@@ -2777,7 +2777,7 @@ void CDevilSquareFinal::ClearMonster()
 		}
 	}
 
-	sLog.outBasic("[DSF][ClearMonster] Clear Monster");
+	sLog->outBasic("[DSF][ClearMonster] Clear Monster");
 }
 
 BYTE CDevilSquareFinal::GetUserTeam(int nIndex)
@@ -2875,7 +2875,7 @@ void CDevilSquareFinal::DSFUserDie(OBJECTSTRUCT * lpObj)
 
 	LeaveCriticalSection(&this->m_critUserData);
 
-	sLog.outBasic("[DSF][DSFUserDie][%s][%s][%s][%d] UserDie",
+	sLog->outBasic("[DSF][DSFUserDie][%s][%s][%s][%d] UserDie",
 		lpObj->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF,
         lpObj->Name, lpObj->m_PlayerData->m_nServerCodeOfHomeWorld);
 }
@@ -2966,7 +2966,7 @@ void CDevilSquareFinal::GDReqSetDSFReward_UBF(int iUserIndex, BYTE btDSFType, BY
 		return;
 	}
 
-	sLog.outBasic("[UBF][DevilSquareFinal][GDReqSetDSFWinnerInformation]ACC:%s , NAME :%s,Real NAME :%s, DSFType:%d, RewardType:%d",
+	sLog->outBasic("[UBF][DevilSquareFinal][GDReqSetDSFWinnerInformation]ACC:%s , NAME :%s,Real NAME :%s, DSFType:%d, RewardType:%d",
 		lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->m_RealNameOfUBF, btDSFType, btRewardType);
 
 	PMSG_REQ_SET_DSF_WINNER_INFO pMsg;

@@ -297,7 +297,7 @@ void MapClass::LoadMapAttr(char * filename, int MapNumber)
 
 	if (this->AttrLoad(filename) == FALSE)
 	{
-		sLog.outError("Map attribute reading error");
+		sLog->outError("Map attribute reading error");
 	}
 }
 
@@ -384,7 +384,7 @@ void MapClass::ItemInit()
 
 	if (this->m_cItem == NULL)
 	{
-		sLog.outError("ERROR - MEMORY ALLOCATION FAILED");
+		sLog->outError("ERROR - MEMORY ALLOCATION FAILED");
 		ExitProcess(1);
 	}
 }
@@ -436,7 +436,7 @@ int MapClass::MonsterItemDrop(int type, int level, float dur, int x, int y, BYTE
 		}
 	}
 
-	sLog.outBasic("Error: Items limit on Map reached, check MapItemCount and disappear time settings, %s %d", __FILE__, __LINE__);
+	sLog->outBasic("Error: Items limit on Map reached, check MapItemCount and disappear time settings, %s %d", __FILE__, __LINE__);
 
 	return -1;
 }
@@ -702,7 +702,7 @@ void MapClass::StateSetDestroy()
 			{
 				if (CurTime > this->m_cItem[n].m_Time)
 				{
-					//sLog.outBasic("Item has disappeared (%s:%d / Level: %d / Skill: %d / Serial: %I64d)", this->m_cItem[n].GetName(), this->m_cItem[n].m_Type, this->m_cItem[n].m_Level, this->m_cItem[n].m_Special[0] , this->m_cItem[n].m_Number);
+					//sLog->outBasic("Item has disappeared (%s:%d / Level: %d / Skill: %d / Serial: %I64d)", this->m_cItem[n].GetName(), this->m_cItem[n].m_Type, this->m_cItem[n].m_Level, this->m_cItem[n].m_Special[0] , this->m_cItem[n].m_Number);
 					this->m_cItem[n].m_State = 8;
 
 					if (this->m_cItem[n].m_Type == ITEMGET(14, 223))
@@ -735,7 +735,7 @@ BOOL MapClass::AttrLoad(char* filename)
 
 	if (this->m_width > 255 || this->m_height > 255)
 	{
-		sLog.outError("Attribute file exceeds maximum size");
+		sLog->outError("Attribute file exceeds maximum size");
 		fclose(fp);
 		return false;
 	}

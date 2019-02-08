@@ -27,7 +27,7 @@ void CMineSystem::LoadMineingDropScript()
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("Failed to load IGC_MiningSystem.xml file! (%s)", res.description());
+		sLog->outError("Failed to load IGC_MiningSystem.xml file! (%s)", res.description());
 		return;
 	}
 
@@ -65,7 +65,7 @@ void CMineSystem::LoadMineingDropScript()
 
 		if (stMineSuccessInfo.wTwinkleType < 605 || stMineSuccessInfo.wTwinkleType > 607)
 		{
-			sLog.outError("[Mining System] Invalid Monster Index");
+			sLog->outError("[Mining System] Invalid Monster Index");
 		}
 
 		this->m_mapMineSuccessInfo.insert(std::pair<int, _ST_MINESYSTEM_MINE_SUCCESS_INFO>(stMineSuccessInfo.wTwinkleType, stMineSuccessInfo));
@@ -94,7 +94,7 @@ void CMineSystem::LoadMineingDropScript()
 
 		if (stRewardValue.wTwinkleType < 605 || stRewardValue.wTwinkleType > 607)
 		{
-			sLog.outError("[Mining System] Invalid Monster Index");
+			sLog->outError("[Mining System] Invalid Monster Index");
 		}
 
 		this->m_vecRewardValue.push_back(stRewardValue);
@@ -134,7 +134,7 @@ void CMineSystem::LoadMineingDropScript()
 
 		if (stRewardValue.wTwinkleType < 605 || stRewardValue.wTwinkleType > 607)
 		{
-			sLog.outError("[Mining System] Invalid Monster Index");
+			sLog->outError("[Mining System] Invalid Monster Index");
 		}
 
 		this->m_vecMiracleRewardValue.push_back(stRewardValue);
@@ -161,7 +161,7 @@ void CMineSystem::LoadMineingDropScript()
 
 		if (iMaxRepairValue < stRepairValue.sRepairValue)
 		{
-			sLog.outError("[Mining System] The repair value is over the max repair value");
+			sLog->outError("[Mining System] The repair value is over the max repair value");
 		}
 
 		this->m_vecRepairValue.push_back(stRepairValue);
@@ -205,7 +205,7 @@ void CMineSystem::CheckIsUPTUserWhenDisconnected(int aIndex)
 
 	if (it->second.iCurrentStage > 0)
 	{
-		sLog.outBasic("[MineSystem][CheckIsUPTUserWhenDisconnect][Request Insert Reward][%s][%s][Type:%d][Index:%d][Stage:%d]",
+		sLog->outBasic("[MineSystem][CheckIsUPTUserWhenDisconnect][Request Insert Reward][%s][%s][Type:%d][Index:%d][Stage:%d]",
 			gObj[aIndex].AccountID, gObj[aIndex].Name, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 		this->RequestDBToModifyUPTUserInfo(aIndex, gObj[aIndex].Name, it->second.wTwinkleType, it->second.iCurrentStage, 0);
@@ -237,12 +237,12 @@ void CMineSystem::GiveRewardItemToUPTUser(int aIndex, WORD wTwinkleType, int iSt
 		return;
 	}
 
-	sLog.outBasic("[MineSystem][GiveRewardItemToUPTUser][START][%s][%s][Type:%d][Stage:%d]",
+	sLog->outBasic("[MineSystem][GiveRewardItemToUPTUser][START][%s][%s][Type:%d][Stage:%d]",
 		gObj[aIndex].AccountID, gObj[aIndex].Name, wTwinkleType, iStage);
 
 	if (this->GiveRewardItem(aIndex, wTwinkleType, iStage, 0))
 	{
-		sLog.outBasic("[MineSystem][GiveRewardItemToUPTUser][END][%s][%s][Type:%d][Stage:%d]",
+		sLog->outBasic("[MineSystem][GiveRewardItemToUPTUser][END][%s][%s][Type:%d][Stage:%d]",
 			gObj[aIndex].AccountID, gObj[aIndex].Name, wTwinkleType, iStage);
 
 		this->RequestDBToModifyUPTUserInfo(aIndex, gObj[aIndex].Name, 0, 0, 1);
@@ -250,7 +250,7 @@ void CMineSystem::GiveRewardItemToUPTUser(int aIndex, WORD wTwinkleType, int iSt
 
 	else
 	{
-		sLog.outBasic("[MineSystem][GiveRewardItemToUPTUser][ERROR][%s][%s][Type:%d][Stage:%d]",
+		sLog->outBasic("[MineSystem][GiveRewardItemToUPTUser][ERROR][%s][%s][Type:%d][Stage:%d]",
 			gObj[aIndex].AccountID, gObj[aIndex].Name, wTwinkleType, iStage);
 	}
 }
@@ -325,7 +325,7 @@ void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, int aIndex)
 				iMineResult = 2;
 				int iTotalUseDurability = itMineSuccessInfo->second.iDurabilityDecrement * (it->second.iCurrentStage + 1);
 
-				sLog.outBasic("[MineSystem][MineTwinkle][FAIL][%s][%s][Type:%d][Index:%d][Stage:%d][TotalDecrementDur:%d]",
+				sLog->outBasic("[MineSystem][MineTwinkle][FAIL][%s][%s][Type:%d][Index:%d][Stage:%d][TotalDecrementDur:%d]",
 					gObj[aIndex].AccountID, gObj[aIndex].Name, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage, iTotalUseDurability);
 
 				this->ResetTwinkleInfo(aIndex, it->second.wTwinkleIndex, 1);
@@ -347,7 +347,7 @@ void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, int aIndex)
 
 		else
 		{
-			sLog.outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_LACK_OF_PICKAX_DURABILITY][%s][%s][Type:%d][Index:%d][Stage:%d]",
+			sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_LACK_OF_PICKAX_DURABILITY][%s][%s][Type:%d][Index:%d][Stage:%d]",
 				gObj[aIndex].AccountID, gObj[aIndex].Name, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 			PMSG_ANS_MINETWINKLE pMsg;
@@ -435,14 +435,14 @@ void CMineSystem::RewardMineTwinkle(PMSG_REQ_MINETWINKLE_REWARD *lpMsg, int aInd
 			}
 
 			iRewardResult = 3;
-			sLog.outBasic("[MineSystem][RewardMineTwinkle][GiveRewardItem][END][%s][%s][Type:%d][Index:%d][Stage:%d]",
+			sLog->outBasic("[MineSystem][RewardMineTwinkle][GiveRewardItem][END][%s][%s][Type:%d][Index:%d][Stage:%d]",
 				gObj[aIndex].AccountID, gObj[aIndex].Name, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 		}
 
 		else
 		{
 			iRewardResult = 4;
-			sLog.outBasic("[MineSystem][RewardMineTwinkle][GiveRewardItem][ERROR][%s][%s][Type:%d][Index:%d][Stage:%d]",
+			sLog->outBasic("[MineSystem][RewardMineTwinkle][GiveRewardItem][ERROR][%s][%s][Type:%d][Index:%d][Stage:%d]",
 				gObj[aIndex].AccountID, gObj[aIndex].Name, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 		}
 	}
@@ -509,7 +509,7 @@ void CMineSystem::GDAnsModifyMineSystemUPTUserInfo(SDHP_ANS_MINESYSTEM_UPT_USERI
 
 	if (lpMsg->Result == 0)
 	{
-		sLog.outBasic("[MineSystem][UPT Info][DELETE/INSERT][ERROR][ID:%s][Name:%s]",
+		sLog->outBasic("[MineSystem][UPT Info][DELETE/INSERT][ERROR][ID:%s][Name:%s]",
 			gObj[lpMsg->wUserIndex].AccountID, gObj[lpMsg->wUserIndex].Name);
 	}
 
@@ -517,18 +517,18 @@ void CMineSystem::GDAnsModifyMineSystemUPTUserInfo(SDHP_ANS_MINESYSTEM_UPT_USERI
 	{
 		if (lpMsg->byRequestType == 0)
 		{
-			sLog.outBasic("[MineSystem][UPT Info][INSERT][SUCCESS][%d]", lpMsg->wUserIndex);
+			sLog->outBasic("[MineSystem][UPT Info][INSERT][SUCCESS][%d]", lpMsg->wUserIndex);
 		}
 
 		else if (lpMsg->byRequestType == 1)
 		{
-			sLog.outBasic("[MineSystem][UPT Info][DELETE][SUCCESS][ID:%s][Name:%s]",
+			sLog->outBasic("[MineSystem][UPT Info][DELETE][SUCCESS][ID:%s][Name:%s]",
 				gObj[lpMsg->wUserIndex].AccountID, gObj[lpMsg->wUserIndex].Name);
 		}
 
 		else
 		{
-			sLog.outBasic("[MineSystem][UPT Info][DELETE][ERROR][Undefined Request Type][ID:%s][Name:%s]",
+			sLog->outBasic("[MineSystem][UPT Info][DELETE][ERROR][Undefined Request Type][ID:%s][Name:%s]",
 				gObj[lpMsg->wUserIndex].AccountID, gObj[lpMsg->wUserIndex].Name);
 		}
 	}
@@ -592,7 +592,7 @@ void CMineSystem::SetTwinklesInfo()
 
 		if (result == -1)
 		{
-			sLog.outError( "[MineSystem][SetTwinkleInfo][ERROR] Cannot add Twinkle [Type:%d][Map:%d]", It->second.wType, It->second.byMapNumber);
+			sLog->outError( "[MineSystem][SetTwinkleInfo][ERROR] Cannot add Twinkle [Type:%d][Map:%d]", It->second.wType, It->second.byMapNumber);
 			return;
 		}
 
@@ -623,7 +623,7 @@ void CMineSystem::SetTwinklesInfo()
 		stTwinkle.bIsDominated = false;
 
 		this->m_mapTwinkle.insert(std::pair<int, _ST_MINESYSTEM_TWINKLE>(result, stTwinkle));
-		//sLog.outBasic("[MineSystem][SetTwinkleInfo][SUCCESS][Type:%d][Index:%d]", gObj[result].Class, result);
+		//sLog->outBasic("[MineSystem][SetTwinkleInfo][SUCCESS][Type:%d][Index:%d]", gObj[result].Class, result);
 	}
 }
 
@@ -631,7 +631,7 @@ void CMineSystem::SetTwinkleInfo(int aIndex)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
-		sLog.outBasic("[MineSystem][SetTwinkleInfo][ERROR][Invalid TwinkleIndex]");
+		sLog->outBasic("[MineSystem][SetTwinkleInfo][ERROR][Invalid TwinkleIndex]");
 	}
 
 	std::map<int, _ST_MINESYSTEM_TWINKLE>::iterator it = this->m_mapTwinkle.find(aIndex);
@@ -641,7 +641,7 @@ void CMineSystem::SetTwinkleInfo(int aIndex)
 		return;
 	}
 
-	//sLog.outBasic("[MineSystem][SetTwinkleInfo][SUCCESS][Type:%d][Index:%d]",	gObj[aIndex].Class, aIndex);
+	//sLog->outBasic("[MineSystem][SetTwinkleInfo][SUCCESS][Type:%d][Index:%d]",	gObj[aIndex].Class, aIndex);
 
 	memset(&it->second, 0, sizeof(it->second));
 	it->second.wTwinkleIndex = aIndex;
@@ -659,7 +659,7 @@ BOOL CMineSystem::SuccessOrFailure(WORD wType, int iStage)
 
 		if (it == this->m_mapMineSuccessInfo.end())
 		{
-			sLog.outBasic("[MineSystem][SuccessOrFailure][ERROR][MINESYSTEM_RESULT_INVALID_TWINKLE_TYPE][Type:%d][Stage:%d]",
+			sLog->outBasic("[MineSystem][SuccessOrFailure][ERROR][MINESYSTEM_RESULT_INVALID_TWINKLE_TYPE][Type:%d][Stage:%d]",
 				wType, iStage);
 		}
 
@@ -675,7 +675,7 @@ BOOL CMineSystem::SuccessOrFailure(WORD wType, int iStage)
 
 			else
 			{
-				sLog.outBasic("[MineSystem][SuccessOrFailure][ERROR][MINESYSTEM_RESULT_NOT_MATCH_TWINKLE_TYPE][Type:%d][Stage:%d]",
+				sLog->outBasic("[MineSystem][SuccessOrFailure][ERROR][MINESYSTEM_RESULT_NOT_MATCH_TWINKLE_TYPE][Type:%d][Stage:%d]",
 					wType, iStage);
 			}
 		}
@@ -713,7 +713,7 @@ void CMineSystem::ResetTwinkleInfo(int aIndex, WORD wTwinkleIndex, bool bFailMin
 		return;
 	}
 
-	sLog.outBasic("[MineSystem][ResetTwinkleInfo][Type:%d][Index:%d][Map:%d][UserIndex:%d]",
+	sLog->outBasic("[MineSystem][ResetTwinkleInfo][Type:%d][Index:%d][Map:%d][UserIndex:%d]",
 		it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.byMapNumber, it->second.wUserIndex);
 
 	memset(&it->second, 0, sizeof(it->second));
@@ -740,7 +740,7 @@ BOOL CMineSystem::CheckValidationMineState(int aIndex, WORD wTwinkleIndex, WORD 
 
 	if (!ObjectMaxRange(wUserIndex) || aIndex != wUserIndex)
 	{
-		sLog.outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_INVALID_USERINDEX][%s][%s][Map:%d][Type:%d]",
+		sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_INVALID_USERINDEX][%s][%s][Map:%d][Type:%d]",
 			gObj[aIndex].AccountID, gObj[aIndex].Name, byMapNumber, wTwinkleIndex);
 
 		*iResult = 20;
@@ -753,7 +753,7 @@ BOOL CMineSystem::CheckValidationMineState(int aIndex, WORD wTwinkleIndex, WORD 
 
 	if (it == this->m_mapTwinkle.end())
 	{
-		sLog.outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_INVALID_TWINKLE_INDEX][%s][%s][Map:%d][Index:%d][Type:%d]",
+		sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_INVALID_TWINKLE_INDEX][%s][%s][Map:%d][Index:%d][Type:%d]",
 			gObj[aIndex].AccountID, gObj[aIndex].Name, byMapNumber, wTwinkleIndex, wTwinkleType);
 
 		*iResult = 14;
@@ -766,7 +766,7 @@ BOOL CMineSystem::CheckValidationMineState(int aIndex, WORD wTwinkleIndex, WORD 
 	{
 		if (!this->IsEquipPickax(aIndex))
 		{
-			sLog.outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_NOT_EQUIPT_PICKAX][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
+			sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_NOT_EQUIPT_PICKAX][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
 				gObj[aIndex].AccountID, gObj[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 			*iResult = 7;
@@ -781,7 +781,7 @@ BOOL CMineSystem::CheckValidationMineState(int aIndex, WORD wTwinkleIndex, WORD 
 
 			if (p->ItemKindB == 33)
 			{
-				sLog.outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_EQUIP_TRANSFORM_RING][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
+				sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_EQUIP_TRANSFORM_RING][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
 					gObj[aIndex].AccountID, gObj[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 				*iResult = 10;
@@ -795,7 +795,7 @@ BOOL CMineSystem::CheckValidationMineState(int aIndex, WORD wTwinkleIndex, WORD 
 
 			if (p->ItemKindB == 33)
 			{
-				sLog.outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_EQUIP_TRANSFORM_RING][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
+				sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_EQUIP_TRANSFORM_RING][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
 					gObj[aIndex].AccountID, gObj[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 				*iResult = 10;
@@ -806,7 +806,7 @@ BOOL CMineSystem::CheckValidationMineState(int aIndex, WORD wTwinkleIndex, WORD 
 
 	if (gObj[aIndex].pTransaction == 1 || gObj[aIndex].m_bPShopTransaction == true || gObj[aIndex].m_bPShopWantDeal == true)
 	{
-		sLog.outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_REQUEST_TRADE][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
+		sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_REQUEST_TRADE][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
 			gObj[aIndex].AccountID, gObj[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 		*iResult = 12;
@@ -825,7 +825,7 @@ BOOL CMineSystem::CheckValidationMineState(int aIndex, WORD wTwinkleIndex, WORD 
 
 	if (gObj[aIndex].m_bPShopOpen == true)
 	{
-		sLog.outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_OPEN_PSHOP][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
+		sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_OPEN_PSHOP][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
 			gObj[aIndex].AccountID, gObj[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 		*iResult = 13;
@@ -854,7 +854,7 @@ BOOL CMineSystem::CheckValidationMineState(int aIndex, WORD wTwinkleIndex, WORD 
 
 	if (iEmptyInvenSize < 40)
 	{
-		sLog.outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_LACK_OF_INVENTORY][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
+		sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_LACK_OF_INVENTORY][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
 			gObj[aIndex].AccountID, gObj[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 		*iResult = 11;
@@ -863,7 +863,7 @@ BOOL CMineSystem::CheckValidationMineState(int aIndex, WORD wTwinkleIndex, WORD 
 
 	if (it->second.bIsDominated == true && aIndex != it->second.wUserIndex)
 	{
-		sLog.outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_DOMINATED_OTHER_USER][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
+		sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_DOMINATED_OTHER_USER][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
 			gObj[aIndex].AccountID, gObj[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 		*iResult = 8;
@@ -888,7 +888,7 @@ BOOL CMineSystem::CheckValidationMineState(int aIndex, WORD wTwinkleIndex, WORD 
 
 		if (iDominateTwinkleCount > 1)
 		{
-			sLog.outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_DOMINATED_OTHER_TWINKLE][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
+			sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_DOMINATED_OTHER_TWINKLE][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
 				gObj[aIndex].AccountID, gObj[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 			*iResult = 9;
@@ -919,7 +919,7 @@ BOOL CMineSystem::CheckValidationMineState(int aIndex, WORD wTwinkleIndex, WORD 
 
 	if (wTwinkleType != it->second.wTwinkleType)
 	{
-		sLog.outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_NOT_MATCH_TWINKLE_TYPE][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
+		sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_NOT_MATCH_TWINKLE_TYPE][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
 			gObj[aIndex].AccountID, gObj[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 		*iResult = 17;
@@ -950,7 +950,7 @@ BOOL CMineSystem::CheckValidationMineState(int aIndex, WORD wTwinkleIndex, WORD 
 
 	if (it->second.iCurrentStage < 0 || it->second.iCurrentStage > 5)
 	{
-		sLog.outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_INVALID_STAGE][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
+		sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_INVALID_STAGE][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
 			gObj[aIndex].AccountID, gObj[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 		*iResult = 19;
@@ -966,7 +966,7 @@ BOOL CMineSystem::CheckValidationMineState(int aIndex, WORD wTwinkleIndex, WORD 
 
 	if (byMapNumber != it->second.byMapNumber || gObj[aIndex].MapNumber != it->second.byMapNumber)
 	{
-		sLog.outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_NOT_MATCH_MAPNUMBER][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
+		sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_NOT_MATCH_MAPNUMBER][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
 			gObj[aIndex].AccountID, gObj[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 		*iResult = 16;
@@ -983,7 +983,7 @@ BOOL CMineSystem::CheckValidationMineState(int aIndex, WORD wTwinkleIndex, WORD 
 	if (abs(gObj[aIndex].X - gObj[wTwinkleIndex].X) > 3 ||
 		abs(gObj[aIndex].Y - gObj[wTwinkleIndex].Y) > 3)
 	{
-		sLog.outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_INVALID_DISTANCE][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
+		sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_INVALID_DISTANCE][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
 			gObj[aIndex].AccountID, gObj[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 		*iResult = 21;
@@ -1018,7 +1018,7 @@ BOOL CMineSystem::GiveRewardItem(int aIndex, WORD wTwinkleType, int iStage, int 
 		itDropInformation_end = this->m_vecMiracleRewardValue.end();
 		bIsNotifyAllUser = true;
 
-		sLog.outBasic("[MineSystem][GiveRewardItem][Miracle][TwinkleType:%d][Stage:%d][%s][%s]",
+		sLog->outBasic("[MineSystem][GiveRewardItem][Miracle][TwinkleType:%d][Stage:%d][%s][%s]",
 			wTwinkleType, iStage, gObj[aIndex].AccountID, gObj[aIndex].Name);
 	}
 
@@ -1032,7 +1032,7 @@ BOOL CMineSystem::GiveRewardItem(int aIndex, WORD wTwinkleType, int iStage, int 
 	{
 		if (itDropInformation->wTwinkleType == wTwinkleType && itDropInformation->iStage == iStage)
 		{
-			sLog.outBasic("[MineSystem][GiveRewardItem][START][%s][%s][Type:%d][Stage:%d][ItemType:%d][ItemIndex:%d][Count:%d]",
+			sLog->outBasic("[MineSystem][GiveRewardItem][START][%s][%s][Type:%d][Stage:%d][ItemType:%d][ItemIndex:%d][Count:%d]",
 				gObj[aIndex].AccountID, gObj[aIndex].Name, wTwinkleType, iStage, itDropInformation->wType, itDropInformation->wIndex, itDropInformation->iTotalJewelNumber);
 			
 			bGaveReward = true;
@@ -1049,7 +1049,7 @@ BOOL CMineSystem::GiveRewardItem(int aIndex, WORD wTwinkleType, int iStage, int 
 				for (int i = 0; i < itDropItem->iNumber; i++)
 				{
 					ItemSerialCreateSend(aIndex, 223, 0, 0, ITEMGET(itDropItem->iItemType, itDropItem->iItemIndex), itDropItem->iLevel, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0);
-					sLog.outBasic("[MineSystem][GiveRewardItem][%s][%s][Item Type:%d][Index:%d][Level:%d]",
+					sLog->outBasic("[MineSystem][GiveRewardItem][%s][%s][Item Type:%d][Index:%d][Level:%d]",
 						gObj[aIndex].AccountID, gObj[aIndex].Name, itDropItem->iItemType, itDropItem->iItemIndex, itDropItem->iLevel);
 				}
 

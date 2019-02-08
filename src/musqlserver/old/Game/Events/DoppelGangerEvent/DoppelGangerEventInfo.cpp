@@ -23,7 +23,7 @@ void CDoppelGangerEventInfo::LoadDoppelgangerEventInfo(LPSTR lpFile)
 
 	if ( res.status != pugi::status_ok )
 	{
-		sLog.outError("%s load fail (%s)", lpFile, res.description());
+		sLog->outError("%s load fail (%s)", lpFile, res.description());
 		return;
 	}
 

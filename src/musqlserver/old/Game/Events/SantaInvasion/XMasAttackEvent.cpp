@@ -71,7 +71,7 @@ BOOL CXMasMonsterHerd::MonsterHerdItemDrop(LPOBJ lpObj)
 			
 			gObjAddBuffEffectWideArea(lpObj, 10, count, BUFFTYPE_CHRISTMAS_BLESS, EFFECTTYPE_IMPROVE_DAMAGE, Damage, EFFECTTYPE_IMPROVE_DEFENSE, Defense, g_XMasAttackEvent.GetSantaBuffDuration());
 		}
-		sLog.outBasic("[XMas Event] Santa Clause Killed by [%s][%s], MapNumber:%d",
+		sLog->outBasic("[XMas Event] Santa Clause Killed by [%s][%s], MapNumber:%d",
 			gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].MapNumber);
 
 		return TRUE;
@@ -167,7 +167,7 @@ void CXMasMonsterHerd::SendEventGiftWinner(int iIndex, int iGiftKind)
 
 	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
 
-	sLog.outBasic("[XMas Event] [%s][%s] Request to Register Gift - Gift Kind (%d)",
+	sLog->outBasic("[XMas Event] [%s][%s] Request to Register Gift - Gift Kind (%d)",
 		gObj[iIndex].AccountID, gObj[iIndex].Name,  iGiftKind);
 
 }
@@ -241,11 +241,11 @@ void CXMasAttackEvent::StartEvent()
 		{
 			if ( this->m_vtMonsterAddData.empty() != false )
 			{
-				sLog.outBasic("[XMas Event] - Error : No Monster Data Exist");
+				sLog->outBasic("[XMas Event] - Error : No Monster Data Exist");
 				continue;
 			}
 
-			sLog.outBasic("[XMas Event] - Monster Start Position MapNumber:%d, X:%d, Y:%d",
+			sLog->outBasic("[XMas Event] - Monster Start Position MapNumber:%d, X:%d, Y:%d",
 				g_XMasEventMapNum[i], iRandX, iRandY);
 		}
 
@@ -304,7 +304,7 @@ BOOL CXMasAttackEvent::Load(char * lpszFileName)
 
 	if ( res.status != pugi::status_ok )
 	{
-		sLog.outError("[XMas Event] Info file Load Fail [%s] [%s]", lpszFileName, res.description());
+		sLog->outError("[XMas Event] Info file Load Fail [%s] [%s]", lpszFileName, res.description());
 		return FALSE;
 	}
 
@@ -403,7 +403,7 @@ void CXMasAttackEvent::CheckSync()
 {
 	if ( this->m_vtEventTime.empty() != 0 )
 	{
-		sLog.outError(  "[XMas Event] No Schedule Time Data");
+		sLog->outError(  "[XMas Event] No Schedule Time Data");
 		this->SetState(0);
 
 		return;
@@ -530,7 +530,7 @@ void CXMasAttackEvent::ProcState_Closed()
 
 					GSProtocol.DataSendAll((LPBYTE)&pMsg, pMsg.h.size);
 
-					sLog.outBasic("[XMas Event] - Before 3 minutes - Advertise");
+					sLog->outBasic("[XMas Event] - Before 3 minutes - Advertise");
 				}
 			}
 		}
@@ -558,7 +558,7 @@ void CXMasAttackEvent::ProcState_Closed()
 			this->SetState(0);
 		}
 
-		sLog.outBasic("[XMas Event] - Event Started");
+		sLog->outBasic("[XMas Event] - Event Started");
 	}
 }
 
@@ -631,7 +631,7 @@ void CXMasAttackEvent::ProcState_Playing()
 			this->SetState(0);
 		}
 
-		sLog.outBasic("[XMas Event] - Event Ended");
+		sLog->outBasic("[XMas Event] - Event Ended");
 	}
 }
 
@@ -696,7 +696,7 @@ void CXMasAttackEvent::Move()
 
 			if ( this->m_XMasMonsterHerd[i].MoveHerd(iRandX, iRandY) != FALSE )
 			{
-				sLog.outBasic("[XMas Event] - Monster Herd Move MapNumber:%d, X:%d, Y:%d",
+				sLog->outBasic("[XMas Event] - Monster Herd Move MapNumber:%d, X:%d, Y:%d",
 					g_XMasEventMapNum[i], iRandX, iRandY);
 			}
 
@@ -720,7 +720,7 @@ void CXMasAttackEvent::Start_Menual()
 	this->SetMenualStart(TRUE);
 	this->StopEvent();
 
-	sLog.outBasic("[Event Management] [Start] XMasAttack Event!");
+	sLog->outBasic("[Event Management] [Start] XMasAttack Event!");
 	this->m_iTIME_MIN_PLAY = 30;
 
 	char szTemp[256];

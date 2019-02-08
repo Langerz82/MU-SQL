@@ -36,7 +36,7 @@ BOOL CQuery::Execute(TCHAR* lpszStatement)
 
 		if (!Result)
 		{
-			sLog.outError("[SQL Error] Error executing: %s", lpszStatement);
+			sLog->outError("[SQL Error] Error executing: %s", lpszStatement);
 
 			bool bReconnect = false;
 			this->Diagnosis(bReconnect);
@@ -73,7 +73,7 @@ QueryResult* CQuery::Fetch(TCHAR* lpszStatement, ...)
 
 		if (m_Result == NULL)
 		{
-			sLog.outError("[SQL Error] Error querying: %s", lpszStatement);
+			sLog->outError("[SQL Error] Error querying: %s", lpszStatement);
 
 			bool bReconnect = false;
 			this->Diagnosis(bReconnect);

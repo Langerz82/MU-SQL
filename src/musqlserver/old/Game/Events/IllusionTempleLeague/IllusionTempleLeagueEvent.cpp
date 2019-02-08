@@ -82,7 +82,7 @@ void CIllusionTempleLeagueEvent::Load_ITL_NPC_Position(char *filename)
 
 	if (!SMDFile)
 	{
-		sLog.outError("[ ITL ] IllusionTempleLeagueNpc.txt File Load Fail %s", filename);
+		sLog->outError("[ ITL ] IllusionTempleLeagueNpc.txt File Load Fail %s", filename);
 		return;
 	}
 
@@ -120,7 +120,7 @@ void CIllusionTempleLeagueEvent::Load_ITL_Script(char *filename)
 
 	if (!SMDFile)
 	{
-		sLog.outError("[Illusion Temple League] Info file Load Fail [%s]", filename);
+		sLog->outError("[Illusion Temple League] Info file Load Fail [%s]", filename);
 		return;
 	}
 
@@ -209,7 +209,7 @@ void CIllusionTempleLeagueEvent::Load_ITL_Script(char *filename)
 
 				if (iCount > 7)
 				{
-					sLog.outError("ERROR CIllusionTempleLeagueEvent::LoadIllusionTempleScript Cannot over 7 leaguedays i:%d", iCount);
+					sLog->outError("ERROR CIllusionTempleLeagueEvent::LoadIllusionTempleScript Cannot over 7 leaguedays i:%d", iCount);
 					return;
 				}
 			}
@@ -339,7 +339,7 @@ BOOL CIllusionTempleLeagueEvent::Enter_ITL(int aIndex, BYTE byTempleIndex, BYTE 
 
 	if (this->m_cIllusionTempleLeagueProc[byTempleIndex].EnterUserIllusionTempleLeague(aIndex, byTempleIndex, lpObj->m_PlayerData->GuildNumber, lpObj->PartyNumber) == TRUE)
 	{
-		sLog.outBasic("[ ITL ] ITL index:(%d) EnterUser: (%s)(%s) class:%d",
+		sLog->outBasic("[ ITL ] ITL index:(%d) EnterUser: (%s)(%s) class:%d",
 			byTempleIndex + 1, lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->DbClass);
 
 		this->m_cIllusionTempleLeagueProc[byTempleIndex].SendIllusionTempleLeagueState(0, lpObj->m_Index);
@@ -349,7 +349,7 @@ BOOL CIllusionTempleLeagueEvent::Enter_ITL(int aIndex, BYTE byTempleIndex, BYTE 
 
 	else
 	{
-		sLog.outBasic("[ ITL ] ITL index:(%d) EnterUser FAIL: (%s)(%s) class:%d",
+		sLog->outBasic("[ ITL ] ITL index:(%d) EnterUser FAIL: (%s)(%s) class:%d",
 			byTempleIndex + 1, lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->DbClass);
 
 		return FALSE;
@@ -485,13 +485,13 @@ void CIllusionTempleLeagueEvent::ITL_UseSkill(int iIndex, WORD MagicNumber, int 
 {
 	if (!ObjectMaxRange(iIndex))
 	{
-		sLog.outBasic("ITL_UseSkill Error #1 iIndex :%d ", iIndex);
+		sLog->outBasic("ITL_UseSkill Error #1 iIndex :%d ", iIndex);
 		return;
 	}
 
 	if (!ITL_MAP_RANGE(gObj[iIndex].MapNumber))
 	{
-		sLog.outBasic("ITL_UseSkill Error #2 iIndex :%d Map:%d ", iIndex, gObj[iIndex].MapNumber);
+		sLog->outBasic("ITL_UseSkill Error #2 iIndex :%d Map:%d ", iIndex, gObj[iIndex].MapNumber);
 		return;
 	}
 
@@ -1136,7 +1136,7 @@ void CIllusionTempleLeagueEvent::DG_ITL_RewardList_Get(PMSG_ANS_ITL_REWARDLIST *
 			memcpy(this->m_ITL_Winner_RewardList[i].szCharName, lpMsg->m_stRewardList[i].szCharName, MAX_ACCOUNT_LEN + 1);
 			memcpy(this->m_ITL_Winner_RewardList[i].szGuildName, lpMsg->m_stRewardList[i].szGuildName, MAX_GUILD_LEN + 1);
 
-			sLog.outBasic("[ ITL ] REWARD RECEIVE NAME:%s, G.NAME:%s , EnterCnt:%d, Point:%d, Rank:%d, Get:%d",
+			sLog->outBasic("[ ITL ] REWARD RECEIVE NAME:%s, G.NAME:%s , EnterCnt:%d, Point:%d, Rank:%d, Get:%d",
 				this->m_ITL_Winner_RewardList[i].szCharName,
 				this->m_ITL_Winner_RewardList[i].szGuildName,
 				this->m_ITL_Winner_RewardList[i].byEnteredCnt,
@@ -1172,7 +1172,7 @@ void CIllusionTempleLeagueEvent::DG_ITL_UserCount(PMSG_ANS_ITL_USERCOUNTANS *lpM
 	}
 
 	lpObj->m_byEnterITLUserCount = lpMsg->byCount;
-	sLog.outBasic("[ ITL ][ DG_ITL_UserCount ] Name :%s ,Cnt:%d",
+	sLog->outBasic("[ ITL ][ DG_ITL_UserCount ] Name :%s ,Cnt:%d",
 		lpObj->Name, lpObj->m_byEnterITLUserCount);
 }
 
@@ -1194,7 +1194,7 @@ void CIllusionTempleLeagueEvent::DG_ITL_GuildCount(PMSG_ANS_ITL_GUILDCOUNTANS *l
 
 	lpObj->m_bEnterCountLoad = true;
 	lpObj->m_byEnterITLCount = lpMsg->byCount;
-	sLog.outBasic("[ ITL ][ DG_ITL_GuildCount ] Name :%s ,Cnt:%d",
+	sLog->outBasic("[ ITL ][ DG_ITL_GuildCount ] Name :%s ,Cnt:%d",
 		lpObj->Name, lpMsg->byCount);
 }
 
@@ -1531,7 +1531,7 @@ void CIllusionTempleLeagueEvent::MakeITLRewardItem_CCFWing(int iUserIndex)
 	iExOption = g_ItemOptionTypeMng.WingExcOptionRand(GetItemKindA(ITEMGET(12, 266)), GetItemKindB(ITEMGET(12, 266)), btNewExcOption);
 
 	ItemSerialCreateSend(iUserIndex, gObj[iUserIndex].MapNumber, gObj[iUserIndex].X, gObj[iUserIndex].Y, ITEMGET(12, 266), 0, 0, 0, 1, 4, iUserIndex, iExOption, 0, 2419200, btNewExcOption, 0);
-	sLog.outBasic("[ ITL ][MakeITLRewardItem_CCFWing] Index:%d, Name:%s", iUserIndex, gObj[iUserIndex].Name);
+	sLog->outBasic("[ ITL ][MakeITLRewardItem_CCFWing] Index:%d, Name:%s", iUserIndex, gObj[iUserIndex].Name);
 }
 
 void CIllusionTempleLeagueEvent::IncreaseKillCount(int nIndex, BYTE byMapNumber, BYTE byObjectType)

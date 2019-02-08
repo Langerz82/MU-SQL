@@ -114,7 +114,7 @@ void CConServ::GetServerInfo(int aIndex, USHORT id)
 
 			DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), nullptr);
 
-			sLog.outBasic(0, szModule, __FUNCTION__, "INDEX : %d; SERVER SELECTED (%d) (%s:%d)", aIndex, id, pMsg.IP, pMsg.Port);
+			sLog->outBasic(0, szModule, __FUNCTION__, "INDEX : %d; SERVER SELECTED (%d) (%s:%d)", aIndex, id, pMsg.IP, pMsg.Port);
 			
 			break;
 		}
@@ -134,7 +134,7 @@ void CConServ::GetServerList(int aIndex)
 	}
 	else
 	{
-		sLog.outBasic(0, szModule, __FUNCTION__, "INDEX : %d; no active servers", aIndex);
+		sLog->outBasic(0, szModule, __FUNCTION__, "INDEX : %d; no active servers", aIndex);
 		CloseClient(aIndex);
 	//	gObjServerDel(aIndex);
 	}	
@@ -184,7 +184,7 @@ void CConServ::LoadServerList(LPSTR szFile)
 			}
 		}
 	}
-	sLog.outBasic(0, szModule, __FUNCTION__, "Loaded %d servers", g_CServerList.size());
+	sLog->outBasic(0, szModule, __FUNCTION__, "Loaded %d servers", g_CServerList.size());
 }
 int newscount = 0;
 void CConServ::LoadNewsFile(LPSTR szFile)
@@ -313,7 +313,7 @@ void CConServ::LoadNewsFile(LPSTR szFile)
 		 }
 
 		 fclose(SMDFile);
-		 sLog.outBasic(0,szModule,"::LoadNewsFile()"," File Loaded successfuly");
+		 sLog->outBasic(0,szModule,"::LoadNewsFile()"," File Loaded successfuly");
 
 
 }
@@ -359,7 +359,7 @@ void CConServ::SendNews(int aIndex)
 
 		DataSend(aIndex, (LPBYTE)buffer, sizeof(PMSG_SEND_NEWS)+textlen, nullptr);
 	}
-	sLog.outBasic(0,szModule,"::SendNews()","News Sent. Amount : %d",newscount);
+	sLog->outBasic(0,szModule,"::SendNews()","News Sent. Amount : %d",newscount);
 }
 
 

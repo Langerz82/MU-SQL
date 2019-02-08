@@ -28,7 +28,7 @@ bool MULua::DoFile(const char* szFileName)
 
 	if ( luaL_loadfile(m_luaState, szFileName) )
 	{		
-		sLog.outError("Error!!, : %s\n", lua_tolstring(m_luaState, -1, 0) );
+		sLog->outError("Error!!, : %s\n", lua_tolstring(m_luaState, -1, 0) );
 		lua_pop(m_luaState, 1);
 
 		if (this->m_bUseSync == true)
@@ -43,7 +43,7 @@ bool MULua::DoFile(const char* szFileName)
 
 	if ( iState )
 	{
-		sLog.outError("Error!!, : %s : State = %d\n", lua_tolstring(m_luaState, -1, 0) , iState);
+		sLog->outError("Error!!, : %s : State = %d\n", lua_tolstring(m_luaState, -1, 0) , iState);
 		lua_pop(m_luaState, 1);
 
 		if (this->m_bUseSync == true)
@@ -71,7 +71,7 @@ bool MULua::DoFile(char* szBuff, size_t size)
 
 	if (luaL_loadbuffer(m_luaState, szBuff, size, "loadfilemem") != 0)
 	{
-		sLog.outError("Error!!, : %s\n", lua_tolstring(m_luaState, -1, 0));
+		sLog->outError("Error!!, : %s\n", lua_tolstring(m_luaState, -1, 0));
 		lua_pop(m_luaState, 1);
 
 		if (this->m_bUseSync == true)
@@ -86,7 +86,7 @@ bool MULua::DoFile(char* szBuff, size_t size)
 
 	if (iState)
 	{
-		sLog.outError("Error!!, : %s : State = %d\n", lua_tolstring(m_luaState, -1, 0), iState);
+		sLog->outError("Error!!, : %s : State = %d\n", lua_tolstring(m_luaState, -1, 0), iState);
 		lua_pop(m_luaState, 1);
 
 		if (this->m_bUseSync == true)
@@ -210,7 +210,7 @@ bool MULua::Generic_Call(const char* func, const char* sig, ...)
 
 		default:
 		{
-			sLog.outBasic("luacall_Generic_Call invalid option (%c)", *(sig - 1));
+			sLog->outBasic("luacall_Generic_Call invalid option (%c)", *(sig - 1));
 
 			if (this->m_bUseSync == true)
 			{
@@ -230,7 +230,7 @@ bool MULua::Generic_Call(const char* func, const char* sig, ...)
 
 	if (lua_pcall(this->m_luaState, nArg, nRes, 0) != 0)
 	{
-		sLog.outBasic("luacall_Generic_Call error running function '%s': '%s'", func, lua_tolstring(this->m_luaState, -1, 0));
+		sLog->outBasic("luacall_Generic_Call error running function '%s': '%s'", func, lua_tolstring(this->m_luaState, -1, 0));
 
 		if (this->m_bUseSync == true)
 		{

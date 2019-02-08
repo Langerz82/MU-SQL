@@ -31,7 +31,7 @@ void CRuudStore::LoadFile(char * szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("Error loading %s file (%s)", szFile, res.description());
+		sLog->outError("Error loading %s file (%s)", szFile, res.description());
 		return;
 	}
 
@@ -117,7 +117,7 @@ bool CRuudStore::NpcTalk(OBJECTSTRUCT * lpNpc, OBJECTSTRUCT * lpObj)
 			ItemByteConvert(&SendByte[lOfs], It->second.Item);
 			lOfs += MAX_ITEM_INFO;
 			pShopItemCount.count++;
-		//	sLog.outBasic("[Ruud Shop] Class - %d", It->second.btClass);
+		//	sLog->outBasic("[Ruud Shop] Class - %d", It->second.btClass);
 		//	break;
 		}
 	}
@@ -171,7 +171,7 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, int iIndex)
 
 	if (!::gObjFixInventoryPointer(iIndex))
 	{
-		sLog.outBasic("[Fix Inv.Ptr] False Location - %s, %d", __FILE__, __LINE__);
+		sLog->outBasic("[Fix Inv.Ptr] False Location - %s, %d", __FILE__, __LINE__);
 	}
 
 	if (lpObj->m_ShopTime == 0)
@@ -264,7 +264,7 @@ void CRuudStore::AddItemToList(int iPos, RUUD_SHOP_ITEM * lpItem)
 {
 	if (this->m_mapItemList.find(iPos) != this->m_mapItemList.end())
 	{
-		sLog.outError("[Ruud Shop] Error: Item already exists (Guid:%d)", iPos);
+		sLog->outError("[Ruud Shop] Error: Item already exists (Guid:%d)", iPos);
 		return;
 	}
 
@@ -275,7 +275,7 @@ void CRuudStore::AddItemToList(int iPos, RUUD_SHOP_ITEM * lpItem)
 
 	if (p == NULL)
 	{
-		sLog.outError("[Ruud Shop] Error: Item Not Found (Guid:%d) (ItemID:%d)", iPos, ITEMGET(lpItem->btCat, lpItem->wIndex));
+		sLog->outError("[Ruud Shop] Error: Item Not Found (Guid:%d) (ItemID:%d)", iPos, ITEMGET(lpItem->btCat, lpItem->wIndex));
 		return;
 	}
 
@@ -401,7 +401,7 @@ void CRuudStore::AddItemToList(int iPos, RUUD_SHOP_ITEM * lpItem)
 	m_Data.btClass = lpItem->btClass;
 
 	m_Data.dwRuudPrice = lpItem->dwRuudPrice;
-	//sLog.outBasic("[Ruud Shop] Class #1 - %d", m_Data.btClass);
+	//sLog->outBasic("[Ruud Shop] Class #1 - %d", m_Data.btClass);
 	this->m_mapItemList.insert(std::make_pair(iPos, m_Data));
 }
 

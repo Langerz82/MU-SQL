@@ -23,6 +23,7 @@
 #include "QueryResult.h"
 #include "Transaction.h"
 #include "Utilities/Util.h"
+#include "Utilities/Timer.h"
 
 #include <errmsg.h>
 #ifdef _WIN32 // hack for broken mysql.h not including the correct winsock header for SOCKET definition, fixed in 5.7
@@ -172,7 +173,7 @@ bool MySQLConnection::Execute(char const* sql)
         return false;
 
     {
-        uint32 _s = getMSTime();
+        uint32 _s = WorldTimer::getMSTime();
 
         if (mysql_query(m_Mysql, sql))
         {

@@ -104,7 +104,7 @@ BOOL TUnion::AddUnion(int iMasterGuildNumber, char* szUnionMasterGuildName)
 		pUnionInfo = new TUnionInfo;
 		pUnionInfo->SetUnionMaster(iMasterGuildNumber, szUnionMasterGuildName);
 		this->m_mpUnion[iMasterGuildNumber] = pUnionInfo;
-		sLog.outBasic("[Union System] Add Union (%d) (%s)", iMasterGuildNumber, szUnionMasterGuildName);
+		sLog->outBasic("[Union System] Add Union (%d) (%s)", iMasterGuildNumber, szUnionMasterGuildName);
 		this->m_Sync.Unlock();
 		return TRUE;
 	}

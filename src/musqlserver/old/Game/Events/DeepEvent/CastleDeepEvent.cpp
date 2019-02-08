@@ -32,7 +32,7 @@ void CCastleDeepEvent::StartEvent()
 {
 	if(m_vtAssultType.size() <= 0)
 	{
-		sLog.outBasic("[CastleDeep Event] Start Fail - No Assult Data");
+		sLog->outBasic("[CastleDeep Event] Start Fail - No Assult Data");
 		SetState(CD_STATE_NONE);
 		return;
 	}
@@ -57,7 +57,7 @@ void CCastleDeepEvent::StartEvent()
 
 	if(bDoStart == FALSE)
 	{
-		sLog.outBasic("[CastleDeep Event] Start Fail - bDoStart == FALSE");
+		sLog->outBasic("[CastleDeep Event] Start Fail - bDoStart == FALSE");
 		SetState(CD_STATE_NONE);
 		return;
 	}
@@ -111,7 +111,7 @@ int CCastleDeepEvent::Load(char * lpszFileName)
 
 	if(res.status != pugi::status_ok)
 	{
-		sLog.outError("[CastleDeep Event] Info file Load Fail [%s] [%s]", lpszFileName, res.description());
+		sLog->outError("[CastleDeep Event] Info file Load Fail [%s] [%s]", lpszFileName, res.description());
 		return false;
 	}
 
@@ -219,7 +219,7 @@ void CCastleDeepEvent::CheckSync()
 {
 	if(this->m_vtEventTime.empty())
 	{
-		sLog.outError( "[CastleDeep Event] No Schedule Time Data");
+		sLog->outError( "[CastleDeep Event] No Schedule Time Data");
 		this->SetState(CD_STATE_NONE);
 		return;
 	}
@@ -270,7 +270,7 @@ void CCastleDeepEvent::CheckSync()
 		this->m_iTIME_MSEC_REMAIN = ( ( ((iMIN_HOUR + 24) * 60) * 60 + iMIN_MINUTE * 60 ) - ( (sysTime.wHour * 60) * 60 + sysTime.wMinute * 60 + sysTime.wSecond ) ) * 1000;
 		break;
 	default:
-		sLog.outError( "[CastleDeep Event] No Schedule Time Data");
+		sLog->outError( "[CastleDeep Event] No Schedule Time Data");
 		this->SetState(CD_STATE_NONE);
 		return;
 	}
@@ -381,7 +381,7 @@ void CCastleDeepEvent::ProcState_Closed()
 			SetState(CD_STATE_NONE);
 		}
 
-		sLog.outBasic("[CastleDeep Event] - Event Started");
+		sLog->outBasic("[CastleDeep Event] - Event Started");
 	}
 }
 
@@ -438,7 +438,7 @@ using namespace std;
 			}
 		}
 
-		sLog.outBasic("[CastleDeep Event] - Event Ended");
+		sLog->outBasic("[CastleDeep Event] - Event Ended");
 	}
 }
 

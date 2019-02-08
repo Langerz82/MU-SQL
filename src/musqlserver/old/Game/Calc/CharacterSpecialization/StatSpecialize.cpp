@@ -27,7 +27,7 @@ bool CStatSpecialize::LoadFile(char *szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("Failed to load %s file (%s)", szFile, res.description());
+		sLog->outError("Failed to load %s file (%s)", szFile, res.description());
 		return false;
 	}
 

@@ -52,7 +52,7 @@ bool TMonsterAIAutomata::LoadData(LPSTR lpszFileName)
 
 	if ( lpszFileName == NULL || strcmp(lpszFileName, "") == 0 )
 	{
-		sLog.outError("[Monster AI Automata] - File load error : File Name Error");
+		sLog->outError("[Monster AI Automata] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -63,7 +63,7 @@ bool TMonsterAIAutomata::LoadData(LPSTR lpszFileName)
 
 		if ( res.status != pugi::status_ok )
 		{
-			sLog.outError("[Monster AI Automata] - Can't Load %s (%s)", lpszFileName, res.description());
+			sLog->outError("[Monster AI Automata] - Can't Load %s (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
@@ -88,25 +88,25 @@ bool TMonsterAIAutomata::LoadData(LPSTR lpszFileName)
 
 			if ( iAutomataNumber < 0 || iAutomataNumber >= MAX_MONSTER_AI_AUTOMATA )
 			{
-				sLog.outError("[Monster AI Automata] - AutomataNumber(%d) Error (%s) File. ",iAutomataNumber, lpszFileName);
+				sLog->outError("[Monster AI Automata] - AutomataNumber(%d) Error (%s) File. ",iAutomataNumber, lpszFileName);
 				continue;
 			}
 
 			if ( iCurrentState < 0 || iCurrentState >= MAX_AI_STATE )
 			{
-				sLog.outError("[Monster AI Automata] - CurrentState(%d) Error (%s) File. ",iCurrentState, lpszFileName);
+				sLog->outError("[Monster AI Automata] - CurrentState(%d) Error (%s) File. ",iCurrentState, lpszFileName);
 				continue;
 			}
 
 			if ( iNextState < 0 || iNextState >= MAX_AI_STATE )
 			{
-				sLog.outError("[Monster AI Automata] - NextState(%d) Error (%s) File. ",iNextState, lpszFileName);
+				sLog->outError("[Monster AI Automata] - NextState(%d) Error (%s) File. ",iNextState, lpszFileName);
 				continue;
 			}
 
 			if ( iPriority < 0 || iPriority >= MAX_AI_PRIORITY )
 			{
-				sLog.outError("[Monster AI Automata] - Priority(%d) Error (%s) File. ",iPriority, lpszFileName);
+				sLog->outError("[Monster AI Automata] - Priority(%d) Error (%s) File. ",iPriority, lpszFileName);
 				continue;
 			}
 
@@ -132,7 +132,7 @@ bool TMonsterAIAutomata::LoadData(LPSTR lpszFileName)
 
 	catch(DWORD)
 	{
-		sLog.outError("[Monster AI Automata] - Loading Exception Error (%s) File. ", lpszFileName);
+		sLog->outError("[Monster AI Automata] - Loading Exception Error (%s) File. ", lpszFileName);
 	}
 
 	return FALSE;
@@ -154,7 +154,7 @@ TMonsterAIAutomata * TMonsterAIAutomata::FindAutomata(int iAutomataNumber)
 {
 	if ( iAutomataNumber < 0 || iAutomataNumber >= MAX_MONSTER_AI_AUTOMATA )
 	{
-		sLog.outBasic("[Monster AI Automata] FindAutomata() Error - (AutomataNumber=%d) ", iAutomataNumber);
+		sLog->outBasic("[Monster AI Automata] FindAutomata() Error - (AutomataNumber=%d) ", iAutomataNumber);
 		return NULL;
 	}
 
@@ -163,7 +163,7 @@ TMonsterAIAutomata * TMonsterAIAutomata::FindAutomata(int iAutomataNumber)
 		return &TMonsterAIAutomata::s_MonsterAIAutomataArray[iAutomataNumber];
 	}
 	
-	sLog.outBasic("[Monster AI Automata] FindAutomata() Error - (AutomataNumber=%d) ", iAutomataNumber);
+	sLog->outBasic("[Monster AI Automata] FindAutomata() Error - (AutomataNumber=%d) ", iAutomataNumber);
 
 	return NULL;
 }

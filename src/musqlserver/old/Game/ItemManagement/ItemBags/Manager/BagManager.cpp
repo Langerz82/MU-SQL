@@ -36,7 +36,7 @@ bool CBagManager::AddItemBag(int BagType, int iParam1, int iParam2, const char* 
 
 			if (Bag == nullptr)
 			{
-				sLog.outError( "Memory allocation failed!");
+				sLog->outError( "Memory allocation failed!");
 				return false;
 			}
 
@@ -47,7 +47,7 @@ bool CBagManager::AddItemBag(int BagType, int iParam1, int iParam2, const char* 
 
 			if (Bag == nullptr)
 			{
-				sLog.outError( "Memory allocation failed!");
+				sLog->outError( "Memory allocation failed!");
 				return false;
 			}
 
@@ -58,7 +58,7 @@ bool CBagManager::AddItemBag(int BagType, int iParam1, int iParam2, const char* 
 
 			if (Bag == nullptr)
 			{
-				sLog.outError( "Memory allocation failed!");
+				sLog->outError( "Memory allocation failed!");
 				return false;
 			}
 

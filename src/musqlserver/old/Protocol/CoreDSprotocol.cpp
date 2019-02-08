@@ -30,7 +30,7 @@ void CWarehouseUserData::Init()
 {
 	if (FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return;
 	}
 }
@@ -184,7 +184,7 @@ void CWarehouseUserData::GDReqSwitchWarehouse(int aIndex, PMSG_REQ_SWITCHWARE * 
 	LeaveCriticalSection(&this->m_WareDataCriti);
 
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
-	sLog.outBasic("[Warehouse][%s] Switch to Warehouse:%d Result:%d", pMsg.szAccountID, pMsg.WarehouseID, pMsg.Result);
+	sLog->outBasic("[Warehouse][%s] Switch to Warehouse:%d Result:%d", pMsg.szAccountID, pMsg.WarehouseID, pMsg.Result);
 }
 
 void CWarehouseUserData::DGGetWarehouseList(int aIndex, SDHP_GETWAREHOUSEDB * aRecv)
@@ -203,7 +203,7 @@ void CWarehouseUserData::DGGetWarehouseList(int aIndex, SDHP_GETWAREHOUSEDB * aR
 
 	if (this->GetWarehouseOpenState(szAccountID) == true)
 	{
-		sLog.outError("[Warehouse] (%s) - trying to open already opened warehouse.", szAccountID);
+		sLog->outError("[Warehouse] (%s) - trying to open already opened warehouse.", szAccountID);
 
 		LeaveCriticalSection(&this->m_WareDataCriti);
 		return;
@@ -290,7 +290,7 @@ void CWarehouseUserData::GDSetWarehouseList(int aIndex, SDHP_GETWAREHOUSEDB_SAVE
 
 	if (this->GetWarehouseOpenState(szAccountID) == false)
 	{
-		sLog.outError("[Warehouse] (%s) - trying to close already closed warehouse. (Item)", szAccountID);
+		sLog->outError("[Warehouse] (%s) - trying to close already closed warehouse. (Item)", szAccountID);
 
 		LeaveCriticalSection(&this->m_WareDataCriti);
 		return;
@@ -372,7 +372,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_CharDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -380,7 +380,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_AccDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -388,7 +388,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_GSDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -396,7 +396,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_PetDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -404,7 +404,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_CastleDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -412,7 +412,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_CrywolfDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -420,7 +420,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_ArcaDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -428,7 +428,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_PentagramDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -436,7 +436,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_EventDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -444,7 +444,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_RankingDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -452,7 +452,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_ItemShopDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -460,7 +460,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_PeriodItemDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -468,7 +468,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_CharMiscDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -476,7 +476,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_QuestExpDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -484,7 +484,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_LuckyItemDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -492,7 +492,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_CCFinalDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -500,7 +500,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_RummyDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -508,7 +508,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_MineDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -516,7 +516,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_PShopDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -524,7 +524,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_EventInvDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -532,7 +532,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_MuunDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -540,7 +540,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_OptionDataDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -548,7 +548,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_ReBuyDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -556,7 +556,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_GremoryCaseDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -564,7 +564,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_BattleCoreDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -572,7 +572,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_DSFinalDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -580,7 +580,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_EvoMonDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -588,7 +588,7 @@ BOOL CDataServerProtocol::Init()
 
 	if (this->m_MembStatDB.Connect(g_ServerIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
 	{
-		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
+		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
@@ -596,7 +596,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_WareUserData.Init();
 
-	sLog.outBasic("[SUCCESS] - DATA SERVER CONNECT MSSQL SUCCESS (COUNT: %d)", this->m_iConnectionCount);
+	sLog->outBasic("[SUCCESS] - DATA SERVER CONNECT MSSQL SUCCESS (COUNT: %d)", this->m_iConnectionCount);
 
 	QueryResult* res = this->m_GSDB.Fetch("SELECT ItemCount FROM GameServerInfo WHERE Number = 0");
 
@@ -1345,7 +1345,7 @@ void CDataServerProtocol::DataServerLogin(int aIndex, SDHP_SERVERINFO * lpMsg)
 	g_Server[aIndex].m_ServerCode = lpMsg->ServerCode;
 	g_Server[aIndex].m_ServerGroup = g_MapServerManager.GetMapSvrGroup(lpMsg->ServerCode);
 
-	sLog.outBasic("[DataServer] GameServer(%d)(%d) connect", lpMsg->ServerCode, g_MapServerManager.GetMapSvrGroup(lpMsg->ServerCode));
+	sLog->outBasic("[DataServer] GameServer(%d)(%d) connect", lpMsg->ServerCode, g_MapServerManager.GetMapSvrGroup(lpMsg->ServerCode));
 
 	DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 }
@@ -1374,7 +1374,7 @@ void CDataServerProtocol::JGPGetCharList(int aIndex, SDHP_GETCHARLIST * aRecv)
 	if (this->m_AccDB.HasFields())
 	{
 		this->m_AccDB.ExecQuery("INSERT INTO AccountCharacter (Id) VALUES ('%s')", szAccountID);
-		sLog.outBasic("[%s] - no characters", szAccountID);
+		sLog->outBasic("[%s] - no characters", szAccountID);
 	}
 
 	else
@@ -1748,7 +1748,7 @@ void CDataServerProtocol::JGGetCharacterInfo(int aIndex, SDHP_DBCHARINFOREQUEST 
 
 	if (!charexist)
 	{
-		sLog.outError("[ERROR] Char NOT EXIST (Name:%s),", szName);
+		sLog->outError("[ERROR] Char NOT EXIST (Name:%s),", szName);
 		return;
 	}
 
@@ -2186,7 +2186,7 @@ void CDataServerProtocol::DGOptionDataRecv(int aIndex, SDHP_SKILLKEYDATA * aRecv
 
 void CDataServerProtocol::DGMoveOtherServer(int aIndex, SDHP_CHARACTER_TRANSFER * aRecv)
 {
-	sLog.outError("[MuOnlineDB] Error Character Transfer is not longer avaible");
+	sLog->outError("[MuOnlineDB] Error Character Transfer is not longer avaible");
 }
 
 void CDataServerProtocol::GDDeleteTempUserInfo(int aIndex, SDHP_DELETE_TEMPUSERINFO * aRecv)

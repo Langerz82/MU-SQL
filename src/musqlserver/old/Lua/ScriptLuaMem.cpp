@@ -23,7 +23,7 @@ bool CScriptLuaMem::LoadScript(LPSTR pchFileName)
 
 	if (!IsFile(pchFileName))
 	{
-		sLog.outError("%s file load fail!", pchFileName);
+		sLog->outError("%s file load fail!", pchFileName);
 		return false;
 	}
 
@@ -42,7 +42,7 @@ bool CScriptLuaMem::LoadScript(LPSTR pchFileName)
 
 	if (this->chScriptData == NULL)
 	{
-		sLog.outError("Memory allocation failed!");
+		sLog->outError("Memory allocation failed!");
 		return false;
 	}
 

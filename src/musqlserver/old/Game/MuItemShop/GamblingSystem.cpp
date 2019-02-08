@@ -55,7 +55,7 @@ void CGamblingItemBag::LoadItem(char *script_file)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outBasic("Error loading %s file (%s)", script_file, res.description());
+		sLog->outBasic("Error loading %s file (%s)", script_file, res.description());
 		return;
 	}
 
@@ -74,7 +74,7 @@ void CGamblingItemBag::LoadItem(char *script_file)
 	{
 		if( iCount >= 25 )
 		{
-			sLog.outError("Load Script Error %s",script_file);
+			sLog->outError("Load Script Error %s",script_file);
 			break;
 		}
 
@@ -93,7 +93,7 @@ void CGamblingItemBag::LoadItem(char *script_file)
 	{
 		if( iCount >= 7 )
 		{
-			sLog.outError("Load Script Error %s",script_file);
+			sLog->outError("Load Script Error %s",script_file);
 			break;
 		}
 
@@ -108,7 +108,7 @@ void CGamblingItemBag::LoadItem(char *script_file)
 	{
 		if( iCount >= 5 )
 		{
-			sLog.outError("Load Script Error %s",script_file);
+			sLog->outError("Load Script Error %s",script_file);
 			break;
 		}
 
@@ -123,7 +123,7 @@ void CGamblingItemBag::LoadItem(char *script_file)
 	{
 		if( iCount >= 6 )
 		{
-			sLog.outError("Load Script Error %s",script_file);
+			sLog->outError("Load Script Error %s",script_file);
 			break;
 		}
 
@@ -138,7 +138,7 @@ void CGamblingItemBag::LoadItem(char *script_file)
 	{
 		if( iCount >= 6 )
 		{
-			sLog.outError("Load Script Error %s",script_file);
+			sLog->outError("Load Script Error %s",script_file);
 			break;
 		}
 
@@ -168,7 +168,7 @@ void CGamblingItemBag::LoadItem(char *script_file)
 			if( BagObject[m_iBagObjectCount].m_minLevel > 
 				BagObject[m_iBagObjectCount].m_maxLevel )
 			{
-				sLog.outError("Load Script Error %s",script_file);
+				sLog->outError("Load Script Error %s",script_file);
 				return;
 			}
 					

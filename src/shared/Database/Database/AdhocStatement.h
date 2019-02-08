@@ -1,8 +1,10 @@
-
 #ifndef _ADHOCSTATEMENT_H
 #define _ADHOCSTATEMENT_H
 
-//#include "Define.h"
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
 #include "DatabaseEnvFwd.h"
 #include "SQLOperation.h"
 

@@ -1,9 +1,15 @@
 #ifndef _MUSQL_QUERYRESULT_H
 #define _MUSQL_QUERYRESULT_H
 
-#include "DatabaseEnvFwd.h"
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
 
+#include "DatabaseEnvFwd.h"
+#include "Field.h"
 #include <vector>
+
+class Field;
 
 class  ResultSet
 {

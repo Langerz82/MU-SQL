@@ -49,8 +49,6 @@ ThreadPriority::ThreadPriority()
         pr_iter.next();
     }
 
-    MANGOS_//ASSERT(!_tmp.empty());
-
     if (_tmp.size() >= MAXPRIORITYNUM)
     {
         const size_t max_pos = _tmp.size();
@@ -118,7 +116,6 @@ Thread::Thread(Runnable* instance) : m_iThreadId(0), m_hThreadHandle(0), m_task(
         { m_task->incReference(); }
 
     bool _start = start();
-    MANGOS_//ASSERT(_start);
 }
 
 Thread::~Thread()
@@ -207,7 +204,6 @@ void Thread::setPriority(Priority type)
     int _priority = m_TpEnum.getPriority(type);
     int _ok = ACE_Thread::setprio(m_hThreadHandle, _priority);
     // remove this ASSERT in case you don't want to know is thread priority change was successful or not
-    MANGOS_//ASSERT(_ok == 0);
 #endif
 }
 

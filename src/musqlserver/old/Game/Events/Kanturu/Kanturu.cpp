@@ -52,7 +52,7 @@ BOOL CKanturu::LoadData(LPSTR lpszFileName)
 
 	if ( !lpszFileName || !strcmp(lpszFileName, ""))
 	{
-		sLog.outError("[Kanturu] - File load error : File Name Error");
+		sLog->outError("[Kanturu] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -63,7 +63,7 @@ BOOL CKanturu::LoadData(LPSTR lpszFileName)
 
 		if ( res.status != pugi::status_ok )
 		{
-			sLog.outError("[Kanturu] - Can't Load %s (%s)", lpszFileName, res.description());
+			sLog->outError("[Kanturu] - Can't Load %s (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
@@ -89,7 +89,7 @@ BOOL CKanturu::LoadData(LPSTR lpszFileName)
 
 			if ( this->m_StateInfoCount < 0 || this->m_StateInfoCount >= MAX_KANTURU_STATE_INFO )
 			{
-				sLog.outError("[Kanturu] - Exceed Max State Time (%d)", this->m_StateInfoCount);
+				sLog->outError("[Kanturu] - Exceed Max State Time (%d)", this->m_StateInfoCount);
 				break;
 			}
 
@@ -114,7 +114,7 @@ BOOL CKanturu::LoadData(LPSTR lpszFileName)
 
 	catch ( DWORD )
 	{
-		sLog.outError("[Kanturu] - Loading Exception Error (%s) File. ", lpszFileName);
+		sLog->outError("[Kanturu] - Loading Exception Error (%s) File. ", lpszFileName);
 	}
 
 	return this->m_bFileDataLoad;
@@ -620,7 +620,7 @@ void CKanturu::OperateGmCommand(int iUserIndex, int iCommand)
 			break;
 	}
 
-	sLog.outError(  "[ADMIN COMMAND] [%s][%s][%s] Used KANTURU Command ID: %d",
+	sLog->outError(  "[ADMIN COMMAND] [%s][%s][%s] Used KANTURU Command ID: %d",
 		gObj[iUserIndex].AccountID, gObj[iUserIndex].Name,
 		gObj[iUserIndex].m_PlayerData->Ip_addr, iCommand);
 }

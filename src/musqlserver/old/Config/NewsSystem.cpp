@@ -24,7 +24,7 @@ bool CNewsSystem::LoadFile(LPSTR lpFile)
 
 	if(res.status != pugi::status_ok)
 	{
-		sLog.outError("%s load fail (%s)", lpFile, res.description());
+		sLog->outError("%s load fail (%s)", lpFile, res.description());
 		return false;
 	}
 	
@@ -49,7 +49,7 @@ bool CNewsSystem::LoadFile(LPSTR lpFile)
 
 			if (iLine < 0 || iLine > 2)
 			{
-				sLog.outError("NewsSystem: NewsID is WRONG - must be 0,1 or 2");
+				sLog->outError("NewsSystem: NewsID is WRONG - must be 0,1 or 2");
 				continue;
 			}
 
@@ -59,7 +59,7 @@ bool CNewsSystem::LoadFile(LPSTR lpFile)
 		this->m_NewsData.push_back(m_News);
 	}
 
-	sLog.outBasic("%d news load!", m_NewsData.size());
+	sLog->outBasic("%d news load!", m_NewsData.size());
 	return true;
 }
 

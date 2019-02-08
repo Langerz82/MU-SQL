@@ -1795,7 +1795,7 @@ void CObjCalCharacter::CalcSetItemStat(LPOBJ lpObj)
 		//if (lpObj->pInventory[i].IsSetItem() && lpObj->pInventory[i].m_IsValidItem && lpObj->pInventory[i].m_Durability != 0.0f && IsBloodAngelItem(lpObj->pInventory[i].m_Type))
 		//{
 			//if (lpObj->pInventory[i].m_SetAddStat)
-		//	sLog.outBasic("lpObj->pInventory[i].m_SetAddStat %d lpObj->pInventory[i].m_SetOption %d", lpObj->pInventory[i].m_SetAddStat, lpObj->pInventory[i].m_SetOption);
+		//	sLog->outBasic("lpObj->pInventory[i].m_SetAddStat %d lpObj->pInventory[i].m_SetOption %d", lpObj->pInventory[i].m_SetAddStat, lpObj->pInventory[i].m_SetOption);
 		//}
 		if (lpObj->pInventory[i].IsSetItem() && lpObj->pInventory[i].m_IsValidItem && lpObj->pInventory[i].m_Durability != 0.0f && IsBloodAngelItem(lpObj->pInventory[i].m_Type))
 		{

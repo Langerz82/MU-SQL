@@ -213,7 +213,7 @@ void CBloodCastle::Load(char* filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("[Blood Castle] Info file Load Fail [%s] [%s]", filename, res.description());
+		sLog->outError("[Blood Castle] Info file Load Fail [%s] [%s]", filename, res.description());
 		return;
 	}
 
@@ -270,7 +270,7 @@ void CBloodCastle::Load(char* filename)
 
 		else
 		{
-			sLog.outError("Error - wrong Event Level (%d)", iBridgeNum);
+			sLog->outError("Error - wrong Event Level (%d)", iBridgeNum);
 			continue;
 		}
 	}
@@ -288,7 +288,7 @@ void CBloodCastle::Load(char* filename)
 				
 		else
 		{
-			sLog.outError("Error - wrong Event Level (%d)", iBridgeNum);
+			sLog->outError("Error - wrong Event Level (%d)", iBridgeNum);
 			continue;
 		}
 	}
@@ -302,7 +302,7 @@ void CBloodCastle::LoadMonster(LPSTR filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("%s file load fail (%s)", filename, res.description());
+		sLog->outError("%s file load fail (%s)", filename, res.description());
 		return;
 	}
 
@@ -314,7 +314,7 @@ void CBloodCastle::LoadMonster(LPSTR filename)
 
 		if ( BC_BRIDGE_RANGE(iBridgeIndex) == FALSE )
 		{
-			sLog.outError("Error - wrong Castle Level (%d)", iBridgeIndex);
+			sLog->outError("Error - wrong Castle Level (%d)", iBridgeIndex);
 			continue;
 		}
 
@@ -373,7 +373,7 @@ void CBloodCastle::LoadMonster(LPSTR filename)
 
 			if (BC_MAP_RANGE(this->m_BCMP_BossMonster[iBridgeIndex][iCount].m_MapNumber) == FALSE)
 			{
-				sLog.outError("[BloodCastle][LoadMonster] Boss Monster Map Number Invalid (%d)", this->m_BCMP_BossMonster[iBridgeIndex][iCount].m_MapNumber);
+				sLog->outError("[BloodCastle][LoadMonster] Boss Monster Map Number Invalid (%d)", this->m_BCMP_BossMonster[iBridgeIndex][iCount].m_MapNumber);
 				continue;
 			}
 
@@ -401,7 +401,7 @@ void CBloodCastle::LoadMonster(LPSTR filename)
 
 			if (BC_MAP_RANGE(this->m_BCMP_General[iBridgeIndex][iCount].m_MapNumber) == FALSE)
 			{
-				sLog.outError("[BloodCastle][LoadMonster] General Monster Map Number Invalid (%d)", this->m_BCMP_General[iBridgeIndex][iCount].m_MapNumber);
+				sLog->outError("[BloodCastle][LoadMonster] General Monster Map Number Invalid (%d)", this->m_BCMP_General[iBridgeIndex][iCount].m_MapNumber);
 				continue;
 			}
 
@@ -440,7 +440,7 @@ void CBloodCastle::CheckSync(int iBridgeIndex)
 
 	if(this->m_listBloodCastleOpenTime.size() == 0)
 	{
-		sLog.outError("Error : Blood Castle StartTime size is 0");
+		sLog->outError("Error : Blood Castle StartTime size is 0");
 		return;
 	}
 
@@ -3894,7 +3894,7 @@ bool CBloodCastle::CheckWinnerValid(int iBridgeIndex)
 {
 	if ( !BC_BRIDGE_RANGE(iBridgeIndex))
 	{
-		sLog.outBasic("[Blood Castle] (%d) CBloodCastle::CheckWinnerValid() - !CHECK_LIMIT(iBridgeIndex, MAX_BLOODCASTLE_BRIDGE_COUNT)",
+		sLog->outBasic("[Blood Castle] (%d) CBloodCastle::CheckWinnerValid() - !CHECK_LIMIT(iBridgeIndex, MAX_BLOODCASTLE_BRIDGE_COUNT)",
 			iBridgeIndex+1);
 
 		return false;

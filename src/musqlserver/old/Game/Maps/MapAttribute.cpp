@@ -26,8 +26,8 @@ void CMapAttribute::LoadFile(char * szFile)
 
 	if (result.status != pugi::status_ok)
 	{
-		sLog.outError("Failed to load %s file!", szFile);
-		sLog.outError( "[ERROR] MapAttribute load failed: %s", szFile);
+		sLog->outError("Failed to load %s file!", szFile);
+		sLog->outError( "[ERROR] MapAttribute load failed: %s", szFile);
 		return;
 	}
 
@@ -40,7 +40,7 @@ void CMapAttribute::LoadFile(char * szFile)
 
 		if ( MapNumber < 0 || MapNumber > MAX_NUMBER_MAP )
 		{
-			sLog.outError("[Map Attribute] Invalid MapNumber (%d)", MapNumber);
+			sLog->outError("[Map Attribute] Invalid MapNumber (%d)", MapNumber);
 			continue;
 		}
 

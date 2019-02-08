@@ -2,6 +2,10 @@
 #ifndef _SQL_TRANSACTION_H
 #define _SQL_TRANSACTION_H
 
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
 #include "Common\Common.h"
 #include "DatabaseEnvFwd.h"
 #include "SQLOperation.h"

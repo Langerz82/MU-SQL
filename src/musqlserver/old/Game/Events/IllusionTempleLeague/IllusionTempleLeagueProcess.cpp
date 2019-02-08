@@ -117,7 +117,7 @@ void CIllusionTempleLeagueProcess::ClearUserData(int nIndex)
 {
 	if (!ObjectMaxRange(nIndex))
 	{
-		sLog.outBasic("return %s %d", __FILE__, __LINE__);
+		sLog->outBasic("return %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -153,7 +153,7 @@ void CIllusionTempleLeagueProcess::CheckSync()
 			g_IllusionTempleLeagueEvent.m_nITL_TYPE == 2 ||
 			g_IllusionTempleLeagueEvent.m_nITL_TYPE == 3)
 		{
-			sLog.outError("Error : IllusionTempleLeague Day But StartTime size is 0");
+			sLog->outError("Error : IllusionTempleLeague Day But StartTime size is 0");
 			return;
 		}
 	}
@@ -240,7 +240,7 @@ void CIllusionTempleLeagueProcess::CheckSync()
 	int tmpTime = GetTickCount();
 	this->m_nNextTimeMin = tmpTime + ((1000 * 60) - (today->tm_sec * 1000));
 	
-	sLog.outBasic("[ ITL ] TYPE:%d , (%d) ITL Sync Open Time. [%d]min remain, m_nRemainTimeMsec:[%d]",
+	sLog->outBasic("[ ITL ] TYPE:%d , (%d) ITL Sync Open Time. [%d]min remain, m_nRemainTimeMsec:[%d]",
 		g_IllusionTempleLeagueEvent.m_nITL_TYPE, this->m_nTempleNumber + 1, this->m_nRemainTimeMin, this->m_nRemainTimeMsec);
 
 }
@@ -305,7 +305,7 @@ void CIllusionTempleLeagueProcess::Proc_ITLState_None(int nCurTime)
 	{
 		if (this->m_nNextTimeMin < nCurTime)
 		{
-			sLog.outBasic(" [ ITL ] m_nNextTimeMin %d, nCurTime %d", this->m_nNextTimeMin, nCurTime);
+			sLog->outBasic(" [ ITL ] m_nNextTimeMin %d, nCurTime %d", this->m_nNextTimeMin, nCurTime);
 			this->m_nRemainTimeMin--;
 			this->m_nNextTimeMin = nCurTime + 60000;
 
@@ -437,7 +437,7 @@ void CIllusionTempleLeagueProcess::Proc_ITLState_None(int nCurTime)
 							byWinTeamIndex = 1;
 						}
 
-						sLog.outBasic("[ ITL ] FINAL/SEMIFINAL START FAIL BattleType:[%d],ALLIED:ILLUSION == [%d VS %d],WINTEAM : [%d]",
+						sLog->outBasic("[ ITL ] FINAL/SEMIFINAL START FAIL BattleType:[%d],ALLIED:ILLUSION == [%d VS %d],WINTEAM : [%d]",
 							g_IllusionTempleLeagueEvent.WhatIsTodayTypeOfITL(), byAllied, byIllusion, byWinTeamIndex);
 					}
 
@@ -451,7 +451,7 @@ void CIllusionTempleLeagueProcess::Proc_ITLState_None(int nCurTime)
 							this->m_GuildDataSave[byWinTeamIndex].byOccupiedCount,
 							1);
 
-						sLog.outBasic("[ ITL ][GDSaveITLGuildPoint][START_FAIL_SAVE] G.NAME :%s ",
+						sLog->outBasic("[ ITL ][GDSaveITLGuildPoint][START_FAIL_SAVE] G.NAME :%s ",
 							this->m_GuildDataSave[byWinTeamIndex].szGName);
 
 						EnterCriticalSection(&this->m_criGuildData);
@@ -484,7 +484,7 @@ void CIllusionTempleLeagueProcess::Proc_ITLState_None(int nCurTime)
 								1,
 								byWinTeamIndex);
 
-							sLog.outBasic("[ ITL ][GDSaveITLUserPoint][START_FAIL_SAVE] NAME :%s G.NAME:%s ",
+							sLog->outBasic("[ ITL ][GDSaveITLUserPoint][START_FAIL_SAVE] NAME :%s G.NAME:%s ",
 								gObj[this->m_UserData[nIndex].m_nIndex].Name, gObj[this->m_UserData[nIndex].m_nIndex].m_PlayerData->GuildName);
 						}
 
@@ -500,7 +500,7 @@ void CIllusionTempleLeagueProcess::Proc_ITLState_None(int nCurTime)
 					}
 				}
 
-				sLog.outBasic("[ ITL ] (%d) Failed to Start ITL (UserCount: %d) (m_nRemainTimeMin:%d)(m_nRemainTimeMSec:%d),AlliedCnt:[%d],IllusionCnt:[%d]",
+				sLog->outBasic("[ ITL ] (%d) Failed to Start ITL (UserCount: %d) (m_nRemainTimeMin:%d)(m_nRemainTimeMSec:%d),AlliedCnt:[%d],IllusionCnt:[%d]",
 					this->m_nTempleNumber, this->m_nUserCount, this->m_nRemainTimeMin, this->m_nRemainTimeMsec, this->m_nAlliedUserCount, this->m_nIllusionUserCount);
 
 				this->Set_ITLState(3);
@@ -793,7 +793,7 @@ void CIllusionTempleLeagueProcess::Set_ITLState_Playing()
 			{
 				if (gObj[this->m_UserData[i].m_nIndex].MapNumber == this->m_nTempleNumber + 98)
 				{
-					sLog.outBasic("[ ITL ] MAP:[%d], ACC:[%s], NAME:[%s], TEAM:[%d], CLASS:[%d]",
+					sLog->outBasic("[ ITL ] MAP:[%d], ACC:[%s], NAME:[%s], TEAM:[%d], CLASS:[%d]",
 						this->m_nTempleNumber, gObj[this->m_UserData[i].m_nIndex].AccountID, gObj[this->m_UserData[i].m_nIndex].Name,
 						this->m_UserData[i].m_btTeam, gObj[this->m_UserData[i].m_nIndex].m_PlayerData->DbClass);
 				}
@@ -814,13 +814,13 @@ void CIllusionTempleLeagueProcess::Set_ITLState_Playing()
 	if (this->m_bFirstRegen_CursedStone == false)
 	{
 		this->FirstRegen_CursedStone();
-		sLog.outBasic("[ ITL ][FirstRegen_CursedStone]");
+		sLog->outBasic("[ ITL ][FirstRegen_CursedStone]");
 	}
 
 	if (this->m_bFirstRegen_OccStone == false)
 	{
 		this->FirstRegen_OccupiedStone();
-		sLog.outBasic("[ ITL ][FirstRegen_OccupiedStone]");
+		sLog->outBasic("[ ITL ][FirstRegen_OccupiedStone]");
 	}
 
 	this->SetStatusRegenTime();
@@ -853,7 +853,7 @@ void CIllusionTempleLeagueProcess::Set_ITLState_End()
 	}
 
 	this->GetOccupiedStoneCount(this->m_byAlliedTeamPoint, this->m_byIllusionTeamPoint);
-	sLog.outBasic("[ ITL ][WarResult] Allied Team : %d , IllusionTeam :%d", this->m_byAlliedTeamPoint, this->m_byIllusionTeamPoint);
+	sLog->outBasic("[ ITL ][WarResult] Allied Team : %d , IllusionTeam :%d", this->m_byAlliedTeamPoint, this->m_byIllusionTeamPoint);
 
 	this->RemoveAllObj();
 	this->m_bIsSetNpc = false;
@@ -865,7 +865,7 @@ BOOL CIllusionTempleLeagueProcess::EnterUserIllusionTempleLeague(int aIndex, BYT
 {
 	if (!ObjectMaxRange(aIndex))
 	{
-		sLog.outBasic("return %s %d", __FILE__, __LINE__);
+		sLog->outBasic("return %s %d", __FILE__, __LINE__);
 		return FALSE;
 	}
 
@@ -876,7 +876,7 @@ BOOL CIllusionTempleLeagueProcess::EnterUserIllusionTempleLeague(int aIndex, BYT
 
 	if (gObj[aIndex].m_nITLIndex != -1)
 	{
-		sLog.outBasic("[ ITL ] Enter Error: IllusionTempleIndex Fail %d", gObj[aIndex].m_nITLIndex);
+		sLog->outBasic("[ ITL ] Enter Error: IllusionTempleIndex Fail %d", gObj[aIndex].m_nITLIndex);
 		return FALSE;
 	}
 
@@ -936,7 +936,7 @@ BOOL CIllusionTempleLeagueProcess::LeaveUserIllusionTempleLeague(int aIndex)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
-		sLog.outBasic("return %s %d", __FILE__, __LINE__);
+		sLog->outBasic("return %s %d", __FILE__, __LINE__);
 		return FALSE;
 	}
 
@@ -973,7 +973,7 @@ BOOL CIllusionTempleLeagueProcess::LeaveUserIllusionTempleLeague(int aIndex)
 		this->m_nUserCount--;
 
 		LeaveCriticalSection(&this->m_critUserData);
-		sLog.outBasic("[ ITL ] (%d) LeaveUser: (%s)(%s)", this->m_nTempleNumber + 1, gObj[aIndex].AccountID, gObj[aIndex].Name);
+		sLog->outBasic("[ ITL ] (%d) LeaveUser: (%s)(%s)", this->m_nTempleNumber + 1, gObj[aIndex].AccountID, gObj[aIndex].Name);
 	}
 
 	gObj[aIndex].m_Change = -1;
@@ -1018,7 +1018,7 @@ bool CIllusionTempleLeagueProcess::CanStartITLBattle(BYTE &ALLIED, BYTE &ILLUSIO
 
 	if (nAlliedCount <= 1 || nIllusionCount <= 1)
 	{
-		sLog.outBasic("[ ITL ] MAP : %d[CanStartITLBattle] FALSE nAlliedCount:%d,nIllusionCount:%d ",
+		sLog->outBasic("[ ITL ] MAP : %d[CanStartITLBattle] FALSE nAlliedCount:%d,nIllusionCount:%d ",
 			this->m_nTempleNumber + 1, nAlliedCount, nIllusionCount);
 
 		ALLIED = nAlliedCount;
@@ -1029,7 +1029,7 @@ bool CIllusionTempleLeagueProcess::CanStartITLBattle(BYTE &ALLIED, BYTE &ILLUSIO
 
 	else
 	{
-		sLog.outBasic("[ ITL ] MAP : %d[CanStartITLBattle] TRUE nAlliedCount:%d,nIllusionCount:%d ",
+		sLog->outBasic("[ ITL ] MAP : %d[CanStartITLBattle] TRUE nAlliedCount:%d,nIllusionCount:%d ",
 			this->m_nTempleNumber + 1, nAlliedCount, nIllusionCount);
 
 		ALLIED = nAlliedCount;
@@ -1108,7 +1108,7 @@ int CIllusionTempleLeagueProcess::GetEnterRemainTimeMin()
 
 	if (this->m_lst_ITL_Today_StartTime.size() == 0)
 	{
-		sLog.outError("Error : Illusion Temple StartTime size is 0");
+		sLog->outError("Error : Illusion Temple StartTime size is 0");
 		return 0;
 	}
 
@@ -1195,7 +1195,7 @@ int CIllusionTempleLeagueProcess::SearchRelicsItem(int iIndex)
 {
 	if (!ObjectMaxRange(iIndex))
 	{
-		sLog.outBasic("return %s %d", __FILE__, __LINE__);
+		sLog->outBasic("return %s %d", __FILE__, __LINE__);
 		return -1;
 	}
 
@@ -1225,7 +1225,7 @@ void CIllusionTempleLeagueProcess::DeleteAllRelicsItem()
 				{
 					this->SendRelicsUserInfo(lpObj, 1);
 
-					sLog.outBasic("[ ITL ] (%d) (%s)(%s) to Delete All Relics Item [Serial:%I64d]",
+					sLog->outBasic("[ ITL ] (%d) (%s)(%s) to Delete All Relics Item [Serial:%I64d]",
 						this->m_nTempleNumber + 1, lpObj->AccountID, lpObj->Name, lpObj->pInventory[this->m_UserData[i].m_nRelicsInvenPos].m_Number);
 
 					gObjInventoryDeleteItem(this->m_UserData[i].m_nIndex, this->m_UserData[i].m_nRelicsInvenPos);
@@ -1254,7 +1254,7 @@ void CIllusionTempleLeagueProcess::DropRelicsItem(int iIndex, BYTE byAct)
 {
 	if (!ObjectMaxRange(iIndex))
 	{
-		sLog.outBasic("return %s %d", __FILE__, __LINE__);
+		sLog->outBasic("return %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -1328,7 +1328,7 @@ void CIllusionTempleLeagueProcess::DropRelicsItem(int iIndex, BYTE byAct)
 
 	if (MapC[map_num].ItemDrop(type, level, dur, X, Y, Option1, Option2, Option3, NOption, SOption, item_number, aAntiLootIndex, PetLevel, PetExp, ItemEffectEx, NULL, 0xFF, 0) == TRUE)
 	{
-		sLog.outBasic("[ ITL ] (%d) (%s)(%s) to Drop Relics Item [Serial:%I64d]", this->m_nTempleNumber + 1, lpObj->AccountID, lpObj->Name, lpObj->pInventory[iItemPos].m_Number);
+		sLog->outBasic("[ ITL ] (%d) (%s)(%s) to Drop Relics Item [Serial:%I64d]", this->m_nTempleNumber + 1, lpObj->AccountID, lpObj->Name, lpObj->pInventory[iItemPos].m_Number);
 
 		gObjInventoryDeleteItem(iIndex, iItemPos);
 		pResult.Result = TRUE;
@@ -1348,7 +1348,7 @@ void CIllusionTempleLeagueProcess::SetRelicsInventoryPos(int aIndex, BYTE btPos)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
-		sLog.outBasic("return %s %d", __FILE__, __LINE__);
+		sLog->outBasic("return %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -1377,7 +1377,7 @@ void CIllusionTempleLeagueProcess::SendRelicsUserInfo(LPOBJ lpObj, BYTE byGet)
 		}
 	}
 
-	sLog.outBasic("[ ITL ][SendRelicsUserInfo] NAME:%s, ACT:%d", lpObj->Name, byGet);
+	sLog->outBasic("[ ITL ][SendRelicsUserInfo] NAME:%s, ACT:%d", lpObj->Name, byGet);
 }
 
 void CIllusionTempleLeagueProcess::SetRemainTime()
@@ -1390,7 +1390,7 @@ void CIllusionTempleLeagueProcess::AddITLNpcInfo(WORD wNpcType, BYTE byMapNumber
 {
 	if (this->m_byNpcCount > 11)
 	{
-		sLog.outBasic("[ ITL ][AddITLNpcInfo] Over NpcCount :%d ", this->m_byNpcCount);
+		sLog->outBasic("[ ITL ][AddITLNpcInfo] Over NpcCount :%d ", this->m_byNpcCount);
 		return;
 	}
 
@@ -1408,7 +1408,7 @@ void CIllusionTempleLeagueProcess::AddITLNpcInfo(WORD wNpcType, BYTE byMapNumber
 		g_SendNPCInfo.Find_ITL_Npc(byMapNumber, wNpcType, byMapTagNpcIdentNo);
 		this->m_ITLNpcInfo[this->m_byNpcCount].byMapTagIndex = byMapTagNpcIdentNo;
 
-		sLog.outBasic("[ ITL ][AddITLNpcInfo] NpcID:%d, Map:%d, Dis:%d, X:%d, Y:%d, Dir:%d ,byMapTagNpcIdentNo:%d",
+		sLog->outBasic("[ ITL ][AddITLNpcInfo] NpcID:%d, Map:%d, Dis:%d, X:%d, Y:%d, Dir:%d ,byMapTagNpcIdentNo:%d",
 			wNpcType, byMapNumber, byDistance, byX, byY, byDir, byMapTagNpcIdentNo);
 
 		this->m_byNpcCount++;
@@ -1437,7 +1437,7 @@ void CIllusionTempleLeagueProcess::RemoveAllObj()
 	{
 		if (this->m_Occupied_StoneStatus[i].m_nIndex != -1)
 		{
-			sLog.outBasic("[ ITL ] (%d) Remove Occupied_StoneStatus Name: %s, (%d: %d/%d)",
+			sLog->outBasic("[ ITL ] (%d) Remove Occupied_StoneStatus Name: %s, (%d: %d/%d)",
 				this->m_nTempleNumber + 1, gObj[this->m_Occupied_StoneStatus[i].m_nIndex].Name,
 				gObj[this->m_Occupied_StoneStatus[i].m_nIndex].MapNumber, gObj[this->m_Occupied_StoneStatus[i].m_nIndex].X,
 				gObj[this->m_Occupied_StoneStatus[i].m_nIndex].Y);
@@ -1453,7 +1453,7 @@ void CIllusionTempleLeagueProcess::RemoveAllObj()
 
 	if (this->m_Cursed_StoneStatus.m_nIndex != -1)
 	{
-		sLog.outBasic("[ ITL ] (%d) Remove Cursed_StoneStatus Name: %s, (%d: %d/%d)",
+		sLog->outBasic("[ ITL ] (%d) Remove Cursed_StoneStatus Name: %s, (%d: %d/%d)",
 			this->m_nTempleNumber + 1, gObj[this->m_Cursed_StoneStatus.m_nIndex].Name,
 			gObj[this->m_Cursed_StoneStatus.m_nIndex].MapNumber, gObj[this->m_Cursed_StoneStatus.m_nIndex].X,
 			gObj[this->m_Cursed_StoneStatus.m_nIndex].Y);
@@ -1466,14 +1466,14 @@ void CIllusionTempleLeagueProcess::RemoveAllObj()
 		this->m_Cursed_StoneStatus.byMapTagIndex = -1;
 	}
 
-	sLog.outBasic("[ ITL ] (%d) Remove All Object", this->m_nTempleNumber + 1);
+	sLog->outBasic("[ ITL ] (%d) Remove All Object", this->m_nTempleNumber + 1);
 }
 
 void CIllusionTempleLeagueProcess::SendRelicsError(OBJECTSTRUCT *lpNpc, int index, BYTE byError, BYTE byAct)
 {
 	if (!lpNpc)
 	{
-		sLog.outBasic("[ ITL ][SendRelicsError] lpNpc Is NULL,index:%d Error:%d,Act:%d", index, byError, byAct);
+		sLog->outBasic("[ ITL ][SendRelicsError] lpNpc Is NULL,index:%d Error:%d,Act:%d", index, byError, byAct);
 		return;
 	}
 
@@ -1487,7 +1487,7 @@ void CIllusionTempleLeagueProcess::SendRelicsError(OBJECTSTRUCT *lpNpc, int inde
 	pMsg.byAct = byAct;
 
 	IOCP.DataSend(index, (LPBYTE)&pMsg, pMsg.h.size);
-	sLog.outBasic("[ ITL ][SendRelicsError]index:%d, Error:%d,Act:%d,NPC_Class:%d,NpcNumber:%d",
+	sLog->outBasic("[ ITL ][SendRelicsError]index:%d, Error:%d,Act:%d,NPC_Class:%d,NpcNumber:%d",
 		index, byError, byAct, lpNpc->Class, lpNpc->m_Index);
 }
 
@@ -1527,13 +1527,13 @@ void CIllusionTempleLeagueProcess::Check_GetRelics(OBJECTSTRUCT *lpNpc, OBJECTST
 
 	if (lpObj->m_bGettingRelics == true)
 	{
-		sLog.outBasic("[ ITL ][Check_GetRelics]NAME:%s,m_bGettingRelics%d", lpObj->Name, lpObj->m_bGettingRelics);
+		sLog->outBasic("[ ITL ][Check_GetRelics]NAME:%s,m_bGettingRelics%d", lpObj->Name, lpObj->m_bGettingRelics);
 		return;
 	}
 
 	if (lpObj->m_byStoneState != 99)
 	{
-		sLog.outBasic("[ ITL ][Check_GetRelics]NAME:%s,byStoneState%d", lpObj->Name, lpObj->m_byStoneState);
+		sLog->outBasic("[ ITL ][Check_GetRelics]NAME:%s,byStoneState%d", lpObj->Name, lpObj->m_byStoneState);
 		return;
 	}
 
@@ -1628,13 +1628,13 @@ void CIllusionTempleLeagueProcess::GetRelics(OBJECTSTRUCT *lpNpc, OBJECTSTRUCT *
 	if (lpObj->m_wITLNpcType < 0)
 	{
 		lpObj->m_wITLNpcType = 0;
-		sLog.outBasic("[ITL ][GetRelics] ERROR CASE 1");
+		sLog->outBasic("[ITL ][GetRelics] ERROR CASE 1");
 		bFail = TRUE;
 	}
 
 	if (lpObj->m_bGettingRelics == false)
 	{
-		sLog.outBasic("[ITL ][GetRelics] ERROR CASE 2");
+		sLog->outBasic("[ITL ][GetRelics] ERROR CASE 2");
 		bFail = TRUE;
 	}
 
@@ -1646,21 +1646,21 @@ void CIllusionTempleLeagueProcess::GetRelics(OBJECTSTRUCT *lpNpc, OBJECTSTRUCT *
 
 	if (lpNpc->m_State == 0 || lpNpc->m_PosNum == -1)
 	{
-		sLog.outBasic("[ITL ][GetRelics] ERROR CASE 3");
+		sLog->outBasic("[ITL ][GetRelics] ERROR CASE 3");
 		this->ResetUserFlag_DoingRelicsThing(lpObj);
 		return;
 	}
 
 	if (abs(lpObj->Y - lpNpc->Y) > 3 || abs(lpObj->X - lpNpc->X) > 3)
 	{
-		sLog.outBasic("[ITL ][GetRelics] ERROR CASE 4");
+		sLog->outBasic("[ITL ][GetRelics] ERROR CASE 4");
 		this->ResetUserFlag_DoingRelicsThing(lpObj);
 		return;
 	}
 
 	if (lpObj->m_nITLRelicsTick > GetTickCount())
 	{
-		sLog.outBasic("[ITL ][GetRelics] ERROR CASE 5");
+		sLog->outBasic("[ITL ][GetRelics] ERROR CASE 5");
 		this->SendRelicsError(lpNpc, lpObj->m_Index, 7, -1);
 		this->ResetUserFlag_DoingRelicsThing(lpObj);
 		return;
@@ -1675,7 +1675,7 @@ void CIllusionTempleLeagueProcess::GetRelics(OBJECTSTRUCT *lpNpc, OBJECTSTRUCT *
 		if (this->m_Cursed_StoneStatus.m_byStatus - 10 != byUserTeamIndex ||
 			lpObj->m_byStoneState != this->m_Cursed_StoneStatus.m_byStatus)
 		{
-			sLog.outBasic("[ITL ][GetRelics] ERROR CASE 6");
+			sLog->outBasic("[ITL ][GetRelics] ERROR CASE 6");
 			this->SendRelicsError(lpNpc, lpObj->m_Index, 11, -1);
 			this->ResetUserFlag_DoingRelicsThing(lpObj);
 			return;
@@ -1707,7 +1707,7 @@ void CIllusionTempleLeagueProcess::GetRelics(OBJECTSTRUCT *lpNpc, OBJECTSTRUCT *
 				if (this->m_Occupied_StoneStatus[i].m_byStatus != 10 &&
 					this->m_Occupied_StoneStatus[i].m_byStatus != 11)
 				{
-					sLog.outBasic("[ITL ][GetRelics] ERROR CASE 8");
+					sLog->outBasic("[ITL ][GetRelics] ERROR CASE 8");
 					this->SendRelicsError(lpNpc, lpObj->m_Index, 10, -1);
 					this->ResetUserFlag_DoingRelicsThing(lpObj);
 					return;
@@ -1737,7 +1737,7 @@ void CIllusionTempleLeagueProcess::GetRelics(OBJECTSTRUCT *lpNpc, OBJECTSTRUCT *
 
 	else
 	{
-		sLog.outBasic("[ITL ][GetRelics] ERROR CASE 9");
+		sLog->outBasic("[ITL ][GetRelics] ERROR CASE 9");
 		this->SendRelicsError(lpNpc, lpObj->m_Index, 8, -1);
 		this->ResetUserFlag_DoingRelicsThing(lpObj);
 		return;
@@ -1911,7 +1911,7 @@ void CIllusionTempleLeagueProcess::RegisterRelics(OBJECTSTRUCT *lpNpc, OBJECTSTR
 								if (lpObj->pInventory[this->m_UserData[nRegisterRelicsUserArray].m_nRelicsInvenPos].m_Type == ITEMGET(14, 223))
 								{
 									this->SendRelicsUserInfo(lpObj, 1);
-									sLog.outBasic("[ ITL ][RegisterRelics] (%d) (%s)(%s) to Delete Relics Item [Serial:%I64d]",
+									sLog->outBasic("[ ITL ][RegisterRelics] (%d) (%s)(%s) to Delete Relics Item [Serial:%I64d]",
 										this->m_nTempleNumber + 1, lpObj->AccountID, lpObj->Name, lpObj->pInventory[this->m_UserData[nRegisterRelicsUserArray].m_nRelicsInvenPos].m_Number);
 
 									gObjInventoryDeleteItem(lpObj->m_Index, this->m_UserData[nRegisterRelicsUserArray].m_nRelicsInvenPos);
@@ -2024,7 +2024,7 @@ void CIllusionTempleLeagueProcess::RegenCursedStoneStatus(BYTE btRound)
 		this->m_Cursed_StoneStatus.m_nIndex,
 		this->m_Cursed_StoneStatus.byMapTagIndex);
 
-	sLog.outBasic("[ ITL ][RegenCursedStoneStatus] Create NPC Status Map:%d, Round:%d,RegenStatus:%d, X:%d,Y:%d",
+	sLog->outBasic("[ ITL ][RegenCursedStoneStatus] Create NPC Status Map:%d, Round:%d,RegenStatus:%d, X:%d,Y:%d",
 		this->m_nTempleNumber + 1, btRound, this->m_Cursed_StoneStatus.m_byStatus, lpObj->X, lpObj->Y);
 }
 
@@ -2048,7 +2048,7 @@ void CIllusionTempleLeagueProcess::AddITLOccupiedStonePos(WORD wNpcType, int ind
 		this->m_Occupied_StoneStatus[Count].m_byStatus = -1;
 		this->m_Occupied_StoneStatus[Count].byMapTagIndex = byMapTagIndex;
 
-		sLog.outBasic("[ ITL ][AddITLOccupiedStonePos] ArrayNUm :%d wNpcType:%d, index:%d ",
+		sLog->outBasic("[ ITL ][AddITLOccupiedStonePos] ArrayNUm :%d wNpcType:%d, index:%d ",
 			Count, wNpcType, index);
 	}
 }
@@ -2065,7 +2065,7 @@ void CIllusionTempleLeagueProcess::AddITLCursedStonePos(WORD wNpcType, int index
 	this->m_Cursed_StoneStatus.m_wPosNum = 0;
 	this->m_Cursed_StoneStatus.m_byStatus = 0;
 	this->m_Cursed_StoneStatus.byMapTagIndex = byMapTagIndex;
-	sLog.outBasic("[ ITL ][AddITLCursedStonePos] NpcType:%d, index :%d ", wNpcType, index);
+	sLog->outBasic("[ ITL ][AddITLCursedStonePos] NpcType:%d, index :%d ", wNpcType, index);
 }
 
 void CIllusionTempleLeagueProcess::SetNpc()
@@ -2131,7 +2131,7 @@ void CIllusionTempleLeagueProcess::RegenOccupiedStoneStatus()
 					this->m_Occupied_StoneStatus[i].m_byStatus, this->m_Occupied_StoneStatus[i].m_nIndex,
 					this->m_Occupied_StoneStatus[i].byMapTagIndex);
 
-				sLog.outBasic("[ ITL ][RegenOccupiedStoneStatus] Round [%d] NpcIndex:[%d],Type:[%d] MAKE NEUTRAL",
+				sLog->outBasic("[ ITL ][RegenOccupiedStoneStatus] Round [%d] NpcIndex:[%d],Type:[%d] MAKE NEUTRAL",
 					this->m_byITLRound, this->m_Occupied_StoneStatus[i].m_nIndex, this->m_Occupied_StoneStatus[i].m_wType);
 			}
 		}
@@ -2174,7 +2174,7 @@ void CIllusionTempleLeagueProcess::Send_ITL_StoneInfo(int userindex, WORD wNpcTy
 			if (ITL_MAP_RANGE(gObj[this->m_UserData[i].m_nIndex].MapNumber))
 			{
 				IOCP.DataSend(this->m_UserData[i].m_nIndex, (LPBYTE)&pMsg, pMsg.h.size);
-				sLog.outBasic("[ ITL ][Send_ITL_StoneInfo] userindex:%d, npcType:%d, npcstate:%d ,npcindex:%d,MAPTAG:%d",
+				sLog->outBasic("[ ITL ][Send_ITL_StoneInfo] userindex:%d, npcType:%d, npcstate:%d ,npcindex:%d,MAPTAG:%d",
 					this->m_UserData[i].m_nIndex, wNpcType, byState, NpcIndex, byMapTagIndex);
 			}
 		}
@@ -2240,7 +2240,7 @@ BYTE CIllusionTempleLeagueProcess::GetUserTeam(int nIndex)
 {
 	if (!ObjectMaxRange(nIndex))
 	{
-		sLog.outBasic("return %s %d", __FILE__, __LINE__);
+		sLog->outBasic("return %s %d", __FILE__, __LINE__);
 		return -1;
 	}
 
@@ -2261,7 +2261,7 @@ void CIllusionTempleLeagueProcess::IncUserKillCount(int nIndex)
 {
 	if (!ObjectMaxRange(nIndex))
 	{
-		sLog.outBasic("return %s %d", __FILE__, __LINE__);
+		sLog->outBasic("return %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -2280,7 +2280,7 @@ void CIllusionTempleLeagueProcess::IncUserKillCount(int nIndex)
 		return;
 	}
 
-	sLog.outBasic("[ ITL ][UserKill] map:%d, ACC:%s, NAME:%s ,KillCnt:%d -> %d",
+	sLog->outBasic("[ ITL ][UserKill] map:%d, ACC:%s, NAME:%s ,KillCnt:%d -> %d",
 		this->m_nTempleNumber + 1, gObj[nIndex].AccountID, gObj[nIndex].Name,
 		this->m_UserData[gObj[nIndex].m_nITLIndex].m_btUserKillCount, this->m_UserData[gObj[nIndex].m_nITLIndex].m_btUserKillCount + 1);
 
@@ -2299,13 +2299,13 @@ void CIllusionTempleLeagueProcess::ITL_UseSkill(int nIndex, WORD wSkillNumber, i
 {
 	if (!ObjectMaxRange(nIndex))
 	{
-		sLog.outBasic("return %s %d", __FILE__, __LINE__);
+		sLog->outBasic("return %s %d", __FILE__, __LINE__);
 		return;
 	}
 
 	if (!ObjectMaxRange(nTargetIndex))
 	{
-		sLog.outBasic("return %s %d", __FILE__, __LINE__);
+		sLog->outBasic("return %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -2314,7 +2314,7 @@ void CIllusionTempleLeagueProcess::ITL_UseSkill(int nIndex, WORD wSkillNumber, i
 
 	if (this->GetIllusionTempleLeagueState() != 2)
 	{
-		sLog.outBasic("Process ITL_UseSkill Error #1 iIndex :%d Name:%s", nIndex, gObj[nIndex].Name);
+		sLog->outBasic("Process ITL_UseSkill Error #1 iIndex :%d Name:%s", nIndex, gObj[nIndex].Name);
 		this->SendUseSkillResult(nIndex, nTargetIndex, wSkillNumber, 0);
 
 		return;
@@ -2322,7 +2322,7 @@ void CIllusionTempleLeagueProcess::ITL_UseSkill(int nIndex, WORD wSkillNumber, i
 
 	if (lpObj->Connected < PLAYER_PLAYING || lpTargetObj->Connected < PLAYER_PLAYING)
 	{
-		sLog.outBasic("Process ITL_UseSkill Error #2 iIndex :%d Name:%s", nIndex, gObj[nIndex].Name);
+		sLog->outBasic("Process ITL_UseSkill Error #2 iIndex :%d Name:%s", nIndex, gObj[nIndex].Name);
 		this->SendUseSkillResult(nIndex, nTargetIndex, wSkillNumber, 0);
 
 		return;
@@ -2330,7 +2330,7 @@ void CIllusionTempleLeagueProcess::ITL_UseSkill(int nIndex, WORD wSkillNumber, i
 
 	if (lpObj->MapNumber != lpTargetObj->MapNumber)
 	{
-		sLog.outBasic("Process ITL_UseSkill Error #3 iIndex :%d Name:%s", nIndex, gObj[nIndex].Name);
+		sLog->outBasic("Process ITL_UseSkill Error #3 iIndex :%d Name:%s", nIndex, gObj[nIndex].Name);
 		this->SendUseSkillResult(nIndex, nTargetIndex, wSkillNumber, 0);
 
 		return;
@@ -2338,7 +2338,7 @@ void CIllusionTempleLeagueProcess::ITL_UseSkill(int nIndex, WORD wSkillNumber, i
 
 	if (lpObj->m_nITLIndex == -1 || lpTargetObj->m_nITLIndex == -1)
 	{
-		sLog.outBasic("Process ITL_UseSkill Error #4 iIndex :%d Name:%s", nIndex, gObj[nIndex].Name);
+		sLog->outBasic("Process ITL_UseSkill Error #4 iIndex :%d Name:%s", nIndex, gObj[nIndex].Name);
 		this->SendUseSkillResult(nIndex, nTargetIndex, wSkillNumber, 0);
 
 		return;
@@ -2367,7 +2367,7 @@ void CIllusionTempleLeagueProcess::ITL_UseSkill(int nIndex, WORD wSkillNumber, i
 
 	if (ret == TRUE)
 	{
-		sLog.outBasic("[ ITL ] (%d) Use Skill (%d), (%s)(%s), (%d)",
+		sLog->outBasic("[ ITL ] (%d) Use Skill (%d), (%s)(%s), (%d)",
 			this->m_nTempleNumber + 1, wSkillNumber, lpObj->AccountID, lpObj->Name, -1);
 	}
 
@@ -2380,13 +2380,13 @@ void CIllusionTempleLeagueProcess::ITL_UseSkill(int nIndex, WORD wSkillNumber, i
 
 		else
 		{
-			sLog.outBasic("Process ITL_UseSkill Error #5 iIndex :%d Name:%s", nIndex, gObj[nIndex].Name);
+			sLog->outBasic("Process ITL_UseSkill Error #5 iIndex :%d Name:%s", nIndex, gObj[nIndex].Name);
 		}
 	}
 
 	if (ret == FALSE)
 	{
-		sLog.outBasic("Process ITL_UseSkill Error #6 iIndex :%d Name:%s", nIndex, gObj[nIndex].Name);
+		sLog->outBasic("Process ITL_UseSkill Error #6 iIndex :%d Name:%s", nIndex, gObj[nIndex].Name);
 		this->SendUseSkillResult(nIndex, nTargetIndex, wSkillNumber, FALSE);
 	}
 }
@@ -2463,7 +2463,7 @@ int CIllusionTempleLeagueProcess::UseSkillTeleport(LPOBJ lpObj)
 {
 	if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STUN) == TRUE)
 	{
-		sLog.outBasic("UseSkillTeleport Error #1 iIndex :%d Name:%s", lpObj->m_Index, lpObj->Name);
+		sLog->outBasic("UseSkillTeleport Error #1 iIndex :%d Name:%s", lpObj->m_Index, lpObj->Name);
 		this->SendUseSkillResult(lpObj->m_Index, lpObj->m_Index, 620, 0);
 
 		return FALSE;
@@ -2471,7 +2471,7 @@ int CIllusionTempleLeagueProcess::UseSkillTeleport(LPOBJ lpObj)
 
 	if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_SLEEP) == TRUE)
 	{
-		sLog.outBasic("UseSkillTeleport Error #2 iIndex :%d Name:%s", lpObj->m_Index, lpObj->Name);
+		sLog->outBasic("UseSkillTeleport Error #2 iIndex :%d Name:%s", lpObj->m_Index, lpObj->Name);
 		this->SendUseSkillResult(lpObj->m_Index, lpObj->m_Index, 620, 0);
 
 		return FALSE;
@@ -2513,7 +2513,7 @@ int CIllusionTempleLeagueProcess::UseSkillTeleport(LPOBJ lpObj)
 
 	if (tmpRelicsUserIndex == -1)
 	{
-		sLog.outBasic("UseSkillTeleport Error #3 iIndex :%d Name:%s", lpObj->m_Index, lpObj->Name);
+		sLog->outBasic("UseSkillTeleport Error #3 iIndex :%d Name:%s", lpObj->m_Index, lpObj->Name);
 		this->SendUseSkillResult(lpObj->m_Index, lpObj->m_Index, 620, 0);
 
 		return FALSE;
@@ -2521,7 +2521,7 @@ int CIllusionTempleLeagueProcess::UseSkillTeleport(LPOBJ lpObj)
 
 	if (tmpRelicsUserIndex == lpObj->m_Index)
 	{
-		sLog.outBasic("UseSkillTeleport Error #4 iIndex :%d Name:%s", lpObj->m_Index, lpObj->Name);
+		sLog->outBasic("UseSkillTeleport Error #4 iIndex :%d Name:%s", lpObj->m_Index, lpObj->Name);
 		this->SendUseSkillResult(lpObj->m_Index, lpObj->m_Index, 620, 0);
 
 		return FALSE;
@@ -2597,7 +2597,7 @@ void CIllusionTempleLeagueProcess::SendUseSkillResult(int nIndex, int nTargetInd
 		GSProtocol.MsgSendV2(&gObj[nIndex], (LPBYTE)&pResult, pResult.h.size);
 	}
 
-	sLog.outBasic("[ ITL ] SendUseSkillResult Success:[%d], Index:[%d], Target:[%d], Skill:[%d] ",
+	sLog->outBasic("[ ITL ] SendUseSkillResult Success:[%d], Index:[%d], Target:[%d], Skill:[%d] ",
 		btResult, nIndex, nTargetIndex, wSkillNumber);
 }
 
@@ -2772,12 +2772,12 @@ void CIllusionTempleLeagueProcess::CalCursetTempleResult()
 		this->m_GuildDataSave[byLoseGuildIndex].byOccupiedCount = byLoseGuildOccupiedCount;
 		LeaveCriticalSection(&this->m_criGuildData);
 
-		sLog.outBasic("[ ITL ] (%d) Result (WinTeam: %d)(Score:[%d][%d])", this->m_nTempleNumber + 1, this->m_btWinTeam, byAlliedCnt, byIllusionCnt);
+		sLog->outBasic("[ ITL ] (%d) Result (WinTeam: %d)(Score:[%d][%d])", this->m_nTempleNumber + 1, this->m_btWinTeam, byAlliedCnt, byIllusionCnt);
 	}
 
 	else
 	{
-		sLog.outBasic("[ ITL ] (%d) Result (Team: %d)(Score:[%d][%d]) byWinnerGuildIndex :%d,byLoseGuildIndex : %d ", this->m_nTempleNumber + 1, this->m_btWinTeam, byAlliedCnt, byIllusionCnt, byWinnerGuildIndex, byLoseGuildIndex);
+		sLog->outBasic("[ ITL ] (%d) Result (Team: %d)(Score:[%d][%d]) byWinnerGuildIndex :%d,byLoseGuildIndex : %d ", this->m_nTempleNumber + 1, this->m_btWinTeam, byAlliedCnt, byIllusionCnt, byWinnerGuildIndex, byLoseGuildIndex);
 		this->m_bNobodyWinLose = true;
 	}
 }
@@ -2822,7 +2822,7 @@ void CIllusionTempleLeagueProcess::DropChaosGem(int nIndex)
 	this->m_UserData[gObj[nIndex].m_nITLIndex].m_bReward = true;
 	ItemSerialCreateSend(nIndex, gObj[nIndex].MapNumber, gObj[nIndex].X, gObj[nIndex].Y, ItemGetNumberMake(12, 30), 0, 0, 0, 0, 0, nIndex, 0, 0, 0, 0, 0);
 
-	sLog.outBasic("[ ITL ] (%d) [DropChaosGem] [ItemSerialCreateSend] Index:[%d],Name:[%s],Acc:[%s]", this->m_nTempleNumber + 1, nIndex, gObj[nIndex].Name, gObj[nIndex].AccountID);
+	sLog->outBasic("[ ITL ] (%d) [DropChaosGem] [ItemSerialCreateSend] Index:[%d],Name:[%s],Acc:[%s]", this->m_nTempleNumber + 1, nIndex, gObj[nIndex].Name, gObj[nIndex].AccountID);
 }
 
 void CIllusionTempleLeagueProcess::SendAllUserAnyMsg(char *lpMsg)
@@ -2934,7 +2934,7 @@ void CIllusionTempleLeagueProcess::SendITLResult()
 			memcpy(&SendByte[nOffset], &pAddExpMsg, sizeof(pAddExpMsg));
 			nOffset += sizeof(pAddExpMsg);
 
-			sLog.outBasic("[ ITL ] (%d) ITL Result  (Account:%s, Name:%s, G.name:%s , Team:%d, Class:%d, UserKillCount:%d,InvalidationCount:%d,OccupiedCount:%d)",
+			sLog->outBasic("[ ITL ] (%d) ITL Result  (Account:%s, Name:%s, G.name:%s , Team:%d, Class:%d, UserKillCount:%d,InvalidationCount:%d,OccupiedCount:%d)",
 				this->m_nTempleNumber, gObj[this->m_UserData[i].m_nIndex].AccountID, gObj[this->m_UserData[i].m_nIndex].Name, gObj[this->m_UserData[i].m_nIndex].m_PlayerData->GuildName,
 				this->m_UserData[i].m_btTeam, gObj[this->m_UserData[i].m_nIndex].m_PlayerData->DbClass, this->m_UserData[i].m_btUserKillCount, this->m_UserData[i].m_byInvalidationCount,
 				this->m_UserData[i].m_byOccupiedCount);
@@ -3156,7 +3156,7 @@ void CIllusionTempleLeagueProcess::GDSaveITLGuildPoint(char* GuildName, int Type
 	pMsg.byEnterCnt = byEnterCnt;
 
 	wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
-	sLog.outBasic("[ ITL ] (%d) [GDSaveITLGuildPoint]GName:[%s],Type:[%d],Win:[%d],Lose:[%d],OccCnt:[%d],EnterCnt:[%d]",
+	sLog->outBasic("[ ITL ] (%d) [GDSaveITLGuildPoint]GName:[%s],Type:[%d],Win:[%d],Lose:[%d],OccCnt:[%d],EnterCnt:[%d]",
 		this->m_nTempleNumber + 1, GuildName, Type, btWin, btLose, byOccCnt, byEnterCnt);
 }
 
@@ -3178,7 +3178,7 @@ void CIllusionTempleLeagueProcess::GDSaveITLUserPoint(int index, char* UserName,
 	pMsg.nEnterCount = nEnterCount;
 	pMsg.nWin = nWin;
 
-	sLog.outBasic("[ ITL ] (%d) [GDSaveITLUserPoint] Name:%s, G.Name:%s, OccCnt:%d, KillCnt:%d, InvalidationCnt:%d,Type:%d, EnterCnt:%d, Win:%d",
+	sLog->outBasic("[ ITL ] (%d) [GDSaveITLUserPoint] Name:%s, G.Name:%s, OccCnt:%d, KillCnt:%d, InvalidationCnt:%d,Type:%d, EnterCnt:%d, Win:%d",
 		this->m_nTempleNumber + 1, UserName, GuildName, nOccupiedCount, KillPoint, nInvalidationCount, nType, nEnterCount, nWin);
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
@@ -3224,7 +3224,7 @@ void CIllusionTempleLeagueProcess::MoveToStartPoint_WhenRoundBreak()
 				gObjMoveGate(this->m_UserData[i].m_nIndex, this->m_nTempleNumber + 448);
 			}
 
-			sLog.outBasic("[ ITL ] (%d) [RoundBreak_Move2WaittingRoom]  Round [%d], UserIndex :[%d], Account:[%s] , Name :[%s] ",
+			sLog->outBasic("[ ITL ] (%d) [RoundBreak_Move2WaittingRoom]  Round [%d], UserIndex :[%d], Account:[%s] , Name :[%s] ",
 				this->m_nTempleNumber + 1, this->m_byITLRound, this->m_UserData[i].m_nIndex, gObj[this->m_UserData[i].m_nIndex].AccountID, gObj[this->m_UserData[i].m_nIndex].Name);
 		}
 	}
@@ -3249,7 +3249,7 @@ BOOL CIllusionTempleLeagueProcess::ReEnterUserIllusionTempleLeague(int aIndex, B
 {
 	if (!ObjectMaxRange(aIndex))
 	{
-		sLog.outBasic("return %s %d", __FILE__, __LINE__);
+		sLog->outBasic("return %s %d", __FILE__, __LINE__);
 		return FALSE;
 	}
 
@@ -3261,7 +3261,7 @@ BOOL CIllusionTempleLeagueProcess::ReEnterUserIllusionTempleLeague(int aIndex, B
 
 	if (gObj[aIndex].m_nITLIndex != -1)
 	{
-		sLog.outBasic("RE Enter Error: IllusionTempleIndex Fail %d ", gObj[aIndex].m_nITLIndex);
+		sLog->outBasic("RE Enter Error: IllusionTempleIndex Fail %d ", gObj[aIndex].m_nITLIndex);
 		return FALSE;
 	}
 
@@ -3346,7 +3346,7 @@ void CIllusionTempleLeagueProcess::ResetUserFlag_DoingRelicsThing(OBJECTSTRUCT *
 		return;
 	}
 
-	sLog.outBasic("[ ITL ][ResetUserFlag_DoingRelicsThing] NAME:%s, StoneState:%d, NPCTYPE:%d, GettingRelics:%d, RegisteringRelics:%d",
+	sLog->outBasic("[ ITL ][ResetUserFlag_DoingRelicsThing] NAME:%s, StoneState:%d, NPCTYPE:%d, GettingRelics:%d, RegisteringRelics:%d",
 		lpObj->Name, lpObj->m_byStoneState, lpObj->m_wITLNpcType, lpObj->m_bGettingRelics, lpObj->m_bRegisteringRelics);
 
 	lpObj->m_byStoneState = 99;

@@ -32,7 +32,7 @@ void CItemAddOption::Load(char *chFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("Failed to load %s file (%s)", chFileName, res.description());
+		sLog->outError("Failed to load %s file (%s)", chFileName, res.description());
 		return;
 	}
 
@@ -73,7 +73,7 @@ void CItemAddOption::Load(char *chFileName)
 			iItemAddOptionIndex++;
 			if (iItemAddOptionIndex > 100 )
 			{
-				sLog.outError("[ItemAddOption] Overflow ItemAddOption Table Index");
+				sLog->outError("[ItemAddOption] Overflow ItemAddOption Table Index");
 			}
 		}
 	}

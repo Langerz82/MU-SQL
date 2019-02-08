@@ -53,7 +53,7 @@ BOOL TMonsterAIUnit::LoadData(LPSTR lpszFileName)
 
 	if ( !lpszFileName || !strcmp(lpszFileName, ""))
 	{
-		sLog.outError("[Monster AI Unit] - File load error : File Name Error");
+		sLog->outError("[Monster AI Unit] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -64,7 +64,7 @@ BOOL TMonsterAIUnit::LoadData(LPSTR lpszFileName)
 
 		if ( res.status != pugi::status_ok )
 		{
-			sLog.outError("[Monster AI Unit] - Can't Load %s (%s)", lpszFileName, res.description());
+			sLog->outError("[Monster AI Unit] - Can't Load %s (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
@@ -91,13 +91,13 @@ BOOL TMonsterAIUnit::LoadData(LPSTR lpszFileName)
 
 			if ( iUnitNumber < 0 || iUnitNumber >= MAX_MONSTER_AI_UNIT )
 			{
-				sLog.outError("[Monster AI Unit] - UnitNumber(%d) Error (%s) File. ", iUnitNumber, lpszFileName);
+				sLog->outError("[Monster AI Unit] - UnitNumber(%d) Error (%s) File. ", iUnitNumber, lpszFileName);
 				continue;
 			}
 
 			if ( iAutomata < 0 || iAutomata >= MAX_MONSTER_AI_AUTOMATA )
 			{
-				sLog.outError("[Monster AI Unit] - AutomataNumber(%d) Error (%s) File. ", iAutomata, lpszFileName);
+				sLog->outError("[Monster AI Unit] - AutomataNumber(%d) Error (%s) File. ", iAutomata, lpszFileName);
 				continue;
 			}
 
@@ -120,7 +120,7 @@ BOOL TMonsterAIUnit::LoadData(LPSTR lpszFileName)
 
 	catch(DWORD)
 	{
-		sLog.outError("[Monster AI Unit] - Loading Exception Error (%s) File. ", lpszFileName);
+		sLog->outError("[Monster AI Unit] - Loading Exception Error (%s) File. ", lpszFileName);
 	}
 
 	return FALSE;
@@ -140,7 +140,7 @@ TMonsterAIUnit * TMonsterAIUnit::FindAIUnit(int iUnitNumber)
 {
 	if ( iUnitNumber < 0 || iUnitNumber >= MAX_MONSTER_AI_UNIT )
 	{
-		sLog.outBasic("[Monster AI Unit] FindAIUnit() Error - (UnitNumber=%d) ",
+		sLog->outBasic("[Monster AI Unit] FindAIUnit() Error - (UnitNumber=%d) ",
 			iUnitNumber);
 
 		return NULL;
@@ -151,7 +151,7 @@ TMonsterAIUnit * TMonsterAIUnit::FindAIUnit(int iUnitNumber)
 		return &TMonsterAIUnit::s_MonsterAIUnitArray[iUnitNumber];
 	}
 
-	sLog.outBasic("[Monster AI Unit] FindAIUnit() Error - (UnitNumber=%d) ",
+	sLog->outBasic("[Monster AI Unit] FindAIUnit() Error - (UnitNumber=%d) ",
 		iUnitNumber);
 
 	return NULL;

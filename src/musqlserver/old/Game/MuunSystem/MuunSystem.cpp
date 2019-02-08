@@ -1101,7 +1101,7 @@ void CMuunSystem::SetMuunItemAddPeriodData(OBJECTSTRUCT *lpObj, int iMuunItemNum
 
 	if (!pCMuunInfo)
 	{
-		sLog.outBasic("[MuunSystem][Error] pCMuunInfo is NULL [%s][%s]", lpObj->AccountID, lpObj->Name);
+		sLog->outBasic("[MuunSystem][Error] pCMuunInfo is NULL [%s][%s]", lpObj->AccountID, lpObj->Name);
 		return;
 	}
 
@@ -1120,7 +1120,7 @@ bool CMuunSystem::SetUserMuunEffect(OBJECTSTRUCT *lpObj, int iMuunItemNum, int i
 
 	if (!pCMuunInfo)
 	{
-		sLog.outBasic("[MuunSystem][Error] pCMuunInfo is NULL [%s][%s]", lpObj->AccountID, lpObj->Name);
+		sLog->outBasic("[MuunSystem][Error] pCMuunInfo is NULL [%s][%s]", lpObj->AccountID, lpObj->Name);
 		return FALSE;
 	}
 
@@ -1188,7 +1188,7 @@ bool CMuunSystem::RemoveUserMuunEffect(OBJECTSTRUCT *lpObj, int iEquipPos)
 
 	if (!pCMuunInfo)
 	{
-		sLog.outBasic("[MuunSystem][Error] pCMuunInfo is NULL [%s][%s]", lpObj->AccountID, lpObj->Name);
+		sLog->outBasic("[MuunSystem][Error] pCMuunInfo is NULL [%s][%s]", lpObj->AccountID, lpObj->Name);
 		return FALSE;
 	}
 
@@ -1309,25 +1309,25 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 
 	if (gObj[aIndex].m_bMapSvrMoveReq == true)
 	{
-		sLog.outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", gObj[aIndex].AccountID, gObj[aIndex].m_PlayerData->Ip_addr);
+		sLog->outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", gObj[aIndex].AccountID, gObj[aIndex].m_PlayerData->Ip_addr);
 		return;
 	}
 
 	if (gObj[aIndex].m_State == 32)
 	{
-		sLog.outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", gObj[aIndex].AccountID, gObj[aIndex].m_PlayerData->Ip_addr);
+		sLog->outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", gObj[aIndex].AccountID, gObj[aIndex].m_PlayerData->Ip_addr);
 		return;
 	}
 
 	if (gObj[aIndex].m_bMapSvrMoveQuit == 1)
 	{
-		sLog.outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", gObj[aIndex].AccountID, gObj[aIndex].m_PlayerData->Ip_addr);
+		sLog->outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", gObj[aIndex].AccountID, gObj[aIndex].m_PlayerData->Ip_addr);
 		return;
 	}
 
 	if (!gObjIsAccontConnect(aIndex, szId))
 	{
-		sLog.outBasic("error-L1 : Request to receive Warehouse information doesn't match the user. [%s][%d]", szId, aIndex);
+		sLog->outBasic("error-L1 : Request to receive Warehouse information doesn't match the user. [%s][%d]", szId, aIndex);
 		return;
 	}
 
@@ -1382,7 +1382,7 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 				if (!g_kItemSystemFor380.Is380Item(&item))
 				{
 					item.m_ItemOptionEx = 0;
-					sLog.outBasic("[380Item][%s][%s] Invalid 380 Item Option in Muun Inventory pos[%d]", lpObj->AccountID, lpObj->Name, n);
+					sLog->outBasic("[380Item][%s][%s] Invalid 380 Item Option in Muun Inventory pos[%d]", lpObj->AccountID, lpObj->Name, n);
 				}
 			}
 
@@ -1467,7 +1467,7 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 
 					if (pCMuunInfo == NULL)
 					{
-						sLog.outBasic("[MuunSystem][Error] [%s][%s] DGLoadMuunInvenItem() pCMuunInfo is NULL %d", lpObj->AccountID, lpObj->Name, __LINE__);
+						sLog->outBasic("[MuunSystem][Error] [%s][%s] DGLoadMuunInvenItem() pCMuunInfo is NULL %d", lpObj->AccountID, lpObj->Name, __LINE__);
 					}
 
 					else
@@ -1490,7 +1490,7 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 
 					if (pCMuunInfo == NULL)
 					{
-						sLog.outBasic("[MuunSystem][Error] [%s][%s] DGLoadMuunInvenItem() pCMuunInfo is NULL %d", lpObj->AccountID, lpObj->Name, __LINE__);
+						sLog->outBasic("[MuunSystem][Error] [%s][%s] DGLoadMuunInvenItem() pCMuunInfo is NULL %d", lpObj->AccountID, lpObj->Name, __LINE__);
 					}
 
 					else
@@ -1500,7 +1500,7 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 							item.SetMuunItemPeriodReset();
 							this->SetMuunItemAddPeriodData(lpObj, itype, item.m_Number);
 
-							sLog.outBasic("[MuunSystem][MuunItemPeriodReset] [%s][%s] MuunItemPeriodReset() Type:[%d] serial:[%I64d]",
+							sLog->outBasic("[MuunSystem][MuunItemPeriodReset] [%s][%s] MuunItemPeriodReset() Type:[%d] serial:[%I64d]",
 								lpObj->AccountID, lpObj->Name, itype, item.m_Number);
 						}
 					}
@@ -1541,7 +1541,7 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 
 				else
 				{
-					sLog.outBasic("[MuunSystem][Error] [%s][%s] DGLoadMuunInvenItem() pCMuunInfo is NULL %d", lpObj->AccountID, lpObj->Name, __LINE__);
+					sLog->outBasic("[MuunSystem][Error] [%s][%s] DGLoadMuunInvenItem() pCMuunInfo is NULL %d", lpObj->AccountID, lpObj->Name, __LINE__);
 				}
 			}
 
@@ -1596,7 +1596,7 @@ std::string hexStr(BYTE *data, int len)
 
 			if (!pItemAttribute)
 			{
-				sLog.outBasic("[MuunSystem][Error][%s][%s] GDReqSaveMuunInvenItem() pItemAttribute is NULL", lpObj->AccountID, lpObj->Name);
+				sLog->outBasic("[MuunSystem][Error][%s][%s] GDReqSaveMuunInvenItem() pItemAttribute is NULL", lpObj->AccountID, lpObj->Name);
 			}
 
 			else
@@ -1724,7 +1724,7 @@ int CMuunSystem::GetEvolutionMuunItemIndex(int iItemNum)
 
 	if (!pCMuunInfo)
 	{
-		sLog.outBasic("[MuunSystem][Error]GetEvolutionMuunItemIndex() pItemAttribute is NULL %d", __LINE__);
+		sLog->outBasic("[MuunSystem][Error]GetEvolutionMuunItemIndex() pItemAttribute is NULL %d", __LINE__);
 		return 0;
 	}
 
@@ -1742,7 +1742,7 @@ int CMuunSystem::GetMuunRankOfMuunInfo(int iItemNum)
 
 	if (!pCMuunInfo)
 	{
-		sLog.outBasic("[MuunSystem][Error] GetMuunRankOfMuunInfo() pCMuunInfo is NULL %d", __LINE__);
+		sLog->outBasic("[MuunSystem][Error] GetMuunRankOfMuunInfo() pCMuunInfo is NULL %d", __LINE__);
 		return 0;
 	}
 
@@ -1755,7 +1755,7 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 
 	if (gObj[aIndex].m_IfState.use == 1)
 	{
-		sLog.outBasic("[%s][%s]_If return  %d", gObj[aIndex].AccountID, gObj[aIndex].Name, __LINE__);
+		sLog->outBasic("[%s][%s]_If return  %d", gObj[aIndex].AccountID, gObj[aIndex].Name, __LINE__);
 		this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 		return;
@@ -1763,7 +1763,7 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 
 	if (gObj[aIndex].CloseType != -1)
 	{
-		sLog.outBasic("[%s][%s] CGMuunInventoryUseItemRecv()_CloseType return %d", gObj[aIndex].AccountID, gObj[aIndex].Name, __LINE__);
+		sLog->outBasic("[%s][%s] CGMuunInventoryUseItemRecv()_CloseType return %d", gObj[aIndex].AccountID, gObj[aIndex].Name, __LINE__);
 		this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 		return;
@@ -1771,12 +1771,12 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 
 	if (!::gObjFixMuunInventoryPointer(aIndex))
 	{
-		sLog.outBasic("[Fix Inv.Ptr] False Location - %d", __LINE__);
+		sLog->outBasic("[Fix Inv.Ptr] False Location - %d", __LINE__);
 	}
 
 	if (gObj[aIndex].pTransaction == 1)
 	{
-		sLog.outBasic("[%s][%s] CGUseItemRecv() Failed : Transaction == 1, IF_TYPE : %d", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_IfState.type);
+		sLog->outBasic("[%s][%s] CGUseItemRecv() Failed : Transaction == 1, IF_TYPE : %d", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_IfState.type);
 		this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 		return;
@@ -1792,7 +1792,7 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 
 	if (lpMsg->inventoryPos == lpMsg->invenrotyTarget)
 	{
-		sLog.outBasic("error-L1 : [%s][%s] CGMuunInventoryUseItemRecv()_Pos return %d", gObj[aIndex].AccountID, gObj[aIndex].Name, __LINE__);
+		sLog->outBasic("error-L1 : [%s][%s] CGMuunInventoryUseItemRecv()_Pos return %d", gObj[aIndex].AccountID, gObj[aIndex].Name, __LINE__);
 		this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 		return;
@@ -1803,7 +1803,7 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 		case 1:
 			if (this->MuunItemLevelUp(&gObj[aIndex], lpMsg->inventoryPos, lpMsg->invenrotyTarget) == FALSE)
 			{
-				sLog.outBasic("[MuunSystem][LevelUp] [%s][%s] [Fail]", gObj[aIndex].AccountID, gObj[aIndex].Name);
+				sLog->outBasic("[MuunSystem][LevelUp] [%s][%s] [Fail]", gObj[aIndex].AccountID, gObj[aIndex].Name);
 				this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 				return;
@@ -1818,7 +1818,7 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 		case 2:
 			if (this->MuunItemEvolution(&gObj[aIndex], lpMsg->inventoryPos, lpMsg->invenrotyTarget) == FALSE)
 			{
-				sLog.outBasic("[MuunSystem] [%s][%s]Item Use Muun Item Evolution Fail", gObj[aIndex].AccountID, gObj[aIndex].Name);
+				sLog->outBasic("[MuunSystem] [%s][%s]Item Use Muun Item Evolution Fail", gObj[aIndex].AccountID, gObj[aIndex].Name);
 				this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 				return;
@@ -1831,7 +1831,7 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 		case 3:
 			if (this->MuunItemLifeGem(&gObj[aIndex], lpMsg->inventoryPos, lpMsg->invenrotyTarget) == FALSE)
 			{
-				sLog.outBasic("[MuunSystem] [%s][%s]Item Use Muun Item LifeGem Fail", gObj[aIndex].AccountID, gObj[aIndex].Name);
+				sLog->outBasic("[MuunSystem] [%s][%s]Item Use Muun Item LifeGem Fail", gObj[aIndex].AccountID, gObj[aIndex].Name);
 				this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 				return;
@@ -1846,7 +1846,7 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 		case 4:
 			if (this->MuunItemEnergyGenerator(&gObj[aIndex], lpMsg->inventoryPos, lpMsg->invenrotyTarget) == FALSE)
 			{
-				sLog.outBasic("[MuunSystem] [%s][%s]Item Use Muun Item Energy Generator Fail", gObj[aIndex].AccountID, gObj[aIndex].Name);
+				sLog->outBasic("[MuunSystem] [%s][%s]Item Use Muun Item Energy Generator Fail", gObj[aIndex].AccountID, gObj[aIndex].Name);
 				this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 				return;
@@ -1914,7 +1914,7 @@ bool CMuunSystem::MuunItemEvolution(OBJECTSTRUCT *lpObj, int source, int target)
 
 	if (lpObj->pMuunInventory[target].GetMuunItemRank() + 1 < lpObj->pMuunInventory[target].m_Level)
 	{
-		sLog.outBasic("[MuunSystem][Error][%s][%s] Over Level(%d) %d", lpObj->AccountID, lpObj->Name, lpObj->pMuunInventory[target].m_Level, __LINE__);
+		sLog->outBasic("[MuunSystem][Error][%s][%s] Over Level(%d) %d", lpObj->AccountID, lpObj->Name, lpObj->pMuunInventory[target].m_Level, __LINE__);
 		return false;
 	}
 
@@ -1922,7 +1922,7 @@ bool CMuunSystem::MuunItemEvolution(OBJECTSTRUCT *lpObj, int source, int target)
 
 	if (nEvolutionMuunNum == 0)
 	{
-		sLog.outBasic("[MuunSystem][Error][%s][%s] Not Evolution MuunItem Index - target Item Index(%d) %d", lpObj->AccountID, lpObj->Name, lpObj->pMuunInventory[target].m_Type, __LINE__);
+		sLog->outBasic("[MuunSystem][Error][%s][%s] Not Evolution MuunItem Index - target Item Index(%d) %d", lpObj->AccountID, lpObj->Name, lpObj->pMuunInventory[target].m_Type, __LINE__);
 		return false;
 	}
 
@@ -1935,7 +1935,7 @@ bool CMuunSystem::MuunItemEvolution(OBJECTSTRUCT *lpObj, int source, int target)
 		WORD Level = lpObj->pMuunInventory[target].m_Level;
 		int iMuunRank = lpObj->pMuunInventory[target].GetMuunItemRank();
 
-		sLog.outBasic("[MuunSystem][Evolution] [%s][%s] [Success] Source: [%s] Pos[%d] Serial[%I64d] - Target: [%s] Pos[%d] Rank[%d] Level[%d] Serial[%I64d]",
+		sLog->outBasic("[MuunSystem][Evolution] [%s][%s] [Success] Source: [%s] Pos[%d] Serial[%I64d] - Target: [%s] Pos[%d] Rank[%d] Level[%d] Serial[%I64d]",
 			lpObj->AccountID, lpObj->Name, pSItemAttribute->Name, source, lpObj->pMuunInventory[source].m_Number, pTItemAttribute->Name, target, iMuunRank, Level, serial);
 	}
 
@@ -2013,7 +2013,7 @@ bool CMuunSystem::MuunItemLevelUp(OBJECTSTRUCT *lpObj, int source, int target)
 
 	if (lpObj->pMuunInventory[target].GetMuunItemRank() + 1 < lpObj->pMuunInventory[target].m_Level)
 	{
-		sLog.outBasic("[MuunSystem][Error][%s][%s] Over Level(%d) %d", lpObj->AccountID, lpObj->Name, lpObj->pMuunInventory[target].m_Level, __LINE__);
+		sLog->outBasic("[MuunSystem][Error][%s][%s] Over Level(%d) %d", lpObj->AccountID, lpObj->Name, lpObj->pMuunInventory[target].m_Level, __LINE__);
 		return false;
 	}
 
@@ -2025,7 +2025,7 @@ bool CMuunSystem::MuunItemLevelUp(OBJECTSTRUCT *lpObj, int source, int target)
 												
 	if (pTItemAttribute && pSItemAttribute)
 	{
-		sLog.outBasic("[MuunSystem][LevelUp] [%s][%s] [Success] Source: [%s] Pos[%d] Rank[%d] Level[%d] Serial[%I64d] - Target: [%s] Pos[%d] Rank[%d] Level[%d]/[%d] Serial[%I64d]",
+		sLog->outBasic("[MuunSystem][LevelUp] [%s][%s] [Success] Source: [%s] Pos[%d] Rank[%d] Level[%d] Serial[%I64d] - Target: [%s] Pos[%d] Rank[%d] Level[%d]/[%d] Serial[%I64d]",
 			lpObj->AccountID, lpObj->Name, pSItemAttribute->Name, source, lpObj->pMuunInventory[source].GetMuunItemRank(), lpObj->pMuunInventory[source].m_Level, lpObj->pMuunInventory[source].m_Number,
 			pTItemAttribute->Name, target, lpObj->pMuunInventory[target].GetMuunItemRank(), nBeforeLv, lpObj->pMuunInventory[target].m_Level, lpObj->pMuunInventory[target].m_Number);
 	}
@@ -2077,7 +2077,7 @@ bool CMuunSystem::MuunItemLifeGem(OBJECTSTRUCT *lpObj, int source, int target)
 							
 	if (pItemAttribute)
 	{
-		sLog.outBasic("[MuunSystem] [%s][%s] Item Use Muun Item LifeGem Success target[%d] [%s] Dur:[%d]/[%d] Serial:%I64d",
+		sLog->outBasic("[MuunSystem] [%s][%s] Item Use Muun Item LifeGem Success target[%d] [%s] Dur:[%d]/[%d] Serial:%I64d",
 			lpObj->AccountID, lpObj->Name, target, pItemAttribute->Name, nBeforeDur, (int)lpObj->pMuunInventory[target].m_Durability, lpObj->pMuunInventory[target].m_Number);
 	}
 
@@ -2170,7 +2170,7 @@ bool CMuunSystem::MuunItemEnergyGenerator(LPOBJ lpObj, int source, int target)
 												
 		if (pTItemAttribute && pSItemAttribute)
 		{
-			sLog.outBasic("[MuunSystem][EnergyGenerator] [%s][%s] [Mix Success] Source: [%s] Pos[%d] Rank[%d] Level[%d] Serial[%I64d] - Target: [%s] Pos[%d] Serial[%I64d] Dur[%d/%d/%d]",
+			sLog->outBasic("[MuunSystem][EnergyGenerator] [%s][%s] [Mix Success] Source: [%s] Pos[%d] Rank[%d] Level[%d] Serial[%I64d] - Target: [%s] Pos[%d] Serial[%I64d] Dur[%d/%d/%d]",
 				lpObj->AccountID, lpObj->Name, pSItemAttribute->Name, source, lpObj->pMuunInventory[source].m_Durability, lpObj->pMuunInventory[source].m_Level, lpObj->pMuunInventory[source].m_Number,
 				pTItemAttribute->Name, target, lpObj->pInventory[target].m_Number, lpObj->pMuunInventory[target].m_Durability, nEnergy, nMuunDurability);
 		}
@@ -2186,7 +2186,7 @@ bool CMuunSystem::MuunItemEnergyGenerator(LPOBJ lpObj, int source, int target)
 												
 		if (pTItemAttribute && pSItemAttribute)
 		{
-			sLog.outBasic("[MuunSystem][EnergyGenerator] [%s][%s] [Create Success] Source: [%s] Pos[%d] Rank[%d] Level[%d] Serial[%I64d] - Target: [%s] Pos[%d] Serial[%I64d] Dur[%d/%d/%d]",
+			sLog->outBasic("[MuunSystem][EnergyGenerator] [%s][%s] [Create Success] Source: [%s] Pos[%d] Rank[%d] Level[%d] Serial[%I64d] - Target: [%s] Pos[%d] Serial[%I64d] Dur[%d/%d/%d]",
 				lpObj->AccountID, lpObj->Name, pSItemAttribute->Name, source, lpObj->pMuunInventory[source].m_Durability, lpObj->pMuunInventory[source].m_Level, lpObj->pMuunInventory[source].m_Number,
 				pTItemAttribute->Name, target, lpObj->pInventory[target].m_Number, lpObj->pMuunInventory[target].m_Durability, nEnergy, nMuunDurability);
 		}
@@ -2315,7 +2315,7 @@ void CMuunSystem::CheckMuunItemPeriodData(OBJECTSTRUCT *lpObj)
 {
 	if (lpObj == NULL)
 	{
-		sLog.outBasic("[MuunSystem][Error] lpObj is NULL [%d]", __LINE__);
+		sLog->outBasic("[MuunSystem][Error] lpObj is NULL [%d]", __LINE__);
 		return;
 	}
 
@@ -2351,7 +2351,7 @@ void CMuunSystem::CheckMuunItemPeriodData(OBJECTSTRUCT *lpObj)
 									
 								if (!pCMuunInfo)
 								{
-									sLog.outBasic("[MuunSystem][Error] pCMuunInfo is NULL [%s][%s] [%d]", lpUserObj->AccountID, lpUserObj->Name, __LINE__);								
+									sLog->outBasic("[MuunSystem][Error] pCMuunInfo is NULL [%s][%s] [%d]", lpUserObj->AccountID, lpUserObj->Name, __LINE__);								
 									return;
 								}
 								
@@ -2600,7 +2600,7 @@ void CMuunSystem::CalCharacterStat(int aIndex, CMuunInfo *pCMuunInfo)
 {
 	if (!pCMuunInfo)
 	{
-		sLog.outBasic("[MuunSystem][Error] CalCharacterStat() pCMuunInfo is NULL [%d]", __LINE__);
+		sLog->outBasic("[MuunSystem][Error] CalCharacterStat() pCMuunInfo is NULL [%d]", __LINE__);
 		return;
 	}
 
@@ -2622,7 +2622,7 @@ int CMuunSystem::CheckMuunItemCondition(OBJECTSTRUCT * lpObj, _tagMUUN_EFFECT_LI
 {
 	if (pCMuunInfo == NULL)
 	{
-		sLog.outBasic("[MuunSystem][Error] CheckMuunItemCondition() pCMuunInfo is NULL [%s][%s] [%d]", lpObj->AccountID, lpObj->Name, __LINE__);
+		sLog->outBasic("[MuunSystem][Error] CheckMuunItemCondition() pCMuunInfo is NULL [%s][%s] [%d]", lpObj->AccountID, lpObj->Name, __LINE__);
 		return -1;
 	}
 
@@ -2663,7 +2663,7 @@ int CMuunSystem::CheckMuunItemConditionProc( _tagMUUN_EFFECT_LIST *pUserMuunEffe
 	}
 	else
 	{
-		sLog.outBasic(
+		sLog->outBasic(
 			"[MuunSystem][Error] CheckMuunItemConditionProc() pCMuunInfo is NULL [%d]",
 			__LINE__);
 		result = -1;
@@ -2675,7 +2675,7 @@ int CMuunSystem::ChkMuunOptConditionTime(_tagMUUN_EFFECT_LIST *pUserMuunEffect, 
 {
 	if (pCMuunInfo == NULL)
 	{
-		sLog.outBasic("[MuunSystem][Error] ChkMuunOptConditionTime() pCMuunInfo is NULL [%d]",__LINE__);
+		sLog->outBasic("[MuunSystem][Error] ChkMuunOptConditionTime() pCMuunInfo is NULL [%d]",__LINE__);
 		return -1;
 	}
 
@@ -2712,7 +2712,7 @@ int CMuunSystem::ChkMuunOptConditionDay( _tagMUUN_EFFECT_LIST *pUserMuunEffect, 
 
 	if (!pCMuunInfo)
 	{
-		sLog.outBasic("[MuunSystem][Error] ChkMuunOptConditionDay() pCMuunInfo is NULL [%d]", __LINE__);
+		sLog->outBasic("[MuunSystem][Error] ChkMuunOptConditionDay() pCMuunInfo is NULL [%d]", __LINE__);
 		return -1;
 	}
 
@@ -2743,13 +2743,13 @@ int CMuunSystem::ChkMuunOptConditionLevel(OBJECTSTRUCT *lpObj, _tagMUUN_EFFECT_L
 {
 	if (!pCMuunInfo)
 	{
-		sLog.outBasic("[MuunSystem][Error] ChkMuunOptConditionLevel() pCMuunInfo is NULL [%d]", __LINE__);
+		sLog->outBasic("[MuunSystem][Error] ChkMuunOptConditionLevel() pCMuunInfo is NULL [%d]", __LINE__);
 		return -1;
 	}
 
 	if (lpObj->Type != OBJ_USER)
 	{
-		sLog.outBasic("[MuunSystem][Error] ChkMuunOptConditionLevel() lpObj->Type != OBJ_USER", __LINE__);
+		sLog->outBasic("[MuunSystem][Error] ChkMuunOptConditionLevel() lpObj->Type != OBJ_USER", __LINE__);
 		return -1;
 	}
 
@@ -2773,7 +2773,7 @@ int CMuunSystem::ChkMuunOptConditionMap(OBJECTSTRUCT *lpObj, _tagMUUN_EFFECT_LIS
 {
 	if (!pCMuunInfo)
 	{
-		sLog.outBasic("[MuunSystem][Error] ChkMuunOptConditionMap() pCMuunInfo is NULL [%d]", __LINE__);
+		sLog->outBasic("[MuunSystem][Error] ChkMuunOptConditionMap() pCMuunInfo is NULL [%d]", __LINE__);
 		return -1;
 	}
 		
@@ -2871,7 +2871,7 @@ bool CMuunSystem::LoadScriptMuunExchange(char *lpszFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("[MuunSystem] Cannot load %s file! (%s)", lpszFileName, res.description());
+		sLog->outError("[MuunSystem] Cannot load %s file! (%s)", lpszFileName, res.description());
 		return false;
 	}
 
@@ -2886,7 +2886,7 @@ bool CMuunSystem::LoadScriptMuunExchange(char *lpszFileName)
 	{
 		if (iCount >= 8)
 		{
-			sLog.outError("Exceed max entries (StoneOfEvolutionPoint)");
+			sLog->outError("Exceed max entries (StoneOfEvolutionPoint)");
 			break;
 		}
 
@@ -2904,7 +2904,7 @@ bool CMuunSystem::LoadScriptMuunExchange(char *lpszFileName)
 	{
 		if (iCount >= 10)
 		{
-			sLog.outError("Exceed max entries (RequiredItemsExchange)");
+			sLog->outError("Exceed max entries (RequiredItemsExchange)");
 			break;
 		}
 
@@ -2923,7 +2923,7 @@ bool CMuunSystem::LoadScriptMuunExchange(char *lpszFileName)
 	{
 		if (iCount >= 20)
 		{
-			sLog.outError("Exceed max entries (BagListSettings)");
+			sLog->outError("Exceed max entries (BagListSettings)");
 			break;
 		}
 
@@ -2961,13 +2961,13 @@ void CMuunSystem::CGMuunExchangeItem(PMSG_REQ_MUUN_EXCHANGE *lpMsg, int aIndex)
 
 	if (nSelect >= 10)
 	{
-		sLog.outBasic("[MuunSystem][MuunExchange][Error][%s][%s] Select Over %d [%s, %d]", gObj[aIndex].AccountID, gObj[aIndex].Name, nSelect, __FILE__, __LINE__);
+		sLog->outBasic("[MuunSystem][MuunExchange][Error][%s][%s] Select Over %d [%s, %d]", gObj[aIndex].AccountID, gObj[aIndex].Name, nSelect, __FILE__, __LINE__);
 		return;
 	}
 
 	if (this->ChkMuunExchangeInvenNeedItem(&gObj[aIndex], nSelect, 0) == FALSE)
 	{
-		sLog.outBasic("[MuunSystem][MuunExchange][FAIL][%s][%s] Lack of Materials", gObj[aIndex].AccountID, gObj[aIndex].Name);
+		sLog->outBasic("[MuunSystem][MuunExchange][FAIL][%s][%s] Lack of Materials", gObj[aIndex].AccountID, gObj[aIndex].Name);
 
 		this->SendMsgMuunExchange(aIndex, 1);
 		return;
@@ -2975,7 +2975,7 @@ void CMuunSystem::CGMuunExchangeItem(PMSG_REQ_MUUN_EXCHANGE *lpMsg, int aIndex)
           
 	if (this->ChkMuunExchangeInvenEmpty(&gObj[aIndex], nSelect) == FALSE)
 	{
-		sLog.outBasic("[MuunSystem][MuunExchange][FAIL][%s][%s] Not Empty Space", gObj[aIndex].AccountID, gObj[aIndex].Name);
+		sLog->outBasic("[MuunSystem][MuunExchange][FAIL][%s][%s] Not Empty Space", gObj[aIndex].AccountID, gObj[aIndex].Name);
 
 		this->SendMsgMuunExchange(aIndex, 2);
 		return;
@@ -3109,7 +3109,7 @@ bool CMuunSystem::GDMuunExchangeInsertInven(LPOBJ lpObj, int iSelect)
 
 	ItemSerialCreateSend(lpObj->m_Index, 218, nSelect, Y, iType, iLevel, fDur, iOption1, iOption2, iOption3, lpObj->m_Index, iExOption, 0, 0, SocketOption, 0);
 
-	sLog.outBasic("[MuunSystem][MuunExchange][ItemSerialCreateSend] [%s][%s] : Item:(%s)%d Level:%d op1:%d op2:%d op3:%d ExOp:%d",
+	sLog->outBasic("[MuunSystem][MuunExchange][ItemSerialCreateSend] [%s][%s] : Item:(%s)%d Level:%d op1:%d op2:%d op3:%d ExOp:%d",
 		lpObj->AccountID, lpObj->Name, ItemAttribute->Name, iType, iLevel, iOption1, iOption2, iOption3, iExOption);
 	return true;
 }
@@ -3132,7 +3132,7 @@ BYTE CMuunSystem::DGMuunExchangeInsertInven(LPOBJ lpObj, CItem CreateItem, int i
 
 	if (this->ChkAndDelItemMuunExchange(lpObj, iSelect) == false)
 	{
-		sLog.outBasic("[MuunSystem][MuunExchange][ItemSerialCreateRecv][ItemDelFail][%s][%s][%d]",
+		sLog->outBasic("[MuunSystem][MuunExchange][ItemSerialCreateRecv][ItemDelFail][%s][%s][%d]",
 			lpObj->AccountID, lpObj->Name, iSelect);
 		return btRet;
 	}
@@ -3163,14 +3163,14 @@ BYTE CMuunSystem::DGMuunExchangeInsertInven(LPOBJ lpObj, CItem CreateItem, int i
 
 	else
 	{
-		sLog.outBasic("[MuunSystem][MuunExchange][Error][%s][%s] DGMuunExchangeInsertInven() ChkInven %d [%s, %d]",
+		sLog->outBasic("[MuunSystem][MuunExchange][Error][%s][%s] DGMuunExchangeInsertInven() ChkInven %d [%s, %d]",
 			lpObj->AccountID, lpObj->Name, nChkInven, __FILE__, __LINE__);
 
 		return btRet;
 	}
 
 	this->SendMsgMuunExchange(lpObj->m_Index, 2);
-	sLog.outBasic("[MuunSystem][MuunExchange][FAIL][%s][%s] Not Empty Space", lpObj->AccountID, lpObj->Name);
+	sLog->outBasic("[MuunSystem][MuunExchange][FAIL][%s][%s] Not Empty Space", lpObj->AccountID, lpObj->Name);
 	return btRet;
 }
 
@@ -3205,7 +3205,7 @@ bool CMuunSystem::ChkAndDelItemMuunExchange(LPOBJ lpObj, int iSelect)
 				BYTE NewOption[MAX_EXOPTION_SIZE];
 				ItemIsBufExOption(NewOption, &lpObj->pMuunInventory[nItemPos]);
 
-				sLog.outBasic("[MuunSystem][MuunExchange] Delete MuunInven Item [%s][%s] Delete Item Info - Item:[%s,%d,%d,%d,%d] serial:[%I64d][%d] Ex:[%d,%d,%d,%d,%d,%d,%d] Set[%d] 380:[%d] HO:[%d,%d] SC[%d,%d,%d,%d,%d] BonusOption[%d]",
+				sLog->outBasic("[MuunSystem][MuunExchange] Delete MuunInven Item [%s][%s] Delete Item Info - Item:[%s,%d,%d,%d,%d] serial:[%I64d][%d] Ex:[%d,%d,%d,%d,%d,%d,%d] Set[%d] 380:[%d] HO:[%d,%d] SC[%d,%d,%d,%d,%d] BonusOption[%d]",
 					lpObj->AccountID, lpObj->Name, lpObj->pMuunInventory[nItemPos].GetName(), lpObj->pMuunInventory[nItemPos].m_Level, lpObj->pMuunInventory[nItemPos].m_Option1, lpObj->pMuunInventory[nItemPos].m_Option2, lpObj->pMuunInventory[nItemPos].m_Option3,
 					lpObj->pMuunInventory[nItemPos].m_Number, (int)lpObj->pMuunInventory[nItemPos].m_Durability, NewOption[0], NewOption[1], NewOption[2], NewOption[3], NewOption[4], NewOption[5], NewOption[6], lpObj->pMuunInventory[nItemPos].m_SetOption,
 					lpObj->pMuunInventory[nItemPos].m_ItemOptionEx >> 7, g_kJewelOfHarmonySystem.GetItemStrengthenOption(&lpObj->pMuunInventory[nItemPos]), g_kJewelOfHarmonySystem.GetItemOptionLevel(&lpObj->pMuunInventory[nItemPos]),
@@ -3236,7 +3236,7 @@ bool CMuunSystem::ChkAndDelItemMuunExchange(LPOBJ lpObj, int iSelect)
 				BYTE NewOption[MAX_EXOPTION_SIZE];
 				ItemIsBufExOption(NewOption, &lpObj->pMuunInventory[nItemPos]);
 
-				sLog.outBasic("[MuunSystem][MuunExchange] Delete Inven Item [%s][%s] Delete Item Info - Item:[%s,%d,%d,%d,%d] serial:[%I64d][%d] Ex:[%d,%d,%d,%d,%d,%d,%d] Set[%d] 380:[%d] HO:[%d,%d] SC[%d,%d,%d,%d,%d] BonusOption[%d]",
+				sLog->outBasic("[MuunSystem][MuunExchange] Delete Inven Item [%s][%s] Delete Item Info - Item:[%s,%d,%d,%d,%d] serial:[%I64d][%d] Ex:[%d,%d,%d,%d,%d,%d,%d] Set[%d] 380:[%d] HO:[%d,%d] SC[%d,%d,%d,%d,%d] BonusOption[%d]",
 					lpObj->AccountID, lpObj->Name, lpObj->pInventory[nItemPos].GetName(), lpObj->pInventory[nItemPos].m_Level, lpObj->pInventory[nItemPos].m_Option1, lpObj->pInventory[nItemPos].m_Option2, lpObj->pInventory[nItemPos].m_Option3,
 					lpObj->pInventory[nItemPos].m_Number, (int)lpObj->pInventory[nItemPos].m_Durability, NewOption[0], NewOption[1], NewOption[2], NewOption[3], NewOption[4], NewOption[5], NewOption[6], lpObj->pInventory[nItemPos].m_SetOption,
 					lpObj->pInventory[nItemPos].m_ItemOptionEx >> 7, g_kJewelOfHarmonySystem.GetItemStrengthenOption(&lpObj->pInventory[nItemPos]), g_kJewelOfHarmonySystem.GetItemOptionLevel(&lpObj->pInventory[nItemPos]),
@@ -3252,7 +3252,7 @@ bool CMuunSystem::ChkAndDelItemMuunExchange(LPOBJ lpObj, int iSelect)
 
 	else
 	{
-		sLog.outBasic("[MuunSystem][MuunExchange][Error][%s][%s] ChkAndDelItemMuunExchange() ChkInven %d [%s, %d]",
+		sLog->outBasic("[MuunSystem][MuunExchange][Error][%s][%s] ChkAndDelItemMuunExchange() ChkInven %d [%s, %d]",
 			lpObj->AccountID, lpObj->Name, nChkInven, __FILE__, __LINE__);
 
 		return false;
@@ -3317,11 +3317,11 @@ bool CMuunSystem::ChkMuunExchangeInvenNeedItem(LPOBJ lpObj, int iSelect, int *It
 
 	else
 	{
-		sLog.outBasic("[MuunSystem][MuunExchange][Error][%s][%s] ChkMuunExchangeInvenNeedItem() ChkInven %d [%s, %d]",lpObj->AccountID,lpObj->Name, nChkInven, __FILE__, __LINE__);
+		sLog->outBasic("[MuunSystem][MuunExchange][Error][%s][%s] ChkMuunExchangeInvenNeedItem() ChkInven %d [%s, %d]",lpObj->AccountID,lpObj->Name, nChkInven, __FILE__, __LINE__);
 		return FALSE;
 	}
 
-	sLog.outBasic("[MuunSystem][MuunExchange][FAIL][%s][%s] Lack of Materials", lpObj->AccountID, lpObj->Name);
+	sLog->outBasic("[MuunSystem][MuunExchange][FAIL][%s][%s] Lack of Materials", lpObj->AccountID, lpObj->Name);
 	
 	this->SendMsgMuunExchange(lpObj->m_Index, 1);
 	return false;
@@ -3351,7 +3351,7 @@ bool CMuunSystem::ChkMuunExchangeInvenEmpty(LPOBJ lpObj, int iSelect)
 
 	else
 	{
-		sLog.outBasic("[MuunSystem][MuunExchange][Error][%s][%s] ChkMuunExchangeInvenEmpty() ChkInven %d [%s, %d]",  lpObj->AccountID, lpObj->Name, nChkInven, __FILE__,__LINE__);
+		sLog->outBasic("[MuunSystem][MuunExchange][Error][%s][%s] ChkMuunExchangeInvenEmpty() ChkInven %d [%s, %d]",  lpObj->AccountID, lpObj->Name, nChkInven, __FILE__,__LINE__);
 		return false;
 	}
 

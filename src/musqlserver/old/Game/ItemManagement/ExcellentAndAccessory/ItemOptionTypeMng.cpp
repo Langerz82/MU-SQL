@@ -32,7 +32,7 @@ bool CItemOptionTypeMng::LoadScript(char *pchFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("Failed to load %s file (%s)", pchFileName, res.description());
+		sLog->outError("Failed to load %s file (%s)", pchFileName, res.description());
 		return false;
 	}
 
@@ -170,7 +170,7 @@ bool CItemOptionTypeMng::LoadAccessoryItemOptionScript(char *pchFileName)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("[ItemOptionTypeMng] AccessoryItem Option Script file Load failed. (%s) (%s)", pchFileName, res.description());
+		sLog->outError("[ItemOptionTypeMng] AccessoryItem Option Script file Load failed. (%s) (%s)", pchFileName, res.description());
 		return false;
 	}
 
@@ -205,7 +205,7 @@ int CItemOptionTypeMng::CommonExcOptionRand(int ItemKindA, BYTE *btSocketExcOpti
 	int iExcOption = 0;
 	for (int i = 0; i < 20; i++)
 	{
-		//	sLog.outError("[K2]1# ItemKindA %d %d %d [%d]", this->m_CommonExtOptionType[i].ItemKindA_1, this->m_CommonExtOptionType[i].ItemKindA_2, this->m_CommonExtOptionType[i].ItemKindA_3, ItemKindA);
+		//	sLog->outError("[K2]1# ItemKindA %d %d %d [%d]", this->m_CommonExtOptionType[i].ItemKindA_1, this->m_CommonExtOptionType[i].ItemKindA_2, this->m_CommonExtOptionType[i].ItemKindA_3, ItemKindA);
 		if (this->m_CommonExtOptionType[i].ItemKindA_1 == ItemKindA ||	this->m_CommonExtOptionType[i].ItemKindA_2 == ItemKindA ||
 			this->m_CommonExtOptionType[i].ItemKindA_3 == ItemKindA)
 		{
@@ -291,7 +291,7 @@ int CItemOptionTypeMng::CommonExcOptionRand(int ItemKindA, BYTE *btSocketExcOpti
 	{
 		iOptionCount = iExcOption;
 	}
-	//sLog.outError("[K2]1# RuudShop %d", iOptionCount);
+	//sLog->outError("[K2]1# RuudShop %d", iOptionCount);
 	//g_Log.AddC(TColor::Yellow, "[K2] iOptionCount %d", iOptionCount);
 	BYTE ExcOption = 0;
 
@@ -366,7 +366,7 @@ int CItemOptionTypeMng::CommonExcOptionRand(int ItemKindA, BYTE *btSocketExcOpti
 	int iExcOption = 0;
 	for (int i = 0; i < 20; i++)
 	{
-	//	sLog.outError("[K2]1# ItemKindA %d %d %d [%d]", this->m_CommonExtOptionType[i].ItemKindA_1, this->m_CommonExtOptionType[i].ItemKindA_2, this->m_CommonExtOptionType[i].ItemKindA_3, ItemKindA);
+	//	sLog->outError("[K2]1# ItemKindA %d %d %d [%d]", this->m_CommonExtOptionType[i].ItemKindA_1, this->m_CommonExtOptionType[i].ItemKindA_2, this->m_CommonExtOptionType[i].ItemKindA_3, ItemKindA);
 		if (this->m_CommonExtOptionType[i].ItemKindA_1 == ItemKindA ||
 			this->m_CommonExtOptionType[i].ItemKindA_2 == ItemKindA ||
 			this->m_CommonExtOptionType[i].ItemKindA_3 == ItemKindA)
@@ -453,7 +453,7 @@ int CItemOptionTypeMng::CommonExcOptionRand(int ItemKindA, BYTE *btSocketExcOpti
 	{
 		iOptionCount = iExcOption;
 	}
-	//sLog.outError("[K2]1# RuudShop %d", iOptionCount);
+	//sLog->outError("[K2]1# RuudShop %d", iOptionCount);
 	//g_Log.AddC(TColor::Yellow, "[K2] iOptionCount %d", iOptionCount);
 	BYTE ExcOption = 0;
 

@@ -55,7 +55,7 @@ int CMultiCheckSum::LoadFile()
 		if (this->LoadFile(filenames, i)  != 0)
 		{
 			this->m_dwLoaded[i]=1;
-			sLog.outBasic("Load Checksum file : %s", filenames);
+			sLog->outBasic("Load Checksum file : %s", filenames);
 		}
 	}
 	return 1;
@@ -87,12 +87,12 @@ int CMultiCheckSum::CompareCheckSum(int aIndex, DWORD TableNum, DWORD Key)
 		{
 			if ( ( this->m_dwgCheckSum[i][TableNum] ) == Key)	
 			{
-				sLog.outBasic("CheckSum%d-Exe Compare Success [%s]", i, gObj[aIndex].AccountID );
+				sLog->outBasic("CheckSum%d-Exe Compare Success [%s]", i, gObj[aIndex].AccountID );
 				return 1;
 			}
 			else
 			{
-				sLog.outBasic("CheckSum%d-Exe Compare Fail %d %d %d [%s]", i, this->m_dwgCheckSum[i][TableNum], Key, TableNum, gObj[aIndex].AccountID );
+				sLog->outBasic("CheckSum%d-Exe Compare Fail %d %d %d [%s]", i, this->m_dwgCheckSum[i][TableNum], Key, TableNum, gObj[aIndex].AccountID );
 			}
 		}
 	}

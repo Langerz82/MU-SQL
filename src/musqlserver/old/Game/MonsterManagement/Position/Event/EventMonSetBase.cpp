@@ -29,7 +29,7 @@ void CEventMonSetBase::LoadScript(char *szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("%s file load fail (%s)", szFile, res.description());
+		sLog->outError("%s file load fail (%s)", szFile, res.description());
 		return;
 	}
 
@@ -88,7 +88,7 @@ void CEventMonSetBase::LoadScript(char *szFile)
 		}
 	}
 
-	//sLog.outBasic("[Event Spawn] Load %d spots", this->m_mapEventSpotData.size());
+	//sLog->outBasic("[Event Spawn] Load %d spots", this->m_mapEventSpotData.size());
 }
 
 void CEventMonSetBase::Run()
@@ -157,7 +157,7 @@ void CEventMonSetBase::SpawnMonster(boost::shared_ptr<EVENT_MONSTER_POSITION> lp
 
 	if (result == -1)
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -169,14 +169,14 @@ void CEventMonSetBase::SpawnMonster(boost::shared_ptr<EVENT_MONSTER_POSITION> lp
 	if (this->SetPosMonster(result, lpSpotData->m_MapNumber, lpSpotData->m_X, lpSpotData->m_Y, lpSpotData->m_W, lpSpotData->m_H, lpSpotData->m_Dir) == FALSE)
 	{
 		gObjDel(result);
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return;
 	}
 
 	gObjSetMonster(result, lpSpotData->m_Type);
 	this->m_mapMonsterData.insert(std::pair<int, boost::shared_ptr<EVENT_MONSTER_DATA>>(result, lpMonsterData));
 
-	//sLog.outBasic("[Event Spawn] Set Monster (%d) (%d) (%d)(%d)(%d)", result, lpSpotData->m_Type, gObj[result].MapNumber, gObj[result].X, gObj[result].Y);
+	//sLog->outBasic("[Event Spawn] Set Monster (%d) (%d) (%d)(%d)(%d)", result, lpSpotData->m_Type, gObj[result].MapNumber, gObj[result].X, gObj[result].Y);
 }
 
 void CEventMonSetBase::RegenMonster(int iIndex)
@@ -191,7 +191,7 @@ void CEventMonSetBase::RegenMonster(int iIndex)
 
 	if (Iter->second->lpSpotData->m_DoSpawn == FALSE)
 	{
-		sLog.outBasic("[Event Spawn] End of Regen Time -> Delete Monster (%d)(%d) (%d)(%d)(%d)",
+		sLog->outBasic("[Event Spawn] End of Regen Time -> Delete Monster (%d)(%d) (%d)(%d)(%d)",
 			iIndex, lpObj->Class, lpObj->MapNumber, lpObj->X, lpObj->Y);
 
 		gObjDel(iIndex);
@@ -203,7 +203,7 @@ void CEventMonSetBase::RegenMonster(int iIndex)
 		Iter->second->lpSpotData->m_Y, Iter->second->lpSpotData->m_W, Iter->second->lpSpotData->m_H,
 		lpObj->X, lpObj->Y) == FALSE)
 	{
-		sLog.outBasic("[Event Spawn] Failed to find empty space on map -> Delete Monster (%d)(%d) (%d)(%d)(%d)",
+		sLog->outBasic("[Event Spawn] Failed to find empty space on map -> Delete Monster (%d)(%d) (%d)(%d)(%d)",
 			iIndex, lpObj->Class, lpObj->MapNumber, lpObj->X, lpObj->Y);
 
 		gObjDel(iIndex);
@@ -218,14 +218,14 @@ void CEventMonSetBase::RegenMonster(int iIndex)
 	lpObj->StartX = lpObj->X;
 	lpObj->StartY = lpObj->Y;
 
-	//sLog.outBasic("[Event Spawn] Regen Monster (%d)(%d) (%d)(%d)(%d)",iIndex, lpObj->Class, lpObj->MapNumber, lpObj->X, lpObj->Y);
+	//sLog->outBasic("[Event Spawn] Regen Monster (%d)(%d) (%d)(%d)(%d)",iIndex, lpObj->Class, lpObj->MapNumber, lpObj->X, lpObj->Y);
 }
 
 void CEventMonSetBase::DeleteAllMonsters()
 {
 	for (std::map<int, boost::shared_ptr<EVENT_MONSTER_DATA>>::iterator It = this->m_mapMonsterData.begin(); It != this->m_mapMonsterData.end(); It++)
 	{
-		//sLog.outBasic("[Event Spawn] Delete Monster (%d)(%d) (%d)(%d)(%d)", It->first,	gObj[It->first].Class, gObj[It->first].MapNumber, gObj[It->first].X, gObj[It->first].Y);
+		//sLog->outBasic("[Event Spawn] Delete Monster (%d)(%d) (%d)(%d)(%d)", It->first,	gObj[It->first].Class, gObj[It->first].MapNumber, gObj[It->first].X, gObj[It->first].Y);
 
 		gObjDel(It->first);
 		this->m_mapMonsterData.erase(It);
@@ -237,7 +237,7 @@ int CEventMonSetBase::SetPosMonster(int aIndex, int nMapNumber, int nBeginX, int
 {
 	if (!ObjectMaxRange(aIndex))
 	{
-		sLog.outBasic("error : %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return false;
 	}
 

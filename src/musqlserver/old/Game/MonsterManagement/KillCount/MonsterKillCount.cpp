@@ -38,7 +38,7 @@ void CKillCountMng::ReadConfig(LPSTR szFile)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("Error loading %s file (%s)", szFile, res.description());
+		sLog->outError("Error loading %s file (%s)", szFile, res.description());
 		return;
 	}
 

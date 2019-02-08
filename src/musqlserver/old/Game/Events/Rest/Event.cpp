@@ -129,7 +129,7 @@ void EGResultRegEventChip(PMSG_ANS_REGISTER_EVENTCHIP * aRecv)
 	if ( aRecv->bSUCCESS == FALSE )
 	{
 		Result.ChipCount = -1;
-		sLog.outBasic("[EventChip] [%s][%s] RegEventServer Fail (RegEventchip) %d",
+		sLog->outBasic("[EventChip] [%s][%s] RegEventServer Fail (RegEventchip) %d",
 			lpObj->AccountID, lpObj->Name, aRecv->Pos);
 
 	}
@@ -139,7 +139,7 @@ void EGResultRegEventChip(PMSG_ANS_REGISTER_EVENTCHIP * aRecv)
 		gObjInventoryDeleteItem(aIndex, aRecv->Pos);
 		GSProtocol.GCInventoryItemDeleteSend(aIndex, aRecv->Pos, 1);
 
-		sLog.outBasic("[EventChip] [%s][%s] Delete EventChip (%d)",
+		sLog->outBasic("[EventChip] [%s][%s] Delete EventChip (%d)",
 			lpObj->AccountID, lpObj->Name, aRecv->Pos);
 	}
 
@@ -184,7 +184,7 @@ void EGRecvRegMutoNum( PMSG_ANS_REGISTER_MUTONUM* aRecv)
 	Result.MutoNum[2] = aRecv->iMUTO_NUM % 1000;
 	lpObj->MutoNumber = aRecv->iMUTO_NUM;
 	
-	sLog.outBasic("[EventChip] [%s][%s] Make MutoNumber %d,%d,%d",
+	sLog->outBasic("[EventChip] [%s][%s] Make MutoNumber %d,%d,%d",
 		lpObj->AccountID, lpObj->Name, 
 		Result.MutoNum[0], Result.MutoNum[1], Result.MutoNum[2]);
 
@@ -208,12 +208,12 @@ void EGRecvChangeRena( PMSG_ANS_RESET_EVENTCHIP* aRecv)
 		lpObj->m_PlayerData->Money += lpObj->EventChipCount * 3000;
 		GSProtocol.GCMoneySend(aIndex, lpObj->m_PlayerData->Money);
 
-		sLog.outBasic("[EventChip] [%s][%s] ChangeRena AddMoney(%d)",
+		sLog->outBasic("[EventChip] [%s][%s] ChangeRena AddMoney(%d)",
 			lpObj->AccountID, lpObj->Name, lpObj->EventChipCount * 3000);
 	}
 	else
 	{
-		sLog.outBasic("[EventChip] [%s][%s] ChangeRena Fail",
+		sLog->outBasic("[EventChip] [%s][%s] ChangeRena Fail",
 			lpObj->AccountID, lpObj->Name);
 	}
 
@@ -270,14 +270,14 @@ void EGRecvRegStone( PMSG_ANS_REGISTER_STONES* aRecv)
 		gObjInventoryDeleteItem(aIndex, aRecv->iPosition);
 		GSProtocol.GCInventoryItemDeleteSend(aIndex, aRecv->iPosition, 1);
 
-		sLog.outBasic("[Stone] [%s][%s] Delete Stones",
+		sLog->outBasic("[Stone] [%s][%s] Delete Stones",
 			lpObj->AccountID, lpObj->Name);
 	}
 	else
 	{
 		Result.ChipCount = -1;
 		
-		sLog.outBasic("[Stone] [%s][%s] RegEventServer Fail (Stones : %d)",
+		sLog->outBasic("[Stone] [%s][%s] RegEventServer Fail (Stones : %d)",
 			lpObj->AccountID, lpObj->Name, aRecv->iStoneCount);
 	}
 
@@ -309,12 +309,12 @@ void EGRecvChangeStones( PMSG_ANS_RESET_EVENTCHIP* aRecv)
 		lpObj->m_PlayerData->Money += lpObj->iStoneCount * 3000;
 		GSProtocol.GCMoneySend(aIndex, lpObj->m_PlayerData->Money);
 
-		sLog.outBasic("[Stones] [%s][%s] ChangeRena AddMoney(%d)",
+		sLog->outBasic("[Stones] [%s][%s] ChangeRena AddMoney(%d)",
 			lpObj->AccountID, lpObj->Name, lpObj->iStoneCount*3000);
 	}
 	else
 	{
-		sLog.outBasic("[Stones] [%s][%s] ChangeRena Fail",
+		sLog->outBasic("[Stones] [%s][%s] ChangeRena Fail",
 			lpObj->AccountID, lpObj->Name);
 	}
 
@@ -349,13 +349,13 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 
 	if ( !ObjectMaxRange(aRecv->iINDEX))
 	{
-		sLog.outBasic("[Mu_2Anv_Event] Error : Index is out of bound [%d]", aRecv->iINDEX);
+		sLog->outBasic("[Mu_2Anv_Event] Error : Index is out of bound [%d]", aRecv->iINDEX);
 		return;
 	}
 
 	if ( gObj[aRecv->iINDEX].Connected <= PLAYER_LOGGED )
 	{
-		sLog.outBasic("[Mu_2Anv_Event] Error : Index is out of bound [%d]", aRecv->iINDEX);
+		sLog->outBasic("[Mu_2Anv_Event] Error : Index is out of bound [%d]", aRecv->iINDEX);
 		return;
 	}
 
@@ -367,7 +367,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 		
 		if ( !GIFT_2ANV_RANGE(aRecv->iGiftNumber-1) )
 		{
-			sLog.outBasic("[Mu_2Anv_Event] Error : Gift Index is out of bound [%d]", aRecv->iGiftNumber);
+			sLog->outBasic("[Mu_2Anv_Event] Error : Gift Index is out of bound [%d]", aRecv->iGiftNumber);
 			Result.btIsRegistered = 2;
 		}
 
@@ -900,7 +900,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			default:
-				sLog.outBasic("[Mu_2Anv_Event] Error : iGiftNumber is Out of Boud [%d]", aRecv->iGiftNumber);
+				sLog->outBasic("[Mu_2Anv_Event] Error : iGiftNumber is Out of Boud [%d]", aRecv->iGiftNumber);
 				break;
 		}
 	}
@@ -915,10 +915,10 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 	else
 	{
 		Result.btIsRegistered = 4;
-		sLog.outBasic("[Mu_2Anv_Event] Error : Result Value is Wrong [%d]", aRecv->btIsRegistered);
+		sLog->outBasic("[Mu_2Anv_Event] Error : Result Value is Wrong [%d]", aRecv->btIsRegistered);
 	}
 
-	sLog.outBasic("[Mu_2Anv_Event] Register Serial Result : %d [%s][%s]",
+	sLog->outBasic("[Mu_2Anv_Event] Register Serial Result : %d [%s][%s]",
 		aRecv->btIsRegistered, gObj[aRecv->iINDEX].AccountID, gObj[aRecv->iINDEX].Name);
 
 	IOCP.DataSend(aRecv->iINDEX, (LPBYTE)&Result, Result.h.size);
@@ -953,13 +953,13 @@ void EGRecvRegRingGift( PMSG_ANS_REG_RINGGIFT* aRecv)
 
 			GSProtocol.AllSendServerMsg(szTemp);
 
-			sLog.outBasic("[Ring Event] [%s][%s] Register Succeeded Result:%d, Gift:%d",
+			sLog->outBasic("[Ring Event] [%s][%s] Register Succeeded Result:%d, Gift:%d",
 				gObj[aRecv->iINDEX].AccountID, gObj[aRecv->iINDEX].Name,
 				aRecv->btIsRegistered, aRecv->btGiftKind);
 		}
 		else
 		{
-			sLog.outBasic("[Ring Event] [%s][%s] Register Failed Result:%d, Gift:%d (out of bound, 1~4)",
+			sLog->outBasic("[Ring Event] [%s][%s] Register Failed Result:%d, Gift:%d (out of bound, 1~4)",
 				gObj[aRecv->iINDEX].AccountID, gObj[aRecv->iINDEX].Name,
 				aRecv->btIsRegistered, aRecv->btGiftKind);
 		}
@@ -967,7 +967,7 @@ void EGRecvRegRingGift( PMSG_ANS_REG_RINGGIFT* aRecv)
 		return;
 	}
 
-	sLog.outBasic("[Ring Event] [%s][%s] Register Failed Result : %d",
+	sLog->outBasic("[Ring Event] [%s][%s] Register Failed Result : %d",
 		gObj[aRecv->iINDEX].AccountID, gObj[aRecv->iINDEX].Name,
 		aRecv->btIsRegistered);
 
@@ -1103,7 +1103,7 @@ void EGAnsRegCCOfflineGift( PMSG_ANS_REG_CC_OFFLINE_GIFT* lpMsg)
 	wsprintf(szText, Lang.GetText(0,156), szName, szGIFT_NAME);
 	GSProtocol.AllSendServerMsg(szText);
 
-	sLog.outBasic("[Chaos Castle] [%s][%s] Success to Register OffLine Gift (GIFT:%s)",
+	sLog->outBasic("[Chaos Castle] [%s][%s] Success to Register OffLine Gift (GIFT:%s)",
 		szAccountID, szName, szGIFT_NAME);
 }
 
@@ -1167,7 +1167,7 @@ void EGAnsRegDLOfflineGift( PMSG_ANS_REG_DL_OFFLINE_GIFT* lpMsg)
 	wsprintf(szText, "[다크로드 기념 이벤트] %s 님께서 %s 경품에 당첨되셨습니다.", szName, szGIFT_NAME);
 	GSProtocol.AllSendServerMsg(szText);
 
-	sLog.outBasic("[DarkLord Heart Event] [%s][%s] Success to Register OffLine Gift (GIFT:%s)",
+	sLog->outBasic("[DarkLord Heart Event] [%s][%s] Success to Register OffLine Gift (GIFT:%s)",
 		szAccountID, szName, szGIFT_NAME);
 }
 
@@ -1238,7 +1238,7 @@ void EGAnsRegHTOfflineGift( PMSG_ANS_REG_HT_OFFLINE_GIFT* lpMsg)
 	wsprintf(szText, "[숨겨진 보물상자 이벤트] %s 님께서 %s 경품에 당첨되셨습니다.", szName, szGIFT_NAME);
 	GSProtocol.AllSendServerMsg(szText);
 
-	sLog.outBasic("[Hidden TreasureBox Event] [%s][%s] Success to Register OffLine Gift (GIFT:%s)",
+	sLog->outBasic("[Hidden TreasureBox Event] [%s][%s] Success to Register OffLine Gift (GIFT:%s)",
 		szAccountID, szName, szGIFT_NAME);
 }
 
@@ -1364,7 +1364,7 @@ void EGAnsSantaGift(PMSG_ANS_SANTAGIFT *lpMsg)
 			}
 
 			lpObj->m_PlayerData->SantaCount++;
-			sLog.outBasic("[X-MAS Event] [AccountID]: %s, [VISITCOUNT]:%d", lpObj->AccountID, lpObj->m_PlayerData->SantaCount);
+			sLog->outBasic("[X-MAS Event] [AccountID]: %s, [VISITCOUNT]:%d", lpObj->AccountID, lpObj->m_PlayerData->SantaCount);
 			break;
 		case 2:
 			GSProtocol.GCServerCmd(lpObj->m_Index, 16, 2, 0);

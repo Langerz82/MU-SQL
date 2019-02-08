@@ -69,7 +69,7 @@ void CCashLotterySystem::Load(LPSTR pchFilename)
 
 	if (SMDFile == NULL)
 	{
-		sLog.outError("[CashLoterrySystem] Lottery Item List load failed. [%s]", pchFilename);
+		sLog->outError("[CashLoterrySystem] Lottery Item List load failed. [%s]", pchFilename);
 		return;
 	}
 

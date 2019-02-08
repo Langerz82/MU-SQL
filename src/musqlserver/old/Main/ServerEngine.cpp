@@ -22,7 +22,7 @@ void gObjServerInit()
 
 	if ( g_Server == NULL )
 	{
-		sLog.outError("[Server Engine] Memory Allocation Error");
+		sLog->outError("[Server Engine] Memory Allocation Error");
 		return;
 	}
 
@@ -84,7 +84,7 @@ int gObjServerAdd(SOCKET Socket, char * Ip, int ServerIndex, eSERVER_TYPE eServe
 			break;
 	}
 	
-	sLog.outBasic("[Server Engine] Connect : Index : %d - IP : %s - ServerType : %d",
+	sLog->outBasic("[Server Engine] Connect : Index : %d - IP : %s - ServerType : %d",
 		ServerIndex, Ip, eServerType);
 
 	servercount++;
@@ -124,7 +124,7 @@ void LoadAllowableIpList(LPSTR filename)
 
 	if (res.status != pugi::status_ok)
 	{
-		sLog.outError("LoadAllowedIpList() error - file load error (%s)", res.description());
+		sLog->outError("LoadAllowedIpList() error - file load error (%s)", res.description());
 		return;
 	}
 
@@ -138,7 +138,7 @@ void LoadAllowableIpList(LPSTR filename)
 	}
 
 	ipcount = count;
-	sLog.outBasic("%s File Loaded successfuly", filename);
+	sLog->outBasic("%s File Loaded successfuly", filename);
 }
 //memb___id
 
@@ -151,7 +151,7 @@ void gObjConnectStatSyncProc()
 		if(FALSE)
 		{
 			m_JSProtocol.DisconnectPlayer(m_JSProtocol.m_UserData.GetAccountID(i));
-			sLog.outBasic("[%s] Force Disconnect ConnectStat = 0 but Player is Online");
+			sLog->outBasic("[%s] Force Disconnect ConnectStat = 0 but Player is Online");
 		}
 	}
 }

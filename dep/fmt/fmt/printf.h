@@ -12,6 +12,9 @@
 
 #include <algorithm>  // std::fill_n
 #include <limits>     // std::numeric_limits
+#include <cstddef>
+#include <cinttypes>
+#include <climits>
 
 #include "ostream.h"
 
@@ -24,7 +27,7 @@ template <bool IsSigned>
 struct IntChecker {
   template <typename T>
   static bool fits_in_int(T value) {
-    unsigned max = std::numeric_limits<int>::max();
+    unsigned max = (unsigned int) std::numeric_limits<int>::max;
     return value <= max;
   }
   static bool fits_in_int(bool) { return true; }
@@ -34,8 +37,8 @@ template <>
 struct IntChecker<true> {
   template <typename T>
   static bool fits_in_int(T value) {
-    return value >= std::numeric_limits<int>::min() &&
-           value <= std::numeric_limits<int>::max();
+    return value >= (int) std::numeric_limits<int>::min &&
+           value <= (int) std::numeric_limits<int>::max;
   }
   static bool fits_in_int(int) { return true; }
 };
@@ -191,7 +194,7 @@ class WidthHandler : public ArgVisitor<WidthHandler, unsigned> {
       spec_.align_ = ALIGN_LEFT;
       width = 0 - width;
     }
-    unsigned int_max = std::numeric_limits<int>::max();
+    unsigned int_max = (unsigned int) std::numeric_limits<int>::max;
     if (width > int_max)
       FMT_THROW(FormatError("number is too big"));
     return static_cast<unsigned>(width);
@@ -370,7 +373,7 @@ internal::Arg PrintfFormatter<Char, AF>::get_arg(const Char *s,
                                                  unsigned arg_index) {
   (void)s;
   const char *error = FMT_NULL;
-  internal::Arg arg = arg_index == std::numeric_limits<unsigned>::max() ?
+  internal::Arg arg = arg_index == (unsigned int)std::numeric_limits<unsigned>::max ?
     next_arg(error) : FormatterBase::get_arg(arg_index - 1, error);
   if (error)
     FMT_THROW(FormatError(!*s ? "invalid format string" : error));
@@ -380,7 +383,7 @@ internal::Arg PrintfFormatter<Char, AF>::get_arg(const Char *s,
 template <typename Char, typename AF>
 unsigned PrintfFormatter<Char, AF>::parse_header(
   const Char *&s, FormatSpec &spec) {
-  unsigned arg_index = std::numeric_limits<unsigned>::max();
+  unsigned arg_index = (unsigned int) std::numeric_limits<unsigned>::max;
   Char c = *s;
   if (c >= '0' && c <= '9') {
     // Parse an argument index (if followed by '$') or a width possibly

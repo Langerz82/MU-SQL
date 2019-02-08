@@ -55,7 +55,7 @@ BOOL CKanturuTowerOfRefinement::LoadData(LPSTR lpszFileName)
 
 	if ( !lpszFileName || !strcmp(lpszFileName, ""))
 	{
-		sLog.outError("[Kanturu][Tower of Refinement] - File load error : File Name Error");
+		sLog->outError("[Kanturu][Tower of Refinement] - File load error : File Name Error");
 		return FALSE;
 	}
 
@@ -66,7 +66,7 @@ BOOL CKanturuTowerOfRefinement::LoadData(LPSTR lpszFileName)
 
 		if ( res.status != pugi::status_ok )
 		{
-			sLog.outError("[Kanturu][Tower of Refinement] - Can't Load %s file (%s)", lpszFileName, res.description());
+			sLog->outError("[Kanturu][Tower of Refinement] - Can't Load %s file (%s)", lpszFileName, res.description());
 			return FALSE;
 		}
 
@@ -85,7 +85,7 @@ BOOL CKanturuTowerOfRefinement::LoadData(LPSTR lpszFileName)
 
 			if ( this->m_StateInfoCount < 0 || this->m_StateInfoCount >= KANTURU_TOWER_OF_REFINEMENT_STATE_INFO )
 			{
-				sLog.outError("[Kanturu][Tower of Refinement] - Exceed Max State Time (%d)", this->m_StateInfoCount);
+				sLog->outError("[Kanturu][Tower of Refinement] - Exceed Max State Time (%d)", this->m_StateInfoCount);
 				break;
 			}
 
@@ -104,7 +104,7 @@ BOOL CKanturuTowerOfRefinement::LoadData(LPSTR lpszFileName)
 
 	catch ( DWORD )
 	{
-		sLog.outError("[Kanturu][Tower of Refinement] - Loading Exception Error (%s) File. ", lpszFileName);
+		sLog->outError("[Kanturu][Tower of Refinement] - Loading Exception Error (%s) File. ", lpszFileName);
 	}
 
 	return this->m_bFileDataLoad;

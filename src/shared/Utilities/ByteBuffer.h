@@ -663,8 +663,6 @@ class ByteBuffer
             if (!cnt)
                 { return; }
 
-            MANGOS_//ASSERT(size() < 10000000);
-
             if (_storage.size() < _wpos + cnt)
                 { _storage.resize(_wpos + cnt); }
             memcpy(&_storage[_wpos], src, cnt);

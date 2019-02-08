@@ -31,7 +31,7 @@ void PvPBalance::Read(const char* File)
 
 	if (Result.status != status_ok)
 	{
-		sLog.outError("[PvPBalance] File %s not found!", File);
+		sLog->outError("[PvPBalance] File %s not found!", File);
 		return;
 	}
 

@@ -201,7 +201,7 @@ void CEventManagement::Run()
 			(*(it)).m_bEventStarted = false;
 		}
 
-		sLog.outBasic("[Event Management] Wrong date: %02d %02d %02d %02d", this->m_wToday_Year, this->m_wToday_Month, this->m_wToday_Day, this->m_wToday_DayOfWeek);	// Deathway Need Translation
+		sLog->outBasic("[Event Management] Wrong date: %02d %02d %02d %02d", this->m_wToday_Year, this->m_wToday_Month, this->m_wToday_Day, this->m_wToday_DayOfWeek);	// Deathway Need Translation
 
 		this->m_wToday_Year = sysTime.wYear;
 		this->m_wToday_Month = sysTime.wMonth;
@@ -213,7 +213,7 @@ void CEventManagement::Run()
 	{
 		if ( sysTime.wHour == (*(it)).m_iHour && sysTime.wMinute == (*(it)).m_iMinute && (sysTime.wDayOfWeek == (*(it)).m_iDayOfWeek || (*(it)).m_iDayOfWeek == -1) && (*(it)).m_bEventStarted == false )
 		{
-			sLog.outBasic("[Event Management] Found Event: (%d) %02d %02d (state=%d)",
+			sLog->outBasic("[Event Management] Found Event: (%d) %02d %02d (state=%d)",
 				(*(it)).m_eEventKind , (*(it)).m_iHour, sysTime.wMinute , (*(it)).m_bEventStarted);	// #error Deathway Need Translation
 
 			(*(it)).m_bEventStarted = true;
@@ -303,7 +303,7 @@ bool CEventManagement::Load(LPSTR lpszFileName)
 
 	if ( res.status != pugi::status_ok )
 	{
-		sLog.outError("[DOTH] Info file Load Fail [%s] [%s]", lpszFileName, res.description());
+		sLog->outError("[DOTH] Info file Load Fail [%s] [%s]", lpszFileName, res.description());
 
 		return false;
 	}

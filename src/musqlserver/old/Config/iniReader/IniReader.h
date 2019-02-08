@@ -14,7 +14,7 @@ public:
 	{
 		m_iniReader = new INIReaderImp(szFile);
 		if (m_iniReader->ParseError())
-			sLog.outError("Error - cannot load %s file", szFile);
+			sLog->outError("Error - cannot load %s file", szFile);
 	}
 
 	~CIniReader()

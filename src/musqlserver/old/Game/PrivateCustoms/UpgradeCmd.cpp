@@ -51,7 +51,7 @@ void CUpgradeCmd::LoadFile(char * szFile)
 
 			if (m_Upgrade.m_NeedItem.wItemID == (WORD)-1)
 			{
-				sLog.outError("Upgrade Item Cmd - Wrong Need Item found (System disabled) (%d/%d)", btItemCat, wItemIndex);
+				sLog->outError("Upgrade Item Cmd - Wrong Need Item found (System disabled) (%d/%d)", btItemCat, wItemIndex);
 				this->m_bSystemEnable = false;
 				return;
 			}
@@ -81,7 +81,7 @@ void CUpgradeCmd::LoadFile(char * szFile)
 
 			if (Iter == this->m_mapUpgradeData.end())
 			{
-				sLog.outError("Upgrade Item Cmd - Wrong Get Item found (not matched with Need Item) (System disabled) (%d)", iUpgradeID);
+				sLog->outError("Upgrade Item Cmd - Wrong Get Item found (not matched with Need Item) (System disabled) (%d)", iUpgradeID);
 				this->m_bSystemEnable = false;
 				return;
 			}
@@ -93,7 +93,7 @@ void CUpgradeCmd::LoadFile(char * szFile)
 
 			if (Iter->second.m_GetItem.wItemID == (WORD)-1)
 			{
-				sLog.outError("Upgrade Item Cmd - Wrong Get Item found (System disabled) (%d/%d)", btItemCat, wItemIndex);
+				sLog->outError("Upgrade Item Cmd - Wrong Get Item found (System disabled) (%d/%d)", btItemCat, wItemIndex);
 				this->m_bSystemEnable = false;
 				return;
 			}
@@ -102,7 +102,7 @@ void CUpgradeCmd::LoadFile(char * szFile)
 
 			if (p == NULL)
 			{
-				sLog.outError("Upgrade Item Cmd - Wrong Get Item found (Not exists in ItemList.xml) (System disabled) (%d/%d)", btItemCat, wItemIndex);
+				sLog->outError("Upgrade Item Cmd - Wrong Get Item found (Not exists in ItemList.xml) (System disabled) (%d/%d)", btItemCat, wItemIndex);
 				this->m_bSystemEnable = false;
 				return;
 			}

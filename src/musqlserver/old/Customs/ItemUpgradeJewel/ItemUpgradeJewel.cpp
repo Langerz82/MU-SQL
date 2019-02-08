@@ -45,7 +45,7 @@ void ItemUpgradeJewels::Read(LPSTR File)
 	// ----
 	if (Result.status != status_ok)
 	{
-		sLog.outError("[IGC_ItemUpgradeJewel] File %s not found!", File);
+		sLog->outError("[IGC_ItemUpgradeJewel] File %s not found!", File);
 		return;
 	}
 	// ----
