@@ -40,13 +40,14 @@ class Field
          * @brief
          *
          */
-        enum SimpleDataTypes
-        {
-            DB_TYPE_UNKNOWN = 0x00,
-            DB_TYPE_STRING  = 0x01,
-            DB_TYPE_INTEGER = 0x02,
-            DB_TYPE_FLOAT   = 0x03,
-            DB_TYPE_BOOL    = 0x04
+		enum SimpleDataTypes
+		{
+			DB_TYPE_UNKNOWN = 0x00,
+			DB_TYPE_STRING = 0x01,
+			DB_TYPE_INTEGER = 0x02,
+			DB_TYPE_FLOAT = 0x03,
+			DB_TYPE_BOOL = 0x04,
+			DB_TYPE_BYTE_ARRAY = 0x05
         };
 
         /**
@@ -162,6 +163,16 @@ class Field
 
             return value;
         }
+
+		BYTE* GetByteArray(UINT32 size) const
+		{
+			BYTE* value;
+			if (mValue)
+				value = (BYTE*) mValue;
+			else
+				value = NULL;
+			return value;
+		}
 
         /**
          * @brief

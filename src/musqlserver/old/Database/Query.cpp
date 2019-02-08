@@ -80,11 +80,18 @@ BOOL CQuery::Execute(TCHAR* lpszStatement)
 	return TRUE;
 }
 
-QueryResult* CQuery::Fetch(TCHAR* lpszStatement)
+QueryResult* CQuery::Fetch(TCHAR* lpszStatement, ...)
 {
+	TCHAR szStatement[2048];
+
+	va_list pArguments;
+	va_start(pArguments, lpszStatement);
+	vsprintf(szStatement, lpszStatement, pArguments);
+	va_end(pArguments);
+
 	while (true)
 	{
-		m_Result = m_Database.Query(lpszStatement);
+		m_Result = m_Database.Query(szStatement);
 
 		if (m_Result == NULL)
 		{
@@ -98,11 +105,23 @@ QueryResult* CQuery::Fetch(TCHAR* lpszStatement)
 				Sleep(1);
 				continue;
 			}
-
 			return NULL;
 		}
 	}
 	return m_Result;
+}
+
+int CQuery::GetAsBinary(LPSTR lpszStatement, LPBYTE OUT lpszReturnBuffer, int size)
+{
+	QueryResult* res = Fetch(lpszStatement);
+	Field* field = res->Fetch();
+	lpszReturnBuffer = field[0].GetByteArray(size);
+	return sizeof(lpszReturnBuffer);
+}
+
+void CQuery::SetAsBinary(LPTSTR lpszStatement, LPBYTE lpBinaryBuffer, UINT32 BinaryBufferSize)
+{
+	// TODO.
 }
 
 void CQuery::Close()

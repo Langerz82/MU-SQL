@@ -26,7 +26,10 @@ public:
 
 	BOOL ExecQuery(TCHAR* lpszStatement, ...);
 	BOOL Execute(TCHAR* lpszStatement);
-	QueryResult* Fetch(TCHAR* lpszStatement);
+	QueryResult* Fetch(TCHAR* lpszStatement, ...);
+
+	int GetAsBinary(LPSTR lpszStatement, LPBYTE OUT lpszReturnBuffer, int size);
+	void SetAsBinary(LPTSTR lpszStatement, LPBYTE lpBinaryBuffer, UINT32 BinaryBufferSize);
 
 	void Close();
 	void Diagnosis(bool &bReconnect);

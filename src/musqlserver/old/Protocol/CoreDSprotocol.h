@@ -749,14 +749,44 @@ private:
 	void MuBotSaveOption(char* szName, MUBOT_SETTINGS_REQ_SAVE* lpMsg);
 	void GetMuBotData(char* szName, MUBOT_SETTINGS_SEND* lpMsg);
 
+	CQuery m_CharDB;
+	CQuery m_AccDB;
+	CQuery m_GSDB;
+	CQuery m_PetDB;
+	CQuery m_CastleDB;
+	CQuery m_CrywolfDB;
+	CQuery m_PentagramDB;
+	CQuery m_EventDB;
+	CQuery m_RankingDB;
+	CQuery m_ItemShopDB;
+	CQuery m_PeriodItemDB;
+	CQuery m_CharMiscDB;
+	CQuery m_ArcaDB;
+	CQuery m_QuestExpDB;
+	CQuery m_LuckyItemDB;
+	CQuery m_CCFinalDB;
+	CQuery m_RummyDB;
+	CQuery m_MineDB;
+	CQuery m_PShopDB;
+	CQuery m_EventInvDB;
+	CQuery m_MuunDB;
+	CQuery m_OptionDataDB;
+	CQuery m_ReBuyDB;
+	CQuery m_GremoryCaseDB;
+	CQuery m_BattleCoreDB;
+	CQuery m_DSFinalDB;
+	CQuery m_EvoMonDB;
 	CQuery m_Survivor;
-private:
 
+public:
+	CQuery m_MembStatDB;
+
+private:
+	CRITICAL_SECTION m_QuestExpDBCriti;
 	CWarehouseUserData m_WareUserData;
 
 	int m_iConnectionCount;
 	int m_iItemCount;
-
 };
 
 #endif // !defined(AFX_DSPROTOCOL_H__2BBE1FF8_64DE_46AC_8344_13E7059DCBE3__INCLUDED_)
