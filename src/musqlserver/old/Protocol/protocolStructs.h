@@ -8239,7 +8239,7 @@ struct stMemberPosInfo {
 	BYTE btPosY;
 };
 
-typedef struct GUILD_INFO_STRUCT {
+struct GUILD_INFO_STRUCT {
 	int m_iNumber;
 	char m_szGuildName[9];
 	char m_szGuildMaster[11];
@@ -8264,7 +8264,7 @@ typedef struct GUILD_INFO_STRUCT {
 		m_mapGuildMember.clear();
 		m_bGSHasData = FALSE;
 	}
-} *LPGUILD_INFO_STRUCT;
+};
 
 struct JOIN_SERVER_SERVER_DATA {
 	int m_ServerIndex;

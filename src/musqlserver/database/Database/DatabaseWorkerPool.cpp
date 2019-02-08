@@ -19,12 +19,13 @@
 #include "AdhocStatement.h"
 #include "Common.h"
 #include "Errors.h"
-#include "Implementation/LoginDatabase.h"
-#include "Implementation/WorldDatabase.h"
-#include "Implementation/CharacterDatabase.h"
+//#include "Implementation/LoginDatabase.h"
+//#include "Implementation/WorldDatabase.h"
+//#include "Implementation/CharacterDatabase.h"
+#include "Database/CSDatabase.h"
 #include "Log.h"
 #include "PreparedStatement.h"
-#include "ProducerConsumerQueue.h"
+//#include "ProducerConsumerQueue.h"
 #include "QueryCallback.h"
 #include "QueryHolder.h"
 #include "QueryResult.h"
@@ -70,7 +71,7 @@ template <class T>
 void DatabaseWorkerPool<T>::SetConnectionInfo(std::string const& infoString,
     uint8 const asyncThreads, uint8 const synchThreads)
 {
-    _connectionInfo = Trinity::make_unique<MySQLConnectionInfo>(infoString);
+    _connectionInfo = make_unique<MySQLConnectionInfo>(infoString);
 
     _async_threads = asyncThreads;
     _synch_threads = synchThreads;
@@ -341,9 +342,9 @@ uint32 DatabaseWorkerPool<T>::OpenConnections(InternalIndex type, uint8 numConne
             switch (type)
             {
             case IDX_ASYNC:
-                return Trinity::make_unique<T>(_queue.get(), *_connectionInfo);
+                return make_unique<T>(_queue.get(), *_connectionInfo);
             case IDX_SYNCH:
-                return Trinity::make_unique<T>(*_connectionInfo);
+                return make_unique<T>(*_connectionInfo);
             default:
                 ABORT();
             }
@@ -413,7 +414,7 @@ char const* DatabaseWorkerPool<T>::GetDatabaseName() const
 template <class T>
 void DatabaseWorkerPool<T>::Execute(char const* sql)
 {
-    if (Trinity::IsFormatEmptyOrNull(sql))
+    if (IsFormatEmptyOrNull(sql))
         return;
 
     BasicStatementTask* task = new BasicStatementTask(sql);
@@ -430,7 +431,7 @@ void DatabaseWorkerPool<T>::Execute(PreparedStatement* stmt)
 template <class T>
 void DatabaseWorkerPool<T>::DirectExecute(char const* sql)
 {
-    if (Trinity::IsFormatEmptyOrNull(sql))
+    if (IsFormatEmptyOrNull(sql))
         return;
 
     T* connection = GetFreeConnection();

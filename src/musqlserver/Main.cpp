@@ -144,10 +144,10 @@ void KeepDatabaseAliveHandler(std::weak_ptr<boost::asio::deadline_timer> dbPingT
 	}
 }
 
-void SignalHandler(std::weak_ptr<Trinity::Asio::IoContext> ioContextRef, boost::system::error_code const& error, int /*signalNumber*/)
+void SignalHandler(std::weak_ptr<Asio::IoContext> ioContextRef, boost::system::error_code const& error, int /*signalNumber*/)
 {
 	if (!error)
-		if (std::shared_ptr<Trinity::Asio::IoContext> ioContext = ioContextRef.lock())
+		if (std::shared_ptr<Asio::IoContext> ioContext = ioContextRef.lock())
 			ioContext->stop();
 }
 
@@ -270,14 +270,14 @@ extern int main(int argc, char** argv)
 
 	std::shared_ptr<void> dbHandle(nullptr, [](void*) { StopDB(); });
 
-	std::shared_ptr<Trinity::Asio::IoContext> ioContext = std::make_shared<Trinity::Asio::IoContext>();
+	std::shared_ptr<Asio::IoContext> ioContext = std::make_shared<Asio::IoContext>();
 
 	// Set signal handlers
 	boost::asio::signal_set signals(*ioContext, SIGINT, SIGTERM);
 #if WIN32
 	signals.add(SIGBREAK);
 #endif
-	signals.async_wait(std::bind(&SignalHandler, std::weak_ptr<Trinity::Asio::IoContext>(ioContext), std::placeholders::_1, std::placeholders::_2));
+	signals.async_wait(std::bind(&SignalHandler, std::weak_ptr<Asio::IoContext>(ioContext), std::placeholders::_1, std::placeholders::_2));
 
 	// Enabled a timed callback for handling the database keep alive ping
 	int32 dbPingInterval = 30;

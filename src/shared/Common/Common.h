@@ -77,7 +77,7 @@
 #include <signal.h>
 #include <assert.h>
 #include "ServerDefines.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "ref/WinUtil.h"
 
 #if defined(__sun__)

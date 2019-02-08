@@ -15,8 +15,20 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "DatabaseEnv.h"
+#include "LogOperation.h"
+#include "Logger.h"
+#include "LogMessage.h"
 
-//DatabaseWorkerPool<WorldDatabaseConnection> WorldDatabase;
-//DatabaseWorkerPool<CharacterDatabaseConnection> CharacterDatabase;
-DatabaseWorkerPool<ConnectDatabaseConnection> LoginDatabase;
+LogOperation::LogOperation(Logger const* _logger, std::unique_ptr<LogMessage>&& _msg) : logger(_logger), msg(std::forward<std::unique_ptr<LogMessage>>(_msg))
+{
+}
+
+LogOperation::~LogOperation()
+{
+}
+
+int LogOperation::call()
+{
+    logger->write(msg.get());
+    return 0;
+}

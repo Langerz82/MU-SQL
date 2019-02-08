@@ -3,9 +3,8 @@
 #ifndef INIREADER_H
 #define INIREADER_H
 
-#include "custTypedef.h"
+#include "StdAfx.h"
 #include <string>
-#include "Log/Log.h"
 #include "iniReader/INIReaderImp.h"
 
 class CIniReader

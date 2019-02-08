@@ -1,7 +1,7 @@
 #ifndef DATABASEENV_H
 #define DATABASEENV_H
 
-#include "Define.h"
+#include "Common.h"
 #include "DatabaseWorkerPool.h"
 
 #include "old/Database/CSDatabase.h"

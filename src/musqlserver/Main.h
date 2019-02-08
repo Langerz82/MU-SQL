@@ -7,12 +7,12 @@
 
 #include "StdAfx.h"
 #include "resource.h"
-#include "Protocol/protocol.h"
-#include "Protocol/Sprotocol.h"
-#include "Protocol/DSprotocol.h"
-#include "Protocol/protocol.h"
-#include "Protocol/EDSprotocol.h"
-#include "Protocol/Fprotocol.h"
+//#include "Protocol/protocol.h"
+//#include "Protocol/Sprotocol.h"
+#include "Protocol/CoreDSprotocol.h"
+//#include "Protocol/protocol.h"
+//#include "Protocol/EDSprotocol.h"
+//#include "Protocol/Fprotocol.h"
 #include "ServerEngine.h"
 #include "Maps/MapClass.h"
 
@@ -47,9 +47,9 @@ extern DWORD g_GensLeaveAfterDays;
 extern DWORD g_MachineIDConnectionLimitPerGroup;
 bool IniteDataServer();
 void eDataServerClose();
-extern CDataServerProtocol m_DSProtocol;
+//extern CDataServerProtocol m_DSProtocol;
 extern CLoginServerProtocol m_JSProtocol;
-extern CExDataServerProtocol m_EXDSProtocol;
+//extern CExDataServerProtocol m_EXDSProtocol;
 extern TCHAR szWANIP[150];
 extern HANDLE hQueue1, hQueue2, hQueue3, hQueue4, hQueue5, hJSQueue, hEXDSQueue;
 extern WORD g_MagumsaCreateMinLevel;
