@@ -1,4 +1,5 @@
 
+// TODO - Make sure program signalling works.
 
 /// \addtogroup realmd Realm Daemon
 /// @{
@@ -143,6 +144,13 @@ void KeepDatabaseAliveHandler(std::weak_ptr<boost::asio::deadline_timer> dbPingT
 	}
 }
 
+void SignalHandler(std::weak_ptr<Trinity::Asio::IoContext> ioContextRef, boost::system::error_code const& error, int /*signalNumber*/)
+{
+	if (!error)
+		if (std::shared_ptr<Trinity::Asio::IoContext> ioContext = ioContextRef.lock())
+			ioContext->stop();
+}
+
 /// Print out the usage string for this program on the console.
 void usage(const char* prog)
 {
@@ -162,14 +170,14 @@ void usage(const char* prog)
 
 bool InitDataServer()
 {
-	GetPrivateProfileString("SQL", "SQLServerName", "127.0.0.1", g_Server, sizeof(g_Server), ".\\DataServer.ini");
+	GetPrivateProfileString("SQL", "ServerAddress", "127.0.0.1", g_ServerAddress, sizeof(g_ServerAddress), ".\\DataServer.ini");
 	GetPrivateProfileString("SQL", "Port", "3306", g_DBPort, sizeof(g_DBPort), ".\\DataServer.ini");
 	GetPrivateProfileString("SQL", "User", "sa", g_UserID, sizeof(g_UserID), ".\\DataServer.ini");
 	GetPrivateProfileString("SQL", "Pass", "sa", g_Password, sizeof(g_Password), ".\\DataServer.ini");
-	GetPrivateProfileString("SQL", "MuOnlineDB", "MuOnline", g_MuOnlineDNS, sizeof(g_MuOnlineDNS), ".\\DataServer.ini");
-	//GetPrivateProfileString("SQL", "MeMuOnlineDB", "MuOnline", g_MeMuOnlineDNS, sizeof(g_MeMuOnlineDNS), ".\\DataServer.ini");
-	//GetPrivateProfileString("SQL", "EventDB", "MuEvent", g_EventServerDNS, sizeof(g_EventServerDNS), ".\\DataServer.ini");
-	//GetPrivateProfileString("SQL", "RankingDB", "MuRanking", g_RankingServerDNS, sizeof(g_RankingServerDNS), ".\\DataServer.ini");
+	GetPrivateProfileString("SQL", "MuOnlineDB", "MuOnline", g_MuOnlineDB, sizeof(g_MuOnlineDB), ".\\DataServer.ini");
+	//GetPrivateProfileString("SQL", "MeMuOnlineDB", "MuOnline", g_MeMuOnlineDB, sizeof(g_MeMuOnlineDB), ".\\DataServer.ini");
+	//GetPrivateProfileString("SQL", "EventDB", "MuEvent", g_EventServerDB, sizeof(g_EventServerDB), ".\\DataServer.ini");
+	//GetPrivateProfileString("SQL", "RankingDB", "MuRanking", g_RankingServerDB, sizeof(g_RankingServerDB), ".\\DataServer.ini");
 }
 
 /// Launch the realm server
