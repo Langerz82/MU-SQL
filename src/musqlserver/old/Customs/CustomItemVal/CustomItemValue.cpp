@@ -5,8 +5,8 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "./Custom/CustomItemValue/CustomItemValue.h"
-#include "zzzitem.h"
+#include "CustomItemValue.h"
+#include "Item/Item.h"
 #include "ItemOptionTypeMng.h"
 #include "MemScript.h"
 #include "winutil.h"

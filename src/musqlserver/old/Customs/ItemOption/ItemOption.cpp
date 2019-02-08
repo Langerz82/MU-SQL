@@ -2,12 +2,10 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-//#include "StdAfx.h"
+#include "StdAfx.h"
 #include "ItemOption.h"
 #include "ItemOptionTypeMng.h"
-#include "../MemScript.h"
-#include "../util.h"
-#include "../Log/Log.h"
+#include "MemScript.h"
 #include <map>
 #include <vector>
 #include <string>
