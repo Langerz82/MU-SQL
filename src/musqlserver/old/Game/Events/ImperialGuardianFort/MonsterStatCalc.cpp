@@ -2,7 +2,7 @@
 // MonsterStatCalc.cpp
 #include "StdAfx.h"
 #include "MonsterStatCalc.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "MonsterAttr.h"
 #include "GameMain.h"
 

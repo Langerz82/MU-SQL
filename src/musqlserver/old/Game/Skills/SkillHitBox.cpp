@@ -7,7 +7,7 @@
 #include "StdAfx.h"
 #include "SkillHitBox.h"
 #include "util.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 
 // GS-N 0.99.60T 0x46E710
 //	GS-N	1.00.18	JPN	0x004856C0	-	Completed

@@ -6,7 +6,7 @@
 #include "TMonsterAIAutomata.h"
 #include "TMonsterAIGroup.h"
 #include "TMonsterAIUtil.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 
 
 bool TMonsterAIAutomata::s_bDataLoad = FALSE;

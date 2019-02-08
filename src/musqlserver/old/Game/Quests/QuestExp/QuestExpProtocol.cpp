@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // QuestExpProtocol.cpp
 #include "StdAfx.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "QuestExpProtocol.h"
 #include "QuestExpUserMng.h"
 #include "QuestExpLuaBind.h"

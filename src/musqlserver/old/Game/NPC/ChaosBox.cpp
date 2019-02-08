@@ -2,7 +2,7 @@
 // ChaosBox.cpp
 #include "StdAfx.h"
 #include "ChaosBox.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "GameMain.h"
 #include "util.h"
 #include "DSProtocol.h"

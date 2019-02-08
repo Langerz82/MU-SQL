@@ -4,7 +4,7 @@
 #include "User/user.h"
 #include "ObjUseSkill.h"
 #include "OfflineLevelling.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "configread.h"
 #include "protocol.h"
 #include "GameMain.h"

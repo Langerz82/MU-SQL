@@ -2,7 +2,7 @@
 // DoppelGangerEventInfo.cpp
 #include "StdAfx.h"
 #include "DoppelGangerEventInfo.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "../../pugixml.hpp"
 
 CDoppelGangerEventInfo::CDoppelGangerEventInfo(void)

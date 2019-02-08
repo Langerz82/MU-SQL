@@ -6,7 +6,7 @@
 #include "KanturuEntranceNPC.h"
 #include "Kanturu.h"
 #include "KanturuBattleUserMng.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "KanturuUtil.h"
 #include "util.h"
 #include "configread.h"

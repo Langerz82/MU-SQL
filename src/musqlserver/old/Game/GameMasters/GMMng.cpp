@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "GMMng.h"
 #include "LogToFile.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "GameMain.h"
 #include "protocol.h"
 #include "util.h"

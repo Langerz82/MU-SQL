@@ -7,7 +7,7 @@
 
 #include "CastleSiege.h"
 #include "User/user.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 
 CCastleCrownSwitch g_CsNPC_CastleCrownSwitch;
 //////////////////////////////////////////////////////////////////////

@@ -2,7 +2,7 @@
 // ProhibitedSymbols.cpp
 #include "StdAfx.h"
 #include "ProhibitedSymbols.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include <regex>
 
 CProhibitedSymbols g_prohibitedSymbols;

@@ -2,7 +2,7 @@
 // MagicInf.cpp
 #include "StdAfx.h"
 #include "MagicInf.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "GameMain.h"
 #include "MasterLevelSkillTreeSystem.h"
 // GS-N 0.99.60T 0x0046DE00

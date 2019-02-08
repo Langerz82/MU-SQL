@@ -4,7 +4,7 @@
 
 #include "StdAfx.h"
 #include "SkillAdditionInfo.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "configread.h"
 #include "IniReader.h"
 CSkillAdditionInfo g_SkillAdditionInfo;

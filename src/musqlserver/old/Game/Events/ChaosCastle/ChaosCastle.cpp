@@ -6,7 +6,7 @@
 #include "GameMain.h"
 #include "giocp.h"
 #include "DSProtocol.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "TNotice.h"
 #include "CrywolfSync.h"
 #include "BuffEffectSlot.h"

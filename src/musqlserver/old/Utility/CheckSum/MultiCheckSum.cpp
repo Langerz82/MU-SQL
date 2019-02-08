@@ -8,7 +8,7 @@
 
 #include "StdAfx.h"
 #include "MultiCheckSum.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "User/user.h"
 
 CMultiCheckSum g_MultiChecksum;

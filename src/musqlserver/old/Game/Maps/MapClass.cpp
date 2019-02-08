@@ -6,7 +6,7 @@
 // ------------------------------
 #include "StdAfx.h"
 #include "MapClass.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "GameMain.h"
 #include "User/user.h"
 #include "Protocol.h"

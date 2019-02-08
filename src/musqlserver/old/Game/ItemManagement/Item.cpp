@@ -19,7 +19,7 @@
 #include "classdef.h"
 #include "pugixml.hpp"
 #include "util.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "ItemManagement/SetItemOption.h"
 #include "JewelOfHarmonySystem.h"
 #include "ItemSocketOptionSystem.h"

@@ -12,7 +12,7 @@
 #include "ObjCalCharacter.h"
 #include "DSProtocol.h"
 #include "GameMain.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "protocol.h"
 #include "configread.h"
 

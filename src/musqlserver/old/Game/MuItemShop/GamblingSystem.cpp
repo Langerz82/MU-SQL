@@ -7,7 +7,7 @@
 #include "User/user.h"
 #include "LargeRand.h"
 #include "DSProtocol.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "configread.h"
 #include "ItemOptionTypeMng.h"
 

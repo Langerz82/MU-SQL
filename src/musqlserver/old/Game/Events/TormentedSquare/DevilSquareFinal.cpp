@@ -2,7 +2,7 @@
 // DevilSquareFinal.cpp
 #include "StdAfx.h"
 #include "DevilSquareFinal.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "protocol.h"
 #include "util.h"
 #include "GameMain.h"

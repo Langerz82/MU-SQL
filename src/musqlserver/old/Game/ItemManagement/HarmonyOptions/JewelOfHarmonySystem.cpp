@@ -6,7 +6,7 @@
 
 #include "JewelOfHarmonySystem.h"
 #include "../../Main.h"
-//#include "Log/Log.h"
+//#include "Logging/Log.h"
 //#include "CastleSiegeSync.h"
 #include "../user.h"
 #include "../util.h"

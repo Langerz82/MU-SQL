@@ -2,7 +2,7 @@
 // UnityBattleField.cpp
 #include "StdAfx.h"
 #include "UnityBattleField.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "GameMain.h"
 #include "DSProtocol.h"
 #include "util.h"

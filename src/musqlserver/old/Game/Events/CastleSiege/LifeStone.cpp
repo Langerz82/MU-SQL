@@ -9,7 +9,7 @@
 #include "Gamemain.h"
 #include "User/user.h"
 #include "MapClass.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "configread.h"
 
 //////////////////////////////////////////////////////////////////////

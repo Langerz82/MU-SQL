@@ -12,7 +12,7 @@
 #include "custTypedef.h"
 #include "prodef.h"
 #include "util.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 
 #include "WzMemScript.h"
 //#include "..\source\logproc.h"

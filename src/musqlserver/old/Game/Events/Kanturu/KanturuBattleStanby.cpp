@@ -8,7 +8,7 @@
 #include "KanturuMonsterMng.h"
 #include "KanturuBattleUserMng.h"
 #include "Gamemain.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "KanturuUtil.h"
 #include "configread.h"
 

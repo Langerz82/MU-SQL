@@ -15,10 +15,10 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Define.h"
+//#include "Define.h"
 #include "Errors.h"
 #include "Field.h"
-#include "Logging/Log.h"
+#include "Log.h"
 #include "MySQLConnection.h"
 #include "PreparedStatement.h"
 #include "QueryResult.h"

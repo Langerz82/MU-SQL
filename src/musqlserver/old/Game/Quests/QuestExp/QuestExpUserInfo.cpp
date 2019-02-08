@@ -2,7 +2,7 @@
 // QuestExpUserInfo.cpp
 #include "StdAfx.h"
 #include "QuestExpUserInfo.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 
 void UserQuestInfo::Init()
 {

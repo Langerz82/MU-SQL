@@ -2,7 +2,7 @@
 #include "MonsterSetBase.h"
 #include "GameMain.h"
 #include "MapServerManager.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "LargeRand.h"
 #include "configread.h"
 // GS-N 0.99.60T 0x0041AB30 - Completed

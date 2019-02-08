@@ -7,7 +7,7 @@
 
 #include "StdAfx.h"
 #include "LuaFun.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 
 static int Debug_Print(lua_State *L)
 {

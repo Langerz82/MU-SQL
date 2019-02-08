@@ -2,7 +2,7 @@
 // GuildClass.cpp
 #include "StdAfx.h"
 #include "GuildClass.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "GameMain.h"
 #include "Protocols/protocol.h"
 

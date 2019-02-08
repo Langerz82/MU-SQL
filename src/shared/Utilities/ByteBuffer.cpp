@@ -13,7 +13,7 @@ void ByteBufferException::PrintPosError() const
     traceStr = NULL;
 #endif
 
-    sLog->outMessage("core", LOG_LEVEL_ERROR,
+    sLog->outBasic("core", LOG_LEVEL_ERROR,
         "Attempted to %s in ByteBuffer (pos: " SIZEFMTD " size: " SIZEFMTD ") "
         "value with size: " SIZEFMTD "%s%s",
         (add ? "put" : "get"), pos, size, esize,
@@ -28,7 +28,7 @@ void ByteBuffer::print_storage() const
     for (size_t i = 0; i < size(); ++i)
         { ss << uint32(read<uint8>(i)) << " - "; }
 
-	sLog->outMessage("core", LOG_LEVEL_DEBUG, "%s", ss.str().c_str());
+	sLog->outBasic("core", LOG_LEVEL_DEBUG, "%s", ss.str().c_str());
 }
 
 void ByteBuffer::textlike() const
@@ -39,7 +39,7 @@ void ByteBuffer::textlike() const
     for (size_t i = 0; i < size(); ++i)
         { ss << read<uint8>(i); }
 
-	sLog->outMessage("core", LOG_LEVEL_DEBUG, "%s", ss.str().c_str());
+	sLog->outBasic("core", LOG_LEVEL_DEBUG, "%s", ss.str().c_str());
 }
 
 void ByteBuffer::hexlike() const
@@ -69,5 +69,5 @@ void ByteBuffer::hexlike() const
         ss << buf << " ";
     }
 
-	sLog->outMessage("core", LOG_LEVEL_DEBUG, "%s", ss.str().c_str());
+	sLog->outBasic("core", LOG_LEVEL_DEBUG, "%s", ss.str().c_str());
 }

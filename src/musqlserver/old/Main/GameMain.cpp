@@ -13,7 +13,7 @@
 #include "util.h"
 #include "GameServer.h"
 #include "DirPath.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "wsJoinServerCli.h"
 #include "DoppelGanger.h"
 #include "DSProtocol.h"

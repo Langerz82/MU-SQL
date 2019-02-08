@@ -7,7 +7,7 @@
 #include "QuestExpUserMng.h"
 #include "QuestExpLuaBind.h"
 #include "User/user.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "GameMain.h"
 #include "util.h"
 #include "gObjMonster.h"

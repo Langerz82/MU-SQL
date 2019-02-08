@@ -45,7 +45,7 @@ class  Log
     public:
         static Log* instance();
 
-		void Initialize(Asio::IoContext* ioContext, std::string const& logsDir, std::vector<std::string> const& options);
+		void Initialize(Asio::IoContext* ioContext, std::string const& logsDir, std::vector<std::string> options);
         void SetSynchronous();  // Not threadsafe - should only be called from main() after all threads are joined
 		void LoadFromConfig(std::string logsDir);
         void Close();
@@ -132,7 +132,7 @@ class  Log
         } \
         catch (std::exception& e) \
         { \
-            sLog->outMessage("server", LOG_LEVEL_ERROR, "Wrong format occurred (%s) at %s:%u.", \
+            sLog->outBasic("server", LOG_LEVEL_ERROR, "Wrong format occurred (%s) at %s:%u.", \
                 e.what(), __FILE__, __LINE__); \
         } \
     }

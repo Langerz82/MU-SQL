@@ -8,7 +8,7 @@
 //	GS-N	1.00.18	JPN	0x0049F450	-	Completed
 #include "StdAfx.h"
 #include "ConMember.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "pugixml.hpp"
 
 CConMember ConMember;

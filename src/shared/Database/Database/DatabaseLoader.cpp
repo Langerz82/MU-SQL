@@ -15,7 +15,7 @@ DatabaseLoader::DatabaseLoader(std::string const& logger, uint32 const defaultUp
 
  BOOL DatabaseLoader::ConnectInfo(LPTSTR lpszServer, LPSTR lpszPort, LPTSTR lpszUser, LPTSTR lpszPassword, LPTSTR lpszDatabase)
  {
-	 wsprintf((char *)_connConfig, "%s;%s;%s;%s;s", lpszServer, lpszPort,
+	 wsprintf(_connConfig, "%s;%s;%s;%s;s", lpszServer, lpszPort,
 		 lpszUser, lpszPassword, lpszDatabase);
 	 return 1;
  }

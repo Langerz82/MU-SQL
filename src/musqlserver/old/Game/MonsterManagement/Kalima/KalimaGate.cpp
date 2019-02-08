@@ -8,7 +8,7 @@
 //	GS-N	1.00.18	JPN	0x004102D0	-	Completed
 #include "StdAfx.h"
 #include "KalimaGate.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "DevilSquare.h"
 #include "Event/BloodCastle/BloodCastle.h"
 #include "ChaosCastle.h"

@@ -2,7 +2,7 @@
 // MagicDamage.cpp
 #include "StdAfx.h"
 #include "MagicDamage.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "GameMain.h"
 #include "configread.h"
 #include "MasterLevelSkillTreeSystem.h"

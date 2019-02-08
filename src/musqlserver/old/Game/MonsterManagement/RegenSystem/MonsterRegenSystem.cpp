@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "User/user.h"
 #include "MonsterRegenSystem.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "MapClass.h"
 #include "GameMain.h"
 #include "Event/ArcaBattle/ArcaBattle.h"

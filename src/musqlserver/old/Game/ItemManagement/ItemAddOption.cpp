@@ -5,7 +5,7 @@
 #include "StdAfx.h"
 #include "ItemAddOption.h"
 #include "Protocol.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 
 CItemAddOption	g_ItemAddOption;
 

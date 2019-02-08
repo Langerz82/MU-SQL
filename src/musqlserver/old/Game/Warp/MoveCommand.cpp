@@ -10,7 +10,7 @@
 #include "CastleSiegeSync.h"
 #include "IllusionTempleEvent_Renewal.h"
 #include "RaklionBattleUserMng.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "GensSystem.h"
 #include "Gate.h"
 #include "Gamemain.h"

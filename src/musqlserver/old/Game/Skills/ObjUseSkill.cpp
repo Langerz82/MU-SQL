@@ -13,7 +13,7 @@
 #include "BuffEffect.h"
 #include "BuffEffectSlot.h"
 #include "IllusionTempleEvent_Renewal.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "Raklion.h"
 #include "RaklionBattleUserMng.h"
 #include "CastleSiegeSync.h"

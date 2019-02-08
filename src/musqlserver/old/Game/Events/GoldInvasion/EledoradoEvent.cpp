@@ -7,7 +7,7 @@
 #include "StdAfx.h"
 #include "EledoradoEvent.h"
 #include "Gamemain.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "User/user.h"
 #include "TNotice.h"
 #include "configread.h"

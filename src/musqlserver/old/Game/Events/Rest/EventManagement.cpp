@@ -2,7 +2,7 @@
 // EventManagement.cpp
 #include "StdAfx.h"
 #include "EventManagement.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "DragonEvent.h"
 #include "Event/AttackEvent/AttackEvent.h"
 #include "EledoradoEvent.h"

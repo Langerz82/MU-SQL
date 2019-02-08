@@ -5,7 +5,7 @@
 #include "PentagramMixSystem.h"
 #include "../user.h"
 //#include "../protocol.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 //#include "../gObjMonster.h"
 #include "../util.h"
 #include "Main.h"

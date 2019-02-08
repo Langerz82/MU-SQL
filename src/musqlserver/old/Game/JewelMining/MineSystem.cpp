@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "MineSystem.h"
 #include "configread.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "util.h"
 #include "LargeRand.h"
 #include "GameMain.h"

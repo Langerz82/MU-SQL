@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "GremoryCase.h"
 #include "util.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "GameMain.h"
 #include "DSProtocol.h"
 #include "ItemSocketOptionSystem.h"

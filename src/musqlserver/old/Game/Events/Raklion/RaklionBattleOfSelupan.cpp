@@ -8,7 +8,7 @@
 #include "RaklionUtil.h"
 #include "Raklion.h"
 #include "User/user.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "gObjMonster.h"
 
 //////////////////////////////////////////////////////////////////////

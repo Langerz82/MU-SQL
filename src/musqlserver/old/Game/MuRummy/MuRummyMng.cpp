@@ -8,7 +8,7 @@
 #include "util.h"
 #include "BagManager.h"
 #include "DSProtocol.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "IniReader.h"
 #include "configread.h"
 

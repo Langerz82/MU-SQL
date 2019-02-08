@@ -8,7 +8,7 @@
 #include "User/user.h"
 #include "gObjMonster.h"
 #include "TMonsterSkillManager.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "configread.h"
 #include "MagicInf.h"
 

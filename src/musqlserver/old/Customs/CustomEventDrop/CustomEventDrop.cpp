@@ -4,7 +4,7 @@
 
 #include "StdAfx.h"
 #include "CustomEventDrop.h"
-#include "DSProtocol.h"
+#include "CoreDSProtocol.h"
 #include "MapClass.h"
 #include "MapServerManager.h"
 #include "MemScript.h"

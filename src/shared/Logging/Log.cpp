@@ -355,7 +355,7 @@ Log* Log::instance()
     return &instance;
 }
 
-void Log::Initialize(Asio::IoContext* ioContext, std::string const& logsDir, std::vector<std::string> const& options)
+void Log::Initialize(Asio::IoContext* ioContext, std::string const& logsDir, std::vector<std::string> options)
 {
     if (ioContext)
     {

@@ -5,7 +5,7 @@
 #include "User/user.h"
 #include "GameMain.h"
 #include "util.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "configread.h"
 #include "NewPVP.h"
 #include "ChaosCastle.h"

@@ -7,7 +7,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "User/user.h"
 
 #define MAX_QUEST_TELEPORT 4

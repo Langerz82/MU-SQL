@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "IllusionTempleEvent_Renewal.h"
 #include "configread.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "GameMain.h"
 
 CIllusionTempleEvent_Renewal g_IT_Event;

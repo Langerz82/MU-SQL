@@ -6,7 +6,7 @@
 #include "Notice.h"
 #include "MemScript.h"
 #include "util.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "configread.h"
 
 CNotice gNotice;

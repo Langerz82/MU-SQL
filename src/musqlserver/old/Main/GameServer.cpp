@@ -14,7 +14,7 @@
 #include "GameServer.h"
 #include "GameMain.h"
 #include "Giocp.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "RingAttackEvent.h"
 #include "DSProtocol.h"
 #include "Authorization.h"

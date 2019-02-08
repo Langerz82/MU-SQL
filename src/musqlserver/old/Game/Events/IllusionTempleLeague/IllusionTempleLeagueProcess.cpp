@@ -5,7 +5,7 @@
 #include "IllusionTempleLeagueEvent.h"
 #include "PartyClass.h"
 #include "GameMain.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "util.h"
 #include "SendNPCInfo.h"
 #include "BuffEffectSlot.h"

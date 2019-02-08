@@ -2,7 +2,7 @@
 // SkillUseTime.cpp
 #include "StdAfx.h"
 #include "SkillUseTime.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "User/user.h"
 
 CSkillUseTime g_SkillUseTime;

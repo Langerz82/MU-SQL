@@ -5,7 +5,7 @@
 #include "GameMain.h"
 #include "LargeRand.h"
 #include "configread.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 // -------------------------------------------------------------------------------
 
 using namespace pugi;

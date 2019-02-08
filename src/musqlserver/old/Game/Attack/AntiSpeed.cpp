@@ -4,7 +4,7 @@
 //#include "User/user.h"
 #include "ObjUseSkill.h"
 //#include "protocol.h"
-//#include "Log/Log.h"
+//#include "Logging/Log.h"
 
 
 CAttackMelee::CAttackMelee( LPOBJ lpObj, LPOBJ lpTargetObj )

@@ -5,7 +5,7 @@
 #include "protocol.h"
 #include "GameMain.h"
 #include "configread.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "CastleSiege.h"
 #include "CastleSiegeSync.h"
 

@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "TUnion.h"
 #include "TUnionInfo.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 
 // GS-N 0.99.60T 0x004ACBE9
 //	GS-N	1.00.18	JPN	0x004CB350	-	Completed

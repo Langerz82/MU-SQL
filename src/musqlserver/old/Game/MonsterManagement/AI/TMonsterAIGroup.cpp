@@ -6,7 +6,7 @@
 #include "TMonsterAIGroup.h"
 #include "User/user.h"
 #include "Gamemain.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 
 bool TMonsterAIGroup::s_bDataLoad = FALSE;
 TMonsterAIGroupMember TMonsterAIGroup::s_MonsterAIGroupMemberArray[MAX_MONSTER_AI_GROUP][MAX_MONSTER_AI_GROUP_MEMBER];

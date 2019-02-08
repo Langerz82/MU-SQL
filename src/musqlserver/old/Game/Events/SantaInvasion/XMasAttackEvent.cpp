@@ -7,7 +7,7 @@
 #include "GameServer.h"
 #include "DSProtocol.h"
 #include "protocol.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "util.h"
 #include "BuffEffect.h"
 #include "BuffEffectSlot.h"

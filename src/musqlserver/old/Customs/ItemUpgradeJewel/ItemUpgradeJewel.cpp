@@ -2,7 +2,7 @@
 // ItemUpgradeJewel.cpp
 #include "StdAfx.h"
 #include "ItemUpgradeJewel.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "GameMain.h"
 #include "SetItemOption.h"
 #include "configread.h"

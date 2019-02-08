@@ -2,7 +2,7 @@
 // PacketCheckSum.cpp
 #include "StdAfx.h"
 #include "PacketCheckSum.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "configread.h"
 #include "GameMain.h"
 // GS-N 0.99.60T 0x00452B80

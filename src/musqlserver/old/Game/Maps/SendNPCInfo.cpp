@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "SendNPCInfo.h"
 #include "GameMain.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "configread.h"
 
 CSendNPCInfo g_SendNPCInfo;

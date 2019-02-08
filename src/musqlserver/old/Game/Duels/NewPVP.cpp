@@ -10,7 +10,7 @@
 #include "MoveCommand.h"
 #include "DarkSpirit.h"
 #include "Gate.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "PartyClass.h"
 #include "BagManager.h"
 #include "MineSystem.h"

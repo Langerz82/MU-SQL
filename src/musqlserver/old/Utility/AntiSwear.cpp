@@ -2,7 +2,7 @@
 // AntiSwear.cpp
 #include "StdAfx.h"
 #include "AntiSwear.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "../pugixml.hpp"
 
 CAntiSwear SwearFilter;

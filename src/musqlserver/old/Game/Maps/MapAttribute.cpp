@@ -2,7 +2,7 @@
 // MapAttribute.cpp
 #include "StdAfx.h"
 #include "MapAttribute.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 
 CMapAttribute g_MapAttr;
 

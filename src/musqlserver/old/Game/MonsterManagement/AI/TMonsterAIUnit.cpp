@@ -4,7 +4,7 @@
 
 #include "StdAfx.h"
 #include "TMonsterAIUnit.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 
 bool TMonsterAIUnit::s_bDataLoad = FALSE;
 TMonsterAIUnit TMonsterAIUnit::s_MonsterAIUnitArray[MAX_MONSTER_AI_UNIT];

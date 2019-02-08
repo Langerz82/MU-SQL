@@ -2,7 +2,7 @@
 // CustomMichi.cpp
 #include "StdAfx.h"
 #include "CustomMichi.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "MuRummyMng.h"
 #include "JewelMixSystem.h"
 #include "ChangeCmd.h"

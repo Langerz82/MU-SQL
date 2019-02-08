@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "MasterLevelSkillTreeSystem.h"
 #include "MasterSkillSystem.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "GameMain.h"
 #include "configread.h"
 #include "ObjCalCharacter.h"

@@ -16,11 +16,14 @@
  */
 
 #include "AdhocStatement.h"
-#include "Errors.h"
-#include "MySQLConnection.h"
 #include "QueryResult.h"
+#include "MySQLConnection.h"
+#include "Errors.h"
 #include <cstdlib>
 #include <cstring>
+
+class ResultSet;
+class MySQLConnection;
 
 /*! Basic, ad-hoc queries. */
 BasicStatementTask::BasicStatementTask(char const* sql, bool async) :

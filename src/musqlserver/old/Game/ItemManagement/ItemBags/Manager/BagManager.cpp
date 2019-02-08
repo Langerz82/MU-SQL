@@ -2,7 +2,7 @@
 // BagManager.cpp
 #include "StdAfx.h"
 #include "BagManager.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "configread.h"
 
 CBagManager g_BagManager;

@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "CustomMaxStats.h"
 #include "GameMain.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "configread.h"
 
 CMaxStatsInfo g_MaxStatsInfo;

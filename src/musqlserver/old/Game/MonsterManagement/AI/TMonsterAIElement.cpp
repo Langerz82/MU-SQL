@@ -11,7 +11,7 @@
 #include "CrywolfUtil.h"
 #include "KanturuUtil.h"
 #include "KanturuMonsterMng.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "Gamemain.h"
 #include "util.h"
 #include "BuffEffectSlot.h"

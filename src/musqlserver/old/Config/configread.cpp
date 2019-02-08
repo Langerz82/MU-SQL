@@ -2,7 +2,7 @@
 // configread.cpp
 //#include "StdAfx.h"
 #include "configread.h"
-//#include "Log/Log.h"
+//#include "Logging/Log.h"
 //#include "pugixml.hpp"
 #include "iniReader/IniReader.h"
 

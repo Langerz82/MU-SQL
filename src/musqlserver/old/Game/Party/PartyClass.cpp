@@ -2,7 +2,7 @@
 // PartyClass.cpp
 #include "StdAfx.h"
 #include "PartyClass.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "Protocol.h"
 #include "util.h"
 #include "configread.h"

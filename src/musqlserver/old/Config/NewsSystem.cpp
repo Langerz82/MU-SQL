@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "NewsSystem.h"
 #include "TNotice.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 
 CNewsSystem g_NewsSystem;
 

@@ -2,7 +2,7 @@
 // RuudStore.cpp
 #include "StdAfx.h"
 #include "RuudStore.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "ItemSocketOptionSystem.h"
 #include "PentagramSystem.h"
 #include "MuunSystem.h"

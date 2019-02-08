@@ -8,7 +8,7 @@
 // GS-N	1.00.18	JPN	0x00462B60	-	Completed
 #include "StdAfx.h"
 #include "DevilSquare.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "GameMain.h"
 #include "TNotice.h"
 #include "gObjMonster.h"

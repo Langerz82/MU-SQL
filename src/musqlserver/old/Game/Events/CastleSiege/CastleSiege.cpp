@@ -13,7 +13,7 @@
 #include "TUnion.h"
 #include "LifeStone.h"
 #include "Mercenary.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "BuffEffectSlot.h"
 #include "configread.h"
 #include "util.h"

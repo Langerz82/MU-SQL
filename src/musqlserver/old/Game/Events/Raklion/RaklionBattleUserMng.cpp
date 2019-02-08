@@ -7,7 +7,7 @@
 #include "User/user.h"
 #include "Raklion.h"
 #include "RaklionUtil.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "configread.h"
 CRaklionBattleUserMng	g_RaklionBattleUserMng;
 

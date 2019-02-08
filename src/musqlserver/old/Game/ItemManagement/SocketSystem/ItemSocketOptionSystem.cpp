@@ -5,7 +5,7 @@
 #include "../LargeRand.h"
 #include "../user.h"
 #include "../Protocol.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "../configread.h"
 
 CItemSocketOptionSystem	g_SocketOptionSystem;

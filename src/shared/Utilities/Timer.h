@@ -18,7 +18,7 @@ class WorldTimer
          *
          * @return uint32
          */
-        static uint32 getMSTime();
+        static uint32 WorldTimer::getMSTime();
 
         /**
          * @brief get time difference between two timestamps
@@ -27,7 +27,7 @@ class WorldTimer
          * @param newMSTime
          * @return uint32
          */
-        static inline uint32 getMSTimeDiff(const uint32& oldMSTime, const uint32& newMSTime)
+        static inline uint32 WorldTimer::getMSTimeDiff(const uint32& oldMSTime, const uint32& newMSTime)
         {
             if (oldMSTime > newMSTime)
             {
@@ -73,12 +73,12 @@ class WorldTimer
         WorldTimer(const WorldTimer&);
 
         /**
-         * @brief analogue to getMSTime() but it persists m_SystemTickTime
+         * @brief analogue to WorldTimer::getMSTime() but it persists m_SystemTickTime
          *
          * @param savetime
          * @return uint32
          */
-        static uint32 getMSTime_internal();
+        static uint32 WorldTimer::getMSTime_internal();
 
         static  uint32 m_iTime; /**< TODO */
         static  uint32 m_iPrevTime; /**< TODO */

@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "PVPZone.h"
 #include "GameMain.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "readscript.h"
 #include "configread.h"
 // -------------------------------------------------------------------------------

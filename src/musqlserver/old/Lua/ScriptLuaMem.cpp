@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "ScriptLuaMem.h"
 #include "util.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "MuLua.h"
 
 CScriptLuaMem::CScriptLuaMem()

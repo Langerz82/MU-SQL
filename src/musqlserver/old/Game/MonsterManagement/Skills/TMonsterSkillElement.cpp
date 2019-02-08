@@ -10,7 +10,7 @@
 #include "protocol.h"
 #include "gObjMonster.h"
 #include "Gamemain.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "util.h"
 #include "BuffEffect.h"
 #include "BuffEffectSlot.h"

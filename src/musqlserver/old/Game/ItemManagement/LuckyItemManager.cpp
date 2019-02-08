@@ -2,7 +2,7 @@
 // LuckyItemManager.cpp
 //#include "StdAfx.h"
 #include "LargeRand.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "ChaosBox.h"
 #include "util.h"
 #include "GameMain.h"

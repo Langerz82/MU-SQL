@@ -13,7 +13,7 @@
 #include "SetItemOption.h"
 #include "ItemSocketOptionSystem.h"
 #include "util.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "LargeRand.h"
 #include "SocketItemType.h"
 

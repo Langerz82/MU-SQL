@@ -4,7 +4,7 @@
 
 #include "StdAfx.h"
 #include "TMonsterAIRule.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 
 
 bool TMonsterAIRule::s_bDataLoad = FALSE;

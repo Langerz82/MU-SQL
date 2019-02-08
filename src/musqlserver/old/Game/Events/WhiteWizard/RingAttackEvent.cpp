@@ -6,7 +6,7 @@
 #include "GameMain.h"
 #include "DSProtocol.h"
 #include "protocol.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "util.h"
 #include "BuffEffectSlot.h"
 #include "configread.h"

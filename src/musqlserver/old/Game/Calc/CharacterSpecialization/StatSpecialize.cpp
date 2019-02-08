@@ -2,7 +2,7 @@
 // StatSpecialize.cpp
 #include "StdAfx.h"
 #include "StatSpecialize.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "configread.h"
 #include "util.h"
 #include "GameMain.h"

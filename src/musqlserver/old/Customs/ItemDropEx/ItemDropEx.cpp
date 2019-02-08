@@ -2,7 +2,7 @@
 // ItemDropEx.cpp
 #include "StdAfx.h"
 #include "ItemDropEx.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "Readscript.h"
 #include "DSProtocol.h"
 #include "gObjMonster.h"

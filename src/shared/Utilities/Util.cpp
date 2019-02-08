@@ -30,18 +30,18 @@ uint32 WorldTimer::tick()
     m_iPrevTime = m_iTime;
 
     // get the new one and don't forget to persist current system time in m_SystemTickTime
-    m_iTime = WorldTimer::getMSTime_internal();
+    m_iTime = WorldTimer::WorldTimer::getMSTime_internal();
 
     // return tick diff
-    return getMSTimeDiff(m_iPrevTime, m_iTime);
+    return WorldTimer::getMSTimeDiff(m_iPrevTime, m_iTime);
 }
 
-uint32 WorldTimer::getMSTime()
+uint32 WorldTimer::WorldTimer::getMSTime()
 {
-    return getMSTime_internal();
+    return WorldTimer::getMSTime_internal();
 }
 
-uint32 WorldTimer::getMSTime_internal()
+uint32 WorldTimer::WorldTimer::getMSTime_internal()
 {
     // get current time
     const ACE_Time_Value currTime = ACE_OS::gettimeofday();
@@ -563,7 +563,7 @@ void utf8printf(FILE* out, const char* str, ...)
 /// Print out the core banner
 void print_banner()
 {
-	sLog->outMessage("general", LOG_LEVEL_INFO, "<Ctrl-C> to stop.\n"
+	sLog->outBasic("general", LOG_LEVEL_INFO, "<Ctrl-C> to stop.\n"
 		"__________________________________________________________\n"
 		" Powered By MuMySQLServer Core\n"
 		"__________________________________________________________\n"

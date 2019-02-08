@@ -5,7 +5,7 @@
 #include "StdAfx.h"
 #include "KanturuMonsterMng.h"
 #include "Gamemain.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "configread.h"
 
 CKanturuMonsterMng g_KanturuMonsterMng;

@@ -9,7 +9,7 @@
 #include "StdAfx.h"
 #include "DragonEvent.h"
 #include "GameMain.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "Protocol.h"
 #include "MapServerManager.h"
 

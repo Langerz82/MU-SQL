@@ -13,7 +13,7 @@
 */
 //#include "StdAfx.h"
 #include "User/user.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 //#include "LogToFile.h"
 //#include "GameServer.h"
 #include "Main.h"

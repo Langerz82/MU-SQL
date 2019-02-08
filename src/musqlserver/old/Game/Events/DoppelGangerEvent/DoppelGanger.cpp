@@ -2,7 +2,7 @@
 // DoppelGanger.cpp
 #include "StdAfx.h"
 #include "DoppelGanger.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "gObjMonster.h"
 #include "MonsterAttr.h"
 #include "GameMain.h"

@@ -6,7 +6,7 @@
 #include "CashShop.h"
 #include "GameServer.h"
 #include "GameMain.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "DSProtocol.h"
 #include "SProtocol.h"
 #include "util.h"

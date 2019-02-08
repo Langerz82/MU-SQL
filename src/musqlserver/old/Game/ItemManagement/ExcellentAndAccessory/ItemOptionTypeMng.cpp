@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ItemOptionTypeMng.cpp
 #include "ItemOptionTypeMng.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "FormulaParse.h"
 #include "MasterLevelSkillTreeSystem.h"
 

@@ -8,7 +8,7 @@
 //	GS-N	1.00.18	JPN	0x00489FD0	-	Completed
 //#include "StdAfx.h"
 #include "giocp.h"
-//#include "Log/Log.h"
+//#include "Logging/Log.h"
 //#include "DataServer.h"
 //#include "ServerEngine.h"
 #include "Main.cpp"

@@ -4,7 +4,7 @@
 
 #include "StdAfx.h"
 #include "TMonsterAIMovePath.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

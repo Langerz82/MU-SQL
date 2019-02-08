@@ -3,7 +3,7 @@
 #include "Common\Common.h"
 //#include "StdAfx.h"
 #include "MapServerManager.h"
-//#include "Log/Log.h"
+//#include "Logging/Log.h"
 #include "pugixml.hpp"
 
 _MAPSVR_DATA::_MAPSVR_DATA()

@@ -18,7 +18,7 @@
 #include "CashShop.h"
 #include "MasterLevelSkillTreeSystem.h"
 #include "util.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "protocol.h"
 
 CCrywolf g_Crywolf;

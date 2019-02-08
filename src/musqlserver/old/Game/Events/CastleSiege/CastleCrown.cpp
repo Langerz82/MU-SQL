@@ -6,7 +6,7 @@
 #include "CastleCrown.h"
 #include "CastleSiege.h"
 #include "User/user.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 
 CCastleCrown g_CsNPC_CastleCrown;
 //////////////////////////////////////////////////////////////////////

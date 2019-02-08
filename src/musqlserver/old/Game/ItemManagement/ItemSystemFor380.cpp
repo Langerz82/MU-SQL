@@ -6,7 +6,7 @@
 #include "ItemSystemFor380.h"
 #include "Gamemain.h"
 #include "CastleSiegeSync.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "ChaosBox.h"
 #include "util.h"
 

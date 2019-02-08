@@ -5,7 +5,7 @@
 #include "StdAfx.h"
 #include "CastleSiege.h"
 #include "User/user.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "CastleDeepEvent.h"
 #include "configread.h"
 #include "GameMain.h"

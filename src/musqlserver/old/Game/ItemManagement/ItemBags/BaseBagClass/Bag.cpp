@@ -2,7 +2,7 @@
 // Bag.cpp
 #include "StdAfx.h"
 #include "Bag.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "User/user.h"
 #include "LuaBag.h"
 #include "util.h"

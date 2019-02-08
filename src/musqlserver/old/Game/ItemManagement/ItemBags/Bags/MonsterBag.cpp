@@ -2,7 +2,7 @@
 // MonsterBag.cpp
 #include "StdAfx.h"
 #include "MonsterBag.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "User/user.h"
 #include "LuaBag.h"
 #include "MapClass.h"

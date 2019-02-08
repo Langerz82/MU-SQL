@@ -4,7 +4,7 @@
 
 #include "StdAfx.h"
 #include "TMonsterSkillUnit.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 
 TMonsterSkillUnit TMonsterSkillUnit::s_MonsterSkillUnitArray[MAX_MONSTER_SKILL_UNIT_ARRAY];
 BOOL TMonsterSkillUnit::s_bDataLoad = FALSE;

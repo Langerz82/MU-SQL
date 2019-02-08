@@ -2,7 +2,7 @@
 // FormulaParse.cpp
 #include "StdAfx.h"
 #include "FormulaParse.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "pugixml.hpp"
 
 CFormulaParse g_FormulaParse;

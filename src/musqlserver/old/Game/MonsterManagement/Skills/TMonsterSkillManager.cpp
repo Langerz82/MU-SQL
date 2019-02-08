@@ -6,7 +6,7 @@
 #include "TMonsterSkillManager.h"
 #include "ObjUseSkill.h"
 #include "SkillHitBox.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "configread.h"
 
 TMonsterSkillInfo TMonsterSkillManager::s_MonsterSkillInfoArray[MAX_MONSTER_SKILL_INFO_ARRAY];

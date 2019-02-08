@@ -11,7 +11,7 @@
 #include "Protocol.h"
 #include "GameMain.h"
 #include "PeriodItemEx.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "Event/ArcaBattle/ArcaBattle.h"
 #include "configread.h"
 #include "ObjUseSkill.h"

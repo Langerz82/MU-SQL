@@ -2,7 +2,7 @@
 // Lang.cpp
 #include "StdAfx.h"
 #include "Lang.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "GameMain.h"
 #include "configread.h"
 

@@ -5,7 +5,7 @@
 #include "StdAfx.h"
 #include "CrywolfAltar.h"
 #include "CrywolfUtil.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "BuffEffectSlot.h"
 #include "configread.h"
 

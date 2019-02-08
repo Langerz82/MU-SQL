@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "MuunInfoMng.h"
 #include "User/user.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "util.h"
 #include "MuunOpt.h"
 

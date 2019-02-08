@@ -8,7 +8,7 @@
 #include "MapServerManager.h"
 #include "TNotice.h"
 #include "classdef.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "Gamemain.h"
 #include "MasterLevelSkillTreeSystem.h"
 #include "configread.h"

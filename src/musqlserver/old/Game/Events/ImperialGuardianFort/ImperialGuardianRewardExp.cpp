@@ -2,7 +2,7 @@
 // ImperialGuardianRewardExp.cpp
 #include "StdAfx.h"
 #include "ImperialGuardianRewardExp.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "User/user.h"
 
 CImperialGuardianRewardExp::CImperialGuardianRewardExp(void)

@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "UpgradeCmd.h"
 #include "ItemManagement/Item.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "User/user.h"
 #include "DSProtocol.h"
 #include "SetItemOption.h"

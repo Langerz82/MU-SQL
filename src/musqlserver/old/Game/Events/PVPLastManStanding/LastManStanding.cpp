@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "LastManStanding.h"
 #include "User/user.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "TNotice.h"
 #include "configread.h"
 #include "GameMain.h"

@@ -2,7 +2,7 @@
 // PentagramMixSystem.cpp
 
 #include "PentagramMixSystem.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "../pugixml.hpp"
 #include "../user.h"
 

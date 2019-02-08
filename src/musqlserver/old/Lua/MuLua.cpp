@@ -1,6 +1,6 @@
 
 #include "MuLua.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "configread.h"
 #include "LuaExport.h"
 

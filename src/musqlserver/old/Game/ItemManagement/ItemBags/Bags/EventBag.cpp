@@ -2,7 +2,7 @@
 // EventBag.cpp
 #include "StdAfx.h"
 #include "EventBag.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "User/user.h"
 #include "LuaBag.h"
 #include "MapClass.h"

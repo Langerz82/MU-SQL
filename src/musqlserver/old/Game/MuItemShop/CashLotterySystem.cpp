@@ -8,7 +8,7 @@
 #include "CashLotterySystem.h"
 #include "LargeRand.h"
 #include "User/user.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "readscript.h"
 
 

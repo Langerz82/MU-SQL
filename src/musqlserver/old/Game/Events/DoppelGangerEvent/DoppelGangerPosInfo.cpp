@@ -2,7 +2,7 @@
 // DoppelGangerPosInfo.cpp
 #include "StdAfx.h"
 #include "DoppelGangerPosInfo.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 #include "User/user.h"
 
 CDoppelGangerPosInfo::CDoppelGangerPosInfo(void)

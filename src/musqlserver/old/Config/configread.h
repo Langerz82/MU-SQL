@@ -5,8 +5,8 @@
 
 #include "StdAfx.h"
 //#include "classdef.h"
-//#include "Log/Log.h"
-//#include "Log/Log.h"
+//#include "Logging/Log.h"
+//#include "Logging/Log.h"
 //#include "MuLua.h"
 //#include "MapClass.h"
 //#include <string>

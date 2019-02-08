@@ -21,7 +21,7 @@
 #include "Errors.h"
 #include "Logging/Log.h"
 #include "PreparedStatement.h"
-//#include "ProducerConsumerQueue.h"
+#include "MySQLConnection.h"
 #include "QueryCallback.h"
 #include "QueryHolder.h"
 #include "QueryResult.h"
@@ -35,6 +35,8 @@
 
 #define MIN_MYSQL_SERVER_VERSION 50100u
 #define MIN_MYSQL_CLIENT_VERSION 50100u
+
+class MySQLConnection;
 
 class PingOperation : public SQLOperation
 {
@@ -354,7 +356,7 @@ uint32 DatabaseWorkerPool<T>::OpenConnections(InternalIndex type, uint8 numConne
         }
         else if (mysql_get_server_version(connection->GetHandle()) < MIN_MYSQL_SERVER_VERSION)
         {
-            sLog->outMessage("sql.driver", "TrinityCore does not support MySQL versions below 5.1");
+            sLog->outBasic("sql.driver", "TrinityCore does not support MySQL versions below 5.1");
             return 1;
         }
         else
