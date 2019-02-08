@@ -24,7 +24,7 @@
 
 #define MAX_PLAYER_EQUIPMENT 12	// need to redo agin aññ with this macro
 
-struct DEFAULTCLASSTYPE;
+struct STR_DEFAULTCLASSTYPE;
 struct PMSG_ANS_CLASSDEF;
 
 enum DBClassNumber
@@ -70,7 +70,7 @@ public:
 
 public:
 
-	DEFAULTCLASSTYPE DefClass[MAX_TYPE_PLAYER];	// 4
+	STR_DEFAULTCLASSTYPE DefClass[MAX_TYPE_PLAYER];	// 4
 	
 };
 

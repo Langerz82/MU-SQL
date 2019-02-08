@@ -601,7 +601,7 @@ void CDevilSquare::ProcClose()
 					}
 				}
 
-				//g_Log.Add(pNotice.Notice);
+				//sLog.outBasic(pNotice.Notice);
 				this->SetState(DevilSquare_OPEN);
 			}
 
@@ -654,7 +654,7 @@ void CDevilSquare::ProcClose()
 					}
 				}
 
-				//g_Log.Add((char*)pNotice.Notice);
+				//sLog.outBasic((char*)pNotice.Notice);
 			}
 		}
 
@@ -750,7 +750,7 @@ void CDevilSquare::ProcOpen()
 					}
 				}
 
-				//g_Log.Add((char*)pNotice.Notice);
+				//sLog.outBasic((char*)pNotice.Notice);
 
 				this->m_iTime = GetTickCount64();
 			}
@@ -814,7 +814,7 @@ void CDevilSquare::ProcPlaying()
 					PMSG_NOTICE pNotice;
 
 					TNotice::MakeNoticeMsgEx((TNotice *)&pNotice, 0, Lang.GetText(0, 7), this->m_iRemainTime);
-					g_Log.Add((char*)pNotice.Notice);
+					sLog.outBasic((char*)pNotice.Notice);
 					GSProtocol.AllSendSameMapMsg((UCHAR*)&pNotice, pNotice.h.size, MAP_INDEX_DEVILSQUARE);
 					GSProtocol.AllSendSameMapMsg((UCHAR*)&pNotice, pNotice.h.size, MAP_INDEX_DEVILSQUARE2);
 				}

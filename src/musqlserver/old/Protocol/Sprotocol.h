@@ -1,6 +1,3 @@
-// Sprotocol.h: interface for the Sprotocol class.
-//
-//////////////////////////////////////////////////////////////////////
 
 #if !defined(AFX_SPROTOCOL_H__5309DA38_D6AD_420B_896B_CB391FCD3624__INCLUDED_)
 #define AFX_SPROTOCOL_H__5309DA38_D6AD_420B_896B_CB391FCD3624__INCLUDED_
@@ -12,7 +9,7 @@
 #include "StdAfx.h"
 #include "ProtocolStructs.h"
 #include "WzUdp.h"
-
+#include "Database/Query.h"
 #include "MapServerManager.h"
 
 #define MAX_LOGIN_USER	(45000)
@@ -62,6 +59,7 @@ struct PMSG_SET_OFFTRADE;
 struct SDHP_USERCLOSE_ID;
 struct ISHOP_VIP_BUY;
 struct USER_CONNECT_DATA;
+struct SDHP_IDPASSRESULT;
 
 class CLoginServerData
 {
@@ -144,7 +142,7 @@ public:
 	bool CheckHWIDLimit_Local(WORD ServerCode, LPSTR szHWID, DWORD HWIDMaxUse);
 
 	CRITICAL_SECTION critUserData;
-	std::vector<USER_CONNECT_DATA> m_vecMapMove;
+	std::vector<USER_CONNECT_DATA*> m_vecMapMove;
 
 	void IncUserNumber()
 	{
@@ -263,9 +261,9 @@ private:
 	char m_Salt[30];
 	WzUdp m_ConnecServerUDP;
 
-
-
-
+	CQuery m_AccountDB;
+	CQuery m_LogDB;
+	CQuery m_VIPDB;
 
 	CLoginServerData m_ServerData;
 public:

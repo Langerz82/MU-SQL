@@ -9,6 +9,7 @@
 #include "StdAfx.h"
 #include "GensSystemProtocol.h"
 #include "User/user.h"
+#include "classdef.h"
 
 #include <string>
 #include <map>
@@ -947,7 +948,8 @@ struct stMemberPosInfo;
 struct STR_STRINGCOMPARE;
 struct STR_GENS_RANKING;
 struct STR_GENS_RANKING_DATA;
-struct GUILD_MEMBER;
+struct STR_GUILD_MEMBER;
+struct STR_DEFAULTCLASSTYPE;
 
 typedef struct STR_STRINGCOMPARE
 {
@@ -961,6 +963,25 @@ typedef std::map<std::string, STR_GUILD_MEMBER*, strCmp> MAP_GUILD_MEMBER;
 typedef std::map<std::string, GUILD_INFO_STRUCT*, strCmp> MAP_GUILD_INFO;
 typedef std::map<int, STR_UNION_MEMBER_DATA*> MAP_MEMBER_DATA;
 
+
+struct STR_DEFAULTCLASSTYPE
+{
+	int Experience;	// 0
+	WORD Strength;	// 4
+	WORD Dexterity;	// 6
+	WORD Vitality;	// 8
+	WORD Energy;	// A
+	float LevelLife;	// C
+	float Life;	// 10
+	float MaxLife;	// 14
+	float LevelMana;	// 18
+	float Mana;	// 1C
+	float MaxMana;	// 20
+	float VitalityToLife;	// 24
+	float EnergyToMana;	// 28
+	CItem Equipment[MAX_PLAYER_EQUIPMENT + 2];	// 2C
+	WORD Leadership;	// 9CC
+};
 
 struct STR_GENS_RANKING
 {
@@ -985,7 +1006,7 @@ struct _ITL_GUILD_RANK {
 	BYTE byLose;
 };
 
-typedef struct STR_GUILD_MEMBER {
+struct STR_GUILD_MEMBER {
 	char m_szMemberName[11];
 	BYTE m_btStatus;
 	BYTE m_btConnected;
@@ -996,7 +1017,7 @@ typedef struct STR_GUILD_MEMBER {
 		m_btConnected = -1;
 		m_iUserIndex = -1;
 	}
-} GUILD_MEMBER, *LPGUILD_MEMBER;
+};
 
 struct _ITL_AnswerEnter {
 	PBMSG_HEAD2 h;

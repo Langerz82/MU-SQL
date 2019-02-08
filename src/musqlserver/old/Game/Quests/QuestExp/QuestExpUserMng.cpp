@@ -465,7 +465,7 @@ int QuestExpUserMng::SendQuestReward(int iEpisode, int iObjIndex)
 			}
 
 			strcat(LogBuff, "Reward Exp [%s][%s] Exp[%I64d] Ep[%d] QS[%d]");
-			g_Log.Add(LogBuff, gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, pRewardExp->GetRewardExp(), iEpisode, iQuestSwitch);
+			sLog.outBasic(LogBuff, gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, pRewardExp->GetRewardExp(), iEpisode, iQuestSwitch);
 		}
 		break;
 
@@ -477,7 +477,7 @@ int QuestExpUserMng::SendQuestReward(int iEpisode, int iObjIndex)
 			GSProtocol.GCMoneySend(iObjIndex, gObj[iObjIndex].m_PlayerData->Money);
 
 			strcat(LogBuff, "Reward Money [%s][%s] Money[%d] Ep[%d] QS[%d]");
-			g_Log.Add(LogBuff, gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, pRewardZen->GetRewardZen(), iEpisode, iQuestSwitch);
+			sLog.outBasic(LogBuff, gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, pRewardZen->GetRewardZen(), iEpisode, iQuestSwitch);
 		}
 		break;
 
@@ -542,7 +542,7 @@ int QuestExpUserMng::SendQuestReward(int iEpisode, int iObjIndex)
 				strcpy(ItemLogBuff, LogBuff);
 				strcat(ItemLogBuff, "Reward Item [%s][%s] Ep[%d] QS[%d] ItemName[%s] Item Num[%d] Level[%d] Dur[%d] skill[%d]");
 
-				g_Log.Add(ItemLogBuff, gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, iEpisode,
+				sLog.outBasic(ItemLogBuff, gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, iEpisode,
 					iQuestSwitch, szRewardItemName, pRewardItem->GetRewardItemNum(), pRewardItem->GetRewardItemLevel(), pRewardItem->GetRewardItemDur(), pRewardItem->GetRewardItemSkill());
 			}
 		}
@@ -557,7 +557,7 @@ int QuestExpUserMng::SendQuestReward(int iEpisode, int iObjIndex)
 			g_GensSystem.AddContributePoint(&gObj[iObjIndex], iContributePt);
 
 			strcat(LogBuff, "Reward Contribute Point [%s][%s] Point[%d] Ep[%d] QS[%d]");
-			g_Log.Add(LogBuff, gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, iContributePt, iEpisode, iQuestSwitch);
+			sLog.outBasic(LogBuff, gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, iContributePt, iEpisode, iQuestSwitch);
 
 			char client_msg[128] = "";
 			wsprintf(client_msg, Lang.GetText(0,564), iContributePt, g_GensSystem.GetContributePoint(&gObj[iObjIndex]));

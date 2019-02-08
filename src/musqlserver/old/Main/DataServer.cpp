@@ -383,7 +383,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					}
 					else
 					{
-						g_Log.AddC(TColor::Red, "Option available only with enabled Join Server");
+						sLog.outError("Option available only with enabled Join Server");
 						return false;
 					}
 					break;
@@ -486,7 +486,7 @@ BOOL CALLBACK JSDisconnect (HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPar
 				{
 					if ( g_UseJoinServer == FALSE )
 					{
-						g_Log.AddC(TColor::Red, "[JoinServer] - not used");
+						sLog.outError("[JoinServer] - not used");
 						EndDialog(hWnd, 0);
 						break;
 					}
@@ -625,13 +625,13 @@ void PrintLicenseInfo()
 	int Days = WLRegDateDaysLeft();
 
 	g_Log.AddC(TColor::Orange, "License Information:");
-	g_Log.Add("Customer: Trong.LIVE - Dao Van Trong");
+	sLog.outBasic("Customer: Trong.LIVE - Dao Van Trong");
 	/*
-	g_Log.Add("Customer: %s Server: %s", User, Server);
+	sLog.outBasic("Customer: %s Server: %s", User, Server);
 
 	if(Days != 0)
 	{
-		g_Log.Add("License expiration: %d days", WLRegDateDaysLeft());
+		sLog.outBasic("License expiration: %d days", WLRegDateDaysLeft());
 	}
 */
 	VM_DOLPHIN_RED_END

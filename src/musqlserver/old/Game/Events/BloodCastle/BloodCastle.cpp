@@ -3894,7 +3894,7 @@ bool CBloodCastle::CheckWinnerValid(int iBridgeIndex)
 {
 	if ( !BC_BRIDGE_RANGE(iBridgeIndex))
 	{
-		g_Log.Add("[Blood Castle] (%d) CBloodCastle::CheckWinnerValid() - !CHECK_LIMIT(iBridgeIndex, MAX_BLOODCASTLE_BRIDGE_COUNT)",
+		sLog.outBasic("[Blood Castle] (%d) CBloodCastle::CheckWinnerValid() - !CHECK_LIMIT(iBridgeIndex, MAX_BLOODCASTLE_BRIDGE_COUNT)",
 			iBridgeIndex+1);
 
 		return false;

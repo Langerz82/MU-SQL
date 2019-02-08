@@ -752,7 +752,7 @@ void CDoppelGanger::SetDoppelgangerStatePlaying()
 
 	LeaveCriticalSection(&this->m_critUserData);
 
-	g_Log.Add(PlayerLog);
+	sLog.outBasic(PlayerLog);
 
 	this->SendDoppelgangerState(DOPPELGANGER_STATE_PLAY);
 	this->SendMapTileInfoAll(1);

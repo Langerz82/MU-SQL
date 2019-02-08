@@ -123,7 +123,7 @@ void CAttackEvent::Active()
 
 		if (MapNumber == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s MapNumber == -1", __FUNCTION__);
+			sLog.outError("%s MapNumber == -1", __FUNCTION__);
 			return;
 		}
 
@@ -131,7 +131,7 @@ void CAttackEvent::Active()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s result == -1", __FUNCTION__);
+			sLog.outError("%s result == -1", __FUNCTION__);
 			return;
 		}
 
@@ -177,7 +177,7 @@ void CAttackEvent::Active()
 
 		LeaveCriticalSection(&this->m_MonCriti);
 
-		g_Log.Add("[AttackEvent] Create Boss %d: %d %d %d create ", It->second.m_Type, this->m_BossMap53, this->m_BossMapX53, this->m_BossMapY53);
+		sLog.outBasic("[AttackEvent] Create Boss %d: %d %d %d create ", It->second.m_Type, this->m_BossMap53, this->m_BossMapX53, this->m_BossMapY53);
 	}
 
 	It = this->m_mapMonsterPos.find(54);
@@ -194,7 +194,7 @@ void CAttackEvent::Active()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s result == -1", __FUNCTION__);
+			sLog.outError("%s result == -1", __FUNCTION__);
 			return;
 		}
 
@@ -247,7 +247,7 @@ void CAttackEvent::Active()
 
 		if (MapNumber == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s MapNumber == -1", __FUNCTION__);
+			sLog.outError("%s MapNumber == -1", __FUNCTION__);
 			return;
 		}
 
@@ -255,7 +255,7 @@ void CAttackEvent::Active()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s result == -1", __FUNCTION__);
+			sLog.outError("%s result == -1", __FUNCTION__);
 			return;
 		}
 
@@ -301,7 +301,7 @@ void CAttackEvent::Active()
 
 		LeaveCriticalSection(&this->m_MonCriti);
 
-		g_Log.Add("[AttackEvent] Create Boss %d: %d %d %d create ", It->second.m_Type, this->m_BossMap55, this->m_BossMapX55, this->m_BossMapY55);
+		sLog.outBasic("[AttackEvent] Create Boss %d: %d %d %d create ", It->second.m_Type, this->m_BossMap55, this->m_BossMapX55, this->m_BossMapY55);
 	}
 
 	It = this->m_mapMonsterPos.find(56);
@@ -318,7 +318,7 @@ void CAttackEvent::Active()
 
 		if (result == -1)
 		{
-			g_Log.AddC(TColor::Red, "%s result == -1", __FUNCTION__);
+			sLog.outError("%s result == -1", __FUNCTION__);
 			return;
 		}
 
@@ -367,7 +367,7 @@ void CAttackEvent::Start_Menual()
 {
 	this->SetMenualStart(TRUE);
 
-	g_Log.Add("[Event Management] [Start] Attack Event!"); 
+	sLog.outBasic("[Event Management] [Start] Attack Event!"); 
 	this->EventState= false;
 	this->Start();
 	this->Active();

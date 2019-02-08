@@ -116,7 +116,7 @@ void CBonusEvent::Run(void *lpParam)
 					TNotice::MakeNoticeMsgEx(&pNotice, 0, Lang.GetText(0,600), active_event_ptr->wEndHour - active_event_ptr->wStartHour, nRemainMin);
 					TNotice::SendNoticeToAllUser(&pNotice);
 
-					g_Log.Add("[Bonus Event] Started Event (AddExp:%f) (AddMLExp:%f) (AddDrop:%f) (AddExcDrop:%f)",
+					sLog.outBasic("[Bonus Event] Started Event (AddExp:%f) (AddMLExp:%f) (AddDrop:%f) (AddExcDrop:%f)",
 						active_event_ptr->AddExp, active_event_ptr->AddMLExp, active_event_ptr->AddDrop, active_event_ptr->AddExcDrop);
 				}
 

@@ -907,7 +907,7 @@ BOOL ExDataServerConnect(char* ConnectServer, DWORD wMsg)
 
 BOOL GameMainServerCreate(DWORD sMsg, DWORD cMsg)
 {
-	g_Log.Add( "GameServer create PORT [ %d ]", g_ConfigRead.server.GetGameServerPort());
+	sLog.outBasic( "GameServer create PORT [ %d ]", g_ConfigRead.server.GetGameServerPort());
 	return TRUE;
 }
 

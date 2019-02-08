@@ -415,7 +415,7 @@ void PartyClass::Paint(int party_number)
 		}
 	}
 
-	g_Log.Add(this->m_szTempPaint);
+	sLog.outBasic(this->m_szTempPaint);
 }
 
 

@@ -1071,11 +1071,11 @@ extern ExMessageStateMachine ** gSMAttackProcMsg;
 extern MessageStateMachine ** gSMMsg;
 
 
-class USER_DATA
+class STR_USER_DATA
 {
 public:
-	USER_DATA(int IDNumber);
-	virtual ~USER_DATA();
+	STR_USER_DATA(int IDNumber);
+	virtual ~STR_USER_DATA();
 
 	void Init(bool VipReset = true);
 
@@ -1706,7 +1706,7 @@ public:
 	bool m_bOff;
 	bool m_bOffLevel;
 	DWORD64 m_dwOffLevelTime;
-	USER_DATA * m_PlayerData;
+	STR_USER_DATA * m_PlayerData;
 	_BOT_BUFF_LIST m_BotBuffs[10];
 	UINT64 MonsterMoneyDrop;
 	BYTE m_btOpenWarehouse;
