@@ -21,7 +21,7 @@
 #define SET_NUMBERHW(x) ( (WORD)((DWORD)(x)>>(DWORD)16) )
 #define SET_NUMBERLW(x) ( (WORD)((DWORD)(x) & 0xFFFF) )
 
-extern HWND ghWnd;
+
 extern int g_dwMaxServerGroups;
 extern WORD g_FSGateServerListPort;
 extern WORD g_JoinServerListPort;
@@ -47,9 +47,7 @@ extern DWORD g_GensLeaveAfterDays;
 extern DWORD g_MachineIDConnectionLimitPerGroup;
 bool IniteDataServer();
 void eDataServerClose();
-//extern CDataServerProtocol m_DSProtocol;
-extern CLoginServerProtocol m_JSProtocol;
-//extern CExDataServerProtocol m_EXDSProtocol;
+
 extern TCHAR szWANIP[150];
 extern HANDLE hQueue1, hQueue2, hQueue3, hQueue4, hQueue5, hJSQueue, hEXDSQueue;
 extern WORD g_MagumsaCreateMinLevel;
@@ -58,6 +56,18 @@ extern WORD g_GrowLancerCreateMinLevel;
 extern int g_iShowAllQueriesInDS;
 extern int g_iConnectStatSyncEnable;
 extern int g_DSBattleCoreEnable;
+
+extern TCHAR g_logsDir[64];
+extern TCHAR g_logsEntryCount[2];
+extern std::string g_logsEntry[10]; // up to 10 logs
+
+
+
+
+
+
+
+
 
 extern MapClass MapC[MAX_NUMBER_MAP];
 

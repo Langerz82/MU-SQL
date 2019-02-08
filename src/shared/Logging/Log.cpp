@@ -27,10 +27,11 @@
 #include "LogOperation.h"
 #include "Asio/Strand.h"
 #include "Utilities/Util.h"
+#include "Utilities/StringFormat.h"
 #include <chrono>
 #include <sstream>
 
-Log::Log() : AppenderId(0), lowestLogLevel(LOG_LEVEL_FATAL), _ioContext(nullptr), _strand(nullptr)
+Log::Log() : AppenderId(0), lowestLogLevel(LOG_LEVEL_FATAL), _ioContext(nullptr), _strand(nullptr), m_options(nullptr)
 {
     m_logsTimestamp = "_" + GetTimestampStr();
     RegisterAppender<AppenderConsole>();
@@ -57,7 +58,7 @@ Appender* Log::GetAppenderByName(std::string const& name)
     return it == appenders.end() ? nullptr : it->second.get();
 }
 
-void Log::CreateAppenderFromConfig(std::string const& appenderName)
+void Log::CreateAppenderFromConfig(std::string const& appenderName, std::string const& options)
 {
     if (appenderName.empty())
         return;
@@ -65,9 +66,9 @@ void Log::CreateAppenderFromConfig(std::string const& appenderName)
     // Format = type, level, flags, optional1, optional2
     // if type = File. optional1 = file and option2 = mode
     // if type = Console. optional1 = Color
-    std::string options = sConfigMgr->GetStringDefault(appenderName, "");
+    //std::string options = sConfigMgr->GetStringDefault(appenderName, "");
 
-    Tokenizer tokens(options, ',');
+    Tokens tokens = StrSplit(options, ",");
     auto iter = tokens.begin();
 
     size_t size = tokens.size();
@@ -80,8 +81,8 @@ void Log::CreateAppenderFromConfig(std::string const& appenderName)
     }
 
     AppenderFlags flags = APPENDER_FLAGS_NONE;
-    AppenderType type = AppenderType(atoi(*iter++));
-    LogLevel level = LogLevel(atoi(*iter++));
+    AppenderType type = AppenderType(atoi((*iter++).c_str()));
+    LogLevel level = LogLevel(atoi((*iter++).c_str()));
 
     if (level > LOG_LEVEL_FATAL)
     {
@@ -90,7 +91,7 @@ void Log::CreateAppenderFromConfig(std::string const& appenderName)
     }
 
     if (size > 2)
-        flags = AppenderFlags(atoi(*iter++));
+        flags = AppenderFlags(atoi((*iter++).c_str()));
 
     auto factoryFunction = appenderFactory.find(type);
     if (factoryFunction == appenderFactory.end())
@@ -101,7 +102,7 @@ void Log::CreateAppenderFromConfig(std::string const& appenderName)
 
     try
     {
-        Appender* appender = factoryFunction->second(NextAppenderId(), name, level, flags, std::vector<char const*>(iter, tokens.end()));
+        Appender* appender = factoryFunction->second(NextAppenderId(), name, level, flags, std::vector<char const*>(iter->c_str(), tokens.end()->c_str()));
         appenders[appender->getId()].reset(appender);
     }
     catch (InvalidAppenderArgsException const& iaae)
@@ -110,7 +111,7 @@ void Log::CreateAppenderFromConfig(std::string const& appenderName)
     }
 }
 
-void Log::CreateLoggerFromConfig(std::string const& appenderName)
+void Log::CreateLoggerFromConfig(std::string const& appenderName, std::string const& options)
 {
     if (appenderName.empty())
         return;
@@ -118,7 +119,6 @@ void Log::CreateLoggerFromConfig(std::string const& appenderName)
     LogLevel level = LOG_LEVEL_DISABLED;
     uint8 type = uint8(-1);
 
-    std::string options = sConfigMgr->GetStringDefault(appenderName, "");
     std::string name = appenderName.substr(7);
 
     if (options.empty())
@@ -127,8 +127,8 @@ void Log::CreateLoggerFromConfig(std::string const& appenderName)
         return;
     }
 
-    Tokenizer tokens(options, ',');
-    Tokenizer::const_iterator iter = tokens.begin();
+    Tokens tokens = StrSplit(options, ",");
+	Tokens::const_iterator iter = tokens.begin();
 
     if (tokens.size() != 2)
     {
@@ -143,7 +143,7 @@ void Log::CreateLoggerFromConfig(std::string const& appenderName)
         return;
     }
 
-    level = LogLevel(atoi(*iter++));
+    level = LogLevel(atoi((*iter++).c_str()));
     if (level > LOG_LEVEL_FATAL)
     {
         fprintf(stderr, "Log::CreateLoggerFromConfig: Wrong Log Level %u for logger %s\n", type, name.c_str());
@@ -153,7 +153,7 @@ void Log::CreateLoggerFromConfig(std::string const& appenderName)
     if (level < lowestLogLevel)
         lowestLogLevel = level;
 
-    logger = make_unique<Logger>(name, level);
+    logger = std::make_unique<Logger>(name, level);
     //fprintf(stdout, "Log::CreateLoggerFromConfig: Created Logger %s, Level %u\n", name.c_str(), level);
 
     std::istringstream ss(*iter);
@@ -173,18 +173,16 @@ void Log::CreateLoggerFromConfig(std::string const& appenderName)
     }
 }
 
-void Log::ReadAppendersFromConfig()
+void Log::ReadAppendersFromConfig(std::vector<std::string> keys)
 {
-    std::vector<std::string> keys = sConfigMgr->GetKeysByString("Appender.");
     for (std::string const& appenderName : keys)
-        CreateAppenderFromConfig(appenderName);
+        CreateAppenderFromConfig(appenderName, m_options);
 }
 
-void Log::ReadLoggersFromConfig()
+void Log::ReadLoggersFromConfig(std::vector<std::string> keys)
 {
-    std::vector<std::string> keys = sConfigMgr->GetKeysByString("Logger.");
     for (std::string const& loggerName : keys)
-        CreateLoggerFromConfig(loggerName);
+        CreateLoggerFromConfig(loggerName,m_options);
 
     // Bad config configuration, creating default config
     if (loggers.find(LOGGER_ROOT) == loggers.end())
@@ -210,18 +208,18 @@ void Log::ReadLoggersFromConfig()
 void Log::RegisterAppender(uint8 index, AppenderCreatorFn appenderCreateFn)
 {
     auto itr = appenderFactory.find(index);
-    ASSERT(itr == appenderFactory.end());
+    //ASSERT(itr == appenderFactory.end());
     appenderFactory[index] = appenderCreateFn;
 }
 
 void Log::outMessage(std::string const& filter, LogLevel level, std::string&& message)
 {
-    write(make_unique<LogMessage>(level, filter, std::move(message)));
+    write(std::make_unique<LogMessage>(level, filter, std::move(message)));
 }
 
 void Log::outCommand(std::string&& message, std::string&& param1)
 {
-    write(make_unique<LogMessage>(LOG_LEVEL_INFO, "commands.gm", std::move(message), std::move(param1)));
+    write(std::make_unique<LogMessage>(LOG_LEVEL_INFO, "commands.gm", std::move(message), std::move(param1)));
 }
 
 void Log::write(std::unique_ptr<LogMessage>&& msg) const
@@ -259,7 +257,7 @@ std::string Log::GetTimestampStr()
     time_t tt = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
     std::tm aTm;
-    localtime_r(&tt, &aTm);
+	localtime_r(&tt, &aTm);
 
     //       YYYY   year
     //       MM     month (2 digits 01-12)
@@ -357,7 +355,7 @@ Log* Log::instance()
     return &instance;
 }
 
-void Log::Initialize(Asio::IoContext* ioContext)
+void Log::Initialize(Asio::IoContext* ioContext, std::string const& logsDir, std::vector<std::string> const& options)
 {
     if (ioContext)
     {
@@ -365,7 +363,10 @@ void Log::Initialize(Asio::IoContext* ioContext)
         _strand = new Asio::Strand(*ioContext);
     }
 
-    LoadFromConfig();
+    LoadFromConfig(logsDir);
+
+	ReadAppendersFromConfig(options);
+	ReadLoggersFromConfig(options);
 }
 
 void Log::SetSynchronous()
@@ -375,17 +376,14 @@ void Log::SetSynchronous()
     _ioContext = nullptr;
 }
 
-void Log::LoadFromConfig()
+void Log::LoadFromConfig(std::string logsDir)
 {
     Close();
 
     lowestLogLevel = LOG_LEVEL_FATAL;
     AppenderId = 0;
-    m_logsDir = sConfigMgr->GetStringDefault("LogsDir", "");
+    m_logsDir = logsDir;
     if (!m_logsDir.empty())
         if ((m_logsDir.at(m_logsDir.length() - 1) != '/') && (m_logsDir.at(m_logsDir.length() - 1) != '\\'))
             m_logsDir.push_back('/');
-
-    ReadAppendersFromConfig();
-    ReadLoggersFromConfig();
 }

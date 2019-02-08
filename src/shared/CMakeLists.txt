@@ -37,8 +37,8 @@ source_group("DataStores" FILES ${SRC_GRP_DATASTORE})
 file(GLOB SRC_GRP_LOCKQ LockedQueue/*.cpp LockedQueue/*.h)
 source_group("LockedQueue" FILES ${SRC_GRP_LOCKQ})
 
-file(GLOB SRC_GRP_LOG Log/*.cpp Log/*.h)
-source_group("Log" FILES ${SRC_GRP_LOG})
+file(GLOB SRC_GRP_LOG Logging/*.cpp Logging/*.h)
+source_group("Logging" FILES ${SRC_GRP_LOG})
 
 file(GLOB SRC_GRP_THREAD Threading/*.cpp Threading/*.h)
 source_group("Threading" FILES ${SRC_GRP_THREAD})

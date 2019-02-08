@@ -45,12 +45,24 @@ class  Log
     public:
         static Log* instance();
 
-        void Initialize(Asio::IoContext* ioContext);
+		void Initialize(Asio::IoContext* ioContext, std::string const& logsDir, std::vector<std::string> const& options);
         void SetSynchronous();  // Not threadsafe - should only be called from main() after all threads are joined
-        void LoadFromConfig();
+		void LoadFromConfig(std::string logsDir);
         void Close();
         bool ShouldLog(std::string const& type, LogLevel level) const;
         bool SetLogLevel(std::string const& name, char const* level, bool isLogger = true);
+
+		template<typename Format, typename... Args>
+		inline void outBasic(Format&& fmt, Args&&... args)
+		{
+			outMessage("output", LOG_LEVEL_INFO, StringFormat(std::forward<Format>(fmt), std::forward<Args>(args)...));
+		}
+
+		template<typename Format, typename... Args>
+		inline void outError(Format&& fmt, Args&&... args)
+		{
+			outMessage("output", LOG_LEVEL_ERROR, StringFormat(std::forward<Format>(fmt), std::forward<Args>(args)...));
+		}
 
         template<typename Format, typename... Args>
         inline void outMessage(std::string const& filter, LogLevel const level, Format&& fmt, Args&&... args)
@@ -88,10 +100,10 @@ class  Log
         Logger const* GetLoggerByType(std::string const& type) const;
         Appender* GetAppenderByName(std::string const& name);
         uint8 NextAppenderId();
-        void CreateAppenderFromConfig(std::string const& name);
-        void CreateLoggerFromConfig(std::string const& name);
-        void ReadAppendersFromConfig();
-        void ReadLoggersFromConfig();
+        void CreateAppenderFromConfig(std::string const& name, std::string const& options);
+        void CreateLoggerFromConfig(std::string const& name, std::string const& options);
+		void ReadAppendersFromConfig(std::vector<std::string> keys);
+		void ReadLoggersFromConfig(std::vector<std::string> keys);
         void RegisterAppender(uint8 index, AppenderCreatorFn appenderCreateFn);
         void outMessage(std::string const& filter, LogLevel level, std::string&& message);
         void outCommand(std::string&& message, std::string&& param1);
@@ -104,6 +116,7 @@ class  Log
 
         std::string m_logsDir;
         std::string m_logsTimestamp;
+		std::string const& m_options;
 
         Asio::IoContext* _ioContext;
         Asio::Strand* _strand;

@@ -72,6 +72,7 @@ include_directories(
     ${ACE_INCLUDE_DIR}
     ${OPENSSL_INCLUDE_DIR}
 	${CMAKE_SOURCE_DIR}/../muServerDeps/_Include
+	${CMAKE_SOURCE_DIR}/deps
     ${CMAKE_SOURCE_DIR}/src/musqlserver/old
     ${CMAKE_SOURCE_DIR}/src/musqlserver/old/Config
     ${CMAKE_SOURCE_DIR}/src/musqlserver/old/Customs

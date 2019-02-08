@@ -31,8 +31,6 @@
 #define IoContextBase io_service
 #endif
 
-namespace Trinity
-{
     namespace Asio
     {
         class IoContext : public IoContextBaseNamespace::IoContextBase
@@ -60,6 +58,6 @@ namespace Trinity
 #endif
         }
     }
-}
+
 
 #endif // IoContext_h__

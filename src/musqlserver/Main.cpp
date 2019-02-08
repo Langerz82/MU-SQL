@@ -6,6 +6,7 @@
 /// \file
 
 #include "Main.h"
+#include "database\Logging\AppenderDB.h"
 #include "Common.h"
 #include "Asio/IoContext.h"
 
@@ -20,7 +21,6 @@
 #include "database/Database/MySQLThreading.h"
 
 #include "Config/Config.h"
-#include "Log.h"
 
 #include "SystemConfig.h"
 #include "revision.h"
@@ -97,9 +97,10 @@ TCHAR g_RankingServerDB[64];
 TCHAR g_AWHostPass[32];
 TCHAR g_MapSvrFilePath[96];
 
-CLoginServerProtocol m_JSProtocol;
+TCHAR g_logsDir[64];
+TCHAR g_logsEntryCount[2];
+std::string g_logsEntry[10]; // up to 10 logs
 
-bool StartDB();
 void UnhookSignals();
 void HookSignals();
 
@@ -118,7 +119,7 @@ bool initDB()
 	if (!loader.Load())
 		return false;
 
-	sLog.outBasic("Started auth database connection pool.");
+	sLog->outBasic("Started auth database connection pool.");
 	return true;
 }
 
@@ -135,7 +136,7 @@ void KeepDatabaseAliveHandler(std::weak_ptr<boost::asio::deadline_timer> dbPingT
 	{
 		if (std::shared_ptr<boost::asio::deadline_timer> dbPingTimer = dbPingTimerRef.lock())
 		{
-			sLog.outBasic("Ping MySQL to keep connection alive");
+			sLog->outBasic("Ping MySQL to keep connection alive");
 			ConnectDatabase.KeepAlive();
 
 			dbPingTimer->expires_from_now(boost::posix_time::minutes(dbPingInterval));
@@ -154,7 +155,7 @@ void SignalHandler(std::weak_ptr<Asio::IoContext> ioContextRef, boost::system::e
 /// Print out the usage string for this program on the console.
 void usage(const char* prog)
 {
-    sLog.outString("Usage: \n %s [<options>]\n"
+    sLog->outBasic("Usage: \n %s [<options>]\n"
 #ifdef WIN32
                    "    Running as service functions:\n\r"
                    "    -s run                   run as service\n\r"
@@ -178,11 +179,31 @@ bool InitDataServer()
 	//GetPrivateProfileString("SQL", "MeMuOnlineDB", "MuOnline", g_MeMuOnlineDB, sizeof(g_MeMuOnlineDB), ".\\DataServer.ini");
 	//GetPrivateProfileString("SQL", "EventDB", "MuEvent", g_EventServerDB, sizeof(g_EventServerDB), ".\\DataServer.ini");
 	//GetPrivateProfileString("SQL", "RankingDB", "MuRanking", g_RankingServerDB, sizeof(g_RankingServerDB), ".\\DataServer.ini");
+	return true;
+}
+
+void LoadLogConfig()
+{
+	GetPrivateProfileString("Logger", "LogDirectory", "logs", g_logsDir, sizeof(g_logsDir), ".\\DataServer.ini");
+	GetPrivateProfileString("Logger", "LogEntries", "2", g_logsEntryCount, sizeof(g_logsEntryCount), ".\\DataServer.ini");
+	int entryCount = atoi(g_logsEntryCount);
+	std::vector<std::string const&> vecLogEntries;
+	LPTSTR tempChars[10][128];
+	for (int i = 0; i < entryCount; ++i)
+	{
+		GetPrivateProfileString("Logger", "LogEntry", "", tempChars[i][0], sizeof(tempChars[i][0]), ".\\DataServer.ini");
+		//tempChars[i][0];
+		vecLogEntries.push_back(tempChars[i][0]);
+	}
+	sLog->RegisterAppender<AppenderDB>();
+	sLog->Initialize(nullptr, g_logsDir, vecLogEntries);
 }
 
 /// Launch the realm server
 extern int main(int argc, char** argv)
 {
+	LoadLogConfig();
+
     ///- Command line parsing
     char const* options = ":s:";
 
@@ -213,22 +234,19 @@ extern int main(int argc, char** argv)
 #endif
                 else
                 {
-                    sLog.outError("Runtime-Error: -%c unsupported argument %s", cmd_opts.opt_opt(), mode);
+                    sLog->outError("Runtime-Error: -%c unsupported argument %s", cmd_opts.opt_opt(), mode);
                     usage(argv[0]);
-                    Log::WaitBeforeContinueIfNeed();
                     return 1;
                 }
                 break;
             }
             case ':':
-                sLog.outError("Runtime-Error: -%c option requires an input argument", cmd_opts.opt_opt());
+                sLog->outError("Runtime-Error: -%c option requires an input argument", cmd_opts.opt_opt());
                 usage(argv[0]);
-                Log::WaitBeforeContinueIfNeed();
                 return 1;
             default:
-                sLog.outError("Runtime-Error: bad format of commandline arguments");
+                sLog->outError("Runtime-Error: bad format of commandline arguments");
                 usage(argv[0]);
-                Log::WaitBeforeContinueIfNeed();
                 return 1;
         }
     }
@@ -238,11 +256,11 @@ extern int main(int argc, char** argv)
     {
         case 'i':
             if (WinServiceInstall())
-                { sLog.outString("Installing service"); }
+                { sLog->outBasic("Installing service"); }
             return 1;
         case 'u':
             if (WinServiceUninstall())
-                { sLog.outString("Uninstalling service"); }
+                { sLog->outBasic("Uninstalling service"); }
             return 1;
         case 'r':
             WinServiceRun();
@@ -262,10 +280,9 @@ extern int main(int argc, char** argv)
             break;
     }
 #endif
-    sLog.Initialize();
 
 	// Initialize the database connection
-	if (!StartDB())
+	if (!initDB())
 		return 1;
 
 	std::shared_ptr<void> dbHandle(nullptr, [](void*) { StopDB(); });
@@ -285,17 +302,17 @@ extern int main(int argc, char** argv)
 	dbPingTimer->expires_from_now(boost::posix_time::minutes(dbPingInterval));
 	dbPingTimer->async_wait(std::bind(&KeepDatabaseAliveHandler, std::weak_ptr<boost::asio::deadline_timer>(dbPingTimer), dbPingInterval, std::placeholders::_1));
 
-    sLog.outString("%s [realm-daemon]", REVISION_NR);
-    sLog.outString("<Ctrl-C> to stop.\n");
+    sLog->outBasic("%s [realm-daemon]", REVISION_NR);
+    sLog->outBasic("<Ctrl-C> to stop.\n");
 
-    DETAIL_LOG("%s (Library: %s)", OPENSSL_VERSION_TEXT, SSLeay_version(SSLEAY_VERSION));
+    sLog->outBasic("%s (Library: %s)", OPENSSL_VERSION_TEXT, SSLeay_version(SSLEAY_VERSION));
     if (SSLeay() < 0x009080bfL)
     {
-        DETAIL_LOG("WARNING: Outdated version of OpenSSL lib. Logins to server may not work!");
-        DETAIL_LOG("WARNING: Minimal required version [OpenSSL 0.9.8k]");
+        sLog->outError("WARNING: Outdated version of OpenSSL lib. Logins to server may not work!");
+		sLog->outError("WARNING: Minimal required version [OpenSSL 0.9.8k]");
     }
 
-    DETAIL_LOG("Using ACE: %s", ACE_VERSION);
+    sLog->outBasic("Using ACE: %s", ACE_VERSION);
 
 #if defined (ACE_HAS_EVENT_POLL) || defined (ACE_HAS_DEV_POLL)
     ACE_Reactor::instance(new ACE_Reactor(new ACE_Dev_Poll_Reactor(ACE::max_handles(), 1), 1), true);
@@ -303,7 +320,7 @@ extern int main(int argc, char** argv)
     ACE_Reactor::instance(new ACE_Reactor(new ACE_TP_Reactor(), true), true);
 #endif
 
-    sLog.outBasic("Max allowed open files is %d", ACE::max_handles());
+    sLog->outBasic("Max allowed open files is %d", ACE::max_handles());
 
     /// MuSQLServer PID file creation
     std::string pidfile = "";
@@ -313,19 +330,10 @@ extern int main(int argc, char** argv)
 		int32 pid = 0; // stub
         if (!pid)
         {
-            sLog.outError("Can not create PID file %s.\n", pidfile.c_str());
-            Log::WaitBeforeContinueIfNeed();
+            sLog->outError("Can not create PID file %s.\n", pidfile.c_str());
             return 1;
         }
-
-        sLog.outString("Daemon PID: %u\n", pid);
-    }
-
-    ///- Initialize the database connection
-    if (!StartDB())
-    {
-        Log::WaitBeforeContinueIfNeed();
-        return 1;
+        sLog->outBasic("Daemon PID: %u\n", pid);
     }
 
     ///- Catch termination signals
@@ -348,17 +356,16 @@ extern int main(int argc, char** argv)
 
                 if (!curAff)
                 {
-                    sLog.outError("Processors marked in UseProcessors bitmask (hex) %x not accessible for MuSQLServer. Accessible processors bitmask (hex): %x", Aff, appAff);
+                    sLog->outError("Processors marked in UseProcessors bitmask (hex) %x not accessible for MuSQLServer. Accessible processors bitmask (hex): %x", Aff, appAff);
                 }
                 else
                 {
                     if (SetProcessAffinityMask(hProcess, curAff))
-                        { sLog.outString("Using processors (bitmask, hex): %x", curAff); }
+                        { sLog->outBasic("Using processors (bitmask, hex): %x", curAff); }
                     else
-                        { sLog.outError("Can't set used processors (hex): %x", curAff); }
+                        { sLog->outError("Can't set used processors (hex): %x", curAff); }
                 }
             }
-            sLog.outString();
         }
 
         bool Prio = false;
@@ -366,10 +373,9 @@ extern int main(int argc, char** argv)
         if (Prio)
         {
             if (SetPriorityClass(hProcess, HIGH_PRIORITY_CLASS))
-                { sLog.outString("MuSQLServer process priority class set to HIGH"); }
+                { sLog->outBasic("MuSQLServer process priority class set to HIGH"); }
             else
-                { sLog.outError("Can't set MuSQLServer process priority class."); }
-            sLog.outString();
+                { sLog->outError("Can't set MuSQLServer process priority class."); }
         }
     }
 #endif
@@ -387,7 +393,7 @@ extern int main(int argc, char** argv)
 	_set_printf_count_output(TRUE);
 	CreateDirectory("LOG", NULL);
 
-	sLog.outBasic( "Initializing...");
+	sLog->outBasic( "Initializing...");
 	
 
 	//GetPrivateProfileString(
@@ -405,8 +411,11 @@ extern int main(int argc, char** argv)
 ////OLD CODE END
 
     // maximum counter for next ping
-    uint32 numLoops = (10 * (MINUTE * 1000000 / 100000));
+    //uint32 numLoops = (10 * (MINUTE * 1000000 / 100000));
     uint32 loopCounter = 0;
+
+	// TODO - Make sure working from TC
+	ioContext->run();
 
 #ifndef WIN32
     detachDaemon();
@@ -420,29 +429,19 @@ extern int main(int argc, char** argv)
         if (ACE_Reactor::instance()->run_reactor_event_loop(interval) == -1)
             { break; }
 
-        if ((++loopCounter) == numLoops)
-        {
-            loopCounter = 0;
-            DETAIL_LOG("Ping MySQL to keep connection alive");
-            //DataDatabase.Ping();
-			//EventsDatabase.Ping();
-			//RankingDatabase.Ping();
-        }
 #ifdef WIN32
         if (m_ServiceStatus == 0) { stopEvent = true; }
         while (m_ServiceStatus == 2) { Sleep(1000); }
 #endif
     }
 
-    ///- Wait for the delay thread to exit
-    //DataDatabase.HaltDelayThread();
-	//EventsDatabase.HaltDelayThread();
-	//RankingDatabase.HaltDelayThread();
-
     ///- Remove signal handling before leaving
     UnhookSignals();
 
-    sLog.outString("Halting process...");
+    sLog->outBasic("Halting process...");
+
+	signals.cancel();
+
     return 0;
 }
 
@@ -464,52 +463,6 @@ void OnSignal(int s)
     }
 
     signal(s, OnSignal);
-}
-
-/// Initialize connection to the database
-bool StartDB()
-{
-	std::string dbConn1 = "";
-	std::string dbConn2 = "";
-	std::string dbConn3 = "";
-
-    if (dbConn1.empty())
-    {
-        sLog.outError("Database not specified");
-        return false;
-    }
-	if (dbConn2.empty())
-	{
-		sLog.outError("Database not specified");
-		return false;
-	}
-	if (dbConn3.empty())
-	{
-		sLog.outError("Database not specified");
-		return false;
-	}
-
-    sLog.outString("Database total connections: %i", 1 + 1);
-
-	/*
-    if (!DataDatabase.Initialize(dbConn1.c_str()))
-    {
-        sLog.outError("Can not connect to Data database");
-        return false;
-    }
-	if (!EventsDatabase.Initialize(dbConn2.c_str()))
-	{
-		sLog.outError("Can not connect to Events database");
-		return false;
-	}
-	if (!RankingDatabase.Initialize(dbConn3.c_str()))
-	{
-		sLog.outError("Can not connect to Ranking database");
-		return false;
-	}
-	*/
-
-    return true;
 }
 
 /// Define hook 'OnSignal' for all termination signals

@@ -32,6 +32,9 @@
 #include <string>
 #include <vector>
 
+struct tm* localtime_r(time_t const* time, struct tm *result);
+
+
 /**
  * @brief
  *

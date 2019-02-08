@@ -13,7 +13,7 @@ void ByteBufferException::PrintPosError() const
     traceStr = NULL;
 #endif
 
-    sLog.outError(
+    sLog->outMessage("core", LOG_LEVEL_ERROR,
         "Attempted to %s in ByteBuffer (pos: " SIZEFMTD " size: " SIZEFMTD ") "
         "value with size: " SIZEFMTD "%s%s",
         (add ? "put" : "get"), pos, size, esize,
@@ -22,48 +22,30 @@ void ByteBufferException::PrintPosError() const
 
 void ByteBuffer::print_storage() const
 {
-    if (!sLog.HasLogLevelOrHigher(LOG_LVL_DEBUG))   // optimize disabled debug output
-        { return; }
-
     std::ostringstream ss;
     ss <<  "STORAGE_SIZE: " << size() << "\n";
-
-    if (sLog.IsIncludeTime())
-        { ss << "         "; }
 
     for (size_t i = 0; i < size(); ++i)
         { ss << uint32(read<uint8>(i)) << " - "; }
 
-    sLog.outDebug("%s", ss.str().c_str());
+	sLog->outMessage("core", LOG_LEVEL_DEBUG, "%s", ss.str().c_str());
 }
 
 void ByteBuffer::textlike() const
 {
-    if (!sLog.HasLogLevelOrHigher(LOG_LVL_DEBUG))   // optimize disabled debug output
-        { return; }
-
     std::ostringstream ss;
     ss <<  "STORAGE_SIZE: " << size() << "\n";
-
-    if (sLog.IsIncludeTime())
-        { ss << "         "; }
 
     for (size_t i = 0; i < size(); ++i)
         { ss << read<uint8>(i); }
 
-    sLog.outDebug("%s", ss.str().c_str());
+	sLog->outMessage("core", LOG_LEVEL_DEBUG, "%s", ss.str().c_str());
 }
 
 void ByteBuffer::hexlike() const
 {
-    if (!sLog.HasLogLevelOrHigher(LOG_LVL_DEBUG))   // optimize disabled debug output
-        { return; }
-
     std::ostringstream ss;
     ss <<  "STORAGE_SIZE: " << size() << "\n";
-
-    if (sLog.IsIncludeTime())
-        { ss << "         "; }
 
     size_t j = 1, k = 1;
 
@@ -78,9 +60,6 @@ void ByteBuffer::hexlike() const
         {
             ss << "\n";
 
-            if (sLog.IsIncludeTime())
-                { ss << "         "; }
-
             ++k;
             ++j;
         }
@@ -90,5 +69,5 @@ void ByteBuffer::hexlike() const
         ss << buf << " ";
     }
 
-    sLog.outDebug("%s", ss.str().c_str());
+	sLog->outMessage("core", LOG_LEVEL_DEBUG, "%s", ss.str().c_str());
 }

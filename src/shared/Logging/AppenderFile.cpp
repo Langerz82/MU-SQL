@@ -66,8 +66,8 @@ void AppenderFile::_write(LogMessage const* message)
 
     if (_dynamicName)
     {
-        char namebuf[TRINITY_PATH_MAX];
-        snprintf(namebuf, TRINITY_PATH_MAX, _fileName.c_str(), message->param1.c_str());
+        char namebuf[_PATH_MAX];
+        snprintf(namebuf, _PATH_MAX, _fileName.c_str(), message->param1.c_str());
         // always use "a" with dynamic name otherwise it could delete the log we wrote in last _write() call
         FILE* file = OpenFile(namebuf, "a", _backup || exceedMaxSize);
         if (!file)
