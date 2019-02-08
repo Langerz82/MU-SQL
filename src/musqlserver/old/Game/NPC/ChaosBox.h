@@ -82,14 +82,14 @@ enum CHAOS_TYPE
 
 struct PMSG_CHAOSMIXRESULT
 {
-	PBMSG_HEAD h;	// C1:86
+	PBMSG_HEAD2 h;	// C1:86
 	BYTE Result;	// 3
 	BYTE ItemInfo[MAX_ITEM_INFO];	// 4
 	BYTE Pos; // Season X addon, for Massive Combination
 };
 struct PMSG_SEEDRESULT
 {
-	PBMSG_HEAD h;	// C1:86
+	PBMSG_HEAD2 h;	// C1:86
 	BYTE Result;	// 3
 	BYTE Result1;
 };

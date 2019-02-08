@@ -421,7 +421,7 @@ void PartyClass::Paint(int party_number)
 
 struct PMSG_DEFAULT_COUNT
 {
-	PBMSG_HEAD h;
+	PBMSG_HEAD2 h;
 	BYTE Count;	// 3
 };
 

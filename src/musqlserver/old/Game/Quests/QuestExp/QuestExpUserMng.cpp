@@ -965,7 +965,7 @@ void QuestExpUserMng::UserQuestInfoSave(DWORD dwQuestInfoIndexID, int iObjIndex)
 
 struct PMSG_REQ_QUESTEXP_INFO
 {
-    PBMSG_HEAD h;
+    PBMSG_HEAD2 h;
     int iUserIndex;
     char szCharName[MAX_ACCOUNT_LEN+1];
 };

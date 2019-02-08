@@ -36,7 +36,7 @@
 
 struct PMSG_SETMAPATTR_COUNT
 {
-	PBMSG_HEAD h;	// C1:46
+	PBMSG_HEAD2 h;	// C1:46
 	BYTE btType;	// 3
 	BYTE btMapAttr;	// 4
 	BYTE btMapSetType;	// 5

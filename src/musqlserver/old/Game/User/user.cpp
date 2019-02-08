@@ -17158,7 +17158,7 @@ void gObjStateSetCreate(int aIndex)
 #pragma pack (1)
 struct PMSG_CHARREGEN
 {
-	struct PBMSG_HEAD h;
+	struct PBMSG_HEAD2 h;
 	BYTE subcode;
 	BYTE MapX;
 	BYTE MapY;

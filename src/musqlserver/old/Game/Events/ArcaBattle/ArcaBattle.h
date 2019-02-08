@@ -749,7 +749,7 @@ struct PMSG_REQ_GUILD_REG_INIT
 
 struct PMSG_REQ_AB_ALL_JOIN_USER_DS
 {
-	PBMSG_HEAD h;
+	PBMSG_HEAD2 h;
 };
 
 struct _stABJoinUserInfoDS

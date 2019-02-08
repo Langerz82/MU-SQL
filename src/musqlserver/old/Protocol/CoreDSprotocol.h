@@ -1,9 +1,6 @@
-// DSprotocol.h: interface for the DSprotocol class.
-//
-//////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_DSPROTOCOL_H__2BBE1FF8_64DE_46AC_8344_13E7059DCBE3__INCLUDED_)
-#define AFX_DSPROTOCOL_H__2BBE1FF8_64DE_46AC_8344_13E7059DCBE3__INCLUDED_
+#if !defined(AFX_COREDSPROTOCOL_H__2BBE1FF8_64DE_46AC_8344_13E7059DCBE3__INCLUDED_)
+#define AFX_COREDSPROTOCOL_H__2BBE1FF8_64DE_46AC_8344_13E7059DCBE3__INCLUDED_
 
 #if _MSC_VER > 1000
 #pragma once
@@ -13,7 +10,7 @@
 #include "ProtocolStructs.h"
 #include "Shop.h"
 #include "CryWolf/Crywolf.h"
-#include "Network/CQueue.h"
+#include "Database/Query.h"
 
 /*
  *	MAP OF DB ITEMS
@@ -307,7 +304,6 @@ struct ISHOP_ITEMLIST;
 struct ISHOP_POINT_ADD;
 struct ISHOP_REQ_ITEMLIST;
 struct ISHOP_REQ_POINT;
-struct LPMUBOT_SETTINGS_REQ_SAVE;
 struct MAX_CS_GUILDLIST;
 struct MAX_CS_NPC;
 struct MAX_IDSTRING;
@@ -546,7 +542,7 @@ public:
 private:
 	std::vector<USERWAREHOUSE_DATA*> m_vtWarehouseData;
 	CRITICAL_SECTION m_WareDataCriti;
-
+	CQuery m_WareDB;
 };
 
 #define MAX_CS_GUILDLIST 100
@@ -754,10 +750,6 @@ private:
 	void GetMuBotData(char* szName, MUBOT_SETTINGS_SEND* lpMsg);
 
 	CQuery m_Survivor;
-
-public:
-
-
 private:
 
 	CWarehouseUserData m_WareUserData;

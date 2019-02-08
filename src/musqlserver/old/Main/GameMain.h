@@ -36,7 +36,7 @@
 
 struct PMSG_FRIEND_STATE
 {
-	PBMSG_HEAD h;	// C1:C4
+	PBMSG_HEAD2 h;	// C1:C4
 	char Name[10];	// 3
 	BYTE State;	// D
 };

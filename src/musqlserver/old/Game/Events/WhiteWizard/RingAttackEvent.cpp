@@ -471,7 +471,7 @@ void CRingAttackEvent::ProcState_None()
 
 struct PMSG_ANS_CL_EFFECT
 {
-	PBMSG_HEAD h;	// C1:9E
+	PBMSG_HEAD2 h;	// C1:9E
 	WORD wEffectNum;	// 4
 };
 

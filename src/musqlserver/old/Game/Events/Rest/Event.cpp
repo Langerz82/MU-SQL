@@ -1,16 +1,12 @@
-////////////////////////////////////////////////////////////////////////////////
-// Event.cpp
-#include "StdAfx.h"
+
 #include "Event.h"
 #include "Log/Log.h"
 #include "DSProtocol.h"
 #include "GameServer.h"
-#include "GameMain.h"
-#include "util.h"
+#include "Main.h"
+#include "Utility/util.h"
 #include "BagManager.h"
 #include "configread.h"
-// GS-N 0.99.60T 0x00460DF0 
-//	GS-N	1.00.18	JPN	0x00470700	-	Completed
 
 void EventChipEventProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen)
 {
@@ -332,7 +328,7 @@ void EGRecvChangeStones( PMSG_ANS_RESET_EVENTCHIP* aRecv)
 
 struct PMSG_ANS_2ANV_LOTTO_EVENT
 {
-	PBMSG_HEAD h;	// C1:9D
+	PBMSG_HEAD2 h;	// C1:9D
 	BYTE btIsRegistered;	// 3
 	char szGIFT_NAME[64];	// 4
 };
@@ -1008,12 +1004,13 @@ void EGReqBloodCastleEnterCount(int iIndex)
 	pMsg.ServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.iObjIndex = iIndex;
 
-	wsDataCli.DataSend(reinterpret_cast<char *>(&pMsg), pMsg.h.size);
+	//wsDataCli.DataSend(reinterpret_cast<char *>(&pMsg), pMsg.h.size);
+	// TODO.
 }
 
 struct PMSG_ANS_CL_ENTERCOUNT
 {
-	PBMSG_HEAD h;	// C1:9F
+	PBMSG_HEAD2 h;	// C1:9F
 	BYTE btEventType;	// 3
 	BYTE btLeftEnterCount;	// 4
 };
@@ -1075,7 +1072,8 @@ void EGReqRegCCOfflineGift(int iIndex)
 	pMsg.szUID[10] = 0;
 	pMsg.szNAME[10] = 0;
 
-	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
+	//wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
+	// TODO
 }
 
 
@@ -1138,7 +1136,8 @@ void EGReqRegDLOfflineGift(int iIndex)
 	pMsg.szUID[10] = 0;
 	pMsg.szNAME[10] = 0;
 
-	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
+	//wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
+	// TOOD
 }
 
 
@@ -1200,7 +1199,8 @@ void EGReqRegHTOfflineGift(int iIndex)
 	pMsg.szUID[10] = 0;
 	pMsg.szNAME[10] = 0;
 
-	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
+	//wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
+	// TODO
 }
 
 
@@ -1334,7 +1334,8 @@ void EGReqSantaGift(int aIndex)
 	pMsg.gGameServerCode = g_ConfigRead.server.GetGameServerCode();
 	pMsg.aIndex = aIndex;
 
-	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
+	// TODO
 }
 
 void EGAnsSantaGift(PMSG_ANS_SANTAGIFT *lpMsg)
@@ -1374,9 +1375,3 @@ void EGAnsSantaGift(PMSG_ANS_SANTAGIFT *lpMsg)
 			break;
 	}
 }
-
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

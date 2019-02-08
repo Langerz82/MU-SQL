@@ -2348,7 +2348,7 @@ bool CPentagramSystem::DelPentagramJewelInfo(int aIndex, int iJewelPos, int iJew
 
 struct PMSG_REQ_PENTAGRAMJEWEL
 {
-	PBMSG_HEAD h;
+	PBMSG_HEAD2 h;
 	int iUserIndex;
 	BYTE btJewelPos;
 	int iUserGuid;
@@ -2698,7 +2698,7 @@ void CPentagramSystem::DBREQ_SetPentagramJewel(int aIndex, int iJewelPos)
 
 struct PMSG_DEL_PENTAGRAMJEWEL
 {
-	PBMSG_HEAD h;
+	PBMSG_HEAD2 h;
 	int iUserGuid;
 	char szAccountID[MAX_ACCOUNT_LEN + 1];
 	char szName[MAX_ACCOUNT_LEN + 1];
@@ -2722,7 +2722,7 @@ void CPentagramSystem::DBREQ_DelPentagramJewel(int aIndex, int iJewelPos, int iJ
 
 struct PMSG_INSERT_PENTAGRAMJEWEL
 {
-	PBMSG_HEAD h;
+	PBMSG_HEAD2 h;
 	int iUserGuid;
 	char szAccountID[MAX_ACCOUNT_LEN + 1];
 	char szName[MAX_ACCOUNT_LEN + 1];

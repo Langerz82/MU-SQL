@@ -6435,7 +6435,7 @@ void GameProtocol::CGBuyRequestRecv(PMSG_BUYREQUEST * lpMsg, int aIndex)
 
 struct PMSG_SELLRESULT
 {
-	PBMSG_HEAD h;	// C1:33
+	PBMSG_HEAD2 h;	// C1:33
 	BYTE Result;	// 3
 	DWORD Money;	// 4
 };
@@ -6765,7 +6765,7 @@ int GameProtocol::GetNeedMoneyItemDurRepaire(/*int aIndex, */CItem *  DurItem, B
 
 struct PMSG_ITEMDURREPAIR_RESULT
 {
-	PBMSG_HEAD h;	// C1:34
+	PBMSG_HEAD2 h;	// C1:34
 	int Money;	// 4
 };
 
@@ -7092,7 +7092,7 @@ void GameProtocol::CGModifyRequestItem(PMSG_ITEMDURREPAIR * lpMsg, int aIndex)
 
 struct PMSG_TRADE_REQUESTSEND
 {
-	PBMSG_HEAD h;	// C3:36
+	PBMSG_HEAD2 h;	// C3:36
 	char szId[10];	// 3
 };
 
@@ -7475,7 +7475,7 @@ bool GameProtocol::GCTradeResponseSend(BYTE response, int aIndex, LPSTR id, WORD
 
 struct PMSG_TRADE_OTHER_DEL
 {
-	PBMSG_HEAD h;	// C1:38
+	PBMSG_HEAD2 h;	// C1:38
 	BYTE TradeItemIndex;	// 3
 };
 
@@ -7491,7 +7491,7 @@ int GameProtocol::GCTradeOtherDel(int aIndex, BYTE tradeindex)
 
 struct PMSG_TRADE_OTHER_MOVE
 {
-	PBMSG_HEAD h;	// C1:39
+	PBMSG_HEAD2 h;	// C1:39
 	BYTE TradeItemIndex;	// 3
 	BYTE ItemInfo[MAX_ITEM_INFO];	// 4
 };
@@ -7604,7 +7604,7 @@ void GameProtocol::CGTradeMoneyRecv(PMSG_TRADE_GOLD * lpMsg, int aIndex)
 
 struct PMSG_TRADE_OTHER_GOLD
 {
-	PBMSG_HEAD h;	// C1:3B
+	PBMSG_HEAD2 h;	// C1:3B
 	DWORD Money;	// 4
 };
 
@@ -7716,7 +7716,7 @@ void GameProtocol::CGTradeCancelButtonRecv(int aIndex)
 
 struct PMSG_TRADE_RESULT
 {
-	PBMSG_HEAD h;	// C1:3D
+	PBMSG_HEAD2 h;	// C1:3D
 	BYTE Result;	// 3
 };
 
@@ -7733,7 +7733,7 @@ void GameProtocol::CGTradeResult(int aIndex, BYTE result)
 
 struct PMSG_PARTYREQUESTSEND
 {
-	PBMSG_HEAD h;	// C1:40
+	PBMSG_HEAD2 h;	// C1:40
 	BYTE NumberH;	// 3
 	BYTE NumberL;	// 4
 };
@@ -8533,7 +8533,7 @@ void GameProtocol::CGPartyDelUser(PMSG_PARTYDELUSER * lpMsg, int aIndex, int nTy
 
 struct PMSG_PARTYDELUSERSEND
 {
-	PBMSG_HEAD h;	// C1:43
+	PBMSG_HEAD2 h;	// C1:43
 	BYTE btSendMessage;
 };
 
@@ -8560,7 +8560,7 @@ void GameProtocol::GCPartyDelUserSendNoMessage(int aIndex)
 
 struct PMSG_GUILDQUESTSEND
 {
-	PBMSG_HEAD h;	// C1:50
+	PBMSG_HEAD2 h;	// C1:50
 	BYTE NumberH;	// 3
 	BYTE NumberL;	// 4
 };
@@ -8920,7 +8920,7 @@ void GameProtocol::CGGuildListAll(int pnumber)
 
 struct PMSG_GUILDDELUSER_RESULT
 {
-	PBMSG_HEAD h;	// C1:53
+	PBMSG_HEAD2 h;	// C1:53
 	BYTE Result;	// 3
 };
 
@@ -9064,7 +9064,7 @@ void GameProtocol::GCGuildDelUserResult(int aIndex, BYTE Result)
 
 struct PMSG_GUILDMASTERQUESTION
 {
-	PBMSG_HEAD h;	// C1:54
+	PBMSG_HEAD2 h;	// C1:54
 };
 
 void GameProtocol::GCGuildMasterQuestionSend(int aIndex)
@@ -9113,7 +9113,7 @@ void GameProtocol::CGGuildMasterAnswerRecv(PMSG_GUILDMASTERANSWER * lpMsg, int a
 
 struct PMSG_GUILDMASTERMANAGER_RUN
 {
-	PBMSG_HEAD h;	// C1:55
+	PBMSG_HEAD2 h;	// C1:55
 };
 
 void GameProtocol::GCGuildMasterManagerRun(int aIndex)
@@ -9235,7 +9235,7 @@ void GameProtocol::GCGuildViewportNowPaint(int aIndex, char* guildname, BYTE* ma
 
 struct PMSG_GUILDDEL_VIEWPORT_NOW
 {
-	PBMSG_HEAD h;	// C1:5D
+	PBMSG_HEAD2 h;	// C1:5D
 	BYTE NumberH;	// 3
 	BYTE NumberL;	// 4
 };
@@ -9390,7 +9390,7 @@ void GameProtocol::GCManagerGuildWarSet(LPSTR GuildName1, LPSTR GuildName2, int 
 
 struct PMSG_GUILDWARREQUEST_RESULT
 {
-	PBMSG_HEAD h;	// C1:60
+	PBMSG_HEAD2 h;	// C1:60
 	BYTE Result;	// 3
 };
 
@@ -9571,7 +9571,7 @@ void GameProtocol::GCGuildWarRequestResult(LPSTR GuildName, int aIndex, int type
 
 struct PMSG_GUILDWARSEND
 {
-	PBMSG_HEAD h;	// C1:61
+	PBMSG_HEAD2 h;	// C1:61
 	char GuildName[8];	// 3
 	BYTE Type;	// B
 };
@@ -9594,7 +9594,7 @@ void GameProtocol::GCGuildWarRequestSend(LPSTR GuildName, int aIndex, int type) 
 
 struct PMSG_GUILDWAR_DECLARE
 {
-	PBMSG_HEAD h;	// C1:62
+	PBMSG_HEAD2 h;	// C1:62
 	char GuildName[8];	// 3
 	BYTE Type;	// B
 	BYTE TeamCode;	// C
@@ -9899,7 +9899,7 @@ void GameProtocol::GCGuildWarDeclare(int aIndex, LPSTR _guildname)
 
 struct PMSG_GUILDWAR_END
 {
-	PBMSG_HEAD h;	// C1:63
+	PBMSG_HEAD2 h;	// C1:63
 	BYTE Result;	// 3
 	char GuildName[8];	// 4
 };
@@ -9921,7 +9921,7 @@ void GameProtocol::GCGuildWarEnd(int aIndex, BYTE result, char* _guildname)
 
 struct PMSG_GUILDSCORE
 {
-	PBMSG_HEAD h;	// C1:64
+	PBMSG_HEAD2 h;	// C1:64
 	BYTE Score1;	// 3
 	BYTE Score2;	// 4
 	BYTE Type;	// 5
@@ -10122,7 +10122,7 @@ void GameProtocol::CGWarehouseUseEnd(int aIndex)
 
 struct PMSG_WAREHOUSESTATE
 {
-	PBMSG_HEAD h;	// C1:83
+	PBMSG_HEAD2 h;	// C1:83
 	BYTE State;	// 3
 };
 
@@ -11632,7 +11632,7 @@ void GameProtocol::GCDamageSend(int aIndex, int TargetIndex, int AttackDamage, i
 
 struct PMSG_DAMAGE
 {
-	PBMSG_HEAD h;	// C1:F3:07
+	PBMSG_HEAD2 h;	// C1:F3:07
 	BYTE subcode;	// 3
 	BYTE DamageH;	// 4
 	BYTE DamageL;	// 5
@@ -11661,7 +11661,7 @@ void GameProtocol::GCDamageSendPoison(int aIndex, int damage, int iShieldDamage)
 
 struct PMSG_KILLPLAYER
 {
-	PBMSG_HEAD h;	// C1:16
+	PBMSG_HEAD2 h;	// C1:16
 	BYTE NumberH;	// 3
 	BYTE NumberL;	// 4
 	BYTE ExpH;	// 5
@@ -11727,7 +11727,7 @@ void GameProtocol::GCKillPlayerMasterExpSend(int aIndex, int TargetIndex, int ex
 
 struct PMSG_DIEPLAYER
 {
-	PBMSG_HEAD h;	// C1:17
+	PBMSG_HEAD2 h;	// C1:17
 	BYTE NumberH;	// 3
 	BYTE NumberL;	// 4
 	BYTE Skill;	// 5
@@ -12304,7 +12304,7 @@ void GameProtocol::GCUseMonsterSkillSend(LPOBJ lpObj, LPOBJ lpTargetObj, int iSk
 
 struct PMSG_VIEWSKILLSTATE
 {
-	PBMSG_HEAD h;	// C1:07
+	PBMSG_HEAD2 h;	// C1:07
 	BYTE State;	// 3
 	BYTE NumberH;	// 4
 	BYTE NumberL;	// 5
@@ -12604,7 +12604,7 @@ void GameProtocol::CGTeleportRecv(PMSG_TELEPORT* lpMsg, int aIndex)
 }
 struct PMSG_RESULT_MOVEDEVILSQUARE
 {
-	PBMSG_HEAD h;	// C1:90
+	PBMSG_HEAD2 h;	// C1:90
 	BYTE Result;	// 3
 };
 
@@ -14856,7 +14856,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, int aIndex)
 
 struct PMSG_REFILL
 {
-	PBMSG_HEAD h;	// C1:26
+	PBMSG_HEAD2 h;	// C1:26
 	BYTE IPos;	// 3
 	BYTE LifeH;	// 4
 	BYTE LifeL;	// 5
@@ -14888,7 +14888,7 @@ void GameProtocol::GCReFillSend(int aIndex, int Life, BYTE Ipos, unsigned char f
 
 struct PMSG_MANASEND
 {
-	PBMSG_HEAD h;	// C1:27
+	PBMSG_HEAD2 h;	// C1:27
 	BYTE IPos;	// 3
 	BYTE ManaH;	// 4
 	BYTE ManaL;	// 5
@@ -14924,7 +14924,7 @@ void GameProtocol::GCManaSend(int aIndex, int Mana, BYTE Ipos, unsigned char fla
 
 struct PMSG_INVENTORYDELETE
 {
-	PBMSG_HEAD h;	// C1:28
+	PBMSG_HEAD2 h;	// C1:28
 	BYTE IPos;	// 3
 	BYTE Flag;	// 4
 };
@@ -14942,7 +14942,7 @@ void GameProtocol::GCInventoryItemDeleteSend(int aIndex, BYTE pos, unsigned char
 
 struct PMSG_ITEMUSESPECIALTIME
 {
-	PBMSG_HEAD h;	// C1:29
+	PBMSG_HEAD2 h;	// C1:29
 	BYTE Number;	// 3
 	WORD Time;	// 4
 };
@@ -14965,7 +14965,7 @@ void GameProtocol::GCItemUseSpecialTimeSend(int aIndex, unsigned char number, in
 
 struct PMSG_ITEMDUR
 {
-	PBMSG_HEAD h;	// C1:2A
+	PBMSG_HEAD2 h;	// C1:2A
 	BYTE IPos;	// 3
 	BYTE Dur;	// 4
 	BYTE Flag;	// 5
@@ -15001,7 +15001,7 @@ void GameProtocol::GCItemDurSend2(int aIndex, unsigned char pos, unsigned char d
 
 struct PMSG_WEATHER
 {
-	PBMSG_HEAD h;	// C1:0F
+	PBMSG_HEAD2 h;	// C1:0F
 	BYTE Weather;	// 3
 };
 
@@ -15212,7 +15212,7 @@ void GameProtocol::GCReqmoveDevilSquare(PMSG_REQ_MOVEDEVILSQUARE* lpMsg, int aIn
 
 struct PMSG_RESULT_DEVILSQUARE_REMAINTIME
 {
-	PBMSG_HEAD h;	// C1:91
+	PBMSG_HEAD2 h;	// C1:91
 	BYTE hEventType;	// 3
 	BYTE RemainTime;	// 4
 	BYTE EnteredUser;	// 5
@@ -15380,7 +15380,7 @@ void GameProtocol::AllSendSameMapMsg(UCHAR * Msg, int size, BYTE mapnumber)
 
 struct PMSG_PING
 {
-	PBMSG_HEAD h;	// C1:71
+	PBMSG_HEAD2 h;	// C1:71
 };
 
 
@@ -15630,7 +15630,7 @@ void GameProtocol::GCUseRenaChangeZenRecv(PMSG_EXCHANGE_EVENTCHIP* lpMsg, int aI
 
 struct PMSG_SEND_QEUSTINFO
 {
-	PBMSG_HEAD h;	// C1:A0
+	PBMSG_HEAD2 h;	// C1:A0
 	BYTE Count;	// 3
 	BYTE State[50];	// 4
 };
@@ -15700,7 +15700,7 @@ void GameProtocol::GCSendQuestInfo(int aIndex, int QuestIndex) // Third Quest
 
 struct PMSG_SETQUEST_RESULT
 {
-	PBMSG_HEAD h;	// C1:A2
+	PBMSG_HEAD2 h;	// C1:A2
 	BYTE QuestIndex;	// 3
 	BYTE Result;	// 4
 	BYTE State;	// 5
@@ -15723,7 +15723,7 @@ void GameProtocol::CGSetQuestState(PMSG_SETQUEST* lpMsg, int aIndex)
 
 struct PMSG_SETQUEST_PRIZE
 {
-	PBMSG_HEAD h;	// C1:A3
+	PBMSG_HEAD2 h;	// C1:A3
 	BYTE NumberH;	// 3
 	BYTE NumberL;	// 4
 	BYTE Type;	// 5
@@ -16301,7 +16301,7 @@ void GameProtocol::CGRequestLottoRegister(PMSG_REQ_2ANV_LOTTO_EVENT* lpMsg, int 
 
 struct SDHP_CHARACTER_TRANSFER
 {
-	PBMSG_HEAD h;	// C1:CF
+	PBMSG_HEAD2 h;	// C1:CF
 	char Account[10];	// 3
 	short Number;	// E
 };
@@ -16365,7 +16365,7 @@ void GameProtocol::GCPacketCheckSumRecv(PMSG_PACKETCHECKSUM * aRecv, int aIndex)
 
 struct PMSG_GETITEMINFO_FOR_PARTY
 {
-	PBMSG_HEAD h;	// C1:47
+	PBMSG_HEAD2 h;	// C1:47
 	BYTE NumberH;	// 3
 	BYTE NumberL;	// 4
 	UINT ItemInfo;	// 8
@@ -16430,7 +16430,7 @@ void GameProtocol::GCSendGetItemInfoForParty(int aIndex, CMapItem * lpItem)
 
 struct PMSG_EFFECTINFO
 {
-	PBMSG_HEAD h;	// C1:48
+	PBMSG_HEAD2 h;	// C1:48
 	BYTE NumberH;	// 3
 	BYTE NumberL;	// 4
 	BYTE btType;	// 5
@@ -16656,7 +16656,7 @@ void GameProtocol::CGRequestPetItemInfo(PMSG_REQUEST_PET_ITEMINFO * lpMsg, int a
 
 struct PMSG_ANS_GUILDVIEWPORT
 {
-	PBMSG_HEAD h;	// C1:66
+	PBMSG_HEAD2 h;	// C1:66
 	int GuildNumber;	// 4
 	BYTE btGuildType;	// 8
 	BYTE UnionName[8];	// 9
@@ -21640,7 +21640,7 @@ struct stBuffList
 
 struct PMSG_BUFFLIST_SEND_PARTY
 {
-	PBMSG_HEAD h;
+	PBMSG_HEAD2 h;
 	char Name[MAX_ACCOUNT_LEN + 1];
 	BYTE btBuffCount;
 	stBuffList stBuffList[32];
@@ -25020,7 +25020,7 @@ void GameProtocol::GCPlayerStatsPanelNew(int aIndex)
 // NUEVO STATS PANEL POR %
 struct SendPlayerInfoNewPanel
 {
-	PBMSG_HEAD h;
+	PBMSG_HEAD2 h;
 	DWORD unk;
 	DWORD unk1;
 	WORD Strength;

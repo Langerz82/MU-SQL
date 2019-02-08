@@ -276,7 +276,7 @@ enum eBuffEffectIndex
 
 typedef struct 
 {
-	PBMSG_HEAD h;
+	PBMSG_HEAD2 h;
 	WORD wOptionType;
 	WORD wEffectType;
 	BYTE byEffectOption;
@@ -296,7 +296,7 @@ typedef struct
 
 typedef struct
 {
-	PBMSG_HEAD h;
+	PBMSG_HEAD2 h;
 	char Name[MAX_ACCOUNT_LEN+1];
 	BYTE btCount;
 	PMSG_BUFFEFFECTLIST BuffEffect[MAX_BUFFEFFECT];

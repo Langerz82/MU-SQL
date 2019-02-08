@@ -207,7 +207,7 @@ struct PMSG_UPDATE_PSHOPITEMVALUE_INFO
 
 struct PMSG_REQ_PSHOPITEMVALUE_INFO
 {
-	PBMSG_HEAD h;
+	PBMSG_HEAD2 h;
 	char AccountId[MAX_ACCOUNT_LEN + 1];
 	char szName[MAX_ACCOUNT_LEN + 1];
 	int iUserIndex;
@@ -215,7 +215,7 @@ struct PMSG_REQ_PSHOPITEMVALUE_INFO
 
 struct PMSG_DEL_PSHOPITEM
 {
-	PBMSG_HEAD h;
+	PBMSG_HEAD2 h;
 	char AccountId[MAX_ACCOUNT_LEN + 1];
 	char szName[MAX_ACCOUNT_LEN + 1];
 	int nPShopItemInvenNum;
@@ -223,7 +223,7 @@ struct PMSG_DEL_PSHOPITEM
 
 struct PMSG_MOVE_PSHOPITEM
 {
-	PBMSG_HEAD h;
+	PBMSG_HEAD2 h;
 	char AccountId[MAX_ACCOUNT_LEN + 1];
 	char szName[MAX_ACCOUNT_LEN + 1];
 	int nOldPShopItemInvenNum;

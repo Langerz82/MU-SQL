@@ -67,7 +67,7 @@ struct DevilSquareScoreInfo
 
 struct PMSG_DEVILSQUARERESULT
 {
-	PBMSG_HEAD h;	// C1:93
+	PBMSG_HEAD2 h;	// C1:93
 	BYTE MyRank;	// 3
 	BYTE Count;	// 4
 	DevilSquareScoreInfo Score[11];	// 5

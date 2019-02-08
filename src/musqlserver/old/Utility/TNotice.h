@@ -9,7 +9,7 @@ __inline DWORD _ARGB(BYTE a, BYTE r, BYTE g, BYTE b){ return a*16777216 + b*6553
 
 struct PMSG_NOTICE
 {
-	PBMSG_HEAD h;
+	PBMSG_HEAD2 h;
 	BYTE type;	// 3
 	BYTE btCount;	// 4
 	WORD wDelay;	// 6	

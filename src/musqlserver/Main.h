@@ -14,6 +14,7 @@
 #include "Protocol/EDSprotocol.h"
 #include "Protocol/Fprotocol.h"
 #include "ServerEngine.h"
+#include "Maps/MapClass.h"
 
 #define SET_NUMBERH(x) ( (BYTE)((DWORD)(x)>>(DWORD)8) )
 #define SET_NUMBERL(x) ( (BYTE)((DWORD)(x) & 0xFF) )
@@ -55,5 +56,7 @@ extern WORD g_GrowLancerCreateMinLevel;
 extern int g_iShowAllQueriesInDS;
 extern int g_iConnectStatSyncEnable;
 extern int g_DSBattleCoreEnable;
+
+extern MapClass MapC[MAX_NUMBER_MAP];
 
 #endif // !defined(AFX_EMAIN_H__A7C14824_5DD7_49C9_BDFB_C8D813D08CB9__INCLUDED_)

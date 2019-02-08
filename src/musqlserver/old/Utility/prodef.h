@@ -191,7 +191,7 @@ public:
 
 struct PMSG_DEFAULT
 {
-	PBMSG_HEAD h;
+	PBMSG_HEAD2 h;
 };
 
 struct PWMSG_DEFAULT
@@ -201,7 +201,7 @@ struct PWMSG_DEFAULT
 
 struct PMSG_DEFAULT2
 {
-	PBMSG_HEAD h;
+	PBMSG_HEAD2 h;
 	BYTE subcode;
 };
 
@@ -220,7 +220,7 @@ struct PMSG_TEST
 
 struct PMSG_DEFRESULT
 {
-	PBMSG_HEAD h;
+	PBMSG_HEAD2 h;
 	BYTE result;	// 3
 };
 
@@ -234,7 +234,7 @@ struct PMSG_DEFRESULT
  */
 struct SDHP_SERVERINFO
 {
-	struct PBMSG_HEAD h;
+	struct PBMSG_HEAD2 h;
 	unsigned char Type;
 	unsigned short Port;
 	char ServerName[50];
@@ -265,7 +265,7 @@ struct SDHP_SERVERINFO
  */
 struct SDHP_RESULT
 {
-	struct PBMSG_HEAD h;
+	struct PBMSG_HEAD2 h;
 	unsigned char Result;
 	unsigned long ItemCount;
 };

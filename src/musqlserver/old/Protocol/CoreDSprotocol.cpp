@@ -2,7 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "DSprotocol.h"
+#include "CoreDSprotocol.h"
 #include "giocp.h"
 #include "ItemSerial.h"
 #include "ServerEngine.h"
@@ -10,9 +10,10 @@
 #include "Main.h"
 #include "Utility/util.h"
 
-#define szModule "DSProtocol"
+#define szModule "CoreDSProtocol"
 
 using namespace std;
+
 
 CWarehouseUserData::CWarehouseUserData()
 {
@@ -40,22 +41,22 @@ void CWarehouseUserData::AddUserData(char * szAccountID)
 
 	for (std::vector<USERWAREHOUSE_DATA*>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
 	{
-		if ( strcmp(szAccountID, it->szAccountID) == 0 )
+		if ( strcmp(szAccountID, (*it)->szAccountID) == 0 )
 		{
 			this->m_vtWarehouseData.erase(it);
 			break;
 		}
 	}
 
-	USERWAREHOUSE_DATA m_UserWareData;
+	USERWAREHOUSE_DATA* m_UserWareData = new USERWAREHOUSE_DATA();
 
-	std::memcpy(m_UserWareData.szAccountID, szAccountID, MAX_ACCOUNT_LEN+1);
-	m_UserWareData.WarehouseID = 0;
-	m_UserWareData.ChangeIDEnableState = TRUE;
-	m_UserWareData.WarehouseOpenState = false;
-	m_UserWareData.LastChangeTick = GetTickCount();
+	std::memcpy(m_UserWareData->szAccountID, szAccountID, MAX_ACCOUNT_LEN+1);
+	m_UserWareData->WarehouseID = 0;
+	m_UserWareData->ChangeIDEnableState = TRUE;
+	m_UserWareData->WarehouseOpenState = false;
+	m_UserWareData->LastChangeTick = GetTickCount();
 
-	this->m_vtWarehouseData.push_back(m_UserWareData);
+	m_vtWarehouseData.push_back(m_UserWareData);
 
 	LeaveCriticalSection(&this->m_WareDataCriti);
 }
@@ -64,7 +65,7 @@ void CWarehouseUserData::DelUserData(char * szAccountID)
 {
 	for (std::vector<USERWAREHOUSE_DATA*>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
 	{
-		if ( strcmp(szAccountID, it->szAccountID) == 0 )
+		if ( strcmp(szAccountID, (*it)->szAccountID) == 0 )
 		{
 			this->m_vtWarehouseData.erase(it);
 			break;
@@ -76,10 +77,10 @@ void CWarehouseUserData::SetChangeEnableState(char * szAccountID, int State)
 {
 	for (std::vector<USERWAREHOUSE_DATA*>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
 	{
-		if ( strcmp(szAccountID, it->szAccountID) == 0 )
+		if ( strcmp(szAccountID, (*it)->szAccountID) == 0 )
 		{
-			it->ChangeIDEnableState = State;
-			it->LastChangeTick = GetTickCount();
+			(*it)->ChangeIDEnableState = State;
+			(*it)->LastChangeTick = GetTickCount();
 			break;
 		}
 	}
@@ -91,9 +92,9 @@ int CWarehouseUserData::SwitchWarehouse(char *szAccountID, int WarehouseID)
 
 	for (std::vector<USERWAREHOUSE_DATA*>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
 	{
-		if ( strcmp(szAccountID, it->szAccountID) == 0 )
+		if ( strcmp(szAccountID, (*it)->szAccountID) == 0 )
 		{
-			pData = &*it;
+			pData = *it;
 			break;
 		}
 	}
@@ -134,9 +135,9 @@ int CWarehouseUserData::GetWarehouseID(char * szAccountID)
 
 	for (std::vector<USERWAREHOUSE_DATA*>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
 	{
-		if ( strcmp(szAccountID, it->szAccountID) == 0 )
+		if ( strcmp(szAccountID, (*it)->szAccountID) == 0 )
 		{
-			WareID = it->WarehouseID;
+			WareID = (*it)->WarehouseID;
 			break;
 		}
 	}
@@ -148,9 +149,9 @@ bool CWarehouseUserData::GetWarehouseOpenState(char * szAccountID)
 {
 	for (std::vector<USERWAREHOUSE_DATA*>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
 	{
-		if (strcmp(szAccountID, it->szAccountID) == 0)
+		if (strcmp(szAccountID, (*it)->szAccountID) == 0)
 		{
-			return it->WarehouseOpenState;
+			return (*it)->WarehouseOpenState;
 		}
 	}
 
@@ -161,9 +162,9 @@ void CWarehouseUserData::SetWarehouseOpenState(char * szAccountID, bool bState)
 {
 	for (std::vector<USERWAREHOUSE_DATA*>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
 	{
-		if (strcmp(szAccountID, it->szAccountID) == 0)
+		if (strcmp(szAccountID, (*it)->szAccountID) == 0)
 		{
-			it->WarehouseOpenState = bState;
+			(*it)->WarehouseOpenState = bState;
 		}
 	}
 }

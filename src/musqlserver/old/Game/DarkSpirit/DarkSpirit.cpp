@@ -544,7 +544,7 @@ void CDarkSpirit::RangeAttack(int aIndex, int aTargetIndex)
 
 struct PMSG_PET_ITEM_ATTACK_COMMAND
 {
-	PBMSG_HEAD h;	// C1:A8
+	PBMSG_HEAD2 h;	// C1:A8
 	BYTE PetType;	//	3
 	BYTE SkillType;	// 4
 	BYTE NumberH;	// 5
@@ -681,7 +681,7 @@ void CDarkSpirit::ReSetTarget(int aTargetIndex)
 
 struct PMSG_SEND_PET_ITEM_COMMAND
 {
-	PBMSG_HEAD h;	// C1:A7
+	PBMSG_HEAD2 h;	// C1:A7
 	BYTE PetType;	// 3
 	BYTE Command;	// 4
 	BYTE NumberH;	// 5

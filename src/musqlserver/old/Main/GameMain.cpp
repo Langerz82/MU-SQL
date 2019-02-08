@@ -1542,7 +1542,7 @@ void ReadCommonServerInfo()
 
 struct PMSG_SERVERINFO
 {
-	PBMSG_HEAD h;	// C1:01
+	PBMSG_HEAD2 h;	// C1:01
 	short ServerCode;	// 4F
 	BYTE Percent;	// 6
 	BYTE PlayType;

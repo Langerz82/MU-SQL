@@ -8,30 +8,44 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
+#include "protocolStructs.h"
 #include "User/user.h"
 
 #define MAX_EVENTCHIP_TYPE	5
 
 #define EVENCHIP_TYPE_RANGE(x)  ( ((x)<0)?FALSE:((x)>MAX_EVENTCHIP_TYPE-1)?FALSE:TRUE )
 
+struct PBMSG_HEAD;
+struct PMSG_ANS_CL_ENTERCOUNT;
+struct PMSG_ANS_LUCKYCOININFO;
+struct PMSG_ANS_LUCKYCOIN_REGISTER;
+struct PMSG_EVENTCHIPINFO;
+struct PMSG_GETMUTONUMBER_RESULT;
+struct PMSG_REGEVENTCHIP_RESULT;
+struct PMSG_REQ_BLOODCASTLE_ENTERCOUNT;
+struct PMSG_REQ_REG_CC_OFFLINE_GIFT;
+struct PMSG_REQ_REG_DL_OFFLINE_GIFT;
+struct PMSG_REQ_REG_HT_OFFLINE_GIFT;
+struct PMSG_REQ_SANTAGIFT;
+struct PMSG_SERVERCMD;
 
-
+/*
 struct PMSG_REGEVENTCHIP_RESULT
 {
-	PBMSG_HEAD h;	// C1:95
+	PBMSG_HEAD2 h;	// C1:95
 	BYTE Type;	// 3
 	int ChipCount;	// 4
 };
 
 struct PMSG_GETMUTONUMBER_RESULT
 {
-	PBMSG_HEAD h;	// C1:96
+	PBMSG_HEAD2 h;	// C1:96
 	short MutoNum[3];	// 4
 };
 
 struct PMSG_EVENTCHIPINFO
 {
-	PBMSG_HEAD h;	// C1:94
+	PBMSG_HEAD2 h;	// C1:94
 	BYTE Type;	// 3
 	int ChipCount;	// 4
 	short MutoNum[3];	// 6
@@ -39,7 +53,7 @@ struct PMSG_EVENTCHIPINFO
 
 struct PMSG_LUCKYCOININFO
 {
-	PBMSG_HEAD h;
+	PBMSG_HEAD2 h;
 	int LuckyCoin;
 };
 
@@ -133,7 +147,7 @@ struct PMSG_ANS_REG_RINGGIFT
 
 struct PMSG_ANS_BLOODCASTLE_ENTERCOUNT
 {
-	PBMSG_HEAD h;
+	PBMSG_HEAD2 h;
 	char AccountID[10];	// 3
 	char GameID[10];	// D
 	int ServerCode;	// 18
@@ -235,6 +249,7 @@ struct PMSG_ANS_SANTAGIFT
 	WORD Result;
 	WORD UseCount;
 };
+*/
 
 extern LPOBJ pEventObj;
 
