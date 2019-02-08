@@ -6,10 +6,6 @@
 #include <future>
 #include <vector>
 
-#ifdef __APPLE__
-#undef TYPE_BOOL
-#endif
-
 //- Union for data buffer (upper-level bind -> queue -> lower-level bind)
 union PreparedStatementDataUnion
 {
