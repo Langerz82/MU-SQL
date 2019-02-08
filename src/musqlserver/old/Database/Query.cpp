@@ -1,8 +1,11 @@
 
 #include "Query.h"
 #include "DelayHandler.h"
+#include "Database/SqlPreparedStatement.h"
 
 #define szModule "CQuery"
+
+class PreparedStatement;
 
 CQuery::CQuery(): m_Database()
 {
@@ -135,6 +138,49 @@ int CQuery::GetAsBinary(LPSTR lpszStatement, LPBYTE OUT lpszReturnBuffer, int si
 void CQuery::SetAsBinary(LPTSTR lpszStatement, LPBYTE lpBinaryBuffer, UINT32 BinaryBufferSize)
 {
 	// TODO.
+/* // Old Implementation.
+	CQuery::m_LogToFile.Output(lpszStatement);
+
+	if (g_iShowAllQueriesInDS == TRUE)
+	{
+	g_Log.AddL(TColor::Aqua, lpszStatement);
+	}
+
+	SQLLEN cbValueSize = -100LL - BinaryBufferSize;
+	SQLPOINTER pToken;
+	BYTE cBUFFER[MAX_BINARY_SIZE];
+	SQLRETURN Result;
+
+	SQLBindParameter(this->m_hStmt, 1, SQL_PARAM_INPUT, SQL_C_BINARY , SQL_LONGVARBINARY, BinaryBufferSize, 0, (SQLPOINTER)1, 0, &cbValueSize);
+	SQLExecDirect(this->m_hStmt, (SQLTCHAR *)lpszStatement, SQL_NTS);
+
+	Result = SQLParamData(this->m_hStmt, &pToken);
+
+	int lOfs=0;
+
+	while ( Result == SQL_NEED_DATA )
+	{
+	memcpy(cBUFFER, lpBinaryBuffer, BinaryBufferSize);
+	Result = SQLPutData(this->m_hStmt, cBUFFER, BinaryBufferSize);
+	Result = SQLParamData(this->m_hStmt, &pToken);
+	lOfs += BinaryBufferSize;
+	}
+
+	SQLParamData(this->m_hStmt, &pToken);
+	this->Close();
+*/
+	// New Implementation.
+	PreparedStatement* stmt = m_Database.GetPreparedStatement(lpszStatement);
+	stmt->setBlobArray(0, lpBinaryBuffer, sizeof(BinaryBufferSize));
+	
+
+
+
+
+	
+
+	// add to Quest Tracker
+	m_Database.Execute(stmt);
 }
 
 

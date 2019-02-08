@@ -228,7 +228,7 @@ void CWarehouseUserData::DGGetWarehouseList(int aIndex, SDHP_GETWAREHOUSEDB * aR
 		return;
 	}
 
-
+	// This is the new method calls to DB API.
 	this->m_WareDB.ExecQuery("UPDATE warehouse set WHOpen = 1 WHERE AccountID='%s'", szAccountID);
 	QueryResult* result2 = this->m_WareDB.Fetch("SELECT Money, pw FROM warehouse WHERE AccountID='%s'", szAccountID);
 	Field* fields2 = result->Fetch();
@@ -298,7 +298,7 @@ void CWarehouseUserData::GDSetWarehouseList(int aIndex, SDHP_GETWAREHOUSEDB_SAVE
 
 	this->m_WareDB.ExecQuery("UPDATE warehouse SET Money=%d, pw=%d WHERE AccountID='%s'",
 		aRecv->Money, aRecv->pw, szAccountID);
-	//this->m_WareDB.Close();
+
 	char it[15];
 	sprintf(it, "Items%d", aRecv->WarehouseID + 1);
 	char szTemp[128];
@@ -321,7 +321,6 @@ void CWarehouseUserData::GDSetWarehouseList(int aIndex, SDHP_GETWAREHOUSEDB_SAVE
 	if (aRecv->CloseWindow == TRUE)
 	{
 		this->m_WareDB.ExecQuery("UPDATE warehouse set WHOpen = 0 WHERE AccountID='%s'", szAccountID);
-		//this->m_WareDB.Close();
 
 		this->SetChangeEnableState(szAccountID, TRUE);
 		this->SetWarehouseOpenState(szAccountID, false);
