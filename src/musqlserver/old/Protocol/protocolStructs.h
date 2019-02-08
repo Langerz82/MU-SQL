@@ -946,6 +946,7 @@ struct sellPackage;
 struct stMemberPosInfo;
 struct STR_STRINGCOMPARE;
 struct STR_GENS_RANKING;
+struct STR_GENS_RANKING_DATA;
 struct GUILD_MEMBER;
 
 typedef struct STR_STRINGCOMPARE
@@ -964,6 +965,16 @@ typedef std::map<int, STR_UNION_MEMBER_DATA*> MAP_MEMBER_DATA;
 struct STR_GENS_RANKING
 {
 	PBMSG_HEAD2 h;
+};
+
+struct STR_GENS_RANKING_DATA
+{
+	int GensClass;
+	int ContributePoint;
+	int RankingPosition;
+	BYTE RewardItemGroup;
+	WORD RewardItemNumber;
+	int RewardItemCount;
 };
 
 struct _ITL_GUILD_RANK {

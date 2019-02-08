@@ -37,7 +37,7 @@
 //------------------------------------------
 
 void BuxConvert(char* buf, int size);
-BOOL QuoteSpaceSyntexCheck(char* string);
+BOOL QuoteSpaceSyntaxCheck(char* string);
 BOOL SQLSyntexCheck(char* SQLString);
 BOOL SQLSyntexCheckConvert(char* SQLString);
 BOOL SpaceSyntexCheck(char* string);

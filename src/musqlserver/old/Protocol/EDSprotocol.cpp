@@ -9,6 +9,7 @@
 #include "pugixml.hpp"
 #include "Utility/util.h"
 #include "giocp.h"
+#include "Main.h"
 
 CExDataServerProtocol::CExDataServerProtocol()
 {
@@ -2347,7 +2348,7 @@ void CExDataServerProtocol::DGRelationShipListSend(int aIndex, int iGuild, int r
 
 	PHeadSetW((LPBYTE)&List, 0xE7, sizeof(List));
 	List.btRelationShipType = relation_type;
-	GUILD_INFO_STRUCT lpGuild;
+	GUILD_INFO_STRUCT* lpGuild;
 
 	lpGuild = GetGuild(iGuild);
 	if(lpGuild == NULL)
@@ -2402,7 +2403,7 @@ void CExDataServerProtocol::DGRelationShipListSend(int aIndex, int iGuild, int r
 
 		int size = (int)lpUD->m_vecUnionMember.size();
 		int i, j;
-		GUILD_INFO_STRUCT lpG = NULL;
+		GUILD_INFO_STRUCT* lpG = NULL;
 		int cnt = 0;
 
 		for(i=0; i < size; i++)
@@ -2495,7 +2496,7 @@ void CExDataServerProtocol::DGRelationShipListSend(int aIndex, int iGuild, int r
 
 void CExDataServerProtocol::DGRelationShipNotificationSend(int iGuild, int iUpdateFlag)
 {
-	GUILD_INFO_STRUCT lpGuild;
+	GUILD_INFO_STRUCT* lpGuild;
 	lpGuild = GetGuild(iGuild);
 
 	sLog.outBasic("[RelationShip Notification Send] Guild [%d].", iGuild);
@@ -2566,7 +2567,8 @@ void CExDataServerProtocol::DGRelationShipAnsKickOutUnionMember(int aIndex, EXSD
 	sLog.outBasic("[Kick Union Member Request] UnionMasterGuild [%s], UnionMemberGuild [%s]", Result.
 		szUnionMasterGuildName, Result.szUnionMemberGuildName);
 
-	GUILD_INFO_STRUCT lpMasterGuild, lpKickGuild;
+	GUILD_INFO_STRUCT* lpMasterGuild;
+	GUILD_INFO_STRUCT* lpKickGuild;
 	lpMasterGuild = GetGuild(Result.szUnionMasterGuildName);
 	lpKickGuild = GetGuild(Result.szUnionMemberGuildName);
 	
@@ -2605,7 +2607,7 @@ void CExDataServerProtocol::DGRelationShipAnsKickOutUnionMember(int aIndex, EXSD
 	}
 }
 
-void CExDataServerProtocol::SendListToAllRivals(GUILD_INFO_STRUCT lpGuild)
+void CExDataServerProtocol::SendListToAllRivals(GUILD_INFO_STRUCT* lpGuild)
 {
 	if(lpGuild == NULL)
 		return;
@@ -2623,7 +2625,7 @@ void CExDataServerProtocol::SendListToAllRivals(GUILD_INFO_STRUCT lpGuild)
 	int size = (int)lpUD->m_vecUnionMember.size();
 	for(int i=0; i < size; i++)
 	{
-		GUILD_INFO_STRUCT lpG;
+		GUILD_INFO_STRUCT* lpG;
 		lpG = GetGuild(lpUD->m_vecUnionMember[i]);
 		if(lpG == NULL)
 			continue;
@@ -3523,7 +3525,7 @@ void CExDataServerProtocol::GDReqDelMatchingList(int aIndex, _stReqDelGuildMatch
 	pMsg.nUserIndex = lpMsg->nUserIndex;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA3, 0x03, sizeof(pMsg));
 
-	GUILD_INFO_STRUCT lpGuild = this->GetGuild(lpMsg->nGuildNumber);
+	GUILD_INFO_STRUCT* lpGuild = this->GetGuild(lpMsg->nGuildNumber);
 
 	if (!lpGuild)
 	{
@@ -3722,7 +3724,7 @@ void CExDataServerProtocol::SendNotiGuildMatchingForGuildMaster(int nGuildNumber
 {
 	_stAnsNotiGuildMatchingForGuildMaster pMsg;
 
-	GUILD_INFO_STRUCT lpGuild = this->GetGuild(nGuildNumber);
+	GUILD_INFO_STRUCT* lpGuild = this->GetGuild(nGuildNumber);
 
 	if (!lpGuild)
 	{
@@ -3770,7 +3772,7 @@ void CExDataServerProtocol::SendUseGuildMatchingGuild(char* szName, int nGuildNu
 {
 	_stAnsUseGuildMatchingGuild pMsg;
 
-	GUILD_MEMBER lpMember = this->GetGuildMember(nGuildNumber, szName);
+	STR_GUILD_MEMBER* lpMember = this->GetGuildMember(nGuildNumber, szName);
 
 	if (!lpMember)
 	{
@@ -4253,8 +4255,6 @@ void CExDataServerProtocol::AutoAddPartyMember(char *szLeaderName, char *szMembe
 		LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 		return;
 	}
-
-
 
 	_stAnsAddPartyMember pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA4, 0x05, sizeof(pMsg));

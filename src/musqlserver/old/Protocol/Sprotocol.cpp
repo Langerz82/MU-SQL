@@ -640,8 +640,8 @@ void CLoginServerProtocol::JGPAccountRequest(int aIndex, SDHP_IDPASS * aRecv)
 		return;
 	}
 
-	if ( QuoteSpaceSyntexCheck(szAccountID) == FALSE ||
-		 QuoteSpaceSyntexCheck(szPass) == FALSE )
+	if ( QuoteSpaceSyntaxCheck(szAccountID) == FALSE ||
+		 QuoteSpaceSyntaxCheck(szPass) == FALSE )
 	{
 		pResult.result = 2;
 		DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);

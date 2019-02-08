@@ -177,7 +177,7 @@ struct _stAnsCancelPartyMatching;
 struct _stAnsDelPartyUserPartyMatching;
 struct _stAnsAddRealPartyMember;
 struct _stAnsSendPartyMemberList;
-
+struct STR_GENS_RANKING_DATA;
 
 class CPartyMatchingData
 {
@@ -247,7 +247,7 @@ private:
 	std::map<string, GENS_USER, strCmp> m_mapGensRankDuprian;
 	std::map<string, GENS_USER, strCmp> m_mapGensRankVanert;
 
-	STR_GENS_RANKING m_GensRankingData[14];
+	STR_GENS_RANKING_DATA m_GensRankingData[14];
 
 	CRITICAL_SECTION m_GensCriticalSection;
 	DWORD m_GensRankingUpdateTimeTick;

@@ -1468,7 +1468,7 @@ void CDataServerProtocol::JGCharacterCreateRequest(int aIndex, SDHP_CREATECHAR *
 	std::memcpy(szAccountID, aRecv->AccountId, 10);
 	std::memcpy(szName, aRecv->Name, 10);
 
-	if (SpaceSyntexCheck(szName) == FALSE || QuoteSpaceSyntexCheck(szName) == FALSE || PercentSyntaxCheck(szName) == FALSE)
+	if (SpaceSyntexCheck(szName) == FALSE || QuoteSpaceSyntaxCheck(szName) == FALSE || PercentSyntaxCheck(szName) == FALSE)
 	{
 		pResult.Result = 0;
 		DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
@@ -3064,21 +3064,21 @@ void CDataServerProtocol::EGAns2AnivRegSerial(int aIndex,PMSG_REQ_2ANIV_SERIAL *
 	pMsg.iINDEX = lpMsg->iINDEX;
 	std::memcpy(pMsg.szUID, szName, 11);
 
-	if (SpaceSyntexCheck(lpMsg->SERIAL1) == FALSE || QuoteSpaceSyntexCheck(lpMsg->SERIAL1) == FALSE || PercentSyntaxCheck(lpMsg->SERIAL1) == FALSE)
+	if (SpaceSyntexCheck(lpMsg->SERIAL1) == FALSE || QuoteSpaceSyntaxCheck(lpMsg->SERIAL1) == FALSE || PercentSyntaxCheck(lpMsg->SERIAL1) == FALSE)
 	{
 		pMsg.btIsRegistered = 4;
 		DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg), __FUNCTION__);
 		return;
 	}
 
-	if (SpaceSyntexCheck(lpMsg->SERIAL2) == FALSE || QuoteSpaceSyntexCheck(lpMsg->SERIAL2) == FALSE || PercentSyntaxCheck(lpMsg->SERIAL2) == FALSE)
+	if (SpaceSyntexCheck(lpMsg->SERIAL2) == FALSE || QuoteSpaceSyntaxCheck(lpMsg->SERIAL2) == FALSE || PercentSyntaxCheck(lpMsg->SERIAL2) == FALSE)
 	{
 		pMsg.btIsRegistered = 4;
 		DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg), __FUNCTION__);
 		return;
 	}
 
-	if (SpaceSyntexCheck(lpMsg->SERIAL3) == FALSE || QuoteSpaceSyntexCheck(lpMsg->SERIAL3) == FALSE || PercentSyntaxCheck(lpMsg->SERIAL3) == FALSE)
+	if (SpaceSyntexCheck(lpMsg->SERIAL3) == FALSE || QuoteSpaceSyntaxCheck(lpMsg->SERIAL3) == FALSE || PercentSyntaxCheck(lpMsg->SERIAL3) == FALSE)
 	{
 		pMsg.btIsRegistered = 4;
 		DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg), __FUNCTION__);

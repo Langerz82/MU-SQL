@@ -183,7 +183,7 @@ BOOL PercentSyntaxCheck(char* string)
 	}
 }
 
-BOOL QuoteSpaceSyntexCheck(char* string)
+BOOL QuoteSpaceSyntaxCheck(char* string)
 {
 	char* temp;
 
