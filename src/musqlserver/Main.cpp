@@ -6,6 +6,7 @@
 
 #include "Main.h"
 #include "Common.h"
+#include "Asio/IoContext.h"
 
 // old includes
 #include "Giocp.h"
@@ -13,13 +14,20 @@
 #include "MapServerManager.h"
 #include "ItemSerial.h"
 
-#include "Database/DatabaseEnv.h"
+#include "database/Database/DatabaseEnv.h"
+#include "database/Database/DatabaseLoader.h"
+#include "database/Database/MySQLThreading.h"
+
 #include "Config/Config.h"
 #include "Log.h"
 
 #include "SystemConfig.h"
 #include "revision.h"
 #include "Util.h"
+
+#include <iostream>
+#include <csignal>
+
 #include <openssl/opensslv.h>
 #include <openssl/crypto.h>
 
@@ -29,6 +37,9 @@
 #include <ace/ACE.h>
 #include <ace/Acceptor.h>
 #include <ace/SOCK_Acceptor.h>
+
+#include <boost/asio/signal_set.hpp>
+#include <boost/program_options.hpp>
 
 #ifdef WIN32
 #include "ServiceWin32.h"
@@ -73,22 +84,19 @@ int g_iShowAllQueriesInDS = GetPrivateProfileInt("SETTINGS", "DisplayAllQueries"
 int g_iConnectStatSyncEnable = GetPrivateProfileInt("SETTINGS", "MembStatSync", 0, ".\\DataServer.ini");;
 int g_DSBattleCoreEnable = GetPrivateProfileInt("SETTINGS", "DSBattleCore", 0, ".\\DataServer.ini");;
 
-TCHAR g_MuOnlineDNS[64];
-TCHAR g_MeMuOnlineDNS[64];
-TCHAR g_EventServerDNS[64];
-TCHAR g_RankingServerDNS[64];
+TCHAR g_ServerAddress[64];
 TCHAR g_DBPort[8];
 TCHAR g_UserID[64];
 TCHAR g_Password[64];
-TCHAR g_ServerName[64];
+TCHAR g_MuOnlineDB[64];
+//TCHAR g_MeMuOnlineDNS[64];
+TCHAR g_EventServerDB[64];
+TCHAR g_RankingServerDB[64];
+
 TCHAR g_AWHostPass[32];
 TCHAR g_MapSvrFilePath[96];
 
-
-
-CDataServerProtocol m_DSProtocol;
 CLoginServerProtocol m_JSProtocol;
-CExDataServerProtocol m_EXDSProtocol;
 
 bool StartDB();
 void UnhookSignals();
@@ -96,14 +104,44 @@ void HookSignals();
 
 bool stopEvent = false;                                     ///< Setting it to true stops the server
 
-// No Database is in Main, all DB's are currently handled in Protocol.
-//DatabaseType DataDatabase;
-//DatabaseType EventsDatabase;
-//DatabaseType RankingDatabase;
-
 typedef unsigned char BYTE;
 
+bool initDB()
+{
+	MySQL::Library_Init();
 
+	DatabaseLoader loader("server.connectserver", DatabaseLoader::DATABASE_NONE);
+	loader.ConnectInfo(g_ServerAddress, g_DBPort, g_UserID, g_Password, g_MuOnlineDB);
+	loader.AddDatabase(ConnectDatabase, "Connect");
+
+	if (!loader.Load())
+		return false;
+
+	sLog.outBasic("Started auth database connection pool.");
+	return true;
+}
+
+/// Close the connection to the database
+void StopDB()
+{
+	ConnectDatabase.Close();
+	MySQL::Library_End();
+}
+
+void KeepDatabaseAliveHandler(std::weak_ptr<boost::asio::deadline_timer> dbPingTimerRef, int32 dbPingInterval, boost::system::error_code const& error)
+{
+	if (!error)
+	{
+		if (std::shared_ptr<boost::asio::deadline_timer> dbPingTimer = dbPingTimerRef.lock())
+		{
+			sLog.outBasic("Ping MySQL to keep connection alive");
+			ConnectDatabase.KeepAlive();
+
+			dbPingTimer->expires_from_now(boost::posix_time::minutes(dbPingInterval));
+			dbPingTimer->async_wait(std::bind(&KeepDatabaseAliveHandler, dbPingTimerRef, dbPingInterval, std::placeholders::_1));
+		}
+	}
+}
 
 /// Print out the usage string for this program on the console.
 void usage(const char* prog)
@@ -124,14 +162,14 @@ void usage(const char* prog)
 
 bool InitDataServer()
 {
-	GetPrivateProfileString("SQL", "MuOnlineDB", "MuOnline", g_MuOnlineDNS, sizeof(g_MuOnlineDNS), ".\\DataServer.ini");
-	GetPrivateProfileString("SQL", "MeMuOnlineDB", "MuOnline", g_MeMuOnlineDNS, sizeof(g_MeMuOnlineDNS), ".\\DataServer.ini");
-	GetPrivateProfileString("SQL", "EventDB", "MuEvent", g_EventServerDNS, sizeof(g_EventServerDNS), ".\\DataServer.ini");
-	GetPrivateProfileString("SQL", "RankingDB", "MuRanking", g_RankingServerDNS, sizeof(g_RankingServerDNS), ".\\DataServer.ini");
+	GetPrivateProfileString("SQL", "SQLServerName", "127.0.0.1", g_Server, sizeof(g_Server), ".\\DataServer.ini");
 	GetPrivateProfileString("SQL", "Port", "3306", g_DBPort, sizeof(g_DBPort), ".\\DataServer.ini");
 	GetPrivateProfileString("SQL", "User", "sa", g_UserID, sizeof(g_UserID), ".\\DataServer.ini");
-	GetPrivateProfileString("SQL", "Pass", "Ms$qlP@s$w0rd", g_Password, sizeof(g_Password), ".\\DataServer.ini");
-	GetPrivateProfileString("SQL", "SQLServerName", "(local)", g_ServerName, sizeof(g_ServerName), ".\\DataServer.ini");
+	GetPrivateProfileString("SQL", "Pass", "sa", g_Password, sizeof(g_Password), ".\\DataServer.ini");
+	GetPrivateProfileString("SQL", "MuOnlineDB", "MuOnline", g_MuOnlineDNS, sizeof(g_MuOnlineDNS), ".\\DataServer.ini");
+	//GetPrivateProfileString("SQL", "MeMuOnlineDB", "MuOnline", g_MeMuOnlineDNS, sizeof(g_MeMuOnlineDNS), ".\\DataServer.ini");
+	//GetPrivateProfileString("SQL", "EventDB", "MuEvent", g_EventServerDNS, sizeof(g_EventServerDNS), ".\\DataServer.ini");
+	//GetPrivateProfileString("SQL", "RankingDB", "MuRanking", g_RankingServerDNS, sizeof(g_RankingServerDNS), ".\\DataServer.ini");
 }
 
 /// Launch the realm server
@@ -216,9 +254,28 @@ extern int main(int argc, char** argv)
             break;
     }
 #endif
-	InitDataServer();
-
     sLog.Initialize();
+
+	// Initialize the database connection
+	if (!StartDB())
+		return 1;
+
+	std::shared_ptr<void> dbHandle(nullptr, [](void*) { StopDB(); });
+
+	std::shared_ptr<Trinity::Asio::IoContext> ioContext = std::make_shared<Trinity::Asio::IoContext>();
+
+	// Set signal handlers
+	boost::asio::signal_set signals(*ioContext, SIGINT, SIGTERM);
+#if WIN32
+	signals.add(SIGBREAK);
+#endif
+	signals.async_wait(std::bind(&SignalHandler, std::weak_ptr<Trinity::Asio::IoContext>(ioContext), std::placeholders::_1, std::placeholders::_2));
+
+	// Enabled a timed callback for handling the database keep alive ping
+	int32 dbPingInterval = 30;
+	std::shared_ptr<boost::asio::deadline_timer> dbPingTimer = std::make_shared<boost::asio::deadline_timer>(*ioContext);
+	dbPingTimer->expires_from_now(boost::posix_time::minutes(dbPingInterval));
+	dbPingTimer->async_wait(std::bind(&KeepDatabaseAliveHandler, std::weak_ptr<boost::asio::deadline_timer>(dbPingTimer), dbPingInterval, std::placeholders::_1));
 
     sLog.outString("%s [realm-daemon]", REVISION_NR);
     sLog.outString("<Ctrl-C> to stop.\n");

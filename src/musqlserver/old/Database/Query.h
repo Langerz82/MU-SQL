@@ -11,18 +11,22 @@
 
 #include "StdAfx.h"
 #include "Common.h"
-#include "Database/DatabaseEnv.h"
+#include "database/Database/DatabaseEnv.h"
+#include "database/Database/MySQLConnection.h"
+#include "database/Database/Field.h"
+
+class Field;
+class MySQLConnection;
 
 class CQuery  
 {
 public:
 
-	CQuery();
+	CQuery(DatabaseWorkerPool<MySQLConnection>* db);
 	virtual ~CQuery();
 
-	BOOL Connect(LPTSTR lpszDNS, LPSTR lpszPort, LPTSTR lpszUser, LPTSTR lpszPassword, LPSTR lpszServerName);
-	BOOL ReConnect();
-	void Disconnect();
+	//BOOL ReConnect();
+	//void Disconnect();
 
 	BOOL ExecQuery(TCHAR* lpszStatement, ...);
 	BOOL Execute(TCHAR* lpszStatement);
@@ -32,7 +36,7 @@ public:
 	int GetAsBinary(LPSTR lpszStatement, LPBYTE OUT lpszReturnBuffer, int size);
 	void SetAsBinary(LPTSTR lpszStatement, LPBYTE lpBinaryBuffer, UINT32 BinaryBufferSize);
 
-	int GetResult(int iIndex);
+	//int GetResult(int iIndex);
 	
 	//void GetAsString(LPTSTR ColName, LPTSTR pOutBuffer, int size);
 	//DWORD GetAsInteger(LPTSTR ColName);
@@ -45,16 +49,10 @@ public:
 	INT64 GetAsInteger64(int iIndex);
 	float GetAsFloat(int iIndex);
 
-	void Close();
-	void Diagnosis(bool &bReconnect);
+	//void Close();
+	//void Diagnosis(bool &bReconnect);
 
-	TCHAR m_szDNS[64];
-	TCHAR m_szPort[8];
-	TCHAR m_szUser[64];
-	TCHAR m_szPassword[64];
-	TCHAR m_szDatabase[64];
-
-	DatabaseType m_Database;
+	DatabaseLoader* m_Database;
 	QueryResult* m_Result;
 	Field* m_Fields;
 

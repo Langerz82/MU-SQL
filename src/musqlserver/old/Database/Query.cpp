@@ -1,49 +1,19 @@
 
 #include "Query.h"
 #include "DelayHandler.h"
-#include "Database/SqlPreparedStatement.h"
+#include "database/Database/PreparedStatement.h"
+#include "database/Database/MySQLConnection.h"
 
 #define szModule "CQuery"
 
-class PreparedStatement;
 
-CQuery::CQuery(): m_Database()
+CQuery::CQuery(DatabaseWorkerPool<MySQLConnection>* db): m_Database(db)
 {
 }
 
 CQuery::~CQuery()
 {
 	Close();
-}
-
-BOOL CQuery::Connect(LPTSTR lpszDNS, LPSTR lpszPort, LPTSTR lpszUser, LPTSTR lpszPassword, LPSTR lpszServerName)
-{
-	lstrcpy(this->m_szDNS, lpszDNS);
-	lstrcpy(this->m_szUser, lpszUser);
-	lstrcpy(this->m_szPassword, lpszPassword);
-
-	char* InCon[256]				= {0};
-
-	wsprintf((char *)InCon, "%s;%s;%s;%s;%s;", lpszDNS, lpszPort,
-		lpszUser, lpszPassword, lpszServerName);
-
-	bool Result = m_Database.Initialize((const char*)InCon, 1); // TODO add configurable connections.
-
-	if (!Result)
-	{
-		sLog.outError("Can not connect to database %s", InCon);
-		return FALSE;
-	}
-
-	m_Database.ThreadStart();
-	m_Database.AllowAsyncTransactions();
-
-	return TRUE;
-}
-
-BOOL CQuery::ReConnect()
-{
-	return this->Connect(this->m_szDNS, this->m_szPort, this->m_szUser, this->m_szPassword, this->m_szDatabase);
 }
 
 BOOL CQuery::ExecQuery(TCHAR* lpszStatement, ...)
@@ -130,7 +100,7 @@ bool CQuery::HasFields()
 int CQuery::GetAsBinary(LPSTR lpszStatement, LPBYTE OUT lpszReturnBuffer, int size)
 {
 	QueryResult* res = Fetch(lpszStatement);
-	Field* field = res->Fetch();
+	Field* field = res->();
 	lpszReturnBuffer = field[0].GetByteArray(size);
 	return sizeof(lpszReturnBuffer);
 }
@@ -297,7 +267,7 @@ float CQuery::GetAsFloat(int iIndex)
 	return this->m_Fields->GetFloat[iIndex];
 }
 
-
+/*
 void CQuery::Close()
 {
 	if (m_Result)
@@ -324,4 +294,4 @@ void CQuery::Disconnect()
 {
 	m_Database.HaltDelayThread();
 }
-
+*/

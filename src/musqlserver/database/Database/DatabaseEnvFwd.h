@@ -18,6 +18,10 @@
 #ifndef DatabaseEnvFwd_h__
 #define DatabaseEnvFwd_h__
 
+#include "QueryResult.h"
+#include "PreparedStatement.h"
+#include "Transaction.h"
+
 #include <future>
 #include <memory>
 

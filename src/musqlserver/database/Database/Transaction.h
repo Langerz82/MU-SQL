@@ -26,7 +26,7 @@
 #include <vector>
 
 /*! Transactions, high level class. */
-class TC_DATABASE_API Transaction
+class  Transaction
 {
     friend class TransactionTask;
     friend class MySQLConnection;
@@ -58,7 +58,7 @@ class TC_DATABASE_API Transaction
 };
 
 /*! Low level class*/
-class TC_DATABASE_API TransactionTask : public SQLOperation
+class  TransactionTask : public SQLOperation
 {
     template <class T> friend class DatabaseWorkerPool;
     friend class DatabaseWorker;

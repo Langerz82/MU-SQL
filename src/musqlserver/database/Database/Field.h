@@ -15,10 +15,10 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _FIELD_H
-#define _FIELD_H
+#ifndef _SQLFIELD_H
+#define _SQLFIELD_H
 
-#include "Define.h"
+//#include "Define.h"
 #include "DatabaseEnvFwd.h"
 #include <vector>
 
@@ -66,7 +66,7 @@ enum class DatabaseFieldTypes : uint8
     | SUM, AVG | DECIMAL           |
     | COUNT    | BIGINT            |
 */
-class TC_DATABASE_API Field
+class Field
 {
     friend class ResultSet;
     friend class PreparedResultSet;

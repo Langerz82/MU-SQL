@@ -467,6 +467,6 @@ void DatabaseWorkerPool<T>::ExecuteOrAppend(SQLTransaction& trans, PreparedState
         trans->Append(stmt);
 }
 
-template class TC_DATABASE_API DatabaseWorkerPool<LoginDatabaseConnection>;
-template class TC_DATABASE_API DatabaseWorkerPool<WorldDatabaseConnection>;
-template class TC_DATABASE_API DatabaseWorkerPool<CharacterDatabaseConnection>;
+template class  DatabaseWorkerPool<ConnectDatabaseConnection>;
+template class  DatabaseWorkerPool<WorldDatabaseConnection>;
+template class  DatabaseWorkerPool<CharacterDatabaseConnection>;

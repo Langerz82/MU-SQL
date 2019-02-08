@@ -1,33 +1,24 @@
-/*
- * Copyright (C) 2008-2019 TrinityCore <https://www.trinitycore.org/>
- *
- * This program is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the
- * Free Software Foundation; either version 2 of the License, or (at your
- * option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
- * more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program. If not, see <http://www.gnu.org/licenses/>.
- */
 
 #include "DatabaseLoader.h"
-#include "Config.h"
+//#include "Config.h"
 #include "DatabaseEnv.h"
-#include "DBUpdater.h"
+//#include "DBUpdater.h"
 #include "Log.h"
 
 #include <mysqld_error.h>
 
 DatabaseLoader::DatabaseLoader(std::string const& logger, uint32 const defaultUpdateMask)
-    : _logger(logger), _autoSetup(sConfigMgr->GetBoolDefault("Updates.AutoSetup", true)),
-    _updateFlags(sConfigMgr->GetIntDefault("Updates.EnableDatabases", defaultUpdateMask))
+    : _logger(logger), _autoSetup(false),
+    _updateFlags(0)
 {
 }
+
+ BOOL DatabaseLoader::ConnectInfo(LPTSTR lpszServer, LPSTR lpszPort, LPTSTR lpszUser, LPTSTR lpszPassword, LPTSTR lpszDatabase)
+ {
+	 wsprintf((char *)_connConfig, "%s;%s;%s;%s;s", lpszServer, lpszPort,
+		 lpszUser, lpszPassword, lpszDatabase);
+	 return 1;
+ }
 
 template <class T>
 DatabaseLoader& DatabaseLoader::AddDatabase(DatabaseWorkerPool<T>& pool, std::string const& name)
@@ -36,24 +27,10 @@ DatabaseLoader& DatabaseLoader::AddDatabase(DatabaseWorkerPool<T>& pool, std::st
 
     _open.push([this, name, updatesEnabledForThis, &pool]() -> bool
     {
-        std::string const dbString = sConfigMgr->GetStringDefault(name + "DatabaseInfo", "");
-        if (dbString.empty())
-        {
-            TC_LOG_ERROR(_logger, "Database %s not specified in configuration file!", name.c_str());
-            return false;
-        }
+        uint8 const asyncThreads = 1;
+        uint8 const synchThreads = 1);
 
-        uint8 const asyncThreads = uint8(sConfigMgr->GetIntDefault(name + "Database.WorkerThreads", 1));
-        if (asyncThreads < 1 || asyncThreads > 32)
-        {
-            TC_LOG_ERROR(_logger, "%s database: invalid number of worker threads specified. "
-                "Please pick a value between 1 and 32.", name.c_str());
-            return false;
-        }
-
-        uint8 const synchThreads = uint8(sConfigMgr->GetIntDefault(name + "Database.SynchThreads", 1));
-
-        pool.SetConnectionInfo(dbString, asyncThreads, synchThreads);
+        pool.SetConnectionInfo(_connConfig, asyncThreads, synchThreads);
         if (uint32 error = pool.Open())
         {
             // Database does not exist
@@ -67,8 +44,7 @@ DatabaseLoader& DatabaseLoader::AddDatabase(DatabaseWorkerPool<T>& pool, std::st
             // If the error wasn't handled quit
             if (error)
             {
-                TC_LOG_ERROR("sql.driver", "\nDatabasePool %s NOT opened. There were errors opening the MySQL connections. Check your SQLDriverLogFile "
-                    "for specific errors. Read wiki at http://www.trinitycore.info/display/tc/TrinityCore+Home", name.c_str());
+                sLog.outError("DatabasePool %s NOT opened. There were errors opening the MySQL connections.", name.c_str());
 
                 return false;
             }
@@ -82,7 +58,7 @@ DatabaseLoader& DatabaseLoader::AddDatabase(DatabaseWorkerPool<T>& pool, std::st
     });
 
     // Populate and update only if updates are enabled for this pool
-    if (updatesEnabledForThis)
+    /*if (updatesEnabledForThis)
     {
         _populate.push([this, name, &pool]() -> bool
         {
@@ -103,13 +79,13 @@ DatabaseLoader& DatabaseLoader::AddDatabase(DatabaseWorkerPool<T>& pool, std::st
             }
             return true;
         });
-    }
+    }*/
 
     _prepare.push([this, name, &pool]() -> bool
     {
         if (!pool.PrepareStatements())
         {
-            TC_LOG_ERROR(_logger, "Could not prepare statements of the %s database, see log for details.", name.c_str());
+            sLog.outError("Could not prepare statements of the %s database, see log for details.", name.c_str());
             return false;
         }
         return true;
@@ -120,17 +96,17 @@ DatabaseLoader& DatabaseLoader::AddDatabase(DatabaseWorkerPool<T>& pool, std::st
 
 bool DatabaseLoader::Load()
 {
-    if (!_updateFlags)
-        TC_LOG_INFO("sql.updates", "Automatic database updates are disabled for all databases!");
+    //if (!_updateFlags)
+    //    TC_LOG_INFO("sql.updates", "Automatic database updates are disabled for all databases!");
 
     if (!OpenDatabases())
         return false;
 
-    if (!PopulateDatabases())
-        return false;
+    //if (!PopulateDatabases())
+    //    return false;
 
-    if (!UpdateDatabases())
-        return false;
+    //if (!UpdateDatabases())
+    //    return false;
 
     if (!PrepareStatements())
         return false;
@@ -179,9 +155,6 @@ bool DatabaseLoader::Process(std::queue<Predicate>& queue)
     return true;
 }
 
-template TC_DATABASE_API
-DatabaseLoader& DatabaseLoader::AddDatabase<LoginDatabaseConnection>(DatabaseWorkerPool<LoginDatabaseConnection>&, std::string const&);
-template TC_DATABASE_API
-DatabaseLoader& DatabaseLoader::AddDatabase<CharacterDatabaseConnection>(DatabaseWorkerPool<CharacterDatabaseConnection>&, std::string const&);
-template TC_DATABASE_API
-DatabaseLoader& DatabaseLoader::AddDatabase<WorldDatabaseConnection>(DatabaseWorkerPool<WorldDatabaseConnection>&, std::string const&);
+template DatabaseLoader& DatabaseLoader::AddDatabase<ConnectDatabaseConnection>(DatabaseWorkerPool<ConnectDatabaseConnection>&, std::string const&);
+//template DatabaseLoader& DatabaseLoader::AddDatabase<CharacterDatabaseConnection>(DatabaseWorkerPool<CharacterDatabaseConnection>&, std::string const&);
+//template DatabaseLoader& DatabaseLoader::AddDatabase<WorldDatabaseConnection>(DatabaseWorkerPool<WorldDatabaseConnection>&, std::string const&);
