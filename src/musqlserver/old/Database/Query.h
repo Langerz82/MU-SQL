@@ -27,9 +27,23 @@ public:
 	BOOL ExecQuery(TCHAR* lpszStatement, ...);
 	BOOL Execute(TCHAR* lpszStatement);
 	QueryResult* Fetch(TCHAR* lpszStatement, ...);
+	bool HasFields();
 
 	int GetAsBinary(LPSTR lpszStatement, LPBYTE OUT lpszReturnBuffer, int size);
 	void SetAsBinary(LPTSTR lpszStatement, LPBYTE lpBinaryBuffer, UINT32 BinaryBufferSize);
+
+	int GetResult(int iIndex);
+	
+	//void GetAsString(LPTSTR ColName, LPTSTR pOutBuffer, int size);
+	//DWORD GetAsInteger(LPTSTR ColName);
+	//INT64 GetAsInteger64(LPTSTR ColName);
+	//float GetAsFloat(LPTSTR ColName);
+
+	//int FindIndex(LPTSTR ColName);
+	void GetAsString(int iIndex, LPTSTR pOutBuffer, int size);
+	DWORD GetAsInteger(int iIndex);
+	INT64 GetAsInteger64(int iIndex);
+	float GetAsFloat(int iIndex);
 
 	void Close();
 	void Diagnosis(bool &bReconnect);
@@ -42,6 +56,8 @@ public:
 
 	DatabaseType m_Database;
 	QueryResult* m_Result;
+	Field* m_Fields;
+
 };
 
 #endif // !defined(AFX_QUERY_H__8A3116E5_E735_4FF9_A61D_5566130C3610__INCLUDED_)

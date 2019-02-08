@@ -28,7 +28,7 @@ CWarehouseUserData::~CWarehouseUserData()
 
 void CWarehouseUserData::Init()
 {
-	if(FALSE)
+	if (FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return;
@@ -41,7 +41,7 @@ void CWarehouseUserData::AddUserData(char * szAccountID)
 
 	for (std::vector<USERWAREHOUSE_DATA*>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
 	{
-		if ( strcmp(szAccountID, (*it)->szAccountID) == 0 )
+		if (strcmp(szAccountID, (*it)->szAccountID) == 0)
 		{
 			this->m_vtWarehouseData.erase(it);
 			break;
@@ -50,7 +50,7 @@ void CWarehouseUserData::AddUserData(char * szAccountID)
 
 	USERWAREHOUSE_DATA* m_UserWareData = new USERWAREHOUSE_DATA();
 
-	std::memcpy(m_UserWareData->szAccountID, szAccountID, MAX_ACCOUNT_LEN+1);
+	std::memcpy(m_UserWareData->szAccountID, szAccountID, MAX_ACCOUNT_LEN + 1);
 	m_UserWareData->WarehouseID = 0;
 	m_UserWareData->ChangeIDEnableState = TRUE;
 	m_UserWareData->WarehouseOpenState = false;
@@ -65,7 +65,7 @@ void CWarehouseUserData::DelUserData(char * szAccountID)
 {
 	for (std::vector<USERWAREHOUSE_DATA*>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
 	{
-		if ( strcmp(szAccountID, (*it)->szAccountID) == 0 )
+		if (strcmp(szAccountID, (*it)->szAccountID) == 0)
 		{
 			this->m_vtWarehouseData.erase(it);
 			break;
@@ -77,7 +77,7 @@ void CWarehouseUserData::SetChangeEnableState(char * szAccountID, int State)
 {
 	for (std::vector<USERWAREHOUSE_DATA*>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
 	{
-		if ( strcmp(szAccountID, (*it)->szAccountID) == 0 )
+		if (strcmp(szAccountID, (*it)->szAccountID) == 0)
 		{
 			(*it)->ChangeIDEnableState = State;
 			(*it)->LastChangeTick = GetTickCount();
@@ -92,7 +92,7 @@ int CWarehouseUserData::SwitchWarehouse(char *szAccountID, int WarehouseID)
 
 	for (std::vector<USERWAREHOUSE_DATA*>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
 	{
-		if ( strcmp(szAccountID, (*it)->szAccountID) == 0 )
+		if (strcmp(szAccountID, (*it)->szAccountID) == 0)
 		{
 			pData = *it;
 			break;
@@ -128,14 +128,14 @@ int CWarehouseUserData::SwitchWarehouse(char *szAccountID, int WarehouseID)
 	pData->LastChangeTick = GetTickCount();
 	return 0;
 }
-	
+
 int CWarehouseUserData::GetWarehouseID(char * szAccountID)
 {
 	int WareID = 0;
 
 	for (std::vector<USERWAREHOUSE_DATA*>::iterator it = this->m_vtWarehouseData.begin(); it != this->m_vtWarehouseData.end(); it++)
 	{
-		if ( strcmp(szAccountID, (*it)->szAccountID) == 0 )
+		if (strcmp(szAccountID, (*it)->szAccountID) == 0)
 		{
 			WareID = (*it)->WarehouseID;
 			break;
@@ -178,7 +178,7 @@ void CWarehouseUserData::GDReqSwitchWarehouse(int aIndex, PMSG_REQ_SWITCHWARE * 
 
 	pMsg.iIndex = aRecv->iIndex;
 	pMsg.WarehouseID = aRecv->WarehouseID;
-	std::memcpy(pMsg.szAccountID, aRecv->szAccountID, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.szAccountID, aRecv->szAccountID, MAX_ACCOUNT_LEN + 1);
 	pMsg.Result = this->SwitchWarehouse(aRecv->szAccountID, aRecv->WarehouseID);
 
 	LeaveCriticalSection(&this->m_WareDataCriti);
@@ -228,19 +228,13 @@ void CWarehouseUserData::DGGetWarehouseList(int aIndex, SDHP_GETWAREHOUSEDB * aR
 		return;
 	}
 
-	//this->m_WareDB.Close();
 
 	this->m_WareDB.ExecQuery("UPDATE warehouse set WHOpen = 1 WHERE AccountID='%s'", szAccountID);
-	//this->m_WareDB.Close();
 	QueryResult* result2 = this->m_WareDB.Fetch("SELECT Money, pw FROM warehouse WHERE AccountID='%s'", szAccountID);
-	//pResult.Money = this->m_WareDB.GetAsInteger("Money");
-	//pResult.pw = this->m_WareDB.GetAsInteger("pw");
 	Field* fields2 = result->Fetch();
 
 	pResult.Money = fields2[0].GetUInt32();
 	pResult.pw = fields2[1].GetUInt32();
-
-	//this->m_WareDB.Close();
 
 	char szTemp[128];
 
@@ -377,7 +371,7 @@ BOOL CDataServerProtocol::Init()
 		return FALSE;
 	}
 
-	if (this->m_CharDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_CharDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -385,7 +379,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_AccDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_AccDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -393,7 +387,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_GSDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_GSDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -401,7 +395,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_PetDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_PetDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -409,7 +403,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_CastleDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_CastleDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -417,7 +411,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_CrywolfDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_CrywolfDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -425,7 +419,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_ArcaDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_ArcaDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -433,7 +427,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_PentagramDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_PentagramDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -441,7 +435,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_EventDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_EventDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -449,7 +443,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_RankingDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_RankingDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -457,7 +451,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_ItemShopDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_ItemShopDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -465,7 +459,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_PeriodItemDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_PeriodItemDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -473,7 +467,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_CharMiscDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_CharMiscDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -481,7 +475,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_QuestExpDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_QuestExpDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -489,7 +483,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_LuckyItemDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_LuckyItemDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -497,7 +491,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_CCFinalDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_CCFinalDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -505,7 +499,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_RummyDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_RummyDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -513,7 +507,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_MineDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_MineDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -521,7 +515,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_PShopDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_PShopDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -529,7 +523,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_EventInvDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_EventInvDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -537,7 +531,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_MuunDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_MuunDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -545,7 +539,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_OptionDataDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_OptionDataDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -553,7 +547,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_ReBuyDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_ReBuyDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -561,7 +555,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_GremoryCaseDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_GremoryCaseDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -569,7 +563,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_BattleCoreDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_BattleCoreDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -577,7 +571,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_DSFinalDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_DSFinalDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -585,7 +579,7 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_iConnectionCount++;
 
-	if (this->m_EvoMonDB.Connect(g_DBIPAddress, g_UserID, g_Password, g_DBName) == FALSE)
+	if (this->m_EvoMonDB.Connect(g_DBIPAddress, g_DBPort, g_UserID, g_Password, g_DBName) == FALSE)
 	{
 		sLog.outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -603,13 +597,11 @@ BOOL CDataServerProtocol::Init()
 
 	this->m_WareUserData.Init();
 
-	g_Log.AddC(TColor::Green, "[SUCCESS] - DATA SERVER CONNECT MSSQL SUCCESS (COUNT: %d)", this->m_iConnectionCount);
+	sLog.outBasic("[SUCCESS] - DATA SERVER CONNECT MSSQL SUCCESS (COUNT: %d)", this->m_iConnectionCount);
 
-	this->m_GSDB.ExecQuery("SELECT ItemCount FROM GameServerInfo WHERE Number = 0");
-	this->m_GSDB.Fetch();
+	QueryResult* res = this->m_GSDB.Fetch("SELECT ItemCount FROM GameServerInfo WHERE Number = 0");
 
 	this->m_iItemCount = this->m_GSDB.GetAsInteger64("ItemCount");
-	this->m_GSDB.Close();
 
 	g_Log.Add("[DataServer] ItemCount: %d", this->m_iItemCount);
 
@@ -1373,17 +1365,17 @@ void CDataServerProtocol::JGPGetCharList(int aIndex, SDHP_GETCHARLIST * aRecv)
 	pCount->Number = aRecv->Number;
 	memcpy(pCount->AccountId, szAccountID, MAX_ACCOUNT_LEN);
 
-	if (this->m_AccDB.ExecQuery("SELECT Id FROM AccountCharacter WHERE Id='%s'", szAccountID) == FALSE)
+	QueryResult* res = this->m_AccDB.Fetch("SELECT Id FROM AccountCharacter WHERE Id='%s'", szAccountID);
+	if (res == NULL)
 	{
 		this->m_AccDB.Close();
 		return;
 	}
 
-	if (this->m_AccDB.Fetch() == SQL_NO_DATA)
+	if (this->m_AccDB.HasFields())
 	{
-		this->m_AccDB.Close();
 		this->m_AccDB.ExecQuery("INSERT INTO AccountCharacter (Id) VALUES ('%s')", szAccountID);
-		g_Log.Add("[%s] - no charactes", szAccountID);
+		sLog.outBasic("[%s] - no characters", szAccountID);
 	}
 
 	else
@@ -1391,7 +1383,7 @@ void CDataServerProtocol::JGPGetCharList(int aIndex, SDHP_GETCHARLIST * aRecv)
 		this->m_AccDB.Close();
 	}
 
-	this->m_AccDB.ExecQuery("SELECT * FROM AccountCharacter WHERE Id='%s'", szAccountID);
+	QueryResult* res = this->m_AccDB.Fetch("SELECT * FROM AccountCharacter WHERE Id='%s'", szAccountID);
 	this->m_AccDB.Fetch();
 
 	TCHAR CharName[5][11] = { 0 };
@@ -1409,7 +1401,7 @@ void CDataServerProtocol::JGPGetCharList(int aIndex, SDHP_GETCHARLIST * aRecv)
 
 	g_Log.Add("[%s] - characters: [%s][%s][%s][%s][%s]", szAccountID, CharName[0], CharName[1], CharName[2], CharName[3], CharName[4]);
 
-	this->m_AccDB.ExecQuery("SELECT WarehouseExpansion, Summoner, RageFighter, SecCode FROM AccountCharacter WHERE Id='%s'", szAccountID);
+	QueryResult* res = this->m_AccDB.Fetch("SELECT WarehouseExpansion, Summoner, RageFighter, SecCode FROM AccountCharacter WHERE Id='%s'", szAccountID);
 	this->m_AccDB.Fetch();
 
 	pCount->WhExpansion = this->m_AccDB.GetAsInteger("WarehouseExpansion");
@@ -1437,7 +1429,7 @@ void CDataServerProtocol::JGPGetCharList(int aIndex, SDHP_GETCHARLIST * aRecv)
 		{
 			if (lstrlen(CharName[i]) >= 4)
 			{
-				if (this->m_AccDB.ExecQuery("SELECT cLevel, Class, CtlCode FROM vCharacterPreview WHERE Name='%s'", CharName[i]) == TRUE)
+				if (QueryResult* res = this->m_AccDB.Fetch("SELECT cLevel, Class, CtlCode FROM vCharacterPreview WHERE Name='%s'", CharName[i]) == TRUE)
 				{
 					char szTemp[200];
 					pCL = (SDHP_CHARLIST *)(cBUFFER + lOfs);
@@ -1484,7 +1476,7 @@ void CDataServerProtocol::JGPGetCharList(int aIndex, SDHP_GETCHARLIST * aRecv)
 						}
 					}
 
-					this->m_AccDB.ExecQuery("SELECT RESETS FROM Character WHERE Name='%s'", CharName[i]);
+					QueryResult* res = this->m_AccDB.Fetch("SELECT RESETS FROM Character WHERE Name='%s'", CharName[i]);
 
 					if (this->m_AccDB.Fetch() != SQL_NO_DATA)
 					{
@@ -1495,7 +1487,7 @@ void CDataServerProtocol::JGPGetCharList(int aIndex, SDHP_GETCHARLIST * aRecv)
 
 					if (aRecv->IsUnityBattleFieldServer == FALSE)
 					{
-						this->m_AccDB.ExecQuery("SELECT G_Status FROM GuildMember WHERE Name='%s'", CharName[i]);
+						QueryResult* res = this->m_AccDB.Fetch("SELECT G_Status FROM GuildMember WHERE Name='%s'", CharName[i]);
 
 						if (this->m_AccDB.Fetch() != SQL_NO_DATA)
 						{
@@ -1586,7 +1578,7 @@ void CDataServerProtocol::JGCharacterCreateRequest(int aIndex, SDHP_CREATECHAR *
 		return;
 	}
 
-	this->m_AccDB.ExecQuery("SELECT * FROM AccountCharacter WHERE Id='%s'", szAccountID);
+	QueryResult* res = this->m_AccDB.Fetch("SELECT * FROM AccountCharacter WHERE Id='%s'", szAccountID);
 	this->m_AccDB.Fetch();
 
 	TCHAR CharName[5][11] = { 0 };
@@ -1633,7 +1625,7 @@ void CDataServerProtocol::JGCharacterCreateRequest(int aIndex, SDHP_CREATECHAR *
 				iIndex + 1, szName, szAccountID);
 			this->m_AccDB.Close();
 
-			if (this->m_AccDB.ExecQuery("SELECT cLevel FROM vCharacterPreview WHERE Name='%s'", szName) == TRUE && this->m_AccDB.Fetch() != SQL_NO_DATA)
+			if (QueryResult* res = this->m_AccDB.Fetch("SELECT cLevel FROM vCharacterPreview WHERE Name='%s'", szName) == TRUE && this->m_AccDB.Fetch() != SQL_NO_DATA)
 			{
 				pResult.Level = this->m_AccDB.GetAsInteger("cLevel");
 			}
@@ -1679,7 +1671,7 @@ void CDataServerProtocol::JGCharDelRequest(int aIndex, SDHP_CHARDELETE * aRecv)
 
 		if (iQueryResult == TRUE)
 		{
-			this->m_AccDB.ExecQuery("SELECT * FROM AccountCharacter WHERE Id='%s'", szAccountID);
+			QueryResult* res = this->m_AccDB.Fetch("SELECT * FROM AccountCharacter WHERE Id='%s'", szAccountID);
 			this->m_AccDB.Fetch();
 			TCHAR CharName[5][11] = { 0 };
 			memset(CharName, 0x00, sizeof(CharName));
@@ -1731,7 +1723,7 @@ void CDataServerProtocol::JGGetCharacterInfo(int aIndex, SDHP_DBCHARINFOREQUEST 
 	char AccountCharacter[5][11];
 	memset(AccountCharacter, 0x00, sizeof(AccountCharacter));
 
-	this->m_AccDB.ExecQuery("SELECT * FROM AccountCharacter WHERE Id = '%s'", szAccountID);
+	QueryResult* res = this->m_AccDB.Fetch("SELECT * FROM AccountCharacter WHERE Id = '%s'", szAccountID);
 
 	if (this->m_AccDB.Fetch() != SQL_NO_DATA)
 	{
@@ -1763,7 +1755,7 @@ void CDataServerProtocol::JGGetCharacterInfo(int aIndex, SDHP_DBCHARINFOREQUEST 
 
 	char WHExpansion = 0;
 
-	this->m_AccDB.ExecQuery("SELECT WarehouseExpansion FROM AccountCharacter WHERE Id = '%s'", szAccountID);
+	QueryResult* res = this->m_AccDB.Fetch("SELECT WarehouseExpansion FROM AccountCharacter WHERE Id = '%s'", szAccountID);
 	this->m_AccDB.Fetch();
 
 	WHExpansion = this->m_AccDB.GetAsInteger("WarehouseExpansion");
@@ -1772,7 +1764,7 @@ void CDataServerProtocol::JGGetCharacterInfo(int aIndex, SDHP_DBCHARINFOREQUEST 
 
 	if (g_DSBattleCoreEnable == 1)
 	{
-		if (this->m_CharDB.ExecQuery("SELECT cLevel, mLevel, Class, LevelUpPoint, mlPoint, Experience, mlExperience, mlNextExp, Strength, Dexterity, Vitality, Energy, Money, Life, MaxLife, Mana, MaxMana, MapNumber, MapPosX, MapPosY, MapDir, PkCount, PkLevel, PkTime, CtlCode, Leadership, ChatLimitTime, FruitPoint, RESETS, Married, MarryName, InventoryExpansion, WinDuels, LoseDuels, BlockChatTime, PenaltyMask FROM Character WHERE Name='%s' AND AccountID='%s'", szName, szAccountID) == FALSE)
+		if (QueryResult* res = this->m_CharDB.Fetch("SELECT cLevel, mLevel, Class, LevelUpPoint, mlPoint, Experience, mlExperience, mlNextExp, Strength, Dexterity, Vitality, Energy, Money, Life, MaxLife, Mana, MaxMana, MapNumber, MapPosX, MapPosY, MapDir, PkCount, PkLevel, PkTime, CtlCode, Leadership, ChatLimitTime, FruitPoint, RESETS, Married, MarryName, InventoryExpansion, WinDuels, LoseDuels, BlockChatTime, PenaltyMask FROM Character WHERE Name='%s' AND AccountID='%s'", szName, szAccountID) == FALSE)
 		{
 			this->m_CharDB.Close();
 			return;
@@ -1780,7 +1772,7 @@ void CDataServerProtocol::JGGetCharacterInfo(int aIndex, SDHP_DBCHARINFOREQUEST 
 	}
 	else
 	{
-		if (this->m_CharDB.ExecQuery("SELECT cLevel, mLevel, Class, LevelUpPoint, mlPoint, Experience, mlExperience, mlNextExp, Strength, Dexterity, Vitality, Energy, Money, Life, MaxLife, Mana, MaxMana, MapNumber, MapPosX, MapPosY, MapDir, PkCount, PkLevel, PkTime, CtlCode, Leadership, ChatLimitTime, FruitPoint, RESETS, Married, MarryName, InventoryExpansion, WinDuels, LoseDuels, BlockChatTime, PenaltyMask, Ruud FROM Character WHERE Name='%s' AND AccountID='%s'", szName, szAccountID) == FALSE)
+		if (QueryResult* res = this->m_CharDB.Fetch("SELECT cLevel, mLevel, Class, LevelUpPoint, mlPoint, Experience, mlExperience, mlNextExp, Strength, Dexterity, Vitality, Energy, Money, Life, MaxLife, Mana, MaxMana, MapNumber, MapPosX, MapPosY, MapDir, PkCount, PkLevel, PkTime, CtlCode, Leadership, ChatLimitTime, FruitPoint, RESETS, Married, MarryName, InventoryExpansion, WinDuels, LoseDuels, BlockChatTime, PenaltyMask, Ruud FROM Character WHERE Name='%s' AND AccountID='%s'", szName, szAccountID) == FALSE)
 		{
 			this->m_CharDB.Close();
 			return;
@@ -1861,7 +1853,7 @@ void CDataServerProtocol::JGGetCharacterInfo(int aIndex, SDHP_DBCHARINFOREQUEST 
 	memcpy(pResult.dbQuest, btTemp, sizeof(pResult.dbQuest));
 	memset(btTemp, 0, sizeof(btTemp));
 
-	this->m_CharDB.ExecQuery("SELECT AuthorityMask, DATEDIFF(DAY, GETDATE(), Expiry) AS ExpirationTime FROM T_GMSystem WHERE Name='%s'", szName);
+	QueryResult* res = this->m_CharDB.Fetch("SELECT AuthorityMask, DATEDIFF(DAY, GETDATE(), Expiry) AS ExpirationTime FROM T_GMSystem WHERE Name='%s'", szName);
 
 	if (this->m_CharDB.Fetch() != SQL_NO_DATA)
 	{
@@ -1901,7 +1893,7 @@ void CDataServerProtocol::JGGetCharacterInfo(int aIndex, SDHP_DBCHARINFOREQUEST 
 		PHeadSetB((LPBYTE)&pSkillData, 0x60, sizeof(pSkillData));
 		pSkillData.aIndex = aRecv->Number;
 
-		this->m_OptionDataDB.ExecQuery("SELECT * FROM OptionData WHERE Name='%s'", szName);
+		QueryResult* res = this->m_OptionDataDB.Fetch("SELECT * FROM OptionData WHERE Name='%s'", szName);
 
 		if (this->m_OptionDataDB.Fetch() != SQL_NO_DATA)
 		{
@@ -2068,7 +2060,7 @@ void CDataServerProtocol::DGRecvPetItemInfo(int aIndex, SDHP_REQUEST_PETITEM_INF
 			pRequestPetInfo = (Request_PetItem_Info *)((LPBYTE)aRecv + lOfs1);
 			pRecvPetInfo = (Recv_PetItem_Info *)((LPBYTE)cBUFFER + lOfs2);
 
-			this->m_PetDB.ExecQuery("SELECT Pet_Level, Pet_Exp FROM T_PetItem_Info WHERE ItemSerial=%I64d",
+			QueryResult* res = this->m_PetDB.Fetch("SELECT Pet_Level, Pet_Exp FROM T_PetItem_Info WHERE ItemSerial=%I64d",
 				pRequestPetInfo->nSerial);
 
 			if (this->m_PetDB.Fetch() == SQL_NO_DATA)
@@ -2078,7 +2070,7 @@ void CDataServerProtocol::DGRecvPetItemInfo(int aIndex, SDHP_REQUEST_PETITEM_INF
 					pRequestPetInfo->nSerial, 1, 0);
 				this->m_PetDB.Close();
 
-				this->m_PetDB.ExecQuery("SELECT Pet_Level, Pet_Exp FROM T_PetItem_Info WHERE ItemSerial=%I64d",
+				QueryResult* res = this->m_PetDB.Fetch("SELECT Pet_Level, Pet_Exp FROM T_PetItem_Info WHERE ItemSerial=%I64d",
 					pRequestPetInfo->nSerial);
 				this->m_PetDB.Fetch();
 			}
@@ -2173,7 +2165,7 @@ void CDataServerProtocol::DGOptionDataRecv(int aIndex, SDHP_SKILLKEYDATA * aRecv
 	szName[10] = 0;
 	memcpy(szName, aRecv->Name, 11);
 
-	this->m_OptionDataDB.ExecQuery("SELECT Name FROM OptionData WHERE Name='%s'", szName);
+	QueryResult* res = this->m_OptionDataDB.Fetch("SELECT Name FROM OptionData WHERE Name='%s'", szName);
 
 	if (this->m_OptionDataDB.Fetch() == SQL_NO_DATA)
 	{
@@ -3456,7 +3448,7 @@ void CDataServerProtocol::ReqInGameShopItemBuy(short aIndex, ISHOP_ITEM_BUY *aRe
 	pResult.aIndex = aRecv->aIndex;
 
 
-	this->m_ItemShopDB.ExecQuery("SELECT %s AS Result FROM T_InGameShop_Point WHERE AccountID = '%s'", aRecv->CoinType == 0 ? "WCoinC" : aRecv->CoinType == 1 ? "WCoinP" : "GoblinPoint", aRecv->AccountID);
+	QueryResult* res = this->m_ItemShopDB.Fetch("SELECT %s AS Result FROM T_InGameShop_Point WHERE AccountID = '%s'", aRecv->CoinType == 0 ? "WCoinC" : aRecv->CoinType == 1 ? "WCoinP" : "GoblinPoint", aRecv->AccountID);
 	this->m_ItemShopDB.Fetch();
 
 	int Coin = this->m_ItemShopDB.GetAsInteger("Result");
@@ -3505,7 +3497,7 @@ void CDataServerProtocol::ReqInGameShopItemGift(short aIndex, ISHOP_ITEM_GIFT *a
 	memcpy(&pResult.AccountID, aRecv->AccountID, 11);
 	pResult.aIndex = aRecv->aIndex;
 
-	this->m_ItemShopDB.ExecQuery("SELECT %s AS Result FROM T_InGameShop_Point WHERE AccountID = '%s'", aRecv->CoinType == 0 ? "WCoinC" : aRecv->CoinType == 1 ? "WCoinP" : "GoblinPoint", aRecv->AccountID);
+	QueryResult* res = this->m_ItemShopDB.Fetch("SELECT %s AS Result FROM T_InGameShop_Point WHERE AccountID = '%s'", aRecv->CoinType == 0 ? "WCoinC" : aRecv->CoinType == 1 ? "WCoinP" : "GoblinPoint", aRecv->AccountID);
 	this->m_ItemShopDB.Fetch();
 
 	int Coin = this->m_ItemShopDB.GetAsInteger("Result");
@@ -3586,7 +3578,7 @@ void CDataServerProtocol::ReqInGameShopPoint(short aIndex, ISHOP_REQ_POINT *aRec
 {
 	ISHOP_ANS_POINT pMsg = { 0 };
 
-	this->m_ItemShopDB.ExecQuery("SELECT WCoinP, WCoinC, GoblinPoint FROM T_InGameShop_Point WHERE AccountID = '%s'", aRecv->AccountID);
+	QueryResult* res = this->m_ItemShopDB.Fetch("SELECT WCoinP, WCoinC, GoblinPoint FROM T_InGameShop_Point WHERE AccountID = '%s'", aRecv->AccountID);
 
 	if (this->m_ItemShopDB.Fetch() == SQL_NO_DATA)
 	{
@@ -3629,7 +3621,7 @@ void CDataServerProtocol::ReqInGameShopPackageBuy(short aIndex, LPBYTE aRecv)
 	memcpy(&pResult.AccountID, lpMsg->AccountID, 11);
 	pResult.aIndex = lpMsg->aIndex;
 
-	this->m_ItemShopDB.ExecQuery("SELECT %s AS Result FROM T_InGameShop_Point WHERE AccountID = '%s'", lpMsg->CoinType == 0 ? "WCoinC" : lpMsg->CoinType == 1 ? "WCoinP" : "GoblinPoint", lpMsg->AccountID);
+	QueryResult* res = this->m_ItemShopDB.Fetch("SELECT %s AS Result FROM T_InGameShop_Point WHERE AccountID = '%s'", lpMsg->CoinType == 0 ? "WCoinC" : lpMsg->CoinType == 1 ? "WCoinP" : "GoblinPoint", lpMsg->AccountID);
 	this->m_ItemShopDB.Fetch();
 
 	int Coin = this->m_ItemShopDB.GetAsInteger("Result");
@@ -3678,7 +3670,7 @@ void CDataServerProtocol::ReqInGameShopPackageGift(short aIndex, LPBYTE aRecv)
 	memcpy(&pResult.AccountID, lpMsg->AccountID, 11);
 	pResult.aIndex = lpMsg->aIndex;
 
-	this->m_ItemShopDB.ExecQuery("SELECT %s AS Result FROM T_InGameShop_Point WHERE AccountID = '%s'", lpMsg->CoinType == 0 ? "WCoinC" : lpMsg->CoinType == 1 ? "WCoinP" : "GoblinPoint", lpMsg->AccountID);
+	QueryResult* res = this->m_ItemShopDB.Fetch("SELECT %s AS Result FROM T_InGameShop_Point WHERE AccountID = '%s'", lpMsg->CoinType == 0 ? "WCoinC" : lpMsg->CoinType == 1 ? "WCoinP" : "GoblinPoint", lpMsg->AccountID);
 	this->m_ItemShopDB.Fetch();
 
 	int Coin = this->m_ItemShopDB.GetAsInteger("Result");
@@ -3739,7 +3731,7 @@ void CDataServerProtocol::ReqInGameShopItemDelete(short aIndex, ISHOP_ITEM_DELET
 
 void CDataServerProtocol::ReqInGameShopItemRollbackUse(short aIndex, ISHOP_ITEM_ROLLBACK * aRecv)
 {
-	this->m_ItemShopDB.ExecQuery("SELECT UsedItem FROM T_InGameShop_Items WHERE UniqueCode = %d AND AuthCode = %d AND AccountID = '%s'", aRecv->UniqueCode, aRecv->AuthCode, aRecv->AccountID);
+	QueryResult* res = this->m_ItemShopDB.Fetch("SELECT UsedItem FROM T_InGameShop_Items WHERE UniqueCode = %d AND AuthCode = %d AND AccountID = '%s'", aRecv->UniqueCode, aRecv->AuthCode, aRecv->AccountID);
 	this->m_ItemShopDB.Fetch();
 
 	int iUsedFlag = this->m_ItemShopDB.GetAsInteger("UsedItem");
@@ -3766,7 +3758,7 @@ void CDataServerProtocol::ReqLuckyCoinInfo(int aIndex, PMSG_REQ_LUCKYCOIN * lpMs
 	memcpy(pMsg.szUID, lpMsg->szUID, sizeof(pMsg.szUID));
 	pMsg.szUID[10] = 0;
 
-	if (this->m_EventDB.ExecQuery("SELECT LuckyCoin FROM T_LuckyCoin WHERE AccountID='%s'", lpMsg->szUID) == FALSE)
+	if (QueryResult* res = this->m_EventDB.Fetch("SELECT LuckyCoin FROM T_LuckyCoin WHERE AccountID='%s'", lpMsg->szUID) == FALSE)
 	{
 		pMsg.LuckyCoins = 0;
 	}
@@ -3814,7 +3806,7 @@ void CDataServerProtocol::ReqRegLuckyCoin(int aIndex, PMSG_REQ_REGISTER_LUCKYCOI
 	{
 		this->m_EventDB.Close();
 
-		if (this->m_EventDB.ExecQuery("SELECT LuckyCoin FROM T_LuckyCoin WHERE AccountID='%s'", pMsg.szUID))
+		if (QueryResult* res = this->m_EventDB.Fetch("SELECT LuckyCoin FROM T_LuckyCoin WHERE AccountID='%s'", pMsg.szUID))
 		{
 			if (this->m_EventDB.Fetch() != SQL_NO_DATA)
 			{
@@ -3943,7 +3935,7 @@ void CDataServerProtocol::EGAnsEventChipInfo(int aIndex, PMSG_REQ_VIEW_EC_MN * l
 	memcpy(pMsg.szUID, lpMsg->szUID, sizeof(pMsg.szUID));
 	pMsg.szUID[10] = 0;
 
-	if (this->m_CharMiscDB.ExecQuery("SELECT EventChips, Check_Code, MuttoNumber FROM T_MU2003_EVENT WHERE AccountID='%s'", lpMsg->szUID) == FALSE)
+	if (QueryResult* res = this->m_CharMiscDB.Fetch("SELECT EventChips, Check_Code, MuttoNumber FROM T_MU2003_EVENT WHERE AccountID='%s'", lpMsg->szUID) == FALSE)
 	{
 		pMsg.bSUCCESS = FALSE;
 	}
@@ -4003,7 +3995,7 @@ void CDataServerProtocol::EGAnsRegEventChipInfo(int aIndex, PMSG_REQ_REGISTER_EV
 	{
 		this->m_CharMiscDB.Close();
 
-		if (this->m_CharMiscDB.ExecQuery("SELECT EventChips FROM T_MU2003_EVENT WHERE AccountID='%s'", pMsg.szUID))
+		if (QueryResult* res = this->m_CharMiscDB.Fetch("SELECT EventChips FROM T_MU2003_EVENT WHERE AccountID='%s'", pMsg.szUID))
 		{
 			if (this->m_CharMiscDB.Fetch() != SQL_NO_DATA)
 			{
@@ -4062,7 +4054,7 @@ void CDataServerProtocol::EGAnsEventStoneInfo(int aIndex, PMSG_REQ_VIEW_EC_MN * 
 	strcpy(pMsg.szUID, lpMsg->szUID);
 	pMsg.szUID[10] = 0x00;
 
-	if (this->m_EventDB.ExecQuery("SELECT StoneCount, Check_Code FROM T_BLOOD_CASTLE WHERE AccountID='%s'", pMsg.szUID) == FALSE)
+	if (QueryResult* res = this->m_EventDB.Fetch("SELECT StoneCount, Check_Code FROM T_BLOOD_CASTLE WHERE AccountID='%s'", pMsg.szUID) == FALSE)
 	{
 		pMsg.bSUCCESS = FALSE;
 	}
@@ -4113,7 +4105,7 @@ void CDataServerProtocol::EGAnsRegEventStoneInfo(int aIndex, PMSG_REQ_REGISTER_S
 	if (this->m_EventDB.ExecQuery("UPDATE T_BLOOD_CASTLE SET StoneCount = StoneCount + 1 WHERE AccountID = '%s'", pMsg.szUID))
 	{
 		this->m_EventDB.Close();
-		if (this->m_EventDB.ExecQuery("SELECT StoneCount FROM T_BLOOD_CASTLE WHERE AccountID='%s'", pMsg.szUID))
+		if (QueryResult* res = this->m_EventDB.Fetch("SELECT StoneCount FROM T_BLOOD_CASTLE WHERE AccountID='%s'", pMsg.szUID))
 		{
 			if (this->m_EventDB.Fetch() != SQL_NO_DATA)
 			{
@@ -4154,7 +4146,7 @@ void CDataServerProtocol::EGAnsDeleteStones(int aIndex, PMSG_REQ_DELETE_STONES *
 
 	pMsg.bSUCCESS = FALSE;
 
-	if (this->m_EventDB.ExecQuery("SELECT StoneCount FROM T_BLOOD_CASTLE WHERE AccountID='%s'", pMsg.szUID) == FALSE || this->m_EventDB.Fetch() == SQL_NO_DATA)
+	if (QueryResult* res = this->m_EventDB.Fetch("SELECT StoneCount FROM T_BLOOD_CASTLE WHERE AccountID='%s'", pMsg.szUID) == FALSE || this->m_EventDB.Fetch() == SQL_NO_DATA)
 	{
 		pMsg.bSUCCESS = FALSE;
 	}
@@ -4387,7 +4379,7 @@ void CDataServerProtocol::EGAnsLuckyCoinInfo(int aIndex, PMSG_REQ_LUCKYCOIN * lp
 	memcpy(pMsg.szUID, lpMsg->szUID, sizeof(pMsg.szUID));
 	pMsg.szUID[10] = 0;
 
-	if (this->m_EventDB.ExecQuery("SELECT LuckyCoin FROM T_LuckyCoin WHERE AccountID='%s'", lpMsg->szUID) == FALSE)
+	if (QueryResult* res = this->m_EventDB.Fetch("SELECT LuckyCoin FROM T_LuckyCoin WHERE AccountID='%s'", lpMsg->szUID) == FALSE)
 	{
 		pMsg.LuckyCoins = 0;
 	}
@@ -4435,7 +4427,7 @@ void CDataServerProtocol::EGAnsRegLuckyCoin(int aIndex, PMSG_REQ_REGISTER_LUCKYC
 	{
 		this->m_EventDB.Close();
 
-		if (this->m_EventDB.ExecQuery("SELECT LuckyCoin FROM T_LuckyCoin WHERE AccountID='%s'", pMsg.szUID))
+		if (QueryResult* res = this->m_EventDB.Fetch("SELECT LuckyCoin FROM T_LuckyCoin WHERE AccountID='%s'", pMsg.szUID))
 		{
 			if (this->m_EventDB.Fetch() != SQL_NO_DATA)
 			{
@@ -4535,7 +4527,7 @@ void CDataServerProtocol::ReqSaveMonsterCount(short aIndex, DS_SAVE_MONSTERCNT *
 
 	this->m_CharMiscDB.ExecQuery("EXEC IGC_Monster_KillCount_Save '%s', %d", aRecv->character, aRecv->type);
 	this->m_CharMiscDB.Close();
-	/*this->m_CharMiscDB.ExecQuery("SELECT * FROM C_Monster_KillCount WHERE name = '%s' AND MonsterId = %d",aRecv->character,aRecv->type);
+	/*QueryResult* res = this->m_CharMiscDB.Fetch("SELECT * FROM C_Monster_KillCount WHERE name = '%s' AND MonsterId = %d",aRecv->character,aRecv->type);
 	if(this->m_CharMiscDB.Fetch() == SQL_NO_DATA)
 	{
 	this->m_CharMiscDB.Close();
@@ -5556,7 +5548,7 @@ void CDataServerProtocol::GDReqLoadMuunInvenItem(int aIndex, SDHP_REQ_DBMUUN_INV
 	PHeadSetW((LPBYTE)&pMsg, 0xF1, sizeof(pMsg));
 
 	char szTemp[250];
-	this->m_MuunDB.ExecQuery("SELECT * FROM PetWarehouse WHERE Name= '%s'", lpMsg->Name);
+	QueryResult* res = this->m_MuunDB.Fetch("SELECT * FROM PetWarehouse WHERE Name= '%s'", lpMsg->Name);
 
 	pMsg.aIndex = lpMsg->aIndex;
 
@@ -5602,7 +5594,7 @@ void CDataServerProtocol::GDReqLoadEventInvenItem(int aIndex, SDHP_REQ_DBEVENT_I
 	PHeadSetW((LPBYTE)&pMsg, 0xE6, sizeof(pMsg));
 
 	char szTemp[1024];
-	this->m_EventInvDB.ExecQuery("SELECT * FROM T_Event_Inventory WHERE Name = '%s'", aRecv->Name);
+	QueryResult* res = this->m_EventInvDB.Fetch("SELECT * FROM T_Event_Inventory WHERE Name = '%s'", aRecv->Name);
 
 	pMsg.aIndex = aRecv->aIndex;
 
@@ -5891,7 +5883,7 @@ void CDataServerProtocol::GDReqClassDefData(int aIndex)
 	PMSG_ANS_CLASSDEF pMsg;
 	PHeadSetW((LPBYTE)&pMsg, 0x02, sizeof(pMsg));
 
-	this->m_GSDB.ExecQuery("SELECT * FROM DefaultClassType");
+	QueryResult* res = this->m_GSDB.Fetch("SELECT * FROM DefaultClassType");
 	int Count = 0;
 
 	memset(pMsg.m_ClassData, -1, sizeof(pMsg.m_ClassData));
@@ -6346,7 +6338,7 @@ void CDataServerProtocol::GDReqUBFCancelUser(int aIndex, PMSG_UBF_REQ_CANCEL_REG
 
 	if (pMsg.btCanceledResult == TRUE && pMsg.btDeletedResult == TRUE)
 	{
-		this->m_BattleCoreDB.ExecQuery("SELECT * FROM [BattleCore].[dbo].AccountCharacter WHERE Id='%s'", aRecv->szAccountID);
+		QueryResult* res = this->m_BattleCoreDB.Fetch("SELECT * FROM [BattleCore].[dbo].AccountCharacter WHERE Id='%s'", aRecv->szAccountID);
 		this->m_BattleCoreDB.Fetch();
 
 		TCHAR CharName[5][11] = { 0 };
@@ -6892,7 +6884,7 @@ void CDataServerProtocol::GDReqEventEntryCount(int aIndex, PMSG_REQ_EVENTENTRY_I
 	{
 		for (int i = 0; i < 6; i++)
 		{
-			this->m_CharMiscDB.ExecQuery("SELECT COUNT(*) AS EntryCount FROM IGC_EventEntryCount WHERE Name = '%s' AND EventEntryType = %d AND DATEDIFF(DAY, EventEntryDate, GETDATE()) <= 0", aRecv->szName, i);
+			QueryResult* res = this->m_CharMiscDB.Fetch("SELECT COUNT(*) AS EntryCount FROM IGC_EventEntryCount WHERE Name = '%s' AND EventEntryType = %d AND DATEDIFF(DAY, EventEntryDate, GETDATE()) <= 0", aRecv->szName, i);
 			this->m_CharMiscDB.Fetch();
 
 			pMsg.btEventEntryCount[i] = this->m_CharMiscDB.GetAsInteger("EntryCount");
@@ -6917,7 +6909,7 @@ void CDataServerProtocol::GDReqEvoMonMaxScore(int aIndex, PMSG_REQ_EVOMON_MAXSCO
 	}
 	else
 	{
-		this->m_EvoMonDB.ExecQuery("SELECT TotalScore FROM IGC_EvoMonRanking WHERE Name = '%s'", aRecv->szName);
+		QueryResult* res = this->m_EvoMonDB.Fetch("SELECT TotalScore FROM IGC_EvoMonRanking WHERE Name = '%s'", aRecv->szName);
 		this->m_EvoMonDB.Fetch();
 	}
 
@@ -6936,7 +6928,7 @@ void CDataServerProtocol::GDReqEvoMonSaveScore(int aIndex, PMSG_REQ_SAVE_EVOMON_
 	}
 	else
 	{
-		this->m_EvoMonDB.ExecQuery("SELECT TotalScore, TotalDamage FROM IGC_EvoMonRanking WHERE Name = '%s'", aRecv->szName);
+		QueryResult* res = this->m_EvoMonDB.Fetch("SELECT TotalScore, TotalDamage FROM IGC_EvoMonRanking WHERE Name = '%s'", aRecv->szName);
 
 		if (this->m_EvoMonDB.Fetch() == SQL_NO_DATA)
 		{
