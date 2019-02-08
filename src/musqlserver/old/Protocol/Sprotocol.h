@@ -60,6 +60,8 @@ struct SDHP_USERCLOSE_ID;
 struct ISHOP_VIP_BUY;
 struct USER_CONNECT_DATA;
 struct SDHP_IDPASSRESULT;
+struct USER_CONNECT_DATA;
+
 
 class CLoginServerData
 {

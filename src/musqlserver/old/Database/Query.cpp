@@ -43,6 +43,18 @@ BOOL CQuery::ReConnect()
 	return this->Connect(this->m_szDNS, this->m_szPort, this->m_szUser, this->m_szPassword, this->m_szDatabase);
 }
 
+BOOL CQuery::ExecQuery(TCHAR* lpszStatement, ...)
+{
+	TCHAR szStatement[1024];
+
+	va_list pArguments;
+	va_start(pArguments, lpszStatement);
+		vsprintf(szStatement, lpszStatement, pArguments);
+	va_end(pArguments);
+
+	return Execute(szStatement);
+}
+
 BOOL CQuery::Execute(TCHAR* lpszStatement)
 {
 	while (true)

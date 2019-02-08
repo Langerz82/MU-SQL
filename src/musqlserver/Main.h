@@ -30,6 +30,7 @@ extern TCHAR g_MuOnlineDNS[64];
 extern TCHAR g_MeMuOnlineDNS[64];
 extern TCHAR g_EventServerDNS[64];
 extern TCHAR g_RankingServerDNS[64];
+extern TCHAR g_DBPort[8];
 extern TCHAR g_UserID[64];
 extern TCHAR g_Password[64];
 extern BOOL g_PwEncrypt;

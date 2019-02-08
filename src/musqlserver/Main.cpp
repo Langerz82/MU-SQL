@@ -77,6 +77,7 @@ TCHAR g_MuOnlineDNS[64];
 TCHAR g_MeMuOnlineDNS[64];
 TCHAR g_EventServerDNS[64];
 TCHAR g_RankingServerDNS[64];
+TCHAR g_DBPort[8];
 TCHAR g_UserID[64];
 TCHAR g_Password[64];
 TCHAR g_ServerName[64];
@@ -95,9 +96,10 @@ void HookSignals();
 
 bool stopEvent = false;                                     ///< Setting it to true stops the server
 
-DatabaseType DataDatabase;
-DatabaseType EventsDatabase;
-DatabaseType RankingDatabase;
+// No Database is in Main, all DB's are currently handled in Protocol.
+//DatabaseType DataDatabase;
+//DatabaseType EventsDatabase;
+//DatabaseType RankingDatabase;
 
 typedef unsigned char BYTE;
 
@@ -118,6 +120,18 @@ void usage(const char* prog)
                    "    -s stop                  stop daemon\n\r"
 #endif
                    , prog);
+}
+
+bool InitDataServer()
+{
+	GetPrivateProfileString("SQL", "MuOnlineDB", "MuOnline", g_MuOnlineDNS, sizeof(g_MuOnlineDNS), ".\\DataServer.ini");
+	GetPrivateProfileString("SQL", "MeMuOnlineDB", "MuOnline", g_MeMuOnlineDNS, sizeof(g_MeMuOnlineDNS), ".\\DataServer.ini");
+	GetPrivateProfileString("SQL", "EventDB", "MuEvent", g_EventServerDNS, sizeof(g_EventServerDNS), ".\\DataServer.ini");
+	GetPrivateProfileString("SQL", "RankingDB", "MuRanking", g_RankingServerDNS, sizeof(g_RankingServerDNS), ".\\DataServer.ini");
+	GetPrivateProfileString("SQL", "Port", "3306", g_DBPort, sizeof(g_DBPort), ".\\DataServer.ini");
+	GetPrivateProfileString("SQL", "User", "sa", g_UserID, sizeof(g_UserID), ".\\DataServer.ini");
+	GetPrivateProfileString("SQL", "Pass", "Ms$qlP@s$w0rd", g_Password, sizeof(g_Password), ".\\DataServer.ini");
+	GetPrivateProfileString("SQL", "SQLServerName", "(local)", g_ServerName, sizeof(g_ServerName), ".\\DataServer.ini");
 }
 
 /// Launch the realm server
@@ -202,6 +216,7 @@ extern int main(int argc, char** argv)
             break;
     }
 #endif
+	InitDataServer();
 
     sLog.Initialize();
 
@@ -295,9 +310,9 @@ extern int main(int argc, char** argv)
 #endif
 
     // server has started up successfully => enable async DB requests
-    DataDatabase.AllowAsyncTransactions();
-	EventsDatabase.AllowAsyncTransactions();
-	RankingDatabase.AllowAsyncTransactions();
+    //DataDatabase.AllowAsyncTransactions();
+	//EventsDatabase.AllowAsyncTransactions();
+	//RankingDatabase.AllowAsyncTransactions();
 
 ////OLD CODE
 // TODO: Place code here.
@@ -344,9 +359,9 @@ extern int main(int argc, char** argv)
         {
             loopCounter = 0;
             DETAIL_LOG("Ping MySQL to keep connection alive");
-            DataDatabase.Ping();
-			EventsDatabase.Ping();
-			RankingDatabase.Ping();
+            //DataDatabase.Ping();
+			//EventsDatabase.Ping();
+			//RankingDatabase.Ping();
         }
 #ifdef WIN32
         if (m_ServiceStatus == 0) { stopEvent = true; }
@@ -355,9 +370,9 @@ extern int main(int argc, char** argv)
     }
 
     ///- Wait for the delay thread to exit
-    DataDatabase.HaltDelayThread();
-	EventsDatabase.HaltDelayThread();
-	RankingDatabase.HaltDelayThread();
+    //DataDatabase.HaltDelayThread();
+	//EventsDatabase.HaltDelayThread();
+	//RankingDatabase.HaltDelayThread();
 
     ///- Remove signal handling before leaving
     UnhookSignals();
@@ -411,6 +426,7 @@ bool StartDB()
 
     sLog.outString("Database total connections: %i", 1 + 1);
 
+	/*
     if (!DataDatabase.Initialize(dbConn1.c_str()))
     {
         sLog.outError("Can not connect to Data database");
@@ -426,6 +442,7 @@ bool StartDB()
 		sLog.outError("Can not connect to Ranking database");
 		return false;
 	}
+	*/
 
     return true;
 }

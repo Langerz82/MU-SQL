@@ -10,6 +10,7 @@
 #include "MapServerManager.h"
 #include "ItemSerial.h"
 
+
 #define MAX_LOADSTRING 100
 // Global Variables:
 HINSTANCE hInst;								// current instance
@@ -44,6 +45,7 @@ TCHAR g_MuOnlineDNS[64];
 TCHAR g_MeMuOnlineDNS[64];
 TCHAR g_EventServerDNS[64];
 TCHAR g_RankingServerDNS[64];
+TCHAR g_DBPort[8];
 TCHAR g_UserID[64];
 TCHAR g_Password[64];
 TCHAR g_ServerName[64];
@@ -152,6 +154,7 @@ bool IniteDataServer()
 	GetPrivateProfileString("SQL", "MeMuOnlineDB", "MuOnline", g_MeMuOnlineDNS, sizeof(g_MeMuOnlineDNS), ".\\DataServer.ini");
 	GetPrivateProfileString("SQL", "EventDB", "MuEvent", g_EventServerDNS, sizeof(g_EventServerDNS), ".\\DataServer.ini");
 	GetPrivateProfileString("SQL", "RankingDB", "MuRanking", g_RankingServerDNS, sizeof(g_RankingServerDNS), ".\\DataServer.ini");
+	GetPrivateProfileString("SQL", "Port", "3306", g_DBPort, sizeof(g_DBPort), ".\\DataServer.ini");
 	GetPrivateProfileString("SQL", "User", "sa", g_UserID, sizeof(g_UserID), ".\\DataServer.ini");
 	GetPrivateProfileString("SQL", "Pass", "Ms$qlP@s$w0rd", g_Password, sizeof(g_Password), ".\\DataServer.ini");
 	GetPrivateProfileString("SQL", "SQLServerName", "(local)", g_ServerName, sizeof(g_ServerName), ".\\DataServer.ini");

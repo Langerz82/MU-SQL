@@ -24,8 +24,9 @@ public:
 	BOOL ReConnect();
 	void Disconnect();
 
-	BOOL Execute(CHAR* lpszStatement);
-	QueryResult* Fetch(CHAR* lpszStatement);
+	BOOL ExecQuery(TCHAR* lpszStatement, ...);
+	BOOL Execute(TCHAR* lpszStatement);
+	QueryResult* Fetch(TCHAR* lpszStatement);
 
 	void Close();
 	void Diagnosis(bool &bReconnect);

@@ -197,20 +197,17 @@ void CLoginUserData::MuLoginDeleteMapMove(char * szAccountID)
 {
 	EnterCriticalSection(&this->critUserData);
 
-	STR_USER_DATA* pDataUser;
-	std::vector<STR_USER_DATA*>::iterator it;
+	std::vector<USER_CONNECT_DATA*>::iterator it;
 
 	if (!this->m_vecMapMove.empty())
 	{
 		for (it = this->m_vecMapMove.begin(); it != this->m_vecMapMove.end(); )
 		{
-			pDataUser = STR_USER_DATA(*it);
-
-			if (tolower(pDataUser.pMapServerMoveData.szAccountID[0]) == tolower(szAccountID[0]))
+			if (tolower((*it)->pMapServerMoveData.szAccountID[0]) == tolower(szAccountID[0]))
 			{
-				if (tolower(pDataUser.pMapServerMoveData.szAccountID[1]) == tolower(szAccountID[1]))
+				if (tolower((*it)->pMapServerMoveData.szAccountID[1]) == tolower(szAccountID[1]))
 				{
-					if (lstrcmpi(pDataUser.pMapServerMoveData.szAccountID, szAccountID) == 0)
+					if (lstrcmpi((*it)->pMapServerMoveData.szAccountID, szAccountID) == 0)
 					{
 						this->m_vecMapMove.erase(it);
 						break;
@@ -278,23 +275,20 @@ BOOL CLoginUserData::CheckMoveTimeOut(char * szAccountID)
 	int bDelete = FALSE;
 	EnterCriticalSection(&this->critUserData);
 
-	tagSTR_USER_DATA pDataUser;
-	std::vector<tagSTR_USER_DATA>::iterator it;
+	std::vector<USER_CONNECT_DATA*>::iterator it;
 
 	if (!this->m_vecMapMove.empty())
 	{
 		for (it = this->m_vecMapMove.begin(); it != this->m_vecMapMove.end(); it++)
 		{
-			pDataUser = tagSTR_USER_DATA(*it);
-
-			if (tolower(pDataUser.pMapServerMoveData.szAccountID[0]) != tolower(szAccountID[0]))
+			if (tolower((*it)->pMapServerMoveData.szAccountID[0]) != tolower(szAccountID[0]))
 				continue;
-			if (tolower(pDataUser.pMapServerMoveData.szAccountID[1]) != tolower(szAccountID[1]))
+			if (tolower((*it)->pMapServerMoveData.szAccountID[1]) != tolower(szAccountID[1]))
 				continue;
-			if (lstrcmpi(pDataUser.pMapServerMoveData.szAccountID, szAccountID) != 0)
+			if (lstrcmpi((*it)->pMapServerMoveData.szAccountID, szAccountID) != 0)
 				continue;
 
-			if (GetTickCount() - pDataUser.dwTick < 60000)
+			if (GetTickCount() - (*it)->dwTick < 60000)
 				break;
 
 			bDelete = TRUE;
@@ -462,7 +456,7 @@ unsigned long __stdcall CLoginServerProtocol::ConnectServerThread(LPVOID pThis)
 
 void CLoginServerProtocol::InsertDataMuLog(LPTSTR ServerName, LPTSTR Id, LPTSTR Ip, LPTSTR State, LPTSTR HWID)
 {
-	this->m_LogDB.ExecQuery("INSERT INTO ConnectionHistory (AccountID, ServerName, IP, Date, State, HWID) Values('%s','%s','%s', GETDATE(), '%s', '%s')",
+	this->m_LogDB.ExecQuery("INSERT INTO ConnectionHistory (AccountID, ServerName, IP, `Date`, `State`, HWID) Values('%s','%s','%s', GETDATE(), '%s', '%s')",
 		Id, ServerName, Ip, State, HWID);
 }
 
@@ -475,19 +469,19 @@ BOOL CLoginServerProtocol::Init()
 
 	GetPrivateProfileString("SQL", "PasswordEncryptSalt", "1234567890", m_Salt, 30, ".\\DataServer.ini");
 
-	if (this->m_AccountDB.Connect(g_MeMuOnlineDNS, g_UserID, g_Password, g_ServerName) == FALSE)
+	if (this->m_AccountDB.Connect(g_MeMuOnlineDNS, g_DBPort, g_UserID, g_Password, g_ServerName) == FALSE)
 	{
 		sLog.outError("[ERROR] - JOIN SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
-	if (this->m_LogDB.Connect(g_MeMuOnlineDNS, g_UserID, g_Password, g_ServerName) == FALSE)
+	if (this->m_LogDB.Connect(g_MeMuOnlineDNS, g_DBPort, g_UserID, g_Password, g_ServerName) == FALSE)
 	{
 		sLog.outError("[ERROR] - JOIN SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
 	}
 
-	if (this->m_VIPDB.Connect(g_MeMuOnlineDNS, g_UserID, g_Password, g_ServerName) == FALSE)
+	if (this->m_VIPDB.Connect(g_MeMuOnlineDNS, g_DBPort, g_UserID, g_Password, g_ServerName) == FALSE)
 	{
 		sLog.outError("[ERROR] - JOIN SERVER CANNOT CONNECT TO MSSQL");
 		return FALSE;
@@ -496,7 +490,7 @@ BOOL CLoginServerProtocol::Init()
 	this->m_ServerData.Init();
 	this->m_UserData.Init();
 
-	g_Log.AddC(TColor::Green, "[SUCCESS] - JOIN SERVER CONNECT MSSQL SUCCESS");
+	sLog.outBasic("[SUCCESS] - JOIN SERVER CONNECT MSSQL SUCCESS");
 
 	this->m_ConnecServerUDP.CreateSocket();
 	this->m_ConnecServerUDP.SendSet("127.0.0.1", 55557);
@@ -636,8 +630,8 @@ void CLoginServerProtocol::JGPAccountRequest(int aIndex, SDHP_IDPASS * aRecv)
 		return;
 	}
 
-	if (QuoteSpaceSyntexCheck(szAccountID) == FALSE ||
-		QuoteSpaceSyntexCheck(szPass) == FALSE)
+	if (QuoteSpaceSyntaxCheck(szAccountID) == FALSE ||
+		QuoteSpaceSyntaxCheck(szPass) == FALSE)
 	{
 		pResult.result = 2;
 		DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
