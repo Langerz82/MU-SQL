@@ -25,8 +25,8 @@
 DLGAPP="whiptail"
 VERSION="0"
 ROOTPATH="$HOME"
-SRCPATH="$HOME/MuMySQLServer/src"
-INSTPATH="$HOME/MuMySQLServer"
+SRCPATH="$HOME/Documents/MuMySQL/src"
+INSTPATH="$HOME/Documents/MuMySQL/build"
 DB_PREFIX="zero"
 USER="MuMySQLServer"
 P_SOAP="0"
@@ -693,12 +693,7 @@ function GetBuildOptions()
     1 "Enable Debug" Off \
     2 "Use Standard Malloc" On \
     3 "Use External ACE Libraries" On \
-    4 "Use PostgreSQL Instead Of MySQL/MariaDB" Off \
     5 "Build Client Tools" On \
-    6 "Use SD3" On \
-    7 "Use Eluna" On \
-    8 "Use SOAP" Off \
-    9 "Use Player Bots AI" Off \
     3>&2 2>&1 1>&3)
 
   if [ $? -ne 0 ]; then
@@ -727,13 +722,6 @@ function GetBuildOptions()
     P_ACE_EXTERNAL="0"
   fi
 
-  # See if PostgreSQL was selected
-  if [[ $OPTIONS == *4* ]]; then
-    P_PGRESQL="1"
-  else
-    P_PGRESQL="0"
-  fi
-
   # See if the client tools were selected
   if [[ $OPTIONS == *5* ]]; then
     P_TOOLS="1"
@@ -741,38 +729,6 @@ function GetBuildOptions()
     P_TOOLS="0"
   fi
 
-  # See if SD3 will be used
-  if [[ $OPTIONS == *6* ]]; then
-    P_SD3="1"
-  else
-    P_SD3="0"
-  fi
-
-  # See if Eluna will be used
-  if [[ $OPTIONS == *7* ]]; then
-    P_ELUNA="1"
-  else
-    P_ELUNA="0"
-  fi
-
-  # See if SOAP will be used
-  if [[ $OPTIONS == *8* ]]; then
-    P_SOAP="1"
-  else
-    P_SOAP="0"
-  fi
-
-  if [[ $OPTIONS == *9* ]]; then
-    P_BOTS="1"
-  else
-    P_BOTS="0"
-  fi
-
-  # Verify that at least one scripting library is enabled
-  if [ $P_SD3 -eq 0 ] && [ $P_ELUNA -eq 0 ]; then
-    Log "Error: You must enable either SD3, Eluna, or both to build MuMySQLServer!" 1
-    exit 1
-  fi
 }
 
 
@@ -791,18 +747,18 @@ function BuildMuMySQLServer()
   fi
 
   # See if the build directory exists and clean up if possible
-  if [ -d "$SRCPATH/server/linux" ]; then
+  if [ -d "$SRCPATH/build" ]; then
     # See if a makefile exists and clean up
-    if [ -f $SRCPATH/server/linux/Makefile ]; then
+    if [ -f $SRCPATH/build/Makefile ]; then
       Log "Cleaning the old build..." 1
-      cd "$SRCPATH/server/linux"
+      cd "$SRCPATH/build"
       make clean
     fi
   fi
 
   # Attempt to create the build directory if it doesn't exist
-  if [ ! -d "$SRCPATH/server/linux" ]; then
-    mkdir "$SRCPATH/server/linux"
+  if [ ! -d "$SRCPATH/build" ]; then
+    mkdir "$SRCPATH/build"
 
     # See if creation was successful
     if [ $? -ne 0 ]; then
@@ -813,10 +769,10 @@ function BuildMuMySQLServer()
 
   # Attempt to configure and build MuMySQLServer
   Log "Building MuMySQLServer..." 0
-  cd "$SRCPATH/server/linux"
+  cd "$SRCPATH/build"
   # make sure we are using the cmake3
   UseCmake3
-  $CMAKE_CMD .. -DDEBUG=$P_DEBUG -DUSE_STD_MALLOC=$P_STD_MALLOC -DACE_USE_EXTERNAL=$P_ACE_EXTERNAL -DPOSTGRESQL=$P_PGRESQL -DBUILD_TOOLS=$P_TOOLS -DSCRIPT_LIB_ELUNA=$P_ELUNA -DSCRIPT_LIB_SD3=$P_SD3 -DSOAP=$P_SOAP -DPLAYERBOTS=$P_BOTS -DCMAKE_INSTALL_PREFIX="$INSTPATH"
+  $CMAKE_CMD .. -DDEBUG=$P_DEBUG -DUSE_STD_MALLOC=$P_STD_MALLOC -DACE_USE_EXTERNAL=$P_ACE_EXTERNAL -DBUILD_TOOLS=$P_TOOLS -DSOAP=$P_SOAP -DCMAKE_INSTALL_PREFIX="$INSTPATH"
   make
 
   # Check for an error
@@ -841,14 +797,14 @@ function InstallMuMySQLServer()
   # Return if no
   if [ $? -ne 0 ]; then
     $DLGAPP --backtitle "MuMySQLServer Linux Build Configuration" --title "Install MuMySQLServer" \
-      --msgbox "You may install MuMySQLServer later by changing to:\n$SRCPATH/server/linux\nAnd running: make install" 24 60
+      --msgbox "You may install MuMySQLServer later by changing to:\n$SRCPATH/build\nAnd running: make install" 24 60
 
     Log "MuMySQLServer has not been installed after being built." 1
     exit 0
   fi
 
   # Install MuMySQLServer
-  cd "$SRCPATH/server/linux"
+  cd "$SRCPATH/build"
   make install
 
   # Make sure the install succeeded
@@ -864,12 +820,12 @@ function InstallMuMySQLServer()
 function CreateCBProject
 {
   # Create the dircetory if it does not exist
-  if [ ! -d $SRCPATH/server/linux ]; then
-    mkdir $SRCPATH/server/linux
+  if [ ! -d $SRCPATH/build ]; then
+    mkdir $SRCPATH/build
   fi
 
   # Now create the C::B project
-  cd $SRCPATH/server/linux
+  cd $SRCPATH/build
   # make sure we are using the cmake3
   UseCmake3
   $CMAKE_CMD .. -G "CodeBlocks - Unix Makefiles"
