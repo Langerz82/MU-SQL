@@ -31,6 +31,13 @@ source_group("Config" FILES ${SRC_GRP_CONFIG})
 file(GLOB SRC_GRP_DATABASE Database/*.cpp Database/*.h)
 source_group("Database" FILES ${SRC_GRP_DATABASE})
 
+file(GLOB SRC_GRP_DATABASE_DATABASE Database/*.cpp Database/*.h)
+source_group("Database\\Database" FILES ${SRC_GRP_DATABASE_DATABASE})
+file(GLOB SRC_GRP_DATABASE_LOGGING Database/*.cpp Database/*.h)
+source_group("Database\\Logging" FILES ${SRC_GRP_DATABASE_LOGGING})
+file(GLOB SRC_GRP_DATABASE_PCH Database/*.cpp Database/*.h)
+source_group("Database\\Pch" FILES ${SRC_GRP_DATABASE_PCH})
+
 file(GLOB SRC_GRP_DATASTORE DataStores/*.cpp DataStores/*.h)
 source_group("DataStores" FILES ${SRC_GRP_DATASTORE})
 
@@ -51,6 +58,9 @@ set(LIBRARY_SRCS
     ${SRC_GRP_COMMON}
     ${SRC_GRP_CONFIG}
     ${SRC_GRP_DATABASE}
+	${SRC_GRP_DATABASE_DATABASE}
+	${SRC_GRP_DATABASE_LOGGING}
+	${SRC_GRP_DATABASE_PCH}
     ${SRC_GRP_DATASTORE}
     ${SRC_GRP_LOCKQ}
     ${SRC_GRP_LOG}

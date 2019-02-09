@@ -9,7 +9,7 @@
 #include "resource.h"
 //#include "Protocol/protocol.h"
 //#include "Protocol/Sprotocol.h"
-#include "Protocol/CoreDSprotocol.h"
+//#include "Protocol/CoreDSprotocol.h"
 //#include "Protocol/protocol.h"
 //#include "Protocol/EDSprotocol.h"
 //#include "Protocol/Fprotocol.h"
