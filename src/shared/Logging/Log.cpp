@@ -68,7 +68,10 @@ void Log::CreateAppenderFromConfig(std::string const& appenderName, std::string 
     // if type = Console. optional1 = Color
     //std::string options = sConfigMgr->GetStringDefault(appenderName, "");
 
-    Tokens tokens = StrSplit(options, ",");
+    Tokens strTokens = StrSplit(options, ",");
+	std::vector<const char*> tokens;
+	for each (std::string token in strTokens)
+		tokens.push_back(token.c_str());
     auto iter = tokens.begin();
 
     size_t size = tokens.size();
@@ -81,8 +84,8 @@ void Log::CreateAppenderFromConfig(std::string const& appenderName, std::string 
     }
 
     AppenderFlags flags = APPENDER_FLAGS_NONE;
-    AppenderType type = AppenderType(atoi((*iter++).c_str()));
-    LogLevel level = LogLevel(atoi((*iter++).c_str()));
+    AppenderType type = AppenderType(atoi(*iter++));
+    LogLevel level = LogLevel(atoi(*iter++));
 
     if (level > LOG_LEVEL_FATAL)
     {
@@ -91,7 +94,7 @@ void Log::CreateAppenderFromConfig(std::string const& appenderName, std::string 
     }
 
     if (size > 2)
-        flags = AppenderFlags(atoi((*iter++).c_str()));
+        flags = AppenderFlags(atoi(*iter++));
 
     auto factoryFunction = appenderFactory.find(type);
     if (factoryFunction == appenderFactory.end())
@@ -102,7 +105,8 @@ void Log::CreateAppenderFromConfig(std::string const& appenderName, std::string 
 
     try
     {
-        Appender* appender = factoryFunction->second(NextAppenderId(), name, level, flags, std::vector<char const*>(iter->c_str(), tokens.end()->c_str()));
+		
+        Appender* appender = factoryFunction->second(NextAppenderId(), name, level, flags, std::vector<const char*>(iter, tokens.end()));
         appenders[appender->getId()].reset(appender);
     }
     catch (InvalidAppenderArgsException const& iaae)

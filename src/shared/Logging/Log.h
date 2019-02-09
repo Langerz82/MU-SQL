@@ -140,9 +140,7 @@ class  Log
         } \
     }
 
-#ifdef PERFORMANCE_PROFILING
- #define MUSQL_LOG_MESSAGE_BODY(filterType__, level__, ...) ((void)0)
-#elif PLATFORM != PLATFORM_WINDOWS
+#ifndef WIN32
 void check_args(char const*, ...) ATTR_PRINTF(1, 2);
 void check_args(std::string const&, ...);
 
@@ -158,14 +156,14 @@ void check_args(std::string const&, ...);
             }                                                           \
         } while (0)
 #else
-#define MUSQL_LOG_MESSAGE_BODY(filterType__, level__, ...)                 \
-        __pragma(warning(push))                                         \
-        __pragma(warning(disable:4127))                                 \
+#define MUSQL_LOG_MESSAGE_BODY(filterType__, level__, ...)              \
+		__pragma(error(push))                                           \
+        __pragma(error(disable:4127))                                   \
         do {                                                            \
-            if (sLog->ShouldLog(filterType__, level__))                 \
-                LOG_EXCEPTION_FREE(filterType__, level__, __VA_ARGS__); \
+            if (sLog->ShouldLog(filterType__, level__)) {}              \
         } while (0)                                                     \
-        __pragma(warning(pop))
+        __pragma(error(pop))
+		
 #endif
 
 #define MUSQL_LOG_TRACE(filterType__, ...) \
