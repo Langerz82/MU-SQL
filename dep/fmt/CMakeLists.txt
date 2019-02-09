@@ -7,38 +7,38 @@
 # This program is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+set(LIBRARY_NAME fmt)
 
 include(CheckSymbolExists)
 if (WIN32)
-  check_symbol_exists(open io.h HAVE_OPEN)
+ check_symbol_exists(open io.h HAVE_OPEN)
 else ()
-  check_symbol_exists(open fcntl.h HAVE_OPEN)
+ check_symbol_exists(open fcntl.h HAVE_OPEN)
 endif ()
 
+set(VERBOSE 1)
+
+file(GLOB SRC_GRP_FMT *.cc *.h)
+source_group("fmt" FILES ${SRC_GRP_FMT})
+
 set(FMT_SOURCES
-  ${CMAKE_CURRENT_SOURCE_DIR}/fmt/container.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/fmt/format.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/fmt/format.cc
-  ${CMAKE_CURRENT_SOURCE_DIR}/fmt/ostream.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/fmt/ostream.cc
-  ${CMAKE_CURRENT_SOURCE_DIR}/fmt/printf.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/fmt/printf.cc
-  ${CMAKE_CURRENT_SOURCE_DIR}/fmt/string.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/fmt/time.h)
+  ${SRC_GRP_FMT}
+)
 
-if (HAVE_OPEN)
-  set(FMT_SOURCES ${FMT_SOURCES}
-    ${CMAKE_CURRENT_SOURCE_DIR}/fmt/posix.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/fmt/posix.cc)
-endif()
+#if (HAVE_OPEN)
+#  set(FMT_SOURCES ${FMT_SOURCES}
+#   ${CMAKE_CURRENT_SOURCE_DIR}/posix.h
+#    ${CMAKE_CURRENT_SOURCE_DIR}/posix.cc)
+# endif()
 
-add_library(fmt STATIC ${FMT_SOURCES})
+add_library(${LIBRARY_NAME} ${FMT_SOURCES})
 
-target_include_directories(fmt
-  PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR})
+ target_include_directories(${LIBRARY_NAME}
+	PUBLIC
+		${SRC_GRP_FMT}
+ )
 
-target_compile_definitions(fmt
+target_compile_definitions(${LIBRARY_NAME}
   PUBLIC
     -DFMT_USE_OVERRIDE
     -DFMT_USE_VARIADIC_TEMPLATES
@@ -46,11 +46,8 @@ target_compile_definitions(fmt
     -DFMT_USE_DELETED_FUNCTIONS
     -DFMT_USE_EXTERN_TEMPLATES)
 
-target_link_libraries(fmt
-  PRIVATE
-    trinity-dependency-interface)
 
-set_target_properties(fmt
-  PROPERTIES
-    FOLDER
-      "dep")
+if(WIN32)
+    target_link_libraries(${LIBRARY_NAME})
+endif()
+

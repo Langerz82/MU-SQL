@@ -2,7 +2,7 @@
 #ifndef MUMYSQL_STRING_FORMAT_H
 #define MUMYSQL_STRING_FORMAT_H
 
-#include "fmt/fmt/printf.h"
+#include "fmt/printf.h"
 
     /// Default TC string format function.
     template<typename Format, typename... Args>

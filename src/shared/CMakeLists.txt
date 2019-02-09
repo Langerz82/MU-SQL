@@ -66,6 +66,7 @@ set(LIBRARY_SRCS
     ${SRC_GRP_LOG}
     ${SRC_GRP_THREAD}
     ${SRC_GRP_UTIL}
+	${CMAKE_SOURCE_DIR}/dep/fmt
     revision.h
 )
 
@@ -110,3 +111,5 @@ endif()
 if(NOT ACE_USE_EXTERNAL)
     add_dependencies(${LIBRARY_NAME} ace)
 endif()
+
+add_dependencies(${LIBRARY_NAME} fmt)

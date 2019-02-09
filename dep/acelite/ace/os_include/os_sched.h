@@ -16,6 +16,11 @@
 #ifndef ACE_OS_INCLUDE_OS_SCHED_H
 #define ACE_OS_INCLUDE_OS_SCHED_H
 
+#if !defined (ACE_LACKS_PRAGMA_ONCE)
+# pragma once
+#endif /* ACE_LACKS_PRAGMA_ONCE */
+
+
 #include /**/ "ace/pre.h"
 
 #include /**/ "ace/config-all.h"
@@ -30,6 +35,8 @@
 # include /**/ <sched.h>
 #endif /* !ACE_LACKS_SCHED_H */
 
+struct cpuset_t;
+
 // Place all additions (especially function declarations) within extern "C" {}
 #ifdef __cplusplus
 extern "C"
@@ -41,10 +48,10 @@ extern "C"
    typedef cpuset_t cpu_set_t;
 #else
 #  define ACE_CPU_SETSIZE 1024
-   typedef struct
+   struct cpuset_t
    {
      ACE_UINT32 bit_array_[ACE_CPU_SETSIZE / (8 * sizeof (ACE_UINT32))];
-   } cpu_set_t;
+   };
 #endif
 #endif /* !ACE_HAS_CPU_SET_T || !__cpu_set_t_defined */
 

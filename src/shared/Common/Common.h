@@ -107,7 +107,6 @@ typedef off_t ACE_OFF_T;
 #    define FD_SETSIZE 4096
 #  endif
 #  include <ace/config-all.h>
-#  include <ws2tcpip.h>
 #else
 #  include <sys/types.h>
 #  include <sys/ioctl.h>
