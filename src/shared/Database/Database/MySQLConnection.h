@@ -1,7 +1,6 @@
 #ifndef _MYSQLCONNECTION_H
 #define _MYSQLCONNECTION_H
 
-#include "Common.h"
 #include "DatabaseEnvFwd.h"
 #include <map>
 #include <memory>

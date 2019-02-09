@@ -16,7 +16,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Log.h"
+#include "Logging/Log.h"
 #include "AppenderConsole.h"
 #include "AppenderFile.h"
 #include "Common/Common.h"
@@ -208,7 +208,7 @@ void Log::ReadLoggersFromConfig(std::vector<std::string> keys)
 void Log::RegisterAppender(uint8 index, AppenderCreatorFn appenderCreateFn)
 {
     auto itr = appenderFactory.find(index);
-    //ASSERT(itr == appenderFactory.end());
+    ////ASSERT(itr == appenderFactory.end());
     appenderFactory[index] = appenderCreateFn;
 }
 

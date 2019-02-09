@@ -7,7 +7,7 @@
 
 #include "Main.h"
 #include "database\Logging\AppenderDB.h"
-#include "Common.h"
+#include "Common\Common.h"
 #include "Asio/IoContext.h"
 
 // old includes

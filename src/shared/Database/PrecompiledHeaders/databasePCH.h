@@ -18,7 +18,7 @@
 #include "Define.h"
 #include "Errors.h"
 #include "Field.h"
-#include "Log.h"
+#include "Logging/Log.h"
 #include "MySQLConnection.h"
 #include "PreparedStatement.h"
 #include "QueryResult.h"

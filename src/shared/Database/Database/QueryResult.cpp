@@ -19,7 +19,7 @@
 #include "QueryResult.h"
 #include "Errors.h"
 #include "Field.h"
-#include "Log.h"
+#include "Logging/Log.h"
 #ifdef _WIN32 // hack for broken mysql.h not including the correct winsock header for SOCKET definition, fixed in 5.7
 #include <winsock2.h>
 #endif
@@ -70,7 +70,7 @@ static uint32 SizeForType(MYSQL_FIELD* field)
             MYSQL_TYPE_SET:
             */
         default:
-            TC_LOG_WARN("sql.sql", "SQL::SizeForType(): invalid field type %u", uint32(field->type));
+            MUSQL_LOG_WARN("sql.sql", "SQL::SizeForType(): invalid field type %u", uint32(field->type));
             return 0;
     }
 }
@@ -112,7 +112,7 @@ DatabaseFieldTypes MysqlTypeToFieldType(enum_field_types type)
         case MYSQL_TYPE_VAR_STRING:
             return DatabaseFieldTypes::Binary;
         default:
-            TC_LOG_WARN("sql.sql", "MysqlTypeToFieldType(): invalid field type %u", uint32(type));
+            MUSQL_LOG_WARN("sql.sql", "MysqlTypeToFieldType(): invalid field type %u", uint32(type));
             break;
     }
 
@@ -164,7 +164,7 @@ m_metadataResult(result)
     //- This is where we store the (entire) resultset
     if (mysql_stmt_store_result(m_stmt))
     {
-        TC_LOG_WARN("sql.sql", "%s:mysql_stmt_store_result, cannot bind result from MySQL server. Error: %s", __FUNCTION__, mysql_stmt_error(m_stmt));
+        MUSQL_LOG_WARN("sql.sql", "%s:mysql_stmt_store_result, cannot bind result from MySQL server. Error: %s", __FUNCTION__, mysql_stmt_error(m_stmt));
         delete[] m_rBind;
         delete[] m_isNull;
         delete[] m_length;
@@ -199,7 +199,7 @@ m_metadataResult(result)
     //- This is where we bind the bind the buffer to the statement
     if (mysql_stmt_bind_result(m_stmt, m_rBind))
     {
-        TC_LOG_WARN("sql.sql", "%s:mysql_stmt_bind_result, cannot bind result from MySQL server. Error: %s", __FUNCTION__, mysql_stmt_error(m_stmt));
+        MUSQL_LOG_WARN("sql.sql", "%s:mysql_stmt_bind_result, cannot bind result from MySQL server. Error: %s", __FUNCTION__, mysql_stmt_error(m_stmt));
         mysql_stmt_free_result(m_stmt);
         CleanUp();
         delete[] m_isNull;
@@ -292,7 +292,7 @@ bool ResultSet::NextRow()
     unsigned long* lengths = mysql_fetch_lengths(_result);
     if (!lengths)
     {
-        TC_LOG_WARN("sql.sql", "%s:mysql_fetch_lengths, cannot retrieve value lengths. Error %s.", __FUNCTION__, mysql_error(_result->handle));
+        MUSQL_LOG_WARN("sql.sql", "%s:mysql_fetch_lengths, cannot retrieve value lengths. Error %s.", __FUNCTION__, mysql_error(_result->handle));
         CleanUp();
         return false;
     }
@@ -341,20 +341,20 @@ void ResultSet::CleanUp()
 
 Field const& ResultSet::operator[](std::size_t index) const
 {
-    ASSERT(index < _fieldCount);
+    //ASSERT(index < _fieldCount);
     return _currentRow[index];
 }
 
 Field* PreparedResultSet::Fetch() const
 {
-    ASSERT(m_rowPosition < m_rowCount);
+    //ASSERT(m_rowPosition < m_rowCount);
     return const_cast<Field*>(&m_rows[uint32(m_rowPosition) * m_fieldCount]);
 }
 
 Field const& PreparedResultSet::operator[](std::size_t index) const
 {
-    ASSERT(m_rowPosition < m_rowCount);
-    ASSERT(index < m_fieldCount);
+    //ASSERT(m_rowPosition < m_rowCount);
+    //ASSERT(index < m_fieldCount);
     return m_rows[uint32(m_rowPosition) * m_fieldCount + index];
 }
 

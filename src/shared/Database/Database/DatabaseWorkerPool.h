@@ -19,8 +19,8 @@
 #define _DATABASEWORKERPOOL_H
 
 //#include "Define.h"
-#include "DatabaseEnvFwd.h"
-#include "StringFormat.h"
+#include "Database/Database/DatabaseEnvFwd.h"
+#include "Utilities/StringFormat.h"
 #include <array>
 #include <string>
 #include <vector>

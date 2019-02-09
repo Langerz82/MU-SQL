@@ -1,8 +1,9 @@
 #ifndef _SQLOPERATION_H
 #define _SQLOPERATION_H
 
-#include "Common.h"
+#include "Common/Common.h"
 #include "DatabaseEnvFwd.h"
+#include "MySQLConnection.h"
 
 //- Union that holds element data
 union SQLElementUnion

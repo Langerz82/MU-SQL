@@ -88,7 +88,7 @@ BOOL CQueue::AddToQueue(const BYTE* pObject, unsigned int nSize, BYTE headcode, 
 {
 	BOOL bRet = FALSE;
 
-	//ASSERT( pObject );	
+	////ASSERT( pObject );	
 	if( nSize < 1 || nSize > 65536 ) 
 	{
 		return FALSE;
@@ -130,7 +130,7 @@ ListNode* CQueue::AddToQueueList(const BYTE* pObject, unsigned int nSize, BYTE h
 {
 	BOOL bRet = FALSE;
 
-	//ASSERT( pObject );
+	////ASSERT( pObject );
 	if( nSize < 1 || nSize > 65536 ) 
 	{
 		return NULL;
@@ -170,7 +170,7 @@ ListNode* CQueue::AddToQueueList(const BYTE* pObject, unsigned int nSize, BYTE h
 BOOL CQueue::GetFromQueue(BYTE* pObject, unsigned int * pSize, BYTE * headcode, int * uindex, int * iSessionId)
 {
 	ListNode*	pNode = NULL;
-	//ASSERT( pObject );
+	////ASSERT( pObject );
 	
 	EnterCriticalSection(&m_CriticalSection); //wz removed criti for some reason hmm...
 	pNode = GetHeadNode();

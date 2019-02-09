@@ -18,14 +18,14 @@
 #include "MySQLConnection.h"
 #include "QueryHolder.h"
 #include "PreparedStatement.h"
-#include "Log.h"
+#include "Logging/Log.h"
 #include "QueryResult.h"
 
 bool SQLQueryHolder::SetPreparedQuery(size_t index, PreparedStatement* stmt)
 {
     if (m_queries.size() <= index)
     {
-        TC_LOG_ERROR("sql.sql", "Query index (%u) out of range (size: %u) for prepared statement", uint32(index), (uint32)m_queries.size());
+        sLog->outMessage("sql.sql", "Query index (%u) out of range (size: %u) for prepared statement", uint32(index), (uint32)m_queries.size());
         return false;
     }
 

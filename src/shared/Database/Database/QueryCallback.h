@@ -1,7 +1,7 @@
 #ifndef _QUERY_CALLBACK_H
 #define _QUERY_CALLBACK_H
 
-#include "Common.h"
+#include "Common\Common.h"
 #include "DatabaseEnvFwd.h"
 #include <functional>
 #include <future>

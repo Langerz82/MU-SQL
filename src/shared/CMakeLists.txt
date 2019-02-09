@@ -31,11 +31,11 @@ source_group("Config" FILES ${SRC_GRP_CONFIG})
 file(GLOB SRC_GRP_DATABASE Database/*.cpp Database/*.h)
 source_group("Database" FILES ${SRC_GRP_DATABASE})
 
-file(GLOB SRC_GRP_DATABASE_DATABASE Database/*.cpp Database/*.h)
+file(GLOB SRC_GRP_DATABASE_DATABASE Database/Database/*.cpp Database/Database/*.h)
 source_group("Database\\Database" FILES ${SRC_GRP_DATABASE_DATABASE})
-file(GLOB SRC_GRP_DATABASE_LOGGING Database/*.cpp Database/*.h)
+file(GLOB SRC_GRP_DATABASE_LOGGING Database/Logging/*.cpp Database/Logging/*.h)
 source_group("Database\\Logging" FILES ${SRC_GRP_DATABASE_LOGGING})
-file(GLOB SRC_GRP_DATABASE_PCH Database/*.cpp Database/*.h)
+file(GLOB SRC_GRP_DATABASE_PCH Database/PrecompiledHeaders/*.cpp Database/PrecompiledHeaders/*.h)
 source_group("Database\\Pch" FILES ${SRC_GRP_DATABASE_PCH})
 
 file(GLOB SRC_GRP_DATASTORE DataStores/*.cpp DataStores/*.h)
@@ -86,6 +86,7 @@ include_directories(
     ${ACE_INCLUDE_DIR}
     ${OPENSSL_INCLUDE_DIR}
 	${Boost_INCLUDE_DIRS}
+
 )
 
 if(POSTGRESQL)

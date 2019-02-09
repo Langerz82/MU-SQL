@@ -2,7 +2,8 @@
 #define _CSDATABASE_H
 
 #include "StdAfx.h"
-#include "database/Database/MySQLConnection.h"
+#include "Database/Database/MySQLConnection.h"
+#include "Database/Database/DatabaseLoader.h"
 
 enum ConnectDatabaseStatements : uint32
 {
@@ -31,4 +32,7 @@ public:
     void DoPrepareStatements() override;
 };
 
+/// Accessor to the connection database
+extern DatabaseWorkerPool<ConnectDatabaseConnection> ConnectDatabase;
+template DatabaseLoader& DatabaseLoader::AddDatabase<ConnectDatabaseConnection>(DatabaseWorkerPool<ConnectDatabaseConnection>&, std::string const&);
 #endif

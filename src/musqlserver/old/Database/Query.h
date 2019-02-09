@@ -10,7 +10,7 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "Common.h"
+#include "Common\Common.h"
 #include "database/Database/DatabaseEnv.h"
 #include "database/Database/MySQLConnection.h"
 #include "database/Database/Field.h"

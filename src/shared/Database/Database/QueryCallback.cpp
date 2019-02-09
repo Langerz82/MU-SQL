@@ -51,7 +51,7 @@ inline void DestroyActiveMember(T* obj)
 template<typename T>
 inline void MoveFrom(T* to, T&& from)
 {
-    ASSERT(to->_isPrepared == from._isPrepared);
+    //ASSERT(to->_isPrepared == from._isPrepared);
 
     if (!to->_isPrepared)
         to->_string = std::move(from._string);
@@ -158,14 +158,14 @@ QueryCallback&& QueryCallback::WithPreparedCallback(std::function<void(PreparedQ
 
 QueryCallback&& QueryCallback::WithChainingCallback(std::function<void(QueryCallback&, QueryResult)>&& callback)
 {
-    ASSERT(!_callbacks.empty() || !_isPrepared, "Attempted to set callback function for string query on a prepared async query");
+    //ASSERT(!_callbacks.empty() || !_isPrepared, "Attempted to set callback function for string query on a prepared async query");
     _callbacks.emplace(std::move(callback));
     return std::move(*this);
 }
 
 QueryCallback&& QueryCallback::WithChainingPreparedCallback(std::function<void(QueryCallback&, PreparedQueryResult)>&& callback)
 {
-    ASSERT(!_callbacks.empty() || _isPrepared, "Attempted to set callback function for prepared query on a string async query");
+    //ASSERT(!_callbacks.empty() || _isPrepared, "Attempted to set callback function for prepared query on a string async query");
     _callbacks.emplace(std::move(callback));
     return std::move(*this);
 }
@@ -184,7 +184,7 @@ QueryCallback::Status QueryCallback::InvokeIfReady()
         bool hasNext = !_isPrepared ? _string.valid() : _prepared.valid();
         if (_callbacks.empty())
         {
-            ASSERT(!hasNext);
+            //ASSERT(!hasNext);
             return Completed;
         }
 
@@ -192,7 +192,7 @@ QueryCallback::Status QueryCallback::InvokeIfReady()
         if (!hasNext)
             return Completed;
 
-        ASSERT(_isPrepared == _callbacks.front()._isPrepared);
+        //ASSERT(_isPrepared == _callbacks.front()._isPrepared);
         return NextStep;
     };
 

@@ -2,7 +2,7 @@
 // Decompilation Completed -> All Same as WebZen
 //////////////////////////////////////////////////////////////////////
 
-#include "Common.h"
+#include "Common\Common.h"
 #include "DelayHandler.h"
 
 #ifdef _DEBUG

@@ -24,7 +24,7 @@ static const ACE_INT16 max_fifteen_bit = 0x3fff;
 void
 ACE_CDR::swap_2_array (char const * orig, char* target, size_t n)
 {
-  // ACE_ASSERT(n > 0); The caller checks that n > 0
+  // ACE_//ASSERT(n > 0); The caller checks that n > 0
 
   // We pretend that AMD64/GNU G++ systems have a Pentium CPU to
   // take advantage of the inline assembly implementation.
@@ -459,7 +459,7 @@ ACE_CDR::swap_4_array (char const * orig, char* target, size_t n)
 void
 ACE_CDR::swap_8_array (char const * orig, char* target, size_t n)
 {
-  // ACE_ASSERT(n > 0); The caller checks that n > 0
+  // ACE_//ASSERT(n > 0); The caller checks that n > 0
 
   char const * const end = orig + 8*n;
   while (orig < end)
@@ -473,7 +473,7 @@ ACE_CDR::swap_8_array (char const * orig, char* target, size_t n)
 void
 ACE_CDR::swap_16_array (char const * orig, char* target, size_t n)
 {
-  // ACE_ASSERT(n > 0); The caller checks that n > 0
+  // ACE_//ASSERT(n > 0); The caller checks that n > 0
 
   char const * const end = orig + 16*n;
   while (orig < end)

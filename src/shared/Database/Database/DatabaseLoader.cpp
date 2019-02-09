@@ -3,7 +3,7 @@
 //#include "Config.h"
 #include "DatabaseEnv.h"
 //#include "DBUpdater.h"
-#include "Log.h"
+#include "Logging\Log.h"
 
 #include <mysqld_error.h>
 
@@ -64,7 +64,7 @@ DatabaseLoader& DatabaseLoader::AddDatabase(DatabaseWorkerPool<T>& pool, std::st
         {
             if (!DBUpdater<T>::Populate(pool))
             {
-                TC_LOG_ERROR(_logger, "Could not populate the %s database, see log for details.", name.c_str());
+                sLog->outMessage(_logger, "Could not populate the %s database, see log for details.", name.c_str());
                 return false;
             }
             return true;
@@ -74,7 +74,7 @@ DatabaseLoader& DatabaseLoader::AddDatabase(DatabaseWorkerPool<T>& pool, std::st
         {
             if (!DBUpdater<T>::Update(pool))
             {
-                TC_LOG_ERROR(_logger, "Could not update the %s database, see log for details.", name.c_str());
+                sLog->outMessage(_logger, "Could not update the %s database, see log for details.", name.c_str());
                 return false;
             }
             return true;
@@ -97,7 +97,7 @@ DatabaseLoader& DatabaseLoader::AddDatabase(DatabaseWorkerPool<T>& pool, std::st
 bool DatabaseLoader::Load()
 {
     //if (!_updateFlags)
-    //    TC_LOG_INFO("sql.updates", "Automatic database updates are disabled for all databases!");
+    //    MUSQL_LOG_INFO("sql.updates", "Automatic database updates are disabled for all databases!");
 
     if (!OpenDatabases())
         return false;
@@ -155,6 +155,6 @@ bool DatabaseLoader::Process(std::queue<Predicate>& queue)
     return true;
 }
 
-template DatabaseLoader& DatabaseLoader::AddDatabase<ConnectDatabaseConnection>(DatabaseWorkerPool<ConnectDatabaseConnection>&, std::string const&);
+
 //template DatabaseLoader& DatabaseLoader::AddDatabase<CharacterDatabaseConnection>(DatabaseWorkerPool<CharacterDatabaseConnection>&, std::string const&);
 //template DatabaseLoader& DatabaseLoader::AddDatabase<WorldDatabaseConnection>(DatabaseWorkerPool<WorldDatabaseConnection>&, std::string const&);

@@ -16,7 +16,7 @@
  */
 
 #include "AppenderFile.h"
-#include "Log.h"
+#include "Logging/Log.h"
 #include "LogMessage.h"
 #include <algorithm>
 

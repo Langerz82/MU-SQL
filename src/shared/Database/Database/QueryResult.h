@@ -1,8 +1,8 @@
-#ifndef QUERYRESULT_H
-#define QUERYRESULT_H
+#ifndef _MUSQL_QUERYRESULT_H
+#define _MUSQL_QUERYRESULT_H
 
-#include "Common.h"
 #include "DatabaseEnvFwd.h"
+
 #include <vector>
 
 class  ResultSet

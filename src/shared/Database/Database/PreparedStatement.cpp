@@ -19,7 +19,7 @@
 #include "Errors.h"
 #include "MySQLConnection.h"
 #include "QueryResult.h"
-#include "Log.h"
+#include "Logging\Log.h"
 #ifdef _WIN32 // hack for broken mysql.h not including the correct winsock header for SOCKET definition, fixed in 5.7
 #include <winsock2.h>
 #endif
@@ -33,7 +33,7 @@ PreparedStatement::~PreparedStatement() { }
 
 void PreparedStatement::BindParameters(MySQLPreparedStatement* stmt)
 {
-    ASSERT(stmt);
+    //ASSERT(stmt);
     m_stmt = stmt;
 
     uint8 i = 0;
@@ -87,91 +87,91 @@ void PreparedStatement::BindParameters(MySQLPreparedStatement* stmt)
     }
     #ifdef _DEBUG
     if (i < stmt->m_paramCount)
-        TC_LOG_WARN("sql.sql", "[WARNING]: BindParameters() for statement %u did not bind all allocated parameters", m_index);
+        MUSQL_LOG_WARN("sql.sql", "[WARNING]: BindParameters() for statement %u did not bind all allocated parameters", m_index);
     #endif
 }
 
 //- Bind to buffer
 void PreparedStatement::setBool(const uint8 index, const bool value)
 {
-    ASSERT(index < statement_data.size());
+    //ASSERT(index < statement_data.size());
     statement_data[index].data.boolean = value;
     statement_data[index].type = TYPE_BOOL;
 }
 
 void PreparedStatement::setUInt8(const uint8 index, const uint8 value)
 {
-    ASSERT(index < statement_data.size());
+    //ASSERT(index < statement_data.size());
     statement_data[index].data.ui8 = value;
     statement_data[index].type = TYPE_UI8;
 }
 
 void PreparedStatement::setUInt16(const uint8 index, const uint16 value)
 {
-    ASSERT(index < statement_data.size());
+    //ASSERT(index < statement_data.size());
     statement_data[index].data.ui16 = value;
     statement_data[index].type = TYPE_UI16;
 }
 
 void PreparedStatement::setUInt32(const uint8 index, const uint32 value)
 {
-    ASSERT(index < statement_data.size());
+    //ASSERT(index < statement_data.size());
     statement_data[index].data.ui32 = value;
     statement_data[index].type = TYPE_UI32;
 }
 
 void PreparedStatement::setUInt64(const uint8 index, const uint64 value)
 {
-    ASSERT(index < statement_data.size());
+    //ASSERT(index < statement_data.size());
     statement_data[index].data.ui64 = value;
     statement_data[index].type = TYPE_UI64;
 }
 
 void PreparedStatement::setInt8(const uint8 index, const int8 value)
 {
-    ASSERT(index < statement_data.size());
+    //ASSERT(index < statement_data.size());
     statement_data[index].data.i8 = value;
     statement_data[index].type = TYPE_I8;
 }
 
 void PreparedStatement::setInt16(const uint8 index, const int16 value)
 {
-    ASSERT(index < statement_data.size());
+    //ASSERT(index < statement_data.size());
     statement_data[index].data.i16 = value;
     statement_data[index].type = TYPE_I16;
 }
 
 void PreparedStatement::setInt32(const uint8 index, const int32 value)
 {
-    ASSERT(index < statement_data.size());
+    //ASSERT(index < statement_data.size());
     statement_data[index].data.i32 = value;
     statement_data[index].type = TYPE_I32;
 }
 
 void PreparedStatement::setInt64(const uint8 index, const int64 value)
 {
-    ASSERT(index < statement_data.size());
+    //ASSERT(index < statement_data.size());
     statement_data[index].data.i64 = value;
     statement_data[index].type = TYPE_I64;
 }
 
 void PreparedStatement::setFloat(const uint8 index, const float value)
 {
-    ASSERT(index < statement_data.size());
+    //ASSERT(index < statement_data.size());
     statement_data[index].data.f = value;
     statement_data[index].type = TYPE_FLOAT;
 }
 
 void PreparedStatement::setDouble(const uint8 index, const double value)
 {
-    ASSERT(index < statement_data.size());
+    //ASSERT(index < statement_data.size());
     statement_data[index].data.d = value;
     statement_data[index].type = TYPE_DOUBLE;
 }
 
 void PreparedStatement::setString(const uint8 index, const std::string& value)
 {
-    ASSERT(index < statement_data.size());
+    //ASSERT(index < statement_data.size());
     statement_data[index].binary.resize(value.length() + 1);
     memcpy(statement_data[index].binary.data(), value.c_str(), value.length() + 1);
     statement_data[index].type = TYPE_STRING;
@@ -179,14 +179,14 @@ void PreparedStatement::setString(const uint8 index, const std::string& value)
 
 void PreparedStatement::setBinary(const uint8 index, const std::vector<uint8>& value)
 {
-    ASSERT(index < statement_data.size());
+    //ASSERT(index < statement_data.size());
     statement_data[index].binary = value;
     statement_data[index].type = TYPE_BINARY;
 }
 
 void PreparedStatement::setNull(const uint8 index)
 {
-    ASSERT(index < statement_data.size());
+    //ASSERT(index < statement_data.size());
     statement_data[index].type = TYPE_NULL;
 }
 
@@ -230,7 +230,7 @@ void MySQLPreparedStatement::ClearParameters()
 
 static bool ParamenterIndexAssertFail(uint32 stmtIndex, uint8 index, uint32 paramCount)
 {
-    TC_LOG_ERROR("sql.driver", "Attempted to bind parameter %u%s on a PreparedStatement %u (statement has only %u parameters)", uint32(index) + 1, (index == 1 ? "st" : (index == 2 ? "nd" : (index == 3 ? "rd" : "nd"))), stmtIndex, paramCount);
+    sLog->outMessage("sql.driver", "Attempted to bind parameter %u%s on a PreparedStatement %u (statement has only %u parameters)", uint32(index) + 1, (index == 1 ? "st" : (index == 2 ? "nd" : (index == 3 ? "rd" : "nd"))), stmtIndex, paramCount);
     return false;
 }
 
@@ -250,10 +250,10 @@ static void SetParameterValue(MYSQL_BIND* param, enum_field_types type, void con
 //- Bind on mysql level
 void MySQLPreparedStatement::AssertValidIndex(uint8 index)
 {
-    ASSERT(index < m_paramCount || ParamenterIndexAssertFail(m_stmt->m_index, index, m_paramCount));
+    //ASSERT(index < m_paramCount || ParamenterIndexAssertFail(m_stmt->m_index, index, m_paramCount));
 
     if (m_paramsSet[index])
-        TC_LOG_ERROR("sql.sql", "[ERROR] Prepared Statement (id: %u) trying to bind value on already bound index (%u).", m_stmt->m_index, index);
+        sLog->outMessage("sql.sql", "[ERROR] Prepared Statement (id: %u) trying to bind value on already bound index (%u).", m_stmt->m_index, index);
 }
 
 void MySQLPreparedStatement::setNull(const uint8 index)

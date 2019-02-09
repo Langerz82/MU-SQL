@@ -2,7 +2,7 @@
 #ifndef _SQL_TRANSACTION_H
 #define _SQL_TRANSACTION_H
 
-#include "Common.h"
+#include "Common\Common.h"
 #include "DatabaseEnvFwd.h"
 #include "SQLOperation.h"
 #include "Utilities/StringFormat.h"

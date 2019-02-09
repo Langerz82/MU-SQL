@@ -1,8 +1,7 @@
-#ifndef DatabaseLoader_h__
-#define DatabaseLoader_h__
+#ifndef _MUSQL_DATABASELOADER_H_
+#define _MUSQL_DATABASELOADER_H_
 
-//#include "Define.h"
-#include "StdAfx.h"
+#include "Common/Common.h"
 #include <functional>
 #include <queue>
 #include <stack>

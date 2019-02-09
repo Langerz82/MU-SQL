@@ -1,7 +1,7 @@
-#ifndef _PREPAREDSTATEMENT_H
-#define _PREPAREDSTATEMENT_H
+#ifndef _MUSQL_PREPAREDSTATEMENT_H
+#define _MUSQL_PREPAREDSTATEMENT_H
 
-#include "Common.h"
+#include "Common\Common.h"
 #include "SQLOperation.h"
 #include <future>
 #include <vector>

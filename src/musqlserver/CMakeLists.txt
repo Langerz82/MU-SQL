@@ -219,13 +219,9 @@ endif()
 include_directories(${Boost_INCLUDE_DIRS})
 target_link_libraries(${EXECUTABLE_NAME} ${BOOST_LIBRARY})
 
-if(POSTGRESQL)
-    include_directories(${PostgreSQL_INCLUDE_DIR})
-    target_link_libraries(${EXECUTABLE_NAME} ${PostgreSQL_LIBRARIES})
-else()
-    include_directories(${MYSQL_INCLUDE_DIR})
-    target_link_libraries(${EXECUTABLE_NAME} ${MYSQL_LIBRARY})
-endif()
+include_directories(${MYSQL_INCLUDE_DIR})
+target_link_libraries(${EXECUTABLE_NAME} ${MYSQL_LIBRARY})
+
 
 if(UNIX)
     target_link_libraries(${EXECUTABLE_NAME} ${OPENSSL_EXTRA_LIBRARIES})

@@ -15,11 +15,11 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Log.h"
+#include "Logging/Log.h"
 #include "Transaction.h"
 #include "MySQLConnection.h"
 #include "PreparedStatement.h"
-#include "Timer.h"
+#include "Utilities\Timer.h"
 #include <mysqld_error.h>
 #include <sstream>
 #include <thread>
@@ -89,10 +89,10 @@ bool TransactionTask::Execute()
             if (!m_conn->ExecuteTransaction(m_trans))
                 return true;
 
-            TC_LOG_WARN("sql.sql", "Deadlocked SQL Transaction, retrying. Loop timer: %u ms, Thread Id: %s", loopDuration, threadId.c_str());
+            MUSQL_LOG_WARN("sql.sql", "Deadlocked SQL Transaction, retrying. Loop timer: %u ms, Thread Id: %s", loopDuration, threadId.c_str());
         }
 
-        TC_LOG_ERROR("sql.sql", "Fatal deadlocked SQL Transaction, it will not be retried anymore. Thread Id: %s", threadId.c_str());
+        sLog->outMessage("sql.sql", "Fatal deadlocked SQL Transaction, it will not be retried anymore. Thread Id: %s", threadId.c_str());
     }
 
     // Clean up now.

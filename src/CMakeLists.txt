@@ -31,7 +31,6 @@ add_subdirectory(shared)
 
 if(BUILD_MUSQLSERVER)
     add_subdirectory(musqlserver)
-	add_subdirectory(mushared)
 endif()
 
 if (BUILD_MUSQLSERVER)
