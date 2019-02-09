@@ -138,6 +138,8 @@ endif()
 # Add dependency path
 if(BUILD_MUSQLSERVER)
     add_subdirectory(dep)
+	add_subdirectory(dep/acelite)
+	add_subdirectory(dep/fmt)
 else()
     add_subdirectory(dep/acelite)
 endif()

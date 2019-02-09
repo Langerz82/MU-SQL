@@ -28,18 +28,12 @@ ROOTPATH="$HOME"
 SRCPATH="$HOME/Documents/MuMySQL/src"
 INSTPATH="$HOME/Documents/MuMySQL/build"
 DB_PREFIX="zero"
-USER="MuMySQLServer"
+USER="ubuntu"
 P_SOAP="0"
 P_DEBUG="0"
 P_STD_MALLOC="1"
 P_ACE_EXTERNAL="1"
-P_PGRESQL="0"
-P_TOOLS="0"
-P_SD3="1"
-P_ELUNA="1"
-P_BOTS="0"
 CMAKE_CMD="cmake"
-
 
 function UseCmake3()
 {
@@ -97,8 +91,8 @@ function DetectLocalRepo()
   fi
 
   # Set the default paths based on the current location
-  SRCPATH=$( dirname $CUR_DIR )
-  SRCPATH=$( dirname $SRCPATH )
+  #SRCPATH=$( dirname $CUR_DIR )
+  #SRCPATH=$( dirname $SRCPATH )
 
   # Log the detected path
   Log "Detected cloned repository in $SRCPATH" 0
@@ -450,15 +444,15 @@ function GetPaths()
     fi
   else
     # Check for old sources
-    if [ -d "$SRCPATH/server" ] || [ -d "$SRCPATH/database" ]; then
+    if [ -d "$INSTPATH" ]; then
       # Ask to remove the old sources
       $DLGAPP --backtitle "MuMySQLServer Linux Build Configuration" --title "Path already exists" \
         --yesno "Would you like to remove the old sources? (Answer yes if you are cloning MuMySQLServer)" 9 60
 
       # Remove the old sources if requested
       if [ $? -eq 0 ]; then
-        Log "Removing old sources from: $SRCPATH/*" 1
-        rm -rf $SRCPATH/*
+        Log "Removing old sources from: $SRCPATH/../build" 1
+        rm -rf $SRCPATH/../build
 
         # Check for removal failure
         if [ $? -ne 0 ]; then
@@ -624,31 +618,6 @@ function GetMuMySQLServer()
         git clone http://github.com/MuMySQLServerzero/server.git "$SRCPATH/server" -b $BRANCH --recursive
         git clone http://github.com/MuMySQLServerzero/database.git "$SRCPATH/database" -b $BRANCH --recursive
         ;;
-
-      1)
-        Log "Cloning One branch: $BRANCH" 1
-        git clone http://github.com/MuMySQLServerone/server.git "$SRCPATH/server" -b $BRANCH --recursive
-        git clone http://github.com/MuMySQLServerone/database.git "$SRCPATH/database" -b $BRANCH --recursive
-        ;;
-
-      2)
-        Log "Cloning Two branch: $BRANCH" 1
-        git clone http://github.com/MuMySQLServertwo/server.git "$SRCPATH/server" -b $BRANCH --recursive
-        git clone http://github.com/MuMySQLServertwo/database.git "$SRCPATH/database" -b $BRANCH --recursive
-        ;;
-
-      3)
-        Log "Cloning Three branch: $BRANCH" 1
-        git clone http://github.com/MuMySQLServerthree/server.git "$SRCPATH/server" -b $BRANCH --recursive
-        git clone http://github.com/MuMySQLServerthree/database.git "$SRCPATH/database" -b $BRANCH --recursive
-        ;;
-
-      4)
-        Log "Cloning Four branch: $BRANCH" 1
-        git clone http://github.com/MuMySQLServerfour/server.git "$SRCPATH/server" -b $BRANCH --recursive
-        git clone http://github.com/MuMySQLServerfour/database.git "$SRCPATH/database" -b $BRANCH --recursive
-        ;;
-
       *)
         Log "Error: Unknown release selected for cloning!" 1
         exit 1
@@ -747,18 +716,18 @@ function BuildMuMySQLServer()
   fi
 
   # See if the build directory exists and clean up if possible
-  if [ -d "$SRCPATH/build" ]; then
+  if [ -d "$INSTPATH" ]; then
     # See if a makefile exists and clean up
-    if [ -f $SRCPATH/build/Makefile ]; then
+    if [ -f $INSTPATH/Makefile ]; then
       Log "Cleaning the old build..." 1
-      cd "$SRCPATH/build"
+      cd "$INSTPATH"
       make clean
     fi
   fi
 
   # Attempt to create the build directory if it doesn't exist
-  if [ ! -d "$SRCPATH/build" ]; then
-    mkdir "$SRCPATH/build"
+  if [ ! -d "$INSTPATH" ]; then
+    mkdir "$INSTPATH"
 
     # See if creation was successful
     if [ $? -ne 0 ]; then
@@ -767,9 +736,12 @@ function BuildMuMySQLServer()
     fi
   fi
 
+$CMAKE_SRCPATH=SRCPATH
+$CMAKE_INSTPATH=INSTPATH
+
   # Attempt to configure and build MuMySQLServer
   Log "Building MuMySQLServer..." 0
-  cd "$SRCPATH/build"
+  cd "$INSTPATH"
   # make sure we are using the cmake3
   UseCmake3
   $CMAKE_CMD .. -DDEBUG=$P_DEBUG -DUSE_STD_MALLOC=$P_STD_MALLOC -DACE_USE_EXTERNAL=$P_ACE_EXTERNAL -DBUILD_TOOLS=$P_TOOLS -DSOAP=$P_SOAP -DCMAKE_INSTALL_PREFIX="$INSTPATH"
@@ -797,14 +769,14 @@ function InstallMuMySQLServer()
   # Return if no
   if [ $? -ne 0 ]; then
     $DLGAPP --backtitle "MuMySQLServer Linux Build Configuration" --title "Install MuMySQLServer" \
-      --msgbox "You may install MuMySQLServer later by changing to:\n$SRCPATH/build\nAnd running: make install" 24 60
+      --msgbox "You may install MuMySQLServer later by changing to:\n$INSTPATH\nAnd running: make install" 24 60
 
     Log "MuMySQLServer has not been installed after being built." 1
     exit 0
   fi
 
   # Install MuMySQLServer
-  cd "$SRCPATH/build"
+  cd "$INSTPATH"
   make install
 
   # Make sure the install succeeded
@@ -820,12 +792,12 @@ function InstallMuMySQLServer()
 function CreateCBProject
 {
   # Create the dircetory if it does not exist
-  if [ ! -d $SRCPATH/build ]; then
-    mkdir $SRCPATH/build
+  if [ ! -d $INSTPATH ]; then
+    mkdir $INSTPATH
   fi
 
   # Now create the C::B project
-  cd $SRCPATH/build
+  cd $INSTPATH
   # make sure we are using the cmake3
   UseCmake3
   $CMAKE_CMD .. -G "CodeBlocks - Unix Makefiles"
@@ -849,11 +821,10 @@ UseDialog
 # Select which activities to do
 TASKS=$($DLGAPP --backtitle "MuMySQLServer Linux Build Configuration" --title "Select Tasks" \
   --checklist "Please select the tasks to perform" 0 70 8 \
-  1 "Install Prerequisites" On \
-  2 "Set Download And Install Paths" On \
-  3 "Clone Source Repositories" On \
+  1 "Install Prerequisites" Off \
+  2 "Set Download And Install Paths" Off \
+  3 "Clone Source Repositories" Off \
   4 "Build MuMySQLServer" On \
-  5 "Install MuMySQLServer" On \
   8 "Create Code::Blocks Project File" Off \
   3>&2 2>&1 1>&3)
 
@@ -886,11 +857,6 @@ fi
 if [[ $TASKS == *4* ]]; then
   GetBuildOptions
   BuildMuMySQLServer
-fi
-
-# Install MuMySQLServer?
-if [[ $TASKS == *5* ]]; then
-  InstallMuMySQLServer
 fi
 
 # Create C::B project?
