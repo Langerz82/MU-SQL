@@ -1,7 +1,7 @@
 #ifndef APPENDER_H
 #define APPENDER_H
 
-#include "Common/Common.h"
+#include "Platform/Define.h"
 #include "LogCommon.h"
 #include <stdexcept>
 #include <string>

@@ -18,7 +18,7 @@
 #ifndef _MYSQLCONNECTION_H
 #define _MYSQLCONNECTION_H
 
-//#include "Define.h"
+//#include "Platform/Define.h"
 #include "DatabaseEnvFwd.h"
 #include <map>
 #include <memory>

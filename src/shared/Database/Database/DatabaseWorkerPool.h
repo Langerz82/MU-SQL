@@ -18,7 +18,7 @@
 #ifndef _DATABASEWORKERPOOL_H
 #define _DATABASEWORKERPOOL_H
 
-//#include "Define.h"
+//#include "Platform/Define.h"
 #include "DatabaseEnvFwd.h"
 #include "Utilities\StringFormat.h"
 #include <array>

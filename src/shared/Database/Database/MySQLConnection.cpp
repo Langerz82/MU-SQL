@@ -173,7 +173,7 @@ bool MySQLConnection::Execute(char const* sql)
         return false;
 
     {
-        uint32 _s = WorldTimer::WorldTimer::getMSTime();
+        uint32 _s = WorldTimer::getMSTime();
 
         if (mysql_query(m_Mysql, sql))
         {

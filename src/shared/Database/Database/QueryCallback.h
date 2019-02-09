@@ -18,7 +18,7 @@
 #ifndef _QUERY_CALLBACK_H
 #define _QUERY_CALLBACK_H
 
-//#include "Define.h"
+//#include "Platform/Define.h"
 #include "DatabaseEnvFwd.h"
 #include <functional>
 #include <future>

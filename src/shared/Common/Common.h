@@ -2,6 +2,10 @@
 #ifndef MUSQLSERVER_COMMON_H
 #define MUSQLSERVER_COMMON_H
 
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
 // config.h needs to be included 1st
 #ifdef HAVE_CONFIG_H
 #ifdef PACKAGE
@@ -34,7 +38,7 @@
 #undef VERSION
 #endif // HAVE_CONFIG_H
 
-//#include "Platform/Define.h"
+#include "Platform/Define.h"
 
 #if COMPILER == COMPILER_MICROSOFT
 #  pragma warning(disable:4996)                             // 'function': was declared deprecated
@@ -56,7 +60,9 @@
 #include <signal.h>
 #include <assert.h>
 #include "ServerDefines.h"
-#include "Logging/Log.h"
+#ifndef MUMYSQL_LOG_H
+	#include "Logging/Log.h"
+#endif
 #include "ref/WinUtil.h"
 
 #if defined(__sun__)

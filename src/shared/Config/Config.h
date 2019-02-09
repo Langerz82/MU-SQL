@@ -25,7 +25,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include "Common/Common.h"
+#include "Platform/Define.h"
 #include <Policies/Singleton.h>
 #include "Platform/Define.h"
 

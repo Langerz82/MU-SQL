@@ -18,7 +18,7 @@
 #ifndef _TRANSACTION_H
 #define _TRANSACTION_H
 
-//#include "Define.h"
+//#include "Platform/Define.h"
 #include "DatabaseEnvFwd.h"
 #include "SQLOperation.h"
 #include "Utilities\StringFormat.h"

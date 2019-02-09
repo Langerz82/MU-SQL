@@ -18,7 +18,7 @@
 #ifndef QueryCallbackProcessor_h__
 #define QueryCallbackProcessor_h__
 
-//#include "Define.h"
+//#include "Platform/Define.h"
 #include <vector>
 
 class QueryCallback;

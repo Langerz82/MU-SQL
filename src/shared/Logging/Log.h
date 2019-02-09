@@ -1,7 +1,12 @@
 #ifndef MUMYSQL_LOG_H
 #define MUMYSQL_LOG_H
 
-#include "Common/Common.h"
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
+#include "Platform/Define.h"
+
 #include "Asio/AsioHacksFwd.h"
 #include "LogCommon.h"
 #include "Utilities/StringFormat.h"
@@ -81,8 +86,6 @@ class  Log
 
         void outCharDump(char const* str, uint32 account_id, uint64 guid, char const* name);
 
-        void SetRealmId(uint32 id);
-
         template<class AppenderImpl>
         void RegisterAppender()
         {
@@ -138,8 +141,8 @@ class  Log
     }
 
 #ifdef PERFORMANCE_PROFILING
-#define MUSQL_LOG_MESSAGE_BODY(filterType__, level__, ...) ((void)0)
-#elif TRINITY_PLATFORM != TRINITY_PLATFORM_WINDOWS
+ #define MUSQL_LOG_MESSAGE_BODY(filterType__, level__, ...) ((void)0)
+#elif PLATFORM != PLATFORM_WINDOWS
 void check_args(char const*, ...) ATTR_PRINTF(1, 2);
 void check_args(std::string const&, ...);
 

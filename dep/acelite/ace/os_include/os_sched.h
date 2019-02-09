@@ -48,10 +48,10 @@ extern "C"
    typedef cpuset_t cpu_set_t;
 #else
 #  define ACE_CPU_SETSIZE 1024
-   struct cpuset_t
+   typedef struct cpuset_t
    {
      ACE_UINT32 bit_array_[ACE_CPU_SETSIZE / (8 * sizeof (ACE_UINT32))];
-   };
+   } cpu_set_t;
 #endif
 #endif /* !ACE_HAS_CPU_SET_T || !__cpu_set_t_defined */
 

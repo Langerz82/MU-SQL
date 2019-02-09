@@ -18,7 +18,7 @@
 #ifndef DatabaseLoader_h__
 #define DatabaseLoader_h__
 
-//#include "Define.h"
+//#include "Platform/Define.h"
 #include "Common/Common.h"
 
 #include <functional>

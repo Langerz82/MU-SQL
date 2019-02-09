@@ -18,7 +18,7 @@
 #ifndef _MYSQLTHREADING_H
 #define _MYSQLTHREADING_H
 
-//#include "Define.h"
+//#include "Platform/Define.h"
 
 namespace MySQL
 {

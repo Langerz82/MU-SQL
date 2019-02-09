@@ -18,7 +18,7 @@
 #ifndef _ADHOCSTATEMENT_H
 #define _ADHOCSTATEMENT_H
 
-//#include "Define.h"
+//#include "Platform/Define.h"
 #include "DatabaseEnvFwd.h"
 #include "SQLOperation.h"
 

@@ -18,6 +18,11 @@
 
 #include "ostream.h"
 
+#if WIN32
+    #undef min
+    #undef max
+#endif
+
 namespace fmt {
 namespace internal {
 
@@ -373,7 +378,7 @@ internal::Arg PrintfFormatter<Char, AF>::get_arg(const Char *s,
                                                  unsigned arg_index) {
   (void)s;
   const char *error = FMT_NULL;
-  internal::Arg arg = arg_index == (std::numeric_limits<unsigned>::max()) ?
+  internal::Arg arg = (arg_index == std::numeric_limits<unsigned>::max()) ?
     next_arg(error) : FormatterBase::get_arg(arg_index - 1, error);
   if (error)
     FMT_THROW(FormatError(!*s ? "invalid format string" : error));
@@ -383,7 +388,7 @@ internal::Arg PrintfFormatter<Char, AF>::get_arg(const Char *s,
 template <typename Char, typename AF>
 unsigned PrintfFormatter<Char, AF>::parse_header(
   const Char *&s, FormatSpec &spec) {
-  unsigned arg_index = (std::numeric_limits<unsigned>::max());
+  unsigned arg_index = std::numeric_limits<unsigned>::max();
   Char c = *s;
   if (c >= '0' && c <= '9') {
     // Parse an argument index (if followed by '$') or a width possibly
@@ -602,5 +607,17 @@ FMT_VARIADIC(int, fprintf, std::ostream &, CStringRef)
 #ifdef FMT_HEADER_ONLY
 # include "printf.cc"
 #endif
+
+#ifndef NOMINMAX
+
+#ifndef max
+#define max(a,b)            (((a) > (b)) ? (a) : (b))
+#endif
+
+#ifndef min
+#define min(a,b)            (((a) < (b)) ? (a) : (b))
+#endif
+
+#endif  /* NOMINMAX */
 
 #endif  // FMT_PRINTF_H_

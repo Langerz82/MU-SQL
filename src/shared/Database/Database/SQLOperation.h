@@ -18,7 +18,7 @@
 #ifndef _SQLOPERATION_H
 #define _SQLOPERATION_H
 
-//#include "Define.h"
+//#include "Platform/Define.h"
 #include "DatabaseEnvFwd.h"
 
 //- Union that holds element data

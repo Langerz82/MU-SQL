@@ -18,7 +18,7 @@
 #ifndef _PREPAREDSTATEMENT_H
 #define _PREPAREDSTATEMENT_H
 
-//#include "Define.h"
+//#include "Platform/Define.h"
 #include "SQLOperation.h"
 #include <future>
 #include <vector>

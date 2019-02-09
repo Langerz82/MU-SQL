@@ -319,12 +319,6 @@ void Log::outCharDump(char const* str, uint32 accountId, uint64 guid, char const
     write(std::move(msg));
 }
 
-void Log::SetRealmId(uint32 id)
-{
-    for (auto it = appenders.begin(); it != appenders.end(); ++it)
-        it->second->setRealmId(id);
-}
-
 void Log::Close()
 {
     loggers.clear();

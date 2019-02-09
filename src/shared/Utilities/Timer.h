@@ -2,6 +2,7 @@
 #ifndef _MUSQL_TIMER_H
 #define _MUSQL_TIMER_H
 
+#include "Platform/Define.h"
 #include <algorithm>
 #include <ace/OS_NS_sys_time.h>
 

@@ -19,7 +19,7 @@
 #ifndef DATABASEENV_H
 #define DATABASEENV_H
 
-//#include "Define.h"
+//#include "Platform/Define.h"
 #include "DatabaseWorkerPool.h"
 
 #include "Field.h"

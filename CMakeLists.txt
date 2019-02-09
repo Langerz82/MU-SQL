@@ -136,12 +136,12 @@ else()
 endif()
 
 # Add dependency path
-if(BUILD_MUSQLSERVER)
+# if(BUILD_MUSQLSERVER)
     add_subdirectory(dep)
-	add_subdirectory(dep/acelite)
-else()
-    add_subdirectory(dep/acelite)
-endif()
+	#a dd_subdirectory(dep/acelite)
+# else()
+    # add_subdirectory(dep/acelite)
+# endif()
 
 # Add source path
 add_subdirectory(src)

@@ -19,7 +19,7 @@
 #ifndef QUERYRESULT_H
 #define QUERYRESULT_H
 
-//#include "Define.h"
+//#include "Platform/Define.h"
 #include "DatabaseEnvFwd.h"
 #include <vector>
 

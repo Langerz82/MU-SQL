@@ -18,7 +18,9 @@
 #ifndef DatabaseEnvFwd_h__
 #define DatabaseEnvFwd_h__
 
+#ifndef MUSQLSERVER_COMMON_H
 #include "Common/Common.h"
+#endif
 
 #include <future>
 #include <memory>
