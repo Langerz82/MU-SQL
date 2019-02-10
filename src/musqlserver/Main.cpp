@@ -6,9 +6,10 @@
 /// \file
 
 #include "Main.h"
-#include "database\Logging\AppenderDB.h"
-#include "Common\Common.h"
+#include "database/Logging/AppenderDB.h"
+#include "Common/Common.h"
 #include "Asio/IoContext.h"
+#include "Database/CSDatabase.h"
 
 // old includes
 #include "Giocp.h"
@@ -59,9 +60,6 @@ int m_ServiceStatus = -1;
 #endif
 
 // Defines
-#define MAX_ACCOUNT_LEN 10
-#define MAX_TYPE_PLAYER 8
-#define MAX_NUMBER_MAP 101
 #define CHECK_LIMIT(value, limit) (((value)< 0)?FALSE:((value)> limit-1)?FALSE:TRUE)
 
 // GLobals thats whats up.
@@ -187,12 +185,11 @@ void LoadLogConfig()
 	GetPrivateProfileString("Logger", "LogDirectory", "logs", g_logsDir, sizeof(g_logsDir), ".\\DataServer.ini");
 	GetPrivateProfileString("Logger", "LogEntries", "2", g_logsEntryCount, sizeof(g_logsEntryCount), ".\\DataServer.ini");
 	int entryCount = atoi(g_logsEntryCount);
-	std::vector<std::string const&> vecLogEntries;
+	std::vector<std::string> vecLogEntries;
 	LPTSTR tempChars[10][128];
 	for (int i = 0; i < entryCount; ++i)
 	{
 		GetPrivateProfileString("Logger", "LogEntry", "", tempChars[i][0], sizeof(tempChars[i][0]), ".\\DataServer.ini");
-		//tempChars[i][0];
 		vecLogEntries.push_back(tempChars[i][0]);
 	}
 	sLog->RegisterAppender<AppenderDB>();

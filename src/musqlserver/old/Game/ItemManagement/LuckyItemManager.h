@@ -4,13 +4,10 @@
 
 #include "StdAfx.h"
 #include "Protocol/protocolStructs.h"
+#include "generalStructs.h"
 
-#define	MAX_LUCKYINFO_LEVELRATE			16
-#define MAX_LUCKYINFO_ITEMEQUIPMENT		8
-#define	MAX_LUCKYINFO_SMELTRATE			10
-
-struct LUCKY_ITEM_INFO;
-struct LUCKY_ITEM_EQUIPMENT;
+struct STR_LUCKY_ITEM_INFO;
+struct STR_LUCKY_ITEM_EQUIPMENT;
 
 
 struct LuckyItemManager
@@ -19,21 +16,21 @@ public:
 	LuckyItemManager();
 	~LuckyItemManager();
 
-	int		LoadLuckyItemEquipment(int iType, LUCKY_ITEM_INFO * pLuckyItemInfo, char * lpszFileName);
+	int		LoadLuckyItemEquipment(int iType, STR_LUCKY_ITEM_INFO * pLuckyItemInfo, char * lpszFileName);
 	int		LoadLuckyItemInfo(char * lpszFileName);
-	void	AddLuckyItemInfo(LUCKY_ITEM_INFO * pLuckyItemInfo, int iItemCnt);
+	void	AddLuckyItemInfo(STR_LUCKY_ITEM_INFO * pLuckyItemInfo, int iItemCnt);
 
-	LUCKY_ITEM_INFO * GetLuckyItemInfo(int iItemNum);
-	LUCKY_ITEM_INFO * GetCharClassLuckyItemInfo(int iItemNum, int iCharClass);
-	LUCKY_ITEM_EQUIPMENT * GetLuckyItemEquipment(LUCKY_ITEM_INFO *const pLuckyItemInfo, int iCharClass);
+	STR_LUCKY_ITEM_INFO * GetLuckyItemInfo(int iItemNum);
+	STR_LUCKY_ITEM_INFO * GetCharClassLuckyItemInfo(int iItemNum, int iCharClass);
+	STR_LUCKY_ITEM_EQUIPMENT * GetLuckyItemEquipment(STR_LUCKY_ITEM_INFO *const pLuckyItemInfo, int iCharClass);
 
 	int		IsLuckyItemTicket(int iItemNum);
 	int		IsLuckyItemEquipment(int iItemNum);
 
-	SMELT_RATE * GetSmeltingRateInfo(int iItemNum);
+	STR_SMELT_RATE * GetSmeltingRateInfo(int iItemNum);
 
 	void	LuckyItemTicketExchange(OBJECTSTRUCT * lpObj);
-	BYTE	GambleGetLevel(ITEM_LEVEL_RATE * pItemLevelRandRate, int iIndex);
+	BYTE	GambleGetLevel(STR_ITEM_LEVEL_RATE * pItemLevelRandRate, int iIndex);
 	void	LuckyItemSmelting(OBJECTSTRUCT * lpObj);
 	int		GambleLuckyItemSmelting(int iItemNum, int iDur);
 	int		GetLuckyItemDurabilityTime();
@@ -49,7 +46,7 @@ public:
 
 private:
 	int									m_iTicketCnt;
-	std::map<int, _LUCKY_ITEM_INFO>		m_Map_LuckyItemInfo;
+	std::map<int, STR_LUCKY_ITEM_INFO>		m_Map_LuckyItemInfo;
 
 }; extern LuckyItemManager g_LuckyItemManager;
 

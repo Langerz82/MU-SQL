@@ -6,14 +6,12 @@
 
 #define szModule "CQuery"
 
-
 CQuery::CQuery(DatabaseWorkerPool<MySQLConnection>* db): m_Database(db)
 {
 }
 
 CQuery::~CQuery()
 {
-	Close();
 }
 
 BOOL CQuery::ExecQuery(TCHAR* lpszStatement, ...)
@@ -32,21 +30,11 @@ BOOL CQuery::Execute(TCHAR* lpszStatement)
 {
 	while (true)
 	{
-		bool Result = m_Database.Execute(lpszStatement);
+		m_Database->Execute(lpszStatement);
 
-		if (!Result)
+		if (false) // stub TODO
 		{
 			sLog->outError("[SQL Error] Error executing: %s", lpszStatement);
-
-			bool bReconnect = false;
-			this->Diagnosis(bReconnect);
-
-			if (bReconnect == true)
-			{
-				Sleep(1);
-				continue;
-			}
-
 			return FALSE;
 		}
 	}
@@ -69,26 +57,17 @@ QueryResult* CQuery::Fetch(TCHAR* lpszStatement, ...)
 
 	while (true)
 	{
-		m_Result = m_Database.Query(szStatement);
+		m_Database->Query(szStatement);
 
-		if (m_Result == NULL)
+		if (false) // stub TODO
 		{
 			sLog->outError("[SQL Error] Error querying: %s", lpszStatement);
-
-			bool bReconnect = false;
-			this->Diagnosis(bReconnect);
-
-			if (bReconnect == true)
-			{
-				Sleep(1);
-				continue;
-			}
 			m_Fields = NULL;
 			return NULL;
 		}
 	}
 	Field* m_Fields = new Field();
-	m_Fields = m_Result->Fetch();
+	m_Fields = NULL; // TODO
 	return m_Result;
 }
 
@@ -100,8 +79,13 @@ bool CQuery::HasFields()
 int CQuery::GetAsBinary(LPSTR lpszStatement, LPBYTE OUT lpszReturnBuffer, int size)
 {
 	QueryResult* res = Fetch(lpszStatement);
-	Field* field = res->();
-	lpszReturnBuffer = field[0].GetByteArray(size);
+	Field* field = NULL; // TODO stub
+	std::vector<BYTE> vec = field[0].GetBinary();
+	int i = 0;
+	for (std::vector<BYTE>::const_iterator it = vec.begin(); it != vec.end(); ++it)
+	{
+		lpszReturnBuffer[i++] = *it;
+	}
 	return sizeof(lpszReturnBuffer);
 }
 
@@ -140,17 +124,6 @@ void CQuery::SetAsBinary(LPTSTR lpszStatement, LPBYTE lpBinaryBuffer, UINT32 Bin
 	this->Close();
 */
 	// New Implementation.
-	PreparedStatement* stmt = m_Database.GetPreparedStatement(lpszStatement);
-	stmt->setBlobArray(0, lpBinaryBuffer, sizeof(BinaryBufferSize));
-	
-
-
-
-
-	
-
-	// add to Quest Tracker
-	m_Database.Execute(stmt);
 }
 
 
@@ -192,14 +165,14 @@ void CQuery::GetAsString(int iIndex, LPTSTR pOutBuffer, int size)
 		pOutBuffer[0] = 0;
 	}
 
-	LPTSTR str = this->m_Fields->GetCppString[iIndex];
+	LPTSTR str = this->m_Fields->GetCString[iIndex];
 	if (str == NULL)
 	{
 		pOutBuffer[0] = 0;
 	}
 	else
 	{
-		strncpy(pOutBuffer, this->m_Fields->GetCppString[iIndex], size);
+		strncpy(pOutBuffer, this->m_Fields->GetCString[iIndex], size);
 	}
 }
 

@@ -52,7 +52,7 @@ public:
 	//void Close();
 	//void Diagnosis(bool &bReconnect);
 
-	DatabaseLoader* m_Database;
+	DatabaseWorkerPool<MySQLConnection>* m_Database;
 	QueryResult* m_Result;
 	Field* m_Fields;
 
