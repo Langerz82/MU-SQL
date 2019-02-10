@@ -7,7 +7,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "Event/BloodCastle/BloodCastle.h"
+#include "BloodCastle.h"
 #include "User/user.h"
 #include "GMMng.h"
 

@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "zzzitem.h"
+#include "Item.h"
 
 #define FILE_CUSTOM_ITEMVAL "IGC_ItemValue.ini"
 

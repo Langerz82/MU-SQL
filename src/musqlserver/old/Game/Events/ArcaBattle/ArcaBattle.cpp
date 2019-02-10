@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ArcaBattle.cpp
 #include "StdAfx.h"
-#include "./Eventos/ArcaBattle/ArcaBattle.h"
+#include "ArcaBattle.h"
 #include "user.h"
 #include "LargeRand.h"
 #include "TLog.h"

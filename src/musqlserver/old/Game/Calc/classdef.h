@@ -20,9 +20,7 @@
 #define MAX_NUMBER_MAP 101
 #define CHECK_LIMIT(value, limit) (((value)< 0)?FALSE:((value)> limit-1)?FALSE:TRUE)
 #define AUTO_REG 0
-#define DATASERVER_VERSION "13.0.0.0"
-
-#define MAX_PLAYER_EQUIPMENT 12	// need to redo agin aññ with this macro
+#define DATASERVER_VERSION "1.0.0.0"
 
 struct STR_DEFAULTCLASSTYPE;
 struct PMSG_ANS_CLASSDEF;

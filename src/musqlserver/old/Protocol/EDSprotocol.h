@@ -19,9 +19,9 @@ using namespace std;
 
 #define MAX_MEMBER_GUILD	80
 
-struct _GENS_RANKING;
+struct GENS_RANKING;
 struct GUILD_INFO_STRUCT;
-struct _PARTY_MEMBER_WAIT_LIST;
+struct PARTY_MEMBER_WAIT_LIST;
 struct _stRegWaitGuildMatching;
 struct _stReqAddPartyMember;
 struct _stReqAllowJoinGuildMatching;
@@ -88,7 +88,6 @@ struct FHP_FRIENDLIST_REQ;
 struct FHP_WAITFRIEND_ADD_REQ;
 struct FRIEND_MASTER;
 struct GENS_USER;
-struct GUILD_INFO_STRUCT;
 struct NONE_INFLUENCE;
 struct PARTYMATCHING_PARTYDATA;
 struct PARTYMATCHING_PARTYDATA;

@@ -9,12 +9,9 @@
 #include "StdAfx.h"
 #include "GensSystemProtocol.h"
 #include "User/user.h"
-#include "classdef.h"
 
 #include <string>
 #include <map>
-
-#define MAX_CHAT_LEN 90
 
 // Forward Declarations.
 

@@ -4,7 +4,7 @@
 #include "ItemDropEx.h"
 #include "Logging/Log.h"
 #include "Readscript.h"
-#include "DSProtocol.h"
+//#include "DSProtocol.h"
 #include "gObjMonster.h"
 #include "GameMain.h"
 #include "configread.h"

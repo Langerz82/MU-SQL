@@ -1,9 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // AcheronGuardianEvent.cpp
 #include "stdafx.h"
-#include "Event/AcheronGuardianEvent/AcheronGuardianEvent.h"
-#include "Event/ArcaBattle/ArcaBattle.h"
-//#include "TLog.h"
+#include "AcheronGuardianEvent.h"
+#include "ArcaBattle.h"
+#include "Logging/Log.h"
 #include "GameMain.h"
 #include "TNotice.h"
 #include "user.h"
@@ -12,7 +12,7 @@
 #include "LargeRand.h"
 //#include "winutil.h"
 #include "MapServerManager.h"
-#include "DSProtocol.h"
+//#include "DSProtocol.h"
 #include "configread.h"
 
 CAcheronGuardianEvent g_AcheronGuardianEvent;

@@ -32,8 +32,6 @@ struct ITEMOPTION_FOR380ITEM
 	WORD m_Value2;	// C
 };
 
-
-
 struct ITEMOPTION_FOR380ITEM_EFFECT
 {
 	short OpAddAttackSuccessRatePVP;	// 0
@@ -45,8 +43,6 @@ struct ITEMOPTION_FOR380ITEM_EFFECT
 	short OpRefillOn;	// C
 	short OpAddRefillSD;	// E
 };
-
-
 
 class CItemSystemFor380
 {

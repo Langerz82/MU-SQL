@@ -1,8 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 // BonusEvent.cpp
 #include "stdafx.h"
-#include "./Eventos/BonusEvent/BonusEvent.h"
-#include "TLog.h"
+#include "BonusEvent.h"
+#include "Logging/Log.h"
 #include "TNotice.h"
 
 CBonusEvent g_BonusEvent;

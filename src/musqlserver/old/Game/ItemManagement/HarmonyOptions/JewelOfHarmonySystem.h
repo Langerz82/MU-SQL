@@ -11,7 +11,7 @@
 
 #include "StdAfx.h"
 #include <map>
-#include "Item.h"
+#include "ItemManagement/Item.h"
 
 #include "TRandomPoolMgr.h"
 
@@ -19,6 +19,7 @@
 #define MAX_JOH_ITEM_INDEX	16
 #define MAX_JOH_ITEM_OPTION	16
 
+class CItem;
 
 enum eJewelOfHarmonySystem_ItemType {
   JEWELOFHARMONY_ITEM_TYPE_NULL = 0x0,

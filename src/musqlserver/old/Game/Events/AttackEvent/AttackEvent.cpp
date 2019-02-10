@@ -7,9 +7,9 @@
 // GS-N 0.99.60T 0x0045B180 - Completed
 // GS-N 1.00.18	0x0046AA80 - Completed
 #include "stdafx.h"
-#include "./Eventos/AttackEvent/AttackEvent.h"
+#include "AttackEvent.h"
 #include "Gamemain.h"
-#include "TLog.h"
+#include "Logging/Log.h"
 #include "MapServerManager.h"
 
 CAttackEvent::CAttackEvent()

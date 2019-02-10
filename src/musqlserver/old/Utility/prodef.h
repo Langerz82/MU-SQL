@@ -13,14 +13,6 @@
 
 #include "custTypedef.h"
 
-#define OBJ_STARTUSERINDEX 1
-#define OBJMAX MAXINT
-
-// #ifndef MAX_ACCOUNT_LEN
-	#define MAX_ACCOUNT_LEN	10
-	#define MAX_GUILD_LEN	8
-//#endif
-
 // PACKET HEAD DEFINITIONS
 
 #define JS_ONLY_VIP_MEMBERS		0x02

@@ -15,14 +15,14 @@
 
 
 #include "stdafx.h"
-#include "./Eventos/BloodCastle/BloodCastle.h"
+#include "BloodCastle.h"
 #include "ChaosCastle.h"
 #include "GameMain.h"
-#include "TLog.h"
-#include "DSProtocol.h"
+#include "Logging/Log.h"
+//#include "DSProtocol.h"
 #include "Protocol.h"
 #include "TNotice.h"
-#include "winutil.h"
+#include "Utility/util.h"
 #include "ObjUseSkill.h"
 #include "ChaosBox.h"
 #include "CastleSiegeSync.h"

@@ -6,7 +6,7 @@
 #pragma once
 
 #include "ItemManagement/Item.h"
-#include "ItemManagement/ItemOptionTypeMng.h"
+#include "ItemOptionTypeMng.h"
 
 struct BAG_ITEM
 {

@@ -6,11 +6,11 @@
 
 #include "stdafx.h"
 #include "CustomItemValue.h"
-#include "Item/Item.h"
+#include "ItemManagement/Item.h"
 #include "ItemOptionTypeMng.h"
 #include "MemScript.h"
-#include "winutil.h"
-#include "TLog.h"
+#include "Utility/util.h"
+#include "Logging/Log.h"
 
 CItemValue gItemValue;
 //////////////////////////////////////////////////////////////////////

@@ -39,8 +39,9 @@
 #include "prodef.h"
 #include "classdef.h"
 #include "Lang.h"
-#include "Config/iniReader/IniReader.h"
+#include "Config\iniReader\IniReader.h"
 #include "user.h"
+#include "MuDefines.h"
 
 // Crypto++
 #include "cryptopp/sha.h"
@@ -136,11 +137,6 @@
 #endif
 */
 
-#define TEST_FIX_MUUN 0
-
-#define TEST_FIX_DARKRAVEN 1
-
-#define ENABLE_SEASON12 1
 
 #define HEADCODE_MOVE 0xD7
 #define HEADCODE_POSITION_SET 0x10

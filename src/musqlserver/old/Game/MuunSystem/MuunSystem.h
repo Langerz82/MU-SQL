@@ -8,7 +8,7 @@
 #endif // _MSC_VER > 1000
 
 #include "MuunInfoMng.h"
-#include "DSProtocol.h"
+//#include "DSProtocol.h"
 #include "ObjBaseAttack.h"
 
 #define MAX_MUUN_ENERGY_GENERATOR_POINT		8

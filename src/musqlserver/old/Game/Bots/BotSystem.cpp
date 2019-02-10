@@ -3,14 +3,14 @@
 #include "StdAfx.h"
 #include "BotSystem.h"
 #include "User/user.h"
-#include "Protocol/protocol.h"
+//#include "Protocol/protocol.h"
 #include "Logging/Log.h"
 #include "GameMain.h"
 #include "ObjCalCharacter.h"
 #include "configread.h"
-#include "Buff/BuffEffectSlot.h"
-#include "Map/MapServerManager.h"
-#include "Protocol/DSProtocol.h"
+#include "BuffEffectSlot.h"
+#include "MapServerManager.h"
+//#include "DSProtocol.h"
 #include "VipSys.h"
 
 CBotSystem g_BotSystem;

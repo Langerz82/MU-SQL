@@ -89,73 +89,7 @@ enum GUILD_REQ_COMMON_RESULT
 	GUILD_ANS_WRONG_GENS = 0xA3
 };
 
-struct GUILD_INFO_STRUCT
-{
-	int Number;	//0
-	char Name[9];	//4
-	unsigned char Mark[32];	//D
-	BYTE Count;	//2D
-	BYTE TotalCount;	//2E
-	char Names[MAX_USER_GUILD][11];	//2F
-	short Index[MAX_USER_GUILD];	//3A0
-	unsigned char Use[MAX_USER_GUILD];	//440
-	char pServer[MAX_USER_GUILD];	//490
-	char TargetGuildName[9];	//4E0
-	short TargetIndex[MAX_USER_GUILD];	//4EA
-	struct GUILD_INFO_STRUCT* lpTargetGuildNode;	//58C
-	unsigned char WarDeclareState;	//590
-	unsigned char WarState;	//591
-	unsigned char WarType;	//592
-	unsigned char BattleGroundIndex;	//593
-	unsigned char BattleTeamCode;	//594
-	unsigned char PlayScore;	//595
-	int TotalScore;	//598
-	char Notice[60];	//59c
-	int GuildStatus[MAX_USER_GUILD];	//5D8
-	BYTE btGuildType;	//718
-	int iGuildUnion;	//71C
-	int iGuildRival;	//720
-	int iTimeStamp;	//724
-	char szGuildRivalName[9];	//728
-	struct GUILD_INFO_STRUCT* back;	//734
-	struct GUILD_INFO_STRUCT* next;	//738
-	struct OBJECTSTRUCT* lpLifeStone;
-	int btLifeStoneCount;
-
-	// #error Deathay Fix here
-	GUILD_INFO_STRUCT(){return;};
-	int  GetGuildUnion(){return this->iGuildUnion;};
-	int  GetGuildRival(){return this->iGuildRival;};
-
-	void SetGuildUnion(int iGuildNumber)	// line : 102
-	{
-		this->iGuildUnion = iGuildNumber;
-		this->SetTimeStamp();
-	};	// line : 105
-
-	void SetGuildRival(int iGuildNumber)	// line : 108
-	{
-		this->iGuildRival = iGuildNumber;
-		this->SetTimeStamp();
-	};	// line : 111
-
-	void SetTimeStamp()	// line : 117
-	{
-		this->iTimeStamp++;
-	};	// line : 119
-
-	int GetTimeStamp()	// line : 122
-	{
-		return this->iTimeStamp;
-	};	// line : 124
-
-	BOOL CheckTimeStamp(int iTime)	// line : 127
-	{
-		return (iTime == this->iTimeStamp )? 1 : 0;
-	}	// line : 129
-};
-
-
+class GUILD_INFO_STRUCT;
 
 class CGuildClass
 {
