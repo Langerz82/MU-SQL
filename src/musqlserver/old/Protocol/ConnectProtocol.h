@@ -1,13 +1,11 @@
-#ifndef _MU_LOGINPROTOCOL_H_
-#define _MU_LOGINPROTOCOL_H_
+#ifndef _MU_CONNECTPROTOCOL_H_
+#define _MU_CONNECTPROTOCOL_H_
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "IOCP.h"
 #include "ServerData.h"
 #include "ConnectServer.h"
-#include "Logging/Log.h"
-#include "LoginEngine.h"
-#include "Utility/Utils.h"
+#include "ConnectEngine.h"
 
 void CSProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, int aIndex, bool Encrypt, int serial);
 void UDPProtocolCore(BYTE hCode, LPBYTE aRecv, int aLen);

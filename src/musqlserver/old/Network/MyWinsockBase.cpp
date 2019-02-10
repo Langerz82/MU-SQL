@@ -1,12 +1,5 @@
 
-// ------------------------------
-// Decompiled by Deathway
-// Date : 2007-03-09
-// ------------------------------
-// GS-N 0.99.60T MyWinsockBase.cpp	Status : Completed - Review procedure MyWinsockBase::Startup() - Finished, just SAR problem -SHR
-//	GS-N	1.00.18	JPN	0x0048CD90	-	Completed
-
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "MyWinsockBase.h"
 
 MyWinsockBase::MyWinsockBase()
@@ -123,10 +116,3 @@ void MyWinsockBase::SetConnect(BOOL connected)
 {
 	this->m_Connect = connected;
 }
-
-
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

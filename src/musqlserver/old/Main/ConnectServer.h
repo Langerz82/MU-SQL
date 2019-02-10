@@ -1,5 +1,3 @@
-//////////////////////////////////////////////////////////////////////
-// ConnectServer.h
 #pragma once
 
 #include "resource.h"
@@ -31,12 +29,4 @@ extern char g_WhiteListIP[16];
 #define SET_NUMBERL(x) ( (BYTE)((DWORD)(x) & 0xFF) )
 #define SET_NUMBERHW(x) ( (WORD)((DWORD)(x)>>(DWORD)16) )
 #define SET_NUMBERLW(x) ( (WORD)((DWORD)(x) & 0xFFFF) )
-
-
-
-
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
 
