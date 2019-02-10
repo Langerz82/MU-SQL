@@ -6,6 +6,9 @@
 #include <algorithm>
 #include <ace/OS_NS_sys_time.h>
 
+#define max(a,b)            (((a) > (b)) ? (a) : (b))
+#define min(a,b)            (((a) < (b)) ? (a) : (b))
+
 /**
  * @brief
  *

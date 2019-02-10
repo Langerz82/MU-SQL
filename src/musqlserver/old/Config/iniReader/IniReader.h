@@ -6,6 +6,7 @@
 #include "StdAfx.h"
 #include <string>
 #include "iniReader/INIReaderImp.h"
+#include "Logging/Log.h"
 
 class CIniReader
 {

@@ -12,6 +12,7 @@
 #endif // _MSC_VER > 1000
 
 #include "ComboAttack.h"
+#include "generalStructs.h"
 #include "MagicInf.h"
 #include "giocp.h"
 #include "ItemManagement/Item.h"
@@ -1221,7 +1222,7 @@ public:
 	EXC_WING_OPTION m_WingExcOption;
 	STAT_USER_OPTION m_StatSpecOption[12];
 	bool m_IsOffLevelling;
-	USER_SHOP_REBUY_ITEM m_CancelItemSaleList[MAX_CANCEL_ITEMS_SALE];
+	STR_USER_SHOP_REBUY_ITEM m_CancelItemSaleList[MAX_CANCEL_ITEMS_SALE];
 	bool m_bIsCancelItemSale;
 	int m_JoinUnityBattle;
 	int m_nServerCodeOfHomeWorld;

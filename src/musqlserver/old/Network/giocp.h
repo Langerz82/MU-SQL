@@ -12,6 +12,8 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
+#include "custTypedef.h"
+
 //#include "CQueue.h"
 
 enum eSERVER_TYPE
@@ -27,8 +29,8 @@ enum eSERVER_TYPE
 
 struct _PER_IO_CONTEXT
 { 
-	WSAOVERLAPPED Overlapped; // 0
-	WSABUF wsabuf; 
+	MU_WSAOVERLAPPED Overlapped; // 0
+	MU_WSABUF wsabuf;
 	unsigned char Buffer[MAX_IO_BUFFER_SIZE]; // 1C
 	unsigned char BufferSecond[MAX_IO_BUFFER_SIZE]; // 178C
 	int nSecondOfs; // 2EFC

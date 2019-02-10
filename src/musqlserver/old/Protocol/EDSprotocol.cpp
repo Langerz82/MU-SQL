@@ -54,7 +54,7 @@ GUILD_INFO_STRUCT* CExDataServerProtocol::GetGuild(int iNumber)
 	return guild;
 }
 
-GUILD_MEMBER* CExDataServerProtocol::GetGuildMember(char *szGuild, char *szName)
+STR_GUILD_MEMBER* CExDataServerProtocol::GetGuildMember(char *szGuild, char *szName)
 {
 	GUILD_INFO_STRUCT* lpGuild;
 
@@ -74,7 +74,7 @@ GUILD_MEMBER* CExDataServerProtocol::GetGuildMember(char *szGuild, char *szName)
 	return it->second;
 }
 
-GUILD_MEMBER* CExDataServerProtocol::GetGuildMember(int nGuildNumber, char *szName)
+STR_GUILD_MEMBER* CExDataServerProtocol::GetGuildMember(int nGuildNumber, char *szName)
 {
 	GUILD_INFO_STRUCT* lpGuild;
 

@@ -29,22 +29,22 @@ typedef long long time_t;
 
 typedef unsigned long long SOCKET;
 
-typedef struct _WSAOVERLAPPED {
+
+
+typedef struct MU_WSAOVERLAPPED {
 	DWORD    Internal;
 	DWORD    InternalHigh;
 	DWORD    Offset;
 	DWORD    OffsetHigh;
 	DWORD	 hEvent;
-} WSAOVERLAPPED, FAR * LPWSAOVERLAPPED;
+} FAR * LPMU_WSAOVERLAPPED;
 
-/*
-#ifndef WSABUF
-typedef struct _WSABUF {
+typedef struct MU_WSABUF {
 	ULONG len;
 	CHAR* buf;
-} WSABUF, *LPWSABUF;
-#endif
-*/
+} *LPMU_WSABUF;
+
+
 
 /*
 #ifndef _SYSTEMTIME

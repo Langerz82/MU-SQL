@@ -9,6 +9,7 @@
 #include "StdAfx.h"
 #include "GensSystemProtocol.h"
 #include "User/user.h"
+#include "generalStructs.h"
 
 #include <string>
 #include <map>
@@ -880,62 +881,62 @@ struct _PMSG_QUESTEXP_INFO;
 struct _QUESTEXP_INFO;
 struct _SEND_PARTYMEMBER_INFO;
 struct __ITL_GUILD_RANK;
-struct _stABAllGuildMark;
-struct _stABJoinUserInfoDS;
-struct _stABWinGuildInfoDS;
-struct _stAnsAddPartyMember;
-struct _stAnsAddRealPartyMember;
-struct _stAnsAllowJoinGuildMatching;
-struct _stAnsCancelPartyMatching;
-struct _stAnsChattingPartyMatching;
-struct _stAnsDelGuildMatchingList;
-struct _stAnsDelPartyUserPartyMatching;
-struct _stAnsDelWaitGuildMatchingList;
-struct _stAnsGetPartyMatchingList;
-struct _stAnsGuildMatchingData;
-struct _stAnsGuildMatchingList;
-struct _stAnsJoinMemberPartyMatching;
-struct _stAnsJoinMemberStateListPartyMatching;
-struct _stAnsNotiGuildMatching;
-struct _stAnsNotiGuildMatchingForGuildMaster;
-struct _stAnsRegWantedPartyMember;
-struct _stAnsRequestJoinPartyMatchingNoti;
-struct _stAnsSendPartyMemberList;
-struct _stAnsUseGuildMatchingGuild;
-struct _stAnsWaitGuildMatching;
-struct _stAnsWaitGuildMatchingList;
-struct _stAnsWaitListPartyMatching;
-struct _stAnsWaitStateListGuildMatching;
-struct _stArcaBattleMarkTopRankDS;
-struct _stCCFRankingInfo;
-struct _stCancelGuildNames;
-struct _stGuildMatchingAllowList;
-struct _stGuildMatchingAllowListDB;
-struct _stGuildMatchingList;
-struct _stGuildUnderMember;
-struct _stRegWaitGuildMatching;
-struct _stReqAddPartyMember;
-struct _stReqAllowJoinGuildMatching;
-struct _stReqCancelPartyMatching;
-struct _stReqChattingPartyMatching;
-struct _stReqDelGuildMatchingList;
-struct _stReqDelPartyUserPartyMatching;
-struct _stReqDelWaitGuildMatchingList;
-struct _stReqGetPartyMatchingList;
-struct _stReqGuildMatchingData;
-struct _stReqGuildMatchingList;
-struct _stReqGuildMatchingListSearchWord;
-struct _stReqJoinMemberPartyMatching;
-struct _stReqJoinMemberStateListPartyMatching;
-struct _stReqRegWantedPartyMember;
-struct _stReqSendPartyMemberList;
-struct _stReqWaitGuildMatchingList;
-struct _stReqWaitListPartyMatching;
-struct _stReqWaitStateListGuildMatching;
-struct _tagITL_REWARDLIST;
-struct _tagMuRummyCardInfoDS;
-struct _tagMuRummyCardUpdateDS;
-struct _tagMuunRideViewPortInfo;
+struct stABAllGuildMark;
+struct stABJoinUserInfoDS;
+struct stABWinGuildInfoDS;
+struct stAnsAddPartyMember;
+struct stAnsAddRealPartyMember;
+struct stAnsAllowJoinGuildMatching;
+struct stAnsCancelPartyMatching;
+struct stAnsChattingPartyMatching;
+struct stAnsDelGuildMatchingList;
+struct stAnsDelPartyUserPartyMatching;
+struct stAnsDelWaitGuildMatchingList;
+struct stAnsGetPartyMatchingList;
+struct stAnsGuildMatchingData;
+struct stAnsGuildMatchingList;
+struct stAnsJoinMemberPartyMatching;
+struct stAnsJoinMemberStateListPartyMatching;
+struct stAnsNotiGuildMatching;
+struct stAnsNotiGuildMatchingForGuildMaster;
+struct stAnsRegWantedPartyMember;
+struct stAnsRequestJoinPartyMatchingNoti;
+struct stAnsSendPartyMemberList;
+struct stAnsUseGuildMatchingGuild;
+struct stAnsWaitGuildMatching;
+struct stAnsWaitGuildMatchingList;
+struct stAnsWaitListPartyMatching;
+struct stAnsWaitStateListGuildMatching;
+struct stArcaBattleMarkTopRankDS;
+struct stCCFRankingInfo;
+struct stCancelGuildNames;
+struct stGuildMatchingAllowList;
+struct stGuildMatchingAllowListDB;
+struct stGuildMatchingList;
+struct stGuildUnderMember;
+struct stRegWaitGuildMatching;
+struct stReqAddPartyMember;
+struct stReqAllowJoinGuildMatching;
+struct stReqCancelPartyMatching;
+struct stReqChattingPartyMatching;
+struct stReqDelGuildMatchingList;
+struct stReqDelPartyUserPartyMatching;
+struct stReqDelWaitGuildMatchingList;
+struct stReqGetPartyMatchingList;
+struct stReqGuildMatchingData;
+struct stReqGuildMatchingList;
+struct stReqGuildMatchingListSearchWord;
+struct stReqJoinMemberPartyMatching;
+struct stReqJoinMemberStateListPartyMatching;
+struct stReqRegWantedPartyMember;
+struct stReqSendPartyMemberList;
+struct stReqWaitGuildMatchingList;
+struct stReqWaitListPartyMatching;
+struct stReqWaitStateListGuildMatching;
+struct ITL_REWARDLIST;
+struct MuRummyCardInfoDS;
+struct MuRummyCardUpdateDS;
+struct MuunRideViewPortInfo;
 struct buyItemTransaction;
 struct itemBranch;
 struct sellItem;
@@ -951,18 +952,8 @@ struct PMSG_ANS_REGISTER_MUTONUM;
 struct PMSG_EVENTCHIPINFO;
 struct PMSG_REGEVENTCHIP_RESULT;
 struct PMSG_GETMUTONUMBER_RESULT;
+struct STR_STAT_BONUS;
 
-typedef struct STR_STRINGCOMPARE
-{
-	bool operator()(const std::string s1, const std::string s2) const
-	{
-		return strcmp(s1.data(), s2.data()) < 0;
-	}
-} strCmp;
-
-typedef std::map<std::string, STR_GUILD_MEMBER*, strCmp> MAP_GUILD_MEMBER;
-typedef std::map<std::string, GUILD_INFO_STRUCT*, strCmp> MAP_GUILD_INFO;
-typedef std::map<int, STR_UNION_MEMBER_DATA*> MAP_MEMBER_DATA;
 
 
 struct STR_DEFAULTCLASSTYPE
@@ -989,80 +980,10 @@ struct STR_GENS_RANKING
 	PBMSG_HEAD2 h;
 };
 
-struct STR_GENS_RANKING_DATA
-{
-	int GensClass;
-	int ContributePoint;
-	int RankingPosition;
-	BYTE RewardItemGroup;
-	WORD RewardItemNumber;
-	int RewardItemCount;
-};
-
-struct _ITL_GUILD_RANK {
-	char szGuildName[MAX_GUILD_LEN + 1];
-	BYTE byRank;
-	BYTE byITLType;
-	BYTE byWin;
-	BYTE byLose;
-};
-
-struct STR_GUILD_MEMBER {
-	char m_szMemberName[11];
-	BYTE m_btStatus;
-	BYTE m_btConnected;
-	int m_iUserIndex;
-	STR_GUILD_MEMBER() {
-		ZeroMemory(m_szMemberName, sizeof(m_szMemberName));
-		m_btStatus = 0;
-		m_btConnected = -1;
-		m_iUserIndex = -1;
-	}
-};
-
 struct _ITL_AnswerEnter {
 	PBMSG_HEAD2 h;
 	BYTE bReason;
 	char Name[MAX_ACCOUNT_LEN + 1];
-};
-
-struct PARTY_INFO_LIST {
-	char szLeaderName[MAX_ACCOUNT_LEN + 1];
-	char szTitle[41];
-	WORD nMinLevel;
-	WORD nMaxLevel;
-	WORD nHuntingGround;
-	int nLeaderLevel;
-	BYTE btLeaderClass;
-	BYTE btWantedClass;
-	BYTE btCurPartyMemberCnt;
-	BYTE btUsePassword;
-	BYTE btWantedClassDetailInfo[7];
-	int nServerChannel;
-	BYTE btGensType;
-};
-
-struct PARTY_INFO_LISTDB {
-	char szLeaderName[MAX_ACCOUNT_LEN + 1];
-	char szTitle[41];
-	char szPassword[5];
-	WORD nMinLevel;
-	WORD nMaxLevel;
-	WORD nHuntingGround;
-	int nLeaderLevel;
-	BYTE btLeaderClass;
-	BYTE btWantedClass;
-	BYTE btCurPartyMemberCnt;
-	BYTE btUsePassword;
-	BYTE btWantedClassDetailInfo[7];
-	BYTE btGensType;
-	BYTE btApprovalType;
-};
-
-struct _PARTY_MEMBER_WAIT_LIST {
-	char szName[MAX_ACCOUNT_LEN + 1];
-	BYTE btClass;
-	int nLevel;
 };
 
 struct _PMSG_QUESTEXP_INFO {
@@ -1071,55 +992,7 @@ struct _PMSG_QUESTEXP_INFO {
 	char szCharName[MAX_ACCOUNT_LEN + 1];
 };
 
-struct _QUESTEXP_INFO {
-	_QUESTEXP_INFO::_QUESTEXP_INFO() {
-		this->dwQuestIndexID = 0;
-		this->wProgState = 0;
-		this->lStartDate = 0;
-		this->lEndDate = 0;
-		memset(this->btAskIndex, 0, 5);
-		memset(this->btAskValue, 0, 5);
-		memset(this->btAskState, 0, 5);
-	}
-	DWORD dwQuestIndexID;
-	WORD wProgState;
-	BYTE btAskIndex[5];
-	BYTE btAskValue[5];
-	BYTE btAskState[5];
-	time_t lStartDate;
-	time_t lEndDate;
-};
-
-struct _SEND_PARTYMEMBER_INFO {
-	_SEND_PARTYMEMBER_INFO() {
-		this->bUse = FALSE;
-	}
-	int bUse;
-	int bFlag;
-	char Name[MAX_ACCOUNT_LEN + 1];
-	int nUserIndex;
-	int nServerChannel;
-};
-
-struct _stABAllGuildMark {
-	char szGuildName[MAX_GUILD_LEN + 1];
-	DWORD dwMarkCnt;
-};
-
-struct _stABJoinUserInfoDS {
-	char szGuildName[MAX_GUILD_LEN + 1];
-	DWORD dwGuild;
-	char szUserName[MAX_ACCOUNT_LEN + 1];
-};
-
-struct _stABWinGuildInfoDS {
-	char szGuildName[9];
-	DWORD dwGuild;
-	WORD wOccupyObelisk;
-	WORD wObeliskGroup;
-};
-
-struct _stAnsAddPartyMember {
+struct stAnsAddPartyMember {
 	PBMSG_HEAD2 h;
 	int nResult;
 	int nUserIndex;
@@ -1130,13 +1003,13 @@ struct _stAnsAddPartyMember {
 	char szMemberName[MAX_ACCOUNT_LEN + 1];
 };
 
-struct _stAnsAddRealPartyMember {
+struct stAnsAddRealPartyMember {
 	PBMSG_HEAD2 h;
 	int nLeaderUserIndex;
 	int nMemberUserIndex;
 };
 
-struct _stAnsAllowJoinGuildMatching {
+struct stAnsAllowJoinGuildMatching {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	int nAllowType;
@@ -1145,14 +1018,14 @@ struct _stAnsAllowJoinGuildMatching {
 	int nResult;
 };
 
-struct _stAnsCancelPartyMatching {
+struct stAnsCancelPartyMatching {
 	PBMSG_HEAD2 h;
 	BYTE btType;
 	int nUserIndex;
 	int nResult;
 };
 
-struct _stAnsChattingPartyMatching {
+struct stAnsChattingPartyMatching {
 	PBMSG_HEAD2 h;
 	int nRecvUserIndex;
 	int nPartyIndex;
@@ -1160,13 +1033,13 @@ struct _stAnsChattingPartyMatching {
 	char szSendCharName[MAX_ACCOUNT_LEN + 1];
 };
 
-struct _stAnsDelGuildMatchingList {
+struct stAnsDelGuildMatchingList {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	int nResult;
 };
 
-struct _stAnsDelPartyUserPartyMatching {
+struct stAnsDelPartyUserPartyMatching {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	int nTargetIndex;
@@ -1174,14 +1047,14 @@ struct _stAnsDelPartyUserPartyMatching {
 	BYTE btType;
 };
 
-struct _stAnsDelWaitGuildMatchingList {
+struct stAnsDelWaitGuildMatchingList {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	int nType;
 	int nResult;
 };
 
-struct _stAnsGetPartyMatchingList {
+struct stAnsGetPartyMatchingList {
 	PWMSG_HEAD2 h;
 	int nUserIndex;
 	int nListCount;
@@ -1191,29 +1064,29 @@ struct _stAnsGetPartyMatchingList {
 	PARTY_INFO_LIST stPartyInfoList[6];
 };
 
-struct _stAnsGuildMatchingData {
+struct stAnsGuildMatchingData {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	int nResult;
 };
 
-struct _stAnsGuildMatchingList {
+struct stAnsGuildMatchingList {
 	PWMSG_HEAD2 h;
 	int nUserIndex;
 	int nPage;
 	int nTotalPage;
 	int nListCount;
 	int nResult;
-	_stGuildMatchingList stGuildMatchingList[9];
+	stGuildMatchingList stGuildMatchingList[9];
 };
 
-struct _stAnsJoinMemberPartyMatching {
+struct stAnsJoinMemberPartyMatching {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	int nResult;
 };
 
-struct _stAnsJoinMemberStateListPartyMatching {
+struct stAnsJoinMemberStateListPartyMatching {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	int nResult;
@@ -1221,65 +1094,65 @@ struct _stAnsJoinMemberStateListPartyMatching {
 	char szLeaderName[MAX_ACCOUNT_LEN + 1];
 };
 
-struct _stAnsNotiGuildMatching {
+struct stAnsNotiGuildMatching {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	int nResult;
 };
 
-struct _stAnsNotiGuildMatchingForGuildMaster {
+struct stAnsNotiGuildMatchingForGuildMaster {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	int nResult;
 };
 
-struct _stAnsRegWantedPartyMember {
+struct stAnsRegWantedPartyMember {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	int nResult;
 };
 
-struct _stAnsRequestJoinPartyMatchingNoti {
+struct stAnsRequestJoinPartyMatchingNoti {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 };
 
-struct _stAnsSendPartyMemberList {
+struct stAnsSendPartyMemberList {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	int nMemberCount;
 	int nPartyMatchingIndex;
-	_SEND_PARTYMEMBER_INFO stList[5];
+	SEND_PARTYMEMBER_INFO stList[5];
 };
 
-struct _stAnsUseGuildMatchingGuild {
+struct stAnsUseGuildMatchingGuild {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 };
 
-struct _stAnsWaitGuildMatching {
+struct stAnsWaitGuildMatching {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	int nResult;
 };
 
-struct _stAnsWaitGuildMatchingList {
+struct stAnsWaitGuildMatchingList {
 	PWMSG_HEAD2 h;
 	int nUserIndex;
 	int nListCount;
 	int nResult;
-	_stGuildMatchingAllowListDB stAllowList[80];
+	stGuildMatchingAllowListDB stAllowList[80];
 };
 
-struct _stAnsWaitListPartyMatching {
+struct stAnsWaitListPartyMatching {
 	PWMSG_HEAD2 h;
 	int nUserIndex;
 	int nListCount;
 	int nResult;
-	_PARTY_MEMBER_WAIT_LIST stList[10];
+	STR_PARTY_MEMBER_WAIT_LIST stList[10];
 };
 
-struct _stAnsWaitStateListGuildMatching {
+struct stAnsWaitStateListGuildMatching {
 	PBMSG_HEAD2 h;
 	char szGuildMasterName[MAX_ACCOUNT_LEN + 1];
 	char szGuildName[MAX_GUILD_LEN + 1];
@@ -1287,68 +1160,13 @@ struct _stAnsWaitStateListGuildMatching {
 	int nResult;
 };
 
-struct _stArcaBattleMarkTopRankDS {
-	BYTE btRank;
-	char szGuildNames[MAX_GUILD_LEN + 1];
-	DWORD dwMarkCnt;
-};
-
-struct _stCancelGuildNames {
-	char szGuildNames[9];
-};
-
-struct _stCCFRankingInfo {
-	_stCCFRankingInfo() {
-		memset(this->szCharName, 0x00, sizeof(this->szCharName));
-		this->byRank = 0;
-		this->nPoint = 0;
-	}
-	char szCharName[MAX_ACCOUNT_LEN + 1];
-	BYTE byRank;
-	int nPoint;
-};
-
-struct _stGuildMatchingAllowList {
-	char szName[MAX_ACCOUNT_LEN + 1];
-	BYTE btClass;
-	int nLevel;
-};
-
-struct _stGuildMatchingAllowListDB {
-	int nGuildNumber;
-	char szApplicantName[MAX_ACCOUNT_LEN + 1];
-	BYTE btApplicantClass;
-	int nApplicantLevel;
-	BYTE btState;
-};
-
-struct _stGuildMatchingList {
-	char szMemo[41];
-	char szRegistrant[MAX_ACCOUNT_LEN + 1];
-	char szGuildName[MAX_GUILD_LEN + 1];
-	BYTE btGuildMemberCnt;
-	BYTE btGuildMasterClass;
-	BYTE btInterestType;
-	BYTE btLevelRange;
-	BYTE btClassType;
-	int nGuildMasterLevel;
-	int nBoardNumber;
-	int nGuildNumber;
-	BYTE btGensType;
-};
-
-struct _stGuildUnderMember {
-	BYTE btGuildMemberCnt;
-	char szGuildNames[9];
-};
-
-struct _stRegWaitGuildMatching {
+struct stRegWaitGuildMatching {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
-	_stGuildMatchingAllowListDB stAllowList;
+	stGuildMatchingAllowListDB stAllowList;
 };
 
-struct _stReqAddPartyMember {
+struct stReqAddPartyMember {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	int nMemberIndex;
@@ -1359,7 +1177,7 @@ struct _stReqAddPartyMember {
 	char szMemberName[MAX_ACCOUNT_LEN + 1];
 };
 
-struct _stReqAllowJoinGuildMatching {
+struct stReqAllowJoinGuildMatching {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	int nAllowType;
@@ -1367,40 +1185,40 @@ struct _stReqAllowJoinGuildMatching {
 	char szGuildName[MAX_GUILD_LEN + 1];
 };
 
-struct _stReqCancelPartyMatching {
+struct stReqCancelPartyMatching {
 	PBMSG_HEAD2 h;
 	BYTE btType;
 	char szName[MAX_ACCOUNT_LEN + 1];
 	int nUserIndex;
 };
 
-struct _stReqChattingPartyMatching {
+struct stReqChattingPartyMatching {
 	PBMSG_HEAD2 h;
 	int nPartyIndex;
 	char szChat[63];
 	char szSendCharName[MAX_ACCOUNT_LEN + 1];
 };
 
-struct _stReqDelGuildMatchingList {
+struct stReqDelGuildMatchingList {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	int nGuildNumber;
 };
 
-struct _stReqDelPartyUserPartyMatching {
+struct stReqDelPartyUserPartyMatching {
 	PBMSG_HEAD2 h;
 	char szTargetName[MAX_ACCOUNT_LEN + 1];
 	int nUserIndex;
 };
 
-struct _stReqDelWaitGuildMatchingList {
+struct stReqDelWaitGuildMatchingList {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	int nType;
 	char szName[MAX_ACCOUNT_LEN + 1];
 };
 
-struct _stReqGetPartyMatchingList {
+struct stReqGetPartyMatchingList {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	int nPage;
@@ -1411,26 +1229,26 @@ struct _stReqGetPartyMatchingList {
 	char szSearchWord[11];
 };
 
-struct _stReqGuildMatchingData {
+struct stReqGuildMatchingData {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
-	_stGuildMatchingList _stGuildMatchingList;
+	stGuildMatchingList stGuildMatchingList;
 };
 
-struct _stReqGuildMatchingList {
+struct stReqGuildMatchingList {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	int nPage;
 };
 
-struct _stReqGuildMatchingListSearchWord {
+struct stReqGuildMatchingListSearchWord {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	int nPage;
 	char szSearchWord[11];
 };
 
-struct _stReqJoinMemberPartyMatching {
+struct stReqJoinMemberPartyMatching {
 	PBMSG_HEAD2 h;
 	char szMemberName[MAX_ACCOUNT_LEN + 1];
 	char szLeaderName[MAX_ACCOUNT_LEN + 1];
@@ -1444,13 +1262,13 @@ struct _stReqJoinMemberPartyMatching {
 	BYTE btChangeUpClass;
 };
 
-struct _stReqJoinMemberStateListPartyMatching {
+struct stReqJoinMemberStateListPartyMatching {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	char szMemberName[MAX_ACCOUNT_LEN + 1];
 };
 
-struct _stReqRegWantedPartyMember {
+struct stReqRegWantedPartyMember {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	char szPartyLeaderName[MAX_ACCOUNT_LEN + 1];
@@ -1469,87 +1287,46 @@ struct _stReqRegWantedPartyMember {
 	BYTE btLeaderClass;
 };
 
-struct _stReqSendPartyMemberList {
+struct stReqSendPartyMemberList {
 	PBMSG_HEAD2 h;
 	char szLeaderName[MAX_ACCOUNT_LEN + 1];
 };
 
-struct _stReqWaitGuildMatchingList {
+struct stReqWaitGuildMatchingList {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	int nGuildNumber;
 };
 
-struct _stReqWaitListPartyMatching {
+struct stReqWaitListPartyMatching {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	char szLeaderName[MAX_ACCOUNT_LEN + 1];
 };
 
-struct _stReqWaitStateListGuildMatching {
+struct stReqWaitStateListGuildMatching {
 	PBMSG_HEAD2 h;
 	int nUserIndex;
 	char szName[MAX_ACCOUNT_LEN + 1];
 };
 
-struct _tagITL_REWARDLIST {
-	BYTE byRank;
-	BYTE byEnteredCnt;
-	BYTE byPoint;
-	bool bGotReward;
-	char szCharName[MAX_ACCOUNT_LEN + 1];
-	char szGuildName[MAX_GUILD_LEN + 1];
-};
-
-struct _tagMuRummyCardInfoDS {
-	_tagMuRummyCardInfoDS() {
-		this->btColor = -1;
-		this->btNumber = -1;
-		this->btSlotNum = -1;
-		this->btSeq = -1;
-		this->btStatus = -1;
-	}
-	BYTE btColor;
-	BYTE btNumber;
-	BYTE btSlotNum;
-	BYTE btSeq;
-	BYTE btStatus;
-};
-
-struct _tagMuRummyCardUpdateDS {
-	_tagMuRummyCardUpdateDS() {
-		this->btSlotNum = -1;
-		this->btSeq = -1;
-		this->btStatus = -1;
-	}
-	BYTE btSlotNum;
-	BYTE btSeq;
-	BYTE btStatus;
-};
-
-struct _tagMuunRideViewPortInfo {
-	BYTE NumberH;
-	BYTE NumberL;
-	BYTE MuunRideItemH;
-	BYTE MuunRideItemL;
-};
 
 struct PMSG_ANS_AB_ALL_JOIN_USER_DS {
 	PWMSG_HEAD h;
 	BYTE btUserCnt;
-	_stABJoinUserInfoDS stABJoinUserInfo[200];
+	stABJoinUserInfoDS stABJoinUserInfo[200];
 };
 
 struct PMSG_ANS_AB_JOIN_CANCEL_DS {
 	PBMSG_HEAD2 h;
 	BYTE btGuildCnt;
-	_stCancelGuildNames CancelGuildNames[6];
+	stCancelGuildNames CancelGuildNames[6];
 };
 
 struct PMSG_ANS_AB_JOIN_MEMBER_UNDER_DS {
 	PBMSG_HEAD2 h;
 	BYTE btGuildCnt;
-	_stGuildUnderMember GuildMemberCnt[6];
+	stGuildUnderMember GuildMemberCnt[6];
 };
 
 struct PMSG_ANS_AB_PROC_STATE_DS {
@@ -1566,7 +1343,7 @@ struct PMSG_ANS_AB_REG_MEMBER_CNT_DS {
 struct PMSG_ANS_AB_WIN_GUILD_INFO_DS {
 	PBMSG_HEAD2 h;
 	char btGuildCnt;
-	_stABWinGuildInfoDS m_stABWinGuildInfoDS[5];
+	stABWinGuildInfoDS m_stABWinGuildInfoDS[5];
 };
 
 struct PMSG_ANS_ACHERON_ENTER {
@@ -1587,7 +1364,7 @@ struct PMSG_ANS_AE_PLAY_DS {
 struct PMSG_ANS_ALL_GUILD_MARK_CNT_DS {
 	PWMSG_HEAD2 h;
 	WORD wGuildCnt;
-	_stABAllGuildMark ABAllGuildMark[250];
+	stABAllGuildMark ABAllGuildMark[250];
 };
 
 struct PMSG_ANS_ARCA_BATTLE_ENTER_DS {
@@ -1622,7 +1399,7 @@ struct PMSG_ANS_ARCA_BATTLE_MARK_RANK_DS {
 	BYTE btRank;
 	DWORD dwMarkCnt;
 	BYTE btGuildCnt;
-	_stArcaBattleMarkTopRankDS ArcaBattleMarkTopRank[6];
+	stArcaBattleMarkTopRankDS ArcaBattleMarkTopRank[6];
 };
 
 struct PMSG_ANS_ARCA_BATTLE_MARK_REG_DS {
@@ -1633,7 +1410,7 @@ struct PMSG_ANS_ARCA_BATTLE_MARK_REG_DS {
 struct PMSG_ANS_CCF_RANK {
 	PWMSG_HEAD h;
 	BYTE byUserCnt;
-	_stCCFRankingInfo RankingInfo[50];
+	stCCFRankingInfo RankingInfo[50];
 };
 
 struct PMSG_ANS_HUNTING_LOG {
@@ -1655,7 +1432,7 @@ struct PMSG_ANS_MURUMMY_SELECT_DS {
 	WORD aIndex;
 	WORD wScore;
 	BYTE btResult;
-	_tagMuRummyCardInfoDS stMuRummyCardInfoDS[24];
+	MuRummyCardInfoDS stMuRummyCardInfoDS[24];
 };
 
 struct PMSG_ANS_NIXIELAKE_ENTER {
@@ -1717,7 +1494,7 @@ struct PMSG_REQ_AB_WIN_GUILD_INFO_INSERT_DS {
 	PBMSG_HEAD2 h;
 	char btGuildCnt;
 	unsigned __int16 wMapSvrNum;
-	_stABWinGuildInfoDS m_stABWinGuildInfoDS[5];
+	stABWinGuildInfoDS m_stABWinGuildInfoDS[5];
 };
 
 struct PMSG_REQ_ACHERON_ENTER {
@@ -1835,7 +1612,7 @@ struct PMSG_REQ_MURUMMY_INFO_UPDATE_DS {
 	char AccountID[11];
 	char Name[11];
 	WORD wScore;
-	_tagMuRummyCardUpdateDS stMuRummyCardUpdateDS[24];
+	MuRummyCardUpdateDS stMuRummyCardUpdateDS[24];
 };
 
 struct PMSG_REQ_MURUMMY_INSERT_DS {
@@ -1843,7 +1620,7 @@ struct PMSG_REQ_MURUMMY_INSERT_DS {
 	char AccountID[11];
 	char Name[11];
 	WORD aIndex;
-	_tagMuRummyCardInfoDS stMuRummyCardInfoDS[24];
+	MuRummyCardInfoDS stMuRummyCardInfoDS[24];
 };
 
 struct PMSG_REQ_MURUMMY_LOG_INSERT_DS {
@@ -1858,7 +1635,7 @@ struct PMSG_REQ_MURUMMY_SCORE_UPDATE_DS {
 	char AccountID[11];
 	char Name[11];
 	WORD wScore;
-	_tagMuRummyCardUpdateDS stCardUpdateDS[3];
+	MuRummyCardUpdateDS stCardUpdateDS[3];
 };
 
 struct PMSG_REQ_MURUMMY_SELECT_DS {
@@ -1872,7 +1649,7 @@ struct PMSG_REQ_MURUMMY_SLOTUPDATE_DS {
 	PBMSG_HEAD2 h;
 	char AccountID[11];
 	char Name[11];
-	_tagMuRummyCardUpdateDS stCardUpdateDS;
+	MuRummyCardUpdateDS stCardUpdateDS;
 };
 
 struct PMSG_REQ_MURUMMY_UPDATE_DS {
@@ -3385,73 +3162,6 @@ struct MUBOT_SETTINGS_SEND {
 	BYTE btDATA[512];
 };
 
-struct NAME {
-	char m_szName[11];
-	NAME() {
-		std::ZeroMemory(this, sizeof(*this));
-	}
-	NAME(char * szName) {
-		std::ZeroMemory(this, sizeof(*this));
-		std::strncpy(m_szName, szName, 10);
-	}
-};
-
-struct P_ADD_NEWS {
-	BYTE day;
-	BYTE month;
-	WORD year;
-	DWORD dateColor;
-	DWORD titleColor;
-	DWORD textColor;
-	char title[40];
-	WORD textLen;
-	char Text[2048];
-};
-
-struct PARTYMATCHING_PARTYDATA {
-	PARTYMATCHING_PARTYDATA() {
-		this->m_PartyMatchingIndex = -1;
-		this->m_UserCount = 0;
-	}
-	int m_PartyMatchingIndex;
-	int m_UserCount;
-	char szLeaderName[MAX_ACCOUNT_LEN + 1];
-	PARTYMATCHING_PARTYUSERDATA m_UserData[5];
-};
-
-struct PARTYMATCHING_PARTYUSERDATA {
-	PARTYMATCHING_PARTYUSERDATA() {
-		this->iUsedInfo = FALSE;
-		this->iUserConnected = FALSE;
-		this->iUserIndex = -1;
-		this->iServerNumber = -1;
-		this->iServerIndex = -1;
-	}
-	int iUsedInfo;
-	int iUserConnected;
-	int iUserIndex;
-	int iServerNumber;
-	int iServerIndex;
-	char szUserName[MAX_ACCOUNT_LEN + 1];
-};
-
-struct PERIOD_EXPIRED_ITEM {
-	WORD wItemCode;
-	UINT64 Serial;
-};
-
-struct PERIOD_EXPIRED_ITEMLIST {
-	BYTE btItemCount;
-	PERIOD_EXPIRED_ITEM ExpiredItem[90];
-};
-
-struct PERIOD_ITEMLIST {
-	DWORD dwUserGuid;
-	BYTE btItemCount;
-	char chCharacterName[MAX_ACCOUNT_LEN + 1];
-	ITEMPERIOD_DATEINFO ItemData[100];
-};
-
 struct PMSG_ACTION {
 	PBMSG_HEAD2 h;
 	BYTE Dir;
@@ -3866,7 +3576,7 @@ struct PMSG_ANS_GUILDMATCHINGLIST {
 	int nTotalPage;
 	int nListCount;
 	int nResult;
-	_stGuildMatchingList stGuildMatchingList;
+	stGuildMatchingList stGuildMatchingList;
 };
 
 struct PMSG_ANS_GUILDREGINFO {
@@ -4263,7 +3973,8 @@ struct PMSG_ANS_PSHOPITEMVALUE_INFO {
 	PWMSG_HEAD h;
 	BYTE btItemCnt;
 	int iUserIndex;
-	PSHOP_ITEMVALUE_INFO_DS PShopItemValueInfo[32];
+//	STR_PSHOP_ITEMVALUE_INFO_DS PShopItemValueInfo[32];
+	STR_PSHOP_ITEMVALUE_INFO_DS* PShopItemValueInfo;
 };
 
 struct PMSG_ANS_QUESTEXP_INFO {
@@ -6995,7 +6706,7 @@ struct PMSG_SKILLKEY {
 
 struct PMSG_STAT_BONUS {
 	PBMSG_HEAD2 h;
-	STAT_BONUS m_BonusOption[5];
+	STR_STAT_BONUS m_BonusOption[5];
 };
 
 struct PMSG_STATEBLOODCASTLE {
@@ -7233,7 +6944,8 @@ struct PMSG_UPDATE_PSHOPITEMVALUE_INFO {
 	BYTE btItemCnt;
 	char AccountId[MAX_ACCOUNT_LEN + 1];
 	char szName[MAX_ACCOUNT_LEN + 1];
-	PSHOP_ITEMVALUE_INFO_DS PShopItemValueInfo[32];
+	//STR_PSHOP_ITEMVALUE_INFO_DS PShopItemValueInfo[32];
+	STR_PSHOP_ITEMVALUE_INFO_DS* PShopItemValueInfo;
 };
 
 struct PMSG_USE_STAT_FRUIT {
@@ -8165,137 +7877,6 @@ struct SECLOCK_REQ_SAVE {
 	int Code;
 };
 
-struct sellItem {
-	DWORD dwItemGuid;
-	DWORD dwItemCODE;
-	DWORD dwCategoryID;
-	DWORD dwUseType;
-	DWORD dwBuyType;
-	DWORD dwCoolTime;
-	double dbVarEndDate;
-	DWORD dwLimitSellCount;
-	DWORD dwState;
-	char szItemName[64];
-	char szItemDesc[128];
-	DWORD dwPriceCount;
-	sellItemPrice itemPrice[8];
-};
-
-struct sellItemPrice {
-	DWORD dwPriceGuid;
-	DWORD dwItemGuid;
-	DWORD dwUseTime;
-	DWORD dwAmount;
-	DWORD dwPrice;
-	DWORD dwSellRate;
-};
-
-struct sellPackage {
-	DWORD dwPackageGuid;
-	sellItemPrice itemPrice;
-	DWORD dwImageCode;
-	DWORD dwCategory;
-	DWORD dwBuyType;
-	DWORD dwLimitSellCount;
-	DWORD dwInItemCount;
-	double dbVarEndDate;
-	DWORD dwState;
-	sellItemPrice inItemPrices[16];
-	char szPackageName[64];
-	char szPackageDesc[128];
-};
-
-struct ServerInfo {
-	WORD UserCount;
-	WORD MaxUserCount;
-	WORD Percent;
-	DWORD TickCount;
-};
-
-struct ServerList {
-	ServerList() {
-		this->btServerCode = 0;
-		this->wServerPort = 0;
-		memset(this->cIp, 0, 16);
-	}
-	BYTE btServerCode;
-	WORD wServerPort;
-	char cIp[16];
-};
-
-struct STAT_BONUS {
-	WORD BonusOptionID;
-	WORD BonusOptionVal1;
-	WORD BonusOptionVal2;
-};
-
-struct stMemberPosInfo {
-	char szName[MAX_ACCOUNT_LEN + 1];
-	BYTE btMapNumber;
-	BYTE btPosX;
-	BYTE btPosY;
-};
-
-struct GUILD_INFO_STRUCT {
-	int m_iNumber;
-	char m_szGuildName[9];
-	char m_szGuildMaster[11];
-	BYTE m_btGuildType;
-	MAP_GUILD_MEMBER m_mapGuildMember;
-	int m_iRivalGuild;
-	int m_iUnionGuild;
-	BYTE m_Mark[32];
-	int m_Score;
-	char m_Notice[128];
-	BOOL m_bGSHasData;
-	GUILD_INFO_STRUCT() {
-		m_iNumber = -1;
-		memset(m_szGuildName, 0, sizeof(m_szGuildName));
-		memset(m_szGuildMaster, 0, sizeof(m_szGuildMaster));
-		m_btGuildType = -1;
-		memset(m_Mark, 0, sizeof(m_Mark));
-		memset(m_Notice, 0, sizeof(m_Notice));
-		m_iRivalGuild = 0;
-		m_iUnionGuild = 0;
-		m_Score = 0;
-		m_mapGuildMember.clear();
-		m_bGSHasData = FALSE;
-	}
-};
-
-struct JOIN_SERVER_SERVER_DATA {
-	int m_ServerIndex;
-	char m_szServerName[50];
-	WORD m_wServerCode;
-	WORD m_wPort;
-	WORD m_wCurrentUser;
-	WORD m_wMaxUser;
-	BYTE m_VipServer;
-	WORD m_MaxHWIDUseCount;
-};
-
-struct JOIN_SERVER_USER_DATA {
-	char m_AccoundID[11];
-	char m_HWID[100];
-	WORD m_ServerCode;
-	WORD m_ServerGroup;
-	bool m_bRequestMapSvrMove;
-	int iUserNumber;
-	DWORD dwPlayTime;
-	char m_Ip[17];
-	int iPayCode;
-	int iUsedTime;
-	char szEndDays[9];
-	DWORD dwCheckTime;
-	int iIndex;
-	bool m_bOffTrade;
-	char IpAddr[17];
-};
-
-typedef struct STR_UNION_MEMBER_DATA {
-	std::vector<int> m_vecUnionMember;
-} STR_UNION_MEMBER_DATA, *LP_STR_UNION_MEMBER_DATA;
-
 struct USER_CONNECT_DATA
 {
 	PMSG_ANS_MAPSVRMOVE pMapServerMoveData;
@@ -8304,15 +7885,6 @@ struct USER_CONNECT_DATA
 	BYTE btSecurityLock;
 	DWORD dwSecurityCode;
 	char szPassword[20];
-};
-
-
-struct USERWAREHOUSE_DATA {
-	char szAccountID[MAX_ACCOUNT_LEN + 1];
-	int WarehouseID;
-	DWORD LastChangeTick;
-	int ChangeIDEnableState;
-	bool WarehouseOpenState;
 };
 
 struct PMSG_ANS_REGISTER_MUTONUM

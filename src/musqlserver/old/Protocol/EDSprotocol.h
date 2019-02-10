@@ -320,8 +320,8 @@ private:
 
 	GUILD_INFO_STRUCT* GetGuild(char *szGuild);
 	GUILD_INFO_STRUCT* GetGuild(int iNumber);
-	GUILD_MEMBER* GetGuildMember(char *szGuild, char *szName);
-	GUILD_MEMBER* GetGuildMember(int nGuildNumber, char *szName);
+	STR_GUILD_MEMBER* GetGuildMember(char *szGuild, char *szName);
+	STR_GUILD_MEMBER* GetGuildMember(int nGuildNumber, char *szName);
 	STR_UNION_MEMBER_DATA* GetUnionData(int iGuild);
 
 	int GetGuildMemberCount(char *szGuild);
