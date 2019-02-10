@@ -169,7 +169,7 @@ void CBag::InitBag()
 	this->m_BagData.m_bLoadBag = false;
 }
 
-int CBag::GetDropSection(int aIndex, BAG_SECTION_DROP &pRetDrop)
+int CBag::GetDropSection(LPGameObject &lpObj, BAG_SECTION_DROP &pRetDrop)
 {
 	if (this->m_BagData.m_bLoadBag == false)
 	{
@@ -280,7 +280,7 @@ int CBag::GetItem(BAG_SECTION_ITEMS &pItemsSec, BAG_ITEM & pRetItem)
 	return TRUE;
 }
 
-int CBag::GetReadyItemToUse(int aIndex, CItem &pItem, time_t & DurationItem)
+int CBag::GetReadyItemToUse(LPGameObject &lpObj, CItem &pItem, time_t & DurationItem)
 {
 	CGameObject* lpObj = &gGameObjects[aIndex];
 
@@ -354,7 +354,7 @@ int CBag::GetItemLevel(int MinLevel, int MaxLevel)
 	return level;
 }
 
-void CBag::MakeBagEffectUse(int aIndex, int iMonsterIndex)
+void CBag::MakeBagEffectUse(LPGameObject &lpObj, int iMonsterIndex)
 {
 	PMSG_SERVERCMD ServerCmd;
 

@@ -133,13 +133,13 @@ public:
 
 	void CheckIsUPTUserWhenDisconnected(int aIndex);
 	void CheckIsUPTUserWhenConnect(int aIndex);
-	void GiveRewardItemToUPTUser(int aIndex, WORD wTwinkleType, int iStage);
+	void GiveRewardItemToUPTUser(LPGameObject &lpObj, WORD wTwinkleType, int iStage);
 	
 	void MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, int aIndex);
 	void RewardMineTwinkle(PMSG_REQ_MINETWINKLE_REWARD *lpMsg, int aIndex);
 	void FailMineTwinkle(PMSG_ANS_MINETWINKLE_END_ANIMATION *lpMsg, int aIndex, bool bError);
 
-	void RequestDBToModifyUPTUserInfo(int aIndex, char *szCharName, WORD wTwinkleType, int iCurrentStage, BYTE byRequestType);
+	void RequestDBToModifyUPTUserInfo(LPGameObject &lpObj, char *szCharName, WORD wTwinkleType, int iCurrentStage, BYTE byRequestType);
 	void GDAnsModifyMineSystemUPTUserInfo(SDHP_ANS_MINESYSTEM_UPT_USERINFO *lpMsg);
 	void GDAnsLoadMineSystemUPTUserInfo(SDHP_ANS_LOAD_MINESYSTEM_UPT_USERINFO *lpMsg);
 
@@ -150,12 +150,12 @@ public:
 
 	void SetTwinklesInfo();
 	void SetTwinkleInfo(int aIndex);
-	void ResetTwinkleInfo(int aIndex, WORD wTwinkleIndex, bool bFailMining);
+	void ResetTwinkleInfo(LPGameObject &lpObj, WORD wTwinkleIndex, bool bFailMining);
 
 	BOOL SuccessOrFailure(WORD wType, int iStage);
 	BOOL MiracleSuccessOrFailure(WORD wType, int iStage);
-	BOOL CheckValidationMineState(int aIndex, WORD wTwinkleIndex, WORD wTwinkleType, BYTE byMapNumber, WORD wUserIndex, int *iResult, bool bRewardCheck);
-	BOOL GiveRewardItem(int aIndex, WORD wTwinkleType, int iStage, int bNotify);
+	BOOL CheckValidationMineState(LPGameObject &lpObj, WORD wTwinkleIndex, WORD wTwinkleType, BYTE byMapNumber, WORD wUserIndex, int *iResult, bool bRewardCheck);
+	BOOL GiveRewardItem(LPGameObject &lpObj, WORD wTwinkleType, int iStage, int bNotify);
 
 	void ChangeUnconditionalSuccess(int iIsSuccess);
 

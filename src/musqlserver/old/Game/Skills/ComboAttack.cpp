@@ -86,7 +86,7 @@ int CComboAttack::GetSkillPos(int skillnum)
 	}
 }
 
-BOOL CComboAttack::CheckCombo(int aIndex, int skillnum)
+BOOL CComboAttack::CheckCombo(LPGameObject &lpObj, int skillnum)
 {
 	CGameObject* lpObj = &gGameObjects[aIndex];
 

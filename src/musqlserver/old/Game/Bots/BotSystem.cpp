@@ -82,7 +82,7 @@ void CBotSystem::LoadData(LPSTR szFile)
 	this->SetAllBots();
 
 }
-bool CBotSystem::LoadBotSpecializationData(int aIndex, LPSTR szFile, BYTE type)
+bool CBotSystem::LoadBotSpecializationData(LPGameObject &lpObj, LPSTR szFile, BYTE type)
 {
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file(szFile);
@@ -312,7 +312,7 @@ int CBotSystem::AddBot(_sBOT_SETTINGS pBot)
 	return aIndex;
 }
 
-void CBotSystem::MakePreviewCharSet(int aIndex, _sBOT_INVENTORY_WEAR_ITEMS * pInv)
+void CBotSystem::MakePreviewCharSet(LPGameObject &lpObj, _sBOT_INVENTORY_WEAR_ITEMS * pInv)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -660,7 +660,7 @@ BYTE CBotSystem::GetBotType(int aIndex)
 	}
 }
 
-int CBotSystem::GetSkillTime(int aIndex, WORD wSkill)
+int CBotSystem::GetSkillTime(LPGameObject &lpObj, WORD wSkill)
 {
 	CGameObject* lpObj = &gGameObjects[aIndex];
 
@@ -676,7 +676,7 @@ int CBotSystem::GetSkillTime(int aIndex, WORD wSkill)
 	}
 	return 0;
 }
-sBOT_REWARD_STRUCT CBotSystem::ConfirmMixSuccess(int aIndex, int botIndex)
+sBOT_REWARD_STRUCT CBotSystem::ConfirmMixSuccess(LPGameObject &lpObj, int botIndex)
 {
 	CGameObject* lpObj = &gGameObjects[aIndex];
 	CGameObject* lpBotObj = &gGameObjects[botIndex];
@@ -730,7 +730,7 @@ bool CBotSystem::AlchemistVerifyItem(s_BOT_CRAFTING_ITEM_STRUCT lpReqItem, CItem
 
 }
 
-bool CBotSystem::CheckAlchemist(int aIndex, int botIndex)
+bool CBotSystem::CheckAlchemist(LPGameObject &lpObj, int botIndex)
 {
 	CGameObject* lpObj = &gGameObjects[aIndex];
 	CGameObject* lpBotObj = &gGameObjects[botIndex];
@@ -773,7 +773,7 @@ bool CBotSystem::CheckAlchemist(int aIndex, int botIndex)
 		BYTE ItemBuf[13];
 		ItemByteConvert(ItemBuf,rewardItem);
 		GSProtocol.GCTradeOtherAdd(aIndex,1,ItemBuf);
-		//int GameProtocol::GCTradeOtherAdd(int aIndex, BYTE tradeindex, LPBYTE iteminfo)
+		//int GameProtocol::GCTradeOtherAdd(LPGameObject &lpObj, BYTE tradeindex, LPBYTE iteminfo)
 	}
 	else
 	{
@@ -795,7 +795,7 @@ int CBotSystem::AlchemistTradeItemCount(int aIndex)
 	return Count;
 }
 
-void CBotSystem::AlchemistTradeOk(int aIndex, int botIndex)
+void CBotSystem::AlchemistTradeOk(LPGameObject &lpObj, int botIndex)
 {
 	CGameObject* lpBot = &gGameObjects[botIndex];
 	CGameObject* lpObj = &gGameObjects[aIndex];
@@ -839,7 +839,7 @@ void CBotSystem::AlchemistTradeOk(int aIndex, int botIndex)
 	}
 
 }
-void CBotSystem::AlchemistTradeOpen(int aIndex, int botIndex)
+void CBotSystem::AlchemistTradeOpen(LPGameObject &lpObj, int botIndex)
 {
 	CGameObject* lpObj = &gGameObjects[aIndex];
 	CGameObject* lpBot = &gGameObjects[botIndex];
@@ -900,7 +900,7 @@ bool CBotSystem::StoreAddItems(int botIndex)
 	return true;
 }
 
-BYTE CBotSystem::PShopCheckSpace(CGameObject* lpObj, int type, BYTE * TempMap)
+BYTE CBotSystem::PShopCheckSpace(LPGameObject &lpObj, int type, BYTE * TempMap)
 {
 	int w,h,iwidth,iheight;
 	BYTE blank = 0;
@@ -971,7 +971,7 @@ BYTE gObjTempPShopRectCheck(BYTE * TempMap, int sx, int sy, int width, int heigh
 		lpReqItem.btExc == TradeItem.m_NewOption)
 */
 
-int gObjGetItemCountInTradeWindow(int aIndex, WORD itemtype, int itemlevel, BYTE btExc, BYTE btSet, BYTE btOpt, BYTE btLuck, BYTE btSkill)
+int gObjGetItemCountInTradeWindow(LPGameObject &lpObj, WORD itemtype, int itemlevel, BYTE btExc, BYTE btSet, BYTE btOpt, BYTE btLuck, BYTE btSkill)
 {
 	int Count=0;
 

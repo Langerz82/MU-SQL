@@ -11,7 +11,7 @@
 // Construction
 //////////////////////////////////////////////////////////////////////
 
-void TMonsterSkillElementInfo::CheckSkillElementInfoProc(CGameObject* lpObj)
+void TMonsterSkillElementInfo::CheckSkillElementInfoProc(LPGameObject &lpObj)
 {
 	if ( lpObj->m_MonsterSkillElementInfo.CheckAttackTime() )
 	{

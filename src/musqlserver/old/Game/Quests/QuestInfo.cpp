@@ -201,7 +201,7 @@ BOOL CQuestInfo::IsQuest(int QuestIndex)
 }
 
 					
-int CQuestInfo::GetQuestState(CGameObject* lpObj, int QuestIndex)
+int CQuestInfo::GetQuestState(LPGameObject &lpObj, int QuestIndex)
 {
 	if ( QuestIndex < 0 || QuestIndex > MAX_QUEST_INFO )
 	{
@@ -218,7 +218,7 @@ int CQuestInfo::GetQuestState(CGameObject* lpObj, int QuestIndex)
 	return (lpObj->m_PlayerData->m_Quest[index] >> shift) &3;
 }
 
-BYTE CQuestInfo::GetQuestStateBYTE(CGameObject* lpObj, int QuestIndex)
+BYTE CQuestInfo::GetQuestStateBYTE(LPGameObject &lpObj, int QuestIndex)
 {
 	if ( QuestIndex < 0 || QuestIndex > MAX_QUEST_INFO )
 	{
@@ -234,7 +234,7 @@ BYTE CQuestInfo::GetQuestStateBYTE(CGameObject* lpObj, int QuestIndex)
 	return lpObj->m_PlayerData->m_Quest[index];
 }
 
-BYTE CQuestInfo::SetQuestState(CGameObject* lpObj, int QuestIndex, int State)
+BYTE CQuestInfo::SetQuestState(LPGameObject &lpObj, int QuestIndex, int State)
 {
 	if ( QuestIndex < 0 || QuestIndex > MAX_QUEST_INFO )
 	{
@@ -286,7 +286,7 @@ BYTE CQuestInfo::SetQuestState(CGameObject* lpObj, int QuestIndex, int State)
 	return 0;
 }
 
-BYTE CQuestInfo::ReSetQuestState(CGameObject* lpObj, int QuestIndex)
+BYTE CQuestInfo::ReSetQuestState(LPGameObject &lpObj, int QuestIndex)
 {
 	if(lpObj->Type != OBJ_USER)
 	{
@@ -317,7 +317,7 @@ LPQUEST_INFO CQuestInfo::GetQuestInfo(int QuestIndex)
 	return &this->QuestInfo[QuestIndex];
 }
 
-LPQUEST_SUB_INFO CQuestInfo::GetSubquestInfo(CGameObject* lpObj, LPQUEST_INFO lpQuestInfo, int subquestindex)
+LPQUEST_SUB_INFO CQuestInfo::GetSubquestInfo(LPGameObject &lpObj, LPQUEST_INFO lpQuestInfo, int subquestindex)
 {
 	if ( lpQuestInfo == NULL )
 	{
@@ -370,7 +370,7 @@ LPQUEST_CONDITION CQuestInfo::GetQuestCondition(LPQUEST_INFO lpQuestInfo, int co
 	return &lpQuestInfo->QuestCondition[conditionindex];
 }
 
-BYTE CQuestInfo::QuestClearConditionCheck(CGameObject* lpObj, int QuestIndex)
+BYTE CQuestInfo::QuestClearConditionCheck(LPGameObject &lpObj, int QuestIndex)
 {
 	LPQUEST_INFO lpQuestInfo = this->GetQuestInfo(QuestIndex);
 
@@ -422,7 +422,7 @@ BYTE CQuestInfo::QuestClearConditionCheck(CGameObject* lpObj, int QuestIndex)
 	return 0;
 }
 
-int CQuestInfo::GetQuestKillCount(CGameObject* lpObj, int uClass)
+int CQuestInfo::GetQuestKillCount(LPGameObject &lpObj, int uClass)
 {
 	if(lpObj->Type != OBJ_USER)
 	{
@@ -442,7 +442,7 @@ int CQuestInfo::GetQuestKillCount(CGameObject* lpObj, int uClass)
 	}
 }
 
-BYTE CQuestInfo::QuestRunConditionCheck(CGameObject* lpObj, int QuestIndex)
+BYTE CQuestInfo::QuestRunConditionCheck(LPGameObject &lpObj, int QuestIndex)
 {
 	LPQUEST_INFO lpQuestInfo = this->GetQuestInfo(QuestIndex);
 
@@ -500,7 +500,7 @@ BYTE CQuestInfo::QuestRunConditionCheck(CGameObject* lpObj, int QuestIndex)
 	return 0;
 }
 
-BOOL CQuestInfo::CompareCondition(CGameObject* lpObj, LPQUEST_CONDITION lpCondition)
+BOOL CQuestInfo::CompareCondition(LPGameObject &lpObj, LPQUEST_CONDITION lpCondition)
 {
 	if ( lpObj->Type != OBJ_USER )
 	{
@@ -547,7 +547,7 @@ BOOL CQuestInfo::CompareCondition(CGameObject* lpObj, LPQUEST_CONDITION lpCondit
 
 
 
-BOOL CQuestInfo::NpcTalk(CGameObject* lpNpc, CGameObject* lpObj)
+BOOL CQuestInfo::NpcTalk(LPGameObject &lpNpc, CGameObject* lpObj)
 {
 	int questcount = this->GetQeustCount();
 	int foundquest = 0;
@@ -611,7 +611,7 @@ BOOL CQuestInfo::NpcTalk(CGameObject* lpNpc, CGameObject* lpObj)
 }
 
 
-BOOL CQuestInfo::MonsterItemDrop(CGameObject* lpObj)
+BOOL CQuestInfo::MonsterItemDrop(LPGameObject &lpObj)
 {
 	int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
@@ -698,7 +698,7 @@ BOOL CQuestInfo::MonsterItemDrop(CGameObject* lpObj)
 	return false;
 }
 
-BOOL CQuestInfo::MonsterItemDropParty(CGameObject* lpObj, CGameObject* lpTargetObj)
+BOOL CQuestInfo::MonsterItemDropParty(LPGameObject &lpObj, CGameObject* lpTargetObj)
 {
 	int questcount = this->GetQeustCount();
 	int foundquest = 0;
@@ -782,7 +782,7 @@ BOOL CQuestInfo::MonsterItemDropParty(CGameObject* lpObj, CGameObject* lpTargetO
 	return false;
 }
 
-BOOL CQuestInfo::AddMonsterKillCount(CGameObject* lpObj)
+BOOL CQuestInfo::AddMonsterKillCount(LPGameObject &lpObj)
 {
 	int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
@@ -994,7 +994,7 @@ BOOL CQuestInfo::AddMonsterKillCount(CGameObject* lpObj)
 
 
 
-BOOL CQuestInfo::QuestAccept(CGameObject* lpObj, int QuestIndex)
+BOOL CQuestInfo::QuestAccept(LPGameObject &lpObj, int QuestIndex)
 {
 	LPQUEST_INFO lpQuestInfo = this->GetQuestInfo(QuestIndex);
 
@@ -1069,7 +1069,7 @@ BOOL CQuestInfo::QuestAccept(CGameObject* lpObj, int QuestIndex)
 	return true;
 }
 
-BOOL CQuestInfo::QuestClear(CGameObject* lpObj, int QuestIndex)
+BOOL CQuestInfo::QuestClear(LPGameObject &lpObj, int QuestIndex)
 {
 	LPQUEST_INFO lpQuestInfo = this->GetQuestInfo(QuestIndex);
 
@@ -1190,7 +1190,7 @@ BOOL CQuestInfo::QuestClear(CGameObject* lpObj, int QuestIndex)
 	return true;
 }
 
-void CQuestInfo::QuestInfoSave(CGameObject* lpObj)
+void CQuestInfo::QuestInfoSave(LPGameObject &lpObj)
 {
 	int questcount = this->GetQeustCount();
 	int foundquest = 0;
@@ -1277,7 +1277,7 @@ struct PMSG_ANS_QUEST_MONKILL_INFO
 	int iKillCountInfo[10];
 };
 
-void CQuestInfo::SendQuestMonsterKill(CGameObject* lpObj, int iQuestIndex)
+void CQuestInfo::SendQuestMonsterKill(LPGameObject &lpObj, int iQuestIndex)
 {
 	PMSG_ANS_QUEST_MONKILL_INFO pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA4, 0x00, sizeof(pMsg));

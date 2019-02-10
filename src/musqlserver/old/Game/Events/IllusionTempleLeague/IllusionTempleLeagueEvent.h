@@ -34,8 +34,8 @@ public:
 	void SetRelicsInventoryPos(BYTE btMapNumber, int aIndex, BYTE btPos);
 	void SendRelicsUserInfo(OBJECTSTRUCT* lpObj);
 
-	int Enter_ITL(int aIndex, BYTE byTempleIndex, BYTE bySlotNum);
-	int Leave_ITL(int aIndex, BYTE btMapNumber);
+	int Enter_ITL(LPGameObject &lpObj, BYTE byTempleIndex, BYTE bySlotNum);
+	int Leave_ITL(LPGameObject &lpObj, BYTE btMapNumber);
 
 	void ActRelicsGetOrRegister(OBJECTSTRUCT *lpNpc, OBJECTSTRUCT *lpObj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType);
 	void CancleStoneState(WORD wNpcType, BYTE byState, BYTE mapnumber);
@@ -81,7 +81,7 @@ public:
 
 	void Send_ITL_Schedule(int index);
 	BYTE FindMyEnemy(char* GuildName);
-	void Send_ITL_Tournament(int aIndex, BYTE byError);
+	void Send_ITL_Tournament(LPGameObject &lpObj, BYTE byError);
 	void Send_ITL_GuildRankInfo(int aIndex);
 
 	bool IsRewardRenewDay();
@@ -110,10 +110,10 @@ public:
 	BYTE Find_AlreadyEnteredUser(char *Name, BYTE &byMapNumber);
 
 	BYTE CheckCanReEnterTiming(BYTE byMapNumber, BYTE &byNowState);
-	BYTE ReEnterITL(int aIndex, BYTE btTempleIndex, int nGuildIdx, int nPartyIdx, int nUserArrayNo, int nITLState, BYTE byTeamIndex);
+	BYTE ReEnterITL(LPGameObject &lpObj, BYTE btTempleIndex, int nGuildIdx, int nPartyIdx, int nUserArrayNo, int nITLState, BYTE byTeamIndex);
 
 	void Insert_RewardList(char *Name, char *GuildName, BYTE byRank, BYTE byPoint, BYTE byEnter);
-	void Send_RewardList(int aIndex, BYTE byError);
+	void Send_RewardList(LPGameObject &lpObj, BYTE byError);
 	void Renew_ITL_RewardList();
 	void Get_ITL_RewardList();
 	void Update_ITL_RewardFlag(char *Name);

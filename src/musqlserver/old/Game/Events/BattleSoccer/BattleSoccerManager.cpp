@@ -275,7 +275,7 @@ int  gCheckGoal(int x, int y, int & ground)	// R:[-1:FAIL ; 0:Team_0 ; 1:Team_1]
 
 
 
-int gCheckBattleGround(CGameObject* lpObj)	// R:[-1:FAIL else OBJGround]
+int gCheckBattleGround(LPGameObject &lpObj)	// R:[-1:FAIL else OBJGround]
 {
 	for ( int n=0;n<MAX_BATTLESOCCER_GROUND;n++)
 	{

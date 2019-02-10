@@ -94,7 +94,7 @@ void CConServ::ServerListSend(int aIndex)
 //	this->SendNews(aIndex);
 }
 
-void CConServ::GetServerInfo(int aIndex, USHORT id)
+void CConServ::GetServerInfo(LPGameObject &lpObj, USHORT id)
 {
 	GS_CONNECT_INFO pMsg	= {0};
 
@@ -364,7 +364,7 @@ void CConServ::SendNews(int aIndex)
 
 
 
-void LProtocolCore(int aIndex, BYTE hCode, LPBYTE aRecv, int aLen)
+void LProtocolCore(LPGameObject &lpObj, BYTE hCode, LPBYTE aRecv, int aLen)
 {
 	switch (hCode)
 	{

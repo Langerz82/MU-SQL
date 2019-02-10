@@ -185,7 +185,7 @@ void CVipSystem::Run()
 	}
 }
 
-void CVipSystem::SetVipForUser(CGameObject* lpObj, BYTE btVipType)
+void CVipSystem::SetVipForUser(LPGameObject &lpObj, BYTE btVipType)
 {
 	if (btVipType == 0)
 	{
@@ -228,7 +228,7 @@ void CVipSystem::SetVipForUser(CGameObject* lpObj, BYTE btVipType)
 	LeaveCriticalSection(&this->m_criti);
 }
 
-float CVipSystem::GetExpBonus(CGameObject* lpObj)
+float CVipSystem::GetExpBonus(LPGameObject &lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -267,7 +267,7 @@ float CVipSystem::GetExpBonus(CGameObject* lpObj)
 	return fEffect;
 }
 
-int CVipSystem::GetDropBonus(CGameObject* lpObj)
+int CVipSystem::GetDropBonus(LPGameObject &lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -306,7 +306,7 @@ int CVipSystem::GetDropBonus(CGameObject* lpObj)
 	return iEffect;
 }
 
-int CVipSystem::GetExcDropBonus(CGameObject* lpObj)
+int CVipSystem::GetExcDropBonus(LPGameObject &lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -409,7 +409,7 @@ DWORD CVipSystem::GetPointPerReset(OBJECTSTRUCT *lpObj)
 	return dwEffect;
 }
 
-int CVipSystem::GetPlusItemMixRate(CGameObject* lpObj, int iMixType)
+int CVipSystem::GetPlusItemMixRate(LPGameObject &lpObj, int iMixType)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -467,7 +467,7 @@ int CVipSystem::GetPlusItemMixRate(CGameObject* lpObj, int iMixType)
 	return iEffect;
 }
 
-int CVipSystem::GetPlusItemAddLuckRate(CGameObject* lpObj)
+int CVipSystem::GetPlusItemAddLuckRate(LPGameObject &lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{

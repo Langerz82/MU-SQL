@@ -430,7 +430,7 @@ void CLastManStanding::EndEvent(int room)
 	StartMinute = 0;
 }
 
-void CLastManStanding::UserDie(int aIndex, int aTargetIndex)
+void CLastManStanding::UserDie(LPGameObject &lpObj, int aTargetIndex)
 {
 	int room = gGameObjects[aIndex].m_PlayerData->RegisteredLMSRoom;
 	for(int i=0;i<this->m_Rooms[room].regCount;i++)

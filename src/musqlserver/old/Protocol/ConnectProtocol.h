@@ -11,10 +11,10 @@ void CSProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, int aIndex, bool Encry
 void UDPProtocolCore(BYTE hCode, LPBYTE aRecv, int aLen);
 void UDPSetServerInfo(PMSG_SERVERINFO * aRecv);
 void SCSendServerList(int aIndex);
-void SCSendServerInfo(int aIndex, PMSG_SERVER_SELECT * aRecv);
-void SCConnectResultSend(int aIndex, BYTE btResult);
+void SCSendServerInfo(LPGameObject &lpObj, PMSG_SERVER_SELECT * aRecv);
+void SCConnectResultSend(LPGameObject &lpObj, BYTE btResult);
 void SCSendNews(int aIndex);
-void SCSendAutoUpdateData(int aIndex, PMSG_CLIENTVERSION * aRecv);
+void SCSendAutoUpdateData(LPGameObject &lpObj, PMSG_CLIENTVERSION * aRecv);
 void UDPInit();
 
 #endif

@@ -1040,7 +1040,7 @@ int GetPremiumExp(int nAddExp)
 	return nPremiumExp;
 }
 
-void CheckItemOptForGetExpExRenewal(CGameObject* lpObj, CGameObject* lpTargetObj, UINT64 &iExp, UINT64 iDefaultExp, BOOL bRewardExp)
+void CheckItemOptForGetExpExRenewal(LPGameObject &lpObj, CGameObject* lpTargetObj, UINT64 &iExp, UINT64 iDefaultExp, BOOL bRewardExp)
 {
 	UINT64 iRetExp = iExp;
 	int nAddExp = 100;

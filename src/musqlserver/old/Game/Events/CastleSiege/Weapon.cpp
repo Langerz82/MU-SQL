@@ -159,14 +159,14 @@ BOOL CWeapon::GetTargetPointXY(int iObjClass, int iTargetPointIndex, BYTE &btX, 
 }
 
 
-BOOL CWeapon::MissCheck(CGameObject* lpObj, CGameObject* lpTargetObj, int iSkill, int iSkillSuccess, BOOL& bAllMiss)
+BOOL CWeapon::MissCheck(LPGameObject &lpObj, CGameObject* lpTargetObj, int iSkill, int iSkillSuccess, BOOL& bAllMiss)
 {
 	return TRUE;
 }
 
 
 
-BOOL CWeapon::Attack(CGameObject* lpObj, CGameObject* lpTargetObj, CMagicInf * lpMagic, int iCriticalDamage, int iActionType)
+BOOL CWeapon::Attack(LPGameObject &lpObj, CGameObject* lpTargetObj, CMagicInf * lpMagic, int iCriticalDamage, int iActionType)
 {
 	int iSkill = 0;
 	int iSkillSuccess = TRUE;

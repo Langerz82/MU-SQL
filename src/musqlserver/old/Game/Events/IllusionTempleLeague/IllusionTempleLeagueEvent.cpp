@@ -318,7 +318,7 @@ void CIllusionTempleLeagueEvent::SendRelicsUserInfo(OBJECTSTRUCT* lpObj)
 	this->m_cIllusionTempleLeagueProc[lpObj->MapNumber - 98].SendRelicsUserInfo(lpObj, 0);
 }
 
-BOOL CIllusionTempleLeagueEvent::Enter_ITL(int aIndex, BYTE byTempleIndex, BYTE bySlotNum)
+BOOL CIllusionTempleLeagueEvent::Enter_ITL(LPGameObject &lpObj, BYTE byTempleIndex, BYTE bySlotNum)
 {
 	if (CIllusionTempleLeagueEvent::m_bITL_Event_Enable == false)
 	{
@@ -356,7 +356,7 @@ BOOL CIllusionTempleLeagueEvent::Enter_ITL(int aIndex, BYTE byTempleIndex, BYTE 
 	}
 }
 
-int CIllusionTempleLeagueEvent::Leave_ITL(int aIndex, BYTE btMapNumber)
+int CIllusionTempleLeagueEvent::Leave_ITL(LPGameObject &lpObj, BYTE btMapNumber)
 {
 	if (!ITL_MAP_RANGE(btMapNumber))
 	{
@@ -508,7 +508,7 @@ void CIllusionTempleLeagueEvent::IllusionTempleLeagueUserDie(OBJECTSTRUCT *lpObj
 	this->m_cIllusionTempleLeagueProc[lpObj->MapNumber - 98].ITLUserDie(lpObj);
 }
 
-void CIllusionTempleLeagueEvent::IllusionTempleLeagueUserDieRegen(CGameObject* lpObj)
+void CIllusionTempleLeagueEvent::IllusionTempleLeagueUserDieRegen(LPGameObject &lpObj)
 {
 	if (!ObjectMaxRange(lpObj->m_Index))
 	{
@@ -909,7 +909,7 @@ BYTE CIllusionTempleLeagueEvent::FindMyEnemy(char* GuildName)
 	return 0;
 }
 
-void CIllusionTempleLeagueEvent::Send_ITL_Tournament(int aIndex, BYTE byError)
+void CIllusionTempleLeagueEvent::Send_ITL_Tournament(LPGameObject &lpObj, BYTE byError)
 {
 	PMSG_ITL_GUILD_RANKINFO pMsg;
 	__ITL_GUILD_RANK pGuildInfo;
@@ -1386,7 +1386,7 @@ BYTE CIllusionTempleLeagueEvent::CheckCanReEnterTiming(BYTE byMapNumber, BYTE &b
 	return 0;
 }
 
-BYTE CIllusionTempleLeagueEvent::ReEnterITL(int aIndex, BYTE btTempleIndex, int nGuildIdx, int nPartyIdx, int nUserArrayNo, int nITLState, BYTE byTeamIndex)
+BYTE CIllusionTempleLeagueEvent::ReEnterITL(LPGameObject &lpObj, BYTE btTempleIndex, int nGuildIdx, int nPartyIdx, int nUserArrayNo, int nITLState, BYTE byTeamIndex)
 {
 	return this->m_cIllusionTempleLeagueProc[btTempleIndex].ReEnterUserIllusionTempleLeague(aIndex, btTempleIndex, nGuildIdx, nPartyIdx, nUserArrayNo, byTeamIndex);
 }
@@ -1406,7 +1406,7 @@ void CIllusionTempleLeagueEvent::Insert_RewardList(char *Name, char *GuildName, 
 	}
 }
 
-void CIllusionTempleLeagueEvent::Send_RewardList(int aIndex, BYTE byError)
+void CIllusionTempleLeagueEvent::Send_RewardList(LPGameObject &lpObj, BYTE byError)
 {
 	PMSG_ANS_REWARDLIST pMsg;
 	_tagITL_REWARDLIST ITLRewardList;

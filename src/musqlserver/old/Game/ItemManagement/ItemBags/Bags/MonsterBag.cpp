@@ -21,7 +21,7 @@ void CMonsterBag::SetBagInfo(int iParam1, int MonsterClass)
 	this->m_BagMonsterClass = MonsterClass;
 }
 
-bool CMonsterBag::CheckCondition(int aIndex, int MonsterClass, int iParam2)
+bool CMonsterBag::CheckCondition(LPGameObject &lpObj, int MonsterClass, int iParam2)
 {
 	if (rand() % 10000 >= this->m_BagData.dwBagUseRate)
 	{
@@ -36,7 +36,7 @@ bool CMonsterBag::CheckCondition(int aIndex, int MonsterClass, int iParam2)
 	return false;
 }
 
-bool CMonsterBag::IsBag(int aIndex, int MonsterClass, int iParam2)
+bool CMonsterBag::IsBag(LPGameObject &lpObj, int MonsterClass, int iParam2)
 {
 	if (this->m_BagMonsterClass == MonsterClass)
 	{
@@ -46,7 +46,7 @@ bool CMonsterBag::IsBag(int aIndex, int MonsterClass, int iParam2)
 	return false;
 }
 
-bool CMonsterBag::UseBag(int aIndex, int iMonsterIndex)
+bool CMonsterBag::UseBag(LPGameObject &lpObj, int iMonsterIndex)
 {
 	if (gGameObjects[aIndex].Type != OBJ_USER)
 	{
@@ -151,7 +151,7 @@ bool CMonsterBag::UseBag(int aIndex, int iMonsterIndex)
 	return true;
 }
 
-bool CMonsterBag::UseBag_GremoryCase(int aIndex, int iMonsterIndex, BYTE btStorageType, BYTE btRewardSource, int iExpireDays)
+bool CMonsterBag::UseBag_GremoryCase(LPGameObject &lpObj, int iMonsterIndex, BYTE btStorageType, BYTE btRewardSource, int iExpireDays)
 {
 	return false;
 }

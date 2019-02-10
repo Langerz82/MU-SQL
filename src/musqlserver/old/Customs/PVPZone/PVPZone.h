@@ -29,7 +29,7 @@ public:
 	void	Load();
 	void	ReadData(char * File);
 	// ----
-	//bool	IsPVPZone(CGameObject* lpUser);
+	//bool	IsPVPZone(LPGameObject &lpUser);
 	// ----
 	PVPZONE_DATA m_Data[MAX_PVPZONE];
 	// ----

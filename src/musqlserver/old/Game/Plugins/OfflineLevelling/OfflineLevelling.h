@@ -66,16 +66,16 @@ public:
 	void Run();
 	BOOL LoadFile(LPCSTR szFile);
 	BOOL LoadSkillDefinitions(LPCSTR szFile);
-	BOOL AddUser(int aIndex, WORD wSkillId);
+	BOOL AddUser(LPGameObject &lpObj, WORD wSkillId);
 	BOOL DeleteUser(int aIndex);
 	int FindUser(int aIndex);
-	void FindAndAttack(CGameObject* user);
+	void FindAndAttack(LPGameObject &user);
 	bool ChargePlayer(int aIndex);
 	int GetSkillAttackType(WORD wSkillID);
-	BOOL SkillDistanceCheck(int aIndex, int aTargetIndex, int iSkillNum);
+	BOOL SkillDistanceCheck(LPGameObject &lpObj, int aTargetIndex, int iSkillNum);
 	int GetOffLevelerCount();
 	bool CheckUseTime(int aIndex);
-	void CheckAndPickUpItem(int aIndex, CMapItem* cMapItem,short tObjNum);
+	void CheckAndPickUpItem(LPGameObject &lpObj, CMapItem* cMapItem,short tObjNum);
 	void CheckRepairItems(int aIndex);
 	// var
 	std::map<int, OFF_LEVEL_PLAYERS> m_OffPlayerData;

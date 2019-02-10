@@ -50,12 +50,12 @@ public:
 	int Load(char* filename);
 	int LoadMoveLevel(char* filename);
 	int GetMoveLevel(int mapnumber, int x, int y, int Class);
-	int CheckMainToMove(CGameObject* lpObj);
-	int CheckEquipmentToMove(CGameObject* lpObj, int iTargetMapNumber);
-	int CheckInterfaceToMove(CGameObject* lpObj);
-	int Move(CGameObject* lpObj, int iMapIndex);
-	int Move(CGameObject* lpObj, char* mapname);
-	int MoveFree2Kalima(CGameObject* lpObj);
+	int CheckMainToMove(LPGameObject &lpObj);
+	int CheckEquipmentToMove(LPGameObject &lpObj, int iTargetMapNumber);
+	int CheckInterfaceToMove(LPGameObject &lpObj);
+	int Move(LPGameObject &lpObj, int iMapIndex);
+	int Move(LPGameObject &lpObj, char* mapname);
+	int MoveFree2Kalima(LPGameObject &lpObj);
 	BOOL CheckMoveMapBound(int iMapIndex);
 	LPMOVE_COMMAND_DATA GetMoveCommandData(int nMapIndex);
 	LPMOVE_COMMAND_DATA GetMoveCommandDataByMapNumber(WORD wMapNumber);

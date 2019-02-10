@@ -5939,7 +5939,7 @@ void LoadResetItemList(LPSTR szFile)
 	sLog->outBasic("[%s]::LoadFile() -> Success!", szFile);
 }
 
-bool CheckCanWearResetItem(int aIndex, int itemid)
+bool CheckCanWearResetItem(LPGameObject &lpObj, int itemid)
 {
 	if (!ObjectMaxRange(aIndex))
 		return false;

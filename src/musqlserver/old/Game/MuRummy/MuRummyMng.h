@@ -57,7 +57,7 @@ public:
 	void CGReqMuRummyEnd(PMSG_REQ_MURUMMY_END *lpMsg, int aIndex);
 
 	void GCSendCardList(int aIndex);
-	void GCSendMsg(int aIndex, BYTE btNotiIndex, int iValue);
+	void GCSendMsg(LPGameObject &lpObj, BYTE btNotiIndex, int iValue);
 
 	void CheatSetCardColorAsc(CMuRummyInfo *pMuRummyInfo, int aIndex);
 	void CheatSetCardNumAsc(CMuRummyInfo *pMuRummyInfo, int aIndex);

@@ -897,7 +897,7 @@ void CDevilSquare::ClearMonstr()
 	}
 }
 
-void CDevilSquare::gDevilSquareMonsterRegen(CGameObject* lpObj)
+void CDevilSquare::gDevilSquareMonsterRegen(LPGameObject &lpObj)
 {
 	BYTE devilsquareindex = lpObj->m_bDevilSquareIndex;
 
@@ -969,7 +969,7 @@ void CDevilSquare::SendEventStartMsg()
 
 
 
-void CDevilSquare::DieProcDevilSquare(CGameObject* lpObj)
+void CDevilSquare::DieProcDevilSquare(LPGameObject &lpObj)
 {
 	char msg[255];
 
@@ -1025,7 +1025,7 @@ void CDevilSquare::DieProcDevilSquare(CGameObject* lpObj)
 
 
 
-UINT64 CDevilSquare::gObjMonsterExpSingle(CGameObject* lpObj, CGameObject* lpTargetObj, int dmg, int tot_dmg)
+UINT64 CDevilSquare::gObjMonsterExpSingle(LPGameObject &lpObj, CGameObject* lpTargetObj, int dmg, int tot_dmg)
 {
 	BYTE devilsquareindex = lpObj->m_bDevilSquareIndex;
 
@@ -1157,7 +1157,7 @@ UINT64 CDevilSquare::gObjMonsterExpSingle(CGameObject* lpObj, CGameObject* lpTar
 
 
 
-void CDevilSquare::gObjExpParty(CGameObject* lpObj, CGameObject* lpTargetObj, int AttackDamage, BOOL MSBFlag)
+void CDevilSquare::gObjExpParty(LPGameObject &lpObj, CGameObject* lpTargetObj, int AttackDamage, BOOL MSBFlag)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -1413,7 +1413,7 @@ void CDevilSquare::gObjExpParty(CGameObject* lpObj, CGameObject* lpTargetObj, in
 
 
 
-void CDevilSquare::gObjMonsterScoreDivision(CGameObject* lpMonObj, CGameObject* lpObj, int AttackDamage, BOOL MSBFlag)
+void CDevilSquare::gObjMonsterScoreDivision(LPGameObject &lpMonObj, CGameObject* lpObj, int AttackDamage, BOOL MSBFlag)
 {
 	::gObjMonsterHitDamageUserDel(lpMonObj);
 	lpMonObj->MonsterMoneyDrop = 0;

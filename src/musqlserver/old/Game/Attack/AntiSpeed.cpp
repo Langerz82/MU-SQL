@@ -170,7 +170,7 @@ VOID CAttackQueue::AttackQueueProc(std::vector<CGameObject*> gObj)
 	while(ThreadActive)
 	{
 		//for(int i = OBJ_STARTUSERINDEX; i < OBJMAX; i++)
-		for each(CGameObject* Obj in gObj)
+		for each(LPGameObject &Obj in gObj)
 		{
 			if(Obj->m_PlayerData->m_AttackQueue == NULL)
 			{
@@ -246,7 +246,7 @@ void CAttackQueue::Clear()
 	LeaveCriticalSection(&this->m_CritQueue);
 }
 
-CAttackMsg::CAttackMsg(int aIndex, BYTE* pmsg, int len, int type )
+CAttackMsg::CAttackMsg(LPGameObject &lpObj, BYTE* pmsg, int len, int type )
 {
 	if(aIndex < OBJ_STARTUSERINDEX || aIndex > OBJMAX-1)
 	{

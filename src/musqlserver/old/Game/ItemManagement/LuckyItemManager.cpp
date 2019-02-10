@@ -342,7 +342,7 @@ _SMELT_RATE * LuckyItemManager::GetSmeltingRateInfo(int iItemNum)
 	return false;
 }
 
-void LuckyItemManager::LuckyItemTicketExchange(CGameObject* lpObj)
+void LuckyItemManager::LuckyItemTicketExchange(LPGameObject &lpObj)
 {
 	int iValidItemCount		= 0;
 	int iInvalidItemCount	= 0;
@@ -534,7 +534,7 @@ BYTE LuckyItemManager::GambleGetLevel(_ITEM_LEVEL_RATE * pItemLevelRandRate, int
 	return level;
 }
 
-void LuckyItemManager::LuckyItemSmelting(CGameObject* lpObj)
+void LuckyItemManager::LuckyItemSmelting(LPGameObject &lpObj)
 {
 	int iValidItemCount		= 0;
 	BYTE iInvalidItemCount	= 0;

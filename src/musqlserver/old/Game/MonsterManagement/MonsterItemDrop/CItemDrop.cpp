@@ -105,7 +105,7 @@ bool CItemDrop::LoadFile(const char *szFile)
 	} 
 }
 
-bool CItemDrop::DropItem(CGameObject* lpUser, CGameObject* lpMonster)
+bool CItemDrop::DropItem(LPGameObject &lpUser, CGameObject* lpMonster)
 {
 	if(!ObjectMaxRange(lpUser->m_Index))
 		return false;

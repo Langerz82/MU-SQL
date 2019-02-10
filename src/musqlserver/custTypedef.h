@@ -43,7 +43,5 @@ typedef unsigned long long SOCKET;
 	#define FALSE 0
 #endif
 
-struct OBJECTSTRUCT;
-typedef OBJECTSTRUCT* CGameObject*;
-
+typedef CGameObject* LPGameObject;
 #endif

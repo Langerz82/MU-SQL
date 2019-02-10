@@ -25,8 +25,8 @@ public:
 	int IsGate(int GateNumber);
 	int GetGate(int mgt, short& x, short& y, BYTE& MapNumber, BYTE& dir, short& Level);
 	int GetLevel(int GateNumber);
-	int IsInGate(int aIndex, int GateNumber);
-	int CheckGateLevel(int aIndex, int GateNumber);
+	int IsInGate(LPGameObject &lpObj, int GateNumber);
+	int CheckGateLevel(LPGameObject &lpObj, int GateNumber);
 
 private:
 

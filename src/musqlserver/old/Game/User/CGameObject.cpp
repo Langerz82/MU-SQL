@@ -34,7 +34,6 @@ MessageStateMachine ** gSMMsg;
 ExMessageStateMachine ** gSMAttackProcMsg;
 BILL_CLASS * m_ObjBill;	// line : 193
 static CRaklionUtil RAKLION_UTIL;
-//static CLogToFile * CharSaveLog;
 CItem * pTempInventory;
 BYTE * pTempInventoryMap;
 

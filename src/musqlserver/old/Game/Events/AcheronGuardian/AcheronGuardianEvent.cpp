@@ -667,7 +667,7 @@ void CAcheronGuardianEvent::RegenMonster(int nGroupNumber, int iGenSeq, int iGen
 		nGroupNumber, this->m_stMonsterGroupInfo[nGroupNumber].m_nGenTotCnt);
 }
 
-int CAcheronGuardianEvent::SetPosMonster(int aIndex, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY)
+int CAcheronGuardianEvent::SetPosMonster(LPGameObject &lpObj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY)
 {
 	if (!ObjectMaxRange(aIndex))
 	{

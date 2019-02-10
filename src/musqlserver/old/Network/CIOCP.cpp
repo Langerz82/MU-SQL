@@ -500,7 +500,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 	return true;
 }
 
-bool CIOCP::DataSend(int aIndex, unsigned char* lpMsg, DWORD dwSize, bool Encrypt)
+bool CIOCP::DataSend(LPGameObject &lpObj, unsigned char* lpMsg, DWORD dwSize, bool Encrypt)
 {
 	unsigned long SendBytes;
 	_PER_SOCKET_CONTEXT * lpPerSocketContext;

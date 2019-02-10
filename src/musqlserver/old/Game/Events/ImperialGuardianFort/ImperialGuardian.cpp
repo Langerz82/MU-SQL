@@ -2332,7 +2332,7 @@ void CImperialGuardian::UserMonsterCountCheck()
 	// empty
 }
 
-void CImperialGuardian::MonsterBaseAct(CGameObject* lpObj)
+void CImperialGuardian::MonsterBaseAct(LPGameObject &lpObj)
 {
 	CGameObject* lpTargetObj = NULL;
 

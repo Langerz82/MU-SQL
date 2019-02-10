@@ -4600,7 +4600,7 @@ void CBloodCastle::CatchQuestItemByUser(int iBridgeIndex, int iUserIndex, int iI
 
 }
 
-bool CBloodCastle::NpcAngelKing(CGameObject* lpNpc, CGameObject* lpObj)
+bool CBloodCastle::NpcAngelKing(LPGameObject &lpNpc, CGameObject* lpObj)
 {
 	int iITEM_LEVEL = 0;
 	int iBLOODCASTLE_INDEX = lpObj->m_cBloodCastleIndex;

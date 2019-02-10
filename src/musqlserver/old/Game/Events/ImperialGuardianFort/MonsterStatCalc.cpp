@@ -52,7 +52,7 @@ void CMonsterStatCalc::LoadScript(LPSTR Filename)
 
 }
 
-BOOL CMonsterStatCalc::ConvertMonsterStat(CGameObject* lpObj, int nUserMaxLevel)
+BOOL CMonsterStatCalc::ConvertMonsterStat(LPGameObject &lpObj, int nUserMaxLevel)
 {
 	if ( this->m_bLoad == FALSE )
 	{

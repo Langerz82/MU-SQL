@@ -1479,7 +1479,7 @@ void CDevilSquareFinal::DeletePartyByIndex(int nIndex)
 	}
 }
 
-BOOL CDevilSquareFinal::Enter_DSF(int aIndex, BYTE btSlotNum)
+BOOL CDevilSquareFinal::Enter_DSF(LPGameObject &lpObj, BYTE btSlotNum)
 {
 	if (this->m_bEVENT_ENABLE == false)
 	{
@@ -2835,7 +2835,7 @@ int CDevilSquareFinal::MonsterKillPoint(int nMonsterType)
 	return nPoint;
 }
 
-void CDevilSquareFinal::MonsterKillPointCalc(int aIndex, int nPoint)
+void CDevilSquareFinal::MonsterKillPointCalc(LPGameObject &lpObj, int nPoint)
 {
 	for (int i = 0; i < 20; i++)
 	{

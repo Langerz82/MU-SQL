@@ -83,7 +83,7 @@ void CPacketCheckSum::ClearCheckSum(int aIndex)
 }
 
 
-BOOL CPacketCheckSum::Add(int aIndex, int funcindex, DWORD checksum)
+BOOL CPacketCheckSum::Add(LPGameObject &lpObj, int funcindex, DWORD checksum)
 {
 	if ( aIndex < 0 || aIndex > g_ConfigRead.server.GetObjectMax()-1)
 	{
@@ -120,7 +120,7 @@ BOOL CPacketCheckSum::Add(int aIndex, int funcindex, DWORD checksum)
 
 
 
-void CPacketCheckSum::AddCheckSum(int aIndex, int funcindex, DWORD checksum)
+void CPacketCheckSum::AddCheckSum(LPGameObject &lpObj, int funcindex, DWORD checksum)
 {
 	if ( funcindex < 0 || funcindex >= MAX_PACKET_CHECKSUM_FUNCTION_INDEX )
 	{

@@ -290,7 +290,7 @@ void CMonsterRegenSystem::RegenMonster(int nGroupNumber)
 	}
 }
 
-bool CMonsterRegenSystem::SetPosMonster(int aIndex, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY)
+bool CMonsterRegenSystem::SetPosMonster(LPGameObject &lpObj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -433,7 +433,7 @@ bool CMonsterRegenSystem::IsRegenTime(int nGroupNumber, int nCurHour, int nCurMi
 	return false;
 }
 
-bool CMonsterRegenSystem::MonsterKillCheck(CGameObject* lpPlayer, CGameObject* lpMonster)
+bool CMonsterRegenSystem::MonsterKillCheck(LPGameObject &lpPlayer, CGameObject* lpMonster)
 {
 	for (int i = 0; i < MAX_MONSTER_GROUP_INFO && this->m_stMonsterGroupInfo[i].m_nGroupNumber > -1; i++)
 	{

@@ -136,21 +136,21 @@ class CBotSystem
 
 	void Init();
 	void LoadData(LPSTR szFile);
-	bool LoadBotSpecializationData(int aIndex, LPSTR szFile, BYTE type);
+	bool LoadBotSpecializationData(LPGameObject &lpObj, LPSTR szFile, BYTE type);
 	void SetAllBots();
 	int AddBot(_sBOT_SETTINGS pBot); 
 	void BuffPlayer(WORD  wBufferindex,short aIndex);
-	void MakePreviewCharSet(int aIndex,_sBOT_INVENTORY_WEAR_ITEMS * pInv);
+	void MakePreviewCharSet(LPGameObject &lpObj,_sBOT_INVENTORY_WEAR_ITEMS * pInv);
 	BYTE GetBotType(int aIndex);
-	int GetSkillTime(int aIndex, WORD wSkillId);
-	bool CheckAlchemist(int aIndex, int botIndex );
+	int GetSkillTime(LPGameObject &lpObj, WORD wSkillId);
+	bool CheckAlchemist(LPGameObject &lpObj, int botIndex );
 	int AlchemistTradeItemCount(int aIndex);
-	void AlchemistTradeOpen(int aIndex, int botIndex);
-	void AlchemistTradeOk(int aIndex, int botIndex);
-	sBOT_REWARD_STRUCT ConfirmMixSuccess(int aIndex,int botIndex);
+	void AlchemistTradeOpen(LPGameObject &lpObj, int botIndex);
+	void AlchemistTradeOk(LPGameObject &lpObj, int botIndex);
+	sBOT_REWARD_STRUCT ConfirmMixSuccess(LPGameObject &lpObj,int botIndex);
 	bool AlchemistVerifyItem(s_BOT_CRAFTING_ITEM_STRUCT lpReqItem, CItem TradeItem);
 	bool StoreAddItems(int botIndex);
-	BYTE PShopCheckSpace(CGameObject* lpObj, int type, BYTE * TempMap);
+	BYTE PShopCheckSpace(LPGameObject &lpObj, int type, BYTE * TempMap);
 	std::map<int,_sBOT_SETTINGS> m_BotData;
 private:
 
@@ -159,7 +159,7 @@ private:
 extern CBotSystem g_BotSystem;
 
 BYTE gObjTempPShopRectCheck(BYTE * TempMap, int sx, int sy, int width, int height);
-int gObjGetItemCountInTradeWindow(int aIndex, WORD itemtype, int itemlevel, BYTE btExc, BYTE btSet, BYTE btOpt, BYTE btLuck, BYTE btSkill);
+int gObjGetItemCountInTradeWindow(LPGameObject &lpObj, WORD itemtype, int itemlevel, BYTE btExc, BYTE btSet, BYTE btOpt, BYTE btLuck, BYTE btSkill);
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////

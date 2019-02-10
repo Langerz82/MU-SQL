@@ -483,7 +483,7 @@ int IsJumpingEventItem(int iItemCode);
 int IsExpensiveItem(CItem * item);
 int GetItemKindA(int item_num);
 int GetItemKindB(int item_num);
-bool CheckCanWearResetItem(int aIndex, int itemid);
+bool CheckCanWearResetItem(LPGameObject &lpObj, int itemid);
 bool IsBloodAngelItem(int item_num);
 int SafeGetItem(int index);
 

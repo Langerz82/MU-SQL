@@ -123,7 +123,7 @@ void SCSendServerList(int aIndex)
 	g_Log.Add("[Server] Sent Server List COUNT: [%d] (Index: [%d])", Count, aIndex);
 }
 
-void SCSendServerInfo(int aIndex, PMSG_SERVER_SELECT * aRecv)
+void SCSendServerInfo(LPGameObject &lpObj, PMSG_SERVER_SELECT * aRecv)
 {
 	PMSG_CONNECT_INFO pMsg;
 
@@ -150,7 +150,7 @@ void SCSendServerInfo(int aIndex, PMSG_SERVER_SELECT * aRecv)
 	}
 }
 
-void SCConnectResultSend(int aIndex, BYTE btResult)
+void SCConnectResultSend(LPGameObject &lpObj, BYTE btResult)
 {
 	PMSG_RESULT pMsg;
 
@@ -207,7 +207,7 @@ void SCSendNews(int aIndex)
 	}
 }
 
-void SCSendAutoUpdateData(int aIndex, PMSG_CLIENTVERSION *aRecv)
+void SCSendAutoUpdateData(LPGameObject &lpObj, PMSG_CLIENTVERSION *aRecv)
 {
 	unsigned int MainVersion, HeadVersion, SubVersion;
 

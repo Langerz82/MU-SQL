@@ -75,7 +75,7 @@ public:
 	void DelUser(int index);
 	void UserQuit(int index);
 	void Run();
-	void UserDie(int aIndex,int aTargetIndex);
+	void UserDie(LPGameObject &lpObj,int aTargetIndex);
 	void RewardUser(int aIndex);
 	void MoveAllUser(int Room);
 	void EndEvent(int room);

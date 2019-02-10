@@ -30,7 +30,7 @@ void InitEventDB()
 }
 
 
-void EProtocolCore(int aIndex, BYTE HeadCode, LPBYTE aRecv, int iSize)
+void EProtocolCore(LPGameObject &lpObj, BYTE HeadCode, LPBYTE aRecv, int iSize)
 {
 #if (TRACE_PACKET == 1 )
 	LogAddHeadHex("EVENT_SERVER", aRecv, iSize);
@@ -81,7 +81,7 @@ void EProtocolCore(int aIndex, BYTE HeadCode, LPBYTE aRecv, int iSize)
 	//g_ServerInfoDisplayer.CheckEVDSConnection(FALSE);
 }
 
-void EGAnsEventChipInfo(int aIndex,PMSG_REQ_VIEW_EC_MN * lpMsg)
+void EGAnsEventChipInfo(LPGameObject &lpObj,PMSG_REQ_VIEW_EC_MN * lpMsg)
 {
 	int test = false;
 	PMSG_ANS_VIEW_EC_MN pMsg;
@@ -97,7 +97,7 @@ void EGAnsEventChipInfo(int aIndex,PMSG_REQ_VIEW_EC_MN * lpMsg)
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
-void EGAnsRegEventChipInfo(int aIndex,PMSG_REQ_REGISTER_EVENTCHIP * lpMsg)
+void EGAnsRegEventChipInfo(LPGameObject &lpObj,PMSG_REQ_REGISTER_EVENTCHIP * lpMsg)
 {
 	PMSG_ANS_REGISTER_EVENTCHIP pMsg;
 
@@ -115,7 +115,7 @@ void EGAnsRegEventChipInfo(int aIndex,PMSG_REQ_REGISTER_EVENTCHIP * lpMsg)
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
-void EGAnsResetEventChip(int aIndex,PMSG_REQ_RESET_EVENTCHIP * lpMsg)
+void EGAnsResetEventChip(LPGameObject &lpObj,PMSG_REQ_RESET_EVENTCHIP * lpMsg)
 {
 	PMSG_ANS_RESET_EVENTCHIP pMsg;
 
@@ -130,7 +130,7 @@ void EGAnsResetEventChip(int aIndex,PMSG_REQ_RESET_EVENTCHIP * lpMsg)
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
-void EGAnsEventStoneInfo(int aIndex,PMSG_REQ_VIEW_EC_MN * lpMsg)
+void EGAnsEventStoneInfo(LPGameObject &lpObj,PMSG_REQ_VIEW_EC_MN * lpMsg)
 {
 	PMSG_ANS_VIEW_STONES pMsg;
 
@@ -145,7 +145,7 @@ void EGAnsEventStoneInfo(int aIndex,PMSG_REQ_VIEW_EC_MN * lpMsg)
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
-void EGAnsRegEventStoneInfo(int aIndex,PMSG_REQ_REGISTER_STONES * lpMsg)
+void EGAnsRegEventStoneInfo(LPGameObject &lpObj,PMSG_REQ_REGISTER_STONES * lpMsg)
 {
 	PMSG_ANS_REGISTER_STONES pMsg;
 
@@ -161,7 +161,7 @@ void EGAnsRegEventStoneInfo(int aIndex,PMSG_REQ_REGISTER_STONES * lpMsg)
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
-void EGAnsDeleteStones(int aIndex,PMSG_REQ_DELETE_STONES * lpMsg)
+void EGAnsDeleteStones(LPGameObject &lpObj,PMSG_REQ_DELETE_STONES * lpMsg)
 {
 	PMSG_ANS_DELETE_STONES pMsg = {0};
 
@@ -178,7 +178,7 @@ void EGAnsDeleteStones(int aIndex,PMSG_REQ_DELETE_STONES * lpMsg)
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
-void EGAns2AnivRegSerial(int aIndex,PMSG_REQ_2ANIV_SERIAL * lpMsg)
+void EGAns2AnivRegSerial(LPGameObject &lpObj,PMSG_REQ_2ANIV_SERIAL * lpMsg)
 {
 	PMSG_ANS_2ANIV_SERIAL pMsg = {0};
 
@@ -195,7 +195,7 @@ void EGAns2AnivRegSerial(int aIndex,PMSG_REQ_2ANIV_SERIAL * lpMsg)
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
-void EGAnsResetStoneInfo(int aIndex,PMSG_REQ_RESET_EVENTCHIP * lpMsg)
+void EGAnsResetStoneInfo(LPGameObject &lpObj,PMSG_REQ_RESET_EVENTCHIP * lpMsg)
 {
 	PMSG_ANS_RESET_EVENTCHIP pMsg;
 
@@ -213,7 +213,7 @@ void EGAnsResetStoneInfo(int aIndex,PMSG_REQ_RESET_EVENTCHIP * lpMsg)
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
-void EGAnsRegCCOfflineGift(int aIndex,PMSG_REQ_REG_CC_OFFLINE_GIFT * lpMsg)
+void EGAnsRegCCOfflineGift(LPGameObject &lpObj,PMSG_REQ_REG_CC_OFFLINE_GIFT * lpMsg)
 {
 	PMSG_ANS_REG_CC_OFFLINE_GIFT pMsg;
 
@@ -233,7 +233,7 @@ void EGAnsRegCCOfflineGift(int aIndex,PMSG_REQ_REG_CC_OFFLINE_GIFT * lpMsg)
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
-void EGAnsRegDLOfflineGift(int aIndex,PMSG_REQ_REG_DL_OFFLINE_GIFT * lpMsg)
+void EGAnsRegDLOfflineGift(LPGameObject &lpObj,PMSG_REQ_REG_DL_OFFLINE_GIFT * lpMsg)
 {
 	PMSG_ANS_REG_DL_OFFLINE_GIFT pMsg;
 
@@ -253,7 +253,7 @@ void EGAnsRegDLOfflineGift(int aIndex,PMSG_REQ_REG_DL_OFFLINE_GIFT * lpMsg)
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
-void EGAnsRegHTOfflineGift(int aIndex,PMSG_REQ_REG_HT_OFFLINE_GIFT * lpMsg)
+void EGAnsRegHTOfflineGift(LPGameObject &lpObj,PMSG_REQ_REG_HT_OFFLINE_GIFT * lpMsg)
 {
 	PMSG_ANS_REG_HT_OFFLINE_GIFT pMsg;
 
@@ -273,7 +273,7 @@ void EGAnsRegHTOfflineGift(int aIndex,PMSG_REQ_REG_HT_OFFLINE_GIFT * lpMsg)
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
-void EGAnsLuckyCoinInfo(int aIndex,PMSG_REQ_LUCKYCOIN * lpMsg)
+void EGAnsLuckyCoinInfo(LPGameObject &lpObj,PMSG_REQ_LUCKYCOIN * lpMsg)
 {
 	int test = false;
 	PMSG_ANS_LUCKYCOIN pMsg;
@@ -289,7 +289,7 @@ void EGAnsLuckyCoinInfo(int aIndex,PMSG_REQ_LUCKYCOIN * lpMsg)
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
-void EGAnsRegLuckyCoin(int aIndex,PMSG_REQ_REGISTER_LUCKYCOIN * lpMsg)
+void EGAnsRegLuckyCoin(LPGameObject &lpObj,PMSG_REQ_REGISTER_LUCKYCOIN * lpMsg)
 {
 	PMSG_ANS_REG_LUCKYCOIN pMsg;
 

@@ -69,7 +69,7 @@ CMixSystem::~CMixSystem()
 
 }
 
-BOOL CMixSystem::ChaosBoxCheck(CGameObject* lpObj)
+BOOL CMixSystem::ChaosBoxCheck(LPGameObject &lpObj)
 {
 	if (lpObj->pChaosBox == NULL)
 	{
@@ -79,7 +79,7 @@ BOOL CMixSystem::ChaosBoxCheck(CGameObject* lpObj)
 	return true;
 }
 
-void CMixSystem::GCChaosMixSend(int aIndex, BYTE result, CItem* lpItem) // OK
+void CMixSystem::GCChaosMixSend(LPGameObject &lpObj, BYTE result, CItem* lpItem) // OK
 {
 	PMSG_CHAOSMIXRESULT pMsg;
 
@@ -101,7 +101,7 @@ void CMixSystem::GCChaosMixSend(int aIndex, BYTE result, CItem* lpItem) // OK
 	gGameObjects[aIndex].ChaosLock = 0;
 }
 
-bool CMixSystem::GetElementalTalismanOfLuckRate(CGameObject* lpObj, int* rate) // OK
+bool CMixSystem::GetElementalTalismanOfLuckRate(LPGameObject &lpObj, int* rate) // OK
 {
 	int count = 0;
 
@@ -123,7 +123,7 @@ bool CMixSystem::GetElementalTalismanOfLuckRate(CGameObject* lpObj, int* rate) /
 	return ((count > MAX_TALISMAN_OF_LUCK) ? 0 : 1);
 }
 
-bool CMixSystem::GetTalismanOfLuckRate(CGameObject* lpObj, int* rate) // OK
+bool CMixSystem::GetTalismanOfLuckRate(LPGameObject &lpObj, int* rate) // OK
 {
 	int count = 0;
 
@@ -144,7 +144,7 @@ bool CMixSystem::GetTalismanOfLuckRate(CGameObject* lpObj, int* rate) // OK
 
 	return ((count > MAX_TALISMAN_OF_LUCK) ? 0 : 1);
 }
-BOOL CMixSystem::ChaosBoxInit(CGameObject* lpObj)
+BOOL CMixSystem::ChaosBoxInit(LPGameObject &lpObj)
 {
 	if (lpObj->pChaosBox == NULL)
 	{
@@ -167,7 +167,7 @@ BOOL CMixSystem::ChaosBoxInit(CGameObject* lpObj)
 }
 
 
-BOOL CMixSystem::ChaosBoxItemDown(CGameObject* lpObj)
+BOOL CMixSystem::ChaosBoxItemDown(LPGameObject &lpObj)
 {
 	if (lpObj->pChaosBox == NULL)
 	{
@@ -231,7 +231,7 @@ BOOL CMixSystem::ChaosBoxItemDown(CGameObject* lpObj)
 	return TRUE;
 }
 
-int CMixSystem::ChaosBoxMix(CGameObject* lpObj, int & Result2, int & WingNum)
+int CMixSystem::ChaosBoxMix(LPGameObject &lpObj, int & Result2, int & WingNum)
 {
 	BYTE ExOption[8];
 	int ChaosDiamond = 0;
@@ -373,7 +373,7 @@ int CMixSystem::ChaosBoxMix(CGameObject* lpObj, int & Result2, int & WingNum)
 	return value;
 }
 
-void CMixSystem::DefaultChaosMix(CGameObject* lpObj)
+void CMixSystem::DefaultChaosMix(LPGameObject &lpObj)
 {
 	PMSG_CHAOSMIXRESULT pMsg;
 
@@ -547,7 +547,7 @@ void CMixSystem::DefaultChaosMix(CGameObject* lpObj)
 	::gObjInventoryCommit(lpObj->m_Index);
 }
 
-int CMixSystem::CheckDevilSquareItem(CGameObject* lpObj, int & eventitemcount, int & itemlevel)
+int CMixSystem::CheckDevilSquareItem(LPGameObject &lpObj, int & eventitemcount, int & itemlevel)
 {
 	BOOL bChaoseGem = FALSE;
 	BOOL bEyeOfDevil = FALSE;
@@ -650,7 +650,7 @@ int CMixSystem::CheckDevilSquareItem(CGameObject* lpObj, int & eventitemcount, i
 	return 0;
 }
 
-void CMixSystem::LogDQChaosItem(CGameObject* lpObj)
+void CMixSystem::LogDQChaosItem(LPGameObject &lpObj)
 {
 	BYTE ExOption[MAX_EXOPTION_SIZE];
 
@@ -667,7 +667,7 @@ void CMixSystem::LogDQChaosItem(CGameObject* lpObj)
 
 
 
-BOOL CMixSystem::DevilSquareEventChaosMix(CGameObject* lpObj, BOOL bCheckType, int iItemLevel)
+BOOL CMixSystem::DevilSquareEventChaosMix(LPGameObject &lpObj, BOOL bCheckType, int iItemLevel)
 {
 	BOOL fail = TRUE;
 	int aIndex = lpObj->m_Index;
@@ -803,7 +803,7 @@ BOOL CMixSystem::DevilSquareEventChaosMix(CGameObject* lpObj, BOOL bCheckType, i
 	return TRUE;
 }
 
-void CMixSystem::LogChaosItem(CGameObject* lpObj, LPSTR sLogType)
+void CMixSystem::LogChaosItem(LPGameObject &lpObj, LPSTR sLogType)
 {
 	BYTE ExOption[MAX_EXOPTION_SIZE];
 
@@ -817,7 +817,7 @@ void CMixSystem::LogChaosItem(CGameObject* lpObj, LPSTR sLogType)
 	}
 }
 
-BOOL CMixSystem::PlusItemLevelChaosMix(CGameObject* lpObj, int mixType)
+BOOL CMixSystem::PlusItemLevelChaosMix(LPGameObject &lpObj, int mixType)
 {
 	int ChaosGemCount = 0;
 	int BlessGemCount = 0;
@@ -1206,7 +1206,7 @@ BOOL CMixSystem::PlusItemLevelChaosMix(CGameObject* lpObj, int mixType)
 	return TRUE;
 }
 // TEST  SRC  FUNC  EMU S8
-void CMixSystem::PlusItemLevelMixTest(CGameObject* lpObj, int type) // OK
+void CMixSystem::PlusItemLevelMixTest(LPGameObject &lpObj, int type) // OK
 {
 	int ChaosCount = 0;
 	int BlessCount = 0;
@@ -1394,7 +1394,7 @@ void CMixSystem::PlusItemLevelMixTest(CGameObject* lpObj, int type) // OK
 	}
 }
 
-void CMixSystem::ChaosMixCharmItemUsed(CGameObject* lpObj)
+void CMixSystem::ChaosMixCharmItemUsed(LPGameObject &lpObj)
 {
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
@@ -1430,7 +1430,7 @@ BOOL CMixSystem::IsDeleteItem(int iItemCode)
 	return FALSE;
 }
 
-BOOL CMixSystem::PegasiaChaosMix(CGameObject* lpObj)
+BOOL CMixSystem::PegasiaChaosMix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int UniriaCount = 0;
@@ -1540,7 +1540,7 @@ BOOL CMixSystem::PegasiaChaosMix(CGameObject* lpObj)
 	}
 }
 
-BOOL CMixSystem::CircleChaosMix(CGameObject* lpObj)	// Fruits
+BOOL CMixSystem::CircleChaosMix(LPGameObject &lpObj)	// Fruits
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -1670,7 +1670,7 @@ BOOL CMixSystem::CircleChaosMix(CGameObject* lpObj)	// Fruits
 	}
 }
 
-BOOL CMixSystem::WingChaosMix(CGameObject* lpObj)
+BOOL CMixSystem::WingChaosMix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -2022,7 +2022,7 @@ BOOL CMixSystem::WingChaosMix(CGameObject* lpObj)
 	}
 }
 
-BOOL CMixSystem::IllusionTempleItemChaosMix(CGameObject* lpObj)
+BOOL CMixSystem::IllusionTempleItemChaosMix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int ChoasGemCount = 0;
@@ -2291,7 +2291,7 @@ BOOL CMixSystem::CheckLevelCondition(CItem * lpItem, short Level, BYTE Op1, BYTE
 	return TRUE;
 }
 
-BOOL CMixSystem::FeatherOfCondorMix(CGameObject* lpObj)
+BOOL CMixSystem::FeatherOfCondorMix(LPGameObject &lpObj)
 {
 	int ChaosCount = 0;
 	int CreationCount = 0;
@@ -2389,7 +2389,7 @@ BOOL CMixSystem::FeatherOfCondorMix(CGameObject* lpObj)
 	}
 }
 
-BOOL CMixSystem::AdvancedWingMix(CGameObject* lpObj)
+BOOL CMixSystem::AdvancedWingMix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -2613,7 +2613,7 @@ BOOL CMixSystem::AdvancedWingMix(CGameObject* lpObj)
 	}
 }
 
-BOOL CMixSystem::ThirdWingLevel2ChaosMix(CGameObject* lpObj)
+BOOL CMixSystem::ThirdWingLevel2ChaosMix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -2884,7 +2884,7 @@ BOOL CMixSystem::ThirdWingLevel2ChaosMix(CGameObject* lpObj)
 	}
 }
 
-void CMixSystem::ThirdWingMixFail(CGameObject* lpObj)
+void CMixSystem::ThirdWingMixFail(LPGameObject &lpObj)
 {
 	if (lpObj->pChaosBox == NULL)
 	{
@@ -2935,7 +2935,7 @@ void CMixSystem::ThirdWingMixFailItemPanalty(CItem * lpItem)
 	lpItem->Convert(lpItem->m_Type, lpItem->m_Option1, lpItem->m_Option2, lpItem->m_Option3, lpItem->m_NewOption, lpItem->m_SetOption, lpItem->m_ItemOptionEx, lpItem->m_SocketOption, lpItem->m_BonusSocketOption, 0, CURRENT_DB_VERSION);
 }
 
-void CMixSystem::DevilSquareItemChaosMix(CGameObject* lpObj)
+void CMixSystem::DevilSquareItemChaosMix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -3013,7 +3013,7 @@ void CMixSystem::DevilSquareItemChaosMix(CGameObject* lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-void CMixSystem::BloodCastleItemChaosMix(CGameObject* lpObj)
+void CMixSystem::BloodCastleItemChaosMix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -3085,7 +3085,7 @@ void CMixSystem::BloodCastleItemChaosMix(CGameObject* lpObj)
 
 }
 
-void CMixSystem::SetItemChaosMix(CGameObject* lpObj)
+void CMixSystem::SetItemChaosMix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -3264,7 +3264,7 @@ void CMixSystem::SetItemChaosMix(CGameObject* lpObj)
 }
 
 
-void CMixSystem::DarkHorseChaosMix(CGameObject* lpObj)
+void CMixSystem::DarkHorseChaosMix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int ChoasGemCount = 0;
@@ -3430,7 +3430,7 @@ void CMixSystem::DarkHorseChaosMix(CGameObject* lpObj)
 	}
 }
 
-void CMixSystem::DarkSpiritChaosMix(CGameObject* lpObj)
+void CMixSystem::DarkSpiritChaosMix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int ChoasGemCount = 0;
@@ -3595,7 +3595,7 @@ void CMixSystem::DarkSpiritChaosMix(CGameObject* lpObj)
 	}
 }
 
-void CMixSystem::BlessPotionChaosMix(CGameObject* lpObj)
+void CMixSystem::BlessPotionChaosMix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int iBlessGemCount = 0;
@@ -3689,7 +3689,7 @@ void CMixSystem::BlessPotionChaosMix(CGameObject* lpObj)
 	}
 }
 
-void CMixSystem::SoulPotionChaosMix(CGameObject* lpObj)
+void CMixSystem::SoulPotionChaosMix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int iSoulGemCount = 0;
@@ -3785,7 +3785,7 @@ void CMixSystem::SoulPotionChaosMix(CGameObject* lpObj)
 
 
 
-void CMixSystem::LifeStoneChaosMix(CGameObject* lpObj)
+void CMixSystem::LifeStoneChaosMix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int iChoasGemCount = 0;
@@ -3883,7 +3883,7 @@ void CMixSystem::LifeStoneChaosMix(CGameObject* lpObj)
 	}
 }
 
-void CMixSystem::CastleSpecialItemMix(CGameObject* lpObj)
+void CMixSystem::CastleSpecialItemMix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -4030,7 +4030,7 @@ void CMixSystem::CastleSpecialItemMix(CGameObject* lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-void CMixSystem::HiddenTreasureBoxItemMix(CGameObject* lpObj)
+void CMixSystem::HiddenTreasureBoxItemMix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int iBlueCrystal = 0;
@@ -4168,7 +4168,7 @@ void CMixSystem::HiddenTreasureBoxItemMix(CGameObject* lpObj)
 
 
 
-void CMixSystem::Fenrir_01Level_Mix(CGameObject* lpObj)
+void CMixSystem::Fenrir_01Level_Mix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int iStuffCount_01 = 0;
@@ -4290,7 +4290,7 @@ void CMixSystem::Fenrir_01Level_Mix(CGameObject* lpObj)
 	}
 }
 
-void CMixSystem::Fenrir_02Level_Mix(CGameObject* lpObj)
+void CMixSystem::Fenrir_02Level_Mix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int iStuffCount_01 = 0;
@@ -4414,7 +4414,7 @@ void CMixSystem::Fenrir_02Level_Mix(CGameObject* lpObj)
 
 
 
-void CMixSystem::Fenrir_03Level_Mix(CGameObject* lpObj)
+void CMixSystem::Fenrir_03Level_Mix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int iStuffCount_01 = 0;
@@ -4537,7 +4537,7 @@ void CMixSystem::Fenrir_03Level_Mix(CGameObject* lpObj)
 	}
 }
 
-void CMixSystem::Fenrir_04Upgrade_Mix(CGameObject* lpObj)
+void CMixSystem::Fenrir_04Upgrade_Mix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int iStuffCount_01 = 0;
@@ -4731,7 +4731,7 @@ void CMixSystem::Fenrir_04Upgrade_Mix(CGameObject* lpObj)
 
 
 
-void CMixSystem::ShieldPotionLv1_Mix(CGameObject* lpObj)
+void CMixSystem::ShieldPotionLv1_Mix(LPGameObject &lpObj)
 {
 	int iHealthPotionCount = 0;
 	int iInvalidItemCount = 0;
@@ -4843,7 +4843,7 @@ void CMixSystem::ShieldPotionLv1_Mix(CGameObject* lpObj)
 
 
 
-void CMixSystem::ShieldPotionLv2_Mix(CGameObject* lpObj)
+void CMixSystem::ShieldPotionLv2_Mix(LPGameObject &lpObj)
 {
 	int iHealthPotionCount = 0;
 	int iInvalidItemCount = 0;
@@ -4950,7 +4950,7 @@ void CMixSystem::ShieldPotionLv2_Mix(CGameObject* lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-void CMixSystem::ShieldPotionLv3_Mix(CGameObject* lpObj)
+void CMixSystem::ShieldPotionLv3_Mix(LPGameObject &lpObj)
 {
 	int iHealthPotionCount = 0;
 	int iInvalidItemCount = 0;
@@ -5059,7 +5059,7 @@ void CMixSystem::ShieldPotionLv3_Mix(CGameObject* lpObj)
 
 
 
-void CMixSystem::LotteryItemMix(CGameObject* lpObj, int type)
+void CMixSystem::LotteryItemMix(LPGameObject &lpObj, int type)
 {
 	PMSG_CHAOSMIXRESULT pMsg;
 
@@ -5174,7 +5174,7 @@ void CMixSystem::LotteryItemMix(CGameObject* lpObj, int type)
 	ItemIsBufExOption(btExOption, &LotteryItem);
 }
 
-BOOL CMixSystem::SeedExtractMixS12(int aIndex, BYTE AncientPos, BYTE ExePos, BYTE JOHPos, BYTE JOCPos, BYTE ChaosPos)
+BOOL CMixSystem::SeedExtractMixS12(LPGameObject &lpObj, BYTE AncientPos, BYTE ExePos, BYTE JOHPos, BYTE JOCPos, BYTE ChaosPos)
 {
 	//
 	CItem * lpAncientItem = NULL;
@@ -5290,7 +5290,7 @@ BOOL CMixSystem::SeedExtractMixS12(int aIndex, BYTE AncientPos, BYTE ExePos, BYT
 	}
 }
 
-void CMixSystem::SeedExtractMix(CGameObject* lpObj)
+void CMixSystem::SeedExtractMix(LPGameObject &lpObj)
 {
 	int iExcItemCount = 0;
 	int iSetItemCount = 0;
@@ -5435,7 +5435,7 @@ void CMixSystem::SeedExtractMix(CGameObject* lpObj)
 	}
 }
 
-BOOL CMixSystem::SeedSphereEnhance(int aIndex, BYTE Sphere1, BYTE Sphere2, BYTE Rune)
+BOOL CMixSystem::SeedSphereEnhance(LPGameObject &lpObj, BYTE Sphere1, BYTE Sphere2, BYTE Rune)
 {
 	CItem * lpSphere1 = NULL;
 	CItem * lpSphere2 = NULL;
@@ -5561,7 +5561,7 @@ BOOL CMixSystem::SeedSphereEnhance(int aIndex, BYTE Sphere1, BYTE Sphere2, BYTE 
 	}
 }
 
-void CMixSystem::SeedSphereRemoveMixS12(int aIndex, BYTE ItemPos, BYTE Slot, BYTE JogPos, BYTE JohPos1, BYTE JohPos2, BYTE JohPos3, BYTE JohPos4, BYTE JohPos5, BYTE ChaosPos1, BYTE ChaosPos2, BYTE ChaosPos3, BYTE ChaosPos4, BYTE ChaosPos5)
+void CMixSystem::SeedSphereRemoveMixS12(LPGameObject &lpObj, BYTE ItemPos, BYTE Slot, BYTE JogPos, BYTE JohPos1, BYTE JohPos2, BYTE JohPos3, BYTE JohPos4, BYTE JohPos5, BYTE ChaosPos1, BYTE ChaosPos2, BYTE ChaosPos3, BYTE ChaosPos4, BYTE ChaosPos5)
 {
 	CItem * lpSocketItem = NULL;
 	CItem * lpJog = NULL;
@@ -5786,7 +5786,7 @@ void CMixSystem::SeedSphereRemoveMixS12(int aIndex, BYTE ItemPos, BYTE Slot, BYT
 	//IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-BOOL CMixSystem::SocketItemUpgradeMixS12(int aIndex, BYTE ItemPos, BYTE SocketUpgradeNotePos, BYTE JoBlessPos1, BYTE JoBlessPos2, BYTE JoBlessPos3, BYTE JoBlessPos4, BYTE JoBlessPos5, BYTE JoSoulPos1, BYTE JoSoulPos2, BYTE JoSoulPos3, BYTE JoSoulPos4, BYTE JoSoulPos5, BYTE JoChaosPos)
+BOOL CMixSystem::SocketItemUpgradeMixS12(LPGameObject &lpObj, BYTE ItemPos, BYTE SocketUpgradeNotePos, BYTE JoBlessPos1, BYTE JoBlessPos2, BYTE JoBlessPos3, BYTE JoBlessPos4, BYTE JoBlessPos5, BYTE JoSoulPos1, BYTE JoSoulPos2, BYTE JoSoulPos3, BYTE JoSoulPos4, BYTE JoSoulPos5, BYTE JoChaosPos)
 {
 	CItem * IsItem = NULL;
 	CItem * lpUpgradeNoteItem = NULL;
@@ -6260,7 +6260,7 @@ BOOL CMixSystem::SocketItemUpgradeMixS12(int aIndex, BYTE ItemPos, BYTE SocketUp
 	}
 }
 
-void CMixSystem::SeedSphereCompositeMixS12(int aIndex, BYTE SeedPos, BYTE SpherePos, BYTE JocPos, BYTE ChaosPos)
+void CMixSystem::SeedSphereCompositeMixS12(LPGameObject &lpObj, BYTE SeedPos, BYTE SpherePos, BYTE JocPos, BYTE ChaosPos)
 {
 	CItem * lpSeedItem = NULL;
 	CItem * lpSphereItem = NULL;
@@ -6375,7 +6375,7 @@ void CMixSystem::SeedSphereCompositeMixS12(int aIndex, BYTE SeedPos, BYTE Sphere
 	}
 }
 
-void CMixSystem::SeedSphereCompositeMix(CGameObject* lpObj)
+void CMixSystem::SeedSphereCompositeMix(LPGameObject &lpObj)
 {
 	int iSeedItemCount = 0; //2
 	int iSphereItemCount = 0; //3
@@ -6598,7 +6598,7 @@ void CMixSystem::SeedSphereCompositeMix(CGameObject* lpObj)
 
 	lpObj->ChaosLock = FALSE;
 }
-void CMixSystem::SetSeedSphereMixS12(int aIndex, BYTE ItemPos, BYTE Slot, BYTE SeedPos, BYTE JocPos, BYTE ChaosPos)
+void CMixSystem::SetSeedSphereMixS12(LPGameObject &lpObj, BYTE ItemPos, BYTE Slot, BYTE SeedPos, BYTE JocPos, BYTE ChaosPos)
 {
 	CItem * pSocketItem = NULL;
 	CItem * lpSphereItem = NULL;
@@ -6738,7 +6738,7 @@ void CMixSystem::SetSeedSphereMixS12(int aIndex, BYTE ItemPos, BYTE Slot, BYTE S
 		Item.m_SocketOption[2], Item.m_SocketOption[3], Item.m_SocketOption[4], Item.m_BonusSocketOption);
 
 }
-void CMixSystem::SetSeedSphereMix(CGameObject* lpObj, BYTE btPos)
+void CMixSystem::SetSeedSphereMix(LPGameObject &lpObj, BYTE btPos)
 {
 	int iSocketItemCount = 0; //2
 	int iInvalidItemCount = 0; //3
@@ -6886,7 +6886,7 @@ void CMixSystem::SetSeedSphereMix(CGameObject* lpObj, BYTE btPos)
 	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void CMixSystem::SeedSphereRemoveMix(CGameObject* lpObj, BYTE btPos)
+void CMixSystem::SeedSphereRemoveMix(LPGameObject &lpObj, BYTE btPos)
 {
 	int iSocketItemCount = 0; //2
 	int iInvalidItemCount = 0; //3
@@ -7088,7 +7088,7 @@ void CMixSystem::SeedSphereRemoveMix(CGameObject* lpObj, BYTE btPos)
 	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void CMixSystem::SecromiconMix(CGameObject* lpObj)
+void CMixSystem::SecromiconMix(LPGameObject &lpObj)
 {
 	PMSG_CHAOSMIXRESULT pMsg;
 	PHeadSetB((LPBYTE)&pMsg, 0x86, sizeof(pMsg));
@@ -7156,7 +7156,7 @@ void CMixSystem::SecromiconMix(CGameObject* lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-void CMixSystem::PremiumBoxMix(CGameObject* lpObj)
+void CMixSystem::PremiumBoxMix(LPGameObject &lpObj)
 {
 	PMSG_CHAOSMIXRESULT pMsg = { 0 };
 	PHeadSetB((LPBYTE)&pMsg, 0x86, sizeof(pMsg));
@@ -7223,7 +7223,7 @@ struct pMixTmp
 	int m_Item;
 };
 
-void CMixSystem::CherryBlossomMix(CGameObject* lpObj)
+void CMixSystem::CherryBlossomMix(LPGameObject &lpObj)
 {
 	PMSG_CHAOSMIXRESULT pMsg;
 
@@ -7331,7 +7331,7 @@ void CMixSystem::CherryBlossomMix(CGameObject* lpObj)
 }
 
 /*
-void CMixSystem::CherryBlossomMix(CGameObject* lpObj)
+void CMixSystem::CherryBlossomMix(LPGameObject &lpObj)
 {
 PMSG_CHAOSMIXRESULT pMsg;
 int iWhiteCherryBlossom = 0;
@@ -7471,7 +7471,7 @@ lpObj->ChaosLock = FALSE;
 
 }*/
 
-void CMixSystem::ItemRefineMix(CGameObject* lpObj)
+void CMixSystem::ItemRefineMix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -7823,7 +7823,7 @@ void CMixSystem::ItemRefineMix(CGameObject* lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-void CMixSystem::MonsterWingMix(CGameObject* lpObj)
+void CMixSystem::MonsterWingMix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -8088,7 +8088,7 @@ void CMixSystem::MonsterWingMix(CGameObject* lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-void CMixSystem::SummonsMix(CGameObject* lpObj, int type)
+void CMixSystem::SummonsMix(LPGameObject &lpObj, int type)
 {
 	lpObj->ChaosLock = true;
 
@@ -8193,7 +8193,7 @@ void CMixSystem::SummonsMix(CGameObject* lpObj, int type)
 	}
 }
 
-void CMixSystem::CCFRewardMix(CGameObject* lpObj)
+void CMixSystem::CCFRewardMix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -8350,7 +8350,7 @@ void CMixSystem::CCFRewardMix(CGameObject* lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-void CMixSystem::DSFRewardMix(CGameObject* lpObj)
+void CMixSystem::DSFRewardMix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -8497,7 +8497,7 @@ BOOL CMixSystem::CheckHeroSoulItem(int iItemCode)
 	return false;
 }
 
-void CMixSystem::AncientSoulItemMix(CGameObject* lpObj)
+void CMixSystem::AncientSoulItemMix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -8554,7 +8554,7 @@ void CMixSystem::AncientSoulItemMix(CGameObject* lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-void CMixSystem::BloodAngelUnSealMix(CGameObject* lpObj, int iMixType)
+void CMixSystem::BloodAngelUnSealMix(LPGameObject &lpObj, int iMixType)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -8680,7 +8680,7 @@ void CMixSystem::BloodAngelUnSealMix(CGameObject* lpObj, int iMixType)
 	lpObj->ChaosLock = FALSE;
 }
 
-void CMixSystem::BloodAngelUnSealMix2(CGameObject* lpObj, int iMixType)
+void CMixSystem::BloodAngelUnSealMix2(LPGameObject &lpObj, int iMixType)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -8806,7 +8806,7 @@ void CMixSystem::BloodAngelUnSealMix2(CGameObject* lpObj, int iMixType)
 	lpObj->ChaosLock = FALSE;
 }
 
-void CMixSystem::DarkAngelMix(CGameObject* lpObj, int iMixType)
+void CMixSystem::DarkAngelMix(LPGameObject &lpObj, int iMixType)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -8898,7 +8898,7 @@ void CMixSystem::DarkAngelMix(CGameObject* lpObj, int iMixType)
 	}
 }
 
-void CMixSystem::DarkAngelNextMix(CGameObject* lpObj, int iMixType)
+void CMixSystem::DarkAngelNextMix(LPGameObject &lpObj, int iMixType)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -8995,7 +8995,7 @@ void CMixSystem::DarkAngelNextMix(CGameObject* lpObj, int iMixType)
 	}
 }
 
-void CMixSystem::ArchangelHammerMix(CGameObject* lpObj)
+void CMixSystem::ArchangelHammerMix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -9089,7 +9089,7 @@ void CMixSystem::ArchangelHammerMix(CGameObject* lpObj)
 	::gObjInventoryCommit(lpObj->m_Index);
 }
 
-void CMixSystem::BlessedAAMix(CGameObject* lpObj)
+void CMixSystem::BlessedAAMix(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -9242,7 +9242,7 @@ void CMixSystem::BlessedAAMix(CGameObject* lpObj)
 
 }
 
-void CMixSystem::DarkAngelWeaponMix(CGameObject* lpObj, int iMixType)
+void CMixSystem::DarkAngelWeaponMix(LPGameObject &lpObj, int iMixType)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -9425,7 +9425,7 @@ void CMixSystem::CheckEmptySpace_MultiMix(PMSG_REQ_CHAOS_MULTIMIX_CHECK * aRecv,
 	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void CMixSystem::BlessPotionChaosMix_Multi(CGameObject* lpObj, int iMixCount)
+void CMixSystem::BlessPotionChaosMix_Multi(LPGameObject &lpObj, int iMixCount)
 {
 	lpObj->ChaosLock = TRUE;
 	int iBlessGemCount = 0;
@@ -9564,7 +9564,7 @@ void CMixSystem::BlessPotionChaosMix_Multi(CGameObject* lpObj, int iMixCount)
 	}
 }
 
-void CMixSystem::SoulPotionChaosMix_Multi(CGameObject* lpObj, int iMixCount)
+void CMixSystem::SoulPotionChaosMix_Multi(LPGameObject &lpObj, int iMixCount)
 {
 	lpObj->ChaosLock = TRUE;
 	int iSoulGemCount = 0;
@@ -9703,7 +9703,7 @@ void CMixSystem::SoulPotionChaosMix_Multi(CGameObject* lpObj, int iMixCount)
 	}
 }
 
-void CMixSystem::CircleChaosMix_Multi(CGameObject* lpObj, int iMixCount)	// Fruits Mass Mix
+void CMixSystem::CircleChaosMix_Multi(LPGameObject &lpObj, int iMixCount)	// Fruits Mass Mix
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -9855,7 +9855,7 @@ void CMixSystem::CircleChaosMix_Multi(CGameObject* lpObj, int iMixCount)	// Frui
 	}
 }
 
-void CMixSystem::PegasiaChaosMix_Multi(CGameObject* lpObj, int iMixCount)
+void CMixSystem::PegasiaChaosMix_Multi(LPGameObject &lpObj, int iMixCount)
 {
 	lpObj->ChaosLock = TRUE;
 	int UniriaCount = 0;
@@ -9985,7 +9985,7 @@ void CMixSystem::PegasiaChaosMix_Multi(CGameObject* lpObj, int iMixCount)
 	}
 }
 
-void CMixSystem::BloodCastleItemChaosMix_Multi(CGameObject* lpObj, int iMixCount)
+void CMixSystem::BloodCastleItemChaosMix_Multi(LPGameObject &lpObj, int iMixCount)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -10214,7 +10214,7 @@ void CMixSystem::BloodCastleItemChaosMix_Multi(CGameObject* lpObj, int iMixCount
 	}
 }
 
-void CMixSystem::DevilSquareItemChaosMix_Multi(CGameObject* lpObj, int iMixCount)
+void CMixSystem::DevilSquareItemChaosMix_Multi(LPGameObject &lpObj, int iMixCount)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -10473,7 +10473,7 @@ void CMixSystem::DevilSquareItemChaosMix_Multi(CGameObject* lpObj, int iMixCount
 	gObjInventoryCommit(lpObj->m_Index);
 }
 
-void CMixSystem::ShieldPotionLv1_Mix_Multi(CGameObject* lpObj, int iMixCount)
+void CMixSystem::ShieldPotionLv1_Mix_Multi(LPGameObject &lpObj, int iMixCount)
 {
 	int iHealthPotionCount = 0;
 	int iInvalidItemCount = 0;
@@ -10591,7 +10591,7 @@ void CMixSystem::ShieldPotionLv1_Mix_Multi(CGameObject* lpObj, int iMixCount)
 	gObjInventoryCommit(lpObj->m_Index);
 }
 
-void CMixSystem::ShieldPotionLv2_Mix_Multi(CGameObject* lpObj, int iMixCount)
+void CMixSystem::ShieldPotionLv2_Mix_Multi(LPGameObject &lpObj, int iMixCount)
 {
 	int iHealthPotionCount = 0;
 	int iInvalidItemCount = 0;
@@ -10709,7 +10709,7 @@ void CMixSystem::ShieldPotionLv2_Mix_Multi(CGameObject* lpObj, int iMixCount)
 	gObjInventoryCommit(lpObj->m_Index);
 }
 
-void CMixSystem::ShieldPotionLv3_Mix_Multi(CGameObject* lpObj, int iMixCount)
+void CMixSystem::ShieldPotionLv3_Mix_Multi(LPGameObject &lpObj, int iMixCount)
 {
 	int iHealthPotionCount = 0;
 	int iInvalidItemCount = 0;
@@ -10827,7 +10827,7 @@ void CMixSystem::ShieldPotionLv3_Mix_Multi(CGameObject* lpObj, int iMixCount)
 	gObjInventoryCommit(lpObj->m_Index);
 }
 
-void CMixSystem::PremiumBoxMix_Multi(CGameObject* lpObj, int iMixCount)
+void CMixSystem::PremiumBoxMix_Multi(LPGameObject &lpObj, int iMixCount)
 {
 	PMSG_CHAOSMIXRESULT pMsg = { 0 };
 	PHeadSetB((LPBYTE)&pMsg, 0x86, sizeof(pMsg));
@@ -10942,7 +10942,7 @@ void CMixSystem::PremiumBoxMix_Multi(CGameObject* lpObj, int iMixCount)
 	}
 }
 
-void CMixSystem::JewelOfHarmonyItemPurityMix(CGameObject* lpObj) // OK
+void CMixSystem::JewelOfHarmonyItemPurityMix(LPGameObject &lpObj) // OK
 {
 	lpObj->ChaosLock = TRUE;
 	// Chaos Lock was Enabled
@@ -11153,7 +11153,7 @@ void CMixSystem::PurityJewelOfHarmony_MultiMix(OBJECTSTRUCT * lpObj, int iMixCou
 	lpObj->ChaosLock = FALSE;
 }
 
-void CMixSystem::BloodCastleMix(CGameObject* lpObj) // OK
+void CMixSystem::BloodCastleMix(LPGameObject &lpObj) // OK
 {
 	lpObj->ChaosLock = TRUE;
 	// Chaos Lock was Enabled
@@ -11278,7 +11278,7 @@ void CMixSystem::BloodCastleMix(CGameObject* lpObj) // OK
 }
 
 // start bloodangel mix knight
-BOOL CMixSystem::bloodangelmix78(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix78(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -11343,7 +11343,7 @@ BOOL CMixSystem::bloodangelmix78(CGameObject* lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-BOOL CMixSystem::bloodangelmix79(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix79(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -11408,7 +11408,7 @@ BOOL CMixSystem::bloodangelmix79(CGameObject* lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-BOOL CMixSystem::bloodangelmix80(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix80(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -11473,7 +11473,7 @@ BOOL CMixSystem::bloodangelmix80(CGameObject* lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-BOOL CMixSystem::bloodangelmix81(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix81(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -11540,7 +11540,7 @@ BOOL CMixSystem::bloodangelmix81(CGameObject* lpObj)
 // finish mix knight
 
 // start bloodangel mix wizard
-BOOL CMixSystem::bloodangelmix86(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix86(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -11605,7 +11605,7 @@ BOOL CMixSystem::bloodangelmix86(CGameObject* lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-BOOL CMixSystem::bloodangelmix87(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix87(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -11670,7 +11670,7 @@ BOOL CMixSystem::bloodangelmix87(CGameObject* lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-BOOL CMixSystem::bloodangelmix88(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix88(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -11735,7 +11735,7 @@ BOOL CMixSystem::bloodangelmix88(CGameObject* lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-BOOL CMixSystem::bloodangelmix89(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix89(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -11803,7 +11803,7 @@ BOOL CMixSystem::bloodangelmix89(CGameObject* lpObj)
 
 // start bloodangel mix 
 //90, ITEMGET(13, 363), ITEMGET(8, 100),
-BOOL CMixSystem::bloodangelmix90(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix90(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -11869,7 +11869,7 @@ BOOL CMixSystem::bloodangelmix90(CGameObject* lpObj)
 }
 
 //91, ITEMGET(13, 364), ITEMGET(7, 100),
-BOOL CMixSystem::bloodangelmix91(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix91(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -11935,7 +11935,7 @@ BOOL CMixSystem::bloodangelmix91(CGameObject* lpObj)
 }
 
 //92, ITEMGET(13, 365), ITEMGET(9, 100),
-BOOL CMixSystem::bloodangelmix92(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix92(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12001,7 +12001,7 @@ BOOL CMixSystem::bloodangelmix92(CGameObject* lpObj)
 }
 
 //93, ITEMGET(13, 366), ITEMGET(10, 100),
-BOOL CMixSystem::bloodangelmix93(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix93(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12069,7 +12069,7 @@ BOOL CMixSystem::bloodangelmix93(CGameObject* lpObj)
 
 // start bloodangel mix magic
 //98, ITEMGET(13, 371), ITEMGET(8, 102),
-BOOL CMixSystem::bloodangelmix98(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix98(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12135,7 +12135,7 @@ BOOL CMixSystem::bloodangelmix98(CGameObject* lpObj)
 }
 
 //99, ITEMGET(13, 372), ITEMGET(11, 102),
-BOOL CMixSystem::bloodangelmix99(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix99(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12201,7 +12201,7 @@ BOOL CMixSystem::bloodangelmix99(CGameObject* lpObj)
 }
 
 //100, ITEMGET(13, 373), ITEMGET(9, 102),
-BOOL CMixSystem::bloodangelmix100(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix100(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12267,7 +12267,7 @@ BOOL CMixSystem::bloodangelmix100(CGameObject* lpObj)
 }
 
 //101, ITEMGET(13, 374), ITEMGET(10, 102),
-BOOL CMixSystem::bloodangelmix101(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix101(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12335,7 +12335,7 @@ BOOL CMixSystem::bloodangelmix101(CGameObject* lpObj)
 
 // start bloodangel mix darklord
 //106, ITEMGET(13, 379), ITEMGET(8, 103),
-BOOL CMixSystem::bloodangelmix106(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix106(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12401,7 +12401,7 @@ BOOL CMixSystem::bloodangelmix106(CGameObject* lpObj)
 }
 
 //107, ITEMGET(13, 380), ITEMGET(7, 103),
-BOOL CMixSystem::bloodangelmix107(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix107(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12467,7 +12467,7 @@ BOOL CMixSystem::bloodangelmix107(CGameObject* lpObj)
 }
 
 //108, ITEMGET(13, 381), ITEMGET(9, 103),
-BOOL CMixSystem::bloodangelmix108(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix108(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12533,7 +12533,7 @@ BOOL CMixSystem::bloodangelmix108(CGameObject* lpObj)
 }
 
 //109, ITEMGET(13, 382), ITEMGET(10, 103),
-BOOL CMixSystem::bloodangelmix109(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix109(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12601,7 +12601,7 @@ BOOL CMixSystem::bloodangelmix109(CGameObject* lpObj)
 
 // start bloodangel mix summoner
 //114, ITEMGET(13, 387), ITEMGET(8, 101),
-BOOL CMixSystem::bloodangelmix114(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix114(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12667,7 +12667,7 @@ BOOL CMixSystem::bloodangelmix114(CGameObject* lpObj)
 }
 
 //115, ITEMGET(13, 388), ITEMGET(7, 101),
-BOOL CMixSystem::bloodangelmix115(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix115(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12733,7 +12733,7 @@ BOOL CMixSystem::bloodangelmix115(CGameObject* lpObj)
 }
 
 //116, ITEMGET(13, 389), ITEMGET(9, 101),
-BOOL CMixSystem::bloodangelmix116(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix116(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12799,7 +12799,7 @@ BOOL CMixSystem::bloodangelmix116(CGameObject* lpObj)
 }
 
 //117, ITEMGET(13, 390), ITEMGET(10, 101),
-BOOL CMixSystem::bloodangelmix117(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix117(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12867,7 +12867,7 @@ BOOL CMixSystem::bloodangelmix117(CGameObject* lpObj)
 
 // start bloodangel mix fighter
 //118, ITEMGET(13, 391), ITEMGET(8, 104),
-BOOL CMixSystem::bloodangelmix118(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix118(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12933,7 +12933,7 @@ BOOL CMixSystem::bloodangelmix118(CGameObject* lpObj)
 }
 
 //119, ITEMGET(13, 392), ITEMGET(7, 104),
-BOOL CMixSystem::bloodangelmix119(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix119(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12999,7 +12999,7 @@ BOOL CMixSystem::bloodangelmix119(CGameObject* lpObj)
 }
 
 //120, ITEMGET(13, 393), ITEMGET(9, 104),
-BOOL CMixSystem::bloodangelmix120(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix120(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -13065,7 +13065,7 @@ BOOL CMixSystem::bloodangelmix120(CGameObject* lpObj)
 }
 
 //121, ITEMGET(13, 394), ITEMGET(11, 104),
-BOOL CMixSystem::bloodangelmix121(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix121(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -13133,7 +13133,7 @@ BOOL CMixSystem::bloodangelmix121(CGameObject* lpObj)
 
 // start bloodangel mix fighter
 //126, ITEMGET(13, 399), ITEMGET(8, 105),
-BOOL CMixSystem::bloodangelmix126(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix126(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -13199,7 +13199,7 @@ BOOL CMixSystem::bloodangelmix126(CGameObject* lpObj)
 }
 
 //127, ITEMGET(13, 400), ITEMGET(7, 105),
-BOOL CMixSystem::bloodangelmix127(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix127(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -13265,7 +13265,7 @@ BOOL CMixSystem::bloodangelmix127(CGameObject* lpObj)
 }
 
 //128, ITEMGET(13, 401), ITEMGET(9, 105),
-BOOL CMixSystem::bloodangelmix128(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix128(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -13331,7 +13331,7 @@ BOOL CMixSystem::bloodangelmix128(CGameObject* lpObj)
 }
 
 //129, ITEMGET(13, 402), ITEMGET(10, 105)
-BOOL CMixSystem::bloodangelmix129(CGameObject* lpObj)
+BOOL CMixSystem::bloodangelmix129(LPGameObject &lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 

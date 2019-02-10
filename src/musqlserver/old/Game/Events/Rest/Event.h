@@ -256,12 +256,12 @@ extern CGameObject* pEventObj;
 void EventChipEventProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen);
 
 
-void FireworksOpenEven(CGameObject* lpObj);
-void ChristmasFireCrackDrop(CGameObject* lpObj);
+void FireworksOpenEven(LPGameObject &lpObj);
+void ChristmasFireCrackDrop(LPGameObject &lpObj);
 
-void HallowinDayEventItemBoxOpen(CGameObject* lpObj);
-void KanturuMayaHandItemBagOpen(CGameObject* lpObj, BYTE btMapNumber, BYTE cX, BYTE cY);
-void KanturuNightmareItemBagOpen(CGameObject* lpObj, BYTE btMapNumber, BYTE cX, BYTE cY);
+void HallowinDayEventItemBoxOpen(LPGameObject &lpObj);
+void KanturuMayaHandItemBagOpen(LPGameObject &lpObj, BYTE btMapNumber, BYTE cX, BYTE cY);
+void KanturuNightmareItemBagOpen(LPGameObject &lpObj, BYTE btMapNumber, BYTE cX, BYTE cY);
 void EGRecvEventChipInfo(PMSG_ANS_VIEW_EC_MN * aRecv);
 void EGResultRegEventChip(PMSG_ANS_REGISTER_EVENTCHIP * aRecv);
 void EGRecvRegMutoNum( PMSG_ANS_REGISTER_MUTONUM* aRecv);

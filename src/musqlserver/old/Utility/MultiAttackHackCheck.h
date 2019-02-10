@@ -32,7 +32,7 @@ public:
 	virtual ~CMultiAttackHackCheck();
 
 	void Init();
-	BOOL Insert(CGameObject* aTarget, BYTE skillnum, BYTE serial);
+	BOOL Insert(LPGameObject &aTarget, BYTE skillnum, BYTE serial);
 	int CheckPenetrationSkill(int aTargetIndex, BYTE skillnum, BYTE serial);
 	int CheckFireScreamSkill(int iTargetIndex, BYTE btSkillnum, BYTE btSerial);
 

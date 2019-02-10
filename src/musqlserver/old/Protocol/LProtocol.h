@@ -19,14 +19,14 @@ public:
 	void ConnectResultSend(int aIndex);
 	void ServerListSend(int aIndex);
 	void GetServerList(int aIndex);
-	void GetServerInfo(int aIndex, USHORT ServerId);
+	void GetServerInfo(LPGameObject &lpObj, USHORT ServerId);
 	void LoadNewsFile(LPSTR szFile);
 	void SendNews(int aIndex);
 	void LoadServerList(LPSTR szFile);
 	CONNECT_OBJECT cObj[1000];
 
 }; extern CConServ g_ConnectServer;
-void LProtocolCore(int aIndex, BYTE hCode, LPBYTE aRecv, int aLen);
+void LProtocolCore(LPGameObject &lpObj, BYTE hCode, LPBYTE aRecv, int aLen);
 void AddServer(PMSG_SERVERINFO * pMsg);
 void LSProtocolCore(BYTE hCode, LPBYTE aRecv, int aLen);
 //extern WzUdp g_CSSocket;

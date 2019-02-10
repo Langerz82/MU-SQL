@@ -207,7 +207,7 @@ BOOL CDoppelGangerMonsterHerd::SetTotalInfo(int iMapNumber, int iRadius, int nPo
 	return TRUE;
 }
 
-void CDoppelGangerMonsterHerd::MonsterBaseAct(CGameObject* lpObj)
+void CDoppelGangerMonsterHerd::MonsterBaseAct(LPGameObject &lpObj)
 {
 	CGameObject* lpTargetObj = NULL;
 
@@ -978,7 +978,7 @@ void CDoppelGanger::ProcDoppelgangerState_End(ULONGLONG i64CurTime)
 	}
 }
 
-BOOL CDoppelGanger::EnterDoppelgangerEvent(int aIndex, BYTE btItemPos)
+BOOL CDoppelGanger::EnterDoppelgangerEvent(LPGameObject &lpObj, BYTE btItemPos)
 {
 	PMSG_DOPPELGANGER_ENTER_RESULT pResult;
 	PHeadSubSetB((LPBYTE)&pResult, 0xBF, 0x0E, sizeof(pResult));
@@ -1337,7 +1337,7 @@ void CDoppelGanger::SendDoppelgangerState(BYTE btState)
 	}
 }
 
-void CDoppelGanger::PlatformLugardAct(CGameObject* lpNpc, CGameObject* lpObj)
+void CDoppelGanger::PlatformLugardAct(LPGameObject &lpNpc, CGameObject* lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -1387,7 +1387,7 @@ void CDoppelGanger::PlatformLugardAct(CGameObject* lpNpc, CGameObject* lpObj)
 	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void CDoppelGanger::MiddleTreasureAct(CGameObject* lpNpc, CGameObject* lpObj)
+void CDoppelGanger::MiddleTreasureAct(LPGameObject &lpNpc, CGameObject* lpObj)
 {
 	if (lpNpc->m_State == 0)
 	{
@@ -1476,7 +1476,7 @@ void CDoppelGanger::MiddleTreasureAct(CGameObject* lpNpc, CGameObject* lpObj)
 	}
 }
 
-void CDoppelGanger::LastTreasureAct(CGameObject* lpNpc, CGameObject* lpObj)
+void CDoppelGanger::LastTreasureAct(LPGameObject &lpNpc, CGameObject* lpObj)
 {
 	if (lpNpc->m_State == 0)
 	{
@@ -1768,7 +1768,7 @@ void CDoppelGanger::MonsterHerdStart(int nHerdIndex)
 	}
 }
 
-void CDoppelGanger::CheckDoppelgangerMonsterPos(CGameObject* lpObj)
+void CDoppelGanger::CheckDoppelgangerMonsterPos(LPGameObject &lpObj)
 {
 	int nPosNum = this->GetDoppelgangerPosIndex(lpObj->X, lpObj->Y);
 	int nLastPos = MAX_DOPPELGANGER_POS_INFO - 1;
@@ -1938,7 +1938,7 @@ void CDoppelGanger::SendDoppelgangerUserPos()
 	}
 }
 
-void CDoppelGanger::SelfExplosion(int aIndex, CMagicInf * lpMagic, int aTargetIndex)
+void CDoppelGanger::SelfExplosion(LPGameObject &lpObj, CMagicInf * lpMagic, int aTargetIndex)
 {
 	CGameObject* lpObj = &gGameObjects[aIndex];
 
@@ -1985,7 +1985,7 @@ void CDoppelGanger::SelfExplosion(int aIndex, CMagicInf * lpMagic, int aTargetIn
 	}
 }
 
-void CDoppelGanger::AngerKillerAttack(CGameObject* lpObj)
+void CDoppelGanger::AngerKillerAttack(LPGameObject &lpObj)
 {
 	if (lpObj->X < 0 || lpObj->X > 255)
 	{
@@ -2028,7 +2028,7 @@ void CDoppelGanger::AngerKillerAttack(CGameObject* lpObj)
 	}
 }
 
-void CDoppelGanger::SendDoppelgangerResult(CGameObject* lpObj, BYTE btResult)
+void CDoppelGanger::SendDoppelgangerResult(LPGameObject &lpObj, BYTE btResult)
 {
 	PMSG_DOPPELGANGER_MISSION_RESULT pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xBF, 0x13, sizeof(pMsg));
@@ -2511,7 +2511,7 @@ BOOL CDoppelGanger::CheckMapTile(int nMapNumber, BYTE btX, BYTE btY)
 	return this->m_PosInfo.CheckStartMapTile(nMapNumber, btX, btY);
 }
 
-void CDoppelGanger::SendMapTileInfo(CGameObject* lpObj, BYTE btMapSetType)
+void CDoppelGanger::SendMapTileInfo(LPGameObject &lpObj, BYTE btMapSetType)
 {
 	char cTEMP_BUF[256];
 

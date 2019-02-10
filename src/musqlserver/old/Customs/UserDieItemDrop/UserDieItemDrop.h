@@ -16,7 +16,7 @@ public:
 	void	Init();
 	void	Load();
 	void	Read(LPSTR File);
-	void	Drop(CGameObject* lpUser, CGameObject* lpKiller);
+	void	Drop(LPGameObject &lpUser, CGameObject* lpKiller);
 	// ----
 private:
 	bool	m_PvPEnabled;

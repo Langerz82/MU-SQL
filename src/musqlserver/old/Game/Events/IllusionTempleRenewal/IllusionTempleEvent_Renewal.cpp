@@ -163,7 +163,7 @@ void CIllusionTempleEvent_Renewal::SendRelicsUserInfo(OBJECTSTRUCT* lpObj)
 	this->m_cITR_Proc[lpObj->MapNumber - 45].SendRelicsUserInfo(lpObj, 0);
 }
 
-BOOL CIllusionTempleEvent_Renewal::Enter_ITR(int aIndex, BYTE byTempleIndex, BYTE bySlotNum)
+BOOL CIllusionTempleEvent_Renewal::Enter_ITR(LPGameObject &lpObj, BYTE byTempleIndex, BYTE bySlotNum)
 {
 	if (g_IT_Event.IsEventEnable() == false)
 	{
@@ -201,7 +201,7 @@ BOOL CIllusionTempleEvent_Renewal::Enter_ITR(int aIndex, BYTE byTempleIndex, BYT
 	}
 }
 
-int CIllusionTempleEvent_Renewal::Leave_ITR(int aIndex, BYTE btMapNumber)
+int CIllusionTempleEvent_Renewal::Leave_ITR(LPGameObject &lpObj, BYTE btMapNumber)
 {
 	if (!IT_MAP_RANGE(btMapNumber))
 	{
@@ -360,7 +360,7 @@ void CIllusionTempleEvent_Renewal::IllusionTempleUserDie(OBJECTSTRUCT *lpObj)
 	this->m_cITR_Proc[lpObj->MapNumber - 45].ITRUserDie(lpObj);
 }
 
-void CIllusionTempleEvent_Renewal::IllusionTempleUserDieRegen(CGameObject* lpObj)
+void CIllusionTempleEvent_Renewal::IllusionTempleUserDieRegen(LPGameObject &lpObj)
 {
 	if (!ObjectMaxRange(lpObj->m_Index))
 	{

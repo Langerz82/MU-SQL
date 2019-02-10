@@ -263,11 +263,11 @@ public:
 	virtual ~CPersonalStore();
 
 	void CGPShopReqSetItemPrice(PMSG_REQ_PSHOP_SETITEMPRICE* lpMsg, int aIndex);
-	void CGPShopAnsSetItemPrice(int aIndex, BYTE btResult, BYTE btItemPos);
+	void CGPShopAnsSetItemPrice(LPGameObject &lpObj, BYTE btResult, BYTE btItemPos);
 	void CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN* lpMsg, int aIndex);
-	void CGPShopAnsOpen(int aIndex, BYTE btResult);
+	void CGPShopAnsOpen(LPGameObject &lpObj, BYTE btResult);
 	void CGPShopReqClose(int aIndex);
-	void CGPShopAnsClose(int aIndex, BYTE btResult);
+	void CGPShopAnsClose(LPGameObject &lpObj, BYTE btResult);
 	void CGPShopReqBuyList(PMSG_REQ_BUYLIST_FROM_PSHOP* lpMsg, int aSourceIndex);
 
 	void CGPShopAnsBuyList(int aSourceIndex, int aTargetIndex, BYTE btResult, bool bResend);
@@ -278,8 +278,8 @@ public:
 	void CGPShopAnsSoldItem(int aSourceIndex, int aTargetIndex, int iItemPos);
 	void CGPShopAnsDealerClosedShop(int aSourceIndex, int aTargetIndex);
 
-	void gObjInventoryItemSet_PShop(int aIndex, int itempos, unsigned char set_byte);
-	void gObjInventoryItemBoxSet_PShop(int aIndex, int itempos, int xl, int yl, unsigned char set_byte);
+	void gObjInventoryItemSet_PShop(LPGameObject &lpObj, int itempos, unsigned char set_byte);
+	void gObjInventoryItemBoxSet_PShop(LPGameObject &lpObj, int itempos, int xl, int yl, unsigned char set_byte);
 
 	void PShop_ViewportListRegenarate(short aIndex);
 	bool PShop_CheckInventoryEmpty(short aIndex);

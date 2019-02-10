@@ -342,7 +342,7 @@ void CShopMng::LoadShopList(char* filename)
 
 }
 
-SHOP_DATA * CShopMng::GetShop(CGameObject* lpObj, CGameObject* lpNpc)
+SHOP_DATA * CShopMng::GetShop(LPGameObject &lpObj, CGameObject* lpNpc)
 {
 	if (lpObj->Type != OBJ_USER)
 	{

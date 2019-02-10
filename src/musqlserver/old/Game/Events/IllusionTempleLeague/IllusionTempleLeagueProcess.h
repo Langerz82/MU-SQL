@@ -249,7 +249,7 @@ public:
 	void Set_ITLState_Playing();
 	void Set_ITLState_End();
 
-	BOOL EnterUserIllusionTempleLeague(int aIndex, BYTE btTempleIndex, int nGuildIdx, int nPartyIdx);
+	BOOL EnterUserIllusionTempleLeague(LPGameObject &lpObj, BYTE btTempleIndex, int nGuildIdx, int nPartyIdx);
 	BOOL LeaveUserIllusionTempleLeague(int aIndex);
 
 	bool CanStartITLBattle(BYTE & ALLIED, BYTE & ILLUSION);
@@ -263,7 +263,7 @@ public:
 	int FindITLUser(int index);
 	void DropRelicsItem(int iIndex, BYTE byAct);
 	char CheckHaveRelics(int aIndex); 
-	void SetRelicsInventoryPos(int aIndex, BYTE btPos);
+	void SetRelicsInventoryPos(LPGameObject &lpObj, BYTE btPos);
 
 	void SendRelicsUserInfo(OBJECTSTRUCT *lpObj, BYTE byGet);
 
@@ -342,7 +342,7 @@ public:
 
 	BYTE FindGuildInfo(int nGuildIdx, BYTE &byTeam, int &nPartyIndex);
 
-	int ReEnterUserIllusionTempleLeague(int aIndex, BYTE btTempleIndex, int nGuildIdx, int nPartyIdx, int nUserArrayNo, BYTE TeamIdx);
+	int ReEnterUserIllusionTempleLeague(LPGameObject &lpObj, BYTE btTempleIndex, int nGuildIdx, int nPartyIdx, int nUserArrayNo, BYTE TeamIdx);
 
 	void CalcKillCountByTeam(BYTE &byAlliedKillSum, BYTE &byIllusionKillSum);
 	void ResetUserFlag_DoingRelicsThing(OBJECTSTRUCT *lpObj);

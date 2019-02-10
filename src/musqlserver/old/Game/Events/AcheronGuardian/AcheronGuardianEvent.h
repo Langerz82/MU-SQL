@@ -157,7 +157,7 @@ public:
 	void ResetGenTime();
 	void RegenMonsterRun();
 	void RegenMonster(int nGroupNumber, int iGenSeq, int iGenMonCnt);
-	int SetPosMonster(int aIndex, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY);
+	int SetPosMonster(LPGameObject &lpObj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY);
 	int GetBoxPosition(int mapnumber, int ax, int ay, int aw, int ah, short &mx, short &my);
 	void DeleteMonster(int nGroupNumber);
 	void DeleteAcheronEventAllMonster();

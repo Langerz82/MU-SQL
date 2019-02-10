@@ -230,7 +230,7 @@ void CMineSystem::CheckIsUPTUserWhenConnect(int aIndex)
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CMineSystem::GiveRewardItemToUPTUser(int aIndex, WORD wTwinkleType, int iStage)
+void CMineSystem::GiveRewardItemToUPTUser(LPGameObject &lpObj, WORD wTwinkleType, int iStage)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -486,7 +486,7 @@ void CMineSystem::FailMineTwinkle(PMSG_ANS_MINETWINKLE_END_ANIMATION *lpMsg, int
 	}
 }
 
-void CMineSystem::RequestDBToModifyUPTUserInfo(int aIndex, char *szCharName, WORD wTwinkleType, int iCurrentStage, BYTE byRequestType)
+void CMineSystem::RequestDBToModifyUPTUserInfo(LPGameObject &lpObj, char *szCharName, WORD wTwinkleType, int iCurrentStage, BYTE byRequestType)
 {
 	SDHP_REQ_MINESYSTEM_UPT_USERINFO pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x4C, 0x00, sizeof(pMsg));
@@ -704,7 +704,7 @@ BOOL CMineSystem::IsPickax(WORD wItemType)
 	return wItemType == ITEMGET(0, 41);
 }
 
-void CMineSystem::ResetTwinkleInfo(int aIndex, WORD wTwinkleIndex, bool bFailMining)
+void CMineSystem::ResetTwinkleInfo(LPGameObject &lpObj, WORD wTwinkleIndex, bool bFailMining)
 {
 	std::map<int, _ST_MINESYSTEM_TWINKLE>::iterator it = this->m_mapTwinkle.find(wTwinkleIndex);
 
@@ -728,7 +728,7 @@ void CMineSystem::ResetTwinkleInfo(int aIndex, WORD wTwinkleIndex, bool bFailMin
 	gGameObjects[aIndex].m_PlayerData->m_bIsMining = false;
 }
 
-BOOL CMineSystem::CheckValidationMineState(int aIndex, WORD wTwinkleIndex, WORD wTwinkleType, BYTE byMapNumber, WORD wUserIndex, int *iResult, bool bRewardCheck)
+BOOL CMineSystem::CheckValidationMineState(LPGameObject &lpObj, WORD wTwinkleIndex, WORD wTwinkleType, BYTE byMapNumber, WORD wUserIndex, int *iResult, bool bRewardCheck)
 {
 	int iEmptyInvenSize = 0;
 
@@ -1000,7 +1000,7 @@ BOOL CMineSystem::CheckValidationMineState(int aIndex, WORD wTwinkleIndex, WORD 
 	return TRUE;
 }
 
-BOOL CMineSystem::GiveRewardItem(int aIndex, WORD wTwinkleType, int iStage, int bNotify)
+BOOL CMineSystem::GiveRewardItem(LPGameObject &lpObj, WORD wTwinkleType, int iStage, int bNotify)
 {
 	if (gGameObjects[aIndex].Type != OBJ_USER || gGameObjects[aIndex].Connected != PLAYER_PLAYING)
 	{

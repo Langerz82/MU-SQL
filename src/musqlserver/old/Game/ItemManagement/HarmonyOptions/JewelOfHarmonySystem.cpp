@@ -345,7 +345,7 @@ int CJewelOfHarmonySystem::_GetSelectRandomOption(CItem * pItem, int iItemType)
 	return iItemOption;
 }
 
-BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(CGameObject* lpObj, int source, int target)
+BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(LPGameObject &lpObj, int source, int target)
 {
 	if ( this->m_bSystemStrengthenItem == FALSE )
 	{
@@ -441,7 +441,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(CGameObject* lpObj, int 
 	return TRUE;
 }
 
-BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfHarmony(CGameObject* lpObj, int source, int target)
+BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfHarmony(LPGameObject &lpObj, int source, int target)
 {
 	if ( this->m_bSystemStrengthenItem == FALSE )
 	{
@@ -538,7 +538,7 @@ BOOL CJewelOfHarmonySystem::_MakeOption(CItem *pItem, BYTE btOptionType, BYTE bt
 
 
 #pragma warning ( disable : 4101 )
-void CJewelOfHarmonySystem::StrengthenItemByMacro(CGameObject* lpObj, BYTE invenrotyTargetPos, BYTE btOptionType,  BYTE btOptionLevel)
+void CJewelOfHarmonySystem::StrengthenItemByMacro(LPGameObject &lpObj, BYTE invenrotyTargetPos, BYTE btOptionType,  BYTE btOptionLevel)
 {
 //#pragma message("Add Here code to make an Artificial JOH Item")
 	return;
@@ -588,7 +588,7 @@ BYTE CJewelOfHarmonySystem::ShowStrengthenOption(CItem *pItem)
 }
 
 
-BYTE CJewelOfHarmonySystem::MakeCharSetData(CGameObject* lpObj)
+BYTE CJewelOfHarmonySystem::MakeCharSetData(LPGameObject &lpObj)
 {
 	BYTE btResult = 0;
 
@@ -619,7 +619,7 @@ BYTE CJewelOfHarmonySystem::MakeCharSetData(CGameObject* lpObj)
 	return btResult;
 }
 
-void CJewelOfHarmonySystem::SetApplyStrengthenItem(CGameObject* lpObj)
+void CJewelOfHarmonySystem::SetApplyStrengthenItem(LPGameObject &lpObj)
 {
 	JEWELOFHARMONY_ITEM_EFFECT * pItemEffect = &lpObj->m_PlayerData->m_JewelOfHarmonyEffect;
 
@@ -1030,7 +1030,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(OBJECTSTRUCT * lpObj,
 	return TRUE;
 }
 
-BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject* lpObj)
+BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(LPGameObject &lpObj)
 {
 	if ( this->m_bSystemMixSmeltingStone != TRUE )
 	{
@@ -1143,7 +1143,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject* lpObj)
 
 
 
-BOOL CJewelOfHarmonySystem::SmeltItemBySmeltingStone(CGameObject* lpObj, int source, int target)
+BOOL CJewelOfHarmonySystem::SmeltItemBySmeltingStone(LPGameObject &lpObj, int source, int target)
 {
 	if ( this->m_bSystemSmeltingItem == FALSE )
 	{
@@ -1256,7 +1256,7 @@ int CJewelOfHarmonySystem::_GetZenForRestoreItem(CItem * pItem)
 	return iZenForRestore;
 }
 
-BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(CGameObject* lpObj)
+BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(LPGameObject &lpObj)
 {
 	if ( this->m_bSystemRestoreStrengthen != TRUE )
 	{
@@ -1337,7 +1337,7 @@ BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(CGameObject* lpObj)
 	return TRUE;
 }
 
-BOOL CJewelOfHarmonySystem::NpcJewelOfHarmony(CGameObject* lpNpc, CGameObject* lpObj)
+BOOL CJewelOfHarmonySystem::NpcJewelOfHarmony(LPGameObject &lpNpc, CGameObject* lpObj)
 {
 	if ( lpObj->m_IfState.use > 0 )
 		return TRUE;

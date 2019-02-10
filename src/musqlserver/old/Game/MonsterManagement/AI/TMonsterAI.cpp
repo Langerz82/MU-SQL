@@ -102,7 +102,7 @@ void TMonsterAI::MonsterStateMsgProc(int iIndex)
 
 
 
-void TMonsterAI::ProcessStateMsg(CGameObject* lpObj, int iMsgCode, int iIndex, int aMsgSubCode)
+void TMonsterAI::ProcessStateMsg(LPGameObject &lpObj, int iMsgCode, int iIndex, int aMsgSubCode)
 {
 	switch ( iMsgCode )
 	{

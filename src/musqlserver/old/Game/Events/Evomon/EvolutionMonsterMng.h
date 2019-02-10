@@ -89,7 +89,7 @@ public:
 	void GDReqEvoMonMaxScore(int aIndex);
 	void DGAnsEvoMonMaxScore(LPBYTE lpRecv);
 
-	void GDReqSaveEvoMonScore(int aIndex, int nScore, int nTotalDamage);
+	void GDReqSaveEvoMonScore(LPGameObject &lpObj, int nScore, int nTotalDamage);
 
 	bool IsEvoMonEnable() { return this->m_bEnable; }
 	int GetEvoMonTimeLimit() { return this->m_iEvoMonTimeLimit; }

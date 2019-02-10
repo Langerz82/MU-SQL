@@ -41,8 +41,8 @@ public:
 	void SetRelicsInventoryPos(BYTE btMapNumber, int aIndex, BYTE btPos);
 	void SendRelicsUserInfo(OBJECTSTRUCT* lpObj);
 
-	int Enter_ITR(int aIndex, BYTE byTempleIndex, BYTE bySlotNum);
-	int Leave_ITR(int aIndex, BYTE btMapNumber);
+	int Enter_ITR(LPGameObject &lpObj, BYTE byTempleIndex, BYTE bySlotNum);
+	int Leave_ITR(LPGameObject &lpObj, BYTE btMapNumber);
 
 	void ActRelicsGetOrRegister(OBJECTSTRUCT *lpNpc, OBJECTSTRUCT *lpObj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType);
 	void CancleStoneState(WORD wNpcType, BYTE byState, BYTE mapnumber);

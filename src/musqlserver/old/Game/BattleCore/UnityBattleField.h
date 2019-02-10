@@ -15,20 +15,20 @@ public:
 	void SendUBFNotice(int aIndex);
 
 	void GDReqJoinUnityBattleField(int aIndex);
-	void DGAnsJoinUnityBattleField(int aIndex, BYTE Result, WORD LeftSecond);
-	void GDReqCopyCharacterInfo(int aIndex, BYTE CharacterSlot);
-	void DGAnsCopyCharacterInfo(int aIndex, BYTE result, BYTE subResult);
-	void GDReqCheckJoinedUnityBattleField(int aIndex, int IsUnityBattleFieldServer, BYTE ObServerMode);
-	void DGAnsCheckJoinedUnityBattleField(int aIndex, BYTE btRegisterState);
+	void DGAnsJoinUnityBattleField(LPGameObject &lpObj, BYTE Result, WORD LeftSecond);
+	void GDReqCopyCharacterInfo(LPGameObject &lpObj, BYTE CharacterSlot);
+	void DGAnsCopyCharacterInfo(LPGameObject &lpObj, BYTE result, BYTE subResult);
+	void GDReqCheckJoinedUnityBattleField(LPGameObject &lpObj, int IsUnityBattleFieldServer, BYTE ObServerMode);
+	void DGAnsCheckJoinedUnityBattleField(LPGameObject &lpObj, BYTE btRegisterState);
 	void GDObserverLogoutManager();
-	void GDReqCancelUnityBattleField(int aIndex, BYTE btCancelType);
-	void GDReqCancelUnityBattleField(int aIndex, BYTE btCancelType, const char *name);
-	void DGAnsCancelUnityBattleField(int aIndex, BYTE aCanceledResult, BYTE deletedResult);
+	void GDReqCancelUnityBattleField(LPGameObject &lpObj, BYTE btCancelType);
+	void GDReqCancelUnityBattleField(LPGameObject &lpObj, BYTE btCancelType, const char *name);
+	void DGAnsCancelUnityBattleField(LPGameObject &lpObj, BYTE aCanceledResult, BYTE deletedResult);
 	void GDReqGetRealNameAndServerCode(int aIndex);
-	void DGAnsGetRealNameAndServerCode(int aIndex, int nServerCodeOfHomeWorld);
-	void GDReqUBFGetReward(int aIndex, BYTE btBattleKind);
-	void GDReqSetReceivedWinnerItem(int aIndex, BYTE btBattleKind);
-	void DGAnsSetReceivedWinnerItem(int aIndex, BYTE btReturn);
+	void DGAnsGetRealNameAndServerCode(LPGameObject &lpObj, int nServerCodeOfHomeWorld);
+	void GDReqUBFGetReward(LPGameObject &lpObj, BYTE btBattleKind);
+	void GDReqSetReceivedWinnerItem(LPGameObject &lpObj, BYTE btBattleKind);
+	void DGAnsSetReceivedWinnerItem(LPGameObject &lpObj, BYTE btReturn);
 
 	int GetUBFPopupType() { return this->m_iUBFPopupType; }
 

@@ -71,13 +71,13 @@ public:
 	void Load(char* path);
 	void SetInfo(NOTICE_INFO info);
 	void MainProc();
-	void GCNoticeSend(int aIndex, BYTE type, BYTE count, BYTE opacity, WORD delay, DWORD color, BYTE speed, char* message, ...);
+	void GCNoticeSend(LPGameObject &lpObj, BYTE type, BYTE count, BYTE opacity, WORD delay, DWORD color, BYTE speed, char* message, ...);
 	void GCNoticeSendToAll(BYTE type, BYTE count, BYTE opacity, WORD delay, DWORD color, BYTE speed, char* message, ...);
-	void NewMessageDevTeam(int aIndex, char* message, ...);
-	void NewNoticeSend(int aIndex, BYTE count, BYTE opacity, WORD delay, DWORD color, BYTE speed, char* message, ...);
+	void NewMessageDevTeam(LPGameObject &lpObj, char* message, ...);
+	void NewNoticeSend(LPGameObject &lpObj, BYTE count, BYTE opacity, WORD delay, DWORD color, BYTE speed, char* message, ...);
 	void ChatSend(int Index, char* szChat, ...);
 	static void MakeNoticeMsg(void * lpNotice, BYTE btType, LPSTR szNoticeMsg);
-	//void BotMessageTeam(int aIndex, char* message, ...);
+	//void BotMessageTeam(LPGameObject &lpObj, char* message, ...);
 private:
 	NOTICE_INFO m_NoticeInfo[MAX_NOTICE];
 	int m_count;

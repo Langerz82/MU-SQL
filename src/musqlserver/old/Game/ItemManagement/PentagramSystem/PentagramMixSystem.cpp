@@ -280,7 +280,7 @@ bool CPentagramMixSystem::LoadJewelOptionScript(char *pchFileName)
 	return true;
 }
 
-BOOL CPentagramMixSystem::PentagramMixBoxInit(CGameObject* lpObj)
+BOOL CPentagramMixSystem::PentagramMixBoxInit(LPGameObject &lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -1267,7 +1267,7 @@ int CPentagramMixSystem::CheckLevelCondition(CItem *lpItem, WORD Level, BYTE Op1
 	return TRUE;
 }
 
-void CPentagramMixSystem::LogPentagramItem(CGameObject* lpObj, char* szLogType)
+void CPentagramMixSystem::LogPentagramItem(LPGameObject &lpObj, char* szLogType)
 {
 	return; // Function not used
 }

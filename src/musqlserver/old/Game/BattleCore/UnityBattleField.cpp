@@ -120,7 +120,7 @@ void CUnityBattleField::GDReqJoinUnityBattleField(int aIndex)
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CUnityBattleField::DGAnsJoinUnityBattleField(int aIndex, BYTE Result, WORD LeftSecond)
+void CUnityBattleField::DGAnsJoinUnityBattleField(LPGameObject &lpObj, BYTE Result, WORD LeftSecond)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -161,7 +161,7 @@ void CUnityBattleField::DGAnsJoinUnityBattleField(int aIndex, BYTE Result, WORD 
 	this->GDReqCopyCharacterInfo(aIndex, 0);
 }
 
-void CUnityBattleField::GDReqCopyCharacterInfo(int aIndex, BYTE CharacterSlot)
+void CUnityBattleField::GDReqCopyCharacterInfo(LPGameObject &lpObj, BYTE CharacterSlot)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -198,7 +198,7 @@ void CUnityBattleField::GDReqCopyCharacterInfo(int aIndex, BYTE CharacterSlot)
 	GDReqCopyPetItemInfo(lpObj->m_Index);
 }
 
-void CUnityBattleField::DGAnsCopyCharacterInfo(int aIndex, BYTE result, BYTE subResult)
+void CUnityBattleField::DGAnsCopyCharacterInfo(LPGameObject &lpObj, BYTE result, BYTE subResult)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -233,7 +233,7 @@ void CUnityBattleField::DGAnsCopyCharacterInfo(int aIndex, BYTE result, BYTE sub
 	sLog->outBasic("[UBF][DGAnsCopyCharacterInfo][%s][%s] Copy Infomation End", lpObj->AccountID, lpObj->Name);
 }
 
-void CUnityBattleField::GDReqCheckJoinedUnityBattleField(int aIndex, int IsUnityBattleFieldServer, BYTE ObServerMode)
+void CUnityBattleField::GDReqCheckJoinedUnityBattleField(LPGameObject &lpObj, int IsUnityBattleFieldServer, BYTE ObServerMode)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -259,7 +259,7 @@ void CUnityBattleField::GDReqCheckJoinedUnityBattleField(int aIndex, int IsUnity
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF3, 0x01, sizeof(pMsg));
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
-void CUnityBattleField::DGAnsCheckJoinedUnityBattleField(int aIndex, BYTE btRegisterState)
+void CUnityBattleField::DGAnsCheckJoinedUnityBattleField(LPGameObject &lpObj, BYTE btRegisterState)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -307,7 +307,7 @@ void CUnityBattleField::GDObserverLogoutManager()
 	}
 }
 
-void CUnityBattleField::GDReqCancelUnityBattleField(int aIndex, BYTE btCancelType)
+void CUnityBattleField::GDReqCancelUnityBattleField(LPGameObject &lpObj, BYTE btCancelType)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -342,7 +342,7 @@ void CUnityBattleField::GDReqCancelUnityBattleField(int aIndex, BYTE btCancelTyp
 		lpObj->AccountID, lpObj->Name);
 }
 
-void CUnityBattleField::GDReqCancelUnityBattleField(int aIndex, BYTE btCancelType, const char *name)
+void CUnityBattleField::GDReqCancelUnityBattleField(LPGameObject &lpObj, BYTE btCancelType, const char *name)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -377,7 +377,7 @@ void CUnityBattleField::GDReqCancelUnityBattleField(int aIndex, BYTE btCancelTyp
 		lpObj->AccountID, lpObj->Name);
 }
 
-void CUnityBattleField::DGAnsCancelUnityBattleField(int aIndex, BYTE aCanceledResult, BYTE deletedResult)
+void CUnityBattleField::DGAnsCancelUnityBattleField(LPGameObject &lpObj, BYTE aCanceledResult, BYTE deletedResult)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -434,12 +434,12 @@ void CUnityBattleField::GDReqGetRealNameAndServerCode(int aIndex)
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CUnityBattleField::DGAnsGetRealNameAndServerCode(int aIndex, int nServerCodeOfHomeWorld)
+void CUnityBattleField::DGAnsGetRealNameAndServerCode(LPGameObject &lpObj, int nServerCodeOfHomeWorld)
 {
 
 }
 
-void CUnityBattleField::GDReqUBFGetReward(int aIndex, BYTE btBattleKind)
+void CUnityBattleField::GDReqUBFGetReward(LPGameObject &lpObj, BYTE btBattleKind)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -477,7 +477,7 @@ void CUnityBattleField::GDReqUBFGetReward(int aIndex, BYTE btBattleKind)
 		aIndex, lpObj->AccountID, lpObj->Name);
 }
 
-void CUnityBattleField::GDReqSetReceivedWinnerItem(int aIndex, BYTE btBattleKind)
+void CUnityBattleField::GDReqSetReceivedWinnerItem(LPGameObject &lpObj, BYTE btBattleKind)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -511,7 +511,7 @@ void CUnityBattleField::GDReqSetReceivedWinnerItem(int aIndex, BYTE btBattleKind
 		aIndex, lpObj->AccountID, lpObj->Name);
 }
 
-void CUnityBattleField::DGAnsSetReceivedWinnerItem(int aIndex, BYTE btReturn)
+void CUnityBattleField::DGAnsSetReceivedWinnerItem(LPGameObject &lpObj, BYTE btReturn)
 {
 	if (!ObjectMaxRange(aIndex))
 	{

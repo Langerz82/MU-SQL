@@ -62,7 +62,7 @@ class CAttackMsg{
 	int m_Len;
 	int m_Type;
 public:
-	CAttackMsg(int aIndex, BYTE* pmsg, int len, int type);
+	CAttackMsg(LPGameObject &lpObj, BYTE* pmsg, int len, int type);
 	~CAttackMsg();
 
 	void Process();

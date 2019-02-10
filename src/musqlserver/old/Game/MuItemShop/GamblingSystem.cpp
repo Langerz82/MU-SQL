@@ -200,7 +200,7 @@ BYTE CGamblingItemBag::GetLevel(int n)
 	return level;
 }
 
-BYTE CGamblingItemBag::GetGamblingSystemItem(int aIndex, BYTE btMapNumber, BYTE cX, BYTE cY, BYTE btItemType)
+BYTE CGamblingItemBag::GetGamblingSystemItem(LPGameObject &lpObj, BYTE btMapNumber, BYTE cX, BYTE cY, BYTE btItemType)
 {
 	if (!this->m_bEnabled)	return 0;
 	if (!m_bLoad)	return 0;

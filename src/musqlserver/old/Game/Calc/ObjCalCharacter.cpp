@@ -1783,7 +1783,7 @@ void CObjCalCharacter::CalcCharacter(int aIndex)
 	}
 }
 
-void CObjCalCharacter::CalcSetItemStat(CGameObject* lpObj)
+void CObjCalCharacter::CalcSetItemStat(LPGameObject &lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -1845,7 +1845,7 @@ void CObjCalCharacter::CalcSetItemStat(CGameObject* lpObj)
 
 
 
-void CObjCalCharacter::GetSetItemOption(CGameObject* lpObj, LPBYTE pSetOptionTable, LPBYTE pSetOptionCountTable, int * pSetOptionCount)
+void CObjCalCharacter::GetSetItemOption(LPGameObject &lpObj, LPBYTE pSetOptionTable, LPBYTE pSetOptionCountTable, int * pSetOptionCount)
 {
 	*pSetOptionCount = 0;
 	int RightSetOptionIndex = -1;
@@ -1921,7 +1921,7 @@ void CObjCalCharacter::GetSetItemOption(CGameObject* lpObj, LPBYTE pSetOptionTab
 		}
 	}
 }
-void CObjCalCharacter::CalcSetItemOption(CGameObject* lpObj)
+void CObjCalCharacter::CalcSetItemOption(LPGameObject &lpObj)
 {
 	BYTE SetOptionTable[29];
 	BYTE SetOptionCountTable[29];
@@ -2016,7 +2016,7 @@ void CObjCalCharacter::CalcSetItemOption(CGameObject* lpObj)
 
 
 
-void CObjCalCharacter::SetItemStatPlusSpecial(CGameObject* lpObj, int option, int ivalue)
+void CObjCalCharacter::SetItemStatPlusSpecial(LPGameObject &lpObj, int option, int ivalue)
 {
 	if (lpObj->Type != OBJ_USER)
 		return;
@@ -2062,7 +2062,7 @@ void CObjCalCharacter::SetItemStatPlusSpecial(CGameObject* lpObj, int option, in
 }
 
 
-void CObjCalCharacter::SetItemPlusSpecial(CGameObject* lpObj, int option, int ivalue)
+void CObjCalCharacter::SetItemPlusSpecial(LPGameObject &lpObj, int option, int ivalue)
 {
 	if (option == -1)
 		return;
@@ -2170,7 +2170,7 @@ void CObjCalCharacter::SetItemPlusSpecial(CGameObject* lpObj, int option, int iv
 
 
 
-void CObjCalCharacter::SetItemApply(CGameObject* lpObj)
+void CObjCalCharacter::SetItemApply(LPGameObject &lpObj)
 {
 	lpObj->m_AttackDamageMinLeft += lpObj->m_PlayerData->SetOpAddAttackDamage;
 	lpObj->m_AttackDamageMaxLeft += lpObj->m_PlayerData->SetOpAddAttackDamage;
@@ -2250,7 +2250,7 @@ void CObjCalCharacter::SetItemApply(CGameObject* lpObj)
 	}
 }
 
-void CObjCalCharacter::CalcMLSkillItemOption(CGameObject* lpObj)
+void CObjCalCharacter::CalcMLSkillItemOption(LPGameObject &lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 		return;
@@ -2543,7 +2543,7 @@ void CObjCalCharacter::CalcMLSkillItemOption(CGameObject* lpObj)
 	}
 }
 
-BOOL CObjCalCharacter::ValidItem(CGameObject* lpObj, CItem * lpItem, int pos)
+BOOL CObjCalCharacter::ValidItem(LPGameObject &lpObj, CItem * lpItem, int pos)
 {
 	if (g_ConfigRead.data.common.CheckValidItem == false)
 	{
@@ -2607,7 +2607,7 @@ BOOL CObjCalCharacter::ValidItem(CGameObject* lpObj, CItem * lpItem, int pos)
 }
 
 
-void CObjCalCharacter::CalcShieldPoint(CGameObject* lpObj)
+void CObjCalCharacter::CalcShieldPoint(LPGameObject &lpObj)
 {
 	int iMaxShieldPoint = 0;
 	int iExpressionA = (lpObj->m_PlayerData->Strength + lpObj->AddStrength) + (lpObj->m_PlayerData->Dexterity + lpObj->AddDexterity) + (lpObj->m_PlayerData->Vitality + lpObj->AddVitality) + (lpObj->m_PlayerData->Energy + lpObj->AddEnergy);
@@ -2631,7 +2631,7 @@ void CObjCalCharacter::CalcShieldPoint(CGameObject* lpObj)
 	lpObj->iMaxShield = iMaxShieldPoint;
 }
 
-void CObjCalCharacter::PremiumItemApply(CGameObject* lpObj)
+void CObjCalCharacter::PremiumItemApply(LPGameObject &lpObj)
 {
 	for (int i = 9; i < 12; ++i)
 	{

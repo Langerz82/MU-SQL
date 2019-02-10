@@ -1175,7 +1175,7 @@ bool QuestExpUserMng::InventoryExtentCheck(int x, int y, int w, int h)
     return (x >= 0 && x < w && y >= nStartOfRange && y < nEndOfRange);
 }
 
-int QuestExpUserMng::CheckOutOfInventory(int aIndex, int sy, int height)
+int QuestExpUserMng::CheckOutOfInventory(LPGameObject &lpObj, int sy, int height)
 {
     int nEndOfItemY = sy + height - 1;
 

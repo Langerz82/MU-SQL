@@ -70,7 +70,7 @@ void EventChipEventProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen)
 	}
 }
 
-void FireworksOpenEven(CGameObject* lpObj)
+void FireworksOpenEven(LPGameObject &lpObj)
 {
 	PMSG_SERVERCMD ServerCmd;
 
@@ -83,7 +83,7 @@ void FireworksOpenEven(CGameObject* lpObj)
 	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
 }
 
-void ChristmasFireCrackDrop(CGameObject* lpObj) //season 4.5 add-on
+void ChristmasFireCrackDrop(LPGameObject &lpObj) //season 4.5 add-on
 {
 	PMSG_SERVERCMD ServerCmd;
 

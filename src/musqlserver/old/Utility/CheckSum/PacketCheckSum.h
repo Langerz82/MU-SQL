@@ -26,8 +26,8 @@ public:
 	void Init();
 	void Check(int aIndex);
 	void ClearCheckSum(int aIndex);
-	int Add(int aIndex, int funcindex, DWORD checksum);
-	void AddCheckSum(int aIndex, int funcindex, DWORD checksum);
+	int Add(LPGameObject &lpObj, int funcindex, DWORD checksum);
+	void AddCheckSum(LPGameObject &lpObj, int funcindex, DWORD checksum);
 	void SetClearChecksumFunc(int funcindex);
 
 private:

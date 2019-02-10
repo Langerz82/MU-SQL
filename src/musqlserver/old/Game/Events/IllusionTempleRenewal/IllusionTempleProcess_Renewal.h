@@ -78,7 +78,7 @@ public:
 	void Set_ITRState_Playing();
 	void Set_ITRState_End();
 
-	BOOL EnterUserIllusionTemple(int aIndex, BYTE btTempleIndex, int nPartyIdx);
+	BOOL EnterUserIllusionTemple(LPGameObject &lpObj, BYTE btTempleIndex, int nPartyIdx);
 	BOOL LeaveUserIllusionTemple(int aIndex);
 
 	bool CanStartITRBattle(BYTE & ALLIED, BYTE & ILLUSION);
@@ -92,7 +92,7 @@ public:
 	int FindITRUser(int index);
 	void DropRelicsItem(int iIndex, BYTE byAct);
 	char CheckHaveRelics(int aIndex);
-	void SetRelicsInventoryPos(int aIndex, BYTE btPos);
+	void SetRelicsInventoryPos(LPGameObject &lpObj, BYTE btPos);
 
 	void SendRelicsUserInfo(OBJECTSTRUCT *lpObj, BYTE byGet);
 

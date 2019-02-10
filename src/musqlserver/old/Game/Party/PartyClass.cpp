@@ -855,7 +855,7 @@ void PartyClass::ReadBonusInfo(LPSTR File) //FILE_PARTYBONUS
 	}
 }
 
-int PartyClass::GetExpBonus(CGameObject* lpUser, CGameObject* lpMonster, int PartyNumber)
+int PartyClass::GetExpBonus(LPGameObject &lpUser, CGameObject* lpMonster, int PartyNumber)
 {
 	if (!lpUser)
 	{

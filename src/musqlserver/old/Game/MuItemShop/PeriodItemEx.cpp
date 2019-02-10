@@ -45,7 +45,7 @@ void CPeriodItemEx::Initialize()
 	}
 }
 
-int CPeriodItemEx::AddPeriodInfo(CGameObject* lpObj)
+int CPeriodItemEx::AddPeriodInfo(LPGameObject &lpObj)
 {
 	if ( lpObj->Type != OBJ_USER )
 	{
@@ -75,7 +75,7 @@ int CPeriodItemEx::AddPeriodInfo(CGameObject* lpObj)
 	return -1;
 }
 
-BOOL CPeriodItemEx::RemovePeriodInfo(CGameObject* lpObj)
+BOOL CPeriodItemEx::RemovePeriodInfo(LPGameObject &lpObj)
 {
 	if ( lpObj->Type != OBJ_USER )
 	{
@@ -104,7 +104,7 @@ BOOL CPeriodItemEx::RemovePeriodInfo(CGameObject* lpObj)
 	return TRUE;
 }
 
-BOOL CPeriodItemEx::IsCorrectUser(CGameObject* lpObj)
+BOOL CPeriodItemEx::IsCorrectUser(LPGameObject &lpObj)
 {
 	if ( lpObj->Type != OBJ_USER )
 	{
@@ -124,7 +124,7 @@ BOOL CPeriodItemEx::IsCorrectUser(CGameObject* lpObj)
 	return FALSE;
 }
 
-int CPeriodItemEx::AddPeriodItemData(CGameObject* lpObj, WORD ItemType, UINT64 Serial, DWORD Duration)
+int CPeriodItemEx::AddPeriodItemData(LPGameObject &lpObj, WORD ItemType, UINT64 Serial, DWORD Duration)
 {
 	if ( lpObj->Type != OBJ_USER) 
 	{
@@ -176,7 +176,7 @@ int CPeriodItemEx::AddPeriodItemData(CGameObject* lpObj, WORD ItemType, UINT64 S
 	return -1;
 }
 
-int CPeriodItemEx::AddPeriodItemData(CGameObject* lpObj, WORD ItemType, UINT64 Serial, DWORD Duration, time_t ExpireDate)
+int CPeriodItemEx::AddPeriodItemData(LPGameObject &lpObj, WORD ItemType, UINT64 Serial, DWORD Duration, time_t ExpireDate)
 {
 	if ( lpObj->Type != OBJ_USER) 
 	{
@@ -216,7 +216,7 @@ int CPeriodItemEx::AddPeriodItemData(CGameObject* lpObj, WORD ItemType, UINT64 S
 	return -1;
 }
 
-BOOL CPeriodItemEx::RemovePeriodItemData(CGameObject* lpObj, BYTE ItemType, WORD ItemIndex, UINT64 Serial)
+BOOL CPeriodItemEx::RemovePeriodItemData(LPGameObject &lpObj, BYTE ItemType, WORD ItemIndex, UINT64 Serial)
 {
 	if ( !lpObj )
 	{
@@ -300,7 +300,7 @@ BOOL CPeriodItemEx::RemovePeriodItemData(CGameObject* lpObj, BYTE ItemType, WORD
 	return TRUE;
 }
 
-BOOL CPeriodItemEx::RemovePeriodItemDataByForce(CGameObject* lpObj, WORD ItemType, UINT64 Serial)
+BOOL CPeriodItemEx::RemovePeriodItemDataByForce(LPGameObject &lpObj, WORD ItemType, UINT64 Serial)
 {
 	if ( !lpObj )
 	{
@@ -421,7 +421,7 @@ time_t CPeriodItemEx::GetLeftDate(time_t ExpireDate)
 	return difftime;
 }
 
-BOOL CPeriodItemEx::SetPeriodItemInfo(CGameObject* lpObj, WORD wItemCode, UINT64 Serial, DWORD dwDuration)
+BOOL CPeriodItemEx::SetPeriodItemInfo(LPGameObject &lpObj, WORD wItemCode, UINT64 Serial, DWORD dwDuration)
 {
 	if ( lpObj == NULL )
 	{
@@ -498,7 +498,7 @@ BOOL CPeriodItemEx::SetPeriodItemInfo(CGameObject* lpObj, WORD wItemCode, UINT64
 	return TRUE;
 }
 
-BOOL CPeriodItemEx::SetDisableItemToExpire(CGameObject* lpObj, int pos)
+BOOL CPeriodItemEx::SetDisableItemToExpire(LPGameObject &lpObj, int pos)
 {
 	if ( !lpObj )
 	{
@@ -532,7 +532,7 @@ BOOL CPeriodItemEx::SetDisableItemToExpire(CGameObject* lpObj, int pos)
 	return TRUE;
 }
 
-void CPeriodItemEx::SetExpireNotMatchedData(CGameObject* lpObj)
+void CPeriodItemEx::SetExpireNotMatchedData(LPGameObject &lpObj)
 {
 	if ( lpObj->Type != OBJ_USER )
 	{
@@ -578,7 +578,7 @@ void CPeriodItemEx::SetExpireNotMatchedData(CGameObject* lpObj)
 	}
 }
 
-void CPeriodItemEx::RequestPeriodItemInfo(CGameObject* lpObj)
+void CPeriodItemEx::RequestPeriodItemInfo(LPGameObject &lpObj)
 {
 	PMSG_REQ_PERIODITEMEX_SELECT pMsg;
 
@@ -590,7 +590,7 @@ void CPeriodItemEx::RequestPeriodItemInfo(CGameObject* lpObj)
 	wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
 }
 
-void CPeriodItemEx::RequestPeriodItemInsert(CGameObject* lpObj, ITEM_DATA * lpItemData, DWORD dwDuration)
+void CPeriodItemEx::RequestPeriodItemInsert(LPGameObject &lpObj, ITEM_DATA * lpItemData, DWORD dwDuration)
 {
 	PMSG_REQ_PERIODITEMEX_INSERT pMsg;
 
@@ -613,7 +613,7 @@ void CPeriodItemEx::RequestPeriodItemInsert(CGameObject* lpObj, ITEM_DATA * lpIt
 	wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
 }
 
-void CPeriodItemEx::RequestPeriodItemDelete(CGameObject* lpObj, ITEM_DATA * lpItemData)
+void CPeriodItemEx::RequestPeriodItemDelete(LPGameObject &lpObj, ITEM_DATA * lpItemData)
 {
 	PMSG_REQ_PERIODITEMEX_DELETE pMsg;
 
@@ -811,7 +811,7 @@ void CPeriodItemEx::DGPeriodItemExList(PMSG_ANS_PERIODITEMEX_LIST * lpMsg)
 	}
 }
 
-int CPeriodItemEx::GetItemFromInventory(CGameObject* lpObj, WORD wItemCode, UINT64 Serial)
+int CPeriodItemEx::GetItemFromInventory(LPGameObject &lpObj, WORD wItemCode, UINT64 Serial)
 {
 	int pos = -1;
 
@@ -837,7 +837,7 @@ int CPeriodItemEx::GetItemFromInventory(CGameObject* lpObj, WORD wItemCode, UINT
 	return pos;
 }
 
-void CPeriodItemEx::OnRequestPeriodItemList(CGameObject* lpObj)
+void CPeriodItemEx::OnRequestPeriodItemList(LPGameObject &lpObj)
 {
 	PMSG_PROPERTYITEMCOUNT pMsg1;
 	PMSG_PROPERTYITEMINFO pMsg2;
@@ -873,7 +873,7 @@ void CPeriodItemEx::OnRequestPeriodItemList(CGameObject* lpObj)
 	}
 }
 
-void CPeriodItemEx::OnRequestPeriodItemListOnce(CGameObject* lpObj, ITEM_DATA * lpItemData)
+void CPeriodItemEx::OnRequestPeriodItemListOnce(LPGameObject &lpObj, ITEM_DATA * lpItemData)
 {
 	if ( lpObj == NULL ) return;
 	if ( lpItemData == NULL ) return;
@@ -889,7 +889,7 @@ void CPeriodItemEx::OnRequestPeriodItemListOnce(CGameObject* lpObj, ITEM_DATA * 
 	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-BOOL CPeriodItemEx::SendPeriodItemInfoOnce(CGameObject* lpObj, CItem * Item)
+BOOL CPeriodItemEx::SendPeriodItemInfoOnce(LPGameObject &lpObj, CItem * Item)
 {
 	if ( lpObj->Type != OBJ_USER )
 	{
@@ -923,7 +923,7 @@ BOOL CPeriodItemEx::SendPeriodItemInfoOnce(CGameObject* lpObj, CItem * Item)
 	return FALSE;
 }
 
-BOOL CPeriodItemEx::SendPeriodItemInfoOnce(CGameObject* lpObj, UINT64 Serial)
+BOOL CPeriodItemEx::SendPeriodItemInfoOnce(LPGameObject &lpObj, UINT64 Serial)
 {
 	if ( lpObj->Type != OBJ_USER )
 	{

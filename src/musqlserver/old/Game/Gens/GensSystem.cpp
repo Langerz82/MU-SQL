@@ -39,7 +39,7 @@ GensSystem::~GensSystem()
 };
 
 //-> Completed
-int GensSystem::GDReqAbusingInfo(CGameObject* lpObj)  // done
+int GensSystem::GDReqAbusingInfo(LPGameObject &lpObj)  // done
 {
 	if (!ObjectMaxRange(lpObj->m_Index))
 		return 0;
@@ -61,7 +61,7 @@ int GensSystem::GDReqAbusingInfo(CGameObject* lpObj)  // done
 }; 
 
 //-> Completed
-int GensSystem::ReqExDBGensInfo(CGameObject* lpObj) // done
+int GensSystem::ReqExDBGensInfo(LPGameObject &lpObj) // done
 {
 	if (!ObjectMaxRange(lpObj->m_Index)) return 0;
 
@@ -81,7 +81,7 @@ int GensSystem::ReqExDBGensInfo(CGameObject* lpObj) // done
 };
 
 //-> Completed
-void GensSystem::ReqRegGensMember(CGameObject* lpObj, unsigned char btInfluence) // done
+void GensSystem::ReqRegGensMember(LPGameObject &lpObj, unsigned char btInfluence) // done
 {
 	if (gObjIsConnected(lpObj->m_Index))
 	{
@@ -123,7 +123,7 @@ int GensSystem::AnsRegGensMember(int iObjIndex, unsigned char btResult)
 };
  
 //-> Completed
-bool GensSystem::IsInfluenceNPC(CGameObject* lpObj)
+bool GensSystem::IsInfluenceNPC(LPGameObject &lpObj)
 {
 	if(lpObj->Type != OBJ_USER)
 	{
@@ -142,7 +142,7 @@ bool GensSystem::IsInfluenceNPC(CGameObject* lpObj)
 };
 
 //-> Completed
-int GensSystem::ReqSecedeGensMember(CGameObject* lpObj) // done
+int GensSystem::ReqSecedeGensMember(LPGameObject &lpObj) // done
 {
 	GUILD_INFO_STRUCT *lpGuildInfo = lpObj->m_PlayerData->lpGuild;
 
@@ -171,7 +171,7 @@ int GensSystem::ReqSecedeGensMember(CGameObject* lpObj) // done
 };
 
 //-> Completed
-int GensSystem::SendGensInfo(CGameObject* lpObj)
+int GensSystem::SendGensInfo(LPGameObject &lpObj)
 {
 	if (!ObjectMaxRange(lpObj->m_Index))
 	 return 0;
@@ -202,7 +202,7 @@ int GensSystem::AnsSecedeGensMember(int iObjIndex, BYTE btResult)
 };
 
 //-> Completed
-int GensSystem::SendPkPenaltyMapMove(CGameObject* lpObj)
+int GensSystem::SendPkPenaltyMapMove(LPGameObject &lpObj)
 {
 	if (!ObjectMaxRange(lpObj->m_Index))
  	return 0;
@@ -217,7 +217,7 @@ int GensSystem::SendPkPenaltyMapMove(CGameObject* lpObj)
 };
 
 //-> Completed
-int GensSystem::GDReqSaveContributePoint(CGameObject* lpObj)  // done
+int GensSystem::GDReqSaveContributePoint(LPGameObject &lpObj)  // done
 {
 	if (!ObjectMaxRange(lpObj->m_Index))
 		return false;
@@ -242,7 +242,7 @@ int GensSystem::GDReqSaveContributePoint(CGameObject* lpObj)  // done
 };
 
 //-> Completed
-int GensSystem::DBSaveAbusingKillUserName(CGameObject* lpObj) // done
+int GensSystem::DBSaveAbusingKillUserName(LPGameObject &lpObj) // done
 {
 	if (!ObjectMaxRange(lpObj->m_Index))
 		return false;
@@ -288,7 +288,7 @@ int GensSystem::DBSaveAbusingKillUserName(CGameObject* lpObj) // done
 };
 
 //-> Completed
-void GensSystem::BattleZoneChatMsgSend(CGameObject* lpObj, LPBYTE Msg, int size)
+void GensSystem::BattleZoneChatMsgSend(LPGameObject &lpObj, LPBYTE Msg, int size)
 {
 	int iTarInfluence = 0;
 
@@ -319,7 +319,7 @@ BOOL GensSystem::IsMoveMapBattleZone(int iMapIndex)
 	return FALSE;
 };
 
-void GensSystem::GensViewportListProtocol(CGameObject* lpObj)
+void GensSystem::GensViewportListProtocol(LPGameObject &lpObj)
 {
 	if(lpObj->Type != OBJ_USER)
 	{
@@ -389,7 +389,7 @@ int GensSystem::IsMapBattleZone(int iMapIndex)
 	return TRUE;
 };
 
-void GensSystem::SetGensInfluence(CGameObject* lpObj, int iInfluence)
+void GensSystem::SetGensInfluence(LPGameObject &lpObj, int iInfluence)
 {
 	if(lpObj->Type != OBJ_USER)
 	{
@@ -415,7 +415,7 @@ void GensSystem::SetGensInfluence(CGameObject* lpObj, int iInfluence)
 };
 
 //-> Completed
-int GensSystem::IsPkEnable(CGameObject* lpObj, CGameObject* lpTargetObj)
+int GensSystem::IsPkEnable(LPGameObject &lpObj, CGameObject* lpTargetObj)
 {
 	if (this->IsMapBattleZone(lpObj->MapNumber))
 	{
@@ -432,7 +432,7 @@ int GensSystem::IsPkEnable(CGameObject* lpObj, CGameObject* lpTargetObj)
 };
 
 //-> Completed
-int GensSystem::GetGensInfluence(CGameObject* lpObj)
+int GensSystem::GetGensInfluence(LPGameObject &lpObj)
 {
 	if(lpObj->Type != OBJ_USER)
 	{
@@ -455,7 +455,7 @@ int GensSystem::GetGensInfluence(CGameObject* lpObj)
 };
 
 //-> Completed
-char *GensSystem::GetGensInfluenceName(CGameObject* lpObj)
+char *GensSystem::GetGensInfluenceName(LPGameObject &lpObj)
 {
 	if(lpObj->Type != OBJ_USER)
 	{
@@ -470,7 +470,7 @@ char *GensSystem::GetGensInfluenceName(CGameObject* lpObj)
 };
 
 //-> Completed
-bool GensSystem::IsRegGensInfluence(CGameObject* lpObj)
+bool GensSystem::IsRegGensInfluence(LPGameObject &lpObj)
 {
 	if(lpObj->Type != OBJ_USER)
 	{
@@ -485,7 +485,7 @@ bool GensSystem::IsRegGensInfluence(CGameObject* lpObj)
 };
 
 //-> Completed
-int GensSystem::SetUserBattleZoneEnable(CGameObject* lpObj, int bBattleZoneEnable)
+int GensSystem::SetUserBattleZoneEnable(LPGameObject &lpObj, int bBattleZoneEnable)
 {
 	if(lpObj->Type != OBJ_USER)
 	{
@@ -496,7 +496,7 @@ int GensSystem::SetUserBattleZoneEnable(CGameObject* lpObj, int bBattleZoneEnabl
 };
 
 //-> Completed
-int GensSystem::IsUserBattleZoneEnable(CGameObject* lpObj)
+int GensSystem::IsUserBattleZoneEnable(LPGameObject &lpObj)
 {
 	if(lpObj->Type != OBJ_USER)
 	{
@@ -507,7 +507,7 @@ int GensSystem::IsUserBattleZoneEnable(CGameObject* lpObj)
 };
 
 //-> Completed
-int GensSystem::SetContributePoint(CGameObject* lpObj, int iContributePoint)
+int GensSystem::SetContributePoint(LPGameObject &lpObj, int iContributePoint)
 {
 	if(lpObj->Type != OBJ_USER)
 	{
@@ -518,7 +518,7 @@ int GensSystem::SetContributePoint(CGameObject* lpObj, int iContributePoint)
 };
 
 //-> Completed
-int GensSystem::AddContributePoint(CGameObject* lpObj, int iContributePoint)
+int GensSystem::AddContributePoint(LPGameObject &lpObj, int iContributePoint)
 {
 	if(lpObj->Type != OBJ_USER)
 	{
@@ -531,7 +531,7 @@ int GensSystem::AddContributePoint(CGameObject* lpObj, int iContributePoint)
 };
 
 //-> Completed
-int GensSystem::SubContributePoint(CGameObject* lpObj, int iContributePoint)
+int GensSystem::SubContributePoint(LPGameObject &lpObj, int iContributePoint)
 {
 	if(lpObj->Type != OBJ_USER)
 	{
@@ -549,7 +549,7 @@ int GensSystem::SubContributePoint(CGameObject* lpObj, int iContributePoint)
 };
 
 //-> Completed
-int GensSystem::GetContributePoint(CGameObject* lpObj)
+int GensSystem::GetContributePoint(LPGameObject &lpObj)
 {
 	if(lpObj->Type != OBJ_USER)
 	{
@@ -559,12 +559,12 @@ int GensSystem::GetContributePoint(CGameObject* lpObj)
 	return lpObj->m_PlayerData->m_ContributePoint;
 };
 
-int GensSystem::PkPenaltyAddNeedZenMapMove(CGameObject* lpObj)
+int GensSystem::PkPenaltyAddNeedZenMapMove(LPGameObject &lpObj)
 {
 	return g_ConfigRead.pk.GetWarpCostMultiplier(lpObj->m_PK_Level);
 };
 
-int GensSystem::GetPKPartyLevel(CGameObject* lpObj)
+int GensSystem::GetPKPartyLevel(LPGameObject &lpObj)
 {
 	if (lpObj->PartyNumber == -1)
 	{
@@ -577,7 +577,7 @@ int GensSystem::GetPKPartyLevel(CGameObject* lpObj)
 	}
 }
 
-void GensSystem::PkPenaltyDropInvenItem(CGameObject* lpObj)
+void GensSystem::PkPenaltyDropInvenItem(LPGameObject &lpObj)
 {
 	if (this->IsGensMuBlueMode() == false)
 	{
@@ -611,7 +611,7 @@ void GensSystem::PkPenaltyDropInvenItem(CGameObject* lpObj)
 	}
 };
 
-void GensSystem::PkPenaltyDropZen(CGameObject* lpObj)
+void GensSystem::PkPenaltyDropZen(LPGameObject &lpObj)
 {
 	if (this->IsGensMuBlueMode() == false)
 	{
@@ -654,7 +654,7 @@ void GensSystem::PkPenaltyDropZen(CGameObject* lpObj)
 	}
 };
 
-void GensSystem::SendPKPenaltyDebuff(CGameObject* lpObj)
+void GensSystem::SendPKPenaltyDebuff(LPGameObject &lpObj)
 {
 	if (this->IsGensMuBlueMode() == false)
 	{
@@ -693,7 +693,7 @@ void GensSystem::SendPKPenaltyDebuff(CGameObject* lpObj)
 	}
 }
 
-void GensSystem::CalcContributePoint(CGameObject* lpObj, CGameObject* lpTargetObj)
+void GensSystem::CalcContributePoint(LPGameObject &lpObj, CGameObject* lpTargetObj)
 {
 	if(lpObj->Type != OBJ_USER)
 	{
@@ -876,7 +876,7 @@ void GensSystem::CalcContributePoint(CGameObject* lpObj, CGameObject* lpTargetOb
 }
 };
 
-int GensSystem::ChkKillUserName(CGameObject* lpObj, char *szCharName)
+int GensSystem::ChkKillUserName(LPGameObject &lpObj, char *szCharName)
 {
 	if(lpObj->Type != OBJ_USER)
 	{
@@ -915,7 +915,7 @@ int GensSystem::ChkKillUserName(CGameObject* lpObj, char *szCharName)
 };
 
 //-> Completed
-int GensSystem::AbusingPenalty(CGameObject* lpObj, int iKillUserIndex)
+int GensSystem::AbusingPenalty(LPGameObject &lpObj, int iKillUserIndex)
 {
 	if(lpObj->Type != OBJ_USER)
 	{
@@ -967,7 +967,7 @@ int GensSystem::AbusingPenalty(CGameObject* lpObj, int iKillUserIndex)
 };
 
 //-> Completed
-int GensSystem::InsertKillUserName(CGameObject* lpObj, char *szCharName)
+int GensSystem::InsertKillUserName(LPGameObject &lpObj, char *szCharName)
 {
 	if(lpObj->Type != OBJ_USER)
 	{
@@ -998,7 +998,7 @@ int GensSystem::InsertKillUserName(CGameObject* lpObj, char *szCharName)
 };
 
 //-> Completed
-void GensSystem::MoveInBattleZonePartySplit(CGameObject* lpObj)
+void GensSystem::MoveInBattleZonePartySplit(LPGameObject &lpObj)
 {
 	PMSG_PARTYDELUSER pMsg;
 
@@ -1021,7 +1021,7 @@ void GensSystem::MoveInBattleZonePartySplit(CGameObject* lpObj)
 };
 
 //-> Completed
-void GensSystem::AbusingInfoReset(CGameObject* lpObj)
+void GensSystem::AbusingInfoReset(LPGameObject &lpObj)
 {
 	if (!ObjectMaxRange(lpObj->m_Index))
 		return;
@@ -1060,7 +1060,7 @@ void GensSystem::AbusingInfoReset(CGameObject* lpObj)
 };
 
 //-> Completed
-int GensSystem::CalGensClass(CGameObject* lpObj)
+int GensSystem::CalGensClass(LPGameObject &lpObj)
 {
 	if(lpObj->Type != OBJ_USER)
 	{
@@ -1170,7 +1170,7 @@ int GensSystem::CalGensClass(CGameObject* lpObj)
 };
 
 //-> Completed
-int GensSystem::SetGensRanking(CGameObject* lpObj, int iGensRanking)
+int GensSystem::SetGensRanking(LPGameObject &lpObj, int iGensRanking)
 {
 	if(lpObj->Type != OBJ_USER)
 	{
@@ -1181,7 +1181,7 @@ int GensSystem::SetGensRanking(CGameObject* lpObj, int iGensRanking)
 };
 
 //-> Completed
-int GensSystem::SetGensClass(CGameObject* lpObj, int iGensClass)
+int GensSystem::SetGensClass(LPGameObject &lpObj, int iGensClass)
 {
 	if(lpObj->Type != OBJ_USER)
 	{
@@ -1192,7 +1192,7 @@ int GensSystem::SetGensClass(CGameObject* lpObj, int iGensClass)
 };
 
 //-> Completed
-int GensSystem::GetGensClass(CGameObject* lpObj)
+int GensSystem::GetGensClass(LPGameObject &lpObj)
 {
 	if(lpObj->Type != OBJ_USER)
 	{
@@ -1203,7 +1203,7 @@ int GensSystem::GetGensClass(CGameObject* lpObj)
 };
 
 //-> Completed
-int GensSystem::GetNextContributePoint(CGameObject* lpObj)
+int GensSystem::GetNextContributePoint(LPGameObject &lpObj)
 {
 	if(lpObj->Type != OBJ_USER)
 	{
@@ -1293,7 +1293,7 @@ int GensSystem::GetGensMemberCount(int iInfluence)
 };
 
 //-> Completed
-int GensSystem::ReqExDBGensRewardCheck(CGameObject* lpObj, int iInfluence) // done
+int GensSystem::ReqExDBGensRewardCheck(LPGameObject &lpObj, int iInfluence) // done
 {
 	if (!ObjectMaxRange(lpObj->m_Index))
 		return false;
@@ -1317,7 +1317,7 @@ int GensSystem::ReqExDBGensRewardCheck(CGameObject* lpObj, int iInfluence) // do
 };
  
 //-> Completed
-int GensSystem::ReqExDBGensRewardComplete(CGameObject* lpObj) // done
+int GensSystem::ReqExDBGensRewardComplete(LPGameObject &lpObj) // done
 {
 	if (!ObjectMaxRange(lpObj->m_Index))
 		return false;
@@ -1340,7 +1340,7 @@ int GensSystem::ReqExDBGensRewardComplete(CGameObject* lpObj) // done
 };
 
 //-> Completed
-int GensSystem::SendGensReward(CGameObject* lpObj, unsigned char btResult)
+int GensSystem::SendGensReward(LPGameObject &lpObj, unsigned char btResult)
 {
 	if (!ObjectMaxRange(lpObj->m_Index))
 		return false;
@@ -1360,7 +1360,7 @@ int GensSystem::SendGensReward(CGameObject* lpObj, unsigned char btResult)
 };
 
 //-> Completed
-int GensSystem::SendGensRewardItem(CGameObject* lpObj, int iGensClass)
+int GensSystem::SendGensRewardItem(LPGameObject &lpObj, int iGensClass)
 {
 	int iArrayClass = iGensClass-1;
 
@@ -1393,7 +1393,7 @@ int GensSystem::SendGensRewardItem(CGameObject* lpObj, int iGensClass)
 };
 
 //-> Completed
-bool GensSystem::GensRewardInventoryCheck(CGameObject* lpObj, int iItemCount)
+bool GensSystem::GensRewardInventoryCheck(LPGameObject &lpObj, int iItemCount)
 {
 	unsigned char blank = NULL;
 	
@@ -1416,7 +1416,7 @@ bool GensSystem::GensRewardInventoryCheck(CGameObject* lpObj, int iItemCount)
 };
 
 //-> Completed
-int GensSystem::ReqExDBGensMemberCount(CGameObject* lpObj) // done
+int GensSystem::ReqExDBGensMemberCount(LPGameObject &lpObj) // done
 {
 	if (!ObjectMaxRange(lpObj->m_Index))
 		return false;
@@ -1597,7 +1597,7 @@ int GensSystem::LoadData(char *lpszFileName)
 
 }
 
-int GensSystem::ReqGensRewardDay(CGameObject* lpObj)
+int GensSystem::ReqGensRewardDay(LPGameObject &lpObj)
 {
 	PMSG_REQ_GENS_REWARD_DAY pMsg;
 
@@ -1617,7 +1617,7 @@ struct PMSG_SEND_GENS_BATTLEZONE_DATA
 	int iWarpList[MAX_MOVE_COMMAND];
 };
 
-void GensSystem::SendBattleZoneData(CGameObject* lpObj)
+void GensSystem::SendBattleZoneData(LPGameObject &lpObj)
 {
 	PMSG_SEND_GENS_BATTLEZONE_DATA pMsg;
 
@@ -1642,7 +1642,7 @@ void GensSystem::SendBattleZoneData(CGameObject* lpObj)
 	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
 }
 
-float GensSystem::GetBattleZoneExpBonus(CGameObject* lpObj)
+float GensSystem::GetBattleZoneExpBonus(LPGameObject &lpObj)
 {
 	int iInfluence = this->GetGensInfluence(lpObj);
 
@@ -1674,7 +1674,7 @@ float GensSystem::GetBattleZoneExpBonus(CGameObject* lpObj)
 	}
 }
 
-int GensSystem::GetBattleZoneDropBonus(CGameObject* lpObj)
+int GensSystem::GetBattleZoneDropBonus(LPGameObject &lpObj)
 {
 	int iInfluence = this->GetGensInfluence(lpObj);
 
@@ -1706,7 +1706,7 @@ int GensSystem::GetBattleZoneDropBonus(CGameObject* lpObj)
 	}
 }
 
-int GensSystem::GetBattleZoneExcDropBonus(CGameObject* lpObj)
+int GensSystem::GetBattleZoneExcDropBonus(LPGameObject &lpObj)
 {
 	int iInfluence = this->GetGensInfluence(lpObj);
 
@@ -1738,7 +1738,7 @@ int GensSystem::GetBattleZoneExcDropBonus(CGameObject* lpObj)
 	}
 }
 
-bool GensSystem::GetEntryAllowType(CGameObject* lpObj, BYTE btMapNumber)
+bool GensSystem::GetEntryAllowType(LPGameObject &lpObj, BYTE btMapNumber)
 {
 	if (this->IsUserBattleZoneEnable(lpObj) == FALSE)
 	{

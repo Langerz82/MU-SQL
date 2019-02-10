@@ -61,10 +61,10 @@ public:
 	BOOL AddWeaponDamagedTargetInfo(int iWeaponIndex, int iTargetIndex, int iDelayTime);
 	void WeaponAttackProc();
 	void WeaponAct(int iIndex);
-	BOOL Attack(CGameObject* lpObj, CGameObject* lpTargetObj, CMagicInf* lpMagic,  int iCriticalDamage, int iActionType);
+	BOOL Attack(LPGameObject &lpObj, CGameObject* lpTargetObj, CMagicInf* lpMagic,  int iCriticalDamage, int iActionType);
 	int GetAttackDamage(int iObjClass);
 	BOOL GetTargetPointXY(int iObjClass, int iTargetPointIndex, BYTE& btX, BYTE& btY, BOOL bRandomPos);
-	BOOL MissCheck(CGameObject* lpObj, CGameObject* lpTargetObj, int iSkill, int iSkillSuccess, BOOL& bAllMiss);
+	BOOL MissCheck(LPGameObject &lpObj, CGameObject* lpTargetObj, int iSkill, int iSkillSuccess, BOOL& bAllMiss);
 
 private:
 

@@ -20,16 +20,16 @@ public:
 
 	void LoadFile(char *filename);
 
-	void Propose(int aIndex, int uIndex);
+	void Propose(LPGameObject &lpObj, int uIndex);
 	bool Accept(int aIndex);
 	void Divorce(int aIndex);
 
 private:
-	bool CheckPosition(int aIndex, int uIndex);
-	bool CheckRequiredItem(int aIndex, int iSide);
+	bool CheckPosition(LPGameObject &lpObj, int uIndex);
+	bool CheckRequiredItem(LPGameObject &lpObj, int iSide);
 	bool CheckDivorceItem(int aIndex);
-	void GiveGiftItem(int aIndex, int iSide);
-	void DeleteRequiredItem(int aIndex, int iSide);
+	void GiveGiftItem(LPGameObject &lpObj, int iSide);
+	void DeleteRequiredItem(LPGameObject &lpObj, int iSide);
 	void DeleteDivorceItem(int aIndex);
 
 	bool m_bFileLoad;

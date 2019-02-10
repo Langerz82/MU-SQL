@@ -166,7 +166,7 @@ public:
 	void ProcDoppelgangerState_Playing(ULONGLONG i64CurTime);
 	void ProcDoppelgangerState_End(ULONGLONG i64CurTime);
 
-	BOOL EnterDoppelgangerEvent(int aIndex, BYTE btItemPos);
+	BOOL EnterDoppelgangerEvent(LPGameObject &lpObj, BYTE btItemPos);
 	BOOL LeaveDoppelganger(int aIndex);
 
 	BOOL AddDoppelgangerUser(int aIndex);
@@ -223,7 +223,7 @@ public:
 	void SendDoppelgangerMonsterPos();
 	void SendDoppelgangerUserPos();
 
-	void SelfExplosion(int aIndex, CMagicInf *lpMagic, int aTargetIndex);
+	void SelfExplosion(LPGameObject &lpObj, CMagicInf *lpMagic, int aTargetIndex);
 
 	void AngerKillerAttack(OBJECTSTRUCT *lpObj);
 

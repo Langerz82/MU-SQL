@@ -113,7 +113,7 @@ void CPersonalStore::CGPShopReqSetItemPrice(PMSG_REQ_PSHOP_SETITEMPRICE * lpMsg,
 
 
 
-void CPersonalStore::CGPShopAnsSetItemPrice(int aIndex, BYTE btResult, BYTE btItemPos)
+void CPersonalStore::CGPShopAnsSetItemPrice(LPGameObject &lpObj, BYTE btResult, BYTE btItemPos)
 {
 	PMSG_ANS_PSHOP_SETITEMPRICE pMsg;
 
@@ -280,7 +280,7 @@ void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, int aIndex)
 	CGPShopAnsOpen(aIndex, 1);
 }
 
-void CPersonalStore::CGPShopAnsOpen(int aIndex, BYTE btResult)
+void CPersonalStore::CGPShopAnsOpen(LPGameObject &lpObj, BYTE btResult)
 {
 	PMSG_ANS_PSHOP_OPEN pMsg;
 
@@ -321,7 +321,7 @@ void CPersonalStore::CGPShopReqClose(int aIndex)
 	CGPShopAnsClose(aIndex, 1);
 }
 
-void CPersonalStore::CGPShopAnsClose(int aIndex, BYTE btResult)
+void CPersonalStore::CGPShopAnsClose(LPGameObject &lpObj, BYTE btResult)
 {
 
 	PMSG_ANS_PSHOP_CLOSE pMsg;
@@ -1350,7 +1350,7 @@ bool CPersonalStore::PShop_CheckInventoryEmpty(short aIndex)
 	return true;
 }
 
-void CPersonalStore::gObjInventoryItemSet_PShop(int aIndex, int itempos, BYTE set_byte)
+void CPersonalStore::gObjInventoryItemSet_PShop(LPGameObject &lpObj, int itempos, BYTE set_byte)
 {
 	int width;
 	int height;
@@ -1374,7 +1374,7 @@ void CPersonalStore::gObjInventoryItemSet_PShop(int aIndex, int itempos, BYTE se
 
 
 
-void CPersonalStore::gObjInventoryItemBoxSet_PShop(int aIndex, int itempos, int xl, int yl, BYTE set_byte)
+void CPersonalStore::gObjInventoryItemBoxSet_PShop(LPGameObject &lpObj, int itempos, int xl, int yl, BYTE set_byte)
 {
 	int itemposx = (itempos - INVETORY_WEAR_SIZE) % 8;
 	int itemposy = (itempos - INVETORY_WEAR_SIZE) / 8;

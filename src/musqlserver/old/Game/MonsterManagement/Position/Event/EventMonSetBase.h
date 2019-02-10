@@ -49,7 +49,7 @@ public:
 
 private:
 
-	int SetPosMonster(int aIndex, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY, int nDir);
+	int SetPosMonster(LPGameObject &lpObj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY, int nDir);
 	int GetBoxPosition(int mapnumber, int ax, int ay, int aw, int ah, short &mx, short &my);
 	
 	std::map<int, boost::shared_ptr<EVENT_MONSTER_POSITION>> m_mapEventSpotData;

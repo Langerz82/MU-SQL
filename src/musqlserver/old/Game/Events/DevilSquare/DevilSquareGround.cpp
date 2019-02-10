@@ -15,7 +15,7 @@
 // GS-N 0.99.60T - 0x00457190 
 // GS-N	1.00.18	JPN	0x004667C0	-	Completed
 
-bool DevilSquareScoreSort(CGameObject* const & lhs,CGameObject* const & rhs)
+bool DevilSquareScoreSort(LPGameObject &const & lhs,CGameObject* const & rhs)
 {
 	if ( lhs->m_nEventScore == rhs->m_nEventScore )
 	{
@@ -283,7 +283,7 @@ void CDevilSquareGround::SortScore()
 
 
 
-void CDevilSquareGround::InsertObj(CGameObject* lpObj)
+void CDevilSquareGround::InsertObj(LPGameObject &lpObj)
 {
 	if ( lpObj->Authority != 2 )
 	{
@@ -522,7 +522,7 @@ void CDevilSquareGround::SendScore()
 
 
 
-void CDevilSquareGround::SendRankingInfo(CGameObject* lpObj)
+void CDevilSquareGround::SendRankingInfo(LPGameObject &lpObj)
 {
 	if ( lpObj->m_nEventScore <= 0 )
 	{

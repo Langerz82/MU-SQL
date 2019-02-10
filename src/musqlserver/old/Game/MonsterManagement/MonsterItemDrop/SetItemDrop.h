@@ -35,7 +35,7 @@ public:
 	virtual ~CSetItemDrop(void);
 
 	void LoadFile(LPSTR lpFile);
-	bool DropItem(CGameObject* lpMonsterObj, CGameObject* lpObj);
+	bool DropItem(LPGameObject &lpMonsterObj, CGameObject* lpObj);
 
 	inline int GetItemLevel(int min, int max)
 	{

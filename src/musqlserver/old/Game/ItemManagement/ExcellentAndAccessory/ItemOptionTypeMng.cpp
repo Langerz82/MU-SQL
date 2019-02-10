@@ -880,7 +880,7 @@ int CItemOptionTypeMng::WingExcOptionGetCount(int ItemKindA, int ItemKindB, BYTE
 	return ExcOption;
 }
 
-void CItemOptionTypeMng::CalcExcOptionEffect(CGameObject* lpObj)
+void CItemOptionTypeMng::CalcExcOptionEffect(LPGameObject &lpObj)
 {
 	for (int i = 0; i < INVETORY_WEAR_SIZE; i++)
 	{
@@ -966,7 +966,7 @@ COMMON_EXT_OPTION_TYPE * CItemOptionTypeMng::GetCommonExcOption(int ExcOptionID)
 	return NULL;
 }
 
-void CItemOptionTypeMng::CalcWingOptionEffect(CGameObject* lpObj)
+void CItemOptionTypeMng::CalcWingOptionEffect(LPGameObject &lpObj)
 {
 	if (lpObj->pInventory[7].IsItem() == FALSE)
 	{

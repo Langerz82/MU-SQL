@@ -318,7 +318,7 @@ void CItemShop::LoadGPMonsterData(LPSTR pchFilename)
 
 }
 
-BOOL CItemShop::AddUser(CGameObject* lpObj)
+BOOL CItemShop::AddUser(LPGameObject &lpObj)
 {
 	PMSG_REQ_INGAMESHOPINIT pInit;
 	PHeadSubSetB((LPBYTE)&pInit, 0xD2, 0x00, sizeof(pInit));
@@ -340,7 +340,7 @@ struct PMSG_ANS_CASHSHOPOPEN
 	BYTE btResult;	// 4
 };
 
-BOOL CItemShop::CGCashShopOpen(CGameObject* lpObj, PMSG_REQ_INGAMESHOPOPEN * lpMsg)
+BOOL CItemShop::CGCashShopOpen(LPGameObject &lpObj, PMSG_REQ_INGAMESHOPOPEN * lpMsg)
 {
 	PMSG_ANS_CASHSHOPOPEN pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xD2, 0x02, sizeof(PMSG_ANS_CASHSHOPOPEN));
@@ -439,7 +439,7 @@ BOOL CItemShop::CGCashShopOpen(CGameObject* lpObj, PMSG_REQ_INGAMESHOPOPEN * lpM
 	return TRUE;
 }
 
-BOOL CItemShop::CGCashInventoryItemCount(CGameObject* lpObj, PMSG_REQ_INGAMESHOP_INVENTORY *lpMsg)
+BOOL CItemShop::CGCashInventoryItemCount(LPGameObject &lpObj, PMSG_REQ_INGAMESHOP_INVENTORY *lpMsg)
 {
 	if (this->bIsCashShop == FALSE)
 	{
@@ -457,7 +457,7 @@ BOOL CItemShop::CGCashInventoryItemCount(CGameObject* lpObj, PMSG_REQ_INGAMESHOP
 	return true;
 }
 
-BOOL CItemShop::CGCashPoint(CGameObject* lpObj)
+BOOL CItemShop::CGCashPoint(LPGameObject &lpObj)
 {
 	if (this->bIsCashShop == FALSE)
 	{
@@ -481,7 +481,7 @@ BOOL CItemShop::CGCashPoint(CGameObject* lpObj)
 	return TRUE;
 }
 
-void CItemShop::GCCashPoint(CGameObject* lpObj)
+void CItemShop::GCCashPoint(LPGameObject &lpObj)
 {
 	if ( !gObjIsAccontConnect(lpObj->m_Index, lpObj->AccountID))
 	{
@@ -499,7 +499,7 @@ void CItemShop::GCCashPoint(CGameObject* lpObj)
 	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void CItemShop::GCCashInventoryItemCount(CGameObject* lpObj, LPBYTE lpRecv)
+void CItemShop::GCCashInventoryItemCount(LPGameObject &lpObj, LPBYTE lpRecv)
 {
 	if ( !gObjIsAccontConnect(lpObj->m_Index, lpObj->AccountID))
 	{
@@ -597,7 +597,7 @@ void CItemShop::GCCashInventoryItemCount(CGameObject* lpObj, LPBYTE lpRecv)
 		}
 	}
 }
-void CItemShop::CGCashInventoryItemUseInfo(CGameObject* lpObj, PMSG_REQ_INGAMESHOP_ITEMUSEINFO *lpMsg)
+void CItemShop::CGCashInventoryItemUseInfo(LPGameObject &lpObj, PMSG_REQ_INGAMESHOP_ITEMUSEINFO *lpMsg)
 {
 	PMSG_REQ_INGAMESHOP_ITEMUSEINFO pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xD2, 0x0F, sizeof(pMsg));
@@ -618,7 +618,7 @@ void CItemShop::CGCashInventoryItemUseInfo(CGameObject* lpObj, PMSG_REQ_INGAMESH
 	pMsg.UniqueCode = lpMsg->UniqueCode;
 	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
-void CItemShop::CGCashInventoryItemUse(CGameObject* lpObj, PMSG_REQ_INGAMESHOP_ITEMUSE *lpMsg)
+void CItemShop::CGCashInventoryItemUse(LPGameObject &lpObj, PMSG_REQ_INGAMESHOP_ITEMUSE *lpMsg)
 {
 	PMSG_ANS_INGAMESHOP_ITEMUSE pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xD2, 0x0B, sizeof(pMsg));
@@ -676,7 +676,7 @@ void CItemShop::CGCashInventoryItemUse(CGameObject* lpObj, PMSG_REQ_INGAMESHOP_I
 	GDReqInGameShopItemUse(lpObj->m_Index, lpMsg->UniqueCode, lpMsg->AuthCode);
 }
 
-void CItemShop::GCCashInventoryItemUse(CGameObject* lpObj, int Result, int UniqueCode, int AuthCode, int ID1, int ID2, int ID3)
+void CItemShop::GCCashInventoryItemUse(LPGameObject &lpObj, int Result, int UniqueCode, int AuthCode, int ID1, int ID2, int ID3)
 {
 	PMSG_ANS_INGAMESHOP_ITEMUSE pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xD2, 0x0B, sizeof(pMsg));
@@ -868,7 +868,7 @@ void CItemShop::GCCashInventoryItemUse(CGameObject* lpObj, int Result, int Uniqu
 	}
 }
 
-void CItemShop::CGCashItemBuy(CGameObject* lpObj, PMSG_REQ_INGAMESHOP_ITEMBUY *lpMsg)
+void CItemShop::CGCashItemBuy(LPGameObject &lpObj, PMSG_REQ_INGAMESHOP_ITEMBUY *lpMsg)
 {
 	std::vector<ITEMSHOP_ITEMLIST>::iterator Iter;
 	std::map<int, ITEMSHOP_ITEMINFO>::iterator Iter2;
@@ -1024,7 +1024,7 @@ void CItemShop::CGCashItemBuy(CGameObject* lpObj, PMSG_REQ_INGAMESHOP_ITEMBUY *l
 	}
 }
 
-void CItemShop::AddCoin(CGameObject* lpObj, char EventType)
+void CItemShop::AddCoin(LPGameObject &lpObj, char EventType)
 {
 	if ( !this->IsCoinAdder )
 	{
@@ -1064,7 +1064,7 @@ void CItemShop::AddCoin(CGameObject* lpObj, char EventType)
 	GDReqInGameShopPointAdd(lpObj->m_Index, this->CoinAdderType, Coin);
 }
 
-void CItemShop::CGCashItemGift(CGameObject* lpObj, PMSG_REQ_CASHITEM_GIFT *lpMsg)
+void CItemShop::CGCashItemGift(LPGameObject &lpObj, PMSG_REQ_CASHITEM_GIFT *lpMsg)
 {
 	std::vector<ITEMSHOP_ITEMLIST>::iterator Iter;
 	std::map<int, ITEMSHOP_ITEMINFO>::iterator Iter2;
@@ -1226,7 +1226,7 @@ void CItemShop::CGCashItemGift(CGameObject* lpObj, PMSG_REQ_CASHITEM_GIFT *lpMsg
 	}
 }
 
-void CItemShop::GCCashItemBuy(CGameObject* lpObj, int ID1, int ID2, int ID3, int Result)
+void CItemShop::GCCashItemBuy(LPGameObject &lpObj, int ID1, int ID2, int ID3, int Result)
 {
 	PMSG_ANS_INGAMESHOP_ITEMBUY pMsg = {0};
 	PHeadSubSetB((LPBYTE)&pMsg, 0xD2, 0x03, sizeof(pMsg));
@@ -1263,7 +1263,7 @@ void CItemShop::GCCashItemBuy(CGameObject* lpObj, int ID1, int ID2, int ID3, int
 	}
 }
 
-void CItemShop::GCCashItemGift(CGameObject* lpObj, int ID1, int ID2, int ID3, int Result)
+void CItemShop::GCCashItemGift(LPGameObject &lpObj, int ID1, int ID2, int ID3, int Result)
 {
 	PMSG_ANS_INGAMESHOP_ITEMGIFT pMsg = {0};
 	PHeadSubSetB((LPBYTE)&pMsg, 0xD2, 0x04, sizeof(pMsg));
@@ -1293,7 +1293,7 @@ void CItemShop::GCCashItemGift(CGameObject* lpObj, int ID1, int ID2, int ID3, in
 	}
 }
 
-void CItemShop::GCShopVersion(CGameObject* lpObj)
+void CItemShop::GCShopVersion(LPGameObject &lpObj)
 {
 	PMSG_SHOP_VERSION pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xD2, 0x0C, sizeof(pMsg));
@@ -1398,7 +1398,7 @@ BOOL IsPremiumItem(int iItemCode) //00631460
 	return FALSE;
 }
 
-bool CItemShop::CheckBuyCondition(CGameObject* lpObj, int ItemCode)
+bool CItemShop::CheckBuyCondition(LPGameObject &lpObj, int ItemCode)
 {
 	if(ItemCode == ITEMGET(14,91) && (lpObj->EnableCharacterCreate & 1) == 1)
 		return false;
@@ -1464,7 +1464,7 @@ std::vector<ITEMSHOP_ITEMLIST>::iterator CItemShop::FindItemInList(int iIndex, i
 	return this->VecItemList.end();
 }
 
-void CItemShop::AddGPMonster(CGameObject* lpMonsterObj)
+void CItemShop::AddGPMonster(LPGameObject &lpMonsterObj)
 {
 	int MaxHitUser = gObjMonsterTopHitDamageUser(lpMonsterObj);
 

@@ -160,7 +160,7 @@ int COfflineLevelling::FindUser(int aIndex)
 	return aIndex;
 }
 
-BOOL COfflineLevelling::AddUser(int aIndex, WORD wSkillId)
+BOOL COfflineLevelling::AddUser(LPGameObject &lpObj, WORD wSkillId)
 {
 	EnterCriticalSection(&m_OfflevelCriti);
 
@@ -202,7 +202,7 @@ BOOL COfflineLevelling::DeleteUser(int aIndex)
 	return true;
 }
 
-void COfflineLevelling::FindAndAttack(CGameObject* user)
+void COfflineLevelling::FindAndAttack(LPGameObject &user)
 {
 	CGameObject* tObj;
 	CMagicInf* lpMagic;
@@ -544,7 +544,7 @@ int COfflineLevelling::GetSkillAttackType(WORD wSkillID)
 	return this->m_SkillCategories[wSkillID].SkillType;
 }
 
-BOOL COfflineLevelling::SkillDistanceCheck(int aIndex, int aTargetIndex, int iSkillNum)
+BOOL COfflineLevelling::SkillDistanceCheck(LPGameObject &lpObj, int aTargetIndex, int iSkillNum)
 {
 
 	if ( iSkillNum == 40 )
@@ -631,7 +631,7 @@ bool COfflineLevelling::CheckUseTime(int aIndex)
 	
 }
 
-void COfflineLevelling::CheckAndPickUpItem(int aIndex, CMapItem* cMapItem, short tObjNum)
+void COfflineLevelling::CheckAndPickUpItem(LPGameObject &lpObj, CMapItem* cMapItem, short tObjNum)
 {
 	bool bTakeItem = false;
 

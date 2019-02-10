@@ -63,11 +63,11 @@ public:
 	int GetRemainTime() { return this->m_iRemainTime; }
 	void SetMonster();
 	void ClearMonstr();
-	void gDevilSquareMonsterRegen(CGameObject* lpObj);
-	void DieProcDevilSquare(CGameObject* lpObj);
-	UINT64 gObjMonsterExpSingle(CGameObject* lpObj, CGameObject* lpTargetObj, int dmg, int tot_dmg);
-	void gObjExpParty(CGameObject* lpObj, CGameObject* lpTargetObj, int AttackDamage, int MSBFlag);
-	void gObjMonsterScoreDivision(CGameObject* lpMonObj, CGameObject* lpObj, int AttackDamage, int MSBFlag);
+	void gDevilSquareMonsterRegen(LPGameObject &lpObj);
+	void DieProcDevilSquare(LPGameObject &lpObj);
+	UINT64 gObjMonsterExpSingle(LPGameObject &lpObj, CGameObject* lpTargetObj, int dmg, int tot_dmg);
+	void gObjExpParty(LPGameObject &lpObj, CGameObject* lpTargetObj, int AttackDamage, int MSBFlag);
+	void gObjMonsterScoreDivision(LPGameObject &lpMonObj, CGameObject* lpObj, int AttackDamage, int MSBFlag);
 	void Load(LPSTR filename);
 	void LoadMonster(LPSTR filename);
 	void CalcScore();

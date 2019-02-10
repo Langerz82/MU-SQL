@@ -362,7 +362,7 @@ char* CGMMng::GetTokenString()
 }
 // -------------------------------------------------------------------------------
 
-CGameObject* CGMMng::GetUserInfo(CGameObject* lpUser, LPSTR UserName)
+CGameObject* CGMMng::GetUserInfo(LPGameObject &lpUser, LPSTR UserName)
 {
 	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
@@ -396,7 +396,7 @@ int CGMMng::GetTokenNumber()
 	return 0;
 }
 
-void PostSend(CGameObject* lpObj, char * szMessage)
+void PostSend(LPGameObject &lpObj, char * szMessage)
 {
 	PMSG_POST_DATA pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xFA, 0x10, sizeof(pMsg));
@@ -414,7 +414,7 @@ void PostSend(CGameObject* lpObj, char * szMessage)
 	GSProtocol.DataSendAll((LPBYTE)&pMsg, sizeof(pMsg));
 }
 
-int CGMMng::ManagementProc(CGameObject* lpObj, char* szCmd, int aIndex)
+int CGMMng::ManagementProc(LPGameObject &lpObj, char* szCmd, int aIndex)
 {
 	char seps[2] = " ";
 	char * szCmdToken;
@@ -3526,7 +3526,7 @@ int CGMMng::ManagementProc(CGameObject* lpObj, char* szCmd, int aIndex)
 	return 0;
 }
 
-void CGMMng::CommandMake(CGameObject* lpObj, int qnt, int section, int type, int level, int skill, int luck, int option, int exc, int SetOpt)
+void CGMMng::CommandMake(LPGameObject &lpObj, int qnt, int section, int type, int level, int skill, int luck, int option, int exc, int SetOpt)
 {
 
 	for (int i = 0; i < qnt; i++)
@@ -3537,7 +3537,7 @@ void CGMMng::CommandMake(CGameObject* lpObj, int qnt, int section, int type, int
 	g_Log.AddC(TColor::Green, "[GM][%s]MakeItem:[Cat:%d Index:%d Level:%d Skill:%d Luck:%d Option:%d Excellent:%d Ancient:%d]", lpObj->Name, section, type, level, skill, luck, option, exc, SetOpt);
 }
 
-bool CGMMng::CommandMakeRandomSet(CGameObject* lpObj)
+bool CGMMng::CommandMakeRandomSet(LPGameObject &lpObj)
 {
 	if ((lpObj->Authority & 2) != 2 && (lpObj->Authority & 0x20) != 0x20)
 	{
@@ -3558,7 +3558,7 @@ bool CGMMng::CommandMakeRandomSet(CGameObject* lpObj)
 	}
 }
 
-bool CGMMng::CommandClearInventory(CGameObject* lpObj)
+bool CGMMng::CommandClearInventory(LPGameObject &lpObj)
 {
 	if ((lpObj->Authority & 2) != 2 && (lpObj->Authority & 0x20) != 0x20)
 	{
@@ -3591,7 +3591,7 @@ bool CGMMng::CommandClearInventory(CGameObject* lpObj)
 	GCItemListSend(lpTarget->m_Index);
 }
 
-bool CGMMng::CommandReset(CGameObject* lpObj)
+bool CGMMng::CommandReset(LPGameObject &lpObj)
 {
 	CLogToFile g_ResetLog("TABLE_RESET", ".\\TABLE_RESET", 1);
 
@@ -3753,7 +3753,7 @@ bool CGMMng::CommandReset(CGameObject* lpObj)
 	return true;
 }
 
-void CGMMng::GetInfinityArrowMPConsumption(CGameObject* lpObj)
+void CGMMng::GetInfinityArrowMPConsumption(LPGameObject &lpObj)
 {
 	MsgOutput(lpObj->m_Index, Lang.GetText(0, 486),
 		g_SkillAdditionInfo.GetInfinityArrowMPConsumptionPlus0(),
@@ -3763,28 +3763,28 @@ void CGMMng::GetInfinityArrowMPConsumption(CGameObject* lpObj)
 
 
 
-void CGMMng::ControlInfinityArrowMPConsumption0(CGameObject* lpObj, int iValue)
+void CGMMng::ControlInfinityArrowMPConsumption0(LPGameObject &lpObj, int iValue)
 {
 	g_SkillAdditionInfo.SetInfinityArrowMPConsumptionPlus0(iValue);
 	MsgOutput(lpObj->m_Index, Lang.GetText(0, 487), iValue);
 
 }
 
-void CGMMng::ControlInfinityArrowMPConsumption1(CGameObject* lpObj, int iValue)
+void CGMMng::ControlInfinityArrowMPConsumption1(LPGameObject &lpObj, int iValue)
 {
 	g_SkillAdditionInfo.SetInfinityArrowMPConsumptionPlus1(iValue);
 	MsgOutput(lpObj->m_Index, Lang.GetText(0, 488), iValue);
 
 }
 
-void CGMMng::ControlInfinityArrowMPConsumption2(CGameObject* lpObj, int iValue)
+void CGMMng::ControlInfinityArrowMPConsumption2(LPGameObject &lpObj, int iValue)
 {
 	g_SkillAdditionInfo.SetInfinityArrowMPConsumptionPlus2(iValue);
 	MsgOutput(lpObj->m_Index, Lang.GetText(0, 489), iValue);
 
 }
 
-void CGMMng::SetInfinityArrowTime(CGameObject* lpObj, int iValue)
+void CGMMng::SetInfinityArrowTime(LPGameObject &lpObj, int iValue)
 {
 	if (lpObj->Class == CLASS_ELF && lpObj->Type == OBJ_USER && lpObj->m_PlayerData->ChangeUP >= 1)
 	{
@@ -3798,13 +3798,13 @@ void CGMMng::SetInfinityArrowTime(CGameObject* lpObj, int iValue)
 }
 
 
-void CGMMng::ControlFireScreamDoubleAttackDistance(CGameObject* lpObj, int iValue)
+void CGMMng::ControlFireScreamDoubleAttackDistance(LPGameObject &lpObj, int iValue)
 {
 	g_SkillAdditionInfo.SetFireScreamExplosionAttackDistance(iValue);
 	MsgOutput(lpObj->m_Index, Lang.GetText(0, 492), iValue);
 }
 
-void ServerMsgSend(CGameObject* lpObj, int Type, char Sender[20], const char*Message, ...)
+void ServerMsgSend(LPGameObject &lpObj, int Type, char Sender[20], const char*Message, ...)
 {
 	PMSG_CHATDATA_WHISPER pMsg;
 
@@ -3829,7 +3829,7 @@ void ServerMsgSend(CGameObject* lpObj, int Type, char Sender[20], const char*Mes
 	delete [] Packet;*/
 }
 
-BOOL CGMMng::CheckTraceMarryCondition(CGameObject* lpObj, CGameObject* lpTargetObj)
+BOOL CGMMng::CheckTraceMarryCondition(LPGameObject &lpObj, CGameObject* lpTargetObj)
 {
 	if (lpObj->Married == 0)
 	{

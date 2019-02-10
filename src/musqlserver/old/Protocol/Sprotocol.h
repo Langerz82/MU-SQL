@@ -233,29 +233,29 @@ public:
 	CLoginServerProtocol();
 	~CLoginServerProtocol();
 	BOOL Init();
-	static void ProtocolCore(int aIndex, BYTE HeadCode, LPBYTE aRecv, int iSize);
+	static void ProtocolCore(LPGameObject &lpObj, BYTE HeadCode, LPBYTE aRecv, int iSize);
 	BOOL DisconnectPlayer(LPSTR szAccountID);
 	void DisconnectServer(WORD ServerCode);
 	void CheckVIPTimeProc();
 
 private:
 
-	void JoinServerLogin(int aIndex, SDHP_SERVERINFO * lpMsg);
-	void JGPAccountRequest(int aIndex, SDHP_IDPASS * aRecv);
-	void GJPAccountFail(int aIndex, SDHP_JOINFAIL * aRecv);
-	void GJPAccountBlock(int aIndex, SDHP_COMMAND_BLOCK * aRecv);
-	void GJPUserClose(int aIndex, SDHP_USERCLOSE_ID * aRecv );
-	void JGOtherJoin(int aIndex, LPSTR szAccountID);
+	void JoinServerLogin(LPGameObject &lpObj, SDHP_SERVERINFO * lpMsg);
+	void JGPAccountRequest(LPGameObject &lpObj, SDHP_IDPASS * aRecv);
+	void GJPAccountFail(LPGameObject &lpObj, SDHP_JOINFAIL * aRecv);
+	void GJPAccountBlock(LPGameObject &lpObj, SDHP_COMMAND_BLOCK * aRecv);
+	void GJPUserClose(LPGameObject &lpObj, SDHP_USERCLOSE_ID * aRecv );
+	void JGOtherJoin(LPGameObject &lpObj, LPSTR szAccountID);
 	void GCUserKillSend(int MuLoginIndex, bool IsForceDC);
-	void GCJoinBillCheckSend(int aIndex, SDHP_BILLSEARCH * aRecv);
-	void LoveHeartEventRecv(int aIndex, SDHP_LOVEHEARTEVENT * aRecv);
-	void LoveHeartCreateSend(int aIndex, SDHP_LOVEHEARTCREATE * aRecv);
-	void GJReqMapSvrMove(int aIndex, PMSG_REQ_MAPSVRMOVE * aRecv);
-	void GJReqMapSvrAuth(int aIndex, PMSG_REQ_MAPSVRAUTH * aRecv);
-	void GJNotifyMaxUserCount(int aIndex, PMSG_NOTIFY_MAXUSER * aRecv);
-	void GJReqSetOffTrade(int aIndex, PMSG_SET_OFFTRADE * aRecv);
-	void WJKillUser(int aIndex,SDHP_USERCLOSE_ID * aRecv);
-	void GJReqVipAdd(int aIndex, ISHOP_VIP_BUY *aRecv);
+	void GCJoinBillCheckSend(LPGameObject &lpObj, SDHP_BILLSEARCH * aRecv);
+	void LoveHeartEventRecv(LPGameObject &lpObj, SDHP_LOVEHEARTEVENT * aRecv);
+	void LoveHeartCreateSend(LPGameObject &lpObj, SDHP_LOVEHEARTCREATE * aRecv);
+	void GJReqMapSvrMove(LPGameObject &lpObj, PMSG_REQ_MAPSVRMOVE * aRecv);
+	void GJReqMapSvrAuth(LPGameObject &lpObj, PMSG_REQ_MAPSVRAUTH * aRecv);
+	void GJNotifyMaxUserCount(LPGameObject &lpObj, PMSG_NOTIFY_MAXUSER * aRecv);
+	void GJReqSetOffTrade(LPGameObject &lpObj, PMSG_SET_OFFTRADE * aRecv);
+	void WJKillUser(LPGameObject &lpObj,SDHP_USERCLOSE_ID * aRecv);
+	void GJReqVipAdd(LPGameObject &lpObj, ISHOP_VIP_BUY *aRecv);
 	static unsigned long __stdcall ConnectServerThread(LPVOID);
 	void InsertDataMuLog(LPSTR ServerName, LPSTR Id, LPSTR Ip, LPSTR State, LPSTR HWID);
 

@@ -261,7 +261,7 @@ BOOL CExDataServerProtocol::Init()
 	return TRUE;
 }
 
-void CExDataServerProtocol::ProtocolCore(int aIndex, BYTE HeadCode, LPBYTE aRecv, int iSize)
+void CExDataServerProtocol::ProtocolCore(LPGameObject &lpObj, BYTE HeadCode, LPBYTE aRecv, int iSize)
 {
 #if (TRACE_PACKET == 1 )
 	LogAddHeadHex("EX_DATA_SERVER", aRecv, iSize);
@@ -544,7 +544,7 @@ void CExDataServerProtocol::ProtocolCore(int aIndex, BYTE HeadCode, LPBYTE aRecv
 	}
 }
 
-void CExDataServerProtocol::ExDataServerLogin(int aIndex, SDHP_SERVERINFO * lpMsg)
+void CExDataServerProtocol::ExDataServerLogin(LPGameObject &lpObj, SDHP_SERVERINFO * lpMsg)
 {
 	SDHP_RESULT pResult = {0};
 
@@ -593,7 +593,7 @@ void CExDataServerProtocol::ExDataServerLogin(int aIndex, SDHP_SERVERINFO * lpMs
 	DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 }
 
-void CExDataServerProtocol::GDCharCloseRecv(int aIndex, SDHP_USERCLOSE * aRecv)
+void CExDataServerProtocol::GDCharCloseRecv(LPGameObject &lpObj, SDHP_USERCLOSE * aRecv)
 {
 	if (this->m_PartyMatchingEDS.DisconnectMember(aRecv->CharName) == TRUE)
 	{
@@ -641,7 +641,7 @@ void CExDataServerProtocol::GDCharCloseRecv(int aIndex, SDHP_USERCLOSE * aRecv)
 	}
 }
 
-void CExDataServerProtocol::GDGuildCreateSend(int aIndex, SDHP_GUILDCREATE * aRecv)
+void CExDataServerProtocol::GDGuildCreateSend(LPGameObject &lpObj, SDHP_GUILDCREATE * aRecv)
 {
 	SDHP_GUILDCREATE_RESULT Result;
 
@@ -923,7 +923,7 @@ BOOL CExDataServerProtocol::UpdateGuildType(char *szGuild, BYTE btType)
 	return TRUE;
 }
 
-void CExDataServerProtocol::SendGuildMemberInfo(int aIndex, char *szName, int iUserIndex)
+void CExDataServerProtocol::SendGuildMemberInfo(LPGameObject &lpObj, char *szName, int iUserIndex)
 {
 //	char szMember[11] = {0};
 //	strncpy(szMember, szName, 10);
@@ -1075,7 +1075,7 @@ void CExDataServerProtocol::DGGuildMasterListSend(char *szGuild)
 	lpGuild->m_bGSHasData = TRUE;
 }
 
-void CExDataServerProtocol::DGGuildInfoRequest(int aIndex, SDHP_GUILDMEMBER_INFO_GUILDNAME_REQUEST * aRecv)
+void CExDataServerProtocol::DGGuildInfoRequest(LPGameObject &lpObj, SDHP_GUILDMEMBER_INFO_GUILDNAME_REQUEST * aRecv)
 {
 	GUILD_INFO_STRUCT* lpGuild;
 	lpGuild = GetGuild(aRecv->szGuildName);
@@ -1153,7 +1153,7 @@ void CExDataServerProtocol::DGGuildInfoRequest(int aIndex, SDHP_GUILDMEMBER_INFO
 	lpGuild->m_bGSHasData = TRUE;
 }
 
-void CExDataServerProtocol::DGGuildMemberInfoRequest(int aIndex, SDHP_GUILDMEMBER_INFO_REQUEST * aRecv)
+void CExDataServerProtocol::DGGuildMemberInfoRequest(LPGameObject &lpObj, SDHP_GUILDMEMBER_INFO_REQUEST * aRecv)
 {
 	char szName[11] = {0};
 	strncpy(szName, aRecv->MemberID, 10);
@@ -1165,7 +1165,7 @@ void CExDataServerProtocol::DGGuildMemberInfoRequest(int aIndex, SDHP_GUILDMEMBE
 	SendGuildMemberInfo(aIndex, szName, iUserIndex);
 }
 
-void CExDataServerProtocol::GDGuildDestroyRecv(int aIndex, SDHP_GUILDDESTROY * aRecv)
+void CExDataServerProtocol::GDGuildDestroyRecv(LPGameObject &lpObj, SDHP_GUILDDESTROY * aRecv)
 {
 	SDHP_GUILDDESTROY_RESULT DelResult;
 	ZeroMemory(&DelResult, sizeof(DelResult));
@@ -1355,7 +1355,7 @@ BOOL CExDataServerProtocol::SaveNotice(char *szGuild, char *szNotice)
 	return TRUE;
 }
 
-void CExDataServerProtocol::DGGuildScoreUpdate(int aIndex, SDHP_GUILDSCOREUPDATE * aRecv)
+void CExDataServerProtocol::DGGuildScoreUpdate(LPGameObject &lpObj, SDHP_GUILDSCOREUPDATE * aRecv)
 {
 	sLog->outBasic("[Guild Score Update Request] GuildName [%s], Score [%d]", aRecv->GuildName, aRecv->Score);
 
@@ -1383,7 +1383,7 @@ void CExDataServerProtocol::DGGuildScoreUpdate(int aIndex, SDHP_GUILDSCOREUPDATE
 		sLog->outBasic("[Guild Score Update Request] Failed to update guild score.");
 }
 
-void CExDataServerProtocol::GDGuildNoticeSave(int aIndex, SDHP_GUILDNOTICE * aRecv)
+void CExDataServerProtocol::GDGuildNoticeSave(LPGameObject &lpObj, SDHP_GUILDNOTICE * aRecv)
 {
 	sLog->outBasic("[Guild Notice Save Request] GuildName [%s].", aRecv->GuildName);
 
@@ -1418,7 +1418,7 @@ void CExDataServerProtocol::GDGuildNoticeSave(int aIndex, SDHP_GUILDNOTICE * aRe
 
 }
 
-void CExDataServerProtocol::GDGuildServerGroupChattingSend(int aIndex, EXSDHP_SERVERGROUP_GUILD_CHATTING_RECV * aRecv)
+void CExDataServerProtocol::GDGuildServerGroupChattingSend(LPGameObject &lpObj, EXSDHP_SERVERGROUP_GUILD_CHATTING_RECV * aRecv)
 {
 
 	for(int i=0; i < g_dwMaxServerGroups; i++)
@@ -1433,7 +1433,7 @@ void CExDataServerProtocol::GDGuildServerGroupChattingSend(int aIndex, EXSDHP_SE
 	}
 }
 
-void CExDataServerProtocol::GDUnionServerGroupChattingSend(int aIndex,EXSDHP_SERVERGROUP_UNION_CHATTING_RECV * aRecv)
+void CExDataServerProtocol::GDUnionServerGroupChattingSend(LPGameObject &lpObj,EXSDHP_SERVERGROUP_UNION_CHATTING_RECV * aRecv)
 {
 	for(int i=0; i < g_dwMaxServerGroups; i++)
 	{
@@ -1447,7 +1447,7 @@ void CExDataServerProtocol::GDUnionServerGroupChattingSend(int aIndex,EXSDHP_SER
 	}
 }
 
-void CExDataServerProtocol::GDGensServerGroupChattingSend(int aIndex,EXSDHP_SERVERGROUP_GENS_CHATTING_RECV * aRecv)
+void CExDataServerProtocol::GDGensServerGroupChattingSend(LPGameObject &lpObj,EXSDHP_SERVERGROUP_GENS_CHATTING_RECV * aRecv)
 {
 	for(int i=0; i < g_dwMaxServerGroups; i++)
 	{
@@ -1461,7 +1461,7 @@ void CExDataServerProtocol::GDGensServerGroupChattingSend(int aIndex,EXSDHP_SERV
 	}
 }
 
-void CExDataServerProtocol::GDReqGuildPeriodBuffInsert(int aIndex, PMSG_REQ_GUILD_PERIODBUFF_INSERT * aRecv)
+void CExDataServerProtocol::GDReqGuildPeriodBuffInsert(LPGameObject &lpObj, PMSG_REQ_GUILD_PERIODBUFF_INSERT * aRecv)
 {
 	GUILD_INFO_STRUCT* lpGuild = this->GetGuild(aRecv->szGuildName);
 
@@ -1473,12 +1473,12 @@ void CExDataServerProtocol::GDReqGuildPeriodBuffInsert(int aIndex, PMSG_REQ_GUIL
 
 }
 
-void CExDataServerProtocol::GDReqGuildPeriodBuffDelete(int aIndex, PMSG_REQ_GUILD_PERIODBUFF_DELETE * aRecv)
+void CExDataServerProtocol::GDReqGuildPeriodBuffDelete(LPGameObject &lpObj, PMSG_REQ_GUILD_PERIODBUFF_DELETE * aRecv)
 {
 
 }
 
-void CExDataServerProtocol::GDGuildReqAssignStatus(int aIndex, EXSDHP_GUILD_ASSIGN_STATUS_REQ * aRecv)
+void CExDataServerProtocol::GDGuildReqAssignStatus(LPGameObject &lpObj, EXSDHP_GUILD_ASSIGN_STATUS_REQ * aRecv)
 {
 	EXSDHP_GUILD_ASSIGN_STATUS_RESULT Result;
 	ZeroMemory(&Result, sizeof(Result));
@@ -1523,7 +1523,7 @@ void CExDataServerProtocol::GDGuildReqAssignStatus(int aIndex, EXSDHP_GUILD_ASSI
 	}
 }
 
-void CExDataServerProtocol::GDGuildReqAssignType(int aIndex, EXSDHP_GUILD_ASSIGN_TYPE_REQ * aRecv)
+void CExDataServerProtocol::GDGuildReqAssignType(LPGameObject &lpObj, EXSDHP_GUILD_ASSIGN_TYPE_REQ * aRecv)
 {
 	EXSDHP_GUILD_ASSIGN_TYPE_RESULT Result;
 	std::ZeroMemory(&Result, sizeof(Result));
@@ -1578,7 +1578,7 @@ BOOL CExDataServerProtocol::AddDBGuildMember(char *szGuild, char *szName)
 	return res;
 }
 
-void CExDataServerProtocol::GDGuildMemberAdd(int aIndex, SDHP_GUILDMEMBERADD * aRecv)
+void CExDataServerProtocol::GDGuildMemberAdd(LPGameObject &lpObj, SDHP_GUILDMEMBERADD * aRecv)
 {
 	SDHP_GUILDMEMBERADD_RESULT Result;
 	ZeroMemory(&Result, sizeof(Result));
@@ -1664,7 +1664,7 @@ void CExDataServerProtocol::GDGuildMemberAdd(int aIndex, SDHP_GUILDMEMBERADD * a
 	SendGuildMemberInfo(aIndex, Result.MemberID, MAKE_NUMBERW(Result.NumberH, Result.NumberL));
 }
 
-void CExDataServerProtocol::GDGuildMemberAddWithoutUserIndex(int aIndex, SDHP_GUILDMEMBERADD_WITHOUT_USERINDEX * aRecv)
+void CExDataServerProtocol::GDGuildMemberAddWithoutUserIndex(LPGameObject &lpObj, SDHP_GUILDMEMBERADD_WITHOUT_USERINDEX * aRecv)
 {
 	SDHP_GUILDMEMBERADD_RESULT_WITHOUT_USERINDEX Result;
 	ZeroMemory(&Result, sizeof(Result));
@@ -1783,7 +1783,7 @@ BOOL CExDataServerProtocol::DelGuildMember(char *szGuild, char *szName)
 	return TRUE;
 }
 
-void CExDataServerProtocol::GDGuildMemberDel(int aIndex, SDHP_GUILDMEMBERDEL * aRecv)
+void CExDataServerProtocol::GDGuildMemberDel(LPGameObject &lpObj, SDHP_GUILDMEMBERDEL * aRecv)
 {
 	SDHP_GUILDMEMBERDEL_RESULT Result;
 	ZeroMemory(&Result, sizeof(Result));
@@ -1874,7 +1874,7 @@ BOOL DestroyRelationShipData(int iGuild)
 	return TRUE;
 }
 
-void CExDataServerProtocol::DGRelationShipAnsJoin(int aIndex, EXSDHP_RELATIONSHIP_JOIN_REQ * aRecv)
+void CExDataServerProtocol::DGRelationShipAnsJoin(LPGameObject &lpObj, EXSDHP_RELATIONSHIP_JOIN_REQ * aRecv)
 {
 	EXSDHP_RELATIONSHIP_JOIN_RESULT Result;
 
@@ -1935,7 +1935,7 @@ void CExDataServerProtocol::DGRelationShipAnsJoin(int aIndex, EXSDHP_RELATIONSHI
 	}
 }
 
-void CExDataServerProtocol::DGRelationShipAnsBreakOff(int aIndex, EXSDHP_RELATIONSHIP_BREAKOFF_REQ * aRecv)
+void CExDataServerProtocol::DGRelationShipAnsBreakOff(LPGameObject &lpObj, EXSDHP_RELATIONSHIP_BREAKOFF_REQ * aRecv)
 {
 	EXSDHP_RELATIONSHIP_BREAKOFF_RESULT Result;
 	ZeroMemory(&Result, sizeof(Result));
@@ -1997,7 +1997,7 @@ void CExDataServerProtocol::DGRelationShipAnsBreakOff(int aIndex, EXSDHP_RELATIO
 
 }
 
-void CExDataServerProtocol::DGUnionListRecv(int aIndex, EXSDHP_UNION_LIST_REQ * aRecv)
+void CExDataServerProtocol::DGUnionListRecv(LPGameObject &lpObj, EXSDHP_UNION_LIST_REQ * aRecv)
 {
 	EXSDHP_UNION_LIST *lpList;
 	EXSDHP_UNION_LIST_COUNT *lpListCnt;
@@ -2339,7 +2339,7 @@ BOOL CExDataServerProtocol::UpdateDBRival(int iGuild, int iRival)
 	return FALSE;
 }
 
-void CExDataServerProtocol::DGRelationShipListSend(int aIndex, int iGuild, int relation_type, BOOL snd_all)
+void CExDataServerProtocol::DGRelationShipListSend(LPGameObject &lpObj, int iGuild, int relation_type, BOOL snd_all)
 {
 	EXSDHP_UNION_RELATIONSHIP_LIST List;
 	ZeroMemory(&List, sizeof(List));
@@ -2550,7 +2550,7 @@ void CExDataServerProtocol::DGRelationShipNotificationSend(int iGuild, int iUpda
 	}
 }
 
-void CExDataServerProtocol::DGRelationShipAnsKickOutUnionMember(int aIndex, EXSDHP_KICKOUT_UNIONMEMBER_REQ *aRecv)
+void CExDataServerProtocol::DGRelationShipAnsKickOutUnionMember(LPGameObject &lpObj, EXSDHP_KICKOUT_UNIONMEMBER_REQ *aRecv)
 {
 	EXSDHP_KICKOUT_UNIONMEMBER_RESULT Result;
 	ZeroMemory(&Result, sizeof(Result));
@@ -2653,7 +2653,7 @@ int CExDataServerProtocol::GetChatServer()
 	return -1;
 }
 
-void CExDataServerProtocol::FCHRoomCreateReq(int aIndex, char *szName, char *szFriendName, short Number, short ServerId, short FriendNumber, short FriendServerId)
+void CExDataServerProtocol::FCHRoomCreateReq(LPGameObject &lpObj, char *szName, char *szFriendName, short Number, short ServerId, short FriendNumber, short FriendServerId)
 {
 	sLog->outBasic("[ChatServer] Room Create Request Name [%s], FriendName [%s].", szName, szFriendName);
 	if(aIndex < 0)
@@ -2679,7 +2679,7 @@ void CExDataServerProtocol::FCHRoomCreateReq(int aIndex, char *szName, char *szF
 	DataSend(aIndex, (LPBYTE)&Req, Req.h.size, __FUNCTION__);
 }
 
-void CExDataServerProtocol::FriendChatRoomCreateAns(int aIndex, FCHP_CHATROOM_CREATE_RESULT* lpMsg)
+void CExDataServerProtocol::FriendChatRoomCreateAns(LPGameObject &lpObj, FCHP_CHATROOM_CREATE_RESULT* lpMsg)
 {
 	FHP_FRIEND_CHATROOM_CREATE_RESULT Result;
 	ZeroMemory(&Result, sizeof(Result));
@@ -2719,7 +2719,7 @@ void CExDataServerProtocol::FriendChatRoomCreateAns(int aIndex, FCHP_CHATROOM_CR
 	DataSend(lpMsg->ServerId, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 }
 
-void CExDataServerProtocol::FriendChatRoomCreateReq(int aIndex, FHP_FRIEND_CHATROOM_CREATE_REQ* lpMsg)
+void CExDataServerProtocol::FriendChatRoomCreateReq(LPGameObject &lpObj, FHP_FRIEND_CHATROOM_CREATE_REQ* lpMsg)
 {
 	FCHP_CHATROOM_CREATE_RESULT Result;
 	ZeroMemory(&Result, sizeof(Result));
@@ -2771,7 +2771,7 @@ void CExDataServerProtocol::FriendChatRoomCreateReq(int aIndex, FHP_FRIEND_CHATR
 
 }
 
-void CExDataServerProtocol::FCHChatRoomInvitationReq(int aIndex, short RoomNumber,	char *szName, short Number,	short ServerId,	BYTE Type)
+void CExDataServerProtocol::FCHChatRoomInvitationReq(LPGameObject &lpObj, short RoomNumber,	char *szName, short Number,	short ServerId,	BYTE Type)
 {
 	sLog->outBasic("[ChatServer] Room: [%d] Invitation Request - FriendName: [%s].", RoomNumber, szName);
 
@@ -2795,7 +2795,7 @@ void CExDataServerProtocol::FCHChatRoomInvitationReq(int aIndex, short RoomNumbe
 	DataSend(aIndex, (LPBYTE)&Req, Req.h.size, __FUNCTION__);
 }
 
-void CExDataServerProtocol::FriendChatRoomInvitationReq(int aIndex, FHP_FRIEND_INVITATION_REQ * lpMsg)
+void CExDataServerProtocol::FriendChatRoomInvitationReq(LPGameObject &lpObj, FHP_FRIEND_INVITATION_REQ * lpMsg)
 {
 	FHP_FRIEND_INVITATION_RET Result;
 	std::ZeroMemory(&Result, sizeof(Result));
@@ -3074,7 +3074,7 @@ void GensSystem_EDS::GensRankingProcess()
 	this->m_GensRankingUpdateTimeTick = GetTickCount();
 }
 
-void GensSystem_EDS::GDReqGensInfo(int aIndex, PMSG_REQ_ABUSING_INFO *aRecv)
+void GensSystem_EDS::GDReqGensInfo(LPGameObject &lpObj, PMSG_REQ_ABUSING_INFO *aRecv)
 {
 	EnterCriticalSection(&this->m_GensCriticalSection);
 
@@ -3090,7 +3090,7 @@ void GensSystem_EDS::GDReqGensInfo(int aIndex, PMSG_REQ_ABUSING_INFO *aRecv)
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
 
-void GensSystem_EDS::GDReqRegGensMember(int aIndex, PMSG_REQ_REG_GENS_MEMBER_EXDB *aRecv)
+void GensSystem_EDS::GDReqRegGensMember(LPGameObject &lpObj, PMSG_REQ_REG_GENS_MEMBER_EXDB *aRecv)
 {
 	EnterCriticalSection(&this->m_GensCriticalSection);
 
@@ -3132,7 +3132,7 @@ void GensSystem_EDS::GDReqRegGensMember(int aIndex, PMSG_REQ_REG_GENS_MEMBER_EXD
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
 	
-void GensSystem_EDS::GDReqSecedeGensMember(int aIndex, PMSG_REQ_SECEDE_GENS_MEMBER_EXDB *aRecv)
+void GensSystem_EDS::GDReqSecedeGensMember(LPGameObject &lpObj, PMSG_REQ_SECEDE_GENS_MEMBER_EXDB *aRecv)
 {
 	EnterCriticalSection(&this->m_GensCriticalSection);
 
@@ -3181,7 +3181,7 @@ void GensSystem_EDS::GDReqSecedeGensMember(int aIndex, PMSG_REQ_SECEDE_GENS_MEMB
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
 
-void GensSystem_EDS::GDReqSaveContributePoint(int aIndex, PMSG_REQ_SAVE_CONTRIBUTE_POINT_EXDB *aRecv)
+void GensSystem_EDS::GDReqSaveContributePoint(LPGameObject &lpObj, PMSG_REQ_SAVE_CONTRIBUTE_POINT_EXDB *aRecv)
 {
 	EnterCriticalSection(&this->m_GensCriticalSection);
 
@@ -3199,7 +3199,7 @@ void GensSystem_EDS::GDReqSaveContributePoint(int aIndex, PMSG_REQ_SAVE_CONTRIBU
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
 
-void GensSystem_EDS::GDReqSaveAbusingKillUserName(int aIndex, PMSG_REQ_SAVE_ABUSING_KILLUSER_EXDB *aRecv)
+void GensSystem_EDS::GDReqSaveAbusingKillUserName(LPGameObject &lpObj, PMSG_REQ_SAVE_ABUSING_KILLUSER_EXDB *aRecv)
 {
 	EnterCriticalSection(&this->m_GensCriticalSection);
 
@@ -3208,7 +3208,7 @@ void GensSystem_EDS::GDReqSaveAbusingKillUserName(int aIndex, PMSG_REQ_SAVE_ABUS
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
 
-void GensSystem_EDS::GDReqAbusingInfo(int aIndex, PMSG_REQ_ABUSING_INFO *aRecv)
+void GensSystem_EDS::GDReqAbusingInfo(LPGameObject &lpObj, PMSG_REQ_ABUSING_INFO *aRecv)
 {
 	EnterCriticalSection(&this->m_GensCriticalSection);
 
@@ -3233,7 +3233,7 @@ void GensSystem_EDS::GDReqAbusingInfo(int aIndex, PMSG_REQ_ABUSING_INFO *aRecv)
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
 
-void GensSystem_EDS::GDReqGensRewardCheck(int aIndex, PMSG_REQ_GENS_REWARD_CHECK_EXDB *aRecv)
+void GensSystem_EDS::GDReqGensRewardCheck(LPGameObject &lpObj, PMSG_REQ_GENS_REWARD_CHECK_EXDB *aRecv)
 {
 	EnterCriticalSection(&this->m_GensCriticalSection);
 
@@ -3292,7 +3292,7 @@ void GensSystem_EDS::GDReqGensRewardCheck(int aIndex, PMSG_REQ_GENS_REWARD_CHECK
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
 
-void GensSystem_EDS::GDReqGensRewardComplete(int aIndex, PMSG_REQ_GENS_REWARD_COMPLETE_EXDB *aRecv)
+void GensSystem_EDS::GDReqGensRewardComplete(LPGameObject &lpObj, PMSG_REQ_GENS_REWARD_COMPLETE_EXDB *aRecv)
 {
 	EnterCriticalSection(&this->m_GensCriticalSection);
 
@@ -3300,7 +3300,7 @@ void GensSystem_EDS::GDReqGensRewardComplete(int aIndex, PMSG_REQ_GENS_REWARD_CO
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
 
-void GensSystem_EDS::GDReqGensMemberCount(int aIndex, PMSG_REQ_GENS_MEMBER_COUNT *aRecv)
+void GensSystem_EDS::GDReqGensMemberCount(LPGameObject &lpObj, PMSG_REQ_GENS_MEMBER_COUNT *aRecv)
 {
 	EnterCriticalSection(&this->m_GensCriticalSection);
 
@@ -3316,7 +3316,7 @@ void GensSystem_EDS::GDReqGensMemberCount(int aIndex, PMSG_REQ_GENS_MEMBER_COUNT
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
 
-void GensSystem_EDS::GDReqGensRewardDay(int aIndex, PMSG_REQ_GENS_REWARD_DAY *aRecv)
+void GensSystem_EDS::GDReqGensRewardDay(LPGameObject &lpObj, PMSG_REQ_GENS_REWARD_DAY *aRecv)
 {
 	EnterCriticalSection(&this->m_GensCriticalSection);
 
@@ -3415,7 +3415,7 @@ void GensSystem_EDS::ManualRefreshRanking(BYTE Type)
 	this->MakeRanking();
 }
 
-void CExDataServerProtocol::GDReqGuildMatchingList(int aIndex, _stReqGuildMatchingList * lpMsg)
+void CExDataServerProtocol::GDReqGuildMatchingList(LPGameObject &lpObj, _stReqGuildMatchingList * lpMsg)
 {
 	_stAnsGuildMatchingList pMsg;
 
@@ -3460,7 +3460,7 @@ void CExDataServerProtocol::GDReqGuildMatchingList(int aIndex, _stReqGuildMatchi
 	DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CExDataServerProtocol::GDReqGuildMatchingListSearchWord(int aIndex, _stReqGuildMatchingListSearchWord *lpMsg)
+void CExDataServerProtocol::GDReqGuildMatchingListSearchWord(LPGameObject &lpObj, _stReqGuildMatchingListSearchWord *lpMsg)
 {
 	_stAnsGuildMatchingList pMsg;
 
@@ -3505,7 +3505,7 @@ void CExDataServerProtocol::GDReqGuildMatchingListSearchWord(int aIndex, _stReqG
 	DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CExDataServerProtocol::GDReqRegGuildMatchingList(int aIndex, _stReqGuildMatchingData * lpMsg)
+void CExDataServerProtocol::GDReqRegGuildMatchingList(LPGameObject &lpObj, _stReqGuildMatchingData * lpMsg)
 {
 	_stAnsGuildMatchingData pMsg;
 
@@ -3516,7 +3516,7 @@ void CExDataServerProtocol::GDReqRegGuildMatchingList(int aIndex, _stReqGuildMat
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CExDataServerProtocol::GDReqDelMatchingList(int aIndex, _stReqDelGuildMatchingList * lpMsg)
+void CExDataServerProtocol::GDReqDelMatchingList(LPGameObject &lpObj, _stReqDelGuildMatchingList * lpMsg)
 {
 	_stAnsDelGuildMatchingList pMsg;
 	_stGuildMatchingAllowListDB stAllowList[80];
@@ -3573,7 +3573,7 @@ void CExDataServerProtocol::GDReqDelMatchingList(int aIndex, _stReqDelGuildMatch
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CExDataServerProtocol::GDReqJoinGuildMatchingList(int aIndex, _stRegWaitGuildMatching * lpMsg)
+void CExDataServerProtocol::GDReqJoinGuildMatchingList(LPGameObject &lpObj, _stRegWaitGuildMatching * lpMsg)
 {
 	_stAnsWaitGuildMatching pMsg;
 
@@ -3590,7 +3590,7 @@ void CExDataServerProtocol::GDReqJoinGuildMatchingList(int aIndex, _stRegWaitGui
 	}
 }
 
-void CExDataServerProtocol::GDReqCancelJoinGuildMatching(int aIndex, _stReqDelWaitGuildMatchingList * lpMsg)
+void CExDataServerProtocol::GDReqCancelJoinGuildMatching(LPGameObject &lpObj, _stReqDelWaitGuildMatchingList * lpMsg)
 {
 	_stAnsDelWaitGuildMatchingList pMsg;
 
@@ -3602,7 +3602,7 @@ void CExDataServerProtocol::GDReqCancelJoinGuildMatching(int aIndex, _stReqDelWa
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CExDataServerProtocol::GDReqAllowJoinGuildMatching(int aIndex, _stReqAllowJoinGuildMatching * lpMsg)
+void CExDataServerProtocol::GDReqAllowJoinGuildMatching(LPGameObject &lpObj, _stReqAllowJoinGuildMatching * lpMsg)
 {
 	_stAnsAllowJoinGuildMatching pMsg;
 
@@ -3669,7 +3669,7 @@ void CExDataServerProtocol::GDReqAllowJoinGuildMatching(int aIndex, _stReqAllowJ
 	//LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 }
 
-void CExDataServerProtocol::GDReqWaitGuildMatchingList(int aIndex, _stReqWaitGuildMatchingList * lpMsg)
+void CExDataServerProtocol::GDReqWaitGuildMatchingList(LPGameObject &lpObj, _stReqWaitGuildMatchingList * lpMsg)
 {
 	_stAnsWaitGuildMatchingList pMsg;
 
@@ -3692,7 +3692,7 @@ void CExDataServerProtocol::GDReqWaitGuildMatchingList(int aIndex, _stReqWaitGui
 	DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CExDataServerProtocol::GDReqGetWaitStateListGuildMatching(int aIndex, _stReqWaitStateListGuildMatching * lpMsg)
+void CExDataServerProtocol::GDReqGetWaitStateListGuildMatching(LPGameObject &lpObj, _stReqWaitStateListGuildMatching * lpMsg)
 {
 	_stAnsWaitStateListGuildMatching pMsg;
 
@@ -3702,7 +3702,7 @@ void CExDataServerProtocol::GDReqGetWaitStateListGuildMatching(int aIndex, _stRe
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CExDataServerProtocol::GuildMatchingSendAcceptAndRejectInfo(int aIndex, char* szUserName, int nUserIndex, int nServerIndex)
+void CExDataServerProtocol::GuildMatchingSendAcceptAndRejectInfo(LPGameObject &lpObj, char* szUserName, int nUserIndex, int nServerIndex)
 {
 	_stAnsNotiGuildMatching pNotiMsg;
 
@@ -3810,7 +3810,7 @@ void CExDataServerProtocol::UpdateGuildMatchingMemberCount(char *szGuildName, in
 
 }
 
-void CExDataServerProtocol::GDReqRegWantedPartyMember(int aIndex, _stReqRegWantedPartyMember * lpMsg)
+void CExDataServerProtocol::GDReqRegWantedPartyMember(LPGameObject &lpObj, _stReqRegWantedPartyMember * lpMsg)
 {
 	_stAnsRegWantedPartyMember pMsg;
 
@@ -3829,7 +3829,7 @@ void CExDataServerProtocol::GDReqRegWantedPartyMember(int aIndex, _stReqRegWante
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CExDataServerProtocol::GDReqGetPartyMatchingList(int aIndex, _stReqGetPartyMatchingList * lpMsg)
+void CExDataServerProtocol::GDReqGetPartyMatchingList(LPGameObject &lpObj, _stReqGetPartyMatchingList * lpMsg)
 {
 	_stAnsGetPartyMatchingList pMsg;
 
@@ -3865,7 +3865,7 @@ void CExDataServerProtocol::GDReqGetPartyMatchingList(int aIndex, _stReqGetParty
 	DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CExDataServerProtocol::GDReqJoinMemberPartyMatching(int aIndex, _stReqJoinMemberPartyMatching * lpMsg)
+void CExDataServerProtocol::GDReqJoinMemberPartyMatching(LPGameObject &lpObj, _stReqJoinMemberPartyMatching * lpMsg)
 {
 	_stAnsJoinMemberPartyMatching pMsg;
 
@@ -3898,7 +3898,7 @@ void CExDataServerProtocol::GDReqJoinMemberPartyMatching(int aIndex, _stReqJoinM
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CExDataServerProtocol::GDReqJoinMemberStateList(int aIndex, _stReqJoinMemberStateListPartyMatching *lpMsg)
+void CExDataServerProtocol::GDReqJoinMemberStateList(LPGameObject &lpObj, _stReqJoinMemberStateListPartyMatching *lpMsg)
 {
 	_stAnsJoinMemberStateListPartyMatching pMsg;
 
@@ -3907,7 +3907,7 @@ void CExDataServerProtocol::GDReqJoinMemberStateList(int aIndex, _stReqJoinMembe
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CExDataServerProtocol::GDReqJoinMemberStateListLeader(int aIndex, _stReqWaitListPartyMatching *lpMsg)
+void CExDataServerProtocol::GDReqJoinMemberStateListLeader(LPGameObject &lpObj, _stReqWaitListPartyMatching *lpMsg)
 {
 	_stAnsWaitListPartyMatching pMsg;
 
@@ -3921,7 +3921,7 @@ void CExDataServerProtocol::GDReqJoinMemberStateListLeader(int aIndex, _stReqWai
 	DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CExDataServerProtocol::GDReqAcceptMemberJoin(int aIndex, _stReqAddPartyMember *lpMsg)
+void CExDataServerProtocol::GDReqAcceptMemberJoin(LPGameObject &lpObj, _stReqAddPartyMember *lpMsg)
 {
 	_stAnsAddPartyMember pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA4, 0x05, sizeof(pMsg));
@@ -4033,7 +4033,7 @@ void CExDataServerProtocol::GDReqAcceptMemberJoin(int aIndex, _stReqAddPartyMemb
 	}
 }
 
-void CExDataServerProtocol::GDReqCancelPartyMatching(int aIndex, _stReqCancelPartyMatching *lpMsg)
+void CExDataServerProtocol::GDReqCancelPartyMatching(LPGameObject &lpObj, _stReqCancelPartyMatching *lpMsg)
 {
 	_stAnsCancelPartyMatching pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA4, 0x06, sizeof(pMsg));
@@ -4150,7 +4150,7 @@ void CExDataServerProtocol::GDReqCancelPartyMatching(int aIndex, _stReqCancelPar
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CExDataServerProtocol::GDReqDeletePartyUser(int aIndex, _stReqDelPartyUserPartyMatching *lpMsg)
+void CExDataServerProtocol::GDReqDeletePartyUser(LPGameObject &lpObj, _stReqDelPartyUserPartyMatching *lpMsg)
 {
 	_stAnsDelPartyUserPartyMatching pMsg;
 
@@ -4208,12 +4208,12 @@ void CExDataServerProtocol::GDReqDeletePartyUser(int aIndex, _stReqDelPartyUserP
 	}
 }
 
-void CExDataServerProtocol::GDReqSendPartyMemberList(int aIndex, _stReqSendPartyMemberList * lpMsg)
+void CExDataServerProtocol::GDReqSendPartyMemberList(LPGameObject &lpObj, _stReqSendPartyMemberList * lpMsg)
 {
 	this->SendPartyMatchingMemberList(lpMsg->szLeaderName, 0);
 }
 
-void CExDataServerProtocol::GDSendChatMsgPartyMatching(int aIndex, _stReqChattingPartyMatching * lpMsg)
+void CExDataServerProtocol::GDSendChatMsgPartyMatching(LPGameObject &lpObj, _stReqChattingPartyMatching * lpMsg)
 {
 	_stAnsChattingPartyMatching pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA4, 0x12, sizeof(pMsg));

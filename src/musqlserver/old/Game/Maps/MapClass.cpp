@@ -567,7 +567,7 @@ BOOL MapClass::MoneyItemDrop(int money, int x, int y)
 
 
 
-BOOL MapClass::ItemGive(int aIndex, int item_num, bool bFailNotSend)
+BOOL MapClass::ItemGive(LPGameObject &lpObj, int item_num, bool bFailNotSend)
 {
 	if (((item_num<0) ? FALSE : (item_num>g_ConfigRead.server.GetObjectMaxItem() - 1) ? FALSE : TRUE) == FALSE)
 	{

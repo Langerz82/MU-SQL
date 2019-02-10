@@ -33,7 +33,7 @@ BOOL CXMasMonsterHerd::Start()
 	return this->MonsterHerd::Start();
 }
 
-BOOL CXMasMonsterHerd::MonsterHerdItemDrop(CGameObject* lpObj)
+BOOL CXMasMonsterHerd::MonsterHerdItemDrop(LPGameObject &lpObj)
 {
 	
 	if ( lpObj->Class == 476 )
@@ -97,7 +97,7 @@ BOOL CXMasMonsterHerd::MonsterHerdItemDrop(CGameObject* lpObj)
 
 }
 
-void CXMasMonsterHerd::MonsterAttackAction(CGameObject* lpObj, CGameObject* lpTargetObj)
+void CXMasMonsterHerd::MonsterAttackAction(LPGameObject &lpObj, CGameObject* lpTargetObj)
 {
 	if ( gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STONE) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STUN) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_SLEEP) ||
 		gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_FREEZE_2) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_EARTH_BINDS))

@@ -47,7 +47,7 @@ private:
 
 public:
 
-	BOOL CheckCombo(int aIndex, int skillnum);
+	BOOL CheckCombo(LPGameObject &lpObj, int skillnum);
 
 };
 

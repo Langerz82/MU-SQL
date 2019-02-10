@@ -77,18 +77,18 @@ public:
 	void InitBag();
 
 	bool LoadBag(const char* lpFileName);
-	virtual bool IsBag(int aIndex, int iParam1, int iParam2) = 0;
-	virtual bool UseBag(int aIndex, int iParam) = 0;
-	virtual bool UseBag_GremoryCase(int aIndex, int iParam, BYTE btStorageType, BYTE btRewardSource, int iExpireDays) = 0;
-	virtual bool CheckCondition(int aIndex, int iParam1, int iParam2) = 0;
+	virtual bool IsBag(LPGameObject &lpObj, int iParam1, int iParam2) = 0;
+	virtual bool UseBag(LPGameObject &lpObj, int iParam) = 0;
+	virtual bool UseBag_GremoryCase(LPGameObject &lpObj, int iParam, BYTE btStorageType, BYTE btRewardSource, int iExpireDays) = 0;
+	virtual bool CheckCondition(LPGameObject &lpObj, int iParam1, int iParam2) = 0;
 	virtual void SetBagInfo(int iParam1, int iParam2) = 0;
 
-	int GetDropSection(int aIndex, BAG_SECTION_DROP &pRetDrop);
+	int GetDropSection(LPGameObject &lpObj, BAG_SECTION_DROP &pRetDrop);
 	int GetItemsSection(BAG_SECTION_DROP & pDropSec, BAG_SECTION_ITEMS &pRetItems);
 	int GetItem(BAG_SECTION_ITEMS &pItemsSec, BAG_ITEM & pRetItem);
-	int GetReadyItemToUse(int aIndex, CItem & pItem, time_t & DurationItem);
+	int GetReadyItemToUse(LPGameObject &lpObj, CItem & pItem, time_t & DurationItem);
 	static int GetItemLevel(int MinLevel, int MaxLevel);
-	void MakeBagEffectUse(int aIndex, int MonsterIndex);
+	void MakeBagEffectUse(LPGameObject &lpObj, int MonsterIndex);
 	void AddCoin(int aIndex);
 	void DropSummonItem(int aIndex);
 

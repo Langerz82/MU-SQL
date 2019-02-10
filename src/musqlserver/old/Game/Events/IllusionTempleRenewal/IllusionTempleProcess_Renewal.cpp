@@ -729,7 +729,7 @@ void CIllusionTempleProcess_Renewal::Set_ITRState_End()
 	this->m_bFirstRegen_OccStone = false;
 }
 
-BOOL CIllusionTempleProcess_Renewal::EnterUserIllusionTemple(int aIndex, BYTE btTempleIndex, int nPartyIdx)
+BOOL CIllusionTempleProcess_Renewal::EnterUserIllusionTemple(LPGameObject &lpObj, BYTE btTempleIndex, int nPartyIdx)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -1204,7 +1204,7 @@ char CIllusionTempleProcess_Renewal::CheckHaveRelics(int aIndex)
 	return -1; // not used
 }
 
-void CIllusionTempleProcess_Renewal::SetRelicsInventoryPos(int aIndex, BYTE btPos)
+void CIllusionTempleProcess_Renewal::SetRelicsInventoryPos(LPGameObject &lpObj, BYTE btPos)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -1220,7 +1220,7 @@ void CIllusionTempleProcess_Renewal::SetRelicsInventoryPos(int aIndex, BYTE btPo
 	}
 }
 
-void CIllusionTempleProcess_Renewal::SendRelicsUserInfo(CGameObject* lpObj, BYTE byGet)
+void CIllusionTempleProcess_Renewal::SendRelicsUserInfo(LPGameObject &lpObj, BYTE byGet)
 {
 	PMSG_ITL_RELICS_GET_USER pRelicsUser;
 	PHeadSubSetB((LPBYTE)&pRelicsUser, 0xBF, 0x61, sizeof(pRelicsUser));
@@ -2287,7 +2287,7 @@ void CIllusionTempleProcess_Renewal::ITR_UseSkill(int nIndex, WORD wSkillNumber,
 	}
 }
 
-void CIllusionTempleProcess_Renewal::ITRSkillProc(CGameObject* lpObj)
+void CIllusionTempleProcess_Renewal::ITRSkillProc(LPGameObject &lpObj)
 {
 	if (this->m_UserData[lpObj->m_nITR_Index].m_nIndex != lpObj->m_Index)
 	{
@@ -2332,14 +2332,14 @@ void CIllusionTempleProcess_Renewal::Send_ITR_SkillEnd(OBJECTSTRUCT *lpObj, WORD
 	GSProtocol.MsgSendV2(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-int CIllusionTempleProcess_Renewal::UseSkillProdection(CGameObject* lpObj)
+int CIllusionTempleProcess_Renewal::UseSkillProdection(LPGameObject &lpObj)
 {
 	this->m_UserData[lpObj->m_nITR_Index].m_dwSkillProdectionTime = 10;
 	gObjAddBuffEffect(lpObj, BUFFTYPE_TEMPLE_PROTECTION, 0, 0, 0, 0, -10);
 	return TRUE;
 }
 
-int CIllusionTempleProcess_Renewal::UseSkillRestraint(CGameObject* lpObj, CGameObject* lpTargetObj)
+int CIllusionTempleProcess_Renewal::UseSkillRestraint(LPGameObject &lpObj, CGameObject* lpTargetObj)
 {
 	if (gCheckSkillDistance(lpObj->m_Index, lpTargetObj->m_Index, 211) == FALSE)
 	{
@@ -2355,7 +2355,7 @@ int CIllusionTempleProcess_Renewal::UseSkillRestraint(CGameObject* lpObj, CGameO
 	return TRUE;
 }
 
-int CIllusionTempleProcess_Renewal::UseSkillTeleport(CGameObject* lpObj)
+int CIllusionTempleProcess_Renewal::UseSkillTeleport(LPGameObject &lpObj)
 {
 	if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STUN) == TRUE)
 	{
@@ -2452,7 +2452,7 @@ int CIllusionTempleProcess_Renewal::UseSkillTeleport(CGameObject* lpObj)
 	return TRUE;
 }
 
-int CIllusionTempleProcess_Renewal::UseSkillShieldBurn(CGameObject* lpObj, CGameObject* lpTargetObj)
+int CIllusionTempleProcess_Renewal::UseSkillShieldBurn(LPGameObject &lpObj, CGameObject* lpTargetObj)
 {
 	if (gCheckSkillDistance(lpObj->m_Index, lpTargetObj->m_Index, 213) == FALSE)
 	{
@@ -2497,7 +2497,7 @@ void CIllusionTempleProcess_Renewal::SendUseSkillResult(int nIndex, int nTargetI
 		btResult, nIndex, nTargetIndex, wSkillNumber);
 }
 
-void CIllusionTempleProcess_Renewal::ITRUserDie(CGameObject* lpObj)
+void CIllusionTempleProcess_Renewal::ITRUserDie(LPGameObject &lpObj)
 {
 	if (lpObj->m_nITR_Index == -1)
 	{

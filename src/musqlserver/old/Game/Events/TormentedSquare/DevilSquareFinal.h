@@ -404,7 +404,7 @@ public:
 	void DeleteParty(int nPartyNumber);
 	void DeletePartyByIndex(int nIndex);
 
-	BOOL Enter_DSF(int aIndex, BYTE btSlotNum);
+	BOOL Enter_DSF(LPGameObject &lpObj, BYTE btSlotNum);
 	BOOL Leave_DSF(int aIndex);
 
 	void ClearUserData(int nIndex);
@@ -433,7 +433,7 @@ public:
 	BYTE GetUserTeam(int nIndex);
 
 	int MonsterKillPoint(int nMonsterType);
-	void MonsterKillPointCalc(int aIndex, int nPoint);
+	void MonsterKillPointCalc(LPGameObject &lpObj, int nPoint);
 
 	void DSFUserDie(OBJECTSTRUCT * lpObj);
 	void EndUserMove();

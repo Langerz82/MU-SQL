@@ -1843,7 +1843,7 @@ BOOL CArcaBattle::IsEnableAttackObelisk(OBJECTSTRUCT *lpObj, int iMonNumber)
 	return TRUE;
 }
 
-int CArcaBattle::IsPkEnable(CGameObject* lpObj, CGameObject* lpTargetObj)
+int CArcaBattle::IsPkEnable(LPGameObject &lpObj, CGameObject* lpTargetObj)
 {
 	GUILD_INFO_STRUCT * lpGuildInfo = lpObj->m_PlayerData->lpGuild;
 	GUILD_INFO_STRUCT *lpTarGuildInfo = lpTargetObj->m_PlayerData->lpGuild;
@@ -1911,7 +1911,7 @@ void CArcaBattle::SendArcaBattleCurrentState(OBJECTSTRUCT *obj)
 	IOCP.DataSend(obj->m_Index, &pMsg.h.c, pMsg.h.size);
 }
 
-int CArcaBattle::IsOccupyObelisk(CGameObject* lpObj, int iMonIndex)
+int CArcaBattle::IsOccupyObelisk(LPGameObject &lpObj, int iMonIndex)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -2271,7 +2271,7 @@ void CArcaBattle::RegenMonster(int nGroupNumber)
 	}
 }
 
-int CArcaBattle::SetPosMonster(int aIndex, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY)
+int CArcaBattle::SetPosMonster(LPGameObject &lpObj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY)
 {
 	if ( !ObjectMaxRange(aIndex) )
 	{
@@ -2748,7 +2748,7 @@ void CArcaBattle::DGAnsRegisteredMemberCnt(PMSG_ANS_AB_REG_MEMBER_CNT_DS *lpMsg)
 	IOCP.DataSend(lpMsg->wNumber, (LPBYTE)&pMsg, sizeof(pMsg));
 }
 
-int CArcaBattle::GetGuildMasterPos(CGameObject* lpObj, int nGateNum, short & x, short & y)
+int CArcaBattle::GetGuildMasterPos(LPGameObject &lpObj, int nGateNum, short & x, short & y)
 {
 	if (lpObj->Type != OBJ_USER)
 	{

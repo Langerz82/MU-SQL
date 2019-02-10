@@ -67,7 +67,7 @@ void CStatSpecialize::ClearUserOption(OBJECTSTRUCT *lpObj)
 	}
 }
 
-void CStatSpecialize::CalcStatOption(CGameObject* lpObj, int StatOptionID)
+void CStatSpecialize::CalcStatOption(LPGameObject &lpObj, int StatOptionID)
 {
 	if (this->m_bFileLoad == false)
 	{
@@ -87,7 +87,7 @@ void CStatSpecialize::CalcStatOption(CGameObject* lpObj, int StatOptionID)
 	this->SetStatOption(lpObj, StatOptionID, Percent);
 }
 
-void CStatSpecialize::SetStatOption(CGameObject* lpObj, int StatOptionID, double StatOptionPercent)
+void CStatSpecialize::SetStatOption(LPGameObject &lpObj, int StatOptionID, double StatOptionPercent)
 {
 	int ArrayIndex = this->GetUserArrayIndex(lpObj);
 

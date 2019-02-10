@@ -39,7 +39,7 @@ void CConfigMichi::LoadPotionHack()
 
 }
 
-void CConfigMichi::GCFireworksSend(CGameObject* lpObj, int x, int y) // OK
+void CConfigMichi::GCFireworksSend(LPGameObject &lpObj, int x, int y) // OK
 {
 	PMSG_SERVERCMD ServerCmd;
 

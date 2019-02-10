@@ -68,7 +68,7 @@ bool CSkillUseTime::LoadFile(LPSTR lpFile)
 	return true;
 }
 
-bool CSkillUseTime::CheckSkillTime(CGameObject* lpObj, int iSkill)
+bool CSkillUseTime::CheckSkillTime(LPGameObject &lpObj, int iSkill)
 {
 	if ( this->m_bEnabled == false )
 	{

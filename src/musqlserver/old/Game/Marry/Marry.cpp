@@ -132,7 +132,7 @@ void CMarry::LoadFile(char * filename)
 	LeaveCriticalSection(&this->m_criti);
 }
 
-void CMarry::Propose(int aIndex, int uIndex)
+void CMarry::Propose(LPGameObject &lpObj, int uIndex)
 {
 	if (ObjectMaxRange(aIndex) == 0 || ObjectMaxRange(uIndex) == 0)
 	{
@@ -348,7 +348,7 @@ void CMarry::Divorce(int aIndex)
 	sLog->outBasic("[Marry] Divorce: [%s] [%d]", gGameObjects[aIndex].Name, gGameObjects[uIndex].Name);
 }
 
-bool CMarry::CheckPosition(int aIndex, int uIndex)
+bool CMarry::CheckPosition(LPGameObject &lpObj, int uIndex)
 {
 	int aX = gGameObjects[aIndex].X, aY = gGameObjects[aIndex].Y, aM = gGameObjects[aIndex].MapNumber, uX = gGameObjects[uIndex].X, uY = gGameObjects[uIndex].Y, uM = gGameObjects[uIndex].MapNumber;
 
@@ -360,7 +360,7 @@ bool CMarry::CheckPosition(int aIndex, int uIndex)
 	return false;
 }
 
-bool CMarry::CheckRequiredItem(int aIndex, int iSide)
+bool CMarry::CheckRequiredItem(LPGameObject &lpObj, int iSide)
 {
 	if(!this->m_bNeedSpecialItemForMarry) return true;
 
@@ -403,7 +403,7 @@ bool CMarry::CheckDivorceItem(int aIndex)
 	return true;
 }
 
-void CMarry::GiveGiftItem(int aIndex, int iSide)
+void CMarry::GiveGiftItem(LPGameObject &lpObj, int iSide)
 {
 	if (!this->m_bGiftEnable) return;
 
@@ -425,7 +425,7 @@ void CMarry::GiveGiftItem(int aIndex, int iSide)
 	LeaveCriticalSection(&this->m_criti);
 }
 
-void CMarry::DeleteRequiredItem(int aIndex, int iSide)
+void CMarry::DeleteRequiredItem(LPGameObject &lpObj, int iSide)
 {
 	if(!this->m_bNeedSpecialItemForMarry) return;
 

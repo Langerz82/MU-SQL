@@ -967,7 +967,7 @@ void CEvolutionMonsterMng::DGAnsEvoMonMaxScore(LPBYTE lpRecv)
 
 }
 
-void CEvolutionMonsterMng::GDReqSaveEvoMonScore(int aIndex, int nScore, int nTotalDamage)
+void CEvolutionMonsterMng::GDReqSaveEvoMonScore(LPGameObject &lpObj, int nScore, int nTotalDamage)
 {
 	PMSG_REQ_SAVE_EVOMON_RESULT pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x3E, 0x01, sizeof(pMsg));

@@ -60,7 +60,7 @@ void TNotice::SendNoticeToAllUser(void * lpNotice)
 	}
 }
 
-void TNotice::SendNoticeToUser(int aIndex, void * lpNotice)
+void TNotice::SendNoticeToUser(LPGameObject &lpObj, void * lpNotice)
 {
 	PMSG_NOTICE * pNotice = (PMSG_NOTICE *)lpNotice;
 	IOCP.DataSend(aIndex, (unsigned char*)pNotice, pNotice->h.size  );
@@ -127,7 +127,7 @@ void TNotice::SendToAllUser(LPSTR szMsg, ...)
 	}
 }
 
-void TNotice::SendToUser(int aIndex, LPSTR szMsg, ...)
+void TNotice::SendToUser(LPGameObject &lpObj, LPSTR szMsg, ...)
 {
 	va_list pArguments;
 	va_start(pArguments, szMsg);

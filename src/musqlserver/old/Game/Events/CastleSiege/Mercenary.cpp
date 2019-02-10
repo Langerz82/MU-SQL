@@ -160,7 +160,7 @@ BOOL CMercenary::DeleteMercenary(int iIndex)
 
 
 
-BOOL CMercenary::SearchEnemy(CGameObject* lpObj)
+BOOL CMercenary::SearchEnemy(LPGameObject &lpObj)
 {
 	if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE)
 	{

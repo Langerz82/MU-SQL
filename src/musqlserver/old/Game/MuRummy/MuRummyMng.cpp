@@ -1390,7 +1390,7 @@ void CMuRummyMng::GCSendCardList(int aIndex)
 	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void CMuRummyMng::GCSendMsg(int aIndex, BYTE btNotiIndex, int iValue)
+void CMuRummyMng::GCSendMsg(LPGameObject &lpObj, BYTE btNotiIndex, int iValue)
 {
 	PMSG_SEND_MURUMMY_MSG pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x4D, 0x17, sizeof(pMsg));
@@ -1412,7 +1412,7 @@ void CMuRummyMng::GCSendMsg(int aIndex, BYTE btNotiIndex, int iValue)
 	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void CMuRummyMng::GDReqCardInfo(CGameObject* lpObj)
+void CMuRummyMng::GDReqCardInfo(LPGameObject &lpObj)
 {
 	if (ObjectMaxRange(lpObj->m_Index) == false)
 	{
@@ -1603,7 +1603,7 @@ void CMuRummyMng::GDReqCardInfoInsert(OBJECTSTRUCT *lpObj)
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CMuRummyMng::GDReqScoreUpdate(CGameObject* lpObj, WORD wScore, _tagMuRummyCardUpdateDS *pCardUpdateDS)
+void CMuRummyMng::GDReqScoreUpdate(LPGameObject &lpObj, WORD wScore, _tagMuRummyCardUpdateDS *pCardUpdateDS)
 {
 	PMSG_REQ_MURUMMY_SCORE_UPDATE_DS pMsg;
 	memcpy(pMsg.AccountID, lpObj->AccountID, MAX_ACCOUNT_LEN + 1);

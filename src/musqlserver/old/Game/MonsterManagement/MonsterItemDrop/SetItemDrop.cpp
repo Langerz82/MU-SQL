@@ -91,7 +91,7 @@ void CSetItemDrop::LoadFile(LPSTR lpFile)
 	}
 }
 
-bool CSetItemDrop::DropItem(CGameObject* lpMonster, CGameObject* lpUser)
+bool CSetItemDrop::DropItem(LPGameObject &lpMonster, CGameObject* lpUser)
 {
 	if (!ObjectMaxRange(lpUser->m_Index))
 		return false;
