@@ -45,24 +45,6 @@ typedef struct MU_WSABUF {
 } *LPMU_WSABUF;
 
 
-
-/*
-#ifndef _SYSTEMTIME
-#define _SYSTEMTIME
-typedef struct _SYSTEMTIME {
-	WORD wYear;
-	WORD wMonth;
-	WORD wDayOfWeek;
-	WORD wDay;
-	WORD wHour;
-	WORD wMinute;
-	WORD wSecond;
-	WORD wMilliseconds;
-} SYSTEMTIME, *PSYSTEMTIME, *LPSYSTEMTIME;
-typedef SYSTEMTIME* LPSYSTEMTIME;
-#endif
-*/
-
 #ifndef NULL
 	#define NULL 0
 #endif

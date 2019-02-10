@@ -1,21 +1,12 @@
-// Giocp.cpp
-//------------------------------------------
-// Decompiled by Deathway
-// Date : 2007-03-09
-//------------------------------------------
-
-// GS-N 0.99.60T 0x00473020 - Status : Completed :)
-//	GS-N	1.00.18	JPN	0x00489FD0	-	Completed
-//#include "StdAfx.h"
 #include "giocp.h"
-//#include "Logging/Log.h"
+#include "Logging/Log.h"
 //#include "DataServer.h"
 //#include "ServerEngine.h"
 #include "Main.cpp"
 #include "DataServer/DelayHandler.h"
 #include "CQueue.h"
 
-//#define szModule "GIocp"
+#define szModule "GIocp"
 
 DWORD g_dwServerCount=0;
 HANDLE g_CompletionPort[MAX_SERVER_TYPE];

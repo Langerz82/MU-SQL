@@ -83,4 +83,10 @@
 #define MAX_IDSTRING 10
 
 
+#define MAX_USER		1500
+
+#define MAX_IO_BUFFER_SIZE		100000
+#define MAX_IO_THREAD_HANDLES	16
+
+
 #endif

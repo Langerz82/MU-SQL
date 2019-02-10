@@ -1,9 +1,5 @@
-// ServerEngine.h: interface for the CServerEngine class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_SERVERENGINE_H__7F7AC7E2_C979_41EA_95BF_375D4A6729C5__INCLUDED_)
-#define AFX_SERVERENGINE_H__7F7AC7E2_C979_41EA_95BF_375D4A6729C5__INCLUDED_
+#ifndef _MU_SERVER_ENGINE_
+#define _MU_SERVER_ENGINE_
 
 #if _MSC_VER > 1000
 #pragma once
@@ -26,19 +22,7 @@ typedef void (*WsProtocolCore)(int, BYTE, LPBYTE, int);
 #define MAX_SERVER_TYPE (ST_EXDATASERVER+1)
 #endif
 
-struct tagSERVER_ENGINE
-{
-	int m_Index;
-	SOCKET m_Socket;
-	eSERVER_STATE m_State;
-	eSERVER_TYPE m_Type;
-	char m_ServerIp[16];
-	struct _PER_SOCKET_CONTEXT * PerSocketContext;
-	WsProtocolCore m_ProtocolCore;
-	WORD m_ServerCode;
-	WORD m_ServerGroup;
-	unsigned short m_ConnectPort;
-};
+struct STR_SERVER_ENGINE;
 
 void gObjServerInit();
 int gObjServerAddSearch();
@@ -48,20 +32,9 @@ void LoadAllowableIpList(LPSTR filename);
 
 void gObjConnectStatSyncThread();
 
-struct IPList
-{
-	char m_IP[16];
-};
-
 extern IPList g_IpList[25];
 extern int ipcount;
 extern int servercount;
-extern tagSERVER_ENGINE * g_Server;
+extern STR_SERVER_ENGINE* g_Server;
 
-#endif // !defined(AFX_SERVERENGINE_H__7F7AC7E2_C979_41EA_95BF_375D4A6729C5__INCLUDED_)
-
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-
+#endif

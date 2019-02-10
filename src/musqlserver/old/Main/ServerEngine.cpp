@@ -4,21 +4,21 @@
 
 #include "ServerEngine.h"
 #include "Main.h"
-#include "Sprotocol.h"
-#include "DSprotocol.h"
-#include "EDSprotocol.h"
+//#include "Sprotocol.h"
+//#include "CoreDSprotocol.h"
+//#include "EDSprotocol.h"
 #include "pugixml.hpp"
 
 #define szModule "Main"
 
 IPList g_IpList[25];
-tagSERVER_ENGINE * g_Server = NULL;
+STR_SERVER_ENGINE* g_Server = NULL;
 int ipcount = 0;
 int servercount = 0;
 
 void gObjServerInit()
 {
-	g_Server = new tagSERVER_ENGINE[g_dwMaxServerGroups]; 
+	g_Server = new STR_SERVER_ENGINE[g_dwMaxServerGroups]; 
 
 	if ( g_Server == NULL )
 	{
@@ -26,7 +26,7 @@ void gObjServerInit()
 		return;
 	}
 
-	memset(g_Server, 0, sizeof(tagSERVER_ENGINE) * g_dwMaxServerGroups);
+	memset(g_Server, 0, sizeof(STR_SERVER_ENGINE) * g_dwMaxServerGroups);
 
 	for(int i=0;i<g_dwMaxServerGroups;i++)
 	{
@@ -76,12 +76,6 @@ int gObjServerAdd(SOCKET Socket, char * Ip, int ServerIndex, eSERVER_TYPE eServe
 		case ST_JOINSERVER:
 			g_Server[ServerIndex].m_ProtocolCore = CLoginServerProtocol::ProtocolCore;
 			break;
-		case ST_DATASERVER:
-			g_Server[ServerIndex].m_ProtocolCore = CDataServerProtocol::ProtocolCore;
-			break;
-		case ST_EXDATASERVER:
-			g_Server[ServerIndex].m_ProtocolCore = CExDataServerProtocol::ProtocolCore;
-			break;
 	}
 	
 	sLog->outBasic("[Server Engine] Connect : Index : %d - IP : %s - ServerType : %d",
@@ -99,7 +93,8 @@ void gObjServerDel(int aIndex)
 
 	if(g_Server[aIndex].m_Type == ST_JOINSERVER)
 	{
-		m_JSProtocol.DisconnectServer(g_Server[aIndex].m_ServerCode);
+		// TODO
+		//m_JSProtocol.DisconnectServer(g_Server[aIndex].m_ServerCode);
 	}
 
 	g_Server[aIndex].m_Index = -1;
@@ -107,7 +102,7 @@ void gObjServerDel(int aIndex)
 	g_Server[aIndex].m_Socket = INVALID_SOCKET;
 	g_Server[aIndex].m_ServerIp[0];
 	g_Server[aIndex].m_State = SS_CLOSED;
-	//g_Server[aIndex].m_Type = ST_NONE;
+	g_Server[aIndex].m_Type = ST_NONE;
 	g_Server[aIndex].m_ProtocolCore = NULL;
 	g_Server[aIndex].m_ConnectPort = -1;
 	servercount--;

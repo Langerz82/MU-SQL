@@ -7,6 +7,7 @@
 
 #include "StdAfx.h"
 #include "MuDefines.h"
+#include "ServerEngine.h"
 
 #include <string>
 #include <map>
@@ -575,6 +576,86 @@ struct STR_STAT_BONUS
 	WORD BonusOptionID;
 	WORD BonusOptionVal1;
 	WORD BonusOptionVal2;
+};
+
+struct STR_SERVER_ENGINE
+{
+	int m_Index;
+	SOCKET m_Socket;
+	eSERVER_STATE m_State;
+	eSERVER_TYPE m_Type;
+	char m_ServerIp[16];
+	struct _PER_SOCKET_CONTEXT * PerSocketContext;
+	WsProtocolCore m_ProtocolCore;
+	WORD m_ServerCode;
+	WORD m_ServerGroup;
+	unsigned short m_ConnectPort;
+};
+
+struct IPList
+{
+	char m_IP[16];
+};
+
+struct STR_CS_USER
+{
+	STR_CS_USER() {}
+	int Index;
+	int ConnectionState;
+	char IP[20];
+	unsigned int Port;
+	unsigned char Type;
+	SOCKET socket;
+	_PER_SOCKET_CONTEXT * PerSocketContext;
+	bool News;
+	int PacketCount;
+	ULONGLONG i64PacketTime;
+};
+
+struct _PER_IO_CONTEXT
+{
+	MU_WSAOVERLAPPED Overlapped; // 0
+	MU_WSABUF wsabuf;
+	unsigned char Buffer[MAX_IO_BUFFER_SIZE]; // 1C
+	unsigned char BufferSecond[MAX_IO_BUFFER_SIZE]; // 178C
+	int nSecondOfs; // 2EFC
+	int nTotalBytes;	// 2F00
+	int nSentBytes; // 2F04
+	int IOOperation; // 2F08
+	int nWaitIO; // 2F0C
+
+};
+
+typedef struct tagIocpServerParameter
+{
+	DWORD dwServerCount;
+	eSERVER_TYPE eServerType;
+
+} IocpServerParameter;
+
+struct _PER_SOCKET_CONTEXT
+{
+	SOCKET m_socket;	// 0
+	int nIndex;	// 4
+	_PER_IO_CONTEXT IOContext[2];	// 8
+	int dwIOCount;	// 5E28
+};
+
+struct PacketQueue
+{
+	PacketQueue()
+	{
+		this->nSize = 0;
+		this->headcode = 0;
+		this->uindex = -1;
+		this->iSessionId = -1;
+	}
+
+	boost::shared_ptr<unsigned char[]> pData;
+	unsigned short nSize;
+	unsigned char headcode;
+	int uindex;
+	int iSessionId;
 };
 
 #endif
