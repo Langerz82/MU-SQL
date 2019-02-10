@@ -14,6 +14,8 @@
 #include "database/Database/DatabaseEnv.h"
 #include "database/Database/MySQLConnection.h"
 #include "database/Database/Field.h"
+#include "Database/CSDatabase.h"
+//#include "Database/GSDatabase.h"
 
 class Field;
 class MySQLConnection;
@@ -23,6 +25,8 @@ class CQuery
 public:
 
 	CQuery(DatabaseWorkerPool<MySQLConnection>* db);
+	CQuery(DatabaseWorkerPool<ConnectDatabaseConnection>* db);
+	//CQuery(DatabaseWorkerPool<GameDatabaseConnection>* db);
 	virtual ~CQuery();
 
 	//BOOL ReConnect();

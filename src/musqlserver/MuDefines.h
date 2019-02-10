@@ -77,5 +77,10 @@
 #define EVENT_INVENTORY_SIZE		32
 #define EVENT_INVENTORY_MAP_SIZE	32
 
+#define MAX_CS_GUILDLIST 100
+#define MAX_CS_NPC 200
+#define PMHC_WORD 0xC2
+#define MAX_IDSTRING 10
+
 
 #endif

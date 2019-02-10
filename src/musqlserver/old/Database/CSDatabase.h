@@ -5,6 +5,8 @@
 #include "Database/Database/MySQLConnection.h"
 #include "Database/Database/DatabaseLoader.h"
 
+class ConnectDatabaseConnection;
+
 enum ConnectDatabaseStatements : uint32
 {
     /*  Naming standard for defines:

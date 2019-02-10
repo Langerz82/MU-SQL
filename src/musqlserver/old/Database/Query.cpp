@@ -9,6 +9,12 @@
 CQuery::CQuery(DatabaseWorkerPool<MySQLConnection>* db): m_Database(db)
 {
 }
+CQuery::CQuery(DatabaseWorkerPool<ConnectDatabaseConnection>* db) : m_Database(db)
+{
+}
+/*CQuery::CQuery(DatabaseWorkerPool<GameDatabaseConnection>* db) : m_Database(db)
+{
+}*/
 
 CQuery::~CQuery()
 {
