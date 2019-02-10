@@ -43,6 +43,7 @@
 #include "CUserData.h"
 #include "MuDefines.h"
 #include "MuEnums.h"
+#include "configread.h"
 
 // Crypto++
 #include "cryptopp/sha.h"

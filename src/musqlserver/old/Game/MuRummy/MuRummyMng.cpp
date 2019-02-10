@@ -1746,7 +1746,7 @@ void CMuRummyMng::CheatSetCardColorAsc(CMuRummyInfo *pMuRummyInfo, int aIndex)
 
 	if (!pMuRummyInfo)
 	{
-		//sLog->outBasic("[MuRummy][Error] pMuRummyInfo is NULL [%s][%s] [%s, %d]", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pMuRummyInfo is NULL [%s][%s] [%s, %d]", lpObj->AccountID, lpObj->Name, __FILE__, __LINE__);
 		return;
 	}
 

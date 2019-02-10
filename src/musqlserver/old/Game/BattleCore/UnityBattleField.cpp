@@ -428,7 +428,7 @@ void CUnityBattleField::GDReqGetRealNameAndServerCode(int aIndex)
 
 	PMSG_REQ_GET_UBF_REAL_NAME pMsg;
 	pMsg.iUserIndex = aIndex;
-	memcpy(pMsg.szUBFName, gGameObjects[aIndex].Name, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.szUBFName, lpObj->Name, MAX_ACCOUNT_LEN + 1);
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF3, 0x08, sizeof(pMsg));
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);

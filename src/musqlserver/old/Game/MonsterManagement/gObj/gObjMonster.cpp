@@ -1302,7 +1302,7 @@ void gObjMonsterStateProc(LPGameObject &lpObj, int aMsgCode, int aIndex, int aMs
 				return;
 			}
 			
-			if ( gGameObjects[aIndex].Live == FALSE || gGameObjects[aIndex].m_State != 2)
+			if ( lpObj->Live == FALSE || lpObj->m_State != 2)
 			{
 				return;
 			}
@@ -1340,7 +1340,7 @@ void gObjMonsterStateProc(LPGameObject &lpObj, int aMsgCode, int aIndex, int aMs
 			{
 				if ( ObjectMaxRange(aIndex) )
 				{
-					int map = gGameObjects[aIndex].MapNumber;
+					int map = lpObj->MapNumber;
 					BYTE attr;
 					int dis = gObjCalDistance(lpObj, &gGameObjects[aIndex]);
 					int range;
@@ -1356,11 +1356,11 @@ void gObjMonsterStateProc(LPGameObject &lpObj, int aMsgCode, int aIndex, int aMs
 
 					if ( dis <= range )
 					{
-						if ( gGameObjects[aIndex].m_RecallMon >= 0 )
+						if ( lpObj->m_RecallMon >= 0 )
 						{
 							if ( lpObj->m_RecallMon >= 0 )
 							{
-								if ( gGameObjects[aIndex].Type == OBJ_MONSTER )
+								if ( lpObj->Type == OBJ_MONSTER )
 								{
 									lpObj->TargetNumber = aIndex;
 								}
@@ -1374,7 +1374,7 @@ void gObjMonsterStateProc(LPGameObject &lpObj, int aMsgCode, int aIndex, int aMs
 						{
 							if ( lpObj->m_RecallMon >= 0 )
 							{
-								if ( gGameObjects[aIndex].Type == OBJ_MONSTER )
+								if ( lpObj->Type == OBJ_MONSTER )
 								{
 									lpObj->TargetNumber = aIndex;
 								}
@@ -1403,11 +1403,11 @@ void gObjMonsterStateProc(LPGameObject &lpObj, int aMsgCode, int aIndex, int aMs
 								return;
 							}
 
-							wall = MapC[map].CheckWall2(lpObj->X, lpObj->Y, gGameObjects[aIndex].X, gGameObjects[aIndex].Y);
+							wall = MapC[map].CheckWall2(lpObj->X, lpObj->Y, lpObj->X, lpObj->Y);
 	
 							if ( wall == 1 )
 							{
-								attr = MapC[map].GetAttr(gGameObjects[aIndex].X, gGameObjects[aIndex].Y);
+								attr = MapC[map].GetAttr(lpObj->X, lpObj->Y);
 
 								if ( (attr&1) != 1 )
 								{
@@ -1512,7 +1512,7 @@ void gObjMonsterStateProc(LPGameObject &lpObj, int aMsgCode, int aIndex, int aMs
 				}
 			}
 
-			if (gGameObjects[aIndex].Type == OBJ_USER)
+			if (lpObj->Type == OBJ_USER)
 			{
 				g_QuestExpProgMng.ChkUserQuestTypeMonsterKill(&gGameObjects[aIndex], lpObj);
 				g_QuestExpProgMng.QuestMonsterItemDrop(0, &gGameObjects[aIndex], lpObj);
@@ -1555,11 +1555,11 @@ void gObjMonsterStateProc(LPGameObject &lpObj, int aMsgCode, int aIndex, int aMs
 			break;
 
 		case 2:
-			if ( gGameObjects[aIndex].Live != FALSE )
+			if ( lpObj->Live != FALSE )
 			{
-				if ( BC_MAP_RANGE(gGameObjects[aIndex].MapNumber) == FALSE )
+				if ( BC_MAP_RANGE(lpObj->MapNumber) == FALSE )
 				{
-					if ( gGameObjects[aIndex].Class != 131 ||  ((  (lpObj->Class-132)<0)?FALSE:((lpObj->Class-132)>2)?FALSE:TRUE)==FALSE )
+					if ( lpObj->Class != 131 ||  ((  (lpObj->Class-132)<0)?FALSE:((lpObj->Class-132)>2)?FALSE:TRUE)==FALSE )
 					{
 						gObjBackSpring(lpObj, &gGameObjects[aIndex]);
 					}
@@ -1587,7 +1587,7 @@ void gObjMonsterStateProc(LPGameObject &lpObj, int aMsgCode, int aIndex, int aMs
 			break;
 
 		case 6:
-			if ( gGameObjects[aIndex].Live != FALSE )
+			if ( lpObj->Live != FALSE )
 			{
 				gObjBackSpring2(lpObj, &gGameObjects[aIndex], 2);
 			}
@@ -1595,7 +1595,7 @@ void gObjMonsterStateProc(LPGameObject &lpObj, int aMsgCode, int aIndex, int aMs
 			break;
 
 		case 7:
-			if ( gGameObjects[aIndex].Live != FALSE )
+			if ( lpObj->Live != FALSE )
 			{
 				gObjBackSpring2(lpObj, &gGameObjects[aIndex], 3);
 			}
@@ -1648,7 +1648,7 @@ void gObjMonsterStateProc(LPGameObject &lpObj, int aMsgCode, int aIndex, int aMs
 
 		case 62:
 			{
-				int nDamage = 20 * gGameObjects[aIndex].MaxLife / 100;
+				int nDamage = 20 * lpObj->MaxLife / 100;
 				gObjAttack(lpObj, &gGameObjects[aIndex], 0, 0, 0, nDamage, 0, 0, 0);
 			}
 			break;
@@ -5447,27 +5447,27 @@ void CQeustNpcTeleport::Run(int aIndex)
 			}
 		}
 
-		g_SendNPCInfo.SendPortalCoordinateMoveNpc(gGameObjects[aIndex].MapNumber,
+		g_SendNPCInfo.SendPortalCoordinateMoveNpc(lpObj->MapNumber,
 			this->m_QuestNPCTeleportPos[tableindex].mapnum,
-			gGameObjects[aIndex].X, gGameObjects[aIndex].Y,
+			lpObj->X, lpObj->Y,
 			this->m_QuestNPCTeleportPos[tableindex].x,
 			this->m_QuestNPCTeleportPos[tableindex].y,
-			gGameObjects[aIndex].Class);
+			lpObj->Class);
 
-		gGameObjects[aIndex].X = this->m_QuestNPCTeleportPos[tableindex].x;
-		gGameObjects[aIndex].Y = this->m_QuestNPCTeleportPos[tableindex].y;
-		gGameObjects[aIndex].TX = gGameObjects[aIndex].X;
-		gGameObjects[aIndex].TY = gGameObjects[aIndex].Y;
-		gGameObjects[aIndex].MTX = gGameObjects[aIndex].X;
-		gGameObjects[aIndex].MTY = gGameObjects[aIndex].Y;
-		gGameObjects[aIndex].m_OldX = gGameObjects[aIndex].TX;
-		gGameObjects[aIndex].m_OldY = gGameObjects[aIndex].TY;
-		gGameObjects[aIndex].MapNumber = this->m_QuestNPCTeleportPos[tableindex].mapnum;
-		gGameObjects[aIndex].Dir = this->m_QuestNPCTeleportPos[tableindex].dir;
-		gGameObjects[aIndex].StartX = gGameObjects[aIndex].X;
-		gGameObjects[aIndex].StartY = gGameObjects[aIndex].Y;
-		gGameObjects[aIndex].m_State = 1;
-		gGameObjects[aIndex].PathCount = 0;
+		lpObj->X = this->m_QuestNPCTeleportPos[tableindex].x;
+		lpObj->Y = this->m_QuestNPCTeleportPos[tableindex].y;
+		lpObj->TX = lpObj->X;
+		lpObj->TY = lpObj->Y;
+		lpObj->MTX = lpObj->X;
+		lpObj->MTY = lpObj->Y;
+		lpObj->m_OldX = lpObj->TX;
+		lpObj->m_OldY = lpObj->TY;
+		lpObj->MapNumber = this->m_QuestNPCTeleportPos[tableindex].mapnum;
+		lpObj->Dir = this->m_QuestNPCTeleportPos[tableindex].dir;
+		lpObj->StartX = lpObj->X;
+		lpObj->StartY = lpObj->Y;
+		lpObj->m_State = 1;
+		lpObj->PathCount = 0;
 
 		sLog->outBasic("[Quest] %s Teleport MAP : %s", this->m_strNPCName.c_str(), Lang.GetMap(0, this->m_QuestNPCTeleportPos[tableindex].mapnum));
 	}

@@ -181,7 +181,7 @@ int CBag::GetDropSection(LPGameObject &lpObj, BAG_SECTION_DROP &pRetDrop)
 		return FALSE;
 	}
 
-	if (gGameObjects[aIndex].Type != OBJ_USER)
+	if (lpObj->Type != OBJ_USER)
 	{
 		return FALSE;
 	}
@@ -429,7 +429,7 @@ void CBag::DropSummonItem(int aIndex)
 			return;
 		}
 
-		ItemSerialCreateSend(aIndex, gGameObjects[aIndex].MapNumber, gGameObjects[aIndex].X, gGameObjects[aIndex].Y, iType, 0, -1, 0, 0, 0, aIndex, 0, 0, 0, 0, 0);
+		ItemSerialCreateSend(aIndex, lpObj->MapNumber, lpObj->X, lpObj->Y, iType, 0, -1, 0, 0, 0, aIndex, 0, 0, 0, 0, 0);
 	}
 }
 

@@ -728,7 +728,7 @@ void CEvolutionMonsterMng::GCSendUserScore(OBJECTSTRUCT * lpObj, int nScore)
 	PHeadSubSetB((LPBYTE)&pMsg, 0x3E, 0x11, sizeof(pMsg));
 
 	pMsg.wScore = nScore;
-	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void CEvolutionMonsterMng::GCSendEvoMonNotice(int aIndex)
@@ -940,7 +940,7 @@ void CEvolutionMonsterMng::GDReqEvoMonMaxScore(int aIndex)
 	PHeadSubSetB((LPBYTE)&pMsg, 0x3E, 0x00, sizeof(pMsg));
 
 	pMsg.nUserIndex = aIndex;
-	memcpy(pMsg.szName, gGameObjects[aIndex].Name, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.szName, lpObj->Name, MAX_ACCOUNT_LEN + 1);
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
@@ -972,7 +972,7 @@ void CEvolutionMonsterMng::GDReqSaveEvoMonScore(LPGameObject &lpObj, int nScore,
 	PMSG_REQ_SAVE_EVOMON_RESULT pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x3E, 0x01, sizeof(pMsg));
 
-	memcpy(pMsg.szName, gGameObjects[aIndex].Name, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.szName, lpObj->Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.nUserIndex = aIndex;
 	pMsg.nScore = nScore;
 	pMsg.nTotalDamage = nTotalDamage;

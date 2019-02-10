@@ -970,7 +970,7 @@ void CIllusionTempleLeagueEvent::Send_ITL_Tournament(LPGameObject &lpObj, BYTE b
 	memcpy(sendbuf, &pMsg, sizeof(pMsg));
 
 	IOCP.DataSend(aIndex, (LPBYTE)sendbuf, lOfs);
-	gGameObjects[aIndex].m_bITL_TournamentInfoSend = true;
+	lpObj->m_bITL_TournamentInfoSend = true;
 }
 
 void CIllusionTempleLeagueEvent::Send_ITL_GuildRankInfo(int aIndex)
@@ -1003,7 +1003,7 @@ void CIllusionTempleLeagueEvent::Send_ITL_GuildRankInfo(int aIndex)
 
 	memcpy(sendbuf, &pMsg, sizeof(pMsg));
 	IOCP.DataSend(aIndex, (LPBYTE)sendbuf, lOfs);
-	gGameObjects[aIndex].m_bITL_GuildRankInfoSend = true;
+	lpObj->m_bITL_GuildRankInfoSend = true;
 }
 
 bool CIllusionTempleLeagueEvent::IsRewardRenewDay()

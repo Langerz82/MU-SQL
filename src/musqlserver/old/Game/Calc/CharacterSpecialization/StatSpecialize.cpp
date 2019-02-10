@@ -218,7 +218,7 @@ void CStatSpecialize::SendOptionList(OBJECTSTRUCT *lpObj)
 		 }
 	 }
 
-	 IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+	 IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

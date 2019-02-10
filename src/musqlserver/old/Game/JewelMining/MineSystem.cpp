@@ -206,9 +206,9 @@ void CMineSystem::CheckIsUPTUserWhenDisconnected(int aIndex)
 	if (it->second.iCurrentStage > 0)
 	{
 		sLog->outBasic("[MineSystem][CheckIsUPTUserWhenDisconnect][Request Insert Reward][%s][%s][Type:%d][Index:%d][Stage:%d]",
-			gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
+			lpObj->AccountID, lpObj->Name, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
-		this->RequestDBToModifyUPTUserInfo(aIndex, gGameObjects[aIndex].Name, it->second.wTwinkleType, it->second.iCurrentStage, 0);
+		this->RequestDBToModifyUPTUserInfo(aIndex, lpObj->Name, it->second.wTwinkleType, it->second.iCurrentStage, 0);
 	}
 
 	this->ResetTwinkleInfo(aIndex, it->second.wTwinkleIndex, 0);
@@ -224,7 +224,7 @@ void CMineSystem::CheckIsUPTUserWhenConnect(int aIndex)
 	SDHP_REQ_LOAD_MINESYSTEM_UPT_USERINFO pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x4C, 0x01, sizeof(pMsg));
 	
-	memcpy(pMsg.szCharName, gGameObjects[aIndex].Name, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.szCharName, lpObj->Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.wUserIndex = aIndex;
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
@@ -238,31 +238,31 @@ void CMineSystem::GiveRewardItemToUPTUser(LPGameObject &lpObj, WORD wTwinkleType
 	}
 
 	sLog->outBasic("[MineSystem][GiveRewardItemToUPTUser][START][%s][%s][Type:%d][Stage:%d]",
-		gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, wTwinkleType, iStage);
+		lpObj->AccountID, lpObj->Name, wTwinkleType, iStage);
 
 	if (this->GiveRewardItem(aIndex, wTwinkleType, iStage, 0))
 	{
 		sLog->outBasic("[MineSystem][GiveRewardItemToUPTUser][END][%s][%s][Type:%d][Stage:%d]",
-			gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, wTwinkleType, iStage);
+			lpObj->AccountID, lpObj->Name, wTwinkleType, iStage);
 
-		this->RequestDBToModifyUPTUserInfo(aIndex, gGameObjects[aIndex].Name, 0, 0, 1);
+		this->RequestDBToModifyUPTUserInfo(aIndex, lpObj->Name, 0, 0, 1);
 	}
 
 	else
 	{
 		sLog->outBasic("[MineSystem][GiveRewardItemToUPTUser][ERROR][%s][%s][Type:%d][Stage:%d]",
-			gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, wTwinkleType, iStage);
+			lpObj->AccountID, lpObj->Name, wTwinkleType, iStage);
 	}
 }
 
 void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, int aIndex)
 {
-	if (gGameObjects[aIndex].Type != OBJ_USER)
+	if (lpObj->Type != OBJ_USER)
 	{
 		return;
 	}
 
-	if (gGameObjects[aIndex].m_PlayerData->m_ReqWarehouseOpen || gGameObjects[aIndex].CloseType != -1)
+	if (lpObj->m_PlayerData->m_ReqWarehouseOpen || lpObj->CloseType != -1)
 	{
 		return;
 	}
@@ -275,17 +275,17 @@ void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, int aIndex)
 		std::map<int, _ST_MINESYSTEM_TWINKLE>::iterator it = this->m_mapTwinkle.find(lpMsg->wTwinkleIndex);
 		std::map<int, _ST_MINESYSTEM_MINE_SUCCESS_INFO>::iterator itMineSuccessInfo = this->m_mapMineSuccessInfo.find(lpMsg->wTwinkleType);
 
-		if (gGameObjects[aIndex].pInventory[0].m_Durability >= itMineSuccessInfo->second.iDurabilityDecrement)
+		if (lpObj->pInventory[0].m_Durability >= itMineSuccessInfo->second.iDurabilityDecrement)
 		{
-			gGameObjects[aIndex].pInventory[0].m_Durability -= itMineSuccessInfo->second.iDurabilityDecrement;
-			GSProtocol.GCItemDurSend(aIndex, 0, gGameObjects[aIndex].pInventory[0].m_Durability, 0);
+			lpObj->pInventory[0].m_Durability -= itMineSuccessInfo->second.iDurabilityDecrement;
+			GSProtocol.GCItemDurSend(aIndex, 0, lpObj->pInventory[0].m_Durability, 0);
 
 			if (this->SuccessOrFailure(it->second.wTwinkleType, it->second.iCurrentStage))
 			{
 				it->second.bIsDominated = true;
 				it->second.wUserIndex = lpMsg->wUserIndex;
 
-				gGameObjects[aIndex].m_PlayerData->m_bIsMining = true;
+				lpObj->m_PlayerData->m_bIsMining = true;
 
 				it->second.iCurrentStage++;
 
@@ -326,7 +326,7 @@ void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, int aIndex)
 				int iTotalUseDurability = itMineSuccessInfo->second.iDurabilityDecrement * (it->second.iCurrentStage + 1);
 
 				sLog->outBasic("[MineSystem][MineTwinkle][FAIL][%s][%s][Type:%d][Index:%d][Stage:%d][TotalDecrementDur:%d]",
-					gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage, iTotalUseDurability);
+					lpObj->AccountID, lpObj->Name, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage, iTotalUseDurability);
 
 				this->ResetTwinkleInfo(aIndex, it->second.wTwinkleIndex, 1);
 			}
@@ -348,7 +348,7 @@ void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, int aIndex)
 		else
 		{
 			sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_LACK_OF_PICKAX_DURABILITY][%s][%s][Type:%d][Index:%d][Stage:%d]",
-				gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
+				lpObj->AccountID, lpObj->Name, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 			PMSG_ANS_MINETWINKLE pMsg;
 			PHeadSubSetB((LPBYTE)&pMsg, 0x4C, 0x00, sizeof(pMsg));
@@ -428,22 +428,22 @@ void CMineSystem::RewardMineTwinkle(PMSG_REQ_MINETWINKLE_REWARD *lpMsg, int aInd
 				PHeadSubSetB((LPBYTE)&ServerCmd, 0xF3, 0x40, sizeof(ServerCmd));
 
 				ServerCmd.CmdType = 0;
-				ServerCmd.X = gGameObjects[aIndex].X;
-				ServerCmd.Y = gGameObjects[aIndex].Y;
+				ServerCmd.X = lpObj->X;
+				ServerCmd.Y = lpObj->Y;
 				GSProtocol.MsgSendV2(&gGameObjects[aIndex], (LPBYTE)&ServerCmd, sizeof(ServerCmd));
 				IOCP.DataSend(aIndex, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
 			}
 
 			iRewardResult = 3;
 			sLog->outBasic("[MineSystem][RewardMineTwinkle][GiveRewardItem][END][%s][%s][Type:%d][Index:%d][Stage:%d]",
-				gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
+				lpObj->AccountID, lpObj->Name, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 		}
 
 		else
 		{
 			iRewardResult = 4;
 			sLog->outBasic("[MineSystem][RewardMineTwinkle][GiveRewardItem][ERROR][%s][%s][Type:%d][Index:%d][Stage:%d]",
-				gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
+				lpObj->AccountID, lpObj->Name, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 		}
 	}
 
@@ -641,12 +641,12 @@ void CMineSystem::SetTwinkleInfo(int aIndex)
 		return;
 	}
 
-	//sLog->outBasic("[MineSystem][SetTwinkleInfo][SUCCESS][Type:%d][Index:%d]",	gGameObjects[aIndex].Class, aIndex);
+	//sLog->outBasic("[MineSystem][SetTwinkleInfo][SUCCESS][Type:%d][Index:%d]",	lpObj->Class, aIndex);
 
 	memset(&it->second, 0, sizeof(it->second));
 	it->second.wTwinkleIndex = aIndex;
-	it->second.wTwinkleType = gGameObjects[aIndex].Class;
-	it->second.byMapNumber = gGameObjects[aIndex].MapNumber;
+	it->second.wTwinkleType = lpObj->Class;
+	it->second.byMapNumber = lpObj->MapNumber;
 }
 
 BOOL CMineSystem::SuccessOrFailure(WORD wType, int iStage)
@@ -696,7 +696,7 @@ BOOL CMineSystem::IsTwinkle(WORD wClass)
 
 BOOL CMineSystem::IsEquipPickax(int aIndex)
 {
-	return gGameObjects[aIndex].pInventory[0].m_Type == ITEMGET(0, 41);
+	return lpObj->pInventory[0].m_Type == ITEMGET(0, 41);
 }
 
 BOOL CMineSystem::IsPickax(WORD wItemType)
@@ -725,7 +725,7 @@ void CMineSystem::ResetTwinkleInfo(LPGameObject &lpObj, WORD wTwinkleIndex, bool
 		gObjLifeCheck(&gGameObjects[wTwinkleIndex], &gGameObjects[aIndex], 0, 1, 0, 0, 0, 0, 0);
 	}
 
-	gGameObjects[aIndex].m_PlayerData->m_bIsMining = false;
+	lpObj->m_PlayerData->m_bIsMining = false;
 }
 
 BOOL CMineSystem::CheckValidationMineState(LPGameObject &lpObj, WORD wTwinkleIndex, WORD wTwinkleType, BYTE byMapNumber, WORD wUserIndex, int *iResult, bool bRewardCheck)
@@ -741,7 +741,7 @@ BOOL CMineSystem::CheckValidationMineState(LPGameObject &lpObj, WORD wTwinkleInd
 	if (!ObjectMaxRange(wUserIndex) || aIndex != wUserIndex)
 	{
 		sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_INVALID_USERINDEX][%s][%s][Map:%d][Type:%d]",
-			gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, byMapNumber, wTwinkleIndex);
+			lpObj->AccountID, lpObj->Name, byMapNumber, wTwinkleIndex);
 
 		*iResult = 20;
 		GSProtocol.GCSendDisableReconnect(aIndex);
@@ -754,7 +754,7 @@ BOOL CMineSystem::CheckValidationMineState(LPGameObject &lpObj, WORD wTwinkleInd
 	if (it == this->m_mapTwinkle.end())
 	{
 		sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_INVALID_TWINKLE_INDEX][%s][%s][Map:%d][Index:%d][Type:%d]",
-			gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, byMapNumber, wTwinkleIndex, wTwinkleType);
+			lpObj->AccountID, lpObj->Name, byMapNumber, wTwinkleIndex, wTwinkleType);
 
 		*iResult = 14;
 		GSProtocol.GCSendDisableReconnect(aIndex);
@@ -767,7 +767,7 @@ BOOL CMineSystem::CheckValidationMineState(LPGameObject &lpObj, WORD wTwinkleInd
 		if (!this->IsEquipPickax(aIndex))
 		{
 			sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_NOT_EQUIPT_PICKAX][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
-				gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
+				lpObj->AccountID, lpObj->Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 			*iResult = 7;
 			GSProtocol.GCSendDisableReconnect(aIndex);
@@ -775,28 +775,28 @@ BOOL CMineSystem::CheckValidationMineState(LPGameObject &lpObj, WORD wTwinkleInd
 			return FALSE;
 		}
 
-		if (gGameObjects[aIndex].pInventory[10].IsItem() == TRUE)
+		if (lpObj->pInventory[10].IsItem() == TRUE)
 		{
-			LPITEM_ATTRIBUTE p = &ItemAttribute[gGameObjects[aIndex].pInventory[10].m_Type];
+			LPITEM_ATTRIBUTE p = &ItemAttribute[lpObj->pInventory[10].m_Type];
 
 			if (p->ItemKindB == 33)
 			{
 				sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_EQUIP_TRANSFORM_RING][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
-					gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
+					lpObj->AccountID, lpObj->Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 				*iResult = 10;
 				return FALSE;
 			}
 		}
 
-		if (gGameObjects[aIndex].pInventory[11].IsItem() == TRUE)
+		if (lpObj->pInventory[11].IsItem() == TRUE)
 		{
-			LPITEM_ATTRIBUTE p = &ItemAttribute[gGameObjects[aIndex].pInventory[11].m_Type];
+			LPITEM_ATTRIBUTE p = &ItemAttribute[lpObj->pInventory[11].m_Type];
 
 			if (p->ItemKindB == 33)
 			{
 				sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_EQUIP_TRANSFORM_RING][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
-					gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
+					lpObj->AccountID, lpObj->Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 				*iResult = 10;
 				return FALSE;
@@ -804,10 +804,10 @@ BOOL CMineSystem::CheckValidationMineState(LPGameObject &lpObj, WORD wTwinkleInd
 		}
 	}
 
-	if (gGameObjects[aIndex].pTransaction == 1 || gGameObjects[aIndex].m_bPShopTransaction == true || gGameObjects[aIndex].m_bPShopWantDeal == true)
+	if (lpObj->pTransaction == 1 || lpObj->m_bPShopTransaction == true || lpObj->m_bPShopWantDeal == true)
 	{
 		sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_REQUEST_TRADE][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
-			gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
+			lpObj->AccountID, lpObj->Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 		*iResult = 12;
 
@@ -823,10 +823,10 @@ BOOL CMineSystem::CheckValidationMineState(LPGameObject &lpObj, WORD wTwinkleInd
 		return FALSE;
 	}
 
-	if (gGameObjects[aIndex].m_bPShopOpen == true)
+	if (lpObj->m_bPShopOpen == true)
 	{
 		sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_OPEN_PSHOP][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
-			gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
+			lpObj->AccountID, lpObj->Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 		*iResult = 13;
 
@@ -842,11 +842,11 @@ BOOL CMineSystem::CheckValidationMineState(LPGameObject &lpObj, WORD wTwinkleInd
 		return FALSE;
 	}
 
-	int iTotalInvenCount = 8 * (4 * gGameObjects[aIndex].m_PlayerData->m_InventoryExpansion + 8);
+	int iTotalInvenCount = 8 * (4 * lpObj->m_PlayerData->m_InventoryExpansion + 8);
 
 	for (int x = 0; x < iTotalInvenCount; x++)
 	{
-		if (gGameObjects[aIndex].pInventoryMap[x] == 0xFF)
+		if (lpObj->pInventoryMap[x] == 0xFF)
 		{
 			iEmptyInvenSize++;
 		}
@@ -855,7 +855,7 @@ BOOL CMineSystem::CheckValidationMineState(LPGameObject &lpObj, WORD wTwinkleInd
 	if (iEmptyInvenSize < 40)
 	{
 		sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_LACK_OF_INVENTORY][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
-			gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
+			lpObj->AccountID, lpObj->Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 		*iResult = 11;
 		return FALSE;
@@ -864,7 +864,7 @@ BOOL CMineSystem::CheckValidationMineState(LPGameObject &lpObj, WORD wTwinkleInd
 	if (it->second.bIsDominated == true && aIndex != it->second.wUserIndex)
 	{
 		sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_DOMINATED_OTHER_USER][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
-			gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
+			lpObj->AccountID, lpObj->Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 		*iResult = 8;
 		return FALSE;
@@ -889,7 +889,7 @@ BOOL CMineSystem::CheckValidationMineState(LPGameObject &lpObj, WORD wTwinkleInd
 		if (iDominateTwinkleCount > 1)
 		{
 			sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_DOMINATED_OTHER_TWINKLE][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
-				gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
+				lpObj->AccountID, lpObj->Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 			*iResult = 9;
 
@@ -920,7 +920,7 @@ BOOL CMineSystem::CheckValidationMineState(LPGameObject &lpObj, WORD wTwinkleInd
 	if (wTwinkleType != it->second.wTwinkleType)
 	{
 		sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_NOT_MATCH_TWINKLE_TYPE][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
-			gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
+			lpObj->AccountID, lpObj->Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 		*iResult = 17;
 
@@ -951,7 +951,7 @@ BOOL CMineSystem::CheckValidationMineState(LPGameObject &lpObj, WORD wTwinkleInd
 	if (it->second.iCurrentStage < 0 || it->second.iCurrentStage > 5)
 	{
 		sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_INVALID_STAGE][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
-			gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
+			lpObj->AccountID, lpObj->Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 		*iResult = 19;
 
@@ -964,10 +964,10 @@ BOOL CMineSystem::CheckValidationMineState(LPGameObject &lpObj, WORD wTwinkleInd
 		return FALSE;
 	}
 
-	if (byMapNumber != it->second.byMapNumber || gGameObjects[aIndex].MapNumber != it->second.byMapNumber)
+	if (byMapNumber != it->second.byMapNumber || lpObj->MapNumber != it->second.byMapNumber)
 	{
 		sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_NOT_MATCH_MAPNUMBER][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
-			gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
+			lpObj->AccountID, lpObj->Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 		*iResult = 16;
 
@@ -980,11 +980,11 @@ BOOL CMineSystem::CheckValidationMineState(LPGameObject &lpObj, WORD wTwinkleInd
 		return FALSE;
 	}
 
-	if (abs(gGameObjects[aIndex].X - gGameObjects[wTwinkleIndex].X) > 3 ||
-		abs(gGameObjects[aIndex].Y - gGameObjects[wTwinkleIndex].Y) > 3)
+	if (abs(lpObj->X - gGameObjects[wTwinkleIndex].X) > 3 ||
+		abs(lpObj->Y - gGameObjects[wTwinkleIndex].Y) > 3)
 	{
 		sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_INVALID_DISTANCE][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
-			gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
+			lpObj->AccountID, lpObj->Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 		*iResult = 21;
 
@@ -1002,7 +1002,7 @@ BOOL CMineSystem::CheckValidationMineState(LPGameObject &lpObj, WORD wTwinkleInd
 
 BOOL CMineSystem::GiveRewardItem(LPGameObject &lpObj, WORD wTwinkleType, int iStage, int bNotify)
 {
-	if (gGameObjects[aIndex].Type != OBJ_USER || gGameObjects[aIndex].Connected != PLAYER_PLAYING)
+	if (lpObj->Type != OBJ_USER || lpObj->Connected != PLAYER_PLAYING)
 	{
 		return FALSE;
 	}
@@ -1019,7 +1019,7 @@ BOOL CMineSystem::GiveRewardItem(LPGameObject &lpObj, WORD wTwinkleType, int iSt
 		bIsNotifyAllUser = true;
 
 		sLog->outBasic("[MineSystem][GiveRewardItem][Miracle][TwinkleType:%d][Stage:%d][%s][%s]",
-			wTwinkleType, iStage, gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name);
+			wTwinkleType, iStage, lpObj->AccountID, lpObj->Name);
 	}
 
 	else
@@ -1033,7 +1033,7 @@ BOOL CMineSystem::GiveRewardItem(LPGameObject &lpObj, WORD wTwinkleType, int iSt
 		if (itDropInformation->wTwinkleType == wTwinkleType && itDropInformation->iStage == iStage)
 		{
 			sLog->outBasic("[MineSystem][GiveRewardItem][START][%s][%s][Type:%d][Stage:%d][ItemType:%d][ItemIndex:%d][Count:%d]",
-				gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, wTwinkleType, iStage, itDropInformation->wType, itDropInformation->wIndex, itDropInformation->iTotalJewelNumber);
+				lpObj->AccountID, lpObj->Name, wTwinkleType, iStage, itDropInformation->wType, itDropInformation->wIndex, itDropInformation->iTotalJewelNumber);
 			
 			bGaveReward = true;
 
@@ -1050,7 +1050,7 @@ BOOL CMineSystem::GiveRewardItem(LPGameObject &lpObj, WORD wTwinkleType, int iSt
 				{
 					ItemSerialCreateSend(aIndex, 223, 0, 0, ITEMGET(itDropItem->iItemType, itDropItem->iItemIndex), itDropItem->iLevel, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0);
 					sLog->outBasic("[MineSystem][GiveRewardItem][%s][%s][Item Type:%d][Index:%d][Level:%d]",
-						gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, itDropItem->iItemType, itDropItem->iItemIndex, itDropItem->iLevel);
+						lpObj->AccountID, lpObj->Name, itDropItem->iItemType, itDropItem->iItemIndex, itDropItem->iLevel);
 				}
 
 				itDropItem++;
@@ -1062,12 +1062,12 @@ BOOL CMineSystem::GiveRewardItem(LPGameObject &lpObj, WORD wTwinkleType, int iSt
 
 	if (bIsNotifyAllUser == true && bNotify == true)
 	{
-		std::map<int, std::string>::iterator itMapName = this->m_mapMapName.find(gGameObjects[aIndex].MapNumber);
+		std::map<int, std::string>::iterator itMapName = this->m_mapMapName.find(lpObj->MapNumber);
 
 		if (itMapName != this->m_mapMapName.end())
 		{
 			char szTemp[256];
-			sprintf(Lang.GetText(0,588), gGameObjects[aIndex].Name, ItemAttribute[ITEMGET(itDropInformation->wType, itDropInformation->wIndex)].Name,
+			sprintf(Lang.GetText(0,588), lpObj->Name, ItemAttribute[ITEMGET(itDropInformation->wType, itDropInformation->wIndex)].Name,
 				itDropInformation->iTotalJewelNumber, g_ConfigRead.server.GetGameServerCode() % 20 + 1, itMapName->second.c_str());
 
 			GS_GDReqMapSvrMsgMultiCast(g_MapServerManager.GetMapSvrGroup(), szTemp);

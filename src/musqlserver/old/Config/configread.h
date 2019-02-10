@@ -4,53 +4,7 @@
 #define CONFIGREAD_H
 
 #include "StdAfx.h"
-//#include "classdef.h"
-//#include "Logging/Log.h"
-//#include "Logging/Log.h"
-//#include "MuLua.h"
-//#include "MapClass.h"
-//#include <string>
-//#include <vector>
 
-
-#define MAX_VIP 4
-
-enum DISABLE_MSB_DAMAGE_EFFECT
-{
-	MSB_DISABLE_MONSTER = 0,
-	MSB_DISABLE_CHARACTER = 1,
-	MSB_DISABLE_CHARACTER_FENRIR = 2
-};
-
-enum SERVER_TYPE
-{
-	SERVER_NORMAL = 0,
-	SERVER_CASTLE = 1,
-	SERVER_ARCA = 2,
-	SERVER_BATTLECORE = 3
-};
-
-enum MU_EVENT_TABLE
-{
-	EV_TABLE_BC = 0,
-	EV_TABLE_DS = 1,
-	EV_TABLE_CC = 2,
-	EV_TABLE_IT = 3,
-	EV_TABLE_CS = 4,
-	EV_TABLE_DEEP = 5,
-	EV_TABLE_CW = 6,
-	EV_TABLE_KANTURU = 7,
-	EV_TABLE_RAKLION = 8,
-	EV_TABLE_DG = 9,
-	EV_TABLE_IF = 10,
-	EV_TABLE_RING = 11,
-	EV_TABLE_XMAS = 12,
-	EV_TABLE_ARCA = 13,
-	EV_TABLE_ACHERON = 14,
-	EV_TABLE_CCF = 15,
-	EV_TABLE_DSF = 16,
-	EV_TABLE_LMS = 17
-};
 
 struct SERVER_CONFIG
 {
@@ -851,11 +805,8 @@ public:
 
 	//MULua m_ItemCalcLua; // Not sure if needed.
 
-}; extern CConfigread g_ConfigRead;
+};
+
+extern CConfigread g_ConfigRead;
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

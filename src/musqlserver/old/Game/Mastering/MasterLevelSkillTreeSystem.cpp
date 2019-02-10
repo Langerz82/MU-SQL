@@ -1076,7 +1076,7 @@ void CMasterLevelSkillTreeSystem::CGReqGetMasterLevelSkill(PMSG_REQ_MASTERLEVEL_
 		return;
 	}
 
-	if (gGameObjects[aIndex].Type != OBJ_USER)
+	if (lpObj->Type != OBJ_USER)
 	{
 		return;
 	}
@@ -2980,7 +2980,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenSpear(LPGameObject &lpObj, 
 	}
 
 	int DuelIndex = lpObj->m_iDuelUser;
-	int iangle = this->MLS_GetAngle(gGameObjects[aIndex].X, gGameObjects[aIndex].Y, gGameObjects[aTargetIndex].X, gGameObjects[aTargetIndex].Y);
+	int iangle = this->MLS_GetAngle(lpObj->X, lpObj->Y, gGameObjects[aTargetIndex].X, gGameObjects[aTargetIndex].Y);
 	int tObjNum;
 	BOOL EnableAttack;
 
@@ -3031,7 +3031,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenSpear(LPGameObject &lpObj, 
 
 				if (EnableAttack == TRUE)
 				{
-					if (SkillSpearHitBox.HitCheck(iangle, gGameObjects[aIndex].X, gGameObjects[aIndex].Y, gGameObjects[tObjNum].X, gGameObjects[tObjNum].Y) == TRUE)
+					if (SkillSpearHitBox.HitCheck(iangle, lpObj->X, lpObj->Y, gGameObjects[tObjNum].X, gGameObjects[tObjNum].Y) == TRUE)
 					{
 						gObjAttack(lpObj, &gGameObjects[tObjNum], lpMagic, 0, 1, 0, 0, 0, 0);
 					}
@@ -3186,7 +3186,7 @@ void CMasterLevelSkillTreeSystem::MLS_KnightBlow(LPGameObject &lpObj, int aTarge
 {
 	CGameObject* lpObj = &gGameObjects[aIndex];
 
-	float fangle = this->MLS_GetAngle(gGameObjects[aIndex].X, gGameObjects[aIndex].Y, gGameObjects[aTargetIndex].X, gGameObjects[aTargetIndex].Y);
+	float fangle = this->MLS_GetAngle(lpObj->X, lpObj->Y, gGameObjects[aTargetIndex].X, gGameObjects[aTargetIndex].Y);
 
 	float fDistance = MagicDamageC.GetSkillDistance(lpMagic->m_Skill) + 1.0;
 	this->MLS_SkillFrustrum(aIndex, fangle, 1.5, fDistance);
@@ -3785,7 +3785,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMonkBarrageJustOneTarget(LPGameObject
 
 	if (ObjectMaxRange(aTargetIndex) == FALSE)
 	{
-		sLog->outBasic("[InvalidTargetIndex][MLS_SkillMonkBarrageJustOneTarget] Index :%d , AccountID : %s", aIndex, gGameObjects[aIndex].AccountID);
+		sLog->outBasic("[InvalidTargetIndex][MLS_SkillMonkBarrageJustOneTarget] Index :%d , AccountID : %s", aIndex, lpObj->AccountID);
 		return;
 	}
 
@@ -4548,22 +4548,22 @@ void CMasterLevelSkillTreeSystem::MLS_SkillCure(LPGameObject &lpObj, CMagicInf *
 
 void CMasterLevelSkillTreeSystem::MLS_SkillMonsterCall(LPGameObject &lpObj, int MonsterType, int x, int y)
 {
-	if (gGameObjects[aIndex].Type != OBJ_USER)
+	if (lpObj->Type != OBJ_USER)
 	{
 		return;
 	}
 
-	if (gGameObjects[aIndex].MapNumber == MAP_INDEX_ICARUS)
+	if (lpObj->MapNumber == MAP_INDEX_ICARUS)
 	{
 		return;
 	}
 
-	if (CC_MAP_RANGE(gGameObjects[aIndex].MapNumber) || gGameObjects[aIndex].MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
+	if (CC_MAP_RANGE(lpObj->MapNumber) || lpObj->MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 	{
 		return;
 	}
 
-	if (gGameObjects[aIndex].m_RecallMon >= 0)
+	if (lpObj->m_RecallMon >= 0)
 	{
 		GSProtocol.GCRecallMonLife(aIndex, 60, 0);
 		gObjMonsterCallKill(aIndex);
@@ -4579,7 +4579,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMonsterCall(LPGameObject &lpObj, int 
 		gGameObjects[result].MTX = x;
 		gGameObjects[result].MTY = y;
 		gGameObjects[result].Dir = 2;
-		gGameObjects[result].MapNumber = gGameObjects[aIndex].MapNumber;
+		gGameObjects[result].MapNumber = lpObj->MapNumber;
 		gObjSetMonster(result, MonsterType);
 		gGameObjects[result].m_RecallMon = aIndex;
 		gGameObjects[result].m_Attribute = 100;
@@ -4589,24 +4589,24 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMonsterCall(LPGameObject &lpObj, int 
 		gGameObjects[result].m_ActState.EmotionCount = 0;
 		gGameObjects[result].PathCount = 0;
 
-		gGameObjects[aIndex].m_RecallMon = result;
+		lpObj->m_RecallMon = result;
 		gGameObjects[result].m_MoveRange = 15;
 
-		if (gGameObjects[aIndex].m_PlayerData->m_MPSkillOpt.iMpsCallMonHp > 0.0)
+		if (lpObj->m_PlayerData->m_MPSkillOpt.iMpsCallMonHp > 0.0)
 		{
-			gGameObjects[result].Life += gGameObjects[result].Life * gGameObjects[aIndex].m_PlayerData->m_MPSkillOpt.iMpsCallMonHp / 100.0;
-			gGameObjects[result].MaxLife += gGameObjects[result].MaxLife * gGameObjects[aIndex].m_PlayerData->m_MPSkillOpt.iMpsCallMonHp / 100.0;
+			gGameObjects[result].Life += gGameObjects[result].Life * lpObj->m_PlayerData->m_MPSkillOpt.iMpsCallMonHp / 100.0;
+			gGameObjects[result].MaxLife += gGameObjects[result].MaxLife * lpObj->m_PlayerData->m_MPSkillOpt.iMpsCallMonHp / 100.0;
 		}
 
-		if (gGameObjects[aIndex].m_PlayerData->m_MPSkillOpt.iMpsCallMonDefense > 0.0)
+		if (lpObj->m_PlayerData->m_MPSkillOpt.iMpsCallMonDefense > 0.0)
 		{
-			gGameObjects[result].m_Defense += gGameObjects[result].m_Defense * gGameObjects[aIndex].m_PlayerData->m_MPSkillOpt.iMpsCallMonDefense / 100.0;
+			gGameObjects[result].m_Defense += gGameObjects[result].m_Defense * lpObj->m_PlayerData->m_MPSkillOpt.iMpsCallMonDefense / 100.0;
 		}
 
-		if (gGameObjects[aIndex].m_PlayerData->m_MPSkillOpt.iMpsCallMonAttack > 0.0)
+		if (lpObj->m_PlayerData->m_MPSkillOpt.iMpsCallMonAttack > 0.0)
 		{
-			gGameObjects[result].m_AttackDamageMin += gGameObjects[result].m_AttackDamageMin * gGameObjects[aIndex].m_PlayerData->m_MPSkillOpt.iMpsCallMonAttack / 100.0;
-			gGameObjects[result].m_AttackDamageMax += gGameObjects[result].m_AttackDamageMax * gGameObjects[aIndex].m_PlayerData->m_MPSkillOpt.iMpsCallMonAttack / 100.0;
+			gGameObjects[result].m_AttackDamageMin += gGameObjects[result].m_AttackDamageMin * lpObj->m_PlayerData->m_MPSkillOpt.iMpsCallMonAttack / 100.0;
+			gGameObjects[result].m_AttackDamageMax += gGameObjects[result].m_AttackDamageMax * lpObj->m_PlayerData->m_MPSkillOpt.iMpsCallMonAttack / 100.0;
 		}
 
 		GSProtocol.GCRecallMonLife(gGameObjects[result].m_RecallMon, gGameObjects[result].MaxLife, gGameObjects[result].Life);
@@ -5054,7 +5054,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillfulKnightBlow(LPGameObject &lpObj, in
 	CGameObject* lpObj = &gGameObjects[aIndex];
 	CGameObject* lpTargetObj = &gGameObjects[aTargetIndex];
 
-	float fangle = this->MLS_GetAngle(gGameObjects[aIndex].X, gGameObjects[aIndex].Y, gGameObjects[aTargetIndex].X, gGameObjects[aTargetIndex].Y);
+	float fangle = this->MLS_GetAngle(lpObj->X, lpObj->Y, gGameObjects[aTargetIndex].X, gGameObjects[aTargetIndex].Y);
 
 	float fDistance = MagicDamageC.GetSkillDistance(lpMagic->m_Skill) + 1.0;
 	this->MLS_SkillFrustrum(aIndex, fangle, 1.5, fDistance);
@@ -5180,7 +5180,7 @@ void CMasterLevelSkillTreeSystem::MLS_MasteryKnightBlow(LPGameObject &lpObj, int
 	CGameObject* lpObj = &gGameObjects[aIndex];
 	CGameObject* lpTargetObj = &gGameObjects[aTargetIndex];
 
-	float fangle = this->MLS_GetAngle(gGameObjects[aIndex].X, gGameObjects[aIndex].Y, gGameObjects[aTargetIndex].X, gGameObjects[aTargetIndex].Y);
+	float fangle = this->MLS_GetAngle(lpObj->X, lpObj->Y, gGameObjects[aTargetIndex].X, gGameObjects[aTargetIndex].Y);
 
 	float fDistance = MagicDamageC.GetSkillDistance(lpMagic->m_Skill) + 1.0;
 	this->MLS_SkillFrustrum(aIndex, fangle, 1.5, fDistance);
@@ -6504,7 +6504,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenElectricSpark(LPGameObject 
 				}
 				if (EnableAttack != 0)
 				{
-					if (SkillElectricSparkHitBox.HitCheck(iangle, gGameObjects[aIndex].X, gGameObjects[aIndex].Y, gGameObjects[tObjNum].X, gGameObjects[tObjNum].Y))
+					if (SkillElectricSparkHitBox.HitCheck(iangle, lpObj->X, lpObj->Y, gGameObjects[tObjNum].X, gGameObjects[tObjNum].Y))
 					{
 						delaytime = 500;
 						Hit = 1;
@@ -6926,7 +6926,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillChainLightning(LPGameObject &lpObj, i
 	memcpy(SendByte, &pMsg, sizeof(pMsg));
 
 	if (lpObj->Type == OBJ_USER)
-		IOCP.DataSend(lpObj->m_Index, SendByte, pMsg.h.size);
+		IOCP.DataSend(lpObj, SendByte, pMsg.h.size);
 
 	GSProtocol.MsgSendV2(lpObj, SendByte, pMsg.h.size);
 
@@ -6958,7 +6958,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillLightningShock(LPGameObject &lpObj, i
 			EnableAttack = TRUE;
 		}
 
-		if (gGameObjects[aIndex].Type == OBJ_MONSTER && gGameObjects[index].Type == OBJ_USER) // DoppelGanger Fix
+		if (lpObj->Type == OBJ_MONSTER && gGameObjects[index].Type == OBJ_USER) // DoppelGanger Fix
 		{
 			EnableAttack = TRUE;
 		}
@@ -6990,9 +6990,9 @@ void CMasterLevelSkillTreeSystem::MLS_SkillLightningShock(LPGameObject &lpObj, i
 
 		int summon = aIndex;
 
-		if (gGameObjects[aIndex].Type == OBJ_MONSTER && gGameObjects[aIndex].m_RecallMon >= 0)
+		if (lpObj->Type == OBJ_MONSTER && lpObj->m_RecallMon >= 0)
 		{
-			summon = gGameObjects[aIndex].m_RecallMon;
+			summon = lpObj->m_RecallMon;
 		}
 
 		if (gObjTargetGuildWarCheck(&gGameObjects[summon], lpObj) != 0)

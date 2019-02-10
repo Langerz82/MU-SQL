@@ -80,7 +80,7 @@ void FireworksOpenEven(LPGameObject &lpObj)
 	ServerCmd.Y = lpObj->Y;
 
 	GSProtocol.MsgSendV2(lpObj, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
-	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
+	IOCP.DataSend(lpObj, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
 }
 
 void ChristmasFireCrackDrop(LPGameObject &lpObj) //season 4.5 add-on
@@ -92,7 +92,7 @@ void ChristmasFireCrackDrop(LPGameObject &lpObj) //season 4.5 add-on
 	ServerCmd.X = lpObj->X;
 	ServerCmd.Y = lpObj->Y;
 	GSProtocol.MsgSendV2(lpObj, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
-	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
+	IOCP.DataSend(lpObj, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
 }
 
 #pragma warning ( disable : 4101 )
@@ -109,7 +109,7 @@ void EGRecvEventChipInfo(PMSG_ANS_VIEW_EC_MN * aRecv)
 	lpObj->EventChipCount = aRecv->nEVENT_CHIPS;
 	lpObj->MutoNumber = aRecv->iMUTO_NUM;
 
-	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&eventchipeventinfo, eventchipeventinfo.h.size);
+	IOCP.DataSend(lpObj, (LPBYTE)&eventchipeventinfo, eventchipeventinfo.h.size);
 
 	lpObj->UseEventServer = FALSE;
 }
@@ -245,7 +245,7 @@ void EGRecvStoneInfo( PMSG_ANS_VIEW_STONES* aRecv)
 	Result.Type = 3;
 	Result.ChipCount = aRecv->iStoneCount;
 
-	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&Result, Result.h.size);
+	IOCP.DataSend(lpObj, (LPBYTE)&Result, Result.h.size);
 
 	char msg[128];
 	wsprintf(msg, Lang.GetText(0,78), Result.ChipCount);
@@ -1277,7 +1277,7 @@ void EGAnsRegLuckyCoin(PMSG_ANS_REG_LUCKYCOIN * lpMsg)
 			pMsg.iLuckyCoin = lpMsg->LuckyCoins;
 		}
 	}
-	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 	lpObj->UseEventServer = FALSE;
 }
 
@@ -1293,7 +1293,7 @@ void EGAnsLuckyCoinInfo(PMSG_ANS_LUCKYCOIN *lpMsg)
 	pMsg.iLuckyCoin = lpMsg->LuckyCoins;
 	lpObj->LuckyCoinCount = lpMsg->LuckyCoins;
 
-	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 	lpObj->UseEventServer = FALSE;
 }
 
@@ -1330,7 +1330,7 @@ void EGReqSantaGift(int aIndex)
 	PMSG_REQ_SANTAGIFT pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xBE, 0x21, sizeof(pMsg));
 
-	memcpy(pMsg.AccountID, gGameObjects[aIndex].AccountID, 11);
+	memcpy(pMsg.AccountID, lpObj->AccountID, 11);
 	pMsg.gGameServerCode = g_ConfigRead.server.GetGameServerCode();
 	pMsg.aIndex = aIndex;
 

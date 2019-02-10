@@ -1047,7 +1047,7 @@ BOOL CMuunSystem::MuunItemEquipment(LPGameObject &lpObj, int iPos, int iSource)
 {
 	CGameObject* lpObj = &gGameObjects[aIndex];
 
-	if (gGameObjects[aIndex].Type != OBJ_USER)
+	if (lpObj->Type != OBJ_USER)
 	{
 		return FALSE;
 	}
@@ -1259,7 +1259,7 @@ bool CMuunSystem::GetMuunItemValueOfOptType(OBJECTSTRUCT *lpObj, int iMuunOptInd
 
 			PHeadSubSetB((LPBYTE)&pMsg, 0x4E, 0x12, sizeof(pMsg));
 
-			IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 			GSProtocol.MsgSendV2(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 		}
 
@@ -1299,7 +1299,7 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 	int aIndex = lpMsg->aIndex;
 	char szId[11];
 	szId[MAX_ACCOUNT_LEN] = 0;
-	memcpy(szId, gGameObjects[aIndex].AccountID, MAX_ACCOUNT_LEN);
+	memcpy(szId, lpObj->AccountID, MAX_ACCOUNT_LEN);
 
 	if (ObjectMaxRange(aIndex) == false)
 	{
@@ -1307,21 +1307,21 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 		return;
 	}
 
-	if (gGameObjects[aIndex].m_bMapSvrMoveReq == true)
+	if (lpObj->m_bMapSvrMoveReq == true)
 	{
-		sLog->outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].m_PlayerData->Ip_addr);
+		sLog->outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", lpObj->AccountID, lpObj->m_PlayerData->Ip_addr);
 		return;
 	}
 
-	if (gGameObjects[aIndex].m_State == 32)
+	if (lpObj->m_State == 32)
 	{
-		sLog->outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].m_PlayerData->Ip_addr);
+		sLog->outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", lpObj->AccountID, lpObj->m_PlayerData->Ip_addr);
 		return;
 	}
 
-	if (gGameObjects[aIndex].m_bMapSvrMoveQuit == 1)
+	if (lpObj->m_bMapSvrMoveQuit == 1)
 	{
-		sLog->outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].m_PlayerData->Ip_addr);
+		sLog->outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", lpObj->AccountID, lpObj->m_PlayerData->Ip_addr);
 		return;
 	}
 
@@ -1331,7 +1331,7 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 		return;
 	}
 
-	gGameObjects[aIndex].bMuunInventoryLoad = true;
+	lpObj->bMuunInventoryLoad = true;
 	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	int itype;
@@ -1753,17 +1753,17 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 {
 	int iItemUseType = lpMsg->btItemUseType;
 
-	if (gGameObjects[aIndex].m_IfState.use == 1)
+	if (lpObj->m_IfState.use == 1)
 	{
-		sLog->outBasic("[%s][%s]_If return  %d", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, __LINE__);
+		sLog->outBasic("[%s][%s]_If return  %d", lpObj->AccountID, lpObj->Name, __LINE__);
 		this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 		return;
 	}
 
-	if (gGameObjects[aIndex].CloseType != -1)
+	if (lpObj->CloseType != -1)
 	{
-		sLog->outBasic("[%s][%s] CGMuunInventoryUseItemRecv()_CloseType return %d", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, __LINE__);
+		sLog->outBasic("[%s][%s] CGMuunInventoryUseItemRecv()_CloseType return %d", lpObj->AccountID, lpObj->Name, __LINE__);
 		this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 		return;
@@ -1774,9 +1774,9 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 		sLog->outBasic("[Fix Inv.Ptr] False Location - %d", __LINE__);
 	}
 
-	if (gGameObjects[aIndex].pTransaction == 1)
+	if (lpObj->pTransaction == 1)
 	{
-		sLog->outBasic("[%s][%s] CGUseItemRecv() Failed : Transaction == 1, IF_TYPE : %d", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, gGameObjects[aIndex].m_IfState.type);
+		sLog->outBasic("[%s][%s] CGUseItemRecv() Failed : Transaction == 1, IF_TYPE : %d", lpObj->AccountID, lpObj->Name, lpObj->m_IfState.type);
 		this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 		return;
@@ -1792,7 +1792,7 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 
 	if (lpMsg->inventoryPos == lpMsg->invenrotyTarget)
 	{
-		sLog->outBasic("error-L1 : [%s][%s] CGMuunInventoryUseItemRecv()_Pos return %d", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, __LINE__);
+		sLog->outBasic("error-L1 : [%s][%s] CGMuunInventoryUseItemRecv()_Pos return %d", lpObj->AccountID, lpObj->Name, __LINE__);
 		this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 		return;
@@ -1803,14 +1803,14 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 		case 1:
 			if (this->MuunItemLevelUp(&gGameObjects[aIndex], lpMsg->inventoryPos, lpMsg->invenrotyTarget) == FALSE)
 			{
-				sLog->outBasic("[MuunSystem][LevelUp] [%s][%s] [Fail]", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name);
+				sLog->outBasic("[MuunSystem][LevelUp] [%s][%s] [Fail]", lpObj->AccountID, lpObj->Name);
 				this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 				return;
 			}
 
-			this->ClearPeriodMuunItemData(&gGameObjects[aIndex], gGameObjects[aIndex].pMuunInventory[lpMsg->inventoryPos].m_Type, gGameObjects[aIndex].pMuunInventory[lpMsg->inventoryPos].m_Number);
-			gGameObjects[aIndex].pMuunInventory[lpMsg->inventoryPos].Clear();
+			this->ClearPeriodMuunItemData(&gGameObjects[aIndex], lpObj->pMuunInventory[lpMsg->inventoryPos].m_Type, lpObj->pMuunInventory[lpMsg->inventoryPos].m_Number);
+			lpObj->pMuunInventory[lpMsg->inventoryPos].Clear();
 			GSProtocol.GCMuunInventoryItemDeleteSend(aIndex, lpMsg->inventoryPos, 1);
 			GSProtocol.GCMuunInventoryItemOneSend(aIndex, lpMsg->invenrotyTarget);
 			break;
@@ -1818,27 +1818,27 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 		case 2:
 			if (this->MuunItemEvolution(&gGameObjects[aIndex], lpMsg->inventoryPos, lpMsg->invenrotyTarget) == FALSE)
 			{
-				sLog->outBasic("[MuunSystem] [%s][%s]Item Use Muun Item Evolution Fail", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name);
+				sLog->outBasic("[MuunSystem] [%s][%s]Item Use Muun Item Evolution Fail", lpObj->AccountID, lpObj->Name);
 				this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 				return;
 			}
 
-			gGameObjects[aIndex].pMuunInventory[lpMsg->inventoryPos].Clear();
+			lpObj->pMuunInventory[lpMsg->inventoryPos].Clear();
 			GSProtocol.GCMuunInventoryItemDeleteSend(aIndex, lpMsg->inventoryPos, 1);
 			break;
 
 		case 3:
 			if (this->MuunItemLifeGem(&gGameObjects[aIndex], lpMsg->inventoryPos, lpMsg->invenrotyTarget) == FALSE)
 			{
-				sLog->outBasic("[MuunSystem] [%s][%s]Item Use Muun Item LifeGem Fail", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name);
+				sLog->outBasic("[MuunSystem] [%s][%s]Item Use Muun Item LifeGem Fail", lpObj->AccountID, lpObj->Name);
 				this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 				return;
 			}
 
 			gObjInventoryItemSet(aIndex, lpMsg->inventoryPos, -1);
-			gGameObjects[aIndex].pInventory[lpMsg->inventoryPos].Clear();
+			lpObj->pInventory[lpMsg->inventoryPos].Clear();
 			GSProtocol.GCInventoryItemDeleteSend(aIndex, lpMsg->inventoryPos, 1);
 			GSProtocol.GCMuunItemDurSend(aIndex, lpMsg->invenrotyTarget, -1);
 			break;
@@ -1846,14 +1846,14 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 		case 4:
 			if (this->MuunItemEnergyGenerator(&gGameObjects[aIndex], lpMsg->inventoryPos, lpMsg->invenrotyTarget) == FALSE)
 			{
-				sLog->outBasic("[MuunSystem] [%s][%s]Item Use Muun Item Energy Generator Fail", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name);
+				sLog->outBasic("[MuunSystem] [%s][%s]Item Use Muun Item Energy Generator Fail", lpObj->AccountID, lpObj->Name);
 				this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 				return;
 			}
 
-			this->ClearPeriodMuunItemData(&gGameObjects[aIndex], gGameObjects[aIndex].pMuunInventory[lpMsg->inventoryPos].m_Type, gGameObjects[aIndex].pMuunInventory[lpMsg->inventoryPos].m_Number);
-			gGameObjects[aIndex].pMuunInventory[lpMsg->inventoryPos].Clear();
+			this->ClearPeriodMuunItemData(&gGameObjects[aIndex], lpObj->pMuunInventory[lpMsg->inventoryPos].m_Type, lpObj->pMuunInventory[lpMsg->inventoryPos].m_Number);
+			lpObj->pMuunInventory[lpMsg->inventoryPos].Clear();
 			GSProtocol.GCMuunInventoryItemDeleteSend(aIndex, lpMsg->inventoryPos, 1);
 			GSProtocol.GCMuunInventoryItemOneSend(aIndex, lpMsg->invenrotyTarget);
 			break;
@@ -2961,13 +2961,13 @@ void CMuunSystem::CGMuunExchangeItem(PMSG_REQ_MUUN_EXCHANGE *lpMsg, int aIndex)
 
 	if (nSelect >= 10)
 	{
-		sLog->outBasic("[MuunSystem][MuunExchange][Error][%s][%s] Select Over %d [%s, %d]", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, nSelect, __FILE__, __LINE__);
+		sLog->outBasic("[MuunSystem][MuunExchange][Error][%s][%s] Select Over %d [%s, %d]", lpObj->AccountID, lpObj->Name, nSelect, __FILE__, __LINE__);
 		return;
 	}
 
 	if (this->ChkMuunExchangeInvenNeedItem(&gGameObjects[aIndex], nSelect, 0) == FALSE)
 	{
-		sLog->outBasic("[MuunSystem][MuunExchange][FAIL][%s][%s] Lack of Materials", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name);
+		sLog->outBasic("[MuunSystem][MuunExchange][FAIL][%s][%s] Lack of Materials", lpObj->AccountID, lpObj->Name);
 
 		this->SendMsgMuunExchange(aIndex, 1);
 		return;
@@ -2975,7 +2975,7 @@ void CMuunSystem::CGMuunExchangeItem(PMSG_REQ_MUUN_EXCHANGE *lpMsg, int aIndex)
           
 	if (this->ChkMuunExchangeInvenEmpty(&gGameObjects[aIndex], nSelect) == FALSE)
 	{
-		sLog->outBasic("[MuunSystem][MuunExchange][FAIL][%s][%s] Not Empty Space", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name);
+		sLog->outBasic("[MuunSystem][MuunExchange][FAIL][%s][%s] Not Empty Space", lpObj->AccountID, lpObj->Name);
 
 		this->SendMsgMuunExchange(aIndex, 2);
 		return;
@@ -3445,7 +3445,7 @@ void CMuunSystem::CGReqRideSelect(PMSG_MUUN_RIDE_SELECT *lpMsg, int aIndex)
 	pMsgMuun.h.set((LPBYTE)&pMsgMuun,0x4E,0x14,lOfs);
 	memcpy(btMuunInfosendBuf, &pMsgMuun, sizeof(pMsgMuun));
 
-	IOCP.DataSend(lpObj->m_Index, btMuunInfosendBuf, lOfs);
+	IOCP.DataSend(lpObj, btMuunInfosendBuf, lOfs);
 
 	for (int n = 0; n < MAX_VIEWPORT; n++)
 	{

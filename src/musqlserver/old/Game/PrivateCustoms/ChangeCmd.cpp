@@ -89,7 +89,7 @@ int CChangeCmd::DoChange(int aIndex) // -1 - system off, 0 - no change made, > 0
 		return -1;
 	}
 
-	if (gGameObjects[aIndex].Type != OBJ_USER)
+	if (lpObj->Type != OBJ_USER)
 	{
 		return -1;
 	}

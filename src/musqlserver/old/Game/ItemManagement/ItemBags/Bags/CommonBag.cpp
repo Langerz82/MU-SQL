@@ -53,7 +53,7 @@ bool CCommonBag::UseBag(LPGameObject &lpObj, int iParam2)
 
 	if (rand() % 10000 >= this->m_BagData.dwItemDropRate)
 	{
-		MapC[gGameObjects[aIndex].MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, lpObj->X, lpObj->Y);
+		MapC[lpObj->MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, lpObj->X, lpObj->Y);
 
 		return true;
 	}

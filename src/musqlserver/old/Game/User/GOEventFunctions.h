@@ -1,5 +1,5 @@
-#ifndef _MU_GOFUNCTIONS_H_
-#define _MU_GOFUNCTIONS_H_
+#ifndef _MU_GOEVENTFUNCTIONS_H_
+#define _MU_GOEVENTFUNCTIONS_H_
 
 #if _MSC_VER > 1000
 #pragma once

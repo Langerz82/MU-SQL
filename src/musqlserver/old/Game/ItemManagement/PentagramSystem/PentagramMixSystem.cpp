@@ -1328,13 +1328,13 @@ BOOL CPentagramMixSystem::PentagramJewelMix(int aIndex) // OK
 	int iMithrilType = -1;
 	int iBlessCount = 0;
 
-	if (gGameObjects[aIndex].pInventory->m_Type == ITEMGET(12, 145))
+	if (lpObj->pInventory->m_Type == ITEMGET(12, 145))
 	{
-		iMithrilType = gGameObjects[aIndex].pInventory->m_BonusSocketOption;
+		iMithrilType = lpObj->pInventory->m_BonusSocketOption;
 		iMithrilCount++;
 	}
 	
-	if (gGameObjects[aIndex].pInventory->m_Type == ITEMGET(14, 13))
+	if (lpObj->pInventory->m_Type == ITEMGET(14, 13))
 	{
 		iBlessCount++;
 	}
@@ -1346,14 +1346,14 @@ BOOL CPentagramMixSystem::PentagramJewelMix(int aIndex) // OK
 	}
 		
 
-	if (gGameObjects[aIndex].m_PlayerData->Money <= 100000)
+	if (lpObj->m_PlayerData->Money <= 100000)
 	{
 		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 		return 0; //No Zen
 	}
 
-	gGameObjects[aIndex].m_PlayerData->Money -= 100000;
-	GSProtocol.GCMoneySend(aIndex, gGameObjects[aIndex].m_PlayerData->Money);
+	lpObj->m_PlayerData->Money -= 100000;
+	GSProtocol.GCMoneySend(aIndex, lpObj->m_PlayerData->Money);
 
 	if ((rand() % 100) < 80)
 	{
@@ -1384,12 +1384,12 @@ BOOL CPentagramMixSystem::PentagramJewelMix(int aIndex) // OK
 		
 		CItem NewItem;
 		NewItem.m_Type = type;
-		NewItem.m_SocketOption[0] = gGameObjects[aIndex].pInventory->m_SocketOption[0];
-		NewItem.m_SocketOption[1] = gGameObjects[aIndex].pInventory->m_SocketOption[1];
-		NewItem.m_SocketOption[2] = gGameObjects[aIndex].pInventory->m_SocketOption[2];
-		NewItem.m_SocketOption[3] = gGameObjects[aIndex].pInventory->m_SocketOption[3];
-		NewItem.m_SocketOption[4] = gGameObjects[aIndex].pInventory->m_SocketOption[4];
-		NewItem.m_BonusSocketOption = gGameObjects[aIndex].pInventory->m_BonusSocketOption;
+		NewItem.m_SocketOption[0] = lpObj->pInventory->m_SocketOption[0];
+		NewItem.m_SocketOption[1] = lpObj->pInventory->m_SocketOption[1];
+		NewItem.m_SocketOption[2] = lpObj->pInventory->m_SocketOption[2];
+		NewItem.m_SocketOption[3] = lpObj->pInventory->m_SocketOption[3];
+		NewItem.m_SocketOption[4] = lpObj->pInventory->m_SocketOption[4];
+		NewItem.m_BonusSocketOption = lpObj->pInventory->m_BonusSocketOption;
 		
 		ItemSerialCreateSend(aIndex, 235, 0, 0, NewItem.m_Type, 0, 0, 0, 0, 0, aIndex, 0, 0, 0, NewItem.m_SocketOption, NewItem.m_BonusSocketOption);
 		gObjInventoryCommit(aIndex);

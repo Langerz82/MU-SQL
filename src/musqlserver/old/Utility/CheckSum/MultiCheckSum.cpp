@@ -87,12 +87,12 @@ int CMultiCheckSum::CompareCheckSum(LPGameObject &lpObj, DWORD TableNum, DWORD K
 		{
 			if ( ( this->m_dwgCheckSum[i][TableNum] ) == Key)	
 			{
-				sLog->outBasic("CheckSum%d-Exe Compare Success [%s]", i, gGameObjects[aIndex].AccountID );
+				sLog->outBasic("CheckSum%d-Exe Compare Success [%s]", i, lpObj->AccountID );
 				return 1;
 			}
 			else
 			{
-				sLog->outBasic("CheckSum%d-Exe Compare Fail %d %d %d [%s]", i, this->m_dwgCheckSum[i][TableNum], Key, TableNum, gGameObjects[aIndex].AccountID );
+				sLog->outBasic("CheckSum%d-Exe Compare Fail %d %d %d [%s]", i, this->m_dwgCheckSum[i][TableNum], Key, TableNum, lpObj->AccountID );
 			}
 		}
 	}

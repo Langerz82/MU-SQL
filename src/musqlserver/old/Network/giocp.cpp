@@ -675,10 +675,10 @@ bool CIOCP::DataSend(LPGameObject &lpObj, unsigned char* lpMsg, DWORD dwSize, bo
 	unsigned char * SendBuf;
 	BYTE BUFFER[65535];
 
-	if (aIndex < g_ConfigRead.server.GetObjectStartUserIndex())
+	/*if (aIndex < g_ConfigRead.server.GetObjectStartUserIndex())
 	{
 		return true;
-	}
+	}*/
 
 	EnterCriticalSection(&criti);
 
@@ -691,11 +691,11 @@ bool CIOCP::DataSend(LPGameObject &lpObj, unsigned char* lpMsg, DWORD dwSize, bo
 
 	if (gStalkProtocol)
 	{
-		if (gStalkProtocolId[0] == gGameObjects[aIndex].AccountID[0])
+		if (gStalkProtocolId[0] == lpObj->AccountID[0])
 		{
-			if (gStalkProtocolId[1] == gGameObjects[aIndex].AccountID[1])
+			if (gStalkProtocolId[1] == lpObj->AccountID[1])
 			{
-				if (!strcmp(gStalkProtocolId, gGameObjects[aIndex].AccountID))
+				if (!strcmp(gStalkProtocolId, lpObj->AccountID))
 				{
 					g_Log.AddHeadHex("DATA SEND", lpMsg, dwSize);
 				}
@@ -706,7 +706,7 @@ bool CIOCP::DataSend(LPGameObject &lpObj, unsigned char* lpMsg, DWORD dwSize, bo
 	if (lpMsg[0] != 0xC1 && lpMsg[0] != 0xC2 &&
 		lpMsg[0] != 0xC3 && lpMsg[0] != 0xC4)
 	{
-		sLog->outError("[ERROR] Trying to send packet without HEADER (%s)(%s)", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name);
+		sLog->outError("[ERROR] Trying to send packet without HEADER (%s)(%s)", lpObj->AccountID, lpObj->Name);
 		LeaveCriticalSection(&criti);
 		return FALSE;
 	}
@@ -757,13 +757,13 @@ bool CIOCP::DataSend(LPGameObject &lpObj, unsigned char* lpMsg, DWORD dwSize, bo
 		SendBuf = lpMsg;
 	}
 
-	if (gGameObjects[aIndex].Connected < PLAYER_CONNECTED)
+	if (gGameObjects[aIndex]Connected < PLAYER_CONNECTED)
 	{
 		LeaveCriticalSection(&criti);
 		return false;
 	}
 
-	lpPerSocketContext = gGameObjects[aIndex].PerSocketContext;
+	lpPerSocketContext = lpObj->PerSocketContext;
 
 	if (dwSize > sizeof(lpPerSocketContext->IOContext[0].Buffer))
 	{
@@ -781,7 +781,7 @@ bool CIOCP::DataSend(LPGameObject &lpObj, unsigned char* lpMsg, DWORD dwSize, bo
 	{
 		if ((lpIoCtxt->nSecondOfs + dwSize) > MAX_IO_BUFFER_SIZE - 1)
 		{
-			sLog->outBasic("(%d)error-L2 MAX BUFFER OVER %d %d %d [%s][%s]", aIndex, lpIoCtxt->nTotalBytes, lpIoCtxt->nSecondOfs, dwSize, gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name);
+			sLog->outBasic("(%d)error-L2 MAX BUFFER OVER %d %d %d [%s][%s]", aIndex, lpIoCtxt->nTotalBytes, lpIoCtxt->nSecondOfs, dwSize, lpObj->AccountID, lpObj->Name);
 			lpIoCtxt->nWaitIO = 0;
 			CloseClient(aIndex);
 			LeaveCriticalSection(&criti);
@@ -805,7 +805,7 @@ bool CIOCP::DataSend(LPGameObject &lpObj, unsigned char* lpMsg, DWORD dwSize, bo
 
 	if ((lpIoCtxt->nTotalBytes + dwSize) > MAX_IO_BUFFER_SIZE - 1)
 	{
-		sLog->outBasic("(%d)error-L2 MAX BUFFER OVER %d %d [%s][%s]", aIndex, lpIoCtxt->nTotalBytes, dwSize, gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name);
+		sLog->outBasic("(%d)error-L2 MAX BUFFER OVER %d %d [%s][%s]", aIndex, lpIoCtxt->nTotalBytes, dwSize, lpObj->AccountID, lpObj->Name);
 		lpIoCtxt->nWaitIO = 0;
 		CloseClient(aIndex);
 		LeaveCriticalSection(&criti);
@@ -819,7 +819,7 @@ bool CIOCP::DataSend(LPGameObject &lpObj, unsigned char* lpMsg, DWORD dwSize, bo
 	lpIoCtxt->nSentBytes = 0;
 	lpIoCtxt->IOOperation = 1;
 
-	if (WSASend(gGameObjects[aIndex].m_socket, &lpIoCtxt->wsabuf, 1, &SendBytes, 0, &lpIoCtxt->Overlapped, NULL) == -1)
+	if (WSASend(lpObj->m_socket, &lpIoCtxt->wsabuf, 1, &SendBytes, 0, &lpIoCtxt->Overlapped, NULL) == -1)
 	{
 
 		if (WSAGetLastError() != WSA_IO_PENDING)
@@ -829,12 +829,12 @@ bool CIOCP::DataSend(LPGameObject &lpObj, unsigned char* lpMsg, DWORD dwSize, bo
 			if (lpIoCtxt->wsabuf.buf[0] == 0xC1)
 			{
 				sLog->outBasic("(%d)WSASend(%d) failed with error [%x][%x] %d %s ", __LINE__, aIndex, (BYTE)lpIoCtxt->wsabuf.buf[0],
-					(BYTE)lpIoCtxt->wsabuf.buf[2], WSAGetLastError(), gGameObjects[aIndex].m_PlayerData->Ip_addr);
+					(BYTE)lpIoCtxt->wsabuf.buf[2], WSAGetLastError(), lpObj->m_PlayerData->Ip_addr);
 			}
 			else if (lpIoCtxt->wsabuf.buf[0] == 0xC2)
 			{
 				sLog->outBasic("(%d)WSASend(%d) failed with error [%x][%x] %d %s ", __LINE__, aIndex, (BYTE)lpIoCtxt->wsabuf.buf[0],
-					(BYTE)lpIoCtxt->wsabuf.buf[3], WSAGetLastError(), gGameObjects[aIndex].m_PlayerData->Ip_addr);
+					(BYTE)lpIoCtxt->wsabuf.buf[3], WSAGetLastError(), lpObj->m_PlayerData->Ip_addr);
 			}
 			CloseClient(aIndex);
 			LeaveCriticalSection(&criti);
@@ -887,11 +887,11 @@ bool CIOCP::IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 	lpIoCtxt->nSentBytes = 0;
 	lpIoCtxt->IOOperation = 1;
 
-	if (WSASend(gGameObjects[aIndex].m_socket, &lpIoCtxt->wsabuf, 1, &SendBytes, 0, &lpIoCtxt->Overlapped, NULL) == -1)
+	if (WSASend(lpObj->m_socket, &lpIoCtxt->wsabuf, 1, &SendBytes, 0, &lpIoCtxt->Overlapped, NULL) == -1)
 	{
 		if (WSAGetLastError() != WSA_IO_PENDING)
 		{
-			sLog->outBasic("WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), gGameObjects[aIndex].m_PlayerData->Ip_addr);
+			sLog->outBasic("WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), lpObj->m_PlayerData->Ip_addr);
 			CloseClient(aIndex);
 			LeaveCriticalSection(&criti);
 			return false;
@@ -928,11 +928,11 @@ bool CIOCP::IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 	lpIoCtxt->wsabuf.len = lpIoCtxt->nTotalBytes - lpIoCtxt->nSentBytes;
 	lpIoCtxt->IOOperation = 1;
 
-	if (WSASend(gGameObjects[aIndex].m_socket, &lpIoCtxt->wsabuf, 1, &SendBytes, 0, &lpIoCtxt->Overlapped, NULL) == -1)
+	if (WSASend(lpObj->m_socket, &lpIoCtxt->wsabuf, 1, &SendBytes, 0, &lpIoCtxt->Overlapped, NULL) == -1)
 	{
 		if (WSAGetLastError() != WSA_IO_PENDING)
 		{
-			sLog->outBasic("WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), gGameObjects[aIndex].m_PlayerData->Ip_addr);
+			sLog->outBasic("WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), lpObj->m_PlayerData->Ip_addr);
 			CloseClient(aIndex);
 			LeaveCriticalSection(&criti);
 			return false;

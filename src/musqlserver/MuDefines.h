@@ -294,5 +294,10 @@
 #define CS_SET_SMALLLEVEL1(x)		( ((x) >> 16) & 0xFF )
 #define CS_SET_SMALLLEVEL2(x)		( ((x) >> 8 ) & 0xFF )
 #define CS_SET_SMALLLEVEL3(x)		((x) & 0xFF )
+ 
+// End User Defines Funcs
+
+#define MAX_VIP 4
+
 
 #endif

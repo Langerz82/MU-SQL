@@ -2710,9 +2710,9 @@ void CPentagramSystem::DBREQ_DelPentagramJewel(LPGameObject &lpObj, int iJewelPo
 {
 	PMSG_DEL_PENTAGRAMJEWEL pMsg;
 
-	pMsg.iUserGuid = gGameObjects[aIndex].DBNumber;
-	memcpy(&pMsg.szAccountID, gGameObjects[aIndex].AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(&pMsg.szName, gGameObjects[aIndex].Name, MAX_ACCOUNT_LEN + 1);
+	pMsg.iUserGuid = lpObj->DBNumber;
+	memcpy(&pMsg.szAccountID, lpObj->AccountID, MAX_ACCOUNT_LEN + 1);
+	memcpy(&pMsg.szName, lpObj->Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.btJewelPos = iJewelPos;
 	pMsg.btJewelIndex = iJewelIndex;
 
@@ -2748,9 +2748,9 @@ void CPentagramSystem::DBREQ_InsertPentagramJewel(LPGameObject &lpObj, int iJewe
 {
 	PMSG_INSERT_PENTAGRAMJEWEL pMsg;
 
-	pMsg.iUserGuid = gGameObjects[aIndex].DBNumber;
-	memcpy(&pMsg.szAccountID, gGameObjects[aIndex].AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(&pMsg.szName, gGameObjects[aIndex].Name, MAX_ACCOUNT_LEN + 1);
+	pMsg.iUserGuid = lpObj->DBNumber;
+	memcpy(&pMsg.szAccountID, lpObj->AccountID, MAX_ACCOUNT_LEN + 1);
+	memcpy(&pMsg.szName, lpObj->Name, MAX_ACCOUNT_LEN + 1);
 
 	pMsg.btJewelPos = iJewelPos;
 	pMsg.btJewelIndex = iJewelIndex;

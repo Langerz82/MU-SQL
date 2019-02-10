@@ -53,7 +53,7 @@ bool CEventBag::UseBag(LPGameObject &lpObj, int iMonsterIndex)
 
 	if (rand() % 10000 >= this->m_BagData.dwItemDropRate)
 	{
-		MapC[gGameObjects[aIndex].MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, lpObj->X, lpObj->Y);
+		MapC[lpObj->MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, lpObj->X, lpObj->Y);
 
 		return true;
 	}
@@ -153,7 +153,7 @@ bool CEventBag::UseBag_GremoryCase(LPGameObject &lpObj, int iMonsterIndex, BYTE 
 
 	if (rand() % 10000 >= this->m_BagData.dwItemDropRate)
 	{
-		MapC[gGameObjects[aIndex].MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, lpObj->X, lpObj->Y);
+		MapC[lpObj->MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, lpObj->X, lpObj->Y);
 
 		return true;
 	}

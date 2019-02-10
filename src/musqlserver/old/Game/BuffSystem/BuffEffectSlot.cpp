@@ -879,7 +879,7 @@ void GCUseBuffEffect(CGameObject*ECTSTRUCT lpObj, BYTE BuffEffectIndex, BYTE Eff
 
 	if ( lpObj->Type == OBJ_USER )
 	{
-		IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 	}
 
 	if(EffectUseOption == 0) {

@@ -924,7 +924,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(OBJECTSTRUCT * lpObj,
 	if (iValidItemCount != iMixCount ||
 		iInvalidItemCount)
 	{
-		IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 		lpObj->ChaosLock = FALSE;
 
 		return FALSE;
@@ -932,7 +932,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(OBJECTSTRUCT * lpObj,
 
 	if (iNormalItemCount > 0 && iExtItemCount > 0)
 	{
-		IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 		lpObj->ChaosLock = FALSE;
 
 		return FALSE;
@@ -966,7 +966,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(OBJECTSTRUCT * lpObj,
 	if (lpObj->m_PlayerData->Money < iMakeSmeltingStoneMixPrice)
 	{
 		pMsg.Result = 2;
-		IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 		lpObj->ChaosLock = FALSE;
 
 		return FALSE;
@@ -1003,7 +1003,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(OBJECTSTRUCT * lpObj,
 		}
 	}
 
-	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 
 	if (lpObj->ChaosMassMixSuccessCount == 0)
 	{
@@ -1069,7 +1069,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(LPGameObject &lpObj)
 		 iInvalidItemCount ||
 		 iItemPos == -1 )
 	{
-		IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 		lpObj->ChaosLock = FALSE;
 
 		return FALSE;
@@ -1103,7 +1103,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(LPGameObject &lpObj)
 	if ( lpObj->m_PlayerData->Money < iMakeSmeltingStoneMixPrice )
 	{
 		pMsg.Result = 2;
-		IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 		lpObj->ChaosLock = FALSE;
 
 		return FALSE;
@@ -1133,7 +1133,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(LPGameObject &lpObj)
 	{
 		g_MixSystem.ChaosBoxInit(lpObj);
 		GSProtocol.GCUserChaosBoxSend(lpObj, 0);
-		IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 
 	}
 
@@ -1288,7 +1288,7 @@ BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(LPGameObject &lpObj)
 
 	if ( iStrengtenItemCount != 1 )
 	{
-		IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 		lpObj->ChaosLock = FALSE;
 
 		return FALSE;
@@ -1300,7 +1300,7 @@ BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(LPGameObject &lpObj)
 
 	if ( JEWEL_OF_HARMONY_RETORE_NEEDZEN < 0 ) 
 	{
-		IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 		lpObj->ChaosLock = FALSE;
 
 		return FALSE;
@@ -1319,7 +1319,7 @@ BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(LPGameObject &lpObj)
 	if ( lpObj->m_PlayerData->Money < JEWEL_OF_HARMONY_RETORE_NEEDZEN )
 	{
 		pMsg.Result = 2;
-		IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 		lpObj->ChaosLock = FALSE;
 
 		return FALSE;
@@ -1405,7 +1405,7 @@ BOOL CJewelOfHarmonySystem::NpcJewelOfHarmony(LPGameObject &lpNpc, CGameObject* 
 		lpObj->m_IfState.use = 1;
 		lpObj->bIsChaosMixCompleted = false;
 
-		IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj, (LPBYTE)&pResult, pResult.h.size);
 		gObjInventoryTrans(lpObj->m_Index);
 
 		gObjItemTextSave(lpObj);

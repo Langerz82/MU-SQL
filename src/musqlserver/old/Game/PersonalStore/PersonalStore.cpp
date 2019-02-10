@@ -42,12 +42,12 @@ void CPersonalStore::CGPShopReqSetItemPrice(PMSG_REQ_PSHOP_SETITEMPRICE * lpMsg,
 		return;
 	}
 
-	if (gGameObjects[aIndex].Type != OBJ_USER)
+	if (lpObj->Type != OBJ_USER)
 	{
 		return;
 	}
 
-	if (gGameObjects[aIndex].Level <= 5)
+	if (lpObj->Level <= 5)
 	{
 		CGPShopAnsSetItemPrice(aIndex, 5, lpMsg->btItemPos);
 
@@ -60,13 +60,13 @@ void CPersonalStore::CGPShopReqSetItemPrice(PMSG_REQ_PSHOP_SETITEMPRICE * lpMsg,
 		return;
 	}
 
-	if (gGameObjects[aIndex].Inventory1[lpMsg->btItemPos].IsItem() == FALSE)
+	if (lpObj->Inventory1[lpMsg->btItemPos].IsItem() == FALSE)
 	{
 		CGPShopAnsSetItemPrice(aIndex, 3, lpMsg->btItemPos);
 		return;
 	}
 
-	CItem * sitem = &gGameObjects[aIndex].Inventory1[lpMsg->btItemPos];
+	CItem * sitem = &lpObj->Inventory1[lpMsg->btItemPos];
 	int iItemPrice = MAKE_NUMBERDW(MAKE_NUMBERW(lpMsg->sItemPrice4, lpMsg->sItemPrice3), MAKE_NUMBERW(lpMsg->sItemPrice2, lpMsg->sItemPrice1));
 
 	WORD wBlessPrice = MAKE_NUMBERW(lpMsg->sJewelOfBlessPrice2, lpMsg->sJewelOfBlessPrice1);
@@ -76,14 +76,14 @@ void CPersonalStore::CGPShopReqSetItemPrice(PMSG_REQ_PSHOP_SETITEMPRICE * lpMsg,
 	if (gObjCheckSerial0ItemList(sitem) != FALSE)
 	{
 		MsgOutput(aIndex, Lang.GetText(0, 259));
-		GSProtocol.GCReFillSend(aIndex, gGameObjects[aIndex].Life, 0xFD, 1, gGameObjects[aIndex].iShield);
+		GSProtocol.GCReFillSend(aIndex, lpObj->Life, 0xFD, 1, lpObj->iShield);
 
 		return;
 	}
 
 	if (gObjInventorySearchSerialNumber(&gGameObjects[aIndex], sitem->GetNumber()) == FALSE)
 	{
-		GSProtocol.GCReFillSend(aIndex, gGameObjects[aIndex].Life, 0xFD, 1, gGameObjects[aIndex].iShield);
+		GSProtocol.GCReFillSend(aIndex, lpObj->Life, 0xFD, 1, lpObj->iShield);
 		return;
 	}
 
@@ -94,7 +94,7 @@ void CPersonalStore::CGPShopReqSetItemPrice(PMSG_REQ_PSHOP_SETITEMPRICE * lpMsg,
 		return;
 	}
 
-	if ((gGameObjects[aIndex].Penalty & 4) == 4 || (gGameObjects[aIndex].Penalty & 8) == 8)
+	if ((lpObj->Penalty & 4) == 4 || (lpObj->Penalty & 8) == 8)
 	{
 		CGPShopAnsSetItemPrice(aIndex, 6, lpMsg->btItemPos);
 
@@ -135,12 +135,12 @@ void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, int aIndex)
 		return;
 	}
 
-	if (gGameObjects[aIndex].Type != OBJ_USER)
+	if (lpObj->Type != OBJ_USER)
 	{
 		return;
 	}
 
-	if (gGameObjects[aIndex].m_PlayerData->m_bSecurityCheck == false)
+	if (lpObj->m_PlayerData->m_bSecurityCheck == false)
 	{
 		MsgOutput(aIndex, Lang.GetText(0, 394));
 		this->CGPShopAnsOpen(aIndex, 3);
@@ -159,42 +159,42 @@ void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, int aIndex)
 		return;
 	}
 
-	if (gGameObjects[aIndex].Level <= 5)
+	if (lpObj->Level <= 5)
 	{
 		this->CGPShopAnsOpen(aIndex, 2);
 
 		return;
 	}
 
-	if ((gGameObjects[aIndex].Penalty & 4) == 4 || (gGameObjects[aIndex].Penalty & 8) == 8)
+	if ((lpObj->Penalty & 4) == 4 || (lpObj->Penalty & 8) == 8)
 	{
 		this->CGPShopAnsOpen(aIndex, 3);
 
 		return;
 	}
 
-	if (CC_MAP_RANGE(gGameObjects[aIndex].MapNumber))
+	if (CC_MAP_RANGE(lpObj->MapNumber))
 	{
 		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 115), aIndex, 1);
 		this->CGPShopAnsOpen(aIndex, 0);
 		return;
 	}
 
-	if (gGameObjects[aIndex].MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
+	if (lpObj->MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 	{
 		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 563), aIndex, 1);
 		this->CGPShopAnsOpen(aIndex, 0);
 		return;
 	}
 
-	if (gGameObjects[aIndex].m_PlayerData->m_JoinUnityBattle == TRUE || g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
+	if (lpObj->m_PlayerData->m_JoinUnityBattle == TRUE || g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 	{
 		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 621), aIndex, 1);
 		this->CGPShopAnsOpen(aIndex, 0);
 		return;
 	}
 
-	if (gGameObjects[aIndex].m_PlayerData->m_bIsMining)
+	if (lpObj->m_PlayerData->m_bIsMining)
 	{
 		this->CGPShopAnsOpen(aIndex, 4);
 		return;
@@ -206,7 +206,7 @@ void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, int aIndex)
 		return;
 	}
 
-	if (g_GensSystem.IsMapBattleZone(gGameObjects[aIndex].MapNumber))
+	if (g_GensSystem.IsMapBattleZone(lpObj->MapNumber))
 	{
 		this->CGPShopAnsOpen(aIndex, 0);
 		return;
@@ -214,13 +214,13 @@ void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, int aIndex)
 
 	bool bEnablePShopOpen = false;
 
-	if (gGameObjects[aIndex].m_IfState.use == FALSE)
+	if (lpObj->m_IfState.use == FALSE)
 		bEnablePShopOpen = true;
 	else
 	{
-		if (gGameObjects[aIndex].m_IfState.use == TRUE)
+		if (lpObj->m_IfState.use == TRUE)
 		{
-			switch (gGameObjects[aIndex].m_IfState.type)
+			switch (lpObj->m_IfState.type)
 			{
 			case 8:
 				bEnablePShopOpen = true; break;
@@ -228,7 +228,7 @@ void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, int aIndex)
 
 			if (!bEnablePShopOpen)
 			{
-				sLog->outBasic("[PShop] [%s][%s] ERROR : m_IfState.type is Using : %d", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, gGameObjects[aIndex].m_IfState.type);
+				sLog->outBasic("[PShop] [%s][%s] ERROR : m_IfState.type is Using : %d", lpObj->AccountID, lpObj->Name, lpObj->m_IfState.type);
 			}
 		}
 		else
@@ -242,22 +242,22 @@ void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, int aIndex)
 		sLog->outBasic("[Fix Inv.Ptr] False Location - %s, %d", __FILE__, __LINE__);
 	}
 
-	if (gGameObjects[aIndex].pTransaction == 1)
+	if (lpObj->pTransaction == 1)
 	{
 		bEnablePShopOpen = false;
 	}
 
 	if (bEnablePShopOpen)
 	{
-		if (gGameObjects[aIndex].m_bPShopOpen == false)
+		if (lpObj->m_bPShopOpen == false)
 		{
-			gGameObjects[aIndex].m_bPShopOpen = true;
-			memcpy(gGameObjects[aIndex].m_szPShopText, lpMsg->szPShopText, sizeof(lpMsg->szPShopText));
+			lpObj->m_bPShopOpen = true;
+			memcpy(lpObj->m_szPShopText, lpMsg->szPShopText, sizeof(lpMsg->szPShopText));
 			this->GDAllSavePShopItemValue(&gGameObjects[aIndex]);
 		}
 		else
 		{
-			memcpy(gGameObjects[aIndex].m_szPShopText, lpMsg->szPShopText, sizeof(lpMsg->szPShopText));
+			memcpy(lpObj->m_szPShopText, lpMsg->szPShopText, sizeof(lpMsg->szPShopText));
 
 			PMSG_ANS_PSHOP_TEXT_CHANGED pMsg;
 
@@ -265,7 +265,7 @@ void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, int aIndex)
 			pMsg.NumberH = SET_NUMBERH(aIndex);
 			pMsg.NumberL = SET_NUMBERL(aIndex);
 			memcpy(pMsg.btPShopText, lpMsg->szPShopText, sizeof(pMsg.btPShopText));
-			memcpy(pMsg.btName, gGameObjects[aIndex].Name, sizeof(pMsg.btName));
+			memcpy(pMsg.btName, lpObj->Name, sizeof(pMsg.btName));
 
 			GSProtocol.MsgSendV2(&gGameObjects[aIndex], (LPBYTE)&pMsg, pMsg.h.size);
 
@@ -299,7 +299,7 @@ void CPersonalStore::CGPShopReqClose(int aIndex)
 		return;
 	}
 
-	if (gGameObjects[aIndex].Type != OBJ_USER)
+	if (lpObj->Type != OBJ_USER)
 	{
 		return;
 	}
@@ -316,8 +316,8 @@ void CPersonalStore::CGPShopReqClose(int aIndex)
 		return;
 	}
 
-	gGameObjects[aIndex].m_bPShopOpen = false;
-	memset(gGameObjects[aIndex].m_szPShopText, 0, sizeof(gGameObjects[aIndex].m_szPShopText));
+	lpObj->m_bPShopOpen = false;
+	memset(lpObj->m_szPShopText, 0, sizeof(lpObj->m_szPShopText));
 	CGPShopAnsClose(aIndex, 1);
 }
 
@@ -1140,9 +1140,9 @@ void CPersonalStore::CGPShopReqCloseDeal(PMSG_REQ_PSHOPDEAL_CLOSE * lpMsg, int a
 	if (!gObjIsConnected(aIndex))
 		return;
 
-	gGameObjects[aIndex].m_bPShopWantDeal = false;
-	gGameObjects[aIndex].m_iPShopDealerIndex = -1;
-	memset(gGameObjects[aIndex].m_szPShopDealerName, 0, MAX_ACCOUNT_LEN);
+	lpObj->m_bPShopWantDeal = false;
+	lpObj->m_iPShopDealerIndex = -1;
+	memset(lpObj->m_szPShopDealerName, 0, MAX_ACCOUNT_LEN);
 }
 
 
@@ -1287,9 +1287,9 @@ void CPersonalStore::PShop_ViewportListRegenarate(short aIndex)
 		sLog->outBasic("[PShop] ERROR : iVpAddCount is OUT of BOUND: %d", iVpAddCount);
 	}
 
-	if (gGameObjects[aIndex].m_bPShopWantDeal == 1)
+	if (lpObj->m_bPShopWantDeal == 1)
 	{
-		int iDealerIndex = gGameObjects[aIndex].m_iPShopDealerIndex;
+		int iDealerIndex = lpObj->m_iPShopDealerIndex;
 
 		if (ObjectMaxRange(iDealerIndex) == true && gObjIsConnected(iDealerIndex) != 0)
 		{
@@ -1297,17 +1297,17 @@ void CPersonalStore::PShop_ViewportListRegenarate(short aIndex)
 			{
 				if (gGameObjects[iDealerIndex].m_bPShopOpen == 0)
 				{
-					gGameObjects[aIndex].m_bPShopWantDeal = 0;
-					gGameObjects[aIndex].m_iPShopDealerIndex = -1;
-					memset(gGameObjects[aIndex].m_szPShopDealerName, 0, sizeof(gGameObjects[aIndex].m_szPShopDealerName));
+					lpObj->m_bPShopWantDeal = 0;
+					lpObj->m_iPShopDealerIndex = -1;
+					memset(lpObj->m_szPShopDealerName, 0, sizeof(lpObj->m_szPShopDealerName));
 
 					this->CGPShopAnsDealerClosedShop(aIndex, iDealerIndex);
 				}
-				else if (gGameObjects[iDealerIndex].CloseCount >= 0 || gGameObjects[aIndex].CloseCount >= 0)
+				else if (gGameObjects[iDealerIndex].CloseCount >= 0 || lpObj->CloseCount >= 0)
 				{
-					gGameObjects[aIndex].m_bPShopWantDeal = 0;
-					gGameObjects[aIndex].m_iPShopDealerIndex = -1;
-					memset(gGameObjects[aIndex].m_szPShopDealerName, 0, sizeof(gGameObjects[aIndex].m_szPShopDealerName));
+					lpObj->m_bPShopWantDeal = 0;
+					lpObj->m_iPShopDealerIndex = -1;
+					memset(lpObj->m_szPShopDealerName, 0, sizeof(lpObj->m_szPShopDealerName));
 
 					this->CGPShopAnsDealerClosedShop(aIndex, iDealerIndex);
 				}
@@ -1318,18 +1318,18 @@ void CPersonalStore::PShop_ViewportListRegenarate(short aIndex)
 			}
 			else
 			{
-				gGameObjects[aIndex].m_bPShopWantDeal = 0;
-				gGameObjects[aIndex].m_iPShopDealerIndex = -1;
-				memset(gGameObjects[aIndex].m_szPShopDealerName, 0, sizeof(gGameObjects[aIndex].m_szPShopDealerName));
+				lpObj->m_bPShopWantDeal = 0;
+				lpObj->m_iPShopDealerIndex = -1;
+				memset(lpObj->m_szPShopDealerName, 0, sizeof(lpObj->m_szPShopDealerName));
 
 				this->CGPShopAnsDealerClosedShop(aIndex, iDealerIndex);
 			}
 		}
 		else
 		{
-			gGameObjects[aIndex].m_bPShopWantDeal = 0;
-			gGameObjects[aIndex].m_iPShopDealerIndex = -1;
-			memset(gGameObjects[aIndex].m_szPShopDealerName, 0, sizeof(gGameObjects[aIndex].m_szPShopDealerName));
+			lpObj->m_bPShopWantDeal = 0;
+			lpObj->m_iPShopDealerIndex = -1;
+			memset(lpObj->m_szPShopDealerName, 0, sizeof(lpObj->m_szPShopDealerName));
 
 			this->CGPShopAnsDealerClosedShop(aIndex, iDealerIndex);
 		}
@@ -1363,7 +1363,7 @@ void CPersonalStore::gObjInventoryItemSet_PShop(LPGameObject &lpObj, int itempos
 		return;
 	}
 
-	if (gGameObjects[aIndex].Inventory1[itempos].GetSize((int&)width, (int &)height) == 0)
+	if (lpObj->Inventory1[itempos].GetSize((int&)width, (int &)height) == 0)
 	{
 		sLog->outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
 		return;
@@ -1396,7 +1396,7 @@ void CPersonalStore::gObjInventoryItemBoxSet_PShop(LPGameObject &lpObj, int item
 
 			if (InventoryExtentCheck(xx, yy, 8, MAX_INVENTORY_H2))
 			{
-				*(BYTE*)(gGameObjects[aIndex].InventoryMap1 + (itemposy + y) * 8 + (itemposx + x)) = set_byte;
+				*(BYTE*)(lpObj->InventoryMap1 + (itemposy + y) * 8 + (itemposx + x)) = set_byte;
 			}
 			else
 			{
@@ -1819,7 +1819,7 @@ bool CPersonalStore::PShop_CheckExistItemInInventory(short aIndex, WORD sItemTyp
 
 	for (int i = PSHOP_START_RANGE; i < PSHOP_END_RANGE; i++)
 	{
-		if (gGameObjects[aIndex].Inventory1[i].m_Type == sItemType)
+		if (lpObj->Inventory1[i].m_Type == sItemType)
 		{
 			return true;
 		}

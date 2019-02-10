@@ -949,8 +949,8 @@ void CDoppelGanger::ProcDoppelgangerState_End(ULONGLONG i64CurTime)
 				if (aIndex >= 0)
 				{
 					gParty.Delete(nPartyNumber, index);
-					gGameObjects[aIndex].PartyNumber = -1;
-					gGameObjects[aIndex].PartyTargetUser = -1;
+					lpObj->PartyNumber = -1;
+					lpObj->PartyTargetUser = -1;
 					GSProtocol.GCPartyDelUserSend(aIndex);
 				}
 			}
@@ -964,11 +964,11 @@ void CDoppelGanger::ProcDoppelgangerState_End(ULONGLONG i64CurTime)
 			{
 				int aIndex = gParty.m_PartyS[nPartyNumber].Number[index];
 
-				if (aIndex >= 0 && gGameObjects[aIndex].Connected < PLAYER_PLAYING)
+				if (aIndex >= 0 && lpObj->Connected < PLAYER_PLAYING)
 				{
 					gParty.Delete(nPartyNumber, index);
-					gGameObjects[aIndex].PartyNumber = -1;
-					gGameObjects[aIndex].PartyTargetUser = -1;
+					lpObj->PartyNumber = -1;
+					lpObj->PartyTargetUser = -1;
 				}
 			}
 		}
@@ -1103,7 +1103,7 @@ BOOL CDoppelGanger::AddDoppelgangerUser(int aIndex)
 
 	if (this->m_nCurUserCount > 0)
 	{
-		if (gGameObjects[aIndex].PartyNumber == -1 || gGameObjects[aIndex].PartyNumber != this->m_nPartyNumber)
+		if (lpObj->PartyNumber == -1 || lpObj->PartyNumber != this->m_nPartyNumber)
 		{
 			LeaveCriticalSection(&this->m_critUserData);
 			return FALSE;
@@ -1116,7 +1116,7 @@ BOOL CDoppelGanger::AddDoppelgangerUser(int aIndex)
 			if (this->m_UserData[cnt].IsUser() == FALSE)
 			{
 				this->m_UserData[cnt].m_nIndex = aIndex;
-				this->m_UserData[cnt].m_nLevel = gGameObjects[aIndex].Level + gGameObjects[aIndex].m_PlayerData->MasterLevel;
+				this->m_UserData[cnt].m_nLevel = lpObj->Level + lpObj->m_PlayerData->MasterLevel;
 				bUserSet = true;
 				break;
 			}
@@ -1134,10 +1134,10 @@ BOOL CDoppelGanger::AddDoppelgangerUser(int aIndex)
 		int nRandValue = this->GetRandomValue(4);
 		this->m_nMapNumber = MAP_INDEX_DOPPELGANGER1 + nRandValue;
 		this->m_nGateNumber = DoppelGanger_Gate_Snow + nRandValue;
-		this->m_nPartyNumber = gGameObjects[aIndex].PartyNumber;
+		this->m_nPartyNumber = lpObj->PartyNumber;
 
 		this->m_UserData[0].m_nIndex = aIndex;
-		this->m_UserData[0].m_nLevel = gGameObjects[aIndex].Level + gGameObjects[aIndex].m_PlayerData->MasterLevel;
+		this->m_UserData[0].m_nLevel = lpObj->Level + lpObj->m_PlayerData->MasterLevel;
 
 		this->m_i64UserEnterTime = GetTickCount64();
 
@@ -1384,7 +1384,7 @@ void CDoppelGanger::PlatformLugardAct(LPGameObject &lpNpc, CGameObject* lpObj)
 	pMsg.result = 0x23;
 	pMsg.level1 = 0;
 
-	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void CDoppelGanger::MiddleTreasureAct(LPGameObject &lpNpc, CGameObject* lpObj)
@@ -2036,7 +2036,7 @@ void CDoppelGanger::SendDoppelgangerResult(LPGameObject &lpObj, BYTE btResult)
 	pMsg.btMissionResult = btResult;
 	pMsg.dwRewardExp = 0;
 
-	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void CDoppelGanger::SendDoppelgangerResultAll()
@@ -2527,7 +2527,7 @@ void CDoppelGanger::SendMapTileInfo(LPGameObject &lpObj, BYTE btMapSetType)
 
 	this->m_PosInfo.GetStartMapAttr(this->m_nMapNumber, &lpMsgBody[0].btX, &lpMsgBody[0].btY, &lpMsgBody[1].btX, &lpMsgBody[1].btY);
 
-	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&cTEMP_BUF, lpMsg->h.size);
+	IOCP.DataSend(lpObj, (LPBYTE)&cTEMP_BUF, lpMsg->h.size);
 }
 
 void CDoppelGanger::SendMapTileInfoAll(BYTE btMapSetType)

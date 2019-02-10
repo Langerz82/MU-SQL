@@ -48,7 +48,7 @@ void CConfigMichi::GCFireworksSend(LPGameObject &lpObj, int x, int y) // OK
 	ServerCmd.X = x;
 	ServerCmd.Y = y;
 
-	IOCP.DataSend(lpObj->m_Index, (BYTE*)&ServerCmd, ServerCmd.h.size);
+	IOCP.DataSend(lpObj, (BYTE*)&ServerCmd, ServerCmd.h.size);
 	GSProtocol.MsgSendV2(lpObj, (BYTE*)&ServerCmd, ServerCmd.h.size);
 }
 
@@ -57,16 +57,16 @@ void CConfigMichi::UseHealingPotion(CItem * citem, int pos, int aIndex)
 {
 	if (this->FixHackPotions.m_CheckHealingAutoPotionHack == 1)
 	{
-		if (GetTickCount() - gGameObjects[aIndex].m_PlayerData->PotionTime < this->FixHackPotions.m_CheckAutoHealingPotionHackTolerance)
+		if (GetTickCount() - lpObj->m_PlayerData->PotionTime < this->FixHackPotions.m_CheckAutoHealingPotionHackTolerance)
 		{
-			GSProtocol.GCReFillSend(aIndex, gGameObjects[aIndex].Life, 0xFD, 1, gGameObjects[aIndex].iShield);
+			GSProtocol.GCReFillSend(aIndex, lpObj->Life, 0xFD, 1, lpObj->iShield);
 			return;
 		}
 	}
 	
-	gGameObjects[aIndex].m_PlayerData->PotionTime = GetTickCount();
+	lpObj->m_PlayerData->PotionTime = GetTickCount();
 
-	int tLife = (citem->m_Value * 10) - (gGameObjects[aIndex].Level * 2);
+	int tLife = (citem->m_Value * 10) - (lpObj->Level * 2);
 
 	if (tLife <  0)
 	{
@@ -96,50 +96,50 @@ void CConfigMichi::UseHealingPotion(CItem * citem, int pos, int aIndex)
 		nAddRate += 5;
 	}
 
-	tLife += ((int)gGameObjects[aIndex].MaxLife * nAddRate) / 100;
+	tLife += ((int)lpObj->MaxLife * nAddRate) / 100;
 
 	if (citem->m_Type == ITEMGET(14, 0))
 	{
 		if (citem->m_Level < 2)
 		{
-			gGameObjects[aIndex].FillLife += tLife;
+			lpObj->FillLife += tLife;
 			tLife = 0;
 		}
 	}
 
-	if (gGameObjects[aIndex].FillLife > 0.0f)
+	if (lpObj->FillLife > 0.0f)
 	{
-		gGameObjects[aIndex].Life += gGameObjects[aIndex].FillLife;
+		lpObj->Life += lpObj->FillLife;
 
-		if (gGameObjects[aIndex].Life > (gGameObjects[aIndex].MaxLife + gGameObjects[aIndex].AddLife))
+		if (lpObj->Life > (lpObj->MaxLife + lpObj->AddLife))
 		{
-			gGameObjects[aIndex].Life = gGameObjects[aIndex].MaxLife + gGameObjects[aIndex].AddLife;
-			gGameObjects[aIndex].FillLife = 0;
+			lpObj->Life = lpObj->MaxLife + lpObj->AddLife;
+			lpObj->FillLife = 0;
 		}
 
-		GSProtocol.GCReFillSend(gGameObjects[aIndex].m_Index, gGameObjects[aIndex].Life, 0xFF, FALSE, gGameObjects[aIndex].iShield);
+		GSProtocol.GCReFillSend(lpObj->m_Index, lpObj->Life, 0xFF, FALSE, lpObj->iShield);
 	}
 
-	gGameObjects[aIndex].FillLifeMax = tLife;
-	gGameObjects[aIndex].FillLife = tLife;
+	lpObj->FillLifeMax = tLife;
+	lpObj->FillLife = tLife;
 
 	if (citem->m_Type == ITEMGET(14, 0) && citem->m_Level < 2)	//ok
 	{
-		gGameObjects[aIndex].FillLifeCount = 0;
+		lpObj->FillLifeCount = 0;
 	}
 	else if (citem->m_Level == 1)
 	{
-		gGameObjects[aIndex].FillLifeCount = 2;
+		lpObj->FillLifeCount = 2;
 	}
 	else
 	{
-		gGameObjects[aIndex].FillLifeCount = 3;
+		lpObj->FillLifeCount = 3;
 	}
 
 	if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 	{
 		gObjInventoryItemSet(aIndex, pos, -1);
-		gGameObjects[aIndex].pInventory[pos].Clear();
+		lpObj->pInventory[pos].Clear();
 		GSProtocol.GCInventoryItemDeleteSend(aIndex, pos, 1);
 	}
 }

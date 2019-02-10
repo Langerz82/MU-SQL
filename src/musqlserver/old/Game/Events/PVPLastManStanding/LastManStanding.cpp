@@ -161,11 +161,11 @@ int CLastManStanding::AddUser(int aIndex)
 	if (!gObjIsConnectedGP(aIndex))
 		return -1;
 
-	int resets = gGameObjects[aIndex].m_PlayerData->m_iResets;
+	int resets = lpObj->m_PlayerData->m_iResets;
 
 	for (int i = 0; i < m_iRoomCount; i++)
 	{
-		if (resets >= this->m_Rooms[i].MinReset  && resets <= this->m_Rooms[i].MaxReset && gGameObjects[aIndex].Level > 6) 
+		if (resets >= this->m_Rooms[i].MinReset  && resets <= this->m_Rooms[i].MaxReset && lpObj->Level > 6) 
 		{
 			if (this->m_Rooms[i].regCount >= this->m_Cfg.iMaxPlayers)
 			{
@@ -187,8 +187,8 @@ int CLastManStanding::AddUser(int aIndex)
 					this->m_Rooms[i].m_Data[n].iScore = 0;
 					this->m_Rooms[i].m_Data[n].bWinner = false;
 					this->m_Rooms[i].m_Data[n].iDeaths = 0;
-					gGameObjects[aIndex].m_PlayerData->RegisterdLMS = 1;
-					gGameObjects[aIndex].m_PlayerData->RegisteredLMSRoom = i;
+					lpObj->m_PlayerData->RegisterdLMS = 1;
+					lpObj->m_PlayerData->RegisteredLMSRoom = i;
 					this->m_Rooms[i].regCount++;
 					return true;
 				}
@@ -432,7 +432,7 @@ void CLastManStanding::EndEvent(int room)
 
 void CLastManStanding::UserDie(LPGameObject &lpObj, int aTargetIndex)
 {
-	int room = gGameObjects[aIndex].m_PlayerData->RegisteredLMSRoom;
+	int room = lpObj->m_PlayerData->RegisteredLMSRoom;
 	for(int i=0;i<this->m_Rooms[room].regCount;i++)
 	{
 		if(this->m_Rooms[room].m_Data[i].iIndex == aIndex)

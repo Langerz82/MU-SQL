@@ -42,7 +42,7 @@ void CObjCalCharacter::Init()
 
 void CObjCalCharacter::CalcCharacter(int aIndex)
 {
-	if (gGameObjects[aIndex].Type != OBJ_USER)
+	if (lpObj->Type != OBJ_USER)
 	{
 		return;
 	}
@@ -1757,16 +1757,16 @@ void CObjCalCharacter::CalcCharacter(int aIndex)
 
 	/*PMSG_ADDSTATS_RESULT pAddStats;
 	PHeadSubSetB((LPBYTE)&pAddStats, 0xEC, 0x25, sizeof(pAddStats));
-	pAddStats.str = gGameObjects[aIndex].m_PlayerData->Strength;
-	pAddStats.stradd = gGameObjects[aIndex].AddStrength;
-	pAddStats.agi = gGameObjects[aIndex].m_PlayerData->Dexterity;
-	pAddStats.agiadd = gGameObjects[aIndex].AddDexterity;
-	pAddStats.vit = gGameObjects[aIndex].m_PlayerData->Vitality;
-	pAddStats.vitadd = gGameObjects[aIndex].AddVitality;
-	pAddStats.ene = gGameObjects[aIndex].m_PlayerData->Energy;
-	pAddStats.eneadd = gGameObjects[aIndex].AddEnergy;
-	pAddStats.cmd = gGameObjects[aIndex].Leadership;
-	pAddStats.cmdadd = gGameObjects[aIndex].AddLeadership;
+	pAddStats.str = lpObj->m_PlayerData->Strength;
+	pAddStats.stradd = lpObj->AddStrength;
+	pAddStats.agi = lpObj->m_PlayerData->Dexterity;
+	pAddStats.agiadd = lpObj->AddDexterity;
+	pAddStats.vit = lpObj->m_PlayerData->Vitality;
+	pAddStats.vitadd = lpObj->AddVitality;
+	pAddStats.ene = lpObj->m_PlayerData->Energy;
+	pAddStats.eneadd = lpObj->AddEnergy;
+	pAddStats.cmd = lpObj->Leadership;
+	pAddStats.cmdadd = lpObj->AddLeadership;
 	IOCP.DataSend(aIndex, (LPBYTE)&pAddStats, pAddStats.h.size); */
 
 	GSProtocol.GCPlayerStatsPanelNew(aIndex);

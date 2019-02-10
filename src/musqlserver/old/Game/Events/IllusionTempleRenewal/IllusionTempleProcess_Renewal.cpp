@@ -742,15 +742,15 @@ BOOL CIllusionTempleProcess_Renewal::EnterUserIllusionTemple(LPGameObject &lpObj
 		return FALSE;
 	}
 
-	if (gGameObjects[aIndex].m_nITR_Index != -1)
+	if (lpObj->m_nITR_Index != -1)
 	{
-		sLog->outBasic("[ ITR ] Enter Error: IllusionTempleIndex Fail %d", gGameObjects[aIndex].m_nITR_Index);
+		sLog->outBasic("[ ITR ] Enter Error: IllusionTempleIndex Fail %d", lpObj->m_nITR_Index);
 		return FALSE;
 	}
 
 	int nItemPos = this->SearchRelicsItem(aIndex);
 
-	if (nItemPos >= 0 && gGameObjects[aIndex].pInventory[nItemPos].m_Type == ITEMGET(14, 223))
+	if (nItemPos >= 0 && lpObj->pInventory[nItemPos].m_Type == ITEMGET(14, 223))
 	{
 		gObjInventoryDeleteItem(aIndex, nItemPos);
 		GSProtocol.GCInventoryItemDeleteSend(aIndex, nItemPos, 0);
@@ -766,7 +766,7 @@ BOOL CIllusionTempleProcess_Renewal::EnterUserIllusionTemple(LPGameObject &lpObj
 			this->m_UserData[i].m_nIndex = aIndex;
 			this->m_UserData[i].m_nPartyIdx = nPartyIdx;
 			this->m_nUserCount++;
-			gGameObjects[aIndex].m_nITR_Index = i;
+			lpObj->m_nITR_Index = i;
 			this->m_UserData[i].m_bEnterOk = true;
 			bResult = TRUE;
 
@@ -796,15 +796,15 @@ BOOL CIllusionTempleProcess_Renewal::LeaveUserIllusionTemple(int aIndex)
 		return FALSE;
 	}
 
-	if (gGameObjects[aIndex].m_nITR_Index != -1 && this->m_UserData[gGameObjects[aIndex].m_nITR_Index].m_nIndex == aIndex && gObjIsConnected(aIndex))
+	if (lpObj->m_nITR_Index != -1 && this->m_UserData[lpObj->m_nITR_Index].m_nIndex == aIndex && gObjIsConnected(aIndex))
 	{
-		if (this->m_UserData[gGameObjects[aIndex].m_nITR_Index].m_dwSkillProdectionTime != 0)
+		if (this->m_UserData[lpObj->m_nITR_Index].m_dwSkillProdectionTime != 0)
 		{
 			gObjRemoveBuffEffect(&gGameObjects[aIndex], BUFFTYPE_TEMPLE_PROTECTION);
 			this->Send_ITR_SkillEnd(&gGameObjects[aIndex], 210);
 		}
 
-		if (this->m_UserData[gGameObjects[aIndex].m_nITR_Index].m_dwSkillRestraintTime != 0)
+		if (this->m_UserData[lpObj->m_nITR_Index].m_dwSkillRestraintTime != 0)
 		{
 			gObjRemoveBuffEffect(&gGameObjects[aIndex], BUFFTYPE_RESTRICTION);
 			this->Send_ITR_SkillEnd(&gGameObjects[aIndex], 211);
@@ -812,34 +812,34 @@ BOOL CIllusionTempleProcess_Renewal::LeaveUserIllusionTemple(int aIndex)
 
 		EnterCriticalSection(&this->m_critUserData);
 
-		if (this->m_UserData[gGameObjects[aIndex].m_nITR_Index].m_btTeam == 0)
+		if (this->m_UserData[lpObj->m_nITR_Index].m_btTeam == 0)
 		{
 			this->m_nAlliedUserCount--;
 		}
 
-		else if (this->m_UserData[gGameObjects[aIndex].m_nITR_Index].m_btTeam == 1)
+		else if (this->m_UserData[lpObj->m_nITR_Index].m_btTeam == 1)
 		{
 			this->m_nIllusionUserCount--;
 		}
 
-		this->ClearUserData(gGameObjects[aIndex].m_nITR_Index);
-		gGameObjects[aIndex].m_nITR_Index = -1;
-		gGameObjects[aIndex].m_wITR_NpcType = 0;
-		gGameObjects[aIndex].m_byITR_StoneState = 99;
+		this->ClearUserData(lpObj->m_nITR_Index);
+		lpObj->m_nITR_Index = -1;
+		lpObj->m_wITR_NpcType = 0;
+		lpObj->m_byITR_StoneState = 99;
 		this->m_nUserCount--;
 
 		LeaveCriticalSection(&this->m_critUserData);
-		sLog->outBasic("[ ITR ] (%d) LeaveUser: (%s)(%s)", this->m_nTempleNumber + 1, gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name);
+		sLog->outBasic("[ ITR ] (%d) LeaveUser: (%s)(%s)", this->m_nTempleNumber + 1, lpObj->AccountID, lpObj->Name);
 	}
 
-	gGameObjects[aIndex].m_Change = -1;
+	lpObj->m_Change = -1;
 	gObjViewportListProtocolCreate(&gGameObjects[aIndex]);
-	gGameObjects[aIndex].m_nITR_RelicsTick = 0;
-	gGameObjects[aIndex].m_byITR_StoneState = 99;
-	gGameObjects[aIndex].m_wITR_NpcType = 0;
-	gGameObjects[aIndex].m_bITR_GettingRelics = 0;
-	gGameObjects[aIndex].m_bITR_RegisteringRelics = 0;
-	gGameObjects[aIndex].m_nITR_Index = -1;
+	lpObj->m_nITR_RelicsTick = 0;
+	lpObj->m_byITR_StoneState = 99;
+	lpObj->m_wITR_NpcType = 0;
+	lpObj->m_bITR_GettingRelics = 0;
+	lpObj->m_bITR_RegisteringRelics = 0;
+	lpObj->m_nITR_Index = -1;
 
 	return TRUE;
 }
@@ -2328,7 +2328,7 @@ void CIllusionTempleProcess_Renewal::Send_ITR_SkillEnd(OBJECTSTRUCT *lpObj, WORD
 	pMsg.MagicNumberL = LOBYTE(wSkillNumber);
 	pMsg.wObjIndex = lpObj->m_Index;
 
-	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 	GSProtocol.MsgSendV2(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 }
 

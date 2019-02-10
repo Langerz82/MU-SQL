@@ -28,7 +28,7 @@ void CGReqQuestSwitch(PMSG_REQ_QUESTEXP *pMsg, int aIndex)
     }
 
 	sLog->outBasic("[QuestExp] Selection Episode List Choose One [%s][%s] QuestInfoIndexID[0x%x] Choose[%d]",
-		gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, pMsg->dwQuestInfoIndexID, pMsg->btResult);
+		lpObj->AccountID, lpObj->Name, pMsg->dwQuestInfoIndexID, pMsg->btResult);
 
 	lua_State* L = g_MuLuaQuestExp.GetLua();
 
@@ -49,7 +49,7 @@ void CGReqQuestSwitch(PMSG_REQ_QUESTEXP *pMsg, int aIndex)
         pAnsMsg.btResult = 1;
 
         PHeadSubSetB((LPBYTE)&pAnsMsg, 0xF6, 0x00, sizeof(pAnsMsg));
-        IOCP.DataSend(gGameObjects[aIndex].m_Index, (LPBYTE)&pAnsMsg, sizeof(pAnsMsg));
+        IOCP.DataSend(lpObj, (LPBYTE)&pAnsMsg, sizeof(pAnsMsg));
     }
 }
 
@@ -70,7 +70,7 @@ void CGReqQuestProgress(PMSG_REQ_QUESTEXP *pMsg, int aIndex)
     }
 
     sLog->outBasic("[QuestExp] Selection Statements Choose One - User NPC Talking [%s][%s] QuestInfoIndexID[0x%x] Choose[%d]",
-		gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, pMsg->dwQuestInfoIndexID,pMsg->btResult);
+		lpObj->AccountID, lpObj->Name, pMsg->dwQuestInfoIndexID,pMsg->btResult);
 
 	lua_State* L = g_MuLuaQuestExp.GetLua();
 
@@ -99,7 +99,7 @@ void CGReqQuestComplete(PMSG_REQ_QUESTEXP_COMPLETE *pMsg, int aIndex)
         return;
     }
 
-    sLog->outBasic("[QuestExp] ReqQuestComplete [%s][%s] QuestInfoIndexID[0x%x]", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, pMsg->dwQuestInfoIndexID);
+    sLog->outBasic("[QuestExp] ReqQuestComplete [%s][%s] QuestInfoIndexID[0x%x]", lpObj->AccountID, lpObj->Name, pMsg->dwQuestInfoIndexID);
 
 	lua_State* L = g_MuLuaQuestExp.GetLua();
 
@@ -228,18 +228,18 @@ void CGReqAttDefPowerInc(PMSG_REQ_ATTDEF_POWER_INC *pMsg, int aIndex)
 
     if( !gObjIsConnected(aIndex) )
         return;
-	if (gGameObjects[aIndex].TargetNpcNumber == -1)
+	if (lpObj->TargetNpcNumber == -1)
 	{
 		//IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
 		return;
 	}
 
-	if (gGameObjects[aIndex].CloseType != -1)
+	if (lpObj->CloseType != -1)
 	{
 		return;
 	}
 	//[K2] ANTIHACK NPC BUFF TAKE
-	if (gGameObjects[aIndex].m_IfState.use > 0 && gGameObjects[aIndex].m_IfState.type == 33)
+	if (lpObj->m_IfState.use > 0 && lpObj->m_IfState.type == 33)
     NpcShadowPhantom(aIndex);
 }
 

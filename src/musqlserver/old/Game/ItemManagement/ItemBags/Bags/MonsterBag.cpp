@@ -48,7 +48,7 @@ bool CMonsterBag::IsBag(LPGameObject &lpObj, int MonsterClass, int iParam2)
 
 bool CMonsterBag::UseBag(LPGameObject &lpObj, int iMonsterIndex)
 {
-	if (gGameObjects[aIndex].Type != OBJ_USER)
+	if (lpObj->Type != OBJ_USER)
 	{
 		return false;
 	}
@@ -58,7 +58,7 @@ bool CMonsterBag::UseBag(LPGameObject &lpObj, int iMonsterIndex)
 
 	if (rand() % 10000 >= this->m_BagData.dwItemDropRate)
 	{
-		MapC[gGameObjects[aIndex].MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, lpObj->X, lpObj->Y);
+		MapC[lpObj->MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, lpObj->X, lpObj->Y);
 
 		return true;
 	}

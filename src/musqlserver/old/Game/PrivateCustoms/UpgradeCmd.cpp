@@ -132,7 +132,7 @@ int CUpgradeCmd::DoUpgrade(int aIndex)
 		return -1;
 	}
 
-	if (gGameObjects[aIndex].Type != OBJ_USER)
+	if (lpObj->Type != OBJ_USER)
 	{
 		return -1;
 	}

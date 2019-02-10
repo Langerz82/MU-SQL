@@ -717,7 +717,7 @@ BOOL CQuestInfo::MonsterItemDropParty(LPGameObject &lpObj, CGameObject* lpTarget
 	{
 		int aIndex = gParty.m_PartyS[lpTargetObj->PartyNumber].Number[i];
 
-		if(aIndex >= 0 && gGameObjects[aIndex].MapNumber == lpTargetObj->MapNumber)
+		if(aIndex >= 0 && lpObj->MapNumber == lpTargetObj->MapNumber)
 		{
 			CGameObject* lpPartyObj = &gGameObjects[aIndex];
 
@@ -816,7 +816,7 @@ BOOL CQuestInfo::AddMonsterKillCount(LPGameObject &lpObj)
 		{
 			int aIndex = gParty.m_PartyS[lpTarget->PartyNumber].Number[i];
 
-			if(aIndex >= 0 && gGameObjects[aIndex].MapNumber == lpTarget->MapNumber)
+			if(aIndex >= 0 && lpObj->MapNumber == lpTarget->MapNumber)
 			{
 				CGameObject* lpPartyObj = &gGameObjects[aIndex];
 
@@ -1385,7 +1385,7 @@ void CQuestInfo::SendQuestMonsterKill(LPGameObject &lpObj, int iQuestIndex)
 
 	if (pMsg.btResult == TRUE)
 	{
-		IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
+		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, sizeof(pMsg));
 	}
 }
 

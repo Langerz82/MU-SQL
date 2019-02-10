@@ -574,7 +574,7 @@ BOOL MapClass::ItemGive(LPGameObject &lpObj, int item_num, bool bFailNotSend)
 		return FALSE;
 	}
 
-	if (gGameObjects[aIndex].MapNumber != this->thisMapNumber)
+	if (lpObj->MapNumber != this->thisMapNumber)
 	{
 		return FALSE;
 	}
@@ -594,10 +594,10 @@ BOOL MapClass::ItemGive(LPGameObject &lpObj, int item_num, bool bFailNotSend)
 		return FALSE;
 	}
 
-	int disx = this->m_cItem[item_num].px - gGameObjects[aIndex].X;
-	int disy = this->m_cItem[item_num].py - gGameObjects[aIndex].Y;
+	int disx = this->m_cItem[item_num].px - lpObj->X;
+	int disy = this->m_cItem[item_num].py - lpObj->Y;
 
-	if (gGameObjects[aIndex].m_bOffLevel == false)
+	if (lpObj->m_bOffLevel == false)
 	{
 		if (disx > 2 || disx < -2)
 		{
@@ -624,11 +624,11 @@ BOOL MapClass::ItemGive(LPGameObject &lpObj, int item_num, bool bFailNotSend)
 
 					if (this->m_cItem[item_num].m_QuestItem == false)
 					{
-						if (gGameObjects[aIndex].PartyNumber >= 0)
+						if (lpObj->PartyNumber >= 0)
 						{
-							if (gGameObjects[aIndex].PartyNumber == gGameObjects[this->m_cItem[item_num].m_UserIndex].PartyNumber)
+							if (lpObj->PartyNumber == gGameObjects[this->m_cItem[item_num].m_UserIndex].PartyNumber)
 							{
-								if (BC_MAP_RANGE(gGameObjects[aIndex].MapNumber) != FALSE)
+								if (BC_MAP_RANGE(lpObj->MapNumber) != FALSE)
 								{
 									if (this->m_cItem[item_num].m_Type == ITEMGET(12, 15) || (this->m_cItem[item_num].m_Type == ITEMGET(13, 19) && ((this->m_cItem[item_num].m_Level < 0) ? FALSE : (this->m_cItem[item_num].m_Level > 2) ? FALSE : TRUE) != FALSE))
 									{
@@ -657,7 +657,7 @@ BOOL MapClass::ItemGive(LPGameObject &lpObj, int item_num, bool bFailNotSend)
 		{
 			char szTemp[256];
 
-			wsprintf(szTemp, Lang.GetText(0, 60), gGameObjects[aIndex].Name);
+			wsprintf(szTemp, Lang.GetText(0, 60), lpObj->Name);
 			GSProtocol.GCServerMsgStringSend(szTemp, aIndex, 1);
 
 		}

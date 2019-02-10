@@ -740,7 +740,7 @@ void CDarkSpirit::SetMode(ePetItem_Mode mode, int iTargetindex)
 		pMsg.Command = mode;
 		pMsg.NumberH = SET_NUMBERH(iTargetIndex);
 		pMsg.NumberL = SET_NUMBERL(iTargetIndex);
-		IOCP.DataSend(lpObj->m_Index, (UCHAR*)&pMsg, sizeof(pMsg));
+		IOCP.DataSend(lpObj, (UCHAR*)&pMsg, sizeof(pMsg));
 		return;
 	}
 
@@ -1923,19 +1923,19 @@ void __cdecl CDarkSpirit::SendLevelmsg(LPGameObject &lpObj, int nPos, int PetTyp
 	pMsg.PetType = PetType;
 	pMsg.InvenType = InvenType;
 	pMsg.nPos = nPos;
-	pMsg.Level = gGameObjects[aIndex].pInventory[nPos].m_PetItem_Level;
+	pMsg.Level = lpObj->pInventory[nPos].m_PetItem_Level;
 
 	if (PetType == 1)
 	{
-		pMsg.Exp = gGameObjects[aIndex].pInventory[nPos].m_PetItem_Exp - gPetItemExp.m_DarkHorseExpTable[pMsg.Level];
+		pMsg.Exp = lpObj->pInventory[nPos].m_PetItem_Exp - gPetItemExp.m_DarkHorseExpTable[pMsg.Level];
 	}
 
 	else
 	{
-		pMsg.Exp = gGameObjects[aIndex].pInventory[nPos].m_PetItem_Exp - gPetItemExp.m_DarkSpiritExpTable[pMsg.Level];
+		pMsg.Exp = lpObj->pInventory[nPos].m_PetItem_Exp - gPetItemExp.m_DarkSpiritExpTable[pMsg.Level];
 	}
 
-	pMsg.Dur = gGameObjects[aIndex].pInventory[nPos].m_Durability;
+	pMsg.Dur = lpObj->pInventory[nPos].m_Durability;
 
 	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
