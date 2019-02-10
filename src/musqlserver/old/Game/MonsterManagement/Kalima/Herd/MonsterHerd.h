@@ -11,7 +11,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "User/user.h"
+#include "User/CUserData.h"
 
 struct _MONSTER_HERD_DATA 
 {
@@ -51,15 +51,15 @@ public:
 	virtual BOOL GetRandomLocation(BYTE& cX, BYTE& cY);	// 24
 	virtual BOOL CheckLocation(BYTE& cX, BYTE& cY);	// 28
 	virtual int MoveHerd(BYTE iTX, BYTE iTY);	// 2C
-	virtual int MonsterHerdItemDrop(LPOBJ lpObj);	// 30
+	virtual int MonsterHerdItemDrop(CGameObject* lpObj);	// 30
 	virtual _MONSTER_HERD_DATA* GetMonsterData(int iIndex);	// 34
-	virtual void BeenAttacked(LPOBJ lpObj, LPOBJ lpTargetObj);	// 38
-	virtual void OrderAttack(LPOBJ lpObj, LPOBJ lpTargetObj, int iAttackPercent);	// 3C
-	virtual void MonsterBaseAct(LPOBJ lpObj);	// 40
-	virtual void MonsterMoveAction(LPOBJ lpObj);	// 44
-	virtual void MonsterAttackAction(LPOBJ lpObj, LPOBJ lpTargetObj);	// 48
-	virtual void MonsterDieAction(LPOBJ lpObj);	// 4C
-	virtual int MonsterRegenAction(LPOBJ lpObj);	// 50
+	virtual void BeenAttacked(CGameObject* lpObj, CGameObject* lpTargetObj);	// 38
+	virtual void OrderAttack(CGameObject* lpObj, CGameObject* lpTargetObj, int iAttackPercent);	// 3C
+	virtual void MonsterBaseAct(CGameObject* lpObj);	// 40
+	virtual void MonsterMoveAction(CGameObject* lpObj);	// 44
+	virtual void MonsterAttackAction(CGameObject* lpObj, CGameObject* lpTargetObj);	// 48
+	virtual void MonsterDieAction(CGameObject* lpObj);	// 4C
+	virtual int MonsterRegenAction(CGameObject* lpObj);	// 50
 	virtual int GetPosIndex();
 	virtual int GetEndPosIndex();
 	virtual void SetPosIndex(int nPosIndex);

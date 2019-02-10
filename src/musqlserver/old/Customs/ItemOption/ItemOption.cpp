@@ -154,7 +154,7 @@ bool CItemOption::GetItemOption(int index, CItem* lpItem) // OK
 	return result;
 }
 
-void CItemOption::CalcItemCommonOption(LPOBJ lpObj, bool flag) // OK
+void CItemOption::CalcItemCommonOption(CGameObject* lpObj, bool flag) // OK
 {
 	for (int n = 0; n < INVETORY_WEAR_SIZE; n++)
 	{
@@ -165,7 +165,7 @@ void CItemOption::CalcItemCommonOption(LPOBJ lpObj, bool flag) // OK
 	}
 }
 
-void CItemOption::InsertOption(LPOBJ lpObj, CItem* lpItem, bool flag) // OK
+void CItemOption::InsertOption(CGameObject* lpObj, CItem* lpItem, bool flag) // OK
 {
 	for (int n = 0; n < MAX_SPECIAL; n++)
 	{

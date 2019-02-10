@@ -170,7 +170,7 @@ struct PERIOD_DATA
 	BYTE btItemCount;
 	WORD wUserIndex;
 	DWORD dwUserGuid;
-	LPOBJ m_Obj; // lol
+	CGameObject* m_Obj; // lol
 	char szAccountID[MAX_ACCOUNT_LEN+1];
 	char szCharacterName[MAX_ACCOUNT_LEN+1];
 	ITEM_DATA m_ItemInfo[30];
@@ -200,29 +200,29 @@ public:
 
 	void Initialize();
 
-	int AddPeriodInfo(LPOBJ lpObj);
-	BOOL RemovePeriodInfo(LPOBJ lpObj);
-	BOOL IsCorrectUser(LPOBJ lpObj);
+	int AddPeriodInfo(CGameObject* lpObj);
+	BOOL RemovePeriodInfo(CGameObject* lpObj);
+	BOOL IsCorrectUser(CGameObject* lpObj);
 
-	int AddPeriodItemData(LPOBJ lpObj, WORD ItemType, UINT64 Serial, DWORD Duration, time_t ExpireDate);
-	int AddPeriodItemData(LPOBJ lpObj, WORD ItemType, UINT64 Serial, DWORD Duration);
-	int RemovePeriodItemData(LPOBJ lpObj, BYTE ItemUseType, WORD ItemType, UINT64 Serial);
-	int RemovePeriodItemDataByForce(LPOBJ lpObj, WORD ItemType, UINT64 Serial);
+	int AddPeriodItemData(CGameObject* lpObj, WORD ItemType, UINT64 Serial, DWORD Duration, time_t ExpireDate);
+	int AddPeriodItemData(CGameObject* lpObj, WORD ItemType, UINT64 Serial, DWORD Duration);
+	int RemovePeriodItemData(CGameObject* lpObj, BYTE ItemUseType, WORD ItemType, UINT64 Serial);
+	int RemovePeriodItemDataByForce(CGameObject* lpObj, WORD ItemType, UINT64 Serial);
 
 	BOOL CheckExpireDate(time_t ExpireDate);
 	void CheckPeriodData();
 	time_t GetExpireDate(DWORD Duration);
 	time_t GetLeftDate(time_t ExpireDate);
-	int GetItemFromInventory(LPOBJ lpObj, WORD ItemType, UINT64 Serial);
+	int GetItemFromInventory(CGameObject* lpObj, WORD ItemType, UINT64 Serial);
 
 	time_t GetCurrentDate();
 
-	void OnRequestPeriodItemList(LPOBJ lpObj);
-	void OnRequestPeriodItemListOnce(LPOBJ lpObj, ITEM_DATA * lpItemData);
+	void OnRequestPeriodItemList(CGameObject* lpObj);
+	void OnRequestPeriodItemListOnce(CGameObject* lpObj, ITEM_DATA * lpItemData);
 
-	void RequestPeriodItemInfo(LPOBJ lpObj);
-	void RequestPeriodItemInsert(LPOBJ lpObj, ITEM_DATA * lpItemData, DWORD dwDuration);
-	void RequestPeriodItemDelete(LPOBJ lpObj, ITEM_DATA * lpItemData);
+	void RequestPeriodItemInfo(CGameObject* lpObj);
+	void RequestPeriodItemInsert(CGameObject* lpObj, ITEM_DATA * lpItemData, DWORD dwDuration);
+	void RequestPeriodItemDelete(CGameObject* lpObj, ITEM_DATA * lpItemData);
 
 	void DGPeriodItemExInsert(PMSG_ANS_PERIODITEMEX_INSERT * lpMsg);
 	void DGPeriodItemExDelete(PMSG_ANS_PERIODITEMEX_DELETE * lpMsg);
@@ -230,12 +230,12 @@ public:
 	void DGPeriodItemExListCount(PMSG_ANS_PERIODITEMEX_LIST_COUNT * lpMsg);
 	void DGPeriodItemExList(PMSG_ANS_PERIODITEMEX_LIST * lpMsg);
 	
-	BOOL SendPeriodItemInfoOnce(LPOBJ lpObj, CItem * Item);
-	BOOL SendPeriodItemInfoOnce(LPOBJ lpObj, UINT64 Serial);
+	BOOL SendPeriodItemInfoOnce(CGameObject* lpObj, CItem * Item);
+	BOOL SendPeriodItemInfoOnce(CGameObject* lpObj, UINT64 Serial);
 
-	BOOL SetPeriodItemInfo(LPOBJ lpObj, WORD wItemCode, UINT64 Serial, DWORD dwDuration);
-	BOOL SetDisableItemToExpire(LPOBJ lpObj, int pos);
-	void SetExpireNotMatchedData(LPOBJ lpObj);
+	BOOL SetPeriodItemInfo(CGameObject* lpObj, WORD wItemCode, UINT64 Serial, DWORD dwDuration);
+	BOOL SetDisableItemToExpire(CGameObject* lpObj, int pos);
+	void SetExpireNotMatchedData(CGameObject* lpObj);
 
 	PERIOD_DATA * m_PeriodData;
 

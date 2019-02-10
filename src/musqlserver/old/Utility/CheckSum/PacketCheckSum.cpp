@@ -57,7 +57,7 @@ void CPacketCheckSum::Check(int aIndex)
 			char szPacketError[256];
 
 			sLog->outBasic("PacketCheckSum Error [%d][%s][%s] %d",
-				aIndex, gObj[aIndex].AccountID, gObj[aIndex].Name, i);
+				aIndex, gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, i);
 			
 			wsprintf(szPacketError, "PacketCheckSum Error %d", i);
 
@@ -72,7 +72,7 @@ void CPacketCheckSum::Check(int aIndex)
 		}
 	}
 
-	sLog->outBasic("Check PacketCheckSum [%d][%s][%s]", aIndex, gObj[aIndex].AccountID, gObj[aIndex].Name);
+	sLog->outBasic("Check PacketCheckSum [%d][%s][%s]", aIndex, gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name);
 	this->ClearCheckSum(aIndex);
 }
 
@@ -105,7 +105,7 @@ BOOL CPacketCheckSum::Add(int aIndex, int funcindex, DWORD checksum)
 		char szPacketError[256];
 
 		sLog->outBasic("PacketCheckSum : Compare Fail : [%d][%s][%s] (%d,%d)", aIndex,
-			gObj[aIndex].AccountID, gObj[aIndex].Name, funcindex, checksum);
+			gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, funcindex, checksum);
 
 		wsprintf(szPacketError, "PacketCheckSum : Compare Fail : (%d,%d)", funcindex, checksum);
 

@@ -75,7 +75,7 @@ void CDarkSpirit::Run()
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[masteridx];
+	CGameObject* lpObj = &gGameObjects[masteridx];
 
 	if ( lpObj->Class != 4 ) // dñl
 	{
@@ -158,7 +158,7 @@ void CDarkSpirit::ModeNormal()
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[this->m_iMasterIndex];
+	CGameObject* lpObj = &gGameObjects[this->m_iMasterIndex];
 
 	LeaveCriticalSection(&this->m_SpiritCriti);
 }
@@ -175,7 +175,7 @@ void CDarkSpirit::ModeAttackRandom()
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[this->m_iMasterIndex];
+	CGameObject* lpObj = &gGameObjects[this->m_iMasterIndex];
 
 	int tObjNum;
 	int count = 0;
@@ -220,9 +220,9 @@ void CDarkSpirit::ModeAttackRandom()
 			{
 				EnableAttack = FALSE;
 				
-				if ( gObj[tObjNum].Life > 0.0f && (gObj[tObjNum].Class < 100 || gObj[tObjNum].Class  > 110 ) )
+				if ( gGameObjects[tObjNum].Life > 0.0f && (gGameObjects[tObjNum].Class < 100 || gGameObjects[tObjNum].Class  > 110 ) )
 				{
-					if ( lpObj->VpPlayer2[count].type == OBJ_MONSTER && gObj[tObjNum].m_RecallMon < 0)
+					if ( lpObj->VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum].m_RecallMon < 0)
 					{
 						EnableAttack = TRUE;
 					}
@@ -234,32 +234,32 @@ void CDarkSpirit::ModeAttackRandom()
 
 					else
 					{
-						int lc85 = gObj[tObjNum].m_Index;
+						int lc85 = gGameObjects[tObjNum].m_Index;
 						
-						if ( gObj[tObjNum].Type == OBJ_MONSTER )
+						if ( gGameObjects[tObjNum].Type == OBJ_MONSTER )
 						{
-							if ( gObj[tObjNum].m_RecallMon >= 0 )
+							if ( gGameObjects[tObjNum].m_RecallMon >= 0 )
 							{
-								lc85 = gObj[gObj[tObjNum].m_RecallMon].m_Index; 
+								lc85 = gGameObjects[gGameObjects[tObjNum].m_RecallMon].m_Index; 
 							}
 						}
 
-						if ( gObjTargetGuildWarCheck(lpObj, &gObj[lc85]) == TRUE )
+						if ( gObjTargetGuildWarCheck(lpObj, &gGameObjects[lc85]) == TRUE )
 						{
 							EnableAttack = TRUE;
 						}
 
-						if ( gObj[tObjNum].Type == OBJ_USER && g_GensSystem.IsMapBattleZone(lpObj->MapNumber) == TRUE && g_GensSystem.IsPkEnable(lpObj, &gObj[lc85]) == TRUE )
+						if ( gGameObjects[tObjNum].Type == OBJ_USER && g_GensSystem.IsMapBattleZone(lpObj->MapNumber) == TRUE && g_GensSystem.IsPkEnable(lpObj, &gGameObjects[lc85]) == TRUE )
 						{
 							EnableAttack = TRUE;
 						}
 
-						if(gObj[tObjNum].Class >= 678 && gObj[tObjNum].Class <= 680)
+						if(gGameObjects[tObjNum].Class >= 678 && gGameObjects[tObjNum].Class <= 680)
 						{
 							EnableAttack = TRUE;
 						}
 
-						if ( IMPERIAL_MAP_RANGE(gObj[tObjNum].MapNumber) == TRUE )
+						if ( IMPERIAL_MAP_RANGE(gGameObjects[tObjNum].MapNumber) == TRUE )
 						{
 							EnableAttack = g_ImperialGuardian.IsAttackAbleMonster(tObjNum);
 						}
@@ -267,9 +267,9 @@ void CDarkSpirit::ModeAttackRandom()
 
 					if ( EnableAttack != FALSE )
 					{
-						if ( lpObj->MapNumber == gObj[tObjNum].MapNumber )
+						if ( lpObj->MapNumber == gGameObjects[tObjNum].MapNumber )
 						{
-							dis = gObjCalDistance(lpObj, &gObj[tObjNum]);
+							dis = gObjCalDistance(lpObj, &gGameObjects[tObjNum]);
 							
 							if ( dis < RAVEN_ATTACK_DISTANCE-2 )
 							{
@@ -323,8 +323,8 @@ void CDarkSpirit::ModeAttackWithMaster()
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[this->m_iMasterIndex];
-	LPOBJ lpTargetObj = &gObj[this->m_iTargetIndex];
+	CGameObject* lpObj = &gGameObjects[this->m_iMasterIndex];
+	CGameObject* lpTargetObj = &gGameObjects[this->m_iTargetIndex];
 
 	int iCriticalDamage = this->m_CriticalDamage + lpObj->m_PlayerData->m_MPSkillOpt.iMpsAddCriticalDamageRate;
 	int iExcellentDamage = this->m_ExcellentDamage + lpObj->m_PlayerData->m_MPSkillOpt.iMpsAddExcellentDamageRate;
@@ -398,8 +398,8 @@ void CDarkSpirit::ModeAttakTarget()
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[this->m_iMasterIndex];
-	LPOBJ lpTargetObj = &gObj[this->m_iTargetIndex];
+	CGameObject* lpObj = &gGameObjects[this->m_iMasterIndex];
+	CGameObject* lpTargetObj = &gGameObjects[this->m_iTargetIndex];
 	int count = 0;
 	int dis;
 
@@ -443,7 +443,7 @@ void CDarkSpirit::RangeAttack(int aIndex, int aTargetIndex)
 
 	LeaveCriticalSection(&this->m_SpiritCriti);
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 	int StartDis = 1;
 	int tObjNum;
 	int count = 0;
@@ -464,7 +464,7 @@ void CDarkSpirit::RangeAttack(int aIndex, int aTargetIndex)
 			{
 				EnableAttack = FALSE;
 				
-				if ( lpObj->VpPlayer2[count].type == OBJ_MONSTER && gObj[tObjNum].m_RecallMon < 0)
+				if ( lpObj->VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum].m_RecallMon < 0)
 				{
 					EnableAttack = TRUE;
 				}
@@ -476,27 +476,27 @@ void CDarkSpirit::RangeAttack(int aIndex, int aTargetIndex)
 
 				else
 				{
-					int lc10 = gObj[tObjNum].m_Index;
+					int lc10 = gGameObjects[tObjNum].m_Index;
 
-					if ( gObj[tObjNum].Type == OBJ_MONSTER )
+					if ( gGameObjects[tObjNum].Type == OBJ_MONSTER )
 					{
-						if ( gObj[tObjNum].m_RecallMon >= 0 )
+						if ( gGameObjects[tObjNum].m_RecallMon >= 0 )
 						{
-							lc10 = gObj[gObj[tObjNum].m_RecallMon].m_Index;
+							lc10 = gGameObjects[gGameObjects[tObjNum].m_RecallMon].m_Index;
 						}
 					}
 
-					if ( gObjTargetGuildWarCheck(lpObj, &gObj[lc10]) == TRUE )
+					if ( gObjTargetGuildWarCheck(lpObj, &gGameObjects[lc10]) == TRUE )
 					{
 						EnableAttack = TRUE;
 					}
 
-					if ( gObj[tObjNum].Type == OBJ_USER && g_GensSystem.IsMapBattleZone(lpObj->MapNumber) == TRUE && g_GensSystem.IsPkEnable(lpObj, &gObj[tObjNum]) == TRUE )
+					if ( gGameObjects[tObjNum].Type == OBJ_USER && g_GensSystem.IsMapBattleZone(lpObj->MapNumber) == TRUE && g_GensSystem.IsPkEnable(lpObj, &gGameObjects[tObjNum]) == TRUE )
 					{
 						EnableAttack = TRUE;
 					}
 
-					if(gObj[tObjNum].Class >= 678 && gObj[tObjNum].Class <= 680)
+					if(gGameObjects[tObjNum].Class >= 678 && gGameObjects[tObjNum].Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -517,7 +517,7 @@ void CDarkSpirit::RangeAttack(int aIndex, int aTargetIndex)
 
 					if ( attackcheck != FALSE )
 					{
-						if ( gObjCalDistance(&gObj[aTargetIndex], &gObj[tObjNum]) < RAVEN_ATTACK_DISTANCE-3 )
+						if ( gObjCalDistance(&gGameObjects[aTargetIndex], &gGameObjects[tObjNum]) < RAVEN_ATTACK_DISTANCE-3 )
 						{
 							this->SendAttackMsg(lpObj->m_Index, tObjNum, 2, 0);
 							HitCount++;
@@ -571,13 +571,13 @@ void CDarkSpirit::SendAttackMsg(int aIndex, int aTargetIndex, int iDamageType, i
 	pMsg.h.set((LPBYTE)&pMsg, 0xA8, sizeof(pMsg));
 	
 	IOCP.DataSend(aIndex, (UCHAR*)&pMsg, pMsg.h.size);
-	GSProtocol.MsgSendV2(&gObj[aIndex], (UCHAR*)&pMsg, pMsg.h.size);
+	GSProtocol.MsgSendV2(&gGameObjects[aIndex], (UCHAR*)&pMsg, pMsg.h.size);
 
 	if (iActionType == 1)
 	{
 		EnterCriticalSection(&this->m_SpiritCriti);
 		
-		LPOBJ lpObj = &gObj[this->m_iMasterIndex];
+		CGameObject* lpObj = &gGameObjects[this->m_iMasterIndex];
 		int iDamageType = 0;
 		int iCriticalDamage = this->m_CriticalDamage + lpObj->m_PlayerData->m_MPSkillOpt.iMpsAddCriticalDamageRate;
 		int iExcellentDamage = this->m_ExcellentDamage + lpObj->m_PlayerData->m_MPSkillOpt.iMpsAddExcellentDamageRate;
@@ -601,7 +601,7 @@ void CDarkSpirit::SendAttackMsg(int aIndex, int aTargetIndex, int iDamageType, i
 		}
 	}
 
-	gObjAddAttackProcMsgSendDelay(&gObj[aIndex], 51, aTargetIndex, 600, iDamageType, iActionType);
+	gObjAddAttackProcMsgSendDelay(&gGameObjects[aIndex], 51, aTargetIndex, 600, iDamageType, iActionType);
 }
 
 
@@ -622,7 +622,7 @@ void CDarkSpirit::SetTarget(int aTargetIndex)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[this->m_iMasterIndex];
+	CGameObject* lpObj = &gGameObjects[this->m_iMasterIndex];
 
 	if ( lpObj->Class != 4 )	// DL
 	{
@@ -652,7 +652,7 @@ void CDarkSpirit::ReSetTarget(int aTargetIndex)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[this->m_iMasterIndex];
+	CGameObject* lpObj = &gGameObjects[this->m_iMasterIndex];
 
 	if ( lpObj->Class != 4 )	// DL
 	{
@@ -704,7 +704,7 @@ void CDarkSpirit::SetMode(ePetItem_Mode mode, int iTargetindex)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[this->m_iMasterIndex];
+	CGameObject* lpObj = &gGameObjects[this->m_iMasterIndex];
 
 	if ( lpObj->Class != CLASS_DARKLORD )	// DL
 	{
@@ -753,7 +753,7 @@ void CDarkSpirit::SetMode(ePetItem_Mode mode, int iTargetindex)
 void CDarkSpirit::Set(int aIndex, CItem * pPetItem)
 {
 	EnterCriticalSection(&this->m_SpiritCriti);
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if ( lpObj->Class != 4 )	// DL
 	{
@@ -807,11 +807,11 @@ void CDarkSpirit::Set(int aIndex, CItem * pPetItem)
 
 
 
-BOOL CDarkSpirit::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf * lpMagic, int iDamageType, int iActionType)
+BOOL CDarkSpirit::Attack(CGameObject* lpObj, CGameObject* lpTargetObj, CMagicInf * lpMagic, int iDamageType, int iActionType)
 {
 	int skillSuccess = 0;
-	LPOBJ lpCallObj;
-	LPOBJ lpCallTargetObj;
+	CGameObject* lpCallObj;
+	CGameObject* lpCallTargetObj;
 	int MsgDamage = 0;
 	int ManaChange = 0;
 	int iTempShieldDamage = 0;
@@ -1024,7 +1024,7 @@ BOOL CDarkSpirit::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf * lpMagic, in
 	{
 		if ( lpTargetObj->m_RecallMon >= 0 )
 		{
-			lpCallTargetObj = &gObj[lpTargetObj->m_RecallMon];
+			lpCallTargetObj = &gGameObjects[lpTargetObj->m_RecallMon];
 		}
 	}
 
@@ -1431,7 +1431,7 @@ BOOL CDarkSpirit::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf * lpMagic, in
 	{
 		if ( lpTargetObj->m_RecallMon >= 0 )
 		{
-			lpCallObj = &gObj[lpTargetObj->m_RecallMon];
+			lpCallObj = &gGameObjects[lpTargetObj->m_RecallMon];
 		}
 	}
 
@@ -1627,7 +1627,7 @@ BOOL CDarkSpirit::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf * lpMagic, in
 
 
 
-int  CDarkSpirit::GetAttackDamage(LPOBJ lpObj, int targetDefense, int crititcaldamage)
+int  CDarkSpirit::GetAttackDamage(CGameObject* lpObj, int targetDefense, int crititcaldamage)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -1694,7 +1694,7 @@ int  CDarkSpirit::GetAttackDamage(LPOBJ lpObj, int targetDefense, int crititcald
 
 
 
-BOOL CDarkSpirit::MissCheck(LPOBJ lpObj, LPOBJ lpTargetObj, int skill,  int skillSuccess, BOOL& bAllMiss)
+BOOL CDarkSpirit::MissCheck(CGameObject* lpObj, CGameObject* lpTargetObj, int skill,  int skillSuccess, BOOL& bAllMiss)
 {
 	EnterCriticalSection(&this->m_SpiritCriti);
 	int SuccessAttackRate = this->m_SuccessAttackRate;
@@ -1756,7 +1756,7 @@ BOOL CDarkSpirit::MissCheck(LPOBJ lpObj, LPOBJ lpTargetObj, int skill,  int skil
 }
 
 
-BOOL CDarkSpirit::MissCheckPvP(LPOBJ lpObj, LPOBJ lpTargetObj, int skill,  int skillSuccess, BOOL& bAllMiss)
+BOOL CDarkSpirit::MissCheckPvP(CGameObject* lpObj, CGameObject* lpTargetObj, int skill,  int skillSuccess, BOOL& bAllMiss)
 {
 	float iAttackRate = 0;
 	float iDefenseRate = 0;
@@ -1923,25 +1923,25 @@ void __cdecl CDarkSpirit::SendLevelmsg(int aIndex, int nPos, int PetType, int In
 	pMsg.PetType = PetType;
 	pMsg.InvenType = InvenType;
 	pMsg.nPos = nPos;
-	pMsg.Level = gObj[aIndex].pInventory[nPos].m_PetItem_Level;
+	pMsg.Level = gGameObjects[aIndex].pInventory[nPos].m_PetItem_Level;
 
 	if (PetType == 1)
 	{
-		pMsg.Exp = gObj[aIndex].pInventory[nPos].m_PetItem_Exp - gPetItemExp.m_DarkHorseExpTable[pMsg.Level];
+		pMsg.Exp = gGameObjects[aIndex].pInventory[nPos].m_PetItem_Exp - gPetItemExp.m_DarkHorseExpTable[pMsg.Level];
 	}
 
 	else
 	{
-		pMsg.Exp = gObj[aIndex].pInventory[nPos].m_PetItem_Exp - gPetItemExp.m_DarkSpiritExpTable[pMsg.Level];
+		pMsg.Exp = gGameObjects[aIndex].pInventory[nPos].m_PetItem_Exp - gPetItemExp.m_DarkSpiritExpTable[pMsg.Level];
 	}
 
-	pMsg.Dur = gObj[aIndex].pInventory[nPos].m_Durability;
+	pMsg.Dur = gGameObjects[aIndex].pInventory[nPos].m_Durability;
 
 	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 
-int CDarkSpirit::GetShieldDamage(LPOBJ lpObj, LPOBJ lpTargetObj, int iAttackDamage)
+int CDarkSpirit::GetShieldDamage(CGameObject* lpObj, CGameObject* lpTargetObj, int iAttackDamage)
 {
 	int iShieldDamage = 0;
 

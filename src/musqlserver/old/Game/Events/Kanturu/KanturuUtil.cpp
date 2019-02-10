@@ -126,8 +126,8 @@ void CKanturuUtil::NotifyKanturuWideAreaAttack(int iIndex, int iTargetIndex, int
 	PMSG_NOTIFY_KANTURU_WIDE_AREA_ATTACK pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xD1, 0x06, sizeof(pMsg));
-	pMsg.btObjClassH = SET_NUMBERH(gObj[iIndex].Class);
-	pMsg.btObjClassL = SET_NUMBERL(gObj[iIndex].Class);
+	pMsg.btObjClassH = SET_NUMBERH(gGameObjects[iIndex].Class);
+	pMsg.btObjClassL = SET_NUMBERL(gGameObjects[iIndex].Class);
 	pMsg.btType = iSkillType;
 
 	this->SendDataToUser(iTargetIndex, (LPBYTE)&pMsg, sizeof(pMsg));
@@ -173,8 +173,8 @@ void CKanturuUtil::SendMsgKanturuBattleUser(LPSTR lpszMsg, ...)
 	{
 		iUserIndex = g_KanturuBattleUserMng.m_BattleUser[iCount].GetIndex();
 
-		if ( iUserIndex != -1 && gObj[iUserIndex].Connected == PLAYER_PLAYING &&
-			 gObj[iUserIndex].Type == OBJ_USER )
+		if ( iUserIndex != -1 && gGameObjects[iUserIndex].Connected == PLAYER_PLAYING &&
+			 gGameObjects[iUserIndex].Type == OBJ_USER )
 		{
 			TNotice::SendNoticeToUser(iUserIndex, &pNotice);
 		}
@@ -189,8 +189,8 @@ void CKanturuUtil::SendDataKanturuBattleUser(LPBYTE lpMsg, int iSize)
 	{
 		iUserIndex = g_KanturuBattleUserMng.m_BattleUser[iCount].GetIndex();
 
-		if ( iUserIndex != -1 && gObj[iUserIndex].Connected == PLAYER_PLAYING &&
-			 gObj[iUserIndex].Type == OBJ_USER )
+		if ( iUserIndex != -1 && gGameObjects[iUserIndex].Connected == PLAYER_PLAYING &&
+			 gGameObjects[iUserIndex].Type == OBJ_USER )
 		{
 			IOCP.DataSend(iUserIndex, lpMsg, iSize);
 		}
@@ -215,9 +215,9 @@ void CKanturuUtil::SendMsgKauturuBossMapUser(LPSTR lpszMsg, ...)
 
 	for (int iCount = g_ConfigRead.server.GetObjectStartUserIndex(); iCount < g_ConfigRead.server.GetObjectMax(); iCount++)
 	{
-		if (gObj[iCount].Connected == PLAYER_PLAYING &&
-			gObj[iCount].Type == OBJ_USER &&
-			gObj[iCount].MapNumber == MAP_INDEX_KANTURU_BOSS)
+		if (gGameObjects[iCount].Connected == PLAYER_PLAYING &&
+			gGameObjects[iCount].Type == OBJ_USER &&
+			gGameObjects[iCount].MapNumber == MAP_INDEX_KANTURU_BOSS)
 		{
 			TNotice::SendNoticeToUser(iCount, &pNotice);
 		}
@@ -229,9 +229,9 @@ void CKanturuUtil::SendDataKanturuBossMapUser(LPBYTE lpMsg, int iSize)
 {
 	for (int iCount = g_ConfigRead.server.GetObjectStartUserIndex(); iCount < g_ConfigRead.server.GetObjectMax(); iCount++)
 	{
-		if (gObj[iCount].Connected == PLAYER_PLAYING &&
-			gObj[iCount].Type == OBJ_USER &&
-			gObj[iCount].MapNumber == MAP_INDEX_KANTURU_BOSS)
+		if (gGameObjects[iCount].Connected == PLAYER_PLAYING &&
+			gGameObjects[iCount].Type == OBJ_USER &&
+			gGameObjects[iCount].MapNumber == MAP_INDEX_KANTURU_BOSS)
 		{
 			IOCP.DataSend(iCount, lpMsg, iSize);
 		}
@@ -256,11 +256,11 @@ void CKanturuUtil::SendMsgKauturuMapUser(LPSTR lpszMsg, ...)
 
 	for (int iCount = g_ConfigRead.server.GetObjectStartUserIndex(); iCount < g_ConfigRead.server.GetObjectMax(); iCount++)
 	{
-		if (gObj[iCount].Connected == PLAYER_PLAYING &&
-			gObj[iCount].Type == OBJ_USER &&
-			(gObj[iCount].MapNumber == MAP_INDEX_KANTURU1 ||
-				gObj[iCount].MapNumber == MAP_INDEX_KANTURU2 ||
-				gObj[iCount].MapNumber == MAP_INDEX_KANTURU_BOSS))
+		if (gGameObjects[iCount].Connected == PLAYER_PLAYING &&
+			gGameObjects[iCount].Type == OBJ_USER &&
+			(gGameObjects[iCount].MapNumber == MAP_INDEX_KANTURU1 ||
+				gGameObjects[iCount].MapNumber == MAP_INDEX_KANTURU2 ||
+				gGameObjects[iCount].MapNumber == MAP_INDEX_KANTURU_BOSS))
 		{
 			TNotice::SendNoticeToUser(iCount, &pNotice);
 		}
@@ -271,11 +271,11 @@ void CKanturuUtil::SendDataKanturuMapUser(LPBYTE lpMsg, int iSize)
 {
 	for (int iCount = g_ConfigRead.server.GetObjectStartUserIndex(); iCount < g_ConfigRead.server.GetObjectMax(); iCount++)
 	{
-		if (gObj[iCount].Connected == PLAYER_PLAYING &&
-			gObj[iCount].Type == OBJ_USER &&
-			(gObj[iCount].MapNumber == MAP_INDEX_KANTURU1 ||
-				gObj[iCount].MapNumber == MAP_INDEX_KANTURU2 ||
-				gObj[iCount].MapNumber == MAP_INDEX_KANTURU_BOSS))
+		if (gGameObjects[iCount].Connected == PLAYER_PLAYING &&
+			gGameObjects[iCount].Type == OBJ_USER &&
+			(gGameObjects[iCount].MapNumber == MAP_INDEX_KANTURU1 ||
+				gGameObjects[iCount].MapNumber == MAP_INDEX_KANTURU2 ||
+				gGameObjects[iCount].MapNumber == MAP_INDEX_KANTURU_BOSS))
 		{
 			IOCP.DataSend(iCount, lpMsg, iSize);
 		}
@@ -307,8 +307,8 @@ void CKanturuUtil::SendDataAllUser(LPBYTE lpMsg, int iSize)
 {
 	for (int iCount = g_ConfigRead.server.GetObjectStartUserIndex(); iCount < g_ConfigRead.server.GetObjectMax(); iCount++)
 	{
-		if (gObj[iCount].Connected == PLAYER_PLAYING &&
-			gObj[iCount].Type == OBJ_USER)
+		if (gGameObjects[iCount].Connected == PLAYER_PLAYING &&
+			gGameObjects[iCount].Type == OBJ_USER)
 		{
 			IOCP.DataSend(iCount, lpMsg, iSize);
 		}
@@ -335,8 +335,8 @@ void CKanturuUtil::SendMsgToUser(int iIndex, LPSTR lpszMsg, ...)
 
 void CKanturuUtil::SendDataToUser(int iIndex, LPBYTE lpMsg, int iSize)
 {
-	if ( gObj[iIndex].Connected == PLAYER_PLAYING &&
-		 gObj[iIndex].Type == OBJ_USER )
+	if ( gGameObjects[iIndex].Connected == PLAYER_PLAYING &&
+		 gGameObjects[iIndex].Type == OBJ_USER )
 	{
 		IOCP.DataSend(iIndex, lpMsg, iSize);
 	}
@@ -347,7 +347,7 @@ void CKanturuUtil::SendDataToUser(int iIndex, LPBYTE lpMsg, int iSize)
 void CKanturuUtil::SendKanturuChattingMsg(int iIndex, LPSTR lpMsg, ...)
 {
 	return;
-	LPOBJ lpObj;
+	CGameObject* lpObj;
 	char szChat[512];
 
 	for (int iCount = 0; iCount < MaxViewportMonster; iCount++)
@@ -386,9 +386,9 @@ void CKanturuUtil::SendDataKanturuTimeAttackEvent(int iIndex, BYTE btFlag, int i
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xBE, 0x22, sizeof(pMsg));
 	pMsg.nINDEX = iIndex;
-	memcpy(pMsg.szUID, gObj[iIndex].AccountID, MAX_ACCOUNT_LEN);
+	memcpy(pMsg.szUID, gGameObjects[iIndex].AccountID, MAX_ACCOUNT_LEN);
 	pMsg.szUID[10] = '\0';	// #error Change 11 to 10
-	memcpy(pMsg.szNAME, gObj[iIndex].Name, MAX_ACCOUNT_LEN);
+	memcpy(pMsg.szNAME, gGameObjects[iIndex].Name, MAX_ACCOUNT_LEN);
 	pMsg.szNAME[10] = '\0';	// #error Change 11 to 10
 	pMsg.wServerCode = g_ConfigRead.server.GetGameServerCode() / 20;	// #warning Change the 20 for a posible macro of MapServerInfo
 
@@ -402,8 +402,8 @@ void CKanturuUtil::SendDataKanturuTimeAttackEvent(int iIndex, BYTE btFlag, int i
 	memcpy(pMsg.szBattleID, szKanturuBattleDate, sizeof(pMsg.szBattleID));
 	pMsg.btStageNumber = btFlag;
 	pMsg.wClearTime = iClearTime;
-	pMsg.iLevel = gObj[iIndex].Level;
-	pMsg.iExp = gObj[iIndex].m_PlayerData->Experience;
+	pMsg.iLevel = gGameObjects[iIndex].Level;
+	pMsg.iExp = gGameObjects[iIndex].m_PlayerData->Experience;
 
 	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
 }

@@ -43,7 +43,7 @@ extern void MuLoginDeleteMapMove(char * szAccountID);
 #define OPTION_CONTROL		6
 
 struct JOIN_SERVER_SERVER_DATA;
-struct JOIN_SERVER_USER_DATA;
+struct JOIN_SERVER_CUserData;
 struct SDHP_SERVERINFO;
 struct SDHP_IDPASS;
 struct SDHP_JOINFAIL;
@@ -222,7 +222,7 @@ public:
 	}
 	int m_MuLoginUserDataCount;
 private:
-	JOIN_SERVER_USER_DATA m_MuLoginUserData[MAX_LOGIN_USER];
+	JOIN_SERVER_CUserData m_MuLoginUserData[MAX_LOGIN_USER];
 	int m_iUserNumber;
 };
 

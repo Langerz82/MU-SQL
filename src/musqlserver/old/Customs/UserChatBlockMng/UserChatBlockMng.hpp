@@ -7,7 +7,7 @@
 // import
 #include "prodef.h"
 #include "Logging/Log.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 
 // defines
 #define USERCHATBLOCK_LIST_LIMIT	50
@@ -158,7 +158,7 @@ public:
 
 	bool isCanReceiveChat(short SenderIndex, short TargetIndex) 
 	{
-		LPOBJ tmpSender = &gObj[SenderIndex];
+		CGameObject* tmpSender = &gGameObjects[SenderIndex];
 		dataUserChatBlockListSet* targetList = getSlot(TargetIndex);
 		if (targetList == NULL) 
 		{
@@ -166,7 +166,7 @@ public:
 		}
 		if (!targetList->isFreeName(tmpSender->Name)) 
 		{
-			MsgOutput(SenderIndex, "Failure, %s add you to black list", gObj[TargetIndex].Name);
+			MsgOutput(SenderIndex, "Failure, %s add you to black list", gGameObjects[TargetIndex].Name);
 			return false;
 		}
 		return true;

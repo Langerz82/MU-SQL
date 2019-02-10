@@ -69,7 +69,7 @@ public:
 	BOOL AddUser(int aIndex, WORD wSkillId);
 	BOOL DeleteUser(int aIndex);
 	int FindUser(int aIndex);
-	void FindAndAttack(LPOBJ user);
+	void FindAndAttack(CGameObject* user);
 	bool ChargePlayer(int aIndex);
 	int GetSkillAttackType(WORD wSkillID);
 	BOOL SkillDistanceCheck(int aIndex, int aTargetIndex, int iSkillNum);

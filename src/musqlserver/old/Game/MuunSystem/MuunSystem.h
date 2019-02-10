@@ -129,14 +129,14 @@ public:
 	virtual ~CMuunAttack();
 
 	void SendAttackMsg(int aIndex, int aTargetIndex, int SubCode, int SubCode2);
-	void SkillProc(LPOBJ lpObj);
+	void SkillProc(CGameObject* lpObj);
 
-	bool DamageAbsorb(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf *lpMagic, int SubCode2);
-	bool Stun(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf *lpMagic, int SubCode2);
-	bool Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf *lpMagic, int SubCode2);
+	bool DamageAbsorb(CGameObject* lpObj, CGameObject* lpTargetObj, CMagicInf *lpMagic, int SubCode2);
+	bool Stun(CGameObject* lpObj, CGameObject* lpTargetObj, CMagicInf *lpMagic, int SubCode2);
+	bool Attack(CGameObject* lpObj, CGameObject* lpTargetObj, CMagicInf *lpMagic, int SubCode2);
 
-	int GetAttackDamage(LPOBJ lpObj, int targetDefense, int SubCode2, LPOBJ lpTargetObj);
-	int GetShieldDamage(LPOBJ lpObj, LPOBJ lpTargetObj, int iAttackDamage);
+	int GetAttackDamage(CGameObject* lpObj, int targetDefense, int SubCode2, CGameObject* lpTargetObj);
+	int GetShieldDamage(CGameObject* lpObj, CGameObject* lpTargetObj, int iAttackDamage);
 };
 
 class CMuunSystem
@@ -219,21 +219,21 @@ public:
 	void CGMuunExchangeItem(PMSG_REQ_MUUN_EXCHANGE *lpMsg, int aIndex);
 
 	bool ChkMuunExchangeInvenNeedItem(int & iItemCnt, int iInvenPos, int iNeedItemCnt, int iInvenItemNum, int iNeedItemNum, int *ItemPos);
-	bool ChkMuunExchangeInvenNeedItem(LPOBJ lpObj, int iSelect, int *ItemPos);
+	bool ChkMuunExchangeInvenNeedItem(CGameObject* lpObj, int iSelect, int *ItemPos);
 
 	void SendMsgMuunExchange(int aIndex, int iResult);
-	bool ChkMuunExchangeInvenEmpty(LPOBJ lpObj, int iSelect);
+	bool ChkMuunExchangeInvenEmpty(CGameObject* lpObj, int iSelect);
 
-	bool GDMuunExchangeInsertInven(LPOBJ lpObj, int iSelect);
-	BYTE DGMuunExchangeInsertInven(LPOBJ lpObj, CItem CreateItem, int iSelect);
-	bool ChkAndDelItemMuunExchange(LPOBJ lpObj, int iSelect);
+	bool GDMuunExchangeInsertInven(CGameObject* lpObj, int iSelect);
+	BYTE DGMuunExchangeInsertInven(CGameObject* lpObj, CItem CreateItem, int iSelect);
+	bool ChkAndDelItemMuunExchange(CGameObject* lpObj, int iSelect);
 
-	void SetTarget(LPOBJ lpObj, int aTargetIndex);
-	void ReSetTarget(LPOBJ lpObj, int aTargetIndex);
+	void SetTarget(CGameObject* lpObj, int aTargetIndex);
+	void ReSetTarget(CGameObject* lpObj, int aTargetIndex);
 
 	void CGReqRideSelect(PMSG_MUUN_RIDE_SELECT *lpMsg, int aIndex);
 
-	void SkillProc(LPOBJ lpObj);
+	void SkillProc(CGameObject* lpObj);
 
 	time_t GetCurrentDate();
 	time_t GetExpireDate(int iDuration);
@@ -241,7 +241,7 @@ public:
 	time_t GetLeftDate(time_t ExpireDate);
 	bool IsMuunExpireDate(int iType);
 
-	void Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf *lpMagic, int SubCode, int SubCode2);
+	void Attack(CGameObject* lpObj, CGameObject* lpTargetObj, CMagicInf *lpMagic, int SubCode, int SubCode2);
 
 	bool CheckAddOptionExpireDate(time_t StartDate, time_t EndDate);
 	void MsgIsMuunItemActive(OBJECTSTRUCT *lpObj, int iPos);

@@ -2,7 +2,7 @@
 // CItemDrop.cpp
 #include "StdAfx.h"
 #include "CItemDrop.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "DSProtocol.h"
 #include "configread.h"
 #include "ItemOptionTypeMng.h"
@@ -105,7 +105,7 @@ bool CItemDrop::LoadFile(const char *szFile)
 	} 
 }
 
-bool CItemDrop::DropItem(LPOBJ lpUser, LPOBJ lpMonster)
+bool CItemDrop::DropItem(CGameObject* lpUser, CGameObject* lpMonster)
 {
 	if(!ObjectMaxRange(lpUser->m_Index))
 		return false;

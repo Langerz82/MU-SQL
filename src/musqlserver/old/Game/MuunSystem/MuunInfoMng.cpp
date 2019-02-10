@@ -2,7 +2,7 @@
 // MuunInfoMng.cpp
 #include "StdAfx.h"
 #include "MuunInfoMng.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "Logging/Log.h"
 #include "util.h"
 #include "MuunOpt.h"

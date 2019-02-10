@@ -8,7 +8,7 @@
 #endif // _MSC_VER > 1000
 
 #include "Logging/Log.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 
 #define MAX_QUEST_TELEPORT 4
 #define RING_OF_TRANSFORM_BASE_RATE 10000
@@ -102,43 +102,43 @@ public:
 extern CQeustNpcTeleport gQeustNpcTeleport;
 extern CQeustNpcTeleport gQuestExpNpcTeleport;
 
-void gObjMonsterMoveRegen(int x, int y, LPOBJ lpObj);
-int gObjMonsterSelectSkillForMedusa(LPOBJ lpObj);
-BOOL gObjMonsterRegen(LPOBJ lpObj);
-int  gObjMonsterViewportIsCharacter(LPOBJ lpObj);
-void gObjMonsterHitDamageInit(LPOBJ lpObj);
-int  gObjMonsterHitDamageUserDel(LPOBJ lpObj);
-void gObjMonsterSetHitDamage(LPOBJ lpObj, int hit_player, int hit_damage);
-int  gObjMonsterTopHitDamageUser(LPOBJ lpMonObj);
-int  gObjMonsterLastHitDamageUser(LPOBJ lpMonObj, int & hitindex);
-int gObjMonsterGetDamageUser(LPOBJ lpMonObj, LPOBJ lpUserObj);
-BOOL gObjMonsterMoveCheck(LPOBJ lpObj, int tx, int ty);
-BOOL gObjMonsterGetTargetPos(LPOBJ lpObj);
-BOOL gObjGetTargetPos(LPOBJ lpObj, int sx, int sy, int & tx , int & ty);
-int  gObjCallMonsterSetEnemy(LPOBJ lpObj, int Target);
-int  gObjMonsterSearchEnemy(LPOBJ lpObj, BYTE objtype);
-int  gObjGuardSearchEnemy(LPOBJ lpObj);
-void gObjMonsterStateProc(LPOBJ lpObj, int aMsgCode, int aIndex, int aMsgSubCode);
-void gObjMonsterProcess(LPOBJ lpObj);
-void gObjMonsterMagicAttack(LPOBJ lpObj, int iMonsterClass);
-void gObjUseMonsterSpecialAbillity(LPOBJ lpMonsterObj);
+void gObjMonsterMoveRegen(int x, int y, CGameObject* lpObj);
+int gObjMonsterSelectSkillForMedusa(CGameObject* lpObj);
+BOOL gObjMonsterRegen(CGameObject* lpObj);
+int  gObjMonsterViewportIsCharacter(CGameObject* lpObj);
+void gObjMonsterHitDamageInit(CGameObject* lpObj);
+int  gObjMonsterHitDamageUserDel(CGameObject* lpObj);
+void gObjMonsterSetHitDamage(CGameObject* lpObj, int hit_player, int hit_damage);
+int  gObjMonsterTopHitDamageUser(CGameObject* lpMonObj);
+int  gObjMonsterLastHitDamageUser(CGameObject* lpMonObj, int & hitindex);
+int gObjMonsterGetDamageUser(CGameObject* lpMonObj, CGameObject* lpUserObj);
+BOOL gObjMonsterMoveCheck(CGameObject* lpObj, int tx, int ty);
+BOOL gObjMonsterGetTargetPos(CGameObject* lpObj);
+BOOL gObjGetTargetPos(CGameObject* lpObj, int sx, int sy, int & tx , int & ty);
+int  gObjCallMonsterSetEnemy(CGameObject* lpObj, int Target);
+int  gObjMonsterSearchEnemy(CGameObject* lpObj, BYTE objtype);
+int  gObjGuardSearchEnemy(CGameObject* lpObj);
+void gObjMonsterStateProc(CGameObject* lpObj, int aMsgCode, int aIndex, int aMsgSubCode);
+void gObjMonsterProcess(CGameObject* lpObj);
+void gObjMonsterMagicAttack(CGameObject* lpObj, int iMonsterClass);
+void gObjUseMonsterSpecialAbillity(CGameObject* lpMonsterObj);
 void gObjMonsterBeattackRecv(BYTE * lpRecv, int aIndex);
-void gObjMonsterAttack(LPOBJ lpObj, LPOBJ lpTargetObj);
-BOOL PathFindMoveMsgSend(LPOBJ lpObj);
-void gObjMonsterMoveAction(LPOBJ lpObj);
-void gObjMonsterBaseAct(LPOBJ lpObj);
-void gObjTrapAttackEnemySearchX(LPOBJ lpObj, int count);
-void gObjTrapAttackEnemySearchY(LPOBJ lpObj, int count);
-void gObjTrapAttackEnemySearch(LPOBJ lpObj);
-void gObjTrapAttackEnemySearchRange(LPOBJ lpObj,int iRange);
-void gObjMonsterTrapAct(LPOBJ lpObj);
+void gObjMonsterAttack(CGameObject* lpObj, CGameObject* lpTargetObj);
+BOOL PathFindMoveMsgSend(CGameObject* lpObj);
+void gObjMonsterMoveAction(CGameObject* lpObj);
+void gObjMonsterBaseAct(CGameObject* lpObj);
+void gObjTrapAttackEnemySearchX(CGameObject* lpObj, int count);
+void gObjTrapAttackEnemySearchY(CGameObject* lpObj, int count);
+void gObjTrapAttackEnemySearch(CGameObject* lpObj);
+void gObjTrapAttackEnemySearchRange(CGameObject* lpObj,int iRange);
+void gObjMonsterTrapAct(CGameObject* lpObj);
 BYTE NewOptionRand(int level, int OptCount);
 BYTE NewOptionRand2(int MinOptCount, int MaxOptCount);
-void InventoryDropItem(LPOBJ lpObj, int DropItem);
+void InventoryDropItem(CGameObject* lpObj, int DropItem);
 BOOL IsCanNotItemDtopInDevilSquare(int ItemType);
-void gObjRefillMonsterHP(LPOBJ lpMonsterObj, int iRefillHPSec);
-void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj);
-BOOL gEventMonsterItemDrop(LPOBJ lpObj, LPOBJ lpTargetObj);
+void gObjRefillMonsterHP(CGameObject* lpMonsterObj, int iRefillHPSec);
+void gObjMonsterDieGiveItem(CGameObject* lpObj, CGameObject* lpTargetObj);
+BOOL gEventMonsterItemDrop(CGameObject* lpObj, CGameObject* lpTargetObj);
 void gObjMonsterSummonSkillForLordSilvester(OBJECTSTRUCT *lpObj);
 void KillLordSilvesterRecallMon(int nLordSilvesterIndex, int nRecallMonIndex);
 void BlockLordSilvesterEntrance();

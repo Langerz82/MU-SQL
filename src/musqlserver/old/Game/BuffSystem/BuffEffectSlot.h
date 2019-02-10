@@ -13,7 +13,7 @@
 #include "prodef.h"
 
 class OBJECTSTRUCT;
-typedef OBJECTSTRUCT* LPOBJECTSTRUCT;
+typedef OBJECTSTRUCT* CGameObject*ECTSTRUCT;
 
 enum eBuffClearType
 {
@@ -308,40 +308,40 @@ public:
 	CBuffEffectSlot();
 	virtual ~CBuffEffectSlot();
 
-	int SetEffect(LPOBJECTSTRUCT lpObj, int iBuffIndex, BYTE btEffectType1, BYTE btEffectType2, int iEffectValue1, int iEffectValue2, int iDuration);
-	bool RemoveEffect(LPOBJECTSTRUCT lpObj, int iBuffIndex);
-	bool CheckUsedEffect(LPOBJECTSTRUCT lpObj, int iBuffIndex);
-	int ClearEffect(LPOBJECTSTRUCT lpObj, enum eBuffClearType ClearType);
+	int SetEffect(CGameObject*ECTSTRUCT lpObj, int iBuffIndex, BYTE btEffectType1, BYTE btEffectType2, int iEffectValue1, int iEffectValue2, int iDuration);
+	bool RemoveEffect(CGameObject*ECTSTRUCT lpObj, int iBuffIndex);
+	bool CheckUsedEffect(CGameObject*ECTSTRUCT lpObj, int iBuffIndex);
+	int ClearEffect(CGameObject*ECTSTRUCT lpObj, enum eBuffClearType ClearType);
 	LPBUFF_EFFECT_DATE GetEffectData(int iBuffIndex);
 	LPBUFF_EFFECT_DATE GetEffectDataFromItemCode(WORD wItemCode);
 	int GetBuffClearType(int iBuffIndex);
-	void RemoveBuffVariable(LPOBJECTSTRUCT lpObj, int iBuffIndex);
+	void RemoveBuffVariable(CGameObject*ECTSTRUCT lpObj, int iBuffIndex);
 	LPPERIOD_BUFF_EFFECT_INFO GetPeriodBuffInfo(WORD wBuffIndex);
 };
 
 extern CBuffEffectSlot	g_BuffEffectSlot;
 
-extern void gObjCheckBuffEffectList(LPOBJECTSTRUCT lpObj);
-extern bool gObjAddBuffEffect(LPOBJECTSTRUCT lpObj, int iBuffIndex);
-extern bool gObjAddBuffEffect(LPOBJECTSTRUCT lpObj, int iBuffIndex, BYTE EffectType1, int EffectValue1, BYTE EffectType2, int EffectValue2, int Duration);
-extern bool gObjAddBuffEffect(LPOBJECTSTRUCT lpObj, int iBuffIndex, int Duration);
+extern void gObjCheckBuffEffectList(CGameObject*ECTSTRUCT lpObj);
+extern bool gObjAddBuffEffect(CGameObject*ECTSTRUCT lpObj, int iBuffIndex);
+extern bool gObjAddBuffEffect(CGameObject*ECTSTRUCT lpObj, int iBuffIndex, BYTE EffectType1, int EffectValue1, BYTE EffectType2, int EffectValue2, int Duration);
+extern bool gObjAddBuffEffect(CGameObject*ECTSTRUCT lpObj, int iBuffIndex, int Duration);
 extern bool gObjAddPeriodBuffEffect(OBJECTSTRUCT *lpObj, _tagPeriodBuffEffectInfo *lpPeriBuff, unsigned int dwDuration);
 
-extern bool gObjAddBuffEffectForInGameShop(LPOBJECTSTRUCT lpObj, WORD wItemCode, int Duration);
-extern bool gObjRemoveBuffEffect(LPOBJECTSTRUCT lpObj, int iBuffIndex);
-extern bool gObjClearBuffEffect(LPOBJECTSTRUCT lpObj, enum eBuffClearType ClearType);
-extern bool gObjCheckUsedBuffEffect(LPOBJECTSTRUCT lpObj, int iBuffIndex);
-extern void gObjRemoveOneDebuffEffect(LPOBJECTSTRUCT lpObj);
-extern bool gObjChangeBuffValidTime(LPOBJECTSTRUCT lpObj, int iBuffIndex, int iTime);
-extern void gObjSetActiveEffectAtTick(LPOBJECTSTRUCT lpObj);
-extern int gObjMakeViewportState(LPOBJECTSTRUCT lpObj, BYTE *lpBuffer);
-extern bool gObjCheckPowerfulEffect(LPOBJECTSTRUCT lpObj, int iBuffIndex, int EffectValue1, int EffectValue2);
-extern int gObjGetTotalValueOfEffect(LPOBJECTSTRUCT lpObj, int EffectType);
-extern bool gObjGetValueOfBuffIndex(LPOBJECTSTRUCT lpObj, int iBuffIndex, int *EffectValue1, int *EffectValue2);
-extern void GCUseBuffEffect(LPOBJECTSTRUCT lpObj, BYTE BuffEffectIndex, BYTE EffectUseOption, WORD OptionType, WORD EffectType, int LeftTime, DWORD EffectValue);
-extern void gObjSendBuffList(LPOBJECTSTRUCT lpObj);
-extern BOOL gObjAddBuffEffectWideArea(LPOBJECTSTRUCT lpTargetObj, int nDistance, int& nAffectedCount, int iBuffIndex, BYTE EffectType1, int EffectValue1, BYTE EffectType2, int EffectValue2, int Duration);
-extern void CheckItemOptForGetExpExRenewal(LPOBJECTSTRUCT lpObj, LPOBJ lpTargetObj, UINT64 &iExp, UINT64 iDefaultExp, BOOL bRewardExp);
+extern bool gObjAddBuffEffectForInGameShop(CGameObject*ECTSTRUCT lpObj, WORD wItemCode, int Duration);
+extern bool gObjRemoveBuffEffect(CGameObject*ECTSTRUCT lpObj, int iBuffIndex);
+extern bool gObjClearBuffEffect(CGameObject*ECTSTRUCT lpObj, enum eBuffClearType ClearType);
+extern bool gObjCheckUsedBuffEffect(CGameObject*ECTSTRUCT lpObj, int iBuffIndex);
+extern void gObjRemoveOneDebuffEffect(CGameObject*ECTSTRUCT lpObj);
+extern bool gObjChangeBuffValidTime(CGameObject*ECTSTRUCT lpObj, int iBuffIndex, int iTime);
+extern void gObjSetActiveEffectAtTick(CGameObject*ECTSTRUCT lpObj);
+extern int gObjMakeViewportState(CGameObject*ECTSTRUCT lpObj, BYTE *lpBuffer);
+extern bool gObjCheckPowerfulEffect(CGameObject*ECTSTRUCT lpObj, int iBuffIndex, int EffectValue1, int EffectValue2);
+extern int gObjGetTotalValueOfEffect(CGameObject*ECTSTRUCT lpObj, int EffectType);
+extern bool gObjGetValueOfBuffIndex(CGameObject*ECTSTRUCT lpObj, int iBuffIndex, int *EffectValue1, int *EffectValue2);
+extern void GCUseBuffEffect(CGameObject*ECTSTRUCT lpObj, BYTE BuffEffectIndex, BYTE EffectUseOption, WORD OptionType, WORD EffectType, int LeftTime, DWORD EffectValue);
+extern void gObjSendBuffList(CGameObject*ECTSTRUCT lpObj);
+extern BOOL gObjAddBuffEffectWideArea(CGameObject*ECTSTRUCT lpTargetObj, int nDistance, int& nAffectedCount, int iBuffIndex, BYTE EffectType1, int EffectValue1, BYTE EffectType2, int EffectValue2, int Duration);
+extern void CheckItemOptForGetExpExRenewal(CGameObject*ECTSTRUCT lpObj, CGameObject* lpTargetObj, UINT64 &iExp, UINT64 iDefaultExp, BOOL bRewardExp);
 
 #endif // !defined(AFX_BUFFEFFECTSLOT_H__C993C98D_6A26_4086_8251_DC502D0BCC40__INCLUDED_)
 

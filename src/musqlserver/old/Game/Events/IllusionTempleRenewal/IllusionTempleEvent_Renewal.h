@@ -4,7 +4,7 @@
 #define ITR_EVENT_H
 
 #include "IllusionTempleProcess_Renewal.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include <list>
 
 struct ITR_NPC_POSITION

@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "CommonBag.h"
 #include "Logging/Log.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "LuaBag.h"
 #include "MapClass.h"
 #include "GameMain.h"
@@ -49,11 +49,11 @@ bool CCommonBag::IsBag(int aIndex, int ItemID, int ItemLevel)
 
 bool CCommonBag::UseBag(int aIndex, int iParam2)
 {
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (rand() % 10000 >= this->m_BagData.dwItemDropRate)
 	{
-		MapC[gObj[aIndex].MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, lpObj->X, lpObj->Y);
+		MapC[gGameObjects[aIndex].MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, lpObj->X, lpObj->Y);
 
 		return true;
 	}

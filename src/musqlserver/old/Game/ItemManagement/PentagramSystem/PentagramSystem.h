@@ -4,7 +4,7 @@
 #define PENTAGRAMSYSTEM_H
 
 #include "ItemManagement/Item.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 
 #define EL_NONE			0
 #define EL_FIRE			1
@@ -281,7 +281,7 @@ public:
 	// fix drop slot pentagrams
 	void LoadOptionMaps(const char* File);
 	void LoadOptionNews();
-	BOOL ElementDrop(LPOBJ lpObj, LPOBJ lpTargetObj);
+	BOOL ElementDrop(CGameObject* lpObj, CGameObject* lpTargetObj);
 	TRandomPoolMgr m_SlotCountRate;
 
 	TEST_ITEMSDROP Penta_DropRate[50];

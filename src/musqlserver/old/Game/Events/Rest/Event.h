@@ -9,7 +9,7 @@
 
 #include "StdAfx.h"
 #include "protocolStructs.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 
 #define MAX_EVENTCHIP_TYPE	5
 
@@ -251,17 +251,17 @@ struct PMSG_ANS_SANTAGIFT
 };
 */
 
-extern LPOBJ pEventObj;
+extern CGameObject* pEventObj;
 
 void EventChipEventProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen);
 
 
-void FireworksOpenEven(LPOBJ lpObj);
-void ChristmasFireCrackDrop(LPOBJ lpObj);
+void FireworksOpenEven(CGameObject* lpObj);
+void ChristmasFireCrackDrop(CGameObject* lpObj);
 
-void HallowinDayEventItemBoxOpen(LPOBJ lpObj);
-void KanturuMayaHandItemBagOpen(LPOBJ lpObj, BYTE btMapNumber, BYTE cX, BYTE cY);
-void KanturuNightmareItemBagOpen(LPOBJ lpObj, BYTE btMapNumber, BYTE cX, BYTE cY);
+void HallowinDayEventItemBoxOpen(CGameObject* lpObj);
+void KanturuMayaHandItemBagOpen(CGameObject* lpObj, BYTE btMapNumber, BYTE cX, BYTE cY);
+void KanturuNightmareItemBagOpen(CGameObject* lpObj, BYTE btMapNumber, BYTE cX, BYTE cY);
 void EGRecvEventChipInfo(PMSG_ANS_VIEW_EC_MN * aRecv);
 void EGResultRegEventChip(PMSG_ANS_REGISTER_EVENTCHIP * aRecv);
 void EGRecvRegMutoNum( PMSG_ANS_REGISTER_MUTONUM* aRecv);
@@ -286,7 +286,7 @@ void EGReqSantaGift(int aIndex);
 void EGAnsSantaCheck(PMSG_ANS_SANTACHECK *lpMsg);
 void EGAnsSantaGift(PMSG_ANS_SANTAGIFT *lpMsg);
 
-extern LPOBJ pEventObj;
+extern CGameObject* pEventObj;
 
 #endif
 

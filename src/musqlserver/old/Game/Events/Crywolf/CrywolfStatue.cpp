@@ -6,7 +6,7 @@
 #include "CrywolfStatue.h"
 #include "CrywolfAltar.h"
 #include "CrywolfUtil.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "BuffEffectSlot.h"
 
 CCrywolfStatue g_CrywolfNPC_Statue;
@@ -54,7 +54,7 @@ int CCrywolfStatue::GetStatueViewState(int iPriestNumber)
 	return iViewState;
 }
 
-void CCrywolfStatue::SetStatueViewState(LPOBJ lpObj, int iPriestNumber)
+void CCrywolfStatue::SetStatueViewState(CGameObject* lpObj, int iPriestNumber)
 {
 	switch ( iPriestNumber )
 	{
@@ -82,10 +82,10 @@ void CCrywolfStatue::CrywolfStatueAct(int iIndex)
 	if ( !gObjIsConnected(iIndex))
 		return;
 
-	if ( gObj[iIndex].Type != OBJ_NPC || CHECK_CLASS(204, gObj[iIndex].Class) == FALSE )
+	if ( gGameObjects[iIndex].Type != OBJ_NPC || CHECK_CLASS(204, gGameObjects[iIndex].Class) == FALSE )
 		return;
 
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 	int iContractedAlterCount = g_CrywolfNPC_Altar.GetContractedAltarCount();
 	int iPriestHPSum = g_CrywolfNPC_Altar.GetPriestHPSum();
 	int iPriestMaxHPSum = g_CrywolfNPC_Altar.GetPriestMaxHPSum();

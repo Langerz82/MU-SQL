@@ -7,7 +7,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "User/user.h"
+#include "User/CUserData.h"
 
 #define MAX_DEVILSQUARE_GROUND	7
 #define MAX_ST_DEVILSQUARE_MONSTER	15
@@ -95,10 +95,10 @@ public:
 	void RegenBossMonster(int currtime);
 	int FindMonsterType(WORD type);
 	WORD GetMonsterType(int currtime);
-	void SendRankingInfo(LPOBJ lpObj);
+	void SendRankingInfo(CGameObject* lpObj);
 	void ClearScore();
 	void SortScore();
-	void InsertObj(LPOBJ lpObj);
+	void InsertObj(CGameObject* lpObj);
 	void SendScore();
 	BOOL AddUser(int aIndex);
 	BOOL DelUser(int aIndex);

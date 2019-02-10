@@ -3,7 +3,7 @@
 #ifndef PENTAGRAM_MIX_SYSTEM_H
 #define PENTAGRAM_MIX_SYSTEM_H
 
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "ItemManagement/Item.h"
 #include "PentagramSystem.h"
 

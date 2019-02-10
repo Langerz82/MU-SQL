@@ -3,7 +3,7 @@
 #pragma once
 // -------------------------------------------------------------------------------
 
-#include "User/user.h"
+#include "User/CUserData.h"
 // -------------------------------------------------------------------------------
 #define FILE_CUSTOM_USERDIEITEMDROP		"Custom\\UserDieItemDrop.xml"
 
@@ -16,7 +16,7 @@ public:
 	void	Init();
 	void	Load();
 	void	Read(LPSTR File);
-	void	Drop(LPOBJ lpUser, LPOBJ lpKiller);
+	void	Drop(CGameObject* lpUser, CGameObject* lpKiller);
 	// ----
 private:
 	bool	m_PvPEnabled;

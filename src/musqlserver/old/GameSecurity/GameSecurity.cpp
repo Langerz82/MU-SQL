@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "GameSecurity.h"
 #include "Logging/Log.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 CGameSecurity gGameSecurity;
 
 CGameSecurity::CGameSecurity()
@@ -39,7 +39,7 @@ void CGameSecurity::DebugInfo(int aIndex)
 
 		double realAttackSpeed = (double)((double)dwTimeNow - (double)sAttackSpeed.LastAttackTime) / 1000.00;
 
-		sLog->outDebug("[Debug ANTI-HACK][%d][%s][%s] Attack Speed: %d Time Between last attack = %f",aIndex, gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_AttackSpeed, realAttackSpeed);
+		sLog->outDebug("[Debug ANTI-HACK][%d][%s][%s] Attack Speed: %d Time Between last attack = %f",aIndex, gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, gGameObjects[aIndex].m_AttackSpeed, realAttackSpeed);
 
 		iter->second.LastAttackTime = dwTimeNow;
 

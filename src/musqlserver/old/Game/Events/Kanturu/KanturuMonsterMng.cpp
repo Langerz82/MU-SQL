@@ -60,7 +60,7 @@ void CKanturuMonsterMng::ResetRegenMonsterObjData()
 
 void CKanturuMonsterMng::MonsterDie(int iIndex)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 
 	for ( int iCount=0;iCount<this->m_KanturuMonster.GetCount();iCount++)
 	{
@@ -150,7 +150,7 @@ int CKanturuMonsterMng::SetKanturuMonster(int iGroupNumber)
 {
 	int iMapNumber = 0;
 	WORD wType = 0;
-	LPOBJ lpObj;
+	CGameObject* lpObj;
 	int iResult;
 	int iRegenCount = 0;
 	
@@ -166,7 +166,7 @@ int CKanturuMonsterMng::SetKanturuMonster(int iGroupNumber)
 			}
 			else
 			{
-				lpObj = &gObj[iResult];
+				lpObj = &gGameObjects[iResult];
 
 				lpObj->m_PosNum = -1;
 				lpObj->X = this->m_SetBaseInfo[iCount].btX;
@@ -210,7 +210,7 @@ int CKanturuMonsterMng::SetKanturuMonster(int iGroupNumber)
 					continue;
 				}
 
-				if ( gObj[iResult].Type == OBJ_MONSTER )
+				if ( gGameObjects[iResult].Type == OBJ_MONSTER )
 				{
 					this->m_KanturuMonster.AddObj(iResult);
 					this->m_iMaxRegenMonsterCount++;

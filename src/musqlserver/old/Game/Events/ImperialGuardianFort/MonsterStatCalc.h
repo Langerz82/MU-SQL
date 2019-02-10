@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MonsterStatCalc.h
-#include "User/user.h"
+#include "User/CUserData.h"
 
 #pragma once
 
@@ -41,7 +41,7 @@ public:
 	virtual ~CMonsterStatCalc(void);
 	
 	void LoadScript(LPSTR Filename);
-	BOOL ConvertMonsterStat(LPOBJ lpObj, int nUserMaxLevel);
+	BOOL ConvertMonsterStat(CGameObject* lpObj, int nUserMaxLevel);
 
 private:
 

@@ -26,7 +26,7 @@ CMercenary::~CMercenary()
 
 BOOL CMercenary::CreateMercenary(int iIndex, int iMercenaryTypeIndex, BYTE cTX, BYTE cTY)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 	int iMonsterIndex = -1;
 	BYTE cX = cTX;
 	BYTE cY = cTY;
@@ -87,31 +87,31 @@ BOOL CMercenary::CreateMercenary(int iIndex, int iMercenaryTypeIndex, BYTE cTX, 
 
 			gObjSetMonster(iMonsterIndex, iMercenaryTypeIndex);
 
-			gObj[iMonsterIndex].Live = TRUE;
-			gObj[iMonsterIndex].Life = MAttr->m_Hp;
-			gObj[iMonsterIndex].MaxLife = MAttr->m_Hp;
-			gObj[iMonsterIndex].m_PosNum = -1;
-			gObj[iMonsterIndex].X = cX;
-			gObj[iMonsterIndex].Y = cY;
-			gObj[iMonsterIndex].MTX = cX;
-			gObj[iMonsterIndex].MTY = cY;
-			gObj[iMonsterIndex].TX = cX;
-			gObj[iMonsterIndex].TY = cY;
-			gObj[iMonsterIndex].m_OldX = cX;
-			gObj[iMonsterIndex].m_OldY = cY;
-			gObj[iMonsterIndex].StartX = cX;
-			gObj[iMonsterIndex].StartY = cY;
-			gObj[iMonsterIndex].MapNumber = lpObj->MapNumber;
-			gObj[iMonsterIndex].m_MoveRange = 0;
-			gObj[iMonsterIndex].Level = MAttr->m_Level;
-			gObj[iMonsterIndex].Type = OBJ_MONSTER;
-			gObj[iMonsterIndex].MaxRegenTime = 1000;
-			gObj[iMonsterIndex].Dir = 1;
-			gObj[iMonsterIndex].RegenTime = GetTickCount();
-			gObj[iMonsterIndex].m_Attribute = 0;
-			gObj[iMonsterIndex].DieRegen = 0;
-			gObj[iMonsterIndex].m_btCsNpcType = OBJ_MONSTER;
-			gObj[iMonsterIndex].m_btCsJoinSide = 1;
+			gGameObjects[iMonsterIndex].Live = TRUE;
+			gGameObjects[iMonsterIndex].Life = MAttr->m_Hp;
+			gGameObjects[iMonsterIndex].MaxLife = MAttr->m_Hp;
+			gGameObjects[iMonsterIndex].m_PosNum = -1;
+			gGameObjects[iMonsterIndex].X = cX;
+			gGameObjects[iMonsterIndex].Y = cY;
+			gGameObjects[iMonsterIndex].MTX = cX;
+			gGameObjects[iMonsterIndex].MTY = cY;
+			gGameObjects[iMonsterIndex].TX = cX;
+			gGameObjects[iMonsterIndex].TY = cY;
+			gGameObjects[iMonsterIndex].m_OldX = cX;
+			gGameObjects[iMonsterIndex].m_OldY = cY;
+			gGameObjects[iMonsterIndex].StartX = cX;
+			gGameObjects[iMonsterIndex].StartY = cY;
+			gGameObjects[iMonsterIndex].MapNumber = lpObj->MapNumber;
+			gGameObjects[iMonsterIndex].m_MoveRange = 0;
+			gGameObjects[iMonsterIndex].Level = MAttr->m_Level;
+			gGameObjects[iMonsterIndex].Type = OBJ_MONSTER;
+			gGameObjects[iMonsterIndex].MaxRegenTime = 1000;
+			gGameObjects[iMonsterIndex].Dir = 1;
+			gGameObjects[iMonsterIndex].RegenTime = GetTickCount();
+			gGameObjects[iMonsterIndex].m_Attribute = 0;
+			gGameObjects[iMonsterIndex].DieRegen = 0;
+			gGameObjects[iMonsterIndex].m_btCsNpcType = OBJ_MONSTER;
+			gGameObjects[iMonsterIndex].m_btCsJoinSide = 1;
 
 			MsgOutput(iIndex, Lang.GetText(0,154));
 
@@ -160,7 +160,7 @@ BOOL CMercenary::DeleteMercenary(int iIndex)
 
 
 
-BOOL CMercenary::SearchEnemy(LPOBJ lpObj)
+BOOL CMercenary::SearchEnemy(CGameObject* lpObj)
 {
 	if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE)
 	{
@@ -179,17 +179,17 @@ BOOL CMercenary::SearchEnemy(LPOBJ lpObj)
 			iTargetNumber = lpObj->VpPlayer2[i].number;
 			if (iTargetNumber >= 0)
 			{
-				if (gObj[iTargetNumber].Type == OBJ_USER)
+				if (gGameObjects[iTargetNumber].Type == OBJ_USER)
 				{
-					if (gObj[iTargetNumber].Live)
+					if (gGameObjects[iTargetNumber].Live)
 					{
-						if (gObj[iTargetNumber].Teleport == 0)
+						if (gGameObjects[iTargetNumber].Teleport == 0)
 						{
-							if (gObj[iTargetNumber].m_btCsJoinSide == lpObj->m_btCsJoinSide)
+							if (gGameObjects[iTargetNumber].m_btCsJoinSide == lpObj->m_btCsJoinSide)
 								continue;
 
-							int x = lpObj->X - gObj[iTargetNumber].X;
-							int y = lpObj->Y - gObj[iTargetNumber].Y;
+							int x = lpObj->X - gGameObjects[iTargetNumber].X;
+							int y = lpObj->Y - gGameObjects[iTargetNumber].Y;
 							int iDis = sqrt(static_cast<float>(x*x + y*y));
 							lpObj->VpPlayer2[i].dis = iDis;
 
@@ -198,7 +198,7 @@ BOOL CMercenary::SearchEnemy(LPOBJ lpObj)
 								if (abs(x) <= 2)
 								{
 									int cY = lpObj->Y - iAttackRange;
-									if (cY <= gObj[iTargetNumber].Y && lpObj->Y >= gObj[iTargetNumber].Y)
+									if (cY <= gGameObjects[iTargetNumber].Y && lpObj->Y >= gGameObjects[iTargetNumber].Y)
 									{
 										lpObj->TargetNumber = iTargetNumber;
 										return TRUE;
@@ -211,7 +211,7 @@ BOOL CMercenary::SearchEnemy(LPOBJ lpObj)
 								if (abs(y) <= 2)
 								{
 									int cX = lpObj->X - iAttackRange;
-									if (cX <= gObj[iTargetNumber].X && lpObj->X >= gObj[iTargetNumber].X)
+									if (cX <= gGameObjects[iTargetNumber].X && lpObj->X >= gGameObjects[iTargetNumber].X)
 									{
 										lpObj->TargetNumber = iTargetNumber;
 										return TRUE;
@@ -234,7 +234,7 @@ void CMercenary::MercenaryAct(int iIndex)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 
 	if ( lpObj->VPCount2 < 1 )
 	{

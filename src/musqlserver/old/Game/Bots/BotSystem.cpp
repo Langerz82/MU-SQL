@@ -2,7 +2,7 @@
 // BotSystem.cpp
 #include "StdAfx.h"
 #include "BotSystem.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 //#include "Protocol/protocol.h"
 #include "Logging/Log.h"
 #include "GameMain.h"
@@ -92,7 +92,7 @@ bool CBotSystem::LoadBotSpecializationData(int aIndex, LPSTR szFile, BYTE type)
 		MessageBoxA(0,"Failed to load bot specialization. Check your configs","ERROR",MB_OK|MB_TOPMOST);
 		return false;
 	}
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 	int iBuffCounter = 0;
 	int wBotIndex = lpObj->m_PlayerData->wBotIndex;
 	switch(type)
@@ -238,7 +238,7 @@ int CBotSystem::AddBot(_sBOT_SETTINGS pBot)
 {
 //--- declare
 	int aIndex = gObjAddMonster(pBot.btMap);
-	LPOBJ lpBotObj = &gObj[aIndex];
+	CGameObject* lpBotObj = &gGameObjects[aIndex];
 //--- valide
 	if(aIndex == -1)
 	{
@@ -255,7 +255,7 @@ int CBotSystem::AddBot(_sBOT_SETTINGS pBot)
 	lpBotObj->MapNumber = pBot.btMap;
 	lpBotObj->X = pBot.btX;
 	lpBotObj->Y = pBot.btY;
-	lpBotObj->m_PlayerData = new USER_DATA(aIndex);
+	lpBotObj->m_PlayerData = new CUserData(aIndex);
 	lpBotObj->ConnectCheckTime = GetTickCount();
 	lpBotObj->TargetNumber = -1;
 	lpBotObj->TargetNpcNumber = -1;
@@ -321,7 +321,7 @@ void CBotSystem::MakePreviewCharSet(int aIndex, _sBOT_INVENTORY_WEAR_ITEMS * pIn
 
 	BYTE index;
 	int itemindex;
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	memset(lpObj->CharSet, 0, sizeof(lpObj->CharSet));
 
@@ -605,29 +605,29 @@ void CBotSystem::MakePreviewCharSet(int aIndex, _sBOT_INVENTORY_WEAR_ITEMS * pIn
 
 void CBotSystem::BuffPlayer(WORD  wBufferindex,short aIndex)
 {
-	if(gObj[aIndex].Type != OBJ_USER)
+	if(gGameObjects[aIndex].Type != OBJ_USER)
 		return;
 	_sBOT_SETTINGS *lpBot = &this->m_BotData[wBufferindex];
-	LPOBJ gBotObj = &gObj[lpBot->aIndex];
-	if(gObj[aIndex].m_PlayerData->Money < lpBot->iCoinValue)
+	CGameObject* gBotObj = &gGameObjects[lpBot->aIndex];
+	if(gGameObjects[aIndex].m_PlayerData->Money < lpBot->iCoinValue)
 	{
-		GSProtocol.ChatTargetSend(&gObj[lpBot->aIndex], Lang.GetText(0,364),aIndex);
+		GSProtocol.ChatTargetSend(&gGameObjects[lpBot->aIndex], Lang.GetText(0,364),aIndex);
 		MsgOutput(aIndex, Lang.GetText(0,365), lpBot->iCoinValue);
 		return;
 	}
 
-	if(gObj[aIndex].m_PlayerData->VipType == 0 && lpBot->btVipType > 0)
+	if(gGameObjects[aIndex].m_PlayerData->VipType == 0 && lpBot->btVipType > 0)
 	{
-		GSProtocol.ChatTargetSend(&gObj[lpBot->aIndex], Lang.GetText(0,366), aIndex);
+		GSProtocol.ChatTargetSend(&gGameObjects[lpBot->aIndex], Lang.GetText(0,366), aIndex);
 		return;
 	}
 
-	if (gObj[aIndex].m_PlayerData->VipType > 0 && gObj[aIndex].m_PlayerData->VipType < lpBot->btVipType)
+	if (gGameObjects[aIndex].m_PlayerData->VipType > 0 && gGameObjects[aIndex].m_PlayerData->VipType < lpBot->btVipType)
 	{
 		char szTemp[256];
 		sprintf(szTemp, Lang.GetText(0,636), g_VipSystem.GetVipName(lpBot->btVipType));
 
-		GSProtocol.ChatTargetSend(&gObj[lpBot->aIndex], szTemp, aIndex);
+		GSProtocol.ChatTargetSend(&gGameObjects[lpBot->aIndex], szTemp, aIndex);
 		return;
 	}
 
@@ -639,16 +639,16 @@ void CBotSystem::BuffPlayer(WORD  wBufferindex,short aIndex)
 
 			if(lpMagic != 0)
 			{
-				gObj[aIndex].BufferIndex = gBotObj->BufferIndex;
-				gObj[aIndex].BuffId = i;
+				gGameObjects[aIndex].BufferIndex = gBotObj->BufferIndex;
+				gGameObjects[aIndex].BuffId = i;
 				gObjUseSkill.RunningSkill(lpBot->aIndex,aIndex,lpMagic,0);
 			}*/
-			gObjAddBuffEffect(&gObj[aIndex], gBotObj->m_BotBuffs[i].wBuffId, gBotObj->m_BotBuffs[i].wEffectType, gBotObj->m_BotBuffs[i].iEffect, 0, 0, gBotObj->m_BotBuffs[i].wDuration);
+			gObjAddBuffEffect(&gGameObjects[aIndex], gBotObj->m_BotBuffs[i].wBuffId, gBotObj->m_BotBuffs[i].wEffectType, gBotObj->m_BotBuffs[i].iEffect, 0, 0, gBotObj->m_BotBuffs[i].wDuration);
 		}
 	}
 	GSProtocol.ChatTargetSend(gBotObj, Lang.GetText(0,367), aIndex);
-	gObj[aIndex].m_PlayerData->Money -= lpBot->iCoinValue;
-	GSProtocol.GCMoneySend(aIndex,gObj[aIndex].m_PlayerData->Money);
+	gGameObjects[aIndex].m_PlayerData->Money -= lpBot->iCoinValue;
+	GSProtocol.GCMoneySend(aIndex,gGameObjects[aIndex].m_PlayerData->Money);
 }
 
 BYTE CBotSystem::GetBotType(int aIndex)
@@ -662,7 +662,7 @@ BYTE CBotSystem::GetBotType(int aIndex)
 
 int CBotSystem::GetSkillTime(int aIndex, WORD wSkill)
 {
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if(!lpObj)
 		return 0;
@@ -678,8 +678,8 @@ int CBotSystem::GetSkillTime(int aIndex, WORD wSkill)
 }
 sBOT_REWARD_STRUCT CBotSystem::ConfirmMixSuccess(int aIndex, int botIndex)
 {
-	LPOBJ lpObj = &gObj[aIndex];
-	LPOBJ lpBotObj = &gObj[botIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
+	CGameObject* lpBotObj = &gGameObjects[botIndex];
 	sBOT_REWARD_STRUCT m_MixResult;
 	int iMixNeedCount = 0;
 	int foundItems = 0;
@@ -732,8 +732,8 @@ bool CBotSystem::AlchemistVerifyItem(s_BOT_CRAFTING_ITEM_STRUCT lpReqItem, CItem
 
 bool CBotSystem::CheckAlchemist(int aIndex, int botIndex)
 {
-	LPOBJ lpObj = &gObj[aIndex];
-	LPOBJ lpBotObj = &gObj[botIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
+	CGameObject* lpBotObj = &gGameObjects[botIndex];
 
 	CItem rewardItem;
 	int iMixNeedCount = 0;
@@ -787,7 +787,7 @@ int CBotSystem::AlchemistTradeItemCount(int aIndex)
 
 	for(int n = 0; n < TRADE_BOX_SIZE; n++)
 	{
-		if(gObj[aIndex].Trade[n].IsItem() == 1)
+		if(gGameObjects[aIndex].Trade[n].IsItem() == 1)
 		{
 			Count++;
 		}
@@ -797,15 +797,15 @@ int CBotSystem::AlchemistTradeItemCount(int aIndex)
 
 void CBotSystem::AlchemistTradeOk(int aIndex, int botIndex)
 {
-	LPOBJ lpBot = &gObj[botIndex];
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpBot = &gGameObjects[botIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if(!lpObj || !lpBot)
 		return;
-	sBOT_REWARD_STRUCT reward = ConfirmMixSuccess(aIndex,gObj[botIndex].m_PlayerData->wBotIndex);
+	sBOT_REWARD_STRUCT reward = ConfirmMixSuccess(aIndex,gGameObjects[botIndex].m_PlayerData->wBotIndex);
 	if(reward.m_Reward.m_Type > 0)
 	{
-		int iEmptyCount = CheckInventoryEmptySpaceCount(&gObj[aIndex], ItemAttribute[reward.m_Reward.m_Type].Width, ItemAttribute[reward.m_Reward.m_Type].Height);
+		int iEmptyCount = CheckInventoryEmptySpaceCount(&gGameObjects[aIndex], ItemAttribute[reward.m_Reward.m_Type].Width, ItemAttribute[reward.m_Reward.m_Type].Height);
 
 		if(iEmptyCount < reward.iCount)
 		{
@@ -819,18 +819,18 @@ void CBotSystem::AlchemistTradeOk(int aIndex, int botIndex)
 		}
 		for(int i=0;i<reward.iCount;i++)
 		{
-			ItemSerialCreateSend(aIndex, 235, gObj[aIndex].X, gObj[aIndex].Y, reward.m_Reward.m_Type, reward.m_Reward.m_Level, 0, reward.m_Reward.m_Option1,reward.m_Reward.m_Option2, reward.m_Reward.m_Option3, aIndex, reward.m_Reward.m_NewOption, reward.m_Reward.m_SetOption, 0, 0, 0);
+			ItemSerialCreateSend(aIndex, 235, gGameObjects[aIndex].X, gGameObjects[aIndex].Y, reward.m_Reward.m_Type, reward.m_Reward.m_Level, 0, reward.m_Reward.m_Option1,reward.m_Reward.m_Option2, reward.m_Reward.m_Option3, aIndex, reward.m_Reward.m_NewOption, reward.m_Reward.m_SetOption, 0, 0, 0);
 		}
 		gObjInventoryCommit(aIndex);
 		gObjMakePreviewCharSet(aIndex);
-		GJSetCharacterInfo(&gObj[aIndex],aIndex,0);
-		gObjItemTextSave(&gObj[aIndex]);
-		gObjStatTextSave(&gObj[aIndex]);
+		GJSetCharacterInfo(&gGameObjects[aIndex],aIndex,0);
+		gObjItemTextSave(&gGameObjects[aIndex]);
+		gObjStatTextSave(&gGameObjects[aIndex]);
 		gObjSavePetItemInfo(aIndex, 0);
-		gObj[aIndex].TargetNumber = -1;
-		gObj[aIndex].m_IfState.use = 0;
-		gObj[aIndex].TradeOk = 0;
-		gObj[aIndex].TradeMoney = 0;
+		gGameObjects[aIndex].TargetNumber = -1;
+		gGameObjects[aIndex].m_IfState.use = 0;
+		gGameObjects[aIndex].TradeOk = 0;
+		gGameObjects[aIndex].TradeMoney = 0;
 		GSProtocol.CGTradeResult(aIndex,1);
 	}
 	else
@@ -841,8 +841,8 @@ void CBotSystem::AlchemistTradeOk(int aIndex, int botIndex)
 }
 void CBotSystem::AlchemistTradeOpen(int aIndex, int botIndex)
 {
-	LPOBJ lpObj = &gObj[aIndex];
-	LPOBJ lpBot = &gObj[botIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
+	CGameObject* lpBot = &gGameObjects[botIndex];
 
 	lpObj->m_IfState.use = 1;
 	lpObj->m_IfState.state = 0;
@@ -862,7 +862,7 @@ bool CBotSystem::StoreAddItems(int botIndex)
 	int aIndex = this->m_BotData[botIndex].aIndex;
 	for(int i=0;i<this->m_BotData[botIndex].m_Shop.iItemCount;i++)
 	{
-		BYTE blank = this->PShopCheckSpace(&gObj[aIndex],this->m_BotData[botIndex].m_Shop.pItems[i].wItemId,&gObj[aIndex].pInventoryMap[PSHOP_START_RANGE]);
+		BYTE blank = this->PShopCheckSpace(&gGameObjects[aIndex],this->m_BotData[botIndex].m_Shop.pItems[i].wItemId,&gGameObjects[aIndex].pInventoryMap[PSHOP_START_RANGE]);
 		
 		if(blank != 255)
 		{
@@ -881,7 +881,7 @@ bool CBotSystem::StoreAddItems(int botIndex)
 			item.m_SocketOption[4] = this->m_BotData[botIndex].m_Shop.pItems[i].btSocket[4];
 			item.m_iPShopValue = this->m_BotData[botIndex].m_Shop.pItems[i].iValue;
 			item.Convert(this->m_BotData[botIndex].m_Shop.pItems[i].wItemId,item.m_Option1,item.m_Option2,item.m_Option3,0,item.m_SetOption,item.m_NewOption,item.m_SocketOption,0,0,3);
-			gObj[aIndex].Inventory1[blank+PSHOP_START_RANGE-INVETORY_WEAR_SIZE] = item;
+			gGameObjects[aIndex].Inventory1[blank+PSHOP_START_RANGE-INVETORY_WEAR_SIZE] = item;
 			
 		}
 		else
@@ -889,18 +889,18 @@ bool CBotSystem::StoreAddItems(int botIndex)
 			sLog->outError(1,"ERROR","Bot Shop id:[%d] OUT OF SPACE",botIndex);
 		}
 	}
-	gObj[aIndex].m_bPShopOpen = true;
-	//memcpy(gObj[aIndex].m_szPShopText, this->m_BotData[botIndex].m_Shop.szBotShopName, sizeof(gObj[aIndex].m_szPShopText));
+	gGameObjects[aIndex].m_bPShopOpen = true;
+	//memcpy(gGameObjects[aIndex].m_szPShopText, this->m_BotData[botIndex].m_Shop.szBotShopName, sizeof(gGameObjects[aIndex].m_szPShopText));
 	if(this->m_BotData[botIndex].m_Shop.szBotShopName.size() > 36)
 	{
 		MessageBoxA(0,"Max Shop name length is 36 characters","Bot System",MB_OK|MB_TOPMOST);
 		ExitProcess(0);
 	}
-	memcpy(gObj[aIndex].m_szPShopText, this->m_BotData[botIndex].m_Shop.szBotShopName.c_str(), sizeof(gObj[aIndex].m_szPShopText));
+	memcpy(gGameObjects[aIndex].m_szPShopText, this->m_BotData[botIndex].m_Shop.szBotShopName.c_str(), sizeof(gGameObjects[aIndex].m_szPShopText));
 	return true;
 }
 
-BYTE CBotSystem::PShopCheckSpace(LPOBJ lpObj, int type, BYTE * TempMap)
+BYTE CBotSystem::PShopCheckSpace(CGameObject* lpObj, int type, BYTE * TempMap)
 {
 	int w,h,iwidth,iheight;
 	BYTE blank = 0;
@@ -977,15 +977,15 @@ int gObjGetItemCountInTradeWindow(int aIndex, WORD itemtype, int itemlevel, BYTE
 
 	for(int n = 0; n < TRADE_BOX_SIZE; n++)
 	{
-		if(gObj[aIndex].Trade[n].IsItem() == 1 &&  gObj[aIndex].Trade[n].m_Type == itemtype && gObj[aIndex].Trade[n].m_Level == itemlevel  )
+		if(gGameObjects[aIndex].Trade[n].IsItem() == 1 &&  gGameObjects[aIndex].Trade[n].m_Type == itemtype && gGameObjects[aIndex].Trade[n].m_Level == itemlevel  )
 		{
-			if(gObj[aIndex].Trade[n].m_NewOption == btExc)
+			if(gGameObjects[aIndex].Trade[n].m_NewOption == btExc)
 			{
-				if(gObj[aIndex].Trade[n].m_Option1 == btSkill)
+				if(gGameObjects[aIndex].Trade[n].m_Option1 == btSkill)
 				{
-					if(gObj[aIndex].Trade[n].m_Option2 == btLuck)
+					if(gGameObjects[aIndex].Trade[n].m_Option2 == btLuck)
 					{
-						if(gObj[aIndex].Trade[n].m_Option3 == btOpt)
+						if(gGameObjects[aIndex].Trade[n].m_Option3 == btOpt)
 						{
 							Count++;
 						}

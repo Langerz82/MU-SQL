@@ -42,9 +42,9 @@ void CKanturuMaya::KanturuMayaAct_IceStorm(int iSkillUsingRate)
 
 	for ( int iCount= g_ConfigRead.server.GetObjectStartUserIndex();iCount < g_ConfigRead.server.GetObjectMax();iCount++)
 	{
-		if ( gObj[iCount].Type == OBJ_USER &&
+		if ( gGameObjects[iCount].Type == OBJ_USER &&
 			 gObjIsConnected(iCount) &&
-			 gObj[iCount].MapNumber == MAP_INDEX_KANTURU_BOSS )
+			 gGameObjects[iCount].MapNumber == MAP_INDEX_KANTURU_BOSS )
 		{
 			KANTURU_UTIL.NotifyKanturuWideAreaAttack(this->m_iMayaObjIndex, iCount, 0);
 			TMonsterSkillManager::UseMonsterSkill(this->m_iMayaObjIndex, iCount, 31, -1, NULL);
@@ -70,33 +70,33 @@ void CKanturuMaya::KanturuMayaAct_Hands()
 
 	for ( int iCount= g_ConfigRead.server.GetObjectStartUserIndex();iCount < g_ConfigRead.server.GetObjectMax();iCount++)
 	{
-		if (gObj[iCount].Type == OBJ_USER &&
+		if (gGameObjects[iCount].Type == OBJ_USER &&
 			gObjIsConnected(iCount) &&
-			gObj[iCount].MapNumber == MAP_INDEX_KANTURU_BOSS)
+			gGameObjects[iCount].MapNumber == MAP_INDEX_KANTURU_BOSS)
 		{
 			KANTURU_UTIL.NotifyKanturuWideAreaAttack(this->m_iMayaObjIndex, iCount, 1);
 			TMonsterSkillManager::UseMonsterSkill(this->m_iMayaObjIndex, iCount, 1, -1, NULL);
 
 			if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
 			{
-				if (gObj[iCount].pInventory[10].m_Type == ITEMGET(13, 38) &&
-					gObj[iCount].pInventory[10].m_Durability != 0.0f)
+				if (gGameObjects[iCount].pInventory[10].m_Type == ITEMGET(13, 38) &&
+					gGameObjects[iCount].pInventory[10].m_Durability != 0.0f)
 				{
 					continue;
 				}
 
-				if (gObj[iCount].pInventory[11].m_Type == ITEMGET(13, 38) &&
-					gObj[iCount].pInventory[11].m_Durability != 0.0f)
+				if (gGameObjects[iCount].pInventory[11].m_Type == ITEMGET(13, 38) &&
+					gGameObjects[iCount].pInventory[11].m_Durability != 0.0f)
 				{
 					continue;
 				}
 
-				if (gObj[iCount].MapNumber == MAP_INDEX_KANTURU_BOSS)	// #warning unuseful if
+				if (gGameObjects[iCount].MapNumber == MAP_INDEX_KANTURU_BOSS)	// #warning unuseful if
 				{
-					LPOBJ lpMayaHandObj = &gObj[this->m_iMayaObjIndex];
-					gObj[iCount].Life = 0;
+					CGameObject* lpMayaHandObj = &gGameObjects[this->m_iMayaObjIndex];
+					gGameObjects[iCount].Life = 0;
 
-					gObjLifeCheck(&gObj[iCount], lpMayaHandObj, gObj[iCount].Life,
+					gObjLifeCheck(&gGameObjects[iCount], lpMayaHandObj, gGameObjects[iCount].Life,
 						0, 0, 0, 0, 0, 0);
 
 				}

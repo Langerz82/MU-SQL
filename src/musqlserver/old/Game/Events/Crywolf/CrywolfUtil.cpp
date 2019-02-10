@@ -48,9 +48,9 @@ void CCrywolfUtil::SendAllUserAnyData(LPBYTE lpMsg, int iSize)
 {
 	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
-		if ( gObj[i].Connected == PLAYER_PLAYING )
+		if ( gGameObjects[i].Connected == PLAYER_PLAYING )
 		{
-			if ( gObj[i].Type == OBJ_USER )
+			if ( gGameObjects[i].Type == OBJ_USER )
 			{
 				IOCP.DataSend(i, lpMsg, iSize);
 			}
@@ -93,11 +93,11 @@ void CCrywolfUtil::SendCrywolfUserAnyData(LPBYTE lpMsg, int iSize)
 {
 	for ( int i=g_ConfigRead.server.GetObjectStartUserIndex();i<g_ConfigRead.server.GetObjectMax();i++)
 	{
-		if ( gObj[i].Connected == PLAYER_PLAYING )
+		if ( gGameObjects[i].Connected == PLAYER_PLAYING )
 		{
-			if ( gObj[i].Type == OBJ_USER )
+			if ( gGameObjects[i].Type == OBJ_USER )
 			{
-				if ( gObj[i].MapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE )
+				if ( gGameObjects[i].MapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE )
 				{
 					IOCP.DataSend(i, lpMsg, iSize);
 				}
@@ -135,11 +135,11 @@ void CCrywolfUtil::SendCrywolfUserAnyMsg(int iType, LPSTR lpszMsg, ...)
 
 	for ( int i=g_ConfigRead.server.GetObjectStartUserIndex();i<g_ConfigRead.server.GetObjectMax();i++)
 	{
-		if ( gObj[i].Connected == PLAYER_PLAYING )
+		if ( gGameObjects[i].Connected == PLAYER_PLAYING )
 		{
-			if ( gObj[i].Type == OBJ_USER )
+			if ( gGameObjects[i].Type == OBJ_USER )
 			{
-				if ( gObj[i].MapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE )
+				if ( gGameObjects[i].MapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE )
 				{
 					IOCP.DataSend(i, (LPBYTE)&pNotice, pNotice.h.size);
 				}
@@ -154,7 +154,7 @@ void CCrywolfUtil::SendCrywolfChattingMsg(int iObjIndex, LPSTR lpszMsg, ...)
 {
 	return;
 
-	LPOBJ lpObj;
+	CGameObject* lpObj;
 	char szBuffer[512];
 	va_list pArguments;
 	char szChat[60];
@@ -180,7 +180,7 @@ int CCrywolfUtil::CrywolfMVPLevelUp(int iUserIndex, int iAddExp)
 	if ( !ObjectMaxRange(iUserIndex ) )
 		return 0;
 
-	if(gObj[iUserIndex].Type != OBJ_USER)
+	if(gGameObjects[iUserIndex].Type != OBJ_USER)
 	{
 		return 0;
 	}
@@ -188,73 +188,73 @@ int CCrywolfUtil::CrywolfMVPLevelUp(int iUserIndex, int iAddExp)
 	int iLEFT_EXP = 0;
 
 	sLog->outBasic("[ Crywolf ][MVP Exp.] : [%s][%s](%d) %u %d",
-		gObj[iUserIndex].AccountID, gObj[iUserIndex].Name,
-		gObj[iUserIndex].Level, gObj[iUserIndex].m_PlayerData->Experience,
+		gGameObjects[iUserIndex].AccountID, gGameObjects[iUserIndex].Name,
+		gGameObjects[iUserIndex].Level, gGameObjects[iUserIndex].m_PlayerData->Experience,
 		iAddExp);
 
-	if ( g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&gObj[iUserIndex]) == true )
+	if ( g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&gGameObjects[iUserIndex]) == true )
 	{
-		return g_MasterLevelSkillTreeSystem.MasterLevelUp(&gObj[iUserIndex], iAddExp, 0, "Crywolf");
+		return g_MasterLevelSkillTreeSystem.MasterLevelUp(&gGameObjects[iUserIndex], iAddExp, 0, "Crywolf");
 	}
 
 	sLog->outBasic("[Crywolf] Experience : [%s][%s](%d) Experience: %d + %d",
-		gObj[iUserIndex].AccountID, gObj[iUserIndex].Name,
-		gObj[iUserIndex].Level, gObj[iUserIndex].m_PlayerData->Experience, iAddExp);
+		gGameObjects[iUserIndex].AccountID, gGameObjects[iUserIndex].Name,
+		gGameObjects[iUserIndex].Level, gGameObjects[iUserIndex].m_PlayerData->Experience, iAddExp);
 
 	gObjSetExpPetItem(iUserIndex, iAddExp);
 
-	if ( gObj[iUserIndex].Level >= g_ConfigRead.data.common.UserMaxLevel)
+	if ( gGameObjects[iUserIndex].Level >= g_ConfigRead.data.common.UserMaxLevel)
 	{
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,45), gObj[iUserIndex].m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,45), gGameObjects[iUserIndex].m_Index, 1);
 		return 0;
 	}
 
-	if ( (gObj[iUserIndex].m_PlayerData->Experience + iAddExp) < gObj[iUserIndex].m_PlayerData->NextExp )
+	if ( (gGameObjects[iUserIndex].m_PlayerData->Experience + iAddExp) < gGameObjects[iUserIndex].m_PlayerData->NextExp )
 	{
-		gObj[iUserIndex].m_PlayerData->Experience += iAddExp;
+		gGameObjects[iUserIndex].m_PlayerData->Experience += iAddExp;
 	}
 	else
 	{
-		iLEFT_EXP = gObj[iUserIndex].m_PlayerData->Experience + iAddExp - gObj[iUserIndex].m_PlayerData->NextExp;
-		gObj[iUserIndex].m_PlayerData->Experience = gObj[iUserIndex].m_PlayerData->NextExp;
-		gObj[iUserIndex].Level++;
+		iLEFT_EXP = gGameObjects[iUserIndex].m_PlayerData->Experience + iAddExp - gGameObjects[iUserIndex].m_PlayerData->NextExp;
+		gGameObjects[iUserIndex].m_PlayerData->Experience = gGameObjects[iUserIndex].m_PlayerData->NextExp;
+		gGameObjects[iUserIndex].Level++;
 
-		if ( g_ConfigRead.data.reset.iBlockLevelUpPointAfterResets == -1 || gObj[iUserIndex].m_PlayerData->m_iResets < g_ConfigRead.data.reset.iBlockLevelUpPointAfterResets )
+		if ( g_ConfigRead.data.reset.iBlockLevelUpPointAfterResets == -1 || gGameObjects[iUserIndex].m_PlayerData->m_iResets < g_ConfigRead.data.reset.iBlockLevelUpPointAfterResets )
 		{
-			if (gObj[iUserIndex].Class == CLASS_DARKLORD || gObj[iUserIndex].Class == CLASS_MAGUMSA || gObj[iUserIndex].Class == CLASS_RAGEFIGHTER || gObj[iUserIndex].Class == CLASS_GROWLANCER)
+			if (gGameObjects[iUserIndex].Class == CLASS_DARKLORD || gGameObjects[iUserIndex].Class == CLASS_MAGUMSA || gGameObjects[iUserIndex].Class == CLASS_RAGEFIGHTER || gGameObjects[iUserIndex].Class == CLASS_GROWLANCER)
 			{
-				gObj[iUserIndex].m_PlayerData->LevelUpPoint += g_MaxStatsInfo.GetClass.LevelUpPointMGDL;
+				gGameObjects[iUserIndex].m_PlayerData->LevelUpPoint += g_MaxStatsInfo.GetClass.LevelUpPointMGDL;
 			}
 
 			else
 			{
-				gObj[iUserIndex].m_PlayerData->LevelUpPoint += g_MaxStatsInfo.GetClass.LevelUpPointNormal;
+				gGameObjects[iUserIndex].m_PlayerData->LevelUpPoint += g_MaxStatsInfo.GetClass.LevelUpPointNormal;
 			}
 
-			if (gObj[iUserIndex].m_PlayerData->PlusStatQuestClear != false)
+			if (gGameObjects[iUserIndex].m_PlayerData->PlusStatQuestClear != false)
 			{
-				gObj[iUserIndex].m_PlayerData->LevelUpPoint++;
+				gGameObjects[iUserIndex].m_PlayerData->LevelUpPoint++;
 
 				//sLog->outBasic("[ Crywolf ][MVP Exp.] [%s][%s] LevelUp PlusStatQuest Clear AddStat %d",
-				//	gObj[iUserIndex].AccountID, gObj[iUserIndex].Name,gObj[iUserIndex].m_PlayerData->LevelUpPoint);
+				//	gGameObjects[iUserIndex].AccountID, gGameObjects[iUserIndex].Name,gGameObjects[iUserIndex].m_PlayerData->LevelUpPoint);
 			}
 
-			if ( gObj[iUserIndex].m_PlayerData->PlusStatQuestClear != false )
+			if ( gGameObjects[iUserIndex].m_PlayerData->PlusStatQuestClear != false )
 			{
 			}
 		}
 
-		gObj[iUserIndex].MaxLife += DCInfo.DefClass[gObj[iUserIndex].Class].LevelLife;
-		gObj[iUserIndex].MaxMana += DCInfo.DefClass[gObj[iUserIndex].Class].LevelMana;
-		gObj[iUserIndex].Life = gObj[iUserIndex].MaxLife;
-		gObj[iUserIndex].Mana = gObj[iUserIndex].MaxMana;
-		gObjNextExpCal(&gObj[iUserIndex]);
+		gGameObjects[iUserIndex].MaxLife += DCInfo.DefClass[gGameObjects[iUserIndex].Class].LevelLife;
+		gGameObjects[iUserIndex].MaxMana += DCInfo.DefClass[gGameObjects[iUserIndex].Class].LevelMana;
+		gGameObjects[iUserIndex].Life = gGameObjects[iUserIndex].MaxLife;
+		gGameObjects[iUserIndex].Mana = gGameObjects[iUserIndex].MaxMana;
+		gObjNextExpCal(&gGameObjects[iUserIndex]);
 		gObjSetBP(iUserIndex);
-		GSProtocol.GCLevelUpMsgSend(gObj[iUserIndex].m_Index, 1);
-		gObjCalcMaxLifePower(gObj[iUserIndex].m_Index);
+		GSProtocol.GCLevelUpMsgSend(gGameObjects[iUserIndex].m_Index, 1);
+		gObjCalcMaxLifePower(gGameObjects[iUserIndex].m_Index);
 
-		sLog->outBasic("Level Up [%s][%s][%d]", gObj[iUserIndex].AccountID,
-			gObj[iUserIndex].Name, gObj[iUserIndex].Level);
+		sLog->outBasic("Level Up [%s][%s][%d]", gGameObjects[iUserIndex].AccountID,
+			gGameObjects[iUserIndex].Name, gGameObjects[iUserIndex].Level);
 	}
 
 	return iLEFT_EXP;

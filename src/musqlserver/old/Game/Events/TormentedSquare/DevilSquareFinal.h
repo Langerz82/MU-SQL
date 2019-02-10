@@ -3,7 +3,7 @@
 #ifndef DEVILSQUAREFINAL_H
 #define DEVILSQUAREFINAL_H
 
-#include "User/user.h"
+#include "User/CUserData.h"
 
 struct DSF_TIME_RULE_INFO
 {

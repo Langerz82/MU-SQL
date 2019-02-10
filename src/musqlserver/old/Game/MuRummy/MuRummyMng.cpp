@@ -4,7 +4,7 @@
 #include "MuRummyMng.h"
 #include "LargeRand.h"
 #include "GameMain.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "util.h"
 #include "BagManager.h"
 #include "DSProtocol.h"
@@ -257,7 +257,7 @@ void CMuRummyMng::CGReqMuRummyEventOpen(PMSG_REQ_MURUMMY_EVENT_OPEN *lpMsg, int 
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->CloseCount != -1)
 	{
@@ -336,7 +336,7 @@ void CMuRummyMng::CGReqMuRummyStart(PMSG_REQ_MURUMMY_INFO *lpMsg, int aIndex)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (!lpObj)
 	{
@@ -457,7 +457,7 @@ void CMuRummyMng::CGReqCardReveal(PMSG_REQ_REVEAL_CARD *lpMsg, int aIndex)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (!lpObj)
 	{
@@ -644,7 +644,7 @@ void CMuRummyMng::CGReqCardMove(PMSG_REQ_CARD_MOVE *lpMsg, int aIndex)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (!lpObj)
 	{
@@ -794,7 +794,7 @@ void CMuRummyMng::CGReqCardReMove(PMSG_REQ_CARD_REMOVE *lpMsg, int aIndex)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (!lpObj)
 	{
@@ -912,7 +912,7 @@ void CMuRummyMng::CGReqCardMatch(PMSG_REQ_CARD_MATCH *lpMsg, int aIndex)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (!lpObj)
 	{
@@ -1193,7 +1193,7 @@ void CMuRummyMng::CGReqMuRummyEnd(PMSG_REQ_MURUMMY_END *lpMsg, int aIndex)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (!lpObj)
 	{
@@ -1334,7 +1334,7 @@ void CMuRummyMng::GCSendCardList(int aIndex)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (!lpObj)
 	{
@@ -1412,7 +1412,7 @@ void CMuRummyMng::GCSendMsg(int aIndex, BYTE btNotiIndex, int iValue)
 	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void CMuRummyMng::GDReqCardInfo(LPOBJ lpObj)
+void CMuRummyMng::GDReqCardInfo(CGameObject* lpObj)
 {
 	if (ObjectMaxRange(lpObj->m_Index) == false)
 	{
@@ -1452,7 +1452,7 @@ void CMuRummyMng::GDAnsCardInfo(PMSG_ANS_MURUMMY_SELECT_DS *lpMsg)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (!lpObj)
 	{
@@ -1603,7 +1603,7 @@ void CMuRummyMng::GDReqCardInfoInsert(OBJECTSTRUCT *lpObj)
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CMuRummyMng::GDReqScoreUpdate(LPOBJ lpObj, WORD wScore, _tagMuRummyCardUpdateDS *pCardUpdateDS)
+void CMuRummyMng::GDReqScoreUpdate(CGameObject* lpObj, WORD wScore, _tagMuRummyCardUpdateDS *pCardUpdateDS)
 {
 	PMSG_REQ_MURUMMY_SCORE_UPDATE_DS pMsg;
 	memcpy(pMsg.AccountID, lpObj->AccountID, MAX_ACCOUNT_LEN + 1);
@@ -1746,7 +1746,7 @@ void CMuRummyMng::CheatSetCardColorAsc(CMuRummyInfo *pMuRummyInfo, int aIndex)
 
 	if (!pMuRummyInfo)
 	{
-		//sLog->outBasic("[MuRummy][Error] pMuRummyInfo is NULL [%s][%s] [%s, %d]", gObj[aIndex].AccountID, gObj[aIndex].Name, __FILE__, __LINE__);
+		//sLog->outBasic("[MuRummy][Error] pMuRummyInfo is NULL [%s][%s] [%s, %d]", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, __FILE__, __LINE__);
 		return;
 	}
 

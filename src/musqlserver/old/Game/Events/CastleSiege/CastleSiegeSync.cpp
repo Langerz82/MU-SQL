@@ -160,7 +160,7 @@ BOOL CCastleSiegeSync::CheckCastleOwnerMember(int iIndex)
 		return FALSE;
 	}
 
-	if ( strcmp(gObj[iIndex].m_PlayerData->GuildName, this->m_szCastleOwnerGuild) != 0 )
+	if ( strcmp(gGameObjects[iIndex].m_PlayerData->GuildName, this->m_szCastleOwnerGuild) != 0 )
 	{
 		return FALSE;
 	}
@@ -182,7 +182,7 @@ BOOL CCastleSiegeSync::CheckCastleOwnerUnionMember(int iIndex)
 		return FALSE;
 	}
 
-	GUILD_INFO_STRUCT * lpGuildInfo = gObj[iIndex].m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT * lpGuildInfo = gGameObjects[iIndex].m_PlayerData->lpGuild;
 	
 	if ( lpGuildInfo == NULL )
 	{
@@ -210,15 +210,15 @@ int CCastleSiegeSync::CheckOverlapCsMarks(int iIndex)
 {
 	for ( int x=INVENTORY_BAG_START;x<MAIN_INVENTORY_SIZE;x++)
 	{
-		if ( gObj[iIndex].pInventory[x].IsItem() == TRUE )
+		if ( gGameObjects[iIndex].pInventory[x].IsItem() == TRUE )
 		{
-			if ( gObj[iIndex].pInventory[x].m_Type == ITEMGET(14,21) )
+			if ( gGameObjects[iIndex].pInventory[x].m_Type == ITEMGET(14,21) )
 			{
-				if ( gObj[iIndex].pInventory[x].m_Level == 3 )
+				if ( gGameObjects[iIndex].pInventory[x].m_Level == 3 )
 				{
-					int op = gObj[iIndex].pInventory[x].m_Durability;
+					int op = gGameObjects[iIndex].pInventory[x].m_Durability;
 
-					if (op >= 0 && op < IsOverlapItem(gObj[iIndex].pInventory[x].m_Type))
+					if (op >= 0 && op < IsOverlapItem(gGameObjects[iIndex].pInventory[x].m_Type))
 					{
 						return x;
 					}

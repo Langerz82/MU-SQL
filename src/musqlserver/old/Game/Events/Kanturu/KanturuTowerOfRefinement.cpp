@@ -235,8 +235,8 @@ void CKanturuTowerOfRefinement::SetState_END()
 
 	for ( int iCount=0;iCount<g_ConfigRead.server.GetObjectMax();iCount++)
 	{
-		if ( gObj[iCount].Type == OBJ_USER &&
-			 gObj[iCount].MapNumber == MAP_INDEX_KANTURU_BOSS )
+		if ( gGameObjects[iCount].Type == OBJ_USER &&
+			 gGameObjects[iCount].MapNumber == MAP_INDEX_KANTURU_BOSS )
 		{
 			gObjMoveGate(iCount, 136);
 

@@ -3,7 +3,7 @@
 #pragma once
 // -------------------------------------------------------------------------------
 
-#include "User/user.h"
+#include "User/CUserData.h"
 // -------------------------------------------------------------------------------
 
 #define MAX_PVPZONE	50
@@ -29,7 +29,7 @@ public:
 	void	Load();
 	void	ReadData(char * File);
 	// ----
-	//bool	IsPVPZone(LPOBJ lpUser);
+	//bool	IsPVPZone(CGameObject* lpUser);
 	// ----
 	PVPZONE_DATA m_Data[MAX_PVPZONE];
 	// ----

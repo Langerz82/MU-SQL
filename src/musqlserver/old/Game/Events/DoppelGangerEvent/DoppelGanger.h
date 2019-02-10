@@ -5,7 +5,7 @@
 
 #include "MonsterAttr.h"
 #include "MonsterHerd.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "DoppelGangerPosInfo.h"
 #include "DoppelGangerEventInfo.h"
 #include "DoppelGangerItemBag.h"

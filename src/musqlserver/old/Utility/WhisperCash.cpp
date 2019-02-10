@@ -10,7 +10,7 @@
 
 #include "StdAfx.h"
 #include "WhisperCash.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 
 CWhisperCash::CWhisperCash()
 {

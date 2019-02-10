@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MonsterRegenSystem.cpp
 #include "StdAfx.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "MonsterRegenSystem.h"
 #include "Logging/Log.h"
 #include "MapClass.h"
@@ -243,29 +243,29 @@ void CMonsterRegenSystem::RegenMonster(int nGroupNumber)
 					{
 						if (this->m_stMonsterPosition[nGroupNumber].m_stMonsterIndexInfo[k].m_nOverrideDefaultSettings == TRUE)
 						{
-							gObj[nResult].m_AttackDamageMin = this->m_stMonsterPosition[nGroupNumber].m_stMonsterIndexInfo[k].m_nDamageMin;
-							gObj[nResult].m_AttackDamageMax = this->m_stMonsterPosition[nGroupNumber].m_stMonsterIndexInfo[k].m_nDamageMax;
-							gObj[nResult].m_Defense = this->m_stMonsterPosition[nGroupNumber].m_stMonsterIndexInfo[k].m_nDefense;
-							gObj[nResult].Life = this->m_stMonsterPosition[nGroupNumber].m_stMonsterIndexInfo[k].m_nHP;
-							gObj[nResult].m_AttackRating = this->m_stMonsterPosition[nGroupNumber].m_stMonsterIndexInfo[k].m_nAttackRate;
-							gObj[nResult].m_SuccessfulBlocking = this->m_stMonsterPosition[nGroupNumber].m_stMonsterIndexInfo[k].m_nDefenseRate;
+							gGameObjects[nResult].m_AttackDamageMin = this->m_stMonsterPosition[nGroupNumber].m_stMonsterIndexInfo[k].m_nDamageMin;
+							gGameObjects[nResult].m_AttackDamageMax = this->m_stMonsterPosition[nGroupNumber].m_stMonsterIndexInfo[k].m_nDamageMax;
+							gGameObjects[nResult].m_Defense = this->m_stMonsterPosition[nGroupNumber].m_stMonsterIndexInfo[k].m_nDefense;
+							gGameObjects[nResult].Life = this->m_stMonsterPosition[nGroupNumber].m_stMonsterIndexInfo[k].m_nHP;
+							gGameObjects[nResult].m_AttackRating = this->m_stMonsterPosition[nGroupNumber].m_stMonsterIndexInfo[k].m_nAttackRate;
+							gGameObjects[nResult].m_SuccessfulBlocking = this->m_stMonsterPosition[nGroupNumber].m_stMonsterIndexInfo[k].m_nDefenseRate;
 						}
 
 						nMonsterArrayIndex++;
 						this->m_stMonsterGroupInfo[nGroupNumber].m_nLiveCount++;
-						if (gObj[nResult].Class == this->m_stMonsterGroupInfo[nGroupNumber].m_nBossMonsterClass)
+						if (gGameObjects[nResult].Class == this->m_stMonsterGroupInfo[nGroupNumber].m_nBossMonsterClass)
 						{
 							this->m_stMonsterGroupInfo[nGroupNumber].m_nBossMonsterIndex = nResult;
 
 							if (this->m_bSendMessage == true)
 							{
-								LPMONSTER_ATTRIBUTE lpm = gMAttr.GetAttr(gObj[nResult].Class);
+								LPMONSTER_ATTRIBUTE lpm = gMAttr.GetAttr(gGameObjects[nResult].Class);
 
 								TNotice::MakeNoticeMsg(&pNotice, 0, (char*)this->m_stMonsterGroupInfo[nGroupNumber].m_sSpawnNotice.c_str());
 
 								for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 								{
-									if (gObj[i].Connected == PLAYER_PLAYING && gObj[i].Type == OBJ_USER)
+									if (gGameObjects[i].Connected == PLAYER_PLAYING && gGameObjects[i].Type == OBJ_USER)
 									{
 										IOCP.DataSend(i, (LPBYTE)&pNotice, pNotice.h.size);
 									}
@@ -298,7 +298,7 @@ bool CMonsterRegenSystem::SetPosMonster(int aIndex, int nMapNumber, int nBeginX,
 		return false;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	lpObj->m_PosNum = -1;
 	lpObj->MapNumber = nMapNumber;
@@ -365,7 +365,7 @@ bool CMonsterRegenSystem::IsLiveBossState(int nGroupNumber)
 		return false;
 	}
 
-	if (gObj[nBossMonsterIndex].Live == TRUE)
+	if (gGameObjects[nBossMonsterIndex].Live == TRUE)
 	{
 		return true;
 	}
@@ -433,7 +433,7 @@ bool CMonsterRegenSystem::IsRegenTime(int nGroupNumber, int nCurHour, int nCurMi
 	return false;
 }
 
-bool CMonsterRegenSystem::MonsterKillCheck(LPOBJ lpPlayer, LPOBJ lpMonster)
+bool CMonsterRegenSystem::MonsterKillCheck(CGameObject* lpPlayer, CGameObject* lpMonster)
 {
 	for (int i = 0; i < MAX_MONSTER_GROUP_INFO && this->m_stMonsterGroupInfo[i].m_nGroupNumber > -1; i++)
 	{

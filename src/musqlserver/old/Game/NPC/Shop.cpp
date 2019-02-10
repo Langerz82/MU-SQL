@@ -342,7 +342,7 @@ void CShopMng::LoadShopList(char* filename)
 
 }
 
-SHOP_DATA * CShopMng::GetShop(LPOBJ lpObj, LPOBJ lpNpc)
+SHOP_DATA * CShopMng::GetShop(CGameObject* lpObj, CGameObject* lpNpc)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -473,21 +473,21 @@ void CShopMng::SetShopNpcs()
 		}
 		//sLog->outBasic("SetShopNpcs - Map %d %d %d", it->btMapNumber, it->btPosX, it->btPosY);	// Memory allocation error
 		gObjSetMonster(iResult, it->iNpcIndex);
-		gObj[iResult].m_MoveRange = 0;
-		gObj[iResult].MapNumber = it->btMapNumber;
-		gObj[iResult].X = it->btPosX;
-		gObj[iResult].Y = it->btPosY;
-		gObj[iResult].TX = it->btPosX;
-		gObj[iResult].TY = it->btPosY;
-		gObj[iResult].m_OldX = it->btPosX;
-		gObj[iResult].m_OldY = it->btPosY;
-		gObj[iResult].StartX = it->btPosX;
-		gObj[iResult].StartY = it->btPosY;
-		gObj[iResult].Dir = it->btDir;
-		gObj[iResult].Live = TRUE;
-		gObj[iResult].DieRegen = FALSE;
-		gObj[iResult].m_State = TRUE;
-		gObj[iResult].m_btNpcType = NPC_TYPES::NPC_SHOP;
+		gGameObjects[iResult].m_MoveRange = 0;
+		gGameObjects[iResult].MapNumber = it->btMapNumber;
+		gGameObjects[iResult].X = it->btPosX;
+		gGameObjects[iResult].Y = it->btPosY;
+		gGameObjects[iResult].TX = it->btPosX;
+		gGameObjects[iResult].TY = it->btPosY;
+		gGameObjects[iResult].m_OldX = it->btPosX;
+		gGameObjects[iResult].m_OldY = it->btPosY;
+		gGameObjects[iResult].StartX = it->btPosX;
+		gGameObjects[iResult].StartY = it->btPosY;
+		gGameObjects[iResult].Dir = it->btDir;
+		gGameObjects[iResult].Live = TRUE;
+		gGameObjects[iResult].DieRegen = FALSE;
+		gGameObjects[iResult].m_State = TRUE;
+		gGameObjects[iResult].m_btNpcType = NPC_TYPES::NPC_SHOP;
 
 		//sLog->outBasic("[Shops] Spawn Shop NPC (Index:%d) [MAP:%d][X:%d][Y:%d][NPCID:%d][DIR:%d]",iResult, it->btMapNumber, it->btPosX, it->btPosY, it->iNpcIndex, it->btDir);
 
@@ -525,7 +525,7 @@ void CCancelItemSale::CGReqSoldItemList(int iIndex)
 		return;
 	}
 
-	if (gObj[iIndex].Type != OBJ_USER)
+	if (gGameObjects[iIndex].Type != OBJ_USER)
 	{
 		return;
 	}
@@ -556,13 +556,13 @@ void CCancelItemSale::GCAnsSoldItemList(int iIndex)
 
 	for (int i = 0; i < MAX_CANCEL_ITEMS_SALE; i++)
 	{
-		if (gObj[iIndex].m_PlayerData->m_CancelItemSaleList[i].btUsed == TRUE)
+		if (gGameObjects[iIndex].m_PlayerData->m_CancelItemSaleList[i].btUsed == TRUE)
 		{
-			pItem.wItemCount = gObj[iIndex].m_PlayerData->m_CancelItemSaleList[i].wItemCount;
-			pItem.dwItemPrice = gObj[iIndex].m_PlayerData->m_CancelItemSaleList[i].dwItemPrice;
-			pItem.iLeftTime = gObj[iIndex].m_PlayerData->m_CancelItemSaleList[i].iLeftTime;
-			pItem.btItemNumber = gObj[iIndex].m_PlayerData->m_CancelItemSaleList[i].btItemNumber;
-			memcpy(&pItem.btItemInfo, gObj[iIndex].m_PlayerData->m_CancelItemSaleList[i].btItemInfo, MAX_ITEM_INFO);
+			pItem.wItemCount = gGameObjects[iIndex].m_PlayerData->m_CancelItemSaleList[i].wItemCount;
+			pItem.dwItemPrice = gGameObjects[iIndex].m_PlayerData->m_CancelItemSaleList[i].dwItemPrice;
+			pItem.iLeftTime = gGameObjects[iIndex].m_PlayerData->m_CancelItemSaleList[i].iLeftTime;
+			pItem.btItemNumber = gGameObjects[iIndex].m_PlayerData->m_CancelItemSaleList[i].btItemNumber;
+			memcpy(&pItem.btItemInfo, gGameObjects[iIndex].m_PlayerData->m_CancelItemSaleList[i].btItemInfo, MAX_ITEM_INFO);
 
 			memcpy(&Buffer[iSize], &pItem, sizeof(pItem));
 			iSize += sizeof(pItem);
@@ -590,7 +590,7 @@ void CCancelItemSale::CGReqEndCancelItemSale(int iIndex)
 		return;
 	}
 
-	if (gObj[iIndex].Type != OBJ_USER)
+	if (gGameObjects[iIndex].Type != OBJ_USER)
 	{
 		return;
 	}
@@ -600,11 +600,11 @@ void CCancelItemSale::CGReqEndCancelItemSale(int iIndex)
 		return;
 	}
 
-	gObj[iIndex].m_PlayerData->m_bIsCancelItemSale = false;
+	gGameObjects[iIndex].m_PlayerData->m_bIsCancelItemSale = false;
 
 	for (int i = 0; i < MAX_CANCEL_ITEMS_SALE; i++)
 	{
-		gObj[iIndex].m_PlayerData->m_CancelItemSaleList[i].Clear();
+		gGameObjects[iIndex].m_PlayerData->m_CancelItemSaleList[i].Clear();
 	}
 }
 
@@ -620,7 +620,7 @@ void CCancelItemSale::CGReqReBuyItem(PMSG_REQ_REBUY_ITEM *lpMsg, int iIndex)
 		return;
 	}
 
-	if (gObj[iIndex].Type != OBJ_USER)
+	if (gGameObjects[iIndex].Type != OBJ_USER)
 	{
 		return;
 	}
@@ -630,7 +630,7 @@ void CCancelItemSale::CGReqReBuyItem(PMSG_REQ_REBUY_ITEM *lpMsg, int iIndex)
 		return;
 	}
 
-	if (gObj[iIndex].m_PlayerData->m_bIsCancelItemSale == false)
+	if (gGameObjects[iIndex].m_PlayerData->m_bIsCancelItemSale == false)
 	{
 		MsgOutput(iIndex, "Internal Error, Cancel Item Sale DB data doesn't exists.");
 		return;
@@ -643,12 +643,12 @@ void CCancelItemSale::CGReqReBuyItem(PMSG_REQ_REBUY_ITEM *lpMsg, int iIndex)
 
 	for (int i = 0; i < MAX_CANCEL_ITEMS_SALE; i++)
 	{
-		if (gObj[iIndex].m_PlayerData->m_CancelItemSaleList[i].btUsed == TRUE)
+		if (gGameObjects[iIndex].m_PlayerData->m_CancelItemSaleList[i].btUsed == TRUE)
 		{
-			if (gObj[iIndex].m_PlayerData->m_CancelItemSaleList[i].btItemNumber == lpMsg->btItemNumber &&
-				gObj[iIndex].m_PlayerData->m_CancelItemSaleList[i].wItemCode == lpMsg->wItemCode &&
-				gObj[iIndex].m_PlayerData->m_CancelItemSaleList[i].dwItemPrice == lpMsg->dwItemPrice &&
-				gObj[iIndex].m_PlayerData->m_CancelItemSaleList[i].iLeftTime == lpMsg->dwLeftTime)
+			if (gGameObjects[iIndex].m_PlayerData->m_CancelItemSaleList[i].btItemNumber == lpMsg->btItemNumber &&
+				gGameObjects[iIndex].m_PlayerData->m_CancelItemSaleList[i].wItemCode == lpMsg->wItemCode &&
+				gGameObjects[iIndex].m_PlayerData->m_CancelItemSaleList[i].dwItemPrice == lpMsg->dwItemPrice &&
+				gGameObjects[iIndex].m_PlayerData->m_CancelItemSaleList[i].iLeftTime == lpMsg->dwLeftTime)
 			{
 				btItemNumber = i;
 				break;
@@ -673,8 +673,8 @@ void CCancelItemSale::GDReqSoldItemList(int iIndex)
 	PHeadSubSetB((LPBYTE)&pMsg, 0x6F, 0x00, sizeof(pMsg));
 
 	pMsg.iIndex = iIndex;
-	memcpy(pMsg.szAccountID, gObj[iIndex].AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szName, gObj[iIndex].Name, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.szAccountID, gGameObjects[iIndex].AccountID, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.szName, gGameObjects[iIndex].Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.CurrTime = time(NULL);
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
@@ -697,7 +697,7 @@ void CCancelItemSale::DGAnsSoldItemList(LPBYTE lpRecv)
 		return;
 	}
 
-	if (gObj[iIndex].Type != OBJ_USER)
+	if (gGameObjects[iIndex].Type != OBJ_USER)
 	{
 		return;
 	}
@@ -719,11 +719,11 @@ void CCancelItemSale::DGAnsSoldItemList(LPBYTE lpRecv)
 
 	else
 	{
-		gObj[iIndex].m_PlayerData->m_bIsCancelItemSale = true;
+		gGameObjects[iIndex].m_PlayerData->m_bIsCancelItemSale = true;
 
 		for (int i = 0; i < MAX_CANCEL_ITEMS_SALE; i++)
 		{
-			gObj[iIndex].m_PlayerData->m_CancelItemSaleList[i].Clear();
+			gGameObjects[iIndex].m_PlayerData->m_CancelItemSaleList[i].Clear();
 		}
 
 		for (int i = 0; i < lpMsg->iCount; i++)
@@ -733,14 +733,14 @@ void CCancelItemSale::DGAnsSoldItemList(LPBYTE lpRecv)
 
 			this->MakeItem(lpItemList->ItemData, &Item);
 
-			gObj[iIndex].m_PlayerData->m_CancelItemSaleList[i].btUsed = TRUE;
-			gObj[iIndex].m_PlayerData->m_CancelItemSaleList[i].btItemNumber = lpItemList->btItemNumber;
-			gObj[iIndex].m_PlayerData->m_CancelItemSaleList[i].wItemCode = Item.m_Type;
-			gObj[iIndex].m_PlayerData->m_CancelItemSaleList[i].dwItemPrice = lpItemList->dwSellPrice;
-			gObj[iIndex].m_PlayerData->m_CancelItemSaleList[i].iLeftTime = lpItemList->SellExpireDate - time(NULL);
-			gObj[iIndex].m_PlayerData->m_CancelItemSaleList[i].wItemCount = lpItemList->wItemCount;
+			gGameObjects[iIndex].m_PlayerData->m_CancelItemSaleList[i].btUsed = TRUE;
+			gGameObjects[iIndex].m_PlayerData->m_CancelItemSaleList[i].btItemNumber = lpItemList->btItemNumber;
+			gGameObjects[iIndex].m_PlayerData->m_CancelItemSaleList[i].wItemCode = Item.m_Type;
+			gGameObjects[iIndex].m_PlayerData->m_CancelItemSaleList[i].dwItemPrice = lpItemList->dwSellPrice;
+			gGameObjects[iIndex].m_PlayerData->m_CancelItemSaleList[i].iLeftTime = lpItemList->SellExpireDate - time(NULL);
+			gGameObjects[iIndex].m_PlayerData->m_CancelItemSaleList[i].wItemCount = lpItemList->wItemCount;
 
-			ItemByteConvert(gObj[iIndex].m_PlayerData->m_CancelItemSaleList[i].btItemInfo, Item);
+			ItemByteConvert(gGameObjects[iIndex].m_PlayerData->m_CancelItemSaleList[i].btItemInfo, Item);
 		}
 
 		this->GCAnsSoldItemList(iIndex);
@@ -757,8 +757,8 @@ void CCancelItemSale::GDReqAddItemToList(int iIndex, CItem Item, DWORD dwSellPri
 	SDHP_REQ_SHOP_REBUY_ADD_ITEM pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x6F, 0x01, sizeof(pMsg));
 
-	memcpy(pMsg.szAccountID, gObj[iIndex].AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szName, gObj[iIndex].Name, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.szAccountID, gGameObjects[iIndex].AccountID, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.szName, gGameObjects[iIndex].Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.SellDate = time(NULL);
 	pMsg.SellExpireDate = time(NULL) + g_ConfigRead.data.common.CancelItemSaleExpiryTime;
 	pMsg.dwSellPrice = dwSellPrice * g_ConfigRead.data.common.CancelItemSaleMultipler / 100;
@@ -773,8 +773,8 @@ void CCancelItemSale::GDReqGetReBuyItem(int iIndex, BYTE btItemNumber, DWORD dwI
 	PHeadSubSetB((LPBYTE)&pMsg, 0x6F, 0x02, sizeof(pMsg));
 
 	pMsg.iIndex = iIndex;
-	memcpy(pMsg.szAccountID, gObj[iIndex].AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szName, gObj[iIndex].Name, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.szAccountID, gGameObjects[iIndex].AccountID, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.szName, gGameObjects[iIndex].Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.btItemNumber = btItemNumber;
 	pMsg.dwItemPrice = dwItemPrice;
 
@@ -795,7 +795,7 @@ void CCancelItemSale::DGAnsGetReBuyItem(SDHP_ANS_SHOP_REBUY_GET_ITEM *lpMsg)
 		return;
 	}
 
-	if (gObj[iIndex].Type != OBJ_USER)
+	if (gGameObjects[iIndex].Type != OBJ_USER)
 	{
 		return;
 	}
@@ -822,7 +822,7 @@ void CCancelItemSale::DGAnsGetReBuyItem(SDHP_ANS_SHOP_REBUY_GET_ITEM *lpMsg)
 
 	else
 	{
-		if (gObj[iIndex].m_PlayerData->Money < lpMsg->dwSellPrice)
+		if (gGameObjects[iIndex].m_PlayerData->Money < lpMsg->dwSellPrice)
 		{
 			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 623), iIndex, 1);
 			pMsg.btResult = 1;
@@ -835,7 +835,7 @@ void CCancelItemSale::DGAnsGetReBuyItem(SDHP_ANS_SHOP_REBUY_GET_ITEM *lpMsg)
 
 		LPITEM_ATTRIBUTE p = &ItemAttribute[Item.m_Type];
 
-		if (CheckInventoryEmptySpace(&gObj[iIndex], p->Height * lpMsg->wItemCount, p->Width * lpMsg->wItemCount) == FALSE)
+		if (CheckInventoryEmptySpace(&gGameObjects[iIndex], p->Height * lpMsg->wItemCount, p->Width * lpMsg->wItemCount) == FALSE)
 		{
 			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 622), iIndex, 1);
 			pMsg.btResult = 1;
@@ -849,8 +849,8 @@ void CCancelItemSale::DGAnsGetReBuyItem(SDHP_ANS_SHOP_REBUY_GET_ITEM *lpMsg)
 			GSProtocol.GCInventoryItemOneSend(iIndex, pos);
 		}
 
-		gObj[iIndex].m_PlayerData->Money -= lpMsg->dwSellPrice;
-		GSProtocol.GCMoneySend(iIndex, gObj[iIndex].m_PlayerData->Money);
+		gGameObjects[iIndex].m_PlayerData->Money -= lpMsg->dwSellPrice;
+		GSProtocol.GCMoneySend(iIndex, gGameObjects[iIndex].m_PlayerData->Money);
 
 		pMsg.btResult = 0;
 		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
@@ -865,8 +865,8 @@ void CCancelItemSale::GDReqDeleteSoldItem(int iIndex, BYTE btItemNumber, WORD wI
 	SDHP_REQ_SHOP_REBUY_DELETE_ITEM pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x6F, 0x03, sizeof(pMsg));
 
-	memcpy(pMsg.szAccountID, gObj[iIndex].AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szName, gObj[iIndex].Name, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.szAccountID, gGameObjects[iIndex].AccountID, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.szName, gGameObjects[iIndex].Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.btItemNumber = btItemNumber;
 	pMsg.wItemCode = wItemCode;
 	pMsg.dwItemPrice = dwItemPrice;

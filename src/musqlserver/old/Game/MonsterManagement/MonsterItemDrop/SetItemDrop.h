@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // SetItemDrop.h
-#include "User/user.h"
+#include "User/CUserData.h"
 
 #pragma once
 
@@ -35,7 +35,7 @@ public:
 	virtual ~CSetItemDrop(void);
 
 	void LoadFile(LPSTR lpFile);
-	bool DropItem(LPOBJ lpMonsterObj, LPOBJ lpObj);
+	bool DropItem(CGameObject* lpMonsterObj, CGameObject* lpObj);
 
 	inline int GetItemLevel(int min, int max)
 	{

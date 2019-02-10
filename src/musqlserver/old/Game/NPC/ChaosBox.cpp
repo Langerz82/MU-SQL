@@ -69,7 +69,7 @@ CMixSystem::~CMixSystem()
 
 }
 
-BOOL CMixSystem::ChaosBoxCheck(LPOBJ lpObj)
+BOOL CMixSystem::ChaosBoxCheck(CGameObject* lpObj)
 {
 	if (lpObj->pChaosBox == NULL)
 	{
@@ -98,10 +98,10 @@ void CMixSystem::GCChaosMixSend(int aIndex, BYTE result, CItem* lpItem) // OK
 
 	IOCP.DataSend(aIndex, (BYTE*)&pMsg, pMsg.h.size);
 
-	gObj[aIndex].ChaosLock = 0;
+	gGameObjects[aIndex].ChaosLock = 0;
 }
 
-bool CMixSystem::GetElementalTalismanOfLuckRate(LPOBJ lpObj, int* rate) // OK
+bool CMixSystem::GetElementalTalismanOfLuckRate(CGameObject* lpObj, int* rate) // OK
 {
 	int count = 0;
 
@@ -123,7 +123,7 @@ bool CMixSystem::GetElementalTalismanOfLuckRate(LPOBJ lpObj, int* rate) // OK
 	return ((count > MAX_TALISMAN_OF_LUCK) ? 0 : 1);
 }
 
-bool CMixSystem::GetTalismanOfLuckRate(LPOBJ lpObj, int* rate) // OK
+bool CMixSystem::GetTalismanOfLuckRate(CGameObject* lpObj, int* rate) // OK
 {
 	int count = 0;
 
@@ -144,7 +144,7 @@ bool CMixSystem::GetTalismanOfLuckRate(LPOBJ lpObj, int* rate) // OK
 
 	return ((count > MAX_TALISMAN_OF_LUCK) ? 0 : 1);
 }
-BOOL CMixSystem::ChaosBoxInit(LPOBJ lpObj)
+BOOL CMixSystem::ChaosBoxInit(CGameObject* lpObj)
 {
 	if (lpObj->pChaosBox == NULL)
 	{
@@ -167,7 +167,7 @@ BOOL CMixSystem::ChaosBoxInit(LPOBJ lpObj)
 }
 
 
-BOOL CMixSystem::ChaosBoxItemDown(LPOBJ lpObj)
+BOOL CMixSystem::ChaosBoxItemDown(CGameObject* lpObj)
 {
 	if (lpObj->pChaosBox == NULL)
 	{
@@ -231,7 +231,7 @@ BOOL CMixSystem::ChaosBoxItemDown(LPOBJ lpObj)
 	return TRUE;
 }
 
-int CMixSystem::ChaosBoxMix(LPOBJ lpObj, int & Result2, int & WingNum)
+int CMixSystem::ChaosBoxMix(CGameObject* lpObj, int & Result2, int & WingNum)
 {
 	BYTE ExOption[8];
 	int ChaosDiamond = 0;
@@ -373,7 +373,7 @@ int CMixSystem::ChaosBoxMix(LPOBJ lpObj, int & Result2, int & WingNum)
 	return value;
 }
 
-void CMixSystem::DefaultChaosMix(LPOBJ lpObj)
+void CMixSystem::DefaultChaosMix(CGameObject* lpObj)
 {
 	PMSG_CHAOSMIXRESULT pMsg;
 
@@ -547,7 +547,7 @@ void CMixSystem::DefaultChaosMix(LPOBJ lpObj)
 	::gObjInventoryCommit(lpObj->m_Index);
 }
 
-int CMixSystem::CheckDevilSquareItem(LPOBJ lpObj, int & eventitemcount, int & itemlevel)
+int CMixSystem::CheckDevilSquareItem(CGameObject* lpObj, int & eventitemcount, int & itemlevel)
 {
 	BOOL bChaoseGem = FALSE;
 	BOOL bEyeOfDevil = FALSE;
@@ -650,7 +650,7 @@ int CMixSystem::CheckDevilSquareItem(LPOBJ lpObj, int & eventitemcount, int & it
 	return 0;
 }
 
-void CMixSystem::LogDQChaosItem(LPOBJ lpObj)
+void CMixSystem::LogDQChaosItem(CGameObject* lpObj)
 {
 	BYTE ExOption[MAX_EXOPTION_SIZE];
 
@@ -667,7 +667,7 @@ void CMixSystem::LogDQChaosItem(LPOBJ lpObj)
 
 
 
-BOOL CMixSystem::DevilSquareEventChaosMix(LPOBJ lpObj, BOOL bCheckType, int iItemLevel)
+BOOL CMixSystem::DevilSquareEventChaosMix(CGameObject* lpObj, BOOL bCheckType, int iItemLevel)
 {
 	BOOL fail = TRUE;
 	int aIndex = lpObj->m_Index;
@@ -803,7 +803,7 @@ BOOL CMixSystem::DevilSquareEventChaosMix(LPOBJ lpObj, BOOL bCheckType, int iIte
 	return TRUE;
 }
 
-void CMixSystem::LogChaosItem(LPOBJ lpObj, LPSTR sLogType)
+void CMixSystem::LogChaosItem(CGameObject* lpObj, LPSTR sLogType)
 {
 	BYTE ExOption[MAX_EXOPTION_SIZE];
 
@@ -817,7 +817,7 @@ void CMixSystem::LogChaosItem(LPOBJ lpObj, LPSTR sLogType)
 	}
 }
 
-BOOL CMixSystem::PlusItemLevelChaosMix(LPOBJ lpObj, int mixType)
+BOOL CMixSystem::PlusItemLevelChaosMix(CGameObject* lpObj, int mixType)
 {
 	int ChaosGemCount = 0;
 	int BlessGemCount = 0;
@@ -1206,7 +1206,7 @@ BOOL CMixSystem::PlusItemLevelChaosMix(LPOBJ lpObj, int mixType)
 	return TRUE;
 }
 // TEST  SRC  FUNC  EMU S8
-void CMixSystem::PlusItemLevelMixTest(LPOBJ lpObj, int type) // OK
+void CMixSystem::PlusItemLevelMixTest(CGameObject* lpObj, int type) // OK
 {
 	int ChaosCount = 0;
 	int BlessCount = 0;
@@ -1394,7 +1394,7 @@ void CMixSystem::PlusItemLevelMixTest(LPOBJ lpObj, int type) // OK
 	}
 }
 
-void CMixSystem::ChaosMixCharmItemUsed(LPOBJ lpObj)
+void CMixSystem::ChaosMixCharmItemUsed(CGameObject* lpObj)
 {
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
@@ -1430,7 +1430,7 @@ BOOL CMixSystem::IsDeleteItem(int iItemCode)
 	return FALSE;
 }
 
-BOOL CMixSystem::PegasiaChaosMix(LPOBJ lpObj)
+BOOL CMixSystem::PegasiaChaosMix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int UniriaCount = 0;
@@ -1540,7 +1540,7 @@ BOOL CMixSystem::PegasiaChaosMix(LPOBJ lpObj)
 	}
 }
 
-BOOL CMixSystem::CircleChaosMix(LPOBJ lpObj)	// Fruits
+BOOL CMixSystem::CircleChaosMix(CGameObject* lpObj)	// Fruits
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -1670,7 +1670,7 @@ BOOL CMixSystem::CircleChaosMix(LPOBJ lpObj)	// Fruits
 	}
 }
 
-BOOL CMixSystem::WingChaosMix(LPOBJ lpObj)
+BOOL CMixSystem::WingChaosMix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -2022,7 +2022,7 @@ BOOL CMixSystem::WingChaosMix(LPOBJ lpObj)
 	}
 }
 
-BOOL CMixSystem::IllusionTempleItemChaosMix(LPOBJ lpObj)
+BOOL CMixSystem::IllusionTempleItemChaosMix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int ChoasGemCount = 0;
@@ -2291,7 +2291,7 @@ BOOL CMixSystem::CheckLevelCondition(CItem * lpItem, short Level, BYTE Op1, BYTE
 	return TRUE;
 }
 
-BOOL CMixSystem::FeatherOfCondorMix(LPOBJ lpObj)
+BOOL CMixSystem::FeatherOfCondorMix(CGameObject* lpObj)
 {
 	int ChaosCount = 0;
 	int CreationCount = 0;
@@ -2389,7 +2389,7 @@ BOOL CMixSystem::FeatherOfCondorMix(LPOBJ lpObj)
 	}
 }
 
-BOOL CMixSystem::AdvancedWingMix(LPOBJ lpObj)
+BOOL CMixSystem::AdvancedWingMix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -2613,7 +2613,7 @@ BOOL CMixSystem::AdvancedWingMix(LPOBJ lpObj)
 	}
 }
 
-BOOL CMixSystem::ThirdWingLevel2ChaosMix(LPOBJ lpObj)
+BOOL CMixSystem::ThirdWingLevel2ChaosMix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -2884,7 +2884,7 @@ BOOL CMixSystem::ThirdWingLevel2ChaosMix(LPOBJ lpObj)
 	}
 }
 
-void CMixSystem::ThirdWingMixFail(LPOBJ lpObj)
+void CMixSystem::ThirdWingMixFail(CGameObject* lpObj)
 {
 	if (lpObj->pChaosBox == NULL)
 	{
@@ -2935,7 +2935,7 @@ void CMixSystem::ThirdWingMixFailItemPanalty(CItem * lpItem)
 	lpItem->Convert(lpItem->m_Type, lpItem->m_Option1, lpItem->m_Option2, lpItem->m_Option3, lpItem->m_NewOption, lpItem->m_SetOption, lpItem->m_ItemOptionEx, lpItem->m_SocketOption, lpItem->m_BonusSocketOption, 0, CURRENT_DB_VERSION);
 }
 
-void CMixSystem::DevilSquareItemChaosMix(LPOBJ lpObj)
+void CMixSystem::DevilSquareItemChaosMix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -3013,7 +3013,7 @@ void CMixSystem::DevilSquareItemChaosMix(LPOBJ lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-void CMixSystem::BloodCastleItemChaosMix(LPOBJ lpObj)
+void CMixSystem::BloodCastleItemChaosMix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -3085,7 +3085,7 @@ void CMixSystem::BloodCastleItemChaosMix(LPOBJ lpObj)
 
 }
 
-void CMixSystem::SetItemChaosMix(LPOBJ lpObj)
+void CMixSystem::SetItemChaosMix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -3264,7 +3264,7 @@ void CMixSystem::SetItemChaosMix(LPOBJ lpObj)
 }
 
 
-void CMixSystem::DarkHorseChaosMix(LPOBJ lpObj)
+void CMixSystem::DarkHorseChaosMix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int ChoasGemCount = 0;
@@ -3430,7 +3430,7 @@ void CMixSystem::DarkHorseChaosMix(LPOBJ lpObj)
 	}
 }
 
-void CMixSystem::DarkSpiritChaosMix(LPOBJ lpObj)
+void CMixSystem::DarkSpiritChaosMix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int ChoasGemCount = 0;
@@ -3595,7 +3595,7 @@ void CMixSystem::DarkSpiritChaosMix(LPOBJ lpObj)
 	}
 }
 
-void CMixSystem::BlessPotionChaosMix(LPOBJ lpObj)
+void CMixSystem::BlessPotionChaosMix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int iBlessGemCount = 0;
@@ -3689,7 +3689,7 @@ void CMixSystem::BlessPotionChaosMix(LPOBJ lpObj)
 	}
 }
 
-void CMixSystem::SoulPotionChaosMix(LPOBJ lpObj)
+void CMixSystem::SoulPotionChaosMix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int iSoulGemCount = 0;
@@ -3785,7 +3785,7 @@ void CMixSystem::SoulPotionChaosMix(LPOBJ lpObj)
 
 
 
-void CMixSystem::LifeStoneChaosMix(LPOBJ lpObj)
+void CMixSystem::LifeStoneChaosMix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int iChoasGemCount = 0;
@@ -3883,7 +3883,7 @@ void CMixSystem::LifeStoneChaosMix(LPOBJ lpObj)
 	}
 }
 
-void CMixSystem::CastleSpecialItemMix(LPOBJ lpObj)
+void CMixSystem::CastleSpecialItemMix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -4030,7 +4030,7 @@ void CMixSystem::CastleSpecialItemMix(LPOBJ lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-void CMixSystem::HiddenTreasureBoxItemMix(LPOBJ lpObj)
+void CMixSystem::HiddenTreasureBoxItemMix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int iBlueCrystal = 0;
@@ -4168,7 +4168,7 @@ void CMixSystem::HiddenTreasureBoxItemMix(LPOBJ lpObj)
 
 
 
-void CMixSystem::Fenrir_01Level_Mix(LPOBJ lpObj)
+void CMixSystem::Fenrir_01Level_Mix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int iStuffCount_01 = 0;
@@ -4290,7 +4290,7 @@ void CMixSystem::Fenrir_01Level_Mix(LPOBJ lpObj)
 	}
 }
 
-void CMixSystem::Fenrir_02Level_Mix(LPOBJ lpObj)
+void CMixSystem::Fenrir_02Level_Mix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int iStuffCount_01 = 0;
@@ -4414,7 +4414,7 @@ void CMixSystem::Fenrir_02Level_Mix(LPOBJ lpObj)
 
 
 
-void CMixSystem::Fenrir_03Level_Mix(LPOBJ lpObj)
+void CMixSystem::Fenrir_03Level_Mix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int iStuffCount_01 = 0;
@@ -4537,7 +4537,7 @@ void CMixSystem::Fenrir_03Level_Mix(LPOBJ lpObj)
 	}
 }
 
-void CMixSystem::Fenrir_04Upgrade_Mix(LPOBJ lpObj)
+void CMixSystem::Fenrir_04Upgrade_Mix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 	int iStuffCount_01 = 0;
@@ -4731,7 +4731,7 @@ void CMixSystem::Fenrir_04Upgrade_Mix(LPOBJ lpObj)
 
 
 
-void CMixSystem::ShieldPotionLv1_Mix(LPOBJ lpObj)
+void CMixSystem::ShieldPotionLv1_Mix(CGameObject* lpObj)
 {
 	int iHealthPotionCount = 0;
 	int iInvalidItemCount = 0;
@@ -4843,7 +4843,7 @@ void CMixSystem::ShieldPotionLv1_Mix(LPOBJ lpObj)
 
 
 
-void CMixSystem::ShieldPotionLv2_Mix(LPOBJ lpObj)
+void CMixSystem::ShieldPotionLv2_Mix(CGameObject* lpObj)
 {
 	int iHealthPotionCount = 0;
 	int iInvalidItemCount = 0;
@@ -4950,7 +4950,7 @@ void CMixSystem::ShieldPotionLv2_Mix(LPOBJ lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-void CMixSystem::ShieldPotionLv3_Mix(LPOBJ lpObj)
+void CMixSystem::ShieldPotionLv3_Mix(CGameObject* lpObj)
 {
 	int iHealthPotionCount = 0;
 	int iInvalidItemCount = 0;
@@ -5059,7 +5059,7 @@ void CMixSystem::ShieldPotionLv3_Mix(LPOBJ lpObj)
 
 
 
-void CMixSystem::LotteryItemMix(LPOBJ lpObj, int type)
+void CMixSystem::LotteryItemMix(CGameObject* lpObj, int type)
 {
 	PMSG_CHAOSMIXRESULT pMsg;
 
@@ -5195,11 +5195,11 @@ BOOL CMixSystem::SeedExtractMixS12(int aIndex, BYTE AncientPos, BYTE ExePos, BYT
 	int isWind = 0;
 	int isEarth = 0;
 	BOOL cont = false;
-	lpAncientItem = &gObj[aIndex].pInventory[AncientPos];
-	lpExeItem = &gObj[aIndex].pInventory[ExePos];
-	lpJohItem = &gObj[aIndex].pInventory[JOHPos];
-	lpJocItem = &gObj[aIndex].pInventory[JOCPos];
-	lpChaosItem = &gObj[aIndex].pInventory[ChaosPos];
+	lpAncientItem = &gGameObjects[aIndex].pInventory[AncientPos];
+	lpExeItem = &gGameObjects[aIndex].pInventory[ExePos];
+	lpJohItem = &gGameObjects[aIndex].pInventory[JOHPos];
+	lpJocItem = &gGameObjects[aIndex].pInventory[JOCPos];
+	lpChaosItem = &gGameObjects[aIndex].pInventory[ChaosPos];
 
 	PMSG_SEEDRESULT pMsg;
 	PHeadSetB((LPBYTE)&pMsg.h, 0x78, sizeof(PMSG_SEEDRESULT));
@@ -5245,15 +5245,15 @@ BOOL CMixSystem::SeedExtractMixS12(int aIndex, BYTE AncientPos, BYTE ExePos, BYT
 
 	int iMixMoney = g_SocketOptionSystem.m_RequireMoneyForSeedExtract + iChaosTaxMoney;
 
-	if (gObj[aIndex].m_PlayerData->Money < iMixMoney)
+	if (gGameObjects[aIndex].m_PlayerData->Money < iMixMoney)
 	{
 		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 		return 0;
 	}
 
-	gObj[aIndex].m_PlayerData->Money -= iMixMoney;
+	gGameObjects[aIndex].m_PlayerData->Money -= iMixMoney;
 	g_CastleSiegeSync.AddTributeMoney(iChaosTaxMoney);
-	GSProtocol.GCMoneySend(aIndex, gObj[aIndex].m_PlayerData->Money);
+	GSProtocol.GCMoneySend(aIndex, gGameObjects[aIndex].m_PlayerData->Money);
 	BYTE SocketOptionIndex = 0;
 	SocketOptionIndex = g_SocketOptionSystem.GetExtractSeed();
 	CSeedItem * lpSeedData = g_SocketOptionSystem.GetSeedData(SocketOptionIndex);
@@ -5261,23 +5261,23 @@ BOOL CMixSystem::SeedExtractMixS12(int aIndex, BYTE AncientPos, BYTE ExePos, BYT
 	if (lpSeedData != NULL)
 	{
 		::gObjInventoryItemSet(aIndex, AncientPos, -1);
-		::gObj[aIndex].pInventory[AncientPos].Clear();
+		::gGameObjects[aIndex].pInventory[AncientPos].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, AncientPos, 1);
 
 		::gObjInventoryItemSet(aIndex, ExePos, -1);
-		::gObj[aIndex].pInventory[ExePos].Clear();
+		::gGameObjects[aIndex].pInventory[ExePos].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, ExePos, 1);
 
 		::gObjInventoryItemSet(aIndex, JOHPos, -1);
-		::gObj[aIndex].pInventory[JOHPos].Clear();
+		::gGameObjects[aIndex].pInventory[JOHPos].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JOHPos, 1);
 
 		::gObjInventoryItemSet(aIndex, JOCPos, -1);
-		::gObj[aIndex].pInventory[JOCPos].Clear();
+		::gGameObjects[aIndex].pInventory[JOCPos].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JOCPos, 1);
 
 		::gObjInventoryItemSet(aIndex, ChaosPos, -1);
-		::gObj[aIndex].pInventory[ChaosPos].Clear();
+		::gGameObjects[aIndex].pInventory[ChaosPos].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, ChaosPos, 1);
 
 		ItemSerialCreateSend(aIndex, 235, 0, 0, lpSeedData->m_ItemCode, lpSeedData->m_ItemLevel, 0, 0, 0, 0, aIndex, 0, 0, 0, 0, 0);
@@ -5286,11 +5286,11 @@ BOOL CMixSystem::SeedExtractMixS12(int aIndex, BYTE AncientPos, BYTE ExePos, BYT
 		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 		return 1;
 		sLog->outBasic("[%s][%s] Seed Extract Mix Success - SeedInfo ( Index : %d, Type : %d, Level : %d, ItemCode : %d )",
-			gObj[aIndex].AccountID, gObj[aIndex].Name, lpSeedData->m_SeedIndex, lpSeedData->m_SeedType, lpSeedData->m_ItemLevel, lpSeedData->m_ItemCode);
+			gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, lpSeedData->m_SeedIndex, lpSeedData->m_SeedType, lpSeedData->m_ItemLevel, lpSeedData->m_ItemCode);
 	}
 }
 
-void CMixSystem::SeedExtractMix(LPOBJ lpObj)
+void CMixSystem::SeedExtractMix(CGameObject* lpObj)
 {
 	int iExcItemCount = 0;
 	int iSetItemCount = 0;
@@ -5444,9 +5444,9 @@ BOOL CMixSystem::SeedSphereEnhance(int aIndex, BYTE Sphere1, BYTE Sphere2, BYTE 
 	int Item = 0;
 	int ReqZen = 0;
 	int ReqRune = 0;
-	lpSphere1 = &gObj[aIndex].pInventory[Sphere1];
-	lpSphere2 = &gObj[aIndex].pInventory[Sphere2];
-	lpRune = &gObj[aIndex].pInventory[Rune];
+	lpSphere1 = &gGameObjects[aIndex].pInventory[Sphere1];
+	lpSphere2 = &gGameObjects[aIndex].pInventory[Sphere2];
+	lpRune = &gGameObjects[aIndex].pInventory[Rune];
 	CopyMemory(&lpNewSphere, &lpSphere1, sizeof(lpSphere1));
 
 	lpNewSphere.m_Type = lpSphere1->m_Type + 6;
@@ -5509,14 +5509,14 @@ BOOL CMixSystem::SeedSphereEnhance(int aIndex, BYTE Sphere1, BYTE Sphere2, BYTE 
 		return FALSE;
 	}
 
-	if (!gObjSearchItemMinus(&gObj[aIndex], Rune, ReqRune))
+	if (!gObjSearchItemMinus(&gGameObjects[aIndex], Rune, ReqRune))
 	{
 		::gObjInventoryItemSet(aIndex, Rune, -1);
-		::gObj[aIndex].pInventory[Rune].Clear();
+		::gGameObjects[aIndex].pInventory[Rune].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, Rune, 1);
 	}
 
-	if (gObj[aIndex].m_PlayerData->Money <= ReqZen)
+	if (gGameObjects[aIndex].m_PlayerData->Money <= ReqZen)
 	{
 		return FALSE; //No Zen
 	}
@@ -5536,26 +5536,26 @@ BOOL CMixSystem::SeedSphereEnhance(int aIndex, BYTE Sphere1, BYTE Sphere2, BYTE 
 		{
 			SocketOption[i] = 0xFF;
 		}
-		gObj[aIndex].m_PlayerData->Money -= ReqZen;
-		GSProtocol.GCMoneySend(aIndex, gObj[aIndex].m_PlayerData->Money);
+		gGameObjects[aIndex].m_PlayerData->Money -= ReqZen;
+		GSProtocol.GCMoneySend(aIndex, gGameObjects[aIndex].m_PlayerData->Money);
 		ItemSerialCreateSend(aIndex, 235, 0, 0, lpNewSphere.m_Type, lpNewSphere.m_Level, 0, lpNewSphere.m_Option1, lpNewSphere.m_Option2, lpNewSphere.m_Option3, aIndex, lpNewSphere.m_NewOption, 0, 0, SocketOption, 0);
 
 		gObjInventoryCommit(aIndex);
 		::gObjInventoryItemSet(aIndex, Sphere1, -1);
-		::gObj[aIndex].pInventory[Sphere1].Clear();
+		::gGameObjects[aIndex].pInventory[Sphere1].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, Sphere1, 1);
 		::gObjInventoryItemSet(aIndex, Sphere2, -1);
-		::gObj[aIndex].pInventory[Sphere2].Clear();
+		::gGameObjects[aIndex].pInventory[Sphere2].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, Sphere2, 1);
 		return TRUE;
 	}
 	else
 	{
-		gObj[aIndex].m_PlayerData->Money -= ReqZen;
-		GSProtocol.GCMoneySend(aIndex, gObj[aIndex].m_PlayerData->Money);
+		gGameObjects[aIndex].m_PlayerData->Money -= ReqZen;
+		GSProtocol.GCMoneySend(aIndex, gGameObjects[aIndex].m_PlayerData->Money);
 		gObjInventoryCommit(aIndex);
 		::gObjInventoryItemSet(aIndex, Sphere2, -1);
-		::gObj[aIndex].pInventory[Sphere2].Clear();
+		::gGameObjects[aIndex].pInventory[Sphere2].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, Sphere2, 1);
 		return FALSE;
 	}
@@ -5580,20 +5580,20 @@ void CMixSystem::SeedSphereRemoveMixS12(int aIndex, BYTE ItemPos, BYTE Slot, BYT
 	int Item = 0;
 	int ReqZen = 0;
 	int ReqRune = 0;
-	lpSocketItem = &gObj[aIndex].pInventory[ItemPos];
-	lpJog = &gObj[aIndex].pInventory[JogPos];
+	lpSocketItem = &gGameObjects[aIndex].pInventory[ItemPos];
+	lpJog = &gGameObjects[aIndex].pInventory[JogPos];
 
-	lpJoh1 = &gObj[aIndex].pInventory[JohPos1];
-	lpJoh2 = &gObj[aIndex].pInventory[JohPos2];
-	lpJoh3 = &gObj[aIndex].pInventory[JohPos3];
-	lpJoh4 = &gObj[aIndex].pInventory[JohPos4];
-	lpJoh5 = &gObj[aIndex].pInventory[JohPos5];
+	lpJoh1 = &gGameObjects[aIndex].pInventory[JohPos1];
+	lpJoh2 = &gGameObjects[aIndex].pInventory[JohPos2];
+	lpJoh3 = &gGameObjects[aIndex].pInventory[JohPos3];
+	lpJoh4 = &gGameObjects[aIndex].pInventory[JohPos4];
+	lpJoh5 = &gGameObjects[aIndex].pInventory[JohPos5];
 
-	lpChaos1 = &gObj[aIndex].pInventory[ChaosPos1];
-	lpChaos2 = &gObj[aIndex].pInventory[ChaosPos2];
-	lpChaos3 = &gObj[aIndex].pInventory[ChaosPos3];
-	lpChaos4 = &gObj[aIndex].pInventory[ChaosPos4];
-	lpChaos5 = &gObj[aIndex].pInventory[ChaosPos5];
+	lpChaos1 = &gGameObjects[aIndex].pInventory[ChaosPos1];
+	lpChaos2 = &gGameObjects[aIndex].pInventory[ChaosPos2];
+	lpChaos3 = &gGameObjects[aIndex].pInventory[ChaosPos3];
+	lpChaos4 = &gGameObjects[aIndex].pInventory[ChaosPos4];
+	lpChaos5 = &gGameObjects[aIndex].pInventory[ChaosPos5];
 
 	PMSG_SEEDRESULT pMsg;
 	PHeadSetB((LPBYTE)&pMsg.h, 0x78, sizeof(PMSG_SEEDRESULT));
@@ -5693,7 +5693,7 @@ void CMixSystem::SeedSphereRemoveMixS12(int aIndex, BYTE ItemPos, BYTE Slot, BYT
 
 	iMixMoney = g_SocketOptionSystem.m_RequireMoneyForSeedSphereRemove + iChaosTaxMoney;
 
-	if (gObj[aIndex].m_PlayerData->Money < iMixMoney)
+	if (gGameObjects[aIndex].m_PlayerData->Money < iMixMoney)
 	{
 		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
@@ -5709,9 +5709,9 @@ void CMixSystem::SeedSphereRemoveMixS12(int aIndex, BYTE ItemPos, BYTE Slot, BYT
 		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
-	gObj[aIndex].m_PlayerData->Money -= iMixMoney;
+	gGameObjects[aIndex].m_PlayerData->Money -= iMixMoney;
 	g_CastleSiegeSync.AddTributeMoney(iChaosTaxMoney);
-	GSProtocol.GCMoneySend(aIndex, gObj[aIndex].m_PlayerData->Money);
+	GSProtocol.GCMoneySend(aIndex, gGameObjects[aIndex].m_PlayerData->Money);
 
 	if (rand() % 100 < g_ConfigRead.SeedSphereRemove)
 	{
@@ -5737,49 +5737,49 @@ void CMixSystem::SeedSphereRemoveMixS12(int aIndex, BYTE ItemPos, BYTE Slot, BYT
 		lpSocketItem->m_SocketOption, lpSocketItem->m_BonusSocketOption, 0, 3);
 
 	::gObjInventoryItemSet(aIndex, ItemPos, -1);
-	::gObj[aIndex].pInventory[ItemPos].Clear();
+	::gGameObjects[aIndex].pInventory[ItemPos].Clear();
 	::GSProtocol.GCInventoryItemDeleteSend(aIndex, ItemPos, 1);
 
 	::gObjInventoryItemSet(aIndex, JogPos, -1);
-	::gObj[aIndex].pInventory[JogPos].Clear();
+	::gGameObjects[aIndex].pInventory[JogPos].Clear();
 	::GSProtocol.GCInventoryItemDeleteSend(aIndex, JogPos, 1);
 
 	::gObjInventoryItemSet(aIndex, JohPos1, -1);
-	::gObj[aIndex].pInventory[JohPos1].Clear();
+	::gGameObjects[aIndex].pInventory[JohPos1].Clear();
 	::GSProtocol.GCInventoryItemDeleteSend(aIndex, JohPos1, 1);
 	::gObjInventoryItemSet(aIndex, JohPos2, -1);
-	::gObj[aIndex].pInventory[JohPos2].Clear();
+	::gGameObjects[aIndex].pInventory[JohPos2].Clear();
 	::GSProtocol.GCInventoryItemDeleteSend(aIndex, JohPos2, 1);
 	::gObjInventoryItemSet(aIndex, JohPos3, -1);
-	::gObj[aIndex].pInventory[JohPos3].Clear();
+	::gGameObjects[aIndex].pInventory[JohPos3].Clear();
 	::GSProtocol.GCInventoryItemDeleteSend(aIndex, JohPos3, 1);
 	::gObjInventoryItemSet(aIndex, JohPos4, -1);
-	::gObj[aIndex].pInventory[JohPos4].Clear();
+	::gGameObjects[aIndex].pInventory[JohPos4].Clear();
 	::GSProtocol.GCInventoryItemDeleteSend(aIndex, JohPos4, 1);
 	::gObjInventoryItemSet(aIndex, JohPos5, -1);
-	::gObj[aIndex].pInventory[JohPos5].Clear();
+	::gGameObjects[aIndex].pInventory[JohPos5].Clear();
 	::GSProtocol.GCInventoryItemDeleteSend(aIndex, JohPos5, 1);
 
 	::gObjInventoryItemSet(aIndex, ChaosPos1, -1);
-	::gObj[aIndex].pInventory[ChaosPos1].Clear();
+	::gGameObjects[aIndex].pInventory[ChaosPos1].Clear();
 	::GSProtocol.GCInventoryItemDeleteSend(aIndex, ChaosPos1, 1);
 	::gObjInventoryItemSet(aIndex, ChaosPos2, -1);
-	::gObj[aIndex].pInventory[ChaosPos2].Clear();
+	::gGameObjects[aIndex].pInventory[ChaosPos2].Clear();
 	::GSProtocol.GCInventoryItemDeleteSend(aIndex, ChaosPos2, 1);
 	::gObjInventoryItemSet(aIndex, ChaosPos3, -1);
-	::gObj[aIndex].pInventory[ChaosPos3].Clear();
+	::gGameObjects[aIndex].pInventory[ChaosPos3].Clear();
 	::GSProtocol.GCInventoryItemDeleteSend(aIndex, ChaosPos3, 1);
 	::gObjInventoryItemSet(aIndex, ChaosPos4, -1);
-	::gObj[aIndex].pInventory[ChaosPos4].Clear();
+	::gGameObjects[aIndex].pInventory[ChaosPos4].Clear();
 	::GSProtocol.GCInventoryItemDeleteSend(aIndex, ChaosPos4, 1);
 	::gObjInventoryItemSet(aIndex, ChaosPos5, -1);
-	::gObj[aIndex].pInventory[ChaosPos5].Clear();
+	::gGameObjects[aIndex].pInventory[ChaosPos5].Clear();
 	::GSProtocol.GCInventoryItemDeleteSend(aIndex, ChaosPos5, 1);
 	ItemSerialCreateSend(aIndex, 235, 0, 0, NewItem.m_Type, NewItem.m_Level, 0, NewItem.m_Option1, NewItem.m_Option2, NewItem.m_Option3, aIndex, NewItem.m_NewOption, 0, 0, NewItem.m_SocketOption, NewItem.m_BonusSocketOption);
 	pMsg.Result1 = 1;
 	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 	sLog->outBasic("[%s][%s] SeedSphere Remove Success - ItemInfo ( Name : %s, ItemCode : %d, Level : %d, SocketOption[%d,%d,%d,%d,%d], BonusOption : %d )",
-		gObj[aIndex].AccountID, gObj[aIndex].Name, ItemAttribute[lpSocketItem->m_Type].Name, lpSocketItem->m_Type,
+		gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, ItemAttribute[lpSocketItem->m_Type].Name, lpSocketItem->m_Type,
 		lpSocketItem->m_Level, lpSocketItem->m_SocketOption[0], lpSocketItem->m_SocketOption[1],
 		lpSocketItem->m_SocketOption[2], lpSocketItem->m_SocketOption[3], lpSocketItem->m_SocketOption[4], lpSocketItem->m_BonusSocketOption);
 
@@ -5808,21 +5808,21 @@ BOOL CMixSystem::SocketItemUpgradeMixS12(int aIndex, BYTE ItemPos, BYTE SocketUp
 	int HelmType = 0;
 	int SocketUpgNote = 0;
 
-	IsItem = &gObj[aIndex].pInventory[ItemPos];
-	lpUpgradeNoteItem = &gObj[aIndex].pInventory[SocketUpgradeNotePos];
-	JewelOfBless1 = &gObj[aIndex].pInventory[JoBlessPos1];
-	JewelOfBless2 = &gObj[aIndex].pInventory[JoBlessPos2];
-	JewelOfBless3 = &gObj[aIndex].pInventory[JoBlessPos3];
-	JewelOfBless4 = &gObj[aIndex].pInventory[JoBlessPos4];
-	JewelOfBless5 = &gObj[aIndex].pInventory[JoBlessPos5];
+	IsItem = &gGameObjects[aIndex].pInventory[ItemPos];
+	lpUpgradeNoteItem = &gGameObjects[aIndex].pInventory[SocketUpgradeNotePos];
+	JewelOfBless1 = &gGameObjects[aIndex].pInventory[JoBlessPos1];
+	JewelOfBless2 = &gGameObjects[aIndex].pInventory[JoBlessPos2];
+	JewelOfBless3 = &gGameObjects[aIndex].pInventory[JoBlessPos3];
+	JewelOfBless4 = &gGameObjects[aIndex].pInventory[JoBlessPos4];
+	JewelOfBless5 = &gGameObjects[aIndex].pInventory[JoBlessPos5];
 
-	JewelOfSoul1 = &gObj[aIndex].pInventory[JoSoulPos1];
-	JewelOfSoul2 = &gObj[aIndex].pInventory[JoSoulPos2];
-	JewelOfSoul3 = &gObj[aIndex].pInventory[JoSoulPos3];
-	JewelOfSoul4 = &gObj[aIndex].pInventory[JoSoulPos4];
-	JewelOfSoul5 = &gObj[aIndex].pInventory[JoSoulPos5];
+	JewelOfSoul1 = &gGameObjects[aIndex].pInventory[JoSoulPos1];
+	JewelOfSoul2 = &gGameObjects[aIndex].pInventory[JoSoulPos2];
+	JewelOfSoul3 = &gGameObjects[aIndex].pInventory[JoSoulPos3];
+	JewelOfSoul4 = &gGameObjects[aIndex].pInventory[JoSoulPos4];
+	JewelOfSoul5 = &gGameObjects[aIndex].pInventory[JoSoulPos5];
 
-	lpChaosItem = &gObj[aIndex].pInventory[JoChaosPos];
+	lpChaosItem = &gGameObjects[aIndex].pInventory[JoChaosPos];
 
 	PMSG_SEEDRESULT pMsg;
 	PHeadSetB((LPBYTE)&pMsg.h, 0x78, sizeof(PMSG_SEEDRESULT));
@@ -5867,14 +5867,14 @@ BOOL CMixSystem::SocketItemUpgradeMixS12(int aIndex, BYTE ItemPos, BYTE SocketUp
 		return 0;
 	}
 
-	if (gObj[aIndex].m_PlayerData->Money <= g_ConfigRead.IsSocketItemUpgradeMixZen)
+	if (gGameObjects[aIndex].m_PlayerData->Money <= g_ConfigRead.IsSocketItemUpgradeMixZen)
 	{
 		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 		return 0; //No Zen
 	}
 
-	gObj[aIndex].m_PlayerData->Money -= g_ConfigRead.IsSocketItemUpgradeMixZen;
-	GSProtocol.GCMoneySend(aIndex, gObj[aIndex].m_PlayerData->Money);
+	gGameObjects[aIndex].m_PlayerData->Money -= g_ConfigRead.IsSocketItemUpgradeMixZen;
+	GSProtocol.GCMoneySend(aIndex, gGameObjects[aIndex].m_PlayerData->Money);
 
 	if (rand() % 100 < g_ConfigRead.IsSocketItemUpgradeMix)
 	{
@@ -6142,55 +6142,55 @@ BOOL CMixSystem::SocketItemUpgradeMixS12(int aIndex, BYTE ItemPos, BYTE SocketUp
 		//NewItem.Convert(NewItemType, IsItem->m_Option1, IsItem->m_Option2, IsItem->m_Option3, 0, 0, 0, IsItem->m_SocketOption, IsItem->m_BonusSocketOption, 0, 3);
 
 		::gObjInventoryItemSet(aIndex, ItemPos, -1);
-		::gObj[aIndex].pInventory[ItemPos].Clear();
+		::gGameObjects[aIndex].pInventory[ItemPos].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, ItemPos, 1);
 
 		::gObjInventoryItemSet(aIndex, SocketUpgradeNotePos, -1);
-		::gObj[aIndex].pInventory[SocketUpgradeNotePos].Clear();
+		::gGameObjects[aIndex].pInventory[SocketUpgradeNotePos].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, SocketUpgradeNotePos, 1);
 
 		::gObjInventoryItemSet(aIndex, JoBlessPos1, -1);
-		::gObj[aIndex].pInventory[JoBlessPos1].Clear();
+		::gGameObjects[aIndex].pInventory[JoBlessPos1].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JoBlessPos1, 1);
 
 		::gObjInventoryItemSet(aIndex, JoBlessPos2, -1);
-		::gObj[aIndex].pInventory[JoBlessPos2].Clear();
+		::gGameObjects[aIndex].pInventory[JoBlessPos2].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JoBlessPos2, 1);
 
 		::gObjInventoryItemSet(aIndex, JoBlessPos3, -1);
-		::gObj[aIndex].pInventory[JoBlessPos3].Clear();
+		::gGameObjects[aIndex].pInventory[JoBlessPos3].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JoBlessPos3, 1);
 
 		::gObjInventoryItemSet(aIndex, JoBlessPos4, -1);
-		::gObj[aIndex].pInventory[JoBlessPos4].Clear();
+		::gGameObjects[aIndex].pInventory[JoBlessPos4].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JoBlessPos4, 1);
 
 		::gObjInventoryItemSet(aIndex, JoBlessPos5, -1);
-		::gObj[aIndex].pInventory[JoBlessPos5].Clear();
+		::gGameObjects[aIndex].pInventory[JoBlessPos5].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JoBlessPos5, 1);
 
 		::gObjInventoryItemSet(aIndex, JoSoulPos1, -1);
-		::gObj[aIndex].pInventory[JoSoulPos1].Clear();
+		::gGameObjects[aIndex].pInventory[JoSoulPos1].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JoSoulPos1, 1);
 
 		::gObjInventoryItemSet(aIndex, JoSoulPos2, -1);
-		::gObj[aIndex].pInventory[JoSoulPos2].Clear();
+		::gGameObjects[aIndex].pInventory[JoSoulPos2].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JoSoulPos2, 1);
 
 		::gObjInventoryItemSet(aIndex, JoSoulPos3, -1);
-		::gObj[aIndex].pInventory[JoSoulPos3].Clear();
+		::gGameObjects[aIndex].pInventory[JoSoulPos3].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JoSoulPos3, 1);
 
 		::gObjInventoryItemSet(aIndex, JoSoulPos4, -1);
-		::gObj[aIndex].pInventory[JoSoulPos4].Clear();
+		::gGameObjects[aIndex].pInventory[JoSoulPos4].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JoSoulPos4, 1);
 
 		::gObjInventoryItemSet(aIndex, JoSoulPos5, -1);
-		::gObj[aIndex].pInventory[JoSoulPos5].Clear();
+		::gGameObjects[aIndex].pInventory[JoSoulPos5].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JoSoulPos5, 1);
 
 		::gObjInventoryItemSet(aIndex, JoChaosPos, -1);
-		::gObj[aIndex].pInventory[JoChaosPos].Clear();
+		::gGameObjects[aIndex].pInventory[JoChaosPos].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JoChaosPos, 1);
 
 		ItemSerialCreateSend(aIndex, 235, 0, 0, NewItem.m_Type, 0, 0, NewItem.m_Option1, NewItem.m_Option2, NewItem.m_Option3, aIndex, 0, 0, 0, NewItem.m_SocketOption, NewItem.m_BonusSocketOption);
@@ -6205,51 +6205,51 @@ BOOL CMixSystem::SocketItemUpgradeMixS12(int aIndex, BYTE ItemPos, BYTE SocketUp
 	else
 	{
 		::gObjInventoryItemSet(aIndex, SocketUpgradeNotePos, -1);
-		::gObj[aIndex].pInventory[SocketUpgradeNotePos].Clear();
+		::gGameObjects[aIndex].pInventory[SocketUpgradeNotePos].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, SocketUpgradeNotePos, 1);
 
 		::gObjInventoryItemSet(aIndex, JoBlessPos1, -1);
-		::gObj[aIndex].pInventory[JoBlessPos1].Clear();
+		::gGameObjects[aIndex].pInventory[JoBlessPos1].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JoBlessPos1, 1);
 
 		::gObjInventoryItemSet(aIndex, JoBlessPos2, -1);
-		::gObj[aIndex].pInventory[JoBlessPos2].Clear();
+		::gGameObjects[aIndex].pInventory[JoBlessPos2].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JoBlessPos2, 1);
 
 		::gObjInventoryItemSet(aIndex, JoBlessPos3, -1);
-		::gObj[aIndex].pInventory[JoBlessPos3].Clear();
+		::gGameObjects[aIndex].pInventory[JoBlessPos3].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JoBlessPos3, 1);
 
 		::gObjInventoryItemSet(aIndex, JoBlessPos4, -1);
-		::gObj[aIndex].pInventory[JoBlessPos4].Clear();
+		::gGameObjects[aIndex].pInventory[JoBlessPos4].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JoBlessPos4, 1);
 
 		::gObjInventoryItemSet(aIndex, JoBlessPos5, -1);
-		::gObj[aIndex].pInventory[JoBlessPos5].Clear();
+		::gGameObjects[aIndex].pInventory[JoBlessPos5].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JoBlessPos5, 1);
 
 		::gObjInventoryItemSet(aIndex, JoSoulPos1, -1);
-		::gObj[aIndex].pInventory[JoSoulPos1].Clear();
+		::gGameObjects[aIndex].pInventory[JoSoulPos1].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JoSoulPos1, 1);
 
 		::gObjInventoryItemSet(aIndex, JoSoulPos2, -1);
-		::gObj[aIndex].pInventory[JoSoulPos2].Clear();
+		::gGameObjects[aIndex].pInventory[JoSoulPos2].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JoSoulPos2, 1);
 
 		::gObjInventoryItemSet(aIndex, JoSoulPos3, -1);
-		::gObj[aIndex].pInventory[JoSoulPos3].Clear();
+		::gGameObjects[aIndex].pInventory[JoSoulPos3].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JoSoulPos3, 1);
 
 		::gObjInventoryItemSet(aIndex, JoSoulPos4, -1);
-		::gObj[aIndex].pInventory[JoSoulPos4].Clear();
+		::gGameObjects[aIndex].pInventory[JoSoulPos4].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JoSoulPos4, 1);
 
 		::gObjInventoryItemSet(aIndex, JoSoulPos5, -1);
-		::gObj[aIndex].pInventory[JoSoulPos5].Clear();
+		::gGameObjects[aIndex].pInventory[JoSoulPos5].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JoSoulPos5, 1);
 
 		::gObjInventoryItemSet(aIndex, JoChaosPos, -1);
-		::gObj[aIndex].pInventory[JoChaosPos].Clear();
+		::gGameObjects[aIndex].pInventory[JoChaosPos].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JoChaosPos, 1);
 
 		pMsg.Result1 = 0;
@@ -6278,10 +6278,10 @@ void CMixSystem::SeedSphereCompositeMixS12(int aIndex, BYTE SeedPos, BYTE Sphere
 	int isWind = 0;
 	int isEarth = 0;
 
-	lpSeedItem = &gObj[aIndex].pInventory[SeedPos];
-	lpSphereItem = &gObj[aIndex].pInventory[SpherePos];
-	lpJocItem = &gObj[aIndex].pInventory[JocPos];
-	lpChaosItem = &gObj[aIndex].pInventory[ChaosPos];
+	lpSeedItem = &gGameObjects[aIndex].pInventory[SeedPos];
+	lpSphereItem = &gGameObjects[aIndex].pInventory[SpherePos];
+	lpJocItem = &gGameObjects[aIndex].pInventory[JocPos];
+	lpChaosItem = &gGameObjects[aIndex].pInventory[ChaosPos];
 	PMSG_SEEDRESULT pMsg;
 	PHeadSetB((LPBYTE)&pMsg.h, 0x78, sizeof(PMSG_SEEDRESULT));
 	pMsg.Result = 0x01;
@@ -6331,7 +6331,7 @@ void CMixSystem::SeedSphereCompositeMixS12(int aIndex, BYTE SeedPos, BYTE Sphere
 		return;
 	}
 
-	if (gObj[aIndex].m_PlayerData->Money <= 1000000)
+	if (gGameObjects[aIndex].m_PlayerData->Money <= 1000000)
 	{
 		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 		return; //No Zen
@@ -6346,36 +6346,36 @@ void CMixSystem::SeedSphereCompositeMixS12(int aIndex, BYTE SeedPos, BYTE Sphere
 	g_SocketOptionSystem.MakeSeedSphere(&SeedSphereItem, OptionIndex, SphereLevel);
 
 
-	gObj[aIndex].m_PlayerData->Money -= 1000000;
-	GSProtocol.GCMoneySend(aIndex, gObj[aIndex].m_PlayerData->Money);
+	gGameObjects[aIndex].m_PlayerData->Money -= 1000000;
+	GSProtocol.GCMoneySend(aIndex, gGameObjects[aIndex].m_PlayerData->Money);
 
 	if (SeedSphereItem.m_ItemCode != 0)
 	{
 		pMsg.Result1 = 1;
 		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 		::gObjInventoryItemSet(aIndex, SeedPos, -1);
-		::gObj[aIndex].pInventory[SeedPos].Clear();
+		::gGameObjects[aIndex].pInventory[SeedPos].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, SeedPos, 1);
 
 		::gObjInventoryItemSet(aIndex, SpherePos, -1);
-		::gObj[aIndex].pInventory[SpherePos].Clear();
+		::gGameObjects[aIndex].pInventory[SpherePos].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, SpherePos, 1);
 
 		::gObjInventoryItemSet(aIndex, JocPos, -1);
-		::gObj[aIndex].pInventory[JocPos].Clear();
+		::gGameObjects[aIndex].pInventory[JocPos].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, JocPos, 1);
 
 		::gObjInventoryItemSet(aIndex, ChaosPos, -1);
-		::gObj[aIndex].pInventory[ChaosPos].Clear();
+		::gGameObjects[aIndex].pInventory[ChaosPos].Clear();
 		::GSProtocol.GCInventoryItemDeleteSend(aIndex, ChaosPos, 1);
 		ItemSerialCreateSend(aIndex, 235, 0, 0, SeedSphereItem.m_ItemCode, SeedSphereItem.m_ItemLevel, 0, 0, 0, 0, aIndex, 0, 0, 0, 0, 0);
 		gObjInventoryCommit(aIndex);
 		sLog->outBasic("[%s][%s] SeedSphere Composite Mix Success - SeedSphere Info ( Index : %d, Type : %d, Level : %d, ItemCode : %d )",
-			gObj[aIndex].AccountID, gObj[aIndex].Name, SeedSphereItem.m_SeedSphereIndex, SeedSphereItem.m_SeedType, SeedSphereItem.m_SphereLevel, SeedSphereItem.m_ItemCode);
+			gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, SeedSphereItem.m_SeedSphereIndex, SeedSphereItem.m_SeedType, SeedSphereItem.m_SphereLevel, SeedSphereItem.m_ItemCode);
 	}
 }
 
-void CMixSystem::SeedSphereCompositeMix(LPOBJ lpObj)
+void CMixSystem::SeedSphereCompositeMix(CGameObject* lpObj)
 {
 	int iSeedItemCount = 0; //2
 	int iSphereItemCount = 0; //3
@@ -6620,10 +6620,10 @@ void CMixSystem::SetSeedSphereMixS12(int aIndex, BYTE ItemPos, BYTE Slot, BYTE S
 	int iChaosTaxMoney = 0;
 	int iMixMoney = 0;
 
-	pSocketItem = &gObj[aIndex].pInventory[ItemPos];
-	pSeedSpearItem = &gObj[aIndex].pInventory[SeedPos];
-	lpJocItem = &gObj[aIndex].pInventory[JocPos];
-	lpChaosItem = &gObj[aIndex].pInventory[ChaosPos];
+	pSocketItem = &gGameObjects[aIndex].pInventory[ItemPos];
+	pSeedSpearItem = &gGameObjects[aIndex].pInventory[SeedPos];
+	lpJocItem = &gGameObjects[aIndex].pInventory[JocPos];
+	lpChaosItem = &gGameObjects[aIndex].pInventory[ChaosPos];
 	PMSG_SEEDRESULT pMsg;
 	PHeadSetB((LPBYTE)&pMsg.h, 0x78, sizeof(PMSG_SEEDRESULT));
 	pMsg.Result = 0x01;
@@ -6675,7 +6675,7 @@ void CMixSystem::SetSeedSphereMixS12(int aIndex, BYTE ItemPos, BYTE Slot, BYTE S
 
 	iMixMoney = g_SocketOptionSystem.m_RequireMoneyForSeedSphereSet + iChaosTaxMoney;
 
-	if (gObj[aIndex].m_PlayerData->Money < iMixMoney)
+	if (gGameObjects[aIndex].m_PlayerData->Money < iMixMoney)
 	{
 		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
@@ -6686,21 +6686,21 @@ void CMixSystem::SetSeedSphereMixS12(int aIndex, BYTE ItemPos, BYTE Slot, BYTE S
 
 	if (SocketByteOption == 0xFF)
 	{
-		sLog->outBasic("[%s][%s] Set Seed Mix Failed - SeedSphere is NULL", gObj[aIndex].AccountID, gObj[aIndex].Name);
+		sLog->outBasic("[%s][%s] Set Seed Mix Failed - SeedSphere is NULL", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name);
 		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
 	if (g_SocketOptionSystem.CheckSetSeedSphereItemType(pSocketItem, SocketByteOption) == 0)
 	{
-		sLog->outBasic("[%s][%s] Set Seed Mix Failed - Wrong Item Type for Set Socket", gObj[aIndex].AccountID, gObj[aIndex].Name);
+		sLog->outBasic("[%s][%s] Set Seed Mix Failed - Wrong Item Type for Set Socket", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name);
 		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
-	gObj[aIndex].m_PlayerData->Money -= iMixMoney;
+	gGameObjects[aIndex].m_PlayerData->Money -= iMixMoney;
 	g_CastleSiegeSync.AddTributeMoney(iChaosTaxMoney);
-	GSProtocol.GCMoneySend(gObj[aIndex].m_Index, gObj[aIndex].m_PlayerData->Money);
+	GSProtocol.GCMoneySend(gGameObjects[aIndex].m_Index, gGameObjects[aIndex].m_PlayerData->Money);
 
 	g_SocketOptionSystem.SetSocketSlot(pSocketItem, SocketByteOption, Slot);
 
@@ -6715,30 +6715,30 @@ void CMixSystem::SetSeedSphereMixS12(int aIndex, BYTE ItemPos, BYTE Slot, BYTE S
 		pSocketItem->m_SetOption, pSocketItem->m_ItemOptionEx, pSocketItem->m_SocketOption, pSocketItem->m_BonusSocketOption, 0, CURRENT_DB_VERSION);
 
 	::gObjInventoryItemSet(aIndex, ItemPos, -1);
-	::gObj[aIndex].pInventory[ItemPos].Clear();
+	::gGameObjects[aIndex].pInventory[ItemPos].Clear();
 	::GSProtocol.GCInventoryItemDeleteSend(aIndex, ItemPos, 1);
 
 	::gObjInventoryItemSet(aIndex, SeedPos, -1);
-	::gObj[aIndex].pInventory[SeedPos].Clear();
+	::gGameObjects[aIndex].pInventory[SeedPos].Clear();
 	::GSProtocol.GCInventoryItemDeleteSend(aIndex, SeedPos, 1);
 
 	::gObjInventoryItemSet(aIndex, JocPos, -1);
-	::gObj[aIndex].pInventory[JocPos].Clear();
+	::gGameObjects[aIndex].pInventory[JocPos].Clear();
 	::GSProtocol.GCInventoryItemDeleteSend(aIndex, JocPos, 1);
 
 	::gObjInventoryItemSet(aIndex, ChaosPos, -1);
-	::gObj[aIndex].pInventory[ChaosPos].Clear();
+	::gGameObjects[aIndex].pInventory[ChaosPos].Clear();
 	::GSProtocol.GCInventoryItemDeleteSend(aIndex, ChaosPos, 1);
 	pMsg.Result1 = 1;
 	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 	ItemSerialCreateSend(aIndex, 235, 0, 0, Item.m_Type, Item.m_Level, 0, Item.m_Option1, Item.m_Option2, Item.m_Option3, aIndex, Item.m_NewOption, 0, 0, Item.m_SocketOption, Item.m_BonusSocketOption);
 
 	sLog->outBasic("[%s][%s] Set SeedSphere Mix Success - ItemInfo ( Name : %s, ItemCode : %d, Level : %d, SocketOption[%d,%d,%d,%d,%d], BonusOption : %d )",
-		gObj[aIndex].AccountID, gObj[aIndex].Name, ItemAttribute[Item.m_Type].Name, Item.m_Type, Item.m_Level, Item.m_SocketOption[0], Item.m_SocketOption[1],
+		gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, ItemAttribute[Item.m_Type].Name, Item.m_Type, Item.m_Level, Item.m_SocketOption[0], Item.m_SocketOption[1],
 		Item.m_SocketOption[2], Item.m_SocketOption[3], Item.m_SocketOption[4], Item.m_BonusSocketOption);
 
 }
-void CMixSystem::SetSeedSphereMix(LPOBJ lpObj, BYTE btPos)
+void CMixSystem::SetSeedSphereMix(CGameObject* lpObj, BYTE btPos)
 {
 	int iSocketItemCount = 0; //2
 	int iInvalidItemCount = 0; //3
@@ -6886,7 +6886,7 @@ void CMixSystem::SetSeedSphereMix(LPOBJ lpObj, BYTE btPos)
 	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void CMixSystem::SeedSphereRemoveMix(LPOBJ lpObj, BYTE btPos)
+void CMixSystem::SeedSphereRemoveMix(CGameObject* lpObj, BYTE btPos)
 {
 	int iSocketItemCount = 0; //2
 	int iInvalidItemCount = 0; //3
@@ -7088,7 +7088,7 @@ void CMixSystem::SeedSphereRemoveMix(LPOBJ lpObj, BYTE btPos)
 	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void CMixSystem::SecromiconMix(LPOBJ lpObj)
+void CMixSystem::SecromiconMix(CGameObject* lpObj)
 {
 	PMSG_CHAOSMIXRESULT pMsg;
 	PHeadSetB((LPBYTE)&pMsg, 0x86, sizeof(pMsg));
@@ -7156,7 +7156,7 @@ void CMixSystem::SecromiconMix(LPOBJ lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-void CMixSystem::PremiumBoxMix(LPOBJ lpObj)
+void CMixSystem::PremiumBoxMix(CGameObject* lpObj)
 {
 	PMSG_CHAOSMIXRESULT pMsg = { 0 };
 	PHeadSetB((LPBYTE)&pMsg, 0x86, sizeof(pMsg));
@@ -7223,7 +7223,7 @@ struct pMixTmp
 	int m_Item;
 };
 
-void CMixSystem::CherryBlossomMix(LPOBJ lpObj)
+void CMixSystem::CherryBlossomMix(CGameObject* lpObj)
 {
 	PMSG_CHAOSMIXRESULT pMsg;
 
@@ -7331,7 +7331,7 @@ void CMixSystem::CherryBlossomMix(LPOBJ lpObj)
 }
 
 /*
-void CMixSystem::CherryBlossomMix(LPOBJ lpObj)
+void CMixSystem::CherryBlossomMix(CGameObject* lpObj)
 {
 PMSG_CHAOSMIXRESULT pMsg;
 int iWhiteCherryBlossom = 0;
@@ -7471,7 +7471,7 @@ lpObj->ChaosLock = FALSE;
 
 }*/
 
-void CMixSystem::ItemRefineMix(LPOBJ lpObj)
+void CMixSystem::ItemRefineMix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -7823,7 +7823,7 @@ void CMixSystem::ItemRefineMix(LPOBJ lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-void CMixSystem::MonsterWingMix(LPOBJ lpObj)
+void CMixSystem::MonsterWingMix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -8088,7 +8088,7 @@ void CMixSystem::MonsterWingMix(LPOBJ lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-void CMixSystem::SummonsMix(LPOBJ lpObj, int type)
+void CMixSystem::SummonsMix(CGameObject* lpObj, int type)
 {
 	lpObj->ChaosLock = true;
 
@@ -8193,7 +8193,7 @@ void CMixSystem::SummonsMix(LPOBJ lpObj, int type)
 	}
 }
 
-void CMixSystem::CCFRewardMix(LPOBJ lpObj)
+void CMixSystem::CCFRewardMix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -8350,7 +8350,7 @@ void CMixSystem::CCFRewardMix(LPOBJ lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-void CMixSystem::DSFRewardMix(LPOBJ lpObj)
+void CMixSystem::DSFRewardMix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -8497,7 +8497,7 @@ BOOL CMixSystem::CheckHeroSoulItem(int iItemCode)
 	return false;
 }
 
-void CMixSystem::AncientSoulItemMix(LPOBJ lpObj)
+void CMixSystem::AncientSoulItemMix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -8554,7 +8554,7 @@ void CMixSystem::AncientSoulItemMix(LPOBJ lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-void CMixSystem::BloodAngelUnSealMix(LPOBJ lpObj, int iMixType)
+void CMixSystem::BloodAngelUnSealMix(CGameObject* lpObj, int iMixType)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -8680,7 +8680,7 @@ void CMixSystem::BloodAngelUnSealMix(LPOBJ lpObj, int iMixType)
 	lpObj->ChaosLock = FALSE;
 }
 
-void CMixSystem::BloodAngelUnSealMix2(LPOBJ lpObj, int iMixType)
+void CMixSystem::BloodAngelUnSealMix2(CGameObject* lpObj, int iMixType)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -8806,7 +8806,7 @@ void CMixSystem::BloodAngelUnSealMix2(LPOBJ lpObj, int iMixType)
 	lpObj->ChaosLock = FALSE;
 }
 
-void CMixSystem::DarkAngelMix(LPOBJ lpObj, int iMixType)
+void CMixSystem::DarkAngelMix(CGameObject* lpObj, int iMixType)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -8898,7 +8898,7 @@ void CMixSystem::DarkAngelMix(LPOBJ lpObj, int iMixType)
 	}
 }
 
-void CMixSystem::DarkAngelNextMix(LPOBJ lpObj, int iMixType)
+void CMixSystem::DarkAngelNextMix(CGameObject* lpObj, int iMixType)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -8995,7 +8995,7 @@ void CMixSystem::DarkAngelNextMix(LPOBJ lpObj, int iMixType)
 	}
 }
 
-void CMixSystem::ArchangelHammerMix(LPOBJ lpObj)
+void CMixSystem::ArchangelHammerMix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -9089,7 +9089,7 @@ void CMixSystem::ArchangelHammerMix(LPOBJ lpObj)
 	::gObjInventoryCommit(lpObj->m_Index);
 }
 
-void CMixSystem::BlessedAAMix(LPOBJ lpObj)
+void CMixSystem::BlessedAAMix(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -9242,7 +9242,7 @@ void CMixSystem::BlessedAAMix(LPOBJ lpObj)
 
 }
 
-void CMixSystem::DarkAngelWeaponMix(LPOBJ lpObj, int iMixType)
+void CMixSystem::DarkAngelWeaponMix(CGameObject* lpObj, int iMixType)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -9425,7 +9425,7 @@ void CMixSystem::CheckEmptySpace_MultiMix(PMSG_REQ_CHAOS_MULTIMIX_CHECK * aRecv,
 	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void CMixSystem::BlessPotionChaosMix_Multi(LPOBJ lpObj, int iMixCount)
+void CMixSystem::BlessPotionChaosMix_Multi(CGameObject* lpObj, int iMixCount)
 {
 	lpObj->ChaosLock = TRUE;
 	int iBlessGemCount = 0;
@@ -9564,7 +9564,7 @@ void CMixSystem::BlessPotionChaosMix_Multi(LPOBJ lpObj, int iMixCount)
 	}
 }
 
-void CMixSystem::SoulPotionChaosMix_Multi(LPOBJ lpObj, int iMixCount)
+void CMixSystem::SoulPotionChaosMix_Multi(CGameObject* lpObj, int iMixCount)
 {
 	lpObj->ChaosLock = TRUE;
 	int iSoulGemCount = 0;
@@ -9703,7 +9703,7 @@ void CMixSystem::SoulPotionChaosMix_Multi(LPOBJ lpObj, int iMixCount)
 	}
 }
 
-void CMixSystem::CircleChaosMix_Multi(LPOBJ lpObj, int iMixCount)	// Fruits Mass Mix
+void CMixSystem::CircleChaosMix_Multi(CGameObject* lpObj, int iMixCount)	// Fruits Mass Mix
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -9855,7 +9855,7 @@ void CMixSystem::CircleChaosMix_Multi(LPOBJ lpObj, int iMixCount)	// Fruits Mass
 	}
 }
 
-void CMixSystem::PegasiaChaosMix_Multi(LPOBJ lpObj, int iMixCount)
+void CMixSystem::PegasiaChaosMix_Multi(CGameObject* lpObj, int iMixCount)
 {
 	lpObj->ChaosLock = TRUE;
 	int UniriaCount = 0;
@@ -9985,7 +9985,7 @@ void CMixSystem::PegasiaChaosMix_Multi(LPOBJ lpObj, int iMixCount)
 	}
 }
 
-void CMixSystem::BloodCastleItemChaosMix_Multi(LPOBJ lpObj, int iMixCount)
+void CMixSystem::BloodCastleItemChaosMix_Multi(CGameObject* lpObj, int iMixCount)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -10006,22 +10006,22 @@ void CMixSystem::BloodCastleItemChaosMix_Multi(LPOBJ lpObj, int iMixCount)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (gObj[iIndex].pChaosBox[i].IsItem() == TRUE)
+		if (gGameObjects[iIndex].pChaosBox[i].IsItem() == TRUE)
 		{
-			if (gObj[iIndex].pChaosBox[i].m_Type == ITEMGET(12, 15)) // Chaos
+			if (gGameObjects[iIndex].pChaosBox[i].m_Type == ITEMGET(12, 15)) // Chaos
 			{
 				bIsChaosGemExist++;
 			}
-			else if (gObj[iIndex].pChaosBox[i].m_Type == ITEMGET(13, 16)) //Scroll of Archangel
+			else if (gGameObjects[iIndex].pChaosBox[i].m_Type == ITEMGET(13, 16)) //Scroll of Archangel
 			{
-				int iSCROLL_LEVEL = gObj[iIndex].pChaosBox[i].m_Level;
+				int iSCROLL_LEVEL = gGameObjects[iIndex].pChaosBox[i].m_Level;
 				iEventItemCount++;
 				bIsAngelKingPaperExist++;
 				iAngelKingPaperLevel = iSCROLL_LEVEL;
 			}
-			else if (gObj[iIndex].pChaosBox[i].m_Type == ITEMGET(13, 17)) //Blood Bone
+			else if (gGameObjects[iIndex].pChaosBox[i].m_Type == ITEMGET(13, 17)) //Blood Bone
 			{
-				int iBLOOD_BONE_LEVEL = gObj[iIndex].pChaosBox[i].m_Level;
+				int iBLOOD_BONE_LEVEL = gGameObjects[iIndex].pChaosBox[i].m_Level;
 				iEventItemCount++;
 				bIsBloodBoneExist++;
 				iBloodBoneLevel = iBLOOD_BONE_LEVEL;
@@ -10099,7 +10099,7 @@ void CMixSystem::BloodCastleItemChaosMix_Multi(LPOBJ lpObj, int iMixCount)
 		return;
 	}
 
-	if (gObj[iIndex].Level < g_sttBLOODCASTLE_LEVEL[0].iLOWER_BOUND)
+	if (gGameObjects[iIndex].Level < g_sttBLOODCASTLE_LEVEL[0].iLOWER_BOUND)
 	{
 		pMsg.Result = CB_USER_CLASS_LOW_LEVEL;
 		IOCP.DataSend(iIndex, (UCHAR*)&pMsg, pMsg.h.size);
@@ -10120,7 +10120,7 @@ void CMixSystem::BloodCastleItemChaosMix_Multi(LPOBJ lpObj, int iMixCount)
 		char szTemp[64];
 		wsprintf(szTemp, "BloodCastle Ticket Mix,%d", iAngelKingPaperLevel); //Season 2.5 add-on
 
-		g_MixSystem.LogChaosItem(&gObj[iIndex], szTemp);
+		g_MixSystem.LogChaosItem(&gGameObjects[iIndex], szTemp);
 
 		int iMIX_SUCCESS_RATE = g_iBC_ChoasMixSuccessRate[iAngelKingPaperLevel - 1];
 
@@ -10156,16 +10156,16 @@ void CMixSystem::BloodCastleItemChaosMix_Multi(LPOBJ lpObj, int iMixCount)
 			return;
 		}
 
-		if ((gObj[iIndex].m_PlayerData->Money - iMIX_NEED_MONEY) < 0)
+		if ((gGameObjects[iIndex].m_PlayerData->Money - iMIX_NEED_MONEY) < 0)
 		{
 			pMsg.Result = CB_BC_NOT_ENOUGH_ZEN;
 			IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
 			return;
 		}
 
-		gObj[iIndex].m_PlayerData->Money -= iMIX_NEED_MONEY;
+		gGameObjects[iIndex].m_PlayerData->Money -= iMIX_NEED_MONEY;
 		g_CastleSiegeSync.AddTributeMoney(iChaosTaxMoney);
-		GSProtocol.GCMoneySend(iIndex, gObj[iIndex].m_PlayerData->Money);
+		GSProtocol.GCMoneySend(iIndex, gGameObjects[iIndex].m_PlayerData->Money);
 
 		pMsg.Result = CB_MULTIMIX_RESULT;
 		pMsg.Pos = iMixCount;
@@ -10214,7 +10214,7 @@ void CMixSystem::BloodCastleItemChaosMix_Multi(LPOBJ lpObj, int iMixCount)
 	}
 }
 
-void CMixSystem::DevilSquareItemChaosMix_Multi(LPOBJ lpObj, int iMixCount)
+void CMixSystem::DevilSquareItemChaosMix_Multi(CGameObject* lpObj, int iMixCount)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -10473,7 +10473,7 @@ void CMixSystem::DevilSquareItemChaosMix_Multi(LPOBJ lpObj, int iMixCount)
 	gObjInventoryCommit(lpObj->m_Index);
 }
 
-void CMixSystem::ShieldPotionLv1_Mix_Multi(LPOBJ lpObj, int iMixCount)
+void CMixSystem::ShieldPotionLv1_Mix_Multi(CGameObject* lpObj, int iMixCount)
 {
 	int iHealthPotionCount = 0;
 	int iInvalidItemCount = 0;
@@ -10591,7 +10591,7 @@ void CMixSystem::ShieldPotionLv1_Mix_Multi(LPOBJ lpObj, int iMixCount)
 	gObjInventoryCommit(lpObj->m_Index);
 }
 
-void CMixSystem::ShieldPotionLv2_Mix_Multi(LPOBJ lpObj, int iMixCount)
+void CMixSystem::ShieldPotionLv2_Mix_Multi(CGameObject* lpObj, int iMixCount)
 {
 	int iHealthPotionCount = 0;
 	int iInvalidItemCount = 0;
@@ -10709,7 +10709,7 @@ void CMixSystem::ShieldPotionLv2_Mix_Multi(LPOBJ lpObj, int iMixCount)
 	gObjInventoryCommit(lpObj->m_Index);
 }
 
-void CMixSystem::ShieldPotionLv3_Mix_Multi(LPOBJ lpObj, int iMixCount)
+void CMixSystem::ShieldPotionLv3_Mix_Multi(CGameObject* lpObj, int iMixCount)
 {
 	int iHealthPotionCount = 0;
 	int iInvalidItemCount = 0;
@@ -10827,7 +10827,7 @@ void CMixSystem::ShieldPotionLv3_Mix_Multi(LPOBJ lpObj, int iMixCount)
 	gObjInventoryCommit(lpObj->m_Index);
 }
 
-void CMixSystem::PremiumBoxMix_Multi(LPOBJ lpObj, int iMixCount)
+void CMixSystem::PremiumBoxMix_Multi(CGameObject* lpObj, int iMixCount)
 {
 	PMSG_CHAOSMIXRESULT pMsg = { 0 };
 	PHeadSetB((LPBYTE)&pMsg, 0x86, sizeof(pMsg));
@@ -10942,7 +10942,7 @@ void CMixSystem::PremiumBoxMix_Multi(LPOBJ lpObj, int iMixCount)
 	}
 }
 
-void CMixSystem::JewelOfHarmonyItemPurityMix(LPOBJ lpObj) // OK
+void CMixSystem::JewelOfHarmonyItemPurityMix(CGameObject* lpObj) // OK
 {
 	lpObj->ChaosLock = TRUE;
 	// Chaos Lock was Enabled
@@ -11153,7 +11153,7 @@ void CMixSystem::PurityJewelOfHarmony_MultiMix(OBJECTSTRUCT * lpObj, int iMixCou
 	lpObj->ChaosLock = FALSE;
 }
 
-void CMixSystem::BloodCastleMix(LPOBJ lpObj) // OK
+void CMixSystem::BloodCastleMix(CGameObject* lpObj) // OK
 {
 	lpObj->ChaosLock = TRUE;
 	// Chaos Lock was Enabled
@@ -11278,7 +11278,7 @@ void CMixSystem::BloodCastleMix(LPOBJ lpObj) // OK
 }
 
 // start bloodangel mix knight
-BOOL CMixSystem::bloodangelmix78(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix78(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -11343,7 +11343,7 @@ BOOL CMixSystem::bloodangelmix78(LPOBJ lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-BOOL CMixSystem::bloodangelmix79(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix79(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -11408,7 +11408,7 @@ BOOL CMixSystem::bloodangelmix79(LPOBJ lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-BOOL CMixSystem::bloodangelmix80(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix80(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -11473,7 +11473,7 @@ BOOL CMixSystem::bloodangelmix80(LPOBJ lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-BOOL CMixSystem::bloodangelmix81(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix81(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -11540,7 +11540,7 @@ BOOL CMixSystem::bloodangelmix81(LPOBJ lpObj)
 // finish mix knight
 
 // start bloodangel mix wizard
-BOOL CMixSystem::bloodangelmix86(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix86(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -11605,7 +11605,7 @@ BOOL CMixSystem::bloodangelmix86(LPOBJ lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-BOOL CMixSystem::bloodangelmix87(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix87(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -11670,7 +11670,7 @@ BOOL CMixSystem::bloodangelmix87(LPOBJ lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-BOOL CMixSystem::bloodangelmix88(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix88(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -11735,7 +11735,7 @@ BOOL CMixSystem::bloodangelmix88(LPOBJ lpObj)
 	lpObj->ChaosLock = FALSE;
 }
 
-BOOL CMixSystem::bloodangelmix89(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix89(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -11803,7 +11803,7 @@ BOOL CMixSystem::bloodangelmix89(LPOBJ lpObj)
 
 // start bloodangel mix 
 //90, ITEMGET(13, 363), ITEMGET(8, 100),
-BOOL CMixSystem::bloodangelmix90(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix90(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -11869,7 +11869,7 @@ BOOL CMixSystem::bloodangelmix90(LPOBJ lpObj)
 }
 
 //91, ITEMGET(13, 364), ITEMGET(7, 100),
-BOOL CMixSystem::bloodangelmix91(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix91(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -11935,7 +11935,7 @@ BOOL CMixSystem::bloodangelmix91(LPOBJ lpObj)
 }
 
 //92, ITEMGET(13, 365), ITEMGET(9, 100),
-BOOL CMixSystem::bloodangelmix92(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix92(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12001,7 +12001,7 @@ BOOL CMixSystem::bloodangelmix92(LPOBJ lpObj)
 }
 
 //93, ITEMGET(13, 366), ITEMGET(10, 100),
-BOOL CMixSystem::bloodangelmix93(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix93(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12069,7 +12069,7 @@ BOOL CMixSystem::bloodangelmix93(LPOBJ lpObj)
 
 // start bloodangel mix magic
 //98, ITEMGET(13, 371), ITEMGET(8, 102),
-BOOL CMixSystem::bloodangelmix98(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix98(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12135,7 +12135,7 @@ BOOL CMixSystem::bloodangelmix98(LPOBJ lpObj)
 }
 
 //99, ITEMGET(13, 372), ITEMGET(11, 102),
-BOOL CMixSystem::bloodangelmix99(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix99(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12201,7 +12201,7 @@ BOOL CMixSystem::bloodangelmix99(LPOBJ lpObj)
 }
 
 //100, ITEMGET(13, 373), ITEMGET(9, 102),
-BOOL CMixSystem::bloodangelmix100(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix100(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12267,7 +12267,7 @@ BOOL CMixSystem::bloodangelmix100(LPOBJ lpObj)
 }
 
 //101, ITEMGET(13, 374), ITEMGET(10, 102),
-BOOL CMixSystem::bloodangelmix101(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix101(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12335,7 +12335,7 @@ BOOL CMixSystem::bloodangelmix101(LPOBJ lpObj)
 
 // start bloodangel mix darklord
 //106, ITEMGET(13, 379), ITEMGET(8, 103),
-BOOL CMixSystem::bloodangelmix106(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix106(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12401,7 +12401,7 @@ BOOL CMixSystem::bloodangelmix106(LPOBJ lpObj)
 }
 
 //107, ITEMGET(13, 380), ITEMGET(7, 103),
-BOOL CMixSystem::bloodangelmix107(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix107(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12467,7 +12467,7 @@ BOOL CMixSystem::bloodangelmix107(LPOBJ lpObj)
 }
 
 //108, ITEMGET(13, 381), ITEMGET(9, 103),
-BOOL CMixSystem::bloodangelmix108(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix108(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12533,7 +12533,7 @@ BOOL CMixSystem::bloodangelmix108(LPOBJ lpObj)
 }
 
 //109, ITEMGET(13, 382), ITEMGET(10, 103),
-BOOL CMixSystem::bloodangelmix109(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix109(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12601,7 +12601,7 @@ BOOL CMixSystem::bloodangelmix109(LPOBJ lpObj)
 
 // start bloodangel mix summoner
 //114, ITEMGET(13, 387), ITEMGET(8, 101),
-BOOL CMixSystem::bloodangelmix114(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix114(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12667,7 +12667,7 @@ BOOL CMixSystem::bloodangelmix114(LPOBJ lpObj)
 }
 
 //115, ITEMGET(13, 388), ITEMGET(7, 101),
-BOOL CMixSystem::bloodangelmix115(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix115(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12733,7 +12733,7 @@ BOOL CMixSystem::bloodangelmix115(LPOBJ lpObj)
 }
 
 //116, ITEMGET(13, 389), ITEMGET(9, 101),
-BOOL CMixSystem::bloodangelmix116(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix116(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12799,7 +12799,7 @@ BOOL CMixSystem::bloodangelmix116(LPOBJ lpObj)
 }
 
 //117, ITEMGET(13, 390), ITEMGET(10, 101),
-BOOL CMixSystem::bloodangelmix117(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix117(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12867,7 +12867,7 @@ BOOL CMixSystem::bloodangelmix117(LPOBJ lpObj)
 
 // start bloodangel mix fighter
 //118, ITEMGET(13, 391), ITEMGET(8, 104),
-BOOL CMixSystem::bloodangelmix118(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix118(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12933,7 +12933,7 @@ BOOL CMixSystem::bloodangelmix118(LPOBJ lpObj)
 }
 
 //119, ITEMGET(13, 392), ITEMGET(7, 104),
-BOOL CMixSystem::bloodangelmix119(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix119(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -12999,7 +12999,7 @@ BOOL CMixSystem::bloodangelmix119(LPOBJ lpObj)
 }
 
 //120, ITEMGET(13, 393), ITEMGET(9, 104),
-BOOL CMixSystem::bloodangelmix120(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix120(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -13065,7 +13065,7 @@ BOOL CMixSystem::bloodangelmix120(LPOBJ lpObj)
 }
 
 //121, ITEMGET(13, 394), ITEMGET(11, 104),
-BOOL CMixSystem::bloodangelmix121(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix121(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -13133,7 +13133,7 @@ BOOL CMixSystem::bloodangelmix121(LPOBJ lpObj)
 
 // start bloodangel mix fighter
 //126, ITEMGET(13, 399), ITEMGET(8, 105),
-BOOL CMixSystem::bloodangelmix126(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix126(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -13199,7 +13199,7 @@ BOOL CMixSystem::bloodangelmix126(LPOBJ lpObj)
 }
 
 //127, ITEMGET(13, 400), ITEMGET(7, 105),
-BOOL CMixSystem::bloodangelmix127(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix127(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -13265,7 +13265,7 @@ BOOL CMixSystem::bloodangelmix127(LPOBJ lpObj)
 }
 
 //128, ITEMGET(13, 401), ITEMGET(9, 105),
-BOOL CMixSystem::bloodangelmix128(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix128(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 
@@ -13331,7 +13331,7 @@ BOOL CMixSystem::bloodangelmix128(LPOBJ lpObj)
 }
 
 //129, ITEMGET(13, 402), ITEMGET(10, 105)
-BOOL CMixSystem::bloodangelmix129(LPOBJ lpObj)
+BOOL CMixSystem::bloodangelmix129(CGameObject* lpObj)
 {
 	lpObj->ChaosLock = TRUE;
 

@@ -4,7 +4,7 @@
 #define DOPPELGANGERITEMBAG_H
 
 #include "GamblingSystem.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 
 struct __tagDOPPELGANGER_DROP_ITEM_GROUP_INFO
 {

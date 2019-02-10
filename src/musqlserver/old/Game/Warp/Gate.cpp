@@ -162,7 +162,7 @@ int CGate::GetLevel(int GateNumber)
 
 BOOL CGate::IsInGate(int aIndex, int GateNumber)
 {
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if ( this->IsGate(GateNumber) == FALSE )
 	{
@@ -199,7 +199,7 @@ BOOL CGate::IsInGate(int aIndex, int GateNumber)
 
 BOOL CGate::CheckGateLevel(int aIndex, int GateNumber)
 {
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (this->IsGate(GateNumber) == FALSE)
 	{

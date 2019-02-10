@@ -3,7 +3,7 @@
 #ifndef ITL_PROCESS_H
 #define ITL_PROCESS_H
 
-#include "User/user.h"
+#include "User/CUserData.h"
 #include <list>
 
 struct __ITL_OBJECT_DATA
@@ -68,9 +68,9 @@ struct __ITL_TIME_TABLE
 	BYTE nType;
 };
 
-struct __ITL_USER_DATA
+struct __ITL_CUserData
 {
-	__ITL_USER_DATA()
+	__ITL_CUserData()
 	{
 		this->m_nIndex = -1;
 	}
@@ -356,7 +356,7 @@ public:
 
 private:
 	CRITICAL_SECTION			m_critUserData;
-	__ITL_USER_DATA				m_UserData[10];
+	__ITL_CUserData				m_UserData[10];
 	__ITL_ENTER_PLAYER_NAME		m_EnteredPlayerName[10];
 	DWORD						m_dwViewSkillState[10];
 	CRITICAL_SECTION			m_criGuildData;

@@ -96,9 +96,9 @@ public:
 
 	void ProcessQueue();
 	static bool ThreadActive;
-	static VOID AttackQueueProc(std::vector<LPOBJ> gObj);
+	static VOID AttackQueueProc(std::vector<CGameObject*> gObj);
 	
-	LPOBJ m_Obj;
+	CGameObject* m_Obj;
 	CRITICAL_SECTION m_CritQueue;
 };
 

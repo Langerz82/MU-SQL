@@ -8,7 +8,7 @@
 #include "MapClass.h"
 #include "Logging/Log.h"
 #include "GameMain.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "Protocol.h"
 #include "Event/BloodCastle/BloodCastle.h"
 #include "IllusionTempleEvent_Renewal.h"
@@ -314,7 +314,7 @@ BYTE MapClass::GetWeather()
 
 void MapClass::SetWeather(BYTE a_weather, BYTE a_variation)
 {
-	LPOBJ lpObj;
+	CGameObject* lpObj;
 	BYTE weather;
 	int n;
 
@@ -325,7 +325,7 @@ void MapClass::SetWeather(BYTE a_weather, BYTE a_variation)
 
 	for (n = g_ConfigRead.server.GetObjectStartUserIndex(); n<g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		lpObj = &gObj[n];
+		lpObj = &gGameObjects[n];
 
 		if (lpObj->Connected > PLAYER_CONNECTED && lpObj->Live != 0 && lpObj->MapNumber == this->thisMapNumber)
 		{
@@ -338,7 +338,7 @@ void MapClass::SetWeather(BYTE a_weather, BYTE a_variation)
 
 void MapClass::WeatherVariationProcess()
 {
-	LPOBJ lpObj;
+	CGameObject* lpObj;
 	BYTE weather;
 
 	if ((GetTickCount() - this->m_WeatherTimer) > this->m_NextWeatherTimer)
@@ -353,7 +353,7 @@ void MapClass::WeatherVariationProcess()
 
 		for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n<g_ConfigRead.server.GetObjectMax(); n++)
 		{
-			lpObj = &gObj[n];
+			lpObj = &gGameObjects[n];
 
 			if (lpObj->Connected > PLAYER_CONNECTED && lpObj->Live != 0 && lpObj->MapNumber == this->thisMapNumber)
 			{
@@ -574,7 +574,7 @@ BOOL MapClass::ItemGive(int aIndex, int item_num, bool bFailNotSend)
 		return FALSE;
 	}
 
-	if (gObj[aIndex].MapNumber != this->thisMapNumber)
+	if (gGameObjects[aIndex].MapNumber != this->thisMapNumber)
 	{
 		return FALSE;
 	}
@@ -594,10 +594,10 @@ BOOL MapClass::ItemGive(int aIndex, int item_num, bool bFailNotSend)
 		return FALSE;
 	}
 
-	int disx = this->m_cItem[item_num].px - gObj[aIndex].X;
-	int disy = this->m_cItem[item_num].py - gObj[aIndex].Y;
+	int disx = this->m_cItem[item_num].px - gGameObjects[aIndex].X;
+	int disy = this->m_cItem[item_num].py - gGameObjects[aIndex].Y;
 
-	if (gObj[aIndex].m_bOffLevel == false)
+	if (gGameObjects[aIndex].m_bOffLevel == false)
 	{
 		if (disx > 2 || disx < -2)
 		{
@@ -624,11 +624,11 @@ BOOL MapClass::ItemGive(int aIndex, int item_num, bool bFailNotSend)
 
 					if (this->m_cItem[item_num].m_QuestItem == false)
 					{
-						if (gObj[aIndex].PartyNumber >= 0)
+						if (gGameObjects[aIndex].PartyNumber >= 0)
 						{
-							if (gObj[aIndex].PartyNumber == gObj[this->m_cItem[item_num].m_UserIndex].PartyNumber)
+							if (gGameObjects[aIndex].PartyNumber == gGameObjects[this->m_cItem[item_num].m_UserIndex].PartyNumber)
 							{
-								if (BC_MAP_RANGE(gObj[aIndex].MapNumber) != FALSE)
+								if (BC_MAP_RANGE(gGameObjects[aIndex].MapNumber) != FALSE)
 								{
 									if (this->m_cItem[item_num].m_Type == ITEMGET(12, 15) || (this->m_cItem[item_num].m_Type == ITEMGET(13, 19) && ((this->m_cItem[item_num].m_Level < 0) ? FALSE : (this->m_cItem[item_num].m_Level > 2) ? FALSE : TRUE) != FALSE))
 									{
@@ -657,7 +657,7 @@ BOOL MapClass::ItemGive(int aIndex, int item_num, bool bFailNotSend)
 		{
 			char szTemp[256];
 
-			wsprintf(szTemp, Lang.GetText(0, 60), gObj[aIndex].Name);
+			wsprintf(szTemp, Lang.GetText(0, 60), gGameObjects[aIndex].Name);
 			GSProtocol.GCServerMsgStringSend(szTemp, aIndex, 1);
 
 		}

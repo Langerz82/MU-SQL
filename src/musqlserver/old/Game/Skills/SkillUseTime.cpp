@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "SkillUseTime.h"
 #include "Logging/Log.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 
 CSkillUseTime g_SkillUseTime;
 
@@ -68,7 +68,7 @@ bool CSkillUseTime::LoadFile(LPSTR lpFile)
 	return true;
 }
 
-bool CSkillUseTime::CheckSkillTime(LPOBJ lpObj, int iSkill)
+bool CSkillUseTime::CheckSkillTime(CGameObject* lpObj, int iSkill)
 {
 	if ( this->m_bEnabled == false )
 	{

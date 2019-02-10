@@ -9,7 +9,7 @@
 #include "StdAfx.h"
 #include "MultiCheckSum.h"
 #include "Logging/Log.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 
 CMultiCheckSum g_MultiChecksum;
 
@@ -87,12 +87,12 @@ int CMultiCheckSum::CompareCheckSum(int aIndex, DWORD TableNum, DWORD Key)
 		{
 			if ( ( this->m_dwgCheckSum[i][TableNum] ) == Key)	
 			{
-				sLog->outBasic("CheckSum%d-Exe Compare Success [%s]", i, gObj[aIndex].AccountID );
+				sLog->outBasic("CheckSum%d-Exe Compare Success [%s]", i, gGameObjects[aIndex].AccountID );
 				return 1;
 			}
 			else
 			{
-				sLog->outBasic("CheckSum%d-Exe Compare Fail %d %d %d [%s]", i, this->m_dwgCheckSum[i][TableNum], Key, TableNum, gObj[aIndex].AccountID );
+				sLog->outBasic("CheckSum%d-Exe Compare Fail %d %d %d [%s]", i, this->m_dwgCheckSum[i][TableNum], Key, TableNum, gGameObjects[aIndex].AccountID );
 			}
 		}
 	}

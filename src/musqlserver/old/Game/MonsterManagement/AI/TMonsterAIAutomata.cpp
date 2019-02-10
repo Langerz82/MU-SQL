@@ -171,12 +171,12 @@ TMonsterAIAutomata * TMonsterAIAutomata::FindAutomata(int iAutomataNumber)
 
 TMonsterAIState * TMonsterAIAutomata::RunAutomata(int iIndex)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 
 	if ( MAX_AI_STATE_RANGE(lpObj->m_iCurrentAIState) == FALSE )
 		return NULL;
 
-	LPOBJ lpTargetObj = NULL;
+	CGameObject* lpTargetObj = NULL;
 	int iMaxAgro = -1;
 
 	int iTargetIndex = lpObj->m_Agro->GetMaxAgroUserIndex(lpObj->m_Index);
@@ -184,7 +184,7 @@ TMonsterAIState * TMonsterAIAutomata::RunAutomata(int iIndex)
 	// Search The user with Max Agro to make its enemy
 	if ( iTargetIndex != -1 )
 	{
-		lpTargetObj = &gObj[iTargetIndex];
+		lpTargetObj = &gGameObjects[iTargetIndex];
 
 		if ( MONSTER_UTIL.FindMonViewportObj(lpObj->m_Index, lpTargetObj->m_Index) )
 		{

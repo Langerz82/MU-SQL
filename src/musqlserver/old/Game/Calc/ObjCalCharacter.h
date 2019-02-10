@@ -7,7 +7,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "ItemManagement/Item.h"
 
 class CObjCalCharacter
@@ -20,16 +20,16 @@ public:
 	void Init();
 
 	void CalcCharacter(int aIndex);
-	void CalcSetItemStat(LPOBJ lpObj);
-	void GetSetItemOption(LPOBJ lpObj, LPBYTE pSetOptionTable, LPBYTE pSetOptionCountTable, int * pSetOptionCount);
-	void CalcSetItemOption(LPOBJ lpObj);
-	void SetItemStatPlusSpecial(LPOBJ lpObj, int option, int ivalue);
-	void SetItemPlusSpecial(LPOBJ lpObj, int option, int ivalue);
-	void SetItemApply(LPOBJ lpObj);
-	void CalcMLSkillItemOption(LPOBJ lpObj);
-	BOOL ValidItem(LPOBJ lpObj, CItem * lpItem, int pos);
-	void CalcShieldPoint(LPOBJ lpObj);
-	void PremiumItemApply(LPOBJ lpObj);
+	void CalcSetItemStat(CGameObject* lpObj);
+	void GetSetItemOption(CGameObject* lpObj, LPBYTE pSetOptionTable, LPBYTE pSetOptionCountTable, int * pSetOptionCount);
+	void CalcSetItemOption(CGameObject* lpObj);
+	void SetItemStatPlusSpecial(CGameObject* lpObj, int option, int ivalue);
+	void SetItemPlusSpecial(CGameObject* lpObj, int option, int ivalue);
+	void SetItemApply(CGameObject* lpObj);
+	void CalcMLSkillItemOption(CGameObject* lpObj);
+	BOOL ValidItem(CGameObject* lpObj, CItem * lpItem, int pos);
+	void CalcShieldPoint(CGameObject* lpObj);
+	void PremiumItemApply(CGameObject* lpObj);
 
 	MULua m_Lua;
 

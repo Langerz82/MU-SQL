@@ -2,7 +2,7 @@
 // SetItemDrop.cpp
 #include "StdAfx.h"
 #include "SetItemDrop.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "SetItemOption.h"
 #include "DSProtocol.h"
 #include "ItemOptionTypeMng.h"
@@ -91,7 +91,7 @@ void CSetItemDrop::LoadFile(LPSTR lpFile)
 	}
 }
 
-bool CSetItemDrop::DropItem(LPOBJ lpMonster, LPOBJ lpUser)
+bool CSetItemDrop::DropItem(CGameObject* lpMonster, CGameObject* lpUser)
 {
 	if (!ObjectMaxRange(lpUser->m_Index))
 		return false;

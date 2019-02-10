@@ -11,7 +11,7 @@
 #include "CrywolfUtil.h"
 #include "BuffEffectSlot.h"
 #include "BuffEffect.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "configread.h"
 
 static TMonsterAIUtil MONSTER_UTIL;
@@ -38,7 +38,7 @@ void TMonsterAI::MonsterAIProc()
 
 	for ( int n=0;n<g_ConfigRead.server.GetObjectMaxMonster();n++)
 	{
-		LPOBJ lpObj = &gObj[n];
+		CGameObject* lpObj = &gGameObjects[n];
 
 		if ( lpObj->m_iCurrentAI == 0 || lpObj->Live == FALSE ||lpObj->Connected != PLAYER_PLAYING )
 		{
@@ -59,7 +59,7 @@ void TMonsterAI::MonsterAIProc()
 
 bool TMonsterAI::RunAI(int iIndex, int iMonsterClass)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 
 	TMonsterAI::MonsterStateMsgProc(iIndex);
 
@@ -85,7 +85,7 @@ bool TMonsterAI::RunAI(int iIndex, int iMonsterClass)
 
 void TMonsterAI::MonsterStateMsgProc(int iIndex)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 
 	for ( int i=0;i<MAX_MONSTER_SEND_MSG;i++)
 	{
@@ -102,18 +102,18 @@ void TMonsterAI::MonsterStateMsgProc(int iIndex)
 
 
 
-void TMonsterAI::ProcessStateMsg(LPOBJ lpObj, int iMsgCode, int iIndex, int aMsgSubCode)
+void TMonsterAI::ProcessStateMsg(CGameObject* lpObj, int iMsgCode, int iIndex, int aMsgSubCode)
 {
 	switch ( iMsgCode )
 	{
 		case 1:
-			gObjMonsterDieGiveItem(lpObj, &gObj[iIndex]);
+			gObjMonsterDieGiveItem(lpObj, &gGameObjects[iIndex]);
 			break;
 
 		case 2:
-			if ( gObj[iIndex].Live != FALSE )
+			if ( gGameObjects[iIndex].Live != FALSE )
 			{
-				gObjBackSpring(lpObj, &gObj[iIndex]);
+				gObjBackSpring(lpObj, &gGameObjects[iIndex]);
 			}
 			break;
 
@@ -137,12 +137,12 @@ void TMonsterAI::ProcessStateMsg(LPOBJ lpObj, int iMsgCode, int iIndex, int aMsg
 			break;
 
 		case 55:
-			gObjAttack(lpObj, &gObj[iIndex], NULL, FALSE, FALSE, 0, FALSE, 0, 0);
+			gObjAttack(lpObj, &gGameObjects[iIndex], NULL, FALSE, FALSE, 0, FALSE, 0, 0);
 			break;
 
 		case 56:
 			{
-				LPOBJ lpTargetObj = &gObj[iIndex];
+				CGameObject* lpTargetObj = &gGameObjects[iIndex];
 				
 				if(!gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_POISON))
 				{
@@ -157,7 +157,7 @@ void TMonsterAI::ProcessStateMsg(LPOBJ lpObj, int iMsgCode, int iIndex, int aMsg
 
 		case 57:
 			{
-				LPOBJ lpTargetObj = &gObj[iIndex];
+				CGameObject* lpTargetObj = &gGameObjects[iIndex];
 				gObjBackSpring2(lpTargetObj, lpObj, aMsgSubCode);
 			}
 			break;
@@ -169,7 +169,7 @@ void TMonsterAI::ProcessStateMsg(LPOBJ lpObj, int iMsgCode, int iIndex, int aMsg
 
 bool TMonsterAI::UpdateCurrentAIUnit(int iIndex)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 
 	if ( lpObj->Live == FALSE )
 		return FALSE;
@@ -200,7 +200,7 @@ void TMonsterAI::MonsterMoveProc()
 {
 	for ( int i=0;i<g_ConfigRead.server.GetObjectMaxMonster();i++)
 	{
-		if ( gObj[i].m_iCurrentAI !=  0 )
+		if ( gGameObjects[i].m_iCurrentAI !=  0 )
 		{
 			TMonsterAI::MonsterMove(i);
 		}
@@ -211,7 +211,7 @@ void TMonsterAI::MonsterMoveProc()
 
 void TMonsterAI::MonsterMove(int iIndex)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 
 	if ( MONSTER_UTIL.CheckMovingCondition(lpObj) == FALSE )
 	{

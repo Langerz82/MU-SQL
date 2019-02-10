@@ -11,7 +11,7 @@
 
 #include "BuffScriptLoader.h"
 
-typedef OBJECTSTRUCT* LPOBJECTSTRUCT;
+typedef OBJECTSTRUCT* CGameObject*ECTSTRUCT;
 
 enum EFFECTTYPE_DEFINE
 {
@@ -104,15 +104,15 @@ public:
 	CBuffEffect();
 	virtual ~CBuffEffect();
 
-	void SetBuffEffect(LPOBJECTSTRUCT lpObj, BYTE EffectType, int EffectValue);
-	void ClearBuffEffect(LPOBJECTSTRUCT lpObj, BYTE EffectType, int EffectValue);
-	void SetActiveBuffEffect(LPOBJECTSTRUCT lpObj, BYTE EffectType, int EffectValue);
-	void SetPrevEffect(LPOBJECTSTRUCT lpObj);
-	void SetNextEffect(LPOBJECTSTRUCT lpObj);
-	void ClearPrevEffect(LPOBJECTSTRUCT lpObj);
-	void GiveDamageEffect(LPOBJECTSTRUCT lpObj, int Damage);
-	void PoisonEffect(LPOBJECTSTRUCT lpObj, BYTE PoisonRate);
-	void GiveDamageFillHPEffect(LPOBJECTSTRUCT lpObj, int Damage);
+	void SetBuffEffect(CGameObject*ECTSTRUCT lpObj, BYTE EffectType, int EffectValue);
+	void ClearBuffEffect(CGameObject*ECTSTRUCT lpObj, BYTE EffectType, int EffectValue);
+	void SetActiveBuffEffect(CGameObject*ECTSTRUCT lpObj, BYTE EffectType, int EffectValue);
+	void SetPrevEffect(CGameObject*ECTSTRUCT lpObj);
+	void SetNextEffect(CGameObject*ECTSTRUCT lpObj);
+	void ClearPrevEffect(CGameObject*ECTSTRUCT lpObj);
+	void GiveDamageEffect(CGameObject*ECTSTRUCT lpObj, int Damage);
+	void PoisonEffect(CGameObject*ECTSTRUCT lpObj, BYTE PoisonRate);
+	void GiveDamageFillHPEffect(CGameObject*ECTSTRUCT lpObj, int Damage);
 	void RequestGuildPeriodBuffInsert(char *szGuildName, _tagPeriodBuffInfo *lpBuffInfo);
 	void RequestGuildPeriodBuffDelete(WORD *wBuffIndex, char btGuildCnt);
 	void RequestPeriodBuffDelete(OBJECTSTRUCT *lpObj, WORD wBuffIndex);

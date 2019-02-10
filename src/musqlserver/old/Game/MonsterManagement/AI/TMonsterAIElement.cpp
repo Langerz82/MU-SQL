@@ -165,7 +165,7 @@ TMonsterAIElement * TMonsterAIElement::FindAIElement(int iElementNumber)
 
 BOOL TMonsterAIElement::ForceAIElement(int iIndex, int iTargetIndex, TMonsterAIState *pAIState)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 
 	if ( (rand()%100) > this->m_iSuccessRate )
 		return FALSE;
@@ -248,7 +248,7 @@ BOOL TMonsterAIElement::ApplyElementCommon(int iIndex, int iTargetIndex, TMonste
 
 BOOL TMonsterAIElement::ApplyElementMove(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-이동");
 
 	if ( lpObj->PathStartEnd )
@@ -269,7 +269,7 @@ BOOL TMonsterAIElement::ApplyElementMove(int iIndex, int iTargetIndex, TMonsterA
 
 BOOL TMonsterAIElement::ApplyElementMoveTarget(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-타겟이동");
 
 	if ( lpObj->PathStartEnd )
@@ -344,7 +344,7 @@ BOOL TMonsterAIElement::ApplyElementMoveTarget(int iIndex, int iTargetIndex, TMo
 
 BOOL TMonsterAIElement::ApplyElementGroupMove(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-그룹이동");
 
 	if ( lpObj->PathStartEnd )
@@ -355,10 +355,10 @@ BOOL TMonsterAIElement::ApplyElementGroupMove(int iIndex, int iTargetIndex, TMon
 	int iLeaderIndex = -1;
 	iLeaderIndex = TMonsterAIGroup::FindGroupLeader(lpObj->m_iGroupNumber);
 
-	if ( iLeaderIndex == -1 || gObj[iLeaderIndex].Live == FALSE )
+	if ( iLeaderIndex == -1 || gGameObjects[iLeaderIndex].Live == FALSE )
 		bFoundLeader = FALSE;
 
-	if ( bFoundLeader && gObjCalDistance(lpObj, &gObj[iLeaderIndex]) > 6 )
+	if ( bFoundLeader && gObjCalDistance(lpObj, &gGameObjects[iLeaderIndex]) > 6 )
 	{
 		lpObj->TargetNumber = iLeaderIndex;
 		bFindXY = MONSTER_UTIL.GetXYToChase(lpObj);
@@ -390,7 +390,7 @@ BOOL TMonsterAIElement::ApplyElementGroupMove(int iIndex, int iTargetIndex, TMon
 
 BOOL TMonsterAIElement::ApplyElementAttack(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-공격");
 
 	if ( TMonsterSkillManager::CheckMonsterSkill(lpObj->Class) && lpObj->Class != 519 ) // Medic has only BUFF in MONSTERSKILL, so disable check for him
@@ -401,11 +401,11 @@ BOOL TMonsterAIElement::ApplyElementAttack(int iIndex, int iTargetIndex, TMonste
 		if ( iTargetNumber < 0 )
 			bEnableAttack = FALSE;
 
-		else if ( !gObj[iTargetNumber].Live || gObj[iTargetNumber].Teleport )
+		else if ( !gGameObjects[iTargetNumber].Live || gGameObjects[iTargetNumber].Teleport )
 			bEnableAttack = FALSE;
 
-		else if ( gObj[iTargetNumber].Connected <= PLAYER_LOGGED ||
-			 gObj[iTargetNumber].CloseCount != -1 )
+		else if ( gGameObjects[iTargetNumber].Connected <= PLAYER_LOGGED ||
+			 gGameObjects[iTargetNumber].CloseCount != -1 )
 		{
 			bEnableAttack = FALSE;
 		}
@@ -421,7 +421,7 @@ BOOL TMonsterAIElement::ApplyElementAttack(int iIndex, int iTargetIndex, TMonste
 			return FALSE;
 		}
 
-		LPOBJ lpTargetObj = &gObj[iTargetNumber];
+		CGameObject* lpTargetObj = &gGameObjects[iTargetNumber];
 		lpObj->Dir = GetPathPacketDirPos(lpTargetObj->X - lpObj->X, lpTargetObj->Y - lpObj->Y);
 
 		if ( (rand()%4) == 0 )
@@ -434,7 +434,7 @@ BOOL TMonsterAIElement::ApplyElementAttack(int iIndex, int iTargetIndex, TMonste
 			pAttackMsg.NumberL = SET_NUMBERL(iTargetNumber);
 
 			GSProtocol.GCActionSend(lpObj, 0x78, lpObj->m_Index, iTargetNumber);
-			gObjAttack(lpObj, &gObj[iTargetNumber], 0, 0, 0, 0, 0, 0, 0);
+			gObjAttack(lpObj, &gGameObjects[iTargetNumber], 0, 0, 0, 0, 0, 0, 0);
 		}
 		else
 		{
@@ -453,7 +453,7 @@ BOOL TMonsterAIElement::ApplyElementAttack(int iIndex, int iTargetIndex, TMonste
 			return FALSE;
 		}
 
-		LPOBJ lpTargetObj = &gObj[iTargetNumber];
+		CGameObject* lpTargetObj = &gGameObjects[iTargetNumber];
 		lpObj->Dir = GetPathPacketDirPos(lpTargetObj->X - lpObj->X, lpTargetObj->Y - lpObj->Y);
 
 		PMSG_ATTACK pAttackMsg;
@@ -465,7 +465,7 @@ BOOL TMonsterAIElement::ApplyElementAttack(int iIndex, int iTargetIndex, TMonste
 
 		GSProtocol.CGAttack((PMSG_ATTACK *)&pAttackMsg, lpObj->m_Index);
 		GSProtocol.GCActionSend(lpObj, 0x78, lpObj->m_Index, lpTargetObj->m_Index);
-		gObjAttack(lpObj, &gObj[iTargetNumber], 0, 0, 0, 0, 0, 0, 0);
+		gObjAttack(lpObj, &gGameObjects[iTargetNumber], 0, 0, 0, 0, 0, 0, 0);
 
 		return FALSE;
 	}
@@ -485,7 +485,7 @@ struct PMSG_NOTIFY_REGION_MONSTER_ATTACK
 
 BOOL TMonsterAIElement::ApplyElementAttackArea(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-영역공격");
 
 	int iTargetX = this->m_iX + (rand()%5) * ((rand()%2==0)?1:-1 ) ;
@@ -496,7 +496,7 @@ BOOL TMonsterAIElement::ApplyElementAttackArea(int iIndex, int iTargetIndex, TMo
 		if ( !gObjIsConnected(i))
 			continue;
 
-		LPOBJ lpTargetObj = &gObj[i];
+		CGameObject* lpTargetObj = &gGameObjects[i];
 
 		if ( !lpObj->Live )
 			continue;
@@ -532,13 +532,13 @@ BOOL TMonsterAIElement::ApplyElementAttackArea(int iIndex, int iTargetIndex, TMo
 
 BOOL TMonsterAIElement::ApplyElementAttackPenetration(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 	iTargetIndex = lpObj->TargetNumber;
 
 	if ( iTargetIndex == -1 )
 		return FALSE;
 
-	if ( gObj[iTargetIndex].Live == 0 )
+	if ( gGameObjects[iTargetIndex].Live == 0 )
 		return FALSE;
 
 	TMonsterSkillManager::UseMonsterSkill(iIndex, iTargetIndex, 2, -1, NULL);
@@ -548,7 +548,7 @@ BOOL TMonsterAIElement::ApplyElementAttackPenetration(int iIndex, int iTargetInd
 
 BOOL TMonsterAIElement::ApplyElementAvoid(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-회피");
 
 	BOOL bFindXY = MONSTER_UTIL.GetXYToEascape(lpObj);
@@ -564,7 +564,7 @@ BOOL TMonsterAIElement::ApplyElementAvoid(int iIndex, int iTargetIndex, TMonster
 
 BOOL TMonsterAIElement::ApplyElementHealSelf(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-셀프치료");
 
 	lpObj->Life += lpObj->Life * 20.0f / 100.0f;
@@ -578,13 +578,13 @@ BOOL TMonsterAIElement::ApplyElementHealSelf(int iIndex, int iTargetIndex, TMons
 
 BOOL TMonsterAIElement::ApplyElementHealGroup(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-그룹치료");
 	TMonsterAIGroupMember * pMemb = TMonsterAIGroup::FindGroupMemberToHeal(lpObj->m_Index, lpObj->m_iGroupNumber, lpObj->m_iGroupMemberGuid, 6);
 
 	if ( pMemb )
 	{
-		LPOBJ lpTargetObj = &gObj[pMemb->m_iObjIndex];
+		CGameObject* lpTargetObj = &gGameObjects[pMemb->m_iObjIndex];
 
 		if ( lpTargetObj->Live == 0 )
 			return FALSE;
@@ -615,13 +615,13 @@ BOOL TMonsterAIElement::ApplyElementHealGroup(int iIndex, int iTargetIndex, TMon
 
 BOOL TMonsterAIElement::ApplyElementSpecialSommon(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-특수소환");
 	TMonsterAIGroupMember * pMemb = TMonsterAIGroup::FindGroupMemberToSommon(lpObj->m_Index, lpObj->m_iGroupNumber, lpObj->m_iGroupMemberGuid);
 
 	if ( pMemb )
 	{
-		LPOBJ lpTargetObj = &gObj[pMemb->m_iObjIndex];
+		CGameObject* lpTargetObj = &gGameObjects[pMemb->m_iObjIndex];
 
 		if ( lpTargetObj->Live != 0 )
 			return FALSE;
@@ -639,7 +639,7 @@ BOOL TMonsterAIElement::ApplyElementSpecialSommon(int iIndex, int iTargetIndex, 
 
 BOOL TMonsterAIElement::ApplyElementSpecialImmune(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 	
 	this->m_iX = 10;
 	this->m_iY = 10;
@@ -652,7 +652,7 @@ BOOL TMonsterAIElement::ApplyElementSpecialImmune(int iIndex, int iTargetIndex, 
 
 BOOL TMonsterAIElement::ApplyElementNightmareSummon(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 
 	if ( lpObj->TargetNumber == -1 )
 		iTargetIndex = lpObj->m_Index;
@@ -668,7 +668,7 @@ BOOL TMonsterAIElement::ApplyElementNightmareSummon(int iIndex, int iTargetIndex
 
 	if (lpSkillUnit)
 	{
-		GSProtocol.GCUseMonsterSkillSend(&gObj[iIndex], &gObj[iTargetIndex], lpSkillUnit->m_iUnitNumber);
+		GSProtocol.GCUseMonsterSkillSend(&gGameObjects[iIndex], &gGameObjects[iTargetIndex], lpSkillUnit->m_iUnitNumber);
 
 		if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
 		{
@@ -681,7 +681,7 @@ BOOL TMonsterAIElement::ApplyElementNightmareSummon(int iIndex, int iTargetIndex
 
 BOOL TMonsterAIElement::ApplyElementNightmareWarp(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 
 	BYTE x = this->m_iX;
 	BYTE y = this->m_iY;
@@ -712,7 +712,7 @@ BOOL TMonsterAIElement::ApplyElementNightmareWarp(int iIndex, int iTargetIndex, 
 
 BOOL TMonsterAIElement::ApplyElementSkillAttack(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 
 	if ( TMonsterSkillManager::CheckMonsterSkill(lpObj->Class) )
 	{
@@ -722,11 +722,11 @@ BOOL TMonsterAIElement::ApplyElementSkillAttack(int iIndex, int iTargetIndex, TM
 		if (iTargetNumber < 0 )
 			bEnableAttack = FALSE;
 
-		else if ( !gObj[iTargetNumber].Live || gObj[iTargetNumber].Teleport )
+		else if ( !gGameObjects[iTargetNumber].Live || gGameObjects[iTargetNumber].Teleport )
 			bEnableAttack = FALSE;
 
-		else if ( gObj[iTargetNumber].Connected <= PLAYER_LOGGED ||
-			 gObj[iTargetNumber].CloseCount != -1 )
+		else if ( gGameObjects[iTargetNumber].Connected <= PLAYER_LOGGED ||
+			 gGameObjects[iTargetNumber].CloseCount != -1 )
 		{
 			bEnableAttack = FALSE;
 		}
@@ -742,7 +742,7 @@ BOOL TMonsterAIElement::ApplyElementSkillAttack(int iIndex, int iTargetIndex, TM
 			return FALSE;
 		}
 
-		LPOBJ lpTargetObj = &gObj[iTargetNumber];
+		CGameObject* lpTargetObj = &gGameObjects[iTargetNumber];
 		lpObj->Dir = GetPathPacketDirPos(lpTargetObj->X - lpObj->X, lpTargetObj->Y - lpObj->Y);
 		int iRate1 = this->m_iTargetType;
 		int iRate2 = this->m_iX;

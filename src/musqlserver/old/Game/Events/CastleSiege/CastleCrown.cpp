@@ -5,7 +5,7 @@
 #include "StdAfx.h"
 #include "CastleCrown.h"
 #include "CastleSiege.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "Logging/Log.h"
 
 CCastleCrown g_CsNPC_CastleCrown;
@@ -28,8 +28,8 @@ void CCastleCrown::CastleCrownAct(int iIndex)
 	if ( !gObjIsConnected(iIndex))
 		return;
 
-	if ( gObj[iIndex].Type != OBJ_NPC ||
-		 gObj[iIndex].Class != 216 )
+	if ( gGameObjects[iIndex].Type != OBJ_NPC ||
+		 gGameObjects[iIndex].Class != 216 )
 		 return;
 
 	if ( !gObjIsConnected(g_CastleSiege.GetCrownUserIndex()) )
@@ -42,8 +42,8 @@ void CCastleCrown::CastleCrownAct(int iIndex)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[iIndex];
-	LPOBJ lpUserObj = &gObj[g_CastleSiege.GetCrownUserIndex()];
+	CGameObject* lpObj = &gGameObjects[iIndex];
+	CGameObject* lpUserObj = &gGameObjects[g_CastleSiege.GetCrownUserIndex()];
 
 	if ( lpUserObj->MapNumber == MAP_INDEX_CASTLESIEGE &&
 		 lpUserObj->m_btCsJoinSide >= 2 &&
@@ -56,8 +56,8 @@ void CCastleCrown::CastleCrownAct(int iIndex)
 				 gObjIsConnected(g_CastleSiege.GetCrownSwitchUserIndex(217)) &&
 				 gObjIsConnected(g_CastleSiege.GetCrownSwitchUserIndex(218)) )
 			{
-				if ( gObj[g_CastleSiege.GetCrownUserIndex()].m_btCsJoinSide == gObj[g_CastleSiege.GetCrownSwitchUserIndex(217)].m_btCsJoinSide &&
-					 gObj[g_CastleSiege.GetCrownUserIndex()].m_btCsJoinSide == gObj[g_CastleSiege.GetCrownSwitchUserIndex(218)].m_btCsJoinSide )	// #warning ??? maybe is 218??? 
+				if ( gGameObjects[g_CastleSiege.GetCrownUserIndex()].m_btCsJoinSide == gGameObjects[g_CastleSiege.GetCrownSwitchUserIndex(217)].m_btCsJoinSide &&
+					 gGameObjects[g_CastleSiege.GetCrownUserIndex()].m_btCsJoinSide == gGameObjects[g_CastleSiege.GetCrownSwitchUserIndex(218)].m_btCsJoinSide )	// #warning ??? maybe is 218??? 
 				{
 					DWORD dwTime = GetTickCount() - g_CastleSiege.GetCrownAccessTickCount();
 		

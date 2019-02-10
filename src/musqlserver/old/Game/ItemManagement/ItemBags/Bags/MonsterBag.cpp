@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "MonsterBag.h"
 #include "Logging/Log.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "LuaBag.h"
 #include "MapClass.h"
 #include "GameMain.h"
@@ -48,17 +48,17 @@ bool CMonsterBag::IsBag(int aIndex, int MonsterClass, int iParam2)
 
 bool CMonsterBag::UseBag(int aIndex, int iMonsterIndex)
 {
-	if (gObj[aIndex].Type != OBJ_USER)
+	if (gGameObjects[aIndex].Type != OBJ_USER)
 	{
 		return false;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
-	LPOBJ lpMonsterObj = &gObj[iMonsterIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
+	CGameObject* lpMonsterObj = &gGameObjects[iMonsterIndex];
 
 	if (rand() % 10000 >= this->m_BagData.dwItemDropRate)
 	{
-		MapC[gObj[aIndex].MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, lpObj->X, lpObj->Y);
+		MapC[gGameObjects[aIndex].MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, lpObj->X, lpObj->Y);
 
 		return true;
 	}

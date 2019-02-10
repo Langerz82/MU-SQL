@@ -4,7 +4,7 @@
 #define SKILL_USE_TIME
 
 #include "StdAfx.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 
 struct SKILL_TIME_INFO
 {
@@ -23,7 +23,7 @@ public:
 
 	bool LoadFile(LPSTR lpFile);
 	bool LoadConfig(LPSTR lpFile);
-	bool CheckSkillTime(LPOBJ lpObj, int Skill);
+	bool CheckSkillTime(CGameObject* lpObj, int Skill);
 
 private:
 	std::vector<SKILL_TIME_INFO> m_vtSkillTimeInfo;

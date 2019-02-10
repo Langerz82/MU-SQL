@@ -29,7 +29,7 @@ public:
 	virtual ~CSkillSafeZoneUse();
 
 	void LoadFile(char *szFileName);
-	bool CanUseSkill(LPOBJ lpObj, CMagicInf * lpMagic);
+	bool CanUseSkill(CGameObject* lpObj, CMagicInf * lpMagic);
 
 private:
 	bool m_bFileLoad;

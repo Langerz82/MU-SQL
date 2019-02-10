@@ -131,7 +131,7 @@ bool CEvolutionMonsterMng::UseSummonScroll(int aIndex)
 		return false;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (!lpObj)
 	{
@@ -152,15 +152,15 @@ bool CEvolutionMonsterMng::UseSummonScroll(int aIndex)
 
 	int iEvoMonIndex = pEvoMonInfo->GetEvoMonIndex();
 
-	if (pEvoMonInfo->IsEvoMonActive() == true && ObjectMaxRange(iEvoMonIndex) && gObj[iEvoMonIndex].Live == TRUE)
+	if (pEvoMonInfo->IsEvoMonActive() == true && ObjectMaxRange(iEvoMonIndex) && gGameObjects[iEvoMonIndex].Live == TRUE)
 	{
-		if (gObj[iEvoMonIndex].Live == TRUE)
+		if (gGameObjects[iEvoMonIndex].Live == TRUE)
 		{
 			pMsg.btResult = 1;
-			pMsg.btMapNumber = gObj[iEvoMonIndex].MapNumber;
-			pMsg.btX = gObj[iEvoMonIndex].X;
-			pMsg.btY = gObj[iEvoMonIndex].Y;
-			pMsg.iTimeLeft = (gObj[iEvoMonIndex].m_Disappear_Monster + (this->m_iEvoMonTimeLimit * 60 * 1000) - GetTickCount()) / 60 / 1000;
+			pMsg.btMapNumber = gGameObjects[iEvoMonIndex].MapNumber;
+			pMsg.btX = gGameObjects[iEvoMonIndex].X;
+			pMsg.btY = gGameObjects[iEvoMonIndex].Y;
+			pMsg.iTimeLeft = (gGameObjects[iEvoMonIndex].m_Disappear_Monster + (this->m_iEvoMonTimeLimit * 60 * 1000) - GetTickCount()) / 60 / 1000;
 
 			IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 			return false;
@@ -183,9 +183,9 @@ bool CEvolutionMonsterMng::UseSummonScroll(int aIndex)
 		{
 			int iPartyIndex = gParty.m_PartyS[nPartyNumber].Number[i];
 
-			if (iPartyIndex != -1 && gObj[iPartyIndex].Type == OBJ_USER)
+			if (iPartyIndex != -1 && gGameObjects[iPartyIndex].Type == OBJ_USER)
 			{
-				CEvolutionMonsterInfo * pPartyEvoMonInfo = gObj[iPartyIndex].m_PlayerData->m_pCEvoMonInfo;
+				CEvolutionMonsterInfo * pPartyEvoMonInfo = gGameObjects[iPartyIndex].m_PlayerData->m_pCEvoMonInfo;
 
 				if (pPartyEvoMonInfo == NULL)
 				{
@@ -249,23 +249,23 @@ int CEvolutionMonsterMng::SummonEvoMon(OBJECTSTRUCT * lpObj)
 		return -1;
 	}
 
-	gObj[nResult].m_Disappear_Monster = GetTickCount();
-	gObj[nResult].m_nEvoMonOwnerIndex = lpObj->m_Index;
+	gGameObjects[nResult].m_Disappear_Monster = GetTickCount();
+	gGameObjects[nResult].m_nEvoMonOwnerIndex = lpObj->m_Index;
 	gObjSetMonster(nResult, lpMonsterAttr->m_Index);
-	gObj[nResult].DieRegen = 0;
-	gObj[nResult].m_PosNum = -1;
-	gObj[nResult].X = lpObj->X;
-	gObj[nResult].Y = lpObj->Y;
-	gObj[nResult].MapNumber = lpObj->MapNumber;
-	gObj[nResult].TX = gObj[nResult].X;
-	gObj[nResult].TY = gObj[nResult].Y;
-	gObj[nResult].m_OldX = gObj[nResult].X;
-	gObj[nResult].m_OldY = gObj[nResult].Y;
-	gObj[nResult].StartX = LOBYTE(gObj[nResult].X);
-	gObj[nResult].StartY = LOBYTE(gObj[nResult].Y);
-	gObj[nResult].Level = LOWORD(lpMonsterAttr->m_Level);
-	gObj[nResult].MaxRegenTime = 3000;
-	gObj[nResult].Dir = rand() % 8;
+	gGameObjects[nResult].DieRegen = 0;
+	gGameObjects[nResult].m_PosNum = -1;
+	gGameObjects[nResult].X = lpObj->X;
+	gGameObjects[nResult].Y = lpObj->Y;
+	gGameObjects[nResult].MapNumber = lpObj->MapNumber;
+	gGameObjects[nResult].TX = gGameObjects[nResult].X;
+	gGameObjects[nResult].TY = gGameObjects[nResult].Y;
+	gGameObjects[nResult].m_OldX = gGameObjects[nResult].X;
+	gGameObjects[nResult].m_OldY = gGameObjects[nResult].Y;
+	gGameObjects[nResult].StartX = LOBYTE(gGameObjects[nResult].X);
+	gGameObjects[nResult].StartY = LOBYTE(gGameObjects[nResult].Y);
+	gGameObjects[nResult].Level = LOWORD(lpMonsterAttr->m_Level);
+	gGameObjects[nResult].MaxRegenTime = 3000;
+	gGameObjects[nResult].Dir = rand() % 8;
 
 	return nResult;
 }
@@ -279,23 +279,23 @@ int CEvolutionMonsterMng::SetField(int iEvoMonIndex, int nFieldIndex, int nOwner
 		return -1;
 	}
 
-	gObj[nFieldIndex].m_Disappear_Monster = GetTickCount();
-	gObj[nFieldIndex].m_nEvoMonOwnerIndex = nOwnerIndex;
+	gGameObjects[nFieldIndex].m_Disappear_Monster = GetTickCount();
+	gGameObjects[nFieldIndex].m_nEvoMonOwnerIndex = nOwnerIndex;
 	gObjSetMonster(nFieldIndex, lpMonsterAttr->m_Index);
-	gObj[nFieldIndex].DieRegen = 0;
-	gObj[nFieldIndex].m_PosNum = -1;
-	gObj[nFieldIndex].X = gObj[iEvoMonIndex].X;
-	gObj[nFieldIndex].Y = gObj[iEvoMonIndex].Y;
-	gObj[nFieldIndex].MapNumber = gObj[iEvoMonIndex].MapNumber;
-	gObj[nFieldIndex].TX = gObj[iEvoMonIndex].X;
-	gObj[nFieldIndex].TY = gObj[iEvoMonIndex].Y;
-	gObj[nFieldIndex].m_OldX = gObj[iEvoMonIndex].X;
-	gObj[nFieldIndex].m_OldY = gObj[iEvoMonIndex].Y;
-	gObj[nFieldIndex].StartX = gObj[iEvoMonIndex].X;
-	gObj[nFieldIndex].StartY = gObj[iEvoMonIndex].Y;
-	gObj[nFieldIndex].Level = lpMonsterAttr->m_Level;
-	gObj[nFieldIndex].MaxRegenTime = 60000;
-	gObj[nFieldIndex].Dir = rand() % 8;
+	gGameObjects[nFieldIndex].DieRegen = 0;
+	gGameObjects[nFieldIndex].m_PosNum = -1;
+	gGameObjects[nFieldIndex].X = gGameObjects[iEvoMonIndex].X;
+	gGameObjects[nFieldIndex].Y = gGameObjects[iEvoMonIndex].Y;
+	gGameObjects[nFieldIndex].MapNumber = gGameObjects[iEvoMonIndex].MapNumber;
+	gGameObjects[nFieldIndex].TX = gGameObjects[iEvoMonIndex].X;
+	gGameObjects[nFieldIndex].TY = gGameObjects[iEvoMonIndex].Y;
+	gGameObjects[nFieldIndex].m_OldX = gGameObjects[iEvoMonIndex].X;
+	gGameObjects[nFieldIndex].m_OldY = gGameObjects[iEvoMonIndex].Y;
+	gGameObjects[nFieldIndex].StartX = gGameObjects[iEvoMonIndex].X;
+	gGameObjects[nFieldIndex].StartY = gGameObjects[iEvoMonIndex].Y;
+	gGameObjects[nFieldIndex].Level = lpMonsterAttr->m_Level;
+	gGameObjects[nFieldIndex].MaxRegenTime = 60000;
+	gGameObjects[nFieldIndex].Dir = rand() % 8;
 
 	return nFieldIndex;
 }
@@ -314,7 +314,7 @@ void CEvolutionMonsterMng::EvolutionMonsterDie(OBJECTSTRUCT * lpTargetObj, OBJEC
 		return;
 	}
 
-	LPOBJ lpOwnerObj = &gObj[nEvoMonOwnerIndex];
+	CGameObject* lpOwnerObj = &gGameObjects[nEvoMonOwnerIndex];
 
 	if (lpOwnerObj->Type != OBJ_USER)
 	{
@@ -386,7 +386,7 @@ void CEvolutionMonsterMng::EvolutionMonsterDie(OBJECTSTRUCT * lpTargetObj, OBJEC
 
 					if (nPartyIndex != -1)
 					{
-						LPOBJ lpPartyObj = &gObj[nPartyIndex];
+						CGameObject* lpPartyObj = &gGameObjects[nPartyIndex];
 						this->GiveReward(lpPartyObj, true);
 					}
 				}
@@ -463,7 +463,7 @@ void CEvolutionMonsterMng::FieldProcess(OBJECTSTRUCT * lpFieldObj)
 		return;
 	}
 
-	LPOBJ lpOwnerObj = &gObj[nEvoMonOwnerIndex];
+	CGameObject* lpOwnerObj = &gGameObjects[nEvoMonOwnerIndex];
 
 	if (lpOwnerObj->Type != OBJ_USER)
 	{
@@ -535,7 +535,7 @@ void CEvolutionMonsterMng::EndTimeProcess(OBJECTSTRUCT * lpMonsterObj)
 		return;
 	}
 
-	LPOBJ lpOwnerObj = &gObj[nEvoMonOwnerIndex];
+	CGameObject* lpOwnerObj = &gGameObjects[nEvoMonOwnerIndex];
 
 	if (lpOwnerObj->Type != OBJ_USER)
 	{
@@ -628,24 +628,24 @@ void CEvolutionMonsterMng::EvoluteMonster(OBJECTSTRUCT * lpObj)
 		}
 	}
 
-	gObj[nEvoMonIndex].m_Disappear_Monster = GetTickCount();
-	gObj[nEvoMonIndex].m_nEvoMonOwnerIndex = lpObj->m_Index;
+	gGameObjects[nEvoMonIndex].m_Disappear_Monster = GetTickCount();
+	gGameObjects[nEvoMonIndex].m_nEvoMonOwnerIndex = lpObj->m_Index;
 	gObjSetMonster(nEvoMonIndex, nMonsterClass);
-	gObj[nEvoMonIndex].Level = pEvoMonInfo->GetEvoMonLevel();
-	this->SetMonsterStats(&gObj[nEvoMonIndex], It->second);
-	gObj[nEvoMonIndex].DieRegen = 0;
-	gObj[nEvoMonIndex].m_PosNum = -1;
-	gObj[nEvoMonIndex].X = gObj[nFieldIndex].X;
-	gObj[nEvoMonIndex].Y = gObj[nFieldIndex].Y;
-	gObj[nEvoMonIndex].MapNumber = gObj[nFieldIndex].MapNumber;
-	gObj[nEvoMonIndex].TX = gObj[nEvoMonIndex].X;
-	gObj[nEvoMonIndex].TY = gObj[nEvoMonIndex].Y;
-	gObj[nEvoMonIndex].m_OldX = gObj[nEvoMonIndex].X;
-	gObj[nEvoMonIndex].m_OldY = gObj[nEvoMonIndex].Y;
-	gObj[nEvoMonIndex].StartX = gObj[nEvoMonIndex].X;
-	gObj[nEvoMonIndex].StartY = gObj[nEvoMonIndex].Y;
-	gObj[nEvoMonIndex].MaxRegenTime = 3000;
-	gObj[nEvoMonIndex].Dir = rand() % 8;
+	gGameObjects[nEvoMonIndex].Level = pEvoMonInfo->GetEvoMonLevel();
+	this->SetMonsterStats(&gGameObjects[nEvoMonIndex], It->second);
+	gGameObjects[nEvoMonIndex].DieRegen = 0;
+	gGameObjects[nEvoMonIndex].m_PosNum = -1;
+	gGameObjects[nEvoMonIndex].X = gGameObjects[nFieldIndex].X;
+	gGameObjects[nEvoMonIndex].Y = gGameObjects[nFieldIndex].Y;
+	gGameObjects[nEvoMonIndex].MapNumber = gGameObjects[nFieldIndex].MapNumber;
+	gGameObjects[nEvoMonIndex].TX = gGameObjects[nEvoMonIndex].X;
+	gGameObjects[nEvoMonIndex].TY = gGameObjects[nEvoMonIndex].Y;
+	gGameObjects[nEvoMonIndex].m_OldX = gGameObjects[nEvoMonIndex].X;
+	gGameObjects[nEvoMonIndex].m_OldY = gGameObjects[nEvoMonIndex].Y;
+	gGameObjects[nEvoMonIndex].StartX = gGameObjects[nEvoMonIndex].X;
+	gGameObjects[nEvoMonIndex].StartY = gGameObjects[nEvoMonIndex].Y;
+	gGameObjects[nEvoMonIndex].MaxRegenTime = 3000;
+	gGameObjects[nEvoMonIndex].Dir = rand() % 8;
 
 }
 
@@ -916,7 +916,7 @@ int CEvolutionMonsterMng::GetRewardItemType(BYTE btType)
 
 bool CEvolutionMonsterMng::IsEvolutedEvoMon(int iMonsterIndex)
 {
-	if (gObj[iMonsterIndex].Class == 681 && gObj[iMonsterIndex].Level > 1)
+	if (gGameObjects[iMonsterIndex].Class == 681 && gGameObjects[iMonsterIndex].Level > 1)
 	{
 		return true;
 	}
@@ -931,7 +931,7 @@ int CEvolutionMonsterMng::GetOwnerIndex(int iMonsterIndex)
 		return -1;
 	}
 
-	return gObj[iMonsterIndex].m_nEvoMonOwnerIndex;
+	return gGameObjects[iMonsterIndex].m_nEvoMonOwnerIndex;
 }
 
 void CEvolutionMonsterMng::GDReqEvoMonMaxScore(int aIndex)
@@ -940,7 +940,7 @@ void CEvolutionMonsterMng::GDReqEvoMonMaxScore(int aIndex)
 	PHeadSubSetB((LPBYTE)&pMsg, 0x3E, 0x00, sizeof(pMsg));
 
 	pMsg.nUserIndex = aIndex;
-	memcpy(pMsg.szName, gObj[aIndex].Name, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.szName, gGameObjects[aIndex].Name, MAX_ACCOUNT_LEN + 1);
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
@@ -956,7 +956,7 @@ void CEvolutionMonsterMng::DGAnsEvoMonMaxScore(LPBYTE lpRecv)
 		return;
 	}
 
-	CEvolutionMonsterInfo * pEvoMonInfo = gObj[nUserIndex].m_PlayerData->m_pCEvoMonInfo;
+	CEvolutionMonsterInfo * pEvoMonInfo = gGameObjects[nUserIndex].m_PlayerData->m_pCEvoMonInfo;
 
 	if (pEvoMonInfo == NULL)
 	{
@@ -972,7 +972,7 @@ void CEvolutionMonsterMng::GDReqSaveEvoMonScore(int aIndex, int nScore, int nTot
 	PMSG_REQ_SAVE_EVOMON_RESULT pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x3E, 0x01, sizeof(pMsg));
 
-	memcpy(pMsg.szName, gObj[aIndex].Name, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.szName, gGameObjects[aIndex].Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.nUserIndex = aIndex;
 	pMsg.nScore = nScore;
 	pMsg.nTotalDamage = nTotalDamage;

@@ -3,7 +3,7 @@
 #ifndef BOTSYSTEM_H
 #define BOTSYSTEM_H
 
-#include "User/user.h"
+#include "User/CUserData.h"
 
 #define MAX_BUFFS_PER_BOT 10
 
@@ -150,7 +150,7 @@ class CBotSystem
 	sBOT_REWARD_STRUCT ConfirmMixSuccess(int aIndex,int botIndex);
 	bool AlchemistVerifyItem(s_BOT_CRAFTING_ITEM_STRUCT lpReqItem, CItem TradeItem);
 	bool StoreAddItems(int botIndex);
-	BYTE PShopCheckSpace(LPOBJ lpObj, int type, BYTE * TempMap);
+	BYTE PShopCheckSpace(CGameObject* lpObj, int type, BYTE * TempMap);
 	std::map<int,_sBOT_SETTINGS> m_BotData;
 private:
 

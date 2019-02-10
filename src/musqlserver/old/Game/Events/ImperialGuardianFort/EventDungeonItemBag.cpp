@@ -4,7 +4,7 @@
 #include "EventDungeonItemBag.h"
 #include "SetItemOption.h"
 #include "Logging/Log.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "DSProtocol.h"
 #include "LargeRand.h"
 #include "MapClass.h"
@@ -200,7 +200,7 @@ BOOL CEventDungeonItemBag::DropEventItem(int nIndex, int nMaxUserLevel)
 		return FALSE;
 	}
 
-	LPOBJ lpObj = &gObj[nIndex];
+	CGameObject* lpObj = &gGameObjects[nIndex];
 	CEventItemBagAttr BagObject;
 	CEventItemBagAttr BagObject2;
 	int nItemCount = this->GetRegItemCount(nMaxUserLevel);
@@ -275,7 +275,7 @@ BOOL CEventDungeonItemBag::CreateNormalItem(int nIndex, int nMaxUserLevel, CEven
 	BYTE btNewExOption[5];
 	memset(btNewExOption, -1, sizeof(btNewExOption));
 
-	LPOBJ lpObj = &gObj[nIndex];
+	CGameObject* lpObj = &gGameObjects[nIndex];
 
 	if ( nType == -1 )
 	{
@@ -378,8 +378,8 @@ int CEventDungeonItemBag::CreateSetItem(int nIndex, CEventItemBagAttr BagObject)
 	int SetOption = gSetItemOption.GenSetOption(nType);
 	int Option2 = 0;
 	int Option3 = 0;
-	LPOBJ lpObj = &gObj[nIndex];
-	BYTE btMapNumber = gObj[nIndex].MapNumber;
+	CGameObject* lpObj = &gGameObjects[nIndex];
+	BYTE btMapNumber = gGameObjects[nIndex].MapNumber;
 	int option2rand = 4;
 	int option3rand = rand()%100;
 	int optionc = rand()%3;

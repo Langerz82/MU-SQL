@@ -4,7 +4,7 @@
 #include "UpgradeCmd.h"
 #include "ItemManagement/Item.h"
 #include "Logging/Log.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "DSProtocol.h"
 #include "SetItemOption.h"
 #include "ItemOptionTypeMng.h"
@@ -132,12 +132,12 @@ int CUpgradeCmd::DoUpgrade(int aIndex)
 		return -1;
 	}
 
-	if (gObj[aIndex].Type != OBJ_USER)
+	if (gGameObjects[aIndex].Type != OBJ_USER)
 	{
 		return -1;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	for (int i = INVETORY_WEAR_SIZE; i < INVENTORY_SIZE - 1; i++) // Pentagram excluded, so -1
 	{

@@ -160,7 +160,7 @@ TMonsterAIUnit * TMonsterAIUnit::FindAIUnit(int iUnitNumber)
 
 BOOL TMonsterAIUnit::RunAIUnit(int iIndex)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 
 	if ( this->m_lpAutomata == NULL )
 		return FALSE;

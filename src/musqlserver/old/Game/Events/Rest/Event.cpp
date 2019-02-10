@@ -70,7 +70,7 @@ void EventChipEventProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen)
 	}
 }
 
-void FireworksOpenEven(LPOBJ lpObj)
+void FireworksOpenEven(CGameObject* lpObj)
 {
 	PMSG_SERVERCMD ServerCmd;
 
@@ -83,7 +83,7 @@ void FireworksOpenEven(LPOBJ lpObj)
 	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
 }
 
-void ChristmasFireCrackDrop(LPOBJ lpObj) //season 4.5 add-on
+void ChristmasFireCrackDrop(CGameObject* lpObj) //season 4.5 add-on
 {
 	PMSG_SERVERCMD ServerCmd;
 
@@ -98,7 +98,7 @@ void ChristmasFireCrackDrop(LPOBJ lpObj) //season 4.5 add-on
 #pragma warning ( disable : 4101 )
 void EGRecvEventChipInfo(PMSG_ANS_VIEW_EC_MN * aRecv)
 {
-	LPOBJ lpObj = &gObj[aRecv->iINDEX];
+	CGameObject* lpObj = &gGameObjects[aRecv->iINDEX];
 
 	PMSG_EVENTCHIPINFO eventchipeventinfo;
 	char msg[255];
@@ -119,11 +119,11 @@ void EGRecvEventChipInfo(PMSG_ANS_VIEW_EC_MN * aRecv)
 void EGResultRegEventChip(PMSG_ANS_REGISTER_EVENTCHIP * aRecv)
 {
 	PMSG_REGEVENTCHIP_RESULT Result;
-	LPOBJ lpObj;
+	CGameObject* lpObj;
 	int aIndex;
 
 	PHeadSetB((LPBYTE)&Result, 0x95, sizeof(Result));
-	lpObj = &gObj[aRecv->iINDEX];
+	lpObj = &gGameObjects[aRecv->iINDEX];
 	aIndex = aRecv->iINDEX;
 
 	if ( aRecv->bSUCCESS == FALSE )
@@ -154,11 +154,11 @@ void EGResultRegEventChip(PMSG_ANS_REGISTER_EVENTCHIP * aRecv)
 
 void EGRecvRegMutoNum( PMSG_ANS_REGISTER_MUTONUM* aRecv)
 {
-	LPOBJ lpObj;
+	CGameObject* lpObj;
 	int aIndex;
 	
 
-	lpObj = &gObj[aRecv->iINDEX];
+	lpObj = &gGameObjects[aRecv->iINDEX];
 	aIndex = aRecv->iINDEX;
 
 	PMSG_GETMUTONUMBER_RESULT Result;
@@ -196,11 +196,11 @@ void EGRecvRegMutoNum( PMSG_ANS_REGISTER_MUTONUM* aRecv)
 void EGRecvChangeRena( PMSG_ANS_RESET_EVENTCHIP* aRecv)
 {
 	PMSG_REGEVENTCHIP_RESULT Result;
-	LPOBJ lpObj;
+	CGameObject* lpObj;
 	int aIndex;
 
 	PHeadSetB((LPBYTE)&Result, 0x95, sizeof(Result));
-	lpObj = &gObj[aRecv->iINDEX];
+	lpObj = &gGameObjects[aRecv->iINDEX];
 	aIndex = aRecv->iINDEX;
 
 	if ( aRecv->bSUCCESS != FALSE )
@@ -226,11 +226,11 @@ void EGRecvChangeRena( PMSG_ANS_RESET_EVENTCHIP* aRecv)
 }
 
 
-LPOBJ pEventObj;
+CGameObject* pEventObj;
 
 void EGRecvStoneInfo( PMSG_ANS_VIEW_STONES* aRecv)
 {
-	LPOBJ lpObj = &gObj[aRecv->iINDEX];
+	CGameObject* lpObj = &gGameObjects[aRecv->iINDEX];
 
 	PMSG_EVENTCHIPINFO Result;
 	
@@ -256,12 +256,12 @@ void EGRecvStoneInfo( PMSG_ANS_VIEW_STONES* aRecv)
 void EGRecvRegStone( PMSG_ANS_REGISTER_STONES* aRecv)
 {
 	PMSG_REGEVENTCHIP_RESULT Result;
-	LPOBJ lpObj;
+	CGameObject* lpObj;
 	int aIndex;
 	
 
 	PHeadSetB((LPBYTE)&Result, 0x95, sizeof(Result));
-	lpObj = &gObj[aRecv->iINDEX];
+	lpObj = &gGameObjects[aRecv->iINDEX];
 	aIndex = aRecv->iINDEX;
 
 	if ( aRecv->bSUCCESS != FALSE )
@@ -296,12 +296,12 @@ void EGRecvDeleteStone( PMSG_ANS_DELETE_STONES* aRecv)
 void EGRecvChangeStones( PMSG_ANS_RESET_EVENTCHIP* aRecv)
 {
 	PMSG_REGEVENTCHIP_RESULT Result;
-	LPOBJ lpObj;
+	CGameObject* lpObj;
 	int aIndex;
 	
 
 	PHeadSetB((LPBYTE)&Result, 0x95, sizeof(Result));
-	lpObj = &gObj[aRecv->iINDEX];
+	lpObj = &gGameObjects[aRecv->iINDEX];
 	aIndex = aRecv->iINDEX;
 
 	if ( aRecv->bSUCCESS != FALSE )
@@ -353,7 +353,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 		return;
 	}
 
-	if ( gObj[aRecv->iINDEX].Connected <= PLAYER_LOGGED )
+	if ( gGameObjects[aRecv->iINDEX].Connected <= PLAYER_LOGGED )
 	{
 		sLog->outBasic("[Mu_2Anv_Event] Error : Index is out of bound [%d]", aRecv->iINDEX);
 		return;
@@ -371,16 +371,16 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 			Result.btIsRegistered = 2;
 		}
 
-		if ( gObj[aRecv->iINDEX].Connected > PLAYER_LOGGED )
+		if ( gGameObjects[aRecv->iINDEX].Connected > PLAYER_LOGGED )
 		{
 			PMSG_SERVERCMD ServerCmd;
 
 			PHeadSubSetB((LPBYTE)&ServerCmd, 0xF3, 0x40, sizeof(ServerCmd));
 			ServerCmd.CmdType = 0;
-			ServerCmd.X = gObj[aRecv->iINDEX].X;
-			ServerCmd.Y = gObj[aRecv->iINDEX].Y;
+			ServerCmd.X = gGameObjects[aRecv->iINDEX].X;
+			ServerCmd.Y = gGameObjects[aRecv->iINDEX].Y;
 
-			GSProtocol.MsgSendV2(&gObj[aRecv->iINDEX], (LPBYTE)&ServerCmd, sizeof(ServerCmd));
+			GSProtocol.MsgSendV2(&gGameObjects[aRecv->iINDEX], (LPBYTE)&ServerCmd, sizeof(ServerCmd));
 			IOCP.DataSend(aRecv->iINDEX, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
 		}
 
@@ -392,8 +392,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 		switch ( aRecv->iGiftNumber )
 		{
 			case 1:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 13),
 					0, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -405,8 +405,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 2:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 14),
 					0, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -418,8 +418,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 3:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(12, 15),
 					0, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -431,8 +431,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 4:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 11),
 					0, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -444,8 +444,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 5:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 11),
 					3, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -457,8 +457,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 6:
-				gObj[aRecv->iINDEX].m_PlayerData->Money += 500000;
-				GSProtocol.GCMoneySend(aRecv->iINDEX, gObj[aRecv->iINDEX].m_PlayerData->Money);
+				gGameObjects[aRecv->iINDEX].m_PlayerData->Money += 500000;
+				GSProtocol.GCMoneySend(aRecv->iINDEX, gGameObjects[aRecv->iINDEX].m_PlayerData->Money);
 
 				if ( g_bRingEventItemTextLoad == FALSE )
 				{
@@ -466,8 +466,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 7:
-				gObj[aRecv->iINDEX].m_PlayerData->Money += 50000;
-				GSProtocol.GCMoneySend(aRecv->iINDEX, gObj[aRecv->iINDEX].m_PlayerData->Money);
+				gGameObjects[aRecv->iINDEX].m_PlayerData->Money += 50000;
+				GSProtocol.GCMoneySend(aRecv->iINDEX, gGameObjects[aRecv->iINDEX].m_PlayerData->Money);
 
 				if ( g_bRingEventItemTextLoad == FALSE )
 				{
@@ -475,8 +475,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 8:	case 9:	case 10:
-				gObj[aRecv->iINDEX].m_PlayerData->Money += 30000;
-				GSProtocol.GCMoneySend(aRecv->iINDEX, gObj[aRecv->iINDEX].m_PlayerData->Money);
+				gGameObjects[aRecv->iINDEX].m_PlayerData->Money += 30000;
+				GSProtocol.GCMoneySend(aRecv->iINDEX, gGameObjects[aRecv->iINDEX].m_PlayerData->Money);
 
 				if ( g_bRingEventItemTextLoad == FALSE )
 				{
@@ -484,8 +484,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 11:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(12, 19),
 					0, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -497,8 +497,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 12:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(12, 18),
 					0, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -510,8 +510,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 13:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(12, 17),
 					0, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -523,8 +523,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 14:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(12, 16),
 					0, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -536,8 +536,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 15:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(12, 14),
 					0, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -549,8 +549,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 16:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(12, 13),
 					0, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -562,8 +562,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 17:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(12, 12),
 					0, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -575,8 +575,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 18:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(13, 2),
 					0, 255, 0, 0, 0,
 					aRecv->iINDEX,
@@ -588,8 +588,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 19:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(13, 3),
 					0, 255, 0, 0, 0,
 					aRecv->iINDEX,
@@ -601,8 +601,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 20:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 16),
 					0, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -614,8 +614,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 21:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(13, 0),
 					0, 255, 0, 0, 0,
 					aRecv->iINDEX,
@@ -627,8 +627,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 22:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(13, 1),
 					0, 255, 0, 0, 0,
 					aRecv->iINDEX,
@@ -640,8 +640,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 23:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 11),
 					1, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -653,8 +653,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 24:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 11),
 					9, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -666,8 +666,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 25:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 11),
 					10, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -679,8 +679,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 26:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 19),
 					0, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -692,8 +692,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 27:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 19),
 					1, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -705,8 +705,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 28:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 19),
 					2, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -718,8 +718,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 29:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 19),
 					3, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -731,8 +731,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 30:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 19),
 					4, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -744,8 +744,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 31:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 11),
 					2, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -757,8 +757,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 32:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 20),
 					0, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -770,8 +770,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 33:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 22),
 					0, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -783,8 +783,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 34:	case 35:	case 36:	case 37:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(13, 15),
 					aRecv->iGiftNumber - 34, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -796,8 +796,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 38:	case 39:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 11),
 					aRecv->iGiftNumber - 27, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -809,8 +809,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 40:	case 41:	case 42:	case 43:	case 44:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 20),
 					aRecv->iGiftNumber - 39, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -822,8 +822,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 45:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 11),
 					8, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -835,8 +835,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 46:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 41),
 					0, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -848,8 +848,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 47:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 42),
 					0, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -861,8 +861,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 48:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 44),
 					0, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -874,8 +874,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 49:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 43),
 					0, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -887,8 +887,8 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 50:
-				ItemSerialCreateSend(gObj[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
-					gObj[aRecv->iINDEX].X, gObj[aRecv->iINDEX].Y,
+				ItemSerialCreateSend(gGameObjects[aRecv->iINDEX].m_Index, GIFT_2ANV_MAP, 
+					gGameObjects[aRecv->iINDEX].X, gGameObjects[aRecv->iINDEX].Y,
 					ItemGetNumberMake(14, 31),
 					0, 0, 0, 0, 0,
 					aRecv->iINDEX,
@@ -919,11 +919,11 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 	}
 
 	sLog->outBasic("[Mu_2Anv_Event] Register Serial Result : %d [%s][%s]",
-		aRecv->btIsRegistered, gObj[aRecv->iINDEX].AccountID, gObj[aRecv->iINDEX].Name);
+		aRecv->btIsRegistered, gGameObjects[aRecv->iINDEX].AccountID, gGameObjects[aRecv->iINDEX].Name);
 
 	IOCP.DataSend(aRecv->iINDEX, (LPBYTE)&Result, Result.h.size);
 
-	gObj[aRecv->iINDEX].UseEventServer = FALSE;
+	gGameObjects[aRecv->iINDEX].UseEventServer = FALSE;
 }
 
 static const char g_szRingEventOfflineGift[4][32] = { "100µ· ¹Â¹ÝÁö",
@@ -935,12 +935,12 @@ static const char g_szRingEventOfflineGift[4][32] = { "100µ· ¹Â¹ÝÁö",
 
 void EGRecvRegRingGift( PMSG_ANS_REG_RINGGIFT* aRecv)
 {
-	gObj[aRecv->iINDEX].UseEventServer = FALSE;
+	gGameObjects[aRecv->iINDEX].UseEventServer = FALSE;
 
 	if ( gObjIsConnected(aRecv->iINDEX) == FALSE )
 		return;
 
-	if ( strcmp(aRecv->szUID, gObj[aRecv->iINDEX].AccountID))
+	if ( strcmp(aRecv->szUID, gGameObjects[aRecv->iINDEX].AccountID))
 		return;
 
 	if ( aRecv->btIsRegistered == 1 )
@@ -949,18 +949,18 @@ void EGRecvRegRingGift( PMSG_ANS_REG_RINGGIFT* aRecv)
 		{
 			char szTemp[256];
 			wsprintf(szTemp, "%s´Ô ²²¼­ %s¿¡ ´çÃ·µÇ¼Ì½À´Ï´Ù.",
-				gObj[aRecv->iINDEX].Name, g_szRingEventOfflineGift[aRecv->btGiftKind-1]);
+				gGameObjects[aRecv->iINDEX].Name, g_szRingEventOfflineGift[aRecv->btGiftKind-1]);
 
 			GSProtocol.AllSendServerMsg(szTemp);
 
 			sLog->outBasic("[Ring Event] [%s][%s] Register Succeeded Result:%d, Gift:%d",
-				gObj[aRecv->iINDEX].AccountID, gObj[aRecv->iINDEX].Name,
+				gGameObjects[aRecv->iINDEX].AccountID, gGameObjects[aRecv->iINDEX].Name,
 				aRecv->btIsRegistered, aRecv->btGiftKind);
 		}
 		else
 		{
 			sLog->outBasic("[Ring Event] [%s][%s] Register Failed Result:%d, Gift:%d (out of bound, 1~4)",
-				gObj[aRecv->iINDEX].AccountID, gObj[aRecv->iINDEX].Name,
+				gGameObjects[aRecv->iINDEX].AccountID, gGameObjects[aRecv->iINDEX].Name,
 				aRecv->btIsRegistered, aRecv->btGiftKind);
 		}
 
@@ -968,12 +968,12 @@ void EGRecvRegRingGift( PMSG_ANS_REG_RINGGIFT* aRecv)
 	}
 
 	sLog->outBasic("[Ring Event] [%s][%s] Register Failed Result : %d",
-		gObj[aRecv->iINDEX].AccountID, gObj[aRecv->iINDEX].Name,
+		gGameObjects[aRecv->iINDEX].AccountID, gGameObjects[aRecv->iINDEX].Name,
 		aRecv->btIsRegistered);
 
 	if ( gObjIsConnected(aRecv->iINDEX) == TRUE )
 	{
-		MapC[gObj[aRecv->iINDEX].MapNumber].MoneyItemDrop(100000, (BYTE)gObj[aRecv->iINDEX].X, (BYTE)gObj[aRecv->iINDEX].Y);
+		MapC[gGameObjects[aRecv->iINDEX].MapNumber].MoneyItemDrop(100000, (BYTE)gGameObjects[aRecv->iINDEX].X, (BYTE)gGameObjects[aRecv->iINDEX].Y);
 	}
 }
 
@@ -999,8 +999,8 @@ void EGReqBloodCastleEnterCount(int iIndex)
 	pMsg.h.headcode = 0xBD;
 	pMsg.h.subcode = 0x02;
 	pMsg.h.size = sizeof(pMsg);
-	memcpy(pMsg.AccountID, gObj[iIndex].AccountID, 10);
-	memcpy(pMsg.GameID, gObj[iIndex].Name, 10);
+	memcpy(pMsg.AccountID, gGameObjects[iIndex].AccountID, 10);
+	memcpy(pMsg.GameID, gGameObjects[iIndex].Name, 10);
 	pMsg.ServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.iObjIndex = iIndex;
 
@@ -1028,8 +1028,8 @@ void EGAnsBloodCastleEnterCount( PMSG_ANS_BLOODCASTLE_ENTERCOUNT* lpMsg)
 	memcpy(szAccountID, lpMsg->AccountID, 10);
 	memcpy(szName, lpMsg->GameID, 10);
 
-	if ( strcmp(gObj[lpMsg->iObjIndex].AccountID, szAccountID) ||
-		 strcmp(gObj[lpMsg->iObjIndex].Name, szName) )
+	if ( strcmp(gGameObjects[lpMsg->iObjIndex].AccountID, szAccountID) ||
+		 strcmp(gGameObjects[lpMsg->iObjIndex].Name, szName) )
 		 return;
 
 	PMSG_ANS_CL_ENTERCOUNT pMsgSend;
@@ -1065,8 +1065,8 @@ void EGReqRegCCOfflineGift(int iIndex)
 	pMsg.h.headcode = 0xBE;
 	pMsg.h.subcode = 0x15;
 	pMsg.h.size = sizeof(pMsg);
-	memcpy(pMsg.szUID, gObj[iIndex].AccountID, 11);
-	memcpy(pMsg.szNAME, gObj[iIndex].Name, 11);
+	memcpy(pMsg.szUID, gGameObjects[iIndex].AccountID, 11);
+	memcpy(pMsg.szNAME, gGameObjects[iIndex].Name, 11);
 	pMsg.wServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.iINDEX = iIndex;
 	pMsg.szUID[10] = 0;
@@ -1129,8 +1129,8 @@ void EGReqRegDLOfflineGift(int iIndex)
 	pMsg.h.headcode = 0xBE;
 	pMsg.h.subcode = 0x16;
 	pMsg.h.size = sizeof(pMsg);
-	memcpy(pMsg.szUID, gObj[iIndex].AccountID, 11);
-	memcpy(pMsg.szNAME, gObj[iIndex].Name, 11);
+	memcpy(pMsg.szUID, gGameObjects[iIndex].AccountID, 11);
+	memcpy(pMsg.szNAME, gGameObjects[iIndex].Name, 11);
 	pMsg.wServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.iINDEX = iIndex;
 	pMsg.szUID[10] = 0;
@@ -1192,8 +1192,8 @@ void EGReqRegHTOfflineGift(int iIndex)
 	pMsg.h.headcode = 0xBE;
 	pMsg.h.subcode = 0x17;
 	pMsg.h.size = sizeof(pMsg);
-	memcpy(pMsg.szUID, gObj[iIndex].AccountID, 11);
-	memcpy(pMsg.szNAME, gObj[iIndex].Name, 11);
+	memcpy(pMsg.szUID, gGameObjects[iIndex].AccountID, 11);
+	memcpy(pMsg.szNAME, gGameObjects[iIndex].Name, 11);
 	pMsg.wServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.iINDEX = iIndex;
 	pMsg.szUID[10] = 0;
@@ -1214,7 +1214,7 @@ void EGAnsRegHTOfflineGift( PMSG_ANS_REG_HT_OFFLINE_GIFT* lpMsg)
 	{
 		if ( gObjIsConnected(lpMsg->iINDEX))
 		{
-			LPOBJ lpObj = &gObj[lpMsg->iINDEX];
+			CGameObject* lpObj = &gGameObjects[lpMsg->iINDEX];
 
 			MapC[lpObj->MapNumber].MoneyItemDrop(1000000, lpObj->X, lpObj->Y);
 		}
@@ -1250,7 +1250,7 @@ void EGAnsRegLuckyCoin(PMSG_ANS_REG_LUCKYCOIN * lpMsg)
 	PMSG_ANS_LUCKYCOIN_REGISTER pMsg = {0};
 	PHeadSubSetB((LPBYTE)&pMsg, 0xBF, 0x0C, sizeof(pMsg));
 
-	LPOBJ lpObj = &gObj[lpMsg->iIndex];
+	CGameObject* lpObj = &gGameObjects[lpMsg->iIndex];
 
 	pMsg.btResult = lpMsg->Result;
 	
@@ -1288,7 +1288,7 @@ void EGAnsLuckyCoinInfo(PMSG_ANS_LUCKYCOIN *lpMsg)
 
 	PMSG_ANS_LUCKYCOININFO pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xBF, 0x0B, sizeof(pMsg));
-	LPOBJ lpObj = &gObj[lpMsg->iIndex];
+	CGameObject* lpObj = &gGameObjects[lpMsg->iIndex];
 
 	pMsg.iLuckyCoin = lpMsg->LuckyCoins;
 	lpObj->LuckyCoinCount = lpMsg->LuckyCoins;
@@ -1302,7 +1302,7 @@ void EGAnsSantaCheck(PMSG_ANS_SANTACHECK *lpMsg)
 	if(!lpMsg)
 		return;
 
-	LPOBJ lpObj = &gObj[lpMsg->aIndex];
+	CGameObject* lpObj = &gGameObjects[lpMsg->aIndex];
 
 	switch ( lpMsg->Result )
 	{
@@ -1330,7 +1330,7 @@ void EGReqSantaGift(int aIndex)
 	PMSG_REQ_SANTAGIFT pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xBE, 0x21, sizeof(pMsg));
 
-	memcpy(pMsg.AccountID, gObj[aIndex].AccountID, 11);
+	memcpy(pMsg.AccountID, gGameObjects[aIndex].AccountID, 11);
 	pMsg.gGameServerCode = g_ConfigRead.server.GetGameServerCode();
 	pMsg.aIndex = aIndex;
 
@@ -1343,7 +1343,7 @@ void EGAnsSantaGift(PMSG_ANS_SANTAGIFT *lpMsg)
 	if(!lpMsg)
 		return;
 
-	LPOBJ lpObj = &gObj[lpMsg->aIndex];
+	CGameObject* lpObj = &gGameObjects[lpMsg->aIndex];
 
 	switch ( lpMsg->Result )
 	{

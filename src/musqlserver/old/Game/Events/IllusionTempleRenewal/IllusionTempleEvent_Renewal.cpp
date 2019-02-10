@@ -175,7 +175,7 @@ BOOL CIllusionTempleEvent_Renewal::Enter_ITR(int aIndex, BYTE byTempleIndex, BYT
 		return FALSE;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (!lpObj)
 	{
@@ -341,13 +341,13 @@ void CIllusionTempleEvent_Renewal::ITR_USeSkill(int iIndex, WORD MagicNumber, in
 		return;
 	}
 
-	if (!IT_MAP_RANGE(gObj[iIndex].MapNumber))
+	if (!IT_MAP_RANGE(gGameObjects[iIndex].MapNumber))
 	{
-		sLog->outBasic("ITR_UseSkill Error #2 iIndex :%d Map:%d ", iIndex, gObj[iIndex].MapNumber);
+		sLog->outBasic("ITR_UseSkill Error #2 iIndex :%d Map:%d ", iIndex, gGameObjects[iIndex].MapNumber);
 		return;
 	}
 
-	this->m_cITR_Proc[gObj[iIndex].MapNumber - 45].ITR_UseSkill(iIndex, MagicNumber, wTargetObjIndex, btDis);
+	this->m_cITR_Proc[gGameObjects[iIndex].MapNumber - 45].ITR_UseSkill(iIndex, MagicNumber, wTargetObjIndex, btDis);
 }
 
 void CIllusionTempleEvent_Renewal::EventSkillProc(OBJECTSTRUCT* lpObj)
@@ -360,7 +360,7 @@ void CIllusionTempleEvent_Renewal::IllusionTempleUserDie(OBJECTSTRUCT *lpObj)
 	this->m_cITR_Proc[lpObj->MapNumber - 45].ITRUserDie(lpObj);
 }
 
-void CIllusionTempleEvent_Renewal::IllusionTempleUserDieRegen(LPOBJ lpObj)
+void CIllusionTempleEvent_Renewal::IllusionTempleUserDieRegen(CGameObject* lpObj)
 {
 	if (!ObjectMaxRange(lpObj->m_Index))
 	{
@@ -388,71 +388,71 @@ BOOL CIllusionTempleEvent_Renewal::CheckWearingMOPH(int nUserIndex)
 	if (!gObjIsConnected(nUserIndex))
 		return FALSE;
 
-	if (gObj[nUserIndex].pInventory[10].IsItem() == TRUE)
+	if (gGameObjects[nUserIndex].pInventory[10].IsItem() == TRUE)
 	{
-		if (gObj[nUserIndex].pInventory[10].m_Type == ITEMGET(13,10))
+		if (gGameObjects[nUserIndex].pInventory[10].m_Type == ITEMGET(13,10))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[10].m_Type == ITEMGET(13,39))
+		if (gGameObjects[nUserIndex].pInventory[10].m_Type == ITEMGET(13,39))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[10].m_Type == ITEMGET(13,40))
+		if (gGameObjects[nUserIndex].pInventory[10].m_Type == ITEMGET(13,40))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[10].m_Type == ITEMGET(13,41))
+		if (gGameObjects[nUserIndex].pInventory[10].m_Type == ITEMGET(13,41))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[10].m_Type == ITEMGET(13,68))
+		if (gGameObjects[nUserIndex].pInventory[10].m_Type == ITEMGET(13,68))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[10].m_Type == ITEMGET(13,76))
+		if (gGameObjects[nUserIndex].pInventory[10].m_Type == ITEMGET(13,76))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[10].m_Type == ITEMGET(13,77))
+		if (gGameObjects[nUserIndex].pInventory[10].m_Type == ITEMGET(13,77))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[10].m_Type == ITEMGET(13,78))
+		if (gGameObjects[nUserIndex].pInventory[10].m_Type == ITEMGET(13,78))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[10].m_Type == ITEMGET(13,122))
+		if (gGameObjects[nUserIndex].pInventory[10].m_Type == ITEMGET(13,122))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[10].m_Type == ITEMGET(13,163))
+		if (gGameObjects[nUserIndex].pInventory[10].m_Type == ITEMGET(13,163))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[10].m_Type == ITEMGET(13,164))
+		if (gGameObjects[nUserIndex].pInventory[10].m_Type == ITEMGET(13,164))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[10].m_Type == ITEMGET(13,166))
+		if (gGameObjects[nUserIndex].pInventory[10].m_Type == ITEMGET(13,166))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[10].m_Type == ITEMGET(13,169))
+		if (gGameObjects[nUserIndex].pInventory[10].m_Type == ITEMGET(13,169))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[10].m_Type == ITEMGET(13,170))
+		if (gGameObjects[nUserIndex].pInventory[10].m_Type == ITEMGET(13,170))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[10].m_Type == ITEMGET(13,268))
+		if (gGameObjects[nUserIndex].pInventory[10].m_Type == ITEMGET(13,268))
 			return TRUE;
 	}
 
-	if (gObj[nUserIndex].pInventory[11].IsItem() == TRUE)
+	if (gGameObjects[nUserIndex].pInventory[11].IsItem() == TRUE)
 	{
-		if (gObj[nUserIndex].pInventory[11].m_Type == ITEMGET(13,10))
+		if (gGameObjects[nUserIndex].pInventory[11].m_Type == ITEMGET(13,10))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[11].m_Type == ITEMGET(13,39))
+		if (gGameObjects[nUserIndex].pInventory[11].m_Type == ITEMGET(13,39))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[11].m_Type == ITEMGET(13,40))
+		if (gGameObjects[nUserIndex].pInventory[11].m_Type == ITEMGET(13,40))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[11].m_Type == ITEMGET(13,41))
+		if (gGameObjects[nUserIndex].pInventory[11].m_Type == ITEMGET(13,41))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[11].m_Type == ITEMGET(13,68))
+		if (gGameObjects[nUserIndex].pInventory[11].m_Type == ITEMGET(13,68))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[11].m_Type == ITEMGET(13,76))
+		if (gGameObjects[nUserIndex].pInventory[11].m_Type == ITEMGET(13,76))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[11].m_Type == ITEMGET(13,77))
+		if (gGameObjects[nUserIndex].pInventory[11].m_Type == ITEMGET(13,77))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[11].m_Type == ITEMGET(13,78))
+		if (gGameObjects[nUserIndex].pInventory[11].m_Type == ITEMGET(13,78))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[11].m_Type == ITEMGET(13,122))
+		if (gGameObjects[nUserIndex].pInventory[11].m_Type == ITEMGET(13,122))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[11].m_Type == ITEMGET(13,163))
+		if (gGameObjects[nUserIndex].pInventory[11].m_Type == ITEMGET(13,163))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[11].m_Type == ITEMGET(13,164))
+		if (gGameObjects[nUserIndex].pInventory[11].m_Type == ITEMGET(13,164))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[11].m_Type == ITEMGET(13,166))
+		if (gGameObjects[nUserIndex].pInventory[11].m_Type == ITEMGET(13,166))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[11].m_Type == ITEMGET(13,169))
+		if (gGameObjects[nUserIndex].pInventory[11].m_Type == ITEMGET(13,169))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[11].m_Type == ITEMGET(13,170))
+		if (gGameObjects[nUserIndex].pInventory[11].m_Type == ITEMGET(13,170))
 			return TRUE;
-		if (gObj[nUserIndex].pInventory[11].m_Type == ITEMGET(13,268))
+		if (gGameObjects[nUserIndex].pInventory[11].m_Type == ITEMGET(13,268))
 			return TRUE;
 	}
 	
@@ -500,17 +500,17 @@ BOOL CIllusionTempleEvent_Renewal::CheckRelics(int nIndex)
 		return FALSE;
 	}
 
-	if (!IT_MAP_RANGE(gObj[nIndex].MapNumber))
+	if (!IT_MAP_RANGE(gGameObjects[nIndex].MapNumber))
 	{
 		return FALSE;
 	}
 
-	if (this->m_cITR_Proc[gObj[nIndex].MapNumber - 45].GetIllusionTempleState() != 2)
+	if (this->m_cITR_Proc[gGameObjects[nIndex].MapNumber - 45].GetIllusionTempleState() != 2)
 	{
 		return FALSE;
 	}
 
-	if (nIndex == this->m_cITR_Proc[gObj[nIndex].MapNumber - 45].GetRelicsUserIndex(&gObj[nIndex]))
+	if (nIndex == this->m_cITR_Proc[gGameObjects[nIndex].MapNumber - 45].GetRelicsUserIndex(&gGameObjects[nIndex]))
 	{
 		return TRUE;
 	}
@@ -520,12 +520,12 @@ BOOL CIllusionTempleEvent_Renewal::CheckRelics(int nIndex)
 
 void CIllusionTempleEvent_Renewal::ReqEventReward(int nIndex)
 {
-	if (!IT_MAP_RANGE(gObj[nIndex].MapNumber))
+	if (!IT_MAP_RANGE(gGameObjects[nIndex].MapNumber))
 	{
 		return;
 	}
 
-	this->m_cITR_Proc[gObj[nIndex].MapNumber - 45].DropITR_RewardBox(nIndex);
+	this->m_cITR_Proc[gGameObjects[nIndex].MapNumber - 45].DropITR_RewardBox(nIndex);
 }
 
 int CIllusionTempleEvent_Renewal::GetRemainTime()
@@ -584,21 +584,21 @@ void CIllusionTempleEvent_Renewal::IncreaseKillCount(int nIndex, BYTE byMapNumbe
 int CIllusionTempleEvent_Renewal::CheckEnterLevel(int nIndex)
 {
 	int nIllusionTempleNumber;
-	if (gObj[nIndex].Level >= 220)
+	if (gGameObjects[nIndex].Level >= 220)
 	{
-		if (gObj[nIndex].Level >= 271)
+		if (gGameObjects[nIndex].Level >= 271)
 		{
-			if (gObj[nIndex].Level >= 321)
+			if (gGameObjects[nIndex].Level >= 321)
 			{
-				if (gObj[nIndex].Level >= 351)
+				if (gGameObjects[nIndex].Level >= 351)
 				{
-					if (gObj[nIndex].Level >= 381)
+					if (gGameObjects[nIndex].Level >= 381)
 					{
-						if (gObj[nIndex].Level >= 400)
+						if (gGameObjects[nIndex].Level >= 400)
 						{
-							if (gObj[nIndex].Level != 400 || gObj[nIndex].m_PlayerData->ChangeUP == 2)
+							if (gGameObjects[nIndex].Level != 400 || gGameObjects[nIndex].m_PlayerData->ChangeUP == 2)
 							{
-								if (gObj[nIndex].Level == 400 && gObj[nIndex].m_PlayerData->ChangeUP)
+								if (gGameObjects[nIndex].Level == 400 && gGameObjects[nIndex].m_PlayerData->ChangeUP)
 									nIllusionTempleNumber = 5;
 								else
 									nIllusionTempleNumber = -1;

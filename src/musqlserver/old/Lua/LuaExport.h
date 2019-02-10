@@ -31,7 +31,7 @@ public:
 
 	static BOOL		LuaChatTargetSend(lua_State * Lua)
 	{
-		GSProtocol.ChatTargetSend(&gObj[lua_tointeger(Lua, 2)], (char*)lua_tostring(Lua, 1), lua_tointeger(Lua, 3));
+		GSProtocol.ChatTargetSend(&gGameObjects[lua_tointeger(Lua, 2)], (char*)lua_tostring(Lua, 1), lua_tointeger(Lua, 3));
 		return true;
 	};
 
@@ -59,10 +59,10 @@ public:
 
 		PHeadSubSetB((LPBYTE)&ServerCmd, 0xF3, 0x40, sizeof(ServerCmd));
 		ServerCmd.CmdType = 0;
-		ServerCmd.X = gObj[lua_tointeger(Lua, 1)].X;
-		ServerCmd.Y = gObj[lua_tointeger(Lua, 1)].Y;
+		ServerCmd.X = gGameObjects[lua_tointeger(Lua, 1)].X;
+		ServerCmd.Y = gGameObjects[lua_tointeger(Lua, 1)].Y;
 
-		GSProtocol.MsgSendV2(&gObj[lua_tointeger(Lua, 1)], (LPBYTE)&ServerCmd, sizeof(ServerCmd));
+		GSProtocol.MsgSendV2(&gGameObjects[lua_tointeger(Lua, 1)], (LPBYTE)&ServerCmd, sizeof(ServerCmd));
 		IOCP.DataSend(lua_tointeger(Lua, 1), (LPBYTE)&ServerCmd, sizeof(ServerCmd));
 
 		return true;
@@ -70,7 +70,7 @@ public:
 
 	static BOOL		LuagObjCalDistance(lua_State * Lua)
 	{
-		BOOL Result = gObjCalDistance(&gObj[lua_tointeger(Lua, 1)], &gObj[lua_tointeger(Lua, 2)]);
+		BOOL Result = gObjCalDistance(&gGameObjects[lua_tointeger(Lua, 1)], &gGameObjects[lua_tointeger(Lua, 2)]);
 		lua_pushnumber(Lua, Result);
 		return Result;
 	};
@@ -90,7 +90,7 @@ public:
 
 	static BOOL		LuagObjAddBuffEffect(lua_State * Lua)
 	{
-		BOOL Result = gObjAddBuffEffect(&gObj[lua_tointeger(Lua, 1)], lua_tointeger(Lua, 2), lua_tointeger(Lua, 3), lua_tointeger(Lua, 4), lua_tointeger(Lua, 5), lua_tointeger(Lua, 6), lua_tointeger(Lua, 7));
+		BOOL Result = gObjAddBuffEffect(&gGameObjects[lua_tointeger(Lua, 1)], lua_tointeger(Lua, 2), lua_tointeger(Lua, 3), lua_tointeger(Lua, 4), lua_tointeger(Lua, 5), lua_tointeger(Lua, 6), lua_tointeger(Lua, 7));
 		lua_pushnumber(Lua, Result);
 		return Result;
 	};
@@ -129,14 +129,14 @@ public:
 
 	static BOOL		LuagObjGuildMasterCapacityTest(lua_State * Lua)
 	{
-		BOOL Result = gObjGuildMasterCapacityTest(&gObj[lua_tointeger(Lua, 1)]);
+		BOOL Result = gObjGuildMasterCapacityTest(&gGameObjects[lua_tointeger(Lua, 1)]);
 		lua_pushnumber(Lua, Result);
 		return Result;
 	};
 
 	static BOOL		LuagObjMonsterTopHitDamageUser(lua_State * Lua)
 	{
-		BOOL Result = gObjMonsterTopHitDamageUser(&gObj[lua_tointeger(Lua, 1)]);
+		BOOL Result = gObjMonsterTopHitDamageUser(&gGameObjects[lua_tointeger(Lua, 1)]);
 		lua_pushnumber(Lua, Result);
 		return Result;
 	};

@@ -3,7 +3,7 @@
 #ifndef _CMARRY_H_
 #define _CMARRY_H_
 
-#include "User/user.h"
+#include "User/CUserData.h"
 
 struct MARRY_ITEM
 {
@@ -60,13 +60,13 @@ private:
 
 inline bool isFemale(int aIndex)
 {
-	return (gObj[aIndex].Class == CLASS_ELF || gObj[aIndex].Class == CLASS_SUMMONER || gObj[aIndex].Class == CLASS_GROWLANCER) ? true : false;
+	return (gGameObjects[aIndex].Class == CLASS_ELF || gGameObjects[aIndex].Class == CLASS_SUMMONER || gGameObjects[aIndex].Class == CLASS_GROWLANCER) ? true : false;
 }
 
 inline bool isMale(int aIndex)
 {
-	return (gObj[aIndex].Class == CLASS_WIZARD || gObj[aIndex].Class == CLASS_KNIGHT || gObj[aIndex].Class == CLASS_MAGUMSA ||
-			gObj[aIndex].Class == CLASS_DARKLORD || gObj[aIndex].Class == CLASS_RAGEFIGHTER) ? true : false; 
+	return (gGameObjects[aIndex].Class == CLASS_WIZARD || gGameObjects[aIndex].Class == CLASS_KNIGHT || gGameObjects[aIndex].Class == CLASS_MAGUMSA ||
+			gGameObjects[aIndex].Class == CLASS_DARKLORD || gGameObjects[aIndex].Class == CLASS_RAGEFIGHTER) ? true : false; 
 }
 extern CMarry Marry;
 

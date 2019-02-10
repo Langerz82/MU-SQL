@@ -5,7 +5,7 @@
 #include "StdAfx.h"
 #include "GameServer.h"
 #include "CannonTower.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 
 //#include "..\include\readscript.h"
 #include "util.h"
@@ -30,7 +30,7 @@ void CCannonTower::CannonTowerAct(int iIndex) // 0x00560940  1.00.19
 	{
 		return;
 	}
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 	int count = 0;
 	int ASBOfs = 0;
 	PMSG_BEATTACK_COUNT pCount;
@@ -65,9 +65,9 @@ void CCannonTower::CannonTowerAct(int iIndex) // 0x00560940  1.00.19
 
 				if (tObjNum >= 0)
 				{
-					if (gObj[tObjNum].m_btCsJoinSide)
+					if (gGameObjects[tObjNum].m_btCsJoinSide)
 					{
-						if (gObjCalDistance(lpObj, &gObj[tObjNum]) < 7)
+						if (gObjCalDistance(lpObj, &gGameObjects[tObjNum]) < 7)
 						{
 							pAttack.NumberH = SET_NUMBERH(tObjNum);
 							pAttack.NumberL = SET_NUMBERL(tObjNum);

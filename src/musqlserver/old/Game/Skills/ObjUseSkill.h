@@ -8,7 +8,7 @@
 #endif // _MSC_VER > 1000
 
 #include "MagicInf.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "MuLua.h"
 
 struct SkillConfig
@@ -45,7 +45,7 @@ public:
 	int SpeedHackCheck(int aIndex);
 	int EnableSkill(WORD Skill);
 	int GetUseMana(int aIndex, CMagicInf* lpMagic);
-	int GetAddUseMana(LPOBJ lpObj, CMagicInf* lpMagic);
+	int GetAddUseMana(CGameObject* lpObj, CMagicInf* lpMagic);
 	int GetUseBP(int aIndex, CMagicInf* lpMagic);
 	void UseSkill(int aIndex, int aTargetIndex, CMagicInf* lpMagic);
 	void UseSkill(int aIndex, CMagicInf* lpMagic, BYTE x, BYTE y, BYTE dir, BYTE TargetPos, int aTargetIndex);
@@ -98,13 +98,13 @@ public:
 	int SkillRemoveMagic(int aIndex, int aTargetIndex, CMagicInf* lpMagic);
 	int RemoveCloakingEffect(int aIndex);
 	int SkillStun(int aIndex, int aTargetIndex, CMagicInf* lpMagic, BYTE btX, BYTE btY, BYTE btDir, BYTE btTargetPos);
-	int RemoveAllCharacterInvalidMagicAndSkillState(LPOBJ lpObj);
-	int RemoveSpecificSkillState(LPOBJ lpObj, int iSkillNumber);
+	int RemoveAllCharacterInvalidMagicAndSkillState(CGameObject* lpObj);
+	int RemoveSpecificSkillState(CGameObject* lpObj, int iSkillNumber);
 	int SkillFenrirAttack(int aIndex, int aTargetIndex, CMagicInf* lpMagic);
 	int SkillInfinityArrow(int aIndex, int aTargetIndex, CMagicInf* lpMagic);
 	int SkillFireScream(int aIndex, int aTargetIndex, CMagicInf* lpMagic);
-	int FireScreamExplosionAttack(LPOBJ lpObj, LPOBJ lpTargetObj, int iAttackDamage, int iAddDamage);
-	void SpecificSkillAdditionTreat(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic, int iAttackDamage);
+	int FireScreamExplosionAttack(CGameObject* lpObj, CGameObject* lpTargetObj, int iAttackDamage, int iAddDamage);
+	void SpecificSkillAdditionTreat(CGameObject* lpObj, CGameObject* lpTargetObj, CMagicInf* lpMagic, int iAttackDamage);
 	int SkillBookSahamutt(int aIndex, CMagicInf * lpMagic, BYTE x, BYTE y, int aTargetIndex);
 	int SkillSummonerSleep(int aIndex, int aTargetIndex, CMagicInf * lpMagic);
 	int SkillDrainLife(int aIndex, CMagicInf * lpMagic, int aTargetIndex);
@@ -132,7 +132,7 @@ public:
 	void SkillDarkSide(int aindex, int aTargetIndex, CMagicInf * lpMagic);
 	int SkillPhoenixShot(int aIndex, CMagicInf * lpMagic, BYTE x, BYTE y, int aTargetIndex);
 	int SkillEvilMonster(int aIndex, int aTargetIndex, CMagicInf *lpMagic);
-	void SplashDamage(LPOBJ lpObj, LPOBJ lpTargetObj, int nSkill, int nAttackDamage, int nDistance, int nDamageRate);
+	void SplashDamage(CGameObject* lpObj, CGameObject* lpTargetObj, int nSkill, int nAttackDamage, int nDistance, int nDamageRate);
 	void SkillSummonForLordSilvester(int aIndex, int iTargetIndex, CMagicInf *lpMagic);
 	void SkillSpinStep(int aIndex, int iTargetIndex, CMagicInf *lpMagic);
 	void SkillGrowLancerAttackOneTarget(int aIndex, int aTargetIndex, CMagicInf *lpMagic);
@@ -155,7 +155,7 @@ public:
 	MULua m_Lua;
 };
 
-int  DecPartyMemberHPandMP(LPOBJ lpObj);
+int  DecPartyMemberHPandMP(CGameObject* lpObj);
 
 extern CObjUseSkill gObjUseSkill;
 

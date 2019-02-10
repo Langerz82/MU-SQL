@@ -6,7 +6,7 @@
 #include "CastleCrownSwitch.h"
 
 #include "CastleSiege.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "Logging/Log.h"
 
 CCastleCrownSwitch g_CsNPC_CastleCrownSwitch;
@@ -29,13 +29,13 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(int iIndex)
 	if ( !gObjIsConnected(iIndex))
 		return;
 
-	if ( gObj[iIndex].Type != OBJ_NPC ||
-		((gObj[iIndex].Class < 217 )?FALSE:(gObj[iIndex].Class > 219-1 )?FALSE:TRUE)==FALSE )
+	if ( gGameObjects[iIndex].Type != OBJ_NPC ||
+		((gGameObjects[iIndex].Class < 217 )?FALSE:(gGameObjects[iIndex].Class > 219-1 )?FALSE:TRUE)==FALSE )
 		return;
 
-	if ( !gObjIsConnected(g_CastleSiege.GetCrownSwitchUserIndex(gObj[iIndex].Class)) )
+	if ( !gObjIsConnected(g_CastleSiege.GetCrownSwitchUserIndex(gGameObjects[iIndex].Class)) )
 	{
-		g_CastleSiege.ResetCrownSwitchUserIndex(gObj[iIndex].Class);
+		g_CastleSiege.ResetCrownSwitchUserIndex(gGameObjects[iIndex].Class);
 
 		if ( g_CastleSiege.GetRegCrownAvailable() == 1 )
 		{
@@ -46,8 +46,8 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(int iIndex)
 		return;
 	}
 	
-	LPOBJ lpObj= &gObj[iIndex];
-	LPOBJ lpUserObj = &gObj[g_CastleSiege.GetCrownSwitchUserIndex(gObj[iIndex].Class)];
+	CGameObject* lpObj= &gGameObjects[iIndex];
+	CGameObject* lpUserObj = &gGameObjects[g_CastleSiege.GetCrownSwitchUserIndex(gGameObjects[iIndex].Class)];
 	g_CastleSiege.NotifyCrownSwitchInfo(iIndex);
 
 	if ( lpUserObj->MapNumber == MAP_INDEX_CASTLESIEGE &&
@@ -61,7 +61,7 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(int iIndex)
 
 			if (gObjIsConnected(iCrownIndex1) && gObjIsConnected(iCrownIndex2) )
 			{
-				if ( gObj[iCrownIndex1].m_btCsJoinSide == gObj[iCrownIndex2].m_btCsJoinSide )
+				if ( gGameObjects[iCrownIndex1].m_btCsJoinSide == gGameObjects[iCrownIndex2].m_btCsJoinSide )
 				{
 					if ( g_CastleSiege.GetRegCrownAvailable() == 0 )
 					{
@@ -74,7 +74,7 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(int iIndex)
 		else
 		{
 			GSProtocol.GCAnsCsAccessSwitchState(lpUserObj->m_Index, lpObj->m_Index, -1, 0);
-			g_CastleSiege.ResetCrownSwitchUserIndex(gObj[iIndex].Class);
+			g_CastleSiege.ResetCrownSwitchUserIndex(gGameObjects[iIndex].Class);
 
 			if ( g_CastleSiege.GetRegCrownAvailable() == 1 )
 			{
@@ -90,7 +90,7 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(int iIndex)
 	{
 		GSProtocol.GCAnsCsAccessSwitchState(lpUserObj->m_Index, lpObj->m_Index, -1, 0);
 
-		g_CastleSiege.ResetCrownSwitchUserIndex(gObj[iIndex].Class);
+		g_CastleSiege.ResetCrownSwitchUserIndex(gGameObjects[iIndex].Class);
 
 		if ( g_CastleSiege.GetRegCrownAvailable() == 1 )
 		{

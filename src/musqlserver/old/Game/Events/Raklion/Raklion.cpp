@@ -4,7 +4,7 @@
 
 #include "StdAfx.h"
 #include "Raklion.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "RaklionUtil.h"
 #include "RaklionBattleUserMng.h"
 #include "RaklionMonsterMng.h"
@@ -203,14 +203,14 @@ void CRaklion::Run()
 	{
 		for(int iCount = g_ConfigRead.server.GetObjectStartUserIndex(); iCount < g_ConfigRead.server.GetObjectMax(); iCount++)
 		{
-			if( gObj[iCount].MapNumber == MAP_INDEX_RAKLION || 
-				gObj[iCount].MapNumber == MAP_INDEX_HATCHERY )
+			if( gGameObjects[iCount].MapNumber == MAP_INDEX_RAKLION || 
+				gGameObjects[iCount].MapNumber == MAP_INDEX_HATCHERY )
 			{
-				if( gObj[iCount].Connected == PLAYER_PLAYING && 
-					gObj[iCount].Type == OBJ_USER )
+				if( gGameObjects[iCount].Connected == PLAYER_PLAYING && 
+					gGameObjects[iCount].Type == OBJ_USER )
 				{
 					iRaklionUserCount++;
-					sLog->outBasic("[RAKLION][IsInRaklionEvent] %d/%d/%d %dth User : %s (%s)", pCurrentTime->tm_year+1900, pCurrentTime->tm_mon+1, pCurrentTime->tm_mday, iRaklionUserCount, gObj[iCount].Name, gObj[iCount].AccountID);
+					sLog->outBasic("[RAKLION][IsInRaklionEvent] %d/%d/%d %dth User : %s (%s)", pCurrentTime->tm_year+1900, pCurrentTime->tm_mon+1, pCurrentTime->tm_mday, iRaklionUserCount, gGameObjects[iCount].Name, gGameObjects[iCount].AccountID);
 				}
 			}
 		}
@@ -502,14 +502,14 @@ void CRaklion::RegenBossEgg()
 {
 	for (int iCount = 0; iCount < g_ConfigRead.server.GetObjectMaxMonster(); iCount++)
 	{
-		if (gObj[iCount].Class == 460 || gObj[iCount].Class == 461 || gObj[iCount].Class == 462)
+		if (gGameObjects[iCount].Class == 460 || gGameObjects[iCount].Class == 461 || gGameObjects[iCount].Class == 462)
 		{
-			gObjSetMonster(gObj[iCount].m_Index, gObj[iCount].Class);
+			gObjSetMonster(gGameObjects[iCount].m_Index, gGameObjects[iCount].Class);
 
-			if (gObjMonsterRegen(&gObj[iCount]) == TRUE)
+			if (gObjMonsterRegen(&gGameObjects[iCount]) == TRUE)
 			{
-				gObj[iCount].Live = TRUE;
-				gObj[iCount].DieRegen = FALSE;
+				gGameObjects[iCount].Live = TRUE;
+				gGameObjects[iCount].DieRegen = FALSE;
 				BossEggDieIncrease();
 			}
 		}
@@ -521,15 +521,15 @@ void CRaklion::DeleteBossEgg()
 {
 	for(int iCount=0; iCount<g_ConfigRead.server.GetObjectMaxMonster(); iCount++)
 	{
-		if (gObj[iCount].Class == 460 || gObj[iCount].Class == 461 || gObj[iCount].Class == 462 )
+		if (gGameObjects[iCount].Class == 460 || gGameObjects[iCount].Class == 461 || gGameObjects[iCount].Class == 462 )
 		{
-			if (gObj[iCount].Connected == PLAYER_PLAYING)
+			if (gGameObjects[iCount].Connected == PLAYER_PLAYING)
 			{
 				gObjDel(iCount);
-				gObj[iCount].Live = 0;
-				gObj[iCount].m_State = 0;
-				gObjViewportListProtocolDestroy(&gObj[iCount]);
-				gObjViewportClose(&gObj[iCount]);
+				gGameObjects[iCount].Live = 0;
+				gGameObjects[iCount].m_State = 0;
+				gObjViewportListProtocolDestroy(&gGameObjects[iCount]);
+				gObjViewportClose(&gGameObjects[iCount]);
 				BossEggDieDecrease();
 			}
 		}
@@ -541,16 +541,16 @@ void CRaklion::CheckUserOnRaklionBossMap()
 {
 	for (int iCount = g_ConfigRead.server.GetObjectStartUserIndex(); iCount < g_ConfigRead.server.GetObjectMax(); iCount++)
 	{
-		if (gObj[iCount].Connected == PLAYER_PLAYING &&
-			gObj[iCount].Type == OBJ_USER &&
-			gObj[iCount].MapNumber == MAP_INDEX_HATCHERY)
+		if (gGameObjects[iCount].Connected == PLAYER_PLAYING &&
+			gGameObjects[iCount].Type == OBJ_USER &&
+			gGameObjects[iCount].MapNumber == MAP_INDEX_HATCHERY)
 		{
 			if (g_RaklionBattleUserMng.IsBattleUser(iCount))	continue;
 
-			if (gObj[iCount].RegenOk == 0 && gObj[iCount].m_State == 2 && gObj[iCount].Live == 1)
+			if (gGameObjects[iCount].RegenOk == 0 && gGameObjects[iCount].m_State == 2 && gGameObjects[iCount].Live == 1)
 			{
 				gObjMoveGate(iCount, 286);
-				sLog->outError( "[ RAKLION ][ Invalid User ] Invalid Raklion Boss Map User[%s][%s]", gObj[iCount].AccountID, gObj[iCount].Name);
+				sLog->outError( "[ RAKLION ][ Invalid User ] Invalid Raklion Boss Map User[%s][%s]", gGameObjects[iCount].AccountID, gGameObjects[iCount].Name);
 			}
 		}
 	}
@@ -562,12 +562,12 @@ int CRaklion::CheckEnterRaklion(int iUserIndex)
 
 	if( GetRaklionState() == RAKLION_STATE_CLOSE_DOOR )
 	{
-		sLog->outBasic("[ RAKLION ][ Entrance Fail ] [%s][%s] State(%d)", gObj[iUserIndex].AccountID, gObj[iUserIndex].Name, GetRaklionState());
+		sLog->outBasic("[ RAKLION ][ Entrance Fail ] [%s][%s] State(%d)", gGameObjects[iUserIndex].AccountID, gGameObjects[iUserIndex].Name, GetRaklionState());
 		return 3;
 	}
-	if( gObj[iUserIndex].MapNumber != MAP_INDEX_HATCHERY ) 
+	if( gGameObjects[iUserIndex].MapNumber != MAP_INDEX_HATCHERY ) 
 	{
-		sLog->outBasic("[ RAKLION ][ Entrance Fail ] Invalid Map Number(%d) [%s][%s] State(%d)", gObj[iUserIndex].MapNumber, gObj[iUserIndex].AccountID, gObj[iUserIndex].Name, GetRaklionState());
+		sLog->outBasic("[ RAKLION ][ Entrance Fail ] Invalid Map Number(%d) [%s][%s] State(%d)", gGameObjects[iUserIndex].MapNumber, gGameObjects[iUserIndex].AccountID, gGameObjects[iUserIndex].Name, GetRaklionState());
 		return 4;
 	}
 	return 0;

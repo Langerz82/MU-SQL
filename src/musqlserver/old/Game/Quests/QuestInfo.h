@@ -12,7 +12,7 @@
 #endif // _MSC_VER > 1000
 
 #include "classdef.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 
 #define MAX_QUEST_INFO 200
 #define MAX_SUBINFO_QUEST 10
@@ -98,25 +98,25 @@ public:
 	int LoadQuestInfo(char* filename);
 	void InitQuestItem();
 	LPQUEST_INFO GetQuestInfo(int QuestIndex);
-	LPQUEST_SUB_INFO GetSubquestInfo(LPOBJ lpObj, LPQUEST_INFO lpQuestInfo, int subquestindex);
+	LPQUEST_SUB_INFO GetSubquestInfo(CGameObject* lpObj, LPQUEST_INFO lpQuestInfo, int subquestindex);
 	LPQUEST_CONDITION GetQuestCondition(LPQUEST_INFO lpQuestInfo, int conditionindex);
-	int GetQuestState(LPOBJ lpObj, int QuestIndex);
-	BYTE GetQuestStateBYTE(LPOBJ lpObj, int QuestIndex);
-	unsigned char SetQuestState(LPOBJ lpObj, int QuestIndex, int State);
-	unsigned char ReSetQuestState(LPOBJ lpObj, int QuestIndex);
-	unsigned char QuestClearConditionCheck(LPOBJ lpObj, int QuestIndex);
-	unsigned char QuestRunConditionCheck(LPOBJ lpObj, int QuestIndex);
-	int CompareCondition(LPOBJ lpObj, LPQUEST_CONDITION lpCondition);
-	int NpcTalk(LPOBJ lpNpc, LPOBJ lpObj);
-	int MonsterItemDrop(LPOBJ lpObj);
-	int MonsterItemDropParty(LPOBJ lpObj, LPOBJ lpMonsterObj);
-	int AddMonsterKillCount(LPOBJ lpObj);
-	int QuestAccept(LPOBJ lpObj, int QuestIndex);
-	int QuestClear(LPOBJ lpObj, int QuestIndex);
-	void QuestInfoSave(LPOBJ lpObj);
-	int GetQuestKillCount(LPOBJ lpObj, int uClass);
+	int GetQuestState(CGameObject* lpObj, int QuestIndex);
+	BYTE GetQuestStateBYTE(CGameObject* lpObj, int QuestIndex);
+	unsigned char SetQuestState(CGameObject* lpObj, int QuestIndex, int State);
+	unsigned char ReSetQuestState(CGameObject* lpObj, int QuestIndex);
+	unsigned char QuestClearConditionCheck(CGameObject* lpObj, int QuestIndex);
+	unsigned char QuestRunConditionCheck(CGameObject* lpObj, int QuestIndex);
+	int CompareCondition(CGameObject* lpObj, LPQUEST_CONDITION lpCondition);
+	int NpcTalk(CGameObject* lpNpc, CGameObject* lpObj);
+	int MonsterItemDrop(CGameObject* lpObj);
+	int MonsterItemDropParty(CGameObject* lpObj, CGameObject* lpMonsterObj);
+	int AddMonsterKillCount(CGameObject* lpObj);
+	int QuestAccept(CGameObject* lpObj, int QuestIndex);
+	int QuestClear(CGameObject* lpObj, int QuestIndex);
+	void QuestInfoSave(CGameObject* lpObj);
+	int GetQuestKillCount(CGameObject* lpObj, int uClass);
 	int GetQuestItem(int iIndex, short nType, short nLevel);
-	void SendQuestMonsterKill(LPOBJ lpObj, int iQuestIndex);
+	void SendQuestMonsterKill(CGameObject* lpObj, int iQuestIndex);
 	void CheckQuestMapEnterOnWerwolf(int iIndex);
 	void CheckQuestMapEnterOnGateKeeper(int iIndex);
 

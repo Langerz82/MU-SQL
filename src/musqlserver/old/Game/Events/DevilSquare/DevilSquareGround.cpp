@@ -15,7 +15,7 @@
 // GS-N 0.99.60T - 0x00457190 
 // GS-N	1.00.18	JPN	0x004667C0	-	Completed
 
-bool DevilSquareScoreSort(LPOBJ const & lhs,LPOBJ const & rhs)
+bool DevilSquareScoreSort(CGameObject* const & lhs,CGameObject* const & rhs)
 {
 	if ( lhs->m_nEventScore == rhs->m_nEventScore )
 	{
@@ -192,28 +192,28 @@ void CDevilSquareGround::RegenBossMonster(int currtime)
 				if ( iMonIndex >= 0 )
 				{
 					gObjSetMonster(iMonIndex, this->m_DevilSquareBossMonsterInfo[i].m_Type);
-					gObj[iMonIndex].MapNumber = iMapNumber;
-					gMSetBase.GetBoxPosition(gObj[iMonIndex].MapNumber,
+					gGameObjects[iMonIndex].MapNumber = iMapNumber;
+					gMSetBase.GetBoxPosition(gGameObjects[iMonIndex].MapNumber,
 						this->m_DevilSquareBossMonsterInfo[i].X, this->m_DevilSquareBossMonsterInfo[i].Y,
 						this->m_DevilSquareBossMonsterInfo[i].TX, this->m_DevilSquareBossMonsterInfo[i].TY,
-						gObj[iMonIndex].X, gObj[iMonIndex].Y);
-					int map = gObj[iMonIndex].MapNumber;
-					int x = gObj[iMonIndex].X;
-					int y = gObj[iMonIndex].Y;
+						gGameObjects[iMonIndex].X, gGameObjects[iMonIndex].Y);
+					int map = gGameObjects[iMonIndex].MapNumber;
+					int x = gGameObjects[iMonIndex].X;
+					int y = gGameObjects[iMonIndex].Y;
 
 					//sLog->outBasic("[DevilSquare] Boss %d %d %d create ", map, x, y);
 
-					gObj[iMonIndex].TX = gObj[iMonIndex].X;
-					gObj[iMonIndex].TY = gObj[iMonIndex].Y;
-					gObj[iMonIndex].MTX = gObj[iMonIndex].X;
-					gObj[iMonIndex].MTY = gObj[iMonIndex].Y;
-					gObj[iMonIndex].StartX = gObj[iMonIndex].X;
-					gObj[iMonIndex].StartY = gObj[iMonIndex].Y;
-					gObj[iMonIndex].m_bDevilSquareIndex = this->m_iIndex;
-					gObj[iMonIndex].DieRegen = FALSE;
-					gObj[iMonIndex].m_PosNum = -1;
-					gObj[iMonIndex].Live = TRUE;
-					gObj[iMonIndex].m_State = 1;
+					gGameObjects[iMonIndex].TX = gGameObjects[iMonIndex].X;
+					gGameObjects[iMonIndex].TY = gGameObjects[iMonIndex].Y;
+					gGameObjects[iMonIndex].MTX = gGameObjects[iMonIndex].X;
+					gGameObjects[iMonIndex].MTY = gGameObjects[iMonIndex].Y;
+					gGameObjects[iMonIndex].StartX = gGameObjects[iMonIndex].X;
+					gGameObjects[iMonIndex].StartY = gGameObjects[iMonIndex].Y;
+					gGameObjects[iMonIndex].m_bDevilSquareIndex = this->m_iIndex;
+					gGameObjects[iMonIndex].DieRegen = FALSE;
+					gGameObjects[iMonIndex].m_PosNum = -1;
+					gGameObjects[iMonIndex].Live = TRUE;
+					gGameObjects[iMonIndex].m_State = 1;
 				}
 			}
 		}
@@ -283,7 +283,7 @@ void CDevilSquareGround::SortScore()
 
 
 
-void CDevilSquareGround::InsertObj(LPOBJ lpObj)
+void CDevilSquareGround::InsertObj(CGameObject* lpObj)
 {
 	if ( lpObj->Authority != 2 )
 	{
@@ -522,7 +522,7 @@ void CDevilSquareGround::SendScore()
 
 
 
-void CDevilSquareGround::SendRankingInfo(LPOBJ lpObj)
+void CDevilSquareGround::SendRankingInfo(CGameObject* lpObj)
 {
 	if ( lpObj->m_nEventScore <= 0 )
 	{
@@ -610,7 +610,7 @@ int CDevilSquareGround::GetPlayUserCountRightNow()
 		{
 			if ( ObjectMaxRange(this->m_iUserIndex[i]) == TRUE )
 			{
-				if ( gObj[this->m_iUserIndex[i]].Connected == PLAYER_PLAYING )
+				if ( gGameObjects[this->m_iUserIndex[i]].Connected == PLAYER_PLAYING )
 				{
 					Count++;
 				}
@@ -632,7 +632,7 @@ void CDevilSquareGround::DropReward(int iIndex)
 		return;
 	}
 
-	switch (gObj[iIndex].m_bDevilSquareIndex)
+	switch (gGameObjects[iIndex].m_bDevilSquareIndex)
 	{
 	case 0:
 		g_BagManager.UseBag_GremoryCase(iIndex, BAG_EVENT, EVENTBAG_DS1, iIndex, GC_STORAGE_CHARACTER, GC_REWARD_DEVIL_SQUARE, 30);
@@ -658,7 +658,7 @@ void CDevilSquareGround::DropReward(int iIndex)
 
 	}
 
-	g_CashShop.AddCoin(&gObj[iIndex], EVENT_DS);
+	g_CashShop.AddCoin(&gGameObjects[iIndex], EVENT_DS);
 }
 
 

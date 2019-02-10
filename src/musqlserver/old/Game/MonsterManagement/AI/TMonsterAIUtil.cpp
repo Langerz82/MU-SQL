@@ -31,9 +31,9 @@ BOOL TMonsterAIUtil::FindMonViewportObj(int iObjIndex, int iTargetObjIndex)
 
 	for ( int i=0;i<MaxViewportMonster;i++)
 	{
-		if ( gObj[iObjIndex].VpPlayer[i].state != FALSE )
+		if ( gGameObjects[iObjIndex].VpPlayer[i].state != FALSE )
 		{
-			if ( iTargetObjIndex == gObj[iObjIndex].VpPlayer[i].number )
+			if ( iTargetObjIndex == gGameObjects[iObjIndex].VpPlayer[i].number )
 			{
 				return TRUE;
 			}
@@ -50,9 +50,9 @@ BOOL TMonsterAIUtil::FindMonViewportObj2(int iObjIndex, int iTargetObjIndex)
 
 	for ( int i=0;i<MaxViewportMonster;i++)
 	{
-		if ( gObj[iObjIndex].VpPlayer2[i].state != FALSE )
+		if ( gGameObjects[iObjIndex].VpPlayer2[i].state != FALSE )
 		{
-			if ( iTargetObjIndex == gObj[iObjIndex].VpPlayer2[i].number )
+			if ( iTargetObjIndex == gGameObjects[iObjIndex].VpPlayer2[i].number )
 			{
 				return TRUE;
 			}
@@ -64,7 +64,7 @@ BOOL TMonsterAIUtil::FindMonViewportObj2(int iObjIndex, int iTargetObjIndex)
 
 
 
-void TMonsterAIUtil::SendMonsterV2Msg(LPOBJ lpObj, LPBYTE lpMsg, int size)
+void TMonsterAIUtil::SendMonsterV2Msg(CGameObject* lpObj, LPBYTE lpMsg, int size)
 {
 	for ( int i=0;i<MaxViewportMonster;i++)
 	{
@@ -88,7 +88,7 @@ void TMonsterAIUtil::SendMonsterV2Msg(LPOBJ lpObj, LPBYTE lpMsg, int size)
 }
 
 
-BOOL TMonsterAIUtil::FindPathToMoveMonster(LPOBJ lpObj, int iTargetX, int iTargetY, int iMaxPathCount, BOOL bPreventOverMoving)
+BOOL TMonsterAIUtil::FindPathToMoveMonster(CGameObject* lpObj, int iTargetX, int iTargetY, int iMaxPathCount, BOOL bPreventOverMoving)
 {
 	if ( TMonsterAIUtil::CheckMovingCondition(lpObj)==FALSE)
 		return FALSE;
@@ -168,7 +168,7 @@ BOOL TMonsterAIUtil::FindPathToMoveMonster(LPOBJ lpObj, int iTargetX, int iTarge
 
 
 
-BOOL TMonsterAIUtil::CheckMovingCondition(LPOBJ lpObj)
+BOOL TMonsterAIUtil::CheckMovingCondition(CGameObject* lpObj)
 {
 	if ( !lpObj->Live )
 		return FALSE;
@@ -191,13 +191,13 @@ BOOL TMonsterAIUtil::CheckMovingCondition(LPOBJ lpObj)
 	return TRUE;
 }
 
-BOOL TMonsterAIUtil::CheckMoveRange(LPOBJ lpObj, int iTargetX, int iTargetY)
+BOOL TMonsterAIUtil::CheckMoveRange(CGameObject* lpObj, int iTargetX, int iTargetY)
 {
 	return FALSE;
 }
 
 
-BOOL TMonsterAIUtil::GetXYToPatrol(LPOBJ lpObj)
+BOOL TMonsterAIUtil::GetXYToPatrol(CGameObject* lpObj)
 {
 	int maxmoverange = lpObj->m_MoveRange*2+1;
 	int searchc=10;
@@ -230,7 +230,7 @@ BOOL TMonsterAIUtil::GetXYToPatrol(LPOBJ lpObj)
 	return FALSE;
 }
 
-BOOL TMonsterAIUtil::GetXYToEascape(LPOBJ lpObj)
+BOOL TMonsterAIUtil::GetXYToEascape(CGameObject* lpObj)
 {
 	int tpx;	// Target Player X
 	int tpy;
@@ -243,7 +243,7 @@ BOOL TMonsterAIUtil::GetXYToEascape(LPOBJ lpObj)
 	int searchcount = MAX_ROAD_PATH_TABLE/2-1;
 	BYTE attr;
 	BOOL result = 0;
-	LPOBJ lpTargetObj;
+	CGameObject* lpTargetObj;
 
 	int iTargetIndex = lpObj->TargetNumber;
 
@@ -252,7 +252,7 @@ BOOL TMonsterAIUtil::GetXYToEascape(LPOBJ lpObj)
 		return FALSE;
 	}
 
-	lpTargetObj = &gObj[iTargetIndex];
+	lpTargetObj = &gGameObjects[iTargetIndex];
 	tpx = lpTargetObj->X;
 	mtx = tpx;
 	tpy = lpTargetObj->Y;
@@ -323,7 +323,7 @@ BOOL TMonsterAIUtil::GetXYToEascape(LPOBJ lpObj)
 
 
 
-BOOL TMonsterAIUtil::GetXYToChase(LPOBJ lpObj)
+BOOL TMonsterAIUtil::GetXYToChase(CGameObject* lpObj)
 {
 	int tpx;	// Target Player X
 	int tpy;
@@ -334,7 +334,7 @@ BOOL TMonsterAIUtil::GetXYToChase(LPOBJ lpObj)
 	int searchcount = MAX_ROAD_PATH_TABLE/2-1;
 	BYTE attr;
 	BOOL result = 0;
-	LPOBJ lpTargetObj;
+	CGameObject* lpTargetObj;
 
 	int iTargetIndex = lpObj->TargetNumber;
 
@@ -343,7 +343,7 @@ BOOL TMonsterAIUtil::GetXYToChase(LPOBJ lpObj)
 		return FALSE;
 	}
 
-	lpTargetObj = &gObj[iTargetIndex];
+	lpTargetObj = &gGameObjects[iTargetIndex];
 	tpx = lpTargetObj->X;
 	mtx = tpx;
 	tpy = lpTargetObj->Y;
@@ -412,7 +412,7 @@ BOOL TMonsterAIUtil::GetXYToChase(LPOBJ lpObj)
 
 
 
-BOOL TMonsterAIUtil::SendMonsterMoveMsg(LPOBJ lpObj)
+BOOL TMonsterAIUtil::SendMonsterMoveMsg(CGameObject* lpObj)
 {
 	PMSG_RECVMOVE pMove;
 
@@ -447,7 +447,7 @@ void TMonsterAIUtil::SendChattingMsg(int iObjIndex, char* lpszMsg, ...)
 	if ( !ObjectMaxRange(iObjIndex))
 		return;
 
-	LPOBJ lpObj = &gObj[iObjIndex];
+	CGameObject* lpObj = &gGameObjects[iObjIndex];
 	char szBuffer[512] = "";
 	va_list pArguments;
 

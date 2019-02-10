@@ -1,16 +1,11 @@
-////////////////////////////////////////////////////////////////////////////////
-// spe.h
-#ifndef SPE_H
-#define SPE_H
+#ifndef _MU_PACKETENGINESERVER_H
+#define _MU_PACKETENGINESERVER_H
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "Logging/Log.h"
-#include "prodef.h"
-
-// GS-N 0.99.60T - 0x00474A10 - Completed 
+#include "StdAfx.h"
 
 
 class CStreamPacketEngine_Server
@@ -41,7 +36,7 @@ protected:
 	{
 		if ( iStart < iEnd  )
 		{
-			sLog->outError(  "CStreamPacketEngine XorData Error %d,%d", iStart, iEnd);
+			sLog->outError("CStreamPacketEngine XorData Error %d,%d", iStart, iEnd);
 			return false;
 		}
 
@@ -93,7 +88,7 @@ public:
 	{
 		if ( ((this->m_wSize + wSize) >=  2048) ||  (wSize == 0) )
 		{
-			sLog->outError( "CStreamPacketEngine Adding Buffer Size Error %d", this->m_wSize + wSize);
+			sLog->outError("CStreamPacketEngine Adding Buffer Size Error %d", this->m_wSize + wSize);
 			int iSize = 2048;
 			return FALSE;
 		}
@@ -232,8 +227,4 @@ private:
 };
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
 

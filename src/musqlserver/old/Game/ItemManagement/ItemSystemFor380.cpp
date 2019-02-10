@@ -146,7 +146,7 @@ void CItemSystemFor380::InitEffectValue(ITEMOPTION_FOR380ITEM_EFFECT * pItemEffe
 }
 
 
-BOOL CItemSystemFor380::ApplyFor380Option(LPOBJ lpObj)
+BOOL CItemSystemFor380::ApplyFor380Option(CGameObject* lpObj)
 {
 	ITEMOPTION_FOR380ITEM_EFFECT * pItemEffect = &lpObj->m_PlayerData->m_ItemOptionExFor380;
 	this->InitEffectValue(pItemEffect);
@@ -238,14 +238,14 @@ BOOL CItemSystemFor380::_SetOption(CItem * pItem, BOOL bOption)
 }
 
 
-void CItemSystemFor380::SetOptionItemByMacro(LPOBJ lpObj, BYTE invenrotyTargetPos, int bOption)
+void CItemSystemFor380::SetOptionItemByMacro(CGameObject* lpObj, BYTE invenrotyTargetPos, int bOption)
 {
 	// HERE GOES A MACRO
 	return;
 	CItem * pItem=NULL;
 }
 
-BOOL CItemSystemFor380::ChaosMix380ItemOption(LPOBJ lpObj)
+BOOL CItemSystemFor380::ChaosMix380ItemOption(CGameObject* lpObj)
 {
 	if (this->m_bSystemFor380ItemOption != TRUE)
 	{

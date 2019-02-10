@@ -89,16 +89,16 @@ BOOL MonsterHerd::AddMonster(int iMonsterType, BOOL bRegen, BOOL bAttackFirst)
 
 	if ( iIndex >= 0 )
 	{
-		gObj[iIndex].m_PosNum = -1;
-		gObj[iIndex].X = cX;
-		gObj[iIndex].Y = cY;
-		gObj[iIndex].MapNumber = this->m_iMapNumber;
-		gObj[iIndex].TX = gObj[iIndex].X;
-		gObj[iIndex].TY = gObj[iIndex].Y;
-		gObj[iIndex].m_OldX = gObj[iIndex].X;
-		gObj[iIndex].m_OldY = gObj[iIndex].Y;
-		gObj[iIndex].StartX = gObj[iIndex].X;
-		gObj[iIndex].StartY = gObj[iIndex].Y;
+		gGameObjects[iIndex].m_PosNum = -1;
+		gGameObjects[iIndex].X = cX;
+		gGameObjects[iIndex].Y = cY;
+		gGameObjects[iIndex].MapNumber = this->m_iMapNumber;
+		gGameObjects[iIndex].TX = gGameObjects[iIndex].X;
+		gGameObjects[iIndex].TY = gGameObjects[iIndex].Y;
+		gGameObjects[iIndex].m_OldX = gGameObjects[iIndex].X;
+		gGameObjects[iIndex].m_OldY = gGameObjects[iIndex].Y;
+		gGameObjects[iIndex].StartX = gGameObjects[iIndex].X;
+		gGameObjects[iIndex].StartY = gGameObjects[iIndex].Y;
 
 		LPMONSTER_ATTRIBUTE iAttr = gMAttr.GetAttr(iMonsterType);
 
@@ -108,13 +108,13 @@ BOOL MonsterHerd::AddMonster(int iMonsterType, BOOL bRegen, BOOL bAttackFirst)
 			return false;
 		}
 
-		gObj[iIndex].Level = iAttr->m_Level;
+		gGameObjects[iIndex].Level = iAttr->m_Level;
 		gObjSetMonster(iIndex, iMonsterType);
-		gObj[iIndex].MaxRegenTime = 1000;
-		gObj[iIndex].Dir = rand() % 8;
-		gObj[iIndex].m_bIsInMonsterHerd = 1;
-		gObj[iIndex].m_bIsMonsterAttackFirst = bAttackFirst;
-		gObj[iIndex].m_lpMonsterHerd = this;
+		gGameObjects[iIndex].MaxRegenTime = 1000;
+		gGameObjects[iIndex].Dir = rand() % 8;
+		gGameObjects[iIndex].m_bIsInMonsterHerd = 1;
+		gGameObjects[iIndex].m_bIsMonsterAttackFirst = bAttackFirst;
+		gGameObjects[iIndex].m_lpMonsterHerd = this;
 
 		EnterCriticalSection(&this->m_critMonsterHerd);
 
@@ -225,7 +225,7 @@ _MONSTER_HERD_DATA * MonsterHerd::GetMonsterData(int iIndex)
 		return NULL;
 	}
 
-	LPOBJ lpOBJ = &gObj[iIndex];
+	CGameObject* lpOBJ = &gGameObjects[iIndex];
 
 	if ( lpOBJ->Connected != PLAYER_PLAYING || lpOBJ->Type != OBJ_MONSTER )
 	{
@@ -256,7 +256,7 @@ _MONSTER_HERD_DATA * MonsterHerd::GetMonsterData(int iIndex)
 }
 
 
-void MonsterHerd::BeenAttacked(LPOBJ lpObj, LPOBJ lpTargetObj)
+void MonsterHerd::BeenAttacked(CGameObject* lpObj, CGameObject* lpTargetObj)
 {
 	if ( lpObj == NULL )
 	{
@@ -287,12 +287,12 @@ void MonsterHerd::BeenAttacked(LPOBJ lpObj, LPOBJ lpTargetObj)
 			continue;
 		}
 
-		if ( gObj[lpMHD->m_iIndex].Live == FALSE || gObj[lpMHD->m_iIndex].m_State != 2 )
+		if ( gGameObjects[lpMHD->m_iIndex].Live == FALSE || gGameObjects[lpMHD->m_iIndex].m_State != 2 )
 		{
 			continue;
 		}
 
-		if ( gObj[lpMHD->m_iIndex].m_lpMonsterHerd != lpObj->m_lpMonsterHerd )
+		if ( gGameObjects[lpMHD->m_iIndex].m_lpMonsterHerd != lpObj->m_lpMonsterHerd )
 		{
 			continue;
 		}
@@ -302,21 +302,21 @@ void MonsterHerd::BeenAttacked(LPOBJ lpObj, LPOBJ lpTargetObj)
 			continue;
 		}
 
-		if ( gObj[lpMHD->m_iIndex].TargetNumber == -1 )
+		if ( gGameObjects[lpMHD->m_iIndex].TargetNumber == -1 )
 		{
 			if ( (rand()%100) < 70 )
 			{
-				gObj[lpMHD->m_iIndex].TargetNumber = lpTargetObj->m_Index;
-				gObj[lpMHD->m_iIndex].m_ActState.Emotion = 1;
-				gObj[lpMHD->m_iIndex].m_ActState.EmotionCount = 50;
+				gGameObjects[lpMHD->m_iIndex].TargetNumber = lpTargetObj->m_Index;
+				gGameObjects[lpMHD->m_iIndex].m_ActState.Emotion = 1;
+				gGameObjects[lpMHD->m_iIndex].m_ActState.EmotionCount = 50;
 				continue;
 			}
 		}
 		else if ( (rand()%100) < 30 )
 		{
-			gObj[lpMHD->m_iIndex].TargetNumber = lpTargetObj->m_Index;
-			gObj[lpMHD->m_iIndex].m_ActState.Emotion = 1;
-			gObj[lpMHD->m_iIndex].m_ActState.EmotionCount = 50;
+			gGameObjects[lpMHD->m_iIndex].TargetNumber = lpTargetObj->m_Index;
+			gGameObjects[lpMHD->m_iIndex].m_ActState.Emotion = 1;
+			gGameObjects[lpMHD->m_iIndex].m_ActState.EmotionCount = 50;
 			continue;
 		}
 	}
@@ -324,7 +324,7 @@ void MonsterHerd::BeenAttacked(LPOBJ lpObj, LPOBJ lpTargetObj)
 
 
 
-void MonsterHerd::OrderAttack(LPOBJ lpObj, LPOBJ lpTargetObj, int iAttackPercent)
+void MonsterHerd::OrderAttack(CGameObject* lpObj, CGameObject* lpTargetObj, int iAttackPercent)
 {
 	if ( lpObj == NULL )
 	{
@@ -360,12 +360,12 @@ void MonsterHerd::OrderAttack(LPOBJ lpObj, LPOBJ lpTargetObj, int iAttackPercent
 			continue;
 		}
 
-		if ( gObj[lpMHD->m_iIndex].Live == FALSE || gObj[lpMHD->m_iIndex].m_State != 2 )
+		if ( gGameObjects[lpMHD->m_iIndex].Live == FALSE || gGameObjects[lpMHD->m_iIndex].m_State != 2 )
 		{
 			continue;
 		}
 
-		if ( gObj[lpMHD->m_iIndex].m_lpMonsterHerd != lpObj->m_lpMonsterHerd )
+		if ( gGameObjects[lpMHD->m_iIndex].m_lpMonsterHerd != lpObj->m_lpMonsterHerd )
 		{
 			continue;
 		}
@@ -377,9 +377,9 @@ void MonsterHerd::OrderAttack(LPOBJ lpObj, LPOBJ lpTargetObj, int iAttackPercent
 
 		if ( (rand()%100) < iAttackPercent )
 		{
-			gObj[lpMHD->m_iIndex].TargetNumber = lpTargetObj->m_Index;
-			gObj[lpMHD->m_iIndex].m_ActState.Emotion = 1;
-			gObj[lpMHD->m_iIndex].m_ActState.EmotionCount = 50;
+			gGameObjects[lpMHD->m_iIndex].TargetNumber = lpTargetObj->m_Index;
+			gGameObjects[lpMHD->m_iIndex].m_ActState.Emotion = 1;
+			gGameObjects[lpMHD->m_iIndex].m_ActState.EmotionCount = 50;
 
 			continue;
 		}
@@ -394,7 +394,7 @@ BOOL MonsterHerd::CheckInRadius(int iIndex)
 		return FALSE;
 	}
 
-	LPOBJ lpOBJ = &gObj[iIndex];
+	CGameObject* lpOBJ = &gGameObjects[iIndex];
 
 	if ( lpOBJ->Connected != PLAYER_PLAYING || lpOBJ->Type != OBJ_MONSTER )
 	{
@@ -492,12 +492,12 @@ BOOL MonsterHerd::MoveHerd(BYTE iTX, BYTE iTY)
 
 
 
-BOOL MonsterHerd::MonsterHerdItemDrop(LPOBJ lpObj)
+BOOL MonsterHerd::MonsterHerdItemDrop(CGameObject* lpObj)
 {
 	return FALSE;	// NO MACRO
 }
 
-void MonsterHerd::MonsterMoveAction(LPOBJ lpObj)
+void MonsterHerd::MonsterMoveAction(CGameObject* lpObj)
 {
 	if ( gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STONE) == TRUE )
 	{
@@ -539,7 +539,7 @@ void MonsterHerd::MonsterMoveAction(LPOBJ lpObj)
 	}
 }
 
-void MonsterHerd::MonsterAttackAction(LPOBJ lpObj, LPOBJ lpTargetObj)
+void MonsterHerd::MonsterAttackAction(CGameObject* lpObj, CGameObject* lpTargetObj)
 {
 	return;	// Here goes a MACRO
 }
@@ -547,13 +547,13 @@ void MonsterHerd::MonsterAttackAction(LPOBJ lpObj, LPOBJ lpTargetObj)
 //*******************************************************
 // START REVIEW HERE
 
-void MonsterHerd::MonsterBaseAct(LPOBJ lpObj)
+void MonsterHerd::MonsterBaseAct(CGameObject* lpObj)
 {
-	LPOBJ lpTargetObj = NULL;
+	CGameObject* lpTargetObj = NULL;
 
 	if ( lpObj->TargetNumber >= 0 )
 	{
-		lpTargetObj = &gObj[lpObj->TargetNumber];
+		lpTargetObj = &gGameObjects[lpObj->TargetNumber];
 	}
 	else
 	{
@@ -633,7 +633,7 @@ void MonsterHerd::MonsterBaseAct(LPOBJ lpObj)
 						break;
 					}
 
-					int map = gObj[tuser].MapNumber;
+					int map = gGameObjects[tuser].MapNumber;
 
 					if ( MAX_MAP_RANGE(map) == FALSE )
 					{
@@ -641,9 +641,9 @@ void MonsterHerd::MonsterBaseAct(LPOBJ lpObj)
 						break;
 					}
 
-					if ( MapC[map].CheckWall(lpObj->X, lpObj->Y, gObj[tuser].X, gObj[tuser].Y) == TRUE )
+					if ( MapC[map].CheckWall(lpObj->X, lpObj->Y, gGameObjects[tuser].X, gGameObjects[tuser].Y) == TRUE )
 					{
-						BYTE attr = MapC[map].GetAttr(gObj[tuser].X, gObj[tuser].Y);
+						BYTE attr = MapC[map].GetAttr(gGameObjects[tuser].X, gGameObjects[tuser].Y);
 
 						if ( (attr&1) != 1 )
 						{
@@ -715,12 +715,12 @@ void MonsterHerd::MonsterBaseAct(LPOBJ lpObj)
 }
 	
 
-void MonsterHerd::MonsterDieAction(LPOBJ lpObj)
+void MonsterHerd::MonsterDieAction(CGameObject* lpObj)
 {
 	return;	// Here goes a MACRO
 }
 
-BOOL MonsterHerd::MonsterRegenAction(LPOBJ lpObj)
+BOOL MonsterHerd::MonsterRegenAction(CGameObject* lpObj)
 {
 	if ( lpObj == NULL )
 	{

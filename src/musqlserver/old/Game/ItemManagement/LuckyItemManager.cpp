@@ -342,7 +342,7 @@ _SMELT_RATE * LuckyItemManager::GetSmeltingRateInfo(int iItemNum)
 	return false;
 }
 
-void LuckyItemManager::LuckyItemTicketExchange(LPOBJ lpObj)
+void LuckyItemManager::LuckyItemTicketExchange(CGameObject* lpObj)
 {
 	int iValidItemCount		= 0;
 	int iInvalidItemCount	= 0;
@@ -534,7 +534,7 @@ BYTE LuckyItemManager::GambleGetLevel(_ITEM_LEVEL_RATE * pItemLevelRandRate, int
 	return level;
 }
 
-void LuckyItemManager::LuckyItemSmelting(LPOBJ lpObj)
+void LuckyItemManager::LuckyItemSmelting(CGameObject* lpObj)
 {
 	int iValidItemCount		= 0;
 	BYTE iInvalidItemCount	= 0;
@@ -729,7 +729,7 @@ int LuckyItemManager::GDReqLuckyItemInsert(CItem * pItem, int iObjIndex)
 
 int LuckyItemManager::GDReqLuckyItemInsert(short wItemCode, UINT64 Serial, short wDurabilitySmall, int iObjIndex)
 {
-	LPOBJ lpObj = &gObj[iObjIndex];
+	CGameObject* lpObj = &gGameObjects[iObjIndex];
 	PMSG_REQ_LUCKYITEM_INSERT pMsg;
 	
 	pMsg.dwUserGuid	= lpObj->DBNumber;
@@ -747,7 +747,7 @@ void LuckyItemManager::GDReqLuckyItemInsert2nd(int iObjIndex)
 {
 	int	iItemType[5];
 	
-	LPOBJ lpObj		= &gObj[iObjIndex];
+	CGameObject* lpObj		= &gGameObjects[iObjIndex];
 	iItemType[0]	= 2;
 	iItemType[1]	= 3;
 	iItemType[2]	= 4;
@@ -780,7 +780,7 @@ void LuckyItemManager::GDReqLuckyItemInsert2nd(int iObjIndex)
 
 void LuckyItemManager::GDReqLuckyItemDelete(short wItemCode, UINT64 Serial, int iObjIndex)
 {
-	LPOBJ lpObj = &gObj[iObjIndex];
+	CGameObject* lpObj = &gGameObjects[iObjIndex];
 	PMSG_REQ_LUCKYITEM_DELETE pMsg;
 	
 	pMsg.wUserIndex = lpObj->m_Index;
@@ -817,9 +817,9 @@ void LuckyItemManager::DGAnsLuckyItemList(PMSG_ANS_LUCKYITEM_SELECT * lpRecv)
 	
 	for( int iInven = 0; iInven < MAIN_INVENTORY_SIZE; iInven++ )
 	{
-		if( gObj[iObjIndex].pInventory[iInven].IsItem() )
+		if( gGameObjects[iObjIndex].pInventory[iInven].IsItem() )
 		{
-			CItem * pItem = &gObj[iObjIndex].pInventory[iInven];
+			CItem * pItem = &gGameObjects[iObjIndex].pInventory[iInven];
 
 			for( int i = 0; i < iItemCnt; i++ )
 			{

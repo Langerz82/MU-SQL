@@ -48,15 +48,15 @@ void CObjAttack::Init()
 	this->m_Lua.DoFile(g_ConfigRead.GetPath("\\Scripts\\Character\\CalcCharacter.lua"));
 }
 
-BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic, int magicsend, unsigned char MSBFlag, int AttackDamage, BOOL bCombo, BYTE RFAttack, BYTE byReflect, BYTE byPentagramAttack)
+BOOL CObjAttack::Attack(CGameObject* lpObj, CGameObject* lpTargetObj, CMagicInf* lpMagic, int magicsend, unsigned char MSBFlag, int AttackDamage, BOOL bCombo, BYTE RFAttack, BYTE byReflect, BYTE byPentagramAttack)
 {
 	/*if(lpObj->Type == OBJ_USER)
 	{
 	gGameSecurity.DebugInfo(lpObj->m_Index);
 	}*/
 	int skillSuccess = 0;
-	LPOBJ lpCallObj;
-	LPOBJ lpCallTargetObj;
+	CGameObject* lpCallObj;
+	CGameObject* lpCallTargetObj;
 	int MsgDamage = 0;
 	int ManaChange = 0;
 	int iTempShieldDamage = 0;
@@ -452,7 +452,7 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic, int 
 	{
 		if (lpObj->m_RecallMon >= 0)
 		{
-			lpCallObj = &gObj[lpObj->m_RecallMon];
+			lpCallObj = &gGameObjects[lpObj->m_RecallMon];
 		}
 	}
 
@@ -462,7 +462,7 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic, int 
 	{
 		if (lpTargetObj->m_RecallMon >= 0)
 		{
-			lpCallTargetObj = &gObj[lpTargetObj->m_RecallMon];
+			lpCallTargetObj = &gGameObjects[lpTargetObj->m_RecallMon];
 		}
 	}
 
@@ -2898,7 +2898,7 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic, int 
 	{
 		if (lpTargetObj->m_RecallMon >= 0)
 		{
-			lpCallObj = &gObj[lpTargetObj->m_RecallMon];
+			lpCallObj = &gGameObjects[lpTargetObj->m_RecallMon];
 		}
 	}
 
@@ -3675,7 +3675,7 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic, int 
 	return TRUE;
 }
 
-BOOL CObjAttack::PentagramAttack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic, BYTE MSBFlag, int MsgDamage, int AttackDamage, int iTargetDefense)
+BOOL CObjAttack::PentagramAttack(CGameObject* lpObj, CGameObject* lpTargetObj, CMagicInf* lpMagic, BYTE MSBFlag, int MsgDamage, int AttackDamage, int iTargetDefense)
 {
 	bool bPentagramEquip = false;
 	int PentagramAttackDamage = 0;
@@ -3851,7 +3851,7 @@ BOOL CObjAttack::PentagramAttack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMa
 	return TRUE;
 }
 
-BOOL CObjAttack::GetBuffTypePhysicalIncrease(LPOBJ lpObj, int *iAttackBerserkerMin, int *iAttackBerserkerMax, int nBuffType)
+BOOL CObjAttack::GetBuffTypePhysicalIncrease(CGameObject* lpObj, int *iAttackBerserkerMin, int *iAttackBerserkerMax, int nBuffType)
 {
 	gObjUseSkill.m_Lua.Generic_Call("SummonerBerserkerAttackDamage", "ii>ii", (lpObj->m_PlayerData->Strength + lpObj->AddStrength), (lpObj->m_PlayerData->Dexterity + lpObj->AddDexterity), iAttackBerserkerMin, iAttackBerserkerMax);
 
@@ -3871,7 +3871,7 @@ BOOL CObjAttack::GetBuffTypePhysicalIncrease(LPOBJ lpObj, int *iAttackBerserkerM
 }
 
 
-int  CObjAttack::GetAttackDamage(LPOBJ lpObj, LPOBJ lpTargetObj, int targetDefense, int& effect, CMagicInf* lpMagic)
+int  CObjAttack::GetAttackDamage(CGameObject* lpObj, CGameObject* lpTargetObj, int targetDefense, int& effect, CMagicInf* lpMagic)
 {
 	int ad;
 	int sub;
@@ -4456,7 +4456,7 @@ int  CObjAttack::GetAttackDamage(LPOBJ lpObj, LPOBJ lpTargetObj, int targetDefen
 	return ad;
 }
 
-int CObjAttack::GetAttackDamageSummoner(LPOBJ lpObj, LPOBJ lpTargetObj, int targetDefense, CMagicInf* lpMagic, int& effect)
+int CObjAttack::GetAttackDamageSummoner(CGameObject* lpObj, CGameObject* lpTargetObj, int targetDefense, CMagicInf* lpMagic, int& effect)
 {
 	double fCurseDamageMin = 0;
 	double fCurseDamageMax = 0;
@@ -4783,7 +4783,7 @@ int CObjAttack::GetAttackDamageSummoner(LPOBJ lpObj, LPOBJ lpTargetObj, int targ
 	return ad;
 }
 
-int  CObjAttack::GetAttackDamageWizard(LPOBJ lpObj, LPOBJ lpTargetObj, int targetDefense, CMagicInf* lpMagic, int& effect)
+int  CObjAttack::GetAttackDamageWizard(CGameObject* lpObj, CGameObject* lpTargetObj, int targetDefense, CMagicInf* lpMagic, int& effect)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -5223,7 +5223,7 @@ int  CObjAttack::GetAttackDamageWizard(LPOBJ lpObj, LPOBJ lpTargetObj, int targe
 	return ad;
 }
 
-BOOL gObjDenorantSprite(LPOBJ lpObj)
+BOOL gObjDenorantSprite(CGameObject* lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -5250,7 +5250,7 @@ BOOL gObjDenorantSprite(LPOBJ lpObj)
 
 
 
-BOOL gObjDarkHorse(LPOBJ lpObj)
+BOOL gObjDarkHorse(CGameObject* lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -5276,7 +5276,7 @@ BOOL gObjDarkHorse(LPOBJ lpObj)
 }
 
 
-BOOL gObjFenrir(LPOBJ lpObj)
+BOOL gObjFenrir(CGameObject* lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -5301,7 +5301,7 @@ BOOL gObjFenrir(LPOBJ lpObj)
 	return FALSE;
 }
 
-int CObjAttack::GetShieldDamage(LPOBJ lpObj, LPOBJ lpTargetObj, int iAttackDamage)
+int CObjAttack::GetShieldDamage(CGameObject* lpObj, CGameObject* lpTargetObj, int iAttackDamage)
 {
 	int iShieldDamage = 0;
 
@@ -5377,7 +5377,7 @@ int CObjAttack::GetShieldDamage(LPOBJ lpObj, LPOBJ lpTargetObj, int iAttackDamag
 	return iReduceShield;
 }
 
-int CObjAttack::GetElementalDamage(LPOBJ lpObj, LPOBJ lpTargetObj, char* DamageType1, char* DamageType2, int iAttackDamage, int iTargetDefense) // 1.1.0.4 decompilation
+int CObjAttack::GetElementalDamage(CGameObject* lpObj, CGameObject* lpTargetObj, char* DamageType1, char* DamageType2, int iAttackDamage, int iTargetDefense) // 1.1.0.4 decompilation
 {
 	int Strength = 0;
 	int Dexterity = 0;

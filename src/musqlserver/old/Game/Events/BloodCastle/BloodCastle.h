@@ -11,7 +11,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "user.h"
+#include "CUserData.h"
 #include <list>
 
 #define MAX_BLOOD_CASTLE_LEVEL 8
@@ -258,11 +258,11 @@ public:
 	void ThrowQuestItemByUser(int iBridgeIndex, UINT64 iQuestItemSerial);
 	void CatchQuestItemByUser(int iBridgeIndex, int iUserIndex, int iItemLevel);
 
-	bool NpcAngelKing(LPOBJ lpNpc, LPOBJ lpObj);
+	bool NpcAngelKing(CGameObject* lpNpc, CGameObject* lpObj);
 
-	void KillMonsterProc(int iBridgeIndex, LPOBJ lpMonsterObj);
-	void DestroyCastleDoor(int iBridgeIndex, LPOBJ lpDoorObj);
-	void DestroySaintStatue(int iBridgeIndex, LPOBJ lpStatueObj);
+	void KillMonsterProc(int iBridgeIndex, CGameObject* lpMonsterObj);
+	void DestroyCastleDoor(int iBridgeIndex, CGameObject* lpDoorObj);
+	void DestroySaintStatue(int iBridgeIndex, CGameObject* lpStatueObj);
 	
 	bool CheckCastleDoorLive(int iBridgeIndex);
 

@@ -32,7 +32,7 @@
 #include "ChaosCastle.h"
 #include "DevilSquare.h"
 #include "Gate.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "PacketCheckSum.h"
 #include "DragonEvent.h"
 #include "Event/AttackEvent/AttackEvent.h"
@@ -676,20 +676,20 @@ void GameMonsterAllAdd()
 
 			if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE)
 			{
-				if (gObj[result].Class == 216)
+				if (gGameObjects[result].Class == 216)
 				{
 					g_CastleSiege.SetCrownIndex(result);
 				}
 
-				if (CRYWOLF_MAP_RANGE(gObj[result].MapNumber))
+				if (CRYWOLF_MAP_RANGE(gGameObjects[result].MapNumber))
 				{
-					if (gObj[result].Type == OBJ_NPC)
+					if (gGameObjects[result].Type == OBJ_NPC)
 					{
-						if (gObj[result].Class == 406 || gObj[result].Class == 407)
+						if (gGameObjects[result].Class == 406 || gGameObjects[result].Class == 407)
 						{
 
 						}
-						else if (CRYWOLF_ALTAR_CLASS_RANGE(gObj[result].Class)) //Altar?
+						else if (CRYWOLF_ALTAR_CLASS_RANGE(gGameObjects[result].Class)) //Altar?
 						{
 							g_Crywolf.m_ObjSpecialNPC.AddObj(result);
 						}
@@ -700,18 +700,18 @@ void GameMonsterAllAdd()
 					}
 				}
 
-				if (CRYWOLF_MAP_RANGE(gObj[result].MapNumber))
+				if (CRYWOLF_MAP_RANGE(gGameObjects[result].MapNumber))
 				{
-					if (gObj[result].Type == OBJ_MONSTER)
+					if (gGameObjects[result].Type == OBJ_MONSTER)
 					{
 						g_Crywolf.m_ObjCommonMonster.AddObj(result);
 					}
 				}
 			}
 
-			if ( CHECK_CLASS(gObj[result].MapNumber, MAP_INDEX_CRYWOLF_FIRSTZONE) )
+			if ( CHECK_CLASS(gGameObjects[result].MapNumber, MAP_INDEX_CRYWOLF_FIRSTZONE) )
 			{
-				if ( gObj[result].Type == OBJ_MONSTER )
+				if ( gGameObjects[result].Type == OBJ_MONSTER )
 				{
 					g_Crywolf.m_ObjCommonMonster.AddObj(result);
 				}
@@ -754,31 +754,31 @@ void GameMonsterAllCloseAndReLoad()
 {
 	for ( int n=0;n<g_ConfigRead.server.GetObjectMaxMonster();n++)
 	{
-		if ( gObj[n].Type == OBJ_MONSTER || gObj[n].Type == OBJ_NPC )
+		if ( gGameObjects[n].Type == OBJ_MONSTER || gGameObjects[n].Type == OBJ_NPC )
 		{
 			if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE)
 			{
-				if (gObj[n].m_btCsNpcType)
+				if (gGameObjects[n].m_btCsNpcType)
 				{
 					continue;
 				}
 			}
 
-			if ( gObj[n].m_iCurrentAI )
+			if ( gGameObjects[n].m_iCurrentAI )
 			{
-				gObj[n].Live = FALSE;
-				gObjViewportListProtocolDestroy(&gObj[n]);
-				gObjViewportClose(&gObj[n]);
+				gGameObjects[n].Live = FALSE;
+				gObjViewportListProtocolDestroy(&gGameObjects[n]);
+				gObjViewportClose(&gGameObjects[n]);
 			}
 			
 			gObjDel(n);
 		}
 
-		if ( gObj[n].Type == OBJ_USER && gObj[n].m_PlayerData->ISBOT == true )
+		if ( gGameObjects[n].Type == OBJ_USER && gGameObjects[n].m_PlayerData->ISBOT == true )
 		{
-			gObj[n].Type = OBJ_EMPTY;
-			delete gObj[n].m_PlayerData;
-			gObj[n].m_PlayerData = nullptr;
+			gGameObjects[n].Type = OBJ_EMPTY;
+			delete gGameObjects[n].m_PlayerData;
+			gGameObjects[n].m_PlayerData = nullptr;
 			gObjDel(n);
 		}
 	}
@@ -998,11 +998,11 @@ void ExDataClientMsgProc(WPARAM wParam, LPARAM lParam)
 
 					IOCP.DataSend(i, (unsigned char*)&pMsg, sizeof(pMsg) );
 
-					gObj[i].m_FriendServerOnline = FRIEND_SERVER_STATE_OFFLINE;
+					gGameObjects[i].m_FriendServerOnline = FRIEND_SERVER_STATE_OFFLINE;
 
-					if (gObj[i].m_PlayerData->m_bUsePartyMatching == true)
+					if (gGameObjects[i].m_PlayerData->m_bUsePartyMatching == true)
 					{
-						if (gObj[i].PartyNumber < 0)
+						if (gGameObjects[i].PartyNumber < 0)
 						{
 							GSProtocol.GCPartyDelUserSendNoMessage(i);
 						}
@@ -1013,11 +1013,11 @@ void ExDataClientMsgProc(WPARAM wParam, LPARAM lParam)
 						}
 					}
 
-					gObj[i].m_PlayerData->m_nPartyMatchingIndex = -1;
-					gObj[i].m_PlayerData->m_bUsePartyMatching = false;
-					gObj[i].m_PlayerData->m_bPartyMatchingLeader = false;
-					gObj[i].m_PlayerData->m_nPartyMatchingMemberCount = 0;
-					gObj[i].m_PlayerData->m_bUseGuildMatching = false;
+					gGameObjects[i].m_PlayerData->m_nPartyMatchingIndex = -1;
+					gGameObjects[i].m_PlayerData->m_bUsePartyMatching = false;
+					gGameObjects[i].m_PlayerData->m_bPartyMatchingLeader = false;
+					gGameObjects[i].m_PlayerData->m_nPartyMatchingMemberCount = 0;
+					gGameObjects[i].m_PlayerData->m_bUseGuildMatching = false;
 				}
 			}
 

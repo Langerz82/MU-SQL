@@ -362,17 +362,17 @@ char* CGMMng::GetTokenString()
 }
 // -------------------------------------------------------------------------------
 
-LPOBJ CGMMng::GetUserInfo(LPOBJ lpUser, LPSTR UserName)
+CGameObject* CGMMng::GetUserInfo(CGameObject* lpUser, LPSTR UserName)
 {
 	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
-		if (gObj[i].Connected >= PLAYER_PLAYING)
+		if (gGameObjects[i].Connected >= PLAYER_PLAYING)
 		{
-			if (gObj[i].Name[0] == *UserName)
+			if (gGameObjects[i].Name[0] == *UserName)
 			{
-				if (strcmp(gObj[i].Name, UserName) == 0)
+				if (strcmp(gGameObjects[i].Name, UserName) == 0)
 				{
-					return &gObj[i];
+					return &gGameObjects[i];
 				}
 			}
 		}
@@ -396,7 +396,7 @@ int CGMMng::GetTokenNumber()
 	return 0;
 }
 
-void PostSend(LPOBJ lpObj, char * szMessage)
+void PostSend(CGameObject* lpObj, char * szMessage)
 {
 	PMSG_POST_DATA pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xFA, 0x10, sizeof(pMsg));
@@ -414,7 +414,7 @@ void PostSend(LPOBJ lpObj, char * szMessage)
 	GSProtocol.DataSendAll((LPBYTE)&pMsg, sizeof(pMsg));
 }
 
-int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
+int CGMMng::ManagementProc(CGameObject* lpObj, char* szCmd, int aIndex)
 {
 	char seps[2] = " ";
 	char * szCmdToken;
@@ -558,7 +558,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 			return 0;
 		}
 
-		LPOBJ lpTargetObj = gObjFind(pId);
+		CGameObject* lpTargetObj = gObjFind(pId);
 
 		if (lpTargetObj == NULL)
 		{
@@ -610,7 +610,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 		int map;
 		int iX;
 		int iY;
-		LPOBJ lpTargetObj = gObjFind(pId);
+		CGameObject* lpTargetObj = gObjFind(pId);
 		int iIndex;
 
 		if (lpTargetObj == NULL)
@@ -693,7 +693,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 			return 0;
 		}
 		// ----
-		LPOBJ lpTarget = this->GetUserInfo(lpObj, UserName);
+		CGameObject* lpTarget = this->GetUserInfo(lpObj, UserName);
 		// ----
 		if (!lpTarget)
 		{
@@ -769,7 +769,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 			int iTokenNumber2 = this->GetTokenNumber();
 			int iTokenNumber3 = this->GetTokenNumber();
 			int iIndex = gObjGetIndex(pId);
-			LPOBJ lpTargetObj;
+			CGameObject* lpTargetObj;
 
 			if (iIndex >= 0)
 			{
@@ -837,7 +837,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 					return 0;
 				}
 
-				if (gObj[aIndex].IsInBattleGround != false)
+				if (gGameObjects[aIndex].IsInBattleGround != false)
 				{
 					GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 153), lpObj->m_Index, 1);
 					return 0;
@@ -928,11 +928,11 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 		}
 		else
 		{
-			if (gObj[aIndex].m_PlayerData->lpGuild != NULL)
+			if (gGameObjects[aIndex].m_PlayerData->lpGuild != NULL)
 			{
-				if (gObj[aIndex].m_PlayerData->lpGuild->WarType == 1)
+				if (gGameObjects[aIndex].m_PlayerData->lpGuild->WarType == 1)
 				{
-					strcmp(gObj[aIndex].Name, gObj[aIndex].m_PlayerData->lpGuild->Names[0]);
+					strcmp(gGameObjects[aIndex].Name, gGameObjects[aIndex].m_PlayerData->lpGuild->Names[0]);
 				}
 			}
 		}
@@ -963,19 +963,19 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 		}
 		else
 		{
-			if (gObj[aIndex].m_PlayerData->lpGuild != NULL && gObj[aIndex].m_PlayerData->lpGuild->lpTargetGuildNode != NULL)
+			if (gGameObjects[aIndex].m_PlayerData->lpGuild != NULL && gGameObjects[aIndex].m_PlayerData->lpGuild->lpTargetGuildNode != NULL)
 			{
-				if (strcmp(gObj[aIndex].Name, gObj[aIndex].m_PlayerData->lpGuild->Names[0]) == 0)
+				if (strcmp(gGameObjects[aIndex].Name, gGameObjects[aIndex].m_PlayerData->lpGuild->Names[0]) == 0)
 				{
-					if (gObj[aIndex].m_PlayerData->lpGuild->BattleGroundIndex >= 0 && gObj[aIndex].m_PlayerData->lpGuild->WarType == 1)
+					if (gGameObjects[aIndex].m_PlayerData->lpGuild->BattleGroundIndex >= 0 && gGameObjects[aIndex].m_PlayerData->lpGuild->WarType == 1)
 					{
-						::gObjAddMsgSendDelay(&gObj[aIndex], 7, aIndex, 10000, 0);
+						::gObjAddMsgSendDelay(&gGameObjects[aIndex], 7, aIndex, 10000, 0);
 
 						char szTemp[100];
 
-						wsprintf(szTemp, Lang.GetText(0, 61), gObj[aIndex].m_PlayerData->lpGuild->Names[0]);
-						GSProtocol.GCServerMsgStringSendGuild(gObj[aIndex].m_PlayerData->lpGuild, szTemp, 1);
-						GSProtocol.GCServerMsgStringSendGuild(gObj[aIndex].m_PlayerData->lpGuild->lpTargetGuildNode, szTemp, 1);
+						wsprintf(szTemp, Lang.GetText(0, 61), gGameObjects[aIndex].m_PlayerData->lpGuild->Names[0]);
+						GSProtocol.GCServerMsgStringSendGuild(gGameObjects[aIndex].m_PlayerData->lpGuild, szTemp, 1);
+						GSProtocol.GCServerMsgStringSendGuild(gGameObjects[aIndex].m_PlayerData->lpGuild->lpTargetGuildNode, szTemp, 1);
 					}
 				}
 			}
@@ -1013,9 +1013,9 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 
 		if (Index >= 0)
 		{
-			gObj[Index].PenaltyMask |= 1;
-			gObj[Index].Penalty |= 2;
-			gObj[Index].ChatBlockTime = bantime;
+			gGameObjects[Index].PenaltyMask |= 1;
+			gGameObjects[Index].Penalty |= 2;
+			gGameObjects[Index].ChatBlockTime = bantime;
 			MsgOutput(lpObj->m_Index, Lang.GetText(0, 428));
 		}
 
@@ -1049,9 +1049,9 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 
 		if (Index >= 0)
 		{
-			gObj[Index].PenaltyMask &= ~1;
-			gObj[Index].Penalty &= ~2;
-			gObj[Index].ChatBlockTime = 0;
+			gGameObjects[Index].PenaltyMask &= ~1;
+			gGameObjects[Index].Penalty &= ~2;
+			gGameObjects[Index].ChatBlockTime = 0;
 			MsgOutput(lpObj->m_Index, Lang.GetText(0, 428));
 		}
 	}
@@ -1126,7 +1126,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 
 	case 201:	//110:
 	{
-		gObjBillRequest(&gObj[aIndex]);
+		gObjBillRequest(&gGameObjects[aIndex]);
 	}
 	break;
 	// Commands by [IGC] drakelv
@@ -1253,7 +1253,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 		if(index == -1)
 			break;
 
-		MsgOutput(aIndex, "Name:%s Login:%s", pId, gObj[index].AccountID); */
+		MsgOutput(aIndex, "Name:%s Login:%s", pId, gGameObjects[index].AccountID); */
 	}
 	break;
 	case Command::AddStr:
@@ -1290,8 +1290,8 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 
 		gObjCalCharacter.CalcCharacter(aIndex);
 		gObjSetBP(aIndex);
-		GSProtocol.GCLevelUpMsgSend(gObj[aIndex].m_Index, 1);
-		gObjCalcMaxLifePower(gObj[aIndex].m_Index);
+		GSProtocol.GCLevelUpMsgSend(gGameObjects[aIndex].m_Index, 1);
+		gObjCalcMaxLifePower(gGameObjects[aIndex].m_Index);
 		return TRUE;
 	}
 	break;
@@ -1813,11 +1813,11 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 
 			if (type == 13 && (index == 4 || index == 5))
 			{
-				PetItemSerialCreateSend(aIndex, gObj[aIndex].MapNumber, gObj[aIndex].X, gObj[aIndex].Y, Item.m_Type, ItemLevel, 0, ItemSkill, ItemLuck, ItemOpt, -1, Item.m_NewOption, ItemAncient);
+				PetItemSerialCreateSend(aIndex, gGameObjects[aIndex].MapNumber, gGameObjects[aIndex].X, gGameObjects[aIndex].Y, Item.m_Type, ItemLevel, 0, ItemSkill, ItemLuck, ItemOpt, -1, Item.m_NewOption, ItemAncient);
 			}
 			else
 			{
-				ItemSerialCreateSend(aIndex, 227, gObj[aIndex].X, gObj[aIndex].Y, Item.m_Type, ItemLevel, 0, ItemSkill, ItemLuck, ItemOpt, -1, Item.m_NewOption, ItemAncient, ItemExpireTime, Item.m_SocketOption, MainAttribute);
+				ItemSerialCreateSend(aIndex, 227, gGameObjects[aIndex].X, gGameObjects[aIndex].Y, Item.m_Type, ItemLevel, 0, ItemSkill, ItemLuck, ItemOpt, -1, Item.m_NewOption, ItemAncient, ItemExpireTime, Item.m_SocketOption, MainAttribute);
 			}
 
 			GMLog->Output("[%s][%s][%s] Created Item using Admin Command (%s/%d/%d) Auth: %d", lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr, Lang.GetMap(0, lpObj->MapNumber), lpObj->X, lpObj->Y, lpObj->Authority);
@@ -1830,7 +1830,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 		MsgOutput(aIndex, Lang.GetText(0, 445));
 		MsgOutput(aIndex, Lang.GetText(0, 446), lpObj->AccountID, lpObj->Name, lpObj->Level, lpObj->m_PlayerData->MasterLevel, lpObj->Class);
 		MsgOutput(aIndex, Lang.GetText(0, 447), lpObj->m_PlayerData->SwearWarning, Lang.GetMap(0, lpObj->MapNumber), lpObj->X, lpObj->Y);
-		MsgOutput(aIndex, Lang.GetText(0, 448), gObjIsConnectedGP(gObjGetIndex(gObj[aIndex].MarryName)));
+		MsgOutput(aIndex, Lang.GetText(0, 448), gObjIsConnectedGP(gObjGetIndex(gGameObjects[aIndex].MarryName)));
 		break;
 	}
 
@@ -1872,9 +1872,9 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 		short index = gObjGetIndex(pId);
 
 		if (index == -1) break;
-		gObj[index].m_PK_Level = pklevel;
-		gObj[index].m_PK_Count = pkcount;
-		GSProtocol.GCPkLevelSend(index, gObj[index].m_PK_Level);
+		gGameObjects[index].m_PK_Level = pklevel;
+		gGameObjects[index].m_PK_Count = pkcount;
+		GSProtocol.GCPkLevelSend(index, gGameObjects[index].m_PK_Level);
 		break;
 	}
 
@@ -1886,26 +1886,26 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 
 	case 406:
 	{
-		if (gObj[aIndex].Married == 0)
+		if (gGameObjects[aIndex].Married == 0)
 			return 0;
 
-		if (strlen(gObj[aIndex].MarryName) <= 0)
+		if (strlen(gGameObjects[aIndex].MarryName) <= 0)
 			return 0;
 
-		int uindex = gObjGetIndex(gObj[aIndex].MarryName);
+		int uindex = gObjGetIndex(gGameObjects[aIndex].MarryName);
 
 		if (uindex == -1)
 			return 0;
 
-		if (this->CheckTraceMarryCondition(&gObj[aIndex], &gObj[uindex]) == FALSE)
+		if (this->CheckTraceMarryCondition(&gGameObjects[aIndex], &gGameObjects[uindex]) == FALSE)
 		{
 			return 0;
 		}
 
-		int nSrcMapNumber = gObj[aIndex].MapNumber;
-		int nTarMapNumber = gObj[uindex].MapNumber;
+		int nSrcMapNumber = gGameObjects[aIndex].MapNumber;
+		int nTarMapNumber = gGameObjects[uindex].MapNumber;
 
-		gObjTeleport(aIndex, gObj[uindex].MapNumber, gObj[uindex].X, gObj[uindex].Y);
+		gObjTeleport(aIndex, gGameObjects[uindex].MapNumber, gGameObjects[uindex].X, gGameObjects[uindex].Y);
 		if (nSrcMapNumber != nTarMapNumber)
 		{
 			g_SendNPCInfo.SendNpcCoordinate(aIndex, nTarMapNumber, 0);
@@ -1918,7 +1918,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 		if (!g_ConfigRead.pk.bPkClearEnable)
 			break;
 
-		if (gObj[aIndex].m_PK_Level <= 3)
+		if (gGameObjects[aIndex].m_PK_Level <= 3)
 		{
 			MsgOutput(aIndex, Lang.GetText(0, 501));
 			return 0;
@@ -1928,7 +1928,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 
 		if (g_ConfigRead.pk.bIsCostMultiplyByKillCount)
 		{
-			Price = g_ConfigRead.pk.iPkClearCost * gObj[aIndex].m_PK_Count;
+			Price = g_ConfigRead.pk.iPkClearCost * gGameObjects[aIndex].m_PK_Count;
 		}
 		else
 		{
@@ -1939,17 +1939,17 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 			Price = MAX_ZEN;
 		}
 
-		if (gObj[aIndex].m_PlayerData->Money < Price)
+		if (gGameObjects[aIndex].m_PlayerData->Money < Price)
 		{
 			MsgOutput(aIndex, Lang.GetText(0, 450), Price);
 		}
 		else
 		{
-			gObj[aIndex].m_PlayerData->Money -= Price;
-			GSProtocol.GCMoneySend(aIndex, gObj[aIndex].m_PlayerData->Money);
-			gObj[aIndex].m_PK_Level = 3;
-			gObj[aIndex].m_PK_Count = 0;
-			GSProtocol.GCPkLevelSend(aIndex, gObj[aIndex].m_PK_Level);
+			gGameObjects[aIndex].m_PlayerData->Money -= Price;
+			GSProtocol.GCMoneySend(aIndex, gGameObjects[aIndex].m_PlayerData->Money);
+			gGameObjects[aIndex].m_PK_Level = 3;
+			gGameObjects[aIndex].m_PK_Count = 0;
+			GSProtocol.GCPkLevelSend(aIndex, gGameObjects[aIndex].m_PK_Level);
 		}
 		break;
 	}
@@ -1962,13 +1962,13 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 
 		int WareID = this->GetTokenNumber();
 
-		if (gObj[aIndex].m_IfState.use == 1 && gObj[aIndex].m_IfState.type == 6)
+		if (gGameObjects[aIndex].m_IfState.use == 1 && gGameObjects[aIndex].m_IfState.type == 6)
 		{
 			MsgOutput(aIndex, Lang.GetText(0, 111));
 			return 0;
 		}
 
-		if (gObj[aIndex].m_btOpenWarehouse == TRUE)
+		if (gGameObjects[aIndex].m_btOpenWarehouse == TRUE)
 		{
 			MsgOutput(aIndex, Lang.GetText(0, 111));
 			return 0;
@@ -1980,7 +1980,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 			return 0;
 		}
 
-		int Time = (GetTickCount() - gObj[aIndex].WarehouseTick) / 1000;
+		int Time = (GetTickCount() - gGameObjects[aIndex].WarehouseTick) / 1000;
 
 		if (Time < 30)
 		{
@@ -1988,7 +1988,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 			return 0;
 		}
 
-		if (gObj[aIndex].WarehouseSaveLock == TRUE)
+		if (gGameObjects[aIndex].WarehouseSaveLock == TRUE)
 		{
 			MsgOutput(aIndex, Lang.GetText(0, 598));
 			return 0;
@@ -2048,7 +2048,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 				{
 					if (lpObj->VpPlayer[n].number >= 0)
 					{
-						LPOBJ lpTarget = &gObj[lpObj->VpPlayer[n].number];
+						CGameObject* lpTarget = &gGameObjects[lpObj->VpPlayer[n].number];
 
 						if (lpTarget->Class == 275)
 						{
@@ -2091,7 +2091,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 				{
 					if (lpObj->VpPlayer[n].number >= 0)
 					{
-						LPOBJ lpTarget = &gObj[lpObj->VpPlayer[n].number];
+						CGameObject* lpTarget = &gGameObjects[lpObj->VpPlayer[n].number];
 
 						if (lpTarget->Class == 275)
 						{
@@ -2220,11 +2220,11 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 		int gmoncount = 0;
 		for (int g = g_ConfigRead.server.GetObjectStartUserIndex(); g < g_ConfigRead.server.GetObjectMax(); g++)
 		{
-			if (gObj[g].Connected == 3)
+			if (gGameObjects[g].Connected == 3)
 			{
 				oncount++;
 			}
-			if (gObj[g].Connected == 3 && gObj[g].Authority == 32)
+			if (gGameObjects[g].Connected == 3 && gGameObjects[g].Authority == 32)
 			{
 				gmoncount++;
 			}
@@ -2254,14 +2254,14 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 			return 0;
 		}
 
-		if (gObj[iTargetIndex].Type != OBJ_USER)
+		if (gGameObjects[iTargetIndex].Type != OBJ_USER)
 		{
 			return 0;
 		}
 
-		MsgOutput(lpObj->m_Index, "Character: %s", gObj[iTargetIndex].Name);
-		MsgOutput(lpObj->m_Index, "AccountID: %s, Level:%d MasterLevel:%d", gObj[iTargetIndex].AccountID, gObj[iTargetIndex].Level, gObj[iTargetIndex].m_PlayerData->MasterLevel);
-		MsgOutput(lpObj->m_Index, "Map: %s, X:%d Y:%d", Lang.GetMap(0, gObj[iTargetIndex].MapNumber), gObj[iTargetIndex].X, gObj[iTargetIndex].Y);
+		MsgOutput(lpObj->m_Index, "Character: %s", gGameObjects[iTargetIndex].Name);
+		MsgOutput(lpObj->m_Index, "AccountID: %s, Level:%d MasterLevel:%d", gGameObjects[iTargetIndex].AccountID, gGameObjects[iTargetIndex].Level, gGameObjects[iTargetIndex].m_PlayerData->MasterLevel);
+		MsgOutput(lpObj->m_Index, "Map: %s, X:%d Y:%d", Lang.GetMap(0, gGameObjects[iTargetIndex].MapNumber), gGameObjects[iTargetIndex].X, gGameObjects[iTargetIndex].Y);
 
 	}
 	break;
@@ -2277,10 +2277,10 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 	{
 
 
-		if ((gObj[aIndex].Authority & 2) != 2 && (gObj[aIndex].Authority & 0x20) != 0x20) /*Check if user is GM*/
+		if ((gGameObjects[aIndex].Authority & 2) != 2 && (gGameObjects[aIndex].Authority & 0x20) != 0x20) /*Check if user is GM*/
 			return 0;
 
-		if ((gObj[aIndex].GameMaster & GM_EVENT_MODIFY) != GM_EVENT_MODIFY)
+		if ((gGameObjects[aIndex].GameMaster & GM_EVENT_MODIFY) != GM_EVENT_MODIFY)
 		{
 			MsgOutput(aIndex, Lang.GetText(0, 453));
 			return 0;
@@ -2292,10 +2292,10 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 	break;
 	case 409:
 	{
-		if ((gObj[aIndex].Authority & 2) != 2 && (gObj[aIndex].Authority & 0x20) != 0x20) /*Check if user is GM*/
+		if ((gGameObjects[aIndex].Authority & 2) != 2 && (gGameObjects[aIndex].Authority & 0x20) != 0x20) /*Check if user is GM*/
 			return 0;
 
-		if ((gObj[aIndex].GameMaster & GM_EVENT_MODIFY) != GM_EVENT_MODIFY)
+		if ((gGameObjects[aIndex].GameMaster & GM_EVENT_MODIFY) != GM_EVENT_MODIFY)
 		{
 			MsgOutput(aIndex, Lang.GetText(0, 453));
 			return 0;
@@ -2308,10 +2308,10 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 	break;
 	case 410:
 	{
-		if ((gObj[aIndex].Authority & 2) != 2 && (gObj[aIndex].Authority & 0x20) != 0x20) /*Check if user is GM*/
+		if ((gGameObjects[aIndex].Authority & 2) != 2 && (gGameObjects[aIndex].Authority & 0x20) != 0x20) /*Check if user is GM*/
 			return 0;
 
-		if ((gObj[aIndex].GameMaster & GM_EVENT_MODIFY) != GM_EVENT_MODIFY)
+		if ((gGameObjects[aIndex].GameMaster & GM_EVENT_MODIFY) != GM_EVENT_MODIFY)
 		{
 			MsgOutput(aIndex, Lang.GetText(0, 453));
 			return 0;
@@ -2326,10 +2326,10 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 	break;
 	case 411:
 	{
-		if ((gObj[aIndex].Authority & 2) != 2 && (gObj[aIndex].Authority & 0x20) != 0x20) /*Check if user is GM*/
+		if ((gGameObjects[aIndex].Authority & 2) != 2 && (gGameObjects[aIndex].Authority & 0x20) != 0x20) /*Check if user is GM*/
 			return 0;
 
-		if ((gObj[aIndex].GameMaster & GM_EVENT_MODIFY) != GM_EVENT_MODIFY)
+		if ((gGameObjects[aIndex].GameMaster & GM_EVENT_MODIFY) != GM_EVENT_MODIFY)
 		{
 			MsgOutput(aIndex, Lang.GetText(0, 453));
 			return 0;
@@ -2593,13 +2593,13 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 
 		for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 		{
-			if (gObj[i].Connected >= PLAYER_LOGGED)
+			if (gGameObjects[i].Connected >= PLAYER_LOGGED)
 			{
-				if (gObj[i].AccountID[0] == pId[0])
+				if (gGameObjects[i].AccountID[0] == pId[0])
 				{
-					if (gObj[i].AccountID[1] == pId[1])
+					if (gGameObjects[i].AccountID[1] == pId[1])
 					{
-						if (!strcmp(gObj[i].AccountID, pId))
+						if (!strcmp(gGameObjects[i].AccountID, pId))
 						{
 							GDReqBanUser(i, 1, 1);
 							MsgOutput(aIndex, Lang.GetText(0, 468), pId);
@@ -2674,7 +2674,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 			return 0;
 		}
 
-		LPOBJ lpBan = gObjFind(pId);
+		CGameObject* lpBan = gObjFind(pId);
 
 		if (lpBan == NULL && !g_ConfigRead.data.common.IsJoinMu)
 		{
@@ -2734,13 +2734,13 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 
 		for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 		{
-			if (gObj[i].Connected == PLAYER_PLAYING)
+			if (gGameObjects[i].Connected == PLAYER_PLAYING)
 			{
-				if ((gObj[i].Authority & 2) == 2 || (gObj[i].Authority & 0x20) == 0x20)
+				if ((gGameObjects[i].Authority & 2) == 2 || (gGameObjects[i].Authority & 0x20) == 0x20)
 				{
-					if (gObj[i].GameMaster != 0)
+					if (gGameObjects[i].GameMaster != 0)
 					{
-						MsgOutput(aIndex, "%s", gObj[i].Name);
+						MsgOutput(aIndex, "%s", gGameObjects[i].Name);
 					}
 				}
 			}
@@ -2751,10 +2751,10 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 	{
 		int code = GetTokenNumber();
 
-		if (gObj[aIndex].m_PlayerData->m_iSecurityCode == code)
+		if (gGameObjects[aIndex].m_PlayerData->m_iSecurityCode == code)
 		{
 			MsgOutput(aIndex, Lang.GetText(0, 475));
-			gObj[aIndex].m_PlayerData->m_bSecurityCheck = true;
+			gGameObjects[aIndex].m_PlayerData->m_bSecurityCheck = true;
 		}
 
 		else
@@ -2770,7 +2770,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 		int code = GetTokenNumber();
 
 		GDReqSecLock(aIndex, code);
-		gObj[aIndex].m_PlayerData->m_iSecurityCode = code;
+		gGameObjects[aIndex].m_PlayerData->m_iSecurityCode = code;
 
 		MsgOutput(aIndex, Lang.GetText(0, 477), code);
 	}
@@ -2784,22 +2784,22 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 			return 0;
 		}
 
-		if (!g_ConfigRead.offtrade.Maps[gObj[aIndex].MapNumber])
+		if (!g_ConfigRead.offtrade.Maps[gGameObjects[aIndex].MapNumber])
 		{
 			MsgOutput(aIndex, Lang.GetText(0, 479));
 			return 0;
 		}
 
-		if (g_ConfigRead.server.GetServerType() != SERVER_NORMAL && gObj[aIndex].MapNumber != MAP_INDEX_LORENMARKET)
+		if (g_ConfigRead.server.GetServerType() != SERVER_NORMAL && gGameObjects[aIndex].MapNumber != MAP_INDEX_LORENMARKET)
 		{
 			MsgOutput(aIndex, Lang.GetText(0, 479));
 			return 0;
 		}
 
-		if (gObj[aIndex].m_bPShopOpen)
+		if (gGameObjects[aIndex].m_bPShopOpen)
 		{
-			gObj[aIndex].m_bOff = true;
-			GJReqSetOffTrade(&gObj[aIndex]);
+			gGameObjects[aIndex].m_bOff = true;
+			GJReqSetOffTrade(&gGameObjects[aIndex]);
 			MsgOutput(aIndex, Lang.GetText(0, 480));
 			BYTE p[4] = { 0xC1, 0x04, 0xFA, 0x0D };
 			IOCP.DataSend(aIndex, p, sizeof(p));
@@ -2824,7 +2824,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 
 		}
 
-		LPOBJ lpDcOBJ = gObjFind(pId);
+		CGameObject* lpDcOBJ = gObjFind(pId);
 		if (lpDcOBJ == NULL)
 		{
 			MsgOutput(aIndex, Lang.GetText(0, 482));
@@ -2932,7 +2932,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 	break;
 	case 445:
 	{
-		MsgOutput(aIndex, "HP/MaxHP (%d/%d)", (int)gObj[aIndex].Life, (int)(gObj[aIndex].AddLife + gObj[aIndex].MaxLife));
+		MsgOutput(aIndex, "HP/MaxHP (%d/%d)", (int)gGameObjects[aIndex].Life, (int)(gGameObjects[aIndex].AddLife + gGameObjects[aIndex].MaxLife));
 	}
 	break;
 	case 446:
@@ -2958,7 +2958,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 		int map;
 		int iX;
 		int iY;
-		LPOBJ lpTargetObj = gObjFind(pId);
+		CGameObject* lpTargetObj = gObjFind(pId);
 		int iIndex;
 
 		if (lpTargetObj == NULL)
@@ -3082,7 +3082,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 						lpObj->m_bPShopOpen = true;
 						lpObj->m_dwOffLevelTime = GetTickCount64();
 						sprintf(lpObj->m_szPShopText, Lang.GetText(0, 610));
-						GJReqSetOffTrade(&gObj[aIndex]);
+						GJReqSetOffTrade(&gGameObjects[aIndex]);
 						MsgOutput(aIndex, Lang.GetText(0, 480));
 
 						BYTE p[4] = { 0xC1, 0x04, 0xFA, 0x0D };
@@ -3122,7 +3122,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 			return 0;
 		}
 
-		LPOBJ lpTargetObj = gObjFind(pId);
+		CGameObject* lpTargetObj = gObjFind(pId);
 
 		if (lpTargetObj == NULL)
 		{
@@ -3370,7 +3370,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 						lpObj->m_bOff = true;
 						lpObj->m_bPShopOpen = true;
 						sprintf(lpObj->m_szPShopText, Lang.GetText(0, 610));
-						GJReqSetOffTrade(&gObj[aIndex]);
+						GJReqSetOffTrade(&gGameObjects[aIndex]);
 						MsgOutput(aIndex, Lang.GetText(0, 480));
 						return 1;
 					}
@@ -3526,7 +3526,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex)
 	return 0;
 }
 
-void CGMMng::CommandMake(LPOBJ lpObj, int qnt, int section, int type, int level, int skill, int luck, int option, int exc, int SetOpt)
+void CGMMng::CommandMake(CGameObject* lpObj, int qnt, int section, int type, int level, int skill, int luck, int option, int exc, int SetOpt)
 {
 
 	for (int i = 0; i < qnt; i++)
@@ -3537,7 +3537,7 @@ void CGMMng::CommandMake(LPOBJ lpObj, int qnt, int section, int type, int level,
 	g_Log.AddC(TColor::Green, "[GM][%s]MakeItem:[Cat:%d Index:%d Level:%d Skill:%d Luck:%d Option:%d Excellent:%d Ancient:%d]", lpObj->Name, section, type, level, skill, luck, option, exc, SetOpt);
 }
 
-bool CGMMng::CommandMakeRandomSet(LPOBJ lpObj)
+bool CGMMng::CommandMakeRandomSet(CGameObject* lpObj)
 {
 	if ((lpObj->Authority & 2) != 2 && (lpObj->Authority & 0x20) != 0x20)
 	{
@@ -3558,7 +3558,7 @@ bool CGMMng::CommandMakeRandomSet(LPOBJ lpObj)
 	}
 }
 
-bool CGMMng::CommandClearInventory(LPOBJ lpObj)
+bool CGMMng::CommandClearInventory(CGameObject* lpObj)
 {
 	if ((lpObj->Authority & 2) != 2 && (lpObj->Authority & 0x20) != 0x20)
 	{
@@ -3573,7 +3573,7 @@ bool CGMMng::CommandClearInventory(LPOBJ lpObj)
 		return 0;
 	}
 	// ----
-	LPOBJ lpTarget = this->GetUserInfo(lpObj, UserName);
+	CGameObject* lpTarget = this->GetUserInfo(lpObj, UserName);
 	// ----
 	if (!lpTarget)
 	{
@@ -3591,7 +3591,7 @@ bool CGMMng::CommandClearInventory(LPOBJ lpObj)
 	GCItemListSend(lpTarget->m_Index);
 }
 
-bool CGMMng::CommandReset(LPOBJ lpObj)
+bool CGMMng::CommandReset(CGameObject* lpObj)
 {
 	CLogToFile g_ResetLog("TABLE_RESET", ".\\TABLE_RESET", 1);
 
@@ -3753,7 +3753,7 @@ bool CGMMng::CommandReset(LPOBJ lpObj)
 	return true;
 }
 
-void CGMMng::GetInfinityArrowMPConsumption(LPOBJ lpObj)
+void CGMMng::GetInfinityArrowMPConsumption(CGameObject* lpObj)
 {
 	MsgOutput(lpObj->m_Index, Lang.GetText(0, 486),
 		g_SkillAdditionInfo.GetInfinityArrowMPConsumptionPlus0(),
@@ -3763,28 +3763,28 @@ void CGMMng::GetInfinityArrowMPConsumption(LPOBJ lpObj)
 
 
 
-void CGMMng::ControlInfinityArrowMPConsumption0(LPOBJ lpObj, int iValue)
+void CGMMng::ControlInfinityArrowMPConsumption0(CGameObject* lpObj, int iValue)
 {
 	g_SkillAdditionInfo.SetInfinityArrowMPConsumptionPlus0(iValue);
 	MsgOutput(lpObj->m_Index, Lang.GetText(0, 487), iValue);
 
 }
 
-void CGMMng::ControlInfinityArrowMPConsumption1(LPOBJ lpObj, int iValue)
+void CGMMng::ControlInfinityArrowMPConsumption1(CGameObject* lpObj, int iValue)
 {
 	g_SkillAdditionInfo.SetInfinityArrowMPConsumptionPlus1(iValue);
 	MsgOutput(lpObj->m_Index, Lang.GetText(0, 488), iValue);
 
 }
 
-void CGMMng::ControlInfinityArrowMPConsumption2(LPOBJ lpObj, int iValue)
+void CGMMng::ControlInfinityArrowMPConsumption2(CGameObject* lpObj, int iValue)
 {
 	g_SkillAdditionInfo.SetInfinityArrowMPConsumptionPlus2(iValue);
 	MsgOutput(lpObj->m_Index, Lang.GetText(0, 489), iValue);
 
 }
 
-void CGMMng::SetInfinityArrowTime(LPOBJ lpObj, int iValue)
+void CGMMng::SetInfinityArrowTime(CGameObject* lpObj, int iValue)
 {
 	if (lpObj->Class == CLASS_ELF && lpObj->Type == OBJ_USER && lpObj->m_PlayerData->ChangeUP >= 1)
 	{
@@ -3798,13 +3798,13 @@ void CGMMng::SetInfinityArrowTime(LPOBJ lpObj, int iValue)
 }
 
 
-void CGMMng::ControlFireScreamDoubleAttackDistance(LPOBJ lpObj, int iValue)
+void CGMMng::ControlFireScreamDoubleAttackDistance(CGameObject* lpObj, int iValue)
 {
 	g_SkillAdditionInfo.SetFireScreamExplosionAttackDistance(iValue);
 	MsgOutput(lpObj->m_Index, Lang.GetText(0, 492), iValue);
 }
 
-void ServerMsgSend(LPOBJ lpObj, int Type, char Sender[20], const char*Message, ...)
+void ServerMsgSend(CGameObject* lpObj, int Type, char Sender[20], const char*Message, ...)
 {
 	PMSG_CHATDATA_WHISPER pMsg;
 
@@ -3829,7 +3829,7 @@ void ServerMsgSend(LPOBJ lpObj, int Type, char Sender[20], const char*Message, .
 	delete [] Packet;*/
 }
 
-BOOL CGMMng::CheckTraceMarryCondition(LPOBJ lpObj, LPOBJ lpTargetObj)
+BOOL CGMMng::CheckTraceMarryCondition(CGameObject* lpObj, CGameObject* lpTargetObj)
 {
 	if (lpObj->Married == 0)
 	{

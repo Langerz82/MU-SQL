@@ -9,7 +9,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "User/user.h"
+#include "User/CUserData.h"
 
 #define CRYWOLF_STATUE_CHECK(iClass) ( ( ((iClass)) == 204 )?TRUE:FALSE)
 

@@ -2,7 +2,7 @@
 // Guardian.cpp
 #include "StdAfx.h"
 #include "Guardian.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "configread.h"
 
 // GS_N 0.99.60T 0x00519F60
@@ -33,7 +33,7 @@ void CGuardian::GuardianAct(int iIndex)
 		if (!gObjIsConnected(iIndex))
 			return;
 
-		LPOBJ lpObj = &gObj[iIndex];
+		CGameObject* lpObj = &gGameObjects[iIndex];
 
 		if (lpObj->VPCount < 1)
 			return;
@@ -46,28 +46,28 @@ void CGuardian::GuardianAct(int iIndex)
 
 			if (tObjNum >= 0)
 			{
-				if (gObj[tObjNum].Type == OBJ_USER && gObj[tObjNum].Live)
+				if (gGameObjects[tObjNum].Type == OBJ_USER && gGameObjects[tObjNum].Live)
 				{
-					if (gObj[tObjNum].m_btCsJoinSide == lpObj->m_btCsJoinSide)
+					if (gGameObjects[tObjNum].m_btCsJoinSide == lpObj->m_btCsJoinSide)
 					{
-						if (abs(lpObj->Y - gObj[tObjNum].Y) <= 3 &&
-							abs(lpObj->X - gObj[tObjNum].X) <= 3)
+						if (abs(lpObj->Y - gGameObjects[tObjNum].Y) <= 3 &&
+							abs(lpObj->X - gGameObjects[tObjNum].X) <= 3)
 						{
-							gObj[tObjNum].Life += 100.0f;
-							gObj[tObjNum].Mana += 100.0f;
-							gObj[tObjNum].BP += 100;
+							gGameObjects[tObjNum].Life += 100.0f;
+							gGameObjects[tObjNum].Mana += 100.0f;
+							gGameObjects[tObjNum].BP += 100;
 
-							if (gObj[tObjNum].Life > gObj[tObjNum].MaxLife)
-								gObj[tObjNum].Life = gObj[tObjNum].MaxLife;
+							if (gGameObjects[tObjNum].Life > gGameObjects[tObjNum].MaxLife)
+								gGameObjects[tObjNum].Life = gGameObjects[tObjNum].MaxLife;
 
-							if (gObj[tObjNum].Mana > gObj[tObjNum].MaxMana)
-								gObj[tObjNum].Mana = gObj[tObjNum].MaxMana;
+							if (gGameObjects[tObjNum].Mana > gGameObjects[tObjNum].MaxMana)
+								gGameObjects[tObjNum].Mana = gGameObjects[tObjNum].MaxMana;
 
-							if (gObj[tObjNum].BP > gObj[tObjNum].MaxBP)
-								gObj[tObjNum].BP = gObj[tObjNum].MaxBP;
+							if (gGameObjects[tObjNum].BP > gGameObjects[tObjNum].MaxBP)
+								gGameObjects[tObjNum].BP = gGameObjects[tObjNum].MaxBP;
 
-							GSProtocol.GCReFillSend(tObjNum, gObj[tObjNum].Life, 0xFF, 1, gObj[tObjNum].iShield);
-							GSProtocol.GCManaSend(tObjNum, gObj[tObjNum].Mana, 0xFF, 0, gObj[tObjNum].BP);
+							GSProtocol.GCReFillSend(tObjNum, gGameObjects[tObjNum].Life, 0xFF, 1, gGameObjects[tObjNum].iShield);
+							GSProtocol.GCManaSend(tObjNum, gGameObjects[tObjNum].Mana, 0xFF, 0, gGameObjects[tObjNum].BP);
 						}
 					}
 				}

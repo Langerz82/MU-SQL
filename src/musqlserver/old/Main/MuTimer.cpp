@@ -215,7 +215,7 @@ VOID WINAPI TimerProcQueue(LPVOID lpParameter, BOOL TimerOrWaitFired)
 				{
 					if (gObjIsConnected(i))
 					{
-						g_GensSystem.AbusingInfoReset(&gObj[i]);
+						g_GensSystem.AbusingInfoReset(&gGameObjects[i]);
 					}
 				}
 			}
@@ -361,7 +361,7 @@ VOID WINAPI TimerProcQueue2(LPVOID lpParameter, BOOL TimerOrWaitFired)
 				{
 					if (gObjIsConnected(n) != PLAYER_EMPTY)
 					{
-						gObj[n].m_bPShopItemChange = false;
+						gGameObjects[n].m_bPShopItemChange = false;
 					}
 				}
 			}

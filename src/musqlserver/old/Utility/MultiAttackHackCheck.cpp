@@ -4,7 +4,7 @@
 #include "MultiAttackHackCheck.h"
 #include "SkillAdditionInfo.h"
 #include "gObjMonster.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 
 // GS-N 0x00452273 - 0.99.60T
 // GS-N	1.00.18	JPN	0x00461400	-	Completed
@@ -36,7 +36,7 @@ void CMultiAttackHackCheck::Init()
 
 
 
-BOOL CMultiAttackHackCheck::Insert(LPOBJ aTarget, BYTE skillnum, BYTE serial)
+BOOL CMultiAttackHackCheck::Insert(CGameObject* aTarget, BYTE skillnum, BYTE serial)
 {
 	if (aTarget->Type == OBJ_MONSTER )
 	{

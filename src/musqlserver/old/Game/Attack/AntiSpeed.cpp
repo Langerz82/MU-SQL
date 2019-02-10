@@ -1,13 +1,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 // AntiSpeed.cpp
 #include "AntiSpeed.h"
-//#include "User/user.h"
+//#include "User/CUserData.h"
 #include "ObjUseSkill.h"
 //#include "protocol.h"
 //#include "Logging/Log.h"
 
 
-CAttackMelee::CAttackMelee( LPOBJ lpObj, LPOBJ lpTargetObj )
+CAttackMelee::CAttackMelee( CGameObject* lpObj, CGameObject* lpTargetObj )
 {
 	m_Obj = lpObj;
 	m_TargetObj = lpTargetObj;
@@ -18,7 +18,7 @@ void CAttackMelee::Process()
 	gObjAttack(m_Obj, m_TargetObj, NULL, 0, 0, 0, 0);
 }
 
-CAttackMagic::CAttackMagic( LPOBJ lpObj,  BYTE* pmsg, int len)
+CAttackMagic::CAttackMagic( CGameObject* lpObj,  BYTE* pmsg, int len)
 {
 	m_Obj = lpObj;
 	m_Msg = new unsigned char[len];
@@ -36,7 +36,7 @@ void CAttackMagic::Process()
 	//gObjUseSkill.UseSkill(m_Obj->m_Index, m_TargetObj->m_Index, m_Magic);
 }
 
-CAttackRange::CAttackRange( LPOBJ lpObj, BYTE* pmsg, int len, int type )
+CAttackRange::CAttackRange( CGameObject* lpObj, BYTE* pmsg, int len, int type )
 {
 	m_Obj = lpObj;
 	m_Msg = new unsigned char[len];
@@ -84,7 +84,7 @@ void CAttackQueue::Push( unsigned char* msg, int len, int type )
 
 void CAttackQueue::ProcessQueue()
 {
-	//LPOBJ m_Obj = &gObj[this->aIndex];
+	//CGameObject* m_Obj = &gGameObjects[this->aIndex];
 
 	EnterCriticalSection(&this->m_CritQueue);
 	int TickCount = GetTickCount();
@@ -165,12 +165,12 @@ void CAttackQueue::ProcessQueue()
 }
 
 bool CAttackQueue::ThreadActive = true;
-VOID CAttackQueue::AttackQueueProc(std::vector<LPOBJ> gObj)
+VOID CAttackQueue::AttackQueueProc(std::vector<CGameObject*> gObj)
 {
 	while(ThreadActive)
 	{
 		//for(int i = OBJ_STARTUSERINDEX; i < OBJMAX; i++)
-		for each(LPOBJ Obj in gObj)
+		for each(CGameObject* Obj in gObj)
 		{
 			if(Obj->m_PlayerData->m_AttackQueue == NULL)
 			{
@@ -263,7 +263,7 @@ CAttackMsg::CAttackMsg(int aIndex, BYTE* pmsg, int len, int type )
 		throw "Too short len!";
 	}
 
-	m_Obj = &gObj[aIndex];
+	m_Obj = &gGameObjects[aIndex];
 	m_Msg = new BYTE[len];
 	m_Len = len;
 	memcpy(m_Msg, pmsg, len);

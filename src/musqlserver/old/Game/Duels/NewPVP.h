@@ -18,7 +18,7 @@ using namespace std;
 #include "configread.h"
 
 class OBJECTSTRUCT;
-typedef OBJECTSTRUCT* LPOBJECTSTRUCT;
+typedef OBJECTSTRUCT* CGameObject*ECTSTRUCT;
 
 #define DUEL_CHANNEL_MAX 4
 #define DC_IDLE 0
@@ -280,9 +280,9 @@ public:
 
 	int IsObserver(OBJECTSTRUCT& obj);
 	void Reset(OBJECTSTRUCT& obj);
-	BOOL CheckPKPenalty(LPOBJECTSTRUCT lpObj);
-	BOOL IsSelfDefense(LPOBJECTSTRUCT lpObj);
-	BOOL IsGuildWar(LPOBJECTSTRUCT lpObj);
+	BOOL CheckPKPenalty(CGameObject*ECTSTRUCT lpObj);
+	BOOL IsSelfDefense(CGameObject*ECTSTRUCT lpObj);
+	BOOL IsGuildWar(CGameObject*ECTSTRUCT lpObj);
 
 	int IsVulcanusMap(int nMapNumber)
 	{
@@ -301,7 +301,7 @@ public:
 
 	int IsEnable();
 
-	BOOL DropItem(LPOBJECTSTRUCT lpObj, LPOBJECTSTRUCT lpMonsterObj);
+	BOOL DropItem(CGameObject*ECTSTRUCT lpObj, CGameObject*ECTSTRUCT lpMonsterObj);
 
 private:
 	int GetDuelChannelId(char* lpszName);

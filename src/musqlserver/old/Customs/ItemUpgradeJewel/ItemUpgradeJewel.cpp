@@ -89,7 +89,7 @@ void ItemUpgradeJewels::Read(LPSTR File)
 	}
 }
 
-void ItemUpgradeJewels::ProcInsert(LPOBJ lpUser, int JewelPos, int TargetPos)
+void ItemUpgradeJewels::ProcInsert(CGameObject* lpUser, int JewelPos, int TargetPos)
 {
 	ItemUpgradeJewelsInfo* lpJewel = NULL;
 
@@ -122,7 +122,7 @@ void ItemUpgradeJewels::ProcInsert(LPOBJ lpUser, int JewelPos, int TargetPos)
 	}
 }
 
-bool ItemUpgradeJewels::ProcUpgrade(LPOBJ lpUser, int JewelPos, int TargetPos, ItemUpgradeJewelsInfo* lpJewel)
+bool ItemUpgradeJewels::ProcUpgrade(CGameObject* lpUser, int JewelPos, int TargetPos, ItemUpgradeJewelsInfo* lpJewel)
 {
 	if (JewelPos < 0 || JewelPos > MAIN_INVENTORY_SIZE - 1)
 	{

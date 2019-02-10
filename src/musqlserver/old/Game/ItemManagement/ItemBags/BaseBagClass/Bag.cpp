@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "Bag.h"
 #include "Logging/Log.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "LuaBag.h"
 #include "util.h"
 #include "GameMain.h"
@@ -181,7 +181,7 @@ int CBag::GetDropSection(int aIndex, BAG_SECTION_DROP &pRetDrop)
 		return FALSE;
 	}
 
-	if (gObj[aIndex].Type != OBJ_USER)
+	if (gGameObjects[aIndex].Type != OBJ_USER)
 	{
 		return FALSE;
 	}
@@ -191,7 +191,7 @@ int CBag::GetDropSection(int aIndex, BAG_SECTION_DROP &pRetDrop)
 		return FALSE;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 	TRandomPoolMgr m_RandomPoolSection;
 
 	m_RandomPoolSection.InitPool();
@@ -282,7 +282,7 @@ int CBag::GetItem(BAG_SECTION_ITEMS &pItemsSec, BAG_ITEM & pRetItem)
 
 int CBag::GetReadyItemToUse(int aIndex, CItem &pItem, time_t & DurationItem)
 {
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	BAG_ITEM m_Item;
 	BAG_SECTION_ITEMS m_ItemSection;
@@ -364,12 +364,12 @@ void CBag::MakeBagEffectUse(int aIndex, int iMonsterIndex)
 	switch (this->m_BagData.iBagUseEffect)
 	{
 		case 0:
-			ServerCmd.X = gObj[iMonsterIndex].X;
-			ServerCmd.Y = gObj[iMonsterIndex].Y;
+			ServerCmd.X = gGameObjects[iMonsterIndex].X;
+			ServerCmd.Y = gGameObjects[iMonsterIndex].Y;
 			break;
 		case 2:
-			ServerCmd.X = gObj[iMonsterIndex].X;
-			ServerCmd.Y = gObj[iMonsterIndex].Y;
+			ServerCmd.X = gGameObjects[iMonsterIndex].X;
+			ServerCmd.Y = gGameObjects[iMonsterIndex].Y;
 			break;
 		case 58:
 			ServerCmd.X = SET_NUMBERH(aIndex);
@@ -377,7 +377,7 @@ void CBag::MakeBagEffectUse(int aIndex, int iMonsterIndex)
 			break;
 	}
 
-	GSProtocol.MsgSendV2(&gObj[aIndex], (LPBYTE)&ServerCmd, ServerCmd.h.size);
+	GSProtocol.MsgSendV2(&gGameObjects[aIndex], (LPBYTE)&ServerCmd, ServerCmd.h.size);
 	IOCP.DataSend(aIndex, (LPBYTE)&ServerCmd, ServerCmd.h.size);
 }
 
@@ -393,7 +393,7 @@ void CBag::AddCoin(int aIndex)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	char *CoinTypes[] = { "C", "P", "G" };
 	GDReqInGameShopPointAdd(aIndex, this->m_BagData.btAddCoinType, this->m_BagData.dwAddCoinValue);
@@ -413,7 +413,7 @@ void CBag::DropSummonItem(int aIndex)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->m_bIsHelpMon == true)
 	{
@@ -429,7 +429,7 @@ void CBag::DropSummonItem(int aIndex)
 			return;
 		}
 
-		ItemSerialCreateSend(aIndex, gObj[aIndex].MapNumber, gObj[aIndex].X, gObj[aIndex].Y, iType, 0, -1, 0, 0, 0, aIndex, 0, 0, 0, 0, 0);
+		ItemSerialCreateSend(aIndex, gGameObjects[aIndex].MapNumber, gGameObjects[aIndex].X, gGameObjects[aIndex].Y, iType, 0, -1, 0, 0, 0, aIndex, 0, 0, 0, 0, 0);
 	}
 }
 

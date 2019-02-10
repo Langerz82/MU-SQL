@@ -1121,7 +1121,7 @@ void CLoginServerProtocol::GJReqMapSvrMove(int aIndex, PMSG_REQ_MAPSVRMOVE * aRe
 
 	else
 	{
-		tagSTR_USER_DATA pUserData;
+		tagSTR_CUserData pUserData;
 		int iUserIndex = this->m_UserData.MuLoginFindUser(szAccoundID);
 
 		// User not Connected
@@ -1195,14 +1195,14 @@ void CLoginServerProtocol::GJReqMapSvrAuth(int aIndex, PMSG_REQ_MAPSVRAUTH * aRe
 
 		else if (this->m_UserData.CheckMapServerMove(iUserIndex) == true)
 		{
-			tagSTR_USER_DATA pDataUser;
+			tagSTR_CUserData pDataUser;
 			BOOL bFlagFound = FALSE;
 
 			EnterCriticalSection(&this->m_UserData.critUserData);
 
-			for (std::vector<tagSTR_USER_DATA>::iterator _Iter = this->m_UserData.m_vecMapMove.begin(); _Iter != this->m_UserData.m_vecMapMove.end(); _Iter++)
+			for (std::vector<tagSTR_CUserData>::iterator _Iter = this->m_UserData.m_vecMapMove.begin(); _Iter != this->m_UserData.m_vecMapMove.end(); _Iter++)
 			{
-				pDataUser = tagSTR_USER_DATA(*_Iter);
+				pDataUser = tagSTR_CUserData(*_Iter);
 
 				if (pDataUser.pMapServerMoveData.szAccountID[0] == aRecv->szAccountID[0])
 				{

@@ -12,7 +12,7 @@
 #include "TSync.h"
 #include "TMonsterSkillInfo.h"
 #include "TMonsterSkillUnit.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 
 #define MAX_MONSTER_SKILL_INFO_ARRAY	(1000)
 #define MAX_MONSTER_SKILL_DELAY_INFO_ARRAY	(3000)

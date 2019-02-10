@@ -14,7 +14,7 @@
 
 #include "custTypedef.h"
 //#include "protocol.h"
-//#include "User/user.h"
+//#include "User/CUserData.h"
 #include "prodef.h"
 #include "configread.h"
 #include <string>

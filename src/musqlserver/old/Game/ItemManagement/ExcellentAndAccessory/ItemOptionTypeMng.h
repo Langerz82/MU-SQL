@@ -5,7 +5,7 @@
 
 #include "StdAfx.h"
 #include "ItemManagement/Item.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 
 #define MAX_EXCELLENT_COMMON_OPTIONS 20
 #define MAX_EXCELLENT_WING_OPTIONS 40

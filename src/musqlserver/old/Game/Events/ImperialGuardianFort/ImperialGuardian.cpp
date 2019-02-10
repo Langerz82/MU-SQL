@@ -6,7 +6,7 @@
 #include "StdAfx.h"
 #include "ImperialGuardian.h"
 #include "Logging/Log.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "GameMain.h"
 #include "prodef.h"
 #include "util.h"
@@ -461,7 +461,7 @@ void CImperialGuardian::ProcAllWarpNextZone(int nZoneIndex)
 	{
 		for(std::vector<int>::iterator it = this->m_stZoneInfo[nZoneIndex].m_vtUserIndex.begin(); it != this->m_stZoneInfo[nZoneIndex].m_vtUserIndex.end(); it++)
 		{
-			if ( gObj[*it].Connected > 0)
+			if ( gGameObjects[*it].Connected > 0)
 			{
 				nUserIndex[nCount] = *it;
 				nCount++;
@@ -501,7 +501,7 @@ void CImperialGuardian::ProcAllKick(int nZoneIndex)
 
 	for(std::vector<int>::iterator it = this->m_stZoneInfo[nZoneIndex].m_vtUserIndex.begin(); it != this->m_stZoneInfo[nZoneIndex].m_vtUserIndex.end(); it++)
 	{
-		if ( gObj[*it].Connected > 0 )
+		if ( gGameObjects[*it].Connected > 0 )
 		{
 			nUserIndex[nCount] = *it;
 			nCount++;
@@ -514,7 +514,7 @@ void CImperialGuardian::ProcAllKick(int nZoneIndex)
 	{			
 		gObjMoveGate(nUserIndex[i], 22);
 		sLog->outBasic("[IMPERIALGUARDIAN] Leave Player Zone -> [ZONE]:%d [AccountID]:%s [Name]:%s", nZoneIndex+1,
-			gObj[nUserIndex[i]].AccountID, gObj[nUserIndex[i]].Name);
+			gGameObjects[nUserIndex[i]].AccountID, gGameObjects[nUserIndex[i]].Name);
 	}
 
 	this->InitZone(nZoneIndex);
@@ -544,11 +544,11 @@ void CImperialGuardian::ProcMissionClear(int nZoneIndex)
 
 	for(std::vector<int>::iterator it = this->m_stZoneInfo[nZoneIndex].m_vtUserIndex.begin(); it != this->m_stZoneInfo[nZoneIndex].m_vtUserIndex.end(); it++)
 	{
-		if ( gObj[*it].Connected > 0 )
+		if ( gGameObjects[*it].Connected > 0 )
 		{
-			if ( IMPERIAL_MAP_RANGE(gObj[*it].MapNumber) == TRUE )
+			if ( IMPERIAL_MAP_RANGE(gGameObjects[*it].MapNumber) == TRUE )
 			{
-				sLog->outBasic("[IMPERIALGUARDIAN] MISSION CLEAR USER ->[AccountID]:%s [Name]:%s", gObj[*it].AccountID, gObj[*it].Name);
+				sLog->outBasic("[IMPERIALGUARDIAN] MISSION CLEAR USER ->[AccountID]:%s [Name]:%s", gGameObjects[*it].AccountID, gGameObjects[*it].Name);
 			}
 		}
 	}
@@ -581,25 +581,25 @@ void CImperialGuardian::KickInvalidUser()
 {
 	for(int i=g_ConfigRead.server.GetObjectStartUserIndex();i<g_ConfigRead.server.GetObjectMax();i++)
 	{
-		if ( gObj[i].Connected == PLAYER_PLAYING && gObj[i].Type == OBJ_USER && IMPERIAL_MAP_RANGE(gObj[i].MapNumber) )
+		if ( gGameObjects[i].Connected == PLAYER_PLAYING && gGameObjects[i].Type == OBJ_USER && IMPERIAL_MAP_RANGE(gGameObjects[i].MapNumber) )
 		{
-			if ( (gObj[i].Authority & 2) != 2 && (gObj[i].Authority & 0x20) != 0x20 )
+			if ( (gGameObjects[i].Authority & 2) != 2 && (gGameObjects[i].Authority & 0x20) != 0x20 )
 			{
 				if ( this->CheckValidUser(i) )
 				{
-					if ( this->m_nCheatMode == 0 && gObj[i].PartyNumber < 0 )
+					if ( this->m_nCheatMode == 0 && gGameObjects[i].PartyNumber < 0 )
 					{
 						gObjMoveGate(i, 22);
-						sLog->outBasic("[IMPERIALGUARDIAN][ Invalid User ] User is not a party [%s][%s]", gObj[i].AccountID, gObj[i].Name);
+						sLog->outBasic("[IMPERIALGUARDIAN][ Invalid User ] User is not a party [%s][%s]", gGameObjects[i].AccountID, gGameObjects[i].Name);
 					}
 				}
 
-				else if ( gObj[i].RegenOk == FALSE && gObj[i].m_State == 2 )
+				else if ( gGameObjects[i].RegenOk == FALSE && gGameObjects[i].m_State == 2 )
 				{
-					if ( gObj[i].Live == TRUE )
+					if ( gGameObjects[i].Live == TRUE )
 					{
 						gObjMoveGate(i, 22);
-						sLog->outBasic("[IMPERIALGUARDIAN][ Invalid User ] [%s][%s]", gObj[i].AccountID, gObj[i].Name);
+						sLog->outBasic("[IMPERIALGUARDIAN][ Invalid User ] [%s][%s]", gGameObjects[i].AccountID, gGameObjects[i].Name);
 					}
 				}
 			}			
@@ -659,7 +659,7 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[nUserIndex];
+	CGameObject* lpObj = &gGameObjects[nUserIndex];
 
 	if ( lpObj->Type != OBJ_USER )
 	{
@@ -1026,7 +1026,7 @@ void CImperialGuardian::RegenMonster(int nZoneIndex, int nMonsterRegenTableIndex
 				return;
 			}
 
-			gObj[nResult].m_nZoneIndex = nZoneIndex;
+			gGameObjects[nResult].m_nZoneIndex = nZoneIndex;
 
 			_stMonsterIndexInfo stMonsterIndex;
 
@@ -1039,7 +1039,7 @@ void CImperialGuardian::RegenMonster(int nZoneIndex, int nMonsterRegenTableIndex
 				this->m_stZoneInfo[nZoneIndex].m_bStartRegenMonster = true;
 
 				sLog->outBasic("[IMPERIALGUARDIAN] AddMonster => %s, MapNumber => %d ,Zone => %d PosX => %d, PosY => %d, Connected => %d, STATE => %d",
-					gObj[nResult].Name, gObj[nResult].MapNumber, gObj[nResult].m_nZoneIndex, gObj[nResult].X, gObj[nResult].Y, gObj[nResult].Connected, gObj[nResult].m_State);
+					gGameObjects[nResult].Name, gGameObjects[nResult].MapNumber, gGameObjects[nResult].m_nZoneIndex, gGameObjects[nResult].X, gGameObjects[nResult].Y, gGameObjects[nResult].Connected, gGameObjects[nResult].m_State);
 			}
 
 			else
@@ -1051,7 +1051,7 @@ void CImperialGuardian::RegenMonster(int nZoneIndex, int nMonsterRegenTableIndex
 				if (It->m_Type >= 524 && It->m_Type <= 528 && It->m_Type != 526)
 				{
 					sLog->outBasic("[IMPERIALGUARDIAN] AddGate => %s, MapNumber => %d ,Zone => %d PosX => %d, PosY => %d",
-						gObj[nResult].Name, gObj[nResult].MapNumber, gObj[nResult].m_nZoneIndex, gObj[nResult].X, gObj[nResult].Y);
+						gGameObjects[nResult].Name, gGameObjects[nResult].MapNumber, gGameObjects[nResult].m_nZoneIndex, gGameObjects[nResult].X, gGameObjects[nResult].Y);
 				}
 			}
 
@@ -1076,7 +1076,7 @@ void CImperialGuardian::DeleteMonster(int nZoneIndex, int nMonsterRegenTableInde
 
 		if ( gObjDel(nIndex) )
 		{
-			gObj[nIndex].m_nZoneIndex = -1;
+			gGameObjects[nIndex].m_nZoneIndex = -1;
 			nCount++;
 		}
 
@@ -1129,7 +1129,7 @@ bool CImperialGuardian::SetPosMonster(int nIndex, std::vector<_stIFMonsterPos>::
 		return false;
 	}
 
-	LPOBJ lpObj = &gObj[nIndex];
+	CGameObject* lpObj = &gGameObjects[nIndex];
 
 	lpObj->m_PosNum = -1;
 	lpObj->X = Iter->m_X;
@@ -1154,7 +1154,7 @@ bool CImperialGuardian::SetMonster(int nIndex, int MonsterClass, int nMaxLevel)
 		return false;
 	}
 
-	LPOBJ lpObj = &gObj[nIndex];
+	CGameObject* lpObj = &gGameObjects[nIndex];
 
 	lpObj->ConnectCheckTime = GetTickCount();
 	lpObj->TargetNumber = -1;
@@ -1306,20 +1306,20 @@ void CImperialGuardian::CheckLiveMonster(int nZoneIndex)
 	{
 		if ( it->m_bLive == true )
 		{
-			if ( gObj[it->m_nIndex].Live == FALSE || gObj[it->m_nIndex].Connected != PLAYER_PLAYING )
+			if ( gGameObjects[it->m_nIndex].Live == FALSE || gGameObjects[it->m_nIndex].Connected != PLAYER_PLAYING )
 			{
 				it->m_bLive = false;
 			}
 		}
 
-		if ( gObj[it->m_nIndex].Live == TRUE )
+		if ( gGameObjects[it->m_nIndex].Live == TRUE )
 		{
-			if ( gObj[it->m_nIndex].m_State != 1 && gObj[it->m_nIndex].m_State != 2 )
+			if ( gGameObjects[it->m_nIndex].m_State != 1 && gGameObjects[it->m_nIndex].m_State != 2 )
 			{
-				sLog->outBasic("[IMPERIALGUARDIAN][RESTORE] [NAME]:%s [INDEX]:%d [TYPE]:%d [STATE]:%d", gObj[it->m_nIndex].Name, it->m_nIndex,
-					gObj[it->m_nIndex].Class, gObj[it->m_nIndex].m_State);
+				sLog->outBasic("[IMPERIALGUARDIAN][RESTORE] [NAME]:%s [INDEX]:%d [TYPE]:%d [STATE]:%d", gGameObjects[it->m_nIndex].Name, it->m_nIndex,
+					gGameObjects[it->m_nIndex].Class, gGameObjects[it->m_nIndex].m_State);
 
-				gObj[it->m_nIndex].m_State = 1;
+				gGameObjects[it->m_nIndex].m_State = 1;
 			}
 		}
 	}
@@ -1384,7 +1384,7 @@ void CImperialGuardian::RemoveUserInZone(int nZoneIndex, int nUserNumber)
 		if ( *it == nUserNumber )
 		{
 			this->m_stZoneInfo[nZoneIndex].m_vtUserIndex.erase(it);
-			sLog->outBasic("[IMPERIALGUARDIAN] Leave Player Zone [ZONE]:%d, [AccountID]:%s, [Name]:%s", nZoneIndex, gObj[nUserNumber].AccountID, gObj[nUserNumber].Name);
+			sLog->outBasic("[IMPERIALGUARDIAN] Leave Player Zone [ZONE]:%d, [AccountID]:%s, [Name]:%s", nZoneIndex, gGameObjects[nUserNumber].AccountID, gGameObjects[nUserNumber].Name);
 			break;
 		}
 	}
@@ -1465,7 +1465,7 @@ bool CImperialGuardian::GCNotifyAllZoneClear(int nZoneIndex)
 
 	for ( std::vector<int>::iterator it = this->m_stZoneInfo[nZoneIndex].m_vtUserIndex.begin(); it != this->m_stZoneInfo[nZoneIndex].m_vtUserIndex.end(); it++ )
 	{
-		if ( IMPERIAL_MAP_RANGE(gObj[*it].MapNumber) == TRUE )
+		if ( IMPERIAL_MAP_RANGE(gGameObjects[*it].MapNumber) == TRUE )
 		{
 			nUserIndex[nCount] = *it;
 			nCount++;
@@ -1481,24 +1481,24 @@ bool CImperialGuardian::GCNotifyAllZoneClear(int nZoneIndex)
 		if ( nZoneIndex == 3 )
 			pMsg.m_nRewardExp *= 2;
 
-		if ( gObjCheckUsedBuffEffect(&gObj[nUserIndex[i]], 31) ||
-			gObjCheckUsedBuffEffect(&gObj[nUserIndex[i]], 42) )
+		if ( gObjCheckUsedBuffEffect(&gGameObjects[nUserIndex[i]], 31) ||
+			gObjCheckUsedBuffEffect(&gGameObjects[nUserIndex[i]], 42) )
 		{
 			pMsg.m_nRewardExp = 0;
 		}
 
 		this->ImperialGuardianLevelUp(nUserIndex[i], pMsg.m_nRewardExp);
 			
-		sLog->outBasic("[IMPERIALGUARDIAN] [ACCOUNTID]:%s, [NAME]:%s, [Reward Exp] : %d", gObj[nUserIndex[i]].AccountID, gObj[nUserIndex[i]].Name, pMsg.m_nRewardExp);
+		sLog->outBasic("[IMPERIALGUARDIAN] [ACCOUNTID]:%s, [NAME]:%s, [Reward Exp] : %d", gGameObjects[nUserIndex[i]].AccountID, gGameObjects[nUserIndex[i]].Name, pMsg.m_nRewardExp);
 
-		if ( g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&gObj[nUserIndex[i]]) == false )
+		if ( g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&gGameObjects[nUserIndex[i]]) == false )
 		{
 			GSProtocol.GCKillPlayerExpSend(nUserIndex[i], -1, pMsg.m_nRewardExp, 0, 0);
 		}
 
 		this->GCSendDataToUser(nUserIndex[i], (char*)&pMsg, pMsg.h.size);
 
-		g_CashShop.AddCoin(&gObj[nUserIndex[i]], EVENT_DG);
+		g_CashShop.AddCoin(&gGameObjects[nUserIndex[i]], EVENT_DG);
 		
 		char szText[256];
 		memset(szText, 0x00, sizeof(szText));
@@ -1529,7 +1529,7 @@ void CImperialGuardian::GCMissionFail(int nZoneIndex)
 
 	for ( std::vector<int>::iterator it = this->m_stZoneInfo[nZoneIndex].m_vtUserIndex.begin(); it != this->m_stZoneInfo[nZoneIndex].m_vtUserIndex.end(); it++ )
 	{
-		if ( IMPERIAL_MAP_RANGE(gObj[*it].MapNumber) == TRUE )
+		if ( IMPERIAL_MAP_RANGE(gGameObjects[*it].MapNumber) == TRUE )
 		{
 			nUserIndex[nCount] = *it;
 			nCount++;
@@ -1580,7 +1580,7 @@ void CImperialGuardian::GCSendDataToUser(int nIndex, char* lpMsg, int nSize)
 		return;
 	}
 
-	if ( gObj[nIndex].Connected == PLAYER_PLAYING && gObj[nIndex].Type == OBJ_USER )
+	if ( gGameObjects[nIndex].Connected == PLAYER_PLAYING && gGameObjects[nIndex].Type == OBJ_USER )
 	{
 		IOCP.DataSend(nIndex, (LPBYTE)lpMsg, nSize);
 	}
@@ -1641,7 +1641,7 @@ void CImperialGuardian::GCNotifyRemainTickCount(int nZoneIndex, char btMsgType, 
 
 	for (int i = 0; i < nCount; i++)
 	{
-		if ( IMPERIAL_MAP_RANGE(gObj[nUserIndex[i]].MapNumber) == TRUE )
+		if ( IMPERIAL_MAP_RANGE(gGameObjects[nUserIndex[i]].MapNumber) == TRUE )
 		{
 			this->GCSendDataToUser(nUserIndex[i], (char*)&pMsg, pMsg.h.size);
 		}
@@ -1786,7 +1786,7 @@ void CImperialGuardian::GCSendCastleGateInfo(int nGateIndex, int nZoneIndex, int
 
 	int iGateState;
 
-	if ( gObj[nGateIndex].Live == TRUE )
+	if ( gGameObjects[nGateIndex].Live == TRUE )
 	{
 		iGateState = TRUE;
 	}
@@ -1796,9 +1796,9 @@ void CImperialGuardian::GCSendCastleGateInfo(int nGateIndex, int nZoneIndex, int
 		iGateState = FALSE;
 	}
 
-	int nDir = gObj[nGateIndex].Dir;
-	int nX = gObj[nGateIndex].X;
-	int nY = gObj[nGateIndex].Y;
+	int nDir = gGameObjects[nGateIndex].Dir;
+	int nX = gGameObjects[nGateIndex].X;
+	int nY = gGameObjects[nGateIndex].Y;
 
 	switch ( nDir )
 	{
@@ -1838,12 +1838,12 @@ void CImperialGuardian::GCSendCastleGateInfo(int nGateIndex, int nZoneIndex, int
 		lpMsg->btMapSetType = 1;
 	}
 
-	if ( gObj[nUserIndex].Connected == PLAYER_PLAYING )
+	if ( gGameObjects[nUserIndex].Connected == PLAYER_PLAYING )
 	{
 		IOCP.DataSend(nUserIndex, (LPBYTE)&cTEMP_BUF, (sizeof(PMSG_SETMAPATTR_COUNT)+6*sizeof(PMSG_SETMAPATTR)));
 
 		sLog->outBasic("[IMPERIALGUARDIAN] SEND GATE STATE -> [ZONE]:%d [AccountID]:%s, [NAME]:%s [STATE]:%d",
-			nZoneIndex+1, gObj[nUserIndex].AccountID, gObj[nUserIndex].Name, iGateState);
+			nZoneIndex+1, gGameObjects[nUserIndex].AccountID, gGameObjects[nUserIndex].Name, iGateState);
 
 		sLog->outBasic("[IMPERIALGUARDIAN] beginX : %d, beginY : %d , endX :%d , endY : %d",
 			lpMsgBody[0].btX, lpMsgBody[0].btY, lpMsgBody[1].btX, lpMsgBody[1].btY);
@@ -1852,7 +1852,7 @@ void CImperialGuardian::GCSendCastleGateInfo(int nGateIndex, int nZoneIndex, int
 
 void CImperialGuardian::DropItem(int nIndex, int nMonsterIndex)
 {
-	if ( gObj[nIndex].Type != OBJ_USER )
+	if ( gGameObjects[nIndex].Type != OBJ_USER )
 	{
 		return;
 	}
@@ -1869,21 +1869,21 @@ void CImperialGuardian::DropItem(int nIndex, int nMonsterIndex)
 
 	if ( !nMaxLevel )
 	{
-		nMaxLevel = gObj[nIndex].Level + gObj[nIndex].m_PlayerData->MasterLevel;
+		nMaxLevel = gGameObjects[nIndex].Level + gGameObjects[nIndex].m_PlayerData->MasterLevel;
 	}
 
-	if ( gObj[nMonsterIndex].Class == 504 ) // Gaion
+	if ( gGameObjects[nMonsterIndex].Class == 504 ) // Gaion
 	{
 		sLog->outBasic("[IMPERIALGUARDIAN] Kill the boss monster => %s [ZONE]:%d [AccountID]:%s [Name]:%s",
-			gObj[nMonsterIndex].Name, nZoneIndex+1, gObj[nIndex].AccountID, gObj[nIndex].Name);
+			gGameObjects[nMonsterIndex].Name, nZoneIndex+1, gGameObjects[nIndex].AccountID, gGameObjects[nIndex].Name);
 
 		this->pEventDungeonItemBagGaion->DropEventItem(nIndex, nMaxLevel);
 	}
 
-	else if ( gObj[nMonsterIndex].Class == 526 ) // Statue
+	else if ( gGameObjects[nMonsterIndex].Class == 526 ) // Statue
 	{
 		sLog->outBasic("[IMPERIALGUARDIAN] Broken Statue => %s [ZONE]:%d [AccountID]:%s [Name]:%s",
-			gObj[nMonsterIndex].Name, nZoneIndex+1, gObj[nIndex].AccountID, gObj[nIndex].Name);
+			gGameObjects[nMonsterIndex].Name, nZoneIndex+1, gGameObjects[nIndex].AccountID, gGameObjects[nIndex].Name);
 
 		this->pEventDungeonItemBagStatue->DropEventItem(nIndex, nMaxLevel);
 	}
@@ -1891,14 +1891,14 @@ void CImperialGuardian::DropItem(int nIndex, int nMonsterIndex)
 	else
 	{
 		sLog->outBasic("[IMPERIALGUARDIAN] Kill the boss monster => %s [ZONE]:%d [AccountID]:%s [Name]:%s",
-			gObj[nMonsterIndex].Name, nZoneIndex+1, gObj[nIndex].AccountID, gObj[nIndex].Name);
+			gGameObjects[nMonsterIndex].Name, nZoneIndex+1, gGameObjects[nIndex].AccountID, gGameObjects[nIndex].Name);
 
 		this->pEventDungeonItemBag->DropEventItem(nIndex, nMaxLevel);
 	}
 
 	if ( this->m_stZoneInfo[nZoneIndex].m_nMonsterRegenTableIndex != 0 )
 	{
-		switch ( gObj[nMonsterIndex].Class )
+		switch ( gGameObjects[nMonsterIndex].Class )
 		{
 			case 506:
 				nType = ItemGetNumberMake(14, 108);
@@ -1940,18 +1940,18 @@ void CImperialGuardian::DropItem(int nIndex, int nMonsterIndex)
 
 		for ( int i=0; i<nCount; i++ )
 		{
-			BYTE btDropX = gObj[nIndex].X;
-			BYTE btDropY = gObj[nIndex].Y;
+			BYTE btDropX = gGameObjects[nIndex].X;
+			BYTE btDropY = gGameObjects[nIndex].Y;
 
-			if ( !gObjGetRandomItemDropLocation(gObj[nIndex].MapNumber, btDropX, btDropY, 2, 2, 10) )
+			if ( !gObjGetRandomItemDropLocation(gGameObjects[nIndex].MapNumber, btDropX, btDropY, 2, 2, 10) )
 			{
-				btDropX = gObj[nIndex].X;
-				btDropY = gObj[nIndex].Y;
+				btDropX = gGameObjects[nIndex].X;
+				btDropY = gGameObjects[nIndex].Y;
 			}
 
-			ItemSerialCreateSend(nIndex, gObj[nIndex].MapNumber, btDropX, btDropY, nType, 0, 0, 0, 0, 0, nIndex, 0, 0, 0, 0, 0);
+			ItemSerialCreateSend(nIndex, gGameObjects[nIndex].MapNumber, btDropX, btDropY, nType, 0, 0, 0, 0, 0, nIndex, 0, 0, 0, 0, 0);
 			sLog->outBasic("[IMPERIALGUARDIAN] Drop Item : (%d)(%d/%d) Item:(%s)%d Level:%d op1:%d op2:%d op3:%d",
-				gObj[nIndex].MapNumber, btDropX, btDropY, ItemAttribute[nType].Name, nType, 0, 0, 0, 0);
+				gGameObjects[nIndex].MapNumber, btDropX, btDropY, ItemAttribute[nType].Name, nType, 0, 0, 0, 0);
 		}
 	}
 }
@@ -1963,19 +1963,19 @@ int CImperialGuardian::CheckOverlapMysteriousPaper(int nIndex, int nItemLevel) /
 
 void CImperialGuardian::RollBackUserPos(int nUserNumber)
 {
-	if ( gObj[nUserNumber].Type == OBJ_USER && gObj[nUserNumber].Connected > PLAYER_LOGGED )
+	if ( gGameObjects[nUserNumber].Type == OBJ_USER && gGameObjects[nUserNumber].Connected > PLAYER_LOGGED )
 	{
-		gObj[nUserNumber].RegenMapNumber = gObj[nUserNumber].MapNumber;
-		gObj[nUserNumber].RegenMapX = gObj[nUserNumber].X;
-		gObj[nUserNumber].RegenMapY = gObj[nUserNumber].Y;
+		gGameObjects[nUserNumber].RegenMapNumber = gGameObjects[nUserNumber].MapNumber;
+		gGameObjects[nUserNumber].RegenMapX = gGameObjects[nUserNumber].X;
+		gGameObjects[nUserNumber].RegenMapY = gGameObjects[nUserNumber].Y;
 
-		gObjClearViewport(&gObj[nUserNumber]);
-		GSProtocol.GCTeleportSend(&gObj[nUserNumber], -1, gObj[nUserNumber].MapNumber, gObj[nUserNumber].X, gObj[nUserNumber].Y, gObj[nUserNumber].Dir);
+		gObjClearViewport(&gGameObjects[nUserNumber]);
+		GSProtocol.GCTeleportSend(&gGameObjects[nUserNumber], -1, gGameObjects[nUserNumber].MapNumber, gGameObjects[nUserNumber].X, gGameObjects[nUserNumber].Y, gGameObjects[nUserNumber].Dir);
 		
-		if ( gObj[nUserNumber].m_Change >= 0 )
-			gObjViewportListProtocolCreate(&gObj[nUserNumber]);
+		if ( gGameObjects[nUserNumber].m_Change >= 0 )
+			gObjViewportListProtocolCreate(&gGameObjects[nUserNumber]);
 
-		gObj[nUserNumber].RegenOk = TRUE;
+		gGameObjects[nUserNumber].RegenOk = TRUE;
 	}
 }
 
@@ -1987,7 +1987,7 @@ int CImperialGuardian::CheckGaionOrderPaper(int nIndex)
 		return -2;
 	}
 
-	LPOBJ lpObj = &gObj[nIndex];
+	CGameObject* lpObj = &gGameObjects[nIndex];
 
 	if ( lpObj->m_IfState.use > 0 )
 	{
@@ -2026,7 +2026,7 @@ int CImperialGuardian::CheckFullSecromicon(int nIndex)
 		return -2;
 	}
 
-	LPOBJ lpObj = &gObj[nIndex];
+	CGameObject* lpObj = &gGameObjects[nIndex];
 
 	if ( lpObj->m_IfState.use > 0 )
 	{
@@ -2089,7 +2089,7 @@ void CImperialGuardian::SetAtackAbleState(int nZoneIndex, int nMonsterClass, boo
 
 	for (std::vector<_stMonsterIndexInfo>::iterator it = this->m_stZoneInfo[nZoneIndex].m_vtMonsterIndexInfo.begin(); it != this->m_stZoneInfo[nZoneIndex].m_vtMonsterIndexInfo.end(); it++ )
 	{
-		LPOBJ lpObj = &gObj[it->m_nIndex];
+		CGameObject* lpObj = &gGameObjects[it->m_nIndex];
 
 		if ( lpObj->Class == nMonsterClass )
 		{
@@ -2130,7 +2130,7 @@ void CImperialGuardian::SetTargetMoveAllMonster(int nZoneIndex, int nTargetNumbe
 		return;
 	}
 
-	if ( gObj[nTargetNumber].Connected < PLAYER_CONNECTED )
+	if ( gGameObjects[nTargetNumber].Connected < PLAYER_CONNECTED )
 	{
 		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return;
@@ -2140,7 +2140,7 @@ void CImperialGuardian::SetTargetMoveAllMonster(int nZoneIndex, int nTargetNumbe
 	{
 		if ( it->m_bLive == true )
 		{
-			LPOBJ lpObj = &gObj[it->m_nIndex];
+			CGameObject* lpObj = &gGameObjects[it->m_nIndex];
 			
 			if ( lpObj->TargetNumber != -1 || lpObj->m_ActState.Emotion != 0 )
 			{
@@ -2172,7 +2172,7 @@ void CImperialGuardian::DestroyGate(int nZoneIndex, int nIndex, int nTargetIndex
 		return;
 	}
 
-	this->SetGateBlockState(gObj[nIndex].MapNumber, nZoneIndex, gObj[nIndex].X, gObj[nIndex].Y, 0, gObj[nIndex].Dir);
+	this->SetGateBlockState(gGameObjects[nIndex].MapNumber, nZoneIndex, gGameObjects[nIndex].X, gGameObjects[nIndex].Y, 0, gGameObjects[nIndex].Dir);
 
 	EnterCriticalSection(&this->m_criUserIndex);
 
@@ -2195,7 +2195,7 @@ void CImperialGuardian::DestroyGate(int nZoneIndex, int nIndex, int nTargetIndex
 	this->m_stZoneInfo[nZoneIndex].m_vtOpenedGate.push_back(nIndex);
 
 	sLog->outBasic("[IMPERIALGUARDIAN] DestroyGate -> [ZONE]:%d, [AccountID]:%s, [NAME]:%s, [GATE INDEX]:%d, [USER COUNT]:%d",
-		nZoneIndex, gObj[nTargetIndex].AccountID, gObj[nTargetIndex].Name, nIndex, this->m_stZoneInfo[nZoneIndex].m_vtUserIndex.size());
+		nZoneIndex, gGameObjects[nTargetIndex].AccountID, gGameObjects[nTargetIndex].Name, nIndex, this->m_stZoneInfo[nZoneIndex].m_vtUserIndex.size());
 }
 
 void CImperialGuardian::GCSendServerMsgAll(int nZoneIndex, char* szMsg)
@@ -2207,7 +2207,7 @@ void CImperialGuardian::GCSendServerMsgAll(int nZoneIndex, char* szMsg)
 
 	for(std::vector<int>::iterator it = this->m_stZoneInfo[nZoneIndex].m_vtUserIndex.begin(); it != this->m_stZoneInfo[nZoneIndex].m_vtUserIndex.end(); it++)
 	{
-		if ( gObj[*it].Connected > PLAYER_EMPTY )
+		if ( gGameObjects[*it].Connected > PLAYER_EMPTY )
 		{
 			nUserIndex[nCount] = *it;
 			nCount++;
@@ -2229,66 +2229,66 @@ int CImperialGuardian::ImperialGuardianLevelUp(int iIndex, int iAddExp)
 		return 0;
 	}
 
-	if ( g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&gObj[iIndex]) == true)
+	if ( g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&gGameObjects[iIndex]) == true)
 	{
-		g_MasterLevelSkillTreeSystem.MasterLevelUp(&gObj[iIndex], iAddExp, 0, "Imperial Guardian");
+		g_MasterLevelSkillTreeSystem.MasterLevelUp(&gGameObjects[iIndex], iAddExp, 0, "Imperial Guardian");
 		return 0;
 	}
 
 	int iLEFT_EXP = 0;
 
 	sLog->outBasic("[Imperial Guardian] Experience : [%s][%s](%d) Experience: %d + %d",	
-		gObj[iIndex].AccountID,	gObj[iIndex].Name,
-		gObj[iIndex].Level, gObj[iIndex].m_PlayerData->Experience,
+		gGameObjects[iIndex].AccountID,	gGameObjects[iIndex].Name,
+		gGameObjects[iIndex].Level, gGameObjects[iIndex].m_PlayerData->Experience,
 		iAddExp);
 
 	::gObjSetExpPetItem(iIndex, iAddExp);
 
-	if ( gObj[iIndex].Level >= g_ConfigRead.data.common.UserMaxLevel)
+	if ( gGameObjects[iIndex].Level >= g_ConfigRead.data.common.UserMaxLevel)
 	{
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,45), gObj[iIndex].m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,45), gGameObjects[iIndex].m_Index, 1);
 		return 0;
 	}
 
-	if ( (gObj[iIndex].m_PlayerData->Experience + iAddExp) < gObj[iIndex].m_PlayerData->NextExp )
+	if ( (gGameObjects[iIndex].m_PlayerData->Experience + iAddExp) < gGameObjects[iIndex].m_PlayerData->NextExp )
 	{
-		gObj[iIndex].m_PlayerData->Experience += iAddExp;
+		gGameObjects[iIndex].m_PlayerData->Experience += iAddExp;
 	}
 	else
 	{
-		iLEFT_EXP = gObj[iIndex].m_PlayerData->Experience + iAddExp - gObj[iIndex].m_PlayerData->NextExp;
-		gObj[iIndex].m_PlayerData->Experience = gObj[iIndex].m_PlayerData->NextExp;
-		gObj[iIndex].Level++;
+		iLEFT_EXP = gGameObjects[iIndex].m_PlayerData->Experience + iAddExp - gGameObjects[iIndex].m_PlayerData->NextExp;
+		gGameObjects[iIndex].m_PlayerData->Experience = gGameObjects[iIndex].m_PlayerData->NextExp;
+		gGameObjects[iIndex].Level++;
 
-		if ( g_ConfigRead.data.reset.iBlockLevelUpPointAfterResets == -1 || gObj[iIndex].m_PlayerData->m_iResets < g_ConfigRead.data.reset.iBlockLevelUpPointAfterResets )
+		if ( g_ConfigRead.data.reset.iBlockLevelUpPointAfterResets == -1 || gGameObjects[iIndex].m_PlayerData->m_iResets < g_ConfigRead.data.reset.iBlockLevelUpPointAfterResets )
 		{
-			if (gObj[iIndex].Class == CLASS_DARKLORD || gObj[iIndex].Class == CLASS_MAGUMSA || gObj[iIndex].Class == CLASS_RAGEFIGHTER || gObj[iIndex].Class == CLASS_GROWLANCER)
+			if (gGameObjects[iIndex].Class == CLASS_DARKLORD || gGameObjects[iIndex].Class == CLASS_MAGUMSA || gGameObjects[iIndex].Class == CLASS_RAGEFIGHTER || gGameObjects[iIndex].Class == CLASS_GROWLANCER)
 			{
-				gObj[iIndex].m_PlayerData->LevelUpPoint += g_MaxStatsInfo.GetClass.LevelUpPointMGDL;
+				gGameObjects[iIndex].m_PlayerData->LevelUpPoint += g_MaxStatsInfo.GetClass.LevelUpPointMGDL;
 			}
 
 			else
 			{
-				gObj[iIndex].m_PlayerData->LevelUpPoint += g_MaxStatsInfo.GetClass.LevelUpPointNormal;
+				gGameObjects[iIndex].m_PlayerData->LevelUpPoint += g_MaxStatsInfo.GetClass.LevelUpPointNormal;
 			}
 
-			if ( gObj[iIndex].m_PlayerData->PlusStatQuestClear != false )
+			if ( gGameObjects[iIndex].m_PlayerData->PlusStatQuestClear != false )
 			{
-				gObj[iIndex].m_PlayerData->LevelUpPoint++;
+				gGameObjects[iIndex].m_PlayerData->LevelUpPoint++;
 
-				//sLog->outBasic("[%s][%s] LevelUp PlusStatQuest Clear AddStat %d",gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->LevelUpPoint);
+				//sLog->outBasic("[%s][%s] LevelUp PlusStatQuest Clear AddStat %d",gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name, gGameObjects[iIndex].m_PlayerData->LevelUpPoint);
 			}
 		}
 
-		gObj[iIndex].MaxLife += DCInfo.DefClass[gObj[iIndex].Class].LevelLife;
-		gObj[iIndex].MaxMana += DCInfo.DefClass[gObj[iIndex].Class].LevelMana;
-		gObj[iIndex].Life = gObj[iIndex].MaxLife;
-		gObj[iIndex].Mana = gObj[iIndex].MaxMana;
-		gObjNextExpCal(&gObj[iIndex]);
+		gGameObjects[iIndex].MaxLife += DCInfo.DefClass[gGameObjects[iIndex].Class].LevelLife;
+		gGameObjects[iIndex].MaxMana += DCInfo.DefClass[gGameObjects[iIndex].Class].LevelMana;
+		gGameObjects[iIndex].Life = gGameObjects[iIndex].MaxLife;
+		gGameObjects[iIndex].Mana = gGameObjects[iIndex].MaxMana;
+		gObjNextExpCal(&gGameObjects[iIndex]);
 		gObjSetBP(iIndex);
-		GSProtocol.GCLevelUpMsgSend(gObj[iIndex].m_Index, 1);
-		gObjCalcMaxLifePower(gObj[iIndex].m_Index);
-		sLog->outBasic("Level Up [%s][%s][%d]", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].Level);
+		GSProtocol.GCLevelUpMsgSend(gGameObjects[iIndex].m_Index, 1);
+		gObjCalcMaxLifePower(gGameObjects[iIndex].m_Index);
+		sLog->outBasic("Level Up [%s][%s][%d]", gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name, gGameObjects[iIndex].Level);
 		return 0;
 	}
 
@@ -2297,12 +2297,12 @@ int CImperialGuardian::ImperialGuardianLevelUp(int iIndex, int iAddExp)
 
 void CImperialGuardian::RegAllPartyUser(int nZoneIndex, int nFirstEnterUserIndex)
 {
-	if ( gObj[nFirstEnterUserIndex].Connected < PLAYER_CONNECTED )
+	if ( gGameObjects[nFirstEnterUserIndex].Connected < PLAYER_CONNECTED )
 	{
 		return;
 	}
 
-	int nPartyNumber = gObj[nFirstEnterUserIndex].PartyNumber;
+	int nPartyNumber = gGameObjects[nFirstEnterUserIndex].PartyNumber;
 	int nPartyCount = gParty.GetPartyCount(nPartyNumber);
 
 	for ( int i=0; i < nPartyCount; i++ )
@@ -2332,12 +2332,12 @@ void CImperialGuardian::UserMonsterCountCheck()
 	// empty
 }
 
-void CImperialGuardian::MonsterBaseAct(LPOBJ lpObj)
+void CImperialGuardian::MonsterBaseAct(CGameObject* lpObj)
 {
-	LPOBJ lpTargetObj = NULL;
+	CGameObject* lpTargetObj = NULL;
 
 	if ( lpObj->TargetNumber >= 0 )
-		lpTargetObj = &gObj[lpObj->TargetNumber];
+		lpTargetObj = &gGameObjects[lpObj->TargetNumber];
 	else
 		lpObj->m_ActState.Emotion = 0;
 
@@ -2371,7 +2371,7 @@ void CImperialGuardian::MonsterBaseAct(LPOBJ lpObj)
 					return;
 				}
 
-				int map = gObj[tuser].MapNumber;
+				int map = gGameObjects[tuser].MapNumber;
 				BYTE attr;
 
 				if ( MAX_MAP_RANGE(map) == FALSE )
@@ -2380,9 +2380,9 @@ void CImperialGuardian::MonsterBaseAct(LPOBJ lpObj)
 					return;
 				}
 
-				if ( MapC[map].CheckWall(lpObj->X, lpObj->Y, gObj[tuser].X, gObj[tuser].Y) == TRUE )
+				if ( MapC[map].CheckWall(lpObj->X, lpObj->Y, gGameObjects[tuser].X, gGameObjects[tuser].Y) == TRUE )
 				{
-					attr = MapC[map].GetAttr(gObj[tuser].X, gObj[tuser].Y);
+					attr = MapC[map].GetAttr(gGameObjects[tuser].X, gGameObjects[tuser].Y);
 
 					if ( (attr&1) != 1 )
 					{

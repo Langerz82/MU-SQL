@@ -7,7 +7,7 @@
 #include "QuestExpUserInfo.h"
 #include "QuestExpInfo.h"
 #include "gObjMonster.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "NpcTalk.h"
 #include "MasterLevelSkillTreeSystem.h"
 #include "GensSystem.h"
@@ -84,7 +84,7 @@ QuestExpLuaBind::~QuestExpLuaBind(void)
 int QuestExpLuaBind::IsUsingExtendedWarehouse(lua_State *L)
 {
 	int iObjIndex = luaL_checkinteger(L, 2);
-	int iExtendedWarehouseCount = gObj[iObjIndex].m_PlayerData->m_WarehouseExpansion;
+	int iExtendedWarehouseCount = gGameObjects[iObjIndex].m_PlayerData->m_WarehouseExpansion;
 	lua_settop(L, -2);
 
 	lua_pushnumber(L, iExtendedWarehouseCount > 0);
@@ -95,12 +95,12 @@ int QuestExpLuaBind::GetNpcIndex(lua_State *L)
 {
 	int iObjIndex = luaL_checkinteger(L, 2);
 
-	if (gObj[iObjIndex].TargetNpcNumber == -1)
+	if (gGameObjects[iObjIndex].TargetNpcNumber == -1)
 	{
 		return 0;
 	}
 
-	int iNpcIndex = gObj[gObj[iObjIndex].TargetNpcNumber].Class;
+	int iNpcIndex = gGameObjects[gGameObjects[iObjIndex].TargetNpcNumber].Class;
 	lua_settop(L, -2);
 
 	lua_pushnumber(L, iNpcIndex);
@@ -110,7 +110,7 @@ int QuestExpLuaBind::GetNpcIndex(lua_State *L)
 int QuestExpLuaBind::GetCharClass(lua_State *L)
 {
 	int iObjIndex = luaL_checkinteger(L, 2);
-	int iCharType = gObj[iObjIndex].Class;
+	int iCharType = gGameObjects[iObjIndex].Class;
 	lua_settop(L, -2);
 
 	lua_pushnumber(L, iCharType);
@@ -122,7 +122,7 @@ int QuestExpLuaBind::IsMasterLevel(lua_State *L)
 	int iObjIndex = luaL_checkinteger(L, 2);
 	lua_settop(L, -2);
 
-	if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&gObj[iObjIndex]))
+	if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&gGameObjects[iObjIndex]))
 	{
 		lua_pushnumber(L, 1);
 	}
@@ -137,7 +137,7 @@ int QuestExpLuaBind::IsMasterLevel(lua_State *L)
 int QuestExpLuaBind::GetGensInfluence(lua_State *L)
 {
 	int iObjIndex = luaL_checkinteger(L, 2);
-	int iGensInfluence = g_GensSystem.GetGensInfluence(&gObj[iObjIndex]);
+	int iGensInfluence = g_GensSystem.GetGensInfluence(&gGameObjects[iObjIndex]);
 	lua_settop(L, -2);
 
 	lua_pushnumber(L, iGensInfluence);
@@ -167,7 +167,7 @@ int QuestExpLuaBind::ChkProgQuest(lua_State *L)
 int QuestExpLuaBind::GetUserLv(lua_State *L)
 {
 	int iObjIndex = luaL_checkinteger(L, 2);
-	int iUserLv = gObj[iObjIndex].Level + gObj[iObjIndex].m_PlayerData->MasterLevel;
+	int iUserLv = gGameObjects[iObjIndex].Level + gGameObjects[iObjIndex].m_PlayerData->MasterLevel;
 	lua_settop(L, -2);
 
 	lua_pushnumber(L, iUserLv);
@@ -188,30 +188,30 @@ int QuestExpLuaBind::GetInvenItemFind(lua_State *L)
 
 	for (int x = 0; x < INVENTORY_SIZE; x++)
 	{
-		if (!gObj[iObjIndex].pInventory[x].IsItem())
+		if (!gGameObjects[iObjIndex].pInventory[x].IsItem())
 		{
 			continue;
 		}
 
-		if (gObj[iObjIndex].pInventory[x].m_Type != ITEMGET(iItemType, iItemIndex))
+		if (gGameObjects[iObjIndex].pInventory[x].m_Type != ITEMGET(iItemType, iItemIndex))
 		{
 			continue;
 		}
 
-		if (gObj[iObjIndex].pInventory[x].m_Level != iItemLevel)
+		if (gGameObjects[iObjIndex].pInventory[x].m_Level != iItemLevel)
 		{
 			continue;
 		}
 
-		if ((gObj[iObjIndex].pInventory[x].m_Type < ITEMGET(14, 0)
-			|| gObj[iObjIndex].pInventory[x].m_Type > ITEMGET(14, 8))
-			&& (gObj[iObjIndex].pInventory[x].m_Type < ITEMGET(14, 35)
-				|| gObj[iObjIndex].pInventory[x].m_Type > ITEMGET(14, 40))
-			&& g_QuestExpManager.IsQuestItemAtt(gObj[iObjIndex].pInventory[x].m_Type, QUESTEXP_ITEM_OVERLAP) != true)
+		if ((gGameObjects[iObjIndex].pInventory[x].m_Type < ITEMGET(14, 0)
+			|| gGameObjects[iObjIndex].pInventory[x].m_Type > ITEMGET(14, 8))
+			&& (gGameObjects[iObjIndex].pInventory[x].m_Type < ITEMGET(14, 35)
+				|| gGameObjects[iObjIndex].pInventory[x].m_Type > ITEMGET(14, 40))
+			&& g_QuestExpManager.IsQuestItemAtt(gGameObjects[iObjIndex].pInventory[x].m_Type, QUESTEXP_ITEM_OVERLAP) != true)
 		{
-			if (gObj[iObjIndex].pInventory[x].m_Option1 == iItemSkill && gObj[iObjIndex].pInventory[x].m_Option3 == iItemOpt && gObj[iObjIndex].pInventory[x].m_NewOption == iItemExOpt)
+			if (gGameObjects[iObjIndex].pInventory[x].m_Option1 == iItemSkill && gGameObjects[iObjIndex].pInventory[x].m_Option3 == iItemOpt && gGameObjects[iObjIndex].pInventory[x].m_NewOption == iItemExOpt)
 			{
-				if (gObj[iObjIndex].pInventory[x].m_Option2 == 0 && gObj[iObjIndex].pInventory[x].m_SetOption == 0)
+				if (gGameObjects[iObjIndex].pInventory[x].m_Option2 == 0 && gGameObjects[iObjIndex].pInventory[x].m_SetOption == 0)
 				{
 					iItemCnt++;
 				}
@@ -219,7 +219,7 @@ int QuestExpLuaBind::GetInvenItemFind(lua_State *L)
 		}
 		else
 		{
-			iDur += gObj[iObjIndex].pInventory[x].m_Durability;
+			iDur += gGameObjects[iObjIndex].pInventory[x].m_Durability;
 		}
 	}
 
@@ -772,7 +772,7 @@ int QuestExpLuaBind::GetQuestSwitch(lua_State *L)
 
 	if (iQuestSwitch == -1)
 	{
-		sLog->outBasic("[QuestExp] - Error - LuaGetQuestSwitch [%s][%s] Episode[%d]", gObj[iObjIndex].AccountID, gObj[iObjIndex].Name, iEpisode);
+		sLog->outBasic("[QuestExp] - Error - LuaGetQuestSwitch [%s][%s] Episode[%d]", gGameObjects[iObjIndex].AccountID, gGameObjects[iObjIndex].Name, iEpisode);
 		return 0;
 	}
 
@@ -1035,12 +1035,12 @@ int QuestExpLuaBind::SubQuestZen(lua_State *L)
 	int iSubMoney = luaL_checkinteger(L, 2);
 	int iObjIndex = luaL_checkinteger(L, 3);
 
-	if (gObj[iObjIndex].m_PlayerData->Money >= iSubMoney)
+	if (gGameObjects[iObjIndex].m_PlayerData->Money >= iSubMoney)
 	{
-		gObj[iObjIndex].m_PlayerData->Money -= iSubMoney;
+		gGameObjects[iObjIndex].m_PlayerData->Money -= iSubMoney;
 	}
 
-	GSProtocol.GCMoneySend(iObjIndex, gObj[iObjIndex].m_PlayerData->Money);
+	GSProtocol.GCMoneySend(iObjIndex, gGameObjects[iObjIndex].m_PlayerData->Money);
 	lua_settop(L, -3);
 
 	return 0;
@@ -1120,13 +1120,13 @@ int QuestExpLuaBind::SendQuestConfirmBtn(lua_State *L)
     DWORD dwQuestInfoIndexID = GetQuestInfoIndexId(iEpisode, iQS);
     g_QuestExpProgMng.GCANSQuestCompleteBtnClick(iObjIndex, dwQuestInfoIndexID, 1);
 
-    if( gObj[iObjIndex].m_PlayerData->m_UserQuestInfo[iEpisode].GetAskCnt() > 0 )
+    if( gGameObjects[iObjIndex].m_PlayerData->m_UserQuestInfo[iEpisode].GetAskCnt() > 0 )
     {
-		gObj[iObjIndex].m_PlayerData->m_UserQuestInfo[iEpisode].SetAskCnt(0);
+		gGameObjects[iObjIndex].m_PlayerData->m_UserQuestInfo[iEpisode].SetAskCnt(0);
 
 		for (int i = 0; i < MAX_QUESTEXP_USER_INFO; i++)
 		{
-			gObj[iObjIndex].m_PlayerData->m_UserQuestInfo[iEpisode].m_UserQuestAskInfo[i].Clear();
+			gGameObjects[iObjIndex].m_PlayerData->m_UserQuestInfo[iEpisode].m_UserQuestAskInfo[i].Clear();
 		}
     }
 

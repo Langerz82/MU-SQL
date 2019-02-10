@@ -30,65 +30,65 @@ public:
 	GensSystem();
 	virtual ~GensSystem();
 
-	int GDReqAbusingInfo(LPOBJ lpObj); 
-	int ReqExDBGensInfo(LPOBJ lpObj);
-	void ReqRegGensMember(LPOBJ lpObj, BYTE btInfluence);
+	int GDReqAbusingInfo(CGameObject* lpObj); 
+	int ReqExDBGensInfo(CGameObject* lpObj);
+	void ReqRegGensMember(CGameObject* lpObj, BYTE btInfluence);
 	int AnsRegGensMember(int iObjIndex, BYTE btResult);
-	int ReqSecedeGensMember(LPOBJ lpObj);
+	int ReqSecedeGensMember(CGameObject* lpObj);
 	int AnsSecedeGensMember(int iObjIndex, BYTE btResult);
 
-	bool IsInfluenceNPC(LPOBJ lpObj);
+	bool IsInfluenceNPC(CGameObject* lpObj);
 
-	int SendGensInfo(LPOBJ lpObj);
-	int SendPkPenaltyMapMove(LPOBJ lpObj);
-	int GDReqSaveContributePoint(LPOBJ lpObj);
-	int DBSaveAbusingKillUserName(LPOBJ lpObj);
-	void BattleZoneChatMsgSend(LPOBJ lpObj, LPBYTE Msg, int size);
+	int SendGensInfo(CGameObject* lpObj);
+	int SendPkPenaltyMapMove(CGameObject* lpObj);
+	int GDReqSaveContributePoint(CGameObject* lpObj);
+	int DBSaveAbusingKillUserName(CGameObject* lpObj);
+	void BattleZoneChatMsgSend(CGameObject* lpObj, LPBYTE Msg, int size);
 	int IsMoveMapBattleZone(int iMapIndex);
-	void GensViewportListProtocol(LPOBJ lpObj);
+	void GensViewportListProtocol(CGameObject* lpObj);
 	int IsMapBattleZone(int iMapIndex);
-	void SetGensInfluence(LPOBJ lpObj, int iInfluence);
-	int IsPkEnable(LPOBJ lpObj, LPOBJ lpTargetObj);
-	int GetGensInfluence(LPOBJ lpObj);
-	char *GetGensInfluenceName(LPOBJ lpObj);
-	bool IsRegGensInfluence(LPOBJ lpObj);
-	int SetUserBattleZoneEnable(LPOBJ lpObj, int bBattleZoneEnable);
-	int IsUserBattleZoneEnable(LPOBJ lpObj);
-	int SetContributePoint(LPOBJ lpObj, int iContributePoint);
-	int AddContributePoint(LPOBJ lpObj, int iContributePoint);
-	int SubContributePoint(LPOBJ lpObj, int iContributePoint);
-	int GetContributePoint(LPOBJ lpObj);
-	int PkPenaltyAddNeedZenMapMove(LPOBJ lpObj);
-	void PkPenaltyDropInvenItem(LPOBJ lpObj);
-	void PkPenaltyDropZen(LPOBJ lpObj);
-	void SendPKPenaltyDebuff(LPOBJ lpObj);
-	void CalcContributePoint(LPOBJ lpObj, LPOBJ lpTargetObj);
-	int ChkKillUserName(LPOBJ lpObj, char *szCharName);
-	int AbusingPenalty(LPOBJ lpObj, int iKillUserIndex);
-	int InsertKillUserName(LPOBJ lpObj, char *szCharName);
-	void MoveInBattleZonePartySplit(LPOBJ lpObj);
-	void AbusingInfoReset(LPOBJ lpObj);
-	int CalGensClass(LPOBJ lpObj);
-	int SetGensRanking(LPOBJ lpObj, int iGensRanking);
-	int SetGensClass(LPOBJ lpObj, int iGensClass);
-	int GetGensClass(LPOBJ lpObj);
-	int GetNextContributePoint(LPOBJ lpObj);
+	void SetGensInfluence(CGameObject* lpObj, int iInfluence);
+	int IsPkEnable(CGameObject* lpObj, CGameObject* lpTargetObj);
+	int GetGensInfluence(CGameObject* lpObj);
+	char *GetGensInfluenceName(CGameObject* lpObj);
+	bool IsRegGensInfluence(CGameObject* lpObj);
+	int SetUserBattleZoneEnable(CGameObject* lpObj, int bBattleZoneEnable);
+	int IsUserBattleZoneEnable(CGameObject* lpObj);
+	int SetContributePoint(CGameObject* lpObj, int iContributePoint);
+	int AddContributePoint(CGameObject* lpObj, int iContributePoint);
+	int SubContributePoint(CGameObject* lpObj, int iContributePoint);
+	int GetContributePoint(CGameObject* lpObj);
+	int PkPenaltyAddNeedZenMapMove(CGameObject* lpObj);
+	void PkPenaltyDropInvenItem(CGameObject* lpObj);
+	void PkPenaltyDropZen(CGameObject* lpObj);
+	void SendPKPenaltyDebuff(CGameObject* lpObj);
+	void CalcContributePoint(CGameObject* lpObj, CGameObject* lpTargetObj);
+	int ChkKillUserName(CGameObject* lpObj, char *szCharName);
+	int AbusingPenalty(CGameObject* lpObj, int iKillUserIndex);
+	int InsertKillUserName(CGameObject* lpObj, char *szCharName);
+	void MoveInBattleZonePartySplit(CGameObject* lpObj);
+	void AbusingInfoReset(CGameObject* lpObj);
+	int CalGensClass(CGameObject* lpObj);
+	int SetGensRanking(CGameObject* lpObj, int iGensRanking);
+	int SetGensClass(CGameObject* lpObj, int iGensClass);
+	int GetGensClass(CGameObject* lpObj);
+	int GetNextContributePoint(CGameObject* lpObj);
 	int SetGensMemberCount(int iInfluence, int iMemberCount);
 	int GetGensMemberCount(int iInfluence);
-	int ReqExDBGensRewardCheck(LPOBJ lpObj, int iInfluence);
-	int ReqExDBGensRewardComplete(LPOBJ lpObj);
-	int SendGensReward(LPOBJ lpObj, BYTE btResult);
-	int SendGensRewardItem(LPOBJ lpObj, int iGensClass);
-	bool GensRewardInventoryCheck(LPOBJ lpObj, int iItemCount);
-	int ReqExDBGensMemberCount(LPOBJ lpObj);
+	int ReqExDBGensRewardCheck(CGameObject* lpObj, int iInfluence);
+	int ReqExDBGensRewardComplete(CGameObject* lpObj);
+	int SendGensReward(CGameObject* lpObj, BYTE btResult);
+	int SendGensRewardItem(CGameObject* lpObj, int iGensClass);
+	bool GensRewardInventoryCheck(CGameObject* lpObj, int iItemCount);
+	int ReqExDBGensMemberCount(CGameObject* lpObj);
 	int ReqExDBSetGensRewardDay();
 	int ReqExDBSetGensRanking();
 	int LoadData(char *lpszFileName);
-	int ReqGensRewardDay(LPOBJ lpObj);
+	int ReqGensRewardDay(CGameObject* lpObj);
 
-	int GetPKPartyLevel(LPOBJ lpObj);
+	int GetPKPartyLevel(CGameObject* lpObj);
 
-	void SendBattleZoneData(LPOBJ lpObj);
+	void SendBattleZoneData(CGameObject* lpObj);
 
 	bool CanGensSeeOppositeChat() { return this->m_bGensCanSeeOppositeGensChat; }
 	bool CanGensJoinPartyWhileOppositeGens() { return this->m_bGensCanJoinPartyWhileOppositeGens; }
@@ -105,11 +105,11 @@ public:
 
 	int GetDamageReduction() { return this->m_iGensDamageReduction; }
 
-	float GetBattleZoneExpBonus(LPOBJ lpObj);
-	int GetBattleZoneDropBonus(LPOBJ lpObj);
-	int GetBattleZoneExcDropBonus(LPOBJ lpObj);
+	float GetBattleZoneExpBonus(CGameObject* lpObj);
+	int GetBattleZoneDropBonus(CGameObject* lpObj);
+	int GetBattleZoneExcDropBonus(CGameObject* lpObj);
 
-	bool GetEntryAllowType(LPOBJ lpObj, BYTE btMapNumber);
+	bool GetEntryAllowType(CGameObject* lpObj, BYTE btMapNumber);
 
 private:
 	BOOL								m_bPkPenaltyDropZen;

@@ -8,7 +8,7 @@
 #include "../../Main.h"
 //#include "Logging/Log.h"
 //#include "CastleSiegeSync.h"
-#include "../user.h"
+#include "../CUserData.h"
 #include "../util.h"
 #include "../DSProtocol.h"
 #include "../configread.h"
@@ -345,7 +345,7 @@ int CJewelOfHarmonySystem::_GetSelectRandomOption(CItem * pItem, int iItemType)
 	return iItemOption;
 }
 
-BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(LPOBJ lpObj, int source, int target)
+BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(CGameObject* lpObj, int source, int target)
 {
 	if ( this->m_bSystemStrengthenItem == FALSE )
 	{
@@ -441,7 +441,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(LPOBJ lpObj, int source,
 	return TRUE;
 }
 
-BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfHarmony(LPOBJ lpObj, int source, int target)
+BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfHarmony(CGameObject* lpObj, int source, int target)
 {
 	if ( this->m_bSystemStrengthenItem == FALSE )
 	{
@@ -538,7 +538,7 @@ BOOL CJewelOfHarmonySystem::_MakeOption(CItem *pItem, BYTE btOptionType, BYTE bt
 
 
 #pragma warning ( disable : 4101 )
-void CJewelOfHarmonySystem::StrengthenItemByMacro(LPOBJ lpObj, BYTE invenrotyTargetPos, BYTE btOptionType,  BYTE btOptionLevel)
+void CJewelOfHarmonySystem::StrengthenItemByMacro(CGameObject* lpObj, BYTE invenrotyTargetPos, BYTE btOptionType,  BYTE btOptionLevel)
 {
 //#pragma message("Add Here code to make an Artificial JOH Item")
 	return;
@@ -588,7 +588,7 @@ BYTE CJewelOfHarmonySystem::ShowStrengthenOption(CItem *pItem)
 }
 
 
-BYTE CJewelOfHarmonySystem::MakeCharSetData(LPOBJ lpObj)
+BYTE CJewelOfHarmonySystem::MakeCharSetData(CGameObject* lpObj)
 {
 	BYTE btResult = 0;
 
@@ -619,7 +619,7 @@ BYTE CJewelOfHarmonySystem::MakeCharSetData(LPOBJ lpObj)
 	return btResult;
 }
 
-void CJewelOfHarmonySystem::SetApplyStrengthenItem(LPOBJ lpObj)
+void CJewelOfHarmonySystem::SetApplyStrengthenItem(CGameObject* lpObj)
 {
 	JEWELOFHARMONY_ITEM_EFFECT * pItemEffect = &lpObj->m_PlayerData->m_JewelOfHarmonyEffect;
 
@@ -1030,7 +1030,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(OBJECTSTRUCT * lpObj,
 	return TRUE;
 }
 
-BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(LPOBJ lpObj)
+BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject* lpObj)
 {
 	if ( this->m_bSystemMixSmeltingStone != TRUE )
 	{
@@ -1143,7 +1143,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(LPOBJ lpObj)
 
 
 
-BOOL CJewelOfHarmonySystem::SmeltItemBySmeltingStone(LPOBJ lpObj, int source, int target)
+BOOL CJewelOfHarmonySystem::SmeltItemBySmeltingStone(CGameObject* lpObj, int source, int target)
 {
 	if ( this->m_bSystemSmeltingItem == FALSE )
 	{
@@ -1256,7 +1256,7 @@ int CJewelOfHarmonySystem::_GetZenForRestoreItem(CItem * pItem)
 	return iZenForRestore;
 }
 
-BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(LPOBJ lpObj)
+BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(CGameObject* lpObj)
 {
 	if ( this->m_bSystemRestoreStrengthen != TRUE )
 	{
@@ -1337,7 +1337,7 @@ BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(LPOBJ lpObj)
 	return TRUE;
 }
 
-BOOL CJewelOfHarmonySystem::NpcJewelOfHarmony(LPOBJ lpNpc, LPOBJ lpObj)
+BOOL CJewelOfHarmonySystem::NpcJewelOfHarmony(CGameObject* lpNpc, CGameObject* lpObj)
 {
 	if ( lpObj->m_IfState.use > 0 )
 		return TRUE;

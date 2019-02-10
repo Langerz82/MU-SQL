@@ -2,7 +2,7 @@
 // VipSys.cpp
 #include "StdAfx.h"
 #include "VipSys.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "protocol.h"
 #include "Logging/Log.h"
 #include "ChaosBox.h"
@@ -116,24 +116,24 @@ void CVipSystem::Run()
 
 	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
-		if (gObj[i].Connected < PLAYER_PLAYING)
+		if (gGameObjects[i].Connected < PLAYER_PLAYING)
 		{
 			continue;
 		}
 
-		if (gObj[i].Type != OBJ_USER)
+		if (gGameObjects[i].Type != OBJ_USER)
 		{
 			continue;
 		}
 
-		if (gObj[i].m_PlayerData->VipType == 0)
+		if (gGameObjects[i].m_PlayerData->VipType == 0)
 		{
 			continue;
 		}
 
 		EnterCriticalSection(&this->m_criti);
 
-		std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(gObj[i].m_PlayerData->VipType);
+		std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(gGameObjects[i].m_PlayerData->VipType);
 
 		if (it == this->m_mapVipInfo.end())
 		{
@@ -165,9 +165,9 @@ void CVipSystem::Run()
 
 		LeaveCriticalSection(&this->m_criti);
 
-		if (iVipEffect != gObj[i].m_PlayerData->VipEffect)
+		if (iVipEffect != gGameObjects[i].m_PlayerData->VipEffect)
 		{
-			gObj[i].m_PlayerData->VipEffect = iVipEffect;
+			gGameObjects[i].m_PlayerData->VipEffect = iVipEffect;
 
 			if (this->m_bIsSendRateChangeMessage == true)
 			{
@@ -185,7 +185,7 @@ void CVipSystem::Run()
 	}
 }
 
-void CVipSystem::SetVipForUser(LPOBJ lpObj, BYTE btVipType)
+void CVipSystem::SetVipForUser(CGameObject* lpObj, BYTE btVipType)
 {
 	if (btVipType == 0)
 	{
@@ -228,7 +228,7 @@ void CVipSystem::SetVipForUser(LPOBJ lpObj, BYTE btVipType)
 	LeaveCriticalSection(&this->m_criti);
 }
 
-float CVipSystem::GetExpBonus(LPOBJ lpObj)
+float CVipSystem::GetExpBonus(CGameObject* lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -267,7 +267,7 @@ float CVipSystem::GetExpBonus(LPOBJ lpObj)
 	return fEffect;
 }
 
-int CVipSystem::GetDropBonus(LPOBJ lpObj)
+int CVipSystem::GetDropBonus(CGameObject* lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -306,7 +306,7 @@ int CVipSystem::GetDropBonus(LPOBJ lpObj)
 	return iEffect;
 }
 
-int CVipSystem::GetExcDropBonus(LPOBJ lpObj)
+int CVipSystem::GetExcDropBonus(CGameObject* lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -409,7 +409,7 @@ DWORD CVipSystem::GetPointPerReset(OBJECTSTRUCT *lpObj)
 	return dwEffect;
 }
 
-int CVipSystem::GetPlusItemMixRate(LPOBJ lpObj, int iMixType)
+int CVipSystem::GetPlusItemMixRate(CGameObject* lpObj, int iMixType)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -467,7 +467,7 @@ int CVipSystem::GetPlusItemMixRate(LPOBJ lpObj, int iMixType)
 	return iEffect;
 }
 
-int CVipSystem::GetPlusItemAddLuckRate(LPOBJ lpObj)
+int CVipSystem::GetPlusItemAddLuckRate(CGameObject* lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{

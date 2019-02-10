@@ -4,7 +4,7 @@
 
 #if FILE_FLOOD_SYSTEMSWITCH
 #include "Logging/Log.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "LogToFile.h"
 #include "readscript.h"
 #include "FloodSystem.h"
@@ -82,9 +82,9 @@ int cAntiFlood::GetIPCount(char * IP)
 
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		if (gObj[n].Connected >= PLAYER_CONNECTED)
+		if (gGameObjects[n].Connected >= PLAYER_CONNECTED)
 		{
-			if (strcmp(&gObj[n].m_PlayerData->Ip_addr[0], IP) == 0)
+			if (strcmp(&gGameObjects[n].m_PlayerData->Ip_addr[0], IP) == 0)
 			{
 				Count++;
 			}
@@ -97,9 +97,9 @@ void cAntiFlood::AutoClose(char * IP)
 {
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		if (gObj[n].Connected >= PLAYER_CONNECTED)
+		if (gGameObjects[n].Connected >= PLAYER_CONNECTED)
 		{
-			if (strcmp(&gObj[n].m_PlayerData->Ip_addr[0], IP) == 0)
+			if (strcmp(&gGameObjects[n].m_PlayerData->Ip_addr[0], IP) == 0)
 			{
 				if (this->IsDebugEnabled == 1)
 				{

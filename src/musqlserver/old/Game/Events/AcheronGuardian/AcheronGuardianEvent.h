@@ -5,7 +5,7 @@
 #define ACHEROUNGARDIANEVENT_H
 
 #include "prodef.h"
-#include "user.h"
+#include "CUserData.h"
 
 struct _tagAE_OBELISK_INFO
 {

@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MonsterKillCount.cpp
 #include "StdAfx.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "MonsterKillCount.h"
 #include "DSProtocol.h"
 
@@ -17,7 +17,7 @@ CKillCountMng::~CKillCountMng()
 
 }
 
-void CKillCountMng::CheckMonsterKillCount(int monsterid, LPOBJ lpObj)
+void CKillCountMng::CheckMonsterKillCount(int monsterid, CGameObject* lpObj)
 {
 	for(int i=0;i<MAX_MONSTER_TYPE;i++)
 	{

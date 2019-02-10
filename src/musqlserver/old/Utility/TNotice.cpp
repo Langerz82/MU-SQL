@@ -2,7 +2,7 @@
 // TNotice.cpp
 #include "StdAfx.h"
 #include "TNotice.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "giocp.h"
 #include "util.h"
 #include "GameMain.h"
@@ -50,9 +50,9 @@ void TNotice::SendNoticeToAllUser(void * lpNotice)
 
 	for ( int n = g_ConfigRead.server.GetObjectStartUserIndex() ; n < g_ConfigRead.server.GetObjectMax() ; n++)
 	{
-		if ( gObj[n].Connected == PLAYER_PLAYING )
+		if ( gGameObjects[n].Connected == PLAYER_PLAYING )
 		{
-			if ( gObj[n].Type  == OBJ_USER )
+			if ( gGameObjects[n].Type  == OBJ_USER )
 			{
 				IOCP.DataSend(n, (unsigned char*)pNotice  , pNotice->h.size  );
 			}
@@ -75,9 +75,9 @@ void TNotice::AllSendServerMsg(LPSTR chatmsg)
 
 	for ( int n = g_ConfigRead.server.GetObjectStartUserIndex() ; n < g_ConfigRead.server.GetObjectMax() ; n++)
 	{
-		if ( gObj[n].Connected == PLAYER_PLAYING )
+		if ( gGameObjects[n].Connected == PLAYER_PLAYING )
 		{
-			if ( gObj[n].Type  == OBJ_USER )
+			if ( gGameObjects[n].Type  == OBJ_USER )
 			{
 				IOCP.DataSend(n, (unsigned char*)&pNotice , pNotice.h.size );
 			}
@@ -117,9 +117,9 @@ void TNotice::SendToAllUser(LPSTR szMsg, ...)
 
 	for ( int n = g_ConfigRead.server.GetObjectStartUserIndex() ; n < g_ConfigRead.server.GetObjectMax() ; n++)
 	{
-		if ( gObj[n].Connected == PLAYER_PLAYING )
+		if ( gGameObjects[n].Connected == PLAYER_PLAYING )
 		{
-			if ( gObj[n].Type  == OBJ_USER )
+			if ( gGameObjects[n].Type  == OBJ_USER )
 			{
 				IOCP.DataSend(n, (LPBYTE)&this->m_Notice , this->m_Notice.h.size );
 			}

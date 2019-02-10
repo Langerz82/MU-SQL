@@ -40,8 +40,9 @@
 #include "classdef.h"
 #include "Lang.h"
 #include "Config\iniReader\IniReader.h"
-#include "user.h"
+#include "CUserData.h"
 #include "MuDefines.h"
+#include "MuEnums.h"
 
 // Crypto++
 #include "cryptopp/sha.h"

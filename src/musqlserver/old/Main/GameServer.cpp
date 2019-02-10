@@ -8,7 +8,7 @@
 //------------------------------------------
 //	GS-N	1.00.18	JPN	0x0052D520	-	Completed
 #include "StdAfx.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "Lang.h"
 #include "resource.h"
 #include "GameServer.h"
@@ -806,10 +806,10 @@ LRESULT CALLBACK GSDisconnect(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 						{
 							if(gObjIsAccontConnect(i, szAccount) == TRUE)
 							{
-								if (gObj[i].m_bOff == true)
+								if (gGameObjects[i].m_bOff == true)
 								{
-									GJSetCharacterInfo(&gObj[i], i, FALSE);
-									gObj[i].m_bOff = false;
+									GJSetCharacterInfo(&gGameObjects[i], i, FALSE);
+									gGameObjects[i].m_bOff = false;
 									gObjDel(i);
 								}
 
@@ -845,10 +845,10 @@ LRESULT CALLBACK GSDisconnect(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 						{
 							if(gObjIsConnectedGP(i, szAccount) == TRUE)
 							{
-								if (gObj[i].m_bOff == true)
+								if (gGameObjects[i].m_bOff == true)
 								{
-									GJSetCharacterInfo(&gObj[i], i, FALSE);
-									gObj[i].m_bOff = false;
+									GJSetCharacterInfo(&gGameObjects[i], i, FALSE);
+									gGameObjects[i].m_bOff = false;
 									gObjDel(i);
 								}
 

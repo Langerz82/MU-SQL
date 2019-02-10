@@ -5,13 +5,13 @@
 #include "TMonsterSkillElementInfo.h"
 
 #include "protocol.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "BuffEffectSlot.h"
 //////////////////////////////////////////////////////////////////////
 // Construction
 //////////////////////////////////////////////////////////////////////
 
-void TMonsterSkillElementInfo::CheckSkillElementInfoProc(LPOBJ lpObj)
+void TMonsterSkillElementInfo::CheckSkillElementInfoProc(CGameObject* lpObj)
 {
 	if ( lpObj->m_MonsterSkillElementInfo.CheckAttackTime() )
 	{

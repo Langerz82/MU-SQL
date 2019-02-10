@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "ImperialGuardianRewardExp.h"
 #include "Logging/Log.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 
 CImperialGuardianRewardExp::CImperialGuardianRewardExp(void)
 {
@@ -56,13 +56,13 @@ int CImperialGuardianRewardExp::GetRewardExp(int nUserIndex)
 		return 0;
 	}
 
-	if ( gObj[nUserIndex].Type != OBJ_USER )
+	if ( gGameObjects[nUserIndex].Type != OBJ_USER )
 	{
 		return 0;
 	}
 
 	int nSize = this->m_vtRewardExpInfo.size();
-	LPOBJ lpObj = &gObj[nUserIndex];
+	CGameObject* lpObj = &gGameObjects[nUserIndex];
 	int nUserLevel = lpObj->Level + lpObj->m_PlayerData->MasterLevel;
 
 	for ( int i=0;i<nSize;i++ )

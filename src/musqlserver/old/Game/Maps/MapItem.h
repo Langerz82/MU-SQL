@@ -12,7 +12,7 @@
 #endif // _MSC_VER > 1000
 
 #include "ItemManagement/Item.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 
 class CMapItem : public CItem
 {

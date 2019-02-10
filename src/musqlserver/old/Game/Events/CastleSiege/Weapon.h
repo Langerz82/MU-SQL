@@ -11,7 +11,7 @@
 #define MAX_WEAPON_DAMAGED_TARGET_INFO 100
 #define MAX_WEAPON_CAL_DAMAGER_INFO 50
 
-#include "User/user.h"
+#include "User/CUserData.h"
 
 struct ST_WEAPON_DAMAGED_TARGET_INFO
 {
@@ -61,10 +61,10 @@ public:
 	BOOL AddWeaponDamagedTargetInfo(int iWeaponIndex, int iTargetIndex, int iDelayTime);
 	void WeaponAttackProc();
 	void WeaponAct(int iIndex);
-	BOOL Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int iCriticalDamage, int iActionType);
+	BOOL Attack(CGameObject* lpObj, CGameObject* lpTargetObj, CMagicInf* lpMagic,  int iCriticalDamage, int iActionType);
 	int GetAttackDamage(int iObjClass);
 	BOOL GetTargetPointXY(int iObjClass, int iTargetPointIndex, BYTE& btX, BYTE& btY, BOOL bRandomPos);
-	BOOL MissCheck(LPOBJ lpObj, LPOBJ lpTargetObj, int iSkill, int iSkillSuccess, BOOL& bAllMiss);
+	BOOL MissCheck(CGameObject* lpObj, CGameObject* lpTargetObj, int iSkill, int iSkillSuccess, BOOL& bAllMiss);
 
 private:
 

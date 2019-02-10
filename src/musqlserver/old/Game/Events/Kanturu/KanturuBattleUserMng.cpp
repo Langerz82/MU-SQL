@@ -82,7 +82,7 @@ BOOL CKanturuBattleUserMng::DeleteUserData(int iIndex)
 				
 				if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
 				{
-					gObj[iIndex].m_PlayerData->m_bKanturuEntranceByNPC = FALSE;
+					gGameObjects[iIndex].m_PlayerData->m_bKanturuEntranceByNPC = FALSE;
 				}
 				return TRUE;
 			}
@@ -109,9 +109,9 @@ void CKanturuBattleUserMng::CheckUserState()
 
 			}
 
-			if ( gObj[iIndex].MapNumber != MAP_INDEX_KANTURU_BOSS &&
-				 gObj[iIndex].m_State == 2 &&
-				 gObj[iIndex].Live == 1 )
+			if ( gGameObjects[iIndex].MapNumber != MAP_INDEX_KANTURU_BOSS &&
+				 gGameObjects[iIndex].m_State == 2 &&
+				 gGameObjects[iIndex].Live == 1 )
 			{
 				this->DeleteUserData(iIndex);
 

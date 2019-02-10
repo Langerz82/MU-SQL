@@ -3,7 +3,7 @@
 #ifndef MONSTERATTR_H
 #define MONSTERATTR_H
 
-#include "User/user.h"
+#include "User/CUserData.h"
 
 #if _MSC_VER > 1000
 #pragma once

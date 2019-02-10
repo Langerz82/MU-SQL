@@ -5,7 +5,7 @@
 
 #include "prodef.h"
 #include "ItemManagement/Item.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 
 #pragma once
 

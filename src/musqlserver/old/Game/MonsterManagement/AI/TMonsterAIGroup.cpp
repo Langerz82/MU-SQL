@@ -4,7 +4,7 @@
 
 #include "StdAfx.h"
 #include "TMonsterAIGroup.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "Gamemain.h"
 #include "Logging/Log.h"
 
@@ -127,23 +127,23 @@ void TMonsterAIGroup::ChangeAIOrder(int iGroupNumber, int iAIOrder)
 		{
 			if ( iAIOrder == 0 )
 			{
-				gObj[lpMemb->m_iObjIndex].m_iBasicAI = lpMemb->m_iStartAI;
-				gObj[lpMemb->m_iObjIndex].m_iCurrentAI = lpMemb->m_iStartAI;
+				gGameObjects[lpMemb->m_iObjIndex].m_iBasicAI = lpMemb->m_iStartAI;
+				gGameObjects[lpMemb->m_iObjIndex].m_iCurrentAI = lpMemb->m_iStartAI;
 			}
 			else if (iAIOrder == 1 )
 			{
-				gObj[lpMemb->m_iObjIndex].m_iBasicAI = lpMemb->m_iAI01;
-				gObj[lpMemb->m_iObjIndex].m_iCurrentAI = lpMemb->m_iAI01;
+				gGameObjects[lpMemb->m_iObjIndex].m_iBasicAI = lpMemb->m_iAI01;
+				gGameObjects[lpMemb->m_iObjIndex].m_iCurrentAI = lpMemb->m_iAI01;
 			}
 			else if (iAIOrder == 2 )
 			{
-				gObj[lpMemb->m_iObjIndex].m_iBasicAI = lpMemb->m_iAI02;
-				gObj[lpMemb->m_iObjIndex].m_iCurrentAI = lpMemb->m_iAI02;
+				gGameObjects[lpMemb->m_iObjIndex].m_iBasicAI = lpMemb->m_iAI02;
+				gGameObjects[lpMemb->m_iObjIndex].m_iCurrentAI = lpMemb->m_iAI02;
 			}
 			else if (iAIOrder == 3 )
 			{
-				gObj[lpMemb->m_iObjIndex].m_iBasicAI = lpMemb->m_iAI03;
-				gObj[lpMemb->m_iObjIndex].m_iCurrentAI = lpMemb->m_iAI03;
+				gGameObjects[lpMemb->m_iObjIndex].m_iBasicAI = lpMemb->m_iAI03;
+				gGameObjects[lpMemb->m_iObjIndex].m_iCurrentAI = lpMemb->m_iAI03;
 			}
 		}		
 	}
@@ -270,7 +270,7 @@ TMonsterAIGroupMember * TMonsterAIGroup::FindGroupMemberToHeal(int iObjIndex, in
 	{
 		if ( TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iGroupNumber == iGroupNumber )
 		{
-			LPOBJ lpTargetObj = &gObj[TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iObjIndex];
+			CGameObject* lpTargetObj = &gGameObjects[TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iObjIndex];
 
 			if ( lpTargetObj == NULL )
 				continue;
@@ -278,7 +278,7 @@ TMonsterAIGroupMember * TMonsterAIGroup::FindGroupMemberToHeal(int iObjIndex, in
 			if ( lpTargetObj->Live == false )
 				continue;
 
-			if ( gObjCalDistance(&gObj[iObjIndex], lpTargetObj) > iDistance )
+			if ( gObjCalDistance(&gGameObjects[iObjIndex], lpTargetObj) > iDistance )
 				continue;
 
 			int iMaxLife = lpTargetObj->MaxLife + 1.0f;
@@ -316,7 +316,7 @@ TMonsterAIGroupMember * TMonsterAIGroup::FindGroupMemberToSommon(int iObjIndex, 
 	{
 		if ( TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iGroupNumber == iGroupNumber )
 		{
-			LPOBJ lpTargetObj = &gObj[TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iObjIndex];
+			CGameObject* lpTargetObj = &gGameObjects[TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iObjIndex];
 
 			if ( lpTargetObj->m_Index == iObjIndex )
 				continue;
@@ -368,12 +368,12 @@ void TMonsterAIGroup::Init(int iGroupNumber)
 
 		if ( iResult >= 0 )
 		{
-			gObj[iResult].m_PosNum = -1;
-			gObj[iResult].MapNumber = Memb.m_iMapNumber;
-			gObj[iResult].Live = TRUE;
+			gGameObjects[iResult].m_PosNum = -1;
+			gGameObjects[iResult].MapNumber = Memb.m_iMapNumber;
+			gGameObjects[iResult].Live = TRUE;
 
-			gObjViewportListProtocolDestroy(&gObj[iResult]);
-			gObjViewportClose(&gObj[iResult]);
+			gObjViewportListProtocolDestroy(&gGameObjects[iResult]);
+			gObjViewportClose(&gGameObjects[iResult]);
 
 			BYTE cX;
 			BYTE cY;
@@ -400,10 +400,10 @@ void TMonsterAIGroup::Init(int iGroupNumber)
 
 				if ( bGetPosition == FALSE )
 				{
-					gObj[iResult].Live = FALSE;
-					gObj[iResult].m_State = 4;
-					gObj[iResult].RegenTime = GetTickCount();
-					gObj[iResult].DieRegen = 1;
+					gGameObjects[iResult].Live = FALSE;
+					gGameObjects[iResult].m_State = 4;
+					gGameObjects[iResult].RegenTime = GetTickCount();
+					gGameObjects[iResult].DieRegen = 1;
 
 					return;
 				}
@@ -414,40 +414,40 @@ void TMonsterAIGroup::Init(int iGroupNumber)
 				cY = Memb.m_iStartY;
 			}
 
-			gObj[iResult].X = cX;
-			gObj[iResult].Y = cY;
-			gObj[iResult].MTX = gObj[iResult].X;
-			gObj[iResult].MTY = gObj[iResult].Y;
-			gObj[iResult].TX = gObj[iResult].X;
-			gObj[iResult].TY = gObj[iResult].Y;
-			gObj[iResult].StartX = gObj[iResult].X;
-			gObj[iResult].StartY = gObj[iResult].Y;
+			gGameObjects[iResult].X = cX;
+			gGameObjects[iResult].Y = cY;
+			gGameObjects[iResult].MTX = gGameObjects[iResult].X;
+			gGameObjects[iResult].MTY = gGameObjects[iResult].Y;
+			gGameObjects[iResult].TX = gGameObjects[iResult].X;
+			gGameObjects[iResult].TY = gGameObjects[iResult].Y;
+			gGameObjects[iResult].StartX = gGameObjects[iResult].X;
+			gGameObjects[iResult].StartY = gGameObjects[iResult].Y;
 
 			gObjSetMonster(iResult, Memb.m_iClass);
 
-			gObj[iResult].m_iGroupNumber = Memb.m_iGroupNumber;
-			gObj[iResult].m_iGroupMemberGuid = Memb.m_iGuid;
-			gObj[iResult].m_iCurrentAI = Memb.m_iStartAI;
-			gObj[iResult].m_iBasicAI = Memb.m_iStartAI;
-			gObj[iResult].m_iRegenType = Memb.m_iRegenType;
-			gObj[iResult].Dir = Memb.m_iStartDir;
-			gObj[iResult].m_State = 1;
-			gObj[iResult].DieRegen = 0;
+			gGameObjects[iResult].m_iGroupNumber = Memb.m_iGroupNumber;
+			gGameObjects[iResult].m_iGroupMemberGuid = Memb.m_iGuid;
+			gGameObjects[iResult].m_iCurrentAI = Memb.m_iStartAI;
+			gGameObjects[iResult].m_iBasicAI = Memb.m_iStartAI;
+			gGameObjects[iResult].m_iRegenType = Memb.m_iRegenType;
+			gGameObjects[iResult].Dir = Memb.m_iStartDir;
+			gGameObjects[iResult].m_State = 1;
+			gGameObjects[iResult].DieRegen = 0;
 			Memb.m_iObjIndex = iResult;
 
 			if ( Memb.m_iCreateType == -1 )
 			{
-				gObj[iResult].Live = FALSE;
-				gObj[iResult].m_State = 4;
-				gObj[iResult].RegenTime = GetTickCount();
-				gObj[iResult].DieRegen = 1;
+				gGameObjects[iResult].Live = FALSE;
+				gGameObjects[iResult].m_State = 4;
+				gGameObjects[iResult].RegenTime = GetTickCount();
+				gGameObjects[iResult].DieRegen = 1;
 
 				continue;
 			}
 
 			sLog->outBasic("[ AI SetMonster ] %s(Index:%d ObjIndex:%d) Map:%d-[%d][%d]",
-				gObj[iResult].Name, gObj[iResult].Class, iResult, gObj[iResult].MapNumber,
-				gObj[iResult].X, gObj[iResult].Y);
+				gGameObjects[iResult].Name, gGameObjects[iResult].Class, iResult, gGameObjects[iResult].MapNumber,
+				gGameObjects[iResult].X, gGameObjects[iResult].Y);
 		}
 	}
 }

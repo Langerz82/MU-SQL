@@ -5,7 +5,7 @@
 #pragma once
 
 #include "ItemManagement/Item.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 
 //#define ENABLE_CUSTOM_ITEMOPTION
 #define FILE_CUSTOM_ITEMOPTIONXX		"Custom\\IGC_ItemOption.ini"
@@ -101,8 +101,8 @@ public:
 	virtual ~CItemOption();
 	void Load(char* path);
 	bool GetItemOption(int index, CItem* lpItem);
-	void CalcItemCommonOption(LPOBJ lpObj, bool flag);
-	void InsertOption(LPOBJ lpObj, CItem* lpItem, bool flag);
+	void CalcItemCommonOption(CGameObject* lpObj, bool flag);
+	void InsertOption(CGameObject* lpObj, CItem* lpItem, bool flag);
 private:
 	std::map<int, std::vector<ITEM_OPTION_INFO>> m_ItemOptionInfo;
 };

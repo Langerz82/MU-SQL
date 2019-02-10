@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "StdAfx.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "BuffEffect.h"
 #include "BuffEffectSlot.h"
 #include "Prodef.H"
@@ -32,7 +32,7 @@ CBuffEffect::~CBuffEffect()
 
 }
 
-void CBuffEffect::SetBuffEffect(LPOBJECTSTRUCT lpObj, BYTE EffectType, int EffectValue)
+void CBuffEffect::SetBuffEffect(CGameObject*ECTSTRUCT lpObj, BYTE EffectType, int EffectValue)
 {
 	if(lpObj == NULL || EffectType < EFFECTTYPE_NONE)	return;
 
@@ -182,7 +182,7 @@ void CBuffEffect::SetBuffEffect(LPOBJECTSTRUCT lpObj, BYTE EffectType, int Effec
 	}
 }
 
-void CBuffEffect::ClearBuffEffect(LPOBJECTSTRUCT lpObj, BYTE EffectType, int EffectValue)
+void CBuffEffect::ClearBuffEffect(CGameObject*ECTSTRUCT lpObj, BYTE EffectType, int EffectValue)
 {
 	if(lpObj == NULL || EffectType < EFFECTTYPE_NONE)	return;
 
@@ -406,7 +406,7 @@ void CBuffEffect::GiveDamageEffect(class OBJECTSTRUCT* lpObj, int Damage)
 	}
 }
 
-void CBuffEffect::PoisonEffect(LPOBJECTSTRUCT lpObj, BYTE PoisonRate)
+void CBuffEffect::PoisonEffect(CGameObject*ECTSTRUCT lpObj, BYTE PoisonRate)
 {
 	int DecreaseHealthPoint = 0;
 	int DecreaseShiledPoint = 0;
@@ -455,7 +455,7 @@ void CBuffEffect::PoisonEffect(LPOBJECTSTRUCT lpObj, BYTE PoisonRate)
 	}
 }
 
-void CBuffEffect::GiveDamageFillHPEffect(LPOBJECTSTRUCT lpObj, int Damage)
+void CBuffEffect::GiveDamageFillHPEffect(CGameObject*ECTSTRUCT lpObj, int Damage)
 {
 	int DecreaseHealthPoint = 0;
 	int DecreaseShiledPoint = 0;
@@ -507,7 +507,7 @@ void CBuffEffect::GiveDamageFillHPEffect(LPOBJECTSTRUCT lpObj, int Damage)
 
 		if (ObjectMaxRange(value2) == false)	return;
 
-		LPOBJ lpTarget = &gObj[value2];
+		CGameObject* lpTarget = &gGameObjects[value2];
 
 		if ((lpObj->AddLife + lpObj->MaxLife) >= (lpObj->Life+DecreaseHealthPoint))
 		{
@@ -523,7 +523,7 @@ void CBuffEffect::GiveDamageFillHPEffect(LPOBJECTSTRUCT lpObj, int Damage)
 	}
 }
 
-void CBuffEffect::SetPrevEffect(LPOBJECTSTRUCT lpObj)
+void CBuffEffect::SetPrevEffect(CGameObject*ECTSTRUCT lpObj)
 {
 	if(lpObj == NULL)	return;
 
@@ -577,7 +577,7 @@ void CBuffEffect::SetPrevEffect(LPOBJECTSTRUCT lpObj)
 	}
 }
 
-void CBuffEffect::SetNextEffect(LPOBJECTSTRUCT lpObj)
+void CBuffEffect::SetNextEffect(CGameObject*ECTSTRUCT lpObj)
 {
 	if(lpObj == NULL)	return;
 
@@ -631,7 +631,7 @@ void CBuffEffect::SetNextEffect(LPOBJECTSTRUCT lpObj)
 	}
 }
 
-void CBuffEffect::ClearPrevEffect(LPOBJECTSTRUCT lpObj)
+void CBuffEffect::ClearPrevEffect(CGameObject*ECTSTRUCT lpObj)
 {
 	if(lpObj == NULL)	return;
 
@@ -824,7 +824,7 @@ void CBuffEffect::DGPeriodItemExSelect(PMSG_ANS_PERIODBUFF_SELECT *lpMsg)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[lpMsg->wUserIndex];
+	CGameObject* lpObj = &gGameObjects[lpMsg->wUserIndex];
 
 	if ( lpObj->Connected < PLAYER_LOGGED )
 	{

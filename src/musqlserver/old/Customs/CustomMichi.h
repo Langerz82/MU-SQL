@@ -29,7 +29,7 @@ public:
 
 	void LoadPotionHack();
 	void UseHealingPotion(CItem * citem, int pos, int aIndex);
-	void GCFireworksSend(LPOBJ lpObj, int x, int y);
+	void GCFireworksSend(CGameObject* lpObj, int x, int y);
 	bool IsEventItem(int ItemIndex);
 	bool Ex_IsBadFileLine(char *FileLine, int *Flag);
 	int GetNumberByPercent(int Proc, int Min, int Max);

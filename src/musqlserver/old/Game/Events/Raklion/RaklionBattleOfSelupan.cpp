@@ -7,7 +7,7 @@
 #include "RaklionBattleUserMng.h"
 #include "RaklionUtil.h"
 #include "Raklion.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "Logging/Log.h"
 #include "gObjMonster.h"
 
@@ -193,7 +193,7 @@ void CRaklionBattleOfSelupan::SetState_DIE()
 	DeleteSummonMonster();
 
 	int iSelupanIndex = GetSelupanObjIndex();
-	int iWinner = gObjMonsterTopHitDamageUser(&gObj[iSelupanIndex]);
+	int iWinner = gObjMonsterTopHitDamageUser(&gGameObjects[iSelupanIndex]);
 
 	if (iWinner == -1)
 	{
@@ -202,7 +202,7 @@ void CRaklionBattleOfSelupan::SetState_DIE()
 
 	if (ObjectMaxRange(iWinner) == true)
 	{
-		LPOBJ lpObj = &gObj[iWinner];
+		CGameObject* lpObj = &gGameObjects[iWinner];
 		g_RaklionUtil.SendMsgAllUser(Lang.GetText(0,307), lpObj->Name);
 	}
 
@@ -215,8 +215,8 @@ void CRaklionBattleOfSelupan::SetState_DIE()
 		sLog->outBasic("[Raklion][SelupanDie] %d/%d/%d %d:%d:%d %dth Winner : %s (%s)",	
 			pCurrentTime->tm_year+1900, pCurrentTime->tm_mon+1, pCurrentTime->tm_mday, 
 			pCurrentTime->tm_hour, pCurrentTime->tm_min, pCurrentTime->tm_sec, iCount+1, 
-			gObj[g_RaklionBattleUserMng.GetUserObjIndex(iCount)].Name, 
-			gObj[g_RaklionBattleUserMng.GetUserObjIndex(iCount)].AccountID);
+			gGameObjects[g_RaklionBattleUserMng.GetUserObjIndex(iCount)].Name, 
+			gGameObjects[g_RaklionBattleUserMng.GetUserObjIndex(iCount)].AccountID);
 	}
 
 	SetBattleOfSelupanState(9);
@@ -308,7 +308,7 @@ void CRaklionBattleOfSelupan::ActionOfSelupan(int iAction)
 {
 	int iSelupanIndex = m_RaklionSelupan.GetSelupanObjIndex();
 
-	LPOBJ lpObj = &gObj[iSelupanIndex];
+	CGameObject* lpObj = &gGameObjects[iSelupanIndex];
 
 	if( lpObj->Teleport || lpObj->m_ActState.Move )	return;
 	if( iAction < 0 || iAction >= 9 )	return;
@@ -345,7 +345,7 @@ void CRaklionBattleOfSelupan::SetBattleOfSelupanStateAuto()
 	int iSelupanObjIndex = 0;
 	int iSelupanMAXLife = 0;
 	int iSelupanLifePercent = 0;
-	LPOBJ lpObj = NULL;
+	CGameObject* lpObj = NULL;
 
 	iSelupanObjIndex = m_RaklionSelupan.GetSelupanObjIndex();
 
@@ -354,7 +354,7 @@ void CRaklionBattleOfSelupan::SetBattleOfSelupanStateAuto()
 		return;
 	}
 	
-	lpObj = &gObj[iSelupanObjIndex];
+	lpObj = &gGameObjects[iSelupanObjIndex];
 	
 	if( lpObj->DieRegen )	return;
 

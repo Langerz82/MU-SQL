@@ -13,7 +13,7 @@
 
 #define MAX_BATTLESOCCER_TIME 600000
 
-#include "User/user.h"
+#include "User/CUserData.h"
 
 class CBattleSoccerManager
 {
@@ -41,7 +41,7 @@ void BattleSoccerGoalEnd(int ground);
 int  GetBattleSoccerGoalMove(int ground);
 BOOL gBattleSoccerScoreUpdate(int ground, int team);
 int  gCheckGoal(int x, int y, int & ground);	// R:[-1:FAIL ; 0:Team_0 ; 1:Team_1]
-int  gCheckBattleGround(LPOBJ lpObj);
+int  gCheckBattleGround(CGameObject* lpObj);
 
 #endif
 

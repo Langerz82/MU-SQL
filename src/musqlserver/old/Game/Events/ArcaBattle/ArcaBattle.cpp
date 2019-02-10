@@ -2,7 +2,7 @@
 // ArcaBattle.cpp
 #include "StdAfx.h"
 #include "ArcaBattle.h"
-#include "user.h"
+#include "CUserData.h"
 #include "LargeRand.h"
 #include "TLog.h"
 #include "GameMain.h"
@@ -326,13 +326,13 @@ void CArcaBattle::RemoveGuildBuff(char *szGuildName, WORD wBuffIndex)
 		
 		if ( gObjIsConnected(iIndex) == TRUE )
 		{
-			if ( gObjCheckUsedBuffEffect(&gObj[iIndex], wBuffIndex) == TRUE )
+			if ( gObjCheckUsedBuffEffect(&gGameObjects[iIndex], wBuffIndex) == TRUE )
 			{
-				gObjRemoveBuffEffect(&gObj[iIndex], wBuffIndex);
+				gObjRemoveBuffEffect(&gGameObjects[iIndex], wBuffIndex);
 				gObjCalCharacter.CalcCharacter(iIndex);
 
 				sLog->outBasic( "[ArcaBattle] Remove Buff [%s][%s] GuildName [%s] BuffIndex [%d]", 
-					gObj[iIndex].AccountID, gObj[iIndex].Name, szGuildName, wBuffIndex);
+					gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name, szGuildName, wBuffIndex);
 			}
 		}	
 	}
@@ -415,7 +415,7 @@ void CArcaBattle::AddArcaBattleWinGuildInfo(_stABWinGuildInfoDS *pABWinGuildInfo
 			{
 				if ( gObjIsConnected(lpGuild->Index[nGuildCnt]) == TRUE )
 				{
-					this->WinGuildMemberAddBuff(&gObj[lpGuild->Index[nGuildCnt]], this->m_stABWinGuildInfo[i].wOccupyObelisk);
+					this->WinGuildMemberAddBuff(&gGameObjects[lpGuild->Index[nGuildCnt]], this->m_stABWinGuildInfo[i].wOccupyObelisk);
 				}
 			}	
 		}
@@ -902,7 +902,7 @@ void CArcaBattle::ProcStatePaty()
 	{
 		for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 		{
-			LPOBJ lpObj = &gObj[i];
+			CGameObject* lpObj = &gGameObjects[i];
 
 			if (gObjIsConnected(lpObj) && lpObj->Type == OBJ_USER)
 			{
@@ -970,7 +970,7 @@ void CArcaBattle::ProcStatePlaying()
 		{
 			for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 			{
-				LPOBJ lpObj = &gObj[i];
+				CGameObject* lpObj = &gGameObjects[i];
 
 				if (gObjIsConnected(lpObj) && lpObj->Type == OBJ_USER)
 				{
@@ -1030,9 +1030,9 @@ void CArcaBattle::ProcStateResult()
 			{
 				for ( int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); ++n )
 				{
-					if ( gObj[n].Connected == PLAYER_PLAYING )
+					if ( gGameObjects[n].Connected == PLAYER_PLAYING )
 					{
-						if ( gObj[n].Type == OBJ_USER )
+						if ( gGameObjects[n].Type == OBJ_USER )
 							gObjTeleport(n, btMAPNUM, sX, sY);
 					}
 				}
@@ -1097,7 +1097,7 @@ void CArcaBattle::ProcStateChannelClose()
 
 			for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 			{
-				if (gObj[n].Connected == PLAYER_PLAYING && gObj[n].Type == OBJ_USER)
+				if (gGameObjects[n].Connected == PLAYER_PLAYING && gGameObjects[n].Type == OBJ_USER)
 				{
 					IOCP.DataSend(n, (LPBYTE)&pMsg, pMsg.h.size);
 				}
@@ -1112,9 +1112,9 @@ void CArcaBattle::ProcStateChannelClose()
 
 			for ( int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); ++n )
 			{
-				if ( gObj[n].Connected == 3 )
+				if ( gGameObjects[n].Connected == 3 )
 				{
-					if ( gObj[n].Type == OBJ_USER )
+					if ( gGameObjects[n].Type == OBJ_USER )
 						gObjMoveGate(n, 27);
 				}
 			}
@@ -1239,10 +1239,10 @@ BOOL CArcaBattle::EnterArcaBattleEvent(int aIndex)
 
 	for (int i = 0; i < this->m_iCurUserCount; i++)
 	{
-		if (strcmp(this->m_UserData[i].szCharName, gObj[aIndex].Name) == 0)
+		if (strcmp(this->m_UserData[i].szCharName, gGameObjects[aIndex].Name) == 0)
 		{
 			this->m_UserData[this->m_iCurUserCount].iIndex = aIndex;
-			sLog->outBasic("[ArcaBattle] Entered ArcaBattle [%s] [%s] UserCnt [%d]", gObj[aIndex].AccountID, gObj[aIndex].Name, this->m_iCurUserCount);
+			sLog->outBasic("[ArcaBattle] Entered ArcaBattle [%s] [%s] UserCnt [%d]", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, this->m_iCurUserCount);
 			this->GCArcaBattleUserInfo(aIndex);
 
 			if (this->GetState() == 7)
@@ -1254,11 +1254,11 @@ BOOL CArcaBattle::EnterArcaBattleEvent(int aIndex)
 		}
 	}
 
-	memcpy(this->m_UserData[this->m_iCurUserCount].szCharName, gObj[aIndex].Name, MAX_ACCOUNT_LEN);
+	memcpy(this->m_UserData[this->m_iCurUserCount].szCharName, gGameObjects[aIndex].Name, MAX_ACCOUNT_LEN);
 	this->m_UserData[this->m_iCurUserCount].iIndex = aIndex;
 	this->m_iCurUserCount++;
 
-	sLog->outBasic("[ArcaBattle] Enter ArcaBattle [%s] [%s] UserCnt [%d]", gObj[aIndex].AccountID, gObj[aIndex].Name, this->m_iCurUserCount);
+	sLog->outBasic("[ArcaBattle] Enter ArcaBattle [%s] [%s] UserCnt [%d]", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, this->m_iCurUserCount);
 	this->GCArcaBattleUserInfo(aIndex);
 
 	if (this->GetState() == 7)
@@ -1295,9 +1295,9 @@ void CArcaBattle::SendObeliskLife()
 			if (iObeliskIndex < 0 || iObeliskIndex > 9999)
 				return;
 
-			if (gObj[iObeliskIndex].Live)
+			if (gGameObjects[iObeliskIndex].Live)
 			{
-				float currentLife = (gObj[iObeliskIndex].Life / gObj[iObeliskIndex].MaxLife / 10.0f);
+				float currentLife = (gGameObjects[iObeliskIndex].Life / gGameObjects[iObeliskIndex].MaxLife / 10.0f);
 				pMsg.m_stObeliskLife[i].btLife = (int)ceil(currentLife) & 0xF;
 				pMsg.m_stObeliskLife[i].btAttribute = this->m_stObeliskInfo[i].m_iAttrKind;
 			}
@@ -1317,7 +1317,7 @@ void CArcaBattle::SendObeliskLife()
 
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		if (gObjIsConnected(n) == TRUE && gObj[n].Type == OBJ_USER)
+		if (gObjIsConnected(n) == TRUE && gGameObjects[n].Type == OBJ_USER)
 		{
 			IOCP.DataSend(n, (LPBYTE)&pMsg, pMsg.h.size);
 		}
@@ -1339,7 +1339,7 @@ void CArcaBattle::SendObeliskState()
 
 		if (this->m_stObeliskState[i].m_iMonIndex >= 0)
 		{
-			LPOBJ lpObj = &gObj[iObeliskIndex];
+			CGameObject* lpObj = &gGameObjects[iObeliskIndex];
 			pMsg.btObeliskState = lpObj->Life > 0.0;
 			pMsg.btObeliskAttribute = (BYTE)this->m_stObeliskInfo[i].m_iAttrKind;
 			pMsg.btAuraState = 2;
@@ -1381,7 +1381,7 @@ int CArcaBattle::RegenObelisk()
 		if (ObjectMaxRange(this->m_stObeliskState[i].m_iMonIndex) == false)
 			return FALSE;
 
-		if (gObj[iObeliskIndex].Live == 1)
+		if (gGameObjects[iObeliskIndex].Live == 1)
 		{
 			this->m_stObeliskInfo[i].m_i64Tick = GetTickCount64();
 		}
@@ -1395,23 +1395,23 @@ int CArcaBattle::RegenObelisk()
 				if (result >= 0)
 				{
 					gObjSetMonster(result, this->m_stObeliskInfo[i].m_iMonsterNum);
-					gObj[result].Class = this->m_stObeliskInfo[i].m_iMonsterNum;
-					gObj[result].MapNumber = this->m_stObeliskInfo[i].m_iMapIndex;
-					gObj[result].X = this->m_stObeliskInfo[i].m_iPosX;
-					gObj[result].Y = this->m_stObeliskInfo[i].m_iPosY;
-					gObj[result].TX = this->m_stObeliskInfo[i].m_iPosX;
-					gObj[result].TY = this->m_stObeliskInfo[i].m_iPosY;
-					gObj[result].m_OldX = this->m_stObeliskInfo[i].m_iPosX;
-					gObj[result].m_OldY = this->m_stObeliskInfo[i].m_iPosY;
-					gObj[result].StartX = this->m_stObeliskInfo[i].m_iPosX;
-					gObj[result].StartY = this->m_stObeliskInfo[i].m_iPosY;
-					gObj[result].Dir = 1;
-					gObj[result].Live = 1;
-					gObj[result].DieRegen = FALSE;
-					gObj[result].m_State = 1;
-					gObj[result].MaxRegenTime = 0;
-					gObj[result].MaxLife = this->m_stObeliskInfo[i].m_iOccupyHP;
-					gObj[result].Life = this->m_stObeliskInfo[i].m_iOccupyHP;
+					gGameObjects[result].Class = this->m_stObeliskInfo[i].m_iMonsterNum;
+					gGameObjects[result].MapNumber = this->m_stObeliskInfo[i].m_iMapIndex;
+					gGameObjects[result].X = this->m_stObeliskInfo[i].m_iPosX;
+					gGameObjects[result].Y = this->m_stObeliskInfo[i].m_iPosY;
+					gGameObjects[result].TX = this->m_stObeliskInfo[i].m_iPosX;
+					gGameObjects[result].TY = this->m_stObeliskInfo[i].m_iPosY;
+					gGameObjects[result].m_OldX = this->m_stObeliskInfo[i].m_iPosX;
+					gGameObjects[result].m_OldY = this->m_stObeliskInfo[i].m_iPosY;
+					gGameObjects[result].StartX = this->m_stObeliskInfo[i].m_iPosX;
+					gGameObjects[result].StartY = this->m_stObeliskInfo[i].m_iPosY;
+					gGameObjects[result].Dir = 1;
+					gGameObjects[result].Live = 1;
+					gGameObjects[result].DieRegen = FALSE;
+					gGameObjects[result].m_State = 1;
+					gGameObjects[result].MaxRegenTime = 0;
+					gGameObjects[result].MaxLife = this->m_stObeliskInfo[i].m_iOccupyHP;
+					gGameObjects[result].Life = this->m_stObeliskInfo[i].m_iOccupyHP;
 					this->m_stObeliskState[i].m_iMonIndex = result;
 
 					sLog->outBasic("[ArcaBattle] (%d) Obelisk be Regen.", result);
@@ -1499,23 +1499,23 @@ int CArcaBattle::SetObelisk()
 		if ( nResult >= 0 )
 		{
 			gObjSetMonster(nResult, this->m_stObeliskInfo[i].m_iMonsterNum);
-			gObj[nResult].Class = this->m_stObeliskInfo[i].m_iMonsterNum;
-			gObj[nResult].MapNumber = this->m_stObeliskInfo[i].m_iMapIndex;
-			gObj[nResult].X = this->m_stObeliskInfo[i].m_iPosX;
-			gObj[nResult].Y = this->m_stObeliskInfo[i].m_iPosY;
-			gObj[nResult].TX = this->m_stObeliskInfo[i].m_iPosX;
-			gObj[nResult].TY = this->m_stObeliskInfo[i].m_iPosY;
-			gObj[nResult].m_OldX = this->m_stObeliskInfo[i].m_iPosX;
-			gObj[nResult].m_OldY = this->m_stObeliskInfo[i].m_iPosY;
-			gObj[nResult].StartX = this->m_stObeliskInfo[i].m_iPosX;
-			gObj[nResult].StartY = this->m_stObeliskInfo[i].m_iPosY;
-			gObj[nResult].Dir = 1;
-			gObj[nResult].Live = 1;
-			gObj[nResult].DieRegen = 0;
-			gObj[nResult].m_State = 1;
-			gObj[nResult].MaxRegenTime = 0;
-			gObj[nResult].MaxLife = this->m_stObeliskInfo[i].m_iHP;
-			gObj[nResult].Life = this->m_stObeliskInfo[i].m_iHP;
+			gGameObjects[nResult].Class = this->m_stObeliskInfo[i].m_iMonsterNum;
+			gGameObjects[nResult].MapNumber = this->m_stObeliskInfo[i].m_iMapIndex;
+			gGameObjects[nResult].X = this->m_stObeliskInfo[i].m_iPosX;
+			gGameObjects[nResult].Y = this->m_stObeliskInfo[i].m_iPosY;
+			gGameObjects[nResult].TX = this->m_stObeliskInfo[i].m_iPosX;
+			gGameObjects[nResult].TY = this->m_stObeliskInfo[i].m_iPosY;
+			gGameObjects[nResult].m_OldX = this->m_stObeliskInfo[i].m_iPosX;
+			gGameObjects[nResult].m_OldY = this->m_stObeliskInfo[i].m_iPosY;
+			gGameObjects[nResult].StartX = this->m_stObeliskInfo[i].m_iPosX;
+			gGameObjects[nResult].StartY = this->m_stObeliskInfo[i].m_iPosY;
+			gGameObjects[nResult].Dir = 1;
+			gGameObjects[nResult].Live = 1;
+			gGameObjects[nResult].DieRegen = 0;
+			gGameObjects[nResult].m_State = 1;
+			gGameObjects[nResult].MaxRegenTime = 0;
+			gGameObjects[nResult].MaxLife = this->m_stObeliskInfo[i].m_iHP;
+			gGameObjects[nResult].Life = this->m_stObeliskInfo[i].m_iHP;
 			this->m_stObeliskState[i].m_iMonIndex = nResult;
 
 			sLog->outBasic("[ArcaBattle] (%d) Obelisk be created.", nResult);
@@ -1528,23 +1528,23 @@ int CArcaBattle::SetObelisk()
 			if ( nResult >= 0 )
 			{
 				gObjSetMonster(nResult, 603);
-				gObj[nResult].Class = 603;
-				gObj[nResult].MapNumber = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iMapIndex;
-				gObj[nResult].X = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosX;
-				gObj[nResult].Y = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosY;
-				gObj[nResult].TX = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosX;
-				gObj[nResult].TY = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosX;
-				gObj[nResult].m_OldX = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosX;
-				gObj[nResult].m_OldY = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosX;
-				gObj[nResult].StartX = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosX;
-				gObj[nResult].StartY = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosX;
-				gObj[nResult].Dir = 1;
-				gObj[nResult].Live = TRUE;
-				gObj[nResult].DieRegen = 0;
-				gObj[nResult].m_State = 1;
-				gObj[nResult].MaxRegenTime = 0;
-				gObj[nResult].MaxLife = 1.0;
-				gObj[nResult].Life = 1.0;
+				gGameObjects[nResult].Class = 603;
+				gGameObjects[nResult].MapNumber = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iMapIndex;
+				gGameObjects[nResult].X = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosX;
+				gGameObjects[nResult].Y = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosY;
+				gGameObjects[nResult].TX = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosX;
+				gGameObjects[nResult].TY = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosX;
+				gGameObjects[nResult].m_OldX = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosX;
+				gGameObjects[nResult].m_OldY = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosX;
+				gGameObjects[nResult].StartX = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosX;
+				gGameObjects[nResult].StartY = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosX;
+				gGameObjects[nResult].Dir = 1;
+				gGameObjects[nResult].Live = TRUE;
+				gGameObjects[nResult].DieRegen = 0;
+				gGameObjects[nResult].m_State = 1;
+				gGameObjects[nResult].MaxRegenTime = 0;
+				gGameObjects[nResult].MaxLife = 1.0;
+				gGameObjects[nResult].Life = 1.0;
 				this->m_stObeliskState[i].m_stAuraState[nAura].m_iIndex = nResult;
 
 				sLog->outBasic("[ArcaBattle] (%d) Aura be created.", nResult);
@@ -1570,7 +1570,7 @@ void CArcaBattle::ChkAuraUserHover()
 
 	for ( int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++ )
 	{
-		LPOBJ lpObj = &gObj[n];
+		CGameObject* lpObj = &gGameObjects[n];
 
 		if ( gObjIsConnected(n) == TRUE && lpObj->Type == OBJ_USER )
 		{
@@ -1628,7 +1628,7 @@ void CArcaBattle::ChkAuraUserHover()
 					return;
 				}
 
-				if (gObj[iHoverUserIndex_1].m_PlayerData->GuildNumber != gObj[iHoverUserIndex_2].m_PlayerData->GuildNumber)
+				if (gGameObjects[iHoverUserIndex_1].m_PlayerData->GuildNumber != gGameObjects[iHoverUserIndex_2].m_PlayerData->GuildNumber)
 					this->m_stObeliskState[i].m_iAuraState = 1;
 			}
 
@@ -1642,7 +1642,7 @@ void CArcaBattle::ChkAuraUserHover()
 					return;
 				}
 
-				if (this->m_stObeliskState[i].m_iAuraReleaseGuildNum != gObj[iUserIndex].m_PlayerData->GuildNumber)
+				if (this->m_stObeliskState[i].m_iAuraReleaseGuildNum != gGameObjects[iUserIndex].m_PlayerData->GuildNumber)
 				{
 					int iObeliskIndex = this->m_stObeliskState[i].m_iMonIndex;
 
@@ -1652,24 +1652,24 @@ void CArcaBattle::ChkAuraUserHover()
 						return;
 					}
 
-					if (gObj[iObeliskIndex].Live == 1 )
+					if (gGameObjects[iObeliskIndex].Live == 1 )
 					{
 						if (this->m_stObeliskState[i].m_iObeliskState == 1)
 						{
-							gObj[iObeliskIndex].Life = this->m_stObeliskInfo[i].m_iOccupyHP;
+							gGameObjects[iObeliskIndex].Life = this->m_stObeliskInfo[i].m_iOccupyHP;
 						}
 
 						else
 						{
-							gObj[iObeliskIndex].Life = this->m_stObeliskInfo[i].m_iHP;
+							gGameObjects[iObeliskIndex].Life = this->m_stObeliskInfo[i].m_iHP;
 						}
 					}
 				}
 
-				if (this->m_stObeliskState[i].m_iAuraReleaseGuildNum != gObj[iUserIndex].m_PlayerData->GuildNumber &&
-					this->m_stObeliskState[i].m_iOccupyGuildNum != gObj[iUserIndex].m_PlayerData->GuildNumber)
+				if (this->m_stObeliskState[i].m_iAuraReleaseGuildNum != gGameObjects[iUserIndex].m_PlayerData->GuildNumber &&
+					this->m_stObeliskState[i].m_iOccupyGuildNum != gGameObjects[iUserIndex].m_PlayerData->GuildNumber)
 				{
-					this->m_stObeliskState[i].m_iAuraReleaseGuildNum = gObj[iUserIndex].m_PlayerData->GuildNumber;
+					this->m_stObeliskState[i].m_iAuraReleaseGuildNum = gGameObjects[iUserIndex].m_PlayerData->GuildNumber;
 					GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild_Number(this->m_stObeliskState[i].m_iAuraReleaseGuildNum);
 
 					if (!lpGuild)
@@ -1753,7 +1753,7 @@ void CArcaBattle::ChkAuraUserHover()
 			if (this->m_stObeliskState[i].m_stAuraState[nAura].m_iIndex == -1)
 				continue;
 
-			LPOBJ lpObj = &gObj[this->m_stObeliskState[i].m_stAuraState[nAura].m_iIndex];
+			CGameObject* lpObj = &gGameObjects[this->m_stObeliskState[i].m_stAuraState[nAura].m_iIndex];
 
 			for ( int k = 0; k < MAX_VIEWPORT; ++k )
 			{
@@ -1771,17 +1771,17 @@ void CArcaBattle::ChkAuraUserHover()
 
 						pMsg.m_btAuraState[j] = this->m_stObeliskState[i].m_stAuraState[j].m_btAuraState;
 						
-						if(gObj[this->m_stObeliskState[i].m_stAuraState[nAura].m_iHoverUserIndex].Type == OBJ_USER && ObjectMaxRange(this->m_stObeliskState[i].m_stAuraState[nAura].m_iHoverUserIndex))
+						if(gGameObjects[this->m_stObeliskState[i].m_stAuraState[nAura].m_iHoverUserIndex].Type == OBJ_USER && ObjectMaxRange(this->m_stObeliskState[i].m_stAuraState[nAura].m_iHoverUserIndex))
 						{
 							if ( this->m_stObeliskState[i].m_stAuraState[j].m_btAuraState != 0 && (this->m_stObeliskState[i].m_stAuraState[nAura].m_iHoverUserIndex != 0 ||
-								gObj[iTarObjIndex].m_PlayerData->GuildNumber != gObj[this->m_stObeliskState[i].m_stAuraState[nAura].m_iHoverUserIndex].m_PlayerData->GuildNumber ))
+								gGameObjects[iTarObjIndex].m_PlayerData->GuildNumber != gGameObjects[this->m_stObeliskState[i].m_stAuraState[nAura].m_iHoverUserIndex].m_PlayerData->GuildNumber ))
 							{
 								pMsg.m_btAuraState[j] += 2;
 							}
 						}
 					}
 
-					IOCP.DataSend(gObj[iTarObjIndex].m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
+					IOCP.DataSend(gGameObjects[iTarObjIndex].m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
 				}
 			}
 		}
@@ -1843,7 +1843,7 @@ BOOL CArcaBattle::IsEnableAttackObelisk(OBJECTSTRUCT *lpObj, int iMonNumber)
 	return TRUE;
 }
 
-int CArcaBattle::IsPkEnable(LPOBJ lpObj, LPOBJ lpTargetObj)
+int CArcaBattle::IsPkEnable(CGameObject* lpObj, CGameObject* lpTargetObj)
 {
 	GUILD_INFO_STRUCT * lpGuildInfo = lpObj->m_PlayerData->lpGuild;
 	GUILD_INFO_STRUCT *lpTarGuildInfo = lpTargetObj->m_PlayerData->lpGuild;
@@ -1890,7 +1890,7 @@ void CArcaBattle::SendArcaBattleStateAll(int iState)
 
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		LPOBJ lpObj = &gObj[n];
+		CGameObject* lpObj = &gGameObjects[n];
 
 		if (gObjIsConnected(n) == TRUE && lpObj->Type == OBJ_USER)
 		{
@@ -1911,7 +1911,7 @@ void CArcaBattle::SendArcaBattleCurrentState(OBJECTSTRUCT *obj)
 	IOCP.DataSend(obj->m_Index, &pMsg.h.c, pMsg.h.size);
 }
 
-int CArcaBattle::IsOccupyObelisk(LPOBJ lpObj, int iMonIndex)
+int CArcaBattle::IsOccupyObelisk(CGameObject* lpObj, int iMonIndex)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -2110,11 +2110,11 @@ void CArcaBattle::SendPlayResult()
 	pMsg.h.headcode = 0xF8;
 	pMsg.h.subcode = 0x3B;
 
-	LPOBJ lpObj;
+	CGameObject* lpObj;
   
 	for ( int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++ )
 	{
-		lpObj = &gObj[n];
+		lpObj = &gGameObjects[n];
 
 		if ( gObjIsConnected(n) == TRUE && lpObj->Type == OBJ_USER )
 		{
@@ -2150,17 +2150,17 @@ void CArcaBattle::SendPlayResult()
 				iRewardExp = 0;
 			}
 
-			if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&gObj[n]))
+			if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&gGameObjects[n]))
 			{
-				gObj[n].m_PlayerData->MasterExperience += iRewardExp;
+				gGameObjects[n].m_PlayerData->MasterExperience += iRewardExp;
 			}
 
 			else
 			{
-				gObj[n].m_PlayerData->Experience += iRewardExp;
+				gGameObjects[n].m_PlayerData->Experience += iRewardExp;
 			}
 				
-			if (gObjLevelUp(&gObj[n], iRewardExp, 0, "Arca Battle") == true)
+			if (gObjLevelUp(&gGameObjects[n], iRewardExp, 0, "Arca Battle") == true)
 			{
 				GSProtocol.GCKillPlayerMasterExpSend(n, -1, iRewardExp, 0, 0);
 			}
@@ -2172,7 +2172,7 @@ void CArcaBattle::SendPlayResult()
 			pMsg.dwKillPoint = pUserInfo->m_stAcquiredPoints.dwKillPoints;
 			pMsg.dwRewardExp = iRewardExp;
 				
-			sLog->outBasic( "[ArcaBattle] SendPlayResult [%s][%s] BootyCnt[%d] ContributePoint[%d] KillPoint[%d] RewardExp[%d]", gObj[n].AccountID, gObj[n].Name, pMsg.wBootyCnt, pMsg.dwContributePoint, pMsg.dwKillPoint, iRewardExp);
+			sLog->outBasic( "[ArcaBattle] SendPlayResult [%s][%s] BootyCnt[%d] ContributePoint[%d] KillPoint[%d] RewardExp[%d]", gGameObjects[n].AccountID, gGameObjects[n].Name, pMsg.wBootyCnt, pMsg.dwContributePoint, pMsg.dwKillPoint, iRewardExp);
 			IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		}
 	}
@@ -2211,7 +2211,7 @@ void CArcaBattle::DeleteMonster(int nGroupNumber)
 		{
 			int nIndex = this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[i].m_nIndex;
 
-			if ( gObj[nIndex].Live == TRUE )
+			if ( gGameObjects[nIndex].Live == TRUE )
 			{
 				gObjDel(nIndex);
 				sLog->outBasic("[ArcaBattle][MonsterGroupRegen] Delete Monster - %d ", this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[i].m_nIndex);
@@ -2236,7 +2236,7 @@ void CArcaBattle::RegenMonster(int nGroupNumber)
 	{
 		int nIndex = this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[n].m_nIndex;
 
-		if ( nIndex <= -1 || gObj[nIndex].Live == FALSE )
+		if ( nIndex <= -1 || gGameObjects[nIndex].Live == FALSE )
 		{
 			int nResult = gObjAddMonster(this->m_stMonsterGroupInfo[nGroupNumber].m_nMapNumber);
 			int nMonsterIndex = this->m_stMonsterPosition[nGroupNumber].m_stMonsterIndexInfo[rand() % this->m_stMonsterPosition[nGroupNumber].m_nMonsterKindCnt].m_nMonsterIndex;
@@ -2266,7 +2266,7 @@ void CArcaBattle::RegenMonster(int nGroupNumber)
 
 			nMonsterArrayIndex++;
 			sLog->outBasic( "[ArcaBattle][MonsterGroupRegen] Group: %d, MonsterIndex: %d, MapNumber: %d, X: %d, Y: %d ",
-				nGroupNumber, nMonsterIndex, this->m_stMonsterGroupInfo[nGroupNumber].m_nMapNumber, gObj[nResult].X, gObj[nResult].Y);
+				nGroupNumber, nMonsterIndex, this->m_stMonsterGroupInfo[nGroupNumber].m_nMapNumber, gGameObjects[nResult].X, gGameObjects[nResult].Y);
 		}
 	}
 }
@@ -2279,7 +2279,7 @@ int CArcaBattle::SetPosMonster(int aIndex, int nMapNumber, int nBeginX, int nBeg
 		return false;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	lpObj->m_PosNum = -1;
 	lpObj->MapNumber = nMapNumber;
@@ -2748,7 +2748,7 @@ void CArcaBattle::DGAnsRegisteredMemberCnt(PMSG_ANS_AB_REG_MEMBER_CNT_DS *lpMsg)
 	IOCP.DataSend(lpMsg->wNumber, (LPBYTE)&pMsg, sizeof(pMsg));
 }
 
-int CArcaBattle::GetGuildMasterPos(LPOBJ lpObj, int nGateNum, short & x, short & y)
+int CArcaBattle::GetGuildMasterPos(CGameObject* lpObj, int nGateNum, short & x, short & y)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -2802,12 +2802,12 @@ int CArcaBattle::GetGuildMasterPos(LPOBJ lpObj, int nGateNum, short & x, short &
 		return FALSE;
 	}
 
-	if (MAX_MAP_RANGE(gObj[iMasterIndex].MapNumber) == FALSE)
+	if (MAX_MAP_RANGE(gGameObjects[iMasterIndex].MapNumber) == FALSE)
 	{
 		return FALSE;
 	}
 
-	attr = MapC[gObj[iMasterIndex].MapNumber].GetAttr(gObj[iMasterIndex].X, gObj[iMasterIndex].Y);
+	attr = MapC[gGameObjects[iMasterIndex].MapNumber].GetAttr(gGameObjects[iMasterIndex].X, gGameObjects[iMasterIndex].Y);
 
 	if (attr & 1)
 	{
@@ -2817,7 +2817,7 @@ int CArcaBattle::GetGuildMasterPos(LPOBJ lpObj, int nGateNum, short & x, short &
 
 	if (this->GetGuildMasterGateNum(lpObj->m_PlayerData->GuildNumber) == nGateNum)
 	{
-		this->GetBoxPosition(gObj[iMasterIndex].MapNumber, gObj[iMasterIndex].X, gObj[iMasterIndex].Y, gObj[iMasterIndex].X + 3, gObj[iMasterIndex].Y + 3, x, y);
+		this->GetBoxPosition(gGameObjects[iMasterIndex].MapNumber, gGameObjects[iMasterIndex].X, gGameObjects[iMasterIndex].Y, gGameObjects[iMasterIndex].X + 3, gGameObjects[iMasterIndex].Y + 3, x, y);
 		return TRUE;
 	}
 
@@ -2945,12 +2945,12 @@ bool CArcaBattle::CGReqMarkReg(int iIndex)
 		return false;
 	}
 
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 	GUILD_INFO_STRUCT * lpGuildInfo = lpObj->m_PlayerData->lpGuild;
 
 	if (!lpGuildInfo)
 	{
-		sLog->outBasic("[ArcaBattle] [%s][%s] error-L3 : ArcaBattle Mark Reg GuildInfo is NULL", gObj[iIndex].AccountID, gObj[iIndex].Name);
+		sLog->outBasic("[ArcaBattle] [%s][%s] error-L3 : ArcaBattle Mark Reg GuildInfo is NULL", gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name);
 		this->GCAnsMarkRegErrCode(15, iIndex);
 
 		return false;
@@ -2993,16 +2993,16 @@ void CArcaBattle::GCAnsMarkRegErrCode(int iResult, int iIndex)
 	switch (iResult)
 	{
 		case 5:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle MarkReg Fail to Time Over", gObj[iIndex].AccountID, gObj[iIndex].Name);
+			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle MarkReg Fail to Time Over", gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name);
 			break;
 		case 15:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle MarkReg Fail to No Registration Authority", gObj[iIndex].AccountID, gObj[iIndex].Name);
+			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle MarkReg Fail to No Registration Authority", gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name);
 			break;
 		case 16:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle MarkReg Fail to Below Guild Member", gObj[iIndex].AccountID, gObj[iIndex].Name);
+			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle MarkReg Fail to Below Guild Member", gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name);
 			break;
 		case 17:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle MarkReg Fail to Guild Is More than 250 Registered", gObj[iIndex].AccountID, gObj[iIndex].Name);
+			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle MarkReg Fail to Guild Is More than 250 Registered", gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name);
 			break;
 	}
 
@@ -3101,7 +3101,7 @@ void CArcaBattle::CGReqMarkRegButtonClick(OBJECTSTRUCT *lpObj)
 
 void CArcaBattle::CGReqMarkRank(int iIndex)
 {
-	this->GDReqMarkRank(iIndex, gObj[iIndex].m_PlayerData->GuildNumber);
+	this->GDReqMarkRank(iIndex, gGameObjects[iIndex].m_PlayerData->GuildNumber);
 }
 
 void CArcaBattle::GCAnsMarkRank(int iIndex, BYTE btRank, DWORD dwMarkCnt, BYTE btTopRankCnt, _stArcaBattleMarkTopRankDS *pArcaBattleMarkTopRank)
@@ -3111,7 +3111,7 @@ void CArcaBattle::GCAnsMarkRank(int iIndex, BYTE btRank, DWORD dwMarkCnt, BYTE b
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 
 	if (!gObjIsConnected(iIndex))
 	{
@@ -3194,7 +3194,7 @@ void CArcaBattle::DGAnsMarkCnt(PMSG_ANS_ARCA_BATTLE_MARK_CNT_DS *lpMsg)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 
 	if (!gObjIsConnected(iIndex))
 	{
@@ -3225,11 +3225,11 @@ void CArcaBattle::DGAnsMarkCnt(PMSG_ANS_ARCA_BATTLE_MARK_CNT_DS *lpMsg)
 
 void CArcaBattle::GDReqMarkReg(int iIndex, DWORD dwMarkCnt)
 {
-	GUILD_INFO_STRUCT *lpGuild = gObj[iIndex].m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT *lpGuild = gGameObjects[iIndex].m_PlayerData->lpGuild;
 
 	if (!lpGuild)
 	{
-		sLog->outBasic("[ArcaBattle][MarkReg] [%s][%s]  GuildInfo NULL GDReqMarkReg()", gObj[iIndex].AccountID, gObj[iIndex].Name);
+		sLog->outBasic("[ArcaBattle][MarkReg] [%s][%s]  GuildInfo NULL GDReqMarkReg()", gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name);
 		return;
 	}
 
@@ -3238,7 +3238,7 @@ void CArcaBattle::GDReqMarkReg(int iIndex, DWORD dwMarkCnt)
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.wNumber = iIndex;
-	pMsg.dwGuildNum = gObj[iIndex].m_PlayerData->GuildNumber;
+	pMsg.dwGuildNum = gGameObjects[iIndex].m_PlayerData->GuildNumber;
 	pMsg.dwMarkCnt = dwMarkCnt;
 	pMsg.h.headcode = 0xF8;
 	pMsg.h.subcode = 0x4F;
@@ -3252,7 +3252,7 @@ void CArcaBattle::GDReqMarkReg(int iIndex, DWORD dwMarkCnt)
 		}
 	}
 
-	memcpy(pMsg.szGuildName, gObj[iIndex].m_PlayerData->GuildName, MAX_GUILD_LEN+1);
+	memcpy(pMsg.szGuildName, gGameObjects[iIndex].m_PlayerData->GuildName, MAX_GUILD_LEN+1);
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
@@ -3311,7 +3311,7 @@ void CArcaBattle::DGAnsMarkReg(PMSG_ANS_ARCA_BATTLE_MARK_REG_DS *lpMsg)
 	}
 
 	sLog->outBasic("[ArcaBattle][MarkReg] Error Mark Reg Ans [%s][%s][%s] ",
-		gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].m_PlayerData->GuildName);
+		gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name, gGameObjects[iIndex].m_PlayerData->GuildName);
 }
 
 void CArcaBattle::GDReqAllGuildMarkCnt()
@@ -3366,22 +3366,22 @@ void CArcaBattle::SetRegenObelisk(int iGroupNum, int iAttribute)
 	if ( result >= 0)
 	{
 		gObjSetMonster(result, iArrMonsterIndex[iAttribute]);
-		gObj[result].Class = iArrMonsterIndex[iAttribute];
-		gObj[result].MapNumber = this->m_stObeliskInfo[iGroupNum].m_iMapIndex;
-		gObj[result].X = this->m_stObeliskInfo[iGroupNum].m_iPosX;
-		gObj[result].Y = this->m_stObeliskInfo[iGroupNum].m_iPosY;
-		gObj[result].TX = this->m_stObeliskInfo[iGroupNum].m_iPosX;
-		gObj[result].TY = this->m_stObeliskInfo[iGroupNum].m_iPosY;
-		gObj[result].m_OldX = this->m_stObeliskInfo[iGroupNum].m_iPosX;
-		gObj[result].m_OldY = this->m_stObeliskInfo[iGroupNum].m_iPosY;
-		gObj[result].StartX = this->m_stObeliskInfo[iGroupNum].m_iPosX;
-		gObj[result].StartY = this->m_stObeliskInfo[iGroupNum].m_iPosY;
-		gObj[result].Dir = 1;
-		gObj[result].Live = TRUE;
-		gObj[result].DieRegen = 0;
-		gObj[result].MaxRegenTime = 0;
-		gObj[result].MaxLife = this->m_stObeliskInfo[iGroupNum].m_iOccupyHP;
-		gObj[result].Life = this->m_stObeliskInfo[iGroupNum].m_iOccupyHP;
+		gGameObjects[result].Class = iArrMonsterIndex[iAttribute];
+		gGameObjects[result].MapNumber = this->m_stObeliskInfo[iGroupNum].m_iMapIndex;
+		gGameObjects[result].X = this->m_stObeliskInfo[iGroupNum].m_iPosX;
+		gGameObjects[result].Y = this->m_stObeliskInfo[iGroupNum].m_iPosY;
+		gGameObjects[result].TX = this->m_stObeliskInfo[iGroupNum].m_iPosX;
+		gGameObjects[result].TY = this->m_stObeliskInfo[iGroupNum].m_iPosY;
+		gGameObjects[result].m_OldX = this->m_stObeliskInfo[iGroupNum].m_iPosX;
+		gGameObjects[result].m_OldY = this->m_stObeliskInfo[iGroupNum].m_iPosY;
+		gGameObjects[result].StartX = this->m_stObeliskInfo[iGroupNum].m_iPosX;
+		gGameObjects[result].StartY = this->m_stObeliskInfo[iGroupNum].m_iPosY;
+		gGameObjects[result].Dir = 1;
+		gGameObjects[result].Live = TRUE;
+		gGameObjects[result].DieRegen = 0;
+		gGameObjects[result].MaxRegenTime = 0;
+		gGameObjects[result].MaxLife = this->m_stObeliskInfo[iGroupNum].m_iOccupyHP;
+		gGameObjects[result].Life = this->m_stObeliskInfo[iGroupNum].m_iOccupyHP;
 		this->m_stObeliskState[iGroupNum].m_iMonIndex = result;
 
 		sLog->outBasic("[ArcaBattle] (%d) Cheat Obelisk be Regen.", result);
@@ -3442,11 +3442,11 @@ void CArcaBattle::SetJoinMemberCnt(int iJoinGuildMemberCnt)
 
 void CArcaBattle::CheatGDReqMarkReg(int iIndex, char *szGuildName, DWORD dwGuildNum, DWORD dwMarkCnt)
 {
-	GUILD_INFO_STRUCT *lpGuild = gObj[iIndex].m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT *lpGuild = gGameObjects[iIndex].m_PlayerData->lpGuild;
 
 	if (!lpGuild)
 	{
-		sLog->outBasic("[ArcaBattle][MarkReg] [%s][%s]  GuildInfo NULL GDReqMarkReg()", gObj[iIndex].AccountID, gObj[iIndex].Name);
+		sLog->outBasic("[ArcaBattle][MarkReg] [%s][%s]  GuildInfo NULL GDReqMarkReg()", gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name);
 		return;
 	}
 
@@ -3477,11 +3477,11 @@ void CArcaBattle::CheatGDReqMarkReg(int iIndex, char *szGuildName, DWORD dwGuild
 
 void CArcaBattle::CheatGDReqMarkRegSet(int iIndex, DWORD dwMarkCnt)
 {
-	GUILD_INFO_STRUCT *lpGuild = gObj[iIndex].m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT *lpGuild = gGameObjects[iIndex].m_PlayerData->lpGuild;
 
 	if (!lpGuild)
 	{
-		sLog->outBasic("[ArcaBattle][MarkReg] [%s][%s]  GuildInfo NULL GDReqMarkReg()", gObj[iIndex].AccountID, gObj[iIndex].Name);
+		sLog->outBasic("[ArcaBattle][MarkReg] [%s][%s]  GuildInfo NULL GDReqMarkReg()", gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name);
 		return;
 	}
 
@@ -3489,7 +3489,7 @@ void CArcaBattle::CheatGDReqMarkRegSet(int iIndex, DWORD dwMarkCnt)
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
-	pMsg.dwGuildNum = gObj[iIndex].m_PlayerData->GuildNumber;
+	pMsg.dwGuildNum = gGameObjects[iIndex].m_PlayerData->GuildNumber;
 	pMsg.dwMarkCnt = dwMarkCnt;
 	pMsg.h.headcode = 0xF8;
 	pMsg.h.subcode = 0xFD;
@@ -3803,7 +3803,7 @@ void CArcaBattle::GCArcaBattleUserInfo(int iUserIndex)
 	}
 
 	BYTE BUFFER[8192];
-	LPOBJ lpObj = &gObj[iUserIndex];
+	CGameObject* lpObj = &gGameObjects[iUserIndex];
 
 	_stPMSG_AB_JOIN_USER_COUNT pMsg;
 	_stABCurJoinGuildUserInfo stABCurJoinGuildUser;
@@ -3830,7 +3830,7 @@ void CArcaBattle::GCArcaBattleUserInfo(int iUserIndex)
 			{
 				int iGuildMembIndex = lpGuild->Index[j];
 
-				LPOBJ lpGuildObj = &gObj[iGuildMembIndex];
+				CGameObject* lpGuildObj = &gGameObjects[iGuildMembIndex];
 
 				if (lpGuild->GuildStatus[j] == GUILD_MASTER)
 				{
@@ -3895,16 +3895,16 @@ void CArcaBattle::GCArcaBattleUserInfo(int iUserIndex)
 
 								else
 								{
-									if ((gObj[iIndex].MapNumber == MAP_INDEX_ARCA_WAR || gObj[iIndex].MapNumber == MAP_INDEX_DEBENTER_ARCA_WAR) &&
-										!strcmp(gObj[iIndex].Name, this->m_stABJoinUserInfo[k].szUserName) &&
+									if ((gGameObjects[iIndex].MapNumber == MAP_INDEX_ARCA_WAR || gGameObjects[iIndex].MapNumber == MAP_INDEX_DEBENTER_ARCA_WAR) &&
+										!strcmp(gGameObjects[iIndex].Name, this->m_stABJoinUserInfo[k].szUserName) &&
 										gObjIsConnected(iIndex) == TRUE)
 									{
-										memcpy(stABCurJoinGuildUser.szUserName, gObj[iIndex].Name, MAX_ACCOUNT_LEN + 1);
-										stABCurJoinGuildUser.btStatus = gObj[iIndex].m_PlayerData->GuildStatus;
-										stABCurJoinGuildUser.btPosX = gObj[iIndex].X;
-										stABCurJoinGuildUser.btPosY = gObj[iIndex].Y;
+										memcpy(stABCurJoinGuildUser.szUserName, gGameObjects[iIndex].Name, MAX_ACCOUNT_LEN + 1);
+										stABCurJoinGuildUser.btStatus = gGameObjects[iIndex].m_PlayerData->GuildStatus;
+										stABCurJoinGuildUser.btPosX = gGameObjects[iIndex].X;
+										stABCurJoinGuildUser.btPosY = gGameObjects[iIndex].Y;
 
-										BYTE btAttr = MapC[gObj[iIndex].MapNumber].GetAttr(gObj[iIndex].X, gObj[iIndex].Y);
+										BYTE btAttr = MapC[gGameObjects[iIndex].MapNumber].GetAttr(gGameObjects[iIndex].X, gGameObjects[iIndex].Y);
 
 										if ((btAttr & 1) == 1)
 										{
@@ -3962,7 +3962,7 @@ void CArcaBattle::GCArcaBattleCurrentStatus(int iObeliskIndex, int iAttrKind, BY
 	{
 		for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 		{
-			LPOBJ lpObj = &gObj[i];
+			CGameObject* lpObj = &gGameObjects[i];
 
 			if (gObjIsConnected(lpObj) && lpObj->Type == OBJ_USER)
 			{
@@ -3992,7 +3992,7 @@ void CArcaBattle::GCArcaBattleSendNotiMsg(BYTE btNoticeType, int iNoticeValue, c
 	{
 		for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 		{
-			LPOBJ lpObj = &gObj[i];
+			CGameObject* lpObj = &gGameObjects[i];
 
 			if (gObjIsConnected(lpObj) && lpObj->Type == OBJ_USER)
 			{
@@ -4020,7 +4020,7 @@ void CArcaBattle::GCArcaBattleSendNotiMsg(BYTE btNoticeType, int iNoticeValue, c
 				continue;
 			}
 
-			LPOBJ lpObj = &gObj[iGuildUserIndex];
+			CGameObject* lpObj = &gGameObjects[iGuildUserIndex];
 
 			if (gObjIsConnected(lpObj) && lpObj->Type == OBJ_USER)
 			{

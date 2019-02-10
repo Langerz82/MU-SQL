@@ -12,7 +12,7 @@
 #endif // _MSC_VER > 1000
 
 #include "DevilSquareGround.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 
 // Original
 
@@ -63,11 +63,11 @@ public:
 	int GetRemainTime() { return this->m_iRemainTime; }
 	void SetMonster();
 	void ClearMonstr();
-	void gDevilSquareMonsterRegen(LPOBJ lpObj);
-	void DieProcDevilSquare(LPOBJ lpObj);
-	UINT64 gObjMonsterExpSingle(LPOBJ lpObj, LPOBJ lpTargetObj, int dmg, int tot_dmg);
-	void gObjExpParty(LPOBJ lpObj, LPOBJ lpTargetObj, int AttackDamage, int MSBFlag);
-	void gObjMonsterScoreDivision(LPOBJ lpMonObj, LPOBJ lpObj, int AttackDamage, int MSBFlag);
+	void gDevilSquareMonsterRegen(CGameObject* lpObj);
+	void DieProcDevilSquare(CGameObject* lpObj);
+	UINT64 gObjMonsterExpSingle(CGameObject* lpObj, CGameObject* lpTargetObj, int dmg, int tot_dmg);
+	void gObjExpParty(CGameObject* lpObj, CGameObject* lpTargetObj, int AttackDamage, int MSBFlag);
+	void gObjMonsterScoreDivision(CGameObject* lpMonObj, CGameObject* lpObj, int AttackDamage, int MSBFlag);
 	void Load(LPSTR filename);
 	void LoadMonster(LPSTR filename);
 	void CalcScore();

@@ -4,7 +4,7 @@
 #include "PentagramMixSystem.h"
 #include "Logging/Log.h"
 #include "../pugixml.hpp"
-#include "../user.h"
+#include "../CUserData.h"
 
 // #include "../CastleSiegeSync.h"
 // #include "../ChaosBox.h"
@@ -280,7 +280,7 @@ bool CPentagramMixSystem::LoadJewelOptionScript(char *pchFileName)
 	return true;
 }
 
-BOOL CPentagramMixSystem::PentagramMixBoxInit(LPOBJ lpObj)
+BOOL CPentagramMixSystem::PentagramMixBoxInit(CGameObject* lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -332,7 +332,7 @@ BYTE CPentagramMixSystem::PentagramJewelRefine(int iIndex, int iRefineType)
 		return 0;
 	}
 
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -617,7 +617,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(int iIndex, int iUpgradeType, i
 		return 0;
 	}
 
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -1267,14 +1267,14 @@ int CPentagramMixSystem::CheckLevelCondition(CItem *lpItem, WORD Level, BYTE Op1
 	return TRUE;
 }
 
-void CPentagramMixSystem::LogPentagramItem(LPOBJ lpObj, char* szLogType)
+void CPentagramMixSystem::LogPentagramItem(CGameObject* lpObj, char* szLogType)
 {
 	return; // Function not used
 }
 
 void CPentagramMixSystem::CGPentagramJewelRefineRecv(PMSG_PENTAGRAM_JEWEL_REFINE_RECV* lpMsg, int aIndex) // OK
 {
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (gObjIsConnectedGP(aIndex) == 0)
 	{
@@ -1315,7 +1315,7 @@ bool CPentagramMixSystem::IsErrtelType(int ItemCode)
 
 BOOL CPentagramMixSystem::PentagramJewelMix(int aIndex) // OK
 {
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	lpObj->ChaosLock = TRUE;
 
@@ -1328,13 +1328,13 @@ BOOL CPentagramMixSystem::PentagramJewelMix(int aIndex) // OK
 	int iMithrilType = -1;
 	int iBlessCount = 0;
 
-	if (gObj[aIndex].pInventory->m_Type == ITEMGET(12, 145))
+	if (gGameObjects[aIndex].pInventory->m_Type == ITEMGET(12, 145))
 	{
-		iMithrilType = gObj[aIndex].pInventory->m_BonusSocketOption;
+		iMithrilType = gGameObjects[aIndex].pInventory->m_BonusSocketOption;
 		iMithrilCount++;
 	}
 	
-	if (gObj[aIndex].pInventory->m_Type == ITEMGET(14, 13))
+	if (gGameObjects[aIndex].pInventory->m_Type == ITEMGET(14, 13))
 	{
 		iBlessCount++;
 	}
@@ -1346,14 +1346,14 @@ BOOL CPentagramMixSystem::PentagramJewelMix(int aIndex) // OK
 	}
 		
 
-	if (gObj[aIndex].m_PlayerData->Money <= 100000)
+	if (gGameObjects[aIndex].m_PlayerData->Money <= 100000)
 	{
 		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 		return 0; //No Zen
 	}
 
-	gObj[aIndex].m_PlayerData->Money -= 100000;
-	GSProtocol.GCMoneySend(aIndex, gObj[aIndex].m_PlayerData->Money);
+	gGameObjects[aIndex].m_PlayerData->Money -= 100000;
+	GSProtocol.GCMoneySend(aIndex, gGameObjects[aIndex].m_PlayerData->Money);
 
 	if ((rand() % 100) < 80)
 	{
@@ -1384,12 +1384,12 @@ BOOL CPentagramMixSystem::PentagramJewelMix(int aIndex) // OK
 		
 		CItem NewItem;
 		NewItem.m_Type = type;
-		NewItem.m_SocketOption[0] = gObj[aIndex].pInventory->m_SocketOption[0];
-		NewItem.m_SocketOption[1] = gObj[aIndex].pInventory->m_SocketOption[1];
-		NewItem.m_SocketOption[2] = gObj[aIndex].pInventory->m_SocketOption[2];
-		NewItem.m_SocketOption[3] = gObj[aIndex].pInventory->m_SocketOption[3];
-		NewItem.m_SocketOption[4] = gObj[aIndex].pInventory->m_SocketOption[4];
-		NewItem.m_BonusSocketOption = gObj[aIndex].pInventory->m_BonusSocketOption;
+		NewItem.m_SocketOption[0] = gGameObjects[aIndex].pInventory->m_SocketOption[0];
+		NewItem.m_SocketOption[1] = gGameObjects[aIndex].pInventory->m_SocketOption[1];
+		NewItem.m_SocketOption[2] = gGameObjects[aIndex].pInventory->m_SocketOption[2];
+		NewItem.m_SocketOption[3] = gGameObjects[aIndex].pInventory->m_SocketOption[3];
+		NewItem.m_SocketOption[4] = gGameObjects[aIndex].pInventory->m_SocketOption[4];
+		NewItem.m_BonusSocketOption = gGameObjects[aIndex].pInventory->m_BonusSocketOption;
 		
 		ItemSerialCreateSend(aIndex, 235, 0, 0, NewItem.m_Type, 0, 0, 0, 0, 0, aIndex, 0, 0, 0, NewItem.m_SocketOption, NewItem.m_BonusSocketOption);
 		gObjInventoryCommit(aIndex);

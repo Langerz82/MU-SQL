@@ -7,7 +7,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "User/user.h"
+#include "User/CUserData.h"
 
 #define FILE_PARTYBONUS "IGC_PartyBonus.xml"
 
@@ -112,7 +112,7 @@ public:
 	char GetLorenMarketUserCount(int partynumber);
 
 	void ReadBonusInfo(LPSTR File);
-	int GetExpBonus(LPOBJ lpUser, LPOBJ lpMonster, int PartyNumber);
+	int GetExpBonus(CGameObject* lpUser, CGameObject* lpMonster, int PartyNumber);
 	bool SetLeader(int OldLeader, int NewLeader);
 
 public:

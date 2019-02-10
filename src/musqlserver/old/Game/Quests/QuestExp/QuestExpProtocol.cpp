@@ -5,7 +5,7 @@
 #include "QuestExpProtocol.h"
 #include "QuestExpUserMng.h"
 #include "QuestExpLuaBind.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "QuestExpProgMng.h"
 #include "NpcTalk.h"
 #include "util.h"
@@ -16,7 +16,7 @@ void CGReqQuestSwitch(PMSG_REQ_QUESTEXP *pMsg, int aIndex)
     if( !ObjectMaxRange(aIndex) )
         return;
 
-    OBJECTSTRUCT* lpObj = &gObj[aIndex];
+    OBJECTSTRUCT* lpObj = &gGameObjects[aIndex];
 
     if( !gObjIsConnected(aIndex) )
         return;
@@ -28,7 +28,7 @@ void CGReqQuestSwitch(PMSG_REQ_QUESTEXP *pMsg, int aIndex)
     }
 
 	sLog->outBasic("[QuestExp] Selection Episode List Choose One [%s][%s] QuestInfoIndexID[0x%x] Choose[%d]",
-		gObj[aIndex].AccountID, gObj[aIndex].Name, pMsg->dwQuestInfoIndexID, pMsg->btResult);
+		gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, pMsg->dwQuestInfoIndexID, pMsg->btResult);
 
 	lua_State* L = g_MuLuaQuestExp.GetLua();
 
@@ -49,7 +49,7 @@ void CGReqQuestSwitch(PMSG_REQ_QUESTEXP *pMsg, int aIndex)
         pAnsMsg.btResult = 1;
 
         PHeadSubSetB((LPBYTE)&pAnsMsg, 0xF6, 0x00, sizeof(pAnsMsg));
-        IOCP.DataSend(gObj[aIndex].m_Index, (LPBYTE)&pAnsMsg, sizeof(pAnsMsg));
+        IOCP.DataSend(gGameObjects[aIndex].m_Index, (LPBYTE)&pAnsMsg, sizeof(pAnsMsg));
     }
 }
 
@@ -58,7 +58,7 @@ void CGReqQuestProgress(PMSG_REQ_QUESTEXP *pMsg, int aIndex)
     if( !ObjectMaxRange(aIndex) )
         return;
 
-    OBJECTSTRUCT* lpObj = &gObj[aIndex];
+    OBJECTSTRUCT* lpObj = &gGameObjects[aIndex];
 
     if( !gObjIsConnected(aIndex) )
         return;
@@ -70,7 +70,7 @@ void CGReqQuestProgress(PMSG_REQ_QUESTEXP *pMsg, int aIndex)
     }
 
     sLog->outBasic("[QuestExp] Selection Statements Choose One - User NPC Talking [%s][%s] QuestInfoIndexID[0x%x] Choose[%d]",
-		gObj[aIndex].AccountID, gObj[aIndex].Name, pMsg->dwQuestInfoIndexID,pMsg->btResult);
+		gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, pMsg->dwQuestInfoIndexID,pMsg->btResult);
 
 	lua_State* L = g_MuLuaQuestExp.GetLua();
 
@@ -88,7 +88,7 @@ void CGReqQuestComplete(PMSG_REQ_QUESTEXP_COMPLETE *pMsg, int aIndex)
     if( !ObjectMaxRange(aIndex) )
         return;
 
-    OBJECTSTRUCT* lpObj = &gObj[aIndex];
+    OBJECTSTRUCT* lpObj = &gGameObjects[aIndex];
 
     if( !gObjIsConnected(aIndex) )
         return;
@@ -99,7 +99,7 @@ void CGReqQuestComplete(PMSG_REQ_QUESTEXP_COMPLETE *pMsg, int aIndex)
         return;
     }
 
-    sLog->outBasic("[QuestExp] ReqQuestComplete [%s][%s] QuestInfoIndexID[0x%x]", gObj[aIndex].AccountID, gObj[aIndex].Name, pMsg->dwQuestInfoIndexID);
+    sLog->outBasic("[QuestExp] ReqQuestComplete [%s][%s] QuestInfoIndexID[0x%x]", gGameObjects[aIndex].AccountID, gGameObjects[aIndex].Name, pMsg->dwQuestInfoIndexID);
 
 	lua_State* L = g_MuLuaQuestExp.GetLua();
 
@@ -199,7 +199,7 @@ void CGReqQuestExp(PMSG_REQ_NPC_QUESTEXP *pMsg, int aIndex)
 	if (!ObjectMaxRange(aIndex))
         return;
 
-    OBJECTSTRUCT* lpObj = &gObj[aIndex];
+    OBJECTSTRUCT* lpObj = &gGameObjects[aIndex];
 
     if( !gObjIsConnected(aIndex) )
         return;
@@ -217,7 +217,7 @@ void CGReqQuestExp(PMSG_REQ_NPC_QUESTEXP *pMsg, int aIndex)
 			return;
 		}
 
-		g_MuLuaQuestExp.Generic_Call("NpcTalkClick", "ii>", (int)gObj[lpObj->TargetNpcNumber].Class, lpObj->m_Index);
+		g_MuLuaQuestExp.Generic_Call("NpcTalkClick", "ii>", (int)gGameObjects[lpObj->TargetNpcNumber].Class, lpObj->m_Index);
     }
 }
 
@@ -228,18 +228,18 @@ void CGReqAttDefPowerInc(PMSG_REQ_ATTDEF_POWER_INC *pMsg, int aIndex)
 
     if( !gObjIsConnected(aIndex) )
         return;
-	if (gObj[aIndex].TargetNpcNumber == -1)
+	if (gGameObjects[aIndex].TargetNpcNumber == -1)
 	{
 		//IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
 		return;
 	}
 
-	if (gObj[aIndex].CloseType != -1)
+	if (gGameObjects[aIndex].CloseType != -1)
 	{
 		return;
 	}
 	//[K2] ANTIHACK NPC BUFF TAKE
-	if (gObj[aIndex].m_IfState.use > 0 && gObj[aIndex].m_IfState.type == 33)
+	if (gGameObjects[aIndex].m_IfState.use > 0 && gGameObjects[aIndex].m_IfState.type == 33)
     NpcShadowPhantom(aIndex);
 }
 

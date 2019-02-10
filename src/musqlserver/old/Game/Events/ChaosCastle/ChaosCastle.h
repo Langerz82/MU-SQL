@@ -8,7 +8,7 @@
 #endif // _MSC_VER > 1000
 
 #include "BloodCastle.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "GMMng.h"
 
 #define MAX_CHAOSCASTLE_MONSTER	100
@@ -257,7 +257,7 @@ public:
 	CChaosCastle();
 	virtual ~CChaosCastle();
 
-	friend int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex);
+	friend int CGMMng::ManagementProc(CGameObject* lpObj, char* szCmd, int aIndex);
 
 	void Run();
 	void Init();

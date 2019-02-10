@@ -7,7 +7,7 @@
 #include "StdAfx.h"
 #include "CashLotterySystem.h"
 #include "LargeRand.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "Logging/Log.h"
 #include "readscript.h"
 

@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "MonsterAttr.h"
 #include "Logging/Log.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 
 // GS-N 0.99.60T 0x00418C10 - Completed - Just few disorders with same result int LoadAttr
 //	GS-N	1.00.18	JPN	0x0041F300	-	Completed

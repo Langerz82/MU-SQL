@@ -2,7 +2,7 @@
 // MonsterItemMng.cpp
 #include "StdAfx.h"
 #include "MonsterItemMng.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "MonsterAttr.h"
 #include "GameMain.h"
 #include "Logging/Log.h"

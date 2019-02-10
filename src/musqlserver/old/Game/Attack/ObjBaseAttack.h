@@ -7,7 +7,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "user.h"
+#include "CUserData.h"
 
 class CObjBaseAttack
 {
@@ -17,15 +17,15 @@ public:
 	CObjBaseAttack();
 	virtual ~CObjBaseAttack();
 
-	int DecreaseArrow(LPOBJ lpObj);
-	int CheckAttackArea(LPOBJ lpObj, LPOBJ lpTargetObj);
-	int PkCheck(LPOBJ lpObj, LPOBJ lpTargetObj);
-	int ResistanceCheck(LPOBJ lpObj, LPOBJ lpTargetObj, int skill);
-	int MissCheckPvP(LPOBJ lpObj, LPOBJ lpTargetObj, int skill, int skillSuccess, int magicsend, BOOL& bAllMiss, BYTE RFAttack);
-	int GetTargetDefense(LPOBJ lpObj, LPOBJ lpTargetObj, int& MsgDamage, int& iOriginTargetDefense);
-	int GetPartyMemberCount(LPOBJ lpObj);
+	int DecreaseArrow(CGameObject* lpObj);
+	int CheckAttackArea(CGameObject* lpObj, CGameObject* lpTargetObj);
+	int PkCheck(CGameObject* lpObj, CGameObject* lpTargetObj);
+	int ResistanceCheck(CGameObject* lpObj, CGameObject* lpTargetObj, int skill);
+	int MissCheckPvP(CGameObject* lpObj, CGameObject* lpTargetObj, int skill, int skillSuccess, int magicsend, BOOL& bAllMiss, BYTE RFAttack);
+	int GetTargetDefense(CGameObject* lpObj, CGameObject* lpTargetObj, int& MsgDamage, int& iOriginTargetDefense);
+	int GetPartyMemberCount(CGameObject* lpObj);
 
-	virtual int MissCheck(LPOBJ lpObj, LPOBJ lpTargetObj, int skill, int skillSuccess, int magicsend, BOOL& bAllMiss, BYTE RFAttack);	// 4
+	virtual int MissCheck(CGameObject* lpObj, CGameObject* lpTargetObj, int skill, int skillSuccess, int magicsend, BOOL& bAllMiss, BYTE RFAttack);	// 4
 
 };
 

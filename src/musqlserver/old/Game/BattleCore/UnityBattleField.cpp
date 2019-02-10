@@ -54,7 +54,7 @@ void CUnityBattleField::GDReqJoinUnityBattleField(int aIndex)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (this->m_bUBFEnable == false)
 	{
@@ -127,7 +127,7 @@ void CUnityBattleField::DGAnsJoinUnityBattleField(int aIndex, BYTE Result, WORD 
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -168,7 +168,7 @@ void CUnityBattleField::GDReqCopyCharacterInfo(int aIndex, BYTE CharacterSlot)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -205,7 +205,7 @@ void CUnityBattleField::DGAnsCopyCharacterInfo(int aIndex, BYTE result, BYTE sub
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -240,7 +240,7 @@ void CUnityBattleField::GDReqCheckJoinedUnityBattleField(int aIndex, int IsUnity
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -266,7 +266,7 @@ void CUnityBattleField::DGAnsCheckJoinedUnityBattleField(int aIndex, BYTE btRegi
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -298,7 +298,7 @@ void CUnityBattleField::GDObserverLogoutManager()
 {
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		LPOBJ lpObj = &gObj[n];
+		CGameObject* lpObj = &gGameObjects[n];
 
 		if (gObjIsConnected(n) == TRUE && lpObj->Type == OBJ_USER)
 		{
@@ -314,7 +314,7 @@ void CUnityBattleField::GDReqCancelUnityBattleField(int aIndex, BYTE btCancelTyp
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -349,7 +349,7 @@ void CUnityBattleField::GDReqCancelUnityBattleField(int aIndex, BYTE btCancelTyp
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -384,7 +384,7 @@ void CUnityBattleField::DGAnsCancelUnityBattleField(int aIndex, BYTE aCanceledRe
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -414,7 +414,7 @@ void CUnityBattleField::GDReqGetRealNameAndServerCode(int aIndex)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -428,7 +428,7 @@ void CUnityBattleField::GDReqGetRealNameAndServerCode(int aIndex)
 
 	PMSG_REQ_GET_UBF_REAL_NAME pMsg;
 	pMsg.iUserIndex = aIndex;
-	memcpy(pMsg.szUBFName, gObj[aIndex].Name, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.szUBFName, gGameObjects[aIndex].Name, MAX_ACCOUNT_LEN + 1);
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF3, 0x08, sizeof(pMsg));
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
@@ -446,7 +446,7 @@ void CUnityBattleField::GDReqUBFGetReward(int aIndex, BYTE btBattleKind)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -484,7 +484,7 @@ void CUnityBattleField::GDReqSetReceivedWinnerItem(int aIndex, BYTE btBattleKind
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -518,7 +518,7 @@ void CUnityBattleField::DGAnsSetReceivedWinnerItem(int aIndex, BYTE btReturn)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{

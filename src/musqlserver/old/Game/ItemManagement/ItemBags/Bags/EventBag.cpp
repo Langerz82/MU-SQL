@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "EventBag.h"
 #include "Logging/Log.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "LuaBag.h"
 #include "MapClass.h"
 #include "GameMain.h"
@@ -48,12 +48,12 @@ bool CEventBag::IsBag(int aIndex, int EventID, int iParam2)
 
 bool CEventBag::UseBag(int aIndex, int iMonsterIndex)
 {
-	LPOBJ lpObj = &gObj[aIndex];
-	LPOBJ lpMonsterObj = &gObj[iMonsterIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
+	CGameObject* lpMonsterObj = &gGameObjects[iMonsterIndex];
 
 	if (rand() % 10000 >= this->m_BagData.dwItemDropRate)
 	{
-		MapC[gObj[aIndex].MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, lpObj->X, lpObj->Y);
+		MapC[gGameObjects[aIndex].MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, lpObj->X, lpObj->Y);
 
 		return true;
 	}
@@ -148,12 +148,12 @@ bool CEventBag::UseBag(int aIndex, int iMonsterIndex)
 
 bool CEventBag::UseBag_GremoryCase(int aIndex, int iMonsterIndex, BYTE btStorageType, BYTE btRewardSource, int iExpireDays)
 {
-	LPOBJ lpObj = &gObj[aIndex];
-	LPOBJ lpMonsterObj = &gObj[iMonsterIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
+	CGameObject* lpMonsterObj = &gGameObjects[iMonsterIndex];
 
 	if (rand() % 10000 >= this->m_BagData.dwItemDropRate)
 	{
-		MapC[gObj[aIndex].MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, lpObj->X, lpObj->Y);
+		MapC[gGameObjects[aIndex].MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, lpObj->X, lpObj->Y);
 
 		return true;
 	}

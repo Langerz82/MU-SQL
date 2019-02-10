@@ -3,11 +3,11 @@
 #ifndef ITR_PROCESS_H
 #define ITR_PROCESS_H
 
-#include "User/user.h"
+#include "User/CUserData.h"
 
-struct __ITR_USER_DATA
+struct __ITR_CUserData
 {
-	__ITR_USER_DATA()
+	__ITR_CUserData()
 	{
 		this->m_nIndex = -1;
 	}
@@ -172,7 +172,7 @@ public:
 private:
 	CRITICAL_SECTION m_critUserData;
 
-	__ITR_USER_DATA m_UserData[10];
+	__ITR_CUserData m_UserData[10];
 	__ITR_PARTYTEAM m_PartyTeam[2];
 
 	int m_nUserCount;

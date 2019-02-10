@@ -4,7 +4,7 @@
 #define ARCABATTLE_H
 
 #include "prodef.h"
-#include "user.h"
+#include "CUserData.h"
 
 #define MAX_ARCA_BATTLE_PLAYERS						200
 #define MAX_ARCA_BATTLE_GUILD_MASTER_GATE_INFO		10

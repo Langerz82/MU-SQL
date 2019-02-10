@@ -7,7 +7,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "User/user.h"
+#include "User/CUserData.h"
 
 #define MAX_MOVE_COMMAND 60
 
@@ -50,12 +50,12 @@ public:
 	int Load(char* filename);
 	int LoadMoveLevel(char* filename);
 	int GetMoveLevel(int mapnumber, int x, int y, int Class);
-	int CheckMainToMove(LPOBJ lpObj);
-	int CheckEquipmentToMove(LPOBJ lpObj, int iTargetMapNumber);
-	int CheckInterfaceToMove(LPOBJ lpObj);
-	int Move(LPOBJ lpObj, int iMapIndex);
-	int Move(LPOBJ lpObj, char* mapname);
-	int MoveFree2Kalima(LPOBJ lpObj);
+	int CheckMainToMove(CGameObject* lpObj);
+	int CheckEquipmentToMove(CGameObject* lpObj, int iTargetMapNumber);
+	int CheckInterfaceToMove(CGameObject* lpObj);
+	int Move(CGameObject* lpObj, int iMapIndex);
+	int Move(CGameObject* lpObj, char* mapname);
+	int MoveFree2Kalima(CGameObject* lpObj);
 	BOOL CheckMoveMapBound(int iMapIndex);
 	LPMOVE_COMMAND_DATA GetMoveCommandData(int nMapIndex);
 	LPMOVE_COMMAND_DATA GetMoveCommandDataByMapNumber(WORD wMapNumber);

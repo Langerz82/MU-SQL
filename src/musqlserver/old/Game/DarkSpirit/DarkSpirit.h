@@ -7,7 +7,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "MagicInf.h"
 #include "ItemManagement/Item.h"
 #include "ObjBaseAttack.h"
@@ -70,14 +70,14 @@ public:
   void ReSetTarget(int aTargetIndex);
   void Set(int aIndex, CItem* pPetItem);
   void SetMode(ePetItem_Mode mode, int iTargetindex);
-  int Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic, int criticaldamage, int iActionType);
-  int GetAttackDamage(LPOBJ lpObj, int targetDefense, int criticaldamage);
-  int MissCheck(LPOBJ lpObj, LPOBJ lpTargetObj, int skill,  int skillSuccess, int& bAllMiss);
-  int MissCheckPvP(LPOBJ lpObj, LPOBJ lpTargetObj, int skill,  int skillSuccess, int& bAllMiss);
+  int Attack(CGameObject* lpObj, CGameObject* lpTargetObj, CMagicInf* lpMagic, int criticaldamage, int iActionType);
+  int GetAttackDamage(CGameObject* lpObj, int targetDefense, int criticaldamage);
+  int MissCheck(CGameObject* lpObj, CGameObject* lpTargetObj, int skill,  int skillSuccess, int& bAllMiss);
+  int MissCheckPvP(CGameObject* lpObj, CGameObject* lpTargetObj, int skill,  int skillSuccess, int& bAllMiss);
   void ChangeCommand(int command, int targetindex);
   void RangeAttack(int aIndex, int aTargetIndex);
   void SendAttackMsg(int aIndex, int aTargetIndex, int criticaldamage, int iActionType);
-  int GetShieldDamage(LPOBJ lpObj, LPOBJ lpTargetObj, int iAttackDamage);
+  int GetShieldDamage(CGameObject* lpObj, CGameObject* lpTargetObj, int iAttackDamage);
  
   static void __cdecl CDarkSpirit::SendLevelmsg(int aIndex, int nPos, int PetType, int InvenType);
 

@@ -4,7 +4,7 @@
 #define MASTERLEVELSKILLTREESYSTEM_H
 
 #include "StdAfx.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "classdef.h"
 #include "MasterSkillSystem.h"
 #include "ObjAttack.h"
@@ -251,7 +251,7 @@ public:
 	int SkillWrathPowUpGrowLancer(int aIndex, CMagicInf * lpMagic, int aTargetIndex);
 	int SkillWrathProficiencyGrowLancer(int aIndex, CMagicInf * lpMagic, int aTargetIndex);
 	int SkillWrathMasteryGrowLancer(int aIndex, CMagicInf * lpMagic, int aTargetIndex);
-	int SkillObsidianPowUpGrowLancer(LPOBJ lpObj, CMagicInf * lpMagic, int aTargetIndex);
+	int SkillObsidianPowUpGrowLancer(CGameObject* lpObj, CMagicInf * lpMagic, int aTargetIndex);
 	void SkillBurstMasteryGrowLancer(int aIndex, CMagicInf * lpMagic, int aTargetIndex);
 	// FINISHED
 

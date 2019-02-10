@@ -3,7 +3,7 @@
 #ifndef MINESYSTEM_H
 #define MINESYSTEM_H
 
-#include "User/user.h"
+#include "User/CUserData.h"
 
 struct _ST_MINESYSTEM_REPAIR_VALUE
 {

@@ -187,8 +187,8 @@ void TMonsterSkillManager::MonsterSkillProc()
 					continue;
 				}
 
-				LPOBJ lpObj = &gObj[stInfo.iIndex];
-				LPOBJ lpTargetObj = &gObj[stInfo.iTargetIndex];
+				CGameObject* lpObj = &gGameObjects[stInfo.iIndex];
+				CGameObject* lpTargetObj = &gGameObjects[stInfo.iTargetIndex];
 
 				if ( !lpObj->Live || !lpTargetObj->Live )
 				{
@@ -212,7 +212,7 @@ void TMonsterSkillManager::MonsterSkillProc()
 
 TMonsterSkillUnit * TMonsterSkillManager::FindMonsterSkillUnit(int iIndex, int iMonsterSkillUnitType)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 	TMonsterSkillInfo * lpMonsterSkillInfo = &TMonsterSkillManager::s_MonsterSkillInfoArray[lpObj->Class];
 
 	if ( lpMonsterSkillInfo->IsValid() == FALSE )
@@ -261,10 +261,10 @@ void TMonsterSkillManager::UseMonsterSkill(int iIndex, int iTargetIndex, int iMo
 	}
 
 	/* sLog->outBasic("[TMonsterSkillManager] [%s] Used skill at INDEX:%d (UNITTYPE:%d UNIT:%d)",
-		gObj[iIndex].Name, iTargetIndex, iMonsterSkillUnitType, iMonsterSkillUnit); */
+		gGameObjects[iIndex].Name, iTargetIndex, iMonsterSkillUnitType, iMonsterSkillUnit); */
 
-	LPOBJ lpObj = &gObj[iIndex];
-	LPOBJ lpTargetObj = &gObj[iTargetIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
+	CGameObject* lpTargetObj = &gGameObjects[iTargetIndex];
 	TMonsterSkillInfo * lpMonsterSkillInfo = &TMonsterSkillManager::s_MonsterSkillInfoArray[lpObj->Class];
 
 	if ( lpMonsterSkillInfo->IsValid() == FALSE )
@@ -303,13 +303,13 @@ void TMonsterSkillManager::UseMonsterSkill(int iIndex, int iTargetIndex, int iMo
 				return;
 			}
 
-			lpTargetObj = &gObj[nTargetIndex];
+			lpTargetObj = &gGameObjects[nTargetIndex];
 			iTargetIndex = nTargetIndex;
 		}
 
 		if ( lpMonsterSkillUnit->m_iUnitTargetType == 5 )
 		{
-			lpTargetObj = &gObj[iIndex];
+			lpTargetObj = &gGameObjects[iIndex];
 			iTargetIndex = iIndex;
 		}
 
@@ -362,13 +362,13 @@ void TMonsterSkillManager::UseMonsterSkill(int iIndex, int iTargetIndex, int iMo
 
 				if ( ObjectMaxRange(iRangeTargetIndex))
 				{
-					if ( gObj[iRangeTargetIndex].Type == OBJ_USER )
+					if ( gGameObjects[iRangeTargetIndex].Type == OBJ_USER )
 					{
 						BOOL bTargetOK = FALSE;
 
 						if ( lpMonsterSkillUnit->m_iUnitScopeType == 0 )
 						{
-							if ( gObjCalDistance(lpObj, &gObj[iRangeTargetIndex]) < lpMonsterSkillUnit->m_iUnitScopeValue )
+							if ( gObjCalDistance(lpObj, &gGameObjects[iRangeTargetIndex]) < lpMonsterSkillUnit->m_iUnitScopeValue )
 							{
 								bTargetOK = TRUE;
 							}
@@ -376,7 +376,7 @@ void TMonsterSkillManager::UseMonsterSkill(int iIndex, int iTargetIndex, int iMo
 						else  if ( lpMonsterSkillUnit->m_iUnitScopeType == 1 )
 						{
 							if ( SkillElectricSparkHitBox.HitCheck(iAngle, lpObj->X, lpObj->Y,
-								gObj[iRangeTargetIndex].X, gObj[iRangeTargetIndex].Y) )
+								gGameObjects[iRangeTargetIndex].X, gGameObjects[iRangeTargetIndex].Y) )
 							{
 								bTargetOK = TRUE;
 							}

@@ -3,7 +3,7 @@
 #ifndef ITEMDROP_H
 #define ITEMDROP_H
 
-#include "User/user.h"
+#include "User/CUserData.h"
 
 struct ITEMDROP_ITEM
 {

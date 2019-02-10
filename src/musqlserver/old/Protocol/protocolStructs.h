@@ -8,7 +8,7 @@
 
 #include "StdAfx.h"
 #include "GensSystemProtocol.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "generalStructs.h"
 
 #include <string>
@@ -182,7 +182,7 @@ struct ISHOP_REQ_POINT;
 struct ISHOP_VIP_BUY;
 struct ITEMPERIOD_DATEINFO;
 struct JOIN_SERVER_SERVER_DATA;
-struct JOIN_SERVER_USER_DATA;
+struct JOIN_SERVER_CUserData;
 struct MEMO_HEADER;
 struct MEMO_READ;
 struct MEMO_SEND_HEADER;

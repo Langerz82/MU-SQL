@@ -144,12 +144,12 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, int iIndex)
 		return;
 	}
 
-	if (gObj[iIndex].Type != OBJ_USER)
+	if (gGameObjects[iIndex].Type != OBJ_USER)
 	{
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 	int Option2 = 0;
 
 	PMSG_ANS_RUUD_STORE_BUYITEM pMsg;

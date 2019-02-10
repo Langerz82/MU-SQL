@@ -7,7 +7,7 @@
 
 //#ifndef USER_H__
 //#define USER_H__
-//#include "User/user.h"
+//#include "User/CUserData.h"
 //#endif
 
 typedef int BOOL;
@@ -31,19 +31,6 @@ typedef unsigned long long SOCKET;
 
 
 
-typedef struct MU_WSAOVERLAPPED {
-	DWORD    Internal;
-	DWORD    InternalHigh;
-	DWORD    Offset;
-	DWORD    OffsetHigh;
-	DWORD	 hEvent;
-} FAR * LPMU_WSAOVERLAPPED;
-
-typedef struct MU_WSABUF {
-	ULONG len;
-	CHAR* buf;
-} *LPMU_WSABUF;
-
 
 #ifndef NULL
 	#define NULL 0
@@ -57,6 +44,6 @@ typedef struct MU_WSABUF {
 #endif
 
 struct OBJECTSTRUCT;
-typedef OBJECTSTRUCT* LPOBJ;
+typedef OBJECTSTRUCT* CGameObject*;
 
 #endif

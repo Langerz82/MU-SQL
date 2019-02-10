@@ -2,7 +2,7 @@
 // SkillSafeZoneUse.cpp
 #include "StdAfx.h"
 #include "SkillSafeZoneUse.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "MagicInf.h"
 
 CSkillSafeZoneUse g_SkillSafeZone;
@@ -57,7 +57,7 @@ void CSkillSafeZoneUse::LoadFile(char *szFileName)
 	this->m_bFileLoad = true;
 }
 
-bool CSkillSafeZoneUse::CanUseSkill(LPOBJ lpObj, CMagicInf * lpMagic)
+bool CSkillSafeZoneUse::CanUseSkill(CGameObject* lpObj, CMagicInf * lpMagic)
 {
 	if (this->m_bFileLoad == false)
 	{

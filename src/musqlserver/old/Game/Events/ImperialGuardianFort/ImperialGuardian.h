@@ -5,7 +5,7 @@
 
 #include "ImperialGuardianRewardExp.h"
 #include "EventDungeonItemBag.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 
 #define MAX_ZONE 4
 

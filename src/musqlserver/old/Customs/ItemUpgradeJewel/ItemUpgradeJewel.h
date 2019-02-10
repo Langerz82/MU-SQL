@@ -2,7 +2,7 @@
 // ItemUpgradeJewel.h
 #pragma once
 
-#include "User/user.h"
+#include "User/CUserData.h"
 
 #define ENABLETEST_ITEMUPGRADEJEWELS	TRUE
 
@@ -72,8 +72,8 @@ public:
 	void	Load();
 	void	Read(LPSTR File);
 
-	void	ProcInsert(LPOBJ lpUser, int JewelPos, int TargetPos);
-	bool	ProcUpgrade(LPOBJ lpUser, int JewelPos, int TargetPos, ItemUpgradeJewelsInfo* lpJewel);
+	void	ProcInsert(CGameObject* lpUser, int JewelPos, int TargetPos);
+	bool	ProcUpgrade(CGameObject* lpUser, int JewelPos, int TargetPos, ItemUpgradeJewelsInfo* lpJewel);
 
 	bool	IsJewel(int ItemCode);
 

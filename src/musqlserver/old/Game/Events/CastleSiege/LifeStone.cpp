@@ -7,7 +7,7 @@
 #include "CastleSiege.h"
 #include "CastleSiegeSync.h"
 #include "Gamemain.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "MapClass.h"
 #include "Logging/Log.h"
 #include "configread.h"
@@ -34,7 +34,7 @@ CLifeStone::~CLifeStone()
 
 int CLifeStone::CreateLifeStone(int iIndex)
 {
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 	int iMonsterIndex = -1;
 	BYTE cX = lpObj->X;
 	BYTE cY = lpObj->Y;
@@ -68,7 +68,7 @@ int CLifeStone::CreateLifeStone(int iIndex)
 
 	BYTE btMapAttr = MapC[lpObj->MapNumber].GetAttr(cX, cY);
 
-	if ( gObj[iIndex].MapNumber != MAP_INDEX_CASTLESIEGE )
+	if ( gGameObjects[iIndex].MapNumber != MAP_INDEX_CASTLESIEGE )
 	{
 		MsgOutput(iIndex, Lang.GetText(0,170));
 		return FALSE;
@@ -88,35 +88,35 @@ int CLifeStone::CreateLifeStone(int iIndex)
 
 		gObjSetMonster(iMonsterIndex, 278);
 		
-		gObj[iMonsterIndex].m_PlayerData = new USER_DATA(iMonsterIndex);
-		gObj[iMonsterIndex].Live = TRUE;
-		gObj[iMonsterIndex].Life = MAttr->m_Hp;
-		gObj[iMonsterIndex].MaxLife = MAttr->m_Hp;
-		gObj[iMonsterIndex].m_PosNum = -1;
-		gObj[iMonsterIndex].X = cX;
-		gObj[iMonsterIndex].Y = cY;
-		gObj[iMonsterIndex].MTX = cX;
-		gObj[iMonsterIndex].MTY = cY;
-		gObj[iMonsterIndex].TX = cX;
-		gObj[iMonsterIndex].TY = cY;
-		gObj[iMonsterIndex].m_OldX = cX;
-		gObj[iMonsterIndex].m_OldY = cY;
-		gObj[iMonsterIndex].StartX = cX;
-		gObj[iMonsterIndex].StartY = cY;
-		gObj[iMonsterIndex].MapNumber = lpObj->MapNumber;
-		gObj[iMonsterIndex].m_MoveRange = 0;
-		gObj[iMonsterIndex].Level = MAttr->m_Level;
-		gObj[iMonsterIndex].Type = OBJ_MONSTER;
-		gObj[iMonsterIndex].MaxRegenTime = 1000;
-		gObj[iMonsterIndex].Dir = 1;
-		gObj[iMonsterIndex].RegenTime = GetTickCount();
-		gObj[iMonsterIndex].m_Attribute = 0;
-		gObj[iMonsterIndex].DieRegen = 0;
-		gObj[iMonsterIndex].m_btCsNpcType = OBJ_NPC;
-		gObj[iMonsterIndex].m_btCsJoinSide = lpObj->m_btCsJoinSide;
-		gObj[iMonsterIndex].m_PlayerData->lpGuild = lpObj->m_PlayerData->lpGuild;
-		gObj[iMonsterIndex].m_btCreationState = 0;
-		lpObj->m_PlayerData->lpGuild->lpLifeStone = &gObj[iMonsterIndex];
+		gGameObjects[iMonsterIndex].m_PlayerData = new CUserData(iMonsterIndex);
+		gGameObjects[iMonsterIndex].Live = TRUE;
+		gGameObjects[iMonsterIndex].Life = MAttr->m_Hp;
+		gGameObjects[iMonsterIndex].MaxLife = MAttr->m_Hp;
+		gGameObjects[iMonsterIndex].m_PosNum = -1;
+		gGameObjects[iMonsterIndex].X = cX;
+		gGameObjects[iMonsterIndex].Y = cY;
+		gGameObjects[iMonsterIndex].MTX = cX;
+		gGameObjects[iMonsterIndex].MTY = cY;
+		gGameObjects[iMonsterIndex].TX = cX;
+		gGameObjects[iMonsterIndex].TY = cY;
+		gGameObjects[iMonsterIndex].m_OldX = cX;
+		gGameObjects[iMonsterIndex].m_OldY = cY;
+		gGameObjects[iMonsterIndex].StartX = cX;
+		gGameObjects[iMonsterIndex].StartY = cY;
+		gGameObjects[iMonsterIndex].MapNumber = lpObj->MapNumber;
+		gGameObjects[iMonsterIndex].m_MoveRange = 0;
+		gGameObjects[iMonsterIndex].Level = MAttr->m_Level;
+		gGameObjects[iMonsterIndex].Type = OBJ_MONSTER;
+		gGameObjects[iMonsterIndex].MaxRegenTime = 1000;
+		gGameObjects[iMonsterIndex].Dir = 1;
+		gGameObjects[iMonsterIndex].RegenTime = GetTickCount();
+		gGameObjects[iMonsterIndex].m_Attribute = 0;
+		gGameObjects[iMonsterIndex].DieRegen = 0;
+		gGameObjects[iMonsterIndex].m_btCsNpcType = OBJ_NPC;
+		gGameObjects[iMonsterIndex].m_btCsJoinSide = lpObj->m_btCsJoinSide;
+		gGameObjects[iMonsterIndex].m_PlayerData->lpGuild = lpObj->m_PlayerData->lpGuild;
+		gGameObjects[iMonsterIndex].m_btCreationState = 0;
+		lpObj->m_PlayerData->lpGuild->lpLifeStone = &gGameObjects[iMonsterIndex];
 
 		MsgOutput(iIndex, Lang.GetText(0,180));
 
@@ -140,7 +140,7 @@ int CLifeStone::DeleteLifeStone(int iIndex)
 	if ( iIndex < 0 || iIndex > g_ConfigRead.server.GetObjectMax()-1 )
 		return FALSE;
 
-	LPOBJ lpLifeStone = &gObj[iIndex];
+	CGameObject* lpLifeStone = &gGameObjects[iIndex];
 
 	if ( lpLifeStone->m_PlayerData->lpGuild )
 	{
@@ -157,7 +157,7 @@ int CLifeStone::SetReSpawnUserXY(int iUserIndex)
 	if ( !gObjIsConnected(iUserIndex) )
 		return FALSE;
 
-	LPOBJ lpUser = &gObj[iUserIndex];
+	CGameObject* lpUser = &gGameObjects[iUserIndex];
 
 	if ( lpUser->MapNumber != MAP_INDEX_CASTLESIEGE )
 		return FALSE;
@@ -170,7 +170,7 @@ int CLifeStone::SetReSpawnUserXY(int iUserIndex)
 	if ( lpUser->m_PlayerData->lpGuild->lpLifeStone == NULL )
 		return FALSE;
 
-	LPOBJ lpLifeStone = lpUser->m_PlayerData->lpGuild->lpLifeStone;
+	CGameObject* lpLifeStone = lpUser->m_PlayerData->lpGuild->lpLifeStone;
 
 	if ( lpLifeStone->m_btCreationState != 5 )
 		return FALSE;
@@ -187,7 +187,7 @@ void CLifeStone::LifeStoneAct(int iIndex)
 	if ( !gObjIsConnected(iIndex))
 		return;
 
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 
 	lpObj->m_iCreatedActivationTime++;
 	BYTE btCreationState = lpObj->m_btCreationState;
@@ -214,56 +214,56 @@ void CLifeStone::LifeStoneAct(int iIndex)
 
 		if ( tObjNum >= 0 )
 		{
-			if ( gObj[tObjNum].Type == OBJ_USER && gObj[tObjNum].Live )
+			if ( gGameObjects[tObjNum].Type == OBJ_USER && gGameObjects[tObjNum].Live )
 			{
-				if ( gObj[tObjNum].m_btCsJoinSide == lpObj->m_btCsJoinSide )
+				if ( gGameObjects[tObjNum].m_btCsJoinSide == lpObj->m_btCsJoinSide )
 				{
-					if ( abs(lpObj->Y - gObj[tObjNum].Y) <= 3 &&
-						 abs(lpObj->X - gObj[tObjNum].X) <= 3 )
+					if ( abs(lpObj->Y - gGameObjects[tObjNum].Y) <= 3 &&
+						 abs(lpObj->X - gGameObjects[tObjNum].X) <= 3 )
 					{
 						BOOL bLifeChange = FALSE;
 						BOOL bManaChange = FALSE;
 						BOOL bBpChange = FALSE;
 
-						/*gObj[tObjNum].Life += 100.0f;
-						gObj[tObjNum].Mana += 100.0f;
-						gObj[tObjNum].BP += 100;*/
+						/*gGameObjects[tObjNum].Life += 100.0f;
+						gGameObjects[tObjNum].Mana += 100.0f;
+						gGameObjects[tObjNum].BP += 100;*/
 
-						if ( gObj[tObjNum].Life < (gObj[tObjNum].MaxLife + gObj[tObjNum].AddLife))
+						if ( gGameObjects[tObjNum].Life < (gGameObjects[tObjNum].MaxLife + gGameObjects[tObjNum].AddLife))
 						{
-							gObj[tObjNum].Life += ( gObj[tObjNum].MaxLife + gObj[tObjNum].AddLife ) / 100.0f;
+							gGameObjects[tObjNum].Life += ( gGameObjects[tObjNum].MaxLife + gGameObjects[tObjNum].AddLife ) / 100.0f;
 
-							if ( gObj[tObjNum].Life > (gObj[tObjNum].MaxLife + gObj[tObjNum].AddLife))
-								gObj[tObjNum].Life = gObj[tObjNum].MaxLife + gObj[tObjNum].AddLife;
+							if ( gGameObjects[tObjNum].Life > (gGameObjects[tObjNum].MaxLife + gGameObjects[tObjNum].AddLife))
+								gGameObjects[tObjNum].Life = gGameObjects[tObjNum].MaxLife + gGameObjects[tObjNum].AddLife;
 
 							bLifeChange = TRUE;
 						}
 
-						if ( gObj[tObjNum].Mana < (gObj[tObjNum].MaxMana + gObj[tObjNum].AddMana))
+						if ( gGameObjects[tObjNum].Mana < (gGameObjects[tObjNum].MaxMana + gGameObjects[tObjNum].AddMana))
 						{
-							gObj[tObjNum].Mana += ( gObj[tObjNum].MaxMana + gObj[tObjNum].AddMana ) / 100.0f;
+							gGameObjects[tObjNum].Mana += ( gGameObjects[tObjNum].MaxMana + gGameObjects[tObjNum].AddMana ) / 100.0f;
 
-							if ( gObj[tObjNum].Mana > (gObj[tObjNum].MaxMana + gObj[tObjNum].AddMana))
-								gObj[tObjNum].Mana = gObj[tObjNum].MaxMana + gObj[tObjNum].AddMana;
+							if ( gGameObjects[tObjNum].Mana > (gGameObjects[tObjNum].MaxMana + gGameObjects[tObjNum].AddMana))
+								gGameObjects[tObjNum].Mana = gGameObjects[tObjNum].MaxMana + gGameObjects[tObjNum].AddMana;
 
 							bManaChange = TRUE;
 						}
 
-						if ( gObj[tObjNum].BP < (gObj[tObjNum].MaxBP + gObj[tObjNum].AddBP))
+						if ( gGameObjects[tObjNum].BP < (gGameObjects[tObjNum].MaxBP + gGameObjects[tObjNum].AddBP))
 						{
-							gObj[tObjNum].BP += ( gObj[tObjNum].MaxBP + gObj[tObjNum].AddBP ) / 100;
+							gGameObjects[tObjNum].BP += ( gGameObjects[tObjNum].MaxBP + gGameObjects[tObjNum].AddBP ) / 100;
 
-							if ( gObj[tObjNum].BP > (gObj[tObjNum].MaxBP + gObj[tObjNum].AddBP))
-								gObj[tObjNum].BP = gObj[tObjNum].MaxBP + gObj[tObjNum].AddBP;
+							if ( gGameObjects[tObjNum].BP > (gGameObjects[tObjNum].MaxBP + gGameObjects[tObjNum].AddBP))
+								gGameObjects[tObjNum].BP = gGameObjects[tObjNum].MaxBP + gGameObjects[tObjNum].AddBP;
 
 							bBpChange = TRUE;
 						}
 
 						if (bLifeChange )
-							GSProtocol.GCReFillSend(tObjNum, gObj[tObjNum].Life, 0xFF, 1, gObj[tObjNum].iShield);
+							GSProtocol.GCReFillSend(tObjNum, gGameObjects[tObjNum].Life, 0xFF, 1, gGameObjects[tObjNum].iShield);
 
 						if (bManaChange ||bBpChange ) 
-							GSProtocol.GCManaSend(tObjNum, gObj[tObjNum].Mana, 0xFF, 0, gObj[tObjNum].BP);
+							GSProtocol.GCManaSend(tObjNum, gGameObjects[tObjNum].Mana, 0xFF, 0, gGameObjects[tObjNum].BP);
 					}
 				}
 			}

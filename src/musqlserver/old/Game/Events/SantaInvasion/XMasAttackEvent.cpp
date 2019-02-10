@@ -33,7 +33,7 @@ BOOL CXMasMonsterHerd::Start()
 	return this->MonsterHerd::Start();
 }
 
-BOOL CXMasMonsterHerd::MonsterHerdItemDrop(LPOBJ lpObj)
+BOOL CXMasMonsterHerd::MonsterHerdItemDrop(CGameObject* lpObj)
 {
 	
 	if ( lpObj->Class == 476 )
@@ -58,21 +58,21 @@ BOOL CXMasMonsterHerd::MonsterHerdItemDrop(LPOBJ lpObj)
 			int Damage;
 			int Defense;
 
-			if(gObj[iIndex].Level > 180)
+			if(gGameObjects[iIndex].Level > 180)
 			{
 				Damage = 105;
 				Defense = 86;
 			}
 			else
 			{
-				Damage = gObj[iIndex].Level / 3 + 45;
-				Defense = gObj[iIndex].Level / 5 + 50;
+				Damage = gGameObjects[iIndex].Level / 3 + 45;
+				Defense = gGameObjects[iIndex].Level / 5 + 50;
 			}
 			
 			gObjAddBuffEffectWideArea(lpObj, 10, count, BUFFTYPE_CHRISTMAS_BLESS, EFFECTTYPE_IMPROVE_DAMAGE, Damage, EFFECTTYPE_IMPROVE_DEFENSE, Defense, g_XMasAttackEvent.GetSantaBuffDuration());
 		}
 		sLog->outBasic("[XMas Event] Santa Clause Killed by [%s][%s], MapNumber:%d",
-			gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].MapNumber);
+			gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name, gGameObjects[iIndex].MapNumber);
 
 		return TRUE;
 
@@ -97,7 +97,7 @@ BOOL CXMasMonsterHerd::MonsterHerdItemDrop(LPOBJ lpObj)
 
 }
 
-void CXMasMonsterHerd::MonsterAttackAction(LPOBJ lpObj, LPOBJ lpTargetObj)
+void CXMasMonsterHerd::MonsterAttackAction(CGameObject* lpObj, CGameObject* lpTargetObj)
 {
 	if ( gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STONE) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STUN) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_SLEEP) ||
 		gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_FREEZE_2) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_EARTH_BINDS))
@@ -150,25 +150,25 @@ void CXMasMonsterHerd::SendEventGiftWinner(int iIndex, int iGiftKind)
 		return;
 	}
 
-	if ( gObj[iIndex].UseEventServer != FALSE )
+	if ( gGameObjects[iIndex].UseEventServer != FALSE )
 	{
 		return;
 	}
 
-	gObj[iIndex].UseEventServer = TRUE;
+	gGameObjects[iIndex].UseEventServer = TRUE;
 
 	PMSG_REQ_REG_XMasGIFT pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xBE, 0x10, sizeof(pMsg));
 	pMsg.iINDEX  = iIndex;
-	memcpy(pMsg.szUID, gObj[iIndex].AccountID, MAX_ACCOUNT_LEN);
+	memcpy(pMsg.szUID, gGameObjects[iIndex].AccountID, MAX_ACCOUNT_LEN);
 	pMsg.szUID[MAX_ACCOUNT_LEN] = 0;	// #error Remove the +1 to avoid problems
 	pMsg.btGiftKind = iGiftKind;
 
 	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
 
 	sLog->outBasic("[XMas Event] [%s][%s] Request to Register Gift - Gift Kind (%d)",
-		gObj[iIndex].AccountID, gObj[iIndex].Name,  iGiftKind);
+		gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name,  iGiftKind);
 
 }
 
@@ -589,11 +589,11 @@ void CXMasAttackEvent::ProcState_Playing()
 
 			for ( int n=0;n<g_ConfigRead.server.GetObjectStartUserIndex();n++)
 			{
-				if ( gObj[n].Class == 135 )
+				if ( gGameObjects[n].Class == 135 )
 				{
-					if ( gObj[n].m_bIsInMonsterHerd )
+					if ( gGameObjects[n].m_bIsInMonsterHerd )
 					{
-						if ( gObj[n].Live && gObj[n].MapNumber == g_XMasEventMapNum[i] )
+						if ( gGameObjects[n].Live && gGameObjects[n].MapNumber == g_XMasEventMapNum[i] )
 						{
 							bLive = TRUE;
 						}

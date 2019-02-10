@@ -42,7 +42,7 @@ CObjBaseAttack::~CObjBaseAttack()
 
 
 
-BOOL CObjBaseAttack::DecreaseArrow(LPOBJ lpObj)
+BOOL CObjBaseAttack::DecreaseArrow(CGameObject* lpObj)
 {
 	if ( lpObj->Class == CLASS_ELF && lpObj->Type == OBJ_USER && g_ConfigRead.data.common.joinmuIsDecreaseAllow == true )
 	{
@@ -116,7 +116,7 @@ BOOL CObjBaseAttack::DecreaseArrow(LPOBJ lpObj)
 
 
 
-BOOL CObjBaseAttack::CheckAttackArea(LPOBJ lpObj, LPOBJ lpTargetObj)
+BOOL CObjBaseAttack::CheckAttackArea(CGameObject* lpObj, CGameObject* lpTargetObj)
 {
 	if( lpTargetObj->MapNumber == g_LastManStanding.m_Cfg.iPVPMap)
 	{
@@ -152,7 +152,7 @@ BOOL CObjBaseAttack::CheckAttackArea(LPOBJ lpObj, LPOBJ lpTargetObj)
 	return TRUE;
 }
 
-BOOL CObjBaseAttack::PkCheck(LPOBJ lpObj, LPOBJ lpTargetObj)
+BOOL CObjBaseAttack::PkCheck(CGameObject* lpObj, CGameObject* lpTargetObj)
 {
 	if (lpObj->Type == OBJ_USER && lpTargetObj->Type == OBJ_USER)
 	{
@@ -299,7 +299,7 @@ BOOL CObjBaseAttack::PkCheck(LPOBJ lpObj, LPOBJ lpTargetObj)
 
 
 
-BOOL CObjBaseAttack::ResistanceCheck(LPOBJ lpObj, LPOBJ lpTargetObj, int skill)
+BOOL CObjBaseAttack::ResistanceCheck(CGameObject* lpObj, CGameObject* lpTargetObj, int skill)
 {
 	if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE)
 	{
@@ -514,7 +514,7 @@ BOOL CObjBaseAttack::ResistanceCheck(LPOBJ lpObj, LPOBJ lpTargetObj, int skill)
 
 
 
-BOOL CObjBaseAttack::MissCheck(LPOBJ lpObj, LPOBJ lpTargetObj, int skill, int skillSuccess, int magicsend, BOOL& bAllMiss, BYTE RFAttack)
+BOOL CObjBaseAttack::MissCheck(CGameObject* lpObj, CGameObject* lpTargetObj, int skill, int skillSuccess, int magicsend, BOOL& bAllMiss, BYTE RFAttack)
 {
 	int iAttackRate = 0;
 
@@ -710,7 +710,7 @@ BOOL CObjBaseAttack::MissCheck(LPOBJ lpObj, LPOBJ lpTargetObj, int skill, int sk
 
 
 
-BOOL CObjBaseAttack::MissCheckPvP(LPOBJ lpObj , LPOBJ lpTargetObj, int skill, int skillSuccess, int magicsend, BOOL & bAllMiss, BYTE RFAttack)
+BOOL CObjBaseAttack::MissCheckPvP(CGameObject* lpObj , CGameObject* lpTargetObj, int skill, int skillSuccess, int magicsend, BOOL & bAllMiss, BYTE RFAttack)
 {
 	if (lpObj == NULL)
 	{
@@ -875,7 +875,7 @@ BOOL CObjBaseAttack::MissCheckPvP(LPOBJ lpObj , LPOBJ lpTargetObj, int skill, in
 	return TRUE;
 }
 
-int  CObjBaseAttack::GetTargetDefense(LPOBJ lpObj, LPOBJ lpTargetObj, int& MsgDamage, int& iOriginTargetDefense)
+int  CObjBaseAttack::GetTargetDefense(CGameObject* lpObj, CGameObject* lpTargetObj, int& MsgDamage, int& iOriginTargetDefense)
 {
 	int targetdefense = lpTargetObj->m_Defense;
 
@@ -973,9 +973,9 @@ int  CObjBaseAttack::GetTargetDefense(LPOBJ lpObj, LPOBJ lpTargetObj, int& MsgDa
 
 
 
-int  CObjBaseAttack::GetPartyMemberCount(LPOBJ lpObj)
+int  CObjBaseAttack::GetPartyMemberCount(CGameObject* lpObj)
 {
-	LPOBJ lpPartyObj;
+	CGameObject* lpPartyObj;
 	int partynum = lpObj->PartyNumber;
 
 	if ( ObjectMaxRange(partynum) == FALSE )
@@ -992,11 +992,11 @@ int  CObjBaseAttack::GetPartyMemberCount(LPOBJ lpObj)
 
 		if ( memberindex >= 0 )
 		{
-			lpPartyObj = &gObj[memberindex];
+			lpPartyObj = &gGameObjects[memberindex];
 
 			if ( lpObj->MapNumber == lpPartyObj->MapNumber )
 			{
-				int dis = gObjCalDistance(lpObj, &gObj[memberindex]);
+				int dis = gObjCalDistance(lpObj, &gGameObjects[memberindex]);
 				
 				if ( dis < MAX_PARTY_DISTANCE_EFFECT )
 				{

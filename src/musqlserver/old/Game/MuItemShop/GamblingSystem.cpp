@@ -4,7 +4,7 @@
 
 #include "StdAfx.h"
 #include "GamblingSystem.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "LargeRand.h"
 #include "DSProtocol.h"
 #include "Logging/Log.h"
@@ -216,7 +216,7 @@ BYTE CGamblingItemBag::GetGamblingSystemItem(int aIndex, BYTE btMapNumber, BYTE 
 	int iDropItemNum = 0;
 	int iDropItemRate = 0;
 	int iExOption = 0;
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	//LogAdd("GetGamblingSystemItem::GetBagCount -> %d", GetBagCount());
 

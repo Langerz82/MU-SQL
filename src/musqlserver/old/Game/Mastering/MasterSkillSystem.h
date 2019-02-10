@@ -317,16 +317,16 @@ class CMasterLevelSystem
 public:
 	CMasterLevelSystem(void);
 	virtual ~CMasterLevelSystem(void);
-	bool MasterLevelUp(LPOBJ lpObj, UINT64 addexp, int iMonsterType, const char* szEventType);
-	UINT64 gObjNextMLExpCal(LPOBJ lpObj);
-	bool IsMasterLevelUser(LPOBJ lpObj);
-	bool CheckMLGetExp(LPOBJ lpObj, LPOBJ lpTargetObj);
+	bool MasterLevelUp(CGameObject* lpObj, UINT64 addexp, int iMonsterType, const char* szEventType);
+	UINT64 gObjNextMLExpCal(CGameObject* lpObj);
+	bool IsMasterLevelUser(CGameObject* lpObj);
+	bool CheckMLGetExp(CGameObject* lpObj, CGameObject* lpTargetObj);
 	void SetExpTable();
 
-	void SendMLData(LPOBJ lpObj);
-	void InitData(LPOBJ lpObj);
-	int GetDieDecExpRate(LPOBJ lpObj);
-	int GetDieDecMoneyRate(LPOBJ lpObj);
+	void SendMLData(CGameObject* lpObj);
+	void InitData(CGameObject* lpObj);
+	int GetDieDecExpRate(CGameObject* lpObj);
+	int GetDieDecMoneyRate(CGameObject* lpObj);
 
 	UINT64 * gMasterExperience;
 };

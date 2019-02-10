@@ -2,7 +2,7 @@
 // EventMonSetBase.cpp
 #include "StdAfx.h"
 #include "EventMonSetBase.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "MapClass.h"
 #include "GameMain.h"
 #include "MapServerManager.h"
@@ -176,7 +176,7 @@ void CEventMonSetBase::SpawnMonster(boost::shared_ptr<EVENT_MONSTER_POSITION> lp
 	gObjSetMonster(result, lpSpotData->m_Type);
 	this->m_mapMonsterData.insert(std::pair<int, boost::shared_ptr<EVENT_MONSTER_DATA>>(result, lpMonsterData));
 
-	//sLog->outBasic("[Event Spawn] Set Monster (%d) (%d) (%d)(%d)(%d)", result, lpSpotData->m_Type, gObj[result].MapNumber, gObj[result].X, gObj[result].Y);
+	//sLog->outBasic("[Event Spawn] Set Monster (%d) (%d) (%d)(%d)(%d)", result, lpSpotData->m_Type, gGameObjects[result].MapNumber, gGameObjects[result].X, gGameObjects[result].Y);
 }
 
 void CEventMonSetBase::RegenMonster(int iIndex)
@@ -187,7 +187,7 @@ void CEventMonSetBase::RegenMonster(int iIndex)
 	}
 
 	std::map<int, boost::shared_ptr<EVENT_MONSTER_DATA>>::iterator Iter = this->m_mapMonsterData.find(iIndex);
-	LPOBJ lpObj = &gObj[iIndex];
+	CGameObject* lpObj = &gGameObjects[iIndex];
 
 	if (Iter->second->lpSpotData->m_DoSpawn == FALSE)
 	{
@@ -225,7 +225,7 @@ void CEventMonSetBase::DeleteAllMonsters()
 {
 	for (std::map<int, boost::shared_ptr<EVENT_MONSTER_DATA>>::iterator It = this->m_mapMonsterData.begin(); It != this->m_mapMonsterData.end(); It++)
 	{
-		//sLog->outBasic("[Event Spawn] Delete Monster (%d)(%d) (%d)(%d)(%d)", It->first,	gObj[It->first].Class, gObj[It->first].MapNumber, gObj[It->first].X, gObj[It->first].Y);
+		//sLog->outBasic("[Event Spawn] Delete Monster (%d)(%d) (%d)(%d)(%d)", It->first,	gGameObjects[It->first].Class, gGameObjects[It->first].MapNumber, gGameObjects[It->first].X, gGameObjects[It->first].Y);
 
 		gObjDel(It->first);
 		this->m_mapMonsterData.erase(It);
@@ -241,7 +241,7 @@ int CEventMonSetBase::SetPosMonster(int aIndex, int nMapNumber, int nBeginX, int
 		return false;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 
 	lpObj->m_PosNum = -1;
 	lpObj->MapNumber = nMapNumber;

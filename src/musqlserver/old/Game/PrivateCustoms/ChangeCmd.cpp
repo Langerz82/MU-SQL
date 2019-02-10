@@ -4,7 +4,7 @@
 #include "ChangeCmd.h"
 #include "ItemManagement/Item.h"
 #include "Logging/Log.h"
-#include "User/user.h"
+#include "User/CUserData.h"
 #include "DSProtocol.h"
 
 // joinmu private custom
@@ -89,12 +89,12 @@ int CChangeCmd::DoChange(int aIndex) // -1 - system off, 0 - no change made, > 0
 		return -1;
 	}
 
-	if (gObj[aIndex].Type != OBJ_USER)
+	if (gGameObjects[aIndex].Type != OBJ_USER)
 	{
 		return -1;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	CGameObject* lpObj = &gGameObjects[aIndex];
 	lpObj->ChaosLock = TRUE; // Lock Inventory
 
 	int iItemChangeCnt = 0;
