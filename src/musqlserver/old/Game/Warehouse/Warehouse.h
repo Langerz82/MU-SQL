@@ -15,7 +15,7 @@ class CWarehouse
 {
 public:
 
-	CWarehouse();
+	CWarehouse(DatabaseWorkerPool<MySQLConnection>* db);
 	~CWarehouse();
 
 	void Init();

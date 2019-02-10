@@ -7,7 +7,7 @@
 #include "ItemSerial.h"
 #include "ServerEngine.h"
 #include "MapServerManager.h"
-#include "Main.h"
+//#include "Main.h"
 #include "Utility/util.h"
 
 #define szModule "CoreDSProtocol"
@@ -144,7 +144,6 @@ void CDataServerProtocol::JGPGetCharList(int aIndex, SDHP_GETCHARLIST * aRecv)
 	}
 
 	QueryResult* res = this->m_AccDB->Fetch("SELECT MoveCnt,GameID1,GameID2,GameID3,GameID4,GameID5 FROM AccountCharacter WHERE Id='%s'", szAccountID);
-	this->m_AccDB->Fetch();
 
 	TCHAR CharName[5][11] = { 0 };
 	memset(CharName, 0x00, sizeof(CharName));

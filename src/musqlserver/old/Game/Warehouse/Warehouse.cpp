@@ -1,31 +1,22 @@
-#include "Warehouse/Warerhouse.h"
+#include "Warehouse.h"
 #include "giocp.h"
 #include "ItemSerial.h"
 #include "ServerEngine.h"
 #include "MapServerManager.h"
 #include "Utility/util.h"
+#include "Database/Database/MySQLConnection.h"
 
 using namespace std;
 
-
-CWarehouse::CWarehouse()
+CWarehouse::CWarehouse(DatabaseWorkerPool<MySQLConnection>* db): m_WareDB(db)
 {
 	InitializeCriticalSection(&this->m_WareDataCriti);
-	this->m_vtWarehouseData.clear();
+	m_vtWarehouseData.clear();
 }
 
 CWarehouse::~CWarehouse()
 {
 	DeleteCriticalSection(&this->m_WareDataCriti);
-}
-
-void CWarehouse::Init()
-{
-	if (FALSE)
-	{
-		sLog->outError("[ERROR] - DATA SERVER CANNOT CONNECT TO MSSQL");
-		return;
-	}
 }
 
 void CWarehouse::AddUserData(char * szAccountID)
@@ -49,7 +40,7 @@ void CWarehouse::AddUserData(char * szAccountID)
 	m_UserWareData->WarehouseOpenState = false;
 	m_UserWareData->LastChangeTick = GetTickCount();
 
-	m_vtWarehouseData->push_back(m_UserWareData);
+	m_vtWarehouseData.push_back(m_UserWareData);
 
 	LeaveCriticalSection(&this->m_WareDataCriti);
 }
@@ -224,10 +215,9 @@ void CWarehouse::DGGetWarehouseList(int aIndex, SDHP_GETWAREHOUSEDB * aRecv)
 	// This is the new method calls to DB API.
 	this->m_WareDB.ExecQuery("UPDATE warehouse set WHOpen = 1 WHERE AccountID='%s'", szAccountID);
 	QueryResult* result2 = this->m_WareDB.Fetch("SELECT Money, pw FROM warehouse WHERE AccountID='%s'", szAccountID);
-	Field* fields2 = result->Fetch();
 
-	pResult.Money = fields2[0].GetUInt32();
-	pResult.pw = fields2[1].GetUInt32();
+	pResult.Money = this->m_WareDB.GetAsInteger(0);
+	pResult.pw = this->m_WareDB.GetAsInteger(1);
 
 	char szTemp[128];
 
@@ -339,7 +329,6 @@ void CWarehouse::GDSetWarehouseMoney(int aIndex, SDHP_WAREHOUSEMONEY_SAVE * aRec
 	memcpy(szAccountID, aRecv->AccountID, 10);
 
 	this->m_WareDB.ExecQuery("UPDATE warehouse SET Money=%d WHERE AccountID='%s'", aRecv->Money, szAccountID);
-	//this->m_WareDB.Close();
 
 	LeaveCriticalSection(&this->m_WareDataCriti);
 }
