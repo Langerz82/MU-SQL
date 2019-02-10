@@ -811,8 +811,6 @@ void gObjCharTradeClear(LPGameObject &lpObj)
 
 void gObjCharZeroSet(LPGameObject &lpObj)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
-
 	memset(lpObj->Name, 0, MAX_ACCOUNT_LEN);
 
 	if (lpObj->Type == OBJ_USER)
