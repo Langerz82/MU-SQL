@@ -406,23 +406,20 @@ void CDataServerProtocol::JGCharDelRequest(int aIndex, SDHP_CHARDELETE * aRecv)
 
 	if (pResult.Result == 1)
 	{
-		this->m_AccDB->ExecQuery("EXEC IGC_DeleteCharacter '%s'", szName);
-		this->m_AccDB->Fetch();
-
-		int iQueryResult = this->m_AccDB->GetAsInteger("QueryResult");
-
+		this->m_AccDB->Fetch("CALL IGC_DeleteCharacter('%s');", szName);
+		int iQueryResult = this->m_AccDB->GetAsInteger(0);
 
 		if (iQueryResult == TRUE)
 		{
-			QueryResult* res = this->m_AccDB->Fetch("SELECT * FROM AccountCharacter WHERE Id='%s'", szAccountID);
+			QueryResult* res = this->m_AccDB->Fetch("SELECT GameID1,GameID2,GameID3,GameID4,GameID5 FROM AccountCharacter WHERE Id='%s'", szAccountID);
 			this->m_AccDB->Fetch();
 			TCHAR CharName[5][11] = { 0 };
 			memset(CharName, 0x00, sizeof(CharName));
-			this->m_AccDB->GetAsString("GameID1", CharName[0], sizeof(CharName[0]) - 1);
-			this->m_AccDB->GetAsString("GameID2", CharName[1], sizeof(CharName[0]) - 1);
-			this->m_AccDB->GetAsString("GameID3", CharName[2], sizeof(CharName[0]) - 1);
-			this->m_AccDB->GetAsString("GameID4", CharName[3], sizeof(CharName[0]) - 1);
-			this->m_AccDB->GetAsString("GameID5", CharName[4], sizeof(CharName[0]) - 1);
+			this->m_AccDB->GetAsString(0, CharName[0], sizeof(CharName[0]) - 1);
+			this->m_AccDB->GetAsString(1, CharName[1], sizeof(CharName[0]) - 1);
+			this->m_AccDB->GetAsString(2, CharName[2], sizeof(CharName[0]) - 1);
+			this->m_AccDB->GetAsString(3, CharName[3], sizeof(CharName[0]) - 1);
+			this->m_AccDB->GetAsString(4, CharName[4], sizeof(CharName[0]) - 1);
 			int iIndex;
 			for (iIndex = 0; iIndex < 5; iIndex++)
 			{
@@ -432,9 +429,7 @@ void CDataServerProtocol::JGCharDelRequest(int aIndex, SDHP_CHARDELETE * aRecv)
 				}
 			}
 
-
 			this->m_AccDB->ExecQuery("UPDATE AccountCharacter SET GameID%d=NULL WHERE Id='%s'", iIndex + 1, szAccountID);
-
 
 			sLog->outBasic("[%s] deleted character -> [%s]", szAccountID, szName);
 		}
@@ -466,21 +461,18 @@ void CDataServerProtocol::JGGetCharacterInfo(int aIndex, SDHP_DBCHARINFOREQUEST 
 	char AccountCharacter[5][11];
 	memset(AccountCharacter, 0x00, sizeof(AccountCharacter));
 
-	QueryResult* res = this->m_AccDB->Fetch("SELECT * FROM AccountCharacter WHERE Id = '%s'", szAccountID);
+	QueryResult* res = this->m_AccDB->Fetch("SELECT GameID1,GameID2,GameID3,GameID4,GameID5 FROM AccountCharacter WHERE Id = '%s'", szAccountID);
 
-	if (this->m_AccDB->Fetch() != SQL_NO_DATA)
+	if (res != NULL)
 	{
-		this->m_AccDB->GetAsString("GameID1", AccountCharacter[0], sizeof(AccountCharacter[0]) - 1);
-		this->m_AccDB->GetAsString("GameID2", AccountCharacter[1], sizeof(AccountCharacter[1]) - 1);
-		this->m_AccDB->GetAsString("GameID3", AccountCharacter[2], sizeof(AccountCharacter[2]) - 1);
-		this->m_AccDB->GetAsString("GameID4", AccountCharacter[3], sizeof(AccountCharacter[3]) - 1);
-		this->m_AccDB->GetAsString("GameID5", AccountCharacter[4], sizeof(AccountCharacter[4]) - 1);
-
+		this->m_AccDB->GetAsString(0, AccountCharacter[0], sizeof(AccountCharacter[0]) - 1);
+		this->m_AccDB->GetAsString(1, AccountCharacter[1], sizeof(AccountCharacter[1]) - 1);
+		this->m_AccDB->GetAsString(2, AccountCharacter[2], sizeof(AccountCharacter[2]) - 1);
+		this->m_AccDB->GetAsString(3, AccountCharacter[3], sizeof(AccountCharacter[3]) - 1);
+		this->m_AccDB->GetAsString(4, AccountCharacter[4], sizeof(AccountCharacter[4]) - 1);
 	}
 
-
 	bool charexist = false;
-
 	for (int i = 0; i < 5; i++)
 	{
 		if (!strcmp(AccountCharacter[i], szName))
@@ -501,37 +493,30 @@ void CDataServerProtocol::JGGetCharacterInfo(int aIndex, SDHP_DBCHARINFOREQUEST 
 	QueryResult* res = this->m_AccDB->Fetch("SELECT WarehouseExpansion FROM AccountCharacter WHERE Id = '%s'", szAccountID);
 	this->m_AccDB->Fetch();
 
-	WHExpansion = this->m_AccDB->GetAsInteger("WarehouseExpansion");
+	WHExpansion = this->m_AccDB->GetAsInteger(0);
 
-
-
+	QueryResult* res;
 	if (g_DSBattleCoreEnable == 1)
 	{
-		if (QueryResult* res = this->m_CharDB->Fetch("SELECT cLevel, mLevel, Class, LevelUpPoint, mlPoint, Experience, mlExperience, mlNextExp, Strength, Dexterity, Vitality, Energy, Money, Life, MaxLife, Mana, MaxMana, MapNumber, MapPosX, MapPosY, MapDir, PkCount, PkLevel, PkTime, CtlCode, Leadership, ChatLimitTime, FruitPoint, RESETS, Married, MarryName, InventoryExpansion, WinDuels, LoseDuels, BlockChatTime, PenaltyMask FROM Character WHERE Name='%s' AND AccountID='%s'", szName, szAccountID) == FALSE)
+		res = this->m_CharDB->Fetch("SELECT cLevel, mLevel, Class, LevelUpPoint, mlPoint, Experience, mlExperience, mlNextExp, Strength, Dexterity, Vitality, Energy, Money, Life, MaxLife, Mana, MaxMana, MapNumber, MapPosX, MapPosY, MapDir, PkCount, PkLevel, PkTime, CtlCode, Leadership, ChatLimitTime, FruitPoint, RESETS, Married, MarryName, InventoryExpansion, WinDuels, LoseDuels, BlockChatTime, PenaltyMask FROM Character WHERE Name='%s' AND AccountID='%s'", szName, szAccountID);
+		if (res == NULL)
 		{
-
 			return;
 		}
 	}
 	else
 	{
-		if (QueryResult* res = this->m_CharDB->Fetch("SELECT cLevel, mLevel, Class, LevelUpPoint, mlPoint, Experience, mlExperience, mlNextExp, Strength, Dexterity, Vitality, Energy, Money, Life, MaxLife, Mana, MaxMana, MapNumber, MapPosX, MapPosY, MapDir, PkCount, PkLevel, PkTime, CtlCode, Leadership, ChatLimitTime, FruitPoint, RESETS, Married, MarryName, InventoryExpansion, WinDuels, LoseDuels, BlockChatTime, PenaltyMask, Ruud FROM Character WHERE Name='%s' AND AccountID='%s'", szName, szAccountID) == FALSE)
+		res = this->m_CharDB->Fetch("SELECT cLevel, mLevel, Class, LevelUpPoint, mlPoint, Experience, mlExperience, mlNextExp, Strength, Dexterity, Vitality, Energy, Money, Life, MaxLife, Mana, MaxMana, MapNumber, MapPosX, MapPosY, MapDir, PkCount, PkLevel, PkTime, CtlCode, Leadership, ChatLimitTime, FruitPoint, RESETS, Married, MarryName, InventoryExpansion, WinDuels, LoseDuels, BlockChatTime, PenaltyMask, Ruud FROM Character WHERE Name='%s' AND AccountID='%s'", szName, szAccountID);
+		if (res == NULL)
 		{
-
 			return;
 		}
 	}
 
-	if (this->m_CharDB->Fetch() == SQL_NO_DATA)
-	{
-
-		return;
-	}
-
-	pResult.Level = (short)this->m_CharDB->GetAsInteger("cLevel");
-	pResult.mLevel = this->m_CharDB->GetAsInteger("mLevel");
-	pResult.Class = (BYTE)this->m_CharDB->GetAsInteger("Class");
-	pResult.LevelUpPoint = this->m_CharDB->GetAsInteger("LevelUpPoint");
+	pResult.Level = (short)this->m_CharDB->GetAsInteger(0);
+	pResult.mLevel = this->m_CharDB->GetAsInteger(1);
+	pResult.Class = (BYTE)this->m_CharDB->GetAsInteger(2);
+	pResult.LevelUpPoint = this->m_CharDB->GetAsInteger(3); // TODO
 	pResult.mlPoint = this->m_CharDB->GetAsInteger("mlPoint");
 	pResult.Exp = this->m_CharDB->GetAsInteger64("Experience");
 	pResult.mlExp = this->m_CharDB->GetAsInteger64("mlExperience");
@@ -565,11 +550,7 @@ void CDataServerProtocol::JGGetCharacterInfo(int aIndex, SDHP_DBCHARINFOREQUEST 
 	pResult.PenaltyMask = this->m_CharDB->GetAsInteger("PenaltyMask");
 	pResult.Married = this->m_CharDB->GetAsInteger("Married");
 
-	if (g_DSBattleCoreEnable == 1)
-	{
-		//pResult.Ruud = this->m_CharDB->GetAsInteger("Ruud");
-	}
-	else
+	if (g_DSBattleCoreEnable != 1)
 	{
 		pResult.Ruud = this->m_CharDB->GetAsInteger("Ruud");
 	}
@@ -597,14 +578,13 @@ void CDataServerProtocol::JGGetCharacterInfo(int aIndex, SDHP_DBCHARINFOREQUEST 
 	memset(btTemp, 0, sizeof(btTemp));
 
 	QueryResult* res = this->m_CharDB->Fetch("SELECT AuthorityMask, DATEDIFF(DAY, GETDATE(), Expiry) AS ExpirationTime FROM T_GMSystem WHERE Name='%s'", szName);
-
-	if (this->m_CharDB->Fetch() != SQL_NO_DATA)
+	if (res != NULL)
 	{
-		int Days = this->m_CharDB->GetAsInteger("ExpirationTime");
+		int Days = this->m_CharDB->GetAsInteger(1);
 
 		if (Days > 0)
 		{
-			pResult.GmCode = this->m_CharDB->GetAsInteger("AuthorityMask");
+			pResult.GmCode = this->m_CharDB->GetAsInteger(0);
 			pResult.GmExpDays = Days;
 		}
 		else
@@ -626,8 +606,8 @@ void CDataServerProtocol::JGGetCharacterInfo(int aIndex, SDHP_DBCHARINFOREQUEST 
 
 	this->m_AccDB->ExecQuery("UPDATE AccountCharacter SET GameIDC='%s' WHERE Id='%s'", szName, szAccountID);
 
-	this->m_WareUserData.AddUserData(szAccountID);
-	//DataSend(aIndex, (LPBYTE)&pResult, sizeof(pResult), __FUNCTION__);
+	this->m_WareUserData->AddUserData(szAccountID);
+	//DataSend(aIndex, (LPBYTE)&pResult, sizeof(pResult), __FUNCTION__); // TODO
 
 	if (pResult.result == 1)
 	{
@@ -636,20 +616,19 @@ void CDataServerProtocol::JGGetCharacterInfo(int aIndex, SDHP_DBCHARINFOREQUEST 
 		PHeadSetB((LPBYTE)&pSkillData, 0x60, sizeof(pSkillData));
 		pSkillData.aIndex = aRecv->Number;
 
-		QueryResult* res = this->m_OptionDataDB->Fetch("SELECT * FROM OptionData WHERE Name='%s'", szName);
+		QueryResult* res = this->m_OptionDataDB->Fetch("SELECT GameOption,Qkey,Wkey,Ekey,Rkey,ChatWindow,QWERLevel,EnableChangeMode FROM OptionData WHERE Name='%s'", szName);
 
-		if (this->m_OptionDataDB->Fetch() != SQL_NO_DATA)
+		if (res != NULL)
 		{
 			memcpy(pSkillData.Name, szName, 10);
-			pSkillData.GameOption = (BYTE)this->m_OptionDataDB->GetAsInteger("GameOption");
-			pSkillData.QkeyDefine = (BYTE)this->m_OptionDataDB->GetAsInteger("Qkey");
-			pSkillData.WkeyDefine = (BYTE)this->m_OptionDataDB->GetAsInteger("Wkey");
-			pSkillData.EkeyDefine = (BYTE)this->m_OptionDataDB->GetAsInteger("Ekey");
-			pSkillData.RkeyDefine = (BYTE)this->m_OptionDataDB->GetAsInteger("Rkey");
-			pSkillData.ChatWindow = (BYTE)this->m_OptionDataDB->GetAsInteger("ChatWindow");
-			pSkillData.QWERLevelDefine = this->m_OptionDataDB->GetAsInteger("QWERLevel");
-			pSkillData.EnableTransformMode = this->m_OptionDataDB->GetAsInteger("EnableChangeMode");
-
+			pSkillData.GameOption = (BYTE)this->m_OptionDataDB->GetAsInteger(0);
+			pSkillData.QkeyDefine = (BYTE)this->m_OptionDataDB->GetAsInteger(1);
+			pSkillData.WkeyDefine = (BYTE)this->m_OptionDataDB->GetAsInteger(2);
+			pSkillData.EkeyDefine = (BYTE)this->m_OptionDataDB->GetAsInteger(3);
+			pSkillData.RkeyDefine = (BYTE)this->m_OptionDataDB->GetAsInteger(4);
+			pSkillData.ChatWindow = (BYTE)this->m_OptionDataDB->GetAsInteger(5);
+			pSkillData.QWERLevelDefine = this->m_OptionDataDB->GetAsInteger(6);
+			pSkillData.EnableTransformMode = this->m_OptionDataDB->GetAsInteger(7);
 
 			BYTE btTemp[sizeof(pSkillData.SkillKeyBuffer)] = { 0 };
 			char szTemp[256];
@@ -658,12 +637,7 @@ void CDataServerProtocol::JGGetCharacterInfo(int aIndex, SDHP_DBCHARINFOREQUEST 
 			memcpy(pSkillData.SkillKeyBuffer, btTemp, 20);
 		}
 
-		else
-		{
-
-		}
-
-		//DataSend(aIndex, (LPBYTE)&pSkillData, sizeof(pSkillData), __FUNCTION__);
+		//DataSend(aIndex, (LPBYTE)&pSkillData, sizeof(pSkillData), __FUNCTION__); // TODO
 	}
 
 	MUBOT_SETTINGS_SEND pMuBot = { 0 };
@@ -675,7 +649,7 @@ void CDataServerProtocol::JGGetCharacterInfo(int aIndex, SDHP_DBCHARINFOREQUEST 
 	strcpy(pMuBot.szName, szName);
 	pMuBot.aIndex = aRecv->Number;
 	GetMuBotData(szName, &pMuBot);
-	//DataSend(aIndex, (LPBYTE)&pMuBot, sizeof(pMuBot), __FUNCTION__);
+	//DataSend(aIndex, (LPBYTE)&pMuBot, sizeof(pMuBot), __FUNCTION__); // TODO
 }
 
 void CDataServerProtocol::GJSetCharacterInfo(int aIndex, SDHP_DBCHAR_INFOSAVE * aRecv)
@@ -727,6 +701,8 @@ void CDataServerProtocol::GDUserItemSave(int aIndex, SDHP_DBCHAR_ITEMSAVE * aRec
 	this->m_CharDB->SetAsBinary(szTemp, aRecv->dbInventory, sizeof(aRecv->dbInventory));
 }
 
+/*
+// TODO
 void CDataServerProtocol::ItemSerialCreateRecv(int aIndex, SDHP_ITEMCREATE * aRecv)
 {
 	SDHP_ITEMCREATERECV pResult;
@@ -753,7 +729,8 @@ void CDataServerProtocol::ItemSerialCreateRecv(int aIndex, SDHP_ITEMCREATE * aRe
 	//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 }
 
-
+/*
+// TODO
 void CDataServerProtocol::PetItemSerialCreateRecv(int aIndex, SDHP_ITEMCREATE * aRecv)
 {
 	SDHP_ITEMCREATERECV pResult;
@@ -783,6 +760,7 @@ void CDataServerProtocol::PetItemSerialCreateRecv(int aIndex, SDHP_ITEMCREATE * 
 
 	//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 }
+*/
 
 void CDataServerProtocol::DGRecvPetItemInfo(int aIndex, SDHP_REQUEST_PETITEM_INFO * aRecv)
 {
@@ -806,7 +784,7 @@ void CDataServerProtocol::DGRecvPetItemInfo(int aIndex, SDHP_REQUEST_PETITEM_INF
 			QueryResult* res = this->m_PetDB->Fetch("SELECT Pet_Level, Pet_Exp FROM T_PetItem_Info WHERE ItemSerial=%I64d",
 				pRequestPetInfo->nSerial);
 
-			if (this->m_PetDB->Fetch() == SQL_NO_DATA)
+			if (res == NULL)
 			{
 
 				this->m_PetDB->ExecQuery("INSERT INTO T_PetItem_Info (ItemSerial, Pet_Level, Pet_Exp) VALUES (%I64d, %d, %I64d)",
@@ -815,11 +793,10 @@ void CDataServerProtocol::DGRecvPetItemInfo(int aIndex, SDHP_REQUEST_PETITEM_INF
 
 				QueryResult* res = this->m_PetDB->Fetch("SELECT Pet_Level, Pet_Exp FROM T_PetItem_Info WHERE ItemSerial=%I64d",
 					pRequestPetInfo->nSerial);
-				this->m_PetDB->Fetch();
 			}
 
-			pRecvPetInfo->Level = this->m_PetDB->GetAsInteger("Pet_Level");
-			pRecvPetInfo->Exp = this->m_PetDB->GetAsInteger64("Pet_Exp");
+			pRecvPetInfo->Level = this->m_PetDB->GetAsInteger(0);
+			pRecvPetInfo->Exp = this->m_PetDB->GetAsInteger64(1);
 			pRecvPetInfo->nPos = pRequestPetInfo->nPos;
 			pRecvPetInfo->nSerial = pRequestPetInfo->nSerial;
 
@@ -838,26 +815,24 @@ void CDataServerProtocol::DGRecvPetItemInfo(int aIndex, SDHP_REQUEST_PETITEM_INF
 			pRequestPetInfo = (Request_PetItem_Info *)((LPBYTE)aRecv + lOfs1);
 			pRecvPetInfo = (Recv_PetItem_Info *)((LPBYTE)cBUFFER + lOfs2);
 
-			this->m_PetDB->ExecQuery("EXEC IGC_BattleCore_LoadPetItemInfo %I64d, %d",
+			QueryResult* res = this->m_PetDB->Fetch("CALL IGC_BattleCore_LoadPetItemInfo (%I64d, %d);",
 				pRequestPetInfo->nSerial, aRecv->ServerCode);
 
-			if (this->m_PetDB->Fetch() == SQL_NO_DATA)
+			if (res == NULL)
 			{
 
-				this->m_PetDB->ExecQuery("EXEC IGC_BattleCore_SavePetItemInfo %I64d, %d, %d, %I64d",
+				this->m_PetDB->ExecQuery("CALL IGC_BattleCore_SavePetItemInfo (%I64d, %d, %d, %I64d)",
 					pRequestPetInfo->nSerial, aRecv->ServerCode, 1, 0);
 
 
-				this->m_PetDB->ExecQuery("EXEC IGC_BattleCore_LoadPetItemInfo %I64d, %d",
+				this->m_PetDB->ExecQuery("CALL IGC_BattleCore_LoadPetItemInfo (%I64d, %d)",
 					pRequestPetInfo->nSerial, aRecv->ServerCode);
-				this->m_PetDB->Fetch();
 			}
 
-			pRecvPetInfo->Level = this->m_PetDB->GetAsInteger("Pet_Level");
-			pRecvPetInfo->Exp = this->m_PetDB->GetAsInteger64("Pet_Exp");
+			pRecvPetInfo->Level = this->m_PetDB->GetAsInteger(0);
+			pRecvPetInfo->Exp = this->m_PetDB->GetAsInteger64(1);
 			pRecvPetInfo->nPos = pRequestPetInfo->nPos;
 			pRecvPetInfo->nSerial = pRequestPetInfo->nSerial;
-
 
 			pRecvPetInfoCount->nCount++;
 
@@ -867,12 +842,13 @@ void CDataServerProtocol::DGRecvPetItemInfo(int aIndex, SDHP_REQUEST_PETITEM_INF
 	}
 
 	PHeadSetW((LPBYTE)pRecvPetInfoCount, 0x56, sizeof(SDHP_RECV_PETITEM_INFO) + pRecvPetInfoCount->nCount * sizeof(Recv_PetItem_Info));
-	//pRecvPetInfoCount->nCount = aRecv->nCount;
+	pRecvPetInfoCount->nCount = aRecv->nCount;
 	pRecvPetInfoCount->InvenType = aRecv->InvenType;
 	pRecvPetInfoCount->Number = aRecv->Number;
 	memcpy(pRecvPetInfoCount->AccountID, szAccountID, 11);
 
 	//DataSend(aIndex, (LPBYTE)cBUFFER, sizeof(SDHP_RECV_PETITEM_INFO) + pRecvPetInfoCount->nCount * sizeof(Recv_PetItem_Info), __FUNCTION__);
+	// TODO
 }
 
 void CDataServerProtocol::GDSavePetItemInfo(int aIndex, SDHP_SAVE_PETITEM_INFO * aRecv)
@@ -895,7 +871,7 @@ void CDataServerProtocol::GDSavePetItemInfo(int aIndex, SDHP_SAVE_PETITEM_INFO *
 	{
 		for (int i = 0; i<aRecv->nCount; i++)
 		{
-			this->m_PetDB->ExecQuery("EXEC IGC_BattleCore_SavePetItemInfo %I64d, %d, %d, %I64d",
+			this->m_PetDB->ExecQuery("CALL IGC_BattleCore_SavePetItemInfo (%I64d, %d, %d, %I64d);",
 				pSavePetInfo[i].nSerial, aRecv->ServerCode, pSavePetInfo[i].Level, pSavePetInfo[i].Exp);
 
 		}
@@ -909,16 +885,13 @@ void CDataServerProtocol::DGOptionDataRecv(int aIndex, SDHP_SKILLKEYDATA * aRecv
 	memcpy(szName, aRecv->Name, 11);
 
 	QueryResult* res = this->m_OptionDataDB->Fetch("SELECT Name FROM OptionData WHERE Name='%s'", szName);
-
-	if (this->m_OptionDataDB->Fetch() == SQL_NO_DATA)
+	if (res == NULL)
 	{
-
 		this->m_OptionDataDB->ExecQuery("INSERT INTO OptionData (Name, GameOption, Qkey, Wkey, Ekey, ChatWindow, Rkey, QWERLevel, EnableChangeMode) VALUES ('%s', %d, %d, %d, %d, %d, %d, %d, %d)",
 			szName, aRecv->GameOption, aRecv->QkeyDefine, aRecv->WkeyDefine, aRecv->EkeyDefine, aRecv->ChatWindow, aRecv->RkeyDefine, aRecv->QWERLevelDefine, aRecv->EnableTransformMode);
 	}
 	else
 	{
-
 		this->m_OptionDataDB->ExecQuery("UPDATE OptionData SET GameOption=%d, Qkey=%d, Wkey=%d, Ekey=%d, ChatWindow=%d, Rkey=%d, QWERLevel=%d, EnableChangeMode=%d WHERE Name='%s'",
 			aRecv->GameOption, aRecv->QkeyDefine, aRecv->WkeyDefine, aRecv->EkeyDefine, aRecv->ChatWindow, aRecv->RkeyDefine, aRecv->QWERLevelDefine, aRecv->EnableTransformMode, szName);
 	}
@@ -949,7 +922,7 @@ void CDataServerProtocol::GDDeleteTempUserInfo(int aIndex, SDHP_DELETE_TEMPUSERI
 			&& g_Server[i].m_Type == g_Server[aIndex].m_Type
 			&& g_Server[i].m_ServerCode == aRecv->ServerCode)
 		{
-			//DataSend(i, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+			//DataSend(i, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__); // TODO
 			return;
 		}
 	}
@@ -970,54 +943,53 @@ void CDataServerProtocol::GS_DGAnsCastleInitData(int aIndex, CSP_REQ_CSINITDATA 
 
 	int iCount = 0;
 
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_GetCastleTotalInfo %d, %d", aRecv->wMapSvrNum, aRecv->iCastleEventCycle) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA) {
+	QueryResult* res = this->m_CastleDB->ExecQuery("CALL WZ_CS_GetCastleTotalInfo (%d, %d)", aRecv->wMapSvrNum, aRecv->iCastleEventCycle);
+	if (res != NULL) {
 
 		lpMsg->iResult = TRUE;
 
-		lpMsg->wStartYear = (WORD)this->m_CastleDB->GetAsInteger("SYEAR");
-		lpMsg->btStartMonth = (BYTE)this->m_CastleDB->GetAsInteger("SMONTH");
-		lpMsg->btStartDay = (BYTE)this->m_CastleDB->GetAsInteger("SDAY");
-		lpMsg->wEndYear = (WORD)this->m_CastleDB->GetAsInteger("EYEAR");
-		lpMsg->btEndMonth = (BYTE)this->m_CastleDB->GetAsInteger("EMONTH");
-		lpMsg->btEndDay = (BYTE)this->m_CastleDB->GetAsInteger("EDAY");
-		lpMsg->btIsSiegeGuildList = (BYTE)this->m_CastleDB->GetAsInteger("SIEGE_GUILDLIST_SETTED");
-		lpMsg->btIsSiegeEnded = (BYTE)this->m_CastleDB->GetAsInteger("SIEGE_ENDED");
-		lpMsg->btIsCastleOccupied = (BYTE)this->m_CastleDB->GetAsInteger("CASTLE_OCCUPY");
-		lpMsg->i64CastleMoney = this->m_CastleDB->GetAsInteger64("MONEY");
-		lpMsg->iTaxRateChaos = this->m_CastleDB->GetAsInteger("TAX_RATE_CHAOS");
-		lpMsg->iTaxRateStore = this->m_CastleDB->GetAsInteger("TAX_RATE_STORE");
-		lpMsg->iTaxHuntZone = this->m_CastleDB->GetAsInteger("TAX_HUNT_ZONE");
-		lpMsg->iFirstCreate = this->m_CastleDB->GetAsInteger("FIRST_CREATE");
-		this->m_CastleDB->GetAsString("OWNER_GUILD", lpMsg->szCastleOwnGuild, sizeof(lpMsg->szCastleOwnGuild));
+		lpMsg->wStartYear = (WORD)this->m_CastleDB->GetAsInteger(0);
+		lpMsg->btStartMonth = (BYTE)this->m_CastleDB->GetAsInteger(1);
+		lpMsg->btStartDay = (BYTE)this->m_CastleDB->GetAsInteger(2);
+		lpMsg->wEndYear = (WORD)this->m_CastleDB->GetAsInteger(3);
+		lpMsg->btEndMonth = (BYTE)this->m_CastleDB->GetAsInteger(4);
+		lpMsg->btEndDay = (BYTE)this->m_CastleDB->GetAsInteger(5);
+		lpMsg->btIsSiegeGuildList = (BYTE)this->m_CastleDB->GetAsInteger(6);
+		lpMsg->btIsSiegeEnded = (BYTE)this->m_CastleDB->GetAsInteger(7);
+		lpMsg->btIsCastleOccupied = (BYTE)this->m_CastleDB->GetAsInteger(8);
+		lpMsg->i64CastleMoney = this->m_CastleDB->GetAsInteger64(9);
+		lpMsg->iTaxRateChaos = this->m_CastleDB->GetAsInteger(10);
+		lpMsg->iTaxRateStore = this->m_CastleDB->GetAsInteger(11);
+		lpMsg->iTaxHuntZone = this->m_CastleDB->GetAsInteger(12);
+		lpMsg->iFirstCreate = this->m_CastleDB->GetAsInteger(13);
+		this->m_CastleDB->GetAsString(14, lpMsg->szCastleOwnGuild, sizeof(lpMsg->szCastleOwnGuild));
 
 
-
-		if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_GetCastleNpcInfo %d", aRecv->wMapSvrNum) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA) {
+		QueryResult* res2 = this->m_CastleDB->Fetch("CALL WZ_CS_GetCastleNpcInfo(%d);", aRecv->wMapSvrNum);
+		if (res2 != NULL) {
 			do
 			{
-				lpMsgBody[iCount].iNpcNumber = this->m_CastleDB->GetAsInteger("NPC_NUMBER");
-				lpMsgBody[iCount].iNpcIndex = this->m_CastleDB->GetAsInteger("NPC_INDEX");
-				lpMsgBody[iCount].iNpcDfLevel = this->m_CastleDB->GetAsInteger("NPC_DF_LEVEL");
-				lpMsgBody[iCount].iNpcRgLevel = this->m_CastleDB->GetAsInteger("NPC_RG_LEVEL");
-				lpMsgBody[iCount].iNpcMaxHp = this->m_CastleDB->GetAsInteger("NPC_MAXHP");
-				lpMsgBody[iCount].iNpcHp = this->m_CastleDB->GetAsInteger("NPC_HP");
-				lpMsgBody[iCount].btNpcX = this->m_CastleDB->GetAsInteger("NPC_X");
-				lpMsgBody[iCount].btNpcY = this->m_CastleDB->GetAsInteger("NPC_Y");
-				lpMsgBody[iCount].btNpcDIR = this->m_CastleDB->GetAsInteger("NPC_DIR");
-			} while ((iCount++) < MAX_CS_NPC && this->m_CastleDB->Fetch() != SQL_NO_DATA);
+				lpMsgBody[iCount].iNpcNumber = this->m_CastleDB->GetAsInteger(0);
+				lpMsgBody[iCount].iNpcIndex = this->m_CastleDB->GetAsInteger(1);
+				lpMsgBody[iCount].iNpcDfLevel = this->m_CastleDB->GetAsInteger(2);
+				lpMsgBody[iCount].iNpcRgLevel = this->m_CastleDB->GetAsInteger(3);
+				lpMsgBody[iCount].iNpcMaxHp = this->m_CastleDB->GetAsInteger(4);
+				lpMsgBody[iCount].iNpcHp = this->m_CastleDB->GetAsInteger(5);
+				lpMsgBody[iCount].btNpcX = this->m_CastleDB->GetAsInteger(6);
+				lpMsgBody[iCount].btNpcY = this->m_CastleDB->GetAsInteger(7);
+				lpMsgBody[iCount].btNpcDIR = this->m_CastleDB->GetAsInteger(8);
+			} while ((iCount++) < MAX_CS_NPC && this->m_CastleDB->m_Result-> != SQL_NO_DATA); // TODO Iterating through a table.
 
 			lpMsg->iCount = iCount;
 		}
 	}
-
-
 
 	int size = sizeof(CSP_ANS_CSINITDATA) + (sizeof(CSP_CSINITDATA)*iCount);
 
 	lpMsg->h.sizeH = SET_NUMBERH(size);
 	lpMsg->h.sizeL = SET_NUMBERL(size);
 
-	//DataSend(aIndex, (PBYTE)SendData, size, __FUNCTION__);
+	//DataSend(aIndex, (PBYTE)SendData, size, __FUNCTION__); // TODO
 }
 
 void CDataServerProtocol::GS_DGAnsOwnerGuildMaster(int aIndex, CSP_REQ_OWNERGUILDMASTER * aRecv)
@@ -1033,15 +1005,16 @@ void CDataServerProtocol::GS_DGAnsOwnerGuildMaster(int aIndex, CSP_REQ_OWNERGUIL
 	pMsg.wMapSvrNum = aRecv->wMapSvrNum;
 	pMsg.iIndex = aRecv->iIndex;
 
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_GetOwnerGuildMaster %d", aRecv->wMapSvrNum) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
+	QueryResult* res = this->m_CastleDB->Fetch("CALL WZ_CS_GetOwnerGuildMaster(0)", aRecv->wMapSvrNum);
+	if (res != NULL)
 	{
-		pMsg.iResult = this->m_CastleDB->GetAsInteger("QueryResult");
-		this->m_CastleDB->GetAsString("OwnerGuild", pMsg.szCastleOwnGuild, sizeof(pMsg.szCastleOwnGuild));
-		this->m_CastleDB->GetAsString("OwnerGuildMaster", pMsg.szCastleOwnGuildMaster, sizeof(pMsg.szCastleOwnGuildMaster));
+		pMsg.iResult = this->m_CastleDB->GetAsInteger(0);
+		this->m_CastleDB->GetAsString(1, pMsg.szCastleOwnGuild, sizeof(pMsg.szCastleOwnGuild));
+		this->m_CastleDB->GetAsString(2, pMsg.szCastleOwnGuildMaster, sizeof(pMsg.szCastleOwnGuildMaster));
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__); // TODO
 }
 
 void CDataServerProtocol::GS_DGAnsCastleNpcBuy(int aIndex, CSP_REQ_NPCBUY * aRecv)
@@ -1060,14 +1033,13 @@ void CDataServerProtocol::GS_DGAnsCastleNpcBuy(int aIndex, CSP_REQ_NPCBUY * aRec
 	pMsg.iNpcIndex = aRecv->iNpcIndex;
 	pMsg.iNpcNumber = aRecv->iNpcNumber;
 
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_ReqNpcBuy %d, %d, %d, %d, %d, %d, %d, %d, %d, %d",
+	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ReqNpcBuy(%d, %d, %d, %d, %d, %d, %d, %d, %d, %d)",
 		aRecv->wMapSvrNum, aRecv->iNpcNumber, aRecv->iNpcIndex, aRecv->iNpcDfLevel, aRecv->iNpcRgLevel, aRecv->iNpcMaxHp, aRecv->iNpcHp, aRecv->btNpcX, aRecv->btNpcY, aRecv->btNpcDIR) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 	{
-		pMsg.iResult = this->m_CastleDB->GetAsInteger("QueryResult");
+		pMsg.iResult = this->m_CastleDB->GetAsInteger(0);
 	}
 
-
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__); // TODO
 }
 
 void CDataServerProtocol::GS_DGAnsCastleNpcRepair(int aIndex, CSP_REQ_NPCREPAIR * aRecv)
@@ -1086,13 +1058,12 @@ void CDataServerProtocol::GS_DGAnsCastleNpcRepair(int aIndex, CSP_REQ_NPCREPAIR 
 	pMsg.iNpcNumber = aRecv->iNpcNumber;
 	pMsg.iRepairCost = aRecv->iRepairCost;
 
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_ReqNpcRepair %d, %d, %d", aRecv->wMapSvrNum, aRecv->iNpcNumber, aRecv->iNpcIndex) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
+	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ReqNpcRepair (%d, %d, %d);", aRecv->wMapSvrNum, aRecv->iNpcNumber, aRecv->iNpcIndex) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 	{
-		pMsg.iResult = this->m_CastleDB->GetAsInteger("QueryResult");
-		pMsg.iNpcHpl = this->m_CastleDB->GetAsInteger("NPC_HP");
-		pMsg.iNpcMaxHp = this->m_CastleDB->GetAsInteger("NPC_MAXHP");
+		pMsg.iResult = this->m_CastleDB->GetAsInteger(0);
+		pMsg.iNpcHpl = this->m_CastleDB->GetAsInteger(1);
+		pMsg.iNpcMaxHp = this->m_CastleDB->GetAsInteger(2);
 	}
-
 
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
@@ -1116,14 +1087,13 @@ void CDataServerProtocol::GS_DGAnsCastleNpcUpgrade(int aIndex, CSP_REQ_NPCUPGRAD
 	pMsg.iNpcUpType = aRecv->iNpcUpType;
 	pMsg.iNpcUpValue = aRecv->iNpcUpValue;
 
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_ReqNpcUpgrade %d, %d, %d, %d, %d",
+	if (this->m_CastleDB->Fetch("CALL WZ_CS_ReqNpcUpgrade(%d, %d, %d, %d, %d);",
 		aRecv->wMapSvrNum, aRecv->iNpcNumber, aRecv->iNpcIndex, aRecv->iNpcUpType, aRecv->iNpcUpValue) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 	{
-		pMsg.iResult = this->m_CastleDB->GetAsInteger("QueryResult");
+		pMsg.iResult = this->m_CastleDB->GetAsInteger(0);
 	}
 
-
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__); // TODO
 }
 
 void CDataServerProtocol::GS_DGAnsTaxInfo(int aIndex, CSP_REQ_TAXINFO * aRecv)
@@ -1139,13 +1109,14 @@ void CDataServerProtocol::GS_DGAnsTaxInfo(int aIndex, CSP_REQ_TAXINFO * aRecv)
 	pMsg.iIndex = aRecv->iIndex;
 	pMsg.wMapSvrNum = aRecv->wMapSvrNum;
 
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_GetCastleTaxInfo %d", aRecv->wMapSvrNum) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA) {
+	QueryResult* res = this->m_CastleDB->Fetch("CALL WZ_CS_GetCastleTaxInfo(%d);", aRecv->wMapSvrNum);
+	if (res != NULL) {
 		pMsg.iResult = 1;
 
-		pMsg.i64CastleMoney = this->m_CastleDB->GetAsInteger64("MONEY");
-		pMsg.iTaxRateChaos = this->m_CastleDB->GetAsInteger("TAX_RATE_CHAOS");
-		pMsg.iTaxRateStore = this->m_CastleDB->GetAsInteger("TAX_RATE_STORE");
-		pMsg.iTaxHuntZone = this->m_CastleDB->GetAsInteger("TAX_HUNT_ZONE");
+		pMsg.i64CastleMoney = this->m_CastleDB->GetAsInteger64(0);
+		pMsg.iTaxRateChaos = this->m_CastleDB->GetAsInteger(1);
+		pMsg.iTaxRateStore = this->m_CastleDB->GetAsInteger(2);
+		pMsg.iTaxHuntZone = this->m_CastleDB->GetAsInteger(3);
 	}
 
 
@@ -1165,17 +1136,21 @@ void CDataServerProtocol::GS_DGAnsTaxRateChange(int aIndex, CSP_REQ_TAXRATECHANG
 	pMsg.iIndex = aRecv->iIndex;
 	pMsg.wMapSvrNum = aRecv->wMapSvrNum;
 
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_ModifyTaxRate %d, %d, %d",
-		aRecv->wMapSvrNum, aRecv->iTaxKind, aRecv->iTaxRate) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
+	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ModifyTaxRate(%d, %d, %d)",
+		aRecv->wMapSvrNum, aRecv->iTaxKind, aRecv->iTaxRate) != NULL)
 	{
-		pMsg.iResult = this->m_CastleDB->GetAsInteger("QueryResult");
-		pMsg.iTaxKind = this->m_CastleDB->GetAsInteger("TaxKind");
-		pMsg.iTaxRate = this->m_CastleDB->GetAsInteger("TaxRate");
+		pMsg.iResult = this->m_CastleDB->GetAsInteger(0);
+		pMsg.iTaxKind = this->m_CastleDB->GetAsInteger(1);
+		pMsg.iTaxRate = this->m_CastleDB->GetAsInteger(2);
 	}
-
 
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
+
+// TODO - Fix all below here!!!!!!!!!!!!!!!!!!!!!
+///
+///
+///
 
 void CDataServerProtocol::GS_DGAnsCastleMoneyChange(int aIndex, CSP_REQ_MONEYCHANGE * aRecv)
 {
@@ -1191,7 +1166,7 @@ void CDataServerProtocol::GS_DGAnsCastleMoneyChange(int aIndex, CSP_REQ_MONEYCHA
 	pMsg.wMapSvrNum = aRecv->wMapSvrNum;
 	pMsg.iMoneyChanged = aRecv->iMoneyChanged;
 
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_ModifyMoney %d, %d", aRecv->wMapSvrNum, aRecv->iMoneyChanged) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
+	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ModifyMoney %d, %d", aRecv->wMapSvrNum, aRecv->iMoneyChanged) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 	{
 		pMsg.iResult = this->m_CastleDB->GetAsInteger("QueryResult");
 		pMsg.i64CastleMoney = this->m_CastleDB->GetAsInteger64("MONEY");
@@ -1221,7 +1196,7 @@ void CDataServerProtocol::GS_DGAnsSiegeDateChange(int aIndex, CSP_REQ_SDEDCHANGE
 	pMsg.btEndMonth = aRecv->btEndMonth;
 	pMsg.btEndDay = aRecv->btEndDay;
 
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_ModifyCastleSchedule %d, '%d-%d-%d 00:00:00', '%d-%d-%d 00:00:00'",
+	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ModifyCastleSchedule %d, '%d-%d-%d 00:00:00', '%d-%d-%d 00:00:00'",
 		aRecv->wMapSvrNum, aRecv->wStartYear, aRecv->btStartMonth, aRecv->btStartDay,
 		aRecv->wEndYear, aRecv->btEndMonth, aRecv->btEndDay) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 	{
@@ -1248,7 +1223,7 @@ void CDataServerProtocol::GS_DGAnsGuildMarkRegInfo(int aIndex, CSP_REQ_GUILDREGI
 	char szGuildName[9] = { 0 };
 	memcpy(szGuildName, aRecv->szGuildName, 8);
 
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_GetGuildMarkRegInfo %d, '%s'", aRecv->wMapSvrNum, szGuildName) == TRUE)
+	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_GetGuildMarkRegInfo %d, '%s'", aRecv->wMapSvrNum, szGuildName) == TRUE)
 	{
 		if (this->m_CastleDB->Fetch() == SQL_NO_DATA)
 		{
@@ -1282,7 +1257,7 @@ void CDataServerProtocol::GS_DGAnsSiegeEndedChange(int aIndex, CSP_REQ_SIEGEENDC
 	pMsg.wMapSvrNum = aRecv->wMapSvrNum;
 	pMsg.bIsSiegeEnded = aRecv->bIsSiegeEnded;
 
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_ModifySiegeEnd %d, %d", aRecv->wMapSvrNum, aRecv->bIsSiegeEnded) == TRUE && this->m_CastleDB->Fetch())
+	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ModifySiegeEnd %d, %d", aRecv->wMapSvrNum, aRecv->bIsSiegeEnded) == TRUE && this->m_CastleDB->Fetch())
 	{
 		pMsg.iResult = this->m_CastleDB->GetAsInteger("QueryResult");
 	}
@@ -1309,7 +1284,7 @@ void CDataServerProtocol::GS_DGAnsCastleOwnerChange(int aIndex, CSP_REQ_CASTLEOW
 	memcpy(szOwnerGuildName, aRecv->szOwnerGuildName, 0x08);
 	memcpy(pMsg.szOwnerGuildName, aRecv->szOwnerGuildName, 0x08);
 
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_ModifyCastleOwnerInfo %d, %d, '%s'", aRecv->wMapSvrNum, aRecv->bIsCastleOccupied, szOwnerGuildName) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
+	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ModifyCastleOwnerInfo %d, %d, '%s'", aRecv->wMapSvrNum, aRecv->bIsCastleOccupied, szOwnerGuildName) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 	{
 		pMsg.iResult = this->m_CastleDB->GetAsInteger("QueryResult");
 	}
@@ -1336,7 +1311,7 @@ void CDataServerProtocol::GS_DGAnsRegAttackGuild(int aIndex, CSP_REQ_REGATTACKGU
 	memcpy(szEnemyGuildName, aRecv->szEnemyGuildName, 0x08);
 	memcpy(pMsg.szEnemyGuildName, aRecv->szEnemyGuildName, 0x08);
 
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_ReqRegAttackGuild %d, '%s'", aRecv->wMapSvrNum, szEnemyGuildName) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
+	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ReqRegAttackGuild %d, '%s'", aRecv->wMapSvrNum, szEnemyGuildName) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 	{
 		pMsg.iResult = this->m_CastleDB->GetAsInteger("QueryResult");
 	}
@@ -1357,7 +1332,7 @@ void CDataServerProtocol::GS_DGAnsRestartCastleState(int aIndex, CSP_REQ_CASTLES
 
 	pMsg.wMapSvrNum = aRecv->wMapSvrNum;
 
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_ResetCastleSiege %d", aRecv->wMapSvrNum) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
+	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ResetCastleSiege %d", aRecv->wMapSvrNum) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 	{
 		pMsg.iResult = this->m_CastleDB->GetAsInteger("QueryResult");
 	}
@@ -1437,7 +1412,7 @@ void CDataServerProtocol::GS_DGAnsRegGuildMark(int aIndex, CSP_REQ_GUILDREGMARK 
 	memcpy(szGuildName, aRecv->szGuildName, 0x08);
 	memcpy(pMsg.szGuildName, aRecv->szGuildName, 0x08);
 
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_ReqRegGuildMark %d, '%s'", aRecv->wMapSvrNum, szGuildName) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
+	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ReqRegGuildMark %d, '%s'", aRecv->wMapSvrNum, szGuildName) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 	{
 		pMsg.iResult = this->m_CastleDB->GetAsInteger("QueryResult");
 		pMsg.iRegMarkCount = this->m_CastleDB->GetAsInteger("REG_MARKS");
@@ -1466,7 +1441,7 @@ void CDataServerProtocol::GS_DGAnsGuildMarkReset(int aIndex, CSP_REQ_GUILDRESETM
 	memcpy(szGuildName, aRecv->szGuildName, 0x08);
 	memcpy(pMsg.szGuildName, aRecv->szGuildName, 0x08);
 
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_ModifyGuildMarkReset %d, '%s'", aRecv->wMapSvrNum, szGuildName) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
+	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ModifyGuildMarkReset %d, '%s'", aRecv->wMapSvrNum, szGuildName) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 	{
 		pMsg.iResult = this->m_CastleDB->GetAsInteger("QueryResult");
 		pMsg.iRegMarkCount = this->m_CastleDB->GetAsInteger("DEL_MARKS");
@@ -1496,7 +1471,7 @@ void CDataServerProtocol::GS_DGAnsGuildSetGiveUp(int aIndex, CSP_REQ_GUILDSETGIV
 	memcpy(szGuildName, aRecv->szGuildName, 0x08);
 	memcpy(pMsg.szGuildName, aRecv->szGuildName, 0x08);
 
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_ModifyGuildGiveUp %d, '%s', %d", aRecv->wMapSvrNum, szGuildName, aRecv->bIsGiveUp) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
+	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ModifyGuildGiveUp %d, '%s', %d", aRecv->wMapSvrNum, szGuildName, aRecv->bIsGiveUp) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 	{
 		pMsg.iResult = this->m_CastleDB->GetAsInteger("QeuryResult");
 		pMsg.iRegMarkCount = this->m_CastleDB->GetAsInteger("DEL_MARKS");
@@ -1520,7 +1495,7 @@ void CDataServerProtocol::GS_DGAnsNpcRemove(int aIndex, CSP_REQ_NPCREMOVE * aRec
 	pMsg.iNpcIndex = aRecv->iNpcIndex;
 	pMsg.iNpcNumber = aRecv->iNpcNumber;
 
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_ReqNpcRemove %d, %d, %d", aRecv->wMapSvrNum, aRecv->iNpcNumber, aRecv->iNpcIndex) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
+	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ReqNpcRemove %d, %d, %d", aRecv->wMapSvrNum, aRecv->iNpcNumber, aRecv->iNpcIndex) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 	{
 		pMsg.iResult = this->m_CastleDB->GetAsInteger("QueryResult");
 	}
@@ -1575,7 +1550,7 @@ void CDataServerProtocol::GS_DGAnsCastleTributeMoney(int aIndex, CSP_REQ_CASTLET
 	{
 		pMsg.h.size = sizeof(CSP_ANS_MONEYCHANGE);
 
-		if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_ModifyMoney %d, %d", aRecv->wMapSvrNum, aRecv->iCastleTributeMoney) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
+		if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ModifyMoney %d, %d", aRecv->wMapSvrNum, aRecv->iCastleTributeMoney) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 		{
 			pMsg.iResult = this->m_CastleDB->GetAsInteger("QueryResult");
 			pMsg.i64CastleMoney = this->m_CastleDB->GetAsInteger64("MONEY");
@@ -1598,7 +1573,7 @@ void CDataServerProtocol::GS_DGAnsResetCastleTaxInfo(int aIndex, CSP_REQ_RESETCA
 
 	pMsg.wMapSvrNum = aRecv->wMapSvrNum;
 
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_ResetCastleTaxInfo %d", aRecv->wMapSvrNum) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
+	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ResetCastleTaxInfo %d", aRecv->wMapSvrNum) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 	{
 		pMsg.iResult = this->m_CastleDB->GetAsInteger("QueryResult");
 	}
@@ -1619,7 +1594,7 @@ void CDataServerProtocol::GS_DGAnsResetSiegeGuildInfo(int aIndex, CSP_REQ_RESETS
 
 	pMsg.wMapSvrNum = aRecv->wMapSvrNum;
 
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_ResetSiegeGuildInfo %d", aRecv->wMapSvrNum) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
+	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ResetSiegeGuildInfo %d", aRecv->wMapSvrNum) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 	{
 		pMsg.iResult = this->m_CastleDB->GetAsInteger("QueryResult");
 	}
@@ -1640,7 +1615,7 @@ void CDataServerProtocol::GS_DGAnsResetRegSiegeInfo(int aIndex, CSP_REQ_RESETREG
 
 	pMsg.wMapSvrNum = aRecv->wMapSvrNum;
 
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_ResetRegSiegeInfo %d", aRecv->wMapSvrNum) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
+	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ResetRegSiegeInfo %d", aRecv->wMapSvrNum) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 	{
 		pMsg.iResult = this->m_CastleDB->GetAsInteger("QueryResult");
 	}
@@ -1664,7 +1639,7 @@ void CDataServerProtocol::GS_DGAnsAllGuildMarkRegInfo(int aIndex, CSP_REQ_ALLGUI
 	lpMsg->wMapSvrNum = aRecv->wMapSvrNum;
 	lpMsg->iCount = 0;
 	int iCount = 0;
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_GetAllGuildMarkRegInfo %d", aRecv->wMapSvrNum) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
+	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_GetAllGuildMarkRegInfo %d", aRecv->wMapSvrNum) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 	{
 		do
 		{
@@ -1706,7 +1681,7 @@ void CDataServerProtocol::GS_DGAnsFirstCreateNPC(int aIndex, CSP_REQ_NPCSAVEDATA
 			pMsg.iResult = 1;
 
 
-			if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_ReqNpcBuy %d, %d, %d, %d, %d, %d, %d, %d, %d, %d",
+			if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ReqNpcBuy %d, %d, %d, %d, %d, %d, %d, %d, %d, %d",
 				aRecv->wMapSvrNum, lpMsgBody[i].iNpcNumber, lpMsgBody[i].iNpcIndex,
 				lpMsgBody[i].iNpcDfLevel, lpMsgBody[i].iNpcRgLevel, lpMsgBody[i].iNpcMaxHp,
 				lpMsgBody[i].iNpcHp, lpMsgBody[i].btNpcX, lpMsgBody[i].btNpcY, lpMsgBody[i].btNpcDIR) != TRUE)
@@ -1735,7 +1710,7 @@ void CDataServerProtocol::GS_DGAnsCalcRegGuildList(int aIndex, CSP_REQ_CALCREGGU
 
 	int iCount = 0;
 
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_GetCalcRegGuildList %d", aRecv->wMapSvrNum) == TRUE)
+	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_GetCalcRegGuildList %d", aRecv->wMapSvrNum) == TRUE)
 	{
 		lpMsg->iResult = TRUE;
 
@@ -1784,7 +1759,7 @@ void CDataServerProtocol::GS_DGAnsCsGulidUnionInfo(int aIndex, CSP_REQ_CSGUILDUN
 		szGuildName[8] = 0;
 		memcpy(szGuildName, aRecvBody[i].szGuildName, 8);
 
-		if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_GetCsGuildUnionInfo '%s'", szGuildName) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
+		if (this->m_CastleDB->ExecQuery("CALL WZ_CS_GetCsGuildUnionInfo '%s'", szGuildName) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 		{
 			do
 			{
@@ -1828,7 +1803,7 @@ void CDataServerProtocol::GS_DGAnsCsSaveTotalGuildInfo(int aIndex, CSP_REQ_CSSAV
 		szGuildName[8] = 0;
 		memcpy(szGuildName, lpMsgBody[i].szGuildName, 8);
 
-		if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_SetSiegeGuildInfo %d, '%s', %d, %d, %d",
+		if (this->m_CastleDB->ExecQuery("CALL WZ_CS_SetSiegeGuildInfo %d, '%s', %d, %d, %d",
 			aRecv->wMapSvrNum, szGuildName, lpMsgBody[i].iCsGuildID, lpMsgBody[i].iGuildInvolved, lpMsgBody[i].iGuildScore) == TRUE)
 		{
 
@@ -1856,7 +1831,7 @@ void CDataServerProtocol::GS_DGAnsCsLoadTotalGuildInfo(int aIndex, CSP_REQ_CSLOA
 
 	int iCount = 0;
 
-	if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_GetSiegeGuildInfo %d", aRecv->wMapSvrNum) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
+	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_GetSiegeGuildInfo %d", aRecv->wMapSvrNum) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 	{
 		lpMsg->iResult = TRUE;
 		do
@@ -1899,7 +1874,7 @@ void CDataServerProtocol::GS_DGAnsCastleNpcUpdate(int aIndex, CSP_REQ_NPCUPDATED
 		{
 
 
-			if (this->m_CastleDB->ExecQuery("EXEC WZ_CS_ReqNpcUpdate %d, %d, %d, %d, %d, %d, %d, %d, %d, %d",
+			if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ReqNpcUpdate %d, %d, %d, %d, %d, %d, %d, %d, %d, %d",
 				aRecv->wMapSvrNum, lpMsgBody[i].iNpcNumber, lpMsgBody[i].iNpcIndex,
 				lpMsgBody[i].iNpcDfLevel, lpMsgBody[i].iNpcRgLevel, lpMsgBody[i].iNpcMaxHp,
 				lpMsgBody[i].iNpcHp, lpMsgBody[i].btNpcX, lpMsgBody[i].btNpcY, lpMsgBody[i].btNpcDIR) == TRUE)
@@ -1957,7 +1932,7 @@ void CDataServerProtocol::DGAnsCrywolfInfoLoad(int aIndex, CWP_REQ_CRYWOLFINFOLO
 	pMsg.h.headcode = 0xB1;
 	pMsg.btResult = FALSE;
 
-	if (this->m_CrywolfDB->ExecQuery("EXEC WZ_CW_InfoLoad %d", aRecv->wMapSvrNum) == TRUE && this->m_CrywolfDB->Fetch() != SQL_NO_DATA)
+	if (this->m_CrywolfDB->ExecQuery("CALL WZ_CW_InfoLoad %d", aRecv->wMapSvrNum) == TRUE && this->m_CrywolfDB->Fetch() != SQL_NO_DATA)
 	{
 		pMsg.btResult = TRUE;
 		pMsg.iOccupationState = this->m_CrywolfDB->GetAsInteger("CRYWOLF_OCCUFY");
@@ -1977,7 +1952,7 @@ void CDataServerProtocol::DGAnsCrywolfInfoSave(int aIndex, CWP_REQ_CRYWOLFINFOSA
 	pMsg.h.headcode = 0xB2;
 	pMsg.btResult = FALSE;
 
-	if (this->m_CrywolfDB->ExecQuery("EXEC WZ_CW_InfoSave %d, %d, %d", aRecv->wMapSvrNum, aRecv->iCrywolfState, aRecv->iOccupationState) == TRUE)
+	if (this->m_CrywolfDB->ExecQuery("CALL WZ_CW_InfoSave %d, %d, %d", aRecv->wMapSvrNum, aRecv->iCrywolfState, aRecv->iOccupationState) == TRUE)
 	{
 		pMsg.btResult = TRUE;
 	}
@@ -2013,7 +1988,7 @@ void CDataServerProtocol::DGAnsPeriodItemExInsert(int aIndex, PMSG_REQ_PERIODITE
 	pMsg.lExpireDate = aRecv->lExpireDate;
 	pMsg.btResultCode = 1;
 
-	if (this->m_PeriodItemDB->ExecQuery("EXEC IGC_PeriodItemInsertEx %d, '%s', %d, %d, %d, %d, %d, %I64d, %d, %I64d, %I64d",
+	if (this->m_PeriodItemDB->ExecQuery("CALL IGC_PeriodItemInsertEx %d, '%s', %d, %d, %d, %d, %d, %I64d, %d, %I64d, %I64d",
 		aRecv->dwUserGuid, aRecv->chCharacterName, aRecv->btItemType, aRecv->wItemCode, aRecv->btEffectCategory,
 		aRecv->btEffectType1, aRecv->btEffectType2, pMsg.Serial, aRecv->dwDuration, aRecv->lBuyDate, aRecv->lExpireDate) && this->m_PeriodItemDB->Fetch() != SQL_NO_DATA)
 	{
@@ -2037,7 +2012,7 @@ void CDataServerProtocol::DGAnsPeriodItemExDelete(int aIndex, PMSG_REQ_PERIODITE
 	pMsg.wUserIndex = aRecv->wUserIndex;
 	pMsg.btResultCode = 1;
 
-	if (this->m_PeriodItemDB->ExecQuery("EXEC IGC_PeriodItemDeleteEx %d, '%s', %d, %d, %I64d", aRecv->dwUserGuid, aRecv->chCharacterName, aRecv->btItemType, aRecv->wItemCode, aRecv->Serial) == TRUE)
+	if (this->m_PeriodItemDB->ExecQuery("CALL IGC_PeriodItemDeleteEx %d, '%s', %d, %d, %I64d", aRecv->dwUserGuid, aRecv->chCharacterName, aRecv->btItemType, aRecv->wItemCode, aRecv->Serial) == TRUE)
 	{
 		pMsg.btResultCode = 0;
 	}
@@ -2063,7 +2038,7 @@ void CDataServerProtocol::DGAnsPeriodItemExSelect(int aIndex, PMSG_REQ_PERIODITE
 	pExpiredList.head.set((LPBYTE)&pExpiredList, 0xD0, 0x03, sizeof(PMSG_ANS_PERIODITEMEX_EXPIRED_ITEMLIST));
 
 	pExpiredList.btExpiredItemCount = 0;
-	this->m_PeriodItemDB->ExecQuery("EXEC IGC_PeriodItemExpiredItemSelectEx %d, '%s'", aRecv->dwUserGuid, szName);
+	this->m_PeriodItemDB->ExecQuery("CALL IGC_PeriodItemExpiredItemSelectEx %d, '%s'", aRecv->dwUserGuid, szName);
 
 	while (this->m_PeriodItemDB->Fetch() == SQL_SUCCESS)
 	{
@@ -2086,7 +2061,7 @@ void CDataServerProtocol::DGAnsPeriodItemExSelect(int aIndex, PMSG_REQ_PERIODITE
 	pListCount.btListCount = 0;
 	pListCount.dwUserGuid = aRecv->dwUserGuid;
 	pListCount.wUserIndex = aRecv->wUserIndex;
-	this->m_PeriodItemDB->ExecQuery("EXEC IGC_PeriodItemSelectEx %d, '%s'", aRecv->dwUserGuid, szName);
+	this->m_PeriodItemDB->ExecQuery("CALL IGC_PeriodItemSelectEx %d, '%s'", aRecv->dwUserGuid, szName);
 
 	int itemid = 0;
 	time_t currtime = time(NULL);
@@ -2122,7 +2097,7 @@ void CDataServerProtocol::ReqInGameShopItemList(short aIndex, ISHOP_REQ_ITEMLIST
 	ISHOP_ANS_ITEMLIST * lpMsg = (ISHOP_ANS_ITEMLIST *)(Buff);
 	ISHOP_ITEMLIST * lpMsgBody = (ISHOP_ITEMLIST *)(Buff + sizeof(ISHOP_ANS_ITEMLIST));
 
-	this->m_ItemShopDB->ExecQuery("EXEC WZ_IBS_GetItemsList '%s', %d", aRecv->AccountID, aRecv->InvType);
+	this->m_ItemShopDB->ExecQuery("CALL WZ_IBS_GetItemsList '%s', %d", aRecv->AccountID, aRecv->InvType);
 
 	lpMsg->Count = 0;
 	while (this->m_ItemShopDB->Fetch() != SQL_NO_DATA)
@@ -2208,7 +2183,7 @@ void CDataServerProtocol::ReqInGameShopItemBuy(short aIndex, ISHOP_ITEM_BUY *aRe
 	{
 		Coin -= aRecv->Price;
 
-		this->m_ItemShopDB->ExecQuery("EXEC WZ_IBS_AddItem '%s', %d, %d, %d, %d",
+		this->m_ItemShopDB->ExecQuery("CALL WZ_IBS_AddItem '%s', %d, %d, %d, %d",
 			aRecv->AccountID, aRecv->ID1, aRecv->ID2, aRecv->ID3, 1);
 
 		this->m_ItemShopDB->Fetch();
@@ -2254,7 +2229,7 @@ void CDataServerProtocol::ReqInGameShopItemGift(short aIndex, ISHOP_ITEM_GIFT *a
 		return;
 	}
 
-	this->m_ItemShopDB->ExecQuery("EXEC IGC_IBS_CheckGiftTarget '%s'", aRecv->TargetName);
+	this->m_ItemShopDB->ExecQuery("CALL IGC_IBS_CheckGiftTarget '%s'", aRecv->TargetName);
 	this->m_ItemShopDB->Fetch();
 
 	int iResult = this->m_ItemShopDB->GetAsInteger("Result");
@@ -2270,7 +2245,7 @@ void CDataServerProtocol::ReqInGameShopItemGift(short aIndex, ISHOP_ITEM_GIFT *a
 
 	Coin -= aRecv->Price;
 
-	this->m_ItemShopDB->ExecQuery("EXEC WZ_IBS_AddGift '%s', %d, %d, %d, %d, '%s', '%s'", aRecv->TargetName, aRecv->ID1, aRecv->ID2, aRecv->ID3, 2, aRecv->Name, aRecv->Message);
+	this->m_ItemShopDB->ExecQuery("CALL WZ_IBS_AddGift '%s', %d, %d, %d, %d, '%s', '%s'", aRecv->TargetName, aRecv->ID1, aRecv->ID2, aRecv->ID3, 2, aRecv->Name, aRecv->Message);
 
 	this->m_ItemShopDB->Fetch();
 
@@ -2294,7 +2269,7 @@ void CDataServerProtocol::ReqInGameShopItemUse(short aIndex, ISHOP_ITEM_USE *aRe
 {
 	ISHOP_ITEM_USEANS pMsg = { 0 };
 	PHeadSetB((LPBYTE)&pMsg, 0xD9, sizeof(pMsg));
-	this->m_ItemShopDB->ExecQuery("EXEC WZ_IBS_GetItemToUse '%s', %d, %d", aRecv->AccountID, aRecv->UniqueCode, aRecv->AuthCode);
+	this->m_ItemShopDB->ExecQuery("CALL WZ_IBS_GetItemToUse '%s', %d, %d", aRecv->AccountID, aRecv->UniqueCode, aRecv->AuthCode);
 	this->m_ItemShopDB->Fetch();
 
 	pMsg.Result = this->m_ItemShopDB->GetAsInteger("Result");
@@ -2349,7 +2324,7 @@ void CDataServerProtocol::ReqInGameShopPoint(short aIndex, ISHOP_REQ_POINT *aRec
 
 void CDataServerProtocol::ReqInGameShopAddPoint(short aIndex, ISHOP_POINT_ADD *aRecv)
 {
-	this->m_ItemShopDB->ExecQuery("EXEC WZ_IBS_AddCoin '%s', %d, %f", aRecv->AccountID, aRecv->Type, aRecv->Coin);
+	this->m_ItemShopDB->ExecQuery("CALL WZ_IBS_AddCoin '%s', %d, %f", aRecv->AccountID, aRecv->Type, aRecv->Coin);
 
 }
 
@@ -2392,7 +2367,7 @@ void CDataServerProtocol::ReqInGameShopPackageBuy(short aIndex, LPBYTE aRecv)
 	{
 		lpItem = (ISHOP_ITEM_PACKAGE *)(aRecv + sizeof(ISHOP_ITEM_BUY_PACKAGE) + i * sizeof(ISHOP_ITEM_PACKAGE));
 
-		this->m_ItemShopDB->ExecQuery("EXEC WZ_IBS_AddItem '%s', %d, %d, %d, %d",
+		this->m_ItemShopDB->ExecQuery("CALL WZ_IBS_AddItem '%s', %d, %d, %d, %d",
 			lpMsg->AccountID, lpItem->ID1, lpItem->ID2, lpItem->ID3, 1);
 
 		this->m_ItemShopDB->Fetch();
@@ -2427,7 +2402,7 @@ void CDataServerProtocol::ReqInGameShopPackageGift(short aIndex, LPBYTE aRecv)
 		return;
 	}
 
-	this->m_ItemShopDB->ExecQuery("EXEC IGC_IBS_CheckGiftTarget '%s'", lpMsg->TargetName);
+	this->m_ItemShopDB->ExecQuery("CALL IGC_IBS_CheckGiftTarget '%s'", lpMsg->TargetName);
 	this->m_ItemShopDB->Fetch();
 
 	int iResult = this->m_ItemShopDB->GetAsInteger("Result");
@@ -2455,7 +2430,7 @@ void CDataServerProtocol::ReqInGameShopPackageGift(short aIndex, LPBYTE aRecv)
 	{
 		lpItem = (ISHOP_ITEM_PACKAGE *)(aRecv + sizeof(ISHOP_ITEM_GIFT_PACKAGE) + i * sizeof(ISHOP_ITEM_PACKAGE));
 
-		this->m_ItemShopDB->ExecQuery("EXEC WZ_IBS_AddGift '%s', %d, %d, %d, %d, '%s', '%s'",
+		this->m_ItemShopDB->ExecQuery("CALL WZ_IBS_AddGift '%s', %d, %d, %d, %d, '%s', '%s'",
 			lpMsg->TargetName, lpItem->ID1, lpItem->ID2, lpItem->ID3,
 			2, lpMsg->Name, lpMsg->Message);
 
@@ -2468,7 +2443,7 @@ void CDataServerProtocol::ReqInGameShopPackageGift(short aIndex, LPBYTE aRecv)
 
 void CDataServerProtocol::ReqInGameShopItemDelete(short aIndex, ISHOP_ITEM_DELETE * aRecv)
 {
-	this->m_ItemShopDB->ExecQuery("EXEC WZ_IBS_DeleteItem '%s', %d, %d", aRecv->AccountID, aRecv->UniqueCode, aRecv->AuthCode);
+	this->m_ItemShopDB->ExecQuery("CALL WZ_IBS_DeleteItem '%s', %d, %d", aRecv->AccountID, aRecv->UniqueCode, aRecv->AuthCode);
 
 }
 
@@ -2580,7 +2555,7 @@ void CDataServerProtocol::DevilSqureScore(PMSG_ANS_EVENTUSERSCORE * lpMsg)
 	sLog->outBasic("[DEVIL] SERVER:%d-%d, SQUARE:%d, ACCNT:%s, CHAR:%s, CLASS:%d, SCORE:%d",
 		lpMsg->ServerCode / 20 + 1, lpMsg->ServerCode % 20 + 1, lpMsg->SquareNum, szAccount, szName, lpMsg->Class, lpMsg->Score);
 
-	this->m_RankingDB->ExecQuery("EXEC SP_POINT_ACCUMULATION '%d', '%d', '%s', '%s', '%d', '%d'",
+	this->m_RankingDB->ExecQuery("CALL SP_POINT_ACCUMULATION '%d', '%d', '%s', '%s', '%d', '%d'",
 		lpMsg->ServerCode / 20 + 1, lpMsg->SquareNum, szAccount, szName, lpMsg->Class, lpMsg->Score);
 
 }
@@ -2600,7 +2575,7 @@ void CDataServerProtocol::GDReqBloodCastleEnterCount(int aIndex, PMSG_REQ_BLOODC
 	pMsg.ServerCode = lpMsg->ServerCode;
 	pMsg.iObjIndex = lpMsg->iObjIndex;
 
-	if (this->m_RankingDB->ExecQuery("EXEC SP_LEFT_ENTERCOUNT_BC '%s', '%s', '%d'", lpMsg->AccountID, lpMsg->GameID, lpMsg->ServerCode) == TRUE)
+	if (this->m_RankingDB->ExecQuery("CALL SP_LEFT_ENTERCOUNT_BC '%s', '%s', '%d'", lpMsg->AccountID, lpMsg->GameID, lpMsg->ServerCode) == TRUE)
 	{
 		pMsg.iLeftCount = this->m_RankingDB->GetAsInteger("LeftEnterCount");
 	}
@@ -2626,7 +2601,7 @@ void CDataServerProtocol::BloodCastleScore_5TH(PMSG_ANS_BLOODCASTLESCORE_5TH * l
 	sLog->outBasic("[BLOOD] SERVER:%d-%d, BRIDGE:%d, ACCNT:%s, CHAR:%s, CLASS:%d, SCORE:%d, LEFTTIME:%d, ALIVEPARTY:%d",
 		lpMsg->ServerCode / 20 + 1, lpMsg->ServerCode % 20 + 1, lpMsg->BridgeNum, szAccount, szName, lpMsg->Class, lpMsg->Score, lpMsg->iLeftTime, lpMsg->iAlivePartyCount);
 
-	this->m_RankingDB->ExecQuery("EXEC SP_POINT_ACCM_BC_5TH '%d', '%d', '%s', '%s', '%d', '%d', '%d', '%d'",
+	this->m_RankingDB->ExecQuery("CALL SP_POINT_ACCM_BC_5TH '%d', '%d', '%s', '%s', '%d', '%d', '%d', '%d'",
 		lpMsg->ServerCode / 20 + 1, lpMsg->BridgeNum, szAccount, szName, lpMsg->Class, lpMsg->Score, lpMsg->iLeftTime, lpMsg->iAlivePartyCount);
 }
 
@@ -2643,7 +2618,7 @@ void CDataServerProtocol::IllusionTempleScore(PMSG_ANS_ILLUSIONTEMPLE_RANKING * 
 	sLog->outBasic("[ILLUSION] SERVER:%d-%d, TEMPLE:%d ACCNT:%s, CHAR:%s, CLASS:%d, SCORE:%d, KILLCOUNT:%d, RELICS:%d, EXPERIENCE:%d, ISWINNER:%d",
 		lpMsg->ServerCode / 20 + 1, lpMsg->ServerCode % 20 + 1, lpMsg->TempleNum, szAccountID, szName, lpMsg->Class, lpMsg->TotalScore, lpMsg->KillCount, lpMsg->RelicsGivenCount, lpMsg->Experience, lpMsg->IsWinner);
 
-	this->m_RankingDB->ExecQuery("EXEC SP_POINT_ACCM_IT '%d', '%d', '%s', '%s', '%d', '%d', '%d', '%d', '%d', '%d'",
+	this->m_RankingDB->ExecQuery("CALL SP_POINT_ACCM_IT '%d', '%d', '%s', '%s', '%d', '%d', '%d', '%d', '%d', '%d'",
 		lpMsg->ServerCode / 20 + 1, lpMsg->TempleNum, szAccountID, szName, lpMsg->Class, lpMsg->TotalScore, lpMsg->KillCount, lpMsg->RelicsGivenCount, lpMsg->Experience, lpMsg->IsWinner);
 }
 
@@ -2660,7 +2635,7 @@ void CDataServerProtocol::ChaosCastleScore(PMSG_ANS_CHAOSCASTLE_RANKING * lpMsg)
 	sLog->outBasic("[CHAOS] SERVER:%d-%d, CASTLE:%d, ACCNT:%s CHAR:%s, CLASS:%d, PKILL:%d, MKILL:%d, EXPERIENCE:%d, WINNER:%d",
 		lpMsg->ServerCode / 20 + 1, lpMsg->ServerCode % 20 + 1, lpMsg->Castle, szAccountID, szName, lpMsg->Class, lpMsg->PlayerKill, lpMsg->MonsterKill, lpMsg->Experience, lpMsg->IsWinner);
 
-	this->m_RankingDB->ExecQuery("EXEC SP_POINT_ACCM_CC '%d', '%d', '%s', '%s', '%d', '%d', '%d', '%d', '%d'",
+	this->m_RankingDB->ExecQuery("CALL SP_POINT_ACCM_CC '%d', '%d', '%s', '%s', '%d', '%d', '%d', '%d', '%d'",
 		lpMsg->ServerCode / 20 + 1, lpMsg->Castle, szAccountID, szName, lpMsg->Class, lpMsg->PlayerKill, lpMsg->MonsterKill, lpMsg->Experience, lpMsg->IsWinner);
 }
 
@@ -2954,7 +2929,7 @@ void CDataServerProtocol::EGAns2AnivRegSerial(int aIndex, PMSG_REQ_2ANIV_SERIAL 
 		return;
 	}
 
-	if (this->m_EventDB->ExecQuery("EXEC SP_REG_SERIAL '%s', '%d', '%s', '%s', '%s'", lpMsg->szUID, lpMsg->iMEMB_GUID, lpMsg->SERIAL1, lpMsg->SERIAL2, lpMsg->SERIAL3) && this->m_EventDB->Fetch() != SQL_NO_DATA)
+	if (this->m_EventDB->ExecQuery("CALL SP_REG_SERIAL '%s', '%d', '%s', '%s', '%s'", lpMsg->szUID, lpMsg->iMEMB_GUID, lpMsg->SERIAL1, lpMsg->SERIAL2, lpMsg->SERIAL3) && this->m_EventDB->Fetch() != SQL_NO_DATA)
 	{
 		pMsg.btIsRegistered = (BYTE)this->m_EventDB->GetAsInteger("RegResult");
 		pMsg.iGiftNumber = this->m_EventDB->GetAsInteger("F_Register_Section");
@@ -3021,7 +2996,7 @@ void CDataServerProtocol::EGAnsRegCCOfflineGift(int aIndex, PMSG_REQ_REG_CC_OFFL
 
 	pMsg.iResultCode = 0;
 
-	if (this->m_EventDB->ExecQuery("EXEC SP_REG_CC_OFFLINE_GIFT '%s', '%s', %d", lpMsg->szUID, lpMsg->szNAME, lpMsg->wServerCode) == FALSE || this->m_EventDB->Fetch() == SQL_NO_DATA)
+	if (this->m_EventDB->ExecQuery("CALL SP_REG_CC_OFFLINE_GIFT '%s', '%s', %d", lpMsg->szUID, lpMsg->szNAME, lpMsg->wServerCode) == FALSE || this->m_EventDB->Fetch() == SQL_NO_DATA)
 	{
 
 	}
@@ -3056,7 +3031,7 @@ void CDataServerProtocol::EGAnsRegDLOfflineGift(int aIndex, PMSG_REQ_REG_DL_OFFL
 
 	pMsg.iResultCode = 0;
 
-	if (this->m_EventDB->ExecQuery("EXEC SP_REG_DL_OFFLINE_GIFT '%s', '%s', %d", lpMsg->szUID, lpMsg->szNAME, lpMsg->wServerCode) == FALSE || this->m_EventDB->Fetch() == SQL_NO_DATA)
+	if (this->m_EventDB->ExecQuery("CALL SP_REG_DL_OFFLINE_GIFT '%s', '%s', %d", lpMsg->szUID, lpMsg->szNAME, lpMsg->wServerCode) == FALSE || this->m_EventDB->Fetch() == SQL_NO_DATA)
 	{
 
 	}
@@ -3091,7 +3066,7 @@ void CDataServerProtocol::EGAnsRegHTOfflineGift(int aIndex, PMSG_REQ_REG_HT_OFFL
 
 	pMsg.iResultCode = 0;
 
-	if (this->m_EventDB->ExecQuery("EXEC SP_REG_HT_OFFLINE_GIFT '%s', '%s', %d", lpMsg->szUID, lpMsg->szNAME, lpMsg->wServerCode) == FALSE || this->m_EventDB->Fetch() == SQL_NO_DATA)
+	if (this->m_EventDB->ExecQuery("CALL SP_REG_HT_OFFLINE_GIFT '%s', '%s', %d", lpMsg->szUID, lpMsg->szNAME, lpMsg->wServerCode) == FALSE || this->m_EventDB->Fetch() == SQL_NO_DATA)
 	{
 
 	}
@@ -3210,7 +3185,7 @@ void CDataServerProtocol::EGReqSantaCheck(short aIndex, PMSG_REQ_SANTACHECK * aR
 	pMsg.gGameServerCode = aRecv->gGameServerCode;
 	memcpy(pMsg.AccountID, aRecv->AccountID, 11);
 
-	this->m_EventDB->ExecQuery("EXEC SP_SANTA_CHECK '%s'", aRecv->AccountID);
+	this->m_EventDB->ExecQuery("CALL SP_SANTA_CHECK '%s'", aRecv->AccountID);
 	this->m_EventDB->Fetch();
 
 	pMsg.Result = this->m_EventDB->GetAsInteger("Result");
@@ -3230,7 +3205,7 @@ void CDataServerProtocol::EGReqSantaGift(short aIndex, PMSG_REQ_SANTAGIFT * aRec
 	pMsg.gGameServerCode = aRecv->gGameServerCode;
 	memcpy(pMsg.AccountID, aRecv->AccountID, 11);
 
-	this->m_EventDB->ExecQuery("EXEC SP_SANTA_GIFT '%s', %d", aRecv->AccountID, aRecv->gGameServerCode);
+	this->m_EventDB->ExecQuery("CALL SP_SANTA_GIFT '%s', %d", aRecv->AccountID, aRecv->gGameServerCode);
 	this->m_EventDB->Fetch();
 
 	pMsg.Result = this->m_EventDB->GetAsInteger("Result");
@@ -3268,7 +3243,7 @@ void CDataServerProtocol::ReqSecLock(short aIndex, SECLOCK_REQ_SAVE * aRecv)
 void CDataServerProtocol::ReqSaveMonsterCount(short aIndex, DS_SAVE_MONSTERCNT * aRecv)
 {
 
-	this->m_CharMiscDB->ExecQuery("EXEC IGC_Monster_KillCount_Save '%s', %d", aRecv->character, aRecv->type);
+	this->m_CharMiscDB->ExecQuery("CALL IGC_Monster_KillCount_Save '%s', %d", aRecv->character, aRecv->type);
 
 	/*QueryResult* res = this->m_CharMiscDB->Fetch("SELECT * FROM C_Monster_KillCount WHERE name = '%s' AND MonsterId = %d",aRecv->character,aRecv->type);
 	if(this->m_CharMiscDB->Fetch() == SQL_NO_DATA)
@@ -3295,7 +3270,7 @@ void CDataServerProtocol::GDReqArcaBattleGuildJoin(int aIndex, PMSG_REQ_ARCA_BAT
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x31, sizeof(pMsg));
 
-	this->m_ArcaDB->ExecQuery("EXEC IGC_ArcaBattleGuildInsert '%s', '%s', %d", aRecv->szGuildName, aRecv->szGuildMaster, aRecv->dwGuild);
+	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleGuildInsert '%s', '%s', %d", aRecv->szGuildName, aRecv->szGuildMaster, aRecv->dwGuild);
 	this->m_ArcaDB->Fetch();
 
 	pMsg.btResult = this->m_ArcaDB->GetResult(0);
@@ -3311,7 +3286,7 @@ void CDataServerProtocol::GDReqArcaBattleGuildMemberJoin(int aIndex, PMSG_REQ_AR
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x33, sizeof(pMsg));
 
-	this->m_ArcaDB->ExecQuery("EXEC IGC_ArcaBattleGuildMemberInsert '%s', '%s', %d", aRecv->szGuildName, aRecv->szCharName, aRecv->dwGuild);
+	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleGuildMemberInsert '%s', '%s', %d", aRecv->szGuildName, aRecv->szCharName, aRecv->dwGuild);
 	this->m_ArcaDB->Fetch();
 
 	pMsg.btResult = this->m_ArcaDB->GetResult(0);
@@ -3327,7 +3302,7 @@ void CDataServerProtocol::GDReqArcaBattleEnter(int aIndex, PMSG_REQ_ARCA_BATTLE_
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x35, sizeof(pMsg));
 
-	this->m_ArcaDB->ExecQuery("EXEC IGC_ArcaBattleMemberSelect '%s'", aRecv->szCharName);
+	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleMemberSelect '%s'", aRecv->szCharName);
 	this->m_ArcaDB->Fetch();
 
 	pMsg.btResult = this->m_ArcaDB->GetResult(0);
@@ -3346,7 +3321,7 @@ void CDataServerProtocol::GDReqArcaBattleWinGuildInfoInsert(int aIndex, PMSG_REQ
 
 	for (int i = 0; i < aRecv->btGuildCnt; i++)
 	{
-		this->m_ArcaDB->ExecQuery("EXEC IGC_ArcaBattleWinGuildInsert '%s', %d, %d, %d, %I64d",
+		this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleWinGuildInsert '%s', %d, %d, %d, %I64d",
 			aRecv->m_stABWinGuildInfoDS[i].szGuildName, aRecv->m_stABWinGuildInfoDS[i].dwGuild,
 			aRecv->m_stABWinGuildInfoDS[i].wOccupyObelisk, aRecv->m_stABWinGuildInfoDS[i].wObeliskGroup, 0);
 
@@ -3382,7 +3357,7 @@ void CDataServerProtocol::GDReqArcaBattleWinGuildInfo(int aIndex, PMSG_REQ_AB_WI
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x3A, sizeof(pMsg));
 	pMsg.btGuildCnt = 0;
 
-	this->m_ArcaDB->ExecQuery("EXEC IGC_ArcaBattleWinGuildSelect");
+	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleWinGuildSelect");
 
 	while (this->m_ArcaDB->Fetch() == SQL_SUCCESS)
 	{
@@ -3404,7 +3379,7 @@ void CDataServerProtocol::GDReqArcaBattleWinGuildInfo(int aIndex, PMSG_REQ_AB_WI
 
 void CDataServerProtocol::GDReqDeleteArcaBattleInfo(int aIndex)
 {
-	this->m_ArcaDB->ExecQuery("EXEC IGC_ArcaBattleInfoDelete");
+	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleInfoDelete");
 	this->m_ArcaDB->Fetch();
 
 }
@@ -3415,7 +3390,7 @@ void CDataServerProtocol::GDReqArcaBattleProcMultiCast(int aIndex, PMSG_REQ_AB_P
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x40, sizeof(pMsg));
 
-	this->m_ArcaDB->ExecQuery("EXEC IGC_ArcaBattleProcInsert %d", aRecv->btProcState);
+	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleProcInsert %d", aRecv->btProcState);
 	this->m_ArcaDB->Fetch();
 
 
@@ -3438,7 +3413,7 @@ void CDataServerProtocol::GDReqArcaBattleProcState(int aIndex, PMSG_REQ_AB_PROC_
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x40, sizeof(pMsg));
 
-	this->m_ArcaDB->ExecQuery("EXEC IGC_ArcaBattleProcSelect");
+	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleProcSelect");
 	this->m_ArcaDB->Fetch();
 
 	pMsg.btProcState = this->m_ArcaDB->GetResult(0);
@@ -3454,7 +3429,7 @@ void CDataServerProtocol::GDReqArcaBattleJoinMemberUnder(int aIndex, PMSG_REQ_AB
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x42, sizeof(pMsg));
 	pMsg.btGuildCnt = 0;
 
-	this->m_ArcaDB->ExecQuery("EXEC IGC_ArcaBattleGuildNamesSelect");
+	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleGuildNamesSelect");
 	int iGuildNamesCnt = 0;
 
 	while (this->m_ArcaDB->Fetch() == SQL_SUCCESS)
@@ -3472,7 +3447,7 @@ void CDataServerProtocol::GDReqArcaBattleJoinMemberUnder(int aIndex, PMSG_REQ_AB
 
 	for (int i = 0; i < iGuildNamesCnt; i++)
 	{
-		this->m_ArcaDB->ExecQuery("EXEC IGC_ArcaBattleMemberUnderSelect '%s'", pMsg.GuildMemberCnt[i].szGuildNames);
+		this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleMemberUnderSelect '%s'", pMsg.GuildMemberCnt[i].szGuildNames);
 		this->m_ArcaDB->Fetch();
 
 		pMsg.GuildMemberCnt[i].btGuildMemberCnt = this->m_ArcaDB->GetResult(0);
@@ -3499,7 +3474,7 @@ void CDataServerProtocol::GDReqArcaBattleJoinMemberUnderReq(int aIndex, PMSG_REQ
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x44, sizeof(pMsg));
 	pMsg.btGuildCnt = 0;
 
-	this->m_ArcaDB->ExecQuery("EXEC IGC_ArcaBattleGuildNamesSelect");
+	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleGuildNamesSelect");
 	int iGuildNamesCnt = 0;
 	char szGuildNames[6][MAX_GUILD_LEN + 1];
 
@@ -3518,7 +3493,7 @@ void CDataServerProtocol::GDReqArcaBattleJoinMemberUnderReq(int aIndex, PMSG_REQ
 
 	for (int i = 0; i < iGuildNamesCnt; i++)
 	{
-		this->m_ArcaDB->ExecQuery("EXEC IGC_ArcaBattleMinGuildSelect '%s', %d", szGuildNames[i], aRecv->btMinGuildMemNum);
+		this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleMinGuildSelect '%s', %d", szGuildNames[i], aRecv->btMinGuildMemNum);
 		this->m_ArcaDB->Fetch();
 
 		int iResult = this->m_ArcaDB->GetResult(0);
@@ -3534,7 +3509,7 @@ void CDataServerProtocol::GDReqArcaBattleJoinMemberUnderReq(int aIndex, PMSG_REQ
 
 	for (int i = 0; i < pMsg.btGuildCnt; i++)
 	{
-		this->m_ArcaDB->ExecQuery("EXEC IGC_ArcaBattleMinGuildDelete '%s'", pMsg.CancelGuildNames[i].szGuildNames);
+		this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleMinGuildDelete '%s'", pMsg.CancelGuildNames[i].szGuildNames);
 		this->m_ArcaDB->Fetch();
 
 	}
@@ -3556,7 +3531,7 @@ void CDataServerProtocol::GDReqArcaBattleRegisteredMemberCnt(int aIndex, PMSG_RE
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x46, sizeof(pMsg));
 
-	this->m_ArcaDB->ExecQuery("EXEC IGC_ArcaBattleGuildMemberSelect %d", aRecv->iGuildNumber);
+	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleGuildMemberSelect %d", aRecv->iGuildNumber);
 	this->m_ArcaDB->Fetch();
 
 	pMsg.btRegMemCnt = this->m_ArcaDB->GetResult(0);
@@ -3589,7 +3564,7 @@ void CDataServerProtocol::GDReqArcaBattleMarkCnt(int aIndex, PMSG_REQ_ARCA_BATTL
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x4E, sizeof(pMsg));
 
-	this->m_ArcaDB->ExecQuery("EXEC IGC_ArcaBattleMarkCntSelect %d", aRecv->dwGuildNum);
+	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleMarkCntSelect %d", aRecv->dwGuildNum);
 	this->m_ArcaDB->Fetch();
 
 	int iResult = this->m_ArcaDB->GetResult(0);
@@ -3618,7 +3593,7 @@ void CDataServerProtocol::GDReqArcaBattleMarkReg(int aIndex, PMSG_REQ_ARCA_BATTL
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x50, sizeof(pMsg));
 
-	this->m_ArcaDB->ExecQuery("EXEC IGC_ArcaBattleMarkInsert '%s', %d, '%s', %I64d", aRecv->szGuildName, aRecv->dwGuildNum, aRecv->szGuildMaster, (INT64)aRecv->dwMarkCnt);
+	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleMarkInsert '%s', %d, '%s', %I64d", aRecv->szGuildName, aRecv->dwGuildNum, aRecv->szGuildMaster, (INT64)aRecv->dwMarkCnt);
 	this->m_ArcaDB->Fetch();
 
 	int iResult = this->m_ArcaDB->GetResult(0);
@@ -3642,7 +3617,7 @@ void CDataServerProtocol::GDReqArcaBattleMarkRank(int aIndex, PMSG_REQ_ARCA_BATT
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x52, sizeof(pMsg));
 
-	this->m_ArcaDB->ExecQuery("EXEC IGC_ArcaBattleTopRankSelect");
+	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleTopRankSelect");
 	pMsg.btGuildCnt = 0;
 
 	while (this->m_ArcaDB->Fetch() == SQL_SUCCESS)
@@ -3659,7 +3634,7 @@ void CDataServerProtocol::GDReqArcaBattleMarkRank(int aIndex, PMSG_REQ_ARCA_BATT
 	}
 
 
-	this->m_ArcaDB->ExecQuery("EXEC IGC_ArcaBattleMarkRankSelect %d", aRecv->dwGuildNum);
+	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleMarkRankSelect %d", aRecv->dwGuildNum);
 	this->m_ArcaDB->Fetch();
 
 	int iResult = this->m_ArcaDB->GetResult(0);
@@ -3688,7 +3663,7 @@ void CDataServerProtocol::GDReqArcaBattleMarkRank(int aIndex, PMSG_REQ_ARCA_BATT
 
 void CDataServerProtocol::GDReqArcaBattleMarkRegDel(int aIndex, PMSG_REQ_ARCA_BATTLE_MARK_REG_DEL_DS *aRecv)
 {
-	this->m_ArcaDB->ExecQuery("EXEC IGC_ArcaBattleMarkRegDel %d", aRecv->dwGuildNum);
+	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleMarkRegDel %d", aRecv->dwGuildNum);
 	this->m_ArcaDB->Fetch();
 
 }
@@ -3699,7 +3674,7 @@ void CDataServerProtocol::GDReqArcaBattleIsTopRank(int aIndex, PMSG_REQ_ARCA_BAT
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x2B, sizeof(pMsg));
 
-	this->m_ArcaDB->ExecQuery("EXEC IGC_ArcaBattleMarkRankSelect %d", aRecv->dwGuildNum);
+	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleMarkRankSelect %d", aRecv->dwGuildNum);
 	this->m_ArcaDB->Fetch();
 	int iRank = this->m_ArcaDB->GetResult(0);
 
@@ -3721,7 +3696,7 @@ void CDataServerProtocol::GDReqArcaBattleIsTopRank(int aIndex, PMSG_REQ_ARCA_BAT
 
 void CDataServerProtocol::GDReqArcaBattleMarkRegAllDel(int aIndex)
 {
-	this->m_ArcaDB->ExecQuery("EXEC IGC_ArcaBattleGuildMarkInfoAllDel");
+	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleGuildMarkInfoAllDel");
 	this->m_ArcaDB->Fetch();
 
 }
@@ -3732,7 +3707,7 @@ void CDataServerProtocol::GDReqArcaBattleAllGuildMarkCnt(int aIndex)
 
 	PHeadSubSetW((LPBYTE)&pMsg, 0xF8, 0xFC, sizeof(pMsg));
 
-	this->m_ArcaDB->ExecQuery("EXEC IGC_ArcaBattleAllMarkCntSelect");
+	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleAllMarkCntSelect");
 	pMsg.wGuildCnt = 0;
 
 	while (this->m_ArcaDB->Fetch() == SQL_SUCCESS)
@@ -3769,7 +3744,7 @@ void CDataServerProtocol::GDReqArcaBattleAllJoinUser(int aIndex, PMSG_REQ_AB_ALL
 
 	PHeadSetW((LPBYTE)&pMsg, 0xE5, sizeof(pMsg));
 
-	this->m_ArcaDB->ExecQuery("EXEC IGC_ArcaBattleAllJoinUserSelect");
+	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleAllJoinUserSelect");
 	pMsg.btUserCnt = 0;
 
 	while (this->m_ArcaDB->Fetch() == SQL_SUCCESS)
@@ -3791,12 +3766,12 @@ void CDataServerProtocol::GDReqArcaBattleAllJoinUser(int aIndex, PMSG_REQ_AB_ALL
 
 void CDataServerProtocol::GDReqPeriodBuffInsert(int aIndex, PMSG_REQ_PERIODBUFF_INSERT *aRecv)
 {
-	this->m_PeriodItemDB->ExecQuery("EXEC IGC_PeriodBuffInsert '%s', %d, %d, %d, %d, %I64d", aRecv->szCharacterName, aRecv->wBuffIndex, aRecv->btEffectType1, aRecv->btEffectType2, aRecv->dwDuration, aRecv->lExpireDate);
+	this->m_PeriodItemDB->ExecQuery("CALL IGC_PeriodBuffInsert '%s', %d, %d, %d, %d, %I64d", aRecv->szCharacterName, aRecv->wBuffIndex, aRecv->btEffectType1, aRecv->btEffectType2, aRecv->dwDuration, aRecv->lExpireDate);
 }
 
 void CDataServerProtocol::GDReqPeriodBuffDelete(int aIndex, PMSG_REQ_PERIODBUFF_DELETE *aRecv)
 {
-	this->m_PeriodItemDB->ExecQuery("EXEC IGC_PeriodBuffDelete '%s', %d", aRecv->szCharacterName, aRecv->wBuffIndex);
+	this->m_PeriodItemDB->ExecQuery("CALL IGC_PeriodBuffDelete '%s', %d", aRecv->szCharacterName, aRecv->wBuffIndex);
 }
 
 void CDataServerProtocol::GDReqPeriodBuffSelect(int aIndex, PMSG_REQ_PERIODBUFF_SELECT *aRecv)
@@ -3808,7 +3783,7 @@ void CDataServerProtocol::GDReqPeriodBuffSelect(int aIndex, PMSG_REQ_PERIODBUFF_
 	pMsg.btResultCode = 1;
 	pMsg.wUserIndex = aRecv->wUserIndex;
 
-	this->m_PeriodItemDB->ExecQuery("EXEC IGC_PeriodBuffSelect '%s'", aRecv->szCharacterName);
+	this->m_PeriodItemDB->ExecQuery("CALL IGC_PeriodBuffSelect '%s'", aRecv->szCharacterName);
 	std::vector<int> vtDeleteBuffIndex;
 	time_t currtime;
 
@@ -3836,7 +3811,7 @@ void CDataServerProtocol::GDReqPeriodBuffSelect(int aIndex, PMSG_REQ_PERIODBUFF_
 
 	for (std::vector<int>::iterator It = vtDeleteBuffIndex.begin(); It != vtDeleteBuffIndex.end(); It++)
 	{
-		this->m_PeriodItemDB->ExecQuery("EXEC IGC_PeriodBuffDelete '%s', %d", aRecv->szCharacterName, *It);
+		this->m_PeriodItemDB->ExecQuery("CALL IGC_PeriodBuffDelete '%s', %d", aRecv->szCharacterName, *It);
 
 	}
 }
@@ -3858,7 +3833,7 @@ void CDataServerProtocol::GDReqQuestExpInfoLoad(int aIndex, PMSG_REQ_QUESTEXP_IN
 
 	int arrEp[20] = { 0 };
 
-	this->m_QuestExpDB->ExecQuery("EXEC IGC_QuestExpUserInfoLoad_Fir '%s'", aRecv->szCharName);
+	this->m_QuestExpDB->ExecQuery("CALL IGC_QuestExpUserInfoLoad_Fir '%s'", aRecv->szCharName);
 
 	while (this->m_QuestExpDB->Fetch() == SQL_SUCCESS)
 	{
@@ -3904,7 +3879,7 @@ void CDataServerProtocol::GDReqQuestExpInfoLoad(int aIndex, PMSG_REQ_QUESTEXP_IN
 
 	for (int i = 0; i < iCnt; i++)
 	{
-		sprintf(szTemp, "EXEC IGC_QuestExpUserInfoLoad_Sec '%s', %d, ?, ?, ?", aRecv->szCharName, arrEp[i]);
+		sprintf(szTemp, "CALL IGC_QuestExpUserInfoLoad_Sec '%s', %d, ?, ?, ?", aRecv->szCharName, arrEp[i]);
 
 		this->m_QuestExpDB->BindParameterBinaryOutput(1, QuestInfo[i].btAskIndex, 5, &nLen);
 		this->m_QuestExpDB->BindParameterBinaryOutput(2, QuestInfo[i].btAskValue, 5, &nLen);
@@ -3966,7 +3941,7 @@ void CDataServerProtocol::GDReqQuestExpInfoSave(int aIndex, LPBYTE lpRecv)
 		time_t lStatrDate = QuestInfo->lStartDate;
 		time_t lEndDate = QuestInfo->lEndDate;
 
-		sprintf(szTemp, "EXEC IGC_QuestExpUserInfoSave '%s', %d, %d, %d, %I64d, %I64d, ?, ?, ?", lpMsg->szCharName, iEpisode, iQuestSwitch, wProgState, lStatrDate, lEndDate);
+		sprintf(szTemp, "CALL IGC_QuestExpUserInfoSave '%s', %d, %d, %d, %I64d, %I64d, ?, ?, ?", lpMsg->szCharName, iEpisode, iQuestSwitch, wProgState, lStatrDate, lEndDate);
 
 		int iRet = SQLPrepare(this->m_QuestExpDB->m_hStmt, (SQLTCHAR *)szTemp, SQL_NTS);
 
@@ -4035,7 +4010,7 @@ void CDataServerProtocol::GDReqQuestExpInfoSave(int aIndex, LPBYTE lpRecv)
 
 void CDataServerProtocol::GDReqLuckyItemInsert(int aIndex, PMSG_REQ_LUCKYITEM_INSERT *lpMsg)
 {
-	this->m_LuckyItemDB->ExecQuery("EXEC IGC_LuckyItemInsert %d, '%s', %d, %I64d, %d",
+	this->m_LuckyItemDB->ExecQuery("CALL IGC_LuckyItemInsert %d, '%s', %d, %I64d, %d",
 		lpMsg->dwUserGuid, lpMsg->szCharName, lpMsg->LuckyItemDBInfo.wItemCode,
 		lpMsg->LuckyItemDBInfo.Serial, lpMsg->LuckyItemDBInfo.wDurabilitySmall);
 
@@ -4054,7 +4029,7 @@ void CDataServerProtocol::GDReqLuckyItemInsert2nd(int aIndex, PMSG_REQ_LUCKYITEM
 
 	for (int i = 0; i < iItemCnt; i++)
 	{
-		this->m_LuckyItemDB->ExecQuery("EXEC IGC_LuckyItemInsert %d, '%s', %d, %I64d, %d",
+		this->m_LuckyItemDB->ExecQuery("CALL IGC_LuckyItemInsert %d, '%s', %d, %I64d, %d",
 			lpMsg->dwUserGuid, lpMsg->szCharName, lpMsg->LuckyItemDBInfo[i].wItemCode,
 			lpMsg->LuckyItemDBInfo[i].Serial, lpMsg->LuckyItemDBInfo[i].wDurabilitySmall);
 
@@ -4065,7 +4040,7 @@ void CDataServerProtocol::GDReqLuckyItemInsert2nd(int aIndex, PMSG_REQ_LUCKYITEM
 
 void CDataServerProtocol::GDReqLuckyItemDelete(int aIndex, PMSG_REQ_LUCKYITEM_DELETE *lpMsg)
 {
-	this->m_LuckyItemDB->ExecQuery("EXEC IGC_LuckyItemDelete '%s', %d, %u", lpMsg->szCharName, lpMsg->wItemCode, lpMsg->Serial);
+	this->m_LuckyItemDB->ExecQuery("CALL IGC_LuckyItemDelete '%s', %d, %u", lpMsg->szCharName, lpMsg->wItemCode, lpMsg->Serial);
 	this->m_LuckyItemDB->Fetch();
 
 }
@@ -4080,7 +4055,7 @@ void CDataServerProtocol::GDReqLuckyItemSelect(int aIndex, PMSG_REQ_LUCKYITEM_SE
 	PMSG_LUCKYITME_DB_INFO LuckyItemInfo[45] = { 0 };
 	int iItemCount = 0;
 
-	this->m_LuckyItemDB->ExecQuery("EXEC IGC_LuckyItemSelect '%s'", lpMsg->chCharacterName);
+	this->m_LuckyItemDB->ExecQuery("CALL IGC_LuckyItemSelect '%s'", lpMsg->chCharacterName);
 
 	while (this->m_LuckyItemDB->Fetch() == SQL_SUCCESS)
 	{
@@ -4121,7 +4096,7 @@ void CDataServerProtocol::GDReqGetPentagramJewel(int aIndex, PMSG_REQ_PENTAGRAMJ
 	PMSG_ANS_PENTAGRAMJEWEL pMsg;
 	PENTAGRAMJEWEL_INFO m_PentagramJewelInfo;
 
-	this->m_PentagramDB->ExecQuery("EXEC IGC_PentagramInfoSelect %d, '%s', '%s', %d", lpMsg->iUserGuid, lpMsg->szAccountID, lpMsg->szName, lpMsg->btJewelPos);
+	this->m_PentagramDB->ExecQuery("CALL IGC_PentagramInfoSelect %d, '%s', '%s', %d", lpMsg->iUserGuid, lpMsg->szAccountID, lpMsg->szName, lpMsg->btJewelPos);
 
 	while (this->m_PentagramDB->Fetch() == SQL_SUCCESS)
 	{
@@ -4167,7 +4142,7 @@ void CDataServerProtocol::GDReqSetPentagramJewel(int aIndex, LPBYTE lpRecv)
 	{
 		PENTAGRAMJEWEL_INFO * lpMsgBody = (PENTAGRAMJEWEL_INFO *)(lpRecv + sizeof(PMSG_REQ_SETPENTAGRAMJEWEL) + (i * sizeof(PENTAGRAMJEWEL_INFO)));
 
-		this->m_PentagramDB->ExecQuery("EXEC IGC_PentagramInfoUpdate %d, '%s', '%s', %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d",
+		this->m_PentagramDB->ExecQuery("CALL IGC_PentagramInfoUpdate %d, '%s', '%s', %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d",
 			lpMsg->iUserGuid, lpMsg->szAccountID, lpMsg->szName, lpMsg->btJewelPos, lpMsgBody->btJewelIndex, lpMsgBody->btItemType, lpMsgBody->wItemIndex,
 			lpMsgBody->btMainAttribute, lpMsgBody->btLevel, lpMsgBody->btRank1OptionNum, lpMsgBody->btRank1Level, lpMsgBody->btRank2OptionNum, lpMsgBody->btRank2Level,
 			lpMsgBody->btRank3OptionNum, lpMsgBody->btRank3Level, lpMsgBody->btRank4OptionNum, lpMsgBody->btRank4Level, lpMsgBody->btRank5OptionNum, lpMsgBody->btRank5Level);
@@ -4178,7 +4153,7 @@ void CDataServerProtocol::GDReqSetPentagramJewel(int aIndex, LPBYTE lpRecv)
 
 void CDataServerProtocol::GDReqDelPentagramJewel(int aIndex, PMSG_DEL_PENTAGRAMJEWEL *lpMsg)
 {
-	this->m_PentagramDB->ExecQuery("EXEC IGC_PentagramInfoDelete %d, '%s', '%s', %d, %d",
+	this->m_PentagramDB->ExecQuery("CALL IGC_PentagramInfoDelete %d, '%s', '%s', %d, %d",
 		lpMsg->iUserGuid, lpMsg->szAccountID, lpMsg->szName, lpMsg->btJewelPos, lpMsg->btJewelIndex);
 
 
@@ -4186,7 +4161,7 @@ void CDataServerProtocol::GDReqDelPentagramJewel(int aIndex, PMSG_DEL_PENTAGRAMJ
 
 void CDataServerProtocol::GDReqInsertPentagramJewel(int aIndex, PMSG_INSERT_PENTAGRAMJEWEL *lpMsg)
 {
-	this->m_PentagramDB->ExecQuery("EXEC IGC_PentagramInfoUpdate %d, '%s', '%s', %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d",
+	this->m_PentagramDB->ExecQuery("CALL IGC_PentagramInfoUpdate %d, '%s', '%s', %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d",
 		lpMsg->iUserGuid, lpMsg->szAccountID, lpMsg->szName, lpMsg->btJewelPos, lpMsg->btJewelPos, lpMsg->btItemType, lpMsg->wItemIndex,
 		lpMsg->btMainAttribute, lpMsg->btLevel, lpMsg->btRank1OptionNum, lpMsg->btRank1Level, lpMsg->btRank2OptionNum, lpMsg->btRank2Level,
 		lpMsg->btRank3OptionNum, lpMsg->btRank3Level, lpMsg->btRank4OptionNum, lpMsg->btRank4Level, lpMsg->btRank5OptionNum, lpMsg->btRank5Level);
@@ -4196,7 +4171,7 @@ void CDataServerProtocol::GDReqInsertPentagramJewel(int aIndex, PMSG_INSERT_PENT
 
 void CDataServerProtocol::GDReqChaosCastleFinalSave(int aIndex, PMSG_REQ_SAVE_CCF_RESULT* lpMsg)
 {
-	this->m_CCFinalDB->ExecQuery("EXEC IGC_ChaosCastleFinal_Save '%s', %d, %d, %d, %I64d, %d", lpMsg->szCharName, lpMsg->nPoint, lpMsg->nCharClass, lpMsg->nCharLevel, lpMsg->nCharExp, lpMsg->byCCFType);
+	this->m_CCFinalDB->ExecQuery("CALL IGC_ChaosCastleFinal_Save '%s', %d, %d, %d, %I64d, %d", lpMsg->szCharName, lpMsg->nPoint, lpMsg->nCharClass, lpMsg->nCharLevel, lpMsg->nCharExp, lpMsg->byCCFType);
 	this->m_CCFinalDB->Fetch();
 
 }
@@ -4206,7 +4181,7 @@ void CDataServerProtocol::GDReqChaosCastleFinalPermission(int aIndex, PMSG_REQ_C
 	SDHP_ANS_CCF_GETPERMISSION pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF9, 0xA3, sizeof(pMsg));
 
-	this->m_CCFinalDB->ExecQuery("EXEC IGC_ChaosCastleFinal_GetPermission '%s', %d", lpMsg->szCharName, lpMsg->byCCFType);
+	this->m_CCFinalDB->ExecQuery("CALL IGC_ChaosCastleFinal_GetPermission '%s', %d", lpMsg->szCharName, lpMsg->byCCFType);
 
 	if (this->m_CCFinalDB->Fetch() == SQL_NO_DATA)
 	{
@@ -4232,12 +4207,12 @@ void CDataServerProtocol::GDReqChaosCastleFinalLoad(int aIndex, SDHP_REQ_CCF_RAN
 
 	if (lpMsg->nServerCategory == 1)
 	{
-		this->m_CCFinalDB->ExecQuery("EXEC IGC_ChaosCastleFinal_GetRank_r %d", lpMsg->byRankingType);
+		this->m_CCFinalDB->ExecQuery("CALL IGC_ChaosCastleFinal_GetRank_r %d", lpMsg->byRankingType);
 	}
 
 	else
 	{
-		this->m_CCFinalDB->ExecQuery("EXEC IGC_ChaosCastleFinal_GetRank %d", lpMsg->byRankingType);
+		this->m_CCFinalDB->ExecQuery("CALL IGC_ChaosCastleFinal_GetRank %d", lpMsg->byRankingType);
 	}
 
 	pMsg.byUserCnt = 0;
@@ -4261,7 +4236,7 @@ void CDataServerProtocol::GDReqChaosCastleFinalLoad(int aIndex, SDHP_REQ_CCF_RAN
 
 void CDataServerProtocol::GDReqChaosCastleFinalRenew(int aIndex, SDHP_RENEW_RANKING* lpMsg)
 {
-	this->m_CCFinalDB->ExecQuery("EXEC IGC_ChaosCastleFinal_Renew %d", lpMsg->byRankingType);
+	this->m_CCFinalDB->ExecQuery("CALL IGC_ChaosCastleFinal_Renew %d", lpMsg->byRankingType);
 	this->m_CCFinalDB->Fetch();
 
 }
@@ -4377,7 +4352,7 @@ void CDataServerProtocol::GDReqCardInfo(int aIndex, PMSG_REQ_MURUMMY_SELECT_DS *
 
 	int iCount = 0;
 
-	this->m_RummyDB->ExecQuery("EXEC IGC_SetSelectMuRummy '%s', '%s'", aRecv->AccountID, aRecv->Name);
+	this->m_RummyDB->ExecQuery("CALL IGC_SetSelectMuRummy '%s', '%s'", aRecv->AccountID, aRecv->Name);
 	while (this->m_RummyDB->Fetch() == SQL_SUCCESS)
 	{
 		pMsg.wScore = this->m_RummyDB->GetAsInteger("mTotalScore");
@@ -4409,13 +4384,13 @@ void CDataServerProtocol::GDReqCardInfo(int aIndex, PMSG_REQ_MURUMMY_SELECT_DS *
 
 void CDataServerProtocol::GDReqCardInfoInsert(int aIndex, PMSG_REQ_MURUMMY_INSERT_DS * aRecv)
 {
-	this->m_RummyDB->ExecQuery("EXEC IGC_SetSaveMuRummyInfo '%s', '%s', %d", aRecv->AccountID, aRecv->Name, 0);
+	this->m_RummyDB->ExecQuery("CALL IGC_SetSaveMuRummyInfo '%s', '%s', %d", aRecv->AccountID, aRecv->Name, 0);
 	this->m_RummyDB->Fetch();
 
 
 	for (int i = 0; i < 24; i++)
 	{
-		this->m_RummyDB->ExecQuery("EXEC IGC_SetInsertMuRummy '%s', '%s',%d, %d, %d, %d, %d", aRecv->AccountID, aRecv->Name,
+		this->m_RummyDB->ExecQuery("CALL IGC_SetInsertMuRummy '%s', '%s',%d, %d, %d, %d, %d", aRecv->AccountID, aRecv->Name,
 			aRecv->stMuRummyCardInfoDS[i].btNumber, aRecv->stMuRummyCardInfoDS[i].btColor, aRecv->stMuRummyCardInfoDS[i].btSlotNum, aRecv->stMuRummyCardInfoDS[i].btStatus, aRecv->stMuRummyCardInfoDS[i].btSeq);
 
 		this->m_RummyDB->Fetch();
@@ -4425,7 +4400,7 @@ void CDataServerProtocol::GDReqCardInfoInsert(int aIndex, PMSG_REQ_MURUMMY_INSER
 
 void CDataServerProtocol::GDReqScoreUpdate(int aIndex, PMSG_REQ_MURUMMY_SCORE_UPDATE_DS * aRecv)
 {
-	this->m_RummyDB->ExecQuery("EXEC IGC_SetSaveMuRummyInfo '%s', '%s', %d", aRecv->AccountID, aRecv->Name, aRecv->wScore);
+	this->m_RummyDB->ExecQuery("CALL IGC_SetSaveMuRummyInfo '%s', '%s', %d", aRecv->AccountID, aRecv->Name, aRecv->wScore);
 	this->m_RummyDB->Fetch();
 
 
@@ -4436,7 +4411,7 @@ void CDataServerProtocol::GDReqScoreUpdate(int aIndex, PMSG_REQ_MURUMMY_SCORE_UP
 			return;
 		}
 
-		this->m_RummyDB->ExecQuery("EXEC IGC_SetUpdateMuRummy  '%s', '%s', %d, %d, %d", aRecv->AccountID, aRecv->Name, aRecv->stCardUpdateDS[i].btSlotNum, aRecv->stCardUpdateDS[i].btStatus, aRecv->stCardUpdateDS[i].btSeq);
+		this->m_RummyDB->ExecQuery("CALL IGC_SetUpdateMuRummy  '%s', '%s', %d, %d, %d", aRecv->AccountID, aRecv->Name, aRecv->stCardUpdateDS[i].btSlotNum, aRecv->stCardUpdateDS[i].btStatus, aRecv->stCardUpdateDS[i].btSeq);
 		this->m_RummyDB->Fetch();
 
 	}
@@ -4444,14 +4419,14 @@ void CDataServerProtocol::GDReqScoreUpdate(int aIndex, PMSG_REQ_MURUMMY_SCORE_UP
 
 void CDataServerProtocol::GDReqCardInfoUpdate(int aIndex, PMSG_REQ_MURUMMY_UPDATE_DS * aRecv)
 {
-	this->m_RummyDB->ExecQuery("EXEC IGC_SetUpdateMuRummy  '%s', '%s', %d, %d, %d", aRecv->AccountID, aRecv->Name, aRecv->btSlotNum, aRecv->btStatus, aRecv->btSequence);
+	this->m_RummyDB->ExecQuery("CALL IGC_SetUpdateMuRummy  '%s', '%s', %d, %d, %d", aRecv->AccountID, aRecv->Name, aRecv->btSlotNum, aRecv->btStatus, aRecv->btSequence);
 	this->m_RummyDB->Fetch();
 
 }
 
 void CDataServerProtocol::GDReqScoreDelete(int aIndex, PMSG_REQ_MURUMMY_DELETE_DS * aRecv)
 {
-	this->m_RummyDB->ExecQuery("EXEC IGC_SetDeleteMuRummy '%s', '%s'", aRecv->AccountID, aRecv->Name);
+	this->m_RummyDB->ExecQuery("CALL IGC_SetDeleteMuRummy '%s', '%s'", aRecv->AccountID, aRecv->Name);
 	this->m_RummyDB->Fetch();
 
 }
@@ -4463,14 +4438,14 @@ void CDataServerProtocol::GDReqSlotInfoUpdate(int aIndex, PMSG_REQ_MURUMMY_SLOTU
 		return;
 	}
 
-	this->m_RummyDB->ExecQuery("EXEC IGC_SetUpdateMuRummy  '%s', '%s', %d, %d, %d", aRecv->AccountID, aRecv->Name, aRecv->stCardUpdateDS.btSlotNum, aRecv->stCardUpdateDS.btStatus, aRecv->stCardUpdateDS.btSeq);
+	this->m_RummyDB->ExecQuery("CALL IGC_SetUpdateMuRummy  '%s', '%s', %d, %d, %d", aRecv->AccountID, aRecv->Name, aRecv->stCardUpdateDS.btSlotNum, aRecv->stCardUpdateDS.btStatus, aRecv->stCardUpdateDS.btSeq);
 	this->m_RummyDB->Fetch();
 
 }
 
 void CDataServerProtocol::GDReqMuRummyInfoUpdate(int aIndex, PMSG_REQ_MURUMMY_INFO_UPDATE_DS * aRecv)
 {
-	this->m_RummyDB->ExecQuery("EXEC IGC_SetSaveMuRummyInfo '%s', '%s', %d", aRecv->AccountID, aRecv->Name, aRecv->wScore);
+	this->m_RummyDB->ExecQuery("CALL IGC_SetSaveMuRummyInfo '%s', '%s', %d", aRecv->AccountID, aRecv->Name, aRecv->wScore);
 	this->m_RummyDB->Fetch();
 
 
@@ -4481,7 +4456,7 @@ void CDataServerProtocol::GDReqMuRummyInfoUpdate(int aIndex, PMSG_REQ_MURUMMY_IN
 			return;
 		}
 
-		this->m_RummyDB->ExecQuery("EXEC IGC_SetUpdateMuRummy  '%s', '%s', %d, %d, %d", aRecv->AccountID, aRecv->Name, aRecv->stMuRummyCardUpdateDS[i].btSlotNum, aRecv->stMuRummyCardUpdateDS[i].btStatus, aRecv->stMuRummyCardUpdateDS[i].btSeq);
+		this->m_RummyDB->ExecQuery("CALL IGC_SetUpdateMuRummy  '%s', '%s', %d, %d, %d", aRecv->AccountID, aRecv->Name, aRecv->stMuRummyCardUpdateDS[i].btSlotNum, aRecv->stMuRummyCardUpdateDS[i].btStatus, aRecv->stMuRummyCardUpdateDS[i].btSeq);
 		this->m_RummyDB->Fetch();
 
 	}
@@ -4489,7 +4464,7 @@ void CDataServerProtocol::GDReqMuRummyInfoUpdate(int aIndex, PMSG_REQ_MURUMMY_IN
 
 void CDataServerProtocol::GDReqMuRummyDBLog(int aIndex, PMSG_REQ_MURUMMY_LOG_INSERT_DS * aRecv)
 {
-	this->m_RummyDB->ExecQuery("EXEC IGC_SetSaveMuRummyLog '%s', '%s', %d", aRecv->AccountID, aRecv->Name, aRecv->wScore);
+	this->m_RummyDB->ExecQuery("CALL IGC_SetSaveMuRummyLog '%s', '%s', %d", aRecv->AccountID, aRecv->Name, aRecv->wScore);
 	this->m_RummyDB->Fetch();
 
 }
@@ -4498,14 +4473,14 @@ void CDataServerProtocol::GDReqMineModifyUPTUserInfo(int aIndex, SDHP_REQ_MINESY
 {
 	if (aRecv->byRequestType == 0)
 	{
-		this->m_MineDB->ExecQuery("EXEC IGC_MineSystem_Insert_UPTUserInfo '%s', %d, %d", aRecv->szCharName, aRecv->wTwinkleType, aRecv->iCurrentStage);
+		this->m_MineDB->ExecQuery("CALL IGC_MineSystem_Insert_UPTUserInfo '%s', %d, %d", aRecv->szCharName, aRecv->wTwinkleType, aRecv->iCurrentStage);
 		this->m_MineDB->Fetch();
 
 	}
 
 	else if (aRecv->byRequestType == 1)
 	{
-		this->m_MineDB->ExecQuery("EXEC IGC_MineSystem_Delete_UPTUserInfo '%s'", aRecv->szCharName);
+		this->m_MineDB->ExecQuery("CALL IGC_MineSystem_Delete_UPTUserInfo '%s'", aRecv->szCharName);
 		this->m_MineDB->Fetch();
 
 	}
@@ -4525,7 +4500,7 @@ void CDataServerProtocol::GDReqMineCheckIsUPTWhenUserConnect(int aIndex, SDHP_RE
 	SDHP_ANS_LOAD_MINESYSTEM_UPT_USERINFO pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x4C, 0x01, sizeof(pMsg));
 
-	this->m_MineDB->ExecQuery("EXEC IGC_MineSystem_Select_UPTUserInfo '%s'", aRecv->szCharName);
+	this->m_MineDB->ExecQuery("CALL IGC_MineSystem_Select_UPTUserInfo '%s'", aRecv->szCharName);
 
 	if (this->m_MineDB->Fetch() == SQL_NO_DATA)
 	{
@@ -4553,7 +4528,7 @@ void CDataServerProtocol::GDReqPShopItemValue(int aIndex, PMSG_REQ_PSHOPITEMVALU
 
 	int count = 0;
 
-	this->m_PShopDB->ExecQuery("EXEC IGC_PShopItemValueInfoLoad '%s', '%s'", aRecv->AccountId, aRecv->szName);
+	this->m_PShopDB->ExecQuery("CALL IGC_PShopItemValueInfoLoad '%s', '%s'", aRecv->AccountId, aRecv->szName);
 
 	while (this->m_PShopDB->Fetch() == SQL_SUCCESS)
 	{
@@ -4579,7 +4554,7 @@ void CDataServerProtocol::GDAllSavePShopItemValue(int aIndex, PMSG_UPDATE_PSHOPI
 {
 	for (int i = 0; i < aRecv->btItemCnt; i++)
 	{
-		this->m_PShopDB->ExecQuery("EXEC IGC_PShopItemValueInfoSave '%s', '%s', %d, %I64d, %d, %d, %d, %d",
+		this->m_PShopDB->ExecQuery("CALL IGC_PShopItemValueInfoSave '%s', '%s', %d, %I64d, %d, %d, %d, %d",
 			aRecv->AccountId, aRecv->szName, aRecv->PShopItemValueInfo[i].nPShopItemInvenNum, aRecv->PShopItemValueInfo[i].ItemSerial,
 			aRecv->PShopItemValueInfo[i].nMoney, aRecv->PShopItemValueInfo[i].sBlessJewelValue, aRecv->PShopItemValueInfo[i].sSoulJewelValue,
 			aRecv->PShopItemValueInfo[i].sChaosJewelValue);
@@ -4591,14 +4566,14 @@ void CDataServerProtocol::GDAllSavePShopItemValue(int aIndex, PMSG_UPDATE_PSHOPI
 
 void CDataServerProtocol::GDDelPShopItemValue(int aIndex, PMSG_DEL_PSHOPITEM * aRecv)
 {
-	this->m_PShopDB->ExecQuery("EXEC IGC_PShopItemValueInfoDel '%s', '%s', %d", aRecv->AccountId, aRecv->szName, aRecv->nPShopItemInvenNum);
+	this->m_PShopDB->ExecQuery("CALL IGC_PShopItemValueInfoDel '%s', '%s', %d", aRecv->AccountId, aRecv->szName, aRecv->nPShopItemInvenNum);
 	this->m_PShopDB->Fetch();
 
 }
 
 void CDataServerProtocol::GDMovePShopItem(int aIndex, PMSG_MOVE_PSHOPITEM * aRecv)
 {
-	this->m_PShopDB->ExecQuery("EXEC IGC_PShopItemMove '%s', '%s', %d, %d", aRecv->AccountId, aRecv->szName, aRecv->nOldPShopItemInvenNum, aRecv->nNewPShopItemInvenNum);
+	this->m_PShopDB->ExecQuery("CALL IGC_PShopItemMove '%s', '%s', %d, %d", aRecv->AccountId, aRecv->szName, aRecv->nOldPShopItemInvenNum, aRecv->nNewPShopItemInvenNum);
 	this->m_PShopDB->Fetch();
 
 }
@@ -4657,7 +4632,7 @@ void CDataServerProtocol::GDReqClassDefData(int aIndex)
 
 void CDataServerProtocol::GDReqReBuyItemList(int aIndex, SDHP_REQ_SHOP_REBUY_LIST * aRecv)
 {
-	this->m_ReBuyDB->ExecQuery("EXEC IGC_CancelItemSale_ClearExpiredItems '%s', '%s', %I64d", aRecv->szAccountID, aRecv->szName, aRecv->CurrTime);
+	this->m_ReBuyDB->ExecQuery("CALL IGC_CancelItemSale_ClearExpiredItems '%s', '%s', %I64d", aRecv->szAccountID, aRecv->szName, aRecv->CurrTime);
 
 
 	BYTE BUFFER[2048];
@@ -4668,7 +4643,7 @@ void CDataServerProtocol::GDReqReBuyItemList(int aIndex, SDHP_REQ_SHOP_REBUY_LIS
 	lpMsg->iCount = 0;
 	lpMsg->btResult = 1;
 
-	if (this->m_ReBuyDB->ExecQuery("EXEC IGC_CancelItemSale_GetItemList '%s', '%s'", aRecv->szAccountID, aRecv->szName) == TRUE)
+	if (this->m_ReBuyDB->ExecQuery("CALL IGC_CancelItemSale_GetItemList '%s', '%s'", aRecv->szAccountID, aRecv->szName) == TRUE)
 	{
 		lpMsg->btResult = 0;
 	}
@@ -4716,11 +4691,11 @@ void CDataServerProtocol::GDReqReBuyItemList(int aIndex, SDHP_REQ_SHOP_REBUY_LIS
 
 void CDataServerProtocol::GDReqReBuyAddItem(int aIndex, SDHP_REQ_SHOP_REBUY_ADD_ITEM * aRecv)
 {
-	this->m_ReBuyDB->ExecQuery("EXEC IGC_CancelItemSale_ClearExpiredItems '%s', '%s', %I64d", aRecv->szAccountID, aRecv->szName, aRecv->SellDate);
+	this->m_ReBuyDB->ExecQuery("CALL IGC_CancelItemSale_ClearExpiredItems '%s', '%s', %I64d", aRecv->szAccountID, aRecv->szName, aRecv->SellDate);
 
 
 	char szTemp[256];
-	sprintf(szTemp, "EXEC IGC_CancelItemSale_AddItem '%s', '%s', %I64d, %I64d, %d, ?", aRecv->szAccountID, aRecv->szName, aRecv->SellDate, aRecv->SellExpireDate, aRecv->dwSellPrice);
+	sprintf(szTemp, "CALL IGC_CancelItemSale_AddItem '%s', '%s', %I64d, %I64d, %d, ?", aRecv->szAccountID, aRecv->szName, aRecv->SellDate, aRecv->SellExpireDate, aRecv->dwSellPrice);
 
 	int iRet = SQLPrepare(this->m_ReBuyDB->m_hStmt, (SQLTCHAR *)szTemp, SQL_NTS);
 
@@ -4770,7 +4745,7 @@ void CDataServerProtocol::GDReqReBuyGetItem(int aIndex, SDHP_REQ_SHOP_REBUY_GET_
 	char szTemp[256];
 	INT64 nLen = 0;
 
-	sprintf(szTemp, "EXEC IGC_CancelItemSale_GetItemToReBuy '%s', '%s', %d, %d", aRecv->szAccountID, aRecv->szName, aRecv->btItemNumber, aRecv->dwItemPrice);
+	sprintf(szTemp, "CALL IGC_CancelItemSale_GetItemToReBuy '%s', '%s', %d, %d", aRecv->szAccountID, aRecv->szName, aRecv->btItemNumber, aRecv->dwItemPrice);
 
 	if (this->m_ReBuyDB->ExecQuery(szTemp) == FALSE)
 	{
@@ -4809,7 +4784,7 @@ void CDataServerProtocol::GDReqReBuyGetItem(int aIndex, SDHP_REQ_SHOP_REBUY_GET_
 
 void CDataServerProtocol::GDReqDeleteSoldItem(int aIndex, SDHP_REQ_SHOP_REBUY_DELETE_ITEM * aRecv)
 {
-	this->m_ReBuyDB->ExecQuery("EXEC IGC_CancelItemSale_DeleteItem '%s', '%s', %d, %d", aRecv->szAccountID, aRecv->szName, aRecv->btItemNumber, aRecv->dwItemPrice);
+	this->m_ReBuyDB->ExecQuery("CALL IGC_CancelItemSale_DeleteItem '%s', '%s', %d, %d", aRecv->szAccountID, aRecv->szName, aRecv->btItemNumber, aRecv->dwItemPrice);
 
 }
 
@@ -4820,7 +4795,7 @@ void CDataServerProtocol::GDReqGremoryCaseItemList(int aIndex, _stReqGremoryCase
 	_stAnsGremoryCaseItemList * lpMsg = (_stAnsGremoryCaseItemList *)(BUFFER);
 	_stGremoryCaseItem * lpItem = (_stGremoryCaseItem *)(BUFFER + sizeof(_stAnsGremoryCaseItemList));
 
-	if (this->m_GremoryCaseDB->ExecQuery("EXEC IGC_GremoryCase_GetItemList '%s', '%s'", aRecv->szAccountID, aRecv->szName) == TRUE)
+	if (this->m_GremoryCaseDB->ExecQuery("CALL IGC_GremoryCase_GetItemList '%s', '%s'", aRecv->szAccountID, aRecv->szName) == TRUE)
 	{
 		lpMsg->btResult = 0;
 	}
@@ -4886,7 +4861,7 @@ void CDataServerProtocol::GDReqGremoryCaseAddItem(int aIndex, _stReqAddItemToGre
 	_stAnsAddItemToGremoryCase pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x4F, 0x01, sizeof(pMsg));
 
-	if (this->m_GremoryCaseDB->ExecQuery("EXEC IGC_GremoryCase_AddItem '%s', '%s', %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %I64d, %I64d",
+	if (this->m_GremoryCaseDB->ExecQuery("CALL IGC_GremoryCase_AddItem '%s', '%s', %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %I64d, %I64d",
 		aRecv->szAccountID, aRecv->szName, aRecv->m_GremoryCaseItem.btStorageType, aRecv->m_GremoryCaseItem.btRewardSource,
 		aRecv->m_GremoryCaseItem.wItemID, aRecv->m_GremoryCaseItem.btItemLevel, aRecv->m_GremoryCaseItem.btItemDurability,
 		aRecv->m_GremoryCaseItem.btItemSkill, aRecv->m_GremoryCaseItem.btItemLuck, aRecv->m_GremoryCaseItem.btItemOption,
@@ -4941,7 +4916,7 @@ void CDataServerProtocol::GDReqCheckUseItemGremoryCase(int aIndex, _stReqCheckUs
 	_stAnsCheckUseItemGremoryCase pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x4F, 0x02, sizeof(pMsg));
 
-	this->m_GremoryCaseDB->ExecQuery("EXEC IGC_GremoryCase_CheckUseItem %d, %d, %d", aRecv->wItemID, aRecv->dwItemGUID, aRecv->dwAuthCode);
+	this->m_GremoryCaseDB->ExecQuery("CALL IGC_GremoryCase_CheckUseItem %d, %d, %d", aRecv->wItemID, aRecv->dwItemGUID, aRecv->dwAuthCode);
 	this->m_GremoryCaseDB->Fetch();
 
 	pMsg.btResult = this->m_GremoryCaseDB->GetAsInteger("ResultCode");
@@ -4959,7 +4934,7 @@ void CDataServerProtocol::GDReqCheckUseItemGremoryCase(int aIndex, _stReqCheckUs
 
 void CDataServerProtocol::GDReqGremoryCaseDeleteItem(int aIndex, _stReqDeleteItemFromGremoryCase * aRecv)
 {
-	this->m_GremoryCaseDB->ExecQuery("EXEC IGC_GremoryCase_DeleteItem %d, %d, %d", aRecv->wItemID, aRecv->dwItemGUID, aRecv->dwAuthCode);
+	this->m_GremoryCaseDB->ExecQuery("CALL IGC_GremoryCase_DeleteItem %d, %d, %d", aRecv->wItemID, aRecv->dwItemGUID, aRecv->dwAuthCode);
 	this->m_GremoryCaseDB->Fetch();
 }
 
@@ -4968,7 +4943,7 @@ void CDataServerProtocol::GDReqUBFCheckIsJoinedUser(int aIndex, PMSG_REQ_UBF_ACC
 	PMSG_ANS_UBF_ACCOUNT_USERINFO pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF3, 0x01, sizeof(pMsg));
 
-	this->m_BattleCoreDB->ExecQuery("EXEC IGC_BattleCore_GetUserInfo '%s', '%s', %d, %d", aRecv->szAccountID, aRecv->szName, aRecv->iServerCode, aRecv->IsUnityBattleFieldServer);
+	this->m_BattleCoreDB->ExecQuery("CALL IGC_BattleCore_GetUserInfo '%s', '%s', %d, %d", aRecv->szAccountID, aRecv->szName, aRecv->iServerCode, aRecv->IsUnityBattleFieldServer);
 	this->m_BattleCoreDB->Fetch();
 
 	pMsg.btResult = this->m_BattleCoreDB->GetAsInteger("Result");
@@ -5000,7 +4975,7 @@ void CDataServerProtocol::GDReqUBFJoinUser(int aIndex, PMSG_UBF_REGISTER_ACCOUNT
 	PMSG_UBF_REGISTER_ACCOUNT_USER_RESULT pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF3, 0x02, sizeof(pMsg));
 
-	this->m_BattleCoreDB->ExecQuery("EXEC IGC_BattleCore_JoinUser '%s', '%s', '%s', %d, %d, %d, %d",
+	this->m_BattleCoreDB->ExecQuery("CALL IGC_BattleCore_JoinUser '%s', '%s', '%s', %d, %d, %d, %d",
 		aRecv->szAccountID, aRecv->szName, aRecv->szBattleFieldName, aRecv->ServerCode,
 		aRecv->btRegisterState, aRecv->btRegisterMonth, aRecv->btRegisterDay);
 
@@ -5032,13 +5007,13 @@ void CDataServerProtocol::GDReqUBFCopyCharacter(int aIndex, PMSG_UBF_ACCOUNT_USE
 
 	if (aRecv->btPromotionCode == 0)
 	{
-		this->m_BattleCoreDB->ExecQuery("EXEC IGC_BattleCore_CopyCharacter_Normal '%s', '%s', %d",
+		this->m_BattleCoreDB->ExecQuery("CALL IGC_BattleCore_CopyCharacter_Normal '%s', '%s', %d",
 			aRecv->szAccountID, aRecv->szName, aRecv->ServerCode);
 	}
 
 	else
 	{
-		this->m_BattleCoreDB->ExecQuery("EXEC IGC_BattleCore_CopyCharacter_Promotion '%s', '%s', %d",
+		this->m_BattleCoreDB->ExecQuery("CALL IGC_BattleCore_CopyCharacter_Promotion '%s', '%s', %d",
 			aRecv->szAccountID, aRecv->szName, aRecv->ServerCode);
 	}
 
@@ -5057,7 +5032,7 @@ void CDataServerProtocol::GDReqUBFCancelUser(int aIndex, PMSG_UBF_REQ_CANCEL_REG
 	PMSG_UBF_ANS_CANCEL_REGISTER_USER pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF3, 0x07, sizeof(pMsg));
 
-	this->m_BattleCoreDB->ExecQuery("EXEC IGC_BattleCore_CancelUser '%s', '%s', %d", aRecv->szAccountID, aRecv->szName, aRecv->ServerCode);
+	this->m_BattleCoreDB->ExecQuery("CALL IGC_BattleCore_CancelUser '%s', '%s', %d", aRecv->szAccountID, aRecv->szName, aRecv->ServerCode);
 	this->m_BattleCoreDB->Fetch();
 
 	pMsg.btCanceledResult = this->m_BattleCoreDB->GetAsInteger("Result");
@@ -5066,7 +5041,7 @@ void CDataServerProtocol::GDReqUBFCancelUser(int aIndex, PMSG_UBF_REQ_CANCEL_REG
 
 	if (pMsg.btCanceledResult == 1)
 	{
-		this->m_BattleCoreDB->ExecQuery("EXEC IGC_BattleCore_DeleteCharacter '%s', '%s', %d", aRecv->szAccountID, aRecv->szName, aRecv->ServerCode);
+		this->m_BattleCoreDB->ExecQuery("CALL IGC_BattleCore_DeleteCharacter '%s', '%s', %d", aRecv->szAccountID, aRecv->szName, aRecv->ServerCode);
 		this->m_BattleCoreDB->Fetch();
 
 		pMsg.btDeletedResult = this->m_BattleCoreDB->GetAsInteger("Result");
@@ -5119,7 +5094,7 @@ void CDataServerProtocol::GDReqUBFGetRealName(int aIndex, PMSG_REQ_GET_UBF_REAL_
 	PMSG_ANS_GET_UBF_REAL_NAME pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF3, 0x08, sizeof(pMsg));
 
-	this->m_BattleCoreDB->ExecQuery("EXEC IGC_BattleCore_GetRealName '%s'", aRecv->szUBFName);
+	this->m_BattleCoreDB->ExecQuery("CALL IGC_BattleCore_GetRealName '%s'", aRecv->szUBFName);
 	this->m_BattleCoreDB->Fetch();
 
 	this->m_BattleCoreDB->GetAsString("RealName", pMsg.szRealName, MAX_ACCOUNT_LEN + 1);
@@ -5143,7 +5118,7 @@ void CDataServerProtocol::GDReqUBFCopyPetItem(int aIndex, LPBYTE lpRecv)
 	{
 		lpItem = (PMSG_UBF_COPY_PETITEM *)(lpRecv + sizeof(PMSG_UBF_ACCOUNT_USER_COPY_PETITEM) + (i * sizeof(PMSG_UBF_COPY_PETITEM)));
 
-		this->m_BattleCoreDB->ExecQuery("EXEC IGC_BattleCore_CopyPetItemInfo %I64d, %d", lpItem->i64ItemSerial, lpMsg->ServerCode);
+		this->m_BattleCoreDB->ExecQuery("CALL IGC_BattleCore_CopyPetItemInfo %I64d, %d", lpItem->i64ItemSerial, lpMsg->ServerCode);
 		this->m_BattleCoreDB->Fetch();
 
 	}
@@ -5151,21 +5126,21 @@ void CDataServerProtocol::GDReqUBFCopyPetItem(int aIndex, LPBYTE lpRecv)
 
 void CDataServerProtocol::GDReqUBFSetCCFReward(int aIndex, SDHP_REQ_SET_CCF_WINNER_INFO * aRecv)
 {
-	this->m_BattleCoreDB->ExecQuery("EXEC IGC_BattleCore_SetCCFReward '%s', %d, %d", aRecv->UBFName, aRecv->btCCFType, aRecv->btRewardType);
+	this->m_BattleCoreDB->ExecQuery("CALL IGC_BattleCore_SetCCFReward '%s', %d, %d", aRecv->UBFName, aRecv->btCCFType, aRecv->btRewardType);
 	this->m_BattleCoreDB->Fetch();
 
 }
 
 void CDataServerProtocol::GDReqUBFSetCCBattleReward(int aIndex, SDHP_REQ_SET_CC_WINNER_INFO_UBF * aRecv)
 {
-	this->m_BattleCoreDB->ExecQuery("EXEC IGC_BattleCore_SetCCReward '%s', %d", aRecv->UBFName, aRecv->btRewardType);
+	this->m_BattleCoreDB->ExecQuery("CALL IGC_BattleCore_SetCCReward '%s', %d", aRecv->UBFName, aRecv->btRewardType);
 	this->m_BattleCoreDB->Fetch();
 
 }
 
 void CDataServerProtocol::GDReqUBFSetDSFReward(int aIndex, PMSG_REQ_SET_DSF_WINNER_INFO * aRecv)
 {
-	this->m_BattleCoreDB->ExecQuery("EXEC IGC_BattleCore_SetDSFReward '%s', %d, %d", aRecv->UBFName, aRecv->btDSFType, aRecv->btRewardType);
+	this->m_BattleCoreDB->ExecQuery("CALL IGC_BattleCore_SetDSFReward '%s', %d, %d", aRecv->UBFName, aRecv->btDSFType, aRecv->btRewardType);
 	this->m_BattleCoreDB->Fetch();
 
 }
@@ -5188,7 +5163,7 @@ void CDataServerProtocol::GDReqUBFGetReward(int aIndex, PMSG_REQ_UBF_GET_REWARD 
 		pMsg.btRewardCount3[0] = 0;
 		pMsg.btRewardCount3[1] = 0;
 
-		this->m_BattleCoreDB->ExecQuery("EXEC IGC_BattleCore_GetCCFReward '%s', '%s', %d", aRecv->szAccountID, aRecv->szName, aRecv->iServerCode);
+		this->m_BattleCoreDB->ExecQuery("CALL IGC_BattleCore_GetCCFReward '%s', '%s', %d", aRecv->szAccountID, aRecv->szName, aRecv->iServerCode);
 
 		while (this->m_BattleCoreDB->Fetch() == SQL_SUCCESS)
 		{
@@ -5264,7 +5239,7 @@ void CDataServerProtocol::GDReqUBFGetReward(int aIndex, PMSG_REQ_UBF_GET_REWARD 
 		pMsg.btRewardCount3[0] = 0;
 		pMsg.btRewardCount3[1] = 0;
 
-		this->m_BattleCoreDB->ExecQuery("EXEC IGC_BattleCore_GetDSFReward '%s', '%s', %d", aRecv->szAccountID, aRecv->szName, aRecv->iServerCode);
+		this->m_BattleCoreDB->ExecQuery("CALL IGC_BattleCore_GetDSFReward '%s', '%s', %d", aRecv->szAccountID, aRecv->szName, aRecv->iServerCode);
 
 		while (this->m_BattleCoreDB->Fetch() == SQL_SUCCESS)
 		{
@@ -5334,7 +5309,7 @@ void CDataServerProtocol::GDReqUBFGetReward(int aIndex, PMSG_REQ_UBF_GET_REWARD 
 		pMsg.btRewardCount1[0] = 0;
 		pMsg.btRewardCount1[1] = 0;
 
-		this->m_BattleCoreDB->ExecQuery("EXEC IGC_BattleCore_GetCCReward '%s', '%s', %d", aRecv->szAccountID, aRecv->szName, aRecv->iServerCode);
+		this->m_BattleCoreDB->ExecQuery("CALL IGC_BattleCore_GetCCReward '%s', '%s', %d", aRecv->szAccountID, aRecv->szName, aRecv->iServerCode);
 
 		while (this->m_BattleCoreDB->Fetch() == SQL_SUCCESS)
 		{
@@ -5391,7 +5366,7 @@ void CDataServerProtocol::GDReqUBFSetGainReward(int aIndex, PMSG_REQ_UBF_SET_REC
 
 	if (aRecv->btBattleKind == 1) // CCF
 	{
-		this->m_BattleCoreDB->ExecQuery("EXEC IGC_BattleCore_SetCCFGainReward '%s', '%s', %d", aRecv->szAccountID, aRecv->szName, aRecv->iServerCode);
+		this->m_BattleCoreDB->ExecQuery("CALL IGC_BattleCore_SetCCFGainReward '%s', '%s', %d", aRecv->szAccountID, aRecv->szName, aRecv->iServerCode);
 		this->m_BattleCoreDB->Fetch();
 
 		pMsg.btReturn = this->m_BattleCoreDB->GetAsInteger("Result");
@@ -5401,7 +5376,7 @@ void CDataServerProtocol::GDReqUBFSetGainReward(int aIndex, PMSG_REQ_UBF_SET_REC
 
 	else if (aRecv->btBattleKind == 2) // Tormented Square
 	{
-		this->m_BattleCoreDB->ExecQuery("EXEC IGC_BattleCore_SetDSFGainReward '%s', '%s', %d", aRecv->szAccountID, aRecv->szName, aRecv->iServerCode);
+		this->m_BattleCoreDB->ExecQuery("CALL IGC_BattleCore_SetDSFGainReward '%s', '%s', %d", aRecv->szAccountID, aRecv->szName, aRecv->iServerCode);
 		this->m_BattleCoreDB->Fetch();
 
 		pMsg.btReturn = this->m_BattleCoreDB->GetAsInteger("Result");
@@ -5411,7 +5386,7 @@ void CDataServerProtocol::GDReqUBFSetGainReward(int aIndex, PMSG_REQ_UBF_SET_REC
 
 	else if (aRecv->btBattleKind == 3) // CC Battle
 	{
-		this->m_BattleCoreDB->ExecQuery("EXEC IGC_BattleCore_SetCCGainReward '%s', '%s', %d", aRecv->szAccountID, aRecv->szName, aRecv->iServerCode);
+		this->m_BattleCoreDB->ExecQuery("CALL IGC_BattleCore_SetCCGainReward '%s', '%s', %d", aRecv->szAccountID, aRecv->szName, aRecv->iServerCode);
 		this->m_BattleCoreDB->Fetch();
 
 		pMsg.btReturn = this->m_BattleCoreDB->GetAsInteger("Result");
@@ -5427,7 +5402,7 @@ void CDataServerProtocol::GDReqDSFCanPartyEnter(int aIndex, PMSG_REQ_DSF_CAN_PAR
 	PMSG_ANS_DSF_CAN_PARTY_ENTER pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xFD, 0x00, sizeof(pMsg));
 
-	this->m_DSFinalDB->ExecQuery("EXEC IGC_DevilSquareFinal_CanPartyEnter '%s', '%s', '%s', '%s', %d", aRecv->szAccountID1, aRecv->szUserName1, aRecv->szAccountID2, aRecv->szUserName2, aRecv->btDSFType);
+	this->m_DSFinalDB->ExecQuery("CALL IGC_DevilSquareFinal_CanPartyEnter '%s', '%s', '%s', '%s', %d", aRecv->szAccountID1, aRecv->szUserName1, aRecv->szAccountID2, aRecv->szUserName2, aRecv->btDSFType);
 	this->m_DSFinalDB->Fetch();
 
 	pMsg.btResult = this->m_DSFinalDB->GetAsInteger("Result");
@@ -5441,7 +5416,7 @@ void CDataServerProtocol::GDReqDSFCanPartyEnter(int aIndex, PMSG_REQ_DSF_CAN_PAR
 
 void CDataServerProtocol::GDReqDSFSavePartyPoint(int aIndex, PMSG_REQ_SAVE_DSF_PARTYPOINT * aRecv)
 {
-	this->m_DSFinalDB->ExecQuery("EXEC IGC_DevilSquareFinal_Save '%s', '%s', %d, '%s', '%s', %d, %d, %d, %d",
+	this->m_DSFinalDB->ExecQuery("CALL IGC_DevilSquareFinal_Save '%s', '%s', %d, '%s', '%s', %d, %d, %d, %d",
 		aRecv->szAccountID1, aRecv->szUserName1, aRecv->nUserLevel1,
 		aRecv->szAccountID2, aRecv->szUserName2, aRecv->nUserLevel2,
 		aRecv->nPoint, aRecv->nDSFType, aRecv->btEnterCnt);
@@ -5452,7 +5427,7 @@ void CDataServerProtocol::GDReqDSFSavePartyPoint(int aIndex, PMSG_REQ_SAVE_DSF_P
 
 void CDataServerProtocol::GDReqDSFPartyRankRenew(int aIndex, PMSG_REQ_DSF_PARTYRANKRENEW * aRecv)
 {
-	this->m_DSFinalDB->ExecQuery("EXEC IGC_DevilSquareFinal_Renew %d", aRecv->btDSFType);
+	this->m_DSFinalDB->ExecQuery("CALL IGC_DevilSquareFinal_Renew %d", aRecv->btDSFType);
 	this->m_DSFinalDB->Fetch();
 
 
@@ -5472,7 +5447,7 @@ void CDataServerProtocol::GDReqDSFGoFinalParty(int aIndex, PMSG_REQ_DSF_GO_FINAL
 	int iSize = sizeof(PMSG_ANS_DSF_GO_FINAL_PARTY);
 	int iCount = 0;
 
-	this->m_DSFinalDB->ExecQuery("EXEC IGC_DevilSquareFinal_GetRank_r %d", aRecv->btDSFType);
+	this->m_DSFinalDB->ExecQuery("CALL IGC_DevilSquareFinal_GetRank_r %d", aRecv->btDSFType);
 
 	while (this->m_DSFinalDB->Fetch() == SQL_SUCCESS)
 	{
@@ -5505,7 +5480,7 @@ void CDataServerProtocol::GDReqDSFGoFinalParty(int aIndex, PMSG_REQ_DSF_GO_FINAL
 
 void CDataServerProtocol::GDReqDSFInsertRewardUser(int aIndex, PMSG_REQ_SAVE_DSF_REWARD_USER * aRecv)
 {
-	this->m_DSFinalDB->ExecQuery("EXEC IGC_DevilSquareFinal_SetReward '%s', '%s', %d, %d, %d, %d, %d, %d",
+	this->m_DSFinalDB->ExecQuery("CALL IGC_DevilSquareFinal_SetReward '%s', '%s', %d, %d, %d, %d, %d, %d",
 		aRecv->szAccountID, aRecv->szUserName, aRecv->iClass, aRecv->btDSFType,
 		aRecv->nRewardYear, aRecv->btRewardMonth, aRecv->btRewardStartDay, aRecv->btRewardEndDay);
 
@@ -5518,7 +5493,7 @@ void CDataServerProtocol::GDReqDSFGetReward(int aIndex, PMSG_REQ_GET_DSF_REWARD 
 	PMSG_ANS_GET_DSF_REWARD pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xFD, 0x07, sizeof(pMsg));
 
-	this->m_DSFinalDB->ExecQuery("EXEC IGC_DevilSquareFinal_GetReward '%s', '%s', %d, %d, %d",
+	this->m_DSFinalDB->ExecQuery("CALL IGC_DevilSquareFinal_GetReward '%s', '%s', %d, %d, %d",
 		aRecv->szAccountID, aRecv->szUserName, aRecv->nRewardYear, aRecv->btRewardMonth, aRecv->btRewardDay);
 
 	this->m_DSFinalDB->Fetch();

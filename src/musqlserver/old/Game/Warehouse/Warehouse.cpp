@@ -1,4 +1,4 @@
-#include "Warerhouse.h"
+#include "Warehouse/Warerhouse.h"
 #include "giocp.h"
 #include "ItemSerial.h"
 #include "ServerEngine.h"
@@ -49,7 +49,7 @@ void CWarehouse::AddUserData(char * szAccountID)
 	m_UserWareData->WarehouseOpenState = false;
 	m_UserWareData->LastChangeTick = GetTickCount();
 
-	m_vtWarehouseData.push_back(m_UserWareData);
+	m_vtWarehouseData->push_back(m_UserWareData);
 
 	LeaveCriticalSection(&this->m_WareDataCriti);
 }
