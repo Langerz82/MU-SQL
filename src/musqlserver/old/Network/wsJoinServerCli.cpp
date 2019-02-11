@@ -10,7 +10,6 @@
 
 #include "stdafx.h"
 #include "wsJoinServerCli.h"
-#include "TLog.h"
 #include "Authorization.h"
 
 wsJoinServerCli::wsJoinServerCli(bool RSA, bool AuthProtocol)

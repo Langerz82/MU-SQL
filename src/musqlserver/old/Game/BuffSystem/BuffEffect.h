@@ -11,8 +11,6 @@
 
 #include "BuffScriptLoader.h"
 
-typedef OBJECTSTRUCT* CGameObject*ECTSTRUCT;
-
 enum EFFECTTYPE_DEFINE
 {
 	EFFECTTYPE_NONE = 0x0,
@@ -86,18 +84,6 @@ enum EFFECTTYPE_DEFINE
 	EFFECTTYPE_WRATH_INC_DAMAGE = 0x5A
 };
 
-struct PMSG_ANS_PERIODBUFF_SELECT
-{
-	PBMSG_HEAD2 h;
-	WORD wUserIndex;
-	char szCharacterName[MAX_ACCOUNT_LEN+1];
-	BYTE btResultCode;
-	WORD wBuffIndex;
-	BYTE btEffectType1;
-	BYTE btEffectType2;
-	time_t lExpireDate;
-};
-
 class CBuffEffect  
 {
 public:
@@ -113,11 +99,11 @@ public:
 	void GiveDamageEffect(LPGameObject &lpObj, int Damage);
 	void PoisonEffect(LPGameObject &lpObj, BYTE PoisonRate);
 	void GiveDamageFillHPEffect(LPGameObject &lpObj, int Damage);
-	void RequestGuildPeriodBuffInsert(char *szGuildName, _tagPeriodBuffInfo *lpBuffInfo);
+	void RequestGuildPeriodBuffInsert(char *szGuildName,PeriodBuffInfo *lpBuffInfo);
 	void RequestGuildPeriodBuffDelete(WORD *wBuffIndex, char btGuildCnt);
 	void RequestPeriodBuffDelete(LPGameObject lpObj, WORD wBuffIndex);
 	void RequestPeriodBuffDelete(char *szName, WORD wBuffIndex);
-	void RequestPeriodBuffInsert(LPGameObject lpObj, _tagPeriodBuffInfo *lpBuffInfo);
+	void RequestPeriodBuffInsert(LPGameObject lpObj,PeriodBuffInfo *lpBuffInfo);
 	void RequestPeriodBuffSelect(LPGameObject &lpObj);
 	void DGPeriodItemExSelect(PMSG_ANS_PERIODBUFF_SELECT *lpMsg);
 };

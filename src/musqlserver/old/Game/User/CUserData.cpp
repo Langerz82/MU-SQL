@@ -22,9 +22,9 @@
 #include "ObjCalCharacter.h"
 #include "ObjUseSkill.h"
 #include "DarkSpirit.h"
-//#include "DSProtocol.h"
+//
 #include "DevilSquare.h"
-//#include "protocol.h"
+//#include "GameProtocol.h"
 #include "ImperialGuardian.h"
 #include "MonsterAttr.h"
 #include "SendNPCInfo.h"

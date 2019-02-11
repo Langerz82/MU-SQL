@@ -16,7 +16,7 @@
 #include "Logging/Log.h"
 #include "wsJoinServerCli.h"
 #include "DoppelGanger.h"
-#include "DSProtocol.h"
+
 #include "CLoginCount.h"
 #include "MapClass.h"
 #include "MonsterRegenSystem.h"

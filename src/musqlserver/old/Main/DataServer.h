@@ -10,7 +10,7 @@
 
 #include "resource.h"
 #include "StdAfx.h"
-#include "DSprotocol.h"
+#include "CoreDSprotocol.h"
 #include "Sprotocol.h"
 #include "EDSprotocol.h"
 //#include "Fprotocol.h"

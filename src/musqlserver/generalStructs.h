@@ -8,9 +8,14 @@
 #include "StdAfx.h"
 #include "MuDefines.h"
 #include "ServerEngine.h"
+#include "MuunInfo.h"
+#include "ItemManagement/Item.h"
 
 #include <string>
 #include <map>
+
+class CItem;
+class CMuunInfo;
 
 struct STR_ITEM_LEVEL_RATE;
 struct STR_LUCKY_ITEM_EQUIPMENT;
@@ -2392,9 +2397,9 @@ struct STAT_USER_OPTION
 	WORD StatOptionValMax;
 };
 
-struct _tagMUUN_EFFECT_LIST
+struct MUUN_EFFECT_LIST
 {
-	_tagMUUN_EFFECT_LIST()
+	MUUN_EFFECT_LIST()
 	{
 		this->Clear();
 	}
@@ -2439,7 +2444,7 @@ struct _tagMUUN_EFFECT_LIST
 	int nTargetIndex;
 };
 
-struct _tagMOVE_MAPSERVER_AUTHINFO
+struct MOVE_MAPSERVER_AUTHINFO
 {
 	char szCharName[MAX_ACCOUNT_LEN + 2];
 	int iJA1;

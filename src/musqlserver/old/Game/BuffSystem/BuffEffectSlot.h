@@ -12,9 +12,6 @@
 #include "BuffScriptLoader.h"
 #include "prodef.h"
 
-class OBJECTSTRUCT;
-typedef OBJECTSTRUCT* CGameObject*ECTSTRUCT;
-
 enum eBuffClearType
 {
 	CLEAR_TYPE_DIEREGEN = 0x1,
@@ -325,7 +322,7 @@ extern void gObjCheckBuffEffectList(LPGameObject &lpObj);
 extern bool gObjAddBuffEffect(LPGameObject &lpObj, int iBuffIndex);
 extern bool gObjAddBuffEffect(LPGameObject &lpObj, int iBuffIndex, BYTE EffectType1, int EffectValue1, BYTE EffectType2, int EffectValue2, int Duration);
 extern bool gObjAddBuffEffect(LPGameObject &lpObj, int iBuffIndex, int Duration);
-extern bool gObjAddPeriodBuffEffect(LPGameObject lpObj, _tagPeriodBuffEffectInfo *lpPeriBuff, unsigned int dwDuration);
+extern bool gObjAddPeriodBuffEffect(LPGameObject lpObj,PeriodBuffEffectInfo *lpPeriBuff, unsigned int dwDuration);
 
 extern bool gObjAddBuffEffectForInGameShop(LPGameObject &lpObj, WORD wItemCode, int Duration);
 extern bool gObjRemoveBuffEffect(LPGameObject &lpObj, int iBuffIndex);

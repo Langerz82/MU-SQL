@@ -8,14 +8,14 @@
 #endif // _MSC_VER > 1000
 
 #include "MuunInfoMng.h"
-//#include "DSProtocol.h"
+//
 #include "ObjBaseAttack.h"
 
 #define MAX_MUUN_ENERGY_GENERATOR_POINT		8
 #define MAX_MUUN_EXCHANGE_INFO				10
 #define MAX_MUUN_EXCHANGE_ITEMBAG			20
 
-struct _tagEnergyGeneratorPoint
+structEnergyGeneratorPoint
 {
 	_tagEnergyGeneratorPoint()
 	{
@@ -31,7 +31,7 @@ struct _tagEnergyGeneratorPoint
 	int iMuunLvPt;
 };
 
-struct _tagMuunExchangeInfo
+structMuunExchangeInfo
 {
 	_tagMuunExchangeInfo()
 	{
@@ -49,7 +49,7 @@ struct _tagMuunExchangeInfo
 	int iItemBagIndex;
 };
 
-struct _tagMuunExchangeItembag
+structMuunExchangeItembag
 {
 	_tagMuunExchangeItembag()
 	{
@@ -207,12 +207,12 @@ public:
 	void CalCharacterStat(LPGameObject &lpObj, CMuunInfo *pCMuunInfo);
 	void CalCharacterStat(LPGameObject &lpObj, int iOptType);
 
-	int CheckMuunItemCondition(LPGameObject &obj, _tagMUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
+	int CheckMuunItemCondition(LPGameObject &obj,MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
 	int CheckMuunItemConditionProc(_tagMUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
 	int ChkMuunOptConditionTime(_tagMUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
 	int ChkMuunOptConditionDay(_tagMUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
-	int ChkMuunOptConditionLevel(LPGameObject &obj, _tagMUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
-	int ChkMuunOptConditionMap(LPGameObject &obj, _tagMUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
+	int ChkMuunOptConditionLevel(LPGameObject &obj,MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
+	int ChkMuunOptConditionMap(LPGameObject &obj,MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
 
 	int GetItemFromMuunInventory(LPGameObject lpObj, WORD wItemCode, UINT64 dwSerial);
 

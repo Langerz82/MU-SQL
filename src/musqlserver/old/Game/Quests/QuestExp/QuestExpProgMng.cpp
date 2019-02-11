@@ -12,7 +12,7 @@
 #include "util.h"
 #include "gObjMonster.h"
 #include "BuffEffectSlot.h"
-#include "DSProtocol.h"
+
 #include "GensSystem.h"
 #include "configread.h"
 

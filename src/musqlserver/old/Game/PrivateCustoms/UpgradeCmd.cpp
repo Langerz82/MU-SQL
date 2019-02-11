@@ -5,7 +5,7 @@
 #include "ItemManagement/Item.h"
 #include "Logging/Log.h"
 #include "User/CUserData.h"
-#include "DSProtocol.h"
+
 #include "SetItemOption.h"
 #include "ItemOptionTypeMng.h"
 

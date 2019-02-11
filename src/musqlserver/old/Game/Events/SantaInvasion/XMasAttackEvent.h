@@ -9,7 +9,7 @@
 #include "MonsterHerd.h"
 
 
-struct _tagAttackEventMapPosition
+structAttackEventMapPosition
 {
 
 };

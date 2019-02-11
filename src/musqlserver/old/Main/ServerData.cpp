@@ -24,10 +24,10 @@ void CServerData::LoadServerFile(LPSTR lpszFile)
 		return;
 	}
 
-	pugi::xml_node main = file.child("ServerList");
+	pugi::xml_node mainXML = file.child("ServerList");
 	int count = 0;
 
-	for(pugi::xml_node server = main.child("Server"); server; server = server.next_sibling())
+	for(pugi::xml_node server = mainXML.child("Server"); server; server = server.next_sibling())
 	{
 		this->m_Servers[count].MaxUserCount = 0;
 		this->m_Servers[count].UserCount = 0;

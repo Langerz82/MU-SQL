@@ -5,7 +5,7 @@
 #include "NpcTalk.h"
 #include "gObjMonster.h"
 #include "util.h"
-#include "protocol.h"
+#include "GameProtocol.h"
 #include "GameMain.h"
 #include "Event/BloodCastle/BloodCastle.h"
 #include "DevilSquare.h"
@@ -17,7 +17,7 @@
 #include "BuffEffect.h"
 #include "BuffEffectSlot.h"
 #include "DoppelGanger.h"
-#include "DSProtocol.h"
+
 #include "LastManStanding.h"
 #include "configread.h"
 #include "GensSystem.h"

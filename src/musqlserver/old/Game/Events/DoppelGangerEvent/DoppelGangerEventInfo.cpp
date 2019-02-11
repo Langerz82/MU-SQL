@@ -123,7 +123,7 @@ void CDoppelGangerEventInfo::LoadDoppelgangerEventInfo(LPSTR lpFile)
 			m_DGInfo.nLastItemBagDropRate[iNumber] = chest.attribute("RewardRate").as_int();
 		}
 
-		this->m_mapDoppelEvent_Info.insert(std::pair<int, _tagDOPPELGANGER_EVENT_INFO>(m_DGInfo.nUserMaxLevel, m_DGInfo));
+		this->m_mapDoppelEvent_Info.insert(std::pair<int,DOPPELGANGER_EVENT_INFO>(m_DGInfo.nUserMaxLevel, m_DGInfo));
 	}
 
 	this->m_bLoad = TRUE;
@@ -138,7 +138,7 @@ _tagDOPPELGANGER_EVENT_INFO * CDoppelGangerEventInfo::GetDoppelgangerEventInfo(i
 {
 	int nKey = (nUserMaxLevel-1) / 10 * 10 + 10;
 
-	std::map<int, _tagDOPPELGANGER_EVENT_INFO>::iterator it = this->m_mapDoppelEvent_Info.find(nKey);
+	std::map<int,DOPPELGANGER_EVENT_INFO>::iterator it = this->m_mapDoppelEvent_Info.find(nKey);
 
 	if ( it == this->m_mapDoppelEvent_Info.end() )
 	{

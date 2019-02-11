@@ -8,9 +8,9 @@
 #include "QuestInfo.h"
 #include "Logging/Log.h"
 #include "GameMain.h"
-#include "protocol.h"
+#include "GameProtocol.h"
 #include "gObjMonster.h"
-#include "DSProtocol.h"
+
 #include "configread.h"
 #include "MasterLevelSkillTreeSystem.h"
 #include "util.h"

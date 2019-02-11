@@ -42,7 +42,7 @@ public:
 	BYTE GetTempCardShowSlot(BYTE *pSlotCardIndex);
 	BYTE CardSlotMove(CMuRummyInfo *pCMuRummyInfo, int sSlot, int tSlot, CMuRummyCardInfo *pCOutCardInfo, OBJECTSTRUCT *lpObj);
 	BYTE CardSlotReMove(CMuRummyInfo *pCMuRummyInfo, int sSlot);
-	BYTE CardMatchCheck(CMuRummyInfo *pCMuRummyInfo, int *iOutScore, _tagMuRummyCardUpdateDS *pOutCardUpdateDS, OBJECTSTRUCT *lpObj);
+	BYTE CardMatchCheck(CMuRummyInfo *pCMuRummyInfo, int *iOutScore,MuRummyCardUpdateDS *pOutCardUpdateDS, OBJECTSTRUCT *lpObj);
 	void CardSortAscending(CMuRummyCardInfo *pCCardInfo);
 	int IsCardSameColor(CMuRummyCardInfo *pCCardInfo);
 	int IsCardNumber(CMuRummyCardInfo *pCCardInfo);
@@ -66,7 +66,7 @@ public:
 	void GDReqCardInfo(LPGameObject &lpObj);
 	void GDAnsCardInfo(PMSG_ANS_MURUMMY_SELECT_DS *lpMsg);
 	void GDReqCardInfoInsert(LPGameObject &lpObj);
-	void GDReqScoreUpdate(LPGameObject lpObj, WORD wScore, _tagMuRummyCardUpdateDS *pCardUpdateDS);
+	void GDReqScoreUpdate(LPGameObject lpObj, WORD wScore,MuRummyCardUpdateDS *pCardUpdateDS);
 	void GDReqCardInfoUpdate(LPGameObject lpObj, CMuRummyCardInfo *pCCardInfo, int iSeq);
 	void GDReqScoreDelete(LPGameObject &lpObj);
 	void GDReqSlotInfoUpdate(LPGameObject lpObj, BYTE btSeq, BYTE btSlotNum, BYTE btStatus);

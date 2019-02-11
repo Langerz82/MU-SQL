@@ -7,7 +7,7 @@
 #include "User/CUserData.h"
 #include "util.h"
 #include "BagManager.h"
-#include "DSProtocol.h"
+
 #include "Logging/Log.h"
 #include "IniReader.h"
 #include "configread.h"
@@ -190,7 +190,7 @@ void CMuRummyMng::CardShuffle(CMuRummyCardInfo *pCCardInfo)
 	}
 }
 
-bool CMuRummyMng::SetPlayCardInfo(CMuRummyInfo *pMuRummyInfo, _tagMuRummyCardInfo *pOutCardInfo)
+bool CMuRummyMng::SetPlayCardInfo(CMuRummyInfo *pMuRummyInfo,MuRummyCardInfo *pOutCardInfo)
 {
 	int nCardCnt = 0;
 
@@ -530,7 +530,7 @@ void CMuRummyMng::CGReqCardReveal(PMSG_REQ_REVEAL_CARD *lpMsg, int aIndex)
 	}
 }
 
-bool CMuRummyMng::FillEmptySlotCard(CMuRummyInfo *pMuRummyInfo, _tagMuRummyCardInfo *pOutCardInfo, OBJECTSTRUCT *lpObj)
+bool CMuRummyMng::FillEmptySlotCard(CMuRummyInfo *pMuRummyInfo,MuRummyCardInfo *pOutCardInfo, OBJECTSTRUCT *lpObj)
 {
 	CMuRummyCardInfo * pCCardInfo = pMuRummyInfo->GetCardInfo();
 
@@ -965,7 +965,7 @@ void CMuRummyMng::CGReqCardMatch(PMSG_REQ_CARD_MATCH *lpMsg, int aIndex)
 	this->GCSendCardList(aIndex);
 }
 
-BYTE CMuRummyMng::CardMatchCheck(CMuRummyInfo *pCMuRummyInfo, int *iOutScore, _tagMuRummyCardUpdateDS *pOutCardUpdateDS, OBJECTSTRUCT *lpObj)
+BYTE CMuRummyMng::CardMatchCheck(CMuRummyInfo *pCMuRummyInfo, int *iOutScore,MuRummyCardUpdateDS *pOutCardUpdateDS, OBJECTSTRUCT *lpObj)
 {
 	CMuRummyCardInfo *pCCardInfo = pCMuRummyInfo->GetCardInfo();
 
@@ -1603,7 +1603,7 @@ void CMuRummyMng::GDReqCardInfoInsert(LPGameObject &lpObj)
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CMuRummyMng::GDReqScoreUpdate(LPGameObject &lpObj, WORD wScore, _tagMuRummyCardUpdateDS *pCardUpdateDS)
+void CMuRummyMng::GDReqScoreUpdate(LPGameObject &lpObj, WORD wScore,MuRummyCardUpdateDS *pCardUpdateDS)
 {
 	PMSG_REQ_MURUMMY_SCORE_UPDATE_DS pMsg;
 	memcpy(pMsg.AccountID, lpObj->AccountID, MAX_ACCOUNT_LEN + 1);

@@ -390,7 +390,7 @@ bool gObjAddBuffEffect(LPGameObject &lpObj, int iBuffIndex, int Duration)
 	return false;
 }
 
-bool gObjAddPeriodBuffEffect(LPGameObject lpObj, _tagPeriodBuffEffectInfo *lpPeriBuff, unsigned int dwDuration)
+bool gObjAddPeriodBuffEffect(LPGameObject lpObj,PeriodBuffEffectInfo *lpPeriBuff, unsigned int dwDuration)
 {
 	if(lpObj == NULL)	return false;
 

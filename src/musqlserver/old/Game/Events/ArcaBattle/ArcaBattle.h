@@ -40,7 +40,7 @@ enum ARCA_BATTLE_STATE
 
 // Data arrays
 
-struct _tagARCA_USER_INFO
+structARCA_USER_INFO
 {
 	_tagARCA_USER_INFO()
 	{
@@ -59,7 +59,7 @@ struct _tagARCA_USER_INFO
 	char szUserName[MAX_ACCOUNT_LEN + 1];
 };
 
-struct _tagAURA_INFO
+structAURA_INFO
 {
 	_tagAURA_INFO()
 	{
@@ -75,7 +75,7 @@ struct _tagAURA_INFO
 	int m_iAuraPosY;
 };
 
-struct _tagOBELISK_INFO
+structOBELISK_INFO
 {
 	_tagOBELISK_INFO()
 	{
@@ -110,7 +110,7 @@ struct _tagOBELISK_INFO
 	_tagAURA_INFO m_stAuraInfo[3];
 };
 
-struct _tagARCA_BATTLE_BOOTY_REWARD
+structARCA_BATTLE_BOOTY_REWARD
 {
 	_tagARCA_BATTLE_BOOTY_REWARD() {
 	  this->iItemLink = 0;
@@ -128,7 +128,7 @@ struct _tagARCA_BATTLE_BOOTY_REWARD
 	int iDurab;
 	int iRate;
 };
-struct _tagARCA_BATTLE_BOOTY_MIX
+structARCA_BATTLE_BOOTY_MIX
 {
 	_tagARCA_BATTLE_BOOTY_MIX(){
 		  this->iItemLink = 0;
@@ -167,7 +167,7 @@ struct _stABAcquiredPoints
 	 unsigned int dwContributePoints;
 	 unsigned int dwKillPoints;
 };
-struct _tagArcaBattleUserInfo
+structArcaBattleUserInfo
 {
 	void Clear()
 	{
@@ -183,7 +183,7 @@ struct _tagArcaBattleUserInfo
 	_stABAcquiredPoints m_stAcquiredPoints;
 };
 
-struct _tagAURA_STATE
+structAURA_STATE
 {
 	_tagAURA_STATE()
 	{
@@ -199,7 +199,7 @@ struct _tagAURA_STATE
 	int m_iIndex;
 };
 
-struct _tagOBELISK_STATE
+structOBELISK_STATE
 {
 	_tagOBELISK_STATE()
 	{
@@ -228,13 +228,13 @@ struct _tagOBELISK_STATE
 	_tagAURA_STATE m_stAuraState[3];
 };
 
-struct _tagARCA_BATTLE_RESULT_INFO
+structARCA_BATTLE_RESULT_INFO
 {
 	int iGuildNum;
 	int iObeliskAttrKind;
 };
 
-struct _tagOccupyGuildInfo
+structOccupyGuildInfo
 {
 	int iObeliskGroupNum;
 	int iGuildNum;
@@ -258,7 +258,7 @@ struct _stABWinGuildInfo
 	WORD wObeliskGroup;
 };
 
-struct _tagARCA_BATTLE_START_TIME
+structARCA_BATTLE_START_TIME
 {
 	_tagARCA_BATTLE_START_TIME()
 	{
@@ -355,7 +355,7 @@ struct _stABMonGroupInfo
 	_stABMonAccountNumInfo m_stMonsterAccountNumInfo[255];
 };
 
-struct _tagAB_USER_AREA
+structAB_USER_AREA
 {
 	_tagAB_USER_AREA()
 	{
@@ -387,9 +387,9 @@ struct _stAB_USER_POSITION
 	_tagAB_USER_AREA stUserPos[10];
 };
 
-struct _tagAB_GUILD_MEMBER_INFO_LOG
+structAB_GUILD_MEMBER_INFO_LOG
 {
-	 _tagAB_GUILD_MEMBER_INFO_LOG()
+	AB_GUILD_MEMBER_INFO_LOG()
 	 {
 		 this->Clear();
 	 }
@@ -463,11 +463,7 @@ struct PMSG_ARCA_BATTLE_PLAY_INFO
 	_stArcaBattleObeliskInfo m_stObeliskInfo[5];
 };
 
-struct PMSG_REQ_REMOVE_ALL_GUILD_BUFF_DS
-{
-	PBMSG_HEAD2 h;
-	WORD wMapSvrNum;
-};
+
 
 struct PMSG_ANS_REMOVE_ALL_GUILD_BUFF_DS
 {
@@ -905,7 +901,7 @@ public:
 	bool LoadScriptArcaBattle(char *lpszFileName);
 	void BootyExchange(LPGameObject &lpObj);
 	int LoadScriptBootyMix(char *lpszFileName);
-	int GetBootyRewardItem(int iBootyCnt, _tagARCA_BATTLE_BOOTY_REWARD *pBootyRewardItem);
+	int GetBootyRewardItem(int iBootyCnt,ARCA_BATTLE_BOOTY_REWARD *pBootyRewardItem);
 
 	WORD GetObeliskAttrToRewardBuffIndex(int iObeliskAttr);
 	void SendArcaBattlePlayInfo(LPGameObject &obj, WORD wGuildGroupNum);

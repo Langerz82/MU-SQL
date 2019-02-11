@@ -7,7 +7,7 @@
 #include "util.h"
 #include "GameMain.h"
 #include "SetItemOption.h"
-#include "DSProtocol.h"
+
 #include "LuckyItemManager.h"
 #include "configread.h"
 #include "ItemOptionTypeMng.h"

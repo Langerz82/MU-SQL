@@ -27,7 +27,7 @@
 #include "ObjBaseAttack.h"
 #include "ObjAttack.h"
 #include "SkillUseTime.h"
-#include "IniReader.h"
+
 #include "MineSystem.h"
 #include "PentagramSystem.h"
 #include "BotSystem.h"

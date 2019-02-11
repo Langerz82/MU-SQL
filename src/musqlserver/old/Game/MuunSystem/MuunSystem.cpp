@@ -2618,7 +2618,7 @@ void CMuunSystem::CalCharacterStat( int aIndex, int iOptType)
 	}
 }
 
-int CMuunSystem::CheckMuunItemCondition(LPGameObject &lpObj, _tagMUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
+int CMuunSystem::CheckMuunItemCondition(LPGameObject &lpObj,MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
 {
 	if (pCMuunInfo == NULL)
 	{
@@ -2641,7 +2641,7 @@ int CMuunSystem::CheckMuunItemCondition(LPGameObject &lpObj, _tagMUUN_EFFECT_LIS
 	}
 }
 
-int CMuunSystem::CheckMuunItemConditionProc( _tagMUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
+int CMuunSystem::CheckMuunItemConditionProc(MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
 {
 	int result; 
 	int iRet; 
@@ -2705,7 +2705,7 @@ int CMuunSystem::ChkMuunOptConditionTime(_tagMUUN_EFFECT_LIST *pUserMuunEffect, 
 	return -1;
 }
 
-int CMuunSystem::ChkMuunOptConditionDay( _tagMUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
+int CMuunSystem::ChkMuunOptConditionDay(MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
 {
 	SYSTEMTIME tmToDay; 
 	char DayOfWeek[7] = { 64, 32, 16, 8, 4, 2, 1 };
@@ -2739,7 +2739,7 @@ int CMuunSystem::ChkMuunOptConditionDay( _tagMUUN_EFFECT_LIST *pUserMuunEffect, 
 	return -1;
 }
 
-int CMuunSystem::ChkMuunOptConditionLevel(LPGameObject lpObj, _tagMUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
+int CMuunSystem::ChkMuunOptConditionLevel(LPGameObject lpObj,MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
 {
 	if (!pCMuunInfo)
 	{
@@ -2769,7 +2769,7 @@ int CMuunSystem::ChkMuunOptConditionLevel(LPGameObject lpObj, _tagMUUN_EFFECT_LI
 	}
 }
 
-int CMuunSystem::ChkMuunOptConditionMap(LPGameObject lpObj, _tagMUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
+int CMuunSystem::ChkMuunOptConditionMap(LPGameObject lpObj,MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
 {
 	if (!pCMuunInfo)
 	{

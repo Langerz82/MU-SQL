@@ -8,7 +8,7 @@
 #include "configread.h"
 #include "PentagramSystem.h"
 #include "GensSystem.h"
-#include "protocol.h"
+#include "GameProtocol.h"
 //#include "Crywolf.h"
 //#include "util.h"
 #include "VipSys.h"

@@ -7486,21 +7486,6 @@ struct SDHP_ANS_CCF_INFO_NOTIFY {
 	int nType;
 };
 
-struct SDHP_ANS_LOAD_MINESYSTEM_UPT_USERINFO {
-	PBMSG_HEAD2 h;
-	WORD wUserIndex;
-	BYTE byResult;
-	char szCharName[MAX_ACCOUNT_LEN + 1];
-	WORD wTwinkleType;
-	int iCurrentStage;
-};
-
-struct SDHP_ANS_MINESYSTEM_UPT_USERINFO {
-	PBMSG_HEAD2 h;
-	WORD wUserIndex;
-	BYTE byRequestType;
-	BYTE Result;
-};
 
 struct SDHP_BILLKILLUSER {
 	struct PBMSG_HEAD2 h;
@@ -8088,21 +8073,6 @@ struct SDHP_REQ_DBMUUN_INVEN_LOAD {
 	char AccountID[11];
 	char Name[11];
 	WORD aIndex;
-};
-
-struct SDHP_REQ_LOAD_MINESYSTEM_UPT_USERINFO {
-	PBMSG_HEAD2 h;
-	WORD wUserIndex;
-	char szCharName[MAX_ACCOUNT_LEN + 1];
-};
-
-struct SDHP_REQ_MINESYSTEM_UPT_USERINFO {
-	PBMSG_HEAD2 h;
-	WORD wUserIndex;
-	char szCharName[MAX_ACCOUNT_LEN + 1];
-	WORD wTwinkleType;
-	int iCurrentStage;
-	BYTE byRequestType;
 };
 
 struct SDHP_REQ_SET_CC_WINNER_INFO_UBF {

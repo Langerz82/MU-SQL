@@ -11,10 +11,6 @@
 
 #include "TRandomPoolMgr.h"
 
-#define MAX_JOH_ITEM_TYPE	4
-#define MAX_JOH_ITEM_INDEX	16
-#define MAX_JOH_ITEM_OPTION	16
-
 class CItem;
 
 struct JEWELOFHARMONY_ITEM_EFFECT;

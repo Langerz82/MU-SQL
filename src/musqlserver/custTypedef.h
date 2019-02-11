@@ -5,10 +5,9 @@
 #pragma once
 #endif // _MSC_VER > 1000.
 
-//#ifndef USER_H__
-//#define USER_H__
-//#include "User/CUserData.h"
-//#endif
+#include "CGameObject.h"
+
+class CGameObject;
 
 typedef int BOOL;
 typedef wchar_t WCHAR;

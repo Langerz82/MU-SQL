@@ -38,6 +38,8 @@
 // Local Header Files
 #include "prodef.h"
 #include "classdef.h"
+#include "custTypeDef.h"
+
 #include "Lang.h"
 #include "Config\iniReader\IniReader.h"
 #include "CUserData.h"

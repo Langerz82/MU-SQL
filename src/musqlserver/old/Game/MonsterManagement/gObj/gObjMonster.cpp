@@ -52,7 +52,7 @@
 #include "MonsterRegenSystem.h"
 #include "EvolutionMonsterMng.h"
 #include "ItemDropEx.h"
-#include "ItemBags.h"
+#include "Bag.h"
 #include "CustomMaxStats.h"
 #include "SocketItemType.h"
 #include "Notice.h"

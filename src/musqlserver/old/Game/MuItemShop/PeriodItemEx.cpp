@@ -10,10 +10,10 @@
 #include "User/CUserData.h"
 #include "ObjUseSkill.h"
 #include "ObjCalCharacter.h"
-#include "DSProtocol.h"
+
 #include "GameMain.h"
 #include "Logging/Log.h"
-#include "protocol.h"
+#include "GameProtocol.h"
 #include "configread.h"
 
 CPeriodItemEx g_PeriodItemEx;

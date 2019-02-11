@@ -11,7 +11,7 @@
 #include "ChaosCastle.h"
 #include "GensSystem.h"
 #include "PentagramSystem.h"
-#include "DSProtocol.h"
+
 #include "CashShop.h"
 #include "MineSystem.h"
 #include "BotSystem.h"

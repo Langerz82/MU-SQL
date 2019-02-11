@@ -13,7 +13,7 @@
 #endif // _MSC_VER > 1000
 
 #include "custTypedef.h"
-//#include "protocol.h"
+//#include "GameProtocol.h"
 //#include "User/CUserData.h"
 #include "prodef.h"
 #include "configread.h"

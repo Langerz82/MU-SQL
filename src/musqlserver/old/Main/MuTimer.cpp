@@ -7,7 +7,7 @@
 #include "EDSProtocol.h"
 #include "NewPVP.h"
 #include "DoppelGanger.h"
-#include "Event/BloodCastle/BloodCastle.h"
+#include "BloodCastle.h"
 #include "DevilSquare.h"
 #include "ChaosCastle.h"
 #include "IllusionTempleEvent_Renewal.h"
@@ -34,7 +34,7 @@
 #include "CastleSiegeSync.h"
 #include "PersonalStore.h"
 #include "EventMonSetBase.h"
-#include "DSProtocol.h"
+
 #include "configread.h"
 #include "Notice.h"
 #include "./Custom/CustomEventDrop/CustomEventDrop.h"

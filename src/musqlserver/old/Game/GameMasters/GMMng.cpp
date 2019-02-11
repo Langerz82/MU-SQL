@@ -40,13 +40,12 @@
 #include "UpgradeCmd.h"
 #include "gObjMonster.h"
 #include "ResetTable.h"
-#include "ItemBags.h"
+#include "Bag.h"
 #include "CustomMaxStats.h"
 #include "StatSpecialize.h"
 #include "SocketItemType.h"
 
 CGMMng cManager;
-static CLogToFile * CommandLog;
 
 CGMMng::CGMMng()
 {

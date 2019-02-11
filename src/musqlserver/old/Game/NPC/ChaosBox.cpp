@@ -5,7 +5,7 @@
 #include "Logging/Log.h"
 #include "GameMain.h"
 #include "util.h"
-#include "DSProtocol.h"
+
 #include "CastleSiegeSync.h"
 #include "Event/BloodCastle/BloodCastle.h"
 #include "DevilSquare.h"

@@ -7,7 +7,6 @@
 
 #include "stdafx.h"
 #include "WinConsole.h"
-#include "TLog.h"
 #include <commdlg.h>
 
 // menu items

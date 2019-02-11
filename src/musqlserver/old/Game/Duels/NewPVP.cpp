@@ -64,7 +64,7 @@ static int g_GateResponsor[DUEL_CHANNEL_MAX] = {	296,298,300,302 };
 void CNewPVP::Run()
 {
 	EnterCriticalSection(&this->m_csWaiting);
-	std::map<int, _tagWaiting>::iterator iter = m_Waiting.begin();
+	std::map<int,Waiting>::iterator iter = m_Waiting.begin();
 
 	while(iter!=m_Waiting.end())
 	{
@@ -390,7 +390,7 @@ int CNewPVP::Join(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor)
 
 	EnterCriticalSection(&this->m_csWaiting);
 
-	std::map<int, _tagWaiting>::iterator iter = m_Waiting.find(requester.m_Index);
+	std::map<int,Waiting>::iterator iter = m_Waiting.find(requester.m_Index);
 
 	if(!(iter!=m_Waiting.end()))
 	{ 
@@ -475,7 +475,7 @@ int CNewPVP::Join(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor)
 void CNewPVP::Cancel(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor, BOOL bSendPacket)
 {
 	EnterCriticalSection(&this->m_csWaiting);
-	std::map<int, _tagWaiting>::iterator iter = m_Waiting.find(requester.m_Index); 
+	std::map<int,Waiting>::iterator iter = m_Waiting.find(requester.m_Index); 
 
 	if(!(iter!=m_Waiting.end()))
 	{ 
@@ -505,7 +505,7 @@ void CNewPVP::Cancel(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor, BOOL bSen
     }
 }
 
-int CNewPVP::Leave(OBJECTSTRUCT &obj)
+int CNewPVP::Leave(LPGameObject &Obj)
 {
 	int nId = GetDuelChannelId(obj.m_Index);
 	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){	sLog->outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","ENEWPVP::E_INVALID_CHANNELID","NULL",__FILE__, __LINE__); return ENEWPVP::E_INVALID_CHANNELID; }
@@ -571,7 +571,7 @@ void CNewPVP::Leave(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor)
     }
 }
 
-void CNewPVP::SetScore(OBJECTSTRUCT &obj)
+void CNewPVP::SetScore(LPGameObject &Obj)
 {
 	int nId = GetDuelChannelId(obj.m_Index);
 	if(nId < 0 || nId >= DUEL_CHANNEL_MAX) { sLog->outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return;	}
@@ -579,7 +579,7 @@ void CNewPVP::SetScore(OBJECTSTRUCT &obj)
     obj.m_btDuelScore++;
 }
 
-void CNewPVP::CheckScore(OBJECTSTRUCT& obj, OBJECTSTRUCT& target)
+void CNewPVP::CheckScore(LPGameObject &Obj, OBJECTSTRUCT& target)
 {
 	int nId = GetDuelChannelId(obj.m_Index);
 	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
@@ -618,7 +618,7 @@ void CNewPVP::CheckScore(OBJECTSTRUCT& obj, OBJECTSTRUCT& target)
     SetStatus(4, nId, requester, responsor);
 }
 
-void CNewPVP::ReFill(OBJECTSTRUCT &obj)
+void CNewPVP::ReFill(LPGameObject &Obj)
 {
 	if( !gObjIsConnected(&obj) ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","gObjIsConnected(&obj)","0","NULL", __FILE__, __LINE__); return; }
 
@@ -663,7 +663,7 @@ BOOL CNewPVP::CheckLimitLevel(int nIndex, int nGateNum)
 	return TRUE;
 }
 
-void CNewPVP::SetBuff(OBJECTSTRUCT &obj, BOOL bUse)
+void CNewPVP::SetBuff(LPGameObject &Obj, BOOL bUse)
 {
 	if( bUse )
 	{
@@ -678,20 +678,20 @@ void CNewPVP::SetBuff(OBJECTSTRUCT &obj, BOOL bUse)
 	gObjViewportListProtocolCreate(&obj);
 }
 
-BOOL CNewPVP::SendChannelList(OBJECTSTRUCT &npc, OBJECTSTRUCT &obj)
+BOOL CNewPVP::SendChannelList(OBJECTSTRUCT &npc, LPGameObject &Obj)
 {
 	IOCP.DataSend(obj.m_Index, (LPBYTE)&m_DuelChannelList, m_DuelChannelList.h.size);
 	return FALSE;
 }
 
-int CNewPVP::GetChannelStatus(OBJECTSTRUCT &obj)
+int CNewPVP::GetChannelStatus(LPGameObject &Obj)
 {
 	DUEL_CHANNEL * lpChannel = GetDuelChannel(obj.Name);
 	if(lpChannel != NULL)	return lpChannel->nStatus;
 	return 0;
 }
 
-BOOL CNewPVP::IsSafeState(OBJECTSTRUCT &obj)
+BOOL CNewPVP::IsSafeState(LPGameObject &Obj)
 {
 	DUEL_CHANNEL * lpChannel = GetDuelChannel(obj.Name);
 	if(lpChannel == NULL)	return TRUE;
@@ -706,7 +706,7 @@ BOOL CNewPVP::IsSafeState(OBJECTSTRUCT &obj)
 	return FALSE;
 }
 
-int CNewPVP::IsObserver(OBJECTSTRUCT &obj)
+int CNewPVP::IsObserver(LPGameObject &Obj)
 {
 	return gObjCheckUsedBuffEffect(&obj, BUFFTYPE_OBSERVER);
 }
@@ -715,7 +715,7 @@ int CNewPVP::GetChannelIdByObserver(OBJECTSTRUCT & obj)
 {
 	EnterCriticalSection(&this->m_csObserver);
 
-	std::map<int, _tagObserverInfo>::iterator iter = m_ObserverInfoList.find(obj.m_Index);
+	std::map<int,ObserverInfo>::iterator iter = m_ObserverInfoList.find(obj.m_Index);
 	if(!(iter!=m_ObserverInfoList.end()))
 	{
 		LeaveCriticalSection(&this->m_csObserver);
@@ -750,7 +750,7 @@ int CNewPVP::CheckUsersOnConnect(int nId)
 	return TRUE;
 }
 
-void CNewPVP::ChatMsgSend(OBJECTSTRUCT& obj,BYTE* Msg, int size)
+void CNewPVP::ChatMsgSend(LPGameObject &Obj,BYTE* Msg, int size)
 {
 	int nId = -1;
 
@@ -781,7 +781,7 @@ void CNewPVP::ChatMsgSend(OBJECTSTRUCT& obj,BYTE* Msg, int size)
 	BroadcastToObserver(nId, Msg, size);
 }
 
-void CNewPVP::Reset(OBJECTSTRUCT& obj)
+void CNewPVP::Reset(LPGameObject &Obj)
 {
 	if( IsDuelRequested(obj) )	Cancel(obj, gGameObjects[obj.m_iDuelUserRequested], TRUE);
 	if( IsDuel(obj) )	Leave(obj);
@@ -789,7 +789,7 @@ void CNewPVP::Reset(OBJECTSTRUCT& obj)
 	if( IsObserver(obj) )
 	{
 		EnterCriticalSection(&this->m_csObserver);
-		std::map<int, _tagObserverInfo>::iterator iter = m_ObserverInfoList.find(obj.m_Index);
+		std::map<int,ObserverInfo>::iterator iter = m_ObserverInfoList.find(obj.m_Index);
 
 		if(!(iter!=m_ObserverInfoList.end()))
 		{
@@ -810,7 +810,7 @@ void CNewPVP::GetObserverList(int nId, PMSG_DUEL_OBSERVERLIST_BROADCAST& res)
 	int i = 0;
 	EnterCriticalSection(&this->m_csObserver);
 
-	for(std::map<int, _tagObserverInfo>::iterator iter = m_ObserverInfoList.begin();iter!=m_ObserverInfoList.end(); iter++)
+	for(std::map<int,ObserverInfo>::iterator iter = m_ObserverInfoList.begin();iter!=m_ObserverInfoList.end(); iter++)
 	{
 		ObserverInfo & info = iter->second;		
 		if(info.nId == nId)
@@ -825,7 +825,7 @@ void CNewPVP::GetObserverList(int nId, PMSG_DUEL_OBSERVERLIST_BROADCAST& res)
 	LeaveCriticalSection(&this->m_csObserver);
 }
 
-int CNewPVP::JoinChannel(int nId,OBJECTSTRUCT& obj)
+int CNewPVP::JoinChannel(int nId,LPGameObject &Obj)
 {
 	if( IsDuel(obj) ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","!IsDuel(obj)","ENEWPVP::E_ALREADY_DUELLING", "NULL", __FILE__,  __LINE__); return ENEWPVP::E_ALREADY_DUELLING; }
 	if( IsDuelRequested(obj) ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","!IsDuelRequested(obj)","ENEWPVP::E_ALREADY_DUELREQUESTED","NULL",  __FILE__,  __LINE__); return ENEWPVP::E_ALREADY_DUELREQUESTED; }
@@ -836,7 +836,7 @@ int CNewPVP::JoinChannel(int nId,OBJECTSTRUCT& obj)
 	if( !CheckLimitLevel(obj.m_Index, g_GateObserver[nId]) )	return ENEWPVP::E_LIMIT_LEVEL;
 
 	EnterCriticalSection(&this->m_csObserver);
-	std::map<int, _tagObserverInfo>::iterator iter = m_ObserverInfoList.find(obj.m_Index); 
+	std::map<int,ObserverInfo>::iterator iter = m_ObserverInfoList.find(obj.m_Index); 
 
 	if( !(iter==m_ObserverInfoList.end()) )
 	{
@@ -912,13 +912,13 @@ int CNewPVP::JoinChannel(int nId,OBJECTSTRUCT& obj)
 	return 0;
 }
 
-int CNewPVP::LeaveChannel(int nId,OBJECTSTRUCT& obj)
+int CNewPVP::LeaveChannel(int nId,LPGameObject &Obj)
 {
 	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","ENEWPVP::E_INVALID_CHANNELID","NULL",__FILE__, __LINE__); return ENEWPVP::E_INVALID_CHANNELID; }
 	if( !IS_START(m_DuelChannel[nId].nStatus) ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)", "ENEWPVP::E_INVALID_STATUS","NULL",__FILE__, __LINE__); return ENEWPVP::E_INVALID_STATUS; }	
 
 	EnterCriticalSection(&this->m_csObserver);
-	std::map<int, _tagObserverInfo>::iterator iter = m_ObserverInfoList.find(obj.m_Index); 
+	std::map<int,ObserverInfo>::iterator iter = m_ObserverInfoList.find(obj.m_Index); 
 
 	if(!(iter!=m_ObserverInfoList.end()))
 	{
@@ -978,7 +978,7 @@ int CNewPVP::LeaveChannel(int nId,OBJECTSTRUCT& obj)
 void CNewPVP::LeaveChannelObserver(int nId)
 {
 	EnterCriticalSection(&this->m_csObserver);
-	std::map<int, _tagObserverInfo>::iterator iter = m_ObserverInfoList.begin();
+	std::map<int,ObserverInfo>::iterator iter = m_ObserverInfoList.begin();
 
 	while(iter!=m_ObserverInfoList.end())
 	{
@@ -1061,7 +1061,7 @@ void CNewPVP::BroadcastScore(int nId, BYTE nFlag)
 	}
 }
 
-void CNewPVP::BroadcastResult(int nId, BYTE nFlag, OBJECTSTRUCT &obj)
+void CNewPVP::BroadcastResult(int nId, BYTE nFlag, LPGameObject &Obj)
 {
 	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
 	if( m_DuelChannel[nId].nStatus != DC_RESERVEDEND ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","m_DuelChannel[nId].nStatus==DC_RESERVEDEND", "0","NULL",__FILE__, __LINE__); return;	}
@@ -1152,7 +1152,7 @@ void CNewPVP::BroadcastDuelInfo(int nId, BYTE nFlag)
 	}
 }
 
-void CNewPVP::BroadcastJoinChannel(int nId, OBJECTSTRUCT &obj)
+void CNewPVP::BroadcastJoinChannel(int nId, LPGameObject &Obj)
 {
 	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
 	if( !IS_START(m_DuelChannel[nId].nStatus) ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)","0","NULL",__FILE__, __LINE__); return; }
@@ -1166,7 +1166,7 @@ void CNewPVP::BroadcastJoinChannel(int nId, OBJECTSTRUCT &obj)
     BroadcastToObserver(nId, (LPBYTE)&res, res.h.size);
 }
 
-void CNewPVP::BroadcastLeaveChannel(int nId, OBJECTSTRUCT &obj)
+void CNewPVP::BroadcastLeaveChannel(int nId, LPGameObject &Obj)
 {
 	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
 	if( !IS_START(m_DuelChannel[nId].nStatus) ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)","0","NULL",__FILE__, __LINE__); return; }
@@ -1188,7 +1188,7 @@ void CNewPVP::BroadcastToObserver( int nId, BYTE *lpData, int nSize)
 
 	EnterCriticalSection(&this->m_csObserver);
 
-	for(std::map<int, _tagObserverInfo>::iterator iter = m_ObserverInfoList.begin();iter!=m_ObserverInfoList.end(); iter++)
+	for(std::map<int,ObserverInfo>::iterator iter = m_ObserverInfoList.begin();iter!=m_ObserverInfoList.end(); iter++)
 	{
 		ObserverInfo & info = iter->second;		
 		if(info.nId == nId)

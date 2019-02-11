@@ -7,7 +7,7 @@
 #include "prodef.h"
 #include "CUserData.h"
 
-struct _tagAE_OBELISK_INFO
+structAE_OBELISK_INFO
 {
 	_tagAE_OBELISK_INFO()
 	{
@@ -108,26 +108,12 @@ struct _stAEMonGroupInfo
 	_stAEMonAccountNumInfo m_stMonsterAccountNumInfo[50];
 };
 
-struct _tagAcheronEventTime
+structAcheronEventTime
 {
 	int m_iHour;
 	int m_iMinute;
 };
 
-// DS
-
-struct PMSG_REQ_AE_PLAY_DS
-{
-	PBMSG_HEAD2 h;
-	WORD wMapSvrNum;
-	BYTE btPlay;
-};
-
-struct PMSG_ANS_AE_PLAY_DS
-{
-	PBMSG_HEAD2 h;
-	BYTE btPlay;
-};
 
 class CAcheronGuardianEvent
 {

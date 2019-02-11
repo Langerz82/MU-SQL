@@ -7,11 +7,6 @@
 
 #include "StdAfx.h"
 
-////////////////////////////////////////////////////////////////////////////////
-// MonsterRegenSystem.h
-#ifndef MONSTERREGENSYSTEM_H
-#define MONSTERREGENSYSTEM_H
-
 #define MAX_REGEN_AREA 50
 #define MAX_MONSTER_INDEX_INFO 20
 #define MAX_REGEN_TIME_TABLE 24

@@ -8,7 +8,7 @@ void gObjEventInventoryItemSet(LPGameObject &lpObj, int itempos, BYTE set_byte)
 	{
 		return;
 	}
-	if ((*lpObj)->pEventInventory[itempos].GetSize(width, height) == 0)
+	if ((**lpObj)->pEventInventory[itempos].GetSize(width, height) == 0)
 	{
 		sLog->outBasic("error %s %d", __FILE__, __LINE__);
 		return;

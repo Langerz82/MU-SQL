@@ -6,10 +6,10 @@
 #include "OfflineLevelling.h"
 #include "Logging/Log.h"
 #include "configread.h"
-#include "protocol.h"
+#include "GameProtocol.h"
 #include "GameMain.h"
 #include "util.h"
-#include "DSProtocol.h"
+
 #include "ItemSocketOptionSystem.h"
 #include "CashShop.h"
 #include "LuckyItemManager.h"

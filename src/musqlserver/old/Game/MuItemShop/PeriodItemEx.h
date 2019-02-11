@@ -14,71 +14,6 @@ enum PERIODITEM_TYPE
 	PERIODITEM_NORMAL = 2
 };
 
-struct PMSG_ANS_PERIODITEMEX_INSERT
-{
-	PBMSG_HEAD2 head;
-	DWORD dwUserGuid;
-	WORD wUserIndex;
-	BYTE btResultCode;
-	BYTE btItemtype;
-	WORD wItemCode;
-	BYTE btEffectCategory;
-	BYTE btEffectType1;
-	BYTE btEffectType2;
-	UINT64 Serial;
-	DWORD dwDuration;
-	time_t lBuyDate;
-	time_t lExpireDate;
-};
-
-struct PMSG_REQ_PERIODITEMEX_INSERT
-{
-	PBMSG_HEAD2 head;
-	DWORD dwUserGuid;
-	WORD wUserIndex;
-	char chCharacterName[MAX_ACCOUNT_LEN+1];
-	BYTE btItemType;
-	WORD wItemCode;
-	BYTE btEffectCategory;
-	BYTE btEffectType1;
-	BYTE btEffectType2;
-	UINT64 Serial;
-	DWORD dwDuration;
-	time_t lBuyDate;
-	time_t lExpireDate;
-};
-
-struct PMSG_ANS_PERIODITEMEX_DELETE
-{
-	PBMSG_HEAD2 head;
-	DWORD dwUserGuid;
-	WORD wUserIndex;
-	BYTE btResultCode;
-};
-
-struct PMSG_REQ_PERIODITEMEX_DELETE
-{
-	PBMSG_HEAD2 head;
-	DWORD dwUserGuid;
-	WORD wUserIndex;
-	UINT64 Serial;
-	WORD wItemCode;
-	BYTE btItemType;
-	char chCharacterName[MAX_ACCOUNT_LEN+1];
-};
-
-struct ITEMPERIOD_DATEINFO
-{
-	BYTE btUsedInfo;
-	BYTE btItemType;
-	WORD wItemCode;
-	BYTE btEffectCategory;
-	BYTE btEffectType1;
-	BYTE btEffectType2;
-	UINT64 Serial;
-	time_t lItemBuyDate;
-	time_t lItemExpireDate;
-};
 
 typedef struct
 {
@@ -88,53 +23,6 @@ typedef struct
 	ITEMPERIOD_DATEINFO ItemData[100];
 }PERIOD_ITEMLIST, *LPPERIOD_ITEMLIST;
 
-struct PMSG_ANS_PERIODITEMEX_LIST
-{
-	PBMSG_HEAD2 head;
-	DWORD dwUserGuid;
-	WORD wUserIndex;
-	BYTE btUsedInfo;
-	BYTE btItemType;
-	UINT64 Serial;
-	time_t lItemBuyDate;
-	time_t lItemExpireDate;
-	WORD wItemCode;
-	BYTE btEffectCategory;
-	BYTE btEffectType1;
-	BYTE btEffectType2;
-};
-
-struct PMSG_REQ_PERIODITEMEX_SELECT
-{
-	PBMSG_HEAD2 head;
-	DWORD dwUserGuid;
-	WORD wUserIndex;
-	char chCharacterName[MAX_ACCOUNT_LEN+1];
-};
-
-struct PMSG_ANS_PERIODITEMEX_EXPIRED_ITEMLIST
-{
-	PWMSG_HEAD2 head;
-	WORD wUserIndex;
-	BYTE btExpiredItemCount;
-	WORD wItemCode[90];
-	UINT64 Serial[90];
-};
-
-struct PMSG_ANS_PERIODITEMEX_LIST_COUNT
-{
-	PBMSG_HEAD2 head;
-	WORD wUserIndex;
-	BYTE btResult;
-	BYTE btListCount;
-	DWORD dwUserGuid;
-};
-
-struct PERIOD_EXPIRED_ITEM
-{
-	WORD wItemCode;
-	UINT64 Serial;
-};
 
 typedef struct
 {

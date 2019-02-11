@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "VipSys.h"
 #include "User/CUserData.h"
-#include "protocol.h"
+#include "GameProtocol.h"
 #include "Logging/Log.h"
 #include "ChaosBox.h"
 #include "MasterLevelSkillTreeSystem.h"

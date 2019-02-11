@@ -8,7 +8,10 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "custTypedef.h"
+#include "generalStructs.h"
+#include "CGameObject.h"
+
+class CGameObject;
 
 #include "CQueue.h"
 
@@ -19,6 +22,11 @@ enum eSERVER_TYPE
 	ST_DATASERVER = 2,
 	ST_EXDATASERVER = 3,
 };
+
+struct _PER_IO_CONTEXT;
+struct _PER_SOCKET_CONTEXT;
+struct SOCKET;
+
 
 class CIOCP
 {

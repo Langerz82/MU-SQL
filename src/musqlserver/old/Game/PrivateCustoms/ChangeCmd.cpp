@@ -5,7 +5,7 @@
 #include "ItemManagement/Item.h"
 #include "Logging/Log.h"
 #include "User/CUserData.h"
-#include "DSProtocol.h"
+
 
 // joinmu private custom
 // expiry date: 14/12/2016

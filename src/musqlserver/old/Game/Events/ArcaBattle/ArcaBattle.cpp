@@ -75,7 +75,7 @@ void CArcaBattle::Clear()
 	this->m_bWindowClose = false;
 }
 
-BOOL CArcaBattle::GetBootyRewardItem(int iBootyCnt, _tagARCA_BATTLE_BOOTY_REWARD *pBootyRewardItem)
+BOOL CArcaBattle::GetBootyRewardItem(int iBootyCnt,ARCA_BATTLE_BOOTY_REWARD *pBootyRewardItem)
 {
 	_tagARCA_BATTLE_BOOTY_MIX pBootMix;
 	bool bMixFound = false;

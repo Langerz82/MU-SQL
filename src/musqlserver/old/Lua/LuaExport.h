@@ -5,7 +5,7 @@
 #include "util.h"
 #include "BuffEffectSlot.h"
 #include "gObjMonster.h"
-#include "DSProtocol.h"
+
 #include "GameMain.h"
 #include "Bag.h"
 #include "BagManager.h"

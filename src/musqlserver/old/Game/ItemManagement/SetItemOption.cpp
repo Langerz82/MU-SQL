@@ -1,7 +1,6 @@
 
 #include "SetItemOption.h"
-#include "WzMemScript.h"
-//#include "..\source\logproc.h"
+#include "MemScript.h"
 
 CSetItemOption gSetItemOption;
 

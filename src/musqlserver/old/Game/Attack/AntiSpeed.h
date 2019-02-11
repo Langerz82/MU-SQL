@@ -4,7 +4,7 @@
 #define _ANTI_SPEED_H
 
 #include "StdAfx.h"
-//#include "protocol.h"
+//#include "GameProtocol.h"
 
 
 #include <queue>
@@ -94,9 +94,9 @@ public:
 
 	void ProcessQueue();
 	static bool ThreadActive;
-	static VOID AttackQueueProc(std::vector<CGameObject*> gObj);
+	static VOID AttackQueueProc(std::vector<LPGameObject> gObj);
 	
-	CGameObject* m_Obj;
+	LPGameObject m_Obj;
 	CRITICAL_SECTION m_CritQueue;
 };
 

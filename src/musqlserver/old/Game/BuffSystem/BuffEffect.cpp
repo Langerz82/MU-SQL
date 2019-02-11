@@ -696,7 +696,7 @@ struct PMSG_REQ_GUILD_PERIODBUFF_INSERT
 	time_t lExpireDate;
 };
 
-void CBuffEffect::RequestGuildPeriodBuffInsert(char *szGuildName, _tagPeriodBuffInfo *lpBuffInfo)
+void CBuffEffect::RequestGuildPeriodBuffInsert(char *szGuildName,PeriodBuffInfo *lpBuffInfo)
 {
 	PMSG_REQ_GUILD_PERIODBUFF_INSERT pMsg;
 
@@ -781,7 +781,7 @@ struct PMSG_REQ_PERIODBUFF_INSERT
 	time_t lExpireDate;
 };
 
-void CBuffEffect::RequestPeriodBuffInsert(LPGameObject lpObj, _tagPeriodBuffInfo *lpBuffInfo)
+void CBuffEffect::RequestPeriodBuffInsert(LPGameObject lpObj,PeriodBuffInfo *lpBuffInfo)
 {
 	PMSG_REQ_PERIODBUFF_INSERT pMsg; 
 

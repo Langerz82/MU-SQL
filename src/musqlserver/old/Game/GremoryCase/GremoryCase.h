@@ -5,8 +5,10 @@
 
 #include "StdAfx.h"
 #include "ItemManagement/Item.h"
+#include "protocolStructs.h"
 
 #pragma once
+
 class CGremoryCase
 {
 public:

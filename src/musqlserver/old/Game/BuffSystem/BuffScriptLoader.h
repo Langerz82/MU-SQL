@@ -34,7 +34,7 @@ typedef struct
 	DWORD dwDuration;
 }_tagPeriodBuffEffectInfo, * LPPERIOD_BUFF_EFFECT_INFO;
 
-struct _tagPeriodBuffInfo
+structPeriodBuffInfo
 {
 	WORD wBuffIndex;
 	char btEffectType1;

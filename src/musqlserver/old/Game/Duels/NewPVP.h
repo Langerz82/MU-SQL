@@ -109,7 +109,7 @@ typedef struct PMSG_ANS_DUEL_CHANNELLIST
 	
 } PMSG_ANS_DUEL_CHANNELLIST, *LPMSG_ANS_DUEL_CHANNELLIST;
 
-typedef struct _tagDUEL_CHANNEL
+typedef structDUEL_CHANNEL
 {
 	int nId;
 	int nIndex1;
@@ -121,7 +121,7 @@ typedef struct _tagDUEL_CHANNEL
 	short nNotifyCount;
 } DUEL_CHANNEL, *LPDUEL_CHANNEL;
 
-typedef struct _tagWaiting
+typedef structWaiting
 {
 	int nRequester;
 	int nResponsor;
@@ -129,7 +129,7 @@ typedef struct _tagWaiting
 	DWORD dwTime;
 } Waiting, *LPWaiting ;
 
-typedef struct _tagObserverInfo
+typedef structObserverInfo
 {
 	int nId;
 	int nIndex;
@@ -243,28 +243,28 @@ public:
 	int Reserve(OBJECTSTRUCT& requester, OBJECTSTRUCT& responsor);
 	int Join(OBJECTSTRUCT& requester, OBJECTSTRUCT& responsor);
 	void Cancel(OBJECTSTRUCT& requester, OBJECTSTRUCT& responsor, BOOL bSendPacket);
-	int Leave(OBJECTSTRUCT& obj);
-	void SetScore(OBJECTSTRUCT& obj);
-	void CheckScore(OBJECTSTRUCT& obj, OBJECTSTRUCT& target);
-	BOOL SendChannelList(OBJECTSTRUCT& npc, OBJECTSTRUCT& obj);
-	int JoinChannel(int nId, OBJECTSTRUCT& obj);
-	int LeaveChannel(int nId, OBJECTSTRUCT& obj);
-	void ChatMsgSend(OBJECTSTRUCT& obj, BYTE* Msg, int size);
-	void SetBuff(OBJECTSTRUCT& obj, BOOL bUse);
-	int GetChannelStatus(OBJECTSTRUCT& obj);
-	BOOL IsSafeState(OBJECTSTRUCT& obj);
+	int Leave(LPGameObject &Obj);
+	void SetScore(LPGameObject &Obj);
+	void CheckScore(LPGameObject &Obj, OBJECTSTRUCT& target);
+	BOOL SendChannelList(OBJECTSTRUCT& npc, LPGameObject &Obj);
+	int JoinChannel(int nId, LPGameObject &Obj);
+	int LeaveChannel(int nId, LPGameObject &Obj);
+	void ChatMsgSend(LPGameObject &Obj, BYTE* Msg, int size);
+	void SetBuff(LPGameObject &Obj, BOOL bUse);
+	int GetChannelStatus(LPGameObject &Obj);
+	BOOL IsSafeState(LPGameObject &Obj);
 
-	BOOL IsDuelRequested(OBJECTSTRUCT& obj)
+	BOOL IsDuelRequested(LPGameObject &Obj)
 	{
-		return CHECK_LIMIT(obj.m_iDuelUserRequested, g_ConfigRead.server.GetObjectMax());
+		return CHECK_LIMIT((**Obj)->m_iDuelUserRequested, g_ConfigRead.server.GetObjectMax());
 	}
 	
-	BOOL IsDuelReserved(OBJECTSTRUCT &obj)
+	BOOL IsDuelReserved(LPGameObject &Obj)
 	{
-		return CHECK_LIMIT(obj.m_iDuelUserReserved, g_ConfigRead.server.GetObjectMax());
+		return CHECK_LIMIT(Obj->m_iDuelUserReserved, g_ConfigRead.server.GetObjectMax());
 	}
 	
-	BOOL IsDuel(OBJECTSTRUCT& obj,int nIndex)
+	BOOL IsDuel(LPGameObject &Obj,int nIndex)
 	{
 		if(CHECK_LIMIT(obj.m_iDuelUser, g_ConfigRead.server.GetObjectMax()) && obj.m_iDuelUser == nIndex)
 		{
@@ -273,13 +273,13 @@ public:
 		return FALSE;
 	}
 
-	BOOL IsDuel(OBJECTSTRUCT& obj)
+	BOOL IsDuel(LPGameObject &Obj)
 	{
 		return CHECK_LIMIT(obj.m_iDuelUser, g_ConfigRead.server.GetObjectMax());
 	}
 
-	int IsObserver(OBJECTSTRUCT& obj);
-	void Reset(OBJECTSTRUCT& obj);
+	int IsObserver(LPGameObject &Obj);
+	void Reset(LPGameObject &Obj);
 	BOOL CheckPKPenalty(LPGameObject &lpObj);
 	BOOL IsSelfDefense(LPGameObject &lpObj);
 	BOOL IsGuildWar(LPGameObject &lpObj);
@@ -314,7 +314,7 @@ private:
 	void SetStatus(int nStatus,int nId, OBJECTSTRUCT& requester, OBJECTSTRUCT& responsor);
 	void SetDuelStatus(OBJECTSTRUCT& requester, OBJECTSTRUCT& responsor, int nStatus);
 	
-	int GetDuelStatus(OBJECTSTRUCT &obj)
+	int GetDuelStatus(LPGameObject &Obj)
 	{
 		if(CHECK_LIMIT(obj.m_iDuelUserRequested, g_ConfigRead.server.GetObjectMax()))
 		{
@@ -334,7 +334,7 @@ private:
 		return 0;
 	};
 
-	int GetDuelStatusByResponsor(OBJECTSTRUCT &obj)
+	int GetDuelStatusByResponsor(LPGameObject &Obj)
 	{
 		if(CHECK_LIMIT(obj.m_iDuelUserRequested, g_ConfigRead.server.GetObjectMax()))
 		{
@@ -358,17 +358,17 @@ private:
 	void ReFill(OBJECTSTRUCT & obj);
 	BOOL MoveGate(int nIndex,int nGateNum);
 	BOOL CheckLimitLevel(int nIndex, int nGateNum);
-	int GetChannelIdByObserver(OBJECTSTRUCT& obj);
+	int GetChannelIdByObserver(LPGameObject &Obj);
 	int CheckUsersOnConnect(int nId);
 	void GetObserverList(int nId,PMSG_DUEL_OBSERVERLIST_BROADCAST& res);
 	void LeaveChannelObserver(int nId);
 	void CheckChannelListInfo(int nId);
 
 	void BroadcastScore(int nId, BYTE nFlag);
-	void BroadcastResult(int nId,BYTE nFlag, OBJECTSTRUCT& obj);
+	void BroadcastResult(int nId,BYTE nFlag, LPGameObject &Obj);
 	void BroadcastDuelInfo(int nId,BYTE nFlag);
-	void BroadcastJoinChannel(int nId,OBJECTSTRUCT& obj);
-	void BroadcastLeaveChannel(int nId,OBJECTSTRUCT& obj);
+	void BroadcastJoinChannel(int nId,LPGameObject &Obj);
+	void BroadcastLeaveChannel(int nId,LPGameObject &Obj);
 	void BroadcastToObserver(int nId,BYTE* lpData,int nSize);
 	void BroadcastMessage(int nId,BYTE nFlag, BYTE nMsgType,int nNotifySec);
 	void BroadcastRound(int nId, BYTE nFlag, BOOL bEnd);

@@ -2,7 +2,7 @@
 // DoppelGangerEventInfo.h
 #pragma once
 
-struct _tagDOPPELGANGER_EVENT_INFO
+structDOPPELGANGER_EVENT_INFO
 {
 	int nUserMaxLevel;
 	float fMonsterLevel[5];
@@ -40,7 +40,7 @@ public:
 
 private:
 	bool													m_bLoad;
-	std::map<int, _tagDOPPELGANGER_EVENT_INFO>				m_mapDoppelEvent_Info;
+	std::map<int,DOPPELGANGER_EVENT_INFO>				m_mapDoppelEvent_Info;
 	_tagDOPPELGANGER_EVENT_INFO								m_DoppelgangerInfo;
 	int														m_nDoppelgangerUserCnt;
 
