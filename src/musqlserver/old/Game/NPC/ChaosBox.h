@@ -7,7 +7,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "protocol.h"
+#include "GameProtocol.h"
 #include "ItemManagement/Item.h"
 
 #define MAX_TALISMAN_OF_LUCK 10

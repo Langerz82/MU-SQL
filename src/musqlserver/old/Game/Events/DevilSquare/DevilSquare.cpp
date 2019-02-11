@@ -12,7 +12,7 @@
 #include "GameMain.h"
 #include "TNotice.h"
 #include "gObjMonster.h"
-#include "Event/BloodCastle/BloodCastle.h"
+#include "BloodCastle.h"
 #include "ChaosCastle.h"
 #include "util.h"
 #include "CrywolfSync.h"

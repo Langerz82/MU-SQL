@@ -3,8 +3,7 @@
 #include "StdAfx.h"
 #include "CastleSiegeSync.h"
 #include "TUnion.h"
-#include "Protocols/protocol.h"
-#include "Protocols/DSProtocol.h"
+#include "GameProtocol.h"
 #include "Map/MapServerManager.h"
 
 // GS-N 0.99.60T 0x0051B7C0 - Completed

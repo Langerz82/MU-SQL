@@ -14,7 +14,7 @@
 #include "User/CUserData.h"
 #include "BuffEffectSlot.h"
 #include "MapServerManager.h"
-#include "DSprotocol.h"
+#include "GameProtocol.h"
 #include "CashShop.h"
 #include "MasterLevelSkillTreeSystem.h"
 #include "util.h"

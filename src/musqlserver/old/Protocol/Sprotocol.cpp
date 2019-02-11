@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "Sprotocol.h"
-#include "giocp.h"
+#include "IOCP.h"
 #include "Utility/util.h"
 #include "RSA/MD5.h"
 #include "ServerEngine.h"

@@ -2,13 +2,10 @@
 // IllusionTempleLeagueEvent.cpp
 #include "StdAfx.h"
 #include "IllusionTempleLeagueEvent.h"
-#include "configread.h"
-#include "IniReader.h"
 #include "ReadScript.h"
 #include "GameMain.h"
-#include "util.h"
 #include "MapServerManager.h"
-#include "DSProtocol.h"
+#include "GameProtocol.h"
 #include "ItemOptionTypeMng.h"
 
 CIllusionTempleLeagueEvent g_IllusionTempleLeagueEvent;

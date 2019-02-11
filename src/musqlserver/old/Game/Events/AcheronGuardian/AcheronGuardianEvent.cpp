@@ -7,7 +7,7 @@
 #include "GameMain.h"
 #include "TNotice.h"
 #include "CUserData.h"
-#include "protocol.h"
+#include "GameProtocol.h"
 #include "BagManager.h"
 #include "LargeRand.h"
 //#include "winutil.h"

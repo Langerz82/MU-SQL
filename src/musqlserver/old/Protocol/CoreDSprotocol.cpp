@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "CoreDSprotocol.h"
-#include "giocp.h"
+#include "IOCP.h"
 #include "ItemSerial.h"
 #include "ServerEngine.h"
 #include "MapServerManager.h"

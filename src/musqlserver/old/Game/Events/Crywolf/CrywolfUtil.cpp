@@ -4,7 +4,7 @@
 
 #include "StdAfx.h"
 #include "CrywolfUtil.h"
-#include "DSProtocol.h"
+#include "GameProtocol.h"
 #include "MapServerManager.h"
 #include "TNotice.h"
 #include "classdef.h"

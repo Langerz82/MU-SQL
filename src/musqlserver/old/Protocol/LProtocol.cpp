@@ -2,7 +2,7 @@
 // LProtocol.cpp
 #include <vector>
 #include "LProtocol.h"
-#include "giocp.h"
+#include "IOCP.h"
 #include "Sprotocol.h"
 #include "ServerEngine.h"
 #include "readscript.h" // Cant find maybe a windows file?

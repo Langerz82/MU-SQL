@@ -4,7 +4,7 @@
 #include "DarkSpirit.h"
 #include "MapClass.h"
 #include "GameMain.h"
-#include "protocol.h"
+#include "GameProtocol.h"
 #include "BattleSoccerManager.h"
 #include "gObjMonster.h"
 #include "ObjAttack.h"

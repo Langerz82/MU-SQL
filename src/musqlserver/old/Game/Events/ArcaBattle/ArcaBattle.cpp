@@ -4,7 +4,6 @@
 #include "ArcaBattle.h"
 #include "CUserData.h"
 #include "LargeRand.h"
-#include "TLog.h"
 #include "GameMain.h"
 #include "BuffEffectSlot.h"
 #include "BuffEffect.h"

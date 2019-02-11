@@ -5,15 +5,12 @@
 #include "IllusionTempleLeagueEvent.h"
 #include "PartyClass.h"
 #include "GameMain.h"
-#include "Logging/Log.h"
-#include "util.h"
 #include "SendNPCInfo.h"
 #include "BuffEffectSlot.h"
-#include "protocol.h"
+#include "GameProtocol.h"
 #include "DSProtocol.h"
 #include "TNotice.h"
 #include "GuildClass.h"
-#include "configread.h"
 
 CIllusionTempleLeagueProcess::CIllusionTempleLeagueProcess()
 {

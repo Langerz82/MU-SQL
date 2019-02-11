@@ -9,7 +9,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "protocol.h"
+#include "GameProtocol.h"
 
 #pragma pack(1)
 

@@ -9,8 +9,7 @@
 #include "StdAfx.h"
 #include "DragonEvent.h"
 #include "GameMain.h"
-#include "Logging/Log.h"
-#include "Protocol.h"
+#include "GameProtocol.h"
 #include "MapServerManager.h"
 
 CDragonEvent::CDragonEvent()

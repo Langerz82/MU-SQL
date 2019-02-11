@@ -11,8 +11,7 @@
 #include "Asio/IoContext.h"
 #include "Database/CSDatabase.h"
 
-// old includes
-#include "Giocp.h"
+#include "IOCP.h"
 
 #include "MapServerManager.h"
 #include "ItemSerial.h"

@@ -14,8 +14,6 @@
 #include "PartyClass.h"
 #include "BagManager.h"
 #include "MineSystem.h"
-#include "IniReader.h"
-#include "configread.h"
 #include "MuunSystem.h"
 
 extern PartyClass		gParty;

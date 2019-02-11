@@ -3,8 +3,8 @@
 #include "StdAfx.h"
 #include "Weapon.h"
 #include "ObjAttack.h"
-#include "Buff/BuffEffect.h"
-#include "Buff/BuffEffectSlot.h"
+#include "BuffEffect.h"
+#include "BuffEffectSlot.h"
 #include "GameMain.h"
 #include "configread.h"
 

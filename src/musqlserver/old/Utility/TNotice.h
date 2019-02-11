@@ -1,23 +1,15 @@
-#ifndef TNOTICE_H
-#define TNOTICE_H
+#ifndef MU_TNOTICE_H
+#define MU_TNOTICE_H
+
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-#include "protocol.h"
+
+#include "GameProtocol.h"
+
+struct PMSG_NOTICE;
 
 __inline DWORD _ARGB(BYTE a, BYTE r, BYTE g, BYTE b){ return a*16777216 + b*65536 + g*256 + r;}; // in tnotice.h : line 8
-
-struct PMSG_NOTICE
-{
-	PBMSG_HEAD2 h;
-	BYTE type;	// 3
-	BYTE btCount;	// 4
-	WORD wDelay;	// 6	
-	int dwColor;	// 8
-	BYTE btSpeed;	// C
-	char Notice[256];	// D
-	
-};
 
 class TNotice
 {
@@ -48,8 +40,3 @@ public:
 
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

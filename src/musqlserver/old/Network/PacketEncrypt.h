@@ -3,8 +3,9 @@
 #ifndef PACKETENCRYPT_H
 #define PACKETENCRYPT_H
 
-#include <rijndael.h>
-#include <rsa.h>
+#include "StdAfx.h"
+//#include "rijndael.h"
+//#include "rsa.h"
 
 class CPacketEncrypt
 {
@@ -25,8 +26,3 @@ private:
 extern CPacketEncrypt g_PacketEncrypt;
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

@@ -27,7 +27,97 @@ struct STR_PARTY_MEMBER_WAIT_LIST;
 struct STR_PSHOP_ITEMVALUE_INFO_DS;
 struct STR_STAT_BONUS;
 struct STR_PARTYMATCHING_PARTYUSERDATA;
+struct DevilSquareScoreInfo;
+struct DevilSquareBossMonsterInfo;
+struct DevilSquareMonsterInfo;
+struct CUSTOM_EVENT_DROP_INFO;
+struct CUSTOM_EVENT_DROP_START_TIME;
+struct CUSTOM_EVENT_DROP_ITEM_INFO;
+struct CUSTOM_EVENT_DROP_RULE_INFO;
 
+
+
+
+
+struct CUSTOM_EVENT_DROP_START_TIME
+{
+	int Year;
+	int Month;
+	int Day;
+	int DayOfWeek;
+	int Hour;
+	int Minute;
+	int Second;
+};
+
+struct CUSTOM_EVENT_DROP_ITEM_INFO
+{
+	int ItemIndex;
+	int ItemLevel;
+	BYTE Durability;
+	BYTE Skill;
+	BYTE Luck;
+	BYTE Option;
+	BYTE Excellent;
+	BYTE Ancient;
+	int DropCount;
+	int DropDelay;
+	int DropState;
+};
+
+struct CUSTOM_EVENT_DROP_RULE_INFO
+{
+	char Name[32];
+	int Map;
+	int X;
+	int Y;
+	int Range;
+	int AlarmTime;
+	int EventTime;
+	std::vector<CUSTOM_EVENT_DROP_ITEM_INFO> DropItem;
+};
+
+struct CUSTOM_EVENT_DROP_INFO
+{
+	int Index;
+	int State;
+	int RemainTime;
+	int TargetTime;
+	int TickCount;
+	int AlarmMinSave;
+	int AlarmMinLeft;
+	CUSTOM_EVENT_DROP_RULE_INFO RuleInfo;
+	std::vector<CUSTOM_EVENT_DROP_START_TIME> StartTime;
+};
+
+struct DevilSquareMonsterInfo
+{
+	WORD m_Type;	// 0
+	int m_RegenStartTime;	// 4
+	int m_RegenEndTime;	// 8
+	int m_iDevilSquareNumber;	// C
+};
+
+struct DevilSquareBossMonsterInfo
+{
+	WORD m_Type;	// 0
+	int m_RegenStartTime;	// 4
+	int m_RegenEndTime;	// 8
+	int X;	// C
+	int Y;	// 10
+	int TX;	// 14
+	int TY;	// 18
+	int m_iDevilSquareNumber;	// 1C
+};
+
+
+struct DevilSquareScoreInfo
+{
+	char Name[10];	// 0
+	int TotalScore;	// C
+	int BonusExp;	// 10
+	int BonusZen;	// 14
+};
 
 typedef struct STR_STRINGCOMPARE
 {

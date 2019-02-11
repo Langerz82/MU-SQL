@@ -12,7 +12,7 @@
 #include "util.h"
 #include "ItemManagement/Item.h"
 #include "ProDef.h"
-#include "Protocol.h"
+#include "GameProtocol.h"
 #include "GameMain.h"
 #include "NewPVP.h"
 #include "GensSystem.h"

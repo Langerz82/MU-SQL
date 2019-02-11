@@ -6,7 +6,7 @@
 #include "Fprotocol.h"
 #include "EDSprotocol.h"
 #include "util.h"
-#include "giocp.h"
+#include "IOCP.h"
 #include "ServerEngine.h"
 #include <string.h>
 using namespace std;

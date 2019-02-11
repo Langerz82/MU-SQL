@@ -8,7 +8,7 @@
 #include "Fprotocol.h"
 #include "pugixml.hpp"
 #include "Utility/util.h"
-#include "giocp.h"
+#include "IOCP.h"
 #include "Main.h"
 
 CExDataServerProtocol::CExDataServerProtocol()

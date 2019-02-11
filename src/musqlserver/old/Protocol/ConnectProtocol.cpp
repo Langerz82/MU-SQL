@@ -1,13 +1,10 @@
 //////////////////////////////////////////////////////////////////////
 // protocol.cpp
-#include "stdafx.h"
-#include "protocol.h"
+
+#include "ConnectProtocol.h"
 #include "IOCP.h"
 #include "ServerData.h"
 #include "ConnectServer.h"
-#include "TLog.h"
-#include "Engine.h"
-#include "winutil.h"
 
 void UDPInit()
 {

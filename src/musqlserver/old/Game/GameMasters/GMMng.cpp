@@ -12,7 +12,7 @@
 #include "TNotice.h"
 #include "ObjCalCharacter.h"
 #include "BattleSoccerManager.h"
-#include "giocp.h"
+#include "IOCP.h"
 #include "Kanturu.h"
 #include "SkillAdditionInfo.h"
 #include "RaklionBattleUserMng.h"

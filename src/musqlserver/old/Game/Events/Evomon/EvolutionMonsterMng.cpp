@@ -2,9 +2,9 @@
 // EvolutionMonsterMng.cpp
 #include "StdAfx.h"
 #include "EvolutionMonsterMng.h"
-#include "protocol.h"
+#include "GameProtocol.h"
 #include "util.h"
-#include "Event/BloodCastle/BloodCastle.h"
+#include "BloodCastle.h"
 #include "DevilSquare.h"
 #include "ChaosCastle.h"
 #include "KalimaGate.h"
@@ -15,7 +15,6 @@
 #include "TNotice.h"
 #include "gObjMonster.h"
 #include "EvolutionMonsterMng.h"
-#include "DSProtocol.h"
 
 CEvolutionMonsterMng g_EvoMonMng;
 

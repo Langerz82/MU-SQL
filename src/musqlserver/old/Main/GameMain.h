@@ -21,7 +21,7 @@
 #include "AttackEvent.h" // TODO include in project.
 #include "WhisperCash.h"
 
-#include "giocp.h"
+#include "IOCP.h"
 #include "MonsterAttr.h"
 #include "MonsterSetBase.h"
 #include "PartyClass.h"

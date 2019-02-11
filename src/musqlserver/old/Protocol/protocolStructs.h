@@ -953,8 +953,18 @@ struct PMSG_EVENTCHIPINFO;
 struct PMSG_REGEVENTCHIP_RESULT;
 struct PMSG_GETMUTONUMBER_RESULT;
 struct STR_STAT_BONUS;
+struct PMSG_NOTICE;
+struct PMSG_DEVILSQUARERESULT;
 
 
+
+struct PMSG_DEVILSQUARERESULT
+{
+	PBMSG_HEAD2 h;	// C1:93
+	BYTE MyRank;	// 3
+	BYTE Count;	// 4
+	DevilSquareScoreInfo Score[11];	// 5
+};
 
 struct STR_DEFAULTCLASSTYPE
 {
@@ -7915,6 +7925,18 @@ struct PMSG_GETMUTONUMBER_RESULT
 {
 	PBMSG_HEAD2 h;
 	short MutoNum[3];
+};
+
+struct PMSG_NOTICE
+{
+	PBMSG_HEAD2 h;
+	BYTE type;	// 3
+	BYTE btCount;	// 4
+	WORD wDelay;	// 6	
+	int dwColor;	// 8
+	BYTE btSpeed;	// C
+	char Notice[256];	// D
+
 };
 
 

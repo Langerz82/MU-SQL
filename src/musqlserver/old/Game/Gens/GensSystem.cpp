@@ -4,7 +4,7 @@
 #include "GameMain.h"
 #include "GuildClass.h"
 #include "Protocols/DSProtocol.h"
-#include "giocp.h"
+#include "IOCP.h"
 #include "User/CUserData.h"
 #include "Buff/BuffEffectSlot.h"
 #include "configread.h"

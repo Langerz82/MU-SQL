@@ -8,7 +8,7 @@
 #include "BuffEffectSlot.h"
 #include "Prodef.H"
 #include "util.h"
-#include "Protocol.h"
+#include "GameProtocol.h"
 #include "GameMain.h"
 #include "PeriodItemEx.h"
 #include "Logging/Log.h"

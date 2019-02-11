@@ -8,70 +8,9 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#define MAX_CUSTOM_EVENT_DROP 10
-#define CUSTOMEVENT_EFFECT_NONE		0
-#define CUSTOMEVENT_EFFECT_FIREWORK	1
-#define CUSTOMEVENT_EFFECT_CHERRY		2
+#include "StdAfx.h"
 
-#define FILE_CUSTOM_EVENTDROP "Custom\CustomEventDrop.ini"
 
-enum eCustomEventDropState
-{
-	CUSTOM_EVENT_DROP_STATE_BLANK = 0,
-	CUSTOM_EVENT_DROP_STATE_EMPTY = 1,
-	CUSTOM_EVENT_DROP_STATE_START = 2,
-};
-
-struct CUSTOM_EVENT_DROP_START_TIME
-{
-	int Year;
-	int Month;
-	int Day;
-	int DayOfWeek;
-	int Hour;
-	int Minute;
-	int Second;
-};
-
-struct CUSTOM_EVENT_DROP_ITEM_INFO
-{
-	int ItemIndex;
-	int ItemLevel;
-	BYTE Durability;
-	BYTE Skill;
-	BYTE Luck;
-	BYTE Option;
-	BYTE Excellent;
-	BYTE Ancient;
-	int DropCount;
-	int DropDelay;
-	int DropState;
-};
-
-struct CUSTOM_EVENT_DROP_RULE_INFO
-{
-	char Name[32];
-	int Map;
-	int X;
-	int Y;
-	int Range;
-	int AlarmTime;
-	int EventTime;
-	std::vector<CUSTOM_EVENT_DROP_ITEM_INFO> DropItem;
-};
-
-struct CUSTOM_EVENT_DROP_INFO
-{
-	int Index;
-	int State;
-	int RemainTime;
-	int TargetTime;
-	int TickCount;
-	int AlarmMinSave;
-	int AlarmMinLeft;
-	CUSTOM_EVENT_DROP_RULE_INFO RuleInfo;
-	std::vector<CUSTOM_EVENT_DROP_START_TIME> StartTime;
-};
 
 class CCustomEventDrop
 {

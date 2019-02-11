@@ -2,9 +2,9 @@
 // ChaosCastle.cpp
 #include "StdAfx.h"
 #include "ChaosCastle.h"
-#include "Event/BloodCastle/BloodCastle.h"
+#include "BloodCastle.h"
 #include "GameMain.h"
-#include "giocp.h"
+#include "IOCP.h"
 #include "DSProtocol.h"
 #include "Logging/Log.h"
 #include "TNotice.h"

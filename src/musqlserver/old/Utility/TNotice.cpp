@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "TNotice.h"
 #include "User/CUserData.h"
-#include "giocp.h"
+#include "IOCP.h"
 #include "util.h"
 #include "GameMain.h"
 #include "configread.h"

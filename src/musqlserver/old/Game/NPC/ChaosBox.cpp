@@ -11,7 +11,7 @@
 #include "DevilSquare.h"
 #include "SetItemOption.h"
 #include "JewelOfHarmonySystem.h"
-#include "giocp.h"
+#include "IOCP.h"
 #include "CrywolfSync.h"
 #include "CashLotterySystem.h"
 #include "configread.h"

@@ -2,7 +2,7 @@
 // Mercenary.cpp
 #include "StdAfx.h"
 #include "Mercenary.h"
-#include "protocol.h"
+#include "GameProtocol.h"
 #include "GameMain.h"
 #include "configread.h"
 #include "Logging/Log.h"
