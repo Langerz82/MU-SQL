@@ -28,7 +28,6 @@ typedef long long time_t;
 
 typedef unsigned long long SOCKET;
 
-typedef CGameObject* LPGameObject;
-
+typedef CGameObject *LPGameObject;
 
 #endif

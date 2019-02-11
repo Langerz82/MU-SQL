@@ -10,7 +10,6 @@
 #include "StdAfx.h"
 #include "ItemManagement/Item.h"
 #include "ItemOptionTypeMng.h"
-#include "MuDefines.h"
 
 struct PMSG_REQ_REBUY_ITEM;
 struct SDHP_ANS_SHOP_REBUY_GET_ITEM;

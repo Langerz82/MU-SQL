@@ -6,6 +6,9 @@
 #endif // _MSC_VER > 1000
 
 #include "IOCP.h"
+#include "CGameObject.h"
+
+class CGameObject;
 
 enum eSERVER_STATE
 {
@@ -23,6 +26,7 @@ typedef void (*WsProtocolCore)(int, BYTE, LPBYTE, int);
 #endif
 
 struct STR_SERVER_ENGINE;
+struct IPList;
 
 void gObjServerInit();
 int gObjServerAddSearch();

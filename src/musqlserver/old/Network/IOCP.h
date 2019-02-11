@@ -1,7 +1,7 @@
 // This IOCP interface is for both the GameServer and LoginServer.
 
-#ifndef MU_IOCP_H
-#define MU_IOCP_H
+#ifndef _MU_IOCP_H
+#define _MU_IOCP_H
 
 #if _MSC_VER > 1000
 #pragma once
@@ -9,9 +9,6 @@
 
 #include "StdAfx.h"
 #include "generalStructs.h"
-#include "CGameObject.h"
-
-class CGameObject;
 
 #include "CQueue.h"
 
@@ -25,8 +22,6 @@ enum eSERVER_TYPE
 
 struct _PER_IO_CONTEXT;
 struct _PER_SOCKET_CONTEXT;
-struct SOCKET;
-
 
 class CIOCP
 {
@@ -38,7 +33,7 @@ public:
 	void DestroyGIocp();
 	bool CreateListenSocket();
 	bool RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex);
-	bool DataSend(LPGameObject &lpObj, unsigned char* lpMsg, DWORD dwSize, bool Encrypt = true);
+	bool DataSend(int aIndex, unsigned char* lpMsg, DWORD dwSize, bool Encrypt = true);
 	bool IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext);
 	bool IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext);
 	bool UpdateCompletionPort(SOCKET sd, int ClientIndex, BOOL bAddToList);

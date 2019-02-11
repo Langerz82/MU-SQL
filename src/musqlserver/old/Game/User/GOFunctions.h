@@ -6,12 +6,8 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "CGameObject.h"
 #include "CUserData.h"
 #include "GameProtocol.h"
-
-class CGameObject;
-class CUserData;
 
 void gObjSkillUseProcTime500(LPGameObject &lpObj);
 void MonsterAndMsgProc();

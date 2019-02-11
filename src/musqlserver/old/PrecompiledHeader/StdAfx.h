@@ -47,6 +47,7 @@
 #include "MuEnums.h"
 #include "configread.h"
 #include "Utility/util.h"
+#include "CGameObject.h"
 
 // Crypto++
 #include "cryptopp/sha.h"

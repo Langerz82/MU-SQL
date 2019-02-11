@@ -3,11 +3,18 @@
 #ifndef GREMORYCASE_H
 #define GREMORYCASE_H
 
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
 #include "StdAfx.h"
 #include "ItemManagement/Item.h"
 #include "protocolStructs.h"
+#include "generalStructs.h"
 
-#pragma once
+struct _stGremoryCaseItem;
+struct _stAnsAddItemToGremoryCase;
+struct PMSG_ADD_GREMORYCASE_ITEM_TO_INVENTORY_REQ;
 
 class CGremoryCase
 {

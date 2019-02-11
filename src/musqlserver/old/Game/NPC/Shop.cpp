@@ -1,11 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Shop.cpp
 //#include "StdAfx.h"
-//#include "GameServer.h"
-#include "../Log/Log.h"
+#include "Shop.h"
 #include "Main.h"
-#include "ItemManagement/ItemSocketOptionSystem.h"
-#include "configread.h"
+#include "ItemSocketOptionSystem.h"
 #include "PentagramSystem.h"
 #include "GensSystem.h"
 #include "GameProtocol.h"
@@ -342,7 +340,7 @@ void CShopMng::LoadShopList(char* filename)
 
 }
 
-SHOP_DATA * CShopMng::GetShop(LPGameObject &lpObj, CGameObject* lpNpc)
+SHOP_DATA * CShopMng::GetShop(LPGameObject &lpObj, LPGameObject &lpNpc)
 {
 	if (lpObj->Type != OBJ_USER)
 	{

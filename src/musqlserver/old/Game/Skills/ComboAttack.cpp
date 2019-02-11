@@ -2,7 +2,6 @@
 // ComboAttack.cpp
 #include "StdAfx.h"
 #include "ComboAttack.h"
-#include "User/CUserData.h"
 #include "MasterLevelSkillTreeSystem.h"
 // GS-N 0.99.60T 0x004A42C0 : Completed
 //	GS-N	1.00.18	JPN	0x004C2270	-	Completed
@@ -88,8 +87,6 @@ int CComboAttack::GetSkillPos(int skillnum)
 
 BOOL CComboAttack::CheckCombo(LPGameObject &lpObj, int skillnum)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
-
 	if ( lpObj->Type != OBJ_USER )
 	{
 		return 0;

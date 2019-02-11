@@ -9,11 +9,6 @@
 #include "MonsterHerd.h"
 
 
-structAttackEventMapPosition
-{
-
-};
-
 class CXMasMonsterHerd : public MonsterHerd
 {
 

@@ -30,6 +30,9 @@
 #include "EvolutionMonsterInfo.h"
 #include "AntiSpeed.h"
 
+class CRaklionUtil;
+class CGameObject;
+
 class CGameObject
 {
 public:
@@ -433,7 +436,7 @@ public:
 	DWORD m_LastAttackTick;
 	WORD m_SkillCheckWrongCastCount;
 	short m_RegenSysGroupNum;
-	_tagMOVE_MAPSERVER_AUTHINFO m_MapServerAuthInfo;
+	MOVE_MAPSERVER_AUTHINFO m_MapServerAuthInfo;
 	bool m_bBlind;
 	int m_iPentagramMainAttribute;
 	int m_iPentagramAttributePattern;
@@ -489,7 +492,7 @@ public:
 	BYTE  *pEventInventoryMap;
 	BYTE  *pEventInventoryMap1;
 	BYTE  *pEventInventoryMap2;
-	_tagMUUN_EFFECT_LIST m_MuunEffectList[MAX_MUUN_EFFECT_LIST];
+	MUUN_EFFECT_LIST m_MuunEffectList[MAX_MUUN_EFFECT_LIST];
 	bool EventInventoryLoad;
 	bool bMuunInventoryLoad;
 	DWORD dwCheckMuunItemTime;
