@@ -93,6 +93,7 @@ extern CQueue m_DSQueue5;
 extern CQueue m_JSQueue;
 extern CQueue m_EXDSQueue;
 */
+
 extern CIOCP IOCP;
 
 #endif

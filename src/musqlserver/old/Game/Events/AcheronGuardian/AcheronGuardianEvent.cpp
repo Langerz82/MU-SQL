@@ -786,7 +786,7 @@ void CAcheronGuardianEvent::DeleteAcheronEventAllMonster()
 	}
 }
 
-void CAcheronGuardianEvent::DestroyObelisk(OBJECTSTRUCT *lpObj, BYTE btMapNumber, BYTE cX, BYTE cY, int nMaxHitUser)
+void CAcheronGuardianEvent::DestroyObelisk(LPGameObject lpObj, BYTE btMapNumber, BYTE cX, BYTE cY, int nMaxHitUser)
 {
 	sLog->outBasic("[AcheronGuardianEvent] Destroyed an Obelisk. [%s][%s]", lpObj->AccountID, lpObj->Name);
 

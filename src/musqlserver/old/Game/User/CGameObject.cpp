@@ -25,7 +25,7 @@ int gItemLoop2;
 int MaxViewportMonster = 20;
 
 CViewportGuild ViewGuildMng;	// line : 130
-OBJECTSTRUCT* gGameUser;
+std::vector<LPGameObject> gGameObjects;
 
 int gObjCount;
 int gObjMonCount;

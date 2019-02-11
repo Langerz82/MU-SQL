@@ -32,7 +32,7 @@ CBuffEffect::~CBuffEffect()
 
 }
 
-void CBuffEffect::SetBuffEffect(CGameObject*ECTSTRUCT lpObj, BYTE EffectType, int EffectValue)
+void CBuffEffect::SetBuffEffect(LPGameObject &lpObj, BYTE EffectType, int EffectValue)
 {
 	if(lpObj == NULL || EffectType < EFFECTTYPE_NONE)	return;
 
@@ -182,7 +182,7 @@ void CBuffEffect::SetBuffEffect(CGameObject*ECTSTRUCT lpObj, BYTE EffectType, in
 	}
 }
 
-void CBuffEffect::ClearBuffEffect(CGameObject*ECTSTRUCT lpObj, BYTE EffectType, int EffectValue)
+void CBuffEffect::ClearBuffEffect(LPGameObject &lpObj, BYTE EffectType, int EffectValue)
 {
 	if(lpObj == NULL || EffectType < EFFECTTYPE_NONE)	return;
 
@@ -406,7 +406,7 @@ void CBuffEffect::GiveDamageEffect(class OBJECTSTRUCT* lpObj, int Damage)
 	}
 }
 
-void CBuffEffect::PoisonEffect(CGameObject*ECTSTRUCT lpObj, BYTE PoisonRate)
+void CBuffEffect::PoisonEffect(LPGameObject &lpObj, BYTE PoisonRate)
 {
 	int DecreaseHealthPoint = 0;
 	int DecreaseShiledPoint = 0;
@@ -455,7 +455,7 @@ void CBuffEffect::PoisonEffect(CGameObject*ECTSTRUCT lpObj, BYTE PoisonRate)
 	}
 }
 
-void CBuffEffect::GiveDamageFillHPEffect(CGameObject*ECTSTRUCT lpObj, int Damage)
+void CBuffEffect::GiveDamageFillHPEffect(LPGameObject &lpObj, int Damage)
 {
 	int DecreaseHealthPoint = 0;
 	int DecreaseShiledPoint = 0;
@@ -523,7 +523,7 @@ void CBuffEffect::GiveDamageFillHPEffect(CGameObject*ECTSTRUCT lpObj, int Damage
 	}
 }
 
-void CBuffEffect::SetPrevEffect(CGameObject*ECTSTRUCT lpObj)
+void CBuffEffect::SetPrevEffect(LPGameObject &lpObj)
 {
 	if(lpObj == NULL)	return;
 
@@ -577,7 +577,7 @@ void CBuffEffect::SetPrevEffect(CGameObject*ECTSTRUCT lpObj)
 	}
 }
 
-void CBuffEffect::SetNextEffect(CGameObject*ECTSTRUCT lpObj)
+void CBuffEffect::SetNextEffect(LPGameObject &lpObj)
 {
 	if(lpObj == NULL)	return;
 
@@ -631,7 +631,7 @@ void CBuffEffect::SetNextEffect(CGameObject*ECTSTRUCT lpObj)
 	}
 }
 
-void CBuffEffect::ClearPrevEffect(CGameObject*ECTSTRUCT lpObj)
+void CBuffEffect::ClearPrevEffect(LPGameObject &lpObj)
 {
 	if(lpObj == NULL)	return;
 
@@ -743,7 +743,7 @@ struct PMSG_REQ_PERIODBUFF_DELETE
 	char szCharacterName[11];
 };
 
-void CBuffEffect::RequestPeriodBuffDelete(OBJECTSTRUCT *lpObj, WORD wBuffIndex)
+void CBuffEffect::RequestPeriodBuffDelete(LPGameObject lpObj, WORD wBuffIndex)
 {
 	PMSG_REQ_PERIODBUFF_DELETE pMsg;
 
@@ -781,7 +781,7 @@ struct PMSG_REQ_PERIODBUFF_INSERT
 	time_t lExpireDate;
 };
 
-void CBuffEffect::RequestPeriodBuffInsert(OBJECTSTRUCT *lpObj, _tagPeriodBuffInfo *lpBuffInfo)
+void CBuffEffect::RequestPeriodBuffInsert(LPGameObject lpObj, _tagPeriodBuffInfo *lpBuffInfo)
 {
 	PMSG_REQ_PERIODBUFF_INSERT pMsg; 
 

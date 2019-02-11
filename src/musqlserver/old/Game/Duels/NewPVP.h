@@ -280,9 +280,9 @@ public:
 
 	int IsObserver(OBJECTSTRUCT& obj);
 	void Reset(OBJECTSTRUCT& obj);
-	BOOL CheckPKPenalty(CGameObject*ECTSTRUCT lpObj);
-	BOOL IsSelfDefense(CGameObject*ECTSTRUCT lpObj);
-	BOOL IsGuildWar(CGameObject*ECTSTRUCT lpObj);
+	BOOL CheckPKPenalty(LPGameObject &lpObj);
+	BOOL IsSelfDefense(LPGameObject &lpObj);
+	BOOL IsGuildWar(LPGameObject &lpObj);
 
 	int IsVulcanusMap(int nMapNumber)
 	{
@@ -301,7 +301,7 @@ public:
 
 	int IsEnable();
 
-	BOOL DropItem(CGameObject*ECTSTRUCT lpObj, CGameObject*ECTSTRUCT lpMonsterObj);
+	BOOL DropItem(LPGameObject &lpObj, CGameObject*ECTSTRUCT lpMonsterObj);
 
 private:
 	int GetDuelChannelId(char* lpszName);

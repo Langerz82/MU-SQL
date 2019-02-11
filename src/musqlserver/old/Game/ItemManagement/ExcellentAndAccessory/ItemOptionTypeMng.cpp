@@ -1049,7 +1049,7 @@ WING_EXT_OPTION_TYPE * CItemOptionTypeMng::GetWingOption(int ExcOptionID)
 	return NULL;
 }
 
-int CItemOptionTypeMng::_CalcEffectValue(OBJECTSTRUCT *lpObj, int iInputValue, int iOperator, int iBaseValue, int iFormulaID, CItem * Item)
+int CItemOptionTypeMng::_CalcEffectValue(LPGameObject lpObj, int iInputValue, int iOperator, int iBaseValue, int iFormulaID, CItem * Item)
 {
 	int iEffectValue = 0;
 	//g_Log.AddC(TColor::Yellow, "[K2] Operator [%d] iBaseValue %d", iOperator, iBaseValue);
@@ -1091,7 +1091,7 @@ int CItemOptionTypeMng::_CalcEffectValue(OBJECTSTRUCT *lpObj, int iInputValue, i
 	return iEffectValue;
 }
 
-void CItemOptionTypeMng::_SetOptionEffect(OBJECTSTRUCT * lpObj, BYTE * OptionEffect, int iEffectValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemOptionTypeMng::_SetOptionEffect(LPGameObject &lpObj, BYTE * OptionEffect, int iEffectValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	this->_SetEffect_Etc(lpObj, OptionEffect[0], iEffectValue, iOperator, iFormulaID, btItemPos);
 	this->_SetEffect_Rate(lpObj, OptionEffect[1], iEffectValue, iOperator, iFormulaID, btItemPos);
@@ -1102,7 +1102,7 @@ void CItemOptionTypeMng::_SetOptionEffect(OBJECTSTRUCT * lpObj, BYTE * OptionEff
 	this->_SetEffect_Skill(lpObj, OptionEffect[6], iEffectValue, iOperator, iFormulaID, btItemPos);
 }
 
-void CItemOptionTypeMng::_SetEffect_Etc(OBJECTSTRUCT *lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemOptionTypeMng::_SetEffect_Etc(LPGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	int iEffectValue = 0;
 
@@ -1117,7 +1117,7 @@ void CItemOptionTypeMng::_SetEffect_Etc(OBJECTSTRUCT *lpObj, BYTE OptionEffectID
 	}
 }
 
-void CItemOptionTypeMng::_SetEffect_Rate(OBJECTSTRUCT *lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemOptionTypeMng::_SetEffect_Rate(LPGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	int iEffectValue = 0;
 	switch (OptionEffectID)
@@ -1155,7 +1155,7 @@ void CItemOptionTypeMng::_SetEffect_Rate(OBJECTSTRUCT *lpObj, BYTE OptionEffectI
 	}
 }
 
-void CItemOptionTypeMng::_SetEffect_Attack(OBJECTSTRUCT *lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemOptionTypeMng::_SetEffect_Attack(LPGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	int iEffectValue = 0;
 
@@ -1209,7 +1209,7 @@ void CItemOptionTypeMng::_SetEffect_Attack(OBJECTSTRUCT *lpObj, BYTE OptionEffec
 	}
 }
 
-void CItemOptionTypeMng::_SetEffect_Defense(OBJECTSTRUCT *lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemOptionTypeMng::_SetEffect_Defense(LPGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	int iEffectValue = 0;
 
@@ -1235,7 +1235,7 @@ void CItemOptionTypeMng::_SetEffect_Defense(OBJECTSTRUCT *lpObj, BYTE OptionEffe
 	}
 }
 
-void CItemOptionTypeMng::_SetEffect_Life(OBJECTSTRUCT *lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemOptionTypeMng::_SetEffect_Life(LPGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	int iEffectValue = 0;
 
@@ -1255,7 +1255,7 @@ void CItemOptionTypeMng::_SetEffect_Life(OBJECTSTRUCT *lpObj, BYTE OptionEffectI
 	}
 }
 
-void CItemOptionTypeMng::_SetEffect_Mana(OBJECTSTRUCT *lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemOptionTypeMng::_SetEffect_Mana(LPGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	int iEffectValue = 0;
 
@@ -1273,7 +1273,7 @@ void CItemOptionTypeMng::_SetEffect_Mana(OBJECTSTRUCT *lpObj, BYTE OptionEffectI
 	}
 }
 
-void CItemOptionTypeMng::_SetEffect_Skill(OBJECTSTRUCT *lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemOptionTypeMng::_SetEffect_Skill(LPGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	int iEffectValue = 0;
 

@@ -162,7 +162,7 @@ public:
 	void DeleteMonster(int nGroupNumber);
 	void DeleteAcheronEventAllMonster();
 
-	void DestroyObelisk(OBJECTSTRUCT *lpObj, BYTE btMapNumber, BYTE cX, BYTE cY, int nMaxHitUser);
+	void DestroyObelisk(LPGameObject lpObj, BYTE btMapNumber, BYTE cX, BYTE cY, int nMaxHitUser);
 
 	void CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER *lpMsg, int iIndex);
 

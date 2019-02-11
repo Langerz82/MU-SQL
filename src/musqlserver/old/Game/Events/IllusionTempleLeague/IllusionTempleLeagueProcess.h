@@ -265,7 +265,7 @@ public:
 	char CheckHaveRelics(int aIndex); 
 	void SetRelicsInventoryPos(LPGameObject &lpObj, BYTE btPos);
 
-	void SendRelicsUserInfo(OBJECTSTRUCT *lpObj, BYTE byGet);
+	void SendRelicsUserInfo(LPGameObject lpObj, BYTE byGet);
 
 	void SetRemainTime();
 
@@ -273,9 +273,9 @@ public:
 	void ResetITLPosNum();
 	void RemoveAllObj();
 
-	void SendRelicsError(OBJECTSTRUCT *lpObj, int index, BYTE byError, BYTE byAct);
-	void Check_GetRelics(OBJECTSTRUCT *lpNpc, OBJECTSTRUCT *lpObj, WORD wNpcType);
-	void GetRelics(OBJECTSTRUCT *lpNpc, OBJECTSTRUCT *lpObj, WORD wNpcType);
+	void SendRelicsError(LPGameObject lpObj, int index, BYTE byError, BYTE byAct);
+	void Check_GetRelics(OBJECTSTRUCT *lpNpc, LPGameObject lpObj, WORD wNpcType);
+	void GetRelics(OBJECTSTRUCT *lpNpc, LPGameObject lpObj, WORD wNpcType);
 	void Check_RegisterRelics(OBJECTSTRUCT *lpNpc, OBJECTSTRUCT *lpObj);
 	void RegisterRelics(OBJECTSTRUCT *lpNpc, OBJECTSTRUCT *lpObj);
 
@@ -300,11 +300,11 @@ public:
 
 	void ITL_UseSkill(int nIndex, WORD wSkillNumber, int nTargetIndex, BYTE btDis);
 	void ITLSkillProc(OBJECTSTRUCT *lpObj);
-	void Send_ITL_SkillEnd(OBJECTSTRUCT *lpObj, WORD wSkillNumber);
+	void Send_ITL_SkillEnd(LPGameObject lpObj, WORD wSkillNumber);
 	int UseSkillProdection(OBJECTSTRUCT *lpObj);
-	int UseSkillRestraint(OBJECTSTRUCT *lpObj, OBJECTSTRUCT* lpTargetObj);
+	int UseSkillRestraint(LPGameObject lpObj, OBJECTSTRUCT* lpTargetObj);
 	int UseSkillTeleport(OBJECTSTRUCT *lpObj);
-	int UseSkillShieldBurn(OBJECTSTRUCT *lpObj, OBJECTSTRUCT* lpTargetObj);
+	int UseSkillShieldBurn(LPGameObject lpObj, OBJECTSTRUCT* lpTargetObj);
 	void SendUseSkillResult(int nIndex, int nTargetIndex, WORD wSkillNumber, BYTE btResult);
 
 	void ITLUserDie(OBJECTSTRUCT* lpObj);

@@ -4,10 +4,8 @@
 #define _ANTI_SPEED_H
 
 #include "StdAfx.h"
-#include "protocol.h"
+//#include "protocol.h"
 
-//#define USE_NEW_AH
-#define ATTACK_TOLERANCE 3
 
 #include <queue>
 
@@ -23,7 +21,7 @@ class CAttackMelee : public CAttackBase{
 	OBJECTSTRUCT * m_TargetObj;
 	OBJECTSTRUCT * m_Obj;
 public:
-	CAttackMelee(OBJECTSTRUCT * lpObj, OBJECTSTRUCT * lpTargetObj);
+	CAttackMelee(LPGameObject &lpObj, OBJECTSTRUCT * lpTargetObj);
 	void Process();
 };
 
@@ -31,7 +29,7 @@ class CAttackMagic : public CAttackBase{
 	OBJECTSTRUCT * m_Obj;
 	BYTE* m_Msg;
 public:
-	CAttackMagic(OBJECTSTRUCT * lpObj, BYTE* pmsg, int len);
+	CAttackMagic(LPGameObject &lpObj, BYTE* pmsg, int len);
 	~CAttackMagic();
 	void Process();
 };
@@ -41,7 +39,7 @@ class CAttackRange : public CAttackBase{
 	BYTE* m_Msg;
 	int m_Type;
 public:
-	CAttackRange(OBJECTSTRUCT * lpObj, BYTE* pmsg, int len, int type);
+	CAttackRange(LPGameObject &lpObj, BYTE* pmsg, int len, int type);
 	~CAttackRange();
 
 	void Process();

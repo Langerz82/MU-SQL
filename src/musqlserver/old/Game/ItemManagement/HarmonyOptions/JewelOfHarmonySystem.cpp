@@ -875,7 +875,7 @@ BOOL CJewelOfHarmonySystem::IsEnableToMakeSmeltingStoneItem(CItem * pItem)
 	return TRUE;
 }
 
-BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(OBJECTSTRUCT * lpObj, int iMixCount)
+BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(LPGameObject &lpObj, int iMixCount)
 {
 	if (this->m_bSystemMixSmeltingStone != TRUE)
 	{
@@ -1417,7 +1417,7 @@ BOOL CJewelOfHarmonySystem::NpcJewelOfHarmony(LPGameObject &lpNpc, CGameObject* 
 }
 
 
-BOOL CJewelOfHarmonySystem::IsEnableToTrade(OBJECTSTRUCT * lpObj) 
+BOOL CJewelOfHarmonySystem::IsEnableToTrade(LPGameObject &lpObj) 
 {
 	BOOL bRet = TRUE;
 

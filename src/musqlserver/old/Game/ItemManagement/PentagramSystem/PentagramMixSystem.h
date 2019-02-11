@@ -202,7 +202,7 @@ public:
 	BYTE PentagramJewelRefine(int iIndex, int iRefineType);
 	BYTE PentagramJewel_Upgrade(int iIndex, int iUpgradeType, int iTargetValue);
 	int CheckLevelCondition(CItem *pItem, WORD pLevel, BYTE pOpt1, BYTE pOpt2, BYTE pOpt3, BYTE pSetOpt, BYTE pExOpt);
-	void LogPentagramItem(OBJECTSTRUCT *lpObj, char *sLogType);
+	void LogPentagramItem(LPGameObject lpObj, char *sLogType);
 
 	void CGPentagramJewelRefineRecv(PMSG_PENTAGRAM_JEWEL_REFINE_RECV* lpMsg, int aIndex); // OK
 	BOOL PentagramJewelMix(int aIndex);

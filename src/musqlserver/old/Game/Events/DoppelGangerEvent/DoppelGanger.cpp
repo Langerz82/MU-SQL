@@ -42,7 +42,7 @@ BOOL CDoppelGangerMonsterHerd::MonsterHerdItemDrop(OBJECTSTRUCT* lpObj)
 	return FALSE;
 }
 
-void CDoppelGangerMonsterHerd::MonsterAttackAction(OBJECTSTRUCT *lpObj, OBJECTSTRUCT *lpTargetObj)
+void CDoppelGangerMonsterHerd::MonsterAttackAction(LPGameObject lpObj, OBJECTSTRUCT *lpTargetObj)
 {
 	if (!lpObj)
 	{

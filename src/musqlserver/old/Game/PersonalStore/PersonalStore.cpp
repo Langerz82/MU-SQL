@@ -1518,7 +1518,7 @@ void CPersonalStore::GDAllSavePShopItemValue(OBJECTSTRUCT *lpObj)
 	}
 }
 
-void CPersonalStore::GDDelPShopItemValue(OBJECTSTRUCT *lpObj, int nPShopItemInvenNum)
+void CPersonalStore::GDDelPShopItemValue(LPGameObject lpObj, int nPShopItemInvenNum)
 {
 	PMSG_DEL_PSHOPITEM pMsg;
 

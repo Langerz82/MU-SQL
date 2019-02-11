@@ -883,7 +883,7 @@ BONUS_SOCKET_OPTION * CItemSocketOptionSystem::GetBonusSocketOption(BYTE btBonus
 	return NULL;
 }
 
-int CItemSocketOptionSystem::ApplySeedSphereEffect(CGameObject*ECTSTRUCT lpObj)
+int CItemSocketOptionSystem::ApplySeedSphereEffect(LPGameObject &lpObj)
 {
 	int iTotalSeedSphereCount = 0;
 	BYTE SeedSphereIndex = 0;
@@ -919,7 +919,7 @@ int CItemSocketOptionSystem::ApplySeedSphereEffect(CGameObject*ECTSTRUCT lpObj)
 	return iTotalSeedSphereCount;
 }
 
-void CItemSocketOptionSystem::ApplyBonusOptionEffect(CGameObject*ECTSTRUCT lpObj)
+void CItemSocketOptionSystem::ApplyBonusOptionEffect(LPGameObject &lpObj)
 {
 	BYTE btBonusSocketIndex = 0;
 	LPBONUS_SOCKET_OPTION lpBonusOptionData = NULL;
@@ -944,7 +944,7 @@ void CItemSocketOptionSystem::ApplyBonusOptionEffect(CGameObject*ECTSTRUCT lpObj
 	}
 }
 
-void CItemSocketOptionSystem::ApplySetOptionEffect(CGameObject*ECTSTRUCT lpObj)
+void CItemSocketOptionSystem::ApplySetOptionEffect(LPGameObject &lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -983,7 +983,7 @@ void CItemSocketOptionSystem::ApplySetOptionEffect(CGameObject*ECTSTRUCT lpObj)
 	}
 }
 
-bool CItemSocketOptionSystem::SetApplySocketEffect(CGameObject*ECTSTRUCT lpObj)
+bool CItemSocketOptionSystem::SetApplySocketEffect(LPGameObject &lpObj)
 {
 	int iTotalSeedSphereCount = 0;
 
@@ -1002,7 +1002,7 @@ bool CItemSocketOptionSystem::SetApplySocketEffect(CGameObject*ECTSTRUCT lpObj)
 	return true;
 }
 
-void CItemSocketOptionSystem::SetClearSocketEffect(CGameObject*ECTSTRUCT lpObj)
+void CItemSocketOptionSystem::SetClearSocketEffect(LPGameObject &lpObj)
 {
 	if (lpObj == NULL)	return;
 
@@ -1036,7 +1036,7 @@ void CItemSocketOptionSystem::SetClearSocketEffect(CGameObject*ECTSTRUCT lpObj)
 	lpObj->m_PlayerData->m_btAGReduceRate = 0;
 }
 
-void CItemSocketOptionSystem::SetEffect(CGameObject*ECTSTRUCT lpObj, BYTE btOptionType, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemSocketOptionSystem::SetEffect(LPGameObject &lpObj, BYTE btOptionType, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	if (btEffectType >= 0 && btEffectType <= 9)
 	{
@@ -1092,12 +1092,12 @@ void CItemSocketOptionSystem::SetEffect(CGameObject*ECTSTRUCT lpObj, BYTE btOpti
 	}
 }
 
-void CItemSocketOptionSystem::ClearEffect(CGameObject*ECTSTRUCT lpObj, LPSOCKET_OPTION_LIST lpOptionData)
+void CItemSocketOptionSystem::ClearEffect(LPGameObject &lpObj, LPSOCKET_OPTION_LIST lpOptionData)
 {
 	//empty, possible due to "return;" in the beggining
 }
 
-void CItemSocketOptionSystem::_SetFireEffect(CGameObject*ECTSTRUCT lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemSocketOptionSystem::_SetFireEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	int iCalcEffectValue = 0;
 
@@ -1191,7 +1191,7 @@ void CItemSocketOptionSystem::_SetFireEffect(CGameObject*ECTSTRUCT lpObj, BYTE b
 	}
 }
 
-void CItemSocketOptionSystem::_SetWaterEffect(CGameObject*ECTSTRUCT lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemSocketOptionSystem::_SetWaterEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	int iCalcEffectValue = 0;
 
@@ -1230,7 +1230,7 @@ void CItemSocketOptionSystem::_SetWaterEffect(CGameObject*ECTSTRUCT lpObj, BYTE 
 	}
 }
 
-void CItemSocketOptionSystem::_SetIceEffect(CGameObject*ECTSTRUCT lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemSocketOptionSystem::_SetIceEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	int iAddValue = 0;
 
@@ -1263,7 +1263,7 @@ void CItemSocketOptionSystem::_SetIceEffect(CGameObject*ECTSTRUCT lpObj, BYTE bt
 	}
 }
 
-void CItemSocketOptionSystem::_SetWindEffect(CGameObject*ECTSTRUCT lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemSocketOptionSystem::_SetWindEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	int iAddValue = 0;
 
@@ -1319,7 +1319,7 @@ void CItemSocketOptionSystem::_SetWindEffect(CGameObject*ECTSTRUCT lpObj, BYTE b
 	}
 }
 
-void CItemSocketOptionSystem::_SetThunderEffect(CGameObject*ECTSTRUCT lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemSocketOptionSystem::_SetThunderEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	int iAddValue = 0;
 
@@ -1350,7 +1350,7 @@ void CItemSocketOptionSystem::_SetThunderEffect(CGameObject*ECTSTRUCT lpObj, BYT
 	}
 }
 
-void CItemSocketOptionSystem::_SetEarthEffect(CGameObject*ECTSTRUCT lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemSocketOptionSystem::_SetEarthEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -1392,7 +1392,7 @@ void CItemSocketOptionSystem::_SetEarthEffect(CGameObject*ECTSTRUCT lpObj, BYTE 
 	}
 }
 
-void CItemSocketOptionSystem::_SetUniqueEffect(CGameObject*ECTSTRUCT lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemSocketOptionSystem::_SetUniqueEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	//int iAddValue = btEffectType;
 
@@ -1409,7 +1409,7 @@ void CItemSocketOptionSystem::_SetUniqueEffect(CGameObject*ECTSTRUCT lpObj, BYTE
 	}
 }
 
-void CItemSocketOptionSystem::_SetSetEffect(CGameObject*ECTSTRUCT lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemSocketOptionSystem::_SetSetEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	int iCalcEffectValue = 0;
 
@@ -1527,7 +1527,7 @@ BYTE CItemSocketOptionSystem::GetMakeSocketSlotCount(int iItemCode)
 	return iSocketSlotCount;
 }
 
-void CItemSocketOptionSystem::ClearUserData(CGameObject*ECTSTRUCT lpObj)
+void CItemSocketOptionSystem::ClearUserData(LPGameObject &lpObj)
 {
 	int iIndex = 0;
 

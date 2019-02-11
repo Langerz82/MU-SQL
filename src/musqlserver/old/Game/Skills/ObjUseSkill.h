@@ -141,14 +141,14 @@ public:
 	int SkillBuffGrowLancer(LPGameObject &lpObj, CMagicInf *lpMagic, int aTargetIndex);
 	int SkillBuffPartyGrowLancer(LPGameObject &lpObj, CMagicInf *lpMagic, int aTargetIndex);
 	
-	void SkillWindSoul(OBJECTSTRUCT *lpObj, CMagicInf * lpMagic, int aTargetIndex);
-	void SkillFireBlood(OBJECTSTRUCT *lpObj, CMagicInf * lpMagic, int aTargetIndex);
-	void SkillIceBlood(OBJECTSTRUCT *lpObj, CMagicInf * lpMagic, int aTargetIndex);
+	void SkillWindSoul(LPGameObject lpObj, CMagicInf * lpMagic, int aTargetIndex);
+	void SkillFireBlood(LPGameObject lpObj, CMagicInf * lpMagic, int aTargetIndex);
+	void SkillIceBlood(LPGameObject lpObj, CMagicInf * lpMagic, int aTargetIndex);
 	int SkillFireBeast(LPGameObject &lpObj, int aTargetIndex, CMagicInf *lpMagic);
 	int SkillIceBeast(LPGameObject &lpObj, int aTargetIndex, CMagicInf *lpMagic);
 	int SkillMeteorStorm (LPGameObject &lpObj, CMagicInf* lpMagic, BYTE x, BYTE y, int aTargetIndex);
-	void SkillSoulSeker(OBJECTSTRUCT *lpObj, CMagicInf * lpMagic, int aTargetIndex);
-	void SkillDarkBlast(OBJECTSTRUCT *lpObj, CMagicInf * lpMagic, int aTargetIndex);
+	void SkillSoulSeker(LPGameObject lpObj, CMagicInf * lpMagic, int aTargetIndex);
+	void SkillDarkBlast(LPGameObject lpObj, CMagicInf * lpMagic, int aTargetIndex);
 	int SkillArchangelWillBuff(LPGameObject &lpObj, CMagicInf * lpMagic);
 
 	SkillConfig	m_SkillData;

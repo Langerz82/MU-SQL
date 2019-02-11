@@ -125,7 +125,7 @@ void CDoppelGangerItemBag::LoadDoppelgangerItemBag(LPSTR lpFile)
 	this->m_bLoad = TRUE;
 }
 
-BOOL CDoppelGangerItemBag::DoppelgangerItemDrop(OBJECTSTRUCT *lpObj, int nItemBagIndex, int nDropRate, BYTE btFlag)
+BOOL CDoppelGangerItemBag::DoppelgangerItemDrop(LPGameObject lpObj, int nItemBagIndex, int nDropRate, BYTE btFlag)
 {
 	if ( this->m_bLoad == FALSE )
 	{

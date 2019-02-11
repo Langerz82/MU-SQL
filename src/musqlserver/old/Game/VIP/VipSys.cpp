@@ -345,7 +345,7 @@ int CVipSystem::GetExcDropBonus(LPGameObject &lpObj)
 	return iEffect;
 }
 
-WORD CVipSystem::GetMLMonsterMinLevel(OBJECTSTRUCT * lpObj)
+WORD CVipSystem::GetMLMonsterMinLevel(LPGameObject &lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -490,7 +490,7 @@ int CVipSystem::GetPlusItemAddLuckRate(LPGameObject &lpObj)
 	return iEffect;
 }
 
-int CVipSystem::GetWing2ndRate(OBJECTSTRUCT * lpObj)
+int CVipSystem::GetWing2ndRate(LPGameObject &lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -513,7 +513,7 @@ int CVipSystem::GetWing2ndRate(OBJECTSTRUCT * lpObj)
 	return iEffect;
 }
 
-int CVipSystem::GetWing25Rate(OBJECTSTRUCT * lpObj)
+int CVipSystem::GetWing25Rate(LPGameObject &lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -536,7 +536,7 @@ int CVipSystem::GetWing25Rate(OBJECTSTRUCT * lpObj)
 	return iEffect;
 }
 
-int CVipSystem::GetWing3rdRate(OBJECTSTRUCT * lpObj)
+int CVipSystem::GetWing3rdRate(LPGameObject &lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -559,7 +559,7 @@ int CVipSystem::GetWing3rdRate(OBJECTSTRUCT * lpObj)
 	return iEffect;
 }
 
-int CVipSystem::GetCapeOfLordRate(OBJECTSTRUCT * lpObj)
+int CVipSystem::GetCapeOfLordRate(LPGameObject &lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -582,7 +582,7 @@ int CVipSystem::GetCapeOfLordRate(OBJECTSTRUCT * lpObj)
 	return iEffect;
 }
 
-int CVipSystem::GetFeatherOfCondorRate(OBJECTSTRUCT * lpObj)
+int CVipSystem::GetFeatherOfCondorRate(LPGameObject &lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{

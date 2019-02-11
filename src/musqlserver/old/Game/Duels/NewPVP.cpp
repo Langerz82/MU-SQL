@@ -987,7 +987,7 @@ void CNewPVP::LeaveChannelObserver(int nId)
 		ObserverInfo & info = iter->second;		
 		if(info.nId == nId)
 		{
-			CGameObject*ECTSTRUCT lpObj = (CGameObject*ECTSTRUCT)&gGameObjects[info.nIndex];
+			LPGameObject &lpObj = (CGameObject*ECTSTRUCT)&gGameObjects[info.nIndex];
 
 			if( IsPKFieldMap(lpObj->MapNumber) )
 			{
@@ -1265,7 +1265,7 @@ void CNewPVP::BroadcastRound(int nId, BYTE nFlag, BOOL bEnd)
 	}
 }
 
-BOOL CNewPVP::CheckPKPenalty(CGameObject*ECTSTRUCT lpObj)
+BOOL CNewPVP::CheckPKPenalty(LPGameObject &lpObj)
 {
 	if( !g_ConfigRead.pk.bPkPenaltyDisable )
 	{
@@ -1285,7 +1285,7 @@ BOOL CNewPVP::CheckPKPenalty(CGameObject*ECTSTRUCT lpObj)
 	return FALSE;
 }
 
-BOOL CNewPVP::IsSelfDefense(CGameObject*ECTSTRUCT lpObj)
+BOOL CNewPVP::IsSelfDefense(LPGameObject &lpObj)
 {
 	BOOL bRetVal = FALSE;
 	for ( int i = 0; i < MAX_SELF_DEFENSE; i++ )
@@ -1299,7 +1299,7 @@ BOOL CNewPVP::IsSelfDefense(CGameObject*ECTSTRUCT lpObj)
 	return bRetVal;
 }
 
-BOOL CNewPVP::IsGuildWar(CGameObject*ECTSTRUCT lpObj)
+BOOL CNewPVP::IsGuildWar(LPGameObject &lpObj)
 {
 	if( lpObj->m_PlayerData->lpGuild && 
 		lpObj->m_PlayerData->lpGuild->WarState == 1)
@@ -1309,7 +1309,7 @@ BOOL CNewPVP::IsGuildWar(CGameObject*ECTSTRUCT lpObj)
 	return FALSE;
 }
 
-BOOL CNewPVP::DropItem(CGameObject*ECTSTRUCT lpObj, CGameObject*ECTSTRUCT lpMonsterObj)
+BOOL CNewPVP::DropItem(LPGameObject &lpObj, CGameObject*ECTSTRUCT lpMonsterObj)
 {
 	if( !IsVulcanusMap(lpObj->MapNumber) ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","IsVulcanusMap(lpObj->MapNumber)","FALSE","NULL",__FILE__,  __LINE__); return FALSE; }
 	if( m_bNewPVP != TRUE){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","m_bNewPVP==TRUE","FALSE","NULL", __FILE__,  __LINE__); return FALSE; }

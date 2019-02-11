@@ -66,15 +66,15 @@ public:
 	void GDReqCardInfo(OBJECTSTRUCT *lpObj);
 	void GDAnsCardInfo(PMSG_ANS_MURUMMY_SELECT_DS *lpMsg);
 	void GDReqCardInfoInsert(OBJECTSTRUCT *lpObj);
-	void GDReqScoreUpdate(OBJECTSTRUCT *lpObj, WORD wScore, _tagMuRummyCardUpdateDS *pCardUpdateDS);
-	void GDReqCardInfoUpdate(OBJECTSTRUCT *lpObj, CMuRummyCardInfo *pCCardInfo, int iSeq);
+	void GDReqScoreUpdate(LPGameObject lpObj, WORD wScore, _tagMuRummyCardUpdateDS *pCardUpdateDS);
+	void GDReqCardInfoUpdate(LPGameObject lpObj, CMuRummyCardInfo *pCCardInfo, int iSeq);
 	void GDReqScoreDelete(OBJECTSTRUCT *lpObj);
-	void GDReqSlotInfoUpdate(OBJECTSTRUCT *lpObj, BYTE btSeq, BYTE btSlotNum, BYTE btStatus);
+	void GDReqSlotInfoUpdate(LPGameObject lpObj, BYTE btSeq, BYTE btSlotNum, BYTE btStatus);
 	void GDReqMuRummyInfoUpdate(OBJECTSTRUCT *lpObj);
-	void GDReqMuRummyDBLog(OBJECTSTRUCT *lpObj, int iScore);
+	void GDReqMuRummyDBLog(LPGameObject lpObj, int iScore);
 
-	void Slot3Log(OBJECTSTRUCT *lpObj, int iLogType);
-	void Slot5Log(OBJECTSTRUCT *lpObj, int iLogType);
+	void Slot3Log(LPGameObject lpObj, int iLogType);
+	void Slot5Log(LPGameObject lpObj, int iLogType);
 
 private:
 	int m_iRewardScore1;

@@ -299,5 +299,18 @@
 
 #define MAX_VIP 4
 
+#ifndef NULL
+#define NULL 0
+#endif
+
+#ifndef TRUE
+#define TRUE 1
+#endif
+#ifndef FALSE
+#define FALSE 0
+#endif
+
+#define ATTACK_TOLERANCE 3
+
 
 #endif

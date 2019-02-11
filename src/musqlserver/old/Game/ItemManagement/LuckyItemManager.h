@@ -29,20 +29,20 @@ public:
 
 	STR_SMELT_RATE * GetSmeltingRateInfo(int iItemNum);
 
-	void	LuckyItemTicketExchange(OBJECTSTRUCT * lpObj);
+	void	LuckyItemTicketExchange(LPGameObject &lpObj);
 	BYTE	GambleGetLevel(STR_ITEM_LEVEL_RATE * pItemLevelRandRate, int iIndex);
-	void	LuckyItemSmelting(OBJECTSTRUCT * lpObj);
+	void	LuckyItemSmelting(LPGameObject &lpObj);
 	int		GambleLuckyItemSmelting(int iItemNum, int iDur);
 	int		GetLuckyItemDurabilityTime();
 	BYTE	GetLevel(int iMinLv, int iMaxLv);
-	int		LuckyItemRepaire(OBJECTSTRUCT * lpObj, int source, int target);
+	int		LuckyItemRepaire(LPGameObject &lpObj, int source, int target);
 
 	int		GDReqLuckyItemInsert(CItem * pItem, int iObjIndex);
 	int		GDReqLuckyItemInsert(short wItemCode, UINT64 dwSerial, short wDurabilitySmall, int iObjIndex);
 	void	GDReqLuckyItemInsert2nd(int iObjIndex);
 	void	GDReqLuckyItemDelete(short wItemCode, UINT64 dwSerial, int iObjIndex);
 	void	DGAnsLuckyItemList(PMSG_ANS_LUCKYITEM_SELECT * lpRecv);
-	void	GDReqLuckyItemSelect(OBJECTSTRUCT * lpObj);
+	void	GDReqLuckyItemSelect(LPGameObject &lpObj);
 
 private:
 	int									m_iTicketCnt;

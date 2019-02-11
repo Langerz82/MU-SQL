@@ -1619,7 +1619,7 @@ void CMuRummyMng::GDReqScoreUpdate(LPGameObject &lpObj, WORD wScore, _tagMuRummy
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CMuRummyMng::GDReqCardInfoUpdate(OBJECTSTRUCT *lpObj, CMuRummyCardInfo *pCCardInfo, int iSeq)
+void CMuRummyMng::GDReqCardInfoUpdate(LPGameObject lpObj, CMuRummyCardInfo *pCCardInfo, int iSeq)
 {
 	PMSG_REQ_MURUMMY_UPDATE_DS pMsg;
 	memcpy(pMsg.AccountID, lpObj->AccountID, MAX_ACCOUNT_LEN + 1);
@@ -1650,7 +1650,7 @@ void CMuRummyMng::GDReqScoreDelete(OBJECTSTRUCT *lpObj)
 	wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
 }
 
-void CMuRummyMng::GDReqSlotInfoUpdate(OBJECTSTRUCT *lpObj, BYTE btSeq, BYTE btSlotNum, BYTE btStatus)
+void CMuRummyMng::GDReqSlotInfoUpdate(LPGameObject lpObj, BYTE btSeq, BYTE btSlotNum, BYTE btStatus)
 {
 	PMSG_REQ_MURUMMY_SLOTUPDATE_DS pMsg;
 
@@ -1846,7 +1846,7 @@ BYTE CMuRummyMng::GetColorName(int iColorNum)
 	return szColor[3];
 }
 
-void CMuRummyMng::Slot5Log(OBJECTSTRUCT *lpObj, int iLogType)
+void CMuRummyMng::Slot5Log(LPGameObject lpObj, int iLogType)
 {
 	if (ObjectMaxRange(lpObj->m_Index) == false)
 	{
@@ -1914,7 +1914,7 @@ void CMuRummyMng::Slot5Log(OBJECTSTRUCT *lpObj, int iLogType)
 	}
 }
 
-void CMuRummyMng::Slot3Log(OBJECTSTRUCT *lpObj, int iLogType)
+void CMuRummyMng::Slot3Log(LPGameObject lpObj, int iLogType)
 {
 	if (ObjectMaxRange(lpObj->m_Index) == false)
 	{
@@ -1982,7 +1982,7 @@ void CMuRummyMng::Slot3Log(OBJECTSTRUCT *lpObj, int iLogType)
 	}
 }
 
-void CMuRummyMng::GDReqMuRummyDBLog(OBJECTSTRUCT *lpObj, int iScore)
+void CMuRummyMng::GDReqMuRummyDBLog(LPGameObject lpObj, int iScore)
 {
 	if (ObjectMaxRange(lpObj->m_Index) == false)
 	{

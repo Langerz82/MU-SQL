@@ -258,7 +258,7 @@ public:
 	bool DelPentagramJewelInfo(LPGameObject &lpObj, CItem *lpItemData);
 	bool DelPentagramJewelInfo(LPGameObject &lpObj, int iJewelPos, int iJewelIndex);
 
-	void DBREQ_GetPentagramJewel(OBJECTSTRUCT *lpObj, char *szAccountId, int iJewelPos);
+	void DBREQ_GetPentagramJewel(LPGameObject lpObj, char *szAccountId, int iJewelPos);
 	void DBANS_GetPentagramJewel(LPBYTE lpRecv);
 	void GCPentagramJewelInfo(LPGameObject &lpObj, int iJewelPos);
 	void DBREQ_SetPentagramJewel(LPGameObject &lpObj, int iJewelPos);
@@ -276,7 +276,7 @@ public:
 
 	int CheckOverlapMythrilPiece(int iIndex, int iItemType, int iMainAttribute);
 
-	int AddTradeCount(OBJECTSTRUCT *lpObj, int source, int target);
+	int AddTradeCount(LPGameObject lpObj, int source, int target);
 
 	// fix drop slot pentagrams
 	void LoadOptionMaps(const char* File);

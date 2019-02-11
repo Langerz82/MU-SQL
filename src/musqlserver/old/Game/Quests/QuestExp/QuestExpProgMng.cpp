@@ -1021,7 +1021,7 @@ void QuestExpProgMng::ChkMonsterKillPartyPlay(DWORD dwQuestInfoIndexID, int iAsk
 	}
 }
 
-void QuestExpProgMng::ChkUserQuestTypeMonsterKill(OBJECTSTRUCT *lpObj, OBJECTSTRUCT *lpMonsterObj)
+void QuestExpProgMng::ChkUserQuestTypeMonsterKill(LPGameObject lpObj, OBJECTSTRUCT *lpMonsterObj)
 {
 	if (lpObj->PartyNumber == -1)
 	{
@@ -1053,7 +1053,7 @@ void QuestExpProgMng::ChkUserQuestTypeMonsterKill(OBJECTSTRUCT *lpObj, OBJECTSTR
 	}
 }
 
-void QuestExpProgMng::ChkUserQuestType(int iQuestType, OBJECTSTRUCT *lpObj, OBJECTSTRUCT *lpMonsterObj, int iKillerObjIndex)
+void QuestExpProgMng::ChkUserQuestType(int iQuestType, LPGameObject lpObj, OBJECTSTRUCT *lpMonsterObj, int iKillerObjIndex)
 {
 	if (!lpMonsterObj)
 	{
@@ -1156,7 +1156,7 @@ void QuestExpProgMng::ChkUserQuestType(int iQuestType, OBJECTSTRUCT *lpObj, OBJE
 	}
 }
 
-void QuestExpProgMng::ChkUserQuestTypeEventMap(int iQuestType, OBJECTSTRUCT *lpObj, int iMapLevel, int iValue)
+void QuestExpProgMng::ChkUserQuestTypeEventMap(int iQuestType, LPGameObject lpObj, int iMapLevel, int iValue)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -1539,7 +1539,7 @@ bool QuestExpProgMng::ChkQuestIndexIDToEpAndQSLimit(DWORD dwQuestInfoIndexID, in
 	return true;
 }
 
-void QuestExpProgMng::QuestMonsterItemDrop(DWORD dwQuestInfoIndexID, OBJECTSTRUCT *lpObj, OBJECTSTRUCT *lpMonsterObj)
+void QuestExpProgMng::QuestMonsterItemDrop(DWORD dwQuestInfoIndexID, LPGameObject lpObj, OBJECTSTRUCT *lpMonsterObj)
 {
 	int iMaxHitUserIndex = gObjMonsterTopHitDamageUser(lpMonsterObj);
 

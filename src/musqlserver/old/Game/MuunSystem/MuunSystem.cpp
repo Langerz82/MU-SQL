@@ -1000,7 +1000,7 @@ bool CMuunSystem::LoadScriptMuunSystemOption(char *lpszFileName)
 	return this->m_MuunInfoMng.LoadScriptMuunSystemOption(lpszFileName);
 }
 
-void CMuunSystem::MuunItemDamage(OBJECTSTRUCT *lpObj, int damage)
+void CMuunSystem::MuunItemDamage(LPGameObject lpObj, int damage)
 {
 	if (g_ConfigRead.pet.DamageDisableForPet[DAMAGE_OFF_MUUN] == true)
 	{
@@ -1095,7 +1095,7 @@ BOOL CMuunSystem::MuunItemEquipment(LPGameObject &lpObj, int iPos, int iSource)
 	return FALSE;
 }
 
-void CMuunSystem::SetMuunItemAddPeriodData(OBJECTSTRUCT *lpObj, int iMuunItemNum, UINT64 dwSerial)
+void CMuunSystem::SetMuunItemAddPeriodData(LPGameObject lpObj, int iMuunItemNum, UINT64 dwSerial)
 {
 	CMuunInfo *pCMuunInfo = this->m_MuunInfoMng.GetMuunItemNumToMuunInfo(iMuunItemNum);
 
@@ -1114,7 +1114,7 @@ void CMuunSystem::SetMuunItemAddPeriodData(OBJECTSTRUCT *lpObj, int iMuunItemNum
 	this->AddMuunItmePeriodData(lpObj, iMuunItemNum, dwSerial, 0, pCMuunInfo);
 }
 
-bool CMuunSystem::SetUserMuunEffect(OBJECTSTRUCT *lpObj, int iMuunItemNum, int iMuunLv, int iEquipPos)
+bool CMuunSystem::SetUserMuunEffect(LPGameObject lpObj, int iMuunItemNum, int iMuunLv, int iEquipPos)
 {
 	CMuunInfo *pCMuunInfo = m_MuunInfoMng.GetMuunItemNumToMuunInfo(iMuunItemNum);
 
@@ -1177,7 +1177,7 @@ void CMuunSystem::SetAddOptTypeValue(_tagMUUN_EFFECT_LIST *pUserMuunEffect)
 	}
 }
 
-bool CMuunSystem::RemoveUserMuunEffect(OBJECTSTRUCT *lpObj, int iEquipPos)
+bool CMuunSystem::RemoveUserMuunEffect(LPGameObject lpObj, int iEquipPos)
 {
 	if (iEquipPos >= 2)
 	{
@@ -1198,7 +1198,7 @@ bool CMuunSystem::RemoveUserMuunEffect(OBJECTSTRUCT *lpObj, int iEquipPos)
 	this->CalCharacterStat(lpObj->m_Index, nOptType);
 }
 
-bool CMuunSystem::GetMuunItemValueOfOptType(OBJECTSTRUCT *lpObj, int iMuunOptIndex, int *EffectValue1, int *EffectValue2)
+bool CMuunSystem::GetMuunItemValueOfOptType(LPGameObject lpObj, int iMuunOptIndex, int *EffectValue1, int *EffectValue2)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -1863,7 +1863,7 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 }
 			
 
-bool CMuunSystem::MuunItemEvolution(OBJECTSTRUCT *lpObj, int source, int target)
+bool CMuunSystem::MuunItemEvolution(LPGameObject lpObj, int source, int target)
 {
 	if (source < 2 || source > MUUN_INVENTORY_SIZE - 1)
 	{
@@ -1954,7 +1954,7 @@ bool CMuunSystem::MuunItemEvolution(OBJECTSTRUCT *lpObj, int source, int target)
 	return true;
 }
 
-bool CMuunSystem::MuunItemLevelUp(OBJECTSTRUCT *lpObj, int source, int target)
+bool CMuunSystem::MuunItemLevelUp(LPGameObject lpObj, int source, int target)
 {
 	if (source < 2 || source > MUUN_INVENTORY_SIZE - 1)
 	{
@@ -2033,7 +2033,7 @@ bool CMuunSystem::MuunItemLevelUp(OBJECTSTRUCT *lpObj, int source, int target)
 	return true;
 }
 
-bool CMuunSystem::MuunItemLifeGem(OBJECTSTRUCT *lpObj, int source, int target)
+bool CMuunSystem::MuunItemLifeGem(LPGameObject lpObj, int source, int target)
 {
 	if (source < INVETORY_WEAR_SIZE || source > MAIN_INVENTORY_SIZE - 1)
 	{
@@ -2286,7 +2286,7 @@ bool CMuunSystem::IsCorrectUser(OBJECTSTRUCT *lpObj)
 	return true;
 }
 
-int CMuunSystem::AddMuunItmePeriodData(OBJECTSTRUCT *lpObj, WORD wItemCode, UINT64 dwSerial, int iDuration, CMuunInfo *pCMuunInfo)
+int CMuunSystem::AddMuunItmePeriodData(LPGameObject lpObj, WORD wItemCode, UINT64 dwSerial, int iDuration, CMuunInfo *pCMuunInfo)
 {
 	int iMuunItemPeriodDataIndex = lpObj->m_iMuunItmePeriodDataIndex;
 
@@ -2369,7 +2369,7 @@ void CMuunSystem::CheckMuunItemPeriodData(OBJECTSTRUCT *lpObj)
 	}
 }
 
-bool CMuunSystem::ClearPeriodMuunItemData(OBJECTSTRUCT *lpObj, WORD wItemCode, UINT64 dwSerial)
+bool CMuunSystem::ClearPeriodMuunItemData(LPGameObject lpObj, WORD wItemCode, UINT64 dwSerial)
 {
 	bool result;
 	signed int iItemSlotIndex; 
@@ -2413,7 +2413,7 @@ bool CMuunSystem::ClearPeriodMuunItemData(OBJECTSTRUCT *lpObj, WORD wItemCode, U
 	return result;
 }
 
-bool CMuunSystem::RemovePeriodMunnItemData(OBJECTSTRUCT *lpObj, WORD wItemCode, UINT64 dwSerial)
+bool CMuunSystem::RemovePeriodMunnItemData(LPGameObject lpObj, WORD wItemCode, UINT64 dwSerial)
 {
 	bool result; 
 	int iInventoryPosition; 
@@ -2445,7 +2445,7 @@ bool CMuunSystem::RemovePeriodMunnItemData(OBJECTSTRUCT *lpObj, WORD wItemCode, 
 	return result;
 }
 
-bool CMuunSystem::SetDisableMuunItemToExpire(OBJECTSTRUCT *lpObj, int iInventoryPosition)
+bool CMuunSystem::SetDisableMuunItemToExpire(LPGameObject lpObj, int iInventoryPosition)
 {
 	bool result; 
 
@@ -2523,7 +2523,7 @@ void CMuunSystem::CheckMuunItemConditionLevelUp(OBJECTSTRUCT *lpObj)
 	}
 }
 
-void CMuunSystem::CheckMuunItemMoveMapConditionMap(OBJECTSTRUCT *lpObj, int iMapNumber)
+void CMuunSystem::CheckMuunItemMoveMapConditionMap(LPGameObject lpObj, int iMapNumber)
 {
 	CMuunOpt *pCMuunInfo; 
 
@@ -2618,7 +2618,7 @@ void CMuunSystem::CalCharacterStat( int aIndex, int iOptType)
 	}
 }
 
-int CMuunSystem::CheckMuunItemCondition(OBJECTSTRUCT * lpObj, _tagMUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
+int CMuunSystem::CheckMuunItemCondition(LPGameObject &lpObj, _tagMUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
 {
 	if (pCMuunInfo == NULL)
 	{
@@ -2739,7 +2739,7 @@ int CMuunSystem::ChkMuunOptConditionDay( _tagMUUN_EFFECT_LIST *pUserMuunEffect, 
 	return -1;
 }
 
-int CMuunSystem::ChkMuunOptConditionLevel(OBJECTSTRUCT *lpObj, _tagMUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
+int CMuunSystem::ChkMuunOptConditionLevel(LPGameObject lpObj, _tagMUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
 {
 	if (!pCMuunInfo)
 	{
@@ -2769,7 +2769,7 @@ int CMuunSystem::ChkMuunOptConditionLevel(OBJECTSTRUCT *lpObj, _tagMUUN_EFFECT_L
 	}
 }
 
-int CMuunSystem::ChkMuunOptConditionMap(OBJECTSTRUCT *lpObj, _tagMUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
+int CMuunSystem::ChkMuunOptConditionMap(LPGameObject lpObj, _tagMUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
 {
 	if (!pCMuunInfo)
 	{
@@ -2790,7 +2790,7 @@ int CMuunSystem::ChkMuunOptConditionMap(OBJECTSTRUCT *lpObj, _tagMUUN_EFFECT_LIS
 	}
 }
 
-int CMuunSystem::GetItemFromMuunInventory(OBJECTSTRUCT *lpObj, WORD wItemCode, UINT64 dwSerial)
+int CMuunSystem::GetItemFromMuunInventory(LPGameObject lpObj, WORD wItemCode, UINT64 dwSerial)
 {
 	if(!lpObj)
 	{
@@ -2858,7 +2858,7 @@ bool CMuunSystem::CheckAddOptionExpireDate(time_t dwStartDate, time_t dwEndDate)
 	return result;
 }
 
-void CMuunSystem::MsgIsMuunItemActive(OBJECTSTRUCT *lpObj, int iPos)
+void CMuunSystem::MsgIsMuunItemActive(LPGameObject lpObj, int iPos)
 {
 	//trash
 

@@ -367,7 +367,7 @@ int CIllusionTempleLeagueEvent::Leave_ITL(LPGameObject &lpObj, BYTE btMapNumber)
 	return TRUE;
 }
 
-void CIllusionTempleLeagueEvent::ActRelicsGetOrRegister(OBJECTSTRUCT *lpNpc, OBJECTSTRUCT *lpObj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType)
+void CIllusionTempleLeagueEvent::ActRelicsGetOrRegister(OBJECTSTRUCT *lpNpc, LPGameObject lpObj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType)
 {
 	if (!ITL_MAP_RANGE(byMapNumber))
 	{

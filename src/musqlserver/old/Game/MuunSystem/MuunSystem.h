@@ -152,15 +152,15 @@ public:
 	bool LoadScriptMuunSystemOption(char *lpszFileName);
 	bool LoadScriptMuunExchange(char *lpszFileName);
 
-	void MuunItemDamage(OBJECTSTRUCT *lpObj, int damage);
+	void MuunItemDamage(LPGameObject lpObj, int damage);
 	int MuunItemEquipment(LPGameObject &lpObj, int iPos, int iSource);
 
-	void SetMuunItemAddPeriodData(OBJECTSTRUCT *lpObj, int iMuunItemNum, UINT64 dwSerial);
-	bool SetUserMuunEffect(OBJECTSTRUCT *lpObj, int iMuunItmeNum, int iMuunLv, int iEquipPos);
+	void SetMuunItemAddPeriodData(LPGameObject lpObj, int iMuunItemNum, UINT64 dwSerial);
+	bool SetUserMuunEffect(LPGameObject lpObj, int iMuunItmeNum, int iMuunLv, int iEquipPos);
 	void SetAddOptTypeValue(_tagMUUN_EFFECT_LIST *pUserMuunEffect);
-	bool RemoveUserMuunEffect(OBJECTSTRUCT *lpObj, int iEquipPos);
+	bool RemoveUserMuunEffect(LPGameObject lpObj, int iEquipPos);
 
-	bool GetMuunItemValueOfOptType(OBJECTSTRUCT *lpObj, int iMuunOtpIndex, int *EffectValue1, int *EffectValue2);
+	bool GetMuunItemValueOfOptType(LPGameObject lpObj, int iMuunOtpIndex, int *EffectValue1, int *EffectValue2);
 
 	void GDReqLoadMuunInvenItem(OBJECTSTRUCT *obj);
 	void DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg);
@@ -181,10 +181,10 @@ public:
 
 	void CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int aIndex);
 
-	bool MuunItemEvolution(OBJECTSTRUCT *lpObj, int source, int target);
-	bool MuunItemLevelUp(OBJECTSTRUCT *lpObj, int source, int target);
-	bool MuunItemLifeGem(OBJECTSTRUCT *lpObj, int source, int target);
-	bool MuunItemEnergyGenerator(OBJECTSTRUCT *lpObj, int source, int target);
+	bool MuunItemEvolution(LPGameObject lpObj, int source, int target);
+	bool MuunItemLevelUp(LPGameObject lpObj, int source, int target);
+	bool MuunItemLifeGem(LPGameObject lpObj, int source, int target);
+	bool MuunItemEnergyGenerator(LPGameObject lpObj, int source, int target);
 
 	void GCMuunInventoryUseItemResult(LPGameObject &lpObj, int iUseType, int iResult);
 
@@ -192,15 +192,15 @@ public:
 
 	bool IsCorrectUser(OBJECTSTRUCT *lpObj);
 
-	int AddMuunItmePeriodData(OBJECTSTRUCT *lpObj, WORD wItemCode, UINT64 dwSerial, int iDuration, CMuunInfo *pCMuunInfo);
+	int AddMuunItmePeriodData(LPGameObject lpObj, WORD wItemCode, UINT64 dwSerial, int iDuration, CMuunInfo *pCMuunInfo);
 	int AddMuunItemPeriodInfo(OBJECTSTRUCT *lpObj);
-	bool ClearPeriodMuunItemData(OBJECTSTRUCT *lpObj, WORD wItemCode, UINT64 dwSerial);
-	bool RemovePeriodMunnItemData(OBJECTSTRUCT *lpObj, WORD wItemCode, UINT64 dwSerial);
+	bool ClearPeriodMuunItemData(LPGameObject lpObj, WORD wItemCode, UINT64 dwSerial);
+	bool RemovePeriodMunnItemData(LPGameObject lpObj, WORD wItemCode, UINT64 dwSerial);
 
-	bool SetDisableMuunItemToExpire(OBJECTSTRUCT *lpObj, int iInventoryPosition);
+	bool SetDisableMuunItemToExpire(LPGameObject lpObj, int iInventoryPosition);
 
 	void CheckMuunItemConditionLevelUp(OBJECTSTRUCT *lpObj);
-	void CheckMuunItemMoveMapConditionMap(OBJECTSTRUCT *lpObj, int iMapNumber);
+	void CheckMuunItemMoveMapConditionMap(LPGameObject lpObj, int iMapNumber);
 	void CheckEquipMuunItemCondition(OBJECTSTRUCT *lpObj);
 	void CheckEquipMuunItemConditionProc(OBJECTSTRUCT *lpObj);
 
@@ -214,7 +214,7 @@ public:
 	int ChkMuunOptConditionLevel(OBJECTSTRUCT *obj, _tagMUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
 	int ChkMuunOptConditionMap(OBJECTSTRUCT *obj, _tagMUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
 
-	int GetItemFromMuunInventory(OBJECTSTRUCT *lpObj, WORD wItemCode, UINT64 dwSerial);
+	int GetItemFromMuunInventory(LPGameObject lpObj, WORD wItemCode, UINT64 dwSerial);
 
 	void CGMuunExchangeItem(PMSG_REQ_MUUN_EXCHANGE *lpMsg, int aIndex);
 
@@ -244,7 +244,7 @@ public:
 	void Attack(LPGameObject &lpObj, CGameObject* lpTargetObj, CMagicInf *lpMagic, int SubCode, int SubCode2);
 
 	bool CheckAddOptionExpireDate(time_t StartDate, time_t EndDate);
-	void MsgIsMuunItemActive(OBJECTSTRUCT *lpObj, int iPos);
+	void MsgIsMuunItemActive(LPGameObject lpObj, int iPos);
 
 	void CheckMuunItemPeriodData(OBJECTSTRUCT *lpObj);
 

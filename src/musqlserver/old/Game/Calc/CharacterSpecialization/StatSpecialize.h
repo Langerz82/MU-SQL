@@ -46,13 +46,13 @@ public:
 	virtual ~CStatSpecialize(void);
 
 	bool LoadFile(char *szFile);
-	void CalcStatOption(OBJECTSTRUCT *lpObj, int StatOptionID);
+	void CalcStatOption(LPGameObject lpObj, int StatOptionID);
 	void SendOptionList(OBJECTSTRUCT *lpObj);
 	void ClearUserOption(OBJECTSTRUCT *lpObj);
 	MULua m_Lua;
 
 private:
-	void SetStatOption(OBJECTSTRUCT *lpObj, int StatOptionID, double StatOptionPercent);
+	void SetStatOption(LPGameObject lpObj, int StatOptionID, double StatOptionPercent);
 	int GetUserArrayIndex(OBJECTSTRUCT *lpObj);
 
 	bool m_bFileLoad;

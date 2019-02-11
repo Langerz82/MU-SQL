@@ -233,7 +233,7 @@ bool CEvolutionMonsterMng::UseSummonScroll(int aIndex)
 	return true;
 }
 
-int CEvolutionMonsterMng::SummonEvoMon(OBJECTSTRUCT * lpObj)
+int CEvolutionMonsterMng::SummonEvoMon(LPGameObject &lpObj)
 {
 	LPMONSTER_ATTRIBUTE lpMonsterAttr = gMAttr.GetAttr(681);
 	
@@ -300,7 +300,7 @@ int CEvolutionMonsterMng::SetField(int iEvoMonIndex, int nFieldIndex, int nOwner
 	return nFieldIndex;
 }
 
-void CEvolutionMonsterMng::EvolutionMonsterDie(OBJECTSTRUCT * lpTargetObj, OBJECTSTRUCT * lpObj)
+void CEvolutionMonsterMng::EvolutionMonsterDie(OBJECTSTRUCT * lpTargetObj, LPGameObject &lpObj)
 {
 	if (!lpTargetObj)
 	{
@@ -559,7 +559,7 @@ void CEvolutionMonsterMng::EndTimeProcess(OBJECTSTRUCT * lpMonsterObj)
 	this->EndEvoMon(lpOwnerObj);
 }
 
-void CEvolutionMonsterMng::EvoluteMonster(OBJECTSTRUCT * lpObj)
+void CEvolutionMonsterMng::EvoluteMonster(LPGameObject &lpObj)
 {
 	if (!lpObj)
 	{
@@ -673,7 +673,7 @@ void CEvolutionMonsterMng::SetMonsterStats(OBJECTSTRUCT * lpMonsterObj, EVOMON_M
 	lpMonsterObj->m_SuccessfulBlocking = lpAttr->m_Successfulblocking * MonsterData.m_fDefRate;
 }
 
-void CEvolutionMonsterMng::EndEvoMon(OBJECTSTRUCT * lpObj)
+void CEvolutionMonsterMng::EndEvoMon(LPGameObject &lpObj)
 {
 	if (!lpObj)
 	{
@@ -698,7 +698,7 @@ void CEvolutionMonsterMng::EndEvoMon(OBJECTSTRUCT * lpObj)
 
 }
 
-void CEvolutionMonsterMng::UserQuit(OBJECTSTRUCT * lpObj)
+void CEvolutionMonsterMng::UserQuit(LPGameObject &lpObj)
 {
 	if (!lpObj)
 	{
@@ -722,7 +722,7 @@ void CEvolutionMonsterMng::UserQuit(OBJECTSTRUCT * lpObj)
 	pEvoMonInfo->SetState(EVOMON_NOT_ACTIVE);
 }
 
-void CEvolutionMonsterMng::GCSendUserScore(OBJECTSTRUCT * lpObj, int nScore)
+void CEvolutionMonsterMng::GCSendUserScore(LPGameObject &lpObj, int nScore)
 {
 	PMSG_EVOMON_SCORE pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x3E, 0x11, sizeof(pMsg));
@@ -747,7 +747,7 @@ void CEvolutionMonsterMng::GCSendEvoMonNotice(int aIndex)
 	}
 }
 
-void CEvolutionMonsterMng::GiveReward(OBJECTSTRUCT * lpObj, bool bSpecialEvoMon)
+void CEvolutionMonsterMng::GiveReward(LPGameObject &lpObj, bool bSpecialEvoMon)
 {
 	if (!lpObj)
 	{

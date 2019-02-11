@@ -516,8 +516,6 @@ public:
 	int		m_iMUBOT_TIME;
 };
 
-typedef CGameObject * CGameObject*;
-
 // sizeof ( BILL_CLASS ) == 0x18
 class BILL_CLASS
 {
@@ -561,7 +559,7 @@ public:
 };
 
 //extern CViewportGuild ViewGuildMng;
-extern std::vector<CGameObject*> gGameObjects;
+extern std::vector<LPGameObject> gGameObjects;
 extern BILL_CLASS* m_ObjBill;
 extern int gItemLoop;
 extern int gItemLoop2;

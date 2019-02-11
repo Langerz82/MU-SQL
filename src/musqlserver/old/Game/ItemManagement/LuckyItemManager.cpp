@@ -656,7 +656,7 @@ BYTE LuckyItemManager::GetLevel(int iMinLv, int iMaxLv)
 	return level;
 }
 
-int LuckyItemManager::LuckyItemRepaire(OBJECTSTRUCT * lpObj, int source, int target)
+int LuckyItemManager::LuckyItemRepaire(LPGameObject &lpObj, int source, int target)
 {
 	int iAddDur = 255;
 	
@@ -845,7 +845,7 @@ void LuckyItemManager::DGAnsLuckyItemList(PMSG_ANS_LUCKYITEM_SELECT * lpRecv)
 	delete[] iDeleteItemList;
 }
 
-void LuckyItemManager::GDReqLuckyItemSelect(OBJECTSTRUCT * lpObj)
+void LuckyItemManager::GDReqLuckyItemSelect(LPGameObject &lpObj)
 {
 	PMSG_REQ_LUCKYITEM_SELECT pMsg;
 	

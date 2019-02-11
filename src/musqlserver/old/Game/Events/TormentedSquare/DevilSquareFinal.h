@@ -427,7 +427,7 @@ public:
 	void DSF_ProcessInit();
 
 	int SetMonster();
-	void DSFMonsterRegen(OBJECTSTRUCT * lpObj);
+	void DSFMonsterRegen(LPGameObject &lpObj);
 	void ClearMonster();
 
 	BYTE GetUserTeam(int nIndex);
@@ -435,7 +435,7 @@ public:
 	int MonsterKillPoint(int nMonsterType);
 	void MonsterKillPointCalc(LPGameObject &lpObj, int nPoint);
 
-	void DSFUserDie(OBJECTSTRUCT * lpObj);
+	void DSFUserDie(LPGameObject &lpObj);
 	void EndUserMove();
 	
 	void DSFDropReward(OBJECTSTRUCT * lpUser, OBJECTSTRUCT * lpMonster);

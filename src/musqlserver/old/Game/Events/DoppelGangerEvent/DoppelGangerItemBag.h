@@ -34,7 +34,7 @@ public:
 
 	void DoppelgangerItemBagInit();
 	void LoadDoppelgangerItemBag(LPSTR lpFile);
-	int DoppelgangerItemDrop(OBJECTSTRUCT *lpObj, int nItemBagIndex, int nDropRate, BYTE btFlag);
+	int DoppelgangerItemDrop(LPGameObject lpObj, int nItemBagIndex, int nDropRate, BYTE btFlag);
 
 private:
 	BOOL														m_bLoad;

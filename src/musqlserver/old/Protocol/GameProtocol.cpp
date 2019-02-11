@@ -1,16 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// protocol.cpp
-// ------------------------------
-// Decompiled by Deathway
-// Date : 2007-05-09
-// ------------------------------
-// GS-N 0.99.60T 0x00426C80F
-//	GS-N	1.00.18	JPN	0x0042FBF0	-	Completed
-// PMoveProc - Weird form of compilation
-// void GameProtocol::CGCloseWindow(int aIndex) Weird form of compilation
 
-#include "protocol.h"
-#include "giocp.h"
+#include "GameProtocol.h"
 #include "Event.h"
 #include "Main.h"
 #include "TNotice.h"

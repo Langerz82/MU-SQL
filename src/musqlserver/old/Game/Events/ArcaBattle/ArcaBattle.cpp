@@ -140,7 +140,7 @@ BOOL CArcaBattle::GetBootyRewardItem(int iBootyCnt, _tagARCA_BATTLE_BOOTY_REWARD
 	return TRUE;
 }
 
-void  CArcaBattle::SendArcaBattlePlayInfo(OBJECTSTRUCT *lpObj, WORD wGuildGroupNum)
+void  CArcaBattle::SendArcaBattlePlayInfo(LPGameObject lpObj, WORD wGuildGroupNum)
 {
 	PMSG_ARCA_BATTLE_PLAY_INFO pMsg; 
 
@@ -184,7 +184,7 @@ void  CArcaBattle::SendArcaBattlePlayInfo(OBJECTSTRUCT *lpObj, WORD wGuildGroupN
 	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void CArcaBattle::WinGuildMemberAddBuff(OBJECTSTRUCT *lpObj, unsigned __int16 wObeliskAttr)
+void CArcaBattle::WinGuildMemberAddBuff(LPGameObject lpObj, unsigned __int16 wObeliskAttr)
 {
 	LPPERIOD_BUFF_EFFECT_INFO lpPeriBuff; 
 
@@ -338,7 +338,7 @@ void CArcaBattle::RemoveGuildBuff(char *szGuildName, WORD wBuffIndex)
 	}
 }
 
-void CArcaBattle::ReqGuildMemberDelBuffDel(OBJECTSTRUCT *lpObj, char *szGuildName)
+void CArcaBattle::ReqGuildMemberDelBuffDel(LPGameObject lpObj, char *szGuildName)
 {
 	for ( int i = 0; i < 5; ++i )
 	{
@@ -444,7 +444,7 @@ int CArcaBattle::IsArcaBattleWinGuild(OBJECTSTRUCT *obj)
 	return FALSE;
 }
 
-BOOL CArcaBattle::IsArcaBattleOccupyZone(OBJECTSTRUCT *lpObj, int gt)
+BOOL CArcaBattle::IsArcaBattleOccupyZone(LPGameObject lpObj, int gt)
 {
 	if ( !lpObj->m_PlayerData->lpGuild )
 	{
@@ -1798,7 +1798,7 @@ int CArcaBattle::GetMaxObeliskCnt()
 	return this->m_iObeliskCnt;
 }
 
-BOOL CArcaBattle::IsEnableAttackObelisk(OBJECTSTRUCT *lpObj, int iMonNumber)
+BOOL CArcaBattle::IsEnableAttackObelisk(LPGameObject lpObj, int iMonNumber)
 {
 	_tagOBELISK_STATE *pObeliskState = NULL;
 
@@ -2339,7 +2339,7 @@ int CArcaBattle::GetBoxPosition(int mapnumber, int ax, int ay, int aw, int ah, s
 	return false;
 }
 
-void CArcaBattle::AddContributePoint(OBJECTSTRUCT * lpObj, OBJECTSTRUCT * lpTargetObj)
+void CArcaBattle::AddContributePoint(LPGameObject &lpObj, OBJECTSTRUCT * lpTargetObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -2454,7 +2454,7 @@ void CArcaBattle::AddContributePoint(OBJECTSTRUCT * lpObj, OBJECTSTRUCT * lpTarg
 		lpObj->AccountID, lpObj->Name, pUserInfo->m_stAcquiredPoints.dwContributePoints, lpObj->Level, lpTargetObj->Level, lpTargetObj->AccountID, lpTargetObj->Name);
 }
 
-void CArcaBattle::AddKillPoint(OBJECTSTRUCT * lpObj, OBJECTSTRUCT * lpTargetObj)
+void CArcaBattle::AddKillPoint(LPGameObject &lpObj, OBJECTSTRUCT * lpTargetObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -2541,7 +2541,7 @@ void CArcaBattle::AddKillPoint(OBJECTSTRUCT * lpObj, OBJECTSTRUCT * lpTargetObj)
 	}
 }
 
-void CArcaBattle::BootyItemGetCnt(OBJECTSTRUCT * lpObj)
+void CArcaBattle::BootyItemGetCnt(LPGameObject &lpObj)
 {
 	if ( lpObj->Type != OBJ_USER )
 	{
@@ -2561,7 +2561,7 @@ void CArcaBattle::BootyItemGetCnt(OBJECTSTRUCT * lpObj)
 	}
 }
 
-void CArcaBattle::CalcRewardExp(OBJECTSTRUCT * lpObj, UINT64 &iRewardExp)
+void CArcaBattle::CalcRewardExp(LPGameObject &lpObj, UINT64 &iRewardExp)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -2629,7 +2629,7 @@ void CArcaBattle::CalcRewardExp(OBJECTSTRUCT * lpObj, UINT64 &iRewardExp)
 		lpObj->AccountID, lpObj->Name, dwKillPoints, iRewardExp);
 }
 
-int CArcaBattle::DropItem(OBJECTSTRUCT *lpObj, OBJECTSTRUCT *lpMonsterObj)
+int CArcaBattle::DropItem(LPGameObject lpObj, OBJECTSTRUCT *lpMonsterObj)
 {
 	if (lpObj->MapNumber != MAP_INDEX_ACHERON)
 	{
@@ -2904,7 +2904,7 @@ int CArcaBattle::GetUserPos(int nGateNum, short & nOutX, short & nOutY)
 	}
 }
 
-void CArcaBattle::SetUserMapInfo(OBJECTSTRUCT *lpObj, int nGateNum)
+void CArcaBattle::SetUserMapInfo(LPGameObject lpObj, int nGateNum)
 {
 	for (int i = 0 ; i < this->m_iABJoinUserCnt; i++)
 	{
@@ -3414,7 +3414,7 @@ void CArcaBattle::CheatGDReqArcaBattleGuildJoin(OBJECTSTRUCT *lpObj)
 	GDReqArcaBattleGuildJoin(lpObj);
 }
 
-void CArcaBattle::CheatGDReqArcaBattleGuildMemberJoin(OBJECTSTRUCT *lpObj, const char *lpszName)
+void CArcaBattle::CheatGDReqArcaBattleGuildMemberJoin(LPGameObject lpObj, const char *lpszName)
 {
 	OBJECTSTRUCT TempObj;
 	strcpy(TempObj.Name, lpszName);
@@ -3422,7 +3422,7 @@ void CArcaBattle::CheatGDReqArcaBattleGuildMemberJoin(OBJECTSTRUCT *lpObj, const
 	GDReqArcaBattleGuildMemberJoin(&TempObj);
 }
 
-void CArcaBattle::CheatABOccupyObelisk(OBJECTSTRUCT *lpObj, int iObeliskGroup)
+void CArcaBattle::CheatABOccupyObelisk(LPGameObject lpObj, int iObeliskGroup)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -3497,7 +3497,7 @@ void CArcaBattle::CheatGDReqMarkRegSet(int iIndex, DWORD dwMarkCnt)
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CArcaBattle::GuildMemberAssignStatus(OBJECTSTRUCT *lpObj, int iGuildStatus)
+void CArcaBattle::GuildMemberAssignStatus(LPGameObject lpObj, int iGuildStatus)
 {
 	int aIndex = lpObj->m_Index;
 

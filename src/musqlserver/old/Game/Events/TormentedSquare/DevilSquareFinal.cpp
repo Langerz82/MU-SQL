@@ -2728,7 +2728,7 @@ int CDevilSquareFinal::SetMonster()
 	return iAddMonsterCount;
 }
 
-void CDevilSquareFinal::DSFMonsterRegen(OBJECTSTRUCT * lpObj)
+void CDevilSquareFinal::DSFMonsterRegen(LPGameObject &lpObj)
 {
 	if (lpObj->Class == -1)
 	{
@@ -2850,7 +2850,7 @@ void CDevilSquareFinal::MonsterKillPointCalc(LPGameObject &lpObj, int nPoint)
 	}
 }
 
-void CDevilSquareFinal::DSFUserDie(OBJECTSTRUCT * lpObj)
+void CDevilSquareFinal::DSFUserDie(LPGameObject &lpObj)
 {
 	if (lpObj->m_nDSFIndex == -1)
 	{

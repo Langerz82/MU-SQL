@@ -11030,7 +11030,7 @@ void CMixSystem::JewelOfHarmonyItemPurityMix(LPGameObject &lpObj) // OK
 }
 
 
-void CMixSystem::PurityJewelOfHarmony_MultiMix(OBJECTSTRUCT * lpObj, int iMixCount)
+void CMixSystem::PurityJewelOfHarmony_MultiMix(LPGameObject &lpObj, int iMixCount)
 {
 	if (g_kJewelOfHarmonySystem.m_bSystemPrutiyJewel != TRUE)
 	{

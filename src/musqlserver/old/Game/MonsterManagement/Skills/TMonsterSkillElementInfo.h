@@ -49,7 +49,7 @@ public:
 	int  DecModifyStatTime();
 	int	 DecImmuneAllTime();//NEW
 
-	static void CheckSkillElementInfoProc(struct OBJECTSTRUCT * lpObj);
+	static void CheckSkillElementInfoProc(struct LPGameObject &lpObj);
 
 public:
 

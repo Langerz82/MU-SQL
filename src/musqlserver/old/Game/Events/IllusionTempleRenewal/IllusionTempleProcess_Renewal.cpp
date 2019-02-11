@@ -1367,7 +1367,7 @@ void CIllusionTempleProcess_Renewal::SendRelicsError(OBJECTSTRUCT *lpNpc, int in
 		index, byError, byAct, lpNpc->Class, lpNpc->m_Index);
 }
 
-void CIllusionTempleProcess_Renewal::Check_GetRelics(OBJECTSTRUCT *lpNpc, OBJECTSTRUCT *lpObj, WORD wNpcType)
+void CIllusionTempleProcess_Renewal::Check_GetRelics(OBJECTSTRUCT *lpNpc, LPGameObject lpObj, WORD wNpcType)
 {
 	if (!lpNpc)
 	{
@@ -1492,7 +1492,7 @@ void CIllusionTempleProcess_Renewal::Check_GetRelics(OBJECTSTRUCT *lpNpc, OBJECT
 	}
 }
 
-void CIllusionTempleProcess_Renewal::GetRelics(OBJECTSTRUCT *lpNpc, OBJECTSTRUCT *lpObj, WORD wNpcType)
+void CIllusionTempleProcess_Renewal::GetRelics(OBJECTSTRUCT *lpNpc, LPGameObject lpObj, WORD wNpcType)
 {
 	if (!lpNpc || !lpObj)
 	{
@@ -2319,7 +2319,7 @@ void CIllusionTempleProcess_Renewal::ITRSkillProc(LPGameObject &lpObj)
 	}
 }
 
-void CIllusionTempleProcess_Renewal::Send_ITR_SkillEnd(OBJECTSTRUCT *lpObj, WORD wSkillNumber)
+void CIllusionTempleProcess_Renewal::Send_ITR_SkillEnd(LPGameObject lpObj, WORD wSkillNumber)
 {
 	PMSG_ITL_SKILL_END pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xBF, 0x63, sizeof(pMsg));

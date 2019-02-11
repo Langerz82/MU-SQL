@@ -44,7 +44,7 @@ public:
 
 	BOOL	Start();
 	BOOL	MonsterHerdItemDrop(OBJECTSTRUCT* lpObj);
-	void	MonsterAttackAction(OBJECTSTRUCT *lpObj, OBJECTSTRUCT *lpTargetObj);
+	void	MonsterAttackAction(LPGameObject lpObj, OBJECTSTRUCT *lpTargetObj);
 	int		AddMonsterEX(int iMonsterType, int bAttackFirst, int nMonsterLevel, int nMonsterHp, int nMonsterAttMin, int nMonsterAttMax, int nMonsterDef);
 	BOOL	GetRandomLocation(BYTE &cX, BYTE &cY);
 	BOOL	SetTotalInfo(int iMapNumber, int iRadius, int nPosInfo, int bMove);
@@ -227,7 +227,7 @@ public:
 
 	void AngerKillerAttack(OBJECTSTRUCT *lpObj);
 
-	void SendDoppelgangerResult(OBJECTSTRUCT *lpObj, BYTE btResult);
+	void SendDoppelgangerResult(LPGameObject lpObj, BYTE btResult);
 	void SendDoppelgangerResultAll();
 
 	void ArrangeMonsterHerd();
@@ -246,7 +246,7 @@ public:
 	void DelTreasureBox(int nIndex, int nMonsterClass);
 
 	int CheckMapTile(int nMapNumber, BYTE btX, BYTE btY);
-	void SendMapTileInfo(OBJECTSTRUCT *lpObj, BYTE btMapSetType);
+	void SendMapTileInfo(LPGameObject lpObj, BYTE btMapSetType);
 	void SendMapTileInfoAll(BYTE btMapSetType);
 
 	LPMONSTER_ATTRIBUTE GetDefaultMonsterInfo(int nClass);

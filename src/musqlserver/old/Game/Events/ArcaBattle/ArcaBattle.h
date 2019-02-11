@@ -909,7 +909,7 @@ public:
 
 	WORD GetObeliskAttrToRewardBuffIndex(int iObeliskAttr);
 	void SendArcaBattlePlayInfo(OBJECTSTRUCT *obj, WORD wGuildGroupNum);
-	void WinGuildMemberAddBuff(OBJECTSTRUCT *lpObj, unsigned __int16 wObeliskAttr);
+	void WinGuildMemberAddBuff(LPGameObject lpObj, unsigned __int16 wObeliskAttr);
 	void GiveRewardBuffWinningGuild();
 	void ReqRemoveRewardGuildBuff(char *szGuildName);
 	void ReqRemoveRewardBuffWinningGuild();
@@ -917,7 +917,7 @@ public:
 	void RemoveGuildBuff(char *szGuildName, WORD wBuffIndex);
 	void RemoveRewardBuff(char *szGuildName);
 	void DGAnsRemoveAllRewardBuff();
-	void ReqGuildMemberDelBuffDel(OBJECTSTRUCT *lpObj, char *szGuildName);
+	void ReqGuildMemberDelBuffDel(LPGameObject lpObj, char *szGuildName);
 	void ReqGuildMemberDelBuffDel(char *szName, char *szGuildName);
 	void AddArcaBattleWinGuildInfo(_stABWinGuildInfoDS *pABWinGuildInfoDS, int iGuildCnt);
 	void SetDataLoadWinGuild(int bReqABWinGuildInfo);
@@ -997,9 +997,9 @@ public:
 	void AddKillPoint(OBJECTSTRUCT *obj, OBJECTSTRUCT *Tarobj);
 
 	void BootyItemGetCnt(OBJECTSTRUCT *lpObj);
-	void CalcRewardExp(OBJECTSTRUCT *lpObj, UINT64 & iRewardExp);
+	void CalcRewardExp(LPGameObject lpObj, UINT64 & iRewardExp);
 
-	int DropItem(OBJECTSTRUCT *lpObj, OBJECTSTRUCT *lpMonsterObj);
+	int DropItem(LPGameObject lpObj, OBJECTSTRUCT *lpMonsterObj);
 
 	void GDReqDeleteArcaBattleInfo();
 	void GDReqJoinMemberUnder();
@@ -1012,7 +1012,7 @@ public:
 	int GetGuildMasterGateNum(int nGuildNum);
 
 	int GetUserPos(int nGateNum, short  & nOutX, short  & nOutY);
-	void SetUserMapInfo(OBJECTSTRUCT *lpObj, int nGateNum);
+	void SetUserMapInfo(LPGameObject lpObj, int nGateNum);
 
 	void SetArcaBattleProcMultiCast(int bABInitState);
 
@@ -1044,16 +1044,16 @@ public:
 	void SetCheatABNextProc();
 
 	void CheatGDReqArcaBattleGuildJoin(OBJECTSTRUCT *lpObj);
-	void CheatGDReqArcaBattleGuildMemberJoin(OBJECTSTRUCT *lpObj, const char *lpszName);
+	void CheatGDReqArcaBattleGuildMemberJoin(LPGameObject lpObj, const char *lpszName);
 
-	void CheatABOccupyObelisk(OBJECTSTRUCT *lpObj, int iObeliskGroup);
+	void CheatABOccupyObelisk(LPGameObject lpObj, int iObeliskGroup);
 
 	void SetJoinMemberCnt(int iJoinGuildMemberCnt);
 
 	void CheatGDReqMarkReg(int iIndex, char *szGuildName, DWORD dwGuildNum, DWORD dwMarkCnt);
 	void CheatGDReqMarkRegSet(int iIndex, DWORD dwMarkCnt);
 
-	void GuildMemberAssignStatus(OBJECTSTRUCT *lpObj, int iGuildStatus);
+	void GuildMemberAssignStatus(LPGameObject lpObj, int iGuildStatus);
 
 	void GDReqGuildRegInit();
 

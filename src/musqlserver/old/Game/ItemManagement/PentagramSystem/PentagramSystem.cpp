@@ -2356,7 +2356,7 @@ struct PMSG_REQ_PENTAGRAMJEWEL
 	char szName[MAX_ACCOUNT_LEN + 1];
 };
 
-void CPentagramSystem::DBREQ_GetPentagramJewel(OBJECTSTRUCT *lpObj, char *szAccountId, int iJewelPos)
+void CPentagramSystem::DBREQ_GetPentagramJewel(LPGameObject lpObj, char *szAccountId, int iJewelPos)
 {
 	PMSG_REQ_PENTAGRAMJEWEL pMsg;
 
@@ -3335,7 +3335,7 @@ int CPentagramSystem::CheckOverlapMythrilPiece(int iIndex, int iItemType, int iM
 	return -1;
 }
 
-BOOL CPentagramSystem::AddTradeCount(OBJECTSTRUCT *lpObj, int source, int target)
+BOOL CPentagramSystem::AddTradeCount(LPGameObject lpObj, int source, int target)
 {
 	if (source < 0 || source > MAIN_INVENTORY_SIZE - 1)
 	{

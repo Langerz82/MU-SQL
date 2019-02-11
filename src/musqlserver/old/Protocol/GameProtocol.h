@@ -570,7 +570,7 @@ public:
 	void GCTeleportSend(LPGameObject &lpObj, unsigned short MoveNumber, BYTE MapNumber, BYTE MapX, BYTE MapY, BYTE Dir);
 	void CGBeattackRecv(BYTE* lpRecv, LPGameObject &lpObj, int magic_send);
 	void CGDurationMagicRecv(PMSG_DURATION_MAGIC_RECV * lpMsg, LPGameObject &lpObj);
-	//void CGDurationMagicRecv(LPBYTE lpRecv, LPGameObject &lpObj);
+	void CGDurationMagicRecv(LPBYTE lpRecv, LPGameObject &lpObj);
 	void ObjectMapJoinPositionSend(short aIndex);
 	void CGUseItemRecv(PMSG_USEITEM* lpMsg, LPGameObject &lpObj);
 	void GCReFillSend(LPGameObject &lpObj, int Life, BYTE Ipos, BYTE flag,  WORD wShield);

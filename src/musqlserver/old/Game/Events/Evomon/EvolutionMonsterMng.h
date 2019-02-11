@@ -63,23 +63,23 @@ public:
 
 	bool UseSummonScroll(int aIndex);
 
-	int SummonEvoMon(OBJECTSTRUCT * lpObj);
+	int SummonEvoMon(LPGameObject &lpObj);
 	int SetField(int iEvoMonIndex, int nFieldIndex, int nOnwerIndex, int iFieldClass);
 
-	void EvolutionMonsterDie(OBJECTSTRUCT * lpTargetObj, OBJECTSTRUCT * lpObj);
+	void EvolutionMonsterDie(OBJECTSTRUCT * lpTargetObj, LPGameObject &lpObj);
 	void FieldProcess(OBJECTSTRUCT * lpFieldIndex);
 	void EndTimeProcess(OBJECTSTRUCT * lpMonsterObj);
 
-	void EvoluteMonster(OBJECTSTRUCT * lpObj);
+	void EvoluteMonster(LPGameObject &lpObj);
 	void SetMonsterStats(OBJECTSTRUCT * lpMonsterObj, EVOMON_MONSTER_DATA m_MonsterData);
 
-	void EndEvoMon(OBJECTSTRUCT * lpObj);
+	void EndEvoMon(LPGameObject &lpObj);
 	void UserQuit(OBJECTSTRUCT *lpObj);
 
-	void GCSendUserScore(OBJECTSTRUCT * lpObj, int nScore);
+	void GCSendUserScore(LPGameObject &lpObj, int nScore);
 	void GCSendEvoMonNotice(int aIndex);
 
-	void GiveReward(OBJECTSTRUCT * lpObj, bool bSpecialEvoMon);
+	void GiveReward(LPGameObject &lpObj, bool bSpecialEvoMon);
 	bool IsEventMap(int iMapNumber, int iX, int iY);
 	int GetRewardItemType(BYTE btType);
 

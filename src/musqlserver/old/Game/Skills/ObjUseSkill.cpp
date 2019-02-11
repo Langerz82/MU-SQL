@@ -7541,7 +7541,7 @@ int CObjUseSkill::SkillBuffPartyGrowLancer(LPGameObject &lpObj, CMagicInf * lpMa
 	return TRUE;
 }
 
-void CObjUseSkill::SkillWindSoul(OBJECTSTRUCT *lpObj, CMagicInf * lpMagic, int aTargetIndex)
+void CObjUseSkill::SkillWindSoul(LPGameObject lpObj, CMagicInf * lpMagic, int aTargetIndex)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -7552,7 +7552,7 @@ void CObjUseSkill::SkillWindSoul(OBJECTSTRUCT *lpObj, CMagicInf * lpMagic, int a
 	gObjAttack(lpObj, &gGameObjects[aTargetIndex], lpMagic, TRUE, 0, 0, 0, 0, 0);
 }
 
-void CObjUseSkill::SkillIceBlood(OBJECTSTRUCT *lpObj, CMagicInf * lpMagic, int aTargetIndex)
+void CObjUseSkill::SkillIceBlood(LPGameObject lpObj, CMagicInf * lpMagic, int aTargetIndex)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -7563,7 +7563,7 @@ void CObjUseSkill::SkillIceBlood(OBJECTSTRUCT *lpObj, CMagicInf * lpMagic, int a
 	gObjAttack(lpObj, &gGameObjects[aTargetIndex], lpMagic, TRUE, 0, 0, 0, 0, 0);
 }
 
-void CObjUseSkill::SkillDarkBlast(OBJECTSTRUCT *lpObj, CMagicInf * lpMagic, int aTargetIndex)
+void CObjUseSkill::SkillDarkBlast(LPGameObject lpObj, CMagicInf * lpMagic, int aTargetIndex)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -7574,7 +7574,7 @@ void CObjUseSkill::SkillDarkBlast(OBJECTSTRUCT *lpObj, CMagicInf * lpMagic, int 
 	gObjAttack(lpObj, &gGameObjects[aTargetIndex], lpMagic, TRUE, 0, 0, 0, 0, 0);
 }
 
-void CObjUseSkill::SkillFireBlood(OBJECTSTRUCT *lpObj, CMagicInf * lpMagic, int aTargetIndex)
+void CObjUseSkill::SkillFireBlood(LPGameObject lpObj, CMagicInf * lpMagic, int aTargetIndex)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -7805,7 +7805,7 @@ int CObjUseSkill::SkillMeteorStorm(LPGameObject &lpObj, CMagicInf* lpMagic, BYTE
 	return true;
 }
 
-void CObjUseSkill::SkillSoulSeker(OBJECTSTRUCT *lpObj, CMagicInf * lpMagic, int aTargetIndex)
+void CObjUseSkill::SkillSoulSeker(LPGameObject lpObj, CMagicInf * lpMagic, int aTargetIndex)
 {
 	if (lpObj->Type != OBJ_USER)
 	{

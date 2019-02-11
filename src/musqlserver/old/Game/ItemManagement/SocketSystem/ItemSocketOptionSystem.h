@@ -138,24 +138,24 @@ public:
 
 	LPBONUS_SOCKET_OPTION GetBonusSocketOption(BYTE btBonusSocketOptionIndex);
 
-	int ApplySeedSphereEffect(CGameObject*ECTSTRUCT lpObj);
-	void ApplyBonusOptionEffect(CGameObject*ECTSTRUCT lpObj);
-	void ApplySetOptionEffect(CGameObject*ECTSTRUCT lpObj);
+	int ApplySeedSphereEffect(LPGameObject &lpObj);
+	void ApplyBonusOptionEffect(LPGameObject &lpObj);
+	void ApplySetOptionEffect(LPGameObject &lpObj);
 
-	bool SetApplySocketEffect(CGameObject*ECTSTRUCT lpObj);
-	void SetClearSocketEffect(CGameObject*ECTSTRUCT lpObj);
+	bool SetApplySocketEffect(LPGameObject &lpObj);
+	void SetClearSocketEffect(LPGameObject &lpObj);
 
-	void SetEffect(CGameObject*ECTSTRUCT lpObj, BYTE btOptionType, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue);
-	void ClearEffect(CGameObject*ECTSTRUCT lpObj, LPSOCKET_OPTION_LIST lpOptionData);
+	void SetEffect(LPGameObject &lpObj, BYTE btOptionType, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue);
+	void ClearEffect(LPGameObject &lpObj, LPSOCKET_OPTION_LIST lpOptionData);
 
-	void _SetFireEffect(CGameObject*ECTSTRUCT lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue);
-	void _SetWaterEffect(CGameObject*ECTSTRUCT lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue);
-	void _SetIceEffect(CGameObject*ECTSTRUCT lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue);
-	void _SetWindEffect(CGameObject*ECTSTRUCT lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue);
-	void _SetThunderEffect(CGameObject*ECTSTRUCT lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue);
-	void _SetEarthEffect(CGameObject*ECTSTRUCT lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue);
-	void _SetUniqueEffect(CGameObject*ECTSTRUCT lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue);
-	void _SetSetEffect(CGameObject*ECTSTRUCT lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue);
+	void _SetFireEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue);
+	void _SetWaterEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue);
+	void _SetIceEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue);
+	void _SetWindEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue);
+	void _SetThunderEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue);
+	void _SetEarthEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue);
+	void _SetUniqueEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue);
+	void _SetSetEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue);
 
 	int CalcEffectValue(int iInputValue, WORD wEffectValue, BYTE btEffectValueType);
 
@@ -165,7 +165,7 @@ public:
 
 	BYTE GetMakeSocketSlotCount(int iItemCode);
 
-	void ClearUserData(CGameObject*ECTSTRUCT lpObj);
+	void ClearUserData(LPGameObject &lpObj);
 
 	bool SetSocketSlot(CItem* lpTargetItem, BYTE btSeedSphereIndex, BYTE btSocketSlotIndex);
 	bool SetSocketSlot(CItem* lpTargetItem, BYTE btSeedIndex, BYTE btSphereLevel, BYTE btSocketSlotIndex);

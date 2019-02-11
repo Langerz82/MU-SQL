@@ -1491,7 +1491,7 @@ void CIllusionTempleLeagueProcess::SendRelicsError(OBJECTSTRUCT *lpNpc, int inde
 		index, byError, byAct, lpNpc->Class, lpNpc->m_Index);
 }
 
-void CIllusionTempleLeagueProcess::Check_GetRelics(OBJECTSTRUCT *lpNpc, OBJECTSTRUCT *lpObj, WORD wNpcType)
+void CIllusionTempleLeagueProcess::Check_GetRelics(OBJECTSTRUCT *lpNpc, LPGameObject lpObj, WORD wNpcType)
 {
 	if (!lpNpc)
 	{
@@ -1616,7 +1616,7 @@ void CIllusionTempleLeagueProcess::Check_GetRelics(OBJECTSTRUCT *lpNpc, OBJECTST
 	}
 }
 
-void CIllusionTempleLeagueProcess::GetRelics(OBJECTSTRUCT *lpNpc, OBJECTSTRUCT *lpObj, WORD wNpcType)
+void CIllusionTempleLeagueProcess::GetRelics(OBJECTSTRUCT *lpNpc, LPGameObject lpObj, WORD wNpcType)
 {
 	if (!lpNpc || !lpObj)
 	{
@@ -2423,7 +2423,7 @@ void CIllusionTempleLeagueProcess::ITLSkillProc(LPGameObject &lpObj)
 	}
 }
 
-void CIllusionTempleLeagueProcess::Send_ITL_SkillEnd(OBJECTSTRUCT *lpObj, WORD wSkillNumber)
+void CIllusionTempleLeagueProcess::Send_ITL_SkillEnd(LPGameObject lpObj, WORD wSkillNumber)
 {
 	PMSG_ITL_SKILL_END pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xBF, 0x63, sizeof(pMsg));

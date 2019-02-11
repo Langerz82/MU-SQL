@@ -44,6 +44,7 @@
 #include "MuDefines.h"
 #include "MuEnums.h"
 #include "configread.h"
+#include "Utility/util.h"
 
 // Crypto++
 #include "cryptopp/sha.h"

@@ -66,7 +66,7 @@ public:
 	~CAppointItemDrop();
 
 	void LoadAppointItemDropScript();
-	int AppointItemDrop(OBJECTSTRUCT *lpObj, OBJECTSTRUCT *lpMonsterObj);
+	int AppointItemDrop(LPGameObject lpObj, OBJECTSTRUCT *lpMonsterObj);
 
 private:
 
