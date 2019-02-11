@@ -2,8 +2,6 @@
 // ServerData.cpp
 #include "StdAfx.h"
 #include "ServerData.h"
-#include "readscript.h"
-#include "TLog.h"
 
 CServerData m_ServerData;
 

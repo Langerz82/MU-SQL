@@ -37,6 +37,240 @@ struct CUSTOM_EVENT_DROP_RULE_INFO;
 
 
 
+struct DSF_TIME_RULE_INFO
+{
+	void Clear()
+	{
+		this->BeforeEnterMinute = 0;
+		this->AfterEnterMinute = 0;
+		this->EachRoundMinute = 0;
+		this->AfterRoundSecond = 0;
+		this->AfterBossRoundSecond = 0;
+		this->CommentTime = 0;
+	}
+
+	int BeforeEnterMinute;
+	int AfterEnterMinute;
+	int EachRoundMinute;
+	int AfterRoundSecond;
+	int AfterBossRoundSecond;
+	int CommentTime;
+};
+
+struct DSF_UNIT_INFO
+{
+	void Clear()
+	{
+		this->MonsterUnitNumber = 0;
+		this->PartyMinUser = 0;
+		this->MinTeamCount = 0;
+		this->MinUserCount = 0;
+		this->DSFMinLevel = 0;
+		this->MaxEnterCount = 0;
+		memset(this->MonsterRewardRate, 0x00, sizeof(this->MonsterRewardRate));
+	}
+
+	int MonsterUnitNumber;
+	int PartyMinUser;
+	int MinTeamCount;
+	int MinUserCount;
+	int DSFMinLevel;
+	int MaxEnterCount;
+	int MonsterRewardRate[3];
+};
+
+struct DSF_START_DAY
+{
+	void Clear()
+	{
+		this->LeagueDay1 = 0;
+		this->LeagueDay2 = 0;
+		this->LeagueDay3 = 0;
+		this->LeagueDay4 = 0;
+		this->SemiFinalDay1 = 0;
+		this->SemiFinalDay2 = 0;
+		this->FinalDay = 0;
+	}
+
+	int LeagueDay1;
+	int LeagueDay2;
+	int LeagueDay3;
+	int LeagueDay4;
+	int SemiFinalDay1;
+	int SemiFinalDay2;
+	int FinalDay;
+};
+
+struct DSF_START_HOUR_TYPE
+{
+	void Clear()
+	{
+		this->DSFHour = -1;
+		this->DSFMin = -1;
+		this->DSFBattleType = 0;
+	}
+
+	int DSFHour;
+	int DSFMin;
+	int DSFBattleType;
+};
+
+struct DSF_REWARD_DAY
+{
+	void Clear()
+	{
+		this->RewardStartDay = 0;
+		this->RewardEndDay = 0;
+	}
+
+	int RewardStartDay;
+	int RewardEndDay;
+};
+
+struct DSF_EVENT_MONSTER_RATE
+{
+	void Clear()
+	{
+		this->RoundNum = 0;
+		this->Rate = 0;
+	}
+
+	int RoundNum;
+	int Rate;
+};
+
+struct DSF_AFTER_ROUND_ADD_POINT
+{
+	void Clear()
+	{
+		this->RoundNum = 0;
+		this->Point = 0;
+	}
+
+	int RoundNum;
+	int Point;
+};
+
+struct DSF_MONSTER_INFO
+{
+	void Clear()
+	{
+		this->RoundNum = -1;
+		this->MonsterType = -1;
+		this->MonsterMaxNumber = -1;
+		this->MonsterKind = -1;
+		this->MonsterPoint = -1;
+	}
+
+	int RoundNum;
+	int MonsterType;
+	int MonsterMaxNumber;
+	int MonsterKind;
+	int MonsterPoint;
+};
+
+struct DSF_MONSTER_REGEN_INFO
+{
+	void Clear()
+	{
+		this->MonsterNum = -1;
+		this->MonsterMapNum = -1;
+		this->MonsterDis = -1;
+		this->RegenX = -1;
+		this->RegenY = -1;
+		this->MonsterDir = -1;
+		this->MonsterKind = -1;
+	}
+
+	int MonsterNum;
+	int MonsterMapNum;
+	int MonsterDis;
+	int RegenX;
+	int RegenY;
+	int MonsterDir;
+	int MonsterKind;
+};
+
+struct DSF_EVENT_MONSTER_INFO
+{
+	void Clear()
+	{
+		this->RoundNum = 0;
+		this->MonsterType = 0;
+		this->MonsterMaxNumber = 0;
+		this->MonsterKind = 0;
+		this->MonsterPoint = 0;
+	}
+
+	int RoundNum;
+	int MonsterType;
+	int MonsterMaxNumber;
+	int MonsterKind;
+	int MonsterPoint;
+};
+
+struct DSF_PARTY
+{
+	int nPartyNo;
+	int nRequestUserIndex;
+	int n2ndPartyUserIndex;
+	char szRequestUserID[MAX_ACCOUNT_LEN + 1];
+	char sz2ndPartyUserID[MAX_ACCOUNT_LEN + 1];
+	char szRequestUserName[MAX_ACCOUNT_LEN + 1];
+	char sz2ndPartyUserName[MAX_ACCOUNT_LEN + 1];
+	char szRequestUserRealName[MAX_ACCOUNT_LEN + 1];
+	char sz2ndPartyUserRealName[MAX_ACCOUNT_LEN + 1];
+	int nRequestUserServerCode;
+	int n2ndPartyUserServerCode;
+	int nRequestUserClass;
+	int n2ndPartyUserClass;
+	int nRequestUserLevel;
+	int n2ndPartyUserLevel;
+	bool bRequest;
+	bool bEntered;
+	BYTE btDSFType;
+	BYTE btTeamIndex;
+	int nPoint;
+};
+
+struct DSF_PARTY_RANK
+{
+	void Clear()
+	{
+		memset(this->szUserName1, 0x00, sizeof(this->szUserName1));
+		memset(this->szUserName2, 0x00, sizeof(this->szUserName2));
+		this->wServerCode1 = -1;
+		this->wServerCode2 = -1;
+		this->btRank = 0;
+		this->btDSFType = 0;
+		this->iPoint = 0;
+	}
+
+	char szUserName1[MAX_ACCOUNT_LEN + 1];
+	char szUserName2[MAX_ACCOUNT_LEN + 1];
+	WORD wServerCode1;
+	WORD wServerCode2;
+	BYTE btRank;
+	BYTE btDSFType;
+	int iPoint;
+};
+
+struct DSF_USER
+{
+	int m_nIndex;
+	BYTE m_btTeam;
+	BOOL m_bReward;
+	bool m_bEnterOk;
+	int m_nPartyIdx;
+	int m_nPoint;
+	char PlayerName[MAX_ACCOUNT_LEN + 1];
+};
+
+struct DSF_ENTER_PLAYER_NAME
+{
+	int EnteredIndex;
+	char PlayerName[MAX_ACCOUNT_LEN + 1];
+};
 
 
 struct CUSTOM_EVENT_DROP_START_TIME

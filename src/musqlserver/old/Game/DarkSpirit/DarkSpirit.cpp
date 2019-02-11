@@ -14,10 +14,10 @@
 #include "configread.h"
 #include "ImperialGuardian.h"
 #include "GensSystem.h"
-#include "Event/AcheronGuardianEvent/AcheronGuardianEvent.h"
+#include "AcheronGuardianEvent.h"
 #include "ItemManagement/Item.h"
 #include "NewPVP.h"
-#include "Event/ArcaBattle/ArcaBattle.h"
+#include "ArcaBattle.h"
 #include "EvolutionMonsterMng.h"
 
 // GS-N 0.99.60T 0x004AA110

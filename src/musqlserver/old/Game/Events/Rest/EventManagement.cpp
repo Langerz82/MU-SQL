@@ -4,7 +4,7 @@
 #include "EventManagement.h"
 #include "Logging/Log.h"
 #include "DragonEvent.h"
-#include "Event/AttackEvent/AttackEvent.h"
+#include "AttackEvent.h"
 #include "EledoradoEvent.h"
 #include "RingAttackEvent.h"
 #include "XMasAttackEvent.h"

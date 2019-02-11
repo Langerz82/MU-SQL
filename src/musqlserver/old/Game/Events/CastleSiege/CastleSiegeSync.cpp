@@ -4,7 +4,7 @@
 #include "CastleSiegeSync.h"
 #include "TUnion.h"
 #include "GameProtocol.h"
-#include "Map/MapServerManager.h"
+#include "MapServerManager.h"
 
 // GS-N 0.99.60T 0x0051B7C0 - Completed
 //	GS-N	1.00.18	JPN	0x0054D150	-	Completed

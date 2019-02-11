@@ -1,18 +1,8 @@
-////////////////////////////////////////////////////////////////////////////////
-// RingAttackEvent.cpp
-#include "StdAfx.h"
 #include "RingAttackEvent.h"
 #include "gObjMonster.h"
-#include "GameMain.h"
-#include "DSProtocol.h"
-#include "protocol.h"
-#include "Logging/Log.h"
-#include "util.h"
+#include "Main.h"
+#include "GameProtocol.h"
 #include "BuffEffectSlot.h"
-#include "configread.h"
-
-// GS-N 0.99.60T 0x0045D690
-// GS-N	1.00.18	JPN	0x0046CF70	-	Completed
 
 CRingMonsterHerd::CRingMonsterHerd()
 {

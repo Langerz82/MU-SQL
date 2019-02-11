@@ -5,7 +5,7 @@
 #include "BloodCastle.h"
 #include "GameMain.h"
 #include "IOCP.h"
-#include "DSProtocol.h"
+#include "GameProtocol.h"
 #include "Logging/Log.h"
 #include "TNotice.h"
 #include "CrywolfSync.h"

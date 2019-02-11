@@ -331,5 +331,18 @@
 
 #define FILE_CUSTOM_EVENTDROP "Custom\CustomEventDrop.ini"
 
+#define MAX_MESSAGE_SIZE 255
+#define MAX_NOTICE 100
+
+#define MAX_EVENTCHIP_TYPE	5
+#define EVENCHIP_TYPE_RANGE(x)  ( ((x)<0)?FALSE:((x)>MAX_EVENTCHIP_TYPE-1)?FALSE:TRUE )
+
+
+#define MAX_XMASMONSTER_MAP		3
+
+#define MAX_GM_COMMAND 150
+#define MAX_GMCOMMAND_LEN 20
+#define MAX_GAME_MASTER 5
+
 
 #endif

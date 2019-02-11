@@ -1,13 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // XMasAttackEvent.cpp
-#include "StdAfx.h"
 #include "XMasAttackEvent.h"
 #include "gObjMonster.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "GameServer.h"
-#include "DSProtocol.h"
-#include "protocol.h"
-#include "Logging/Log.h"
+#include "GameProtocol.h"
 #include "util.h"
 #include "BuffEffect.h"
 #include "BuffEffectSlot.h"

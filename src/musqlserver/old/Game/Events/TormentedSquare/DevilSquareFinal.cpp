@@ -1,16 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DevilSquareFinal.cpp
-#include "StdAfx.h"
 #include "DevilSquareFinal.h"
-#include "Logging/Log.h"
-#include "protocol.h"
 #include "util.h"
 #include "GameMain.h"
-#include "DSProtocol.h"
+#include "GameProtocol.h"
 #include "MapServerManager.h"
 #include "TNotice.h"
 #include "gObjMonster.h"
-#include "configread.h"
 
 CDevilSquareFinal g_DevilSquareFinal;
 

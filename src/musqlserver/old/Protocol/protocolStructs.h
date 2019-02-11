@@ -955,7 +955,61 @@ struct PMSG_GETMUTONUMBER_RESULT;
 struct STR_STAT_BONUS;
 struct PMSG_NOTICE;
 struct PMSG_DEVILSQUARERESULT;
+struct NOTICE_INFO;
+struct PMSG_NOTICE_MONSTER_SEND;
+struct PMSG_NOTICE_DEV_SEND;
+struct PMSG_NOTICE_SEND_NEW;
+struct PMSG_NOTICE_SEND;
 
+
+
+
+struct PMSG_NOTICE_SEND
+{
+	PBMSG_HEAD header;
+	BYTE type;
+	BYTE count;
+	BYTE opacity;
+	WORD delay;
+	DWORD color;
+	BYTE speed;
+	char message[256];
+};
+
+struct PMSG_NOTICE_SEND_NEW
+{
+	PBMSG_HEAD header;
+	BYTE count;
+	BYTE opacity;
+	WORD delay;
+	DWORD color;
+	BYTE speed;
+	char message[256];
+};
+
+struct PMSG_NOTICE_DEV_SEND
+{
+	PBMSG_HEAD header;
+	char message[256];
+};
+
+struct PMSG_NOTICE_MONSTER_SEND
+{
+	PBMSG_HEAD header;
+	char message[256];
+};
+
+struct NOTICE_INFO
+{
+	char Message[128];
+	int Type;
+	int Count;
+	int Opacity;
+	int Delay;
+	int Color;
+	int Speed;
+	int RepeatTime;
+};
 
 
 struct PMSG_DEVILSQUARERESULT

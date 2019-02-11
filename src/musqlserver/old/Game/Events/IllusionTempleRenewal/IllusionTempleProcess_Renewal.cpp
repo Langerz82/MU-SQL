@@ -4,19 +4,16 @@
 #include "IllusionTempleProcess_Renewal.h"
 #include "IllusionTempleEvent_Renewal.h"
 #include "PartyClass.h"
-#include "GameMain.h"
-#include "Logging/Log.h"
+#include "Main.h"
 #include "util.h"
 #include "SendNPCInfo.h"
 #include "User/CUserData.h"
-#include "protocol.h"
+#include "GameProtocol.h"
 #include "BuffEffectSlot.h"
 #include "TNotice.h"
-#include "DSProtocol.h"
 #include "MapServerManager.h"
 #include "QuestExpProgMng.h"
 #include "CashShop.h"
-#include "configread.h"
 
 CIllusionTempleProcess_Renewal::CIllusionTempleProcess_Renewal()
 {

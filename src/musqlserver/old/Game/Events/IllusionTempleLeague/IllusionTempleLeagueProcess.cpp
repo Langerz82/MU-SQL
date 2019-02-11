@@ -4,11 +4,10 @@
 #include "IllusionTempleLeagueProcess.h"
 #include "IllusionTempleLeagueEvent.h"
 #include "PartyClass.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "SendNPCInfo.h"
 #include "BuffEffectSlot.h"
 #include "GameProtocol.h"
-#include "DSProtocol.h"
 #include "TNotice.h"
 #include "GuildClass.h"
 

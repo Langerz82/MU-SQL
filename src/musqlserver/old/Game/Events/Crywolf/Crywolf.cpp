@@ -9,7 +9,7 @@
 #include "CrywolfUtil.h"
 #include "CrywolfSync.h"
 #include "TMonsterAIGroup.h"
-#include "Gamemain.h"
+#include "Main.h"
 #include "configread.h"
 #include "User/CUserData.h"
 #include "BuffEffectSlot.h"
@@ -17,9 +17,6 @@
 #include "GameProtocol.h"
 #include "CashShop.h"
 #include "MasterLevelSkillTreeSystem.h"
-#include "util.h"
-#include "Logging/Log.h"
-#include "protocol.h"
 
 CCrywolf g_Crywolf;
 

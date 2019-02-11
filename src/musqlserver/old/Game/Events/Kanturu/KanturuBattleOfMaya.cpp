@@ -3,16 +3,13 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "StdAfx.h"
-
 #include "KanturuBattleOfMaya.h"
-#include "../../GameMain.h"
-#include "../../Monster/AI/TMonsterAIGroup.h"
+#include "Main.h"
+#include "TMonsterAIGroup.h"
 #include "Kanturu.h"
 #include "KanturuMonsterMng.h"
 #include "KanturuBattleUserMng.h"
-#include "Logging/Log.h"
 #include "KanturuUtil.h"
-#include "../../pugixml.hpp"
 
 static CKanturuUtil KANTURU_UTIL;
 

@@ -1,15 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 // GMMng.h
-#ifndef GMMNG_H
-#define GMMNG_H
+#ifndef _MU_GMMNG_H
+#define _MU_GMMNG_H
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-
-#define MAX_GM_COMMAND 150
-#define MAX_GMCOMMAND_LEN 20
-#define MAX_GAME_MASTER 5
 
 #include "StdAfx.h"
 
@@ -229,8 +225,3 @@ public:
 extern CGMMng cManager;
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

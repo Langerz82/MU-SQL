@@ -4,7 +4,7 @@
 #include "ArcaBattle.h"
 #include "CUserData.h"
 #include "LargeRand.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "BuffEffectSlot.h"
 #include "BuffEffect.h"
 #include "GuildClass.h"
@@ -12,16 +12,12 @@
 #include "ObjCalCharacter.h"
 #include "TNotice.h"
 #include "Gate.h"
-#include "DSProtocol.h"
-#include "EDSProtocol.h"
+#include "GameProtocol.h"
 #include "MasterLevelSkillTreeSystem.h"
 #include "GensSystem.h"
 #include "MapClass.h"
 #include "ChaosBox.h"
 #include "BagManager.h"
-#include "winutil.h"
-#include "configread.h"
-#include "winutil.h"
 
 CArcaBattle g_ArcaBattle;
 

@@ -1,12 +1,11 @@
-////////////////////////////////////////////////////////////////////////////////
-// RingAttackEvent.h
-#ifndef RINGATTACKEVENT_H
-#define RINGATTACKEVENT_H
+#ifndef _MU_RINGATTACKEVENT_H
+#define _MU_RINGATTACKEVENT_H
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "StdAfx.h"
 #include "MonsterHerd.h"
 
 #define MAX_RINGMONSTER_MAP	3

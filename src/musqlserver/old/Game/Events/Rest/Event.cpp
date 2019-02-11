@@ -1,7 +1,6 @@
 
 #include "Event.h"
-#include "Logging/Log.h"
-#include "DSProtocol.h"
+#include "GameProtocol.h"
 #include "GameServer.h"
 #include "Main.h"
 #include "Utility/util.h"

@@ -11,10 +11,6 @@
 #include "protocolStructs.h"
 #include "User/CUserData.h"
 
-#define MAX_EVENTCHIP_TYPE	5
-
-#define EVENCHIP_TYPE_RANGE(x)  ( ((x)<0)?FALSE:((x)>MAX_EVENTCHIP_TYPE-1)?FALSE:TRUE )
-
 struct PBMSG_HEAD;
 struct PMSG_ANS_CL_ENTERCOUNT;
 struct PMSG_ANS_LUCKYCOININFO;

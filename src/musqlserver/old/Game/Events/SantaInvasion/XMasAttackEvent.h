@@ -1,12 +1,13 @@
-////////////////////////////////////////////////////////////////////////////////
-// XMasAttackEvent.h
+#ifndef _MU_XMASATTACKEVENT_H
+#define _MU_XMASATTACKEVENT_H
+
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "StdAfx.h"
 #include "MonsterHerd.h"
 
-#define MAX_XMASMONSTER_MAP		3
 
 struct _tagAttackEventMapPosition
 {
@@ -106,7 +107,4 @@ private:
 	int m_iRestBuffDuration;
 };
 
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-
+#endif

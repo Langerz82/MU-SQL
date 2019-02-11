@@ -3,12 +3,11 @@
 #include "StdAfx.h"
 #include "EventDungeonItemBag.h"
 #include "SetItemOption.h"
-#include "Logging/Log.h"
 #include "User/CUserData.h"
-#include "DSProtocol.h"
+#include "GameProtocol.h"
 #include "LargeRand.h"
 #include "MapClass.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "ItemOptionTypeMng.h"
 
 CEventDungeonItemBag::CEventDungeonItemBag(void)

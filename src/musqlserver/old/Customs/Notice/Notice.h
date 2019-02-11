@@ -1,67 +1,16 @@
-// Notice.h: interface for the CNotice class.
-//
-//////////////////////////////////////////////////////////////////////
+#ifndef _MU_NOTICE_H_
+#define _MU_NOTICE_U_
 
 #pragma once
 
-#include "Protocol.h"
+#include "StdAfx.h"
+#include "GameProtocol.h"
 
-#define MAX_MESSAGE_SIZE 255
-#define MAX_NOTICE 100
-
-//**********************************************//
-//************ GameServer -> Client ************//
-//**********************************************//
-
-struct PMSG_NOTICE_SEND
-{
-	PBMSG_HEAD header; // C1:0D
-	BYTE type;
-	BYTE count;
-	BYTE opacity;
-	WORD delay;
-	DWORD color;
-	BYTE speed;
-	char message[256];
-};
-
-struct PMSG_NOTICE_SEND_NEW
-{
-	PBMSG_HEAD header; // C1:00
-	BYTE count;
-	BYTE opacity;
-	WORD delay;
-	DWORD color;
-	BYTE speed;
-	char message[256];
-};
-
-struct PMSG_NOTICE_DEV_SEND
-{
-	PBMSG_HEAD header; // C1:00
-	char message[256];
-};
-
-struct PMSG_NOTICE_MONSTER_SEND
-{
-	PBMSG_HEAD header; // C1:00
-	char message[256];
-};
-//**********************************************//
-//**********************************************//
-//**********************************************//
-
-struct NOTICE_INFO
-{
-	char Message[128];
-	int Type;
-	int Count;
-	int Opacity;
-	int Delay;
-	int Color;
-	int Speed;
-	int RepeatTime;
-};
+struct NOTICE_INFO;
+struct PMSG_NOTICE_MONSTER_SEND;
+struct PMSG_NOTICE_DEV_SEND;
+struct PMSG_NOTICE_SEND_NEW;
+struct PMSG_NOTICE_SEND;
 
 class CNotice
 {
@@ -87,9 +36,5 @@ private:
 
 extern CNotice gNotice;
 
-
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
+#endif
 
