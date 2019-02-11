@@ -2234,13 +2234,13 @@ void CCastleSiege::ClearDbNPC()
 {
 	for( int n = 0 ; n < g_ConfigRead.server.GetObjectMaxMonster(); n++ )
 	{
-		if( gGameObjects[n].MapNumber == MAP_INDEX_CASTLESIEGE )
+		if( gGameObjects[n]->MapNumber == MAP_INDEX_CASTLESIEGE )
 		{
-			if( gGameObjects[n].Class == 277 || gGameObjects[n].Class == 283 || gGameObjects[n].Class == 219 )
+			if( gGameObjects[n]->Class == 277 || gGameObjects[n]->Class == 283 || gGameObjects[n]->Class == 219 )
 			{
-				if( gGameObjects[n].Class == 277 )
+				if( gGameObjects[n]->Class == 277 )
 				{
-					this->SetGateBlockState(gGameObjects[n].X, gGameObjects[n].Y, 1);
+					this->SetGateBlockState(gGameObjects[n]->X, gGameObjects[n]->Y, 1);
 					gObjAddBuffEffect(&gGameObjects[n], BUFFTYPE_CASTLE_DOOR_STATE, 0, 0, 0, 0, -10);
 				}
 				gObjDel(n);
@@ -2253,19 +2253,19 @@ void CCastleSiege::ClearNonDbNPC()
 {
 	for(int n = 0; n < g_ConfigRead.server.GetObjectMaxMonster(); n++)
 	{
-		if(gObjIsConnected(n) && gGameObjects[n].MapNumber == MAP_INDEX_CASTLESIEGE	&& gGameObjects[n].m_btCsNpcType != NULL && gGameObjects[n].m_btCsNpcType != 1)
+		if(gObjIsConnected(n) && gGameObjects[n]->MapNumber == MAP_INDEX_CASTLESIEGE	&& gGameObjects[n]->m_btCsNpcType != NULL && gGameObjects[n]->m_btCsNpcType != 1)
 		{
-			if(gGameObjects[n].Class == 278)
+			if(gGameObjects[n]->Class == 278)
 			{
 				g_CsNPC_LifeStone.DeleteLifeStone(n);
 			}
 
-			if(gGameObjects[n].Class == 287 || gGameObjects[n].Class == 286)
+			if(gGameObjects[n]->Class == 287 || gGameObjects[n]->Class == 286)
 			{
 				g_CsNPC_Mercenary.DeleteMercenary(n);
 			}
 
-			if(gGameObjects[n].Class == 219)
+			if(gGameObjects[n]->Class == 219)
 			{
 				continue;
 			}
@@ -2281,16 +2281,16 @@ void CCastleSiege::ClearNonDbNPC_MidWin()
 	{
 		if( gObjIsConnected(n) )
 		{
-			if( gGameObjects[n].MapNumber == MAP_INDEX_CASTLESIEGE )
+			if( gGameObjects[n]->MapNumber == MAP_INDEX_CASTLESIEGE )
 			{
-				if( gGameObjects[n].m_btCsNpcType && gGameObjects[n].m_btCsNpcType != 1 )
+				if( gGameObjects[n]->m_btCsNpcType && gGameObjects[n]->m_btCsNpcType != 1 )
 				{
-					if( gGameObjects[n].Class == 278 )
+					if( gGameObjects[n]->Class == 278 )
 					{
 						g_CsNPC_LifeStone.DeleteLifeStone(n);
 					}
 					
-					if( gGameObjects[n].Class == 278 )
+					if( gGameObjects[n]->Class == 278 )
 					{
 						gObjDel(n);
 					}
@@ -2304,7 +2304,7 @@ void CCastleSiege::ClearAllNPC()
 {
 	for(int n = 0; n < g_ConfigRead.server.GetObjectMaxMonster(); n++)
 	{
-		if(gGameObjects[n].m_btCsNpcType)
+		if(gGameObjects[n]->m_btCsNpcType)
 		{
 			gObjDel(n);
 		}

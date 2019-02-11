@@ -307,14 +307,14 @@ void CMuRummyMng::CGReqMuRummyEventOpen(PMSG_REQ_MURUMMY_EVENT_OPEN *lpMsg, int 
 		if (pMuRummyInfo->IsGetPlayCard() == true)
 		{
 			pMsg.btResult = 2;
-			IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 			this->CGReqMuRummyStart(0, aIndex);
 		}
 
 		else
 		{
 			pMsg.btResult = 1;
-			IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		}
 
 		//sLog->outBasic("[MuRummy] [%s][%s] : Mini Game Open", lpObj.AccountID, lpObj.Name);
@@ -434,7 +434,7 @@ void CMuRummyMng::CGReqMuRummyStart(PMSG_REQ_MURUMMY_INFO *lpMsg, int aIndex)
 	pMsg.btCardDeckCnt = pMuRummyInfo->GetCardDeckCnt();
 	pMsg.btTotScoreH = HIBYTE(pMuRummyInfo->GetScore());
 	pMsg.btTotScoreL = LOBYTE(pMuRummyInfo->GetScore());
-	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
 	if (bNewGame == true)
 	{
@@ -525,7 +525,7 @@ void CMuRummyMng::CGReqCardReveal(PMSG_REQ_REVEAL_CARD *lpMsg, int aIndex)
 
 			memcpy(pMsg.stMuRummyCardInfo, stCardInfo, sizeof(stCardInfo));
 			pMsg.btCardDeckCnt = pMuRummyInfo->GetCardDeckCnt();
-			IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		}
 	}
 }
@@ -689,7 +689,7 @@ void CMuRummyMng::CGReqCardMove(PMSG_REQ_CARD_MOVE *lpMsg, int aIndex)
 			pMsg.tSlot = pCOutCardInfo.GetSlotNum();
 			pMsg.btColor = pCOutCardInfo.GetColor();
 			pMsg.btNumber = pCOutCardInfo.GetNumber();
-			IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		}
 	}
 }
@@ -843,7 +843,7 @@ void CMuRummyMng::CGReqCardReMove(PMSG_REQ_CARD_REMOVE *lpMsg, int aIndex)
 	this->GDReqCardInfoUpdate(lpObj, &pCCardInfo[Ret], Ret);
 
 	pMsg.btResult = sSlot;
-	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
 	this->GCSendMsg(aIndex, 4, 0);
 	//sLog->outBasic("[%s][%s][Mu Rummy] Slot[5] - Junk Slot[%d] %c : %d",		lpObj.AccountID,
@@ -954,7 +954,7 @@ void CMuRummyMng::CGReqCardMatch(PMSG_REQ_CARD_MATCH *lpMsg, int aIndex)
 		pMsg.btScoreL = LOBYTE(nScore);
 		pMsg.btTotScoreH = HIBYTE(pCMuRummyInfo->GetScore());
 		pMsg.btTotScoreL = LOBYTE(pCMuRummyInfo->GetScore());
-		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		this->GCSendMsg(aIndex, 5, 0);
 		this->GDReqScoreUpdate(lpObj, pCMuRummyInfo->GetScore(), stCardUpdateDS);
 
@@ -1292,7 +1292,7 @@ void CMuRummyMng::CGReqMuRummyEnd(PMSG_REQ_MURUMMY_END *lpMsg, int aIndex)
 				PMSG_ANS_MURUMMY_END pMsg;
 				pMsg.btResult = 1;
 				PHeadSubSetB((LPBYTE)&pMsg, 0x4D, 0x15, sizeof(pMsg));
-				IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+				IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
 				this->GCSendMsg(aIndex, 8, 0);
 
@@ -1387,7 +1387,7 @@ void CMuRummyMng::GCSendCardList(CGameObject &lpObj)
 		}
 	}
 
-	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void CMuRummyMng::GCSendMsg(CGameObject &lpObj, BYTE btNotiIndex, int iValue)
@@ -1409,7 +1409,7 @@ void CMuRummyMng::GCSendMsg(CGameObject &lpObj, BYTE btNotiIndex, int iValue)
 	pMsg.btValueH = HIBYTE(iValue);
 	pMsg.btValueL = LOBYTE(iValue);
 
-	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void CMuRummyMng::GDReqCardInfo(CGameObject &lpObj)
@@ -1799,7 +1799,7 @@ void CMuRummyMng::CheatSetCardColorAsc(CMuRummyInfo *pMuRummyInfo, int aIndex)
 	pMsg.btTotScoreH = HIBYTE(pMuRummyInfo->GetScore());
 	pMsg.btTotScoreL = LOBYTE(pMuRummyInfo->GetScore());
 
-	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void CMuRummyMng::CheatSetCardNumAsc(CMuRummyInfo *pMuRummyInfo, int aIndex)
@@ -1809,7 +1809,7 @@ void CMuRummyMng::CheatSetCardNumAsc(CMuRummyInfo *pMuRummyInfo, int aIndex)
 	PMSG_ANS_MURUMMY_INFO pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x4D, 0x10, sizeof(pMsg));
 
-	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void CMuRummyMng::CheatSetScore(CMuRummyInfo *pMuRummyInfo, int iScore, int aIndex)
@@ -1825,7 +1825,7 @@ void CMuRummyMng::CheatSetScore(CMuRummyInfo *pMuRummyInfo, int iScore, int aInd
 	pMsg.btTotScoreH = HIBYTE(pMuRummyInfo->GetScore());
 	pMsg.btTotScoreL = LOBYTE(pMuRummyInfo->GetScore());
 
-	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 	this->GCSendMsg(aIndex, 5, 0);
 }
 

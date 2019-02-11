@@ -342,7 +342,7 @@ void CFriendSystem::FriendListSend(CGameObject &lpObj, char *szMaster)
 		sLog->outBasic("[Friend List Send] Friend[%s] send.", szFriend);
 	}
 
-	DataSend(aIndex, lpData, size, __FUNCTION__);
+	DataSend(lpObj.m_Index, lpData, size, __FUNCTION__);
 
 	delete [] lpData;
 }
@@ -382,7 +382,7 @@ BOOL CFriendSystem::FriendWaitSend(CGameObject &lpObj, char *szMaster)
 	std::strncpy(WaitFr.Name, szMaster, 10);
 	WaitFr.Number = lpMaster->m_iNumber;
 
-	DataSend(aIndex, (LPBYTE)&WaitFr, WaitFr.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&WaitFr, WaitFr.h.size, __FUNCTION__);
 
 	return TRUE;
 }
@@ -399,7 +399,7 @@ void CFriendSystem::SendState(CGameObject &lpObj, char *szMaster, int iNumber, c
 	State.Number = iNumber;
 	State.State = btState;
 
-	DataSend(aIndex, (LPBYTE)&State, State.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&State, State.h.size, __FUNCTION__);
 }
 
 void CFriendSystem::SendStateToAllFriends(CGameObject &lpObj, char *szMaster)
@@ -543,7 +543,7 @@ void CFriendSystem::FriendAddRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
 		Result.Result = 5;
 
 		sLog->outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
-		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -552,7 +552,7 @@ void CFriendSystem::FriendAddRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
 	if(lpMaster == NULL)
 	{
 		sLog->outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
-		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -561,7 +561,7 @@ void CFriendSystem::FriendAddRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
 		Result.Result = 4;
 
 		sLog->outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
-		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -570,7 +570,7 @@ void CFriendSystem::FriendAddRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
 		Result.Result = 3;
 
 		sLog->outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
-		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -582,7 +582,7 @@ void CFriendSystem::FriendAddRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
 		Result.Result = 0;
 
 		sLog->outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
-		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -591,7 +591,7 @@ void CFriendSystem::FriendAddRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
 	{
 		Result.Result = 6;
 		sLog->outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
-		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -600,7 +600,7 @@ void CFriendSystem::FriendAddRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
 	{
 		Result.Result = 2;
 		sLog->outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
-		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -629,7 +629,7 @@ void CFriendSystem::FriendAddRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
 	Result.Result = 1;
 
 	sLog->outBasic("[Friend Add Request] Send Result [%d].", Result.Result);
-	DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 
 }
 
@@ -736,7 +736,7 @@ void CFriendSystem::WaitFriendAddRequest( int aIndex,  FHP_WAITFRIEND_ADD_REQ* l
 		Result.Result = 2;
 		DelDBWaitFriend(szMaster, szFriend);
 		sLog->outBasic("[WaitFriend Add Request] [%s] declined [%s]'s request to be a friend.", szMaster, szFriend);
-		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -752,7 +752,7 @@ void CFriendSystem::WaitFriendAddRequest( int aIndex,  FHP_WAITFRIEND_ADD_REQ* l
 		DelDBWaitFriend(szMaster, szFriend);
 
 	FriendWaitSend(aIndex, szMaster);
-	DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 }
 
 void CFriendSystem::FriendStateClientRecv( int aIndex, FHP_FRIEND_STATE_C* lpMsg)
@@ -839,7 +839,7 @@ void CFriendSystem::FriendDelRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
 		Result.Result = DelDBFriend(szMaster, szFriend);
 
 	sLog->outBasic("[Friend Delete Request] Send Result [%d].", Result.Result);
-	DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 
 	FRIEND_MASTER* lpFr;
 	lpFr = GetFriendMaster(szFriend);
@@ -867,7 +867,7 @@ void CFriendSystem::MemoHeaderSend(CGameObject &lpObj, WORD wNumber, MEMO_HEADER
 	MemoHead.MemoIndex = lpMemoHead->MemoIndex;
 	MemoHead.read = lpMemoHead->read;
 
-	DataSend(aIndex, (LPBYTE)&MemoHead, sizeof(MemoHead), __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&MemoHead, sizeof(MemoHead), __FUNCTION__);
 }
 
 void CFriendSystem::MemoListSend(CGameObject &lpObj, WORD wNumber, char *szName)
@@ -964,7 +964,7 @@ void CFriendSystem::FriendMemoSend( int aIndex, FHP_FRIEND_MEMO_SEND* lpMsg)
 		Result.Result = 1;
 
 	sLog->outBasic("[Mail Send Request] Send Result [%d].", Result.Result);
-	DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 	
 	if(Result.Result != 1)
 		return;
@@ -1040,7 +1040,7 @@ void CFriendSystem::FriendMemoReadReq( int aIndex, FHP_FRIEND_MEMO_RECV_REQ* lpM
 		memcpy(&Result.Dir, &memo, sizeof(memo));
 		memcpy(Result.Photo, Photo, 18);
 		
-		DataSend(aIndex, (LPBYTE)&Result, sizeof(Result)-sizeof(Result.Memo)+memo_size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, sizeof(Result)-sizeof(Result.Memo)+memo_size, __FUNCTION__);
 
 		sLog->outBasic("[Mail Read Request] Send Mail: size[%d], photo size[%d].", memo_size, btPhotoSize);
 	}
@@ -1072,7 +1072,7 @@ void CFriendSystem::FriendMemoDelReq( int aIndex, FHP_FRIEND_MEMO_DEL_REQ* lpMsg
 	Result.Result = DBDelMail(szName, lpMsg->MemoIndex);
 
 	sLog->outBasic("[Mail Delete Request] Send Result [%d].", Result.Result);
-	DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 }
 
 

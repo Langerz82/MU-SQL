@@ -6,8 +6,7 @@
 #endif // _MSC_VER > 1000
 
 
-#include "custTypedef.h"
-#include "MuDefines.h"
+#include "StdAfx.h"
 #include "ServerEngine.h"
 #include "MuunInfo.h"
 #include "ItemManagement/Item.h"
@@ -46,6 +45,7 @@ struct ITEMEFFECT;
 struct STR_STRINGCOMPARE;
 struct MU_WSAOVERLAPPED;
 struct MU_WSABUF;
+struct _PER_IO_CONTEXT;
 
 
 

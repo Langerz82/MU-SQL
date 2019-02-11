@@ -2020,7 +2020,7 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &lpObj)
 
 	pMsg.btKillCount = lpObj.m_btKillCount;
 
-	IOCP.DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg));
+	IOCP.DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg));
 	return true;
 }
 
@@ -5447,7 +5447,7 @@ int CObjUseSkill::SkillChainLighting(CGameObject &lpObj, CMagicInf *lpMagic, int
 
 	if (lpObj.Type == OBJ_USER)
 	{
-		IOCP.DataSend(aIndex, (LPBYTE)SendByte, nOffset);
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)SendByte, nOffset);
 	}
 
 	GSProtocol.MsgSendV2(lpObj, (LPBYTE)SendByte, nOffset);
@@ -6945,7 +6945,7 @@ void CObjUseSkill::SkillDarkSide(CGameObject &lpObj, int aTargetIndex, CMagicInf
 		}
 
 		memcpy(lpObj.m_PlayerData->DarkSideTarget, wTargetList, sizeof(wTargetList));
-		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 	}
 }
 

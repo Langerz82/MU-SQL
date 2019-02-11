@@ -365,7 +365,7 @@ void CAcheronGuardianEvent::ProcStateChannelClose()
 
 			for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 			{
-				if (gGameObjects[n].Connected == PLAYER_PLAYING && gGameObjects[n].Type == OBJ_USER)
+				if (gGameObjects[n]->Connected == PLAYER_PLAYING && gGameObjects[n]->Type == OBJ_USER)
 				{
 					IOCP.DataSend(n, (LPBYTE)&pMsg, pMsg.h.size);
 				}
@@ -378,7 +378,7 @@ void CAcheronGuardianEvent::ProcStateChannelClose()
 		{
 			for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 			{
-				if (gGameObjects[n].Connected == PLAYER_PLAYING && gGameObjects[n].Type == OBJ_USER)
+				if (gGameObjects[n]->Connected == PLAYER_PLAYING && gGameObjects[n]->Type == OBJ_USER)
 				{
 					gObjMoveGate(n, 27);
 				}

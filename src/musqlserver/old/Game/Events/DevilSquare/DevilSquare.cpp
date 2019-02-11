@@ -887,7 +887,7 @@ void CDevilSquare::ClearMonstr()
 {
 	for (int n = 0; n<g_ConfigRead.server.GetObjectMaxMonster(); n++)
 	{
-		if (DS_MAP_RANGE(gGameObjects[n].MapNumber) != FALSE)
+		if (DS_MAP_RANGE(gGameObjects[n]->MapNumber) != FALSE)
 		{
 			gObjDel(n);
 		}
@@ -948,9 +948,9 @@ void CDevilSquare::SendEventStartMsg()
 
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		if (gGameObjects[n].Connected == PLAYER_PLAYING)
+		if (gGameObjects[n]->Connected == PLAYER_PLAYING)
 		{
-			if (DS_MAP_RANGE(gGameObjects[n].MapNumber) != FALSE)
+			if (DS_MAP_RANGE(gGameObjects[n]->MapNumber) != FALSE)
 			{
 				IOCP.DataSend(n, (BYTE *)&pToEventer, pToEventer.h.size);
 			}
@@ -1452,13 +1452,13 @@ void CDevilSquare::CalcScore()
 
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n<g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		if (gGameObjects[n].Connected == PLAYER_PLAYING)
+		if (gGameObjects[n]->Connected == PLAYER_PLAYING)
 		{
-			if (DS_MAP_RANGE(gGameObjects[n].MapNumber) != FALSE)
+			if (DS_MAP_RANGE(gGameObjects[n]->MapNumber) != FALSE)
 			{
-				if (DS_LEVEL_RANGE(gGameObjects[n].m_bDevilSquareIndex) != FALSE)
+				if (DS_LEVEL_RANGE(gGameObjects[n]->m_bDevilSquareIndex) != FALSE)
 				{
-					this->m_DevilSquareGround[gGameObjects[n].m_bDevilSquareIndex].InsertObj(&gGameObjects[n]);
+					this->m_DevilSquareGround[gGameObjects[n]->m_bDevilSquareIndex].InsertObj(&gGameObjects[n]);
 				}
 			}
 		}
@@ -1475,13 +1475,13 @@ void CDevilSquare::gObjScoreClear()
 {
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n<g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		if (gGameObjects[n].Connected == PLAYER_PLAYING)
+		if (gGameObjects[n]->Connected == PLAYER_PLAYING)
 		{
-			if (DS_MAP_RANGE(gGameObjects[n].MapNumber) != FALSE)
+			if (DS_MAP_RANGE(gGameObjects[n]->MapNumber) != FALSE)
 			{
-				gGameObjects[n].m_nEventScore = 0;
-				gGameObjects[n].m_nEventMoney = 0;
-				gGameObjects[n].m_nEventExp = 0;
+				gGameObjects[n]->m_nEventScore = 0;
+				gGameObjects[n]->m_nEventMoney = 0;
+				gGameObjects[n]->m_nEventExp = 0;
 			}
 		}
 	}
@@ -1491,15 +1491,15 @@ void CDevilSquare::CheckInvalidUser()
 {
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n<g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		if (gGameObjects[n].Connected == PLAYER_PLAYING)
+		if (gGameObjects[n]->Connected == PLAYER_PLAYING)
 		{
-			if (DS_MAP_RANGE(gGameObjects[n].MapNumber) != FALSE)
+			if (DS_MAP_RANGE(gGameObjects[n]->MapNumber) != FALSE)
 			{
 				if (this->m_eState == DevilSquare_CLOSE)
 				{
 					sLog->outError( "[DevilSquare] [%s][%s] Found user in DevilSquare [State:Close]",
-						gGameObjects[n].AccountID, gGameObjects[n].Name);
-					gObjUserKill(gGameObjects[n].m_Index);
+						gGameObjects[n]->AccountID, gGameObjects[n]->Name);
+					gObjUserKill(gGameObjects[n]->m_Index);
 				}
 			}
 		}

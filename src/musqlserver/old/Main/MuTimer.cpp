@@ -361,7 +361,7 @@ VOID WINAPI TimerProcQueue2(LPVOID lpParameter, BOOL TimerOrWaitFired)
 				{
 					if (gObjIsConnected(n) != PLAYER_EMPTY)
 					{
-						gGameObjects[n].m_bPShopItemChange = false;
+						gGameObjects[n]->m_bPShopItemChange = false;
 					}
 				}
 			}

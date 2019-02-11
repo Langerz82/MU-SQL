@@ -1281,7 +1281,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		pStats.Points = lpObj.m_PlayerData->Strength;
 		pStats.statstype = 0;
 		pStats.LUP = lpObj.m_PlayerData->LevelUpPoint;
-		IOCP.DataSend(aIndex, (LPBYTE)&pStats, sizeof(pStats));
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pStats, sizeof(pStats));
 
 		gObjCalCharacter.CalcCharacter(aIndex);
 		gObjSetBP(aIndex);
@@ -1325,7 +1325,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		pStats.Points = lpObj.m_PlayerData->Dexterity;
 		pStats.statstype = 1;
 		pStats.LUP = lpObj.m_PlayerData->LevelUpPoint;
-		IOCP.DataSend(aIndex, (LPBYTE)&pStats, sizeof(pStats));
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pStats, sizeof(pStats));
 
 		gObjCalCharacter.CalcCharacter(aIndex);
 		GSProtocol.GCLevelUpMsgSend(lpObj.m_Index, 1);
@@ -1366,7 +1366,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		pStats.statstype = 2;
 		pStats.LUP = lpObj.m_PlayerData->LevelUpPoint;
 		pStats.MaxLifeAndMana = lpObj.MaxLife + lpObj.AddLife;
-		IOCP.DataSend(aIndex, (LPBYTE)&pStats, sizeof(pStats));
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pStats, sizeof(pStats));
 
 		gObjCalCharacter.CalcCharacter(lpObj.m_Index);
 		GSProtocol.GCLevelUpMsgSend(lpObj.m_Index, 1);
@@ -1405,7 +1405,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		pStats.statstype = 3;
 		pStats.LUP = lpObj.m_PlayerData->LevelUpPoint;
 		pStats.MaxLifeAndMana = lpObj.MaxMana + lpObj.AddMana;
-		IOCP.DataSend(aIndex, (LPBYTE)&pStats, sizeof(pStats));
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pStats, sizeof(pStats));
 
 		gObjCalCharacter.CalcCharacter(lpObj.m_Index);
 		GSProtocol.GCLevelUpMsgSend(lpObj.m_Index, 1);
@@ -1449,7 +1449,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		pStats.Points = lpObj.Leadership;
 		pStats.statstype = 4;
 		pStats.LUP = lpObj.m_PlayerData->LevelUpPoint;
-		IOCP.DataSend(aIndex, (LPBYTE)&pStats, sizeof(pStats));
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pStats, sizeof(pStats));
 
 		gObjCalCharacter.CalcCharacter(aIndex);
 		GSProtocol.GCLevelUpMsgSend(lpObj.m_Index, 1);
@@ -2797,7 +2797,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 			GJReqSetOffTrade(&gGameObjects[aIndex]);
 			MsgOutput(aIndex, Lang.GetText(0, 480));
 			BYTE p[4] = { 0xC1, 0x04, 0xFA, 0x0D };
-			IOCP.DataSend(aIndex, p, sizeof(p));
+			IOCP.DataSend(lpObj.m_Index, p, sizeof(p));
 		}
 		else
 		{
@@ -3041,10 +3041,10 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		BYTE TEST1[] = { 0xC1, 0x08, 0x4D, 0x18, 0x02, 0x00, 0x00, 0x00 };
 		BYTE TEST2[] = { 0xC1, 0x08, 0x3E, 0x03, 0x00, 0x00, 0x00, 0x00 };
 		BYTE TEST3[] = { 0xC1, 0x06, 0x3E, 0x11, 0x01, 0x02 };
-		IOCP.DataSend(aIndex, TEST, 5);
-		IOCP.DataSend(aIndex, TEST1, 8);
-		IOCP.DataSend(aIndex, TEST2, 8);
-		IOCP.DataSend(aIndex, TEST3, 6);
+		IOCP.DataSend(lpObj.m_Index, TEST, 5);
+		IOCP.DataSend(lpObj.m_Index, TEST1, 8);
+		IOCP.DataSend(lpObj.m_Index, TEST2, 8);
+		IOCP.DataSend(lpObj.m_Index, TEST3, 6);
 	}
 	break;
 	case 449:
@@ -3081,7 +3081,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 						MsgOutput(aIndex, Lang.GetText(0, 480));
 
 						BYTE p[4] = { 0xC1, 0x04, 0xFA, 0x0D };
-						IOCP.DataSend(aIndex, p, sizeof(p));
+						IOCP.DataSend(lpObj.m_Index, p, sizeof(p));
 						return 1;
 					}
 					else

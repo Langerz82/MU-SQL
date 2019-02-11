@@ -121,7 +121,7 @@ void CPersonalStore::CGPShopAnsSetItemPrice(CGameObject &lpObj, BYTE btResult, B
 	pMsg.btResult = btResult;
 	pMsg.btItemPos = btItemPos;
 
-	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 
@@ -287,7 +287,7 @@ void CPersonalStore::CGPShopAnsOpen(CGameObject &lpObj, BYTE btResult)
 	PHeadSubSetB((LPBYTE)&pMsg, 0x3F, 0x02, sizeof(pMsg));
 	pMsg.btResult = btResult;
 
-	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
 }
 
 
@@ -331,7 +331,7 @@ void CPersonalStore::CGPShopAnsClose(CGameObject &lpObj, BYTE btResult)
 	pMsg.NumberH = SET_NUMBERH(aIndex);
 	pMsg.NumberL = SET_NUMBERL(aIndex);
 
-	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
 
 	if (btResult == 1)
 		GSProtocol.MsgSendV2(&gGameObjects[aIndex], (LPBYTE)&pMsg, pMsg.h.size);
@@ -1280,7 +1280,7 @@ void CPersonalStore::PShop_ViewportListRegenarate(short aIndex)
 	{
 		lpMsg->btCount = iVpAddCount;
 		PHeadSubSetW((unsigned char *)lpMsg, 0x3F, 0, sizeof(PMSG_ANS_PSHOP_VIEWPORT_NOTIFY) + sizeof(PMSG_PSHOP_VIEWPORT_NOTIFY)*iVpAddCount);
-		IOCP.DataSend(aIndex, (unsigned char *)lpMsg, ((lpMsg->h.sizeL & 0xFF) & 0xFF | ((lpMsg->h.sizeH & 0xFF) & 0xFF) << 8) & 0xFFFF);
+		IOCP.DataSend(lpObj.m_Index, (unsigned char *)lpMsg, ((lpMsg->h.sizeL & 0xFF) & 0xFF | ((lpMsg->h.sizeH & 0xFF) & 0xFF) << 8) & 0xFFFF);
 	}
 	else if (iVpAddCount != 0)
 	{
@@ -1626,7 +1626,7 @@ void CPersonalStore::GCPShopItemValueInfo(CGameObject &lpObj)
 	PHeadSubSetW((LPBYTE)&pMsg, 0xEC, 0x32, lOfs);
 	memcpy(sendbuf, &pMsg, sizeof(pMsg));
 
-	IOCP.DataSend(aIndex, sendbuf, lOfs);
+	IOCP.DataSend(lpObj.m_Index, sendbuf, lOfs);
 
 }
 
@@ -1655,7 +1655,7 @@ void CPersonalStore::GCPShop_AllInfo(short aIndex, int iLastUserCount)
 	{
 		CGameObject lpObj = &gGameObjects[n];
 
-		if (gGameObjects[n].Connected == PLAYER_PLAYING && lpObj.Type == OBJ_USER &&
+		if (gGameObjects[n]->Connected == PLAYER_PLAYING && lpObj.Type == OBJ_USER &&
 			(lpObj.MapNumber == MAP_INDEX_RORENCIA || lpObj.MapNumber == MAP_INDEX_DEVIAS || lpObj.MapNumber == MAP_INDEX_NORIA ||
 				lpObj.MapNumber == MAP_INDEX_ELBELAND))
 		{
@@ -1688,7 +1688,7 @@ void CPersonalStore::GCPShop_AllInfo(short aIndex, int iLastUserCount)
 								PHeadSubSetW((LPBYTE)&pMsg, 0xEC, 0x31, lOfs);
 								memcpy(sendbuf, &pMsg, sizeof(pMsg));
 
-								IOCP.DataSend(aIndex, sendbuf, lOfs);
+								IOCP.DataSend(lpObj.m_Index, sendbuf, lOfs);
 								return;
 							}
 						}
@@ -1713,7 +1713,7 @@ void CPersonalStore::GCPShop_AllInfo(short aIndex, int iLastUserCount)
 	PHeadSubSetW((LPBYTE)&pMsg, 0xEC, 0x31, lOfs);
 	memcpy(sendbuf, &pMsg, sizeof(pMsg));
 
-	IOCP.DataSend(aIndex, sendbuf, lOfs);
+	IOCP.DataSend(lpObj.m_Index, sendbuf, lOfs);
 }
 
 void CPersonalStore::GCPShop_SearchItem(short aIndex, WORD sSearchItem, int iLastUserCount)
@@ -1741,7 +1741,7 @@ void CPersonalStore::GCPShop_SearchItem(short aIndex, WORD sSearchItem, int iLas
 	{
 		CGameObject lpObj = &gGameObjects[n];
 
-		if (gGameObjects[n].Connected == PLAYER_PLAYING && lpObj.Type == OBJ_USER &&
+		if (gGameObjects[n]->Connected == PLAYER_PLAYING && lpObj.Type == OBJ_USER &&
 			(lpObj.MapNumber == MAP_INDEX_RORENCIA || lpObj.MapNumber == MAP_INDEX_DEVIAS || lpObj.MapNumber == MAP_INDEX_NORIA ||
 				lpObj.MapNumber == MAP_INDEX_ELBELAND))
 		{
@@ -1776,7 +1776,7 @@ void CPersonalStore::GCPShop_SearchItem(short aIndex, WORD sSearchItem, int iLas
 									PHeadSubSetW((LPBYTE)&pMsg, 0xEC, 0x31, lOfs);
 									memcpy(sendbuf, &pMsg, sizeof(pMsg));
 
-									IOCP.DataSend(aIndex, sendbuf, lOfs);
+									IOCP.DataSend(lpObj.m_Index, sendbuf, lOfs);
 									return;
 								}
 							}
@@ -1802,7 +1802,7 @@ void CPersonalStore::GCPShop_SearchItem(short aIndex, WORD sSearchItem, int iLas
 	PHeadSubSetW((LPBYTE)&pMsg, 0xEC, 0x31, lOfs);
 	memcpy(sendbuf, &pMsg, sizeof(pMsg));
 
-	IOCP.DataSend(aIndex, sendbuf, lOfs);
+	IOCP.DataSend(lpObj.m_Index, sendbuf, lOfs);
 }
 
 bool CPersonalStore::PShop_CheckExistItemInInventory(short aIndex, WORD sItemType)

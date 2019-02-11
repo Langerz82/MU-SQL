@@ -1001,7 +1001,7 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(CGameObject &lpObj, BYTE btItemPos)
 	if (this->GetDoppelgangerState() || this->m_bDoppelGangerEnter == false)
 	{
 		pResult.btResult = 2;
-		IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
 		return FALSE;
 	}
 
@@ -1026,7 +1026,7 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(CGameObject &lpObj, BYTE btItemPos)
 	if (PKFlag == TRUE)
 	{
 		pResult.btResult = 3;
-		IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
 		return FALSE;
 	}
 
@@ -1038,7 +1038,7 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(CGameObject &lpObj, BYTE btItemPos)
 			lpObj.pInventory[btItemPos].m_Type != ITEMGET(13, 125))
 		{
 			pResult.btResult = 1;
-			IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
 			return FALSE;
 		}
 
@@ -1046,14 +1046,14 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(CGameObject &lpObj, BYTE btItemPos)
 			lpObj.pInventory[btItemPos].m_Durability < 1.0)
 		{
 			pResult.btResult = 1;
-			IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
 			return FALSE;
 		}
 
 		if (this->AddDoppelgangerUser(aIndex) == FALSE)
 		{
 			pResult.btResult = 2;
-			IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
 			return FALSE;
 		}
 
@@ -1079,7 +1079,7 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(CGameObject &lpObj, BYTE btItemPos)
 			}
 		}
 
-		IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
 		gObjMoveGate(aIndex, this->m_nGateNumber);
 		this->SendMapTileInfo(lpObj, 4);
 

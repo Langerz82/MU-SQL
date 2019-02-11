@@ -831,7 +831,7 @@ BOOL NpcRusipher(CGameObject &lpNpc, CGameObject lpObj)
 		pMsg.h.size = sizeof(pMsg);
 		pMsg.result = 0x04;
 
-		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
 		lpObj.m_IfState.use = 1;
 		lpObj.m_IfState.type = 12;

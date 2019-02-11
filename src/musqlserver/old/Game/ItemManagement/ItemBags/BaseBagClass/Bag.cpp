@@ -374,7 +374,7 @@ void CBag::MakeBagEffectUse(CGameObject &lpObj, int iMonsterIndex)
 	}
 
 	GSProtocol.MsgSendV2(&gGameObjects[aIndex], (LPBYTE)&ServerCmd, ServerCmd.h.size);
-	IOCP.DataSend(aIndex, (LPBYTE)&ServerCmd, ServerCmd.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&ServerCmd, ServerCmd.h.size);
 }
 
 void CBag::AddCoin(CGameObject &lpObj)

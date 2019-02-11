@@ -115,7 +115,7 @@ void SCSendServerList(CGameObject &lpObj)
 	pMsg->h.sizeL	= LOBYTE(PacketSize);
 	pMsg->h.sizeH	= HIBYTE(PacketSize);
 
-	IOCP.DataSend(aIndex, cBUFF, PacketSize);
+	IOCP.DataSend(lpObj.m_Index, cBUFF, PacketSize);
 
 	g_Log.Add("[Server] Sent Server List COUNT: [%d] (Index: [%d])", Count, aIndex);
 }
@@ -136,7 +136,7 @@ void SCSendServerInfo(CGameObject &lpObj, PMSG_SERVER_SELECT * aRecv)
 			pMsg.Port = m_ServerData.m_Servers[i].Port;
 			memcpy(&pMsg.IP, m_ServerData.m_Servers[i].IP, sizeof(pMsg.IP));
 
-			IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
 			g_Log.Add("[Server] Connecting to Server: %s (IP: [%s] PORT: [%d]) (Players: [%d] / Max: [%d])",
 				m_ServerData.m_Servers[i].Name, m_ServerData.m_Servers[i].IP, m_ServerData.m_Servers[i].Port,
@@ -156,7 +156,7 @@ void SCConnectResultSend(CGameObject &lpObj, BYTE btResult)
 	pMsg.result = btResult;
 	pMsg.h.size = sizeof(pMsg);
 
-	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void SCSendNews(CGameObject &lpObj)
@@ -167,7 +167,7 @@ void SCSendNews(CGameObject &lpObj)
 	pTitle.h.subcode = 0x00;
 	memcpy(pTitle.ServerName, m_ServerData.szTitle, sizeof(pTitle.ServerName));
 
-	IOCP.DataSend(aIndex, (LPBYTE)&pTitle, pTitle.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pTitle, pTitle.h.size);
 
 	PMSG_SEND_NEWS pMsg = {0};
 
@@ -200,7 +200,7 @@ void SCSendNews(CGameObject &lpObj)
 		memcpy(buffer, &pMsg, sizeof(PMSG_SEND_NEWS));
 		memcpy(&buffer[sizeof(PMSG_SEND_NEWS)], m_ServerData.m_News[i].Text, textlen);
 
-		IOCP.DataSend(aIndex, (LPBYTE)buffer, sizeof(PMSG_SEND_NEWS)+textlen);
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)buffer, sizeof(PMSG_SEND_NEWS)+textlen);
 	}
 }
 
@@ -219,7 +219,7 @@ void SCSendAutoUpdateData(CGameObject &lpObj, PMSG_CLIENTVERSION *aRecv)
 		pMsg.h.size = sizeof(pMsg);
 		pMsg.VersionOK = 1;
 
-		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 	}
 
 	else
@@ -252,7 +252,7 @@ void SCSendAutoUpdateData(CGameObject &lpObj, PMSG_CLIENTVERSION *aRecv)
 			}
 		}
 
-		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 	}
 }
 

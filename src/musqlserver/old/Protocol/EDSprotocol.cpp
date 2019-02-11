@@ -590,7 +590,7 @@ void CExDataServerProtocol::ExDataServerLogin(CGameObject &lpObj, SDHP_SERVERINF
 		sLog->outError("[ChatServer] Chat Server Connected");
 	}
 
-	DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 }
 
 void CExDataServerProtocol::GDCharCloseRecv(CGameObject &lpObj, SDHP_USERCLOSE * aRecv)
@@ -666,7 +666,7 @@ void CExDataServerProtocol::GDGuildCreateSend(CGameObject &lpObj, SDHP_GUILDCREA
 		sLog->outBasic( "GuildName is too short [%s]", aRecv->GuildName);
 
 		sLog->outBasic("[Guild Create Request] Send Result [%d].", Result.Result);
-		DataSend(aIndex, (LPBYTE)&Result, sizeof(Result), __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, sizeof(Result), __FUNCTION__);
 		return;
 	}
 
@@ -677,7 +677,7 @@ void CExDataServerProtocol::GDGuildCreateSend(CGameObject &lpObj, SDHP_GUILDCREA
 		sLog->outBasic( "GuildMaster Name is too short [%s]", aRecv->Master);
 
 		sLog->outBasic("[Guild Create Request] Send Result [%d].", Result.Result);
-		DataSend(aIndex, (LPBYTE)&Result, sizeof(Result), __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, sizeof(Result), __FUNCTION__);
 		return;
 	}
 
@@ -687,7 +687,7 @@ void CExDataServerProtocol::GDGuildCreateSend(CGameObject &lpObj, SDHP_GUILDCREA
 		Result.Flag = 1;
 
 		sLog->outBasic("[Guild Create Request] Send Result [%d].", Result.Result);
-		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -697,7 +697,7 @@ void CExDataServerProtocol::GDGuildCreateSend(CGameObject &lpObj, SDHP_GUILDCREA
 		Result.Flag = 1;
 
 		sLog->outBasic("[Guild Create Request] Send Result [%d].", Result.Result);
-		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -707,7 +707,7 @@ void CExDataServerProtocol::GDGuildCreateSend(CGameObject &lpObj, SDHP_GUILDCREA
 		Result.Flag = 1;
 
 		sLog->outBasic("[Guild Create Request] Send Result [%d].", Result.Result);
-		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -778,7 +778,7 @@ void CExDataServerProtocol::GDGuildCreateSend(CGameObject &lpObj, SDHP_GUILDCREA
 		else
 		{
 			sLog->outBasic("[Guild Create Request] Send Result [%d].", Result.Result);
-			DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+			DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 			return;
 		}
 	}
@@ -1502,7 +1502,7 @@ void CExDataServerProtocol::GDGuildReqAssignStatus(CGameObject &lpObj, EXSDHP_GU
 	}
 
 	sLog->outBasic("[GuildMember Assign Status Request] Send Result [%d].", Result.btResult);
-	DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 
 	if(Result.btResult)
 	{
@@ -1544,7 +1544,7 @@ void CExDataServerProtocol::GDGuildReqAssignType(CGameObject &lpObj, EXSDHP_GUIL
 	}
 
 	sLog->outBasic("[Guild Assign Type Request] Send Result [%d].", Result.btResult);
-	DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 
 	if(Result.btResult)
 	{
@@ -1601,7 +1601,7 @@ void CExDataServerProtocol::GDGuildMemberAdd(CGameObject &lpObj, SDHP_GUILDMEMBE
 		sLog->outBasic( "error-L2: [%s] Guild Name is short", Result.GuildName);
 
 		sLog->outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
-		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -1611,7 +1611,7 @@ void CExDataServerProtocol::GDGuildMemberAdd(CGameObject &lpObj, SDHP_GUILDMEMBE
 		sLog->outBasic( "error-L2: [%s] Member Name is short", Result.MemberID);
 
 		sLog->outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
-		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -1621,7 +1621,7 @@ void CExDataServerProtocol::GDGuildMemberAdd(CGameObject &lpObj, SDHP_GUILDMEMBE
 		sLog->outBasic("[Guild Join Request] [DBGuildMemberExists] Member [%s] is already in guild", Result.MemberID);
 
 		sLog->outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
-		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -1631,7 +1631,7 @@ void CExDataServerProtocol::GDGuildMemberAdd(CGameObject &lpObj, SDHP_GUILDMEMBE
 		sLog->outBasic( "[Guild Join Request] [AddDBGuildMember] failed to add [%s] in guild [%s]", Result.MemberID, Result.GuildName);
 
 		sLog->outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
-		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 	else
@@ -1686,7 +1686,7 @@ void CExDataServerProtocol::GDGuildMemberAddWithoutUserIndex(CGameObject &lpObj,
 		sLog->outBasic( "error-L2: [%s] Guild Name is short", Result.GuildName);
 
 		sLog->outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
-		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -1696,7 +1696,7 @@ void CExDataServerProtocol::GDGuildMemberAddWithoutUserIndex(CGameObject &lpObj,
 		sLog->outBasic( "error-L2: [%s] Member Name is short", Result.MemberID);
 
 		sLog->outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
-		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -1706,7 +1706,7 @@ void CExDataServerProtocol::GDGuildMemberAddWithoutUserIndex(CGameObject &lpObj,
 		sLog->outBasic("[Guild Join Request] [DBGuildMemberExists] Member [%s] is already in guild", Result.MemberID);
 
 		sLog->outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
-		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -1716,7 +1716,7 @@ void CExDataServerProtocol::GDGuildMemberAddWithoutUserIndex(CGameObject &lpObj,
 		sLog->outBasic( "[Guild Join Request] [AddDBGuildMember] failed to add [%s] in guild [%s]", Result.MemberID, Result.GuildName);
 
 		sLog->outBasic("[Guild Join Request] Send Result [%d].", Result.Result);
-		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 	else
@@ -1805,7 +1805,7 @@ void CExDataServerProtocol::GDGuildMemberDel(CGameObject &lpObj, SDHP_GUILDMEMBE
 		sLog->outBasic( "error-L2: [%s] Guild Name is short", Result.GuildName);
 		
 		sLog->outBasic("[Guild Member Withdraw Request] Send Result [%d]", Result.Result);
-		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -1814,7 +1814,7 @@ void CExDataServerProtocol::GDGuildMemberDel(CGameObject &lpObj, SDHP_GUILDMEMBE
 		sLog->outBasic( "error-L2: [%s] Member Name is short", Result.MemberID);
 
 		sLog->outBasic("[Guild Member Withdraw Request] Send Result [%d]", Result.Result);
-		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -1823,7 +1823,7 @@ void CExDataServerProtocol::GDGuildMemberDel(CGameObject &lpObj, SDHP_GUILDMEMBE
 		sLog->outBasic("[Guild Member Withdraw Request] [DelDBGuildMember] Failed delete member [%s] from guild [%s]", Result.MemberID, Result.GuildName);
 
 		sLog->outBasic("[Guild Member Withdraw Request] Send Result [%d]", Result.Result);
-		DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -1912,7 +1912,7 @@ void CExDataServerProtocol::DGRelationShipAnsJoin(CGameObject &lpObj, EXSDHP_REL
 	}
 
 	sLog->outBasic("[RelationShip Join Request] Send Result [%d]", Result.btResult);
-	DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 
 	if(Result.btResult != 0 && Result.btResult != 0x10)
 	{
@@ -1973,7 +1973,7 @@ void CExDataServerProtocol::DGRelationShipAnsBreakOff(CGameObject &lpObj, EXSDHP
 	}
 
 	sLog->outBasic("[RelationShip Break Request] Send Result [%d]", Result.btResult);
-	DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 
 	if(Result.btResult != 0 && Result.btResult != 0x10)
 	{
@@ -2090,7 +2090,7 @@ void CExDataServerProtocol::DGUnionListRecv(CGameObject &lpObj, EXSDHP_UNION_LIS
 
 	sLog->outBasic("[Union List Request] Send UnionList with result: [%d]", lpListCnt->btResult);
 
-	DataSend(aIndex, lpData, size, __FUNCTION__);
+	DataSend(lpObj.m_Index, lpData, size, __FUNCTION__);
 
 	delete [] lpData;
 }
@@ -2487,7 +2487,7 @@ void CExDataServerProtocol::DGRelationShipListSend(CGameObject &lpObj, int iGuil
 		if(aIndex != -1)
 		{
 			sLog->outBasic("[RelationShip List Send] List Send.");
-			DataSend(aIndex, (LPBYTE)&List, sizeof(List), __FUNCTION__);
+			DataSend(lpObj.m_Index, (LPBYTE)&List, sizeof(List), __FUNCTION__);
 		}
 		else
 			sLog->outBasic("[RelationShip List Send] error: ServerIndex = -1.");
@@ -2586,7 +2586,7 @@ void CExDataServerProtocol::DGRelationShipAnsKickOutUnionMember(CGameObject &lpO
 	}
 
 	sLog->outBasic("[Kick Union Member Request] Send Result [%d].", Result.btResult);
-	DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 
 	if(Result.btResult != 0 && Result.btResult != 0x10)
 	{
@@ -2676,7 +2676,7 @@ void CExDataServerProtocol::FCHRoomCreateReq(CGameObject &lpObj, char *szName, c
 	Req.FriendServerId = FriendServerId;
 	Req.Type = 1;
 
-	DataSend(aIndex, (LPBYTE)&Req, Req.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&Req, Req.h.size, __FUNCTION__);
 }
 
 void CExDataServerProtocol::FriendChatRoomCreateAns(CGameObject &lpObj, FCHP_CHATROOM_CREATE_RESULT* lpMsg)
@@ -2792,7 +2792,7 @@ void CExDataServerProtocol::FCHChatRoomInvitationReq(CGameObject &lpObj, short R
 	Req.Type = Type;
 	strncpy(Req.Name, szName, 10);
 
-	DataSend(aIndex, (LPBYTE)&Req, Req.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&Req, Req.h.size, __FUNCTION__);
 }
 
 void CExDataServerProtocol::FriendChatRoomInvitationReq(CGameObject &lpObj, FHP_FRIEND_INVITATION_REQ * lpMsg)
@@ -2825,7 +2825,7 @@ void CExDataServerProtocol::FriendChatRoomInvitationReq(CGameObject &lpObj, FHP_
 	}
 	
 	sLog->outBasic("[ChatRoom Invitation Request] Send Result [%d].", Result.Result);
-	DataSend(aIndex, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 }
 
 void CExDataServerProtocol::GensManualRefreshRanking(BYTE Type)
@@ -3085,7 +3085,7 @@ void GensSystem_EDS::GDReqGensInfo(CGameObject &lpObj, PMSG_REQ_ABUSING_INFO *aR
 	pMsg.wIndexH = aRecv->bIndexH;
 	pMsg.wIndexL = aRecv->bIndexL;
 
-	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
@@ -3127,7 +3127,7 @@ void GensSystem_EDS::GDReqRegGensMember(CGameObject &lpObj, PMSG_REQ_REG_GENS_ME
 		}
 	}
 
-	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
@@ -3176,7 +3176,7 @@ void GensSystem_EDS::GDReqSecedeGensMember(CGameObject &lpObj, PMSG_REQ_SECEDE_G
 		}
 	}
 		
-	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
@@ -3228,7 +3228,7 @@ void GensSystem_EDS::GDReqAbusingInfo(CGameObject &lpObj, PMSG_REQ_ABUSING_INFO 
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x0A, sizeof(pMsg));
 
-	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
@@ -3250,7 +3250,7 @@ void GensSystem_EDS::GDReqGensRewardCheck(CGameObject &lpObj, PMSG_REQ_GENS_REWA
 	if(aRecv->iInfluence == LEAVED_INFLUENCE || aRecv->iInfluence == NONE_INFLUENCE)
 	{
 		pMsg.bResult = 6;
-		DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 		LeaveCriticalSection(&this->m_GensCriticalSection);
 		return;
 	}
@@ -3258,7 +3258,7 @@ void GensSystem_EDS::GDReqGensRewardCheck(CGameObject &lpObj, PMSG_REQ_GENS_REWA
 	if(!(CurrTime.wDay >= this->m_GensRewardStartDay && CurrTime.wDay <= this->m_GensRewardEndDay))
 	{
 		pMsg.bResult = 1;
-		DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 		LeaveCriticalSection(&this->m_GensCriticalSection);
 		return;
 	}
@@ -3269,7 +3269,7 @@ void GensSystem_EDS::GDReqGensRewardCheck(CGameObject &lpObj, PMSG_REQ_GENS_REWA
 	{
 
 		pMsg.bResult = 2;
-		DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 		LeaveCriticalSection(&this->m_GensCriticalSection);
 		return;
 	}
@@ -3278,7 +3278,7 @@ void GensSystem_EDS::GDReqGensRewardCheck(CGameObject &lpObj, PMSG_REQ_GENS_REWA
 	{
 
 		pMsg.bResult = 4;
-		DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 		LeaveCriticalSection(&this->m_GensCriticalSection);
 		return;
 	}
@@ -3287,7 +3287,7 @@ void GensSystem_EDS::GDReqGensRewardCheck(CGameObject &lpObj, PMSG_REQ_GENS_REWA
 
 
 	
-	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
@@ -3311,7 +3311,7 @@ void GensSystem_EDS::GDReqGensMemberCount(CGameObject &lpObj, PMSG_REQ_GENS_MEMB
 	pMsg.iDuprianMemberCount = this->m_DuprianUserCount;
 	pMsg.iVanertMemberCount = this->m_VanertUserCount;
 
-	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
@@ -3339,7 +3339,7 @@ void GensSystem_EDS::GDReqGensRewardDay(CGameObject &lpObj, PMSG_REQ_GENS_REWARD
 		pMsg.iRewardDay = FALSE;
 	}
 
-	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 
 	LeaveCriticalSection(&this->m_GensCriticalSection);
 }
@@ -3457,7 +3457,7 @@ void CExDataServerProtocol::GDReqGuildMatchingList(CGameObject &lpObj, _stReqGui
 		pMsg.nResult = 0;
 	}
 
-	DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CExDataServerProtocol::GDReqGuildMatchingListSearchWord(CGameObject &lpObj, _stReqGuildMatchingListSearchWord *lpMsg)
@@ -3502,7 +3502,7 @@ void CExDataServerProtocol::GDReqGuildMatchingListSearchWord(CGameObject &lpObj,
 		pMsg.nResult = 0;
 	}
 
-	DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CExDataServerProtocol::GDReqRegGuildMatchingList(CGameObject &lpObj, _stReqGuildMatchingData * lpMsg)
@@ -3513,7 +3513,7 @@ void CExDataServerProtocol::GDReqRegGuildMatchingList(CGameObject &lpObj, _stReq
 	pMsg.nResult = 0;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA3, 0x02, sizeof(pMsg));
 
-	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CExDataServerProtocol::GDReqDelMatchingList(CGameObject &lpObj, _stReqDelGuildMatchingList * lpMsg)
@@ -3529,7 +3529,7 @@ void CExDataServerProtocol::GDReqDelMatchingList(CGameObject &lpObj, _stReqDelGu
 
 	if (!lpGuild)
 	{
-		DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -3570,7 +3570,7 @@ void CExDataServerProtocol::GDReqDelMatchingList(CGameObject &lpObj, _stReqDelGu
 
 	//LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 
-	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CExDataServerProtocol::GDReqJoinGuildMatchingList(CGameObject &lpObj, _stRegWaitGuildMatching * lpMsg)
@@ -3582,7 +3582,7 @@ void CExDataServerProtocol::GDReqJoinGuildMatchingList(CGameObject &lpObj, _stRe
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA3, 0x04, sizeof(pMsg));
 	pMsg.nUserIndex = lpMsg->nUserIndex;
 
-	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 
 	if (pMsg.nResult == 0)
 	{
@@ -3599,7 +3599,7 @@ void CExDataServerProtocol::GDReqCancelJoinGuildMatching(CGameObject &lpObj, _st
 	pMsg.nUserIndex = lpMsg->nUserIndex;
 	pMsg.nType = lpMsg->nType;
 
-	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CExDataServerProtocol::GDReqAllowJoinGuildMatching(CGameObject &lpObj, _stReqAllowJoinGuildMatching * lpMsg)
@@ -3632,7 +3632,7 @@ void CExDataServerProtocol::GDReqAllowJoinGuildMatching(CGameObject &lpObj, _stR
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA3, 0x06, sizeof(pMsg));
 
-	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 
 	// Step 7
 	// Notify guild member about matching result
@@ -3689,7 +3689,7 @@ void CExDataServerProtocol::GDReqWaitGuildMatchingList(CGameObject &lpObj, _stRe
 	pMsg.nUserIndex = lpMsg->nUserIndex;
 
 	PHeadSubSetW((LPBYTE)&pMsg, 0xA3, 0x07, sizeof(pMsg));
-	DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CExDataServerProtocol::GDReqGetWaitStateListGuildMatching(CGameObject &lpObj, _stReqWaitStateListGuildMatching * lpMsg)
@@ -3699,7 +3699,7 @@ void CExDataServerProtocol::GDReqGetWaitStateListGuildMatching(CGameObject &lpOb
 	pMsg.nUserIndex = lpMsg->nUserIndex;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA3, 0x08, sizeof(pMsg));
 
-	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CExDataServerProtocol::GuildMatchingSendAcceptAndRejectInfo(CGameObject &lpObj, char* szUserName, int nUserIndex, int nServerIndex)
@@ -3826,7 +3826,7 @@ void CExDataServerProtocol::GDReqRegWantedPartyMember(CGameObject &lpObj, _stReq
 
 	//LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
 
-	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CExDataServerProtocol::GDReqGetPartyMatchingList(CGameObject &lpObj, _stReqGetPartyMatchingList * lpMsg)
@@ -3862,7 +3862,7 @@ void CExDataServerProtocol::GDReqGetPartyMatchingList(CGameObject &lpObj, _stReq
 	pMsg.nListCount = nCount;
 	pMsg.nResult = 0;
 
-	DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CExDataServerProtocol::GDReqJoinMemberPartyMatching(CGameObject &lpObj, _stReqJoinMemberPartyMatching * lpMsg)
@@ -3895,7 +3895,7 @@ void CExDataServerProtocol::GDReqJoinMemberPartyMatching(CGameObject &lpObj, _st
 	pMsg.nUserIndex = lpMsg->nUserIndex;
 
 	//LeaveCriticalSection(&this->m_FriendSystemEDS.m_csMapFriendMaster);
-	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CExDataServerProtocol::GDReqJoinMemberStateList(CGameObject &lpObj, _stReqJoinMemberStateListPartyMatching *lpMsg)
@@ -3904,7 +3904,7 @@ void CExDataServerProtocol::GDReqJoinMemberStateList(CGameObject &lpObj, _stReqJ
 
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA4, 0x03, sizeof(pMsg));
-	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CExDataServerProtocol::GDReqJoinMemberStateListLeader(CGameObject &lpObj, _stReqWaitListPartyMatching *lpMsg)
@@ -3918,7 +3918,7 @@ void CExDataServerProtocol::GDReqJoinMemberStateListLeader(CGameObject &lpObj, _
 	pMsg.nUserIndex = lpMsg->nUserIndex;
 	PHeadSubSetW((LPBYTE)&pMsg, 0xA4, 0x04, sizeof(pMsg));
 
-	DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CExDataServerProtocol::GDReqAcceptMemberJoin(CGameObject &lpObj, _stReqAddPartyMember *lpMsg)
@@ -3978,7 +3978,7 @@ void CExDataServerProtocol::GDReqAcceptMemberJoin(CGameObject &lpObj, _stReqAddP
 		{
 			pMsg.nResult = -1;
 			pMsg.btSendType = 0;
-			DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+			DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 			return;
 		}
 
@@ -4000,7 +4000,7 @@ void CExDataServerProtocol::GDReqAcceptMemberJoin(CGameObject &lpObj, _stReqAddP
 				}
 			}
 
-			DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+			DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 
 			pMsg.btSendType = 1;
 			DataSend(nMemberServerIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
@@ -4021,7 +4021,7 @@ void CExDataServerProtocol::GDReqAcceptMemberJoin(CGameObject &lpObj, _stReqAddP
 			pMsg.btSendType = 0;
 			pMsg.nResult = 0;
 
-			DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+			DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 
 			pMsg.btSendType = 1;
 			DataSend(nMemberServerIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
@@ -4147,7 +4147,7 @@ void CExDataServerProtocol::GDReqCancelPartyMatching(CGameObject &lpObj, _stReqC
 	pMsg.btType = lpMsg->btType;
 	pMsg.nUserIndex = lpMsg->nUserIndex;
 
-	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CExDataServerProtocol::GDReqDeletePartyUser(CGameObject &lpObj, _stReqDelPartyUserPartyMatching *lpMsg)
@@ -4189,13 +4189,13 @@ void CExDataServerProtocol::GDReqDeletePartyUser(CGameObject &lpObj, _stReqDelPa
 
 	if (pMsg.nUserIndex == pMsg.nTargetIndex)
 	{
-		DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 	}
 
 	else
 	{
 		pMsg.btType = 0;
-		DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 
 		if (nUserServerIndex < 0)
 		{

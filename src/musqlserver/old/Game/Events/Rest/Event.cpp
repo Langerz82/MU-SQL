@@ -144,7 +144,7 @@ void EGResultRegEventChip(PMSG_ANS_REGISTER_EVENTCHIP * aRecv)
 
 	Result.Type = 0;
 
-	IOCP.DataSend(aIndex, (LPBYTE)&Result, Result.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size);
 
 	lpObj.UseEventServer = FALSE;
 }
@@ -170,7 +170,7 @@ void EGRecvRegMutoNum( PMSG_ANS_REGISTER_MUTONUM* aRecv)
 		Result.MutoNum[1] = 0;
 		Result.MutoNum[2] = 0;
 
-		IOCP.DataSend(aIndex, (LPBYTE)&Result, Result.h.size);
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size);
 
 		lpObj.UseEventServer = FALSE;
 
@@ -187,7 +187,7 @@ void EGRecvRegMutoNum( PMSG_ANS_REGISTER_MUTONUM* aRecv)
 		lpObj.AccountID, lpObj.Name, 
 		Result.MutoNum[0], Result.MutoNum[1], Result.MutoNum[2]);
 
-	IOCP.DataSend(aIndex, (LPBYTE)&Result, Result.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size);
 	lpObj.UseEventServer = FALSE;
 }
 
@@ -219,7 +219,7 @@ void EGRecvChangeRena( PMSG_ANS_RESET_EVENTCHIP* aRecv)
 	Result.ChipCount = 0;
 	lpObj.EventChipCount = 0;
 
-	IOCP.DataSend(aIndex, (LPBYTE)&Result, Result.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size);
 
 	lpObj.UseEventServer = FALSE;
 }
@@ -280,7 +280,7 @@ void EGRecvRegStone( PMSG_ANS_REGISTER_STONES* aRecv)
 			lpObj.AccountID, lpObj.Name, aRecv->iStoneCount);
 	}
 
-	IOCP.DataSend(aIndex, (LPBYTE)&Result, Result.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size);
 
 	lpObj.UseEventServer = FALSE;
 }
@@ -320,7 +320,7 @@ void EGRecvChangeStones( PMSG_ANS_RESET_EVENTCHIP* aRecv)
 	Result.ChipCount = 0;
 	lpObj.iStoneCount = 0;
 
-	IOCP.DataSend(aIndex, (LPBYTE)&Result, Result.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size);
 
 	lpObj.UseEventServer = FALSE;
 }

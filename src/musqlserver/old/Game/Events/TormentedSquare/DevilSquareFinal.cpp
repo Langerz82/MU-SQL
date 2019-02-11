@@ -284,7 +284,7 @@ void CDevilSquareFinal::ReqDSFSchedule(CGameObject &lpObj)
 	pResult.RewardStartDay = this->m_DSFRewardDay.RewardStartDay;
 	pResult.RewardEndDay = this->m_DSFRewardDay.RewardEndDay;
 
-	IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
 }
 
 void CDevilSquareFinal::DSFEventInit()
@@ -2767,7 +2767,7 @@ void CDevilSquareFinal::ClearMonster()
 {
 	for (int n = 0; n < g_ConfigRead.server.GetObjectMaxMonster(); n++)
 	{
-		if (gGameObjects[n].MapNumber == MAP_INDEX_DEVILSQUARE_FINAL)
+		if (gGameObjects[n]->MapNumber == MAP_INDEX_DEVILSQUARE_FINAL)
 		{
 			gObjDel(n);
 		}

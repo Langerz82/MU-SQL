@@ -152,7 +152,7 @@ void CNotice::GCNoticeSend(CGameObject &lpObj, BYTE type, BYTE count, BYTE opaci
 
 	pMsg.message[size] = 0;
 
-	IOCP.DataSend(aIndex, (BYTE*)&pMsg, pMsg.header.size);
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.header.size);
 }
 
 void CNotice::GCNoticeSendToAll(BYTE type, BYTE count, BYTE opacity, WORD delay, DWORD color, BYTE speed, char* message, ...) // OK
@@ -218,7 +218,7 @@ void CNotice::NewMessageDevTeam(CGameObject &lpObj, char* message, ...) // OK
 
 	pMsg.message[size] = 0;
 
-	IOCP.DataSend(aIndex, (BYTE*)&pMsg, pMsg.header.size);
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.header.size);
 
 }
 
@@ -253,7 +253,7 @@ void CNotice::NewNoticeSend(CGameObject &lpObj, BYTE count, BYTE opacity, WORD d
 
 	pMsg.message[size] = 0;
 
-	IOCP.DataSend(aIndex, (BYTE*)&pMsg, pMsg.header.size);
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.header.size);
 }
 
 void CNotice::ChatSend(int Index, char* szChat, ...)

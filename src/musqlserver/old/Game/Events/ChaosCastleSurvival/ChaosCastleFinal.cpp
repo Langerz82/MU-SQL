@@ -395,7 +395,7 @@ void ChaosCastleFinal::ProcState_Closed()
 
 						for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 						{
-							if (gGameObjects[n].Connected == PLAYER_PLAYING && gGameObjects[n].Type == OBJ_USER && gGameObjects[n].MapNumber != MAP_INDEX_CHAOSCASTLE_SURVIVAL)
+							if (gGameObjects[n]->Connected == PLAYER_PLAYING && gGameObjects[n]->Type == OBJ_USER && gGameObjects[n]->MapNumber != MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 							{
 								IOCP.DataSend(n, (LPBYTE)&pMsg, pMsg.h.size);
 							}
@@ -844,7 +844,7 @@ void ChaosCastleFinal::SetState_Closed()
 
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		if (gGameObjects[n].MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
+		if (gGameObjects[n]->MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 		{
 			gObjMoveGate(n, 333);
 		}
@@ -2169,7 +2169,7 @@ void ChaosCastleFinal::ClearMonster()
 {
 	for (int n = 0; n < g_ConfigRead.server.GetObjectMaxMonster(); n++)
 	{
-		if (gGameObjects[n].MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
+		if (gGameObjects[n]->MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 		{
 			gObjDel(n);
 		}
@@ -2709,7 +2709,7 @@ void ChaosCastleFinal::Send_CCF_Schedule(CGameObject &lpObj)
 	pMsg.h.sizeH = HIBYTE(lOfs);
 	pMsg.h.sizeL = LOBYTE(lOfs);
 	memcpy(&sendbuf, &pMsg, sizeof(pMsg));
-	IOCP.DataSend(aIndex, (LPBYTE)sendbuf, lOfs);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)sendbuf, lOfs);
 }
 
 int ChaosCastleFinal::EnterCheck_CCF_User(int iUserIndex)
@@ -3039,7 +3039,7 @@ void ChaosCastleFinal::Send_RankingInfo(BYTE byCCFType, int aIndex)
 	pMsg.h.sizeH = HIBYTE(lOfs);
 	pMsg.h.sizeL = LOBYTE(lOfs);
 	memcpy(&sendbuf, &pMsg, sizeof(pMsg));
-	IOCP.DataSend(aIndex, (LPBYTE)sendbuf, lOfs);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)sendbuf, lOfs);
 }
 
 void ChaosCastleFinal::GiveCCFWinnerItem(int iWinnerIndex, BYTE byCCFType, BYTE byRewardType)

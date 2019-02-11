@@ -754,19 +754,19 @@ void GameMonsterAllCloseAndReLoad()
 {
 	for ( int n=0;n<g_ConfigRead.server.GetObjectMaxMonster();n++)
 	{
-		if ( gGameObjects[n].Type == OBJ_MONSTER || gGameObjects[n].Type == OBJ_NPC )
+		if ( gGameObjects[n]->Type == OBJ_MONSTER || gGameObjects[n]->Type == OBJ_NPC )
 		{
 			if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE)
 			{
-				if (gGameObjects[n].m_btCsNpcType)
+				if (gGameObjects[n]->m_btCsNpcType)
 				{
 					continue;
 				}
 			}
 
-			if ( gGameObjects[n].m_iCurrentAI )
+			if ( gGameObjects[n]->m_iCurrentAI )
 			{
-				gGameObjects[n].Live = FALSE;
+				gGameObjects[n]->Live = FALSE;
 				gObjViewportListProtocolDestroy(&gGameObjects[n]);
 				gObjViewportClose(&gGameObjects[n]);
 			}
@@ -774,11 +774,11 @@ void GameMonsterAllCloseAndReLoad()
 			gObjDel(n);
 		}
 
-		if ( gGameObjects[n].Type == OBJ_USER && gGameObjects[n].m_PlayerData->ISBOT == true )
+		if ( gGameObjects[n]->Type == OBJ_USER && gGameObjects[n]->m_PlayerData->ISBOT == true )
 		{
-			gGameObjects[n].Type = OBJ_EMPTY;
-			delete gGameObjects[n].m_PlayerData;
-			gGameObjects[n].m_PlayerData = nullptr;
+			gGameObjects[n]->Type = OBJ_EMPTY;
+			delete gGameObjects[n]->m_PlayerData;
+			gGameObjects[n]->m_PlayerData = nullptr;
 			gObjDel(n);
 		}
 	}

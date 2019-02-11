@@ -343,7 +343,7 @@ private:
 			return ENEWPVP::E_ALREADY_DUELRESERVED_1;
 		}
 
-		if(CHECK_LIMIT(obj->m_iDuelUser, g_ConfigRead.server.GetObjectMax()))
+		if(CHECK_LIMIT(Obj.m_iDuelUser, g_ConfigRead.server.GetObjectMax()))
 		{
 			return ENEWPVP::E_ALREADY_DUELLING_1;
 		}

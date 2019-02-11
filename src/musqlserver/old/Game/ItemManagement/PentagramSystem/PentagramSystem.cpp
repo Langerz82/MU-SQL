@@ -2529,7 +2529,7 @@ void CPentagramSystem::GCPentagramJewelInfo(CGameObject &lpObj, int iJewelPos)
 	PHeadSubSetW((LPBYTE)&pMsg, 0xEE, 0x01, dwSize);
 	memcpy(&Buff, &pMsg, sizeof(pMsg));
 
-	IOCP.DataSend(aIndex, Buff, dwSize);
+	IOCP.DataSend(lpObj.m_Index, Buff, dwSize);
 }
 
 #pragma pack(1)

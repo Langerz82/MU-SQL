@@ -93,7 +93,7 @@
 #include "CustomMaxStats.h"
 #include "SocketItemType.h"
 
-inline bool ObjectMaxRange(int Index)
+bool ObjectMaxRange(int Index)
 {
 	if (Index < 0 || Index > g_ConfigRead.server.GetObjectMax() - 1)
 		return false;
@@ -469,7 +469,7 @@ void MoveMonsterProc()
 			}
 		}
 
-		if (DG_MAP_RANGE(gGameObjects[n].MapNumber))
+		if (DG_MAP_RANGE(gGameObjects[n]->MapNumber))
 		{
 			continue;
 		}
@@ -719,42 +719,42 @@ void gObjEnd()
 
 	for (int n = 0; n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		delete[] gGameObjects[n].m_lpMagicBack;
-		delete[] gGameObjects[n].Magic;
-		delete[] gGameObjects[n].VpPlayer;
-		delete[] gGameObjects[n].VpPlayer2;
-		delete[] gGameObjects[n].DurMagicKeyChecker;
-		delete[] gGameObjects[n].sHD;
-		delete[] gGameObjects[n].m_Agro;
+		delete[] gGameObjects[n]->m_lpMagicBack;
+		delete[] gGameObjects[n]->Magic;
+		delete[] gGameObjects[n]->VpPlayer;
+		delete[] gGameObjects[n]->VpPlayer2;
+		delete[] gGameObjects[n]->DurMagicKeyChecker;
+		delete[] gGameObjects[n]->sHD;
+		delete[] gGameObjects[n]->m_Agro;
 
-		if (gGameObjects[n].m_PlayerData != NULL)
+		if (gGameObjects[n]->m_PlayerData != NULL)
 		{
-			delete gGameObjects[n].m_PlayerData;
-			gGameObjects[n].m_PlayerData = NULL;
+			delete gGameObjects[n]->m_PlayerData;
+			gGameObjects[n]->m_PlayerData = NULL;
 		}
 
 		if (n >= g_ConfigRead.server.GetObjectStartUserIndex())
 		{
-			delete[] gGameObjects[n].pChaosBox;
-			delete[] gGameObjects[n].pChaosBoxMap;
-			delete[] gGameObjects[n].Inventory1;
-			delete[] gGameObjects[n].Inventory2;
-			delete[] gGameObjects[n].InventoryMap1;
-			delete[] gGameObjects[n].InventoryMap2;
-			delete gGameObjects[n].PerSocketContext;
-			delete[] gGameObjects[n].Trade;
-			delete[] gGameObjects[n].TradeMap;
-			delete[] gGameObjects[n].pWarehouse;
-			delete[] gGameObjects[n].pWarehouseMap;
-			delete[] gGameObjects[n].pMuunInventory1;
-			delete[] gGameObjects[n].pMuunInventory2;
-			delete[] gGameObjects[n].pEventInventory1;
-			delete[] gGameObjects[n].pEventInventory2;
-			delete[] gGameObjects[n].pEventInventoryMap1;
-			delete[] gGameObjects[n].pEventInventoryMap2;
+			delete[] gGameObjects[n]->pChaosBox;
+			delete[] gGameObjects[n]->pChaosBoxMap;
+			delete[] gGameObjects[n]->Inventory1;
+			delete[] gGameObjects[n]->Inventory2;
+			delete[] gGameObjects[n]->InventoryMap1;
+			delete[] gGameObjects[n]->InventoryMap2;
+			delete gGameObjects[n]->PerSocketContext;
+			delete[] gGameObjects[n]->Trade;
+			delete[] gGameObjects[n]->TradeMap;
+			delete[] gGameObjects[n]->pWarehouse;
+			delete[] gGameObjects[n]->pWarehouseMap;
+			delete[] gGameObjects[n]->pMuunInventory1;
+			delete[] gGameObjects[n]->pMuunInventory2;
+			delete[] gGameObjects[n]->pEventInventory1;
+			delete[] gGameObjects[n]->pEventInventory2;
+			delete[] gGameObjects[n]->pEventInventoryMap1;
+			delete[] gGameObjects[n]->pEventInventoryMap2;
 		}
 
-		DeleteCriticalSection(&gGameObjects[n].m_critPShopTrade);
+		DeleteCriticalSection(&gGameObjects[n]->m_critPShopTrade);
 	}
 }
 
@@ -799,13 +799,13 @@ void gObjCloseSet(CGameObject &lpObj, int Flag)
 
 		if (BC_MAP_RANGE(lpObj.MapNumber))
 		{
-			g_BloodCastle.SearchUserDropQuestItem(aIndex);
+			g_BloodCastle.SearchUserDropQuestItem(lpObj.m_Index);
 		}
 
 		if (IT_MAP_RANGE(lpObj.MapNumber))
 		{
 			g_IT_Event.DropRelicsItem(lpObj.MapNumber, lpObj.m_Index);
-			g_IT_Event.Leave_ITR(lpObj.m_Index, lpObj.MapNumber);
+			g_IT_Event.Leave_ITR(lpObj, lpObj.MapNumber);
 
 			if (lpObj.m_nITR_RelicsTick > 0 || lpObj.m_wITR_NpcType > 0 || lpObj.m_byITR_StoneState != 99 || lpObj.m_bITR_RegisteringRelics == true || lpObj.m_bITR_GettingRelics == true)
 			{
@@ -1328,9 +1328,9 @@ int gObjGetSocket(SOCKET socket)
 {
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		if (gGameObjects[n].Connected != PLAYER_EMPTY)
+		if (gGameObjects[n]->Connected != PLAYER_EMPTY)
 		{
-			if (gGameObjects[n].m_socket == socket)
+			if (gGameObjects[n]->m_socket == socket)
 			{
 				return n;
 			}
@@ -1345,11 +1345,11 @@ int gObjGetHWIDUseCount(LPSTR HWID)
 
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		if (gGameObjects[n].Connected != PLAYER_EMPTY)
+		if (gGameObjects[n]->Connected != PLAYER_EMPTY)
 		{
-			if (strcmp(gGameObjects[n].m_PlayerData->HWID, HWID) == 0)
+			if (strcmp(gGameObjects[n]->m_PlayerData->HWID, HWID) == 0)
 			{
-				if (gGameObjects[n].m_bOff == false)
+				if (gGameObjects[n]->m_bOff == false)
 				{
 					count++;
 				}
@@ -1379,12 +1379,7 @@ void gObjSetTradeOption(CGameObject &lpObj, int option)
 
 bool IsDuelEnable(CGameObject &lpObj)
 {
-	if (ObjectMaxRange(aIndex) == FALSE)
-	{
-		return false;
-	}
-
-	if (gObjIsConnected(aIndex) == TRUE)
+	if (gObjIsConnected(lpObj) == TRUE)
 	{
 		if ((lpObj.m_Option & 2) == 2)
 		{
@@ -1397,9 +1392,8 @@ bool IsDuelEnable(CGameObject &lpObj)
 
 bool IsOnDuel(CGameObject &lpObj1, CGameObject &lpObj2)
 {
-	//if (!CHECK_LIMIT(aIndex1, g_ConfigRead.server.GetObjectMax()) || !CHECK_LIMIT(aIndex2, g_ConfigRead.server.GetObjectMax()))	return false;
-	if (gGameObjects[aIndex1].Type != OBJ_USER || gGameObjects[aIndex2].Type != OBJ_USER) return false;
-	if (gGameObjects[aIndex1].m_iDuelUser == aIndex2 && gGameObjects[aIndex2].m_iDuelUser == aIndex1) return true;
+	if (lpObj1.Type != OBJ_USER || lpObj2.Type != OBJ_USER) return false;
+	if (lpObj1.m_iDuelUser == aIndex2 && lpObj2.m_iDuelUser == aIndex1) return true;
 	return false;
 }
 
@@ -3383,7 +3377,7 @@ short gObjAddSearch(SOCKET aSocket, char* ip)
 
 	while (true)
 	{
-		if (gGameObjects[count].Connected == PLAYER_EMPTY)
+		if (gGameObjects[count]->Connected == PLAYER_EMPTY)
 		{
 			return count;
 		}
@@ -3410,26 +3404,27 @@ short gObjAdd(SOCKET aSocket, char* ip, int aIndex)
 		return -1;
 	}
 
-	if (lpObj.Connected != PLAYER_EMPTY)
+	CGameObject* lpObj = new CGameObject();
+	if (lpObj->Connected != PLAYER_EMPTY)
 	{
 		return -1;
 	}
 
-	gObjCharZeroSet(aIndex);
-	lpObj.LoginMsgSnd = FALSE;
-	lpObj.LoginMsgCount = 0;
-	memset(lpObj.AccountID, 0, sizeof(gGameObjects[0].AccountID) - 1);
-	lpObj.m_Index = aIndex;
-	lpObj.m_socket = aSocket;
-	lpObj.ConnectCheckTime = GetTickCount();
-	lpObj.AutoSaveTime = lpObj.ConnectCheckTime;
-	lpObj.Connected = PLAYER_CONNECTED;
-	lpObj.CheckSpeedHack = false;
-	lpObj.LoginMsgCount = 0;
-	lpObj.EnableCharacterCreate = 0;
-	lpObj.Type = OBJ_USER;
+	gObjCharZeroSet((*lpObj));
+	lpObj->LoginMsgSnd = FALSE;
+	lpObj->LoginMsgCount = 0;
+	memset(lpObj->AccountID, 0, sizeof(gGameObjects[0]->AccountID) - 1);
+	lpObj->m_Index = aIndex;
+	lpObj->m_socket = aSocket;
+	lpObj->ConnectCheckTime = GetTickCount();
+	lpObj->AutoSaveTime = lpObj->ConnectCheckTime;
+	lpObj->Connected = PLAYER_CONNECTED;
+	lpObj->CheckSpeedHack = false;
+	lpObj->LoginMsgCount = 0;
+	lpObj->EnableCharacterCreate = 0;
+	lpObj->Type = OBJ_USER;
 	m_ObjBill[aIndex - g_ConfigRead.server.GetObjectStartUserIndex()].Init();
-	strcpy(lpObj.m_PlayerData->Ip_addr, ip);
+	strcpy(lpObj->m_PlayerData->Ip_addr, ip);
 	sLog->outBasic("Connection Accept : [%d][%s]", aIndex, ip);
 	gObjCount++;
 
@@ -3596,14 +3591,14 @@ void gObjAllDisconnect()
 {
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		if (gGameObjects[n].Connected > PLAYER_EMPTY)
+		if (gGameObjects[n]->Connected > PLAYER_EMPTY)
 		{
-			if (gGameObjects[n].Type == OBJ_USER)
+			if (gGameObjects[n]->Type == OBJ_USER)
 			{
-				if (gGameObjects[n].m_bOff != false)
+				if (gGameObjects[n]->m_bOff != false)
 				{
 					GJSetCharacterInfo(&gGameObjects[n], n, FALSE);
-					gGameObjects[n].m_bOff = false;
+					gGameObjects[n]->m_bOff = false;
 					gObjDel(n);
 
 				}
@@ -4621,11 +4616,11 @@ int gObjGetIndex(char* szId)
 {
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		if (gGameObjects[n].Connected >= PLAYER_PLAYING)
+		if (gGameObjects[n]->Connected >= PLAYER_PLAYING)
 		{
-			if (gGameObjects[n].Name[0] == *szId)
+			if (gGameObjects[n]->Name[0] == *szId)
 			{
-				if (strcmp(&gGameObjects[n].Name[0], szId) == 0)
+				if (strcmp(&gGameObjects[n]->Name[0], szId) == 0)
 				{
 					return n;
 				}
@@ -15822,13 +15817,13 @@ void gObjViewportPaint(HWND hWnd)
 
 	for (n = 0; n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		if (gGameObjects[n].Live != FALSE)
+		if (gGameObjects[n]->Live != FALSE)
 		{
-			if (gGameObjects[n].Connected != PLAYER_EMPTY)
+			if (gGameObjects[n]->Connected != PLAYER_EMPTY)
 			{
-				if (gCurPaintMapNumber == gGameObjects[n].MapNumber)
+				if (gCurPaintMapNumber == gGameObjects[n]->MapNumber)
 				{
-					if (gGameObjects[n].Type == OBJ_USER && gGameObjects[n].m_PlayerData->ISBOT == false)
+					if (gGameObjects[n]->Type == OBJ_USER && gGameObjects[n]->m_PlayerData->ISBOT == false)
 					{
 						playerc++;
 					}
@@ -15836,11 +15831,11 @@ void gObjViewportPaint(HWND hWnd)
 			}
 		}
 
-		if (gGameObjects[n].Type == OBJ_USER && gGameObjects[n].Connected != PLAYER_EMPTY && gGameObjects[n].m_PlayerData->ISBOT == false)
+		if (gGameObjects[n]->Type == OBJ_USER && gGameObjects[n]->Connected != PLAYER_EMPTY && gGameObjects[n]->m_PlayerData->ISBOT == false)
 		{
 			totalplayer++;
 		}
-		else if (gGameObjects[n].Connected != PLAYER_EMPTY)
+		else if (gGameObjects[n]->Connected != PLAYER_EMPTY)
 		{
 			count++;
 		}
@@ -15906,40 +15901,40 @@ void gObjViewportPaint(HWND hWnd)
 
 		for (n = 0; n < g_ConfigRead.server.GetObjectMax(); n++)
 		{
-			if (gGameObjects[n].Live != FALSE)
+			if (gGameObjects[n]->Live != FALSE)
 			{
-				if (gGameObjects[n].Connected != PLAYER_EMPTY)
+				if (gGameObjects[n]->Connected != PLAYER_EMPTY)
 				{
-					if (gCurPaintMapNumber == gGameObjects[n].MapNumber)
+					if (gCurPaintMapNumber == gGameObjects[n]->MapNumber)
 					{
-						if (gGameObjects[n].Type == OBJ_USER)
+						if (gGameObjects[n]->Type == OBJ_USER)
 						{
-							rect.left = iStartX + gGameObjects[n].Y*iWidth*iMagnifying;
-							rect.right = (iStartX + gGameObjects[n].Y*iWidth*iMagnifying) + ((iWidth + 2)*iMagnifying);
-							rect.top = iStartY + gGameObjects[n].X*iHeight*iMagnifying;
-							rect.bottom = (iStartY + gGameObjects[n].X*iHeight*iMagnifying) + ((iHeight + 2)*iMagnifying);
+							rect.left = iStartX + gGameObjects[n]->Y*iWidth*iMagnifying;
+							rect.right = (iStartX + gGameObjects[n]->Y*iWidth*iMagnifying) + ((iWidth + 2)*iMagnifying);
+							rect.top = iStartY + gGameObjects[n]->X*iHeight*iMagnifying;
+							rect.bottom = (iStartY + gGameObjects[n]->X*iHeight*iMagnifying) + ((iHeight + 2)*iMagnifying);
 
 							FillRect(hdc, &rect, hCharacterBrush);
 
-							wsprintf(szTemp, "%s (%d,%d)", gGameObjects[n].Name, gGameObjects[n].X, gGameObjects[n].Y);
+							wsprintf(szTemp, "%s (%d,%d)", gGameObjects[n]->Name, gGameObjects[n]->X, gGameObjects[n]->Y);
 							TextOut(hdc, rect.left, rect.bottom, szTemp, strlen(szTemp));
 						}
-						else if (gGameObjects[n].Type == OBJ_MONSTER)
+						else if (gGameObjects[n]->Type == OBJ_MONSTER)
 						{
-							rect.left = iStartX + gGameObjects[n].Y*iWidth*iMagnifying;
-							rect.right = (iStartX + gGameObjects[n].Y*iWidth*iMagnifying) + ((iWidth)*iMagnifying);
-							rect.top = iStartY + gGameObjects[n].X*iHeight*iMagnifying;
-							rect.bottom = (iStartY + gGameObjects[n].X*iHeight*iMagnifying) + ((iHeight)*iMagnifying);
+							rect.left = iStartX + gGameObjects[n]->Y*iWidth*iMagnifying;
+							rect.right = (iStartX + gGameObjects[n]->Y*iWidth*iMagnifying) + ((iWidth)*iMagnifying);
+							rect.top = iStartY + gGameObjects[n]->X*iHeight*iMagnifying;
+							rect.bottom = (iStartY + gGameObjects[n]->X*iHeight*iMagnifying) + ((iHeight)*iMagnifying);
 
 							FillRect(hdc, &rect, hMonsterBrush);
 
-							if (gGameObjects[n].m_iCurrentAI != 0)
+							if (gGameObjects[n]->m_iCurrentAI != 0)
 							{
-								if (gGameObjects[n].m_iGroupMemberGuid == 0)
+								if (gGameObjects[n]->m_iGroupMemberGuid == 0)
 								{
 									FillRect(hdc, &rect, hCharacterBrush);
 
-									wsprintf(szTemp, "%s (%d,%d) HP(%f/%f)", gGameObjects[n].Name, gGameObjects[n].m_iGroupNumber, gGameObjects[n].m_iGroupMemberGuid, gGameObjects[n].Life, gGameObjects[n].MaxLife);
+									wsprintf(szTemp, "%s (%d,%d) HP(%f/%f)", gGameObjects[n]->Name, gGameObjects[n]->m_iGroupNumber, gGameObjects[n]->m_iGroupMemberGuid, gGameObjects[n]->Life, gGameObjects[n]->MaxLife);
 									TextOut(hdc, rect.left, rect.bottom, szTemp, strlen(szTemp));
 								}
 							}
@@ -16275,7 +16270,7 @@ inline void gObjViewportListCreate(short aIndex)
 					{
 						if (gObjCheckViewport(aIndex, lpTempObj.X, lpTempObj.Y) == 1)
 						{
-							result = ViewportAdd(aIndex, n, gGameObjects[n].Type);
+							result = ViewportAdd(aIndex, n, gGameObjects[n]->Type);
 							result = ViewportAdd2(n, aIndex, lpObj.Type);
 						}
 					}
@@ -19320,7 +19315,7 @@ void gObjViewportListProtocol(short aIndex)
 			pCount.count = count;
 
 			memcpy(sendBuf, &pCount, sizeof(pCount));
-			IOCP.DataSend(aIndex, sendBuf, lOfs);
+			IOCP.DataSend(lpObj.m_Index, sendBuf, lOfs);
 		}
 
 		if (count_Item > 0)
@@ -19332,7 +19327,7 @@ void gObjViewportListProtocol(short aIndex)
 			pItemCount.count = count_Item;
 
 			memcpy(ItemBuf, &pItemCount, sizeof(pItemCount));
-			IOCP.DataSend(aIndex, ItemBuf, lOfs_Item);
+			IOCP.DataSend(lpObj.m_Index, ItemBuf, lOfs_Item);
 		}
 	}
 
@@ -19897,7 +19892,7 @@ void gObjViewportListProtocol(short aIndex)
 				pCount.count = count;
 
 				memcpy(sendBuf, &pCount, sizeof(pCount));
-				IOCP.DataSend(aIndex, (unsigned char *)&sendBuf, lOfs);
+				IOCP.DataSend(lpObj.m_Index, (unsigned char *)&sendBuf, lOfs);
 			}
 
 			if (ChangeCount > 0)
@@ -19911,7 +19906,7 @@ void gObjViewportListProtocol(short aIndex)
 				pCount.count = ChangeCount;
 
 				memcpy(SendGBufChange, &pCount, sizeof(pCount));
-				IOCP.DataSend(aIndex, (unsigned char *)&SendGBufChange, lOfsChange);
+				IOCP.DataSend(lpObj.m_Index, (unsigned char *)&SendGBufChange, lOfsChange);
 			}
 
 			if (monstercount > 0)
@@ -19925,7 +19920,7 @@ void gObjViewportListProtocol(short aIndex)
 				pCount.count = monstercount;
 
 				memcpy(MonstersendBuf, &pCount, sizeof(pCount));
-				IOCP.DataSend(aIndex, (unsigned char *)&MonstersendBuf, MonlOfs);
+				IOCP.DataSend(lpObj.m_Index, (unsigned char *)&MonstersendBuf, MonlOfs);
 			}
 
 			if (callmonstercount > 0)
@@ -19939,7 +19934,7 @@ void gObjViewportListProtocol(short aIndex)
 				pCount.count = callmonstercount;
 
 				memcpy(callMonstersendBuf, &pCount, sizeof(pCount));
-				IOCP.DataSend(aIndex, (unsigned char *)&callMonstersendBuf, callMonlOfs);
+				IOCP.DataSend(lpObj.m_Index, (unsigned char *)&callMonstersendBuf, callMonlOfs);
 			}
 
 			if (count_Item > 0)
@@ -19953,7 +19948,7 @@ void gObjViewportListProtocol(short aIndex)
 				pCount.h.sizeL = SET_NUMBERL(lOfs_Item);
 
 				memcpy(ItemBuf, &pCount, sizeof(pCount));
-				IOCP.DataSend(aIndex, (unsigned char *)&ItemBuf, lOfs_Item);
+				IOCP.DataSend(lpObj.m_Index, (unsigned char *)&ItemBuf, lOfs_Item);
 			}
 
 			if (GuildInfoCount != 0)
@@ -19967,7 +19962,7 @@ void gObjViewportListProtocol(short aIndex)
 				pCount.count = GuildInfoCount;
 
 				memcpy(GuildInfoBuf, &pCount, sizeof(pCount));
-				IOCP.DataSend(aIndex, (unsigned char *)&GuildInfoBuf, GuildInfoOfs);
+				IOCP.DataSend(lpObj.m_Index, (unsigned char *)&GuildInfoBuf, GuildInfoOfs);
 			}
 
 			if (GensInfoCount != 0)
@@ -19981,7 +19976,7 @@ void gObjViewportListProtocol(short aIndex)
 				pGensCount.Count = GensInfoCount;
 
 				memcpy(GensInfoBuf, &pGensCount, sizeof(pGensCount));
-				IOCP.DataSend(aIndex, (unsigned char *)&GensInfoBuf, GensInfoOfs);
+				IOCP.DataSend(lpObj.m_Index, (unsigned char *)&GensInfoBuf, GensInfoOfs);
 			}
 		}
 	}
@@ -20783,7 +20778,7 @@ BOOL gObjMoveGate(CGameObject &lpObj, int gt)
 			PHeadSubSetB((LPBYTE)&pMsg, 0xEF, 0x09, sizeof(pMsg));
 
 			pMsg.iResult = -1;
-			IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 			return FALSE;
 		}
 	}
@@ -21062,7 +21057,7 @@ BOOL gObjMoveGate(CGameObject &lpObj, int gt)
 
 					PHeadSubSetB((LPBYTE)&pMsg, 0xEFu, 0x09, sizeof(pMsg));
 					pMsg.iResult = -2;
-					IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+					IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 				}
 			}
 		}
@@ -23330,14 +23325,14 @@ void gObjUseCircle(CGameObject &lpObj, int pos)
 	if (lpObj.Level <= 10 || level > 3)
 	{
 		pResult.result |= 0xC0;
-		IOCP.DataSend(aIndex, (unsigned char*)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_Index, (unsigned char*)&pResult, pResult.h.size);
 		return;
 	}
 
 	if (gObjCheckStatPointUp(aIndex) == 0)
 	{
 		pResult.result |= 0xC0;
-		IOCP.DataSend(aIndex, (unsigned char*)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_Index, (unsigned char*)&pResult, pResult.h.size);
 		return;
 	}
 
@@ -23410,7 +23405,7 @@ void gObjUseCircle(CGameObject &lpObj, int pos)
 		pResult.result |= level * 16;
 		pResult.result |= AddStat;
 
-		IOCP.DataSend(aIndex, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_Index, (unsigned char *)&pResult, pResult.h.size);
 
 		incvalue = AddStat;
 
@@ -23422,7 +23417,7 @@ void gObjUseCircle(CGameObject &lpObj, int pos)
 		pResult.result |= level * 16;
 		pResult.result = pResult.result;
 
-		IOCP.DataSend(aIndex, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_Index, (unsigned char *)&pResult, pResult.h.size);
 		sLog->outBasic("[StatUp] [%s][%s] Fail [%d] %d", lpObj.AccountID, lpObj.Name, level, iSerial);
 		return;
 	}
@@ -23479,14 +23474,14 @@ void gObjUsePlusStatFruit(CGameObject &lpObj, int pos)
 	if (lpObj.Level <= 9 || iItemLevel > 4)
 	{
 		pResult.result = 2;
-		IOCP.DataSend(aIndex, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_Index, (unsigned char *)&pResult, pResult.h.size);
 		return;
 	}
 
 	if (iItemLevel == 4 && lpObj.Class != 4)
 	{
 		pResult.result = 2;
-		IOCP.DataSend(aIndex, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_Index, (unsigned char *)&pResult, pResult.h.size);
 		return;
 	}
 
@@ -23497,7 +23492,7 @@ void gObjUsePlusStatFruit(CGameObject &lpObj, int pos)
 			if (g_ConfigRead.data.common.joinmuFruitRequireUnWearItem == true)
 			{
 				pResult.result = 16;
-				IOCP.DataSend(aIndex, (unsigned char *)&pResult, pResult.h.size);
+				IOCP.DataSend(lpObj.m_Index, (unsigned char *)&pResult, pResult.h.size);
 				return;
 			}
 		}
@@ -23506,7 +23501,7 @@ void gObjUsePlusStatFruit(CGameObject &lpObj, int pos)
 	if (gObjCheckStatPointUp(aIndex) == false)
 	{
 		pResult.result = 33;
-		IOCP.DataSend(aIndex, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_Index, (unsigned char *)&pResult, pResult.h.size);
 		return;
 	}
 
@@ -23587,7 +23582,7 @@ void gObjUsePlusStatFruit(CGameObject &lpObj, int pos)
 		pResult.btStatValue = AddStat;
 		pResult.btFruitType = iItemLevel;
 
-		IOCP.DataSend(aIndex, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_Index, (unsigned char *)&pResult, pResult.h.size);
 		iIncStat = AddStat;
 
 		sLog->outBasic("[StatUp] [%s][%s] Success [%d][%d] %d",
@@ -23599,7 +23594,7 @@ void gObjUsePlusStatFruit(CGameObject &lpObj, int pos)
 		pResult.btStatValue = 0;
 		pResult.btFruitType = iItemLevel;
 
-		IOCP.DataSend(aIndex, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_Index, (unsigned char *)&pResult, pResult.h.size);
 
 		sLog->outBasic("[StatUp] [%s][%s] Fail [%d] %d",
 			lpObj.AccountID, lpObj.Name, iItemLevel, iItemSerial);
@@ -23657,14 +23652,14 @@ void gObjUseMinusStatFruit(CGameObject &lpObj, int pos)
 	if (lpObj.Level <= 9 || iItemLevel > 4)
 	{
 		pResult.result = 5;
-		IOCP.DataSend(aIndex, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_Index, (unsigned char *)&pResult, pResult.h.size);
 		return;
 	}
 
 	if (iItemLevel == 4 && lpObj.Class != 4)
 	{
 		pResult.result = 5;
-		IOCP.DataSend(aIndex, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_Index, (unsigned char *)&pResult, pResult.h.size);
 		return;
 	}
 
@@ -23675,7 +23670,7 @@ void gObjUseMinusStatFruit(CGameObject &lpObj, int pos)
 			if (g_ConfigRead.data.common.joinmuFruitRequireUnWearItem == true)
 			{
 				pResult.result = 16;
-				IOCP.DataSend(aIndex, (unsigned char *)&pResult, pResult.h.size);
+				IOCP.DataSend(lpObj.m_Index, (unsigned char *)&pResult, pResult.h.size);
 				return;
 			}
 		}
@@ -23739,7 +23734,7 @@ void gObjUseMinusStatFruit(CGameObject &lpObj, int pos)
 	if (bEnableUseFruit == 0)
 	{
 		pResult.result = 38;
-		IOCP.DataSend(aIndex, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_Index, (unsigned char *)&pResult, pResult.h.size);
 		return;
 	}
 
@@ -23753,7 +23748,7 @@ void gObjUseMinusStatFruit(CGameObject &lpObj, int pos)
 	if (MinusPoint >= MaxMinusPoint || MinusPoint < 0)
 	{
 		pResult.result = 37;
-		IOCP.DataSend(aIndex, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_Index, (unsigned char *)&pResult, pResult.h.size);
 		return;
 	}
 
@@ -23823,7 +23818,7 @@ void gObjUseMinusStatFruit(CGameObject &lpObj, int pos)
 		pResult.btFruitType = iItemLevel;
 		pResult.btStatValue = iDecStat;
 
-		IOCP.DataSend(aIndex, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_Index, (unsigned char *)&pResult, pResult.h.size);
 		sLog->outBasic("[StatDown] [%s][%s] Success [%d][%d] %d",
 			lpObj.AccountID, lpObj.Name, iItemLevel, iDecStat, iItemSerial);
 	}
@@ -23832,7 +23827,7 @@ void gObjUseMinusStatFruit(CGameObject &lpObj, int pos)
 		pResult.result = 4;
 		pResult.btFruitType = iItemLevel;
 		pResult.btStatValue = 0;
-		IOCP.DataSend(aIndex, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_Index, (unsigned char *)&pResult, pResult.h.size);
 		sLog->outBasic("[StatDown] [%s][%s] Fail [%d] %d",
 			lpObj.AccountID, lpObj.Name, iItemLevel, iItemSerial);
 		return;
@@ -23920,7 +23915,7 @@ void CashShopExMinusStatFruit(CGameObject &lpObj, int pos) //GS-CS Need Decompil
 			if (g_ConfigRead.data.common.joinmuFruitRequireUnWearItem == true)
 			{
 				pResult.result = 16;
-				IOCP.DataSend(aIndex, (unsigned char *)&pResult, pResult.h.size);
+				IOCP.DataSend(lpObj.m_Index, (unsigned char *)&pResult, pResult.h.size);
 				return;
 			}
 		}
@@ -24012,7 +24007,7 @@ void CashShopExMinusStatFruit(CGameObject &lpObj, int pos) //GS-CS Need Decompil
 		pResult.btFruitType = iItemLevel;
 		pResult.btStatValue = iStatPoint;
 
-		IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
 
 		switch (iItemLevel)
 		{
@@ -24036,7 +24031,7 @@ void CashShopExMinusStatFruit(CGameObject &lpObj, int pos) //GS-CS Need Decompil
 	else
 	{
 		pResult.result = 38;
-		IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
 
 		sLog->outBasic("[InGameShop][ExMinusStatPoint] [%s][%s] MinusStat[%d]",
 			lpObj.AccountID, lpObj.Name, iStatPoint);
@@ -24547,7 +24542,7 @@ void gObjRecall(CGameObject &lpObj, int mapnumber, int x, int y)
 		pAttack.TargetNumberH = SET_NUMBERH(aIndex);
 		pAttack.TargetNumberL = SET_NUMBERL(aIndex);
 
-		IOCP.DataSend(aIndex, (unsigned char *)&pAttack, pAttack.h.size);
+		IOCP.DataSend(lpObj.m_Index, (unsigned char *)&pAttack, pAttack.h.size);
 		GSProtocol.MsgSendV2(&gGameObjects[aIndex], (unsigned char*)&pAttack, pAttack.h.size);
 
 		gObjTeleportMagicUse(aIndex, x, y);
@@ -25078,7 +25073,7 @@ void gObjSetKillCount(CGameObject &lpObj, int iOption)	// Option : [0 : SetToZer
 
 	pMsg.btKillCount = lpObj.m_btKillCount;
 
-	IOCP.DataSend(aIndex, (UCHAR*)&pMsg, sizeof(pMsg));
+	IOCP.DataSend(lpObj.m_Index, (UCHAR*)&pMsg, sizeof(pMsg));
 }
 
 struct PMSG_NOTIFY_REGION_OF_WEAPON
@@ -28439,12 +28434,12 @@ void gObjDisconnectOffTraders()
 {
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		if (gGameObjects[n].Connected > PLAYER_EMPTY)
+		if (gGameObjects[n]->Connected > PLAYER_EMPTY)
 		{
-			if (gGameObjects[n].Type == OBJ_USER && gGameObjects[n].m_bOff && !gGameObjects[n].m_bOffLevel)
+			if (gGameObjects[n]->Type == OBJ_USER && gGameObjects[n]->m_bOff && !gGameObjects[n]->m_bOffLevel)
 			{
 				GJSetCharacterInfo(&gGameObjects[n], n, FALSE);
-				gGameObjects[n].m_bOff = false;
+				gGameObjects[n]->m_bOff = false;
 				gObjDel(n);
 				IOCP.CloseClient(n);
 			}
@@ -28456,12 +28451,12 @@ void gObjDisconnectOffLevelers()
 {
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		if (gGameObjects[n].Connected > PLAYER_EMPTY)
+		if (gGameObjects[n]->Connected > PLAYER_EMPTY)
 		{
-			if (gGameObjects[n].Type == OBJ_USER && gGameObjects[n].m_bOff && gGameObjects[n].m_bOffLevel)
+			if (gGameObjects[n]->Type == OBJ_USER && gGameObjects[n]->m_bOff && gGameObjects[n]->m_bOffLevel)
 			{
 				GJSetCharacterInfo(&gGameObjects[n], n, FALSE);
-				gGameObjects[n].m_bOff = false;
+				gGameObjects[n]->m_bOff = false;
 				gObjDel(n);
 				IOCP.CloseClient(n);
 			}

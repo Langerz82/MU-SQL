@@ -1767,7 +1767,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &lpObj)
 	pAddStats.eneadd = lpObj.AddEnergy;
 	pAddStats.cmd = lpObj.Leadership;
 	pAddStats.cmdadd = lpObj.AddLeadership;
-	IOCP.DataSend(aIndex, (LPBYTE)&pAddStats, pAddStats.h.size); */
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pAddStats, pAddStats.h.size); */
 
 	GSProtocol.GCPlayerStatsPanelNew(aIndex);
 	GSProtocol.GCPlayerStatsPanelRates(aIndex);

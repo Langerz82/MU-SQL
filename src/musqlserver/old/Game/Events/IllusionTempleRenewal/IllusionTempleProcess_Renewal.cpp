@@ -304,9 +304,9 @@ void CIllusionTempleProcess_Renewal::Proc_ITRState_None(int nCurTime)
 
 			for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 			{
-				if (gGameObjects[n].Connected == PLAYER_PLAYING && gGameObjects[n].Type == OBJ_USER)
+				if (gGameObjects[n]->Connected == PLAYER_PLAYING && gGameObjects[n]->Type == OBJ_USER)
 				{
-					if (gGameObjects[n].MapNumber == MAP_INDEX_LORENMARKET)
+					if (gGameObjects[n]->MapNumber == MAP_INDEX_LORENMARKET)
 					{
 						IOCP.DataSend(n, (LPBYTE)&pMsg, pMsg.h.size);
 					}

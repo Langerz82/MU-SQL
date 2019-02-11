@@ -161,7 +161,7 @@ bool CEvolutionMonsterMng::UseSummonScroll(CGameObject &lpObj)
 			pMsg.btY = gGameObjects[iEvoMonIndex].Y;
 			pMsg.iTimeLeft = (gGameObjects[iEvoMonIndex].m_Disappear_Monster + (this->m_iEvoMonTimeLimit * 60 * 1000) - GetTickCount()) / 60 / 1000;
 
-			IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 			return false;
 		}
 
@@ -169,7 +169,7 @@ bool CEvolutionMonsterMng::UseSummonScroll(CGameObject &lpObj)
 		{
 			pMsg.btResult = 2;
 
-			IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 			return false;
 		}
 	}
@@ -195,7 +195,7 @@ bool CEvolutionMonsterMng::UseSummonScroll(CGameObject &lpObj)
 				{
 					pMsg.btResult = 3;
 
-					IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+					IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 					return false;
 				}
 			}
@@ -207,7 +207,7 @@ bool CEvolutionMonsterMng::UseSummonScroll(CGameObject &lpObj)
 		
 		pMsg.btResult = 4;
 
-		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return false;
 	}
 
@@ -226,7 +226,7 @@ bool CEvolutionMonsterMng::UseSummonScroll(CGameObject &lpObj)
 	pEvoMonInfo->SetScore(pEvoMonInfo->GetEvoMonLevel());
 
 	pMsg.btResult = 0;
-	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
 	
 	return true;
@@ -738,7 +738,7 @@ void CEvolutionMonsterMng::GCSendEvoMonNotice(CGameObject &lpObj)
 	pMsg.btSetType = 0;
 	pMsg.iRankingType = this->IsEvoMonEnable();
 
-	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
 	if (this->IsEvoMonEnable() == true)
 	{

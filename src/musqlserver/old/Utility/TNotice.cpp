@@ -50,9 +50,9 @@ void TNotice::SendNoticeToAllUser(void * lpNotice)
 
 	for ( int n = g_ConfigRead.server.GetObjectStartUserIndex() ; n < g_ConfigRead.server.GetObjectMax() ; n++)
 	{
-		if ( gGameObjects[n].Connected == PLAYER_PLAYING )
+		if ( gGameObjects[n]->Connected == PLAYER_PLAYING )
 		{
-			if ( gGameObjects[n].Type  == OBJ_USER )
+			if ( gGameObjects[n]->Type  == OBJ_USER )
 			{
 				IOCP.DataSend(n, (unsigned char*)pNotice  , pNotice->h.size  );
 			}
@@ -63,7 +63,7 @@ void TNotice::SendNoticeToAllUser(void * lpNotice)
 void TNotice::SendNoticeToUser(CGameObject &lpObj, void * lpNotice)
 {
 	PMSG_NOTICE * pNotice = (PMSG_NOTICE *)lpNotice;
-	IOCP.DataSend(aIndex, (unsigned char*)pNotice, pNotice->h.size  );
+	IOCP.DataSend(lpObj.m_Index, (unsigned char*)pNotice, pNotice->h.size  );
 }
 
 
@@ -75,9 +75,9 @@ void TNotice::AllSendServerMsg(LPSTR chatmsg)
 
 	for ( int n = g_ConfigRead.server.GetObjectStartUserIndex() ; n < g_ConfigRead.server.GetObjectMax() ; n++)
 	{
-		if ( gGameObjects[n].Connected == PLAYER_PLAYING )
+		if ( gGameObjects[n]->Connected == PLAYER_PLAYING )
 		{
-			if ( gGameObjects[n].Type  == OBJ_USER )
+			if ( gGameObjects[n]->Type  == OBJ_USER )
 			{
 				IOCP.DataSend(n, (unsigned char*)&pNotice , pNotice.h.size );
 			}
@@ -90,7 +90,7 @@ void TNotice::GCServerMsgStringSend(LPSTR szMsg, int aIndex, BYTE type)
 	PMSG_NOTICE pNotice;
 	
 	MakeNoticeMsg(&pNotice, type, szMsg);
-	IOCP.DataSend(aIndex, (unsigned char*)&pNotice, pNotice.h.size);
+	IOCP.DataSend(lpObj.m_Index, (unsigned char*)&pNotice, pNotice.h.size);
 }
 
 
@@ -117,9 +117,9 @@ void TNotice::SendToAllUser(LPSTR szMsg, ...)
 
 	for ( int n = g_ConfigRead.server.GetObjectStartUserIndex() ; n < g_ConfigRead.server.GetObjectMax() ; n++)
 	{
-		if ( gGameObjects[n].Connected == PLAYER_PLAYING )
+		if ( gGameObjects[n]->Connected == PLAYER_PLAYING )
 		{
-			if ( gGameObjects[n].Type  == OBJ_USER )
+			if ( gGameObjects[n]->Type  == OBJ_USER )
 			{
 				IOCP.DataSend(n, (LPBYTE)&this->m_Notice , this->m_Notice.h.size );
 			}
@@ -134,7 +134,7 @@ void TNotice::SendToUser(CGameObject &lpObj, LPSTR szMsg, ...)
 	vsprintf(this->m_Notice.Notice, (char*)szMsg, pArguments);
 	va_end(pArguments);
 	PHeadSetB((LPBYTE)&this->m_Notice, 0x0D, strlen(this->m_Notice.Notice)  + sizeof(PMSG_NOTICE) - sizeof(this->m_Notice.Notice) + 1);
-	IOCP.DataSend(aIndex, (LPBYTE)&this->m_Notice , this->m_Notice.h.size );
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&this->m_Notice , this->m_Notice.h.size );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

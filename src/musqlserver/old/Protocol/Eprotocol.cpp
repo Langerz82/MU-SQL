@@ -94,7 +94,7 @@ void EGAnsEventChipInfo(CGameObject &lpObj,PMSG_REQ_VIEW_EC_MN * lpMsg)
 	std::memcpy(pMsg.szUID, lpMsg->szUID,sizeof(pMsg.szUID));
 	pMsg.szUID[10] = 0;
 
-	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
+	DataSend(lpObj.m_Index,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
 void EGAnsRegEventChipInfo(CGameObject &lpObj,PMSG_REQ_REGISTER_EVENTCHIP * lpMsg)
@@ -112,7 +112,7 @@ void EGAnsRegEventChipInfo(CGameObject &lpObj,PMSG_REQ_REGISTER_EVENTCHIP * lpMs
 	pMsg.szUID[10] = 0x00;
 	pMsg.bSUCCESS = FALSE;
 
-	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
+	DataSend(lpObj.m_Index,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
 void EGAnsResetEventChip(CGameObject &lpObj,PMSG_REQ_RESET_EVENTCHIP * lpMsg)
@@ -127,7 +127,7 @@ void EGAnsResetEventChip(CGameObject &lpObj,PMSG_REQ_RESET_EVENTCHIP * lpMsg)
 	strcpy(pMsg.szUID,lpMsg->szUID);
 	pMsg.szUID[10] = 0;
 
-	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
+	DataSend(lpObj.m_Index,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
 void EGAnsEventStoneInfo(CGameObject &lpObj,PMSG_REQ_VIEW_EC_MN * lpMsg)
@@ -142,7 +142,7 @@ void EGAnsEventStoneInfo(CGameObject &lpObj,PMSG_REQ_VIEW_EC_MN * lpMsg)
 	strcpy(pMsg.szUID,lpMsg->szUID);
 	pMsg.szUID[10] = 0x00;
 
-	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
+	DataSend(lpObj.m_Index,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
 void EGAnsRegEventStoneInfo(CGameObject &lpObj,PMSG_REQ_REGISTER_STONES * lpMsg)
@@ -158,7 +158,7 @@ void EGAnsRegEventStoneInfo(CGameObject &lpObj,PMSG_REQ_REGISTER_STONES * lpMsg)
 	strcpy(pMsg.szUID,lpMsg->szUID);
 	pMsg.szUID[10] = 0x00;
 
-	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
+	DataSend(lpObj.m_Index,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
 void EGAnsDeleteStones(CGameObject &lpObj,PMSG_REQ_DELETE_STONES * lpMsg)
@@ -175,7 +175,7 @@ void EGAnsDeleteStones(CGameObject &lpObj,PMSG_REQ_DELETE_STONES * lpMsg)
 
 	pMsg.bSUCCESS = FALSE;
 
-	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
+	DataSend(lpObj.m_Index,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
 void EGAns2AnivRegSerial(CGameObject &lpObj,PMSG_REQ_2ANIV_SERIAL * lpMsg)
@@ -192,7 +192,7 @@ void EGAns2AnivRegSerial(CGameObject &lpObj,PMSG_REQ_2ANIV_SERIAL * lpMsg)
 	pMsg.iINDEX = lpMsg->iINDEX;
 	memcpy(pMsg.szUID, szName, 10);
 
-	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
+	DataSend(lpObj.m_Index,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
 void EGAnsResetStoneInfo(CGameObject &lpObj,PMSG_REQ_RESET_EVENTCHIP * lpMsg)
@@ -210,7 +210,7 @@ void EGAnsResetStoneInfo(CGameObject &lpObj,PMSG_REQ_RESET_EVENTCHIP * lpMsg)
 	memcpy(pMsg.szUID, szName, 10);
 	pMsg.szUID[10] = 0;
 
-	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
+	DataSend(lpObj.m_Index,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
 void EGAnsRegCCOfflineGift(CGameObject &lpObj,PMSG_REQ_REG_CC_OFFLINE_GIFT * lpMsg)
@@ -230,7 +230,7 @@ void EGAnsRegCCOfflineGift(CGameObject &lpObj,PMSG_REQ_REG_CC_OFFLINE_GIFT * lpM
 	
 	pMsg.iResultCode = 0;
 
-	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
+	DataSend(lpObj.m_Index,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
 void EGAnsRegDLOfflineGift(CGameObject &lpObj,PMSG_REQ_REG_DL_OFFLINE_GIFT * lpMsg)
@@ -250,7 +250,7 @@ void EGAnsRegDLOfflineGift(CGameObject &lpObj,PMSG_REQ_REG_DL_OFFLINE_GIFT * lpM
 	
 	pMsg.iResultCode = 0;
 
-	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
+	DataSend(lpObj.m_Index,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
 void EGAnsRegHTOfflineGift(CGameObject &lpObj,PMSG_REQ_REG_HT_OFFLINE_GIFT * lpMsg)
@@ -270,7 +270,7 @@ void EGAnsRegHTOfflineGift(CGameObject &lpObj,PMSG_REQ_REG_HT_OFFLINE_GIFT * lpM
 	
 	pMsg.iResultCode = 0;
 
-	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
+	DataSend(lpObj.m_Index,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
 void EGAnsLuckyCoinInfo(CGameObject &lpObj,PMSG_REQ_LUCKYCOIN * lpMsg)
@@ -286,7 +286,7 @@ void EGAnsLuckyCoinInfo(CGameObject &lpObj,PMSG_REQ_LUCKYCOIN * lpMsg)
 	memcpy(pMsg.szUID,lpMsg->szUID, sizeof(pMsg.szUID));
 	pMsg.szUID[10] = 0;
 
-	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
+	DataSend(lpObj.m_Index,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
 void EGAnsRegLuckyCoin(CGameObject &lpObj,PMSG_REQ_REGISTER_LUCKYCOIN * lpMsg)
@@ -304,7 +304,7 @@ void EGAnsRegLuckyCoin(CGameObject &lpObj,PMSG_REQ_REGISTER_LUCKYCOIN * lpMsg)
 	pMsg.szUID[10] = 0x00;
 	pMsg.Result = FALSE;
 
-	DataSend(aIndex,(LPBYTE)&pMsg,sizeof(pMsg));
+	DataSend(lpObj.m_Index,(LPBYTE)&pMsg,sizeof(pMsg));
 }
 
 ////////////////////////////////////////////////////////////////////////////////

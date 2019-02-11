@@ -1025,9 +1025,9 @@ void CArcaBattle::ProcStateResult()
 			{
 				for ( int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); ++n )
 				{
-					if ( gGameObjects[n].Connected == PLAYER_PLAYING )
+					if ( gGameObjects[n]->Connected == PLAYER_PLAYING )
 					{
-						if ( gGameObjects[n].Type == OBJ_USER )
+						if ( gGameObjects[n]->Type == OBJ_USER )
 							gObjTeleport(n, btMAPNUM, sX, sY);
 					}
 				}
@@ -1092,7 +1092,7 @@ void CArcaBattle::ProcStateChannelClose()
 
 			for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 			{
-				if (gGameObjects[n].Connected == PLAYER_PLAYING && gGameObjects[n].Type == OBJ_USER)
+				if (gGameObjects[n]->Connected == PLAYER_PLAYING && gGameObjects[n]->Type == OBJ_USER)
 				{
 					IOCP.DataSend(n, (LPBYTE)&pMsg, pMsg.h.size);
 				}
@@ -1107,9 +1107,9 @@ void CArcaBattle::ProcStateChannelClose()
 
 			for ( int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); ++n )
 			{
-				if ( gGameObjects[n].Connected == 3 )
+				if ( gGameObjects[n]->Connected == 3 )
 				{
-					if ( gGameObjects[n].Type == OBJ_USER )
+					if ( gGameObjects[n]->Type == OBJ_USER )
 						gObjMoveGate(n, 27);
 				}
 			}
@@ -1312,7 +1312,7 @@ void CArcaBattle::SendObeliskLife()
 
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		if (gObjIsConnected(n) == TRUE && gGameObjects[n].Type == OBJ_USER)
+		if (gObjIsConnected(n) == TRUE && gGameObjects[n]->Type == OBJ_USER)
 		{
 			IOCP.DataSend(n, (LPBYTE)&pMsg, pMsg.h.size);
 		}
@@ -2147,12 +2147,12 @@ void CArcaBattle::SendPlayResult()
 
 			if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&gGameObjects[n]))
 			{
-				gGameObjects[n].m_PlayerData->MasterExperience += iRewardExp;
+				gGameObjects[n]->m_PlayerData->MasterExperience += iRewardExp;
 			}
 
 			else
 			{
-				gGameObjects[n].m_PlayerData->Experience += iRewardExp;
+				gGameObjects[n]->m_PlayerData->Experience += iRewardExp;
 			}
 				
 			if (gObjLevelUp(&gGameObjects[n], iRewardExp, 0, "Arca Battle") == true)
@@ -2167,7 +2167,7 @@ void CArcaBattle::SendPlayResult()
 			pMsg.dwKillPoint = pUserInfo->m_stAcquiredPoints.dwKillPoints;
 			pMsg.dwRewardExp = iRewardExp;
 				
-			sLog->outBasic( "[ArcaBattle] SendPlayResult [%s][%s] BootyCnt[%d] ContributePoint[%d] KillPoint[%d] RewardExp[%d]", gGameObjects[n].AccountID, gGameObjects[n].Name, pMsg.wBootyCnt, pMsg.dwContributePoint, pMsg.dwKillPoint, iRewardExp);
+			sLog->outBasic( "[ArcaBattle] SendPlayResult [%s][%s] BootyCnt[%d] ContributePoint[%d] KillPoint[%d] RewardExp[%d]", gGameObjects[n]->AccountID, gGameObjects[n]->Name, pMsg.wBootyCnt, pMsg.dwContributePoint, pMsg.dwKillPoint, iRewardExp);
 			IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 		}
 	}
@@ -3533,7 +3533,7 @@ void CArcaBattle::GuildMemberAssignStatus(CGameObject lpObj, int iGuildStatus)
 		if (lpObj.m_PlayerData->GuildStatus == G_MASTER)
 		{
 			pMsg.btResult = 17;
-			IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
 			return;
 		}
@@ -3562,7 +3562,7 @@ void CArcaBattle::GuildMemberAssignStatus(CGameObject lpObj, int iGuildStatus)
 			if (iSubMasterCount != 0)
 			{
 				pMsg.btResult = 18;
-				IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+				IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
 				return;
 			}
@@ -3576,7 +3576,7 @@ void CArcaBattle::GuildMemberAssignStatus(CGameObject lpObj, int iGuildStatus)
 			if (iBattleMasterCount >= (lpObj.m_PlayerData->MasterLevel + lpObj.Level) / 200 + 1)
 			{
 				pMsg.btResult = 18;
-				IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+				IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
 				return;
 			}
@@ -3595,7 +3595,7 @@ void CArcaBattle::GuildMemberAssignStatus(CGameObject lpObj, int iGuildStatus)
 	else
 	{
 		pMsg.btResult = 16;
-		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
 		return;
 	}

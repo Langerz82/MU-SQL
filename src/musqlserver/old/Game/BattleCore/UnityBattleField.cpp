@@ -142,7 +142,7 @@ void CUnityBattleField::DGAnsJoinUnityBattleField(CGameObject &lpObj, BYTE Resul
 
 	pMsg.btResult = Result;
 	pMsg.nLeftSec = LeftSecond;
-	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
 	if (Result != 1 && Result != 0)
 	{
@@ -291,7 +291,7 @@ void CUnityBattleField::DGAnsCheckJoinedUnityBattleField(CGameObject &lpObj, BYT
 	PHeadSubSetB((LPBYTE)&pMsg, 0xCD, 0x01, sizeof(pMsg));
 	pMsg.btResult = btRegisterState;
 
-	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void CUnityBattleField::GDObserverLogoutManager()
@@ -404,7 +404,7 @@ void CUnityBattleField::DGAnsCancelUnityBattleField(CGameObject &lpObj, BYTE aCa
 	PHeadSubSetB((LPBYTE)&pResult, 0xCD, 0x07, sizeof(pResult));
 	pResult.btResult = aCanceledResult;
 
-	IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
 }
 
 void CUnityBattleField::GDReqGetRealNameAndServerCode(CGameObject &lpObj)

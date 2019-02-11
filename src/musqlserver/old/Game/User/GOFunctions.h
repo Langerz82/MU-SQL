@@ -501,7 +501,7 @@ extern void gObjArmorRandomDurDown(CGameObject &lpObj, CGameObject &lpAttackObj)
 extern bool gObjIsSelfDefense(CGameObject &lpObj, int aTargetIndex);
 extern void gObjCheckSelfDefense(CGameObject &lpObj, int aTargetIndex);
 extern void gObjTimeCheckSelfDefense(CGameObject &lpObj);
-extern int gObjAttack(CGameObject &lpObj, CGameObject &lpTargetObj, class CMagicInf* lpMagic, int magicsend, BYTE MSBFlag, int AttackDamage, BOOL bCombo, BYTE RFAttack, BYTE byReflect, BYTE byPentagramAttack = TRUE);
+extern int gObjAttack(CGameObject &lpObj, CGameObject &lpTargetObj, class CMagicInf* lpMagic, int magicsend, BYTE MSBFlag, int AttackDamage, BOOL bCombo, BYTE RFAttack, BYTE byReflect, BYTE byPentagramAttack);
 extern void gObjMonsterExpDivision(CGameObject &lpMonObj, CGameObject &lpObj, int AttackDamage, int MSBFlag);
 extern void gObjMonsterExpDivisionRenewal(CGameObject &lpMonObj, CGameObject &lpObj, int AttackDamage, int MSBFlag);
 extern UINT64 gObjMonsterExpSingle(CGameObject &lpObj, CGameObject &lpTargetObj, int dmg, int tot_dmg, bool& bSendExp, UINT64& nDropZen);

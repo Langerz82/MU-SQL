@@ -9,7 +9,6 @@
 
 #include "StdAfx.h"
 #include "GameProtocol.h"
-#include "CGameObject.h"
 
 #include <queue>
 
@@ -22,15 +21,15 @@ public:
 };
 
 class CAttackMelee : public CAttackBase{
-	CGameObject  m_TargetObj;
-	CGameObject  m_Obj;
+	CGameObject*  m_TargetObj;
+	CGameObject* m_Obj;
 public:
 	CAttackMelee(CGameObject &lpObj, CGameObject &lpTargetObj);
 	void Process();
 };
 
 class CAttackMagic : public CAttackBase{
-	CGameObject  m_Obj;
+	CGameObject*  m_Obj;
 	BYTE* m_Msg;
 public:
 	CAttackMagic(CGameObject &lpObj, BYTE* pmsg, int len);
@@ -39,7 +38,7 @@ public:
 };
 
 class CAttackRange : public CAttackBase{
-	CGameObject  m_Obj;
+	CGameObject*  m_Obj;
 	BYTE* m_Msg;
 	int m_Type;
 public:
@@ -59,7 +58,7 @@ enum ATTACK_TYPE{
 };
 
 class CAttackMsg{
-	CGameObject m_Obj;
+	CGameObject* m_Obj;
 	BYTE* m_Msg;
 	int m_Len;
 	int m_Type;
@@ -100,7 +99,7 @@ public:
 	static bool ThreadActive;
 	static VOID AttackQueueProc(std::vector<CGameObject> gObj);
 	
-	CGameObject m_Obj;
+	CGameObject* m_Obj;
 	CRITICAL_SECTION m_CritQueue;
 };
 

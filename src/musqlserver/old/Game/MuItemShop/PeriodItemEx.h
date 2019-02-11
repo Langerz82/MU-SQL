@@ -14,22 +14,6 @@ enum PERIODITEM_TYPE
 	PERIODITEM_NORMAL = 2
 };
 
-
-typedef struct
-{
-	DWORD dwUserGuid;
-	BYTE btItemCount;
-	char chCharacterName[MAX_ACCOUNT_LEN+1];
-	ITEMPERIOD_DATEINFO ItemData[100];
-}PERIOD_ITEMLIST, *LPPERIOD_ITEMLIST;
-
-
-typedef struct
-{
-	BYTE btItemCount;
-	PERIOD_EXPIRED_ITEM ExpiredItem[90];
-}PERIOD_EXPIRED_ITEMLIST, *LPPERIOD_EXPIRED_ITEMLIST;
-
 struct ITEM_DATA
 {
 	BYTE btUsedInfo;
@@ -69,7 +53,7 @@ struct PERIOD_DATA
 		this->btItemCount = FALSE;
 		this->wUserIndex = 0;
 		this->dwUserGuid = 0;
-		this->m_Obj = NULL;
+		this->m_Obj = nullptr;
 		this->szAccountID[0] = 0;
 		this->szCharacterName[0] = 0;
 

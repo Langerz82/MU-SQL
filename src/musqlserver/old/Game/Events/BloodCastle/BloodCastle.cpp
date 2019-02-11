@@ -947,7 +947,7 @@ void CBloodCastle::SetState_None(int iBridgeIndex)
 	{
 		int iMapNumber = this->GetBridgeMapNumber(iBridgeIndex); //season3 add-on
 
-		if (gGameObjects[n].MapNumber == iMapNumber && gGameObjects[n].Connected == PLAYER_PLAYING) //season3 changed
+		if (gGameObjects[n]->MapNumber == iMapNumber && gGameObjects[n]->Connected == PLAYER_PLAYING) //season3 changed
 		{
 			gObjMoveGate(n, 22);
 		}
@@ -975,7 +975,7 @@ void CBloodCastle::SetState_Closed(int iBridgeIndex)
 	{
 		int iMapNumber = this->GetBridgeMapNumber(iBridgeIndex); //season3 add-on
 
-		if (gGameObjects[n].MapNumber == iMapNumber && gGameObjects[n].Connected > PLAYER_LOGGED) //season3 changed
+		if (gGameObjects[n]->MapNumber == iMapNumber && gGameObjects[n]->Connected > PLAYER_LOGGED) //season3 changed
 		{
 			this->SearchUserDeleteQuestItem(n);
 			gObjMoveGate(n, 22);
@@ -1036,7 +1036,7 @@ void CBloodCastle::SetState_Playing(int iBridgeIndex)
 
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n<g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		if (gGameObjects[n].MapNumber == this->GetBridgeMapNumber(iBridgeIndex) && gGameObjects[n].Connected > PLAYER_LOGGED) //season3 changed
+		if (gGameObjects[n]->MapNumber == this->GetBridgeMapNumber(iBridgeIndex) && gGameObjects[n]->Connected > PLAYER_LOGGED) //season3 changed
 		{
 			this->SearchUserDeleteQuestItem(n);
 		}
@@ -1779,14 +1779,14 @@ void CBloodCastle::ClearMonster(int iBridgeIndex, bool bClearCastleDoor)
 
 	for ( int n = 0; n < g_ConfigRead.server.GetObjectMaxMonster(); n++)	
 	{
-		if ( gGameObjects[n].MapNumber == this->GetBridgeMapNumber(iBridgeIndex))
+		if ( gGameObjects[n]->MapNumber == this->GetBridgeMapNumber(iBridgeIndex))
 		{
-			if ( bClearCastleDoor == false && gGameObjects[n].Class == 131)
+			if ( bClearCastleDoor == false && gGameObjects[n]->Class == 131)
 			{
 				continue;
 			}
 
-			if ( gGameObjects[n].Class == 232 )
+			if ( gGameObjects[n]->Class == 232 )
 			{
 				continue;
 			}

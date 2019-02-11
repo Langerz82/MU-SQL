@@ -592,7 +592,7 @@ void CLoginServerProtocol::JoinServerLogin(CGameObject &lpObj, SDHP_SERVERINFO *
 		pResult.Result = 0;
 	}
 
-	DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 }
 
 void CLoginServerProtocol::JGPAccountRequest(CGameObject &lpObj, SDHP_IDPASS * aRecv)
@@ -618,7 +618,7 @@ void CLoginServerProtocol::JGPAccountRequest(CGameObject &lpObj, SDHP_IDPASS * a
 		SQLSyntexCheck(szPass) == FALSE)
 	{
 		pResult.result = 2;
-		DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -626,7 +626,7 @@ void CLoginServerProtocol::JGPAccountRequest(CGameObject &lpObj, SDHP_IDPASS * a
 		SpaceSyntexCheck(szPass) == FALSE)
 	{
 		pResult.result = 2;
-		DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -634,7 +634,7 @@ void CLoginServerProtocol::JGPAccountRequest(CGameObject &lpObj, SDHP_IDPASS * a
 		QuoteSpaceSyntaxCheck(szPass) == FALSE)
 	{
 		pResult.result = 2;
-		DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -642,7 +642,7 @@ void CLoginServerProtocol::JGPAccountRequest(CGameObject &lpObj, SDHP_IDPASS * a
 		PercentSyntaxCheck(szPass) == FALSE)
 	{
 		pResult.result = 2;
-		DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -870,7 +870,7 @@ void CLoginServerProtocol::JGPAccountRequest(CGameObject &lpObj, SDHP_IDPASS * a
 
 	LeaveCriticalSection(&userCheck);
 
-	DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 }
 
 void CLoginServerProtocol::GJPAccountFail(CGameObject &lpObj, SDHP_JOINFAIL * aRecv)
@@ -921,7 +921,7 @@ void CLoginServerProtocol::GCUserKillSend(int MuLoginIndex, bool IsForceDC)
 
 	pMsg.ForceDisconnect = IsForceDC;
 
-	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 
 }
 
@@ -991,7 +991,7 @@ void CLoginServerProtocol::GCJoinBillCheckSend(CGameObject &lpObj, SDHP_BILLSEAR
 	pResult.Number = aRecv->Number;
 	memcpy(pResult.Id, szAccountID, 10);
 
-	DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 }
 
 void CLoginServerProtocol::JGOtherJoin(CGameObject &lpObj, LPTSTR szAccountID)
@@ -1001,7 +1001,7 @@ void CLoginServerProtocol::JGOtherJoin(CGameObject &lpObj, LPTSTR szAccountID)
 	PHeadSetB((LPBYTE)&pMsg.h, 0x08, sizeof(pMsg));
 	memcpy(pMsg.AccountID, szAccountID, 10);
 
-	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 
@@ -1063,7 +1063,7 @@ void CLoginServerProtocol::LoveHeartEventRecv(CGameObject &lpObj, SDHP_LOVEHEART
 	}
 
 	pResult.Number = dwHeartCount;
-	DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 }
 
 void CLoginServerProtocol::LoveHeartCreateSend(CGameObject &lpObj, SDHP_LOVEHEARTCREATE * aRecv)
@@ -1164,7 +1164,7 @@ void CLoginServerProtocol::GJReqMapSvrMove(CGameObject &lpObj, PMSG_REQ_MAPSVRMO
 
 	pResult.iResult = fResult;
 
-	DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 }
 
 void CLoginServerProtocol::GJReqMapSvrAuth(CGameObject &lpObj, PMSG_REQ_MAPSVRAUTH * aRecv)
@@ -1290,7 +1290,7 @@ void CLoginServerProtocol::GJReqMapSvrAuth(CGameObject &lpObj, PMSG_REQ_MAPSVRAU
 
 	pResult.iResult = fResult;
 
-	DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 
 	sLog->outBasic("[JoinServer] GJReqMapSvrAuth() -> User(%s) Character(%s) fResult(%d)",
 		pResult.szAccountID, pResult.szCharName, pResult.iResult);

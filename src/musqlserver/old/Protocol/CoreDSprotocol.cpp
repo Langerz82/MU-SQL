@@ -114,7 +114,7 @@ void CDataServerProtocol::DataServerLogin(CGameObject &lpObj, SDHP_SERVERINFO * 
 	sLog->outBasic("[DataServer] GameServer(%d)(%d) connect", lpMsg->ServerCode, g_MapServerManager.GetMapSvrGroup(lpMsg->ServerCode));
 
 	// TODO
-	//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::JGPGetCharList(CGameObject &lpObj, SDHP_GETCHARLIST * aRecv)
@@ -300,7 +300,7 @@ void CDataServerProtocol::JGPGetCharList(CGameObject &lpObj, SDHP_GETCHARLIST * 
 	PHeadSetW((LPBYTE)pCount, 0x01, sizeof(SDHP_CHARLISTCOUNT) + sizeof(SDHP_CHARLIST) * iCharCount);
 	pCount->Count = iCharCount;
 
-	//DataSend(aIndex, (LPBYTE)cBUFFER, sizeof(SDHP_CHARLISTCOUNT) + sizeof(SDHP_CHARLIST) * iCharCount, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)cBUFFER, sizeof(SDHP_CHARLISTCOUNT) + sizeof(SDHP_CHARLIST) * iCharCount, __FUNCTION__);
 }
 
 void CDataServerProtocol::JGCharacterCreateRequest(CGameObject &lpObj, SDHP_CREATECHAR * aRecv)
@@ -322,7 +322,7 @@ void CDataServerProtocol::JGCharacterCreateRequest(CGameObject &lpObj, SDHP_CREA
 	if (SpaceSyntexCheck(szName) == FALSE || QuoteSpaceSyntaxCheck(szName) == FALSE || PercentSyntaxCheck(szName) == FALSE)
 	{
 		pResult.Result = 0;
-		//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__); // TODO
+		//DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__); // TODO
 		return;
 	}
 
@@ -378,7 +378,7 @@ void CDataServerProtocol::JGCharacterCreateRequest(CGameObject &lpObj, SDHP_CREA
 	}
 
 	// TODO
-	//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::JGCharDelRequest(CGameObject &lpObj, SDHP_CHARDELETE * aRecv)
@@ -439,7 +439,7 @@ void CDataServerProtocol::JGCharDelRequest(CGameObject &lpObj, SDHP_CHARDELETE *
 		}
 	}
 
-	//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::JGGetCharacterInfo(CGameObject &lpObj, SDHP_DBCHARINFOREQUEST * aRecv)
@@ -606,7 +606,7 @@ void CDataServerProtocol::JGGetCharacterInfo(CGameObject &lpObj, SDHP_DBCHARINFO
 	this->m_AccDB->ExecQuery("UPDATE AccountCharacter SET GameIDC='%s' WHERE Id='%s'", szName, szAccountID);
 
 	this->m_WareUserData->AddUserData(szAccountID);
-	//DataSend(aIndex, (LPBYTE)&pResult, sizeof(pResult), __FUNCTION__); // TODO
+	//DataSend(lpObj.m_Index, (LPBYTE)&pResult, sizeof(pResult), __FUNCTION__); // TODO
 
 	if (pResult.result == 1)
 	{
@@ -636,7 +636,7 @@ void CDataServerProtocol::JGGetCharacterInfo(CGameObject &lpObj, SDHP_DBCHARINFO
 			memcpy(pSkillData.SkillKeyBuffer, btTemp, 20);
 		}
 
-		//DataSend(aIndex, (LPBYTE)&pSkillData, sizeof(pSkillData), __FUNCTION__); // TODO
+		//DataSend(lpObj.m_Index, (LPBYTE)&pSkillData, sizeof(pSkillData), __FUNCTION__); // TODO
 	}
 
 	MUBOT_SETTINGS_SEND pMuBot = { 0 };
@@ -648,7 +648,7 @@ void CDataServerProtocol::JGGetCharacterInfo(CGameObject &lpObj, SDHP_DBCHARINFO
 	strcpy(pMuBot.szName, szName);
 	pMuBot.aIndex = aRecv->Number;
 	GetMuBotData(szName, &pMuBot);
-	//DataSend(aIndex, (LPBYTE)&pMuBot, sizeof(pMuBot), __FUNCTION__); // TODO
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMuBot, sizeof(pMuBot), __FUNCTION__); // TODO
 }
 
 void CDataServerProtocol::GJSetCharacterInfo(CGameObject &lpObj, SDHP_DBCHAR_INFOSAVE * aRecv)
@@ -725,7 +725,7 @@ void CDataServerProtocol::ItemSerialCreateRecv(CGameObject &lpObj, SDHP_ITEMCREA
 	memcpy(&pResult.SocketOption, aRecv->SocketOption, sizeof(pResult.SocketOption));
 	pResult.MainAttribute = aRecv->MainAttribute;
 
-	//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 }
 
 /*
@@ -757,7 +757,7 @@ void CDataServerProtocol::PetItemSerialCreateRecv(CGameObject &lpObj, SDHP_ITEMC
 	pResult.lDuration = aRecv->lDuration;
 	pResult.MainAttribute = aRecv->MainAttribute;
 
-	//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 }
 */
 
@@ -846,7 +846,7 @@ void CDataServerProtocol::DGRecvPetItemInfo(CGameObject &lpObj, SDHP_REQUEST_PET
 	pRecvPetInfoCount->Number = aRecv->Number;
 	memcpy(pRecvPetInfoCount->AccountID, szAccountID, 11);
 
-	//DataSend(aIndex, (LPBYTE)cBUFFER, sizeof(SDHP_RECV_PETITEM_INFO) + pRecvPetInfoCount->nCount * sizeof(Recv_PetItem_Info), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)cBUFFER, sizeof(SDHP_RECV_PETITEM_INFO) + pRecvPetInfoCount->nCount * sizeof(Recv_PetItem_Info), __FUNCTION__);
 	// TODO
 }
 
@@ -988,7 +988,7 @@ void CDataServerProtocol::GS_DGAnsCastleInitData(CGameObject &lpObj, CSP_REQ_CSI
 	lpMsg->h.sizeH = SET_NUMBERH(size);
 	lpMsg->h.sizeL = SET_NUMBERL(size);
 
-	//DataSend(aIndex, (PBYTE)SendData, size, __FUNCTION__); // TODO
+	//DataSend(lpObj.m_Index, (PBYTE)SendData, size, __FUNCTION__); // TODO
 }
 
 void CDataServerProtocol::GS_DGAnsOwnerGuildMaster(CGameObject &lpObj, CSP_REQ_OWNERGUILDMASTER * aRecv)
@@ -1013,7 +1013,7 @@ void CDataServerProtocol::GS_DGAnsOwnerGuildMaster(CGameObject &lpObj, CSP_REQ_O
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__); // TODO
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__); // TODO
 }
 
 void CDataServerProtocol::GS_DGAnsCastleNpcBuy(CGameObject &lpObj, CSP_REQ_NPCBUY * aRecv)
@@ -1038,7 +1038,7 @@ void CDataServerProtocol::GS_DGAnsCastleNpcBuy(CGameObject &lpObj, CSP_REQ_NPCBU
 		pMsg.iResult = this->m_CastleDB->GetAsInteger(0);
 	}
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__); // TODO
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__); // TODO
 }
 
 void CDataServerProtocol::GS_DGAnsCastleNpcRepair(CGameObject &lpObj, CSP_REQ_NPCREPAIR * aRecv)
@@ -1064,7 +1064,7 @@ void CDataServerProtocol::GS_DGAnsCastleNpcRepair(CGameObject &lpObj, CSP_REQ_NP
 		pMsg.iNpcMaxHp = this->m_CastleDB->GetAsInteger(2);
 	}
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GS_DGAnsCastleNpcUpgrade(CGameObject &lpObj, CSP_REQ_NPCUPGRADE * aRecv)
@@ -1092,7 +1092,7 @@ void CDataServerProtocol::GS_DGAnsCastleNpcUpgrade(CGameObject &lpObj, CSP_REQ_N
 		pMsg.iResult = this->m_CastleDB->GetAsInteger(0);
 	}
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__); // TODO
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__); // TODO
 }
 
 void CDataServerProtocol::GS_DGAnsTaxInfo(CGameObject &lpObj, CSP_REQ_TAXINFO * aRecv)
@@ -1119,7 +1119,7 @@ void CDataServerProtocol::GS_DGAnsTaxInfo(CGameObject &lpObj, CSP_REQ_TAXINFO * 
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GS_DGAnsTaxRateChange(CGameObject &lpObj, CSP_REQ_TAXRATECHANGE * aRecv)
@@ -1143,7 +1143,7 @@ void CDataServerProtocol::GS_DGAnsTaxRateChange(CGameObject &lpObj, CSP_REQ_TAXR
 		pMsg.iTaxRate = this->m_CastleDB->GetAsInteger(2);
 	}
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 // TODO - Fix all below here!!!!!!!!!!!!!!!!!!!!!
@@ -1172,7 +1172,7 @@ void CDataServerProtocol::GS_DGAnsCastleMoneyChange(CGameObject &lpObj, CSP_REQ_
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GS_DGAnsSiegeDateChange(CGameObject &lpObj, CSP_REQ_SDEDCHANGE * aRecv)
@@ -1203,7 +1203,7 @@ void CDataServerProtocol::GS_DGAnsSiegeDateChange(CGameObject &lpObj, CSP_REQ_SD
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GS_DGAnsGuildMarkRegInfo(CGameObject &lpObj, CSP_REQ_GUILDREGINFO * aRecv)
@@ -1240,7 +1240,7 @@ void CDataServerProtocol::GS_DGAnsGuildMarkRegInfo(CGameObject &lpObj, CSP_REQ_G
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GS_DGAnsSiegeEndedChange(CGameObject &lpObj, CSP_REQ_SIEGEENDCHANGE * aRecv)
@@ -1262,7 +1262,7 @@ void CDataServerProtocol::GS_DGAnsSiegeEndedChange(CGameObject &lpObj, CSP_REQ_S
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GS_DGAnsCastleOwnerChange(CGameObject &lpObj, CSP_REQ_CASTLEOWNERCHANGE * aRecv)
@@ -1289,7 +1289,7 @@ void CDataServerProtocol::GS_DGAnsCastleOwnerChange(CGameObject &lpObj, CSP_REQ_
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GS_DGAnsRegAttackGuild(CGameObject &lpObj, CSP_REQ_REGATTACKGUILD * aRecv)
@@ -1316,7 +1316,7 @@ void CDataServerProtocol::GS_DGAnsRegAttackGuild(CGameObject &lpObj, CSP_REQ_REG
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GS_DGAnsRestartCastleState(CGameObject &lpObj, CSP_REQ_CASTLESIEGEEND * aRecv)
@@ -1337,7 +1337,7 @@ void CDataServerProtocol::GS_DGAnsRestartCastleState(CGameObject &lpObj, CSP_REQ
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GS_DGAnsMapSvrMsgMultiCast(CGameObject &lpObj, CSP_REQ_MAPSVRMULTICAST * aRecv)
@@ -1418,7 +1418,7 @@ void CDataServerProtocol::GS_DGAnsRegGuildMark(CGameObject &lpObj, CSP_REQ_GUILD
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GS_DGAnsGuildMarkReset(CGameObject &lpObj, CSP_REQ_GUILDRESETMARK * aRecv)
@@ -1447,7 +1447,7 @@ void CDataServerProtocol::GS_DGAnsGuildMarkReset(CGameObject &lpObj, CSP_REQ_GUI
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GS_DGAnsGuildSetGiveUp(CGameObject &lpObj, CSP_REQ_GUILDSETGIVEUP * aRecv)
@@ -1477,7 +1477,7 @@ void CDataServerProtocol::GS_DGAnsGuildSetGiveUp(CGameObject &lpObj, CSP_REQ_GUI
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GS_DGAnsNpcRemove(CGameObject &lpObj, CSP_REQ_NPCREMOVE * aRecv)
@@ -1500,7 +1500,7 @@ void CDataServerProtocol::GS_DGAnsNpcRemove(CGameObject &lpObj, CSP_REQ_NPCREMOV
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GS_DGAnsCastleStateSync(CGameObject &lpObj, CSP_REQ_CASTLESTATESYNC * aRecv)
@@ -1557,7 +1557,7 @@ void CDataServerProtocol::GS_DGAnsCastleTributeMoney(CGameObject &lpObj, CSP_REQ
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GS_DGAnsResetCastleTaxInfo(CGameObject &lpObj, CSP_REQ_RESETCASTLETAXINFO * aRecv)
@@ -1578,7 +1578,7 @@ void CDataServerProtocol::GS_DGAnsResetCastleTaxInfo(CGameObject &lpObj, CSP_REQ
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GS_DGAnsResetSiegeGuildInfo(CGameObject &lpObj, CSP_REQ_RESETSIEGEGUILDINFO * aRecv)
@@ -1599,7 +1599,7 @@ void CDataServerProtocol::GS_DGAnsResetSiegeGuildInfo(CGameObject &lpObj, CSP_RE
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GS_DGAnsResetRegSiegeInfo(CGameObject &lpObj, CSP_REQ_RESETREGSIEGEINFO * aRecv)
@@ -1620,7 +1620,7 @@ void CDataServerProtocol::GS_DGAnsResetRegSiegeInfo(CGameObject &lpObj, CSP_REQ_
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GS_DGAnsAllGuildMarkRegInfo(CGameObject &lpObj, CSP_REQ_ALLGUILDREGINFO * aRecv)
@@ -1656,7 +1656,7 @@ void CDataServerProtocol::GS_DGAnsAllGuildMarkRegInfo(CGameObject &lpObj, CSP_RE
 	lpMsg->h.sizeL = SET_NUMBERL(size);
 
 
-	//DataSend(aIndex, (PBYTE)SendData, size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)SendData, size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GS_DGAnsFirstCreateNPC(CGameObject &lpObj, CSP_REQ_NPCSAVEDATA * aRecv)
@@ -1692,7 +1692,7 @@ void CDataServerProtocol::GS_DGAnsFirstCreateNPC(CGameObject &lpObj, CSP_REQ_NPC
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GS_DGAnsCalcRegGuildList(CGameObject &lpObj, CSP_REQ_CALCREGGUILDLIST * aRecv)
@@ -1733,7 +1733,7 @@ void CDataServerProtocol::GS_DGAnsCalcRegGuildList(CGameObject &lpObj, CSP_REQ_C
 	lpMsg->h.sizeL = SET_NUMBERL(size);
 
 
-	//DataSend(aIndex, (PBYTE)SendData, size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)SendData, size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GS_DGAnsCsGulidUnionInfo(CGameObject &lpObj, CSP_REQ_CSGUILDUNIONINFO * aRecv)
@@ -1781,7 +1781,7 @@ void CDataServerProtocol::GS_DGAnsCsGulidUnionInfo(CGameObject &lpObj, CSP_REQ_C
 	lpMsg->h.sizeH = SET_NUMBERH(size);
 	lpMsg->h.sizeL = SET_NUMBERL(size);
 
-	//DataSend(aIndex, (PBYTE)SendData, size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)SendData, size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GS_DGAnsCsSaveTotalGuildInfo(CGameObject &lpObj, CSP_REQ_CSSAVETOTALGUILDINFO * aRecv)
@@ -1813,7 +1813,7 @@ void CDataServerProtocol::GS_DGAnsCsSaveTotalGuildInfo(CGameObject &lpObj, CSP_R
 			break;
 		}
 	}
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GS_DGAnsCsLoadTotalGuildInfo(CGameObject &lpObj, CSP_REQ_CSLOADTOTALGUILDINFO * aRecv)
@@ -1850,7 +1850,7 @@ void CDataServerProtocol::GS_DGAnsCsLoadTotalGuildInfo(CGameObject &lpObj, CSP_R
 	lpMsg->h.sizeL = SET_NUMBERL(size);
 
 
-	//DataSend(aIndex, (PBYTE)SendData, size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)SendData, size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GS_DGAnsCastleNpcUpdate(CGameObject &lpObj, CSP_REQ_NPCUPDATEDATA * aRecv)
@@ -1889,7 +1889,7 @@ void CDataServerProtocol::GS_DGAnsCastleNpcUpdate(CGameObject &lpObj, CSP_REQ_NP
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::DGAnsCrywolfSync(CGameObject &lpObj, CWP_REQ_CRYWOLFSYNC * aRecv)
@@ -1939,7 +1939,7 @@ void CDataServerProtocol::DGAnsCrywolfInfoLoad(CGameObject &lpObj, CWP_REQ_CRYWO
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::DGAnsCrywolfInfoSave(CGameObject &lpObj, CWP_REQ_CRYWOLFINFOSAVE * aRecv)
@@ -1957,7 +1957,7 @@ void CDataServerProtocol::DGAnsCrywolfInfoSave(CGameObject &lpObj, CWP_REQ_CRYWO
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::DGAnsPeriodItemExInsert(CGameObject &lpObj, PMSG_REQ_PERIODITEMEX_INSERT * aRecv)
@@ -1995,7 +1995,7 @@ void CDataServerProtocol::DGAnsPeriodItemExInsert(CGameObject &lpObj, PMSG_REQ_P
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::DGAnsPeriodItemExDelete(CGameObject &lpObj, PMSG_REQ_PERIODITEMEX_DELETE * aRecv)
@@ -2017,7 +2017,7 @@ void CDataServerProtocol::DGAnsPeriodItemExDelete(CGameObject &lpObj, PMSG_REQ_P
 	}
 
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::DGAnsPeriodItemExSelect(CGameObject &lpObj, PMSG_REQ_PERIODITEMEX_SELECT * aRecv)
@@ -2053,7 +2053,7 @@ void CDataServerProtocol::DGAnsPeriodItemExSelect(CGameObject &lpObj, PMSG_REQ_P
 
 	pExpiredList.wUserIndex = aRecv->wUserIndex;
 
-	//DataSend(aIndex, (LPBYTE)&pExpiredList, sizeof(pExpiredList), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pExpiredList, sizeof(pExpiredList), __FUNCTION__);
 
 
 
@@ -2080,13 +2080,13 @@ void CDataServerProtocol::DGAnsPeriodItemExSelect(CGameObject &lpObj, PMSG_REQ_P
 		pList.lItemBuyDate = this->m_PeriodItemDB->GetAsInteger64("BuyDate");
 		pList.lItemExpireDate = this->m_PeriodItemDB->GetAsInteger64("ExpireDate");
 
-		//DataSend(aIndex, (LPBYTE)&pList, sizeof(pList), __FUNCTION__);
+		//DataSend(lpObj.m_Index, (LPBYTE)&pList, sizeof(pList), __FUNCTION__);
 		pListCount.btListCount++;
 	}
 
 
 
-	//DataSend(aIndex, (LPBYTE)&pListCount, sizeof(pListCount), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pListCount, sizeof(pListCount), __FUNCTION__);
 }
 
 void CDataServerProtocol::ReqInGameShopItemList(short aIndex, ISHOP_REQ_ITEMLIST *aRecv)
@@ -2139,7 +2139,7 @@ void CDataServerProtocol::ReqInGameShopItemList(short aIndex, ISHOP_REQ_ITEMLIST
 	lpMsg->h.sizeH = HIBYTE(PacketSize);
 	lpMsg->h.sizeL = LOBYTE(PacketSize);
 
-	//DataSend(aIndex, (LPBYTE)&Buff, PacketSize, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&Buff, PacketSize, __FUNCTION__);
 }
 
 void CDataServerProtocol::ReqInGameShopCharacterCardBuy(short aIndex, ISHOP_CHARCARD_BUY *aRecv)
@@ -2175,7 +2175,7 @@ void CDataServerProtocol::ReqInGameShopItemBuy(short aIndex, ISHOP_ITEM_BUY *aRe
 	if (Coin < aRecv->Price)
 	{
 		pResult.Result = 2;
-		//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+		//DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 	}
 
 	else
@@ -2197,12 +2197,12 @@ void CDataServerProtocol::ReqInGameShopItemBuy(short aIndex, ISHOP_ITEM_BUY *aRe
 			pResult.ID1 = aRecv->ID1;
 			pResult.ID2 = aRecv->ID2;
 			pResult.ID3 = aRecv->ID3;
-			//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+			//DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 			return;
 		}
 
 		pResult.Result = 3;
-		//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+		//DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 	}
 }
 
@@ -2224,7 +2224,7 @@ void CDataServerProtocol::ReqInGameShopItemGift(short aIndex, ISHOP_ITEM_GIFT *a
 	if (Coin < aRecv->Price)
 	{
 		pResult.Result = 2;
-		//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+		//DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -2236,7 +2236,7 @@ void CDataServerProtocol::ReqInGameShopItemGift(short aIndex, ISHOP_ITEM_GIFT *a
 	if (iResult == 3)
 	{
 		pResult.Result = iResult;
-		//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+		//DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -2261,7 +2261,7 @@ void CDataServerProtocol::ReqInGameShopItemGift(short aIndex, ISHOP_ITEM_GIFT *a
 
 	}
 
-	//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::ReqInGameShopItemUse(short aIndex, ISHOP_ITEM_USE *aRecv)
@@ -2288,7 +2288,7 @@ void CDataServerProtocol::ReqInGameShopItemUse(short aIndex, ISHOP_ITEM_USE *aRe
 
 	memcpy(pMsg.AccountID, aRecv->AccountID, 11);
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::ReqInGameShopPoint(short aIndex, ISHOP_REQ_POINT *aRecv)
@@ -2318,7 +2318,7 @@ void CDataServerProtocol::ReqInGameShopPoint(short aIndex, ISHOP_REQ_POINT *aRec
 	pMsg.h.headcode = 0xD1;
 	pMsg.h.size = sizeof(pMsg);
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::ReqInGameShopAddPoint(short aIndex, ISHOP_POINT_ADD *aRecv)
@@ -2348,7 +2348,7 @@ void CDataServerProtocol::ReqInGameShopPackageBuy(short aIndex, LPBYTE aRecv)
 	if (Coin < lpMsg->Price)
 	{
 		pResult.Result = 2;
-		//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+		//DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -2373,7 +2373,7 @@ void CDataServerProtocol::ReqInGameShopPackageBuy(short aIndex, LPBYTE aRecv)
 
 	}
 
-	//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::ReqInGameShopPackageGift(short aIndex, LPBYTE aRecv)
@@ -2397,7 +2397,7 @@ void CDataServerProtocol::ReqInGameShopPackageGift(short aIndex, LPBYTE aRecv)
 	if (Coin < lpMsg->Price)
 	{
 		pResult.Result = 2;
-		//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+		//DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -2409,7 +2409,7 @@ void CDataServerProtocol::ReqInGameShopPackageGift(short aIndex, LPBYTE aRecv)
 	if (iResult == 3)
 	{
 		pResult.Result = iResult;
-		//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+		//DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -2437,7 +2437,7 @@ void CDataServerProtocol::ReqInGameShopPackageGift(short aIndex, LPBYTE aRecv)
 
 	}
 
-	//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::ReqInGameShopItemDelete(short aIndex, ISHOP_ITEM_DELETE * aRecv)
@@ -2500,7 +2500,7 @@ void CDataServerProtocol::ReqLuckyCoinInfo(CGameObject &lpObj, PMSG_REQ_LUCKYCOI
 	}
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::ReqRegLuckyCoin(CGameObject &lpObj, PMSG_REQ_REGISTER_LUCKYCOIN * lpMsg)
@@ -2539,7 +2539,7 @@ void CDataServerProtocol::ReqRegLuckyCoin(CGameObject &lpObj, PMSG_REQ_REGISTER_
 
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::DevilSqureScore(PMSG_ANS_EVENTUSERSCORE * lpMsg)
@@ -2584,7 +2584,7 @@ void CDataServerProtocol::GDReqBloodCastleEnterCount(CGameObject &lpObj, PMSG_RE
 	}
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::BloodCastleScore_5TH(PMSG_ANS_BLOODCASTLESCORE_5TH * lpMsg)
@@ -2689,7 +2689,7 @@ void CDataServerProtocol::EGAnsEventChipInfo(CGameObject &lpObj, PMSG_REQ_VIEW_E
 	}
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::EGAnsRegEventChipInfo(CGameObject &lpObj, PMSG_REQ_REGISTER_EVENTCHIP * lpMsg)
@@ -2728,7 +2728,7 @@ void CDataServerProtocol::EGAnsRegEventChipInfo(CGameObject &lpObj, PMSG_REQ_REG
 
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::EGAnsResetEventChip(CGameObject &lpObj, PMSG_REQ_RESET_EVENTCHIP * lpMsg)
@@ -2755,7 +2755,7 @@ void CDataServerProtocol::EGAnsResetEventChip(CGameObject &lpObj, PMSG_REQ_RESET
 
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::EGAnsEventStoneInfo(CGameObject &lpObj, PMSG_REQ_VIEW_EC_MN * lpMsg)
@@ -2802,7 +2802,7 @@ void CDataServerProtocol::EGAnsEventStoneInfo(CGameObject &lpObj, PMSG_REQ_VIEW_
 	}
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::EGAnsRegEventStoneInfo(CGameObject &lpObj, PMSG_REQ_REGISTER_STONES * lpMsg)
@@ -2845,7 +2845,7 @@ void CDataServerProtocol::EGAnsRegEventStoneInfo(CGameObject &lpObj, PMSG_REQ_RE
 	}
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::EGAnsDeleteStones(CGameObject &lpObj, PMSG_REQ_DELETE_STONES * lpMsg)
@@ -2888,7 +2888,7 @@ void CDataServerProtocol::EGAnsDeleteStones(CGameObject &lpObj, PMSG_REQ_DELETE_
 	}
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::EGAns2AnivRegSerial(CGameObject &lpObj, PMSG_REQ_2ANIV_SERIAL * lpMsg)
@@ -2910,21 +2910,21 @@ void CDataServerProtocol::EGAns2AnivRegSerial(CGameObject &lpObj, PMSG_REQ_2ANIV
 	if (SpaceSyntexCheck(lpMsg->SERIAL1) == FALSE || QuoteSpaceSyntexCheck(lpMsg->SERIAL1) == FALSE || PercentSyntaxCheck(lpMsg->SERIAL1) == FALSE)
 	{
 		pMsg.btIsRegistered = 4;
-		//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+		//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 		return;
 	}
 
 	if (SpaceSyntexCheck(lpMsg->SERIAL2) == FALSE || QuoteSpaceSyntexCheck(lpMsg->SERIAL2) == FALSE || PercentSyntaxCheck(lpMsg->SERIAL2) == FALSE)
 	{
 		pMsg.btIsRegistered = 4;
-		//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+		//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 		return;
 	}
 
 	if (SpaceSyntexCheck(lpMsg->SERIAL3) == FALSE || QuoteSpaceSyntexCheck(lpMsg->SERIAL3) == FALSE || PercentSyntaxCheck(lpMsg->SERIAL3) == FALSE)
 	{
 		pMsg.btIsRegistered = 4;
-		//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+		//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 		return;
 	}
 
@@ -2944,7 +2944,7 @@ void CDataServerProtocol::EGAns2AnivRegSerial(CGameObject &lpObj, PMSG_REQ_2ANIV
 	}
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::EGAnsResetStoneInfo(CGameObject &lpObj, PMSG_REQ_RESET_EVENTCHIP * lpMsg)
@@ -2974,7 +2974,7 @@ void CDataServerProtocol::EGAnsResetStoneInfo(CGameObject &lpObj, PMSG_REQ_RESET
 	}
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::EGAnsRegCCOfflineGift(CGameObject &lpObj, PMSG_REQ_REG_CC_OFFLINE_GIFT * lpMsg)
@@ -3009,7 +3009,7 @@ void CDataServerProtocol::EGAnsRegCCOfflineGift(CGameObject &lpObj, PMSG_REQ_REG
 	}
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::EGAnsRegDLOfflineGift(CGameObject &lpObj, PMSG_REQ_REG_DL_OFFLINE_GIFT * lpMsg)
@@ -3044,7 +3044,7 @@ void CDataServerProtocol::EGAnsRegDLOfflineGift(CGameObject &lpObj, PMSG_REQ_REG
 	}
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::EGAnsRegHTOfflineGift(CGameObject &lpObj, PMSG_REQ_REG_HT_OFFLINE_GIFT * lpMsg)
@@ -3079,7 +3079,7 @@ void CDataServerProtocol::EGAnsRegHTOfflineGift(CGameObject &lpObj, PMSG_REQ_REG
 	}
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::EGAnsLuckyCoinInfo(CGameObject &lpObj, PMSG_REQ_LUCKYCOIN * lpMsg)
@@ -3121,7 +3121,7 @@ void CDataServerProtocol::EGAnsLuckyCoinInfo(CGameObject &lpObj, PMSG_REQ_LUCKYC
 	}
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::EGAnsRegLuckyCoin(CGameObject &lpObj, PMSG_REQ_REGISTER_LUCKYCOIN * lpMsg)
@@ -3160,7 +3160,7 @@ void CDataServerProtocol::EGAnsRegLuckyCoin(CGameObject &lpObj, PMSG_REQ_REGISTE
 
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::ReqSetExpandedWarehouse(short aIndex, SDHP_EXPANDEDWAREHOUSE_SET * aRecv)
@@ -3192,7 +3192,7 @@ void CDataServerProtocol::EGReqSantaCheck(short aIndex, PMSG_REQ_SANTACHECK * aR
 
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::EGReqSantaGift(short aIndex, PMSG_REQ_SANTAGIFT * aRecv)
@@ -3212,7 +3212,7 @@ void CDataServerProtocol::EGReqSantaGift(short aIndex, PMSG_REQ_SANTAGIFT * aRec
 
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::ReqBanUser(short aIndex, BAN_REQ_USER * aRecv)
@@ -3276,7 +3276,7 @@ void CDataServerProtocol::GDReqArcaBattleGuildJoin(CGameObject &lpObj, PMSG_REQ_
 	pMsg.wNumber = aRecv->wNumber;
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqArcaBattleGuildMemberJoin(CGameObject &lpObj, PMSG_REQ_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *aRecv)
@@ -3292,7 +3292,7 @@ void CDataServerProtocol::GDReqArcaBattleGuildMemberJoin(CGameObject &lpObj, PMS
 	pMsg.wNumber = aRecv->wNumber;
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqArcaBattleEnter(CGameObject &lpObj, PMSG_REQ_ARCA_BATTLE_ENTER_DS *aRecv)
@@ -3309,7 +3309,7 @@ void CDataServerProtocol::GDReqArcaBattleEnter(CGameObject &lpObj, PMSG_REQ_ARCA
 	pMsg.btEnterSeq = aRecv->btEnterSeq;
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqArcaBattleWinGuildInfoInsert(CGameObject &lpObj, PMSG_REQ_AB_WIN_GUILD_INFO_INSERT_DS *aRecv)
@@ -3373,7 +3373,7 @@ void CDataServerProtocol::GDReqArcaBattleWinGuildInfo(CGameObject &lpObj, PMSG_R
 	}
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqDeleteArcaBattleInfo(CGameObject &lpObj)
@@ -3418,7 +3418,7 @@ void CDataServerProtocol::GDReqArcaBattleProcState(CGameObject &lpObj, PMSG_REQ_
 	pMsg.btProcState = this->m_ArcaDB->GetResult(0);
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqArcaBattleJoinMemberUnder(CGameObject &lpObj, PMSG_REQ_AB_JOIN_MEMBER_UNDER_DS *aRecv)
@@ -3537,7 +3537,7 @@ void CDataServerProtocol::GDReqArcaBattleRegisteredMemberCnt(CGameObject &lpObj,
 	pMsg.wNumber = aRecv->iIndex;
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqRemoveAllGuildBuffMultiCast(CGameObject &lpObj, PMSG_REQ_REMOVE_ALL_GUILD_BUFF_DS *aRecv)
@@ -3583,7 +3583,7 @@ void CDataServerProtocol::GDReqArcaBattleMarkCnt(CGameObject &lpObj, PMSG_REQ_AR
 	pMsg.wNumber = aRecv->wNumber;
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqArcaBattleMarkReg(CGameObject &lpObj, PMSG_REQ_ARCA_BATTLE_MARK_REG_DS *aRecv)
@@ -3604,7 +3604,7 @@ void CDataServerProtocol::GDReqArcaBattleMarkReg(CGameObject &lpObj, PMSG_REQ_AR
 			aRecv->szGuildName, aRecv->dwGuildNum, aRecv->szGuildMaster, aRecv->dwMarkCnt);
 
 		pMsg.wNumber = aRecv->wNumber;
-		//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+		//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 
 		return;
 	}
@@ -3645,7 +3645,7 @@ void CDataServerProtocol::GDReqArcaBattleMarkRank(CGameObject &lpObj, PMSG_REQ_A
 		pMsg.btGuildCnt = 0;
 		pMsg.wNumber = aRecv->wNumber;
 
-		//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+		//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 	}
 
 	else
@@ -3654,7 +3654,7 @@ void CDataServerProtocol::GDReqArcaBattleMarkRank(CGameObject &lpObj, PMSG_REQ_A
 		pMsg.dwMarkCnt = this->m_ArcaDB->GetResult(1);
 		pMsg.wNumber = aRecv->wNumber;
 
-		//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+		//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 	}
 
 
@@ -3690,7 +3690,7 @@ void CDataServerProtocol::GDReqArcaBattleIsTopRank(CGameObject &lpObj, PMSG_REQ_
 
 	pMsg.wNumber = aRecv->wNumber;
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqArcaBattleMarkRegAllDel(CGameObject &lpObj)
@@ -3722,7 +3722,7 @@ void CDataServerProtocol::GDReqArcaBattleAllGuildMarkCnt(CGameObject &lpObj)
 	}
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqArcaBattleMarkRegSet(CGameObject &lpObj, PMSG_REQ_AB_MARK_REG_UPDATE_DS *aRecv)
@@ -3760,7 +3760,7 @@ void CDataServerProtocol::GDReqArcaBattleAllJoinUser(CGameObject &lpObj, PMSG_RE
 	}
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqPeriodBuffInsert(CGameObject &lpObj, PMSG_REQ_PERIODBUFF_INSERT *aRecv)
@@ -3802,7 +3802,7 @@ void CDataServerProtocol::GDReqPeriodBuffSelect(CGameObject &lpObj, PMSG_REQ_PER
 
 		else
 		{
-			//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+			//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 		}
 	}
 
@@ -3900,7 +3900,7 @@ void CDataServerProtocol::GDReqQuestExpInfoLoad(CGameObject &lpObj, PMSG_REQ_QUE
 	memcpy(&Buff, &pMsg, sizeof(pMsg));
 	memcpy(&Buff[sizeof(pMsg)], QuestInfo, sizeof(_QUESTEXP_INFO) * pMsg.btQuestCnt);
 
-	//DataSend(aIndex, Buff, PacketSize, __FUNCTION__);
+	//DataSend(lpObj.m_Index, Buff, PacketSize, __FUNCTION__);
 
 	LeaveCriticalSection(&this->m_QuestExpDBCriti);
 }
@@ -4081,7 +4081,7 @@ void CDataServerProtocol::GDReqLuckyItemSelect(CGameObject &lpObj, PMSG_REQ_LUCK
 	pMsg.head.set((LPBYTE)&pMsg, 0xD4, lOfs);
 	memcpy(BUFFER, &pMsg, sizeof(pMsg));
 
-	//DataSend(aIndex, (LPBYTE)&BUFFER, lOfs, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&BUFFER, lOfs, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqGetPentagramJewel(CGameObject &lpObj, PMSG_REQ_PENTAGRAMJEWEL *lpMsg)
@@ -4130,7 +4130,7 @@ void CDataServerProtocol::GDReqGetPentagramJewel(CGameObject &lpObj, PMSG_REQ_PE
 
 	memcpy(&Buffer, &pMsg, sizeof(pMsg));
 
-	//DataSend(aIndex, Buffer, dwSize, __FUNCTION__);
+	//DataSend(lpObj.m_Index, Buffer, dwSize, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqSetPentagramJewel(CGameObject &lpObj, LPBYTE lpRecv)
@@ -4196,7 +4196,7 @@ void CDataServerProtocol::GDReqChaosCastleFinalPermission(CGameObject &lpObj, PM
 
 	pMsg.nIndex = lpMsg->nIndex;
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqChaosCastleFinalLoad(CGameObject &lpObj, SDHP_REQ_CCF_RANKING* lpMsg)
@@ -4230,7 +4230,7 @@ void CDataServerProtocol::GDReqChaosCastleFinalLoad(CGameObject &lpObj, SDHP_REQ
 
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqChaosCastleFinalRenew(CGameObject &lpObj, SDHP_RENEW_RANKING* lpMsg)
@@ -4290,7 +4290,7 @@ void CDataServerProtocol::GDReqLoadMuunInvenItem(CGameObject &lpObj, SDHP_REQ_DB
 		this->m_MuunDB->GetAsBinary(szTemp, pMsg.dbItems, 3264);
 	}
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqSaveMuunInvenItem(CGameObject &lpObj, SDHP_REQ_DBMUUN_INVEN_SAVE * aRecv)
@@ -4334,7 +4334,7 @@ void CDataServerProtocol::GDReqLoadEventInvenItem(CGameObject &lpObj, SDHP_REQ_D
 		this->m_EventInvDB->GetAsBinary(szTemp, pMsg.dbItems, sizeof(pMsg.dbItems));
 	}
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqSaveEventInvenItem(CGameObject &lpObj, SDHP_REQ_DBEVENT_INVEN_SAVE * aRecv)
@@ -4378,7 +4378,7 @@ void CDataServerProtocol::GDReqCardInfo(CGameObject &lpObj, PMSG_REQ_MURUMMY_SEL
 
 	pMsg.aIndex = aRecv->aIndex;
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqCardInfoInsert(CGameObject &lpObj, PMSG_REQ_MURUMMY_INSERT_DS * aRecv)
@@ -4491,7 +4491,7 @@ void CDataServerProtocol::GDReqMineModifyUPTUserInfo(CGameObject &lpObj, SDHP_RE
 	pMsg.wUserIndex = aRecv->wUserIndex;
 	pMsg.Result = TRUE;
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqMineCheckIsUPTWhenUserConnect(CGameObject &lpObj, SDHP_REQ_LOAD_MINESYSTEM_UPT_USERINFO * aRecv)
@@ -4517,7 +4517,7 @@ void CDataServerProtocol::GDReqMineCheckIsUPTWhenUserConnect(CGameObject &lpObj,
 
 
 	pMsg.wUserIndex = aRecv->wUserIndex;
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqPShopItemValue(CGameObject &lpObj, PMSG_REQ_PSHOPITEMVALUE_INFO * aRecv)
@@ -4546,7 +4546,7 @@ void CDataServerProtocol::GDReqPShopItemValue(CGameObject &lpObj, PMSG_REQ_PSHOP
 	pMsg.btItemCnt = count;
 	pMsg.iUserIndex = aRecv->iUserIndex;
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GDAllSavePShopItemValue(CGameObject &lpObj, PMSG_UPDATE_PSHOPITEMVALUE_INFO * aRecv)
@@ -4626,7 +4626,7 @@ void CDataServerProtocol::GDReqClassDefData(CGameObject &lpObj)
 
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqReBuyItemList(CGameObject &lpObj, SDHP_REQ_SHOP_REBUY_LIST * aRecv)
@@ -4685,7 +4685,7 @@ void CDataServerProtocol::GDReqReBuyItemList(CGameObject &lpObj, SDHP_REQ_SHOP_R
 	memcpy(lpMsg->szAccountID, aRecv->szAccountID, MAX_ACCOUNT_LEN + 1);
 	memcpy(lpMsg->szName, aRecv->szName, MAX_ACCOUNT_LEN + 1);
 
-	//DataSend(aIndex, BUFFER, PacketSize, __FUNCTION__);
+	//DataSend(lpObj.m_Index, BUFFER, PacketSize, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqReBuyAddItem(CGameObject &lpObj, SDHP_REQ_SHOP_REBUY_ADD_ITEM * aRecv)
@@ -4778,7 +4778,7 @@ void CDataServerProtocol::GDReqReBuyGetItem(CGameObject &lpObj, SDHP_REQ_SHOP_RE
 	pMsg.iIndex = aRecv->iIndex;
 	memcpy(pMsg.szAccountID, aRecv->szAccountID, MAX_ACCOUNT_LEN + 1);
 	memcpy(pMsg.szName, aRecv->szName, MAX_ACCOUNT_LEN + 1);
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqDeleteSoldItem(CGameObject &lpObj, SDHP_REQ_SHOP_REBUY_DELETE_ITEM * aRecv)
@@ -4852,7 +4852,7 @@ void CDataServerProtocol::GDReqGremoryCaseItemList(CGameObject &lpObj, _stReqGre
 	memcpy(lpMsg->szAccountID, aRecv->szAccountID, MAX_ACCOUNT_LEN + 1);
 	memcpy(lpMsg->szName, aRecv->szName, MAX_ACCOUNT_LEN + 1);
 
-	//DataSend(aIndex, BUFFER, PacketSize, __FUNCTION__);
+	//DataSend(lpObj.m_Index, BUFFER, PacketSize, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqGremoryCaseAddItem(CGameObject &lpObj, _stReqAddItemToGremoryCase * aRecv)
@@ -4907,7 +4907,7 @@ void CDataServerProtocol::GDReqGremoryCaseAddItem(CGameObject &lpObj, _stReqAddI
 	memcpy(pMsg.szAccountID, aRecv->szAccountID, MAX_ACCOUNT_LEN + 1);
 	memcpy(pMsg.szName, aRecv->szName, MAX_ACCOUNT_LEN + 1);
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqCheckUseItemGremoryCase(CGameObject &lpObj, _stReqCheckUseItemGremoryCase * aRecv)
@@ -4928,7 +4928,7 @@ void CDataServerProtocol::GDReqCheckUseItemGremoryCase(CGameObject &lpObj, _stRe
 	pMsg.dwItemGUID = aRecv->dwItemGUID;
 	pMsg.dwAuthCode = aRecv->dwAuthCode;
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqGremoryCaseDeleteItem(CGameObject &lpObj, _stReqDeleteItemFromGremoryCase * aRecv)
@@ -4966,7 +4966,7 @@ void CDataServerProtocol::GDReqUBFCheckIsJoinedUser(CGameObject &lpObj, PMSG_REQ
 	pMsg.btObserverMode = aRecv->btObserverMode;
 	pMsg.iUserIndex = aRecv->iUserIndex;
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqUBFJoinUser(CGameObject &lpObj, PMSG_UBF_REGISTER_ACCOUNT_USER * aRecv)
@@ -4996,7 +4996,7 @@ void CDataServerProtocol::GDReqUBFJoinUser(CGameObject &lpObj, PMSG_UBF_REGISTER
 
 	pMsg.iUserIndex = aRecv->iUserIndex;
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqUBFCopyCharacter(CGameObject &lpObj, PMSG_UBF_ACCOUNT_USER_COPY * aRecv)
@@ -5023,7 +5023,7 @@ void CDataServerProtocol::GDReqUBFCopyCharacter(CGameObject &lpObj, PMSG_UBF_ACC
 
 
 	pMsg.iUserIndex = aRecv->iUserIndex;
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqUBFCancelUser(CGameObject &lpObj, PMSG_UBF_REQ_CANCEL_REGISTER_USER * aRecv)
@@ -5085,7 +5085,7 @@ void CDataServerProtocol::GDReqUBFCancelUser(CGameObject &lpObj, PMSG_UBF_REQ_CA
 	}
 
 	pMsg.iUserIndex = aRecv->iUserIndex;
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqUBFGetRealName(CGameObject &lpObj, PMSG_REQ_GET_UBF_REAL_NAME * aRecv)
@@ -5105,7 +5105,7 @@ void CDataServerProtocol::GDReqUBFGetRealName(CGameObject &lpObj, PMSG_REQ_GET_U
 	pMsg.btReturn = 0;
 	pMsg.iUserIndex = aRecv->iUserIndex;
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqUBFCopyPetItem(CGameObject &lpObj, LPBYTE lpRecv)
@@ -5353,7 +5353,7 @@ void CDataServerProtocol::GDReqUBFGetReward(CGameObject &lpObj, PMSG_REQ_UBF_GET
 	pMsg.btBattleKind = aRecv->btBattleKind;
 	pMsg.iUserIndex = aRecv->iUserIndex;
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqUBFSetGainReward(CGameObject &lpObj, PMSG_REQ_UBF_SET_RECEIVED_REWARD * aRecv)
@@ -5393,7 +5393,7 @@ void CDataServerProtocol::GDReqUBFSetGainReward(CGameObject &lpObj, PMSG_REQ_UBF
 
 	}
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqDSFCanPartyEnter(CGameObject &lpObj, PMSG_REQ_DSF_CAN_PARTY_ENTER * aRecv)
@@ -5410,7 +5410,7 @@ void CDataServerProtocol::GDReqDSFCanPartyEnter(CGameObject &lpObj, PMSG_REQ_DSF
 
 
 	pMsg.iUserIndex = aRecv->iUserIndex;
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqDSFSavePartyPoint(CGameObject &lpObj, PMSG_REQ_SAVE_DSF_PARTYPOINT * aRecv)
@@ -5434,7 +5434,7 @@ void CDataServerProtocol::GDReqDSFPartyRankRenew(CGameObject &lpObj, PMSG_REQ_DS
 	PHeadSubSetB((LPBYTE)&pMsg, 0xFD, 0x03, sizeof(pMsg));
 
 	pMsg.btResult = 1;
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqDSFGoFinalParty(CGameObject &lpObj, PMSG_REQ_DSF_GO_FINAL_PARTY * aRecv)
@@ -5474,7 +5474,7 @@ void CDataServerProtocol::GDReqDSFGoFinalParty(CGameObject &lpObj, PMSG_REQ_DSF_
 
 	memcpy(&sendBuf, &pMsg, sizeof(pMsg));
 
-	//DataSend(aIndex, sendBuf, iSize, __FUNCTION__);
+	//DataSend(lpObj.m_Index, sendBuf, iSize, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqDSFInsertRewardUser(CGameObject &lpObj, PMSG_REQ_SAVE_DSF_REWARD_USER * aRecv)
@@ -5502,7 +5502,7 @@ void CDataServerProtocol::GDReqDSFGetReward(CGameObject &lpObj, PMSG_REQ_GET_DSF
 
 
 	pMsg.nUserIndex = aRecv->nUserIndex;
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 // JoinMu
@@ -5548,7 +5548,7 @@ void CDataServerProtocol::GDReqMapSrvGroupServerCount(CGameObject &lpObj, DSMSG_
 
 	pMsg.wSvrCount = wServerCount;
 
-	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
+	//DataSend(lpObj.m_Index, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 
 
 }
@@ -5610,7 +5610,7 @@ void CDataServerProtocol::GDReqEventEntryCount(CGameObject &lpObj, PMSG_REQ_EVEN
 	}
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqEvoMonMaxScore(CGameObject &lpObj, PMSG_REQ_EVOMON_MAXSCORE * aRecv)
@@ -5634,7 +5634,7 @@ void CDataServerProtocol::GDReqEvoMonMaxScore(CGameObject &lpObj, PMSG_REQ_EVOMO
 
 
 
-	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	//DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CDataServerProtocol::GDReqEvoMonSaveScore(CGameObject &lpObj, PMSG_REQ_SAVE_EVOMON_RESULT * aRecv)

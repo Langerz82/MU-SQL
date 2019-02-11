@@ -6,6 +6,11 @@
 #endif // _MSC_VER > 1000
 
 
+
+
+#define MAX_INFLUENCE_TYPE		3
+
+
 #define MAX_JOH_ITEM_TYPE	4
 #define MAX_JOH_ITEM_INDEX	16
 #define MAX_JOH_ITEM_OPTION	16
@@ -441,9 +446,6 @@
 
 #define MAX_VIP 4
 
-#ifndef NULL
-#define NULL 0
-#endif
 #ifndef TRUE
 #define TRUE 1
 #endif

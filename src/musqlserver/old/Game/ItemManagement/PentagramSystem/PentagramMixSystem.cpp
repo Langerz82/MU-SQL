@@ -1337,14 +1337,14 @@ BOOL CPentagramMixSystem::PentagramJewelMix(CGameObject &lpObj) // OK
 		
 	if (iMithrilCount != 1 || iBlessCount != 1)
 	{
-		IOCP.DataSend(aIndex, (UCHAR*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_Index, (UCHAR*)&pMsg, pMsg.h.size);
 		return 0;
 	}
 		
 
 	if (lpObj.m_PlayerData->Money <= 100000)
 	{
-		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return 0; //No Zen
 	}
 
@@ -1396,7 +1396,7 @@ BOOL CPentagramMixSystem::PentagramJewelMix(CGameObject &lpObj) // OK
 	else
 	{
 		pMsg.Result = 0;
-		IOCP.DataSend(aIndex, (UCHAR*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_Index, (UCHAR*)&pMsg, pMsg.h.size);
 		sLog->outError( "[Elemental System][Elixir Mix] [%s][%s] CBMix Fail, Money : %d ",
 			lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->Money);
 	}

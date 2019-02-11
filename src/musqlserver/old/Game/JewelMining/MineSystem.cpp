@@ -338,7 +338,7 @@ void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, int aIndex)
 			pMsg.iRewardJewelNumber = iRewardJewelNumber;
 			pMsg.iResult = iMineResult;
 
-			IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		}
 
 		else
@@ -357,7 +357,7 @@ void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, int aIndex)
 			pMsg.iRewardJewelNumber = iRewardJewelNumber;
 			pMsg.iResult = 18;
 
-			IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		}
 	}
 
@@ -391,7 +391,7 @@ void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, int aIndex)
 			pMsg.iRewardJewelNumber = iRewardJewelNumber;
 			pMsg.iResult = iMineResult;
 
-			IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		}
 	}
 }
@@ -409,7 +409,7 @@ void CMineSystem::RewardMineTwinkle(PMSG_REQ_MINETWINKLE_REWARD *lpMsg, int aInd
 		PHeadSubSetB((LPBYTE)&pMsg, 0x4C, 0x01, sizeof(pMsg));
 
 		pMsg.iResult = iRewardResult;
-		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 	}
 
 	std::map<int, _ST_MINESYSTEM_TWINKLE>::iterator it = this->m_mapTwinkle.find(lpMsg->wTwinkleIndex);
@@ -427,7 +427,7 @@ void CMineSystem::RewardMineTwinkle(PMSG_REQ_MINETWINKLE_REWARD *lpMsg, int aInd
 				ServerCmd.X = lpObj.X;
 				ServerCmd.Y = lpObj.Y;
 				GSProtocol.MsgSendV2(&gGameObjects[aIndex], (LPBYTE)&ServerCmd, sizeof(ServerCmd));
-				IOCP.DataSend(aIndex, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
+				IOCP.DataSend(lpObj.m_Index, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
 			}
 
 			iRewardResult = 3;
@@ -453,7 +453,7 @@ void CMineSystem::RewardMineTwinkle(PMSG_REQ_MINETWINKLE_REWARD *lpMsg, int aInd
 	pMsg.byCurrentStage = it->second.iCurrentStage;
 	pMsg.iResult = iRewardResult;
 
-	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 	this->ResetTwinkleInfo(aIndex, lpMsg->wTwinkleIndex, 0);
 }
 
@@ -559,7 +559,7 @@ BOOL CMineSystem::CheckMoveMapWhileMining(CGameObject &lpObj)
 			pMsg.byMapNumber = it->second.byMapNumber;
 			pMsg.byCurrentStage = it->second.iCurrentStage;
 
-			IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
 			this->GiveRewardItem(aIndex, it->second.wTwinkleType, it->second.iCurrentStage, 1);
 			this->ResetTwinkleInfo(aIndex, it->second.wTwinkleIndex, 0);

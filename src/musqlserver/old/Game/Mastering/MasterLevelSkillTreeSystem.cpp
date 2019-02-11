@@ -1064,7 +1064,7 @@ void CMasterLevelSkillTreeSystem::CGReqGetMasterLevelSkillTree(CGameObject &lpOb
 
 	memcpy(sendbuf, &pCountMsg, sizeof(pCountMsg));
 
-	IOCP.DataSend(aIndex, sendbuf, lOfs);
+	IOCP.DataSend(lpObj.m_Index, sendbuf, lOfs);
 }
 
 void CMasterLevelSkillTreeSystem::CGReqGetMasterLevelSkill(PMSG_REQ_MASTERLEVEL_SKILL *lpMsg, int aIndex)
@@ -1096,7 +1096,7 @@ void CMasterLevelSkillTreeSystem::CGReqGetMasterLevelSkill(PMSG_REQ_MASTERLEVEL_
 		sLog->outBasic("[MasterSkill] [%s][%s] Fail(Use Trade Interface) - Add Magic List", lpObj.AccountID, lpObj.Name);
 
 		pMsg.btResult = 6;
-		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -1162,7 +1162,7 @@ void CMasterLevelSkillTreeSystem::CGReqGetMasterLevelSkill(PMSG_REQ_MASTERLEVEL_
 		}
 	}
 
-	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 BOOL CMasterLevelSkillTreeSystem::RunningSkill_MLS(CGameObject lpObj, int aTargetIndex, CMagicInf *lpMagic, BOOL bCombo, BYTE x, BYTE y, BYTE aTargetPos)
@@ -4754,7 +4754,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillPartyHealing(CGameObject &lpObj, int 
 
 		if (lpObj.Type == OBJ_USER)
 		{
-			IOCP.DataSend(aIndex, (LPBYTE)&SendByte, nOffset);
+			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&SendByte, nOffset);
 		}
 
 		GSProtocol.MsgSendV2(lpObj, (LPBYTE)&SendByte, nOffset);

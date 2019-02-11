@@ -289,7 +289,7 @@ bool CMarry::Accept(CGameObject &lpObj)
 	ServerCmd.Y = lpObj.Y;
 
 	GSProtocol.MsgSendV2(gObj, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
-	IOCP.DataSend(aIndex, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
 
 	if (this->m_bGiftEnable == true)
 	{

@@ -230,7 +230,7 @@ void CGReqAttDefPowerInc(PMSG_REQ_ATTDEF_POWER_INC *pMsg, int aIndex)
         return;
 	if (lpObj.TargetNpcNumber == -1)
 	{
-		//IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+		//IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
 		return;
 	}
 

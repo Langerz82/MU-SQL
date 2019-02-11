@@ -101,12 +101,12 @@ void CSendNPCInfo::SendNpcCoordinate(int nDestUserIndex, BYTE btMapIndex, BYTE b
 			{
 				for (int n = 0; n < g_ConfigRead.server.GetObjectMaxMonster(); n++)
 				{
-					if (gGameObjects[n].Type != OBJ_USER && 
-						gGameObjects[n].MapNumber == sendNpcInfo.btMapNumber &&
-						gGameObjects[n].Class == sendNpcInfo.nNpcClass)
+					if (gGameObjects[n]->Type != OBJ_USER && 
+						gGameObjects[n]->MapNumber == sendNpcInfo.btMapNumber &&
+						gGameObjects[n]->Class == sendNpcInfo.nNpcClass)
 					{
-						pMsg.btPosX = gGameObjects[n].X;
-						pMsg.btPosY = gGameObjects[n].Y;
+						pMsg.btPosX = gGameObjects[n]->X;
+						pMsg.btPosY = gGameObjects[n]->Y;
 						pMsg.btTag = sendNpcInfo.btTag;
 						pMsg.btType = btAddType;
 						pMsg.btIdentNo = sendNpcInfo.nIdentNo;
@@ -174,14 +174,14 @@ void CSendNPCInfo::SendPortalCoordinateMoveNpc(BYTE btBeforeMapNumber, BYTE btAf
 
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		if (gGameObjects[n].Connected == PLAYER_PLAYING)
+		if (gGameObjects[n]->Connected == PLAYER_PLAYING)
 		{
-			if (gGameObjects[n].MapNumber == btBeforeMapNumber)
+			if (gGameObjects[n]->MapNumber == btBeforeMapNumber)
 			{
 				IOCP.DataSend(n, (LPBYTE)&pDeleteMsg, pDeleteMsg.h.size);
 			}
 
-			else if (gGameObjects[n].MapNumber == btAfterMapNumber)
+			else if (gGameObjects[n]->MapNumber == btAfterMapNumber)
 			{
 				IOCP.DataSend(n, (LPBYTE)&pInsertMsg, pInsertMsg.h.size);
 			}

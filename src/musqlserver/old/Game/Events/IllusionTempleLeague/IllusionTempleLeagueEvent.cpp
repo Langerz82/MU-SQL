@@ -966,7 +966,7 @@ void CIllusionTempleLeagueEvent::Send_ITL_Tournament(CGameObject &lpObj, BYTE by
 	pMsg.h.sizeL = LOBYTE(lOfs);
 	memcpy(sendbuf, &pMsg, sizeof(pMsg));
 
-	IOCP.DataSend(aIndex, (LPBYTE)sendbuf, lOfs);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)sendbuf, lOfs);
 	lpObj.m_bITL_TournamentInfoSend = true;
 }
 
@@ -999,7 +999,7 @@ void CIllusionTempleLeagueEvent::Send_ITL_GuildRankInfo(CGameObject &lpObj)
 	pMsg.h.sizeL = LOBYTE(lOfs);
 
 	memcpy(sendbuf, &pMsg, sizeof(pMsg));
-	IOCP.DataSend(aIndex, (LPBYTE)sendbuf, lOfs);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)sendbuf, lOfs);
 	lpObj.m_bITL_GuildRankInfoSend = true;
 }
 
@@ -1445,7 +1445,7 @@ void CIllusionTempleLeagueEvent::Send_RewardList(CGameObject &lpObj, BYTE byErro
 	pMsg.h.sizeL = LOBYTE(lOfs);
 	memcpy(sendbuff, &pMsg, sizeof(pMsg));
 
-	IOCP.DataSend(aIndex, (LPBYTE)sendbuff, lOfs);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)sendbuff, lOfs);
 }
 
 void CIllusionTempleLeagueEvent::Renew_ITL_RewardList()

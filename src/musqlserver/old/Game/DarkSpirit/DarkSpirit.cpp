@@ -570,7 +570,7 @@ void CDarkSpirit::SendAttackMsg(CGameObject &lpObj, int aTargetIndex, int iDamag
 	pMsg.TargetNumberL = SET_NUMBERL(aTargetIndex);
 	pMsg.h.set((LPBYTE)&pMsg, 0xA8, sizeof(pMsg));
 	
-	IOCP.DataSend(aIndex, (UCHAR*)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (UCHAR*)&pMsg, pMsg.h.size);
 	GSProtocol.MsgSendV2(&gGameObjects[aIndex], (UCHAR*)&pMsg, pMsg.h.size);
 
 	if (iActionType == 1)
@@ -1937,7 +1937,7 @@ void __cdecl CDarkSpirit::SendLevelmsg(CGameObject &lpObj, int nPos, int PetType
 
 	pMsg.Dur = lpObj.pInventory[nPos].m_Durability;
 
-	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 

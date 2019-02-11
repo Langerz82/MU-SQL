@@ -5400,7 +5400,7 @@ void SendLordSilvesterBlockInfo(CGameObject &lpObj, BYTE btMapSetType)
 
 	else
 	{
-		IOCP.DataSend(aIndex, (LPBYTE)lpMsg, lpMsg->h.size);
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)lpMsg, lpMsg->h.size);
 	}
 }
 

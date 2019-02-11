@@ -971,9 +971,9 @@ void CChaosCastle::SetState_Closed(int iChaosCastleIndex)
 
 	for ( int n=g_ConfigRead.server.GetObjectStartUserIndex();n<g_ConfigRead.server.GetObjectMax();n++)
 	{
-		if ( gGameObjects[n].MapNumber == this->GetChaosCastleMapNumber(iChaosCastleIndex) )
+		if ( gGameObjects[n]->MapNumber == this->GetChaosCastleMapNumber(iChaosCastleIndex) )
 		{
-			if ( gGameObjects[n].Connected > PLAYER_LOGGED )
+			if ( gGameObjects[n]->Connected > PLAYER_LOGGED )
 			{
 				if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 				{
@@ -1075,7 +1075,7 @@ void CChaosCastle::ClearMonster(int iChaosCastleIndex)
 
 	for ( int n=0;n<g_ConfigRead.server.GetObjectMaxMonster();n++)
 	{
-		if ( gGameObjects[n].MapNumber == this->GetChaosCastleMapNumber(iChaosCastleIndex))
+		if ( gGameObjects[n]->MapNumber == this->GetChaosCastleMapNumber(iChaosCastleIndex))
 		{
 			gObjDel(n);
 		}

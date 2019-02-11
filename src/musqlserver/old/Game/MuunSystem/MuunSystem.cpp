@@ -77,7 +77,7 @@ void CMuunAttack::SendAttackMsg(CGameObject &lpObj, int aTargetIndex, int SubCod
 
 		pMsg.h.set((LPBYTE)&pMsg, 0x4E, 0x12, sizeof(pMsg));
 
-		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		GSProtocol.MsgSendV2(&gGameObjects[aIndex], (LPBYTE)&pMsg, pMsg.h.size);
 	}
 
@@ -1641,7 +1641,7 @@ void CMuunSystem::GCSendConditionStatus(CGameObject &lpObj, int iPos, int iStatu
 	PHeadSubSetB((LPBYTE)&pMsg, 0x4E, 0x07, sizeof(pMsg));
 
 	this->MsgIsMuunItemActive(&gGameObjects[aIndex], iPos);
-	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 bool CMuunSystem::IsMuunItem(CItem *pCitem)
@@ -2210,7 +2210,7 @@ void CMuunSystem::GCMuunInventoryUseItemResult(CGameObject &lpObj, int iUseType,
 	pResult.btItemUseType = iUseType;
 	pResult.btResult = iResult;
 	PHeadSubSetB((LPBYTE)&pResult, 0x4E, 0x08, sizeof(pResult));
-	IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
 }
 
 int CMuunSystem::AddMuunItemPeriodInfo(CGameObject &lpObj)
@@ -3360,7 +3360,7 @@ void CMuunSystem::SendMsgMuunExchange(CGameObject &lpObj, int iResult)
 
 	pMsg.btResult = iResult;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x4E, 0x13, sizeof(pMsg));
-	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void CMuunSystem::SetTarget(CGameObject &lpObj, int aTargetIndex)
