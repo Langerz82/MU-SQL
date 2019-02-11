@@ -42,7 +42,7 @@ public:
 
 	bool LoadSkillInfo();
 
-	int SpeedHackCheck(int aIndex);
+	int SpeedHackCheck(LPGameObject &lpObj);
 	int EnableSkill(WORD Skill);
 	int GetUseMana(LPGameObject &lpObj, CMagicInf* lpMagic);
 	int GetAddUseMana(LPGameObject &lpObj, CMagicInf* lpMagic);
@@ -55,7 +55,7 @@ public:
 	void WizardMagicDefense(LPGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic);
 	void SkillDefense(LPGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic);
 	void SkillAttack(LPGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic);
-	int SkillChangeUse(int aIndex);
+	int SkillChangeUse(LPGameObject &lpObj);
 	void SkillHealing(LPGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic);
 	int SkillMonsterCall(LPGameObject &lpObj, int MonsterType, int x, int y);
 	int SkillDeathPoison(LPGameObject &lpObj, CMagicInf* lpMagic, BYTE x, BYTE y, BYTE dir, BYTE TargetPos, int aTargetIndex);
@@ -96,7 +96,7 @@ public:
 	int SkillCloaking(LPGameObject &lpObj, int aTargetIndex, CMagicInf* lpMagic);
 	int SkillRemoveCloaking(LPGameObject &lpObj, int aTargetIndex, CMagicInf* lpMagic);
 	int SkillRemoveMagic(LPGameObject &lpObj, int aTargetIndex, CMagicInf* lpMagic);
-	int RemoveCloakingEffect(int aIndex);
+	int RemoveCloakingEffect(LPGameObject &lpObj);
 	int SkillStun(LPGameObject &lpObj, int aTargetIndex, CMagicInf* lpMagic, BYTE btX, BYTE btY, BYTE btDir, BYTE btTargetPos);
 	int RemoveAllCharacterInvalidMagicAndSkillState(LPGameObject &lpObj);
 	int RemoveSpecificSkillState(LPGameObject &lpObj, int iSkillNumber);

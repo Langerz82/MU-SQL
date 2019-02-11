@@ -3376,7 +3376,7 @@ void CDataServerProtocol::GDReqArcaBattleWinGuildInfo(LPGameObject &lpObj, PMSG_
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqDeleteArcaBattleInfo(int aIndex)
+void CDataServerProtocol::GDReqDeleteArcaBattleInfo(LPGameObject &lpObj)
 {
 	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleInfoDelete");
 	this->m_ArcaDB->Fetch();
@@ -3693,14 +3693,14 @@ void CDataServerProtocol::GDReqArcaBattleIsTopRank(LPGameObject &lpObj, PMSG_REQ
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqArcaBattleMarkRegAllDel(int aIndex)
+void CDataServerProtocol::GDReqArcaBattleMarkRegAllDel(LPGameObject &lpObj)
 {
 	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleGuildMarkInfoAllDel");
 	this->m_ArcaDB->Fetch();
 
 }
 
-void CDataServerProtocol::GDReqArcaBattleAllGuildMarkCnt(int aIndex)
+void CDataServerProtocol::GDReqArcaBattleAllGuildMarkCnt(LPGameObject &lpObj)
 {
 	PMSG_ANS_ALL_GUILD_MARK_CNT_DS pMsg;
 
@@ -4595,7 +4595,7 @@ void CDataServerProtocol::GDReqAcheronGuardianProcMultiCast(LPGameObject &lpObj,
 	}
 }
 
-void CDataServerProtocol::GDReqClassDefData(int aIndex)
+void CDataServerProtocol::GDReqClassDefData(LPGameObject &lpObj)
 {
 	PMSG_ANS_CLASSDEF pMsg;
 	PHeadSetW((LPBYTE)&pMsg, 0x02, sizeof(pMsg));

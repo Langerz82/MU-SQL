@@ -1,15 +1,11 @@
-////////////////////////////////////////////////////////////////////////////////
-// JewelMixSystem.h
-// ------------------------------
-// Decompiled by Deathway
-// Date : 2007-05-09
-// ------------------------------
-#ifndef JEWELMIXSYSTEM_H
-#define JEWELMIXSYSTEM_H
+#ifndef _MU_JEWELMIXSYSTEM_H
+#define _MU_JEWELMIXSYSTEM_H
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
+
+#include "StdAfx.h"
 
 class CJewelMixSystem
 {
@@ -31,8 +27,3 @@ private:
 };
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

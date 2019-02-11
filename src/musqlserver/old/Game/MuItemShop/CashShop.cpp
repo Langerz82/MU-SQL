@@ -2,24 +2,17 @@
 // GS-N 1.00.18 JPN	0x00585620	-	Completed
 //////////////////////////////////////////////////////////////////////
 
-#include "StdAfx.h"
 #include "CashShop.h"
 #include "GameServer.h"
-#include "GameMain.h"
-#include "Logging/Log.h"
-#include "DSProtocol.h"
-#include "SProtocol.h"
-#include "util.h"
+#include "Main.h"
+#include "GameProtocol.h"
 #include "gObjMonster.h"
-#include "LogToFile.h"
-#include "configread.h"
 #include "PeriodItemEx.h"
 #include "PentagramSystem.h"
 #include "ItemSocketOptionSystem.h"
 #include "Event/BloodCastle/BloodCastle.h"
 #include "DevilSquare.h"
 #include "ChaosCastle.h"
-#include "IniReader.h"
 #include "ItemOptionTypeMng.h"
 #include "SocketItemType.h"
 

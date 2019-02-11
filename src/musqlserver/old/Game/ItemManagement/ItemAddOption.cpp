@@ -2,10 +2,8 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "StdAfx.h"
 #include "ItemAddOption.h"
-#include "Protocol.h"
-#include "Logging/Log.h"
+#include "GameProtocol.h"
 
 CItemAddOption	g_ItemAddOption;
 

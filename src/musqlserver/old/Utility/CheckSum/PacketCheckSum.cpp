@@ -43,7 +43,7 @@ void CPacketCheckSum::Init()
 
 
 
-void CPacketCheckSum::Check(int aIndex)
+void CPacketCheckSum::Check(LPGameObject &lpObj)
 {
 	if ( aIndex < 0 || aIndex > g_ConfigRead.server.GetObjectMax()-1)
 	{
@@ -77,7 +77,7 @@ void CPacketCheckSum::Check(int aIndex)
 }
 
 
-void CPacketCheckSum::ClearCheckSum(int aIndex)
+void CPacketCheckSum::ClearCheckSum(LPGameObject &lpObj)
 {
 	memset(&this->PaketChecksum[aIndex], 0, sizeof(PAKETCHECKSUM) );
 }

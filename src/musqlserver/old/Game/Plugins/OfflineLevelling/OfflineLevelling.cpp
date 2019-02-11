@@ -144,7 +144,7 @@ BOOL COfflineLevelling::LoadFile(LPCSTR szFile)
 		}
 	}
 }
-int COfflineLevelling::FindUser(int aIndex)
+int COfflineLevelling::FindUser(LPGameObject &lpObj)
 {
 	EnterCriticalSection(&m_OfflevelCriti);
 	std::map<int,OFF_LEVEL_PLAYERS>::iterator iter = m_OffPlayerData.find(aIndex);
@@ -184,7 +184,7 @@ BOOL COfflineLevelling::AddUser(LPGameObject &lpObj, WORD wSkillId)
 	return true;
 }
 
-BOOL COfflineLevelling::DeleteUser(int aIndex)
+BOOL COfflineLevelling::DeleteUser(LPGameObject &lpObj)
 {
 	EnterCriticalSection(&m_OfflevelCriti);
 
@@ -350,7 +350,7 @@ void COfflineLevelling::FindAndAttack(LPGameObject &user)
 			break;
 	}
 }
-bool COfflineLevelling::ChargePlayer(int aIndex)
+bool COfflineLevelling::ChargePlayer(LPGameObject &lpObj)
 {
 	CGameObject* lpObj = &gGameObjects[aIndex];
 	
@@ -584,7 +584,7 @@ int COfflineLevelling::GetOffLevelerCount()
 	return counter;
 }
 
-bool COfflineLevelling::CheckUseTime(int aIndex)
+bool COfflineLevelling::CheckUseTime(LPGameObject &lpObj)
 {
 	CGameObject* lpObj = &gGameObjects[aIndex];
 
@@ -674,7 +674,7 @@ void COfflineLevelling::CheckAndPickUpItem(LPGameObject &lpObj, CMapItem* cMapIt
 	}
 }
 
-void COfflineLevelling::CheckRepairItems(int aIndex)
+void COfflineLevelling::CheckRepairItems(LPGameObject &lpObj)
 {
 	CGameObject* lpObj = &gGameObjects[aIndex];
 

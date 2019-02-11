@@ -1,14 +1,11 @@
-// TMonsterSkillElement.h: interface for the TMonsterSkillElement class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_TMONSTERSKILLELEMENT_H__34D7C501_EFB0_43E4_A73D_356315331BFE__INCLUDED_)
-#define AFX_TMONSTERSKILLELEMENT_H__34D7C501_EFB0_43E4_A73D_356315331BFE__INCLUDED_
+#ifndef _MU_TMONSTERSKILLELEMENT_U
+#define _MU_TMONSTERSKILLELEMENT_U
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "StdAfx.h"
 #include "TSkillElement.h"
 
 #define MAX_MONSTER_SKILL_ELEMENT	(200)
@@ -117,10 +114,4 @@ public:
 
 };
 
-#endif // !defined(AFX_TMONSTERSKILLELEMENT_H__34D7C501_EFB0_43E4_A73D_356315331BFE__INCLUDED_)
-
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-
+#endif

@@ -35,8 +35,8 @@ public:
 	void SortScore();
 	void InsertObj(LPGameObject &lpObj);
 	void SendScore();
-	BOOL AddUser(int aIndex);
-	BOOL DelUser(int aIndex);
+	BOOL AddUser(LPGameObject &lpObj);
+	BOOL DelUser(LPGameObject &lpObj);
 	BOOL ChangerUserIndex(int OldIndex, int NewIndex);
 	int GetPlayUserCountRightNow();
 	void DropReward(int iIndex);

@@ -27,7 +27,7 @@ struct STR_SERVER_ENGINE;
 void gObjServerInit();
 int gObjServerAddSearch();
 int gObjServerAdd(SOCKET Socket, char * Ip, int ServerIndex, eSERVER_TYPE eServerType);
-void gObjServerDel(int aIndex);
+void gObjServerDel(LPGameObject &lpObj);
 void LoadAllowableIpList(LPSTR filename);
 
 void gObjConnectStatSyncThread();

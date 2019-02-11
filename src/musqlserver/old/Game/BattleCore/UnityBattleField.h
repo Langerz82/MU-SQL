@@ -12,9 +12,9 @@ public:
 	virtual ~CUnityBattleField(void);
 
 	void LoadData(char *FileName);
-	void SendUBFNotice(int aIndex);
+	void SendUBFNotice(LPGameObject &lpObj);
 
-	void GDReqJoinUnityBattleField(int aIndex);
+	void GDReqJoinUnityBattleField(LPGameObject &lpObj);
 	void DGAnsJoinUnityBattleField(LPGameObject &lpObj, BYTE Result, WORD LeftSecond);
 	void GDReqCopyCharacterInfo(LPGameObject &lpObj, BYTE CharacterSlot);
 	void DGAnsCopyCharacterInfo(LPGameObject &lpObj, BYTE result, BYTE subResult);
@@ -24,7 +24,7 @@ public:
 	void GDReqCancelUnityBattleField(LPGameObject &lpObj, BYTE btCancelType);
 	void GDReqCancelUnityBattleField(LPGameObject &lpObj, BYTE btCancelType, const char *name);
 	void DGAnsCancelUnityBattleField(LPGameObject &lpObj, BYTE aCanceledResult, BYTE deletedResult);
-	void GDReqGetRealNameAndServerCode(int aIndex);
+	void GDReqGetRealNameAndServerCode(LPGameObject &lpObj);
 	void DGAnsGetRealNameAndServerCode(LPGameObject &lpObj, int nServerCodeOfHomeWorld);
 	void GDReqUBFGetReward(LPGameObject &lpObj, BYTE btBattleKind);
 	void GDReqSetReceivedWinnerItem(LPGameObject &lpObj, BYTE btBattleKind);

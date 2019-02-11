@@ -235,7 +235,7 @@ void CDevilSquareFinal::Load_DSFMonsterScript(char *pchFileName)
 	}
 }
 
-void CDevilSquareFinal::ReqDSFSchedule(int aIndex)
+void CDevilSquareFinal::ReqDSFSchedule(LPGameObject &lpObj)
 {
 	PMSG_ANS_DSF_SCHEDULE pResult;
 	PHeadSubSetB((LPBYTE)&pResult, 0xDB, 0x00, sizeof(pResult));
@@ -1241,7 +1241,7 @@ void CDevilSquareFinal::Set_DSFState_End()
 	sLog->outBasic("[DSF] SetState END");
 }
 
-BOOL CDevilSquareFinal::IsAlreadyExistUserInDSF(int aIndex)
+BOOL CDevilSquareFinal::IsAlreadyExistUserInDSF(LPGameObject &lpObj)
 {
 	for (int i = 0; i < 10; i++)
 	{
@@ -1568,7 +1568,7 @@ BOOL CDevilSquareFinal::Enter_DSF(LPGameObject &lpObj, BYTE btSlotNum)
 	}
 }
 
-BOOL CDevilSquareFinal::Leave_DSF(int aIndex)
+BOOL CDevilSquareFinal::Leave_DSF(LPGameObject &lpObj)
 {
 	if (lpObj->m_nDSFIndex == -1)
 	{
@@ -1759,7 +1759,7 @@ bool CDevilSquareFinal::CanStartDSFBattle()
 	return bCanStart;
 }
 
-void CDevilSquareFinal::SendDSFResult(int aIndex)
+void CDevilSquareFinal::SendDSFResult(LPGameObject &lpObj)
 {
 	for (int j = 0; j < 10; j++)
 	{
@@ -2510,7 +2510,7 @@ void CDevilSquareFinal::GDInsertRewardUser(char *szAccountID, char *szUserName, 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CDevilSquareFinal::GDReqGetReward(int aIndex)
+void CDevilSquareFinal::GDReqGetReward(LPGameObject &lpObj)
 {
 	PMSG_REQ_GET_DSF_REWARD pMsg;
 
@@ -2893,7 +2893,7 @@ void CDevilSquareFinal::EndUserMove()
 	}
 }
 
-void CDevilSquareFinal::DSFDropReward(OBJECTSTRUCT * lpUser, OBJECTSTRUCT * lpMonster)
+void CDevilSquareFinal::DSFDropReward(LPGameObject & lpUser, LPGameObject &lpMonster)
 {
 	if (this->m_btDSFRound != 5 && this->m_btDSFRound != 10 && this->m_btDSFRound != 15)
 	{

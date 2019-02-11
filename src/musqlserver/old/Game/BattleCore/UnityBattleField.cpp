@@ -29,7 +29,7 @@ void CUnityBattleField::LoadData(char *FileName)
 	this->m_bUBFCharacterPromotion = ReadBattleCore.ReadInt("BattleCore", "IsCharacterPromotion", 0);
 }
 
-void CUnityBattleField::SendUBFNotice(int aIndex)
+void CUnityBattleField::SendUBFNotice(LPGameObject &lpObj)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -47,7 +47,7 @@ void CUnityBattleField::SendUBFNotice(int aIndex)
 	}
 }
 
-void CUnityBattleField::GDReqJoinUnityBattleField(int aIndex)
+void CUnityBattleField::GDReqJoinUnityBattleField(LPGameObject &lpObj)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -407,7 +407,7 @@ void CUnityBattleField::DGAnsCancelUnityBattleField(LPGameObject &lpObj, BYTE aC
 	IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
 }
 
-void CUnityBattleField::GDReqGetRealNameAndServerCode(int aIndex)
+void CUnityBattleField::GDReqGetRealNameAndServerCode(LPGameObject &lpObj)
 {
 	if (!ObjectMaxRange(aIndex))
 	{

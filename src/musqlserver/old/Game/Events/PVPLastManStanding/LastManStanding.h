@@ -76,7 +76,7 @@ public:
 	void UserQuit(int index);
 	void Run();
 	void UserDie(LPGameObject &lpObj,int aTargetIndex);
-	void RewardUser(int aIndex);
+	void RewardUser(LPGameObject &lpObj);
 	void MoveAllUser(int Room);
 	void EndEvent(int room);
 	void AllPlayerMsgSend( char* chatmsg);

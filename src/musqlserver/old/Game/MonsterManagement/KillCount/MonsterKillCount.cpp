@@ -1,9 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MonsterKillCount.cpp
-#include "StdAfx.h"
-#include "User/CUserData.h"
 #include "MonsterKillCount.h"
-#include "DSProtocol.h"
+#include "User/CUserData.h"
+#include "GameProtocol.h"
 
 CKillCountMng g_KillCountMng;
 

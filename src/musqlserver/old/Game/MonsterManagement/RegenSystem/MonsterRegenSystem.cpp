@@ -1,14 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MonsterRegenSystem.cpp
-#include "StdAfx.h"
-#include "User/CUserData.h"
 #include "MonsterRegenSystem.h"
-#include "Logging/Log.h"
+#include "User/CUserData.h"
 #include "MapClass.h"
-#include "GameMain.h"
-#include "Event/ArcaBattle/ArcaBattle.h"
+#include "Main.h"
+#include "ArcaBattle.h"
 #include "TNotice.h"
-#include "configread.h"
 #include "BagManager.h"
 
 CMonsterRegenSystem g_MonsterRegenSystem;

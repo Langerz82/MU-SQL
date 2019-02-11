@@ -153,7 +153,7 @@ void CLastManStanding::Init()
 	}
 }
 
-int CLastManStanding::AddUser(int aIndex)
+int CLastManStanding::AddUser(LPGameObject &lpObj)
 {
 	if (!ObjectMaxRange(aIndex))
 		return -1;
@@ -492,7 +492,7 @@ void CLastManStanding::AllPlayerMsgSend( char* chatmsg)
 	}
 }
 
-void CLastManStanding::RewardUser(int aIndex)
+void CLastManStanding::RewardUser(LPGameObject &lpObj)
 {
 	g_BagManager.SearchAndUseBag(aIndex, BAG_EVENT, EVENTBAG_LMS, aIndex);
 }

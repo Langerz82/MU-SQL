@@ -14,7 +14,7 @@ class CCannonTower
 public:
 	CCannonTower();
 	virtual ~CCannonTower();
-	void CannonTowerAct(int aIndex);
+	void CannonTowerAct(LPGameObject &lpObj);
 };
 
 extern CCannonTower g_CsNPC_CannonTower;

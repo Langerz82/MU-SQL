@@ -2,12 +2,14 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_TMONSTERSKILLELEMENTINFO_H__8EC5FD6E_2B9F_409A_B2AA_70024491BEE5__INCLUDED_)
-#define AFX_TMONSTERSKILLELEMENTINFO_H__8EC5FD6E_2B9F_409A_B2AA_70024491BEE5__INCLUDED_
+#ifndef _MU_TMONSTERSKILLELEMENTINFO_H_
+#define _MU_TMONSTERSKILLELEMENTINFO_H_
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
+
+#include "StdAfx.h"
 
 class TMonsterSkillElementInfo
 {
@@ -78,10 +80,4 @@ public:
 };
 
 
-#endif // !defined(AFX_TMONSTERSKILLELEMENTINFO_H__8EC5FD6E_2B9F_409A_B2AA_70024491BEE5__INCLUDED_)
-
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-
+#endif

@@ -1,12 +1,7 @@
-////////////////////////////////////////////////////////////////////////////////
-// ItemSocketOptionSystem.cpp
-//#include "StdAfx.h"
 #include "ItemSocketOptionSystem.h"
-#include "../LargeRand.h"
-#include "../CUserData.h"
-#include "../Protocol.h"
-#include "Logging/Log.h"
-#include "../configread.h"
+#include "LargeRand.h"
+#include "CUserData.h"
+#include "GameProtocol.h"
 
 CItemSocketOptionSystem	g_SocketOptionSystem;
 

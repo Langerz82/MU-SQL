@@ -26829,7 +26829,7 @@ void gObjSetMuunInventory2Pointer(LPGameObject &lpObj)
 	lpObj->pMuunInventory = lpObj->pMuunInventory2;
 }
 
-BYTE gObjChkMuunInventoryEmpty(OBJECTSTRUCT *lpObj)
+BYTE gObjChkMuunInventoryEmpty(LPGameObject &lpObj)
 {
 	for (int i = 2; i < MUUN_INVENTORY_SIZE; ++i)
 	{

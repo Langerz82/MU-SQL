@@ -1,10 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// Marry.cpp
-#include "StdAfx.h"
 #include "Marry.h"
-#include "protocol.h"
-#include "Logging/Log.h"
-#include "util.h"
+#include "GameProtocol.h"
 #include "User/CUserData.h"
 #include "DSProtocol.h"
 #include "GameMain.h"
@@ -213,7 +208,7 @@ void CMarry::Propose(LPGameObject &lpObj, int uIndex)
 	sLog->outBasic("[Marry][%s][%s] Request to marry with [%s][%s]", lpObj->AccountID, lpObj->Name, gGameObjects[uIndex].AccountID, gGameObjects[uIndex].Name);
 }
 
-bool CMarry::Accept(int aIndex)
+bool CMarry::Accept(LPGameObject &lpObj)
 {
 	if (ObjectMaxRange(aIndex) == 0)
 	{
@@ -309,7 +304,7 @@ bool CMarry::Accept(int aIndex)
 	return true;
 }
 
-void CMarry::Divorce(int aIndex)
+void CMarry::Divorce(LPGameObject &lpObj)
 {
 	if (lpObj->Married == 0)
 	{
@@ -384,7 +379,7 @@ bool CMarry::CheckRequiredItem(LPGameObject &lpObj, int iSide)
 	return true;
 }
 
-bool CMarry::CheckDivorceItem(int aIndex)
+bool CMarry::CheckDivorceItem(LPGameObject &lpObj)
 {
 	if(!this->m_bNeedSpecialItemForDivorce) return true;
 
@@ -458,7 +453,7 @@ void CMarry::DeleteRequiredItem(LPGameObject &lpObj, int iSide)
 	LeaveCriticalSection(&this->m_criti);
 }
 
-void CMarry::DeleteDivorceItem(int aIndex)
+void CMarry::DeleteDivorceItem(LPGameObject &lpObj)
 {
 	if(!this->m_bNeedSpecialItemForDivorce) return;
 

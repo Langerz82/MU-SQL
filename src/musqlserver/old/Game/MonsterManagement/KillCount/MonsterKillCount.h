@@ -3,6 +3,11 @@
 #ifndef MONSTER_KILL_COUNT_H
 #define MONSTER_KILL_COUNT_H
 
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
+#include "StdAfx.h"
 
 class CKillCountMng
 {

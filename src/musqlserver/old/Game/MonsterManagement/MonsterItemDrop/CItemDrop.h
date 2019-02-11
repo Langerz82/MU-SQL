@@ -1,57 +1,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 // CItemDrop.h
-#ifndef ITEMDROP_H
-#define ITEMDROP_H
+#ifndef _MU_ITEMDROP_H
+#define _MU_ITEMDROP_H
 
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
+#include "StdAfx.h"
 #include "User/CUserData.h"
 
-struct ITEMDROP_ITEM
-{
-	BYTE btItemType;
-	WORD wItemIndex;
-	BYTE btItemMinLevel;
-	BYTE btItemMaxLevel;
-	BYTE btItemDurability;
-	BYTE btIsSkill;
-	BYTE btIsLuck;
-	BYTE btIsOption;
-	BYTE btIsExc[9];
-	BYTE btIsSetItem;
-	BYTE btSocketCount;
-	BYTE btIsElementalItem;
-	BYTE btMuunEvoItemType;
-	WORD wMuunEvoItemIndex;
-	DWORD dwItemDropRate;
-	DWORD dwPeriodDuration;
-};
-
-struct ITEMDROP_MONSTER
-{
-	ITEMDROP_MONSTER()
-	{
-		this->m_vtItems.clear();
-	}
-
-	WORD wMonsterID;
-	WORD wMonsterMinLevel;
-	WORD wMonsterMaxLevel;
-	BYTE btMonsterMapNumber;
-	DWORD dwItemDropRate;
-	BYTE btItemCount;
-	bool bIsCoinReward;
-	BYTE btCoinType;
-	DWORD dwCoinValue;
-	WORD wPlayerMinLevel;
-	WORD wPlayerMaxLevel;
-	std::vector<boost::shared_ptr<ITEMDROP_ITEM>> m_vtItems;
-};
-
-struct ZEN_DROP
-{
-	BYTE btMapNumber;
-	DWORD dwMinMoney;
-	DWORD dwMaxMoney;
-};
 
 class CItemDrop
 {
@@ -61,7 +19,7 @@ public:
 
 	bool LoadFile(const char* szFile);
 	bool LoadZenDropFile(const char* szFile);
-	bool DropItem(OBJECTSTRUCT* lpUser, OBJECTSTRUCT* lpMonster);
+	bool DropItem(LPGameObject &lpUser, LPGameObject &lpMonster);
 	bool IsZenDropActive(BYTE btMapNumber);
 	UINT64 GetZenAmount(BYTE btMapNumber, WORD wMonsterLevel);
 
@@ -84,12 +42,12 @@ private:
 		}
 	}
 
-	ITEMDROP_ITEM ** GetItem(OBJECTSTRUCT *lpUser, OBJECTSTRUCT* lpMonster, int & ItemCount);
+	ITEMDROP_ITEM ** GetItem(LPGameObject &lpUser, LPGameObject &lpMonster, int & ItemCount);
 
-	boost::shared_ptr<ITEMDROP_MONSTER> GetMonsterData(OBJECTSTRUCT *lpUser, OBJECTSTRUCT* lpMonster);
+	boost::shared_ptr<ITEMDROP_MONSTER> GetMonsterData(LPGameObject &lpUser, LPGameObject &lpMonster);
 	boost::shared_ptr<ITEMDROP_ITEM> GetItemFromMonster(boost::shared_ptr<ITEMDROP_MONSTER> itemdrop_monster_ptr);
 
-	void AddCoinReward(boost::shared_ptr<ITEMDROP_MONSTER> itemdrop_monster_ptr, OBJECTSTRUCT *lpUser);
+	void AddCoinReward(boost::shared_ptr<ITEMDROP_MONSTER> itemdrop_monster_ptr, LPGameObject &lpUser);
 
 	std::vector<boost::shared_ptr<ITEMDROP_MONSTER>> m_vtMonsterList;
 	std::map<int, ZEN_DROP> m_mapZenDrop;
@@ -101,9 +59,5 @@ private:
 };
 
 extern CItemDrop ItemDrop;
+
 #endif
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

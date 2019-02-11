@@ -44,7 +44,7 @@ public:
 	int Enter_ITR(LPGameObject &lpObj, BYTE byTempleIndex, BYTE bySlotNum);
 	int Leave_ITR(LPGameObject &lpObj, BYTE btMapNumber);
 
-	void ActRelicsGetOrRegister(OBJECTSTRUCT *lpNpc, LPGameObject lpObj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType);
+	void ActRelicsGetOrRegister(LPGameObject &lpNpc, LPGameObject lpObj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType);
 	void CancleStoneState(WORD wNpcType, BYTE byState, BYTE mapnumber);
 	void DropRelicsItem(BYTE btMapNumber, int nIndex);
 
@@ -58,8 +58,8 @@ public:
 	void ITR_USeSkill(int iIndex, WORD MagicNumber, int wTargetObjIndex, BYTE btDis);
 	void EventSkillProc(OBJECTSTRUCT* lpObj);
 
-	void IllusionTempleUserDie(OBJECTSTRUCT *lpObj);
-	void IllusionTempleUserDieRegen(OBJECTSTRUCT *lpObj);
+	void IllusionTempleUserDie(LPGameObject &lpObj);
+	void IllusionTempleUserDieRegen(LPGameObject &lpObj);
 
 	void SetMirageIndex(int nIndex);
 

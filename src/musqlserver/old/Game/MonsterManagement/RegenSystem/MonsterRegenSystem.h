@@ -1,3 +1,12 @@
+#ifndef _MU_MONSTERREGENSYSTEM_H
+#define _MU_MONSTERREGENSYSTEM_H
+
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
+#include "StdAfx.h"
+
 ////////////////////////////////////////////////////////////////////////////////
 // MonsterRegenSystem.h
 #ifndef MONSTERREGENSYSTEM_H
@@ -166,8 +175,3 @@ private:
 extern CMonsterRegenSystem g_MonsterRegenSystem;
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

@@ -250,7 +250,7 @@ public:
 	void Set_ITLState_End();
 
 	BOOL EnterUserIllusionTempleLeague(LPGameObject &lpObj, BYTE btTempleIndex, int nGuildIdx, int nPartyIdx);
-	BOOL LeaveUserIllusionTempleLeague(int aIndex);
+	BOOL LeaveUserIllusionTempleLeague(LPGameObject &lpObj);
 
 	bool CanStartITLBattle(BYTE & ALLIED, BYTE & ILLUSION);
 	void CheckUsersOnConnect();
@@ -262,7 +262,7 @@ public:
 	void DeleteAllRelicsItem();
 	int FindITLUser(int index);
 	void DropRelicsItem(int iIndex, BYTE byAct);
-	char CheckHaveRelics(int aIndex); 
+	char CheckHaveRelics(LPGameObject &lpObj); 
 	void SetRelicsInventoryPos(LPGameObject &lpObj, BYTE btPos);
 
 	void SendRelicsUserInfo(LPGameObject lpObj, BYTE byGet);
@@ -274,10 +274,10 @@ public:
 	void RemoveAllObj();
 
 	void SendRelicsError(LPGameObject lpObj, int index, BYTE byError, BYTE byAct);
-	void Check_GetRelics(OBJECTSTRUCT *lpNpc, LPGameObject lpObj, WORD wNpcType);
-	void GetRelics(OBJECTSTRUCT *lpNpc, LPGameObject lpObj, WORD wNpcType);
-	void Check_RegisterRelics(OBJECTSTRUCT *lpNpc, OBJECTSTRUCT *lpObj);
-	void RegisterRelics(OBJECTSTRUCT *lpNpc, OBJECTSTRUCT *lpObj);
+	void Check_GetRelics(LPGameObject &lpNpc, LPGameObject lpObj, WORD wNpcType);
+	void GetRelics(LPGameObject &lpNpc, LPGameObject lpObj, WORD wNpcType);
+	void Check_RegisterRelics(LPGameObject &lpNpc, OBJECTSTRUCT *lpObj);
+	void RegisterRelics(LPGameObject &lpNpc, OBJECTSTRUCT *lpObj);
 
 	void FirstRegen_OccupiedStone();
 	void FirstRegen_CursedStone();
@@ -299,12 +299,12 @@ public:
 	void ResetKillCount();
 
 	void ITL_UseSkill(int nIndex, WORD wSkillNumber, int nTargetIndex, BYTE btDis);
-	void ITLSkillProc(OBJECTSTRUCT *lpObj);
+	void ITLSkillProc(LPGameObject &lpObj);
 	void Send_ITL_SkillEnd(LPGameObject lpObj, WORD wSkillNumber);
-	int UseSkillProdection(OBJECTSTRUCT *lpObj);
-	int UseSkillRestraint(LPGameObject lpObj, OBJECTSTRUCT* lpTargetObj);
-	int UseSkillTeleport(OBJECTSTRUCT *lpObj);
-	int UseSkillShieldBurn(LPGameObject lpObj, OBJECTSTRUCT* lpTargetObj);
+	int UseSkillProdection(LPGameObject &lpObj);
+	int UseSkillRestraint(LPGameObject lpObj, LPGameObject &lpTargetObj);
+	int UseSkillTeleport(LPGameObject &lpObj);
+	int UseSkillShieldBurn(LPGameObject lpObj, LPGameObject &lpTargetObj);
 	void SendUseSkillResult(int nIndex, int nTargetIndex, WORD wSkillNumber, BYTE btResult);
 
 	void ITLUserDie(OBJECTSTRUCT* lpObj);
@@ -345,9 +345,9 @@ public:
 	int ReEnterUserIllusionTempleLeague(LPGameObject &lpObj, BYTE btTempleIndex, int nGuildIdx, int nPartyIdx, int nUserArrayNo, BYTE TeamIdx);
 
 	void CalcKillCountByTeam(BYTE &byAlliedKillSum, BYTE &byIllusionKillSum);
-	void ResetUserFlag_DoingRelicsThing(OBJECTSTRUCT *lpObj);
+	void ResetUserFlag_DoingRelicsThing(LPGameObject &lpObj);
 	void CancleStoneStateProcess(WORD wNpcType, BYTE byState);
-	int GetRelicsUserIndex(OBJECTSTRUCT *lpObj);
+	int GetRelicsUserIndex(LPGameObject &lpObj);
 
 	void ResetTimeVariables();
 	bool GetEntrance() { return this->m_bEntrance; }

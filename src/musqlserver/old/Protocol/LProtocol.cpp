@@ -28,7 +28,7 @@ CConServ::~CConServ()
 
 }
 
-void CConServ::ConnectResultSend(int aIndex)
+void CConServ::ConnectResultSend(LPGameObject &lpObj)
 {
 	PMSG_HELLO pMsg = {0};
 	pMsg.h.c = 0xC1;
@@ -45,7 +45,7 @@ void CConServ::ConnectResultSend(int aIndex)
 	
 }
 
-void CConServ::ServerListSend(int aIndex)
+void CConServ::ServerListSend(LPGameObject &lpObj)
 {
 	PMSG_SERVERSLIST_COUNT * pMsg;///(0xC2, 0xF4, 0x06);
 	PMSG_SERVERLIST_SERVER * pServer;
@@ -121,7 +121,7 @@ void CConServ::GetServerInfo(LPGameObject &lpObj, USHORT id)
 	}
 }
 
-void CConServ::GetServerList(int aIndex)
+void CConServ::GetServerList(LPGameObject &lpObj)
 {
 	if(g_ConnectedServers.size() > 0)
 	{	
@@ -318,7 +318,7 @@ void CConServ::LoadNewsFile(LPSTR szFile)
 
 }
 
-void CConServ::SendNews(int aIndex)
+void CConServ::SendNews(LPGameObject &lpObj)
 {
 
 	PMSG_SEND_TITLE pTitle;

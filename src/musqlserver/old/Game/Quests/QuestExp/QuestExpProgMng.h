@@ -48,7 +48,7 @@ public:
 	void DeleteInventoryItem(QuestGetItem* pQuestGetItem, int iObjIndex);
 	void ChkUserQuestTypeItem(QuestGetItem* pQuestGetItem, UserQuestAskInfo* pUserQuestAskInfo, int iObjIndex);
 
-	void ChkMonsterKillPartyPlay(DWORD dwQuestInfoIndexID, int iAskIndex, QuestMonsterKill* pQuestMonsterKill, OBJECTSTRUCT* lpObj, OBJECTSTRUCT* lpMonsterObj);
+	void ChkMonsterKillPartyPlay(DWORD dwQuestInfoIndexID, int iAskIndex, QuestMonsterKill* pQuestMonsterKill, LPGameObject &lpObj, LPGameObject &lpMonsterObj);
 	void ChkUserQuestTypeMonsterKill(LPGameObject lpObj, OBJECTSTRUCT *lpMonsterObj);
 
 	void ChkUserQuestType(int iQuestType, LPGameObject lpObj, OBJECTSTRUCT *lpMonsterObj, int iKillerObjIndex);

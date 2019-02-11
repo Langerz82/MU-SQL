@@ -806,7 +806,7 @@ struct PMSG_REQ_PERIODBUFF_SELECT
 	char szCharacterName[MAX_ACCOUNT_LEN+1];
 };
 
-void CBuffEffect::RequestPeriodBuffSelect(OBJECTSTRUCT *lpObj)
+void CBuffEffect::RequestPeriodBuffSelect(LPGameObject &lpObj)
 {
 	PMSG_REQ_PERIODBUFF_SELECT pMsg;
 

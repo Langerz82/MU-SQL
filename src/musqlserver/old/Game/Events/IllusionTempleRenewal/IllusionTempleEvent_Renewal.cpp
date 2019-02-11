@@ -212,7 +212,7 @@ int CIllusionTempleEvent_Renewal::Leave_ITR(LPGameObject &lpObj, BYTE btMapNumbe
 	return TRUE;
 }
 
-void CIllusionTempleEvent_Renewal::ActRelicsGetOrRegister(OBJECTSTRUCT *lpNpc, LPGameObject lpObj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType)
+void CIllusionTempleEvent_Renewal::ActRelicsGetOrRegister(LPGameObject &lpNpc, LPGameObject lpObj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType)
 {
 	if (!IT_MAP_RANGE(byMapNumber))
 	{
@@ -355,7 +355,7 @@ void CIllusionTempleEvent_Renewal::EventSkillProc(OBJECTSTRUCT* lpObj)
 	return this->m_cITR_Proc[lpObj->MapNumber - 45].ITRSkillProc(lpObj);
 }
 
-void CIllusionTempleEvent_Renewal::IllusionTempleUserDie(OBJECTSTRUCT *lpObj)
+void CIllusionTempleEvent_Renewal::IllusionTempleUserDie(LPGameObject &lpObj)
 {
 	this->m_cITR_Proc[lpObj->MapNumber - 45].ITRUserDie(lpObj);
 }

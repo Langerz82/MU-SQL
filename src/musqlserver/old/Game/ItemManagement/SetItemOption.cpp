@@ -1,23 +1,7 @@
-////////////////////////////////////////////////////////////////////////////////
-// SetItemOption.cpp
-// ------------------------------
-// Decompiled by Deathway
-// Date : 2007-05-09
-// ------------------------------
-// GS-N 0.99.60T 0x004E3170
-//	GS-N	1.00.18	JPN	0x0050BB90	-	Completed
 
-#include "StdAfx.h"
 #include "SetItemOption.h"
-#include "custTypedef.h"
-#include "prodef.h"
-#include "util.h"
-#include "Logging/Log.h"
-
 #include "WzMemScript.h"
 //#include "..\source\logproc.h"
-#include "readscript.h"
-#include <string>
 
 CSetItemOption gSetItemOption;
 

@@ -1,21 +1,21 @@
 ﻿////////////////////////////////////////////////////////////////////////////////
 // GensSystem.cpp
-#include "StdAfx.h"
+
 #include "GameMain.h"
 #include "GuildClass.h"
-#include "Protocols/DSProtocol.h"
+#include "GameProtocol.h"
 #include "IOCP.h"
 #include "User/CUserData.h"
-#include "Buff/BuffEffectSlot.h"
+#include "BuffEffectSlot.h"
 #include "configread.h"
-#include "ItemManagement/PentagramSystem.h"
-#include "ItemManagement/PeriodItemEx.h"
+#include "PentagramSystem.h"
+#include "PeriodItemEx.h"
 #include "MoveCommand.h"
 #include "util.h"
 #include "GensSystem.h"
-#include "Protocols/GensSystemProtocol.h"
-#include "Buff/BuffEffect.h"
-#include "Skill/MasterLevelSkillTreeSystem.h"
+#include "GensSystemProtocol.h"
+#include "BuffEffect.h"
+#include "MasterLevelSkillTreeSystem.h"
 #include "CustomMaxStats.h"
 
 char *szInfluence[] = { "NONE_INFLUENCE", "Duprian", "Vanert" };

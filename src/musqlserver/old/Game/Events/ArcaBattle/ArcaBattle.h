@@ -903,12 +903,12 @@ public:
 
 	void Clear();
 	bool LoadScriptArcaBattle(char *lpszFileName);
-	void BootyExchange(OBJECTSTRUCT *lpObj);
+	void BootyExchange(LPGameObject &lpObj);
 	int LoadScriptBootyMix(char *lpszFileName);
 	int GetBootyRewardItem(int iBootyCnt, _tagARCA_BATTLE_BOOTY_REWARD *pBootyRewardItem);
 
 	WORD GetObeliskAttrToRewardBuffIndex(int iObeliskAttr);
-	void SendArcaBattlePlayInfo(OBJECTSTRUCT *obj, WORD wGuildGroupNum);
+	void SendArcaBattlePlayInfo(LPGameObject &obj, WORD wGuildGroupNum);
 	void WinGuildMemberAddBuff(LPGameObject lpObj, unsigned __int16 wObeliskAttr);
 	void GiveRewardBuffWinningGuild();
 	void ReqRemoveRewardGuildBuff(char *szGuildName);
@@ -921,9 +921,9 @@ public:
 	void ReqGuildMemberDelBuffDel(char *szName, char *szGuildName);
 	void AddArcaBattleWinGuildInfo(_stABWinGuildInfoDS *pABWinGuildInfoDS, int iGuildCnt);
 	void SetDataLoadWinGuild(int bReqABWinGuildInfo);
-	int IsArcaBattleWinGuild(OBJECTSTRUCT *obj);
-	int IsArcaBattleOccupyZone(OBJECTSTRUCT *obj, int gt);
-	void SendArcaBattleOccupyZone(OBJECTSTRUCT *obj, int gt);
+	int IsArcaBattleWinGuild(LPGameObject &obj);
+	int IsArcaBattleOccupyZone(LPGameObject &obj, int gt);
+	void SendArcaBattleOccupyZone(LPGameObject &obj, int gt);
 
 	void Init();
 	int CheckSync();
@@ -959,7 +959,7 @@ public:
 	void SendMapServerGroupMsg(char *lpszMsg);
 	int GetJoinMemberCnt();
 
-	int EnterArcaBattleEvent(int aIndex);
+	int EnterArcaBattleEvent(LPGameObject &lpObj);
 	_tagArcaBattleUserInfo * GetUserInfo(char *szName);
 
 	void SendObeliskLife();
@@ -971,13 +971,13 @@ public:
 	int GetChkAura();
 	int GetMaxObeliskCnt();
 
-	int IsEnableAttackObelisk(OBJECTSTRUCT *obj, int iMonNumber);
-	int IsPkEnable(OBJECTSTRUCT *obj, OBJECTSTRUCT *Tarobj);
+	int IsEnableAttackObelisk(LPGameObject &obj, int iMonNumber);
+	int IsPkEnable(LPGameObject &obj, OBJECTSTRUCT *Tarobj);
 
 	void SendArcaBattleStateAll(int iState);
-	void SendArcaBattleCurrentState(OBJECTSTRUCT *obj);
+	void SendArcaBattleCurrentState(LPGameObject &obj);
 
-	int IsOccupyObelisk(OBJECTSTRUCT *obj, int iMonIndex);
+	int IsOccupyObelisk(LPGameObject &obj, int iMonIndex);
 
 	void NotifyArcaBattle(int iNotifyNum);
 
@@ -993,10 +993,10 @@ public:
 	int SetPosMonster(LPGameObject &lpObj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY);
 	int GetBoxPosition(int mapnumber, int ax, int ay, int aw, int ah, short &mx, short &my);
 
-	void AddContributePoint(OBJECTSTRUCT *obj, OBJECTSTRUCT *Tarobj);
-	void AddKillPoint(OBJECTSTRUCT *obj, OBJECTSTRUCT *Tarobj);
+	void AddContributePoint(LPGameObject &obj, OBJECTSTRUCT *Tarobj);
+	void AddKillPoint(LPGameObject &obj, OBJECTSTRUCT *Tarobj);
 
-	void BootyItemGetCnt(OBJECTSTRUCT *lpObj);
+	void BootyItemGetCnt(LPGameObject &lpObj);
 	void CalcRewardExp(LPGameObject lpObj, UINT64 & iRewardExp);
 
 	int DropItem(LPGameObject lpObj, OBJECTSTRUCT *lpMonsterObj);
@@ -1007,7 +1007,7 @@ public:
 	void DGAnsArcaBattleJoinMemberUnderReq(PMSG_ANS_AB_JOIN_CANCEL_DS *lpMsg);
 	void DGAnsRegisteredMemberCnt(PMSG_ANS_AB_REG_MEMBER_CNT_DS *lpMsg);
 
-	int GetGuildMasterPos(OBJECTSTRUCT *obj, int nGateNum, short & x, short & y);
+	int GetGuildMasterPos(LPGameObject &obj, int nGateNum, short & x, short & y);
 	void SetGuildMasterGateNum(int nGateNum, int nGuildNum);
 	int GetGuildMasterGateNum(int nGuildNum);
 
@@ -1021,7 +1021,7 @@ public:
 	void GCAnsMarkReg(int iIndex, DWORD dwMarkCnt);
 	void GCAnsMarkRegErrCode(int iResult, int iIndex);
 
-	void CGReqMarkRegButtonClick(OBJECTSTRUCT *lpObj);
+	void CGReqMarkRegButtonClick(LPGameObject &lpObj);
 
 	void CGReqMarkRank(int iIndex);
 	void GCAnsMarkRank(int iIndex, BYTE btRank, DWORD dwMarkCnt, BYTE btTopRankCnt, _stArcaBattleMarkTopRankDS *pArcaBattleMarkTopRank);
@@ -1043,7 +1043,7 @@ public:
 	void SetCheatABEnd();
 	void SetCheatABNextProc();
 
-	void CheatGDReqArcaBattleGuildJoin(OBJECTSTRUCT *lpObj);
+	void CheatGDReqArcaBattleGuildJoin(LPGameObject &lpObj);
 	void CheatGDReqArcaBattleGuildMemberJoin(LPGameObject lpObj, const char *lpszName);
 
 	void CheatABOccupyObelisk(LPGameObject lpObj, int iObeliskGroup);

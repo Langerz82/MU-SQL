@@ -422,7 +422,7 @@ void CArcaBattle::AddArcaBattleWinGuildInfo(_stABWinGuildInfoDS *pABWinGuildInfo
 	this->SetDataLoadWinGuild(1);
 }
 
-int CArcaBattle::IsArcaBattleWinGuild(OBJECTSTRUCT *obj)
+int CArcaBattle::IsArcaBattleWinGuild(LPGameObject &obj)
 {
 	if (obj->m_PlayerData->lpGuild )
 	{
@@ -467,7 +467,7 @@ BOOL CArcaBattle::IsArcaBattleOccupyZone(LPGameObject lpObj, int gt)
 	return FALSE;
 }
 
-void CArcaBattle::SendArcaBattleOccupyZone(OBJECTSTRUCT *obj, int gt)
+void CArcaBattle::SendArcaBattleOccupyZone(LPGameObject &obj, int gt)
 {
 	PMSG_SEND_AB_WIN_GUILD_INFO pMsg;
 
@@ -1224,7 +1224,7 @@ int CArcaBattle::GetJoinMemberCnt()
 	return this->m_iJoinGuildMemberCnt;
 }
 
-BOOL CArcaBattle::EnterArcaBattleEvent(int aIndex)
+BOOL CArcaBattle::EnterArcaBattleEvent(LPGameObject &lpObj)
 {
 	if (this->m_iCurUserCount < 0 || this->m_iCurUserCount > 299)
 	{
@@ -1894,7 +1894,7 @@ void CArcaBattle::SendArcaBattleStateAll(int iState)
 	}
 }
 
-void CArcaBattle::SendArcaBattleCurrentState(OBJECTSTRUCT *obj)
+void CArcaBattle::SendArcaBattleCurrentState(LPGameObject &obj)
 {
 	PMSG_ARCA_BATTLE_STATE pMsg;
 
@@ -2334,7 +2334,7 @@ int CArcaBattle::GetBoxPosition(int mapnumber, int ax, int ay, int aw, int ah, s
 	return false;
 }
 
-void CArcaBattle::AddContributePoint(LPGameObject &lpObj, OBJECTSTRUCT * lpTargetObj)
+void CArcaBattle::AddContributePoint(LPGameObject &lpObj, LPGameObject &lpTargetObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -2449,7 +2449,7 @@ void CArcaBattle::AddContributePoint(LPGameObject &lpObj, OBJECTSTRUCT * lpTarge
 		lpObj->AccountID, lpObj->Name, pUserInfo->m_stAcquiredPoints.dwContributePoints, lpObj->Level, lpTargetObj->Level, lpTargetObj->AccountID, lpTargetObj->Name);
 }
 
-void CArcaBattle::AddKillPoint(LPGameObject &lpObj, OBJECTSTRUCT * lpTargetObj)
+void CArcaBattle::AddKillPoint(LPGameObject &lpObj, LPGameObject &lpTargetObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -3012,7 +3012,7 @@ void CArcaBattle::GCAnsMarkRegErrCode(int iResult, int iIndex)
 	IOCP.DataSend(iIndex, (LPBYTE)&pMsg, sizeof(pMsg));
 }
 
-void CArcaBattle::CGReqMarkRegButtonClick(OBJECTSTRUCT *lpObj)
+void CArcaBattle::CGReqMarkRegButtonClick(LPGameObject &lpObj)
 {
 	int iValidItemCount = 0;
 	int iInvalidItemCount = 0;
@@ -3404,7 +3404,7 @@ void CArcaBattle::SetCheatABNextProc()
 	this->m_i64_AB_REMAIN_MSEC = 0;
 }
 
-void CArcaBattle::CheatGDReqArcaBattleGuildJoin(OBJECTSTRUCT *lpObj)
+void CArcaBattle::CheatGDReqArcaBattleGuildJoin(LPGameObject &lpObj)
 {
 	GDReqArcaBattleGuildJoin(lpObj);
 }
@@ -3687,7 +3687,7 @@ void CArcaBattle::DGAnsArcaBattleAllJoinUser(PMSG_ANS_AB_ALL_JOIN_USER_DS *lpMsg
 	}
 }
 
-void CArcaBattle::BootyExchange(OBJECTSTRUCT *lpObj)
+void CArcaBattle::BootyExchange(LPGameObject &lpObj)
 {
 	int iValidItemCount = 0;
 	int iInvalidItemCount = 0;

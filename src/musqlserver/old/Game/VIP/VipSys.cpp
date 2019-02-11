@@ -386,7 +386,7 @@ char * CVipSystem::GetVipName(BYTE btVipType)
 	return szVipName;
 }
 
-DWORD CVipSystem::GetPointPerReset(OBJECTSTRUCT *lpObj)
+DWORD CVipSystem::GetPointPerReset(LPGameObject &lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{

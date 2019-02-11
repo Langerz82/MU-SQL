@@ -118,7 +118,7 @@ public:
 	void RequestPeriodBuffDelete(LPGameObject lpObj, WORD wBuffIndex);
 	void RequestPeriodBuffDelete(char *szName, WORD wBuffIndex);
 	void RequestPeriodBuffInsert(LPGameObject lpObj, _tagPeriodBuffInfo *lpBuffInfo);
-	void RequestPeriodBuffSelect(OBJECTSTRUCT *lpObj);
+	void RequestPeriodBuffSelect(LPGameObject &lpObj);
 	void DGPeriodItemExSelect(PMSG_ANS_PERIODBUFF_SELECT *lpMsg);
 };
 

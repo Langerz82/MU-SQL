@@ -16,12 +16,12 @@ public:
 	CConServ();
 	~CConServ();
 
-	void ConnectResultSend(int aIndex);
-	void ServerListSend(int aIndex);
-	void GetServerList(int aIndex);
+	void ConnectResultSend(LPGameObject &lpObj);
+	void ServerListSend(LPGameObject &lpObj);
+	void GetServerList(LPGameObject &lpObj);
 	void GetServerInfo(LPGameObject &lpObj, USHORT ServerId);
 	void LoadNewsFile(LPSTR szFile);
-	void SendNews(int aIndex);
+	void SendNews(LPGameObject &lpObj);
 	void LoadServerList(LPSTR szFile);
 	CONNECT_OBJECT cObj[1000];
 

@@ -2,9 +2,8 @@
 // GuildClass.cpp
 #include "StdAfx.h"
 #include "GuildClass.h"
-#include "Logging/Log.h"
-#include "GameMain.h"
-#include "Protocols/protocol.h"
+#include "Main.h"
+#include "GameProtocol.h"
 
 // GS-N 0.99.60T 0x0048F590
 //BOOL CGuildClass::SetGuildMemberStatus(char* szGuildName, char* szMemberName, int iGuildStatus) - Special IF

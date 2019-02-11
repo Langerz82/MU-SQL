@@ -56,21 +56,21 @@ public:
 	void CGReqCardMatch(PMSG_REQ_CARD_MATCH *lpMsg, int aIndex);
 	void CGReqMuRummyEnd(PMSG_REQ_MURUMMY_END *lpMsg, int aIndex);
 
-	void GCSendCardList(int aIndex);
+	void GCSendCardList(LPGameObject &lpObj);
 	void GCSendMsg(LPGameObject &lpObj, BYTE btNotiIndex, int iValue);
 
 	void CheatSetCardColorAsc(CMuRummyInfo *pMuRummyInfo, int aIndex);
 	void CheatSetCardNumAsc(CMuRummyInfo *pMuRummyInfo, int aIndex);
 	void CheatSetScore(CMuRummyInfo *pMuRummyInfo, int iScore, int aIndex);
 
-	void GDReqCardInfo(OBJECTSTRUCT *lpObj);
+	void GDReqCardInfo(LPGameObject &lpObj);
 	void GDAnsCardInfo(PMSG_ANS_MURUMMY_SELECT_DS *lpMsg);
-	void GDReqCardInfoInsert(OBJECTSTRUCT *lpObj);
+	void GDReqCardInfoInsert(LPGameObject &lpObj);
 	void GDReqScoreUpdate(LPGameObject lpObj, WORD wScore, _tagMuRummyCardUpdateDS *pCardUpdateDS);
 	void GDReqCardInfoUpdate(LPGameObject lpObj, CMuRummyCardInfo *pCCardInfo, int iSeq);
-	void GDReqScoreDelete(OBJECTSTRUCT *lpObj);
+	void GDReqScoreDelete(LPGameObject &lpObj);
 	void GDReqSlotInfoUpdate(LPGameObject lpObj, BYTE btSeq, BYTE btSlotNum, BYTE btStatus);
-	void GDReqMuRummyInfoUpdate(OBJECTSTRUCT *lpObj);
+	void GDReqMuRummyInfoUpdate(LPGameObject &lpObj);
 	void GDReqMuRummyDBLog(LPGameObject lpObj, int iScore);
 
 	void Slot3Log(LPGameObject lpObj, int iLogType);

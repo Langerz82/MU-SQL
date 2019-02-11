@@ -115,7 +115,7 @@ public:
 	CMasterLevelSkillTreeSystem(void);
 	virtual ~CMasterLevelSkillTreeSystem(void);
 	friend CObjAttack;
-	friend void gObjCharZeroSet(int aIndex);
+	friend void gObjCharZeroSet(LPGameObject &lpObj);
 
 	void Init();
 	void AddToValueTable(int iSkillValueID, const char * szFunctionName, int iSkillValueType);
@@ -129,7 +129,7 @@ public:
 	int IsExistMLSBasedSkill(LPGameObject lpObj, int iSkill);
 	int GetBaseMasterLevelSkill(int iMLSkill);
 	int gObjMagicAdd_MLS(LPGameObject lpObj, int iMLSkill, int iSkillLevel);
-	void CGReqGetMasterLevelSkillTree(int aIndex);
+	void CGReqGetMasterLevelSkillTree(LPGameObject &lpObj);
 	void CGReqGetMasterLevelSkill(PMSG_REQ_MASTERLEVEL_SKILL *lpMsg, int aIndex);
 	int RunningSkill_MLS(LPGameObject lpObj, int aTargetIndex, CMagicInf *lpMagic, BOOL bCombo, BYTE x, BYTE y, BYTE aTargetPos);
 	int CheckUsableWeaponSkill(LPGameObject lpObj, int nCount);

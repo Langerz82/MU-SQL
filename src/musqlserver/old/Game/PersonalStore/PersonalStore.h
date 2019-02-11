@@ -266,7 +266,7 @@ public:
 	void CGPShopAnsSetItemPrice(LPGameObject &lpObj, BYTE btResult, BYTE btItemPos);
 	void CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN* lpMsg, int aIndex);
 	void CGPShopAnsOpen(LPGameObject &lpObj, BYTE btResult);
-	void CGPShopReqClose(int aIndex);
+	void CGPShopReqClose(LPGameObject &lpObj);
 	void CGPShopAnsClose(LPGameObject &lpObj, BYTE btResult);
 	void CGPShopReqBuyList(PMSG_REQ_BUYLIST_FROM_PSHOP* lpMsg, int aSourceIndex);
 
@@ -295,7 +295,7 @@ public:
 	void GDMovePShopItem(OBJECTSTRUCT* lpObj, int nOldPShopItemInvenNum, int nNewPShopItemInvenNum);
 	void GDAnsPShopItemValue(PMSG_ANS_PSHOPITEMVALUE_INFO *lpMsg);
 
-	void GCPShopItemValueInfo(int aIndex);
+	void GCPShopItemValueInfo(LPGameObject &lpObj);
 
 	void GCPShop_AllInfo(short aIndex, int iLastUserCount);
 	void GCPShop_SearchItem(short aIndex, WORD sSearchItem, int iLastUserCount);

@@ -421,7 +421,7 @@ private:
 	void GDReqArcaBattleEnter(LPGameObject &lpObj, PMSG_REQ_ARCA_BATTLE_ENTER_DS *aRecv);
 	void GDReqArcaBattleWinGuildInfoInsert(LPGameObject &lpObj, PMSG_REQ_AB_WIN_GUILD_INFO_INSERT_DS *aRecv);
 	void GDReqArcaBattleWinGuildInfo(LPGameObject &lpObj, PMSG_REQ_AB_WIN_GUILD_INFO_DS *aRecv);
-	void GDReqDeleteArcaBattleInfo(int aIndex);
+	void GDReqDeleteArcaBattleInfo(LPGameObject &lpObj);
 	void GDReqArcaBattleProcMultiCast(LPGameObject &lpObj, PMSG_REQ_AB_PROC_INSERT_DS *aRecv);
 	void GDReqArcaBattleProcState(LPGameObject &lpObj, PMSG_REQ_AB_PROC_STATE_DS *aRecv);
 	void GDReqArcaBattleJoinMemberUnder(LPGameObject &lpObj, PMSG_REQ_AB_JOIN_MEMBER_UNDER_DS *aRecv);
@@ -433,8 +433,8 @@ private:
 	void GDReqArcaBattleMarkRank(LPGameObject &lpObj, PMSG_REQ_ARCA_BATTLE_MARK_RANK_DS *aRecv);
 	void GDReqArcaBattleMarkRegDel(LPGameObject &lpObj, PMSG_REQ_ARCA_BATTLE_MARK_REG_DEL_DS *aRecv);
 	void GDReqArcaBattleIsTopRank(LPGameObject &lpObj, PMSG_REQ_ARCA_BATTLE_IS_TOP_RANK *aRecv);
-	void GDReqArcaBattleMarkRegAllDel(int aIndex);
-	void GDReqArcaBattleAllGuildMarkCnt(int aIndex);
+	void GDReqArcaBattleMarkRegAllDel(LPGameObject &lpObj);
+	void GDReqArcaBattleAllGuildMarkCnt(LPGameObject &lpObj);
 	void GDReqArcaBattleMarkRegSet(LPGameObject &lpObj, PMSG_REQ_AB_MARK_REG_UPDATE_DS *aRecv);
 	void GDReqArcaBattleGuildRegInit(LPGameObject &lpObj, PMSG_REQ_GUILD_REG_INIT *aRecv);
 	void GDReqArcaBattleAllJoinUser(LPGameObject &lpObj, PMSG_REQ_AB_ALL_JOIN_USER_DS *aRecv);
@@ -475,7 +475,7 @@ private:
 	void GDDelPShopItemValue(LPGameObject &lpObj, PMSG_DEL_PSHOPITEM * aRecv);
 	void GDMovePShopItem(LPGameObject &lpObj, PMSG_MOVE_PSHOPITEM * aRecv);
 	void GDReqAcheronGuardianProcMultiCast(LPGameObject &lpObj, PMSG_REQ_AE_PLAY_DS * aRecv);
-	void GDReqClassDefData(int aIndex);
+	void GDReqClassDefData(LPGameObject &lpObj);
 	void GDReqReBuyItemList(LPGameObject &lpObj, SDHP_REQ_SHOP_REBUY_LIST * aRecv);
 	void GDReqReBuyAddItem(LPGameObject &lpObj, SDHP_REQ_SHOP_REBUY_ADD_ITEM * aRecv);
 	void GDReqReBuyGetItem(LPGameObject &lpObj, SDHP_REQ_SHOP_REBUY_GET_ITEM * aRecv);

@@ -1,17 +1,10 @@
-////////////////////////////////////////////////////////////////////////////////
-// PentagramSystem.cpp
-//#include "StdAfx.h"
 #include "PentagramSystem.h"
 #include "PentagramMixSystem.h"
-#include "../CUserData.h"
-//#include "../protocol.h"
+#include "CUserData.h"
 #include "Logging/Log.h"
-//#include "../gObjMonster.h"
-#include "../util.h"
+#include "gObjMonster.h"
 #include "Main.h"
-#include "../DSProtocol.h"
-#include "../configread.h"
-#include "../pugixml.hpp"
+#include "GameProtocol.h"
 
 CPentagramSystem g_PentagramSystem;
 
@@ -583,7 +576,7 @@ bool CPentagramSystem::IsPentagramJewel(int ItemCode)
 	}
 }
 
-void CPentagramSystem::ClearPentagramItem(int aIndex)
+void CPentagramSystem::ClearPentagramItem(LPGameObject &lpObj)
 {
 	CGameObject* lpObj = &gGameObjects[aIndex];
 

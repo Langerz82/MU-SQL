@@ -970,7 +970,7 @@ void QuestExpProgMng::ChkUserQuestTypeItem(QuestGetItem* pQuestGetItem, UserQues
 	}
 }
 
-void QuestExpProgMng::ChkMonsterKillPartyPlay(DWORD dwQuestInfoIndexID, int iAskIndex, QuestMonsterKill* pQuestMonsterKill, OBJECTSTRUCT* lpObj, OBJECTSTRUCT* lpMonsterObj)
+void QuestExpProgMng::ChkMonsterKillPartyPlay(DWORD dwQuestInfoIndexID, int iAskIndex, QuestMonsterKill* pQuestMonsterKill, LPGameObject &lpObj, LPGameObject &lpMonsterObj)
 {
 	if (!pQuestMonsterKill)
 	{

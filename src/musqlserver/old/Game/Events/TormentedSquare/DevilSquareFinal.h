@@ -36,7 +36,7 @@ public:
 	void Initalize_DSFMonster();
 	void Load_DSFMonsterScript(char *pchFileName);
 
-	void ReqDSFSchedule(int aIndex);
+	void ReqDSFSchedule(LPGameObject &lpObj);
 
 	void DSFEventInit();
 
@@ -63,7 +63,7 @@ public:
 	void Set_DSFState_RoundBreak();
 	void Set_DSFState_End();
 
-	BOOL IsAlreadyExistUserInDSF(int aIndex);
+	BOOL IsAlreadyExistUserInDSF(LPGameObject &lpObj);
 
 	char Find_PartySlot(int nPartyNumber, BYTE & btSlotNum);
 	char Find_EmptyPartySlot(int nPartyNumber, BYTE & btSlotNum);
@@ -76,7 +76,7 @@ public:
 	void DeletePartyByIndex(int nIndex);
 
 	BOOL Enter_DSF(LPGameObject &lpObj, BYTE btSlotNum);
-	BOOL Leave_DSF(int aIndex);
+	BOOL Leave_DSF(LPGameObject &lpObj);
 
 	void ClearUserData(int nIndex);
 
@@ -86,14 +86,14 @@ public:
 	void CheckUsersOnConnect();
 	bool CanStartDSFBattle();
 
-	void SendDSFResult(int aIndex);
+	void SendDSFResult(LPGameObject &lpObj);
 	void SaveWinnerPartyPoint();
 	
 	void GDSaveDSFPartyPoint(char *szAccountID1, char *szUserName1, int nUser1Level, int nClass1, char *szAccountID2, char *szUserName2, int nUser2Level, int nClass2, int iDSFType, int iPoint, BYTE btEnterCnt);
 	void GDReqDSFPartyRankRenew(BYTE btDSFType);
 	void GDReqDSFGoFinalParty(int nDSFType);
 	void GDInsertRewardUser(char *szAccountID, char *szUserName, int iClass, int iDSFType);
-	void GDReqGetReward(int aIndex);
+	void GDReqGetReward(LPGameObject &lpObj);
 
 	void DSF_ProcessInit();
 
@@ -109,7 +109,7 @@ public:
 	void DSFUserDie(LPGameObject &lpObj);
 	void EndUserMove();
 	
-	void DSFDropReward(OBJECTSTRUCT * lpUser, OBJECTSTRUCT * lpMonster);
+	void DSFDropReward(LPGameObject & lpUser, LPGameObject &lpMonster);
 	void SetUBFGetReward(int iUserIndex, WORD wItemCode, UINT64 ItemSerial, BYTE btItemPos);
 	void GDReqSetDSFReward_UBF(int iUserIndex, BYTE btDSFType, BYTE btRewardType);
 

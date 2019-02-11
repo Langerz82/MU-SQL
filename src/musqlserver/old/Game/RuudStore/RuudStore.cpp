@@ -79,7 +79,7 @@ void CRuudStore::LoadFile(char * szFile)
 	}
 }
 
-bool CRuudStore::NpcTalk(OBJECTSTRUCT * lpNpc, LPGameObject &lpObj)
+bool CRuudStore::NpcTalk(LPGameObject & lpNpc, LPGameObject &lpObj)
 {
 	if (!gObjIsConnected(lpObj->m_Index))
 		return false;

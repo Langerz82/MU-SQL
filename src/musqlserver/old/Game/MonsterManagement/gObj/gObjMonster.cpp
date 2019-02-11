@@ -1,16 +1,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 // gObjMonster.cpp
-#include "StdAfx.h"
 #include "GameServer.h"
 #include "gObjMonster.h"
 #include "MonsterSetBase.h"
-#include "GameMain.h"
-#include "util.h"
+#include "Main.h"
 #include "BattleSoccerManager.h"
 #include "Mercenary.h"
-#include "protocol.h"
-#include "DSProtocol.h"
-#include "Event/BloodCastle/BloodCastle.h"
+#include "GameProtocol.h"
+#include "BloodCastle.h"
 #include "KalimaGate.h"
 #include "MonsterHerd.h"
 #include "CrywolfSync.h"
@@ -46,16 +43,16 @@
 #include "MuRummyMng.h"
 #include "LargeRand.h"
 #include "VipSys.h"
-#include "Event/AcheronGuardianEvent/AcheronGuardianEvent.h"
+#include "AcheronGuardianEvent.h"
 #include "ItemOptionTypeMng.h"
-#include "Event/BonusEvent/BonusEvent.h"
+#include "BonusEvent.h"
 #include "Kanturu.h"
 #include "EledoradoEvent.h"
 #include "EventMonSetBase.h"
 #include "MonsterRegenSystem.h"
 #include "EvolutionMonsterMng.h"
 #include "ItemDropEx.h"
-#include "Item_Bags.h"
+#include "ItemBags.h"
 #include "CustomMaxStats.h"
 #include "SocketItemType.h"
 #include "Notice.h"
@@ -5251,7 +5248,7 @@ BOOL gEventMonsterItemDrop(LPGameObject &lpObj, CGameObject* lpTargetObj)
 	return FALSE;
 }
 
-void gObjMonsterSummonSkillForLordSilvester(OBJECTSTRUCT *lpObj)
+void gObjMonsterSummonSkillForLordSilvester(LPGameObject &lpObj)
 {
 	PMSG_DURATION_MAGIC_RECV pDuration;
 	
@@ -5407,7 +5404,7 @@ void SendLordSilvesterBlockInfo(LPGameObject &lpObj, BYTE btMapSetType)
 	}
 }
 
-void CQeustNpcTeleport::Run(int aIndex)
+void CQeustNpcTeleport::Run(LPGameObject &lpObj)
 {
 	if ( this->RefCount > 0 )
 	{

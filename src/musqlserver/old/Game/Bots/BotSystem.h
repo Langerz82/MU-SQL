@@ -141,10 +141,10 @@ class CBotSystem
 	int AddBot(_sBOT_SETTINGS pBot); 
 	void BuffPlayer(WORD  wBufferindex,short aIndex);
 	void MakePreviewCharSet(LPGameObject &lpObj,_sBOT_INVENTORY_WEAR_ITEMS * pInv);
-	BYTE GetBotType(int aIndex);
+	BYTE GetBotType(LPGameObject &lpObj);
 	int GetSkillTime(LPGameObject &lpObj, WORD wSkillId);
 	bool CheckAlchemist(LPGameObject &lpObj, int botIndex );
-	int AlchemistTradeItemCount(int aIndex);
+	int AlchemistTradeItemCount(LPGameObject &lpObj);
 	void AlchemistTradeOpen(LPGameObject &lpObj, int botIndex);
 	void AlchemistTradeOk(LPGameObject &lpObj, int botIndex);
 	sBOT_REWARD_STRUCT ConfirmMixSuccess(LPGameObject &lpObj,int botIndex);

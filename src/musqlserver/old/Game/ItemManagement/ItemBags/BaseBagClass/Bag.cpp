@@ -1,15 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Bag.cpp
-#include "StdAfx.h"
 #include "Bag.h"
-#include "Logging/Log.h"
 #include "User/CUserData.h"
 #include "LuaBag.h"
-#include "util.h"
-#include "GameMain.h"
-#include "DSProtocol.h"
+#include "Main.h"
+#include "GameProtocol.h"
 #include "LargeRand.h"
-#include "configread.h"
 #include "MasterLevelSkillTreeSystem.h"
 #include "CustomMaxStats.h"
 
@@ -381,7 +377,7 @@ void CBag::MakeBagEffectUse(LPGameObject &lpObj, int iMonsterIndex)
 	IOCP.DataSend(aIndex, (LPBYTE)&ServerCmd, ServerCmd.h.size);
 }
 
-void CBag::AddCoin(int aIndex)
+void CBag::AddCoin(LPGameObject &lpObj)
 {
 	if (ObjectMaxRange(aIndex) == false)
 	{
@@ -401,7 +397,7 @@ void CBag::AddCoin(int aIndex)
 	sLog->outBasic("[Bag Manager] (%s)(%s) Add Coin: (Type:%d) (Amount:%d) (Bag:%s)", lpObj->AccountID, lpObj->Name, this->m_BagData.btAddCoinType, this->m_BagData.dwAddCoinValue, this->m_BagData.szBagName);
 }
 
-void CBag::DropSummonItem(int aIndex)
+void CBag::DropSummonItem(LPGameObject &lpObj)
 {
 	if (ObjectMaxRange(aIndex) == false)
 	{

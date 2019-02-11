@@ -964,6 +964,284 @@ struct PMSG_NOTICE_SEND;
 
 
 
+struct _KALIMAGATE_LEVEL
+{
+	int iLOWER_BOUND;	// 0
+	int iUPPER_BOUND;	// 4
+	int iLOWER_BOUND_MAGUMSA;	// 8
+	int iUPPER_BOUND_MAGUMSA;	// C
+
+} g_sttKALIMAGATE_LEVEL[KALIMA_FLOORS] =
+{
+	// Kalima 1
+	0x28, 0x82, // DK, DW, Elf
+	0x14, 0x6E, // MG, DL
+
+	// Kalima 2
+	0x83, 0xB4, // DK, DW, Elf
+	0x6F, 0xA0, // MG, DL
+
+	// Kalima 3
+	0xB5, 0xE6, // DK, DW, Elf
+	0xA1, 0xD2, // MG, DL
+
+	// Kalima 4
+	0xE7, 0x118, // DK, DW, Elf
+	0xD3, 0x104, // MG, DL
+
+	// Kalima 5
+	0x119, 0x14A, // DK, DW, Elf
+	0x105, 0x136, // MG, DL
+
+	// Kalima 6
+	0x14B, 0x15D, // DK, DW, Elf
+	0x137, 0x15D, // MG, DL
+
+	// Kalima 7
+	0x15E, 400, // DK, DW, Elf
+	0x15E, 400 // MG, DL
+};
+
+
+struct PMSG_MASTER_INFO_SEND
+{
+	PBMSG_HEAD2 h; //C1:F3:50
+	short MasterLevel;
+	BYTE MLExpHHH;
+	BYTE MLExpHHL;
+	BYTE MLExpHLH;
+	BYTE MLExpHLL;
+	BYTE MLExpLHH;
+	BYTE MLExpLHL;
+	BYTE MLExpLLH;
+	BYTE MLExpLLL;
+	BYTE MLNextExpHHH;
+	BYTE MLNextExpHHL;
+	BYTE MLNextExpHLH;
+	BYTE MLNextExpHLL;
+	BYTE MLNextExpLHH;
+	BYTE MLNextExpLHL;
+	BYTE MLNextExpLLH;
+	BYTE MLNextExpLLL;
+	WORD MasterPoint;
+	WORD MaxLife;
+	WORD MaxMana;
+	WORD MaxShield;
+	WORD MaxBP;
+	int IGCLife;
+	int IGCMana;
+};
+
+struct PMSG_MASTER_LEVEL_UP_SEND
+{
+	PBMSG_HEAD2 h;
+	WORD MasterLevel;
+	WORD GainPoint;
+	WORD MLPoint;
+	WORD MaxPoint;
+	WORD MaxLife;
+	WORD MaxMana;
+	WORD MaxShield;
+	WORD MaxBP;
+	int IGCMaxLife;
+	int IGCMaxMana;
+};
+
+struct PMSG_MASTER_SKILL_RECV
+{
+	PBMSG_HEAD2 h; //C1:F3:52
+	WORD MasterSkill;
+	WORD MasterEmpty;
+};
+
+struct PMSG_MASTER_SKILL_SEND
+{
+	PBMSG_HEAD2 h; //C1:F3:52
+	BYTE type;
+	BYTE flag;
+	WORD MasterPoint;
+	WORD MasterSkill;
+	WORD MasterEmpty;
+	DWORD ChkSum;
+};
+
+struct MARRY_ITEM
+{
+	int m_iSide;
+	WORD m_wItemID;
+	int m_iItemCount;
+};
+
+struct SDHP_REQ_LOAD_MINESYSTEM_UPT_USERINFO
+{
+	PBMSG_HEAD2 h;
+	WORD wUserIndex;
+	char szCharName[MAX_ACCOUNT_LEN + 1];
+};
+
+struct SDHP_REQ_MINESYSTEM_UPT_USERINFO
+{
+	PBMSG_HEAD2 h;
+	WORD wUserIndex;
+	char szCharName[MAX_ACCOUNT_LEN + 1];
+	WORD wTwinkleType;
+	int iCurrentStage;
+	BYTE byRequestType;
+};
+
+struct SDHP_ANS_MINESYSTEM_UPT_USERINFO
+{
+	PBMSG_HEAD2 h;
+	WORD wUserIndex;
+	BYTE byRequestType;
+	BYTE Result;
+};
+
+struct SDHP_ANS_LOAD_MINESYSTEM_UPT_USERINFO
+{
+	PBMSG_HEAD2 h;
+	WORD wUserIndex;
+	BYTE byResult;
+	char szCharName[MAX_ACCOUNT_LEN + 1];
+	WORD wTwinkleType;
+	int iCurrentStage;
+};
+
+struct PMSG_PENTAGRAM_JEWEL_REFINE_RECV
+{
+	PBMSG_HEAD2 header; // C1:EC:02
+	BYTE type;
+};
+
+struct _stReqGremoryCaseItemList
+{
+	PBMSG_HEAD2 h;
+	int iIndex;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+};
+
+struct _stAnsGremoryCaseItemList
+{
+	PWMSG_HEAD2 h;
+	int iIndex;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+	BYTE btResult;
+	BYTE btCount;
+};
+
+struct _stReqAddItemToGremoryCase
+{
+	PBMSG_HEAD2 h;
+	int iIndex;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+	_stGremoryCaseItem m_GremoryCaseItem;
+};
+
+struct _stAnsAddItemToGremoryCase
+{
+	PBMSG_HEAD2 h;
+	int iIndex;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+	BYTE btResult;
+	_stGremoryCaseItem m_GremoryCaseItem;
+};
+
+struct _stReqCheckUseItemGremoryCase
+{
+	PBMSG_HEAD2 h;
+	int iIndex;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+	WORD wItemID;
+	DWORD dwItemGUID;
+	DWORD dwAuthCode;
+};
+
+struct _stAnsCheckUseItemGremoryCase
+{
+	PBMSG_HEAD2 h;
+	int iIndex;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+	BYTE btResult;
+	WORD wItemID;
+	DWORD dwItemGUID;
+	DWORD dwAuthCode;
+};
+
+struct _stReqDeleteItemFromGremoryCase
+{
+	PBMSG_HEAD2 h;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+	WORD wItemID;
+	DWORD dwItemGUID;
+	DWORD dwAuthCode;
+};
+
+struct PMSG_RECEIVE_GREMORYCASE_ITEMLIST // 4F:00 GS->CL
+{
+	PWMSG_HEAD2 h;
+	BYTE btCount;
+};
+
+#pragma pack (1)
+struct PMSG_RECEIVE_GREMORYCASE_ITEM // 4F:01 GS->CL
+{
+	PBMSG_HEAD2 h;
+	PMSG_GREMORYCASE_ITEM m_ReceivedItem;
+};
+#pragma pack ()
+
+struct PMSG_ADD_GREMORYCASE_ITEM_TO_INVENTORY_REQ // 4F:02 CL->GS
+{
+	PBMSG_HEAD2 h;
+	WORD wItemID;
+	DWORD dwItemGUID;
+	DWORD dwAuthCode;
+};
+
+struct PMSG_ADD_GREMORYCASE_ITEM_TO_INVENTORY_ANS // 4F:02 GS->CL
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	BYTE btStorageType;
+	WORD wItemID;
+	DWORD dwAuthCode;
+	DWORD dwItemGUID;
+};
+
+struct PMSG_REMOVE_ITEM_FROM_GREMORYCASE // 4F:03 GS->CL
+{
+	PBMSG_HEAD2 h;
+	BYTE btStorageType;
+	WORD wItemID;
+	DWORD dwAuthCode;
+	DWORD dwItemGUID;
+};
+
+struct PMSG_GREMORYCASE_SENT_NOTICE // 4F:04 GS->CL
+{
+	PBMSG_HEAD2 h;
+	BYTE btNoticeIndex;
+};
+
+struct PMSG_GREMORYCASE_OPEN_REQ // 4F:05 CL->GS
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_GREMORYCASE_OPEN_ANS // 4F:05 GS->CL
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+};
+
+
 struct PMSG_NOTICE_SEND
 {
 	PBMSG_HEAD header;

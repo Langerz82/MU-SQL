@@ -61,23 +61,23 @@ public:
 	void Init();
 	void LoadFile(char *szFile);
 
-	bool UseSummonScroll(int aIndex);
+	bool UseSummonScroll(LPGameObject &lpObj);
 
 	int SummonEvoMon(LPGameObject &lpObj);
 	int SetField(int iEvoMonIndex, int nFieldIndex, int nOnwerIndex, int iFieldClass);
 
-	void EvolutionMonsterDie(OBJECTSTRUCT * lpTargetObj, LPGameObject &lpObj);
-	void FieldProcess(OBJECTSTRUCT * lpFieldIndex);
-	void EndTimeProcess(OBJECTSTRUCT * lpMonsterObj);
+	void EvolutionMonsterDie(LPGameObject & lpTargetObj, LPGameObject &lpObj);
+	void FieldProcess(LPGameObject & lpFieldIndex);
+	void EndTimeProcess(LPGameObject & lpMonsterObj);
 
 	void EvoluteMonster(LPGameObject &lpObj);
-	void SetMonsterStats(OBJECTSTRUCT * lpMonsterObj, EVOMON_MONSTER_DATA m_MonsterData);
+	void SetMonsterStats(LPGameObject & lpMonsterObj, EVOMON_MONSTER_DATA m_MonsterData);
 
 	void EndEvoMon(LPGameObject &lpObj);
-	void UserQuit(OBJECTSTRUCT *lpObj);
+	void UserQuit(LPGameObject &lpObj);
 
 	void GCSendUserScore(LPGameObject &lpObj, int nScore);
-	void GCSendEvoMonNotice(int aIndex);
+	void GCSendEvoMonNotice(LPGameObject &lpObj);
 
 	void GiveReward(LPGameObject &lpObj, bool bSpecialEvoMon);
 	bool IsEventMap(int iMapNumber, int iX, int iY);
@@ -86,7 +86,7 @@ public:
 	bool IsEvolutedEvoMon(int iMonsterIndex);
 	int GetOwnerIndex(int iMonsterIndex);
 
-	void GDReqEvoMonMaxScore(int aIndex);
+	void GDReqEvoMonMaxScore(LPGameObject &lpObj);
 	void DGAnsEvoMonMaxScore(LPBYTE lpRecv);
 
 	void GDReqSaveEvoMonScore(LPGameObject &lpObj, int nScore, int nTotalDamage);

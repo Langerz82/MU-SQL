@@ -47,13 +47,13 @@ public:
 
 	bool LoadFile(char *szFile);
 	void CalcStatOption(LPGameObject lpObj, int StatOptionID);
-	void SendOptionList(OBJECTSTRUCT *lpObj);
-	void ClearUserOption(OBJECTSTRUCT *lpObj);
+	void SendOptionList(LPGameObject &lpObj);
+	void ClearUserOption(LPGameObject &lpObj);
 	MULua m_Lua;
 
 private:
 	void SetStatOption(LPGameObject lpObj, int StatOptionID, double StatOptionPercent);
-	int GetUserArrayIndex(OBJECTSTRUCT *lpObj);
+	int GetUserArrayIndex(LPGameObject &lpObj);
 
 	bool m_bFileLoad;
 	STAT_OPTION m_StatOptions[MAX_STAT_OPTIONS];

@@ -14,7 +14,7 @@
 #include "gObjMonster.h"
 #include "MapClass.h"
 #include "BloodCastle.h"
-#include "DSProtocol.h"
+#include "GameProtocol.h"
 #include "CashShop.h"
 #include "MasterLevelSkillTreeSystem.h"
 #include "PersonalStore.h"

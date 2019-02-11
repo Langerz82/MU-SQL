@@ -8,7 +8,6 @@
 #include "StdAfx.h"
 #include "ProtocolStructs.h"
 
-#define MAX_CHAT_LEN 90
 
 struct CSP_ANS_GUILDREGINFO;
 struct CSP_ANS_GUILDREGMARK;

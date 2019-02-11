@@ -1,22 +1,12 @@
-////////////////////////////////////////////////////////////////////////////////
-// SetItemOption.h
-// ------------------------------
-// Decompiled by Deathway
-// Date : 2007-05-09
-// ------------------------------
-#ifndef SETITEMOPTION_H
-#define SETITEMOPTION_H
+#ifndef _MU_SETITEMOPTION_H
+#define _MU_SETITEMOPTION_H
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "StdAfx.h"
 #include "Item.h"
-#include "../classdef.h"
-
-#define MAX_SETITEM_OPTION	80
-#define OPTION_TABLE_SIZE	6
-#define FULL_OPTION_TABLE_SIZE	5
 
 
 enum eOptionType
@@ -186,8 +176,3 @@ private:
 extern CSetItemOption gSetItemOption;
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

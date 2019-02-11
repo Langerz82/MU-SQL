@@ -19,7 +19,7 @@ public:
 	
 	void Init();
 
-	void CalcCharacter(int aIndex);
+	void CalcCharacter(LPGameObject &lpObj);
 	void CalcSetItemStat(LPGameObject &lpObj);
 	void GetSetItemOption(LPGameObject &lpObj, LPBYTE pSetOptionTable, LPBYTE pSetOptionCountTable, int * pSetOptionCount);
 	void CalcSetItemOption(LPGameObject &lpObj);

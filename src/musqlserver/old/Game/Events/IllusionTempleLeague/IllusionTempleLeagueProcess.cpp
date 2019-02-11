@@ -928,7 +928,7 @@ BOOL CIllusionTempleLeagueProcess::EnterUserIllusionTempleLeague(LPGameObject &l
 	return bResult;
 }
 
-BOOL CIllusionTempleLeagueProcess::LeaveUserIllusionTempleLeague(int aIndex)
+BOOL CIllusionTempleLeagueProcess::LeaveUserIllusionTempleLeague(LPGameObject &lpObj)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -1465,7 +1465,7 @@ void CIllusionTempleLeagueProcess::RemoveAllObj()
 	sLog->outBasic("[ ITL ] (%d) Remove All Object", this->m_nTempleNumber + 1);
 }
 
-void CIllusionTempleLeagueProcess::SendRelicsError(OBJECTSTRUCT *lpNpc, int index, BYTE byError, BYTE byAct)
+void CIllusionTempleLeagueProcess::SendRelicsError(LPGameObject &lpNpc, int index, BYTE byError, BYTE byAct)
 {
 	if (!lpNpc)
 	{
@@ -1487,7 +1487,7 @@ void CIllusionTempleLeagueProcess::SendRelicsError(OBJECTSTRUCT *lpNpc, int inde
 		index, byError, byAct, lpNpc->Class, lpNpc->m_Index);
 }
 
-void CIllusionTempleLeagueProcess::Check_GetRelics(OBJECTSTRUCT *lpNpc, LPGameObject lpObj, WORD wNpcType)
+void CIllusionTempleLeagueProcess::Check_GetRelics(LPGameObject &lpNpc, LPGameObject lpObj, WORD wNpcType)
 {
 	if (!lpNpc)
 	{
@@ -1612,7 +1612,7 @@ void CIllusionTempleLeagueProcess::Check_GetRelics(OBJECTSTRUCT *lpNpc, LPGameOb
 	}
 }
 
-void CIllusionTempleLeagueProcess::GetRelics(OBJECTSTRUCT *lpNpc, LPGameObject lpObj, WORD wNpcType)
+void CIllusionTempleLeagueProcess::GetRelics(LPGameObject &lpNpc, LPGameObject lpObj, WORD wNpcType)
 {
 	if (!lpNpc || !lpObj)
 	{
@@ -1747,7 +1747,7 @@ void CIllusionTempleLeagueProcess::GetRelics(OBJECTSTRUCT *lpNpc, LPGameObject l
 	this->ResetUserFlag_DoingRelicsThing(lpObj);
 }
 
-void CIllusionTempleLeagueProcess::Check_RegisterRelics(OBJECTSTRUCT *lpNpc, OBJECTSTRUCT *lpObj)
+void CIllusionTempleLeagueProcess::Check_RegisterRelics(LPGameObject &lpNpc, OBJECTSTRUCT *lpObj)
 {
 	if (!lpNpc || !lpObj)
 	{
@@ -1820,7 +1820,7 @@ void CIllusionTempleLeagueProcess::Check_RegisterRelics(OBJECTSTRUCT *lpNpc, OBJ
 	}
 }
 
-void CIllusionTempleLeagueProcess::RegisterRelics(OBJECTSTRUCT *lpNpc, OBJECTSTRUCT *lpObj)
+void CIllusionTempleLeagueProcess::RegisterRelics(LPGameObject &lpNpc, OBJECTSTRUCT *lpObj)
 {
 	if (lpNpc->m_State == 0)
 	{
@@ -3335,7 +3335,7 @@ void CIllusionTempleLeagueProcess::CalcKillCountByTeam(BYTE &byAlliedKillSum, BY
 	}
 }
 
-void CIllusionTempleLeagueProcess::ResetUserFlag_DoingRelicsThing(OBJECTSTRUCT *lpObj)
+void CIllusionTempleLeagueProcess::ResetUserFlag_DoingRelicsThing(LPGameObject &lpObj)
 {
 	if (!lpObj)
 	{
@@ -3415,7 +3415,7 @@ void CIllusionTempleLeagueProcess::CancleStoneStateProcess(WORD wNpcType, BYTE b
 	this->Send_ITL_StoneInfo(0, wNpcType, SendState, nNpcIndex, byMapTagIndex);
 }
 
-int CIllusionTempleLeagueProcess::GetRelicsUserIndex(OBJECTSTRUCT *lpObj)
+int CIllusionTempleLeagueProcess::GetRelicsUserIndex(LPGameObject &lpObj)
 {
 	if (!lpObj)
 	{

@@ -364,7 +364,7 @@ int CIllusionTempleLeagueEvent::Leave_ITL(LPGameObject &lpObj, BYTE btMapNumber)
 	return TRUE;
 }
 
-void CIllusionTempleLeagueEvent::ActRelicsGetOrRegister(OBJECTSTRUCT *lpNpc, LPGameObject lpObj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType)
+void CIllusionTempleLeagueEvent::ActRelicsGetOrRegister(LPGameObject &lpNpc, LPGameObject lpObj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType)
 {
 	if (!ITL_MAP_RANGE(byMapNumber))
 	{
@@ -500,7 +500,7 @@ void CIllusionTempleLeagueEvent::EventSkillProc(OBJECTSTRUCT* lpObj)
 	return this->m_cIllusionTempleLeagueProc[lpObj->MapNumber - 98].ITLSkillProc(lpObj);
 }
 
-void CIllusionTempleLeagueEvent::IllusionTempleLeagueUserDie(OBJECTSTRUCT *lpObj)
+void CIllusionTempleLeagueEvent::IllusionTempleLeagueUserDie(LPGameObject &lpObj)
 {
 	this->m_cIllusionTempleLeagueProc[lpObj->MapNumber - 98].ITLUserDie(lpObj);
 }
@@ -970,7 +970,7 @@ void CIllusionTempleLeagueEvent::Send_ITL_Tournament(LPGameObject &lpObj, BYTE b
 	lpObj->m_bITL_TournamentInfoSend = true;
 }
 
-void CIllusionTempleLeagueEvent::Send_ITL_GuildRankInfo(int aIndex)
+void CIllusionTempleLeagueEvent::Send_ITL_GuildRankInfo(LPGameObject &lpObj)
 {
 	PMSG_ITL_GUILD_RANKINFO pMsg;
 	__ITL_GUILD_RANK pGuildInfo;

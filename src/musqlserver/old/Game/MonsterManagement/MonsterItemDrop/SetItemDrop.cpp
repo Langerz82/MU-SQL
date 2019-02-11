@@ -1,10 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // SetItemDrop.cpp
-#include "StdAfx.h"
 #include "SetItemDrop.h"
 #include "User/CUserData.h"
 #include "SetItemOption.h"
-#include "DSProtocol.h"
+#include "GameProtocol.h"
 #include "ItemOptionTypeMng.h"
 #include "configread.h"
 #include "LargeRand.h"
@@ -288,7 +287,7 @@ bool CSetItemDrop::DropItem(LPGameObject &lpMonster, CGameObject* lpUser)
 	return true;
 }
 
-SETITEM_DROP_RULE * CSetItemDrop::GetDropRule(OBJECTSTRUCT * lpUser, OBJECTSTRUCT * lpMonster)
+SETITEM_DROP_RULE * CSetItemDrop::GetDropRule(LPGameObject & lpUser, LPGameObject &lpMonster)
 {
 	TRandomPoolMgr RandomPoolSection;
 

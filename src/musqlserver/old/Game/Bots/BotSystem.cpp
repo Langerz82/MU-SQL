@@ -651,7 +651,7 @@ void CBotSystem::BuffPlayer(WORD  wBufferindex,short aIndex)
 	GSProtocol.GCMoneySend(aIndex,lpObj->m_PlayerData->Money);
 }
 
-BYTE CBotSystem::GetBotType(int aIndex)
+BYTE CBotSystem::GetBotType(LPGameObject &lpObj)
 {
 	for(int i=0;i<this->iCount;i++)
 	{
@@ -781,7 +781,7 @@ bool CBotSystem::CheckAlchemist(LPGameObject &lpObj, int botIndex)
 	}
 	return true;
 }
-int CBotSystem::AlchemistTradeItemCount(int aIndex)
+int CBotSystem::AlchemistTradeItemCount(LPGameObject &lpObj)
 {
 	int Count=0;
 

@@ -1,16 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Marry.h
-#ifndef _CMARRY_H_
-#define _CMARRY_H_
+#ifndef _MU_CMARRY_H_
+#define _MU_CMARRY_H_
 
+#include "StdAfx.h"
 #include "User/CUserData.h"
-
-struct MARRY_ITEM
-{
-	int m_iSide;
-	WORD m_wItemID;
-	int m_iItemCount;
-};
 
 class CMarry
 {
@@ -21,16 +15,16 @@ public:
 	void LoadFile(char *filename);
 
 	void Propose(LPGameObject &lpObj, int uIndex);
-	bool Accept(int aIndex);
-	void Divorce(int aIndex);
+	bool Accept(LPGameObject &lpObj);
+	void Divorce(LPGameObject &lpObj);
 
 private:
 	bool CheckPosition(LPGameObject &lpObj, int uIndex);
 	bool CheckRequiredItem(LPGameObject &lpObj, int iSide);
-	bool CheckDivorceItem(int aIndex);
+	bool CheckDivorceItem(LPGameObject &lpObj);
 	void GiveGiftItem(LPGameObject &lpObj, int iSide);
 	void DeleteRequiredItem(LPGameObject &lpObj, int iSide);
-	void DeleteDivorceItem(int aIndex);
+	void DeleteDivorceItem(LPGameObject &lpObj);
 
 	bool m_bFileLoad;
 	bool m_bMarryEnable;
@@ -58,12 +52,12 @@ private:
 	CRITICAL_SECTION m_criti;
 };
 
-inline bool isFemale(int aIndex)
+inline bool isFemale(LPGameObject &lpObj)
 {
 	return (lpObj->Class == CLASS_ELF || lpObj->Class == CLASS_SUMMONER || lpObj->Class == CLASS_GROWLANCER) ? true : false;
 }
 
-inline bool isMale(int aIndex)
+inline bool isMale(LPGameObject &lpObj)
 {
 	return (lpObj->Class == CLASS_WIZARD || lpObj->Class == CLASS_KNIGHT || lpObj->Class == CLASS_MAGUMSA ||
 			lpObj->Class == CLASS_DARKLORD || lpObj->Class == CLASS_RAGEFIGHTER) ? true : false; 

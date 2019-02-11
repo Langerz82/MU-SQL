@@ -37,7 +37,7 @@ public:
 	int Enter_ITL(LPGameObject &lpObj, BYTE byTempleIndex, BYTE bySlotNum);
 	int Leave_ITL(LPGameObject &lpObj, BYTE btMapNumber);
 
-	void ActRelicsGetOrRegister(OBJECTSTRUCT *lpNpc, LPGameObject lpObj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType);
+	void ActRelicsGetOrRegister(LPGameObject &lpNpc, LPGameObject lpObj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType);
 	void CancleStoneState(WORD wNpcType, BYTE byState, BYTE mapnumber);
 	void DropRelicsItem(BYTE btMapNumber, int nIndex);
 
@@ -51,8 +51,8 @@ public:
 	void ITL_UseSkill(int iIndex, WORD MagicNumber, int wTargetObjIndex, BYTE btDis);
 	void EventSkillProc(OBJECTSTRUCT* lpObj);
 
-	void IllusionTempleLeagueUserDie(OBJECTSTRUCT *lpObj);
-	void IllusionTempleLeagueUserDieRegen(OBJECTSTRUCT *lpObj);
+	void IllusionTempleLeagueUserDie(LPGameObject &lpObj);
+	void IllusionTempleLeagueUserDieRegen(LPGameObject &lpObj);
 
 	void SetMirageIndex(int nIndex);
 
@@ -82,7 +82,7 @@ public:
 	void Send_ITL_Schedule(int index);
 	BYTE FindMyEnemy(char* GuildName);
 	void Send_ITL_Tournament(LPGameObject &lpObj, BYTE byError);
-	void Send_ITL_GuildRankInfo(int aIndex);
+	void Send_ITL_GuildRankInfo(LPGameObject &lpObj);
 
 	bool IsRewardRenewDay();
 

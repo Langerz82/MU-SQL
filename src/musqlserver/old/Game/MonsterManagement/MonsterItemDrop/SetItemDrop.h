@@ -1,5 +1,11 @@
-////////////////////////////////////////////////////////////////////////////////
-// SetItemDrop.h
+#ifndef _MU_SETITEMDROP_H
+#define _MU_SETITEMDROP_H
+
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
+#include "StdAfx.h"
 #include "User/CUserData.h"
 
 #pragma once
@@ -47,7 +53,7 @@ public:
 
 private:
 
-	SETITEM_DROP_RULE * GetDropRule(OBJECTSTRUCT *lpUser, OBJECTSTRUCT *lpMonster);
+	SETITEM_DROP_RULE * GetDropRule(LPGameObject &lpUser, OBJECTSTRUCT *lpMonster);
 	SETITEM_DROP_ITEM * GetItemData(SETITEM_DROP_RULE *lpRule);
 
 	std::vector<SETITEM_DROP_RULE> m_vtDropRules;
@@ -56,8 +62,4 @@ private:
 
 extern CSetItemDrop SetItemDrop;
 
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-
+#endif

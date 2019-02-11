@@ -65,7 +65,7 @@ void UDPSetServerInfo(PMSG_SERVERINFO * aRecv)
 	}
 }
 
-void SCSendServerList(int aIndex)
+void SCSendServerList(LPGameObject &lpObj)
 {
 	PMSG_SERVERSLIST_COUNT * pMsg;///(0xC2, 0xF4, 0x06);
 	PMSG_SERVERLIST_SERVER * pServer;
@@ -159,7 +159,7 @@ void SCConnectResultSend(LPGameObject &lpObj, BYTE btResult)
 	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void SCSendNews(int aIndex)
+void SCSendNews(LPGameObject &lpObj)
 {
 	PMSG_SEND_TITLE pTitle;
 	pTitle.h.c = 0xC1;

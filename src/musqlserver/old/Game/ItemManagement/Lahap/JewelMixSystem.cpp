@@ -1,18 +1,8 @@
-////////////////////////////////////////////////////////////////////////////////
-// JewelMixSystem.cpp
-// ------------------------------
-// Decompiled by Deathway
-// Date : 2007-05-09
-// ------------------------------
-// Gs-N 0.99.60T 0x004E1EB0
-//	GS-N	1.00.18	JPN	0x0050A790	-	Completed
-#include "StdAfx.h"
+
 #include "JewelMixSystem.h"
 #include "PeriodItemEx.h"
-#include "DSprotocol.h"
-#include "Logging/Log.h"
+#include "Gameprotocol.h"
 #include "User/CUserData.h"
-#include "configread.h"
 
 int CJewelMixSystem::UnMixJewelPrice;
 

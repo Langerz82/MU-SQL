@@ -21,7 +21,7 @@ class CAttackMelee : public CAttackBase{
 	OBJECTSTRUCT * m_TargetObj;
 	OBJECTSTRUCT * m_Obj;
 public:
-	CAttackMelee(LPGameObject &lpObj, OBJECTSTRUCT * lpTargetObj);
+	CAttackMelee(LPGameObject &lpObj, LPGameObject &lpTargetObj);
 	void Process();
 };
 
@@ -86,9 +86,9 @@ public:
 	
 	bool m_LastFrameAttack;
 
-	CAttackQueue(int aIndex);
+	CAttackQueue(LPGameObject &lpObj);
 	~CAttackQueue();
-//	void Push(OBJECTSTRUCT * lpTargetObj);
+//	void Push(LPGameObject & lpTargetObj);
 //	void Push(unsigned char* msg, int len);
 	void Push(unsigned char* msg, int len, int type);
 

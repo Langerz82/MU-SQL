@@ -4,16 +4,13 @@
 // Decompiled by Deathway
 // Date : 2007-03-09
 // ------------------------------
-#include "StdAfx.h"
+
 #include "MapClass.h"
-#include "Logging/Log.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "User/CUserData.h"
-#include "Protocol.h"
-#include "Event/BloodCastle/BloodCastle.h"
+#include "GameProtocol.h"
+#include "BloodCastle.h"
 #include "IllusionTempleEvent_Renewal.h"
-#include "configread.h"
-#include "readscript.h"
 
 // GS-N 0.99.60T 0x00478170 - Completed
 //	GS-N	1.00.18	JPN	0x0048F140	-	Completed

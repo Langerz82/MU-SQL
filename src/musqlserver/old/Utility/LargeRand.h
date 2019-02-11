@@ -1,15 +1,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 // LargeRand.h
-#ifndef LARGERAND_H
-#define LARGERAND_H
+#ifndef _MU_LARGERAND_H
+#define _MU_LARGERAND_H
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "custTypedef.h"
+#include "StdAfx.h"
 
-#define MAX_LARGE_RAND_STATE	625
 
 class CLargeRand
 {

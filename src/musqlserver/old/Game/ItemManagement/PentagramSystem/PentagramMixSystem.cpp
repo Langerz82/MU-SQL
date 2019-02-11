@@ -2,18 +2,14 @@
 // PentagramMixSystem.cpp
 
 #include "PentagramMixSystem.h"
-#include "Logging/Log.h"
-#include "../pugixml.hpp"
-#include "../CUserData.h"
+#include "CUserData.h"
 
-// #include "../CastleSiegeSync.h"
-// #include "../ChaosBox.h"
-#include "../protocol.h"
-#include "util.h"
+#include "CastleSiegeSync.h"
+#include "ChaosBox.h"
+#include "GameProtocol.h"
 #include "Main.h"
-#include "../DSProtocol.h"
-// #include "../RandomManager.h"
-// #include "../LargeRand.h"
+#include "RandomManager.h"
+#include "LargeRand.h"
 
 CPentagramMixSystem g_PentagramMixSystem;
 
@@ -1313,7 +1309,7 @@ bool CPentagramMixSystem::IsErrtelType(int ItemCode)
 	}
 }
 
-BOOL CPentagramMixSystem::PentagramJewelMix(int aIndex) // OK
+BOOL CPentagramMixSystem::PentagramJewelMix(LPGameObject &lpObj) // OK
 {
 	CGameObject* lpObj = &gGameObjects[aIndex];
 

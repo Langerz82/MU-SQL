@@ -34,8 +34,863 @@ struct CUSTOM_EVENT_DROP_INFO;
 struct CUSTOM_EVENT_DROP_START_TIME;
 struct CUSTOM_EVENT_DROP_ITEM_INFO;
 struct CUSTOM_EVENT_DROP_RULE_INFO;
+struct GREMORYCASE_ITEM_DATA;
+struct PMSG_GREMORYCASE_ITEM;
+struct JEWELOFHARMONY_ITEM_EFFECT;
+struct JEWELOFHARMONY_ITEM_OPTION;
+struct ITEMEFFECT;
 
 
+
+
+
+struct ITEMDROP_ITEM
+{
+	BYTE btItemType;
+	WORD wItemIndex;
+	BYTE btItemMinLevel;
+	BYTE btItemMaxLevel;
+	BYTE btItemDurability;
+	BYTE btIsSkill;
+	BYTE btIsLuck;
+	BYTE btIsOption;
+	BYTE btIsExc[9];
+	BYTE btIsSetItem;
+	BYTE btSocketCount;
+	BYTE btIsElementalItem;
+	BYTE btMuunEvoItemType;
+	WORD wMuunEvoItemIndex;
+	DWORD dwItemDropRate;
+	DWORD dwPeriodDuration;
+};
+
+struct ITEMDROP_MONSTER
+{
+	ITEMDROP_MONSTER()
+	{
+		this->m_vtItems.clear();
+	}
+
+	WORD wMonsterID;
+	WORD wMonsterMinLevel;
+	WORD wMonsterMaxLevel;
+	BYTE btMonsterMapNumber;
+	DWORD dwItemDropRate;
+	BYTE btItemCount;
+	bool bIsCoinReward;
+	BYTE btCoinType;
+	DWORD dwCoinValue;
+	WORD wPlayerMinLevel;
+	WORD wPlayerMaxLevel;
+	std::vector<boost::shared_ptr<ITEMDROP_ITEM>> m_vtItems;
+};
+
+struct ZEN_DROP
+{
+	BYTE btMapNumber;
+	DWORD dwMinMoney;
+	DWORD dwMaxMoney;
+};
+
+
+struct CUSTOM_MONSTER_ATTR
+{
+	float HPMul;
+	float DmgMul;
+	float DefMul;
+	float ARateMul;
+	float DRateMul;
+};
+
+typedef struct MONSTER_ATTRIBUTE
+{
+	int m_Index;	// 0
+	int m_Rate;	// 4
+	char m_Name[50];	// 8
+	int m_Level;	// 1C
+	int m_iAINumber;	// 20
+	int m_iScriptHP;	// 24
+	int m_Hp;	// 28
+	int m_Mp;	// 2C
+	int m_DamageMin;	// 30
+	int m_DamageMax;	// 34
+	int m_Defense;	// 38
+	int m_MagicDefense;	// 3C
+	int m_AttackRating;	// 40
+	int m_Successfulblocking;	// 44
+	int m_MoveRange;	// 48
+	int m_AttackRange;	// 4C
+	int m_AttackType;	// 50
+	int m_ViewRange;	// 54
+	int m_MoveSpeed;	// 58
+	int m_AttackSpeed;	// 5C
+	int m_RegenTime;	// 60
+	int m_Attribute;	// 64
+	int m_ItemRate;	// 68
+	int m_MoneyRate;	// 6C
+	int m_MaxItemLevel;	// 70
+	BYTE m_Resistance[MAX_RESISTENCE_TYPE];	// 74
+	DWORD m_MonsterSkill;	// 7C
+	int m_PentagramMainAttribute;
+	int m_PentagramAttributePattern;
+	int m_PentagramDefense;
+	int m_PentagramAttackMin;
+	int m_PentagramAttackMax;
+	int m_PentagramAttackRating;
+	int m_PentagramDefenseRating;
+	BYTE m_btExpType;
+
+} MONSTER_ATTRIBUTE, *LPMONSTER_ATTRIBUTE;
+
+
+struct _ST_MINESYSTEM_REPAIR_VALUE
+{
+	WORD sItemType;
+	WORD sItemIndex;
+	WORD sLevel;
+	WORD sRepairValue;
+};
+
+struct _ST_MINESYSTEM_MINE_MIRACLE_SUCCESS_INFO
+{
+	WORD wTwinkleType;
+	int iStage;
+	int iSuccessRate;
+};
+
+struct _ST_MINESYSTEM_DROP_ITEM
+{
+	int iItemType;
+	int iItemIndex;
+	int iLevel;
+	int iNumber;
+};
+
+struct _ST_MINESYSTEM_MINE_SUCCESS_INFO
+{
+	WORD wTwinkleType;
+	int iDurabilityDecrement;
+	int iSuccessRate[5];
+};
+
+struct _ST_MINESYSTEM_REWARD_VALUE
+{
+	_ST_MINESYSTEM_REWARD_VALUE()
+	{
+		this->wTwinkleType = 0;
+		this->iStage = 0;
+		this->wType = 0;
+		this->wIndex = 0;
+		this->iTotalJewelNumber = 0;
+		this->vecDropItem.clear();
+	}
+
+	WORD wTwinkleType;
+	int iStage;
+	WORD wType;
+	WORD wIndex;
+	int iTotalJewelNumber;
+	std::vector<_ST_MINESYSTEM_DROP_ITEM> vecDropItem;
+};
+
+struct _ST_MINESYSTEM_TWINKLE
+{
+	_ST_MINESYSTEM_TWINKLE()
+	{
+		this->wTwinkleIndex = 0;
+		this->wUserIndex = 0;
+		this->iCurrentStage = 0;
+		this->wTwinkleType = 0;
+		this->bIsDominated = 0;
+		this->byMapNumber = 0;
+	}
+
+	WORD wTwinkleIndex;
+	WORD wTwinkleType;
+	WORD wUserIndex;
+	int iCurrentStage;
+	int bIsDominated;
+	BYTE byMapNumber;
+};
+
+struct _ST_MINESYSTEM_TWINKLE_SPAWN
+{
+	WORD wType;
+	BYTE byMapNumber;
+	BYTE byDistance;
+	BYTE byX;
+	BYTE byY;
+	BYTE byDir;
+};
+
+
+typedef struct BONUS_SOCKET_OPTION
+{
+	BYTE OptionIndex;
+	BYTE EffectType;
+	BYTE ItemTypeBegin;
+	BYTE ItemTypeEnd;
+	BYTE OptionValueType;
+	WORD OptionValue;
+	int ExtractRate;
+	BYTE SocketSlotType[5];
+	BYTE SocketSlotCount;
+
+	void Clear()
+	{
+		OptionIndex = BONUS_OPTION_WEAPON_ATTACK_POWER;
+		EffectType = SEED_EFFECT_TYPE_FIRE_BEGIN;
+		ItemTypeBegin = 0;
+		ItemTypeEnd = 0;
+		OptionValueType = 0;
+		OptionValue = 0;
+		ExtractRate = 0;
+
+		for (int i = 0; i<5; i++)
+		{
+			SocketSlotType[i] = 0;
+		}
+
+		SocketSlotCount = 0;
+	}
+
+}BONUS_SOCKET_OPTION, *LPBONUS_SOCKET_OPTION;
+
+struct SET_SOCKET_OPTION
+{
+	BYTE OptionIndex;
+	BYTE OptionValueType;
+	WORD OptionValue;
+	BYTE EffectType;
+	int ExtractRate;
+	BYTE SeedTypeTable[6];
+	void Clear();
+};
+
+struct CUSTOM_SOCKET_LIST
+{
+	int iItemCode;
+};
+
+
+struct SERVER_ATTRIBUTE_DEFINE
+{
+	void Clear()
+	{
+		this->ListIndex = 0;
+		this->ServerIndex = 0;
+		this->FireRate = 0;
+		this->WaterRate = 0;
+		this->WindRate = 0;
+		this->EarthRate = 0;
+		this->DarkRate = 0;
+	}
+
+	int ListIndex;
+	int ServerIndex;
+	int FireRate;
+	int WaterRate;
+	int WindRate;
+	int EarthRate;
+	int DarkRate;
+};
+
+struct PENTAGRAM_ITEM_OPEN_SOCKET_RATE
+{
+	void Clear()
+	{
+		this->SocketCount = 0;
+		this->SocketOpenRate = 0;
+		this->SocketOpenSet = 0;
+		this->Slot_1 = 0;
+		this->Slot_2 = 0;
+		this->Slot_3 = 0;
+		this->Slot_4 = 0;
+		this->Slot_5 = 0;
+	}
+
+	int SocketCount;
+	int SocketOpenRate;
+	int SocketOpenSet;
+	int Slot_1;
+	int Slot_2;
+	int Slot_3;
+	int Slot_4;
+	int Slot_5;
+};
+
+struct MONSTER_DROP_ITEM_RATE
+{
+	void Clear()
+	{
+		this->MonsterClass = 0;
+
+		for (int i = 0; i<5; i++)
+		{
+			this->DropItemType[i] = 0;
+			this->DropItemIndex[i] = 0;
+			this->DropItemRate[i] = 0;
+		}
+	}
+
+	int MonsterClass;
+	int DropItemType[6];
+	int DropItemIndex[6];
+	int DropItemRate[6];
+};
+
+struct JEWEL_OUT_RATE
+{
+	void Clear()
+	{
+		this->JewelOutIndex = 0;
+		this->JewelRank = 0;
+		this->JewelLevel = 0;
+		this->OutRate = 0;
+	}
+
+	int JewelOutIndex;
+	int JewelRank;
+	int JewelLevel;
+	int OutRate;
+};
+
+struct PENTAGRAM_SET_EFFECT
+{
+	void Clear()
+	{
+		this->SetIndex = 0;
+
+		for (int i = 0; i < 6; i++)
+		{
+			this->RON[i] = 0;
+		}
+
+		this->Value1 = 0;
+		this->Value2 = 0;
+		this->Value3 = 0;
+		this->Value4 = 0;
+	}
+
+	int SetIndex;
+	int RON[6];
+	int Value1;
+	int Value2;
+	int Value3;
+	int Value4;
+};
+
+struct PENTAGRAM_HAVE_SET_OPTION
+{
+	int BundleIndex;
+	int ItemType;
+	int ItemIndex;
+	int SetOptionIndex[26];
+};
+
+struct PENTAGRAM_ITEM_OPTION
+{
+	void Clear()
+	{
+		this->ItemType = 0;
+		this->ItemIndex = 0;
+		memset(this->ItemName, 0, sizeof(this->ItemName));
+		this->Grade = 0;
+
+		for (int i = 0; i < 7; i++)
+		{
+			this->OptionNum[i] = -1;
+		}
+	}
+
+	int ItemType;
+	int ItemIndex;
+	char ItemName[64];
+	int Grade;
+	int OptionNum[7];
+};
+
+struct PENTAGRAM_ITEM_OPTION_ENABLE_NEED
+{
+	void Clear()
+	{
+		this->OptionNum = 0;
+		memset(this->OptionName, 0, sizeof(this->OptionName));
+
+		for (int i = 0; i < 3; i++)
+		{
+			this->Need_ErrtelKind[i] = -1;
+			this->Need_ErrtelRank[i] = -1;
+			this->Need_ErrtelLevel[i] = -1;
+		}
+	}
+
+	int OptionNum;
+	char OptionName[64];
+	int Need_ErrtelKind[3];
+	int Need_ErrtelRank[3];
+	int Need_ErrtelLevel[3];
+};
+
+struct PENTAGRAM_SOCKET_RATE_BY_GRADE
+{
+	void Clear()
+	{
+		this->Grade = 0;
+
+		for (int i = 0; i < 5; i++)
+		{
+			this->SocketRate[i] = 0;
+		}
+	}
+
+	int Grade;
+	int SocketRate[5];
+};
+
+
+struct TEST_ITEMSDROP
+{
+	int ItemDropIndex;
+	int ItemDropLevel;
+	int ItemDropRate;
+};
+
+
+struct COMMON_EXT_OPTION_TYPE
+{
+	void Clear()
+	{
+		this->OptionID = -1;
+		this->ItemKindA_1 = -1;
+		this->ItemKindA_2 = -1;
+		this->ItemKindA_3 = -1;
+		this->OptionNumber = -1;
+		this->Operator = 0;
+		this->FormulaID = -1;
+		this->OptionRate = 0;
+		memset(this->OptionName, 0x00, 64);
+		this->OptionValue = 0;
+		memset(this->OptionEffect, 0, MAX_EXC_OPTION_EFFECT);
+	}
+
+	int OptionID;
+	int ItemKindA_1;
+	int ItemKindA_2;
+	int ItemKindA_3;
+	int OptionNumber;
+	int Operator;
+	int FormulaID;
+	DWORD OptionRate;
+	char OptionName[64];
+	int OptionValue;
+	BYTE OptionEffect[MAX_EXC_OPTION_EFFECT];
+};
+
+struct WING_EXT_OPTION_TYPE
+{
+	void Clear()
+	{
+		this->OptionID = -1;
+		this->ItemKindA = -1;
+		this->ItemKindB = -1;
+		this->OptionNumber = -1;
+		this->Operator = 0;
+		this->FormulaID = -1;
+		this->OptionRate = 0;
+		memset(this->OptionName, 0, 64);
+		this->OptionValue = 0;
+		memset(this->OptionEffect, 0, MAX_EXC_OPTION_EFFECT);
+	}
+
+	int OptionID;
+	int ItemKindA;
+	int ItemKindB;
+	int OptionNumber;
+	int Operator;
+	int FormulaID;
+	DWORD OptionRate;
+	char OptionName[64];
+	int OptionValue;
+	BYTE OptionEffect[MAX_EXC_OPTION_EFFECT];
+};
+
+struct ACCESSORY_ITEM_OPTION_VALUE
+{
+	void Clear()
+	{
+		this->ItemType = -1;
+		this->ItemIndex = -1;
+		for (int i = 0; i < 16; ++i)
+			this->LevelValue[i] = -1;
+	}
+	int ItemType;
+	int ItemIndex;
+	int LevelValue[16];
+};
+
+struct WING_EXC_OPTION_RATE
+{
+	int ItemKindA;
+	int ItemKindB;
+	int WingOptionRate[9];
+};
+
+struct EXC_OPTION_RATE
+{
+	int m_CommonOptionRate[9];
+	std::vector<WING_EXC_OPTION_RATE> m_vtWingOptionRate;
+};
+
+
+struct REFINE_OPTION
+{
+	void Clear()
+	{
+		this->RefineIndex = 0;
+		this->RefineSuccessRate = 0;
+
+		for (int i = 0; i < 4; i++)
+		{
+			this->NeedItem_Type[i] = 0;
+			this->NeedItem_Index[i] = 0;
+			this->NeedItem_Num[i] = 0;
+		}
+
+		this->NeedMoney = 0;
+	}
+
+	int RefineIndex;
+	int RefineSuccessRate;
+
+	int NeedItem_Type[4];
+	int NeedItem_Index[4];
+	int NeedItem_Num[4];
+
+	int NeedMoney;
+};
+
+struct REFINE_SUCCESS_OPTION
+{
+	void Clear()
+	{
+		this->SuccessRefineIndex = 0;
+
+		for (int i = 0; i < 5; i++)
+		{
+			this->Success_AcquisitionRate[i] = 0;
+			this->Success_AcquisitionItem_Type[i] = 0;
+			this->Success_AcquisitionItem_Index[i] = 0;
+			this->Success_AcquisitionItem_Num[i] = 0;
+		}
+	}
+
+	int SuccessRefineIndex;
+
+	int Success_AcquisitionRate[5];
+	int Success_AcquisitionItem_Type[5];
+	int Success_AcquisitionItem_Index[5];
+	int Success_AcquisitionItem_Num[5];
+};
+
+struct JEWEL_LEVEL_UPGRADE_NEED_ITEM
+{
+	void Clear()
+	{
+		this->TargetItemLevel = 0;
+		this->MainSourceItemLevel = 0;
+		this->MainSourceItemNum = 0;
+
+		for (int i = 0; i < 4; i++)
+		{
+			this->NeedSourceItem_Type[i] = 0;
+			this->NeedSourceItem_Index[i] = 0;
+			this->NeedSourceItem_Num[i] = 0;
+		}
+
+		this->NeedMoney = 0;
+	}
+
+	int TargetItemLevel;
+	int MainSourceItemLevel;
+	int MainSourceItemNum;
+
+	int NeedSourceItem_Type[4];
+	int NeedSourceItem_Index[4];
+	int NeedSourceItem_Num[4];
+
+	int NeedMoney;
+};
+
+struct JEWEL_RANK_UPGRADE_NEED_ITEM
+{
+	void Clear()
+	{
+		this->TargetItemRank = 0;
+		this->MainSourceItemRank = 0;
+		this->MainSourceItemNum = 0;
+
+		for (int i = 0; i < 4; i++)
+		{
+			this->NeedSourceItem_Type[i] = 0;
+			this->NeedSourceItem_Index[i] = 0;
+			this->NeedSourceItem_Num[i] = 0;
+		}
+
+		this->NeedMoney = 0;
+	}
+
+	int TargetItemRank;
+	int MainSourceItemRank;
+	int MainSourceItemNum;
+
+	int NeedSourceItem_Type[4];
+	int NeedSourceItem_Index[4];
+	int NeedSourceItem_Num[4];
+
+	int NeedMoney;
+};
+
+struct PENTAGRAM_JEWEL_ITEM_OPTION
+{
+	void Clear()
+	{
+		this->JewelIndex = 0;
+		this->PentagramJewel_Type = 0;
+		this->PentagramJewel_Index = 0;
+		this->ItemRank = 0;
+		this->RankOptionNum = 0;
+		this->RankOptionNumRate = 0;
+		this->RON = 0;
+
+		for (int i = 0; i < 11; i++)
+		{
+			this->LevelValue[i] = 0;
+			this->LevelUpgradeValue[i] = 0;
+		}
+	}
+
+	int JewelIndex;
+	int PentagramJewel_Type;
+	int PentagramJewel_Index;
+	int ItemRank;
+	int RankOptionNum;
+	int RankOptionNumRate;
+	int RON;
+
+	int LevelValue[11];
+	int LevelUpgradeValue[11];
+};
+
+struct JEWEL_RANK_UPGRADE_DETERMINE_RATE
+{
+	void Clear()
+	{
+		this->RankStep = 0;
+
+		for (int i = 0; i < 4; i++)
+		{
+			this->RankRate[i] = 0;
+		}
+
+		this->RankUpgradeSuccessRate = 0;
+	}
+
+	int RankStep;
+	int RankRate[4];
+	int RankUpgradeSuccessRate;
+};
+
+
+struct BAG_ITEM
+{
+	BYTE btItemType;
+	WORD wItemIndex;
+	BYTE btItemMinLevel;
+	BYTE btItemMaxLevel;
+	BYTE btItemDur;
+	char btIsSkill;
+	char btIsLuck;
+	char btIsOption;
+	char btIsExItem[MAX_ITEM_EXC_OPTION];
+	char btIsSetItem;
+	char btIsSocketItem;
+	char btIsElementalItem;
+	BYTE btMuunEvolutionItemType;
+	WORD wMuunEvolutionItemIndex;
+	DWORD dwDuration;
+};
+
+struct BAG_SECTION_ITEMS
+{
+	BYTE btSectionID;
+	BYTE btItemDropCount;
+	DWORD dwSectionUseRate;
+	std::vector<BAG_ITEM> m_vtItems;
+};
+
+struct BAG_SECTION_DROP
+{
+	WORD wUseSectionMinLevel;
+	WORD wUseSectionMaxLevel;
+	BYTE btUseSectionAllowedClass[MAX_TYPE_PLAYER];
+	BYTE btUseSectionAllowedMapNum;
+	std::map<int, BAG_SECTION_ITEMS> m_mapSectionItems;
+};
+
+struct BAG_DATA
+{
+	bool m_bLoadBag;
+	char szBagName[255];
+	DWORD dwItemDropRate;
+	DWORD dwRandomSetItemDropRate;
+	DWORD dwDropMoney;
+	DWORD dwMinGainRuud;
+	DWORD dwMaxGainRuud;
+	DWORD dwGainRuudRate;
+	int iBagUseEffect;
+	DWORD dwBagUseRate;
+	bool bAddCoinEnable;
+	BYTE btAddCoinType;
+	DWORD dwAddCoinValue;
+	bool bSummonBookEnable;
+	DWORD dwSummonBookDropRate;
+	BYTE btSummonBookItemType;
+	WORD wSummonBookItemIndex;
+	std::vector<BAG_SECTION_DROP> m_vtSectionDrop;
+};
+
+
+typedef struct ITEMEFFECT
+{
+	WORD wOptionType;
+	WORD wEffectType1;
+	WORD wEffectType2;
+	int iItemNumber;
+	int iItemType;
+	int iItemIndex;
+	int iEffectValue1;
+	int iEffectValue2;
+	int iEffectValidTime;
+
+} ITEMEFFECT, *LPITEMEFFECT;
+
+struct JEWELOFHARMONY_ITEM_OPTION
+{
+	BOOL bValid;	// 0
+	BYTE iRandomWeight;	// 4
+	BYTE iRequireLevel;	// 5
+	BYTE iItemEffectValue[MAX_JOH_ITEM_OPTION];	// 6
+	DWORD iZenForRestore[MAX_JOH_ITEM_OPTION];	// 14
+	char szOptionName[256];	// 4C
+};
+
+struct JEWELOFHARMONY_ITEM_EFFECT
+{
+	short HJOpAddMinAttackDamage;	// 0
+	short HJOpAddMaxAttackDamage;	// 2
+	short HJOpRequireStr;	// 4
+	short HJOpRequireDex;	// 6
+	short HJOpAddAttackDamage;	// 8
+	short HJOpAddCriticalDamage;	// A
+	short HJOpAddSkillAttack;	// C
+	short HJOpAddAttackSuccessRatePVP;	// E
+	short HJOpDecreaseSDRate;	// 10
+	short HJOpAddIgnoreSDRate;	// 12
+	short HJOpAddMagicPower;	// 14
+	short HJOpAddDefense;	// 16
+	short HJOpAddMaxAG;	// 18
+	short HJOpAddMaxHP;	// 1A
+	short HJOpAddRefillHP;	// 1C
+	short HJOpAddRefillMP;	// 1E
+	short HJOpAddDefenseSuccessRatePvP;	// 20
+	short HJOpAddDamageDecrease;	// 22
+	short HJOpAddSDRate;	// 24
+};
+
+
+struct _stGremoryCaseItem
+{
+	_stGremoryCaseItem()
+	{
+		this->btStorageType = 0;
+		this->btRewardSource = 0;
+		this->btItemGUID = 0;
+		this->wItemID = 0;
+		this->btItemLevel = 0;
+		this->btItemDurability = 0;
+		this->btItemSkill = 0;
+		this->btItemLuck = 0;
+		this->btItemOption = 0;
+		this->btItemExcOption = 0;
+		this->btItemSetOption = 0;
+		memset(this->btItemSocketOption, -1, sizeof(this->btItemSocketOption));
+		this->btItemMainAttribute = 0;
+		this->wMuunEvoItemType = 0;
+		this->btMuunEvoItemIndex = 0;
+		this->dwAuthCode = 0;
+		this->iReceiveDate = 0;
+		this->iExpireDate = 0;
+	}
+
+	BYTE btStorageType;
+	BYTE btRewardSource;
+	BYTE btItemGUID;
+	WORD wItemID;
+	BYTE btItemLevel;
+	BYTE btItemDurability;
+	BYTE btItemSkill;
+	BYTE btItemLuck;
+	BYTE btItemOption;
+	BYTE btItemExcOption;
+	BYTE btItemSetOption;
+	BYTE btItemSocketOption[5];
+	BYTE btItemMainAttribute;
+	WORD wMuunEvoItemType;
+	BYTE btMuunEvoItemIndex;
+	DWORD dwAuthCode;
+	time_t iReceiveDate;
+	time_t iExpireDate;
+};
+
+
+struct PMSG_GREMORYCASE_ITEM
+{
+	BYTE btRewardInventory;
+	BYTE btRewardSource;
+	DWORD dwItemGUID;
+	BYTE btItemInfo[MAX_ITEM_INFO];
+	DWORD dwAuthCode;
+	DWORD dwExpireTime;
+};
+
+
+struct GREMORYCASE_ITEM_DATA
+{
+	GREMORYCASE_ITEM_DATA()
+	{
+		this->Clear();
+	}
+
+	void Clear()
+	{
+		this->btRewardInventory = 0;
+		this->btRewardSource = 0;
+		this->dwItemGUID = (DWORD)-1;
+		this->ItemInfo.Clear();
+		this->dwAuthCode = 0;
+		this->dwReceiveDate = 0;
+		this->dwExpireTime = 0;
+	}
+
+	BYTE btRewardInventory;
+	BYTE btRewardSource;
+	DWORD dwItemGUID;
+	CItem ItemInfo;
+	DWORD dwAuthCode;
+	DWORD dwReceiveDate;
+	DWORD dwExpireTime;
+};
 
 struct DSF_TIME_RULE_INFO
 {

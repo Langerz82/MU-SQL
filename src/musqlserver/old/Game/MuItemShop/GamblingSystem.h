@@ -2,12 +2,14 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_GAMBLINGSYSTEM_H__2874FC7A_D2C6_4A3B_B4F0_3D15EC489DDC__INCLUDED_)
-#define AFX_GAMBLINGSYSTEM_H__2874FC7A_D2C6_4A3B_B4F0_3D15EC489DDC__INCLUDED_
+#ifndef _MU_GAMBLING_SYSTEM_H_
+#define _MU_GAMBLING_SYSTEM_H_
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
+
+#include "StdAfx.h"
 
 class CItemBagAttrEx
 {
@@ -99,10 +101,5 @@ public:
 };
 
 extern CGamblingItemBag g_GamblingItemBag;
-#endif // !defined(AFX_GAMBLINGSYSTEM_H__2874FC7A_D2C6_4A3B_B4F0_3D15EC489DDC__INCLUDED_)
 
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-
+#endif

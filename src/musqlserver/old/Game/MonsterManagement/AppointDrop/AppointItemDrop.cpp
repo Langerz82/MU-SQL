@@ -1,13 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // AppointItemDrop.cpp
-#include "StdAfx.h"
-#include "Logging/Log.h"
 #include "LargeRand.h"
 #include "User/CUserData.h"
-#include "DSProtocol.h"
+#include "GameProtocol.h"
 #include "gObjMonster.h"
 #include "ItemOptionTypeMng.h"
-#include "configread.h"
 #include "AppointItemDrop.h"
 
 CAppointItemDrop g_CAppointItemDrop;

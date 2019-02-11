@@ -1321,7 +1321,7 @@ void EGAnsSantaCheck(PMSG_ANS_SANTACHECK *lpMsg)
 	}
 }
 
-void EGReqSantaGift(int aIndex)
+void EGReqSantaGift(LPGameObject &lpObj)
 {
 	if(gObjIsConnected(aIndex) == false)
 		return;

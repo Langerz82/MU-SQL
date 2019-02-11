@@ -292,7 +292,7 @@ void CPersonalStore::CGPShopAnsOpen(LPGameObject &lpObj, BYTE btResult)
 
 
 
-void CPersonalStore::CGPShopReqClose(int aIndex)
+void CPersonalStore::CGPShopReqClose(LPGameObject &lpObj)
 {
 	if (!gObjIsConnected(aIndex))
 	{
@@ -1479,12 +1479,12 @@ void CPersonalStore::GDRequestPShopItemValue(OBJECTSTRUCT* lpObj, char *szAccoun
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CPersonalStore::GDUpdatePShopItemValue(OBJECTSTRUCT *lpObj)
+void CPersonalStore::GDUpdatePShopItemValue(LPGameObject &lpObj)
 {
 	return;
 }
 
-void CPersonalStore::GDAllSavePShopItemValue(OBJECTSTRUCT *lpObj)
+void CPersonalStore::GDAllSavePShopItemValue(LPGameObject &lpObj)
 {
 	PMSG_UPDATE_PSHOPITEMVALUE_INFO pMsg;
 	int iItemCnt = 0;
@@ -1578,7 +1578,7 @@ void CPersonalStore::GDAnsPShopItemValue(PMSG_ANS_PSHOPITEMVALUE_INFO *lpMsg)
 	this->GCPShopItemValueInfo(iObjIndex);
 }
 
-void CPersonalStore::GCPShopItemValueInfo(int aIndex)
+void CPersonalStore::GCPShopItemValueInfo(LPGameObject &lpObj)
 {
 	if (!ObjectMaxRange(aIndex))
 	{

@@ -59,7 +59,7 @@ bool CStatSpecialize::LoadFile(char *szFile)
 	return true;
 }
 
-void CStatSpecialize::ClearUserOption(OBJECTSTRUCT *lpObj)
+void CStatSpecialize::ClearUserOption(LPGameObject &lpObj)
 {
 	for (int i = 0; i < MAX_USER_STAT_OPTIONS; i++)
 	{
@@ -185,7 +185,7 @@ void CStatSpecialize::SetStatOption(LPGameObject &lpObj, int StatOptionID, doubl
 	}
 }
 
-int CStatSpecialize::GetUserArrayIndex(OBJECTSTRUCT *lpObj)
+int CStatSpecialize::GetUserArrayIndex(LPGameObject &lpObj)
 {
 	int ArrayIndex = -1;
 
@@ -201,7 +201,7 @@ int CStatSpecialize::GetUserArrayIndex(OBJECTSTRUCT *lpObj)
 	return ArrayIndex;
 }
 
-void CStatSpecialize::SendOptionList(OBJECTSTRUCT *lpObj)
+void CStatSpecialize::SendOptionList(LPGameObject &lpObj)
 {
 	 PMSG_STAT_SPEC_OPTION pMsg;
 	 PHeadSubSetB((LPBYTE)&pMsg, 0x59, 0x00, sizeof(pMsg));

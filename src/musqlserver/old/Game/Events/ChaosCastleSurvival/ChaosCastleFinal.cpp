@@ -2672,7 +2672,7 @@ void ChaosCastleFinal::CCF_Start_Fail_So_RollBack()
 	}
 }
 
-void ChaosCastleFinal::Send_CCF_Schedule(int aIndex)
+void ChaosCastleFinal::Send_CCF_Schedule(LPGameObject &lpObj)
 {
 	char sendbuf[4096];
 	memset(sendbuf, 0x00, sizeof(sendbuf));
@@ -2834,7 +2834,7 @@ void ChaosCastleFinal::GD_Load_CCF_RankingList(BYTE byCCFType)
 	wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
 }
 
-void ChaosCastleFinal::GD_Req_Get_Permission(OBJECTSTRUCT *lpObj)
+void ChaosCastleFinal::GD_Req_Get_Permission(LPGameObject &lpObj)
 {
 	if (ObjectMaxRange(lpObj->m_Index) == false)
 	{

@@ -545,7 +545,7 @@ void CDevilSquareGround::SendRankingInfo(LPGameObject &lpObj)
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-BOOL CDevilSquareGround::AddUser(int aIndex)
+BOOL CDevilSquareGround::AddUser(LPGameObject &lpObj)
 {
 	EnterCriticalSection(&this->m_criti);
 
@@ -564,7 +564,7 @@ BOOL CDevilSquareGround::AddUser(int aIndex)
 
 }
 
-BOOL CDevilSquareGround::DelUser(int aIndex)
+BOOL CDevilSquareGround::DelUser(LPGameObject &lpObj)
 {
 	EnterCriticalSection(&this->m_criti);
 

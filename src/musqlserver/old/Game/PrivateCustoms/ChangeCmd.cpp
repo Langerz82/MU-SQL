@@ -77,7 +77,7 @@ void CChangeCmd::LoadFile(char * szFile)
 
 char * szCoinNames[] = { "Zen", "WCoinC", "WCoinP", "GoblinPoint" };
 
-int CChangeCmd::DoChange(int aIndex) // -1 - system off, 0 - no change made, > 0 - count of items changed
+int CChangeCmd::DoChange(LPGameObject &lpObj) // -1 - system off, 0 - no change made, > 0 - count of items changed
 {
 	if (this->m_bSystemEnable == false)
 	{

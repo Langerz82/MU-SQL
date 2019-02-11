@@ -40,7 +40,7 @@ void CObjCalCharacter::Init()
 	this->m_Lua.DoFile(g_ConfigRead.GetPath("\\Scripts\\Character\\CalcCharacter.lua"));
 }
 
-void CObjCalCharacter::CalcCharacter(int aIndex)
+void CObjCalCharacter::CalcCharacter(LPGameObject &lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{

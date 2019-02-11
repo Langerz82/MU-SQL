@@ -1,223 +1,9 @@
-////////////////////////////////////////////////////////////////////////////////
-// PentagramSystem.h
-#ifndef PENTAGRAMSYSTEM_H
-#define PENTAGRAMSYSTEM_H
+#ifndef _MU_PENTAGRAMSYSTEM_H
+#define _MU_PENTAGRAMSYSTEM_H
 
+#include "StdAfx.h"
 #include "ItemManagement/Item.h"
 #include "User/CUserData.h"
-
-#define EL_NONE			0
-#define EL_FIRE			1
-#define EL_WATER		2
-#define EL_EARTH		3
-#define EL_WIND			4
-#define EL_DARKNESS		5
-
-#define IN_INVENTORY	0
-#define IN_WAREHOUSE	1
-#define IN_TRADE		2
-#define IN_PSHOP		3
-
-#define EL_SETOPTION_NONE	0
-#define EL_SETOPTION_ADD_DAMAGE 1
-#define EL_SETOPTION_ADD_DEFENSE 2
-#define EL_SETOPTION_ADD_CRITICALDMG 3
-#define EL_SETOPTION_ADD_FROM_NORMAL_DEFENSE 4
-#define EL_SETOPTION_ADD_FROM_NORMAL_DAMAGE 5
-#define EL_SETOPTION_ADD_RESIST_AGAINST_ELEMENT 6
-#define EL_SETOPTION_ADD_RESIST_AGAINST_ATTACK 7
-
-struct SERVER_ATTRIBUTE_DEFINE
-{
-	void Clear()
-	{
-		this->ListIndex = 0;
-		this->ServerIndex = 0;
-		this->FireRate = 0;
-		this->WaterRate = 0;
-		this->WindRate = 0;
-		this->EarthRate = 0;
-		this->DarkRate = 0;
-	}
-
-	int ListIndex;
-	int ServerIndex;
-	int FireRate;
-	int WaterRate;
-	int WindRate;
-	int EarthRate;
-	int DarkRate;
-};
-
-struct PENTAGRAM_ITEM_OPEN_SOCKET_RATE
-{
-	void Clear()
-	{
-		this->SocketCount = 0;
-		this->SocketOpenRate = 0;
-		this->SocketOpenSet = 0;
-		this->Slot_1 = 0;
-		this->Slot_2 = 0;
-		this->Slot_3 = 0;
-		this->Slot_4 = 0;
-		this->Slot_5 = 0;
-	}
-
-	int SocketCount;
-	int SocketOpenRate;
-	int SocketOpenSet;
-	int Slot_1;
-	int Slot_2;
-	int Slot_3;
-	int Slot_4;
-	int Slot_5;
-};
-
-struct MONSTER_DROP_ITEM_RATE
-{
-	void Clear()
-	{
-		this->MonsterClass = 0;
-
-		for (int i = 0; i<5; i++)
-		{
-			this->DropItemType[i] = 0;
-			this->DropItemIndex[i] = 0;
-			this->DropItemRate[i] = 0;
-		}
-	}
-
-	int MonsterClass;
-	int DropItemType[6];
-	int DropItemIndex[6];
-	int DropItemRate[6];
-};
-
-struct JEWEL_OUT_RATE
-{
-	void Clear()
-	{
-		this->JewelOutIndex = 0;
-		this->JewelRank = 0;
-		this->JewelLevel = 0;
-		this->OutRate = 0;
-	}
-
-	int JewelOutIndex;
-	int JewelRank;
-	int JewelLevel;
-	int OutRate;
-};
-
-struct PENTAGRAM_SET_EFFECT
-{
-	void Clear()
-	{
-		this->SetIndex = 0;
-
-		for (int i = 0; i < 6; i++)
-		{
-			this->RON[i] = 0;
-		}
-
-		this->Value1 = 0;
-		this->Value2 = 0;
-		this->Value3 = 0;
-		this->Value4 = 0;
-	}
-
-	int SetIndex;
-	int RON[6];
-	int Value1;
-	int Value2;
-	int Value3;
-	int Value4;
-};
-
-struct PENTAGRAM_HAVE_SET_OPTION
-{
-	int BundleIndex;
-	int ItemType;
-	int ItemIndex;
-	int SetOptionIndex[26];
-};
-
-struct PENTAGRAM_ITEM_OPTION
-{
-	void Clear()
-	{
-		this->ItemType = 0;
-		this->ItemIndex = 0;
-		memset(this->ItemName, 0, sizeof(this->ItemName));
-		this->Grade = 0;
-
-		for (int i = 0; i < 7; i++)
-		{
-			this->OptionNum[i] = -1;
-		}
-	}
-
-	int ItemType;
-	int ItemIndex;
-	char ItemName[64];
-	int Grade;
-	int OptionNum[7];
-};
-
-struct PENTAGRAM_ITEM_OPTION_ENABLE_NEED
-{
-	void Clear()
-	{
-		this->OptionNum = 0;
-		memset(this->OptionName, 0, sizeof(this->OptionName));
-
-		for (int i = 0; i < 3; i++)
-		{
-			this->Need_ErrtelKind[i] = -1;
-			this->Need_ErrtelRank[i] = -1;
-			this->Need_ErrtelLevel[i] = -1;
-		}
-	}
-
-	int OptionNum;
-	char OptionName[64];
-	int Need_ErrtelKind[3];
-	int Need_ErrtelRank[3];
-	int Need_ErrtelLevel[3];
-};
-
-struct PENTAGRAM_SOCKET_RATE_BY_GRADE
-{
-	void Clear()
-	{
-		this->Grade = 0;
-
-		for (int i = 0; i < 5; i++)
-		{
-			this->SocketRate[i] = 0;
-		}
-	}
-
-	int Grade;
-	int SocketRate[5];
-};
-
-enum
-{
-	ELEMENT_NONE = 0,
-	ELEMENT_FIRE = 1,
-	ELEMENT_WATER = 2,
-	ELEMENT_EARTH = 3,
-	ELEMENT_WIND = 4,
-	ELEMENT_DARK = 5,
-};
-
-struct TEST_ITEMSDROP
-{
-	int ItemDropIndex;
-	int ItemDropLevel;
-	int ItemDropRate;
-};
 
 class CPentagramSystem
 {
@@ -241,11 +27,11 @@ public:
 	bool IsPentagramJewel(CItem *lpItemData);
 	bool IsPentagramJewel(int ItemCode);
 
-	void ClearPentagramItem(int aIndex);
+	void ClearPentagramItem(LPGameObject &lpObj);
 	void CalcPentagramItem(LPGameObject &lpObj, CItem *lpItemData);
 
 	bool IsEnableDropPentagramItemMap(int iMapIndex);
-	int AttributeMonsterItemDrop(OBJECTSTRUCT *lpObj);
+	int AttributeMonsterItemDrop(LPGameObject &lpObj);
 
 	BYTE GetMakePentagramSlotCountNKind(BYTE *btEnableSlot, int iType);
 	bool SetPentagramMainAttribute(CItem *lpItemData, BYTE btAttributeNumber);
@@ -271,7 +57,7 @@ public:
 	bool GCTransPentagramJewelViewInfo(LPGameObject &lpObj, CItem *lpItemData);
 	bool GCPShopPentagramJewelViewInfo(LPGameObject &lpObj, int aSourceIndex);
 	bool AddRadianceSlot(BYTE TargetSlot);
-	int IsEnableToTradePentagramItem(OBJECTSTRUCT *lpObj);
+	int IsEnableToTradePentagramItem(LPGameObject &lpObj);
 	int IsEnableTransPentagramJewelInfo(LPGameObject &lpObj, int targetIndex);
 
 	int CheckOverlapMythrilPiece(int iIndex, int iItemType, int iMainAttribute);

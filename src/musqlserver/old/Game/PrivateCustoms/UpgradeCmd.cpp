@@ -120,7 +120,7 @@ void CUpgradeCmd::LoadFile(char * szFile)
 	}
 }
 
-int CUpgradeCmd::DoUpgrade(int aIndex)
+int CUpgradeCmd::DoUpgrade(LPGameObject &lpObj)
 {
 	if (this->m_bSystemEnable == false)
 	{

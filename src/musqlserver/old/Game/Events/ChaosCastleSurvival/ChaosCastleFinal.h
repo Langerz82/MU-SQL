@@ -389,7 +389,7 @@ public:
 	int Check_CCF_DayType();
 	bool CheckCanStart_CCF();
 	void CCF_Start_Fail_So_RollBack();
-	void Send_CCF_Schedule(int aIndex);
+	void Send_CCF_Schedule(LPGameObject &lpObj);
 	int EnterCheck_CCF_User(int iUserIndex);
 	int CheckUserEnterMoney(int iUserIndex, BYTE byBattleType);
 	void GD_Req_Save_CCF_Result(int index, char *Name, int Point, int nCCFtype);

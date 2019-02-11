@@ -1,9 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // CItemDrop.cpp
-#include "StdAfx.h"
+
 #include "CItemDrop.h"
 #include "User/CUserData.h"
-#include "DSProtocol.h"
+#include "GameProtocol.h"
 #include "configread.h"
 #include "ItemOptionTypeMng.h"
 #include "SetItemOption.h"
@@ -364,7 +364,7 @@ bool CItemDrop::DropItem(LPGameObject &lpUser, CGameObject* lpMonster)
 	return true;
 }
 
-ITEMDROP_ITEM ** CItemDrop::GetItem(OBJECTSTRUCT *lpUser, OBJECTSTRUCT* lpMonster, int & iItemCount)
+ITEMDROP_ITEM ** CItemDrop::GetItem(LPGameObject &lpUser, LPGameObject &lpMonster, int & iItemCount)
 {
 	boost::shared_ptr<ITEMDROP_MONSTER> itemdrop_monster_ = this->GetMonsterData(lpUser, lpMonster);
 
@@ -399,7 +399,7 @@ ITEMDROP_ITEM ** CItemDrop::GetItem(OBJECTSTRUCT *lpUser, OBJECTSTRUCT* lpMonste
 	return lpItems;
 }
 
-boost::shared_ptr<ITEMDROP_MONSTER> CItemDrop::GetMonsterData(OBJECTSTRUCT *lpUser, OBJECTSTRUCT* lpMonster)
+boost::shared_ptr<ITEMDROP_MONSTER> CItemDrop::GetMonsterData(LPGameObject &lpUser, LPGameObject &lpMonster)
 {
 	TRandomPoolMgr RandomPoolSection;
 

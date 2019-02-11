@@ -3,13 +3,12 @@
 		BOOL TMonsterSkillElement::ApplyElementHP(int iIndex, int iTargetIndex)	-	Wrong compilation with same result
 		BOOL TMonsterSkillElement::ApplyElementMP(int iIndex, int iTargetIndex)	-	Wrong compilation with same result*/
 //////////////////////////////////////////////////////////////////////
-
-#include "StdAfx.h"
+S
 #include "TMonsterSkillElement.h"
 #include "ObjUseSkill.h"
-#include "protocol.h"
+#include "GameProtocol.h"
 #include "gObjMonster.h"
-#include "Gamemain.h"
+#include "Main.h"
 #include "Logging/Log.h"
 #include "util.h"
 #include "BuffEffect.h"

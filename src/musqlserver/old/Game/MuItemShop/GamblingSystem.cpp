@@ -2,13 +2,10 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "StdAfx.h"
 #include "GamblingSystem.h"
 #include "User/CUserData.h"
 #include "LargeRand.h"
-#include "DSProtocol.h"
-#include "Logging/Log.h"
-#include "configread.h"
+#include "GameProtocol.h"
 #include "ItemOptionTypeMng.h"
 
 extern ITEM_ATTRIBUTE      ItemAttribute [];

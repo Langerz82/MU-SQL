@@ -58,7 +58,7 @@ void CAttackRange::Process()
 }
 
 
-CAttackQueue::CAttackQueue(int aIndex)
+CAttackQueue::CAttackQueue(LPGameObject &lpObj)
 {
 	if(aIndex < OBJ_STARTUSERINDEX || aIndex > OBJMAX-1)
 	{

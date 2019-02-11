@@ -2,13 +2,14 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_CASHSHOP_H__B57A9271_3D21_40E0_B132_82F87B122CB4__INCLUDED_)
-#define AFX_CASHSHOP_H__B57A9271_3D21_40E0_B132_82F87B122CB4__INCLUDED_
+#ifndef _MU_CASHSHOP_H_
+#define _MU_CASHSHOP_H_
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "StdAfx.h"
 #include "GameProtocol.h"
 
 #pragma pack(1)
@@ -322,10 +323,4 @@ extern CItemShop g_CashShop;
 BOOL IsCashItem(int iItemCode);
 BOOL IsPremiumItem(int iItemCode);
 
-#endif // !defined(AFX_CASHSHOP_H__B57A9271_3D21_40E0_B132_82F87B122CB4__INCLUDED_)
-
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-
+#endif

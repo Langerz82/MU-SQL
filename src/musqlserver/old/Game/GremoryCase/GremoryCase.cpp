@@ -1,15 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 // GremoryCase.cpp
-#include "StdAfx.h"
 #include "GremoryCase.h"
-#include "util.h"
-#include "Logging/Log.h"
-#include "GameMain.h"
-#include "DSProtocol.h"
+#include "Main.h"
+#include "GameProtocol.h"
 #include "ItemSocketOptionSystem.h"
 #include "PentagramSystem.h"
 #include "MuunSystem.h"
-#include "configread.h"
 #include "SocketItemType.h"
 
 CGremoryCase g_GremoryCase;

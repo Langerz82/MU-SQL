@@ -204,7 +204,7 @@ int  CObjUseSkill::GetTargetLinePath(int sx, int sy, int tx, int ty, int * PathX
 
 
 
-BOOL CObjUseSkill::SpeedHackCheck(int aIndex)
+BOOL CObjUseSkill::SpeedHackCheck(LPGameObject &lpObj)
 {
 	CGameObject* lpObj = &gGameObjects[aIndex];
 
@@ -1571,7 +1571,7 @@ void CObjUseSkill::SkillAttack(LPGameObject &lpObj, int aTargetIndex, CMagicInf 
 
 
 
-BOOL CObjUseSkill::SkillChangeUse(int aIndex)
+BOOL CObjUseSkill::SkillChangeUse(LPGameObject &lpObj)
 {
 	CGameObject* lpObj = &gGameObjects[aIndex];
 
@@ -4579,7 +4579,7 @@ BOOL CObjUseSkill::FireScreamExplosionAttack(LPGameObject &lpObj, CGameObject* l
 	return true;
 }
 
-BOOL CObjUseSkill::RemoveCloakingEffect(int aIndex)
+BOOL CObjUseSkill::RemoveCloakingEffect(LPGameObject &lpObj)
 {
 	if (ObjectMaxRange(aIndex) == false)
 	{

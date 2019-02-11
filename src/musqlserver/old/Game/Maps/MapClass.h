@@ -1,9 +1,3 @@
-////////////////////////////////////////////////////////////////////////////////
-// MapClass.h
-// ------------------------------
-// Decompiled by Deathway
-// Date : 2007-03-09
-// ------------------------------
 #ifndef MAPCLASS_H
 #define MAPCLASS_H
 
@@ -11,9 +5,9 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "StdAfx.h"
 #include "zzzpath.h"
 #include "MapItem.h"
-
 
 #define MAX_NUMBER_MAP 115
 
@@ -135,8 +129,3 @@ public:
 BOOL MapNumberCheck(int map);
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

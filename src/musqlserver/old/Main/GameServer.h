@@ -1,15 +1,11 @@
-// GameServer.h
-// ------------------------------
-// Decompiled by Deathway
-// Date : 2007-03-09
-// ------------------------------
-#ifndef	GAMESERVER_H
-
-#define	GAMESERVER_H
+#ifndef	_MU_GAMESERVER_H
+#define	_MU_GAMESERVER_H
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
+
+#include "StdAfx.h"
 #include "RingAttackEvent.h"
 #include "XMasAttackEvent.h"
 
@@ -96,8 +92,3 @@ LRESULT CALLBACK LicenseInfo(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 BOOL AllServerStart(void); // Start all Servers
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

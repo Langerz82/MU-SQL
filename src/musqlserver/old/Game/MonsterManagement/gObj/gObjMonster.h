@@ -87,7 +87,7 @@ public:
 
 	//int __thiscall GetRefCount();
 
-	void Run(int aIndex);
+	void Run(LPGameObject &lpObj);
 
 	int RefCount;	// 0
 	CRITICAL_SECTION CsRef;	// 4
@@ -139,7 +139,7 @@ BOOL IsCanNotItemDtopInDevilSquare(int ItemType);
 void gObjRefillMonsterHP(LPGameObject &lpMonsterObj, int iRefillHPSec);
 void gObjMonsterDieGiveItem(LPGameObject &lpObj, CGameObject* lpTargetObj);
 BOOL gEventMonsterItemDrop(LPGameObject &lpObj, CGameObject* lpTargetObj);
-void gObjMonsterSummonSkillForLordSilvester(OBJECTSTRUCT *lpObj);
+void gObjMonsterSummonSkillForLordSilvester(LPGameObject &lpObj);
 void KillLordSilvesterRecallMon(int nLordSilvesterIndex, int nRecallMonIndex);
 void BlockLordSilvesterEntrance();
 void UnBlockLordSilvesterEntrance();

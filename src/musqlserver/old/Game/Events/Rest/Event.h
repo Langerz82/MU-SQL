@@ -278,7 +278,7 @@ void EGReqRegHTOfflineGift(int iIndex);
 void EGAnsRegHTOfflineGift( PMSG_ANS_REG_HT_OFFLINE_GIFT* lpMsg);
 void EGAnsRegLuckyCoin(PMSG_ANS_REG_LUCKYCOIN * lpMsg);
 void EGAnsLuckyCoinInfo(PMSG_ANS_LUCKYCOIN * lpMsg);
-void EGReqSantaGift(int aIndex);
+void EGReqSantaGift(LPGameObject &lpObj);
 void EGAnsSantaCheck(PMSG_ANS_SANTACHECK *lpMsg);
 void EGAnsSantaGift(PMSG_ANS_SANTAGIFT *lpMsg);
 

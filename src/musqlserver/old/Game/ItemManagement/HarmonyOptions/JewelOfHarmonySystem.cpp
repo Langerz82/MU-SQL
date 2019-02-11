@@ -1,21 +1,12 @@
 // JewelOfHarmonySystem.cpp: implementation of the CJewelOfHarmonySystem class.
 //	GS-N	1.00.18	JPN	0x00571D60	-	Completed
 //////////////////////////////////////////////////////////////////////
-
-//#include "StdAfx.h"
-
 #include "JewelOfHarmonySystem.h"
-#include "../../Main.h"
-//#include "Logging/Log.h"
-//#include "CastleSiegeSync.h"
-#include "../CUserData.h"
-#include "../util.h"
-#include "../DSProtocol.h"
-#include "../configread.h"
-#include "../pugixml.hpp"
-
-// Will be uncommented later.
-//#include "ChaosBox.h"
+#include "Main.h"
+#include "CastleSiegeSync.h"
+#include "CUserData.h"
+#include "GameProtocol.h"
+#include "ChaosBox.h"
 #include "ItemSocketOptionSystem.h"
 #include "LuckyItemManager.h"
 #include "SocketItemType.h"

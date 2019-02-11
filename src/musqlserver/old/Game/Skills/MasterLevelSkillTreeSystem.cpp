@@ -1005,7 +1005,7 @@ int CMasterLevelSkillTreeSystem::gObjMagicAdd_MLS(LPGameObject lpObj, int iMLSki
 	return -1;
 }
 
-void CMasterLevelSkillTreeSystem::CGReqGetMasterLevelSkillTree(int aIndex)
+void CMasterLevelSkillTreeSystem::CGReqGetMasterLevelSkillTree(LPGameObject &lpObj)
 {
 	if (gObjIsConnected(aIndex) == FALSE)
 	{

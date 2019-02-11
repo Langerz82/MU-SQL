@@ -1269,7 +1269,7 @@ bool CMuunSystem::GetMuunItemValueOfOptType(LPGameObject lpObj, int iMuunOptInde
 	return false;
 }
 
-void CMuunSystem::GDReqLoadMuunInvenItem(OBJECTSTRUCT *obj)
+void CMuunSystem::GDReqLoadMuunInvenItem(LPGameObject &obj)
 {
 	SDHP_REQ_DBMUUN_INVEN_LOAD pMsg;
 
@@ -2217,7 +2217,7 @@ void CMuunSystem::GCMuunInventoryUseItemResult(LPGameObject &lpObj, int iUseType
 	IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
 }
 
-int CMuunSystem::AddMuunItemPeriodInfo(OBJECTSTRUCT *lpObj)
+int CMuunSystem::AddMuunItemPeriodInfo(LPGameObject &lpObj)
 {
 	for (int i = 0; i < g_ConfigRead.server.GetObjectMaxUser(); i++)
 	{
@@ -2240,7 +2240,7 @@ int CMuunSystem::AddMuunItemPeriodInfo(OBJECTSTRUCT *lpObj)
 	return -1;
 }
 
-bool CMuunSystem::RemoveMuunItemPeriodInfo(OBJECTSTRUCT *lpObj)
+bool CMuunSystem::RemoveMuunItemPeriodInfo(LPGameObject &lpObj)
 {
 	if (this->IsCorrectUser(lpObj) == false)
 	{
@@ -2264,7 +2264,7 @@ bool CMuunSystem::RemoveMuunItemPeriodInfo(OBJECTSTRUCT *lpObj)
 	return true;
 }
 
-bool CMuunSystem::IsCorrectUser(OBJECTSTRUCT *lpObj)
+bool CMuunSystem::IsCorrectUser(LPGameObject &lpObj)
 {
 	int iPeriodItemSlotIndex = lpObj->m_iMuunItmePeriodDataIndex;
 
@@ -2311,7 +2311,7 @@ int CMuunSystem::AddMuunItmePeriodData(LPGameObject lpObj, WORD wItemCode, UINT6
 	return -1;
 }
 
-void CMuunSystem::CheckMuunItemPeriodData(OBJECTSTRUCT *lpObj)
+void CMuunSystem::CheckMuunItemPeriodData(LPGameObject &lpObj)
 {
 	if (lpObj == NULL)
 	{
@@ -2481,7 +2481,7 @@ bool CMuunSystem::SetDisableMuunItemToExpire(LPGameObject lpObj, int iInventoryP
 	return result;
 }
 
-void CMuunSystem::CheckMuunItemConditionLevelUp(OBJECTSTRUCT *lpObj)
+void CMuunSystem::CheckMuunItemConditionLevelUp(LPGameObject &lpObj)
 {
 	int nMaxLv; 
 	CMuunOpt *pCMuunInfo; 
@@ -2559,7 +2559,7 @@ void CMuunSystem::CheckMuunItemMoveMapConditionMap(LPGameObject lpObj, int iMapN
 	}
 }
 
-void CMuunSystem::CheckEquipMuunItemCondition(OBJECTSTRUCT *lpObj)
+void CMuunSystem::CheckEquipMuunItemCondition(LPGameObject &lpObj)
 {
 	 int iRet; 
 
@@ -2577,7 +2577,7 @@ void CMuunSystem::CheckEquipMuunItemCondition(OBJECTSTRUCT *lpObj)
 	}
 }
 
-void CMuunSystem::CheckEquipMuunItemConditionProc(OBJECTSTRUCT *lpObj)
+void CMuunSystem::CheckEquipMuunItemConditionProc(LPGameObject &lpObj)
 {
 
 	signed int iRet; 

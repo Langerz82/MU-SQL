@@ -1089,13 +1089,13 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(LPGameObject &lpObj, BYTE btItemPos)
 	return FALSE;
 }
 
-BOOL CDoppelGanger::LeaveDoppelganger(int aIndex)
+BOOL CDoppelGanger::LeaveDoppelganger(LPGameObject &lpObj)
 {
 	this->DelDoppelgangerUser(aIndex);
 	return TRUE;
 }
 
-BOOL CDoppelGanger::AddDoppelgangerUser(int aIndex)
+BOOL CDoppelGanger::AddDoppelgangerUser(LPGameObject &lpObj)
 {
 	EnterCriticalSection(&this->m_critUserData);
 
@@ -1172,7 +1172,7 @@ BOOL CDoppelGanger::AddDoppelgangerUser(int aIndex)
 	return TRUE;
 }
 
-void CDoppelGanger::DelDoppelgangerUser(int aIndex)
+void CDoppelGanger::DelDoppelgangerUser(LPGameObject &lpObj)
 {
 	EnterCriticalSection(&this->m_critUserData);
 

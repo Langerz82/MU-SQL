@@ -1319,7 +1319,7 @@ void CMuRummyMng::CGReqMuRummyEnd(PMSG_REQ_MURUMMY_END *lpMsg, int aIndex)
 	}
 }
 
-void CMuRummyMng::GCSendCardList(int aIndex)
+void CMuRummyMng::GCSendCardList(LPGameObject &lpObj)
 {
 	PMSG_SEND_SLOTCARD_LIST pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x4D, 0x16, sizeof(pMsg));
@@ -1534,7 +1534,7 @@ void CMuRummyMng::GDAnsCardInfo(PMSG_ANS_MURUMMY_SELECT_DS *lpMsg)
 	}
 }
 
-void CMuRummyMng::GDReqCardInfoInsert(OBJECTSTRUCT *lpObj)
+void CMuRummyMng::GDReqCardInfoInsert(LPGameObject &lpObj)
 {
 	if (ObjectMaxRange(lpObj->m_Index) == false)
 	{
@@ -1636,7 +1636,7 @@ void CMuRummyMng::GDReqCardInfoUpdate(LPGameObject lpObj, CMuRummyCardInfo *pCCa
 	wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
 }
 
-void CMuRummyMng::GDReqScoreDelete(OBJECTSTRUCT *lpObj)
+void CMuRummyMng::GDReqScoreDelete(LPGameObject &lpObj)
 {
 	PMSG_REQ_MURUMMY_DELETE_DS pMsg;
 	memcpy(pMsg.AccountID, lpObj->AccountID, MAX_ACCOUNT_LEN + 1);
@@ -1674,7 +1674,7 @@ void CMuRummyMng::GDReqSlotInfoUpdate(LPGameObject lpObj, BYTE btSeq, BYTE btSlo
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CMuRummyMng::GDReqMuRummyInfoUpdate(OBJECTSTRUCT *lpObj)
+void CMuRummyMng::GDReqMuRummyInfoUpdate(LPGameObject &lpObj)
 {
 	if (ObjectMaxRange(lpObj->m_Index) == false)
 	{

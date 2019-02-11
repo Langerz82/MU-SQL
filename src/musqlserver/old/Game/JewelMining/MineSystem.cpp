@@ -1,14 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MineSystem.cpp
-#include "StdAfx.h"
 #include "MineSystem.h"
-#include "configread.h"
-#include "Logging/Log.h"
-#include "util.h"
 #include "LargeRand.h"
 #include "GameMain.h"
 #include "MapServerManager.h"
-#include "DSProtocol.h"
+#include "GameProtocol.h"
 
 CMineSystem g_MineSystem;
 
@@ -184,7 +180,7 @@ void CMineSystem::LoadMineingDropScript()
 	}
 }
 
-void CMineSystem::CheckIsUPTUserWhenDisconnected(int aIndex)
+void CMineSystem::CheckIsUPTUserWhenDisconnected(LPGameObject &lpObj)
 { 
 	std::map<int, _ST_MINESYSTEM_TWINKLE>::iterator it = this->m_mapTwinkle.begin();
 
@@ -214,7 +210,7 @@ void CMineSystem::CheckIsUPTUserWhenDisconnected(int aIndex)
 	this->ResetTwinkleInfo(aIndex, it->second.wTwinkleIndex, 0);
 }
 
-void CMineSystem::CheckIsUPTUserWhenConnect(int aIndex)
+void CMineSystem::CheckIsUPTUserWhenConnect(LPGameObject &lpObj)
 {
 	if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 	{
@@ -542,7 +538,7 @@ void CMineSystem::GDAnsLoadMineSystemUPTUserInfo(SDHP_ANS_LOAD_MINESYSTEM_UPT_US
 	}
 }
 
-BOOL CMineSystem::CheckMoveMapWhileMining(int aIndex)
+BOOL CMineSystem::CheckMoveMapWhileMining(LPGameObject &lpObj)
 {
 	std::map<int, _ST_MINESYSTEM_TWINKLE>::iterator it = this->m_mapTwinkle.begin();
 
@@ -627,7 +623,7 @@ void CMineSystem::SetTwinklesInfo()
 	}
 }
 
-void CMineSystem::SetTwinkleInfo(int aIndex)
+void CMineSystem::SetTwinkleInfo(LPGameObject &lpObj)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -694,7 +690,7 @@ BOOL CMineSystem::IsTwinkle(WORD wClass)
 	return wClass >= 605 && wClass <= 607;
 }
 
-BOOL CMineSystem::IsEquipPickax(int aIndex)
+BOOL CMineSystem::IsEquipPickax(LPGameObject &lpObj)
 {
 	return lpObj->pInventory[0].m_Type == ITEMGET(0, 41);
 }

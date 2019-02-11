@@ -110,7 +110,7 @@ void CEvolutionMonsterMng::LoadFile(char *szFile)
 	this->m_bLoadFile = true;
 }
 
-bool CEvolutionMonsterMng::UseSummonScroll(int aIndex)
+bool CEvolutionMonsterMng::UseSummonScroll(LPGameObject &lpObj)
 {
 	PMSG_EVOMON_SUMMON_RESULT pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x3E, 0x03, sizeof(pMsg));
@@ -299,7 +299,7 @@ int CEvolutionMonsterMng::SetField(int iEvoMonIndex, int nFieldIndex, int nOwner
 	return nFieldIndex;
 }
 
-void CEvolutionMonsterMng::EvolutionMonsterDie(OBJECTSTRUCT * lpTargetObj, LPGameObject &lpObj)
+void CEvolutionMonsterMng::EvolutionMonsterDie(LPGameObject & lpTargetObj, LPGameObject &lpObj)
 {
 	if (!lpTargetObj)
 	{
@@ -447,7 +447,7 @@ void CEvolutionMonsterMng::EvolutionMonsterDie(OBJECTSTRUCT * lpTargetObj, LPGam
 	pEvoMonInfo->SetState(EVOMON_KILLED);
 }
 
-void CEvolutionMonsterMng::FieldProcess(OBJECTSTRUCT * lpFieldObj)
+void CEvolutionMonsterMng::FieldProcess(LPGameObject & lpFieldObj)
 {
 	if (!lpFieldObj)
 	{
@@ -520,7 +520,7 @@ void CEvolutionMonsterMng::FieldProcess(OBJECTSTRUCT * lpFieldObj)
 	}
 }
 
-void CEvolutionMonsterMng::EndTimeProcess(OBJECTSTRUCT * lpMonsterObj)
+void CEvolutionMonsterMng::EndTimeProcess(LPGameObject & lpMonsterObj)
 {
 	if (!lpMonsterObj)
 	{
@@ -648,7 +648,7 @@ void CEvolutionMonsterMng::EvoluteMonster(LPGameObject &lpObj)
 
 }
 
-void CEvolutionMonsterMng::SetMonsterStats(OBJECTSTRUCT * lpMonsterObj, EVOMON_MONSTER_DATA MonsterData)
+void CEvolutionMonsterMng::SetMonsterStats(LPGameObject & lpMonsterObj, EVOMON_MONSTER_DATA MonsterData)
 {
 	if (lpMonsterObj->Class == 690)
 	{
@@ -730,7 +730,7 @@ void CEvolutionMonsterMng::GCSendUserScore(LPGameObject &lpObj, int nScore)
 	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void CEvolutionMonsterMng::GCSendEvoMonNotice(int aIndex)
+void CEvolutionMonsterMng::GCSendEvoMonNotice(LPGameObject &lpObj)
 {
 	PMSG_RANKING_SET pMsg;
 	PHeadSetB((LPBYTE)&pMsg, 0x49, sizeof(pMsg));
@@ -933,7 +933,7 @@ int CEvolutionMonsterMng::GetOwnerIndex(int iMonsterIndex)
 	return gGameObjects[iMonsterIndex].m_nEvoMonOwnerIndex;
 }
 
-void CEvolutionMonsterMng::GDReqEvoMonMaxScore(int aIndex)
+void CEvolutionMonsterMng::GDReqEvoMonMaxScore(LPGameObject &lpObj)
 {
 	PMSG_REQ_EVOMON_MAXSCORE pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x3E, 0x00, sizeof(pMsg));
