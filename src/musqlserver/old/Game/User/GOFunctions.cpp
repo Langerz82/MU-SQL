@@ -784,13 +784,6 @@ void gObjClearViewport(CGameObject &lpObj)
 }
 void gObjCloseSet(CGameObject &lpObj, int Flag)
 {
-	if (aIndex < 0 || aIndex > g_ConfigRead.server.GetObjectMax() - 1)
-	{
-		return;
-	}
-
-	
-
 	if (lpObj.CloseCount > 0)
 	{
 		return;
@@ -1369,17 +1362,17 @@ int gObjGetHWIDUseCount(LPSTR HWID)
 
 void gObjSetTradeOption(CGameObject &lpObj, int option)
 {
-	if (gObjIsConnected(aIndex) == TRUE)
+	if (gObjIsConnected(lpObj) == TRUE)
 	{
 		if (option == 0)
 		{
 			lpObj.m_Option = 0;
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 33), aIndex, 1);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 33), lpObj.m_Index, 1);
 		}
 		else
 		{
 			lpObj.m_Option |= 1;
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 32), aIndex, 1);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 32), lpObj.m_Index, 1);
 		}
 	}
 }
@@ -1402,9 +1395,9 @@ bool IsDuelEnable(CGameObject &lpObj)
 	return false;
 }
 
-bool IsOnDuel(CGameObject &lpObj1, int aIndex2)
+bool IsOnDuel(CGameObject &lpObj1, CGameObject &lpObj2)
 {
-	if (!CHECK_LIMIT(aIndex1, g_ConfigRead.server.GetObjectMax()) || !CHECK_LIMIT(aIndex2, g_ConfigRead.server.GetObjectMax()))	return false;
+	//if (!CHECK_LIMIT(aIndex1, g_ConfigRead.server.GetObjectMax()) || !CHECK_LIMIT(aIndex2, g_ConfigRead.server.GetObjectMax()))	return false;
 	if (gGameObjects[aIndex1].Type != OBJ_USER || gGameObjects[aIndex2].Type != OBJ_USER) return false;
 	if (gGameObjects[aIndex1].m_iDuelUser == aIndex2 && gGameObjects[aIndex2].m_iDuelUser == aIndex1) return true;
 	return false;
@@ -1412,7 +1405,7 @@ bool IsOnDuel(CGameObject &lpObj1, int aIndex2)
 
 void gObjSetDuelOption(CGameObject &lpObj, int option)
 {
-	if (gObjIsConnected(aIndex) == TRUE)
+	if (gObjIsConnected(lpObj) == TRUE)
 	{
 		if (option == 0)
 		{
@@ -1801,7 +1794,7 @@ bool gObjSetCharacter(LPBYTE lpdata, int aIndex)
 		return FALSE;
 	}
 
-	
+	CGameObject lpObj = &gGameObjects[aIndex];
 
 	if (lpObj.Connected < PLAYER_LOGGED)
 	{

@@ -1821,7 +1821,7 @@ struct STR_CS_USER
 	unsigned int Port;
 	unsigned char Type;
 	SOCKET socket;
-	_PER_SOCKET_CONTEXT * PerSocketContext;
+	_PER_SOCKET_CONTEXT* PerSocketContext;
 	bool News;
 	int PacketCount;
 	ULONGLONG i64PacketTime;
@@ -2484,18 +2484,18 @@ struct CharacterNameOfUBF
 	WORD nServerCodeOfHomeWorld;
 };
 
-typedef struct {
+struct MU_WSAOVERLAPPED {
 	DWORD    Internal;
 	DWORD    InternalHigh;
 	DWORD    Offset;
 	DWORD    OffsetHigh;
 	DWORD	 hEvent;
-} MU_WSAOVERLAPPED, *LPMU_WSAOVERLAPPED;
+};
 
-typedef struct {
+struct MU_WSABUF {
 	ULONG len;
 	CHAR* buf;
-} MU_WSABUF, *LPMU_WSABUF;
+};
 
 // END USER STRUCTS
 

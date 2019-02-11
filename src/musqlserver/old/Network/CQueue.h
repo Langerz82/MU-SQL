@@ -12,9 +12,6 @@
 
 #define MAX_BUFF_SIZE		100000
 
-struct MU_WSAOVERLAPPED;
-struct MU_WSABUF;
-
 typedef struct
 {
 	MU_WSAOVERLAPPED			m_Overlapped;

@@ -7,6 +7,7 @@
 #include "ItemManagement/Item.h"
 #include "User/CUserData.h"
 #include "MuDefines.h"
+#include "protocolStructs.h"
 
 #pragma once
 

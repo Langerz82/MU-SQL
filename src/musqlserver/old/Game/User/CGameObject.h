@@ -6,6 +6,7 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
+#include "MuDefines.h"
 #include "custTypedef.h"
 #include "CUserData.h"
 #include "ComboAttack.h"

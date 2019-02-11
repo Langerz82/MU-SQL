@@ -965,6 +965,76 @@ struct PMSG_NOTICE_SEND;
 //struct PWMSG_HEAD;
 //struct PBMSG_HEAD2;
 //struct PWMSG_HEAD2;
+struct PMSG_ANS_PSHOP_VIEWPORT_NOTIFY;
+struct PMSG_REQ_PSHOP_SETITEMPRICE;
+struct PMSG_REQ_PSHOP_OPEN;
+struct PMSG_REQ_BUYITEM_FROM_PSHOP;
+struct PMSG_REQ_PSHOPDEAL_CLOSE;
+struct PMSG_ANS_PSHOP_VIEWPORT_NOTIFY;
+
+
+struct PMSG_REQ_PSHOP_SETITEMPRICE
+{
+	PBMSG_HEAD2 h;
+	BYTE btItemPos;	// 4
+	BYTE sItemPrice1;	// 5
+	BYTE sItemPrice2;	// 6
+	BYTE sItemPrice3;	// 7
+	BYTE sItemPrice4;	// 8
+	BYTE sJewelOfBlessPrice1;
+	BYTE sJewelOfBlessPrice2;
+	BYTE sJewelOfSoulPrice1;
+	BYTE sJewelOfSoulPrice2;
+	BYTE sJewelOfChaosPrice1;
+	BYTE sJewelOfChaosPrice2;
+};
+
+
+struct PMSG_REQ_PSHOP_OPEN
+{
+	PBMSG_HEAD2 h;
+	char szPShopText[36];	// 4
+};
+
+
+struct PMSG_REQ_BUYLIST_FROM_PSHOP
+{
+	PBMSG_HEAD2 h;
+	BYTE NumberH;	// 4
+	BYTE NumberL;	// 5
+	BYTE btName[10];	// 6
+};
+
+#pragma pack (1)
+struct PMSG_REQ_BUYITEM_FROM_PSHOP
+{
+	PBMSG_HEAD2 h;
+	BYTE NumberH;	// 4
+	BYTE NumberL;	// 5
+	BYTE btName[10];	// 6
+	BYTE btItemPos;	// 10
+	BYTE btBuyKind;
+	int iItemType;
+	int PShopItemMoneyValue;
+	short PShopItemBlessJewelValue;
+	short PShopItemSoulJewelValue;
+	short PShopItemChaosJewelValue;
+};
+#pragma pack ()
+
+struct PMSG_REQ_PSHOPDEAL_CLOSE
+{
+	PBMSG_HEAD2 h;
+	BYTE NumberH;	// 4
+	BYTE NumberL;	// 5
+	BYTE btName[10];	// 6
+};
+
+struct PMSG_ANS_PSHOP_VIEWPORT_NOTIFY
+{
+	struct PWMSG_HEAD2 h;
+	unsigned char btCount;
+};
 
 
 struct _KALIMAGATE_LEVEL

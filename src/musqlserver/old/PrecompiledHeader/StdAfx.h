@@ -42,13 +42,13 @@
 
 #include "Lang.h"
 #include "Config\iniReader\IniReader.h"
-#include "CUserData.h"
 #include "MuDefines.h"
 #include "MuEnums.h"
 #include "configread.h"
 #include "Utility/util.h"
 #include "generalStructs.h"
 #include "CGameObject.h"
+#include "CUserData.h"
 #include "GOFunctions.h"
 
 
