@@ -6196,7 +6196,7 @@ BOOL CMixSystem::SocketItemUpgradeMixS12(CGameObject &lpObj, BYTE ItemPos, BYTE 
 		ItemSerialCreateSend(aIndex, 235, 0, 0, NewItem.m_Type, 0, 0, NewItem.m_Option1, NewItem.m_Option2, NewItem.m_Option3, aIndex, 0, 0, 0, NewItem.m_SocketOption, NewItem.m_BonusSocketOption);
 		gObjInventoryCommit(aIndex);
 
-		//g_Log.AddC(TColor::Green, " Socket Item Upgrade Mix Successfull");
+		//sLog->outBasic(" Socket Item Upgrade Mix Successfull");
 
 		pMsg.Result1 = 1;
 		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);

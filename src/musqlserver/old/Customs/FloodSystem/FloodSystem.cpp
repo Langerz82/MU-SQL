@@ -72,7 +72,7 @@ void cAntiFlood::ReadBlackList(LPSTR filename)
 
 	if (this->IsDebugEnabled == 1)
 	{
-		g_Log.AddC(TColor::Green, "[BlackList] Loaded Successfull!");
+		sLog->outBasic("[BlackList] Loaded Successfull!");
 	}
 }
 

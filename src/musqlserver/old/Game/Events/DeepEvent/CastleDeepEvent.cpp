@@ -408,7 +408,7 @@ using namespace std;
 			}
 		}
 
-		g_Log.AddC(TColor::Green, "[CastleDeep Event] ProcState_Playing() LEFT-MSEC:%d",m_iTIME_MSEC_REMAIN/60000);
+		sLog->outBasic("[CastleDeep Event] ProcState_Playing() LEFT-MSEC:%d",m_iTIME_MSEC_REMAIN/60000);
 	}
 
 	if(m_mapRunCheck.size() <= 0)

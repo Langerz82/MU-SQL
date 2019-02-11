@@ -491,7 +491,7 @@ void GameMainInit(HWND hWnd)
 	gMSetBase.Init();
 	gParty.Init();
 	g_OffLevel.Initiate();
-		g_Log.AddC(TColor::Green, "Offline Leveling Active");
+		sLog->outBasic("Offline Leveling Active");
 		g_ConfigRead.OffLevel = TRUE;
 	DragonEvent = new CDragonEvent;
 //	sLog->outError("%s %s %s %d %s %s %d %i %s %d %d");

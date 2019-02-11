@@ -530,36 +530,36 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					break;
 				case ID_RELOADMAINDATA_PLAYERINFO:
 					g_MaxStatsInfo.Read(g_ConfigRead.GetPath(FILE_CUSTOM_MAXSTATS));
-					g_Log.AddC(TColor::Green, "[IGC_PlayerInfo] Load Complete");
+					sLog->outBasic("[IGC_PlayerInfo] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_GENERALDROP:
 					g_MaxStatsInfo.ReadDrop(g_ConfigRead.GetPath(FILE_CUSTOM_GENERALDROP));
-					g_Log.AddC(TColor::Green, "[IGC_GeneralDrop] Load Complete");
+					sLog->outBasic("[IGC_GeneralDrop] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_MAPNONPK:
 					g_MaxStatsInfo.ReadMapNonPK(g_ConfigRead.GetPath(FILE_CUSTOM_MAPSNONPK));
-					g_Log.AddC(TColor::Green, "[IGC_MapNonPK] Load Complete");
+					sLog->outBasic("[IGC_MapNonPK] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_PENTADROPRATE:
 					g_PentagramSystem.LoadOptionNews();
 					g_PentagramSystem.LoadOptionMaps(g_ConfigRead.GetPath("PentagramSystem\\IGC_PentagramDropMaps.xml"));
-					g_Log.AddC(TColor::Green, "[IGC_PentagramRateDrop] Load Complete");
+					sLog->outBasic("[IGC_PentagramRateDrop] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_PVPZONE:
 					g_PVPZone.Load();
-					g_Log.AddC(TColor::Green, "[IGC_PVPZone] Load Complete");
+					sLog->outBasic("[IGC_PVPZone] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_ITEMUPGRADEJEWEL:
 					g_ItemUpgradeJewels.Load();
-					g_Log.AddC(TColor::Green, "[IGC_ItemUpgradeJewel] Load Complete");
+					sLog->outBasic("[IGC_ItemUpgradeJewel] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_SOCKETUPGRADE:
 					g_ConfigRead.ReadSocketMixSettings();
-					g_Log.AddC(TColor::Green, "[IGC_SocketMix] Load Complete");
+					sLog->outBasic("[IGC_SocketMix] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_SKILLSTUNS:
 					g_ConfigRead.ReadSkillStunsSettings();
-					g_Log.AddC(TColor::Green, "[IGC_SkillStun] Load Complete");
+					sLog->outBasic("[IGC_SkillStun] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_PARTYBONUS:
 					gParty.ReadBonusInfo(g_ConfigRead.GetPath(FILE_PARTYBONUS));

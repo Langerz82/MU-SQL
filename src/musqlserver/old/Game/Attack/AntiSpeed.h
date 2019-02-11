@@ -89,7 +89,7 @@ public:
 	
 	bool m_LastFrameAttack;
 
-	CAttackQueue(CGameObject &lpObj);
+	CAttackQueue(CUserData &userData);
 	~CAttackQueue();
 //	void Push(CGameObject & lpTargetObj);
 //	void Push(unsigned char* msg, int len);
@@ -99,7 +99,7 @@ public:
 	static bool ThreadActive;
 	static VOID AttackQueueProc(std::vector<CGameObject> gObj);
 	
-	CGameObject* m_Obj;
+	CUserData* m_Obj;
 	CRITICAL_SECTION m_CritQueue;
 };
 

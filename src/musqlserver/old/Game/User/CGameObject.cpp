@@ -34,8 +34,8 @@ MessageStateMachine ** gSMMsg;
 ExMessageStateMachine ** gSMAttackProcMsg;
 BILL_CLASS * m_ObjBill;	// line : 193
 CRaklionUtil RAKLION_UTIL;
-CItem * pTempInventory;
-BYTE * pTempInventoryMap;
+CItem* pTempInventory;
+BYTE* pTempInventoryMap;
 
 BYTE GuildInfoBuf[10000];
 BYTE GuildUserBuf[10000];

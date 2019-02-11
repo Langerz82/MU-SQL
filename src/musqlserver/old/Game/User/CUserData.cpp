@@ -337,5 +337,5 @@ void CUserData::Init(bool VipReset)
 	this->MovingIgnore = 0;
 	this->RageDMG = 0;
 
-	this->m_AttackQueue = new CAttackQueue((*this));
+	this->m_AttackQueue = new CAttackQueue(this);
 }

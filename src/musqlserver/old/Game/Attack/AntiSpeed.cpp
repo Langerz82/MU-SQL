@@ -57,11 +57,11 @@ void CAttackRange::Process()
 }
 
 
-CAttackQueue::CAttackQueue(CGameObject &lpObj)
+CAttackQueue::CAttackQueue(CUserData &userData)
 {
 
 	InitializeCriticalSection(&this->m_CritQueue);
-	this->m_lpObj = lpObj;
+	this->m_Obj = &userData;
 }
 
 void CAttackQueue::Push( unsigned char* msg, int len, int type )

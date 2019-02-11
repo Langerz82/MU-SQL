@@ -3529,7 +3529,7 @@ void CGMMng::CommandMake(CGameObject &lpObj, int qnt, int section, int type, int
 		ItemSerialCreateSend(lpObj.m_Index, 235, 0, 0, ((section * 512) + type), level, 0, skill, luck, option, -1, exc, SetOpt, 0, 0, 0);
 	}
 
-	g_Log.AddC(TColor::Green, "[GM][%s]MakeItem:[Cat:%d Index:%d Level:%d Skill:%d Luck:%d Option:%d Excellent:%d Ancient:%d]", lpObj.Name, section, type, level, skill, luck, option, exc, SetOpt);
+	sLog->outBasic("[GM][%s]MakeItem:[Cat:%d Index:%d Level:%d Skill:%d Luck:%d Option:%d Excellent:%d Ancient:%d]", lpObj.Name, section, type, level, skill, luck, option, exc, SetOpt);
 }
 
 bool CGMMng::CommandMakeRandomSet(CGameObject &lpObj)

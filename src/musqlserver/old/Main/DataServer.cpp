@@ -111,7 +111,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	SendMessage(QueueBar, SB_SETPARTS, 8, (LPARAM)iQueueBarWidths);
 	
 	g_Log.LogInit(true, 256);
-	g_Log.AddC(TColor::Green, "Initializing...");
+	sLog->outBasic("Initializing...");
 	g_Log.LogDateChange();
 	//GetPrivateProfileString(
 	LoadAllowableIpList("./AllowedIPList.ini");

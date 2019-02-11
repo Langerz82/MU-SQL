@@ -5,8 +5,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-
 #include "StdAfx.h"
+#include "MuDefines.h"
 #include "ServerEngine.h"
 #include "MuunInfo.h"
 #include "ItemManagement/Item.h"

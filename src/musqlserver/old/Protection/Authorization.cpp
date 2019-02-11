@@ -163,7 +163,7 @@ void CAuthSystem::ValidateServer(PMSG_ACTIVATE *pMsg)
 
 		if(memcmp(&this->m_KeyTable, KeyTable, 20) == 0 && pMsg->Status == TRUE)
 		{
-			g_Log.AddC(TColor::Green, "[Auth] Status OK");
+			sLog->outBasic("[Auth] Status OK");
 
 			this->SetAddons(pMsg->Addons);
 			this->SetExpiryTime(pMsg->Days);
@@ -573,7 +573,7 @@ void CAuthSystem::SetAddons(DWORD Addons)
 
 	if((Addons & 4) == 4)
 	{*/
-		//g_Log.AddC(TColor::Green, "Offline Leveling Active");
+		//sLog->outBasic("Offline Leveling Active");
 		//g_ConfigRead.OffLevel = TRUE;
 /*	}
 

@@ -2710,7 +2710,7 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 	lpObj.m_PlayerData->AntiHackCheckTime = GetTickCount();
 	lpObj.m_PlayerData->dwLastHitHackTick = GetTickCount64();
 	wsJServerCli.DataSend((char*)&spMsg, spMsg.h.size);
-	g_Log.AddC(TColor::Green, "Connect Account: %s / MachineID: %s", lpObj.AccountID, lpMsg->HWID);
+	sLog->outBasic("Connect Account: %s / MachineID: %s", lpObj.AccountID, lpMsg->HWID);
 	lpObj.m_bMapSvrMoveReq = false;
 	lpObj.m_bMapSvrMoveReq_2 = false;
 	lpObj.m_sPrevMapSvrCode = -1;
@@ -11520,7 +11520,7 @@ void GameProtocol::CGAttack(PMSG_ATTACK* lpMsg, int aIndex)
 		lpObj.m_LastAttackTime = GetTickCount();
 		if (iTimeCalc < Allowed) //1 1200
 		{
-			//g_Log.AddC(TColor::Green, "[K2 ANTIHACK] Speed Hack Detect %s %s %d %d", lpObj.AccountID, lpObj.Name, Allowed, lpObj.m_AttackSpeed);
+			//sLog->outBasic("[K2 ANTIHACK] Speed Hack Detect %s %s %d %d", lpObj.AccountID, lpObj.Name, Allowed, lpObj.m_AttackSpeed);
 			return;
 		}
 	}
@@ -24973,7 +24973,7 @@ void GameProtocol::CGReqNixieBossEnter(PMSG_REQ_NIXIELAKE_ENTER *lpMsg, int iInd
 			gObjInventoryDeleteItem(iIndex, pos);
 			this->GCInventoryItemDeleteSend(iIndex, pos, 1);
 			gObjMoveGate(iIndex, 531);
-			g_Log.AddC(TColor::Green, "[%s][%s] Entered to Nixie Boss Map", lpObj.AccountID, lpObj.Name);
+			sLog->outBasic("[%s][%s] Entered to Nixie Boss Map", lpObj.AccountID, lpObj.Name);
 			return;
 		}
 	}

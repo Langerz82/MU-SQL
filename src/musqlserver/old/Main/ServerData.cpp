@@ -20,7 +20,7 @@ void CServerData::LoadServerFile(LPSTR lpszFile)
 
 	if(res.status != pugi::status_ok)
 	{
-		g_Log.MsgBox("%s load fail (%s)", lpszFile, res.description());
+		sLog->outError("%s load fail (%s)", lpszFile, res.description());
 		return;
 	}
 
@@ -40,7 +40,7 @@ void CServerData::LoadServerFile(LPSTR lpszFile)
 		this->m_Servers[count].Port = server.attribute("Port").as_int();
 		this->m_Servers[count].Visible = server.attribute("Visible").as_int();
 
-		g_Log.AddC(TColor::Green, "[Server Data] Loaded Server(s) info CODE: (%d), NAME: (%s), IP: (%s), PORT: (%d), VISIBLE: (%d), INDEX: (%d)",
+		sLog->outBasic("[Server Data] Loaded Server(s) info CODE: (%d), NAME: (%s), IP: (%s), PORT: (%d), VISIBLE: (%d), INDEX: (%d)",
 			this->m_Servers[count].Code, this->m_Servers[count].Name, this->m_Servers[count].IP, this->m_Servers[count].Port, this->m_Servers[count].Visible, count);
 
 		count++;
@@ -59,7 +59,7 @@ void CServerData::LoadNewsFile(LPSTR lpszFile)
 
 	if(SMDFile == NULL)
 	{
-		g_Log.MsgBox("%s load fail", lpszFile);
+		sLog->outError("%s load fail", lpszFile);
 		return;
 	}
 
