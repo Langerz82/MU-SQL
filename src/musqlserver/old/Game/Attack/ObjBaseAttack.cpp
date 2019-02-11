@@ -116,7 +116,7 @@ BOOL CObjBaseAttack::DecreaseArrow(LPGameObject &lpObj)
 
 
 
-BOOL CObjBaseAttack::CheckAttackArea(LPGameObject &lpObj, CGameObject* lpTargetObj)
+BOOL CObjBaseAttack::CheckAttackArea(LPGameObject &lpObj, LPGameObject lpTargetObj)
 {
 	if( lpTargetObj->MapNumber == g_LastManStanding.m_Cfg.iPVPMap)
 	{
@@ -152,7 +152,7 @@ BOOL CObjBaseAttack::CheckAttackArea(LPGameObject &lpObj, CGameObject* lpTargetO
 	return TRUE;
 }
 
-BOOL CObjBaseAttack::PkCheck(LPGameObject &lpObj, CGameObject* lpTargetObj)
+BOOL CObjBaseAttack::PkCheck(LPGameObject &lpObj, LPGameObject lpTargetObj)
 {
 	if (lpObj->Type == OBJ_USER && lpTargetObj->Type == OBJ_USER)
 	{
@@ -299,7 +299,7 @@ BOOL CObjBaseAttack::PkCheck(LPGameObject &lpObj, CGameObject* lpTargetObj)
 
 
 
-BOOL CObjBaseAttack::ResistanceCheck(LPGameObject &lpObj, CGameObject* lpTargetObj, int skill)
+BOOL CObjBaseAttack::ResistanceCheck(LPGameObject &lpObj, LPGameObject lpTargetObj, int skill)
 {
 	if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE)
 	{
@@ -514,7 +514,7 @@ BOOL CObjBaseAttack::ResistanceCheck(LPGameObject &lpObj, CGameObject* lpTargetO
 
 
 
-BOOL CObjBaseAttack::MissCheck(LPGameObject &lpObj, CGameObject* lpTargetObj, int skill, int skillSuccess, int magicsend, BOOL& bAllMiss, BYTE RFAttack)
+BOOL CObjBaseAttack::MissCheck(LPGameObject &lpObj, LPGameObject lpTargetObj, int skill, int skillSuccess, int magicsend, BOOL& bAllMiss, BYTE RFAttack)
 {
 	int iAttackRate = 0;
 
@@ -710,7 +710,7 @@ BOOL CObjBaseAttack::MissCheck(LPGameObject &lpObj, CGameObject* lpTargetObj, in
 
 
 
-BOOL CObjBaseAttack::MissCheckPvP(LPGameObject &lpObj , CGameObject* lpTargetObj, int skill, int skillSuccess, int magicsend, BOOL & bAllMiss, BYTE RFAttack)
+BOOL CObjBaseAttack::MissCheckPvP(LPGameObject &lpObj , LPGameObject lpTargetObj, int skill, int skillSuccess, int magicsend, BOOL & bAllMiss, BYTE RFAttack)
 {
 	if (lpObj == NULL)
 	{
@@ -875,7 +875,7 @@ BOOL CObjBaseAttack::MissCheckPvP(LPGameObject &lpObj , CGameObject* lpTargetObj
 	return TRUE;
 }
 
-int  CObjBaseAttack::GetTargetDefense(LPGameObject &lpObj, CGameObject* lpTargetObj, int& MsgDamage, int& iOriginTargetDefense)
+int  CObjBaseAttack::GetTargetDefense(LPGameObject &lpObj, LPGameObject lpTargetObj, int& MsgDamage, int& iOriginTargetDefense)
 {
 	int targetdefense = lpTargetObj->m_Defense;
 
@@ -975,7 +975,7 @@ int  CObjBaseAttack::GetTargetDefense(LPGameObject &lpObj, CGameObject* lpTarget
 
 int  CObjBaseAttack::GetPartyMemberCount(LPGameObject &lpObj)
 {
-	CGameObject* lpPartyObj;
+	LPGameObject lpPartyObj;
 	int partynum = lpObj->PartyNumber;
 
 	if ( ObjectMaxRange(partynum) == FALSE )

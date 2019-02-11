@@ -171,12 +171,12 @@ TMonsterAIAutomata * TMonsterAIAutomata::FindAutomata(int iAutomataNumber)
 
 TMonsterAIState * TMonsterAIAutomata::RunAutomata(int iIndex)
 {
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if ( MAX_AI_STATE_RANGE(lpObj->m_iCurrentAIState) == FALSE )
 		return NULL;
 
-	CGameObject* lpTargetObj = NULL;
+	LPGameObject lpTargetObj = NULL;
 	int iMaxAgro = -1;
 
 	int iTargetIndex = lpObj->m_Agro->GetMaxAgroUserIndex(lpObj->m_Index);

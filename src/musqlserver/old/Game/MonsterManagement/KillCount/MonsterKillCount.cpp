@@ -16,7 +16,7 @@ CKillCountMng::~CKillCountMng()
 
 }
 
-void CKillCountMng::CheckMonsterKillCount(int monsterid, CGameObject* lpObj)
+void CKillCountMng::CheckMonsterKillCount(int monsterid, LPGameObject lpObj)
 {
 	for(int i=0;i<MAX_MONSTER_TYPE;i++)
 	{

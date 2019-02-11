@@ -908,13 +908,13 @@ void gObjSendBuffList(LPGameObject &lpObj)
 	}
 }
 
-BOOL gObjAddBuffEffectWideArea(CGameObject*ECTSTRUCT lpTargetObj, int nDistance, int& nAffectedCount, int iBuffIndex, BYTE EffectType1, int EffectValue1, BYTE EffectType2, int EffectValue2, int Duration)
+BOOL gObjAddBuffEffectWideArea(LPGameObjectECTSTRUCT lpTargetObj, int nDistance, int& nAffectedCount, int iBuffIndex, BYTE EffectType1, int EffectValue1, BYTE EffectType2, int EffectValue2, int Duration)
 {
 	if(lpTargetObj == NULL)	return FALSE;
 
 	for(int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
-		LPGameObject &lpObj = (CGameObject*ECTSTRUCT)&gGameObjects[i];
+		LPGameObject &lpObj = (LPGameObjectECTSTRUCT)&gGameObjects[i];
 
 		if(lpObj->Type == OBJ_USER && gObjIsConnected(i) != FALSE)
 		{
@@ -1040,7 +1040,7 @@ int GetPremiumExp(int nAddExp)
 	return nPremiumExp;
 }
 
-void CheckItemOptForGetExpExRenewal(LPGameObject &lpObj, CGameObject* lpTargetObj, UINT64 &iExp, UINT64 iDefaultExp, BOOL bRewardExp)
+void CheckItemOptForGetExpExRenewal(LPGameObject &lpObj, LPGameObject lpTargetObj, UINT64 &iExp, UINT64 iDefaultExp, BOOL bRewardExp)
 {
 	UINT64 iRetExp = iExp;
 	int nAddExp = 100;
@@ -1296,7 +1296,7 @@ void CheckItemOptForGetExpExRenewal(LPGameObject &lpObj, CGameObject* lpTargetOb
 				if (!ObjectMaxRange(gParty.m_PartyS[lpObj->PartyNumber].Number[i]))
 					continue;
 
-				CGameObject* lpPartyObj = &gGameObjects[gParty.m_PartyS[lpObj->PartyNumber].Number[i]];
+				LPGameObject lpPartyObj = &gGameObjects[gParty.m_PartyS[lpObj->PartyNumber].Number[i]];
 				int iPartyDis = gObjCalDistance(lpObj, lpPartyObj);
 
 				if (lpObj->m_Index != lpPartyObj->m_Index)

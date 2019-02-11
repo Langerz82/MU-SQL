@@ -48,8 +48,8 @@ bool CEventBag::IsBag(LPGameObject &lpObj, int EventID, int iParam2)
 
 bool CEventBag::UseBag(LPGameObject &lpObj, int iMonsterIndex)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
-	CGameObject* lpMonsterObj = &gGameObjects[iMonsterIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
+	LPGameObject lpMonsterObj = &gGameObjects[iMonsterIndex];
 
 	if (rand() % 10000 >= this->m_BagData.dwItemDropRate)
 	{
@@ -148,8 +148,8 @@ bool CEventBag::UseBag(LPGameObject &lpObj, int iMonsterIndex)
 
 bool CEventBag::UseBag_GremoryCase(LPGameObject &lpObj, int iMonsterIndex, BYTE btStorageType, BYTE btRewardSource, int iExpireDays)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
-	CGameObject* lpMonsterObj = &gGameObjects[iMonsterIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
+	LPGameObject lpMonsterObj = &gGameObjects[iMonsterIndex];
 
 	if (rand() % 10000 >= this->m_BagData.dwItemDropRate)
 	{

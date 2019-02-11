@@ -65,7 +65,7 @@ public:
 	bool	IsBlockItem(int ItemID);
 #endif
 	// ----
-	bool	DropItem(LPGameObject &lpObj, CGameObject* lpTargetObj);
+	bool	DropItem(LPGameObject &lpObj, LPGameObject lpTargetObj);
 	// ----
 private:
 	std::vector<DROPEX_DATA> m_Data;

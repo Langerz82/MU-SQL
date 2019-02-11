@@ -85,7 +85,7 @@ void CCrywolfStatue::CrywolfStatueAct(int iIndex)
 	if ( gGameObjects[iIndex].Type != OBJ_NPC || CHECK_CLASS(204, gGameObjects[iIndex].Class) == FALSE )
 		return;
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 	int iContractedAlterCount = g_CrywolfNPC_Altar.GetContractedAltarCount();
 	int iPriestHPSum = g_CrywolfNPC_Altar.GetPriestHPSum();
 	int iPriestMaxHPSum = g_CrywolfNPC_Altar.GetPriestMaxHPSum();

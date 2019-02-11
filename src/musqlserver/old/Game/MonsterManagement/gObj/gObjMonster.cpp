@@ -67,7 +67,7 @@ bool g_bActiveUrukTrap = false;
 bool g_bSilvesterEntranceBlock = false;
 UINT64 g_i64LordSilvesterBlockTime = 0;
 
-void gObjMonsterMoveRegen(int x, int y, CGameObject* lpObj)
+void gObjMonsterMoveRegen(int x, int y, LPGameObject lpObj)
 {
 	gMSetBase.GetBoxPosition(lpObj->MapNumber, x-1, y-1, x+1, y+1, lpObj->X, lpObj->Y);
 
@@ -570,7 +570,7 @@ int	 gObjMonsterLastHitDamageUser(LPGameObject &lpMonObj, int & hitindex)
 	return LastHitUser;
 }
 
-int gObjMonsterGetDamageUser(LPGameObject &lpMonObj, CGameObject* lpUserObj)
+int gObjMonsterGetDamageUser(LPGameObject &lpMonObj, LPGameObject lpUserObj)
 {
 	for (int n = 0; n<MAX_ST_HIT_DAMAGE; n++)
 	{
@@ -862,7 +862,7 @@ BOOL gObjMonsterGetTargetPos(LPGameObject &lpObj)
 	int searchcount = MAX_ROAD_PATH_TABLE/2-1;
 	BYTE attr;
 	BOOL result;
-	CGameObject* lpTargetObj;
+	LPGameObject lpTargetObj;
 
 	if( lpObj->m_MoveRange == 0 && 
 		(gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STONE) == true ||
@@ -1121,7 +1121,7 @@ int gObjCallMonsterSetEnemy(LPGameObject &lpObj, int Target)
 		return -1;
 	}
 
-	CGameObject* lpCallObj = &gGameObjects[lpObj->m_RecallMon];
+	LPGameObject lpCallObj = &gGameObjects[lpObj->m_RecallMon];
 
 	if ( lpCallObj->TargetNumber >= 0 )
 	{
@@ -1604,7 +1604,7 @@ void gObjMonsterStateProc(LPGameObject &lpObj, int aMsgCode, int aIndex, int aMs
 
 		case 56:
 			{
-				CGameObject* lpTargetObj = &gGameObjects[aIndex];
+				LPGameObject lpTargetObj = &gGameObjects[aIndex];
 
 				if ( gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_POISON) == FALSE )
 				{
@@ -1619,7 +1619,7 @@ void gObjMonsterStateProc(LPGameObject &lpObj, int aMsgCode, int aIndex, int aMs
 
 		case 57:
 			{
-				CGameObject* lpTargetObj = &gGameObjects[aIndex];
+				LPGameObject lpTargetObj = &gGameObjects[aIndex];
 				gObjBackSpring2(lpTargetObj, lpObj, aMsgSubCode);
 			}
 			break;
@@ -1799,7 +1799,7 @@ void gObjMonsterProcess(LPGameObject &lpObj)
 	{
 		if ( lpObj->m_RecallMon >= 0 && lpObj->m_RecallMon < g_ConfigRead.server.GetObjectMax() )
 		{
-			CGameObject* lpCallMonObj;
+			LPGameObject lpCallMonObj;
 			BOOL Success = FALSE;
 
 			lpCallMonObj = &gGameObjects[lpObj->m_RecallMon];
@@ -2160,7 +2160,7 @@ void gObjMonsterBeattackRecv(BYTE * lpRecv, int aIndex)
 
 static int skillevo = 100;
 
-void gObjMonsterAttack(LPGameObject &lpObj, CGameObject* lpTargetObj)
+void gObjMonsterAttack(LPGameObject &lpObj, LPGameObject lpTargetObj)
 {
 	int AttackType = lpObj->m_AttackType;
 	WORD MagicNumber;
@@ -2578,7 +2578,7 @@ void gObjMonsterMoveAction(LPGameObject &lpObj)
 
 void gObjMonsterBaseAct(LPGameObject &lpObj)
 {
-	CGameObject* lpTargetObj = NULL;
+	LPGameObject lpTargetObj = NULL;
 
 	if ( lpObj->TargetNumber >= 0 )
 		lpTargetObj = &gGameObjects[lpObj->TargetNumber];
@@ -2629,7 +2629,7 @@ void gObjMonsterBaseAct(LPGameObject &lpObj)
 						{
 							if ( gGameObjects[lpObj->m_RecallMon].Connected > PLAYER_LOGGED )
 							{
-								CGameObject* lpRecallObj = &gGameObjects[lpObj->m_RecallMon];
+								LPGameObject lpRecallObj = &gGameObjects[lpObj->m_RecallMon];
 
 								if ( lpRecallObj->m_Rest == FALSE )
 								{
@@ -3274,7 +3274,7 @@ void gObjRefillMonsterHP(LPGameObject &lpMonsterObj, int iRefillHPSec)
 
 	if(lpMonsterObj->Class == 275)
 	{
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 		if(lpMonsterObj->iObjectSecTimer > giKundunRefillHPTime)
 		{
 			iRefillHP = rand() % ((giKundunRefillHP > 0)? giKundunRefillHP : 1) ;
@@ -3371,7 +3371,7 @@ int gObjMonsterSelectSkillForMedusa(LPGameObject &lpObj)
 	return nSkillNumber;
 }
 
-void gObjMonsterDieGiveItem(LPGameObject &lpObj, CGameObject* lpTargetObj)
+void gObjMonsterDieGiveItem(LPGameObject &lpObj, LPGameObject lpTargetObj)
 {
 
 	int store_count=0;
@@ -4234,7 +4234,7 @@ void gObjMonsterDieGiveItem(LPGameObject &lpObj, CGameObject* lpTargetObj)
 }
 
 
-BOOL gEventMonsterItemDrop(LPGameObject &lpObj, CGameObject* lpTargetObj)
+BOOL gEventMonsterItemDrop(LPGameObject &lpObj, LPGameObject lpTargetObj)
 {
 	int type;
 	int level;
@@ -5283,7 +5283,7 @@ void KillLordSilvesterRecallMon(int nLordSilvesterIndex, int nRecallMonIndex)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[nLordSilvesterIndex];
+	LPGameObject lpObj = &gGameObjects[nLordSilvesterIndex];
 
 	if (lpObj->Type != OBJ_MONSTER)
 	{

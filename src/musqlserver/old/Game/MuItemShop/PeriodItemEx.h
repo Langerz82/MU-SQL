@@ -58,7 +58,7 @@ struct PERIOD_DATA
 	BYTE btItemCount;
 	WORD wUserIndex;
 	DWORD dwUserGuid;
-	CGameObject* m_Obj; // lol
+	LPGameObject m_Obj; // lol
 	char szAccountID[MAX_ACCOUNT_LEN+1];
 	char szCharacterName[MAX_ACCOUNT_LEN+1];
 	ITEM_DATA m_ItemInfo[30];

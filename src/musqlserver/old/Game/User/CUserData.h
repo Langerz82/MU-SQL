@@ -6,12 +6,11 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "ComboAttack.h"
+//#include "ComboAttack.h"
 #include "generalStructs.h"
 #include "MagicInf.h"
 #include "IOCP.h"
 #include "ItemManagement/Item.h"
-#include "classdef.h"
 #include "GuildClass.h"
 #include "TDurMagicKeyChecker.h"
 #include "TMonsterAIAgro.h"

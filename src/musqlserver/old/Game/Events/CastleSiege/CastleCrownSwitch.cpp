@@ -46,8 +46,8 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(int iIndex)
 		return;
 	}
 	
-	CGameObject* lpObj= &gGameObjects[iIndex];
-	CGameObject* lpUserObj = &gGameObjects[g_CastleSiege.GetCrownSwitchUserIndex(gGameObjects[iIndex].Class)];
+	LPGameObject lpObj= &gGameObjects[iIndex];
+	LPGameObject lpUserObj = &gGameObjects[g_CastleSiege.GetCrownSwitchUserIndex(gGameObjects[iIndex].Class)];
 	g_CastleSiege.NotifyCrownSwitchInfo(iIndex);
 
 	if ( lpUserObj->MapNumber == MAP_INDEX_CASTLESIEGE &&

@@ -158,7 +158,7 @@ public:
 
 	bool isCanReceiveChat(short SenderIndex, short TargetIndex) 
 	{
-		CGameObject* tmpSender = &gGameObjects[SenderIndex];
+		LPGameObject tmpSender = &gGameObjects[SenderIndex];
 		dataUserChatBlockListSet* targetList = getSlot(TargetIndex);
 		if (targetList == NULL) 
 		{

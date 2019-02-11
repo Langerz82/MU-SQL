@@ -44,7 +44,7 @@ public:
 
 	BOOL	Start();
 	BOOL	MonsterHerdItemDrop(OBJECTSTRUCT* lpObj);
-	void	MonsterAttackAction(LPGameObject lpObj, OBJECTSTRUCT *lpTargetObj);
+	void	MonsterAttackAction(LPGameObject lpObj, LPGameObject lpTargetObj);
 	int		AddMonsterEX(int iMonsterType, int bAttackFirst, int nMonsterLevel, int nMonsterHp, int nMonsterAttMin, int nMonsterAttMax, int nMonsterDef);
 	BOOL	GetRandomLocation(BYTE &cX, BYTE &cY);
 	BOOL	SetTotalInfo(int iMapNumber, int iRadius, int nPosInfo, int bMove);
@@ -187,9 +187,9 @@ public:
 	void SendNoticeMessage(char* lpMsg);
 	void SendDoppelgangerState(BYTE btState);
 
-	void PlatformLugardAct(LPGameObject &lpNpc, OBJECTSTRUCT *lpObj);
-	void MiddleTreasureAct(LPGameObject &lpNpc, OBJECTSTRUCT *lpObj);
-	void LastTreasureAct(LPGameObject &lpNpc, OBJECTSTRUCT *lpObj);
+	void PlatformLugardAct(LPGameObject &lpNpc, LPGameObject lpObj);
+	void MiddleTreasureAct(LPGameObject &lpNpc, LPGameObject lpObj);
+	void LastTreasureAct(LPGameObject &lpNpc, LPGameObject lpObj);
 
 	BOOL OpenTreasureBox();
 	BOOL OpenLastTreasureBox();

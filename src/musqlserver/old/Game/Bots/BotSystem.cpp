@@ -92,7 +92,7 @@ bool CBotSystem::LoadBotSpecializationData(LPGameObject &lpObj, LPSTR szFile, BY
 		MessageBoxA(0,"Failed to load bot specialization. Check your configs","ERROR",MB_OK|MB_TOPMOST);
 		return false;
 	}
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 	int iBuffCounter = 0;
 	int wBotIndex = lpObj->m_PlayerData->wBotIndex;
 	switch(type)
@@ -238,7 +238,7 @@ int CBotSystem::AddBot(_sBOT_SETTINGS pBot)
 {
 //--- declare
 	int aIndex = gObjAddMonster(pBot.btMap);
-	CGameObject* lpBotObj = &gGameObjects[aIndex];
+	LPGameObject lpBotObj = &gGameObjects[aIndex];
 //--- valide
 	if(aIndex == -1)
 	{
@@ -321,7 +321,7 @@ void CBotSystem::MakePreviewCharSet(LPGameObject &lpObj, _sBOT_INVENTORY_WEAR_IT
 
 	BYTE index;
 	int itemindex;
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	memset(lpObj->CharSet, 0, sizeof(lpObj->CharSet));
 
@@ -608,7 +608,7 @@ void CBotSystem::BuffPlayer(WORD  wBufferindex,short aIndex)
 	if(lpObj->Type != OBJ_USER)
 		return;
 	_sBOT_SETTINGS *lpBot = &this->m_BotData[wBufferindex];
-	CGameObject* gBotObj = &gGameObjects[lpBot->aIndex];
+	LPGameObject gBotObj = &gGameObjects[lpBot->aIndex];
 	if(lpObj->m_PlayerData->Money < lpBot->iCoinValue)
 	{
 		GSProtocol.ChatTargetSend(&gGameObjects[lpBot->aIndex], Lang.GetText(0,364),aIndex);
@@ -662,7 +662,7 @@ BYTE CBotSystem::GetBotType(LPGameObject &lpObj)
 
 int CBotSystem::GetSkillTime(LPGameObject &lpObj, WORD wSkill)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if(!lpObj)
 		return 0;
@@ -678,8 +678,8 @@ int CBotSystem::GetSkillTime(LPGameObject &lpObj, WORD wSkill)
 }
 sBOT_REWARD_STRUCT CBotSystem::ConfirmMixSuccess(LPGameObject &lpObj, int botIndex)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
-	CGameObject* lpBotObj = &gGameObjects[botIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
+	LPGameObject lpBotObj = &gGameObjects[botIndex];
 	sBOT_REWARD_STRUCT m_MixResult;
 	int iMixNeedCount = 0;
 	int foundItems = 0;
@@ -732,8 +732,8 @@ bool CBotSystem::AlchemistVerifyItem(s_BOT_CRAFTING_ITEM_STRUCT lpReqItem, CItem
 
 bool CBotSystem::CheckAlchemist(LPGameObject &lpObj, int botIndex)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
-	CGameObject* lpBotObj = &gGameObjects[botIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
+	LPGameObject lpBotObj = &gGameObjects[botIndex];
 
 	CItem rewardItem;
 	int iMixNeedCount = 0;
@@ -797,8 +797,8 @@ int CBotSystem::AlchemistTradeItemCount(LPGameObject &lpObj)
 
 void CBotSystem::AlchemistTradeOk(LPGameObject &lpObj, int botIndex)
 {
-	CGameObject* lpBot = &gGameObjects[botIndex];
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpBot = &gGameObjects[botIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if(!lpObj || !lpBot)
 		return;
@@ -841,8 +841,8 @@ void CBotSystem::AlchemistTradeOk(LPGameObject &lpObj, int botIndex)
 }
 void CBotSystem::AlchemistTradeOpen(LPGameObject &lpObj, int botIndex)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
-	CGameObject* lpBot = &gGameObjects[botIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
+	LPGameObject lpBot = &gGameObjects[botIndex];
 
 	lpObj->m_IfState.use = 1;
 	lpObj->m_IfState.state = 0;

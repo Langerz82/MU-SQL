@@ -26,16 +26,6 @@ struct PMSG_BUYLIST_FROM_PSHOP
 	short ChaosValue;
 };
 
-struct PSHOP_ITEMVALUE_INFO_DS
-{
-	int nPShopItemInvenNum;
-	UINT64 ItemSerial;
-	int nMoney;
-	short sBlessJewelValue;
-	short sSoulJewelValue;
-	short sChaosJewelValue;
-};
-
 struct PSHOP_ITEMVALUE_INFO
 {
 	int nPShopItemInvenNum;

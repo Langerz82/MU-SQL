@@ -233,7 +233,7 @@ extern PMSG_GENS_MEMBER_VIEWPORT_INFO pGensMsg;
 
 struct PMSG_SEND_GENS_MEMBER_VIEWPORT // 0x6
 {
-	struct PWMSG_HEAD2 h; // +0x0(0x5)
+	PWMSG_HEAD2 h; // +0x0(0x5)
 	BYTE Count;           // +0x5(0x1)
 };
 extern PMSG_SEND_GENS_MEMBER_VIEWPORT pGensCount;

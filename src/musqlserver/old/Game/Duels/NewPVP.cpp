@@ -511,11 +511,11 @@ int CNewPVP::Leave(LPGameObject &Obj)
 	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){	sLog->outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","ENEWPVP::E_INVALID_CHANNELID","NULL",__FILE__, __LINE__); return ENEWPVP::E_INVALID_CHANNELID; }
 	if( !IS_START(m_DuelChannel[nId].nStatus ) && m_DuelChannel[nId].nStatus != DC_RESERVEDEND ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)||m_DuelChannel[nId].nStatus==DC_RESERVEDEND", "ENEWPVP::E_INVALID_STATUS","NULL",__FILE__, __LINE__); return ENEWPVP::E_INVALID_STATUS; }	
 
-	CGameObject*ECTSTRUCT lpTargetObj = NULL;
+	LPGameObjectECTSTRUCT lpTargetObj = NULL;
 
 	obj.m_iDuelUserReserved = -1;
 
-	if( IsDuel(obj) )	lpTargetObj = (CGameObject*ECTSTRUCT)&gGameObjects[obj.m_iDuelUser];
+	if( IsDuel(obj) )	lpTargetObj = (LPGameObjectECTSTRUCT)&gGameObjects[obj.m_iDuelUser];
 
 	if(lpTargetObj == NULL){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","lpTargetObj","ENEWPVP::E_INVALID_INDEX","NULL", __FILE__, __LINE__); return ENEWPVP::E_INVALID_INDEX; }
 
@@ -985,7 +985,7 @@ void CNewPVP::LeaveChannelObserver(int nId)
 		ObserverInfo & info = iter->second;		
 		if(info.nId == nId)
 		{
-			LPGameObject &lpObj = (CGameObject*ECTSTRUCT)&gGameObjects[info.nIndex];
+			LPGameObject &lpObj = (LPGameObjectECTSTRUCT)&gGameObjects[info.nIndex];
 
 			if( IsPKFieldMap(lpObj->MapNumber) )
 			{
@@ -1307,7 +1307,7 @@ BOOL CNewPVP::IsGuildWar(LPGameObject &lpObj)
 	return FALSE;
 }
 
-BOOL CNewPVP::DropItem(LPGameObject &lpObj, CGameObject*ECTSTRUCT lpMonsterObj)
+BOOL CNewPVP::DropItem(LPGameObject &lpObj, LPGameObjectECTSTRUCT lpMonsterObj)
 {
 	if( !IsVulcanusMap(lpObj->MapNumber) ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","IsVulcanusMap(lpObj->MapNumber)","FALSE","NULL",__FILE__,  __LINE__); return FALSE; }
 	if( m_bNewPVP != TRUE){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","m_bNewPVP==TRUE","FALSE","NULL", __FILE__,  __LINE__); return FALSE; }

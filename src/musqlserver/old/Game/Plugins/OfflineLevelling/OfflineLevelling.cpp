@@ -204,7 +204,7 @@ BOOL COfflineLevelling::DeleteUser(LPGameObject &lpObj)
 
 void COfflineLevelling::FindAndAttack(LPGameObject &user)
 {
-	CGameObject* tObj;
+	LPGameObject tObj;
 	CMagicInf* lpMagic;
 	OFF_LEVEL_PLAYERS obj;
 	std::map<int,OFF_LEVEL_PLAYERS>::iterator iter = m_OffPlayerData.find(user->m_Index);
@@ -352,7 +352,7 @@ void COfflineLevelling::FindAndAttack(LPGameObject &user)
 }
 bool COfflineLevelling::ChargePlayer(LPGameObject &lpObj)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 	
 	if(lpObj == NULL)
 		return false;
@@ -491,7 +491,7 @@ bool COfflineLevelling::ChargePlayer(LPGameObject &lpObj)
 }
 void COfflineLevelling::Run()
 {
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 
 	if (this->b_Enabled == false)
 	{
@@ -559,8 +559,8 @@ BOOL COfflineLevelling::SkillDistanceCheck(LPGameObject &lpObj, int aTargetIndex
 		return FALSE;
 
 	iSkillDistance += 1;
-	CGameObject* lpObj = &gGameObjects[aIndex];
-	CGameObject* lpTargetObj = &gGameObjects[aTargetIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
+	LPGameObject lpTargetObj = &gGameObjects[aTargetIndex];
 
 	if ( abs(lpObj->X - lpTargetObj->X) > iSkillDistance ||
 		 abs(lpObj->Y - lpTargetObj->Y) > iSkillDistance )
@@ -586,7 +586,7 @@ int COfflineLevelling::GetOffLevelerCount()
 
 bool COfflineLevelling::CheckUseTime(LPGameObject &lpObj)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if(!lpObj)
 		return false;
@@ -676,7 +676,7 @@ void COfflineLevelling::CheckAndPickUpItem(LPGameObject &lpObj, CMapItem* cMapIt
 
 void COfflineLevelling::CheckRepairItems(LPGameObject &lpObj)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	for(int i=0;i<INVETORY_WEAR_SIZE;i++)
 	{

@@ -67,7 +67,7 @@ public:
 	// fix drop slot pentagrams
 	void LoadOptionMaps(const char* File);
 	void LoadOptionNews();
-	BOOL ElementDrop(LPGameObject &lpObj, CGameObject* lpTargetObj);
+	BOOL ElementDrop(LPGameObject &lpObj, LPGameObject lpTargetObj);
 	TRandomPoolMgr m_SlotCountRate;
 
 	TEST_ITEMSDROP Penta_DropRate[50];

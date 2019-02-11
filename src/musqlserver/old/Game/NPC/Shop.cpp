@@ -253,7 +253,7 @@ BOOL CShop::LoadShopItem(char* filename)
 		return FALSE;
 	}
 
-	pugi::xml_node mainsection = file.child("Shop");
+	pugi::xml_node mainXMLsection = file.child("Shop");
 
 	for (pugi::xml_node item = mainsection.child("Item"); item; item = item.next_sibling())
 	{
@@ -315,7 +315,7 @@ void CShopMng::LoadShopList(char* filename)
 
 	this->m_vecShopData.clear();
 
-	pugi::xml_node mainsection = file.child("ShopList");
+	pugi::xml_node mainXMLsection = file.child("ShopList");
 	SHOP_DATA ShopData;
 
 	for (pugi::xml_node shop = mainsection.child("Shop"); shop; shop = shop.next_sibling())

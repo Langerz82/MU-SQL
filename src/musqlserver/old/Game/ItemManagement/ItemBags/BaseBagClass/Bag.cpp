@@ -34,7 +34,7 @@ bool CBag::LoadBag(const char* lpFileName)
 		return false;
 	}
 
-	pugi::xml_node main_section = file.child("ItemBag");
+	pugi::xml_node mainXML_section = file.child("ItemBag");
 	pugi::xml_node config_section = main_section.child("BagConfig");
 	pugi::xml_node coin_section = main_section.child("AddCoin");
 	pugi::xml_node summon_section = main_section.child("SummonBook");
@@ -187,7 +187,7 @@ int CBag::GetDropSection(LPGameObject &lpObj, BAG_SECTION_DROP &pRetDrop)
 		return FALSE;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 	TRandomPoolMgr m_RandomPoolSection;
 
 	m_RandomPoolSection.InitPool();
@@ -278,7 +278,7 @@ int CBag::GetItem(BAG_SECTION_ITEMS &pItemsSec, BAG_ITEM & pRetItem)
 
 int CBag::GetReadyItemToUse(LPGameObject &lpObj, CItem &pItem, time_t & DurationItem)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	BAG_ITEM m_Item;
 	BAG_SECTION_ITEMS m_ItemSection;
@@ -389,7 +389,7 @@ void CBag::AddCoin(LPGameObject &lpObj)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	char *CoinTypes[] = { "C", "P", "G" };
 	GDReqInGameShopPointAdd(aIndex, this->m_BagData.btAddCoinType, this->m_BagData.dwAddCoinValue);
@@ -409,7 +409,7 @@ void CBag::DropSummonItem(LPGameObject &lpObj)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->m_bIsHelpMon == true)
 	{

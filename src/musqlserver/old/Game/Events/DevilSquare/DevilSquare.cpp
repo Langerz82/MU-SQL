@@ -1022,7 +1022,7 @@ void CDevilSquare::DieProcDevilSquare(LPGameObject &lpObj)
 
 
 
-UINT64 CDevilSquare::gObjMonsterExpSingle(LPGameObject &lpObj, CGameObject* lpTargetObj, int dmg, int tot_dmg)
+UINT64 CDevilSquare::gObjMonsterExpSingle(LPGameObject &lpObj, LPGameObject lpTargetObj, int dmg, int tot_dmg)
 {
 	BYTE devilsquareindex = lpObj->m_bDevilSquareIndex;
 
@@ -1154,7 +1154,7 @@ UINT64 CDevilSquare::gObjMonsterExpSingle(LPGameObject &lpObj, CGameObject* lpTa
 
 
 
-void CDevilSquare::gObjExpParty(LPGameObject &lpObj, CGameObject* lpTargetObj, int AttackDamage, BOOL MSBFlag)
+void CDevilSquare::gObjExpParty(LPGameObject &lpObj, LPGameObject lpTargetObj, int AttackDamage, BOOL MSBFlag)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -1184,7 +1184,7 @@ void CDevilSquare::gObjExpParty(LPGameObject &lpObj, CGameObject* lpTargetObj, i
 	BOOL bApplaySetParty = FALSE;
 	bool bCheckSetParty[MAX_TYPE_PLAYER];
 	partynum = lpObj->PartyNumber;
-	CGameObject* lpPartyObj;
+	LPGameObject lpPartyObj;
 
 	int toplevel = 0;
 
@@ -1410,12 +1410,12 @@ void CDevilSquare::gObjExpParty(LPGameObject &lpObj, CGameObject* lpTargetObj, i
 
 
 
-void CDevilSquare::gObjMonsterScoreDivision(LPGameObject &lpMonObj, CGameObject* lpObj, int AttackDamage, BOOL MSBFlag)
+void CDevilSquare::gObjMonsterScoreDivision(LPGameObject &lpMonObj, LPGameObject lpObj, int AttackDamage, BOOL MSBFlag)
 {
 	::gObjMonsterHitDamageUserDel(lpMonObj);
 	lpMonObj->MonsterMoneyDrop = 0;
 
-	CGameObject* lpTargetObj;
+	LPGameObject lpTargetObj;
 	int HitIndex;
 	int LastHitObjNum = ::gObjMonsterLastHitDamageUser(lpMonObj, HitIndex);
 

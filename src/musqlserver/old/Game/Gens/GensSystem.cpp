@@ -415,7 +415,7 @@ void GensSystem::SetGensInfluence(LPGameObject &lpObj, int iInfluence)
 };
 
 //-> Completed
-int GensSystem::IsPkEnable(LPGameObject &lpObj, CGameObject* lpTargetObj)
+int GensSystem::IsPkEnable(LPGameObject &lpObj, LPGameObject lpTargetObj)
 {
 	if (this->IsMapBattleZone(lpObj->MapNumber))
 	{
@@ -693,7 +693,7 @@ void GensSystem::SendPKPenaltyDebuff(LPGameObject &lpObj)
 	}
 }
 
-void GensSystem::CalcContributePoint(LPGameObject &lpObj, CGameObject* lpTargetObj)
+void GensSystem::CalcContributePoint(LPGameObject &lpObj, LPGameObject lpTargetObj)
 {
 	if(lpObj->Type != OBJ_USER)
 	{

@@ -1,11 +1,9 @@
-#ifndef _MUSQL_GDEFINE_H_
-#define _MUSQL_GDEFINE_H_
+#ifndef _MU_MUDEFINE_H_
+#define _MU_MUDEFINE_H_
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-
-
 
 
 #define MAX_JOH_ITEM_TYPE	4
@@ -447,7 +445,6 @@
 #ifndef NULL
 #define NULL 0
 #endif
-
 #ifndef TRUE
 #define TRUE 1
 #endif

@@ -53,8 +53,8 @@ bool CMonsterBag::UseBag(LPGameObject &lpObj, int iMonsterIndex)
 		return false;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
-	CGameObject* lpMonsterObj = &gGameObjects[iMonsterIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
+	LPGameObject lpMonsterObj = &gGameObjects[iMonsterIndex];
 
 	if (rand() % 10000 >= this->m_BagData.dwItemDropRate)
 	{

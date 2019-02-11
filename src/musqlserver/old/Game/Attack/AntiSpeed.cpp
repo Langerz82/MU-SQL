@@ -1,13 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 // AntiSpeed.cpp
 #include "AntiSpeed.h"
-//#include "User/CUserData.h"
 #include "ObjUseSkill.h"
-//#include "GameProtocol.h"
-//#include "Logging/Log.h"
+#include "GameProtocol.h"
 
 
-CAttackMelee::CAttackMelee( CGameObject* lpObj, CGameObject* lpTargetObj )
+
+CAttackMelee::CAttackMelee( LPGameObject &lpObj, LPGameObject lpTargetObj )
 {
 	m_Obj = lpObj;
 	m_TargetObj = lpTargetObj;
@@ -18,7 +17,7 @@ void CAttackMelee::Process()
 	gObjAttack(m_Obj, m_TargetObj, NULL, 0, 0, 0, 0);
 }
 
-CAttackMagic::CAttackMagic( CGameObject* lpObj,  BYTE* pmsg, int len)
+CAttackMagic::CAttackMagic( LPGameObject &lpObj,  BYTE* pmsg, int len)
 {
 	m_Obj = lpObj;
 	m_Msg = new unsigned char[len];
@@ -36,7 +35,7 @@ void CAttackMagic::Process()
 	//gObjUseSkill.UseSkill(m_Obj->m_Index, m_TargetObj->m_Index, m_Magic);
 }
 
-CAttackRange::CAttackRange( CGameObject* lpObj, BYTE* pmsg, int len, int type )
+CAttackRange::CAttackRange( LPGameObject &lpObj, BYTE* pmsg, int len, int type )
 {
 	m_Obj = lpObj;
 	m_Msg = new unsigned char[len];
@@ -60,13 +59,9 @@ void CAttackRange::Process()
 
 CAttackQueue::CAttackQueue(LPGameObject &lpObj)
 {
-	if(aIndex < OBJ_STARTUSERINDEX || aIndex > OBJMAX-1)
-	{
-		throw "Incorrect Index!";
-	}
 
 	InitializeCriticalSection(&this->m_CritQueue);
-	this->aIndex = aIndex;
+	this->m_lpObj = lpObj;
 }
 
 void CAttackQueue::Push( unsigned char* msg, int len, int type )
@@ -84,7 +79,7 @@ void CAttackQueue::Push( unsigned char* msg, int len, int type )
 
 void CAttackQueue::ProcessQueue()
 {
-	//CGameObject* m_Obj = &gGameObjects[this->aIndex];
+	//LPGameObject m_Obj = &gGameObjects[this->aIndex];
 
 	EnterCriticalSection(&this->m_CritQueue);
 	int TickCount = GetTickCount();
@@ -165,7 +160,7 @@ void CAttackQueue::ProcessQueue()
 }
 
 bool CAttackQueue::ThreadActive = true;
-VOID CAttackQueue::AttackQueueProc(std::vector<CGameObject*> gObj)
+VOID CAttackQueue::AttackQueueProc(std::vector<LPGameObject> gObj)
 {
 	while(ThreadActive)
 	{
@@ -248,11 +243,6 @@ void CAttackQueue::Clear()
 
 CAttackMsg::CAttackMsg(LPGameObject &lpObj, BYTE* pmsg, int len, int type )
 {
-	if(aIndex < OBJ_STARTUSERINDEX || aIndex > OBJMAX-1)
-	{
-		throw "Incorrect Index!";
-	}
-
 	if(pmsg == NULL)
 	{
 		throw "Message is empty!";
@@ -263,7 +253,6 @@ CAttackMsg::CAttackMsg(LPGameObject &lpObj, BYTE* pmsg, int len, int type )
 		throw "Too short len!";
 	}
 
-	m_Obj = &gGameObjects[aIndex];
 	m_Msg = new BYTE[len];
 	m_Len = len;
 	memcpy(m_Msg, pmsg, len);
@@ -280,16 +269,16 @@ void CAttackMsg::Process()
 	switch(m_Type)
 	{
 	case ATTACK_MELEE:
-		GSProtocol.CGAttack((PMSG_ATTACK*)m_Msg, m_Obj->m_Index);
+		GSProtocol.CGAttack((PMSG_ATTACK*)m_Msg, m_Obj);
 		break;
 	case ATTACK_MAGIC:
-		GSProtocol.CGMagicAttack((PMSG_MAGICATTACK*)m_Msg, m_Obj->m_Index);
+		GSProtocol.CGMagicAttack((PMSG_MAGICATTACK*)m_Msg, m_Obj);
 		break;
 	case ATTACK_RANGE_OLD:
-		GSProtocol.CGBeattackRecv(m_Msg, m_Obj->m_Index, FALSE);
+		GSProtocol.CGBeattackRecv(m_Msg, m_Obj, FALSE);
 		break;
 	case ATTACK_RANGE_NEW:
-		GSProtocol.CGDurationMagicRecv((PMSG_DURATION_MAGIC_RECV*)m_Msg, m_Obj->m_Index);
+		GSProtocol.CGDurationMagicRecv((PMSG_DURATION_MAGIC_RECV*)m_Msg, m_Obj);
 		break;
 	case ATTACK_RAGE_FIGHTER:
 		//

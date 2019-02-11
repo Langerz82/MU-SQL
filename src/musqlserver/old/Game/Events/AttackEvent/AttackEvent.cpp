@@ -51,9 +51,9 @@ void CAttackEvent::LoadScript(char *szFile)
 		return;
 	}
 
-	pugi::xml_node main = file.child("AttackEvent");
+	pugi::xml_node mainXML = file.child("AttackEvent");
 
-	for (pugi::xml_node spawn = main.child("Spawn"); spawn; spawn = spawn.next_sibling())
+	for (pugi::xml_node spawn = mainXML.child("Spawn"); spawn; spawn = spawn.next_sibling())
 	{
 		ATTACKEVENT_MONSTER_POS m_Pos;
 

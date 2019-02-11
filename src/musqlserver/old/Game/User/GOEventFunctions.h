@@ -7,8 +7,6 @@
 
 #include "StdAfx.h"
 #include "MapItem.h"
-#include "CGameObject.h"
-#include "GOFunctions.h"
 
 void gObjEventInventoryItemSet(LPGameObject &lpObj, int itempos, BYTE set_byte);
 void gObjEventInventoryItemBoxSet(LPGameObject &lpObj, int itempos, int xl, int yl, BYTE set_byte);

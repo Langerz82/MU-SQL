@@ -175,7 +175,7 @@ BOOL CIllusionTempleEvent_Renewal::Enter_ITR(LPGameObject &lpObj, BYTE byTempleI
 		return FALSE;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (!lpObj)
 	{

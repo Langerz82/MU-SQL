@@ -38,11 +38,11 @@ public:
 	void SetSlotStatus(CMuRummyInfo *pMuRummyInfo);
 	void CardShuffle(CMuRummyCardInfo *pCCardInfo);
 	bool SetPlayCardInfo(CMuRummyInfo *pMuRummyInfo, MuRummyCardInfo *pOutCardInfo);
-	bool FillEmptySlotCard(CMuRummyInfo *pMuRummyInfo, MuRummyCardInfo *pOutCardInfo, OBJECTSTRUCT *lpObj);
+	bool FillEmptySlotCard(CMuRummyInfo *pMuRummyInfo, MuRummyCardInfo *pOutCardInfo, LPGameObject lpObj);
 	BYTE GetTempCardShowSlot(BYTE *pSlotCardIndex);
-	BYTE CardSlotMove(CMuRummyInfo *pCMuRummyInfo, int sSlot, int tSlot, CMuRummyCardInfo *pCOutCardInfo, OBJECTSTRUCT *lpObj);
+	BYTE CardSlotMove(CMuRummyInfo *pCMuRummyInfo, int sSlot, int tSlot, CMuRummyCardInfo *pCOutCardInfo, LPGameObject lpObj);
 	BYTE CardSlotReMove(CMuRummyInfo *pCMuRummyInfo, int sSlot);
-	BYTE CardMatchCheck(CMuRummyInfo *pCMuRummyInfo, int *iOutScore,MuRummyCardUpdateDS *pOutCardUpdateDS, OBJECTSTRUCT *lpObj);
+	BYTE CardMatchCheck(CMuRummyInfo *pCMuRummyInfo, int *iOutScore,MuRummyCardUpdateDS *pOutCardUpdateDS, LPGameObject lpObj);
 	void CardSortAscending(CMuRummyCardInfo *pCCardInfo);
 	int IsCardSameColor(CMuRummyCardInfo *pCCardInfo);
 	int IsCardNumber(CMuRummyCardInfo *pCCardInfo);

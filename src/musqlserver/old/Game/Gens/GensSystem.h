@@ -48,7 +48,7 @@ public:
 	void GensViewportListProtocol(LPGameObject &lpObj);
 	int IsMapBattleZone(int iMapIndex);
 	void SetGensInfluence(LPGameObject &lpObj, int iInfluence);
-	int IsPkEnable(LPGameObject &lpObj, CGameObject* lpTargetObj);
+	int IsPkEnable(LPGameObject &lpObj, LPGameObject lpTargetObj);
 	int GetGensInfluence(LPGameObject &lpObj);
 	char *GetGensInfluenceName(LPGameObject &lpObj);
 	bool IsRegGensInfluence(LPGameObject &lpObj);
@@ -62,7 +62,7 @@ public:
 	void PkPenaltyDropInvenItem(LPGameObject &lpObj);
 	void PkPenaltyDropZen(LPGameObject &lpObj);
 	void SendPKPenaltyDebuff(LPGameObject &lpObj);
-	void CalcContributePoint(LPGameObject &lpObj, CGameObject* lpTargetObj);
+	void CalcContributePoint(LPGameObject &lpObj, LPGameObject lpTargetObj);
 	int ChkKillUserName(LPGameObject &lpObj, char *szCharName);
 	int AbusingPenalty(LPGameObject &lpObj, int iKillUserIndex);
 	int InsertKillUserName(LPGameObject &lpObj, char *szCharName);

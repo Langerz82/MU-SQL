@@ -28,7 +28,7 @@ bool CAntiSwear::LoadFile(const char* File)
 		return false;
 	}
 
-	pugi::xml_node main_section = file.child("ProhibitedWords");
+	pugi::xml_node mainXML_section = file.child("ProhibitedWords");
 	std::string Swear;
 
 	for (pugi::xml_node word = main_section.child("Restrict"); word; word = word.next_sibling())

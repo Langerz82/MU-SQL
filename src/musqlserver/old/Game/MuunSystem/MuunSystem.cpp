@@ -132,13 +132,13 @@ void CMuunAttack::SkillProc(LPGameObject &lpObj)
 	}
 }
 
-bool CMuunAttack::DamageAbsorb(LPGameObject &lpObj, CGameObject* lpTargetObj, CMagicInf *lpMagic, int SubCode2)
+bool CMuunAttack::DamageAbsorb(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2)
 {
 	lpObj->m_MuunEffectList[SubCode2].bSkillUsed = false;
 	return true;
 }
 
-bool CMuunAttack::Stun(LPGameObject &lpObj, CGameObject* lpTargetObj, CMagicInf *lpMagic, int SubCode2)
+bool CMuunAttack::Stun(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2)
 {
 	if (g_ConfigRead.EnableStunEffect == 1)
 	{
@@ -159,11 +159,11 @@ bool CMuunAttack::Stun(LPGameObject &lpObj, CGameObject* lpTargetObj, CMagicInf 
 	return true;
 }
 
-bool CMuunAttack::Attack(LPGameObject &lpObj, CGameObject* lpTargetObj, CMagicInf *lpMagic, int SubCode2)
+bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2)
 {
 	int skillSuccess = 0;
-	CGameObject* lpCallObj;
-	CGameObject* lpCallTargetObj;
+	LPGameObject lpCallObj;
+	LPGameObject lpCallTargetObj;
 	int MsgDamage = 0;
 	int ManaChange = 0;
 	int iTempShieldDamage = 0;
@@ -867,7 +867,7 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, CGameObject* lpTargetObj, CMagicIn
 	return TRUE;
 }
 
-int CMuunAttack::GetAttackDamage(LPGameObject &lpObj, int targetDefense, int SubCode2, CGameObject* lpTargetObj)
+int CMuunAttack::GetAttackDamage(LPGameObject &lpObj, int targetDefense, int SubCode2, LPGameObject lpTargetObj)
 {
 	int ad = 0;
 	int AttackDamage = lpObj->m_MuunEffectList[SubCode2].nOptValue * (lpObj->m_PlayerData->MasterLevel + lpObj->Level) + 10;
@@ -885,7 +885,7 @@ int CMuunAttack::GetAttackDamage(LPGameObject &lpObj, int targetDefense, int Sub
 	return ad;
 }
 
-int CMuunAttack::GetShieldDamage(LPGameObject &lpObj, CGameObject* lpTargetObj, int iAttackDamage)
+int CMuunAttack::GetShieldDamage(LPGameObject &lpObj, LPGameObject lpTargetObj, int iAttackDamage)
 {
 	if (g_ConfigRead.g_ShieldSystemOn == FALSE)
 		return 0;
@@ -1041,7 +1041,7 @@ void CMuunSystem::MuunItemDamage(LPGameObject lpObj, int damage)
 
 BOOL CMuunSystem::MuunItemEquipment(LPGameObject &lpObj, int iPos, int iSource)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -1328,7 +1328,7 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 	}
 
 	lpObj->bMuunInventoryLoad = true;
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	int itype;
 	int _type;
@@ -2331,7 +2331,7 @@ void CMuunSystem::CheckMuunItemPeriodData(LPGameObject &lpObj)
 		{
 			if (this->m_MuunItemPeriodData[i].lpUserObj != NULL)
 			{
-				CGameObject* lpUserObj = this->m_MuunItemPeriodData[i].lpUserObj;
+				LPGameObject lpUserObj = this->m_MuunItemPeriodData[i].lpUserObj;
 					
 				if (lpUserObj->Type == OBJ_USER)
 				{
@@ -3401,7 +3401,7 @@ void CMuunSystem::CGReqRideSelect(PMSG_MUUN_RIDE_SELECT *lpMsg, int aIndex)
 	if(!gObjIsConnected(aIndex))
 		return;
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	lpObj->m_wMuunRideItem = -1;
 
@@ -3484,7 +3484,7 @@ bool CMuunSystem::IsMuunExpireDate(int iType)
 	return false;
 }
 
-void CMuunSystem::Attack(LPGameObject &lpObj, CGameObject* lpTargetObj, CMagicInf *lpMagic, int SubCode, int SubCode2)
+void CMuunSystem::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode, int SubCode2)
 {
 	switch (SubCode)
 	{

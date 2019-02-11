@@ -225,7 +225,7 @@ _MONSTER_HERD_DATA * MonsterHerd::GetMonsterData(int iIndex)
 		return NULL;
 	}
 
-	CGameObject* lpOBJ = &gGameObjects[iIndex];
+	LPGameObject lpOBJ = &gGameObjects[iIndex];
 
 	if ( lpOBJ->Connected != PLAYER_PLAYING || lpOBJ->Type != OBJ_MONSTER )
 	{
@@ -256,7 +256,7 @@ _MONSTER_HERD_DATA * MonsterHerd::GetMonsterData(int iIndex)
 }
 
 
-void MonsterHerd::BeenAttacked(LPGameObject &lpObj, CGameObject* lpTargetObj)
+void MonsterHerd::BeenAttacked(LPGameObject &lpObj, LPGameObject lpTargetObj)
 {
 	if ( lpObj == NULL )
 	{
@@ -324,7 +324,7 @@ void MonsterHerd::BeenAttacked(LPGameObject &lpObj, CGameObject* lpTargetObj)
 
 
 
-void MonsterHerd::OrderAttack(LPGameObject &lpObj, CGameObject* lpTargetObj, int iAttackPercent)
+void MonsterHerd::OrderAttack(LPGameObject &lpObj, LPGameObject lpTargetObj, int iAttackPercent)
 {
 	if ( lpObj == NULL )
 	{
@@ -394,7 +394,7 @@ BOOL MonsterHerd::CheckInRadius(int iIndex)
 		return FALSE;
 	}
 
-	CGameObject* lpOBJ = &gGameObjects[iIndex];
+	LPGameObject lpOBJ = &gGameObjects[iIndex];
 
 	if ( lpOBJ->Connected != PLAYER_PLAYING || lpOBJ->Type != OBJ_MONSTER )
 	{
@@ -539,7 +539,7 @@ void MonsterHerd::MonsterMoveAction(LPGameObject &lpObj)
 	}
 }
 
-void MonsterHerd::MonsterAttackAction(LPGameObject &lpObj, CGameObject* lpTargetObj)
+void MonsterHerd::MonsterAttackAction(LPGameObject &lpObj, LPGameObject lpTargetObj)
 {
 	return;	// Here goes a MACRO
 }
@@ -549,7 +549,7 @@ void MonsterHerd::MonsterAttackAction(LPGameObject &lpObj, CGameObject* lpTarget
 
 void MonsterHerd::MonsterBaseAct(LPGameObject &lpObj)
 {
-	CGameObject* lpTargetObj = NULL;
+	LPGameObject lpTargetObj = NULL;
 
 	if ( lpObj->TargetNumber >= 0 )
 	{

@@ -187,8 +187,8 @@ void TMonsterSkillManager::MonsterSkillProc()
 					continue;
 				}
 
-				CGameObject* lpObj = &gGameObjects[stInfo.iIndex];
-				CGameObject* lpTargetObj = &gGameObjects[stInfo.iTargetIndex];
+				LPGameObject lpObj = &gGameObjects[stInfo.iIndex];
+				LPGameObject lpTargetObj = &gGameObjects[stInfo.iTargetIndex];
 
 				if ( !lpObj->Live || !lpTargetObj->Live )
 				{
@@ -212,7 +212,7 @@ void TMonsterSkillManager::MonsterSkillProc()
 
 TMonsterSkillUnit * TMonsterSkillManager::FindMonsterSkillUnit(int iIndex, int iMonsterSkillUnitType)
 {
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 	TMonsterSkillInfo * lpMonsterSkillInfo = &TMonsterSkillManager::s_MonsterSkillInfoArray[lpObj->Class];
 
 	if ( lpMonsterSkillInfo->IsValid() == FALSE )
@@ -263,8 +263,8 @@ void TMonsterSkillManager::UseMonsterSkill(int iIndex, int iTargetIndex, int iMo
 	/* sLog->outBasic("[TMonsterSkillManager] [%s] Used skill at INDEX:%d (UNITTYPE:%d UNIT:%d)",
 		gGameObjects[iIndex].Name, iTargetIndex, iMonsterSkillUnitType, iMonsterSkillUnit); */
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
-	CGameObject* lpTargetObj = &gGameObjects[iTargetIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
+	LPGameObject lpTargetObj = &gGameObjects[iTargetIndex];
 	TMonsterSkillInfo * lpMonsterSkillInfo = &TMonsterSkillManager::s_MonsterSkillInfoArray[lpObj->Class];
 
 	if ( lpMonsterSkillInfo->IsValid() == FALSE )

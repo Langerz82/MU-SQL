@@ -5945,7 +5945,7 @@ bool CheckCanWearResetItem(LPGameObject &lpObj, int itemid)
 		return false;
 
 	/*
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	for (int i = 0; i < 1000; i++)
 	{

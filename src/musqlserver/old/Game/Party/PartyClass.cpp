@@ -855,7 +855,7 @@ void PartyClass::ReadBonusInfo(LPSTR File) //FILE_PARTYBONUS
 	}
 }
 
-int PartyClass::GetExpBonus(LPGameObject &lpUser, CGameObject* lpMonster, int PartyNumber)
+int PartyClass::GetExpBonus(LPGameObject &lpUser, LPGameObject lpMonster, int PartyNumber)
 {
 	if (!lpUser)
 	{
@@ -876,7 +876,7 @@ int PartyClass::GetExpBonus(LPGameObject &lpUser, CGameObject* lpMonster, int Pa
 			continue;
 		}
 		// ----
-		CGameObject* lpPartyUser = &gGameObjects[UserIndex];
+		LPGameObject lpPartyUser = &gGameObjects[UserIndex];
 		// ----
 		if (!lpPartyUser)
 		{
@@ -925,8 +925,8 @@ bool PartyClass::SetLeader(int OldLeader, int NewLeader)
 	if (!ObjectMaxRange(NewLeader))
 		return false;
 
-	CGameObject* lpObj = &gGameObjects[OldLeader];
-	CGameObject* lpTargetObj = &gGameObjects[NewLeader];
+	LPGameObject lpObj = &gGameObjects[OldLeader];
+	LPGameObject lpTargetObj = &gGameObjects[NewLeader];
 	// ----
 	int PartyNumber = lpObj->PartyNumber;
 	// ----

@@ -357,7 +357,7 @@ char* CGMMng::GetTokenString()
 }
 // -------------------------------------------------------------------------------
 
-CGameObject* CGMMng::GetUserInfo(LPGameObject &lpUser, LPSTR UserName)
+LPGameObject CGMMng::GetUserInfo(LPGameObject &lpUser, LPSTR UserName)
 {
 	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
@@ -553,7 +553,7 @@ int CGMMng::ManagementProc(LPGameObject &lpObj, char* szCmd, int aIndex)
 			return 0;
 		}
 
-		CGameObject* lpTargetObj = gObjFind(pId);
+		LPGameObject lpTargetObj = gObjFind(pId);
 
 		if (lpTargetObj == NULL)
 		{
@@ -605,7 +605,7 @@ int CGMMng::ManagementProc(LPGameObject &lpObj, char* szCmd, int aIndex)
 		int map;
 		int iX;
 		int iY;
-		CGameObject* lpTargetObj = gObjFind(pId);
+		LPGameObject lpTargetObj = gObjFind(pId);
 		int iIndex;
 
 		if (lpTargetObj == NULL)
@@ -688,7 +688,7 @@ int CGMMng::ManagementProc(LPGameObject &lpObj, char* szCmd, int aIndex)
 			return 0;
 		}
 		// ----
-		CGameObject* lpTarget = this->GetUserInfo(lpObj, UserName);
+		LPGameObject lpTarget = this->GetUserInfo(lpObj, UserName);
 		// ----
 		if (!lpTarget)
 		{
@@ -764,7 +764,7 @@ int CGMMng::ManagementProc(LPGameObject &lpObj, char* szCmd, int aIndex)
 			int iTokenNumber2 = this->GetTokenNumber();
 			int iTokenNumber3 = this->GetTokenNumber();
 			int iIndex = gObjGetIndex(pId);
-			CGameObject* lpTargetObj;
+			LPGameObject lpTargetObj;
 
 			if (iIndex >= 0)
 			{
@@ -2043,7 +2043,7 @@ int CGMMng::ManagementProc(LPGameObject &lpObj, char* szCmd, int aIndex)
 				{
 					if (lpObj->VpPlayer[n].number >= 0)
 					{
-						CGameObject* lpTarget = &gGameObjects[lpObj->VpPlayer[n].number];
+						LPGameObject lpTarget = &gGameObjects[lpObj->VpPlayer[n].number];
 
 						if (lpTarget->Class == 275)
 						{
@@ -2086,7 +2086,7 @@ int CGMMng::ManagementProc(LPGameObject &lpObj, char* szCmd, int aIndex)
 				{
 					if (lpObj->VpPlayer[n].number >= 0)
 					{
-						CGameObject* lpTarget = &gGameObjects[lpObj->VpPlayer[n].number];
+						LPGameObject lpTarget = &gGameObjects[lpObj->VpPlayer[n].number];
 
 						if (lpTarget->Class == 275)
 						{
@@ -2669,7 +2669,7 @@ int CGMMng::ManagementProc(LPGameObject &lpObj, char* szCmd, int aIndex)
 			return 0;
 		}
 
-		CGameObject* lpBan = gObjFind(pId);
+		LPGameObject lpBan = gObjFind(pId);
 
 		if (lpBan == NULL && !g_ConfigRead.data.common.IsJoinMu)
 		{
@@ -2819,7 +2819,7 @@ int CGMMng::ManagementProc(LPGameObject &lpObj, char* szCmd, int aIndex)
 
 		}
 
-		CGameObject* lpDcOBJ = gObjFind(pId);
+		LPGameObject lpDcOBJ = gObjFind(pId);
 		if (lpDcOBJ == NULL)
 		{
 			MsgOutput(aIndex, Lang.GetText(0, 482));
@@ -2953,7 +2953,7 @@ int CGMMng::ManagementProc(LPGameObject &lpObj, char* szCmd, int aIndex)
 		int map;
 		int iX;
 		int iY;
-		CGameObject* lpTargetObj = gObjFind(pId);
+		LPGameObject lpTargetObj = gObjFind(pId);
 		int iIndex;
 
 		if (lpTargetObj == NULL)
@@ -3117,7 +3117,7 @@ int CGMMng::ManagementProc(LPGameObject &lpObj, char* szCmd, int aIndex)
 			return 0;
 		}
 
-		CGameObject* lpTargetObj = gObjFind(pId);
+		LPGameObject lpTargetObj = gObjFind(pId);
 
 		if (lpTargetObj == NULL)
 		{
@@ -3568,7 +3568,7 @@ bool CGMMng::CommandClearInventory(LPGameObject &lpObj)
 		return 0;
 	}
 	// ----
-	CGameObject* lpTarget = this->GetUserInfo(lpObj, UserName);
+	LPGameObject lpTarget = this->GetUserInfo(lpObj, UserName);
 	// ----
 	if (!lpTarget)
 	{
@@ -3824,7 +3824,7 @@ void ServerMsgSend(LPGameObject &lpObj, int Type, char Sender[20], const char*Me
 	delete [] Packet;*/
 }
 
-BOOL CGMMng::CheckTraceMarryCondition(LPGameObject &lpObj, CGameObject* lpTargetObj)
+BOOL CGMMng::CheckTraceMarryCondition(LPGameObject &lpObj, LPGameObject lpTargetObj)
 {
 	if (lpObj->Married == 0)
 	{

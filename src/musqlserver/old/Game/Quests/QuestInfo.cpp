@@ -547,7 +547,7 @@ BOOL CQuestInfo::CompareCondition(LPGameObject &lpObj, LPQUEST_CONDITION lpCondi
 
 
 
-BOOL CQuestInfo::NpcTalk(LPGameObject &lpNpc, CGameObject* lpObj)
+BOOL CQuestInfo::NpcTalk(LPGameObject &lpNpc, LPGameObject lpObj)
 {
 	int questcount = this->GetQeustCount();
 	int foundquest = 0;
@@ -620,7 +620,7 @@ BOOL CQuestInfo::MonsterItemDrop(LPGameObject &lpObj)
 		return false;
 	}
 
-	CGameObject* lpTarget = &gGameObjects[MaxHitUser];
+	LPGameObject lpTarget = &gGameObjects[MaxHitUser];
 	int questcount = this->GetQeustCount();
 	int foundquest = 0;
 	LPQUEST_INFO lpQuestInfo;
@@ -698,7 +698,7 @@ BOOL CQuestInfo::MonsterItemDrop(LPGameObject &lpObj)
 	return false;
 }
 
-BOOL CQuestInfo::MonsterItemDropParty(LPGameObject &lpObj, CGameObject* lpTargetObj)
+BOOL CQuestInfo::MonsterItemDropParty(LPGameObject &lpObj, LPGameObject lpTargetObj)
 {
 	int questcount = this->GetQeustCount();
 	int foundquest = 0;
@@ -719,7 +719,7 @@ BOOL CQuestInfo::MonsterItemDropParty(LPGameObject &lpObj, CGameObject* lpTarget
 
 		if(aIndex >= 0 && lpObj->MapNumber == lpTargetObj->MapNumber)
 		{
-			CGameObject* lpPartyObj = &gGameObjects[aIndex];
+			LPGameObject lpPartyObj = &gGameObjects[aIndex];
 
 			for ( int j=0;j<MAX_QUEST_INFO;j++)
 			{
@@ -791,7 +791,7 @@ BOOL CQuestInfo::AddMonsterKillCount(LPGameObject &lpObj)
 		return false;
 	}
 
-	CGameObject* lpTarget = &gGameObjects[MaxHitUser];
+	LPGameObject lpTarget = &gGameObjects[MaxHitUser];
 	int questcount = this->GetQeustCount();
 	int foundquest = 0;
 	LPQUEST_INFO lpQuestInfo;
@@ -818,7 +818,7 @@ BOOL CQuestInfo::AddMonsterKillCount(LPGameObject &lpObj)
 
 			if(aIndex >= 0 && lpObj->MapNumber == lpTarget->MapNumber)
 			{
-				CGameObject* lpPartyObj = &gGameObjects[aIndex];
+				LPGameObject lpPartyObj = &gGameObjects[aIndex];
 
 				if(lpPartyObj->Type != OBJ_USER)
 				{
@@ -1226,7 +1226,7 @@ void CQuestInfo::QuestInfoSave(LPGameObject &lpObj)
 
 BOOL CQuestInfo::GetQuestItem(int iIndex, short nType, short nLevel)
 {
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	LPQUEST_INFO lpQuestInfo;
 	LPQUEST_SUB_INFO lpSubInfo;
@@ -1392,7 +1392,7 @@ void CQuestInfo::SendQuestMonsterKill(LPGameObject &lpObj, int iQuestIndex)
 void CQuestInfo::CheckQuestMapEnterOnWerwolf(int iIndex)
 {
 	PMSG_ANS_ENTER_ON_QUESTNPC pMsg;
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if (!lpObj)
 	{
@@ -1419,7 +1419,7 @@ void CQuestInfo::CheckQuestMapEnterOnWerwolf(int iIndex)
 		return;
 	}
 
-	CGameObject* lpNpc = &gGameObjects[lpObj->TargetNpcNumber];
+	LPGameObject lpNpc = &gGameObjects[lpObj->TargetNpcNumber];
 
 	if (lpNpc->Class != 407)
 	{
@@ -1463,7 +1463,7 @@ void CQuestInfo::CheckQuestMapEnterOnWerwolf(int iIndex)
 			
 			if (iPartyUserIndex >= 0 && iPartyUserIndex != iIndex)
 			{
-				CGameObject* lpPartyObj = &gGameObjects[iPartyUserIndex];
+				LPGameObject lpPartyObj = &gGameObjects[iPartyUserIndex];
 
 				if ( lpPartyObj->Level >= 350 && 
 					lpObj->MapNumber == lpPartyObj->MapNumber && 
@@ -1491,7 +1491,7 @@ void CQuestInfo::CheckQuestMapEnterOnWerwolf(int iIndex)
 void CQuestInfo::CheckQuestMapEnterOnGateKeeper(int iIndex)
 {
 	PMSG_ANS_ENTER_ON_QUESTNPC pMsg;
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if (!lpObj)
 	{
@@ -1518,7 +1518,7 @@ void CQuestInfo::CheckQuestMapEnterOnGateKeeper(int iIndex)
 		return;
 	}
 
-	CGameObject* lpNpc = &gGameObjects[lpObj->TargetNpcNumber];
+	LPGameObject lpNpc = &gGameObjects[lpObj->TargetNpcNumber];
 
 	if (lpNpc->Class != 408)
 	{
@@ -1556,7 +1556,7 @@ void CQuestInfo::CheckQuestMapEnterOnGateKeeper(int iIndex)
 			
 			if (iPartyUserIndex >= 0 && iPartyUserIndex != iIndex)
 			{
-				CGameObject* lpPartyObj = &gGameObjects[iPartyUserIndex];
+				LPGameObject lpPartyObj = &gGameObjects[iPartyUserIndex];
 
 				if ( lpPartyObj->Level >= 350 && 
 					lpObj->MapNumber == lpPartyObj->MapNumber && 

@@ -130,7 +130,7 @@ bool CEvolutionMonsterMng::UseSummonScroll(LPGameObject &lpObj)
 		return false;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (!lpObj)
 	{
@@ -313,7 +313,7 @@ void CEvolutionMonsterMng::EvolutionMonsterDie(LPGameObject & lpTargetObj, LPGam
 		return;
 	}
 
-	CGameObject* lpOwnerObj = &gGameObjects[nEvoMonOwnerIndex];
+	LPGameObject lpOwnerObj = &gGameObjects[nEvoMonOwnerIndex];
 
 	if (lpOwnerObj->Type != OBJ_USER)
 	{
@@ -385,7 +385,7 @@ void CEvolutionMonsterMng::EvolutionMonsterDie(LPGameObject & lpTargetObj, LPGam
 
 					if (nPartyIndex != -1)
 					{
-						CGameObject* lpPartyObj = &gGameObjects[nPartyIndex];
+						LPGameObject lpPartyObj = &gGameObjects[nPartyIndex];
 						this->GiveReward(lpPartyObj, true);
 					}
 				}
@@ -462,7 +462,7 @@ void CEvolutionMonsterMng::FieldProcess(LPGameObject & lpFieldObj)
 		return;
 	}
 
-	CGameObject* lpOwnerObj = &gGameObjects[nEvoMonOwnerIndex];
+	LPGameObject lpOwnerObj = &gGameObjects[nEvoMonOwnerIndex];
 
 	if (lpOwnerObj->Type != OBJ_USER)
 	{
@@ -534,7 +534,7 @@ void CEvolutionMonsterMng::EndTimeProcess(LPGameObject & lpMonsterObj)
 		return;
 	}
 
-	CGameObject* lpOwnerObj = &gGameObjects[nEvoMonOwnerIndex];
+	LPGameObject lpOwnerObj = &gGameObjects[nEvoMonOwnerIndex];
 
 	if (lpOwnerObj->Type != OBJ_USER)
 	{

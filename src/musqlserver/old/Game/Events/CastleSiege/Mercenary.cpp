@@ -26,7 +26,7 @@ CMercenary::~CMercenary()
 
 BOOL CMercenary::CreateMercenary(int iIndex, int iMercenaryTypeIndex, BYTE cTX, BYTE cTY)
 {
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 	int iMonsterIndex = -1;
 	BYTE cX = cTX;
 	BYTE cY = cTY;
@@ -234,7 +234,7 @@ void CMercenary::MercenaryAct(int iIndex)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if ( lpObj->VPCount2 < 1 )
 	{

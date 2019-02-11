@@ -5,11 +5,12 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "StdAfx.h"
+
 #include "MuDefines.h"
 #include "ServerEngine.h"
 #include "MuunInfo.h"
 #include "ItemManagement/Item.h"
+#include "itemsocketoptiondefine.h"
 
 #include <string>
 #include <map>
@@ -47,6 +48,35 @@ struct ITEMEFFECT;
 
 
 
+struct ComboSkillData
+{
+
+public:
+
+	void Init()	// line : 19
+	{
+		this->dwTime = 0;
+		this->Skill[0] = -1;
+		this->Skill[1] = -1;
+		this->Skill[2] = -1;
+		this->ProgressIndex = -1;
+	};	// line : 23
+
+	DWORD dwTime;	// 0
+	WORD Skill[3];	// 4
+	int ProgressIndex;	// 8
+
+};
+
+
+struct PSHOP_ITEMVALUE_INFO_DS {
+	int nPShopItemInvenNum;
+	UINT64 ItemSerial;
+	int nMoney;
+	WORD sBlessJewelValue;
+	WORD sSoulJewelValue;
+	WORD sChaosJewelValue;
+};
 
 
 struct ITEMDROP_ITEM

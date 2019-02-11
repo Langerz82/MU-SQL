@@ -40,12 +40,12 @@ void CBonusEvent::LoadFile(char *szFile)
 
 	this->m_vtEventData.clear();
 
-	pugi::xml_node main = file.child("BonusEvent");
+	pugi::xml_node mainXML = file.child("BonusEvent");
 
-	this->m_bEventEnable = main.attribute("Enable").as_bool();
-	this->m_bEventNotice = main.attribute("DisplayNotice").as_bool();
+	this->m_bEventEnable = mainXML.attribute("Enable").as_bool();
+	this->m_bEventNotice = mainXML.attribute("DisplayNotice").as_bool();
 	
-	for (pugi::xml_node Event = main.child("Event"); Event; Event = Event.next_sibling())
+	for (pugi::xml_node Event = mainXML.child("Event"); Event; Event = Event.next_sibling())
 	{
 		std::shared_ptr<BONUS_EVENT_DATA> bonus_event_ptr_(new BONUS_EVENT_DATA);
 

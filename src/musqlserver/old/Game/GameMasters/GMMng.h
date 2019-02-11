@@ -183,7 +183,7 @@ public:
 	int GetCmd(LPSTR szCmd);
 	int ManagementProc(LPGameObject &lpObj, LPSTR szCmd, int aIndex);
 	LPSTR GetTokenString();
-	CGameObject* GetUserInfo(LPGameObject &lpUser, LPSTR UserName);
+	LPGameObject GetUserInfo(LPGameObject &lpUser, LPSTR UserName);
 	int GetTokenNumber();
 	void GetInfinityArrowMPConsumption(LPGameObject &lpObj);
 	void ControlInfinityArrowMPConsumption0(LPGameObject &lpObj, int iValue);
@@ -201,7 +201,7 @@ public:
 	void LoadGMFile(LPSTR szFile);
 	void NewLoadCommandFile(LPSTR szFile);
 
-	BOOL CheckTraceMarryCondition(LPGameObject &lpObj, CGameObject* lpTargetObj);
+	BOOL CheckTraceMarryCondition(LPGameObject &lpObj, LPGameObject lpTargetObj);
 
 	bool CommandReset(LPGameObject &lpObj);
 	bool CommandClearInventory(LPGameObject &lpObj);

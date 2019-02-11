@@ -60,7 +60,7 @@ void CKanturuMonsterMng::ResetRegenMonsterObjData()
 
 void CKanturuMonsterMng::MonsterDie(int iIndex)
 {
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	for ( int iCount=0;iCount<this->m_KanturuMonster.GetCount();iCount++)
 	{
@@ -150,7 +150,7 @@ int CKanturuMonsterMng::SetKanturuMonster(int iGroupNumber)
 {
 	int iMapNumber = 0;
 	WORD wType = 0;
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 	int iResult;
 	int iRegenCount = 0;
 	

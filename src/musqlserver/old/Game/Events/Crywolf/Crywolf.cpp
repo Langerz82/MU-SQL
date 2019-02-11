@@ -280,7 +280,7 @@ void CCrywolf::SetCrywolfCommonNPC(int iOccupationState)
 		if ( !gObjIsConnected(this->m_ObjCommonNPC.m_iObjIndex[i]) )
 			break;
 
-		CGameObject* lpObj = &gGameObjects[this->m_ObjCommonNPC.m_iObjIndex[i]];
+		LPGameObject lpObj = &gGameObjects[this->m_ObjCommonNPC.m_iObjIndex[i]];
 
 		if ( iOccupationState == 2 )
 		{
@@ -304,7 +304,7 @@ void CCrywolf::SetCrywolfAllCommonMonsterState2(int iMonsterState, int iMode)
 		if ( !gObjIsConnected(this->m_ObjCommonMonster.m_iObjIndex[i]) )
 			break;
 
-		CGameObject* lpObj = &gGameObjects[this->m_ObjCommonMonster.m_iObjIndex[i]];
+		LPGameObject lpObj = &gGameObjects[this->m_ObjCommonMonster.m_iObjIndex[i]];
 
 		if ( iMode == 0 )
 		{
@@ -582,7 +582,7 @@ void CCrywolf::SetState_START()
 		if ( gGameObjects[iLeaderIndex].Class != 340 )
 			continue;
 
-		CGameObject* lpObj = &gGameObjects[iLeaderIndex];
+		LPGameObject lpObj = &gGameObjects[iLeaderIndex];
 
 		for ( int i=0;i<MaxViewportMonster;i++)
 		{
@@ -1002,7 +1002,7 @@ void CCrywolf::NotifyCrywolfHeroList()
 	memset(cBUFFER, 0, sizeof(cBUFFER));
 	PMSG_ANS_CRYWOLF_HERO_LIST_INFO_COUNT * lpMsg = (PMSG_ANS_CRYWOLF_HERO_LIST_INFO_COUNT *)cBUFFER;
 	PMSG_ANS_CRYWOLF_HERO_LIST_INFO * lpMsgBody = (PMSG_ANS_CRYWOLF_HERO_LIST_INFO *)(cBUFFER + 5);
-	std::set<CGameObject*,CCrywolfScoreSort> HeroSet;
+	std::set<LPGameObject,CCrywolfScoreSort> HeroSet;
 	
 	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
@@ -1014,11 +1014,11 @@ void CCrywolf::NotifyCrywolfHeroList()
 		}
 	}
 
-	std::set<CGameObject*, CCrywolfScoreSort>::iterator _Itor = HeroSet.begin();
+	std::set<LPGameObject, CCrywolfScoreSort>::iterator _Itor = HeroSet.begin();
 	
 	for (int j = 0; j < 5 && _Itor != HeroSet.end(); j++, _Itor++)
 	{
-		CGameObject* lpHeroObj = (*(_Itor));
+		LPGameObject lpHeroObj = (*(_Itor));
 
 		lpMsgBody[j].iRank = iHeroCount;
 		lpMsgBody[j].btHeroClass = lpHeroObj->Class;
@@ -1124,8 +1124,8 @@ void CCrywolf::ApplyCrywolfDBInfo(int iCrywolfState, int iOccupationState)
 
 void CCrywolf::CrywolfMonsterDieProc(int iMonIndex, int iKillerIndex)
 {
-	CGameObject* lpMonObj = &gGameObjects[iMonIndex];
-	CGameObject* lpKillerObj = &gGameObjects[iKillerIndex];
+	LPGameObject lpMonObj = &gGameObjects[iMonIndex];
+	LPGameObject lpKillerObj = &gGameObjects[iKillerIndex];
 	BOOL bExistKiller = gObjIsConnected(iKillerIndex);
 
 	if ( g_Crywolf.GetCrywolfState() == CRYWOLF_STATE_START )

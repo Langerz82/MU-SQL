@@ -328,7 +328,7 @@ BYTE CPentagramMixSystem::PentagramJewelRefine(int iIndex, int iRefineType)
 		return 0;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -613,7 +613,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(int iIndex, int iUpgradeType, i
 		return 0;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -1270,7 +1270,7 @@ void CPentagramMixSystem::LogPentagramItem(LPGameObject &lpObj, char* szLogType)
 
 void CPentagramMixSystem::CGPentagramJewelRefineRecv(PMSG_PENTAGRAM_JEWEL_REFINE_RECV* lpMsg, int aIndex) // OK
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (gObjIsConnectedGP(aIndex) == 0)
 	{
@@ -1311,7 +1311,7 @@ bool CPentagramMixSystem::IsErrtelType(int ItemCode)
 
 BOOL CPentagramMixSystem::PentagramJewelMix(LPGameObject &lpObj) // OK
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	lpObj->ChaosLock = TRUE;
 

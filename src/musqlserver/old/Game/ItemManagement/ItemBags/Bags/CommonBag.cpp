@@ -49,7 +49,7 @@ bool CCommonBag::IsBag(LPGameObject &lpObj, int ItemID, int ItemLevel)
 
 bool CCommonBag::UseBag(LPGameObject &lpObj, int iParam2)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (rand() % 10000 >= this->m_BagData.dwItemDropRate)
 	{

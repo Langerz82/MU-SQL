@@ -4,8 +4,8 @@
 //
 #pragma warning ( disable : 4786 )	// Disable Warning of Large Debuf Strings ( truncated to 255 len )
 
-#if !defined(AFX_STDAFX_H__A9DB83DB_A9FD_11D0_BFD1_444553540000__INCLUDED_)
-#define AFX_STDAFX_H__A9DB83DB_A9FD_11D0_BFD1_444553540000__INCLUDED_
+#ifndef _MU_STDAFX_H_
+#define _MU_STDAFX_H_
 
 #if _MSC_VER > 1000
 #pragma once
@@ -48,6 +48,7 @@
 #include "configread.h"
 #include "Utility/util.h"
 #include "CGameObject.h"
+#include "generalStructs.h"
 
 // Crypto++
 #include "cryptopp/sha.h"
@@ -166,10 +167,4 @@
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
-#endif // !defined(AFX_STDAFX_H__A9DB83DB_A9FD_11D0_BFD1_444553540000__INCLUDED_)
-
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-
+#endif

@@ -123,7 +123,7 @@ int TMonsterAIAgro::GetMaxAgroUserIndex(int iMonsterIndex)
 	{
 		if ( this->m_Agro[i].GetUserIndex() != -1 )
 		{
-			CGameObject* lpObj = &gGameObjects[this->m_Agro[i].GetUserIndex()];
+			LPGameObject lpObj = &gGameObjects[this->m_Agro[i].GetUserIndex()];
 
 			if ( (lpObj->Authority&2) == 2 )
 				continue;

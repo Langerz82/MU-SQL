@@ -40,7 +40,7 @@ BOOL CDoppelGangerMonsterHerd::MonsterHerdItemDrop(OBJECTSTRUCT* lpObj)
 	return FALSE;
 }
 
-void CDoppelGangerMonsterHerd::MonsterAttackAction(LPGameObject lpObj, OBJECTSTRUCT *lpTargetObj)
+void CDoppelGangerMonsterHerd::MonsterAttackAction(LPGameObject lpObj, LPGameObject lpTargetObj)
 {
 	if (!lpObj)
 	{
@@ -207,7 +207,7 @@ BOOL CDoppelGangerMonsterHerd::SetTotalInfo(int iMapNumber, int iRadius, int nPo
 
 void CDoppelGangerMonsterHerd::MonsterBaseAct(LPGameObject &lpObj)
 {
-	CGameObject* lpTargetObj = NULL;
+	LPGameObject lpTargetObj = NULL;
 
 	if (lpObj->TargetNumber >= 0)
 	{
@@ -983,7 +983,7 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(LPGameObject &lpObj, BYTE btItemPos)
 
 	pResult.btResult = 0;
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Type != OBJ_USER || lpObj->Connected <= PLAYER_LOGGED)
 	{
@@ -1335,7 +1335,7 @@ void CDoppelGanger::SendDoppelgangerState(BYTE btState)
 	}
 }
 
-void CDoppelGanger::PlatformLugardAct(LPGameObject &lpNpc, CGameObject* lpObj)
+void CDoppelGanger::PlatformLugardAct(LPGameObject &lpNpc, LPGameObject lpObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -1385,7 +1385,7 @@ void CDoppelGanger::PlatformLugardAct(LPGameObject &lpNpc, CGameObject* lpObj)
 	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void CDoppelGanger::MiddleTreasureAct(LPGameObject &lpNpc, CGameObject* lpObj)
+void CDoppelGanger::MiddleTreasureAct(LPGameObject &lpNpc, LPGameObject lpObj)
 {
 	if (lpNpc->m_State == 0)
 	{
@@ -1474,7 +1474,7 @@ void CDoppelGanger::MiddleTreasureAct(LPGameObject &lpNpc, CGameObject* lpObj)
 	}
 }
 
-void CDoppelGanger::LastTreasureAct(LPGameObject &lpNpc, CGameObject* lpObj)
+void CDoppelGanger::LastTreasureAct(LPGameObject &lpNpc, LPGameObject lpObj)
 {
 	if (lpNpc->m_State == 0)
 	{
@@ -1938,7 +1938,7 @@ void CDoppelGanger::SendDoppelgangerUserPos()
 
 void CDoppelGanger::SelfExplosion(LPGameObject &lpObj, CMagicInf * lpMagic, int aTargetIndex)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->X < 0 || lpObj->X > 255)
 	{
@@ -2119,7 +2119,7 @@ void CDoppelGanger::MoveDoppelgangerMonsterProc()
 
 	for (int i = 0; i < g_ConfigRead.server.GetObjectMaxMonster(); i++)
 	{
-		CGameObject* lpObj = &gGameObjects[i];
+		LPGameObject lpObj = &gGameObjects[i];
 
 		if (lpObj->Connected == PLAYER_PLAYING && lpObj->m_State == 2 && lpObj->Type == OBJ_MONSTER)
 		{

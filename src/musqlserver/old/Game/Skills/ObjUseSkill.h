@@ -103,8 +103,8 @@ public:
 	int SkillFenrirAttack(LPGameObject &lpObj, int aTargetIndex, CMagicInf* lpMagic);
 	int SkillInfinityArrow(LPGameObject &lpObj, int aTargetIndex, CMagicInf* lpMagic);
 	int SkillFireScream(LPGameObject &lpObj, int aTargetIndex, CMagicInf* lpMagic);
-	int FireScreamExplosionAttack(LPGameObject &lpObj, CGameObject* lpTargetObj, int iAttackDamage, int iAddDamage);
-	void SpecificSkillAdditionTreat(LPGameObject &lpObj, CGameObject* lpTargetObj, CMagicInf* lpMagic, int iAttackDamage);
+	int FireScreamExplosionAttack(LPGameObject &lpObj, LPGameObject lpTargetObj, int iAttackDamage, int iAddDamage);
+	void SpecificSkillAdditionTreat(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf* lpMagic, int iAttackDamage);
 	int SkillBookSahamutt(LPGameObject &lpObj, CMagicInf * lpMagic, BYTE x, BYTE y, int aTargetIndex);
 	int SkillSummonerSleep(LPGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic);
 	int SkillDrainLife(LPGameObject &lpObj, CMagicInf * lpMagic, int aTargetIndex);
@@ -132,7 +132,7 @@ public:
 	void SkillDarkSide(int aindex, int aTargetIndex, CMagicInf * lpMagic);
 	int SkillPhoenixShot(LPGameObject &lpObj, CMagicInf * lpMagic, BYTE x, BYTE y, int aTargetIndex);
 	int SkillEvilMonster(LPGameObject &lpObj, int aTargetIndex, CMagicInf *lpMagic);
-	void SplashDamage(LPGameObject &lpObj, CGameObject* lpTargetObj, int nSkill, int nAttackDamage, int nDistance, int nDamageRate);
+	void SplashDamage(LPGameObject &lpObj, LPGameObject lpTargetObj, int nSkill, int nAttackDamage, int nDistance, int nDamageRate);
 	void SkillSummonForLordSilvester(LPGameObject &lpObj, int iTargetIndex, CMagicInf *lpMagic);
 	void SkillSpinStep(LPGameObject &lpObj, int iTargetIndex, CMagicInf *lpMagic);
 	void SkillGrowLancerAttackOneTarget(LPGameObject &lpObj, int aTargetIndex, CMagicInf *lpMagic);

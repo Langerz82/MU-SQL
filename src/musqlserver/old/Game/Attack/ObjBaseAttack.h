@@ -18,14 +18,14 @@ public:
 	virtual ~CObjBaseAttack();
 
 	int DecreaseArrow(LPGameObject &lpObj);
-	int CheckAttackArea(LPGameObject &lpObj, CGameObject* lpTargetObj);
-	int PkCheck(LPGameObject &lpObj, CGameObject* lpTargetObj);
-	int ResistanceCheck(LPGameObject &lpObj, CGameObject* lpTargetObj, int skill);
-	int MissCheckPvP(LPGameObject &lpObj, CGameObject* lpTargetObj, int skill, int skillSuccess, int magicsend, BOOL& bAllMiss, BYTE RFAttack);
-	int GetTargetDefense(LPGameObject &lpObj, CGameObject* lpTargetObj, int& MsgDamage, int& iOriginTargetDefense);
+	int CheckAttackArea(LPGameObject &lpObj, LPGameObject lpTargetObj);
+	int PkCheck(LPGameObject &lpObj, LPGameObject lpTargetObj);
+	int ResistanceCheck(LPGameObject &lpObj, LPGameObject lpTargetObj, int skill);
+	int MissCheckPvP(LPGameObject &lpObj, LPGameObject lpTargetObj, int skill, int skillSuccess, int magicsend, BOOL& bAllMiss, BYTE RFAttack);
+	int GetTargetDefense(LPGameObject &lpObj, LPGameObject lpTargetObj, int& MsgDamage, int& iOriginTargetDefense);
 	int GetPartyMemberCount(LPGameObject &lpObj);
 
-	virtual int MissCheck(LPGameObject &lpObj, CGameObject* lpTargetObj, int skill, int skillSuccess, int magicsend, BOOL& bAllMiss, BYTE RFAttack);	// 4
+	virtual int MissCheck(LPGameObject &lpObj, LPGameObject lpTargetObj, int skill, int skillSuccess, int magicsend, BOOL& bAllMiss, BYTE RFAttack);	// 4
 
 };
 

@@ -39,7 +39,7 @@ void CSendNPCInfo::LoadScript(char *lpFileName)
 	_stSendNPCInfo sendNpcInfo;
 	_stSendPortalInfo sendPortalInfo;
 
-	pugi::xml_node mainsection = file.child("MiniMapObjects");
+	pugi::xml_node mainXMLsection = file.child("MiniMapObjects");
 	pugi::xml_node npc = mainsection.child("TypeOne");
 	pugi::xml_node portal = mainsection.child("TypeTwo");
 

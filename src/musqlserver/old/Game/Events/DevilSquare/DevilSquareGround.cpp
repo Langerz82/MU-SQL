@@ -15,7 +15,7 @@
 // GS-N 0.99.60T - 0x00457190 
 // GS-N	1.00.18	JPN	0x004667C0	-	Completed
 
-bool DevilSquareScoreSort(LPGameObject &const & lhs,CGameObject* const & rhs)
+bool DevilSquareScoreSort(LPGameObject &const & lhs,LPGameObject const & rhs)
 {
 	if ( lhs->m_nEventScore == rhs->m_nEventScore )
 	{
@@ -312,7 +312,7 @@ void CDevilSquareGround::SendScore()
 	BYTE count = 1;
 	int iUserCount = this->m_DevilSquareRankList.size();
 	UINT64 iExp = 0;
-	std::vector<OBJECTSTRUCT *>::iterator Itor;
+	std::vector<LPGameObject >::iterator Itor;
 	for ( Itor = this->m_DevilSquareRankList.begin() ; Itor != this->m_DevilSquareRankList.end() ; Itor++ )
 	{
 		memcpy(this->m_DevilSquareScoreInfoTOP10.Score[count].Name , (*(Itor))->Name, MAX_ACCOUNT_LEN);

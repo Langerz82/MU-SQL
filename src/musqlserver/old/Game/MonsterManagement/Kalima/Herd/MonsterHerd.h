@@ -53,11 +53,11 @@ public:
 	virtual int MoveHerd(BYTE iTX, BYTE iTY);	// 2C
 	virtual int MonsterHerdItemDrop(LPGameObject &lpObj);	// 30
 	virtual _MONSTER_HERD_DATA* GetMonsterData(int iIndex);	// 34
-	virtual void BeenAttacked(LPGameObject &lpObj, CGameObject* lpTargetObj);	// 38
-	virtual void OrderAttack(LPGameObject &lpObj, CGameObject* lpTargetObj, int iAttackPercent);	// 3C
+	virtual void BeenAttacked(LPGameObject &lpObj, LPGameObject lpTargetObj);	// 38
+	virtual void OrderAttack(LPGameObject &lpObj, LPGameObject lpTargetObj, int iAttackPercent);	// 3C
 	virtual void MonsterBaseAct(LPGameObject &lpObj);	// 40
 	virtual void MonsterMoveAction(LPGameObject &lpObj);	// 44
-	virtual void MonsterAttackAction(LPGameObject &lpObj, CGameObject* lpTargetObj);	// 48
+	virtual void MonsterAttackAction(LPGameObject &lpObj, LPGameObject lpTargetObj);	// 48
 	virtual void MonsterDieAction(LPGameObject &lpObj);	// 4C
 	virtual int MonsterRegenAction(LPGameObject &lpObj);	// 50
 	virtual int GetPosIndex();

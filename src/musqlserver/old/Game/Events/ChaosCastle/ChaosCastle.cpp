@@ -222,7 +222,7 @@ void CChaosCastle::LoadMonster(char* filename)
 		return;
 	}
 
-	pugi::xml_node main_section = file.child("ChaosCastle");
+	pugi::xml_node mainXML_section = file.child("ChaosCastle");
 	int nCount = 0;
 
 	for (pugi::xml_node castle = main_section.child("Castle"); castle; castle = castle.next_sibling())
@@ -2027,7 +2027,7 @@ int  CChaosCastle::GetCurrentWinUser(int iChaosCastleIndex)
 				 gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex].MapNumber == this->GetChaosCastleMapNumber(iChaosCastleIndex) &&	
 				this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iUserState == 0 )
 			{
-				CGameObject* lpObj = &gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex];
+				LPGameObject lpObj = &gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex];
 
 				int iUSER_SCORE = lpObj->m_cKillUserCount + lpObj->m_cKillMonsterCount * 2;
 
@@ -2355,7 +2355,7 @@ BOOL CChaosCastle::ObjSetPosition(int iIndex, int iX, int iY)
 	if ( !ObjectMaxRange(iIndex))
 		return TRUE;
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if (!MAX_MAP_RANGE(lpObj->MapNumber))
 		return FALSE;
@@ -2480,7 +2480,7 @@ BOOL CChaosCastle::BlowObjsFromPoint(int iIndex, int iMapNumber, int& iX, int& i
 	if ( !CHECK_LIMIT(iX, 256) || !CHECK_LIMIT(iY, 256))
 		return FALSE;
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if ( lpObj->DieRegen )
 		return FALSE;
@@ -3466,7 +3466,7 @@ void CChaosCastle::GDReqSetUBFReward_CCBattle(int iUserIndex, BYTE byRewardType)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iUserIndex];
+	LPGameObject lpObj = &gGameObjects[iUserIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -3492,7 +3492,7 @@ void CChaosCastle::SetUBFGetReward(int iUserIndex, WORD wItemCode, UINT64 ItemSe
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iUserIndex];
+	LPGameObject lpObj = &gGameObjects[iUserIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{

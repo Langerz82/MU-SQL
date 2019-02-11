@@ -30,6 +30,8 @@
 #include "EvolutionMonsterInfo.h"
 #include "AntiSpeed.h"
 
+#include <vector>
+
 class CRaklionUtil;
 class CGameObject;
 

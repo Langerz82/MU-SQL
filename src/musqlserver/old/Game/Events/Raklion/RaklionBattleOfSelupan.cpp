@@ -202,7 +202,7 @@ void CRaklionBattleOfSelupan::SetState_DIE()
 
 	if (ObjectMaxRange(iWinner) == true)
 	{
-		CGameObject* lpObj = &gGameObjects[iWinner];
+		LPGameObject lpObj = &gGameObjects[iWinner];
 		g_RaklionUtil.SendMsgAllUser(Lang.GetText(0,307), lpObj->Name);
 	}
 
@@ -308,7 +308,7 @@ void CRaklionBattleOfSelupan::ActionOfSelupan(int iAction)
 {
 	int iSelupanIndex = m_RaklionSelupan.GetSelupanObjIndex();
 
-	CGameObject* lpObj = &gGameObjects[iSelupanIndex];
+	LPGameObject lpObj = &gGameObjects[iSelupanIndex];
 
 	if( lpObj->Teleport || lpObj->m_ActState.Move )	return;
 	if( iAction < 0 || iAction >= 9 )	return;
@@ -345,7 +345,7 @@ void CRaklionBattleOfSelupan::SetBattleOfSelupanStateAuto()
 	int iSelupanObjIndex = 0;
 	int iSelupanMAXLife = 0;
 	int iSelupanLifePercent = 0;
-	CGameObject* lpObj = NULL;
+	LPGameObject lpObj = NULL;
 
 	iSelupanObjIndex = m_RaklionSelupan.GetSelupanObjIndex();
 

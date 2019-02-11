@@ -11,14 +11,10 @@
 
 #pragma warning ( disable : 4786 )
 
+#include "StdAfx.h"
 #include <map>
+
 using namespace std;
-
-#include "util.h"
-#include "configread.h"
-
-class OBJECTSTRUCT;
-typedef OBJECTSTRUCT* CGameObject*ECTSTRUCT;
 
 #define DUEL_CHANNEL_MAX 4
 #define DC_IDLE 0
@@ -256,7 +252,7 @@ public:
 
 	BOOL IsDuelRequested(LPGameObject &Obj)
 	{
-		return CHECK_LIMIT((**Obj)->m_iDuelUserRequested, g_ConfigRead.server.GetObjectMax());
+		return CHECK_LIMIT(Obj->m_iDuelUserRequested, g_ConfigRead.server.GetObjectMax());
 	}
 	
 	BOOL IsDuelReserved(LPGameObject &Obj)
@@ -266,7 +262,7 @@ public:
 	
 	BOOL IsDuel(LPGameObject &Obj,int nIndex)
 	{
-		if(CHECK_LIMIT(obj.m_iDuelUser, g_ConfigRead.server.GetObjectMax()) && obj.m_iDuelUser == nIndex)
+		if(CHECK_LIMIT(Obj->m_iDuelUser, g_ConfigRead.server.GetObjectMax()) && Obj->m_iDuelUser == nIndex)
 		{
 			return TRUE;
 		}
@@ -275,7 +271,7 @@ public:
 
 	BOOL IsDuel(LPGameObject &Obj)
 	{
-		return CHECK_LIMIT(obj.m_iDuelUser, g_ConfigRead.server.GetObjectMax());
+		return CHECK_LIMIT(Obj->m_iDuelUser, g_ConfigRead.server.GetObjectMax());
 	}
 
 	int IsObserver(LPGameObject &Obj);
@@ -301,7 +297,7 @@ public:
 
 	int IsEnable();
 
-	BOOL DropItem(LPGameObject &lpObj, CGameObject*ECTSTRUCT lpMonsterObj);
+	BOOL DropItem(LPGameObject &lpObj, LPGameObjectECTSTRUCT lpMonsterObj);
 
 private:
 	int GetDuelChannelId(char* lpszName);

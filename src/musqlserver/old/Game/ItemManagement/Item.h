@@ -4,8 +4,8 @@
 // Decompiled by Deathway
 // Date : 2007-03-09
 // ------------------------------
-#ifndef ZZZITEM_H
-#define ZZZITEM_H
+#ifndef _MU_ZZZITEM_H
+#define _MU_ZZZITEM_H
 
 #if _MSC_VER > 1000
 #pragma once
@@ -488,9 +488,6 @@ bool IsBloodAngelItem(int item_num);
 int SafeGetItem(int index);
 
 extern CPetItemExp gPetItemExp;
-#endif
 
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
+#endif
 

@@ -105,7 +105,7 @@ bool CItemDrop::LoadFile(const char *szFile)
 	} 
 }
 
-bool CItemDrop::DropItem(LPGameObject &lpUser, CGameObject* lpMonster)
+bool CItemDrop::DropItem(LPGameObject &lpUser, LPGameObject lpMonster)
 {
 	if(!ObjectMaxRange(lpUser->m_Index))
 		return false;
@@ -493,7 +493,7 @@ boost::shared_ptr<ITEMDROP_ITEM> CItemDrop::GetItemFromMonster(boost::shared_ptr
 	return NULL;
 }
 
-void CItemDrop::AddCoinReward(boost::shared_ptr<ITEMDROP_MONSTER> itemdrop_monster_ptr, OBJECTSTRUCT *lpUser)
+void CItemDrop::AddCoinReward(boost::shared_ptr<ITEMDROP_MONSTER> itemdrop_monster_ptr, LPGameObject lpUser)
 {
 	if (itemdrop_monster_ptr->bIsCoinReward == false)
 	{

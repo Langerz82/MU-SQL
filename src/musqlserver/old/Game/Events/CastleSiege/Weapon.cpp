@@ -159,14 +159,14 @@ BOOL CWeapon::GetTargetPointXY(int iObjClass, int iTargetPointIndex, BYTE &btX, 
 }
 
 
-BOOL CWeapon::MissCheck(LPGameObject &lpObj, CGameObject* lpTargetObj, int iSkill, int iSkillSuccess, BOOL& bAllMiss)
+BOOL CWeapon::MissCheck(LPGameObject &lpObj, LPGameObject lpTargetObj, int iSkill, int iSkillSuccess, BOOL& bAllMiss)
 {
 	return TRUE;
 }
 
 
 
-BOOL CWeapon::Attack(LPGameObject &lpObj, CGameObject* lpTargetObj, CMagicInf * lpMagic, int iCriticalDamage, int iActionType)
+BOOL CWeapon::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf * lpMagic, int iCriticalDamage, int iActionType)
 {
 	int iSkill = 0;
 	int iSkillSuccess = TRUE;
@@ -501,8 +501,8 @@ void CWeapon::WeaponAttackProc()
 				continue;
 			}
 
-			CGameObject* lpTargetObj = &gGameObjects[this->m_WeaponDamagedTargetInfo[i].m_iTargetObjIndex];
-			CGameObject* lpWeaponObj = & gGameObjects[this->m_WeaponDamagedTargetInfo[i].m_iWeaponObjIndex];
+			LPGameObject lpTargetObj = &gGameObjects[this->m_WeaponDamagedTargetInfo[i].m_iTargetObjIndex];
+			LPGameObject lpWeaponObj = & gGameObjects[this->m_WeaponDamagedTargetInfo[i].m_iWeaponObjIndex];
 
 			if ( gObjIsConnected(lpTargetObj) == FALSE )
 			{

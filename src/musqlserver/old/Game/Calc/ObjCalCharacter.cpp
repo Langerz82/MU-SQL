@@ -47,7 +47,7 @@ void CObjCalCharacter::CalcCharacter(LPGameObject &lpObj)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 	int Strength = 0;
 	int Dexterity = 0;
 	int Vitality = 0;

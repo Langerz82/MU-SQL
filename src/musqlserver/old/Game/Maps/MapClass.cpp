@@ -311,7 +311,7 @@ BYTE MapClass::GetWeather()
 
 void MapClass::SetWeather(BYTE a_weather, BYTE a_variation)
 {
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 	BYTE weather;
 	int n;
 
@@ -335,7 +335,7 @@ void MapClass::SetWeather(BYTE a_weather, BYTE a_variation)
 
 void MapClass::WeatherVariationProcess()
 {
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 	BYTE weather;
 
 	if ((GetTickCount() - this->m_WeatherTimer) > this->m_NextWeatherTimer)

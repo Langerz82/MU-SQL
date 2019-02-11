@@ -729,7 +729,7 @@ int LuckyItemManager::GDReqLuckyItemInsert(CItem * pItem, int iObjIndex)
 
 int LuckyItemManager::GDReqLuckyItemInsert(short wItemCode, UINT64 Serial, short wDurabilitySmall, int iObjIndex)
 {
-	CGameObject* lpObj = &gGameObjects[iObjIndex];
+	LPGameObject lpObj = &gGameObjects[iObjIndex];
 	PMSG_REQ_LUCKYITEM_INSERT pMsg;
 	
 	pMsg.dwUserGuid	= lpObj->DBNumber;
@@ -747,7 +747,7 @@ void LuckyItemManager::GDReqLuckyItemInsert2nd(int iObjIndex)
 {
 	int	iItemType[5];
 	
-	CGameObject* lpObj		= &gGameObjects[iObjIndex];
+	LPGameObject lpObj		= &gGameObjects[iObjIndex];
 	iItemType[0]	= 2;
 	iItemType[1]	= 3;
 	iItemType[2]	= 4;
@@ -780,7 +780,7 @@ void LuckyItemManager::GDReqLuckyItemInsert2nd(int iObjIndex)
 
 void LuckyItemManager::GDReqLuckyItemDelete(short wItemCode, UINT64 Serial, int iObjIndex)
 {
-	CGameObject* lpObj = &gGameObjects[iObjIndex];
+	LPGameObject lpObj = &gGameObjects[iObjIndex];
 	PMSG_REQ_LUCKYITEM_DELETE pMsg;
 	
 	pMsg.wUserIndex = lpObj->m_Index;

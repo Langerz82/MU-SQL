@@ -25,7 +25,7 @@ void CGuardianStatue::GuardianStatueAct(int iIndex)
 	if( ::gObjIsConnected(iIndex) == FALSE )
 		return;
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if( lpObj->VPCount < 1 )
 		return;

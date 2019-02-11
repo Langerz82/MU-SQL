@@ -3,8 +3,12 @@
 #ifndef _ANTI_SPEED_H
 #define _ANTI_SPEED_H
 
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
 #include "StdAfx.h"
-//#include "GameProtocol.h"
+#include "GameProtocol.h"
 
 
 #include <queue>
@@ -18,15 +22,15 @@ public:
 };
 
 class CAttackMelee : public CAttackBase{
-	OBJECTSTRUCT * m_TargetObj;
-	OBJECTSTRUCT * m_Obj;
+	LPGameObject  m_TargetObj;
+	LPGameObject  m_Obj;
 public:
 	CAttackMelee(LPGameObject &lpObj, LPGameObject &lpTargetObj);
 	void Process();
 };
 
 class CAttackMagic : public CAttackBase{
-	OBJECTSTRUCT * m_Obj;
+	LPGameObject  m_Obj;
 	BYTE* m_Msg;
 public:
 	CAttackMagic(LPGameObject &lpObj, BYTE* pmsg, int len);
@@ -35,7 +39,7 @@ public:
 };
 
 class CAttackRange : public CAttackBase{
-	OBJECTSTRUCT * m_Obj;
+	LPGameObject  m_Obj;
 	BYTE* m_Msg;
 	int m_Type;
 public:
@@ -55,7 +59,7 @@ enum ATTACK_TYPE{
 };
 
 class CAttackMsg{
-	OBJECTSTRUCT * m_Obj;
+	LPGameObject m_Obj;
 	BYTE* m_Msg;
 	int m_Len;
 	int m_Type;

@@ -20,14 +20,14 @@ public:
 
 	void Init();
 
-	BOOL Attack(LPGameObject &lpObj, CGameObject* lpTargetObj, CMagicInf* lpMagic,  int magicsend, unsigned char MSBFlag, int AttackDamage, BOOL bCombo, BYTE RFAttack, BYTE byReflect, BYTE byPentagramAttack);
-	BOOL PentagramAttack(LPGameObject &lpObj, CGameObject* lpTargetObj, CMagicInf* lpMagic, BYTE MSBFlag, int MsgDamage, int AttackDamage, int iTargetDefense);
-	int GetAttackDamage(LPGameObject &lpObj, CGameObject* lpTargetObj, int targetDefense, int& effect, CMagicInf* lpMagic);
-	int GetAttackDamageWizard(LPGameObject &lpObj, CGameObject* lpTargetObj, int targetDefense, CMagicInf* lpMagic, int& effect);
-	int GetAttackDamageSummoner(LPGameObject &lpObj, CGameObject* lpTargetObj, int targetDefense, CMagicInf* lpMagic, int& effect);
-	int GetShieldDamage(LPGameObject &lpObj, CGameObject* lpTargetObj, int iAttackDamage);
+	BOOL Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf* lpMagic,  int magicsend, unsigned char MSBFlag, int AttackDamage, BOOL bCombo, BYTE RFAttack, BYTE byReflect, BYTE byPentagramAttack);
+	BOOL PentagramAttack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf* lpMagic, BYTE MSBFlag, int MsgDamage, int AttackDamage, int iTargetDefense);
+	int GetAttackDamage(LPGameObject &lpObj, LPGameObject lpTargetObj, int targetDefense, int& effect, CMagicInf* lpMagic);
+	int GetAttackDamageWizard(LPGameObject &lpObj, LPGameObject lpTargetObj, int targetDefense, CMagicInf* lpMagic, int& effect);
+	int GetAttackDamageSummoner(LPGameObject &lpObj, LPGameObject lpTargetObj, int targetDefense, CMagicInf* lpMagic, int& effect);
+	int GetShieldDamage(LPGameObject &lpObj, LPGameObject lpTargetObj, int iAttackDamage);
 	int GetBuffTypePhysicalIncrease(LPGameObject &lpObj, int *iAttackBerserkerMin, int *iAttackBerserkerMax, int nBuffType);
-	int GetElementalDamage(LPGameObject &lpObj, CGameObject* lpTargetObj, char* DamageType1, char* DamageType2, int iAttackDamage, int iTargetDefense);
+	int GetElementalDamage(LPGameObject &lpObj, LPGameObject lpTargetObj, char* DamageType1, char* DamageType2, int iAttackDamage, int iTargetDefense);
 
 private:
 	MULua m_Lua;

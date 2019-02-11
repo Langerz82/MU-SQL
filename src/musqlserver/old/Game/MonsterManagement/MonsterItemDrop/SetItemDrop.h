@@ -41,7 +41,7 @@ public:
 	virtual ~CSetItemDrop(void);
 
 	void LoadFile(LPSTR lpFile);
-	bool DropItem(LPGameObject &lpMonsterObj, CGameObject* lpObj);
+	bool DropItem(LPGameObject &lpMonsterObj, LPGameObject lpObj);
 
 	inline int GetItemLevel(int min, int max)
 	{
@@ -53,7 +53,7 @@ public:
 
 private:
 
-	SETITEM_DROP_RULE * GetDropRule(LPGameObject &lpUser, OBJECTSTRUCT *lpMonster);
+	SETITEM_DROP_RULE * GetDropRule(LPGameObject &lpUser, LPGameObject lpMonster);
 	SETITEM_DROP_ITEM * GetItemData(SETITEM_DROP_RULE *lpRule);
 
 	std::vector<SETITEM_DROP_RULE> m_vtDropRules;

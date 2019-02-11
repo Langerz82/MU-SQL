@@ -23,7 +23,7 @@ public:
 
 	virtual int Start();	// 4
 	virtual int MonsterHerdItemDrop(LPGameObject &lpObj);	// 8
-	virtual void MonsterAttackAction(LPGameObject &lpObj, CGameObject* lpTargetObj);	// C
+	virtual void MonsterAttackAction(LPGameObject &lpObj, LPGameObject lpTargetObj);	// C
 
 private:
 

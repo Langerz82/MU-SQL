@@ -8,7 +8,7 @@
 #include "MemScript.h"
 #include "TNotice.h"
 #include "ScheduleManager.h"
-#include "CGameObject.h"
+
 #include "CUserData.h"
 #include "GOEventFunctions.h"
 #include "GOFunctions.h"

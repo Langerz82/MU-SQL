@@ -347,7 +347,7 @@ void CKanturuUtil::SendDataToUser(int iIndex, LPBYTE lpMsg, int iSize)
 void CKanturuUtil::SendKanturuChattingMsg(int iIndex, LPSTR lpMsg, ...)
 {
 	return;
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 	char szChat[512];
 
 	for (int iCount = 0; iCount < MaxViewportMonster; iCount++)

@@ -206,8 +206,8 @@ BOOL CKalimaGate::CreateKalimaGate(int iIndex, BYTE btLevel, BYTE cTX, BYTE cTY)
 
 void CKalimaGate::KalimaGateAct(int iIndex)
 {
-	CGameObject* lpObj=NULL;
-	CGameObject* lpObjCallOwner=NULL;
+	LPGameObject lpObj=NULL;
+	LPGameObject lpObjCallOwner=NULL;
 
 	if ( ObjectMaxRange(iIndex ) == FALSE)
 	{
@@ -589,8 +589,8 @@ BOOL CKalimaGate::CreateKalimaGate2(int iIndex, int iMonMapNumber, BYTE cTX, BYT
 
 void CKalimaGate::KalimaGateAct2(int iIndex)
 {
-	CGameObject* lpObj = NULL;
-	CGameObject* lpObjCallOwner = NULL;
+	LPGameObject lpObj = NULL;
+	LPGameObject lpObjCallOwner = NULL;
 
 	if ( ObjectMaxRange(iIndex) == FALSE )
 		return;

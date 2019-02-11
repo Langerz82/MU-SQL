@@ -247,7 +247,7 @@ struct PMSG_ANS_SANTAGIFT
 };
 */
 
-extern CGameObject* pEventObj;
+extern LPGameObject pEventObj;
 
 void EventChipEventProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen);
 
@@ -282,7 +282,7 @@ void EGReqSantaGift(LPGameObject &lpObj);
 void EGAnsSantaCheck(PMSG_ANS_SANTACHECK *lpMsg);
 void EGAnsSantaGift(PMSG_ANS_SANTAGIFT *lpMsg);
 
-extern CGameObject* pEventObj;
+extern LPGameObject pEventObj;
 
 #endif
 

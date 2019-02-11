@@ -327,7 +327,7 @@ BOOL CIllusionTempleLeagueEvent::Enter_ITL(LPGameObject &lpObj, BYTE byTempleInd
 		return FALSE;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (!lpObj)
 	{
@@ -1161,7 +1161,7 @@ void CIllusionTempleLeagueEvent::DG_ITL_UserCount(PMSG_ANS_ITL_USERCOUNTANS *lpM
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (!lpObj)
 	{
@@ -1182,7 +1182,7 @@ void CIllusionTempleLeagueEvent::DG_ITL_GuildCount(PMSG_ANS_ITL_GUILDCOUNTANS *l
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (!lpObj)
 	{
@@ -1233,7 +1233,7 @@ void CIllusionTempleLeagueEvent::ResetITL_FlagAll()
 {
 	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
-		CGameObject* lpObj = &gGameObjects[i];
+		LPGameObject lpObj = &gGameObjects[i];
 
 		if (gObjIsConnected(i) == TRUE && lpObj->Type == OBJ_USER)
 		{
@@ -1489,7 +1489,7 @@ void CIllusionTempleLeagueEvent::Update_ITL_RewardFlag(char *Name)
 
 BYTE CIllusionTempleLeagueEvent::Check_ITLRewardList(int nUserIndex)
 {
-	CGameObject* lpObj = &gGameObjects[nUserIndex];
+	LPGameObject lpObj = &gGameObjects[nUserIndex];
 
 	if (gObjIsConnected(nUserIndex) == TRUE && lpObj->Type == OBJ_USER)
 	{

@@ -968,7 +968,7 @@ public:
 	int GetMaxObeliskCnt();
 
 	int IsEnableAttackObelisk(LPGameObject &obj, int iMonNumber);
-	int IsPkEnable(LPGameObject &obj, OBJECTSTRUCT *Tarobj);
+	int IsPkEnable(LPGameObject &obj, LPGameObject Tarobj);
 
 	void SendArcaBattleStateAll(int iState);
 	void SendArcaBattleCurrentState(LPGameObject &obj);
@@ -989,13 +989,13 @@ public:
 	int SetPosMonster(LPGameObject &lpObj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY);
 	int GetBoxPosition(int mapnumber, int ax, int ay, int aw, int ah, short &mx, short &my);
 
-	void AddContributePoint(LPGameObject &obj, OBJECTSTRUCT *Tarobj);
-	void AddKillPoint(LPGameObject &obj, OBJECTSTRUCT *Tarobj);
+	void AddContributePoint(LPGameObject &obj, LPGameObject Tarobj);
+	void AddKillPoint(LPGameObject &obj, LPGameObject Tarobj);
 
 	void BootyItemGetCnt(LPGameObject &lpObj);
 	void CalcRewardExp(LPGameObject lpObj, UINT64 & iRewardExp);
 
-	int DropItem(LPGameObject lpObj, OBJECTSTRUCT *lpMonsterObj);
+	int DropItem(LPGameObject lpObj, LPGameObject lpMonsterObj);
 
 	void GDReqDeleteArcaBattleInfo();
 	void GDReqJoinMemberUnder();

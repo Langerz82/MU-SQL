@@ -1328,7 +1328,7 @@ BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(LPGameObject &lpObj)
 	return TRUE;
 }
 
-BOOL CJewelOfHarmonySystem::NpcJewelOfHarmony(LPGameObject &lpNpc, CGameObject* lpObj)
+BOOL CJewelOfHarmonySystem::NpcJewelOfHarmony(LPGameObject &lpNpc, LPGameObject lpObj)
 {
 	if ( lpObj->m_IfState.use > 0 )
 		return TRUE;

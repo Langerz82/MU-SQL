@@ -243,7 +243,7 @@ BOOL TMonsterAIUtil::GetXYToEascape(LPGameObject &lpObj)
 	int searchcount = MAX_ROAD_PATH_TABLE/2-1;
 	BYTE attr;
 	BOOL result = 0;
-	CGameObject* lpTargetObj;
+	LPGameObject lpTargetObj;
 
 	int iTargetIndex = lpObj->TargetNumber;
 
@@ -334,7 +334,7 @@ BOOL TMonsterAIUtil::GetXYToChase(LPGameObject &lpObj)
 	int searchcount = MAX_ROAD_PATH_TABLE/2-1;
 	BYTE attr;
 	BOOL result = 0;
-	CGameObject* lpTargetObj;
+	LPGameObject lpTargetObj;
 
 	int iTargetIndex = lpObj->TargetNumber;
 
@@ -447,7 +447,7 @@ void TMonsterAIUtil::SendChattingMsg(int iObjIndex, char* lpszMsg, ...)
 	if ( !ObjectMaxRange(iObjIndex))
 		return;
 
-	CGameObject* lpObj = &gGameObjects[iObjIndex];
+	LPGameObject lpObj = &gGameObjects[iObjIndex];
 	char szBuffer[512] = "";
 	va_list pArguments;
 

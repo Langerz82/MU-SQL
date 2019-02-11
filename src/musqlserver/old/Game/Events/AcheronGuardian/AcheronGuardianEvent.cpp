@@ -62,7 +62,7 @@ bool CAcheronGuardianEvent::LoadScriptAcheronEvent(char *lpszFileName)
 		return false;
 	}
 
-	pugi::xml_node main_section = file.child("AcheronGuardianEvent");
+	pugi::xml_node mainXML_section = file.child("AcheronGuardianEvent");
 	this->m_bAEEnable = g_ConfigRead.server.GetStateFromEventTable(g_ConfigRead.server.GetServerType(), EV_TABLE_ACHERON) == true ? main_section.attribute("Enable").as_bool() : false;
 	this->m_iAB_PlayTimeMin = main_section.attribute("Duration").as_int();
 	this->m_iAB_ChCloseMin = main_section.attribute("ChannelClose").as_int();
@@ -675,7 +675,7 @@ int CAcheronGuardianEvent::SetPosMonster(LPGameObject &lpObj, int nMapNumber, in
 		return false;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	lpObj->m_PosNum = -1;
 	lpObj->MapNumber = nMapNumber;
@@ -807,7 +807,7 @@ void CAcheronGuardianEvent::CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER 
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{

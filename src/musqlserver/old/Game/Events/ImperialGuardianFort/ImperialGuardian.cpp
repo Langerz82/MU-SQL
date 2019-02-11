@@ -657,7 +657,7 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[nUserIndex];
+	LPGameObject lpObj = &gGameObjects[nUserIndex];
 
 	if ( lpObj->Type != OBJ_USER )
 	{
@@ -1127,7 +1127,7 @@ bool CImperialGuardian::SetPosMonster(int nIndex, std::vector<_stIFMonsterPos>::
 		return false;
 	}
 
-	CGameObject* lpObj = &gGameObjects[nIndex];
+	LPGameObject lpObj = &gGameObjects[nIndex];
 
 	lpObj->m_PosNum = -1;
 	lpObj->X = Iter->m_X;
@@ -1152,7 +1152,7 @@ bool CImperialGuardian::SetMonster(int nIndex, int MonsterClass, int nMaxLevel)
 		return false;
 	}
 
-	CGameObject* lpObj = &gGameObjects[nIndex];
+	LPGameObject lpObj = &gGameObjects[nIndex];
 
 	lpObj->ConnectCheckTime = GetTickCount();
 	lpObj->TargetNumber = -1;
@@ -1985,7 +1985,7 @@ int CImperialGuardian::CheckGaionOrderPaper(int nIndex)
 		return -2;
 	}
 
-	CGameObject* lpObj = &gGameObjects[nIndex];
+	LPGameObject lpObj = &gGameObjects[nIndex];
 
 	if ( lpObj->m_IfState.use > 0 )
 	{
@@ -2024,7 +2024,7 @@ int CImperialGuardian::CheckFullSecromicon(int nIndex)
 		return -2;
 	}
 
-	CGameObject* lpObj = &gGameObjects[nIndex];
+	LPGameObject lpObj = &gGameObjects[nIndex];
 
 	if ( lpObj->m_IfState.use > 0 )
 	{
@@ -2087,7 +2087,7 @@ void CImperialGuardian::SetAtackAbleState(int nZoneIndex, int nMonsterClass, boo
 
 	for (std::vector<_stMonsterIndexInfo>::iterator it = this->m_stZoneInfo[nZoneIndex].m_vtMonsterIndexInfo.begin(); it != this->m_stZoneInfo[nZoneIndex].m_vtMonsterIndexInfo.end(); it++ )
 	{
-		CGameObject* lpObj = &gGameObjects[it->m_nIndex];
+		LPGameObject lpObj = &gGameObjects[it->m_nIndex];
 
 		if ( lpObj->Class == nMonsterClass )
 		{
@@ -2138,7 +2138,7 @@ void CImperialGuardian::SetTargetMoveAllMonster(int nZoneIndex, int nTargetNumbe
 	{
 		if ( it->m_bLive == true )
 		{
-			CGameObject* lpObj = &gGameObjects[it->m_nIndex];
+			LPGameObject lpObj = &gGameObjects[it->m_nIndex];
 			
 			if ( lpObj->TargetNumber != -1 || lpObj->m_ActState.Emotion != 0 )
 			{
@@ -2332,7 +2332,7 @@ void CImperialGuardian::UserMonsterCountCheck()
 
 void CImperialGuardian::MonsterBaseAct(LPGameObject &lpObj)
 {
-	CGameObject* lpTargetObj = NULL;
+	LPGameObject lpTargetObj = NULL;
 
 	if ( lpObj->TargetNumber >= 0 )
 		lpTargetObj = &gGameObjects[lpObj->TargetNumber];

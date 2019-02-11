@@ -148,7 +148,7 @@ public:
 
 	void LoadScript(char* lpFileName);
 	void Run();
-	bool MonsterKillCheck(LPGameObject &lpPlayer, CGameObject* lpMonster);
+	bool MonsterKillCheck(LPGameObject &lpPlayer, LPGameObject lpMonster);
 private:
 	void RegenMonster(int nGroupNumber);
 	bool SetPosMonster(LPGameObject &lpObj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY);

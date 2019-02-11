@@ -31,7 +31,7 @@ void CMapAttribute::LoadFile(char * szFile)
 		return;
 	}
 
-	pugi::xml_node main_section = file.child("MapAttribute");
+	pugi::xml_node mainXML_section = file.child("MapAttribute");
 	pugi::xml_node config_section = main_section.child("Config");
 
 	for (pugi::xml_node map = config_section.child("Map"); map; map = map.next_sibling())

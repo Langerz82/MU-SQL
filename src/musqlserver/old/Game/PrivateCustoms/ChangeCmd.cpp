@@ -94,7 +94,7 @@ int CChangeCmd::DoChange(LPGameObject &lpObj) // -1 - system off, 0 - no change 
 		return -1;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 	lpObj->ChaosLock = TRUE; // Lock Inventory
 
 	int iItemChangeCnt = 0;

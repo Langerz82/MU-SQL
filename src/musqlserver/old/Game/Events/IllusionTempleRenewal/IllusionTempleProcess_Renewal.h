@@ -107,8 +107,8 @@ public:
 	void SendRelicsError(LPGameObject lpObj, int index, BYTE byError, BYTE byAct);
 	void Check_GetRelics(LPGameObject &lpNpc, LPGameObject lpObj, WORD wNpcType);
 	void GetRelics(LPGameObject &lpNpc, LPGameObject lpObj, WORD wNpcType);
-	void Check_RegisterRelics(LPGameObject &lpNpc, OBJECTSTRUCT *lpObj);
-	void RegisterRelics(LPGameObject &lpNpc, OBJECTSTRUCT *lpObj);
+	void Check_RegisterRelics(LPGameObject &lpNpc, LPGameObject lpObj);
+	void RegisterRelics(LPGameObject &lpNpc, LPGameObject lpObj);
 
 	void FirstRegen_OccupiedStone();
 	void FirstRegen_CursedStone();

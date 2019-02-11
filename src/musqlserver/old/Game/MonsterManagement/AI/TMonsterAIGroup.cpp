@@ -270,7 +270,7 @@ TMonsterAIGroupMember * TMonsterAIGroup::FindGroupMemberToHeal(int iObjIndex, in
 	{
 		if ( TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iGroupNumber == iGroupNumber )
 		{
-			CGameObject* lpTargetObj = &gGameObjects[TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iObjIndex];
+			LPGameObject lpTargetObj = &gGameObjects[TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iObjIndex];
 
 			if ( lpTargetObj == NULL )
 				continue;
@@ -316,7 +316,7 @@ TMonsterAIGroupMember * TMonsterAIGroup::FindGroupMemberToSommon(int iObjIndex, 
 	{
 		if ( TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iGroupNumber == iGroupNumber )
 		{
-			CGameObject* lpTargetObj = &gGameObjects[TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iObjIndex];
+			LPGameObject lpTargetObj = &gGameObjects[TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iObjIndex];
 
 			if ( lpTargetObj->m_Index == iObjIndex )
 				continue;

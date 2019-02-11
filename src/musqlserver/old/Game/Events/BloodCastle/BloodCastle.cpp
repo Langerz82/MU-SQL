@@ -216,9 +216,9 @@ void CBloodCastle::Load(char* filename)
 		return;
 	}
 
-	pugi::xml_node main = file.child("BloodCastle");
+	pugi::xml_node mainXML = file.child("BloodCastle");
 
-	bool bEnable = main.attribute("Enable").as_bool();
+	bool bEnable = mainXML.attribute("Enable").as_bool();
 
 	if (g_ConfigRead.server.GetStateFromEventTable(g_ConfigRead.server.GetServerType(), EV_TABLE_BC) == false)
 	{
@@ -227,23 +227,23 @@ void CBloodCastle::Load(char* filename)
 
 	this->SetEventEnable(bEnable);
 
-	this->m_bBC_RESTRICT_FINISH_ENABLE = main.attribute("EarlyFinishRestriction").as_bool();
-	this->m_iBC_RESTRICT_FINISH_TIME = main.attribute("EarlyFinishMinTime").as_int();
+	this->m_bBC_RESTRICT_FINISH_ENABLE = mainXML.attribute("EarlyFinishRestriction").as_bool();
+	this->m_iBC_RESTRICT_FINISH_TIME = mainXML.attribute("EarlyFinishMinTime").as_int();
 	
-	this->m_iArchangelScrollDropRate = main.attribute("ScrollofArchangelDropRate").as_int();
-	this->m_iBloodBoneDropRate = main.attribute("BloodBoneDropRate").as_int();
+	this->m_iArchangelScrollDropRate = mainXML.attribute("ScrollofArchangelDropRate").as_int();
+	this->m_iBloodBoneDropRate = mainXML.attribute("BloodBoneDropRate").as_int();
 
-	pugi::xml_node time = main.child("Time");
+	pugi::xml_node time = mainXML.child("Time");
 
 	this->m_iBC_TIME_MIN_OPEN = time.attribute("ToOpen").as_int();
 	this->m_iBC_TIME_MIN_PLAY = time.attribute("PlayDuration").as_int();
 	this->m_iBC_TIME_MIN_REST = time.attribute("ToClose").as_int();
 
-	pugi::xml_node monster = main.child("Monster");
+	pugi::xml_node monster = mainXML.child("Monster");
 
 	this->m_iBC_MONSTER_REGEN = monster.attribute("TimeToRegen").as_int();
 
-	pugi::xml_node schedule = main.child("Schedule");
+	pugi::xml_node schedule = mainXML.child("Schedule");
 
 	for (pugi::xml_node start = schedule.child("Start"); start; start = start.next_sibling())
 	{
@@ -255,7 +255,7 @@ void CBloodCastle::Load(char* filename)
 		this->m_listBloodCastleOpenTime.push_back(Schedule);
 	}
 
-	pugi::xml_node event_settings = main.child("EventSettings");
+	pugi::xml_node event_settings = mainXML.child("EventSettings");
 
 	for (pugi::xml_node event_ = event_settings.child("Castle"); event_; event_ = event_.next_sibling())
 	{		
@@ -274,7 +274,7 @@ void CBloodCastle::Load(char* filename)
 		}
 	}
 
-	pugi::xml_node reward_exp = main.child("RewardExpSettings");
+	pugi::xml_node reward_exp = mainXML.child("RewardExpSettings");
 
 	for (pugi::xml_node castle = reward_exp.child("Castle"); castle; castle = castle.next_sibling())
 	{
@@ -305,9 +305,9 @@ void CBloodCastle::LoadMonster(LPSTR filename)
 		return;
 	}
 
-	pugi::xml_node main = file.child("BloodCastle");
+	pugi::xml_node mainXML = file.child("BloodCastle");
 
-	for (pugi::xml_node castle = main.child("Castle"); castle; castle = castle.next_sibling())
+	for (pugi::xml_node castle = mainXML.child("Castle"); castle; castle = castle.next_sibling())
 	{
 		int iBridgeIndex = castle.attribute("Level").as_int();
 
@@ -4147,7 +4147,7 @@ void CBloodCastle::FixUsersPlayStateWin(int iBridgeIndex)
 				 gGameObjects[this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex].m_cBloodCastleIndex != iBridgeIndex )
 				continue;
 
-			CGameObject* lpObj = &gGameObjects[this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex];
+			LPGameObject lpObj = &gGameObjects[this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex];
 
 			switch ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iUserState )
 			{
@@ -4229,7 +4229,7 @@ void CBloodCastle::FixUsersPlayStateFail(int iBridgeIndex)
 			 gGameObjects[this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex].m_cBloodCastleIndex != iBridgeIndex )
 			continue;
 
-		CGameObject* lpObj = &gGameObjects[this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex];
+		LPGameObject lpObj = &gGameObjects[this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex];
 
 		switch ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iUserState )
 		{
@@ -4599,7 +4599,7 @@ void CBloodCastle::CatchQuestItemByUser(int iBridgeIndex, int iUserIndex, int iI
 
 }
 
-bool CBloodCastle::NpcAngelKing(LPGameObject &lpNpc, CGameObject* lpObj)
+bool CBloodCastle::NpcAngelKing(LPGameObject &lpNpc, LPGameObject lpObj)
 {
 	int iITEM_LEVEL = 0;
 	int iBLOODCASTLE_INDEX = lpObj->m_cBloodCastleIndex;
@@ -4705,7 +4705,7 @@ bool CBloodCastle::NpcAngelKing(LPGameObject &lpNpc, CGameObject* lpObj)
 	return FALSE;
 }
 
-void CBloodCastle::KillMonsterProc(int iBridgeIndex, CGameObject* lpMonsterObj)
+void CBloodCastle::KillMonsterProc(int iBridgeIndex, LPGameObject lpMonsterObj)
 {
 	if (BC_BRIDGE_RANGE(iBridgeIndex) == false)
 	{
@@ -4783,7 +4783,7 @@ void CBloodCastle::KillMonsterProc(int iBridgeIndex, CGameObject* lpMonsterObj)
 	}
 }
 
-void CBloodCastle::DestroyCastleDoor(int iBridgeIndex, CGameObject* lpDoorObj)
+void CBloodCastle::DestroyCastleDoor(int iBridgeIndex, LPGameObject lpDoorObj)
 {
 	if (BC_BRIDGE_RANGE(iBridgeIndex) == false)
 	{
@@ -4857,7 +4857,7 @@ void CBloodCastle::DestroyCastleDoor(int iBridgeIndex, CGameObject* lpDoorObj)
 	}
 }
 
-void CBloodCastle::DestroySaintStatue(int iBridgeIndex, CGameObject* lpStatueObj)
+void CBloodCastle::DestroySaintStatue(int iBridgeIndex, LPGameObject lpStatueObj)
 {
 	if (BC_BRIDGE_RANGE(iBridgeIndex) == false)
 	{
@@ -4952,7 +4952,7 @@ BLOODCASTLE_MONSTER_POSITION * CBloodCastle::GetMonsterPosData(int iPosNum, int 
 		return NULL;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iMonsterIndex];
+	LPGameObject lpObj = &gGameObjects[iMonsterIndex];
 
 	if (lpObj->Class == 89 || lpObj->Class == 95 ||
 		lpObj->Class == 112 || lpObj->Class == 118 ||
@@ -4993,7 +4993,7 @@ bool CBloodCastle::SetPosMonster(int iBridgeIndex, int iMonsterIndex, int iPosNu
 	}
 
 	BLOODCASTLE_MONSTER_POSITION * lpPos = nullptr;
-	CGameObject* lpObj = &gGameObjects[iMonsterIndex];
+	LPGameObject lpObj = &gGameObjects[iMonsterIndex];
 
 	if (iMonsterClass == 89 || iMonsterClass == 95 ||
 		iMonsterClass == 112 || iMonsterClass == 118 ||

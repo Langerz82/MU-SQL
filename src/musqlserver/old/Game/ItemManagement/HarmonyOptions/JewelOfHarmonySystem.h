@@ -47,7 +47,7 @@ public:
 	BOOL SmeltItemBySmeltingStone(struct LPGameObject &lpObj, int source, int target);
 	BOOL RestoreStrengthenItem(struct LPGameObject &lpObj);
 	BYTE MakeCharSetData(struct LPGameObject &lpObj);
-	BOOL NpcJewelOfHarmony(struct OBJECTSTRUCT * lpNpc, struct LPGameObject &lpObj);
+	BOOL NpcJewelOfHarmony(struct LPGameObject  lpNpc, struct LPGameObject &lpObj);
 	BYTE ShowStrengthenOption(CItem* pItem);
 	BOOL IsEnableToTrade(struct LPGameObject &lpObj);
 

@@ -107,9 +107,9 @@ public:
 	unsigned char QuestClearConditionCheck(LPGameObject &lpObj, int QuestIndex);
 	unsigned char QuestRunConditionCheck(LPGameObject &lpObj, int QuestIndex);
 	int CompareCondition(LPGameObject &lpObj, LPQUEST_CONDITION lpCondition);
-	int NpcTalk(LPGameObject &lpNpc, CGameObject* lpObj);
+	int NpcTalk(LPGameObject &lpNpc, LPGameObject lpObj);
 	int MonsterItemDrop(LPGameObject &lpObj);
-	int MonsterItemDropParty(LPGameObject &lpObj, CGameObject* lpMonsterObj);
+	int MonsterItemDropParty(LPGameObject &lpObj, LPGameObject lpMonsterObj);
 	int AddMonsterKillCount(LPGameObject &lpObj);
 	int QuestAccept(LPGameObject &lpObj, int QuestIndex);
 	int QuestClear(LPGameObject &lpObj, int QuestIndex);

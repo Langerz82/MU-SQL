@@ -163,7 +163,7 @@ void ChaosCastleFinal::Load_CCFMonster(char *Filename)
 		return;
 	}
 
-	pugi::xml_node main_section = file.child("ChaosCastleSurvival");
+	pugi::xml_node mainXML_section = file.child("ChaosCastleSurvival");
 	int nCount = 0;
 
 	for (pugi::xml_node monster = main_section.child("Monster"); monster; monster = monster.next_sibling(), nCount++)
@@ -199,7 +199,7 @@ void ChaosCastleFinal::Load_CCFInfo(char *Filename)
 	int nTimeTableCnt = 0;
 	this->m_vtCCFTime.clear();
 
-	pugi::xml_node main_section = file.child("ChaosCastleSurvival");
+	pugi::xml_node mainXML_section = file.child("ChaosCastleSurvival");
 	pugi::xml_node time = main_section.child("Time");
 	pugi::xml_node tournament = main_section.child("TournamentCycleDay");
 	pugi::xml_node rewardrate = main_section.child("RewardRate");
@@ -1026,7 +1026,7 @@ int ChaosCastleFinal::BlowObjsFromPoint(int iIndex, int iMapNumber, int & iX, in
 	if (!CHECK_LIMIT(iX, 256) || !CHECK_LIMIT(iY, 256))
 		return FALSE;
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if (lpObj->DieRegen)
 		return FALSE;
@@ -1148,7 +1148,7 @@ int ChaosCastleFinal::GetCurrentCCFWinUser(int *nPoint)
 			&& gGameObjects[this->m_stCCFData.m_UserData[i].m_nIndex].MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL
 			&& !this->m_stCCFData.m_UserData[i].m_nUserState)
 		{
-			CGameObject* lpObj = &gGameObjects[this->m_stCCFData.m_UserData[i].m_nIndex];
+			LPGameObject lpObj = &gGameObjects[this->m_stCCFData.m_UserData[i].m_nIndex];
 			int iCCF_TEMP_SCORE = lpObj->m_byKillMobCount + 2 * lpObj->m_byKillUserCount;
 
 			if (iCCF_SCORE >= iCCF_TEMP_SCORE)
@@ -2300,7 +2300,7 @@ int ChaosCastleFinal::ObjSetPosition(int iIndex, int iX, int iY)
 	if (!ObjectMaxRange(iIndex))
 		return TRUE;
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if (lpObj->MapNumber != MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 		return FALSE;
@@ -3153,7 +3153,7 @@ void ChaosCastleFinal::SendAllMemberOfCCF(int index)
 	{
 		if (this->m_stCCFData.m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_stCCFData.m_UserData[i].m_nIndex].Connected > PLAYER_LOGGED)
 		{
-			CGameObject* lpObj = &gGameObjects[this->m_stCCFData.m_UserData[i].m_nIndex];
+			LPGameObject lpObj = &gGameObjects[this->m_stCCFData.m_UserData[i].m_nIndex];
 
 			if (lpObj)
 			{
@@ -3276,7 +3276,7 @@ void ChaosCastleFinal::GDReqSetCCFReward_UBF(int iUserIndex, BYTE btCCFType, BYT
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iUserIndex];
+	LPGameObject lpObj = &gGameObjects[iUserIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -3337,7 +3337,7 @@ void ChaosCastleFinal::SetUBFGetReward(int iUserIndex, WORD wItemCode, UINT64 It
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iUserIndex];
+	LPGameObject lpObj = &gGameObjects[iUserIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{

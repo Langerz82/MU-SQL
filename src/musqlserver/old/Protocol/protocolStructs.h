@@ -1,6 +1,6 @@
 
-#ifndef _PROTOCOLSTRUCTS_H
-#define _PROTOCOLSTRUCTS_H
+#ifndef _MU_PROTOCOLSTRUCTS_H
+#define _MU_PROTOCOLSTRUCTS_H
 
 #if _MSC_VER > 1000
 #pragma once
@@ -8,7 +8,7 @@
 
 #include "StdAfx.h"
 #include "GensSystemProtocol.h"
-#include "User/CUserData.h"
+#include "CUserData.h"
 #include "generalStructs.h"
 
 #include <string>
@@ -7429,14 +7429,7 @@ struct PMSG_WAREHOUSEPASSSEND {
 	char LastJoominNumber[20];
 };
 
-struct PSHOP_ITEMVALUE_INFO_DS {
-	int nPShopItemInvenNum;
-	UINT64 ItemSerial;
-	int nMoney;
-	WORD sBlessJewelValue;
-	WORD sSoulJewelValue;
-	WORD sChaosJewelValue;
-};
+
 
 struct PWMSG_COUNT {
 	PWMSG_HEAD h;

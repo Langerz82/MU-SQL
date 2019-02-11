@@ -353,7 +353,7 @@ void CPersonalStore::CGPShopReqBuyList(PMSG_REQ_BUYLIST_FROM_PSHOP * lpMsg, int 
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[MAKE_NUMBERW(lpMsg->NumberH, lpMsg->NumberL)];
+	LPGameObject lpObj = &gGameObjects[MAKE_NUMBERW(lpMsg->NumberH, lpMsg->NumberL)];
 
 
 	if (lpObj->m_bOffLevel == true)
@@ -474,7 +474,7 @@ void CPersonalStore::CGPShopAnsBuyList(int aSourceIndex, int aTargetIndex, BYTE 
 
 	if (btResult != 1)
 	{
-		CGameObject* lpObj = &gGameObjects[aSourceIndex];
+		LPGameObject lpObj = &gGameObjects[aSourceIndex];
 
 		pMsgILC.h.c = 0xC2;
 		pMsgILC.h.headcode = 0x3F;
@@ -498,8 +498,8 @@ void CPersonalStore::CGPShopAnsBuyList(int aSourceIndex, int aTargetIndex, BYTE 
 	}
 	else
 	{
-		CGameObject* lpObjSource = &gGameObjects[aSourceIndex];
-		CGameObject* lpObjTarget = &gGameObjects[aTargetIndex];
+		LPGameObject lpObjSource = &gGameObjects[aSourceIndex];
+		LPGameObject lpObjTarget = &gGameObjects[aTargetIndex];
 		int iCount = 0;
 
 		for (int n = PSHOP_START_RANGE; n < PSHOP_END_RANGE; n++)
@@ -556,7 +556,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[MAKE_NUMBERW(lpMsg->NumberH, lpMsg->NumberL)];
+	LPGameObject lpObj = &gGameObjects[MAKE_NUMBERW(lpMsg->NumberH, lpMsg->NumberL)];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -1178,7 +1178,7 @@ void CPersonalStore::PShop_ViewportListRegenarate(short aIndex)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -1338,7 +1338,7 @@ void CPersonalStore::PShop_ViewportListRegenarate(short aIndex)
 
 bool CPersonalStore::PShop_CheckInventoryEmpty(short aIndex)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	for (int i = PSHOP_START_RANGE; i < PSHOP_END_RANGE; i++)
 	{
@@ -1447,8 +1447,8 @@ void CPersonalStore::CGReqPShopLog(PMSG_REQ_PSHOP_LOG *lpMsg, int aIndex)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
-	CGameObject* lpTargetObj = &gGameObjects[lpMsg->iTargetIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
+	LPGameObject lpTargetObj = &gGameObjects[lpMsg->iTargetIndex];
 
 	if (lpMsg->btLogKind == 0)
 	{
@@ -1559,7 +1559,7 @@ void CPersonalStore::GDAnsPShopItemValue(PMSG_ANS_PSHOPITEMVALUE_INFO *lpMsg)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iObjIndex];
+	LPGameObject lpObj = &gGameObjects[iObjIndex];
 
 	for (int i = 0; i < iItemCnt; i++)
 	{
@@ -1599,7 +1599,7 @@ void CPersonalStore::GCPShopItemValueInfo(LPGameObject &lpObj)
 	int lOfs = sizeof(pMsg);
 	int iItemCnt = 0;
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	for (int i = PSHOP_START_RANGE; i < PSHOP_END_RANGE; i++)
 	{
@@ -1653,7 +1653,7 @@ void CPersonalStore::GCPShop_AllInfo(short aIndex, int iLastUserCount)
 
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		CGameObject* lpObj = &gGameObjects[n];
+		LPGameObject lpObj = &gGameObjects[n];
 
 		if (gGameObjects[n].Connected == PLAYER_PLAYING && lpObj->Type == OBJ_USER &&
 			(lpObj->MapNumber == MAP_INDEX_RORENCIA || lpObj->MapNumber == MAP_INDEX_DEVIAS || lpObj->MapNumber == MAP_INDEX_NORIA ||
@@ -1739,7 +1739,7 @@ void CPersonalStore::GCPShop_SearchItem(short aIndex, WORD sSearchItem, int iLas
 
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		CGameObject* lpObj = &gGameObjects[n];
+		LPGameObject lpObj = &gGameObjects[n];
 
 		if (gGameObjects[n].Connected == PLAYER_PLAYING && lpObj->Type == OBJ_USER &&
 			(lpObj->MapNumber == MAP_INDEX_RORENCIA || lpObj->MapNumber == MAP_INDEX_DEVIAS || lpObj->MapNumber == MAP_INDEX_NORIA ||

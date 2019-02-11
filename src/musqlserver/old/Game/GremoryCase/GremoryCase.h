@@ -15,6 +15,9 @@
 struct _stGremoryCaseItem;
 struct _stAnsAddItemToGremoryCase;
 struct PMSG_ADD_GREMORYCASE_ITEM_TO_INVENTORY_REQ;
+struct _stAnsCheckUseItemGremoryCase;
+
+
 
 class CGremoryCase
 {

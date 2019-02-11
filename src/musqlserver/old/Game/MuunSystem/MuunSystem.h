@@ -115,7 +115,7 @@ struct MUUN_ITEM_PERIOD_DATA
 	char btUsedDataCount;
 	WORD wUserIndex;
 	DWORD dwUserGUID;
-	OBJECTSTRUCT *lpUserObj;
+	LPGameObject lpUserObj;
 	char chAccountID[MAX_ACCOUNT_LEN+1];
 	char chCharacterName[MAX_ACCOUNT_LEN+1];
 	MUUNITEMDATA ItemData[MUUN_INVENTORY_SIZE];
@@ -131,12 +131,12 @@ public:
 	void SendAttackMsg(LPGameObject &lpObj, int aTargetIndex, int SubCode, int SubCode2);
 	void SkillProc(LPGameObject &lpObj);
 
-	bool DamageAbsorb(LPGameObject &lpObj, CGameObject* lpTargetObj, CMagicInf *lpMagic, int SubCode2);
-	bool Stun(LPGameObject &lpObj, CGameObject* lpTargetObj, CMagicInf *lpMagic, int SubCode2);
-	bool Attack(LPGameObject &lpObj, CGameObject* lpTargetObj, CMagicInf *lpMagic, int SubCode2);
+	bool DamageAbsorb(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2);
+	bool Stun(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2);
+	bool Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2);
 
-	int GetAttackDamage(LPGameObject &lpObj, int targetDefense, int SubCode2, CGameObject* lpTargetObj);
-	int GetShieldDamage(LPGameObject &lpObj, CGameObject* lpTargetObj, int iAttackDamage);
+	int GetAttackDamage(LPGameObject &lpObj, int targetDefense, int SubCode2, LPGameObject lpTargetObj);
+	int GetShieldDamage(LPGameObject &lpObj, LPGameObject lpTargetObj, int iAttackDamage);
 };
 
 class CMuunSystem
@@ -241,7 +241,7 @@ public:
 	time_t GetLeftDate(time_t ExpireDate);
 	bool IsMuunExpireDate(int iType);
 
-	void Attack(LPGameObject &lpObj, CGameObject* lpTargetObj, CMagicInf *lpMagic, int SubCode, int SubCode2);
+	void Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode, int SubCode2);
 
 	bool CheckAddOptionExpireDate(time_t StartDate, time_t EndDate);
 	void MsgIsMuunItemActive(LPGameObject lpObj, int iPos);

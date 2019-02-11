@@ -37,7 +37,7 @@ void CMonsterRegenSystem::LoadScript(char* lpFileName)
 		return;
 	}
 
-	pugi::xml_node main_section = file.child("MonsterGroupRegenSystem");
+	pugi::xml_node mainXML_section = file.child("MonsterGroupRegenSystem");
 	pugi::xml_node group_settings = main_section.child("GroupSettings");
 	pugi::xml_node spot_settings = main_section.child("SpotSettings");
 	pugi::xml_node monster_settings = main_section.child("MonsterSettings");
@@ -295,7 +295,7 @@ bool CMonsterRegenSystem::SetPosMonster(LPGameObject &lpObj, int nMapNumber, int
 		return false;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	lpObj->m_PosNum = -1;
 	lpObj->MapNumber = nMapNumber;
@@ -430,7 +430,7 @@ bool CMonsterRegenSystem::IsRegenTime(int nGroupNumber, int nCurHour, int nCurMi
 	return false;
 }
 
-bool CMonsterRegenSystem::MonsterKillCheck(LPGameObject &lpPlayer, CGameObject* lpMonster)
+bool CMonsterRegenSystem::MonsterKillCheck(LPGameObject &lpPlayer, LPGameObject lpMonster)
 {
 	for (int i = 0; i < MAX_MONSTER_GROUP_INFO && this->m_stMonsterGroupInfo[i].m_nGroupNumber > -1; i++)
 	{

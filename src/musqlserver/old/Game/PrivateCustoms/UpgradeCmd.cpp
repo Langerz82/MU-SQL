@@ -137,7 +137,7 @@ int CUpgradeCmd::DoUpgrade(LPGameObject &lpObj)
 		return -1;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	for (int i = INVETORY_WEAR_SIZE; i < INVENTORY_SIZE - 1; i++) // Pentagram excluded, so -1
 	{

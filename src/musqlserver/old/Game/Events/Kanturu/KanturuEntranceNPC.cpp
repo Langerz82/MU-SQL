@@ -63,7 +63,7 @@ void CKanturuEntranceNPC::NotifyResultEnterKanturuBossMap(int iIndex)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 	BOOL bMoveGateSuccess = FALSE;
 	int iResult = g_Kanturu.CheckEnterKanturu(iIndex);
 

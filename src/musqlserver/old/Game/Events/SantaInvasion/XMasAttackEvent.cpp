@@ -94,7 +94,7 @@ BOOL CXMasMonsterHerd::MonsterHerdItemDrop(LPGameObject &lpObj)
 
 }
 
-void CXMasMonsterHerd::MonsterAttackAction(LPGameObject &lpObj, CGameObject* lpTargetObj)
+void CXMasMonsterHerd::MonsterAttackAction(LPGameObject &lpObj, LPGameObject lpTargetObj)
 {
 	if ( gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STONE) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STUN) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_SLEEP) ||
 		gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_FREEZE_2) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_EARTH_BINDS))

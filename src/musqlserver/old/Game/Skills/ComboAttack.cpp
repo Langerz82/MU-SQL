@@ -1,6 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ComboAttack.cpp
-#include "StdAfx.h"
 #include "ComboAttack.h"
 #include "MasterLevelSkillTreeSystem.h"
 // GS-N 0.99.60T 0x004A42C0 : Completed

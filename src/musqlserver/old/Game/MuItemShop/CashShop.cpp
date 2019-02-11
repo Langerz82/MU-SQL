@@ -1466,7 +1466,7 @@ void CItemShop::AddGPMonster(LPGameObject &lpMonsterObj)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[MaxHitUser];
+	LPGameObject lpObj = &gGameObjects[MaxHitUser];
 
 	if(lpMonsterObj->Type != OBJ_MONSTER ||
 		lpObj->Type != OBJ_USER)

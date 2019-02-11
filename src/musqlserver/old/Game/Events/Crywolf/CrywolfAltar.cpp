@@ -353,7 +353,7 @@ int CCrywolfAltar::GetPriestHPSum()
 		if ( !gObjIsConnected(AltarInfo->m_iUserIndex))
 			continue;
 
-		CGameObject* lpUserObj = &gGameObjects[AltarInfo->m_iUserIndex];
+		LPGameObject lpUserObj = &gGameObjects[AltarInfo->m_iUserIndex];
 		iPriestHPSum += lpUserObj->Life;
 		iPriestHPSum += lpUserObj->AddLife;
 	}
@@ -375,7 +375,7 @@ int CCrywolfAltar::GetPriestMaxHPSum()
 		if ( !gObjIsConnected(AltarInfo->m_iUserIndex))
 			continue;
 
-		CGameObject* lpUserObj = &gGameObjects[AltarInfo->m_iUserIndex];
+		LPGameObject lpUserObj = &gGameObjects[AltarInfo->m_iUserIndex];
 		iPriestHPSum += lpUserObj->AddLife + lpUserObj->MaxLife;
 		int iOption = 0;
 		gObjGetValueOfBuffIndex(lpUserObj, BUFFTYPE_HP_INC, &iOption, 0);
@@ -412,8 +412,8 @@ void CCrywolfAltar::CrywolfAltarAct(int iIndex)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
-	CGameObject* lpUserObj = &gGameObjects[iUserIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
+	LPGameObject lpUserObj = &gGameObjects[iUserIndex];
 
 	if ( lpUserObj->Live != FALSE && lpUserObj->MapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE )
 	{

@@ -21,7 +21,7 @@ void CProhibitedSymbols::LoadSymbolFile(LPSTR szFile)
 		return;
 	}
 
-	pugi::xml_node main_section = file.child("ProhibitedSymbols");
+	pugi::xml_node mainXML_section = file.child("ProhibitedSymbols");
 	this->m_nMode = main_section.attribute("Mode").as_int();
 	pugi::xml_node symbol_section = main_section.child("Symbols");
 

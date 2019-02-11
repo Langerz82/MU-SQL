@@ -1021,7 +1021,7 @@ void QuestExpProgMng::ChkMonsterKillPartyPlay(DWORD dwQuestInfoIndexID, int iAsk
 	}
 }
 
-void QuestExpProgMng::ChkUserQuestTypeMonsterKill(LPGameObject lpObj, OBJECTSTRUCT *lpMonsterObj)
+void QuestExpProgMng::ChkUserQuestTypeMonsterKill(LPGameObject lpObj, LPGameObject lpMonsterObj)
 {
 	if (lpObj->PartyNumber == -1)
 	{
@@ -1053,7 +1053,7 @@ void QuestExpProgMng::ChkUserQuestTypeMonsterKill(LPGameObject lpObj, OBJECTSTRU
 	}
 }
 
-void QuestExpProgMng::ChkUserQuestType(int iQuestType, LPGameObject lpObj, OBJECTSTRUCT *lpMonsterObj, int iKillerObjIndex)
+void QuestExpProgMng::ChkUserQuestType(int iQuestType, LPGameObject lpObj, LPGameObject lpMonsterObj, int iKillerObjIndex)
 {
 	if (!lpMonsterObj)
 	{
@@ -1539,7 +1539,7 @@ bool QuestExpProgMng::ChkQuestIndexIDToEpAndQSLimit(DWORD dwQuestInfoIndexID, in
 	return true;
 }
 
-void QuestExpProgMng::QuestMonsterItemDrop(DWORD dwQuestInfoIndexID, LPGameObject lpObj, OBJECTSTRUCT *lpMonsterObj)
+void QuestExpProgMng::QuestMonsterItemDrop(DWORD dwQuestInfoIndexID, LPGameObject lpObj, LPGameObject lpMonsterObj)
 {
 	int iMaxHitUserIndex = gObjMonsterTopHitDamageUser(lpMonsterObj);
 

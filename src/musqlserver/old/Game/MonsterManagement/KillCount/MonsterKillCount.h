@@ -17,7 +17,7 @@ public:
 
 	void ReadConfig(LPSTR szFile);
 
-	void CheckMonsterKillCount(int monsterid, CGameObject* lpObj);
+	void CheckMonsterKillCount(int monsterid, LPGameObject lpObj);
 
 private:
 	int i_MonsterIds[MAX_MONSTER_TYPE];

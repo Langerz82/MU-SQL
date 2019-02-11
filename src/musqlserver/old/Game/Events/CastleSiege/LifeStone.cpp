@@ -34,7 +34,7 @@ CLifeStone::~CLifeStone()
 
 int CLifeStone::CreateLifeStone(int iIndex)
 {
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 	int iMonsterIndex = -1;
 	BYTE cX = lpObj->X;
 	BYTE cY = lpObj->Y;
@@ -140,7 +140,7 @@ int CLifeStone::DeleteLifeStone(int iIndex)
 	if ( iIndex < 0 || iIndex > g_ConfigRead.server.GetObjectMax()-1 )
 		return FALSE;
 
-	CGameObject* lpLifeStone = &gGameObjects[iIndex];
+	LPGameObject lpLifeStone = &gGameObjects[iIndex];
 
 	if ( lpLifeStone->m_PlayerData->lpGuild )
 	{
@@ -157,7 +157,7 @@ int CLifeStone::SetReSpawnUserXY(int iUserIndex)
 	if ( !gObjIsConnected(iUserIndex) )
 		return FALSE;
 
-	CGameObject* lpUser = &gGameObjects[iUserIndex];
+	LPGameObject lpUser = &gGameObjects[iUserIndex];
 
 	if ( lpUser->MapNumber != MAP_INDEX_CASTLESIEGE )
 		return FALSE;
@@ -170,7 +170,7 @@ int CLifeStone::SetReSpawnUserXY(int iUserIndex)
 	if ( lpUser->m_PlayerData->lpGuild->lpLifeStone == NULL )
 		return FALSE;
 
-	CGameObject* lpLifeStone = lpUser->m_PlayerData->lpGuild->lpLifeStone;
+	LPGameObject lpLifeStone = lpUser->m_PlayerData->lpGuild->lpLifeStone;
 
 	if ( lpLifeStone->m_btCreationState != 5 )
 		return FALSE;
@@ -187,7 +187,7 @@ void CLifeStone::LifeStoneAct(int iIndex)
 	if ( !gObjIsConnected(iIndex))
 		return;
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	lpObj->m_iCreatedActivationTime++;
 	BYTE btCreationState = lpObj->m_btCreationState;

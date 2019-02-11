@@ -789,7 +789,7 @@ void gObjCloseSet(LPGameObject &lpObj, int Flag)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->CloseCount > 0)
 	{
@@ -1801,7 +1801,7 @@ bool gObjSetCharacter(LPBYTE lpdata, int aIndex)
 		return FALSE;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Connected < PLAYER_LOGGED)
 	{
@@ -2978,7 +2978,7 @@ int gObjSetPosMonster(LPGameObject &lpObj, int PosTableNum)
 		return FALSE;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	lpObj->m_PosNum = PosTableNum;
 	lpObj->X = gMSetBase.m_Mp[PosTableNum].m_X;
@@ -3025,7 +3025,7 @@ int gObjSetMonster(LPGameObject &lpObj, int MonsterClass)
 		return false;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	lpObj->ConnectCheckTime = GetTickCount();
 
@@ -3576,7 +3576,7 @@ short gObjAddCallMon()
 
 void gObjUserKill(LPGameObject &lpObj)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->CloseCount < 1)
 	{
@@ -3744,7 +3744,7 @@ void gObjBillRequest(LPGameObject &lpObj)
 short gObjMemFree(int index)
 {
 	int i = 0;
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 
 	if (gDisconnect == TRUE)
 	{
@@ -3833,7 +3833,7 @@ BOOL gObjGameClose(LPGameObject &lpObj)
 		return FALSE;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Connected != PLAYER_PLAYING)
 	{
@@ -4046,7 +4046,7 @@ short gObjDel(int index)
 		return 0;
 	}
 
-	CGameObject* lpObj = &gGameObjects[index];
+	LPGameObject lpObj = &gGameObjects[index];
 
 	if (lpObj->Connected < PLAYER_CONNECTED)
 	{
@@ -4137,7 +4137,7 @@ short gObjSometimeClose(int index)
 		return 0;
 	}
 
-	CGameObject* lpObj = &gGameObjects[index];
+	LPGameObject lpObj = &gGameObjects[index];
 	gObjTradeSave(lpObj, index);
 
 	if (lpObj->Connected > PLAYER_CONNECTED)
@@ -4270,7 +4270,7 @@ bool gObjIsAccountValid(LPGameObject &lpObj, char* account) // OK
 		return 0;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Connected == PLAYER_EMPTY)
 	{
@@ -4326,7 +4326,7 @@ BOOL gObjIsConnected(LPGameObject &lpObj, int dbnumber)
 BOOL gObjIsConnectedEx(LPGameObject &lpObj)
 {
 	if (aIndex < 0 || aIndex > g_ConfigRead.server.GetObjectMax() - 1) return FALSE;
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 	if (lpObj->Type != OBJ_USER)	return FALSE;
 	if (lpObj->Connected != PLAYER_PLAYING) return FALSE;
 	if (lpObj->CloseCount >= 0)	return FALSE;
@@ -4719,7 +4719,7 @@ BYTE GetPathPacketDirPos(int px, int py)
 
 
 
-int  gObjCalDistance(LPGameObject &lpObj1, CGameObject* lpObj2)
+int  gObjCalDistance(LPGameObject &lpObj1, LPGameObject lpObj2)
 {
 	if (lpObj1 == NULL || lpObj2 == NULL)
 	{
@@ -4765,7 +4765,7 @@ BOOL gObjPositionCheck(LPGameObject &lpObj)
 
 BOOL gObjCheckTileArea(LPGameObject &lpObj, int x, int y, int dis)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (x < (lpObj->X - dis) || x >(lpObj->X + dis) || y < (lpObj->Y - dis) || y >(lpObj->Y + dis))
 	{
@@ -5379,7 +5379,7 @@ void gObjStateAttackProc(LPGameObject &lpObj, int aMsgCode, int aIndex, int SubC
 
 
 
-BOOL gObjBackSpring(LPGameObject &lpObj, CGameObject* lpTargetObj)
+BOOL gObjBackSpring(LPGameObject &lpObj, LPGameObject lpTargetObj)
 {
 	int tdir;
 	int x;
@@ -5621,7 +5621,7 @@ BOOL BackSpringCheck(int & x, int & y, int & dir, BYTE map)
 	return TRUE;
 }
 
-BOOL gObjBackSpring2(LPGameObject &lpObj, CGameObject* lpTargetObj, int count)
+BOOL gObjBackSpring2(LPGameObject &lpObj, LPGameObject lpTargetObj, int count)
 {
 	int tdir;
 
@@ -5915,7 +5915,7 @@ bool gObjLevelUp(LPGameObject &lpObj, UINT64 addexp, int iMonsterType, const cha
 
 
 
-BOOL gObjLevelUpPointAdd(BYTE type, CGameObject* lpObj, int aIndex)	// type : [1:Strength][2:Agility][3:Vitality][4:Energy][5:Leadership]
+BOOL gObjLevelUpPointAdd(BYTE type, LPGameObject lpObj, int aIndex)	// type : [1:Strength][2:Agility][3:Vitality][4:Energy][5:Leadership]
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -6163,7 +6163,7 @@ void gObjReady4Relife(LPGameObject &lpObj)
 
 #include "PVPZone.h"
 
-void gObjPlayerKiller(LPGameObject &lpObj, CGameObject* lpTargetObj, int MSBDamage)
+void gObjPlayerKiller(LPGameObject &lpObj, LPGameObject lpTargetObj, int MSBDamage)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -6478,7 +6478,7 @@ void gObjPlayerKiller(LPGameObject &lpObj, CGameObject* lpTargetObj, int MSBDama
 
 }
 
-void gObjUserDie(LPGameObject &lpObj, CGameObject* lpTargetObj)
+void gObjUserDie(LPGameObject &lpObj, LPGameObject lpTargetObj)
 {
 	int count = 76;
 	int itemdrop = 0;
@@ -7221,7 +7221,7 @@ BOOL gObjSafeGuardSprite(LPGameObject &lpObj)
 
 BOOL gObjFindInventoryEquipment(LPGameObject &lpObj)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -8341,7 +8341,7 @@ void gObjWingDurProc(LPGameObject &lpObj)
 }
 
 
-void gObjPenaltyDurDown(LPGameObject &lpObj, CGameObject* lpTargetObj)	// Functio n Not USed
+void gObjPenaltyDurDown(LPGameObject &lpObj, LPGameObject lpTargetObj)	// Functio n Not USed
 {
 	int ret = 0;
 	int reCalCharacter = 0;
@@ -8466,7 +8466,7 @@ void gObjPenaltyDurDown(LPGameObject &lpObj, CGameObject* lpTargetObj)	// Functi
 
 
 
-void gObjWeaponDurDown(LPGameObject &lpObj, CGameObject* lpTargetObj, int type)
+void gObjWeaponDurDown(LPGameObject &lpObj, LPGameObject lpTargetObj, int type)
 {
 	if (lpObj->Type == OBJ_MONSTER || lpObj->Type == OBJ_NPC)
 	{
@@ -8592,7 +8592,7 @@ void gObjWeaponDurDown(LPGameObject &lpObj, CGameObject* lpTargetObj, int type)
 
 
 
-void gObjArmorRandomDurDown(LPGameObject &lpObj, CGameObject* lpAttackObj)
+void gObjArmorRandomDurDown(LPGameObject &lpObj, LPGameObject lpAttackObj)
 {
 	int item_num[7] = { 0,1,2,3,4,5,6 };
 	int item_pos = rand() % 7;
@@ -8760,12 +8760,12 @@ void gObjTimeCheckSelfDefense(LPGameObject &lpObj)
 
 
 
-BOOL gObjAttack(LPGameObject &lpObj, CGameObject* lpTargetObj, CMagicInf * lpMagic, BOOL magicsend, BYTE MSBFlag, int AttackDamage, BOOL bCombo, BYTE RFAttack, BYTE byReflect, BYTE byPentagramAttack)
+BOOL gObjAttack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf * lpMagic, BOOL magicsend, BYTE MSBFlag, int AttackDamage, BOOL bCombo, BYTE RFAttack, BYTE byReflect, BYTE byPentagramAttack)
 {
 	return gclassObjAttack.Attack(lpObj, lpTargetObj, lpMagic, magicsend, MSBFlag, AttackDamage, bCombo, RFAttack, byReflect, byPentagramAttack);
 }
 
-void gObjMonsterExpDivision(LPGameObject &lpMonObj, CGameObject* lpObj, int AttackDamage, int MSBFlag)
+void gObjMonsterExpDivision(LPGameObject &lpMonObj, LPGameObject lpObj, int AttackDamage, int MSBFlag)
 {
 	gObjMonsterHitDamageUserDel(lpMonObj);
 	lpMonObj->MonsterMoneyDrop = 0;
@@ -8773,7 +8773,7 @@ void gObjMonsterExpDivision(LPGameObject &lpMonObj, CGameObject* lpObj, int Atta
 	int tObjNum;
 	UINT64 exp;
 	UINT64 nDropZen = 0;
-	CGameObject* lpTargetObj;
+	LPGameObject lpTargetObj;
 
 	for (int n = 0; n < MAX_ST_HIT_DAMAGE; n++)
 	{
@@ -8870,7 +8870,7 @@ struct _stHitPartyInfo
 	int nHitDamage;
 };
 
-void gObjMonsterExpDivisionRenewal(LPGameObject &lpMonObj, CGameObject* lpObj, int AttackDamage, int MSBFlag)
+void gObjMonsterExpDivisionRenewal(LPGameObject &lpMonObj, LPGameObject lpObj, int AttackDamage, int MSBFlag)
 {
 	_stHitPartyInfo stHitParty[40];
 
@@ -8885,7 +8885,7 @@ void gObjMonsterExpDivisionRenewal(LPGameObject &lpMonObj, CGameObject* lpObj, i
 		if (lpMonObj->sHD[n].number >= 0)
 		{
 			int nTargetNumber = lpMonObj->sHD[n].number;
-			CGameObject* lpTargetObj = &gGameObjects[nTargetNumber];
+			LPGameObject lpTargetObj = &gGameObjects[nTargetNumber];
 
 			if (gGameObjects[nTargetNumber].PartyNumber < 0)
 			{
@@ -8987,7 +8987,7 @@ void gObjMonsterExpDivisionRenewal(LPGameObject &lpMonObj, CGameObject* lpObj, i
 
 
 
-UINT64 gObjMonsterExpSingle(LPGameObject &lpObj, CGameObject* lpTargetObj, int dmg, int tot_dmg, bool& bSendExp, UINT64& nDropZen)
+UINT64 gObjMonsterExpSingle(LPGameObject &lpObj, LPGameObject lpTargetObj, int dmg, int tot_dmg, bool& bSendExp, UINT64& nDropZen)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -9126,7 +9126,7 @@ UINT64 gObjMonsterExpSingle(LPGameObject &lpObj, CGameObject* lpTargetObj, int d
 	return exp;
 }
 
-UINT64 gObjMonsterExpSingleRenewal(LPGameObject &lpObj, CGameObject* lpTargetObj, int dmg, int tot_dmg, bool &bSendExp)
+UINT64 gObjMonsterExpSingleRenewal(LPGameObject &lpObj, LPGameObject lpTargetObj, int dmg, int tot_dmg, bool &bSendExp)
 {
 	if (!lpObj || !lpTargetObj)
 	{
@@ -9238,7 +9238,7 @@ UINT64 gObjMonsterExpSingleRenewal(LPGameObject &lpObj, CGameObject* lpTargetObj
 	return nDropZen;
 }
 
-void gObjExpParty(LPGameObject &lpObj, CGameObject* lpTargetObj, int AttackDamage, int MSBFlag)
+void gObjExpParty(LPGameObject &lpObj, LPGameObject lpTargetObj, int AttackDamage, int MSBFlag)
 {
 	if (DS_MAP_RANGE(lpObj->MapNumber))
 	{
@@ -9273,7 +9273,7 @@ void gObjExpParty(LPGameObject &lpObj, CGameObject* lpTargetObj, int AttackDamag
 
 		if (number >= 0)
 		{
-			CGameObject* lpPartyObj = &gGameObjects[number];
+			LPGameObject lpPartyObj = &gGameObjects[number];
 
 			int dis = gObjCalDistance(lpTargetObj, lpPartyObj); //Season 2.5 add-on
 
@@ -9311,7 +9311,7 @@ void gObjExpParty(LPGameObject &lpObj, CGameObject* lpTargetObj, int AttackDamag
 
 		if (number >= 0)
 		{
-			CGameObject* lpPartyObj = &gGameObjects[number];
+			LPGameObject lpPartyObj = &gGameObjects[number];
 
 			if (lpTargetObj->MapNumber == lpPartyObj->MapNumber)
 			{
@@ -9433,7 +9433,7 @@ void gObjExpParty(LPGameObject &lpObj, CGameObject* lpTargetObj, int AttackDamag
 
 		if (number >= 0)
 		{
-			CGameObject* lpPartyObj = &gGameObjects[number];
+			LPGameObject lpPartyObj = &gGameObjects[number];
 
 			if (lpTargetObj->MapNumber == lpPartyObj->MapNumber && dis[n] < 10)
 			{
@@ -9537,7 +9537,7 @@ void gObjExpParty(LPGameObject &lpObj, CGameObject* lpTargetObj, int AttackDamag
 	}
 }
 
-UINT64 gObjExpPartyRenewal(int nPartyNumber, int nLastAttackUserIndex, CGameObject* lpTargetObj, int AttackDamage, int nTotalDamage, int MSBFlag)
+UINT64 gObjExpPartyRenewal(int nPartyNumber, int nLastAttackUserIndex, LPGameObject lpTargetObj, int AttackDamage, int nTotalDamage, int MSBFlag)
 {
 	if (lpTargetObj == NULL)
 	{
@@ -9587,7 +9587,7 @@ UINT64 gObjExpPartyRenewal(int nPartyNumber, int nLastAttackUserIndex, CGameObje
 
 					if (dis[n] < 10)
 					{
-						CGameObject* lpPartyObj = &gGameObjects[nNumber];
+						LPGameObject lpPartyObj = &gGameObjects[nNumber];
 
 						nViewPlayer++;
 						bCheckSetParty[gGameObjects[nNumber].Class] = 1;
@@ -9687,7 +9687,7 @@ UINT64 gObjExpPartyRenewal(int nPartyNumber, int nLastAttackUserIndex, CGameObje
 		{
 			if (gGameObjects[nNumber].Connected == PLAYER_PLAYING)
 			{
-				CGameObject* lpPartyObj = &gGameObjects[nNumber];
+				LPGameObject lpPartyObj = &gGameObjects[nNumber];
 				int nMemberLevel = lpPartyObj->m_PlayerData->MasterLevel + lpPartyObj->Level;
 
 				if (lpTargetObj->MapNumber == lpPartyObj->MapNumber)
@@ -9803,7 +9803,7 @@ UINT64 gObjExpPartyRenewal(int nPartyNumber, int nLastAttackUserIndex, CGameObje
 	return nDropZen;
 }
 
-void gObjMonsterDieLifePlus(LPGameObject &lpObj, CGameObject* lpTartObj)
+void gObjMonsterDieLifePlus(LPGameObject &lpObj, LPGameObject lpTartObj)
 {
 	if (lpTartObj->Level < 0 || lpTartObj->Level > 255)
 	{
@@ -9880,7 +9880,7 @@ void gObjMonsterDieLifePlus(LPGameObject &lpObj, CGameObject* lpTartObj)
 	}
 }
 
-void gObjLifeCheck(LPGameObject &lpTargetObj, CGameObject* lpObj, int AttackDamage, int DamageSendType, int MSBFlag, int MSBDamage, WORD Skill, int iShieldDamage, int iElementalDamage)
+void gObjLifeCheck(LPGameObject &lpTargetObj, LPGameObject lpObj, int AttackDamage, int DamageSendType, int MSBFlag, int MSBDamage, WORD Skill, int iShieldDamage, int iElementalDamage)
 {
 	if (lpObj->Connected < PLAYER_PLAYING)
 	{
@@ -9897,7 +9897,7 @@ void gObjLifeCheck(LPGameObject &lpTargetObj, CGameObject* lpObj, int AttackDama
 		return;
 	}
 
-	CGameObject* lpCallObj = lpObj;
+	LPGameObject lpCallObj = lpObj;
 
 	if (lpObj->Type == OBJ_MONSTER && lpObj->m_RecallMon >= 0)
 	{
@@ -10119,7 +10119,7 @@ void gObjLifeCheck(LPGameObject &lpTargetObj, CGameObject* lpObj, int AttackDama
 			{
 				if (lpObj->m_Attribute == 100)
 				{
-					CGameObject* lpCallObj = &gGameObjects[lpObj->m_RecallMon];
+					LPGameObject lpCallObj = &gGameObjects[lpObj->m_RecallMon];
 
 					if (lpCallObj->Type != OBJ_USER)
 					{
@@ -11918,7 +11918,7 @@ BYTE gObjWerehouseRectCheck(LPGameObject &lpObj, int sx, int sy, int width, int 
 
 	int xx, yy;
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	for (y = 0; y < height; y++)
 	{
@@ -12130,7 +12130,7 @@ void gObjChaosItemSet(LPGameObject &lpObj, int itempos, BYTE set_byte)
 BYTE gObjChaosBoxInsertItemPos(LPGameObject &lpObj, CItem item, int pos, int source)
 {
 
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 	BYTE TempMap[CHAOS_BOX_MAP_SIZE];
 
 	int w, h, iwidth, iheight;
@@ -12201,7 +12201,7 @@ BYTE gObjChaosBoxInsertItemPos(LPGameObject &lpObj, CItem item, int pos, int sou
 
 BYTE gObjWarehouseInsertItemPos(LPGameObject &lpObj, CItem item, int pos, int source)
 {
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 	BYTE TempMap[WAREHOUSE_SIZE];
 
 	int w, h, iwidth, iheight;
@@ -12277,7 +12277,7 @@ BYTE gObjInventoryInsertItemPos(LPGameObject &lpObj, CItem item, int pos, BOOL R
 		return -1;
 	}
 
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 	BYTE TempInventoryMap[INVENTORY_MAP_SIZE];
 
 	int w, h, iwidth, iheight;
@@ -12477,7 +12477,7 @@ BOOL gObjWarehouseSearchSerialNumber(LPGameObject &lpObj, UINT64 sirial)
 
 BYTE gObjInventoryMoveItem(LPGameObject &lpObj, unsigned char source, unsigned char target, int& durSsend, int& durTsend, unsigned char sFlag, unsigned char tFlag, unsigned char* siteminfo)
 {
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 	BYTE TempInventoryMap[225];
 	int size = 225;
 	int w, h;
@@ -14780,7 +14780,7 @@ void gObjTradeCancel(LPGameObject &lpObj)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	gObjInventoryRollback(aIndex);
 	g_MixSystem.ChaosBoxInit(lpObj);
@@ -15327,7 +15327,7 @@ void gObjMakePreviewCharSet(LPGameObject &lpObj)
 
 	BYTE index;
 	int itemindex;
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 	memset(lpObj->CharSet, 0, sizeof(lpObj->CharSet));
 
 	lpObj->CharSet[CS_CLASS] = CS_SET_CLASS_SX(lpObj->Class);
@@ -16053,7 +16053,7 @@ void InitFrustrumEx() // 1.01.10B GS KOR, changed values
 
 void CreateFrustrum(int x, int y, int aIndex)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	for (int i = 0; i < MAX_ARRAY_FRUSTRUM; i++)
 	{
@@ -16069,7 +16069,7 @@ void CreateFrustrum(int x, int y, int aIndex)
 bool TestFrustrum2(int x, int y, int aIndex)
 {
 	int j = 3;
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	for (int i = 0; i < MAX_ARRAY_FRUSTRUM; j = i, i++)
 	{
@@ -16083,7 +16083,7 @@ bool TestFrustrum2(int x, int y, int aIndex)
 
 BOOL gObjCheckViewport(LPGameObject &lpObj, int x, int y)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (x < lpObj->X - 15 || x > lpObj->X + 15 || y < lpObj->Y - 15 || y > lpObj->Y + 15)
 	{
@@ -16191,7 +16191,7 @@ void gObjViewportClose(LPGameObject &lpObj)
 inline void gObjViewportListCreate(short aIndex)
 {
 	int result;
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 	int mapnum;
 
 	if (ObjectMaxRange(aIndex) == 0)
@@ -16241,7 +16241,7 @@ inline void gObjViewportListCreate(short aIndex)
 		gItemLoop = gItemLoop2;
 	}
 
-	CGameObject* lpTempObj;
+	LPGameObject lpTempObj;
 
 	if (lpObj->Type == OBJ_USER)
 	{
@@ -16303,8 +16303,8 @@ int  ViewportAdd(LPGameObject &lpObj, int aAddIndex, int aType)
 {
 	int blank = -1;
 	int count = 0;
-	CGameObject* lpObj = &gGameObjects[aIndex];
-	CGameObject* lpTargetObj = &gGameObjects[aAddIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
+	LPGameObject lpTargetObj = &gGameObjects[aAddIndex];
 
 	if (lpTargetObj->Class == 523 || lpTargetObj->Class == 603)
 	{
@@ -16369,7 +16369,7 @@ int  ViewportAdd2(LPGameObject &lpObj, int aAddIndex, int aType)
 {
 	int blank = -1;
 	int count = 0;
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 	int MVL = MAX_VIEWPORT;
 
 	if (lpObj->Type == OBJ_MONSTER)
@@ -16426,7 +16426,7 @@ void ViewportDel(short aIndex, int aDelIndex)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 	int MVL = MAX_VIEWPORT;
 
 	if (lpObj->Type == OBJ_MONSTER)
@@ -16463,7 +16463,7 @@ void Viewport2Del(short aIndex, int aDelIndex)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 	int MVL = MAX_VIEWPORT;
 
 	if (lpObj->Type == OBJ_MONSTER)
@@ -16495,7 +16495,7 @@ void gObjViewportAllDel(short aIndex)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 	int MVL = MAX_VIEWPORT;
 
 	if (lpObj->Type == OBJ_MONSTER)
@@ -16524,7 +16524,7 @@ void gObjViewportListDestroy(short aIndex)
 {
 	short tObjNum;
 	int n;
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 	int MVL;
 
 	if (ObjectMaxRange(aIndex) == 0)
@@ -16671,7 +16671,7 @@ void gObjViewportListDestroy(short aIndex)
 
 void gObjStateSetCreate(LPGameObject &lpObj)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Connected < PLAYER_PLAYING)
 	{
@@ -16874,7 +16874,7 @@ struct PMSG_CHARREGEN
 void gObjSetState()
 {
 	int n;
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 
 	for (int n = 0; n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
@@ -17846,7 +17846,7 @@ void gObjSecondProc()
 	if (gDisconnect == 1)
 		return;
 
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 
 	for (int n = 0; n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
@@ -19240,7 +19240,7 @@ void gObjViewportListProtocol(short aIndex)
 
 	PBMSG_COUNT pCount;
 	PBMSG_COUNT2 pCount2;
-	CGameObject* lpTargetObj, lpObj = &gGameObjects[aIndex];
+	LPGameObject lpTargetObj, lpObj = &gGameObjects[aIndex];
 	int lOfs_Item, count_Item, ItemStructSize = sizeof(PMSG_ITEMVIEWPORTCREATE), lOfs, MonlOfs, callMonlOfs;
 	int pMsgSize;
 	short tObjNum;
@@ -20003,7 +20003,7 @@ void gObjViewportListProtocol(short aIndex)
 void gObjTeleportMagicUse(LPGameObject &lpObj, BYTE x, BYTE y)	// Check if x and y are BYTE
 {
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (MAX_MAP_RANGE(lpObj->MapNumber) == FALSE)
 	{
@@ -20042,7 +20042,7 @@ BOOL gObjMoveGate(LPGameObject &lpObj, int gt)
 	if (!ObjectMaxRange(aIndex))
 		return FALSE;
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 	int result;
 	short x, y;
 	BYTE mapNumber = 0, dir;
@@ -21157,7 +21157,7 @@ void gObjTeleport(LPGameObject &lpObj, int map, int x, int y)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (MapNumberCheck(map) == 0)
 	{
@@ -22040,7 +22040,7 @@ void gObjAbilityReSet(LPGameObject &lpObj)
 
 
 
-BOOL gObjTargetGuildWarCheck(LPGameObject &lpObj, CGameObject* lpTargetObj)
+BOOL gObjTargetGuildWarCheck(LPGameObject &lpObj, LPGameObject lpTargetObj)
 {
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -22278,7 +22278,7 @@ BOOL gObjGuildWarProc(GUILD_INFO_STRUCT * lpGuild1, GUILD_INFO_STRUCT * lpGuild2
 
 
 
-BOOL gObjGuildWarCheck(LPGameObject &lpObj, CGameObject* lpTargetObj)
+BOOL gObjGuildWarCheck(LPGameObject &lpObj, LPGameObject lpTargetObj)
 {
 	int score = 1;
 
@@ -22409,7 +22409,7 @@ int gObjGuildWarItemGive(GUILD_INFO_STRUCT * lpWinGuild, GUILD_INFO_STRUCT * lpL
 		return false;
 	}
 
-	CGameObject* lpObj = &gGameObjects[lose_user];
+	LPGameObject lpObj = &gGameObjects[lose_user];
 
 	int count = 24;
 
@@ -22630,7 +22630,7 @@ bool gObjCheckMoveArea(LPGameObject &lpObj, int X, int Y)
 	if (!ObjectMaxRange(aIndex))
 		return false;
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	int iXDiff = abs(lpObj->X - X);
 	int iYDiff = abs(lpObj->Y - Y);
@@ -22673,8 +22673,8 @@ BOOL gObjCheckAttackAreaUsedPath(LPGameObject &lpObj, int TarObjIndex)
 
 BOOL gObjCheckattackAreaUsedViewPort(LPGameObject &lpObj, int TarObjIndex)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
-	CGameObject* lpTargetObj = &gGameObjects[TarObjIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
+	LPGameObject lpTargetObj = &gGameObjects[TarObjIndex];
 
 	if (lpTargetObj->m_Index == lpObj->m_Index)
 	{
@@ -22772,7 +22772,7 @@ int  gObjCheckAttackArea(LPGameObject &lpObj, int TarObjIndex)
 
 BOOL gUserFindDevilSquareInvitation(LPGameObject &lpObj)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	for (int n = 0; n < MAIN_INVENTORY_SIZE; n++)
 	{
@@ -22797,7 +22797,7 @@ BOOL gUserFindDevilSquareInvitation(LPGameObject &lpObj)
 
 BOOL gUserFindDevilSquareKeyEyes(LPGameObject &lpObj)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 	int bFindKey = 0;
 	int bFindEyes = 0;
 
@@ -22840,7 +22840,7 @@ void gObjSendUserStatistic(LPGameObject &lpObj, int startLevel, int endLevel)
 	}
 
 	int n;
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 	int sClassCount[8];
 
 	sClassCount[CLASS_WIZARD] = 0;
@@ -22881,7 +22881,7 @@ void gObjSendUserStatistic(LPGameObject &lpObj, int startLevel, int endLevel)
 
 
 
-CGameObject* gObjFind(char * targetcharname)
+LPGameObject gObjFind(char * targetcharname)
 {
 	if (gDisconnect == TRUE)
 	{
@@ -22889,7 +22889,7 @@ CGameObject* gObjFind(char * targetcharname)
 	}
 
 	int n;
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 
 	for (n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
@@ -22916,7 +22916,7 @@ CGameObject* gObjFind(char * targetcharname)
 
 BOOL gObjFind10EventChip(LPGameObject &lpObj)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 	int count = 0;
 
 	for (int n = 0; n < MAIN_INVENTORY_SIZE; n++)
@@ -22942,7 +22942,7 @@ BOOL gObjFind10EventChip(LPGameObject &lpObj)
 
 BOOL gObjDelete10EventChip(LPGameObject &lpObj)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 	int count = 0;
 
 	for (int n = 0; n < MAIN_INVENTORY_SIZE; n++)
@@ -22971,7 +22971,7 @@ void gObjSetPosition(LPGameObject &lpObj, int x, int y)
 	if (MAX_MAP_RANGE(lpObj->MapNumber) == FALSE)
 		return;
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 	PMSG_POSISTION_SET pMove;
 
 	pMove.h.c = 0xC1;
@@ -22997,7 +22997,7 @@ void gObjSetPosition(LPGameObject &lpObj, int x, int y)
 
 int  gObjGetItemCountInEquipment(LPGameObject &lpObj, int itemtype, int itemindex, int itemlevel)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 	int count = 0;
 
 	for (int n = 0; n < MAX_PLAYER_EQUIPMENT; n++)
@@ -23028,7 +23028,7 @@ int  gObjGetItemCountInEquipment(LPGameObject &lpObj, int itemtype, int iteminde
 
 int  gObjGetItemCountInIventory(LPGameObject &lpObj, int itemtype, int itemindex, int itemlevel)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 	int count = 0;
 
 	for (int n = 0; n < MAIN_INVENTORY_SIZE; n++)
@@ -23058,7 +23058,7 @@ int  gObjGetItemCountInIventory(LPGameObject &lpObj, int itemtype, int itemindex
 
 int gObjGetItemCountInIventory(LPGameObject &lpObj, int itemnum)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 	int count = 0;
 
 	for (int n = 0; n < MAIN_INVENTORY_SIZE; n++)
@@ -23081,7 +23081,7 @@ int gObjGetItemCountInIventory(LPGameObject &lpObj, int itemnum)
 
 int  gObjGetManaItemPos(LPGameObject &lpObj)	// [Failure : -1]
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 	int count = 0;
 
 	for (int n = 0; n < MAIN_INVENTORY_SIZE; n++)
@@ -23103,7 +23103,7 @@ int  gObjGetManaItemPos(LPGameObject &lpObj)	// [Failure : -1]
 
 void gObjDelteItemCountInInventory(LPGameObject &lpObj, int itemtype, int itemindex, int count)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 	int delcount = 0;
 
 	for (int n = 0; n < MAIN_INVENTORY_SIZE; n++)
@@ -23142,7 +23142,7 @@ void gObjGetStatPointState(LPGameObject &lpObj, short& AddPoint, short& MaxAddPo
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	int total_point = lpObj->m_PlayerData->Strength + lpObj->m_PlayerData->Dexterity + lpObj->m_PlayerData->Vitality + lpObj->m_PlayerData->Energy + lpObj->Leadership + lpObj->m_PlayerData->LevelUpPoint;
 	int ori_point;
@@ -23202,7 +23202,7 @@ void gObjGetStatPointState(LPGameObject &lpObj, short& AddPoint, short& MaxAddPo
 
 BOOL gObjCheckStatPointUp(LPGameObject &lpObj)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -23266,7 +23266,7 @@ BOOL gObjCheckStatPointUp(LPGameObject &lpObj)
 
 BOOL gObjCheckStatPointDown(LPGameObject &lpObj)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -24065,7 +24065,7 @@ void CashShopExMinusStatFruit(LPGameObject &lpObj, int pos) //GS-CS Need Decompi
 
 void gObjCalcMaxLifePower(LPGameObject &lpObj)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	switch (lpObj->Class)
 	{
@@ -24104,7 +24104,7 @@ void gObjCalcMaxLifePower(LPGameObject &lpObj)
 
 void gObjDelayLifeCheck(LPGameObject &lpObj)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->m_CheckLifeTime > 0)
 	{
@@ -24141,7 +24141,7 @@ BOOL gObjDuelCheck(LPGameObject &lpObj)
 	return bRetVal;
 }
 
-BOOL gObjDuelCheck(LPGameObject &lpObj, CGameObject* lpTargetObj)
+BOOL gObjDuelCheck(LPGameObject &lpObj, LPGameObject lpTargetObj)
 {
 	BOOL bRetVal = FALSE;
 	if (lpObj->Type == OBJ_USER && lpTargetObj->Type == OBJ_USER)
@@ -24182,7 +24182,7 @@ void gObjResetDuel(LPGameObject &lpObj)
 
 void SkillFrustrum(BYTE bangle, int aIndex)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	vec3_t p[4];
 	Vector(-6, 6, 0, p[0]);
@@ -24214,7 +24214,7 @@ void SkillFrustrum(BYTE bangle, int aIndex)
 
 BOOL SkillTestFrustrum(int x, int y, int aIndex)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	int j = 3;
 
@@ -24238,7 +24238,7 @@ BOOL gObjCheckMaxZen(LPGameObject &lpObj, int nAddZen)
 	if (!ObjectMaxRange(aIndex))
 		return FALSE;
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	__int64 _Money = 0;
 	_Money = (__int64)lpObj->m_PlayerData->Money + (__int64)nAddZen;
@@ -24572,7 +24572,7 @@ void gObjRecall(LPGameObject &lpObj, int mapnumber, int x, int y)
 
 void gObjSetExpPetItem(LPGameObject &lpObj, UINT64 exp)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Class != 4)
 	{
@@ -24795,7 +24795,7 @@ void gObjGetGuildUnionName(LPGameObject &lpObj, char* szUnionName, int iUnionNam
 
 
 
-BOOL gObjCheckRival(LPGameObject &lpObj, CGameObject* lpTargetObj)
+BOOL gObjCheckRival(LPGameObject &lpObj, LPGameObject lpTargetObj)
 {
 	if (lpTargetObj->Type != OBJ_USER)
 	{
@@ -24829,7 +24829,7 @@ BOOL gObjCheckRival(LPGameObject &lpObj, CGameObject* lpTargetObj)
 
 
 
-int gObjGetRelationShip(LPGameObject &lpObj, CGameObject* lpTargetObj)
+int gObjGetRelationShip(LPGameObject &lpObj, LPGameObject lpTargetObj)
 {
 	if (lpObj == NULL || lpTargetObj == NULL)
 	{
@@ -24913,7 +24913,7 @@ void gObjNotifyUpdateUnionV1(LPGameObject &lpObj)
 
 		if (lpObj->VpPlayer[n].state == 2 && lpObj->VpPlayer[n].type == OBJ_USER)
 		{
-			CGameObject* lpTargetObj = &gGameObjects[lpObj->VpPlayer[n].number];
+			LPGameObject lpTargetObj = &gGameObjects[lpObj->VpPlayer[n].number];
 
 			if (lpTargetObj == 0)
 			{
@@ -24994,7 +24994,7 @@ void gObjNotifyUpdateUnionV2(LPGameObject &lpObj)
 	{
 		if (lpObj->VpPlayer2[n].type == OBJ_USER && lpObj->VpPlayer2[n].state != 0)
 		{
-			CGameObject* lpTargetObj = &gGameObjects[lpObj->VpPlayer2[n].number];
+			LPGameObject lpTargetObj = &gGameObjects[lpObj->VpPlayer2[n].number];
 
 			if (lpTargetObj->m_PlayerData->lpGuild != 0)
 			{
@@ -25021,7 +25021,7 @@ void gObjUnionUpdateProc(int iIndex)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -25065,7 +25065,7 @@ void gObjSetKillCount(LPGameObject &lpObj, int iOption)	// Option : [0 : SetToZe
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (iOption == 1)
 	{
@@ -25130,7 +25130,7 @@ struct PMSG_WEAPON_OWNER_VIEWPORT_NOTIFY
 	BYTE btViewSkillState[32];
 };
 
-void gObjNotifyUseWeaponV1(LPGameObject &lpOwnerObj, CGameObject* lpWeaponObj, int iTargetX, int iTargetY)
+void gObjNotifyUseWeaponV1(LPGameObject &lpOwnerObj, LPGameObject lpWeaponObj, int iTargetX, int iTargetY)
 {
 	if (lpOwnerObj == 0)
 	{
@@ -25174,7 +25174,7 @@ void gObjNotifyUseWeaponV1(LPGameObject &lpOwnerObj, CGameObject* lpWeaponObj, i
 
 	for (int n = 0; n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		CGameObject* lpTargetObj = &gGameObjects[n];
+		LPGameObject lpTargetObj = &gGameObjects[n];
 
 		if (gObjIsConnected(n) == 0)
 		{
@@ -25263,7 +25263,7 @@ void gObjNotifyUseWeaponDamage(LPGameObject &lpWeaponObj, int iTargetX, int iTar
 	{
 		for (int i = 0; i < g_ConfigRead.server.GetObjectMax(); i++)
 		{
-			CGameObject* lpObj = &gGameObjects[i];
+			LPGameObject lpObj = &gGameObjects[i];
 
 			if (lpWeaponObj->MapNumber != lpObj->MapNumber)
 			{
@@ -25292,7 +25292,7 @@ void gObjNotifyUseWeaponDamage(LPGameObject &lpWeaponObj, int iTargetX, int iTar
 
 void gObjUseBlessAndSoulPotion(LPGameObject &lpObj, int iItemLevel)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (iItemLevel == 0)	// Bless Potion
 	{
@@ -25309,7 +25309,7 @@ void gObjUseBlessAndSoulPotion(LPGameObject &lpObj, int iItemLevel)
 
 
 
-void gObjWeaponDurDownInCastle(LPGameObject &lpObj, CGameObject* lpTargetObj, int iDecValue)
+void gObjWeaponDurDownInCastle(LPGameObject &lpObj, LPGameObject lpTargetObj, int iDecValue)
 {
 	if (lpObj->Type == OBJ_MONSTER || lpObj->Type == OBJ_NPC)
 	{
@@ -25826,8 +25826,8 @@ BOOL gCheckSkillDistance(LPGameObject &lpObj, int aTargetIndex, int iSkillNum)
 		return FALSE;
 
 	iSkillDistance += g_ConfigRead.SkillDistanceTolerance;
-	CGameObject* lpObj = &gGameObjects[aIndex];
-	CGameObject* lpTargetObj = &gGameObjects[aTargetIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
+	LPGameObject lpTargetObj = &gGameObjects[aTargetIndex];
 
 	if (abs(lpObj->X - lpTargetObj->X) > iSkillDistance ||
 		abs(lpObj->Y - lpTargetObj->Y) > iSkillDistance)
@@ -25915,7 +25915,7 @@ int gObjCalcHPPercent(double Life, double MaxLife)
 	return (int)Life * 100 / (int)MaxLife;
 }
 
-bool CheckAuthorityCondition(int AuthorityCode, CGameObject* lpObj) //0043F3E0 identical season4.5 add-on
+bool CheckAuthorityCondition(int AuthorityCode, LPGameObject lpObj) //0043F3E0 identical season4.5 add-on
 {
 	return ((lpObj->Authority&AuthorityCode) == lpObj->Authority) ? true : false;
 }
@@ -25972,7 +25972,7 @@ int gGetPartyMaxLevel(int nPartyNumber)
 
 int gGetLowHPMonster(int nZoneIndex, int nIndex, int nDistance)
 {
-	CGameObject* lpObj = &gGameObjects[nIndex];
+	LPGameObject lpObj = &gGameObjects[nIndex];
 	int nTargetIndex = -1;
 	int nTempTargetLife = 0;
 	int nTargetLife = 0;
@@ -26082,7 +26082,7 @@ void gObjPentagramMixItemSet(LPGameObject &lpObj, int itempos, BYTE set_byte)
 
 BYTE gObjPentagramMixBoxInsertItemPos(LPGameObject &lpObj, CItem item, int pos, int source)
 {
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 	BYTE TempMap[CHAOS_BOX_MAP_SIZE];
 
 	int w, h, iwidth, iheight;
@@ -26280,8 +26280,8 @@ BOOL gTransPentagramJewelInfoTest(LPGameObject &lpObj, int targetIndex, CItem so
 
 int gTransPentagramJewelInfo(LPGameObject &lpObj, BYTE madeItemPos, int targetIndex, CItem sourceItem, int *nJewelCount)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
-	CGameObject* lpTargetObj = &gGameObjects[targetIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
+	LPGameObject lpTargetObj = &gGameObjects[targetIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -26542,7 +26542,7 @@ void GetBundleCount(int count, int div, int& itemcount, int& left)
 }
 int gObjGetJewelCountInInventory(LPGameObject &lpObj, BYTE type)
 {
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 	int returnCount = 0;
 	switch (type)
 	{
@@ -26630,7 +26630,7 @@ int gObjGetJewelCountInInventory(LPGameObject &lpObj, BYTE type)
 	}
 }
 
-void gObjAutoPartySet(LPGameObject &lpObj /* master */, CGameObject* lpTargetObj /*requestor*/)
+void gObjAutoPartySet(LPGameObject &lpObj /* master */, LPGameObject lpTargetObj /*requestor*/)
 {
 	if (lpObj->Type != OBJ_USER || lpTargetObj->Type != OBJ_USER)
 	{
@@ -26765,7 +26765,7 @@ BYTE gObjMuunInventoryInsertItemPos(LPGameObject &lpObj, CItem item, int pos)
 		return -1;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->pMuunInventory[pos].IsItem() == TRUE)
 	{
@@ -27304,7 +27304,7 @@ BOOL gCountBlessSoulChaosJewel(LPGameObject &lpObj, short & sBlessJewelCount, sh
 		return FALSE;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	for (int n = 0; n < MAIN_INVENTORY_SIZE; n++)
 	{
@@ -27393,8 +27393,8 @@ BOOL gJewelBuyItemValueTest(int aBuyerIndex, int aSellerIndex, short sBlessJewel
 		return FALSE;
 	}
 
-	CGameObject* lpBuyerObj = &gGameObjects[aBuyerIndex];
-	CGameObject* lpSellerObj = &gGameObjects[aSellerIndex];
+	LPGameObject lpBuyerObj = &gGameObjects[aBuyerIndex];
+	LPGameObject lpSellerObj = &gGameObjects[aSellerIndex];
 
 	short sBPrice = sBlessJewelPrice;
 	short sSPrice = sSoulJewelPrice;
@@ -27566,8 +27566,8 @@ BOOL gJewelInventoryPutTest(int aBuyerIndex, int aSellerIndex, short sBlessJewel
 		return FALSE;
 	}
 
-	CGameObject* lpBuyerObj = &gGameObjects[aBuyerIndex];
-	CGameObject* lpSellerObj = &gGameObjects[aSellerIndex];
+	LPGameObject lpBuyerObj = &gGameObjects[aBuyerIndex];
+	LPGameObject lpSellerObj = &gGameObjects[aSellerIndex];
 
 	int iBJCommisionCount = round(sBlessJewelPrice * 0.03);
 	int iSJCommisionCount = round(sSoulJewelPrice * 0.03);
@@ -27627,8 +27627,8 @@ BOOL gJewelInventoryPut(int aBuyerIndex, int aSellerIndex, short sBlessJewelPric
 		return FALSE;
 	}
 
-	CGameObject* lpBuyerObj = &gGameObjects[aBuyerIndex];
-	CGameObject* lpSellerObj = &gGameObjects[aSellerIndex];
+	LPGameObject lpBuyerObj = &gGameObjects[aBuyerIndex];
+	LPGameObject lpSellerObj = &gGameObjects[aSellerIndex];
 
 	short sBJNeedCount = sBlessJewelNeedCount;
 	short s10BJNeedCount = s10BlessJewelNeedCount;
@@ -29017,7 +29017,7 @@ BOOL IsInvenItem(WORD sIndex)
 	}
 }
 
-int gObjCalDistanceTX(LPGameObject &lpObj1, CGameObject* lpObj2)
+int gObjCalDistanceTX(LPGameObject &lpObj1, LPGameObject lpObj2)
 {
 	if (lpObj1 == NULL || lpObj2 == NULL)
 	{
@@ -29042,7 +29042,7 @@ void Check_SameSerialItem(LPGameObject &lpObj, BYTE bCase, bool & bCheckFail)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{

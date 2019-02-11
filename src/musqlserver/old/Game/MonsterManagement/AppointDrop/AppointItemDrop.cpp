@@ -105,7 +105,7 @@ void CAppointItemDrop::LoadAppointItemDropScript()
 	this->m_bIsSuccessReadScript = true;
 }
 
-BOOL CAppointItemDrop::AppointItemDrop(LPGameObject lpObj, OBJECTSTRUCT *lpMonsterObj)
+BOOL CAppointItemDrop::AppointItemDrop(LPGameObject lpObj, LPGameObject lpMonsterObj)
 {
 	if (this->m_bIsSuccessReadScript == false)
 	{

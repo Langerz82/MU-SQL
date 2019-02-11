@@ -154,7 +154,7 @@ void CCrywolfUtil::SendCrywolfChattingMsg(int iObjIndex, LPSTR lpszMsg, ...)
 {
 	return;
 
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 	char szBuffer[512];
 	va_list pArguments;
 	char szChat[60];

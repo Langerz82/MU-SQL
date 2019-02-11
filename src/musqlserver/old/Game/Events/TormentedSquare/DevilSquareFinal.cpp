@@ -1483,7 +1483,7 @@ BOOL CDevilSquareFinal::Enter_DSF(LPGameObject &lpObj, BYTE btSlotNum)
 		return FALSE;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	if (!lpObj)
 	{
@@ -2930,7 +2930,7 @@ void CDevilSquareFinal::SetUBFGetReward(int iUserIndex, WORD wItemCode, UINT64 I
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iUserIndex];
+	LPGameObject lpObj = &gGameObjects[iUserIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -2955,7 +2955,7 @@ void CDevilSquareFinal::GDReqSetDSFReward_UBF(int iUserIndex, BYTE btDSFType, BY
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iUserIndex];
+	LPGameObject lpObj = &gGameObjects[iUserIndex];
 
 	if (lpObj->Type != OBJ_USER)
 	{

@@ -1,4 +1,5 @@
 #include "GOEventFunctions.h"
+#include "GOFunctions.h"
 
 void gObjEventInventoryItemSet(LPGameObject &lpObj, int itempos, BYTE set_byte)
 {
@@ -8,13 +9,13 @@ void gObjEventInventoryItemSet(LPGameObject &lpObj, int itempos, BYTE set_byte)
 	{
 		return;
 	}
-	if ((**lpObj)->pEventInventory[itempos].GetSize(width, height) == 0)
+	if (lpObj->pEventInventory[itempos].GetSize(width, height) == 0)
 	{
 		sLog->outBasic("error %s %d", __FILE__, __LINE__);
 		return;
 	}
 
-	gObjEventInventoryItemBoxSet(lpObj->getNumber(), itempos, width, height, set_byte);
+	gObjEventInventoryItemBoxSet(lpObj, itempos, width, height, set_byte);
 }
 
 void gObjEventInventoryItemBoxSet(LPGameObject &lpObj, int itempos, int xl, int yl, BYTE set_byte)
@@ -744,7 +745,7 @@ BYTE gObjEventInventoryInsertItemPos(LPGameObject &lpObj, CItem item, int pos, B
 		return -1;
 	}
 
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 	BYTE TempInventoryMap[EVENT_INVENTORY_MAP_SIZE];
 
 	int w, h, iwidth, iheight;

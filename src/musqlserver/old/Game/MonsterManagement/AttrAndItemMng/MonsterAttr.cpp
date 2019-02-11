@@ -41,7 +41,7 @@ void CMonsterAttr::LoadAttr(char* filename)
 		return;
 	}
 
-	pugi::xml_node main_section = file.child("MonsterList");
+	pugi::xml_node mainXML_section = file.child("MonsterList");
 	int nCount = 0;
 
 	for (pugi::xml_node monster = main_section.child("Monster"); monster; monster = monster.next_sibling())

@@ -35,7 +35,7 @@ void CMineSystem::LoadMineingDropScript()
 	this->m_vecRepairValue.clear();
 	this->m_mapTwinkleSpawn.clear();
 
-	pugi::xml_node main_section = file.child("MiningSystem");
+	pugi::xml_node mainXML_section = file.child("MiningSystem");
 	pugi::xml_node successinfo = main_section.child("SuccessInfo");
 	pugi::xml_node rewardinfo = main_section.child("RewardInfo");
 	pugi::xml_node pandorainfo = main_section.child("PandoraSuccessInfo");

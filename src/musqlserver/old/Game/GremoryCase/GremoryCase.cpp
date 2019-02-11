@@ -85,7 +85,7 @@ void CGremoryCase::DGAnsStorageItemList(LPBYTE lpRecv)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if ( lpObj->Type != OBJ_USER )
 	{
@@ -245,7 +245,7 @@ void CGremoryCase::DGAnsStorageItemList(LPBYTE lpRecv)
 
 void CGremoryCase::GDReqAddItemToGremoryCase(int iIndex, _stGremoryCaseItem stItem, int iDaysToExpire)
 {
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if ( lpObj->Type != OBJ_USER ) 
 	{
@@ -300,7 +300,7 @@ void CGremoryCase::DGAnsAddItemToGremoryCase(_stAnsAddItemToGremoryCase * lpMsg)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if ( lpObj->Type != OBJ_USER )
 	{
@@ -472,7 +472,7 @@ void CGremoryCase::DGAnsCheckItemUseGremoryCase(_stAnsCheckUseItemGremoryCase * 
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if ( lpObj->Type != OBJ_USER )
 	{
@@ -620,7 +620,7 @@ void CGremoryCase::GDReqDeleteItemFromGremoryCase(int iIndex, WORD wItemID, DWOR
 
 void CGremoryCase::GCSendStorageItemList(int iIndex)
 {
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if ( lpObj->Type != OBJ_USER ) 
 	{
@@ -676,7 +676,7 @@ void CGremoryCase::GCSendAddItemToGremoryCase(int iIndex, BYTE btStorageType, BY
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if ( lpObj->Type != OBJ_USER ) 
 	{
@@ -710,7 +710,7 @@ void CGremoryCase::CGReqGetItemFromGremoryCase(PMSG_ADD_GREMORYCASE_ITEM_TO_INVE
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if ( lpObj->Type != OBJ_USER ) 
 	{
@@ -745,7 +745,7 @@ void CGremoryCase::CGReqOpenGremoryCase(int iIndex)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if ( lpObj->Type != OBJ_USER ) 
 	{
@@ -773,7 +773,7 @@ void CGremoryCase::CGReqOpenGremoryCase(int iIndex)
 
 void CGremoryCase::CheckIsInStorageItemAboutToExpire(int iIndex)
 {
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if ( lpObj->Type != OBJ_USER ) 
 	{
@@ -818,7 +818,7 @@ void CGremoryCase::CheckIsInStorageItemAboutToExpire(int iIndex)
 
 void CGremoryCase::CheckIsStorageFull(int iIndex)
 {
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if ( lpObj->Type != OBJ_USER ) 
 	{

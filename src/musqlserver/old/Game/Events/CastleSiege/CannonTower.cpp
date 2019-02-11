@@ -30,7 +30,7 @@ void CCannonTower::CannonTowerAct(int iIndex) // 0x00560940  1.00.19
 	{
 		return;
 	}
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 	int count = 0;
 	int ASBOfs = 0;
 	PMSG_BEATTACK_COUNT pCount;

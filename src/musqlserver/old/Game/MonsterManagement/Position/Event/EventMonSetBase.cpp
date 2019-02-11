@@ -187,7 +187,7 @@ void CEventMonSetBase::RegenMonster(int iIndex)
 	}
 
 	std::map<int, boost::shared_ptr<EVENT_MONSTER_DATA>>::iterator Iter = this->m_mapMonsterData.find(iIndex);
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if (Iter->second->lpSpotData->m_DoSpawn == FALSE)
 	{
@@ -241,7 +241,7 @@ int CEventMonSetBase::SetPosMonster(LPGameObject &lpObj, int nMapNumber, int nBe
 		return false;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	lpObj->m_PosNum = -1;
 	lpObj->MapNumber = nMapNumber;

@@ -97,7 +97,7 @@ void ChristmasFireCrackDrop(LPGameObject &lpObj) //season 4.5 add-on
 #pragma warning ( disable : 4101 )
 void EGRecvEventChipInfo(PMSG_ANS_VIEW_EC_MN * aRecv)
 {
-	CGameObject* lpObj = &gGameObjects[aRecv->iINDEX];
+	LPGameObject lpObj = &gGameObjects[aRecv->iINDEX];
 
 	PMSG_EVENTCHIPINFO eventchipeventinfo;
 	char msg[255];
@@ -118,7 +118,7 @@ void EGRecvEventChipInfo(PMSG_ANS_VIEW_EC_MN * aRecv)
 void EGResultRegEventChip(PMSG_ANS_REGISTER_EVENTCHIP * aRecv)
 {
 	PMSG_REGEVENTCHIP_RESULT Result;
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 	int aIndex;
 
 	PHeadSetB((LPBYTE)&Result, 0x95, sizeof(Result));
@@ -153,7 +153,7 @@ void EGResultRegEventChip(PMSG_ANS_REGISTER_EVENTCHIP * aRecv)
 
 void EGRecvRegMutoNum( PMSG_ANS_REGISTER_MUTONUM* aRecv)
 {
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 	int aIndex;
 	
 
@@ -195,7 +195,7 @@ void EGRecvRegMutoNum( PMSG_ANS_REGISTER_MUTONUM* aRecv)
 void EGRecvChangeRena( PMSG_ANS_RESET_EVENTCHIP* aRecv)
 {
 	PMSG_REGEVENTCHIP_RESULT Result;
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 	int aIndex;
 
 	PHeadSetB((LPBYTE)&Result, 0x95, sizeof(Result));
@@ -225,11 +225,11 @@ void EGRecvChangeRena( PMSG_ANS_RESET_EVENTCHIP* aRecv)
 }
 
 
-CGameObject* pEventObj;
+LPGameObject pEventObj;
 
 void EGRecvStoneInfo( PMSG_ANS_VIEW_STONES* aRecv)
 {
-	CGameObject* lpObj = &gGameObjects[aRecv->iINDEX];
+	LPGameObject lpObj = &gGameObjects[aRecv->iINDEX];
 
 	PMSG_EVENTCHIPINFO Result;
 	
@@ -255,7 +255,7 @@ void EGRecvStoneInfo( PMSG_ANS_VIEW_STONES* aRecv)
 void EGRecvRegStone( PMSG_ANS_REGISTER_STONES* aRecv)
 {
 	PMSG_REGEVENTCHIP_RESULT Result;
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 	int aIndex;
 	
 
@@ -295,7 +295,7 @@ void EGRecvDeleteStone( PMSG_ANS_DELETE_STONES* aRecv)
 void EGRecvChangeStones( PMSG_ANS_RESET_EVENTCHIP* aRecv)
 {
 	PMSG_REGEVENTCHIP_RESULT Result;
-	CGameObject* lpObj;
+	LPGameObject lpObj;
 	int aIndex;
 	
 
@@ -1213,7 +1213,7 @@ void EGAnsRegHTOfflineGift( PMSG_ANS_REG_HT_OFFLINE_GIFT* lpMsg)
 	{
 		if ( gObjIsConnected(lpMsg->iINDEX))
 		{
-			CGameObject* lpObj = &gGameObjects[lpMsg->iINDEX];
+			LPGameObject lpObj = &gGameObjects[lpMsg->iINDEX];
 
 			MapC[lpObj->MapNumber].MoneyItemDrop(1000000, lpObj->X, lpObj->Y);
 		}
@@ -1249,7 +1249,7 @@ void EGAnsRegLuckyCoin(PMSG_ANS_REG_LUCKYCOIN * lpMsg)
 	PMSG_ANS_LUCKYCOIN_REGISTER pMsg = {0};
 	PHeadSubSetB((LPBYTE)&pMsg, 0xBF, 0x0C, sizeof(pMsg));
 
-	CGameObject* lpObj = &gGameObjects[lpMsg->iIndex];
+	LPGameObject lpObj = &gGameObjects[lpMsg->iIndex];
 
 	pMsg.btResult = lpMsg->Result;
 	
@@ -1287,7 +1287,7 @@ void EGAnsLuckyCoinInfo(PMSG_ANS_LUCKYCOIN *lpMsg)
 
 	PMSG_ANS_LUCKYCOININFO pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xBF, 0x0B, sizeof(pMsg));
-	CGameObject* lpObj = &gGameObjects[lpMsg->iIndex];
+	LPGameObject lpObj = &gGameObjects[lpMsg->iIndex];
 
 	pMsg.iLuckyCoin = lpMsg->LuckyCoins;
 	lpObj->LuckyCoinCount = lpMsg->LuckyCoins;
@@ -1301,7 +1301,7 @@ void EGAnsSantaCheck(PMSG_ANS_SANTACHECK *lpMsg)
 	if(!lpMsg)
 		return;
 
-	CGameObject* lpObj = &gGameObjects[lpMsg->aIndex];
+	LPGameObject lpObj = &gGameObjects[lpMsg->aIndex];
 
 	switch ( lpMsg->Result )
 	{
@@ -1342,7 +1342,7 @@ void EGAnsSantaGift(PMSG_ANS_SANTAGIFT *lpMsg)
 	if(!lpMsg)
 		return;
 
-	CGameObject* lpObj = &gGameObjects[lpMsg->aIndex];
+	LPGameObject lpObj = &gGameObjects[lpMsg->aIndex];
 
 	switch ( lpMsg->Result )
 	{

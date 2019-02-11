@@ -3473,7 +3473,7 @@ void CCastleSiege::SendCsGateStateViewPort(int iGateIndex, BYTE btOperate)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iGateIndex];
+	LPGameObject lpObj = &gGameObjects[iGateIndex];
 
 	if( lpObj->VPCount2 < 1 )
 	{
@@ -4309,7 +4309,7 @@ void CCastleSiege::NotifySelfCsJoinSide(int iIndex)
 		btCsJoinSide = 0;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	switch(btCsJoinSide) //season3 all changed
 	{
@@ -5583,7 +5583,7 @@ void CCastleSiege::NotifyCrownState(BYTE btState)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[m_iCrownIndex];
+	LPGameObject lpObj = &gGameObjects[m_iCrownIndex];
 
 	if(btState == 0)//Season 4.5 addon
 	{
@@ -5636,7 +5636,7 @@ void CCastleSiege::NotifyCrownSwitchInfo(int iCrownSwitchIndex)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iCrownSwitchIndex];
+	LPGameObject lpObj = &gGameObjects[iCrownSwitchIndex];
 
 	if( lpObj->VPCount2 < 1 )
 	{
@@ -5659,7 +5659,7 @@ void CCastleSiege::NotifyCrownSwitchInfo(int iCrownSwitchIndex)
 
 	if( gObjIsConnected(iCrownSwitchUserIndex) )
 	{
-		CGameObject* lpSwitchObj = &gGameObjects[iCrownSwitchUserIndex];
+		LPGameObject lpSwitchObj = &gGameObjects[iCrownSwitchUserIndex];
 		char szMasterGuildName[MAX_GUILD_LEN];
 
 		pMsg.btSwitchState = TRUE;

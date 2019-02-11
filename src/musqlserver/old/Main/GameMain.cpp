@@ -1650,7 +1650,7 @@ void LoadMapFile()
 		return;
 	}
 
-	pugi::xml_node main_section = file.child("MapList");
+	pugi::xml_node mainXML_section = file.child("MapList");
 	pugi::xml_node map_default = main_section.child("DefaultMaps");
 	pugi::xml_node cw_maps = main_section.child("CrywolfEventAttr");
 	pugi::xml_node kt_maps = main_section.child("KanturuEventAttr");

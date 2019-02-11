@@ -33,7 +33,7 @@ void CGuardian::GuardianAct(int iIndex)
 		if (!gObjIsConnected(iIndex))
 			return;
 
-		CGameObject* lpObj = &gGameObjects[iIndex];
+		LPGameObject lpObj = &gGameObjects[iIndex];
 
 		if (lpObj->VPCount < 1)
 			return;

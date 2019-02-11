@@ -897,7 +897,7 @@ void CArcaBattle::ProcStatePaty()
 	{
 		for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 		{
-			CGameObject* lpObj = &gGameObjects[i];
+			LPGameObject lpObj = &gGameObjects[i];
 
 			if (gObjIsConnected(lpObj) && lpObj->Type == OBJ_USER)
 			{
@@ -965,7 +965,7 @@ void CArcaBattle::ProcStatePlaying()
 		{
 			for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 			{
-				CGameObject* lpObj = &gGameObjects[i];
+				LPGameObject lpObj = &gGameObjects[i];
 
 				if (gObjIsConnected(lpObj) && lpObj->Type == OBJ_USER)
 				{
@@ -1334,7 +1334,7 @@ void CArcaBattle::SendObeliskState()
 
 		if (this->m_stObeliskState[i].m_iMonIndex >= 0)
 		{
-			CGameObject* lpObj = &gGameObjects[iObeliskIndex];
+			LPGameObject lpObj = &gGameObjects[iObeliskIndex];
 			pMsg.btObeliskState = lpObj->Life > 0.0;
 			pMsg.btObeliskAttribute = (BYTE)this->m_stObeliskInfo[i].m_iAttrKind;
 			pMsg.btAuraState = 2;
@@ -1565,7 +1565,7 @@ void CArcaBattle::ChkAuraUserHover()
 
 	for ( int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++ )
 	{
-		CGameObject* lpObj = &gGameObjects[n];
+		LPGameObject lpObj = &gGameObjects[n];
 
 		if ( gObjIsConnected(n) == TRUE && lpObj->Type == OBJ_USER )
 		{
@@ -1748,7 +1748,7 @@ void CArcaBattle::ChkAuraUserHover()
 			if (this->m_stObeliskState[i].m_stAuraState[nAura].m_iIndex == -1)
 				continue;
 
-			CGameObject* lpObj = &gGameObjects[this->m_stObeliskState[i].m_stAuraState[nAura].m_iIndex];
+			LPGameObject lpObj = &gGameObjects[this->m_stObeliskState[i].m_stAuraState[nAura].m_iIndex];
 
 			for ( int k = 0; k < MAX_VIEWPORT; ++k )
 			{
@@ -1838,7 +1838,7 @@ BOOL CArcaBattle::IsEnableAttackObelisk(LPGameObject lpObj, int iMonNumber)
 	return TRUE;
 }
 
-int CArcaBattle::IsPkEnable(LPGameObject &lpObj, CGameObject* lpTargetObj)
+int CArcaBattle::IsPkEnable(LPGameObject &lpObj, LPGameObject lpTargetObj)
 {
 	GUILD_INFO_STRUCT * lpGuildInfo = lpObj->m_PlayerData->lpGuild;
 	GUILD_INFO_STRUCT *lpTarGuildInfo = lpTargetObj->m_PlayerData->lpGuild;
@@ -1885,7 +1885,7 @@ void CArcaBattle::SendArcaBattleStateAll(int iState)
 
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		CGameObject* lpObj = &gGameObjects[n];
+		LPGameObject lpObj = &gGameObjects[n];
 
 		if (gObjIsConnected(n) == TRUE && lpObj->Type == OBJ_USER)
 		{
@@ -2105,7 +2105,7 @@ void CArcaBattle::SendPlayResult()
 	pMsg.h.headcode = 0xF8;
 	pMsg.h.subcode = 0x3B;
 
-	CGameObject* lpObj;
+	LPGameObject lpObj;
   
 	for ( int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++ )
 	{
@@ -2274,7 +2274,7 @@ int CArcaBattle::SetPosMonster(LPGameObject &lpObj, int nMapNumber, int nBeginX,
 		return false;
 	}
 
-	CGameObject* lpObj = &gGameObjects[aIndex];
+	LPGameObject lpObj = &gGameObjects[aIndex];
 
 	lpObj->m_PosNum = -1;
 	lpObj->MapNumber = nMapNumber;
@@ -2624,7 +2624,7 @@ void CArcaBattle::CalcRewardExp(LPGameObject &lpObj, UINT64 &iRewardExp)
 		lpObj->AccountID, lpObj->Name, dwKillPoints, iRewardExp);
 }
 
-int CArcaBattle::DropItem(LPGameObject lpObj, OBJECTSTRUCT *lpMonsterObj)
+int CArcaBattle::DropItem(LPGameObject lpObj, LPGameObject lpMonsterObj)
 {
 	if (lpObj->MapNumber != MAP_INDEX_ACHERON)
 	{
@@ -2940,7 +2940,7 @@ bool CArcaBattle::CGReqMarkReg(int iIndex)
 		return false;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 	GUILD_INFO_STRUCT * lpGuildInfo = lpObj->m_PlayerData->lpGuild;
 
 	if (!lpGuildInfo)
@@ -3106,7 +3106,7 @@ void CArcaBattle::GCAnsMarkRank(int iIndex, BYTE btRank, DWORD dwMarkCnt, BYTE b
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if (!gObjIsConnected(iIndex))
 	{
@@ -3189,7 +3189,7 @@ void CArcaBattle::DGAnsMarkCnt(PMSG_ANS_ARCA_BATTLE_MARK_CNT_DS *lpMsg)
 		return;
 	}
 
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	LPGameObject lpObj = &gGameObjects[iIndex];
 
 	if (!gObjIsConnected(iIndex))
 	{
@@ -3798,7 +3798,7 @@ void CArcaBattle::GCArcaBattleUserInfo(int iUserIndex)
 	}
 
 	BYTE BUFFER[8192];
-	CGameObject* lpObj = &gGameObjects[iUserIndex];
+	LPGameObject lpObj = &gGameObjects[iUserIndex];
 
 	_stPMSG_AB_JOIN_USER_COUNT pMsg;
 	_stABCurJoinGuildUserInfo stABCurJoinGuildUser;
@@ -3825,7 +3825,7 @@ void CArcaBattle::GCArcaBattleUserInfo(int iUserIndex)
 			{
 				int iGuildMembIndex = lpGuild->Index[j];
 
-				CGameObject* lpGuildObj = &gGameObjects[iGuildMembIndex];
+				LPGameObject lpGuildObj = &gGameObjects[iGuildMembIndex];
 
 				if (lpGuild->GuildStatus[j] == GUILD_MASTER)
 				{
@@ -3957,7 +3957,7 @@ void CArcaBattle::GCArcaBattleCurrentStatus(int iObeliskIndex, int iAttrKind, BY
 	{
 		for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 		{
-			CGameObject* lpObj = &gGameObjects[i];
+			LPGameObject lpObj = &gGameObjects[i];
 
 			if (gObjIsConnected(lpObj) && lpObj->Type == OBJ_USER)
 			{
@@ -3987,7 +3987,7 @@ void CArcaBattle::GCArcaBattleSendNotiMsg(BYTE btNoticeType, int iNoticeValue, c
 	{
 		for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 		{
-			CGameObject* lpObj = &gGameObjects[i];
+			LPGameObject lpObj = &gGameObjects[i];
 
 			if (gObjIsConnected(lpObj) && lpObj->Type == OBJ_USER)
 			{
@@ -4015,7 +4015,7 @@ void CArcaBattle::GCArcaBattleSendNotiMsg(BYTE btNoticeType, int iNoticeValue, c
 				continue;
 			}
 
-			CGameObject* lpObj = &gGameObjects[iGuildUserIndex];
+			LPGameObject lpObj = &gGameObjects[iGuildUserIndex];
 
 			if (gObjIsConnected(lpObj) && lpObj->Type == OBJ_USER)
 			{
@@ -4099,19 +4099,19 @@ bool CArcaBattle::LoadScriptArcaBattle(char *lpszFileName)
 		return false;
 	}
 
-	pugi::xml_node main = file.child("ArcaBattleEvent");
+	pugi::xml_node mainXML = file.child("ArcaBattleEvent");
 
 	this->m_bDoEvent = g_ConfigRead.server.GetStateFromEventTable(g_ConfigRead.server.GetServerType(), EV_TABLE_ARCA) == true ? main.attribute("Enable").as_int() : false;
-	this->m_iJoinGuildMemberCnt = main.attribute("MinGuildMember").as_int();
+	this->m_iJoinGuildMemberCnt = mainXML.attribute("MinGuildMember").as_int();
 	
-	this->m_iAB_MasterRegMin = main.attribute("MasterRegTime").as_int();
-	this->m_iAB_RegTimeMin = main.attribute("MemberRegTime").as_int();
-	this->m_iAB_WaitTimeMin = main.attribute("ProgressWait").as_int();
-	this->m_iAB_WaitPartyTimeMin = main.attribute("PartyWait").as_int();
-	this->m_iAB_PlayTimeMin = main.attribute("Duration").as_int();
-	this->m_iAB_ChannelTimeMin = main.attribute("ChannelClose").as_int();
+	this->m_iAB_MasterRegMin = mainXML.attribute("MasterRegTime").as_int();
+	this->m_iAB_RegTimeMin = mainXML.attribute("MemberRegTime").as_int();
+	this->m_iAB_WaitTimeMin = mainXML.attribute("ProgressWait").as_int();
+	this->m_iAB_WaitPartyTimeMin = mainXML.attribute("PartyWait").as_int();
+	this->m_iAB_PlayTimeMin = mainXML.attribute("Duration").as_int();
+	this->m_iAB_ChannelTimeMin = mainXML.attribute("ChannelClose").as_int();
 
-	pugi::xml_node activeday = main.child("ActiveDay");
+	pugi::xml_node activeday = mainXML.child("ActiveDay");
 
 	int iDay = 0;
 	for (pugi::xml_attribute day = activeday.first_attribute(); day; day = day.next_attribute())
@@ -4120,7 +4120,7 @@ bool CArcaBattle::LoadScriptArcaBattle(char *lpszFileName)
 		iDay++;
 	}
 
-	pugi::xml_node schedule = main.child("Schedule");
+	pugi::xml_node schedule = mainXML.child("Schedule");
 	this->m_vtArcaBattleOpenTime.clear();
 
 	for (pugi::xml_node start = schedule.child("Start"); start; start = start.next_sibling())
@@ -4134,7 +4134,7 @@ bool CArcaBattle::LoadScriptArcaBattle(char *lpszFileName)
 		this->m_vtArcaBattleOpenTime.push_back(pRET);
 	}
 
-	pugi::xml_node obeliskinfo = main.child("ObeliskInformation");
+	pugi::xml_node obeliskinfo = mainXML.child("ObeliskInformation");
 	this->m_iObeliskCnt = 0;
 
 	for(pugi::xml_node obelisk = obeliskinfo.child("Obelisk"); obelisk; obelisk = obelisk.next_sibling())
@@ -4163,7 +4163,7 @@ bool CArcaBattle::LoadScriptArcaBattle(char *lpszFileName)
 					
 	int AuraCnt = 0;
 	int TempGroupNumber = 0;
-	pugi::xml_node aurapos = main.child("AuraPositionSettings");
+	pugi::xml_node aurapos = mainXML.child("AuraPositionSettings");
 
 	for (pugi::xml_node aura = aurapos.child("Aura"); aura; aura = aura.next_sibling())
 	{
@@ -4195,7 +4195,7 @@ bool CArcaBattle::LoadScriptArcaBattle(char *lpszFileName)
 		AuraCnt++;
 	}
 
-	pugi::xml_node monstergroupinfo = main.child("MonsterGroupInformation");
+	pugi::xml_node monstergroupinfo = mainXML.child("MonsterGroupInformation");
 
 	for (pugi::xml_node monster = monstergroupinfo.child("Monster"); monster; monster = monster.next_sibling())
 	{
@@ -4215,7 +4215,7 @@ bool CArcaBattle::LoadScriptArcaBattle(char *lpszFileName)
 
 	int AreaCnt = 0;
 	TempGroupNumber = 0;
-	pugi::xml_node monstergroupspot = main.child("MonsterGroupSpot");
+	pugi::xml_node monstergroupspot = mainXML.child("MonsterGroupSpot");
 
 	for (pugi::xml_node spot = monstergroupspot.child("Spot"); spot; spot = spot.next_sibling())
 	{
@@ -4245,7 +4245,7 @@ bool CArcaBattle::LoadScriptArcaBattle(char *lpszFileName)
 					
 	int ArrayIndex = 0;			
 	TempGroupNumber = 0;
-	pugi::xml_node monstergroupmember = main.child("MonsterGroupMember");
+	pugi::xml_node monstergroupmember = mainXML.child("MonsterGroupMember");
 
 	for (pugi::xml_node monster = monstergroupmember.child("Monster"); monster; monster = monster.next_sibling())
 	{
@@ -4283,7 +4283,7 @@ bool CArcaBattle::LoadScriptArcaBattle(char *lpszFileName)
 
 	int UserPosCnt = 0;
 	TempGroupNumber = 0;
-	pugi::xml_node playerspawn = main.child("PlayerSpawnSettings");
+	pugi::xml_node playerspawn = mainXML.child("PlayerSpawnSettings");
 
 	for (pugi::xml_node spawn = playerspawn.child("Spawn"); spawn; spawn = spawn.next_sibling())
 	{
@@ -4326,8 +4326,8 @@ int CArcaBattle::LoadScriptBootyMix(char *lpszFileName)
 		return FALSE;
 	}
 
-	pugi::xml_node main = file.child("ArcaBattle");
-	pugi::xml_node rewardsettings = main.child("RewardSettings");
+	pugi::xml_node mainXML = file.child("ArcaBattle");
+	pugi::xml_node rewardsettings = mainXML.child("RewardSettings");
 	this->m_iBootyMixCnt = 0;
 
 	for(pugi::xml_node reward = rewardsettings.child("Reward"); reward; reward = reward.next_sibling())
@@ -4340,7 +4340,7 @@ int CArcaBattle::LoadScriptBootyMix(char *lpszFileName)
 		this->m_iBootyMixCnt++;
 	}
 
-	pugi::xml_node trophymix = main.child("TrophyOfBattleMix");
+	pugi::xml_node trophymix = mainXML.child("TrophyOfBattleMix");
 
 	for(pugi::xml_node combination = trophymix.child("Combination"); combination; combination = combination.next_sibling())
 	{

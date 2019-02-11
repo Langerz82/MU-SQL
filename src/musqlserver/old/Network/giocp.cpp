@@ -2,8 +2,6 @@
 #include "PacketEngineServer.h" // Encryption/Decryption
 #include "GameMain.h"
 #include "GameServer.h"
-#include "User/CUserData.h"
-#include "configread.h"
 #include "PacketEncrypt.h"
 #include "FloodSystem.h"
 

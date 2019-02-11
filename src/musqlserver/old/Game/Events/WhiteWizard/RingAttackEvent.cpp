@@ -68,7 +68,7 @@ BOOL CRingMonsterHerd::MonsterHerdItemDrop(LPGameObject &lpObj)
 
 }
 
-void CRingMonsterHerd::MonsterAttackAction(LPGameObject &lpObj, CGameObject* lpTargetObj)
+void CRingMonsterHerd::MonsterAttackAction(LPGameObject &lpObj, LPGameObject lpTargetObj)
 {
 	if ( gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STONE) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STUN) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_SLEEP)
 		|| gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_FREEZE_2) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_EARTH_BINDS) )
