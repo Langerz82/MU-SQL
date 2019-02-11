@@ -961,7 +961,10 @@ struct PMSG_NOTICE_DEV_SEND;
 struct PMSG_NOTICE_SEND_NEW;
 struct PMSG_NOTICE_SEND;
 
-
+//struct PBMSG_HEAD;
+//struct PWMSG_HEAD;
+//struct PBMSG_HEAD2;
+//struct PWMSG_HEAD2;
 
 
 struct _KALIMAGATE_LEVEL
@@ -2874,7 +2877,7 @@ struct EXSDHP_GUILD_ASSIGN_TYPE_RESULT {
 };
 
 struct EXSDHP_KICKOUT_UNIONMEMBER_REQ {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	unsigned short wRequestUserIndex;
 	unsigned char btRelationShipType;
 	char szUnionMasterGuildName[8];
@@ -2900,7 +2903,7 @@ struct EXSDHP_NOTIFICATION_RELATIONSHIP {
 };
 
 struct EXSDHP_RELATIONSHIP_BREAKOFF_REQ {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	unsigned short wRequestUserIndex;
 	unsigned short wTargetUserIndex;
 	unsigned char btRelationShipType;
@@ -2920,7 +2923,7 @@ struct EXSDHP_RELATIONSHIP_BREAKOFF_RESULT {
 };
 
 struct EXSDHP_RELATIONSHIP_JOIN_REQ {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	unsigned short wRequestUserIndex;
 	unsigned short wTargetUserIndex;
 	unsigned char btRelationShipType;
@@ -2973,7 +2976,7 @@ struct EXSDHP_UNION_LIST_COUNT {
 };
 
 struct EXSDHP_UNION_LIST_REQ {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	unsigned short wRequestUserIndex;
 	int iUnionMasterGuildNumber;
 };
@@ -3028,7 +3031,7 @@ struct FCHP_CHATROOM_INVITATION_REQ {
 };
 
 struct FHP_FRIEND_ADD_REQ {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	short Number;
 	char Name[10];
 	char FriendName[10];
@@ -3044,7 +3047,7 @@ struct FHP_FRIEND_ADD_RESULT {
 };
 
 struct FHP_FRIEND_CHATROOM_CREATE_REQ {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	short Number;
 	char Name[10];
 	char fName[10];
@@ -3071,7 +3074,7 @@ struct FHP_FRIEND_DEL_RESULT {
 };
 
 struct FHP_FRIEND_INVITATION_REQ {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	short Number;
 	char Name[10];
 	char FriendName[10];
@@ -3088,7 +3091,7 @@ struct FHP_FRIEND_INVITATION_RET {
 };
 
 struct FHP_FRIEND_MEMO_DEL_REQ {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	short Number;
 	unsigned short MemoIndex;
 	char Name[10];
@@ -3103,7 +3106,7 @@ struct FHP_FRIEND_MEMO_DEL_RESULT {
 };
 
 struct FHP_FRIEND_MEMO_LIST_REQ {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	unsigned short Number;
 	char Name[10];
 };
@@ -3132,7 +3135,7 @@ struct FHP_FRIEND_MEMO_RECV_OLD {
 };
 
 struct FHP_FRIEND_MEMO_RECV_REQ {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	short Number;
 	unsigned short MemoIndex;
 	char Name[10];
@@ -3187,7 +3190,7 @@ struct FHP_FRIEND_MEMO_SEND {
 };
 
 struct FHP_FRIEND_STATE_C {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	short Number;
 	char Name[10];
 	unsigned char State;
@@ -3211,7 +3214,7 @@ struct FHP_FRIENDLIST_COUNT {
 };
 
 struct FHP_FRIENDLIST_REQ {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	short Number;
 	char Name[10];
 	unsigned char pServer;
@@ -3223,7 +3226,7 @@ struct FHP_FRIENDLIST {
 };
 
 struct FHP_WAITFRIEND_ADD_REQ {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	unsigned char Result;
 	short Number;
 	char Name[10];
@@ -3584,7 +3587,7 @@ struct PMSG_ALTERPSHOPVAULT {
 };
 
 struct PMSG_ANS_2ANIV_SERIAL {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	int iINDEX;
 	char szUID[11];
 	unsigned char btIsRegistered;
@@ -3614,7 +3617,7 @@ struct PMSG_ANS_ALLOWLIST_STATE_GUILDMATCHING {
 };
 
 struct PMSG_ANS_BLOODCASTLE_ENTERCOUNT {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	char AccountID[10];
 	char GameID[10];
 	int ServerCode;
@@ -3623,7 +3626,7 @@ struct PMSG_ANS_BLOODCASTLE_ENTERCOUNT {
 };
 
 struct PMSG_ANS_BLOODCASTLESCORE_5TH {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	char AccountID[10];
 	char GameID[10];
 	int ServerCode;
@@ -3686,7 +3689,7 @@ struct PMSG_ANS_CHAOS_MULTIMIX_CHECK {
 };
 
 struct PMSG_ANS_CHAOSCASTLE_RANKING {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	char AccountID[10];
 	char GameID[10];
 	int ServerCode;
@@ -3753,7 +3756,7 @@ struct PMSG_ANS_CSLEFTTIMEALARM {
 };
 
 struct PMSG_ANS_DELETE_STONES {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	int iINDEX;
 	char szUID[11];
 	char bSUCCESS;
@@ -3857,7 +3860,7 @@ struct PMSG_ANS_EVENTENTRY_INFO {
 };
 
 struct PMSG_ANS_EVENTUSERSCORE {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	char AccountID[10];
 	char GameID[10];
 	int ServerCode;
@@ -3934,7 +3937,7 @@ struct PMSG_ANS_GUILDREGINFO {
 };
 
 struct PMSG_ANS_ILLUSIONTEMPLE_RANKING {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	char AccountID[10];
 	char GameID[10];
 	int ServerCode;
@@ -4326,7 +4329,7 @@ struct PMSG_ANS_QUESTEXP_INFO {
 };
 
 struct PMSG_ANS_REG_CC_OFFLINE_GIFT {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	int iINDEX;
 	char szUID[11];
 	unsigned short wServerCode;
@@ -4336,7 +4339,7 @@ struct PMSG_ANS_REG_CC_OFFLINE_GIFT {
 };
 
 struct PMSG_ANS_REG_DL_OFFLINE_GIFT {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	int iINDEX;
 	char szUID[11];
 	unsigned short wServerCode;
@@ -4346,7 +4349,7 @@ struct PMSG_ANS_REG_DL_OFFLINE_GIFT {
 };
 
 struct PMSG_ANS_REG_HT_OFFLINE_GIFT {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	int iINDEX;
 	char szUID[11];
 	unsigned short wServerCode;
@@ -4365,7 +4368,7 @@ struct PMSG_ANS_REG_LUCKYCOIN {
 };
 
 struct PMSG_ANS_REG_RINGGIFT {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	int iINDEX;
 	char szUID[11];
 	unsigned char btIsRegistered;
@@ -4400,7 +4403,7 @@ struct PMSG_ANS_REGGUILDMATCHINGDATA {
 };
 
 struct PMSG_ANS_REGISTER_EVENTCHIP {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	int iINDEX;
 	unsigned char Pos;
 	char szUID[11];
@@ -4409,7 +4412,7 @@ struct PMSG_ANS_REGISTER_EVENTCHIP {
 };
 
 struct PMSG_ANS_REGISTER_STONES {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	int iINDEX;
 	unsigned char iPosition;
 	char szUID[11];
@@ -4418,7 +4421,7 @@ struct PMSG_ANS_REGISTER_STONES {
 };
 
 struct PMSG_ANS_RESET_EVENTCHIP {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	int iINDEX;
 	char szUID[11];
 	char bSUCCESS;
@@ -4555,7 +4558,7 @@ struct PMSG_ANS_USEWEAPON {
 };
 
 struct PMSG_ANS_VIEW_EC_MN {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	int iINDEX;
 	char szUID[11];
 	char bSUCCESS;
@@ -4564,7 +4567,7 @@ struct PMSG_ANS_VIEW_EC_MN {
 };
 
 struct PMSG_ANS_VIEW_STONES {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	int iINDEX;
 	char szUID[11];
 	char bSUCCESS;
@@ -5579,7 +5582,7 @@ struct PMSG_NOTIFY_MAXUSER {
 };
 
 struct PMSG_NOTIFY_OBJECT_CREATION_STATE {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	BYTE btObjIndexH;
 	BYTE btObjIndexL;
 	BYTE btCreationState;
@@ -5853,7 +5856,7 @@ struct PMSG_RELATIONSHIP_JOIN_BREAKOFF_REQ {
 };
 
 struct PMSG_REQ_2ANIV_SERIAL {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	int iINDEX;
 	char szUID[11];
 	char SERIAL1[5];
@@ -5895,7 +5898,7 @@ struct PMSG_REQ_ARCA_BATTLE_JOIN {
 };
 
 struct PMSG_REQ_BLOODCASTLE_ENTERCOUNT {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	char AccountID[10];
 	char GameID[10];
 	int ServerCode;
@@ -5992,7 +5995,7 @@ struct PMSG_REQ_CSREGGUILDLIST {
 };
 
 struct PMSG_REQ_DELETE_STONES {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	int iINDEX;
 	char szUID[11];
 	char bSUCCESS;
@@ -6179,7 +6182,7 @@ struct PMSG_REQ_GUILDVIEWPORT {
 };
 
 struct PMSG_REQ_ILLUSIONTEMPLE_ENTERCOUNT {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	char AccountID[10];
 	char GameID[10];
 	int ServerCode;
@@ -6526,7 +6529,7 @@ struct PMSG_REQ_REFINE_PENTAGRAM_JEWEL {
 };
 
 struct PMSG_REQ_REG_CC_OFFLINE_GIFT {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	int iINDEX;
 	char szUID[11];
 	unsigned short wServerCode;
@@ -6534,7 +6537,7 @@ struct PMSG_REQ_REG_CC_OFFLINE_GIFT {
 };
 
 struct PMSG_REQ_REG_DL_OFFLINE_GIFT {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	int iINDEX;
 	char szUID[11];
 	unsigned short wServerCode;
@@ -6542,7 +6545,7 @@ struct PMSG_REQ_REG_DL_OFFLINE_GIFT {
 };
 
 struct PMSG_REQ_REG_HT_OFFLINE_GIFT {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	int iINDEX;
 	char szUID[11];
 	unsigned short wServerCode;
@@ -6550,7 +6553,7 @@ struct PMSG_REQ_REG_HT_OFFLINE_GIFT {
 };
 
 struct PMSG_REQ_REG_RINGGIFT {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	int iINDEX;
 	char szUID[11];
 	unsigned char btGiftKind;
@@ -6587,7 +6590,7 @@ struct PMSG_REQ_REGGUILDMATCHINGDATA {
 };
 
 struct PMSG_REQ_REGISTER_EVENTCHIP {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	int iINDEX;
 	unsigned char Pos;
 	char szUID[11];
@@ -6601,7 +6604,7 @@ struct PMSG_REQ_REGISTER_LUCKYCOIN {
 };
 
 struct PMSG_REQ_REGISTER_STONES {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	int iINDEX;
 	unsigned char iPosition;
 	char szUID[11];
@@ -6620,7 +6623,7 @@ struct PMSG_REQ_REPOSUSER_IN_CCF {
 };
 
 struct PMSG_REQ_RESET_EVENTCHIP {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	int iINDEX;
 	char szUID[11];
 };
@@ -6810,7 +6813,7 @@ struct PMSG_REQ_USEWEAPON {
 };
 
 struct PMSG_REQ_VIEW_EC_MN {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	int iINDEX;
 	char szUID[11];
 };
@@ -7481,7 +7484,7 @@ struct SDHP_ANS_CCF_INFO_NOTIFY {
 
 
 struct SDHP_BILLKILLUSER {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	char Id[10];
 	short Number;
 	bool ForceDisconnect;
@@ -8038,7 +8041,7 @@ struct SDHP_OPTIONCONTROL {
 };
 
 struct SDHP_OTHERJOINMSG {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	char AccountID[10];
 };
 

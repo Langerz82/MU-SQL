@@ -11,7 +11,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "MuDefines.h"
+#include "StdAfx.h"
+#include "custTypedef.h"
 #include "generalStructs.h"
 
 class CComboAttack

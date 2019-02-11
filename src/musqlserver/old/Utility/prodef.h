@@ -49,6 +49,16 @@
  * :::::::::::Packet Head Definitions::::::::::::::*
  * ::::::::::::::::::::::::::::::::::::::::::::::::*
  * ------------------------------------------------*/
+struct _PHEADB;
+struct _PHEADSUBB;
+
+struct _PHEADW;
+struct _PHEADSUBW;
+struct PBMSG_HEAD;
+struct PWMSG_HEAD;
+struct PBMSG_HEAD2;
+struct PWMSG_HEAD2;
+
 
 // PRIMITIVE HEADS
 typedef struct _PHEADB	// Packet Head Byte Normal / Extended [C1:C3]
@@ -226,7 +236,7 @@ struct PMSG_DEFRESULT
  */
 struct SDHP_SERVERINFO
 {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	unsigned char Type;
 	unsigned short Port;
 	char ServerName[50];
@@ -257,7 +267,7 @@ struct SDHP_SERVERINFO
  */
 struct SDHP_RESULT
 {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	unsigned char Result;
 	unsigned long ItemCount;
 };

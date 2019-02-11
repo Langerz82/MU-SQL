@@ -24,7 +24,7 @@ public:
 	virtual ~CDoppelGangerEventInfo(void);
 	void LoadDoppelgangerEventInfo(LPSTR lpFile);
 	void ClearDoppelgangerEventInfo();
-	_tagDOPPELGANGER_EVENT_INFO * GetDoppelgangerEventInfo(int nUserMaxLevel);
+	DOPPELGANGER_EVENT_INFO * GetDoppelgangerEventInfo(int nUserMaxLevel);
 	BOOL SetDoppelgangerEventInfo(int nUserCount, int nUserMaxLevel);
 
 	float GetMonsterLevelWeight();
@@ -41,7 +41,7 @@ public:
 private:
 	bool													m_bLoad;
 	std::map<int,DOPPELGANGER_EVENT_INFO>				m_mapDoppelEvent_Info;
-	_tagDOPPELGANGER_EVENT_INFO								m_DoppelgangerInfo;
+	DOPPELGANGER_EVENT_INFO								m_DoppelgangerInfo;
 	int														m_nDoppelgangerUserCnt;
 
 };

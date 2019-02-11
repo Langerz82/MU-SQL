@@ -3,8 +3,6 @@
 
 #include "CGameObject.h"
 
-class CGameObject;
-
 typedef int BOOL;
 typedef wchar_t WCHAR;
 

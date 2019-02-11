@@ -4261,7 +4261,7 @@ void CDataServerProtocol::GDReqChaosCastleFinalSendMsgAllSvr(LPGameObject &lpObj
 
 void CDataServerProtocol::GDReqLoadMuunInvenItem(LPGameObject &lpObj, SDHP_REQ_DBMUUN_INVEN_LOAD* lpMsg)
 {
-	_tagSDHP_ANS_DBMUUN_INVEN_LOAD pMsg;
+	SDHP_ANS_DBMUUN_INVEN_LOAD pMsg;
 	PHeadSetW((LPBYTE)&pMsg, 0xF1, sizeof(pMsg));
 
 	char szTemp[250];
@@ -4307,7 +4307,7 @@ void CDataServerProtocol::GDReqSaveMuunInvenItem(LPGameObject &lpObj, SDHP_REQ_D
 
 void CDataServerProtocol::GDReqLoadEventInvenItem(LPGameObject &lpObj, SDHP_REQ_DBEVENT_INVEN_LOAD * aRecv)
 {
-	_tagSDHP_ANS_DBEVENT_INVEN_LOAD pMsg;
+	SDHP_ANS_DBEVENT_INVEN_LOAD pMsg;
 	PHeadSetW((LPBYTE)&pMsg, 0xE6, sizeof(pMsg));
 
 	char szTemp[1024];

@@ -34,7 +34,7 @@ enum QuestStat
 	QS_NOTHING = 0x3,
 };
 
-typedef struct QUEST_SUB_INFO
+typedef  QUEST_SUB_INFO
 {
 	int QuestType;	// 0
 	int NeedType;	// 4
@@ -52,7 +52,7 @@ typedef struct QUEST_SUB_INFO
 
 } QUEST_SUB_INFO, * LPQUEST_SUB_INFO;
 
-typedef struct QUEST_CONDITION
+typedef  QUEST_CONDITION
 {
 	int Index;	// 0
 	int NeedQuestIndex;	// 4
@@ -72,7 +72,7 @@ typedef struct QUEST_CONDITION
 
 } QUEST_CONDITION, * LPQUEST_CONDITION;
 
-typedef struct QUEST_INFO	
+typedef  QUEST_INFO	
 {
 	char Name[50];	// 0
 	int QuestIndex;	// 34

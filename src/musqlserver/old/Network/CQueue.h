@@ -2,15 +2,20 @@
 // CQueue.h
 #ifndef __CQUEUE_H__
 #define __CQUEUE_H__
-//#include <winsock2.h>
+
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
 #include "StdAfx.h"
+#include "generalStructs.h"
 
 #define MAX_BUFF_SIZE		100000
 
-typedef struct _PER_IO_CONTEXT_L
+typedef struct
 {
-	OVERLAPPED					Overlapped;
-	WSABUF						wsabuf;
+	MU_WSAOVERLAPPED			m_Overlapped;
+	MU_WSABUF					m_wsabuf;
 	CHAR						Buffer[MAX_BUFF_SIZE];
 	int							nTotalBytes;
 	int							nSentBytes;

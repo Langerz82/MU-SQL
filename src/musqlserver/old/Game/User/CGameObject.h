@@ -6,6 +6,7 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
+#include "CUserData.h"
 #include "ComboAttack.h"
 #include "generalStructs.h"
 #include "MagicInf.h"
@@ -29,6 +30,7 @@
 #include "UnityBattleField.h"
 #include "EvolutionMonsterInfo.h"
 #include "AntiSpeed.h"
+#include "RaklionUtil.h"
 
 #include <vector>
 

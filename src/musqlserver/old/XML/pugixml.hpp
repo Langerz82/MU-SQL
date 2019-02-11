@@ -875,7 +875,7 @@ namespace pugi
 		status_out_of_memory,		// Could not allocate memory
 		status_internal_error,		// Internal error occurred
 
-		status_unrecognized_tag,	// Parser could not determine tag type
+		status_unrecognized,	// Parser could not determine tag type
 
 		status_bad_pi,				// Parsing error occurred while parsing document declaration/processing instruction
 		status_bad_comment,			// Parsing error occurred while parsing comment
@@ -1298,9 +1298,9 @@ namespace std
 namespace std
 {
 	// Workarounds for (non-standard) iterator category detection
-	std::bidirectional_iterator_tag PUGIXML_FUNCTION __iterator_category(const pugi::xml_node_iterator&);
-	std::bidirectional_iterator_tag PUGIXML_FUNCTION __iterator_category(const pugi::xml_attribute_iterator&);
-	std::bidirectional_iterator_tag PUGIXML_FUNCTION __iterator_category(const pugi::xml_named_node_iterator&);
+	std::bidirectional_iterator PUGIXML_FUNCTION __iterator_category(const pugi::xml_node_iterator&);
+	std::bidirectional_iterator PUGIXML_FUNCTION __iterator_category(const pugi::xml_attribute_iterator&);
+	std::bidirectional_iterator PUGIXML_FUNCTION __iterator_category(const pugi::xml_named_node_iterator&);
 }
 #endif
 

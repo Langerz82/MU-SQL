@@ -163,7 +163,7 @@ private:
 	int m_LeagueDays[7];
 	int m_SemiFinal;
 	int m_Final;
-	_tagITL_REWARDLIST m_ITL_Winner_RewardList[5];
+	ITL_REWARDLIST m_ITL_Winner_RewardList[5];
 	bool m_bLoadITLGuildEntryCountDone;
 	__ITL_GUILD_RANK m_GuildLeagueRank[56];
 	__ITL_GUILD_RANK m_GuildTournamentRank[6];

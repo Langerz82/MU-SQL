@@ -15,9 +15,9 @@
 #define MAX_MUUN_EXCHANGE_INFO				10
 #define MAX_MUUN_EXCHANGE_ITEMBAG			20
 
-structEnergyGeneratorPoint
+struct EnergyGeneratorPoint
 {
-	_tagEnergyGeneratorPoint()
+	EnergyGeneratorPoint()
 	{
 		this->iRank = -1;
 		this->iRankPt = 0;
@@ -31,9 +31,9 @@ structEnergyGeneratorPoint
 	int iMuunLvPt;
 };
 
-structMuunExchangeInfo
+struct MuunExchangeInfo
 {
-	_tagMuunExchangeInfo()
+	MuunExchangeInfo()
 	{
 		this->iItemType = 0;
 		this->iItemIndex = 0;
@@ -49,9 +49,9 @@ structMuunExchangeInfo
 	int iItemBagIndex;
 };
 
-structMuunExchangeItembag
+struct MuunExchangeItembag
 {
-	_tagMuunExchangeItembag()
+	MuunExchangeItembag()
 	{
 		this->iIndex = 0;
 		this->iItemType = 0;
@@ -157,7 +157,7 @@ public:
 
 	void SetMuunItemAddPeriodData(LPGameObject lpObj, int iMuunItemNum, UINT64 dwSerial);
 	bool SetUserMuunEffect(LPGameObject lpObj, int iMuunItmeNum, int iMuunLv, int iEquipPos);
-	void SetAddOptTypeValue(_tagMUUN_EFFECT_LIST *pUserMuunEffect);
+	void SetAddOptTypeValue(MUUN_EFFECT_LIST *pUserMuunEffect);
 	bool RemoveUserMuunEffect(LPGameObject lpObj, int iEquipPos);
 
 	bool GetMuunItemValueOfOptType(LPGameObject lpObj, int iMuunOtpIndex, int *EffectValue1, int *EffectValue2);
@@ -208,9 +208,9 @@ public:
 	void CalCharacterStat(LPGameObject &lpObj, int iOptType);
 
 	int CheckMuunItemCondition(LPGameObject &obj,MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
-	int CheckMuunItemConditionProc(_tagMUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
-	int ChkMuunOptConditionTime(_tagMUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
-	int ChkMuunOptConditionDay(_tagMUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
+	int CheckMuunItemConditionProc(MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
+	int ChkMuunOptConditionTime(MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
+	int ChkMuunOptConditionDay(MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
 	int ChkMuunOptConditionLevel(LPGameObject &obj,MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
 	int ChkMuunOptConditionMap(LPGameObject &obj,MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
 
@@ -251,10 +251,10 @@ public:
 	CMuunInfoMng					m_MuunInfoMng;
 	MUUN_ITEM_PERIOD_DATA			*m_MuunItemPeriodData;
 	CMuunAttack						m_MuunAttack;
-	_tagEnergyGeneratorPoint		m_stEnergyGeneratorPoint[MAX_MUUN_ENERGY_GENERATOR_POINT];
+	EnergyGeneratorPoint		m_stEnergyGeneratorPoint[MAX_MUUN_ENERGY_GENERATOR_POINT];
 	int								m_iStoneOfEvolutionPt;
-	_tagMuunExchangeInfo			m_stMuunExchangeInfo[MAX_MUUN_EXCHANGE_INFO];
-	_tagMuunExchangeItembag			m_stMuunExchangeItembag[MAX_MUUN_EXCHANGE_ITEMBAG];
+	MuunExchangeInfo			m_stMuunExchangeInfo[MAX_MUUN_EXCHANGE_INFO];
+	MuunExchangeItembag			m_stMuunExchangeItembag[MAX_MUUN_EXCHANGE_ITEMBAG];
 
 }; extern CMuunSystem g_CMuunSystem;
 

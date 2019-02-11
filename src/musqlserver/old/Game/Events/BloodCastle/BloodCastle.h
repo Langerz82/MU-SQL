@@ -50,7 +50,7 @@ struct PMSG_SETMAPATTR
 	BYTE btY;	// 1
 };
 
-typedef struct _BLOODCASTLE_USER
+typedef  _BLOODCASTLE_USER
 {
 	int m_iIndex;	// 0
 	int m_iEXP;	// 4

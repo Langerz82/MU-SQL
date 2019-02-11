@@ -1406,7 +1406,7 @@ void CIllusionTempleLeagueEvent::Insert_RewardList(char *Name, char *GuildName, 
 void CIllusionTempleLeagueEvent::Send_RewardList(LPGameObject &lpObj, BYTE byError)
 {
 	PMSG_ANS_REWARDLIST pMsg;
-	_tagITL_REWARDLIST ITLRewardList;
+	ITL_REWARDLIST ITLRewardList;
 
 	PHeadSubSetW((LPBYTE)&pMsg, 0xBF, 0x68, sizeof(pMsg));
 

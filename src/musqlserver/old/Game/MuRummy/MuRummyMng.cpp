@@ -363,7 +363,7 @@ void CMuRummyMng::CGReqMuRummyStart(PMSG_REQ_MURUMMY_INFO *lpMsg, int aIndex)
 		return;
 	}
 
-	_tagMuRummyCardInfo stCardInfo[5];
+	MuRummyCardInfo stCardInfo[5];
 	bool bNewGame = false;
 
 	if (pMuRummyInfo->IsGetPlayCard() == true)
@@ -514,7 +514,7 @@ void CMuRummyMng::CGReqCardReveal(PMSG_REQ_REVEAL_CARD *lpMsg, int aIndex)
 
 	else
 	{
-		_tagMuRummyCardInfo stCardInfo[5];
+		MuRummyCardInfo stCardInfo[5];
 		int iBeforeCardCnt = pMuRummyInfo->GetCardDeckCnt();
 		bool bRet = this->FillEmptySlotCard(pMuRummyInfo, stCardInfo, lpObj);
 
@@ -930,7 +930,7 @@ void CMuRummyMng::CGReqCardMatch(PMSG_REQ_CARD_MATCH *lpMsg, int aIndex)
 	}
 
 	int nScore = 0;
-	_tagMuRummyCardUpdateDS stCardUpdateDS[3];
+	MuRummyCardUpdateDS stCardUpdateDS[3];
 	
 	BYTE btRet = this->CardMatchCheck(pCMuRummyInfo, &nScore, stCardUpdateDS, lpObj);
 
@@ -1882,7 +1882,7 @@ void CMuRummyMng::Slot5Log(LPGameObject lpObj, int iLogType)
 	char szTemp[1024];
 	memset(szTemp, 0x00, sizeof(szTemp));
 
-	_tagMuRummyCardInfo stMuRummyCardInfo[5];
+	MuRummyCardInfo stMuRummyCardInfo[5];
 
 	for (int n = 0; n < 5; n++)
 	{
@@ -1950,7 +1950,7 @@ void CMuRummyMng::Slot3Log(LPGameObject lpObj, int iLogType)
 	char szTemp[1024];
 	memset(szTemp, 0x00, sizeof(szTemp));
 
-	_tagMuRummyCardInfo stMuRummyCardInfo[5];
+	MuRummyCardInfo stMuRummyCardInfo[5];
 
 	for (int n = 5; n < 8; n++)
 	{

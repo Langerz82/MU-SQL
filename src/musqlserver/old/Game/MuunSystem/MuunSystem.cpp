@@ -1155,7 +1155,7 @@ bool CMuunSystem::SetUserMuunEffect(LPGameObject lpObj, int iMuunItemNum, int iM
 	return TRUE;
 }
 
-void CMuunSystem::SetAddOptTypeValue(_tagMUUN_EFFECT_LIST *pUserMuunEffect)
+void CMuunSystem::SetAddOptTypeValue(MUUN_EFFECT_LIST *pUserMuunEffect)
 {
 	if (pUserMuunEffect->nAddOptType == 1)
 	{
@@ -2667,7 +2667,7 @@ int CMuunSystem::CheckMuunItemConditionProc(MUUN_EFFECT_LIST *pUserMuunEffect, C
 	return result;
 }
 
-int CMuunSystem::ChkMuunOptConditionTime(_tagMUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
+int CMuunSystem::ChkMuunOptConditionTime(MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
 {
 	if (pCMuunInfo == NULL)
 	{
@@ -3416,7 +3416,7 @@ void CMuunSystem::CGReqRideSelect(PMSG_MUUN_RIDE_SELECT *lpMsg, int aIndex)
 		}
 	}
 
-	_tagMuunRideViewPortInfo MuunViewPortInfo; 
+	MuunRideViewPortInfo MuunViewPortInfo; 
 	BYTE btMuunInfosendBuf[2048]; 
 
 	MuunViewPortInfo.NumberH = SET_NUMBERH(lpObj->m_Index);
@@ -3435,7 +3435,7 @@ void CMuunSystem::CGReqRideSelect(PMSG_MUUN_RIDE_SELECT *lpMsg, int aIndex)
 	int lOfs = sizeof(pMsgMuun);
 
 	memcpy(&btMuunInfosendBuf[lOfs], &MuunViewPortInfo, 4);
-	lOfs += sizeof(_tagMuunRideViewPortInfo);
+	lOfs += sizeof(MuunRideViewPortInfo);
 
 	pMsgMuun.Count = 1;
 	pMsgMuun.h.set((LPBYTE)&pMsgMuun,0x4E,0x14,lOfs);

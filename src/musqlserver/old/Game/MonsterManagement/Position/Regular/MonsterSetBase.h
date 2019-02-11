@@ -17,7 +17,7 @@ enum eArrangeType
 	Arrange_ElementalMonsterMultiSpawn = 3
 };
 
-typedef struct MONSTER_POSITION
+typedef  MONSTER_POSITION
 {
 	BYTE m_ArrangeType;	// 0
 	WORD m_Type;	// 2

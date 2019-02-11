@@ -12,6 +12,7 @@
 #pragma warning ( disable : 4786 )
 
 #include "StdAfx.h"
+#include "MuDefines.h"
 #include <map>
 
 using namespace std;
@@ -76,7 +77,7 @@ namespace ENEWPVP
 	};
 };
 
-typedef struct PMSG_DUEL_OBSERVERLIST_BROADCAST
+typedef  PMSG_DUEL_OBSERVERLIST_BROADCAST
 {
 	PBMSG_HEAD2 h;
 	BYTE nCount;
@@ -90,7 +91,7 @@ typedef struct PMSG_DUEL_OBSERVERLIST_BROADCAST
 
 } PMSG_DUEL_OBSERVERLIST_BROADCAST, *LPMSG_DUEL_OBSERVERLIST_BROADCAST;
 
-typedef struct PMSG_ANS_DUEL_CHANNELLIST
+typedef  PMSG_ANS_DUEL_CHANNELLIST
 {
 	PBMSG_HEAD2 h;
 
@@ -105,7 +106,7 @@ typedef struct PMSG_ANS_DUEL_CHANNELLIST
 	
 } PMSG_ANS_DUEL_CHANNELLIST, *LPMSG_ANS_DUEL_CHANNELLIST;
 
-typedef structDUEL_CHANNEL
+typedef struct DUEL_CHANNEL
 {
 	int nId;
 	int nIndex1;
@@ -117,7 +118,7 @@ typedef structDUEL_CHANNEL
 	short nNotifyCount;
 } DUEL_CHANNEL, *LPDUEL_CHANNEL;
 
-typedef structWaiting
+typedef struct Waiting
 {
 	int nRequester;
 	int nResponsor;
@@ -125,14 +126,14 @@ typedef structWaiting
 	DWORD dwTime;
 } Waiting, *LPWaiting ;
 
-typedef structObserverInfo
+typedef struct ObserverInfo
 {
 	int nId;
 	int nIndex;
 	char szName[MAX_ACCOUNT_LEN+1];
 } ObserverInfo, *LPObserverInfo ;
 
-typedef struct PMSG_REQ_DUEL_ANSWER 
+typedef struct PMSG_REQ_DUEL_ANSWER
 {
 	PBMSG_HEAD2 h;
 	BYTE NumberH;
@@ -140,7 +141,7 @@ typedef struct PMSG_REQ_DUEL_ANSWER
 	char szName[MAX_ACCOUNT_LEN];
 } PMSG_REQ_DUEL_ANSWER, *LPMSG_REQ_DUEL_ANSWER;
 
-typedef struct PMSG_ANS_DUEL_INVITE 
+typedef  PMSG_ANS_DUEL_INVITE 
 {
 	PBMSG_HEAD2 h;
 	BYTE nResult;
@@ -149,7 +150,7 @@ typedef struct PMSG_ANS_DUEL_INVITE
 	char szName[MAX_ACCOUNT_LEN];
 } PMSG_ANS_DUEL_INVITE, *LPMSG_ANS_DUEL_INVITE;
 
-typedef struct PMSG_ANS_DUEL_EXIT 
+typedef  PMSG_ANS_DUEL_EXIT 
 {
 	PBMSG_HEAD2 h;
 	BYTE nResult;
@@ -158,7 +159,7 @@ typedef struct PMSG_ANS_DUEL_EXIT
 	char szName[MAX_ACCOUNT_LEN];
 } PMSG_ANS_DUEL_EXIT, *LPMSG_ANS_DUEL_EXIT ;
 
-typedef struct PMSG_ANS_DUEL_JOINCNANNEL 
+typedef  PMSG_ANS_DUEL_JOINCNANNEL 
 {
 	PBMSG_HEAD2 h;
 	BYTE nResult;
@@ -171,13 +172,13 @@ typedef struct PMSG_ANS_DUEL_JOINCNANNEL
 	BYTE NumberL2;
 } PMSG_ANS_DUEL_JOINCNANNEL, *LPMSG_ANS_DUEL_JOINCNANNEL ;
 
-typedef struct PMSG_ANS_DUEL_LEAVECNANNEL 
+typedef  PMSG_ANS_DUEL_LEAVECNANNEL 
 {
 	PBMSG_HEAD2 h;
 	BYTE nResult;
 } PMSG_ANS_DUEL_LEAVECNANNEL, *LPMSG_ANS_DUEL_LEAVECNANNEL ;
 
-typedef struct PMSG_DUEL_SCORE_BROADCAST 
+typedef  PMSG_DUEL_SCORE_BROADCAST 
 {
 	PBMSG_HEAD2 h;
 	BYTE NumberH1;
@@ -189,14 +190,14 @@ typedef struct PMSG_DUEL_SCORE_BROADCAST
 
 } PMSG_DUEL_SCORE_BROADCAST, *LPMSG_DUEL_SCORE_BROADCAST;
 
-typedef struct PMSG_DUEL_RESULT_BROADCAST 
+typedef  PMSG_DUEL_RESULT_BROADCAST 
 {
 	PBMSG_HEAD2 h;
 	char szWinner[MAX_ACCOUNT_LEN];
 	char szLoser[MAX_ACCOUNT_LEN];
 } PMSG_DUEL_RESULT_BROADCAST, *LPMSG_DUEL_RESULT_BROADCAST ;
 
-typedef struct PMSG_DUEL_HP_BROADCAST 
+typedef  PMSG_DUEL_HP_BROADCAST 
 {
 	PBMSG_HEAD2 h;
 	BYTE NumberH1;
@@ -209,19 +210,19 @@ typedef struct PMSG_DUEL_HP_BROADCAST
 	BYTE nShield2;
 } PMSG_DUEL_HP_BROADCAST, *LPMSG_DUEL_HP_BROADCAST ;
 
-typedef struct PMSG_DUEL_JOINCNANNEL_BROADCAST 
+typedef  PMSG_DUEL_JOINCNANNEL_BROADCAST 
 {
 	PBMSG_HEAD2 h;
 	char szName[MAX_ACCOUNT_LEN];
 } PMSG_DUEL_JOINCNANNEL_BROADCAST, *LPMSG_DUEL_JOINCNANNEL_BROADCAST ;
 
-typedef struct PMSG_DUEL_LEAVECNANNEL_BROADCAST 
+typedef  PMSG_DUEL_LEAVECNANNEL_BROADCAST 
 {
 	PBMSG_HEAD2 h;
 	char szName[MAX_ACCOUNT_LEN];
 } PMSG_DUEL_LEAVECNANNEL_BROADCAST, *LPMSG_DUEL_LEAVECNANNEL_BROADCAST ;
 
-typedef struct PMSG_DUEL_ROUNDSTART_BROADCAST 
+typedef  PMSG_DUEL_ROUNDSTART_BROADCAST 
 {
 	PBMSG_HEAD2 h;
 	BYTE nFlag;
@@ -236,13 +237,13 @@ public:
 	void LoadData();
 	void Run();
 
-	int Reserve(OBJECTSTRUCT& requester, OBJECTSTRUCT& responsor);
-	int Join(OBJECTSTRUCT& requester, OBJECTSTRUCT& responsor);
-	void Cancel(OBJECTSTRUCT& requester, OBJECTSTRUCT& responsor, BOOL bSendPacket);
+	int Reserve(LPGameObject &requester, LPGameObject &responsor);
+	int Join(LPGameObject &requester, LPGameObject &responsor);
+	void Cancel(LPGameObject &requester, LPGameObject &responsor, BOOL bSendPacket);
 	int Leave(LPGameObject &Obj);
 	void SetScore(LPGameObject &Obj);
-	void CheckScore(LPGameObject &Obj, OBJECTSTRUCT& target);
-	BOOL SendChannelList(OBJECTSTRUCT& npc, LPGameObject &Obj);
+	void CheckScore(LPGameObject &Obj, LPGameObject &target);
+	BOOL SendChannelList(LPGameObject &npc, LPGameObject &Obj);
 	int JoinChannel(int nId, LPGameObject &Obj);
 	int LeaveChannel(int nId, LPGameObject &Obj);
 	void ChatMsgSend(LPGameObject &Obj, BYTE* Msg, int size);
@@ -297,7 +298,7 @@ public:
 
 	int IsEnable();
 
-	BOOL DropItem(LPGameObject &lpObj, LPGameObjectECTSTRUCT lpMonsterObj);
+	BOOL DropItem(LPGameObject &lpObj, LPGameObject &lpMonsterObj);
 
 private:
 	int GetDuelChannelId(char* lpszName);
@@ -307,8 +308,8 @@ private:
 	LPDUEL_CHANNEL GetDuelChannel(char* lpszName);
 	LPDUEL_CHANNEL GetDuelChannel();
 
-	void SetStatus(int nStatus,int nId, OBJECTSTRUCT& requester, OBJECTSTRUCT& responsor);
-	void SetDuelStatus(OBJECTSTRUCT& requester, OBJECTSTRUCT& responsor, int nStatus);
+	void SetStatus(int nStatus,int nId, LPGameObject &requester, LPGameObject &responsor);
+	void SetDuelStatus(LPGameObject &requester, LPGameObject &responsor, int nStatus);
 	
 	int GetDuelStatus(LPGameObject &Obj)
 	{
@@ -332,17 +333,17 @@ private:
 
 	int GetDuelStatusByResponsor(LPGameObject &Obj)
 	{
-		if(CHECK_LIMIT(obj.m_iDuelUserRequested, g_ConfigRead.server.GetObjectMax()))
+		if(CHECK_LIMIT(obj->m_iDuelUserRequested, g_ConfigRead.server.GetObjectMax()))
 		{
 			return ENEWPVP::E_ALREADY_DUELREQUESTED_1;
 		}
 
-		if(CHECK_LIMIT(obj.m_iDuelUserReserved, g_ConfigRead.server.GetObjectMax()))
+		if(CHECK_LIMIT(obj->m_iDuelUserReserved, g_ConfigRead.server.GetObjectMax()))
 		{
 			return ENEWPVP::E_ALREADY_DUELRESERVED_1;
 		}
 
-		if(CHECK_LIMIT(obj.m_iDuelUser, g_ConfigRead.server.GetObjectMax()))
+		if(CHECK_LIMIT(obj->m_iDuelUser, g_ConfigRead.server.GetObjectMax()))
 		{
 			return ENEWPVP::E_ALREADY_DUELLING_1;
 		}
@@ -350,8 +351,8 @@ private:
 		return 0;
 	};
 
-	void Leave(OBJECTSTRUCT& requester, OBJECTSTRUCT& responsor);
-	void ReFill(OBJECTSTRUCT & obj);
+	void Leave(LPGameObject &requester, LPGameObject &responsor);
+	void ReFill(LPGameObject &obj);
 	BOOL MoveGate(int nIndex,int nGateNum);
 	BOOL CheckLimitLevel(int nIndex, int nGateNum);
 	int GetChannelIdByObserver(LPGameObject &Obj);

@@ -271,7 +271,7 @@ enum eBuffEffectIndex
 	BUFFTYPE_ARCHANGEL_WILL = 0xF6
 };
 
-typedef struct 
+typedef  
 {
 	PBMSG_HEAD2 h;
 	WORD wOptionType;
@@ -285,13 +285,13 @@ typedef struct
 } PMSG_USEEFFECTITEM, *LPPMSG_USEEFFECTITEM;
 
 #pragma pack (1)
-typedef struct
+typedef 
 {
 	BYTE btBuffEffect;
 	int iLeftTime;
 } PMSG_BUFFEFFECTLIST, *LPPMSG_BUFFEFFECTLIST;
 
-typedef struct
+typedef 
 {
 	PBMSG_HEAD2 h;
 	char Name[MAX_ACCOUNT_LEN+1];

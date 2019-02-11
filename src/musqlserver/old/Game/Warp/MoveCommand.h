@@ -11,7 +11,7 @@
 
 #define MAX_MOVE_COMMAND 60
 
-typedef struct
+typedef 
 {
 	int Index;	// 0
 	char Name[255];	// 3
@@ -22,7 +22,7 @@ typedef struct
 	int GateNumber;	// 20C
 } MOVE_COMMAND_DATA, *LPMOVE_COMMAND_DATA;
 
-typedef struct
+typedef 
 {
 	int MoveLevel;	// 0
 	int MapNumber;	// 4

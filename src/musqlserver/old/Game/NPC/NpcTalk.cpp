@@ -1704,7 +1704,7 @@ bool NpcJulia(LPGameObject &lpNpc, LPGameObject lpObj)
 }
 
 struct PMSG_ANS_GUARD_IN_CASTLE_HUNTZONE {
-	/*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
+	/*<thisrel this+0x0>*/ /*|0x4|*/ PBMSG_HEAD2 h;
 	/*<thisrel this+0x4>*/ /*|0x1|*/ BYTE btResult;
 	/*<thisrel this+0x5>*/ /*|0x1|*/ BYTE btUsable;
 	/*<thisrel this+0x8>*/ /*|0x4|*/ int iCurrentPrice;

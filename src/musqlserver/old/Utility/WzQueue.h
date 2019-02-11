@@ -13,7 +13,7 @@
 
 #include "stdafx.h"
 
-typedef struct _ListNode
+typedef  _ListNode
 {
 	_ListNode * lpNodePre;	// 0
 	_ListNode * lpNodeNext;	// 4

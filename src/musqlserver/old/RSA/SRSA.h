@@ -6,7 +6,7 @@
 class IgcInt;
 
 #pragma pack(push, 1)
-typedef struct t_RSA_DATA_HEADER{
+typedef  t_RSA_DATA_HEADER{
 	DWORD crc;
 	WORD size;
 	DWORD old_crc;

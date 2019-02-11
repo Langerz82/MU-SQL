@@ -6,6 +6,7 @@
 #endif // _MSC_VER > 1000
 
 
+#include "custTypedef.h"
 #include "MuDefines.h"
 #include "ServerEngine.h"
 #include "MuunInfo.h"
@@ -14,9 +15,6 @@
 
 #include <string>
 #include <map>
-
-class CItem;
-class CMuunInfo;
 
 struct STR_ITEM_LEVEL_RATE;
 struct STR_LUCKY_ITEM_EQUIPMENT;
@@ -45,6 +43,9 @@ struct PMSG_GREMORYCASE_ITEM;
 struct JEWELOFHARMONY_ITEM_EFFECT;
 struct JEWELOFHARMONY_ITEM_OPTION;
 struct ITEMEFFECT;
+struct STR_STRINGCOMPARE;
+struct MU_WSAOVERLAPPED;
+struct MU_WSABUF;
 
 
 
@@ -1243,16 +1244,16 @@ struct DevilSquareScoreInfo
 	int BonusZen;	// 14
 };
 
-typedef struct STR_STRINGCOMPARE
+struct STR_STRINGCOMPARE
 {
 	bool operator()(const std::string s1, const std::string s2) const
 	{
 		return strcmp(s1.data(), s2.data()) < 0;
 	}
-} strCmp;
+} ;
 
-typedef std::map<std::string, STR_GUILD_MEMBER*, strCmp> MAP_GUILD_MEMBER;
-typedef std::map<std::string, STR_GUILD_INFO_STRUCT*, strCmp> MAP_GUILD_INFO;
+typedef std::map<std::string, STR_GUILD_MEMBER*, STR_STRINGCOMPARE> MAP_GUILD_MEMBER;
+typedef std::map<std::string, STR_GUILD_INFO_STRUCT*, STR_STRINGCOMPARE> MAP_GUILD_INFO;
 typedef std::map<int, STR_UNION_MEMBER_DATA*> MAP_MEMBER_DATA;
 
 
@@ -1824,20 +1825,6 @@ struct STR_CS_USER
 	bool News;
 	int PacketCount;
 	ULONGLONG i64PacketTime;
-};
-
-struct _PER_IO_CONTEXT
-{
-	MU_WSAOVERLAPPED Overlapped; // 0
-	MU_WSABUF wsabuf;
-	unsigned char Buffer[MAX_IO_BUFFER_SIZE]; // 1C
-	unsigned char BufferSecond[MAX_IO_BUFFER_SIZE]; // 178C
-	int nSecondOfs; // 2EFC
-	int nTotalBytes;	// 2F00
-	int nSentBytes; // 2F04
-	int IOOperation; // 2F08
-	int nWaitIO; // 2F0C
-
 };
 
 typedef struct tagIocpServerParameter
@@ -2497,20 +2484,33 @@ struct CharacterNameOfUBF
 	WORD nServerCodeOfHomeWorld;
 };
 
-typedef struct MU_WSAOVERLAPPED {
+typedef struct {
 	DWORD    Internal;
 	DWORD    InternalHigh;
 	DWORD    Offset;
 	DWORD    OffsetHigh;
 	DWORD	 hEvent;
-} FAR * LPMU_WSAOVERLAPPED;
+} MU_WSAOVERLAPPED, *LPMU_WSAOVERLAPPED;
 
-typedef struct MU_WSABUF {
+typedef struct {
 	ULONG len;
 	CHAR* buf;
-} *LPMU_WSABUF;
+} MU_WSABUF, *LPMU_WSABUF;
 
 // END USER STRUCTS
 
+struct _PER_IO_CONTEXT
+{
+	MU_WSAOVERLAPPED m_Overlapped; // 0
+	MU_WSABUF m_wsabuf;
+	unsigned char Buffer[MAX_IO_BUFFER_SIZE]; // 1C
+	unsigned char BufferSecond[MAX_IO_BUFFER_SIZE]; // 178C
+	int nSecondOfs; // 2EFC
+	int nTotalBytes;	// 2F00
+	int nSentBytes; // 2F04
+	int IOOperation; // 2F08
+	int nWaitIO; // 2F0C
+
+};
 
 #endif

@@ -23,7 +23,7 @@ License: Give credit where credit is due.
 
 // Grabbed this definition of MSDN and modified one pointer
 // http://msdn.microsoft.com/en-us/library/ms684280(VS.85).aspx
-typedef struct _PROCESS_BASIC_INFORMATION {
+typedef  _PROCESS_BASIC_INFORMATION {
 	PVOID Reserved1;
 	void* PebBaseAddress;
 	PVOID Reserved2[2];
@@ -33,14 +33,14 @@ typedef struct _PROCESS_BASIC_INFORMATION {
 
 // Taken from: http://msdn.microsoft.com/en-us/library/
 // aa380518(VS.85).aspx
-typedef struct _LSA_UNICODE_STRING {
+typedef  _LSA_UNICODE_STRING {
 	USHORT Length;
 	USHORT MaximumLength;
 	PWSTR Buffer;
 } LSA_UNICODE_STRING, *PLSA_UNICODE_STRING, 
 UNICODE_STRING, *PUNICODE_STRING;
 
-typedef struct _OBJECT_TYPE_INFORMATION {
+typedef  _OBJECT_TYPE_INFORMATION {
 	UNICODE_STRING TypeName;
 	ULONG TotalNumberOfHandles;
 	ULONG TotalNumberOfObjects;
@@ -48,7 +48,7 @@ typedef struct _OBJECT_TYPE_INFORMATION {
 
 // Returned by the ObjectAllTypeInformation class
 // passed to NtQueryObject
-typedef struct _OBJECT_ALL_INFORMATION {
+typedef  _OBJECT_ALL_INFORMATION {
 	ULONG NumberOfObjects;
 	OBJECT_TYPE_INFORMATION ObjectTypeInformation[1];
 }OBJECT_ALL_INFORMATION, *POBJECT_ALL_INFORMATION;

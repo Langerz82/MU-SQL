@@ -2368,7 +2368,7 @@ PUGI__NS_BEGIN
 			}
 			else if (*s == 0 && endch == '-') PUGI__THROW_ERROR(status_bad_comment, s);
 			else if (*s == 0 && endch == '[') PUGI__THROW_ERROR(status_bad_cdata, s);
-			else PUGI__THROW_ERROR(status_unrecognized_tag, s);
+			else PUGI__THROW_ERROR(status_unrecognized, s);
 
 			return s;
 		}
@@ -2642,7 +2642,7 @@ PUGI__NS_BEGIN
 						if (!s) return s;
 					}
 					else if (*s == 0 && endch == '?') PUGI__THROW_ERROR(status_bad_pi, s);
-					else PUGI__THROW_ERROR(status_unrecognized_tag, s);
+					else PUGI__THROW_ERROR(status_unrecognized, s);
 				}
 				else
 				{
@@ -2759,7 +2759,7 @@ PUGI__NS_BEGIN
 			{
 				// since we removed last character, we have to handle the only possible false positive (stray <)
 				if (endch == '<')
-					return make_parse_result(status_unrecognized_tag, length - 1);
+					return make_parse_result(status_unrecognized, length - 1);
 
 				// check if there are any element nodes parsed
 				xml_node_struct* first_root_child_parsed = last_root_child ? last_root_child->next_sibling : root->first_child;
@@ -5518,7 +5518,7 @@ namespace pugi
 		case status_out_of_memory: return "Could not allocate memory";
 		case status_internal_error: return "Internal error occurred";
 
-		case status_unrecognized_tag: return "Could not determine tag type";
+		case status_unrecognized: return "Could not determine tag type";
 
 		case status_bad_pi: return "Error parsing document declaration/processing instruction";
 		case status_bad_comment: return "Error parsing comment";
@@ -5798,19 +5798,19 @@ namespace pugi
 namespace std
 {
 	// Workarounds for (non-standard) iterator category detection for older versions (MSVC7/IC8 and earlier)
-	PUGI__FN std::bidirectional_iterator_tag _Iter_cat(const pugi::xml_node_iterator&)
+	PUGI__FN std::bidirectional_iterator _Iter_cat(const pugi::xml_node_iterator&)
 	{
-		return std::bidirectional_iterator_tag();
+		return std::bidirectional_iterator();
 	}
 
-	PUGI__FN std::bidirectional_iterator_tag _Iter_cat(const pugi::xml_attribute_iterator&)
+	PUGI__FN std::bidirectional_iterator _Iter_cat(const pugi::xml_attribute_iterator&)
 	{
-		return std::bidirectional_iterator_tag();
+		return std::bidirectional_iterator();
 	}
 
-	PUGI__FN std::bidirectional_iterator_tag _Iter_cat(const pugi::xml_named_node_iterator&)
+	PUGI__FN std::bidirectional_iterator _Iter_cat(const pugi::xml_named_node_iterator&)
 	{
-		return std::bidirectional_iterator_tag();
+		return std::bidirectional_iterator();
 	}
 }
 #endif
@@ -5819,19 +5819,19 @@ namespace std
 namespace std
 {
 	// Workarounds for (non-standard) iterator category detection
-	PUGI__FN std::bidirectional_iterator_tag __iterator_category(const pugi::xml_node_iterator&)
+	PUGI__FN std::bidirectional_iterator __iterator_category(const pugi::xml_node_iterator&)
 	{
-		return std::bidirectional_iterator_tag();
+		return std::bidirectional_iterator();
 	}
 
-	PUGI__FN std::bidirectional_iterator_tag __iterator_category(const pugi::xml_attribute_iterator&)
+	PUGI__FN std::bidirectional_iterator __iterator_category(const pugi::xml_attribute_iterator&)
 	{
-		return std::bidirectional_iterator_tag();
+		return std::bidirectional_iterator();
 	}
 
-	PUGI__FN std::bidirectional_iterator_tag __iterator_category(const pugi::xml_named_node_iterator&)
+	PUGI__FN std::bidirectional_iterator __iterator_category(const pugi::xml_named_node_iterator&)
 	{
-		return std::bidirectional_iterator_tag();
+		return std::bidirectional_iterator();
 	}
 }
 #endif

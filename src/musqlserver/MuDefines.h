@@ -179,7 +179,6 @@
 #define MAX_ITEM_IN_SHOP 120
 
 
-#define MAX_ACCOUNT_LEN 10
 #define MAX_TYPE_PLAYER 8
 #define MAX_NUMBER_MAP 101
 

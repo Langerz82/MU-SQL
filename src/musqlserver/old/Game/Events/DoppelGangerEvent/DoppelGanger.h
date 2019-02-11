@@ -69,9 +69,9 @@ private:
 	BOOL	m_bMove;
 };
 
-struct __tagDOPPELGANGER_USERINFO
+struct _DOPPELGANGER_USERINFO
 {
-	__tagDOPPELGANGER_USERINFO()
+	_DOPPELGANGER_USERINFO()
 	{
 		this->m_nIndex = -1;
 		this->m_nLevel = 0;
@@ -369,7 +369,7 @@ private:
 	int								m_nFirstMonsterIndex;
 	BYTE							m_btFirstIndex;
 	CRITICAL_SECTION				m_CSMonsterHerd;
-	__tagDOPPELGANGER_USERINFO		m_UserData[MAX_DOPPELGANGER_USER_INFO];
+	_DOPPELGANGER_USERINFO		m_UserData[MAX_DOPPELGANGER_USER_INFO];
 	CDoppelGangerMonsterHerd		m_MonsterHerd[MAX_DOPPELGANGER_MONSTER_INFO];
 	int								m_nHerdCnt;
 	int								m_nBossRegenOrder;

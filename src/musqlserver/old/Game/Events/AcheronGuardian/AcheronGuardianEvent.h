@@ -9,7 +9,7 @@
 
 structAE_OBELISK_INFO
 {
-	_tagAE_OBELISK_INFO()
+	AE_OBELISK_INFO()
 	{
 		this->m_iGroupNumber = 0;
 		this->m_iAttrKind = 0;
@@ -176,10 +176,10 @@ private:
 	int m_iAB_PlayTimeMin;
 	int m_iAB_ChCloseMin;
 	int m_iDayOfWeekCycle[7];
-	std::vector<_tagAcheronEventTime> m_vtAcheronEventTime;
+	std::vector<AcheronEventTime> m_vtAcheronEventTime;
 	LONGLONG m_i64_REMAIN_MSEC;
 	LONGLONG m_i64_TICK_COUNT;
-	_tagAE_OBELISK_INFO m_stObeliskInfo[5];
+	AE_OBELISK_INFO m_stObeliskInfo[5];
 	_stAEMonPosition m_stMonsterPosition[5];
 	_stAEMonGroupInfo m_stMonsterGroupInfo[5];
 	bool m_bWindowClose;

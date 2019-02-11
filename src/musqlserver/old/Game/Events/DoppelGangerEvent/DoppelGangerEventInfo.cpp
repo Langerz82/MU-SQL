@@ -25,7 +25,7 @@ void CDoppelGangerEventInfo::LoadDoppelgangerEventInfo(LPSTR lpFile)
 		return;
 	}
 
-	_tagDOPPELGANGER_EVENT_INFO m_DGInfo;
+	DOPPELGANGER_EVENT_INFO m_DGInfo;
 
 	pugi::xml_node mainXML = file.child("DoppelGanger");
 
@@ -134,7 +134,7 @@ void CDoppelGangerEventInfo::ClearDoppelgangerEventInfo()
 	this->m_mapDoppelEvent_Info.clear();
 }
 
-_tagDOPPELGANGER_EVENT_INFO * CDoppelGangerEventInfo::GetDoppelgangerEventInfo(int nUserMaxLevel)
+DOPPELGANGER_EVENT_INFO * CDoppelGangerEventInfo::GetDoppelgangerEventInfo(int nUserMaxLevel)
 {
 	int nKey = (nUserMaxLevel-1) / 10 * 10 + 10;
 
@@ -152,7 +152,7 @@ BOOL CDoppelGangerEventInfo::SetDoppelgangerEventInfo(int nUserCount, int nUserM
 {
 	this->m_nDoppelgangerUserCnt = nUserCount;
 
-	_tagDOPPELGANGER_EVENT_INFO *lpDGInfo = this->GetDoppelgangerEventInfo(nUserMaxLevel);
+	DOPPELGANGER_EVENT_INFO *lpDGInfo = this->GetDoppelgangerEventInfo(nUserMaxLevel);
 
 	if ( lpDGInfo == NULL )
 	{

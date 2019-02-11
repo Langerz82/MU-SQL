@@ -77,7 +77,7 @@ void CArcaBattle::Clear()
 
 BOOL CArcaBattle::GetBootyRewardItem(int iBootyCnt,ARCA_BATTLE_BOOTY_REWARD *pBootyRewardItem)
 {
-	_tagARCA_BATTLE_BOOTY_MIX pBootMix;
+	ARCA_BATTLE_BOOTY_MIX pBootMix;
 	bool bMixFound = false;
 
 	for (int i = 0; i < this->m_iBootyMixCnt; i++ )
@@ -207,7 +207,7 @@ void CArcaBattle::GiveRewardBuffWinningGuild()
 
 			if ( lpGuild )
 			{
-				_tagPeriodBuffInfo BuffInfo;
+				PeriodBuffInfo BuffInfo;
 
 				BuffInfo.btEffectType1 = 0;
 				BuffInfo.btEffectType2 = 0;
@@ -519,7 +519,7 @@ int CArcaBattle::CheckSync()
 
 	SYSTEMTIME tmToDay;
 	SYSTEMTIME systime;
-	_tagARCA_BATTLE_START_TIME pRET;
+	ARCA_BATTLE_START_TIME pRET;
 	int bTIME_CHANGED = 0;
 	int iMIN_HOUR;
 	int iMIN_MINUTE;
@@ -544,7 +544,7 @@ int CArcaBattle::CheckSync()
 
 			GetLocalTime(&systime);
 
-			for ( std::vector<_tagARCA_BATTLE_START_TIME>::iterator It = this->m_vtArcaBattleOpenTime.begin(); It != this->m_vtArcaBattleOpenTime.end(); It++ )
+			for ( std::vector<ARCA_BATTLE_START_TIME>::iterator It = this->m_vtArcaBattleOpenTime.begin(); It != this->m_vtArcaBattleOpenTime.end(); It++ )
 			{
 				pRET = *It;
 
@@ -561,7 +561,7 @@ int CArcaBattle::CheckSync()
 				iMIN_HOUR = 24;
 				iMIN_MINUTE = 60;
 
-				for ( std::vector<_tagARCA_BATTLE_START_TIME>::iterator It = this->m_vtArcaBattleOpenTime.begin(); It != this->m_vtArcaBattleOpenTime.end(); It++ )
+				for ( std::vector<ARCA_BATTLE_START_TIME>::iterator It = this->m_vtArcaBattleOpenTime.begin(); It != this->m_vtArcaBattleOpenTime.end(); It++ )
 				{
 					if ( iMIN_MINUTE + 60 * iMIN_HOUR > It->m_iMinute + 60 * It->m_iHour )
 					{
@@ -1264,7 +1264,7 @@ BOOL CArcaBattle::EnterArcaBattleEvent(LPGameObject &lpObj)
 	return TRUE;
 }
 
-_tagArcaBattleUserInfo * CArcaBattle::GetUserInfo(char *szName)
+ArcaBattleUserInfo * CArcaBattle::GetUserInfo(char *szName)
 {
 	for ( int i = 0; i < this->m_iCurUserCount; ++i )
 	{
@@ -1795,7 +1795,7 @@ int CArcaBattle::GetMaxObeliskCnt()
 
 BOOL CArcaBattle::IsEnableAttackObelisk(LPGameObject lpObj, int iMonNumber)
 {
-	_tagOBELISK_STATE *pObeliskState = NULL;
+	OBELISK_STATE *pObeliskState = NULL;
 
 	for (int i = 0; i < this->m_iObeliskCnt; i++)
 	{
@@ -2129,7 +2129,7 @@ void CArcaBattle::SendPlayResult()
 				}
 			}
 
-			_tagArcaBattleUserInfo * pUserInfo = this->GetUserInfo(lpObj->Name);
+			ArcaBattleUserInfo * pUserInfo = this->GetUserInfo(lpObj->Name);
 
 			if ( !pUserInfo )
 			{
@@ -2344,7 +2344,7 @@ void CArcaBattle::AddContributePoint(LPGameObject &lpObj, LPGameObject &lpTarget
 	char szName[MAX_ACCOUNT_LEN+1];
 	memcpy(szName, lpObj->Name, MAX_ACCOUNT_LEN+1);
 
-	_tagArcaBattleUserInfo * pUserInfo = this->GetUserInfo(szName);
+	ArcaBattleUserInfo * pUserInfo = this->GetUserInfo(szName);
 
 	if (pUserInfo == NULL)
 	{
@@ -2459,7 +2459,7 @@ void CArcaBattle::AddKillPoint(LPGameObject &lpObj, LPGameObject &lpTargetObj)
 	char szName[MAX_ACCOUNT_LEN + 1];
 	memcpy(szName, lpObj->Name, MAX_ACCOUNT_LEN + 1);
 
-	_tagArcaBattleUserInfo * pUserInfo = this->GetUserInfo(szName);
+	ArcaBattleUserInfo * pUserInfo = this->GetUserInfo(szName);
 
 	if (!pUserInfo)
 	{
@@ -2476,7 +2476,7 @@ void CArcaBattle::AddKillPoint(LPGameObject &lpObj, LPGameObject &lpTargetObj)
 		char szTargetName[MAX_ACCOUNT_LEN + 1];
 		memcpy(szTargetName, lpTargetObj->Name, MAX_ACCOUNT_LEN + 1);
 
-		_tagArcaBattleUserInfo * pTargetUserInfo = this->GetUserInfo(szTargetName);
+		ArcaBattleUserInfo * pTargetUserInfo = this->GetUserInfo(szTargetName);
 
 		if (pTargetUserInfo && pTargetUserInfo->bBootyDrop == false)
 		{
@@ -2546,7 +2546,7 @@ void CArcaBattle::BootyItemGetCnt(LPGameObject &lpObj)
 	char szName[MAX_ACCOUNT_LEN+1];
 	memcpy(szName, lpObj->Name, MAX_ACCOUNT_LEN+1);
 
-	_tagArcaBattleUserInfo * pUserInfo = this->GetUserInfo(szName);
+	ArcaBattleUserInfo * pUserInfo = this->GetUserInfo(szName);
 
 	if ( pUserInfo )
 	{
@@ -2566,7 +2566,7 @@ void CArcaBattle::CalcRewardExp(LPGameObject &lpObj, UINT64 &iRewardExp)
 	char szName[MAX_ACCOUNT_LEN+1];
 	memcpy(szName, lpObj->Name, MAX_ACCOUNT_LEN+1);
 
-	_tagArcaBattleUserInfo *pUserInfo = this->GetUserInfo(szName);
+	ArcaBattleUserInfo *pUserInfo = this->GetUserInfo(szName);
 
 	if ( !pUserInfo )
     {
@@ -3754,7 +3754,7 @@ void CArcaBattle::BootyExchange(LPGameObject &lpObj)
 	sLog->outBasic("[ArcaBattle][BootyExchange] - Exchange Start");
 	sLog->outBasic("[ArcaBattle][BootyExchange] Booty Item Cnt [%s][%s][%d]", lpObj->AccountID, lpObj->Name, iItemCnt);
 
-	_tagARCA_BATTLE_BOOTY_REWARD stRewardItemInfo;
+	ARCA_BATTLE_BOOTY_REWARD stRewardItemInfo;
 	BOOL bReward = g_ArcaBattle.GetBootyRewardItem(iItemCnt, &stRewardItemInfo);
 
 	if (bReward == FALSE)
@@ -4125,7 +4125,7 @@ bool CArcaBattle::LoadScriptArcaBattle(char *lpszFileName)
 
 	for (pugi::xml_node start = schedule.child("Start"); start; start = start.next_sibling())
 	{
-		_tagARCA_BATTLE_START_TIME pRET;
+		ARCA_BATTLE_START_TIME pRET;
 
 		pRET.m_iHour = start.attribute("Hour").as_int();
 		pRET.m_iMinute = start.attribute("Minute").as_int();

@@ -32,9 +32,9 @@ typedef struct
 	BYTE btEffectType2;
 	WORD wEffectValue2;
 	DWORD dwDuration;
-}_tagPeriodBuffEffectInfo, * LPPERIOD_BUFF_EFFECT_INFO;
+}PeriodBuffEffectInfo, * LPPERIOD_BUFF_EFFECT_INFO;
 
-structPeriodBuffInfo
+struct PeriodBuffInfo
 {
 	WORD wBuffIndex;
 	char btEffectType1;
@@ -62,7 +62,7 @@ private:
 	int iBuffCount;
 	int iPeriodBuffCount;
 	BUFF_EFFECT_DATE BuffData[MAX_BUFF_EFFECT-1];
-	_tagPeriodBuffEffectInfo PeriodBuffInfo[MAX_BUFF_EFFECT-1];
+	PeriodBuffEffectInfo PeriodBuffInfo[MAX_BUFF_EFFECT-1];
 
 };
 

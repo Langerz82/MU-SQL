@@ -13,7 +13,7 @@
 #define MAX_LEVEL_MONSTER 255
 #define MAX_MAGIC_IN_MONSTER 100
 
-struct __tagMONSTER_ITEM_DROP_PRATE_
+struct _MONSTER_ITEM_DROP_PRATE_
 {
 	int m_Level;
 	int m_MagicBook;
@@ -48,7 +48,7 @@ public:
 	int CheckMonsterDropItem(int type, int index);
 	CItem * GetItemEx(int monsterlevel);
 	void NormalGiveItemSearchEx(int monsterlevel, int maxlevel);
-	__tagMONSTER_ITEM_DROP_PRATE_ m_MonsterItemDropRate[MAX_LEVEL_MONSTER];
+	_MONSTER_ITEM_DROP_PRATE_ m_MonsterItemDropRate[MAX_LEVEL_MONSTER];
 	CItem *m_MonsterInvenItems[MAX_LEVEL_MONSTER];
 	int m_iMonsterInvenItemCount[MAX_LEVEL_MONSTER];
 	char MonsterName[255];

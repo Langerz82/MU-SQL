@@ -2257,7 +2257,7 @@ int  CChaosCastle::GetCurPlayUser(int iChaosCastleIndex)
 
 
 
-/*typedef struct _SYSTEMTIME {
+/*typedef  _SYSTEMTIME {
     WORD wYear;
     WORD wMonth;
     WORD wDayOfWeek;
@@ -3316,7 +3316,7 @@ CHAOSCASTLE_MONSTER_POSITION * CChaosCastle::GetMonsterPosData(int iPosNum, int 
 }
 
 struct PMSG_ANS_CHAOSCASTLE_RANKING {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	char AccountID[10];
 	char GameID[10];
 	int ServerCode;

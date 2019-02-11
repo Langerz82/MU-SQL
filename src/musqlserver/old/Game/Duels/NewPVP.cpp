@@ -68,7 +68,7 @@ void CNewPVP::Run()
 
 	while(iter!=m_Waiting.end())
 	{
-		_tagWaiting & waiting = iter->second;
+		Waiting & waiting = iter->second;
 		if(waiting.bExpired == 1)
 		{
 			iter = m_Waiting.erase(iter);
@@ -324,7 +324,7 @@ void CNewPVP::SetDuelStatus(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor, in
 	}
 }
 
-int CNewPVP::Reserve(OBJECTSTRUCT & requester,OBJECTSTRUCT& responsor)
+int CNewPVP::Reserve(OBJECTSTRUCT & requester,LPGameObject &responsor)
 {
 	int nRet = GetDuelStatus(requester);
 	if(nRet)	return nRet;
@@ -349,7 +349,7 @@ int CNewPVP::Reserve(OBJECTSTRUCT & requester,OBJECTSTRUCT& responsor)
 	if( !CheckLimitLevel(requester.m_Index,g_GateRequester[0]) )	return ENEWPVP::E_LIMIT_LEVEL;
 	if( !CheckLimitLevel(responsor.m_Index,g_GateResponsor[0]) )	return ENEWPVP::E_LIMIT_LEVEL;
 
-	_tagWaiting waiting = {0};
+	Waiting waiting = {0};
     waiting.nRequester = requester.m_Index;
     waiting.nResponsor = responsor.m_Index;
     waiting.bExpired = 0;
@@ -357,7 +357,7 @@ int CNewPVP::Reserve(OBJECTSTRUCT & requester,OBJECTSTRUCT& responsor)
 
 	EnterCriticalSection(&this->m_csWaiting);
 
-	std::pair< std::map<int,_tagWaiting>::iterator, bool > pair = m_Waiting.insert( std::make_pair(requester.m_Index,  waiting) );
+	std::pair< std::map<int,Waiting>::iterator, bool > pair = m_Waiting.insert( std::make_pair(requester.m_Index,  waiting) );
 	if(pair.second == false)
 	{
 		sLog->outBasic("%s\t%s\t%s\t%s\t%d","pair.second","ENEWPVP::E_FAILED_ENTER","NULL",__FILE__,__LINE__);
@@ -400,7 +400,7 @@ int CNewPVP::Join(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor)
 		return ENEWPVP::E_NOT_EXIST_USER;
 	}
 
-	_tagWaiting & waiting = iter->second;
+	Waiting & waiting = iter->second;
 	waiting.bExpired = 1;
 	LeaveCriticalSection(&this->m_csWaiting);
 
@@ -484,7 +484,7 @@ void CNewPVP::Cancel(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor, BOOL bSen
 		return; 
 	}
 
-	_tagWaiting & waiting = iter->second;
+	Waiting & waiting = iter->second;
 	waiting.bExpired = 1;
 	LeaveCriticalSection(&this->m_csWaiting);
 
@@ -579,7 +579,7 @@ void CNewPVP::SetScore(LPGameObject &Obj)
     obj.m_btDuelScore++;
 }
 
-void CNewPVP::CheckScore(LPGameObject &Obj, OBJECTSTRUCT& target)
+void CNewPVP::CheckScore(LPGameObject &Obj, LPGameObject &target)
 {
 	int nId = GetDuelChannelId(obj.m_Index);
 	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
@@ -722,7 +722,7 @@ int CNewPVP::GetChannelIdByObserver(OBJECTSTRUCT & obj)
 		return -1;
 	}
 
-	_tagObserverInfo & info = iter->second;
+	ObserverInfo & info = iter->second;
 
 	if( info.nId < 0 || info.nId >= DUEL_CHANNEL_MAX)
     {
@@ -765,8 +765,8 @@ void CNewPVP::ChatMsgSend(LPGameObject &Obj,BYTE* Msg, int size)
 
 	LPDUEL_CHANNEL lpChannel = &m_DuelChannel[nId];
 
-	OBJECTSTRUCT& requester = gGameObjects[lpChannel->nIndex1];
-    OBJECTSTRUCT& responsor = gGameObjects[lpChannel->nIndex2];
+	LPGameObject &requester = gGameObjects[lpChannel->nIndex1];
+    LPGameObject &responsor = gGameObjects[lpChannel->nIndex2];
 
 	if(gObjIsConnected(&requester))
 	{
@@ -857,7 +857,7 @@ int CNewPVP::JoinChannel(int nId,LPGameObject &Obj)
 	memcpy(info.szName, obj.Name, MAX_ACCOUNT_LEN);
 
 	EnterCriticalSection(&this->m_csObserver);
-	std::pair< std::map<int,_tagObserverInfo>::iterator, bool > pair = m_ObserverInfoList.insert( std::make_pair(obj.m_Index,  info) );
+	std::pair< std::map<int,ObserverInfo>::iterator, bool > pair = m_ObserverInfoList.insert( std::make_pair(obj.m_Index,  info) );
 
 	if(pair.second == false)
 	{

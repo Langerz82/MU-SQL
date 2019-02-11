@@ -36,9 +36,9 @@
 
 //#include <vld.h>
 // Local Header Files
-#include "prodef.h"
+#include "custTypedef.h"
+#include "GensSystemProtocol.h"
 #include "classdef.h"
-#include "custTypeDef.h"
 
 #include "Lang.h"
 #include "Config\iniReader\IniReader.h"

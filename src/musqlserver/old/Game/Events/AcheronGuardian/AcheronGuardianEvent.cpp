@@ -80,7 +80,7 @@ bool CAcheronGuardianEvent::LoadScriptAcheronEvent(char *lpszFileName)
 
 	for (pugi::xml_node start = schedule.child("Start"); start; start = start.next_sibling())
 	{
-		_tagAcheronEventTime pRET;
+		AcheronEventTime pRET;
 
 		pRET.m_iHour = start.attribute("Hour").as_int();
 		pRET.m_iMinute = start.attribute("Minute").as_int();
@@ -208,7 +208,7 @@ bool CAcheronGuardianEvent::CheckSync()
 
 	SYSTEMTIME tmToDay;
 	SYSTEMTIME systime;
-	_tagAcheronEventTime pRET;
+	AcheronEventTime pRET;
 	int bTIME_CHANGED = 0;
 	int iMIN_HOUR;
 	int iMIN_MINUTE;
@@ -231,7 +231,7 @@ bool CAcheronGuardianEvent::CheckSync()
 
 			GetLocalTime(&systime);
 
-			for (std::vector<_tagAcheronEventTime>::iterator It = this->m_vtAcheronEventTime.begin(); It != this->m_vtAcheronEventTime.end(); It++)
+			for (std::vector<AcheronEventTime>::iterator It = this->m_vtAcheronEventTime.begin(); It != this->m_vtAcheronEventTime.end(); It++)
 			{
 				pRET = *It;
 
@@ -248,7 +248,7 @@ bool CAcheronGuardianEvent::CheckSync()
 				iMIN_HOUR = 24;
 				iMIN_MINUTE = 60;
 
-				for (std::vector<_tagAcheronEventTime>::iterator It = this->m_vtAcheronEventTime.begin(); It != this->m_vtAcheronEventTime.end(); It++)
+				for (std::vector<AcheronEventTime>::iterator It = this->m_vtAcheronEventTime.begin(); It != this->m_vtAcheronEventTime.end(); It++)
 				{
 					if (iMIN_MINUTE + 60 * iMIN_HOUR > It->m_iMinute + 60 * It->m_iHour)
 					{

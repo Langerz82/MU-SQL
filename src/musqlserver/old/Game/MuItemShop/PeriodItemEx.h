@@ -15,7 +15,7 @@ enum PERIODITEM_TYPE
 };
 
 
-typedef struct
+typedef 
 {
 	DWORD dwUserGuid;
 	BYTE btItemCount;
@@ -24,7 +24,7 @@ typedef struct
 }PERIOD_ITEMLIST, *LPPERIOD_ITEMLIST;
 
 
-typedef struct
+typedef 
 {
 	BYTE btItemCount;
 	PERIOD_EXPIRED_ITEM ExpiredItem[90];

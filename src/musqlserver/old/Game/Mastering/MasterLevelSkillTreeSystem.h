@@ -121,8 +121,8 @@ public:
 	void AddToValueTable(int iSkillValueID, const char * szFunctionName, int iSkillValueType);
 	void Load(const char *lpszFileName);
 
-	void InitPassiveSkillData(OBJECTSTRUCT* lpObj);
-	void CalcPassiveSkillData(OBJECTSTRUCT* lpObj, int iMLSkill, int iSkillLevel);
+	void InitPassiveSkillData(LPGameObject &lpObj);
+	void CalcPassiveSkillData(LPGameObject &lpObj, int iMLSkill, int iSkillLevel);
 	int CheckSkillCondition(LPGameObject lpObj, int iMLSkill, int iSkillLevel);
 	int CheckCompleteBrandOfSkill(LPGameObject lpObj, int iMLSkill);
 	int CheckMasterLevelSkill(int iMLSkill);

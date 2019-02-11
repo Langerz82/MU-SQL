@@ -16845,7 +16845,7 @@ void gObjStateSetCreate(LPGameObject &lpObj)
 #pragma pack (1)
 struct PMSG_CHARREGEN
 {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	BYTE subcode;
 	BYTE MapX;
 	BYTE MapY;
@@ -17429,7 +17429,7 @@ void gObjSetState()
 						{
 							if (g_ArcaBattle.IsArcaBattleServer() == TRUE && g_AcheronGuardianEvent.GetProcState() == 1)
 							{
-								_tagPeriodBuffInfo BuffInfo;
+								PeriodBuffInfo BuffInfo;
 								LPPERIOD_BUFF_EFFECT_INFO lpPeriBuff = g_BuffEffectSlot.GetPeriodBuffInfo(184);
 
 								if (!lpPeriBuff)
@@ -25096,7 +25096,7 @@ void gObjSetKillCount(LPGameObject &lpObj, int iOption)	// Option : [0 : SetToZe
 
 struct PMSG_NOTIFY_REGION_OF_WEAPON
 {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	BYTE btWeaponType;
 	BYTE btPointX;
 	BYTE btPointY;
@@ -25104,7 +25104,7 @@ struct PMSG_NOTIFY_REGION_OF_WEAPON
 
 struct PMSG_NOTIFY_TARGET_OF_WEAPON
 {
-	struct PBMSG_HEAD2 h;
+	PBMSG_HEAD2 h;
 	BYTE NumberH;
 	BYTE NumberL;
 	BYTE btWeaponType;

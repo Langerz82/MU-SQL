@@ -39,7 +39,7 @@ void CDoppelGangerItemBag::LoadDoppelgangerItemBag(LPSTR lpFile)
 
 	for (pugi::xml_node section = section_rates.child("Section"); section; section = section.next_sibling())
 	{
-		__tagDOPPELGANGER_DROP_ITEM_GROUP_INFO tmpItemGroupInfo;
+		_DOPPELGANGER_DROP_ITEM_GROUP_INFO tmpItemGroupInfo;
 
 		tmpItemGroupInfo.nGroupIndex = section.attribute("ID").as_int();
 		tmpItemGroupInfo.nSkillRate = section.attribute("SkillRate").as_int();
@@ -47,7 +47,7 @@ void CDoppelGangerItemBag::LoadDoppelgangerItemBag(LPSTR lpFile)
 		tmpItemGroupInfo.nAddOptRate = section.attribute("OptionRate").as_int();
 		tmpItemGroupInfo.nExOptRate = section.attribute("ExcRate").as_int();
 
-		this->vtDPItemBag.insert(std::pair<int, __tagDOPPELGANGER_DROP_ITEM_GROUP_INFO>(tmpItemGroupInfo.nGroupIndex, tmpItemGroupInfo));
+		this->vtDPItemBag.insert(std::pair<int, _DOPPELGANGER_DROP_ITEM_GROUP_INFO>(tmpItemGroupInfo.nGroupIndex, tmpItemGroupInfo));
 	}
 
 	pugi::xml_node item_option = mainXML.child("ItemOptionDrawSettings");

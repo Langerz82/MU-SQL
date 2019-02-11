@@ -33,7 +33,7 @@ int gObjCallMonCount;
 MessageStateMachine ** gSMMsg;
 ExMessageStateMachine ** gSMAttackProcMsg;
 BILL_CLASS * m_ObjBill;	// line : 193
-static CRaklionUtil RAKLION_UTIL;
+CRaklionUtil RAKLION_UTIL;
 CItem * pTempInventory;
 BYTE * pTempInventoryMap;
 

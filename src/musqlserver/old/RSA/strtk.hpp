@@ -242,32 +242,32 @@ namespace strtk
 
    namespace details
    {
-      struct not_supported_type_tag   {};
-      struct unsigned_type_tag        {};
-      struct signed_type_tag          {};
-      struct real_type_tag            {};
-      struct byte_type_tag            {};
-      struct bool_type_tag            {};
-      struct hex_number_type_tag      {};
-      struct hex_string_type_tag      {};
-      struct base64_type_tag          {};
-      struct ignore_token_type_tag    {};
-      struct stdstring_type_tag       {};
-      struct stdstring_range_type_tag {};
-      struct value_type_tag           {};
-      struct sink_type_tag            {};
-      struct stl_seq_type_tag         {};
-      struct attribute_type_tag       {};
-      struct semantic_action_type_tag {};
-      struct expect_type_tag          {};
-      struct like_type_tag            {};
-      struct inrange_type_tag         {};
-      struct trim_type_tag            {};
-      struct lcase_type_tag           {};
-      struct ucase_type_tag           {};
-      struct fillchararray_type_tag   {};
-      struct truncint_type_tag        {};
-      struct decsink_type_tag         {};
+      struct not_supported_type   {};
+      struct unsigned_type        {};
+      struct signed_type          {};
+      struct real_type            {};
+      struct byte_type            {};
+      struct bool_type            {};
+      struct hex_number_type      {};
+      struct hex_string_type      {};
+      struct base64_type          {};
+      struct ignore_token_type    {};
+      struct stdstring_type       {};
+      struct stdstring_range_type {};
+      struct value_type           {};
+      struct sink_type            {};
+      struct stl_seq_type         {};
+      struct attribute_type       {};
+      struct semantic_action_type {};
+      struct expect_type          {};
+      struct like_type            {};
+      struct inrange_type         {};
+      struct trim_type            {};
+      struct lcase_type           {};
+      struct ucase_type           {};
+      struct fillchararray_type   {};
+      struct truncint_type        {};
+      struct decsink_type         {};
 
       template <typename RealType> struct real_type {};
       template <> struct real_type<float>       { typedef double type;      };
@@ -277,13 +277,13 @@ namespace strtk
       template <typename T>
       struct supported_conversion_to_type
       {
-         typedef not_supported_type_tag type;
+         typedef not_supported_type type;
       };
 
       template <typename T>
       struct supported_conversion_from_type
       {
-         typedef not_supported_type_tag type;
+         typedef not_supported_type type;
       };
 
       template <bool, typename T = void>
@@ -419,7 +419,7 @@ namespace strtk
    #define strtk_string_to_type_begin(Type)                                               \
    namespace strtk { namespace details { template <typename Iterator>                     \
    inline bool string_to_type_converter_impl(const Iterator& begin, const Iterator& end,  \
-                                             Type& t, details::not_supported_type_tag&) { \
+                                             Type& t, details::not_supported_type&) { \
 
    #define strtk_string_to_type_end() \
    }}}                                \
@@ -2285,7 +2285,7 @@ namespace strtk
       template <typename Iterartor,
                 typename Predicate,
                 typename T = std::pair<Iterator,Iterator> >
-      class tokenizer_iterator : public std::iterator<std::forward_iterator_tag,T>
+      class tokenizer_iterator : public std::iterator<std::forward_iterator,T>
       {
       protected:
 
@@ -2552,7 +2552,7 @@ namespace strtk
    } // namespace std_string
 
    template <typename Sequence>
-   class range_to_type_back_inserter_iterator : public std::iterator<std::output_iterator_tag,
+   class range_to_type_back_inserter_iterator : public std::iterator<std::output_iterator,
                                                                      void,
                                                                      void,
                                                                      void,
@@ -2642,7 +2642,7 @@ namespace strtk
    }
 
    template <typename Set>
-   class range_to_type_inserter_iterator : public std::iterator<std::output_iterator_tag,
+   class range_to_type_inserter_iterator : public std::iterator<std::output_iterator,
                                                                 void,
                                                                 void,
                                                                 void,
@@ -2715,7 +2715,7 @@ namespace strtk
    }
 
    template <typename Container>
-   class range_to_type_push_inserter_iterator : public std::iterator<std::output_iterator_tag,
+   class range_to_type_push_inserter_iterator : public std::iterator<std::output_iterator,
                                                                      void,
                                                                      void,
                                                                      void,
@@ -2788,7 +2788,7 @@ namespace strtk
    }
 
    template <typename Sequence>
-   class back_inserter_with_valuetype_iterator : public std::iterator<std::output_iterator_tag,
+   class back_inserter_with_valuetype_iterator : public std::iterator<std::output_iterator,
                                                                       typename Sequence::value_type,
                                                                       void,
                                                                       void,
@@ -2851,7 +2851,7 @@ namespace strtk
    }
 
    template <typename Set>
-   class inserter_with_valuetype_iterator : public std::iterator<std::output_iterator_tag,
+   class inserter_with_valuetype_iterator : public std::iterator<std::output_iterator,
                                                                  typename Set::value_type,
                                                                  void,
                                                                  void,
@@ -2915,7 +2915,7 @@ namespace strtk
    }
 
    template <typename Container>
-   class push_inserter_iterator : public std::iterator<std::output_iterator_tag,
+   class push_inserter_iterator : public std::iterator<std::output_iterator,
                                                        void,
                                                        void,
                                                        void,
@@ -2970,7 +2970,7 @@ namespace strtk
    }
 
    template <typename T>
-   class range_to_ptr_type_iterator : public std::iterator<std::output_iterator_tag,
+   class range_to_ptr_type_iterator : public std::iterator<std::output_iterator,
                                                            void,
                                                            void,
                                                            void,
@@ -3083,7 +3083,7 @@ namespace strtk
    }
 
    template <typename T>
-   class counting_back_inserter_iterator : public std::iterator<std::output_iterator_tag,
+   class counting_back_inserter_iterator : public std::iterator<std::output_iterator,
                                                                 T,
                                                                 void,
                                                                 void,
@@ -3147,7 +3147,7 @@ namespace strtk
    }
 
    template <typename Function>
-   class functional_inserter_iterator : public std::iterator<std::output_iterator_tag,
+   class functional_inserter_iterator : public std::iterator<std::output_iterator,
                                                              void,
                                                              void,
                                                              void,
@@ -11587,33 +11587,33 @@ namespace strtk
 
    namespace details
    {
-      struct rand_int_type_tag {};
-      struct rand_real_type_tag {};
+      struct rand_int_type {};
+      struct rand_real_type {};
 
       template <typename T> struct supported_random_type {};
 
-      #define strtk_register_rand_int_type_tag(T) \
-      template<> struct supported_random_type<T> { typedef rand_int_type_tag type;  enum { value = true }; };
+      #define strtk_register_rand_int_type(T) \
+      template<> struct supported_random_type<T> { typedef rand_int_type type;  enum { value = true }; };
 
-      #define strtk_register_rand_real_type_tag(T) \
-      template<> struct supported_random_type<T> { typedef rand_real_type_tag type;  enum { value = true }; };
+      #define strtk_register_rand_real_type(T) \
+      template<> struct supported_random_type<T> { typedef rand_real_type type;  enum { value = true }; };
 
-      strtk_register_rand_int_type_tag(char)
-      strtk_register_rand_int_type_tag(unsigned char)
+      strtk_register_rand_int_type(char)
+      strtk_register_rand_int_type(unsigned char)
 
-      strtk_register_rand_int_type_tag(short)
-      strtk_register_rand_int_type_tag(int)
-      strtk_register_rand_int_type_tag(long)
-      strtk_register_rand_int_type_tag(unsigned short)
-      strtk_register_rand_int_type_tag(unsigned int)
-      strtk_register_rand_int_type_tag(unsigned long)
+      strtk_register_rand_int_type(short)
+      strtk_register_rand_int_type(int)
+      strtk_register_rand_int_type(long)
+      strtk_register_rand_int_type(unsigned short)
+      strtk_register_rand_int_type(unsigned int)
+      strtk_register_rand_int_type(unsigned long)
 
-      strtk_register_rand_real_type_tag(float)
-      strtk_register_rand_real_type_tag(double)
-      strtk_register_rand_real_type_tag(long double)
+      strtk_register_rand_real_type(float)
+      strtk_register_rand_real_type(double)
+      strtk_register_rand_real_type(long double)
 
-      #undef strtk_register_rand_int_type_tag
-      #undef strtk_register_rand_real_type_tag
+      #undef strtk_register_rand_int_type
+      #undef strtk_register_rand_real_type
 
       template <typename T, typename OutputIterator, typename RandomNumberGenerator>
       inline void generate_random_values_impl(const std::size_t& count,
@@ -11621,7 +11621,7 @@ namespace strtk
                                               const T& max,
                                               OutputIterator out,
                                               RandomNumberGenerator& rng,
-                                              rand_int_type_tag)
+                                              rand_int_type)
       {
          // Note: The implied range will be: [min,max]
          using namespace boost;
@@ -11635,7 +11635,7 @@ namespace strtk
                                               const T& max,
                                               OutputIterator out,
                                               RandomNumberGenerator& rng,
-                                              rand_real_type_tag)
+                                              rand_real_type)
       {
          // Note: The implied range will be: [min,max)
          using namespace boost;
@@ -12412,7 +12412,7 @@ namespace strtk
    }
 
    template <typename Iterator>
-   class combination_iterator : public std::iterator<std::forward_iterator_tag,
+   class combination_iterator : public std::iterator<std::forward_iterator,
                                                      std::pair<Iterator,Iterator>,
                                                      void,
                                                      void>
@@ -13201,7 +13201,7 @@ namespace strtk
          }
 
          template <typename T>
-         inline bool negate(T& t, strtk::details::signed_type_tag)
+         inline bool negate(T& t, strtk::details::signed_type)
          {
             t = -t;
             return true;
@@ -16731,108 +16731,108 @@ namespace strtk
          enum { min_exp = ld::i, max_exp = ld::a, precision = ld::p};
       };
 
-      #define strtk_register_unsigned_type_tag(T)                                             \
-      template<> struct supported_conversion_to_type<T> { typedef unsigned_type_tag type; };  \
-      template<> struct supported_conversion_from_type<T> { typedef unsigned_type_tag type; };\
+      #define strtk_register_unsigned_type(T)                                             \
+      template<> struct supported_conversion_to_type<T> { typedef unsigned_type type; };  \
+      template<> struct supported_conversion_from_type<T> { typedef unsigned_type type; };\
 
-      #define strtk_register_signed_type_tag(T)                                               \
-      template<> struct supported_conversion_to_type<T>{ typedef signed_type_tag type; };     \
-      template<> struct supported_conversion_from_type<T> { typedef signed_type_tag type; };  \
+      #define strtk_register_signed_type(T)                                               \
+      template<> struct supported_conversion_to_type<T>{ typedef signed_type type; };     \
+      template<> struct supported_conversion_from_type<T> { typedef signed_type type; };  \
 
-      #define strtk_register_real_type_tag(T) \
-      template<> struct supported_conversion_to_type<T>{ typedef real_type_tag type; };
+      #define strtk_register_real_type(T) \
+      template<> struct supported_conversion_to_type<T>{ typedef real_type type; };
 
-      #define strtk_register_byte_type_tag(T)                                             \
-      template<> struct supported_conversion_to_type<T>{ typedef byte_type_tag type; };   \
-      template<> struct supported_conversion_from_type<T> { typedef byte_type_tag type; };\
+      #define strtk_register_byte_type(T)                                             \
+      template<> struct supported_conversion_to_type<T>{ typedef byte_type type; };   \
+      template<> struct supported_conversion_from_type<T> { typedef byte_type type; };\
 
-      #define strtk_register_hex_number_type_tag(T) \
-      template<> struct supported_conversion_to_type<T >{ typedef hex_number_type_tag type; };
+      #define strtk_register_hex_number_type(T) \
+      template<> struct supported_conversion_to_type<T >{ typedef hex_number_type type; };
 
-      template<> struct supported_conversion_to_type<hex_to_string_sink>{ typedef hex_string_type_tag type; };
+      template<> struct supported_conversion_to_type<hex_to_string_sink>{ typedef hex_string_type type; };
 
-      #define strtk_register_base64_type_tag(T) \
-      template<> struct supported_conversion_to_type<T >{ typedef base64_type_tag type; };
+      #define strtk_register_base64_type(T) \
+      template<> struct supported_conversion_to_type<T >{ typedef base64_type type; };
 
       #define strtk_register_supported_iterator_type(T) \
       template<> struct supported_iterator_type<T> { enum { value = true }; };
 
-      template<> struct supported_conversion_to_type<bool> { typedef bool_type_tag type; };
+      template<> struct supported_conversion_to_type<bool> { typedef bool_type type; };
       template<> struct supported_iterator_type<bool> { enum { value = true }; };
 
-      template<> struct supported_conversion_to_type<std::string> { typedef stdstring_type_tag type; };
+      template<> struct supported_conversion_to_type<std::string> { typedef stdstring_type type; };
       template<> struct supported_iterator_type<std::string> { enum { value = true }; };
 
-      template<> struct supported_conversion_to_type<strtk::util::value> { typedef value_type_tag type; };
-      template<> struct supported_conversion_from_type<strtk::util::value> { typedef value_type_tag type; };
+      template<> struct supported_conversion_to_type<strtk::util::value> { typedef value_type type; };
+      template<> struct supported_conversion_from_type<strtk::util::value> { typedef value_type type; };
       template<> struct supported_iterator_type<strtk::util::value> { enum { value = true }; };
 
-      template<> struct supported_conversion_to_type<strtk::details::expect_impl> { typedef expect_type_tag type; };
+      template<> struct supported_conversion_to_type<strtk::details::expect_impl> { typedef expect_type type; };
       template<> struct supported_iterator_type<strtk::details::expect_impl>      { enum { value = true };        };
 
-      template<> struct supported_conversion_to_type<strtk::details::iexpect_impl> { typedef expect_type_tag type; };
+      template<> struct supported_conversion_to_type<strtk::details::iexpect_impl> { typedef expect_type type; };
       template<> struct supported_iterator_type<strtk::details::iexpect_impl>      { enum { value = true }; };
 
-      template<> struct supported_conversion_to_type<strtk::details::like_impl> { typedef like_type_tag type; };
+      template<> struct supported_conversion_to_type<strtk::details::like_impl> { typedef like_type type; };
       template<> struct supported_iterator_type<strtk::details::like_impl>      { enum { value = true }; };
 
-      template<> struct supported_conversion_to_type<strtk::details::fill_array_impl> { typedef fillchararray_type_tag type; };
+      template<> struct supported_conversion_to_type<strtk::details::fill_array_impl> { typedef fillchararray_type type; };
       template<> struct supported_iterator_type<strtk::details::fill_array_impl>      { enum { value = true }; };
 
-      template<> struct supported_conversion_to_type<strtk::details::conv_to_lcase_impl> { typedef lcase_type_tag type; };
+      template<> struct supported_conversion_to_type<strtk::details::conv_to_lcase_impl> { typedef lcase_type type; };
       template<> struct supported_iterator_type<strtk::details::conv_to_lcase_impl>      { enum { value = true }; };
 
-      template<> struct supported_conversion_to_type<strtk::details::conv_to_ucase_impl> { typedef ucase_type_tag type; };
+      template<> struct supported_conversion_to_type<strtk::details::conv_to_ucase_impl> { typedef ucase_type type; };
       template<> struct supported_iterator_type<strtk::details::conv_to_ucase_impl>      { enum { value = true }; };
 
-      #define strtk_register_truncint_type_tag(T) \
-      template<> struct supported_conversion_to_type<strtk::truncated_int<T> > { typedef truncint_type_tag type; };\
+      #define strtk_register_truncint_type(T) \
+      template<> struct supported_conversion_to_type<strtk::truncated_int<T> > { typedef truncint_type type; };\
       template<> struct supported_iterator_type<strtk::truncated_int<T> >      { enum { value = true }; };
 
-      #define strtk_register_decsink_type_tag(T) \
-      template<> struct supported_conversion_to_type<strtk::decimal_sink<T> > { typedef decsink_type_tag type; };\
+      #define strtk_register_decsink_type(T) \
+      template<> struct supported_conversion_to_type<strtk::decimal_sink<T> > { typedef decsink_type type; };\
       template<> struct supported_iterator_type<strtk::decimal_sink<T> >      { enum { value = true }; };
 
-      #define strtk_register_inrange_type_tag(T) \
-      template<> struct supported_conversion_to_type<strtk::details::inrange_impl<T> >   { typedef inrange_type_tag type; };\
+      #define strtk_register_inrange_type(T) \
+      template<> struct supported_conversion_to_type<strtk::details::inrange_impl<T> >   { typedef inrange_type type; };\
       template<> struct supported_iterator_type<strtk::details::inrange_impl<T> >        { enum { value = true }; };
 
-      #define strtk_register_trim_type_tag(T) \
-      template<> struct supported_conversion_to_type<strtk::details::trim_impl<T> >   { typedef trim_type_tag type; };\
+      #define strtk_register_trim_type(T) \
+      template<> struct supported_conversion_to_type<strtk::details::trim_impl<T> >   { typedef trim_type type; };\
       template<> struct supported_iterator_type<strtk::details::trim_impl<T> >        { enum { value = true }; };
 
-      #define strtk_register_stdstring_range_type_tag(T) \
-      template<> struct supported_conversion_to_type< std::pair<T,T> >{ typedef stdstring_range_type_tag type; };
+      #define strtk_register_stdstring_range_type(T) \
+      template<> struct supported_conversion_to_type< std::pair<T,T> >{ typedef stdstring_range_type type; };
 
-      #define strtk_register_sink_type_tag(T)                                                                               \
-      template<> struct supported_conversion_to_type<sink_type<std::vector<T> > > { typedef sink_type_tag type; };          \
-      template<> struct supported_conversion_to_type<sink_type<std::deque<T> > > { typedef sink_type_tag type; };           \
-      template<> struct supported_conversion_to_type<sink_type<std::list<T> > > { typedef sink_type_tag type; };            \
-      template<> struct supported_conversion_to_type<sink_type<std::set<T> > > { typedef sink_type_tag type; };             \
-      template<> struct supported_conversion_to_type<sink_type<std::multiset<T> > > { typedef sink_type_tag type; };        \
-      template<> struct supported_conversion_to_type<sink_type<std::queue<T> > > { typedef sink_type_tag type; };           \
-      template<> struct supported_conversion_to_type<sink_type<std::stack<T> > > { typedef sink_type_tag type; };           \
-      template<> struct supported_conversion_to_type<sink_type<std::priority_queue<T> > > { typedef sink_type_tag type; };  \
-      template<> struct supported_conversion_from_type<sink_type<std::vector<T> > > { typedef sink_type_tag type; };        \
-      template<> struct supported_conversion_from_type<sink_type<std::deque<T> > > { typedef sink_type_tag type; };         \
-      template<> struct supported_conversion_from_type<sink_type<std::list<T> > > { typedef sink_type_tag type; };          \
-      template<> struct supported_conversion_from_type<sink_type<std::set<T> > > { typedef sink_type_tag type; };           \
-      template<> struct supported_conversion_from_type<sink_type<std::multiset<T> > > { typedef sink_type_tag type; };      \
-      template<> struct supported_conversion_from_type<sink_type<std::queue<T> > > { typedef sink_type_tag type; };         \
-      template<> struct supported_conversion_from_type<sink_type<std::stack<T> > > { typedef sink_type_tag type; };         \
-      template<> struct supported_conversion_from_type<sink_type<std::priority_queue<T> > > { typedef sink_type_tag type; };\
+      #define strtk_register_sink_type(T)                                                                               \
+      template<> struct supported_conversion_to_type<sink_type<std::vector<T> > > { typedef sink_type type; };          \
+      template<> struct supported_conversion_to_type<sink_type<std::deque<T> > > { typedef sink_type type; };           \
+      template<> struct supported_conversion_to_type<sink_type<std::list<T> > > { typedef sink_type type; };            \
+      template<> struct supported_conversion_to_type<sink_type<std::set<T> > > { typedef sink_type type; };             \
+      template<> struct supported_conversion_to_type<sink_type<std::multiset<T> > > { typedef sink_type type; };        \
+      template<> struct supported_conversion_to_type<sink_type<std::queue<T> > > { typedef sink_type type; };           \
+      template<> struct supported_conversion_to_type<sink_type<std::stack<T> > > { typedef sink_type type; };           \
+      template<> struct supported_conversion_to_type<sink_type<std::priority_queue<T> > > { typedef sink_type type; };  \
+      template<> struct supported_conversion_from_type<sink_type<std::vector<T> > > { typedef sink_type type; };        \
+      template<> struct supported_conversion_from_type<sink_type<std::deque<T> > > { typedef sink_type type; };         \
+      template<> struct supported_conversion_from_type<sink_type<std::list<T> > > { typedef sink_type type; };          \
+      template<> struct supported_conversion_from_type<sink_type<std::set<T> > > { typedef sink_type type; };           \
+      template<> struct supported_conversion_from_type<sink_type<std::multiset<T> > > { typedef sink_type type; };      \
+      template<> struct supported_conversion_from_type<sink_type<std::queue<T> > > { typedef sink_type type; };         \
+      template<> struct supported_conversion_from_type<sink_type<std::stack<T> > > { typedef sink_type type; };         \
+      template<> struct supported_conversion_from_type<sink_type<std::priority_queue<T> > > { typedef sink_type type; };\
 
-      #define strtk_register_stl_container_to_string_conv_type_tag(T)                                              \
-      template<> struct supported_conversion_from_type<std::vector<T> > { typedef stl_seq_type_tag type; };        \
-      template<> struct supported_conversion_from_type<std::deque<T> > { typedef stl_seq_type_tag type; };         \
-      template<> struct supported_conversion_from_type<std::list<T> > { typedef stl_seq_type_tag type; };          \
-      template<> struct supported_conversion_from_type<std::set<T> > { typedef stl_seq_type_tag type; };           \
-      template<> struct supported_conversion_from_type<std::multiset<T> > { typedef stl_seq_type_tag type; };      \
-      template<> struct supported_conversion_from_type<std::queue<T> > { typedef stl_seq_type_tag type; };         \
-      template<> struct supported_conversion_from_type<std::stack<T> > { typedef stl_seq_type_tag type; };         \
-      template<> struct supported_conversion_from_type<std::priority_queue<T> > { typedef stl_seq_type_tag type; };\
+      #define strtk_register_stl_container_to_string_conv_type(T)                                              \
+      template<> struct supported_conversion_from_type<std::vector<T> > { typedef stl_seq_type type; };        \
+      template<> struct supported_conversion_from_type<std::deque<T> > { typedef stl_seq_type type; };         \
+      template<> struct supported_conversion_from_type<std::list<T> > { typedef stl_seq_type type; };          \
+      template<> struct supported_conversion_from_type<std::set<T> > { typedef stl_seq_type type; };           \
+      template<> struct supported_conversion_from_type<std::multiset<T> > { typedef stl_seq_type type; };      \
+      template<> struct supported_conversion_from_type<std::queue<T> > { typedef stl_seq_type type; };         \
+      template<> struct supported_conversion_from_type<std::stack<T> > { typedef stl_seq_type type; };         \
+      template<> struct supported_conversion_from_type<std::priority_queue<T> > { typedef stl_seq_type type; };\
 
-      template<> struct supported_conversion_to_type<ignore_token>{ typedef ignore_token_type_tag type; };
+      template<> struct supported_conversion_to_type<ignore_token>{ typedef ignore_token_type type; };
 
       #define strtk_register_sequence_iterator_type(sequence)                        \
       strtk_register_supported_iterator_type(sequence<char>::iterator)               \
@@ -16840,49 +16840,49 @@ namespace strtk
       strtk_register_supported_iterator_type(sequence<unsigned char>::iterator)      \
       strtk_register_supported_iterator_type(sequence<unsigned char>::const_iterator)\
 
-      strtk_register_unsigned_type_tag(unsigned short)
-      strtk_register_unsigned_type_tag(unsigned int)
-      strtk_register_unsigned_type_tag(unsigned long)
-      strtk_register_unsigned_type_tag(unsigned long long int)
+      strtk_register_unsigned_type(unsigned short)
+      strtk_register_unsigned_type(unsigned int)
+      strtk_register_unsigned_type(unsigned long)
+      strtk_register_unsigned_type(unsigned long long int)
 
-      strtk_register_signed_type_tag(short)
-      strtk_register_signed_type_tag(int)
-      strtk_register_signed_type_tag(long)
-      strtk_register_signed_type_tag(long long)
+      strtk_register_signed_type(short)
+      strtk_register_signed_type(int)
+      strtk_register_signed_type(long)
+      strtk_register_signed_type(long long)
 
-      strtk_register_real_type_tag(float)
-      strtk_register_real_type_tag(double)
-      strtk_register_real_type_tag(long double)
+      strtk_register_real_type(float)
+      strtk_register_real_type(double)
+      strtk_register_real_type(long double)
 
-      strtk_register_byte_type_tag(unsigned char)
-      strtk_register_byte_type_tag(signed char)
-      strtk_register_byte_type_tag(char)
+      strtk_register_byte_type(unsigned char)
+      strtk_register_byte_type(signed char)
+      strtk_register_byte_type(char)
 
-      strtk_register_hex_number_type_tag(hex_to_number_sink<short>)
-      strtk_register_hex_number_type_tag(hex_to_number_sink<int>)
-      strtk_register_hex_number_type_tag(hex_to_number_sink<long>)
-      strtk_register_hex_number_type_tag(hex_to_number_sink<long long>)
-      strtk_register_hex_number_type_tag(hex_to_number_sink<unsigned short>)
-      strtk_register_hex_number_type_tag(hex_to_number_sink<unsigned int>)
-      strtk_register_hex_number_type_tag(hex_to_number_sink<unsigned long>)
-      strtk_register_hex_number_type_tag(hex_to_number_sink<unsigned long long int>)
+      strtk_register_hex_number_type(hex_to_number_sink<short>)
+      strtk_register_hex_number_type(hex_to_number_sink<int>)
+      strtk_register_hex_number_type(hex_to_number_sink<long>)
+      strtk_register_hex_number_type(hex_to_number_sink<long long>)
+      strtk_register_hex_number_type(hex_to_number_sink<unsigned short>)
+      strtk_register_hex_number_type(hex_to_number_sink<unsigned int>)
+      strtk_register_hex_number_type(hex_to_number_sink<unsigned long>)
+      strtk_register_hex_number_type(hex_to_number_sink<unsigned long long int>)
 
-      strtk_register_base64_type_tag(base64_to_number_sink<short>)
-      strtk_register_base64_type_tag(base64_to_number_sink<int>)
-      strtk_register_base64_type_tag(base64_to_number_sink<long>)
-      strtk_register_base64_type_tag(base64_to_number_sink<long long>)
-      strtk_register_base64_type_tag(base64_to_number_sink<unsigned short>)
-      strtk_register_base64_type_tag(base64_to_number_sink<unsigned int>)
-      strtk_register_base64_type_tag(base64_to_number_sink<unsigned long>)
-      strtk_register_base64_type_tag(base64_to_number_sink<unsigned long long int>)
+      strtk_register_base64_type(base64_to_number_sink<short>)
+      strtk_register_base64_type(base64_to_number_sink<int>)
+      strtk_register_base64_type(base64_to_number_sink<long>)
+      strtk_register_base64_type(base64_to_number_sink<long long>)
+      strtk_register_base64_type(base64_to_number_sink<unsigned short>)
+      strtk_register_base64_type(base64_to_number_sink<unsigned int>)
+      strtk_register_base64_type(base64_to_number_sink<unsigned long>)
+      strtk_register_base64_type(base64_to_number_sink<unsigned long long int>)
 
-      strtk_register_stdstring_range_type_tag(std::string::iterator)
-      strtk_register_stdstring_range_type_tag(std::string::const_iterator)
-      strtk_register_stdstring_range_type_tag(char*)
-      strtk_register_stdstring_range_type_tag(signed char*)
-      strtk_register_stdstring_range_type_tag(unsigned char*)
-      strtk_register_stdstring_range_type_tag(const char*)
-      strtk_register_stdstring_range_type_tag(const unsigned char*)
+      strtk_register_stdstring_range_type(std::string::iterator)
+      strtk_register_stdstring_range_type(std::string::const_iterator)
+      strtk_register_stdstring_range_type(char*)
+      strtk_register_stdstring_range_type(signed char*)
+      strtk_register_stdstring_range_type(unsigned char*)
+      strtk_register_stdstring_range_type(const char*)
+      strtk_register_stdstring_range_type(const unsigned char*)
 
       strtk_register_supported_iterator_type(char*)
       strtk_register_supported_iterator_type(signed char*)
@@ -16896,109 +16896,109 @@ namespace strtk
       strtk_register_sequence_iterator_type(std::vector)
       strtk_register_sequence_iterator_type(std::deque)
 
-      strtk_register_sink_type_tag(float)
-      strtk_register_sink_type_tag(double)
-      strtk_register_sink_type_tag(long double)
-      strtk_register_sink_type_tag(signed char)
-      strtk_register_sink_type_tag(char)
-      strtk_register_sink_type_tag(short)
-      strtk_register_sink_type_tag(int)
-      strtk_register_sink_type_tag(long)
-      strtk_register_sink_type_tag(long long)
-      strtk_register_sink_type_tag(unsigned char)
-      strtk_register_sink_type_tag(unsigned short)
-      strtk_register_sink_type_tag(unsigned int)
-      strtk_register_sink_type_tag(unsigned long)
-      strtk_register_sink_type_tag(unsigned long long int)
-      strtk_register_sink_type_tag(std::string)
+      strtk_register_sink_type(float)
+      strtk_register_sink_type(double)
+      strtk_register_sink_type(long double)
+      strtk_register_sink_type(signed char)
+      strtk_register_sink_type(char)
+      strtk_register_sink_type(short)
+      strtk_register_sink_type(int)
+      strtk_register_sink_type(long)
+      strtk_register_sink_type(long long)
+      strtk_register_sink_type(unsigned char)
+      strtk_register_sink_type(unsigned short)
+      strtk_register_sink_type(unsigned int)
+      strtk_register_sink_type(unsigned long)
+      strtk_register_sink_type(unsigned long long int)
+      strtk_register_sink_type(std::string)
 
-      strtk_register_stl_container_to_string_conv_type_tag(float)
-      strtk_register_stl_container_to_string_conv_type_tag(double)
-      strtk_register_stl_container_to_string_conv_type_tag(long double)
-      strtk_register_stl_container_to_string_conv_type_tag(signed char)
-      strtk_register_stl_container_to_string_conv_type_tag(char)
-      strtk_register_stl_container_to_string_conv_type_tag(short)
-      strtk_register_stl_container_to_string_conv_type_tag(int)
-      strtk_register_stl_container_to_string_conv_type_tag(long)
-      strtk_register_stl_container_to_string_conv_type_tag(long long)
-      strtk_register_stl_container_to_string_conv_type_tag(unsigned char)
-      strtk_register_stl_container_to_string_conv_type_tag(unsigned short)
-      strtk_register_stl_container_to_string_conv_type_tag(unsigned int)
-      strtk_register_stl_container_to_string_conv_type_tag(unsigned long)
-      strtk_register_stl_container_to_string_conv_type_tag(unsigned long long int)
-      strtk_register_stl_container_to_string_conv_type_tag(std::string)
+      strtk_register_stl_container_to_string_conv_type(float)
+      strtk_register_stl_container_to_string_conv_type(double)
+      strtk_register_stl_container_to_string_conv_type(long double)
+      strtk_register_stl_container_to_string_conv_type(signed char)
+      strtk_register_stl_container_to_string_conv_type(char)
+      strtk_register_stl_container_to_string_conv_type(short)
+      strtk_register_stl_container_to_string_conv_type(int)
+      strtk_register_stl_container_to_string_conv_type(long)
+      strtk_register_stl_container_to_string_conv_type(long long)
+      strtk_register_stl_container_to_string_conv_type(unsigned char)
+      strtk_register_stl_container_to_string_conv_type(unsigned short)
+      strtk_register_stl_container_to_string_conv_type(unsigned int)
+      strtk_register_stl_container_to_string_conv_type(unsigned long)
+      strtk_register_stl_container_to_string_conv_type(unsigned long long int)
+      strtk_register_stl_container_to_string_conv_type(std::string)
 
-      strtk_register_inrange_type_tag(float)
-      strtk_register_inrange_type_tag(double)
-      strtk_register_inrange_type_tag(long double)
-      strtk_register_inrange_type_tag(signed char)
-      strtk_register_inrange_type_tag(char)
-      strtk_register_inrange_type_tag(short)
-      strtk_register_inrange_type_tag(int)
-      strtk_register_inrange_type_tag(long)
-      strtk_register_inrange_type_tag(long long)
-      strtk_register_inrange_type_tag(unsigned char)
-      strtk_register_inrange_type_tag(unsigned short)
-      strtk_register_inrange_type_tag(unsigned int)
-      strtk_register_inrange_type_tag(unsigned long)
-      strtk_register_inrange_type_tag(unsigned long long int)
-      strtk_register_inrange_type_tag(std::string)
+      strtk_register_inrange_type(float)
+      strtk_register_inrange_type(double)
+      strtk_register_inrange_type(long double)
+      strtk_register_inrange_type(signed char)
+      strtk_register_inrange_type(char)
+      strtk_register_inrange_type(short)
+      strtk_register_inrange_type(int)
+      strtk_register_inrange_type(long)
+      strtk_register_inrange_type(long long)
+      strtk_register_inrange_type(unsigned char)
+      strtk_register_inrange_type(unsigned short)
+      strtk_register_inrange_type(unsigned int)
+      strtk_register_inrange_type(unsigned long)
+      strtk_register_inrange_type(unsigned long long int)
+      strtk_register_inrange_type(std::string)
 
-      strtk_register_trim_type_tag(float)
-      strtk_register_trim_type_tag(double)
-      strtk_register_trim_type_tag(long double)
-      strtk_register_trim_type_tag(signed char)
-      strtk_register_trim_type_tag(char)
-      strtk_register_trim_type_tag(short)
-      strtk_register_trim_type_tag(int)
-      strtk_register_trim_type_tag(long)
-      strtk_register_trim_type_tag(long long)
-      strtk_register_trim_type_tag(unsigned char)
-      strtk_register_trim_type_tag(unsigned short)
-      strtk_register_trim_type_tag(unsigned int)
-      strtk_register_trim_type_tag(unsigned long)
-      strtk_register_trim_type_tag(unsigned long long int)
-      strtk_register_trim_type_tag(std::string)
+      strtk_register_trim_type(float)
+      strtk_register_trim_type(double)
+      strtk_register_trim_type(long double)
+      strtk_register_trim_type(signed char)
+      strtk_register_trim_type(char)
+      strtk_register_trim_type(short)
+      strtk_register_trim_type(int)
+      strtk_register_trim_type(long)
+      strtk_register_trim_type(long long)
+      strtk_register_trim_type(unsigned char)
+      strtk_register_trim_type(unsigned short)
+      strtk_register_trim_type(unsigned int)
+      strtk_register_trim_type(unsigned long)
+      strtk_register_trim_type(unsigned long long int)
+      strtk_register_trim_type(std::string)
 
-      strtk_register_trim_type_tag(truncated_int<short>)
-      strtk_register_trim_type_tag(truncated_int<int>)
-      strtk_register_trim_type_tag(truncated_int<long>)
-      strtk_register_trim_type_tag(truncated_int<long long>)
-      strtk_register_trim_type_tag(truncated_int<unsigned char>)
-      strtk_register_trim_type_tag(truncated_int<unsigned short>)
-      strtk_register_trim_type_tag(truncated_int<unsigned int>)
-      strtk_register_trim_type_tag(truncated_int<unsigned long long int>)
+      strtk_register_trim_type(truncated_int<short>)
+      strtk_register_trim_type(truncated_int<int>)
+      strtk_register_trim_type(truncated_int<long>)
+      strtk_register_trim_type(truncated_int<long long>)
+      strtk_register_trim_type(truncated_int<unsigned char>)
+      strtk_register_trim_type(truncated_int<unsigned short>)
+      strtk_register_trim_type(truncated_int<unsigned int>)
+      strtk_register_trim_type(truncated_int<unsigned long long int>)
 
-      strtk_register_truncint_type_tag(short)
-      strtk_register_truncint_type_tag(int)
-      strtk_register_truncint_type_tag(long)
-      strtk_register_truncint_type_tag(long long)
-      strtk_register_truncint_type_tag(unsigned short)
-      strtk_register_truncint_type_tag(unsigned int)
-      strtk_register_truncint_type_tag(unsigned long)
-      strtk_register_truncint_type_tag(unsigned long long int)
+      strtk_register_truncint_type(short)
+      strtk_register_truncint_type(int)
+      strtk_register_truncint_type(long)
+      strtk_register_truncint_type(long long)
+      strtk_register_truncint_type(unsigned short)
+      strtk_register_truncint_type(unsigned int)
+      strtk_register_truncint_type(unsigned long)
+      strtk_register_truncint_type(unsigned long long int)
 
-      strtk_register_decsink_type_tag(float)
-      strtk_register_decsink_type_tag(double)
-      strtk_register_decsink_type_tag(long double)
+      strtk_register_decsink_type(float)
+      strtk_register_decsink_type(double)
+      strtk_register_decsink_type(long double)
 
       #define strtk_register_userdef_type_sink(T) \
-      namespace strtk { namespace details { strtk_register_sink_type_tag(T) }}
+      namespace strtk { namespace details { strtk_register_sink_type(T) }}
 
-      #undef strtk_register_unsigned_type_tag
-      #undef strtk_register_signed_type_tag
-      #undef strtk_register_real_type_tag
-      #undef strtk_register_byte_type_tag
-      #undef strtk_register_hex_number_type_tag
-      #undef strtk_register_base64_type_tag
+      #undef strtk_register_unsigned_type
+      #undef strtk_register_signed_type
+      #undef strtk_register_real_type
+      #undef strtk_register_byte_type
+      #undef strtk_register_hex_number_type
+      #undef strtk_register_base64_type
       #undef strtk_register_supported_iterator_type
-      #undef strtk_register_stdstring_range_type_tag
+      #undef strtk_register_stdstring_range_type
       #undef strtk_register_sequence_iterator_type
-      #undef strtk_register_stl_container_to_string_conv_type_tag
-      #undef strtk_register_inrange_type_tag
-      #undef strtk_register_trim_type_tag
-      #undef strtk_register_truncint_type_tag
-      #undef strtk_register_decsink_type_tag
+      #undef strtk_register_stl_container_to_string_conv_type
+      #undef strtk_register_inrange_type
+      #undef strtk_register_trim_type
+      #undef strtk_register_truncint_type
+      #undef strtk_register_decsink_type
 
       template <typename T>
       struct precision
@@ -17014,7 +17014,7 @@ namespace strtk
       #undef strtk_register_iostream_precision
 
       template <typename Iterator, typename T, typename Tag>
-      inline bool string_to_type_converter_impl(Iterator& begin, const Iterator end, T& t, not_supported_type_tag)
+      inline bool string_to_type_converter_impl(Iterator& begin, const Iterator end, T& t, not_supported_type)
       {
          #ifdef strtk_enable_lexical_cast
             try
@@ -17043,13 +17043,13 @@ namespace strtk
       }
 
       template <typename Iterator>
-      inline bool string_to_type_converter_impl(Iterator& begin, const Iterator end, strtk::util::value& v, value_type_tag)
+      inline bool string_to_type_converter_impl(Iterator& begin, const Iterator end, strtk::util::value& v, value_type)
       {
          return v(begin,end);
       }
 
       template <typename Iterator>
-      inline bool string_to_type_converter_impl(Iterator& begin, const Iterator end, std::string& t, stdstring_type_tag)
+      inline bool string_to_type_converter_impl(Iterator& begin, const Iterator end, std::string& t, stdstring_type)
       {
          t.assign(begin,end);
          begin = end;
@@ -17057,7 +17057,7 @@ namespace strtk
       }
 
       template <typename Iterator, typename Expect>
-      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, Expect& t, expect_type_tag)
+      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, Expect& t, expect_type)
       {
          if (!t(itr,end))
             return false;
@@ -17066,7 +17066,7 @@ namespace strtk
       }
 
       template <typename Iterator, typename Like>
-      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, Like& t, like_type_tag)
+      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, Like& t, like_type)
       {
          if (!t(itr,end))
             return false;
@@ -17075,7 +17075,7 @@ namespace strtk
       }
 
       template <typename Iterator, typename InRange>
-      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, InRange& t, inrange_type_tag)
+      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, InRange& t, inrange_type)
       {
          if (!t(itr,end))
             return false;
@@ -17084,7 +17084,7 @@ namespace strtk
       }
 
       template <typename Iterator, typename TrimToken>
-      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, TrimToken& t, trim_type_tag)
+      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, TrimToken& t, trim_type)
       {
          if (!t(itr,end))
             return false;
@@ -17093,7 +17093,7 @@ namespace strtk
       }
 
       template <typename Iterator, typename CaseToken>
-      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, CaseToken& t, lcase_type_tag)
+      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, CaseToken& t, lcase_type)
       {
          if (!t(itr,end))
             return false;
@@ -17102,7 +17102,7 @@ namespace strtk
       }
 
       template <typename Iterator, typename CaseToken>
-      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, CaseToken& t, ucase_type_tag)
+      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, CaseToken& t, ucase_type)
       {
          if (!t(itr,end))
             return false;
@@ -17111,7 +17111,7 @@ namespace strtk
       }
 
       template <typename Iterator, typename Array>
-      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, Array& t, fillchararray_type_tag)
+      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, Array& t, fillchararray_type)
       {
          if (!t(itr,end))
             return false;
@@ -17120,7 +17120,7 @@ namespace strtk
       }
 
       template <typename Iterator, typename TruncatedInt>
-      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, TruncatedInt& t, truncint_type_tag)
+      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, TruncatedInt& t, truncint_type)
       {
          if (!t(itr,end))
             return false;
@@ -17137,7 +17137,7 @@ namespace strtk
       #endif
 
       template <typename Iterator, typename T>
-      inline bool string_to_type_converter_impl(Iterator& itr_external, const Iterator end, T& result, unsigned_type_tag)
+      inline bool string_to_type_converter_impl(Iterator& itr_external, const Iterator end, T& result, unsigned_type)
       {
          Iterator itr = itr_external;
          if (itr == end)
@@ -17198,7 +17198,7 @@ namespace strtk
       }
 
       template <typename Iterator, typename T>
-      inline bool string_to_type_converter_impl(Iterator& itr_external, const Iterator end, T& result, signed_type_tag)
+      inline bool string_to_type_converter_impl(Iterator& itr_external, const Iterator end, T& result, signed_type)
       {
          Iterator itr;
          if ((itr = itr_external) == end)
@@ -17265,7 +17265,7 @@ namespace strtk
       }
 
       template <typename Iterator, typename T>
-      inline bool string_to_type_converter_impl_ref(Iterator& itr, const Iterator end, T& result, signed_type_tag)
+      inline bool string_to_type_converter_impl_ref(Iterator& itr, const Iterator end, T& result, signed_type)
       {
          if (itr == end)
             return false;
@@ -17380,7 +17380,7 @@ namespace strtk
       }
 
       template <typename Iterator, typename T>
-      inline bool string_to_type_converter_impl(Iterator& itr_external, const Iterator end, T& t, real_type_tag)
+      inline bool string_to_type_converter_impl(Iterator& itr_external, const Iterator end, T& t, real_type)
       {
          if (end == itr_external) return false;
 
@@ -17479,7 +17479,7 @@ namespace strtk
                {
                   int exp = 0;
 
-                  if (!details::string_to_type_converter_impl_ref(++itr,end,exp,details::signed_type_tag()))
+                  if (!details::string_to_type_converter_impl_ref(++itr,end,exp,details::signed_type()))
                   {
                      if (end == itr)
                         return false;
@@ -17546,7 +17546,7 @@ namespace strtk
       #undef strtk_unlikely
 
       template <typename Iterator, typename T>
-      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, T& t, byte_type_tag)
+      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, T& t, byte_type)
       {
          if (1 != std::distance(itr,end))
             return false;
@@ -17556,7 +17556,7 @@ namespace strtk
       }
 
       template <typename Iterator>
-      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, bool& t, bool_type_tag)
+      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, bool& t, bool_type)
       {
          if (1 != std::distance(itr,end))
             return false;
@@ -17566,14 +17566,14 @@ namespace strtk
       }
 
       template <typename Iterator, typename IgnoreTokenType>
-      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, IgnoreTokenType&, ignore_token_type_tag)
+      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, IgnoreTokenType&, ignore_token_type)
       {
          itr = end;
          return true;
       }
 
       template <typename Iterator, typename HexSinkType>
-      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, HexSinkType& t, hex_number_type_tag)
+      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, HexSinkType& t, hex_number_type)
       {
          t = std::pair<Iterator,Iterator>(itr,end);
          if (!t.valid())
@@ -17583,7 +17583,7 @@ namespace strtk
       }
 
       template <typename Iterator, typename HexSinkType>
-      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, HexSinkType& t, hex_string_type_tag)
+      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, HexSinkType& t, hex_string_type)
       {
          t = std::pair<Iterator,Iterator>(itr,end);
          if (!t.valid())
@@ -17593,7 +17593,7 @@ namespace strtk
       }
 
       template <typename Iterator, typename Base64SinkType>
-      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, Base64SinkType& t, base64_type_tag)
+      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, Base64SinkType& t, base64_type)
       {
          t = std::pair<Iterator,Iterator>(itr,end);
          if (!t.valid())
@@ -17603,7 +17603,7 @@ namespace strtk
       }
 
       template <typename Iterator, typename SinkType>
-      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, SinkType& t, sink_type_tag)
+      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, SinkType& t, sink_type)
       {
          if (!t.parse(itr,end))
             return false;
@@ -17612,7 +17612,7 @@ namespace strtk
       }
 
       template <typename T>
-      inline bool type_to_string_converter_impl(const T& t, std::string& s, not_supported_type_tag)
+      inline bool type_to_string_converter_impl(const T& t, std::string& s, not_supported_type)
       {
          #ifdef strtk_enable_lexical_cast
             try
@@ -17640,7 +17640,7 @@ namespace strtk
       }
 
       template <typename T>
-      inline bool type_to_string_converter_impl(T value, std::string& result, unsigned_type_tag)
+      inline bool type_to_string_converter_impl(T value, std::string& result, unsigned_type)
       {
          static const std::size_t radix = 10;
          static const std::size_t radix_sqr = radix * radix;
@@ -17698,7 +17698,7 @@ namespace strtk
       #undef define_tsci_type
 
       template <typename T>
-      inline bool type_to_string_converter_impl(T valuex, std::string& result, signed_type_tag)
+      inline bool type_to_string_converter_impl(T valuex, std::string& result, signed_type)
       {
          static const std::size_t radix = 10;
          static const std::size_t radix_sqr   = radix * radix;
@@ -17747,42 +17747,42 @@ namespace strtk
       }
 
       template <typename T>
-      inline bool type_to_string_converter_impl(const T& value, std::string& result, byte_type_tag)
+      inline bool type_to_string_converter_impl(const T& value, std::string& result, byte_type)
       {
          result.resize(1);
          result[0] = static_cast<char>(value);
          return true;
       }
 
-      inline bool type_to_string_converter_impl(const bool& value, std::string& result, bool_type_tag)
+      inline bool type_to_string_converter_impl(const bool& value, std::string& result, bool_type)
       {
          result.resize(1);
          result[0] = value ? '1' : '0';
          return true;
       }
 
-      inline bool type_to_string_converter_impl(const std::string& value, std::string& result, stdstring_type_tag)
+      inline bool type_to_string_converter_impl(const std::string& value, std::string& result, stdstring_type)
       {
          result = value;
          return true;
       }
 
       template <typename Iterator>
-      inline bool type_to_string_converter_impl(const std::pair<Iterator,Iterator>& range, std::string& result, stdstring_range_type_tag)
+      inline bool type_to_string_converter_impl(const std::pair<Iterator,Iterator>& range, std::string& result, stdstring_range_type)
       {
          result.assign(range.first,range.second);
          return true;
       }
 
       template <typename SinkType>
-      inline bool type_to_string_converter_impl(const SinkType&, std::string&, sink_type_tag)
+      inline bool type_to_string_converter_impl(const SinkType&, std::string&, sink_type)
       {
          //Generic conversion not supported for sinks. Use joins or custom converters.
          return false;
       }
 
       template <typename STLContainerType>
-      inline bool type_to_string_converter_impl(const STLContainerType&, std::string&, stl_seq_type_tag)
+      inline bool type_to_string_converter_impl(const STLContainerType&, std::string&, stl_seq_type)
       {
          //Generic conversion not supported for stl containers. Use joins or custom converters.
          return false;
@@ -20852,28 +20852,28 @@ namespace strtk
 
    namespace details
    {
-      #define strtk_register_attribute_type_tag(T)                                                                       \
-      template<> struct supported_conversion_to_type< strtk::util::attribute<T> >{ typedef attribute_type_tag type; };   \
-      template<> struct supported_conversion_from_type< strtk::util::attribute<T> > { typedef attribute_type_tag type; };\
+      #define strtk_register_attribute_type(T)                                                                       \
+      template<> struct supported_conversion_to_type< strtk::util::attribute<T> >{ typedef attribute_type type; };   \
+      template<> struct supported_conversion_from_type< strtk::util::attribute<T> > { typedef attribute_type type; };\
 
-      strtk_register_attribute_type_tag(unsigned short)
-      strtk_register_attribute_type_tag(unsigned int)
-      strtk_register_attribute_type_tag(unsigned long)
-      strtk_register_attribute_type_tag(unsigned long long int)
-      strtk_register_attribute_type_tag(short)
-      strtk_register_attribute_type_tag(int)
-      strtk_register_attribute_type_tag(long)
-      strtk_register_attribute_type_tag(long long)
-      strtk_register_attribute_type_tag(float)
-      strtk_register_attribute_type_tag(double)
-      strtk_register_attribute_type_tag(long double)
-      strtk_register_attribute_type_tag(unsigned char)
-      strtk_register_attribute_type_tag(signed char)
-      strtk_register_attribute_type_tag(char)
-      strtk_register_attribute_type_tag(std::string)
+      strtk_register_attribute_type(unsigned short)
+      strtk_register_attribute_type(unsigned int)
+      strtk_register_attribute_type(unsigned long)
+      strtk_register_attribute_type(unsigned long long int)
+      strtk_register_attribute_type(short)
+      strtk_register_attribute_type(int)
+      strtk_register_attribute_type(long)
+      strtk_register_attribute_type(long long)
+      strtk_register_attribute_type(float)
+      strtk_register_attribute_type(double)
+      strtk_register_attribute_type(long double)
+      strtk_register_attribute_type(unsigned char)
+      strtk_register_attribute_type(signed char)
+      strtk_register_attribute_type(char)
+      strtk_register_attribute_type(std::string)
 
       template <typename Iterator, typename T>
-      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, strtk::util::attribute<T>& result, attribute_type_tag)
+      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, strtk::util::attribute<T>& result, attribute_type)
       {
          if (strtk::string_to_type_converter(itr,end,result.value()))
          {
@@ -20885,25 +20885,25 @@ namespace strtk
       }
 
       template <typename T>
-      inline bool type_to_string_converter_impl(const strtk::util::attribute<T>& attrib, std::string& result, attribute_type_tag)
+      inline bool type_to_string_converter_impl(const strtk::util::attribute<T>& attrib, std::string& result, attribute_type)
       {
          if (!attrib.initialised())
             return false;
          return strtk::type_to_string(attrib.value(),result);
       }
 
-      #undef strtk_register_attribute_type_tag
+      #undef strtk_register_attribute_type
 
-      template<> struct supported_conversion_to_type  < strtk::util::semantic_action_impl > { typedef semantic_action_type_tag type; };
-      template<> struct supported_conversion_from_type< strtk::util::semantic_action_impl > { typedef semantic_action_type_tag type; };
+      template<> struct supported_conversion_to_type  < strtk::util::semantic_action_impl > { typedef semantic_action_type type; };
+      template<> struct supported_conversion_from_type< strtk::util::semantic_action_impl > { typedef semantic_action_type type; };
 
       template <typename Iterator>
-      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, strtk::util::semantic_action_impl& result, semantic_action_type_tag)
+      inline bool string_to_type_converter_impl(Iterator& itr, const Iterator end, strtk::util::semantic_action_impl& result, semantic_action_type)
       {
          return result(itr,end);
       }
 
-      inline bool type_to_string_converter_impl(const strtk::util::semantic_action_impl&, std::string& result, semantic_action_type_tag)
+      inline bool type_to_string_converter_impl(const strtk::util::semantic_action_impl&, std::string& result, semantic_action_type)
       {
          static std::string result_str = "semantic_action";
          result = result_str;
@@ -23606,7 +23606,7 @@ namespace strtk
 
    namespace details
    {
-      inline bool type_to_string_converter_impl(const strtk::util::value& v, std::string& result, value_type_tag)
+      inline bool type_to_string_converter_impl(const strtk::util::value& v, std::string& result, value_type)
       {
          return v.to_string(result);
       }

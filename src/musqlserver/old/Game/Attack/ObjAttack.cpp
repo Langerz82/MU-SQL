@@ -3740,27 +3740,27 @@ BOOL CObjAttack::PentagramAttack(LPGameObject &lpObj, LPGameObject lpTargetObj, 
 					case EL_FIRE:
 						gObjUseSkill.m_Lua.Generic_Call("ElementalDebuffGetDuration", "ii>i", BUFFTYPE_ACHERON_FIRE, (lpObj->Level + lpObj->m_PlayerData->MasterLevel), &iDuration);
 						gObjAddBuffEffect(lpTargetObj, BUFFTYPE_ACHERON_FIRE, 83, 0, 0, 0, iDuration);
-						gObjCalCharacter.CalcCharacter(lpTargetObj->m_Index);
+						gObjCalCharacter.CalcCharacter(lpTargetObj);
 						break;
 					case EL_WATER:
 						gObjUseSkill.m_Lua.Generic_Call("ElementalDebuffGetDuration", "ii>i", BUFFTYPE_ACHERON_FROST, (lpObj->Level + lpObj->m_PlayerData->MasterLevel), &iDuration);
 						gObjAddBuffEffect(lpTargetObj, BUFFTYPE_ACHERON_FROST, 82, 0, 0, 0, iDuration);
-						gObjCalCharacter.CalcCharacter(lpTargetObj->m_Index);
+						gObjCalCharacter.CalcCharacter(lpTargetObj);
 						break;
 					case EL_EARTH:
 						gObjUseSkill.m_Lua.Generic_Call("ElementalDebuffGetDuration", "ii>i", BUFFTYPE_ACHERON_TORNADO, (lpObj->Level + lpObj->m_PlayerData->MasterLevel), &iDuration);
 						gObjAddBuffEffect(lpTargetObj, BUFFTYPE_ACHERON_TORNADO, 84, 0, 0, 0, iDuration);
-						gObjCalCharacter.CalcCharacter(lpTargetObj->m_Index);
+						gObjCalCharacter.CalcCharacter(lpTargetObj);
 						break;
 					case EL_WIND:
 						gObjUseSkill.m_Lua.Generic_Call("ElementalDebuffGetDuration", "ii>i", BUFFTYPE_ACHERON_BIND, (lpObj->Level + lpObj->m_PlayerData->MasterLevel), &iDuration);
 						gObjAddBuffEffect(lpTargetObj, BUFFTYPE_ACHERON_BIND, 81, 0, 0, 0, iDuration);
-						gObjCalCharacter.CalcCharacter(lpTargetObj->m_Index);
+						gObjCalCharacter.CalcCharacter(lpTargetObj);
 						break;
 					case EL_DARKNESS:
 						gObjUseSkill.m_Lua.Generic_Call("ElementalDebuffGetDuration", "ii>i", BUFFTYPE_ACHERON_DARKNESS, (lpObj->Level + lpObj->m_PlayerData->MasterLevel), &iDuration);
 						gObjAddBuffEffect(lpTargetObj, BUFFTYPE_ACHERON_DARKNESS, 0, 0, 0, 0, iDuration);
-						gObjCalCharacter.CalcCharacter(lpTargetObj->m_Index);
+						gObjCalCharacter.CalcCharacter(lpTargetObj);
 						break;
 					}
 				}

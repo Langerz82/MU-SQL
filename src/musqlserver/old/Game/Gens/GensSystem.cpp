@@ -676,7 +676,7 @@ void GensSystem::SendPKPenaltyDebuff(LPGameObject &lpObj)
 		return;
 	}
 
-	_tagPeriodBuffInfo BuffInfo;
+	PeriodBuffInfo BuffInfo;
 	LPPERIOD_BUFF_EFFECT_INFO lpPeriBuff = g_BuffEffectSlot.GetPeriodBuffInfo(106);
 
 	if (!lpPeriBuff)
@@ -1452,7 +1452,7 @@ int GensSystem::ReqExDBSetGensRewardDay(void) // done
 //-> Completed
 int GensSystem::ReqExDBSetGensRanking(void)
 {
-	_tagGENS_RANKING pMsg;
+	GENS_RANKING pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0x12, sizeof(pMsg));
 

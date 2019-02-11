@@ -3,12 +3,12 @@
 #ifndef GENSSYSTEMPROTOCOL_H
 #define GENSSYSTEMPROTOCOL_H
 
-#include "prodef.h"
-#include <string>
-
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
+
+#include "prodef.h"
+#include <string>
 
 enum INFLUENCE_TYPE
 {

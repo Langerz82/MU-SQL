@@ -6,9 +6,9 @@
 #include "GamblingSystem.h"
 #include "User/CUserData.h"
 
-struct __tagDOPPELGANGER_DROP_ITEM_GROUP_INFO
+struct _DOPPELGANGER_DROP_ITEM_GROUP_INFO
 {
-	__tagDOPPELGANGER_DROP_ITEM_GROUP_INFO()
+	_DOPPELGANGER_DROP_ITEM_GROUP_INFO()
 	{
 		this->nGroupIndex = 0;
 		this->nSkillRate = 0;
@@ -38,7 +38,7 @@ public:
 
 private:
 	BOOL														m_bLoad;
-	std::map<int, __tagDOPPELGANGER_DROP_ITEM_GROUP_INFO>		vtDPItemBag;
+	std::map<int, _DOPPELGANGER_DROP_ITEM_GROUP_INFO>		vtDPItemBag;
 	int															m_nAddOptRate[7];
 	int															m_nExItemAddOptRate[6];
 	int															m_nExItemOptKindRate[6];

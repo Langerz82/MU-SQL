@@ -9,7 +9,9 @@
 
 #include "StdAfx.h"
 #include "GameProtocol.h"
-
+#include "CGameObject.h"
+#include "custTypedef.h"
+#include "MuDefines.h"
 
 #include <queue>
 
