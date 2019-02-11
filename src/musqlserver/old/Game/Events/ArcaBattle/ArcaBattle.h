@@ -40,7 +40,7 @@ enum ARCA_BATTLE_STATE
 
 // Data arrays
 
-structARCA_USER_INFO
+struct ARCA_USER_INFO
 {
 	ARCA_USER_INFO()
 	{
@@ -59,7 +59,7 @@ structARCA_USER_INFO
 	char szUserName[MAX_ACCOUNT_LEN + 1];
 };
 
-structAURA_INFO
+struct AURA_INFO
 {
 	AURA_INFO()
 	{
@@ -75,7 +75,7 @@ structAURA_INFO
 	int m_iAuraPosY;
 };
 
-structOBELISK_INFO
+struct OBELISK_INFO
 {
 	OBELISK_INFO()
 	{
@@ -110,7 +110,7 @@ structOBELISK_INFO
 	AURA_INFO m_stAuraInfo[3];
 };
 
-structARCA_BATTLE_BOOTY_REWARD
+struct ARCA_BATTLE_BOOTY_REWARD
 {
 	ARCA_BATTLE_BOOTY_REWARD() {
 	  this->iItemLink = 0;
@@ -128,7 +128,7 @@ structARCA_BATTLE_BOOTY_REWARD
 	int iDurab;
 	int iRate;
 };
-structARCA_BATTLE_BOOTY_MIX
+struct ARCA_BATTLE_BOOTY_MIX
 {
 	ARCA_BATTLE_BOOTY_MIX(){
 		  this->iItemLink = 0;
@@ -167,7 +167,7 @@ struct _stABAcquiredPoints
 	 unsigned int dwContributePoints;
 	 unsigned int dwKillPoints;
 };
-structArcaBattleUserInfo
+struct ArcaBattleUserInfo
 {
 	void Clear()
 	{
@@ -183,7 +183,7 @@ structArcaBattleUserInfo
 	_stABAcquiredPoints m_stAcquiredPoints;
 };
 
-structAURA_STATE
+struct AURA_STATE
 {
 	AURA_STATE()
 	{
@@ -199,7 +199,7 @@ structAURA_STATE
 	int m_iIndex;
 };
 
-structOBELISK_STATE
+struct OBELISK_STATE
 {
 	OBELISK_STATE()
 	{
@@ -228,13 +228,13 @@ structOBELISK_STATE
 	AURA_STATE m_stAuraState[3];
 };
 
-structARCA_BATTLE_RESULT_INFO
+struct ARCA_BATTLE_RESULT_INFO
 {
 	int iGuildNum;
 	int iObeliskAttrKind;
 };
 
-structOccupyGuildInfo
+struct OccupyGuildInfo
 {
 	int iObeliskGroupNum;
 	int iGuildNum;
@@ -258,7 +258,7 @@ struct _stABWinGuildInfo
 	WORD wObeliskGroup;
 };
 
-structARCA_BATTLE_START_TIME
+struct ARCA_BATTLE_START_TIME
 {
 	ARCA_BATTLE_START_TIME()
 	{
@@ -355,7 +355,7 @@ struct _stABMonGroupInfo
 	_stABMonAccountNumInfo m_stMonsterAccountNumInfo[255];
 };
 
-structAB_USER_AREA
+struct AB_USER_AREA
 {
 	AB_USER_AREA()
 	{
@@ -387,7 +387,7 @@ struct _stAB_USER_POSITION
 	AB_USER_AREA stUserPos[10];
 };
 
-structAB_GUILD_MEMBER_INFO_LOG
+struct AB_GUILD_MEMBER_INFO_LOG
 {
 	AB_GUILD_MEMBER_INFO_LOG()
 	 {

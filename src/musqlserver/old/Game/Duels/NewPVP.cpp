@@ -659,7 +659,7 @@ BOOL CNewPVP::CheckLimitLevel(int nIndex, int nGateNum)
 	int nMapNumber =  gGateC.GetGate(nGateNum, sX, sY, btMapNum, btDir, sLevel);
 	if( nMapNumber < 0)	return FALSE;
 
-	if(gGameObjects[nIndex].Level < sLevel)	return FALSE;
+	if(gGameObjects[nIndex]->Level < sLevel)	return FALSE;
 	return TRUE;
 }
 

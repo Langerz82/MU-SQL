@@ -802,7 +802,7 @@ void CBotSystem::AlchemistTradeOk(CGameObject &lpObj, int botIndex)
 
 	if(!lpObj || !lpBot)
 		return;
-	sBOT_REWARD_STRUCT reward = ConfirmMixSuccess(aIndex,gGameObjects[botIndex].m_PlayerData->wBotIndex);
+	sBOT_REWARD_STRUCT reward = ConfirmMixSuccess(aIndex,gGameObjects[botIndex]->m_PlayerData->wBotIndex);
 	if(reward.m_Reward.m_Type > 0)
 	{
 		int iEmptyCount = CheckInventoryEmptySpaceCount(&gGameObjects[aIndex], ItemAttribute[reward.m_Reward.m_Type].Width, ItemAttribute[reward.m_Reward.m_Type].Height);

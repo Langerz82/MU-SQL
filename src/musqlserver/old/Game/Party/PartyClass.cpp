@@ -105,7 +105,7 @@ BOOL PartyClass::RevisionIndexUser(int party_number, BYTE *index, char *szName)
 			continue;
 		}
 
-		if (!strcmp(szMemberName, gGameObjects[nNumber].Name))
+		if (!strcmp(szMemberName, gGameObjects[nNumber]->Name))
 		{
 			*index = i;
 			return TRUE;
@@ -165,10 +165,10 @@ int PartyClass::Create(int usernumber, int dbnumber, int level)
 			this->m_PartyS[n].Number[0] = usernumber;
 			this->m_PartyS[n].DbNumber[0] = dbnumber;
 
-			if (gGameObjects[usernumber].m_PlayerData->m_bUsePartyMatching && gGameObjects[usernumber].m_PlayerData->m_bPartyMatchingLeader)
+			if (gGameObjects[usernumber]->m_PlayerData->m_bUsePartyMatching && gGameObjects[usernumber]->m_PlayerData->m_bPartyMatchingLeader)
 			{
 				this->m_PartyS[n].bUsePartyMatching = true;
-				this->m_PartyS[n].nMatchingPartyCount = gGameObjects[usernumber].m_PlayerData->m_nPartyMatchingMemberCount;
+				this->m_PartyS[n].nMatchingPartyCount = gGameObjects[usernumber]->m_PlayerData->m_nPartyMatchingMemberCount;
 			}
 
 			else
@@ -196,7 +196,7 @@ int PartyClass::Create(int usernumber, int dbnumber, int level)
 				this->m_PartyCount=0;
 			}
 
-			this->m_PartyS[n].m_UserPKLevel[0] = gGameObjects[usernumber].m_PK_Level;
+			this->m_PartyS[n].m_UserPKLevel[0] = gGameObjects[usernumber]->m_PK_Level;
 
 			if (this->m_PartyS[n].m_UserPKLevel[0] < 5)
 			{
@@ -317,7 +317,7 @@ int PartyClass::Add(int party_number, int usernumber, int dbnumber, int level)
 			this->m_PartyS[party_number].DbNumber[i] = dbnumber;
 			this->m_PartyS[party_number].Count++;
 			this->SetLevel(party_number, level);
-			this->m_PartyS[party_number].m_UserPKLevel[i] = gGameObjects[usernumber].m_PK_Level;
+			this->m_PartyS[party_number].m_UserPKLevel[i] = gGameObjects[usernumber]->m_PK_Level;
 			if (this->m_PartyS[party_number].m_UserPKLevel[i] >= 5)
 			{
 				if (this->m_PartyS[party_number].m_PKPartyLevel < this->m_PartyS[party_number].m_UserPKLevel[i])
@@ -408,9 +408,9 @@ void PartyClass::Paint(int party_number)
 				continue;
 
 			strcat(this->m_szTempPaint, "[");
-			strcat(this->m_szTempPaint, gGameObjects[usern].AccountID);
+			strcat(this->m_szTempPaint, gGameObjects[usern]->AccountID);
 			strcat(this->m_szTempPaint, "][");
-			strcat(this->m_szTempPaint, gGameObjects[usern].Name);
+			strcat(this->m_szTempPaint, gGameObjects[usern]->Name);
 			strcat(this->m_szTempPaint, "], ");
 		}
 	}
@@ -462,17 +462,17 @@ void PartyClass::PartyMemberLifeSend(int party_number)
 
 			if ( gObjIsConnected(usern) != PLAYER_EMPTY )
 			{
-				pList.Life = ((gGameObjects[usern].Life) * 100.0f / (gGameObjects[usern].MaxLife+gGameObjects[usern].AddLife));
-				pList.Mana = ((gGameObjects[usern].Mana) * 100.0f / (gGameObjects[usern].MaxMana+gGameObjects[usern].AddMana));
+				pList.Life = ((gGameObjects[usern]->Life) * 100.0f / (gGameObjects[usern]->MaxLife+gGameObjects[usern]->AddLife));
+				pList.Mana = ((gGameObjects[usern]->Mana) * 100.0f / (gGameObjects[usern]->MaxMana+gGameObjects[usern]->AddMana));
 				
 				if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 				{
-					memcpy(pList.Name, gGameObjects[usern].m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN+1);
+					memcpy(pList.Name, gGameObjects[usern]->m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN+1);
 				}
 
 				else
 				{
-					memcpy(pList.Name, gGameObjects[usern].Name, MAX_ACCOUNT_LEN+1);
+					memcpy(pList.Name, gGameObjects[usern]->Name, MAX_ACCOUNT_LEN+1);
 				}
 
 				memcpy(&sendbuf[lOfs], &pList, sizeof(pList));
@@ -965,7 +965,7 @@ bool PartyClass::SetLeader(int OldLeader, int NewLeader)
 	{
 		int UserIndex = this->m_PartyS[PartyNumber].Number[i];
 		// ----
-		if (UserIndex >= 0 && gGameObjects[UserIndex].Connected == 3)
+		if (UserIndex >= 0 && gGameObjects[UserIndex]->Connected == 3)
 		{
 			GSProtocol.GCServerMsgStringSend(Text, this->m_PartyS[PartyNumber].Number[i], 1);
 			GSProtocol.CGPartyList(this->m_PartyS[PartyNumber].Number[i]);

@@ -42,11 +42,10 @@ struct PERIOD_DATA
 	BYTE btItemCount;
 	WORD wUserIndex;
 	DWORD dwUserGuid;
-	CGameObject m_Obj; // lol
+	CGameObject* m_Obj; // lol
 	char szAccountID[MAX_ACCOUNT_LEN+1];
 	char szCharacterName[MAX_ACCOUNT_LEN+1];
-	ITEM_DATA m_ItemInfo[30];
-
+	ITEM_DATA* m_ItemInfo[30];
 	void Clear()
 	{
 		this->btUsedInfo = FALSE;

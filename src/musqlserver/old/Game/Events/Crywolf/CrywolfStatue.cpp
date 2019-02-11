@@ -82,7 +82,7 @@ void CCrywolfStatue::CrywolfStatueAct(int iIndex)
 	if ( !gObjIsConnected(iIndex))
 		return;
 
-	if ( gGameObjects[iIndex].Type != OBJ_NPC || CHECK_CLASS(204, gGameObjects[iIndex].Class) == FALSE )
+	if ( gGameObjects[iIndex]->Type != OBJ_NPC || CHECK_CLASS(204, gGameObjects[iIndex]->Class) == FALSE )
 		return;
 
 	CGameObject lpObj = &gGameObjects[iIndex];

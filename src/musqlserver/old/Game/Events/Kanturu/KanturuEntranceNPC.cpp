@@ -84,7 +84,7 @@ void CKanturuEntranceNPC::NotifyResultEnterKanturuBossMap(int iIndex)
 
 				if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
 				{
-					gGameObjects[iIndex].m_PlayerData->m_bKanturuEntranceByNPC = TRUE;
+					gGameObjects[iIndex]->m_PlayerData->m_bKanturuEntranceByNPC = TRUE;
 				}
 			}
 		}
@@ -97,7 +97,7 @@ void CKanturuEntranceNPC::NotifyResultEnterKanturuBossMap(int iIndex)
 
 			if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
 			{
-				gGameObjects[iIndex].m_PlayerData->m_bKanturuEntranceByNPC = TRUE;
+				gGameObjects[iIndex]->m_PlayerData->m_bKanturuEntranceByNPC = TRUE;
 			}
 		}
 		else
@@ -110,7 +110,7 @@ void CKanturuEntranceNPC::NotifyResultEnterKanturuBossMap(int iIndex)
 
 		if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
 		{
-			gGameObjects[iIndex].m_PlayerData->m_bKanturuEntranceByNPC = FALSE;
+			gGameObjects[iIndex]->m_PlayerData->m_bKanturuEntranceByNPC = FALSE;
 		}
 	}
 }

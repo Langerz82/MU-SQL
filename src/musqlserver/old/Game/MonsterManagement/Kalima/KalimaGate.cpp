@@ -49,7 +49,7 @@ BOOL CKalimaGate::CreateKalimaGate(int iIndex, BYTE btLevel, BYTE cTX, BYTE cTY)
 			return false;
 		}
 
-		sLog->outBasic("[Kalima] [%s][%s] Try to Create Kalima Gate", gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name);
+		sLog->outBasic("[Kalima] [%s][%s] Try to Create Kalima Gate", gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name);
 		iKalimaGateLevel = this->GetKalimaGateLevel(iIndex);
 
 		if ( iKalimaGateLevel < btLevel-1 )
@@ -59,32 +59,32 @@ BOOL CKalimaGate::CreateKalimaGate(int iIndex, BYTE btLevel, BYTE cTX, BYTE cTY)
 
 		iKalimaGateLevel = btLevel-1;
 
-		if (  DS_MAP_RANGE(gGameObjects[iIndex].MapNumber) )
+		if (  DS_MAP_RANGE(gGameObjects[iIndex]->MapNumber) )
 		{
 			return false;
 		}
 
-		if ( BC_MAP_RANGE(gGameObjects[iIndex].MapNumber) )
+		if ( BC_MAP_RANGE(gGameObjects[iIndex]->MapNumber) )
 		{
 			return false;
 		}
 
-		if ( CC_MAP_RANGE(gGameObjects[iIndex].MapNumber) )
+		if ( CC_MAP_RANGE(gGameObjects[iIndex]->MapNumber) )
 		{
 			return false;
 		}
 
-		if (gGameObjects[iIndex].MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
+		if (gGameObjects[iIndex]->MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 		{
 			return false;
 		}
 
-		if ( IT_MAP_RANGE(gGameObjects[iIndex].MapNumber) )
+		if ( IT_MAP_RANGE(gGameObjects[iIndex]->MapNumber) )
 		{
 			return false;
 		}
 
-		if ( IMPERIAL_MAP_RANGE(gGameObjects[iIndex].MapNumber) )
+		if ( IMPERIAL_MAP_RANGE(gGameObjects[iIndex]->MapNumber) )
 		{
 			return false;
 		}
@@ -92,27 +92,27 @@ BOOL CKalimaGate::CreateKalimaGate(int iIndex, BYTE btLevel, BYTE cTX, BYTE cTY)
 		if ( KALIMA_FLOOR_RANGE(iKalimaGateLevel)== FALSE )
 		{
 			sLog->outBasic("[Kalima] [%s][%s] Failed to Summon Kalima Gate - Gate Level Check Error : %d",
-				gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name, iKalimaGateLevel+1);
+				gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, iKalimaGateLevel+1);
 			return false;
 		}
 
-		iMapNumber = gGameObjects[iIndex].MapNumber;
+		iMapNumber = gGameObjects[iIndex]->MapNumber;
 
-		btMapAttr = MapC[iMapNumber].GetAttr(gGameObjects[iIndex].X, gGameObjects[iIndex].Y);
+		btMapAttr = MapC[iMapNumber].GetAttr(gGameObjects[iIndex]->X, gGameObjects[iIndex]->Y);
 
 		if ( btMapAttr &1 != 0 )
 		{
 			sLog->outBasic("[Kalima] [%s][%s] Failed to Summon Kalima Gate - Called in Saftey Area (Map:%d, X:%d, Y:%d)",
-				gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name, gGameObjects[iIndex].MapNumber,
-				gGameObjects[iIndex].X, gGameObjects[iIndex].Y);
+				gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, gGameObjects[iIndex]->MapNumber,
+				gGameObjects[iIndex]->X, gGameObjects[iIndex]->Y);
 			return false;
 		}
 
-		if ( gGameObjects[iIndex].m_cKalimaGateExist == TRUE )
+		if ( gGameObjects[iIndex]->m_cKalimaGateExist == TRUE )
 		{
 			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,150), iIndex, 1);
 			sLog->outBasic("[Kalima] [%s][%s] Failed to Summon Kalima Gate - Already Have Gate (SummonIndex:%d)",
-				gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name, gGameObjects[iIndex].m_iKalimaGateIndex);
+				gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, gGameObjects[iIndex]->m_iKalimaGateIndex);
 			return false;
 		}
 
@@ -127,15 +127,15 @@ BOOL CKalimaGate::CreateKalimaGate(int iIndex, BYTE btLevel, BYTE cTX, BYTE cTY)
 			if (this->GetRandomLocation(iMapNumber, cX, cY) == 0)
 			{
 			sLog->outBasic("[Kalima] [%s][%s] Failed to Summon Kalima Gate - Failed to get Location (MapNumber:%d, X:%d, Y:%d)",
-				gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name, gGameObjects[iIndex].MapNumber, cX, cY);
+				gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, gGameObjects[iIndex]->MapNumber, cX, cY);
 			return false;
 			}
 		}
 
-		if ( gGameObjects[iIndex].MapNumber == 10 )
+		if ( gGameObjects[iIndex]->MapNumber == 10 )
 		{
 			sLog->outBasic("[Kalima] [%s][%s] Failed to Summon Kalima Gate - Uable to Summon in this Map (MapNumber:%d)",
-				gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name, gGameObjects[iIndex].MapNumber);
+				gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, gGameObjects[iIndex]->MapNumber);
 			return false;
 		}
 
@@ -149,46 +149,46 @@ BOOL CKalimaGate::CreateKalimaGate(int iIndex, BYTE btLevel, BYTE cTX, BYTE cTY)
 			{
 				gObjDel(iMonsterIndex);
 				sLog->outBasic("[Kalima] [%s][%s] Kalima Gate Vanished - lpMATTR == NULL (SummonIndex:%d)",
-					gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name, iMonsterIndex);
+					gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, iMonsterIndex);
 				return false;
 			}
 
 			gObjSetMonster(iMonsterIndex, iMonsterType);
-			gGameObjects[iMonsterIndex].Live = TRUE;
-			gGameObjects[iMonsterIndex].Life = 1000.0;
-			gGameObjects[iMonsterIndex].MaxLife = 1000.0;
-			gGameObjects[iMonsterIndex].m_PosNum = -1;
-			gGameObjects[iMonsterIndex].X = cX;
-			gGameObjects[iMonsterIndex].Y = cY;
-			gGameObjects[iMonsterIndex].MTX = cX;
-			gGameObjects[iMonsterIndex].MTY = cY;
-			gGameObjects[iMonsterIndex].TX = cX;
-			gGameObjects[iMonsterIndex].TY = cY;
-			gGameObjects[iMonsterIndex].m_OldX = cX;
-			gGameObjects[iMonsterIndex].m_OldY = cY;
-			gGameObjects[iMonsterIndex].StartX = cX;
-			gGameObjects[iMonsterIndex].StartY = cY;
-			gGameObjects[iMonsterIndex].MapNumber = iMapNumber;
-			gGameObjects[iMonsterIndex].m_MoveRange = 0;
-			gGameObjects[iMonsterIndex].m_cKalimaGateEnterCount = 0;
+			gGameObjects[iMonsterIndex]->Live = TRUE;
+			gGameObjects[iMonsterIndex]->Life = 1000.0;
+			gGameObjects[iMonsterIndex]->MaxLife = 1000.0;
+			gGameObjects[iMonsterIndex]->m_PosNum = -1;
+			gGameObjects[iMonsterIndex]->X = cX;
+			gGameObjects[iMonsterIndex]->Y = cY;
+			gGameObjects[iMonsterIndex]->MTX = cX;
+			gGameObjects[iMonsterIndex]->MTY = cY;
+			gGameObjects[iMonsterIndex]->TX = cX;
+			gGameObjects[iMonsterIndex]->TY = cY;
+			gGameObjects[iMonsterIndex]->m_OldX = cX;
+			gGameObjects[iMonsterIndex]->m_OldY = cY;
+			gGameObjects[iMonsterIndex]->StartX = cX;
+			gGameObjects[iMonsterIndex]->StartY = cY;
+			gGameObjects[iMonsterIndex]->MapNumber = iMapNumber;
+			gGameObjects[iMonsterIndex]->m_MoveRange = 0;
+			gGameObjects[iMonsterIndex]->m_cKalimaGateEnterCount = 0;
 
-			gGameObjects[iIndex].m_cKalimaGateExist = TRUE;
-			gGameObjects[iIndex].m_iKalimaGateIndex = iMonsterIndex;
+			gGameObjects[iIndex]->m_cKalimaGateExist = TRUE;
+			gGameObjects[iIndex]->m_iKalimaGateIndex = iMonsterIndex;
 
-			gGameObjects[iMonsterIndex].Level = lpMATTR->m_Level;
-			gGameObjects[iMonsterIndex].Type = OBJ_MONSTER;
-			gGameObjects[iMonsterIndex].MaxRegenTime = 1000;
-			gGameObjects[iMonsterIndex].Dir = 1;
+			gGameObjects[iMonsterIndex]->Level = lpMATTR->m_Level;
+			gGameObjects[iMonsterIndex]->Type = OBJ_MONSTER;
+			gGameObjects[iMonsterIndex]->MaxRegenTime = 1000;
+			gGameObjects[iMonsterIndex]->Dir = 1;
 
-			gGameObjects[iMonsterIndex].m_RecallMon = iIndex;
-			gGameObjects[iMonsterIndex].RegenTime = GetTickCount();
-			gGameObjects[iMonsterIndex].m_Attribute = iKalimaGateLevel + 51;
-			gGameObjects[iMonsterIndex].DieRegen = FALSE;
+			gGameObjects[iMonsterIndex]->m_RecallMon = iIndex;
+			gGameObjects[iMonsterIndex]->RegenTime = GetTickCount();
+			gGameObjects[iMonsterIndex]->m_Attribute = iKalimaGateLevel + 51;
+			gGameObjects[iMonsterIndex]->DieRegen = FALSE;
 			
 			sLog->outBasic("[Kalima] [%s][%s] Create Kalima Gate Successfuly (Live:%d, GateTick:%u, DieRegen:%d, Map:%d, X:%d, Y:%d, SummonIndex:%d, OwnerIndex:%d, GateNo.:%d)",
-				gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name, gGameObjects[iMonsterIndex].Live, gGameObjects[iMonsterIndex].RegenTime,
-				gGameObjects[iMonsterIndex].DieRegen, gGameObjects[iMonsterIndex].MapNumber, gGameObjects[iMonsterIndex].X,
-				gGameObjects[iMonsterIndex].Y, iMonsterIndex, iIndex, iKalimaGateLevel+1);
+				gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, gGameObjects[iMonsterIndex]->Live, gGameObjects[iMonsterIndex]->RegenTime,
+				gGameObjects[iMonsterIndex]->DieRegen, gGameObjects[iMonsterIndex]->MapNumber, gGameObjects[iMonsterIndex]->X,
+				gGameObjects[iMonsterIndex]->Y, iMonsterIndex, iIndex, iKalimaGateLevel+1);
 			bKalimaGateCreateSucceed = TRUE;
 		}
 	}
@@ -214,15 +214,15 @@ void CKalimaGate::KalimaGateAct(int iIndex)
 		return;
 	}
 
-	if ( gGameObjects[iIndex].Live == FALSE )
+	if ( gGameObjects[iIndex]->Live == FALSE )
 	{
 		return;
 	}
 
-	if ( gObjIsConnected( gGameObjects[iIndex].m_RecallMon ) == PLAYER_EMPTY )
+	if ( gObjIsConnected( gGameObjects[iIndex]->m_RecallMon ) == PLAYER_EMPTY )
 	{
 		sLog->outBasic("[Kalima] Kalima Gate Vanished - Summoner Vanished (SummonIndex:%d, EnterCount:%d)",
-			iIndex, gGameObjects[iIndex].m_cKalimaGateEnterCount );
+			iIndex, gGameObjects[iIndex]->m_cKalimaGateEnterCount );
 		GSProtocol.GCDiePlayerSend( &gGameObjects[iIndex], iIndex, 0, 0);
 		gObjDel(iIndex);
 		gObjCharZeroSet(iIndex);
@@ -232,27 +232,27 @@ void CKalimaGate::KalimaGateAct(int iIndex)
 	lpObj = &gGameObjects[iIndex];
 	lpObjCallOwner = &gGameObjects[lpObj.m_RecallMon];
 
-	if ( gGameObjects[gGameObjects[iIndex].m_RecallMon].DieRegen > 0 )
+	if ( gGameObjects[gGameObjects[iIndex]->m_RecallMon].DieRegen > 0 )
 	{
 		lpObjCallOwner->AccountID[MAX_ACCOUNT_LEN]=0;
 		lpObjCallOwner->Name[MAX_ACCOUNT_LEN]=0;
 
 		sLog->outBasic("[Kalima] [%s][%s] Kalima Gate Vanished - Summoner Died (SummonIndex:%d, EnterCount:%d)",
 			lpObjCallOwner->AccountID, lpObjCallOwner->Name,
-			iIndex, gGameObjects[iIndex].m_cKalimaGateEnterCount );
-		this->DeleteKalimaGate(iIndex, gGameObjects[iIndex].m_RecallMon);
+			iIndex, gGameObjects[iIndex]->m_cKalimaGateEnterCount );
+		this->DeleteKalimaGate(iIndex, gGameObjects[iIndex]->m_RecallMon);
 		return;
 	}
 
-	if ( gGameObjects[iIndex].m_cKalimaGateEnterCount >= MAX_KALIMA_ENTER )
+	if ( gGameObjects[iIndex]->m_cKalimaGateEnterCount >= MAX_KALIMA_ENTER )
 	{
 		lpObjCallOwner->AccountID[MAX_ACCOUNT_LEN]=0;
 		lpObjCallOwner->Name[MAX_ACCOUNT_LEN]=0;
 		
 		sLog->outBasic("[Kalima] [%s][%s] Kalima Gate Vanished - Enter Count Over (SummonIndex:%d, EnterCount:%d)",
 			lpObjCallOwner->AccountID, lpObjCallOwner->Name,
-			iIndex, gGameObjects[iIndex].m_cKalimaGateEnterCount );
-		this->DeleteKalimaGate(iIndex, gGameObjects[iIndex].m_RecallMon);
+			iIndex, gGameObjects[iIndex]->m_cKalimaGateEnterCount );
+		this->DeleteKalimaGate(iIndex, gGameObjects[iIndex]->m_RecallMon);
 		return;
 	}
 		
@@ -265,7 +265,7 @@ void CKalimaGate::KalimaGateAct(int iIndex)
 		
 		sLog->outBasic("[Kalima] [%s][%s] Kalima Gate Vanished - Time Out (SummonIndex:%d, EnterCount:%d)",
 			lpObjCallOwner->AccountID, lpObjCallOwner->Name,
-			iIndex, gGameObjects[iIndex].m_cKalimaGateEnterCount );
+			iIndex, gGameObjects[iIndex]->m_cKalimaGateEnterCount );
 		this->DeleteKalimaGate(lpObj.m_Index, lpObjCallOwner->m_Index);
 		return;
 	}
@@ -283,15 +283,15 @@ void CKalimaGate::KalimaGateAct(int iIndex)
 
 		if ( tObjNum >= 0 )
 		{
-			if ( gGameObjects[tObjNum].Type == OBJ_USER )
+			if ( gGameObjects[tObjNum]->Type == OBJ_USER )
 			{
-				if ( gGameObjects[tObjNum].Live != FALSE )
+				if ( gGameObjects[tObjNum]->Live != FALSE )
 				{
-					if ( abs(lpObj.Y - gGameObjects[tObjNum].Y) < 2 )
+					if ( abs(lpObj.Y - gGameObjects[tObjNum]->Y) < 2 )
 					{
-						if ( abs(lpObj.X - gGameObjects[tObjNum].X) < 2 )
+						if ( abs(lpObj.X - gGameObjects[tObjNum]->X) < 2 )
 						{
-							if ( lpObj.m_RecallMon == tObjNum || (gGameObjects[tObjNum].PartyNumber != -1 && lpObjCallOwner->PartyNumber == gGameObjects[tObjNum].PartyNumber ))
+							if ( lpObj.m_RecallMon == tObjNum || (gGameObjects[tObjNum]->PartyNumber != -1 && lpObjCallOwner->PartyNumber == gGameObjects[tObjNum]->PartyNumber ))
 							{
 								int iMoveMapLevel = lpObj.m_Attribute -51;
 								int iMapNumber = iMoveMapLevel + 24;
@@ -304,16 +304,16 @@ void CKalimaGate::KalimaGateAct(int iIndex)
 									{
 										sLog->outBasic("[Kalima] [%s][%s] - [%s][%s] move fail (MapNumber:%d)", 
 											lpObjCallOwner->AccountID, lpObjCallOwner->Name,
-											gGameObjects[tObjNum].AccountID, gGameObjects[tObjNum].Name, iMapNumber);
+											gGameObjects[tObjNum]->AccountID, gGameObjects[tObjNum]->Name, iMapNumber);
 									}
 									else
 									{
 										sLog->outBasic("[Kalima] [%s][%s] - [%s][%s] Transported by Kalima Gate (SummonIndex:%d, GateNo.:%d, MapNumber:%d)",
 											lpObjCallOwner->AccountID, lpObjCallOwner->Name, 
-											gGameObjects[tObjNum].AccountID, gGameObjects[tObjNum].Name, iIndex, iMoveMapLevel + 1, iMapNumber);
-										gGameObjects[iIndex].m_cKalimaGateEnterCount ++;
+											gGameObjects[tObjNum]->AccountID, gGameObjects[tObjNum]->Name, iIndex, iMoveMapLevel + 1, iMapNumber);
+										gGameObjects[iIndex]->m_cKalimaGateEnterCount ++;
 
-										if ( gGameObjects[iIndex].m_cKalimaGateEnterCount >= MAX_KALIMA_ENTER )
+										if ( gGameObjects[iIndex]->m_cKalimaGateEnterCount >= MAX_KALIMA_ENTER )
 										{
 											return;
 										}
@@ -336,15 +336,15 @@ int CKalimaGate::CheckOverlapKundunMark(int iIndex, BYTE btLevel)
 {
 	for ( int x = 0;x<MAIN_INVENTORY_SIZE;x++ )
 	{
-		if ( gGameObjects[iIndex].pInventory[x].IsItem() == TRUE )
+		if ( gGameObjects[iIndex]->pInventory[x].IsItem() == TRUE )
 		{
-			if ( gGameObjects[iIndex].pInventory[x].m_Type == ITEMGET(14, 29) )
+			if ( gGameObjects[iIndex]->pInventory[x].m_Type == ITEMGET(14, 29) )
 			{
-				if ( gGameObjects[iIndex].pInventory[x].m_Level == btLevel )
+				if ( gGameObjects[iIndex]->pInventory[x].m_Level == btLevel )
 				{
-					int iITEM_DUR = gGameObjects[iIndex].pInventory[x].m_Durability;
+					int iITEM_DUR = gGameObjects[iIndex]->pInventory[x].m_Durability;
 
-					if (iITEM_DUR >= 0 && iITEM_DUR <= IsOverlapItem(gGameObjects[iIndex].pInventory[x].m_Type))
+					if (iITEM_DUR >= 0 && iITEM_DUR <= IsOverlapItem(gGameObjects[iIndex]->pInventory[x].m_Type))
 					{
 						return x;
 					}
@@ -387,13 +387,13 @@ BOOL CKalimaGate::GetRandomLocation(int iMapNumber, BYTE & cX, BYTE & cY)
 			
 int CKalimaGate::GetKalimaGateLevel(int iIndex)
 {
-	if ( gGameObjects[iIndex].Class == CLASS_MAGUMSA || gGameObjects[iIndex].Class == CLASS_DARKLORD || gGameObjects[iIndex].Class == CLASS_RAGEFIGHTER )	// DarkLord and MagicGLadiaro
+	if ( gGameObjects[iIndex]->Class == CLASS_MAGUMSA || gGameObjects[iIndex]->Class == CLASS_DARKLORD || gGameObjects[iIndex]->Class == CLASS_RAGEFIGHTER )	// DarkLord and MagicGLadiaro
 	{
 		for ( int i =0;i<KALIMA_FLOORS;i++)
 		{
-			if ( gGameObjects[iIndex].Level >= g_sttKALIMAGATE_LEVEL[i].iLOWER_BOUND_MAGUMSA )
+			if ( gGameObjects[iIndex]->Level >= g_sttKALIMAGATE_LEVEL[i].iLOWER_BOUND_MAGUMSA )
 			{
-				if ( gGameObjects[iIndex].Level <= g_sttKALIMAGATE_LEVEL[i].iUPPER_BOUND_MAGUMSA )
+				if ( gGameObjects[iIndex]->Level <= g_sttKALIMAGATE_LEVEL[i].iUPPER_BOUND_MAGUMSA )
 				{
 					return i;
 				}
@@ -404,9 +404,9 @@ int CKalimaGate::GetKalimaGateLevel(int iIndex)
 	{
 		for ( int i =0;i<KALIMA_FLOORS;i++)
 		{
-			if ( gGameObjects[iIndex].Level >= g_sttKALIMAGATE_LEVEL[i].iLOWER_BOUND )
+			if ( gGameObjects[iIndex]->Level >= g_sttKALIMAGATE_LEVEL[i].iLOWER_BOUND )
 			{
-				if ( gGameObjects[iIndex].Level <= g_sttKALIMAGATE_LEVEL[i].iUPPER_BOUND )
+				if ( gGameObjects[iIndex]->Level <= g_sttKALIMAGATE_LEVEL[i].iUPPER_BOUND )
 				{
 					return i;
 				}
@@ -431,8 +431,8 @@ BOOL CKalimaGate::DeleteKalimaGate(int iKalimaGateIndex, int iCallOwnerIndex)
 		}
 
 		GSProtocol.GCDiePlayerSend( &gGameObjects[iKalimaGateIndex], iKalimaGateIndex, 0 , 0);
-		gGameObjects[iCallOwnerIndex].m_cKalimaGateExist = FALSE;
-		gGameObjects[iCallOwnerIndex].m_iKalimaGateIndex = -1;
+		gGameObjects[iCallOwnerIndex]->m_cKalimaGateExist = FALSE;
+		gGameObjects[iCallOwnerIndex]->m_iKalimaGateIndex = -1;
 		gObjDel(iKalimaGateIndex);
 		gObjCharZeroSet(iKalimaGateIndex);
 	}
@@ -455,14 +455,14 @@ BOOL CKalimaGate::DeleteKalimaGate(int iCallOwnerIndex)
 		return false;
 	}
 
-	int iKalimaGateIndex = gGameObjects[iCallOwnerIndex].m_iKalimaGateIndex;
+	int iKalimaGateIndex = gGameObjects[iCallOwnerIndex]->m_iKalimaGateIndex;
 
 	if (  ObjectMaxRange (iKalimaGateIndex ) == FALSE )
 	{	
 		return false;
 	}
 
-	if ( gGameObjects[iKalimaGateIndex].Live == FALSE || !KALIMA_ATTRIBUTE_RANGE(gGameObjects[iKalimaGateIndex].m_Attribute) )
+	if ( gGameObjects[iKalimaGateIndex]->Live == FALSE || !KALIMA_ATTRIBUTE_RANGE(gGameObjects[iKalimaGateIndex]->m_Attribute) )
 	{
 		return FALSE;
 	}
@@ -484,22 +484,22 @@ BOOL CKalimaGate::CreateKalimaGate2(int iIndex, int iMonMapNumber, BYTE cTX, BYT
 			return FALSE;
 
 		sLog->outBasic("[Kalima] [%s][%s] Try to Create Kalima Gate (NextMap)",
-			gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name);
+			gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name);
 
 		if ( iMonMapNumber < MAP_INDEX_KALIMA1 || iMonMapNumber > MAP_INDEX_KALIMA6-1 )
 		{
 			sLog->outBasic("[Kalima] [%s][%s] Failed to Summon Kalima Gate (NextMap) - MapNumber Error : %d",
-				gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name, iMonMapNumber);
+				gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, iMonMapNumber);
 
 			return FALSE;
 		}
 
-		if ( gGameObjects[iIndex].m_cKalimaGateExist == TRUE )
+		if ( gGameObjects[iIndex]->m_cKalimaGateExist == TRUE )
 		{
 			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,150), iIndex, 1);
 
 			sLog->outBasic("[Kalima] [%s][%s] Failed to Summon Kalima Gate (NextMap) - Already Have Gate (SummonIndex:%d)",
-				gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name, gGameObjects[iIndex].m_iKalimaGateIndex);
+				gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, gGameObjects[iIndex]->m_iKalimaGateIndex);
 	
 			return FALSE;
 		}
@@ -514,7 +514,7 @@ BOOL CKalimaGate::CreateKalimaGate2(int iIndex, int iMonMapNumber, BYTE cTX, BYT
 			if ( this->GetRandomLocation(iMonMapNumber, cX, cY) == FALSE )
 			{
 				sLog->outBasic("[Kalima] [%s][%s] Failed to Summon Kalima Gate (NextMap) - Failed to get Location (MapNumber:%d, X:%d, Y:%d)",
-					gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name, iMonMapNumber, cX, cY);
+					gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, iMonMapNumber, cX, cY);
 
 				return FALSE;
 			}
@@ -531,47 +531,47 @@ BOOL CKalimaGate::CreateKalimaGate2(int iIndex, int iMonMapNumber, BYTE cTX, BYT
 				gObjDel(iMonsterIndex);
 
 				sLog->outBasic("[Kalima] [%s][%s] Kalima Gate Vanished (NextMap) - lpMATTR == NULL (SummonIndex:%d)",
-					gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name, iMonsterIndex);
+					gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, iMonsterIndex);
 
 				return FALSE;
 			}
 
 			gObjSetMonster(iMonsterIndex, iMonsterType);
-			gGameObjects[iMonsterIndex].Live = TRUE;
-			gGameObjects[iMonsterIndex].Life = 1000.0;
-			gGameObjects[iMonsterIndex].MaxLife = 1000.0;
-			gGameObjects[iMonsterIndex].m_PosNum = -1;
-			gGameObjects[iMonsterIndex].X = cX;
-			gGameObjects[iMonsterIndex].Y = cY;
-			gGameObjects[iMonsterIndex].MTX = cX;
-			gGameObjects[iMonsterIndex].MTY = cY;
-			gGameObjects[iMonsterIndex].TX = cX;
-			gGameObjects[iMonsterIndex].TY = cY;
-			gGameObjects[iMonsterIndex].m_OldX = cX;
-			gGameObjects[iMonsterIndex].m_OldY = cY;
-			gGameObjects[iMonsterIndex].StartX = cX;
-			gGameObjects[iMonsterIndex].StartY = cY;
-			gGameObjects[iMonsterIndex].MapNumber = iMonMapNumber;
-			gGameObjects[iMonsterIndex].m_MoveRange = 0;
-			gGameObjects[iMonsterIndex].m_cKalimaGateEnterCount = 0;
+			gGameObjects[iMonsterIndex]->Live = TRUE;
+			gGameObjects[iMonsterIndex]->Life = 1000.0;
+			gGameObjects[iMonsterIndex]->MaxLife = 1000.0;
+			gGameObjects[iMonsterIndex]->m_PosNum = -1;
+			gGameObjects[iMonsterIndex]->X = cX;
+			gGameObjects[iMonsterIndex]->Y = cY;
+			gGameObjects[iMonsterIndex]->MTX = cX;
+			gGameObjects[iMonsterIndex]->MTY = cY;
+			gGameObjects[iMonsterIndex]->TX = cX;
+			gGameObjects[iMonsterIndex]->TY = cY;
+			gGameObjects[iMonsterIndex]->m_OldX = cX;
+			gGameObjects[iMonsterIndex]->m_OldY = cY;
+			gGameObjects[iMonsterIndex]->StartX = cX;
+			gGameObjects[iMonsterIndex]->StartY = cY;
+			gGameObjects[iMonsterIndex]->MapNumber = iMonMapNumber;
+			gGameObjects[iMonsterIndex]->m_MoveRange = 0;
+			gGameObjects[iMonsterIndex]->m_cKalimaGateEnterCount = 0;
 
-			gGameObjects[iIndex].m_cKalimaGateExist = TRUE;
-			gGameObjects[iIndex].m_iKalimaGateIndex = iMonsterIndex;
+			gGameObjects[iIndex]->m_cKalimaGateExist = TRUE;
+			gGameObjects[iIndex]->m_iKalimaGateIndex = iMonsterIndex;
 
-			gGameObjects[iMonsterIndex].Level = lpMATTR->m_Level;
-			gGameObjects[iMonsterIndex].Type = OBJ_MONSTER;
-			gGameObjects[iMonsterIndex].MaxRegenTime = 1000;
-			gGameObjects[iMonsterIndex].Dir = 1;
+			gGameObjects[iMonsterIndex]->Level = lpMATTR->m_Level;
+			gGameObjects[iMonsterIndex]->Type = OBJ_MONSTER;
+			gGameObjects[iMonsterIndex]->MaxRegenTime = 1000;
+			gGameObjects[iMonsterIndex]->Dir = 1;
 
-			gGameObjects[iMonsterIndex].m_RecallMon = iIndex;
-			gGameObjects[iMonsterIndex].RegenTime = GetTickCount();
-			gGameObjects[iMonsterIndex].m_Attribute = 58;
-			gGameObjects[iMonsterIndex].DieRegen = FALSE;
+			gGameObjects[iMonsterIndex]->m_RecallMon = iIndex;
+			gGameObjects[iMonsterIndex]->RegenTime = GetTickCount();
+			gGameObjects[iMonsterIndex]->m_Attribute = 58;
+			gGameObjects[iMonsterIndex]->DieRegen = FALSE;
 			
 			sLog->outBasic("[Kalima] [%s][%s] Create Kalima Gate Successfuly (NextMap) (Live:%d, GateTick:%u, DieRegen:%d, Map:%d, X:%d, Y:%d, SummonIndex:%d, OwnerIndex:%d)",
-				gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name, gGameObjects[iMonsterIndex].Live, gGameObjects[iMonsterIndex].RegenTime,
-				gGameObjects[iMonsterIndex].DieRegen, gGameObjects[iMonsterIndex].MapNumber, gGameObjects[iMonsterIndex].X,
-				gGameObjects[iMonsterIndex].Y, iMonsterIndex, iIndex);
+				gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, gGameObjects[iMonsterIndex]->Live, gGameObjects[iMonsterIndex]->RegenTime,
+				gGameObjects[iMonsterIndex]->DieRegen, gGameObjects[iMonsterIndex]->MapNumber, gGameObjects[iMonsterIndex]->X,
+				gGameObjects[iMonsterIndex]->Y, iMonsterIndex, iIndex);
 			bKalimaGateCreateSucceed = TRUE;
 
 		}
@@ -595,13 +595,13 @@ void CKalimaGate::KalimaGateAct2(int iIndex)
 	if ( ObjectMaxRange(iIndex) == FALSE )
 		return;
 
-	if ( gGameObjects[iIndex].Live == 0 )
+	if ( gGameObjects[iIndex]->Live == 0 )
 		return;
 
-	if ( !gObjIsConnected(gGameObjects[iIndex].m_RecallMon ) )
+	if ( !gObjIsConnected(gGameObjects[iIndex]->m_RecallMon ) )
 	{
 		sLog->outBasic("[Kalima] Kalima Gate Vanished (NextMap) - Summoner Vanished (SummonIndex:%d, EnterCount:%d)",
-			iIndex, gGameObjects[iIndex].m_cKalimaGateEnterCount);
+			iIndex, gGameObjects[iIndex]->m_cKalimaGateEnterCount);
 
 		GSProtocol.GCDiePlayerSend(&gGameObjects[iIndex], iIndex, 0, 0);
 		gObjDel(iIndex);
@@ -613,15 +613,15 @@ void CKalimaGate::KalimaGateAct2(int iIndex)
 	lpObj = &gGameObjects[iIndex];
 	lpObjCallOwner = &gGameObjects[lpObj.m_RecallMon];
 
-	if ( gGameObjects[iIndex].m_cKalimaGateEnterCount >= MAX_KALIMA_ENTER )
+	if ( gGameObjects[iIndex]->m_cKalimaGateEnterCount >= MAX_KALIMA_ENTER )
 	{
 		lpObjCallOwner->AccountID[MAX_ACCOUNT_LEN]=0;
 		lpObjCallOwner->Name[MAX_ACCOUNT_LEN]=0;
 
 		sLog->outBasic("[Kalima] [%s][%s] Kalima Gate Vanished - Enter Count Over (SummonIndex:%d, EnterCount:%d)",
-			lpObjCallOwner->AccountID, lpObjCallOwner->Name, iIndex, gGameObjects[iIndex].m_cKalimaGateEnterCount);
+			lpObjCallOwner->AccountID, lpObjCallOwner->Name, iIndex, gGameObjects[iIndex]->m_cKalimaGateEnterCount);
 
-		this->DeleteKalimaGate(iIndex, gGameObjects[iIndex].m_RecallMon);
+		this->DeleteKalimaGate(iIndex, gGameObjects[iIndex]->m_RecallMon);
 
 		return;
 	}
@@ -634,7 +634,7 @@ void CKalimaGate::KalimaGateAct2(int iIndex)
 		lpObjCallOwner->Name[MAX_ACCOUNT_LEN]=0;
 
 		sLog->outBasic("[Kalima] [%s][%s] Kalima Gate Vanished (NextMap) - Time Out (SummonIndex:%d, EnterCount:%d)",
-			lpObjCallOwner->AccountID, lpObjCallOwner->Name, iIndex, gGameObjects[iIndex].m_cKalimaGateEnterCount);
+			lpObjCallOwner->AccountID, lpObjCallOwner->Name, iIndex, gGameObjects[iIndex]->m_cKalimaGateEnterCount);
 
 		this->DeleteKalimaGate(lpObj.m_Index, lpObjCallOwner->m_Index);
 
@@ -655,15 +655,15 @@ void CKalimaGate::KalimaGateAct2(int iIndex)
 
 		if ( tObjNum >= 0 )
 		{
-			if ( gGameObjects[tObjNum].Type == OBJ_USER )
+			if ( gGameObjects[tObjNum]->Type == OBJ_USER )
 			{
-				if ( gGameObjects[tObjNum].Live )
+				if ( gGameObjects[tObjNum]->Live )
 				{
-					if ( abs(lpObj.Y - gGameObjects[tObjNum].Y) < 2 )
+					if ( abs(lpObj.Y - gGameObjects[tObjNum]->Y) < 2 )
 					{
-						if ( abs(lpObj.X - gGameObjects[tObjNum].X) < 2 )
+						if ( abs(lpObj.X - gGameObjects[tObjNum]->X) < 2 )
 						{
-							if ( lpObj.m_RecallMon == tObjNum || (gGameObjects[tObjNum].PartyNumber != -1 && lpObjCallOwner->PartyNumber == gGameObjects[tObjNum].PartyNumber ))
+							if ( lpObj.m_RecallMon == tObjNum || (gGameObjects[tObjNum]->PartyNumber != -1 && lpObjCallOwner->PartyNumber == gGameObjects[tObjNum]->PartyNumber ))
 							{
 								int iMoveMapLevel = lpObj.MapNumber - MAP_INDEX_KALIMA1+1;	// #error "Deatwway - remove the -1
 								int iGateNumber = g_iKalimaGateGateIndex[iMoveMapLevel];
@@ -672,19 +672,19 @@ void CKalimaGate::KalimaGateAct2(int iIndex)
 								{
 									sLog->outBasic("[Kalima] [%s][%s] - [%s][%s] move fail (MapNumber:%d)",
 										lpObjCallOwner->AccountID, lpObjCallOwner->Name,
-										gGameObjects[tObjNum].AccountID, gGameObjects[tObjNum].Name,
+										gGameObjects[tObjNum]->AccountID, gGameObjects[tObjNum]->Name,
 										lpObj.MapNumber);
 								}
 								else
 								{
 									sLog->outBasic("[Kalima] [%s][%s] - [%s][%s] Transported by Kalima Gate (NextMap) (SummonIndex:%d, GateNo.:%d, MapNumber:%d)",
 										lpObjCallOwner->AccountID, lpObjCallOwner->Name,
-										gGameObjects[tObjNum].AccountID, gGameObjects[tObjNum].Name,
+										gGameObjects[tObjNum]->AccountID, gGameObjects[tObjNum]->Name,
 										iIndex, iMoveMapLevel+1, lpObj.MapNumber);
 
-									gGameObjects[iIndex].m_cKalimaGateEnterCount++;
+									gGameObjects[iIndex]->m_cKalimaGateEnterCount++;
 
-									if ( gGameObjects[iIndex].m_cKalimaGateEnterCount >= MAX_KALIMA_ENTER )
+									if ( gGameObjects[iIndex]->m_cKalimaGateEnterCount >= MAX_KALIMA_ENTER )
 										break;
 								}
 							}
@@ -700,13 +700,13 @@ void CKalimaGate::KalimaGateAct2(int iIndex)
 
 int CKalimaGate::GetKalimaGateLevel2(int iIndex)
 {
-	if ( gGameObjects[iIndex].Class == CLASS_MAGUMSA || gGameObjects[iIndex].Class == CLASS_DARKLORD || gGameObjects[iIndex].Class == CLASS_RAGEFIGHTER )	// DarkLord and MagicGLadiaro
+	if ( gGameObjects[iIndex]->Class == CLASS_MAGUMSA || gGameObjects[iIndex]->Class == CLASS_DARKLORD || gGameObjects[iIndex]->Class == CLASS_RAGEFIGHTER )	// DarkLord and MagicGLadiaro
 	{
 		for ( int i =0;i<KALIMA_FLOORS;i++)
 		{
-			if ( gGameObjects[iIndex].Level >= g_sttKALIMAGATE_LEVEL[i].iLOWER_BOUND_MAGUMSA )
+			if ( gGameObjects[iIndex]->Level >= g_sttKALIMAGATE_LEVEL[i].iLOWER_BOUND_MAGUMSA )
 			{
-				if ( gGameObjects[iIndex].Level <= g_sttKALIMAGATE_LEVEL[i].iUPPER_BOUND_MAGUMSA )
+				if ( gGameObjects[iIndex]->Level <= g_sttKALIMAGATE_LEVEL[i].iUPPER_BOUND_MAGUMSA )
 				{
 					return i;
 				}
@@ -717,9 +717,9 @@ int CKalimaGate::GetKalimaGateLevel2(int iIndex)
 	{
 		for ( int i =0;i<KALIMA_FLOORS;i++)
 		{
-			if ( gGameObjects[iIndex].Level >= g_sttKALIMAGATE_LEVEL[i].iLOWER_BOUND )
+			if ( gGameObjects[iIndex]->Level >= g_sttKALIMAGATE_LEVEL[i].iLOWER_BOUND )
 			{
-				if ( gGameObjects[iIndex].Level <= g_sttKALIMAGATE_LEVEL[i].iUPPER_BOUND )
+				if ( gGameObjects[iIndex]->Level <= g_sttKALIMAGATE_LEVEL[i].iUPPER_BOUND )
 				{
 					return i;
 				}

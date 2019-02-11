@@ -1165,9 +1165,9 @@ int gObjMonsterSearchEnemy(CGameObject &lpObj, BYTE objtype)
 
 		if ( tObjNum >= 0 )
 		{
-			if ( (gGameObjects[tObjNum].Type == t1 || gGameObjects[tObjNum].Type == t2) && (gGameObjects[tObjNum].Live != FALSE) )
+			if ( (gGameObjects[tObjNum]->Type == t1 || gGameObjects[tObjNum]->Type == t2) && (gGameObjects[tObjNum]->Live != FALSE) )
 			{
-				if ( ((gGameObjects[tObjNum].Class >= 100 && gGameObjects[tObjNum].Class < 110 ) || gGameObjects[tObjNum].Class == 523) || (gGameObjects[tObjNum].Type == OBJ_MONSTER && gGameObjects[tObjNum].m_RecallMon >= 0) )
+				if ( ((gGameObjects[tObjNum]->Class >= 100 && gGameObjects[tObjNum]->Class < 110 ) || gGameObjects[tObjNum]->Class == 523) || (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0) )
 				{
 
 				}
@@ -1179,19 +1179,19 @@ int gObjMonsterSearchEnemy(CGameObject &lpObj, BYTE objtype)
 						continue;
 					}
 
-					if ( (gGameObjects[tObjNum].Authority &2) == 2 || (gGameObjects[tObjNum].Authority & 0x20) == 0x20)
+					if ( (gGameObjects[tObjNum]->Authority &2) == 2 || (gGameObjects[tObjNum]->Authority & 0x20) == 0x20)
 					{
-						if ( (gGameObjects[tObjNum].GameMaster & GM_MONSTERS_INVISIBLE) == GM_MONSTERS_INVISIBLE )
+						if ( (gGameObjects[tObjNum]->GameMaster & GM_MONSTERS_INVISIBLE) == GM_MONSTERS_INVISIBLE )
 						{
 							continue;
 						}
 					}
 
 					
-					if ( gGameObjects[tObjNum].Teleport == 0 )
+					if ( gGameObjects[tObjNum]->Teleport == 0 )
 					{
-						tx = lpObj.X - gGameObjects[tObjNum].X;
-						ty = lpObj.Y - gGameObjects[tObjNum].Y;
+						tx = lpObj.X - gGameObjects[tObjNum]->X;
+						ty = lpObj.Y - gGameObjects[tObjNum]->Y;
 						dis = sqrt(static_cast<float>(tx * tx + ty * ty));
 						lpObj.VpPlayer2[n].dis = dis;
 
@@ -1234,34 +1234,34 @@ int gObjGuardSearchEnemy(CGameObject &lpObj)
 	{
 		tObjNum = lpObj.VpPlayer2[n].number;
 
-		if ( tObjNum >= 0 && MAX_MAP_RANGE(gGameObjects[tObjNum].MapNumber))
+		if ( tObjNum >= 0 && MAX_MAP_RANGE(gGameObjects[tObjNum]->MapNumber))
 		{
 			BOOL bEnableAttack = FALSE; //Season 2.5 add-on
 
-			if( gGameObjects[tObjNum].PartyNumber >= 0) //Season 2.5 add-on
+			if( gGameObjects[tObjNum]->PartyNumber >= 0) //Season 2.5 add-on
 			{
-				if( gParty.GetPKPartyPenalty(gGameObjects[tObjNum].PartyNumber) > 4 )
+				if( gParty.GetPKPartyPenalty(gGameObjects[tObjNum]->PartyNumber) > 4 )
 				{
 					bEnableAttack = TRUE;
 				}
 				
 			}
 
-			else if( gGameObjects[tObjNum].m_PK_Level > 4 ) 
+			else if( gGameObjects[tObjNum]->m_PK_Level > 4 ) 
 			{
 				bEnableAttack = TRUE;
 			}
 			
-			if ( gGameObjects[tObjNum].Type == OBJ_USER )
+			if ( gGameObjects[tObjNum]->Type == OBJ_USER )
 			{
 				if(bEnableAttack == TRUE) //Season 2.5 add-on
 				{
-					attr = MapC[gGameObjects[tObjNum].MapNumber].GetAttr(gGameObjects[tObjNum].X, gGameObjects[tObjNum].Y);
+					attr = MapC[gGameObjects[tObjNum]->MapNumber].GetAttr(gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y);
 
 					if ( (attr&1) != 1 )
 					{
-						tx = lpObj.X - gGameObjects[tObjNum].X;
-						ty = lpObj.Y - gGameObjects[tObjNum].Y;
+						tx = lpObj.X - gGameObjects[tObjNum]->X;
+						ty = lpObj.Y - gGameObjects[tObjNum]->Y;
 						dis = sqrt(static_cast<float>(tx * tx + ty * ty));
 						lpObj.VpPlayer2[n].dis = dis;
 
@@ -1433,7 +1433,7 @@ void gObjMonsterStateProc(CGameObject &lpObj, int aMsgCode, int aIndex, int aMsg
 					int IndexEnemy = lpObj.TargetNumber;
 					if(ObjectMaxRange(IndexEnemy))
 					{
-						int EnemyMap = gGameObjects[IndexEnemy].MapNumber;
+						int EnemyMap = gGameObjects[IndexEnemy]->MapNumber;
 
 						int enemydis = gObjCalDistance(lpObj, &gGameObjects[aIndex]);
 						int range;
@@ -1454,7 +1454,7 @@ void gObjMonsterStateProc(CGameObject &lpObj, int aMsgCode, int aIndex, int aMsg
 						}
 						else
 						{
-							if ( MapC[EnemyMap].CheckWall2(lpObj.X, lpObj.Y, gGameObjects[IndexEnemy].X, gGameObjects[IndexEnemy].Y) == 1 )
+							if ( MapC[EnemyMap].CheckWall2(lpObj.X, lpObj.Y, gGameObjects[IndexEnemy]->X, gGameObjects[IndexEnemy]->Y) == 1 )
 							{
 								lpObj.m_ActState.Attack = 1;
 								lpObj.TargetNumber = aIndex;
@@ -1851,10 +1851,10 @@ void gObjMonsterProcess(CGameObject &lpObj)
 			if (iTargetNumber < 0 )
 				bEnableAttack = FALSE;
 
-			else if ( gGameObjects[iTargetNumber].Live == FALSE || gGameObjects[iTargetNumber].Teleport != 0)
+			else if ( gGameObjects[iTargetNumber]->Live == FALSE || gGameObjects[iTargetNumber]->Teleport != 0)
 				bEnableAttack = FALSE;
 
-			else if ( gGameObjects[iTargetNumber].Connected <= PLAYER_LOGGED || gGameObjects[iTargetNumber].CloseCount != -1 )
+			else if ( gGameObjects[iTargetNumber]->Connected <= PLAYER_LOGGED || gGameObjects[iTargetNumber]->CloseCount != -1 )
 				bEnableAttack = FALSE;
 
 			if ( bEnableAttack == FALSE )
@@ -1929,9 +1929,9 @@ void gObjMonsterProcess(CGameObject &lpObj)
 
 				if (iTargetNumber >= 0 )
 				{
-					if ( gGameObjects[iTargetNumber].Connected > PLAYER_LOGGED && gGameObjects[iTargetNumber].CloseCount == -1 )
+					if ( gGameObjects[iTargetNumber]->Connected > PLAYER_LOGGED && gGameObjects[iTargetNumber]->CloseCount == -1 )
 					{
-						if ( gGameObjects[iTargetNumber].Live == FALSE )
+						if ( gGameObjects[iTargetNumber]->Live == FALSE )
 						{
 							lpObj.TargetNumber = -1;
 							lpObj.m_ActState.Emotion = 0;
@@ -1939,7 +1939,7 @@ void gObjMonsterProcess(CGameObject &lpObj)
 							lpObj.m_ActState.Move = 0;
 							lpObj.NextActionTime = 1000;
 						}
-						else if ( gGameObjects[iTargetNumber].Teleport == 0 ) // if is not dead
+						else if ( gGameObjects[iTargetNumber]->Teleport == 0 ) // if is not dead
 						{
 							gObjMonsterMagicAttack(lpObj, -1);
 
@@ -1971,9 +1971,9 @@ void gObjMonsterProcess(CGameObject &lpObj)
 
 				if (iTargetNumber >= 0 )
 				{
-					if ( gGameObjects[iTargetNumber].Connected > PLAYER_LOGGED &&  gGameObjects[iTargetNumber].CloseCount == -1 )
+					if ( gGameObjects[iTargetNumber]->Connected > PLAYER_LOGGED &&  gGameObjects[iTargetNumber]->CloseCount == -1 )
 					{
-						if ( gGameObjects[iTargetNumber].Live == FALSE )
+						if ( gGameObjects[iTargetNumber]->Live == FALSE )
 						{
 							lpObj.TargetNumber = -1;
 							lpObj.m_ActState.Emotion = 0;
@@ -1981,7 +1981,7 @@ void gObjMonsterProcess(CGameObject &lpObj)
 							lpObj.m_ActState.Move = 0;
 							lpObj.NextActionTime = 1000;
 						}
-						else if ( gGameObjects[iTargetNumber].Teleport == 0 )
+						else if ( gGameObjects[iTargetNumber]->Teleport == 0 )
 						{
 							gObjMonsterAttack(lpObj, &gGameObjects[iTargetNumber]);
 
@@ -2729,7 +2729,7 @@ void gObjMonsterBaseAct(CGameObject &lpObj)
 
 				if (iTargetNumber >= 0 )
 				{
-					if ( gGameObjects[iTargetNumber].Class >= 248 )
+					if ( gGameObjects[iTargetNumber]->Class >= 248 )
 					{
 						lpObj.TargetNumber = -1;
 					}
@@ -2760,7 +2760,7 @@ void gObjMonsterBaseAct(CGameObject &lpObj)
 						{
 							if (lpObj.m_RecallMon != -1 && ObjectMaxRange(iTargetNumber) == true)
 							{
-								if (g_ArcaBattle.IsEnableAttackObelisk(&gGameObjects[lpObj.m_RecallMon], gGameObjects[iTargetNumber].Class) == FALSE)
+								if (g_ArcaBattle.IsEnableAttackObelisk(&gGameObjects[lpObj.m_RecallMon], gGameObjects[iTargetNumber]->Class) == FALSE)
 								{
 									lpObj.TargetNumber = -1;
 								}
@@ -2844,7 +2844,7 @@ void gObjMonsterBaseAct(CGameObject &lpObj)
 					return;
 				}
 
-				int map = gGameObjects[tuser].MapNumber;
+				int map = gGameObjects[tuser]->MapNumber;
 				BYTE attr;
 
 				if ( MAX_MAP_RANGE(map) == FALSE )
@@ -2853,9 +2853,9 @@ void gObjMonsterBaseAct(CGameObject &lpObj)
 					return;
 				}
 
-				if ( MapC[map].CheckWall(lpObj.X, lpObj.Y, gGameObjects[tuser].X, gGameObjects[tuser].Y) == TRUE )
+				if ( MapC[map].CheckWall(lpObj.X, lpObj.Y, gGameObjects[tuser]->X, gGameObjects[tuser]->Y) == TRUE )
 				{
-					attr = MapC[map].GetAttr(gGameObjects[tuser].X, gGameObjects[tuser].Y);
+					attr = MapC[map].GetAttr(gGameObjects[tuser]->X, gGameObjects[tuser]->Y);
 
 					if ( (attr&1) != 1 )
 					{
@@ -2959,17 +2959,17 @@ void gObjTrapAttackEnemySearchX(CGameObject &lpObj, int count)
 
 			if(tObjNum >= 0)
 			{
-				if(gGameObjects[tObjNum].Type==OBJ_USER)
+				if(gGameObjects[tObjNum]->Type==OBJ_USER)
 				{
-					if(gGameObjects[tObjNum].Live)
+					if(gGameObjects[tObjNum]->Live)
 					{
-						if(y == gGameObjects[tObjNum].Y)
+						if(y == gGameObjects[tObjNum]->Y)
 						{
-							if(pos == gGameObjects[tObjNum].X)
+							if(pos == gGameObjects[tObjNum]->X)
 							{
-								if ( (gGameObjects[tObjNum].Authority &2) == 2 || (gGameObjects[tObjNum].Authority & 0x20) == 0x20)
+								if ( (gGameObjects[tObjNum]->Authority &2) == 2 || (gGameObjects[tObjNum]->Authority & 0x20) == 0x20)
 								{
-									if ( (gGameObjects[tObjNum].GameMaster & GM_MONSTERS_INVISIBLE) == GM_MONSTERS_INVISIBLE )
+									if ( (gGameObjects[tObjNum]->GameMaster & GM_MONSTERS_INVISIBLE) == GM_MONSTERS_INVISIBLE )
 									{
 										continue;
 									}
@@ -3005,17 +3005,17 @@ void gObjTrapAttackEnemySearchY(CGameObject &lpObj, int count)
 
 			if(tObjNum >= 0)
 			{
-				if(gGameObjects[tObjNum].Type==1)
+				if(gGameObjects[tObjNum]->Type==1)
 				{
-					if(gGameObjects[tObjNum].Live)
+					if(gGameObjects[tObjNum]->Live)
 					{
-						if(pos == gGameObjects[tObjNum].Y)
+						if(pos == gGameObjects[tObjNum]->Y)
 						{
-							if(x == gGameObjects[tObjNum].X)
+							if(x == gGameObjects[tObjNum]->X)
 							{
-								if ( (gGameObjects[tObjNum].Authority &2) == 2 || (gGameObjects[tObjNum].Authority & 0x20) == 0x20)
+								if ( (gGameObjects[tObjNum]->Authority &2) == 2 || (gGameObjects[tObjNum]->Authority & 0x20) == 0x20)
 								{
-									if ( (gGameObjects[tObjNum].GameMaster & GM_MONSTERS_INVISIBLE) == GM_MONSTERS_INVISIBLE )
+									if ( (gGameObjects[tObjNum]->GameMaster & GM_MONSTERS_INVISIBLE) == GM_MONSTERS_INVISIBLE )
 									{
 										continue;
 									}
@@ -3045,17 +3045,17 @@ void gObjTrapAttackEnemySearch(CGameObject &lpObj)
 
 		if(tObjNum >= 0)
 		{
-			if(gGameObjects[tObjNum].Type==1)
+			if(gGameObjects[tObjNum]->Type==1)
 			{
-				if(gGameObjects[tObjNum].Live)
+				if(gGameObjects[tObjNum]->Live)
 				{
-					if(lpObj.Y == gGameObjects[tObjNum].Y)
+					if(lpObj.Y == gGameObjects[tObjNum]->Y)
 					{
-						if(lpObj.X == gGameObjects[tObjNum].X)
+						if(lpObj.X == gGameObjects[tObjNum]->X)
 						{
-							if ( (gGameObjects[tObjNum].Authority &2) == 2 || (gGameObjects[tObjNum].Authority & 0x20) == 0x20)
+							if ( (gGameObjects[tObjNum]->Authority &2) == 2 || (gGameObjects[tObjNum]->Authority & 0x20) == 0x20)
 							{
-								if ( (gGameObjects[tObjNum].GameMaster & GM_MONSTERS_INVISIBLE) == GM_MONSTERS_INVISIBLE )
+								if ( (gGameObjects[tObjNum]->GameMaster & GM_MONSTERS_INVISIBLE) == GM_MONSTERS_INVISIBLE )
 								{
 									continue;
 								}
@@ -3092,17 +3092,17 @@ void gObjTrapAttackEnemySearchRange(CGameObject &lpObj,int iRange)
 
 		if(tObjNum >= 0)
 		{
-			if(gGameObjects[tObjNum].Type==1)
+			if(gGameObjects[tObjNum]->Type==1)
 			{
-				if(gGameObjects[tObjNum].Live)
+				if(gGameObjects[tObjNum]->Live)
 				{
-					if((lpObj.Y - iRange) <= gGameObjects[tObjNum].Y && (lpObj.Y + iRange) >= gGameObjects[tObjNum].Y)
+					if((lpObj.Y - iRange) <= gGameObjects[tObjNum]->Y && (lpObj.Y + iRange) >= gGameObjects[tObjNum]->Y)
 					{
-						if((lpObj.X - iRange) <= gGameObjects[tObjNum].X && (lpObj.X + iRange) >= gGameObjects[tObjNum].X)
+						if((lpObj.X - iRange) <= gGameObjects[tObjNum]->X && (lpObj.X + iRange) >= gGameObjects[tObjNum]->X)
 						{
-							if ( (gGameObjects[tObjNum].Authority &2) == 2 || (gGameObjects[tObjNum].Authority & 0x20) == 0x20)
+							if ( (gGameObjects[tObjNum]->Authority &2) == 2 || (gGameObjects[tObjNum]->Authority & 0x20) == 0x20)
 							{
-								if ( (gGameObjects[tObjNum].GameMaster & GM_MONSTERS_INVISIBLE) == GM_MONSTERS_INVISIBLE )
+								if ( (gGameObjects[tObjNum]->GameMaster & GM_MONSTERS_INVISIBLE) == GM_MONSTERS_INVISIBLE )
 								{
 									continue;
 								}
@@ -3332,7 +3332,7 @@ int gObjMonsterSelectSkillForMedusa(CGameObject &lpObj)
 		if ( nObjNum < 0 )
 			break;
 
-		if ( gGameObjects[nObjNum].Type == OBJ_USER && gGameObjects[nObjNum].Live == TRUE )
+		if ( gGameObjects[nObjNum]->Type == OBJ_USER && gGameObjects[nObjNum]->Live == TRUE )
 			nTargetCnt++;
 
 		int iTargetNumber = lpObj.TargetNumber;
@@ -3469,7 +3469,7 @@ void gObjMonsterDieGiveItem(CGameObject &lpObj, CGameObject lpTargetObj)
 			nMaxHitUser = lpTargetObj.m_Index;
 		}
 
-		sLog->outBasic("[AcheronGuardianEvent] BossName: %s, CharacterName: %s", lpObj.Name, gGameObjects[nMaxHitUser].Name);
+		sLog->outBasic("[AcheronGuardianEvent] BossName: %s, CharacterName: %s", lpObj.Name, gGameObjects[nMaxHitUser]->Name);
 		g_AcheronGuardianEvent.DestroyObelisk(&gGameObjects[nMaxHitUser], lpObj.MapNumber, lpObj.X, lpObj.Y, nMaxHitUser);
 		return;
 	}
@@ -3760,7 +3760,7 @@ void gObjMonsterDieGiveItem(CGameObject &lpObj, CGameObject lpTargetObj)
 
 		for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 		{
-			if (gGameObjects[i].Connected == PLAYER_PLAYING && gGameObjects[i].m_SummonCharDBNum == lpObj.DBNumber)
+			if (gGameObjects[i]->Connected == PLAYER_PLAYING && gGameObjects[i]->m_SummonCharDBNum == lpObj.DBNumber)
 			{
 				iLootIndex = i;
 				break;
@@ -3798,7 +3798,7 @@ void gObjMonsterDieGiveItem(CGameObject &lpObj, CGameObject lpTargetObj)
 
 		for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 		{
-			if (gGameObjects[i].Connected == PLAYER_PLAYING && gGameObjects[i].m_SummonCharDBNum == lpObj.DBNumber)
+			if (gGameObjects[i]->Connected == PLAYER_PLAYING && gGameObjects[i]->m_SummonCharDBNum == lpObj.DBNumber)
 			{
 				iLootIndex = i;
 				break;
@@ -4172,7 +4172,7 @@ void gObjMonsterDieGiveItem(CGameObject &lpObj, CGameObject lpTargetObj)
 				return;
 			}
 
-			gGameObjects[MaxHitUser].m_nEventMoney += (__int64)money;
+			gGameObjects[MaxHitUser]->m_nEventMoney += (__int64)money;
 		}
 		else
 		{
@@ -4195,11 +4195,11 @@ void gObjMonsterDieGiveItem(CGameObject &lpObj, CGameObject lpTargetObj)
 			x+= rand()%3;
 			y+= rand()%3;
 			int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
-			if (MaxHitUser != -1 && gGameObjects[MaxHitUser].Type == OBJ_USER)
+			if (MaxHitUser != -1 && gGameObjects[MaxHitUser]->Type == OBJ_USER)
 			{
-				if (g_ConfigRead.data.common.joinmuDropItemUnderCharacter[gGameObjects[MaxHitUser].Class] == true)
+				if (g_ConfigRead.data.common.joinmuDropItemUnderCharacter[gGameObjects[MaxHitUser]->Class] == true)
 				{
-					MapC[lpObj.MapNumber].MoneyItemDrop(lpObj.MonsterMoneyDrop, gGameObjects[MaxHitUser].X, gGameObjects[MaxHitUser].Y);
+					MapC[lpObj.MapNumber].MoneyItemDrop(lpObj.MonsterMoneyDrop, gGameObjects[MaxHitUser]->X, gGameObjects[MaxHitUser]->Y);
 				}
 				else
 				{
@@ -4408,7 +4408,7 @@ BOOL gEventMonsterItemDrop(CGameObject &lpObj, CGameObject lpTargetObj)
 
 		if ( MaxHitUser != -1 )
 		{
-			int partycount = gParty.GetPartyCount(gGameObjects[MaxHitUser].PartyNumber);
+			int partycount = gParty.GetPartyCount(gGameObjects[MaxHitUser]->PartyNumber);
 
 			if ( partycount > 0 )
 			{
@@ -4755,7 +4755,7 @@ BOOL gEventMonsterItemDrop(CGameObject &lpObj, CGameObject lpTargetObj)
 
 						if (ObjectMaxRange(MaxHitUser))
 						{
-							sLog->outBasic("[Castle HuntZone] Drop SetItem [%s][%s] ", gGameObjects[MaxHitUser].AccountID, gGameObjects[MaxHitUser].Name);
+							sLog->outBasic("[Castle HuntZone] Drop SetItem [%s][%s] ", gGameObjects[MaxHitUser]->AccountID, gGameObjects[MaxHitUser]->Name);
 							::MakeRewardSetItem(MaxHitUser, lpObj.X, lpObj.Y, 0, lpObj.MapNumber);
 							return TRUE;
 						}
@@ -5388,9 +5388,9 @@ void SendLordSilvesterBlockInfo(CGameObject &lpObj, BYTE btMapSetType)
 	{
 		for (int i = g_ConfigRead.server.GetObjectMaxMonster(); i < g_ConfigRead.server.GetObjectMax(); i++)
 		{
-			if (gGameObjects[i].MapNumber == MAP_INDEX_URUK_MOUNTAIN) //season3 changed
+			if (gGameObjects[i]->MapNumber == MAP_INDEX_URUK_MOUNTAIN) //season3 changed
 			{
-				if (gGameObjects[i].Connected > PLAYER_LOGGED)
+				if (gGameObjects[i]->Connected > PLAYER_LOGGED)
 				{
 					IOCP.DataSend(i, (LPBYTE)lpMsg, lpMsg->h.size);
 				}

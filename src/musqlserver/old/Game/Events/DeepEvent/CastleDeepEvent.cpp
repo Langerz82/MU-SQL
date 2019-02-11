@@ -446,7 +446,7 @@ void CCastleDeepEvent::ClearMonster()
 {
 	for(int iIndex = 0; iIndex < g_ConfigRead.server.GetObjectMaxMonster(); iIndex++)
 	{
-		if(gObjIsConnected(iIndex) && gGameObjects[iIndex].m_Attribute == 62)
+		if(gObjIsConnected(iIndex) && gGameObjects[iIndex]->m_Attribute == 62)
 		{
 			gObjDel(iIndex);
 		}
@@ -483,27 +483,27 @@ void CCastleDeepEvent::AddMonster(int iAssultType,int iGroup)
 
 				if(result >= 0)
 				{
-					gGameObjects[result].m_PosNum = -1;
-					gGameObjects[result].X = cSX;
-					gGameObjects[result].Y = cSY;
-					gGameObjects[result].MapNumber = MAP_INDEX_CASTLESIEGE;
-					gGameObjects[result].TX = gGameObjects[result].X;
-					gGameObjects[result].TY = gGameObjects[result].Y;
-					gGameObjects[result].m_OldX = gGameObjects[result].X;
-					gGameObjects[result].m_OldY = gGameObjects[result].Y;
-					gGameObjects[result].Dir = 1;
-					gGameObjects[result].StartX = gGameObjects[result].X;
-					gGameObjects[result].StartY = gGameObjects[result].Y;
+					gGameObjects[result]->m_PosNum = -1;
+					gGameObjects[result]->X = cSX;
+					gGameObjects[result]->Y = cSY;
+					gGameObjects[result]->MapNumber = MAP_INDEX_CASTLESIEGE;
+					gGameObjects[result]->TX = gGameObjects[result]->X;
+					gGameObjects[result]->TY = gGameObjects[result]->Y;
+					gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+					gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+					gGameObjects[result]->Dir = 1;
+					gGameObjects[result]->StartX = gGameObjects[result]->X;
+					gGameObjects[result]->StartY = gGameObjects[result]->Y;
 
 					gObjSetMonster(result, stMonsterInfo->m_iMonsterType);
 
-					gGameObjects[result].m_Attribute = 62;
-					gGameObjects[result].MaxRegenTime = 0;
-					gGameObjects[result].Dir = rand()%8;
-					gGameObjects[result].DieRegen = 0;
-					gGameObjects[result].RegenTime = 1;
-					gGameObjects[result].MaxRegenTime = 1000;
-					gGameObjects[result].m_dwLastCheckTick = GetTickCount();
+					gGameObjects[result]->m_Attribute = 62;
+					gGameObjects[result]->MaxRegenTime = 0;
+					gGameObjects[result]->Dir = rand()%8;
+					gGameObjects[result]->DieRegen = 0;
+					gGameObjects[result]->RegenTime = 1;
+					gGameObjects[result]->MaxRegenTime = 1000;
+					gGameObjects[result]->m_dwLastCheckTick = GetTickCount();
 				}
 			}
 		}

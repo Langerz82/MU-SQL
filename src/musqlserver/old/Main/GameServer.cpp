@@ -806,10 +806,10 @@ LRESULT CALLBACK GSDisconnect(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 						{
 							if(gObjIsAccontConnect(i, szAccount) == TRUE)
 							{
-								if (gGameObjects[i].m_bOff == true)
+								if (gGameObjects[i]->m_bOff == true)
 								{
 									GJSetCharacterInfo(&gGameObjects[i], i, FALSE);
-									gGameObjects[i].m_bOff = false;
+									gGameObjects[i]->m_bOff = false;
 									gObjDel(i);
 								}
 
@@ -845,10 +845,10 @@ LRESULT CALLBACK GSDisconnect(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 						{
 							if(gObjIsConnectedGP(i, szAccount) == TRUE)
 							{
-								if (gGameObjects[i].m_bOff == true)
+								if (gGameObjects[i]->m_bOff == true)
 								{
 									GJSetCharacterInfo(&gGameObjects[i], i, FALSE);
-									gGameObjects[i].m_bOff = false;
+									gGameObjects[i]->m_bOff = false;
 									gObjDel(i);
 								}
 

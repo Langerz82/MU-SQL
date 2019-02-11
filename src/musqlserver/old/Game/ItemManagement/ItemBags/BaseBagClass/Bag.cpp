@@ -360,12 +360,12 @@ void CBag::MakeBagEffectUse(CGameObject &lpObj, int iMonsterIndex)
 	switch (this->m_BagData.iBagUseEffect)
 	{
 		case 0:
-			ServerCmd.X = gGameObjects[iMonsterIndex].X;
-			ServerCmd.Y = gGameObjects[iMonsterIndex].Y;
+			ServerCmd.X = gGameObjects[iMonsterIndex]->X;
+			ServerCmd.Y = gGameObjects[iMonsterIndex]->Y;
 			break;
 		case 2:
-			ServerCmd.X = gGameObjects[iMonsterIndex].X;
-			ServerCmd.Y = gGameObjects[iMonsterIndex].Y;
+			ServerCmd.X = gGameObjects[iMonsterIndex]->X;
+			ServerCmd.Y = gGameObjects[iMonsterIndex]->Y;
 			break;
 		case 58:
 			ServerCmd.X = SET_NUMBERH(aIndex);

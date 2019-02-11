@@ -368,177 +368,177 @@ BOOL CDevilSquareFinal::CheckWearingMOPH(int iUserIndex)
 		return FALSE;
 	}
 
-	if (gGameObjects[iUserIndex].pInventory[10].IsItem() == TRUE)
+	if (gGameObjects[iUserIndex]->pInventory[10].IsItem() == TRUE)
 	{
-		if (gGameObjects[iUserIndex].pInventory[10].m_Type == ITEMGET(13,10))
+		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,10))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[10].m_Type == ITEMGET(13,39))
+		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,39))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[10].m_Type == ITEMGET(13,40))
+		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,40))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[10].m_Type == ITEMGET(13,41))
+		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,41))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[10].m_Type == ITEMGET(13,68))
+		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,68))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[10].m_Type == ITEMGET(13,76))
+		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,76))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[10].m_Type == ITEMGET(13,77))
+		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,77))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[10].m_Type == ITEMGET(13,78))
+		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,78))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[10].m_Type == ITEMGET(13,122))
+		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,122))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[10].m_Type == ITEMGET(13,163))
+		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,163))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[10].m_Type == ITEMGET(13,164))
+		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,164))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[10].m_Type == ITEMGET(13,165))
+		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,165))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[10].m_Type == ITEMGET(13,166))
+		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,166))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[10].m_Type == ITEMGET(13,122))
+		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,122))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[10].m_Type == ITEMGET(13,166))
+		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,166))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[10].m_Type == ITEMGET(13,169))
+		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,169))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[10].m_Type == ITEMGET(13,170))
+		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,170))
 		{
 			return TRUE;
 		}
 	}
 
-	if (gGameObjects[iUserIndex].pInventory[11].IsItem() == TRUE)
+	if (gGameObjects[iUserIndex]->pInventory[11].IsItem() == TRUE)
 	{
-		if (gGameObjects[iUserIndex].pInventory[11].m_Type == ITEMGET(13,10))
+		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,10))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[11].m_Type == ITEMGET(13,39))
+		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,39))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[11].m_Type == ITEMGET(13,40))
+		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,40))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[11].m_Type == ITEMGET(13,41))
+		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,41))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[11].m_Type == ITEMGET(13,68))
+		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,68))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[11].m_Type == ITEMGET(13,76))
+		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,76))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[11].m_Type == ITEMGET(13,77))
+		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,77))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[11].m_Type == ITEMGET(13,78))
+		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,78))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[11].m_Type == ITEMGET(13,122))
+		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,122))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[11].m_Type == ITEMGET(13,163))
+		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,163))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[11].m_Type == ITEMGET(13,164))
+		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,164))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[11].m_Type == ITEMGET(13,165))
+		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,165))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[11].m_Type == ITEMGET(13,166))
+		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,166))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[11].m_Type == ITEMGET(13,122))
+		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,122))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[11].m_Type == ITEMGET(13,166))
+		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,166))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[11].m_Type == ITEMGET(13,169))
+		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,169))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex].pInventory[11].m_Type == ITEMGET(13,170))
+		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,170))
 		{
 			return TRUE;
 		}
@@ -1060,9 +1060,9 @@ void CDevilSquareFinal::SendAllUserAnyMsg(LPBYTE lpMsg, int iSize)
 {
 	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
-		if (gGameObjects[i].Connected == PLAYER_PLAYING && gGameObjects[i].Type == OBJ_USER)
+		if (gGameObjects[i]->Connected == PLAYER_PLAYING && gGameObjects[i]->Type == OBJ_USER)
 		{
-			if (!DG_MAP_RANGE(gGameObjects[i].MapNumber) && gGameObjects[i].MapNumber != MAP_INDEX_CHAOSCASTLE_SURVIVAL)
+			if (!DG_MAP_RANGE(gGameObjects[i]->MapNumber) && gGameObjects[i]->MapNumber != MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 			{
 				IOCP.DataSend(i, lpMsg, iSize);
 			}
@@ -1325,32 +1325,32 @@ char CDevilSquareFinal::SetParty(BYTE btSlotOrder, BYTE btDSFType, int nPartyIdx
 	this->m_PartyDataSave[btSlotOrder].btDSFType = btDSFType;
 	this->m_PartyDataSave[btSlotOrder].nPartyNo = nPartyIdx;
 	this->m_PartyDataSave[btSlotOrder].nRequestUserIndex = nUserIndex;
-	memcpy(this->m_PartyDataSave[btSlotOrder].szRequestUserID, gGameObjects[nUserIndex].AccountID, MAX_ACCOUNT_LEN+1);
-	memcpy(this->m_PartyDataSave[btSlotOrder].szRequestUserName, gGameObjects[nUserIndex].Name, MAX_ACCOUNT_LEN+1);
-	memcpy(this->m_PartyDataSave[btSlotOrder].szRequestUserRealName, gGameObjects[nUserIndex].m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN+1);
-	this->m_PartyDataSave[btSlotOrder].nRequestUserServerCode = gGameObjects[nUserIndex].m_PlayerData->m_nServerCodeOfHomeWorld;
-	this->m_PartyDataSave[btSlotOrder].nRequestUserClass = gGameObjects[nUserIndex].Class;
-	this->m_PartyDataSave[btSlotOrder].nRequestUserLevel = gGameObjects[nUserIndex].m_PlayerData->MasterLevel + gGameObjects[nUserIndex].Level;
+	memcpy(this->m_PartyDataSave[btSlotOrder].szRequestUserID, gGameObjects[nUserIndex]->AccountID, MAX_ACCOUNT_LEN+1);
+	memcpy(this->m_PartyDataSave[btSlotOrder].szRequestUserName, gGameObjects[nUserIndex]->Name, MAX_ACCOUNT_LEN+1);
+	memcpy(this->m_PartyDataSave[btSlotOrder].szRequestUserRealName, gGameObjects[nUserIndex]->m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN+1);
+	this->m_PartyDataSave[btSlotOrder].nRequestUserServerCode = gGameObjects[nUserIndex]->m_PlayerData->m_nServerCodeOfHomeWorld;
+	this->m_PartyDataSave[btSlotOrder].nRequestUserClass = gGameObjects[nUserIndex]->Class;
+	this->m_PartyDataSave[btSlotOrder].nRequestUserLevel = gGameObjects[nUserIndex]->m_PlayerData->MasterLevel + gGameObjects[nUserIndex]->Level;
 
 	int useridx;
 	int dbnumber = 0;
 
 	for (int i = 0; i < 2; i++)
 	{
-		if (gParty.GetIndexUser(gGameObjects[nUserIndex].PartyNumber, i, useridx, dbnumber) == FALSE)
+		if (gParty.GetIndexUser(gGameObjects[nUserIndex]->PartyNumber, i, useridx, dbnumber) == FALSE)
 		{
 			return -4;
 		}
 
 		if (useridx > 0 && nUserIndex != useridx)
 		{
-			this->m_PartyDataSave[btSlotOrder].n2ndPartyUserIndex = gGameObjects[useridx].m_Index;
-			memcpy(this->m_PartyDataSave[btSlotOrder].sz2ndPartyUserID, gGameObjects[useridx].AccountID, MAX_ACCOUNT_LEN+1);
-			memcpy(this->m_PartyDataSave[btSlotOrder].sz2ndPartyUserName, gGameObjects[useridx].Name, MAX_ACCOUNT_LEN+1);
-			memcpy(this->m_PartyDataSave[btSlotOrder].sz2ndPartyUserRealName, gGameObjects[useridx].m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN+1);
-			this->m_PartyDataSave[btSlotOrder].n2ndPartyUserServerCode = gGameObjects[useridx].m_PlayerData->m_nServerCodeOfHomeWorld;
-			this->m_PartyDataSave[btSlotOrder].n2ndPartyUserClass = gGameObjects[useridx].Class;
-			this->m_PartyDataSave[btSlotOrder].n2ndPartyUserLevel = gGameObjects[useridx].m_PlayerData->MasterLevel + gGameObjects[useridx].Level;
+			this->m_PartyDataSave[btSlotOrder].n2ndPartyUserIndex = gGameObjects[useridx]->m_Index;
+			memcpy(this->m_PartyDataSave[btSlotOrder].sz2ndPartyUserID, gGameObjects[useridx]->AccountID, MAX_ACCOUNT_LEN+1);
+			memcpy(this->m_PartyDataSave[btSlotOrder].sz2ndPartyUserName, gGameObjects[useridx]->Name, MAX_ACCOUNT_LEN+1);
+			memcpy(this->m_PartyDataSave[btSlotOrder].sz2ndPartyUserRealName, gGameObjects[useridx]->m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN+1);
+			this->m_PartyDataSave[btSlotOrder].n2ndPartyUserServerCode = gGameObjects[useridx]->m_PlayerData->m_nServerCodeOfHomeWorld;
+			this->m_PartyDataSave[btSlotOrder].n2ndPartyUserClass = gGameObjects[useridx]->Class;
+			this->m_PartyDataSave[btSlotOrder].n2ndPartyUserLevel = gGameObjects[useridx]->m_PlayerData->MasterLevel + gGameObjects[useridx]->Level;
 		}
 	}
 
@@ -1443,8 +1443,8 @@ void CDevilSquareFinal::DeletePartyByIndex(int nIndex)
 {
 	for (int i = 0; i < 10; i++)
 	{
-		int nFirst = strcmp(this->m_PartyDataSave[i].szRequestUserName, gGameObjects[nIndex].Name);
-		int nSecond = strcmp(this->m_PartyDataSave[i].sz2ndPartyUserName, gGameObjects[nIndex].Name);
+		int nFirst = strcmp(this->m_PartyDataSave[i].szRequestUserName, gGameObjects[nIndex]->Name);
+		int nSecond = strcmp(this->m_PartyDataSave[i].sz2ndPartyUserName, gGameObjects[nIndex]->Name);
 
 		if (!nFirst || !nSecond)
 		{
@@ -2636,21 +2636,21 @@ int CDevilSquareFinal::SetMonster()
 
 			if (result >= 0)
 			{
-				gGameObjects[result].m_PosNum = n;
-				gGameObjects[result].X = this->m_DSFMonsterRegenInfo[n].RegenX;
-				gGameObjects[result].Y = this->m_DSFMonsterRegenInfo[n].RegenY;
-				gGameObjects[result].MapNumber = this->m_DSFMonsterRegenInfo[n].MonsterMapNum;
-				gGameObjects[result].TX = gGameObjects[result].X;
-				gGameObjects[result].TY = gGameObjects[result].Y;
-				gGameObjects[result].m_OldX = gGameObjects[result].X;
-				gGameObjects[result].m_OldY = gGameObjects[result].Y;
-				gGameObjects[result].Dir = this->m_DSFMonsterRegenInfo[n].MonsterDir;
-				gGameObjects[result].StartX = gGameObjects[result].X;
-				gGameObjects[result].StartY = gGameObjects[result].Y;
+				gGameObjects[result]->m_PosNum = n;
+				gGameObjects[result]->X = this->m_DSFMonsterRegenInfo[n].RegenX;
+				gGameObjects[result]->Y = this->m_DSFMonsterRegenInfo[n].RegenY;
+				gGameObjects[result]->MapNumber = this->m_DSFMonsterRegenInfo[n].MonsterMapNum;
+				gGameObjects[result]->TX = gGameObjects[result]->X;
+				gGameObjects[result]->TY = gGameObjects[result]->Y;
+				gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+				gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+				gGameObjects[result]->Dir = this->m_DSFMonsterRegenInfo[n].MonsterDir;
+				gGameObjects[result]->StartX = gGameObjects[result]->X;
+				gGameObjects[result]->StartY = gGameObjects[result]->Y;
 				gObjSetMonster(result, nMonsterType);
-				gGameObjects[result].MaxRegenTime = 500;
-				gGameObjects[result].Dir = rand()%8;
-				gGameObjects[result].m_ViewRange = 8;
+				gGameObjects[result]->MaxRegenTime = 500;
+				gGameObjects[result]->Dir = rand()%8;
+				gGameObjects[result]->m_ViewRange = 8;
 				iAddMonsterCount++;
 			}
 		}
@@ -2699,23 +2699,23 @@ int CDevilSquareFinal::SetMonster()
 
 			if (result >= 0)
 			{
-				gGameObjects[result].m_PosNum = l;
-				gGameObjects[result].X = this->m_DSFMonsterRegenInfo[l].RegenX;
-				gGameObjects[result].Y = this->m_DSFMonsterRegenInfo[l].RegenY;
-				gGameObjects[result].MapNumber = this->m_DSFMonsterRegenInfo[l].MonsterMapNum;
-				gGameObjects[result].TX = gGameObjects[result].X;
-				gGameObjects[result].TY = gGameObjects[result].Y;
-				gGameObjects[result].m_OldX = gGameObjects[result].X;
-				gGameObjects[result].m_OldY = gGameObjects[result].Y;
-				gGameObjects[result].Dir = this->m_DSFMonsterRegenInfo[l].MonsterDir;
-				gGameObjects[result].StartX = gGameObjects[result].X;
-				gGameObjects[result].StartY = gGameObjects[result].Y;
-				gGameObjects[result].m_Disappear_Monster = GetTickCount();
-				gGameObjects[result].MaxRegenTime = 5000;
+				gGameObjects[result]->m_PosNum = l;
+				gGameObjects[result]->X = this->m_DSFMonsterRegenInfo[l].RegenX;
+				gGameObjects[result]->Y = this->m_DSFMonsterRegenInfo[l].RegenY;
+				gGameObjects[result]->MapNumber = this->m_DSFMonsterRegenInfo[l].MonsterMapNum;
+				gGameObjects[result]->TX = gGameObjects[result]->X;
+				gGameObjects[result]->TY = gGameObjects[result]->Y;
+				gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+				gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+				gGameObjects[result]->Dir = this->m_DSFMonsterRegenInfo[l].MonsterDir;
+				gGameObjects[result]->StartX = gGameObjects[result]->X;
+				gGameObjects[result]->StartY = gGameObjects[result]->Y;
+				gGameObjects[result]->m_Disappear_Monster = GetTickCount();
+				gGameObjects[result]->MaxRegenTime = 5000;
 				gObjSetMonster(result, nEventMonsterType);
-				gGameObjects[result].MaxRegenTime = 500;
-				gGameObjects[result].Dir = rand()%8;
-				gGameObjects[result].m_ViewRange = 8;
+				gGameObjects[result]->MaxRegenTime = 500;
+				gGameObjects[result]->Dir = rand()%8;
+				gGameObjects[result]->m_ViewRange = 8;
 				iEventMonsterCount++;
 			}
 		}
@@ -2783,22 +2783,22 @@ BYTE CDevilSquareFinal::GetUserTeam(int nIndex)
 		return -1;
 	}
 
-	if (gGameObjects[nIndex].m_nDSFIndex == -1)
+	if (gGameObjects[nIndex]->m_nDSFIndex == -1)
 	{
 		return -1;
 	}
 
-	if (this->m_UserData[gGameObjects[nIndex].m_nDSFIndex].m_nIndex != nIndex)
+	if (this->m_UserData[gGameObjects[nIndex]->m_nDSFIndex].m_nIndex != nIndex)
 	{
 		return -1;
 	}
 
-	if (gGameObjects[nIndex].Connected != PLAYER_PLAYING)
+	if (gGameObjects[nIndex]->Connected != PLAYER_PLAYING)
 	{
 		return -1;
 	}
 
-	return this->m_UserData[gGameObjects[nIndex].m_nDSFIndex].m_btTeam;
+	return this->m_UserData[gGameObjects[nIndex]->m_nDSFIndex].m_btTeam;
 }
 
 int CDevilSquareFinal::MonsterKillPoint(int nMonsterType)

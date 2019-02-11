@@ -89,16 +89,16 @@ BOOL MonsterHerd::AddMonster(int iMonsterType, BOOL bRegen, BOOL bAttackFirst)
 
 	if ( iIndex >= 0 )
 	{
-		gGameObjects[iIndex].m_PosNum = -1;
-		gGameObjects[iIndex].X = cX;
-		gGameObjects[iIndex].Y = cY;
-		gGameObjects[iIndex].MapNumber = this->m_iMapNumber;
-		gGameObjects[iIndex].TX = gGameObjects[iIndex].X;
-		gGameObjects[iIndex].TY = gGameObjects[iIndex].Y;
-		gGameObjects[iIndex].m_OldX = gGameObjects[iIndex].X;
-		gGameObjects[iIndex].m_OldY = gGameObjects[iIndex].Y;
-		gGameObjects[iIndex].StartX = gGameObjects[iIndex].X;
-		gGameObjects[iIndex].StartY = gGameObjects[iIndex].Y;
+		gGameObjects[iIndex]->m_PosNum = -1;
+		gGameObjects[iIndex]->X = cX;
+		gGameObjects[iIndex]->Y = cY;
+		gGameObjects[iIndex]->MapNumber = this->m_iMapNumber;
+		gGameObjects[iIndex]->TX = gGameObjects[iIndex]->X;
+		gGameObjects[iIndex]->TY = gGameObjects[iIndex]->Y;
+		gGameObjects[iIndex]->m_OldX = gGameObjects[iIndex]->X;
+		gGameObjects[iIndex]->m_OldY = gGameObjects[iIndex]->Y;
+		gGameObjects[iIndex]->StartX = gGameObjects[iIndex]->X;
+		gGameObjects[iIndex]->StartY = gGameObjects[iIndex]->Y;
 
 		LPMONSTER_ATTRIBUTE iAttr = gMAttr.GetAttr(iMonsterType);
 
@@ -108,13 +108,13 @@ BOOL MonsterHerd::AddMonster(int iMonsterType, BOOL bRegen, BOOL bAttackFirst)
 			return false;
 		}
 
-		gGameObjects[iIndex].Level = iAttr->m_Level;
+		gGameObjects[iIndex]->Level = iAttr->m_Level;
 		gObjSetMonster(iIndex, iMonsterType);
-		gGameObjects[iIndex].MaxRegenTime = 1000;
-		gGameObjects[iIndex].Dir = rand() % 8;
-		gGameObjects[iIndex].m_bIsInMonsterHerd = 1;
-		gGameObjects[iIndex].m_bIsMonsterAttackFirst = bAttackFirst;
-		gGameObjects[iIndex].m_lpMonsterHerd = this;
+		gGameObjects[iIndex]->MaxRegenTime = 1000;
+		gGameObjects[iIndex]->Dir = rand() % 8;
+		gGameObjects[iIndex]->m_bIsInMonsterHerd = 1;
+		gGameObjects[iIndex]->m_bIsMonsterAttackFirst = bAttackFirst;
+		gGameObjects[iIndex]->m_lpMonsterHerd = this;
 
 		EnterCriticalSection(&this->m_critMonsterHerd);
 
@@ -633,7 +633,7 @@ void MonsterHerd::MonsterBaseAct(CGameObject &lpObj)
 						break;
 					}
 
-					int map = gGameObjects[tuser].MapNumber;
+					int map = gGameObjects[tuser]->MapNumber;
 
 					if ( MAX_MAP_RANGE(map) == FALSE )
 					{
@@ -641,9 +641,9 @@ void MonsterHerd::MonsterBaseAct(CGameObject &lpObj)
 						break;
 					}
 
-					if ( MapC[map].CheckWall(lpObj.X, lpObj.Y, gGameObjects[tuser].X, gGameObjects[tuser].Y) == TRUE )
+					if ( MapC[map].CheckWall(lpObj.X, lpObj.Y, gGameObjects[tuser]->X, gGameObjects[tuser]->Y) == TRUE )
 					{
-						BYTE attr = MapC[map].GetAttr(gGameObjects[tuser].X, gGameObjects[tuser].Y);
+						BYTE attr = MapC[map].GetAttr(gGameObjects[tuser]->X, gGameObjects[tuser]->Y);
 
 						if ( (attr&1) != 1 )
 						{

@@ -109,12 +109,12 @@ void CItemShop::Run()
 
 	for(int i=g_ConfigRead.server.GetObjectStartUserIndex();i<g_ConfigRead.server.GetObjectMax();i++)
 	{
-		if(gGameObjects[i].Connected > PLAYER_LOGGED && gGameObjects[i].m_bOff == false)
+		if(gGameObjects[i]->Connected > PLAYER_LOGGED && gGameObjects[i]->m_bOff == false)
 		{
-			if((GetTickCount() - gGameObjects[i].m_PlayerData->m_GoblinTime) >= (this->GoblinTime * 1000))
+			if((GetTickCount() - gGameObjects[i]->m_PlayerData->m_GoblinTime) >= (this->GoblinTime * 1000))
 			{
 				GDReqInGameShopPointAdd(i, this->GoblinCoinType, this->GoblinAddCoin);
-				gGameObjects[i].m_PlayerData->m_GoblinTime = GetTickCount();
+				gGameObjects[i]->m_PlayerData->m_GoblinTime = GetTickCount();
 			}
 		}
 	}

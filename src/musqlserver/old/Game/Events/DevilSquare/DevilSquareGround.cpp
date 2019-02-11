@@ -192,28 +192,28 @@ void CDevilSquareGround::RegenBossMonster(int currtime)
 				if ( iMonIndex >= 0 )
 				{
 					gObjSetMonster(iMonIndex, this->m_DevilSquareBossMonsterInfo[i].m_Type);
-					gGameObjects[iMonIndex].MapNumber = iMapNumber;
-					gMSetBase.GetBoxPosition(gGameObjects[iMonIndex].MapNumber,
+					gGameObjects[iMonIndex]->MapNumber = iMapNumber;
+					gMSetBase.GetBoxPosition(gGameObjects[iMonIndex]->MapNumber,
 						this->m_DevilSquareBossMonsterInfo[i].X, this->m_DevilSquareBossMonsterInfo[i].Y,
 						this->m_DevilSquareBossMonsterInfo[i].TX, this->m_DevilSquareBossMonsterInfo[i].TY,
-						gGameObjects[iMonIndex].X, gGameObjects[iMonIndex].Y);
-					int map = gGameObjects[iMonIndex].MapNumber;
-					int x = gGameObjects[iMonIndex].X;
-					int y = gGameObjects[iMonIndex].Y;
+						gGameObjects[iMonIndex]->X, gGameObjects[iMonIndex]->Y);
+					int map = gGameObjects[iMonIndex]->MapNumber;
+					int x = gGameObjects[iMonIndex]->X;
+					int y = gGameObjects[iMonIndex]->Y;
 
 					//sLog->outBasic("[DevilSquare] Boss %d %d %d create ", map, x, y);
 
-					gGameObjects[iMonIndex].TX = gGameObjects[iMonIndex].X;
-					gGameObjects[iMonIndex].TY = gGameObjects[iMonIndex].Y;
-					gGameObjects[iMonIndex].MTX = gGameObjects[iMonIndex].X;
-					gGameObjects[iMonIndex].MTY = gGameObjects[iMonIndex].Y;
-					gGameObjects[iMonIndex].StartX = gGameObjects[iMonIndex].X;
-					gGameObjects[iMonIndex].StartY = gGameObjects[iMonIndex].Y;
-					gGameObjects[iMonIndex].m_bDevilSquareIndex = this->m_iIndex;
-					gGameObjects[iMonIndex].DieRegen = FALSE;
-					gGameObjects[iMonIndex].m_PosNum = -1;
-					gGameObjects[iMonIndex].Live = TRUE;
-					gGameObjects[iMonIndex].m_State = 1;
+					gGameObjects[iMonIndex]->TX = gGameObjects[iMonIndex]->X;
+					gGameObjects[iMonIndex]->TY = gGameObjects[iMonIndex]->Y;
+					gGameObjects[iMonIndex]->MTX = gGameObjects[iMonIndex]->X;
+					gGameObjects[iMonIndex]->MTY = gGameObjects[iMonIndex]->Y;
+					gGameObjects[iMonIndex]->StartX = gGameObjects[iMonIndex]->X;
+					gGameObjects[iMonIndex]->StartY = gGameObjects[iMonIndex]->Y;
+					gGameObjects[iMonIndex]->m_bDevilSquareIndex = this->m_iIndex;
+					gGameObjects[iMonIndex]->DieRegen = FALSE;
+					gGameObjects[iMonIndex]->m_PosNum = -1;
+					gGameObjects[iMonIndex]->Live = TRUE;
+					gGameObjects[iMonIndex]->m_State = 1;
 				}
 			}
 		}
@@ -632,7 +632,7 @@ void CDevilSquareGround::DropReward(int iIndex)
 		return;
 	}
 
-	switch (gGameObjects[iIndex].m_bDevilSquareIndex)
+	switch (gGameObjects[iIndex]->m_bDevilSquareIndex)
 	{
 	case 0:
 		g_BagManager.UseBag_GremoryCase(iIndex, BAG_EVENT, EVENTBAG_DS1, iIndex, GC_STORAGE_CHARACTER, GC_REWARD_DEVIL_SQUARE, 30);

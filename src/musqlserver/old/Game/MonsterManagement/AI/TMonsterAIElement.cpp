@@ -355,7 +355,7 @@ BOOL TMonsterAIElement::ApplyElementGroupMove(int iIndex, int iTargetIndex, TMon
 	int iLeaderIndex = -1;
 	iLeaderIndex = TMonsterAIGroup::FindGroupLeader(lpObj.m_iGroupNumber);
 
-	if ( iLeaderIndex == -1 || gGameObjects[iLeaderIndex].Live == FALSE )
+	if ( iLeaderIndex == -1 || gGameObjects[iLeaderIndex]->Live == FALSE )
 		bFoundLeader = FALSE;
 
 	if ( bFoundLeader && gObjCalDistance(lpObj, &gGameObjects[iLeaderIndex]) > 6 )
@@ -401,11 +401,11 @@ BOOL TMonsterAIElement::ApplyElementAttack(int iIndex, int iTargetIndex, TMonste
 		if ( iTargetNumber < 0 )
 			bEnableAttack = FALSE;
 
-		else if ( !gGameObjects[iTargetNumber].Live || gGameObjects[iTargetNumber].Teleport )
+		else if ( !gGameObjects[iTargetNumber]->Live || gGameObjects[iTargetNumber]->Teleport )
 			bEnableAttack = FALSE;
 
-		else if ( gGameObjects[iTargetNumber].Connected <= PLAYER_LOGGED ||
-			 gGameObjects[iTargetNumber].CloseCount != -1 )
+		else if ( gGameObjects[iTargetNumber]->Connected <= PLAYER_LOGGED ||
+			 gGameObjects[iTargetNumber]->CloseCount != -1 )
 		{
 			bEnableAttack = FALSE;
 		}
@@ -538,7 +538,7 @@ BOOL TMonsterAIElement::ApplyElementAttackPenetration(int iIndex, int iTargetInd
 	if ( iTargetIndex == -1 )
 		return FALSE;
 
-	if ( gGameObjects[iTargetIndex].Live == 0 )
+	if ( gGameObjects[iTargetIndex]->Live == 0 )
 		return FALSE;
 
 	TMonsterSkillManager::UseMonsterSkill(iIndex, iTargetIndex, 2, -1, NULL);
@@ -722,11 +722,11 @@ BOOL TMonsterAIElement::ApplyElementSkillAttack(int iIndex, int iTargetIndex, TM
 		if (iTargetNumber < 0 )
 			bEnableAttack = FALSE;
 
-		else if ( !gGameObjects[iTargetNumber].Live || gGameObjects[iTargetNumber].Teleport )
+		else if ( !gGameObjects[iTargetNumber]->Live || gGameObjects[iTargetNumber]->Teleport )
 			bEnableAttack = FALSE;
 
-		else if ( gGameObjects[iTargetNumber].Connected <= PLAYER_LOGGED ||
-			 gGameObjects[iTargetNumber].CloseCount != -1 )
+		else if ( gGameObjects[iTargetNumber]->Connected <= PLAYER_LOGGED ||
+			 gGameObjects[iTargetNumber]->CloseCount != -1 )
 		{
 			bEnableAttack = FALSE;
 		}

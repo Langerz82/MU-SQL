@@ -484,21 +484,21 @@ void CAcheronGuardianEvent::GenObelisk(int iGroupNum)
 		gObjSetMonster(result, this->m_stObeliskInfo[iGroupNum].m_iMonsterNum);
 
 		this->m_stObeliskInfo[iGroupNum].m_iMonIndex = result;
-		gGameObjects[result].Class = this->m_stObeliskInfo[iGroupNum].m_iMonsterNum;
-		gGameObjects[result].MapNumber = this->m_stObeliskInfo[iGroupNum].m_iMapIndex;
-		gGameObjects[result].X = this->m_stObeliskInfo[iGroupNum].m_iPosX;
-		gGameObjects[result].Y = this->m_stObeliskInfo[iGroupNum].m_iPosY;
-		gGameObjects[result].TX = this->m_stObeliskInfo[iGroupNum].m_iPosX;
-		gGameObjects[result].TY = this->m_stObeliskInfo[iGroupNum].m_iPosY;
-		gGameObjects[result].m_OldX = this->m_stObeliskInfo[iGroupNum].m_iPosX;
-		gGameObjects[result].m_OldY = this->m_stObeliskInfo[iGroupNum].m_iPosY;
-		gGameObjects[result].StartX = this->m_stObeliskInfo[iGroupNum].m_iPosX;
-		gGameObjects[result].StartY = this->m_stObeliskInfo[iGroupNum].m_iPosY;
-		gGameObjects[result].Dir = 1;
-		gGameObjects[result].Live = TRUE;
-		gGameObjects[result].DieRegen = 0;
-		gGameObjects[result].m_State = 1;
-		gGameObjects[result].MaxRegenTime = 0;
+		gGameObjects[result]->Class = this->m_stObeliskInfo[iGroupNum].m_iMonsterNum;
+		gGameObjects[result]->MapNumber = this->m_stObeliskInfo[iGroupNum].m_iMapIndex;
+		gGameObjects[result]->X = this->m_stObeliskInfo[iGroupNum].m_iPosX;
+		gGameObjects[result]->Y = this->m_stObeliskInfo[iGroupNum].m_iPosY;
+		gGameObjects[result]->TX = this->m_stObeliskInfo[iGroupNum].m_iPosX;
+		gGameObjects[result]->TY = this->m_stObeliskInfo[iGroupNum].m_iPosY;
+		gGameObjects[result]->m_OldX = this->m_stObeliskInfo[iGroupNum].m_iPosX;
+		gGameObjects[result]->m_OldY = this->m_stObeliskInfo[iGroupNum].m_iPosY;
+		gGameObjects[result]->StartX = this->m_stObeliskInfo[iGroupNum].m_iPosX;
+		gGameObjects[result]->StartY = this->m_stObeliskInfo[iGroupNum].m_iPosY;
+		gGameObjects[result]->Dir = 1;
+		gGameObjects[result]->Live = TRUE;
+		gGameObjects[result]->DieRegen = 0;
+		gGameObjects[result]->m_State = 1;
+		gGameObjects[result]->MaxRegenTime = 0;
 		sLog->outBasic("[AcheronGuardianEvent] (%d) Obelisk be created.", result);
 	}
 }
@@ -659,7 +659,7 @@ void CAcheronGuardianEvent::RegenMonster(int nGroupNumber, int iGenSeq, int iGen
 
 		nMonsterArrayIndex++;
 		sLog->outBasic("[AcheronGuardianEvent][MonsterGroupRegen] Group: %d, MonsterIndex: %d, MapNumber: %d, X: %d, Y: %d",
-			nGroupNumber, nMonsterIndex, nMapNumber, gGameObjects[nResult].X, gGameObjects[nResult].Y);
+			nGroupNumber, nMonsterIndex, nMapNumber, gGameObjects[nResult]->X, gGameObjects[nResult]->Y);
 	}
 
 	this->m_stMonsterGroupInfo[nGroupNumber].m_nGenTotCnt = nMonsterArrayIndex;
@@ -748,7 +748,7 @@ void CAcheronGuardianEvent::DeleteMonster(int nGroupNumber)
 		{
 			int nIndex = this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[i].m_nIndex;
 
-			if (gGameObjects[nIndex].Live == FALSE)
+			if (gGameObjects[nIndex]->Live == FALSE)
 			{
 				gObjDel(nIndex);
 				sLog->outBasic("[AcheronGuardianEvent][MonsterGroupRegen] Delete Monster - %d ",
@@ -819,7 +819,7 @@ void CAcheronGuardianEvent::CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER 
 		return;
 	}
 
-	if (gGameObjects[iIndex].Teleport != FALSE)
+	if (gGameObjects[iIndex]->Teleport != FALSE)
 	{
 		return;
 	}
@@ -852,7 +852,7 @@ void CAcheronGuardianEvent::CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER 
 	if (this->IsPlayStart() == TRUE)
 	{
 		sLog->outBasic("[AcheronGuardianEvent] [%s][%s] Acheron Event Enter",
-			gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name);
+			gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name);
 
 		gObjMoveGate(iIndex, 426);
 	}

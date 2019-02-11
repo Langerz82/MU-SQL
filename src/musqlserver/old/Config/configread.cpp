@@ -155,7 +155,7 @@ void SERVER_CONFIG::ReadServerInfo(bool bObjInit)
 	this->iHWIDUseLimit = ReadServerInfo.ReadInt("GameServerInfo", "MachineIDConnectionLimitCount", 3);
 
 	strncpy(this->szCashShopLogPath, ReadServerInfo.ReadString("GameServerInfo", "ItemShopLogPath", ".\\ITEM_SHOP_LOG").c_str(), sizeof(this->szCashShopLogPath));
-	strncpy(this->szUserSaveLogPath, ReadServerInfo.ReadString("GameServerInfo", "CharSaveLogPath", ".\\CHAR_SAVE_LOG").c_str(), sizeof(this->szUserSaveLogPath));
+	//strncpy(this->szUserSaveLogPath, ReadServerInfo.ReadString("GameServerInfo", "CharSaveLogPath", ".\\CHAR_SAVE_LOG").c_str(), sizeof(this->szUserSaveLogPath));
 	strncpy(this->szCommandLogPath, ReadServerInfo.ReadString("GameServerInfo", "CommandLogPath", ".\\COMMANDS_SAVE_LOG").c_str(), sizeof(this->szCommandLogPath));
 	strncpy(this->szServerLogPath, ReadServerInfo.ReadString("GameServerInfo", "ServerStateLogPath", ".\\SERVER_CONN_STATE_LOG").c_str(), sizeof(this->szServerLogPath));
 	strncpy(this->szMsgLogPath, ReadServerInfo.ReadString("GameServerInfo", "MessageLogPath", ".\\MESSAGE_LOG").c_str(), sizeof(this->szMsgLogPath));

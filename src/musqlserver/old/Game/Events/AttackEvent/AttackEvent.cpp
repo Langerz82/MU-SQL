@@ -135,36 +135,36 @@ void CAttackEvent::Active()
 			return;
 		}
 
-		gGameObjects[result].MapNumber = MapNumber;
+		gGameObjects[result]->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result].X, gGameObjects[result].Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result]->X, gGameObjects[result]->Y) == 0)
 		{
 
 		}
 
-		gGameObjects[result].m_PosNum = -1;
-		gGameObjects[result].TX = gGameObjects[result].X;
-		gGameObjects[result].TY = gGameObjects[result].Y;
-		gGameObjects[result].MTX = gGameObjects[result].X;
-		gGameObjects[result].MTY = gGameObjects[result].Y;
-		gGameObjects[result].m_OldX = gGameObjects[result].X;
-		gGameObjects[result].m_OldY = gGameObjects[result].Y;
-		gGameObjects[result].StartX = gGameObjects[result].X;
-		gGameObjects[result].StartY = gGameObjects[result].Y;
+		gGameObjects[result]->m_PosNum = -1;
+		gGameObjects[result]->TX = gGameObjects[result]->X;
+		gGameObjects[result]->TY = gGameObjects[result]->Y;
+		gGameObjects[result]->MTX = gGameObjects[result]->X;
+		gGameObjects[result]->MTY = gGameObjects[result]->Y;
+		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+		gGameObjects[result]->StartX = gGameObjects[result]->X;
+		gGameObjects[result]->StartY = gGameObjects[result]->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			gGameObjects[result].Dir = rand() % 8;
+			gGameObjects[result]->Dir = rand() % 8;
 		}
 
 		else
 		{
-			gGameObjects[result].Dir = It->second.m_Dir;
+			gGameObjects[result]->Dir = It->second.m_Dir;
 		}
 
-		this->m_BossMap53 = gGameObjects[result].MapNumber;
-		this->m_BossMapX53 = gGameObjects[result].X;
-		this->m_BossMapY53 = gGameObjects[result].Y;
+		this->m_BossMap53 = gGameObjects[result]->MapNumber;
+		this->m_BossMapX53 = gGameObjects[result]->X;
+		this->m_BossMapY53 = gGameObjects[result]->Y;
 
 		gObjSetMonster(result, It->second.m_Type);
 
@@ -198,28 +198,28 @@ void CAttackEvent::Active()
 			return;
 		}
 
-		gGameObjects[result].MapNumber = MapNumber;
+		gGameObjects[result]->MapNumber = MapNumber;
 
-		this->GetBoxPosition(MapNumber, this->m_BossMapX53 - 4, this->m_BossMapY53 - 4, this->m_BossMapX53 + 4, this->m_BossMapY53 + 4, gGameObjects[result].X, gGameObjects[result].Y);
+		this->GetBoxPosition(MapNumber, this->m_BossMapX53 - 4, this->m_BossMapY53 - 4, this->m_BossMapX53 + 4, this->m_BossMapY53 + 4, gGameObjects[result]->X, gGameObjects[result]->Y);
 
-		gGameObjects[result].m_PosNum = -1;
-		gGameObjects[result].TX = gGameObjects[result].X;
-		gGameObjects[result].TY = gGameObjects[result].Y;
-		gGameObjects[result].MTX = gGameObjects[result].X;
-		gGameObjects[result].MTY = gGameObjects[result].Y;
-		gGameObjects[result].m_OldX = gGameObjects[result].X;
-		gGameObjects[result].m_OldY = gGameObjects[result].Y;
-		gGameObjects[result].StartX = gGameObjects[result].X;
-		gGameObjects[result].StartY = gGameObjects[result].Y;
+		gGameObjects[result]->m_PosNum = -1;
+		gGameObjects[result]->TX = gGameObjects[result]->X;
+		gGameObjects[result]->TY = gGameObjects[result]->Y;
+		gGameObjects[result]->MTX = gGameObjects[result]->X;
+		gGameObjects[result]->MTY = gGameObjects[result]->Y;
+		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+		gGameObjects[result]->StartX = gGameObjects[result]->X;
+		gGameObjects[result]->StartY = gGameObjects[result]->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			gGameObjects[result].Dir = rand() % 8;
+			gGameObjects[result]->Dir = rand() % 8;
 		}
 
 		else
 		{
-			gGameObjects[result].Dir = It->second.m_Dir;
+			gGameObjects[result]->Dir = It->second.m_Dir;
 		}
 
 		gObjSetMonster(result, It->second.m_Type);
@@ -259,36 +259,36 @@ void CAttackEvent::Active()
 			return;
 		}
 
-		gGameObjects[result].MapNumber = MapNumber;
+		gGameObjects[result]->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result].X, gGameObjects[result].Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result]->X, gGameObjects[result]->Y) == 0)
 		{
 
 		}
 
-		gGameObjects[result].m_PosNum = -1;
-		gGameObjects[result].TX = gGameObjects[result].X;
-		gGameObjects[result].TY = gGameObjects[result].Y;
-		gGameObjects[result].MTX = gGameObjects[result].X;
-		gGameObjects[result].MTY = gGameObjects[result].Y;
-		gGameObjects[result].m_OldX = gGameObjects[result].X;
-		gGameObjects[result].m_OldY = gGameObjects[result].Y;
-		gGameObjects[result].StartX = gGameObjects[result].X;
-		gGameObjects[result].StartY = gGameObjects[result].Y;
+		gGameObjects[result]->m_PosNum = -1;
+		gGameObjects[result]->TX = gGameObjects[result]->X;
+		gGameObjects[result]->TY = gGameObjects[result]->Y;
+		gGameObjects[result]->MTX = gGameObjects[result]->X;
+		gGameObjects[result]->MTY = gGameObjects[result]->Y;
+		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+		gGameObjects[result]->StartX = gGameObjects[result]->X;
+		gGameObjects[result]->StartY = gGameObjects[result]->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			gGameObjects[result].Dir = rand() % 8;
+			gGameObjects[result]->Dir = rand() % 8;
 		}
 
 		else
 		{
-			gGameObjects[result].Dir = It->second.m_Dir;
+			gGameObjects[result]->Dir = It->second.m_Dir;
 		}
 
-		this->m_BossMap55 = gGameObjects[result].MapNumber;
-		this->m_BossMapX55 = gGameObjects[result].X;
-		this->m_BossMapY55 = gGameObjects[result].Y;
+		this->m_BossMap55 = gGameObjects[result]->MapNumber;
+		this->m_BossMapX55 = gGameObjects[result]->X;
+		this->m_BossMapY55 = gGameObjects[result]->Y;
 
 		gObjSetMonster(result, It->second.m_Type);
 
@@ -322,28 +322,28 @@ void CAttackEvent::Active()
 			return;
 		}
 
-		gGameObjects[result].MapNumber = MapNumber;
+		gGameObjects[result]->MapNumber = MapNumber;
 
-		this->GetBoxPosition(MapNumber, this->m_BossMapX55 - 4, this->m_BossMapY55 - 4, this->m_BossMapX55 + 4, this->m_BossMapY55 + 4, gGameObjects[result].X, gGameObjects[result].Y);
+		this->GetBoxPosition(MapNumber, this->m_BossMapX55 - 4, this->m_BossMapY55 - 4, this->m_BossMapX55 + 4, this->m_BossMapY55 + 4, gGameObjects[result]->X, gGameObjects[result]->Y);
 
-		gGameObjects[result].m_PosNum = -1;
-		gGameObjects[result].TX = gGameObjects[result].X;
-		gGameObjects[result].TY = gGameObjects[result].Y;
-		gGameObjects[result].MTX = gGameObjects[result].X;
-		gGameObjects[result].MTY = gGameObjects[result].Y;
-		gGameObjects[result].m_OldX = gGameObjects[result].X;
-		gGameObjects[result].m_OldY = gGameObjects[result].Y;
-		gGameObjects[result].StartX = gGameObjects[result].X;
-		gGameObjects[result].StartY = gGameObjects[result].Y;
+		gGameObjects[result]->m_PosNum = -1;
+		gGameObjects[result]->TX = gGameObjects[result]->X;
+		gGameObjects[result]->TY = gGameObjects[result]->Y;
+		gGameObjects[result]->MTX = gGameObjects[result]->X;
+		gGameObjects[result]->MTY = gGameObjects[result]->Y;
+		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+		gGameObjects[result]->StartX = gGameObjects[result]->X;
+		gGameObjects[result]->StartY = gGameObjects[result]->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			gGameObjects[result].Dir = rand() % 8;
+			gGameObjects[result]->Dir = rand() % 8;
 		}
 
 		else
 		{
-			gGameObjects[result].Dir = It->second.m_Dir;
+			gGameObjects[result]->Dir = It->second.m_Dir;
 		}
 
 		gObjSetMonster(result, It->second.m_Type);

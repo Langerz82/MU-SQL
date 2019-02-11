@@ -195,7 +195,7 @@ BOOL CCrywolfAltar::SetAltarUserIndex(int iAltarObjIndex, int iClass, int iUserI
 		return FALSE;
 	}
 
-	if ( abs(gGameObjects[iAltarObjIndex].Y - gGameObjects[iUserIndex].Y) > 0 || abs(gGameObjects[iAltarObjIndex].X - gGameObjects[iUserIndex].X) > 0 )
+	if ( abs(gGameObjects[iAltarObjIndex]->Y - gGameObjects[iUserIndex]->Y) > 0 || abs(gGameObjects[iAltarObjIndex]->X - gGameObjects[iUserIndex]->X) > 0 )
 	{
 		MsgOutput(iUserIndex, Lang.GetText(0,248), iAltarNumber);
 		return FALSE;
@@ -269,11 +269,11 @@ void CCrywolfAltar::SetAllAltarObjectIndex()
 		if ( !gObjIsConnected(i) )
 			continue;
 
-		if ( gGameObjects[i].MapNumber != MAP_INDEX_CRYWOLF_FIRSTZONE )
+		if ( gGameObjects[i]->MapNumber != MAP_INDEX_CRYWOLF_FIRSTZONE )
 			continue;
 
-		if ( CRYWOLF_ALTAR_CLASS_RANGE(gGameObjects[i].Class ) != FALSE )
-			g_CrywolfNPC_Altar.SetAltarObjIndex(gGameObjects[i].Class, i);
+		if ( CRYWOLF_ALTAR_CLASS_RANGE(gGameObjects[i]->Class ) != FALSE )
+			g_CrywolfNPC_Altar.SetAltarObjIndex(gGameObjects[i]->Class, i);
 	}
 }
 
@@ -391,16 +391,16 @@ void CCrywolfAltar::CrywolfAltarAct(int iIndex)
 	if ( !gObjIsConnected(iIndex))
 		return;
 
-	if ( gGameObjects[iIndex].Type != OBJ_NPC || CRYWOLF_ALTAR_CLASS_RANGE(gGameObjects[iIndex].Class) == FALSE )
+	if ( gGameObjects[iIndex]->Type != OBJ_NPC || CRYWOLF_ALTAR_CLASS_RANGE(gGameObjects[iIndex]->Class) == FALSE )
 		return;
 
-	int iUserIndex = this->GetAltarUserIndex(gGameObjects[iIndex].Class);
+	int iUserIndex = this->GetAltarUserIndex(gGameObjects[iIndex]->Class);
 
 	if ( gObjIsConnected(iUserIndex) == FALSE )
 	{
 		if ( iUserIndex != -1 )
 		{
-			this->ResetAltarUserIndex(iIndex, gGameObjects[iIndex].Class);
+			this->ResetAltarUserIndex(iIndex, gGameObjects[iIndex]->Class);
 		}
 
 		return;
@@ -408,7 +408,7 @@ void CCrywolfAltar::CrywolfAltarAct(int iIndex)
 
 	if ( gObjIsConnected(&gGameObjects[iUserIndex]) == FALSE )
 	{
-		this->ResetAltarUserIndex(iIndex, gGameObjects[iIndex].Class);
+		this->ResetAltarUserIndex(iIndex, gGameObjects[iIndex]->Class);
 		return;
 	}
 
@@ -419,23 +419,23 @@ void CCrywolfAltar::CrywolfAltarAct(int iIndex)
 	{
 		if ( abs(lpObj.Y-lpUserObj.Y) <= 0 && abs(lpObj.X - lpUserObj.X) <= 0 )
 		{
-			if ( this->CheckAltarValidContract(gGameObjects[iIndex].Class) != FALSE )
+			if ( this->CheckAltarValidContract(gGameObjects[iIndex]->Class) != FALSE )
 			{
 
 			}
 			else
 			{
-				this->SetAltarValidContract(iIndex, gGameObjects[iIndex].Class);
+				this->SetAltarValidContract(iIndex, gGameObjects[iIndex]->Class);
 			}
 		}
 		else
 		{
-			this->ResetAltarUserIndex(iIndex, gGameObjects[iIndex].Class);
+			this->ResetAltarUserIndex(iIndex, gGameObjects[iIndex]->Class);
 		}
 	}
 	else
 	{
-		this->ResetAltarUserIndex(iIndex, gGameObjects[iIndex].Class);
+		this->ResetAltarUserIndex(iIndex, gGameObjects[iIndex]->Class);
 	}
 }
 

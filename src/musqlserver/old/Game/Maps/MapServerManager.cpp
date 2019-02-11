@@ -1,10 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MapServerManager.cpp
-#include "Common\Common.h"
-//#include "StdAfx.h"
 #include "MapServerManager.h"
-//#include "Logging/Log.h"
-#include "pugixml.hpp"
+#include "MapClass.h"
 
 _MAPSVR_DATA::_MAPSVR_DATA()
 {
@@ -302,6 +299,236 @@ int CMapServerManager::GetMapSvrGroup(WORD wServerCode)
 
 	return -1;
 }
+
+short CMapServerManager::CheckMoveMapSvr(CGameObject &Obj, int iMAP_NUM, short sSVR_CODE_BEFORE)
+{
+	//if ( this->m_bMapDataLoadOk == FALSE )
+	//	return g_ConfigRead.server.GetGameServerCode();
+
+	if (!gObjIsConnected(Obj.m_Index))
+		return g_ConfigRead.server.GetGameServerCode();
+	if (!MapNumberCheck(iMAP_NUM))
+	{
+		return g_ConfigRead.server.GetGameServerCode();
+	}
+	_MAPSVR_DATA * lpMapSvrData = this->m_lpThisMapSvrData;
+
+	if (lpMapSvrData == NULL)
+	{
+		return g_ConfigRead.server.GetGameServerCode();
+	}
+
+	if (lpMapSvrData->m_bIN_USE == FALSE)
+	{
+		return g_ConfigRead.server.GetGameServerCode();
+	}
+	if (Obj.MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
+		iMAP_NUM = MAP_INDEX_LORENMARKET;
+	if (ITL_MAP_RANGE(Obj.MapNumber))
+		iMAP_NUM = MAP_INDEX_LORENMARKET;
+	if (IT_MAP_RANGE(Obj.MapNumber))
+		iMAP_NUM = MAP_INDEX_LORENMARKET;
+
+	short sMAP_MOVE_INFO = lpMapSvrData->m_sMAP_MOVE[iMAP_NUM];
+	switch (sMAP_MOVE_INFO)
+	{
+	case -1:
+	{
+		_MAPSVR_DATA * lpDestMapSvrData = NULL;
+
+		if (sSVR_CODE_BEFORE != -1)
+		{
+			EnterCriticalSection(&this->m_critSVRCODE_MAP);
+
+			std::map<int, _MAPSVR_DATA *>::iterator it = this->m_mapSVRCODE_MAP.find(sSVR_CODE_BEFORE);
+
+			if (it != this->m_mapSVRCODE_MAP.end())
+			{
+				lpDestMapSvrData = it->second;
+			}
+
+			LeaveCriticalSection(&this->m_critSVRCODE_MAP);
+
+			if (lpDestMapSvrData != NULL)
+			{
+				if (lpDestMapSvrData->m_sMAP_MOVE[iMAP_NUM] == -3)
+				{
+					return sSVR_CODE_BEFORE;
+				}
+			}
+		}
+
+		std::vector<_MAPSVR_DATA *> vtMapSvrData;
+
+		EnterCriticalSection(&this->m_critSVRCODE_MAP);
+
+		for (std::map<int, _MAPSVR_DATA *>::iterator it = this->m_mapSVRCODE_MAP.begin(); it != this->m_mapSVRCODE_MAP.end(); it++)
+		{
+			_MAPSVR_DATA * lpTempMapSvrData = it->second;
+
+			if (lpTempMapSvrData != NULL &&
+				lpTempMapSvrData->m_bIN_USE == TRUE &&
+				lpTempMapSvrData->m_sMAP_MOVE[iMAP_NUM] == -3)
+			{
+				vtMapSvrData.push_back(it->second);
+			}
+		}
+
+		LeaveCriticalSection(&this->m_critSVRCODE_MAP);
+
+		short sDestServerCode = -1;
+
+		if (vtMapSvrData.empty() == 0)
+		{
+			sDestServerCode = vtMapSvrData[rand() % vtMapSvrData.size()]->m_sSVR_CODE;
+		}
+
+		if (sDestServerCode != -1)
+		{
+			return sDestServerCode;
+		}
+	}
+	break;
+
+	case -2:
+	{
+		_MAPSVR_DATA * lpDestMapSvrData = NULL;
+
+		if (sSVR_CODE_BEFORE != -1)
+		{
+			EnterCriticalSection(&this->m_critSVRCODE_MAP);
+
+			std::map<int, _MAPSVR_DATA *>::iterator it = this->m_mapSVRCODE_MAP.find(sSVR_CODE_BEFORE);
+
+			if (it != this->m_mapSVRCODE_MAP.end())
+			{
+				lpDestMapSvrData = it->second;
+			}
+
+			LeaveCriticalSection(&this->m_critSVRCODE_MAP);
+
+			if (lpDestMapSvrData != NULL)
+			{
+				if (lpDestMapSvrData->m_sMAP_MOVE[iMAP_NUM] == -3)
+				{
+					return sSVR_CODE_BEFORE;
+				}
+			}
+		}
+
+		short sDestServerCode = -1;
+
+		EnterCriticalSection(&this->m_critSVRCODE_MAP);
+
+		for (std::map<int, _MAPSVR_DATA *>::iterator it = this->m_mapSVRCODE_MAP.begin(); it != this->m_mapSVRCODE_MAP.end(); it++)
+		{
+			_MAPSVR_DATA * lpTempMapSvrData = it->second;
+
+			if (lpTempMapSvrData != NULL &&
+				lpTempMapSvrData->m_bIN_USE == TRUE &&
+				lpTempMapSvrData->m_sMAP_MOVE[iMAP_NUM] == -3)
+			{
+				sDestServerCode = lpTempMapSvrData->m_sSVR_CODE;
+			}
+		}
+
+		LeaveCriticalSection(&this->m_critSVRCODE_MAP);
+
+		if (sDestServerCode != -1)
+		{
+			return sDestServerCode;
+		}
+	}
+	break;
+
+	case -3:
+		return g_ConfigRead.server.GetGameServerCode();
+		break;
+
+	default:
+		if (sMAP_MOVE_INFO > -1)
+		{
+			_MAPSVR_DATA * lpDestMapSvrData = NULL;
+
+			EnterCriticalSection(&this->m_critSVRCODE_MAP);
+
+			std::map<int, _MAPSVR_DATA *>::iterator it = this->m_mapSVRCODE_MAP.find(sMAP_MOVE_INFO);
+
+			if (it != this->m_mapSVRCODE_MAP.end())
+			{
+				lpDestMapSvrData = it->second;
+			}
+
+			LeaveCriticalSection(&this->m_critSVRCODE_MAP);
+
+			if (lpDestMapSvrData != NULL &&
+				lpDestMapSvrData->m_bIN_USE == TRUE &&
+				lpDestMapSvrData->m_sMAP_MOVE[iMAP_NUM] == -3)
+			{
+				return sMAP_MOVE_INFO;
+			}
+
+			short sDestServerCode = -1;
+
+			EnterCriticalSection(&this->m_critSVRCODE_MAP);
+
+			for (it = this->m_mapSVRCODE_MAP.begin(); it != this->m_mapSVRCODE_MAP.end(); it++)
+			{
+				_MAPSVR_DATA * lpTempMapSvrData = it->second;
+
+				if (lpTempMapSvrData != NULL &&
+					lpTempMapSvrData->m_bIN_USE == TRUE &&
+					lpTempMapSvrData->m_sMAP_MOVE[iMAP_NUM] == -3)
+				{
+					sDestServerCode = lpTempMapSvrData->m_sSVR_CODE;
+				}
+			}
+
+			LeaveCriticalSection(&this->m_critSVRCODE_MAP);
+
+			if (sDestServerCode != -1)
+			{
+				return sDestServerCode;
+			}
+		}
+		else
+		{
+			return g_ConfigRead.server.GetGameServerCode();
+		}
+	}
+
+	return g_ConfigRead.server.GetGameServerCode();
+}
+
+
+
+BOOL CMapServerManager::GetSvrCodeData(WORD wServerCode, char* lpszIpAddress, WORD * lpwPort)
+{
+	if (!lpszIpAddress || !lpwPort)
+		return FALSE;
+
+	_MAPSVR_DATA * lpMapSvrData = NULL;
+
+	EnterCriticalSection(&this->m_critSVRCODE_MAP);
+
+	std::map<int, _MAPSVR_DATA *>::iterator it = this->m_mapSVRCODE_MAP.find(wServerCode);
+
+	if (it != this->m_mapSVRCODE_MAP.end())
+	{
+		lpMapSvrData = it->second;
+	}
+
+	LeaveCriticalSection(&this->m_critSVRCODE_MAP);
+
+	if (lpMapSvrData == NULL)
+		return FALSE;
+
+	strcpy(lpszIpAddress, lpMapSvrData->m_cIPADDR);
+	*lpwPort = lpMapSvrData->m_wPORT;
+
+	return TRUE;
+}
+
 
 CMapServerManager	g_MapServerManager;
 

@@ -367,7 +367,7 @@ void CPersonalStore::CGPShopReqBuyList(PMSG_REQ_BUYLIST_FROM_PSHOP * lpMsg, int 
 		return;
 	}
 
-	if (gGameObjects[aSourceIndex].Type != OBJ_USER)
+	if (gGameObjects[aSourceIndex]->Type != OBJ_USER)
 	{
 		this->CGPShopAnsBuyList(aSourceIndex, -1, 2, 0);
 		return;
@@ -391,7 +391,7 @@ void CPersonalStore::CGPShopReqBuyList(PMSG_REQ_BUYLIST_FROM_PSHOP * lpMsg, int 
 		return;
 	}
 
-	if (gGameObjects[aSourceIndex].CloseCount >= 0)
+	if (gGameObjects[aSourceIndex]->CloseCount >= 0)
 	{
 		this->CGPShopAnsBuyItem(aSourceIndex, -1, 0, 2);
 		return;
@@ -409,15 +409,15 @@ void CPersonalStore::CGPShopReqBuyList(PMSG_REQ_BUYLIST_FROM_PSHOP * lpMsg, int 
 		return;
 	}
 
-	if (gGameObjects[aSourceIndex].m_bMapSvrMoveQuit == true || gGameObjects[aSourceIndex].m_bMapSvrMoveReq == true || gGameObjects[aSourceIndex].m_bMapSvrMoveReq_2 == true ||
+	if (gGameObjects[aSourceIndex]->m_bMapSvrMoveQuit == true || gGameObjects[aSourceIndex]->m_bMapSvrMoveReq == true || gGameObjects[aSourceIndex]->m_bMapSvrMoveReq_2 == true ||
 		lpObj.m_bMapSvrMoveQuit == true || lpObj.m_bMapSvrMoveReq == true || lpObj.m_bMapSvrMoveReq_2 == true)
 	{
 		sLog->outBasic("[PShop][SuspectCheating] Map Of Move request was trying to Shop List. Buyer ID[%s]Name[%s] Seller Name[%s]",
-			gGameObjects[aSourceIndex].AccountID, gGameObjects[aSourceIndex].Name, lpObj.Name);
+			gGameObjects[aSourceIndex]->AccountID, gGameObjects[aSourceIndex]->Name, lpObj.Name);
 		return;
 	}
 
-	if (gGameObjects[aSourceIndex].m_PlayerData->m_JoinUnityBattle == TRUE ||
+	if (gGameObjects[aSourceIndex]->m_PlayerData->m_JoinUnityBattle == TRUE ||
 		lpObj.m_PlayerData->m_JoinUnityBattle == TRUE ||
 		g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 	{
@@ -448,14 +448,14 @@ void CPersonalStore::CGPShopReqBuyList(PMSG_REQ_BUYLIST_FROM_PSHOP * lpMsg, int 
 		sLog->outBasic("[Fix Inv.Ptr] False Location - %s, %d", __FILE__, __LINE__);
 	}
 
-	if (gGameObjects[aSourceIndex].pTransaction == 1)
+	if (gGameObjects[aSourceIndex]->pTransaction == 1)
 	{
 		return;
 	}
 
-	gGameObjects[aSourceIndex].m_bPShopWantDeal = true;
-	gGameObjects[aSourceIndex].m_iPShopDealerIndex = lpObj.m_Index;
-	memcpy(gGameObjects[aSourceIndex].m_szPShopDealerName, lpObj.Name, MAX_ACCOUNT_LEN);
+	gGameObjects[aSourceIndex]->m_bPShopWantDeal = true;
+	gGameObjects[aSourceIndex]->m_iPShopDealerIndex = lpObj.m_Index;
+	memcpy(gGameObjects[aSourceIndex]->m_szPShopDealerName, lpObj.Name, MAX_ACCOUNT_LEN);
 	this->CGPShopAnsBuyList(aSourceIndex, lpObj.m_Index, 1, false);
 
 
@@ -570,7 +570,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 		return;
 	}
 
-	if (gGameObjects[aSourceIndex].CloseCount >= 0)
+	if (gGameObjects[aSourceIndex]->CloseCount >= 0)
 	{
 		g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, -1, 0, 2);
 		return;
@@ -626,7 +626,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 		return;
 	}
 
-	if ((gGameObjects[aSourceIndex].Penalty & 4) == 4 || (gGameObjects[aSourceIndex].Penalty & 8) == 8)
+	if ((gGameObjects[aSourceIndex]->Penalty & 4) == 4 || (gGameObjects[aSourceIndex]->Penalty & 8) == 8)
 	{
 		g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, lpObj.m_Index, 0, 9);
 
@@ -649,14 +649,14 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 		if (gObjCheckSerial0ItemList(&lpObj.Inventory1[lpMsg->btItemPos]) != FALSE)
 		{
 			MsgOutput(lpObj.m_Index, Lang.GetText(0, 259));
-			GSProtocol.GCReFillSend(aSourceIndex, gGameObjects[aSourceIndex].Life, 0xFD, 1, gGameObjects[aSourceIndex].iShield);
+			GSProtocol.GCReFillSend(aSourceIndex, gGameObjects[aSourceIndex]->Life, 0xFD, 1, gGameObjects[aSourceIndex]->iShield);
 
 			return;
 		}
 
 		if (::gObjInventorySearchSerialNumber(&gGameObjects[aSourceIndex], lpObj.Inventory1[lpMsg->btItemPos].GetNumber()) == FALSE)
 		{
-			GSProtocol.GCReFillSend(aSourceIndex, gGameObjects[aSourceIndex].Life, 0xFD, 1, gGameObjects[aSourceIndex].iShield);
+			GSProtocol.GCReFillSend(aSourceIndex, gGameObjects[aSourceIndex]->Life, 0xFD, 1, gGameObjects[aSourceIndex]->iShield);
 			return;
 		}
 
@@ -681,7 +681,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 				__FILE__, __LINE__);
 		}
 
-		if (gGameObjects[aSourceIndex].pTransaction == 1)
+		if (gGameObjects[aSourceIndex]->pTransaction == 1)
 		{
 			return;
 		}
@@ -717,7 +717,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 
 				if (lpObj.m_bOff == false && lpObj.m_PlayerData->ISBOT == false)
 				{
-					if (gGameObjects[aSourceIndex].m_PlayerData->Money < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
+					if (gGameObjects[aSourceIndex]->m_PlayerData->Money < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
 					{
 						g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, lpObj.m_Index, 0, 7);
 
@@ -728,7 +728,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 				{
 					if (!lpObj.m_bOff && lpObj.m_PlayerData->ISBOT == false)
 					{
-						if (gGameObjects[aSourceIndex].m_PlayerData->Money < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
+						if (gGameObjects[aSourceIndex]->m_PlayerData->Money < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
 						{
 							g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, lpObj.m_Index, 0, 7);
 
@@ -741,7 +741,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 						{
 						case 0:
 						{
-							if (gGameObjects[aSourceIndex].m_PlayerData->Money < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
+							if (gGameObjects[aSourceIndex]->m_PlayerData->Money < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
 							{
 								g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, lpObj.m_Index, 0, 7);
 								return;
@@ -750,7 +750,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 						break;
 						case 1:
 						{
-							if (gGameObjects[aSourceIndex].m_PlayerData->m_WCoinC < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
+							if (gGameObjects[aSourceIndex]->m_PlayerData->m_WCoinC < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
 							{
 								g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, lpObj.m_Index, 0, 7);
 								return;
@@ -759,7 +759,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 						break;
 						case 2:
 						{
-							if (gGameObjects[aSourceIndex].m_PlayerData->m_GoblinPoint < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
+							if (gGameObjects[aSourceIndex]->m_PlayerData->m_GoblinPoint < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
 							{
 								g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, lpObj.m_Index, 0, 7);
 								return;
@@ -768,7 +768,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 						break;
 						case 3:
 						{
-							if (gGameObjects[aSourceIndex].m_PlayerData->m_GoblinPoint < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
+							if (gGameObjects[aSourceIndex]->m_PlayerData->m_GoblinPoint < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
 							{
 								g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, lpObj.m_Index, 0, 7);
 								return;
@@ -783,7 +783,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 						{
 						case 0:
 						{
-							if (gGameObjects[aSourceIndex].m_PlayerData->Money < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
+							if (gGameObjects[aSourceIndex]->m_PlayerData->Money < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
 							{
 								g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, lpObj.m_Index, 0, 7);
 								return;
@@ -792,7 +792,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 						break;
 						case 1:
 						{
-							if (gGameObjects[aSourceIndex].m_PlayerData->m_WCoinC < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
+							if (gGameObjects[aSourceIndex]->m_PlayerData->m_WCoinC < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
 							{
 								g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, lpObj.m_Index, 0, 7);
 								return;
@@ -801,7 +801,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 						break;
 						case 2:
 						{
-							if (gGameObjects[aSourceIndex].m_PlayerData->m_GoblinPoint < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
+							if (gGameObjects[aSourceIndex]->m_PlayerData->m_GoblinPoint < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
 							{
 								g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, lpObj.m_Index, 0, 7);
 								return;
@@ -810,7 +810,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 						break;
 						case 3:
 						{
-							if (gGameObjects[aSourceIndex].m_PlayerData->m_GoblinPoint < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
+							if (gGameObjects[aSourceIndex]->m_PlayerData->m_GoblinPoint < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
 							{
 								g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, lpObj.m_Index, 0, 7);
 								return;
@@ -1015,28 +1015,28 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 					{
 					case 0:
 					{
-						gGameObjects[aSourceIndex].m_PlayerData->Money -= dwCost;
+						gGameObjects[aSourceIndex]->m_PlayerData->Money -= dwCost;
 
 						lpObj.m_PlayerData->Money += (dwCost - round(dwCost * 0.01));
 					}
 					break;
 					case 1:
 					{
-						gGameObjects[aSourceIndex].m_PlayerData->m_WCoinC -= dwCost;
+						gGameObjects[aSourceIndex]->m_PlayerData->m_WCoinC -= dwCost;
 						::GDReqInGameShopPointAdd(aSourceIndex, 0, 0.00 - dwCost);
 						::GDReqInGameShopPointAdd(lpObj.m_Index, 0, dwCost);
 					}
 					break;
 					case 2:
 					{
-						gGameObjects[aSourceIndex].m_PlayerData->m_GoblinPoint -= dwCost;
+						gGameObjects[aSourceIndex]->m_PlayerData->m_GoblinPoint -= dwCost;
 						::GDReqInGameShopPointAdd(aSourceIndex, 2, 0.00 - dwCost);
 						::GDReqInGameShopPointAdd(lpObj.m_Index, 2, dwCost);
 					}
 					break;
 					case 3:
 					{
-						gGameObjects[aSourceIndex].m_PlayerData->m_GoblinPoint -= dwCost;
+						gGameObjects[aSourceIndex]->m_PlayerData->m_GoblinPoint -= dwCost;
 						::GDReqInGameShopPointAdd(aSourceIndex, 2, 0.00 - dwCost);
 						::GDReqInGameShopPointAdd(lpObj.m_Index, 2, dwCost);
 					}
@@ -1049,24 +1049,24 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 					{
 					case 0:
 					{
-						gGameObjects[aSourceIndex].m_PlayerData->Money -= dwCost;
+						gGameObjects[aSourceIndex]->m_PlayerData->Money -= dwCost;
 					}
 					break;
 					case 1:
 					{
-						gGameObjects[aSourceIndex].m_PlayerData->m_WCoinC -= dwCost;
+						gGameObjects[aSourceIndex]->m_PlayerData->m_WCoinC -= dwCost;
 						::GDReqInGameShopPointAdd(aSourceIndex, 0, 0.00 - dwCost);
 					}
 					break;
 					case 2:
 					{
-						gGameObjects[aSourceIndex].m_PlayerData->m_GoblinPoint -= dwCost;
+						gGameObjects[aSourceIndex]->m_PlayerData->m_GoblinPoint -= dwCost;
 						::GDReqInGameShopPointAdd(aSourceIndex, 2, 0.00 - dwCost);
 					}
 					break;
 					case 3:
 					{
-						gGameObjects[aSourceIndex].m_PlayerData->m_GoblinPoint -= dwCost;
+						gGameObjects[aSourceIndex]->m_PlayerData->m_GoblinPoint -= dwCost;
 						::GDReqInGameShopPointAdd(aSourceIndex, 2, 0.00 - dwCost);
 					}
 					break;
@@ -1074,11 +1074,11 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 				}
 				else
 				{
-					gGameObjects[aSourceIndex].m_PlayerData->Money -= dwCost;
+					gGameObjects[aSourceIndex]->m_PlayerData->Money -= dwCost;
 					lpObj.m_PlayerData->Money += (dwCost - round(dwCost * 0.01)); // tax
 				}
 
-				GSProtocol.GCMoneySend(aSourceIndex, gGameObjects[aSourceIndex].m_PlayerData->Money);
+				GSProtocol.GCMoneySend(aSourceIndex, gGameObjects[aSourceIndex]->m_PlayerData->Money);
 				GSProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
 
 				if (lpObj.m_PlayerData->ISBOT == false)
@@ -1097,7 +1097,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 
 				if (lpObj.m_PlayerData->ISBOT == true && g_BotSystem.GetBotType(lpObj.m_Index) == BOT_SHOP)
 				{
-					BotShopLog->Output("[BOT SHOP] [%s][%s][%s] Buy %s from %s for %d", gGameObjects[aSourceIndex].m_PlayerData->Ip_addr, gGameObjects[aSourceIndex].AccountID, gGameObjects[aSourceIndex].Name, ItemAttribute[iITEM_LOG_TYPE].Name, lpObj.Name, dwCost);
+					BotShopLog->Output("[BOT SHOP] [%s][%s][%s] Buy %s from %s for %d", gGameObjects[aSourceIndex]->m_PlayerData->Ip_addr, gGameObjects[aSourceIndex]->AccountID, gGameObjects[aSourceIndex]->Name, ItemAttribute[iITEM_LOG_TYPE].Name, lpObj.Name, dwCost);
 				}
 				if (g_PersonalStore.PShop_CheckInventoryEmpty(lpObj.m_Index) == true)
 				{
@@ -1130,7 +1130,7 @@ void CPersonalStore::CGPShopAnsBuyItem(int aSourceIndex, int aTargetIndex, int i
 	pMsg.NumberL = SET_NUMBERL(aTargetIndex);
 	pMsg.btItemPos = iItemPos;
 	pMsg.Result = btResult;
-	ItemByteConvert(pMsg.cItemInfo, gGameObjects[aSourceIndex].Inventory1[iItemPos]);
+	ItemByteConvert(pMsg.cItemInfo, gGameObjects[aSourceIndex]->Inventory1[iItemPos]);
 
 	IOCP.DataSend(aSourceIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
@@ -1153,7 +1153,7 @@ void CPersonalStore::CGPShopAnsSoldItem(int aSourceIndex, int aTargetIndex, int 
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0x3F, 0x08, sizeof(pMsg));
 	pMsg.btItemPos = iItemPos;
-	memcpy(pMsg.btName, gGameObjects[aTargetIndex].Name, MAX_ACCOUNT_LEN);
+	memcpy(pMsg.btName, gGameObjects[aTargetIndex]->Name, MAX_ACCOUNT_LEN);
 
 	IOCP.DataSend(aSourceIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
@@ -1220,7 +1220,7 @@ void CPersonalStore::PShop_ViewportListRegenarate(short aIndex)
 			continue;
 		}
 
-		if (lpObj.VpPlayer[n].state == 2 && lpObj.VpPlayer[n].type == OBJ_USER && gGameObjects[tObjIndex].m_bPShopOpen == 1)
+		if (lpObj.VpPlayer[n].state == 2 && lpObj.VpPlayer[n].type == OBJ_USER && gGameObjects[tObjIndex]->m_bPShopOpen == 1)
 		{
 			iPShopOpenIndex[iVpOpenCount] = tObjIndex;
 			iVpOpenCount++;
@@ -1242,7 +1242,7 @@ void CPersonalStore::PShop_ViewportListRegenarate(short aIndex)
 				{
 					lpMsgBody[iVpAddCount].btNumberL = SET_NUMBERL(WORD(tObjIndex));
 					lpMsgBody[iVpAddCount].btNumberH = SET_NUMBERH(WORD(tObjIndex));
-					memcpy(lpMsgBody[iVpAddCount].szPShopText, gGameObjects[tObjIndex].m_szPShopText, sizeof(gGameObjects[tObjIndex].m_szPShopText));
+					memcpy(lpMsgBody[iVpAddCount].szPShopText, gGameObjects[tObjIndex]->m_szPShopText, sizeof(gGameObjects[tObjIndex]->m_szPShopText));
 					iVpAddCount++;
 				}
 			}
@@ -1250,7 +1250,7 @@ void CPersonalStore::PShop_ViewportListRegenarate(short aIndex)
 			{
 				lpMsgBody[iVpAddCount].btNumberL = SET_NUMBERL(WORD(tObjIndex));
 				lpMsgBody[iVpAddCount].btNumberH = SET_NUMBERH(WORD(tObjIndex));
-				memcpy(lpMsgBody[iVpAddCount].szPShopText, gGameObjects[tObjIndex].m_szPShopText, sizeof(gGameObjects[tObjIndex].m_szPShopText));
+				memcpy(lpMsgBody[iVpAddCount].szPShopText, gGameObjects[tObjIndex]->m_szPShopText, sizeof(gGameObjects[tObjIndex]->m_szPShopText));
 				iVpAddCount++;
 			}
 			else
@@ -1293,9 +1293,9 @@ void CPersonalStore::PShop_ViewportListRegenarate(short aIndex)
 
 		if (ObjectMaxRange(iDealerIndex) == true && gObjIsConnected(iDealerIndex) != 0)
 		{
-			if (gGameObjects[iDealerIndex].Type == OBJ_USER)
+			if (gGameObjects[iDealerIndex]->Type == OBJ_USER)
 			{
-				if (gGameObjects[iDealerIndex].m_bPShopOpen == 0)
+				if (gGameObjects[iDealerIndex]->m_bPShopOpen == 0)
 				{
 					lpObj.m_bPShopWantDeal = 0;
 					lpObj.m_iPShopDealerIndex = -1;
@@ -1303,7 +1303,7 @@ void CPersonalStore::PShop_ViewportListRegenarate(short aIndex)
 
 					this->CGPShopAnsDealerClosedShop(aIndex, iDealerIndex);
 				}
-				else if (gGameObjects[iDealerIndex].CloseCount >= 0 || lpObj.CloseCount >= 0)
+				else if (gGameObjects[iDealerIndex]->CloseCount >= 0 || lpObj.CloseCount >= 0)
 				{
 					lpObj.m_bPShopWantDeal = 0;
 					lpObj.m_iPShopDealerIndex = -1;
@@ -1311,7 +1311,7 @@ void CPersonalStore::PShop_ViewportListRegenarate(short aIndex)
 
 					this->CGPShopAnsDealerClosedShop(aIndex, iDealerIndex);
 				}
-				else if (gGameObjects[iDealerIndex].m_bPShopItemChange == 1)
+				else if (gGameObjects[iDealerIndex]->m_bPShopItemChange == 1)
 				{
 					this->CGPShopAnsBuyList(aIndex, iDealerIndex, 1, 1);
 				}

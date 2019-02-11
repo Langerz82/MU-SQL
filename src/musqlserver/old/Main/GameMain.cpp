@@ -676,20 +676,20 @@ void GameMonsterAllAdd()
 
 			if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE)
 			{
-				if (gGameObjects[result].Class == 216)
+				if (gGameObjects[result]->Class == 216)
 				{
 					g_CastleSiege.SetCrownIndex(result);
 				}
 
-				if (CRYWOLF_MAP_RANGE(gGameObjects[result].MapNumber))
+				if (CRYWOLF_MAP_RANGE(gGameObjects[result]->MapNumber))
 				{
-					if (gGameObjects[result].Type == OBJ_NPC)
+					if (gGameObjects[result]->Type == OBJ_NPC)
 					{
-						if (gGameObjects[result].Class == 406 || gGameObjects[result].Class == 407)
+						if (gGameObjects[result]->Class == 406 || gGameObjects[result]->Class == 407)
 						{
 
 						}
-						else if (CRYWOLF_ALTAR_CLASS_RANGE(gGameObjects[result].Class)) //Altar?
+						else if (CRYWOLF_ALTAR_CLASS_RANGE(gGameObjects[result]->Class)) //Altar?
 						{
 							g_Crywolf.m_ObjSpecialNPC.AddObj(result);
 						}
@@ -700,18 +700,18 @@ void GameMonsterAllAdd()
 					}
 				}
 
-				if (CRYWOLF_MAP_RANGE(gGameObjects[result].MapNumber))
+				if (CRYWOLF_MAP_RANGE(gGameObjects[result]->MapNumber))
 				{
-					if (gGameObjects[result].Type == OBJ_MONSTER)
+					if (gGameObjects[result]->Type == OBJ_MONSTER)
 					{
 						g_Crywolf.m_ObjCommonMonster.AddObj(result);
 					}
 				}
 			}
 
-			if ( CHECK_CLASS(gGameObjects[result].MapNumber, MAP_INDEX_CRYWOLF_FIRSTZONE) )
+			if ( CHECK_CLASS(gGameObjects[result]->MapNumber, MAP_INDEX_CRYWOLF_FIRSTZONE) )
 			{
-				if ( gGameObjects[result].Type == OBJ_MONSTER )
+				if ( gGameObjects[result]->Type == OBJ_MONSTER )
 				{
 					g_Crywolf.m_ObjCommonMonster.AddObj(result);
 				}
@@ -998,11 +998,11 @@ void ExDataClientMsgProc(WPARAM wParam, LPARAM lParam)
 
 					IOCP.DataSend(i, (unsigned char*)&pMsg, sizeof(pMsg) );
 
-					gGameObjects[i].m_FriendServerOnline = FRIEND_SERVER_STATE_OFFLINE;
+					gGameObjects[i]->m_FriendServerOnline = FRIEND_SERVER_STATE_OFFLINE;
 
-					if (gGameObjects[i].m_PlayerData->m_bUsePartyMatching == true)
+					if (gGameObjects[i]->m_PlayerData->m_bUsePartyMatching == true)
 					{
-						if (gGameObjects[i].PartyNumber < 0)
+						if (gGameObjects[i]->PartyNumber < 0)
 						{
 							GSProtocol.GCPartyDelUserSendNoMessage(i);
 						}
@@ -1013,11 +1013,11 @@ void ExDataClientMsgProc(WPARAM wParam, LPARAM lParam)
 						}
 					}
 
-					gGameObjects[i].m_PlayerData->m_nPartyMatchingIndex = -1;
-					gGameObjects[i].m_PlayerData->m_bUsePartyMatching = false;
-					gGameObjects[i].m_PlayerData->m_bPartyMatchingLeader = false;
-					gGameObjects[i].m_PlayerData->m_nPartyMatchingMemberCount = 0;
-					gGameObjects[i].m_PlayerData->m_bUseGuildMatching = false;
+					gGameObjects[i]->m_PlayerData->m_nPartyMatchingIndex = -1;
+					gGameObjects[i]->m_PlayerData->m_bUsePartyMatching = false;
+					gGameObjects[i]->m_PlayerData->m_bPartyMatchingLeader = false;
+					gGameObjects[i]->m_PlayerData->m_nPartyMatchingMemberCount = 0;
+					gGameObjects[i]->m_PlayerData->m_bUseGuildMatching = false;
 				}
 			}
 

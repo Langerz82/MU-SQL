@@ -2,6 +2,13 @@
 #define _MU_MUENUMS_H_
 
 
+
+enum
+{
+	CS_SERVER_SELECT = 0x03,
+	CS_CLIENT_CONNECT = 0x06
+};
+
 enum eMasterSkillType
 {
 	// DK MSKILL

@@ -220,9 +220,9 @@ void CDarkSpirit::ModeAttackRandom()
 			{
 				EnableAttack = FALSE;
 				
-				if ( gGameObjects[tObjNum].Life > 0.0f && (gGameObjects[tObjNum].Class < 100 || gGameObjects[tObjNum].Class  > 110 ) )
+				if ( gGameObjects[tObjNum]->Life > 0.0f && (gGameObjects[tObjNum]->Class < 100 || gGameObjects[tObjNum]->Class  > 110 ) )
 				{
-					if ( lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum].m_RecallMon < 0)
+					if ( lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
 					{
 						EnableAttack = TRUE;
 					}
@@ -234,13 +234,13 @@ void CDarkSpirit::ModeAttackRandom()
 
 					else
 					{
-						int lc85 = gGameObjects[tObjNum].m_Index;
+						int lc85 = gGameObjects[tObjNum]->m_Index;
 						
-						if ( gGameObjects[tObjNum].Type == OBJ_MONSTER )
+						if ( gGameObjects[tObjNum]->Type == OBJ_MONSTER )
 						{
-							if ( gGameObjects[tObjNum].m_RecallMon >= 0 )
+							if ( gGameObjects[tObjNum]->m_RecallMon >= 0 )
 							{
-								lc85 = gGameObjects[gGameObjects[tObjNum].m_RecallMon].m_Index; 
+								lc85 = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index; 
 							}
 						}
 
@@ -249,17 +249,17 @@ void CDarkSpirit::ModeAttackRandom()
 							EnableAttack = TRUE;
 						}
 
-						if ( gGameObjects[tObjNum].Type == OBJ_USER && g_GensSystem.IsMapBattleZone(lpObj.MapNumber) == TRUE && g_GensSystem.IsPkEnable(lpObj, &gGameObjects[lc85]) == TRUE )
+						if ( gGameObjects[tObjNum]->Type == OBJ_USER && g_GensSystem.IsMapBattleZone(lpObj.MapNumber) == TRUE && g_GensSystem.IsPkEnable(lpObj, &gGameObjects[lc85]) == TRUE )
 						{
 							EnableAttack = TRUE;
 						}
 
-						if(gGameObjects[tObjNum].Class >= 678 && gGameObjects[tObjNum].Class <= 680)
+						if(gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
 						{
 							EnableAttack = TRUE;
 						}
 
-						if ( IMPERIAL_MAP_RANGE(gGameObjects[tObjNum].MapNumber) == TRUE )
+						if ( IMPERIAL_MAP_RANGE(gGameObjects[tObjNum]->MapNumber) == TRUE )
 						{
 							EnableAttack = g_ImperialGuardian.IsAttackAbleMonster(tObjNum);
 						}
@@ -267,7 +267,7 @@ void CDarkSpirit::ModeAttackRandom()
 
 					if ( EnableAttack != FALSE )
 					{
-						if ( lpObj.MapNumber == gGameObjects[tObjNum].MapNumber )
+						if ( lpObj.MapNumber == gGameObjects[tObjNum]->MapNumber )
 						{
 							dis = gObjCalDistance(lpObj, &gGameObjects[tObjNum]);
 							
@@ -464,7 +464,7 @@ void CDarkSpirit::RangeAttack(CGameObject &lpObj, int aTargetIndex)
 			{
 				EnableAttack = FALSE;
 				
-				if ( lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum].m_RecallMon < 0)
+				if ( lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
 				{
 					EnableAttack = TRUE;
 				}
@@ -476,13 +476,13 @@ void CDarkSpirit::RangeAttack(CGameObject &lpObj, int aTargetIndex)
 
 				else
 				{
-					int lc10 = gGameObjects[tObjNum].m_Index;
+					int lc10 = gGameObjects[tObjNum]->m_Index;
 
-					if ( gGameObjects[tObjNum].Type == OBJ_MONSTER )
+					if ( gGameObjects[tObjNum]->Type == OBJ_MONSTER )
 					{
-						if ( gGameObjects[tObjNum].m_RecallMon >= 0 )
+						if ( gGameObjects[tObjNum]->m_RecallMon >= 0 )
 						{
-							lc10 = gGameObjects[gGameObjects[tObjNum].m_RecallMon].m_Index;
+							lc10 = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
 						}
 					}
 
@@ -491,12 +491,12 @@ void CDarkSpirit::RangeAttack(CGameObject &lpObj, int aTargetIndex)
 						EnableAttack = TRUE;
 					}
 
-					if ( gGameObjects[tObjNum].Type == OBJ_USER && g_GensSystem.IsMapBattleZone(lpObj.MapNumber) == TRUE && g_GensSystem.IsPkEnable(lpObj, &gGameObjects[tObjNum]) == TRUE )
+					if ( gGameObjects[tObjNum]->Type == OBJ_USER && g_GensSystem.IsMapBattleZone(lpObj.MapNumber) == TRUE && g_GensSystem.IsPkEnable(lpObj, &gGameObjects[tObjNum]) == TRUE )
 					{
 						EnableAttack = TRUE;
 					}
 
-					if(gGameObjects[tObjNum].Class >= 678 && gGameObjects[tObjNum].Class <= 680)
+					if(gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}

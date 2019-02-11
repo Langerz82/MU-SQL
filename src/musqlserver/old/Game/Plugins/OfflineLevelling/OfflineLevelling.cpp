@@ -576,7 +576,7 @@ int COfflineLevelling::GetOffLevelerCount()
 	int counter = 0;
 	for(int i=g_ConfigRead.server.GetObjectStartUserIndex();i<g_ConfigRead.server.GetObjectMax();i++)
 	{
-		if(gGameObjects[i].Connected == 3 && gGameObjects[i].Type == OBJ_USER && gGameObjects[i].m_bOffLevel )
+		if(gGameObjects[i]->Connected == 3 && gGameObjects[i]->Type == OBJ_USER && gGameObjects[i]->m_bOffLevel )
 		{
 			counter++;
 		}

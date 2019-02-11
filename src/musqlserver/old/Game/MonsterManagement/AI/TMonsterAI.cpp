@@ -111,7 +111,7 @@ void TMonsterAI::ProcessStateMsg(CGameObject &lpObj, int iMsgCode, int iIndex, i
 			break;
 
 		case 2:
-			if ( gGameObjects[iIndex].Live != FALSE )
+			if ( gGameObjects[iIndex]->Live != FALSE )
 			{
 				gObjBackSpring(lpObj, &gGameObjects[iIndex]);
 			}
@@ -200,7 +200,7 @@ void TMonsterAI::MonsterMoveProc()
 {
 	for ( int i=0;i<g_ConfigRead.server.GetObjectMaxMonster();i++)
 	{
-		if ( gGameObjects[i].m_iCurrentAI !=  0 )
+		if ( gGameObjects[i]->m_iCurrentAI !=  0 )
 		{
 			TMonsterAI::MonsterMove(i);
 		}

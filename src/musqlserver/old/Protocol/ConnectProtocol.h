@@ -8,9 +8,6 @@
 #include "ConnectServer.h"
 #include "ConnectEngine.h"
 
-struct PMSG_SERVER_SELECT;
-struct PMSG_CLIENTVERSION;
-
 void CSProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, int aIndex, bool Encrypt, int serial);
 void UDPProtocolCore(BYTE hCode, LPBYTE aRecv, int aLen);
 void UDPSetServerInfo(PMSG_SERVERINFO * aRecv);

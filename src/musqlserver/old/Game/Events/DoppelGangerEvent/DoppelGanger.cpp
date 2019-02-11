@@ -97,16 +97,16 @@ int CDoppelGangerMonsterHerd::AddMonsterEX(int iMonsterType, int bAttackFirst, i
 		return -1;
 	}
 
-	gGameObjects[iIndex].m_PosNum = -1;
-	gGameObjects[iIndex].X = cX;
-	gGameObjects[iIndex].Y = cY;
-	gGameObjects[iIndex].MapNumber = this->m_iMapNumber;
-	gGameObjects[iIndex].TX = gGameObjects[iIndex].X;
-	gGameObjects[iIndex].TY = gGameObjects[iIndex].Y;
-	gGameObjects[iIndex].m_OldX = gGameObjects[iIndex].X;
-	gGameObjects[iIndex].m_OldY = gGameObjects[iIndex].Y;
-	gGameObjects[iIndex].StartX = gGameObjects[iIndex].X;
-	gGameObjects[iIndex].StartY = gGameObjects[iIndex].Y;
+	gGameObjects[iIndex]->m_PosNum = -1;
+	gGameObjects[iIndex]->X = cX;
+	gGameObjects[iIndex]->Y = cY;
+	gGameObjects[iIndex]->MapNumber = this->m_iMapNumber;
+	gGameObjects[iIndex]->TX = gGameObjects[iIndex]->X;
+	gGameObjects[iIndex]->TY = gGameObjects[iIndex]->Y;
+	gGameObjects[iIndex]->m_OldX = gGameObjects[iIndex]->X;
+	gGameObjects[iIndex]->m_OldY = gGameObjects[iIndex]->Y;
+	gGameObjects[iIndex]->StartX = gGameObjects[iIndex]->X;
+	gGameObjects[iIndex]->StartY = gGameObjects[iIndex]->Y;
 
 	LPMONSTER_ATTRIBUTE iAttr = gMAttr.GetAttr(iMonsterType);
 
@@ -116,21 +116,21 @@ int CDoppelGangerMonsterHerd::AddMonsterEX(int iMonsterType, int bAttackFirst, i
 		return -1;
 	}
 
-	gGameObjects[iIndex].Level = iAttr->m_Level;
+	gGameObjects[iIndex]->Level = iAttr->m_Level;
 	gObjSetMonster(iIndex, iMonsterType);
 
-	gGameObjects[iIndex].Level = nMonsterLevel;
-	gGameObjects[iIndex].Life = nMonsterHp;
-	gGameObjects[iIndex].MaxLife = nMonsterHp;
-	gGameObjects[iIndex].m_Defense = nMonsterDef;
-	gGameObjects[iIndex].m_AttackDamageMin = nMonsterAttMin;
-	gGameObjects[iIndex].m_AttackDamageMax = nMonsterAttMax;
-	gGameObjects[iIndex].m_MagicDefense = nMonsterDef;
-	gGameObjects[iIndex].MaxRegenTime = 1000;
-	gGameObjects[iIndex].Dir = rand() % 8;
-	gGameObjects[iIndex].m_bIsInMonsterHerd = true;
-	gGameObjects[iIndex].m_bIsMonsterAttackFirst = bAttackFirst;
-	gGameObjects[iIndex].m_lpMonsterHerd = this;
+	gGameObjects[iIndex]->Level = nMonsterLevel;
+	gGameObjects[iIndex]->Life = nMonsterHp;
+	gGameObjects[iIndex]->MaxLife = nMonsterHp;
+	gGameObjects[iIndex]->m_Defense = nMonsterDef;
+	gGameObjects[iIndex]->m_AttackDamageMin = nMonsterAttMin;
+	gGameObjects[iIndex]->m_AttackDamageMax = nMonsterAttMax;
+	gGameObjects[iIndex]->m_MagicDefense = nMonsterDef;
+	gGameObjects[iIndex]->MaxRegenTime = 1000;
+	gGameObjects[iIndex]->Dir = rand() % 8;
+	gGameObjects[iIndex]->m_bIsInMonsterHerd = true;
+	gGameObjects[iIndex]->m_bIsMonsterAttackFirst = bAttackFirst;
+	gGameObjects[iIndex]->m_lpMonsterHerd = this;
 
 	EnterCriticalSection(&this->m_critMonsterHerd);
 
@@ -340,7 +340,7 @@ void CDoppelGangerMonsterHerd::MonsterBaseAct(CGameObject &lpObj)
 					break;
 				}
 
-				int map = gGameObjects[tuser].MapNumber;
+				int map = gGameObjects[tuser]->MapNumber;
 
 				if (MAX_MAP_RANGE(map) == FALSE)
 				{
@@ -348,9 +348,9 @@ void CDoppelGangerMonsterHerd::MonsterBaseAct(CGameObject &lpObj)
 					break;
 				}
 
-				if (MapC[map].CheckWall(lpObj.X, lpObj.Y, gGameObjects[tuser].X, gGameObjects[tuser].Y) == TRUE)
+				if (MapC[map].CheckWall(lpObj.X, lpObj.Y, gGameObjects[tuser]->X, gGameObjects[tuser]->Y) == TRUE)
 				{
-					BYTE attr = MapC[map].GetAttr(gGameObjects[tuser].X, gGameObjects[tuser].Y);
+					BYTE attr = MapC[map].GetAttr(gGameObjects[tuser]->X, gGameObjects[tuser]->Y);
 
 					if ((attr & 1) != 1)
 					{
@@ -1152,11 +1152,11 @@ BOOL CDoppelGanger::AddDoppelgangerUser(CGameObject &lpObj)
 
 				if (nUserIndex > 0)
 				{
-					if (BC_MAP_RANGE(gGameObjects[nUserIndex].MapNumber) == FALSE &&
-						DS_MAP_RANGE(gGameObjects[nUserIndex].MapNumber) == FALSE &&
-						CC_MAP_RANGE(gGameObjects[nUserIndex].MapNumber) == FALSE &&
-						IT_MAP_RANGE(gGameObjects[nUserIndex].MapNumber) == FALSE &&
-						IMPERIAL_MAP_RANGE(gGameObjects[nUserIndex].MapNumber) == FALSE)
+					if (BC_MAP_RANGE(gGameObjects[nUserIndex]->MapNumber) == FALSE &&
+						DS_MAP_RANGE(gGameObjects[nUserIndex]->MapNumber) == FALSE &&
+						CC_MAP_RANGE(gGameObjects[nUserIndex]->MapNumber) == FALSE &&
+						IT_MAP_RANGE(gGameObjects[nUserIndex]->MapNumber) == FALSE &&
+						IMPERIAL_MAP_RANGE(gGameObjects[nUserIndex]->MapNumber) == FALSE)
 					{
 						IOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
 					}
@@ -2354,16 +2354,16 @@ int CDoppelGanger::AddMiddleTreasureBox(int nMapNumber, BYTE cX, BYTE cY)
 		return iIndex;
 	}
 
-	gGameObjects[iIndex].m_PosNum = -1;
-	gGameObjects[iIndex].X = cX;
-	gGameObjects[iIndex].Y = cY;
-	gGameObjects[iIndex].MapNumber = nMapNumber;
-	gGameObjects[iIndex].TX = gGameObjects[iIndex].X;
-	gGameObjects[iIndex].TY = gGameObjects[iIndex].Y;
-	gGameObjects[iIndex].m_OldX = gGameObjects[iIndex].X;
-	gGameObjects[iIndex].m_OldY = gGameObjects[iIndex].Y;
-	gGameObjects[iIndex].StartX = gGameObjects[iIndex].X;
-	gGameObjects[iIndex].StartY = gGameObjects[iIndex].Y;
+	gGameObjects[iIndex]->m_PosNum = -1;
+	gGameObjects[iIndex]->X = cX;
+	gGameObjects[iIndex]->Y = cY;
+	gGameObjects[iIndex]->MapNumber = nMapNumber;
+	gGameObjects[iIndex]->TX = gGameObjects[iIndex]->X;
+	gGameObjects[iIndex]->TY = gGameObjects[iIndex]->Y;
+	gGameObjects[iIndex]->m_OldX = gGameObjects[iIndex]->X;
+	gGameObjects[iIndex]->m_OldY = gGameObjects[iIndex]->Y;
+	gGameObjects[iIndex]->StartX = gGameObjects[iIndex]->X;
+	gGameObjects[iIndex]->StartY = gGameObjects[iIndex]->Y;
 
 	LPMONSTER_ATTRIBUTE iAttr = gMAttr.GetAttr(541);
 
@@ -2373,17 +2373,17 @@ int CDoppelGanger::AddMiddleTreasureBox(int nMapNumber, BYTE cX, BYTE cY)
 		return -1;
 	}
 
-	gGameObjects[iIndex].DieRegen = FALSE;
-	gGameObjects[iIndex].m_State = 1;
-	gGameObjects[iIndex].Level = iAttr->m_Level;
+	gGameObjects[iIndex]->DieRegen = FALSE;
+	gGameObjects[iIndex]->m_State = 1;
+	gGameObjects[iIndex]->Level = iAttr->m_Level;
 	gObjSetMonster(iIndex, 541);
-	gGameObjects[iIndex].Life = 100.0;
-	gGameObjects[iIndex].MaxLife = 100.0;
-	gGameObjects[iIndex].m_Defense = 100;
-	gGameObjects[iIndex].m_AttackDamageMin = 100;
-	gGameObjects[iIndex].m_AttackDamageMax = 100;
-	gGameObjects[iIndex].MaxRegenTime = 1000;
-	gGameObjects[iIndex].Dir = 1;
+	gGameObjects[iIndex]->Life = 100.0;
+	gGameObjects[iIndex]->MaxLife = 100.0;
+	gGameObjects[iIndex]->m_Defense = 100;
+	gGameObjects[iIndex]->m_AttackDamageMin = 100;
+	gGameObjects[iIndex]->m_AttackDamageMax = 100;
+	gGameObjects[iIndex]->MaxRegenTime = 1000;
+	gGameObjects[iIndex]->Dir = 1;
 
 	return iIndex;
 }
@@ -2397,16 +2397,16 @@ BOOL CDoppelGanger::AddLastTreasureBox(BYTE cX, BYTE cY)
 		return FALSE;
 	}
 
-	gGameObjects[iIndex].m_PosNum = -1;
-	gGameObjects[iIndex].X = cX;
-	gGameObjects[iIndex].Y = cY;
-	gGameObjects[iIndex].MapNumber = this->m_nMapNumber;
-	gGameObjects[iIndex].TX = gGameObjects[iIndex].X;
-	gGameObjects[iIndex].TY = gGameObjects[iIndex].Y;
-	gGameObjects[iIndex].m_OldX = gGameObjects[iIndex].X;
-	gGameObjects[iIndex].m_OldY = gGameObjects[iIndex].Y;
-	gGameObjects[iIndex].StartX = gGameObjects[iIndex].X;
-	gGameObjects[iIndex].StartY = gGameObjects[iIndex].Y;
+	gGameObjects[iIndex]->m_PosNum = -1;
+	gGameObjects[iIndex]->X = cX;
+	gGameObjects[iIndex]->Y = cY;
+	gGameObjects[iIndex]->MapNumber = this->m_nMapNumber;
+	gGameObjects[iIndex]->TX = gGameObjects[iIndex]->X;
+	gGameObjects[iIndex]->TY = gGameObjects[iIndex]->Y;
+	gGameObjects[iIndex]->m_OldX = gGameObjects[iIndex]->X;
+	gGameObjects[iIndex]->m_OldY = gGameObjects[iIndex]->Y;
+	gGameObjects[iIndex]->StartX = gGameObjects[iIndex]->X;
+	gGameObjects[iIndex]->StartY = gGameObjects[iIndex]->Y;
 
 	LPMONSTER_ATTRIBUTE iAttr = gMAttr.GetAttr(542);
 
@@ -2416,17 +2416,17 @@ BOOL CDoppelGanger::AddLastTreasureBox(BYTE cX, BYTE cY)
 		return FALSE;
 	}
 
-	gGameObjects[iIndex].DieRegen = FALSE;
-	gGameObjects[iIndex].m_State = 1;
-	gGameObjects[iIndex].Level = iAttr->m_Level;
+	gGameObjects[iIndex]->DieRegen = FALSE;
+	gGameObjects[iIndex]->m_State = 1;
+	gGameObjects[iIndex]->Level = iAttr->m_Level;
 	gObjSetMonster(iIndex, 542);
-	gGameObjects[iIndex].Life = 100.0;
-	gGameObjects[iIndex].MaxLife = 100.0;
-	gGameObjects[iIndex].m_Defense = 100;
-	gGameObjects[iIndex].m_AttackDamageMin = 100;
-	gGameObjects[iIndex].m_AttackDamageMax = 100;
-	gGameObjects[iIndex].MaxRegenTime = 1000;
-	gGameObjects[iIndex].Dir = 1;
+	gGameObjects[iIndex]->Life = 100.0;
+	gGameObjects[iIndex]->MaxLife = 100.0;
+	gGameObjects[iIndex]->m_Defense = 100;
+	gGameObjects[iIndex]->m_AttackDamageMin = 100;
+	gGameObjects[iIndex]->m_AttackDamageMax = 100;
+	gGameObjects[iIndex]->MaxRegenTime = 1000;
+	gGameObjects[iIndex]->Dir = 1;
 
 	this->m_nLastTreasureBoxIndex = iIndex;
 	EnterCriticalSection(&this->m_critTreasureBox);
@@ -2445,16 +2445,16 @@ int CDoppelGanger::AddMonsterLarva(int nMapNumber, BYTE btX, BYTE btY, int nMons
 		return iIndex;
 	}
 
-	gGameObjects[iIndex].m_PosNum = -1;
-	gGameObjects[iIndex].X = btX;
-	gGameObjects[iIndex].Y = btY;
-	gGameObjects[iIndex].MapNumber = nMapNumber;
-	gGameObjects[iIndex].TX = gGameObjects[iIndex].X;
-	gGameObjects[iIndex].TY = gGameObjects[iIndex].Y;
-	gGameObjects[iIndex].m_OldX = gGameObjects[iIndex].X;
-	gGameObjects[iIndex].m_OldY = gGameObjects[iIndex].Y;
-	gGameObjects[iIndex].StartX = gGameObjects[iIndex].X;
-	gGameObjects[iIndex].StartY = gGameObjects[iIndex].Y;
+	gGameObjects[iIndex]->m_PosNum = -1;
+	gGameObjects[iIndex]->X = btX;
+	gGameObjects[iIndex]->Y = btY;
+	gGameObjects[iIndex]->MapNumber = nMapNumber;
+	gGameObjects[iIndex]->TX = gGameObjects[iIndex]->X;
+	gGameObjects[iIndex]->TY = gGameObjects[iIndex]->Y;
+	gGameObjects[iIndex]->m_OldX = gGameObjects[iIndex]->X;
+	gGameObjects[iIndex]->m_OldY = gGameObjects[iIndex]->Y;
+	gGameObjects[iIndex]->StartX = gGameObjects[iIndex]->X;
+	gGameObjects[iIndex]->StartY = gGameObjects[iIndex]->Y;
 
 	LPMONSTER_ATTRIBUTE iAttr = gMAttr.GetAttr(532);
 
@@ -2464,18 +2464,18 @@ int CDoppelGanger::AddMonsterLarva(int nMapNumber, BYTE btX, BYTE btY, int nMons
 		return -1;
 	}
 
-	gGameObjects[iIndex].DieRegen = FALSE;
-	gGameObjects[iIndex].Level = iAttr->m_Level;
+	gGameObjects[iIndex]->DieRegen = FALSE;
+	gGameObjects[iIndex]->Level = iAttr->m_Level;
 	gObjSetMonster(iIndex, 532);
-	gGameObjects[iIndex].Level = nMonsterLevel;
-	gGameObjects[iIndex].Life = nMonsterHp;
-	gGameObjects[iIndex].MaxLife = nMonsterHp;
-	gGameObjects[iIndex].m_Defense = nMonsterDef;
-	gGameObjects[iIndex].m_AttackDamageMin = nMonsterAttMin;
-	gGameObjects[iIndex].m_AttackDamageMax = nMonsterAttMax;
-	gGameObjects[iIndex].m_MagicDefense = nMonsterDef;
-	gGameObjects[iIndex].MaxRegenTime = 1000;
-	gGameObjects[iIndex].Dir = rand() % 8;
+	gGameObjects[iIndex]->Level = nMonsterLevel;
+	gGameObjects[iIndex]->Life = nMonsterHp;
+	gGameObjects[iIndex]->MaxLife = nMonsterHp;
+	gGameObjects[iIndex]->m_Defense = nMonsterDef;
+	gGameObjects[iIndex]->m_AttackDamageMin = nMonsterAttMin;
+	gGameObjects[iIndex]->m_AttackDamageMax = nMonsterAttMax;
+	gGameObjects[iIndex]->m_MagicDefense = nMonsterDef;
+	gGameObjects[iIndex]->MaxRegenTime = 1000;
+	gGameObjects[iIndex]->Dir = rand() % 8;
 
 	return iIndex;
 }

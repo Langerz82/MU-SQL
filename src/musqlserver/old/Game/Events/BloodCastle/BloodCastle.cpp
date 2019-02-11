@@ -6,9 +6,9 @@
 // ------------------------------
 // GS-N 0.99.60T 0x005004D0 - Completed
 /* Disorder with same effect in CBloodCastle::LevelUp
-		GCLevelUpMsgSend(gGameObjects[iIndex].Index, gGameObjects[iIndex].Level, gGameObjects[iIndex].LevelUpPoint, 
-			(int)((float)gGameObjects[iIndex].unk104 + gGameObjects[iIndex].fMaxLife), (int)((float)gGameObjects[iIndex].unk108 + gGameObjects[iIndex].fMaxMana),
-			gGameObjects[iIndex].iMaxBP + gGameObjects[iIndex].unkE8, AddPoint, MaxAddPoint);
+		GCLevelUpMsgSend(gGameObjects[iIndex]->Index, gGameObjects[iIndex]->Level, gGameObjects[iIndex]->LevelUpPoint, 
+			(int)((float)gGameObjects[iIndex]->unk104 + gGameObjects[iIndex]->fMaxLife), (int)((float)gGameObjects[iIndex]->unk108 + gGameObjects[iIndex]->fMaxMana),
+			gGameObjects[iIndex]->iMaxBP + gGameObjects[iIndex]->unkE8, AddPoint, MaxAddPoint);
    Problem with global variables, there is a Zero ( 4 BYTES ) space
 */
 // GS-N	1.00.18	0x005303F0	-	Completed
@@ -719,17 +719,17 @@ void CBloodCastle::ProcState_Closed(int iBridgeIndex)
 
 					for (int i= g_ConfigRead.server.GetObjectStartUserIndex();i<g_ConfigRead.server.GetObjectMax();i++)
 					{
-						if ( gGameObjects[i].Connected == PLAYER_PLAYING && gGameObjects[i].Type == OBJ_USER)
+						if ( gGameObjects[i]->Connected == PLAYER_PLAYING && gGameObjects[i]->Type == OBJ_USER)
 						{
-							if ( BC_MAP_RANGE(gGameObjects[i].MapNumber) == FALSE )
+							if ( BC_MAP_RANGE(gGameObjects[i]->MapNumber) == FALSE )
 							{
-								if ( CC_MAP_RANGE(gGameObjects[i].MapNumber) == FALSE )
+								if ( CC_MAP_RANGE(gGameObjects[i]->MapNumber) == FALSE )
 								{
-									if ( IT_MAP_RANGE(gGameObjects[i].MapNumber) == FALSE )
+									if ( IT_MAP_RANGE(gGameObjects[i]->MapNumber) == FALSE )
 									{
-										if ( DG_MAP_RANGE(gGameObjects[i].MapNumber) == FALSE )
+										if ( DG_MAP_RANGE(gGameObjects[i]->MapNumber) == FALSE )
 										{
-											if ( IMPERIAL_MAP_RANGE(gGameObjects[i].MapNumber) == FALSE )
+											if ( IMPERIAL_MAP_RANGE(gGameObjects[i]->MapNumber) == FALSE )
 											{
 												IOCP.DataSend(i, (UCHAR*)&pMsg, pMsg.h.size);
 											}
@@ -1107,22 +1107,22 @@ int  CBloodCastle::CheckEnterLevel(int iIndex, int iLevel)	// RET : [2:Error][1:
 		return 2;
 	}
 
-	if (gGameObjects[iIndex].Type != OBJ_USER || gGameObjects[iIndex].Connected <= PLAYER_LOGGED)
+	if (gGameObjects[iIndex]->Type != OBJ_USER || gGameObjects[iIndex]->Connected <= PLAYER_LOGGED)
 	{
 		return 2;
 	}
 
-	if (gGameObjects[iIndex].Level + gGameObjects[iIndex].m_PlayerData->MasterLevel >= g_sttBLOODCASTLE_LEVEL[iLevel].iLOWER_BOUND && gGameObjects[iIndex].Level + gGameObjects[iIndex].m_PlayerData->MasterLevel <= g_sttBLOODCASTLE_LEVEL[iLevel].iUPPER_BOUND)
+	if (gGameObjects[iIndex]->Level + gGameObjects[iIndex]->m_PlayerData->MasterLevel >= g_sttBLOODCASTLE_LEVEL[iLevel].iLOWER_BOUND && gGameObjects[iIndex]->Level + gGameObjects[iIndex]->m_PlayerData->MasterLevel <= g_sttBLOODCASTLE_LEVEL[iLevel].iUPPER_BOUND)
 	{
 		return 0;
 	}
 
-	if (gGameObjects[iIndex].Level + gGameObjects[iIndex].m_PlayerData->MasterLevel < g_sttBLOODCASTLE_LEVEL[iLevel].iLOWER_BOUND)
+	if (gGameObjects[iIndex]->Level + gGameObjects[iIndex]->m_PlayerData->MasterLevel < g_sttBLOODCASTLE_LEVEL[iLevel].iLOWER_BOUND)
 	{
 		return -1;
 	}
 
-	if (gGameObjects[iIndex].Level + gGameObjects[iIndex].m_PlayerData->MasterLevel  > g_sttBLOODCASTLE_LEVEL[iLevel].iUPPER_BOUND)
+	if (gGameObjects[iIndex]->Level + gGameObjects[iIndex]->m_PlayerData->MasterLevel  > g_sttBLOODCASTLE_LEVEL[iLevel].iUPPER_BOUND)
 	{
 		return 1;
 	}
@@ -1138,14 +1138,14 @@ bool CBloodCastle::CheckEnterFreeTicket(int iIndex)
 	if ( !ObjectMaxRange(iIndex) )
 		return false;
 
-	if ( gGameObjects[iIndex].Type != OBJ_USER || gGameObjects[iIndex].Connected <= PLAYER_LOGGED )
+	if ( gGameObjects[iIndex]->Type != OBJ_USER || gGameObjects[iIndex]->Connected <= PLAYER_LOGGED )
 		return false;
 
 	for (int x=0;x<MAIN_INVENTORY_SIZE;x++)
 	{
-		if ( gGameObjects[iIndex].pInventory[x].IsItem() == TRUE )
+		if ( gGameObjects[iIndex]->pInventory[x].IsItem() == TRUE )
 		{
-			if ( gGameObjects[iIndex].pInventory [x].m_Type == ITEMGET(13,47) )
+			if ( gGameObjects[iIndex]->pInventory [x].m_Type == ITEMGET(13,47) )
 			{
 				return true;
 			}
@@ -1176,7 +1176,7 @@ bool CBloodCastle::BloodCastleChaosMix(int iIndex, int iLEVEL)
 
 	PHeadSetB((LPBYTE)&pMsg.h, 0x86, sizeof(PMSG_CHAOSMIXRESULT));
 	pMsg.Result = CB_ERROR; //
-	gGameObjects[iIndex].ChaosLock = TRUE;
+	gGameObjects[iIndex]->ChaosLock = TRUE;
 
 	char szTemp[64];
 	wsprintf(szTemp, "BloodCastle Ticket Mix,%d", iLEVEL); //Season 2.5 add-on
@@ -1201,15 +1201,15 @@ bool CBloodCastle::BloodCastleChaosMix(int iIndex, int iLEVEL)
 		iMIX_SUCCESS_RATE = 80;
 	}
 
-	if ( gGameObjects[iIndex].ChaosSuccessRate > 10 )
+	if ( gGameObjects[iIndex]->ChaosSuccessRate > 10 )
 	{
 		pMsg.Result = 0xF0;
-		gGameObjects[iIndex].ChaosLock = FALSE;
+		gGameObjects[iIndex]->ChaosLock = FALSE;
 
 		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
 	}
 
-	iMIX_SUCCESS_RATE += gGameObjects[iIndex].ChaosSuccessRate;
+	iMIX_SUCCESS_RATE += gGameObjects[iIndex]->ChaosSuccessRate;
 	int iMIX_NEED_MONEY = g_iBC_ChoasMixMoney[iLEVEL - 1];
 	int iChaosTaxMoney = (int)((__int64)(iMIX_NEED_MONEY) * (__int64)(g_CastleSiegeSync.GetTaxRateChaos(iIndex)) / (__int64)100);
 
@@ -1226,16 +1226,16 @@ bool CBloodCastle::BloodCastleChaosMix(int iIndex, int iLEVEL)
 		return false;
 	}
 
-	if ( (gGameObjects[iIndex].m_PlayerData->Money - iMIX_NEED_MONEY) < 0 )
+	if ( (gGameObjects[iIndex]->m_PlayerData->Money - iMIX_NEED_MONEY) < 0 )
 	{
 		pMsg.Result = CB_BC_NOT_ENOUGH_ZEN;
 		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
 		return false;
 	}
 
-	gGameObjects[iIndex].m_PlayerData->Money -= iMIX_NEED_MONEY;
+	gGameObjects[iIndex]->m_PlayerData->Money -= iMIX_NEED_MONEY;
 	g_CastleSiegeSync.AddTributeMoney(iChaosTaxMoney);
-	GSProtocol.GCMoneySend(iIndex, gGameObjects[iIndex].m_PlayerData->Money);
+	GSProtocol.GCMoneySend(iIndex, gGameObjects[iIndex]->m_PlayerData->Money);
 
 	if ( (rand()%100) < iMIX_SUCCESS_RATE )
 	{
@@ -1331,29 +1331,29 @@ int  CBloodCastle::CheckChoasMixItem(int iIndex)
 
 	for ( int i=0;i<CHAOS_BOX_SIZE;i++)
 	{
-		if ( gGameObjects[iIndex].pChaosBox[i].IsItem() == TRUE )
+		if ( gGameObjects[iIndex]->pChaosBox[i].IsItem() == TRUE )
 		{
-			if ( gGameObjects[iIndex].pChaosBox[i].m_Type == ITEMGET(12,15) ) // Chaos
+			if ( gGameObjects[iIndex]->pChaosBox[i].m_Type == ITEMGET(12,15) ) // Chaos
 			{
 				bIsChaosGemExist = TRUE;
 			}
-			else if ( gGameObjects[iIndex].pChaosBox[i].m_Type == ITEMGET(13,16) ) //Scroll of Archangel
+			else if ( gGameObjects[iIndex]->pChaosBox[i].m_Type == ITEMGET(13,16) ) //Scroll of Archangel
 			{
-				int iSCROLL_LEVEL = gGameObjects[iIndex].pChaosBox[i].m_Level;
+				int iSCROLL_LEVEL = gGameObjects[iIndex]->pChaosBox[i].m_Level;
 				iEventItemCount++;
 				bIsAngelKingPaperExist = TRUE;
 				iAngelKingPaperLevel = iSCROLL_LEVEL;
 			}
-			else if ( gGameObjects[iIndex].pChaosBox[i].m_Type == ITEMGET(13,17) ) //Blood Bone
+			else if ( gGameObjects[iIndex]->pChaosBox[i].m_Type == ITEMGET(13,17) ) //Blood Bone
 			{
-				int iBLOOD_BONE_LEVEL = gGameObjects[iIndex].pChaosBox[i].m_Level;
+				int iBLOOD_BONE_LEVEL = gGameObjects[iIndex]->pChaosBox[i].m_Level;
 				iEventItemCount++;
 				bIsBloodBoneExist = TRUE;
 				iBloodBoneLevel = iBLOOD_BONE_LEVEL;
 			}
-			else if ( gGameObjects[iIndex].pChaosBox[i].m_Type == ITEMGET(14,53) ) //Charm
+			else if ( gGameObjects[iIndex]->pChaosBox[i].m_Type == ITEMGET(14,53) ) //Charm
 			{
-				iCharmOfLuckCount += gGameObjects[iIndex].pChaosBox[i].m_Durability;
+				iCharmOfLuckCount += gGameObjects[iIndex]->pChaosBox[i].m_Durability;
 			}
 			else
 			{
@@ -1362,7 +1362,7 @@ int  CBloodCastle::CheckChoasMixItem(int iIndex)
 		}
 	}
 
-	gGameObjects[iIndex].ChaosSuccessRate = iCharmOfLuckCount;
+	gGameObjects[iIndex]->ChaosSuccessRate = iCharmOfLuckCount;
 
 	if ( bIsOtherItemExist != FALSE )
 	{
@@ -1409,16 +1409,16 @@ int  CBloodCastle::CheckChoasMixItem(int iIndex)
 		return 10;
 	}
 
-	if ( gGameObjects[iIndex].Class == CLASS_DARKLORD || gGameObjects[iIndex].Class == CLASS_MAGUMSA || gGameObjects[iIndex].Class == CLASS_RAGEFIGHTER )
+	if ( gGameObjects[iIndex]->Class == CLASS_DARKLORD || gGameObjects[iIndex]->Class == CLASS_MAGUMSA || gGameObjects[iIndex]->Class == CLASS_RAGEFIGHTER )
 	{
-		if ( gGameObjects[iIndex].Level < g_sttBLOODCASTLE_LEVEL[0].iLOWER_BOUND_MAGUMSA )
+		if ( gGameObjects[iIndex]->Level < g_sttBLOODCASTLE_LEVEL[0].iLOWER_BOUND_MAGUMSA )
 		{
 			return 14;
 		}
 	}
 	else
 	{
-		if ( gGameObjects[iIndex].Level < g_sttBLOODCASTLE_LEVEL[0].iLOWER_BOUND )
+		if ( gGameObjects[iIndex]->Level < g_sttBLOODCASTLE_LEVEL[0].iLOWER_BOUND )
 		{
 			return 14;
 		}
@@ -1447,18 +1447,18 @@ int  CBloodCastle::CheckEnterItem(int iIndex)
 		return 0;
 	}
 
-	if ( gGameObjects[iIndex].Type != OBJ_USER || gGameObjects[iIndex].Connected <= PLAYER_LOGGED )
+	if ( gGameObjects[iIndex]->Type != OBJ_USER || gGameObjects[iIndex]->Connected <= PLAYER_LOGGED )
 	{
 		return 0;
 	}
 
 	for ( int x=0;x<MAIN_INVENTORY_SIZE;x++)
 	{
-		if ( gGameObjects[iIndex].pInventory[x].IsItem() == TRUE )
+		if ( gGameObjects[iIndex]->pInventory[x].IsItem() == TRUE )
 		{
-			if ( gGameObjects[iIndex].pInventory[x].m_Type == ITEMGET(13,18) ) // Invisibility Cloak
+			if ( gGameObjects[iIndex]->pInventory[x].m_Type == ITEMGET(13,18) ) // Invisibility Cloak
 			{
-				iITEM_LEVEL = gGameObjects[iIndex].pInventory[x].m_Level;
+				iITEM_LEVEL = gGameObjects[iIndex]->pInventory[x].m_Level;
 
 				if ( CHECK_LIMIT(iITEM_LEVEL, MAX_CLOACK_LEVEL) == FALSE )
 				{
@@ -1472,7 +1472,7 @@ int  CBloodCastle::CheckEnterItem(int iIndex)
 				}
 			}
 			
-			if ( gGameObjects[iIndex].pInventory[x].m_Type == ITEMGET(13,47) ) // 
+			if ( gGameObjects[iIndex]->pInventory[x].m_Type == ITEMGET(13,47) ) // 
 			{
 				iITEM_LEVEL = 10;
 			}
@@ -1497,32 +1497,32 @@ int  CBloodCastle::CheckQuestItem(int iIndex)
 		return -1;
 	}
 
-	if ( BC_MAP_RANGE(gGameObjects[iIndex].MapNumber) == FALSE )
+	if ( BC_MAP_RANGE(gGameObjects[iIndex]->MapNumber) == FALSE )
 	{
 		return -1;
 	}
 
-	int iBridgeIndex = this->GetBridgeIndex(gGameObjects[iIndex].MapNumber); //season3 add-on
+	int iBridgeIndex = this->GetBridgeIndex(gGameObjects[iIndex]->MapNumber); //season3 add-on
 
 	if ( this->m_BridgeData[iBridgeIndex].m_nBC_QUESTITEM_SERIAL == -1 )
 	{
 		return -1;
 	}
 
-	if ( gGameObjects[iIndex].Type != OBJ_USER || gGameObjects[iIndex].Connected <= PLAYER_LOGGED )
+	if ( gGameObjects[iIndex]->Type != OBJ_USER || gGameObjects[iIndex]->Connected <= PLAYER_LOGGED )
 	{
 		return -1;
 	}
 
 	for ( int x=0;x<INVENTORY_SIZE;x++)
 	{
-		if ( gGameObjects[iIndex].pInventory[x].IsItem() == TRUE )
+		if ( gGameObjects[iIndex]->pInventory[x].IsItem() == TRUE )
 		{
-			if ( gGameObjects[iIndex].pInventory[x].m_Type == ITEMGET(13,19) ) // Absolute Weapon of Archangel QUEST ITEM
+			if ( gGameObjects[iIndex]->pInventory[x].m_Type == ITEMGET(13,19) ) // Absolute Weapon of Archangel QUEST ITEM
 			{
-				if ( gGameObjects[iIndex].pInventory[x].m_Number	== this->m_BridgeData[iBridgeIndex].m_nBC_QUESTITEM_SERIAL )
+				if ( gGameObjects[iIndex]->pInventory[x].m_Number	== this->m_BridgeData[iBridgeIndex].m_nBC_QUESTITEM_SERIAL )
 				{
-					iITEM_LEVEL = gGameObjects[iIndex].pInventory[x].m_Level;
+					iITEM_LEVEL = gGameObjects[iIndex]->pInventory[x].m_Level;
 
 					if ( iITEM_LEVEL < 0 || iITEM_LEVEL > 2 )
 					{
@@ -1551,24 +1551,24 @@ bool CBloodCastle::CheckWalk(int iIndex, int iMoveX, int iMoveY)
 		return false;
 	}
 
-	if (MAX_MAP_RANGE(gGameObjects[iIndex].MapNumber) == FALSE)
+	if (MAX_MAP_RANGE(gGameObjects[iIndex]->MapNumber) == FALSE)
 	{
 		return false;
 	}
 	
-	if ( BC_MAP_RANGE(gGameObjects[iIndex].MapNumber) == FALSE )
+	if ( BC_MAP_RANGE(gGameObjects[iIndex]->MapNumber) == FALSE )
 	{
 		return false;
 	}
 
-	if ( gGameObjects[iIndex].Type != OBJ_USER || gGameObjects[iIndex].Connected <= PLAYER_LOGGED )
+	if ( gGameObjects[iIndex]->Type != OBJ_USER || gGameObjects[iIndex]->Connected <= PLAYER_LOGGED )
 	{
 		return false;
 	}
 
-	if ( this->GetCurrentState(gGameObjects[iIndex].m_cBloodCastleIndex ) == TRUE )
+	if ( this->GetCurrentState(gGameObjects[iIndex]->m_cBloodCastleIndex ) == TRUE )
 	{
-		BYTE btMapAttr = MapC[gGameObjects[iIndex].MapNumber].GetAttr(iMoveX, iMoveY);
+		BYTE btMapAttr = MapC[gGameObjects[iIndex]->MapNumber].GetAttr(iMoveX, iMoveY);
 
 		if ( (btMapAttr&1) != 1 )
 		{
@@ -1819,28 +1819,28 @@ void CBloodCastle::SetMonster(int iBridgeIndex)
 
 	if ( iIndex >= 0 )
 	{
-		gGameObjects[iIndex].X = this->m_BCMP_CastleGate[iBridgeIndex].m_X;
-		gGameObjects[iIndex].Y = this->m_BCMP_CastleGate[iBridgeIndex].m_Y;
-		gGameObjects[iIndex].MapNumber = this->m_BCMP_CastleGate[iBridgeIndex].m_MapNumber;
-		gGameObjects[iIndex].TX = gGameObjects[iIndex].X;
-		gGameObjects[iIndex].TY = gGameObjects[iIndex].Y;
-		gGameObjects[iIndex].m_OldX = gGameObjects[iIndex].X;
-		gGameObjects[iIndex].m_OldY = gGameObjects[iIndex].Y;
-		gGameObjects[iIndex].Dir = this->m_BCMP_CastleGate[iBridgeIndex].m_Dir;
-		gGameObjects[iIndex].StartX = gGameObjects[iIndex].X;
-		gGameObjects[iIndex].StartY = gGameObjects[iIndex].Y;
+		gGameObjects[iIndex]->X = this->m_BCMP_CastleGate[iBridgeIndex].m_X;
+		gGameObjects[iIndex]->Y = this->m_BCMP_CastleGate[iBridgeIndex].m_Y;
+		gGameObjects[iIndex]->MapNumber = this->m_BCMP_CastleGate[iBridgeIndex].m_MapNumber;
+		gGameObjects[iIndex]->TX = gGameObjects[iIndex]->X;
+		gGameObjects[iIndex]->TY = gGameObjects[iIndex]->Y;
+		gGameObjects[iIndex]->m_OldX = gGameObjects[iIndex]->X;
+		gGameObjects[iIndex]->m_OldY = gGameObjects[iIndex]->Y;
+		gGameObjects[iIndex]->Dir = this->m_BCMP_CastleGate[iBridgeIndex].m_Dir;
+		gGameObjects[iIndex]->StartX = gGameObjects[iIndex]->X;
+		gGameObjects[iIndex]->StartY = gGameObjects[iIndex]->Y;
 
 		gObjSetMonster(iIndex, wMonsterType);
 
-		gGameObjects[iIndex].m_cBloodCastleIndex = btBloodCastleIndex;
-		gGameObjects[iIndex].Dir = 1;
-		gGameObjects[iIndex].m_PosNum = -1;
-		gGameObjects[iIndex].Live = TRUE;
-		gGameObjects[iIndex].DieRegen = FALSE;
-		gGameObjects[iIndex].m_State = 1;
-		gGameObjects[iIndex].MaxRegenTime = 0;
-		gGameObjects[iIndex].MaxLife = this->m_BridgeData[btBloodCastleIndex].m_iCastleStatueHealth;
-		gGameObjects[iIndex].Life = this->m_BridgeData[btBloodCastleIndex].m_iCastleStatueHealth;
+		gGameObjects[iIndex]->m_cBloodCastleIndex = btBloodCastleIndex;
+		gGameObjects[iIndex]->Dir = 1;
+		gGameObjects[iIndex]->m_PosNum = -1;
+		gGameObjects[iIndex]->Live = TRUE;
+		gGameObjects[iIndex]->DieRegen = FALSE;
+		gGameObjects[iIndex]->m_State = 1;
+		gGameObjects[iIndex]->MaxRegenTime = 0;
+		gGameObjects[iIndex]->MaxLife = this->m_BridgeData[btBloodCastleIndex].m_iCastleStatueHealth;
+		gGameObjects[iIndex]->Life = this->m_BridgeData[btBloodCastleIndex].m_iCastleStatueHealth;
 
 	}
 	
@@ -1886,24 +1886,24 @@ void CBloodCastle::SetMonster(int iBridgeIndex)
 
 			if ( iIndex >= 0 )
 			{
-				gGameObjects[iIndex].m_PosNum = i;
-				gGameObjects[iIndex].X = this->m_BCMP_General[iBridgeIndex][i].m_X;
-				gGameObjects[iIndex].Y = this->m_BCMP_General[iBridgeIndex][i].m_Y;
-				gGameObjects[iIndex].MapNumber = this->m_BCMP_General[iBridgeIndex][i].m_MapNumber;
-				gGameObjects[iIndex].TX = gGameObjects[iIndex].X;
-				gGameObjects[iIndex].TY = gGameObjects[iIndex].Y;
-				gGameObjects[iIndex].m_OldX = gGameObjects[iIndex].X;
-				gGameObjects[iIndex].m_OldY = gGameObjects[iIndex].Y;
-				gGameObjects[iIndex].Dir = this->m_BCMP_General[iBridgeIndex][i].m_Dir;
-				gGameObjects[iIndex].StartX = gGameObjects[iIndex].X;
-				gGameObjects[iIndex].StartY = gGameObjects[iIndex].Y;
-				gGameObjects[iIndex].m_MoveRange = this->m_BCMP_General[iBridgeIndex][i].m_Dis;
-				gGameObjects[iIndex].DieRegen = FALSE;
-				gGameObjects[iIndex].m_State = 1;
+				gGameObjects[iIndex]->m_PosNum = i;
+				gGameObjects[iIndex]->X = this->m_BCMP_General[iBridgeIndex][i].m_X;
+				gGameObjects[iIndex]->Y = this->m_BCMP_General[iBridgeIndex][i].m_Y;
+				gGameObjects[iIndex]->MapNumber = this->m_BCMP_General[iBridgeIndex][i].m_MapNumber;
+				gGameObjects[iIndex]->TX = gGameObjects[iIndex]->X;
+				gGameObjects[iIndex]->TY = gGameObjects[iIndex]->Y;
+				gGameObjects[iIndex]->m_OldX = gGameObjects[iIndex]->X;
+				gGameObjects[iIndex]->m_OldY = gGameObjects[iIndex]->Y;
+				gGameObjects[iIndex]->Dir = this->m_BCMP_General[iBridgeIndex][i].m_Dir;
+				gGameObjects[iIndex]->StartX = gGameObjects[iIndex]->X;
+				gGameObjects[iIndex]->StartY = gGameObjects[iIndex]->Y;
+				gGameObjects[iIndex]->m_MoveRange = this->m_BCMP_General[iBridgeIndex][i].m_Dis;
+				gGameObjects[iIndex]->DieRegen = FALSE;
+				gGameObjects[iIndex]->m_State = 1;
 				gObjSetMonster(iIndex, wIndex);
-				gGameObjects[iIndex].MaxRegenTime = this->m_iBC_MONSTER_REGEN;
-				gGameObjects[iIndex].m_cBloodCastleIndex = btBridgeIndex;
-				gGameObjects[iIndex].m_ItemRate = 100;
+				gGameObjects[iIndex]->MaxRegenTime = this->m_iBC_MONSTER_REGEN;
+				gGameObjects[iIndex]->m_cBloodCastleIndex = btBridgeIndex;
+				gGameObjects[iIndex]->m_ItemRate = 100;
 			}
 		}
 
@@ -1945,10 +1945,10 @@ void CBloodCastle::SetBossMonster(int iBridgeIndex)
 			{
 				this->SetPosMonster(iBridgeIndex, iIndex, x, wMonsterType);
 				gObjSetMonster(iIndex, wMonsterType);
-				gGameObjects[iIndex].MaxRegenTime = this->m_iBC_MONSTER_REGEN;
-				gGameObjects[iIndex].m_cBloodCastleIndex = iBridgeIndex;
-				gGameObjects[iIndex].m_ItemRate = 100;
-				gGameObjects[iIndex].Dir = rand() % 8;
+				gGameObjects[iIndex]->MaxRegenTime = this->m_iBC_MONSTER_REGEN;
+				gGameObjects[iIndex]->m_cBloodCastleIndex = iBridgeIndex;
+				gGameObjects[iIndex]->m_ItemRate = 100;
+				gGameObjects[iIndex]->Dir = rand() % 8;
 			}
 		}
 	}
@@ -1975,29 +1975,29 @@ void CBloodCastle::SetSaintStatue(int iBridgeIndex)
 
 		if ( iIndex >= 0 )
 		{
-			gGameObjects[iIndex].X = this->m_BCMP_SaintStatue[iBridgeIndex].m_X;
-			gGameObjects[iIndex].Y = this->m_BCMP_SaintStatue[iBridgeIndex].m_Y;
-			gGameObjects[iIndex].MapNumber = this->m_BCMP_SaintStatue[iBridgeIndex].m_MapNumber;
-			gGameObjects[iIndex].TX = gGameObjects[iIndex].X;
-			gGameObjects[iIndex].TY = gGameObjects[iIndex].Y;
-			gGameObjects[iIndex].m_OldX = gGameObjects[iIndex].X;
-			gGameObjects[iIndex].m_OldY = gGameObjects[iIndex].Y;
-			gGameObjects[iIndex].Dir = this->m_BCMP_SaintStatue[iBridgeIndex].m_Dir;
-			gGameObjects[iIndex].StartX = gGameObjects[iIndex].X;
-			gGameObjects[iIndex].StartY = gGameObjects[iIndex].Y;
-			gGameObjects[iIndex].DieRegen = FALSE;
+			gGameObjects[iIndex]->X = this->m_BCMP_SaintStatue[iBridgeIndex].m_X;
+			gGameObjects[iIndex]->Y = this->m_BCMP_SaintStatue[iBridgeIndex].m_Y;
+			gGameObjects[iIndex]->MapNumber = this->m_BCMP_SaintStatue[iBridgeIndex].m_MapNumber;
+			gGameObjects[iIndex]->TX = gGameObjects[iIndex]->X;
+			gGameObjects[iIndex]->TY = gGameObjects[iIndex]->Y;
+			gGameObjects[iIndex]->m_OldX = gGameObjects[iIndex]->X;
+			gGameObjects[iIndex]->m_OldY = gGameObjects[iIndex]->Y;
+			gGameObjects[iIndex]->Dir = this->m_BCMP_SaintStatue[iBridgeIndex].m_Dir;
+			gGameObjects[iIndex]->StartX = gGameObjects[iIndex]->X;
+			gGameObjects[iIndex]->StartY = gGameObjects[iIndex]->Y;
+			gGameObjects[iIndex]->DieRegen = FALSE;
 			::gObjSetMonster(iIndex, wMonsterType);
-			gGameObjects[iIndex].Class = rand() % 3 + 132;
-			gGameObjects[iIndex].m_cBloodCastleIndex = btBloodCastleIndex;
-			gGameObjects[iIndex].m_ItemRate = 100;
-			gGameObjects[iIndex].Dir = 1;
-			gGameObjects[iIndex].m_PosNum = -1;
-			gGameObjects[iIndex].Live = TRUE;
-			gGameObjects[iIndex].DieRegen = 0;
-			gGameObjects[iIndex].m_State = 1;
-			gGameObjects[iIndex].MaxRegenTime = 0;
-			gGameObjects[iIndex].MaxLife = this->m_BridgeData[btBloodCastleIndex].m_iCastleStatueHealth;
-			gGameObjects[iIndex].Life = this->m_BridgeData[btBloodCastleIndex].m_iCastleStatueHealth;
+			gGameObjects[iIndex]->Class = rand() % 3 + 132;
+			gGameObjects[iIndex]->m_cBloodCastleIndex = btBloodCastleIndex;
+			gGameObjects[iIndex]->m_ItemRate = 100;
+			gGameObjects[iIndex]->Dir = 1;
+			gGameObjects[iIndex]->m_PosNum = -1;
+			gGameObjects[iIndex]->Live = TRUE;
+			gGameObjects[iIndex]->DieRegen = 0;
+			gGameObjects[iIndex]->m_State = 1;
+			gGameObjects[iIndex]->MaxRegenTime = 0;
+			gGameObjects[iIndex]->MaxLife = this->m_BridgeData[btBloodCastleIndex].m_iCastleStatueHealth;
+			gGameObjects[iIndex]->Life = this->m_BridgeData[btBloodCastleIndex].m_iCastleStatueHealth;
 
 		}
 	}
@@ -2076,7 +2076,7 @@ int  CBloodCastle::EnterUserBridge(int iBridgeIndex, int iUserIndex)
 			this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iEXP = 0;
 			this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iScore = 0;
 			this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iUserState = 0;
-			gGameObjects[iUserIndex].m_bBloodCastleComplete = false;
+			gGameObjects[iUserIndex]->m_bBloodCastleComplete = false;
 			break;
 		}
 	}
@@ -2098,7 +2098,7 @@ int  CBloodCastle::LevelUp(int iIndex, int iAddExp)
 		return 0;
 	}
 
-	if ( gGameObjects[iIndex].Type != OBJ_USER )
+	if ( gGameObjects[iIndex]->Type != OBJ_USER )
 	{
 		return 0;
 	}
@@ -2113,45 +2113,45 @@ int  CBloodCastle::LevelUp(int iIndex, int iAddExp)
 
 	::gObjSetExpPetItem(iIndex, iAddExp);
 
-	if ( gGameObjects[iIndex].Level >= g_ConfigRead.data.common.UserMaxLevel )
+	if ( gGameObjects[iIndex]->Level >= g_ConfigRead.data.common.UserMaxLevel )
 	{
-		::GSProtocol.GCServerMsgStringSend(Lang.GetText(0,45), gGameObjects[iIndex].m_Index, 1);
+		::GSProtocol.GCServerMsgStringSend(Lang.GetText(0,45), gGameObjects[iIndex]->m_Index, 1);
 		return 0;
 	}
 
-	if ( (gGameObjects[iIndex].m_PlayerData->Experience + iAddExp) < gGameObjects[iIndex].m_PlayerData->NextExp )
+	if ( (gGameObjects[iIndex]->m_PlayerData->Experience + iAddExp) < gGameObjects[iIndex]->m_PlayerData->NextExp )
 	{
-		gGameObjects[iIndex].m_PlayerData->Experience += iAddExp;
+		gGameObjects[iIndex]->m_PlayerData->Experience += iAddExp;
 	}
 	else
 	{
-		iLEFT_EXP = gGameObjects[iIndex].m_PlayerData->Experience + iAddExp - gGameObjects[iIndex].m_PlayerData->NextExp;
-		gGameObjects[iIndex].m_PlayerData->Experience = gGameObjects[iIndex].m_PlayerData->NextExp;
-		gGameObjects[iIndex].Level++;
+		iLEFT_EXP = gGameObjects[iIndex]->m_PlayerData->Experience + iAddExp - gGameObjects[iIndex]->m_PlayerData->NextExp;
+		gGameObjects[iIndex]->m_PlayerData->Experience = gGameObjects[iIndex]->m_PlayerData->NextExp;
+		gGameObjects[iIndex]->Level++;
 
-		if ( g_ConfigRead.data.reset.iBlockLevelUpPointAfterResets == -1 || gGameObjects[iIndex].m_PlayerData->m_iResets < g_ConfigRead.data.reset.iBlockLevelUpPointAfterResets )
+		if ( g_ConfigRead.data.reset.iBlockLevelUpPointAfterResets == -1 || gGameObjects[iIndex]->m_PlayerData->m_iResets < g_ConfigRead.data.reset.iBlockLevelUpPointAfterResets )
 		{
-			if ( gGameObjects[iIndex].Class == CLASS_DARKLORD || gGameObjects[iIndex].Class == CLASS_MAGUMSA || gGameObjects[iIndex].Class == CLASS_RAGEFIGHTER || gGameObjects[iIndex].Class == CLASS_GROWLANCER )
+			if ( gGameObjects[iIndex]->Class == CLASS_DARKLORD || gGameObjects[iIndex]->Class == CLASS_MAGUMSA || gGameObjects[iIndex]->Class == CLASS_RAGEFIGHTER || gGameObjects[iIndex]->Class == CLASS_GROWLANCER )
 			{
-				gGameObjects[iIndex].m_PlayerData->LevelUpPoint += g_MaxStatsInfo.GetClass.LevelUpPointMGDL;
+				gGameObjects[iIndex]->m_PlayerData->LevelUpPoint += g_MaxStatsInfo.GetClass.LevelUpPointMGDL;
 			}
 
 			else
 			{
-				gGameObjects[iIndex].m_PlayerData->LevelUpPoint += g_MaxStatsInfo.GetClass.LevelUpPointNormal;
+				gGameObjects[iIndex]->m_PlayerData->LevelUpPoint += g_MaxStatsInfo.GetClass.LevelUpPointNormal;
 			}
 
-			if ( gGameObjects[iIndex].m_PlayerData->PlusStatQuestClear != false )
+			if ( gGameObjects[iIndex]->m_PlayerData->PlusStatQuestClear != false )
 			{
-				gGameObjects[iIndex].m_PlayerData->LevelUpPoint++;
+				gGameObjects[iIndex]->m_PlayerData->LevelUpPoint++;
 
 			}
 		}
 
-		gGameObjects[iIndex].MaxLife += DCInfo.DefClass[gGameObjects[iIndex].Class].LevelLife;
-		gGameObjects[iIndex].MaxMana += DCInfo.DefClass[gGameObjects[iIndex].Class].LevelMana;
-		gGameObjects[iIndex].Life = gGameObjects[iIndex].MaxLife;
-		gGameObjects[iIndex].Mana = gGameObjects[iIndex].MaxMana;
+		gGameObjects[iIndex]->MaxLife += DCInfo.DefClass[gGameObjects[iIndex]->Class].LevelLife;
+		gGameObjects[iIndex]->MaxMana += DCInfo.DefClass[gGameObjects[iIndex]->Class].LevelMana;
+		gGameObjects[iIndex]->Life = gGameObjects[iIndex]->MaxLife;
+		gGameObjects[iIndex]->Mana = gGameObjects[iIndex]->MaxMana;
 		gObjNextExpCal(&gGameObjects[iIndex]);
 		gObjSetBP(iIndex);
 
@@ -2160,16 +2160,16 @@ int  CBloodCastle::LevelUp(int iIndex, int iAddExp)
 		short MinusPoint = 0;
 		short MaxMinusPoint = 0;
 
-		gObjGetStatPointState(gGameObjects[iIndex].m_Index, AddPoint, MaxAddPoint, MinusPoint, MaxMinusPoint);*/
+		gObjGetStatPointState(gGameObjects[iIndex]->m_Index, AddPoint, MaxAddPoint, MinusPoint, MaxMinusPoint);*/
 
 
-		GSProtocol.GCLevelUpMsgSend(gGameObjects[iIndex].m_Index, 1);//gGameObjects[iIndex].Level, gGameObjects[iIndex].LevelUpPoint, 
-		//	(int)((float)gGameObjects[iIndex].AddLife + gGameObjects[iIndex].MaxLife), (int)((float)gGameObjects[iIndex].AddMana + gGameObjects[iIndex].MaxMana),
-		//	gGameObjects[iIndex].MaxBP + gGameObjects[iIndex].AddBP, AddPoint, MaxAddPoint);
-		gObjCalcMaxLifePower(gGameObjects[iIndex].m_Index);
+		GSProtocol.GCLevelUpMsgSend(gGameObjects[iIndex]->m_Index, 1);//gGameObjects[iIndex]->Level, gGameObjects[iIndex]->LevelUpPoint, 
+		//	(int)((float)gGameObjects[iIndex]->AddLife + gGameObjects[iIndex]->MaxLife), (int)((float)gGameObjects[iIndex]->AddMana + gGameObjects[iIndex]->MaxMana),
+		//	gGameObjects[iIndex]->MaxBP + gGameObjects[iIndex]->AddBP, AddPoint, MaxAddPoint);
+		gObjCalcMaxLifePower(gGameObjects[iIndex]->m_Index);
 	}
 
-	//GJSetCharacterInfo(&gGameObjects[iIndex], gGameObjects[iIndex].m_Index, 0);
+	//GJSetCharacterInfo(&gGameObjects[iIndex], gGameObjects[iIndex]->m_Index, 0);
 	
 	return iLEFT_EXP;
 }
@@ -2222,20 +2222,20 @@ bool CBloodCastle::AddExperience(int iIndex, int iEXP)
 		return false;
 	}
 
-	if ( BC_BRIDGE_RANGE(gGameObjects[iIndex].m_cBloodCastleIndex) == FALSE )
+	if ( BC_BRIDGE_RANGE(gGameObjects[iIndex]->m_cBloodCastleIndex) == FALSE )
 	{
 		return false;
 	}
 
-	if ( BC_SUB_BRIDGE_RANGE(gGameObjects[iIndex].m_cBloodCastleSubIndex) == FALSE )
+	if ( BC_SUB_BRIDGE_RANGE(gGameObjects[iIndex]->m_cBloodCastleSubIndex) == FALSE )
 	{
 		return false;
 	}
 
 	if ( iEXP > 0 )
 	{
-		this->m_BridgeData[gGameObjects[iIndex].m_cBloodCastleIndex].m_UserData[gGameObjects[iIndex].m_cBloodCastleSubIndex].m_iEXP += iEXP;
-		gGameObjects[iIndex].m_iBloodCastleEXP += iEXP;
+		this->m_BridgeData[gGameObjects[iIndex]->m_cBloodCastleIndex].m_UserData[gGameObjects[iIndex]->m_cBloodCastleSubIndex].m_iEXP += iEXP;
+		gGameObjects[iIndex]->m_iBloodCastleEXP += iEXP;
 	}
 
 	return true;
@@ -2460,9 +2460,9 @@ void CBloodCastle::SendCastleEntranceBlockInfo(int iBridgeIndex, bool bLive)
 	{
 		int iMapNumber = this->GetBridgeMapNumber(iBridgeIndex); //season3 add-on
 
-		if ( gGameObjects[i].MapNumber == iMapNumber ) //season3 changed
+		if ( gGameObjects[i]->MapNumber == iMapNumber ) //season3 changed
 		{
-			if ( gGameObjects[i].Connected > PLAYER_LOGGED )
+			if ( gGameObjects[i]->Connected > PLAYER_LOGGED )
 			{
 				IOCP.DataSend(i,(LPBYTE)lpMsg, lpMsg->h.size);
 			}
@@ -2502,9 +2502,9 @@ void CBloodCastle::SendCastleBridgeBlockInfo(int iBridgeIndex, bool bLive)
 	{
 		int iMapNumber = this->GetBridgeMapNumber(iBridgeIndex); //season3 add-on
 
-		if ( gGameObjects[i].MapNumber == iMapNumber ) //season3 changed
+		if ( gGameObjects[i]->MapNumber == iMapNumber ) //season3 changed
 		{
-			if ( gGameObjects[i].Connected > PLAYER_LOGGED )
+			if ( gGameObjects[i]->Connected > PLAYER_LOGGED )
 			{
 				IOCP.DataSend(i, (LPBYTE)lpMsg, lpMsg->h.size);
 
@@ -2553,9 +2553,9 @@ void CBloodCastle::SendCastleDoorBlockInfo(int iBridgeIndex, bool bLive)
 	{
 		int iMapNumber = this->GetBridgeMapNumber(iBridgeIndex); //season3 add-on
 
-		if ( gGameObjects[i].MapNumber == iMapNumber ) //season3 changed
+		if ( gGameObjects[i]->MapNumber == iMapNumber ) //season3 changed
 		{
-			if ( gGameObjects[i].Connected > PLAYER_LOGGED )
+			if ( gGameObjects[i]->Connected > PLAYER_LOGGED )
 			{
 				IOCP.DataSend(i, (LPBYTE)lpMsg, lpMsg->h.size);
 			}
@@ -2749,11 +2749,11 @@ void CBloodCastle::SearchUserDeleteQuestItem(int iIndex)
 
 	for ( int x=0;x<INVENTORY_SIZE;x++)
 	{
-		if ( gGameObjects[iIndex].pInventory[x].IsItem() == TRUE )
+		if ( gGameObjects[iIndex]->pInventory[x].IsItem() == TRUE )
 		{
-			if ( gGameObjects[iIndex].pInventory[x].m_Type == ITEMGET(13,19) )
+			if ( gGameObjects[iIndex]->pInventory[x].m_Type == ITEMGET(13,19) )
 			{
-				int iLEVEL = gGameObjects[iIndex].pInventory[x].m_Level;
+				int iLEVEL = gGameObjects[iIndex]->pInventory[x].m_Level;
 
 				if ( BC_WEAPON_LEVEL_RANGE(iLEVEL) != FALSE )
 				{
@@ -2777,37 +2777,37 @@ void CBloodCastle::SearchUserDropQuestItem(int iIndex)
 		return;
 	}
 
-	if ( gGameObjects[iIndex].Type != OBJ_USER || gGameObjects[iIndex].Connected <= PLAYER_LOGGED )
+	if ( gGameObjects[iIndex]->Type != OBJ_USER || gGameObjects[iIndex]->Connected <= PLAYER_LOGGED )
 	{
 		return;
 	}
 
 	for ( int x=0;x<INVENTORY_SIZE;x++)
 	{
-		if ( gGameObjects[iIndex].pInventory[x].IsItem() == TRUE )
+		if ( gGameObjects[iIndex]->pInventory[x].IsItem() == TRUE )
 		{
-			if ( gGameObjects[iIndex].pInventory[x].m_Type == ITEMGET(13,19) )
+			if ( gGameObjects[iIndex]->pInventory[x].m_Type == ITEMGET(13,19) )
 			{
-				int iLEVEL = gGameObjects[iIndex].pInventory[x].m_Level;
+				int iLEVEL = gGameObjects[iIndex]->pInventory[x].m_Level;
 
 				if ( BC_WEAPON_LEVEL_RANGE(iLEVEL) != FALSE )
 				{
 					BYTE pMsg[6];
 					pMsg[5] = x;
-					pMsg[3] = gGameObjects[iIndex].X;
-					pMsg[4] = gGameObjects[iIndex].Y;
+					pMsg[3] = gGameObjects[iIndex]->X;
+					pMsg[4] = gGameObjects[iIndex]->Y;
 
-					int iBC_INDEX = this->GetBridgeIndex(gGameObjects[iIndex].MapNumber); //season3 add-on
+					int iBC_INDEX = this->GetBridgeIndex(gGameObjects[iIndex]->MapNumber); //season3 add-on
 
-					this->DropItemDirectly(iBC_INDEX, gGameObjects[iIndex].m_Index, ITEMGET(13, 19), x); //season3 add-on
+					this->DropItemDirectly(iBC_INDEX, gGameObjects[iIndex]->m_Index, ITEMGET(13, 19), x); //season3 add-on
 
-					if ( BC_MAP_RANGE(gGameObjects[iIndex].MapNumber) != FALSE )
+					if ( BC_MAP_RANGE(gGameObjects[iIndex]->MapNumber) != FALSE )
 					{
-						int iBC_INDEX = this->GetBridgeIndex(gGameObjects[iIndex].MapNumber);
+						int iBC_INDEX = this->GetBridgeIndex(gGameObjects[iIndex]->MapNumber);
 
 						if ( this->m_BridgeData[iBC_INDEX].m_nBC_QUESTITEM_SERIAL != -1 )
 						{
-							if ( this->m_BridgeData[iBC_INDEX].m_nBC_QUESTITEM_SERIAL == gGameObjects[iIndex].pInventory[x].m_Number )
+							if ( this->m_BridgeData[iBC_INDEX].m_nBC_QUESTITEM_SERIAL == gGameObjects[iIndex]->pInventory[x].m_Number )
 							{
 								this->m_BridgeData[iBC_INDEX].m_iBC_QUEST_ITEM_USER_INDEX = -1;
 							}
@@ -2835,13 +2835,13 @@ void CBloodCastle::SetUserState(int iIndex, int iState)
 		return;
 	}
 
-	if ( gGameObjects[iIndex].Type != OBJ_USER )
+	if ( gGameObjects[iIndex]->Type != OBJ_USER )
 	{
 		return;
 	}
 
-	int iBridgeIndex = gGameObjects[iIndex].m_cBloodCastleIndex;
-	int iBridgeSubIndex = gGameObjects[iIndex].m_cBloodCastleSubIndex;
+	int iBridgeIndex = gGameObjects[iIndex]->m_cBloodCastleIndex;
+	int iBridgeSubIndex = gGameObjects[iIndex]->m_cBloodCastleSubIndex;
 
 	if ( BC_BRIDGE_RANGE(iBridgeIndex) == FALSE )
 	{
@@ -2864,7 +2864,7 @@ void CBloodCastle::SetUserState(int iIndex, int iState)
 			break;
 
 		case 2:
-			if ( gGameObjects[iIndex].PartyNumber >= 0 )
+			if ( gGameObjects[iIndex]->PartyNumber >= 0 )
 			{
 				for ( int i=0;i<MAX_BLOOD_CASTLE_SUB_BRIDGE;i++)
 				{
@@ -2878,7 +2878,7 @@ void CBloodCastle::SetUserState(int iIndex, int iState)
 						continue;
 					}
 
-					if ( gGameObjects[iIndex].PartyNumber == gGameObjects[this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex].PartyNumber )
+					if ( gGameObjects[iIndex]->PartyNumber == gGameObjects[this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex].PartyNumber )
 					{
 						if ( BC_MAP_RANGE( gGameObjects[this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex ].MapNumber ) != FALSE )
 						{
@@ -2961,10 +2961,10 @@ void CBloodCastle::GiveReward_Win(int iIndex, int iBridgeIndex)
 		return;
 	}
 
-	if ( gGameObjects[iIndex].Connected > PLAYER_LOGGED )
+	if ( gGameObjects[iIndex]->Connected > PLAYER_LOGGED )
 	{
-		gGameObjects[iIndex].Name[MAX_ACCOUNT_LEN] = 0;
-		wsprintf(szNOTIFY_MSG, Lang.GetText(0,70), gGameObjects[iIndex].Name);
+		gGameObjects[iIndex]->Name[MAX_ACCOUNT_LEN] = 0;
+		wsprintf(szNOTIFY_MSG, Lang.GetText(0,70), gGameObjects[iIndex]->Name);
 	}
 	else
 	{
@@ -3212,14 +3212,14 @@ int  CBloodCastle::CalcSendRewardEXP(int iIndex, int iEXP)
 		return 0;
 	}
 
-	if ( gGameObjects[iIndex].Connected != PLAYER_PLAYING )
+	if ( gGameObjects[iIndex]->Connected != PLAYER_PLAYING )
 	{
 		return 0;
 	}
 
 	iRET_EXP = iCAL_EXP;
 
-	if ( gGameObjects[iIndex].Type == OBJ_USER )
+	if ( gGameObjects[iIndex]->Type == OBJ_USER )
 	{
 		while ( iCAL_EXP > 0 )
 		{
@@ -3227,7 +3227,7 @@ int  CBloodCastle::CalcSendRewardEXP(int iIndex, int iEXP)
 			{
 				CheckItemOptForGetExpExRenewal(&gGameObjects[iIndex], 0, iCAL_EXP, 0, TRUE);
 
-				iCAL_EXP = (iCAL_EXP) * this->m_BridgeData[gGameObjects[iIndex].m_cBloodCastleIndex].m_iBC_REWARD_EXP; //season 4.5 add-on
+				iCAL_EXP = (iCAL_EXP) * this->m_BridgeData[gGameObjects[iIndex]->m_cBloodCastleIndex].m_iBC_REWARD_EXP; //season 4.5 add-on
 				iRET_EXP = (iCAL_EXP);
 
 				iCAL_EXP = this->LevelUp(iIndex, iCAL_EXP);
@@ -3259,22 +3259,22 @@ int  CBloodCastle::CalcSendRewardZEN(int iIndex, int iZEN)
 		return 0;
 	}
 
-	if ( gGameObjects[iIndex].Connected != PLAYER_PLAYING )
+	if ( gGameObjects[iIndex]->Connected != PLAYER_PLAYING )
 	{
 		return 0;
 	}
 
 	if ( gObjCheckMaxZen(iIndex, iZEN) == FALSE )
 	{
-		iRET_ZEN = MAX_ZEN - gGameObjects[iIndex].m_PlayerData->Money;
-		gGameObjects[iIndex].m_PlayerData->Money += iRET_ZEN;
+		iRET_ZEN = MAX_ZEN - gGameObjects[iIndex]->m_PlayerData->Money;
+		gGameObjects[iIndex]->m_PlayerData->Money += iRET_ZEN;
 
 		return iRET_ZEN;
 	}
 
-	gGameObjects[iIndex].m_PlayerData->Money += iZEN;
+	gGameObjects[iIndex]->m_PlayerData->Money += iZEN;
 	iRET_ZEN = iZEN;
-	GSProtocol.GCMoneySend(iIndex, gGameObjects[iIndex].m_PlayerData->Money);
+	GSProtocol.GCMoneySend(iIndex, gGameObjects[iIndex]->m_PlayerData->Money);
 
 
 	return iRET_ZEN;
@@ -3292,7 +3292,7 @@ void CBloodCastle::DropReward(int iIndex)
 		return;
 	}
 
-	switch(gGameObjects[iIndex].m_cBloodCastleIndex)
+	switch(gGameObjects[iIndex]->m_cBloodCastleIndex)
 	{
 		case 0:
 			g_BagManager.UseBag_GremoryCase(iIndex, BAG_EVENT, EVENTBAG_BC1, iIndex, GC_STORAGE_CHARACTER, GC_REWARD_BLOOD_CASTLE, 30);
@@ -3353,12 +3353,12 @@ void CBloodCastle::SendRewardScore(int iIndex, int iSCORE, int iLeftTime, int iA
 	pMsg.h.subcode = 0x03;
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.Score = iSCORE;
-	pMsg.BridgeNum = gGameObjects[iIndex].m_cBloodCastleIndex;
-	pMsg.Class = gGameObjects[iIndex].Class;
+	pMsg.BridgeNum = gGameObjects[iIndex]->m_cBloodCastleIndex;
+	pMsg.Class = gGameObjects[iIndex]->Class;
 	pMsg.ServerCode = g_ConfigRead.server.GetGameServerCode();
 	pMsg.iLeftTime = iLeftTime;
-	memcpy(pMsg.AccountID, gGameObjects[iIndex].AccountID, MAX_ACCOUNT_LEN);
-	memcpy(pMsg.GameID, gGameObjects[iIndex].Name, MAX_ACCOUNT_LEN);
+	memcpy(pMsg.AccountID, gGameObjects[iIndex]->AccountID, MAX_ACCOUNT_LEN);
+	memcpy(pMsg.GameID, gGameObjects[iIndex]->Name, MAX_ACCOUNT_LEN);
 	pMsg.iAlivePartyCount = iAlivePartyCount;
 
 	wsDataCli.DataSend(reinterpret_cast<char *>(&pMsg), pMsg.h.size);
@@ -3400,11 +3400,11 @@ void CBloodCastle::SendAllUserAnyMsg(BYTE * lpMsg, int iSize)
 {
 	for ( int i=g_ConfigRead.server.GetObjectStartUserIndex();i<g_ConfigRead.server.GetObjectMax();i++)
 	{
-		if ( gGameObjects[i].Connected == PLAYER_PLAYING )
+		if ( gGameObjects[i]->Connected == PLAYER_PLAYING )
 		{
-			if ( gGameObjects[i].Type == OBJ_USER )
+			if ( gGameObjects[i]->Type == OBJ_USER )
 			{
-				if ( DG_MAP_RANGE(gGameObjects[i].MapNumber) == FALSE )
+				if ( DG_MAP_RANGE(gGameObjects[i]->MapNumber) == FALSE )
 				{
 					IOCP.DataSend(i, lpMsg, iSize);
 				}
@@ -3604,11 +3604,11 @@ bool CBloodCastle::CheckAngelKingExist(int iBridgeIndex)
 
 	for ( int i=0;i<g_ConfigRead.server.GetObjectStartUserIndex();i++)
 	{
-		if ( gGameObjects[i].Connected == PLAYER_PLAYING && gGameObjects[i].Type == OBJ_NPC )
+		if ( gGameObjects[i]->Connected == PLAYER_PLAYING && gGameObjects[i]->Type == OBJ_NPC )
 		{
-			if ( gGameObjects[i].Class == 232 )
+			if ( gGameObjects[i]->Class == 232 )
 			{
-				if (gGameObjects[i].MapNumber == this->GetBridgeMapNumber(iBridgeIndex) ) //season3 changed
+				if (gGameObjects[i]->MapNumber == this->GetBridgeMapNumber(iBridgeIndex) ) //season3 changed
 				{
 					bRET_VAL = true;
 					break;
@@ -3623,18 +3623,18 @@ bool CBloodCastle::CheckAngelKingExist(int iBridgeIndex)
 
 		if ( iIndex >= 0 )
 		{
-			gGameObjects[iIndex].X = this->m_BCMP_AngelKing[iBridgeIndex].m_X;
-			gGameObjects[iIndex].Y = this->m_BCMP_AngelKing[iBridgeIndex].m_Y;
-			gGameObjects[iIndex].MapNumber = this->m_BCMP_AngelKing[iBridgeIndex].m_MapNumber;
-			gGameObjects[iIndex].TX = gGameObjects[iIndex].X;
-			gGameObjects[iIndex].TY = gGameObjects[iIndex].Y;
-			gGameObjects[iIndex].m_OldX = gGameObjects[iIndex].X;
-			gGameObjects[iIndex].m_OldY = gGameObjects[iIndex].Y;
-			gGameObjects[iIndex].Dir = this->m_BCMP_AngelKing[iBridgeIndex].m_Dir;
-			gGameObjects[iIndex].StartX = gGameObjects[iIndex].X;
-			gGameObjects[iIndex].StartY = gGameObjects[iIndex].Y;
+			gGameObjects[iIndex]->X = this->m_BCMP_AngelKing[iBridgeIndex].m_X;
+			gGameObjects[iIndex]->Y = this->m_BCMP_AngelKing[iBridgeIndex].m_Y;
+			gGameObjects[iIndex]->MapNumber = this->m_BCMP_AngelKing[iBridgeIndex].m_MapNumber;
+			gGameObjects[iIndex]->TX = gGameObjects[iIndex]->X;
+			gGameObjects[iIndex]->TY = gGameObjects[iIndex]->Y;
+			gGameObjects[iIndex]->m_OldX = gGameObjects[iIndex]->X;
+			gGameObjects[iIndex]->m_OldY = gGameObjects[iIndex]->Y;
+			gGameObjects[iIndex]->Dir = this->m_BCMP_AngelKing[iBridgeIndex].m_Dir;
+			gGameObjects[iIndex]->StartX = gGameObjects[iIndex]->X;
+			gGameObjects[iIndex]->StartY = gGameObjects[iIndex]->Y;
 			gObjSetMonster(iIndex, 232);
-			gGameObjects[iIndex].m_cBloodCastleIndex = this->GetBridgeIndex(gGameObjects[iIndex].MapNumber);
+			gGameObjects[iIndex]->m_cBloodCastleIndex = this->GetBridgeIndex(gGameObjects[iIndex]->MapNumber);
 			bRET_VAL = true;
 		}
 		else
@@ -3669,29 +3669,29 @@ int  CBloodCastle::GetWhoGotUltimateWeapon(int iBridgeIndex)
 			continue;
 		}
 
-		if( gGameObjects[iIndex].Type != OBJ_USER || gGameObjects[iIndex].Connected <= PLAYER_LOGGED )
+		if( gGameObjects[iIndex]->Type != OBJ_USER || gGameObjects[iIndex]->Connected <= PLAYER_LOGGED )
 		{
 			continue;
 		}
 
-		if ( BC_MAP_RANGE( gGameObjects[iIndex].MapNumber ) == FALSE )
+		if ( BC_MAP_RANGE( gGameObjects[iIndex]->MapNumber ) == FALSE )
 		{
 			continue;
 		}
 
 		for ( int x=0;x<INVENTORY_SIZE;x++)
 		{
-			if ( gGameObjects[iIndex].pInventory[x].IsItem() == TRUE )
+			if ( gGameObjects[iIndex]->pInventory[x].IsItem() == TRUE )
 			{
-				if ( gGameObjects[iIndex].pInventory[x].m_Type == ITEMGET(13,19) )
+				if ( gGameObjects[iIndex]->pInventory[x].m_Type == ITEMGET(13,19) )
 				{
-					int iLEVEL = gGameObjects[iIndex].pInventory[x].m_Level;
+					int iLEVEL = gGameObjects[iIndex]->pInventory[x].m_Level;
 
 					if ( BC_WEAPON_LEVEL_RANGE(iLEVEL) != FALSE )
 					{
 						if ( this->m_BridgeData[iBridgeIndex].m_nBC_QUESTITEM_SERIAL != -1 )
 						{
-							if ( this->m_BridgeData[iBridgeIndex].m_nBC_QUESTITEM_SERIAL == gGameObjects[iIndex].pInventory[x].m_Number )
+							if ( this->m_BridgeData[iBridgeIndex].m_nBC_QUESTITEM_SERIAL == gGameObjects[iIndex]->pInventory[x].m_Number )
 							{
 								iBridgeUserIndex = iIndex;
 								break;
@@ -3730,17 +3730,17 @@ int  CBloodCastle::GetCurrentLiveUserCount(int iBridgeIndex)
 			continue;
 		}
 
-		if ( BC_MAP_RANGE( gGameObjects[iIndex].MapNumber ) == FALSE )
+		if ( BC_MAP_RANGE( gGameObjects[iIndex]->MapNumber ) == FALSE )
 		{
 			continue;
 		}
 
-		if( gGameObjects[iIndex].Type != OBJ_USER  )
+		if( gGameObjects[iIndex]->Type != OBJ_USER  )
 		{
 			continue;
 		}
 
-		if ( gGameObjects[iIndex].Connected > PLAYER_LOGGED )
+		if ( gGameObjects[iIndex]->Connected > PLAYER_LOGGED )
 		{
 			iRetLiveUserCount++;
 		}
@@ -3765,26 +3765,26 @@ BOOL CBloodCastle::DropItemDirectly(int iBridgeIndex, int iIndex, int iItemType,
 	PHeadSetB((LPBYTE)&pResult, 0x23, sizeof(pResult));
 	pResult.Result = TRUE;
 	pResult.Ipos = iItemPos;
-	int map_num = gGameObjects[iIndex].MapNumber;
-	int type = gGameObjects[iIndex].pInventory[iItemPos].m_Type;
-	int level = gGameObjects[iIndex].pInventory[iItemPos].m_Level;
-	float dur = gGameObjects[iIndex].pInventory[iItemPos].m_Durability;
-	BOOL ret = gGameObjects[iIndex].pInventory[iItemPos].IsItem();
-	BYTE Option1 = gGameObjects[iIndex].pInventory[iItemPos].m_Option1;
-	BYTE Option2 = gGameObjects[iIndex].pInventory[iItemPos].m_Option2;
-	BYTE Option3 = gGameObjects[iIndex].pInventory[iItemPos].m_Option3;
-	BYTE NOption = gGameObjects[iIndex].pInventory[iItemPos].m_NewOption;
-	UINT64 s_num = gGameObjects[iIndex].pInventory[iItemPos].m_Number;
-	BYTE ItemExOption = g_kJewelOfHarmonySystem.GetItemStrengthenOption(&gGameObjects[iIndex].pInventory[iItemPos]);
-	BYTE ItemExLevel = g_kJewelOfHarmonySystem.GetItemOptionLevel(&gGameObjects[iIndex].pInventory[iItemPos]);
+	int map_num = gGameObjects[iIndex]->MapNumber;
+	int type = gGameObjects[iIndex]->pInventory[iItemPos].m_Type;
+	int level = gGameObjects[iIndex]->pInventory[iItemPos].m_Level;
+	float dur = gGameObjects[iIndex]->pInventory[iItemPos].m_Durability;
+	BOOL ret = gGameObjects[iIndex]->pInventory[iItemPos].IsItem();
+	BYTE Option1 = gGameObjects[iIndex]->pInventory[iItemPos].m_Option1;
+	BYTE Option2 = gGameObjects[iIndex]->pInventory[iItemPos].m_Option2;
+	BYTE Option3 = gGameObjects[iIndex]->pInventory[iItemPos].m_Option3;
+	BYTE NOption = gGameObjects[iIndex]->pInventory[iItemPos].m_NewOption;
+	UINT64 s_num = gGameObjects[iIndex]->pInventory[iItemPos].m_Number;
+	BYTE ItemExOption = g_kJewelOfHarmonySystem.GetItemStrengthenOption(&gGameObjects[iIndex]->pInventory[iItemPos]);
+	BYTE ItemExLevel = g_kJewelOfHarmonySystem.GetItemOptionLevel(&gGameObjects[iIndex]->pInventory[iItemPos]);
 
 	BYTE NewOption[MAX_EXOPTION_SIZE];
-	::ItemIsBufExOption(NewOption, &gGameObjects[iIndex].pInventory[iItemPos]);
-	int PetLevel = gGameObjects[iIndex].pInventory[iItemPos].m_PetItem_Level;
-	UINT64 PetExp = gGameObjects[iIndex].pInventory[iItemPos].m_PetItem_Exp;
-	BYTE SOption = gGameObjects[iIndex].pInventory[iItemPos].m_SetOption;
-	BYTE ItemEffectEx = gGameObjects[iIndex].pInventory[iItemPos].m_ItemOptionEx;
-	UINT64 item_number = gGameObjects[iIndex].pInventory[iItemPos].m_Number;
+	::ItemIsBufExOption(NewOption, &gGameObjects[iIndex]->pInventory[iItemPos]);
+	int PetLevel = gGameObjects[iIndex]->pInventory[iItemPos].m_PetItem_Level;
+	UINT64 PetExp = gGameObjects[iIndex]->pInventory[iItemPos].m_PetItem_Exp;
+	BYTE SOption = gGameObjects[iIndex]->pInventory[iItemPos].m_SetOption;
+	BYTE ItemEffectEx = gGameObjects[iIndex]->pInventory[iItemPos].m_ItemOptionEx;
+	UINT64 item_number = gGameObjects[iIndex]->pInventory[iItemPos].m_Number;
 	char szItemName[50] = "Item";
 	int aAntiLootIndex = -1;
 
@@ -3798,9 +3798,9 @@ BOOL CBloodCastle::DropItemDirectly(int iBridgeIndex, int iIndex, int iItemType,
 
 	BYTE SocketIndex = 0; //
 
-	g_SocketOptionSystem.GetSocketOption(&gGameObjects[iIndex].pInventory[iItemPos], SocketOption, SocketIndex);
+	g_SocketOptionSystem.GetSocketOption(&gGameObjects[iIndex]->pInventory[iItemPos], SocketOption, SocketIndex);
 
-	if ( MapC[map_num].ItemDrop(type, level, dur, gGameObjects[iIndex].X, gGameObjects[iIndex].Y,Option1, Option2, Option3, NOption, SOption, item_number, aAntiLootIndex, PetLevel, PetExp, ItemEffectEx, SocketOption, SocketIndex, 0) == TRUE )
+	if ( MapC[map_num].ItemDrop(type, level, dur, gGameObjects[iIndex]->X, gGameObjects[iIndex]->Y,Option1, Option2, Option3, NOption, SOption, item_number, aAntiLootIndex, PetLevel, PetExp, ItemEffectEx, SocketOption, SocketIndex, 0) == TRUE )
 	{
 		::gObjInventoryDeleteItem(iIndex, iItemPos);
 		pResult.Result = TRUE;
@@ -3829,10 +3829,10 @@ BOOL CBloodCastle::DropItemDirectly(int iBridgeIndex, int iIndex, int iItemType,
 			PHeadSetB((LPBYTE)&pMsg, 0x25, sizeof(PMSG_USEREQUIPMENTCHANGED));
 			pMsg.NumberH = SET_NUMBERH(iIndex);
 			pMsg.NumberL = SET_NUMBERL(iIndex);
-			ItemByteConvert(pMsg.ItemInfo, gGameObjects[iIndex].pInventory[iItemPos]);
+			ItemByteConvert(pMsg.ItemInfo, gGameObjects[iIndex]->pInventory[iItemPos]);
 			pMsg.ItemInfo[I_OPTION] = iItemPos * 16; // iItemPos << 16;
 			pMsg.ItemInfo[I_OPTION] |= LevelSmallConvert(iIndex, iItemPos) & 0x0F;
-			pMsg.Element = gGameObjects[iIndex].m_iPentagramMainAttribute;
+			pMsg.Element = gGameObjects[iIndex]->m_iPentagramMainAttribute;
 
 			IOCP.DataSend(iIndex, (UCHAR*)&pMsg, pMsg.h.size);
 			GSProtocol.MsgSendV2(&gGameObjects[iIndex], (UCHAR*)&pMsg, pMsg.h.size);
@@ -3853,7 +3853,7 @@ bool CBloodCastle::CheckUserHaveUlimateWeapon(int iIndex)
 		return false;
 	}
 
-	if ( gGameObjects[iIndex].Type != OBJ_USER || gGameObjects[iIndex].Connected <= PLAYER_LOGGED )
+	if ( gGameObjects[iIndex]->Type != OBJ_USER || gGameObjects[iIndex]->Connected <= PLAYER_LOGGED )
 	{
 		return false;
 	}
@@ -3862,9 +3862,9 @@ bool CBloodCastle::CheckUserHaveUlimateWeapon(int iIndex)
 
 	for ( int x=0;x<INVENTORY_SIZE;x++)
 	{
-		if ( gGameObjects[iIndex].pInventory[x].IsItem() == TRUE )
+		if ( gGameObjects[iIndex]->pInventory[x].IsItem() == TRUE )
 		{
-			if ( gGameObjects[iIndex].pInventory[x].m_Type == ITEMGET(0,19) || gGameObjects[iIndex].pInventory[x].m_Type == ITEMGET(5,10) || gGameObjects[iIndex].pInventory[x].m_Type == ITEMGET(4,18) )
+			if ( gGameObjects[iIndex]->pInventory[x].m_Type == ITEMGET(0,19) || gGameObjects[iIndex]->pInventory[x].m_Type == ITEMGET(5,10) || gGameObjects[iIndex]->pInventory[x].m_Type == ITEMGET(4,18) )
 			{
 				bRetVal = true;
 				break;
@@ -3936,7 +3936,7 @@ bool CBloodCastle::CheckUserWinnerParty(int iBridgeIndex, int iIndex)
 	if ( gObjIsConnected(iIndex) == FALSE )
 		return false;
 
-	int iPartyIndex1 = gGameObjects[iIndex].PartyNumber;
+	int iPartyIndex1 = gGameObjects[iIndex]->PartyNumber;
 	int iPartyIndex2 = gGameObjects[this->m_BridgeData[iBridgeIndex].m_iBC_COMPLETE_USER_INDEX].PartyNumber;
 
 	if ( ObjectMaxRange(iPartyIndex1) != FALSE && iPartyIndex1 == iPartyIndex2 )
@@ -3952,7 +3952,7 @@ bool CBloodCastle::CheckPartyExist(int iIndex)
 	if ( !gObjIsConnected(iIndex))
 		return false;
 
-	int iPartyIndex = gGameObjects[iIndex].PartyNumber;
+	int iPartyIndex = gGameObjects[iIndex]->PartyNumber;
 	int iUserIndex;
 
 	if ( !ObjectMaxRange(iPartyIndex))
@@ -3964,11 +3964,11 @@ bool CBloodCastle::CheckPartyExist(int iIndex)
 
 		if ( gObjIsConnected(iUserIndex))
 		{
-			if ( BC_MAP_RANGE(gGameObjects[iUserIndex].MapNumber) && BC_BRIDGE_RANGE(gGameObjects[iUserIndex].m_cBloodCastleIndex) )
+			if ( BC_MAP_RANGE(gGameObjects[iUserIndex]->MapNumber) && BC_BRIDGE_RANGE(gGameObjects[iUserIndex]->m_cBloodCastleIndex) )
 			{
-				if ( gGameObjects[iUserIndex].Live == 1 )
+				if ( gGameObjects[iUserIndex]->Live == 1 )
 				{
-					if ( gGameObjects[iUserIndex].m_bBloodCastleComplete == false )
+					if ( gGameObjects[iUserIndex]->m_bBloodCastleComplete == false )
 					{
 						return true;
 					}
@@ -4001,11 +4001,11 @@ bool CBloodCastle::CheckWinnerPartyComplete(int iBridgeIndex)
 
 		if ( gObjIsConnected(iUserIndex))
 		{
-			if ( BC_MAP_RANGE(gGameObjects[iUserIndex].MapNumber) && BC_BRIDGE_RANGE(gGameObjects[iUserIndex].m_cBloodCastleIndex) )
+			if ( BC_MAP_RANGE(gGameObjects[iUserIndex]->MapNumber) && BC_BRIDGE_RANGE(gGameObjects[iUserIndex]->m_cBloodCastleIndex) )
 			{
-				if ( gGameObjects[iUserIndex].Live == 1 )
+				if ( gGameObjects[iUserIndex]->Live == 1 )
 				{
-					if ( gGameObjects[iUserIndex].m_bBloodCastleComplete == false )
+					if ( gGameObjects[iUserIndex]->m_bBloodCastleComplete == false )
 					{
 						return false;
 					}
@@ -4030,7 +4030,7 @@ bool CBloodCastle::SetBridgeWinner(int iBridgeIndex, int iIndex)
 	if ( !gObjIsConnected(iIndex))
 		return false;
 
-	if ( !BC_MAP_RANGE(gGameObjects[iIndex].MapNumber))
+	if ( !BC_MAP_RANGE(gGameObjects[iIndex]->MapNumber))
 		return false;
 
 	this->m_BridgeData[iBridgeIndex].m_iBC_COMPLETE_USER_INDEX = iIndex;
@@ -4062,11 +4062,11 @@ int CBloodCastle::GetWinnerPartyCompleteCount(int iBridgeIndex)
 
 		if ( gObjIsConnected(iUserIndex))
 		{
-			if ( BC_MAP_RANGE(gGameObjects[iUserIndex].MapNumber) && BC_BRIDGE_RANGE(gGameObjects[iUserIndex].m_cBloodCastleIndex) )
+			if ( BC_MAP_RANGE(gGameObjects[iUserIndex]->MapNumber) && BC_BRIDGE_RANGE(gGameObjects[iUserIndex]->m_cBloodCastleIndex) )
 			{
-				if ( gGameObjects[iUserIndex].Live == 1 )
+				if ( gGameObjects[iUserIndex]->Live == 1 )
 				{
-					if ( gGameObjects[iUserIndex].m_bBloodCastleComplete == true )
+					if ( gGameObjects[iUserIndex]->m_bBloodCastleComplete == true )
 					{
 						iPartyComplete++;
 					}
@@ -4114,14 +4114,14 @@ void CBloodCastle::ChangeMonsterState(int iBridgeIndex, int iIndex)
 		iAddDefense = g_iBC_MONSTER_CHANGE_STATE[0][2];
 	}
 
-	LPMONSTER_ATTRIBUTE lpMA = gMAttr.GetAttr(gGameObjects[iIndex].Class);
+	LPMONSTER_ATTRIBUTE lpMA = gMAttr.GetAttr(gGameObjects[iIndex]->Class);
 
 	if ( lpMA == NULL )
 		return;
 
-	gGameObjects[iIndex].m_AttackDamageMin = lpMA->m_DamageMin + iAddDamageMin;
-	gGameObjects[iIndex].m_AttackDamageMax = lpMA->m_DamageMax + iAddDamageMax;
-	gGameObjects[iIndex].m_Defense = lpMA->m_Defense + iAddDefense;
+	gGameObjects[iIndex]->m_AttackDamageMin = lpMA->m_DamageMin + iAddDamageMin;
+	gGameObjects[iIndex]->m_AttackDamageMax = lpMA->m_DamageMax + iAddDamageMax;
+	gGameObjects[iIndex]->m_Defense = lpMA->m_Defense + iAddDefense;
 }
 
 
@@ -4505,11 +4505,11 @@ int CBloodCastle::GetPlayUserCountRightNow(int iBridgeIndex)
 
 		if ( ObjectMaxRange(iIndex) == TRUE )
 		{
-			if ( BC_MAP_RANGE ( gGameObjects[iIndex].MapNumber ) == TRUE )
+			if ( BC_MAP_RANGE ( gGameObjects[iIndex]->MapNumber ) == TRUE )
 			{
-				if ( gGameObjects[iIndex].Type == OBJ_USER )
+				if ( gGameObjects[iIndex]->Type == OBJ_USER )
 				{
-					if ( gGameObjects[iIndex].Connected == PLAYER_PLAYING )
+					if ( gGameObjects[iIndex]->Connected == PLAYER_PLAYING )
 					{
 						Count++;
 					}
@@ -4573,23 +4573,23 @@ void CBloodCastle::CatchQuestItemByUser(int iBridgeIndex, int iUserIndex, int iI
 		return;
 	}
 
-	this->m_BridgeData[iBridgeIndex].m_iBC_QUEST_ITEM_USER_INDEX = gGameObjects[iUserIndex].m_Index;
+	this->m_BridgeData[iBridgeIndex].m_iBC_QUEST_ITEM_USER_INDEX = gGameObjects[iUserIndex]->m_Index;
 	char szTempMsg[128];
 
 	switch (iItemLevel)
 	{
 	case 0:	// Staff of Archangel
-		wsprintf(szTempMsg, Lang.GetText(0,75), gGameObjects[iUserIndex].Name);
+		wsprintf(szTempMsg, Lang.GetText(0,75), gGameObjects[iUserIndex]->Name);
 		this->SendNoticeMessage(iBridgeIndex, szTempMsg);
 		break;
 
 	case 1:	// Sword of Archangel
-		wsprintf(szTempMsg, Lang.GetText(0,76), gGameObjects[iUserIndex].Name);
+		wsprintf(szTempMsg, Lang.GetText(0,76), gGameObjects[iUserIndex]->Name);
 		this->SendNoticeMessage(iBridgeIndex, szTempMsg);
 		break;
 
 	case 2:	// Crossbow of Archangel
-		wsprintf(szTempMsg, Lang.GetText(0,77), gGameObjects[iUserIndex].Name);
+		wsprintf(szTempMsg, Lang.GetText(0,77), gGameObjects[iUserIndex]->Name);
 		this->SendNoticeMessage(iBridgeIndex, szTempMsg);
 		break;
 
@@ -4796,20 +4796,20 @@ void CBloodCastle::DestroyCastleDoor(int iBridgeIndex, CGameObject lpDoorObj)
 	{
 		char szMsg[256];
 
-		wsprintf(szMsg, Lang.GetText(0,79), gGameObjects[TopHitUser].Name);
+		wsprintf(szMsg, Lang.GetText(0,79), gGameObjects[TopHitUser]->Name);
 
 		this->SendNoticeMessage(iBridgeIndex, szMsg);
 
-		this->m_BridgeData[iBridgeIndex].m_iExtraEXP_Kill_Door_Party = gGameObjects[TopHitUser].PartyNumber;
+		this->m_BridgeData[iBridgeIndex].m_iExtraEXP_Kill_Door_Party = gGameObjects[TopHitUser]->PartyNumber;
 		this->m_BridgeData[iBridgeIndex].m_iExtraEXP_Kill_Door_Index = TopHitUser;
 
-		memcpy(this->m_BridgeData[iBridgeIndex].m_szKill_Door_CharName, gGameObjects[TopHitUser].Name, 10);
-		memcpy(this->m_BridgeData[iBridgeIndex].m_szKill_Door_AccountID, gGameObjects[TopHitUser].AccountID, 10);
+		memcpy(this->m_BridgeData[iBridgeIndex].m_szKill_Door_CharName, gGameObjects[TopHitUser]->Name, 10);
+		memcpy(this->m_BridgeData[iBridgeIndex].m_szKill_Door_AccountID, gGameObjects[TopHitUser]->AccountID, 10);
 
 		this->m_BridgeData[iBridgeIndex].m_szKill_Door_CharName[10] = 0;
 		this->m_BridgeData[iBridgeIndex].m_szKill_Door_AccountID[10] = 0;
 
-		g_QuestExpProgMng.ChkUserQuestTypeEventMap(QUESTEXP_ASK_BLOODCASTLE_DOOR_KILL, &gGameObjects[TopHitUser], this->GetBridgeIndex(gGameObjects[TopHitUser].MapNumber), 1);
+		g_QuestExpProgMng.ChkUserQuestTypeEventMap(QUESTEXP_ASK_BLOODCASTLE_DOOR_KILL, &gGameObjects[TopHitUser], this->GetBridgeIndex(gGameObjects[TopHitUser]->MapNumber), 1);
 
 	}
 	else
@@ -4870,16 +4870,16 @@ void CBloodCastle::DestroySaintStatue(int iBridgeIndex, CGameObject lpStatueObj)
 	{
 		char szMsg[256];
 
-		wsprintf(szMsg, Lang.GetText(0,80), gGameObjects[TopHitUser].Name);
+		wsprintf(szMsg, Lang.GetText(0,80), gGameObjects[TopHitUser]->Name);
 
 		this->SendNoticeMessage(iBridgeIndex, szMsg);
 
 
-		this->m_BridgeData[iBridgeIndex].m_iExtraEXP_Kill_Statue_Party = gGameObjects[TopHitUser].PartyNumber;
-		this->m_BridgeData[iBridgeIndex].m_iExtraEXP_Kill_Statue_Index = gGameObjects[TopHitUser].m_Index;
+		this->m_BridgeData[iBridgeIndex].m_iExtraEXP_Kill_Statue_Party = gGameObjects[TopHitUser]->PartyNumber;
+		this->m_BridgeData[iBridgeIndex].m_iExtraEXP_Kill_Statue_Index = gGameObjects[TopHitUser]->m_Index;
 
-		memcpy(this->m_BridgeData[iBridgeIndex].m_szKill_Status_CharName, gGameObjects[TopHitUser].Name, 10);
-		memcpy(this->m_BridgeData[iBridgeIndex].m_szKill_Status_AccountID, gGameObjects[TopHitUser].AccountID, 10);
+		memcpy(this->m_BridgeData[iBridgeIndex].m_szKill_Status_CharName, gGameObjects[TopHitUser]->Name, 10);
+		memcpy(this->m_BridgeData[iBridgeIndex].m_szKill_Status_AccountID, gGameObjects[TopHitUser]->AccountID, 10);
 
 		this->m_BridgeData[iBridgeIndex].m_szKill_Status_CharName[10] = 0;
 		this->m_BridgeData[iBridgeIndex].m_szKill_Status_AccountID[10] = 0;

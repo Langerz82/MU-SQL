@@ -378,7 +378,7 @@ int CEventDungeonItemBag::CreateSetItem(int nIndex, CEventItemBagAttr BagObject)
 	int Option2 = 0;
 	int Option3 = 0;
 	CGameObject lpObj = &gGameObjects[nIndex];
-	BYTE btMapNumber = gGameObjects[nIndex].MapNumber;
+	BYTE btMapNumber = gGameObjects[nIndex]->MapNumber;
 	int option2rand = 4;
 	int option3rand = rand()%100;
 	int optionc = rand()%3;

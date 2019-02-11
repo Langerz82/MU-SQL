@@ -210,7 +210,7 @@ int CKanturuMonsterMng::SetKanturuMonster(int iGroupNumber)
 					continue;
 				}
 
-				if ( gGameObjects[iResult].Type == OBJ_MONSTER )
+				if ( gGameObjects[iResult]->Type == OBJ_MONSTER )
 				{
 					this->m_KanturuMonster.AddObj(iResult);
 					this->m_iMaxRegenMonsterCount++;

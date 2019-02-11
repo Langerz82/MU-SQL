@@ -57,11 +57,11 @@ void CAttackRange::Process()
 }
 
 
-CAttackQueue::CAttackQueue(CUserData &userData)
+CAttackQueue::CAttackQueue(CUserData* userData)
 {
 
 	InitializeCriticalSection(&this->m_CritQueue);
-	this->m_Obj = &userData;
+	this->m_Obj = userData;
 }
 
 void CAttackQueue::Push( unsigned char* msg, int len, int type )
@@ -160,26 +160,26 @@ void CAttackQueue::ProcessQueue()
 }
 
 bool CAttackQueue::ThreadActive = true;
-VOID CAttackQueue::AttackQueueProc(std::vector<CGameObject> gObj)
+VOID CAttackQueue::AttackQueueProc(std::vector<CGameObject*> gObj)
 {
 	while(ThreadActive)
 	{
 		//for(int i = OBJ_STARTUSERINDEX; i < OBJMAX; i++)
-		for each(CGameObject &Obj in gObj)
+		for each(CGameObject* Obj in gObj)
 		{
-			if(Obj.m_PlayerData->m_AttackQueue == NULL)
+			if(Obj->m_PlayerData->m_AttackQueue == NULL)
 			{
 				continue;
 			}
 
-			if(Obj.Connected >= PLAYER_CONNECTED)
+			if(Obj->Connected >= PLAYER_CONNECTED)
 			{
-				if(Obj.Connected >= PLAYER_PLAYING)
+				if(Obj->Connected >= PLAYER_PLAYING)
 				{
-					Obj.m_PlayerData->m_AttackQueue->ProcessQueue();
+					Obj->m_PlayerData->m_AttackQueue->ProcessQueue();
 				}
 				else{
-					Obj.m_PlayerData->m_AttackQueue->Clear();
+					Obj->m_PlayerData->m_AttackQueue->Clear();
 				}
 			}
 		}

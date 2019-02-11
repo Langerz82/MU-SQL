@@ -9,9 +9,11 @@
 
 #include "StdAfx.h"
 #include "GameProtocol.h"
+#include "CUserData.h"
 
 #include <queue>
 
+class CUserData;
 
 class CAttackBase{
 public:
@@ -89,7 +91,7 @@ public:
 	
 	bool m_LastFrameAttack;
 
-	CAttackQueue(CUserData &userData);
+	CAttackQueue(CUserData* userData);
 	~CAttackQueue();
 //	void Push(CGameObject & lpTargetObj);
 //	void Push(unsigned char* msg, int len);
@@ -97,7 +99,7 @@ public:
 
 	void ProcessQueue();
 	static bool ThreadActive;
-	static VOID AttackQueueProc(std::vector<CGameObject> gObj);
+	static VOID AttackQueueProc(std::vector<CGameObject*> gObj);
 	
 	CUserData* m_Obj;
 	CRITICAL_SECTION m_CritQueue;

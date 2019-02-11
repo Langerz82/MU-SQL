@@ -56,7 +56,7 @@ int CImperialGuardianRewardExp::GetRewardExp(int nUserIndex)
 		return 0;
 	}
 
-	if ( gGameObjects[nUserIndex].Type != OBJ_USER )
+	if ( gGameObjects[nUserIndex]->Type != OBJ_USER )
 	{
 		return 0;
 	}

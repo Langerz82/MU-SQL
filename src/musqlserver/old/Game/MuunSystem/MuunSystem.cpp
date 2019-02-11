@@ -48,7 +48,7 @@ void CMuunAttack::SendAttackMsg(CGameObject &lpObj, int aTargetIndex, int SubCod
 			return;
 		}
 
-		if (gGameObjects[aTargetIndex].Life <= 0.0)
+		if (gGameObjects[aTargetIndex]->Life <= 0.0)
 		{
 			g_CMuunSystem.ReSetTarget(&gGameObjects[aIndex], aTargetIndex);
 			return;
@@ -56,7 +56,7 @@ void CMuunAttack::SendAttackMsg(CGameObject &lpObj, int aTargetIndex, int SubCod
 
 		if (SubCode == MUUN_ATTACK_SKILL_NONPVP)
 		{
-			if (gGameObjects[aTargetIndex].Type == OBJ_USER)
+			if (gGameObjects[aTargetIndex]->Type == OBJ_USER)
 			{
 				g_CMuunSystem.ReSetTarget(&gGameObjects[aIndex], aTargetIndex);
 				return;
@@ -105,7 +105,7 @@ void CMuunAttack::SkillProc(CGameObject &lpObj)
 					return;
 				}
 
-				if ((MapC[gGameObjects[nTargetIndex].MapNumber].GetAttr(gGameObjects[nTargetIndex].X, gGameObjects[nTargetIndex].Y) & 1) == 1)
+				if ((MapC[gGameObjects[nTargetIndex]->MapNumber].GetAttr(gGameObjects[nTargetIndex]->X, gGameObjects[nTargetIndex]->Y) & 1) == 1)
 				{
 					g_CMuunSystem.ReSetTarget(lpObj, nTargetIndex);
 					return;
@@ -3374,7 +3374,7 @@ void CMuunSystem::SetTarget(CGameObject &lpObj, int aTargetIndex)
 
 		if (lpObj.m_MuunEffectList[i].nOptType == 53)
 		{
-			if (gGameObjects[aTargetIndex].Type != OBJ_USER)
+			if (gGameObjects[aTargetIndex]->Type != OBJ_USER)
 			{
 				lpObj.m_MuunEffectList[i].nTargetIndex = aTargetIndex;
 			}

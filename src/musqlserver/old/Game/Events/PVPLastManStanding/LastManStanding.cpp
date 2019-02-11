@@ -207,7 +207,7 @@ void CLastManStanding::DelUser(int aindex)
 		return;
 	}
 
-	int room = gGameObjects[aindex].m_PlayerData->RegisteredLMSRoom;
+	int room = gGameObjects[aindex]->m_PlayerData->RegisteredLMSRoom;
 	for(int i=0;i<LMS_MAX_USER_PER_ROOM;i++)
 	{
 		if(this->m_Rooms[room].m_Data[i].iIndex == aindex)
@@ -216,8 +216,8 @@ void CLastManStanding::DelUser(int aindex)
 			this->m_Rooms[room].m_Data[i].iScore = 0;
 			this->m_Rooms[room].m_Data[i].bWinner = false;
 			this->m_Rooms[room].m_Data[i].iDeaths = 0;
-			gGameObjects[aindex].m_PlayerData->RegisterdLMS = 0;
-			gGameObjects[aindex].m_PlayerData->RegisteredLMSRoom = -1;
+			gGameObjects[aindex]->m_PlayerData->RegisterdLMS = 0;
+			gGameObjects[aindex]->m_PlayerData->RegisteredLMSRoom = -1;
 			this->m_Rooms[room].m_iLiveUser--;
 			gObjMoveGate(aindex,17);
 			return;
@@ -232,7 +232,7 @@ void CLastManStanding::UserQuit(int aindex)
 		return;
 	}
 
-	int room = gGameObjects[aindex].m_PlayerData->RegisteredLMSRoom;
+	int room = gGameObjects[aindex]->m_PlayerData->RegisteredLMSRoom;
 	for(int i=0;i<LMS_MAX_USER_PER_ROOM;i++)
 	{
 		if(this->m_Rooms[room].m_Data[i].iIndex == aindex)
@@ -241,8 +241,8 @@ void CLastManStanding::UserQuit(int aindex)
 			this->m_Rooms[room].m_Data[i].iScore = 0;
 			this->m_Rooms[room].m_Data[i].bWinner = false;
 			this->m_Rooms[room].m_Data[i].iDeaths = 0;
-			gGameObjects[aindex].m_PlayerData->RegisterdLMS = 0;
-			gGameObjects[aindex].m_PlayerData->RegisteredLMSRoom = -1;
+			gGameObjects[aindex]->m_PlayerData->RegisterdLMS = 0;
+			gGameObjects[aindex]->m_PlayerData->RegisteredLMSRoom = -1;
 
 			if(this->m_Rooms[room].bState == 1)
 			{

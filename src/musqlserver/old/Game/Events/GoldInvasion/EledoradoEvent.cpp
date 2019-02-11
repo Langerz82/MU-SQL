@@ -132,31 +132,31 @@ void CEledoradoEvent::RegenGoldGoblen()
 			return;
 		}
 
-		gGameObjects[result].MapNumber = MapNumber;
+		gGameObjects[result]->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result].X, gGameObjects[result].Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result]->X, gGameObjects[result]->Y) == 0)
 		{
 
 		}
 
-		gGameObjects[result].m_PosNum = -1;
-		gGameObjects[result].TX = gGameObjects[result].X;
-		gGameObjects[result].TY = gGameObjects[result].Y;
-		gGameObjects[result].MTX = gGameObjects[result].X;
-		gGameObjects[result].MTY = gGameObjects[result].Y;
-		gGameObjects[result].m_OldX = gGameObjects[result].X;
-		gGameObjects[result].m_OldY = gGameObjects[result].Y;
-		gGameObjects[result].StartX = gGameObjects[result].X;
-		gGameObjects[result].StartY = gGameObjects[result].Y;
+		gGameObjects[result]->m_PosNum = -1;
+		gGameObjects[result]->TX = gGameObjects[result]->X;
+		gGameObjects[result]->TY = gGameObjects[result]->Y;
+		gGameObjects[result]->MTX = gGameObjects[result]->X;
+		gGameObjects[result]->MTY = gGameObjects[result]->Y;
+		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+		gGameObjects[result]->StartX = gGameObjects[result]->X;
+		gGameObjects[result]->StartY = gGameObjects[result]->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			gGameObjects[result].Dir = rand() % 8;
+			gGameObjects[result]->Dir = rand() % 8;
 		}
 
 		else
 		{
-			gGameObjects[result].Dir = It->second.m_Dir;
+			gGameObjects[result]->Dir = It->second.m_Dir;
 		}
 
 		gObjSetMonster(result, It->second.m_Type);
@@ -208,35 +208,35 @@ void CEledoradoEvent::RegenTitan()
 			return;
 		}
 
-		gGameObjects[result].MapNumber = MapNumber;
+		gGameObjects[result]->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result].X, gGameObjects[result].Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result]->X, gGameObjects[result]->Y) == 0)
 		{
 
 		}
 
-		this->m_BossTitanMapNumber = gGameObjects[result].MapNumber;
-		this->m_BossTitanMapX = gGameObjects[result].X;
-		this->m_BossTitanMapY = gGameObjects[result].Y;
+		this->m_BossTitanMapNumber = gGameObjects[result]->MapNumber;
+		this->m_BossTitanMapX = gGameObjects[result]->X;
+		this->m_BossTitanMapY = gGameObjects[result]->Y;
 
-		gGameObjects[result].m_PosNum = -1;
-		gGameObjects[result].TX = gGameObjects[result].X;
-		gGameObjects[result].TY = gGameObjects[result].Y;
-		gGameObjects[result].MTX = gGameObjects[result].X;
-		gGameObjects[result].MTY = gGameObjects[result].Y;
-		gGameObjects[result].m_OldX = gGameObjects[result].X;
-		gGameObjects[result].m_OldY = gGameObjects[result].Y;
-		gGameObjects[result].StartX = gGameObjects[result].X;
-		gGameObjects[result].StartY = gGameObjects[result].Y;
+		gGameObjects[result]->m_PosNum = -1;
+		gGameObjects[result]->TX = gGameObjects[result]->X;
+		gGameObjects[result]->TY = gGameObjects[result]->Y;
+		gGameObjects[result]->MTX = gGameObjects[result]->X;
+		gGameObjects[result]->MTY = gGameObjects[result]->Y;
+		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+		gGameObjects[result]->StartX = gGameObjects[result]->X;
+		gGameObjects[result]->StartY = gGameObjects[result]->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			gGameObjects[result].Dir = rand() % 8;
+			gGameObjects[result]->Dir = rand() % 8;
 		}
 
 		else
 		{
-			gGameObjects[result].Dir = It->second.m_Dir;
+			gGameObjects[result]->Dir = It->second.m_Dir;
 		}
 
 		gObjSetMonster(result, It->second.m_Type);
@@ -270,28 +270,28 @@ void CEledoradoEvent::RegenTitan()
 			return;
 		}
 
-		gGameObjects[result].MapNumber = MapNumber;
+		gGameObjects[result]->MapNumber = MapNumber;
 
-		this->GetBoxPosition(MapNumber, this->m_BossTitanMapX - 4, this->m_BossTitanMapY - 4, this->m_BossTitanMapX + 4, this->m_BossTitanMapY + 4, gGameObjects[result].X, gGameObjects[result].Y);
+		this->GetBoxPosition(MapNumber, this->m_BossTitanMapX - 4, this->m_BossTitanMapY - 4, this->m_BossTitanMapX + 4, this->m_BossTitanMapY + 4, gGameObjects[result]->X, gGameObjects[result]->Y);
 
-		gGameObjects[result].m_PosNum = -1;
-		gGameObjects[result].TX = gGameObjects[result].X;
-		gGameObjects[result].TY = gGameObjects[result].Y;
-		gGameObjects[result].MTX = gGameObjects[result].X;
-		gGameObjects[result].MTY = gGameObjects[result].Y;
-		gGameObjects[result].m_OldX = gGameObjects[result].X;
-		gGameObjects[result].m_OldY = gGameObjects[result].Y;
-		gGameObjects[result].StartX = gGameObjects[result].X;
-		gGameObjects[result].StartY = gGameObjects[result].Y;
+		gGameObjects[result]->m_PosNum = -1;
+		gGameObjects[result]->TX = gGameObjects[result]->X;
+		gGameObjects[result]->TY = gGameObjects[result]->Y;
+		gGameObjects[result]->MTX = gGameObjects[result]->X;
+		gGameObjects[result]->MTY = gGameObjects[result]->Y;
+		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+		gGameObjects[result]->StartX = gGameObjects[result]->X;
+		gGameObjects[result]->StartY = gGameObjects[result]->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			gGameObjects[result].Dir = rand() % 8;
+			gGameObjects[result]->Dir = rand() % 8;
 		}
 
 		else
 		{
-			gGameObjects[result].Dir = It->second.m_Dir;
+			gGameObjects[result]->Dir = It->second.m_Dir;
 		}
 
 		EnterCriticalSection(&this->m_MonCriti);
@@ -353,31 +353,31 @@ void CEledoradoEvent::RegenGoldDercon()
 			return;
 		}
 
-		gGameObjects[result].MapNumber = MapNumber;
+		gGameObjects[result]->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result].X, gGameObjects[result].Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result]->X, gGameObjects[result]->Y) == 0)
 		{
 
 		}
 
-		gGameObjects[result].m_PosNum = -1;
-		gGameObjects[result].TX = gGameObjects[result].X;
-		gGameObjects[result].TY = gGameObjects[result].Y;
-		gGameObjects[result].MTX = gGameObjects[result].X;
-		gGameObjects[result].MTY = gGameObjects[result].Y;
-		gGameObjects[result].m_OldX = gGameObjects[result].X;
-		gGameObjects[result].m_OldY = gGameObjects[result].Y;
-		gGameObjects[result].StartX = gGameObjects[result].X;
-		gGameObjects[result].StartY = gGameObjects[result].Y;
+		gGameObjects[result]->m_PosNum = -1;
+		gGameObjects[result]->TX = gGameObjects[result]->X;
+		gGameObjects[result]->TY = gGameObjects[result]->Y;
+		gGameObjects[result]->MTX = gGameObjects[result]->X;
+		gGameObjects[result]->MTY = gGameObjects[result]->Y;
+		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+		gGameObjects[result]->StartX = gGameObjects[result]->X;
+		gGameObjects[result]->StartY = gGameObjects[result]->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			gGameObjects[result].Dir = rand() % 8;
+			gGameObjects[result]->Dir = rand() % 8;
 		}
 
 		else
 		{
-			gGameObjects[result].Dir = It->second.m_Dir;
+			gGameObjects[result]->Dir = It->second.m_Dir;
 		}
 
 		gObjSetMonster(result, It->second.m_Type);
@@ -392,7 +392,7 @@ void CEledoradoEvent::RegenGoldDercon()
 		LeaveCriticalSection(&this->m_MonCriti);
 
 		this->m_BossGoldDerconMapNumber[count] = MapNumber;
-		gGameObjects[result].m_BossGoldDerconMapNumber = MapNumber;	// #error change count by MapNumber
+		gGameObjects[result]->m_BossGoldDerconMapNumber = MapNumber;	// #error change count by MapNumber
 		count++;
 	}
 
@@ -444,35 +444,35 @@ void CEledoradoEvent::RegenDevilLizardKing()
 			return;
 		}
 
-		gGameObjects[result].MapNumber = MapNumber;
+		gGameObjects[result]->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result].X, gGameObjects[result].Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result]->X, gGameObjects[result]->Y) == 0)
 		{
 
 		}
 
-		this->m_BossDevilLizardKingMapNumber = gGameObjects[result].MapNumber;
-		this->m_BossDevilLizardKingMapX = gGameObjects[result].X;
-		this->m_BossDevilLizardKingMapY = gGameObjects[result].Y;
+		this->m_BossDevilLizardKingMapNumber = gGameObjects[result]->MapNumber;
+		this->m_BossDevilLizardKingMapX = gGameObjects[result]->X;
+		this->m_BossDevilLizardKingMapY = gGameObjects[result]->Y;
 
-		gGameObjects[result].m_PosNum = -1;
-		gGameObjects[result].TX = gGameObjects[result].X;
-		gGameObjects[result].TY = gGameObjects[result].Y;
-		gGameObjects[result].MTX = gGameObjects[result].X;
-		gGameObjects[result].MTY = gGameObjects[result].Y;
-		gGameObjects[result].m_OldX = gGameObjects[result].X;
-		gGameObjects[result].m_OldY = gGameObjects[result].Y;
-		gGameObjects[result].StartX = gGameObjects[result].X;
-		gGameObjects[result].StartY = gGameObjects[result].Y;
+		gGameObjects[result]->m_PosNum = -1;
+		gGameObjects[result]->TX = gGameObjects[result]->X;
+		gGameObjects[result]->TY = gGameObjects[result]->Y;
+		gGameObjects[result]->MTX = gGameObjects[result]->X;
+		gGameObjects[result]->MTY = gGameObjects[result]->Y;
+		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+		gGameObjects[result]->StartX = gGameObjects[result]->X;
+		gGameObjects[result]->StartY = gGameObjects[result]->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			gGameObjects[result].Dir = rand() % 8;
+			gGameObjects[result]->Dir = rand() % 8;
 		}
 
 		else
 		{
-			gGameObjects[result].Dir = It->second.m_Dir;
+			gGameObjects[result]->Dir = It->second.m_Dir;
 		}
 
 		gObjSetMonster(result, It->second.m_Type);
@@ -506,29 +506,29 @@ void CEledoradoEvent::RegenDevilLizardKing()
 			return;
 		}
 
-		gGameObjects[result].MapNumber = MapNumber;
+		gGameObjects[result]->MapNumber = MapNumber;
 
 		this->GetBoxPosition(MapNumber, this->m_BossDevilLizardKingMapX - 4, this->m_BossDevilLizardKingMapY - 4,
-			this->m_BossDevilLizardKingMapX + 4, this->m_BossDevilLizardKingMapY + 4, gGameObjects[result].X, gGameObjects[result].Y);
+			this->m_BossDevilLizardKingMapX + 4, this->m_BossDevilLizardKingMapY + 4, gGameObjects[result]->X, gGameObjects[result]->Y);
 
-		gGameObjects[result].m_PosNum = -1;
-		gGameObjects[result].TX = gGameObjects[result].X;
-		gGameObjects[result].TY = gGameObjects[result].Y;
-		gGameObjects[result].MTX = gGameObjects[result].X;
-		gGameObjects[result].MTY = gGameObjects[result].Y;
-		gGameObjects[result].m_OldX = gGameObjects[result].X;
-		gGameObjects[result].m_OldY = gGameObjects[result].Y;
-		gGameObjects[result].StartX = gGameObjects[result].X;
-		gGameObjects[result].StartY = gGameObjects[result].Y;
+		gGameObjects[result]->m_PosNum = -1;
+		gGameObjects[result]->TX = gGameObjects[result]->X;
+		gGameObjects[result]->TY = gGameObjects[result]->Y;
+		gGameObjects[result]->MTX = gGameObjects[result]->X;
+		gGameObjects[result]->MTY = gGameObjects[result]->Y;
+		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+		gGameObjects[result]->StartX = gGameObjects[result]->X;
+		gGameObjects[result]->StartY = gGameObjects[result]->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			gGameObjects[result].Dir = rand() % 8;
+			gGameObjects[result]->Dir = rand() % 8;
 		}
 
 		else
 		{
-			gGameObjects[result].Dir = It->second.m_Dir;
+			gGameObjects[result]->Dir = It->second.m_Dir;
 		}
 
 		gObjSetMonster(result, It->second.m_Type);
@@ -578,35 +578,35 @@ void CEledoradoEvent::RegenKantur()
 			return;
 		}
 
-		gGameObjects[result].MapNumber = MapNumber;
+		gGameObjects[result]->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result].X, gGameObjects[result].Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result]->X, gGameObjects[result]->Y) == 0)
 		{
 
 		}
 
-		this->m_BossKanturMapNumber = gGameObjects[result].MapNumber;
-		this->m_BossKanturMapX = gGameObjects[result].X;
-		this->m_BossKanturMapY = gGameObjects[result].Y;
+		this->m_BossKanturMapNumber = gGameObjects[result]->MapNumber;
+		this->m_BossKanturMapX = gGameObjects[result]->X;
+		this->m_BossKanturMapY = gGameObjects[result]->Y;
 
-		gGameObjects[result].m_PosNum = -1;
-		gGameObjects[result].TX = gGameObjects[result].X;
-		gGameObjects[result].TY = gGameObjects[result].Y;
-		gGameObjects[result].MTX = gGameObjects[result].X;
-		gGameObjects[result].MTY = gGameObjects[result].Y;
-		gGameObjects[result].m_OldX = gGameObjects[result].X;
-		gGameObjects[result].m_OldY = gGameObjects[result].Y;
-		gGameObjects[result].StartX = gGameObjects[result].X;
-		gGameObjects[result].StartY = gGameObjects[result].Y;
+		gGameObjects[result]->m_PosNum = -1;
+		gGameObjects[result]->TX = gGameObjects[result]->X;
+		gGameObjects[result]->TY = gGameObjects[result]->Y;
+		gGameObjects[result]->MTX = gGameObjects[result]->X;
+		gGameObjects[result]->MTY = gGameObjects[result]->Y;
+		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+		gGameObjects[result]->StartX = gGameObjects[result]->X;
+		gGameObjects[result]->StartY = gGameObjects[result]->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			gGameObjects[result].Dir = rand() % 8;
+			gGameObjects[result]->Dir = rand() % 8;
 		}
 
 		else
 		{
-			gGameObjects[result].Dir = It->second.m_Dir;
+			gGameObjects[result]->Dir = It->second.m_Dir;
 		}
 
 		gObjSetMonster(result, It->second.m_Type);
@@ -640,29 +640,29 @@ void CEledoradoEvent::RegenKantur()
 			return;
 		}
 
-		gGameObjects[result].MapNumber = MapNumber;
+		gGameObjects[result]->MapNumber = MapNumber;
 
 		this->GetBoxPosition(MapNumber, this->m_BossKanturMapX - 10, m_BossKanturMapY - 10,
-			this->m_BossKanturMapX + 10, m_BossKanturMapY + 10, gGameObjects[result].X, gGameObjects[result].Y);
+			this->m_BossKanturMapX + 10, m_BossKanturMapY + 10, gGameObjects[result]->X, gGameObjects[result]->Y);
 
-		gGameObjects[result].m_PosNum = -1;
-		gGameObjects[result].TX = gGameObjects[result].X;
-		gGameObjects[result].TY = gGameObjects[result].Y;
-		gGameObjects[result].MTX = gGameObjects[result].X;
-		gGameObjects[result].MTY = gGameObjects[result].Y;
-		gGameObjects[result].m_OldX = gGameObjects[result].X;
-		gGameObjects[result].m_OldY = gGameObjects[result].Y;
-		gGameObjects[result].StartX = gGameObjects[result].X;
-		gGameObjects[result].StartY = gGameObjects[result].Y;
+		gGameObjects[result]->m_PosNum = -1;
+		gGameObjects[result]->TX = gGameObjects[result]->X;
+		gGameObjects[result]->TY = gGameObjects[result]->Y;
+		gGameObjects[result]->MTX = gGameObjects[result]->X;
+		gGameObjects[result]->MTY = gGameObjects[result]->Y;
+		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+		gGameObjects[result]->StartX = gGameObjects[result]->X;
+		gGameObjects[result]->StartY = gGameObjects[result]->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			gGameObjects[result].Dir = rand() % 8;
+			gGameObjects[result]->Dir = rand() % 8;
 		}
 
 		else
 		{
-			gGameObjects[result].Dir = It->second.m_Dir;
+			gGameObjects[result]->Dir = It->second.m_Dir;
 		}
 
 		gObjSetMonster(result, It->second.m_Type);
@@ -781,31 +781,31 @@ void CEledoradoEvent::RegenRabbit()
 			return;
 		}
 
-		gGameObjects[result].MapNumber = MapNumber;
+		gGameObjects[result]->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result].X, gGameObjects[result].Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result]->X, gGameObjects[result]->Y) == 0)
 		{
 
 		}
 
-		gGameObjects[result].m_PosNum = -1;
-		gGameObjects[result].TX = gGameObjects[result].X;
-		gGameObjects[result].TY = gGameObjects[result].Y;
-		gGameObjects[result].MTX = gGameObjects[result].X;
-		gGameObjects[result].MTY = gGameObjects[result].Y;
-		gGameObjects[result].m_OldX = gGameObjects[result].X;
-		gGameObjects[result].m_OldY = gGameObjects[result].Y;
-		gGameObjects[result].StartX = gGameObjects[result].X;
-		gGameObjects[result].StartY = gGameObjects[result].Y;
+		gGameObjects[result]->m_PosNum = -1;
+		gGameObjects[result]->TX = gGameObjects[result]->X;
+		gGameObjects[result]->TY = gGameObjects[result]->Y;
+		gGameObjects[result]->MTX = gGameObjects[result]->X;
+		gGameObjects[result]->MTY = gGameObjects[result]->Y;
+		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+		gGameObjects[result]->StartX = gGameObjects[result]->X;
+		gGameObjects[result]->StartY = gGameObjects[result]->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			gGameObjects[result].Dir = rand() % 8;
+			gGameObjects[result]->Dir = rand() % 8;
 		}
 
 		else
 		{
-			gGameObjects[result].Dir = It->second.m_Dir;
+			gGameObjects[result]->Dir = It->second.m_Dir;
 		}
 
 		gObjSetMonster(result, It->second.m_Type);
@@ -856,31 +856,31 @@ void CEledoradoEvent::RegenDarkKnight()
 			return;
 		}
 
-		gGameObjects[result].MapNumber = MapNumber;
+		gGameObjects[result]->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result].X, gGameObjects[result].Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result]->X, gGameObjects[result]->Y) == 0)
 		{
 
 		}
 
-		gGameObjects[result].m_PosNum = -1;
-		gGameObjects[result].TX = gGameObjects[result].X;
-		gGameObjects[result].TY = gGameObjects[result].Y;
-		gGameObjects[result].MTX = gGameObjects[result].X;
-		gGameObjects[result].MTY = gGameObjects[result].Y;
-		gGameObjects[result].m_OldX = gGameObjects[result].X;
-		gGameObjects[result].m_OldY = gGameObjects[result].Y;
-		gGameObjects[result].StartX = gGameObjects[result].X;
-		gGameObjects[result].StartY = gGameObjects[result].Y;
+		gGameObjects[result]->m_PosNum = -1;
+		gGameObjects[result]->TX = gGameObjects[result]->X;
+		gGameObjects[result]->TY = gGameObjects[result]->Y;
+		gGameObjects[result]->MTX = gGameObjects[result]->X;
+		gGameObjects[result]->MTY = gGameObjects[result]->Y;
+		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+		gGameObjects[result]->StartX = gGameObjects[result]->X;
+		gGameObjects[result]->StartY = gGameObjects[result]->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			gGameObjects[result].Dir = rand() % 8;
+			gGameObjects[result]->Dir = rand() % 8;
 		}
 
 		else
 		{
-			gGameObjects[result].Dir = It->second.m_Dir;
+			gGameObjects[result]->Dir = It->second.m_Dir;
 		}
 
 		gObjSetMonster(result, It->second.m_Type);
@@ -931,31 +931,31 @@ void CEledoradoEvent::RegenDevil()
 			return;
 		}
 
-		gGameObjects[result].MapNumber = MapNumber;
+		gGameObjects[result]->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result].X, gGameObjects[result].Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result]->X, gGameObjects[result]->Y) == 0)
 		{
 
 		}
 
-		gGameObjects[result].m_PosNum = -1;
-		gGameObjects[result].TX = gGameObjects[result].X;
-		gGameObjects[result].TY = gGameObjects[result].Y;
-		gGameObjects[result].MTX = gGameObjects[result].X;
-		gGameObjects[result].MTY = gGameObjects[result].Y;
-		gGameObjects[result].m_OldX = gGameObjects[result].X;
-		gGameObjects[result].m_OldY = gGameObjects[result].Y;
-		gGameObjects[result].StartX = gGameObjects[result].X;
-		gGameObjects[result].StartY = gGameObjects[result].Y;
+		gGameObjects[result]->m_PosNum = -1;
+		gGameObjects[result]->TX = gGameObjects[result]->X;
+		gGameObjects[result]->TY = gGameObjects[result]->Y;
+		gGameObjects[result]->MTX = gGameObjects[result]->X;
+		gGameObjects[result]->MTY = gGameObjects[result]->Y;
+		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+		gGameObjects[result]->StartX = gGameObjects[result]->X;
+		gGameObjects[result]->StartY = gGameObjects[result]->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			gGameObjects[result].Dir = rand() % 8;
+			gGameObjects[result]->Dir = rand() % 8;
 		}
 
 		else
 		{
-			gGameObjects[result].Dir = It->second.m_Dir;
+			gGameObjects[result]->Dir = It->second.m_Dir;
 		}
 
 		gObjSetMonster(result, It->second.m_Type);
@@ -1006,31 +1006,31 @@ void CEledoradoEvent::RegenDarkKnightAida()
 			return;
 		}
 
-		gGameObjects[result].MapNumber = MapNumber;
+		gGameObjects[result]->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result].X, gGameObjects[result].Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result]->X, gGameObjects[result]->Y) == 0)
 		{
 
 		}
 
-		gGameObjects[result].m_PosNum = -1;
-		gGameObjects[result].TX = gGameObjects[result].X;
-		gGameObjects[result].TY = gGameObjects[result].Y;
-		gGameObjects[result].MTX = gGameObjects[result].X;
-		gGameObjects[result].MTY = gGameObjects[result].Y;
-		gGameObjects[result].m_OldX = gGameObjects[result].X;
-		gGameObjects[result].m_OldY = gGameObjects[result].Y;
-		gGameObjects[result].StartX = gGameObjects[result].X;
-		gGameObjects[result].StartY = gGameObjects[result].Y;
+		gGameObjects[result]->m_PosNum = -1;
+		gGameObjects[result]->TX = gGameObjects[result]->X;
+		gGameObjects[result]->TY = gGameObjects[result]->Y;
+		gGameObjects[result]->MTX = gGameObjects[result]->X;
+		gGameObjects[result]->MTY = gGameObjects[result]->Y;
+		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+		gGameObjects[result]->StartX = gGameObjects[result]->X;
+		gGameObjects[result]->StartY = gGameObjects[result]->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			gGameObjects[result].Dir = rand() % 8;
+			gGameObjects[result]->Dir = rand() % 8;
 		}
 
 		else
 		{
-			gGameObjects[result].Dir = It->second.m_Dir;
+			gGameObjects[result]->Dir = It->second.m_Dir;
 		}
 
 		gObjSetMonster(result, It->second.m_Type);
@@ -1081,31 +1081,31 @@ void CEledoradoEvent::RegenCrust()
 			return;
 		}
 
-		gGameObjects[result].MapNumber = MapNumber;
+		gGameObjects[result]->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result].X, gGameObjects[result].Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result]->X, gGameObjects[result]->Y) == 0)
 		{
 
 		}
 
-		gGameObjects[result].m_PosNum = -1;
-		gGameObjects[result].TX = gGameObjects[result].X;
-		gGameObjects[result].TY = gGameObjects[result].Y;
-		gGameObjects[result].MTX = gGameObjects[result].X;
-		gGameObjects[result].MTY = gGameObjects[result].Y;
-		gGameObjects[result].m_OldX = gGameObjects[result].X;
-		gGameObjects[result].m_OldY = gGameObjects[result].Y;
-		gGameObjects[result].StartX = gGameObjects[result].X;
-		gGameObjects[result].StartY = gGameObjects[result].Y;
+		gGameObjects[result]->m_PosNum = -1;
+		gGameObjects[result]->TX = gGameObjects[result]->X;
+		gGameObjects[result]->TY = gGameObjects[result]->Y;
+		gGameObjects[result]->MTX = gGameObjects[result]->X;
+		gGameObjects[result]->MTY = gGameObjects[result]->Y;
+		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+		gGameObjects[result]->StartX = gGameObjects[result]->X;
+		gGameObjects[result]->StartY = gGameObjects[result]->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			gGameObjects[result].Dir = rand() % 8;
+			gGameObjects[result]->Dir = rand() % 8;
 		}
 
 		else
 		{
-			gGameObjects[result].Dir = It->second.m_Dir;
+			gGameObjects[result]->Dir = It->second.m_Dir;
 		}
 
 		gObjSetMonster(result, It->second.m_Type);
@@ -1156,31 +1156,31 @@ void CEledoradoEvent::RegenSatiros()
 			return;
 		}
 
-		gGameObjects[result].MapNumber = MapNumber;
+		gGameObjects[result]->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result].X, gGameObjects[result].Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result]->X, gGameObjects[result]->Y) == 0)
 		{
 
 		}
 
-		gGameObjects[result].m_PosNum = -1;
-		gGameObjects[result].TX = gGameObjects[result].X;
-		gGameObjects[result].TY = gGameObjects[result].Y;
-		gGameObjects[result].MTX = gGameObjects[result].X;
-		gGameObjects[result].MTY = gGameObjects[result].Y;
-		gGameObjects[result].m_OldX = gGameObjects[result].X;
-		gGameObjects[result].m_OldY = gGameObjects[result].Y;
-		gGameObjects[result].StartX = gGameObjects[result].X;
-		gGameObjects[result].StartY = gGameObjects[result].Y;
+		gGameObjects[result]->m_PosNum = -1;
+		gGameObjects[result]->TX = gGameObjects[result]->X;
+		gGameObjects[result]->TY = gGameObjects[result]->Y;
+		gGameObjects[result]->MTX = gGameObjects[result]->X;
+		gGameObjects[result]->MTY = gGameObjects[result]->Y;
+		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+		gGameObjects[result]->StartX = gGameObjects[result]->X;
+		gGameObjects[result]->StartY = gGameObjects[result]->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			gGameObjects[result].Dir = rand() % 8;
+			gGameObjects[result]->Dir = rand() % 8;
 		}
 
 		else
 		{
-			gGameObjects[result].Dir = It->second.m_Dir;
+			gGameObjects[result]->Dir = It->second.m_Dir;
 		}
 
 		gObjSetMonster(result, It->second.m_Type);
@@ -1231,31 +1231,31 @@ void CEledoradoEvent::RegenTwinTail()
 			return;
 		}
 
-		gGameObjects[result].MapNumber = MapNumber;
+		gGameObjects[result]->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result].X, gGameObjects[result].Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result]->X, gGameObjects[result]->Y) == 0)
 		{
 
 		}
 
-		gGameObjects[result].m_PosNum = -1;
-		gGameObjects[result].TX = gGameObjects[result].X;
-		gGameObjects[result].TY = gGameObjects[result].Y;
-		gGameObjects[result].MTX = gGameObjects[result].X;
-		gGameObjects[result].MTY = gGameObjects[result].Y;
-		gGameObjects[result].m_OldX = gGameObjects[result].X;
-		gGameObjects[result].m_OldY = gGameObjects[result].Y;
-		gGameObjects[result].StartX = gGameObjects[result].X;
-		gGameObjects[result].StartY = gGameObjects[result].Y;
+		gGameObjects[result]->m_PosNum = -1;
+		gGameObjects[result]->TX = gGameObjects[result]->X;
+		gGameObjects[result]->TY = gGameObjects[result]->Y;
+		gGameObjects[result]->MTX = gGameObjects[result]->X;
+		gGameObjects[result]->MTY = gGameObjects[result]->Y;
+		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+		gGameObjects[result]->StartX = gGameObjects[result]->X;
+		gGameObjects[result]->StartY = gGameObjects[result]->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			gGameObjects[result].Dir = rand() % 8;
+			gGameObjects[result]->Dir = rand() % 8;
 		}
 
 		else
 		{
-			gGameObjects[result].Dir = It->second.m_Dir;
+			gGameObjects[result]->Dir = It->second.m_Dir;
 		}
 
 		gObjSetMonster(result, It->second.m_Type);
@@ -1306,31 +1306,31 @@ void CEledoradoEvent::RegenIronKnight()
 			return;
 		}
 
-		gGameObjects[result].MapNumber = MapNumber;
+		gGameObjects[result]->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result].X, gGameObjects[result].Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result]->X, gGameObjects[result]->Y) == 0)
 		{
 
 		}
 
-		gGameObjects[result].m_PosNum = -1;
-		gGameObjects[result].TX = gGameObjects[result].X;
-		gGameObjects[result].TY = gGameObjects[result].Y;
-		gGameObjects[result].MTX = gGameObjects[result].X;
-		gGameObjects[result].MTY = gGameObjects[result].Y;
-		gGameObjects[result].m_OldX = gGameObjects[result].X;
-		gGameObjects[result].m_OldY = gGameObjects[result].Y;
-		gGameObjects[result].StartX = gGameObjects[result].X;
-		gGameObjects[result].StartY = gGameObjects[result].Y;
+		gGameObjects[result]->m_PosNum = -1;
+		gGameObjects[result]->TX = gGameObjects[result]->X;
+		gGameObjects[result]->TY = gGameObjects[result]->Y;
+		gGameObjects[result]->MTX = gGameObjects[result]->X;
+		gGameObjects[result]->MTY = gGameObjects[result]->Y;
+		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+		gGameObjects[result]->StartX = gGameObjects[result]->X;
+		gGameObjects[result]->StartY = gGameObjects[result]->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			gGameObjects[result].Dir = rand() % 8;
+			gGameObjects[result]->Dir = rand() % 8;
 		}
 
 		else
 		{
-			gGameObjects[result].Dir = It->second.m_Dir;
+			gGameObjects[result]->Dir = It->second.m_Dir;
 		}
 
 		gObjSetMonster(result, It->second.m_Type);
@@ -1381,31 +1381,31 @@ void CEledoradoEvent::RegenNeipin()
 			return;
 		}
 
-		gGameObjects[result].MapNumber = MapNumber;
+		gGameObjects[result]->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result].X, gGameObjects[result].Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result]->X, gGameObjects[result]->Y) == 0)
 		{
 
 		}
 
-		gGameObjects[result].m_PosNum = -1;
-		gGameObjects[result].TX = gGameObjects[result].X;
-		gGameObjects[result].TY = gGameObjects[result].Y;
-		gGameObjects[result].MTX = gGameObjects[result].X;
-		gGameObjects[result].MTY = gGameObjects[result].Y;
-		gGameObjects[result].m_OldX = gGameObjects[result].X;
-		gGameObjects[result].m_OldY = gGameObjects[result].Y;
-		gGameObjects[result].StartX = gGameObjects[result].X;
-		gGameObjects[result].StartY = gGameObjects[result].Y;
+		gGameObjects[result]->m_PosNum = -1;
+		gGameObjects[result]->TX = gGameObjects[result]->X;
+		gGameObjects[result]->TY = gGameObjects[result]->Y;
+		gGameObjects[result]->MTX = gGameObjects[result]->X;
+		gGameObjects[result]->MTY = gGameObjects[result]->Y;
+		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+		gGameObjects[result]->StartX = gGameObjects[result]->X;
+		gGameObjects[result]->StartY = gGameObjects[result]->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			gGameObjects[result].Dir = rand() % 8;
+			gGameObjects[result]->Dir = rand() % 8;
 		}
 
 		else
 		{
-			gGameObjects[result].Dir = It->second.m_Dir;
+			gGameObjects[result]->Dir = It->second.m_Dir;
 		}
 
 		gObjSetMonster(result, It->second.m_Type);
@@ -1456,31 +1456,31 @@ void CEledoradoEvent::RegenGreatDragon()
 			return;
 		}
 
-		gGameObjects[result].MapNumber = MapNumber;
+		gGameObjects[result]->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result].X, gGameObjects[result].Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, gGameObjects[result]->X, gGameObjects[result]->Y) == 0)
 		{
 
 		}
 
-		gGameObjects[result].m_PosNum = -1;
-		gGameObjects[result].TX = gGameObjects[result].X;
-		gGameObjects[result].TY = gGameObjects[result].Y;
-		gGameObjects[result].MTX = gGameObjects[result].X;
-		gGameObjects[result].MTY = gGameObjects[result].Y;
-		gGameObjects[result].m_OldX = gGameObjects[result].X;
-		gGameObjects[result].m_OldY = gGameObjects[result].Y;
-		gGameObjects[result].StartX = gGameObjects[result].X;
-		gGameObjects[result].StartY = gGameObjects[result].Y;
+		gGameObjects[result]->m_PosNum = -1;
+		gGameObjects[result]->TX = gGameObjects[result]->X;
+		gGameObjects[result]->TY = gGameObjects[result]->Y;
+		gGameObjects[result]->MTX = gGameObjects[result]->X;
+		gGameObjects[result]->MTY = gGameObjects[result]->Y;
+		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+		gGameObjects[result]->StartX = gGameObjects[result]->X;
+		gGameObjects[result]->StartY = gGameObjects[result]->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			gGameObjects[result].Dir = rand() % 8;
+			gGameObjects[result]->Dir = rand() % 8;
 		}
 
 		else
 		{
-			gGameObjects[result].Dir = It->second.m_Dir;
+			gGameObjects[result]->Dir = It->second.m_Dir;
 		}
 
 		gObjSetMonster(result, It->second.m_Type);

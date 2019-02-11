@@ -144,7 +144,7 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, int iIndex)
 		return;
 	}
 
-	if (gGameObjects[iIndex].Type != OBJ_USER)
+	if (gGameObjects[iIndex]->Type != OBJ_USER)
 	{
 		return;
 	}

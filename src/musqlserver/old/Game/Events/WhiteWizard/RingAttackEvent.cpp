@@ -40,10 +40,10 @@ BOOL CRingMonsterHerd::MonsterHerdItemDrop(CGameObject &lpObj)
 		ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y,
 			itemnumber, 0, 0, 0, 0, 0, iIndex, 0, 0, 0, 0, 0);
 		char szTemp[256];
-		wsprintf(szTemp, Lang.GetText(0,101), gGameObjects[iIndex].Name, Lang.GetMap(0, lpObj.MapNumber));	// #error Apply Deathway fix here
+		wsprintf(szTemp, Lang.GetText(0,101), gGameObjects[iIndex]->Name, Lang.GetMap(0, lpObj.MapNumber));	// #error Apply Deathway fix here
 		GSProtocol.AllSendServerMsg( szTemp ); 
 		sLog->outBasic("[Ring Event] White Wizard Killed by [%s][%s], MapNumber:%d",
-			gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name, gGameObjects[iIndex].MapNumber);
+			gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, gGameObjects[iIndex]->MapNumber);
 
 		return TRUE;
 
@@ -121,25 +121,25 @@ void CRingMonsterHerd::SendEventGiftWinner(int iIndex, int iGiftKind)
 		return;
 	}
 
-	if ( gGameObjects[iIndex].UseEventServer != FALSE )
+	if ( gGameObjects[iIndex]->UseEventServer != FALSE )
 	{
 		return;
 	}
 
-	gGameObjects[iIndex].UseEventServer = TRUE;
+	gGameObjects[iIndex]->UseEventServer = TRUE;
 
 	PMSG_REQ_REG_RINGGIFT pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xBE, 0x10, sizeof(pMsg));
 	pMsg.iINDEX  = iIndex;
-	memcpy(pMsg.szUID, gGameObjects[iIndex].AccountID, MAX_ACCOUNT_LEN);
+	memcpy(pMsg.szUID, gGameObjects[iIndex]->AccountID, MAX_ACCOUNT_LEN);
 	pMsg.szUID[MAX_ACCOUNT_LEN] = 0;	// #error Remove the +1 to avoid problems
 	pMsg.btGiftKind = iGiftKind;
 
 	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
 
 	sLog->outBasic("[Ring Event] [%s][%s] Request to Register Gift - Gift Kind (%d)",
-		gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name,  iGiftKind);
+		gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name,  iGiftKind);
 
 }
 

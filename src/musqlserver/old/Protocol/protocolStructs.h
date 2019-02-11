@@ -7039,9 +7039,11 @@ struct PMSG_SERVERINFO {
 	short MaxUserCount;
 };
 
-struct PMSG_SERVERLIST_SERVER {
-	WORD ServerCode;
-	WORD Percent;
+struct PMSG_SERVERLIST_SERVER
+{
+	WORD			wServerCode;
+	BYTE			btPercent;
+	BYTE			btPlayType;
 };
 
 struct PMSG_SERVERMSG {
@@ -7728,6 +7730,7 @@ struct SDHP_DBCHAR_INFORESULT {
 	int Ruud;
 	time_t ChatBlockTime;
 	DWORD PenaltyMask;
+	BYTE EventMap;
 };
 
 struct SDHP_DBCHAR_INFOSAVE {

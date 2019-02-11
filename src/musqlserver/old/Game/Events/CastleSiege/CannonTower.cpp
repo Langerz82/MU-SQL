@@ -65,7 +65,7 @@ void CCannonTower::CannonTowerAct(int iIndex) // 0x00560940  1.00.19
 
 				if (tObjNum >= 0)
 				{
-					if (gGameObjects[tObjNum].m_btCsJoinSide)
+					if (gGameObjects[tObjNum]->m_btCsJoinSide)
 					{
 						if (gObjCalDistance(lpObj, &gGameObjects[tObjNum]) < 7)
 						{

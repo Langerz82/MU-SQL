@@ -31,8 +31,6 @@
 
 extern int MaxViewportMonster;
 
-inline bool ObjectMaxRange(int Index);
-
 class CAttackQueue;
 class CUserData;
 

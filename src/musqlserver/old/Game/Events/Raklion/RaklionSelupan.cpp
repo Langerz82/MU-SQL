@@ -291,7 +291,7 @@ void CRaklionSelupan::InitSelupanIndex()
 {
 	for (int iCount = 0; iCount < g_ConfigRead.server.GetObjectMaxMonster(); iCount++)
 	{
-		if (gGameObjects[iCount].Connected == PLAYER_PLAYING && gGameObjects[iCount].Class == 459)
+		if (gGameObjects[iCount]->Connected == PLAYER_PLAYING && gGameObjects[iCount]->Class == 459)
 		{
 			this->m_iSelupanObjIndex = iCount;
 		}
@@ -330,8 +330,8 @@ BOOL CRaklionSelupan::RegenSelupan()
 
 	gObjMonsterHitDamageInit(lpObj);
 
-	gGameObjects[result].DieRegen = 0;
-	gGameObjects[result].m_State = 1;
+	gGameObjects[result]->DieRegen = 0;
+	gGameObjects[result]->m_State = 1;
 
 	sLog->outBasic("[RAKLION] Create Selupan : X (%d) / Y(%d)", lpObj.X, lpObj.Y);
 

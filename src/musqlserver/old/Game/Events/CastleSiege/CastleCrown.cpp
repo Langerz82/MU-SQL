@@ -28,8 +28,8 @@ void CCastleCrown::CastleCrownAct(int iIndex)
 	if ( !gObjIsConnected(iIndex))
 		return;
 
-	if ( gGameObjects[iIndex].Type != OBJ_NPC ||
-		 gGameObjects[iIndex].Class != 216 )
+	if ( gGameObjects[iIndex]->Type != OBJ_NPC ||
+		 gGameObjects[iIndex]->Class != 216 )
 		 return;
 
 	if ( !gObjIsConnected(g_CastleSiege.GetCrownUserIndex()) )

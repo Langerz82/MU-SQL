@@ -1048,8 +1048,8 @@ int CIllusionTempleProcess_Renewal::SearchRelicsItem(int iIndex)
 
 	for (int x = 0; x < INVENTORY_SIZE; x++)
 	{
-		if (gGameObjects[iIndex].pInventory[x].IsItem() == TRUE &&
-			gGameObjects[iIndex].pInventory[x].m_Type == ITEMGET(14, 223))
+		if (gGameObjects[iIndex]->pInventory[x].IsItem() == TRUE &&
+			gGameObjects[iIndex]->pInventory[x].m_Type == ITEMGET(14, 223))
 		{
 			return x;
 		}
@@ -1133,30 +1133,30 @@ void CIllusionTempleProcess_Renewal::DropRelicsItem(int iIndex, BYTE byAct)
 	pResult.Result = TRUE;
 	pResult.Ipos = iItemPos;
 
-	int map_num = gGameObjects[iIndex].MapNumber;
-	int type = gGameObjects[iIndex].pInventory[iItemPos].m_Type;
-	int level = gGameObjects[iIndex].pInventory[iItemPos].m_Level;
-	float dur = gGameObjects[iIndex].pInventory[iItemPos].m_Durability;
-	BOOL ret = gGameObjects[iIndex].pInventory[iItemPos].IsItem();
-	BYTE Option1 = gGameObjects[iIndex].pInventory[iItemPos].m_Option1;
-	BYTE Option2 = gGameObjects[iIndex].pInventory[iItemPos].m_Option2;
-	BYTE Option3 = gGameObjects[iIndex].pInventory[iItemPos].m_Option3;
-	BYTE NOption = gGameObjects[iIndex].pInventory[iItemPos].m_NewOption;
-	UINT64 s_num = gGameObjects[iIndex].pInventory[iItemPos].m_Number;
-	BYTE ItemExOption = g_kJewelOfHarmonySystem.GetItemStrengthenOption(&gGameObjects[iIndex].pInventory[iItemPos]);
-	BYTE ItemExLevel = g_kJewelOfHarmonySystem.GetItemOptionLevel(&gGameObjects[iIndex].pInventory[iItemPos]);
+	int map_num = gGameObjects[iIndex]->MapNumber;
+	int type = gGameObjects[iIndex]->pInventory[iItemPos].m_Type;
+	int level = gGameObjects[iIndex]->pInventory[iItemPos].m_Level;
+	float dur = gGameObjects[iIndex]->pInventory[iItemPos].m_Durability;
+	BOOL ret = gGameObjects[iIndex]->pInventory[iItemPos].IsItem();
+	BYTE Option1 = gGameObjects[iIndex]->pInventory[iItemPos].m_Option1;
+	BYTE Option2 = gGameObjects[iIndex]->pInventory[iItemPos].m_Option2;
+	BYTE Option3 = gGameObjects[iIndex]->pInventory[iItemPos].m_Option3;
+	BYTE NOption = gGameObjects[iIndex]->pInventory[iItemPos].m_NewOption;
+	UINT64 s_num = gGameObjects[iIndex]->pInventory[iItemPos].m_Number;
+	BYTE ItemExOption = g_kJewelOfHarmonySystem.GetItemStrengthenOption(&gGameObjects[iIndex]->pInventory[iItemPos]);
+	BYTE ItemExLevel = g_kJewelOfHarmonySystem.GetItemOptionLevel(&gGameObjects[iIndex]->pInventory[iItemPos]);
 
 	BYTE NewOption[8];
 
-	::ItemIsBufExOption(NewOption, &gGameObjects[iIndex].pInventory[iItemPos]);
+	::ItemIsBufExOption(NewOption, &gGameObjects[iIndex]->pInventory[iItemPos]);
 
-	int PetLevel = gGameObjects[iIndex].pInventory[iItemPos].m_PetItem_Level;
+	int PetLevel = gGameObjects[iIndex]->pInventory[iItemPos].m_PetItem_Level;
 
-	UINT64 PetExp = gGameObjects[iIndex].pInventory[iItemPos].m_PetItem_Exp;
-	BYTE SOption = gGameObjects[iIndex].pInventory[iItemPos].m_SetOption;
+	UINT64 PetExp = gGameObjects[iIndex]->pInventory[iItemPos].m_PetItem_Exp;
+	BYTE SOption = gGameObjects[iIndex]->pInventory[iItemPos].m_SetOption;
 
-	BYTE ItemEffectEx = gGameObjects[iIndex].pInventory[iItemPos].m_ItemOptionEx;
-	int item_number = gGameObjects[iIndex].pInventory[iItemPos].m_Number;
+	BYTE ItemEffectEx = gGameObjects[iIndex]->pInventory[iItemPos].m_ItemOptionEx;
+	int item_number = gGameObjects[iIndex]->pInventory[iItemPos].m_Number;
 
 	char szItemName[50] = "Relics Item";
 
@@ -1164,7 +1164,7 @@ void CIllusionTempleProcess_Renewal::DropRelicsItem(int iIndex, BYTE byAct)
 	short X = 0;
 	short Y = 0;
 
-	BYTE btMapAttr = MapC[map_num].GetAttr(gGameObjects[iIndex].X, gGameObjects[iIndex].Y);
+	BYTE btMapAttr = MapC[map_num].GetAttr(gGameObjects[iIndex]->X, gGameObjects[iIndex]->Y);
 
 	if ((btMapAttr & 4) == 4 || (btMapAttr & 8) == 8)
 	{
@@ -1174,8 +1174,8 @@ void CIllusionTempleProcess_Renewal::DropRelicsItem(int iIndex, BYTE byAct)
 
 	else
 	{
-		X = gGameObjects[iIndex].X;
-		Y = gGameObjects[iIndex].Y;
+		X = gGameObjects[iIndex]->X;
+		Y = gGameObjects[iIndex]->Y;
 	}
 
 	if (MapC[map_num].ItemDrop(type, level, dur, X, Y, Option1, Option2, Option3, NOption, SOption, item_number, aAntiLootIndex, PetLevel, PetExp, ItemEffectEx, NULL, 0xFF, 0) == TRUE)
@@ -1963,17 +1963,17 @@ void CIllusionTempleProcess_Renewal::SetNpc()
 
 		if (result > 0)
 		{
-			gGameObjects[result].m_PosNum = i;
-			gGameObjects[result].X = this->m_ITRNpcInfo[i].byX;
-			gGameObjects[result].Y = this->m_ITRNpcInfo[i].byY;
-			gGameObjects[result].MapNumber = this->m_ITRNpcInfo[i].byMapNumber;
-			gGameObjects[result].TX = gGameObjects[result].X;
-			gGameObjects[result].TY = gGameObjects[result].Y;
-			gGameObjects[result].m_OldX = gGameObjects[result].X;
-			gGameObjects[result].m_OldY = gGameObjects[result].Y;
-			gGameObjects[result].Dir = this->m_ITRNpcInfo[i].byDir;
-			gGameObjects[result].StartX = gGameObjects[result].X;
-			gGameObjects[result].StartY = gGameObjects[result].Y;
+			gGameObjects[result]->m_PosNum = i;
+			gGameObjects[result]->X = this->m_ITRNpcInfo[i].byX;
+			gGameObjects[result]->Y = this->m_ITRNpcInfo[i].byY;
+			gGameObjects[result]->MapNumber = this->m_ITRNpcInfo[i].byMapNumber;
+			gGameObjects[result]->TX = gGameObjects[result]->X;
+			gGameObjects[result]->TY = gGameObjects[result]->Y;
+			gGameObjects[result]->m_OldX = gGameObjects[result]->X;
+			gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
+			gGameObjects[result]->Dir = this->m_ITRNpcInfo[i].byDir;
+			gGameObjects[result]->StartX = gGameObjects[result]->X;
+			gGameObjects[result]->StartY = gGameObjects[result]->Y;
 			gObjSetMonster(result, this->m_ITRNpcInfo[i].wNpcType);
 
 			if (this->m_ITRNpcInfo[i].wNpcType == 658)
@@ -2129,17 +2129,17 @@ BYTE CIllusionTempleProcess_Renewal::GetUserTeam(int nIndex)
 		return -1;
 	}
 
-	if (gGameObjects[nIndex].m_nITR_Index == -1 || this->m_UserData[gGameObjects[nIndex].m_nITR_Index].m_nIndex != nIndex)
+	if (gGameObjects[nIndex]->m_nITR_Index == -1 || this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_nIndex != nIndex)
 	{
 		return -1;
 	}
 
-	if (gGameObjects[nIndex].Connected < PLAYER_PLAYING)
+	if (gGameObjects[nIndex]->Connected < PLAYER_PLAYING)
 	{
 		return -1;
 	}
 
-	return this->m_UserData[gGameObjects[nIndex].m_nITR_Index].m_btTeam;
+	return this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_btTeam;
 }
 
 void CIllusionTempleProcess_Renewal::IncUserKillCount(int nIndex)
@@ -2150,26 +2150,26 @@ void CIllusionTempleProcess_Renewal::IncUserKillCount(int nIndex)
 		return;
 	}
 
-	if (gGameObjects[nIndex].m_nITR_Index == -1 || this->m_UserData[gGameObjects[nIndex].m_nITR_Index].m_nIndex != nIndex)
+	if (gGameObjects[nIndex]->m_nITR_Index == -1 || this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_nIndex != nIndex)
 	{
 		return;
 	}
 
-	if (gGameObjects[nIndex].Connected < PLAYER_PLAYING)
+	if (gGameObjects[nIndex]->Connected < PLAYER_PLAYING)
 	{
 		return;
 	}
 
-	if (this->m_UserData[gGameObjects[nIndex].m_nITR_Index].m_btUserKillCount >= 255)
+	if (this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_btUserKillCount >= 255)
 	{
 		return;
 	}
 
 	sLog->outBasic("[ ITR ][UserKill] map:%d, ACC:%s, NAME:%s ,KillCnt:%d -> %d",
-		this->m_nTempleNumber + 1, gGameObjects[nIndex].AccountID, gGameObjects[nIndex].Name,
-		this->m_UserData[gGameObjects[nIndex].m_nITR_Index].m_btUserKillCount, this->m_UserData[gGameObjects[nIndex].m_nITR_Index].m_btUserKillCount + 1);
+		this->m_nTempleNumber + 1, gGameObjects[nIndex]->AccountID, gGameObjects[nIndex]->Name,
+		this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_btUserKillCount, this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_btUserKillCount + 1);
 
-	this->m_UserData[gGameObjects[nIndex].m_nITR_Index].m_btUserKillCount++;
+	this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_btUserKillCount++;
 }
 
 void CIllusionTempleProcess_Renewal::ResetKillCount()
@@ -2199,7 +2199,7 @@ void CIllusionTempleProcess_Renewal::ITR_UseSkill(int nIndex, WORD wSkillNumber,
 
 	if (this->GetIllusionTempleState() != 2)
 	{
-		sLog->outBasic("Process ITR_UseSkill Error #1 iIndex :%d Name:%s", nIndex, gGameObjects[nIndex].Name);
+		sLog->outBasic("Process ITR_UseSkill Error #1 iIndex :%d Name:%s", nIndex, gGameObjects[nIndex]->Name);
 		this->SendUseSkillResult(nIndex, nTargetIndex, wSkillNumber, 0);
 
 		return;
@@ -2207,7 +2207,7 @@ void CIllusionTempleProcess_Renewal::ITR_UseSkill(int nIndex, WORD wSkillNumber,
 
 	if (lpObj.Connected < PLAYER_PLAYING || lpTargetObj.Connected < PLAYER_PLAYING)
 	{
-		sLog->outBasic("Process ITR_UseSkill Error #2 iIndex :%d Name:%s", nIndex, gGameObjects[nIndex].Name);
+		sLog->outBasic("Process ITR_UseSkill Error #2 iIndex :%d Name:%s", nIndex, gGameObjects[nIndex]->Name);
 		this->SendUseSkillResult(nIndex, nTargetIndex, wSkillNumber, 0);
 
 		return;
@@ -2215,7 +2215,7 @@ void CIllusionTempleProcess_Renewal::ITR_UseSkill(int nIndex, WORD wSkillNumber,
 
 	if (lpObj.MapNumber != lpTargetObj.MapNumber)
 	{
-		sLog->outBasic("Process ITR_UseSkill Error #3 iIndex :%d Name:%s", nIndex, gGameObjects[nIndex].Name);
+		sLog->outBasic("Process ITR_UseSkill Error #3 iIndex :%d Name:%s", nIndex, gGameObjects[nIndex]->Name);
 		this->SendUseSkillResult(nIndex, nTargetIndex, wSkillNumber, 0);
 
 		return;
@@ -2223,7 +2223,7 @@ void CIllusionTempleProcess_Renewal::ITR_UseSkill(int nIndex, WORD wSkillNumber,
 
 	if (lpObj.m_nITR_Index == -1 || lpTargetObj.m_nITR_Index == -1)
 	{
-		sLog->outBasic("Process ITR_UseSkill Error #4 iIndex :%d Name:%s", nIndex, gGameObjects[nIndex].Name);
+		sLog->outBasic("Process ITR_UseSkill Error #4 iIndex :%d Name:%s", nIndex, gGameObjects[nIndex]->Name);
 		this->SendUseSkillResult(nIndex, nTargetIndex, wSkillNumber, 0);
 
 		return;
@@ -2231,7 +2231,7 @@ void CIllusionTempleProcess_Renewal::ITR_UseSkill(int nIndex, WORD wSkillNumber,
 
 	if (nIndex == nTargetIndex && (wSkillNumber == 211 || wSkillNumber == 213))
 	{
-		sLog->outBasic("Process ITR_UseSkill Error #5 iIndex :%d Name:%s", nIndex, gGameObjects[nIndex].Name);
+		sLog->outBasic("Process ITR_UseSkill Error #5 iIndex :%d Name:%s", nIndex, gGameObjects[nIndex]->Name);
 		this->SendUseSkillResult(nIndex, nTargetIndex, wSkillNumber, 0);
 
 		return;
@@ -2273,13 +2273,13 @@ void CIllusionTempleProcess_Renewal::ITR_UseSkill(int nIndex, WORD wSkillNumber,
 
 		else
 		{
-			sLog->outBasic("Process ITR_UseSkill Error #6 iIndex :%d Name:%s", nIndex, gGameObjects[nIndex].Name);
+			sLog->outBasic("Process ITR_UseSkill Error #6 iIndex :%d Name:%s", nIndex, gGameObjects[nIndex]->Name);
 		}
 	}
 
 	if (ret == FALSE)
 	{
-		sLog->outBasic("Process ITR_UseSkill Error #7 iIndex :%d Name:%s", nIndex, gGameObjects[nIndex].Name);
+		sLog->outBasic("Process ITR_UseSkill Error #7 iIndex :%d Name:%s", nIndex, gGameObjects[nIndex]->Name);
 		this->SendUseSkillResult(nIndex, nTargetIndex, wSkillNumber, FALSE);
 	}
 }
@@ -2429,8 +2429,8 @@ int CIllusionTempleProcess_Renewal::UseSkillTeleport(CGameObject &lpObj)
 
 	while (count-- != 0)
 	{
-		addx = gGameObjects[tmpRelicsUserIndex].X + rand() % 3 - 1;
-		addy = gGameObjects[tmpRelicsUserIndex].Y + rand() % 3 - 1;
+		addx = gGameObjects[tmpRelicsUserIndex]->X + rand() % 3 - 1;
+		addy = gGameObjects[tmpRelicsUserIndex]->Y + rand() % 3 - 1;
 
 		if (gObjCheckTeleportArea(lpObj.m_Index, addx, addy))
 		{
@@ -2441,8 +2441,8 @@ int CIllusionTempleProcess_Renewal::UseSkillTeleport(CGameObject &lpObj)
 
 	if (Find == FALSE)
 	{
-		addx = gGameObjects[tmpRelicsUserIndex].X;
-		addy = gGameObjects[tmpRelicsUserIndex].Y;
+		addx = gGameObjects[tmpRelicsUserIndex]->X;
+		addy = gGameObjects[tmpRelicsUserIndex]->Y;
 	}
 
 	gObjTeleportMagicUse(lpObj.m_Index, addx, addy);
@@ -2673,7 +2673,7 @@ void CIllusionTempleProcess_Renewal::DropITR_RewardBox(int nIndex)
 		return;
 	}
 
-	if (this->m_UserData[gGameObjects[nIndex].m_nITR_Index].m_nIndex != nIndex)
+	if (this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_nIndex != nIndex)
 	{
 		return;
 	}
@@ -2683,7 +2683,7 @@ void CIllusionTempleProcess_Renewal::DropITR_RewardBox(int nIndex)
 		return;
 	}
 
-	if (this->m_UserData[gGameObjects[nIndex].m_nITR_Index].m_btTeam == 0xFF)
+	if (this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_btTeam == 0xFF)
 	{
 		return;
 	}
@@ -2693,17 +2693,17 @@ void CIllusionTempleProcess_Renewal::DropITR_RewardBox(int nIndex)
 		return;
 	}
 
-	if (this->m_UserData[gGameObjects[nIndex].m_nITR_Index].m_btTeam != this->m_btWinTeam)
+	if (this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_btTeam != this->m_btWinTeam)
 	{
 		return;
 	}
 
-	if (this->m_UserData[gGameObjects[nIndex].m_nITR_Index].m_bReward == true)
+	if (this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_bReward == true)
 	{
 		return;
 	}
 
-	this->m_UserData[gGameObjects[nIndex].m_nITR_Index].m_bReward = true;
+	this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_bReward = true;
 
 	_stGremoryCaseItem stItem;
 	stItem.btStorageType = GC_STORAGE_CHARACTER;
@@ -2711,7 +2711,7 @@ void CIllusionTempleProcess_Renewal::DropITR_RewardBox(int nIndex)
 	stItem.wItemID = ItemGetNumberMake(14, this->m_nTempleNumber + 236);
 
 	g_GremoryCase.GDReqAddItemToGremoryCase(nIndex, stItem, 3);
-	sLog->outBasic("[ ITR ][DropITR_RewardBox]Index:%d,Name:%s,Acc:%s", nIndex, gGameObjects[nIndex].Name, gGameObjects[nIndex].AccountID);
+	sLog->outBasic("[ ITR ][DropITR_RewardBox]Index:%d,Name:%s,Acc:%s", nIndex, gGameObjects[nIndex]->Name, gGameObjects[nIndex]->AccountID);
 
 	g_QuestExpProgMng.ChkUserQuestTypeEventMap(QUESTEXP_ASK_ILLUSIONTEMPLE_CLEAR, &gGameObjects[nIndex], this->m_nTempleNumber, 0);
 	g_CashShop.AddCoin(&gGameObjects[nIndex], EVENT_CW);
@@ -2724,9 +2724,9 @@ void CIllusionTempleProcess_Renewal::SendAllUserAnyMsg(char *lpMsg)
 
 	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
-		if (gGameObjects[i].Connected == PLAYER_PLAYING && gGameObjects[i].Type == OBJ_USER)
+		if (gGameObjects[i]->Connected == PLAYER_PLAYING && gGameObjects[i]->Type == OBJ_USER)
 		{
-			if (!DG_MAP_RANGE(gGameObjects[i].MapNumber))
+			if (!DG_MAP_RANGE(gGameObjects[i]->MapNumber))
 			{
 				IOCP.DataSend(i, (LPBYTE)&pNotice, pNotice.h.size);
 			}
