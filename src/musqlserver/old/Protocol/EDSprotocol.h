@@ -225,17 +225,17 @@ public:
 	BOOL LoadGensData(LPSTR lpszFile);
 	int GetGensInfluence(char *szUserName);
 
-	void GDReqRegGensMember(LPGameObject &lpObj, PMSG_REQ_REG_GENS_MEMBER_EXDB *aRecv);
-	void GDReqSecedeGensMember(LPGameObject &lpObj, PMSG_REQ_SECEDE_GENS_MEMBER_EXDB *aRecv);
-	void GDReqAbusingInfo(LPGameObject &lpObj, PMSG_REQ_ABUSING_INFO *aRecv);
-	void GDReqGensInfo(LPGameObject &lpObj, PMSG_REQ_ABUSING_INFO *aRecv);
-	void GDReqSaveContributePoint(LPGameObject &lpObj, PMSG_REQ_SAVE_CONTRIBUTE_POINT_EXDB *aRecv);
-	void GDReqSaveAbusingKillUserName(LPGameObject &lpObj, PMSG_REQ_SAVE_ABUSING_KILLUSER_EXDB *aRecv);
-	void GDReqGensRewardCheck(LPGameObject &lpObj, PMSG_REQ_GENS_REWARD_CHECK_EXDB *aRecv);
-	void GDReqGensRewardComplete(LPGameObject &lpObj, PMSG_REQ_GENS_REWARD_COMPLETE_EXDB *aRecv);
-	void GDReqGensMemberCount(LPGameObject &lpObj, PMSG_REQ_GENS_MEMBER_COUNT *aRecv);
-	void GDReqSetGensRewardDay(LPGameObject &lpObj, PMSG_SET_GENS_REWARD_DAY_EXDB *aRecv);
-	void GDReqGensRewardDay(LPGameObject &lpObj, PMSG_REQ_GENS_REWARD_DAY *aRecv);
+	void GDReqRegGensMember(CGameObject &lpObj, PMSG_REQ_REG_GENS_MEMBER_EXDB *aRecv);
+	void GDReqSecedeGensMember(CGameObject &lpObj, PMSG_REQ_SECEDE_GENS_MEMBER_EXDB *aRecv);
+	void GDReqAbusingInfo(CGameObject &lpObj, PMSG_REQ_ABUSING_INFO *aRecv);
+	void GDReqGensInfo(CGameObject &lpObj, PMSG_REQ_ABUSING_INFO *aRecv);
+	void GDReqSaveContributePoint(CGameObject &lpObj, PMSG_REQ_SAVE_CONTRIBUTE_POINT_EXDB *aRecv);
+	void GDReqSaveAbusingKillUserName(CGameObject &lpObj, PMSG_REQ_SAVE_ABUSING_KILLUSER_EXDB *aRecv);
+	void GDReqGensRewardCheck(CGameObject &lpObj, PMSG_REQ_GENS_REWARD_CHECK_EXDB *aRecv);
+	void GDReqGensRewardComplete(CGameObject &lpObj, PMSG_REQ_GENS_REWARD_COMPLETE_EXDB *aRecv);
+	void GDReqGensMemberCount(CGameObject &lpObj, PMSG_REQ_GENS_MEMBER_COUNT *aRecv);
+	void GDReqSetGensRewardDay(CGameObject &lpObj, PMSG_SET_GENS_REWARD_DAY_EXDB *aRecv);
+	void GDReqGensRewardDay(CGameObject &lpObj, PMSG_REQ_GENS_REWARD_DAY *aRecv);
 
 private:
 
@@ -273,48 +273,48 @@ public:
 	~CExDataServerProtocol();
 	
 	friend class CFriendSystem;
-	static void ProtocolCore(LPGameObject &lpObj, BYTE HeadCode, LPBYTE aRecv, int iSize);
+	static void ProtocolCore(CGameObject &lpObj, BYTE HeadCode, LPBYTE aRecv, int iSize);
 	BOOL Init();
 	BOOL DBConnect();
 	
 	void GensManualRefreshRanking(BYTE Type);
 	void GensRankingProcess();
 
-	void GuildMatchingSendAcceptAndRejectInfo(LPGameObject &lpObj, char* szUserName, int nUserIndex, int nServerIndex);
+	void GuildMatchingSendAcceptAndRejectInfo(CGameObject &lpObj, char* szUserName, int nUserIndex, int nServerIndex);
 
 private:
 
-	void ExDataServerLogin(LPGameObject &lpObj, SDHP_SERVERINFO * lpMsg);	
-	void GDCharCloseRecv(LPGameObject &lpObj, SDHP_USERCLOSE * aRecv);
-	void GDGuildCreateSend(LPGameObject &lpObj, SDHP_GUILDCREATE * aRecv);
-	void GDGuildDestroyRecv(LPGameObject &lpObj, SDHP_GUILDDESTROY * aRecv);
-	void GDGuildMemberAdd(LPGameObject &lpObj, SDHP_GUILDMEMBERADD * aRecv);
-	void GDGuildMemberAddWithoutUserIndex(LPGameObject &lpObj, SDHP_GUILDMEMBERADD_WITHOUT_USERINDEX * aRecv);
-	void GDGuildMemberDel(LPGameObject &lpObj, SDHP_GUILDMEMBERDEL * aRecv);
-	void DGGuildMemberInfoRequest(LPGameObject &lpObj, SDHP_GUILDMEMBER_INFO_REQUEST * aRecv);
-	void DGGuildScoreUpdate(LPGameObject &lpObj, SDHP_GUILDSCOREUPDATE * aRecv);
-	void GDGuildNoticeSave(LPGameObject &lpObj, SDHP_GUILDNOTICE * aRecv);
-	void GDGuildReqAssignStatus(LPGameObject &lpObj, EXSDHP_GUILD_ASSIGN_STATUS_REQ * aRecv);
-	void GDGuildReqAssignType(LPGameObject &lpObj, EXSDHP_GUILD_ASSIGN_TYPE_REQ * aRecv);
-	void GDGuildServerGroupChattingSend(LPGameObject &lpObj,EXSDHP_SERVERGROUP_GUILD_CHATTING_RECV * aRecv);
-	void GDUnionServerGroupChattingSend(LPGameObject &lpObj,EXSDHP_SERVERGROUP_UNION_CHATTING_RECV * aRecv);
-	void GDGensServerGroupChattingSend(LPGameObject &lpObj,EXSDHP_SERVERGROUP_GENS_CHATTING_RECV * aRecv);
-	void DGRelationShipAnsJoin(LPGameObject &lpObj, EXSDHP_RELATIONSHIP_JOIN_REQ * aRecv);
-	void DGRelationShipAnsBreakOff(LPGameObject &lpObj, EXSDHP_RELATIONSHIP_BREAKOFF_REQ * aRecv);
-	void DGUnionListRecv(LPGameObject &lpObj, EXSDHP_UNION_LIST_REQ * aRecv);
-	void DGRelationShipAnsKickOutUnionMember(LPGameObject &lpObj, EXSDHP_KICKOUT_UNIONMEMBER_REQ *aRecv);
+	void ExDataServerLogin(CGameObject &lpObj, SDHP_SERVERINFO * lpMsg);	
+	void GDCharCloseRecv(CGameObject &lpObj, SDHP_USERCLOSE * aRecv);
+	void GDGuildCreateSend(CGameObject &lpObj, SDHP_GUILDCREATE * aRecv);
+	void GDGuildDestroyRecv(CGameObject &lpObj, SDHP_GUILDDESTROY * aRecv);
+	void GDGuildMemberAdd(CGameObject &lpObj, SDHP_GUILDMEMBERADD * aRecv);
+	void GDGuildMemberAddWithoutUserIndex(CGameObject &lpObj, SDHP_GUILDMEMBERADD_WITHOUT_USERINDEX * aRecv);
+	void GDGuildMemberDel(CGameObject &lpObj, SDHP_GUILDMEMBERDEL * aRecv);
+	void DGGuildMemberInfoRequest(CGameObject &lpObj, SDHP_GUILDMEMBER_INFO_REQUEST * aRecv);
+	void DGGuildScoreUpdate(CGameObject &lpObj, SDHP_GUILDSCOREUPDATE * aRecv);
+	void GDGuildNoticeSave(CGameObject &lpObj, SDHP_GUILDNOTICE * aRecv);
+	void GDGuildReqAssignStatus(CGameObject &lpObj, EXSDHP_GUILD_ASSIGN_STATUS_REQ * aRecv);
+	void GDGuildReqAssignType(CGameObject &lpObj, EXSDHP_GUILD_ASSIGN_TYPE_REQ * aRecv);
+	void GDGuildServerGroupChattingSend(CGameObject &lpObj,EXSDHP_SERVERGROUP_GUILD_CHATTING_RECV * aRecv);
+	void GDUnionServerGroupChattingSend(CGameObject &lpObj,EXSDHP_SERVERGROUP_UNION_CHATTING_RECV * aRecv);
+	void GDGensServerGroupChattingSend(CGameObject &lpObj,EXSDHP_SERVERGROUP_GENS_CHATTING_RECV * aRecv);
+	void DGRelationShipAnsJoin(CGameObject &lpObj, EXSDHP_RELATIONSHIP_JOIN_REQ * aRecv);
+	void DGRelationShipAnsBreakOff(CGameObject &lpObj, EXSDHP_RELATIONSHIP_BREAKOFF_REQ * aRecv);
+	void DGUnionListRecv(CGameObject &lpObj, EXSDHP_UNION_LIST_REQ * aRecv);
+	void DGRelationShipAnsKickOutUnionMember(CGameObject &lpObj, EXSDHP_KICKOUT_UNIONMEMBER_REQ *aRecv);
 	void DGGuildMasterListSend(char *szGuild);
-	void DGGuildInfoRequest(LPGameObject &lpObj, SDHP_GUILDMEMBER_INFO_GUILDNAME_REQUEST *aRecv);
-	void DGRelationShipListSend(LPGameObject &lpObj, int iGuild, int relation_type, BOOL snd_all);
+	void DGGuildInfoRequest(CGameObject &lpObj, SDHP_GUILDMEMBER_INFO_GUILDNAME_REQUEST *aRecv);
+	void DGRelationShipListSend(CGameObject &lpObj, int iGuild, int relation_type, BOOL snd_all);
 	void DGRelationShipNotificationSend(int iGuild, int iUpdateFlag);
-	void FCHRoomCreateReq(LPGameObject &lpObj, char *szName, char *szFriendName, short Number, short ServerId, short FriendNumber, short FriendServerId);
-	void FriendChatRoomCreateReq(LPGameObject &lpObj, FHP_FRIEND_CHATROOM_CREATE_REQ* lpMsg);
-	void FCHChatRoomCreateReq(LPGameObject &lpObj, char *szName, char *szFriendName, short Number, short ServerId, short FriendNumber, short FriendServerId);
-	void FriendChatRoomCreateAns(LPGameObject &lpObj, FCHP_CHATROOM_CREATE_RESULT* lpMsg);
-	void FriendChatRoomInvitationReq(LPGameObject &lpObj, FHP_FRIEND_INVITATION_REQ * lpMsg);
-	void FCHChatRoomInvitationReq(LPGameObject &lpObj, short RoomNumber,	char *szName, short Number,	short ServerId,	BYTE Type);
-	void GDReqGuildPeriodBuffInsert(LPGameObject &lpObj, PMSG_REQ_GUILD_PERIODBUFF_INSERT *aRecv);
-	void GDReqGuildPeriodBuffDelete(LPGameObject &lpObj, PMSG_REQ_GUILD_PERIODBUFF_DELETE *aRecv);
+	void FCHRoomCreateReq(CGameObject &lpObj, char *szName, char *szFriendName, short Number, short ServerId, short FriendNumber, short FriendServerId);
+	void FriendChatRoomCreateReq(CGameObject &lpObj, FHP_FRIEND_CHATROOM_CREATE_REQ* lpMsg);
+	void FCHChatRoomCreateReq(CGameObject &lpObj, char *szName, char *szFriendName, short Number, short ServerId, short FriendNumber, short FriendServerId);
+	void FriendChatRoomCreateAns(CGameObject &lpObj, FCHP_CHATROOM_CREATE_RESULT* lpMsg);
+	void FriendChatRoomInvitationReq(CGameObject &lpObj, FHP_FRIEND_INVITATION_REQ * lpMsg);
+	void FCHChatRoomInvitationReq(CGameObject &lpObj, short RoomNumber,	char *szName, short Number,	short ServerId,	BYTE Type);
+	void GDReqGuildPeriodBuffInsert(CGameObject &lpObj, PMSG_REQ_GUILD_PERIODBUFF_INSERT *aRecv);
+	void GDReqGuildPeriodBuffDelete(CGameObject &lpObj, PMSG_REQ_GUILD_PERIODBUFF_DELETE *aRecv);
 
 	void CloseExDataServer();
 
@@ -347,7 +347,7 @@ private:
 	BOOL UpdateGuildMemberStatus(char *szGuild, char *szName, BYTE btStatus);
 	BOOL UpdateGuildType(char *szGuild, BYTE btType);
 
-	void SendGuildMemberInfo(LPGameObject &lpObj, char *szName, int iUserIndex);
+	void SendGuildMemberInfo(CGameObject &lpObj, char *szName, int iUserIndex);
 	BOOL GetGuildMemberInfo(char *szName, OUT char *szGuild, OUT int& riLevel, OUT int& riStatus);
 
 	BOOL IsCSGuild(char *szGuild);
@@ -380,30 +380,30 @@ private:
 
 	int GetChatServer();
 
-	void GDReqGuildMatchingList(LPGameObject &lpObj, _stReqGuildMatchingList * lpMsg);
-	void GDReqGuildMatchingListSearchWord(LPGameObject &lpObj, _stReqGuildMatchingListSearchWord * lpMsg);
-	void GDReqRegGuildMatchingList(LPGameObject &lpObj, _stReqGuildMatchingData * lpMsg);
-	void GDReqDelMatchingList(LPGameObject &lpObj, _stReqDelGuildMatchingList * lpMsg);
-	void GDReqJoinGuildMatchingList(LPGameObject &lpObj, _stRegWaitGuildMatching * lpMsg);
-	void GDReqCancelJoinGuildMatching(LPGameObject &lpObj, _stReqDelWaitGuildMatchingList * lpMsg);
-	void GDReqAllowJoinGuildMatching(LPGameObject &lpObj, _stReqAllowJoinGuildMatching * lpMsg);
-	void GDReqWaitGuildMatchingList(LPGameObject &lpObj, _stReqWaitGuildMatchingList * lpMsg);
-	void GDReqGetWaitStateListGuildMatching(LPGameObject &lpObj, _stReqWaitStateListGuildMatching * lpMsg);
+	void GDReqGuildMatchingList(CGameObject &lpObj, _stReqGuildMatchingList * lpMsg);
+	void GDReqGuildMatchingListSearchWord(CGameObject &lpObj, _stReqGuildMatchingListSearchWord * lpMsg);
+	void GDReqRegGuildMatchingList(CGameObject &lpObj, _stReqGuildMatchingData * lpMsg);
+	void GDReqDelMatchingList(CGameObject &lpObj, _stReqDelGuildMatchingList * lpMsg);
+	void GDReqJoinGuildMatchingList(CGameObject &lpObj, _stRegWaitGuildMatching * lpMsg);
+	void GDReqCancelJoinGuildMatching(CGameObject &lpObj, _stReqDelWaitGuildMatchingList * lpMsg);
+	void GDReqAllowJoinGuildMatching(CGameObject &lpObj, _stReqAllowJoinGuildMatching * lpMsg);
+	void GDReqWaitGuildMatchingList(CGameObject &lpObj, _stReqWaitGuildMatchingList * lpMsg);
+	void GDReqGetWaitStateListGuildMatching(CGameObject &lpObj, _stReqWaitStateListGuildMatching * lpMsg);
 
 	void SendNotiGuildMatchingForGuildMaster(int nGuildNumber);
 	void SendUseGuildMatchingGuild(char *szName, int nGuildNumber);
 	void UpdateGuildMatchingMemberCount(char *szGuildName, int nGuildMemberCnt);
 
-	void GDReqRegWantedPartyMember(LPGameObject &lpObj, _stReqRegWantedPartyMember * lpMsg);
-	void GDReqGetPartyMatchingList(LPGameObject &lpObj, _stReqGetPartyMatchingList * lpMsg);
-	void GDReqJoinMemberPartyMatching(LPGameObject &lpObj, _stReqJoinMemberPartyMatching * lpMsg);
-	void GDReqJoinMemberStateList(LPGameObject &lpObj, _stReqJoinMemberStateListPartyMatching *lpMsg);
-	void GDReqJoinMemberStateListLeader(LPGameObject &lpObj, _stReqWaitListPartyMatching *lpMsg);
-	void GDReqAcceptMemberJoin(LPGameObject &lpObj, _stReqAddPartyMember *lpMsg);
-	void GDReqCancelPartyMatching(LPGameObject &lpObj, _stReqCancelPartyMatching *lpMsg);
-	void GDReqDeletePartyUser(LPGameObject &lpObj, _stReqDelPartyUserPartyMatching *lpMsg);
-	void GDReqSendPartyMemberList(LPGameObject &lpObj, _stReqSendPartyMemberList * lpMsg);
-	void GDSendChatMsgPartyMatching(LPGameObject &lpObj, _stReqChattingPartyMatching * lpMsg);
+	void GDReqRegWantedPartyMember(CGameObject &lpObj, _stReqRegWantedPartyMember * lpMsg);
+	void GDReqGetPartyMatchingList(CGameObject &lpObj, _stReqGetPartyMatchingList * lpMsg);
+	void GDReqJoinMemberPartyMatching(CGameObject &lpObj, _stReqJoinMemberPartyMatching * lpMsg);
+	void GDReqJoinMemberStateList(CGameObject &lpObj, _stReqJoinMemberStateListPartyMatching *lpMsg);
+	void GDReqJoinMemberStateListLeader(CGameObject &lpObj, _stReqWaitListPartyMatching *lpMsg);
+	void GDReqAcceptMemberJoin(CGameObject &lpObj, _stReqAddPartyMember *lpMsg);
+	void GDReqCancelPartyMatching(CGameObject &lpObj, _stReqCancelPartyMatching *lpMsg);
+	void GDReqDeletePartyUser(CGameObject &lpObj, _stReqDelPartyUserPartyMatching *lpMsg);
+	void GDReqSendPartyMemberList(CGameObject &lpObj, _stReqSendPartyMemberList * lpMsg);
+	void GDSendChatMsgPartyMatching(CGameObject &lpObj, _stReqChattingPartyMatching * lpMsg);
 
 	void FixAddPartyMember(int nLeaderIndex, int nMemberIndex, int nServerIndex);
 	void SendPartyMatchingMemberList(char *szLeaderName, BYTE btType);

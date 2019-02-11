@@ -59,7 +59,7 @@ public:
 	BOOL CheckWall(int sx1, int sy1, int sx2, int sy2);
 	BYTE CheckWall2(int sx1, int sy1, int sx2, int sy2);
 	void ItemInit();
-	int ItemGive(LPGameObject &lpObj, int item_num, bool bFailNotSend);
+	int ItemGive(CGameObject &lpObj, int item_num, bool bFailNotSend);
 	int ItemDrop(int type, int level, float dur, int x, int y, BYTE Option1, BYTE Option2, BYTE Option3, BYTE NOption, BYTE SOption, UINT64 number, int aIndex, int PetLevel, UINT64 PetExp, BYTE ItemEffectEx, BYTE *SocketOption, BYTE SocketBonusOption, DWORD PeriodDuration);
 	int MonsterItemDrop(int type, int level, float dur, int x, int y, BYTE Option1, BYTE Option2, BYTE Option3, BYTE NOption, BYTE SOption, int aIndex, UINT64 number, BYTE ItemEffectEx, BYTE *SocketOption, BYTE SocketBonusOption, DWORD PeriodDuration);
 	int MoneyItemDrop(int money, int x, int y);

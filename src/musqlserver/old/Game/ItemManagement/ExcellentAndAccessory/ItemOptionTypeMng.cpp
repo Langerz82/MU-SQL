@@ -880,31 +880,31 @@ int CItemOptionTypeMng::WingExcOptionGetCount(int ItemKindA, int ItemKindB, BYTE
 	return ExcOption;
 }
 
-void CItemOptionTypeMng::CalcExcOptionEffect(LPGameObject &lpObj)
+void CItemOptionTypeMng::CalcExcOptionEffect(CGameObject &lpObj)
 {
 	for (int i = 0; i < INVETORY_WEAR_SIZE; i++)
 	{
-		if (lpObj->pInventory[i].IsItem() == FALSE)
+		if (lpObj.pInventory[i].IsItem() == FALSE)
 		{
 			continue;
 		}
 
-		if (lpObj->pInventory[i].m_Durability == 0.0f)
+		if (lpObj.pInventory[i].m_Durability == 0.0f)
 		{
 			continue;
 		}
 
-		if (lpObj->pInventory[i].m_IsValidItem == false)
+		if (lpObj.pInventory[i].m_IsValidItem == false)
 		{
 			continue;
 		}
 
-		if (lpObj->pInventory[i].IsExtItem() == FALSE)
+		if (lpObj.pInventory[i].IsExtItem() == FALSE)
 		{
 			continue;
 		}
 
-		LPITEM_ATTRIBUTE lpAttr = GetItemAttr(lpObj->pInventory[i].m_Type);
+		LPITEM_ATTRIBUTE lpAttr = GetItemAttr(lpObj.pInventory[i].m_Type);
 
 		if (lpAttr == NULL)
 		{
@@ -927,7 +927,7 @@ void CItemOptionTypeMng::CalcExcOptionEffect(LPGameObject &lpObj)
 					{
 						for (int k = 0; k < 5; k++)
 						{
-							if (lpObj->pInventory[i].m_SocketOption[k] == this->m_CommonExtOptionType[j].OptionNumber)
+							if (lpObj.pInventory[i].m_SocketOption[k] == this->m_CommonExtOptionType[j].OptionNumber)
 							{
 								bOptionExist = true;
 								break;
@@ -936,7 +936,7 @@ void CItemOptionTypeMng::CalcExcOptionEffect(LPGameObject &lpObj)
 					}
 					else
 					{
-						if ((lpObj->pInventory[i].m_NewOption & (1 << (5 - this->m_CommonExtOptionType[j].OptionNumber))) == (1 << (5 - this->m_CommonExtOptionType[j].OptionNumber)))
+						if ((lpObj.pInventory[i].m_NewOption & (1 << (5 - this->m_CommonExtOptionType[j].OptionNumber))) == (1 << (5 - this->m_CommonExtOptionType[j].OptionNumber)))
 						{
 							bOptionExist = true;
 						}
@@ -966,29 +966,29 @@ COMMON_EXT_OPTION_TYPE * CItemOptionTypeMng::GetCommonExcOption(int ExcOptionID)
 	return NULL;
 }
 
-void CItemOptionTypeMng::CalcWingOptionEffect(LPGameObject &lpObj)
+void CItemOptionTypeMng::CalcWingOptionEffect(CGameObject &lpObj)
 {
-	if (lpObj->pInventory[7].IsItem() == FALSE)
+	if (lpObj.pInventory[7].IsItem() == FALSE)
 	{
 		return;
 	}
 
-	if (lpObj->pInventory[7].m_Durability == 0.0f)
+	if (lpObj.pInventory[7].m_Durability == 0.0f)
 	{
 		return;
 	}
 
-	if (lpObj->pInventory[7].m_IsValidItem == false)
+	if (lpObj.pInventory[7].m_IsValidItem == false)
 	{
 		return;
 	}
 
-	if (lpObj->pInventory[7].IsExtItem() == FALSE)
+	if (lpObj.pInventory[7].IsExtItem() == FALSE)
 	{
 		return;
 	}
 
-	LPITEM_ATTRIBUTE lpAttr = GetItemAttr(lpObj->pInventory[7].m_Type);
+	LPITEM_ATTRIBUTE lpAttr = GetItemAttr(lpObj.pInventory[7].m_Type);
 
 	if (lpAttr == NULL)
 	{
@@ -1010,7 +1010,7 @@ void CItemOptionTypeMng::CalcWingOptionEffect(LPGameObject &lpObj)
 				{
 					for (int k = 0; k < 5; k++)
 					{
-						if (lpObj->pInventory[7].m_SocketOption[k] == this->m_WingExtOptionType[i].OptionNumber)
+						if (lpObj.pInventory[7].m_SocketOption[k] == this->m_WingExtOptionType[i].OptionNumber)
 						{
 							bOptionExist = true;
 							break;
@@ -1020,7 +1020,7 @@ void CItemOptionTypeMng::CalcWingOptionEffect(LPGameObject &lpObj)
 
 				else
 				{
-					if ((lpObj->pInventory[7].m_NewOption & (1 << (5 - this->m_WingExtOptionType[i].OptionNumber))) == (1 << (5 - this->m_WingExtOptionType[i].OptionNumber)))
+					if ((lpObj.pInventory[7].m_NewOption & (1 << (5 - this->m_WingExtOptionType[i].OptionNumber))) == (1 << (5 - this->m_WingExtOptionType[i].OptionNumber)))
 					{
 						bOptionExist = true;
 					}
@@ -1049,7 +1049,7 @@ WING_EXT_OPTION_TYPE * CItemOptionTypeMng::GetWingOption(int ExcOptionID)
 	return NULL;
 }
 
-int CItemOptionTypeMng::_CalcEffectValue(LPGameObject lpObj, int iInputValue, int iOperator, int iBaseValue, int iFormulaID, CItem * Item)
+int CItemOptionTypeMng::_CalcEffectValue(CGameObject lpObj, int iInputValue, int iOperator, int iBaseValue, int iFormulaID, CItem * Item)
 {
 	int iEffectValue = 0;
 	//g_Log.AddC(TColor::Yellow, "[K2] Operator [%d] iBaseValue %d", iOperator, iBaseValue);
@@ -1062,13 +1062,13 @@ int CItemOptionTypeMng::_CalcEffectValue(LPGameObject lpObj, int iInputValue, in
 			iEffectValue = iBaseValue;//* iInputValue / 100;
 			break;
 		case EXC_OPERATOR_DIVIDE_BY_LEVEL_20:
-			iEffectValue = iBaseValue * (lpObj->Level + lpObj->m_PlayerData->MasterLevel) / 20;
+			iEffectValue = iBaseValue * (lpObj.Level + lpObj.m_PlayerData->MasterLevel) / 20;
 			break;
 		case EXC_OPERATOR_DIVIDE_BY_LIFE:
-			iEffectValue = (lpObj->MaxLife + lpObj->AddLife) / iBaseValue;
+			iEffectValue = (lpObj.MaxLife + lpObj.AddLife) / iBaseValue;
 			break;
 		case EXC_OPERATOR_DIVIDE_BY_MANA:
-			iEffectValue = (lpObj->MaxMana + lpObj->AddMana) / iBaseValue;
+			iEffectValue = (lpObj.MaxMana + lpObj.AddMana) / iBaseValue;
 			break;
 		case EXC_OPERATOR_INC_PER_LEVEL:
 			iEffectValue = iBaseValue + 5 * Item->m_Level;
@@ -1091,7 +1091,7 @@ int CItemOptionTypeMng::_CalcEffectValue(LPGameObject lpObj, int iInputValue, in
 	return iEffectValue;
 }
 
-void CItemOptionTypeMng::_SetOptionEffect(LPGameObject &lpObj, BYTE * OptionEffect, int iEffectValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemOptionTypeMng::_SetOptionEffect(CGameObject &lpObj, BYTE * OptionEffect, int iEffectValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	this->_SetEffect_Etc(lpObj, OptionEffect[0], iEffectValue, iOperator, iFormulaID, btItemPos);
 	this->_SetEffect_Rate(lpObj, OptionEffect[1], iEffectValue, iOperator, iFormulaID, btItemPos);
@@ -1102,7 +1102,7 @@ void CItemOptionTypeMng::_SetOptionEffect(LPGameObject &lpObj, BYTE * OptionEffe
 	this->_SetEffect_Skill(lpObj, OptionEffect[6], iEffectValue, iOperator, iFormulaID, btItemPos);
 }
 
-void CItemOptionTypeMng::_SetEffect_Etc(LPGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemOptionTypeMng::_SetEffect_Etc(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	int iEffectValue = 0;
 
@@ -1111,13 +1111,13 @@ void CItemOptionTypeMng::_SetEffect_Etc(LPGameObject lpObj, BYTE OptionEffectID,
 	case 0:
 		break;
 	case 1:
-		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
-		lpObj->MonsterDieGetMoney += iEffectValue;
+		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
+		lpObj.MonsterDieGetMoney += iEffectValue;
 		break;
 	}
 }
 
-void CItemOptionTypeMng::_SetEffect_Rate(LPGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemOptionTypeMng::_SetEffect_Rate(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	int iEffectValue = 0;
 	switch (OptionEffectID)
@@ -1125,37 +1125,37 @@ void CItemOptionTypeMng::_SetEffect_Rate(LPGameObject lpObj, BYTE OptionEffectID
 	case 0:
 		break;
 	case 1:
-		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
-		lpObj->m_ExcelentDamage += iEffectValue;
+		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
+		lpObj.m_ExcelentDamage += iEffectValue;
 		break;
 	case 2:
-		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
-		lpObj->m_CriticalDamage += iEffectValue;
+		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
+		lpObj.m_CriticalDamage += iEffectValue;
 		break;
 	case 4:
-		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
-		lpObj->m_PlayerData->m_WingExcOption.iWingOpIgnoreEnemyDefense = iEffectValue;
+		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
+		lpObj.m_PlayerData->m_WingExcOption.iWingOpIgnoreEnemyDefense = iEffectValue;
 		break;
 	case 5:
-		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
-		lpObj->m_PlayerData->m_WingExcOption.iWingOpRecoveryHP = iEffectValue;
+		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
+		lpObj.m_PlayerData->m_WingExcOption.iWingOpRecoveryHP = iEffectValue;
 		break;
 	case 6:
-		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
-		lpObj->m_PlayerData->m_WingExcOption.iWingOpRecoveryMana = iEffectValue;
+		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
+		lpObj.m_PlayerData->m_WingExcOption.iWingOpRecoveryMana = iEffectValue;
 		break;
 	case 7:
-		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
-		lpObj->m_PlayerData->m_WingExcOption.iWingOpReturnEnemyDamage = iEffectValue;
+		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
+		lpObj.m_PlayerData->m_WingExcOption.iWingOpReturnEnemyDamage = iEffectValue;
 		break;
 	case 8:
-		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
-		lpObj->m_PlayerData->m_WingExcOption.iWingOpAddDoubleDamage = iEffectValue;
+		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
+		lpObj.m_PlayerData->m_WingExcOption.iWingOpAddDoubleDamage = iEffectValue;
 		break;
 	}
 }
 
-void CItemOptionTypeMng::_SetEffect_Attack(LPGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemOptionTypeMng::_SetEffect_Attack(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	int iEffectValue = 0;
 
@@ -1164,52 +1164,52 @@ void CItemOptionTypeMng::_SetEffect_Attack(LPGameObject lpObj, BYTE OptionEffect
 	case 0:
 		break;
 	case 1:
-		if ((lpObj->pInventory[btItemPos].m_Type >= ITEMGET(5, 0) && lpObj->pInventory[btItemPos].m_Type < ITEMGET(6, 0)) ||
-			lpObj->pInventory[btItemPos].m_Type == ITEMGET(13, 12) || lpObj->pInventory[btItemPos].m_Type == ITEMGET(13, 25) ||
-			lpObj->pInventory[btItemPos].m_Type == ITEMGET(13, 27))
+		if ((lpObj.pInventory[btItemPos].m_Type >= ITEMGET(5, 0) && lpObj.pInventory[btItemPos].m_Type < ITEMGET(6, 0)) ||
+			lpObj.pInventory[btItemPos].m_Type == ITEMGET(13, 12) || lpObj.pInventory[btItemPos].m_Type == ITEMGET(13, 25) ||
+			lpObj.pInventory[btItemPos].m_Type == ITEMGET(13, 27))
 		{
-			iEffectValue = this->_CalcEffectValue(lpObj, lpObj->m_MagicDamageMax, iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
-			lpObj->m_MagicDamageMax += iEffectValue;
+			iEffectValue = this->_CalcEffectValue(lpObj, lpObj.m_MagicDamageMax, iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
+			lpObj.m_MagicDamageMax += iEffectValue;
 
-			iEffectValue = this->_CalcEffectValue(lpObj, lpObj->m_MagicDamageMin, iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
-			lpObj->m_MagicDamageMin += iEffectValue;
+			iEffectValue = this->_CalcEffectValue(lpObj, lpObj.m_MagicDamageMin, iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
+			lpObj.m_MagicDamageMin += iEffectValue;
 		}
 		else
 		{
 			if (btItemPos == 0 || btItemPos == 9)
 			{
-				iEffectValue = this->_CalcEffectValue(lpObj, lpObj->m_AttackDamageMinRight, iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
-				lpObj->m_AttackDamageMinRight += iEffectValue;
+				iEffectValue = this->_CalcEffectValue(lpObj, lpObj.m_AttackDamageMinRight, iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
+				lpObj.m_AttackDamageMinRight += iEffectValue;
 
-				iEffectValue = this->_CalcEffectValue(lpObj, lpObj->m_AttackDamageMaxRight, iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
-				lpObj->m_AttackDamageMaxRight += iEffectValue;
+				iEffectValue = this->_CalcEffectValue(lpObj, lpObj.m_AttackDamageMaxRight, iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
+				lpObj.m_AttackDamageMaxRight += iEffectValue;
 			}
 
 			if (btItemPos == 1 || btItemPos == 9)
 			{
-				iEffectValue = this->_CalcEffectValue(lpObj, lpObj->m_AttackDamageMinLeft, iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
-				lpObj->m_AttackDamageMinLeft += iEffectValue;
+				iEffectValue = this->_CalcEffectValue(lpObj, lpObj.m_AttackDamageMinLeft, iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
+				lpObj.m_AttackDamageMinLeft += iEffectValue;
 
-				iEffectValue = this->_CalcEffectValue(lpObj, lpObj->m_AttackDamageMaxLeft , iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
-				lpObj->m_AttackDamageMaxLeft += iEffectValue;
+				iEffectValue = this->_CalcEffectValue(lpObj, lpObj.m_AttackDamageMaxLeft , iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
+				lpObj.m_AttackDamageMaxLeft += iEffectValue;
 			}
 		}
 		break;
 	case 2:
-		iEffectValue = this->_CalcEffectValue(lpObj, lpObj->m_AttackSpeed, iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
-		lpObj->m_AttackSpeed += iEffectValue;
+		iEffectValue = this->_CalcEffectValue(lpObj, lpObj.m_AttackSpeed, iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
+		lpObj.m_AttackSpeed += iEffectValue;
 
-		iEffectValue = this->_CalcEffectValue(lpObj, lpObj->m_MagicSpeed, iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
-		lpObj->m_MagicSpeed += iEffectValue;
+		iEffectValue = this->_CalcEffectValue(lpObj, lpObj.m_MagicSpeed, iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
+		lpObj.m_MagicSpeed += iEffectValue;
 		break;
 	case 3:
-		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
-		lpObj->DamageReflect += iEffectValue;
+		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
+		lpObj.DamageReflect += iEffectValue;
 		break;
 	}
 }
 
-void CItemOptionTypeMng::_SetEffect_Defense(LPGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemOptionTypeMng::_SetEffect_Defense(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	int iEffectValue = 0;
 
@@ -1218,24 +1218,24 @@ void CItemOptionTypeMng::_SetEffect_Defense(LPGameObject lpObj, BYTE OptionEffec
 	case 0:
 		break;
 	case 1:
-		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
+		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
 		
-		lpObj->DamageDecrease += iEffectValue;
+		lpObj.DamageDecrease += iEffectValue;
 		break;
 	case 2:
-		iEffectValue = this->_CalcEffectValue(lpObj, lpObj->m_SuccessfulBlocking, iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
-		lpObj->m_SuccessfulBlocking += iEffectValue;
+		iEffectValue = this->_CalcEffectValue(lpObj, lpObj.m_SuccessfulBlocking, iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
+		lpObj.m_SuccessfulBlocking += iEffectValue;
 		break;
 #if(CUSTOM_DAMAGES12 == 1)
 	case 3:
-		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
-		lpObj->S12DamageDecrease += iEffectValue;
+		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
+		lpObj.S12DamageDecrease += iEffectValue;
 		break;
 #endif
 	}
 }
 
-void CItemOptionTypeMng::_SetEffect_Life(LPGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemOptionTypeMng::_SetEffect_Life(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	int iEffectValue = 0;
 
@@ -1244,18 +1244,18 @@ void CItemOptionTypeMng::_SetEffect_Life(LPGameObject lpObj, BYTE OptionEffectID
 	case 0:
 		break;
 	case 1:
-		lpObj->MonsterDieGetLife++;
+		lpObj.MonsterDieGetLife++;
 		break;
 	case 2:
-		iEffectValue = this->_CalcEffectValue(lpObj, lpObj->MaxLife, iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
+		iEffectValue = this->_CalcEffectValue(lpObj, lpObj.MaxLife, iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
 		//g_Log.AddC(TColor::Yellow, "[K2] Operator 1# [%d] iBaseValue %d iEffectValue %d", iOperator, iBaseValue, iEffectValue);
-		lpObj->AddLife += ((lpObj->MaxLife * iEffectValue) / 100);
-	///	lpObj->AddLife += iEffectValue;
+		lpObj.AddLife += ((lpObj.MaxLife * iEffectValue) / 100);
+	///	lpObj.AddLife += iEffectValue;
 		break;
 	}
 }
 
-void CItemOptionTypeMng::_SetEffect_Mana(LPGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemOptionTypeMng::_SetEffect_Mana(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	int iEffectValue = 0;
 
@@ -1264,16 +1264,16 @@ void CItemOptionTypeMng::_SetEffect_Mana(LPGameObject lpObj, BYTE OptionEffectID
 	case 0:
 		break;
 	case 1:
-		lpObj->MonsterDieGetMana++;
+		lpObj.MonsterDieGetMana++;
 		break;
 	case 2:
-		iEffectValue = this->_CalcEffectValue(lpObj, lpObj->MaxMana, iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
-		lpObj->AddMana += ((lpObj->MaxMana * iEffectValue) / 100);
+		iEffectValue = this->_CalcEffectValue(lpObj, lpObj.MaxMana, iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
+		lpObj.AddMana += ((lpObj.MaxMana * iEffectValue) / 100);
 		break;
 	}
 }
 
-void CItemOptionTypeMng::_SetEffect_Skill(LPGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemOptionTypeMng::_SetEffect_Skill(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	int iEffectValue = 0;
 
@@ -1282,12 +1282,12 @@ void CItemOptionTypeMng::_SetEffect_Skill(LPGameObject lpObj, BYTE OptionEffectI
 	case 0:
 		break;
 	case 1:
-		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
-		lpObj->AddBP += iEffectValue;
+		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
+		lpObj.AddBP += iEffectValue;
 		break;
 	case 2:
-		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj->pInventory[btItemPos]);
-		lpObj->AddLeadership += iEffectValue;
+		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &lpObj.pInventory[btItemPos]);
+		lpObj.AddLeadership += iEffectValue;
 		break;
 	}
 }

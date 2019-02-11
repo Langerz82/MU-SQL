@@ -77,7 +77,7 @@ BOOL CMultiCheckSum::LoadFile(char* filename, int index)
 	return TRUE;
 }
 	
-int CMultiCheckSum::CompareCheckSum(LPGameObject &lpObj, DWORD TableNum, DWORD Key)
+int CMultiCheckSum::CompareCheckSum(CGameObject &lpObj, DWORD TableNum, DWORD Key)
 {
 	int i;
 
@@ -87,12 +87,12 @@ int CMultiCheckSum::CompareCheckSum(LPGameObject &lpObj, DWORD TableNum, DWORD K
 		{
 			if ( ( this->m_dwgCheckSum[i][TableNum] ) == Key)	
 			{
-				sLog->outBasic("CheckSum%d-Exe Compare Success [%s]", i, lpObj->AccountID );
+				sLog->outBasic("CheckSum%d-Exe Compare Success [%s]", i, lpObj.AccountID );
 				return 1;
 			}
 			else
 			{
-				sLog->outBasic("CheckSum%d-Exe Compare Fail %d %d %d [%s]", i, this->m_dwgCheckSum[i][TableNum], Key, TableNum, lpObj->AccountID );
+				sLog->outBasic("CheckSum%d-Exe Compare Fail %d %d %d [%s]", i, this->m_dwgCheckSum[i][TableNum], Key, TableNum, lpObj.AccountID );
 			}
 		}
 	}

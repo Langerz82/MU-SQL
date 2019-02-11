@@ -168,8 +168,8 @@ public:
 	int count;	// 960
 };
 
-void PostSend(LPGameObject &lpObj, char * szMessage);
-void GlobalPostSend(LPGameObject &lpObj,int Type,char Sender[20],const char*Message,...);
+void PostSend(CGameObject &lpObj, char * szMessage);
+void GlobalPostSend(CGameObject &lpObj,int Type,char Sender[20],const char*Message,...);
 
 class CGMMng
 {
@@ -181,16 +181,16 @@ public:
 
 	void Init();
 	int GetCmd(LPSTR szCmd);
-	int ManagementProc(LPGameObject &lpObj, LPSTR szCmd, int aIndex);
+	int ManagementProc(CGameObject &lpObj, LPSTR szCmd, int aIndex);
 	LPSTR GetTokenString();
-	LPGameObject GetUserInfo(LPGameObject &lpUser, LPSTR UserName);
+	CGameObject GetUserInfo(CGameObject &lpUser, LPSTR UserName);
 	int GetTokenNumber();
-	void GetInfinityArrowMPConsumption(LPGameObject &lpObj);
-	void ControlInfinityArrowMPConsumption0(LPGameObject &lpObj, int iValue);
-	void ControlInfinityArrowMPConsumption1(LPGameObject &lpObj, int iValue);
-	void ControlInfinityArrowMPConsumption2(LPGameObject &lpObj, int iValue);
-	void SetInfinityArrowTime(LPGameObject &lpObj, int iValue);
-	void ControlFireScreamDoubleAttackDistance(LPGameObject &lpObj, int iValue);
+	void GetInfinityArrowMPConsumption(CGameObject &lpObj);
+	void ControlInfinityArrowMPConsumption0(CGameObject &lpObj, int iValue);
+	void ControlInfinityArrowMPConsumption1(CGameObject &lpObj, int iValue);
+	void ControlInfinityArrowMPConsumption2(CGameObject &lpObj, int iValue);
+	void SetInfinityArrowTime(CGameObject &lpObj, int iValue);
+	void ControlFireScreamDoubleAttackDistance(CGameObject &lpObj, int iValue);
 	void ManagerInit();
 	int  ManagerAdd(LPSTR name, int aIndex);
 	void ManagerDel(LPSTR name);
@@ -201,12 +201,12 @@ public:
 	void LoadGMFile(LPSTR szFile);
 	void NewLoadCommandFile(LPSTR szFile);
 
-	BOOL CheckTraceMarryCondition(LPGameObject &lpObj, LPGameObject lpTargetObj);
+	BOOL CheckTraceMarryCondition(CGameObject &lpObj, CGameObject lpTargetObj);
 
-	bool CommandReset(LPGameObject &lpObj);
-	bool CommandClearInventory(LPGameObject &lpObj);
-	bool CommandMakeRandomSet(LPGameObject &lpObj);
-	void CommandMake(LPGameObject &lpObj, int qnt, int section, int type, int level, int skill, int luck, int option, int exc, int SetOpt);
+	bool CommandReset(CGameObject &lpObj);
+	bool CommandClearInventory(CGameObject &lpObj);
+	bool CommandMakeRandomSet(CGameObject &lpObj);
+	void CommandMake(CGameObject &lpObj, int qnt, int section, int type, int level, int skill, int luck, int option, int exc, int SetOpt);
 
 private:
 

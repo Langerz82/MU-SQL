@@ -47,8 +47,10 @@
 #include "MuEnums.h"
 #include "configread.h"
 #include "Utility/util.h"
-#include "CGameObject.h"
 #include "generalStructs.h"
+#include "CGameObject.h"
+#include "GOFunctions.h"
+
 
 // Crypto++
 #include "cryptopp/sha.h"

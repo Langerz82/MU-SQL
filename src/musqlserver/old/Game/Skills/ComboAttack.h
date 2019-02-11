@@ -29,7 +29,7 @@ private:
 
 public:
 
-	BOOL CheckCombo(LPGameObject &lpObj, int skillnum);
+	BOOL CheckCombo(CGameObject &lpObj, int skillnum);
 
 };
 

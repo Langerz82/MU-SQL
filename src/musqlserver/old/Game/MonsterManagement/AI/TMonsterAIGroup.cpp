@@ -270,29 +270,29 @@ TMonsterAIGroupMember * TMonsterAIGroup::FindGroupMemberToHeal(int iObjIndex, in
 	{
 		if ( TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iGroupNumber == iGroupNumber )
 		{
-			LPGameObject lpTargetObj = &gGameObjects[TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iObjIndex];
+			CGameObject lpTargetObj = &gGameObjects[TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iObjIndex];
 
 			if ( lpTargetObj == NULL )
 				continue;
 
-			if ( lpTargetObj->Live == false )
+			if ( lpTargetObj.Live == false )
 				continue;
 
 			if ( gObjCalDistance(&gGameObjects[iObjIndex], lpTargetObj) > iDistance )
 				continue;
 
-			int iMaxLife = lpTargetObj->MaxLife + 1.0f;
-			int iPercentHP = lpTargetObj->Life * 100.0f / iMaxLife;
+			int iMaxLife = lpTargetObj.MaxLife + 1.0f;
+			int iPercentHP = lpTargetObj.Life * 100.0f / iMaxLife;
 
 			if ( iPercentHP < 60 )
 			{
-				if ( lpTargetObj->m_Index == iObjIndex )
+				if ( lpTargetObj.m_Index == iObjIndex )
 					iPercentHP = 1;
 
 				if ( iPercentHP < iMinHP )
 				{
 					iMinHP = iPercentHP;
-					iMinHPGuid = lpTargetObj->m_iGroupMemberGuid;
+					iMinHPGuid = lpTargetObj.m_iGroupMemberGuid;
 				}
 			}
 		}
@@ -316,18 +316,18 @@ TMonsterAIGroupMember * TMonsterAIGroup::FindGroupMemberToSommon(int iObjIndex, 
 	{
 		if ( TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iGroupNumber == iGroupNumber )
 		{
-			LPGameObject lpTargetObj = &gGameObjects[TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iObjIndex];
+			CGameObject lpTargetObj = &gGameObjects[TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iObjIndex];
 
-			if ( lpTargetObj->m_Index == iObjIndex )
+			if ( lpTargetObj.m_Index == iObjIndex )
 				continue;
 
 			if ( lpTargetObj == NULL )
 				continue;
 
-			if ( lpTargetObj->m_iRegenType == -1 )
+			if ( lpTargetObj.m_iRegenType == -1 )
 				continue;
 
-			if ( lpTargetObj->Live == FALSE )
+			if ( lpTargetObj.Live == FALSE )
 			{
 				return &TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i];
 			}

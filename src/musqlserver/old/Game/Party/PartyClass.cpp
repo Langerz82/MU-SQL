@@ -855,7 +855,7 @@ void PartyClass::ReadBonusInfo(LPSTR File) //FILE_PARTYBONUS
 	}
 }
 
-int PartyClass::GetExpBonus(LPGameObject &lpUser, LPGameObject lpMonster, int PartyNumber)
+int PartyClass::GetExpBonus(CGameObject &lpUser, CGameObject lpMonster, int PartyNumber)
 {
 	if (!lpUser)
 	{
@@ -876,7 +876,7 @@ int PartyClass::GetExpBonus(LPGameObject &lpUser, LPGameObject lpMonster, int Pa
 			continue;
 		}
 		// ----
-		LPGameObject lpPartyUser = &gGameObjects[UserIndex];
+		CGameObject lpPartyUser = &gGameObjects[UserIndex];
 		// ----
 		if (!lpPartyUser)
 		{
@@ -925,41 +925,41 @@ bool PartyClass::SetLeader(int OldLeader, int NewLeader)
 	if (!ObjectMaxRange(NewLeader))
 		return false;
 
-	LPGameObject lpObj = &gGameObjects[OldLeader];
-	LPGameObject lpTargetObj = &gGameObjects[NewLeader];
+	CGameObject lpObj = &gGameObjects[OldLeader];
+	CGameObject lpTargetObj = &gGameObjects[NewLeader];
 	// ----
-	int PartyNumber = lpObj->PartyNumber;
+	int PartyNumber = lpObj.PartyNumber;
 	// ----
 	if (!this->IsParty(PartyNumber))
 	{
-		GSProtocol.GCServerMsgStringSend("Your character is not in party", lpObj->m_Index, 1);
+		GSProtocol.GCServerMsgStringSend("Your character is not in party", lpObj.m_Index, 1);
 		return false;
 	}
 	// ----
-	if (lpObj->PartyNumber != lpTargetObj->PartyNumber)
+	if (lpObj.PartyNumber != lpTargetObj.PartyNumber)
 	{
-		GSProtocol.GCServerMsgStringSend("Target is not party member", lpObj->m_Index, 1);
+		GSProtocol.GCServerMsgStringSend("Target is not party member", lpObj.m_Index, 1);
 		return false;
 	}
 	// ----
-	if (!this->Isleader(PartyNumber, lpObj->m_Index, lpObj->DBNumber))
+	if (!this->Isleader(PartyNumber, lpObj.m_Index, lpObj.DBNumber))
 	{
-		GSProtocol.GCServerMsgStringSend("Your character is not party leader", lpObj->m_Index, 1);
+		GSProtocol.GCServerMsgStringSend("Your character is not party leader", lpObj.m_Index, 1);
 		return false;
 	}
 	// ----
-	int TempIndex = this->GetIndex(PartyNumber, lpTargetObj->m_Index, lpTargetObj->DBNumber);
+	int TempIndex = this->GetIndex(PartyNumber, lpTargetObj.m_Index, lpTargetObj.DBNumber);
 	// ----
 	this->m_PartyS[PartyNumber].Number[0] = this->m_PartyS[PartyNumber].Number[TempIndex];
 	this->m_PartyS[PartyNumber].DbNumber[0] = this->m_PartyS[PartyNumber].DbNumber[TempIndex];
 	this->m_PartyS[PartyNumber].m_UserPKLevel[0] = this->m_PartyS[PartyNumber].m_PKPartyLevel[&TempIndex];
 	// ----
-	this->m_PartyS[PartyNumber].Number[TempIndex] = lpObj->m_Index;
-	this->m_PartyS[PartyNumber].DbNumber[TempIndex] = lpObj->DBNumber;
-	this->m_PartyS[PartyNumber].m_PKPartyLevel[&TempIndex] = lpObj->m_PK_Level;
+	this->m_PartyS[PartyNumber].Number[TempIndex] = lpObj.m_Index;
+	this->m_PartyS[PartyNumber].DbNumber[TempIndex] = lpObj.DBNumber;
+	this->m_PartyS[PartyNumber].m_PKPartyLevel[&TempIndex] = lpObj.m_PK_Level;
 	// ----
 	char Text[100] = { 0 };
-	sprintf(Text, "New party leader: %s", lpTargetObj->Name);
+	sprintf(Text, "New party leader: %s", lpTargetObj.Name);
 	// ----
 	for (int i = 0; i < MAX_USER_IN_PARTY; i++)
 	{

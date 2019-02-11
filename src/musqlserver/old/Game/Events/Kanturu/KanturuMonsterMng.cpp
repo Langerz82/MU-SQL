@@ -60,7 +60,7 @@ void CKanturuMonsterMng::ResetRegenMonsterObjData()
 
 void CKanturuMonsterMng::MonsterDie(int iIndex)
 {
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 
 	for ( int iCount=0;iCount<this->m_KanturuMonster.GetCount();iCount++)
 	{
@@ -150,7 +150,7 @@ int CKanturuMonsterMng::SetKanturuMonster(int iGroupNumber)
 {
 	int iMapNumber = 0;
 	WORD wType = 0;
-	LPGameObject lpObj;
+	CGameObject lpObj;
 	int iResult;
 	int iRegenCount = 0;
 	
@@ -168,33 +168,33 @@ int CKanturuMonsterMng::SetKanturuMonster(int iGroupNumber)
 			{
 				lpObj = &gGameObjects[iResult];
 
-				lpObj->m_PosNum = -1;
-				lpObj->X = this->m_SetBaseInfo[iCount].btX;
-				lpObj->Y = this->m_SetBaseInfo[iCount].btY;
-				lpObj->MapNumber = this->m_SetBaseInfo[iCount].btMapNumber;
+				lpObj.m_PosNum = -1;
+				lpObj.X = this->m_SetBaseInfo[iCount].btX;
+				lpObj.Y = this->m_SetBaseInfo[iCount].btY;
+				lpObj.MapNumber = this->m_SetBaseInfo[iCount].btMapNumber;
 
-				if ( this->GetPosition(iCount, lpObj->MapNumber, lpObj->X, lpObj->Y) == FALSE )
+				if ( this->GetPosition(iCount, lpObj.MapNumber, lpObj.X, lpObj.Y) == FALSE )
 				{
 					gObjDel(iResult);
 					continue;
 				}
 
-				lpObj->TX = lpObj->X;
-				lpObj->TY = lpObj->Y;
-				lpObj->m_OldX = lpObj->X;
-				lpObj->m_OldY = lpObj->Y;
-				lpObj->StartX = lpObj->X;
-				lpObj->StartY = lpObj->Y;
-				lpObj->m_MoveRange = this->m_SetBaseInfo[iCount].btDistance;
-				lpObj->DieRegen = FALSE;
+				lpObj.TX = lpObj.X;
+				lpObj.TY = lpObj.Y;
+				lpObj.m_OldX = lpObj.X;
+				lpObj.m_OldY = lpObj.Y;
+				lpObj.StartX = lpObj.X;
+				lpObj.StartY = lpObj.Y;
+				lpObj.m_MoveRange = this->m_SetBaseInfo[iCount].btDistance;
+				lpObj.DieRegen = FALSE;
 
 				if ( this->m_SetBaseInfo[iCount].btDir == 0xFF )
 				{
-					lpObj->Dir = rand()%8;
+					lpObj.Dir = rand()%8;
 				}
 				else
 				{
-					lpObj->Dir = this->m_SetBaseInfo[iCount].btDir;
+					lpObj.Dir = this->m_SetBaseInfo[iCount].btDir;
 				}
 
 				if ( gObjSetMonster(iResult, this->m_SetBaseInfo[iCount].wType) == FALSE )

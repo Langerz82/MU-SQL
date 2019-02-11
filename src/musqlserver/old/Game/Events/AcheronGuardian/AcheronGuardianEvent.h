@@ -7,7 +7,7 @@
 #include "prodef.h"
 #include "CUserData.h"
 
-structAE_OBELISK_INFO
+struct AE_OBELISK_INFO
 {
 	AE_OBELISK_INFO()
 	{
@@ -108,7 +108,7 @@ struct _stAEMonGroupInfo
 	_stAEMonAccountNumInfo m_stMonsterAccountNumInfo[50];
 };
 
-structAcheronEventTime
+struct AcheronEventTime
 {
 	int m_iHour;
 	int m_iMinute;
@@ -143,12 +143,12 @@ public:
 	void ResetGenTime();
 	void RegenMonsterRun();
 	void RegenMonster(int nGroupNumber, int iGenSeq, int iGenMonCnt);
-	int SetPosMonster(LPGameObject &lpObj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY);
+	int SetPosMonster(CGameObject &lpObj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY);
 	int GetBoxPosition(int mapnumber, int ax, int ay, int aw, int ah, short &mx, short &my);
 	void DeleteMonster(int nGroupNumber);
 	void DeleteAcheronEventAllMonster();
 
-	void DestroyObelisk(LPGameObject lpObj, BYTE btMapNumber, BYTE cX, BYTE cY, int nMaxHitUser);
+	void DestroyObelisk(CGameObject lpObj, BYTE btMapNumber, BYTE cX, BYTE cY, int nMaxHitUser);
 
 	void CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER *lpMsg, int iIndex);
 

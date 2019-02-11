@@ -6,7 +6,7 @@
 
 
 
-CAttackMelee::CAttackMelee( LPGameObject &lpObj, LPGameObject lpTargetObj )
+CAttackMelee::CAttackMelee( CGameObject &lpObj, CGameObject lpTargetObj )
 {
 	m_Obj = lpObj;
 	m_TargetObj = lpTargetObj;
@@ -17,7 +17,7 @@ void CAttackMelee::Process()
 	gObjAttack(m_Obj, m_TargetObj, NULL, 0, 0, 0, 0);
 }
 
-CAttackMagic::CAttackMagic( LPGameObject &lpObj,  BYTE* pmsg, int len)
+CAttackMagic::CAttackMagic( CGameObject &lpObj,  BYTE* pmsg, int len)
 {
 	m_Obj = lpObj;
 	m_Msg = new unsigned char[len];
@@ -31,11 +31,11 @@ CAttackMagic::~CAttackMagic()
 
 void CAttackMagic::Process()
 {
-	GSProtocol.CGMagicAttack((PMSG_MAGICATTACK *)this->m_Msg, m_Obj->m_Index);
-	//gObjUseSkill.UseSkill(m_Obj->m_Index, m_TargetObj->m_Index, m_Magic);
+	GSProtocol.CGMagicAttack((PMSG_MAGICATTACK *)this->m_Msg, m_Obj.m_Index);
+	//gObjUseSkill.UseSkill(m_Obj.m_Index, m_TargetObj.m_Index, m_Magic);
 }
 
-CAttackRange::CAttackRange( LPGameObject &lpObj, BYTE* pmsg, int len, int type )
+CAttackRange::CAttackRange( CGameObject &lpObj, BYTE* pmsg, int len, int type )
 {
 	m_Obj = lpObj;
 	m_Msg = new unsigned char[len];
@@ -51,13 +51,13 @@ CAttackRange::~CAttackRange()
 void CAttackRange::Process()
 {
 	if(m_Type == 0)
-		GSProtocol.CGBeattackRecv(m_Msg, m_Obj->m_Index, FALSE);
+		GSProtocol.CGBeattackRecv(m_Msg, m_Obj.m_Index, FALSE);
 	else
-		GSProtocol.CGDurationMagicRecv((PMSG_DURATION_MAGIC_RECV*) m_Msg, m_Obj->m_Index);
+		GSProtocol.CGDurationMagicRecv((PMSG_DURATION_MAGIC_RECV*) m_Msg, m_Obj.m_Index);
 }
 
 
-CAttackQueue::CAttackQueue(LPGameObject &lpObj)
+CAttackQueue::CAttackQueue(CGameObject &lpObj)
 {
 
 	InitializeCriticalSection(&this->m_CritQueue);
@@ -79,25 +79,25 @@ void CAttackQueue::Push( unsigned char* msg, int len, int type )
 
 void CAttackQueue::ProcessQueue()
 {
-	//LPGameObject m_Obj = &gGameObjects[this->aIndex];
+	//CGameObject m_Obj = &gGameObjects[this->aIndex];
 
 	EnterCriticalSection(&this->m_CritQueue);
 	int TickCount = GetTickCount();
-	float dt = (float)(TickCount - m_Obj->m_LastAttackTime);
+	float dt = (float)(TickCount - m_Obj.m_LastAttackTime);
 
 	float HitPerSec;
 	// By hand
-	m_HandDelay = (0.0142333198777464 * m_Obj->m_AttackSpeed) + (2.03207312150395);
+	m_HandDelay = (0.0142333198777464 * m_Obj.m_AttackSpeed) + (2.03207312150395);
 	// By sword
-	m_SwordDelay = (0.0109365655658977 * m_Obj->m_AttackSpeed) + (1.0853155620929);
+	m_SwordDelay = (0.0109365655658977 * m_Obj.m_AttackSpeed) + (1.0853155620929);
 	// Magic
-	m_MagicDelay = (0.0142333198777464 * m_Obj->m_AttackSpeed) + (2.03207312150395);
+	m_MagicDelay = (0.0142333198777464 * m_Obj.m_AttackSpeed) + (2.03207312150395);
 
 	CheckSize();
-	if(m_Obj->Class == CLASS_WIZARD)	// DW
+	if(m_Obj.Class == CLASS_WIZARD)	// DW
 		HitPerSec = m_MagicDelay;
 	else{
-		if(m_Obj->pInventory[0].IsItem() || m_Obj->pInventory[1].IsItem())
+		if(m_Obj.pInventory[0].IsItem() || m_Obj.pInventory[1].IsItem())
 			HitPerSec = m_SwordDelay;
 		else
 			HitPerSec = m_HandDelay;
@@ -121,7 +121,7 @@ void CAttackQueue::ProcessQueue()
 				if(pAtt)
 				{
 					m_LastFrameAttack = true;
-					m_Obj->m_LastAttackTime = TickCount;
+					m_Obj.m_LastAttackTime = TickCount;
 					pAtt->Process();
 					delete pAtt; // nie wiem juz co robic ^. Kurde to jest przypadek tak specyficzny. Przecie¿ pop() idzie niemal w tym samym monencie co front(). Musia³oby w tym samym momencie w obu w¹tkach wywo³aæ front().... Sytuacja 1 na milion, nie wiem czemu tak sie dzieje...
 				}
@@ -146,7 +146,7 @@ void CAttackQueue::ProcessQueue()
 			if(pAtt)
 			{
 				m_LastFrameAttack = true;
-				m_Obj->m_LastAttackTime = TickCount;
+				m_Obj.m_LastAttackTime = TickCount;
 				pAtt->Process();
 				delete pAtt;
 			}
@@ -160,26 +160,26 @@ void CAttackQueue::ProcessQueue()
 }
 
 bool CAttackQueue::ThreadActive = true;
-VOID CAttackQueue::AttackQueueProc(std::vector<LPGameObject> gObj)
+VOID CAttackQueue::AttackQueueProc(std::vector<CGameObject> gObj)
 {
 	while(ThreadActive)
 	{
 		//for(int i = OBJ_STARTUSERINDEX; i < OBJMAX; i++)
-		for each(LPGameObject &Obj in gObj)
+		for each(CGameObject &Obj in gObj)
 		{
-			if(Obj->m_PlayerData->m_AttackQueue == NULL)
+			if(Obj.m_PlayerData->m_AttackQueue == NULL)
 			{
 				continue;
 			}
 
-			if(Obj->Connected >= PLAYER_CONNECTED)
+			if(Obj.Connected >= PLAYER_CONNECTED)
 			{
-				if(Obj->Connected >= PLAYER_PLAYING)
+				if(Obj.Connected >= PLAYER_PLAYING)
 				{
-					Obj->m_PlayerData->m_AttackQueue->ProcessQueue();
+					Obj.m_PlayerData->m_AttackQueue->ProcessQueue();
 				}
 				else{
-					Obj->m_PlayerData->m_AttackQueue->Clear();
+					Obj.m_PlayerData->m_AttackQueue->Clear();
 				}
 			}
 		}
@@ -241,7 +241,7 @@ void CAttackQueue::Clear()
 	LeaveCriticalSection(&this->m_CritQueue);
 }
 
-CAttackMsg::CAttackMsg(LPGameObject &lpObj, BYTE* pmsg, int len, int type )
+CAttackMsg::CAttackMsg(CGameObject &lpObj, BYTE* pmsg, int len, int type )
 {
 	if(pmsg == NULL)
 	{

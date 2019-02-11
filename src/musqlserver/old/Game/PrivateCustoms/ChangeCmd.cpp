@@ -77,7 +77,7 @@ void CChangeCmd::LoadFile(char * szFile)
 
 char * szCoinNames[] = { "Zen", "WCoinC", "WCoinP", "GoblinPoint" };
 
-int CChangeCmd::DoChange(LPGameObject &lpObj) // -1 - system off, 0 - no change made, > 0 - count of items changed
+int CChangeCmd::DoChange(CGameObject &lpObj) // -1 - system off, 0 - no change made, > 0 - count of items changed
 {
 	if (this->m_bSystemEnable == false)
 	{
@@ -89,13 +89,13 @@ int CChangeCmd::DoChange(LPGameObject &lpObj) // -1 - system off, 0 - no change 
 		return -1;
 	}
 
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return -1;
 	}
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
-	lpObj->ChaosLock = TRUE; // Lock Inventory
+	
+	lpObj.ChaosLock = TRUE; // Lock Inventory
 
 	int iItemChangeCnt = 0;
 
@@ -106,12 +106,12 @@ int CChangeCmd::DoChange(LPGameObject &lpObj) // -1 - system off, 0 - no change 
 			continue;
 		}
 
-		if (lpObj->pInventory[i].IsItem() == false)
+		if (lpObj.pInventory[i].IsItem() == false)
 		{
 			continue;
 		}
 
-		std::map<int, CHANGE_ITEM_DATA>::iterator It = this->m_mapChangeData.find(lpObj->pInventory[i].m_Type);
+		std::map<int, CHANGE_ITEM_DATA>::iterator It = this->m_mapChangeData.find(lpObj.pInventory[i].m_Type);
 
 		if (It == this->m_mapChangeData.end())
 		{
@@ -120,15 +120,15 @@ int CChangeCmd::DoChange(LPGameObject &lpObj) // -1 - system off, 0 - no change 
 
 		if (It->second.CoinType == 0)
 		{
-			if (lpObj->m_PlayerData->Money + It->second.CoinValue > MAX_ZEN)
+			if (lpObj.m_PlayerData->Money + It->second.CoinValue > MAX_ZEN)
 			{
 				MsgOutput(aIndex, Lang.GetText(0,637));
-				lpObj->ChaosLock = FALSE;
+				lpObj.ChaosLock = FALSE;
 				return iItemChangeCnt;
 			}
 
-			lpObj->m_PlayerData->Money += It->second.CoinValue;
-			GSProtocol.GCMoneySend(aIndex, lpObj->m_PlayerData->Money);
+			lpObj.m_PlayerData->Money += It->second.CoinValue;
+			GSProtocol.GCMoneySend(aIndex, lpObj.m_PlayerData->Money);
 		}
 
 		else
@@ -136,7 +136,7 @@ int CChangeCmd::DoChange(LPGameObject &lpObj) // -1 - system off, 0 - no change 
 			GDReqInGameShopPointAdd(aIndex, It->second.CoinType - 1, It->second.CoinValue);
 		}
 
-		MsgOutput(aIndex, Lang.GetText(0, 638), lpObj->pInventory[i].GetName(), It->second.CoinValue, szCoinNames[It->second.CoinType]);
+		MsgOutput(aIndex, Lang.GetText(0, 638), lpObj.pInventory[i].GetName(), It->second.CoinValue, szCoinNames[It->second.CoinType]);
 
 		gObjInventoryDeleteItem(aIndex, i);
 		GSProtocol.GCInventoryItemDeleteSend(aIndex, i, 1);
@@ -144,7 +144,7 @@ int CChangeCmd::DoChange(LPGameObject &lpObj) // -1 - system off, 0 - no change 
 		iItemChangeCnt++;
 	}
 
-	lpObj->ChaosLock = FALSE;
+	lpObj.ChaosLock = FALSE;
 	return iItemChangeCnt;
 }
 

@@ -115,7 +115,7 @@ struct MUUN_ITEM_PERIOD_DATA
 	char btUsedDataCount;
 	WORD wUserIndex;
 	DWORD dwUserGUID;
-	LPGameObject lpUserObj;
+	CGameObject lpUserObj;
 	char chAccountID[MAX_ACCOUNT_LEN+1];
 	char chCharacterName[MAX_ACCOUNT_LEN+1];
 	MUUNITEMDATA ItemData[MUUN_INVENTORY_SIZE];
@@ -128,15 +128,15 @@ public:
 	CMuunAttack();
 	virtual ~CMuunAttack();
 
-	void SendAttackMsg(LPGameObject &lpObj, int aTargetIndex, int SubCode, int SubCode2);
-	void SkillProc(LPGameObject &lpObj);
+	void SendAttackMsg(CGameObject &lpObj, int aTargetIndex, int SubCode, int SubCode2);
+	void SkillProc(CGameObject &lpObj);
 
-	bool DamageAbsorb(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2);
-	bool Stun(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2);
-	bool Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2);
+	bool DamageAbsorb(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2);
+	bool Stun(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2);
+	bool Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2);
 
-	int GetAttackDamage(LPGameObject &lpObj, int targetDefense, int SubCode2, LPGameObject lpTargetObj);
-	int GetShieldDamage(LPGameObject &lpObj, LPGameObject lpTargetObj, int iAttackDamage);
+	int GetAttackDamage(CGameObject &lpObj, int targetDefense, int SubCode2, CGameObject lpTargetObj);
+	int GetShieldDamage(CGameObject &lpObj, CGameObject lpTargetObj, int iAttackDamage);
 };
 
 class CMuunSystem
@@ -152,21 +152,21 @@ public:
 	bool LoadScriptMuunSystemOption(char *lpszFileName);
 	bool LoadScriptMuunExchange(char *lpszFileName);
 
-	void MuunItemDamage(LPGameObject lpObj, int damage);
-	int MuunItemEquipment(LPGameObject &lpObj, int iPos, int iSource);
+	void MuunItemDamage(CGameObject lpObj, int damage);
+	int MuunItemEquipment(CGameObject &lpObj, int iPos, int iSource);
 
-	void SetMuunItemAddPeriodData(LPGameObject lpObj, int iMuunItemNum, UINT64 dwSerial);
-	bool SetUserMuunEffect(LPGameObject lpObj, int iMuunItmeNum, int iMuunLv, int iEquipPos);
+	void SetMuunItemAddPeriodData(CGameObject lpObj, int iMuunItemNum, UINT64 dwSerial);
+	bool SetUserMuunEffect(CGameObject lpObj, int iMuunItmeNum, int iMuunLv, int iEquipPos);
 	void SetAddOptTypeValue(MUUN_EFFECT_LIST *pUserMuunEffect);
-	bool RemoveUserMuunEffect(LPGameObject lpObj, int iEquipPos);
+	bool RemoveUserMuunEffect(CGameObject lpObj, int iEquipPos);
 
-	bool GetMuunItemValueOfOptType(LPGameObject lpObj, int iMuunOtpIndex, int *EffectValue1, int *EffectValue2);
+	bool GetMuunItemValueOfOptType(CGameObject lpObj, int iMuunOtpIndex, int *EffectValue1, int *EffectValue2);
 
-	void GDReqLoadMuunInvenItem(LPGameObject &obj);
+	void GDReqLoadMuunInvenItem(CGameObject &obj);
 	void DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg);
-	void GDReqSaveMuunInvenItem(LPGameObject &obj);
+	void GDReqSaveMuunInvenItem(CGameObject &obj);
 
-	void GCSendConditionStatus(LPGameObject &lpObj, int iPos, int iStatus);
+	void GCSendConditionStatus(CGameObject &lpObj, int iPos, int iStatus);
 
 	bool IsMuunItem(CItem *pCitem);
 	bool IsMuunUtil(int ItemIndex);
@@ -181,59 +181,59 @@ public:
 
 	void CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int aIndex);
 
-	bool MuunItemEvolution(LPGameObject lpObj, int source, int target);
-	bool MuunItemLevelUp(LPGameObject lpObj, int source, int target);
-	bool MuunItemLifeGem(LPGameObject lpObj, int source, int target);
-	bool MuunItemEnergyGenerator(LPGameObject lpObj, int source, int target);
+	bool MuunItemEvolution(CGameObject lpObj, int source, int target);
+	bool MuunItemLevelUp(CGameObject lpObj, int source, int target);
+	bool MuunItemLifeGem(CGameObject lpObj, int source, int target);
+	bool MuunItemEnergyGenerator(CGameObject lpObj, int source, int target);
 
-	void GCMuunInventoryUseItemResult(LPGameObject &lpObj, int iUseType, int iResult);
+	void GCMuunInventoryUseItemResult(CGameObject &lpObj, int iUseType, int iResult);
 
-	bool RemoveMuunItemPeriodInfo(LPGameObject &lpObj);
+	bool RemoveMuunItemPeriodInfo(CGameObject &lpObj);
 
-	bool IsCorrectUser(LPGameObject &lpObj);
+	bool IsCorrectUser(CGameObject &lpObj);
 
-	int AddMuunItmePeriodData(LPGameObject lpObj, WORD wItemCode, UINT64 dwSerial, int iDuration, CMuunInfo *pCMuunInfo);
-	int AddMuunItemPeriodInfo(LPGameObject &lpObj);
-	bool ClearPeriodMuunItemData(LPGameObject lpObj, WORD wItemCode, UINT64 dwSerial);
-	bool RemovePeriodMunnItemData(LPGameObject lpObj, WORD wItemCode, UINT64 dwSerial);
+	int AddMuunItmePeriodData(CGameObject lpObj, WORD wItemCode, UINT64 dwSerial, int iDuration, CMuunInfo *pCMuunInfo);
+	int AddMuunItemPeriodInfo(CGameObject &lpObj);
+	bool ClearPeriodMuunItemData(CGameObject lpObj, WORD wItemCode, UINT64 dwSerial);
+	bool RemovePeriodMunnItemData(CGameObject lpObj, WORD wItemCode, UINT64 dwSerial);
 
-	bool SetDisableMuunItemToExpire(LPGameObject lpObj, int iInventoryPosition);
+	bool SetDisableMuunItemToExpire(CGameObject lpObj, int iInventoryPosition);
 
-	void CheckMuunItemConditionLevelUp(LPGameObject &lpObj);
-	void CheckMuunItemMoveMapConditionMap(LPGameObject lpObj, int iMapNumber);
-	void CheckEquipMuunItemCondition(LPGameObject &lpObj);
-	void CheckEquipMuunItemConditionProc(LPGameObject &lpObj);
+	void CheckMuunItemConditionLevelUp(CGameObject &lpObj);
+	void CheckMuunItemMoveMapConditionMap(CGameObject lpObj, int iMapNumber);
+	void CheckEquipMuunItemCondition(CGameObject &lpObj);
+	void CheckEquipMuunItemConditionProc(CGameObject &lpObj);
 
-	void CalCharacterStat(LPGameObject &lpObj, CMuunInfo *pCMuunInfo);
-	void CalCharacterStat(LPGameObject &lpObj, int iOptType);
+	void CalCharacterStat(CGameObject &lpObj, CMuunInfo *pCMuunInfo);
+	void CalCharacterStat(CGameObject &lpObj, int iOptType);
 
-	int CheckMuunItemCondition(LPGameObject &obj,MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
+	int CheckMuunItemCondition(CGameObject &obj,MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
 	int CheckMuunItemConditionProc(MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
 	int ChkMuunOptConditionTime(MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
 	int ChkMuunOptConditionDay(MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
-	int ChkMuunOptConditionLevel(LPGameObject &obj,MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
-	int ChkMuunOptConditionMap(LPGameObject &obj,MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
+	int ChkMuunOptConditionLevel(CGameObject &obj,MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
+	int ChkMuunOptConditionMap(CGameObject &obj,MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo);
 
-	int GetItemFromMuunInventory(LPGameObject lpObj, WORD wItemCode, UINT64 dwSerial);
+	int GetItemFromMuunInventory(CGameObject lpObj, WORD wItemCode, UINT64 dwSerial);
 
 	void CGMuunExchangeItem(PMSG_REQ_MUUN_EXCHANGE *lpMsg, int aIndex);
 
 	bool ChkMuunExchangeInvenNeedItem(int & iItemCnt, int iInvenPos, int iNeedItemCnt, int iInvenItemNum, int iNeedItemNum, int *ItemPos);
-	bool ChkMuunExchangeInvenNeedItem(LPGameObject &lpObj, int iSelect, int *ItemPos);
+	bool ChkMuunExchangeInvenNeedItem(CGameObject &lpObj, int iSelect, int *ItemPos);
 
-	void SendMsgMuunExchange(LPGameObject &lpObj, int iResult);
-	bool ChkMuunExchangeInvenEmpty(LPGameObject &lpObj, int iSelect);
+	void SendMsgMuunExchange(CGameObject &lpObj, int iResult);
+	bool ChkMuunExchangeInvenEmpty(CGameObject &lpObj, int iSelect);
 
-	bool GDMuunExchangeInsertInven(LPGameObject &lpObj, int iSelect);
-	BYTE DGMuunExchangeInsertInven(LPGameObject &lpObj, CItem CreateItem, int iSelect);
-	bool ChkAndDelItemMuunExchange(LPGameObject &lpObj, int iSelect);
+	bool GDMuunExchangeInsertInven(CGameObject &lpObj, int iSelect);
+	BYTE DGMuunExchangeInsertInven(CGameObject &lpObj, CItem CreateItem, int iSelect);
+	bool ChkAndDelItemMuunExchange(CGameObject &lpObj, int iSelect);
 
-	void SetTarget(LPGameObject &lpObj, int aTargetIndex);
-	void ReSetTarget(LPGameObject &lpObj, int aTargetIndex);
+	void SetTarget(CGameObject &lpObj, int aTargetIndex);
+	void ReSetTarget(CGameObject &lpObj, int aTargetIndex);
 
 	void CGReqRideSelect(PMSG_MUUN_RIDE_SELECT *lpMsg, int aIndex);
 
-	void SkillProc(LPGameObject &lpObj);
+	void SkillProc(CGameObject &lpObj);
 
 	time_t GetCurrentDate();
 	time_t GetExpireDate(int iDuration);
@@ -241,12 +241,12 @@ public:
 	time_t GetLeftDate(time_t ExpireDate);
 	bool IsMuunExpireDate(int iType);
 
-	void Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode, int SubCode2);
+	void Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode, int SubCode2);
 
 	bool CheckAddOptionExpireDate(time_t StartDate, time_t EndDate);
-	void MsgIsMuunItemActive(LPGameObject lpObj, int iPos);
+	void MsgIsMuunItemActive(CGameObject lpObj, int iPos);
 
-	void CheckMuunItemPeriodData(LPGameObject &lpObj);
+	void CheckMuunItemPeriodData(CGameObject &lpObj);
 
 	CMuunInfoMng					m_MuunInfoMng;
 	MUUN_ITEM_PERIOD_DATA			*m_MuunItemPeriodData;

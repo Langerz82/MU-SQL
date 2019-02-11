@@ -36,7 +36,7 @@ public:
 	void Initalize_DSFMonster();
 	void Load_DSFMonsterScript(char *pchFileName);
 
-	void ReqDSFSchedule(LPGameObject &lpObj);
+	void ReqDSFSchedule(CGameObject &lpObj);
 
 	void DSFEventInit();
 
@@ -63,7 +63,7 @@ public:
 	void Set_DSFState_RoundBreak();
 	void Set_DSFState_End();
 
-	BOOL IsAlreadyExistUserInDSF(LPGameObject &lpObj);
+	BOOL IsAlreadyExistUserInDSF(CGameObject &lpObj);
 
 	char Find_PartySlot(int nPartyNumber, BYTE & btSlotNum);
 	char Find_EmptyPartySlot(int nPartyNumber, BYTE & btSlotNum);
@@ -75,8 +75,8 @@ public:
 	void DeleteParty(int nPartyNumber);
 	void DeletePartyByIndex(int nIndex);
 
-	BOOL Enter_DSF(LPGameObject &lpObj, BYTE btSlotNum);
-	BOOL Leave_DSF(LPGameObject &lpObj);
+	BOOL Enter_DSF(CGameObject &lpObj, BYTE btSlotNum);
+	BOOL Leave_DSF(CGameObject &lpObj);
 
 	void ClearUserData(int nIndex);
 
@@ -86,30 +86,30 @@ public:
 	void CheckUsersOnConnect();
 	bool CanStartDSFBattle();
 
-	void SendDSFResult(LPGameObject &lpObj);
+	void SendDSFResult(CGameObject &lpObj);
 	void SaveWinnerPartyPoint();
 	
 	void GDSaveDSFPartyPoint(char *szAccountID1, char *szUserName1, int nUser1Level, int nClass1, char *szAccountID2, char *szUserName2, int nUser2Level, int nClass2, int iDSFType, int iPoint, BYTE btEnterCnt);
 	void GDReqDSFPartyRankRenew(BYTE btDSFType);
 	void GDReqDSFGoFinalParty(int nDSFType);
 	void GDInsertRewardUser(char *szAccountID, char *szUserName, int iClass, int iDSFType);
-	void GDReqGetReward(LPGameObject &lpObj);
+	void GDReqGetReward(CGameObject &lpObj);
 
 	void DSF_ProcessInit();
 
 	int SetMonster();
-	void DSFMonsterRegen(LPGameObject &lpObj);
+	void DSFMonsterRegen(CGameObject &lpObj);
 	void ClearMonster();
 
 	BYTE GetUserTeam(int nIndex);
 
 	int MonsterKillPoint(int nMonsterType);
-	void MonsterKillPointCalc(LPGameObject &lpObj, int nPoint);
+	void MonsterKillPointCalc(CGameObject &lpObj, int nPoint);
 
-	void DSFUserDie(LPGameObject &lpObj);
+	void DSFUserDie(CGameObject &lpObj);
 	void EndUserMove();
 	
-	void DSFDropReward(LPGameObject & lpUser, LPGameObject &lpMonster);
+	void DSFDropReward(CGameObject & lpUser, CGameObject &lpMonster);
 	void SetUBFGetReward(int iUserIndex, WORD wItemCode, UINT64 ItemSerial, BYTE btItemPos);
 	void GDReqSetDSFReward_UBF(int iUserIndex, BYTE btDSFType, BYTE btRewardType);
 

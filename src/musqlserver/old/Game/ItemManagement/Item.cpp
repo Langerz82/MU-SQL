@@ -323,7 +323,7 @@ void CItem::Convert(int type, BYTE Option1, BYTE Option2, BYTE Option3, BYTE Att
 	{
 		//	sLog->outBasic("[K2][3] %d",
 		//		this->m_SocketOption[i]);
-		//SocketOption[i] = lpObj->pChaosBox[PlusItemPos].m_SocketOption[i]; //[K2]
+		//SocketOption[i] = lpObj.pChaosBox[PlusItemPos].m_SocketOption[i]; //[K2]
 
 	}
 
@@ -4056,9 +4056,9 @@ int CItem::DurabilityDown(int dur, int aIndex)
 
 	int iBaseDurSmall = 564;
 
-	/*if (lpObj->m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction2 > 0.0)
+	/*if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction2 > 0.0)
 	{
-		iBaseDurSmall += lpObj->m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction2;
+		iBaseDurSmall += lpObj.m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction2;
 	}*/
 
 	if (this->m_DurabilitySmall > iBaseDurSmall)
@@ -4104,9 +4104,9 @@ int CItem::DurabilityDown2(int dur, int aIndex)
 
 	int iBaseDurSmall = 1000;
 
-	/*if (lpObj->m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 > 0.0)
+	/*if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 > 0.0)
 	{
-		iBaseDurSmall += lpObj->m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1;
+		iBaseDurSmall += lpObj.m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1;
 	}*/
 
 	if (this->m_DurabilitySmall > iBaseDurSmall)
@@ -4178,9 +4178,9 @@ int CItem::NormalWeaponDurabilityDown(int defense, int aIndex)
 
 	int iBaseDurSmall = 846;
 
-	/*if (lpObj->m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 > 0.0)
+	/*if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 > 0.0)
 	{
-		iBaseDurSmall += lpObj->m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1;
+		iBaseDurSmall += lpObj.m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1;
 	}*/
 
 	if (this->m_DurabilitySmall > iBaseDurSmall)
@@ -4246,9 +4246,9 @@ int CItem::BowWeaponDurabilityDown(int defense, int aIndex)
 
 	int iBaseDurSmall = 1170;
 
-	/*if (lpObj->m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 > 0.0)
+	/*if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 > 0.0)
 	{
-		iBaseDurSmall += lpObj->m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1;
+		iBaseDurSmall += lpObj.m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1;
 	}*/
 
 	if (this->m_DurabilitySmall > iBaseDurSmall)
@@ -4312,9 +4312,9 @@ int CItem::StaffWeaponDurabilityDown(int defence, int aIndex)
 
 	int iBaseDurSmall = 1575;
 
-	/*if (lpObj->m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 > 0.0)
+	/*if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 > 0.0)
 	{
-		iBaseDurSmall += lpObj->m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1;
+		iBaseDurSmall += lpObj.m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1;
 	}*/
 
 	if (this->m_DurabilitySmall > iBaseDurSmall)
@@ -4474,9 +4474,9 @@ int CItem::ArmorDurabilityDown(int damagemin, int aIndex)
 
 	int iBaseDurSmall = 69;
 
-	/*if (lpObj->m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 > 0.0)
+	/*if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 > 0.0)
 	{
-		iBaseDurSmall += lpObj->m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1;
+		iBaseDurSmall += lpObj.m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1;
 	}*/
 
 	if (this->m_DurabilitySmall > iBaseDurSmall)
@@ -5944,13 +5944,13 @@ bool CheckCanWearResetItem(int aIndex, int itemid)
 	if (!ObjectMaxRange(aIndex))
 		return false;
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
 	for (int i = 0; i < 1000; i++)
 	{
 		if (gObjResetItem[i].itemIndex == itemid)
 		{
-			if (lpObj->m_PlayerData->m_iResets < gObjResetItem[i].iResets)
+			if (lpObj.m_PlayerData->m_iResets < gObjResetItem[i].iResets)
 			{
 				MsgOutput(aIndex, Lang.GetText(0, 599), gObjResetItem[i].iResets);
 				return false;

@@ -146,15 +146,15 @@ void CItemSystemFor380::InitEffectValue(ITEMOPTION_FOR380ITEM_EFFECT * pItemEffe
 }
 
 
-BOOL CItemSystemFor380::ApplyFor380Option(LPGameObject &lpObj)
+BOOL CItemSystemFor380::ApplyFor380Option(CGameObject &lpObj)
 {
-	ITEMOPTION_FOR380ITEM_EFFECT * pItemEffect = &lpObj->m_PlayerData->m_ItemOptionExFor380;
+	ITEMOPTION_FOR380ITEM_EFFECT * pItemEffect = &lpObj.m_PlayerData->m_ItemOptionExFor380;
 	this->InitEffectValue(pItemEffect);
 	int iItemIndex = 0;
 
 	for ( iItemIndex = 0; iItemIndex < INVETORY_WEAR_SIZE ; iItemIndex++)
 	{
-		CItem * pItem = &lpObj->pInventory[iItemIndex];
+		CItem * pItem = &lpObj.pInventory[iItemIndex];
 
 		if ( pItem->IsItem() &&
 			 pItem->m_IsValidItem &&
@@ -173,8 +173,8 @@ BOOL CItemSystemFor380::ApplyFor380Option(LPGameObject &lpObj)
 		}
 	}
 
-	lpObj->AddLife += pItemEffect->OpAddMaxHP;
-	lpObj->iAddShield += pItemEffect->OpAddMaxSD;
+	lpObj.AddLife += pItemEffect->OpAddMaxHP;
+	lpObj.iAddShield += pItemEffect->OpAddMaxSD;
 
 	return TRUE;
 }
@@ -238,24 +238,24 @@ BOOL CItemSystemFor380::_SetOption(CItem * pItem, BOOL bOption)
 }
 
 
-void CItemSystemFor380::SetOptionItemByMacro(LPGameObject &lpObj, BYTE invenrotyTargetPos, int bOption)
+void CItemSystemFor380::SetOptionItemByMacro(CGameObject &lpObj, BYTE invenrotyTargetPos, int bOption)
 {
 	// HERE GOES A MACRO
 	return;
 	CItem * pItem=NULL;
 }
 
-BOOL CItemSystemFor380::ChaosMix380ItemOption(LPGameObject &lpObj)
+BOOL CItemSystemFor380::ChaosMix380ItemOption(CGameObject &lpObj)
 {
 	if (this->m_bSystemFor380ItemOption != TRUE)
 	{
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,284), lpObj->m_Index, 1);
-		lpObj->bIsChaosMixCompleted = false;
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,284), lpObj.m_Index, 1);
+		lpObj.bIsChaosMixCompleted = false;
 
 		return FALSE;
 	}
 
-	lpObj->ChaosLock = TRUE;
+	lpObj.ChaosLock = TRUE;
 
 	int iValidItemCount = 0;
 	int iJewelOfHarmony = 0;
@@ -274,29 +274,29 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(LPGameObject &lpObj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (lpObj->pChaosBox[n].IsItem() == TRUE)
+		if (lpObj.pChaosBox[n].IsItem() == TRUE)
 		{
-			if (this->Is380Item(&lpObj->pChaosBox[n]) == TRUE &&
-				this->Is380OptionItem(&lpObj->pChaosBox[n]) == FALSE &&
-				lpObj->pChaosBox[n].m_Level > 3 &&
-				(lpObj->pChaosBox[n].m_Option3 << 2) > 3)
+			if (this->Is380Item(&lpObj.pChaosBox[n]) == TRUE &&
+				this->Is380OptionItem(&lpObj.pChaosBox[n]) == FALSE &&
+				lpObj.pChaosBox[n].m_Level > 3 &&
+				(lpObj.pChaosBox[n].m_Option3 << 2) > 3)
 			{
 				iValidItemCount++;
-				pTargetItem = &lpObj->pChaosBox[n];
+				pTargetItem = &lpObj.pChaosBox[n];
 			}
-			else if (g_kJewelOfHarmonySystem.IsJewelOfHarmonyPurity(lpObj->pChaosBox[n].m_Type) == TRUE)
+			else if (g_kJewelOfHarmonySystem.IsJewelOfHarmonyPurity(lpObj.pChaosBox[n].m_Type) == TRUE)
 			{
 				iJewelOfHarmony++;
 				iPosOfJewelOfHarmony = n;
 			}
-			else if (lpObj->pChaosBox[n].m_Type == ITEMGET(14, 31))
+			else if (lpObj.pChaosBox[n].m_Type == ITEMGET(14, 31))
 			{
 				iJewelOfSuho++;
 				iPosOfJewelOfSuho = n;
 			}
-			else if (lpObj->pChaosBox[n].m_Type == ITEMGET(14, 53))
+			else if (lpObj.pChaosBox[n].m_Type == ITEMGET(14, 53))
 			{
-				iCharmOfLuckCount += lpObj->pChaosBox[n].m_Durability;
+				iCharmOfLuckCount += lpObj.pChaosBox[n].m_Durability;
 			}
 			else
 			{
@@ -315,13 +315,13 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(LPGameObject &lpObj)
 		iCharmOfLuckCount > 10)
 	{
 		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
-		lpObj->ChaosLock = FALSE;
+		lpObj.ChaosLock = FALSE;
 
 		return FALSE;
 	}
 
 	iMixPrice = this->m_iNeedZenFor380Option;
-	int iChaosTaxMoney = iMixPrice * g_CastleSiegeSync.GetTaxRateChaos(lpObj->m_Index) / 100;
+	int iChaosTaxMoney = iMixPrice * g_CastleSiegeSync.GetTaxRateChaos(lpObj.m_Index) / 100;
 
 	if (iChaosTaxMoney < 0)
 		iChaosTaxMoney = 0;
@@ -331,19 +331,19 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(LPGameObject &lpObj)
 	if (iMixPrice < 0)
 		iMixPrice = 0;
 
-	if (lpObj->m_PlayerData->Money < iMixPrice)
+	if (lpObj.m_PlayerData->Money < iMixPrice)
 	{
 		pMsg.Result = 2;
 		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
-		lpObj->ChaosLock = FALSE;
+		lpObj.ChaosLock = FALSE;
 
 		return FALSE;
 	}
 
-	lpObj->m_PlayerData->Money -= iMixPrice;
+	lpObj.m_PlayerData->Money -= iMixPrice;
 	g_CastleSiegeSync.AddTributeMoney(iChaosTaxMoney);
 
-	GSProtocol.GCMoneySend(lpObj->m_Index, lpObj->m_PlayerData->Money);
+	GSProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
 	g_MixSystem.LogChaosItem(lpObj, "[380Item][Item Mix");
 	sLog->outBasic("[380Item][Item Mix] - Mix Start");
 
@@ -363,10 +363,10 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(LPGameObject &lpObj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE;i++)
 	{
-		if (&lpObj->pChaosBox[i] != pTargetItem)
+		if (&lpObj.pChaosBox[i] != pTargetItem)
 		{
-			lpObj->pChaosBox[i].Clear();
-			lpObj->pChaosBoxMap[i] = -1;
+			lpObj.pChaosBox[i].Clear();
+			lpObj.pChaosBoxMap[i] = -1;
 		}
 	}
 
@@ -376,7 +376,7 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(LPGameObject &lpObj)
 		GSProtocol.GCUserChaosBoxSend(lpObj, 0);
 
 		sLog->outBasic("[380Item][ItemMix] Mix Success [%s][%s], Money(%d-%d) Rate(%d/%d) Option(%d,%d) OptionValue(%d,%d)",
-			lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Money,
+			lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->Money,
 			iMixPrice, iRate, iRateSuccess,
 			this->m_itemOption[(pTargetItem->m_Type)].m_Option1,
 			this->m_itemOption[(pTargetItem->m_Type)].m_Option2,
@@ -389,12 +389,12 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(LPGameObject &lpObj)
 		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 
 		sLog->outBasic("[380Item][ItemMix] Mix Fail [%s][%s], Money(%d-%d) Rate(%d/%d)",
-			lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Money,
+			lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->Money,
 			iMixPrice, iRate, iRateSuccess);
 
 	}
 
-	lpObj->ChaosLock = FALSE;
+	lpObj.ChaosLock = FALSE;
 	return TRUE;
 }
 

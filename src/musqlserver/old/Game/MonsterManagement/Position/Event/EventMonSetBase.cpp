@@ -187,12 +187,12 @@ void CEventMonSetBase::RegenMonster(int iIndex)
 	}
 
 	std::map<int, boost::shared_ptr<EVENT_MONSTER_DATA>>::iterator Iter = this->m_mapMonsterData.find(iIndex);
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 
 	if (Iter->second->lpSpotData->m_DoSpawn == FALSE)
 	{
 		sLog->outBasic("[Event Spawn] End of Regen Time -> Delete Monster (%d)(%d) (%d)(%d)(%d)",
-			iIndex, lpObj->Class, lpObj->MapNumber, lpObj->X, lpObj->Y);
+			iIndex, lpObj.Class, lpObj.MapNumber, lpObj.X, lpObj.Y);
 
 		gObjDel(iIndex);
 		this->m_mapMonsterData.erase(Iter);
@@ -201,24 +201,24 @@ void CEventMonSetBase::RegenMonster(int iIndex)
 
 	if (this->GetBoxPosition(Iter->second->lpSpotData->m_MapNumber, Iter->second->lpSpotData->m_X,
 		Iter->second->lpSpotData->m_Y, Iter->second->lpSpotData->m_W, Iter->second->lpSpotData->m_H,
-		lpObj->X, lpObj->Y) == FALSE)
+		lpObj.X, lpObj.Y) == FALSE)
 	{
 		sLog->outBasic("[Event Spawn] Failed to find empty space on map -> Delete Monster (%d)(%d) (%d)(%d)(%d)",
-			iIndex, lpObj->Class, lpObj->MapNumber, lpObj->X, lpObj->Y);
+			iIndex, lpObj.Class, lpObj.MapNumber, lpObj.X, lpObj.Y);
 
 		gObjDel(iIndex);
 		this->m_mapMonsterData.erase(Iter);
 		return;
 	}
 
-	lpObj->MTX = lpObj->X;
-	lpObj->MTY = lpObj->Y;
-	lpObj->TX = lpObj->X;
-	lpObj->TY = lpObj->Y;
-	lpObj->StartX = lpObj->X;
-	lpObj->StartY = lpObj->Y;
+	lpObj.MTX = lpObj.X;
+	lpObj.MTY = lpObj.Y;
+	lpObj.TX = lpObj.X;
+	lpObj.TY = lpObj.Y;
+	lpObj.StartX = lpObj.X;
+	lpObj.StartY = lpObj.Y;
 
-	//sLog->outBasic("[Event Spawn] Regen Monster (%d)(%d) (%d)(%d)(%d)",iIndex, lpObj->Class, lpObj->MapNumber, lpObj->X, lpObj->Y);
+	//sLog->outBasic("[Event Spawn] Regen Monster (%d)(%d) (%d)(%d)(%d)",iIndex, lpObj.Class, lpObj.MapNumber, lpObj.X, lpObj.Y);
 }
 
 void CEventMonSetBase::DeleteAllMonsters()
@@ -233,7 +233,7 @@ void CEventMonSetBase::DeleteAllMonsters()
 
 }
 
-int CEventMonSetBase::SetPosMonster(LPGameObject &lpObj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY, int nDir)
+int CEventMonSetBase::SetPosMonster(CGameObject &lpObj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY, int nDir)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -241,25 +241,25 @@ int CEventMonSetBase::SetPosMonster(LPGameObject &lpObj, int nMapNumber, int nBe
 		return false;
 	}
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
-	lpObj->m_PosNum = -1;
-	lpObj->MapNumber = nMapNumber;
-	this->GetBoxPosition(nMapNumber, nBeginX, nBeginY, nEndX, nEndY, lpObj->X, lpObj->Y);
-	lpObj->TX = lpObj->X;
-	lpObj->TY = lpObj->Y;
-	lpObj->m_OldX = lpObj->X;
-	lpObj->m_OldY = lpObj->Y;
+	lpObj.m_PosNum = -1;
+	lpObj.MapNumber = nMapNumber;
+	this->GetBoxPosition(nMapNumber, nBeginX, nBeginY, nEndX, nEndY, lpObj.X, lpObj.Y);
+	lpObj.TX = lpObj.X;
+	lpObj.TY = lpObj.Y;
+	lpObj.m_OldX = lpObj.X;
+	lpObj.m_OldY = lpObj.Y;
 
 	if (nDir == -1)
-		lpObj->Dir = rand() % 8;
+		lpObj.Dir = rand() % 8;
 	else
-		lpObj->Dir = nDir;
+		lpObj.Dir = nDir;
 
-	lpObj->StartX = lpObj->X;
-	lpObj->StartY = lpObj->Y;
-	lpObj->DieRegen = 0;
-	lpObj->MaxRegenTime = 0;
+	lpObj.StartX = lpObj.X;
+	lpObj.StartY = lpObj.Y;
+	lpObj.DieRegen = 0;
+	lpObj.MaxRegenTime = 0;
 
 	return true;
 }

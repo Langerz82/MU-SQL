@@ -8,9 +8,12 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "generalStructs.h"
+//#include "generalStructs.h"
 
 #define MAX_BUFF_SIZE		100000
+
+struct MU_WSAOVERLAPPED;
+struct MU_WSABUF;
 
 typedef struct
 {

@@ -9,10 +9,10 @@ public:
 	CEventBag();
 	virtual ~CEventBag();
 
-	bool IsBag(LPGameObject &lpObj, int EventID, int iParam2);
-	bool UseBag(LPGameObject &lpObj, int iMonsterIndex);
-	bool CheckCondition(LPGameObject &lpObj, int w, int h);
-	bool UseBag_GremoryCase(LPGameObject &lpObj, int iMonsterIndex, BYTE btStorageType, BYTE btRewardSource, int iExpireDays);
+	bool IsBag(CGameObject &lpObj, int EventID, int iParam2);
+	bool UseBag(CGameObject &lpObj, int iMonsterIndex);
+	bool CheckCondition(CGameObject &lpObj, int w, int h);
+	bool UseBag_GremoryCase(CGameObject &lpObj, int iMonsterIndex, BYTE btStorageType, BYTE btRewardSource, int iExpireDays);
 	void SetBagInfo(int EventID, int iParam2);
 
 private:

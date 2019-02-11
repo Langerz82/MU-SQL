@@ -1588,7 +1588,7 @@ void GameServerInfoSend()
 
 		if (g_VipSystem.IsServerVIP() > 0)
 		{
-			if (g_MaxStatsInfo.GetClass.IsNonPvP[gObj->MapNumber] == true)
+			if (g_MaxStatsInfo.GetClass.IsNonPvP[gObj.MapNumber] == true)
 			{
 				pMsg.PlayType = GS_PLAY_GOLD_NONPVP;
 			}
@@ -1601,7 +1601,7 @@ void GameServerInfoSend()
 
 		else
 		{
-			if (g_MaxStatsInfo.GetClass.IsNonPvP[gObj->MapNumber] == true)
+			if (g_MaxStatsInfo.GetClass.IsNonPvP[gObj.MapNumber] == true)
 			{
 				pMsg.PlayType = GS_PLAY_NONPVP;
 			}

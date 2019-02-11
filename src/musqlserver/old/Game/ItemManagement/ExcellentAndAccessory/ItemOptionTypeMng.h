@@ -22,21 +22,21 @@ public:
 	int WingExcOptionRand(int ItemKindA, int ItemKindB, BYTE *btSocketExcOption);
 	int WingExcOptionGetCount(int ItemKindA, int ItemKindB, BYTE *btSocketExcOption, int iOptionCount);
 
-	void CalcExcOptionEffect(LPGameObject &lpObj);
-	void CalcWingOptionEffect(LPGameObject &lpObj);
+	void CalcExcOptionEffect(CGameObject &lpObj);
+	void CalcWingOptionEffect(CGameObject &lpObj);
 
-	int GetOptionEffectValue(LPGameObject &lpObj, int iOptionType, int iOptionEffect);
+	int GetOptionEffectValue(CGameObject &lpObj, int iOptionType, int iOptionEffect);
 
-	int _CalcEffectValue(LPGameObject lpObj, int iInputValue, int iOperator, int iBaseValue, int iFormulaID, CItem * Item);
-	void _SetOptionEffect(LPGameObject lpObj, BYTE *OptionEffect, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos);
+	int _CalcEffectValue(CGameObject lpObj, int iInputValue, int iOperator, int iBaseValue, int iFormulaID, CItem * Item);
+	void _SetOptionEffect(CGameObject lpObj, BYTE *OptionEffect, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos);
 
-	void _SetEffect_Etc(LPGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos);
-	void _SetEffect_Rate(LPGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos);
-	void _SetEffect_Attack(LPGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos);
-	void _SetEffect_Defense(LPGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos);
-	void _SetEffect_Life(LPGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos);
-	void _SetEffect_Mana(LPGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos);
-	void _SetEffect_Skill(LPGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos);
+	void _SetEffect_Etc(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos);
+	void _SetEffect_Rate(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos);
+	void _SetEffect_Attack(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos);
+	void _SetEffect_Defense(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos);
+	void _SetEffect_Life(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos);
+	void _SetEffect_Mana(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos);
+	void _SetEffect_Skill(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos);
 
 	COMMON_EXT_OPTION_TYPE * GetCommonExcOption(int ExcOptionID);
 	WING_EXT_OPTION_TYPE * GetWingOption(int ExcOptionID);

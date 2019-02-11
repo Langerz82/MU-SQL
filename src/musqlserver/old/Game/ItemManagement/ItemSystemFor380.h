@@ -56,9 +56,9 @@ public:
 	BOOL Is380Item( CItem const *  pItem);
 	BOOL Is380OptionItem( CItem const * pItem);
 	void InitEffectValue( ITEMOPTION_FOR380ITEM_EFFECT* pItemEffect);
-	int ApplyFor380Option(struct OBJECTSTRUCT* lpObj);
-	void SetOptionItemByMacro(struct OBJECTSTRUCT* lpObj, BYTE invenrotyTargetPos, int bOption);
-	int ChaosMix380ItemOption(struct OBJECTSTRUCT* lpObj);
+	int ApplyFor380Option(struct CGameObject* lpObj);
+	void SetOptionItemByMacro(struct CGameObject* lpObj, BYTE invenrotyTargetPos, int bOption);
+	int ChaosMix380ItemOption(struct CGameObject* lpObj);
 
 private:
 

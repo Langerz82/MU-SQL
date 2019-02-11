@@ -68,7 +68,7 @@ bool CSkillUseTime::LoadFile(LPSTR lpFile)
 	return true;
 }
 
-bool CSkillUseTime::CheckSkillTime(LPGameObject &lpObj, int iSkill)
+bool CSkillUseTime::CheckSkillTime(CGameObject &lpObj, int iSkill)
 {
 	if ( this->m_bEnabled == false )
 	{
@@ -80,35 +80,35 @@ bool CSkillUseTime::CheckSkillTime(LPGameObject &lpObj, int iSkill)
 		return true;
 	}
 
-	if ( lpObj->Type != OBJ_USER )
+	if ( lpObj.Type != OBJ_USER )
 	{
 		return true;
 	}
 
-	ULONGLONG iTimeDiff = GetTickCount64() - lpObj->m_PlayerData->LastSkillUseTick;
+	ULONGLONG iTimeDiff = GetTickCount64() - lpObj.m_PlayerData->LastSkillUseTick;
 
 	if ( this->m_bDebugMode )
 	{
-		sLog->outBasic("[DEBUG] UseSkill (%d) Time(%d) MagicSpeed(%d)", iSkill, iTimeDiff, lpObj->m_MagicSpeed);
+		sLog->outBasic("[DEBUG] UseSkill (%d) Time(%d) MagicSpeed(%d)", iSkill, iTimeDiff, lpObj.m_MagicSpeed);
 	}
 
 	for(std::vector<SKILL_TIME_INFO>::iterator It = this->m_vtSkillTimeInfo.begin(); It != this->m_vtSkillTimeInfo.end(); It++)
 	{
-		if ( lpObj->m_MagicSpeed >= It->iMinMagicSpeed && lpObj->m_MagicSpeed <= It->iMaxMagicSpeed )
+		if ( lpObj.m_MagicSpeed >= It->iMinMagicSpeed && lpObj.m_MagicSpeed <= It->iMaxMagicSpeed )
 		{
 			if ( iSkill == It->iSkill )
 			{
 				if ( iTimeDiff < It->iUseTime )
 				{
-					lpObj->m_PlayerData->LastSkillUseCount++;
+					lpObj.m_PlayerData->LastSkillUseCount++;
 
 					if ( this->m_iIsDC )
 					{
-						if ( lpObj->m_PlayerData->LastSkillUseCount >= this->m_iNumberOfBadSkillUseDC )
+						if ( lpObj.m_PlayerData->LastSkillUseCount >= this->m_iNumberOfBadSkillUseDC )
 						{
-							sLog->outError( "[ANTI-HACK] [%s][%s][%s] Used skill too fast %d times -> Disconnect", lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr, lpObj->m_PlayerData->LastSkillUseCount);
-							GSProtocol.GCSendDisableReconnect(lpObj->m_Index);
-							//IOCP.CloseClient(lpObj->m_Index);
+							sLog->outError( "[ANTI-HACK] [%s][%s][%s] Used skill too fast %d times -> Disconnect", lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->Ip_addr, lpObj.m_PlayerData->LastSkillUseCount);
+							GSProtocol.GCSendDisableReconnect(lpObj.m_Index);
+							//IOCP.CloseClient(lpObj.m_Index);
 						}
 					}
 
@@ -118,9 +118,9 @@ bool CSkillUseTime::CheckSkillTime(LPGameObject &lpObj, int iSkill)
 		}
 	}
 
-	lpObj->m_PlayerData->LastSkillUseCount = 0;
-	lpObj->m_PlayerData->LastSkillUseNumber = iSkill;
-	lpObj->m_PlayerData->LastSkillUseTick = GetTickCount64();
+	lpObj.m_PlayerData->LastSkillUseCount = 0;
+	lpObj.m_PlayerData->LastSkillUseNumber = iSkill;
+	lpObj.m_PlayerData->LastSkillUseTick = GetTickCount64();
 
 	return true;
 }

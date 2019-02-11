@@ -35,21 +35,21 @@ public:
 	BYTE GetItemOptionLevel(CItem* pItem);
 	BOOL IsActive(CItem* pItem);
 	BOOL IsStrengthenByJewelOfHarmony(CItem* pItem);
-	BOOL StrengthenItemByJewelOfHarmony(struct LPGameObject &lpObj, int source, int target);
-	BOOL StrengthenItemByJewelOfRise(struct LPGameObject &lpObj, int source, int target);
-	void StrengthenItemByMacro(struct LPGameObject &lpObj, BYTE invenrotyTargetPos, BYTE btOptionType,  BYTE btOptionLevel);
-	void SetApplyStrengthenItem(struct LPGameObject &lpObj);
+	BOOL StrengthenItemByJewelOfHarmony(struct CGameObject &lpObj, int source, int target);
+	BOOL StrengthenItemByJewelOfRise(struct CGameObject &lpObj, int source, int target);
+	void StrengthenItemByMacro(struct CGameObject &lpObj, BYTE invenrotyTargetPos, BYTE btOptionType,  BYTE btOptionLevel);
+	void SetApplyStrengthenItem(struct CGameObject &lpObj);
 	void InitEffectValue(JEWELOFHARMONY_ITEM_EFFECT* pItemEffect);
 	int GetItemEffectValue(CItem* pItem, int iOptionType);
 	BOOL IsEnableToMakeSmeltingStoneItem(CItem* pItem);
-	BOOL MakeSmeltingStoneItem(struct LPGameObject &lpObj);
-	BOOL MakeSmeltingStoneItem_MultiMix(struct LPGameObject &lpObj, int iMixCount);
-	BOOL SmeltItemBySmeltingStone(struct LPGameObject &lpObj, int source, int target);
-	BOOL RestoreStrengthenItem(struct LPGameObject &lpObj);
-	BYTE MakeCharSetData(struct LPGameObject &lpObj);
-	BOOL NpcJewelOfHarmony(struct LPGameObject  lpNpc, struct LPGameObject &lpObj);
+	BOOL MakeSmeltingStoneItem(struct CGameObject &lpObj);
+	BOOL MakeSmeltingStoneItem_MultiMix(struct CGameObject &lpObj, int iMixCount);
+	BOOL SmeltItemBySmeltingStone(struct CGameObject &lpObj, int source, int target);
+	BOOL RestoreStrengthenItem(struct CGameObject &lpObj);
+	BYTE MakeCharSetData(struct CGameObject &lpObj);
+	BOOL NpcJewelOfHarmony(struct CGameObject  lpNpc, struct CGameObject &lpObj);
 	BYTE ShowStrengthenOption(CItem* pItem);
-	BOOL IsEnableToTrade(struct LPGameObject &lpObj);
+	BOOL IsEnableToTrade(struct CGameObject &lpObj);
 
 	BOOL m_bSystemSmeltingItem;	// 5328
 	BOOL _MakeOption(CItem* pItem, BYTE btOptionType, BYTE btOptionLevel);

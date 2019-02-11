@@ -11,7 +11,7 @@
 
 #define MAX_MOVE_COMMAND 60
 
-typedef 
+typedef struct
 {
 	int Index;	// 0
 	char Name[255];	// 3
@@ -22,7 +22,7 @@ typedef
 	int GateNumber;	// 20C
 } MOVE_COMMAND_DATA, *LPMOVE_COMMAND_DATA;
 
-typedef 
+typedef struct
 {
 	int MoveLevel;	// 0
 	int MapNumber;	// 4
@@ -50,12 +50,12 @@ public:
 	int Load(char* filename);
 	int LoadMoveLevel(char* filename);
 	int GetMoveLevel(int mapnumber, int x, int y, int Class);
-	int CheckMainToMove(LPGameObject &lpObj);
-	int CheckEquipmentToMove(LPGameObject &lpObj, int iTargetMapNumber);
-	int CheckInterfaceToMove(LPGameObject &lpObj);
-	int Move(LPGameObject &lpObj, int iMapIndex);
-	int Move(LPGameObject &lpObj, char* mapname);
-	int MoveFree2Kalima(LPGameObject &lpObj);
+	int CheckMainToMove(CGameObject &lpObj);
+	int CheckEquipmentToMove(CGameObject &lpObj, int iTargetMapNumber);
+	int CheckInterfaceToMove(CGameObject &lpObj);
+	int Move(CGameObject &lpObj, int iMapIndex);
+	int Move(CGameObject &lpObj, char* mapname);
+	int MoveFree2Kalima(CGameObject &lpObj);
 	BOOL CheckMoveMapBound(int iMapIndex);
 	LPMOVE_COMMAND_DATA GetMoveCommandData(int nMapIndex);
 	LPMOVE_COMMAND_DATA GetMoveCommandDataByMapNumber(WORD wMapNumber);

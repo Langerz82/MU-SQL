@@ -38,7 +38,7 @@ void CRaklionSelupan::RaklionSelupanAct_FirstSkill()
 {
 	int iSelupanIndex = GetSelupanObjIndex();
 	int iTargetIndex = GetTargetOfSelupan();
-	LPGameObject lpObj = &gGameObjects[iSelupanIndex];
+	CGameObject lpObj = &gGameObjects[iSelupanIndex];
 
 	if( iTargetIndex == -1 )
 	{
@@ -52,14 +52,14 @@ void CRaklionSelupan::RaklionSelupanAct_FirstSkill()
 		TMonsterSkillManager::UseMonsterSkill(iSelupanIndex, iTargetIndex, 31, 0, &cMagicInf);
 	}
 
-	sLog->outBasic("[ RAKLION ][ FirstSkill ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
+	sLog->outBasic("[ RAKLION ][ FirstSkill ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj.Name);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_PoisonAttack()
 {
 	int iSelupanIndex = GetSelupanObjIndex();
 	int iTargetIndex = GetTargetOfSelupan();
-	LPGameObject lpObj = &gGameObjects[iSelupanIndex];
+	CGameObject lpObj = &gGameObjects[iSelupanIndex];
 
 	if( iTargetIndex == -1 )
 	{
@@ -74,14 +74,14 @@ void CRaklionSelupan::RaklionSelupanAct_PoisonAttack()
 		TMonsterSkillManager::UseMonsterSkill(iSelupanIndex, iTargetIndex, 1, 1, &cMagicInf);
 	}
 
-	sLog->outBasic("[ RAKLION ][ PoisonAttack ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
+	sLog->outBasic("[ RAKLION ][ PoisonAttack ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj.Name);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_IceStorm()
 {
 	int iSelupanIndex = GetSelupanObjIndex();
 	int iTargetIndex = GetTargetOfSelupan();
-	LPGameObject lpObj = &gGameObjects[iSelupanIndex];
+	CGameObject lpObj = &gGameObjects[iSelupanIndex];
 
 	if( iTargetIndex == -1 )
 	{
@@ -96,14 +96,14 @@ void CRaklionSelupan::RaklionSelupanAct_IceStorm()
 		TMonsterSkillManager::UseMonsterSkill(iSelupanIndex, iTargetIndex, 1, 2, &cMagicInf);
 	}
 
-	sLog->outBasic("[ RAKLION ][ IceStorm ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
+	sLog->outBasic("[ RAKLION ][ IceStorm ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj.Name);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_IceStrike()
 {
 	int iSelupanIndex = GetSelupanObjIndex();
 	int iTargetIndex = GetTargetOfSelupan();
-	LPGameObject lpObj = &gGameObjects[iSelupanIndex];
+	CGameObject lpObj = &gGameObjects[iSelupanIndex];
 
 	if( iTargetIndex == -1 )
 	{
@@ -118,38 +118,38 @@ void CRaklionSelupan::RaklionSelupanAct_IceStrike()
 		TMonsterSkillManager::UseMonsterSkill(iSelupanIndex, iTargetIndex, 1, 3, &cMagicInf);
 	}
 
-	sLog->outBasic("[ RAKLION ][ IceStrike ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
+	sLog->outBasic("[ RAKLION ][ IceStrike ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj.Name);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_SummonMonster()
 {
 	int iSelupanIndex = GetSelupanObjIndex();
 	int iTargetIndex = iSelupanIndex;
-	LPGameObject lpObj = &gGameObjects[iSelupanIndex];
+	CGameObject lpObj = &gGameObjects[iSelupanIndex];
 
 	TMonsterSkillManager::UseMonsterSkill(iSelupanIndex, iTargetIndex, 30, 4, NULL);
 	
 	RegenSummonMonster();
 	
-	sLog->outBasic("[ RAKLION ][ SummonMonster ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
+	sLog->outBasic("[ RAKLION ][ SummonMonster ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj.Name);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_Heal()
 {
 	int iSelupanIndex = GetSelupanObjIndex();
 	int iTargetIndex = iSelupanIndex;
-	LPGameObject lpObj = &gGameObjects[iSelupanIndex];
+	CGameObject lpObj = &gGameObjects[iSelupanIndex];
 
 	TMonsterSkillManager::UseMonsterSkill(iSelupanIndex, iTargetIndex, 20, 5, NULL);
 
-	sLog->outBasic("[ RAKLION ][ Heal ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
+	sLog->outBasic("[ RAKLION ][ Heal ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj.Name);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_Freeze()
 {
 	int iSelupanIndex = GetSelupanObjIndex();
 	int iTargetIndex = GetTargetOfSelupan();
-	LPGameObject lpObj = &gGameObjects[iSelupanIndex];
+	CGameObject lpObj = &gGameObjects[iSelupanIndex];
 
 	if( iTargetIndex == -1 )
 	{
@@ -158,133 +158,133 @@ void CRaklionSelupan::RaklionSelupanAct_Freeze()
 	}
 	else TMonsterSkillManager::UseMonsterSkill(iSelupanIndex, iTargetIndex, 1, 6, NULL);
 
-	sLog->outBasic("[ RAKLION ][ Freeze ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
+	sLog->outBasic("[ RAKLION ][ Freeze ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj.Name);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_Teleport()
 {
 	int iSelupanIndex = GetSelupanObjIndex();
 	int iTargetIndex = GetTargetOfSelupan();
-	LPGameObject lpObj = &gGameObjects[iSelupanIndex];
-	LPGameObject  lpObjTarget = &gGameObjects[iTargetIndex];
+	CGameObject lpObj = &gGameObjects[iSelupanIndex];
+	CGameObject  lpObjTarget = &gGameObjects[iTargetIndex];
 
 	if( iTargetIndex < 0 )	iTargetIndex = iSelupanIndex;
 
 	TMonsterSkillManager::UseMonsterSkill(iSelupanIndex, iTargetIndex, 1, 7, NULL);
-	sLog->outBasic("[ RAKLION ][ Teleport ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
+	sLog->outBasic("[ RAKLION ][ Teleport ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj.Name);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_Invincibility()
 {
 	int iSelupanIndex = GetSelupanObjIndex();
 	int iTargetIndex = iSelupanIndex;
-	LPGameObject lpObj = &gGameObjects[iSelupanIndex];
+	CGameObject lpObj = &gGameObjects[iSelupanIndex];
 
 	TMonsterSkillManager::UseMonsterSkill(iSelupanIndex, iTargetIndex, 10, 8, NULL);
 	
-	sLog->outBasic("[ RAKLION ][ Invincibility ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj->Name);
+	sLog->outBasic("[ RAKLION ][ Invincibility ] Skill Using : Index(%d) %s", iSelupanIndex, lpObj.Name);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_Berserk_Cancel()
 {
 	int iSelupanIndex = GetSelupanObjIndex();
-	LPGameObject lpObj = &gGameObjects[iSelupanIndex];
+	CGameObject lpObj = &gGameObjects[iSelupanIndex];
 
-	lpObj->m_AttackDamageMin = m_iSelupanMinDamage;
-	lpObj->m_AttackDamageMax = m_iSelupanMaxDamage;
+	lpObj.m_AttackDamageMin = m_iSelupanMinDamage;
+	lpObj.m_AttackDamageMax = m_iSelupanMaxDamage;
 	
-	sLog->outBasic("[ RAKLION ][ Berserk Cancel ] MinDamage(%d) Damage(%d~%d)", lpObj->m_AttackDamageMin, lpObj->m_AttackDamageMin, lpObj->m_AttackDamageMax);
+	sLog->outBasic("[ RAKLION ][ Berserk Cancel ] MinDamage(%d) Damage(%d~%d)", lpObj.m_AttackDamageMin, lpObj.m_AttackDamageMin, lpObj.m_AttackDamageMax);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_Berserk1()
 {
 	int iSelupanIndex = GetSelupanObjIndex();
 	int iTargetIndex = iSelupanIndex;
-	LPGameObject lpObj = &gGameObjects[iSelupanIndex];
+	CGameObject lpObj = &gGameObjects[iSelupanIndex];
 	
 	TMonsterSkillManager::UseMonsterSkill(iSelupanIndex, iTargetIndex, 1, 9, NULL);
 	
 	m_iNowBerserkLevel = 1;
 
 	int iIncreaseAttackValue = 0;
-	iIncreaseAttackValue = m_iNowBerserkLevel * lpObj->m_MonsterSkillElementInfo.m_iSkillElementAttack;
+	iIncreaseAttackValue = m_iNowBerserkLevel * lpObj.m_MonsterSkillElementInfo.m_iSkillElementAttack;
 
-	lpObj->m_AttackDamageMin = m_iSelupanMinDamage + iIncreaseAttackValue;
-	lpObj->m_AttackDamageMax = m_iSelupanMaxDamage + iIncreaseAttackValue;
+	lpObj.m_AttackDamageMin = m_iSelupanMinDamage + iIncreaseAttackValue;
+	lpObj.m_AttackDamageMax = m_iSelupanMaxDamage + iIncreaseAttackValue;
 
-	sLog->outBasic("[ RAKLION ][ Berserk1 ] Skill Using : Index(%d) Damage(%d~%d)", iSelupanIndex, lpObj->m_AttackDamageMin, lpObj->m_AttackDamageMax);
+	sLog->outBasic("[ RAKLION ][ Berserk1 ] Skill Using : Index(%d) Damage(%d~%d)", iSelupanIndex, lpObj.m_AttackDamageMin, lpObj.m_AttackDamageMax);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_Berserk2()
 {
 	int iSelupanIndex = GetSelupanObjIndex();
 	int iTargetIndex = iSelupanIndex;
-	LPGameObject lpObj = &gGameObjects[iSelupanIndex];
+	CGameObject lpObj = &gGameObjects[iSelupanIndex];
 	
 	TMonsterSkillManager::UseMonsterSkill(iSelupanIndex, iTargetIndex, 1, 9, NULL);
 	
 	m_iNowBerserkLevel = 2;
 
 	int iIncreaseAttackValue = 0;
-	iIncreaseAttackValue = m_iNowBerserkLevel * lpObj->m_MonsterSkillElementInfo.m_iSkillElementAttack;
+	iIncreaseAttackValue = m_iNowBerserkLevel * lpObj.m_MonsterSkillElementInfo.m_iSkillElementAttack;
 
-	lpObj->m_AttackDamageMin = m_iSelupanMinDamage + iIncreaseAttackValue;
-	lpObj->m_AttackDamageMax = m_iSelupanMaxDamage + iIncreaseAttackValue;
+	lpObj.m_AttackDamageMin = m_iSelupanMinDamage + iIncreaseAttackValue;
+	lpObj.m_AttackDamageMax = m_iSelupanMaxDamage + iIncreaseAttackValue;
 
-	sLog->outBasic("[ RAKLION ][ Berserk2 ] Skill Using : Index(%d) Damage(%d~%d)", iSelupanIndex, lpObj->m_AttackDamageMin, lpObj->m_AttackDamageMax);
+	sLog->outBasic("[ RAKLION ][ Berserk2 ] Skill Using : Index(%d) Damage(%d~%d)", iSelupanIndex, lpObj.m_AttackDamageMin, lpObj.m_AttackDamageMax);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_Berserk3()
 {
 	int iSelupanIndex = GetSelupanObjIndex();
 	int iTargetIndex = iSelupanIndex;
-	LPGameObject lpObj = &gGameObjects[iSelupanIndex];
+	CGameObject lpObj = &gGameObjects[iSelupanIndex];
 	
 	TMonsterSkillManager::UseMonsterSkill(iSelupanIndex, iTargetIndex, 1, 9, NULL);
 	
 	m_iNowBerserkLevel = 3;
 
 	int iIncreaseAttackValue = 0;
-	iIncreaseAttackValue = m_iNowBerserkLevel * lpObj->m_MonsterSkillElementInfo.m_iSkillElementAttack;
+	iIncreaseAttackValue = m_iNowBerserkLevel * lpObj.m_MonsterSkillElementInfo.m_iSkillElementAttack;
 
-	lpObj->m_AttackDamageMin = m_iSelupanMinDamage + iIncreaseAttackValue;
-	lpObj->m_AttackDamageMax = m_iSelupanMaxDamage + iIncreaseAttackValue;
+	lpObj.m_AttackDamageMin = m_iSelupanMinDamage + iIncreaseAttackValue;
+	lpObj.m_AttackDamageMax = m_iSelupanMaxDamage + iIncreaseAttackValue;
 
-	sLog->outBasic("[ RAKLION ][ Berserk3 ] Skill Using : Index(%d) Damage(%d~%d)", iSelupanIndex, lpObj->m_AttackDamageMin, lpObj->m_AttackDamageMax);
+	sLog->outBasic("[ RAKLION ][ Berserk3 ] Skill Using : Index(%d) Damage(%d~%d)", iSelupanIndex, lpObj.m_AttackDamageMin, lpObj.m_AttackDamageMax);
 }
 
 void CRaklionSelupan::RaklionSelupanAct_Berserk4()
 {
 	int iSelupanIndex = GetSelupanObjIndex();
 	int iTargetIndex = iSelupanIndex;
-	LPGameObject lpObj = &gGameObjects[iSelupanIndex];
+	CGameObject lpObj = &gGameObjects[iSelupanIndex];
 	
 	TMonsterSkillManager::UseMonsterSkill(iSelupanIndex, iTargetIndex, 1, 9, NULL);
 	
 	m_iNowBerserkLevel = 4;
 
 	int iIncreaseAttackValue = 0;
-	iIncreaseAttackValue = m_iNowBerserkLevel * lpObj->m_MonsterSkillElementInfo.m_iSkillElementAttack;
+	iIncreaseAttackValue = m_iNowBerserkLevel * lpObj.m_MonsterSkillElementInfo.m_iSkillElementAttack;
 
-	lpObj->m_AttackDamageMin = m_iSelupanMinDamage + iIncreaseAttackValue;
-	lpObj->m_AttackDamageMax = m_iSelupanMaxDamage + iIncreaseAttackValue;
+	lpObj.m_AttackDamageMin = m_iSelupanMinDamage + iIncreaseAttackValue;
+	lpObj.m_AttackDamageMax = m_iSelupanMaxDamage + iIncreaseAttackValue;
 
-	sLog->outBasic("[ RAKLION ][ Berserk4 ] Skill Using : Index(%d) Damage(%d~%d)", iSelupanIndex, lpObj->m_AttackDamageMin, lpObj->m_AttackDamageMax);
+	sLog->outBasic("[ RAKLION ][ Berserk4 ] Skill Using : Index(%d) Damage(%d~%d)", iSelupanIndex, lpObj.m_AttackDamageMin, lpObj.m_AttackDamageMax);
 }
 
 DWORD CRaklionSelupan::GetSelupanHP()
 {
 	int iSelupanIndex = GetSelupanObjIndex();
-	LPGameObject lpObj = &gGameObjects[iSelupanIndex];
-	return (DWORD)lpObj->Life;
+	CGameObject lpObj = &gGameObjects[iSelupanIndex];
+	return (DWORD)lpObj.Life;
 }
 
 void CRaklionSelupan::SetSelupanHP(int iSelupanHPPercent)
 {
 	int iSelupanIndex = GetSelupanObjIndex();
-	LPGameObject lpObj = &gGameObjects[iSelupanIndex];
-	float iSelupanMAXLife = lpObj->AddLife + lpObj->MaxLife;
-	lpObj->Life = iSelupanMAXLife * iSelupanHPPercent / 100;
+	CGameObject lpObj = &gGameObjects[iSelupanIndex];
+	float iSelupanMAXLife = lpObj.AddLife + lpObj.MaxLife;
+	lpObj.Life = iSelupanMAXLife * iSelupanHPPercent / 100;
 }
 
 void CRaklionSelupan::InitSelupanIndex()
@@ -326,16 +326,16 @@ BOOL CRaklionSelupan::RegenSelupan()
 	g_RaklionMonsterMng.SetPosition(result, iSelupanPosNum);
 	gObjSetMonster(result, 459);
 
-	LPGameObject lpObj = &gGameObjects[result];
+	CGameObject lpObj = &gGameObjects[result];
 
 	gObjMonsterHitDamageInit(lpObj);
 
 	gGameObjects[result].DieRegen = 0;
 	gGameObjects[result].m_State = 1;
 
-	sLog->outBasic("[RAKLION] Create Selupan : X (%d) / Y(%d)", lpObj->X, lpObj->Y);
+	sLog->outBasic("[RAKLION] Create Selupan : X (%d) / Y(%d)", lpObj.X, lpObj.Y);
 
-	LPGameObject lpObjUser = NULL;
+	CGameObject lpObjUser = NULL;
 
 	for (int n = 0; n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
@@ -375,8 +375,8 @@ BOOL CRaklionSelupan::RegenSelupan()
 
 	gObjSetState();
 
-	m_iSelupanMinDamage = lpObj->m_AttackDamageMin;
-	m_iSelupanMaxDamage = lpObj->m_AttackDamageMax;
+	m_iSelupanMinDamage = lpObj.m_AttackDamageMin;
+	m_iSelupanMaxDamage = lpObj.m_AttackDamageMax;
 	return TRUE;
 }
 
@@ -395,14 +395,14 @@ void CRaklionSelupan::HideSelupan()
 int CRaklionSelupan::GetTargetOfSelupan()
 {
 	int iSelupanIndex = GetSelupanObjIndex();
-	LPGameObject lpObj = &gGameObjects[iSelupanIndex];
+	CGameObject lpObj = &gGameObjects[iSelupanIndex];
 
-	if( lpObj->TargetNumber >= 0 && lpObj->TargetNumber < g_ConfigRead.server.GetObjectMax()) 
+	if( lpObj.TargetNumber >= 0 && lpObj.TargetNumber < g_ConfigRead.server.GetObjectMax()) 
 	{
-		return lpObj->TargetNumber;
+		return lpObj.TargetNumber;
 	}
 
-	return gObjMonsterSearchEnemy(lpObj, lpObj->Type);
+	return gObjMonsterSearchEnemy(lpObj, lpObj.Type);
 }
 
 void CRaklionSelupan::SetSelupanSkillDelay(int iDelay)
@@ -454,7 +454,7 @@ int CRaklionSelupan::GetSelupanObjIndex()
 
 void CRaklionSelupan::RegenSummonMonster()
 {
-	LPGameObject lpObj = NULL;
+	CGameObject lpObj = NULL;
 	int iPosTableNum = -1;
 	int iClass = -1;
 
@@ -462,21 +462,21 @@ void CRaklionSelupan::RegenSummonMonster()
 	{
 		lpObj = &gGameObjects[iCount];
 
-		if (lpObj->MapNumber != MAP_INDEX_HATCHERY)	continue;
+		if (lpObj.MapNumber != MAP_INDEX_HATCHERY)	continue;
 
-		if (lpObj->Class == 457 || lpObj->Class == 458)
+		if (lpObj.Class == 457 || lpObj.Class == 458)
 		{
-			if (lpObj->Connected == PLAYER_PLAYING &&
-				lpObj->DieRegen == 0 &&
-				lpObj->Live == 1)	continue;
+			if (lpObj.Connected == PLAYER_PLAYING &&
+				lpObj.DieRegen == 0 &&
+				lpObj.Live == 1)	continue;
 
-			iClass = lpObj->Class;
-			iPosTableNum = lpObj->m_PosNum;
+			iClass = lpObj.Class;
+			iPosTableNum = lpObj.m_PosNum;
 
 			gObjCharZeroSet(iCount);
-			gObjDel(lpObj->m_Index);
+			gObjDel(lpObj.m_Index);
 
-			lpObj->Class = 0;
+			lpObj.Class = 0;
 
 			int result = gObjAddMonster(MAP_INDEX_HATCHERY);
 
@@ -490,29 +490,29 @@ void CRaklionSelupan::RegenSummonMonster()
 
 			g_RaklionMonsterMng.SetPosition(result, iPosTableNum);
 			gObjSetMonster(result, iClass);
-			lpObj->Live = 1;
-			lpObj->DieRegen = 0;
-			sLog->outBasic("[RAKLION] Summoned Monster : %s => X-(%d) Y-(%d)", lpObj->Name, lpObj->X, lpObj->Y);
+			lpObj.Live = 1;
+			lpObj.DieRegen = 0;
+			sLog->outBasic("[RAKLION] Summoned Monster : %s => X-(%d) Y-(%d)", lpObj.Name, lpObj.X, lpObj.Y);
 		}
 	}
 }
 
 void CRaklionSelupan::DeleteSummonMonster()
 {
-	LPGameObject lpObj = NULL;
+	CGameObject lpObj = NULL;
 
 	for(int iCount=0; iCount<g_ConfigRead.server.GetObjectMaxMonster(); iCount++)
 	{
 		lpObj = &gGameObjects[iCount];
 
-		if( lpObj->MapNumber != MAP_INDEX_HATCHERY )	continue;	
-		if( lpObj->Class == 457 || lpObj->Class == 458 )
+		if( lpObj.MapNumber != MAP_INDEX_HATCHERY )	continue;	
+		if( lpObj.Class == 457 || lpObj.Class == 458 )
 		{
 			gObjViewportListProtocolDestroy(lpObj);
 			gObjViewportClose(lpObj);
-			gObjDel(lpObj->m_Index);
-			lpObj->Live = 0; 
-			lpObj->DieRegen = 1;
+			gObjDel(lpObj.m_Index);
+			lpObj.Live = 0; 
+			lpObj.DieRegen = 1;
 		}
 	}
 

@@ -117,7 +117,7 @@ BOOL CLuaBag::SetVariableItem(lua_State * Lua)
 	return false;
 }
 
-bool CLuaBag::DropCommonBag(LPGameObject &lpObj, BYTE MapNumber, BYTE DropX, BYTE DropY, BAG_ITEM *m_Item)
+bool CLuaBag::DropCommonBag(CGameObject &lpObj, BYTE MapNumber, BYTE DropX, BYTE DropY, BAG_ITEM *m_Item)
 {
 
 	this->InsertItemMap(m_Item);
@@ -128,7 +128,7 @@ bool CLuaBag::DropCommonBag(LPGameObject &lpObj, BYTE MapNumber, BYTE DropX, BYT
 	return iResult;
 }
 
-bool CLuaBag::DropMonsterBag(LPGameObject &lpObj, int iMonsterIndex, BYTE MapNumber, BYTE DropX, BYTE DropY, BAG_ITEM *m_Item)
+bool CLuaBag::DropMonsterBag(CGameObject &lpObj, int iMonsterIndex, BYTE MapNumber, BYTE DropX, BYTE DropY, BAG_ITEM *m_Item)
 {
 	this->InsertItemMap(m_Item);
 
@@ -138,7 +138,7 @@ bool CLuaBag::DropMonsterBag(LPGameObject &lpObj, int iMonsterIndex, BYTE MapNum
 	return iResult;
 }
 
-bool CLuaBag::DropEventBag(LPGameObject &lpObj, int iMonsterIndex, BYTE MapNumber, BYTE DropX, BYTE DropY, BAG_ITEM *m_Item)
+bool CLuaBag::DropEventBag(CGameObject &lpObj, int iMonsterIndex, BYTE MapNumber, BYTE DropX, BYTE DropY, BAG_ITEM *m_Item)
 {
 	this->InsertItemMap(m_Item);
 
@@ -153,7 +153,7 @@ void CLuaBag::LoadItemBag()
 	this->m_Lua.Generic_Call("LoadItemBag", ">");
 }
 
-bool CLuaBag::MakeItemFromBag(LPGameObject &lpObj, BAG_ITEM * m_Item, CItem & Item, time_t & DurationItem)
+bool CLuaBag::MakeItemFromBag(CGameObject &lpObj, BAG_ITEM * m_Item, CItem & Item, time_t & DurationItem)
 {
 	this->InsertItemMap(m_Item);
 
@@ -284,7 +284,7 @@ bool CLuaBag::MakeItemFromBag(LPGameObject &lpObj, BAG_ITEM * m_Item, CItem & It
 	return true;
 }
 
-bool CLuaBag::MakeItemFromBagForGremoryCase(LPGameObject &lpObj, BAG_ITEM* m_Item, _stGremoryCaseItem &Item)
+bool CLuaBag::MakeItemFromBagForGremoryCase(CGameObject &lpObj, BAG_ITEM* m_Item, _stGremoryCaseItem &Item)
 {
 	this->InsertItemMap(m_Item);
 

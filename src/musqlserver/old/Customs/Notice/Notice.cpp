@@ -119,7 +119,7 @@ void CNotice::MainProc() // OK
 	}
 }
 
-void CNotice::GCNoticeSend(LPGameObject &lpObj, BYTE type, BYTE count, BYTE opacity, WORD delay, DWORD color, BYTE speed, char* message, ...) // OK
+void CNotice::GCNoticeSend(CGameObject &lpObj, BYTE type, BYTE count, BYTE opacity, WORD delay, DWORD color, BYTE speed, char* message, ...) // OK
 {
 	char buff[256] = { 0 };
 
@@ -197,7 +197,7 @@ void CNotice::GCNoticeSendToAll(BYTE type, BYTE count, BYTE opacity, WORD delay,
 	}
 }
 
-void CNotice::NewMessageDevTeam(LPGameObject &lpObj, char* message, ...) // OK
+void CNotice::NewMessageDevTeam(CGameObject &lpObj, char* message, ...) // OK
 {
 	char buff[256] = { 0 };
 
@@ -222,7 +222,7 @@ void CNotice::NewMessageDevTeam(LPGameObject &lpObj, char* message, ...) // OK
 
 }
 
-void CNotice::NewNoticeSend(LPGameObject &lpObj, BYTE count, BYTE opacity, WORD delay, DWORD color, BYTE speed, char* message, ...) // OK
+void CNotice::NewNoticeSend(CGameObject &lpObj, BYTE count, BYTE opacity, WORD delay, DWORD color, BYTE speed, char* message, ...) // OK
 {
 	char buff[256] = { 0 };
 

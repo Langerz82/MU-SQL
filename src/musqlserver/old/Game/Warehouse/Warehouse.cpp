@@ -153,7 +153,7 @@ void CWarehouse::SetWarehouseOpenState(char * szAccountID, bool bState)
 	}
 }
 
-void CWarehouse::GDReqSwitchWarehouse(LPGameObject &lpObj, PMSG_REQ_SWITCHWARE * aRecv)
+void CWarehouse::GDReqSwitchWarehouse(CGameObject &lpObj, PMSG_REQ_SWITCHWARE * aRecv)
 {
 	EnterCriticalSection(&this->m_WareDataCriti);
 
@@ -171,7 +171,7 @@ void CWarehouse::GDReqSwitchWarehouse(LPGameObject &lpObj, PMSG_REQ_SWITCHWARE *
 	sLog->outBasic("[Warehouse][%s] Switch to Warehouse:%d Result:%d", pMsg.szAccountID, pMsg.WarehouseID, pMsg.Result);
 }
 
-void CWarehouse::DGGetWarehouseList(LPGameObject &lpObj, SDHP_GETWAREHOUSEDB * aRecv)
+void CWarehouse::DGGetWarehouseList(CGameObject &lpObj, SDHP_GETWAREHOUSEDB * aRecv)
 {
 	EnterCriticalSection(&this->m_WareDataCriti);
 
@@ -263,7 +263,7 @@ void CWarehouse::DGGetWarehouseList(LPGameObject &lpObj, SDHP_GETWAREHOUSEDB * a
 	DataSend(aIndex, (LPBYTE)&pResult, sizeof(pResult), __FUNCTION__);
 }
 
-void CWarehouse::GDSetWarehouseList(LPGameObject &lpObj, SDHP_GETWAREHOUSEDB_SAVE * aRecv)
+void CWarehouse::GDSetWarehouseList(CGameObject &lpObj, SDHP_GETWAREHOUSEDB_SAVE * aRecv)
 {
 	EnterCriticalSection(&this->m_WareDataCriti);
 
@@ -320,7 +320,7 @@ void CWarehouse::GDSetWarehouseList(LPGameObject &lpObj, SDHP_GETWAREHOUSEDB_SAV
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CWarehouse::GDSetWarehouseMoney(LPGameObject &lpObj, SDHP_WAREHOUSEMONEY_SAVE * aRecv)
+void CWarehouse::GDSetWarehouseMoney(CGameObject &lpObj, SDHP_WAREHOUSEMONEY_SAVE * aRecv)
 {
 	EnterCriticalSection(&this->m_WareDataCriti);
 

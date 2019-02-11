@@ -311,7 +311,7 @@ BYTE MapClass::GetWeather()
 
 void MapClass::SetWeather(BYTE a_weather, BYTE a_variation)
 {
-	LPGameObject lpObj;
+	CGameObject lpObj;
 	BYTE weather;
 	int n;
 
@@ -324,7 +324,7 @@ void MapClass::SetWeather(BYTE a_weather, BYTE a_variation)
 	{
 		lpObj = &gGameObjects[n];
 
-		if (lpObj->Connected > PLAYER_CONNECTED && lpObj->Live != 0 && lpObj->MapNumber == this->thisMapNumber)
+		if (lpObj.Connected > PLAYER_CONNECTED && lpObj.Live != 0 && lpObj.MapNumber == this->thisMapNumber)
 		{
 			GSProtocol.CGWeatherSend(n, weather);
 		}
@@ -335,7 +335,7 @@ void MapClass::SetWeather(BYTE a_weather, BYTE a_variation)
 
 void MapClass::WeatherVariationProcess()
 {
-	LPGameObject lpObj;
+	CGameObject lpObj;
 	BYTE weather;
 
 	if ((GetTickCount() - this->m_WeatherTimer) > this->m_NextWeatherTimer)
@@ -352,7 +352,7 @@ void MapClass::WeatherVariationProcess()
 		{
 			lpObj = &gGameObjects[n];
 
-			if (lpObj->Connected > PLAYER_CONNECTED && lpObj->Live != 0 && lpObj->MapNumber == this->thisMapNumber)
+			if (lpObj.Connected > PLAYER_CONNECTED && lpObj.Live != 0 && lpObj.MapNumber == this->thisMapNumber)
 			{
 				GSProtocol.CGWeatherSend(n, weather);
 			}
@@ -564,14 +564,14 @@ BOOL MapClass::MoneyItemDrop(int money, int x, int y)
 
 
 
-BOOL MapClass::ItemGive(LPGameObject &lpObj, int item_num, bool bFailNotSend)
+BOOL MapClass::ItemGive(CGameObject &lpObj, int item_num, bool bFailNotSend)
 {
 	if (((item_num<0) ? FALSE : (item_num>g_ConfigRead.server.GetObjectMaxItem() - 1) ? FALSE : TRUE) == FALSE)
 	{
 		return FALSE;
 	}
 
-	if (lpObj->MapNumber != this->thisMapNumber)
+	if (lpObj.MapNumber != this->thisMapNumber)
 	{
 		return FALSE;
 	}
@@ -591,10 +591,10 @@ BOOL MapClass::ItemGive(LPGameObject &lpObj, int item_num, bool bFailNotSend)
 		return FALSE;
 	}
 
-	int disx = this->m_cItem[item_num].px - lpObj->X;
-	int disy = this->m_cItem[item_num].py - lpObj->Y;
+	int disx = this->m_cItem[item_num].px - lpObj.X;
+	int disy = this->m_cItem[item_num].py - lpObj.Y;
 
-	if (lpObj->m_bOffLevel == false)
+	if (lpObj.m_bOffLevel == false)
 	{
 		if (disx > 2 || disx < -2)
 		{
@@ -621,11 +621,11 @@ BOOL MapClass::ItemGive(LPGameObject &lpObj, int item_num, bool bFailNotSend)
 
 					if (this->m_cItem[item_num].m_QuestItem == false)
 					{
-						if (lpObj->PartyNumber >= 0)
+						if (lpObj.PartyNumber >= 0)
 						{
-							if (lpObj->PartyNumber == gGameObjects[this->m_cItem[item_num].m_UserIndex].PartyNumber)
+							if (lpObj.PartyNumber == gGameObjects[this->m_cItem[item_num].m_UserIndex].PartyNumber)
 							{
-								if (BC_MAP_RANGE(lpObj->MapNumber) != FALSE)
+								if (BC_MAP_RANGE(lpObj.MapNumber) != FALSE)
 								{
 									if (this->m_cItem[item_num].m_Type == ITEMGET(12, 15) || (this->m_cItem[item_num].m_Type == ITEMGET(13, 19) && ((this->m_cItem[item_num].m_Level < 0) ? FALSE : (this->m_cItem[item_num].m_Level > 2) ? FALSE : TRUE) != FALSE))
 									{
@@ -654,7 +654,7 @@ BOOL MapClass::ItemGive(LPGameObject &lpObj, int item_num, bool bFailNotSend)
 		{
 			char szTemp[256];
 
-			wsprintf(szTemp, Lang.GetText(0, 60), lpObj->Name);
+			wsprintf(szTemp, Lang.GetText(0, 60), lpObj.Name);
 			GSProtocol.GCServerMsgStringSend(szTemp, aIndex, 1);
 
 		}

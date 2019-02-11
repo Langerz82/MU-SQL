@@ -21,26 +21,26 @@ BOOL CRingMonsterHerd::Start()
 	return this->MonsterHerd::Start();
 }
 
-BOOL CRingMonsterHerd::MonsterHerdItemDrop(LPGameObject &lpObj)
+BOOL CRingMonsterHerd::MonsterHerdItemDrop(CGameObject &lpObj)
 {
 	
-	if ( lpObj->Class == 135 )
+	if ( lpObj.Class == 135 )
 	{
 		int iIndex = gObjMonsterTopHitDamageUser(lpObj);
 
 		if ( iIndex == -1 )
 		{
 			int itemnumber = ItemGetNumberMake(14, 13);
-			ItemSerialCreateSend(lpObj->m_Index, lpObj->MapNumber, lpObj->X, lpObj->Y,
+			ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y,
 				itemnumber, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0);
 			return TRUE;
 		}
 
 		int itemnumber = ItemGetNumberMake(14, 13);
-		ItemSerialCreateSend(lpObj->m_Index, lpObj->MapNumber, lpObj->X, lpObj->Y,
+		ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y,
 			itemnumber, 0, 0, 0, 0, 0, iIndex, 0, 0, 0, 0, 0);
 		char szTemp[256];
-		wsprintf(szTemp, Lang.GetText(0,101), gGameObjects[iIndex].Name, Lang.GetMap(0, lpObj->MapNumber));	// #error Apply Deathway fix here
+		wsprintf(szTemp, Lang.GetText(0,101), gGameObjects[iIndex].Name, Lang.GetMap(0, lpObj.MapNumber));	// #error Apply Deathway fix here
 		GSProtocol.AllSendServerMsg( szTemp ); 
 		sLog->outBasic("[Ring Event] White Wizard Killed by [%s][%s], MapNumber:%d",
 			gGameObjects[iIndex].AccountID, gGameObjects[iIndex].Name, gGameObjects[iIndex].MapNumber);
@@ -49,18 +49,18 @@ BOOL CRingMonsterHerd::MonsterHerdItemDrop(LPGameObject &lpObj)
 
 	}
 	
-	if ( lpObj->Class == 136 || lpObj->Class == 137)
+	if ( lpObj.Class == 136 || lpObj.Class == 137)
 	{
 		if ( (rand()%100) < 30 )
 		{
 			int iIndex = gObjMonsterTopHitDamageUser(lpObj);
 			int itemnumber = ItemGetNumberMake(13, 20);	// Wizards Ring
-			ItemSerialCreateSend(lpObj->m_Index, lpObj->MapNumber, lpObj->X, lpObj->Y,
+			ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y,
 				itemnumber, 0, 30, 0, 0, 0, iIndex, 0, 0, 0, 0, 0);
 			return TRUE;
 		}
 
-		MapC[lpObj->MapNumber].MoneyItemDrop(10000, (BYTE)lpObj->X, (BYTE)lpObj->Y);
+		MapC[lpObj.MapNumber].MoneyItemDrop(10000, (BYTE)lpObj.X, (BYTE)lpObj.Y);
 		return TRUE;
 	}
 
@@ -68,7 +68,7 @@ BOOL CRingMonsterHerd::MonsterHerdItemDrop(LPGameObject &lpObj)
 
 }
 
-void CRingMonsterHerd::MonsterAttackAction(LPGameObject &lpObj, LPGameObject lpTargetObj)
+void CRingMonsterHerd::MonsterAttackAction(CGameObject &lpObj, CGameObject lpTargetObj)
 {
 	if ( gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STONE) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STUN) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_SLEEP)
 		|| gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_FREEZE_2) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_EARTH_BINDS) )
@@ -86,17 +86,17 @@ void CRingMonsterHerd::MonsterAttackAction(LPGameObject &lpObj, LPGameObject lpT
 		return;
 	}
 
-	if ( lpObj->Connected != PLAYER_PLAYING || lpObj->Type != OBJ_MONSTER )
+	if ( lpObj.Connected != PLAYER_PLAYING || lpObj.Type != OBJ_MONSTER )
 	{
 		return;
 	}
 
-	if ( lpTargetObj->Connected != PLAYER_PLAYING )
+	if ( lpTargetObj.Connected != PLAYER_PLAYING )
 	{
 		return;
 	}
 
-	if ( lpObj->Class == 135 )
+	if ( lpObj.Class == 135 )
 	{
 		this->OrderAttack(lpObj, lpTargetObj, 90 );
 	}

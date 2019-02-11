@@ -171,36 +171,36 @@ TMonsterAIAutomata * TMonsterAIAutomata::FindAutomata(int iAutomataNumber)
 
 TMonsterAIState * TMonsterAIAutomata::RunAutomata(int iIndex)
 {
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 
-	if ( MAX_AI_STATE_RANGE(lpObj->m_iCurrentAIState) == FALSE )
+	if ( MAX_AI_STATE_RANGE(lpObj.m_iCurrentAIState) == FALSE )
 		return NULL;
 
-	LPGameObject lpTargetObj = NULL;
+	CGameObject lpTargetObj = NULL;
 	int iMaxAgro = -1;
 
-	int iTargetIndex = lpObj->m_Agro->GetMaxAgroUserIndex(lpObj->m_Index);
+	int iTargetIndex = lpObj.m_Agro->GetMaxAgroUserIndex(lpObj.m_Index);
 
 	// Search The user with Max Agro to make its enemy
 	if ( iTargetIndex != -1 )
 	{
 		lpTargetObj = &gGameObjects[iTargetIndex];
 
-		if ( MONSTER_UTIL.FindMonViewportObj(lpObj->m_Index, lpTargetObj->m_Index) )
+		if ( MONSTER_UTIL.FindMonViewportObj(lpObj.m_Index, lpTargetObj.m_Index) )
 		{
-			iMaxAgro = lpObj->m_Agro->GetAgro(iTargetIndex);
-			lpObj->TargetNumber = iTargetIndex;
+			iMaxAgro = lpObj.m_Agro->GetAgro(iTargetIndex);
+			lpObj.TargetNumber = iTargetIndex;
 		}
 		else
 		{
-			lpObj->TargetNumber = -1;
+			lpObj.TargetNumber = -1;
 			lpTargetObj = NULL;
 		}
 	}
 
 	bool bRateSuccess = FALSE;
 
-	int iCurrentState = lpObj->m_iCurrentAIState;
+	int iCurrentState = lpObj.m_iCurrentAIState;
 	int iMaxStateTransCount = this->m_AIStateTransCount[iCurrentState];
 
 	for ( int iPriority=0;iPriority<iMaxStateTransCount;iPriority++)
@@ -221,7 +221,7 @@ TMonsterAIState * TMonsterAIAutomata::RunAutomata(int iIndex)
 			case MAI_STATE_TRANS_IN_ENEMY:
 				if ( lpTargetObj )
 				{
-					if ( gObjCalDistance(lpObj, lpTargetObj) <= lpObj->m_AttackRange )
+					if ( gObjCalDistance(lpObj, lpTargetObj) <= lpObj.m_AttackRange )
 					{
 						bTransition = TRUE;
 					}
@@ -231,7 +231,7 @@ TMonsterAIState * TMonsterAIAutomata::RunAutomata(int iIndex)
 			case MAI_STATE_TRANS_OUT_ENEMY:
 				if ( lpTargetObj )
 				{
-					if ( gObjCalDistance(lpObj, lpTargetObj) > lpObj->m_AttackRange )
+					if ( gObjCalDistance(lpObj, lpTargetObj) > lpObj.m_AttackRange )
 					{
 						bTransition =  TRUE;
 					}
@@ -241,7 +241,7 @@ TMonsterAIState * TMonsterAIAutomata::RunAutomata(int iIndex)
 			//case MAI_STATE_TRANS_DIE_ENEMY:
 
 			case MAI_STATE_TRANS_DEC_HP:
-				if ( AIState->m_iTransitionValue > lpObj->Life )
+				if ( AIState->m_iTransitionValue > lpObj.Life )
 				{
 					bTransition = TRUE;
 				}
@@ -255,9 +255,9 @@ TMonsterAIState * TMonsterAIAutomata::RunAutomata(int iIndex)
 				{
 					AIState->m_iTransitionValue = (AIState->m_iTransitionValue > 0)? AIState->m_iTransitionValue : 0;
 					AIState->m_iTransitionValue = (AIState->m_iTransitionValue < 100 )? AIState->m_iTransitionValue : 100 ;
-					int iLife = ((float)lpObj->AddLife + lpObj->MaxLife) * (float)AIState->m_iTransitionValue / 100.0f;
+					int iLife = ((float)lpObj.AddLife + lpObj.MaxLife) * (float)AIState->m_iTransitionValue / 100.0f;
 
-					if ( iLife > lpObj->Life )
+					if ( iLife > lpObj.Life )
 					{
 						bTransition = TRUE;
 					}
@@ -285,9 +285,9 @@ TMonsterAIState * TMonsterAIAutomata::RunAutomata(int iIndex)
 				break;
 
 			case MAI_STATE_TRANS_GROUP_SOMMON:
-				if ( lpObj->m_iGroupNumber )
+				if ( lpObj.m_iGroupNumber )
 				{
-					if ( TMonsterAIGroup::FindGroupMemberToSommon(lpObj->m_Index, lpObj->m_iGroupNumber, lpObj->m_iGroupMemberGuid) )
+					if ( TMonsterAIGroup::FindGroupMemberToSommon(lpObj.m_Index, lpObj.m_iGroupNumber, lpObj.m_iGroupMemberGuid) )
 					{
 						bTransition = TRUE;
 					}
@@ -295,9 +295,9 @@ TMonsterAIState * TMonsterAIAutomata::RunAutomata(int iIndex)
 				break;	// #error Apply Deathway fix here (Dudi: Fixed?)
 
 			case MAI_STATE_TRANS_GROUP_HEAL:
-				if ( lpObj->m_iGroupNumber )
+				if ( lpObj.m_iGroupNumber )
 				{
-					if ( TMonsterAIGroup::FindGroupMemberToHeal(lpObj->m_Index, lpObj->m_iGroupNumber, lpObj->m_iGroupMemberGuid, 5) )
+					if ( TMonsterAIGroup::FindGroupMemberToHeal(lpObj.m_Index, lpObj.m_iGroupNumber, lpObj.m_iGroupMemberGuid, 5) )
 					{
 						bTransition = TRUE;
 					}
@@ -312,7 +312,7 @@ TMonsterAIState * TMonsterAIAutomata::RunAutomata(int iIndex)
 		if ( (rand()%100) < AIState->m_iTransitionRate )
 		{
 			bRateSuccess = TRUE;
-			lpObj->m_iLastAutomataDelay = AIState->m_iDelayTime;
+			lpObj.m_iLastAutomataDelay = AIState->m_iDelayTime;
 			return &this->m_AIState[iCurrentState][iPriority];
 		}
 	}

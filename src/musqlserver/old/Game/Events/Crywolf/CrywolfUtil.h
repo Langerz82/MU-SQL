@@ -16,7 +16,7 @@ class CCrywolfScoreSort	// Completed
 
 public:
 
-	bool operator()(struct LPGameObject  const lpObj1, struct LPGameObject  const lpObj2)
+	bool operator()(struct CGameObject  const lpObj1, struct CGameObject  const lpObj2)
 	{
 		if(lpObj1->Type != OBJ_USER || lpObj2->Type != OBJ_USER)
 		{

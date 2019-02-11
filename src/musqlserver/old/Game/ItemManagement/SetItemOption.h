@@ -111,7 +111,7 @@ enum eOptionType
 	AT_SET_IMPROVE_VITALITY = 0xc7,
 };
 
-typedef  SETITEM_TYPEINFO
+typedef struct SETITEM_TYPEINFO
 {
 	BOOL IsLoad;	// 0
 	int OptionIndex[2];	// 4
@@ -120,7 +120,7 @@ typedef  SETITEM_TYPEINFO
 } SETITEM_TYPEINFO, * LPSETITEM_TYPEINFO;
 
 
-typedef  SETITEM_OPTIONINFO	// 50
+typedef struct SETITEM_OPTIONINFO	// 50
 {
 	BOOL IsLoad;	// 0
 	char Name[255];	// 4

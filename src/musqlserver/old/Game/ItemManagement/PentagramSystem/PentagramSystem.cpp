@@ -576,27 +576,27 @@ bool CPentagramSystem::IsPentagramJewel(int ItemCode)
 	}
 }
 
-void CPentagramSystem::ClearPentagramItem(LPGameObject &lpObj)
+void CPentagramSystem::ClearPentagramItem(CGameObject &lpObj)
 {
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return;
 	}
 
-	lpObj->m_iPentagramMainAttribute = 0;
-	memset(&lpObj->m_PlayerData->m_PentagramOptions, 0x00, sizeof(PENTAGRAM_OPTION));
+	lpObj.m_iPentagramMainAttribute = 0;
+	memset(&lpObj.m_PlayerData->m_PentagramOptions, 0x00, sizeof(PENTAGRAM_OPTION));
 }
 
-void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
+void CPentagramSystem::CalcPentagramItem(CGameObject &lpObj, CItem* lpItemData)
 {
 	if (!lpItemData)
 	{
 		return;
 	}
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 	BYTE btJewelPos = 0;
 	BYTE btJewelIndex = 0;
 	BYTE btJewelLevel = 0;
@@ -622,8 +622,8 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 	int iAttackSetSum = 0;
 	int iRelationshipSetSum = 0;
 
-	lpObj->m_iPentagramMainAttribute = lpItemData->m_BonusSocketOption & 0x0F;
-	memset(&lpObj->m_PlayerData->m_PentagramOptions, 0x00, sizeof(PENTAGRAM_OPTION));
+	lpObj.m_iPentagramMainAttribute = lpItemData->m_BonusSocketOption & 0x0F;
+	memset(&lpObj.m_PlayerData->m_PentagramOptions, 0x00, sizeof(PENTAGRAM_OPTION));
 
 	for (int i = 0; i < 5; i++)
 	{
@@ -631,21 +631,21 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 		{
 			for (int j = 0; j < 254; j++)
 			{
-				if (lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex == lpItemData->m_SocketOption[i])
+				if (lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex == lpItemData->m_SocketOption[i])
 				{
-					btJewelPos = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelPos;
-					btJewelIndex = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex;
-					btJewelLevel = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btLevel;
-					btRank1OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank1OptionNum;
-					btRank1Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank1Level;
-					btRank2OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank2OptionNum;
-					btRank2Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank2Level;
-					btRank3OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank3OptionNum;
-					btRank3Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank3Level;
-					btRank4OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank4OptionNum;
-					btRank4Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank4Level;
-					btRank5OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank5OptionNum;
-					btRank5Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank5Level;
+					btJewelPos = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelPos;
+					btJewelIndex = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex;
+					btJewelLevel = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btLevel;
+					btRank1OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank1OptionNum;
+					btRank1Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank1Level;
+					btRank2OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank2OptionNum;
+					btRank2Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank2Level;
+					btRank3OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank3OptionNum;
+					btRank3Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank3Level;
+					btRank4OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank4OptionNum;
+					btRank4Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank4Level;
+					btRank5OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank5OptionNum;
+					btRank5Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank5Level;
 					iSocketCount++;
 
 					switch (i)
@@ -658,7 +658,7 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 								if (g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex >= 0 && g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 10 &&
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex == 250 && btRank1OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									lpObj->m_PlayerData->m_PentagramOptions.m_iRuby_1RankAddDamage = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank1Level];
+									lpObj.m_PlayerData->m_PentagramOptions.m_iRuby_1RankAddDamage = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank1Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iRuby_CurRank++;
@@ -675,8 +675,8 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 20 &&
 									btRank2OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									lpObj->m_PlayerData->m_PentagramOptions.m_iRuby_2RankOptionNum = btRank2OptionNum;
-									lpObj->m_PlayerData->m_PentagramOptions.m_iRuby_2RankAddAttackRelationshipRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
+									lpObj.m_PlayerData->m_PentagramOptions.m_iRuby_2RankOptionNum = btRank2OptionNum;
+									lpObj.m_PlayerData->m_PentagramOptions.m_iRuby_2RankAddAttackRelationshipRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iRuby_CurRank++;
@@ -693,8 +693,8 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 30 &&
 									btRank3OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									lpObj->m_PlayerData->m_PentagramOptions.m_iRuby_3RankOptionNum = btRank3OptionNum;
-									lpObj->m_PlayerData->m_PentagramOptions.m_iRuby_3RankAddDamage = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
+									lpObj.m_PlayerData->m_PentagramOptions.m_iRuby_3RankOptionNum = btRank3OptionNum;
+									lpObj.m_PlayerData->m_PentagramOptions.m_iRuby_3RankAddDamage = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iRuby_CurRank++;
@@ -711,8 +711,8 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 40 &&
 									btRank4OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									lpObj->m_PlayerData->m_PentagramOptions.m_iRuby_4RankOptionNum = btRank4OptionNum;
-									lpObj->m_PlayerData->m_PentagramOptions.m_iRuby_4RankAddDamage = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank4Level];
+									lpObj.m_PlayerData->m_PentagramOptions.m_iRuby_4RankOptionNum = btRank4OptionNum;
+									lpObj.m_PlayerData->m_PentagramOptions.m_iRuby_4RankAddDamage = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank4Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iRuby_CurRank++;
@@ -729,8 +729,8 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 50 &&
 									btRank5OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									lpObj->m_PlayerData->m_PentagramOptions.m_iRuby_5RankOptionNum = btRank5OptionNum;
-									lpObj->m_PlayerData->m_PentagramOptions.m_iRuby_5RankCriticalDamageRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank5Level];
+									lpObj.m_PlayerData->m_PentagramOptions.m_iRuby_5RankOptionNum = btRank5OptionNum;
+									lpObj.m_PlayerData->m_PentagramOptions.m_iRuby_5RankCriticalDamageRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank5Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iRuby_CurRank++;
@@ -747,7 +747,7 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 								if (g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex >= 50 && g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 60 &&
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex == 251 && btRank1OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									lpObj->m_PlayerData->m_PentagramOptions.m_iSapph_1RankAddDefense = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank1Level];
+									lpObj.m_PlayerData->m_PentagramOptions.m_iSapph_1RankAddDefense = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank1Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iSapph_CurRank++;
@@ -764,8 +764,8 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 70 &&
 									btRank2OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									lpObj->m_PlayerData->m_PentagramOptions.m_iSapph_2RankOptionNum = btRank2OptionNum;
-									lpObj->m_PlayerData->m_PentagramOptions.m_iSapph_2RankAddDefenseRelationshipRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
+									lpObj.m_PlayerData->m_PentagramOptions.m_iSapph_2RankOptionNum = btRank2OptionNum;
+									lpObj.m_PlayerData->m_PentagramOptions.m_iSapph_2RankAddDefenseRelationshipRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iSapph_CurRank++;
@@ -782,8 +782,8 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 80 &&
 									btRank3OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									lpObj->m_PlayerData->m_PentagramOptions.m_iSapph_3RankOptionNum = btRank3OptionNum;
-									lpObj->m_PlayerData->m_PentagramOptions.m_iSapph_3RankAddDefense = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
+									lpObj.m_PlayerData->m_PentagramOptions.m_iSapph_3RankOptionNum = btRank3OptionNum;
+									lpObj.m_PlayerData->m_PentagramOptions.m_iSapph_3RankAddDefense = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iSapph_CurRank++;
@@ -800,8 +800,8 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 90 &&
 									btRank4OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									lpObj->m_PlayerData->m_PentagramOptions.m_iSapph_4RankOptionNum = btRank4OptionNum;
-									lpObj->m_PlayerData->m_PentagramOptions.m_iSapph_4RankAddDefense = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank4Level];
+									lpObj.m_PlayerData->m_PentagramOptions.m_iSapph_4RankOptionNum = btRank4OptionNum;
+									lpObj.m_PlayerData->m_PentagramOptions.m_iSapph_4RankAddDefense = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank4Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iSapph_CurRank++;
@@ -818,8 +818,8 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 100 &&
 									btRank5OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									lpObj->m_PlayerData->m_PentagramOptions.m_iSapph_5RankOptionNum = btRank5OptionNum;
-									lpObj->m_PlayerData->m_PentagramOptions.m_iSapph_5RankMinusTargetDamageRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank5Level];
+									lpObj.m_PlayerData->m_PentagramOptions.m_iSapph_5RankOptionNum = btRank5OptionNum;
+									lpObj.m_PlayerData->m_PentagramOptions.m_iSapph_5RankMinusTargetDamageRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank5Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iSapph_CurRank++;
@@ -836,7 +836,7 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 								if (g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex >= 100 &&	g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 110 &&
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex == 252 && btRank1OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									lpObj->m_PlayerData->m_PentagramOptions.m_iEme_1RankAddAttackRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank1Level];
+									lpObj.m_PlayerData->m_PentagramOptions.m_iEme_1RankAddAttackRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank1Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iEme_CurRank++;
@@ -853,8 +853,8 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 120 &&
 									btRank2OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									lpObj->m_PlayerData->m_PentagramOptions.m_iEme_2RankOptionNum = btRank2OptionNum;
-									lpObj->m_PlayerData->m_PentagramOptions.m_iEme_2RankAddAttackRelationshipRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
+									lpObj.m_PlayerData->m_PentagramOptions.m_iEme_2RankOptionNum = btRank2OptionNum;
+									lpObj.m_PlayerData->m_PentagramOptions.m_iEme_2RankAddAttackRelationshipRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iEme_CurRank++;
@@ -871,8 +871,8 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 130 &&
 									btRank3OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									lpObj->m_PlayerData->m_PentagramOptions.m_iEme_3RankOptionNum = btRank3OptionNum;
-									lpObj->m_PlayerData->m_PentagramOptions.m_iEme_3RankAddDamage = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
+									lpObj.m_PlayerData->m_PentagramOptions.m_iEme_3RankOptionNum = btRank3OptionNum;
+									lpObj.m_PlayerData->m_PentagramOptions.m_iEme_3RankAddDamage = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iEme_CurRank++;
@@ -889,8 +889,8 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 140 &&
 									btRank4OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									lpObj->m_PlayerData->m_PentagramOptions.m_iEme_4RankOptionNum = btRank4OptionNum;
-									lpObj->m_PlayerData->m_PentagramOptions.m_iEme_4RankAddDamage = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank4Level];
+									lpObj.m_PlayerData->m_PentagramOptions.m_iEme_4RankOptionNum = btRank4OptionNum;
+									lpObj.m_PlayerData->m_PentagramOptions.m_iEme_4RankAddDamage = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank4Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iEme_CurRank++;
@@ -907,8 +907,8 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 150 &&
 									btRank5OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									lpObj->m_PlayerData->m_PentagramOptions.m_iEme_5RankOptionNum = btRank5OptionNum;
-									lpObj->m_PlayerData->m_PentagramOptions.m_iEme_5RankAddDamageRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank5Level];
+									lpObj.m_PlayerData->m_PentagramOptions.m_iEme_5RankOptionNum = btRank5OptionNum;
+									lpObj.m_PlayerData->m_PentagramOptions.m_iEme_5RankAddDamageRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank5Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iEme_CurRank++;
@@ -925,8 +925,8 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 								if (g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex >= 150 &&	g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 160 &&
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex == 253 && btRank1OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									lpObj->m_PlayerData->m_PentagramOptions.m_iTopa_1RankOptionNum = btRank1OptionNum;
-									lpObj->m_PlayerData->m_PentagramOptions.m_iTopa_1RankAddDefenseSuccessRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank1Level];
+									lpObj.m_PlayerData->m_PentagramOptions.m_iTopa_1RankOptionNum = btRank1OptionNum;
+									lpObj.m_PlayerData->m_PentagramOptions.m_iTopa_1RankAddDefenseSuccessRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank1Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iTopa_CurRank++;
@@ -943,8 +943,8 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 170 &&
 									btRank2OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									lpObj->m_PlayerData->m_PentagramOptions.m_iTopa_2RankOptionNum = btRank2OptionNum;
-									lpObj->m_PlayerData->m_PentagramOptions.m_iTopa_2RankAddDefenseRelationshipRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
+									lpObj.m_PlayerData->m_PentagramOptions.m_iTopa_2RankOptionNum = btRank2OptionNum;
+									lpObj.m_PlayerData->m_PentagramOptions.m_iTopa_2RankAddDefenseRelationshipRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iTopa_CurRank++;
@@ -961,8 +961,8 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 180 &&
 									btRank3OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									lpObj->m_PlayerData->m_PentagramOptions.m_iTopa_3RankOptionNum = btRank3OptionNum;
-									lpObj->m_PlayerData->m_PentagramOptions.m_iTopa_3RankAddDefense = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
+									lpObj.m_PlayerData->m_PentagramOptions.m_iTopa_3RankOptionNum = btRank3OptionNum;
+									lpObj.m_PlayerData->m_PentagramOptions.m_iTopa_3RankAddDefense = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iTopa_CurRank++;
@@ -979,8 +979,8 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 190 &&
 									btRank4OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									lpObj->m_PlayerData->m_PentagramOptions.m_iTopa_4RankOptionNum = btRank4OptionNum;
-									lpObj->m_PlayerData->m_PentagramOptions.m_iTopa_4RankAddDefense = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank4Level];
+									lpObj.m_PlayerData->m_PentagramOptions.m_iTopa_4RankOptionNum = btRank4OptionNum;
+									lpObj.m_PlayerData->m_PentagramOptions.m_iTopa_4RankAddDefense = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank4Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iTopa_CurRank++;
@@ -997,8 +997,8 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 200 &&
 									btRank5OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									lpObj->m_PlayerData->m_PentagramOptions.m_iTopa_5RankOptionNum = btRank5OptionNum;
-									lpObj->m_PlayerData->m_PentagramOptions.m_iTopa_5RankDamageAbsorbRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank5Level];
+									lpObj.m_PlayerData->m_PentagramOptions.m_iTopa_5RankOptionNum = btRank5OptionNum;
+									lpObj.m_PlayerData->m_PentagramOptions.m_iTopa_5RankDamageAbsorbRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank5Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iTopa_CurRank++;
@@ -1015,7 +1015,7 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 								if (g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex >= 200 && g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 210 &&
 									btRank1OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									lpObj->m_PlayerData->m_PentagramOptions.m_iOnyx_1RankSlowMoveSkillRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank1Level];
+									lpObj.m_PlayerData->m_PentagramOptions.m_iOnyx_1RankSlowMoveSkillRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank1Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iOnyx_CurRank++;
@@ -1035,23 +1035,23 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 									switch (btRank2OptionNum)
 									{
 									case 1:
-										lpObj->m_PlayerData->m_PentagramOptions.m_iOnyx_2RankAddStrength = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
-										lpObj->AddStrength += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
+										lpObj.m_PlayerData->m_PentagramOptions.m_iOnyx_2RankAddStrength = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
+										lpObj.AddStrength += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
 										break;
 									case 2:
-										EnterCriticalSection(&lpObj->m_PlayerData->AgiCheckCriti);
-										lpObj->m_PlayerData->AgilityCheckDelay = GetTickCount();
-										lpObj->m_PlayerData->m_PentagramOptions.m_iOnyx_2RankAddDexterity = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
-										lpObj->AddDexterity += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
-										LeaveCriticalSection(&lpObj->m_PlayerData->AgiCheckCriti);
+										EnterCriticalSection(&lpObj.m_PlayerData->AgiCheckCriti);
+										lpObj.m_PlayerData->AgilityCheckDelay = GetTickCount();
+										lpObj.m_PlayerData->m_PentagramOptions.m_iOnyx_2RankAddDexterity = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
+										lpObj.AddDexterity += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
+										LeaveCriticalSection(&lpObj.m_PlayerData->AgiCheckCriti);
 										break;
 									case 3:
-										lpObj->m_PlayerData->m_PentagramOptions.m_iOnyx_2RankAddEnergy = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
-										lpObj->AddEnergy += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
+										lpObj.m_PlayerData->m_PentagramOptions.m_iOnyx_2RankAddEnergy = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
+										lpObj.AddEnergy += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
 										break;
 									case 4:
-										lpObj->m_PlayerData->m_PentagramOptions.m_iOnyx_2RankAddVitality = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
-										lpObj->AddVitality += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
+										lpObj.m_PlayerData->m_PentagramOptions.m_iOnyx_2RankAddVitality = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
+										lpObj.AddVitality += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
 										break;
 									}
 
@@ -1074,20 +1074,20 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 									switch (btRank3OptionNum)
 									{
 									case 1:
-										lpObj->m_PlayerData->m_PentagramOptions.m_iOnyx_3RankAddMaxLife = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
-										lpObj->AddLife += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
+										lpObj.m_PlayerData->m_PentagramOptions.m_iOnyx_3RankAddMaxLife = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
+										lpObj.AddLife += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
 										break;
 									case 2:
-										lpObj->m_PlayerData->m_PentagramOptions.m_iOnyx_3RankAddMaxMana = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
-										lpObj->AddMana += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
+										lpObj.m_PlayerData->m_PentagramOptions.m_iOnyx_3RankAddMaxMana = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
+										lpObj.AddMana += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
 										break;
 									case 3:
-										lpObj->m_PlayerData->m_PentagramOptions.m_iOnyx_3RankAddMaxAG = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
-										lpObj->AddBP += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
+										lpObj.m_PlayerData->m_PentagramOptions.m_iOnyx_3RankAddMaxAG = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
+										lpObj.AddBP += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
 										break;
 									case 4:
-										lpObj->m_PlayerData->m_PentagramOptions.m_iOnyx_3RankAddMaxSD = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
-										lpObj->iAddShield += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
+										lpObj.m_PlayerData->m_PentagramOptions.m_iOnyx_3RankAddMaxSD = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
+										lpObj.iAddShield += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
 										break;
 									}
 
@@ -1107,8 +1107,8 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 240 &&
 									btRank4OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									lpObj->m_PlayerData->m_PentagramOptions.m_iOnyx_4RankOptionNum = btRank4OptionNum;
-									lpObj->m_PlayerData->m_PentagramOptions.m_iOnyx_4RankAddExllentDamageRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank4Level];
+									lpObj.m_PlayerData->m_PentagramOptions.m_iOnyx_4RankOptionNum = btRank4OptionNum;
+									lpObj.m_PlayerData->m_PentagramOptions.m_iOnyx_4RankAddExllentDamageRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank4Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iOnyx_CurRank++;
@@ -1125,7 +1125,7 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 250 &&
 									btRank5OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									lpObj->m_PlayerData->m_PentagramOptions.m_iOnyx_5RankHalfValueSkillRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank5Level];
+									lpObj.m_PlayerData->m_PentagramOptions.m_iOnyx_5RankHalfValueSkillRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank5Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iOnyx_CurRank++;
@@ -1170,12 +1170,12 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 
 							for (int l = 0; l < 254; l++)
 							{
-								if (lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[l].btJewelIndex == lpItemData->m_SocketOption[this->m_PentagramItemOptionEnableNeed[iOptionCount].Need_ErrtelKind[iEnableNeedCount]])
+								if (lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[l].btJewelIndex == lpItemData->m_SocketOption[this->m_PentagramItemOptionEnableNeed[iOptionCount].Need_ErrtelKind[iEnableNeedCount]])
 								{
 									if (this->m_PentagramItemOptionEnableNeed[iOptionCount].Need_ErrtelRank[iEnableNeedCount] == 1)
 									{
-										if (lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[l].btRank1Level >= 15 ||
-											lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[l].btRank1Level < this->m_PentagramItemOptionEnableNeed[iOptionCount].Need_ErrtelLevel[iEnableNeedCount])
+										if (lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[l].btRank1Level >= 15 ||
+											lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[l].btRank1Level < this->m_PentagramItemOptionEnableNeed[iOptionCount].Need_ErrtelLevel[iEnableNeedCount])
 										{
 											bEnableNeed = false;
 											bNotMatch = true;
@@ -1190,8 +1190,8 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 
 									if (this->m_PentagramItemOptionEnableNeed[iOptionCount].Need_ErrtelRank[iEnableNeedCount] == 2)
 									{
-										if (lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[l].btRank2Level >= 15 ||
-											lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[l].btRank2Level < this->m_PentagramItemOptionEnableNeed[iOptionCount].Need_ErrtelLevel[iEnableNeedCount])
+										if (lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[l].btRank2Level >= 15 ||
+											lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[l].btRank2Level < this->m_PentagramItemOptionEnableNeed[iOptionCount].Need_ErrtelLevel[iEnableNeedCount])
 										{
 											bEnableNeed = false;
 											bNotMatch = true;
@@ -1206,8 +1206,8 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 
 									if (this->m_PentagramItemOptionEnableNeed[iOptionCount].Need_ErrtelRank[iEnableNeedCount] == 3)
 									{
-										if (lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[l].btRank3Level >= 15 ||
-											lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[l].btRank3Level < this->m_PentagramItemOptionEnableNeed[iOptionCount].Need_ErrtelLevel[iEnableNeedCount])
+										if (lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[l].btRank3Level >= 15 ||
+											lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[l].btRank3Level < this->m_PentagramItemOptionEnableNeed[iOptionCount].Need_ErrtelLevel[iEnableNeedCount])
 										{
 											bEnableNeed = false;
 											bNotMatch = true;
@@ -1222,8 +1222,8 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 
 									if (this->m_PentagramItemOptionEnableNeed[iOptionCount].Need_ErrtelRank[iEnableNeedCount] == 4)
 									{
-										if (lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[l].btRank4Level >= 15 ||
-											lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[l].btRank4Level < this->m_PentagramItemOptionEnableNeed[iOptionCount].Need_ErrtelLevel[iEnableNeedCount])
+										if (lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[l].btRank4Level >= 15 ||
+											lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[l].btRank4Level < this->m_PentagramItemOptionEnableNeed[iOptionCount].Need_ErrtelLevel[iEnableNeedCount])
 										{
 											bEnableNeed = false;
 											bNotMatch = true;
@@ -1238,8 +1238,8 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 
 									if (this->m_PentagramItemOptionEnableNeed[iOptionCount].Need_ErrtelRank[iEnableNeedCount] == 5)
 									{
-										if (lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[l].btRank5Level >= 15 ||
-											lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[l].btRank5Level < this->m_PentagramItemOptionEnableNeed[iOptionCount].Need_ErrtelLevel[iEnableNeedCount])
+										if (lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[l].btRank5Level >= 15 ||
+											lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[l].btRank5Level < this->m_PentagramItemOptionEnableNeed[iOptionCount].Need_ErrtelLevel[iEnableNeedCount])
 										{
 											bEnableNeed = false;
 											bNotMatch = true;
@@ -1260,25 +1260,25 @@ void CPentagramSystem::CalcPentagramItem(LPGameObject &lpObj, CItem* lpItemData)
 							switch (this->m_PentagramItemOptionEnableNeed[iOptionCount].OptionNum)
 							{
 							case 1:
-								lpObj->m_PlayerData->m_PentagramOptions.m_isAddPentaAttack = true;
+								lpObj.m_PlayerData->m_PentagramOptions.m_isAddPentaAttack = true;
 								break;
 							case 2:
-								lpObj->m_PlayerData->m_PentagramOptions.m_isAddPentaDefense = true;
+								lpObj.m_PlayerData->m_PentagramOptions.m_isAddPentaDefense = true;
 								break;
 							case 3:
-								lpObj->m_PlayerData->m_PentagramOptions.m_isAddCriPentaDamage = true;
+								lpObj.m_PlayerData->m_PentagramOptions.m_isAddCriPentaDamage = true;
 								break;
 							case 4:
-								lpObj->m_PlayerData->m_PentagramOptions.m_isChangePentaDefense = true;
+								lpObj.m_PlayerData->m_PentagramOptions.m_isChangePentaDefense = true;
 								break;
 							case 5:
-								lpObj->m_PlayerData->m_PentagramOptions.m_isChangePentaAttack = true;
+								lpObj.m_PlayerData->m_PentagramOptions.m_isChangePentaAttack = true;
 								break;
 							case 6:
-								lpObj->m_PlayerData->m_PentagramOptions.m_isAddResistByStrongRelationShip = true;
+								lpObj.m_PlayerData->m_PentagramOptions.m_isAddResistByStrongRelationShip = true;
 								break;
 							case 7:
-								lpObj->m_PlayerData->m_PentagramOptions.m_isAddResistByPentaAttack = true;
+								lpObj.m_PlayerData->m_PentagramOptions.m_isAddResistByPentaAttack = true;
 								break;
 							}
 						}
@@ -1307,7 +1307,7 @@ bool CPentagramSystem::IsEnableDropPentagramItemMap(int iMapIndex)
 	}
 }
 
-int CPentagramSystem::AttributeMonsterItemDrop(LPGameObject &lpObj)
+int CPentagramSystem::AttributeMonsterItemDrop(CGameObject &lpObj)
 {
 	int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
@@ -1316,7 +1316,7 @@ int CPentagramSystem::AttributeMonsterItemDrop(LPGameObject &lpObj)
 		return false;
 	}
 
-	LPGameObject lpUser = &gGameObjects[MaxHitUser];
+	CGameObject lpUser = &gGameObjects[MaxHitUser];
 
 	bool bFindServer = false;
 	int iMainAttribute = -1;
@@ -1390,7 +1390,7 @@ int CPentagramSystem::AttributeMonsterItemDrop(LPGameObject &lpObj)
 
 	for (int j = 0; j < 30; ++j)
 	{
-		if (lpObj->Class == this->m_MonsterDropItemRate[j].MonsterClass)
+		if (lpObj.Class == this->m_MonsterDropItemRate[j].MonsterClass)
 		{
 			int iItem1Rate = this->m_MonsterDropItemRate[j].DropItemRate[0];
 			int iItem2Rate = this->m_MonsterDropItemRate[j].DropItemRate[1];
@@ -1461,8 +1461,8 @@ int CPentagramSystem::AttributeMonsterItemDrop(LPGameObject &lpObj)
 	if (bMakeItem == true)
 	{
 		int ItemNumber = ItemGetNumberMake(DropItemType, DropItemIndex);
-		ItemSerialCreateSend(lpObj->m_Index, lpObj->MapNumber, lpObj->X, lpObj->Y, ItemNumber, 0, ItemGetDurability(ItemNumber, 0, 0, 0), 0, 0, 0, MaxHitUser, 0, 0, 0, 0, iMainAttribute | 0x10);
-		//sLog->outBasic("[PentagramSystem] Pentagram Item Drop [%s]: [%s][%s] (type:%d)", lpObj->Name, lpUser->AccountID, lpUser->Name, ItemNumber);
+		ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, ItemNumber, 0, ItemGetDurability(ItemNumber, 0, 0, 0), 0, 0, 0, MaxHitUser, 0, 0, 0, 0, iMainAttribute | 0x10);
+		//sLog->outBasic("[PentagramSystem] Pentagram Item Drop [%s]: [%s][%s] (type:%d)", lpObj.Name, lpUser->AccountID, lpUser->Name, ItemNumber);
 
 		return true;
 	}
@@ -1908,7 +1908,7 @@ bool CPentagramSystem::MakePentagramSocketSlot(CItem *lpItemData, BYTE btSocketS
 
 }
 
-bool CPentagramSystem::ClearPentagramSocketSlot(LPGameObject &lpObj, int iInventoryPos, CItem *lpTargetItem, BYTE btSocketSlotIndex)
+bool CPentagramSystem::ClearPentagramSocketSlot(CGameObject &lpObj, int iInventoryPos, CItem *lpTargetItem, BYTE btSocketSlotIndex)
 {
 	if (!lpTargetItem)
 	{
@@ -2006,11 +2006,11 @@ bool CPentagramSystem::SetPentagramSocketSlot(CItem *lpTargetItem, BYTE bt1RankO
 	return true;
 }
 
-bool CPentagramSystem::SwitchPentagramJewel(LPGameObject &lpObj, CItem *lpSourceItem, int iSwitchType)
+bool CPentagramSystem::SwitchPentagramJewel(CGameObject &lpObj, CItem *lpSourceItem, int iSwitchType)
 {
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return false;
 	}
@@ -2040,23 +2040,23 @@ bool CPentagramSystem::SwitchPentagramJewel(LPGameObject &lpObj, CItem *lpSource
 			{
 				for (int j = 0; j < 254; j++)
 				{
-					if (lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex == lpSourceItem->m_SocketOption[i])
+					if (lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex == lpSourceItem->m_SocketOption[i])
 					{
-						iOriginJewelIndex = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex;
-						iItemType = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btItemType;
-						iItemIndex = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].wItemIndex;
-						iMainAttribute = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btMainAttribute;
-						iJewelLevel = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btLevel;
-						iRank1OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank1OptionNum;
-						iRank1Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank1Level;
-						iRank2OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank2OptionNum;
-						iRank2Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank2Level;
-						iRank3OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank3OptionNum;
-						iRank3Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank3Level;
-						iRank4OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank4OptionNum;
-						iRank4Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank4Level;
-						iRank5OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank5OptionNum;
-						iRank5Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank5Level;
+						iOriginJewelIndex = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex;
+						iItemType = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btItemType;
+						iItemIndex = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].wItemIndex;
+						iMainAttribute = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btMainAttribute;
+						iJewelLevel = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btLevel;
+						iRank1OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank1OptionNum;
+						iRank1Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank1Level;
+						iRank2OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank2OptionNum;
+						iRank2Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank2Level;
+						iRank3OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank3OptionNum;
+						iRank3Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank3Level;
+						iRank4OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank4OptionNum;
+						iRank4Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank4Level;
+						iRank5OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank5OptionNum;
+						iRank5Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank5Level;
 						break;
 					}
 				}
@@ -2067,7 +2067,7 @@ bool CPentagramSystem::SwitchPentagramJewel(LPGameObject &lpObj, CItem *lpSource
 
 					for (int m = 0; m < 254; m++)
 					{
-						if (lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[m].btJewelIndex == iJewelIndex)
+						if (lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[m].btJewelIndex == iJewelIndex)
 						{
 							bIndexExist = TRUE;
 							break;
@@ -2103,23 +2103,23 @@ bool CPentagramSystem::SwitchPentagramJewel(LPGameObject &lpObj, CItem *lpSource
 			{
 				for (int j = 0; j < 254; j++)
 				{
-					if (lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btJewelIndex == lpSourceItem->m_SocketOption[i])
+					if (lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btJewelIndex == lpSourceItem->m_SocketOption[i])
 					{
-						iOriginJewelIndex = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btJewelIndex;
-						iItemType = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btItemType;
-						iItemIndex = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[j].wItemIndex;
-						iMainAttribute = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btMainAttribute;
-						iJewelLevel = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btLevel;
-						iRank1OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btRank1OptionNum;
-						iRank1Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btRank1Level;
-						iRank2OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btRank2OptionNum;
-						iRank2Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btRank2Level;
-						iRank3OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btRank3OptionNum;
-						iRank3Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btRank3Level;
-						iRank4OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btRank4OptionNum;
-						iRank4Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btRank4Level;
-						iRank5OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btRank5OptionNum;
-						iRank5Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btRank5Level;
+						iOriginJewelIndex = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btJewelIndex;
+						iItemType = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btItemType;
+						iItemIndex = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[j].wItemIndex;
+						iMainAttribute = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btMainAttribute;
+						iJewelLevel = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btLevel;
+						iRank1OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btRank1OptionNum;
+						iRank1Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btRank1Level;
+						iRank2OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btRank2OptionNum;
+						iRank2Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btRank2Level;
+						iRank3OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btRank3OptionNum;
+						iRank3Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btRank3Level;
+						iRank4OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btRank4OptionNum;
+						iRank4Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btRank4Level;
+						iRank5OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btRank5OptionNum;
+						iRank5Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[j].btRank5Level;
 						break;
 					}
 				}
@@ -2130,7 +2130,7 @@ bool CPentagramSystem::SwitchPentagramJewel(LPGameObject &lpObj, CItem *lpSource
 
 					for (int m = 0; m < 254; m++)
 					{
-						if (lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[m].btJewelIndex == iJewelIndex)
+						if (lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[m].btJewelIndex == iJewelIndex)
 						{
 							bIndexExist = TRUE;
 							break;
@@ -2161,12 +2161,12 @@ bool CPentagramSystem::SwitchPentagramJewel(LPGameObject &lpObj, CItem *lpSource
 	return bReturnValue;
 }
 
-bool CPentagramSystem::AddPentagramJewelInfo(LPGameObject &lpObj, int iJewelPos, int iJewelIndex, int iItemType, int iItemIndex, int iMainAttribute, int iJewelLevel, BYTE btRank1OptionNum, BYTE btRank1Level, BYTE btRank2OptionNum, BYTE btRank2Level, BYTE btRank3OptionNum, BYTE btRank3Level, BYTE btRank4OptionNum, BYTE btRank4Level, BYTE btRank5OptionNum, BYTE btRank5Level)
+bool CPentagramSystem::AddPentagramJewelInfo(CGameObject &lpObj, int iJewelPos, int iJewelIndex, int iItemType, int iItemIndex, int iMainAttribute, int iJewelLevel, BYTE btRank1OptionNum, BYTE btRank1Level, BYTE btRank2OptionNum, BYTE btRank2Level, BYTE btRank3OptionNum, BYTE btRank3Level, BYTE btRank4OptionNum, BYTE btRank4Level, BYTE btRank5OptionNum, BYTE btRank5Level)
 {
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 	bool iAddSuccess = false;
 
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return false;
 	}
@@ -2175,24 +2175,24 @@ bool CPentagramSystem::AddPentagramJewelInfo(LPGameObject &lpObj, int iJewelPos,
 	{
 		for (int i = 0; i < 254; i++)
 		{
-			if (lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelIndex == 0xFF)
+			if (lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelIndex == 0xFF)
 			{
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelPos = TRUE;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelIndex = iJewelIndex;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btItemType = iItemType;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].wItemIndex = iItemIndex;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btMainAttribute = iMainAttribute;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btLevel = iJewelLevel;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank1OptionNum = btRank1OptionNum;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank1Level = btRank1Level;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank2OptionNum = btRank2OptionNum;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank2Level = btRank2Level;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank3OptionNum = btRank3OptionNum;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank3Level = btRank3Level;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank4OptionNum = btRank4OptionNum;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank4Level = btRank4Level;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5OptionNum = btRank5OptionNum;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5Level = btRank5Level;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelPos = TRUE;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelIndex = iJewelIndex;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btItemType = iItemType;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].wItemIndex = iItemIndex;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btMainAttribute = iMainAttribute;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btLevel = iJewelLevel;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank1OptionNum = btRank1OptionNum;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank1Level = btRank1Level;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank2OptionNum = btRank2OptionNum;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank2Level = btRank2Level;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank3OptionNum = btRank3OptionNum;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank3Level = btRank3Level;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank4OptionNum = btRank4OptionNum;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank4Level = btRank4Level;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5OptionNum = btRank5OptionNum;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5Level = btRank5Level;
 				iAddSuccess = true;
 				break;
 			}
@@ -2203,24 +2203,24 @@ bool CPentagramSystem::AddPentagramJewelInfo(LPGameObject &lpObj, int iJewelPos,
 	{
 		for (int i = 0; i < 254; i++)
 		{
-			if (lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex == 0xFF)
+			if (lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex == 0xFF)
 			{
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelPos = 0;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex = iJewelIndex;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btItemType = iItemType;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].wItemIndex = iItemIndex;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btMainAttribute = iMainAttribute;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btLevel = iJewelLevel;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1OptionNum = btRank1OptionNum;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1Level = btRank1Level;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2OptionNum = btRank2OptionNum;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2Level = btRank2Level;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3OptionNum = btRank3OptionNum;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3Level = btRank3Level;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4OptionNum = btRank4OptionNum;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4Level = btRank4Level;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5OptionNum = btRank5OptionNum;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5Level = btRank5Level;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelPos = 0;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex = iJewelIndex;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btItemType = iItemType;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].wItemIndex = iItemIndex;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btMainAttribute = iMainAttribute;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btLevel = iJewelLevel;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1OptionNum = btRank1OptionNum;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1Level = btRank1Level;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2OptionNum = btRank2OptionNum;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2Level = btRank2Level;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3OptionNum = btRank3OptionNum;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3Level = btRank3Level;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4OptionNum = btRank4OptionNum;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4Level = btRank4Level;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5OptionNum = btRank5OptionNum;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5Level = btRank5Level;
 				iAddSuccess = true;
 				break;
 			}
@@ -2240,7 +2240,7 @@ bool CPentagramSystem::AddPentagramJewelInfo(LPGameObject &lpObj, int iJewelPos,
 	return iAddSuccess;
 }
 
-bool CPentagramSystem::DelPentagramJewelInfo(LPGameObject &lpObj, CItem *lpItemData)
+bool CPentagramSystem::DelPentagramJewelInfo(CGameObject &lpObj, CItem *lpItemData)
 {
 	if (!lpItemData)
 	{
@@ -2263,12 +2263,12 @@ bool CPentagramSystem::DelPentagramJewelInfo(LPGameObject &lpObj, CItem *lpItemD
 	return true;
 }
 
-bool CPentagramSystem::DelPentagramJewelInfo(LPGameObject &lpObj, int iJewelPos, int iJewelIndex)
+bool CPentagramSystem::DelPentagramJewelInfo(CGameObject &lpObj, int iJewelPos, int iJewelIndex)
 {
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 	bool iDelSuccess = false;
 
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return false;
 	}
@@ -2277,24 +2277,24 @@ bool CPentagramSystem::DelPentagramJewelInfo(LPGameObject &lpObj, int iJewelPos,
 	{
 		for (int i = 0; i < 254; i++)
 		{
-			if (lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelIndex == iJewelIndex)
+			if (lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelIndex == iJewelIndex)
 			{
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelPos = 1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelIndex = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btItemType = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].wItemIndex = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btMainAttribute = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btLevel = 0;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank1OptionNum = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank1Level = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank2OptionNum = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank2Level = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank3OptionNum = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank3Level = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank4OptionNum = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank4Level = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5OptionNum = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5Level = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelPos = 1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelIndex = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btItemType = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].wItemIndex = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btMainAttribute = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btLevel = 0;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank1OptionNum = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank1Level = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank2OptionNum = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank2Level = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank3OptionNum = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank3Level = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank4OptionNum = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank4Level = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5OptionNum = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5Level = -1;
 				iDelSuccess = true;
 				break;
 			}
@@ -2305,24 +2305,24 @@ bool CPentagramSystem::DelPentagramJewelInfo(LPGameObject &lpObj, int iJewelPos,
 	{
 		for (int i = 0; i < 254; i++)
 		{
-			if (lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex == iJewelIndex)
+			if (lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex == iJewelIndex)
 			{
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelPos = 0;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btItemType = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].wItemIndex = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btMainAttribute = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btLevel = 0;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1OptionNum = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1Level = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2OptionNum = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2Level = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3OptionNum = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3Level = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4OptionNum = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4Level = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5OptionNum = -1;
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5Level = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelPos = 0;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btItemType = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].wItemIndex = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btMainAttribute = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btLevel = 0;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1OptionNum = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1Level = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2OptionNum = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2Level = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3OptionNum = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3Level = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4OptionNum = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4Level = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5OptionNum = -1;
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5Level = -1;
 				iDelSuccess = true;
 				break;
 			}
@@ -2349,16 +2349,16 @@ struct PMSG_REQ_PENTAGRAMJEWEL
 	char szName[MAX_ACCOUNT_LEN + 1];
 };
 
-void CPentagramSystem::DBREQ_GetPentagramJewel(LPGameObject lpObj, char *szAccountId, int iJewelPos)
+void CPentagramSystem::DBREQ_GetPentagramJewel(CGameObject lpObj, char *szAccountId, int iJewelPos)
 {
 	PMSG_REQ_PENTAGRAMJEWEL pMsg;
 
-	pMsg.iUserIndex = lpObj->m_Index;
+	pMsg.iUserIndex = lpObj.m_Index;
 	pMsg.btJewelPos = iJewelPos;
-	pMsg.iUserGuid = lpObj->DBNumber;
+	pMsg.iUserGuid = lpObj.DBNumber;
 	memcpy(&pMsg.szAccountID, szAccountId, MAX_ACCOUNT_LEN);
 	pMsg.szAccountID[10] = 0;
-	memcpy(&pMsg.szName, lpObj->Name, MAX_ACCOUNT_LEN);
+	memcpy(&pMsg.szName, lpObj.Name, MAX_ACCOUNT_LEN);
 	pMsg.szName[10] = 0;
 
 	PHeadSetB((LPBYTE)&pMsg, 0xE0, sizeof(pMsg));
@@ -2382,7 +2382,7 @@ void CPentagramSystem::DBANS_GetPentagramJewel(LPBYTE lpRecv)
 		return;
 	}
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
 	if (lpMsg->iAnsType == 1)
 	{
@@ -2390,22 +2390,22 @@ void CPentagramSystem::DBANS_GetPentagramJewel(LPBYTE lpRecv)
 		{
 			PENTAGRAMJEWEL_INFO *lpPentagramInfo = (PENTAGRAMJEWEL_INFO *)(lpRecv + sizeof(PMSG_ANS_PENTAGRAMJEWEL) + (i * sizeof(PENTAGRAMJEWEL_INFO)));
 
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelPos = lpPentagramInfo->btJewelPos;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelIndex = lpPentagramInfo->btJewelIndex;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btItemType = lpPentagramInfo->btItemType;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].wItemIndex = lpPentagramInfo->wItemIndex;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btMainAttribute = lpPentagramInfo->btMainAttribute;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btLevel = lpPentagramInfo->btLevel;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank1OptionNum = lpPentagramInfo->btRank1OptionNum;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank1Level = lpPentagramInfo->btRank1Level;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank2OptionNum = lpPentagramInfo->btRank2OptionNum;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank2Level = lpPentagramInfo->btRank2Level;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank3OptionNum = lpPentagramInfo->btRank3OptionNum;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank3Level = lpPentagramInfo->btRank3Level;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank4OptionNum = lpPentagramInfo->btRank4OptionNum;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank4Level = lpPentagramInfo->btRank4Level;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5OptionNum = lpPentagramInfo->btRank5OptionNum;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5Level = lpPentagramInfo->btRank5Level;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelPos = lpPentagramInfo->btJewelPos;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelIndex = lpPentagramInfo->btJewelIndex;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btItemType = lpPentagramInfo->btItemType;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].wItemIndex = lpPentagramInfo->wItemIndex;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btMainAttribute = lpPentagramInfo->btMainAttribute;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btLevel = lpPentagramInfo->btLevel;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank1OptionNum = lpPentagramInfo->btRank1OptionNum;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank1Level = lpPentagramInfo->btRank1Level;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank2OptionNum = lpPentagramInfo->btRank2OptionNum;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank2Level = lpPentagramInfo->btRank2Level;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank3OptionNum = lpPentagramInfo->btRank3OptionNum;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank3Level = lpPentagramInfo->btRank3Level;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank4OptionNum = lpPentagramInfo->btRank4OptionNum;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank4Level = lpPentagramInfo->btRank4Level;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5OptionNum = lpPentagramInfo->btRank5OptionNum;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5Level = lpPentagramInfo->btRank5Level;
 		}
 	}
 
@@ -2415,40 +2415,40 @@ void CPentagramSystem::DBANS_GetPentagramJewel(LPBYTE lpRecv)
 		{
 			PENTAGRAMJEWEL_INFO *lpPentagramInfo = (PENTAGRAMJEWEL_INFO *)(lpRecv + sizeof(PMSG_ANS_PENTAGRAMJEWEL) + (i * sizeof(PENTAGRAMJEWEL_INFO)));
 
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelPos = lpPentagramInfo->btJewelPos;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex = lpPentagramInfo->btJewelIndex;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btItemType = lpPentagramInfo->btItemType;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].wItemIndex = lpPentagramInfo->wItemIndex;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btMainAttribute = lpPentagramInfo->btMainAttribute;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btLevel = lpPentagramInfo->btLevel;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1OptionNum = lpPentagramInfo->btRank1OptionNum;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1Level = lpPentagramInfo->btRank1Level;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2OptionNum = lpPentagramInfo->btRank2OptionNum;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2Level = lpPentagramInfo->btRank2Level;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3OptionNum = lpPentagramInfo->btRank3OptionNum;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3Level = lpPentagramInfo->btRank3Level;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4OptionNum = lpPentagramInfo->btRank4OptionNum;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4Level = lpPentagramInfo->btRank4Level;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5OptionNum = lpPentagramInfo->btRank5OptionNum;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5Level = lpPentagramInfo->btRank5Level;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelPos = lpPentagramInfo->btJewelPos;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex = lpPentagramInfo->btJewelIndex;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btItemType = lpPentagramInfo->btItemType;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].wItemIndex = lpPentagramInfo->wItemIndex;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btMainAttribute = lpPentagramInfo->btMainAttribute;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btLevel = lpPentagramInfo->btLevel;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1OptionNum = lpPentagramInfo->btRank1OptionNum;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1Level = lpPentagramInfo->btRank1Level;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2OptionNum = lpPentagramInfo->btRank2OptionNum;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2Level = lpPentagramInfo->btRank2Level;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3OptionNum = lpPentagramInfo->btRank3OptionNum;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3Level = lpPentagramInfo->btRank3Level;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4OptionNum = lpPentagramInfo->btRank4OptionNum;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4Level = lpPentagramInfo->btRank4Level;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5OptionNum = lpPentagramInfo->btRank5OptionNum;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5Level = lpPentagramInfo->btRank5Level;
 		}
 
-		if (lpObj->pInventory[236].IsItem() == TRUE)
+		if (lpObj.pInventory[236].IsItem() == TRUE)
 		{
-			this->CalcPentagramItem(aIndex, &lpObj->pInventory[236]);
-			GSProtocol.GCReFillSend(aIndex, lpObj->MaxLife + lpObj->AddLife, 0xFE, 0, lpObj->iAddShield + lpObj->iMaxShield);
-			GSProtocol.GCManaSend(aIndex, lpObj->MaxMana + lpObj->AddMana, 0xFE, 0, lpObj->AddBP + lpObj->MaxBP);
+			this->CalcPentagramItem(aIndex, &lpObj.pInventory[236]);
+			GSProtocol.GCReFillSend(aIndex, lpObj.MaxLife + lpObj.AddLife, 0xFE, 0, lpObj.iAddShield + lpObj.iMaxShield);
+			GSProtocol.GCManaSend(aIndex, lpObj.MaxMana + lpObj.AddMana, 0xFE, 0, lpObj.AddBP + lpObj.MaxBP);
 		}
 	}
 
 	this->GCPentagramJewelInfo(aIndex, lpMsg->iAnsType);
 }
 
-void CPentagramSystem::GCPentagramJewelInfo(LPGameObject &lpObj, int iJewelPos)
+void CPentagramSystem::GCPentagramJewelInfo(CGameObject &lpObj, int iJewelPos)
 {
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return;
 	}
@@ -2465,25 +2465,25 @@ void CPentagramSystem::GCPentagramJewelInfo(LPGameObject &lpObj, int iJewelPos)
 	{
 		for (int i = 0; i < 254; i++)
 		{
-			if (lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelPos == 1 &&
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelIndex < 0xFF)
+			if (lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelPos == 1 &&
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelIndex < 0xFF)
 			{
-				m_PentagramJewelInfo.btJewelPos = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelPos;
-				m_PentagramJewelInfo.btJewelIndex = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelIndex;
-				m_PentagramJewelInfo.btItemType = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btItemType;
-				m_PentagramJewelInfo.wItemIndex = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].wItemIndex;
-				m_PentagramJewelInfo.btMainAttribute = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btMainAttribute;
-				m_PentagramJewelInfo.btLevel = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btLevel;
-				m_PentagramJewelInfo.btRank1OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank1OptionNum;
-				m_PentagramJewelInfo.btRank1Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank1Level;
-				m_PentagramJewelInfo.btRank2OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank2OptionNum;
-				m_PentagramJewelInfo.btRank2Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank2Level;
-				m_PentagramJewelInfo.btRank3OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank3OptionNum;
-				m_PentagramJewelInfo.btRank3Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank3Level;
-				m_PentagramJewelInfo.btRank4OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank4OptionNum;
-				m_PentagramJewelInfo.btRank4Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank4Level;
-				m_PentagramJewelInfo.btRank5OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5OptionNum;
-				m_PentagramJewelInfo.btRank5Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5Level;
+				m_PentagramJewelInfo.btJewelPos = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelPos;
+				m_PentagramJewelInfo.btJewelIndex = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelIndex;
+				m_PentagramJewelInfo.btItemType = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btItemType;
+				m_PentagramJewelInfo.wItemIndex = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].wItemIndex;
+				m_PentagramJewelInfo.btMainAttribute = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btMainAttribute;
+				m_PentagramJewelInfo.btLevel = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btLevel;
+				m_PentagramJewelInfo.btRank1OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank1OptionNum;
+				m_PentagramJewelInfo.btRank1Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank1Level;
+				m_PentagramJewelInfo.btRank2OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank2OptionNum;
+				m_PentagramJewelInfo.btRank2Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank2Level;
+				m_PentagramJewelInfo.btRank3OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank3OptionNum;
+				m_PentagramJewelInfo.btRank3Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank3Level;
+				m_PentagramJewelInfo.btRank4OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank4OptionNum;
+				m_PentagramJewelInfo.btRank4Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank4Level;
+				m_PentagramJewelInfo.btRank5OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5OptionNum;
+				m_PentagramJewelInfo.btRank5Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5Level;
 
 				memcpy(&Buff[dwSize], &m_PentagramJewelInfo, sizeof(PENTAGRAMJEWEL_INFO));
 				dwSize += sizeof(PENTAGRAMJEWEL_INFO);
@@ -2496,25 +2496,25 @@ void CPentagramSystem::GCPentagramJewelInfo(LPGameObject &lpObj, int iJewelPos)
 	{
 		for (int i = 0; i < 254; i++)
 		{
-			if (lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelPos == 0 &&
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex < 0xFF)
+			if (lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelPos == 0 &&
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex < 0xFF)
 			{
-				m_PentagramJewelInfo.btJewelPos = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelPos;
-				m_PentagramJewelInfo.btJewelIndex = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex;
-				m_PentagramJewelInfo.btItemType = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btItemType;
-				m_PentagramJewelInfo.wItemIndex = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].wItemIndex;
-				m_PentagramJewelInfo.btMainAttribute = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btMainAttribute;
-				m_PentagramJewelInfo.btLevel = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btLevel;
-				m_PentagramJewelInfo.btRank1OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1OptionNum;
-				m_PentagramJewelInfo.btRank1Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1Level;
-				m_PentagramJewelInfo.btRank2OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2OptionNum;
-				m_PentagramJewelInfo.btRank2Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2Level;
-				m_PentagramJewelInfo.btRank3OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3OptionNum;
-				m_PentagramJewelInfo.btRank3Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3Level;
-				m_PentagramJewelInfo.btRank4OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4OptionNum;
-				m_PentagramJewelInfo.btRank4Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4Level;
-				m_PentagramJewelInfo.btRank5OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5OptionNum;
-				m_PentagramJewelInfo.btRank5Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5Level;
+				m_PentagramJewelInfo.btJewelPos = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelPos;
+				m_PentagramJewelInfo.btJewelIndex = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex;
+				m_PentagramJewelInfo.btItemType = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btItemType;
+				m_PentagramJewelInfo.wItemIndex = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].wItemIndex;
+				m_PentagramJewelInfo.btMainAttribute = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btMainAttribute;
+				m_PentagramJewelInfo.btLevel = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btLevel;
+				m_PentagramJewelInfo.btRank1OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1OptionNum;
+				m_PentagramJewelInfo.btRank1Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1Level;
+				m_PentagramJewelInfo.btRank2OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2OptionNum;
+				m_PentagramJewelInfo.btRank2Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2Level;
+				m_PentagramJewelInfo.btRank3OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3OptionNum;
+				m_PentagramJewelInfo.btRank3Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3Level;
+				m_PentagramJewelInfo.btRank4OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4OptionNum;
+				m_PentagramJewelInfo.btRank4Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4Level;
+				m_PentagramJewelInfo.btRank5OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5OptionNum;
+				m_PentagramJewelInfo.btRank5Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5Level;
 
 				memcpy(&Buff[dwSize], &m_PentagramJewelInfo, sizeof(PENTAGRAMJEWEL_INFO));
 				dwSize += sizeof(PENTAGRAMJEWEL_INFO);
@@ -2545,11 +2545,11 @@ struct PMSG_REQ_SETPENTAGRAMJEWEL
 };
 #pragma pack ()
 
-void CPentagramSystem::DBREQ_SetPentagramJewel(LPGameObject &lpObj, int iJewelPos)
+void CPentagramSystem::DBREQ_SetPentagramJewel(CGameObject &lpObj, int iJewelPos)
 {
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return;
 	}
@@ -2558,10 +2558,10 @@ void CPentagramSystem::DBREQ_SetPentagramJewel(LPGameObject &lpObj, int iJewelPo
 	PENTAGRAMJEWEL_INFO m_PentagramJewelInfo;
 
 	pMsg.iUserIndex = aIndex;
-	pMsg.iUserGuid = lpObj->DBNumber;
+	pMsg.iUserGuid = lpObj.DBNumber;
 
-	memcpy(pMsg.szAccountID, lpObj->AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szName, lpObj->Name, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.szAccountID, lpObj.AccountID, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.szName, lpObj.Name, MAX_ACCOUNT_LEN + 1);
 
 	BYTE Buff[4448]; // Fixed size
 	memset(&Buff, 0x00, sizeof(Buff));
@@ -2573,25 +2573,25 @@ void CPentagramSystem::DBREQ_SetPentagramJewel(LPGameObject &lpObj, int iJewelPo
 	{
 		for (int i = 0; i < 254; i++)
 		{
-			if (lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelPos == 1 &&
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelIndex < 0xFF)
+			if (lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelPos == 1 &&
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelIndex < 0xFF)
 			{
-				m_PentagramJewelInfo.btJewelPos = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelPos;
-				m_PentagramJewelInfo.btJewelIndex = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelIndex;
-				m_PentagramJewelInfo.btItemType = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btItemType;
-				m_PentagramJewelInfo.wItemIndex = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].wItemIndex;
-				m_PentagramJewelInfo.btMainAttribute = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btMainAttribute;
-				m_PentagramJewelInfo.btLevel = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btLevel;
-				m_PentagramJewelInfo.btRank1OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank1OptionNum;
-				m_PentagramJewelInfo.btRank1Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank1Level;
-				m_PentagramJewelInfo.btRank2OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank2OptionNum;
-				m_PentagramJewelInfo.btRank2Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank2Level;
-				m_PentagramJewelInfo.btRank3OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank3OptionNum;
-				m_PentagramJewelInfo.btRank3Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank3Level;
-				m_PentagramJewelInfo.btRank4OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank4OptionNum;
-				m_PentagramJewelInfo.btRank4Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank4Level;
-				m_PentagramJewelInfo.btRank5OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5OptionNum;
-				m_PentagramJewelInfo.btRank5Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5Level;
+				m_PentagramJewelInfo.btJewelPos = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelPos;
+				m_PentagramJewelInfo.btJewelIndex = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btJewelIndex;
+				m_PentagramJewelInfo.btItemType = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btItemType;
+				m_PentagramJewelInfo.wItemIndex = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].wItemIndex;
+				m_PentagramJewelInfo.btMainAttribute = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btMainAttribute;
+				m_PentagramJewelInfo.btLevel = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btLevel;
+				m_PentagramJewelInfo.btRank1OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank1OptionNum;
+				m_PentagramJewelInfo.btRank1Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank1Level;
+				m_PentagramJewelInfo.btRank2OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank2OptionNum;
+				m_PentagramJewelInfo.btRank2Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank2Level;
+				m_PentagramJewelInfo.btRank3OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank3OptionNum;
+				m_PentagramJewelInfo.btRank3Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank3Level;
+				m_PentagramJewelInfo.btRank4OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank4OptionNum;
+				m_PentagramJewelInfo.btRank4Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank4Level;
+				m_PentagramJewelInfo.btRank5OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5OptionNum;
+				m_PentagramJewelInfo.btRank5Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5Level;
 
 				memcpy(&Buff[dwSize], &m_PentagramJewelInfo, sizeof(PENTAGRAMJEWEL_INFO));
 				dwSize += sizeof(PENTAGRAMJEWEL_INFO);
@@ -2601,19 +2601,19 @@ void CPentagramSystem::DBREQ_SetPentagramJewel(LPGameObject &lpObj, int iJewelPo
 
 		for (int i = 0; i < WAREHOUSE_SIZE; i++)
 		{
-			if (lpObj->pWarehouse[i].IsItem() == TRUE &&
-				this->IsPentagramItem(&lpObj->pWarehouse[i]))
+			if (lpObj.pWarehouse[i].IsItem() == TRUE &&
+				this->IsPentagramItem(&lpObj.pWarehouse[i]))
 			{
 				BYTE ExOption[MAX_EXOPTION_SIZE];
-				ItemIsBufExOption(ExOption, &lpObj->pWarehouse[i]);
+				ItemIsBufExOption(ExOption, &lpObj.pWarehouse[i]);
 
 				for (int j = 0; j < 5; j++)
 				{
-					if (lpObj->pWarehouse[i].m_SocketOption[j] < 0xFE)
+					if (lpObj.pWarehouse[i].m_SocketOption[j] < 0xFE)
 					{
 						for (int k = 0; k < 254; k++)
 						{
-							if (lpObj->m_PlayerData->m_PentagramJewelInfo_Warehouse[k].btJewelIndex == lpObj->pWarehouse[i].m_SocketOption[j])
+							if (lpObj.m_PlayerData->m_PentagramJewelInfo_Warehouse[k].btJewelIndex == lpObj.pWarehouse[i].m_SocketOption[j])
 							{
 
 							}
@@ -2628,25 +2628,25 @@ void CPentagramSystem::DBREQ_SetPentagramJewel(LPGameObject &lpObj, int iJewelPo
 	{
 		for (int i = 0; i < 254; i++)
 		{
-			if (lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelPos == 0 &&
-				lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex < 0xFF)
+			if (lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelPos == 0 &&
+				lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex < 0xFF)
 			{
-				m_PentagramJewelInfo.btJewelPos = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelPos;
-				m_PentagramJewelInfo.btJewelIndex = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex;
-				m_PentagramJewelInfo.btItemType = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btItemType;
-				m_PentagramJewelInfo.wItemIndex = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].wItemIndex;
-				m_PentagramJewelInfo.btMainAttribute = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btMainAttribute;
-				m_PentagramJewelInfo.btLevel = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btLevel;
-				m_PentagramJewelInfo.btRank1OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1OptionNum;
-				m_PentagramJewelInfo.btRank1Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1Level;
-				m_PentagramJewelInfo.btRank2OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2OptionNum;
-				m_PentagramJewelInfo.btRank2Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2Level;
-				m_PentagramJewelInfo.btRank3OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3OptionNum;
-				m_PentagramJewelInfo.btRank3Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3Level;
-				m_PentagramJewelInfo.btRank4OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4OptionNum;
-				m_PentagramJewelInfo.btRank4Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4Level;
-				m_PentagramJewelInfo.btRank5OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5OptionNum;
-				m_PentagramJewelInfo.btRank5Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5Level;
+				m_PentagramJewelInfo.btJewelPos = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelPos;
+				m_PentagramJewelInfo.btJewelIndex = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex;
+				m_PentagramJewelInfo.btItemType = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btItemType;
+				m_PentagramJewelInfo.wItemIndex = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].wItemIndex;
+				m_PentagramJewelInfo.btMainAttribute = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btMainAttribute;
+				m_PentagramJewelInfo.btLevel = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btLevel;
+				m_PentagramJewelInfo.btRank1OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1OptionNum;
+				m_PentagramJewelInfo.btRank1Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1Level;
+				m_PentagramJewelInfo.btRank2OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2OptionNum;
+				m_PentagramJewelInfo.btRank2Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2Level;
+				m_PentagramJewelInfo.btRank3OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3OptionNum;
+				m_PentagramJewelInfo.btRank3Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3Level;
+				m_PentagramJewelInfo.btRank4OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4OptionNum;
+				m_PentagramJewelInfo.btRank4Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4Level;
+				m_PentagramJewelInfo.btRank5OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5OptionNum;
+				m_PentagramJewelInfo.btRank5Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5Level;
 
 				memcpy(&Buff[dwSize], &m_PentagramJewelInfo, sizeof(PENTAGRAMJEWEL_INFO));
 				dwSize += sizeof(PENTAGRAMJEWEL_INFO);
@@ -2656,19 +2656,19 @@ void CPentagramSystem::DBREQ_SetPentagramJewel(LPGameObject &lpObj, int iJewelPo
 
 		for (int i = 0; i < INVENTORY_SIZE; i++)
 		{
-			if (lpObj->pInventory[i].IsItem() == TRUE &&
-				this->IsPentagramItem(&lpObj->pInventory[i]))
+			if (lpObj.pInventory[i].IsItem() == TRUE &&
+				this->IsPentagramItem(&lpObj.pInventory[i]))
 			{
 				BYTE ExOption[MAX_EXOPTION_SIZE];
-				ItemIsBufExOption(ExOption, &lpObj->pInventory[i]);
+				ItemIsBufExOption(ExOption, &lpObj.pInventory[i]);
 
 				for (int j = 0; j < 5; j++)
 				{
-					if (lpObj->pInventory[i].m_SocketOption[j] < 0xFE)
+					if (lpObj.pInventory[i].m_SocketOption[j] < 0xFE)
 					{
 						for (int k = 0; k < 254; k++)
 						{
-							if (lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[k].btJewelIndex == lpObj->pInventory[i].m_SocketOption[j])
+							if (lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btJewelIndex == lpObj.pInventory[i].m_SocketOption[j])
 							{
 
 							}
@@ -2699,13 +2699,13 @@ struct PMSG_DEL_PENTAGRAMJEWEL
 	BYTE btJewelIndex;
 };
 
-void CPentagramSystem::DBREQ_DelPentagramJewel(LPGameObject &lpObj, int iJewelPos, int iJewelIndex)
+void CPentagramSystem::DBREQ_DelPentagramJewel(CGameObject &lpObj, int iJewelPos, int iJewelIndex)
 {
 	PMSG_DEL_PENTAGRAMJEWEL pMsg;
 
-	pMsg.iUserGuid = lpObj->DBNumber;
-	memcpy(&pMsg.szAccountID, lpObj->AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(&pMsg.szName, lpObj->Name, MAX_ACCOUNT_LEN + 1);
+	pMsg.iUserGuid = lpObj.DBNumber;
+	memcpy(&pMsg.szAccountID, lpObj.AccountID, MAX_ACCOUNT_LEN + 1);
+	memcpy(&pMsg.szName, lpObj.Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.btJewelPos = iJewelPos;
 	pMsg.btJewelIndex = iJewelIndex;
 
@@ -2737,13 +2737,13 @@ struct PMSG_INSERT_PENTAGRAMJEWEL
 	BYTE btRank5Level;
 };
 
-void CPentagramSystem::DBREQ_InsertPentagramJewel(LPGameObject &lpObj, int iJewelPos, int iJewelIndex, int iItemType, int iItemIndex, int iMainAttribute, int iJewelLevel, BYTE btRank1, BYTE btRank1Level, BYTE btRank2, BYTE btRank2Level, BYTE btRank3, BYTE btRank3Level, BYTE btRank4, BYTE btRank4Level, BYTE btRank5, BYTE btRank5Level)
+void CPentagramSystem::DBREQ_InsertPentagramJewel(CGameObject &lpObj, int iJewelPos, int iJewelIndex, int iItemType, int iItemIndex, int iMainAttribute, int iJewelLevel, BYTE btRank1, BYTE btRank1Level, BYTE btRank2, BYTE btRank2Level, BYTE btRank3, BYTE btRank3Level, BYTE btRank4, BYTE btRank4Level, BYTE btRank5, BYTE btRank5Level)
 {
 	PMSG_INSERT_PENTAGRAMJEWEL pMsg;
 
-	pMsg.iUserGuid = lpObj->DBNumber;
-	memcpy(&pMsg.szAccountID, lpObj->AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(&pMsg.szName, lpObj->Name, MAX_ACCOUNT_LEN + 1);
+	pMsg.iUserGuid = lpObj.DBNumber;
+	memcpy(&pMsg.szAccountID, lpObj.AccountID, MAX_ACCOUNT_LEN + 1);
+	memcpy(&pMsg.szName, lpObj.Name, MAX_ACCOUNT_LEN + 1);
 
 	pMsg.btJewelPos = iJewelPos;
 	pMsg.btJewelIndex = iJewelIndex;
@@ -2766,42 +2766,42 @@ void CPentagramSystem::DBREQ_InsertPentagramJewel(LPGameObject &lpObj, int iJewe
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-BOOL CPentagramSystem::PentagramJewel_IN(LPGameObject &lpObj, int iPentagramItemPos, int iJewelItemPos)
+BOOL CPentagramSystem::PentagramJewel_IN(CGameObject &lpObj, int iPentagramItemPos, int iJewelItemPos)
 {
 	if (!gObjIsConnected(aIndex))
 	{
 		return FALSE;
 	}
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return FALSE;
 	}
 
 	BYTE iDbJewelIndex = 0xFF;
 
-	if (lpObj->pInventory[iPentagramItemPos].IsItem() == FALSE || lpObj->pInventory[iJewelItemPos].IsItem() == FALSE)
+	if (lpObj.pInventory[iPentagramItemPos].IsItem() == FALSE || lpObj.pInventory[iJewelItemPos].IsItem() == FALSE)
 	{
 		sLog->outBasic("[PentagramJewel_IN] PentagramItem Is Not Exist [%s][%s]",
-			lpObj->AccountID, lpObj->Name);
+			lpObj.AccountID, lpObj.Name);
 		return FALSE;
 	}
 
-	if (this->IsPentagramItem(&lpObj->pInventory[iPentagramItemPos]) == FALSE)
+	if (this->IsPentagramItem(&lpObj.pInventory[iPentagramItemPos]) == FALSE)
 	{
 		return FALSE;
 	}
 
-	if (this->IsPentagramJewel(&lpObj->pInventory[iJewelItemPos]) == FALSE)
+	if (this->IsPentagramJewel(&lpObj.pInventory[iJewelItemPos]) == FALSE)
 	{
 		return FALSE;
 	}
 
-	BYTE btItemType = ITEM_GET_TYPE(lpObj->pInventory[iJewelItemPos].m_Type);
-	WORD wItemIndex = ITEM_GET_INDEX(lpObj->pInventory[iJewelItemPos].m_Type);
-	BYTE btMainAttribute = lpObj->pInventory[iJewelItemPos].m_BonusSocketOption;
+	BYTE btItemType = ITEM_GET_TYPE(lpObj.pInventory[iJewelItemPos].m_Type);
+	WORD wItemIndex = ITEM_GET_INDEX(lpObj.pInventory[iJewelItemPos].m_Type);
+	BYTE btMainAttribute = lpObj.pInventory[iJewelItemPos].m_BonusSocketOption;
 	BYTE iJewelKind = 0xFF;
 
 	if (wItemIndex < 231)
@@ -2834,9 +2834,9 @@ BOOL CPentagramSystem::PentagramJewel_IN(LPGameObject &lpObj, int iPentagramItem
 		return FALSE;
 	}
 
-	if (lpObj->pInventory[iPentagramItemPos].m_SocketOption[iJewelKind] != 0xFE)
+	if (lpObj.pInventory[iPentagramItemPos].m_SocketOption[iJewelKind] != 0xFE)
 	{
-		sLog->outBasic("[PentagramJewel_IN] PentagramItem Socket is Not Empty [%s][%s]",lpObj->AccountID, lpObj->Name);
+		sLog->outBasic("[PentagramJewel_IN] PentagramItem Socket is Not Empty [%s][%s]",lpObj.AccountID, lpObj.Name);
 		return FALSE;
 	}
 
@@ -2846,7 +2846,7 @@ BOOL CPentagramSystem::PentagramJewel_IN(LPGameObject &lpObj, int iPentagramItem
 
 		for (int i = 0; i < 254; i++)
 		{
-			if (lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex != 0xFF && lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex == index)
+			if (lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex != 0xFF && lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex == index)
 			{
 				bIndexExist = true;
 			}
@@ -2864,42 +2864,42 @@ BOOL CPentagramSystem::PentagramJewel_IN(LPGameObject &lpObj, int iPentagramItem
 		return FALSE;
 	}
 
-	lpObj->pInventory[iPentagramItemPos].m_SocketOption[iJewelKind] = iDbJewelIndex;
+	lpObj.pInventory[iPentagramItemPos].m_SocketOption[iJewelKind] = iDbJewelIndex;
 
 	BYTE btJewelPos = 0;
 	BYTE btJewelIndex = iDbJewelIndex;
-	BYTE btJewelLevel = lpObj->pInventory[iJewelItemPos].m_Level;
-	BYTE btRank1OptionNum = lpObj->pInventory[iJewelItemPos].m_SocketOption[0] & 0x0F;
-	BYTE btRank1Level = (lpObj->pInventory[iJewelItemPos].m_SocketOption[0] & 0xF0) >> 4;
-	BYTE btRank2OptionNum = lpObj->pInventory[iJewelItemPos].m_SocketOption[1] & 0x0F;
-	BYTE btRank2Level = (lpObj->pInventory[iJewelItemPos].m_SocketOption[1] & 0xF0) >> 4;
-	BYTE btRank3OptionNum = lpObj->pInventory[iJewelItemPos].m_SocketOption[2] & 0x0F;
-	BYTE btRank3Level = (lpObj->pInventory[iJewelItemPos].m_SocketOption[2] & 0xF0) >> 4;
-	BYTE btRank4OptionNum = lpObj->pInventory[iJewelItemPos].m_SocketOption[3] & 0x0F;
-	BYTE btRank4Level = (lpObj->pInventory[iJewelItemPos].m_SocketOption[3] & 0xF0) >> 4;
-	BYTE btRank5OptionNum = lpObj->pInventory[iJewelItemPos].m_SocketOption[4] & 0x0F;
-	BYTE btRank5Level = (lpObj->pInventory[iJewelItemPos].m_SocketOption[4] & 0xF0) >> 4;
+	BYTE btJewelLevel = lpObj.pInventory[iJewelItemPos].m_Level;
+	BYTE btRank1OptionNum = lpObj.pInventory[iJewelItemPos].m_SocketOption[0] & 0x0F;
+	BYTE btRank1Level = (lpObj.pInventory[iJewelItemPos].m_SocketOption[0] & 0xF0) >> 4;
+	BYTE btRank2OptionNum = lpObj.pInventory[iJewelItemPos].m_SocketOption[1] & 0x0F;
+	BYTE btRank2Level = (lpObj.pInventory[iJewelItemPos].m_SocketOption[1] & 0xF0) >> 4;
+	BYTE btRank3OptionNum = lpObj.pInventory[iJewelItemPos].m_SocketOption[2] & 0x0F;
+	BYTE btRank3Level = (lpObj.pInventory[iJewelItemPos].m_SocketOption[2] & 0xF0) >> 4;
+	BYTE btRank4OptionNum = lpObj.pInventory[iJewelItemPos].m_SocketOption[3] & 0x0F;
+	BYTE btRank4Level = (lpObj.pInventory[iJewelItemPos].m_SocketOption[3] & 0xF0) >> 4;
+	BYTE btRank5OptionNum = lpObj.pInventory[iJewelItemPos].m_SocketOption[4] & 0x0F;
+	BYTE btRank5Level = (lpObj.pInventory[iJewelItemPos].m_SocketOption[4] & 0xF0) >> 4;
 
 	for (int j = 0; j < 254; j++)
 	{
-		if (lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex == 0xFF)
+		if (lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex == 0xFF)
 		{
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelPos = 0;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex = iDbJewelIndex;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btItemType = btItemType;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].wItemIndex = wItemIndex;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btMainAttribute = btMainAttribute;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btLevel = btJewelLevel;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank1OptionNum = btRank1OptionNum;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank1Level = btRank1Level;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank2OptionNum = btRank2OptionNum;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank2Level = btRank2Level;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank3OptionNum = btRank3OptionNum;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank3Level = btRank3Level;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank4OptionNum = btRank4OptionNum;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank4Level = btRank4Level;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank5OptionNum = btRank5OptionNum;
-			lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank5Level = btRank5Level;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelPos = 0;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex = iDbJewelIndex;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btItemType = btItemType;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].wItemIndex = wItemIndex;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btMainAttribute = btMainAttribute;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btLevel = btJewelLevel;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank1OptionNum = btRank1OptionNum;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank1Level = btRank1Level;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank2OptionNum = btRank2OptionNum;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank2Level = btRank2Level;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank3OptionNum = btRank3OptionNum;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank3Level = btRank3Level;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank4OptionNum = btRank4OptionNum;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank4Level = btRank4Level;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank5OptionNum = btRank5OptionNum;
+			lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank5Level = btRank5Level;
 			break;
 		}
 	}
@@ -2915,31 +2915,31 @@ BOOL CPentagramSystem::PentagramJewel_IN(LPGameObject &lpObj, int iPentagramItem
 	GSProtocol.GCAnsPentagramJewelInOut(aIndex, 1);
 
 	BYTE ExOption[MAX_EXOPTION_SIZE];
-	ItemIsBufExOption(ExOption, &lpObj->pInventory[iPentagramItemPos]);
+	ItemIsBufExOption(ExOption, &lpObj.pInventory[iPentagramItemPos]);
 
 	return TRUE;
 }
 
-BOOL CPentagramSystem::PentagramJewel_OUT(LPGameObject &lpObj, int iPentagramItemPos, BYTE btSocketIndex, BYTE *btJewelPos, BYTE *btJewelDBIndex)
+BOOL CPentagramSystem::PentagramJewel_OUT(CGameObject &lpObj, int iPentagramItemPos, BYTE btSocketIndex, BYTE *btJewelPos, BYTE *btJewelDBIndex)
 {
 	if (!gObjIsConnected(aIndex))
 	{
 		return FALSE;
 	}
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return FALSE;
 	}
 
-	if (lpObj->pInventory[iPentagramItemPos].IsItem() == FALSE)
+	if (lpObj.pInventory[iPentagramItemPos].IsItem() == FALSE)
 	{
 		return FALSE;
 	}
 
-	if (this->IsPentagramItem(&lpObj->pInventory[iPentagramItemPos]) == FALSE)
+	if (this->IsPentagramItem(&lpObj.pInventory[iPentagramItemPos]) == FALSE)
 	{
 		return FALSE;
 	}
@@ -2949,7 +2949,7 @@ BOOL CPentagramSystem::PentagramJewel_OUT(LPGameObject &lpObj, int iPentagramIte
 		return FALSE;
 	}
 
-	BYTE iJewelDBIndex = lpObj->pInventory[iPentagramItemPos].m_SocketOption[btSocketIndex];
+	BYTE iJewelDBIndex = lpObj.pInventory[iPentagramItemPos].m_SocketOption[btSocketIndex];
 
 	if (iJewelDBIndex >= 0xFE)
 	{
@@ -2965,22 +2965,22 @@ BOOL CPentagramSystem::PentagramJewel_OUT(LPGameObject &lpObj, int iPentagramIte
 
 	for (int i = 0; i < 254; i++)
 	{
-		if (lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex == iJewelDBIndex)
+		if (lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex == iJewelDBIndex)
 		{
-			if ((lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1OptionNum & 0x0F) != 0x0F)
+			if ((lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1OptionNum & 0x0F) != 0x0F)
 				iJewelRankCount++;
-			if ((lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2OptionNum & 0x0F) != 0x0F)
+			if ((lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2OptionNum & 0x0F) != 0x0F)
 				iJewelRankCount++;
-			if ((lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3OptionNum & 0x0F) != 0x0F)
+			if ((lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3OptionNum & 0x0F) != 0x0F)
 				iJewelRankCount++;
-			if ((lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4OptionNum & 0x0F) != 0x0F)
+			if ((lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4OptionNum & 0x0F) != 0x0F)
 				iJewelRankCount++;
-			if ((lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5OptionNum & 0x0F) != 0x0F)
+			if ((lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5OptionNum & 0x0F) != 0x0F)
 				iJewelRankCount++;
 
-			iJewelLevel = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btLevel;
-			iItemType = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btItemType;
-			iItemIndex = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].wItemIndex;
+			iJewelLevel = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btLevel;
+			iItemType = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btItemType;
+			iItemIndex = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].wItemIndex;
 
 			for (int j = 0; j < 55; j++)
 			{
@@ -2995,37 +2995,37 @@ BOOL CPentagramSystem::PentagramJewel_OUT(LPGameObject &lpObj, int iPentagramIte
 			if (!iOutRate)
 				return FALSE;
 
-			BYTE btJewelPos = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelPos;
-			BYTE btJewelDBIndex = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex;
+			BYTE btJewelPos = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelPos;
+			BYTE btJewelDBIndex = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btJewelIndex;
 
 			if ((rand() % 10000) >= iOutRate)
 			{
 				sLog->outBasic("[PentagramJewel_OUT][%s][%s] PentagramJewel Out Fail - JewelDBIndex = %d, ItemType = %d, ItemIndex = %d",
-					lpObj->AccountID, lpObj->Name, btJewelDBIndex, iItemType, iItemIndex);
+					lpObj.AccountID, lpObj.Name, btJewelDBIndex, iItemType, iItemIndex);
 
 				iReturnValue = 2;
 			}
 
 			else
 			{
-				int iResultItemCode = ITEMGET(lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btItemType, lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].wItemIndex);
+				int iResultItemCode = ITEMGET(lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btItemType, lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].wItemIndex);
 				int iItemDurability = ItemGetDurability(iResultItemCode, iJewelLevel, 0, 0);
 				if (!CheckInventoryEmptySpace(lpObj, ItemAttribute[iResultItemCode].Height, ItemAttribute[iResultItemCode].Width))
 					return 0x64;
 
 				BYTE btSocketOption[5];
-				btSocketOption[0] = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1OptionNum | 0x10 * lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1Level;
-				btSocketOption[1] = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2OptionNum | 0x10 * lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2Level;
-				btSocketOption[2] = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3OptionNum | 0x10 * lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3Level;
-				btSocketOption[3] = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4OptionNum | 0x10 * lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4Level;
-				btSocketOption[4] = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5OptionNum | 0x10 * lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5Level;
+				btSocketOption[0] = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1OptionNum | 0x10 * lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank1Level;
+				btSocketOption[1] = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2OptionNum | 0x10 * lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank2Level;
+				btSocketOption[2] = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3OptionNum | 0x10 * lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank3Level;
+				btSocketOption[3] = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4OptionNum | 0x10 * lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4Level;
+				btSocketOption[4] = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5OptionNum | 0x10 * lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5Level;
 
-				ItemSerialCreateSend(aIndex, 231, 0, 0, iResultItemCode, iJewelLevel, iItemDurability, 0, 0, 0, 0, 0, 0, 0, btSocketOption, lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[i].btMainAttribute);
+				ItemSerialCreateSend(aIndex, 231, 0, 0, iResultItemCode, iJewelLevel, iItemDurability, 0, 0, 0, 0, 0, 0, 0, btSocketOption, lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btMainAttribute);
 				sLog->outBasic("[PentagramJewel_OUT][%s][%s] PentagramJewel Out Success - JewelDBIndex = %d, ItemType = %d, ItemIndex = %d",
-					lpObj->AccountID, lpObj->Name, iJewelDBIndex, iItemType, iItemIndex);
+					lpObj.AccountID, lpObj.Name, iJewelDBIndex, iItemType, iItemIndex);
 			}
 
-			lpObj->pInventory[iPentagramItemPos].m_SocketOption[btSocketIndex] = 0xFE;
+			lpObj.pInventory[iPentagramItemPos].m_SocketOption[btSocketIndex] = 0xFE;
 			this->DelPentagramJewelInfo(aIndex, 0, iJewelDBIndex);
 			GSProtocol.GCInventoryItemOneSend(aIndex, iPentagramItemPos);
 			return iReturnValue;
@@ -3035,7 +3035,7 @@ BOOL CPentagramSystem::PentagramJewel_OUT(LPGameObject &lpObj, int iPentagramIte
 	return iReturnValue;
 }
 
-bool CPentagramSystem::GCTransPentagramJewelViewInfo(LPGameObject &lpObj, CItem *lpItemData)
+bool CPentagramSystem::GCTransPentagramJewelViewInfo(CGameObject &lpObj, CItem *lpItemData)
 {
 	PMSG_PENTAGRAMJEWEL_INFO pMsg;
 	PENTAGRAMJEWEL_INFO m_PentagramJewelInfo;
@@ -3045,17 +3045,17 @@ bool CPentagramSystem::GCTransPentagramJewelViewInfo(LPGameObject &lpObj, CItem 
 	BYTE Buff[4096];
 	memset(&Buff, 0x00, sizeof(Buff));
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return false;
 	}
 
-	int TargetIndex = lpObj->TargetNumber;
-	LPGameObject lpTargetObj = &gGameObjects[TargetIndex];
+	int TargetIndex = lpObj.TargetNumber;
+	CGameObject lpTargetObj = &gGameObjects[TargetIndex];
 
-	if (lpTargetObj->Type != OBJ_USER)
+	if (lpTargetObj.Type != OBJ_USER)
 	{
 		return false;
 	}
@@ -3076,24 +3076,24 @@ bool CPentagramSystem::GCTransPentagramJewelViewInfo(LPGameObject &lpObj, CItem 
 		{
 			for (int j = 0; j < 254; j++)
 			{
-				if (lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex == lpItemData->m_SocketOption[i])
+				if (lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex == lpItemData->m_SocketOption[i])
 				{
 					m_PentagramJewelInfo.btJewelPos = 2;
-					m_PentagramJewelInfo.btJewelIndex = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex;
-					m_PentagramJewelInfo.btItemType = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btItemType;
-					m_PentagramJewelInfo.wItemIndex = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].wItemIndex;
-					m_PentagramJewelInfo.btMainAttribute = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btMainAttribute;
-					m_PentagramJewelInfo.btLevel = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btLevel;
-					m_PentagramJewelInfo.btRank1OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank1OptionNum;
-					m_PentagramJewelInfo.btRank1Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank1Level;
-					m_PentagramJewelInfo.btRank2OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank2OptionNum;
-					m_PentagramJewelInfo.btRank2Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank2Level;
-					m_PentagramJewelInfo.btRank3OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank3OptionNum;
-					m_PentagramJewelInfo.btRank3Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank3Level;
-					m_PentagramJewelInfo.btRank4OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank4OptionNum;
-					m_PentagramJewelInfo.btRank4Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank4Level;
-					m_PentagramJewelInfo.btRank5OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank5OptionNum;
-					m_PentagramJewelInfo.btRank5Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank5Level;
+					m_PentagramJewelInfo.btJewelIndex = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex;
+					m_PentagramJewelInfo.btItemType = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btItemType;
+					m_PentagramJewelInfo.wItemIndex = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].wItemIndex;
+					m_PentagramJewelInfo.btMainAttribute = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btMainAttribute;
+					m_PentagramJewelInfo.btLevel = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btLevel;
+					m_PentagramJewelInfo.btRank1OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank1OptionNum;
+					m_PentagramJewelInfo.btRank1Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank1Level;
+					m_PentagramJewelInfo.btRank2OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank2OptionNum;
+					m_PentagramJewelInfo.btRank2Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank2Level;
+					m_PentagramJewelInfo.btRank3OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank3OptionNum;
+					m_PentagramJewelInfo.btRank3Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank3Level;
+					m_PentagramJewelInfo.btRank4OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank4OptionNum;
+					m_PentagramJewelInfo.btRank4Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank4Level;
+					m_PentagramJewelInfo.btRank5OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank5OptionNum;
+					m_PentagramJewelInfo.btRank5Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank5Level;
 					memcpy(&Buff[dwSize], &m_PentagramJewelInfo, sizeof(m_PentagramJewelInfo));
 					dwSize += sizeof(m_PentagramJewelInfo);
 					iJewelCount++;
@@ -3119,7 +3119,7 @@ bool CPentagramSystem::GCTransPentagramJewelViewInfo(LPGameObject &lpObj, CItem 
 	return false;
 }
 
-bool CPentagramSystem::GCPShopPentagramJewelViewInfo(LPGameObject &lpObj, int aSourceIndex)
+bool CPentagramSystem::GCPShopPentagramJewelViewInfo(CGameObject &lpObj, int aSourceIndex)
 {
 	PMSG_PENTAGRAMJEWEL_INFO pMsg;
 	PENTAGRAMJEWEL_INFO m_PentagramJewelInfo;
@@ -3129,48 +3129,48 @@ bool CPentagramSystem::GCPShopPentagramJewelViewInfo(LPGameObject &lpObj, int aS
 	BYTE Buff[4096];
 	memset(&Buff, 0x00, sizeof(Buff));
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return false;
 	}
 
-	LPGameObject lpTargetObj = &gGameObjects[aSourceIndex];
+	CGameObject lpTargetObj = &gGameObjects[aSourceIndex];
 
-	if (lpTargetObj->Type != OBJ_USER)
+	if (lpTargetObj.Type != OBJ_USER)
 	{
 		return false;
 	}
 
 	for (int i = MAIN_INVENTORY_SIZE; i < INVENTORY_SIZE; i++)
 	{
-		if (lpObj->pInventory[i].IsItem() == TRUE && this->IsPentagramItem(&lpObj->pInventory[i]) == true)
+		if (lpObj.pInventory[i].IsItem() == TRUE && this->IsPentagramItem(&lpObj.pInventory[i]) == true)
 		{
 			for (int j = 0; j < 5; j++)
 			{
-				if (lpObj->pInventory[i].m_SocketOption[j] < 0xFE)
+				if (lpObj.pInventory[i].m_SocketOption[j] < 0xFE)
 				{
 					for (int k = 0; k < 254; k++)
 					{
-						if (lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[k].btJewelIndex == lpObj->pInventory[i].m_SocketOption[j])
+						if (lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btJewelIndex == lpObj.pInventory[i].m_SocketOption[j])
 						{
 							m_PentagramJewelInfo.btJewelPos = 3;
-							m_PentagramJewelInfo.btJewelIndex = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[k].btJewelIndex;
-							m_PentagramJewelInfo.btItemType = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[k].btItemType;
-							m_PentagramJewelInfo.wItemIndex = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[k].wItemIndex;
-							m_PentagramJewelInfo.btMainAttribute = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[k].btMainAttribute;
-							m_PentagramJewelInfo.btLevel = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[k].btLevel;
-							m_PentagramJewelInfo.btRank1OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[k].btRank1OptionNum;
-							m_PentagramJewelInfo.btRank1Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[k].btRank1Level;
-							m_PentagramJewelInfo.btRank2OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[k].btRank2OptionNum;
-							m_PentagramJewelInfo.btRank2Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[k].btRank2Level;
-							m_PentagramJewelInfo.btRank3OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[k].btRank3OptionNum;
-							m_PentagramJewelInfo.btRank3Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[k].btRank3Level;
-							m_PentagramJewelInfo.btRank4OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[k].btRank4OptionNum;
-							m_PentagramJewelInfo.btRank4Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[k].btRank4Level;
-							m_PentagramJewelInfo.btRank5OptionNum = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[k].btRank5OptionNum;
-							m_PentagramJewelInfo.btRank5Level = lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[k].btRank5Level;
+							m_PentagramJewelInfo.btJewelIndex = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btJewelIndex;
+							m_PentagramJewelInfo.btItemType = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btItemType;
+							m_PentagramJewelInfo.wItemIndex = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[k].wItemIndex;
+							m_PentagramJewelInfo.btMainAttribute = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btMainAttribute;
+							m_PentagramJewelInfo.btLevel = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btLevel;
+							m_PentagramJewelInfo.btRank1OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btRank1OptionNum;
+							m_PentagramJewelInfo.btRank1Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btRank1Level;
+							m_PentagramJewelInfo.btRank2OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btRank2OptionNum;
+							m_PentagramJewelInfo.btRank2Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btRank2Level;
+							m_PentagramJewelInfo.btRank3OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btRank3OptionNum;
+							m_PentagramJewelInfo.btRank3Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btRank3Level;
+							m_PentagramJewelInfo.btRank4OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btRank4OptionNum;
+							m_PentagramJewelInfo.btRank4Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btRank4Level;
+							m_PentagramJewelInfo.btRank5OptionNum = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btRank5OptionNum;
+							m_PentagramJewelInfo.btRank5Level = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btRank5Level;
 							memcpy(&Buff[dwSize], &m_PentagramJewelInfo, sizeof(m_PentagramJewelInfo));
 							dwSize += sizeof(m_PentagramJewelInfo);
 							iJewelCount++;
@@ -3198,13 +3198,13 @@ bool CPentagramSystem::GCPShopPentagramJewelViewInfo(LPGameObject &lpObj, int aS
 	return false;
 }
 
-BOOL CPentagramSystem::IsEnableToTradePentagramItem(LPGameObject &lpObj)
+BOOL CPentagramSystem::IsEnableToTradePentagramItem(CGameObject &lpObj)
 {
 	for (int i = 0; i < TRADE_BOX_SIZE; i++)
 	{
-		if (lpObj->Trade[i].IsItem() == TRUE && this->IsPentagramItem(&lpObj->Trade[i]) == true)
+		if (lpObj.Trade[i].IsItem() == TRUE && this->IsPentagramItem(&lpObj.Trade[i]) == true)
 		{
-			if (lpObj->Trade[i].m_Durability < 1.0)
+			if (lpObj.Trade[i].m_Durability < 1.0)
 			{
 				return FALSE;
 			}
@@ -3214,21 +3214,21 @@ BOOL CPentagramSystem::IsEnableToTradePentagramItem(LPGameObject &lpObj)
 	return TRUE;
 }
 
-BOOL CPentagramSystem::IsEnableTransPentagramJewelInfo(LPGameObject &lpObj, int targetIndex)
+BOOL CPentagramSystem::IsEnableTransPentagramJewelInfo(CGameObject &lpObj, int targetIndex)
 {
 	BOOL bRet = TRUE;
 	BYTE iTargetDBJewelIndex = 0xFF;
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
-	LPGameObject lpTargetObj = &gGameObjects[targetIndex];
+	
+	CGameObject lpTargetObj = &gGameObjects[targetIndex];
 
 	for (int n = 0; n < TRADE_BOX_SIZE; n++)
 	{
-		if (lpObj->Trade[n].IsItem() == TRUE && this->IsPentagramItem(&lpObj->Trade[n]) == true)
+		if (lpObj.Trade[n].IsItem() == TRUE && this->IsPentagramItem(&lpObj.Trade[n]) == true)
 		{
 			for (int i = 0; i < 5; i++)
 			{
-				if (lpObj->Trade[n].m_SocketOption[i] < 0xFE)
+				if (lpObj.Trade[n].m_SocketOption[i] < 0xFE)
 				{
 					for (int index = 0; index < 254; index++)
 					{
@@ -3236,9 +3236,9 @@ BOOL CPentagramSystem::IsEnableTransPentagramJewelInfo(LPGameObject &lpObj, int 
 
 						for (int j = 0; j < 254; j++)
 						{
-							if (lpTargetObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex != 0xFF)
+							if (lpTargetObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex != 0xFF)
 							{
-								if (lpTargetObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex == index)
+								if (lpTargetObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex == index)
 								{
 									bIndexExist = TRUE;
 								}
@@ -3255,7 +3255,7 @@ BOOL CPentagramSystem::IsEnableTransPentagramJewelInfo(LPGameObject &lpObj, int 
 					if (iTargetDBJewelIndex == 0xFF)
 					{
 						sLog->outBasic("[IsEnableTransPentagramJewelInfo][%s][%s] PentagramJewelIndex Area Not Exist!!",
-							lpTargetObj->AccountID, lpTargetObj->Name);
+							lpTargetObj.AccountID, lpTargetObj.Name);
 
 						bRet = FALSE;
 					}
@@ -3263,11 +3263,11 @@ BOOL CPentagramSystem::IsEnableTransPentagramJewelInfo(LPGameObject &lpObj, int 
 			}
 		}
 
-		if (lpTargetObj->Trade[n].IsItem() == TRUE && this->IsPentagramItem(&lpTargetObj->Trade[n]) == true)
+		if (lpTargetObj.Trade[n].IsItem() == TRUE && this->IsPentagramItem(&lpTargetObj.Trade[n]) == true)
 		{
 			for (int i = 0; i < 5; i++)
 			{
-				if (lpTargetObj->Trade[n].m_SocketOption[i] < 0xFE)
+				if (lpTargetObj.Trade[n].m_SocketOption[i] < 0xFE)
 				{
 					for (int index = 0; index < 254; index++)
 					{
@@ -3275,9 +3275,9 @@ BOOL CPentagramSystem::IsEnableTransPentagramJewelInfo(LPGameObject &lpObj, int 
 
 						for (int j = 0; j < 254; j++)
 						{
-							if (lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex != 0xFF)
+							if (lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex != 0xFF)
 							{
-								if (lpObj->m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex == index)
+								if (lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btJewelIndex == index)
 								{
 									bIndexExist = TRUE;
 								}
@@ -3294,7 +3294,7 @@ BOOL CPentagramSystem::IsEnableTransPentagramJewelInfo(LPGameObject &lpObj, int 
 					if (iTargetDBJewelIndex == 0xFF)
 					{
 						sLog->outBasic("[IsEnableTransPentagramJewelInfo][%s][%s] PentagramJewelIndex Area Not Exist!!",
-							lpObj->AccountID, lpObj->Name);
+							lpObj.AccountID, lpObj.Name);
 
 						bRet = FALSE;
 					}
@@ -3308,15 +3308,15 @@ BOOL CPentagramSystem::IsEnableTransPentagramJewelInfo(LPGameObject &lpObj, int 
 
 int CPentagramSystem::CheckOverlapMythrilPiece(int iIndex, int iItemType, int iMainAttribute)
 {
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 
 	for (int x = 0; x < MAIN_INVENTORY_SIZE; x++)
 	{
-		if (lpObj->pInventory[x].IsItem() == TRUE &&
-			lpObj->pInventory[x].m_Type == iItemType &&
-			(lpObj->pInventory[x].m_BonusSocketOption & 0x0F) == iMainAttribute)
+		if (lpObj.pInventory[x].IsItem() == TRUE &&
+			lpObj.pInventory[x].m_Type == iItemType &&
+			(lpObj.pInventory[x].m_BonusSocketOption & 0x0F) == iMainAttribute)
 		{
-			int iITEM_DUR = lpObj->pInventory[x].m_Durability;
+			int iITEM_DUR = lpObj.pInventory[x].m_Durability;
 
 			if (iITEM_DUR >= 0 && iITEM_DUR <= IsOverlapItem(iItemType))
 			{
@@ -3328,7 +3328,7 @@ int CPentagramSystem::CheckOverlapMythrilPiece(int iIndex, int iItemType, int iM
 	return -1;
 }
 
-BOOL CPentagramSystem::AddTradeCount(LPGameObject lpObj, int source, int target)
+BOOL CPentagramSystem::AddTradeCount(CGameObject lpObj, int source, int target)
 {
 	if (source < 0 || source > MAIN_INVENTORY_SIZE - 1)
 	{
@@ -3340,27 +3340,27 @@ BOOL CPentagramSystem::AddTradeCount(LPGameObject lpObj, int source, int target)
 		return FALSE;
 	}
 
-	if (lpObj->pInventory[source].IsItem() == FALSE)
+	if (lpObj.pInventory[source].IsItem() == FALSE)
 	{
 		return FALSE;
 	}
 
-	if (lpObj->pInventory[target].IsItem() == FALSE)
+	if (lpObj.pInventory[target].IsItem() == FALSE)
 	{
 		return FALSE;
 	}
 
-	if (this->IsPentagramItem(lpObj->pInventory[target].m_Type) == FALSE)
+	if (this->IsPentagramItem(lpObj.pInventory[target].m_Type) == FALSE)
 	{
 		return FALSE;
 	}
 
-	if (lpObj->pInventory[target].m_Durability >= 255.0)
+	if (lpObj.pInventory[target].m_Durability >= 255.0)
 	{
 		return FALSE;
 	}
 
-	lpObj->pInventory[target].m_Durability += 1.0;
+	lpObj.pInventory[target].m_Durability += 1.0;
 
 	return TRUE;
 }
@@ -3421,25 +3421,25 @@ void CPentagramSystem::LoadOptionNews()
 	m_SlotCountRate.AddValue(5, tmpRate);
 }
 
-BOOL CPentagramSystem::ElementDrop(LPGameObject &lpObj, LPGameObject lpTargetObj)
+BOOL CPentagramSystem::ElementDrop(CGameObject &lpObj, CGameObject lpTargetObj)
 {
 
-	if (lpObj->Level >= m_iSpiritMap_DropLevel && rand() % 10000 < m_iSpiritMap_DropRate)
+	if (lpObj.Level >= m_iSpiritMap_DropLevel && rand() % 10000 < m_iSpiritMap_DropRate)
 	{
 		int iMaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
-		ItemSerialCreateSend(lpObj->m_Index, lpObj->MapNumber, lpObj->X, lpObj->Y, ITEMGET(13, 145), 0, 1,
+		ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, ITEMGET(13, 145), 0, 1,
 			0, 0, 0, iMaxHitUser, 0, 0, 0, 0, 0);
 		return true;
 	}
 
-	if (lpObj->MapNumber == MAP_INDEX_ACHERON || lpObj->MapNumber == MAP_INDEX_DEBENTER || lpObj->MapNumber == MAP_INDEX_NARS || lpObj->MapNumber == MAP_INDEX_URUK_MOUNTAIN)
+	if (lpObj.MapNumber == MAP_INDEX_ACHERON || lpObj.MapNumber == MAP_INDEX_DEBENTER || lpObj.MapNumber == MAP_INDEX_NARS || lpObj.MapNumber == MAP_INDEX_URUK_MOUNTAIN)
 	{
 		for (int i = 0; i < 50; i++)
 		{
-			if (lpObj->Level >= Penta_DropRate[i].ItemDropLevel && rand() % 10000 < Penta_DropRate[i].ItemDropRate)
+			if (lpObj.Level >= Penta_DropRate[i].ItemDropLevel && rand() % 10000 < Penta_DropRate[i].ItemDropRate)
 			{
 				int iMaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
-				BYTE SocketBonus = (lpObj->m_iPentagramMainAttribute == ELEMENT_NONE) ? (1 + rand() % 5) : lpObj->m_iPentagramMainAttribute;
+				BYTE SocketBonus = (lpObj.m_iPentagramMainAttribute == ELEMENT_NONE) ? (1 + rand() % 5) : lpObj.m_iPentagramMainAttribute;
 				BYTE SocketOption[5];
 
 				SocketOption[0] = -1;
@@ -3462,7 +3462,7 @@ BOOL CPentagramSystem::ElementDrop(LPGameObject &lpObj, LPGameObject lpTargetObj
 					}
 				} while (scount != count);
 
-				ItemSerialCreateSend(lpObj->m_Index, lpObj->MapNumber, lpObj->X, lpObj->Y, ITEMGET(12, Penta_DropRate[i].ItemDropIndex), 0, 1,
+				ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, ITEMGET(12, Penta_DropRate[i].ItemDropIndex), 0, 1,
 					0, 0, 0, iMaxHitUser, 0, 0, 0, SocketOption, SocketBonus);
 				return true;
 			}

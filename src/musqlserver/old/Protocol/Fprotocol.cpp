@@ -227,7 +227,7 @@ int CFriendSystem::ExDBGetIndexByCode(int iServerCode)
 	return -1;
 }
 
-void CFriendSystem::FriendClose(LPGameObject &lpObj, LPBYTE lpMsg)
+void CFriendSystem::FriendClose(CGameObject &lpObj, LPBYTE lpMsg)
 {
 	char szMaster[11] = {0};
 
@@ -292,7 +292,7 @@ BOOL CFriendSystem::GetDBFriendList(char *szMaster)
 	return res;
 }
 
-void CFriendSystem::FriendListSend(LPGameObject &lpObj, char *szMaster)
+void CFriendSystem::FriendListSend(CGameObject &lpObj, char *szMaster)
 {
 	FRIEND_MASTER* lpMaster;
 
@@ -361,7 +361,7 @@ BOOL CFriendSystem::GetDBWaitFriend(char *szMaster, OUT char *szWaitFriend)
 	return res;
 }
 
-BOOL CFriendSystem::FriendWaitSend(LPGameObject &lpObj, char *szMaster)
+BOOL CFriendSystem::FriendWaitSend(CGameObject &lpObj, char *szMaster)
 {
 	FHP_WAITFRIENDLIST_COUNT WaitFr;
 	std::ZeroMemory(&WaitFr, sizeof(WaitFr));
@@ -387,7 +387,7 @@ BOOL CFriendSystem::FriendWaitSend(LPGameObject &lpObj, char *szMaster)
 	return TRUE;
 }
 
-void CFriendSystem::SendState(LPGameObject &lpObj, char *szMaster, int iNumber, char *szName, BYTE btState)
+void CFriendSystem::SendState(CGameObject &lpObj, char *szMaster, int iNumber, char *szName, BYTE btState)
 {
 	FHP_FRIEND_STATE State;
 	std::ZeroMemory(&State, sizeof(State));
@@ -402,7 +402,7 @@ void CFriendSystem::SendState(LPGameObject &lpObj, char *szMaster, int iNumber, 
 	DataSend(aIndex, (LPBYTE)&State, State.h.size, __FUNCTION__);
 }
 
-void CFriendSystem::SendStateToAllFriends(LPGameObject &lpObj, char *szMaster)
+void CFriendSystem::SendStateToAllFriends(CGameObject &lpObj, char *szMaster)
 {
 	FRIEND_MASTER* lpMaster;
 	lpMaster = GetFriendMaster(szMaster);
@@ -432,7 +432,7 @@ void CFriendSystem::SendStateToAllFriends(LPGameObject &lpObj, char *szMaster)
 	}
 }
 
-void CFriendSystem::FriendListRequest(LPGameObject &lpObj, FHP_FRIENDLIST_REQ* lpMsg)
+void CFriendSystem::FriendListRequest(CGameObject &lpObj, FHP_FRIENDLIST_REQ* lpMsg)
 {
 	
 	char szMaster[11]={0};
@@ -853,7 +853,7 @@ void CFriendSystem::FriendDelRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
 }
 
 
-void CFriendSystem::MemoHeaderSend(LPGameObject &lpObj, WORD wNumber, MEMO_HEADER * lpMemoHead )
+void CFriendSystem::MemoHeaderSend(CGameObject &lpObj, WORD wNumber, MEMO_HEADER * lpMemoHead )
 {
 	FHP_FRIEND_MEMO_LIST MemoHead;
 	std::ZeroMemory(&MemoHead, sizeof(MemoHead));
@@ -870,7 +870,7 @@ void CFriendSystem::MemoHeaderSend(LPGameObject &lpObj, WORD wNumber, MEMO_HEADE
 	DataSend(aIndex, (LPBYTE)&MemoHead, sizeof(MemoHead), __FUNCTION__);
 }
 
-void CFriendSystem::MemoListSend(LPGameObject &lpObj, WORD wNumber, char *szName)
+void CFriendSystem::MemoListSend(CGameObject &lpObj, WORD wNumber, char *szName)
 {
 
 	char szMaster[11] = {0};

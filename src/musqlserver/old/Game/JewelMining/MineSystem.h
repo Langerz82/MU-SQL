@@ -14,31 +14,31 @@ public:
 
 	void LoadMineingDropScript();
 
-	void CheckIsUPTUserWhenDisconnected(LPGameObject &lpObj);
-	void CheckIsUPTUserWhenConnect(LPGameObject &lpObj);
-	void GiveRewardItemToUPTUser(LPGameObject &lpObj, WORD wTwinkleType, int iStage);
+	void CheckIsUPTUserWhenDisconnected(CGameObject &lpObj);
+	void CheckIsUPTUserWhenConnect(CGameObject &lpObj);
+	void GiveRewardItemToUPTUser(CGameObject &lpObj, WORD wTwinkleType, int iStage);
 	
 	void MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, int aIndex);
 	void RewardMineTwinkle(PMSG_REQ_MINETWINKLE_REWARD *lpMsg, int aIndex);
 	void FailMineTwinkle(PMSG_ANS_MINETWINKLE_END_ANIMATION *lpMsg, int aIndex, bool bError);
 
-	void RequestDBToModifyUPTUserInfo(LPGameObject &lpObj, char *szCharName, WORD wTwinkleType, int iCurrentStage, BYTE byRequestType);
+	void RequestDBToModifyUPTUserInfo(CGameObject &lpObj, char *szCharName, WORD wTwinkleType, int iCurrentStage, BYTE byRequestType);
 	void GDAnsModifyMineSystemUPTUserInfo(SDHP_ANS_MINESYSTEM_UPT_USERINFO *lpMsg);
 	void GDAnsLoadMineSystemUPTUserInfo(SDHP_ANS_LOAD_MINESYSTEM_UPT_USERINFO *lpMsg);
 
-	BOOL CheckMoveMapWhileMining(LPGameObject &lpObj);
+	BOOL CheckMoveMapWhileMining(CGameObject &lpObj);
 	BOOL IsTwinkle(WORD wClass);
-	BOOL IsEquipPickax(LPGameObject &lpObj);
+	BOOL IsEquipPickax(CGameObject &lpObj);
 	BOOL IsPickax(WORD wItemType);
 
 	void SetTwinklesInfo();
-	void SetTwinkleInfo(LPGameObject &lpObj);
-	void ResetTwinkleInfo(LPGameObject &lpObj, WORD wTwinkleIndex, bool bFailMining);
+	void SetTwinkleInfo(CGameObject &lpObj);
+	void ResetTwinkleInfo(CGameObject &lpObj, WORD wTwinkleIndex, bool bFailMining);
 
 	BOOL SuccessOrFailure(WORD wType, int iStage);
 	BOOL MiracleSuccessOrFailure(WORD wType, int iStage);
-	BOOL CheckValidationMineState(LPGameObject &lpObj, WORD wTwinkleIndex, WORD wTwinkleType, BYTE byMapNumber, WORD wUserIndex, int *iResult, bool bRewardCheck);
-	BOOL GiveRewardItem(LPGameObject &lpObj, WORD wTwinkleType, int iStage, int bNotify);
+	BOOL CheckValidationMineState(CGameObject &lpObj, WORD wTwinkleIndex, WORD wTwinkleType, BYTE byMapNumber, WORD wUserIndex, int *iResult, bool bRewardCheck);
+	BOOL GiveRewardItem(CGameObject &lpObj, WORD wTwinkleType, int iStage, int bNotify);
 
 	void ChangeUnconditionalSuccess(int iIsSuccess);
 

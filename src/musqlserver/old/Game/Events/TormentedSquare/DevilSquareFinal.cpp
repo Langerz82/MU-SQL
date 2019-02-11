@@ -235,7 +235,7 @@ void CDevilSquareFinal::Load_DSFMonsterScript(char *pchFileName)
 	}
 }
 
-void CDevilSquareFinal::ReqDSFSchedule(LPGameObject &lpObj)
+void CDevilSquareFinal::ReqDSFSchedule(CGameObject &lpObj)
 {
 	PMSG_ANS_DSF_SCHEDULE pResult;
 	PHeadSubSetB((LPBYTE)&pResult, 0xDB, 0x00, sizeof(pResult));
@@ -836,10 +836,10 @@ void CDevilSquareFinal::Proc_DSFState_None(int nCurTime)
 						int aIndex = this->m_UserData[j].m_nIndex;
 
 						if (aIndex != -1 &&
-							lpObj->Connected > PLAYER_LOGGED &&
-							lpObj->MapNumber == MAP_INDEX_DEVILSQUARE_FINAL)
+							lpObj.Connected > PLAYER_LOGGED &&
+							lpObj.MapNumber == MAP_INDEX_DEVILSQUARE_FINAL)
 						{
-							lpObj->m_nDSFIndex = -1;
+							lpObj.m_nDSFIndex = -1;
 							gObjMoveGate(aIndex, 333);
 							this->ClearUserData(j);
 						}
@@ -1241,18 +1241,18 @@ void CDevilSquareFinal::Set_DSFState_End()
 	sLog->outBasic("[DSF] SetState END");
 }
 
-BOOL CDevilSquareFinal::IsAlreadyExistUserInDSF(LPGameObject &lpObj)
+BOOL CDevilSquareFinal::IsAlreadyExistUserInDSF(CGameObject &lpObj)
 {
 	for (int i = 0; i < 10; i++)
 	{
 		if (this->m_PartyDataSave[i].nPartyNo > 0)
 		{
-			if (!strcmp(this->m_PartyDataSave[i].szRequestUserName, lpObj->Name))
+			if (!strcmp(this->m_PartyDataSave[i].szRequestUserName, lpObj.Name))
 			{
 				return TRUE;
 			}
 
-			if (!strcmp(this->m_PartyDataSave[i].sz2ndPartyUserName, lpObj->Name))
+			if (!strcmp(this->m_PartyDataSave[i].sz2ndPartyUserName, lpObj.Name))
 			{
 				return TRUE;
 			}
@@ -1475,7 +1475,7 @@ void CDevilSquareFinal::DeletePartyByIndex(int nIndex)
 	}
 }
 
-BOOL CDevilSquareFinal::Enter_DSF(LPGameObject &lpObj, BYTE btSlotNum)
+BOOL CDevilSquareFinal::Enter_DSF(CGameObject &lpObj, BYTE btSlotNum)
 {
 	if (this->m_bEVENT_ENABLE == false)
 	{
@@ -1483,7 +1483,7 @@ BOOL CDevilSquareFinal::Enter_DSF(LPGameObject &lpObj, BYTE btSlotNum)
 		return FALSE;
 	}
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
 	if (!lpObj)
 	{
@@ -1497,9 +1497,9 @@ BOOL CDevilSquareFinal::Enter_DSF(LPGameObject &lpObj, BYTE btSlotNum)
 		return FALSE;
 	}
 
-	if (lpObj->m_nDSFIndex != -1)
+	if (lpObj.m_nDSFIndex != -1)
 	{
-		sLog->outBasic("[DSF][Enter_DSF] Enter Error: DSFIndex Fail %d", lpObj->m_nDSFIndex);
+		sLog->outBasic("[DSF][Enter_DSF] Enter Error: DSFIndex Fail %d", lpObj.m_nDSFIndex);
 		return FALSE;
 	}
 
@@ -1512,22 +1512,22 @@ BOOL CDevilSquareFinal::Enter_DSF(LPGameObject &lpObj, BYTE btSlotNum)
 	{
 		if (this->m_UserData[i].m_nIndex == -1)
 		{
-			if (lpObj->PartyNumber == this->m_PartyDataSave[btSlotNum].nPartyNo)
+			if (lpObj.PartyNumber == this->m_PartyDataSave[btSlotNum].nPartyNo)
 			{
 				this->m_UserData[i].m_btTeam = btSlotNum;
 				this->m_UserData[i].m_nIndex = aIndex;
-				this->m_UserData[i].m_nPartyIdx = lpObj->PartyNumber;
+				this->m_UserData[i].m_nPartyIdx = lpObj.PartyNumber;
 				this->m_UserData[i].m_bEnterOk = true;
 				this->m_nUserCount++;
-				lpObj->m_nDSFIndex = i;
-				memcpy(this->m_UserData[i].PlayerName, lpObj->Name, MAX_ACCOUNT_LEN+1);
+				lpObj.m_nDSFIndex = i;
+				memcpy(this->m_UserData[i].PlayerName, lpObj.Name, MAX_ACCOUNT_LEN+1);
 
 				bResult = TRUE;
 				ArrayIndex = i;
 
 				sLog->outBasic("[DSF][Enter_DSF][%s][%s][%s][%d] UserCnt:[%d], DSFIndex:[%d], Team:%d",
-					lpObj->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF, lpObj->Name,
-					lpObj->m_PlayerData->m_nServerCodeOfHomeWorld, this->m_nUserCount, lpObj->m_nDSFIndex,
+					lpObj.AccountID, lpObj.m_PlayerData->m_RealNameOfUBF, lpObj.Name,
+					lpObj.m_PlayerData->m_nServerCodeOfHomeWorld, this->m_nUserCount, lpObj.m_nDSFIndex,
 					this->m_UserData[i].m_btTeam);
 			}
 			
@@ -1545,37 +1545,37 @@ BOOL CDevilSquareFinal::Enter_DSF(LPGameObject &lpObj, BYTE btSlotNum)
 	if (ArrayIndex != -1 && ArrayIndex < 20)
 	{
 		this->m_EnteredPlayerName[ArrayIndex].EnteredIndex = ArrayIndex;
-		memcpy(this->m_EnteredPlayerName[ArrayIndex].PlayerName, lpObj->Name, MAX_ACCOUNT_LEN+1);
+		memcpy(this->m_EnteredPlayerName[ArrayIndex].PlayerName, lpObj.Name, MAX_ACCOUNT_LEN+1);
 	}
 
 	if (bResult == TRUE)
 	{
 		sLog->outBasic("[DSF][Enter_DSF][%s][%s][%s][%d] Enter Success, class : %d",
-			lpObj->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF, lpObj->Name,
-			lpObj->m_PlayerData->m_nServerCodeOfHomeWorld, lpObj->m_PlayerData->DbClass);
+			lpObj.AccountID, lpObj.m_PlayerData->m_RealNameOfUBF, lpObj.Name,
+			lpObj.m_PlayerData->m_nServerCodeOfHomeWorld, lpObj.m_PlayerData->DbClass);
 
-		this->SendDSFState(0, lpObj->m_Index);
+		this->SendDSFState(0, lpObj.m_Index);
 		return TRUE;
 	}
 
 	else
 	{
 		sLog->outBasic("[DSF][Enter_DSF][%s][%s][%s][%d] Enter Fail, class : %d",
-			lpObj->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF, lpObj->Name,
-			lpObj->m_PlayerData->m_nServerCodeOfHomeWorld, lpObj->m_PlayerData->DbClass);
+			lpObj.AccountID, lpObj.m_PlayerData->m_RealNameOfUBF, lpObj.Name,
+			lpObj.m_PlayerData->m_nServerCodeOfHomeWorld, lpObj.m_PlayerData->DbClass);
 
 		return FALSE;
 	}
 }
 
-BOOL CDevilSquareFinal::Leave_DSF(LPGameObject &lpObj)
+BOOL CDevilSquareFinal::Leave_DSF(CGameObject &lpObj)
 {
-	if (lpObj->m_nDSFIndex == -1)
+	if (lpObj.m_nDSFIndex == -1)
 	{
 		return FALSE;
 	}
 
-	if (aIndex != this->m_UserData[lpObj->m_nDSFIndex].m_nIndex)
+	if (aIndex != this->m_UserData[lpObj.m_nDSFIndex].m_nIndex)
 	{
 		return FALSE;
 	}
@@ -1587,18 +1587,18 @@ BOOL CDevilSquareFinal::Leave_DSF(LPGameObject &lpObj)
 
 	EnterCriticalSection(&this->m_critUserData);
 
-	this->m_nTeamUserCount[this->m_UserData[lpObj->m_nDSFIndex].m_btTeam]--;
-	int nUserCount = this->m_nTeamUserCount[this->m_UserData[lpObj->m_nDSFIndex].m_btTeam];
+	this->m_nTeamUserCount[this->m_UserData[lpObj.m_nDSFIndex].m_btTeam]--;
+	int nUserCount = this->m_nTeamUserCount[this->m_UserData[lpObj.m_nDSFIndex].m_btTeam];
 
 	if (this->m_bGameStart == false)
 	{
 		for (int i = 0; i < 10; i++)
 		{
-			if (this->m_UserData[lpObj->m_nDSFIndex].m_btTeam == this->m_PartyDataSave[i].btTeamIndex &&
+			if (this->m_UserData[lpObj.m_nDSFIndex].m_btTeam == this->m_PartyDataSave[i].btTeamIndex &&
 				nUserCount == 0)
 			{
 				sLog->outBasic("[DSF][Leave_DSF][%s][%s][%s][%d] All PartyUser Leave : Game is not start, TeamIndex:[%d], PartyUserName1:%s, PartyUserName2:%s",
-					lpObj->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF, lpObj->Name, lpObj->m_PlayerData->m_nServerCodeOfHomeWorld,
+					lpObj.AccountID, lpObj.m_PlayerData->m_RealNameOfUBF, lpObj.Name, lpObj.m_PlayerData->m_nServerCodeOfHomeWorld,
 					this->m_PartyDataSave[i].btTeamIndex, this->m_PartyDataSave[i].szRequestUserRealName, this->m_PartyDataSave[i].sz2ndPartyUserRealName);
 
 				this->ClearUserData(this->m_PartyDataSave[i].nRequestUserIndex);
@@ -1609,10 +1609,10 @@ BOOL CDevilSquareFinal::Leave_DSF(LPGameObject &lpObj)
 	}
 
 	sLog->outBasic("[DSF][Leave_DSF][%s][%s][%s][%d] User Leave, UserCnt:[%d], DSFIndex:[%d]",
-		lpObj->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF, lpObj->Name,
-		lpObj->m_PlayerData->m_nServerCodeOfHomeWorld, this->m_nUserCount, lpObj->m_nDSFIndex);
+		lpObj.AccountID, lpObj.m_PlayerData->m_RealNameOfUBF, lpObj.Name,
+		lpObj.m_PlayerData->m_nServerCodeOfHomeWorld, this->m_nUserCount, lpObj.m_nDSFIndex);
 
-	lpObj->m_nDSFIndex = -1;
+	lpObj.m_nDSFIndex = -1;
 	this->m_nUserCount--;
 	LeaveCriticalSection(&this->m_critUserData);
 
@@ -1759,7 +1759,7 @@ bool CDevilSquareFinal::CanStartDSFBattle()
 	return bCanStart;
 }
 
-void CDevilSquareFinal::SendDSFResult(LPGameObject &lpObj)
+void CDevilSquareFinal::SendDSFResult(CGameObject &lpObj)
 {
 	for (int j = 0; j < 10; j++)
 	{
@@ -1796,7 +1796,7 @@ void CDevilSquareFinal::SendDSFResult(LPGameObject &lpObj)
 		{
 			if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i].m_nIndex].Connected > PLAYER_LOGGED)
 			{
-				if (!strcmp(lpObj->Name, this->m_UserData[i].PlayerName))
+				if (!strcmp(lpObj.Name, this->m_UserData[i].PlayerName))
 				{
 					IOCP.DataSend(this->m_UserData[i].m_nIndex, (LPBYTE)&pMsg, pMsg.h.size);
 				}
@@ -2510,7 +2510,7 @@ void CDevilSquareFinal::GDInsertRewardUser(char *szAccountID, char *szUserName, 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CDevilSquareFinal::GDReqGetReward(LPGameObject &lpObj)
+void CDevilSquareFinal::GDReqGetReward(CGameObject &lpObj)
 {
 	PMSG_REQ_GET_DSF_REWARD pMsg;
 
@@ -2519,8 +2519,8 @@ void CDevilSquareFinal::GDReqGetReward(LPGameObject &lpObj)
 	pMsg.h.headcode = 0xFD;
 	pMsg.h.subcode = 0x07;
 
-	memcpy(pMsg.szAccountID, lpObj->AccountID, MAX_ACCOUNT_LEN+1);
-	memcpy(pMsg.szUserName, lpObj->Name, MAX_ACCOUNT_LEN+1);
+	memcpy(pMsg.szAccountID, lpObj.AccountID, MAX_ACCOUNT_LEN+1);
+	memcpy(pMsg.szUserName, lpObj.Name, MAX_ACCOUNT_LEN+1);
 	pMsg.nServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.nUserIndex = aIndex;
 
@@ -2533,8 +2533,8 @@ void CDevilSquareFinal::GDReqGetReward(LPGameObject &lpObj)
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 	sLog->outBasic("[DSF][GDReqGetReward][%s][%s][%s][%d] Request Get Reward",
-		lpObj->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF, 
-		lpObj->Name, lpObj->m_PlayerData->m_nServerCodeOfHomeWorld);
+		lpObj.AccountID, lpObj.m_PlayerData->m_RealNameOfUBF, 
+		lpObj.Name, lpObj.m_PlayerData->m_nServerCodeOfHomeWorld);
 }
 
 void CDevilSquareFinal::DSF_ProcessInit()
@@ -2724,43 +2724,43 @@ int CDevilSquareFinal::SetMonster()
 	return iAddMonsterCount;
 }
 
-void CDevilSquareFinal::DSFMonsterRegen(LPGameObject &lpObj)
+void CDevilSquareFinal::DSFMonsterRegen(CGameObject &lpObj)
 {
-	if (lpObj->Class == -1)
+	if (lpObj.Class == -1)
 	{
-		sLog->outBasic("[DSF][DSFMonsterRegen] [%d] Invalid MonterClass", lpObj->Class);
+		sLog->outBasic("[DSF][DSFMonsterRegen] [%d] Invalid MonterClass", lpObj.Class);
 		return;
 	}
 
 	for (int i = 0; i < 15; i++)
 	{
-		if (this->m_DSFEventMonsterInfo[i].MonsterType == lpObj->Class)
+		if (this->m_DSFEventMonsterInfo[i].MonsterType == lpObj.Class)
 		{
 			return;
 		}
 	}
 
-	lpObj->X = this->m_DSFMonsterRegenInfo[lpObj->m_PosNum].RegenX;
-	lpObj->Y = this->m_DSFMonsterRegenInfo[lpObj->m_PosNum].RegenY;
-	lpObj->MapNumber = this->m_DSFMonsterRegenInfo[lpObj->m_PosNum].MonsterMapNum;
-	lpObj->TX = lpObj->X;
-	lpObj->TY = lpObj->Y;
-	lpObj->m_OldX = lpObj->X;
-	lpObj->m_OldY = lpObj->Y;
-	lpObj->Dir = this->m_DSFMonsterRegenInfo[lpObj->m_PosNum].MonsterDir;
-	lpObj->StartX = lpObj->X;
-	lpObj->StartY = lpObj->Y;
-	gObjSetMonster(lpObj->m_Index, lpObj->Class);
-	lpObj->DieRegen = 0;
-	lpObj->MaxRegenTime = 500;
-	lpObj->Dir = rand()%8;
+	lpObj.X = this->m_DSFMonsterRegenInfo[lpObj.m_PosNum].RegenX;
+	lpObj.Y = this->m_DSFMonsterRegenInfo[lpObj.m_PosNum].RegenY;
+	lpObj.MapNumber = this->m_DSFMonsterRegenInfo[lpObj.m_PosNum].MonsterMapNum;
+	lpObj.TX = lpObj.X;
+	lpObj.TY = lpObj.Y;
+	lpObj.m_OldX = lpObj.X;
+	lpObj.m_OldY = lpObj.Y;
+	lpObj.Dir = this->m_DSFMonsterRegenInfo[lpObj.m_PosNum].MonsterDir;
+	lpObj.StartX = lpObj.X;
+	lpObj.StartY = lpObj.Y;
+	gObjSetMonster(lpObj.m_Index, lpObj.Class);
+	lpObj.DieRegen = 0;
+	lpObj.MaxRegenTime = 500;
+	lpObj.Dir = rand()%8;
 	gObjMonsterHitDamageInit(lpObj);
 	gObjMonsterRegen(lpObj);
-	lpObj->MTX = lpObj->X;
-	lpObj->MTY = lpObj->Y;
-	CreateFrustrum(lpObj->X, lpObj->Y, lpObj->m_Index);
+	lpObj.MTX = lpObj.X;
+	lpObj.MTY = lpObj.Y;
+	CreateFrustrum(lpObj.X, lpObj.Y, lpObj.m_Index);
 
-	sLog->outBasic("[DSF][DSFMonsterRegen] Monster Regen [%d][%d,%d]", lpObj->Class, lpObj->X, lpObj->Y);
+	sLog->outBasic("[DSF][DSFMonsterRegen] Monster Regen [%d][%d,%d]", lpObj.Class, lpObj.X, lpObj.Y);
 }
 
 void CDevilSquareFinal::ClearMonster()
@@ -2831,7 +2831,7 @@ int CDevilSquareFinal::MonsterKillPoint(int nMonsterType)
 	return nPoint;
 }
 
-void CDevilSquareFinal::MonsterKillPointCalc(LPGameObject &lpObj, int nPoint)
+void CDevilSquareFinal::MonsterKillPointCalc(CGameObject &lpObj, int nPoint)
 {
 	for (int i = 0; i < 20; i++)
 	{
@@ -2846,34 +2846,34 @@ void CDevilSquareFinal::MonsterKillPointCalc(LPGameObject &lpObj, int nPoint)
 	}
 }
 
-void CDevilSquareFinal::DSFUserDie(LPGameObject &lpObj)
+void CDevilSquareFinal::DSFUserDie(CGameObject &lpObj)
 {
-	if (lpObj->m_nDSFIndex == -1)
+	if (lpObj.m_nDSFIndex == -1)
 	{
 		return;
 	}
 
-	if (this->m_UserData[lpObj->m_nDSFIndex].m_nIndex != lpObj->m_Index)
+	if (this->m_UserData[lpObj.m_nDSFIndex].m_nIndex != lpObj.m_Index)
 	{
 		return;
 	}
 
-	if (!gObjIsConnected(lpObj->m_Index))
+	if (!gObjIsConnected(lpObj.m_Index))
 	{
 		return;
 	}
 
 	EnterCriticalSection(&this->m_critUserData);
 
-	this->m_nTeamUserCount[this->m_UserData[lpObj->m_nDSFIndex].m_btTeam]--;
-	lpObj->m_nDSFIndex = -1;
+	this->m_nTeamUserCount[this->m_UserData[lpObj.m_nDSFIndex].m_btTeam]--;
+	lpObj.m_nDSFIndex = -1;
 	this->m_nUserCount--;
 
 	LeaveCriticalSection(&this->m_critUserData);
 
 	sLog->outBasic("[DSF][DSFUserDie][%s][%s][%s][%d] UserDie",
-		lpObj->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF,
-        lpObj->Name, lpObj->m_PlayerData->m_nServerCodeOfHomeWorld);
+		lpObj.AccountID, lpObj.m_PlayerData->m_RealNameOfUBF,
+        lpObj.Name, lpObj.m_PlayerData->m_nServerCodeOfHomeWorld);
 }
 
 void CDevilSquareFinal::EndUserMove()
@@ -2885,15 +2885,15 @@ void CDevilSquareFinal::EndUserMove()
 			gGameObjects[this->m_UserData[i].m_nIndex].MapNumber == MAP_INDEX_DEVILSQUARE_FINAL)
 		{
 			int aIndex = this->m_UserData[i].m_nIndex;
-			lpObj->m_nDSFIndex = -1;
+			lpObj.m_nDSFIndex = -1;
 			gObjMoveGate(aIndex, 333);
-			lpObj->m_Change = -1;
+			lpObj.m_Change = -1;
 			gObjViewportListProtocolCreate(&gGameObjects[aIndex]);
 		}
 	}
 }
 
-void CDevilSquareFinal::DSFDropReward(LPGameObject & lpUser, LPGameObject &lpMonster)
+void CDevilSquareFinal::DSFDropReward(CGameObject & lpUser, CGameObject &lpMonster)
 {
 	if (this->m_btDSFRound != 5 && this->m_btDSFRound != 10 && this->m_btDSFRound != 15)
 	{
@@ -2930,9 +2930,9 @@ void CDevilSquareFinal::SetUBFGetReward(int iUserIndex, WORD wItemCode, UINT64 I
 		return;
 	}
 
-	LPGameObject lpObj = &gGameObjects[iUserIndex];
+	CGameObject lpObj = &gGameObjects[iUserIndex];
 
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return;
 	}
@@ -2955,19 +2955,19 @@ void CDevilSquareFinal::GDReqSetDSFReward_UBF(int iUserIndex, BYTE btDSFType, BY
 		return;
 	}
 
-	LPGameObject lpObj = &gGameObjects[iUserIndex];
+	CGameObject lpObj = &gGameObjects[iUserIndex];
 
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return;
 	}
 
 	sLog->outBasic("[UBF][DevilSquareFinal][GDReqSetDSFWinnerInformation]ACC:%s , NAME :%s,Real NAME :%s, DSFType:%d, RewardType:%d",
-		lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->m_RealNameOfUBF, btDSFType, btRewardType);
+		lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->m_RealNameOfUBF, btDSFType, btRewardType);
 
 	PMSG_REQ_SET_DSF_WINNER_INFO pMsg;
 	
-	memcpy(pMsg.UBFName, lpObj->Name, MAX_ACCOUNT_LEN+1);
+	memcpy(pMsg.UBFName, lpObj.Name, MAX_ACCOUNT_LEN+1);
 	pMsg.btDSFType = btDSFType;
 	pMsg.btRewardType = btRewardType;
 

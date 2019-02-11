@@ -36,7 +36,7 @@ void CMultiAttackHackCheck::Init()
 
 
 
-BOOL CMultiAttackHackCheck::Insert(LPGameObject &aTarget, BYTE skillnum, BYTE serial)
+BOOL CMultiAttackHackCheck::Insert(CGameObject &aTarget, BYTE skillnum, BYTE serial)
 {
 	if (aTarget->Type == OBJ_MONSTER )
 	{

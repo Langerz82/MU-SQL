@@ -16,17 +16,17 @@ public:
 	CConServ();
 	~CConServ();
 
-	void ConnectResultSend(LPGameObject &lpObj);
-	void ServerListSend(LPGameObject &lpObj);
-	void GetServerList(LPGameObject &lpObj);
-	void GetServerInfo(LPGameObject &lpObj, USHORT ServerId);
+	void ConnectResultSend(CGameObject &lpObj);
+	void ServerListSend(CGameObject &lpObj);
+	void GetServerList(CGameObject &lpObj);
+	void GetServerInfo(CGameObject &lpObj, USHORT ServerId);
 	void LoadNewsFile(LPSTR szFile);
-	void SendNews(LPGameObject &lpObj);
+	void SendNews(CGameObject &lpObj);
 	void LoadServerList(LPSTR szFile);
 	CONNECT_OBJECT cObj[1000];
 
 }; extern CConServ g_ConnectServer;
-void LProtocolCore(LPGameObject &lpObj, BYTE hCode, LPBYTE aRecv, int aLen);
+void LProtocolCore(CGameObject &lpObj, BYTE hCode, LPBYTE aRecv, int aLen);
 void AddServer(PMSG_SERVERINFO * pMsg);
 void LSProtocolCore(BYTE hCode, LPBYTE aRecv, int aLen);
 //extern WzUdp g_CSSocket;

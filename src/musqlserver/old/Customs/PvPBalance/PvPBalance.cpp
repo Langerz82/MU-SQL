@@ -74,8 +74,8 @@ PvPBalanceInfo* PvPBalance::getInfo(BYTE SourceClassType, BYTE TargetClassType)
 
 void PvPBalance::modifyDamage(short UserIndex, short TargetIndex, int& Value)
 {
-	LPGameObject objSource = &gGameObjects[UserIndex];
-	LPGameObject objTarget = &gGameObjects[TargetIndex];
+	CGameObject objSource = &gGameObjects[UserIndex];
+	CGameObject objTarget = &gGameObjects[TargetIndex];
 	PvPBalanceInfo* modifyInfo = getInfo(objSource->Class, objTarget->Class);
 
 	if (modifyInfo == NULL)
@@ -108,8 +108,8 @@ void PvPBalance::modifyDamage(short UserIndex, short TargetIndex, int& Value)
 
 void PvPBalance::modifyAttackRate(short UserIndex, short TargetIndex, float& Value)
 {
-	LPGameObject objSource = &gGameObjects[UserIndex];
-	LPGameObject objTarget = &gGameObjects[TargetIndex];
+	CGameObject objSource = &gGameObjects[UserIndex];
+	CGameObject objTarget = &gGameObjects[TargetIndex];
 	PvPBalanceInfo* modifyInfo = getInfo(objSource->Class, objTarget->Class);
 
 	if (modifyInfo == NULL) {
@@ -142,8 +142,8 @@ void PvPBalance::modifyAttackRate(short UserIndex, short TargetIndex, float& Val
 
 void PvPBalance::modifyDefenseRate(short UserIndex, short TargetIndex, float& Value)
 {
-	LPGameObject objSource = &gGameObjects[UserIndex];
-	LPGameObject objTarget = &gGameObjects[TargetIndex];
+	CGameObject objSource = &gGameObjects[UserIndex];
+	CGameObject objTarget = &gGameObjects[TargetIndex];
 	PvPBalanceInfo* modifyInfo = getInfo(objSource->Class, objTarget->Class);
 
 	if (modifyInfo == NULL) {

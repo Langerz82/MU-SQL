@@ -6,6 +6,7 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
+#include "custTypedef.h"
 #include "CUserData.h"
 #include "ComboAttack.h"
 #include "generalStructs.h"
@@ -36,6 +37,8 @@
 
 class CRaklionUtil;
 class CGameObject;
+class CUserData;
+
 
 class CGameObject
 {
@@ -565,8 +568,12 @@ public:
 	int GetCertify() { return this->cCertifyType; }	// line : 255
 };
 
+
+//typedef CGameObject (*CGameObject);
+
+
 //extern CViewportGuild ViewGuildMng;
-extern std::vector<LPGameObject> gGameObjects;
+extern std::vector<CGameObject*> gGameObjects;
 extern BILL_CLASS* m_ObjBill;
 extern int gItemLoop;
 extern int gItemLoop2;

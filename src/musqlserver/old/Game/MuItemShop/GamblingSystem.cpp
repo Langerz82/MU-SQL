@@ -197,7 +197,7 @@ BYTE CGamblingItemBag::GetLevel(int n)
 	return level;
 }
 
-BYTE CGamblingItemBag::GetGamblingSystemItem(LPGameObject &lpObj, BYTE btMapNumber, BYTE cX, BYTE cY, BYTE btItemType)
+BYTE CGamblingItemBag::GetGamblingSystemItem(CGameObject &lpObj, BYTE btMapNumber, BYTE cX, BYTE cY, BYTE btItemType)
 {
 	if (!this->m_bEnabled)	return 0;
 	if (!m_bLoad)	return 0;
@@ -213,7 +213,7 @@ BYTE CGamblingItemBag::GetGamblingSystemItem(LPGameObject &lpObj, BYTE btMapNumb
 	int iDropItemNum = 0;
 	int iDropItemRate = 0;
 	int iExOption = 0;
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
 	//LogAdd("GetGamblingSystemItem::GetBagCount -> %d", GetBagCount());
 
@@ -463,7 +463,7 @@ BYTE CGamblingItemBag::GetGamblingSystemItem(LPGameObject &lpObj, BYTE btMapNumb
 		byte Socks1[5];
 		//Socks1[0xFF, 0xFF, 0xFF, 255, 255];
 		Socks1[0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
-		::ItemSerialCreateSend(lpObj->m_Index, btMapNumber, X, Y, iType, iLevel, fDur, iOption1, iOption2, iOption3, lpObj->m_Index, iExOption, 0, 0, 0, 0);
+		::ItemSerialCreateSend(lpObj.m_Index, btMapNumber, X, Y, iType, iLevel, fDur, iOption1, iOption2, iOption3, lpObj.m_Index, iExOption, 0, 0, 0, 0);
 	}
 	return 1;
 }

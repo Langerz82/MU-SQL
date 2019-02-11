@@ -30,10 +30,10 @@ public:
 	int GetWarehouseID(char * szAccountID);
 	bool GetWarehouseOpenState(char * szAccountID);
 
-	void DGGetWarehouseList(LPGameObject &lpObj, SDHP_GETWAREHOUSEDB * aRecv);
-	void GDSetWarehouseList(LPGameObject &lpObj, SDHP_GETWAREHOUSEDB_SAVE * aRecv);
-	void GDSetWarehouseMoney(LPGameObject &lpObj, SDHP_WAREHOUSEMONEY_SAVE * aRecv);
-	void GDReqSwitchWarehouse(LPGameObject &lpObj, PMSG_REQ_SWITCHWARE * aRecv);
+	void DGGetWarehouseList(CGameObject &lpObj, SDHP_GETWAREHOUSEDB * aRecv);
+	void GDSetWarehouseList(CGameObject &lpObj, SDHP_GETWAREHOUSEDB_SAVE * aRecv);
+	void GDSetWarehouseMoney(CGameObject &lpObj, SDHP_WAREHOUSEMONEY_SAVE * aRecv);
+	void GDReqSwitchWarehouse(CGameObject &lpObj, PMSG_REQ_SWITCHWARE * aRecv);
 
 private:
 	std::vector<USERWAREHOUSE_DATA*> m_vtWarehouseData;

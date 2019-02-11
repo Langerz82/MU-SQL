@@ -15,7 +15,7 @@
 // GS-N 0.99.60T - 0x00457190 
 // GS-N	1.00.18	JPN	0x004667C0	-	Completed
 
-bool DevilSquareScoreSort(LPGameObject &const & lhs,LPGameObject const & rhs)
+bool DevilSquareScoreSort(CGameObject &const & lhs,CGameObject const & rhs)
 {
 	if ( lhs->m_nEventScore == rhs->m_nEventScore )
 	{
@@ -283,15 +283,15 @@ void CDevilSquareGround::SortScore()
 
 
 
-void CDevilSquareGround::InsertObj(LPGameObject &lpObj)
+void CDevilSquareGround::InsertObj(CGameObject &lpObj)
 {
-	if ( lpObj->Authority != 2 )
+	if ( lpObj.Authority != 2 )
 	{
-		if ( lpObj->Class >= 0 && lpObj->Class < MAX_TYPE_PLAYER)
+		if ( lpObj.Class >= 0 && lpObj.Class < MAX_TYPE_PLAYER)
 		{
-			if ( DS_LEVEL_RANGE(lpObj->m_bDevilSquareIndex) != FALSE )
+			if ( DS_LEVEL_RANGE(lpObj.m_bDevilSquareIndex) != FALSE )
 			{
-				lpObj->m_nEventScore +=  this->m_BonusScoreTable[lpObj->Class][lpObj->m_bDevilSquareIndex] / 100;
+				lpObj.m_nEventScore +=  this->m_BonusScoreTable[lpObj.Class][lpObj.m_bDevilSquareIndex] / 100;
 				
 			}
 		}
@@ -312,7 +312,7 @@ void CDevilSquareGround::SendScore()
 	BYTE count = 1;
 	int iUserCount = this->m_DevilSquareRankList.size();
 	UINT64 iExp = 0;
-	std::vector<LPGameObject >::iterator Itor;
+	std::vector<CGameObject >::iterator Itor;
 	for ( Itor = this->m_DevilSquareRankList.begin() ; Itor != this->m_DevilSquareRankList.end() ; Itor++ )
 	{
 		memcpy(this->m_DevilSquareScoreInfoTOP10.Score[count].Name , (*(Itor))->Name, MAX_ACCOUNT_LEN);
@@ -522,9 +522,9 @@ void CDevilSquareGround::SendScore()
 
 
 
-void CDevilSquareGround::SendRankingInfo(LPGameObject &lpObj)
+void CDevilSquareGround::SendRankingInfo(CGameObject &lpObj)
 {
-	if ( lpObj->m_nEventScore <= 0 )
+	if ( lpObj.m_nEventScore <= 0 )
 	{
 		return;
 	}
@@ -535,17 +535,17 @@ void CDevilSquareGround::SendRankingInfo(LPGameObject &lpObj)
 	pMsg.h.headcode = 0xBD;
 	pMsg.h.subcode = 0x01;
 	pMsg.h.size = sizeof(pMsg);
-	pMsg.Score = lpObj->m_nEventScore;
-	pMsg.SquareNum = lpObj->m_bDevilSquareIndex;
-	pMsg.Class = lpObj->Class;
+	pMsg.Score = lpObj.m_nEventScore;
+	pMsg.SquareNum = lpObj.m_bDevilSquareIndex;
+	pMsg.Class = lpObj.Class;
 	pMsg.ServerCode = g_ConfigRead.server.GetGameServerCode();
-	memcpy(pMsg.AccountID, lpObj->AccountID, MAX_ACCOUNT_LEN);
-	memcpy(pMsg.GameID, lpObj->Name, MAX_ACCOUNT_LEN);
+	memcpy(pMsg.AccountID, lpObj.AccountID, MAX_ACCOUNT_LEN);
+	memcpy(pMsg.GameID, lpObj.Name, MAX_ACCOUNT_LEN);
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-BOOL CDevilSquareGround::AddUser(LPGameObject &lpObj)
+BOOL CDevilSquareGround::AddUser(CGameObject &lpObj)
 {
 	EnterCriticalSection(&this->m_criti);
 
@@ -564,7 +564,7 @@ BOOL CDevilSquareGround::AddUser(LPGameObject &lpObj)
 
 }
 
-BOOL CDevilSquareGround::DelUser(LPGameObject &lpObj)
+BOOL CDevilSquareGround::DelUser(CGameObject &lpObj)
 {
 	EnterCriticalSection(&this->m_criti);
 

@@ -18,7 +18,7 @@ public:
 	virtual ~CChangeCmd();
 
 	void LoadFile(char *szFile);
-	int DoChange(LPGameObject &lpObj);
+	int DoChange(CGameObject &lpObj);
 
 private:
 	bool m_bSystemEnable;

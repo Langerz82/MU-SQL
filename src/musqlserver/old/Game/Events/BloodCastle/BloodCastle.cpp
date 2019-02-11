@@ -4147,14 +4147,14 @@ void CBloodCastle::FixUsersPlayStateWin(int iBridgeIndex)
 				 gGameObjects[this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex].m_cBloodCastleIndex != iBridgeIndex )
 				continue;
 
-			LPGameObject lpObj = &gGameObjects[this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex];
+			CGameObject lpObj = &gGameObjects[this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex];
 
 			switch ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iUserState )
 			{
 				case 0:
-					if ( ObjectMaxRange(lpObj->PartyNumber) && lpObj->PartyNumber == gGameObjects[this->m_BridgeData[iBridgeIndex].m_iBC_COMPLETE_USER_INDEX].PartyNumber )
+					if ( ObjectMaxRange(lpObj.PartyNumber) && lpObj.PartyNumber == gGameObjects[this->m_BridgeData[iBridgeIndex].m_iBC_COMPLETE_USER_INDEX].PartyNumber )
 					{
-						if ( BC_MAP_RANGE(lpObj->MapNumber) && lpObj->Live == TRUE && lpObj->Life > 0.0 )
+						if ( BC_MAP_RANGE(lpObj.MapNumber) && lpObj.Live == TRUE && lpObj.Life > 0.0 )
 						{
 							this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iUserState = 3;
 						}
@@ -4165,29 +4165,29 @@ void CBloodCastle::FixUsersPlayStateWin(int iBridgeIndex)
 					}
 					else 
 					{
-						if ( !BC_MAP_RANGE(lpObj->MapNumber) || lpObj->Live == 0 || lpObj->Life <= 0.0 )
+						if ( !BC_MAP_RANGE(lpObj.MapNumber) || lpObj.Live == 0 || lpObj.Life <= 0.0 )
 						{
 							this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iUserState = 1;
 						}
 					}
 					break;
 				case 1:
-					if ( ObjectMaxRange(lpObj->PartyNumber) && lpObj->PartyNumber == gGameObjects[this->m_BridgeData[iBridgeIndex].m_iBC_COMPLETE_USER_INDEX].PartyNumber )
+					if ( ObjectMaxRange(lpObj.PartyNumber) && lpObj.PartyNumber == gGameObjects[this->m_BridgeData[iBridgeIndex].m_iBC_COMPLETE_USER_INDEX].PartyNumber )
 					{
 						this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iUserState = 4;
 					}
 					break;
 				case 3:
-					if ( ObjectMaxRange(lpObj->PartyNumber) && lpObj->PartyNumber == gGameObjects[this->m_BridgeData[iBridgeIndex].m_iBC_COMPLETE_USER_INDEX].PartyNumber )
+					if ( ObjectMaxRange(lpObj.PartyNumber) && lpObj.PartyNumber == gGameObjects[this->m_BridgeData[iBridgeIndex].m_iBC_COMPLETE_USER_INDEX].PartyNumber )
 					{
-						if ( !BC_MAP_RANGE(lpObj->MapNumber) || lpObj->Live == 0 || lpObj->Life <= 0.0 )
+						if ( !BC_MAP_RANGE(lpObj.MapNumber) || lpObj.Live == 0 || lpObj.Life <= 0.0 )
 						{
 							this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iUserState = 4;
 						}
 					}
 					else 
 					{
-						if ( BC_MAP_RANGE(lpObj->MapNumber) && lpObj->Live == TRUE && lpObj->Life > 0.0 )
+						if ( BC_MAP_RANGE(lpObj.MapNumber) && lpObj.Live == TRUE && lpObj.Life > 0.0 )
 						{
 							this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iUserState = 0;
 						}
@@ -4198,7 +4198,7 @@ void CBloodCastle::FixUsersPlayStateWin(int iBridgeIndex)
 					}
 					break;
 				case 4:
-					if ( !ObjectMaxRange(lpObj->PartyNumber) || lpObj->PartyNumber != gGameObjects[this->m_BridgeData[iBridgeIndex].m_iBC_COMPLETE_USER_INDEX].PartyNumber )
+					if ( !ObjectMaxRange(lpObj.PartyNumber) || lpObj.PartyNumber != gGameObjects[this->m_BridgeData[iBridgeIndex].m_iBC_COMPLETE_USER_INDEX].PartyNumber )
 					{
 						this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iUserState = 1;
 					}
@@ -4229,12 +4229,12 @@ void CBloodCastle::FixUsersPlayStateFail(int iBridgeIndex)
 			 gGameObjects[this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex].m_cBloodCastleIndex != iBridgeIndex )
 			continue;
 
-		LPGameObject lpObj = &gGameObjects[this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex];
+		CGameObject lpObj = &gGameObjects[this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex];
 
 		switch ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iUserState )
 		{
 			case 3:
-				if ( !BC_MAP_RANGE(lpObj->MapNumber) || lpObj->Live == 0 || lpObj->Life <= 0.0 )
+				if ( !BC_MAP_RANGE(lpObj.MapNumber) || lpObj.Live == 0 || lpObj.Life <= 0.0 )
 				{
 					this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iUserState = 1;
 				}
@@ -4599,46 +4599,46 @@ void CBloodCastle::CatchQuestItemByUser(int iBridgeIndex, int iUserIndex, int iI
 
 }
 
-bool CBloodCastle::NpcAngelKing(LPGameObject &lpNpc, LPGameObject lpObj)
+bool CBloodCastle::NpcAngelKing(CGameObject &lpNpc, CGameObject lpObj)
 {
 	int iITEM_LEVEL = 0;
-	int iBLOODCASTLE_INDEX = lpObj->m_cBloodCastleIndex;
+	int iBLOODCASTLE_INDEX = lpObj.m_cBloodCastleIndex;
 
 	if (BC_BRIDGE_RANGE(iBLOODCASTLE_INDEX) == FALSE)
 	{
-		GSProtocol.GCServerCmd(lpObj->m_Index, 1, 0x18, 0);
+		GSProtocol.GCServerCmd(lpObj.m_Index, 1, 0x18, 0);
 		return FALSE;
 	}
 
 	if (this->m_BridgeData[iBLOODCASTLE_INDEX].m_bBC_REWARDED != false)
 	{
-		GSProtocol.GCServerCmd(lpObj->m_Index, 1, 0x2E, 0);
+		GSProtocol.GCServerCmd(lpObj.m_Index, 1, 0x2E, 0);
 		return FALSE;
 	}
 
 	if (this->GetCurrentState(iBLOODCASTLE_INDEX) != 2 || this->CheckPlayStart(iBLOODCASTLE_INDEX) == false)
 	{
-		GSProtocol.GCServerCmd(lpObj->m_Index, 1, 0x18, 0);
+		GSProtocol.GCServerCmd(lpObj.m_Index, 1, 0x18, 0);
 		return FALSE;
 	}
 
-	if (lpObj->m_bBloodCastleComplete == true)
+	if (lpObj.m_bBloodCastleComplete == true)
 	{
-		GSProtocol.GCServerCmd(lpObj->m_Index, 1, 0x2E, 0);
+		GSProtocol.GCServerCmd(lpObj.m_Index, 1, 0x2E, 0);
 		return FALSE;
 	}
 
-	if (iITEM_LEVEL = iITEM_LEVEL = CHECK_LIMIT(this->CheckQuestItem(lpObj->m_Index), 3))
+	if (iITEM_LEVEL = iITEM_LEVEL = CHECK_LIMIT(this->CheckQuestItem(lpObj.m_Index), 3))
 	{
 		if (lpNpc->m_cBloodCastleIndex != iBLOODCASTLE_INDEX)
 		{
-			GSProtocol.GCServerCmd(lpObj->m_Index, 1, 0x18, 0);
+			GSProtocol.GCServerCmd(lpObj.m_Index, 1, 0x18, 0);
 			return FALSE;
 		}
 
-		if (this->CheckUserBridgeMember(iBLOODCASTLE_INDEX, lpObj->m_Index) == false)
+		if (this->CheckUserBridgeMember(iBLOODCASTLE_INDEX, lpObj.m_Index) == false)
 		{
-			GSProtocol.GCServerCmd(lpObj->m_Index, 1, 0x18, 0);
+			GSProtocol.GCServerCmd(lpObj.m_Index, 1, 0x18, 0);
 			return FALSE;
 		}
 
@@ -4646,31 +4646,31 @@ bool CBloodCastle::NpcAngelKing(LPGameObject &lpNpc, LPGameObject lpObj)
 		{
 			if ((this->m_iBC_RESTRICT_FINISH_TIME * 1000) < (int)this->m_BridgeData[iBLOODCASTLE_INDEX].m_i64_BC_REMAIN_MSEC)
 			{
-				MsgOutput(lpObj->m_Index, Lang.GetText(0,406), this->m_iBC_RESTRICT_FINISH_TIME / 60);
+				MsgOutput(lpObj.m_Index, Lang.GetText(0,406), this->m_iBC_RESTRICT_FINISH_TIME / 60);
 				return FALSE;
 			}
 		}
 
-		this->SetUserState(lpObj->m_Index, 2);
-		this->m_BridgeData[iBLOODCASTLE_INDEX].m_iExtraEXP_Win_Quest_Party = lpObj->PartyNumber;
-		this->m_BridgeData[iBLOODCASTLE_INDEX].m_iExtraEXP_Win_Quest_Index = lpObj->m_Index;
-		memcpy(this->m_BridgeData[iBLOODCASTLE_INDEX].m_szWin_Quest_CharName, lpObj->Name, 10);
-		memcpy(this->m_BridgeData[iBLOODCASTLE_INDEX].m_szWin_Quest_AccountID, lpObj->AccountID, 10);
+		this->SetUserState(lpObj.m_Index, 2);
+		this->m_BridgeData[iBLOODCASTLE_INDEX].m_iExtraEXP_Win_Quest_Party = lpObj.PartyNumber;
+		this->m_BridgeData[iBLOODCASTLE_INDEX].m_iExtraEXP_Win_Quest_Index = lpObj.m_Index;
+		memcpy(this->m_BridgeData[iBLOODCASTLE_INDEX].m_szWin_Quest_CharName, lpObj.Name, 10);
+		memcpy(this->m_BridgeData[iBLOODCASTLE_INDEX].m_szWin_Quest_AccountID, lpObj.AccountID, 10);
 		this->m_BridgeData[iBLOODCASTLE_INDEX].m_szWin_Quest_CharName[10] = 0;	// Zero String terminated
 		this->m_BridgeData[iBLOODCASTLE_INDEX].m_szWin_Quest_AccountID[10] = 0;	// Zero String Terminated
 
-		if (this->SetBridgeWinner(iBLOODCASTLE_INDEX, lpObj->m_Index) == TRUE)
+		if (this->SetBridgeWinner(iBLOODCASTLE_INDEX, lpObj.m_Index) == TRUE)
 		{
-			lpObj->m_bBloodCastleComplete = true;
+			lpObj.m_bBloodCastleComplete = true;
 
-			if (this->CheckPartyExist(lpObj->m_Index) == FALSE)
+			if (this->CheckPartyExist(lpObj.m_Index) == FALSE)
 			{
-				GSProtocol.GCServerCmd(lpObj->m_Index, 1, 0x17, 0);
+				GSProtocol.GCServerCmd(lpObj.m_Index, 1, 0x17, 0);
 
 			}
 			else
 			{
-				GSProtocol.GCServerCmd(lpObj->m_Index, 1, 0x17, 0);
+				GSProtocol.GCServerCmd(lpObj.m_Index, 1, 0x17, 0);
 			}
 		}
 		else
@@ -4678,41 +4678,41 @@ bool CBloodCastle::NpcAngelKing(LPGameObject &lpNpc, LPGameObject lpObj)
 			return FALSE;
 		}
 
-		this->SearchUserDeleteQuestItem(lpObj->m_Index);
+		this->SearchUserDeleteQuestItem(lpObj.m_Index);
 	}
 	else
 	{
-		if (this->CheckUserWinnerParty(iBLOODCASTLE_INDEX, lpObj->m_Index) == TRUE)
+		if (this->CheckUserWinnerParty(iBLOODCASTLE_INDEX, lpObj.m_Index) == TRUE)
 		{
-			lpObj->m_bBloodCastleComplete = true;
+			lpObj.m_bBloodCastleComplete = true;
 
-			if (this->CheckPartyExist(lpObj->m_Index) == FALSE)
+			if (this->CheckPartyExist(lpObj.m_Index) == FALSE)
 			{
-				GSProtocol.GCServerCmd(lpObj->m_Index, 1, 0x17, 0);
+				GSProtocol.GCServerCmd(lpObj.m_Index, 1, 0x17, 0);
 
 			}
 			else
 			{
-				GSProtocol.GCServerCmd(lpObj->m_Index, 1, 0x17, 0);
+				GSProtocol.GCServerCmd(lpObj.m_Index, 1, 0x17, 0);
 			}
 
 			return FALSE;
 		}
 
-		GSProtocol.GCServerCmd(lpObj->m_Index, 1, 0x18, 0);
+		GSProtocol.GCServerCmd(lpObj.m_Index, 1, 0x18, 0);
 	}
 
 	return FALSE;
 }
 
-void CBloodCastle::KillMonsterProc(int iBridgeIndex, LPGameObject lpMonsterObj)
+void CBloodCastle::KillMonsterProc(int iBridgeIndex, CGameObject lpMonsterObj)
 {
 	if (BC_BRIDGE_RANGE(iBridgeIndex) == false)
 	{
 		return;
 	}
 
-	if (lpMonsterObj->Class == 89 || lpMonsterObj->Class == 95 || lpMonsterObj->Class == 112 || lpMonsterObj->Class == 118 || lpMonsterObj->Class == 124 || lpMonsterObj->Class == 130 || lpMonsterObj->Class == 143 || lpMonsterObj->Class == 433)
+	if (lpMonsterObj.Class == 89 || lpMonsterObj.Class == 95 || lpMonsterObj.Class == 112 || lpMonsterObj.Class == 118 || lpMonsterObj.Class == 124 || lpMonsterObj.Class == 130 || lpMonsterObj.Class == 143 || lpMonsterObj.Class == 433)
 	{
 		this->m_BridgeData[iBridgeIndex].m_iBC_BOSS_MONSTER_KILL_COUNT++;
 	}
@@ -4783,7 +4783,7 @@ void CBloodCastle::KillMonsterProc(int iBridgeIndex, LPGameObject lpMonsterObj)
 	}
 }
 
-void CBloodCastle::DestroyCastleDoor(int iBridgeIndex, LPGameObject lpDoorObj)
+void CBloodCastle::DestroyCastleDoor(int iBridgeIndex, CGameObject lpDoorObj)
 {
 	if (BC_BRIDGE_RANGE(iBridgeIndex) == false)
 	{
@@ -4848,7 +4848,7 @@ void CBloodCastle::DestroyCastleDoor(int iBridgeIndex, LPGameObject lpDoorObj)
 
 			if (this->m_BridgeData[iBridgeIndex].m_iExtraEXP_Kill_Door_Party == gGameObjects[this->m_BridgeData[iBridgeIndex].m_UserData[n].m_iIndex].PartyNumber)
 			{
-				OBJECTSTRUCT* tmp_user = &gGameObjects[this->m_BridgeData[iBridgeIndex].m_UserData[n].m_iIndex];
+				CGameObject* tmp_user = &gGameObjects[this->m_BridgeData[iBridgeIndex].m_UserData[n].m_iIndex];
 
 				int BridgeIndex = this->GetBridgeIndex(tmp_user->MapNumber);
 				g_QuestExpProgMng.ChkUserQuestTypeEventMap(QUESTEXP_ASK_BLOODCASTLE_DOOR_KILL, tmp_user, BridgeIndex, 1);
@@ -4857,7 +4857,7 @@ void CBloodCastle::DestroyCastleDoor(int iBridgeIndex, LPGameObject lpDoorObj)
 	}
 }
 
-void CBloodCastle::DestroySaintStatue(int iBridgeIndex, LPGameObject lpStatueObj)
+void CBloodCastle::DestroySaintStatue(int iBridgeIndex, CGameObject lpStatueObj)
 {
 	if (BC_BRIDGE_RANGE(iBridgeIndex) == false)
 	{
@@ -4890,13 +4890,13 @@ void CBloodCastle::DestroySaintStatue(int iBridgeIndex, LPGameObject lpStatueObj
 		this->SendNoticeMessage(iBridgeIndex, Lang.GetText(0,306));
 	}
 
-	int level = lpStatueObj->Class - 132;
+	int level = lpStatueObj.Class - 132;
 
 	int type = ItemGetNumberMake(13, 19);
 
 	int iMapNumber;
 
-	switch (lpStatueObj->MapNumber)
+	switch (lpStatueObj.MapNumber)
 	{
 	case MAP_INDEX_BLOODCASTLE1:
 		iMapNumber = 246;
@@ -4924,7 +4924,7 @@ void CBloodCastle::DestroySaintStatue(int iBridgeIndex, LPGameObject lpStatueObj
 		break;
 	}
 
-	ItemSerialCreateSend(lpStatueObj->m_Index, iMapNumber, lpStatueObj->X, lpStatueObj->Y, type, level, 0, 0, 0, 0, TopHitUser, 0, 0, 0, 0, 0);
+	ItemSerialCreateSend(lpStatueObj.m_Index, iMapNumber, lpStatueObj.X, lpStatueObj.Y, type, level, 0, 0, 0, 0, TopHitUser, 0, 0, 0, 0, 0);
 
 	this->m_BridgeData[iBridgeIndex].m_btBC_QUEST_ITEM_NUMBER = level;
 
@@ -4952,12 +4952,12 @@ BLOODCASTLE_MONSTER_POSITION * CBloodCastle::GetMonsterPosData(int iPosNum, int 
 		return NULL;
 	}
 
-	LPGameObject lpObj = &gGameObjects[iMonsterIndex];
+	CGameObject lpObj = &gGameObjects[iMonsterIndex];
 
-	if (lpObj->Class == 89 || lpObj->Class == 95 ||
-		lpObj->Class == 112 || lpObj->Class == 118 ||
-		lpObj->Class == 124 || lpObj->Class == 130 ||
-		lpObj->Class == 143 || lpObj->Class == 433)
+	if (lpObj.Class == 89 || lpObj.Class == 95 ||
+		lpObj.Class == 112 || lpObj.Class == 118 ||
+		lpObj.Class == 124 || lpObj.Class == 130 ||
+		lpObj.Class == 143 || lpObj.Class == 433)
 	{
 		if (iPosNum < 0 || iPosNum >= 20)
 		{
@@ -4993,7 +4993,7 @@ bool CBloodCastle::SetPosMonster(int iBridgeIndex, int iMonsterIndex, int iPosNu
 	}
 
 	BLOODCASTLE_MONSTER_POSITION * lpPos = nullptr;
-	LPGameObject lpObj = &gGameObjects[iMonsterIndex];
+	CGameObject lpObj = &gGameObjects[iMonsterIndex];
 
 	if (iMonsterClass == 89 || iMonsterClass == 95 ||
 		iMonsterClass == 112 || iMonsterClass == 118 ||
@@ -5023,31 +5023,31 @@ bool CBloodCastle::SetPosMonster(int iBridgeIndex, int iMonsterIndex, int iPosNu
 		return false;
 	}
 
-	lpObj->m_PosNum = iPosNum;
-	lpObj->X = lpPos->m_X;
-	lpObj->Y = lpPos->m_Y;
-	lpObj->MapNumber = lpPos->m_MapNumber;
-	lpObj->TX = lpObj->X;
-	lpObj->TY = lpObj->Y;
-	lpObj->m_OldX = lpObj->X;
-	lpObj->m_OldY = lpObj->Y;
-	lpObj->Dir = lpPos->m_Dir;
-	lpObj->StartX = lpObj->X;
-	lpObj->StartY = lpObj->Y;
+	lpObj.m_PosNum = iPosNum;
+	lpObj.X = lpPos->m_X;
+	lpObj.Y = lpPos->m_Y;
+	lpObj.MapNumber = lpPos->m_MapNumber;
+	lpObj.TX = lpObj.X;
+	lpObj.TY = lpObj.Y;
+	lpObj.m_OldX = lpObj.X;
+	lpObj.m_OldY = lpObj.Y;
+	lpObj.Dir = lpPos->m_Dir;
+	lpObj.StartX = lpObj.X;
+	lpObj.StartY = lpObj.Y;
 
-	if (this->GetPosition(lpPos, lpObj->MapNumber, lpObj->X, lpObj->Y) == FALSE)
+	if (this->GetPosition(lpPos, lpObj.MapNumber, lpObj.X, lpObj.Y) == FALSE)
 	{
 		return FALSE;
 	}
 
-	lpObj->TX = lpObj->X;
-	lpObj->TY = lpObj->Y;
-	lpObj->m_OldX = lpObj->X;
-	lpObj->m_OldY = lpObj->Y;
-	lpObj->Dir = lpPos->m_Dir;
-	lpObj->StartX = lpObj->X;
-	lpObj->StartY = lpObj->Y;
-	lpObj->m_iPentagramMainAttribute = 0;
+	lpObj.TX = lpObj.X;
+	lpObj.TY = lpObj.Y;
+	lpObj.m_OldX = lpObj.X;
+	lpObj.m_OldY = lpObj.Y;
+	lpObj.Dir = lpPos->m_Dir;
+	lpObj.StartX = lpObj.X;
+	lpObj.StartY = lpObj.Y;
+	lpObj.m_iPentagramMainAttribute = 0;
 
 	return true;
 

@@ -69,27 +69,27 @@ void EventChipEventProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen)
 	}
 }
 
-void FireworksOpenEven(LPGameObject &lpObj)
+void FireworksOpenEven(CGameObject &lpObj)
 {
 	PMSG_SERVERCMD ServerCmd;
 
 	PHeadSubSetB((LPBYTE)&ServerCmd, 0xF3, 0x40, sizeof(ServerCmd));
 	ServerCmd.CmdType = 0;
-	ServerCmd.X = lpObj->X;
-	ServerCmd.Y = lpObj->Y;
+	ServerCmd.X = lpObj.X;
+	ServerCmd.Y = lpObj.Y;
 
 	GSProtocol.MsgSendV2(lpObj, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
 	IOCP.DataSend(lpObj, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
 }
 
-void ChristmasFireCrackDrop(LPGameObject &lpObj) //season 4.5 add-on
+void ChristmasFireCrackDrop(CGameObject &lpObj) //season 4.5 add-on
 {
 	PMSG_SERVERCMD ServerCmd;
 
 	PHeadSubSetB((LPBYTE)&ServerCmd, 0xF3, 0x40, sizeof(ServerCmd));
 	ServerCmd.CmdType = 59;
-	ServerCmd.X = lpObj->X;
-	ServerCmd.Y = lpObj->Y;
+	ServerCmd.X = lpObj.X;
+	ServerCmd.Y = lpObj.Y;
 	GSProtocol.MsgSendV2(lpObj, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
 	IOCP.DataSend(lpObj, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
 }
@@ -97,7 +97,7 @@ void ChristmasFireCrackDrop(LPGameObject &lpObj) //season 4.5 add-on
 #pragma warning ( disable : 4101 )
 void EGRecvEventChipInfo(PMSG_ANS_VIEW_EC_MN * aRecv)
 {
-	LPGameObject lpObj = &gGameObjects[aRecv->iINDEX];
+	CGameObject lpObj = &gGameObjects[aRecv->iINDEX];
 
 	PMSG_EVENTCHIPINFO eventchipeventinfo;
 	char msg[255];
@@ -105,12 +105,12 @@ void EGRecvEventChipInfo(PMSG_ANS_VIEW_EC_MN * aRecv)
 	PHeadSetB((LPBYTE)&eventchipeventinfo, 0x94, sizeof(eventchipeventinfo));
 	eventchipeventinfo.Type = 0;
 	eventchipeventinfo.ChipCount = aRecv->nEVENT_CHIPS;
-	lpObj->EventChipCount = aRecv->nEVENT_CHIPS;
-	lpObj->MutoNumber = aRecv->iMUTO_NUM;
+	lpObj.EventChipCount = aRecv->nEVENT_CHIPS;
+	lpObj.MutoNumber = aRecv->iMUTO_NUM;
 
 	IOCP.DataSend(lpObj, (LPBYTE)&eventchipeventinfo, eventchipeventinfo.h.size);
 
-	lpObj->UseEventServer = FALSE;
+	lpObj.UseEventServer = FALSE;
 }
 #pragma warning ( default : 4101 )
 
@@ -118,7 +118,7 @@ void EGRecvEventChipInfo(PMSG_ANS_VIEW_EC_MN * aRecv)
 void EGResultRegEventChip(PMSG_ANS_REGISTER_EVENTCHIP * aRecv)
 {
 	PMSG_REGEVENTCHIP_RESULT Result;
-	LPGameObject lpObj;
+	CGameObject lpObj;
 	int aIndex;
 
 	PHeadSetB((LPBYTE)&Result, 0x95, sizeof(Result));
@@ -129,7 +129,7 @@ void EGResultRegEventChip(PMSG_ANS_REGISTER_EVENTCHIP * aRecv)
 	{
 		Result.ChipCount = -1;
 		sLog->outBasic("[EventChip] [%s][%s] RegEventServer Fail (RegEventchip) %d",
-			lpObj->AccountID, lpObj->Name, aRecv->Pos);
+			lpObj.AccountID, lpObj.Name, aRecv->Pos);
 
 	}
 	else
@@ -139,21 +139,21 @@ void EGResultRegEventChip(PMSG_ANS_REGISTER_EVENTCHIP * aRecv)
 		GSProtocol.GCInventoryItemDeleteSend(aIndex, aRecv->Pos, 1);
 
 		sLog->outBasic("[EventChip] [%s][%s] Delete EventChip (%d)",
-			lpObj->AccountID, lpObj->Name, aRecv->Pos);
+			lpObj.AccountID, lpObj.Name, aRecv->Pos);
 	}
 
 	Result.Type = 0;
 
 	IOCP.DataSend(aIndex, (LPBYTE)&Result, Result.h.size);
 
-	lpObj->UseEventServer = FALSE;
+	lpObj.UseEventServer = FALSE;
 }
 
 
 
 void EGRecvRegMutoNum( PMSG_ANS_REGISTER_MUTONUM* aRecv)
 {
-	LPGameObject lpObj;
+	CGameObject lpObj;
 	int aIndex;
 	
 
@@ -172,7 +172,7 @@ void EGRecvRegMutoNum( PMSG_ANS_REGISTER_MUTONUM* aRecv)
 
 		IOCP.DataSend(aIndex, (LPBYTE)&Result, Result.h.size);
 
-		lpObj->UseEventServer = FALSE;
+		lpObj.UseEventServer = FALSE;
 
 		return;
 	}
@@ -181,21 +181,21 @@ void EGRecvRegMutoNum( PMSG_ANS_REGISTER_MUTONUM* aRecv)
 	Result.MutoNum[0] = aRecv->iMUTO_NUM / 1000000;
 	Result.MutoNum[1] = aRecv->iMUTO_NUM / 1000 - aRecv->iMUTO_NUM / 1000000 * 1000;
 	Result.MutoNum[2] = aRecv->iMUTO_NUM % 1000;
-	lpObj->MutoNumber = aRecv->iMUTO_NUM;
+	lpObj.MutoNumber = aRecv->iMUTO_NUM;
 	
 	sLog->outBasic("[EventChip] [%s][%s] Make MutoNumber %d,%d,%d",
-		lpObj->AccountID, lpObj->Name, 
+		lpObj.AccountID, lpObj.Name, 
 		Result.MutoNum[0], Result.MutoNum[1], Result.MutoNum[2]);
 
 	IOCP.DataSend(aIndex, (LPBYTE)&Result, Result.h.size);
-	lpObj->UseEventServer = FALSE;
+	lpObj.UseEventServer = FALSE;
 }
 
 
 void EGRecvChangeRena( PMSG_ANS_RESET_EVENTCHIP* aRecv)
 {
 	PMSG_REGEVENTCHIP_RESULT Result;
-	LPGameObject lpObj;
+	CGameObject lpObj;
 	int aIndex;
 
 	PHeadSetB((LPBYTE)&Result, 0x95, sizeof(Result));
@@ -204,43 +204,43 @@ void EGRecvChangeRena( PMSG_ANS_RESET_EVENTCHIP* aRecv)
 
 	if ( aRecv->bSUCCESS != FALSE )
 	{
-		lpObj->m_PlayerData->Money += lpObj->EventChipCount * 3000;
-		GSProtocol.GCMoneySend(aIndex, lpObj->m_PlayerData->Money);
+		lpObj.m_PlayerData->Money += lpObj.EventChipCount * 3000;
+		GSProtocol.GCMoneySend(aIndex, lpObj.m_PlayerData->Money);
 
 		sLog->outBasic("[EventChip] [%s][%s] ChangeRena AddMoney(%d)",
-			lpObj->AccountID, lpObj->Name, lpObj->EventChipCount * 3000);
+			lpObj.AccountID, lpObj.Name, lpObj.EventChipCount * 3000);
 	}
 	else
 	{
 		sLog->outBasic("[EventChip] [%s][%s] ChangeRena Fail",
-			lpObj->AccountID, lpObj->Name);
+			lpObj.AccountID, lpObj.Name);
 	}
 
 	Result.ChipCount = 0;
-	lpObj->EventChipCount = 0;
+	lpObj.EventChipCount = 0;
 
 	IOCP.DataSend(aIndex, (LPBYTE)&Result, Result.h.size);
 
-	lpObj->UseEventServer = FALSE;
+	lpObj.UseEventServer = FALSE;
 }
 
 
-LPGameObject pEventObj;
+CGameObject pEventObj;
 
 void EGRecvStoneInfo( PMSG_ANS_VIEW_STONES* aRecv)
 {
-	LPGameObject lpObj = &gGameObjects[aRecv->iINDEX];
+	CGameObject lpObj = &gGameObjects[aRecv->iINDEX];
 
 	PMSG_EVENTCHIPINFO Result;
 	
 	PHeadSetB((LPBYTE)&Result, 0x94, sizeof(Result));
 
 	if ( aRecv->bSUCCESS )
-		lpObj->iStoneCount = aRecv->iStoneCount;
+		lpObj.iStoneCount = aRecv->iStoneCount;
 	else
-		lpObj->iStoneCount = 0;
+		lpObj.iStoneCount = 0;
 
-	lpObj->MutoNumber = 0;
+	lpObj.MutoNumber = 0;
 	Result.Type = 3;
 	Result.ChipCount = aRecv->iStoneCount;
 
@@ -248,14 +248,14 @@ void EGRecvStoneInfo( PMSG_ANS_VIEW_STONES* aRecv)
 
 	char msg[128];
 	wsprintf(msg, Lang.GetText(0,78), Result.ChipCount);
-	GSProtocol.ChatTargetSend(pEventObj, msg, lpObj->m_Index);
+	GSProtocol.ChatTargetSend(pEventObj, msg, lpObj.m_Index);
 }
 
 
 void EGRecvRegStone( PMSG_ANS_REGISTER_STONES* aRecv)
 {
 	PMSG_REGEVENTCHIP_RESULT Result;
-	LPGameObject lpObj;
+	CGameObject lpObj;
 	int aIndex;
 	
 
@@ -270,19 +270,19 @@ void EGRecvRegStone( PMSG_ANS_REGISTER_STONES* aRecv)
 		GSProtocol.GCInventoryItemDeleteSend(aIndex, aRecv->iPosition, 1);
 
 		sLog->outBasic("[Stone] [%s][%s] Delete Stones",
-			lpObj->AccountID, lpObj->Name);
+			lpObj.AccountID, lpObj.Name);
 	}
 	else
 	{
 		Result.ChipCount = -1;
 		
 		sLog->outBasic("[Stone] [%s][%s] RegEventServer Fail (Stones : %d)",
-			lpObj->AccountID, lpObj->Name, aRecv->iStoneCount);
+			lpObj.AccountID, lpObj.Name, aRecv->iStoneCount);
 	}
 
 	IOCP.DataSend(aIndex, (LPBYTE)&Result, Result.h.size);
 
-	lpObj->UseEventServer = FALSE;
+	lpObj.UseEventServer = FALSE;
 }
 
 
@@ -295,7 +295,7 @@ void EGRecvDeleteStone( PMSG_ANS_DELETE_STONES* aRecv)
 void EGRecvChangeStones( PMSG_ANS_RESET_EVENTCHIP* aRecv)
 {
 	PMSG_REGEVENTCHIP_RESULT Result;
-	LPGameObject lpObj;
+	CGameObject lpObj;
 	int aIndex;
 	
 
@@ -305,24 +305,24 @@ void EGRecvChangeStones( PMSG_ANS_RESET_EVENTCHIP* aRecv)
 
 	if ( aRecv->bSUCCESS != FALSE )
 	{
-		lpObj->m_PlayerData->Money += lpObj->iStoneCount * 3000;
-		GSProtocol.GCMoneySend(aIndex, lpObj->m_PlayerData->Money);
+		lpObj.m_PlayerData->Money += lpObj.iStoneCount * 3000;
+		GSProtocol.GCMoneySend(aIndex, lpObj.m_PlayerData->Money);
 
 		sLog->outBasic("[Stones] [%s][%s] ChangeRena AddMoney(%d)",
-			lpObj->AccountID, lpObj->Name, lpObj->iStoneCount*3000);
+			lpObj.AccountID, lpObj.Name, lpObj.iStoneCount*3000);
 	}
 	else
 	{
 		sLog->outBasic("[Stones] [%s][%s] ChangeRena Fail",
-			lpObj->AccountID, lpObj->Name);
+			lpObj.AccountID, lpObj.Name);
 	}
 
 	Result.ChipCount = 0;
-	lpObj->iStoneCount = 0;
+	lpObj.iStoneCount = 0;
 
 	IOCP.DataSend(aIndex, (LPBYTE)&Result, Result.h.size);
 
-	lpObj->UseEventServer = FALSE;
+	lpObj.UseEventServer = FALSE;
 }
 
 struct PMSG_ANS_2ANV_LOTTO_EVENT
@@ -1213,9 +1213,9 @@ void EGAnsRegHTOfflineGift( PMSG_ANS_REG_HT_OFFLINE_GIFT* lpMsg)
 	{
 		if ( gObjIsConnected(lpMsg->iINDEX))
 		{
-			LPGameObject lpObj = &gGameObjects[lpMsg->iINDEX];
+			CGameObject lpObj = &gGameObjects[lpMsg->iINDEX];
 
-			MapC[lpObj->MapNumber].MoneyItemDrop(1000000, lpObj->X, lpObj->Y);
+			MapC[lpObj.MapNumber].MoneyItemDrop(1000000, lpObj.X, lpObj.Y);
 		}
 		return;
 	}
@@ -1249,26 +1249,26 @@ void EGAnsRegLuckyCoin(PMSG_ANS_REG_LUCKYCOIN * lpMsg)
 	PMSG_ANS_LUCKYCOIN_REGISTER pMsg = {0};
 	PHeadSubSetB((LPBYTE)&pMsg, 0xBF, 0x0C, sizeof(pMsg));
 
-	LPGameObject lpObj = &gGameObjects[lpMsg->iIndex];
+	CGameObject lpObj = &gGameObjects[lpMsg->iIndex];
 
 	pMsg.btResult = lpMsg->Result;
 	
 	if(pMsg.btResult == 1)
 	{
-		if(lpObj->pInventory[lpMsg->Pos].IsItem() == TRUE && lpObj->pInventory[lpMsg->Pos].m_Type == ITEMGET(14,100))
+		if(lpObj.pInventory[lpMsg->Pos].IsItem() == TRUE && lpObj.pInventory[lpMsg->Pos].m_Type == ITEMGET(14,100))
 		{
-			if(lpObj->pInventory[lpMsg->Pos].m_Durability > 1.0)
+			if(lpObj.pInventory[lpMsg->Pos].m_Durability > 1.0)
 			{
-				lpObj->pInventory[lpMsg->Pos].m_Durability -= 1.0f;
-				GSProtocol.GCItemDurSend2(lpObj->m_Index, lpMsg->Pos, lpObj->pInventory[lpMsg->Pos].m_Durability, 0);
+				lpObj.pInventory[lpMsg->Pos].m_Durability -= 1.0f;
+				GSProtocol.GCItemDurSend2(lpObj.m_Index, lpMsg->Pos, lpObj.pInventory[lpMsg->Pos].m_Durability, 0);
 			}
 			else
 			{
-				gObjInventoryDeleteItem(lpObj->m_Index, lpMsg->Pos);
-				GSProtocol.GCInventoryItemDeleteSend(lpObj->m_Index, lpMsg->Pos, 1);
+				gObjInventoryDeleteItem(lpObj.m_Index, lpMsg->Pos);
+				GSProtocol.GCInventoryItemDeleteSend(lpObj.m_Index, lpMsg->Pos, 1);
 			}
 			pMsg.iLuckyCoin = lpMsg->LuckyCoins;
-			lpObj->LuckyCoinCount = lpMsg->LuckyCoins;
+			lpObj.LuckyCoinCount = lpMsg->LuckyCoins;
 		}
 		else
 		{
@@ -1277,7 +1277,7 @@ void EGAnsRegLuckyCoin(PMSG_ANS_REG_LUCKYCOIN * lpMsg)
 		}
 	}
 	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
-	lpObj->UseEventServer = FALSE;
+	lpObj.UseEventServer = FALSE;
 }
 
 void EGAnsLuckyCoinInfo(PMSG_ANS_LUCKYCOIN *lpMsg)
@@ -1287,13 +1287,13 @@ void EGAnsLuckyCoinInfo(PMSG_ANS_LUCKYCOIN *lpMsg)
 
 	PMSG_ANS_LUCKYCOININFO pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xBF, 0x0B, sizeof(pMsg));
-	LPGameObject lpObj = &gGameObjects[lpMsg->iIndex];
+	CGameObject lpObj = &gGameObjects[lpMsg->iIndex];
 
 	pMsg.iLuckyCoin = lpMsg->LuckyCoins;
-	lpObj->LuckyCoinCount = lpMsg->LuckyCoins;
+	lpObj.LuckyCoinCount = lpMsg->LuckyCoins;
 
 	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
-	lpObj->UseEventServer = FALSE;
+	lpObj.UseEventServer = FALSE;
 }
 
 void EGAnsSantaCheck(PMSG_ANS_SANTACHECK *lpMsg)
@@ -1301,27 +1301,27 @@ void EGAnsSantaCheck(PMSG_ANS_SANTACHECK *lpMsg)
 	if(!lpMsg)
 		return;
 
-	LPGameObject lpObj = &gGameObjects[lpMsg->aIndex];
+	CGameObject lpObj = &gGameObjects[lpMsg->aIndex];
 
 	switch ( lpMsg->Result )
 	{
 		case 0:
 			if(!lpMsg->UseCount)
-				GSProtocol.GCServerCmd(lpObj->m_Index, 16, 0, 0);
+				GSProtocol.GCServerCmd(lpObj.m_Index, 16, 0, 0);
 			else
-				GSProtocol.GCServerCmd(lpObj->m_Index, 16, 1, 0);
+				GSProtocol.GCServerCmd(lpObj.m_Index, 16, 1, 0);
 			break;
 		case 1:
 		case 3:
-			GSProtocol.GCServerCmd(lpObj->m_Index, 16, 3, 0);
+			GSProtocol.GCServerCmd(lpObj.m_Index, 16, 3, 0);
 			break;
 		case 2:
-			GSProtocol.GCServerCmd(lpObj->m_Index, 16, 2, 0);
+			GSProtocol.GCServerCmd(lpObj.m_Index, 16, 2, 0);
 			break;
 	}
 }
 
-void EGReqSantaGift(LPGameObject &lpObj)
+void EGReqSantaGift(CGameObject &lpObj)
 {
 	if(gObjIsConnected(aIndex) == false)
 		return;
@@ -1329,7 +1329,7 @@ void EGReqSantaGift(LPGameObject &lpObj)
 	PMSG_REQ_SANTAGIFT pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xBE, 0x21, sizeof(pMsg));
 
-	memcpy(pMsg.AccountID, lpObj->AccountID, 11);
+	memcpy(pMsg.AccountID, lpObj.AccountID, 11);
 	pMsg.gGameServerCode = g_ConfigRead.server.GetGameServerCode();
 	pMsg.aIndex = aIndex;
 
@@ -1342,35 +1342,35 @@ void EGAnsSantaGift(PMSG_ANS_SANTAGIFT *lpMsg)
 	if(!lpMsg)
 		return;
 
-	LPGameObject lpObj = &gGameObjects[lpMsg->aIndex];
+	CGameObject lpObj = &gGameObjects[lpMsg->aIndex];
 
 	switch ( lpMsg->Result )
 	{
 		case 0:
-			if (lpObj->m_PlayerData->SantaCount < g_ConfigRead.data.common.XMasSantaFirstPrizeMaxCount)
+			if (lpObj.m_PlayerData->SantaCount < g_ConfigRead.data.common.XMasSantaFirstPrizeMaxCount)
 			{
-				g_BagManager.SearchAndUseBag(lpObj->m_Index, BAG_EVENT, EVENTBAG_SANTAFIRST, lpObj->m_Index);
+				g_BagManager.SearchAndUseBag(lpObj.m_Index, BAG_EVENT, EVENTBAG_SANTAFIRST, lpObj.m_Index);
 			}
 
-			else if (lpObj->m_PlayerData->SantaCount < g_ConfigRead.data.common.XMasSantaSecondPrizeMaxCount)
+			else if (lpObj.m_PlayerData->SantaCount < g_ConfigRead.data.common.XMasSantaSecondPrizeMaxCount)
 			{
-				g_BagManager.SearchAndUseBag(lpObj->m_Index, BAG_EVENT, EVENTBAG_SANTASECOND, lpObj->m_Index);
+				g_BagManager.SearchAndUseBag(lpObj.m_Index, BAG_EVENT, EVENTBAG_SANTASECOND, lpObj.m_Index);
 			}
 
 			else
 			{
-				g_BagManager.SearchAndUseBag(lpObj->m_Index, BAG_EVENT, EVENTBAG_SANTATHIRD, lpObj->m_Index);
+				g_BagManager.SearchAndUseBag(lpObj.m_Index, BAG_EVENT, EVENTBAG_SANTATHIRD, lpObj.m_Index);
 			}
 
-			lpObj->m_PlayerData->SantaCount++;
-			sLog->outBasic("[X-MAS Event] [AccountID]: %s, [VISITCOUNT]:%d", lpObj->AccountID, lpObj->m_PlayerData->SantaCount);
+			lpObj.m_PlayerData->SantaCount++;
+			sLog->outBasic("[X-MAS Event] [AccountID]: %s, [VISITCOUNT]:%d", lpObj.AccountID, lpObj.m_PlayerData->SantaCount);
 			break;
 		case 2:
-			GSProtocol.GCServerCmd(lpObj->m_Index, 16, 2, 0);
+			GSProtocol.GCServerCmd(lpObj.m_Index, 16, 2, 0);
 			break;
 		case 1:
 		case 3:
-			GSProtocol.GCServerCmd(lpObj->m_Index, 16, 3, 0);
+			GSProtocol.GCServerCmd(lpObj.m_Index, 16, 3, 0);
 			break;
 	}
 }

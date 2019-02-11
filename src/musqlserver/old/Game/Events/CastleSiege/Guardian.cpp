@@ -33,25 +33,25 @@ void CGuardian::GuardianAct(int iIndex)
 		if (!gObjIsConnected(iIndex))
 			return;
 
-		LPGameObject lpObj = &gGameObjects[iIndex];
+		CGameObject lpObj = &gGameObjects[iIndex];
 
-		if (lpObj->VPCount < 1)
+		if (lpObj.VPCount < 1)
 			return;
 
 		int tObjNum = -1;
 
 		for (int i = 0; i<MAX_VIEWPORT; i++)
 		{
-			tObjNum = lpObj->VpPlayer[i].number;
+			tObjNum = lpObj.VpPlayer[i].number;
 
 			if (tObjNum >= 0)
 			{
 				if (gGameObjects[tObjNum].Type == OBJ_USER && gGameObjects[tObjNum].Live)
 				{
-					if (gGameObjects[tObjNum].m_btCsJoinSide == lpObj->m_btCsJoinSide)
+					if (gGameObjects[tObjNum].m_btCsJoinSide == lpObj.m_btCsJoinSide)
 					{
-						if (abs(lpObj->Y - gGameObjects[tObjNum].Y) <= 3 &&
-							abs(lpObj->X - gGameObjects[tObjNum].X) <= 3)
+						if (abs(lpObj.Y - gGameObjects[tObjNum].Y) <= 3 &&
+							abs(lpObj.X - gGameObjects[tObjNum].X) <= 3)
 						{
 							gGameObjects[tObjNum].Life += 100.0f;
 							gGameObjects[tObjNum].Mana += 100.0f;

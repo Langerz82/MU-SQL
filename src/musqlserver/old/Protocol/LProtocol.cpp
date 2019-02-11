@@ -28,7 +28,7 @@ CConServ::~CConServ()
 
 }
 
-void CConServ::ConnectResultSend(LPGameObject &lpObj)
+void CConServ::ConnectResultSend(CGameObject &lpObj)
 {
 	PMSG_HELLO pMsg = {0};
 	pMsg.h.c = 0xC1;
@@ -45,7 +45,7 @@ void CConServ::ConnectResultSend(LPGameObject &lpObj)
 	
 }
 
-void CConServ::ServerListSend(LPGameObject &lpObj)
+void CConServ::ServerListSend(CGameObject &lpObj)
 {
 	PMSG_SERVERSLIST_COUNT * pMsg;///(0xC2, 0xF4, 0x06);
 	PMSG_SERVERLIST_SERVER * pServer;
@@ -94,7 +94,7 @@ void CConServ::ServerListSend(LPGameObject &lpObj)
 //	this->SendNews(aIndex);
 }
 
-void CConServ::GetServerInfo(LPGameObject &lpObj, USHORT id)
+void CConServ::GetServerInfo(CGameObject &lpObj, USHORT id)
 {
 	GS_CONNECT_INFO pMsg	= {0};
 
@@ -121,7 +121,7 @@ void CConServ::GetServerInfo(LPGameObject &lpObj, USHORT id)
 	}
 }
 
-void CConServ::GetServerList(LPGameObject &lpObj)
+void CConServ::GetServerList(CGameObject &lpObj)
 {
 	if(g_ConnectedServers.size() > 0)
 	{	
@@ -318,7 +318,7 @@ void CConServ::LoadNewsFile(LPSTR szFile)
 
 }
 
-void CConServ::SendNews(LPGameObject &lpObj)
+void CConServ::SendNews(CGameObject &lpObj)
 {
 
 	PMSG_SEND_TITLE pTitle;
@@ -364,7 +364,7 @@ void CConServ::SendNews(LPGameObject &lpObj)
 
 
 
-void LProtocolCore(LPGameObject &lpObj, BYTE hCode, LPBYTE aRecv, int aLen)
+void LProtocolCore(CGameObject &lpObj, BYTE hCode, LPBYTE aRecv, int aLen)
 {
 	switch (hCode)
 	{

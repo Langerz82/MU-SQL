@@ -16,7 +16,7 @@ typedef vec_t vec3_t[3];
 typedef vec_t vec4_t[4];	
 typedef vec_t vec34_t[3][4];
 
-typedef 
+typedef struct
 {
 	vec3_t StartPos;
 	vec3_t XAxis;

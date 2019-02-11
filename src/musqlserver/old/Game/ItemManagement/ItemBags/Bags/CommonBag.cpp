@@ -22,7 +22,7 @@ void CCommonBag::SetBagInfo(int ItemID, int ItemLevel)
 	this->m_BagItemLevel = ItemLevel;
 }
 
-bool CCommonBag::CheckCondition(LPGameObject &lpObj, int ItemID, int ItemLevel)
+bool CCommonBag::CheckCondition(CGameObject &lpObj, int ItemID, int ItemLevel)
 {
 	if (rand() % 10000 >= this->m_BagData.dwBagUseRate)
 	{
@@ -37,7 +37,7 @@ bool CCommonBag::CheckCondition(LPGameObject &lpObj, int ItemID, int ItemLevel)
 	return false;
 }
 
-bool CCommonBag::IsBag(LPGameObject &lpObj, int ItemID, int ItemLevel)
+bool CCommonBag::IsBag(CGameObject &lpObj, int ItemID, int ItemLevel)
 {
 	if (this->m_BagItemID == ItemID && this->m_BagItemLevel == ItemLevel)
 	{
@@ -47,13 +47,13 @@ bool CCommonBag::IsBag(LPGameObject &lpObj, int ItemID, int ItemLevel)
 	return false;
 }
 
-bool CCommonBag::UseBag(LPGameObject &lpObj, int iParam2)
+bool CCommonBag::UseBag(CGameObject &lpObj, int iParam2)
 {
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
 	if (rand() % 10000 >= this->m_BagData.dwItemDropRate)
 	{
-		MapC[lpObj->MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, lpObj->X, lpObj->Y);
+		MapC[lpObj.MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, lpObj.X, lpObj.Y);
 
 		return true;
 	}
@@ -61,9 +61,9 @@ bool CCommonBag::UseBag(LPGameObject &lpObj, int iParam2)
 	if (rand() % 10000 < this->m_BagData.dwGainRuudRate)
 	{
 		int iRuudValue = this->GetValueMinMax(this->m_BagData.dwMinGainRuud, this->m_BagData.dwMaxGainRuud);
-		lpObj->m_PlayerData->Ruud += iRuudValue;
+		lpObj.m_PlayerData->Ruud += iRuudValue;
 
-		GSProtocol.GCSendRuud(aIndex, lpObj->m_PlayerData->Ruud, iRuudValue, true);
+		GSProtocol.GCSendRuud(aIndex, lpObj.m_PlayerData->Ruud, iRuudValue, true);
 		return true;
 	}
 
@@ -95,7 +95,7 @@ bool CCommonBag::UseBag(LPGameObject &lpObj, int iParam2)
 	{
 		if (rand()%10000 < this->m_BagData.dwRandomSetItemDropRate)
 		{
-			MakeRewardSetItem(aIndex, lpObj->X, lpObj->Y, 1, lpObj->MapNumber);
+			MakeRewardSetItem(aIndex, lpObj.X, lpObj.Y, 1, lpObj.MapNumber);
 			return true;
 		}
 
@@ -103,7 +103,7 @@ bool CCommonBag::UseBag(LPGameObject &lpObj, int iParam2)
 		{
 			return false;
 		}
-		bool bResult = gLuaBag.DropCommonBag(aIndex, lpObj->MapNumber, lpObj->X, lpObj->Y, &m_Item);
+		bool bResult = gLuaBag.DropCommonBag(aIndex, lpObj.MapNumber, lpObj.X, lpObj.Y, &m_Item);
 
 		if (bResult == false)
 		{
@@ -115,18 +115,18 @@ bool CCommonBag::UseBag(LPGameObject &lpObj, int iParam2)
 
 	for (int i = 0; i < m_ItemSection.btItemDropCount; i++)
 	{
-		BYTE cDropX = lpObj->X;
-		BYTE cDropY = lpObj->Y;
+		BYTE cDropX = lpObj.X;
+		BYTE cDropY = lpObj.Y;
 
-		if (!gObjGetRandomItemDropLocation(lpObj->MapNumber, cDropX, cDropY, 4, 4, 10))
+		if (!gObjGetRandomItemDropLocation(lpObj.MapNumber, cDropX, cDropY, 4, 4, 10))
 		{
-			cDropX = lpObj->X;
-			cDropY = lpObj->Y;
+			cDropX = lpObj.X;
+			cDropY = lpObj.Y;
 		}
 
 		if (rand()%10000 < this->m_BagData.dwRandomSetItemDropRate)
 		{
-			MakeRewardSetItem(aIndex, cDropX, cDropY, 1, lpObj->MapNumber);
+			MakeRewardSetItem(aIndex, cDropX, cDropY, 1, lpObj.MapNumber);
 			continue;
 		}
 	
@@ -135,7 +135,7 @@ bool CCommonBag::UseBag(LPGameObject &lpObj, int iParam2)
 			return false;
 		}
 
-		bool bResult = gLuaBag.DropCommonBag(aIndex, lpObj->MapNumber, cDropX, cDropY, &m_Item);
+		bool bResult = gLuaBag.DropCommonBag(aIndex, lpObj.MapNumber, cDropX, cDropY, &m_Item);
 
 		if (bResult == false)
 		{
@@ -147,7 +147,7 @@ bool CCommonBag::UseBag(LPGameObject &lpObj, int iParam2)
 	return true;
 }
 
-bool CCommonBag::UseBag_GremoryCase(LPGameObject &lpObj, int iMonsterIndex, BYTE btStorageType, BYTE btRewardSource, int iExpireDays)
+bool CCommonBag::UseBag_GremoryCase(CGameObject &lpObj, int iMonsterIndex, BYTE btStorageType, BYTE btRewardSource, int iExpireDays)
 {
 	return false;
 }

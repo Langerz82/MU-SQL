@@ -3473,9 +3473,9 @@ void CCastleSiege::SendCsGateStateViewPort(int iGateIndex, BYTE btOperate)
 		return;
 	}
 
-	LPGameObject lpObj = &gGameObjects[iGateIndex];
+	CGameObject lpObj = &gGameObjects[iGateIndex];
 
-	if( lpObj->VPCount2 < 1 )
+	if( lpObj.VPCount2 < 1 )
 	{
 		return;
 	}
@@ -3484,7 +3484,7 @@ void CCastleSiege::SendCsGateStateViewPort(int iGateIndex, BYTE btOperate)
 
 	for( int i = 0; i < MAX_VIEWPORT; i++ )
 	{
-		tObjNum = lpObj->VpPlayer2[i].number;
+		tObjNum = lpObj.VpPlayer2[i].number;
 
 		if( tObjNum >= 0 )
 		{
@@ -4309,7 +4309,7 @@ void CCastleSiege::NotifySelfCsJoinSide(int iIndex)
 		btCsJoinSide = 0;
 	}
 
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 
 	switch(btCsJoinSide) //season3 all changed
 	{
@@ -5583,7 +5583,7 @@ void CCastleSiege::NotifyCrownState(BYTE btState)
 		return;
 	}
 
-	LPGameObject lpObj = &gGameObjects[m_iCrownIndex];
+	CGameObject lpObj = &gGameObjects[m_iCrownIndex];
 
 	if(btState == 0)//Season 4.5 addon
 	{
@@ -5594,7 +5594,7 @@ void CCastleSiege::NotifyCrownState(BYTE btState)
 		gObjRemoveBuffEffect(&gGameObjects[m_iCrownIndex], BUFFTYPE_CASTLE_CROWN_STATE);
 	}
 
-	if( lpObj->VPCount2 < 1 )
+	if( lpObj.VPCount2 < 1 )
 	{
 		return;
 	}
@@ -5608,7 +5608,7 @@ void CCastleSiege::NotifyCrownState(BYTE btState)
 
 	for( int i = 0; i < MAX_VIEWPORT; i++ )
 	{
-		tObjNum = lpObj->VpPlayer2[i].number;
+		tObjNum = lpObj.VpPlayer2[i].number;
 
 		if( tObjNum >= 0 )
 		{
@@ -5636,9 +5636,9 @@ void CCastleSiege::NotifyCrownSwitchInfo(int iCrownSwitchIndex)
 		return;
 	}
 
-	LPGameObject lpObj = &gGameObjects[iCrownSwitchIndex];
+	CGameObject lpObj = &gGameObjects[iCrownSwitchIndex];
 
-	if( lpObj->VPCount2 < 1 )
+	if( lpObj.VPCount2 < 1 )
 	{
 		return;
 	}
@@ -5655,23 +5655,23 @@ void CCastleSiege::NotifyCrownSwitchInfo(int iCrownSwitchIndex)
 	memset(&pMsg.szGuildName, 0, MAX_GUILD_LEN);
 	memset(&pMsg.szUserName, 0, MAX_ACCOUNT_LEN);
 
-	int iCrownSwitchUserIndex = g_CastleSiege.GetCrownSwitchUserIndex(lpObj->Class); // wtf!
+	int iCrownSwitchUserIndex = g_CastleSiege.GetCrownSwitchUserIndex(lpObj.Class); // wtf!
 
 	if( gObjIsConnected(iCrownSwitchUserIndex) )
 	{
-		LPGameObject lpSwitchObj = &gGameObjects[iCrownSwitchUserIndex];
+		CGameObject lpSwitchObj = &gGameObjects[iCrownSwitchUserIndex];
 		char szMasterGuildName[MAX_GUILD_LEN];
 
 		pMsg.btSwitchState = TRUE;
-		pMsg.btJoinSide = lpSwitchObj->m_btCsJoinSide;
+		pMsg.btJoinSide = lpSwitchObj.m_btCsJoinSide;
 
-		memcpy(&pMsg.szUserName, lpSwitchObj->Name, MAX_ACCOUNT_LEN);
-		memcpy(&pMsg.szGuildName, lpSwitchObj->m_PlayerData->GuildName, MAX_GUILD_LEN);
+		memcpy(&pMsg.szUserName, lpSwitchObj.Name, MAX_ACCOUNT_LEN);
+		memcpy(&pMsg.szGuildName, lpSwitchObj.m_PlayerData->GuildName, MAX_GUILD_LEN);
 		memset(&szMasterGuildName, 0, MAX_GUILD_LEN);
 
-		if( lpSwitchObj->m_PlayerData->lpGuild )
+		if( lpSwitchObj.m_PlayerData->lpGuild )
 		{
-			if( UnionManager.GetUnionName(lpSwitchObj->m_PlayerData->lpGuild->iGuildUnion, szMasterGuildName) != -1 )
+			if( UnionManager.GetUnionName(lpSwitchObj.m_PlayerData->lpGuild->iGuildUnion, szMasterGuildName) != -1 )
 			{
 				memcpy(&pMsg.szGuildName, szMasterGuildName, MAX_GUILD_LEN);
 			}
@@ -5684,7 +5684,7 @@ void CCastleSiege::NotifyCrownSwitchInfo(int iCrownSwitchIndex)
 
 	for( int i = 0; i < MAX_VIEWPORT; i++ )
 	{
-		tObjNum = lpObj->VpPlayer2[i].number;
+		tObjNum = lpObj.VpPlayer2[i].number;
 
 		if( tObjNum >= 0 )
 		{

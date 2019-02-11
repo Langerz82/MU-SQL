@@ -14,7 +14,7 @@ public:
 	virtual ~CSkillSpecialize(void);
 
 	void LoadScript();
-	int CalcStatBonus(LPGameObject lpObj, int iSkill);
+	int CalcStatBonus(CGameObject lpObj, int iSkill);
 
 private:
 	MULua m_Lua;

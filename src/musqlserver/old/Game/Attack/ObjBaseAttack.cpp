@@ -42,12 +42,12 @@ CObjBaseAttack::~CObjBaseAttack()
 
 
 
-BOOL CObjBaseAttack::DecreaseArrow(LPGameObject &lpObj)
+BOOL CObjBaseAttack::DecreaseArrow(CGameObject &lpObj)
 {
-	if ( lpObj->Class == CLASS_ELF && lpObj->Type == OBJ_USER && g_ConfigRead.data.common.joinmuIsDecreaseAllow == true )
+	if ( lpObj.Class == CLASS_ELF && lpObj.Type == OBJ_USER && g_ConfigRead.data.common.joinmuIsDecreaseAllow == true )
 	{
-		CItem * Left = &lpObj->pInventory[0];
-		CItem * Right  = &lpObj->pInventory[1];
+		CItem * Left = &lpObj.pInventory[0];
+		CItem * Right  = &lpObj.pInventory[1];
 
 		/*(if ( (Right->m_Type >= ITEMGET(4,8) && Right->m_Type <= ITEMGET(4,14)) ||
 			  Right->m_Type == ITEMGET(4,16) || Right->m_Type == ITEMGET(4,18) ||
@@ -63,12 +63,12 @@ BOOL CObjBaseAttack::DecreaseArrow(LPGameObject &lpObj)
 				}
 
 				Left->m_Durability -= 1.0f;
-				GSProtocol.GCItemDurSend(lpObj->m_Index, 1, Left->m_Durability, 0);
+				GSProtocol.GCItemDurSend(lpObj.m_Index, 1, Left->m_Durability, 0);
 
 				if ( Left->m_Durability < 1.0f )
 				{
-					lpObj->pInventory[1].Clear();
-					GSProtocol.GCInventoryItemDeleteSend(lpObj->m_Index, 1, 0);
+					lpObj.pInventory[1].Clear();
+					GSProtocol.GCInventoryItemDeleteSend(lpObj.m_Index, 1, 0);
 				}
 			}
 			else
@@ -85,12 +85,12 @@ BOOL CObjBaseAttack::DecreaseArrow(LPGameObject &lpObj)
 					return FALSE;
 				}
 				Right->m_Durability -= 1.0f;
-				GSProtocol.GCItemDurSend(lpObj->m_Index, 1, Right->m_Durability, 0);
+				GSProtocol.GCItemDurSend(lpObj.m_Index, 1, Right->m_Durability, 0);
 
 				if ( Right->m_Durability < 1.0f )
 				{
-					lpObj->pInventory[1].Clear();
-					GSProtocol.GCInventoryItemDeleteSend(lpObj->m_Index, 1, 0);
+					lpObj.pInventory[1].Clear();
+					GSProtocol.GCInventoryItemDeleteSend(lpObj.m_Index, 1, 0);
 				}
 			}
 			else if (Right->m_Type == ITEMGET(4, 32) || Right->m_Type == ITEMGET(4, 33) || Right->m_Type == ITEMGET(4, 34) || Right->m_Type == ITEMGET(4, 35))
@@ -102,7 +102,7 @@ BOOL CObjBaseAttack::DecreaseArrow(LPGameObject &lpObj)
 
 				Right->m_Durability -= 0.0f;
 
-				GSProtocol.GCItemDurSend(lpObj->m_Index, 1, Right->m_Durability, 0);
+				GSProtocol.GCItemDurSend(lpObj.m_Index, 1, Right->m_Durability, 0);
 			}
 			else
 			{
@@ -116,16 +116,16 @@ BOOL CObjBaseAttack::DecreaseArrow(LPGameObject &lpObj)
 
 
 
-BOOL CObjBaseAttack::CheckAttackArea(LPGameObject &lpObj, LPGameObject lpTargetObj)
+BOOL CObjBaseAttack::CheckAttackArea(CGameObject &lpObj, CGameObject lpTargetObj)
 {
-	if( lpTargetObj->MapNumber == g_LastManStanding.m_Cfg.iPVPMap)
+	if( lpTargetObj.MapNumber == g_LastManStanding.m_Cfg.iPVPMap)
 	{
 		return TRUE;
 	}
 
-	if ( lpTargetObj->Type == OBJ_USER || lpTargetObj->m_RecallMon >= 0 )
+	if ( lpTargetObj.Type == OBJ_USER || lpTargetObj.m_RecallMon >= 0 )
 	{
-		BYTE attr = MapC[lpTargetObj->MapNumber].GetAttr(lpTargetObj->X, lpTargetObj->Y);
+		BYTE attr = MapC[lpTargetObj.MapNumber].GetAttr(lpTargetObj.X, lpTargetObj.Y);
 
 		if ( (attr&1) == 1 )
 		{
@@ -133,14 +133,14 @@ BOOL CObjBaseAttack::CheckAttackArea(LPGameObject &lpObj, LPGameObject lpTargetO
 		}
 	}
 
-	if ( lpObj->Type == OBJ_USER )
+	if ( lpObj.Type == OBJ_USER )
 	{
-		int iRet = gObjCheckAttackArea(lpObj->m_Index, lpTargetObj->m_Index);
+		int iRet = gObjCheckAttackArea(lpObj.m_Index, lpTargetObj.m_Index);
 
 		if ( iRet != 0 )
 		{
-			sLog->outBasic("[%s][%s] Try Attack In Not Attack Area (%s,%d,%d) errortype = %d",lpObj->AccountID, lpObj->Name, Lang.GetMap(0,0+lpObj->MapNumber),
-				lpObj->X, lpObj->Y, iRet);
+			sLog->outBasic("[%s][%s] Try Attack In Not Attack Area (%s,%d,%d) errortype = %d",lpObj.AccountID, lpObj.Name, Lang.GetMap(0,0+lpObj.MapNumber),
+				lpObj.X, lpObj.Y, iRet);
 
 			if ( bIsIgnorePacketSpeedHackDetect != FALSE )
 			{
@@ -152,18 +152,18 @@ BOOL CObjBaseAttack::CheckAttackArea(LPGameObject &lpObj, LPGameObject lpTargetO
 	return TRUE;
 }
 
-BOOL CObjBaseAttack::PkCheck(LPGameObject &lpObj, LPGameObject lpTargetObj)
+BOOL CObjBaseAttack::PkCheck(CGameObject &lpObj, CGameObject lpTargetObj)
 {
-	if (lpObj->Type == OBJ_USER && lpTargetObj->Type == OBJ_USER)
+	if (lpObj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
 	{
-		if (lpTargetObj->Level <= 5 || lpObj->Level <= 5)
+		if (lpTargetObj.Level <= 5 || lpObj.Level <= 5)
 		{
 			return FALSE;
 		}
 
 		if (gObjGetRelationShip(lpObj, lpTargetObj) == 2) // Rivals
 		{
-			if (g_MaxStatsInfo.GetClass.IsNonPvP[lpObj->MapNumber] == FALSE)
+			if (g_MaxStatsInfo.GetClass.IsNonPvP[lpObj.MapNumber] == FALSE)
 			{
 				return TRUE;
 			}
@@ -171,7 +171,7 @@ BOOL CObjBaseAttack::PkCheck(LPGameObject &lpObj, LPGameObject lpTargetObj)
 
 		if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE)
 		{
-			if (lpObj->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
+			if (lpObj.MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 			{
 				return TRUE;
 			}
@@ -184,8 +184,8 @@ BOOL CObjBaseAttack::PkCheck(LPGameObject &lpObj, LPGameObject lpTargetObj)
 
 		if (g_ConfigRead.EnableAttackBlockInSafeZone == TRUE)
 		{
-			BYTE btAttr1 = MapC[lpObj->MapNumber].GetAttr(lpObj->X, lpObj->Y);
-			BYTE btAttr2 = MapC[lpObj->MapNumber].GetAttr(lpTargetObj->X, lpTargetObj->Y);
+			BYTE btAttr1 = MapC[lpObj.MapNumber].GetAttr(lpObj.X, lpObj.Y);
+			BYTE btAttr2 = MapC[lpObj.MapNumber].GetAttr(lpTargetObj.X, lpTargetObj.Y);
 
 			if ((btAttr1 & 1) == 1 || (btAttr2 & 1) == 1)
 			{
@@ -193,72 +193,72 @@ BOOL CObjBaseAttack::PkCheck(LPGameObject &lpObj, LPGameObject lpTargetObj)
 			}
 		}
 
-		if ( lpObj->m_PlayerData->lpGuild != NULL && lpTargetObj->m_PlayerData->lpGuild != NULL )
+		if ( lpObj.m_PlayerData->lpGuild != NULL && lpTargetObj.m_PlayerData->lpGuild != NULL )
 		{
-			if ( lpObj->m_PlayerData->lpGuild->WarState == 1 && lpTargetObj->m_PlayerData->lpGuild->WarState == 1 )
+			if ( lpObj.m_PlayerData->lpGuild->WarState == 1 && lpTargetObj.m_PlayerData->lpGuild->WarState == 1 )
 			{
-				if ( lpObj->m_PlayerData->lpGuild->Number == lpTargetObj->m_PlayerData->lpGuild->Number )
+				if ( lpObj.m_PlayerData->lpGuild->Number == lpTargetObj.m_PlayerData->lpGuild->Number )
 				{
 					return FALSE;
 				}
 			}
 		}
 
-		if(DG_MAP_RANGE(lpObj->MapNumber) || IMPERIAL_MAP_RANGE(lpObj->MapNumber))
+		if(DG_MAP_RANGE(lpObj.MapNumber) || IMPERIAL_MAP_RANGE(lpObj.MapNumber))
 		{
 			return false;
 		}
 
-		if(IT_MAP_RANGE(lpObj->MapNumber) && IT_MAP_RANGE(lpTargetObj->MapNumber))
+		if(IT_MAP_RANGE(lpObj.MapNumber) && IT_MAP_RANGE(lpTargetObj.MapNumber))
 		{
 			return true;
 		}
 
-		if(lpObj->MapNumber == MAP_INDEX_DEVILSQUARE_FINAL)
+		if(lpObj.MapNumber == MAP_INDEX_DEVILSQUARE_FINAL)
 		{
 			return false;
 		}
 
-		if(lpObj->MapNumber == g_LastManStanding.m_Cfg.iPVPMap)
+		if(lpObj.MapNumber == g_LastManStanding.m_Cfg.iPVPMap)
 		{
-			if(lpObj->m_PlayerData->RegisterdLMS == TRUE || lpTargetObj->m_PlayerData->RegisterdLMS == TRUE)
+			if(lpObj.m_PlayerData->RegisterdLMS == TRUE || lpTargetObj.m_PlayerData->RegisterdLMS == TRUE)
 			{
-				if(g_LastManStanding.m_Rooms[lpObj->m_PlayerData->RegisteredLMSRoom].bState != 3)
+				if(g_LastManStanding.m_Rooms[lpObj.m_PlayerData->RegisteredLMSRoom].bState != 3)
 				{
 					return false;
 				}
 			}
 		}
-		if ( gObjTargetGuildWarCheck(lpObj, lpTargetObj) == FALSE && lpTargetObj->m_PlayerData->lpGuild != NULL && lpTargetObj->m_PlayerData->lpGuild->WarState != 0)
+		if ( gObjTargetGuildWarCheck(lpObj, lpTargetObj) == FALSE && lpTargetObj.m_PlayerData->lpGuild != NULL && lpTargetObj.m_PlayerData->lpGuild->WarState != 0)
 		{
-			if ( lpTargetObj->m_PlayerData->lpGuild->WarType == 1 && lpTargetObj->MapNumber != MAP_INDEX_ARENA)
+			if ( lpTargetObj.m_PlayerData->lpGuild->WarType == 1 && lpTargetObj.MapNumber != MAP_INDEX_ARENA)
 			{
-				if (!g_MaxStatsInfo.GetClass.IsNonPvP[lpObj->MapNumber])
+				if (!g_MaxStatsInfo.GetClass.IsNonPvP[lpObj.MapNumber])
 				{
 					return TRUE;
 				}
 			}
 
-			if ( CC_MAP_RANGE(lpTargetObj->MapNumber) == FALSE )
+			if ( CC_MAP_RANGE(lpTargetObj.MapNumber) == FALSE )
 			{
 				return FALSE;
 			}
 
-			if (lpTargetObj->MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
+			if (lpTargetObj.MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 			{
 				return FALSE;
 			}
 		}
 
-		else if ( CC_MAP_RANGE(lpObj->MapNumber) != FALSE )
+		else if ( CC_MAP_RANGE(lpObj.MapNumber) != FALSE )
 		{
-			if ( g_ChaosCastle.GetCurrentState(g_ChaosCastle.GetChaosCastleIndex(lpObj->MapNumber)) != 2 )
+			if ( g_ChaosCastle.GetCurrentState(g_ChaosCastle.GetChaosCastleIndex(lpObj.MapNumber)) != 2 )
 			{
 				return FALSE;
 			}
 		}
 
-		else if (lpObj->MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
+		else if (lpObj.MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 		{
 			if (g_ChaosCastleFinal.GetCurrentState() != 2)
 			{
@@ -266,22 +266,22 @@ BOOL CObjBaseAttack::PkCheck(LPGameObject &lpObj, LPGameObject lpTargetObj)
 			}
 		}
 
-		else if (g_MaxStatsInfo.GetClass.IsNonPvP[lpObj->MapNumber] != FALSE )
+		else if (g_MaxStatsInfo.GetClass.IsNonPvP[lpObj.MapNumber] != FALSE )
 		{
 			return FALSE;
 		}
 
-		if( g_MapAttr.GetPvPState(lpObj->MapNumber) == 1 )
+		if( g_MapAttr.GetPvPState(lpObj.MapNumber) == 1 )
 		{
 			return FALSE;
 		}
 
-		if ( DS_MAP_RANGE(lpObj->MapNumber) ) // DEvil
+		if ( DS_MAP_RANGE(lpObj.MapNumber) ) // DEvil
 		{
 			return FALSE;
 		}
 
-		if ( BC_MAP_RANGE(lpObj->MapNumber) )
+		if ( BC_MAP_RANGE(lpObj.MapNumber) )
 		{
 			return FALSE;
 		}
@@ -299,32 +299,32 @@ BOOL CObjBaseAttack::PkCheck(LPGameObject &lpObj, LPGameObject lpTargetObj)
 
 
 
-BOOL CObjBaseAttack::ResistanceCheck(LPGameObject &lpObj, LPGameObject lpTargetObj, int skill)
+BOOL CObjBaseAttack::ResistanceCheck(CGameObject &lpObj, CGameObject lpTargetObj, int skill)
 {
 	if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE)
 	{
-		if (lpTargetObj->Type != OBJ_USER)
+		if (lpTargetObj.Type != OBJ_USER)
 		{
-			if (lpTargetObj->Class == 277 || lpTargetObj->Class == 283 || lpTargetObj->Class == 288 || lpTargetObj->Class == 278 || lpTargetObj->Class == 215 || lpTargetObj->Class == 216 || lpTargetObj->Class == 217 || lpTargetObj->Class == 218 || lpTargetObj->Class == 219)
+			if (lpTargetObj.Class == 277 || lpTargetObj.Class == 283 || lpTargetObj.Class == 288 || lpTargetObj.Class == 278 || lpTargetObj.Class == 215 || lpTargetObj.Class == 216 || lpTargetObj.Class == 217 || lpTargetObj.Class == 218 || lpTargetObj.Class == 219)
 			{
 				return FALSE;
 			}
 		}
 
-		if (lpTargetObj->Type != OBJ_USER)
+		if (lpTargetObj.Type != OBJ_USER)
 		{
-			if (CRYWOLF_ALTAR_CLASS_RANGE(lpTargetObj->Class) != FALSE || CRYWOLF_STATUE_CHECK(lpTargetObj->Class) != FALSE) //HermeX Fix @28/01/2010
+			if (CRYWOLF_ALTAR_CLASS_RANGE(lpTargetObj.Class) != FALSE || CRYWOLF_STATUE_CHECK(lpTargetObj.Class) != FALSE) //HermeX Fix @28/01/2010
 			{
 				return FALSE;
 			}
 		}
 	}
 
-	if (lpTargetObj->Type == OBJ_USER)
+	if (lpTargetObj.Type == OBJ_USER)
 	{
-		if (lpTargetObj->m_PlayerData->m_MPSkillOpt.iMpsImmuneRate > 0.0 && lpTargetObj->m_PlayerData->m_MPSkillOpt.iMpsImmuneRate >= (rand() % 100) && !gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_INVISIBLE2))
+		if (lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsImmuneRate > 0.0 && lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsImmuneRate >= (rand() % 100) && !gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_INVISIBLE2))
 		{
-			GSProtocol.GCMagicAttackNumberSend(lpTargetObj, 323, lpTargetObj->m_Index, 1);
+			GSProtocol.GCMagicAttackNumberSend(lpTargetObj, 323, lpTargetObj.m_Index, 1);
 			gObjAddBuffEffect(lpTargetObj, BUFFTYPE_INVISIBLE2, 0, 0, 0, 0, 5);
 		}
 	}
@@ -350,9 +350,9 @@ BOOL CObjBaseAttack::ResistanceCheck(LPGameObject &lpObj, LPGameObject lpTargetO
 	{
 		for (int i = 0; i < MAX_MAGIC; i++)
 		{
-			if (lpObj->Magic[i].IsMagic() == TRUE && lpObj->Magic[i].m_Skill == skill)
+			if (lpObj.Magic[i].IsMagic() == TRUE && lpObj.Magic[i].m_Skill == skill)
 			{
-				fValue = g_MasterLevelSkillTreeSystem.GetMasterSkillValue(MagicDamageC.SkillGet(skill), lpObj->Magic[i].m_Level);
+				fValue = g_MasterLevelSkillTreeSystem.GetMasterSkillValue(MagicDamageC.SkillGet(skill), lpObj.Magic[i].m_Level);
 				break;
 			}
 		}
@@ -376,13 +376,13 @@ BOOL CObjBaseAttack::ResistanceCheck(LPGameObject &lpObj, LPGameObject lpTargetO
 		|| skill == 479
 		)
 	{
-		gObjAddMsgSendDelay(lpTargetObj, 2, lpObj->m_Index, 150, 0);
+		gObjAddMsgSendDelay(lpTargetObj, 2, lpObj.m_Index, 150, 0);
 	}
 	else if ( skill == 3 || skill == 379 || skill == 480 )	// Poison
 	{
 		if ( retResistance(lpTargetObj, 2) == 0 )
 		{
-			gObjAddMsgSendDelay(lpTargetObj, 2, lpObj->m_Index, 150, 0);
+			gObjAddMsgSendDelay(lpTargetObj, 2, lpObj.m_Index, 150, 0);
 			return TRUE;
 		}
 
@@ -397,8 +397,8 @@ BOOL CObjBaseAttack::ResistanceCheck(LPGameObject &lpObj, LPGameObject lpTargetO
 			{
 				if (rand() % 100 < gObjUseSkill.m_SkillData.PoisonSkillSuccessRate)
 				{
-					lpTargetObj->lpAttackObj = lpObj;
-					lpTargetObj->m_SkillNumber = skill;
+					lpTargetObj.lpAttackObj = lpObj;
+					lpTargetObj.m_SkillNumber = skill;
 					gObjAddBuffEffect(lpTargetObj, BUFFTYPE_POISON, EFFECTTYPE_POISON_DMG_TICK, gObjUseSkill.m_SkillData.PoisonPercent, 0, 0, gObjUseSkill.m_SkillData.PoisonSkillTime);
 
 				}
@@ -411,8 +411,8 @@ BOOL CObjBaseAttack::ResistanceCheck(LPGameObject &lpObj, LPGameObject lpTargetO
 			{
 				if (retResistance(lpTargetObj, 1) == 0)
 				{
-					lpTargetObj->lpAttackObj = lpObj;
-					lpTargetObj->m_SkillNumber = skill;
+					lpTargetObj.lpAttackObj = lpObj;
+					lpTargetObj.m_SkillNumber = skill;
 					gObjAddBuffEffect(lpTargetObj, BUFFTYPE_POISON, EFFECTTYPE_POISON_DMG_TICK, gObjUseSkill.m_SkillData.PoisonPercent, 0, 0, 20);
 				}
 				else
@@ -432,8 +432,8 @@ BOOL CObjBaseAttack::ResistanceCheck(LPGameObject &lpObj, LPGameObject lpTargetO
 		{
 			if (rand() % 100 < gObjUseSkill.m_SkillData.PoisonSkillSuccessRate)
 			{
-				lpTargetObj->lpAttackObj = lpObj;
-				lpTargetObj->m_SkillNumber = skill;
+				lpTargetObj.lpAttackObj = lpObj;
+				lpTargetObj.m_SkillNumber = skill;
 				gObjAddBuffEffect(lpTargetObj, BUFFTYPE_POISON, EFFECTTYPE_POISON_DMG_TICK, gObjUseSkill.m_SkillData.DeathPoisonPercent, 0, 0, gObjUseSkill.m_SkillData.PoisonSkillTime);
 			}
 			else
@@ -445,8 +445,8 @@ BOOL CObjBaseAttack::ResistanceCheck(LPGameObject &lpObj, LPGameObject lpTargetO
 		{
 			if (retResistance(lpTargetObj, 1) == 0)
 			{
-				lpTargetObj->lpAttackObj = lpObj;
-				lpTargetObj->m_SkillNumber = skill;
+				lpTargetObj.lpAttackObj = lpObj;
+				lpTargetObj.m_SkillNumber = skill;
 				gObjAddBuffEffect(lpTargetObj, BUFFTYPE_POISON, EFFECTTYPE_POISON_DMG_TICK, gObjUseSkill.m_SkillData.DeathPoisonPercent, 0, 0, 20);
 			}
 			else
@@ -466,10 +466,10 @@ BOOL CObjBaseAttack::ResistanceCheck(LPGameObject &lpObj, LPGameObject lpTargetO
 			{
 				if (g_ConfigRead.EnableFreezeEffect == 1)
 				{
-					lpTargetObj->DelayActionTime = 800;
-					lpTargetObj->DelayLevel = 1;
-					lpTargetObj->lpAttackObj = lpObj;
-					lpTargetObj->m_SkillNumber = skill;
+					lpTargetObj.DelayActionTime = 800;
+					lpTargetObj.DelayLevel = 1;
+					lpTargetObj.lpAttackObj = lpObj;
+					lpTargetObj.m_SkillNumber = skill;
 					gObjAddBuffEffect(lpTargetObj, BUFFTYPE_FREEZE, EFFECTTYPE_REDUCE_MOVE_SPEED, 0, 0, 0, g_ConfigRead.EnableFreezeEffectTime);
 				}
 			}
@@ -491,11 +491,11 @@ BOOL CObjBaseAttack::ResistanceCheck(LPGameObject &lpObj, LPGameObject lpTargetO
 		{
 			if (retResistance(lpTargetObj, 0) == 0)
 			{
-				lpTargetObj->lpAttackObj = lpObj;
+				lpTargetObj.lpAttackObj = lpObj;
 				gObjAddBuffEffect(lpTargetObj, BUFFTYPE_STONE, 0, 0, 0, 0, gObjUseSkill.m_SkillData.IceArrowTime);
-				lpTargetObj->PathCount = 0;
-				lpTargetObj->PathStartEnd = 0;
-				gObjSetPosition(lpTargetObj->m_Index, lpTargetObj->X, lpTargetObj->Y);
+				lpTargetObj.PathCount = 0;
+				lpTargetObj.PathStartEnd = 0;
+				gObjSetPosition(lpTargetObj.m_Index, lpTargetObj.X, lpTargetObj.Y);
 				return true;
 			}
 			else
@@ -514,48 +514,48 @@ BOOL CObjBaseAttack::ResistanceCheck(LPGameObject &lpObj, LPGameObject lpTargetO
 
 
 
-BOOL CObjBaseAttack::MissCheck(LPGameObject &lpObj, LPGameObject lpTargetObj, int skill, int skillSuccess, int magicsend, BOOL& bAllMiss, BYTE RFAttack)
+BOOL CObjBaseAttack::MissCheck(CGameObject &lpObj, CGameObject lpTargetObj, int skill, int skillSuccess, int magicsend, BOOL& bAllMiss, BYTE RFAttack)
 {
 	int iAttackRate = 0;
 
 	__try
 	{
 		iAttackRate = 0;
-		int iDefenseRate = lpTargetObj->m_SuccessfulBlocking;
+		int iDefenseRate = lpTargetObj.m_SuccessfulBlocking;
 
 		BYTE MSBDamage = 0;	// MonsterSetBasse Damage
 
-		if (IT_MAP_RANGE(lpTargetObj->MapNumber) && lpTargetObj->Type == OBJ_USER)
+		if (IT_MAP_RANGE(lpTargetObj.MapNumber) && lpTargetObj.Type == OBJ_USER)
 		{
-			if (g_IT_Event.GetIllusionTempleState(lpTargetObj->MapNumber) == 2)
+			if (g_IT_Event.GetIllusionTempleState(lpTargetObj.MapNumber) == 2)
 			{
-				if (g_IT_Event.CheckSkillProdection(lpTargetObj->m_nITR_Index, lpTargetObj->MapNumber) == TRUE)
+				if (g_IT_Event.CheckSkillProdection(lpTargetObj.m_nITR_Index, lpTargetObj.MapNumber) == TRUE)
 				{
-					GSProtocol.GCDamageSend(lpObj->m_Index, lpTargetObj->m_Index, 0, 0, 0, 0);
+					GSProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
 					return 0;
 				}
 
-				if (lpTargetObj->PartyNumber == lpObj->PartyNumber)
+				if (lpTargetObj.PartyNumber == lpObj.PartyNumber)
 				{
-					GSProtocol.GCDamageSend(lpObj->m_Index, lpTargetObj->m_Index, 0, 0, 0, 0);
+					GSProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
 					return 0;
 				}
 			}
 		}
 
-		if ( lpObj->Type == OBJ_USER )	// Miss for Uses
+		if ( lpObj.Type == OBJ_USER )	// Miss for Uses
 		{
-			iAttackRate = lpObj->m_PlayerData->m_AttackRatePvM;
-			iAttackRate += iAttackRate * lpObj->m_PlayerData->SetOpImproveSuccessAttackRate / 100;
+			iAttackRate = lpObj.m_PlayerData->m_AttackRatePvM;
+			iAttackRate += iAttackRate * lpObj.m_PlayerData->SetOpImproveSuccessAttackRate / 100;
 		}
 		else	// Miss for Monsters
 		{
-			iAttackRate = lpObj->m_AttackRating;
+			iAttackRate = lpObj.m_AttackRating;
 		}
 
-		if (lpObj->Type == OBJ_USER)
+		if (lpObj.Type == OBJ_USER)
 		{
-			iAttackRate += lpObj->m_PlayerData->m_MPSkillOpt.iMpsAttackSuccessRate;
+			iAttackRate += lpObj.m_PlayerData->m_MPSkillOpt.iMpsAttackSuccessRate;
 		}
 
 		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_BLIND_2) == true)
@@ -580,7 +580,7 @@ BOOL CObjBaseAttack::MissCheck(LPGameObject &lpObj, LPGameObject lpTargetObj, in
 			{
 				if (RFAttack)
 				{
-					if (lpObj->Class == CLASS_RAGEFIGHTER)
+					if (lpObj.Class == CLASS_RAGEFIGHTER)
 					{
 						if (skill == 261 || skill == 263 || skill == 552 || skill == 555 || skill == 559 || skill == 563)
 						{
@@ -609,7 +609,7 @@ BOOL CObjBaseAttack::MissCheck(LPGameObject &lpObj, LPGameObject lpTargetObj, in
 						}
 					}
 
-					else if (lpObj->Class == CLASS_GROWLANCER)
+					else if (lpObj.Class == CLASS_GROWLANCER)
 					{
 						if (skill == 276 || skill == 274 || skill == 277 || skill == 699 || skill == 688 || skill == 691 || skill == 692 || skill == 694 || skill == 695)
 						{
@@ -626,11 +626,11 @@ BOOL CObjBaseAttack::MissCheck(LPGameObject &lpObj, LPGameObject lpTargetObj, in
 					}
 				}
 
-				GSProtocol.GCDamageSend(lpObj->m_Index, lpTargetObj->m_Index, 0, 0, MSBDamage, 0);
+				GSProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, MSBDamage, 0);
 
 				if (magicsend != 0 )
 				{
-					GSProtocol.GCMagicAttackNumberSend(lpObj, skill, lpTargetObj->m_Index, skillSuccess);
+					GSProtocol.GCMagicAttackNumberSend(lpObj, skill, lpTargetObj.m_Index, skillSuccess);
 				}
 
 				return FALSE;
@@ -642,7 +642,7 @@ BOOL CObjBaseAttack::MissCheck(LPGameObject &lpObj, LPGameObject lpTargetObj, in
 			{
 				if (RFAttack)
 				{
-					if (lpObj->Class == CLASS_RAGEFIGHTER)
+					if (lpObj.Class == CLASS_RAGEFIGHTER)
 					{
 						if (skill == 261 || skill == 263 || skill == 552 || skill == 555 || skill == 559 || skill == 563)
 						{
@@ -671,7 +671,7 @@ BOOL CObjBaseAttack::MissCheck(LPGameObject &lpObj, LPGameObject lpTargetObj, in
 						}
 					}
 
-					else if (lpObj->Class == CLASS_GROWLANCER)
+					else if (lpObj.Class == CLASS_GROWLANCER)
 					{
 						if (skill == 276 || skill == 274 || skill == 277 || skill == 699 || skill == 688 || skill == 691 || skill == 692 || skill == 694 || skill == 695)
 						{
@@ -688,11 +688,11 @@ BOOL CObjBaseAttack::MissCheck(LPGameObject &lpObj, LPGameObject lpTargetObj, in
 					}
 				}
 
-				GSProtocol.GCDamageSend(lpObj->m_Index, lpTargetObj->m_Index, 0, 0, MSBDamage, 0);
+				GSProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, MSBDamage, 0);
 
 				if (magicsend != 0 )
 				{
-					GSProtocol.GCMagicAttackNumberSend(lpObj, skill, lpTargetObj->m_Index, skillSuccess);
+					GSProtocol.GCMagicAttackNumberSend(lpObj, skill, lpTargetObj.m_Index, skillSuccess);
 				}
 
 				return FALSE;
@@ -701,7 +701,7 @@ BOOL CObjBaseAttack::MissCheck(LPGameObject &lpObj, LPGameObject lpTargetObj, in
 	}
 	__except (iAttackRate = 1, 1)
 	{
-		sLog->outBasic("error2: %s's level is 0", lpObj->Name);
+		sLog->outBasic("error2: %s's level is 0", lpObj.Name);
 		return FALSE;
 	}
 
@@ -710,7 +710,7 @@ BOOL CObjBaseAttack::MissCheck(LPGameObject &lpObj, LPGameObject lpTargetObj, in
 
 
 
-BOOL CObjBaseAttack::MissCheckPvP(LPGameObject &lpObj , LPGameObject lpTargetObj, int skill, int skillSuccess, int magicsend, BOOL & bAllMiss, BYTE RFAttack)
+BOOL CObjBaseAttack::MissCheckPvP(CGameObject &lpObj , CGameObject lpTargetObj, int skill, int skillSuccess, int magicsend, BOOL & bAllMiss, BYTE RFAttack)
 {
 	if (lpObj == NULL)
 	{
@@ -722,53 +722,53 @@ BOOL CObjBaseAttack::MissCheckPvP(LPGameObject &lpObj , LPGameObject lpTargetObj
 		return FALSE;
 	}
 
-	if (lpTargetObj->Type != OBJ_USER || lpObj->Type != OBJ_USER)
+	if (lpTargetObj.Type != OBJ_USER || lpObj.Type != OBJ_USER)
 	{
 		return FALSE;
 	}
 
 	float iAttackRate = 0;
 	float iDefenseRate = 0;
-	int AttackLevel = lpObj->Level + lpObj->m_PlayerData->MasterLevel;
-	int DefenseLevel = lpTargetObj->Level + lpTargetObj->m_PlayerData->MasterLevel;
+	int AttackLevel = lpObj.Level + lpObj.m_PlayerData->MasterLevel;
+	int DefenseLevel = lpTargetObj.Level + lpTargetObj.m_PlayerData->MasterLevel;
 	int iAttackSuccessRate = 0;
 
-	if (IT_MAP_RANGE(lpTargetObj->MapNumber) && lpTargetObj->Type == OBJ_USER)
+	if (IT_MAP_RANGE(lpTargetObj.MapNumber) && lpTargetObj.Type == OBJ_USER)
 	{
-		if (g_IT_Event.GetIllusionTempleState(lpTargetObj->MapNumber) == 2)
+		if (g_IT_Event.GetIllusionTempleState(lpTargetObj.MapNumber) == 2)
 		{
-			if (g_IT_Event.CheckSkillProdection(lpTargetObj->m_nITR_Index, lpTargetObj->MapNumber) == TRUE)
+			if (g_IT_Event.CheckSkillProdection(lpTargetObj.m_nITR_Index, lpTargetObj.MapNumber) == TRUE)
 			{
-				GSProtocol.GCDamageSend(lpObj->m_Index, lpTargetObj->m_Index, 0, 0, 0, 0);
+				GSProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
 				return 0;
 			}
 
-			if (lpTargetObj->PartyNumber == lpObj->PartyNumber)
+			if (lpTargetObj.PartyNumber == lpObj.PartyNumber)
 			{
-				GSProtocol.GCDamageSend(lpObj->m_Index, lpTargetObj->m_Index, 0, 0, 0, 0);
+				GSProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
 				return 0;
 			}
 		}
 	}
 
 #if (ENABLE_CUSTOM_PVPBALANCE == 1)
-	g_PvPBalance.modifyAttackRate(lpObj->m_Index, lpTargetObj->m_Index, iAttackRate);
-	g_PvPBalance.modifyDefenseRate(lpObj->m_Index, lpTargetObj->m_Index, iDefenseRate);
+	g_PvPBalance.modifyAttackRate(lpObj.m_Index, lpTargetObj.m_Index, iAttackRate);
+	g_PvPBalance.modifyDefenseRate(lpObj.m_Index, lpTargetObj.m_Index, iDefenseRate);
 #endif
 
-	iAttackRate = lpObj->m_PlayerData->m_AttackRatePvP;
-	iDefenseRate = lpTargetObj->m_PlayerData->m_DefenseRatePvP;
+	iAttackRate = lpObj.m_PlayerData->m_AttackRatePvP;
+	iDefenseRate = lpTargetObj.m_PlayerData->m_DefenseRatePvP;
 
 	if ( iAttackRate <= 0.0f || iDefenseRate <= 0.0f || AttackLevel <= 0 || lpTargetObj == 0 ) return FALSE;
 
-	iAttackRate += lpObj->m_PlayerData->m_ItemOptionExFor380.OpAddAttackSuccessRatePVP;
-	iDefenseRate += lpTargetObj->m_PlayerData->m_ItemOptionExFor380.OpAddDefenseSuccessRatePvP;
+	iAttackRate += lpObj.m_PlayerData->m_ItemOptionExFor380.OpAddAttackSuccessRatePVP;
+	iDefenseRate += lpTargetObj.m_PlayerData->m_ItemOptionExFor380.OpAddDefenseSuccessRatePvP;
 
-	iAttackRate += lpObj->m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddAttackSuccessRatePVP;
-	iDefenseRate += lpTargetObj->m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddDefenseSuccessRatePvP;
+	iAttackRate += lpObj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddAttackSuccessRatePVP;
+	iDefenseRate += lpTargetObj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddDefenseSuccessRatePvP;
 
-	iAttackRate += lpObj->m_PlayerData->m_MPSkillOpt.iMpsIncreasePvPAttackRate;
-	iDefenseRate += lpTargetObj->m_PlayerData->m_MPSkillOpt.iMpsIncreasePvPDefenseRate;
+	iAttackRate += lpObj.m_PlayerData->m_MPSkillOpt.iMpsIncreasePvPAttackRate;
+	iDefenseRate += lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsIncreasePvPDefenseRate;
 	
 	float iExpressionA = ( iAttackRate * 10000.0f ) / ( iAttackRate + iDefenseRate );	// #formula
 	float iExpressionB = ( AttackLevel * 10000 ) / ( AttackLevel + DefenseLevel );	// #formula
@@ -812,7 +812,7 @@ BOOL CObjBaseAttack::MissCheckPvP(LPGameObject &lpObj , LPGameObject lpTargetObj
 
 		if (RFAttack)
 		{
-			if (lpObj->Class == CLASS_RAGEFIGHTER)
+			if (lpObj.Class == CLASS_RAGEFIGHTER)
 			{
 				if (skill == 261 || skill == 263 || skill == 552 || skill == 555 || skill == 559 || skill == 563)
 				{
@@ -841,7 +841,7 @@ BOOL CObjBaseAttack::MissCheckPvP(LPGameObject &lpObj , LPGameObject lpTargetObj
 				}
 			}
 
-			else if (lpObj->Class == CLASS_GROWLANCER)
+			else if (lpObj.Class == CLASS_GROWLANCER)
 			{
 				if (skill == 276 || skill == 274 || skill == 277 || skill == 699 || skill == 688 || skill == 691 || skill == 692 || skill == 694 || skill == 695)
 				{
@@ -858,14 +858,14 @@ BOOL CObjBaseAttack::MissCheckPvP(LPGameObject &lpObj , LPGameObject lpTargetObj
 			}
 		}
 
-		GSProtocol.GCDamageSend(lpObj->m_Index, lpTargetObj->m_Index, 0, 0, MsgDamage, 0);
+		GSProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, MsgDamage, 0);
 
 		if ( g_ConfigRead.g_bShieldComboMissOptionOn == TRUE )
 		{
-			if ( lpObj->m_PlayerData->comboSkill.ProgressIndex >= 0 )
+			if ( lpObj.m_PlayerData->comboSkill.ProgressIndex >= 0 )
 			{
-				sLog->outBasic("[Shield] ComboSkill Cancel! [%s][%s]",lpObj->AccountID, lpObj->Name);
-				lpObj->m_PlayerData->comboSkill.Init();
+				sLog->outBasic("[Shield] ComboSkill Cancel! [%s][%s]",lpObj.AccountID, lpObj.Name);
+				lpObj.m_PlayerData->comboSkill.Init();
 			}
 		}
 
@@ -875,13 +875,13 @@ BOOL CObjBaseAttack::MissCheckPvP(LPGameObject &lpObj , LPGameObject lpTargetObj
 	return TRUE;
 }
 
-int  CObjBaseAttack::GetTargetDefense(LPGameObject &lpObj, LPGameObject lpTargetObj, int& MsgDamage, int& iOriginTargetDefense)
+int  CObjBaseAttack::GetTargetDefense(CGameObject &lpObj, CGameObject lpTargetObj, int& MsgDamage, int& iOriginTargetDefense)
 {
-	int targetdefense = lpTargetObj->m_Defense;
+	int targetdefense = lpTargetObj.m_Defense;
 
-	if (lpObj->Type == OBJ_USER && lpTargetObj->Type == OBJ_USER)
+	if (lpObj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
 	{
-		targetdefense += lpTargetObj->m_PlayerData->m_ItemOptionExFor380.OpAddDefense / 2;
+		targetdefense += lpTargetObj.m_PlayerData->m_ItemOptionExFor380.OpAddDefense / 2;
 	}
 
 	int decdef = gObjGetTotalValueOfEffect(lpTargetObj, EFFECTTYPE_DECREASE_DEFENSE);
@@ -901,9 +901,9 @@ int  CObjBaseAttack::GetTargetDefense(LPGameObject &lpObj, LPGameObject lpTarget
 		targetdefense += 10 * nMuunItemEffectValue / 20;
 	}
 	
-	if ( lpTargetObj->m_MonsterSkillElementInfo.m_iSkillElementDefenseTime > 0 )
+	if ( lpTargetObj.m_MonsterSkillElementInfo.m_iSkillElementDefenseTime > 0 )
 	{
-		targetdefense += lpTargetObj->m_MonsterSkillElementInfo.m_iSkillElementDefense;
+		targetdefense += lpTargetObj.m_MonsterSkillElementInfo.m_iSkillElementDefense;
 
 		if ( targetdefense <0 )
 			targetdefense = 0;
@@ -912,9 +912,9 @@ int  CObjBaseAttack::GetTargetDefense(LPGameObject &lpObj, LPGameObject lpTarget
 
 	float percentdamage = 0;
 
-	if ( lpObj->pInventory[7].IsItem() != FALSE )
+	if ( lpObj.pInventory[7].IsItem() != FALSE )
 	{
-		percentdamage += lpObj->m_PlayerData->m_WingExcOption.iWingOpIgnoreEnemyDefense;
+		percentdamage += lpObj.m_PlayerData->m_WingExcOption.iWingOpIgnoreEnemyDefense;
 	}
 
 	if ( gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_MONK_IGNORE_ENEMY_DEFENSE))
@@ -929,30 +929,30 @@ int  CObjBaseAttack::GetTargetDefense(LPGameObject &lpObj, LPGameObject lpTarget
 		{
 			if (rand() % 100 <= 10)
 			{
-				float nEffectValue = nEffectValue2 * lpTargetObj->m_SuccessfulBlocking / 100.0;
+				float nEffectValue = nEffectValue2 * lpTargetObj.m_SuccessfulBlocking / 100.0;
 				gObjAddBuffEffect(lpTargetObj, BUFFTYPE_PENETRATE_ARMOR, EFFECTTYPE_DECREASE_DEFENSE, nEffectValue2, EFFECTTYPE_DECREASE_DEFENSE_RATE, nEffectValue, 10);
 			}
 		}
 	}
 
-	if(lpObj->Type == OBJ_USER)
+	if(lpObj.Type == OBJ_USER)
 	{
-		percentdamage += lpObj->m_PlayerData->SetOpIgnoreDefense;
+		percentdamage += lpObj.m_PlayerData->SetOpIgnoreDefense;
 
-		if (lpObj->m_PlayerData->m_MPSkillOpt.iMpsIgnoreEnemyDefence > 0.0)
+		if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsIgnoreEnemyDefence > 0.0)
 		{
-			percentdamage += lpObj->m_PlayerData->m_MPSkillOpt.iMpsIgnoreEnemyDefence;
+			percentdamage += lpObj.m_PlayerData->m_MPSkillOpt.iMpsIgnoreEnemyDefence;
 		}
 
-		if (lpObj->m_PlayerData->m_MPSkillOpt.iMpsIncIgnoreEnemyBlock > 0.0)
+		if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsIncIgnoreEnemyBlock > 0.0)
 		{
-			percentdamage += lpObj->m_PlayerData->m_MPSkillOpt.iMpsIncIgnoreEnemyBlock;
+			percentdamage += lpObj.m_PlayerData->m_MPSkillOpt.iMpsIncIgnoreEnemyBlock;
 		}
 	}
 
-	if (lpTargetObj->Type == OBJ_USER)
+	if (lpTargetObj.Type == OBJ_USER)
 	{
-		percentdamage -= lpTargetObj->m_PlayerData->m_Resistance_Perfect;
+		percentdamage -= lpTargetObj.m_PlayerData->m_Resistance_Perfect;
 	}
 
 	iOriginTargetDefense = targetdefense;
@@ -973,10 +973,10 @@ int  CObjBaseAttack::GetTargetDefense(LPGameObject &lpObj, LPGameObject lpTarget
 
 
 
-int  CObjBaseAttack::GetPartyMemberCount(LPGameObject &lpObj)
+int  CObjBaseAttack::GetPartyMemberCount(CGameObject &lpObj)
 {
-	LPGameObject lpPartyObj;
-	int partynum = lpObj->PartyNumber;
+	CGameObject lpPartyObj;
+	int partynum = lpObj.PartyNumber;
 
 	if ( ObjectMaxRange(partynum) == FALSE )
 	{
@@ -994,7 +994,7 @@ int  CObjBaseAttack::GetPartyMemberCount(LPGameObject &lpObj)
 		{
 			lpPartyObj = &gGameObjects[memberindex];
 
-			if ( lpObj->MapNumber == lpPartyObj->MapNumber )
+			if ( lpObj.MapNumber == lpPartyObj.MapNumber )
 			{
 				int dis = gObjCalDistance(lpObj, &gGameObjects[memberindex]);
 				

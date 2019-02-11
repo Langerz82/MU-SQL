@@ -105,7 +105,7 @@ bool CItemDrop::LoadFile(const char *szFile)
 	} 
 }
 
-bool CItemDrop::DropItem(LPGameObject &lpUser, LPGameObject lpMonster)
+bool CItemDrop::DropItem(CGameObject &lpUser, CGameObject lpMonster)
 {
 	if(!ObjectMaxRange(lpUser->m_Index))
 		return false;
@@ -364,7 +364,7 @@ bool CItemDrop::DropItem(LPGameObject &lpUser, LPGameObject lpMonster)
 	return true;
 }
 
-ITEMDROP_ITEM ** CItemDrop::GetItem(LPGameObject &lpUser, LPGameObject &lpMonster, int & iItemCount)
+ITEMDROP_ITEM ** CItemDrop::GetItem(CGameObject &lpUser, CGameObject &lpMonster, int & iItemCount)
 {
 	boost::shared_ptr<ITEMDROP_MONSTER> itemdrop_monster_ = this->GetMonsterData(lpUser, lpMonster);
 
@@ -399,7 +399,7 @@ ITEMDROP_ITEM ** CItemDrop::GetItem(LPGameObject &lpUser, LPGameObject &lpMonste
 	return lpItems;
 }
 
-boost::shared_ptr<ITEMDROP_MONSTER> CItemDrop::GetMonsterData(LPGameObject &lpUser, LPGameObject &lpMonster)
+boost::shared_ptr<ITEMDROP_MONSTER> CItemDrop::GetMonsterData(CGameObject &lpUser, CGameObject &lpMonster)
 {
 	TRandomPoolMgr RandomPoolSection;
 
@@ -493,7 +493,7 @@ boost::shared_ptr<ITEMDROP_ITEM> CItemDrop::GetItemFromMonster(boost::shared_ptr
 	return NULL;
 }
 
-void CItemDrop::AddCoinReward(boost::shared_ptr<ITEMDROP_MONSTER> itemdrop_monster_ptr, LPGameObject lpUser)
+void CItemDrop::AddCoinReward(boost::shared_ptr<ITEMDROP_MONSTER> itemdrop_monster_ptr, CGameObject lpUser)
 {
 	if (itemdrop_monster_ptr->bIsCoinReward == false)
 	{

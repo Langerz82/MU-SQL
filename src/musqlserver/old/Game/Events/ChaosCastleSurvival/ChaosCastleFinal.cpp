@@ -1026,26 +1026,26 @@ int ChaosCastleFinal::BlowObjsFromPoint(int iIndex, int iMapNumber, int & iX, in
 	if (!CHECK_LIMIT(iX, 256) || !CHECK_LIMIT(iY, 256))
 		return FALSE;
 
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 
-	if (lpObj->DieRegen)
+	if (lpObj.DieRegen)
 		return FALSE;
 
-	if (lpObj->Teleport)
+	if (lpObj.Teleport)
 		return FALSE;
 
-	if (lpObj->MapNumber != iMapNumber)
+	if (lpObj.MapNumber != iMapNumber)
 		return FALSE;
 
-	int iOBJ_DIST = this->CalDistance(lpObj->X, lpObj->Y, iX, iY);
+	int iOBJ_DIST = this->CalDistance(lpObj.X, lpObj.Y, iX, iY);
 
 	if (!CHECK_LIMIT(iOBJ_DIST, 4))
 		return FALSE;
 
 	int iSIGN_X = 1;
 	int iSIGN_Y = 1;
-	int iUX = lpObj->X;
-	int iUY = lpObj->Y;
+	int iUX = lpObj.X;
+	int iUY = lpObj.Y;
 
 	if (iUX > iX)
 		iSIGN_X = 1;
@@ -1097,8 +1097,8 @@ int ChaosCastleFinal::BlowObjsFromPoint(int iIndex, int iMapNumber, int & iX, in
 				iBLOW_X = 0;
 		}
 
-		int iTX = lpObj->X + iBLOW_X * iSIGN_X;
-		int iTY = lpObj->Y + iBLOW_Y * iSIGN_Y;
+		int iTX = lpObj.X + iBLOW_X * iSIGN_X;
+		int iTY = lpObj.Y + iBLOW_Y * iSIGN_Y;
 
 		if (iTX < 0) iTX = 0;
 		if (iTY < 0) iTY = 0;
@@ -1109,11 +1109,11 @@ int ChaosCastleFinal::BlowObjsFromPoint(int iIndex, int iMapNumber, int & iX, in
 
 		if (bSuccessBlowOut)
 		{
-			lpObj->m_iChaosCastleBlowTime = GetTickCount();
+			lpObj.m_iChaosCastleBlowTime = GetTickCount();
 			iX = iTX;
 			iY = iTY;
 
-			this->GiveUserDamage(lpObj->m_Index, g_nCCF_BlowOutDamage[iOBJ_DIST % 4]);
+			this->GiveUserDamage(lpObj.m_Index, g_nCCF_BlowOutDamage[iOBJ_DIST % 4]);
 			break;
 		}
 	}
@@ -1148,48 +1148,48 @@ int ChaosCastleFinal::GetCurrentCCFWinUser(int *nPoint)
 			&& gGameObjects[this->m_stCCFData.m_UserData[i].m_nIndex].MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL
 			&& !this->m_stCCFData.m_UserData[i].m_nUserState)
 		{
-			LPGameObject lpObj = &gGameObjects[this->m_stCCFData.m_UserData[i].m_nIndex];
-			int iCCF_TEMP_SCORE = lpObj->m_byKillMobCount + 2 * lpObj->m_byKillUserCount;
+			CGameObject lpObj = &gGameObjects[this->m_stCCFData.m_UserData[i].m_nIndex];
+			int iCCF_TEMP_SCORE = lpObj.m_byKillMobCount + 2 * lpObj.m_byKillUserCount;
 
 			if (iCCF_SCORE >= iCCF_TEMP_SCORE)
 			{
 				if (iCCF_SCORE == iCCF_TEMP_SCORE)
 				{
-					int tempNewAllLevel = lpObj->m_PlayerData->MasterLevel + lpObj->Level;
+					int tempNewAllLevel = lpObj.m_PlayerData->MasterLevel + lpObj.Level;
 					if (OldWinnerLevel <= tempNewAllLevel)
 					{
 						if (OldWinnerLevel == tempNewAllLevel)
 						{
-							if (Oldi64MasterLevelExp > lpObj->m_PlayerData->MasterExperience)
+							if (Oldi64MasterLevelExp > lpObj.m_PlayerData->MasterExperience)
 							{
-								iCCF_SCORE = lpObj->m_byKillMobCount + 2 * lpObj->m_byKillUserCount;
-								iCCF_WINNER_INDEX = lpObj->m_Index;
-								OldWinnerLevel = lpObj->m_PlayerData->MasterLevel + lpObj->Level;
+								iCCF_SCORE = lpObj.m_byKillMobCount + 2 * lpObj.m_byKillUserCount;
+								iCCF_WINNER_INDEX = lpObj.m_Index;
+								OldWinnerLevel = lpObj.m_PlayerData->MasterLevel + lpObj.Level;
 								*nPoint = iCCF_TEMP_SCORE;
 								this->m_stCCFData.m_UserData[i].m_nScore = iCCF_TEMP_SCORE;
-								Oldi64MasterLevelExp = lpObj->m_PlayerData->MasterExperience;
+								Oldi64MasterLevelExp = lpObj.m_PlayerData->MasterExperience;
 							}
 						}
 					}
 					else
 					{
-						iCCF_SCORE = lpObj->m_byKillMobCount + 2 * lpObj->m_byKillUserCount;
-						iCCF_WINNER_INDEX = lpObj->m_Index;
-						OldWinnerLevel = lpObj->m_PlayerData->MasterLevel + lpObj->Level;
+						iCCF_SCORE = lpObj.m_byKillMobCount + 2 * lpObj.m_byKillUserCount;
+						iCCF_WINNER_INDEX = lpObj.m_Index;
+						OldWinnerLevel = lpObj.m_PlayerData->MasterLevel + lpObj.Level;
 						*nPoint = iCCF_TEMP_SCORE;
 						this->m_stCCFData.m_UserData[i].m_nScore = iCCF_TEMP_SCORE;
-						Oldi64MasterLevelExp = lpObj->m_PlayerData->MasterExperience;
+						Oldi64MasterLevelExp = lpObj.m_PlayerData->MasterExperience;
 					}
 				}
 			}
 			else
 			{
-				iCCF_SCORE = lpObj->m_byKillMobCount + 2 * lpObj->m_byKillUserCount;
-				iCCF_WINNER_INDEX = lpObj->m_Index;
-				OldWinnerLevel = lpObj->m_PlayerData->MasterLevel + lpObj->Level;
+				iCCF_SCORE = lpObj.m_byKillMobCount + 2 * lpObj.m_byKillUserCount;
+				iCCF_WINNER_INDEX = lpObj.m_Index;
+				OldWinnerLevel = lpObj.m_PlayerData->MasterLevel + lpObj.Level;
 				*nPoint = iCCF_TEMP_SCORE;
 				this->m_stCCFData.m_UserData[i].m_nScore = iCCF_TEMP_SCORE;
-				Oldi64MasterLevelExp = lpObj->m_PlayerData->MasterExperience;
+				Oldi64MasterLevelExp = lpObj.m_PlayerData->MasterExperience;
 			}
 		}
 	}
@@ -2300,15 +2300,15 @@ int ChaosCastleFinal::ObjSetPosition(int iIndex, int iX, int iY)
 	if (!ObjectMaxRange(iIndex))
 		return TRUE;
 
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 
-	if (lpObj->MapNumber != MAP_INDEX_CHAOSCASTLE_SURVIVAL)
+	if (lpObj.MapNumber != MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 		return FALSE;
 
-	if (lpObj->Teleport)
+	if (lpObj.Teleport)
 		return TRUE;
 
-	BYTE btMapAttr = MapC[lpObj->MapNumber].GetAttr(iX, iY);
+	BYTE btMapAttr = MapC[lpObj.MapNumber].GetAttr(iX, iY);
 
 	if ((btMapAttr & 2) == 2 || (btMapAttr & 4) == 4)
 		return FALSE;
@@ -2321,16 +2321,16 @@ int ChaosCastleFinal::ObjSetPosition(int iIndex, int iX, int iY)
 	pMove.X = iX;
 	pMove.Y = iY;
 
-	lpObj->m_Rest = 0;
+	lpObj.m_Rest = 0;
 
-	MapC[lpObj->MapNumber].ClearStandAttr(lpObj->m_OldX, lpObj->m_OldY);
-	MapC[lpObj->MapNumber].SetStandAttr(iX, iY);
+	MapC[lpObj.MapNumber].ClearStandAttr(lpObj.m_OldX, lpObj.m_OldY);
+	MapC[lpObj.MapNumber].SetStandAttr(iX, iY);
 
-	lpObj->m_OldX = iX;
-	lpObj->m_OldY = iY;
+	lpObj.m_OldX = iX;
+	lpObj.m_OldY = iY;
 
-	lpObj->X = pMove.X;
-	lpObj->Y = pMove.Y;
+	lpObj.X = pMove.X;
+	lpObj.Y = pMove.Y;
 
 	PMSG_RECV_POSISTION_SET pMove2;
 
@@ -2339,23 +2339,23 @@ int ChaosCastleFinal::ObjSetPosition(int iIndex, int iX, int iY)
 	pMove2.NumberL = SET_NUMBERL(iIndex);
 	pMove2.X = pMove.X;
 	pMove2.Y = pMove.Y;
-	lpObj->TX = pMove.X;
-	lpObj->TY = pMove.Y;
+	lpObj.TX = pMove.X;
+	lpObj.TY = pMove.Y;
 
-	CreateFrustrum(lpObj->X, lpObj->Y, iIndex);
+	CreateFrustrum(lpObj.X, lpObj.Y, iIndex);
 
-	if (lpObj->Type == OBJ_USER)
+	if (lpObj.Type == OBJ_USER)
 	{
 		IOCP.DataSend(iIndex, (UCHAR *)&pMove2, pMove2.h.size);
 	}
 
 	GSProtocol.MsgSendV2(&gGameObjects[iIndex], (UCHAR *)&pMove2, pMove2.h.size);
 
-	MapC[lpObj->MapNumber].ClearStandAttr(lpObj->m_OldX, lpObj->m_OldY);
-	MapC[lpObj->MapNumber].SetStandAttr(lpObj->TX, lpObj->TY);
+	MapC[lpObj.MapNumber].ClearStandAttr(lpObj.m_OldX, lpObj.m_OldY);
+	MapC[lpObj.MapNumber].SetStandAttr(lpObj.TX, lpObj.TY);
 
-	lpObj->m_OldX = lpObj->TX;
-	lpObj->m_OldY = lpObj->TY;
+	lpObj.m_OldX = lpObj.TX;
+	lpObj.m_OldY = lpObj.TY;
 
 	return TRUE;
 }
@@ -2672,7 +2672,7 @@ void ChaosCastleFinal::CCF_Start_Fail_So_RollBack()
 	}
 }
 
-void ChaosCastleFinal::Send_CCF_Schedule(LPGameObject &lpObj)
+void ChaosCastleFinal::Send_CCF_Schedule(CGameObject &lpObj)
 {
 	char sendbuf[4096];
 	memset(sendbuf, 0x00, sizeof(sendbuf));
@@ -2834,14 +2834,14 @@ void ChaosCastleFinal::GD_Load_CCF_RankingList(BYTE byCCFType)
 	wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
 }
 
-void ChaosCastleFinal::GD_Req_Get_Permission(LPGameObject &lpObj)
+void ChaosCastleFinal::GD_Req_Get_Permission(CGameObject &lpObj)
 {
-	if (ObjectMaxRange(lpObj->m_Index) == false)
+	if (ObjectMaxRange(lpObj.m_Index) == false)
 	{
 		return;
 	}
 
-	if (gObjIsConnected(lpObj->m_Index) == false)
+	if (gObjIsConnected(lpObj.m_Index) == false)
 	{
 		return;
 	}
@@ -2849,17 +2849,17 @@ void ChaosCastleFinal::GD_Req_Get_Permission(LPGameObject &lpObj)
 	PMSG_REQ_CCF_PERMISSION pMsg;
 
 	pMsg.szCharName[MAX_ACCOUNT_LEN] = 0;
-	memcpy(pMsg.szCharName, lpObj->Name, MAX_ACCOUNT_LEN);
+	memcpy(pMsg.szCharName, lpObj.Name, MAX_ACCOUNT_LEN);
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.h.headcode = 0xF9;
 	pMsg.h.subcode = 0xA2;
 	pMsg.byCCFType = this->Check_CCF_DayType() - 1;
-	pMsg.nIndex = lpObj->m_Index;
+	pMsg.nIndex = lpObj.m_Index;
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 	sLog->outBasic("[Chaos Castle Survival][GD_Req_Get_Permission] NAME:%s,CCFTYPE:%d",
-		lpObj->Name, pMsg.byCCFType);
+		lpObj.Name, pMsg.byCCFType);
 }
 
 BOOL ChaosCastleFinal::PayUserEnterMoney(int iUserIndex, int nCCFType)
@@ -3153,12 +3153,12 @@ void ChaosCastleFinal::SendAllMemberOfCCF(int index)
 	{
 		if (this->m_stCCFData.m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_stCCFData.m_UserData[i].m_nIndex].Connected > PLAYER_LOGGED)
 		{
-			LPGameObject lpObj = &gGameObjects[this->m_stCCFData.m_UserData[i].m_nIndex];
+			CGameObject lpObj = &gGameObjects[this->m_stCCFData.m_UserData[i].m_nIndex];
 
 			if (lpObj)
 			{
 				char szMsg[128];
-				wsprintf(szMsg, "[CCF Entry]-> No.%d, Name:%s, Level:%d, MasterLevel:%d, Class%d", i, lpObj->Name, lpObj->Level, lpObj->m_PlayerData->MasterLevel, lpObj->Class);
+				wsprintf(szMsg, "[CCF Entry]-> No.%d, Name:%s, Level:%d, MasterLevel:%d, Class%d", i, lpObj.Name, lpObj.Level, lpObj.m_PlayerData->MasterLevel, lpObj.Class);
 				GSProtocol.GCServerMsgStringSend(szMsg, index, 1);
 			}
 		}
@@ -3276,19 +3276,19 @@ void ChaosCastleFinal::GDReqSetCCFReward_UBF(int iUserIndex, BYTE btCCFType, BYT
 		return;
 	}
 
-	LPGameObject lpObj = &gGameObjects[iUserIndex];
+	CGameObject lpObj = &gGameObjects[iUserIndex];
 
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return;
 	}
 
 	sLog->outBasic("[UBF][ChaosCastleFinal][GDReqSetCCFWinerInformation]ACC:%s , NAME :%s,Real NAME :%s, CCFType:%d, RewardType:%d",
-		lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->m_RealNameOfUBF, btCCFType, btRewardType);
+		lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->m_RealNameOfUBF, btCCFType, btRewardType);
 
 	SDHP_REQ_SET_CCF_WINNER_INFO pMsg;
 	
-	memcpy(pMsg.UBFName, lpObj->Name, MAX_ACCOUNT_LEN+1);
+	memcpy(pMsg.UBFName, lpObj.Name, MAX_ACCOUNT_LEN+1);
 	pMsg.btCCFType = btCCFType;
 	pMsg.btRewardType = btRewardType;
 
@@ -3337,9 +3337,9 @@ void ChaosCastleFinal::SetUBFGetReward(int iUserIndex, WORD wItemCode, UINT64 It
 		return;
 	}
 
-	LPGameObject lpObj = &gGameObjects[iUserIndex];
+	CGameObject lpObj = &gGameObjects[iUserIndex];
 
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return;
 	}

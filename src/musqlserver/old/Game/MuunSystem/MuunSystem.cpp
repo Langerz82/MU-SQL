@@ -33,7 +33,7 @@ CMuunAttack::~CMuunAttack()
 
 }
 
-void CMuunAttack::SendAttackMsg(LPGameObject &lpObj, int aTargetIndex, int SubCode, int SubCode2)
+void CMuunAttack::SendAttackMsg(CGameObject &lpObj, int aTargetIndex, int SubCode, int SubCode2)
 {
 	if (SubCode == MUUN_DEC_ENEMY_ATTACK_SKILL)
 	{
@@ -84,21 +84,21 @@ void CMuunAttack::SendAttackMsg(LPGameObject &lpObj, int aTargetIndex, int SubCo
 	gObjAddAttackProcMsgSendDelay(&gGameObjects[aIndex], 63, aTargetIndex, 600, SubCode, SubCode2);
 }
 
-void CMuunAttack::SkillProc(LPGameObject &lpObj)
+void CMuunAttack::SkillProc(CGameObject &lpObj)
 {
 	for (int i = 0; i < MAX_MUUN_EFFECT_LIST; i++)
 	{
-		if (lpObj->pMuunInventory[i].m_Durability > 0.0 &&
-			lpObj->m_MuunEffectList[i].bOptEnable == true &&
-			(lpObj->m_MuunEffectList[i].nOptType == MUUN_ATTACK_SKILL ||
-			lpObj->m_MuunEffectList[i].nOptType == MUUN_DEC_ENEMY_ATTACK_SKILL ||
-			lpObj->m_MuunEffectList[i].nOptType == MUUN_ATTACK_SKILL_2 ||
-			lpObj->m_MuunEffectList[i].nOptType == MUUN_ATTACK_SKILL_NONPVP))
+		if (lpObj.pMuunInventory[i].m_Durability > 0.0 &&
+			lpObj.m_MuunEffectList[i].bOptEnable == true &&
+			(lpObj.m_MuunEffectList[i].nOptType == MUUN_ATTACK_SKILL ||
+			lpObj.m_MuunEffectList[i].nOptType == MUUN_DEC_ENEMY_ATTACK_SKILL ||
+			lpObj.m_MuunEffectList[i].nOptType == MUUN_ATTACK_SKILL_2 ||
+			lpObj.m_MuunEffectList[i].nOptType == MUUN_ATTACK_SKILL_NONPVP))
 		{
-			DWORD dwSkillDelayTime = lpObj->m_MuunEffectList[i].nSkillDelayTime;
-			int nTargetIndex = lpObj->m_MuunEffectList[i].nTargetIndex;
+			DWORD dwSkillDelayTime = lpObj.m_MuunEffectList[i].nSkillDelayTime;
+			int nTargetIndex = lpObj.m_MuunEffectList[i].nTargetIndex;
 
-			if (nTargetIndex >= 0 || (lpObj->m_MuunEffectList[i].nOptType != MUUN_ATTACK_SKILL && lpObj->m_MuunEffectList[i].nOptType != MUUN_ATTACK_SKILL_2 && lpObj->m_MuunEffectList[i].nOptType != MUUN_ATTACK_SKILL_NONPVP))
+			if (nTargetIndex >= 0 || (lpObj.m_MuunEffectList[i].nOptType != MUUN_ATTACK_SKILL && lpObj.m_MuunEffectList[i].nOptType != MUUN_ATTACK_SKILL_2 && lpObj.m_MuunEffectList[i].nOptType != MUUN_ATTACK_SKILL_NONPVP))
 			{
 				if (g_GensSystem.IsPkEnable(lpObj, &gGameObjects[nTargetIndex]) == FALSE)
 				{
@@ -111,70 +111,70 @@ void CMuunAttack::SkillProc(LPGameObject &lpObj)
 					return;
 				}
 
-				if ((MapC[lpObj->MapNumber].GetAttr(lpObj->X, lpObj->Y) & 1) == 1)
+				if ((MapC[lpObj.MapNumber].GetAttr(lpObj.X, lpObj.Y) & 1) == 1)
 				{
 					g_CMuunSystem.ReSetTarget(lpObj, nTargetIndex);
 					return;
 				}
 
-				if (lpObj->pMuunInventory[i].IsMuunItemPeriodExpire() == FALSE && lpObj->m_MuunEffectList[i].nAddOptType == 3)
+				if (lpObj.pMuunInventory[i].IsMuunItemPeriodExpire() == FALSE && lpObj.m_MuunEffectList[i].nAddOptType == 3)
 				{
-					dwSkillDelayTime /= lpObj->m_MuunEffectList[i].nAddOptValue;
+					dwSkillDelayTime /= lpObj.m_MuunEffectList[i].nAddOptValue;
 				}
 
-				if (GetTickCount() - lpObj->m_MuunEffectList[i].nTickTime > dwSkillDelayTime)
+				if (GetTickCount() - lpObj.m_MuunEffectList[i].nTickTime > dwSkillDelayTime)
 				{
-					lpObj->m_MuunEffectList[i].nTickTime = GetTickCount();
-					this->SendAttackMsg(lpObj->m_Index, nTargetIndex, lpObj->m_MuunEffectList[i].nOptType, i);
+					lpObj.m_MuunEffectList[i].nTickTime = GetTickCount();
+					this->SendAttackMsg(lpObj.m_Index, nTargetIndex, lpObj.m_MuunEffectList[i].nOptType, i);
 				}
 			}
 		}
 	}
 }
 
-bool CMuunAttack::DamageAbsorb(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2)
+bool CMuunAttack::DamageAbsorb(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2)
 {
-	lpObj->m_MuunEffectList[SubCode2].bSkillUsed = false;
+	lpObj.m_MuunEffectList[SubCode2].bSkillUsed = false;
 	return true;
 }
 
-bool CMuunAttack::Stun(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2)
+bool CMuunAttack::Stun(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2)
 {
 	if (g_ConfigRead.EnableStunEffect == 1)
 	{
-		int iValue = lpObj->m_MuunEffectList[SubCode2].nOptValue;
+		int iValue = lpObj.m_MuunEffectList[SubCode2].nOptValue;
 		int iStunRate = iValue;
 
-		if (lpTargetObj->Type == OBJ_USER)
+		if (lpTargetObj.Type == OBJ_USER)
 		{
-			iStunRate -= lpTargetObj->m_PlayerData->m_Resistance_Stun;
+			iStunRate -= lpTargetObj.m_PlayerData->m_Resistance_Stun;
 		}
 
 		if (GetLargeRand() % 1000000 <= iStunRate)
 		{
 			gObjAddBuffEffect(lpTargetObj, BUFFTYPE_STUN, 0, 0, 0, 0, 2);
-			gObjSetPosition(lpTargetObj->m_Index, lpTargetObj->X, lpTargetObj->Y);
+			gObjSetPosition(lpTargetObj.m_Index, lpTargetObj.X, lpTargetObj.Y);
 		}
 	}
 	return true;
 }
 
-bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2)
+bool CMuunAttack::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2)
 {
 	int skillSuccess = 0;
-	LPGameObject lpCallObj;
-	LPGameObject lpCallTargetObj;
+	CGameObject lpCallObj;
+	CGameObject lpCallTargetObj;
 	int MsgDamage = 0;
 	int ManaChange = 0;
 	int iTempShieldDamage = 0;
 	int iTotalShieldDamage = 0;
 
-	if ((lpObj->Authority & 2) == 2 || (lpTargetObj->Authority & 2) == 2) //s4 add-on
+	if ((lpObj.Authority & 2) == 2 || (lpTargetObj.Authority & 2) == 2) //s4 add-on
 	{
 		return FALSE;
 	}
 
-	if ((lpObj->Authority & 32) == 32 || (lpTargetObj->Authority & 32) == 32) //s4 add-on
+	if ((lpObj.Authority & 32) == 32 || (lpTargetObj.Authority & 32) == 32) //s4 add-on
 	{
 		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_INVISABLE) == TRUE)
 		{
@@ -187,30 +187,30 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 		}
 	}
 
-	if ( lpObj->MapNumber != lpTargetObj->MapNumber )
+	if ( lpObj.MapNumber != lpTargetObj.MapNumber )
 	{
 		return FALSE;
 	}
 
-	if( lpTargetObj->m_bOffLevel == true && g_OffLevel.m_General.Immortal == 1)
+	if( lpTargetObj.m_bOffLevel == true && g_OffLevel.m_General.Immortal == 1)
 	{
 		return FALSE;
 	}
 
-	if ( IMPERIAL_MAP_RANGE(lpObj->MapNumber) == TRUE && g_ImperialGuardian.IsAttackAbleMonster(lpTargetObj->m_Index) == false )
+	if ( IMPERIAL_MAP_RANGE(lpObj.MapNumber) == TRUE && g_ImperialGuardian.IsAttackAbleMonster(lpTargetObj.m_Index) == false )
 	{
 		return FALSE;
 	}
 
-	if (lpTargetObj->Class == 681 || lpTargetObj->Class == 690)
+	if (lpTargetObj.Class == 681 || lpTargetObj.Class == 690)
 	{
-		int nOwnerIndex = g_EvoMonMng.GetOwnerIndex(lpTargetObj->m_Index);
+		int nOwnerIndex = g_EvoMonMng.GetOwnerIndex(lpTargetObj.m_Index);
 
 		if (nOwnerIndex != -1)
 		{
-			if (nOwnerIndex != lpObj->m_Index)
+			if (nOwnerIndex != lpObj.m_Index)
 			{
-				int nPartyNumber = lpObj->PartyNumber;
+				int nPartyNumber = lpObj.PartyNumber;
 
 				if (nPartyNumber < 0)
 				{
@@ -245,9 +245,9 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 	{
 		if (g_Crywolf.GetCrywolfState() == 3 || g_Crywolf.GetCrywolfState() == 5)
 		{
-			if (CRYWOLF_MAP_RANGE(lpTargetObj->MapNumber))
+			if (CRYWOLF_MAP_RANGE(lpTargetObj.MapNumber))
 			{
-				if (lpTargetObj->Type == OBJ_MONSTER)
+				if (lpTargetObj.Type == OBJ_MONSTER)
 				{
 					return FALSE;
 				}
@@ -262,13 +262,13 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 
 	skillSuccess = TRUE;
 
-	if ( lpObj->m_PlayerData->GuildNumber > 0 )
+	if ( lpObj.m_PlayerData->GuildNumber > 0 )
 	{
-		if ( lpObj->m_PlayerData->lpGuild )
+		if ( lpObj.m_PlayerData->lpGuild )
 		{
-			if ( lpObj->m_PlayerData->lpGuild->WarState )
+			if ( lpObj.m_PlayerData->lpGuild->WarState )
 			{
-				if ( lpObj->m_PlayerData->lpGuild->WarType == 1 )
+				if ( lpObj.m_PlayerData->lpGuild->WarType == 1 )
 				{
 					if ( !GetBattleSoccerGoalMove(0) )
 					{
@@ -279,24 +279,24 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 		}
 	}
 
-	if ( lpTargetObj->Type == OBJ_MONSTER )
+	if ( lpTargetObj.Type == OBJ_MONSTER )
 	{
-		if ( lpTargetObj->Class == 200 )
+		if ( lpTargetObj.Class == 200 )
 		{
 			if ( skill )
 			{
-				gObjMonsterStateProc(lpTargetObj, 7, lpObj->m_Index, 0);
+				gObjMonsterStateProc(lpTargetObj, 7, lpObj.m_Index, 0);
 			}
 			else
 			{
-				gObjMonsterStateProc(lpTargetObj, 6, lpObj->m_Index, 0);
+				gObjMonsterStateProc(lpTargetObj, 6, lpObj.m_Index, 0);
 			}
 
 			return TRUE;
 		}
 	}
 
-	if ( lpObj->Type == OBJ_USER )
+	if ( lpObj.Type == OBJ_USER )
 	{
 		if ( !gObjIsConnected(lpObj))
 		{
@@ -304,7 +304,7 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 		}
 	}
 
-	if ( lpTargetObj->Type == OBJ_USER )
+	if ( lpTargetObj.Type == OBJ_USER )
 	{
 		if ( !gObjIsConnected(lpTargetObj))
 		{
@@ -312,11 +312,11 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 		}
 	}
 
-	if ( lpObj->Type == OBJ_USER && lpTargetObj->Type == OBJ_MONSTER )	// PLAYER VS MONSTER
+	if ( lpObj.Type == OBJ_USER && lpTargetObj.Type == OBJ_MONSTER )	// PLAYER VS MONSTER
 	{
-		if ( lpObj->m_RecallMon >= 0 )
+		if ( lpObj.m_RecallMon >= 0 )
 		{
-			if ( lpObj->m_RecallMon == lpTargetObj->m_Index )
+			if ( lpObj.m_RecallMon == lpTargetObj.m_Index )
 			{
 				return FALSE;
 			}
@@ -325,7 +325,7 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 
 	if (g_ConfigRead.EnableAttackBlockInSafeZone == TRUE)
 	{
-		BYTE btAttr = MapC[lpObj->MapNumber].GetAttr(lpObj->X, lpObj->Y);
+		BYTE btAttr = MapC[lpObj.MapNumber].GetAttr(lpObj.X, lpObj.Y);
 
 		if ((btAttr & 1) == 1)
 		{
@@ -338,27 +338,27 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 		return FALSE;
 	}
 
-	if (g_ArcaBattle.IsArcaBattleServer() == TRUE && g_AcheronGuardianEvent.IsPlayStart() == false && g_ArcaBattle.IsEnableAttackObelisk(lpObj, lpTargetObj->Class) == false)
+	if (g_ArcaBattle.IsArcaBattleServer() == TRUE && g_AcheronGuardianEvent.IsPlayStart() == false && g_ArcaBattle.IsEnableAttackObelisk(lpObj, lpTargetObj.Class) == false)
 	{
 		return FALSE;
 	}
 
-	if (lpTargetObj->Type == OBJ_USER && g_NewPVP.IsDuel(*lpTargetObj) && g_NewPVP.IsSafeState(*lpTargetObj))
+	if (lpTargetObj.Type == OBJ_USER && g_NewPVP.IsDuel(*lpTargetObj) && g_NewPVP.IsSafeState(*lpTargetObj))
 	{
 		return FALSE;
 	}
 
-	if (lpObj->Type == OBJ_USER && g_NewPVP.IsDuel(*lpObj) && g_NewPVP.IsSafeState(*lpObj))
+	if (lpObj.Type == OBJ_USER && g_NewPVP.IsDuel(*lpObj) && g_NewPVP.IsSafeState(*lpObj))
 	{
 		return FALSE;
 	}
 
-	if (lpTargetObj->Type == OBJ_USER && g_NewPVP.IsObserver(*lpTargetObj))
+	if (lpTargetObj.Type == OBJ_USER && g_NewPVP.IsObserver(*lpTargetObj))
 	{
 		return FALSE;
 	}
 
-	if (lpObj->Type == OBJ_USER && g_NewPVP.IsObserver(*lpObj))
+	if (lpObj.Type == OBJ_USER && g_NewPVP.IsObserver(*lpObj))
 	{
 		return FALSE;
 	}
@@ -367,9 +367,9 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 	{
 		if (g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 		{
-			if (lpObj->m_btCsJoinSide > 0)
+			if (lpObj.m_btCsJoinSide > 0)
 			{
-				if (lpObj->m_btCsJoinSide == lpTargetObj->m_btCsJoinSide)
+				if (lpObj.m_btCsJoinSide == lpTargetObj.m_btCsJoinSide)
 				{
 					return FALSE;
 				}
@@ -377,7 +377,7 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 		}
 	}
 
-	lpObj->m_TotalAttackCount++;
+	lpObj.m_TotalAttackCount++;
 
 	if ( this->CheckAttackArea(lpObj, lpTargetObj) == FALSE )
 	{
@@ -387,11 +387,11 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 	lpCallObj = lpObj;
 	lpCallTargetObj = lpTargetObj;
 
-	if ( lpTargetObj->Type == OBJ_MONSTER )
+	if ( lpTargetObj.Type == OBJ_MONSTER )
 	{
-		if ( lpTargetObj->m_RecallMon >= 0 )
+		if ( lpTargetObj.m_RecallMon >= 0 )
 		{
-			lpCallTargetObj = &gGameObjects[lpTargetObj->m_RecallMon];
+			lpCallTargetObj = &gGameObjects[lpTargetObj.m_RecallMon];
 		}
 	}
 
@@ -404,8 +404,8 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 
 	if ( bIsOnDuel )
 	{
-		lpObj->m_iDuelTickCount = GetTickCount();
-		lpTargetObj->m_iDuelTickCount = GetTickCount();
+		lpObj.m_iDuelTickCount = GetTickCount();
+		lpTargetObj.m_iDuelTickCount = GetTickCount();
 	}
 
 	int iOriginTargetDefense = 0;
@@ -418,20 +418,20 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 
 	int AttackDamage = this->GetAttackDamage(lpObj, targetdefense, SubCode2, lpTargetObj);
 
-	if ( lpTargetObj->DamageDecrease)
+	if ( lpTargetObj.DamageDecrease)
 	{
 		int beforeDamage = AttackDamage;
-		AttackDamage -= ( ( AttackDamage * (int)lpTargetObj->DamageDecrease) / 100 );
+		AttackDamage -= ( ( AttackDamage * (int)lpTargetObj.DamageDecrease) / 100 );
 	}
 #if(CUSTOM_DAMAGES12 == 1)
-	if (lpTargetObj->S12DamageDecrease)
+	if (lpTargetObj.S12DamageDecrease)
 	{
 		int beforeDamage = AttackDamage;
-		AttackDamage -= (AttackDamage + (int)lpTargetObj->S12DamageDecrease);
+		AttackDamage -= (AttackDamage + (int)lpTargetObj.S12DamageDecrease);
 	}
 #endif
 
-	int tlevel = lpObj->Level / 10;
+	int tlevel = lpObj.Level / 10;
 
 	if ( AttackDamage < tlevel )
 	{
@@ -443,7 +443,7 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 		AttackDamage = tlevel;
 	}
 
-	if ( lpTargetObj->m_SkillNumber == 18 )
+	if ( lpTargetObj.m_SkillNumber == 18 )
 	{
 		if ( AttackDamage > 1 )
 		{
@@ -462,20 +462,20 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 
 	if ( gObjWingSprite(lpTargetObj) == TRUE )
 	{
-		CItem * Wing = &lpTargetObj->pInventory[7];
+		CItem * Wing = &lpTargetObj.pInventory[7];
 
 		if ( AttackDamage > 1 && Wing->m_Type != ITEMGET(13, 30) )
 		{
 			double WingDamageBlock;
 
-			if (lpTargetObj->m_PlayerData->m_MPSkillOpt.iMpsAddWingDamageBlock <= 0.0)
+			if (lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamageBlock <= 0.0)
 			{
 				WingDamageBlock = 0.0;
 			}
 
 			else
 			{
-				WingDamageBlock = lpTargetObj->m_PlayerData->m_MPSkillOpt.iMpsAddWingDamageBlock;
+				WingDamageBlock = lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamageBlock;
 			}
 
 			g_ConfigRead.m_ItemCalcLua.Generic_Call("Wings_CalcAbsorb", "iiid>i", AttackDamage, Wing->m_Type, Wing->m_Level, WingDamageBlock, &AttackDamage);
@@ -484,39 +484,39 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 
 	if ( gObjDenorantSprite(lpTargetObj ) )
 	{
-		CItem * Dinorant = &lpTargetObj->pInventory[8];
+		CItem * Dinorant = &lpTargetObj.pInventory[8];
 		int dinorantdecdamage = 90 - Dinorant->IsDinorantReduceAttackDamaege();
-		lpObj->Life -= 1.0f;
+		lpObj.Life -= 1.0f;
 
-		if ( lpObj->Life < 0.0f )
+		if ( lpObj.Life < 0.0f )
 		{
-			lpObj->Life = 0.0f;
+			lpObj.Life = 0.0f;
 		}
 		else
 		{
 			AttackDamage = AttackDamage * dinorantdecdamage / 100;
 		}
 
-		GSProtocol.GCReFillSend(lpObj->m_Index, lpObj->Life, 0xFF, 0, lpObj->iShield);
+		GSProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
 	}
 
 	if ( gObjDarkHorse(lpTargetObj ) )
 	{
-		CItem * Darkhorse = &lpTargetObj->pInventory[8];
+		CItem * Darkhorse = &lpTargetObj.pInventory[8];
 		int decdamage = 100 - ((Darkhorse->m_PetItem_Level + 30) / 2 );
 
-		lpTargetObj->Life -= 1.0f;
+		lpTargetObj.Life -= 1.0f;
 
-		if ( lpTargetObj->Life < 0.0f )
+		if ( lpTargetObj.Life < 0.0f )
 		{
-			lpTargetObj->Life = 0.0f;
+			lpTargetObj.Life = 0.0f;
 		}
 		else
 		{
 			AttackDamage = AttackDamage * decdamage / 100;
 		}
 
-		GSProtocol.GCReFillSend(lpTargetObj->m_Index, lpTargetObj->Life, 0xFF, 0, lpTargetObj->iShield);
+		GSProtocol.GCReFillSend(lpTargetObj.m_Index, lpTargetObj.Life, 0xFF, 0, lpTargetObj.iShield);
 	}
 
 	if (AttackDamage > 1)
@@ -529,16 +529,16 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 		}
 	}
 
-	if ( lpTargetObj->Live )
+	if ( lpTargetObj.Live )
 	{
-		if ( lpTargetObj->m_SkillInfo.SoulBarrierDefence && AttackDamage > 0)
+		if ( lpTargetObj.m_SkillInfo.SoulBarrierDefence && AttackDamage > 0)
 		{
-			int replacemana = (WORD)lpTargetObj->Mana * 2 / 100;
+			int replacemana = (WORD)lpTargetObj.Mana * 2 / 100;
 
-			if ( replacemana < lpTargetObj->Mana )
+			if ( replacemana < lpTargetObj.Mana )
 			{
-				lpTargetObj->Mana -= replacemana;
-				int decattackdamage = AttackDamage * lpTargetObj->m_SkillInfo.SoulBarrierDefence / 100;
+				lpTargetObj.Mana -= replacemana;
+				int decattackdamage = AttackDamage * lpTargetObj.m_SkillInfo.SoulBarrierDefence / 100;
 				AttackDamage -= decattackdamage;
 				ManaChange = TRUE;
 
@@ -547,17 +547,17 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 
 		if (g_ConfigRead.g_ShieldSystemOn == FALSE )
 		{
-			if ( lpObj->Type == OBJ_USER && lpTargetObj->Type == OBJ_USER )
+			if ( lpObj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER )
 			{
-				if ( CC_MAP_RANGE(lpObj->MapNumber ) && CC_MAP_RANGE(lpTargetObj->MapNumber) )
+				if ( CC_MAP_RANGE(lpObj.MapNumber ) && CC_MAP_RANGE(lpTargetObj.MapNumber) )
 				{
 					AttackDamage = AttackDamage * 50 / 100;
 				}
 			}
 
-			if (lpObj->Type == OBJ_USER && lpTargetObj->Type == OBJ_USER)
+			if (lpObj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
 			{
-				if (lpObj->MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL && lpTargetObj->MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
+				if (lpObj.MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL && lpTargetObj.MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 				{
 					AttackDamage = AttackDamage * 50 / 100;
 				}
@@ -568,11 +568,11 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 		{
 			if (g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 			{
-				if (lpObj->Type == OBJ_USER && lpTargetObj->Type == OBJ_USER)
+				if (lpObj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
 				{
-					if (lpObj->MapNumber == MAP_INDEX_CASTLESIEGE && lpTargetObj->MapNumber == MAP_INDEX_CASTLESIEGE)
+					if (lpObj.MapNumber == MAP_INDEX_CASTLESIEGE && lpTargetObj.MapNumber == MAP_INDEX_CASTLESIEGE)
 					{
-						if (lpObj->m_btCsJoinSide == lpTargetObj->m_btCsJoinSide)
+						if (lpObj.m_btCsJoinSide == lpTargetObj.m_btCsJoinSide)
 						{
 							AttackDamage = AttackDamage * g_CastleSiege.CastleSiegeSelfDmgReductionPercent / 100;
 						}
@@ -585,9 +585,9 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 			}
 		}
 
-		if ( lpObj->Type == OBJ_USER && lpTargetObj->Type == OBJ_MONSTER )
+		if ( lpObj.Type == OBJ_USER && lpTargetObj.Type == OBJ_MONSTER )
 		{
-			if ( lpTargetObj->Class == 283 )
+			if ( lpTargetObj.Class == 283 )
 			{
 				if ( gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_BLESS_POTION) == TRUE || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_SOUL_POTION) == TRUE )
 				{
@@ -595,21 +595,21 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 				}
 				else 
 				{
-					if ( lpObj->m_iAccumulatedDamage > 100 )
+					if ( lpObj.m_iAccumulatedDamage > 100 )
 					{
 						gObjWeaponDurDownInCastle(lpObj, lpTargetObj, 1);
-						lpObj->m_iAccumulatedDamage = 0;
+						lpObj.m_iAccumulatedDamage = 0;
 					}
 					else
 					{
-						lpObj->m_iAccumulatedDamage += AttackDamage;
+						lpObj.m_iAccumulatedDamage += AttackDamage;
 					}
 
 					AttackDamage = AttackDamage * 20 / 100;
 				}
 			}
 
-			if ( lpTargetObj->Class == 277 )
+			if ( lpTargetObj.Class == 277 )
 			{
 				if ( gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_BLESS_POTION) == TRUE || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_SOUL_POTION) == TRUE )
 				{
@@ -617,14 +617,14 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 				}
 				else 
 				{
-					if ( lpObj->m_iAccumulatedDamage > 100 )
+					if ( lpObj.m_iAccumulatedDamage > 100 )
 					{
 						gObjWeaponDurDownInCastle(lpObj, lpTargetObj, 1);
-						lpObj->m_iAccumulatedDamage = 0;
+						lpObj.m_iAccumulatedDamage = 0;
 					}
 					else
 					{
-						lpObj->m_iAccumulatedDamage += AttackDamage;
+						lpObj.m_iAccumulatedDamage += AttackDamage;
 					}
 
 					AttackDamage = AttackDamage * 20 / 100;
@@ -637,9 +637,9 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 			AttackDamage = AttackDamage * g_NewPVP.m_iDuelDamageReduction / 100;
 		}
 
-		if (g_GensSystem.IsMapBattleZone(lpObj->MapNumber) && g_GensSystem.IsMapBattleZone(lpTargetObj->MapNumber))
+		if (g_GensSystem.IsMapBattleZone(lpObj.MapNumber) && g_GensSystem.IsMapBattleZone(lpTargetObj.MapNumber))
 		{
-			if (lpObj->Type == OBJ_USER && lpTargetObj->Type == OBJ_USER)
+			if (lpObj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
 			{
 				if (g_GensSystem.IsPkEnable(lpObj, lpTargetObj) == true)
 				{
@@ -648,97 +648,97 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 			}
 		}
 
-		if (lpObj->Type == OBJ_USER && lpTargetObj->Type == OBJ_USER)
+		if (lpObj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
 		{
-			AttackDamage = AttackDamage * g_ConfigRead.calc.PvPDamageRate[lpObj->Class][lpTargetObj->Class] / 100;
+			AttackDamage = AttackDamage * g_ConfigRead.calc.PvPDamageRate[lpObj.Class][lpTargetObj.Class] / 100;
 		}
 
-		else if (lpObj->Type == OBJ_USER && lpTargetObj->Type == OBJ_MONSTER)
+		else if (lpObj.Type == OBJ_USER && lpTargetObj.Type == OBJ_MONSTER)
 		{
-			AttackDamage = AttackDamage * g_ConfigRead.calc.PvMDamageRate[lpObj->Class] / 100;
+			AttackDamage = AttackDamage * g_ConfigRead.calc.PvMDamageRate[lpObj.Class] / 100;
 		}
 
-		if ( lpObj->Type == OBJ_USER && lpTargetObj->Type == OBJ_USER )
+		if ( lpObj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER )
 		{
 			iTempShieldDamage = this->GetShieldDamage(lpObj, lpTargetObj, AttackDamage);
-			lpTargetObj->iShield -= iTempShieldDamage;
-			lpTargetObj->Life -= AttackDamage - iTempShieldDamage;
+			lpTargetObj.iShield -= iTempShieldDamage;
+			lpTargetObj.Life -= AttackDamage - iTempShieldDamage;
 			iTotalShieldDamage += iTempShieldDamage;
 
-			if ( lpTargetObj->Life < 0.0f )
+			if ( lpTargetObj.Life < 0.0f )
 			{
-				lpTargetObj->Life = 0.0f;
+				lpTargetObj.Life = 0.0f;
 			}
 		}
 		else
 		{
-			lpTargetObj->Life -= AttackDamage;
+			lpTargetObj.Life -= AttackDamage;
 
-			if ( lpTargetObj->Life < 0.0f )
+			if ( lpTargetObj.Life < 0.0f )
 			{
-				lpTargetObj->Life = 0.0f;
+				lpTargetObj.Life = 0.0f;
 			}
 		}
 	}
 
-	if ( lpTargetObj->Type == OBJ_MONSTER )
+	if ( lpTargetObj.Type == OBJ_MONSTER )
 	{
-		gObjAddMsgSendDelay(lpTargetObj, 0, lpObj->m_Index, 100, 0);
-		lpTargetObj->LastAttackerID = lpObj->m_Index;
+		gObjAddMsgSendDelay(lpTargetObj, 0, lpObj.m_Index, 100, 0);
+		lpTargetObj.LastAttackerID = lpObj.m_Index;
 
-		if ( lpTargetObj->m_iCurrentAI )
+		if ( lpTargetObj.m_iCurrentAI )
 		{
-			lpTargetObj->m_Agro->IncAgro(lpObj->m_Index, AttackDamage / 100);
+			lpTargetObj.m_Agro->IncAgro(lpObj.m_Index, AttackDamage / 100);
 		}
 	}
 
 	BOOL selfdefense = 0;
 	lpCallObj = lpTargetObj;
 	
-	if ( lpTargetObj->Type == OBJ_MONSTER )
+	if ( lpTargetObj.Type == OBJ_MONSTER )
 	{
-		if ( lpTargetObj->m_RecallMon >= 0 )
+		if ( lpTargetObj.m_RecallMon >= 0 )
 		{
-			lpCallObj = &gGameObjects[lpTargetObj->m_RecallMon];
+			lpCallObj = &gGameObjects[lpTargetObj.m_RecallMon];
 		}
 	}
 
 	if ( AttackDamage >= 1 )
 	{
-		if ( lpObj->Type == OBJ_USER && lpTargetObj->Type == OBJ_USER )
+		if ( lpObj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER )
 		{
 			if (gObjDuelCheck(lpObj, lpTargetObj))
 			{
 				selfdefense = 0;
 			}
 
-			else if (lpObj->m_PlayerData->RegisterdLMS == 1 && lpTargetObj->m_PlayerData->RegisterdLMS == 1)
+			else if (lpObj.m_PlayerData->RegisterdLMS == 1 && lpTargetObj.m_PlayerData->RegisterdLMS == 1)
 			{
-				if (lpObj->MapNumber == g_LastManStanding.m_Cfg.iPVPMap)
+				if (lpObj.MapNumber == g_LastManStanding.m_Cfg.iPVPMap)
 				{
-					if (g_LastManStanding.m_Rooms[lpObj->m_PlayerData->RegisteredLMSRoom].bState == 3)
+					if (g_LastManStanding.m_Rooms[lpObj.m_PlayerData->RegisteredLMSRoom].bState == 3)
 					{
 						selfdefense = 0;
 					}
 				}
 			}
 
-			else if (CC_MAP_RANGE(lpObj->MapNumber) || CC_MAP_RANGE(lpTargetObj->MapNumber))
+			else if (CC_MAP_RANGE(lpObj.MapNumber) || CC_MAP_RANGE(lpTargetObj.MapNumber))
 			{
 				selfdefense = 0;
 			}
 
-			else if (lpObj->MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL || lpTargetObj->MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
+			else if (lpObj.MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL || lpTargetObj.MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 			{
 				selfdefense = 0;
 			}
 
-			else if (IT_MAP_RANGE(lpObj->MapNumber) || IT_MAP_RANGE(lpTargetObj->MapNumber))
+			else if (IT_MAP_RANGE(lpObj.MapNumber) || IT_MAP_RANGE(lpTargetObj.MapNumber))
 			{
 				selfdefense = 0;
 			}
 
-			else if (g_GensSystem.IsMapBattleZone(lpObj->MapNumber) && g_GensSystem.IsMapBattleZone(lpTargetObj->MapNumber))
+			else if (g_GensSystem.IsMapBattleZone(lpObj.MapNumber) && g_GensSystem.IsMapBattleZone(lpTargetObj.MapNumber))
 			{
 				selfdefense = 0;
 			}
@@ -762,22 +762,22 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 			{
 				if (g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
-					if (lpObj->m_btCsJoinSide > 0)
+					if (lpObj.m_btCsJoinSide > 0)
 					{
 						selfdefense = FALSE;
 					}
 				}
 			}
 		}
-		else if ( lpTargetObj->Type == OBJ_MONSTER && lpObj->Type == OBJ_USER )
+		else if ( lpTargetObj.Type == OBJ_MONSTER && lpObj.Type == OBJ_USER )
 		{
-			if ( lpTargetObj->m_RecallMon >= 0 )
+			if ( lpTargetObj.m_RecallMon >= 0 )
 			{
 				selfdefense = TRUE;
 			}
 		}
 
-		if ( lpTargetObj->Type == OBJ_USER )
+		if ( lpTargetObj.Type == OBJ_USER )
 		{
 			gObjArmorRandomDurDown(lpTargetObj, lpObj);
 		}
@@ -787,50 +787,50 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 	{
 		if ( !gObjTargetGuildWarCheck(lpObj, lpCallObj) )
 		{
-			if(lpCallObj->PartyNumber >= 0)
+			if(lpCallObj.PartyNumber >= 0)
 			{
 				int number = 0;
-				int partynum = lpCallObj->PartyNumber;
+				int partynum = lpCallObj.PartyNumber;
 				
 				if( (gParty.GetPKPartyPenalty(partynum)) < 5)
 				{
-					gObjCheckSelfDefense(lpObj, lpCallObj->m_Index);
+					gObjCheckSelfDefense(lpObj, lpCallObj.m_Index);
 				}	
 			}
 			else
 			{
-				gObjCheckSelfDefense(lpObj, lpCallObj->m_Index);
+				gObjCheckSelfDefense(lpObj, lpCallObj.m_Index);
 			}
 		}
 	}
 
-	if ( lpObj->Type == OBJ_USER )
+	if ( lpObj.Type == OBJ_USER )
 	{
-		if ( lpObj->m_Change == 9 )
+		if ( lpObj.m_Change == 9 )
 		{
-			GSProtocol.GCMagicAttackNumberSend(lpObj, 3, lpTargetObj->m_Index, 1);
+			GSProtocol.GCMagicAttackNumberSend(lpObj, 3, lpTargetObj.m_Index, 1);
 		}
 	}
 
-	lpObj->m_Rest = 0;
+	lpObj.m_Rest = 0;
 
 	if ( AttackDamage > 0 )
 	{
-		int atd_reflect = (int)((float)AttackDamage * lpTargetObj->DamageReflect / 100.0f);
+		int atd_reflect = (int)((float)AttackDamage * lpTargetObj.DamageReflect / 100.0f);
 
-		if(lpTargetObj->DamageReflect > g_ConfigRead.calc.ReflectDamage)
+		if(lpTargetObj.DamageReflect > g_ConfigRead.calc.ReflectDamage)
 		{
-			lpTargetObj->DamageReflect = g_ConfigRead.calc.ReflectDamage;
+			lpTargetObj.DamageReflect = g_ConfigRead.calc.ReflectDamage;
 		}
 
 		if ( atd_reflect )
 		{
-			gObjAddMsgSendDelay(lpTargetObj, 10, lpObj->m_Index, 10, atd_reflect);
+			gObjAddMsgSendDelay(lpTargetObj, 10, lpObj.m_Index, 10, atd_reflect);
 		}
 
-		if ( lpObj->Type == OBJ_USER && (rand()%100) < lpObj->m_PlayerData->SetOpReflectionDamage )
+		if ( lpObj.Type == OBJ_USER && (rand()%100) < lpObj.m_PlayerData->SetOpReflectionDamage )
 		{
-			gObjAddMsgSendDelay(lpTargetObj, 10, lpObj->m_Index, 10, AttackDamage);
+			gObjAddMsgSendDelay(lpTargetObj, 10, lpObj.m_Index, 10, AttackDamage);
 		}
 
 		if (g_ConfigRead.g_ShieldSystemOn == TRUE )	// #error Remove the //
@@ -842,37 +842,37 @@ bool CMuunAttack::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicIn
 	}
 	else
 	{
-		GSProtocol.GCDamageSend(lpObj->m_Index, lpTargetObj->m_Index, 0, 0, MsgDamage, 0);
+		GSProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, MsgDamage, 0);
 	}
 
-	if ( lpObj->Life <= 0.0f && lpObj->Type == OBJ_USER )
+	if ( lpObj.Life <= 0.0f && lpObj.Type == OBJ_USER )
 	{
-		if ( lpObj->m_CheckLifeTime <= 0 )
+		if ( lpObj.m_CheckLifeTime <= 0 )
 		{
-			lpObj->lpAttackObj = lpTargetObj;
+			lpObj.lpAttackObj = lpTargetObj;
 
-			if ( lpTargetObj->Type == OBJ_USER )
+			if ( lpTargetObj.Type == OBJ_USER )
 			{
-				lpObj->m_bAttackerKilled = true;
+				lpObj.m_bAttackerKilled = true;
 			}
 			else
 			{
-				lpObj->m_bAttackerKilled = false;
+				lpObj.m_bAttackerKilled = false;
 			}
 
-			lpObj->m_CheckLifeTime = 3;
+			lpObj.m_CheckLifeTime = 3;
 		}
 	}
 
 	return TRUE;
 }
 
-int CMuunAttack::GetAttackDamage(LPGameObject &lpObj, int targetDefense, int SubCode2, LPGameObject lpTargetObj)
+int CMuunAttack::GetAttackDamage(CGameObject &lpObj, int targetDefense, int SubCode2, CGameObject lpTargetObj)
 {
 	int ad = 0;
-	int AttackDamage = lpObj->m_MuunEffectList[SubCode2].nOptValue * (lpObj->m_PlayerData->MasterLevel + lpObj->Level) + 10;
+	int AttackDamage = lpObj.m_MuunEffectList[SubCode2].nOptValue * (lpObj.m_PlayerData->MasterLevel + lpObj.Level) + 10;
 
-	if (lpTargetObj->Type == OBJ_USER)
+	if (lpTargetObj.Type == OBJ_USER)
 	{
 		ad = AttackDamage / 2 - targetDefense;
 	}
@@ -885,7 +885,7 @@ int CMuunAttack::GetAttackDamage(LPGameObject &lpObj, int targetDefense, int Sub
 	return ad;
 }
 
-int CMuunAttack::GetShieldDamage(LPGameObject &lpObj, LPGameObject lpTargetObj, int iAttackDamage)
+int CMuunAttack::GetShieldDamage(CGameObject &lpObj, CGameObject lpTargetObj, int iAttackDamage)
 {
 	if (g_ConfigRead.g_ShieldSystemOn == FALSE)
 		return 0;
@@ -893,10 +893,10 @@ int CMuunAttack::GetShieldDamage(LPGameObject &lpObj, LPGameObject lpTargetObj, 
 	if (iAttackDamage <= 0)
 		return 0;
 
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 		return 0;
 
-	if (lpTargetObj->Type != OBJ_USER)
+	if (lpTargetObj.Type != OBJ_USER)
 		return 0;
 
 	int iReduceLife = 0;
@@ -904,8 +904,8 @@ int CMuunAttack::GetShieldDamage(LPGameObject &lpObj, LPGameObject lpTargetObj, 
 	int iReduceLifeForEffect = 0; 
 	bool bReduceShieldGage = 0;
 	int iDamageDevideToSDRate = g_ConfigRead.g_iDamageDevideToSDRate;
-	iDamageDevideToSDRate -= lpObj->m_PlayerData->m_JewelOfHarmonyEffect.HJOpDecreaseSDRate;
-	iDamageDevideToSDRate += lpTargetObj->m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSDRate;
+	iDamageDevideToSDRate -= lpObj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpDecreaseSDRate;
+	iDamageDevideToSDRate += lpTargetObj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSDRate;
 
 	if ( iDamageDevideToSDRate < 0 )
 		iDamageDevideToSDRate = 0;
@@ -913,10 +913,10 @@ int CMuunAttack::GetShieldDamage(LPGameObject &lpObj, LPGameObject lpTargetObj, 
 	if ( iDamageDevideToSDRate > 100 )
 		iDamageDevideToSDRate = 100;
 
-	if ( lpObj->m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddIgnoreSDRate > 0 )
+	if ( lpObj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddIgnoreSDRate > 0 )
 	{
 		int iRand = rand() % 100;
-		int iIgnoreSDRate = lpObj->m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddIgnoreSDRate - lpTargetObj->m_PlayerData->m_Resistance_SD;
+		int iIgnoreSDRate = lpObj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddIgnoreSDRate - lpTargetObj.m_PlayerData->m_Resistance_SD;
 
 		if (iRand < iIgnoreSDRate)
 		{
@@ -924,7 +924,7 @@ int CMuunAttack::GetShieldDamage(LPGameObject &lpObj, LPGameObject lpTargetObj, 
 		}
 	}
 
-	if ( (lpObj->Type == OBJ_USER && lpTargetObj->Type == OBJ_USER) && ( lpObj->m_PlayerData->m_JewelOfHarmonyEffect.HJOpDecreaseSDRate || lpTargetObj->m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSDRate || lpObj->m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddIgnoreSDRate ) )
+	if ( (lpObj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER) && ( lpObj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpDecreaseSDRate || lpTargetObj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSDRate || lpObj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddIgnoreSDRate ) )
 	{
 	
 	}
@@ -932,24 +932,24 @@ int CMuunAttack::GetShieldDamage(LPGameObject &lpObj, LPGameObject lpTargetObj, 
 	iReduceShield = iAttackDamage * iDamageDevideToSDRate / 100;
 	iReduceLife = iAttackDamage - iReduceShield;
 
-	if ( (lpTargetObj->iShield-iReduceShield) <0 )
+	if ( (lpTargetObj.iShield-iReduceShield) <0 )
 	{
-		iReduceLife += iReduceShield  - lpTargetObj->iShield;
-		iReduceShield = lpTargetObj->iShield;
+		iReduceLife += iReduceShield  - lpTargetObj.iShield;
+		iReduceShield = lpTargetObj.iShield;
 
-		if ( lpTargetObj->iShield > 0 )
+		if ( lpTargetObj.iShield > 0 )
 		{
 			bReduceShieldGage = true;
 		}
 	}
 
-	iReduceLifeForEffect = ( lpTargetObj->MaxLife + lpTargetObj->AddLife ) * 20.0f / 100.0f;
+	iReduceLifeForEffect = ( lpTargetObj.MaxLife + lpTargetObj.AddLife ) * 20.0f / 100.0f;
 
 	if ( bReduceShieldGage == true && iReduceLife > iReduceLifeForEffect )
 	{
-		if ( !CC_MAP_RANGE(lpTargetObj->MapNumber) && lpTargetObj->MapNumber != MAP_INDEX_CHAOSCASTLE_SURVIVAL )
+		if ( !CC_MAP_RANGE(lpTargetObj.MapNumber) && lpTargetObj.MapNumber != MAP_INDEX_CHAOSCASTLE_SURVIVAL )
 		{
-			GSProtocol.GCSendEffectInfo(lpTargetObj->m_Index, 17);
+			GSProtocol.GCSendEffectInfo(lpTargetObj.m_Index, 17);
 		}
 	}
 
@@ -996,14 +996,14 @@ bool CMuunSystem::LoadScriptMuunSystemOption(char *lpszFileName)
 	return this->m_MuunInfoMng.LoadScriptMuunSystemOption(lpszFileName);
 }
 
-void CMuunSystem::MuunItemDamage(LPGameObject lpObj, int damage)
+void CMuunSystem::MuunItemDamage(CGameObject lpObj, int damage)
 {
 	if (g_ConfigRead.pet.DamageDisableForPet[DAMAGE_OFF_MUUN] == true)
 	{
 		return;
 	}
 
-	if (lpObj->Type != OBJ_USER && (double)damage > 0.0)
+	if (lpObj.Type != OBJ_USER && (double)damage > 0.0)
 	{
 		return;
 	}
@@ -1017,73 +1017,73 @@ void CMuunSystem::MuunItemDamage(LPGameObject lpObj, int damage)
 	{
 		float fdamage = (float)damage;
 
-		if (lpObj->pMuunInventory[i].IsItem() == TRUE && lpObj->pMuunInventory[i].m_Durability > 0.0)
+		if (lpObj.pMuunInventory[i].IsItem() == TRUE && lpObj.pMuunInventory[i].m_Durability > 0.0)
 		{
 			fdamage = fdamage + fdamage;
 			fdamage = fdamage / 400.0;
 			fdamage = fdamage / 400.0;
 
-			lpObj->pMuunInventory[i].m_Durability -= fdamage;
+			lpObj.pMuunInventory[i].m_Durability -= fdamage;
 
-			if (lpObj->pMuunInventory[i].m_Durability != 0.0)
+			if (lpObj.pMuunInventory[i].m_Durability != 0.0)
 			{
-				GSProtocol.GCMuunItemDurSend(lpObj->m_Index, i, lpObj->pMuunInventory[i].m_Durability);
+				GSProtocol.GCMuunItemDurSend(lpObj.m_Index, i, lpObj.pMuunInventory[i].m_Durability);
 			}
 
-			if (lpObj->pMuunInventory[i].m_Durability < 1.0)
+			if (lpObj.pMuunInventory[i].m_Durability < 1.0)
 			{
-				lpObj->pMuunInventory[i].m_Durability = 0.0;
-				this->CalCharacterStat(lpObj->m_Index, lpObj->m_MuunEffectList[i].nOptType);
+				lpObj.pMuunInventory[i].m_Durability = 0.0;
+				this->CalCharacterStat(lpObj.m_Index, lpObj.m_MuunEffectList[i].nOptType);
 			}
 		}
 	}
 }
 
-BOOL CMuunSystem::MuunItemEquipment(LPGameObject &lpObj, int iPos, int iSource)
+BOOL CMuunSystem::MuunItemEquipment(CGameObject &lpObj, int iPos, int iSource)
 {
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return FALSE;
 	}
 
 	if (iPos >= 2)
 	{
-		if (iSource < 2 && iSource != -1 && lpObj->pMuunInventory[iSource].IsItem() == FALSE)
+		if (iSource < 2 && iSource != -1 && lpObj.pMuunInventory[iSource].IsItem() == FALSE)
 		{
 			if (!iSource)
 			{
-				lpObj->m_wMuunItem = -1;
+				lpObj.m_wMuunItem = -1;
 			}
 
 			else if (iSource == 1)
 			{
-				lpObj->m_wMuunSubItem = -1;
+				lpObj.m_wMuunSubItem = -1;
 			}
 
 			this->RemoveUserMuunEffect(lpObj, iSource);
 			this->GCSendConditionStatus(aIndex, iSource, 0);
-			GSProtocol.GCMuunEquipmentChange(lpObj->m_Index, iSource);
+			GSProtocol.GCMuunEquipmentChange(lpObj.m_Index, iSource);
 		}
 	}
 	else
 	{
-		if (lpObj->pMuunInventory[iPos].IsItem() == TRUE)
+		if (lpObj.pMuunInventory[iPos].IsItem() == TRUE)
 		{
-			WORD nItemNum = lpObj->pMuunInventory[iPos].m_Type;
+			WORD nItemNum = lpObj.pMuunInventory[iPos].m_Type;
 
 			if (iPos == 0)
 			{
-				lpObj->m_wMuunItem = ITEM_GET_INDEX(lpObj->pMuunInventory[iPos].m_Type) + (((ITEM_GET_TYPE(lpObj->pMuunInventory[iPos].m_Type)) | (0x10 * lpObj->pMuunInventory[iPos].m_Level)) << 9);
+				lpObj.m_wMuunItem = ITEM_GET_INDEX(lpObj.pMuunInventory[iPos].m_Type) + (((ITEM_GET_TYPE(lpObj.pMuunInventory[iPos].m_Type)) | (0x10 * lpObj.pMuunInventory[iPos].m_Level)) << 9);
 			}
 
 			else if (iPos == 1)
 			{
-				lpObj->m_wMuunSubItem = ITEM_GET_INDEX(lpObj->pMuunInventory[iPos].m_Type) + (((ITEM_GET_TYPE(lpObj->pMuunInventory[iPos].m_Type)) | (0x10 * lpObj->pMuunInventory[iPos].m_Level)) << 9);
+				lpObj.m_wMuunSubItem = ITEM_GET_INDEX(lpObj.pMuunInventory[iPos].m_Type) + (((ITEM_GET_TYPE(lpObj.pMuunInventory[iPos].m_Type)) | (0x10 * lpObj.pMuunInventory[iPos].m_Level)) << 9);
 			}
 
-			this->SetUserMuunEffect(lpObj, nItemNum, lpObj->pMuunInventory[iPos].m_Level, iPos);
+			this->SetUserMuunEffect(lpObj, nItemNum, lpObj.pMuunInventory[iPos].m_Level, iPos);
 			this->CheckEquipMuunItemCondition(lpObj);
 		}
 	}
@@ -1091,13 +1091,13 @@ BOOL CMuunSystem::MuunItemEquipment(LPGameObject &lpObj, int iPos, int iSource)
 	return FALSE;
 }
 
-void CMuunSystem::SetMuunItemAddPeriodData(LPGameObject lpObj, int iMuunItemNum, UINT64 dwSerial)
+void CMuunSystem::SetMuunItemAddPeriodData(CGameObject lpObj, int iMuunItemNum, UINT64 dwSerial)
 {
 	CMuunInfo *pCMuunInfo = this->m_MuunInfoMng.GetMuunItemNumToMuunInfo(iMuunItemNum);
 
 	if (!pCMuunInfo)
 	{
-		sLog->outBasic("[MuunSystem][Error] pCMuunInfo is NULL [%s][%s]", lpObj->AccountID, lpObj->Name);
+		sLog->outBasic("[MuunSystem][Error] pCMuunInfo is NULL [%s][%s]", lpObj.AccountID, lpObj.Name);
 		return;
 	}
 
@@ -1110,46 +1110,46 @@ void CMuunSystem::SetMuunItemAddPeriodData(LPGameObject lpObj, int iMuunItemNum,
 	this->AddMuunItmePeriodData(lpObj, iMuunItemNum, dwSerial, 0, pCMuunInfo);
 }
 
-bool CMuunSystem::SetUserMuunEffect(LPGameObject lpObj, int iMuunItemNum, int iMuunLv, int iEquipPos)
+bool CMuunSystem::SetUserMuunEffect(CGameObject lpObj, int iMuunItemNum, int iMuunLv, int iEquipPos)
 {
 	CMuunInfo *pCMuunInfo = m_MuunInfoMng.GetMuunItemNumToMuunInfo(iMuunItemNum);
 
 	if (!pCMuunInfo)
 	{
-		sLog->outBasic("[MuunSystem][Error] pCMuunInfo is NULL [%s][%s]", lpObj->AccountID, lpObj->Name);
+		sLog->outBasic("[MuunSystem][Error] pCMuunInfo is NULL [%s][%s]", lpObj.AccountID, lpObj.Name);
 		return FALSE;
 	}
 
 	if (iEquipPos == 0)
 	{
-		lpObj->m_MuunEffectList[0].nOptType = pCMuunInfo->GetOptType();
-		lpObj->m_MuunEffectList[0].nOptValue = pCMuunInfo->GetMuunLvVal(iMuunLv);
-		lpObj->m_MuunEffectList[0].nAddOptType = pCMuunInfo->GetAddOptType();
-		lpObj->m_MuunEffectList[0].nAddOptValue = pCMuunInfo->GetAddOptVal();
-		lpObj->m_MuunEffectList[0].nIndex = pCMuunInfo->GetIndex();
-		lpObj->m_MuunEffectList[0].nMuunItemNum = iMuunItemNum;
-		lpObj->m_MuunEffectList[0].pCMuunInfo = pCMuunInfo;
-		lpObj->m_MuunEffectList[0].bSkillUsed = false;
-		lpObj->m_MuunEffectList[0].nSkillDelayTime = pCMuunInfo->GetDelayTime();
-		lpObj->m_MuunEffectList[0].nTickTime = pCMuunInfo->GetDelayTime() + GetTickCount();
+		lpObj.m_MuunEffectList[0].nOptType = pCMuunInfo->GetOptType();
+		lpObj.m_MuunEffectList[0].nOptValue = pCMuunInfo->GetMuunLvVal(iMuunLv);
+		lpObj.m_MuunEffectList[0].nAddOptType = pCMuunInfo->GetAddOptType();
+		lpObj.m_MuunEffectList[0].nAddOptValue = pCMuunInfo->GetAddOptVal();
+		lpObj.m_MuunEffectList[0].nIndex = pCMuunInfo->GetIndex();
+		lpObj.m_MuunEffectList[0].nMuunItemNum = iMuunItemNum;
+		lpObj.m_MuunEffectList[0].pCMuunInfo = pCMuunInfo;
+		lpObj.m_MuunEffectList[0].bSkillUsed = false;
+		lpObj.m_MuunEffectList[0].nSkillDelayTime = pCMuunInfo->GetDelayTime();
+		lpObj.m_MuunEffectList[0].nTickTime = pCMuunInfo->GetDelayTime() + GetTickCount();
 
-		this->SetAddOptTypeValue(&lpObj->m_MuunEffectList[0]);
+		this->SetAddOptTypeValue(&lpObj.m_MuunEffectList[0]);
 	}
 
 	else if (iEquipPos == 1)
 	{
-		lpObj->m_MuunEffectList[1].nOptType = pCMuunInfo->GetOptType();
-		lpObj->m_MuunEffectList[1].nOptValue = pCMuunInfo->GetMuunLvVal(iMuunLv) / 2;
-		lpObj->m_MuunEffectList[1].nAddOptType = pCMuunInfo->GetAddOptType();
-		lpObj->m_MuunEffectList[1].nAddOptValue = pCMuunInfo->GetAddOptVal();
-		lpObj->m_MuunEffectList[1].nIndex = pCMuunInfo->GetIndex();
-		lpObj->m_MuunEffectList[1].nMuunItemNum = iMuunItemNum;
-		lpObj->m_MuunEffectList[1].pCMuunInfo = pCMuunInfo;
-		lpObj->m_MuunEffectList[1].bSkillUsed = false;
-		lpObj->m_MuunEffectList[1].nSkillDelayTime = pCMuunInfo->GetDelayTime();
-		lpObj->m_MuunEffectList[1].nTickTime = pCMuunInfo->GetDelayTime() + GetTickCount();
+		lpObj.m_MuunEffectList[1].nOptType = pCMuunInfo->GetOptType();
+		lpObj.m_MuunEffectList[1].nOptValue = pCMuunInfo->GetMuunLvVal(iMuunLv) / 2;
+		lpObj.m_MuunEffectList[1].nAddOptType = pCMuunInfo->GetAddOptType();
+		lpObj.m_MuunEffectList[1].nAddOptValue = pCMuunInfo->GetAddOptVal();
+		lpObj.m_MuunEffectList[1].nIndex = pCMuunInfo->GetIndex();
+		lpObj.m_MuunEffectList[1].nMuunItemNum = iMuunItemNum;
+		lpObj.m_MuunEffectList[1].pCMuunInfo = pCMuunInfo;
+		lpObj.m_MuunEffectList[1].bSkillUsed = false;
+		lpObj.m_MuunEffectList[1].nSkillDelayTime = pCMuunInfo->GetDelayTime();
+		lpObj.m_MuunEffectList[1].nTickTime = pCMuunInfo->GetDelayTime() + GetTickCount();
 
-		this->SetAddOptTypeValue(&lpObj->m_MuunEffectList[1]);
+		this->SetAddOptTypeValue(&lpObj.m_MuunEffectList[1]);
 	}
 
 	return TRUE;
@@ -1173,30 +1173,30 @@ void CMuunSystem::SetAddOptTypeValue(MUUN_EFFECT_LIST *pUserMuunEffect)
 	}
 }
 
-bool CMuunSystem::RemoveUserMuunEffect(LPGameObject lpObj, int iEquipPos)
+bool CMuunSystem::RemoveUserMuunEffect(CGameObject lpObj, int iEquipPos)
 {
 	if (iEquipPos >= 2)
 	{
 		return TRUE;
 	}
 
-	CMuunInfo *pCMuunInfo = lpObj->m_MuunEffectList[iEquipPos].pCMuunInfo;
+	CMuunInfo *pCMuunInfo = lpObj.m_MuunEffectList[iEquipPos].pCMuunInfo;
 
 	if (!pCMuunInfo)
 	{
-		sLog->outBasic("[MuunSystem][Error] pCMuunInfo is NULL [%s][%s]", lpObj->AccountID, lpObj->Name);
+		sLog->outBasic("[MuunSystem][Error] pCMuunInfo is NULL [%s][%s]", lpObj.AccountID, lpObj.Name);
 		return FALSE;
 	}
 
 	int nOptType = pCMuunInfo->GetOptType();
 
-	lpObj->m_MuunEffectList[iEquipPos].Clear();
-	this->CalCharacterStat(lpObj->m_Index, nOptType);
+	lpObj.m_MuunEffectList[iEquipPos].Clear();
+	this->CalCharacterStat(lpObj.m_Index, nOptType);
 }
 
-bool CMuunSystem::GetMuunItemValueOfOptType(LPGameObject lpObj, int iMuunOptIndex, int *EffectValue1, int *EffectValue2)
+bool CMuunSystem::GetMuunItemValueOfOptType(CGameObject lpObj, int iMuunOptIndex, int *EffectValue1, int *EffectValue2)
 {
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return false;
 	}
@@ -1205,53 +1205,53 @@ bool CMuunSystem::GetMuunItemValueOfOptType(LPGameObject lpObj, int iMuunOptInde
 
 	for (int i = 0; i < MAX_MUUN_EFFECT_LIST; i++)
 	{
-		if (lpObj->pMuunInventory[i].IsItem() == FALSE)
+		if (lpObj.pMuunInventory[i].IsItem() == FALSE)
 		{
 			continue;
 		}
 
-		if (iMuunOptIndex != lpObj->m_MuunEffectList[i].nOptType)
+		if (iMuunOptIndex != lpObj.m_MuunEffectList[i].nOptType)
 		{
 			continue;
 		}
 
-		if (lpObj->m_MuunEffectList[i].bOptEnable == FALSE)
+		if (lpObj.m_MuunEffectList[i].bOptEnable == FALSE)
 		{
 			continue;
 		}
 
-		if (lpObj->pMuunInventory[i].m_Durability <= 0.0)
+		if (lpObj.pMuunInventory[i].m_Durability <= 0.0)
 		{
 			continue;
 		}
 
-		if (lpObj->pMuunInventory[i].IsMuunItemPeriodExpire())
+		if (lpObj.pMuunInventory[i].IsMuunItemPeriodExpire())
 		{
-			*EffectValue1 += lpObj->m_MuunEffectList[i].nOptValue;
+			*EffectValue1 += lpObj.m_MuunEffectList[i].nOptValue;
 		}
 
 		else
 		{
-			*EffectValue1 += lpObj->m_MuunEffectList[i].nTotalVal;
+			*EffectValue1 += lpObj.m_MuunEffectList[i].nTotalVal;
 		}
 
 		if (iMuunOptIndex == 51)
 		{
-			if (lpObj->m_MuunEffectList[i].bSkillUsed == true)
+			if (lpObj.m_MuunEffectList[i].bSkillUsed == true)
 			{
 				return false;
 			}
 
-			lpObj->m_MuunEffectList[i].bSkillUsed = true;
+			lpObj.m_MuunEffectList[i].bSkillUsed = true;
 
 			PMSG_MUUN_ATTACK_COMMAND pMsg;
 
 			pMsg.Slot = i;
 			pMsg.SkillType = 51;
-			pMsg.NumberH = HIBYTE(lpObj->m_Index);
-			pMsg.NumberL = LOBYTE(lpObj->m_Index);
-			pMsg.TargetNumberH = HIBYTE(lpObj->m_Index);
-			pMsg.TargetNumberL = LOBYTE(lpObj->m_Index);
+			pMsg.NumberH = HIBYTE(lpObj.m_Index);
+			pMsg.NumberL = LOBYTE(lpObj.m_Index);
+			pMsg.TargetNumberH = HIBYTE(lpObj.m_Index);
+			pMsg.TargetNumberL = LOBYTE(lpObj.m_Index);
 
 			PHeadSubSetB((LPBYTE)&pMsg, 0x4E, 0x12, sizeof(pMsg));
 
@@ -1265,7 +1265,7 @@ bool CMuunSystem::GetMuunItemValueOfOptType(LPGameObject lpObj, int iMuunOptInde
 	return false;
 }
 
-void CMuunSystem::GDReqLoadMuunInvenItem(LPGameObject &obj)
+void CMuunSystem::GDReqLoadMuunInvenItem(CGameObject &obj)
 {
 	SDHP_REQ_DBMUUN_INVEN_LOAD pMsg;
 
@@ -1295,7 +1295,7 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 	int aIndex = lpMsg->aIndex;
 	char szId[11];
 	szId[MAX_ACCOUNT_LEN] = 0;
-	memcpy(szId, lpObj->AccountID, MAX_ACCOUNT_LEN);
+	memcpy(szId, lpObj.AccountID, MAX_ACCOUNT_LEN);
 
 	if (ObjectMaxRange(aIndex) == false)
 	{
@@ -1303,21 +1303,21 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 		return;
 	}
 
-	if (lpObj->m_bMapSvrMoveReq == true)
+	if (lpObj.m_bMapSvrMoveReq == true)
 	{
-		sLog->outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", lpObj->AccountID, lpObj->m_PlayerData->Ip_addr);
+		sLog->outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", lpObj.AccountID, lpObj.m_PlayerData->Ip_addr);
 		return;
 	}
 
-	if (lpObj->m_State == 32)
+	if (lpObj.m_State == 32)
 	{
-		sLog->outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", lpObj->AccountID, lpObj->m_PlayerData->Ip_addr);
+		sLog->outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", lpObj.AccountID, lpObj.m_PlayerData->Ip_addr);
 		return;
 	}
 
-	if (lpObj->m_bMapSvrMoveQuit == 1)
+	if (lpObj.m_bMapSvrMoveQuit == 1)
 	{
-		sLog->outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", lpObj->AccountID, lpObj->m_PlayerData->Ip_addr);
+		sLog->outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", lpObj.AccountID, lpObj.m_PlayerData->Ip_addr);
 		return;
 	}
 
@@ -1327,8 +1327,8 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 		return;
 	}
 
-	lpObj->bMuunInventoryLoad = true;
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	lpObj.bMuunInventoryLoad = true;
+	
 
 	int itype;
 	int _type;
@@ -1343,7 +1343,7 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 		itype |= (lpMsg->dbItems[MAX_DBITEM_INFO * n + 7] & 0x80) << 1;
 		_type = itype;
 
-		lpObj->pMuunInventory[n].Clear();
+		lpObj.pMuunInventory[n].Clear();
 
 		if (lpMsg->dbItems[MAX_DBITEM_INFO * n] == (BYTE)-1 && (lpMsg->dbItems[MAX_DBITEM_INFO * n + 9] & 0xF0) == 0xF0 && lpMsg->dbItems[MAX_DBITEM_INFO * n + 7] & 0x80)
 		{
@@ -1378,7 +1378,7 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 				if (!g_kItemSystemFor380.Is380Item(&item))
 				{
 					item.m_ItemOptionEx = 0;
-					sLog->outBasic("[380Item][%s][%s] Invalid 380 Item Option in Muun Inventory pos[%d]", lpObj->AccountID, lpObj->Name, n);
+					sLog->outBasic("[380Item][%s][%s] Invalid 380 Item Option in Muun Inventory pos[%d]", lpObj.AccountID, lpObj.Name, n);
 				}
 			}
 
@@ -1445,11 +1445,11 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 			item.m_PeriodItemOption = (lpMsg->dbItems[MAX_DBITEM_INFO * n + 9] & 6) >> 1;
 			item.Convert(itype, item.m_Option1, item.m_Option2, item.m_Option3, DBI_GET_NOPTION(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_NOPTION_DATA]), lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SOPTION_DATA], item.m_ItemOptionEx, SocketOption, SocketOptionIndex, item.m_PeriodItemOption, 3);
 
-			lpObj->pMuunInventory[n].m_Option1 = item.m_Option1;
-			lpObj->pMuunInventory[n].m_Option2 = item.m_Option2;
-			lpObj->pMuunInventory[n].m_Option3 = item.m_Option3;
-			lpObj->pMuunInventory[n].m_JewelOfHarmonyOption = item.m_JewelOfHarmonyOption;
-			lpObj->pMuunInventory[n].m_ItemOptionEx = item.m_ItemOptionEx;
+			lpObj.pMuunInventory[n].m_Option1 = item.m_Option1;
+			lpObj.pMuunInventory[n].m_Option2 = item.m_Option2;
+			lpObj.pMuunInventory[n].m_Option3 = item.m_Option3;
+			lpObj.pMuunInventory[n].m_JewelOfHarmonyOption = item.m_JewelOfHarmonyOption;
+			lpObj.pMuunInventory[n].m_ItemOptionEx = item.m_ItemOptionEx;
 
 			DWORD hidword = MAKE_NUMBERDW(MAKE_NUMBERW(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL1], lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL2]), MAKE_NUMBERW(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL3], lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL4]));
 			DWORD lodword = MAKE_NUMBERDW(MAKE_NUMBERW(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL5], lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL6]), MAKE_NUMBERW(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL7], lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL8]));
@@ -1463,7 +1463,7 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 
 					if (pCMuunInfo == NULL)
 					{
-						sLog->outBasic("[MuunSystem][Error] [%s][%s] DGLoadMuunInvenItem() pCMuunInfo is NULL %d", lpObj->AccountID, lpObj->Name, __LINE__);
+						sLog->outBasic("[MuunSystem][Error] [%s][%s] DGLoadMuunInvenItem() pCMuunInfo is NULL %d", lpObj.AccountID, lpObj.Name, __LINE__);
 					}
 
 					else
@@ -1486,7 +1486,7 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 
 					if (pCMuunInfo == NULL)
 					{
-						sLog->outBasic("[MuunSystem][Error] [%s][%s] DGLoadMuunInvenItem() pCMuunInfo is NULL %d", lpObj->AccountID, lpObj->Name, __LINE__);
+						sLog->outBasic("[MuunSystem][Error] [%s][%s] DGLoadMuunInvenItem() pCMuunInfo is NULL %d", lpObj.AccountID, lpObj.Name, __LINE__);
 					}
 
 					else
@@ -1497,21 +1497,21 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 							this->SetMuunItemAddPeriodData(lpObj, itype, item.m_Number);
 
 							sLog->outBasic("[MuunSystem][MuunItemPeriodReset] [%s][%s] MuunItemPeriodReset() Type:[%d] serial:[%I64d]",
-								lpObj->AccountID, lpObj->Name, itype, item.m_Number);
+								lpObj.AccountID, lpObj.Name, itype, item.m_Number);
 						}
 					}
 				}
 			}
 
-			gObjMuunInventoryInsertItemPos(lpObj->m_Index, item, n);
+			gObjMuunInventoryInsertItemPos(lpObj.m_Index, item, n);
 
 			if (n < 2)
 			{
-				this->MuunItemEquipment(lpObj->m_Index, n, -1);
+				this->MuunItemEquipment(lpObj.m_Index, n, -1);
 
 				if (!n)
 				{
-					GSProtocol.GCMuunEquipmentChange(lpObj->m_Index, 0);
+					GSProtocol.GCMuunEquipmentChange(lpObj.m_Index, 0);
 				}
 			}
 
@@ -1521,37 +1521,37 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 
 	for (int i = 0; i < MUUN_INVENTORY_SIZE; i++)
 	{
-		if (lpObj->pMuunInventory[i].IsItem() == TRUE)
+		if (lpObj.pMuunInventory[i].IsItem() == TRUE)
 		{
-			if (this->IsStoneofEvolution(lpObj->pMuunInventory[i].m_Type) == TRUE)
+			if (this->IsStoneofEvolution(lpObj.pMuunInventory[i].m_Type) == TRUE)
 			{
-				WORD wPetItemNumber = (lpObj->pMuunInventory[i].m_SocketOption[0] << 8) | lpObj->pMuunInventory[i].m_SocketOption[1];
+				WORD wPetItemNumber = (lpObj.pMuunInventory[i].m_SocketOption[0] << 8) | lpObj.pMuunInventory[i].m_SocketOption[1];
 				LPITEM_ATTRIBUTE lpItemAttribute = GetItemAttr(wPetItemNumber);
 
 				if (lpItemAttribute != NULL)
 				{
 					BYTE NewOption[MAX_EXOPTION_SIZE];
-					ItemIsBufExOption(NewOption, &lpObj->pMuunInventory[i]);
+					ItemIsBufExOption(NewOption, &lpObj.pMuunInventory[i]);
 
 				}
 
 				else
 				{
-					sLog->outBasic("[MuunSystem][Error] [%s][%s] DGLoadMuunInvenItem() pCMuunInfo is NULL %d", lpObj->AccountID, lpObj->Name, __LINE__);
+					sLog->outBasic("[MuunSystem][Error] [%s][%s] DGLoadMuunInvenItem() pCMuunInfo is NULL %d", lpObj.AccountID, lpObj.Name, __LINE__);
 				}
 			}
 
 			else
 			{
 				BYTE NewOption[MAX_EXOPTION_SIZE];
-				ItemIsBufExOption(NewOption, &lpObj->pMuunInventory[i]);
+				ItemIsBufExOption(NewOption, &lpObj.pMuunInventory[i]);
 			}
 		}
 	}
 
 	GCMuunInventoryItemListSend(aIndex);
 
-	lpObj->dwCheckMuunItemTime = GetTickCount();
+	lpObj.dwCheckMuunItemTime = GetTickCount();
 }
 std::string hexStr(BYTE *data, int len)
 {
@@ -1560,45 +1560,45 @@ std::string hexStr(BYTE *data, int len)
 	for (int i(0); i<len; ++i)
 		ss << (int)data[i];
 	return ss.str();
-}void CMuunSystem::GDReqSaveMuunInvenItem(LPGameObject &lpObj)
+}void CMuunSystem::GDReqSaveMuunInvenItem(CGameObject &lpObj)
 {
-	if (lpObj->bMuunInventoryLoad == false)
+	if (lpObj.bMuunInventoryLoad == false)
 	{
 		return;
 	}
 
-	if (!ObjectMaxRange(lpObj->m_Index))
+	if (!ObjectMaxRange(lpObj.m_Index))
 	{
 		return;
 	}
 
-	if (!gObjIsConnected(lpObj->m_Index))
+	if (!gObjIsConnected(lpObj.m_Index))
 	{
 		return;
 	}
 
 	for (int n = 0; n < MUUN_INVENTORY_SIZE; n++)
 	{
-		if (lpObj->pMuunInventory[n].IsItem() == FALSE)
+		if (lpObj.pMuunInventory[n].IsItem() == FALSE)
 		{
 			continue;
 		}
 
-		if (this->IsStoneofEvolution(lpObj->pMuunInventory[n].m_Type) == TRUE)
+		if (this->IsStoneofEvolution(lpObj.pMuunInventory[n].m_Type) == TRUE)
 		{
-			WORD wPetItemNumber = (lpObj->pMuunInventory[n].m_SocketOption[0] << 8) | lpObj->pMuunInventory[n].m_SocketOption[1];
+			WORD wPetItemNumber = (lpObj.pMuunInventory[n].m_SocketOption[0] << 8) | lpObj.pMuunInventory[n].m_SocketOption[1];
 
 			LPITEM_ATTRIBUTE pItemAttribute = GetItemAttr(wPetItemNumber);
 
 			if (!pItemAttribute)
 			{
-				sLog->outBasic("[MuunSystem][Error][%s][%s] GDReqSaveMuunInvenItem() pItemAttribute is NULL", lpObj->AccountID, lpObj->Name);
+				sLog->outBasic("[MuunSystem][Error][%s][%s] GDReqSaveMuunInvenItem() pItemAttribute is NULL", lpObj.AccountID, lpObj.Name);
 			}
 
 			else
 			{
 				BYTE NewOption[MAX_EXOPTION_SIZE];
-				ItemIsBufExOption(NewOption, &lpObj->pMuunInventory[n]);
+				ItemIsBufExOption(NewOption, &lpObj.pMuunInventory[n]);
 
 			}
 		}
@@ -1606,20 +1606,20 @@ std::string hexStr(BYTE *data, int len)
 		else
 		{
 			BYTE NewOption[MAX_EXOPTION_SIZE];
-			ItemIsBufExOption(NewOption, &lpObj->pMuunInventory[n]);
+			ItemIsBufExOption(NewOption, &lpObj.pMuunInventory[n]);
 	
 		}
 	}
 
 	SDHP_REQ_DBMUUN_INVEN_SAVE pMsg;
-	memcpy(pMsg.AccountID, lpObj->AccountID, MAX_ACCOUNT_LEN+1);
-	memcpy(pMsg.Name, lpObj->Name, MAX_ACCOUNT_LEN+1);
+	memcpy(pMsg.AccountID, lpObj.AccountID, MAX_ACCOUNT_LEN+1);
+	memcpy(pMsg.Name, lpObj.Name, MAX_ACCOUNT_LEN+1);
 
 	pMsg.h.c = 0xC2;
 	pMsg.h.sizeH = SET_NUMBERH(sizeof(pMsg));
 	pMsg.h.sizeL = SET_NUMBERL(sizeof(pMsg));
 	pMsg.h.headcode = 0xF2;
-	ItemByteConvert32((LPBYTE)pMsg.dbInventory, lpObj->pMuunInventory, MUUN_INVENTORY_SIZE);
+	ItemByteConvert32((LPBYTE)pMsg.dbInventory, lpObj.pMuunInventory, MUUN_INVENTORY_SIZE);
 
 	int i;
 	char* buf_str = (char*)malloc(2 * MUUN_INVENTORY_SIZE + 1);
@@ -1628,11 +1628,11 @@ std::string hexStr(BYTE *data, int len)
 	{
 		buf_ptr += sprintf(buf_ptr, "%02X", (BYTE)pMsg.dbInventory[i]);
 	}
-	//g_Log.AddC(TColor::Yellow, "[K2] Muun lpObj->pMuunInventory[i].m_Type %s", buf_ptr);
+	//g_Log.AddC(TColor::Yellow, "[K2] Muun lpObj.pMuunInventory[i].m_Type %s", buf_ptr);
 	wsDataCli.DataSend((char*)&pMsg, sizeof(pMsg));
 }
 
-void CMuunSystem::GCSendConditionStatus(LPGameObject &lpObj, int iPos, int iStatus)
+void CMuunSystem::GCSendConditionStatus(CGameObject &lpObj, int iPos, int iStatus)
 {
 	PMSG_MUUNITEM_CONDITION_STATUS pMsg;
 
@@ -1749,17 +1749,17 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 {
 	int iItemUseType = lpMsg->btItemUseType;
 
-	if (lpObj->m_IfState.use == 1)
+	if (lpObj.m_IfState.use == 1)
 	{
-		sLog->outBasic("[%s][%s]_If return  %d", lpObj->AccountID, lpObj->Name, __LINE__);
+		sLog->outBasic("[%s][%s]_If return  %d", lpObj.AccountID, lpObj.Name, __LINE__);
 		this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 		return;
 	}
 
-	if (lpObj->CloseType != -1)
+	if (lpObj.CloseType != -1)
 	{
-		sLog->outBasic("[%s][%s] CGMuunInventoryUseItemRecv()_CloseType return %d", lpObj->AccountID, lpObj->Name, __LINE__);
+		sLog->outBasic("[%s][%s] CGMuunInventoryUseItemRecv()_CloseType return %d", lpObj.AccountID, lpObj.Name, __LINE__);
 		this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 		return;
@@ -1770,9 +1770,9 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 		sLog->outBasic("[Fix Inv.Ptr] False Location - %d", __LINE__);
 	}
 
-	if (lpObj->pTransaction == 1)
+	if (lpObj.pTransaction == 1)
 	{
-		sLog->outBasic("[%s][%s] CGUseItemRecv() Failed : Transaction == 1, IF_TYPE : %d", lpObj->AccountID, lpObj->Name, lpObj->m_IfState.type);
+		sLog->outBasic("[%s][%s] CGUseItemRecv() Failed : Transaction == 1, IF_TYPE : %d", lpObj.AccountID, lpObj.Name, lpObj.m_IfState.type);
 		this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 		return;
@@ -1788,7 +1788,7 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 
 	if (lpMsg->inventoryPos == lpMsg->invenrotyTarget)
 	{
-		sLog->outBasic("error-L1 : [%s][%s] CGMuunInventoryUseItemRecv()_Pos return %d", lpObj->AccountID, lpObj->Name, __LINE__);
+		sLog->outBasic("error-L1 : [%s][%s] CGMuunInventoryUseItemRecv()_Pos return %d", lpObj.AccountID, lpObj.Name, __LINE__);
 		this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 		return;
@@ -1799,14 +1799,14 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 		case 1:
 			if (this->MuunItemLevelUp(&gGameObjects[aIndex], lpMsg->inventoryPos, lpMsg->invenrotyTarget) == FALSE)
 			{
-				sLog->outBasic("[MuunSystem][LevelUp] [%s][%s] [Fail]", lpObj->AccountID, lpObj->Name);
+				sLog->outBasic("[MuunSystem][LevelUp] [%s][%s] [Fail]", lpObj.AccountID, lpObj.Name);
 				this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 				return;
 			}
 
-			this->ClearPeriodMuunItemData(&gGameObjects[aIndex], lpObj->pMuunInventory[lpMsg->inventoryPos].m_Type, lpObj->pMuunInventory[lpMsg->inventoryPos].m_Number);
-			lpObj->pMuunInventory[lpMsg->inventoryPos].Clear();
+			this->ClearPeriodMuunItemData(&gGameObjects[aIndex], lpObj.pMuunInventory[lpMsg->inventoryPos].m_Type, lpObj.pMuunInventory[lpMsg->inventoryPos].m_Number);
+			lpObj.pMuunInventory[lpMsg->inventoryPos].Clear();
 			GSProtocol.GCMuunInventoryItemDeleteSend(aIndex, lpMsg->inventoryPos, 1);
 			GSProtocol.GCMuunInventoryItemOneSend(aIndex, lpMsg->invenrotyTarget);
 			break;
@@ -1814,27 +1814,27 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 		case 2:
 			if (this->MuunItemEvolution(&gGameObjects[aIndex], lpMsg->inventoryPos, lpMsg->invenrotyTarget) == FALSE)
 			{
-				sLog->outBasic("[MuunSystem] [%s][%s]Item Use Muun Item Evolution Fail", lpObj->AccountID, lpObj->Name);
+				sLog->outBasic("[MuunSystem] [%s][%s]Item Use Muun Item Evolution Fail", lpObj.AccountID, lpObj.Name);
 				this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 				return;
 			}
 
-			lpObj->pMuunInventory[lpMsg->inventoryPos].Clear();
+			lpObj.pMuunInventory[lpMsg->inventoryPos].Clear();
 			GSProtocol.GCMuunInventoryItemDeleteSend(aIndex, lpMsg->inventoryPos, 1);
 			break;
 
 		case 3:
 			if (this->MuunItemLifeGem(&gGameObjects[aIndex], lpMsg->inventoryPos, lpMsg->invenrotyTarget) == FALSE)
 			{
-				sLog->outBasic("[MuunSystem] [%s][%s]Item Use Muun Item LifeGem Fail", lpObj->AccountID, lpObj->Name);
+				sLog->outBasic("[MuunSystem] [%s][%s]Item Use Muun Item LifeGem Fail", lpObj.AccountID, lpObj.Name);
 				this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 				return;
 			}
 
 			gObjInventoryItemSet(aIndex, lpMsg->inventoryPos, -1);
-			lpObj->pInventory[lpMsg->inventoryPos].Clear();
+			lpObj.pInventory[lpMsg->inventoryPos].Clear();
 			GSProtocol.GCInventoryItemDeleteSend(aIndex, lpMsg->inventoryPos, 1);
 			GSProtocol.GCMuunItemDurSend(aIndex, lpMsg->invenrotyTarget, -1);
 			break;
@@ -1842,14 +1842,14 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 		case 4:
 			if (this->MuunItemEnergyGenerator(&gGameObjects[aIndex], lpMsg->inventoryPos, lpMsg->invenrotyTarget) == FALSE)
 			{
-				sLog->outBasic("[MuunSystem] [%s][%s]Item Use Muun Item Energy Generator Fail", lpObj->AccountID, lpObj->Name);
+				sLog->outBasic("[MuunSystem] [%s][%s]Item Use Muun Item Energy Generator Fail", lpObj.AccountID, lpObj.Name);
 				this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 				return;
 			}
 
-			this->ClearPeriodMuunItemData(&gGameObjects[aIndex], lpObj->pMuunInventory[lpMsg->inventoryPos].m_Type, lpObj->pMuunInventory[lpMsg->inventoryPos].m_Number);
-			lpObj->pMuunInventory[lpMsg->inventoryPos].Clear();
+			this->ClearPeriodMuunItemData(&gGameObjects[aIndex], lpObj.pMuunInventory[lpMsg->inventoryPos].m_Type, lpObj.pMuunInventory[lpMsg->inventoryPos].m_Number);
+			lpObj.pMuunInventory[lpMsg->inventoryPos].Clear();
 			GSProtocol.GCMuunInventoryItemDeleteSend(aIndex, lpMsg->inventoryPos, 1);
 			GSProtocol.GCMuunInventoryItemOneSend(aIndex, lpMsg->invenrotyTarget);
 			break;
@@ -1859,7 +1859,7 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 }
 			
 
-bool CMuunSystem::MuunItemEvolution(LPGameObject lpObj, int source, int target)
+bool CMuunSystem::MuunItemEvolution(CGameObject lpObj, int source, int target)
 {
 	if (source < 2 || source > MUUN_INVENTORY_SIZE - 1)
 	{
@@ -1871,86 +1871,86 @@ bool CMuunSystem::MuunItemEvolution(LPGameObject lpObj, int source, int target)
 		return false;
 	}
 
-	if (lpObj->pMuunInventory[source].IsItem() == FALSE)
+	if (lpObj.pMuunInventory[source].IsItem() == FALSE)
 	{
 		return false;
 	}
 
-	if (lpObj->pMuunInventory[target].IsItem() == FALSE)
+	if (lpObj.pMuunInventory[target].IsItem() == FALSE)
 	{
 		return false;
 	}
 
-	if (this->IsStoneofEvolution(lpObj->pMuunInventory[source].m_Type) == FALSE)
+	if (this->IsStoneofEvolution(lpObj.pMuunInventory[source].m_Type) == FALSE)
 	{
 		return false;
 	}
 
-	if (this->IsMuunItem(lpObj->pMuunInventory[target].m_Type) == FALSE)
+	if (this->IsMuunItem(lpObj.pMuunInventory[target].m_Type) == FALSE)
 	{
 		return false;
 	}
 
-	if (lpObj->pMuunInventory[target].m_Level == 0)
+	if (lpObj.pMuunInventory[target].m_Level == 0)
 	{
 		return false;
 	}
 
-	WORD nEvoMuunItemNum = (lpObj->pMuunInventory[source].m_SocketOption[0] << 8) | lpObj->pMuunInventory[source].m_SocketOption[1];
+	WORD nEvoMuunItemNum = (lpObj.pMuunInventory[source].m_SocketOption[0] << 8) | lpObj.pMuunInventory[source].m_SocketOption[1];
 
-	if (nEvoMuunItemNum != lpObj->pMuunInventory[target].m_Type)
+	if (nEvoMuunItemNum != lpObj.pMuunInventory[target].m_Type)
 	{
 		return false;
 	}
 
-	if (lpObj->pMuunInventory[target].GetMuunItemRank() + 1 != lpObj->pMuunInventory[target].m_Level)
+	if (lpObj.pMuunInventory[target].GetMuunItemRank() + 1 != lpObj.pMuunInventory[target].m_Level)
 	{
 		return false;
 	}
 
-	if (lpObj->pMuunInventory[target].GetMuunItemRank() + 1 < lpObj->pMuunInventory[target].m_Level)
+	if (lpObj.pMuunInventory[target].GetMuunItemRank() + 1 < lpObj.pMuunInventory[target].m_Level)
 	{
-		sLog->outBasic("[MuunSystem][Error][%s][%s] Over Level(%d) %d", lpObj->AccountID, lpObj->Name, lpObj->pMuunInventory[target].m_Level, __LINE__);
+		sLog->outBasic("[MuunSystem][Error][%s][%s] Over Level(%d) %d", lpObj.AccountID, lpObj.Name, lpObj.pMuunInventory[target].m_Level, __LINE__);
 		return false;
 	}
 
-	WORD nEvolutionMuunNum = this->GetEvolutionMuunItemIndex(lpObj->pMuunInventory[target].m_Type);
+	WORD nEvolutionMuunNum = this->GetEvolutionMuunItemIndex(lpObj.pMuunInventory[target].m_Type);
 
 	if (nEvolutionMuunNum == 0)
 	{
-		sLog->outBasic("[MuunSystem][Error][%s][%s] Not Evolution MuunItem Index - target Item Index(%d) %d", lpObj->AccountID, lpObj->Name, lpObj->pMuunInventory[target].m_Type, __LINE__);
+		sLog->outBasic("[MuunSystem][Error][%s][%s] Not Evolution MuunItem Index - target Item Index(%d) %d", lpObj.AccountID, lpObj.Name, lpObj.pMuunInventory[target].m_Type, __LINE__);
 		return false;
 	}
 
-	LPITEM_ATTRIBUTE pSItemAttribute = GetItemAttr(lpObj->pMuunInventory[source].m_Type);
-	LPITEM_ATTRIBUTE pTItemAttribute = GetItemAttr(lpObj->pMuunInventory[target].m_Type);
+	LPITEM_ATTRIBUTE pSItemAttribute = GetItemAttr(lpObj.pMuunInventory[source].m_Type);
+	LPITEM_ATTRIBUTE pTItemAttribute = GetItemAttr(lpObj.pMuunInventory[target].m_Type);
 
 	if (pTItemAttribute && pSItemAttribute)
 	{
-		UINT64 serial = lpObj->pMuunInventory[target].m_Number;
-		WORD Level = lpObj->pMuunInventory[target].m_Level;
-		int iMuunRank = lpObj->pMuunInventory[target].GetMuunItemRank();
+		UINT64 serial = lpObj.pMuunInventory[target].m_Number;
+		WORD Level = lpObj.pMuunInventory[target].m_Level;
+		int iMuunRank = lpObj.pMuunInventory[target].GetMuunItemRank();
 
 		sLog->outBasic("[MuunSystem][Evolution] [%s][%s] [Success] Source: [%s] Pos[%d] Serial[%I64d] - Target: [%s] Pos[%d] Rank[%d] Level[%d] Serial[%I64d]",
-			lpObj->AccountID, lpObj->Name, pSItemAttribute->Name, source, lpObj->pMuunInventory[source].m_Number, pTItemAttribute->Name, target, iMuunRank, Level, serial);
+			lpObj.AccountID, lpObj.Name, pSItemAttribute->Name, source, lpObj.pMuunInventory[source].m_Number, pTItemAttribute->Name, target, iMuunRank, Level, serial);
 	}
 
-	float fDur = lpObj->pMuunInventory[target].m_Durability;
+	float fDur = lpObj.pMuunInventory[target].m_Durability;
 
-	this->ClearPeriodMuunItemData(lpObj, lpObj->pMuunInventory[target].m_Type, lpObj->pMuunInventory[target].m_Number);
-	GSProtocol.GCMuunInventoryItemDeleteSend(lpObj->m_Index, target, 1);
+	this->ClearPeriodMuunItemData(lpObj, lpObj.pMuunInventory[target].m_Type, lpObj.pMuunInventory[target].m_Number);
+	GSProtocol.GCMuunInventoryItemDeleteSend(lpObj.m_Index, target, 1);
 
-	lpObj->pMuunInventory[target].Clear();
+	lpObj.pMuunInventory[target].Clear();
 
 	BYTE SocketOption[5];
 	memset(SocketOption, -1, sizeof(SocketOption));
 
-	ItemSerialCreateSend(lpObj->m_Index, 0xE0, 0, 0, nEvolutionMuunNum, 0, fDur, 0, 0, 0, lpObj->m_Index, 0, 0, 0, SocketOption, 0);
+	ItemSerialCreateSend(lpObj.m_Index, 0xE0, 0, 0, nEvolutionMuunNum, 0, fDur, 0, 0, 0, lpObj.m_Index, 0, 0, 0, SocketOption, 0);
 
 	return true;
 }
 
-bool CMuunSystem::MuunItemLevelUp(LPGameObject lpObj, int source, int target)
+bool CMuunSystem::MuunItemLevelUp(CGameObject lpObj, int source, int target)
 {
 	if (source < 2 || source > MUUN_INVENTORY_SIZE - 1)
 	{
@@ -1962,74 +1962,74 @@ bool CMuunSystem::MuunItemLevelUp(LPGameObject lpObj, int source, int target)
 		return false;
 	}
 
-	if (lpObj->pMuunInventory[source].IsItem() == FALSE)
+	if (lpObj.pMuunInventory[source].IsItem() == FALSE)
 	{
 		return false;
 	}
 
-	if (lpObj->pMuunInventory[target].IsItem() == FALSE)
+	if (lpObj.pMuunInventory[target].IsItem() == FALSE)
 	{
 		return false;
 	}
 
-	if (this->IsMuunItem(lpObj->pMuunInventory[target].m_Type) == FALSE)
+	if (this->IsMuunItem(lpObj.pMuunInventory[target].m_Type) == FALSE)
 	{
 		return false;
 	}
 	
-	if (this->IsMuunItem(lpObj->pMuunInventory[source].m_Type) == FALSE)
+	if (this->IsMuunItem(lpObj.pMuunInventory[source].m_Type) == FALSE)
 	{
 		return false;
 	}
 
-	if (lpObj->pMuunInventory[source].m_Level == 0 || lpObj->pMuunInventory[target].m_Level == 0)
+	if (lpObj.pMuunInventory[source].m_Level == 0 || lpObj.pMuunInventory[target].m_Level == 0)
 	{
 		return false;
 	}
 							
-	if (lpObj->pMuunInventory[source].m_Type != lpObj->pMuunInventory[target].m_Type)
+	if (lpObj.pMuunInventory[source].m_Type != lpObj.pMuunInventory[target].m_Type)
 	{
 		return false;
 	}
 	
-	if (lpObj->pMuunInventory[source].m_Level != 1)
+	if (lpObj.pMuunInventory[source].m_Level != 1)
 	{
 		return false;
 	}
 
-	if (lpObj->pMuunInventory[target].GetMuunItemRank() + 1 == lpObj->pMuunInventory[target].m_Level)
+	if (lpObj.pMuunInventory[target].GetMuunItemRank() + 1 == lpObj.pMuunInventory[target].m_Level)
 	{
 		return false;
 	}
 										
-	if (lpObj->pMuunInventory[target].m_Level >= 5)
+	if (lpObj.pMuunInventory[target].m_Level >= 5)
 	{
 		return false;
 	}
 
-	if (lpObj->pMuunInventory[target].GetMuunItemRank() + 1 < lpObj->pMuunInventory[target].m_Level)
+	if (lpObj.pMuunInventory[target].GetMuunItemRank() + 1 < lpObj.pMuunInventory[target].m_Level)
 	{
-		sLog->outBasic("[MuunSystem][Error][%s][%s] Over Level(%d) %d", lpObj->AccountID, lpObj->Name, lpObj->pMuunInventory[target].m_Level, __LINE__);
+		sLog->outBasic("[MuunSystem][Error][%s][%s] Over Level(%d) %d", lpObj.AccountID, lpObj.Name, lpObj.pMuunInventory[target].m_Level, __LINE__);
 		return false;
 	}
 
-	int nBeforeLv = lpObj->pMuunInventory[target].m_Level;
-	lpObj->pMuunInventory[target].m_Level++;
+	int nBeforeLv = lpObj.pMuunInventory[target].m_Level;
+	lpObj.pMuunInventory[target].m_Level++;
 
-	LPITEM_ATTRIBUTE pSItemAttribute = GetItemAttr(lpObj->pMuunInventory[source].m_Type);
-	LPITEM_ATTRIBUTE pTItemAttribute = GetItemAttr(lpObj->pMuunInventory[target].m_Type);
+	LPITEM_ATTRIBUTE pSItemAttribute = GetItemAttr(lpObj.pMuunInventory[source].m_Type);
+	LPITEM_ATTRIBUTE pTItemAttribute = GetItemAttr(lpObj.pMuunInventory[target].m_Type);
 												
 	if (pTItemAttribute && pSItemAttribute)
 	{
 		sLog->outBasic("[MuunSystem][LevelUp] [%s][%s] [Success] Source: [%s] Pos[%d] Rank[%d] Level[%d] Serial[%I64d] - Target: [%s] Pos[%d] Rank[%d] Level[%d]/[%d] Serial[%I64d]",
-			lpObj->AccountID, lpObj->Name, pSItemAttribute->Name, source, lpObj->pMuunInventory[source].GetMuunItemRank(), lpObj->pMuunInventory[source].m_Level, lpObj->pMuunInventory[source].m_Number,
-			pTItemAttribute->Name, target, lpObj->pMuunInventory[target].GetMuunItemRank(), nBeforeLv, lpObj->pMuunInventory[target].m_Level, lpObj->pMuunInventory[target].m_Number);
+			lpObj.AccountID, lpObj.Name, pSItemAttribute->Name, source, lpObj.pMuunInventory[source].GetMuunItemRank(), lpObj.pMuunInventory[source].m_Level, lpObj.pMuunInventory[source].m_Number,
+			pTItemAttribute->Name, target, lpObj.pMuunInventory[target].GetMuunItemRank(), nBeforeLv, lpObj.pMuunInventory[target].m_Level, lpObj.pMuunInventory[target].m_Number);
 	}
 
 	return true;
 }
 
-bool CMuunSystem::MuunItemLifeGem(LPGameObject lpObj, int source, int target)
+bool CMuunSystem::MuunItemLifeGem(CGameObject lpObj, int source, int target)
 {
 	if (source < INVETORY_WEAR_SIZE || source > MAIN_INVENTORY_SIZE - 1)
 	{
@@ -2041,46 +2041,46 @@ bool CMuunSystem::MuunItemLifeGem(LPGameObject lpObj, int source, int target)
 		return false;
 	}
 
-	if (lpObj->pInventory[source].IsItem() == FALSE)
+	if (lpObj.pInventory[source].IsItem() == FALSE)
 	{
 		return false;
 	}
 
-	if (lpObj->pMuunInventory[target].IsItem() == FALSE)
+	if (lpObj.pMuunInventory[target].IsItem() == FALSE)
 	{
 		return false;
 	}
 
-	if (this->IsMuunItem(lpObj->pMuunInventory[target].m_Type) == FALSE)
+	if (this->IsMuunItem(lpObj.pMuunInventory[target].m_Type) == FALSE)
 	{
 		return false;
 	}
 	
-	if (lpObj->pInventory[source].m_Type != ITEMGET(14, 16))
+	if (lpObj.pInventory[source].m_Type != ITEMGET(14, 16))
 	{
 		return false;
 	}
 
-	if (lpObj->pMuunInventory[target].m_Durability >= 255.0)
+	if (lpObj.pMuunInventory[target].m_Durability >= 255.0)
 	{
 		return false;
 	}
 
-	int nBeforeDur = lpObj->pMuunInventory[target].m_Durability;
-	lpObj->pMuunInventory[target].m_Durability = 255.0;
+	int nBeforeDur = lpObj.pMuunInventory[target].m_Durability;
+	lpObj.pMuunInventory[target].m_Durability = 255.0;
 
-	LPITEM_ATTRIBUTE pItemAttribute = GetItemAttr(lpObj->pInventory[source].m_Type);
+	LPITEM_ATTRIBUTE pItemAttribute = GetItemAttr(lpObj.pInventory[source].m_Type);
 							
 	if (pItemAttribute)
 	{
 		sLog->outBasic("[MuunSystem] [%s][%s] Item Use Muun Item LifeGem Success target[%d] [%s] Dur:[%d]/[%d] Serial:%I64d",
-			lpObj->AccountID, lpObj->Name, target, pItemAttribute->Name, nBeforeDur, (int)lpObj->pMuunInventory[target].m_Durability, lpObj->pMuunInventory[target].m_Number);
+			lpObj.AccountID, lpObj.Name, target, pItemAttribute->Name, nBeforeDur, (int)lpObj.pMuunInventory[target].m_Durability, lpObj.pMuunInventory[target].m_Number);
 	}
 
 	return true;
 }
 
-bool CMuunSystem::MuunItemEnergyGenerator(LPGameObject &lpObj, int source, int target)
+bool CMuunSystem::MuunItemEnergyGenerator(CGameObject &lpObj, int source, int target)
 {
 	if (source < 2 || source > MUUN_INVENTORY_SIZE - 1)
 	{
@@ -2092,12 +2092,12 @@ bool CMuunSystem::MuunItemEnergyGenerator(LPGameObject &lpObj, int source, int t
 		return false;
 	}
 
-	if (lpObj->pMuunInventory[source].IsItem() == FALSE)
+	if (lpObj.pMuunInventory[source].IsItem() == FALSE)
 	{
 		return false;
 	}
 
-	if (lpObj->pMuunInventory[target].IsItem() == FALSE)
+	if (lpObj.pMuunInventory[target].IsItem() == FALSE)
 	{
 		return false;
 	}
@@ -2106,22 +2106,22 @@ bool CMuunSystem::MuunItemEnergyGenerator(LPGameObject &lpObj, int source, int t
 	int nRankEnergy = 0;
 	int nLvEnergy = 0;
 
-	if (this->IsStoneofEvolution(lpObj->pMuunInventory[source].m_Type) == FALSE &&
-		this->IsMuunItem(lpObj->pMuunInventory[source].m_Type) == FALSE &&
-		lpObj->pMuunInventory[source].m_Type != ITEMGET(13,239))
+	if (this->IsStoneofEvolution(lpObj.pMuunInventory[source].m_Type) == FALSE &&
+		this->IsMuunItem(lpObj.pMuunInventory[source].m_Type) == FALSE &&
+		lpObj.pMuunInventory[source].m_Type != ITEMGET(13,239))
 	{
 		return false;
 	}
 
-	if (lpObj->pMuunInventory[target].m_Type != ITEMGET(13,239))
+	if (lpObj.pMuunInventory[target].m_Type != ITEMGET(13,239))
 	{
 		return false;
 	}
 
-	int nMuunRank = lpObj->pMuunInventory[source].GetMuunItemRank();
-	int nMuunLv = lpObj->pMuunInventory[source].m_Level;
+	int nMuunRank = lpObj.pMuunInventory[source].GetMuunItemRank();
+	int nMuunLv = lpObj.pMuunInventory[source].m_Level;
 
-	if (this->IsMuunItem(lpObj->pMuunInventory[source].m_Type) == TRUE)
+	if (this->IsMuunItem(lpObj.pMuunInventory[source].m_Type) == TRUE)
 	{
 		for (int i = 0; i < 8; i++)
 		{
@@ -2147,44 +2147,44 @@ bool CMuunSystem::MuunItemEnergyGenerator(LPGameObject &lpObj, int source, int t
 		}
 	}
 
-	else if (this->IsStoneofEvolution(lpObj->pMuunInventory[source].m_Type) == TRUE)
+	else if (this->IsStoneofEvolution(lpObj.pMuunInventory[source].m_Type) == TRUE)
 	{
 		nEnergy = this->m_iStoneOfEvolutionPt;
 	}
 
-	else if (lpObj->pMuunInventory[source].m_Type == ITEMGET(13,239))
+	else if (lpObj.pMuunInventory[source].m_Type == ITEMGET(13,239))
 	{
-		nEnergy = lpObj->pMuunInventory[source].m_Durability;
+		nEnergy = lpObj.pMuunInventory[source].m_Durability;
 	}
 
-	int nMuunDurability = nEnergy + lpObj->pMuunInventory[target].m_Durability;
+	int nMuunDurability = nEnergy + lpObj.pMuunInventory[target].m_Durability;
 
 	if (nMuunDurability < 120)
 	{
-		LPITEM_ATTRIBUTE pSItemAttribute = GetItemAttr(lpObj->pMuunInventory[source].m_Type);
-		LPITEM_ATTRIBUTE pTItemAttribute = GetItemAttr(lpObj->pMuunInventory[target].m_Type);
+		LPITEM_ATTRIBUTE pSItemAttribute = GetItemAttr(lpObj.pMuunInventory[source].m_Type);
+		LPITEM_ATTRIBUTE pTItemAttribute = GetItemAttr(lpObj.pMuunInventory[target].m_Type);
 												
 		if (pTItemAttribute && pSItemAttribute)
 		{
 			sLog->outBasic("[MuunSystem][EnergyGenerator] [%s][%s] [Mix Success] Source: [%s] Pos[%d] Rank[%d] Level[%d] Serial[%I64d] - Target: [%s] Pos[%d] Serial[%I64d] Dur[%d/%d/%d]",
-				lpObj->AccountID, lpObj->Name, pSItemAttribute->Name, source, lpObj->pMuunInventory[source].m_Durability, lpObj->pMuunInventory[source].m_Level, lpObj->pMuunInventory[source].m_Number,
-				pTItemAttribute->Name, target, lpObj->pInventory[target].m_Number, lpObj->pMuunInventory[target].m_Durability, nEnergy, nMuunDurability);
+				lpObj.AccountID, lpObj.Name, pSItemAttribute->Name, source, lpObj.pMuunInventory[source].m_Durability, lpObj.pMuunInventory[source].m_Level, lpObj.pMuunInventory[source].m_Number,
+				pTItemAttribute->Name, target, lpObj.pInventory[target].m_Number, lpObj.pMuunInventory[target].m_Durability, nEnergy, nMuunDurability);
 		}
 
-		lpObj->pMuunInventory[target].m_Durability = nMuunDurability;
-		GSProtocol.GCMuunItemDurSend(lpObj->m_Index, target, nMuunDurability);
+		lpObj.pMuunInventory[target].m_Durability = nMuunDurability;
+		GSProtocol.GCMuunItemDurSend(lpObj.m_Index, target, nMuunDurability);
 	}
 
 	else
 	{
-		LPITEM_ATTRIBUTE pSItemAttribute = GetItemAttr(lpObj->pMuunInventory[source].m_Type);
-		LPITEM_ATTRIBUTE pTItemAttribute = GetItemAttr(lpObj->pMuunInventory[target].m_Type);
+		LPITEM_ATTRIBUTE pSItemAttribute = GetItemAttr(lpObj.pMuunInventory[source].m_Type);
+		LPITEM_ATTRIBUTE pTItemAttribute = GetItemAttr(lpObj.pMuunInventory[target].m_Type);
 												
 		if (pTItemAttribute && pSItemAttribute)
 		{
 			sLog->outBasic("[MuunSystem][EnergyGenerator] [%s][%s] [Create Success] Source: [%s] Pos[%d] Rank[%d] Level[%d] Serial[%I64d] - Target: [%s] Pos[%d] Serial[%I64d] Dur[%d/%d/%d]",
-				lpObj->AccountID, lpObj->Name, pSItemAttribute->Name, source, lpObj->pMuunInventory[source].m_Durability, lpObj->pMuunInventory[source].m_Level, lpObj->pMuunInventory[source].m_Number,
-				pTItemAttribute->Name, target, lpObj->pInventory[target].m_Number, lpObj->pMuunInventory[target].m_Durability, nEnergy, nMuunDurability);
+				lpObj.AccountID, lpObj.Name, pSItemAttribute->Name, source, lpObj.pMuunInventory[source].m_Durability, lpObj.pMuunInventory[source].m_Level, lpObj.pMuunInventory[source].m_Number,
+				pTItemAttribute->Name, target, lpObj.pInventory[target].m_Number, lpObj.pMuunInventory[target].m_Durability, nEnergy, nMuunDurability);
 		}
 
 		int iType = ITEMGET(13,240);
@@ -2194,16 +2194,16 @@ bool CMuunSystem::MuunItemEnergyGenerator(LPGameObject &lpObj, int source, int t
 		BYTE SocketOption[5];
 		memset(SocketOption, -1, sizeof(SocketOption));
 
-		ItemSerialCreateSend(lpObj->m_Index, 0xE0, 0, 0, iType, iLevel, fDur, 0, 0, 0, lpObj->m_Index, 0, 0, 0, SocketOption, 0);
+		ItemSerialCreateSend(lpObj.m_Index, 0xE0, 0, 0, iType, iLevel, fDur, 0, 0, 0, lpObj.m_Index, 0, 0, 0, SocketOption, 0);
 
-		lpObj->pMuunInventory[target].Clear();
-		GSProtocol.GCMuunInventoryItemDeleteSend(lpObj->m_Index, target, 1);
+		lpObj.pMuunInventory[target].Clear();
+		GSProtocol.GCMuunInventoryItemDeleteSend(lpObj.m_Index, target, 1);
 	}
 
 	return true;
 }
 
-void CMuunSystem::GCMuunInventoryUseItemResult(LPGameObject &lpObj, int iUseType, int iResult)
+void CMuunSystem::GCMuunInventoryUseItemResult(CGameObject &lpObj, int iUseType, int iResult)
 {
 	PMSG_USEITEM_MUUN_INVEN_RESULT pResult; 
 
@@ -2213,7 +2213,7 @@ void CMuunSystem::GCMuunInventoryUseItemResult(LPGameObject &lpObj, int iUseType
 	IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
 }
 
-int CMuunSystem::AddMuunItemPeriodInfo(LPGameObject &lpObj)
+int CMuunSystem::AddMuunItemPeriodInfo(CGameObject &lpObj)
 {
 	for (int i = 0; i < g_ConfigRead.server.GetObjectMaxUser(); i++)
 	{
@@ -2222,13 +2222,13 @@ int CMuunSystem::AddMuunItemPeriodInfo(LPGameObject &lpObj)
 			this->m_MuunItemPeriodData[i].Clear();
 			this->m_MuunItemPeriodData[i].bIsUsed = true;
 			this->m_MuunItemPeriodData[i].lpUserObj = lpObj;
-			this->m_MuunItemPeriodData[i].dwUserGUID = lpObj->DBNumber;
-			this->m_MuunItemPeriodData[i].wUserIndex = lpObj->m_Index;
+			this->m_MuunItemPeriodData[i].dwUserGUID = lpObj.DBNumber;
+			this->m_MuunItemPeriodData[i].wUserIndex = lpObj.m_Index;
 			this->m_MuunItemPeriodData[i].btUsedDataCount = 0;
-			memcpy(this->m_MuunItemPeriodData[i].chAccountID, lpObj->Name, MAX_ACCOUNT_LEN + 1);
-			memcpy(this->m_MuunItemPeriodData[i].chCharacterName, lpObj->AccountID, MAX_ACCOUNT_LEN + 1);
+			memcpy(this->m_MuunItemPeriodData[i].chAccountID, lpObj.Name, MAX_ACCOUNT_LEN + 1);
+			memcpy(this->m_MuunItemPeriodData[i].chCharacterName, lpObj.AccountID, MAX_ACCOUNT_LEN + 1);
 
-			lpObj->m_iMuunItmePeriodDataIndex = i;
+			lpObj.m_iMuunItmePeriodDataIndex = i;
 			return i;
 		}
 	}
@@ -2236,14 +2236,14 @@ int CMuunSystem::AddMuunItemPeriodInfo(LPGameObject &lpObj)
 	return -1;
 }
 
-bool CMuunSystem::RemoveMuunItemPeriodInfo(LPGameObject &lpObj)
+bool CMuunSystem::RemoveMuunItemPeriodInfo(CGameObject &lpObj)
 {
 	if (this->IsCorrectUser(lpObj) == false)
 	{
 		return false;
 	}
 
-	int iPeriodItemSlotIndex = lpObj->m_iMuunItmePeriodDataIndex;
+	int iPeriodItemSlotIndex = lpObj.m_iMuunItmePeriodDataIndex;
 
 	if (iPeriodItemSlotIndex < 0 || iPeriodItemSlotIndex >= g_ConfigRead.server.GetObjectMaxUser())
 	{
@@ -2260,9 +2260,9 @@ bool CMuunSystem::RemoveMuunItemPeriodInfo(LPGameObject &lpObj)
 	return true;
 }
 
-bool CMuunSystem::IsCorrectUser(LPGameObject &lpObj)
+bool CMuunSystem::IsCorrectUser(CGameObject &lpObj)
 {
-	int iPeriodItemSlotIndex = lpObj->m_iMuunItmePeriodDataIndex;
+	int iPeriodItemSlotIndex = lpObj.m_iMuunItmePeriodDataIndex;
 
 	if (iPeriodItemSlotIndex < 0 || iPeriodItemSlotIndex >= g_ConfigRead.server.GetObjectMax())
 	{
@@ -2274,7 +2274,7 @@ bool CMuunSystem::IsCorrectUser(LPGameObject &lpObj)
 		return false;
 	}
 
-	if (this->m_MuunItemPeriodData[iPeriodItemSlotIndex].dwUserGUID != lpObj->DBNumber)
+	if (this->m_MuunItemPeriodData[iPeriodItemSlotIndex].dwUserGUID != lpObj.DBNumber)
 	{
 		return false;
 	}
@@ -2282,9 +2282,9 @@ bool CMuunSystem::IsCorrectUser(LPGameObject &lpObj)
 	return true;
 }
 
-int CMuunSystem::AddMuunItmePeriodData(LPGameObject lpObj, WORD wItemCode, UINT64 dwSerial, int iDuration, CMuunInfo *pCMuunInfo)
+int CMuunSystem::AddMuunItmePeriodData(CGameObject lpObj, WORD wItemCode, UINT64 dwSerial, int iDuration, CMuunInfo *pCMuunInfo)
 {
-	int iMuunItemPeriodDataIndex = lpObj->m_iMuunItmePeriodDataIndex;
+	int iMuunItemPeriodDataIndex = lpObj.m_iMuunItmePeriodDataIndex;
 
 	if (CMuunSystem::IsCorrectUser(lpObj) == false)
 	{
@@ -2307,7 +2307,7 @@ int CMuunSystem::AddMuunItmePeriodData(LPGameObject lpObj, WORD wItemCode, UINT6
 	return -1;
 }
 
-void CMuunSystem::CheckMuunItemPeriodData(LPGameObject &lpObj)
+void CMuunSystem::CheckMuunItemPeriodData(CGameObject &lpObj)
 {
 	if (lpObj == NULL)
 	{
@@ -2317,10 +2317,10 @@ void CMuunSystem::CheckMuunItemPeriodData(LPGameObject &lpObj)
 
 	this->SkillProc(lpObj);
 
-	if (GetTickCount() - lpObj->dwCheckMuunItemTime >= 60000)
+	if (GetTickCount() - lpObj.dwCheckMuunItemTime >= 60000)
 	{
-		lpObj->dwCheckMuunItemTime = GetTickCount();
-		int i = lpObj->m_iMuunItmePeriodDataIndex;
+		lpObj.dwCheckMuunItemTime = GetTickCount();
+		int i = lpObj.m_iMuunItmePeriodDataIndex;
 
 		if (i < 0 || i >= g_ConfigRead.server.GetObjectMaxUser())
 		{
@@ -2331,11 +2331,11 @@ void CMuunSystem::CheckMuunItemPeriodData(LPGameObject &lpObj)
 		{
 			if (this->m_MuunItemPeriodData[i].lpUserObj != NULL)
 			{
-				LPGameObject lpUserObj = this->m_MuunItemPeriodData[i].lpUserObj;
+				CGameObject lpUserObj = this->m_MuunItemPeriodData[i].lpUserObj;
 					
-				if (lpUserObj->Type == OBJ_USER)
+				if (lpUserObj.Type == OBJ_USER)
 				{
-					if (lpUserObj->Connected == PLAYER_PLAYING)
+					if (lpUserObj.Connected == PLAYER_PLAYING)
 					{
 						this->CheckEquipMuunItemConditionProc(lpUserObj);
 
@@ -2347,7 +2347,7 @@ void CMuunSystem::CheckMuunItemPeriodData(LPGameObject &lpObj)
 									
 								if (!pCMuunInfo)
 								{
-									sLog->outBasic("[MuunSystem][Error] pCMuunInfo is NULL [%s][%s] [%d]", lpUserObj->AccountID, lpUserObj->Name, __LINE__);								
+									sLog->outBasic("[MuunSystem][Error] pCMuunInfo is NULL [%s][%s] [%d]", lpUserObj.AccountID, lpUserObj.Name, __LINE__);								
 									return;
 								}
 								
@@ -2365,18 +2365,18 @@ void CMuunSystem::CheckMuunItemPeriodData(LPGameObject &lpObj)
 	}
 }
 
-bool CMuunSystem::ClearPeriodMuunItemData(LPGameObject lpObj, WORD wItemCode, UINT64 dwSerial)
+bool CMuunSystem::ClearPeriodMuunItemData(CGameObject lpObj, WORD wItemCode, UINT64 dwSerial)
 {
 	bool result;
 	signed int iItemSlotIndex; 
 
 	if (lpObj)
 	{
-		if (lpObj->Type == OBJ_USER && lpObj->Connected >= PLAYER_LOGGED)
+		if (lpObj.Type == OBJ_USER && lpObj.Connected >= PLAYER_LOGGED)
 		{
 			if (this->IsMuunItem(wItemCode))
 			{
-				int i = lpObj->m_iMuunItmePeriodDataIndex;
+				int i = lpObj.m_iMuunItmePeriodDataIndex;
 				if (this->m_MuunItemPeriodData[i].bIsUsed == TRUE)
 				{
 					for (iItemSlotIndex = 0; iItemSlotIndex < MUUN_INVENTORY_SIZE; ++iItemSlotIndex)
@@ -2409,14 +2409,14 @@ bool CMuunSystem::ClearPeriodMuunItemData(LPGameObject lpObj, WORD wItemCode, UI
 	return result;
 }
 
-bool CMuunSystem::RemovePeriodMunnItemData(LPGameObject lpObj, WORD wItemCode, UINT64 dwSerial)
+bool CMuunSystem::RemovePeriodMunnItemData(CGameObject lpObj, WORD wItemCode, UINT64 dwSerial)
 {
 	bool result; 
 	int iInventoryPosition; 
 
 	if (lpObj)
 	{
-		if (lpObj->Type == 1 && lpObj->Connected >= 2)
+		if (lpObj.Type == 1 && lpObj.Connected >= 2)
 		{
 			iInventoryPosition = this->GetItemFromMuunInventory(lpObj, wItemCode, dwSerial);
 			if (iInventoryPosition == -1)
@@ -2441,13 +2441,13 @@ bool CMuunSystem::RemovePeriodMunnItemData(LPGameObject lpObj, WORD wItemCode, U
 	return result;
 }
 
-bool CMuunSystem::SetDisableMuunItemToExpire(LPGameObject lpObj, int iInventoryPosition)
+bool CMuunSystem::SetDisableMuunItemToExpire(CGameObject lpObj, int iInventoryPosition)
 {
 	bool result; 
 
 	if (lpObj)
 	{
-		if (lpObj->Connected >= 2 || lpObj->Type == 1)
+		if (lpObj.Connected >= 2 || lpObj.Type == 1)
 		{
 			if (iInventoryPosition == -1)
 			{
@@ -2455,13 +2455,13 @@ bool CMuunSystem::SetDisableMuunItemToExpire(LPGameObject lpObj, int iInventoryP
 			}
 			else
 			{
-				lpObj->pMuunInventory[iInventoryPosition].SetMuunItemPeriodExpire();
+				lpObj.pMuunInventory[iInventoryPosition].SetMuunItemPeriodExpire();
 				if (iInventoryPosition < 2)
 				{
-					if (lpObj->pMuunInventory[iInventoryPosition].IsItem() == 1)
-						this->CalCharacterStat(lpObj->m_Index,lpObj->m_MuunEffectList[iInventoryPosition].nOptType);
+					if (lpObj.pMuunInventory[iInventoryPosition].IsItem() == 1)
+						this->CalCharacterStat(lpObj.m_Index,lpObj.m_MuunEffectList[iInventoryPosition].nOptType);
 				}
-				GCMuunInventoryItemListSend(lpObj->m_Index);
+				GCMuunInventoryItemListSend(lpObj.m_Index);
 				result = 1;
 			}
 		}
@@ -2477,77 +2477,77 @@ bool CMuunSystem::SetDisableMuunItemToExpire(LPGameObject lpObj, int iInventoryP
 	return result;
 }
 
-void CMuunSystem::CheckMuunItemConditionLevelUp(LPGameObject &lpObj)
+void CMuunSystem::CheckMuunItemConditionLevelUp(CGameObject &lpObj)
 {
 	int nMaxLv; 
 	CMuunOpt *pCMuunInfo; 
 	int iRet = -1;
 	for (int i = 0; i < 2; ++i)
 	{
-		if (lpObj->pMuunInventory[i].IsItem())
+		if (lpObj.pMuunInventory[i].IsItem())
 		{
-			pCMuunInfo = lpObj->m_MuunEffectList[i].pCMuunInfo;
+			pCMuunInfo = lpObj.m_MuunEffectList[i].pCMuunInfo;
 			if (!pCMuunInfo)
 				return;
 			if (pCMuunInfo->GetConditionType() == 2)
 			{
 				int nMinLv = pCMuunInfo->GetConditionVal1();
 				nMaxLv = pCMuunInfo->GetConditionVal2();
-				if (nMinLv > lpObj->Level || nMaxLv < lpObj->Level)
+				if (nMinLv > lpObj.Level || nMaxLv < lpObj.Level)
 				{
-					if (lpObj->m_MuunEffectList[i].bOptEnable == 1)
+					if (lpObj.m_MuunEffectList[i].bOptEnable == 1)
 					{
-						lpObj->m_MuunEffectList[i].bOptEnable = 0;
+						lpObj.m_MuunEffectList[i].bOptEnable = 0;
 						iRet = 0;
 					}
 				}
 				else
 				{
-					if (!lpObj->m_MuunEffectList[i].bOptEnable)
+					if (!lpObj.m_MuunEffectList[i].bOptEnable)
 					{
-						lpObj->m_MuunEffectList[i].bOptEnable = 1;
+						lpObj.m_MuunEffectList[i].bOptEnable = 1;
 						iRet = 1;
 					}
 				}
 				if (iRet > -1)
 				{
-					this->GCSendConditionStatus(lpObj->m_Index, i, iRet);
-					this->CalCharacterStat(lpObj->m_Index,lpObj->m_MuunEffectList[i].pCMuunInfo);
+					this->GCSendConditionStatus(lpObj.m_Index, i, iRet);
+					this->CalCharacterStat(lpObj.m_Index,lpObj.m_MuunEffectList[i].pCMuunInfo);
 				}
 			}
 		}
 	}
 }
 
-void CMuunSystem::CheckMuunItemMoveMapConditionMap(LPGameObject lpObj, int iMapNumber)
+void CMuunSystem::CheckMuunItemMoveMapConditionMap(CGameObject lpObj, int iMapNumber)
 {
 	CMuunOpt *pCMuunInfo; 
 
 	for (int i = 0; i < 2; ++i)
 	{
-		if (lpObj->pMuunInventory[i].IsItem() == 1)
+		if (lpObj.pMuunInventory[i].IsItem() == 1)
 		{
-			pCMuunInfo = lpObj->m_MuunEffectList[i].pCMuunInfo;
+			pCMuunInfo = lpObj.m_MuunEffectList[i].pCMuunInfo;
 			if (!pCMuunInfo)
 				return;
 			if (pCMuunInfo->GetConditionType() == 1)
 			{
 				if (pCMuunInfo->GetConditionVal1() == iMapNumber)
 				{
-					if (!lpObj->m_MuunEffectList[i].bOptEnable)
+					if (!lpObj.m_MuunEffectList[i].bOptEnable)
 					{
-						lpObj->m_MuunEffectList[i].bOptEnable = 1;
-						this->GCSendConditionStatus(lpObj->m_Index, i, 1);
-						this->CalCharacterStat(lpObj->m_Index,lpObj->m_MuunEffectList[i].pCMuunInfo);
+						lpObj.m_MuunEffectList[i].bOptEnable = 1;
+						this->GCSendConditionStatus(lpObj.m_Index, i, 1);
+						this->CalCharacterStat(lpObj.m_Index,lpObj.m_MuunEffectList[i].pCMuunInfo);
 					}
 				}
 				else
 				{
-					if (lpObj->m_MuunEffectList[i].bOptEnable == 1)
+					if (lpObj.m_MuunEffectList[i].bOptEnable == 1)
 					{
-						lpObj->m_MuunEffectList[i].bOptEnable = 0;
-						this->GCSendConditionStatus(lpObj->m_Index, i, 0);
-						this->CalCharacterStat(lpObj->m_Index,lpObj->m_MuunEffectList[i].pCMuunInfo);
+						lpObj.m_MuunEffectList[i].bOptEnable = 0;
+						this->GCSendConditionStatus(lpObj.m_Index, i, 0);
+						this->CalCharacterStat(lpObj.m_Index,lpObj.m_MuunEffectList[i].pCMuunInfo);
 					}
 				}
 			}
@@ -2555,44 +2555,44 @@ void CMuunSystem::CheckMuunItemMoveMapConditionMap(LPGameObject lpObj, int iMapN
 	}
 }
 
-void CMuunSystem::CheckEquipMuunItemCondition(LPGameObject &lpObj)
+void CMuunSystem::CheckEquipMuunItemCondition(CGameObject &lpObj)
 {
 	 int iRet; 
 
 	for (int i = 0; i < 2; ++i)
 	{
-		if (lpObj->pMuunInventory[i].IsItem() == 1)
+		if (lpObj.pMuunInventory[i].IsItem() == 1)
 		{
-			iRet = this->CheckMuunItemCondition(lpObj,&lpObj->m_MuunEffectList[i],lpObj->m_MuunEffectList[i].pCMuunInfo);
+			iRet = this->CheckMuunItemCondition(lpObj,&lpObj.m_MuunEffectList[i],lpObj.m_MuunEffectList[i].pCMuunInfo);
 			if (iRet > -1)
-				this->CalCharacterStat(lpObj->m_Index,lpObj->m_MuunEffectList[i].pCMuunInfo);
+				this->CalCharacterStat(lpObj.m_Index,lpObj.m_MuunEffectList[i].pCMuunInfo);
 			if (iRet < 0)
 				iRet = 0;
-			this->GCSendConditionStatus(lpObj->m_Index, i, iRet);
+			this->GCSendConditionStatus(lpObj.m_Index, i, iRet);
 		}
 	}
 }
 
-void CMuunSystem::CheckEquipMuunItemConditionProc(LPGameObject &lpObj)
+void CMuunSystem::CheckEquipMuunItemConditionProc(CGameObject &lpObj)
 {
 
 	signed int iRet; 
 
 	for (int i = 0; i < 2; ++i)
 	{
-		if (lpObj->pMuunInventory[i].IsItem() == 1)
+		if (lpObj.pMuunInventory[i].IsItem() == 1)
 		{
-			iRet = this->CheckMuunItemConditionProc(&lpObj->m_MuunEffectList[i],lpObj->m_MuunEffectList[i].pCMuunInfo);
+			iRet = this->CheckMuunItemConditionProc(&lpObj.m_MuunEffectList[i],lpObj.m_MuunEffectList[i].pCMuunInfo);
 			if (iRet > -1)
 			{
-				this->GCSendConditionStatus( lpObj->m_Index, i, iRet);
-				this->CalCharacterStat(lpObj->m_Index,lpObj->m_MuunEffectList[i].pCMuunInfo);
+				this->GCSendConditionStatus( lpObj.m_Index, i, iRet);
+				this->CalCharacterStat(lpObj.m_Index,lpObj.m_MuunEffectList[i].pCMuunInfo);
 			}
 		}
 	}
 }
 
-void CMuunSystem::CalCharacterStat(LPGameObject &lpObj, CMuunInfo *pCMuunInfo)
+void CMuunSystem::CalCharacterStat(CGameObject &lpObj, CMuunInfo *pCMuunInfo)
 {
 	if (!pCMuunInfo)
 	{
@@ -2614,11 +2614,11 @@ void CMuunSystem::CalCharacterStat( int aIndex, int iOptType)
 	}
 }
 
-int CMuunSystem::CheckMuunItemCondition(LPGameObject &lpObj,MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
+int CMuunSystem::CheckMuunItemCondition(CGameObject &lpObj,MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
 {
 	if (pCMuunInfo == NULL)
 	{
-		sLog->outBasic("[MuunSystem][Error] CheckMuunItemCondition() pCMuunInfo is NULL [%s][%s] [%d]", lpObj->AccountID, lpObj->Name, __LINE__);
+		sLog->outBasic("[MuunSystem][Error] CheckMuunItemCondition() pCMuunInfo is NULL [%s][%s] [%d]", lpObj.AccountID, lpObj.Name, __LINE__);
 		return -1;
 	}
 
@@ -2735,7 +2735,7 @@ int CMuunSystem::ChkMuunOptConditionDay(MUUN_EFFECT_LIST *pUserMuunEffect, CMuun
 	return -1;
 }
 
-int CMuunSystem::ChkMuunOptConditionLevel(LPGameObject lpObj,MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
+int CMuunSystem::ChkMuunOptConditionLevel(CGameObject lpObj,MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
 {
 	if (!pCMuunInfo)
 	{
@@ -2743,16 +2743,16 @@ int CMuunSystem::ChkMuunOptConditionLevel(LPGameObject lpObj,MUUN_EFFECT_LIST *p
 		return -1;
 	}
 
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
-		sLog->outBasic("[MuunSystem][Error] ChkMuunOptConditionLevel() lpObj->Type != OBJ_USER", __LINE__);
+		sLog->outBasic("[MuunSystem][Error] ChkMuunOptConditionLevel() lpObj.Type != OBJ_USER", __LINE__);
 		return -1;
 	}
 
 	int nMinLv = pCMuunInfo->GetConditionVal1();
 	int nMaxLv = pCMuunInfo->GetConditionVal2();
 
-	if (nMinLv > (lpObj->Level+lpObj->m_PlayerData->MasterLevel) || nMaxLv < (lpObj->Level+lpObj->m_PlayerData->MasterLevel))
+	if (nMinLv > (lpObj.Level+lpObj.m_PlayerData->MasterLevel) || nMaxLv < (lpObj.Level+lpObj.m_PlayerData->MasterLevel))
 	{
 		pUserMuunEffect->bOptEnable = FALSE;
 		return FALSE;
@@ -2765,7 +2765,7 @@ int CMuunSystem::ChkMuunOptConditionLevel(LPGameObject lpObj,MUUN_EFFECT_LIST *p
 	}
 }
 
-int CMuunSystem::ChkMuunOptConditionMap(LPGameObject lpObj,MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
+int CMuunSystem::ChkMuunOptConditionMap(CGameObject lpObj,MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
 {
 	if (!pCMuunInfo)
 	{
@@ -2773,7 +2773,7 @@ int CMuunSystem::ChkMuunOptConditionMap(LPGameObject lpObj,MUUN_EFFECT_LIST *pUs
 		return -1;
 	}
 		
-	if (pCMuunInfo->GetConditionVal1() == lpObj->MapNumber)
+	if (pCMuunInfo->GetConditionVal1() == lpObj.MapNumber)
 	{
 		pUserMuunEffect->bOptEnable = TRUE;
 		return TRUE;
@@ -2786,26 +2786,26 @@ int CMuunSystem::ChkMuunOptConditionMap(LPGameObject lpObj,MUUN_EFFECT_LIST *pUs
 	}
 }
 
-int CMuunSystem::GetItemFromMuunInventory(LPGameObject lpObj, WORD wItemCode, UINT64 dwSerial)
+int CMuunSystem::GetItemFromMuunInventory(CGameObject lpObj, WORD wItemCode, UINT64 dwSerial)
 {
 	if(!lpObj)
 	{
 		return -1;
 	}
 
-	if(lpObj->Type != OBJ_USER)
+	if(lpObj.Type != OBJ_USER)
 	{
 		return -1;
 	}
 
-	if(lpObj->Connected < PLAYER_LOGGED)
+	if(lpObj.Connected < PLAYER_LOGGED)
 	{
 		return -1;
 	}
 
 	for (int i = 0; i < MUUN_INVENTORY_SIZE; i++)
 	{
-		if (lpObj->pMuunInventory[i].IsItem() == TRUE && lpObj->pMuunInventory[i].m_Type == wItemCode && lpObj->pMuunInventory[i].GetNumber() == dwSerial)
+		if (lpObj.pMuunInventory[i].IsItem() == TRUE && lpObj.pMuunInventory[i].m_Type == wItemCode && lpObj.pMuunInventory[i].GetNumber() == dwSerial)
 		{
 			return i;
 		}
@@ -2854,7 +2854,7 @@ bool CMuunSystem::CheckAddOptionExpireDate(time_t dwStartDate, time_t dwEndDate)
 	return result;
 }
 
-void CMuunSystem::MsgIsMuunItemActive(LPGameObject lpObj, int iPos)
+void CMuunSystem::MsgIsMuunItemActive(CGameObject lpObj, int iPos)
 {
 	//trash
 
@@ -2957,13 +2957,13 @@ void CMuunSystem::CGMuunExchangeItem(PMSG_REQ_MUUN_EXCHANGE *lpMsg, int aIndex)
 
 	if (nSelect >= 10)
 	{
-		sLog->outBasic("[MuunSystem][MuunExchange][Error][%s][%s] Select Over %d [%s, %d]", lpObj->AccountID, lpObj->Name, nSelect, __FILE__, __LINE__);
+		sLog->outBasic("[MuunSystem][MuunExchange][Error][%s][%s] Select Over %d [%s, %d]", lpObj.AccountID, lpObj.Name, nSelect, __FILE__, __LINE__);
 		return;
 	}
 
 	if (this->ChkMuunExchangeInvenNeedItem(&gGameObjects[aIndex], nSelect, 0) == FALSE)
 	{
-		sLog->outBasic("[MuunSystem][MuunExchange][FAIL][%s][%s] Lack of Materials", lpObj->AccountID, lpObj->Name);
+		sLog->outBasic("[MuunSystem][MuunExchange][FAIL][%s][%s] Lack of Materials", lpObj.AccountID, lpObj.Name);
 
 		this->SendMsgMuunExchange(aIndex, 1);
 		return;
@@ -2971,7 +2971,7 @@ void CMuunSystem::CGMuunExchangeItem(PMSG_REQ_MUUN_EXCHANGE *lpMsg, int aIndex)
           
 	if (this->ChkMuunExchangeInvenEmpty(&gGameObjects[aIndex], nSelect) == FALSE)
 	{
-		sLog->outBasic("[MuunSystem][MuunExchange][FAIL][%s][%s] Not Empty Space", lpObj->AccountID, lpObj->Name);
+		sLog->outBasic("[MuunSystem][MuunExchange][FAIL][%s][%s] Not Empty Space", lpObj.AccountID, lpObj.Name);
 
 		this->SendMsgMuunExchange(aIndex, 2);
 		return;
@@ -2980,14 +2980,14 @@ void CMuunSystem::CGMuunExchangeItem(PMSG_REQ_MUUN_EXCHANGE *lpMsg, int aIndex)
 	this->GDMuunExchangeInsertInven(&gGameObjects[aIndex], nSelect);
 }
 
-bool CMuunSystem::GDMuunExchangeInsertInven(LPGameObject &lpObj, int iSelect)
+bool CMuunSystem::GDMuunExchangeInsertInven(CGameObject &lpObj, int iSelect)
 {
-	if (!ObjectMaxRange(lpObj->m_Index))
+	if (!ObjectMaxRange(lpObj.m_Index))
 	{
 		return false;
 	}
 
-	if (!gObjIsConnected(lpObj->m_Index))
+	if (!gObjIsConnected(lpObj.m_Index))
 	{
 		return false;
 	}
@@ -3103,21 +3103,21 @@ bool CMuunSystem::GDMuunExchangeInsertInven(LPGameObject &lpObj, int iSelect)
 	if ( iType == ITEMGET(14,53) )
 		fDur = 10.0;
 
-	ItemSerialCreateSend(lpObj->m_Index, 218, nSelect, Y, iType, iLevel, fDur, iOption1, iOption2, iOption3, lpObj->m_Index, iExOption, 0, 0, SocketOption, 0);
+	ItemSerialCreateSend(lpObj.m_Index, 218, nSelect, Y, iType, iLevel, fDur, iOption1, iOption2, iOption3, lpObj.m_Index, iExOption, 0, 0, SocketOption, 0);
 
 	sLog->outBasic("[MuunSystem][MuunExchange][ItemSerialCreateSend] [%s][%s] : Item:(%s)%d Level:%d op1:%d op2:%d op3:%d ExOp:%d",
-		lpObj->AccountID, lpObj->Name, ItemAttribute->Name, iType, iLevel, iOption1, iOption2, iOption3, iExOption);
+		lpObj.AccountID, lpObj.Name, ItemAttribute->Name, iType, iLevel, iOption1, iOption2, iOption3, iExOption);
 	return true;
 }
 
-BYTE CMuunSystem::DGMuunExchangeInsertInven(LPGameObject &lpObj, CItem CreateItem, int iSelect)
+BYTE CMuunSystem::DGMuunExchangeInsertInven(CGameObject &lpObj, CItem CreateItem, int iSelect)
 {
-	if (!ObjectMaxRange(lpObj->m_Index))
+	if (!ObjectMaxRange(lpObj.m_Index))
 	{
 		return false;
 	}
 
-	if (!gObjIsConnected(lpObj->m_Index))
+	if (!gObjIsConnected(lpObj.m_Index))
 	{
 		return false;
 	}
@@ -3129,30 +3129,30 @@ BYTE CMuunSystem::DGMuunExchangeInsertInven(LPGameObject &lpObj, CItem CreateIte
 	if (this->ChkAndDelItemMuunExchange(lpObj, iSelect) == false)
 	{
 		sLog->outBasic("[MuunSystem][MuunExchange][ItemSerialCreateRecv][ItemDelFail][%s][%s][%d]",
-			lpObj->AccountID, lpObj->Name, iSelect);
+			lpObj.AccountID, lpObj.Name, iSelect);
 		return btRet;
 	}
 
 	if (nChkInven == 22)
 	{
-		btRet = gObjMuunInventoryInsertItem(lpObj->m_Index, CreateItem);
+		btRet = gObjMuunInventoryInsertItem(lpObj.m_Index, CreateItem);
 
 		if (btRet != 0xFF)
 		{
-			GSProtocol.GCMuunInventoryItemOneSend(lpObj->m_Index, btRet);
-			this->SendMsgMuunExchange(lpObj->m_Index, 0);
+			GSProtocol.GCMuunInventoryItemOneSend(lpObj.m_Index, btRet);
+			this->SendMsgMuunExchange(lpObj.m_Index, 0);
 			return btRet;
 		}
 	}
 
 	else if (nChkInven == 0)
 	{
-		btRet = gObjInventoryInsertItem(lpObj->m_Index, CreateItem);
+		btRet = gObjInventoryInsertItem(lpObj.m_Index, CreateItem);
 
 		if (btRet != 0xFF)
 		{
-			GSProtocol.GCInventoryItemOneSend(lpObj->m_Index, btRet);
-			this->SendMsgMuunExchange(lpObj->m_Index, 0);
+			GSProtocol.GCInventoryItemOneSend(lpObj.m_Index, btRet);
+			this->SendMsgMuunExchange(lpObj.m_Index, 0);
 			return btRet;
 		}
 	}
@@ -3160,17 +3160,17 @@ BYTE CMuunSystem::DGMuunExchangeInsertInven(LPGameObject &lpObj, CItem CreateIte
 	else
 	{
 		sLog->outBasic("[MuunSystem][MuunExchange][Error][%s][%s] DGMuunExchangeInsertInven() ChkInven %d [%s, %d]",
-			lpObj->AccountID, lpObj->Name, nChkInven, __FILE__, __LINE__);
+			lpObj.AccountID, lpObj.Name, nChkInven, __FILE__, __LINE__);
 
 		return btRet;
 	}
 
-	this->SendMsgMuunExchange(lpObj->m_Index, 2);
-	sLog->outBasic("[MuunSystem][MuunExchange][FAIL][%s][%s] Not Empty Space", lpObj->AccountID, lpObj->Name);
+	this->SendMsgMuunExchange(lpObj.m_Index, 2);
+	sLog->outBasic("[MuunSystem][MuunExchange][FAIL][%s][%s] Not Empty Space", lpObj.AccountID, lpObj.Name);
 	return btRet;
 }
 
-bool CMuunSystem::ChkAndDelItemMuunExchange(LPGameObject &lpObj, int iSelect)
+bool CMuunSystem::ChkAndDelItemMuunExchange(CGameObject &lpObj, int iSelect)
 {
 	int ItemPos[10];
 	memset(ItemPos, -1, sizeof(ItemPos));
@@ -3195,22 +3195,22 @@ bool CMuunSystem::ChkAndDelItemMuunExchange(LPGameObject &lpObj, int iSelect)
 				break;
 			}
 
-			if (lpObj->pMuunInventory[nItemPos].IsItem() == TRUE &&
-				lpObj->pMuunInventory[nItemPos].m_Type == nNeedItemNum)
+			if (lpObj.pMuunInventory[nItemPos].IsItem() == TRUE &&
+				lpObj.pMuunInventory[nItemPos].m_Type == nNeedItemNum)
 			{
 				BYTE NewOption[MAX_EXOPTION_SIZE];
-				ItemIsBufExOption(NewOption, &lpObj->pMuunInventory[nItemPos]);
+				ItemIsBufExOption(NewOption, &lpObj.pMuunInventory[nItemPos]);
 
 				sLog->outBasic("[MuunSystem][MuunExchange] Delete MuunInven Item [%s][%s] Delete Item Info - Item:[%s,%d,%d,%d,%d] serial:[%I64d][%d] Ex:[%d,%d,%d,%d,%d,%d,%d] Set[%d] 380:[%d] HO:[%d,%d] SC[%d,%d,%d,%d,%d] BonusOption[%d]",
-					lpObj->AccountID, lpObj->Name, lpObj->pMuunInventory[nItemPos].GetName(), lpObj->pMuunInventory[nItemPos].m_Level, lpObj->pMuunInventory[nItemPos].m_Option1, lpObj->pMuunInventory[nItemPos].m_Option2, lpObj->pMuunInventory[nItemPos].m_Option3,
-					lpObj->pMuunInventory[nItemPos].m_Number, (int)lpObj->pMuunInventory[nItemPos].m_Durability, NewOption[0], NewOption[1], NewOption[2], NewOption[3], NewOption[4], NewOption[5], NewOption[6], lpObj->pMuunInventory[nItemPos].m_SetOption,
-					lpObj->pMuunInventory[nItemPos].m_ItemOptionEx >> 7, g_kJewelOfHarmonySystem.GetItemStrengthenOption(&lpObj->pMuunInventory[nItemPos]), g_kJewelOfHarmonySystem.GetItemOptionLevel(&lpObj->pMuunInventory[nItemPos]),
-					lpObj->pMuunInventory[nItemPos].m_SocketOption[0], lpObj->pMuunInventory[nItemPos].m_SocketOption[1], lpObj->pMuunInventory[nItemPos].m_SocketOption[2], lpObj->pMuunInventory[nItemPos].m_SocketOption[3], lpObj->pMuunInventory[nItemPos].m_SocketOption[4],
-					lpObj->pMuunInventory[nItemPos].m_BonusSocketOption);
+					lpObj.AccountID, lpObj.Name, lpObj.pMuunInventory[nItemPos].GetName(), lpObj.pMuunInventory[nItemPos].m_Level, lpObj.pMuunInventory[nItemPos].m_Option1, lpObj.pMuunInventory[nItemPos].m_Option2, lpObj.pMuunInventory[nItemPos].m_Option3,
+					lpObj.pMuunInventory[nItemPos].m_Number, (int)lpObj.pMuunInventory[nItemPos].m_Durability, NewOption[0], NewOption[1], NewOption[2], NewOption[3], NewOption[4], NewOption[5], NewOption[6], lpObj.pMuunInventory[nItemPos].m_SetOption,
+					lpObj.pMuunInventory[nItemPos].m_ItemOptionEx >> 7, g_kJewelOfHarmonySystem.GetItemStrengthenOption(&lpObj.pMuunInventory[nItemPos]), g_kJewelOfHarmonySystem.GetItemOptionLevel(&lpObj.pMuunInventory[nItemPos]),
+					lpObj.pMuunInventory[nItemPos].m_SocketOption[0], lpObj.pMuunInventory[nItemPos].m_SocketOption[1], lpObj.pMuunInventory[nItemPos].m_SocketOption[2], lpObj.pMuunInventory[nItemPos].m_SocketOption[3], lpObj.pMuunInventory[nItemPos].m_SocketOption[4],
+					lpObj.pMuunInventory[nItemPos].m_BonusSocketOption);
 
-				this->ClearPeriodMuunItemData(lpObj, lpObj->pMuunInventory[nItemPos].m_Type, lpObj->pMuunInventory[nItemPos].m_Number);
-				lpObj->pMuunInventory[nItemPos].Clear();
-				GSProtocol.GCMuunInventoryItemDeleteSend(lpObj->m_Index, nItemPos, 1);
+				this->ClearPeriodMuunItemData(lpObj, lpObj.pMuunInventory[nItemPos].m_Type, lpObj.pMuunInventory[nItemPos].m_Number);
+				lpObj.pMuunInventory[nItemPos].Clear();
+				GSProtocol.GCMuunInventoryItemDeleteSend(lpObj.m_Index, nItemPos, 1);
 			}
 		}
 	}
@@ -3226,22 +3226,22 @@ bool CMuunSystem::ChkAndDelItemMuunExchange(LPGameObject &lpObj, int iSelect)
 				break;
 			}
 
-			if (lpObj->pInventory[nItemPos].IsItem() == TRUE &&
-				lpObj->pInventory[nItemPos].m_Type == nNeedItemNum)
+			if (lpObj.pInventory[nItemPos].IsItem() == TRUE &&
+				lpObj.pInventory[nItemPos].m_Type == nNeedItemNum)
 			{
 				BYTE NewOption[MAX_EXOPTION_SIZE];
-				ItemIsBufExOption(NewOption, &lpObj->pMuunInventory[nItemPos]);
+				ItemIsBufExOption(NewOption, &lpObj.pMuunInventory[nItemPos]);
 
 				sLog->outBasic("[MuunSystem][MuunExchange] Delete Inven Item [%s][%s] Delete Item Info - Item:[%s,%d,%d,%d,%d] serial:[%I64d][%d] Ex:[%d,%d,%d,%d,%d,%d,%d] Set[%d] 380:[%d] HO:[%d,%d] SC[%d,%d,%d,%d,%d] BonusOption[%d]",
-					lpObj->AccountID, lpObj->Name, lpObj->pInventory[nItemPos].GetName(), lpObj->pInventory[nItemPos].m_Level, lpObj->pInventory[nItemPos].m_Option1, lpObj->pInventory[nItemPos].m_Option2, lpObj->pInventory[nItemPos].m_Option3,
-					lpObj->pInventory[nItemPos].m_Number, (int)lpObj->pInventory[nItemPos].m_Durability, NewOption[0], NewOption[1], NewOption[2], NewOption[3], NewOption[4], NewOption[5], NewOption[6], lpObj->pInventory[nItemPos].m_SetOption,
-					lpObj->pInventory[nItemPos].m_ItemOptionEx >> 7, g_kJewelOfHarmonySystem.GetItemStrengthenOption(&lpObj->pInventory[nItemPos]), g_kJewelOfHarmonySystem.GetItemOptionLevel(&lpObj->pInventory[nItemPos]),
-					lpObj->pInventory[nItemPos].m_SocketOption[0], lpObj->pInventory[nItemPos].m_SocketOption[1], lpObj->pInventory[nItemPos].m_SocketOption[2], lpObj->pInventory[nItemPos].m_SocketOption[3], lpObj->pInventory[nItemPos].m_SocketOption[4],
-					lpObj->pInventory[nItemPos].m_BonusSocketOption);
+					lpObj.AccountID, lpObj.Name, lpObj.pInventory[nItemPos].GetName(), lpObj.pInventory[nItemPos].m_Level, lpObj.pInventory[nItemPos].m_Option1, lpObj.pInventory[nItemPos].m_Option2, lpObj.pInventory[nItemPos].m_Option3,
+					lpObj.pInventory[nItemPos].m_Number, (int)lpObj.pInventory[nItemPos].m_Durability, NewOption[0], NewOption[1], NewOption[2], NewOption[3], NewOption[4], NewOption[5], NewOption[6], lpObj.pInventory[nItemPos].m_SetOption,
+					lpObj.pInventory[nItemPos].m_ItemOptionEx >> 7, g_kJewelOfHarmonySystem.GetItemStrengthenOption(&lpObj.pInventory[nItemPos]), g_kJewelOfHarmonySystem.GetItemOptionLevel(&lpObj.pInventory[nItemPos]),
+					lpObj.pInventory[nItemPos].m_SocketOption[0], lpObj.pInventory[nItemPos].m_SocketOption[1], lpObj.pInventory[nItemPos].m_SocketOption[2], lpObj.pInventory[nItemPos].m_SocketOption[3], lpObj.pInventory[nItemPos].m_SocketOption[4],
+					lpObj.pInventory[nItemPos].m_BonusSocketOption);
 
-				gObjInventoryItemSet(lpObj->m_Index, nItemPos, -1);
-				lpObj->pInventory[nItemPos].Clear();
-				GSProtocol.GCInventoryItemDeleteSend(lpObj->m_Index, nItemPos, 1);
+				gObjInventoryItemSet(lpObj.m_Index, nItemPos, -1);
+				lpObj.pInventory[nItemPos].Clear();
+				GSProtocol.GCInventoryItemDeleteSend(lpObj.m_Index, nItemPos, 1);
 			}
 		}
 	}
@@ -3249,7 +3249,7 @@ bool CMuunSystem::ChkAndDelItemMuunExchange(LPGameObject &lpObj, int iSelect)
 	else
 	{
 		sLog->outBasic("[MuunSystem][MuunExchange][Error][%s][%s] ChkAndDelItemMuunExchange() ChkInven %d [%s, %d]",
-			lpObj->AccountID, lpObj->Name, nChkInven, __FILE__, __LINE__);
+			lpObj.AccountID, lpObj.Name, nChkInven, __FILE__, __LINE__);
 
 		return false;
 	}
@@ -3282,7 +3282,7 @@ bool CMuunSystem::ChkMuunExchangeInvenNeedItem(int & iItemCnt, int iInvenPos, in
 	return true;
 }
 
-bool CMuunSystem::ChkMuunExchangeInvenNeedItem(LPGameObject &lpObj, int iSelect, int *ItemPos)
+bool CMuunSystem::ChkMuunExchangeInvenNeedItem(CGameObject &lpObj, int iSelect, int *ItemPos)
 {
 	int nItemCnt = 0;
 	int nNeedItemCnt = this->m_stMuunExchangeInfo[iSelect].iItemCnt;
@@ -3293,7 +3293,7 @@ bool CMuunSystem::ChkMuunExchangeInvenNeedItem(LPGameObject &lpObj, int iSelect,
 	{
 		for (int nMuunInven = 2; nMuunInven < MUUN_INVENTORY_SIZE; nMuunInven++ )
 		{
-			if (lpObj->pMuunInventory[nMuunInven].IsItem() == TRUE && this->ChkMuunExchangeInvenNeedItem(nItemCnt,nMuunInven, nNeedItemCnt, lpObj->pMuunInventory[nMuunInven].m_Type, nNeedItemNum,ItemPos) == TRUE)
+			if (lpObj.pMuunInventory[nMuunInven].IsItem() == TRUE && this->ChkMuunExchangeInvenNeedItem(nItemCnt,nMuunInven, nNeedItemCnt, lpObj.pMuunInventory[nMuunInven].m_Type, nNeedItemNum,ItemPos) == TRUE)
 			{
 				return TRUE;
 			}
@@ -3304,7 +3304,7 @@ bool CMuunSystem::ChkMuunExchangeInvenNeedItem(LPGameObject &lpObj, int iSelect,
 	{
 		for (int nInven = INVETORY_WEAR_SIZE; nInven < MAIN_INVENTORY_SIZE; nInven++ )
 		{
-			if (lpObj->pInventory[nInven].IsItem() == TRUE && this->ChkMuunExchangeInvenNeedItem(nItemCnt, nInven, nNeedItemCnt, lpObj->pInventory[nInven].m_Type, nNeedItemNum, ItemPos) == TRUE)
+			if (lpObj.pInventory[nInven].IsItem() == TRUE && this->ChkMuunExchangeInvenNeedItem(nItemCnt, nInven, nNeedItemCnt, lpObj.pInventory[nInven].m_Type, nNeedItemNum, ItemPos) == TRUE)
 			{
 				return TRUE;
 			}
@@ -3313,17 +3313,17 @@ bool CMuunSystem::ChkMuunExchangeInvenNeedItem(LPGameObject &lpObj, int iSelect,
 
 	else
 	{
-		sLog->outBasic("[MuunSystem][MuunExchange][Error][%s][%s] ChkMuunExchangeInvenNeedItem() ChkInven %d [%s, %d]",lpObj->AccountID,lpObj->Name, nChkInven, __FILE__, __LINE__);
+		sLog->outBasic("[MuunSystem][MuunExchange][Error][%s][%s] ChkMuunExchangeInvenNeedItem() ChkInven %d [%s, %d]",lpObj.AccountID,lpObj.Name, nChkInven, __FILE__, __LINE__);
 		return FALSE;
 	}
 
-	sLog->outBasic("[MuunSystem][MuunExchange][FAIL][%s][%s] Lack of Materials", lpObj->AccountID, lpObj->Name);
+	sLog->outBasic("[MuunSystem][MuunExchange][FAIL][%s][%s] Lack of Materials", lpObj.AccountID, lpObj.Name);
 	
-	this->SendMsgMuunExchange(lpObj->m_Index, 1);
+	this->SendMsgMuunExchange(lpObj.m_Index, 1);
 	return false;
 }
 
-bool CMuunSystem::ChkMuunExchangeInvenEmpty(LPGameObject &lpObj, int iSelect)
+bool CMuunSystem::ChkMuunExchangeInvenEmpty(CGameObject &lpObj, int iSelect)
 {
 	int nChkInven = this->m_stMuunExchangeItembag[this->m_stMuunExchangeInfo[iSelect].iItemBagIndex].iInvenChk;
 
@@ -3331,7 +3331,7 @@ bool CMuunSystem::ChkMuunExchangeInvenEmpty(LPGameObject &lpObj, int iSelect)
 	{
 		if ( gObjChkMuunInventoryEmpty(lpObj) == 0xFF )
 		{
-			this->SendMsgMuunExchange(lpObj->m_Index, 2);
+			this->SendMsgMuunExchange(lpObj.m_Index, 2);
 			return false;
 		}
 	}
@@ -3340,21 +3340,21 @@ bool CMuunSystem::ChkMuunExchangeInvenEmpty(LPGameObject &lpObj, int iSelect)
 	{
 		if (CheckInventoryEmptySpace(lpObj, 4, 4) == FALSE)
 		{
-			this->SendMsgMuunExchange(lpObj->m_Index, 2);
+			this->SendMsgMuunExchange(lpObj.m_Index, 2);
 			return false;
 		}
 	}
 
 	else
 	{
-		sLog->outBasic("[MuunSystem][MuunExchange][Error][%s][%s] ChkMuunExchangeInvenEmpty() ChkInven %d [%s, %d]",  lpObj->AccountID, lpObj->Name, nChkInven, __FILE__,__LINE__);
+		sLog->outBasic("[MuunSystem][MuunExchange][Error][%s][%s] ChkMuunExchangeInvenEmpty() ChkInven %d [%s, %d]",  lpObj.AccountID, lpObj.Name, nChkInven, __FILE__,__LINE__);
 		return false;
 	}
 
 	return true;
 }
 
-void CMuunSystem::SendMsgMuunExchange(LPGameObject &lpObj, int iResult)
+void CMuunSystem::SendMsgMuunExchange(CGameObject &lpObj, int iResult)
 {
 	PMSG_ANS_MUUN_EXCHANGE pMsg; 
 
@@ -3363,32 +3363,32 @@ void CMuunSystem::SendMsgMuunExchange(LPGameObject &lpObj, int iResult)
 	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void CMuunSystem::SetTarget(LPGameObject &lpObj, int aTargetIndex)
+void CMuunSystem::SetTarget(CGameObject &lpObj, int aTargetIndex)
 {
 	for (int i = 0; i < 2; i++)
 	{
-		if (lpObj->m_MuunEffectList[i].nOptType == 50 || lpObj->m_MuunEffectList[i].nOptType == 52)
+		if (lpObj.m_MuunEffectList[i].nOptType == 50 || lpObj.m_MuunEffectList[i].nOptType == 52)
 		{
-			lpObj->m_MuunEffectList[i].nTargetIndex = aTargetIndex;
+			lpObj.m_MuunEffectList[i].nTargetIndex = aTargetIndex;
 		}
 
-		if (lpObj->m_MuunEffectList[i].nOptType == 53)
+		if (lpObj.m_MuunEffectList[i].nOptType == 53)
 		{
 			if (gGameObjects[aTargetIndex].Type != OBJ_USER)
 			{
-				lpObj->m_MuunEffectList[i].nTargetIndex = aTargetIndex;
+				lpObj.m_MuunEffectList[i].nTargetIndex = aTargetIndex;
 			}
 		}
 	}
 }
 
-void CMuunSystem::ReSetTarget(LPGameObject &lpObj, int aTargetIndex)
+void CMuunSystem::ReSetTarget(CGameObject &lpObj, int aTargetIndex)
 {
 	for (int i = 0; i < 2; i++)
 	{
-		if (lpObj->m_MuunEffectList[i].nOptType == 50 || lpObj->m_MuunEffectList[i].nOptType == 52 || lpObj->m_MuunEffectList[i].nOptType == 53)
+		if (lpObj.m_MuunEffectList[i].nOptType == 50 || lpObj.m_MuunEffectList[i].nOptType == 52 || lpObj.m_MuunEffectList[i].nOptType == 53)
 		{
-			lpObj->m_MuunEffectList[i].nTargetIndex = -1;
+			lpObj.m_MuunEffectList[i].nTargetIndex = -1;
 		}
 	}
 }
@@ -3401,17 +3401,17 @@ void CMuunSystem::CGReqRideSelect(PMSG_MUUN_RIDE_SELECT *lpMsg, int aIndex)
 	if(!gObjIsConnected(aIndex))
 		return;
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
-	lpObj->m_wMuunRideItem = -1;
+	lpObj.m_wMuunRideItem = -1;
 
 	for (int i = 0; i < 2; i++)
 	{
-		int nItemNum = lpObj->pMuunInventory[i].m_Type;
+		int nItemNum = lpObj.pMuunInventory[i].m_Type;
 
 		if ( nItemNum == lpMsg->wItemNum )
 		{
-			lpObj->m_wMuunRideItem = nItemNum;
+			lpObj.m_wMuunRideItem = nItemNum;
 			break;
 		}
 	}
@@ -3419,15 +3419,15 @@ void CMuunSystem::CGReqRideSelect(PMSG_MUUN_RIDE_SELECT *lpMsg, int aIndex)
 	MuunRideViewPortInfo MuunViewPortInfo; 
 	BYTE btMuunInfosendBuf[2048]; 
 
-	MuunViewPortInfo.NumberH = SET_NUMBERH(lpObj->m_Index);
-	MuunViewPortInfo.NumberL = SET_NUMBERL(lpObj->m_Index);
-	MuunViewPortInfo.MuunRideItemH = SET_NUMBERH(lpObj->m_wMuunRideItem);
-	MuunViewPortInfo.MuunRideItemL = SET_NUMBERL(lpObj->m_wMuunRideItem);
+	MuunViewPortInfo.NumberH = SET_NUMBERH(lpObj.m_Index);
+	MuunViewPortInfo.NumberL = SET_NUMBERL(lpObj.m_Index);
+	MuunViewPortInfo.MuunRideItemH = SET_NUMBERH(lpObj.m_wMuunRideItem);
+	MuunViewPortInfo.MuunRideItemL = SET_NUMBERL(lpObj.m_wMuunRideItem);
 
-	if ( lpObj->m_wMuunRideItem == 0xFFFF )
+	if ( lpObj.m_wMuunRideItem == 0xFFFF )
 	{
-		MuunViewPortInfo.MuunRideItemH = SET_NUMBERH(lpObj->m_wInvenPet);
-		MuunViewPortInfo.MuunRideItemL = SET_NUMBERL(lpObj->m_wInvenPet);
+		MuunViewPortInfo.MuunRideItemH = SET_NUMBERH(lpObj.m_wInvenPet);
+		MuunViewPortInfo.MuunRideItemL = SET_NUMBERL(lpObj.m_wInvenPet);
 	}
 
 	PMSG_SEND_MUUN_RIDE_VIEWPORT_INFO pMsgMuun;
@@ -3445,11 +3445,11 @@ void CMuunSystem::CGReqRideSelect(PMSG_MUUN_RIDE_SELECT *lpMsg, int aIndex)
 
 	for (int n = 0; n < MAX_VIEWPORT; n++)
 	{
-		if (lpObj->VpPlayer2[n].state != 0)
+		if (lpObj.VpPlayer2[n].state != 0)
 		{
-			int tObjNum = lpObj->VpPlayer2[n].number;
+			int tObjNum = lpObj.VpPlayer2[n].number;
 
-			if (tObjNum >= 0 && lpObj->VpPlayer2[n].type == OBJ_USER)
+			if (tObjNum >= 0 && lpObj.VpPlayer2[n].type == OBJ_USER)
 			{
 				IOCP.DataSend(tObjNum, btMuunInfosendBuf, lOfs);
 			}
@@ -3457,7 +3457,7 @@ void CMuunSystem::CGReqRideSelect(PMSG_MUUN_RIDE_SELECT *lpMsg, int aIndex)
 	}
 }
 
-void CMuunSystem::SkillProc(LPGameObject &lpObj)
+void CMuunSystem::SkillProc(CGameObject &lpObj)
 {
 	this->m_MuunAttack.SkillProc(lpObj);
 }
@@ -3484,7 +3484,7 @@ bool CMuunSystem::IsMuunExpireDate(int iType)
 	return false;
 }
 
-void CMuunSystem::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode, int SubCode2)
+void CMuunSystem::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode, int SubCode2)
 {
 	switch (SubCode)
 	{

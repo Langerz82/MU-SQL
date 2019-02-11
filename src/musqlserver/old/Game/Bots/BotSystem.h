@@ -136,21 +136,21 @@ class CBotSystem
 
 	void Init();
 	void LoadData(LPSTR szFile);
-	bool LoadBotSpecializationData(LPGameObject &lpObj, LPSTR szFile, BYTE type);
+	bool LoadBotSpecializationData(CGameObject &lpObj, LPSTR szFile, BYTE type);
 	void SetAllBots();
 	int AddBot(_sBOT_SETTINGS pBot); 
 	void BuffPlayer(WORD  wBufferindex,short aIndex);
-	void MakePreviewCharSet(LPGameObject &lpObj,_sBOT_INVENTORY_WEAR_ITEMS * pInv);
-	BYTE GetBotType(LPGameObject &lpObj);
-	int GetSkillTime(LPGameObject &lpObj, WORD wSkillId);
-	bool CheckAlchemist(LPGameObject &lpObj, int botIndex );
-	int AlchemistTradeItemCount(LPGameObject &lpObj);
-	void AlchemistTradeOpen(LPGameObject &lpObj, int botIndex);
-	void AlchemistTradeOk(LPGameObject &lpObj, int botIndex);
-	sBOT_REWARD_STRUCT ConfirmMixSuccess(LPGameObject &lpObj,int botIndex);
+	void MakePreviewCharSet(CGameObject &lpObj,_sBOT_INVENTORY_WEAR_ITEMS * pInv);
+	BYTE GetBotType(CGameObject &lpObj);
+	int GetSkillTime(CGameObject &lpObj, WORD wSkillId);
+	bool CheckAlchemist(CGameObject &lpObj, int botIndex );
+	int AlchemistTradeItemCount(CGameObject &lpObj);
+	void AlchemistTradeOpen(CGameObject &lpObj, int botIndex);
+	void AlchemistTradeOk(CGameObject &lpObj, int botIndex);
+	sBOT_REWARD_STRUCT ConfirmMixSuccess(CGameObject &lpObj,int botIndex);
 	bool AlchemistVerifyItem(s_BOT_CRAFTING_ITEM_STRUCT lpReqItem, CItem TradeItem);
 	bool StoreAddItems(int botIndex);
-	BYTE PShopCheckSpace(LPGameObject &lpObj, int type, BYTE * TempMap);
+	BYTE PShopCheckSpace(CGameObject &lpObj, int type, BYTE * TempMap);
 	std::map<int,_sBOT_SETTINGS> m_BotData;
 private:
 
@@ -159,7 +159,7 @@ private:
 extern CBotSystem g_BotSystem;
 
 BYTE gObjTempPShopRectCheck(BYTE * TempMap, int sx, int sy, int width, int height);
-int gObjGetItemCountInTradeWindow(LPGameObject &lpObj, WORD itemtype, int itemlevel, BYTE btExc, BYTE btSet, BYTE btOpt, BYTE btLuck, BYTE btSkill);
+int gObjGetItemCountInTradeWindow(CGameObject &lpObj, WORD itemtype, int itemlevel, BYTE btExc, BYTE btSet, BYTE btOpt, BYTE btLuck, BYTE btSkill);
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////

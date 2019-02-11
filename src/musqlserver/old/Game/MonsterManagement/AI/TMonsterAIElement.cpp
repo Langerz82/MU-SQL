@@ -165,7 +165,7 @@ TMonsterAIElement * TMonsterAIElement::FindAIElement(int iElementNumber)
 
 BOOL TMonsterAIElement::ForceAIElement(int iIndex, int iTargetIndex, TMonsterAIState *pAIState)
 {
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 
 	if ( (rand()%100) > this->m_iSuccessRate )
 		return FALSE;
@@ -248,10 +248,10 @@ BOOL TMonsterAIElement::ApplyElementCommon(int iIndex, int iTargetIndex, TMonste
 
 BOOL TMonsterAIElement::ApplyElementMove(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-이동");
 
-	if ( lpObj->PathStartEnd )
+	if ( lpObj.PathStartEnd )
 		return FALSE;
 
 	BOOL bFindXY = FALSE;
@@ -262,21 +262,21 @@ BOOL TMonsterAIElement::ApplyElementMove(int iIndex, int iTargetIndex, TMonsterA
 		bFindXY = MONSTER_UTIL.GetXYToPatrol(lpObj);
 
 	if ( bFindXY )
-		MONSTER_UTIL.FindPathToMoveMonster(lpObj, lpObj->MTX, lpObj->MTY, 5, 1);
+		MONSTER_UTIL.FindPathToMoveMonster(lpObj, lpObj.MTX, lpObj.MTY, 5, 1);
 
 	return FALSE;
 }
 
 BOOL TMonsterAIElement::ApplyElementMoveTarget(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-타겟이동");
 
-	if ( lpObj->PathStartEnd )
+	if ( lpObj.PathStartEnd )
 		return FALSE;
 
-	if ( lpObj->X == this->m_iX &&
-		 lpObj->Y == this->m_iY )
+	if ( lpObj.X == this->m_iX &&
+		 lpObj.Y == this->m_iY )
 	{
 		this->ApplyElementMove(iIndex, iTargetIndex, pAIState);
 		return FALSE;
@@ -285,9 +285,9 @@ BOOL TMonsterAIElement::ApplyElementMoveTarget(int iIndex, int iTargetIndex, TMo
 	BOOL bFindXY = TRUE;
 	int iTargetX = this->m_iX;
 	int iTargetY = this->m_iY;
-	int iTargetDistance = sqrt( static_cast<float>( ((lpObj->X - iTargetX)*(lpObj->X - iTargetX))+ ((lpObj->Y - iTargetY)*(lpObj->Y - iTargetY)) ));
+	int iTargetDistance = sqrt( static_cast<float>( ((lpObj.X - iTargetX)*(lpObj.X - iTargetX))+ ((lpObj.Y - iTargetY)*(lpObj.Y - iTargetY)) ));
 	
-	if ( TMonsterAIElement::s_MonsterAIMovePath[lpObj->MapNumber].m_bDataLoad )
+	if ( TMonsterAIElement::s_MonsterAIMovePath[lpObj.MapNumber].m_bDataLoad )
 	{
 		if ( iTargetDistance > 10 )
 		{
@@ -299,8 +299,8 @@ BOOL TMonsterAIElement::ApplyElementMoveTarget(int iIndex, int iTargetIndex, TMo
 			for ( int i=0;i<MAX_MONSTER_AI_MOVE_PATH;i++)
 			{
 				TMonsterAIMovePathInfo & PathInfo = TMonsterAIElement::s_MonsterAIMovePath[MAP_INDEX_CRYWOLF_FIRSTZONE].m_MovePathInfo[i];
-				float fDistX = lpObj->X - PathInfo.m_iPathX;
-				float fDistY = lpObj->Y - PathInfo.m_iPathY;
+				float fDistX = lpObj.X - PathInfo.m_iPathX;
+				float fDistY = lpObj.Y - PathInfo.m_iPathY;
 				int iPathSpotDist =  sqrt( (fDistX*fDistX) + (fDistY*fDistY) );
 
 				if ( iPathSpotDist < 20 )
@@ -333,9 +333,9 @@ BOOL TMonsterAIElement::ApplyElementMoveTarget(int iIndex, int iTargetIndex, TMo
 	if ( bFindXY )
 	{
 		if ( MONSTER_UTIL.FindPathToMoveMonster(lpObj, iTargetX, iTargetY, 7, FALSE) )
-			lpObj->PathStartEnd = 1;
+			lpObj.PathStartEnd = 1;
 		else
-			lpObj->PathStartEnd = 0;
+			lpObj.PathStartEnd = 0;
 	}
 
 	return FALSE;
@@ -344,23 +344,23 @@ BOOL TMonsterAIElement::ApplyElementMoveTarget(int iIndex, int iTargetIndex, TMo
 
 BOOL TMonsterAIElement::ApplyElementGroupMove(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-그룹이동");
 
-	if ( lpObj->PathStartEnd )
+	if ( lpObj.PathStartEnd )
 		return FALSE;
 
 	BOOL bFindXY = FALSE;
 	BOOL bFoundLeader = TRUE;
 	int iLeaderIndex = -1;
-	iLeaderIndex = TMonsterAIGroup::FindGroupLeader(lpObj->m_iGroupNumber);
+	iLeaderIndex = TMonsterAIGroup::FindGroupLeader(lpObj.m_iGroupNumber);
 
 	if ( iLeaderIndex == -1 || gGameObjects[iLeaderIndex].Live == FALSE )
 		bFoundLeader = FALSE;
 
 	if ( bFoundLeader && gObjCalDistance(lpObj, &gGameObjects[iLeaderIndex]) > 6 )
 	{
-		lpObj->TargetNumber = iLeaderIndex;
+		lpObj.TargetNumber = iLeaderIndex;
 		bFindXY = MONSTER_UTIL.GetXYToChase(lpObj);
 	}
 	else if ( pAIState->m_iTransitionType == 2 )
@@ -374,14 +374,14 @@ BOOL TMonsterAIElement::ApplyElementGroupMove(int iIndex, int iTargetIndex, TMon
 
 	if ( bFindXY )
 	{
-		if ( MONSTER_UTIL.FindPathToMoveMonster(lpObj, lpObj->MTX, lpObj->MTY, 5, TRUE) )
+		if ( MONSTER_UTIL.FindPathToMoveMonster(lpObj, lpObj.MTX, lpObj.MTY, 5, TRUE) )
 		{
 
 		}
 		else
 		{
 			MONSTER_UTIL.GetXYToPatrol(lpObj);
-			MONSTER_UTIL.FindPathToMoveMonster(lpObj, lpObj->MTX, lpObj->MTY, 5, TRUE);
+			MONSTER_UTIL.FindPathToMoveMonster(lpObj, lpObj.MTX, lpObj.MTY, 5, TRUE);
 		}
 	}
 
@@ -390,13 +390,13 @@ BOOL TMonsterAIElement::ApplyElementGroupMove(int iIndex, int iTargetIndex, TMon
 
 BOOL TMonsterAIElement::ApplyElementAttack(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-공격");
 
-	if ( TMonsterSkillManager::CheckMonsterSkill(lpObj->Class) && lpObj->Class != 519 ) // Medic has only BUFF in MONSTERSKILL, so disable check for him
+	if ( TMonsterSkillManager::CheckMonsterSkill(lpObj.Class) && lpObj.Class != 519 ) // Medic has only BUFF in MONSTERSKILL, so disable check for him
 	{
 		BOOL bEnableAttack = TRUE;
-		int iTargetNumber = lpObj->TargetNumber;
+		int iTargetNumber = lpObj.TargetNumber;
 
 		if ( iTargetNumber < 0 )
 			bEnableAttack = FALSE;
@@ -412,59 +412,59 @@ BOOL TMonsterAIElement::ApplyElementAttack(int iIndex, int iTargetIndex, TMonste
 
 		if ( !bEnableAttack )
 		{
-			lpObj->TargetNumber = -1;
-			lpObj->m_ActState.Emotion = 0;
-			lpObj->m_ActState.Attack = 0;
-			lpObj->m_ActState.Move = 0;
-			lpObj->NextActionTime = 1000;
+			lpObj.TargetNumber = -1;
+			lpObj.m_ActState.Emotion = 0;
+			lpObj.m_ActState.Attack = 0;
+			lpObj.m_ActState.Move = 0;
+			lpObj.NextActionTime = 1000;
 
 			return FALSE;
 		}
 
-		LPGameObject lpTargetObj = &gGameObjects[iTargetNumber];
-		lpObj->Dir = GetPathPacketDirPos(lpTargetObj->X - lpObj->X, lpTargetObj->Y - lpObj->Y);
+		CGameObject lpTargetObj = &gGameObjects[iTargetNumber];
+		lpObj.Dir = GetPathPacketDirPos(lpTargetObj.X - lpObj.X, lpTargetObj.Y - lpObj.Y);
 
 		if ( (rand()%4) == 0 )
 		{
 			PMSG_ATTACK pAttackMsg;
 
 			pAttackMsg.AttackAction = 0x78;
-			pAttackMsg.DirDis = lpObj->Dir;
+			pAttackMsg.DirDis = lpObj.Dir;
 			pAttackMsg.NumberH = SET_NUMBERH(iTargetNumber);
 			pAttackMsg.NumberL = SET_NUMBERL(iTargetNumber);
 
-			GSProtocol.GCActionSend(lpObj, 0x78, lpObj->m_Index, iTargetNumber);
+			GSProtocol.GCActionSend(lpObj, 0x78, lpObj.m_Index, iTargetNumber);
 			gObjAttack(lpObj, &gGameObjects[iTargetNumber], 0, 0, 0, 0, 0, 0, 0);
 		}
 		else
 		{
-			TMonsterSkillManager::UseMonsterSkill(lpObj->m_Index, iTargetNumber, 0, -1, NULL);
+			TMonsterSkillManager::UseMonsterSkill(lpObj.m_Index, iTargetNumber, 0, -1, NULL);
 		}
 
-		lpObj->m_ActState.Attack = 0;
+		lpObj.m_ActState.Attack = 0;
 		return FALSE;
 	}
 	else
 	{
-		int iTargetNumber = lpObj->TargetNumber;
+		int iTargetNumber = lpObj.TargetNumber;
 
 		if (!ObjectMaxRange(iTargetNumber))
 		{
 			return FALSE;
 		}
 
-		LPGameObject lpTargetObj = &gGameObjects[iTargetNumber];
-		lpObj->Dir = GetPathPacketDirPos(lpTargetObj->X - lpObj->X, lpTargetObj->Y - lpObj->Y);
+		CGameObject lpTargetObj = &gGameObjects[iTargetNumber];
+		lpObj.Dir = GetPathPacketDirPos(lpTargetObj.X - lpObj.X, lpTargetObj.Y - lpObj.Y);
 
 		PMSG_ATTACK pAttackMsg;
 
 		pAttackMsg.AttackAction = 0x78;
-		pAttackMsg.DirDis = lpObj->Dir;
+		pAttackMsg.DirDis = lpObj.Dir;
 		pAttackMsg.NumberH = SET_NUMBERH(iTargetNumber);
 		pAttackMsg.NumberL = SET_NUMBERL(iTargetNumber);
 
-		GSProtocol.CGAttack((PMSG_ATTACK *)&pAttackMsg, lpObj->m_Index);
-		GSProtocol.GCActionSend(lpObj, 0x78, lpObj->m_Index, lpTargetObj->m_Index);
+		GSProtocol.CGAttack((PMSG_ATTACK *)&pAttackMsg, lpObj.m_Index);
+		GSProtocol.GCActionSend(lpObj, 0x78, lpObj.m_Index, lpTargetObj.m_Index);
 		gObjAttack(lpObj, &gGameObjects[iTargetNumber], 0, 0, 0, 0, 0, 0, 0);
 
 		return FALSE;
@@ -485,7 +485,7 @@ struct PMSG_NOTIFY_REGION_MONSTER_ATTACK
 
 BOOL TMonsterAIElement::ApplyElementAttackArea(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-영역공격");
 
 	int iTargetX = this->m_iX + (rand()%5) * ((rand()%2==0)?1:-1 ) ;
@@ -496,29 +496,29 @@ BOOL TMonsterAIElement::ApplyElementAttackArea(int iIndex, int iTargetIndex, TMo
 		if ( !gObjIsConnected(i))
 			continue;
 
-		LPGameObject lpTargetObj = &gGameObjects[i];
+		CGameObject lpTargetObj = &gGameObjects[i];
 
-		if ( !lpObj->Live )
+		if ( !lpObj.Live )
 			continue;
 
-		if ( lpObj->MapNumber != lpTargetObj->MapNumber )
+		if ( lpObj.MapNumber != lpTargetObj.MapNumber )
 			continue;
 
-		int iTargetDistance = sqrt( static_cast<float> ( ((lpTargetObj->X - iTargetX)*(lpTargetObj->X - iTargetX)) + ((lpTargetObj->Y - iTargetY)*(lpTargetObj->Y - iTargetY)) ) );
+		int iTargetDistance = sqrt( static_cast<float> ( ((lpTargetObj.X - iTargetX)*(lpTargetObj.X - iTargetX)) + ((lpTargetObj.Y - iTargetY)*(lpTargetObj.Y - iTargetY)) ) );
 
 		if ( iTargetDistance < 10 )
 		{
 			PMSG_NOTIFY_REGION_MONSTER_ATTACK pMsg;
 
 			PHeadSubSetB((LPBYTE)&pMsg, 0xBD, 0x0C, sizeof(pMsg));
-			pMsg.btObjClassH = SET_NUMBERH(lpObj->Class);
-			pMsg.btObjClassL = SET_NUMBERL(lpObj->Class);
-			pMsg.btSourceX = lpObj->X;
-			pMsg.btSourceY = lpObj->Y;
+			pMsg.btObjClassH = SET_NUMBERH(lpObj.Class);
+			pMsg.btObjClassL = SET_NUMBERL(lpObj.Class);
+			pMsg.btSourceX = lpObj.X;
+			pMsg.btSourceY = lpObj.Y;
 			pMsg.btPointX = iTargetX;
 			pMsg.btPointY = iTargetY;
 
-			IOCP.DataSend(lpTargetObj->m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
+			IOCP.DataSend(lpTargetObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
 		}
 
 		if ( iTargetDistance < 6 )
@@ -532,8 +532,8 @@ BOOL TMonsterAIElement::ApplyElementAttackArea(int iIndex, int iTargetIndex, TMo
 
 BOOL TMonsterAIElement::ApplyElementAttackPenetration(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPGameObject lpObj = &gGameObjects[iIndex];
-	iTargetIndex = lpObj->TargetNumber;
+	CGameObject lpObj = &gGameObjects[iIndex];
+	iTargetIndex = lpObj.TargetNumber;
 
 	if ( iTargetIndex == -1 )
 		return FALSE;
@@ -548,14 +548,14 @@ BOOL TMonsterAIElement::ApplyElementAttackPenetration(int iIndex, int iTargetInd
 
 BOOL TMonsterAIElement::ApplyElementAvoid(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-회피");
 
 	BOOL bFindXY = MONSTER_UTIL.GetXYToEascape(lpObj);
 
 	if ( bFindXY )
 	{
-		MONSTER_UTIL.FindPathToMoveMonster(lpObj, lpObj->MTX, lpObj->MTY, 5, 1);
+		MONSTER_UTIL.FindPathToMoveMonster(lpObj, lpObj.MTX, lpObj.MTY, 5, 1);
 	}
 
 	return FALSE;
@@ -564,13 +564,13 @@ BOOL TMonsterAIElement::ApplyElementAvoid(int iIndex, int iTargetIndex, TMonster
 
 BOOL TMonsterAIElement::ApplyElementHealSelf(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-셀프치료");
 
-	lpObj->Life += lpObj->Life * 20.0f / 100.0f;
-	UTIL.SendCrywolfChattingMsg(iIndex, "HP : %d", (int)lpObj->Life);
-	//lpObj->m_ViewSkillState |= 8;
-	//GCStateInfoSend(lpObj, 1, lpObj->m_ViewSkillState);
+	lpObj.Life += lpObj.Life * 20.0f / 100.0f;
+	UTIL.SendCrywolfChattingMsg(iIndex, "HP : %d", (int)lpObj.Life);
+	//lpObj.m_ViewSkillState |= 8;
+	//GCStateInfoSend(lpObj, 1, lpObj.m_ViewSkillState);
 
 	return FALSE;
 }
@@ -578,35 +578,35 @@ BOOL TMonsterAIElement::ApplyElementHealSelf(int iIndex, int iTargetIndex, TMons
 
 BOOL TMonsterAIElement::ApplyElementHealGroup(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-그룹치료");
-	TMonsterAIGroupMember * pMemb = TMonsterAIGroup::FindGroupMemberToHeal(lpObj->m_Index, lpObj->m_iGroupNumber, lpObj->m_iGroupMemberGuid, 6);
+	TMonsterAIGroupMember * pMemb = TMonsterAIGroup::FindGroupMemberToHeal(lpObj.m_Index, lpObj.m_iGroupNumber, lpObj.m_iGroupMemberGuid, 6);
 
 	if ( pMemb )
 	{
-		LPGameObject lpTargetObj = &gGameObjects[pMemb->m_iObjIndex];
+		CGameObject lpTargetObj = &gGameObjects[pMemb->m_iObjIndex];
 
-		if ( lpTargetObj->Live == 0 )
+		if ( lpTargetObj.Live == 0 )
 			return FALSE;
 
 		TMonsterSkillUnit * lpSkillUnit = NULL;
 
-		if(lpObj->Class == 519)
+		if(lpObj.Class == 519)
 		{
 			TMonsterSkillManager::UseMonsterSkill(iIndex, pMemb->m_iObjIndex, 44, -1, NULL);
 		}
 		else
 		{
-			lpSkillUnit = TMonsterSkillManager::FindMonsterSkillUnit(lpObj->m_Index, 21);
+			lpSkillUnit = TMonsterSkillManager::FindMonsterSkillUnit(lpObj.m_Index, 21);
 		}
 
 		if ( lpSkillUnit )
 		{
-			lpSkillUnit->RunSkill(iIndex, lpTargetObj->m_Index);
+			lpSkillUnit->RunSkill(iIndex, lpTargetObj.m_Index);
 		}
 
-		UTIL.SendCrywolfChattingMsg(iIndex, "그룹치료 HP : %d", (int)lpTargetObj->Life);
-		UTIL.SendCrywolfChattingMsg(lpTargetObj->m_Index, "HP : %d", (int)lpTargetObj->Life);
+		UTIL.SendCrywolfChattingMsg(iIndex, "그룹치료 HP : %d", (int)lpTargetObj.Life);
+		UTIL.SendCrywolfChattingMsg(lpTargetObj.m_Index, "HP : %d", (int)lpTargetObj.Life);
 	}
 
 	return FALSE;
@@ -615,22 +615,22 @@ BOOL TMonsterAIElement::ApplyElementHealGroup(int iIndex, int iTargetIndex, TMon
 
 BOOL TMonsterAIElement::ApplyElementSpecialSommon(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-특수소환");
-	TMonsterAIGroupMember * pMemb = TMonsterAIGroup::FindGroupMemberToSommon(lpObj->m_Index, lpObj->m_iGroupNumber, lpObj->m_iGroupMemberGuid);
+	TMonsterAIGroupMember * pMemb = TMonsterAIGroup::FindGroupMemberToSommon(lpObj.m_Index, lpObj.m_iGroupNumber, lpObj.m_iGroupMemberGuid);
 
 	if ( pMemb )
 	{
-		LPGameObject lpTargetObj = &gGameObjects[pMemb->m_iObjIndex];
+		CGameObject lpTargetObj = &gGameObjects[pMemb->m_iObjIndex];
 
-		if ( lpTargetObj->Live != 0 )
+		if ( lpTargetObj.Live != 0 )
 			return FALSE;
 
-		TMonsterSkillUnit * lpSkillUnit = TMonsterSkillManager::FindMonsterSkillUnit(lpObj->m_Index, 30);
+		TMonsterSkillUnit * lpSkillUnit = TMonsterSkillManager::FindMonsterSkillUnit(lpObj.m_Index, 30);
 
 		if ( lpSkillUnit )
 		{
-			lpSkillUnit->RunSkill(iIndex, lpTargetObj->m_Index);
+			lpSkillUnit->RunSkill(iIndex, lpTargetObj.m_Index);
 		}
 	}
 
@@ -639,7 +639,7 @@ BOOL TMonsterAIElement::ApplyElementSpecialSommon(int iIndex, int iTargetIndex, 
 
 BOOL TMonsterAIElement::ApplyElementSpecialImmune(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 	
 	this->m_iX = 10;
 	this->m_iY = 10;
@@ -652,19 +652,19 @@ BOOL TMonsterAIElement::ApplyElementSpecialImmune(int iIndex, int iTargetIndex, 
 
 BOOL TMonsterAIElement::ApplyElementNightmareSummon(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 
-	if ( lpObj->TargetNumber == -1 )
-		iTargetIndex = lpObj->m_Index;
+	if ( lpObj.TargetNumber == -1 )
+		iTargetIndex = lpObj.m_Index;
 
-	iTargetIndex = lpObj->TargetNumber;
+	iTargetIndex = lpObj.TargetNumber;
 
 	if (iTargetIndex == -1)
 	{
 		return FALSE;
 	}
 
-	TMonsterSkillUnit * lpSkillUnit = TMonsterSkillManager::FindMonsterSkillUnit(lpObj->m_Index, 30); 
+	TMonsterSkillUnit * lpSkillUnit = TMonsterSkillManager::FindMonsterSkillUnit(lpObj.m_Index, 30); 
 
 	if (lpSkillUnit)
 	{
@@ -681,7 +681,7 @@ BOOL TMonsterAIElement::ApplyElementNightmareSummon(int iIndex, int iTargetIndex
 
 BOOL TMonsterAIElement::ApplyElementNightmareWarp(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 
 	BYTE x = this->m_iX;
 	BYTE y = this->m_iY;
@@ -697,13 +697,13 @@ BOOL TMonsterAIElement::ApplyElementNightmareWarp(int iIndex, int iTargetIndex, 
 	pAttack.TargetNumberH = SET_NUMBERH(iIndex);
 	pAttack.TargetNumberL = SET_NUMBERL(iIndex);
 
-	if ( lpObj->Type == OBJ_USER )
+	if ( lpObj.Type == OBJ_USER )
 		IOCP.DataSend(iIndex,(unsigned char *)&pAttack,pAttack.h.size);
 
 	GSProtocol.MsgSendV2(lpObj,(unsigned char*)&pAttack,pAttack.h.size);
 
 	gObjTeleportMagicUse(iIndex,x,y);
-	lpObj->TargetNumber = -1;
+	lpObj.TargetNumber = -1;
 
 	return FALSE;
 }
@@ -712,12 +712,12 @@ BOOL TMonsterAIElement::ApplyElementNightmareWarp(int iIndex, int iTargetIndex, 
 
 BOOL TMonsterAIElement::ApplyElementSkillAttack(int iIndex, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 
-	if ( TMonsterSkillManager::CheckMonsterSkill(lpObj->Class) )
+	if ( TMonsterSkillManager::CheckMonsterSkill(lpObj.Class) )
 	{
 		BOOL bEnableAttack = TRUE;
-		int iTargetNumber = lpObj->TargetNumber;
+		int iTargetNumber = lpObj.TargetNumber;
 
 		if (iTargetNumber < 0 )
 			bEnableAttack = FALSE;
@@ -733,30 +733,30 @@ BOOL TMonsterAIElement::ApplyElementSkillAttack(int iIndex, int iTargetIndex, TM
 
 		if ( !bEnableAttack )
 		{
-			lpObj->TargetNumber = -1;
-			lpObj->m_ActState.Emotion = 0;
-			lpObj->m_ActState.Attack = 0;
-			lpObj->m_ActState.Move = 0;
-			lpObj->NextActionTime = 1000;
+			lpObj.TargetNumber = -1;
+			lpObj.m_ActState.Emotion = 0;
+			lpObj.m_ActState.Attack = 0;
+			lpObj.m_ActState.Move = 0;
+			lpObj.NextActionTime = 1000;
 
 			return FALSE;
 		}
 
-		LPGameObject lpTargetObj = &gGameObjects[iTargetNumber];
-		lpObj->Dir = GetPathPacketDirPos(lpTargetObj->X - lpObj->X, lpTargetObj->Y - lpObj->Y);
+		CGameObject lpTargetObj = &gGameObjects[iTargetNumber];
+		lpObj.Dir = GetPathPacketDirPos(lpTargetObj.X - lpObj.X, lpTargetObj.Y - lpObj.Y);
 		int iRate1 = this->m_iTargetType;
 		int iRate2 = this->m_iX;
 		int iRate3 = this->m_iY;
 		int iRandom = rand() % 100;
 
 		if ( iRandom < iRate1 )
-			TMonsterSkillManager::UseMonsterSkill(lpObj->m_Index, iTargetNumber, 0, -1, NULL);
+			TMonsterSkillManager::UseMonsterSkill(lpObj.m_Index, iTargetNumber, 0, -1, NULL);
 		else if ( iRandom < (iRate1+iRate2) )
-			TMonsterSkillManager::UseMonsterSkill(lpObj->m_Index, iTargetNumber, 1, -1, NULL);
+			TMonsterSkillManager::UseMonsterSkill(lpObj.m_Index, iTargetNumber, 1, -1, NULL);
 		else if ( iRandom < (iRate1+iRate2+iRate3) )
-			TMonsterSkillManager::UseMonsterSkill(lpObj->m_Index, iTargetNumber, 2, -1, NULL);
+			TMonsterSkillManager::UseMonsterSkill(lpObj.m_Index, iTargetNumber, 2, -1, NULL);
 
-		lpObj->m_ActState.Attack = 0;
+		lpObj.m_ActState.Attack = 0;
 		return FALSE;
 	}
 

@@ -50,7 +50,7 @@ struct PMSG_SETMAPATTR
 	BYTE btY;	// 1
 };
 
-typedef  _BLOODCASTLE_USER
+typedef struct _BLOODCASTLE_USER
 {
 	int m_iIndex;	// 0
 	int m_iEXP;	// 4
@@ -258,11 +258,11 @@ public:
 	void ThrowQuestItemByUser(int iBridgeIndex, UINT64 iQuestItemSerial);
 	void CatchQuestItemByUser(int iBridgeIndex, int iUserIndex, int iItemLevel);
 
-	bool NpcAngelKing(LPGameObject &lpNpc, LPGameObject lpObj);
+	bool NpcAngelKing(CGameObject &lpNpc, CGameObject lpObj);
 
-	void KillMonsterProc(int iBridgeIndex, LPGameObject lpMonsterObj);
-	void DestroyCastleDoor(int iBridgeIndex, LPGameObject lpDoorObj);
-	void DestroySaintStatue(int iBridgeIndex, LPGameObject lpStatueObj);
+	void KillMonsterProc(int iBridgeIndex, CGameObject lpMonsterObj);
+	void DestroyCastleDoor(int iBridgeIndex, CGameObject lpDoorObj);
+	void DestroySaintStatue(int iBridgeIndex, CGameObject lpStatueObj);
 	
 	bool CheckCastleDoorLive(int iBridgeIndex);
 

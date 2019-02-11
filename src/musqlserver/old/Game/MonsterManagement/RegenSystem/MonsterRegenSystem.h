@@ -148,10 +148,10 @@ public:
 
 	void LoadScript(char* lpFileName);
 	void Run();
-	bool MonsterKillCheck(LPGameObject &lpPlayer, LPGameObject lpMonster);
+	bool MonsterKillCheck(CGameObject &lpPlayer, CGameObject lpMonster);
 private:
 	void RegenMonster(int nGroupNumber);
-	bool SetPosMonster(LPGameObject &lpObj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY);
+	bool SetPosMonster(CGameObject &lpObj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY);
 	bool GetBoxPosition(int mapnumber, int ax, int ay, int aw, int ah, short &mx, short &my);
 	bool IsLiveBossState(int nGroupNumber);
 	void DeleteMonster(int nGroupNumber);

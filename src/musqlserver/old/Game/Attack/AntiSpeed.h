@@ -10,8 +10,6 @@
 #include "StdAfx.h"
 #include "GameProtocol.h"
 #include "CGameObject.h"
-#include "custTypedef.h"
-#include "MuDefines.h"
 
 #include <queue>
 
@@ -24,28 +22,28 @@ public:
 };
 
 class CAttackMelee : public CAttackBase{
-	LPGameObject  m_TargetObj;
-	LPGameObject  m_Obj;
+	CGameObject  m_TargetObj;
+	CGameObject  m_Obj;
 public:
-	CAttackMelee(LPGameObject &lpObj, LPGameObject &lpTargetObj);
+	CAttackMelee(CGameObject &lpObj, CGameObject &lpTargetObj);
 	void Process();
 };
 
 class CAttackMagic : public CAttackBase{
-	LPGameObject  m_Obj;
+	CGameObject  m_Obj;
 	BYTE* m_Msg;
 public:
-	CAttackMagic(LPGameObject &lpObj, BYTE* pmsg, int len);
+	CAttackMagic(CGameObject &lpObj, BYTE* pmsg, int len);
 	~CAttackMagic();
 	void Process();
 };
 
 class CAttackRange : public CAttackBase{
-	LPGameObject  m_Obj;
+	CGameObject  m_Obj;
 	BYTE* m_Msg;
 	int m_Type;
 public:
-	CAttackRange(LPGameObject &lpObj, BYTE* pmsg, int len, int type);
+	CAttackRange(CGameObject &lpObj, BYTE* pmsg, int len, int type);
 	~CAttackRange();
 
 	void Process();
@@ -61,12 +59,12 @@ enum ATTACK_TYPE{
 };
 
 class CAttackMsg{
-	LPGameObject m_Obj;
+	CGameObject m_Obj;
 	BYTE* m_Msg;
 	int m_Len;
 	int m_Type;
 public:
-	CAttackMsg(LPGameObject &lpObj, BYTE* pmsg, int len, int type);
+	CAttackMsg(CGameObject &lpObj, BYTE* pmsg, int len, int type);
 	~CAttackMsg();
 
 	void Process();
@@ -92,17 +90,17 @@ public:
 	
 	bool m_LastFrameAttack;
 
-	CAttackQueue(LPGameObject &lpObj);
+	CAttackQueue(CGameObject &lpObj);
 	~CAttackQueue();
-//	void Push(LPGameObject & lpTargetObj);
+//	void Push(CGameObject & lpTargetObj);
 //	void Push(unsigned char* msg, int len);
 	void Push(unsigned char* msg, int len, int type);
 
 	void ProcessQueue();
 	static bool ThreadActive;
-	static VOID AttackQueueProc(std::vector<LPGameObject> gObj);
+	static VOID AttackQueueProc(std::vector<CGameObject> gObj);
 	
-	LPGameObject m_Obj;
+	CGameObject m_Obj;
 	CRITICAL_SECTION m_CritQueue;
 };
 

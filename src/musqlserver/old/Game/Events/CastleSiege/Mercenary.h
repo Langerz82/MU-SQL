@@ -22,7 +22,7 @@ public:
 	//int __thiscall UseLifeStoneScroll(int);
 	BOOL CreateMercenary(int iIndex, int iMercenaryTypeIndex, BYTE cTX, BYTE cTY);
 	BOOL DeleteMercenary(int iIndex);
-	BOOL SearchEnemy(struct OBJECTSTRUCT* lpObj);
+	BOOL SearchEnemy(struct CGameObject* lpObj);
 	void MercenaryAct(int iIndex);
 
 private:

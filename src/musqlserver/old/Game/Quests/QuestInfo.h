@@ -34,7 +34,7 @@ enum QuestStat
 	QS_NOTHING = 0x3,
 };
 
-typedef  QUEST_SUB_INFO
+typedef struct QUEST_SUB_INFO
 {
 	int QuestType;	// 0
 	int NeedType;	// 4
@@ -52,7 +52,7 @@ typedef  QUEST_SUB_INFO
 
 } QUEST_SUB_INFO, * LPQUEST_SUB_INFO;
 
-typedef  QUEST_CONDITION
+typedef struct QUEST_CONDITION
 {
 	int Index;	// 0
 	int NeedQuestIndex;	// 4
@@ -72,7 +72,7 @@ typedef  QUEST_CONDITION
 
 } QUEST_CONDITION, * LPQUEST_CONDITION;
 
-typedef  QUEST_INFO	
+typedef struct QUEST_INFO
 {
 	char Name[50];	// 0
 	int QuestIndex;	// 34
@@ -98,25 +98,25 @@ public:
 	int LoadQuestInfo(char* filename);
 	void InitQuestItem();
 	LPQUEST_INFO GetQuestInfo(int QuestIndex);
-	LPQUEST_SUB_INFO GetSubquestInfo(LPGameObject &lpObj, LPQUEST_INFO lpQuestInfo, int subquestindex);
+	LPQUEST_SUB_INFO GetSubquestInfo(CGameObject &lpObj, LPQUEST_INFO lpQuestInfo, int subquestindex);
 	LPQUEST_CONDITION GetQuestCondition(LPQUEST_INFO lpQuestInfo, int conditionindex);
-	int GetQuestState(LPGameObject &lpObj, int QuestIndex);
-	BYTE GetQuestStateBYTE(LPGameObject &lpObj, int QuestIndex);
-	unsigned char SetQuestState(LPGameObject &lpObj, int QuestIndex, int State);
-	unsigned char ReSetQuestState(LPGameObject &lpObj, int QuestIndex);
-	unsigned char QuestClearConditionCheck(LPGameObject &lpObj, int QuestIndex);
-	unsigned char QuestRunConditionCheck(LPGameObject &lpObj, int QuestIndex);
-	int CompareCondition(LPGameObject &lpObj, LPQUEST_CONDITION lpCondition);
-	int NpcTalk(LPGameObject &lpNpc, LPGameObject lpObj);
-	int MonsterItemDrop(LPGameObject &lpObj);
-	int MonsterItemDropParty(LPGameObject &lpObj, LPGameObject lpMonsterObj);
-	int AddMonsterKillCount(LPGameObject &lpObj);
-	int QuestAccept(LPGameObject &lpObj, int QuestIndex);
-	int QuestClear(LPGameObject &lpObj, int QuestIndex);
-	void QuestInfoSave(LPGameObject &lpObj);
-	int GetQuestKillCount(LPGameObject &lpObj, int uClass);
+	int GetQuestState(CGameObject &lpObj, int QuestIndex);
+	BYTE GetQuestStateBYTE(CGameObject &lpObj, int QuestIndex);
+	unsigned char SetQuestState(CGameObject &lpObj, int QuestIndex, int State);
+	unsigned char ReSetQuestState(CGameObject &lpObj, int QuestIndex);
+	unsigned char QuestClearConditionCheck(CGameObject &lpObj, int QuestIndex);
+	unsigned char QuestRunConditionCheck(CGameObject &lpObj, int QuestIndex);
+	int CompareCondition(CGameObject &lpObj, LPQUEST_CONDITION lpCondition);
+	int NpcTalk(CGameObject &lpNpc, CGameObject lpObj);
+	int MonsterItemDrop(CGameObject &lpObj);
+	int MonsterItemDropParty(CGameObject &lpObj, CGameObject lpMonsterObj);
+	int AddMonsterKillCount(CGameObject &lpObj);
+	int QuestAccept(CGameObject &lpObj, int QuestIndex);
+	int QuestClear(CGameObject &lpObj, int QuestIndex);
+	void QuestInfoSave(CGameObject &lpObj);
+	int GetQuestKillCount(CGameObject &lpObj, int uClass);
 	int GetQuestItem(int iIndex, short nType, short nLevel);
-	void SendQuestMonsterKill(LPGameObject &lpObj, int iQuestIndex);
+	void SendQuestMonsterKill(CGameObject &lpObj, int iQuestIndex);
 	void CheckQuestMapEnterOnWerwolf(int iIndex);
 	void CheckQuestMapEnterOnGateKeeper(int iIndex);
 

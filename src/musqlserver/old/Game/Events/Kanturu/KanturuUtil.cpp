@@ -347,14 +347,14 @@ void CKanturuUtil::SendDataToUser(int iIndex, LPBYTE lpMsg, int iSize)
 void CKanturuUtil::SendKanturuChattingMsg(int iIndex, LPSTR lpMsg, ...)
 {
 	return;
-	LPGameObject lpObj;
+	CGameObject lpObj;
 	char szChat[512];
 
 	for (int iCount = 0; iCount < MaxViewportMonster; iCount++)
 	{
-		if ( lpObj->VpPlayer2[iCount].state )
+		if ( lpObj.VpPlayer2[iCount].state )
 		{
-			int number = lpObj->VpPlayer2[iCount].number;
+			int number = lpObj.VpPlayer2[iCount].number;
 
 			if ( number >= 0 || number < g_ConfigRead.server.GetObjectMax() )
 			{

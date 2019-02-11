@@ -16,13 +16,13 @@ CKillCountMng::~CKillCountMng()
 
 }
 
-void CKillCountMng::CheckMonsterKillCount(int monsterid, LPGameObject lpObj)
+void CKillCountMng::CheckMonsterKillCount(int monsterid, CGameObject lpObj)
 {
 	for(int i=0;i<MAX_MONSTER_TYPE;i++)
 	{
 		if(this->i_MonsterIds[i] == monsterid)
 		{
-			ReqSaveMonsterCount(lpObj->m_Index,monsterid);
+			ReqSaveMonsterCount(lpObj.m_Index,monsterid);
 			break;
 		}
 	}

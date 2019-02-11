@@ -19,7 +19,7 @@ public:
 	CResetTable();
 	virtual ~CResetTable();
 	void Load(char* path);
-	int GetResetPoint(LPGameObject &lpObj);
+	int GetResetPoint(CGameObject &lpObj);
 	void SetInfo(RESET_TABLE_INFO info);
 private:
 	RESET_TABLE_INFO m_ResetTableInfo[MAX_RESET_TABLE];

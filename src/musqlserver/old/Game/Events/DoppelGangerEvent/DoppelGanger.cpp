@@ -35,12 +35,12 @@ BOOL CDoppelGangerMonsterHerd::Start()
 	return this->MonsterHerd::Start();
 }
 
-BOOL CDoppelGangerMonsterHerd::MonsterHerdItemDrop(OBJECTSTRUCT* lpObj)
+BOOL CDoppelGangerMonsterHerd::MonsterHerdItemDrop(CGameObject* lpObj)
 {
 	return FALSE;
 }
 
-void CDoppelGangerMonsterHerd::MonsterAttackAction(LPGameObject lpObj, LPGameObject lpTargetObj)
+void CDoppelGangerMonsterHerd::MonsterAttackAction(CGameObject lpObj, CGameObject lpTargetObj)
 {
 	if (!lpObj)
 	{
@@ -57,22 +57,22 @@ void CDoppelGangerMonsterHerd::MonsterAttackAction(LPGameObject lpObj, LPGameObj
 		return;
 	}
 
-	if (lpObj->Connected < PLAYER_PLAYING)
+	if (lpObj.Connected < PLAYER_PLAYING)
 	{
 		return;
 	}
 
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return;
 	}
 
-	if (lpTargetObj->Connected < PLAYER_PLAYING)
+	if (lpTargetObj.Connected < PLAYER_PLAYING)
 	{
 		return;
 	}
 
-	lpObj->NextActionTime = 1000;
+	lpObj.NextActionTime = 1000;
 }
 
 int CDoppelGangerMonsterHerd::AddMonsterEX(int iMonsterType, int bAttackFirst, int nMonsterLevel, int nMonsterHp, int nMonsterAttMin, int nMonsterAttMax, int nMonsterDef)
@@ -205,31 +205,31 @@ BOOL CDoppelGangerMonsterHerd::SetTotalInfo(int iMapNumber, int iRadius, int nPo
 	return TRUE;
 }
 
-void CDoppelGangerMonsterHerd::MonsterBaseAct(LPGameObject &lpObj)
+void CDoppelGangerMonsterHerd::MonsterBaseAct(CGameObject &lpObj)
 {
-	LPGameObject lpTargetObj = NULL;
+	CGameObject lpTargetObj = NULL;
 
-	if (lpObj->TargetNumber >= 0)
+	if (lpObj.TargetNumber >= 0)
 	{
-		lpTargetObj = &gGameObjects[lpObj->TargetNumber];
+		lpTargetObj = &gGameObjects[lpObj.TargetNumber];
 	}
 	else
 	{
-		lpObj->m_ActState.Emotion = 0;
+		lpObj.m_ActState.Emotion = 0;
 	}
 
-	switch (lpObj->m_ActState.Emotion)
+	switch (lpObj.m_ActState.Emotion)
 	{
 	case 0:
 	{
-		if (lpObj->m_ActState.Attack != 0)
+		if (lpObj.m_ActState.Attack != 0)
 		{
-			lpObj->m_ActState.Attack = 0;
-			lpObj->TargetNumber = -1;
-			lpObj->NextActionTime = 100;
+			lpObj.m_ActState.Attack = 0;
+			lpObj.TargetNumber = -1;
+			lpObj.NextActionTime = 100;
 		}
 
-		if (lpObj->m_MoveRange > 0 &&
+		if (lpObj.m_MoveRange > 0 &&
 			!gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_FREEZE_2) &&
 			!gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_EARTH_BINDS) &&
 			!gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STONE))
@@ -237,103 +237,103 @@ void CDoppelGangerMonsterHerd::MonsterBaseAct(LPGameObject &lpObj)
 			this->MonsterMoveAction(lpObj);
 		}
 
-		if (lpObj->Class == 529 || lpObj->Class == 530)
+		if (lpObj.Class == 529 || lpObj.Class == 530)
 		{
 			g_DoppelGanger.AngerKillerAttack(lpObj);
 		}
 
-		if (lpObj->m_bIsMonsterAttackFirst)
+		if (lpObj.m_bIsMonsterAttackFirst)
 		{
-			lpObj->TargetNumber = gObjMonsterSearchEnemy(lpObj, OBJ_USER);
+			lpObj.TargetNumber = gObjMonsterSearchEnemy(lpObj, OBJ_USER);
 
-			if (lpObj->TargetNumber >= 0)
+			if (lpObj.TargetNumber >= 0)
 			{
-				if (lpObj->Class == 533)
+				if (lpObj.Class == 533)
 				{
-					lpObj->m_ActState.EmotionCount = 30;
-					lpObj->NextActionTime = 1000;
-					lpObj->m_ActState.Move = 0;
-					lpObj->PathStartEnd = 0;
+					lpObj.m_ActState.EmotionCount = 30;
+					lpObj.NextActionTime = 1000;
+					lpObj.m_ActState.Move = 0;
+					lpObj.PathStartEnd = 0;
 				}
 
 				else
 				{
-					lpObj->m_ActState.EmotionCount = 10;
+					lpObj.m_ActState.EmotionCount = 10;
 				}
 
-				lpObj->m_ActState.Emotion = 1;
+				lpObj.m_ActState.Emotion = 1;
 			}
 		}
 	}
 	break;
 
 	case 1:
-		if (lpObj->Class == 529 || lpObj->Class == 530)
+		if (lpObj.Class == 529 || lpObj.Class == 530)
 		{
-			lpObj->m_ActState.Emotion = 0;
-			lpObj->m_ActState.EmotionCount = 0;
+			lpObj.m_ActState.Emotion = 0;
+			lpObj.m_ActState.EmotionCount = 0;
 		}
 
-		if (lpObj->m_ActState.EmotionCount > 0)
+		if (lpObj.m_ActState.EmotionCount > 0)
 		{
-			lpObj->m_ActState.EmotionCount--;
+			lpObj.m_ActState.EmotionCount--;
 		}
 
 		else
 		{
-			lpObj->m_ActState.Emotion = 0;
+			lpObj.m_ActState.Emotion = 0;
 		}
 
-		if (lpObj->TargetNumber >= 0 && lpObj->PathStartEnd == 0)
+		if (lpObj.TargetNumber >= 0 && lpObj.PathStartEnd == 0)
 		{
 			int dis = gObjCalDistance(lpObj, lpTargetObj);
 			int attackRange;
 
-			if (lpObj->m_AttackType >= 100)
+			if (lpObj.m_AttackType >= 100)
 			{
-				attackRange = lpObj->m_AttackRange + 2;
+				attackRange = lpObj.m_AttackRange + 2;
 			}
 			else
 			{
-				attackRange = lpObj->m_AttackRange;
+				attackRange = lpObj.m_AttackRange;
 			}
 
 			if (dis > attackRange)
 			{
 				if (gObjMonsterGetTargetPos(lpObj) == TRUE)
 				{
-					if (MAX_MAP_RANGE(lpObj->MapNumber) == FALSE)
+					if (MAX_MAP_RANGE(lpObj.MapNumber) == FALSE)
 					{
-						sLog->outError( "[ERROR] MAX_MAP_RANGE (MonsterHerd DG) == FALSE (%d)", lpObj->MapNumber);
+						sLog->outError( "[ERROR] MAX_MAP_RANGE (MonsterHerd DG) == FALSE (%d)", lpObj.MapNumber);
 						break;
 					}
 
-					if (MapC[lpObj->MapNumber].CheckWall(lpObj->X, lpObj->Y, lpObj->MTX, lpObj->MTY) == TRUE)
+					if (MapC[lpObj.MapNumber].CheckWall(lpObj.X, lpObj.Y, lpObj.MTX, lpObj.MTY) == TRUE)
 					{
-						lpObj->m_ActState.Move = 1;
-						lpObj->NextActionTime = 100;
-						lpObj->Dir = GetPathPacketDirPos(lpTargetObj->X - lpObj->X, lpTargetObj->Y - lpObj->Y);
+						lpObj.m_ActState.Move = 1;
+						lpObj.NextActionTime = 100;
+						lpObj.Dir = GetPathPacketDirPos(lpTargetObj.X - lpObj.X, lpTargetObj.Y - lpObj.Y);
 					}
 
 					else
 					{
 						this->MonsterMoveAction(lpObj);
-						lpObj->m_ActState.Emotion = 0;
-						lpObj->m_ActState.EmotionCount = 10;
+						lpObj.m_ActState.Emotion = 0;
+						lpObj.m_ActState.EmotionCount = 10;
 					}
 				}
 
 				else
 				{
 					this->MonsterMoveAction(lpObj);
-					lpObj->m_ActState.Emotion = 3;
-					lpObj->m_ActState.EmotionCount = 10;
+					lpObj.m_ActState.Emotion = 3;
+					lpObj.m_ActState.EmotionCount = 10;
 				}
 			}
 
 			else
 			{
-				int tuser = lpObj->TargetNumber;
+				int tuser = lpObj.TargetNumber;
 
 				if (!ObjectMaxRange(tuser))
 				{
@@ -348,40 +348,40 @@ void CDoppelGangerMonsterHerd::MonsterBaseAct(LPGameObject &lpObj)
 					break;
 				}
 
-				if (MapC[map].CheckWall(lpObj->X, lpObj->Y, gGameObjects[tuser].X, gGameObjects[tuser].Y) == TRUE)
+				if (MapC[map].CheckWall(lpObj.X, lpObj.Y, gGameObjects[tuser].X, gGameObjects[tuser].Y) == TRUE)
 				{
 					BYTE attr = MapC[map].GetAttr(gGameObjects[tuser].X, gGameObjects[tuser].Y);
 
 					if ((attr & 1) != 1)
 					{
-						lpObj->m_ActState.Attack = 1;
+						lpObj.m_ActState.Attack = 1;
 					}
 					else
 					{
-						lpObj->TargetNumber = -1;
-						lpObj->m_ActState.Emotion = 1;
+						lpObj.TargetNumber = -1;
+						lpObj.m_ActState.Emotion = 1;
 					}
 
-					lpObj->Dir = GetPathPacketDirPos(lpTargetObj->X - lpObj->X, lpTargetObj->Y - lpObj->Y);
-					lpObj->NextActionTime = 100;
+					lpObj.Dir = GetPathPacketDirPos(lpTargetObj.X - lpObj.X, lpTargetObj.Y - lpObj.Y);
+					lpObj.NextActionTime = 100;
 				}
 			}
 		}
 		break;
 
 	case 3:
-		if (lpObj->m_ActState.EmotionCount > 0)
+		if (lpObj.m_ActState.EmotionCount > 0)
 		{
-			lpObj->m_ActState.EmotionCount--;
+			lpObj.m_ActState.EmotionCount--;
 		}
 		else
 		{
-			lpObj->m_ActState.Emotion = 0;
+			lpObj.m_ActState.Emotion = 0;
 		}
 
-		lpObj->m_ActState.Move = 0;
-		lpObj->m_ActState.Attack = 0;
-		lpObj->NextActionTime = 400;
+		lpObj.m_ActState.Move = 0;
+		lpObj.m_ActState.Attack = 0;
+		lpObj.NextActionTime = 400;
 
 		break;
 	}
@@ -947,8 +947,8 @@ void CDoppelGanger::ProcDoppelgangerState_End(ULONGLONG i64CurTime)
 				if (aIndex >= 0)
 				{
 					gParty.Delete(nPartyNumber, index);
-					lpObj->PartyNumber = -1;
-					lpObj->PartyTargetUser = -1;
+					lpObj.PartyNumber = -1;
+					lpObj.PartyTargetUser = -1;
 					GSProtocol.GCPartyDelUserSend(aIndex);
 				}
 			}
@@ -962,11 +962,11 @@ void CDoppelGanger::ProcDoppelgangerState_End(ULONGLONG i64CurTime)
 			{
 				int aIndex = gParty.m_PartyS[nPartyNumber].Number[index];
 
-				if (aIndex >= 0 && lpObj->Connected < PLAYER_PLAYING)
+				if (aIndex >= 0 && lpObj.Connected < PLAYER_PLAYING)
 				{
 					gParty.Delete(nPartyNumber, index);
-					lpObj->PartyNumber = -1;
-					lpObj->PartyTargetUser = -1;
+					lpObj.PartyNumber = -1;
+					lpObj.PartyTargetUser = -1;
 				}
 			}
 		}
@@ -976,26 +976,26 @@ void CDoppelGanger::ProcDoppelgangerState_End(ULONGLONG i64CurTime)
 	}
 }
 
-BOOL CDoppelGanger::EnterDoppelgangerEvent(LPGameObject &lpObj, BYTE btItemPos)
+BOOL CDoppelGanger::EnterDoppelgangerEvent(CGameObject &lpObj, BYTE btItemPos)
 {
 	PMSG_DOPPELGANGER_ENTER_RESULT pResult;
 	PHeadSubSetB((LPBYTE)&pResult, 0xBF, 0x0E, sizeof(pResult));
 
 	pResult.btResult = 0;
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
-	if (lpObj->Type != OBJ_USER || lpObj->Connected <= PLAYER_LOGGED)
+	if (lpObj.Type != OBJ_USER || lpObj.Connected <= PLAYER_LOGGED)
 	{
 		return FALSE;
 	}
 
-	if (lpObj->m_IfState.use > 0 && lpObj->m_IfState.type != 12)
+	if (lpObj.m_IfState.use > 0 && lpObj.m_IfState.type != 12)
 	{
 		return FALSE;
 	}
 
-	if (lpObj->m_bPShopOpen == true)
+	if (lpObj.m_bPShopOpen == true)
 		g_PersonalStore.CGPShopReqClose(aIndex);
 
 	if (this->GetDoppelgangerState() || this->m_bDoppelGangerEnter == false)
@@ -1007,9 +1007,9 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(LPGameObject &lpObj, BYTE btItemPos)
 
 	BOOL PKFlag = FALSE;
 
-	if (lpObj->PartyNumber < 0)
+	if (lpObj.PartyNumber < 0)
 	{
-		if (lpObj->m_PK_Level >= 4)
+		if (lpObj.m_PK_Level >= 4)
 		{
 			PKFlag = TRUE;
 		}
@@ -1017,7 +1017,7 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(LPGameObject &lpObj, BYTE btItemPos)
 
 	else
 	{
-		if (gParty.GetPKPartyPenalty(lpObj->PartyNumber) >= 5)
+		if (gParty.GetPKPartyPenalty(lpObj.PartyNumber) >= 5)
 		{
 			PKFlag = TRUE;
 		}
@@ -1032,18 +1032,18 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(LPGameObject &lpObj, BYTE btItemPos)
 
 	btItemPos += 12;
 
-	if (lpObj->pInventory[btItemPos].IsItem() == TRUE)
+	if (lpObj.pInventory[btItemPos].IsItem() == TRUE)
 	{
-		if (lpObj->pInventory[btItemPos].m_Type != ITEMGET(14, 111) &&
-			lpObj->pInventory[btItemPos].m_Type != ITEMGET(13, 125))
+		if (lpObj.pInventory[btItemPos].m_Type != ITEMGET(14, 111) &&
+			lpObj.pInventory[btItemPos].m_Type != ITEMGET(13, 125))
 		{
 			pResult.btResult = 1;
 			IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
 			return FALSE;
 		}
 
-		if (lpObj->pInventory[btItemPos].m_Type == ITEMGET(13, 125) &&
-			lpObj->pInventory[btItemPos].m_Durability < 1.0)
+		if (lpObj.pInventory[btItemPos].m_Type == ITEMGET(13, 125) &&
+			lpObj.pInventory[btItemPos].m_Durability < 1.0)
 		{
 			pResult.btResult = 1;
 			IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
@@ -1057,17 +1057,17 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(LPGameObject &lpObj, BYTE btItemPos)
 			return FALSE;
 		}
 
-		if (lpObj->pInventory[btItemPos].m_Type == ITEMGET(14, 111))
+		if (lpObj.pInventory[btItemPos].m_Type == ITEMGET(14, 111))
 		{
 			gObjInventoryDeleteItem(aIndex, btItemPos);
 			GSProtocol.GCInventoryItemDeleteSend(aIndex, btItemPos, 0);
 		}
 
-		else if (lpObj->pInventory[btItemPos].m_Type == ITEMGET(13, 125))
+		else if (lpObj.pInventory[btItemPos].m_Type == ITEMGET(13, 125))
 		{
-			lpObj->pInventory[btItemPos].m_Durability -= 1.0f;
+			lpObj.pInventory[btItemPos].m_Durability -= 1.0f;
 
-			if (lpObj->pInventory[btItemPos].m_Durability < 1.0)
+			if (lpObj.pInventory[btItemPos].m_Durability < 1.0)
 			{
 				gObjInventoryDeleteItem(aIndex, btItemPos);
 				GSProtocol.GCInventoryItemDeleteSend(aIndex, btItemPos, 0);
@@ -1075,7 +1075,7 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(LPGameObject &lpObj, BYTE btItemPos)
 
 			else
 			{
-				GSProtocol.GCItemDurSend2(aIndex, btItemPos, lpObj->pInventory[btItemPos].m_Durability, 0);
+				GSProtocol.GCItemDurSend2(aIndex, btItemPos, lpObj.pInventory[btItemPos].m_Durability, 0);
 			}
 		}
 
@@ -1089,19 +1089,19 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(LPGameObject &lpObj, BYTE btItemPos)
 	return FALSE;
 }
 
-BOOL CDoppelGanger::LeaveDoppelganger(LPGameObject &lpObj)
+BOOL CDoppelGanger::LeaveDoppelganger(CGameObject &lpObj)
 {
 	this->DelDoppelgangerUser(aIndex);
 	return TRUE;
 }
 
-BOOL CDoppelGanger::AddDoppelgangerUser(LPGameObject &lpObj)
+BOOL CDoppelGanger::AddDoppelgangerUser(CGameObject &lpObj)
 {
 	EnterCriticalSection(&this->m_critUserData);
 
 	if (this->m_nCurUserCount > 0)
 	{
-		if (lpObj->PartyNumber == -1 || lpObj->PartyNumber != this->m_nPartyNumber)
+		if (lpObj.PartyNumber == -1 || lpObj.PartyNumber != this->m_nPartyNumber)
 		{
 			LeaveCriticalSection(&this->m_critUserData);
 			return FALSE;
@@ -1114,7 +1114,7 @@ BOOL CDoppelGanger::AddDoppelgangerUser(LPGameObject &lpObj)
 			if (this->m_UserData[cnt].IsUser() == FALSE)
 			{
 				this->m_UserData[cnt].m_nIndex = aIndex;
-				this->m_UserData[cnt].m_nLevel = lpObj->Level + lpObj->m_PlayerData->MasterLevel;
+				this->m_UserData[cnt].m_nLevel = lpObj.Level + lpObj.m_PlayerData->MasterLevel;
 				bUserSet = true;
 				break;
 			}
@@ -1132,10 +1132,10 @@ BOOL CDoppelGanger::AddDoppelgangerUser(LPGameObject &lpObj)
 		int nRandValue = this->GetRandomValue(4);
 		this->m_nMapNumber = MAP_INDEX_DOPPELGANGER1 + nRandValue;
 		this->m_nGateNumber = DoppelGanger_Gate_Snow + nRandValue;
-		this->m_nPartyNumber = lpObj->PartyNumber;
+		this->m_nPartyNumber = lpObj.PartyNumber;
 
 		this->m_UserData[0].m_nIndex = aIndex;
-		this->m_UserData[0].m_nLevel = lpObj->Level + lpObj->m_PlayerData->MasterLevel;
+		this->m_UserData[0].m_nLevel = lpObj.Level + lpObj.m_PlayerData->MasterLevel;
 
 		this->m_i64UserEnterTime = GetTickCount64();
 
@@ -1172,7 +1172,7 @@ BOOL CDoppelGanger::AddDoppelgangerUser(LPGameObject &lpObj)
 	return TRUE;
 }
 
-void CDoppelGanger::DelDoppelgangerUser(LPGameObject &lpObj)
+void CDoppelGanger::DelDoppelgangerUser(CGameObject &lpObj)
 {
 	EnterCriticalSection(&this->m_critUserData);
 
@@ -1335,21 +1335,21 @@ void CDoppelGanger::SendDoppelgangerState(BYTE btState)
 	}
 }
 
-void CDoppelGanger::PlatformLugardAct(LPGameObject &lpNpc, LPGameObject lpObj)
+void CDoppelGanger::PlatformLugardAct(CGameObject &lpNpc, CGameObject lpObj)
 {
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return;
 	}
 
-	if (lpObj->m_bPShopOpen == true)
+	if (lpObj.m_bPShopOpen == true)
 	{
-		g_PersonalStore.CGPShopReqClose(lpObj->m_Index);
+		g_PersonalStore.CGPShopReqClose(lpObj.m_Index);
 	}
 
-	if (lpObj->m_PK_Level >= 4)
+	if (lpObj.m_PK_Level >= 4)
 	{
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,336), lpObj->m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,336), lpObj.m_Index, 1);
 		return;
 	}
 
@@ -1385,14 +1385,14 @@ void CDoppelGanger::PlatformLugardAct(LPGameObject &lpNpc, LPGameObject lpObj)
 	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void CDoppelGanger::MiddleTreasureAct(LPGameObject &lpNpc, LPGameObject lpObj)
+void CDoppelGanger::MiddleTreasureAct(CGameObject &lpNpc, CGameObject lpObj)
 {
 	if (lpNpc->m_State == 0)
 	{
 		return;
 	}
 
-	if (abs(lpObj->X - lpNpc->X) > 3 || abs(lpObj->Y - lpNpc->Y) > 3)
+	if (abs(lpObj.X - lpNpc->X) > 3 || abs(lpObj.Y - lpNpc->Y) > 3)
 	{
 		return;
 	}
@@ -1474,14 +1474,14 @@ void CDoppelGanger::MiddleTreasureAct(LPGameObject &lpNpc, LPGameObject lpObj)
 	}
 }
 
-void CDoppelGanger::LastTreasureAct(LPGameObject &lpNpc, LPGameObject lpObj)
+void CDoppelGanger::LastTreasureAct(CGameObject &lpNpc, CGameObject lpObj)
 {
 	if (lpNpc->m_State == 0)
 	{
 		return;
 	}
 
-	if (abs(lpObj->X - lpNpc->X) > 3 || abs(lpObj->Y - lpNpc->Y) > 3)
+	if (abs(lpObj.X - lpNpc->X) > 3 || abs(lpObj.Y - lpNpc->Y) > 3)
 	{
 		return;
 	}
@@ -1766,38 +1766,38 @@ void CDoppelGanger::MonsterHerdStart(int nHerdIndex)
 	}
 }
 
-void CDoppelGanger::CheckDoppelgangerMonsterPos(LPGameObject &lpObj)
+void CDoppelGanger::CheckDoppelgangerMonsterPos(CGameObject &lpObj)
 {
-	int nPosNum = this->GetDoppelgangerPosIndex(lpObj->X, lpObj->Y);
+	int nPosNum = this->GetDoppelgangerPosIndex(lpObj.X, lpObj.Y);
 	int nLastPos = MAX_DOPPELGANGER_POS_INFO - 1;
 
-	if (!lpObj->m_bIsInMonsterHerd)
+	if (!lpObj.m_bIsInMonsterHerd)
 	{
 		return;
 	}
 
-	if (lpObj->Class == 531)
+	if (lpObj.Class == 531)
 	{
 		nLastPos = -1;
 	}
 
 	if (nPosNum == nLastPos)
 	{
-		lpObj->Live = FALSE;
+		lpObj.Live = FALSE;
 		this->m_nGoalMonsterCnt++;
 
 		gObjAddBuffEffect(lpObj, BUFFTYPE_DOPPELGANGER_PORTAL, 0, 0, 0, 0, 10);
 		this->SendMonsterGoalCount();
 
-		if (lpObj->Class == 530)
+		if (lpObj.Class == 530)
 		{
-			this->SetKillerHp(lpObj->Life);
+			this->SetKillerHp(lpObj.Life);
 			this->SetKillerState(3);
 		}
 
-		if (lpObj->Class == 529)
+		if (lpObj.Class == 529)
 		{
-			this->SetAngerKillerHp(lpObj->Life);
+			this->SetAngerKillerHp(lpObj.Life);
 			this->SetAngerKillerState(3);
 		}
 
@@ -1810,7 +1810,7 @@ void CDoppelGanger::CheckDoppelgangerMonsterPos(LPGameObject &lpObj)
 
 	else
 	{
-		MonsterHerd * lpMH = lpObj->m_lpMonsterHerd;
+		MonsterHerd * lpMH = lpObj.m_lpMonsterHerd;
 
 		if (!lpMH)
 		{
@@ -1836,11 +1836,11 @@ void CDoppelGanger::CheckDoppelgangerMonsterPos(LPGameObject &lpObj)
 			}
 		}
 
-		if (lpObj->Class != 531)
+		if (lpObj.Class != 531)
 		{
 			if (this->m_nFirstMonsterIndex == -1)
 			{
-				this->m_nFirstMonsterIndex = lpObj->m_Index;
+				this->m_nFirstMonsterIndex = lpObj.m_Index;
 				this->m_btFirstIndex = nPosNum;
 			}
 
@@ -1848,14 +1848,14 @@ void CDoppelGanger::CheckDoppelgangerMonsterPos(LPGameObject &lpObj)
 			{
 				if (nPosNum > this->m_btFirstIndex)
 				{
-					this->m_nFirstMonsterIndex = lpObj->m_Index;
+					this->m_nFirstMonsterIndex = lpObj.m_Index;
 					this->m_btFirstIndex = nPosNum;
 				}
 			}
 
 			else
 			{
-				this->m_nFirstMonsterIndex = lpObj->m_Index;
+				this->m_nFirstMonsterIndex = lpObj.m_Index;
 				this->m_btFirstIndex = nPosNum;
 			}
 		}
@@ -1936,24 +1936,24 @@ void CDoppelGanger::SendDoppelgangerUserPos()
 	}
 }
 
-void CDoppelGanger::SelfExplosion(LPGameObject &lpObj, CMagicInf * lpMagic, int aTargetIndex)
+void CDoppelGanger::SelfExplosion(CGameObject &lpObj, CMagicInf * lpMagic, int aTargetIndex)
 {
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
-	if (lpObj->X < 0 || lpObj->X > 255)
+	if (lpObj.X < 0 || lpObj.X > 255)
 	{
 		return;
 	}
 
-	if (lpObj->Y < 0 || lpObj->Y > 255)
+	if (lpObj.Y < 0 || lpObj.Y > 255)
 	{
 		return;
 	}
 
-	int iMIN_X = lpObj->X - 2;
-	int iMAX_X = lpObj->X + 2;
-	int iMIN_Y = lpObj->Y - 2;
-	int iMAX_Y = lpObj->Y + 2;
+	int iMIN_X = lpObj.X - 2;
+	int iMAX_X = lpObj.X + 2;
+	int iMIN_Y = lpObj.Y - 2;
+	int iMAX_Y = lpObj.Y + 2;
 
 	if (iMIN_X < 0)
 		iMIN_X = 0;
@@ -1983,22 +1983,22 @@ void CDoppelGanger::SelfExplosion(LPGameObject &lpObj, CMagicInf * lpMagic, int 
 	}
 }
 
-void CDoppelGanger::AngerKillerAttack(LPGameObject &lpObj)
+void CDoppelGanger::AngerKillerAttack(CGameObject &lpObj)
 {
-	if (lpObj->X < 0 || lpObj->X > 255)
+	if (lpObj.X < 0 || lpObj.X > 255)
 	{
 		return;
 	}
 
-	if (lpObj->Y < 0 || lpObj->Y > 255)
+	if (lpObj.Y < 0 || lpObj.Y > 255)
 	{
 		return;
 	}
 
-	int iMIN_X = lpObj->X - 2;
-	int iMAX_X = lpObj->X + 2;
-	int iMIN_Y = lpObj->Y - 2;
-	int iMAX_Y = lpObj->Y + 2;
+	int iMIN_X = lpObj.X - 2;
+	int iMAX_X = lpObj.X + 2;
+	int iMIN_Y = lpObj.Y - 2;
+	int iMAX_Y = lpObj.Y + 2;
 
 	if (iMIN_X < 0)
 		iMIN_X = 0;
@@ -2026,7 +2026,7 @@ void CDoppelGanger::AngerKillerAttack(LPGameObject &lpObj)
 	}
 }
 
-void CDoppelGanger::SendDoppelgangerResult(LPGameObject &lpObj, BYTE btResult)
+void CDoppelGanger::SendDoppelgangerResult(CGameObject &lpObj, BYTE btResult)
 {
 	PMSG_DOPPELGANGER_MISSION_RESULT pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xBF, 0x13, sizeof(pMsg));
@@ -2119,19 +2119,19 @@ void CDoppelGanger::MoveDoppelgangerMonsterProc()
 
 	for (int i = 0; i < g_ConfigRead.server.GetObjectMaxMonster(); i++)
 	{
-		LPGameObject lpObj = &gGameObjects[i];
+		CGameObject lpObj = &gGameObjects[i];
 
-		if (lpObj->Connected == PLAYER_PLAYING && lpObj->m_State == 2 && lpObj->Type == OBJ_MONSTER)
+		if (lpObj.Connected == PLAYER_PLAYING && lpObj.m_State == 2 && lpObj.Type == OBJ_MONSTER)
 		{
-			if (DG_MAP_RANGE(lpObj->MapNumber) == TRUE)
+			if (DG_MAP_RANGE(lpObj.MapNumber) == TRUE)
 			{
-				if (lpObj->PathCount != 0)
+				if (lpObj.PathCount != 0)
 				{
 					if (!gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STONE) && !gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STUN) &&
 						!gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_FREEZE_2) && !gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_EARTH_BINDS) &&
 						!gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_SLEEP))
 					{
-						if (lpObj->DelayLevel != 0)
+						if (lpObj.DelayLevel != 0)
 						{
 							DelayTime = 300;
 						}
@@ -2141,35 +2141,35 @@ void CDoppelGanger::MoveDoppelgangerMonsterProc()
 							DelayTime = 0;
 						}
 
-						if (lpObj->Type == OBJ_MONSTER && lpObj->m_bIsInMonsterHerd == true)
+						if (lpObj.Type == OBJ_MONSTER && lpObj.m_bIsInMonsterHerd == true)
 						{
-							lpObj->m_MoveSpeed = 250;
+							lpObj.m_MoveSpeed = 250;
 						}
 
-						if (lpObj->PathDir[lpObj->PathCur] % 2 == 0)
+						if (lpObj.PathDir[lpObj.PathCur] % 2 == 0)
 						{
-							MoveTime = (lpObj->m_MoveSpeed + DelayTime)*(double)1.3;
+							MoveTime = (lpObj.m_MoveSpeed + DelayTime)*(double)1.3;
 						}
 
 						else
 						{
-							MoveTime = lpObj->m_MoveSpeed + DelayTime;
+							MoveTime = lpObj.m_MoveSpeed + DelayTime;
 						}
 
-						if ((GetTickCount() - lpObj->PathTime) > MoveTime)
+						if ((GetTickCount() - lpObj.PathTime) > MoveTime)
 						{
 							DWORD dwTmp = GetTickCount();
 
-							if (lpObj->PathCur == 1)
+							if (lpObj.PathCur == 1)
 							{
-								lpObj->PathTime = dwTmp;
+								lpObj.PathTime = dwTmp;
 							}
 
-							if (lpObj->PathCur < 14)
+							if (lpObj.PathCur < 14)
 							{
-								int nextX = lpObj->PathX[lpObj->PathCur];
-								int nextY = lpObj->PathY[lpObj->PathCur];
-								BYTE mapnumber = lpObj->MapNumber;
+								int nextX = lpObj.PathX[lpObj.PathCur];
+								int nextY = lpObj.PathY[lpObj.PathCur];
+								BYTE mapnumber = lpObj.MapNumber;
 
 								if (MAX_MAP_RANGE(mapnumber) == FALSE)
 								{
@@ -2178,50 +2178,50 @@ void CDoppelGanger::MoveDoppelgangerMonsterProc()
 
 								BYTE attr = MapC[mapnumber].GetAttr(nextX, nextY);
 
-								if (lpObj->Type == OBJ_USER && ((attr & 4) == 4 || (attr & 8) == 8))
+								if (lpObj.Type == OBJ_USER && ((attr & 4) == 4 || (attr & 8) == 8))
 								{
 									sLog->outBasic("[ CHECK POSITION ] MoveMosterProc [%s][%s] Map[%d]-(%d,%d) User(%d,%d) Can not Move Position Attr[%d]",
-										lpObj->AccountID, lpObj->Name, lpObj->MapNumber, nextX, nextY, lpObj->X, lpObj->Y, attr);
+										lpObj.AccountID, lpObj.Name, lpObj.MapNumber, nextX, nextY, lpObj.X, lpObj.Y, attr);
 
 									for (int n = 0; n < 15; n++)
 									{
-										lpObj->PathX[n] = 0;
-										lpObj->PathY[n] = 0;
-										lpObj->PathOri[n] = 0;
+										lpObj.PathX[n] = 0;
+										lpObj.PathY[n] = 0;
+										lpObj.PathOri[n] = 0;
 									}
 
-									lpObj->PathCount = 0;
-									lpObj->PathCur = 0;
-									lpObj->PathTime = GetTickCount();
+									lpObj.PathCount = 0;
+									lpObj.PathCur = 0;
+									lpObj.PathTime = GetTickCount();
 
-									if (lpObj->Type == OBJ_MONSTER || lpObj->Type == OBJ_NPC)
+									if (lpObj.Type == OBJ_MONSTER || lpObj.Type == OBJ_NPC)
 									{
-										lpObj->PathStartEnd = 0;
+										lpObj.PathStartEnd = 0;
 									}
 
-									if (lpObj->Type == OBJ_USER)
+									if (lpObj.Type == OBJ_USER)
 									{
-										gObjSetPosition(lpObj->m_Index, lpObj->X, lpObj->Y);
+										gObjSetPosition(lpObj.m_Index, lpObj.X, lpObj.Y);
 									}
 								}
 
 								else
 								{
-									lpObj->X = lpObj->PathX[lpObj->PathCur];
-									lpObj->Y = lpObj->PathY[lpObj->PathCur];
-									lpObj->Dir = lpObj->PathDir[lpObj->PathCur];
+									lpObj.X = lpObj.PathX[lpObj.PathCur];
+									lpObj.Y = lpObj.PathY[lpObj.PathCur];
+									lpObj.Dir = lpObj.PathDir[lpObj.PathCur];
 
-									lpObj->PathTime = GetTickCount();
-									lpObj->PathCur++;
+									lpObj.PathTime = GetTickCount();
+									lpObj.PathCur++;
 
-									if (lpObj->PathCur >= lpObj->PathCount)
+									if (lpObj.PathCur >= lpObj.PathCount)
 									{
-										lpObj->PathCur = 0;
-										lpObj->PathCount = 0;
+										lpObj.PathCur = 0;
+										lpObj.PathCount = 0;
 
-										if (lpObj->Type == OBJ_MONSTER || lpObj->Type == OBJ_NPC)
+										if (lpObj.Type == OBJ_MONSTER || lpObj.Type == OBJ_NPC)
 										{
-											lpObj->PathStartEnd = 0;
+											lpObj.PathStartEnd = 0;
 										}
 									}
 								}
@@ -2230,7 +2230,7 @@ void CDoppelGanger::MoveDoppelgangerMonsterProc()
 					}
 				}
 
-				CreateFrustrum(lpObj->X, lpObj->Y, i);
+				CreateFrustrum(lpObj.X, lpObj.Y, i);
 			}
 		}
 	}
@@ -2509,7 +2509,7 @@ BOOL CDoppelGanger::CheckMapTile(int nMapNumber, BYTE btX, BYTE btY)
 	return this->m_PosInfo.CheckStartMapTile(nMapNumber, btX, btY);
 }
 
-void CDoppelGanger::SendMapTileInfo(LPGameObject &lpObj, BYTE btMapSetType)
+void CDoppelGanger::SendMapTileInfo(CGameObject &lpObj, BYTE btMapSetType)
 {
 	char cTEMP_BUF[256];
 

@@ -275,23 +275,23 @@ int  gCheckGoal(int x, int y, int & ground)	// R:[-1:FAIL ; 0:Team_0 ; 1:Team_1]
 
 
 
-int gCheckBattleGround(LPGameObject &lpObj)	// R:[-1:FAIL else OBJGround]
+int gCheckBattleGround(CGameObject &lpObj)	// R:[-1:FAIL else OBJGround]
 {
 	for ( int n=0;n<MAX_BATTLESOCCER_GROUND;n++)
 	{
 		if ( gBSGround[n]->m_Set == TRUE )
 		{
-			if ( lpObj->X >= gBSGround[n]->m_rect.left && lpObj->X <= gBSGround[n]->m_rect.right && lpObj->Y >= gBSGround[n]->m_rect.top && lpObj->Y <= gBSGround[n]->m_rect.bottom ) 
+			if ( lpObj.X >= gBSGround[n]->m_rect.left && lpObj.X <= gBSGround[n]->m_rect.right && lpObj.Y >= gBSGround[n]->m_rect.top && lpObj.Y <= gBSGround[n]->m_rect.bottom ) 
 			{
 				return n;
 			}
 
-			if ( lpObj->X >= gBSGround[n]->m_GoalLeft.left && lpObj->X <= gBSGround[n]->m_GoalLeft.right && lpObj->Y >= gBSGround[n]->m_GoalLeft.top && lpObj->Y <= gBSGround[n]->m_GoalLeft.bottom ) 
+			if ( lpObj.X >= gBSGround[n]->m_GoalLeft.left && lpObj.X <= gBSGround[n]->m_GoalLeft.right && lpObj.Y >= gBSGround[n]->m_GoalLeft.top && lpObj.Y <= gBSGround[n]->m_GoalLeft.bottom ) 
 			{
 				return n;
 			}
 
-			if ( lpObj->X >= gBSGround[n]->m_GoalRight.left && lpObj->X <= gBSGround[n]->m_GoalRight.right && lpObj->Y >= gBSGround[n]->m_GoalRight.top && lpObj->Y <= gBSGround[n]->m_GoalRight.bottom ) 
+			if ( lpObj.X >= gBSGround[n]->m_GoalRight.left && lpObj.X <= gBSGround[n]->m_GoalRight.right && lpObj.Y >= gBSGround[n]->m_GoalRight.top && lpObj.Y <= gBSGround[n]->m_GoalRight.bottom ) 
 			{
 				return n;
 			}

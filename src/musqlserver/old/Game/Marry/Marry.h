@@ -14,17 +14,17 @@ public:
 
 	void LoadFile(char *filename);
 
-	void Propose(LPGameObject &lpObj, int uIndex);
-	bool Accept(LPGameObject &lpObj);
-	void Divorce(LPGameObject &lpObj);
+	void Propose(CGameObject &lpObj, int uIndex);
+	bool Accept(CGameObject &lpObj);
+	void Divorce(CGameObject &lpObj);
 
 private:
-	bool CheckPosition(LPGameObject &lpObj, int uIndex);
-	bool CheckRequiredItem(LPGameObject &lpObj, int iSide);
-	bool CheckDivorceItem(LPGameObject &lpObj);
-	void GiveGiftItem(LPGameObject &lpObj, int iSide);
-	void DeleteRequiredItem(LPGameObject &lpObj, int iSide);
-	void DeleteDivorceItem(LPGameObject &lpObj);
+	bool CheckPosition(CGameObject &lpObj, int uIndex);
+	bool CheckRequiredItem(CGameObject &lpObj, int iSide);
+	bool CheckDivorceItem(CGameObject &lpObj);
+	void GiveGiftItem(CGameObject &lpObj, int iSide);
+	void DeleteRequiredItem(CGameObject &lpObj, int iSide);
+	void DeleteDivorceItem(CGameObject &lpObj);
 
 	bool m_bFileLoad;
 	bool m_bMarryEnable;
@@ -52,15 +52,15 @@ private:
 	CRITICAL_SECTION m_criti;
 };
 
-inline bool isFemale(LPGameObject &lpObj)
+inline bool isFemale(CGameObject &lpObj)
 {
-	return (lpObj->Class == CLASS_ELF || lpObj->Class == CLASS_SUMMONER || lpObj->Class == CLASS_GROWLANCER) ? true : false;
+	return (lpObj.Class == CLASS_ELF || lpObj.Class == CLASS_SUMMONER || lpObj.Class == CLASS_GROWLANCER) ? true : false;
 }
 
-inline bool isMale(LPGameObject &lpObj)
+inline bool isMale(CGameObject &lpObj)
 {
-	return (lpObj->Class == CLASS_WIZARD || lpObj->Class == CLASS_KNIGHT || lpObj->Class == CLASS_MAGUMSA ||
-			lpObj->Class == CLASS_DARKLORD || lpObj->Class == CLASS_RAGEFIGHTER) ? true : false; 
+	return (lpObj.Class == CLASS_WIZARD || lpObj.Class == CLASS_KNIGHT || lpObj.Class == CLASS_MAGUMSA ||
+			lpObj.Class == CLASS_DARKLORD || lpObj.Class == CLASS_RAGEFIGHTER) ? true : false; 
 }
 extern CMarry Marry;
 

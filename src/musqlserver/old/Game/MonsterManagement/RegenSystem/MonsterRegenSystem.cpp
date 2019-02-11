@@ -287,7 +287,7 @@ void CMonsterRegenSystem::RegenMonster(int nGroupNumber)
 	}
 }
 
-bool CMonsterRegenSystem::SetPosMonster(LPGameObject &lpObj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY)
+bool CMonsterRegenSystem::SetPosMonster(CGameObject &lpObj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -295,18 +295,18 @@ bool CMonsterRegenSystem::SetPosMonster(LPGameObject &lpObj, int nMapNumber, int
 		return false;
 	}
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
-	lpObj->m_PosNum = -1;
-	lpObj->MapNumber = nMapNumber;
-	this->GetBoxPosition(nMapNumber, nBeginX, nBeginY, nEndX, nEndY, lpObj->X, lpObj->Y);
-	lpObj->TX = lpObj->X;
-	lpObj->TY = lpObj->Y;
-	lpObj->m_OldX = lpObj->X;
-	lpObj->m_OldY = lpObj->Y;
-	lpObj->Dir = rand() % 8;
-	lpObj->StartX = lpObj->X;
-	lpObj->StartY = lpObj->Y;
+	lpObj.m_PosNum = -1;
+	lpObj.MapNumber = nMapNumber;
+	this->GetBoxPosition(nMapNumber, nBeginX, nBeginY, nEndX, nEndY, lpObj.X, lpObj.Y);
+	lpObj.TX = lpObj.X;
+	lpObj.TY = lpObj.Y;
+	lpObj.m_OldX = lpObj.X;
+	lpObj.m_OldY = lpObj.Y;
+	lpObj.Dir = rand() % 8;
+	lpObj.StartX = lpObj.X;
+	lpObj.StartY = lpObj.Y;
 
 	return true;
 }
@@ -430,7 +430,7 @@ bool CMonsterRegenSystem::IsRegenTime(int nGroupNumber, int nCurHour, int nCurMi
 	return false;
 }
 
-bool CMonsterRegenSystem::MonsterKillCheck(LPGameObject &lpPlayer, LPGameObject lpMonster)
+bool CMonsterRegenSystem::MonsterKillCheck(CGameObject &lpPlayer, CGameObject lpMonster)
 {
 	for (int i = 0; i < MAX_MONSTER_GROUP_INFO && this->m_stMonsterGroupInfo[i].m_nGroupNumber > -1; i++)
 	{

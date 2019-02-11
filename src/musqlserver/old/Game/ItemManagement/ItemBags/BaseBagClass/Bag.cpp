@@ -165,7 +165,7 @@ void CBag::InitBag()
 	this->m_BagData.m_bLoadBag = false;
 }
 
-int CBag::GetDropSection(LPGameObject &lpObj, BAG_SECTION_DROP &pRetDrop)
+int CBag::GetDropSection(CGameObject &lpObj, BAG_SECTION_DROP &pRetDrop)
 {
 	if (this->m_BagData.m_bLoadBag == false)
 	{
@@ -177,7 +177,7 @@ int CBag::GetDropSection(LPGameObject &lpObj, BAG_SECTION_DROP &pRetDrop)
 		return FALSE;
 	}
 
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return FALSE;
 	}
@@ -187,7 +187,7 @@ int CBag::GetDropSection(LPGameObject &lpObj, BAG_SECTION_DROP &pRetDrop)
 		return FALSE;
 	}
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 	TRandomPoolMgr m_RandomPoolSection;
 
 	m_RandomPoolSection.InitPool();
@@ -195,30 +195,30 @@ int CBag::GetDropSection(LPGameObject &lpObj, BAG_SECTION_DROP &pRetDrop)
 
 	for (std::vector<BAG_SECTION_DROP>::iterator It = this->m_BagData.m_vtSectionDrop.begin(); It != this->m_BagData.m_vtSectionDrop.end(); It++, SectionID++)
 	{
-		if (lpObj->MapNumber != It->btUseSectionAllowedMapNum && It->btUseSectionAllowedMapNum != 0xFF)
+		if (lpObj.MapNumber != It->btUseSectionAllowedMapNum && It->btUseSectionAllowedMapNum != 0xFF)
 		{
 			continue;
 		}
 
-		if (It->btUseSectionAllowedClass[lpObj->Class] == 0)
+		if (It->btUseSectionAllowedClass[lpObj.Class] == 0)
 		{
 			continue;
 		}
 
-		if (It->btUseSectionAllowedClass[lpObj->Class] > 1)
+		if (It->btUseSectionAllowedClass[lpObj.Class] > 1)
 		{
-			if (It->btUseSectionAllowedClass[lpObj->Class] > (lpObj->m_PlayerData->ChangeUP + 1))
+			if (It->btUseSectionAllowedClass[lpObj.Class] > (lpObj.m_PlayerData->ChangeUP + 1))
 			{
 				continue;
 			}
 		}
 
-		if ((lpObj->Level + lpObj->m_PlayerData->MasterLevel) < It->wUseSectionMinLevel)
+		if ((lpObj.Level + lpObj.m_PlayerData->MasterLevel) < It->wUseSectionMinLevel)
 		{
 			continue;
 		}
 
-		if ((lpObj->Level + lpObj->m_PlayerData->MasterLevel) > It->wUseSectionMaxLevel)
+		if ((lpObj.Level + lpObj.m_PlayerData->MasterLevel) > It->wUseSectionMaxLevel)
 		{
 			continue;
 		}
@@ -276,9 +276,9 @@ int CBag::GetItem(BAG_SECTION_ITEMS &pItemsSec, BAG_ITEM & pRetItem)
 	return TRUE;
 }
 
-int CBag::GetReadyItemToUse(LPGameObject &lpObj, CItem &pItem, time_t & DurationItem)
+int CBag::GetReadyItemToUse(CGameObject &lpObj, CItem &pItem, time_t & DurationItem)
 {
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
 	BAG_ITEM m_Item;
 	BAG_SECTION_ITEMS m_ItemSection;
@@ -286,8 +286,8 @@ int CBag::GetReadyItemToUse(LPGameObject &lpObj, CItem &pItem, time_t & Duration
 
 	if (rand() % 10000 >= this->m_BagData.dwItemDropRate)
 	{
-		lpObj->m_PlayerData->Money += this->m_BagData.dwDropMoney;
-		GSProtocol.GCMoneySend(aIndex, lpObj->m_PlayerData->Money);
+		lpObj.m_PlayerData->Money += this->m_BagData.dwDropMoney;
+		GSProtocol.GCMoneySend(aIndex, lpObj.m_PlayerData->Money);
 		MsgOutput(aIndex, "Obtained %d Zen", this->m_BagData.dwDropMoney);
 
 		return 2;
@@ -296,9 +296,9 @@ int CBag::GetReadyItemToUse(LPGameObject &lpObj, CItem &pItem, time_t & Duration
 	if (rand() % 10000 < this->m_BagData.dwGainRuudRate)
 	{
 		int iRuudValue = this->GetValueMinMax(this->m_BagData.dwMinGainRuud, this->m_BagData.dwMaxGainRuud);
-		lpObj->m_PlayerData->Ruud += iRuudValue;
+		lpObj.m_PlayerData->Ruud += iRuudValue;
 
-		GSProtocol.GCSendRuud(aIndex, lpObj->m_PlayerData->Ruud, iRuudValue, true);
+		GSProtocol.GCSendRuud(aIndex, lpObj.m_PlayerData->Ruud, iRuudValue, true);
 		return 3;
 	}
 
@@ -350,7 +350,7 @@ int CBag::GetItemLevel(int MinLevel, int MaxLevel)
 	return level;
 }
 
-void CBag::MakeBagEffectUse(LPGameObject &lpObj, int iMonsterIndex)
+void CBag::MakeBagEffectUse(CGameObject &lpObj, int iMonsterIndex)
 {
 	PMSG_SERVERCMD ServerCmd;
 
@@ -377,7 +377,7 @@ void CBag::MakeBagEffectUse(LPGameObject &lpObj, int iMonsterIndex)
 	IOCP.DataSend(aIndex, (LPBYTE)&ServerCmd, ServerCmd.h.size);
 }
 
-void CBag::AddCoin(LPGameObject &lpObj)
+void CBag::AddCoin(CGameObject &lpObj)
 {
 	if (ObjectMaxRange(aIndex) == false)
 	{
@@ -389,15 +389,15 @@ void CBag::AddCoin(LPGameObject &lpObj)
 		return;
 	}
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
 	char *CoinTypes[] = { "C", "P", "G" };
 	GDReqInGameShopPointAdd(aIndex, this->m_BagData.btAddCoinType, this->m_BagData.dwAddCoinValue);
 	MsgOutput(aIndex, Lang.GetText(0,502), CoinTypes[this->m_BagData.btAddCoinType], this->m_BagData.dwAddCoinValue);
-	sLog->outBasic("[Bag Manager] (%s)(%s) Add Coin: (Type:%d) (Amount:%d) (Bag:%s)", lpObj->AccountID, lpObj->Name, this->m_BagData.btAddCoinType, this->m_BagData.dwAddCoinValue, this->m_BagData.szBagName);
+	sLog->outBasic("[Bag Manager] (%s)(%s) Add Coin: (Type:%d) (Amount:%d) (Bag:%s)", lpObj.AccountID, lpObj.Name, this->m_BagData.btAddCoinType, this->m_BagData.dwAddCoinValue, this->m_BagData.szBagName);
 }
 
-void CBag::DropSummonItem(LPGameObject &lpObj)
+void CBag::DropSummonItem(CGameObject &lpObj)
 {
 	if (ObjectMaxRange(aIndex) == false)
 	{
@@ -409,9 +409,9 @@ void CBag::DropSummonItem(LPGameObject &lpObj)
 		return;
 	}
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
-	if (lpObj->m_bIsHelpMon == true)
+	if (lpObj.m_bIsHelpMon == true)
 	{
 		return;
 	}
@@ -425,7 +425,7 @@ void CBag::DropSummonItem(LPGameObject &lpObj)
 			return;
 		}
 
-		ItemSerialCreateSend(aIndex, lpObj->MapNumber, lpObj->X, lpObj->Y, iType, 0, -1, 0, 0, 0, aIndex, 0, 0, 0, 0, 0);
+		ItemSerialCreateSend(aIndex, lpObj.MapNumber, lpObj.X, lpObj.Y, iType, 0, -1, 0, 0, 0, aIndex, 0, 0, 0, 0, 0);
 	}
 }
 

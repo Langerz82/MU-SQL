@@ -38,7 +38,7 @@ public:
 	virtual ~CUpgradeCmd();
 
 	void LoadFile(char * szFile);
-	int DoUpgrade(LPGameObject &lpObj);
+	int DoUpgrade(CGameObject &lpObj);
 
 private:
 	bool m_bSystemEnable;

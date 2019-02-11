@@ -42,15 +42,15 @@ void CCastleCrown::CastleCrownAct(int iIndex)
 		return;
 	}
 
-	LPGameObject lpObj = &gGameObjects[iIndex];
-	LPGameObject lpUserObj = &gGameObjects[g_CastleSiege.GetCrownUserIndex()];
+	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpUserObj = &gGameObjects[g_CastleSiege.GetCrownUserIndex()];
 
-	if ( lpUserObj->MapNumber == MAP_INDEX_CASTLESIEGE &&
-		 lpUserObj->m_btCsJoinSide >= 2 &&
-		 lpUserObj->m_bCsGuildInvolved == 1 )
+	if ( lpUserObj.MapNumber == MAP_INDEX_CASTLESIEGE &&
+		 lpUserObj.m_btCsJoinSide >= 2 &&
+		 lpUserObj.m_bCsGuildInvolved == 1 )
 	{
-		if ( lpUserObj->Y == g_CastleSiege.GetCrownAccessUserY() &&
-			 lpUserObj->X == g_CastleSiege.GetCrownAccessUserX() )
+		if ( lpUserObj.Y == g_CastleSiege.GetCrownAccessUserY() &&
+			 lpUserObj.X == g_CastleSiege.GetCrownAccessUserX() )
 		{
 			if ( gObjIsConnected(g_CastleSiege.GetCrownUserIndex()) &&
 				 gObjIsConnected(g_CastleSiege.GetCrownSwitchUserIndex(217)) &&
@@ -62,25 +62,25 @@ void CCastleCrown::CastleCrownAct(int iIndex)
 					DWORD dwTime = GetTickCount() - g_CastleSiege.GetCrownAccessTickCount();
 		
 					sLog->outBasic("[CastleSiege] [Reg. Accumulating] Accumulated Crown AccessTime : acc(%d) + %d [%s](%s)(%s)",
-						lpUserObj->m_iAccumulatedCrownAccessTime, dwTime,
-						lpUserObj->m_PlayerData->GuildName, lpUserObj->AccountID, lpUserObj->Name);
+						lpUserObj.m_iAccumulatedCrownAccessTime, dwTime,
+						lpUserObj.m_PlayerData->GuildName, lpUserObj.AccountID, lpUserObj.Name);
 
 				}
 				else
 				{
-					GSProtocol.GCAnsCsAccessCrownState(lpUserObj->m_Index, 2);
+					GSProtocol.GCAnsCsAccessCrownState(lpUserObj.m_Index, 2);
 					g_CastleSiege.ResetCrownUserIndex();
 					g_CastleSiege.SetCrownAccessUserX(0);
 					g_CastleSiege.SetCrownAccessUserY(0);
 					g_CastleSiege.ResetCrownAccessTickCount();
 
 					sLog->outBasic("[CastleSiege] [%s][%s] Register Castle Crown Canceled (GUILD:%s)",
-						lpUserObj->AccountID, lpUserObj->Name, lpUserObj->m_PlayerData->GuildName);
+						lpUserObj.AccountID, lpUserObj.Name, lpUserObj.m_PlayerData->GuildName);
 				}
 			}
 			else
 			{
-				GSProtocol.GCAnsCsAccessCrownState(lpUserObj->m_Index, 2);
+				GSProtocol.GCAnsCsAccessCrownState(lpUserObj.m_Index, 2);
 				g_CastleSiege.ResetCrownUserIndex();
 				g_CastleSiege.SetCrownAccessUserX(0);
 				g_CastleSiege.SetCrownAccessUserY(0);
@@ -89,7 +89,7 @@ void CCastleCrown::CastleCrownAct(int iIndex)
 		}
 		else
 		{
-			GSProtocol.GCAnsCsAccessCrownState(lpUserObj->m_Index, 2);
+			GSProtocol.GCAnsCsAccessCrownState(lpUserObj.m_Index, 2);
 			g_CastleSiege.ResetCrownUserIndex();
 			g_CastleSiege.SetCrownAccessUserX(0);
 			g_CastleSiege.SetCrownAccessUserY(0);
@@ -98,7 +98,7 @@ void CCastleCrown::CastleCrownAct(int iIndex)
 	}
 	else
 	{
-		GSProtocol.GCAnsCsAccessCrownState(lpUserObj->m_Index, 2);
+		GSProtocol.GCAnsCsAccessCrownState(lpUserObj.m_Index, 2);
 		g_CastleSiege.ResetCrownUserIndex();
 		g_CastleSiege.SetCrownAccessUserX(0);
 		g_CastleSiege.SetCrownAccessUserY(0);

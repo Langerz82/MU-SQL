@@ -45,9 +45,9 @@ void CPeriodItemEx::Initialize()
 	}
 }
 
-int CPeriodItemEx::AddPeriodInfo(LPGameObject &lpObj)
+int CPeriodItemEx::AddPeriodInfo(CGameObject &lpObj)
 {
-	if ( lpObj->Type != OBJ_USER )
+	if ( lpObj.Type != OBJ_USER )
 	{
 		return -1;
 	}
@@ -60,13 +60,13 @@ int CPeriodItemEx::AddPeriodInfo(LPGameObject &lpObj)
 
 			this->m_PeriodData[i].btUsedInfo = TRUE;
 			this->m_PeriodData[i].m_Obj = lpObj;
-			this->m_PeriodData[i].dwUserGuid = lpObj->DBNumber;
-			this->m_PeriodData[i].wUserIndex = lpObj->m_Index;
+			this->m_PeriodData[i].dwUserGuid = lpObj.DBNumber;
+			this->m_PeriodData[i].wUserIndex = lpObj.m_Index;
 			this->m_PeriodData[i].btItemCount = 0;
-			memcpy(this->m_PeriodData[i].szAccountID, lpObj->AccountID, MAX_ACCOUNT_LEN+1);
-			memcpy(this->m_PeriodData[i].szCharacterName, lpObj->Name, MAX_ACCOUNT_LEN+1);
+			memcpy(this->m_PeriodData[i].szAccountID, lpObj.AccountID, MAX_ACCOUNT_LEN+1);
+			memcpy(this->m_PeriodData[i].szCharacterName, lpObj.Name, MAX_ACCOUNT_LEN+1);
 			
-			lpObj->m_PlayerData->m_iPeriodItemEffectIndex = i;
+			lpObj.m_PlayerData->m_iPeriodItemEffectIndex = i;
 
 			return i;
 		}
@@ -75,14 +75,14 @@ int CPeriodItemEx::AddPeriodInfo(LPGameObject &lpObj)
 	return -1;
 }
 
-BOOL CPeriodItemEx::RemovePeriodInfo(LPGameObject &lpObj)
+BOOL CPeriodItemEx::RemovePeriodInfo(CGameObject &lpObj)
 {
-	if ( lpObj->Type != OBJ_USER )
+	if ( lpObj.Type != OBJ_USER )
 	{
 		return FALSE;
 	}
 
-	int PeriodItemIndex = lpObj->m_PlayerData->m_iPeriodItemEffectIndex;
+	int PeriodItemIndex = lpObj.m_PlayerData->m_iPeriodItemEffectIndex;
 
 	if ( this->IsCorrectUser(lpObj) == FALSE )
 	{
@@ -104,18 +104,18 @@ BOOL CPeriodItemEx::RemovePeriodInfo(LPGameObject &lpObj)
 	return TRUE;
 }
 
-BOOL CPeriodItemEx::IsCorrectUser(LPGameObject &lpObj)
+BOOL CPeriodItemEx::IsCorrectUser(CGameObject &lpObj)
 {
-	if ( lpObj->Type != OBJ_USER )
+	if ( lpObj.Type != OBJ_USER )
 	{
 		return FALSE;
 	}
 
-	int PeriodItemIndex = lpObj->m_PlayerData->m_iPeriodItemEffectIndex;
+	int PeriodItemIndex = lpObj.m_PlayerData->m_iPeriodItemEffectIndex;
 
 	if ( PeriodItemIndex >= 0 )
 	{
-		if ( this->m_PeriodData[PeriodItemIndex].btUsedInfo == TRUE && this->m_PeriodData[PeriodItemIndex].dwUserGuid == lpObj->DBNumber )
+		if ( this->m_PeriodData[PeriodItemIndex].btUsedInfo == TRUE && this->m_PeriodData[PeriodItemIndex].dwUserGuid == lpObj.DBNumber )
 		{
 			return TRUE;
 		}
@@ -124,14 +124,14 @@ BOOL CPeriodItemEx::IsCorrectUser(LPGameObject &lpObj)
 	return FALSE;
 }
 
-int CPeriodItemEx::AddPeriodItemData(LPGameObject &lpObj, WORD ItemType, UINT64 Serial, DWORD Duration)
+int CPeriodItemEx::AddPeriodItemData(CGameObject &lpObj, WORD ItemType, UINT64 Serial, DWORD Duration)
 {
-	if ( lpObj->Type != OBJ_USER) 
+	if ( lpObj.Type != OBJ_USER) 
 	{
 		return -1;
 	}
 
-	int PeriodItemIndex = lpObj->m_PlayerData->m_iPeriodItemEffectIndex;
+	int PeriodItemIndex = lpObj.m_PlayerData->m_iPeriodItemEffectIndex;
 
 	if ( this->IsCorrectUser(lpObj) == FALSE )
 	{
@@ -163,9 +163,9 @@ int CPeriodItemEx::AddPeriodItemData(LPGameObject &lpObj, WORD ItemType, UINT64 
 			
 			else
 			{
-				if ( lpObj->pInventory[itempos].IsPeriodItem() == FALSE )
+				if ( lpObj.pInventory[itempos].IsPeriodItem() == FALSE )
 				{
-					lpObj->pInventory[itempos].SetPeriodItem();
+					lpObj.pInventory[itempos].SetPeriodItem();
 				}
 
 				return i;
@@ -176,14 +176,14 @@ int CPeriodItemEx::AddPeriodItemData(LPGameObject &lpObj, WORD ItemType, UINT64 
 	return -1;
 }
 
-int CPeriodItemEx::AddPeriodItemData(LPGameObject &lpObj, WORD ItemType, UINT64 Serial, DWORD Duration, time_t ExpireDate)
+int CPeriodItemEx::AddPeriodItemData(CGameObject &lpObj, WORD ItemType, UINT64 Serial, DWORD Duration, time_t ExpireDate)
 {
-	if ( lpObj->Type != OBJ_USER) 
+	if ( lpObj.Type != OBJ_USER) 
 	{
 		return -1;
 	}
 
-	int PeriodItemIndex = lpObj->m_PlayerData->m_iPeriodItemEffectIndex;
+	int PeriodItemIndex = lpObj.m_PlayerData->m_iPeriodItemEffectIndex;
 
 	if ( this->IsCorrectUser(lpObj) == FALSE )
 	{
@@ -206,7 +206,7 @@ int CPeriodItemEx::AddPeriodItemData(LPGameObject &lpObj, WORD ItemType, UINT64 
 
 			if ( itempos != -1 )
 			{
-				lpObj->pInventory[itempos].SetPeriodItem();
+				lpObj.pInventory[itempos].SetPeriodItem();
 			}
 
 			return i;
@@ -216,19 +216,19 @@ int CPeriodItemEx::AddPeriodItemData(LPGameObject &lpObj, WORD ItemType, UINT64 
 	return -1;
 }
 
-BOOL CPeriodItemEx::RemovePeriodItemData(LPGameObject &lpObj, BYTE ItemType, WORD ItemIndex, UINT64 Serial)
+BOOL CPeriodItemEx::RemovePeriodItemData(CGameObject &lpObj, BYTE ItemType, WORD ItemIndex, UINT64 Serial)
 {
 	if ( !lpObj )
 	{
 		return FALSE;
 	}
 
-	if ( lpObj->Connected < PLAYER_LOGGED )
+	if ( lpObj.Connected < PLAYER_LOGGED )
 	{
 		return FALSE;
 	}
 
-	if ( lpObj->Type != OBJ_USER )
+	if ( lpObj.Type != OBJ_USER )
 	{
 		return FALSE;
 	}
@@ -261,26 +261,26 @@ BOOL CPeriodItemEx::RemovePeriodItemData(LPGameObject &lpObj, BYTE ItemType, WOR
 
 		this->SetDisableItemToExpire(lpObj, pos);
 		//auto-deleting
-		gObjInventoryDeleteItem(lpObj->m_Index, pos);
-		GSProtocol.GCInventoryItemDeleteSend(lpObj->m_Index, pos, 1);
-		gObjCalCharacter.CalcCharacter(lpObj->m_Index);
+		gObjInventoryDeleteItem(lpObj.m_Index, pos);
+		GSProtocol.GCInventoryItemDeleteSend(lpObj.m_Index, pos, 1);
+		gObjCalCharacter.CalcCharacter(lpObj.m_Index);
 		// ----
 		if (pos < 12)
 		{
 			if (pos == 10 || pos == 11)
 			{
-				gObjUseSkill.SkillChangeUse(lpObj->m_Index);
+				gObjUseSkill.SkillChangeUse(lpObj.m_Index);
 			}
 			// ----
-			gObjMakePreviewCharSet(lpObj->m_Index);
+			gObjMakePreviewCharSet(lpObj.m_Index);
 			PMSG_USEREQUIPMENTCHANGED pChange;
 			PHeadSetB((LPBYTE)&pChange, 0x25, sizeof(pChange));
-			pChange.NumberH = SET_NUMBERH(lpObj->m_Index);
-			pChange.NumberL = SET_NUMBERL(lpObj->m_Index);
-			ItemByteConvert(pChange.ItemInfo, lpObj->pInventory[pos]);
+			pChange.NumberH = SET_NUMBERH(lpObj.m_Index);
+			pChange.NumberL = SET_NUMBERL(lpObj.m_Index);
+			ItemByteConvert(pChange.ItemInfo, lpObj.pInventory[pos]);
 			pChange.ItemInfo[I_OPTION] = pos << 4;
-			pChange.ItemInfo[I_OPTION] |= LevelSmallConvert(lpObj->m_Index, pos) & MAX_ITEM_LEVEL;
-			pChange.Element = lpObj->m_iPentagramMainAttribute;
+			pChange.ItemInfo[I_OPTION] |= LevelSmallConvert(lpObj.m_Index, pos) & MAX_ITEM_LEVEL;
+			pChange.Element = lpObj.m_iPentagramMainAttribute;
 			if (pChange.ItemInfo[5] == 0xF0)
 				pChange.ItemInfo[5] = 0xF1;
 
@@ -300,19 +300,19 @@ BOOL CPeriodItemEx::RemovePeriodItemData(LPGameObject &lpObj, BYTE ItemType, WOR
 	return TRUE;
 }
 
-BOOL CPeriodItemEx::RemovePeriodItemDataByForce(LPGameObject &lpObj, WORD ItemType, UINT64 Serial)
+BOOL CPeriodItemEx::RemovePeriodItemDataByForce(CGameObject &lpObj, WORD ItemType, UINT64 Serial)
 {
 	if ( !lpObj )
 	{
 		return FALSE;
 	}
 
-	if ( lpObj->Connected < PLAYER_LOGGED )
+	if ( lpObj.Connected < PLAYER_LOGGED )
 	{
 		return FALSE;
 	}
 
-	if ( lpObj->Type != OBJ_USER )
+	if ( lpObj.Type != OBJ_USER )
 	{
 		return FALSE;
 	}
@@ -333,7 +333,7 @@ BOOL CPeriodItemEx::RemovePeriodItemDataByForce(LPGameObject &lpObj, WORD ItemTy
 	{
 		if ( this->m_PeriodData[i].btUsedInfo == TRUE )
 		{
-			if ( this->m_PeriodData[i].m_Obj->DBNumber == lpObj->DBNumber )
+			if ( this->m_PeriodData[i].m_Obj.DBNumber == lpObj.DBNumber )
 			{
 				for ( int iItemSlotIndex = 0; iItemSlotIndex < 30; iItemSlotIndex++ )
 				{
@@ -347,7 +347,7 @@ BOOL CPeriodItemEx::RemovePeriodItemDataByForce(LPGameObject &lpObj, WORD ItemTy
 						ItemData.Serial = Serial;
 						this->RequestPeriodItemDelete(lpObj, &ItemData);
 						this->m_PeriodData[i].m_ItemInfo[iItemSlotIndex].Clear();
-						gObjCalCharacter.CalcCharacter(lpObj->m_Index);
+						gObjCalCharacter.CalcCharacter(lpObj.m_Index);
 						return TRUE;
 					}
 				}
@@ -366,11 +366,11 @@ void CPeriodItemEx::CheckPeriodData()
 		{
 			if ( this->m_PeriodData[i].m_Obj )
 			{
-				LPGameObject lpObj = this->m_PeriodData[i].m_Obj;
+				CGameObject lpObj = this->m_PeriodData[i].m_Obj;
 
-				if ( lpObj->Type == OBJ_USER )
+				if ( lpObj.Type == OBJ_USER )
 				{
-					if ( lpObj->Connected >= PLAYER_LOGGED )
+					if ( lpObj.Connected >= PLAYER_LOGGED )
 					{
 						for ( int j=0; j<30; j++ )
 						{
@@ -382,8 +382,8 @@ void CPeriodItemEx::CheckPeriodData()
 									this->RemovePeriodItemData(lpObj, this->m_PeriodData[i].m_ItemInfo[j].btItemType, this->m_PeriodData[i].m_ItemInfo[j].wItemCode, this->m_PeriodData[i].m_ItemInfo[j].Serial);
 									this->m_PeriodData[i].m_ItemInfo[j].Clear();
 									this->m_PeriodData[i].btItemCount--;
-									gObjUseSkill.SkillChangeUse(lpObj->m_Index);
-									gObjCalCharacter.CalcCharacter(lpObj->m_Index);
+									gObjUseSkill.SkillChangeUse(lpObj.m_Index);
+									gObjCalCharacter.CalcCharacter(lpObj.m_Index);
 								}
 							}
 						}
@@ -421,19 +421,19 @@ time_t CPeriodItemEx::GetLeftDate(time_t ExpireDate)
 	return difftime;
 }
 
-BOOL CPeriodItemEx::SetPeriodItemInfo(LPGameObject &lpObj, WORD wItemCode, UINT64 Serial, DWORD dwDuration)
+BOOL CPeriodItemEx::SetPeriodItemInfo(CGameObject &lpObj, WORD wItemCode, UINT64 Serial, DWORD dwDuration)
 {
 	if ( lpObj == NULL )
 	{
 		return FALSE;
 	}
 
-	if ( lpObj->Connected < PLAYER_LOGGED )
+	if ( lpObj.Connected < PLAYER_LOGGED )
 	{
 		return FALSE;
 	}
 
-	if ( lpObj->Type != OBJ_USER )
+	if ( lpObj.Type != OBJ_USER )
 	{
 		return FALSE;
 	}
@@ -451,12 +451,12 @@ BOOL CPeriodItemEx::SetPeriodItemInfo(LPGameObject &lpObj, WORD wItemCode, UINT6
 			return FALSE;
 		}
 
-		lpObj->pInventory[pos].SetPeriodItem();
+		lpObj.pInventory[pos].SetPeriodItem();
 		this->AddPeriodItemData(lpObj, wItemCode, Serial, dwDuration);
 		m_ItemData.Clear();
 		m_ItemData.wItemCode = wItemCode;
 		m_ItemData.btItemType = PERIODITEM_NORMAL;
-		m_ItemData.Serial = lpObj->pInventory[pos].GetNumber();		
+		m_ItemData.Serial = lpObj.pInventory[pos].GetNumber();		
 		m_ItemData.btEffectCategory = 0;
 		m_ItemData.btEffectType1 = 0;
 		m_ItemData.btEffectType2 = 0;
@@ -498,19 +498,19 @@ BOOL CPeriodItemEx::SetPeriodItemInfo(LPGameObject &lpObj, WORD wItemCode, UINT6
 	return TRUE;
 }
 
-BOOL CPeriodItemEx::SetDisableItemToExpire(LPGameObject &lpObj, int pos)
+BOOL CPeriodItemEx::SetDisableItemToExpire(CGameObject &lpObj, int pos)
 {
 	if ( !lpObj )
 	{
 		return FALSE;
 	}
 
-	if ( lpObj->Connected < PLAYER_LOGGED )
+	if ( lpObj.Connected < PLAYER_LOGGED )
 	{
 		return FALSE;
 	}
 
-	if ( lpObj->Type != OBJ_USER )
+	if ( lpObj.Type != OBJ_USER )
 	{
 		return FALSE;
 	}
@@ -520,26 +520,26 @@ BOOL CPeriodItemEx::SetDisableItemToExpire(LPGameObject &lpObj, int pos)
 		return FALSE;
 	}
 
-	if ( lpObj->pInventory[pos].IsPeriodItem() == FALSE )
+	if ( lpObj.pInventory[pos].IsPeriodItem() == FALSE )
 	{
 		return FALSE;
 	}
 
-	lpObj->pInventory[pos].SetPeriodItemExpire();
-	GCItemListSend(lpObj->m_Index);
+	lpObj.pInventory[pos].SetPeriodItemExpire();
+	GCItemListSend(lpObj.m_Index);
 	this->OnRequestPeriodItemList(lpObj);
 
 	return TRUE;
 }
 
-void CPeriodItemEx::SetExpireNotMatchedData(LPGameObject &lpObj)
+void CPeriodItemEx::SetExpireNotMatchedData(CGameObject &lpObj)
 {
-	if ( lpObj->Type != OBJ_USER )
+	if ( lpObj.Type != OBJ_USER )
 	{
 		return;
 	}
 
-	if ( lpObj->m_PlayerData->m_iPeriodItemEffectIndex == -1 )
+	if ( lpObj.m_PlayerData->m_iPeriodItemEffectIndex == -1 )
 	{
 		return;
 	}
@@ -548,17 +548,17 @@ void CPeriodItemEx::SetExpireNotMatchedData(LPGameObject &lpObj)
 
 	for (int i=0;i<INVENTORY_SIZE;i++)
 	{
-		if ( lpObj->pInventory[i].IsItem() == TRUE &&
-			lpObj->pInventory[i].IsPeriodItem() == TRUE &&
-			lpObj->pInventory[i].IsPeriodItemExpire() == FALSE )
+		if ( lpObj.pInventory[i].IsItem() == TRUE &&
+			lpObj.pInventory[i].IsPeriodItem() == TRUE &&
+			lpObj.pInventory[i].IsPeriodItemExpire() == FALSE )
 		{
 			BOOL bItemFound = FALSE;
 
 			for (int j=0;j<30;j++)
 			{
-				if ( this->m_PeriodData[lpObj->m_PlayerData->m_iPeriodItemEffectIndex].m_ItemInfo[j].btUsedInfo == TRUE &&
-					this->m_PeriodData[lpObj->m_PlayerData->m_iPeriodItemEffectIndex].m_ItemInfo[j].wItemCode == lpObj->pInventory[i].m_Type &&
-					this->m_PeriodData[lpObj->m_PlayerData->m_iPeriodItemEffectIndex].m_ItemInfo[j].Serial == lpObj->pInventory[i].m_Number )
+				if ( this->m_PeriodData[lpObj.m_PlayerData->m_iPeriodItemEffectIndex].m_ItemInfo[j].btUsedInfo == TRUE &&
+					this->m_PeriodData[lpObj.m_PlayerData->m_iPeriodItemEffectIndex].m_ItemInfo[j].wItemCode == lpObj.pInventory[i].m_Type &&
+					this->m_PeriodData[lpObj.m_PlayerData->m_iPeriodItemEffectIndex].m_ItemInfo[j].Serial == lpObj.pInventory[i].m_Number )
 				{
 					bItemFound = TRUE;
 				}
@@ -566,7 +566,7 @@ void CPeriodItemEx::SetExpireNotMatchedData(LPGameObject &lpObj)
 
 			if ( bItemFound == FALSE )
 			{
-				lpObj->pInventory[i].SetPeriodItemExpire();
+				lpObj.pInventory[i].SetPeriodItemExpire();
 				ItemCount++;
 			}
 		}
@@ -574,29 +574,29 @@ void CPeriodItemEx::SetExpireNotMatchedData(LPGameObject &lpObj)
 
 	if ( ItemCount > 0 )
 	{
-		GCItemListSend(lpObj->m_Index);
+		GCItemListSend(lpObj.m_Index);
 	}
 }
 
-void CPeriodItemEx::RequestPeriodItemInfo(LPGameObject &lpObj)
+void CPeriodItemEx::RequestPeriodItemInfo(CGameObject &lpObj)
 {
 	PMSG_REQ_PERIODITEMEX_SELECT pMsg;
 
-	pMsg.dwUserGuid = lpObj->DBNumber;
-	pMsg.wUserIndex = lpObj->m_Index;
-	memcpy(pMsg.chCharacterName, lpObj->Name, MAX_ACCOUNT_LEN+1);
+	pMsg.dwUserGuid = lpObj.DBNumber;
+	pMsg.wUserIndex = lpObj.m_Index;
+	memcpy(pMsg.chCharacterName, lpObj.Name, MAX_ACCOUNT_LEN+1);
 	PHeadSubSetB((LPBYTE)&pMsg, 0xD0, 0x03, sizeof(pMsg));
 
 	wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
 }
 
-void CPeriodItemEx::RequestPeriodItemInsert(LPGameObject &lpObj, ITEM_DATA * lpItemData, DWORD dwDuration)
+void CPeriodItemEx::RequestPeriodItemInsert(CGameObject &lpObj, ITEM_DATA * lpItemData, DWORD dwDuration)
 {
 	PMSG_REQ_PERIODITEMEX_INSERT pMsg;
 
-	pMsg.dwUserGuid = lpObj->DBNumber;
-	pMsg.wUserIndex = lpObj->m_Index;
-	memcpy(pMsg.chCharacterName, lpObj->Name, MAX_ACCOUNT_LEN+1);
+	pMsg.dwUserGuid = lpObj.DBNumber;
+	pMsg.wUserIndex = lpObj.m_Index;
+	memcpy(pMsg.chCharacterName, lpObj.Name, MAX_ACCOUNT_LEN+1);
 
 	pMsg.btItemType = lpItemData->btItemType;
 	pMsg.wItemCode = lpItemData->wItemCode;
@@ -613,13 +613,13 @@ void CPeriodItemEx::RequestPeriodItemInsert(LPGameObject &lpObj, ITEM_DATA * lpI
 	wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
 }
 
-void CPeriodItemEx::RequestPeriodItemDelete(LPGameObject &lpObj, ITEM_DATA * lpItemData)
+void CPeriodItemEx::RequestPeriodItemDelete(CGameObject &lpObj, ITEM_DATA * lpItemData)
 {
 	PMSG_REQ_PERIODITEMEX_DELETE pMsg;
 
-	pMsg.dwUserGuid = lpObj->DBNumber;
-	pMsg.wUserIndex = lpObj->m_Index;
-	memcpy(pMsg.chCharacterName, lpObj->Name, MAX_ACCOUNT_LEN+1);
+	pMsg.dwUserGuid = lpObj.DBNumber;
+	pMsg.wUserIndex = lpObj.m_Index;
+	memcpy(pMsg.chCharacterName, lpObj.Name, MAX_ACCOUNT_LEN+1);
 
 	pMsg.btItemType = lpItemData->btItemType;
 	pMsg.wItemCode = lpItemData->wItemCode;
@@ -627,7 +627,7 @@ void CPeriodItemEx::RequestPeriodItemDelete(LPGameObject &lpObj, ITEM_DATA * lpI
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xD0, 0x02, sizeof(pMsg));
 	sLog->outBasic("[PeriodItemEx][Delete PeriodItem] Request Delete PeriodItem Data. User Id : %s(%d), Name : %s, Item : %s(%d), Type : %d, Serial : %I64d",
-		lpObj->AccountID, lpObj->DBNumber, lpObj->Name, ItemAttribute[lpItemData->wItemCode].Name, lpItemData->wItemCode, lpItemData->btItemType, lpItemData->Serial);
+		lpObj.AccountID, lpObj.DBNumber, lpObj.Name, ItemAttribute[lpItemData->wItemCode].Name, lpItemData->wItemCode, lpItemData->btItemType, lpItemData->Serial);
 	
 	wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
 }
@@ -642,14 +642,14 @@ void CPeriodItemEx::DGPeriodItemExInsert(PMSG_ANS_PERIODITEMEX_INSERT * lpMsg)
 		return;
 	}
 
-	LPGameObject lpObj = &gGameObjects[UserIndex];
+	CGameObject lpObj = &gGameObjects[UserIndex];
 
-	if ( lpObj->Connected < PLAYER_LOGGED )
+	if ( lpObj.Connected < PLAYER_LOGGED )
 	{
 		return;
 	}
 
-	if ( lpObj->Type != OBJ_USER )
+	if ( lpObj.Type != OBJ_USER )
 	{
 		return;
 	}
@@ -673,14 +673,14 @@ void CPeriodItemEx::DGPeriodItemExDelete(PMSG_ANS_PERIODITEMEX_DELETE * lpMsg)
 		return;
 	}
 
-	LPGameObject lpObj = &gGameObjects[UserIndex];
+	CGameObject lpObj = &gGameObjects[UserIndex];
 
-	if ( lpObj->Connected < PLAYER_LOGGED )
+	if ( lpObj.Connected < PLAYER_LOGGED )
 	{
 		return;
 	}
 
-	if ( lpObj->Type != OBJ_USER )
+	if ( lpObj.Type != OBJ_USER )
 	{
 		return;
 	}
@@ -692,7 +692,7 @@ void CPeriodItemEx::DGPeriodItemExDelete(PMSG_ANS_PERIODITEMEX_DELETE * lpMsg)
 	else
 	{
 		sLog->outBasic("[PeriodItemEx][Delete PeriodItem] OnRequest Delete PeriodItem Data. User Id : %s(%d), Name : %s, Result : %d",
-			lpObj->AccountID, lpObj->DBNumber, lpObj->Name, lpMsg->btResultCode);
+			lpObj.AccountID, lpObj.DBNumber, lpObj.Name, lpMsg->btResultCode);
 	}
 }
 
@@ -705,14 +705,14 @@ void CPeriodItemEx::DGPeriodItemExExpiredItemList(PMSG_ANS_PERIODITEMEX_EXPIRED_
 		return;
 	}
 
-	LPGameObject lpObj = &gGameObjects[UserIndex];
+	CGameObject lpObj = &gGameObjects[UserIndex];
 
-	if ( lpObj->Connected < PLAYER_LOGGED )
+	if ( lpObj.Connected < PLAYER_LOGGED )
 	{
 		return;
 	}
 
-	if ( lpObj->Type != OBJ_USER )
+	if ( lpObj.Type != OBJ_USER )
 	{
 		return;
 	}
@@ -726,7 +726,7 @@ void CPeriodItemEx::DGPeriodItemExExpiredItemList(PMSG_ANS_PERIODITEMEX_EXPIRED_
 		if ( pos != -1 )
 		{
 			sLog->outBasic("[PeriodItemEx][SetExpiredItemList] OnRequest Expired Item Set Disable. User Id : %s(%d), Name : %s, Item : %s(%d), Serial : %I64d",
-				lpObj->AccountID, lpObj->DBNumber, lpObj->Name, ItemAttribute[lpMsg->wItemCode[i]].Name, lpMsg->wItemCode[i], lpMsg->Serial[i]);
+				lpObj.AccountID, lpObj.DBNumber, lpObj.Name, ItemAttribute[lpMsg->wItemCode[i]].Name, lpMsg->wItemCode[i], lpMsg->Serial[i]);
 
 			this->SetDisableItemToExpire(lpObj, pos);
 		}
@@ -742,19 +742,19 @@ void CPeriodItemEx::DGPeriodItemExListCount(PMSG_ANS_PERIODITEMEX_LIST_COUNT * l
 		return;
 	}
 
-	LPGameObject lpObj = &gGameObjects[UserIndex];
+	CGameObject lpObj = &gGameObjects[UserIndex];
 
-	if ( lpObj->Connected < PLAYER_LOGGED )
+	if ( lpObj.Connected < PLAYER_LOGGED )
 	{
 		return;
 	}
 
-	if ( lpObj->Type != OBJ_USER )
+	if ( lpObj.Type != OBJ_USER )
 	{
 		return;
 	}
 
-	if ( lpMsg->dwUserGuid == lpObj->DBNumber )
+	if ( lpMsg->dwUserGuid == lpObj.DBNumber )
 	{
 		this->SetExpireNotMatchedData(lpObj);
 		this->OnRequestPeriodItemList(lpObj);
@@ -770,14 +770,14 @@ void CPeriodItemEx::DGPeriodItemExList(PMSG_ANS_PERIODITEMEX_LIST * lpMsg)
 		return;
 	}
 
-	LPGameObject lpObj = &gGameObjects[UserIndex];
+	CGameObject lpObj = &gGameObjects[UserIndex];
 
-	if ( lpObj->Connected < PLAYER_LOGGED )
+	if ( lpObj.Connected < PLAYER_LOGGED )
 	{
 		return;
 	}
 
-	if ( lpObj->Type != OBJ_USER )
+	if ( lpObj.Type != OBJ_USER )
 	{
 		return;
 	}
@@ -811,21 +811,21 @@ void CPeriodItemEx::DGPeriodItemExList(PMSG_ANS_PERIODITEMEX_LIST * lpMsg)
 	}
 }
 
-int CPeriodItemEx::GetItemFromInventory(LPGameObject &lpObj, WORD wItemCode, UINT64 Serial)
+int CPeriodItemEx::GetItemFromInventory(CGameObject &lpObj, WORD wItemCode, UINT64 Serial)
 {
 	int pos = -1;
 
 	if ( lpObj == NULL ) return -1;
-	if ( lpObj->Connected < PLAYER_LOGGED ) return -1;
-	if ( lpObj->Type != OBJ_USER ) return -1;
+	if ( lpObj.Connected < PLAYER_LOGGED ) return -1;
+	if ( lpObj.Type != OBJ_USER ) return -1;
 
 	for ( int i=0;i<INVENTORY_SIZE;i++ )
 	{
-		if (lpObj->pInventory[i].IsItem())
+		if (lpObj.pInventory[i].IsItem())
 		{
-			if (lpObj->pInventory[i].m_Type == wItemCode)
+			if (lpObj.pInventory[i].m_Type == wItemCode)
 			{
-				if (lpObj->pInventory[i].GetNumber() == Serial)
+				if (lpObj.pInventory[i].GetNumber() == Serial)
 				{
 					pos = i;
 					break;
@@ -837,15 +837,15 @@ int CPeriodItemEx::GetItemFromInventory(LPGameObject &lpObj, WORD wItemCode, UIN
 	return pos;
 }
 
-void CPeriodItemEx::OnRequestPeriodItemList(LPGameObject &lpObj)
+void CPeriodItemEx::OnRequestPeriodItemList(CGameObject &lpObj)
 {
 	PMSG_PROPERTYITEMCOUNT pMsg1;
 	PMSG_PROPERTYITEMINFO pMsg2;
 
-	if ( lpObj->Type != OBJ_USER )
+	if ( lpObj.Type != OBJ_USER )
 		return;
 
-	int PeriodIndex = lpObj->m_PlayerData->m_iPeriodItemEffectIndex;
+	int PeriodIndex = lpObj.m_PlayerData->m_iPeriodItemEffectIndex;
 
 	if (PeriodIndex == -1)
 		return;
@@ -873,7 +873,7 @@ void CPeriodItemEx::OnRequestPeriodItemList(LPGameObject &lpObj)
 	}
 }
 
-void CPeriodItemEx::OnRequestPeriodItemListOnce(LPGameObject &lpObj, ITEM_DATA * lpItemData)
+void CPeriodItemEx::OnRequestPeriodItemListOnce(CGameObject &lpObj, ITEM_DATA * lpItemData)
 {
 	if ( lpObj == NULL ) return;
 	if ( lpItemData == NULL ) return;
@@ -889,9 +889,9 @@ void CPeriodItemEx::OnRequestPeriodItemListOnce(LPGameObject &lpObj, ITEM_DATA *
 	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-BOOL CPeriodItemEx::SendPeriodItemInfoOnce(LPGameObject &lpObj, CItem * Item)
+BOOL CPeriodItemEx::SendPeriodItemInfoOnce(CGameObject &lpObj, CItem * Item)
 {
-	if ( lpObj->Type != OBJ_USER )
+	if ( lpObj.Type != OBJ_USER )
 	{
 		return FALSE;
 	}
@@ -901,14 +901,14 @@ BOOL CPeriodItemEx::SendPeriodItemInfoOnce(LPGameObject &lpObj, CItem * Item)
 		return FALSE;
 	}
 
-	int PeriodIndex = lpObj->m_PlayerData->m_iPeriodItemEffectIndex;
+	int PeriodIndex = lpObj.m_PlayerData->m_iPeriodItemEffectIndex;
 
 	if ( PeriodIndex == -1 )
 	{
 		return FALSE;
 	}
 
-	if ( this->m_PeriodData[PeriodIndex].btUsedInfo == TRUE && this->m_PeriodData[PeriodIndex].dwUserGuid == lpObj->DBNumber )
+	if ( this->m_PeriodData[PeriodIndex].btUsedInfo == TRUE && this->m_PeriodData[PeriodIndex].dwUserGuid == lpObj.DBNumber )
 	{
 		for ( int i=0; i<30; i++ )
 		{
@@ -923,9 +923,9 @@ BOOL CPeriodItemEx::SendPeriodItemInfoOnce(LPGameObject &lpObj, CItem * Item)
 	return FALSE;
 }
 
-BOOL CPeriodItemEx::SendPeriodItemInfoOnce(LPGameObject &lpObj, UINT64 Serial)
+BOOL CPeriodItemEx::SendPeriodItemInfoOnce(CGameObject &lpObj, UINT64 Serial)
 {
-	if ( lpObj->Type != OBJ_USER )
+	if ( lpObj.Type != OBJ_USER )
 	{
 		return FALSE;
 	}
@@ -935,14 +935,14 @@ BOOL CPeriodItemEx::SendPeriodItemInfoOnce(LPGameObject &lpObj, UINT64 Serial)
 		return FALSE;
 	}
 
-	int PeriodIndex = lpObj->m_PlayerData->m_iPeriodItemEffectIndex;
+	int PeriodIndex = lpObj.m_PlayerData->m_iPeriodItemEffectIndex;
 
 	if ( PeriodIndex == -1 )
 	{
 		return FALSE;
 	}
 
-	if ( this->m_PeriodData[PeriodIndex].btUsedInfo == TRUE && this->m_PeriodData[PeriodIndex].dwUserGuid == lpObj->DBNumber )
+	if ( this->m_PeriodData[PeriodIndex].btUsedInfo == TRUE && this->m_PeriodData[PeriodIndex].dwUserGuid == lpObj.DBNumber )
 	{
 		for ( int i=0; i<30; i++ )
 		{

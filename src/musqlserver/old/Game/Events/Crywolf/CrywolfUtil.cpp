@@ -154,16 +154,16 @@ void CCrywolfUtil::SendCrywolfChattingMsg(int iObjIndex, LPSTR lpszMsg, ...)
 {
 	return;
 
-	LPGameObject lpObj;
+	CGameObject lpObj;
 	char szBuffer[512];
 	va_list pArguments;
 	char szChat[60];
 
 	for (int i;i<MaxViewportMonster;i++)
 	{
-		if ( lpObj->VpPlayer2[i].state != FALSE )
+		if ( lpObj.VpPlayer2[i].state != FALSE )
 		{
-			int iTargetNumber = lpObj->VpPlayer2[i].number;
+			int iTargetNumber = lpObj.VpPlayer2[i].number;
 
 			if ( ObjectMaxRange(iTargetNumber) != FALSE )
 			{

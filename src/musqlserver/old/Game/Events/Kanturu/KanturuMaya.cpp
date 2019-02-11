@@ -93,7 +93,7 @@ void CKanturuMaya::KanturuMayaAct_Hands()
 
 				if (gGameObjects[iCount].MapNumber == MAP_INDEX_KANTURU_BOSS)	// #warning unuseful if
 				{
-					LPGameObject lpMayaHandObj = &gGameObjects[this->m_iMayaObjIndex];
+					CGameObject lpMayaHandObj = &gGameObjects[this->m_iMayaObjIndex];
 					gGameObjects[iCount].Life = 0;
 
 					gObjLifeCheck(&gGameObjects[iCount], lpMayaHandObj, gGameObjects[iCount].Life,

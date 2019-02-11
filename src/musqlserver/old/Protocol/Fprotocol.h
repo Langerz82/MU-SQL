@@ -38,16 +38,16 @@ public:
 
 	BOOL FriendDBConnect();
 
-	void FriendListRequest(LPGameObject &lpObj, FHP_FRIENDLIST_REQ* lpMsg);
-	void FriendStateClientRecv(LPGameObject &lpObj, FHP_FRIEND_STATE_C* lpMsg);
-	void FriendAddRequest(LPGameObject &lpObj, FHP_FRIEND_ADD_REQ* lpMsg);
-	void WaitFriendAddRequest(LPGameObject &lpObj, FHP_WAITFRIEND_ADD_REQ* lpMsg);
-	void FriendDelRequest(LPGameObject &lpObj, FHP_FRIEND_ADD_REQ* lpMsg);
+	void FriendListRequest(CGameObject &lpObj, FHP_FRIENDLIST_REQ* lpMsg);
+	void FriendStateClientRecv(CGameObject &lpObj, FHP_FRIEND_STATE_C* lpMsg);
+	void FriendAddRequest(CGameObject &lpObj, FHP_FRIEND_ADD_REQ* lpMsg);
+	void WaitFriendAddRequest(CGameObject &lpObj, FHP_WAITFRIEND_ADD_REQ* lpMsg);
+	void FriendDelRequest(CGameObject &lpObj, FHP_FRIEND_ADD_REQ* lpMsg);
 
-	void FriendMemoSend(LPGameObject &lpObj, FHP_FRIEND_MEMO_SEND* lpMsg);
-	void FriendMemoListReq(LPGameObject &lpObj, FHP_FRIEND_MEMO_LIST_REQ *lpMsg);
-	void FriendMemoReadReq(LPGameObject &lpObj, FHP_FRIEND_MEMO_RECV_REQ* lpMsg);
-	void FriendMemoDelReq(LPGameObject &lpObj, FHP_FRIEND_MEMO_DEL_REQ* lpMsg);
+	void FriendMemoSend(CGameObject &lpObj, FHP_FRIEND_MEMO_SEND* lpMsg);
+	void FriendMemoListReq(CGameObject &lpObj, FHP_FRIEND_MEMO_LIST_REQ *lpMsg);
+	void FriendMemoReadReq(CGameObject &lpObj, FHP_FRIEND_MEMO_RECV_REQ* lpMsg);
+	void FriendMemoDelReq(CGameObject &lpObj, FHP_FRIEND_MEMO_DEL_REQ* lpMsg);
 
 	int ExDBGetIndexByCode(int iServerCode);
 
@@ -61,13 +61,13 @@ public:
 	int GetFriendServer(char *szMaster);
 	int GetFriendNumber(char *szMaster);
 
-	void FriendListSend(LPGameObject &lpObj, char *szMaster);
+	void FriendListSend(CGameObject &lpObj, char *szMaster);
 
 	BOOL GetDBWaitFriend(char *szMaster, OUT char *szWaitFriend);
-	BOOL FriendWaitSend(LPGameObject &lpObj, char *szMaster);
+	BOOL FriendWaitSend(CGameObject &lpObj, char *szMaster);
 
-	void SendState(LPGameObject &lpObj, char *szMaster, int iNumber, char *szName, BYTE btState);
-	void SendStateToAllFriends(LPGameObject &lpObj, char *szMaster);
+	void SendState(CGameObject &lpObj, char *szMaster, int iNumber, char *szName, BYTE btState);
+	void SendStateToAllFriends(CGameObject &lpObj, char *szMaster);
 
 	BOOL AddFriend(char *szMaster, char *szFriend);
 	BOOL DelFriend(char *szMaster, char *szFriend);
@@ -78,7 +78,7 @@ public:
 	BOOL AddDBFriend(char *szMaster, char *szFriend);
 	BOOL DelDBFriend(char *szMaster, char *szFriend);
 
-	void FriendClose(LPGameObject &lpObj, LPBYTE lpMsg);
+	void FriendClose(CGameObject &lpObj, LPBYTE lpMsg);
 
 	BOOL CreateFriendMaster(char *szMaster);
 	BOOL CreateFriendMaster(char *szMaster, int iNumber, int iServer);
@@ -86,8 +86,8 @@ public:
 
 	FRIEND_MASTER* GetFriendMaster(char *szMaster);
 
-	void MemoHeaderSend(LPGameObject &lpObj, WORD wNumber, MEMO_HEADER * lpMemoHead );
-	void MemoListSend(LPGameObject &lpObj, WORD wNumber, char *szName);
+	void MemoHeaderSend(CGameObject &lpObj, WORD wNumber, MEMO_HEADER * lpMemoHead );
+	void MemoListSend(CGameObject &lpObj, WORD wNumber, char *szName);
 
 	int DBWriteMail(MEMO_SEND_HEADER * lpMemoSendHdr, LPBYTE Photo, BYTE btPhotoSize, char *sMemo, int memo_size);
 	int DBReadMail(int iMemoId, int iGuid, MEMO_READ * lpMemoRead, LPDWORD lpdwMemoSize, LPBYTE lpPhoto, LPBYTE lpPhotoSize);

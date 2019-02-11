@@ -110,7 +110,7 @@ void CEvolutionMonsterMng::LoadFile(char *szFile)
 	this->m_bLoadFile = true;
 }
 
-bool CEvolutionMonsterMng::UseSummonScroll(LPGameObject &lpObj)
+bool CEvolutionMonsterMng::UseSummonScroll(CGameObject &lpObj)
 {
 	PMSG_EVOMON_SUMMON_RESULT pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x3E, 0x03, sizeof(pMsg));
@@ -130,19 +130,19 @@ bool CEvolutionMonsterMng::UseSummonScroll(LPGameObject &lpObj)
 		return false;
 	}
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
 	if (!lpObj)
 	{
 		return false;
 	}
 
-	if (lpObj->CloseType != -1)
+	if (lpObj.CloseType != -1)
 	{
 		return false;
 	}
 
-	CEvolutionMonsterInfo * pEvoMonInfo = lpObj->m_PlayerData->m_pCEvoMonInfo;
+	CEvolutionMonsterInfo * pEvoMonInfo = lpObj.m_PlayerData->m_pCEvoMonInfo;
 
 	if (!pEvoMonInfo)
 	{
@@ -174,7 +174,7 @@ bool CEvolutionMonsterMng::UseSummonScroll(LPGameObject &lpObj)
 		}
 	}
 
-	int nPartyNumber = lpObj->PartyNumber;
+	int nPartyNumber = lpObj.PartyNumber;
 
 	if (nPartyNumber != -1)
 	{
@@ -202,7 +202,7 @@ bool CEvolutionMonsterMng::UseSummonScroll(LPGameObject &lpObj)
 		}
 	}
 
-	if (this->IsEventMap(lpObj->MapNumber, lpObj->X, lpObj->Y) == true)
+	if (this->IsEventMap(lpObj.MapNumber, lpObj.X, lpObj.Y) == true)
 	{
 		
 		pMsg.btResult = 4;
@@ -232,7 +232,7 @@ bool CEvolutionMonsterMng::UseSummonScroll(LPGameObject &lpObj)
 	return true;
 }
 
-int CEvolutionMonsterMng::SummonEvoMon(LPGameObject &lpObj)
+int CEvolutionMonsterMng::SummonEvoMon(CGameObject &lpObj)
 {
 	LPMONSTER_ATTRIBUTE lpMonsterAttr = gMAttr.GetAttr(681);
 	
@@ -241,7 +241,7 @@ int CEvolutionMonsterMng::SummonEvoMon(LPGameObject &lpObj)
 		return -1;
 	}
 
-	int nResult = gObjAddMonster(lpObj->MapNumber);
+	int nResult = gObjAddMonster(lpObj.MapNumber);
 
 	if (nResult < 0)
 	{
@@ -249,13 +249,13 @@ int CEvolutionMonsterMng::SummonEvoMon(LPGameObject &lpObj)
 	}
 
 	gGameObjects[nResult].m_Disappear_Monster = GetTickCount();
-	gGameObjects[nResult].m_nEvoMonOwnerIndex = lpObj->m_Index;
+	gGameObjects[nResult].m_nEvoMonOwnerIndex = lpObj.m_Index;
 	gObjSetMonster(nResult, lpMonsterAttr->m_Index);
 	gGameObjects[nResult].DieRegen = 0;
 	gGameObjects[nResult].m_PosNum = -1;
-	gGameObjects[nResult].X = lpObj->X;
-	gGameObjects[nResult].Y = lpObj->Y;
-	gGameObjects[nResult].MapNumber = lpObj->MapNumber;
+	gGameObjects[nResult].X = lpObj.X;
+	gGameObjects[nResult].Y = lpObj.Y;
+	gGameObjects[nResult].MapNumber = lpObj.MapNumber;
 	gGameObjects[nResult].TX = gGameObjects[nResult].X;
 	gGameObjects[nResult].TY = gGameObjects[nResult].Y;
 	gGameObjects[nResult].m_OldX = gGameObjects[nResult].X;
@@ -299,33 +299,33 @@ int CEvolutionMonsterMng::SetField(int iEvoMonIndex, int nFieldIndex, int nOwner
 	return nFieldIndex;
 }
 
-void CEvolutionMonsterMng::EvolutionMonsterDie(LPGameObject & lpTargetObj, LPGameObject &lpObj)
+void CEvolutionMonsterMng::EvolutionMonsterDie(CGameObject & lpTargetObj, CGameObject &lpObj)
 {
 	if (!lpTargetObj)
 	{
 		return;
 	}
 
-	int nEvoMonOwnerIndex = lpTargetObj->m_nEvoMonOwnerIndex;
+	int nEvoMonOwnerIndex = lpTargetObj.m_nEvoMonOwnerIndex;
 
 	if (!ObjectMaxRange(nEvoMonOwnerIndex))
 	{
 		return;
 	}
 
-	LPGameObject lpOwnerObj = &gGameObjects[nEvoMonOwnerIndex];
+	CGameObject lpOwnerObj = &gGameObjects[nEvoMonOwnerIndex];
 
-	if (lpOwnerObj->Type != OBJ_USER)
+	if (lpOwnerObj.Type != OBJ_USER)
 	{
 		return;
 	}
 
-	if (lpOwnerObj->CloseType != -1)
+	if (lpOwnerObj.CloseType != -1)
 	{
 		return;
 	}
 
-	CEvolutionMonsterInfo * pEvoMonInfo = lpOwnerObj->m_PlayerData->m_pCEvoMonInfo;
+	CEvolutionMonsterInfo * pEvoMonInfo = lpOwnerObj.m_PlayerData->m_pCEvoMonInfo;
 
 	if (!pEvoMonInfo)
 	{
@@ -362,15 +362,15 @@ void CEvolutionMonsterMng::EvolutionMonsterDie(LPGameObject & lpTargetObj, LPGam
 
 	this->GCSendUserScore(lpOwnerObj, pEvoMonInfo->GetEvoMonLevel());
 
-	if (lpTargetObj->Class == 690)
+	if (lpTargetObj.Class == 690)
 	{
 		PMSG_NOTICE pNotice;
-		TNotice::MakeNoticeMsgEx(&pNotice, 0, "%s has killed Special EvoMon", lpObj->Name);
+		TNotice::MakeNoticeMsgEx(&pNotice, 0, "%s has killed Special EvoMon", lpObj.Name);
 		TNotice::SendNoticeToAllUser(&pNotice);
 
 		if (gObjCalDistance(lpOwnerObj, lpTargetObj) < 6)
 		{
-			int nPartyNumber = lpOwnerObj->PartyNumber;
+			int nPartyNumber = lpOwnerObj.PartyNumber;
 
 			if (nPartyNumber < 0)
 			{
@@ -385,7 +385,7 @@ void CEvolutionMonsterMng::EvolutionMonsterDie(LPGameObject & lpTargetObj, LPGam
 
 					if (nPartyIndex != -1)
 					{
-						LPGameObject lpPartyObj = &gGameObjects[nPartyIndex];
+						CGameObject lpPartyObj = &gGameObjects[nPartyIndex];
 						this->GiveReward(lpPartyObj, true);
 					}
 				}
@@ -401,7 +401,7 @@ void CEvolutionMonsterMng::EvolutionMonsterDie(LPGameObject & lpTargetObj, LPGam
 		pEvoMonInfo->SetFieldIndex(-1);
 	}
 
-	nFieldIndex = gObjAddMonster(lpOwnerObj->MapNumber);
+	nFieldIndex = gObjAddMonster(lpOwnerObj.MapNumber);
 
 	if (nFieldIndex < 0)
 	{
@@ -414,10 +414,10 @@ void CEvolutionMonsterMng::EvolutionMonsterDie(LPGameObject & lpTargetObj, LPGam
 
 	if (It == this->m_mapEvoMonData.end())
 	{
-		MsgOutput(lpOwnerObj->m_Index, "You have reached maximum level of Evomon");
+		MsgOutput(lpOwnerObj.m_Index, "You have reached maximum level of Evomon");
 
 		this->GiveReward(lpOwnerObj, false);
-		this->GDReqSaveEvoMonScore(lpOwnerObj->m_Index, pEvoMonInfo->GetScore(), pEvoMonInfo->GetTotalDamage());
+		this->GDReqSaveEvoMonScore(lpOwnerObj.m_Index, pEvoMonInfo->GetScore(), pEvoMonInfo->GetTotalDamage());
 
 		pEvoMonInfo->SetState(EVOMON_NOT_ACTIVE);
 		return;
@@ -443,60 +443,60 @@ void CEvolutionMonsterMng::EvolutionMonsterDie(LPGameObject & lpTargetObj, LPGam
 		nFieldClass = 704;
 	}
 
-	this->SetField(lpTargetObj->m_Index, nFieldIndex, nEvoMonOwnerIndex, nFieldClass);
+	this->SetField(lpTargetObj.m_Index, nFieldIndex, nEvoMonOwnerIndex, nFieldClass);
 	pEvoMonInfo->SetState(EVOMON_KILLED);
 }
 
-void CEvolutionMonsterMng::FieldProcess(LPGameObject & lpFieldObj)
+void CEvolutionMonsterMng::FieldProcess(CGameObject & lpFieldObj)
 {
 	if (!lpFieldObj)
 	{
 		return;
 	}
 
-	int nEvoMonOwnerIndex = lpFieldObj->m_nEvoMonOwnerIndex;
+	int nEvoMonOwnerIndex = lpFieldObj.m_nEvoMonOwnerIndex;
 
 	if (!ObjectMaxRange(nEvoMonOwnerIndex))
 	{
-		gObjDel(lpFieldObj->m_Index);
+		gObjDel(lpFieldObj.m_Index);
 		return;
 	}
 
-	LPGameObject lpOwnerObj = &gGameObjects[nEvoMonOwnerIndex];
+	CGameObject lpOwnerObj = &gGameObjects[nEvoMonOwnerIndex];
 
-	if (lpOwnerObj->Type != OBJ_USER)
+	if (lpOwnerObj.Type != OBJ_USER)
 	{
-		gObjDel(lpFieldObj->m_Index);
+		gObjDel(lpFieldObj.m_Index);
 		return;
 	}
 
-	if (lpOwnerObj->CloseType != -1)
+	if (lpOwnerObj.CloseType != -1)
 	{
-		gObjDel(lpFieldObj->m_Index);
+		gObjDel(lpFieldObj.m_Index);
 		return;
 	}
 
-	CEvolutionMonsterInfo * pEvoMonInfo = lpOwnerObj->m_PlayerData->m_pCEvoMonInfo;
+	CEvolutionMonsterInfo * pEvoMonInfo = lpOwnerObj.m_PlayerData->m_pCEvoMonInfo;
 
 	if (!pEvoMonInfo)
 	{
-		gObjDel(lpFieldObj->m_Index);
+		gObjDel(lpFieldObj.m_Index);
 		return;
 	}
 
 	if (pEvoMonInfo->GetState() == EVOMON_KILLED)
 	{
-		if (lpFieldObj->Class == 704)
+		if (lpFieldObj.Class == 704)
 		{
 			gObjAddBuffEffect(lpFieldObj, BUFFTYPE_EVOMON_SUCCESS, 0, 0, 0, 0, -10);
 			MsgOutput(nEvoMonOwnerIndex, "Awakening succeeded. After a moment, awakened monster appear.");
 
 			pEvoMonInfo->SetState(EVOMON_AWAKENING);
 
-			lpFieldObj->m_Disappear_Monster = GetTickCount() + 2000;
+			lpFieldObj.m_Disappear_Monster = GetTickCount() + 2000;
 		}
 
-		else if (lpFieldObj->Class == 705)
+		else if (lpFieldObj.Class == 705)
 		{
 			gObjAddBuffEffect(lpFieldObj, BUFFTYPE_EVOMON_FAILED, 0, 0, 0, 0, -10);
 			MsgOutput(nEvoMonOwnerIndex, "Awakening failed. Awakening has failed due to low chance.");
@@ -504,7 +504,7 @@ void CEvolutionMonsterMng::FieldProcess(LPGameObject & lpFieldObj)
 			pEvoMonInfo->SetState(EVOMON_AWAKE_FAILED);
 			this->GiveReward(lpOwnerObj, false);
 
-			lpFieldObj->m_Disappear_Monster = GetTickCount();
+			lpFieldObj.m_Disappear_Monster = GetTickCount();
 		}
 	}
 
@@ -520,57 +520,57 @@ void CEvolutionMonsterMng::FieldProcess(LPGameObject & lpFieldObj)
 	}
 }
 
-void CEvolutionMonsterMng::EndTimeProcess(LPGameObject & lpMonsterObj)
+void CEvolutionMonsterMng::EndTimeProcess(CGameObject & lpMonsterObj)
 {
 	if (!lpMonsterObj)
 	{
 		return;
 	}
 
-	int nEvoMonOwnerIndex = lpMonsterObj->m_nEvoMonOwnerIndex;
+	int nEvoMonOwnerIndex = lpMonsterObj.m_nEvoMonOwnerIndex;
 
 	if (!ObjectMaxRange(nEvoMonOwnerIndex))
 	{
 		return;
 	}
 
-	LPGameObject lpOwnerObj = &gGameObjects[nEvoMonOwnerIndex];
+	CGameObject lpOwnerObj = &gGameObjects[nEvoMonOwnerIndex];
 
-	if (lpOwnerObj->Type != OBJ_USER)
+	if (lpOwnerObj.Type != OBJ_USER)
 	{
 		return;
 	}
 
-	if (lpOwnerObj->CloseType != -1)
+	if (lpOwnerObj.CloseType != -1)
 	{
 		return;
 	}
 
-	CEvolutionMonsterInfo * pEvoMonInfo = lpOwnerObj->m_PlayerData->m_pCEvoMonInfo;
+	CEvolutionMonsterInfo * pEvoMonInfo = lpOwnerObj.m_PlayerData->m_pCEvoMonInfo;
 
 	if (!pEvoMonInfo)
 	{
 		return;
 	}
 
-	MsgOutput(lpOwnerObj->m_Index, "You have reached a maximum time, EvoMon disappeared");
+	MsgOutput(lpOwnerObj.m_Index, "You have reached a maximum time, EvoMon disappeared");
 	
 	this->EndEvoMon(lpOwnerObj);
 }
 
-void CEvolutionMonsterMng::EvoluteMonster(LPGameObject &lpObj)
+void CEvolutionMonsterMng::EvoluteMonster(CGameObject &lpObj)
 {
 	if (!lpObj)
 	{
 		return;
 	}
 
-	if (lpObj->CloseType != -1)
+	if (lpObj.CloseType != -1)
 	{
 		return;
 	}
 
-	CEvolutionMonsterInfo * pEvoMonInfo = lpObj->m_PlayerData->m_pCEvoMonInfo;
+	CEvolutionMonsterInfo * pEvoMonInfo = lpObj.m_PlayerData->m_pCEvoMonInfo;
 
 	if (!pEvoMonInfo)
 	{
@@ -622,13 +622,13 @@ void CEvolutionMonsterMng::EvoluteMonster(LPGameObject &lpObj)
 			nMonsterClass = 690;
 
 			PMSG_NOTICE pNotice;
-			TNotice::MakeNoticeMsgEx(&pNotice, 0, "%s has summoned Special EvoMon", lpObj->Name);
+			TNotice::MakeNoticeMsgEx(&pNotice, 0, "%s has summoned Special EvoMon", lpObj.Name);
 			TNotice::SendNoticeToAllUser(&pNotice);
 		}
 	}
 
 	gGameObjects[nEvoMonIndex].m_Disappear_Monster = GetTickCount();
-	gGameObjects[nEvoMonIndex].m_nEvoMonOwnerIndex = lpObj->m_Index;
+	gGameObjects[nEvoMonIndex].m_nEvoMonOwnerIndex = lpObj.m_Index;
 	gObjSetMonster(nEvoMonIndex, nMonsterClass);
 	gGameObjects[nEvoMonIndex].Level = pEvoMonInfo->GetEvoMonLevel();
 	this->SetMonsterStats(&gGameObjects[nEvoMonIndex], It->second);
@@ -648,63 +648,63 @@ void CEvolutionMonsterMng::EvoluteMonster(LPGameObject &lpObj)
 
 }
 
-void CEvolutionMonsterMng::SetMonsterStats(LPGameObject & lpMonsterObj, EVOMON_MONSTER_DATA MonsterData)
+void CEvolutionMonsterMng::SetMonsterStats(CGameObject & lpMonsterObj, EVOMON_MONSTER_DATA MonsterData)
 {
-	if (lpMonsterObj->Class == 690)
+	if (lpMonsterObj.Class == 690)
 	{
 		return;
 	}
 
-	LPMONSTER_ATTRIBUTE lpAttr = gMAttr.GetAttr(lpMonsterObj->Class);
+	LPMONSTER_ATTRIBUTE lpAttr = gMAttr.GetAttr(lpMonsterObj.Class);
 
 	if (lpAttr == NULL)
 	{
 		return;
 	}
 
-	lpMonsterObj->Life = lpAttr->m_Hp * MonsterData.m_fHp;
-	lpMonsterObj->MaxLife = lpAttr->m_Hp * MonsterData.m_fHp;
-	lpMonsterObj->m_AttackDamageMin = lpAttr->m_DamageMin * MonsterData.m_fDamage;
-	lpMonsterObj->m_AttackDamageMax = lpAttr->m_DamageMax * MonsterData.m_fDamage;
-	lpMonsterObj->m_Defense = lpAttr->m_Defense * MonsterData.m_fDefense;
-	lpMonsterObj->m_MagicDefense = lpAttr->m_MagicDefense * MonsterData.m_fDefense;
-	lpMonsterObj->m_AttackRating = lpAttr->m_AttackRating * MonsterData.m_fAtkRate;
-	lpMonsterObj->m_SuccessfulBlocking = lpAttr->m_Successfulblocking * MonsterData.m_fDefRate;
+	lpMonsterObj.Life = lpAttr->m_Hp * MonsterData.m_fHp;
+	lpMonsterObj.MaxLife = lpAttr->m_Hp * MonsterData.m_fHp;
+	lpMonsterObj.m_AttackDamageMin = lpAttr->m_DamageMin * MonsterData.m_fDamage;
+	lpMonsterObj.m_AttackDamageMax = lpAttr->m_DamageMax * MonsterData.m_fDamage;
+	lpMonsterObj.m_Defense = lpAttr->m_Defense * MonsterData.m_fDefense;
+	lpMonsterObj.m_MagicDefense = lpAttr->m_MagicDefense * MonsterData.m_fDefense;
+	lpMonsterObj.m_AttackRating = lpAttr->m_AttackRating * MonsterData.m_fAtkRate;
+	lpMonsterObj.m_SuccessfulBlocking = lpAttr->m_Successfulblocking * MonsterData.m_fDefRate;
 }
 
-void CEvolutionMonsterMng::EndEvoMon(LPGameObject &lpObj)
+void CEvolutionMonsterMng::EndEvoMon(CGameObject &lpObj)
 {
 	if (!lpObj)
 	{
 		return;
 	}
 
-	if (lpObj->CloseType != -1)
+	if (lpObj.CloseType != -1)
 	{
 		return;
 	}
 
-	CEvolutionMonsterInfo * pEvoMonInfo = lpObj->m_PlayerData->m_pCEvoMonInfo;
+	CEvolutionMonsterInfo * pEvoMonInfo = lpObj.m_PlayerData->m_pCEvoMonInfo;
 
 	if (!pEvoMonInfo)
 	{
 		return;
 	}
 
-	this->GDReqSaveEvoMonScore(lpObj->m_Index, pEvoMonInfo->GetScore(), pEvoMonInfo->GetTotalDamage());
+	this->GDReqSaveEvoMonScore(lpObj.m_Index, pEvoMonInfo->GetScore(), pEvoMonInfo->GetTotalDamage());
 	pEvoMonInfo->Clear();
 	pEvoMonInfo->SetState(EVOMON_NOT_ACTIVE);
 
 }
 
-void CEvolutionMonsterMng::UserQuit(LPGameObject &lpObj)
+void CEvolutionMonsterMng::UserQuit(CGameObject &lpObj)
 {
 	if (!lpObj)
 	{
 		return;
 	}
 
-	CEvolutionMonsterInfo * pEvoMonInfo = lpObj->m_PlayerData->m_pCEvoMonInfo;
+	CEvolutionMonsterInfo * pEvoMonInfo = lpObj.m_PlayerData->m_pCEvoMonInfo;
 
 	if (!pEvoMonInfo)
 	{
@@ -716,12 +716,12 @@ void CEvolutionMonsterMng::UserQuit(LPGameObject &lpObj)
 	
 	}
 
-	this->GDReqSaveEvoMonScore(lpObj->m_Index, pEvoMonInfo->GetScore(), pEvoMonInfo->GetTotalDamage());
+	this->GDReqSaveEvoMonScore(lpObj.m_Index, pEvoMonInfo->GetScore(), pEvoMonInfo->GetTotalDamage());
 	pEvoMonInfo->Clear();
 	pEvoMonInfo->SetState(EVOMON_NOT_ACTIVE);
 }
 
-void CEvolutionMonsterMng::GCSendUserScore(LPGameObject &lpObj, int nScore)
+void CEvolutionMonsterMng::GCSendUserScore(CGameObject &lpObj, int nScore)
 {
 	PMSG_EVOMON_SCORE pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x3E, 0x11, sizeof(pMsg));
@@ -730,7 +730,7 @@ void CEvolutionMonsterMng::GCSendUserScore(LPGameObject &lpObj, int nScore)
 	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void CEvolutionMonsterMng::GCSendEvoMonNotice(LPGameObject &lpObj)
+void CEvolutionMonsterMng::GCSendEvoMonNotice(CGameObject &lpObj)
 {
 	PMSG_RANKING_SET pMsg;
 	PHeadSetB((LPBYTE)&pMsg, 0x49, sizeof(pMsg));
@@ -746,19 +746,19 @@ void CEvolutionMonsterMng::GCSendEvoMonNotice(LPGameObject &lpObj)
 	}
 }
 
-void CEvolutionMonsterMng::GiveReward(LPGameObject &lpObj, bool bSpecialEvoMon)
+void CEvolutionMonsterMng::GiveReward(CGameObject &lpObj, bool bSpecialEvoMon)
 {
 	if (!lpObj)
 	{
 		return;
 	}
 
-	if (lpObj->CloseType != -1)
+	if (lpObj.CloseType != -1)
 	{
 		return;
 	}
 
-	CEvolutionMonsterInfo * pEvoMonInfo = lpObj->m_PlayerData->m_pCEvoMonInfo;
+	CEvolutionMonsterInfo * pEvoMonInfo = lpObj.m_PlayerData->m_pCEvoMonInfo;
 
 	if (!pEvoMonInfo)
 	{
@@ -779,7 +779,7 @@ void CEvolutionMonsterMng::GiveReward(LPGameObject &lpObj, bool bSpecialEvoMon)
 		stItem.btRewardSource = GC_REWARD_GM_REWARD;
 		stItem.wItemID = iItemType;
 
-		g_GremoryCase.GDReqAddItemToGremoryCase(lpObj->m_Index, stItem, 7);
+		g_GremoryCase.GDReqAddItemToGremoryCase(lpObj.m_Index, stItem, 7);
 	}
 
 	else
@@ -812,7 +812,7 @@ void CEvolutionMonsterMng::GiveReward(LPGameObject &lpObj, bool bSpecialEvoMon)
 		stItem.btRewardSource = GC_REWARD_EVOMON;
 		stItem.wItemID = iItemType;
 
-		g_GremoryCase.GDReqAddItemToGremoryCase(lpObj->m_Index, stItem, 7);
+		g_GremoryCase.GDReqAddItemToGremoryCase(lpObj.m_Index, stItem, 7);
 	}
 }
 
@@ -933,13 +933,13 @@ int CEvolutionMonsterMng::GetOwnerIndex(int iMonsterIndex)
 	return gGameObjects[iMonsterIndex].m_nEvoMonOwnerIndex;
 }
 
-void CEvolutionMonsterMng::GDReqEvoMonMaxScore(LPGameObject &lpObj)
+void CEvolutionMonsterMng::GDReqEvoMonMaxScore(CGameObject &lpObj)
 {
 	PMSG_REQ_EVOMON_MAXSCORE pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x3E, 0x00, sizeof(pMsg));
 
 	pMsg.nUserIndex = aIndex;
-	memcpy(pMsg.szName, lpObj->Name, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.szName, lpObj.Name, MAX_ACCOUNT_LEN + 1);
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
@@ -966,12 +966,12 @@ void CEvolutionMonsterMng::DGAnsEvoMonMaxScore(LPBYTE lpRecv)
 
 }
 
-void CEvolutionMonsterMng::GDReqSaveEvoMonScore(LPGameObject &lpObj, int nScore, int nTotalDamage)
+void CEvolutionMonsterMng::GDReqSaveEvoMonScore(CGameObject &lpObj, int nScore, int nTotalDamage)
 {
 	PMSG_REQ_SAVE_EVOMON_RESULT pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x3E, 0x01, sizeof(pMsg));
 
-	memcpy(pMsg.szName, lpObj->Name, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.szName, lpObj.Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.nUserIndex = aIndex;
 	pMsg.nScore = nScore;
 	pMsg.nTotalDamage = nTotalDamage;

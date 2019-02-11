@@ -30,14 +30,14 @@ BOOL CXMasMonsterHerd::Start()
 	return this->MonsterHerd::Start();
 }
 
-BOOL CXMasMonsterHerd::MonsterHerdItemDrop(LPGameObject &lpObj)
+BOOL CXMasMonsterHerd::MonsterHerdItemDrop(CGameObject &lpObj)
 {
 	
-	if ( lpObj->Class == 476 )
+	if ( lpObj.Class == 476 )
 	{
 		int iIndex = gObjMonsterTopHitDamageUser(lpObj);
 		int itemnumber = ItemGetNumberMake(13, 66);
-		ItemSerialCreateSend(lpObj->m_Index, lpObj->MapNumber, lpObj->X, lpObj->Y, itemnumber, 0, 0, 0, 0, 0, iIndex, 0, 0, 0, 0, 0);
+		ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, itemnumber, 0, 0, 0, 0, 0, iIndex, 0, 0, 0, 0, 0);
 
 		int buff = rand()%3;
 		int count = 0;
@@ -75,18 +75,18 @@ BOOL CXMasMonsterHerd::MonsterHerdItemDrop(LPGameObject &lpObj)
 
 	}
 	
-	if ( lpObj->Class == 466)
+	if ( lpObj.Class == 466)
 	{
 		if ( (rand()%100) < g_XMasAttackEvent.GetSantaItemDropRate() )
 		{
 			int iIndex = gObjMonsterTopHitDamageUser(lpObj);
 			int itemnumber = ItemGetNumberMake(13, 66);	// Wizards XMas
-			ItemSerialCreateSend(lpObj->m_Index, lpObj->MapNumber, lpObj->X, lpObj->Y,
+			ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y,
 				itemnumber, 0, 30, 0, 0, 0, iIndex, 0, 0, 0, 0, 0);
 			return TRUE;
 		}
 
-		MapC[lpObj->MapNumber].MoneyItemDrop(10000, (BYTE)lpObj->X, (BYTE)lpObj->Y);
+		MapC[lpObj.MapNumber].MoneyItemDrop(10000, (BYTE)lpObj.X, (BYTE)lpObj.Y);
 		return TRUE;
 	}
 
@@ -94,7 +94,7 @@ BOOL CXMasMonsterHerd::MonsterHerdItemDrop(LPGameObject &lpObj)
 
 }
 
-void CXMasMonsterHerd::MonsterAttackAction(LPGameObject &lpObj, LPGameObject lpTargetObj)
+void CXMasMonsterHerd::MonsterAttackAction(CGameObject &lpObj, CGameObject lpTargetObj)
 {
 	if ( gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STONE) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STUN) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_SLEEP) ||
 		gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_FREEZE_2) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_EARTH_BINDS))
@@ -112,17 +112,17 @@ void CXMasMonsterHerd::MonsterAttackAction(LPGameObject &lpObj, LPGameObject lpT
 		return;
 	}
 
-	if ( lpObj->Connected < PLAYER_PLAYING || lpObj->Type != OBJ_MONSTER )
+	if ( lpObj.Connected < PLAYER_PLAYING || lpObj.Type != OBJ_MONSTER )
 	{
 		return;
 	}
 
-	if ( lpTargetObj->Connected < PLAYER_PLAYING )
+	if ( lpTargetObj.Connected < PLAYER_PLAYING )
 	{
 		return;
 	}
 
-	if ( lpObj->Class == 135 )
+	if ( lpObj.Class == 135 )
 	{
 		this->OrderAttack(lpObj, lpTargetObj, 90 );
 	}

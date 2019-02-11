@@ -159,14 +159,14 @@ BOOL CWeapon::GetTargetPointXY(int iObjClass, int iTargetPointIndex, BYTE &btX, 
 }
 
 
-BOOL CWeapon::MissCheck(LPGameObject &lpObj, LPGameObject lpTargetObj, int iSkill, int iSkillSuccess, BOOL& bAllMiss)
+BOOL CWeapon::MissCheck(CGameObject &lpObj, CGameObject lpTargetObj, int iSkill, int iSkillSuccess, BOOL& bAllMiss)
 {
 	return TRUE;
 }
 
 
 
-BOOL CWeapon::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf * lpMagic, int iCriticalDamage, int iActionType)
+BOOL CWeapon::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf * lpMagic, int iCriticalDamage, int iActionType)
 {
 	int iSkill = 0;
 	int iSkillSuccess = TRUE;
@@ -178,17 +178,17 @@ BOOL CWeapon::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf * 
 		iSkill = lpMagic->m_Skill;
 	}
 
-	if ( (lpTargetObj->Authority & 2) == 2 || (lpTargetObj->Authority & 0x20) == 0x20 )
+	if ( (lpTargetObj.Authority & 2) == 2 || (lpTargetObj.Authority & 0x20) == 0x20 )
 	{
 		return FALSE;
 	}
 
-	if ( lpObj->MapNumber != lpTargetObj->MapNumber )
+	if ( lpObj.MapNumber != lpTargetObj.MapNumber )
 	{
 		return FALSE;
 	}
 
-	if ( lpTargetObj->Type == OBJ_USER )
+	if ( lpTargetObj.Type == OBJ_USER )
 	{
 		if ( gObjIsConnected(lpTargetObj) == FALSE )
 		{
@@ -201,7 +201,7 @@ BOOL CWeapon::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf * 
 		return FALSE;
 	}
 
-	lpObj->m_TotalAttackCount++;
+	lpObj.m_TotalAttackCount++;
 
 	int MSBFlag = 0;
 
@@ -214,8 +214,8 @@ BOOL CWeapon::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf * 
 		MsgDamage = 0;
 	}
 
-	int iAttackDamage = this->GetAttackDamage(lpObj->Class);
-	int iTargetDefense = lpTargetObj->m_Defense;
+	int iAttackDamage = this->GetAttackDamage(lpObj.Class);
+	int iTargetDefense = lpTargetObj.m_Defense;
 	int iDecreaseDefense = gObjGetTotalValueOfEffect(lpObj, EFFECTTYPE_DECREASE_DEFENSE);
 
 	iTargetDefense -= (iTargetDefense * iDecreaseDefense)/100;
@@ -232,21 +232,21 @@ BOOL CWeapon::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf * 
 		iAttackDamage = (iAttackDamage * 30)/100;
 	}
 
-	if ( lpTargetObj->DamageDecrease != 0 )
+	if ( lpTargetObj.DamageDecrease != 0 )
 	{
 		int lc11 = iAttackDamage;
-		iAttackDamage -= (iAttackDamage * lpTargetObj->DamageDecrease)/100;
+		iAttackDamage -= (iAttackDamage * lpTargetObj.DamageDecrease)/100;
 	}
 
 #if(CUSTOM_DAMAGES12 == 1)
-	if (lpTargetObj->S12DamageDecrease != 0)
+	if (lpTargetObj.S12DamageDecrease != 0)
 	{
 		int lc11 = iAttackDamage;
-		iAttackDamage -= (iAttackDamage + lpTargetObj->S12DamageDecrease);
+		iAttackDamage -= (iAttackDamage + lpTargetObj.S12DamageDecrease);
 	}
 #endif
 
-	int iTargetLevel = lpObj->Level / 10;
+	int iTargetLevel = lpObj.Level / 10;
 
 	if ( iAttackDamage < iTargetLevel )
 	{
@@ -258,7 +258,7 @@ BOOL CWeapon::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf * 
 		iAttackDamage = iTargetLevel;
 	}
 
-	if ( lpTargetObj->m_SkillNumber == 18 )
+	if ( lpTargetObj.m_SkillNumber == 18 )
 	{
 		if ( iAttackDamage > 1 )
 		{
@@ -277,20 +277,20 @@ BOOL CWeapon::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf * 
 
 	if ( gObjWingSprite(lpTargetObj) == TRUE )
 	{
-		CItem * Wing = &lpTargetObj->pInventory[7];
+		CItem * Wing = &lpTargetObj.pInventory[7];
 
 		if ( iAttackDamage > 1 && Wing->m_Type != ITEMGET(13, 30) )
 		{
 			double WingDamageBlock;
 
-			if (lpTargetObj->m_PlayerData->m_MPSkillOpt.iMpsAddWingDamageBlock <= 0.0)
+			if (lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamageBlock <= 0.0)
 			{
 				WingDamageBlock = 0.0;
 			}
 
 			else
 			{
-				WingDamageBlock = lpTargetObj->m_PlayerData->m_MPSkillOpt.iMpsAddWingDamageBlock;
+				WingDamageBlock = lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamageBlock;
 			}
 
 			g_ConfigRead.m_ItemCalcLua.Generic_Call("Wings_CalcAbsorb", "iiid>i", iAttackDamage, Wing->m_Type, Wing->m_Level, WingDamageBlock, &iAttackDamage);
@@ -299,46 +299,46 @@ BOOL CWeapon::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf * 
 
 	if ( gObjDenorantSprite(lpTargetObj) != FALSE )
 	{
-		CItem * Dino = &lpTargetObj->pInventory[8];
+		CItem * Dino = &lpTargetObj.pInventory[8];
 
 		int ReduceDamage = 90 - Dino->IsDinorantReduceAttackDamaege();
 
-		lpObj->Life -= 1.0f;
+		lpObj.Life -= 1.0f;
 
-		if ( lpObj->Life < 0.0f )
+		if ( lpObj.Life < 0.0f )
 		{
-			lpObj->Life = 0;
+			lpObj.Life = 0;
 		}
 		else
 		{
 			iAttackDamage = (iAttackDamage * ReduceDamage) / 100;
 		}
 
-		GSProtocol.GCReFillSend(lpObj->m_Index, lpObj->Life, 0xFF, 0, lpObj->iShield);
+		GSProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
 	}	
 	
 
 	if ( gObjDarkHorse(lpTargetObj) != FALSE )
 	{
-		CItem * DarkHorse = &lpTargetObj->pInventory[8];
+		CItem * DarkHorse = &lpTargetObj.pInventory[8];
 
 		int DHPercent = 100-(DarkHorse->m_PetItem_Level+30)/2;
 
-		lpTargetObj->Life -= 1.0f;
+		lpTargetObj.Life -= 1.0f;
 
-		if ( lpTargetObj->Life < 0.0f )
+		if ( lpTargetObj.Life < 0.0f )
 		{
-			lpTargetObj->Life = 0;
+			lpTargetObj.Life = 0;
 		}
 		else
 		{
 			iAttackDamage = (iAttackDamage * DHPercent)/100;
 		}
 
-		GSProtocol.GCReFillSend(lpTargetObj->m_Index, lpTargetObj->Life, 0xFF, 0, lpTargetObj->iShield);
+		GSProtocol.GCReFillSend(lpTargetObj.m_Index, lpTargetObj.Life, 0xFF, 0, lpTargetObj.iShield);
 	}
 
-	if ( lpTargetObj->Live != FALSE )
+	if ( lpTargetObj.Live != FALSE )
 	{
 		if(gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_MELEE_DEFENSE_INC) == true && iAttackDamage > 0)
 		{
@@ -351,13 +351,13 @@ BOOL CWeapon::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf * 
 
 			if(iManaRate > 0)
 			{
-				iReplacementMana = lpTargetObj->Mana * iManaRate/1000;
+				iReplacementMana = lpTargetObj.Mana * iManaRate/1000;
 			}
-			else iReplacementMana = lpTargetObj->Mana * 2/100;
+			else iReplacementMana = lpTargetObj.Mana * 2/100;
 
-			if( iReplacementMana < lpTargetObj->Mana )
+			if( iReplacementMana < lpTargetObj.Mana )
 			{
-				lpTargetObj->Mana -= iReplacementMana;
+				lpTargetObj.Mana -= iReplacementMana;
 
 				int decattackdamage = 0;
 				if(iWizardSkillDefense > 0)	decattackdamage = iAttackDamage * iWizardSkillDefense/100;
@@ -377,13 +377,13 @@ BOOL CWeapon::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf * 
 			int iReplacementMana = 0;
 
 			if(iManaRate > 0){
-				iReplacementMana = lpTargetObj->Mana * iManaRate/1000;
+				iReplacementMana = lpTargetObj.Mana * iManaRate/1000;
 			}
-			else iReplacementMana = lpTargetObj->Mana * 2/100;
+			else iReplacementMana = lpTargetObj.Mana * 2/100;
 
-			if( iReplacementMana < lpTargetObj->Mana )
+			if( iReplacementMana < lpTargetObj.Mana )
 			{
-				lpTargetObj->Mana -= iReplacementMana;
+				lpTargetObj.Mana -= iReplacementMana;
 
 				int decattackdamage = 0;
 				if(iWizardSkillDefense > 0)	decattackdamage = iAttackDamage * iWizardSkillDefense/100;
@@ -393,17 +393,17 @@ BOOL CWeapon::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf * 
 			}
 		}
 
-		lpTargetObj->Life -= iAttackDamage;
+		lpTargetObj.Life -= iAttackDamage;
 
-		if ( lpTargetObj->Life < 0.0f )
+		if ( lpTargetObj.Life < 0.0f )
 		{
-			lpTargetObj->Life = 0;
+			lpTargetObj.Life = 0;
 		}
 	}
 
 	if ( iAttackDamage >= 1 )
 	{
-		if ( lpTargetObj->Type == OBJ_USER )
+		if ( lpTargetObj.Type == OBJ_USER )
 		{
 			gObjArmorRandomDurDown(lpTargetObj, lpObj);
 		}
@@ -411,11 +411,11 @@ BOOL CWeapon::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf * 
 
 	if ( iAttackDamage >= 5 )
 	{
-		if ( lpTargetObj->Type == OBJ_MONSTER )
+		if ( lpTargetObj.Type == OBJ_MONSTER )
 		{
 			if ( (rand()%26) == 0 )
 			{
-				gObjAddMsgSendDelay(lpTargetObj, 4, lpObj->m_Index, 100, 0);
+				gObjAddMsgSendDelay(lpTargetObj, 4, lpObj.m_Index, 100, 0);
 			}
 		}
 		else if ( (rand()%4) == 0 )
@@ -427,9 +427,9 @@ BOOL CWeapon::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf * 
 		}
 	}
 
-	if (lpTargetObj->Type == OBJ_USER)
+	if (lpTargetObj.Type == OBJ_USER)
 	{
-		if (lpTargetObj->pInventory[lpTargetObj->m_btInvenPetPos].IsItem() == TRUE && lpTargetObj->pInventory[lpTargetObj->m_btInvenPetPos].m_Type == ITEMGET(13,37))
+		if (lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos].IsItem() == TRUE && lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos].m_Type == ITEMGET(13,37))
 		{
 			if (g_ConfigRead.data.common.DisableMSBEffect[MSB_DISABLE_CHARACTER_FENRIR] == true)
 			{
@@ -446,7 +446,7 @@ BOOL CWeapon::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf * 
 		}
 	}
 
-	else if (lpTargetObj->Type == OBJ_MONSTER)
+	else if (lpTargetObj.Type == OBJ_MONSTER)
 	{
 		if (g_ConfigRead.data.common.DisableMSBEffect[MSB_DISABLE_MONSTER] == true)
 		{
@@ -456,10 +456,10 @@ BOOL CWeapon::Attack(LPGameObject &lpObj, LPGameObject lpTargetObj, CMagicInf * 
 
 	if ( ManaChange != FALSE )
 	{
-		GSProtocol.GCManaSend(lpTargetObj->m_Index, lpTargetObj->Mana, (BYTE)-1, 0, lpTargetObj->BP);
+		GSProtocol.GCManaSend(lpTargetObj.m_Index, lpTargetObj.Mana, (BYTE)-1, 0, lpTargetObj.BP);
 	}
 
-	lpObj->m_Rest = 0;
+	lpObj.m_Rest = 0;
 
 	if ( iAttackDamage > 0 )
 	{
@@ -501,8 +501,8 @@ void CWeapon::WeaponAttackProc()
 				continue;
 			}
 
-			LPGameObject lpTargetObj = &gGameObjects[this->m_WeaponDamagedTargetInfo[i].m_iTargetObjIndex];
-			LPGameObject lpWeaponObj = & gGameObjects[this->m_WeaponDamagedTargetInfo[i].m_iWeaponObjIndex];
+			CGameObject lpTargetObj = &gGameObjects[this->m_WeaponDamagedTargetInfo[i].m_iTargetObjIndex];
+			CGameObject lpWeaponObj = & gGameObjects[this->m_WeaponDamagedTargetInfo[i].m_iWeaponObjIndex];
 
 			if ( gObjIsConnected(lpTargetObj) == FALSE )
 			{
@@ -510,7 +510,7 @@ void CWeapon::WeaponAttackProc()
 				continue;
 			}
 
-			if (  ObjectMaxRange(lpWeaponObj->m_Index) == FALSE )
+			if (  ObjectMaxRange(lpWeaponObj.m_Index) == FALSE )
 			{
 				this->m_WeaponDamagedTargetInfo[i].RESET();
 				continue;

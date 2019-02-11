@@ -894,9 +894,9 @@ void CDevilSquare::ClearMonstr()
 	}
 }
 
-void CDevilSquare::gDevilSquareMonsterRegen(LPGameObject &lpObj)
+void CDevilSquare::gDevilSquareMonsterRegen(CGameObject &lpObj)
 {
-	BYTE devilsquareindex = lpObj->m_bDevilSquareIndex;
+	BYTE devilsquareindex = lpObj.m_bDevilSquareIndex;
 
 	if (devilsquareindex < 0 || devilsquareindex >= MAX_DEVILSQUARE_GROUND)
 	{
@@ -904,9 +904,9 @@ void CDevilSquare::gDevilSquareMonsterRegen(LPGameObject &lpObj)
 		return;
 	}
 
-	if (lpObj->m_PosNum == -1)
+	if (lpObj.m_PosNum == -1)
 	{
-		gObjDel(lpObj->m_Index);
+		gObjDel(lpObj.m_Index);
 		return;
 	}
 
@@ -920,18 +920,18 @@ void CDevilSquare::gDevilSquareMonsterRegen(LPGameObject &lpObj)
 
 	for (int n = 0; n<MAX_MAGIC; n++)
 	{
-		lpObj->Magic[n].Clear();
+		lpObj.Magic[n].Clear();
 	}
 
-	gObjSetMonster(lpObj->m_Index, monstertype);
-	lpObj->DieRegen = FALSE;
+	gObjSetMonster(lpObj.m_Index, monstertype);
+	lpObj.DieRegen = FALSE;
 	gObjMonsterRegen(lpObj);
-	CreateFrustrum(lpObj->X, lpObj->Y, lpObj->m_Index);
-	lpObj->m_bDevilSquareIndex = devilsquareindex;
-	lpObj->MaxRegenTime = 1000;
+	CreateFrustrum(lpObj.X, lpObj.Y, lpObj.m_Index);
+	lpObj.m_bDevilSquareIndex = devilsquareindex;
+	lpObj.MaxRegenTime = 1000;
 
 	//sLog->outBasic("[DevilSquare] Monster Regen [%d][%d][%d,%d]",
-	//	monstertype, devilsquareindex, lpObj->X, lpObj->Y);
+	//	monstertype, devilsquareindex, lpObj.X, lpObj.Y);
 }
 
 
@@ -966,14 +966,14 @@ void CDevilSquare::SendEventStartMsg()
 
 
 
-void CDevilSquare::DieProcDevilSquare(LPGameObject &lpObj)
+void CDevilSquare::DieProcDevilSquare(CGameObject &lpObj)
 {
 	char msg[255];
 
-	wsprintf(msg, Lang.GetText(0, 10), lpObj->m_nEventScore);
-	GSProtocol.GCServerMsgStringSend(msg, lpObj->m_Index, 1);
+	wsprintf(msg, Lang.GetText(0, 10), lpObj.m_nEventScore);
+	GSProtocol.GCServerMsgStringSend(msg, lpObj.m_Index, 1);
 
-	if (lpObj->m_nEventScore <= 0)
+	if (lpObj.m_nEventScore <= 0)
 		return;
 
 	PMSG_ANS_EVENTUSERSCORE pMsg;
@@ -982,49 +982,49 @@ void CDevilSquare::DieProcDevilSquare(LPGameObject &lpObj)
 	pMsg.h.headcode = 0xBD;
 	pMsg.h.subcode = 0x01;
 	pMsg.h.size = sizeof(pMsg);
-	pMsg.SquareNum = lpObj->m_bDevilSquareIndex;
-	pMsg.Class = lpObj->Class;
+	pMsg.SquareNum = lpObj.m_bDevilSquareIndex;
+	pMsg.Class = lpObj.Class;
 
-	if (lpObj->Class == 1)
+	if (lpObj.Class == 1)
 	{
-		if (lpObj->Class >= 0 && lpObj->Class < MAX_TYPE_PLAYER)
+		if (lpObj.Class >= 0 && lpObj.Class < MAX_TYPE_PLAYER)
 		{
-			if (DS_LEVEL_RANGE(lpObj->m_bDevilSquareIndex) != FALSE)
+			if (DS_LEVEL_RANGE(lpObj.m_bDevilSquareIndex) != FALSE)
 			{
-				lpObj->m_nEventScore += this->m_BonusScoreTable[lpObj->Class][lpObj->m_bDevilSquareIndex] / 100;
+				lpObj.m_nEventScore += this->m_BonusScoreTable[lpObj.Class][lpObj.m_bDevilSquareIndex] / 100;
 
 			}
 		}
 
-		pMsg.Score = lpObj->m_nEventScore;
+		pMsg.Score = lpObj.m_nEventScore;
 	}
 	else
 	{
-		pMsg.Score = lpObj->m_nEventScore;
+		pMsg.Score = lpObj.m_nEventScore;
 	}
 
 	pMsg.ServerCode = g_ConfigRead.server.GetGameServerCode();
-	memcpy(pMsg.AccountID, lpObj->AccountID, sizeof(pMsg.AccountID));
-	memcpy(pMsg.GameID, lpObj->Name, sizeof(pMsg.GameID));
+	memcpy(pMsg.AccountID, lpObj.AccountID, sizeof(pMsg.AccountID));
+	memcpy(pMsg.GameID, lpObj.Name, sizeof(pMsg.GameID));
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 
 	sLog->outBasic("[DevilSquare] Dead [%s][%s][%d][%d]",
-		lpObj->AccountID, lpObj->Name,
-		lpObj->m_nEventExp, lpObj->m_nEventScore);
+		lpObj.AccountID, lpObj.Name,
+		lpObj.m_nEventExp, lpObj.m_nEventScore);
 
-	lpObj->m_nEventScore = 0;
-	lpObj->m_nEventMoney = 0;
-	lpObj->m_nEventExp = 0;
+	lpObj.m_nEventScore = 0;
+	lpObj.m_nEventMoney = 0;
+	lpObj.m_nEventExp = 0;
 
 }
 
 
 
 
-UINT64 CDevilSquare::gObjMonsterExpSingle(LPGameObject &lpObj, LPGameObject lpTargetObj, int dmg, int tot_dmg)
+UINT64 CDevilSquare::gObjMonsterExpSingle(CGameObject &lpObj, CGameObject lpTargetObj, int dmg, int tot_dmg)
 {
-	BYTE devilsquareindex = lpObj->m_bDevilSquareIndex;
+	BYTE devilsquareindex = lpObj.m_bDevilSquareIndex;
 
 	if (devilsquareindex < 0 || devilsquareindex >= MAX_DEVILSQUARE_GROUND)
 	{
@@ -1033,16 +1033,16 @@ UINT64 CDevilSquare::gObjMonsterExpSingle(LPGameObject &lpObj, LPGameObject lpTa
 
 	UINT64 exp;
 	UINT64 maxexp = 0;
-	int level = ((lpTargetObj->Level + 25) * lpTargetObj->Level) / 3;
+	int level = ((lpTargetObj.Level + 25) * lpTargetObj.Level) / 3;
 
-	if ((lpTargetObj->Level + 10) < lpObj->Level)
+	if ((lpTargetObj.Level + 10) < lpObj.Level)
 	{
-		level = (level*(lpTargetObj->Level + 10)) / lpObj->Level;
+		level = (level*(lpTargetObj.Level + 10)) / lpObj.Level;
 	}
 
-	if (lpTargetObj->Level >= 65)
+	if (lpTargetObj.Level >= 65)
 	{
-		level += (lpTargetObj->Level - 64)*(lpTargetObj->Level / 4);
+		level += (lpTargetObj.Level - 64)*(lpTargetObj.Level / 4);
 	}
 
 	if (level > 0)
@@ -1067,7 +1067,7 @@ UINT64 CDevilSquare::gObjMonsterExpSingle(LPGameObject &lpObj, LPGameObject lpTa
 
 	if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(lpObj) == false)
 	{
-		DWORD mymaxexp = gLevelExperience[lpObj->Level];
+		DWORD mymaxexp = gLevelExperience[lpObj.Level];
 
 		if (exp > mymaxexp)
 		{
@@ -1078,13 +1078,13 @@ UINT64 CDevilSquare::gObjMonsterExpSingle(LPGameObject &lpObj, LPGameObject lpTa
 	{
 		DWORD mymaxexp;
 
-		if (lpObj->m_PlayerData->MasterLevel == g_MaxStatsInfo.GetClass.MLUserMaxLevel)
+		if (lpObj.m_PlayerData->MasterLevel == g_MaxStatsInfo.GetClass.MLUserMaxLevel)
 		{
-			mymaxexp = g_MasterLevelSkillTreeSystem.gMasterExperience[lpObj->m_PlayerData->MasterLevel];
+			mymaxexp = g_MasterLevelSkillTreeSystem.gMasterExperience[lpObj.m_PlayerData->MasterLevel];
 		}
 		else
 		{
-			mymaxexp = g_MasterLevelSkillTreeSystem.gMasterExperience[lpObj->m_PlayerData->MasterLevel + 1];
+			mymaxexp = g_MasterLevelSkillTreeSystem.gMasterExperience[lpObj.m_PlayerData->MasterLevel + 1];
 		}
 
 		if (exp > mymaxexp)
@@ -1102,15 +1102,15 @@ UINT64 CDevilSquare::gObjMonsterExpSingle(LPGameObject &lpObj, LPGameObject lpTa
 	if (!g_MasterLevelSkillTreeSystem.IsMasterLevelUser(lpObj))
 	{
 		fEventBonus = g_BonusEvent.GetAddExp();
-		fMapBonus = g_MapAttr.GetExpBonus(lpObj->MapNumber);
-		fBaseExp = g_ExpManager.GetExpMultiplier(lpObj->Level, lpObj->m_PlayerData->m_iResets, false);
+		fMapBonus = g_MapAttr.GetExpBonus(lpObj.MapNumber);
+		fBaseExp = g_ExpManager.GetExpMultiplier(lpObj.Level, lpObj.m_PlayerData->m_iResets, false);
 	}
 
 	else
 	{
 		fEventBonus = g_BonusEvent.GetAddMLExp();
-		fMapBonus = g_MapAttr.GetMasterExpBonus(lpObj->MapNumber);
-		fBaseExp = g_ExpManager.GetExpMultiplier(lpObj->Level + lpObj->m_PlayerData->MasterLevel, lpObj->m_PlayerData->m_iResets, true);
+		fMapBonus = g_MapAttr.GetMasterExpBonus(lpObj.MapNumber);
+		fBaseExp = g_ExpManager.GetExpMultiplier(lpObj.Level + lpObj.m_PlayerData->MasterLevel, lpObj.m_PlayerData->m_iResets, true);
 	}
 
 	exp *= (fBaseExp + fVipBonus + fEventBonus + fMapBonus);
@@ -1127,22 +1127,22 @@ UINT64 CDevilSquare::gObjMonsterExpSingle(LPGameObject &lpObj, LPGameObject lpTa
 
 	if (exp > 0)
 	{
-		if (lpObj->Type == OBJ_USER)
+		if (lpObj.Type == OBJ_USER)
 		{
 			CheckItemOptForGetExpExRenewal(lpObj, NULL, exp, dwDefaultExp, false);
 
 			if (!g_MasterLevelSkillTreeSystem.IsMasterLevelUser(lpObj))
 			{
-				lpObj->m_PlayerData->Experience += exp;
+				lpObj.m_PlayerData->Experience += exp;
 			}
 			else
 			{
-				lpObj->m_PlayerData->MasterExperience += exp;
+				lpObj.m_PlayerData->MasterExperience += exp;
 			}
 
-			lpObj->m_nEventExp += exp;
+			lpObj.m_nEventExp += exp;
 
-			if (gObjLevelUp(lpObj, exp, lpTargetObj->Class, "Devil Square Monster (Single)") == false)
+			if (gObjLevelUp(lpObj, exp, lpTargetObj.Class, "Devil Square Monster (Single)") == false)
 			{
 				return 0;
 			}
@@ -1154,14 +1154,14 @@ UINT64 CDevilSquare::gObjMonsterExpSingle(LPGameObject &lpObj, LPGameObject lpTa
 
 
 
-void CDevilSquare::gObjExpParty(LPGameObject &lpObj, LPGameObject lpTargetObj, int AttackDamage, BOOL MSBFlag)
+void CDevilSquare::gObjExpParty(CGameObject &lpObj, CGameObject lpTargetObj, int AttackDamage, BOOL MSBFlag)
 {
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return;
 	}
 
-	BYTE devilsquareindex = lpObj->m_bDevilSquareIndex;
+	BYTE devilsquareindex = lpObj.m_bDevilSquareIndex;
 
 	if (devilsquareindex < 0 || devilsquareindex >= MAX_DEVILSQUARE_GROUND)
 	{
@@ -1172,7 +1172,7 @@ void CDevilSquare::gObjExpParty(LPGameObject &lpObj, LPGameObject lpTargetObj, i
 	UINT64 exp;
 	UINT64 maxexp = 0;
 	int totalexp;
-	int level = ((lpTargetObj->Level + 25) * lpTargetObj->Level) / 3;
+	int level = ((lpTargetObj.Level + 25) * lpTargetObj.Level) / 3;
 	int number;
 	int partynum = 0;
 	int totallevel = 0;
@@ -1183,8 +1183,8 @@ void CDevilSquare::gObjExpParty(LPGameObject &lpObj, LPGameObject lpTargetObj, i
 	int viewpercent = 100;
 	BOOL bApplaySetParty = FALSE;
 	bool bCheckSetParty[MAX_TYPE_PLAYER];
-	partynum = lpObj->PartyNumber;
-	LPGameObject lpPartyObj;
+	partynum = lpObj.PartyNumber;
+	CGameObject lpPartyObj;
 
 	int toplevel = 0;
 
@@ -1196,9 +1196,9 @@ void CDevilSquare::gObjExpParty(LPGameObject &lpObj, LPGameObject lpTargetObj, i
 		{
 			lpPartyObj = &gGameObjects[number];
 
-			if (lpPartyObj->Level > toplevel)
+			if (lpPartyObj.Level > toplevel)
 			{
-				toplevel = lpPartyObj->Level;
+				toplevel = lpPartyObj.Level;
 			}
 		}
 	}
@@ -1218,7 +1218,7 @@ void CDevilSquare::gObjExpParty(LPGameObject &lpObj, LPGameObject lpTargetObj, i
 		{
 			lpPartyObj = &gGameObjects[number];
 
-			if (lpTargetObj->MapNumber == lpPartyObj->MapNumber)
+			if (lpTargetObj.MapNumber == lpPartyObj.MapNumber)
 			{
 				dis[n] = gObjCalDistance(lpTargetObj, &gGameObjects[number]);
 
@@ -1226,17 +1226,17 @@ void CDevilSquare::gObjExpParty(LPGameObject &lpObj, LPGameObject lpTargetObj, i
 				{
 					lpPartyObj = &gGameObjects[number];
 
-					if (toplevel >= (lpPartyObj->Level + 200)) // #formula
+					if (toplevel >= (lpPartyObj.Level + 200)) // #formula
 					{
-						totallevel = totallevel + lpPartyObj->Level + 200;
+						totallevel = totallevel + lpPartyObj.Level + 200;
 					}
 					else
 					{
-						totallevel += lpPartyObj->Level;
+						totallevel += lpPartyObj.Level;
 					}
 
 					viewplayer++;
-					bCheckSetParty[lpPartyObj->Class] = true;
+					bCheckSetParty[lpPartyObj.Class] = true;
 				}
 			}
 		}
@@ -1253,20 +1253,20 @@ void CDevilSquare::gObjExpParty(LPGameObject &lpObj, LPGameObject lpTargetObj, i
 		partylevel = totallevel;
 	}
 
-	if ((lpTargetObj->Level + 10) < partylevel)
+	if ((lpTargetObj.Level + 10) < partylevel)
 	{
-		level = (level * (lpTargetObj->Level + 10)) / partylevel;
+		level = (level * (lpTargetObj.Level + 10)) / partylevel;
 	}
 
-	if (lpTargetObj->Level >= 65)
+	if (lpTargetObj.Level >= 65)
 	{
 		if (viewplayer == 1)
 		{
-			level += (lpTargetObj->Level - 64) * (lpTargetObj->Level / 4);
+			level += (lpTargetObj.Level - 64) * (lpTargetObj.Level / 4);
 		}
 		else
 		{
-			level += (200.0 - (lpObj->Level * 0.2));
+			level += (200.0 - (lpObj.Level * 0.2));
 		}
 	}
 
@@ -1288,9 +1288,9 @@ void CDevilSquare::gObjExpParty(LPGameObject &lpObj, LPGameObject lpTargetObj, i
 		totalexp = level + rand() % maxexp;
 	}
 
-	if (lpTargetObj->Type == OBJ_MONSTER)
+	if (lpTargetObj.Type == OBJ_MONSTER)
 	{
-		lpTargetObj->MonsterMoneyDrop = totalexp;
+		lpTargetObj.MonsterMoneyDrop = totalexp;
 	}
 
 	for (n = 0; n<MAX_USER_IN_PARTY; n++)
@@ -1301,7 +1301,7 @@ void CDevilSquare::gObjExpParty(LPGameObject &lpObj, LPGameObject lpTargetObj, i
 		{
 			lpPartyObj = &gGameObjects[number];
 
-			if (lpTargetObj->MapNumber == lpPartyObj->MapNumber)
+			if (lpTargetObj.MapNumber == lpPartyObj.MapNumber)
 			{
 				if (dis[n] < 10)
 				{
@@ -1309,13 +1309,13 @@ void CDevilSquare::gObjExpParty(LPGameObject &lpObj, LPGameObject lpTargetObj, i
 					{
 						UINT64 myexp;
 
-						if (lpPartyObj->m_PlayerData->MasterLevel == g_MaxStatsInfo.GetClass.MLUserMaxLevel)
+						if (lpPartyObj.m_PlayerData->MasterLevel == g_MaxStatsInfo.GetClass.MLUserMaxLevel)
 						{
-							myexp = g_MasterLevelSkillTreeSystem.gMasterExperience[lpPartyObj->m_PlayerData->MasterLevel];
+							myexp = g_MasterLevelSkillTreeSystem.gMasterExperience[lpPartyObj.m_PlayerData->MasterLevel];
 						}
 						else
 						{
-							myexp = g_MasterLevelSkillTreeSystem.gMasterExperience[lpPartyObj->m_PlayerData->MasterLevel + 1];
+							myexp = g_MasterLevelSkillTreeSystem.gMasterExperience[lpPartyObj.m_PlayerData->MasterLevel + 1];
 						}
 						if (exp > myexp)
 						{
@@ -1325,18 +1325,18 @@ void CDevilSquare::gObjExpParty(LPGameObject &lpObj, LPGameObject lpTargetObj, i
 
 					else
 					{
-						UINT64 mymaxexp = gLevelExperience[lpObj->Level];
+						UINT64 mymaxexp = gLevelExperience[lpObj.Level];
 						if (exp > mymaxexp)
 						{
 							exp = mymaxexp;
 						}
 					}
 
-					exp = ((totalexp * viewpercent* lpPartyObj->Level) / totallevel) / 100;
+					exp = ((totalexp * viewpercent* lpPartyObj.Level) / totallevel) / 100;
 
-					if (lpPartyObj->Type == OBJ_USER)
+					if (lpPartyObj.Type == OBJ_USER)
 					{
-						if (lpTargetObj->Type == OBJ_USER)
+						if (lpTargetObj.Type == OBJ_USER)
 						{
 							exp = 0;
 						}
@@ -1351,14 +1351,14 @@ void CDevilSquare::gObjExpParty(LPGameObject &lpObj, LPGameObject lpTargetObj, i
 					if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(lpPartyObj))
 					{
 						fEventBonus = g_BonusEvent.GetAddMLExp();
-						fMapBonus = g_MapAttr.GetMasterExpBonus(lpPartyObj->MapNumber);
-						fBaseExp = g_ExpManager.GetExpMultiplier(lpPartyObj->Level + lpPartyObj->m_PlayerData->MasterLevel, lpPartyObj->m_PlayerData->m_iResets, true);
+						fMapBonus = g_MapAttr.GetMasterExpBonus(lpPartyObj.MapNumber);
+						fBaseExp = g_ExpManager.GetExpMultiplier(lpPartyObj.Level + lpPartyObj.m_PlayerData->MasterLevel, lpPartyObj.m_PlayerData->m_iResets, true);
 					}
 					else
 					{
 						fEventBonus = g_BonusEvent.GetAddExp();
-						fMapBonus = g_MapAttr.GetExpBonus(lpPartyObj->MapNumber);
-						fBaseExp = g_ExpManager.GetExpMultiplier(lpPartyObj->Level, lpPartyObj->m_PlayerData->m_iResets, false);
+						fMapBonus = g_MapAttr.GetExpBonus(lpPartyObj.MapNumber);
+						fBaseExp = g_ExpManager.GetExpMultiplier(lpPartyObj.Level, lpPartyObj.m_PlayerData->m_iResets, false);
 					}
 
 					exp *= (fBaseExp + fVipBonus + fEventBonus + fMapBonus);
@@ -1375,31 +1375,31 @@ void CDevilSquare::gObjExpParty(LPGameObject &lpObj, LPGameObject lpTargetObj, i
 
 					if (exp > 0)
 					{
-						if (lpPartyObj->Type == OBJ_USER)
+						if (lpPartyObj.Type == OBJ_USER)
 						{
 							CheckItemOptForGetExpExRenewal(lpPartyObj, NULL, exp, dwDefaultExp, false);
 
 							if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(lpPartyObj))
 							{
-								lpPartyObj->m_PlayerData->MasterExperience += exp;
+								lpPartyObj.m_PlayerData->MasterExperience += exp;
 							}
 							else
 							{
-								lpPartyObj->m_PlayerData->Experience += exp;
+								lpPartyObj.m_PlayerData->Experience += exp;
 							}
 
-							lpPartyObj->m_nEventExp += exp;
+							lpPartyObj.m_nEventExp += exp;
 
-							if (gObjLevelUp(lpPartyObj, exp, lpTargetObj->Class, "Devil Square Monster (Party)") == false)
+							if (gObjLevelUp(lpPartyObj, exp, lpTargetObj.Class, "Devil Square Monster (Party)") == false)
 							{
 								continue;
 							}
 						}
 					}
 
-					if (lpPartyObj->Type == OBJ_USER && exp > 0)
+					if (lpPartyObj.Type == OBJ_USER && exp > 0)
 					{
-						GSProtocol.GCKillPlayerExpSend(lpPartyObj->m_Index, lpTargetObj->m_Index, exp, AttackDamage, MSBFlag);
+						GSProtocol.GCKillPlayerExpSend(lpPartyObj.m_Index, lpTargetObj.m_Index, exp, AttackDamage, MSBFlag);
 					}
 				}
 			}
@@ -1410,22 +1410,22 @@ void CDevilSquare::gObjExpParty(LPGameObject &lpObj, LPGameObject lpTargetObj, i
 
 
 
-void CDevilSquare::gObjMonsterScoreDivision(LPGameObject &lpMonObj, LPGameObject lpObj, int AttackDamage, BOOL MSBFlag)
+void CDevilSquare::gObjMonsterScoreDivision(CGameObject &lpMonObj, CGameObject lpObj, int AttackDamage, BOOL MSBFlag)
 {
 	::gObjMonsterHitDamageUserDel(lpMonObj);
-	lpMonObj->MonsterMoneyDrop = 0;
+	lpMonObj.MonsterMoneyDrop = 0;
 
-	LPGameObject lpTargetObj;
+	CGameObject lpTargetObj;
 	int HitIndex;
 	int LastHitObjNum = ::gObjMonsterLastHitDamageUser(lpMonObj, HitIndex);
 
 	if (LastHitObjNum != -1)
 	{
 		lpTargetObj = &gGameObjects[LastHitObjNum];
-		int lc5 = lpMonObj->sHD[HitIndex].HitDamage / lpMonObj->MaxLife * lpMonObj->Level;
-		lc5 *= lpTargetObj->m_bDevilSquareIndex + 1;
-		lpTargetObj->m_nEventScore += lc5;
-		g_QuestExpProgMng.ChkUserQuestTypeEventMap(QUESTEXP_ASK_DEVILSQUARE_POINT_GAIN, lpTargetObj, lpTargetObj->m_bDevilSquareIndex, 2);
+		int lc5 = lpMonObj.sHD[HitIndex].HitDamage / lpMonObj.MaxLife * lpMonObj.Level;
+		lc5 *= lpTargetObj.m_bDevilSquareIndex + 1;
+		lpTargetObj.m_nEventScore += lc5;
+		g_QuestExpProgMng.ChkUserQuestTypeEventMap(QUESTEXP_ASK_DEVILSQUARE_POINT_GAIN, lpTargetObj, lpTargetObj.m_bDevilSquareIndex, 2);
 	}
 }
 

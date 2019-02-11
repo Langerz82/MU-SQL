@@ -21,7 +21,7 @@ void CMonsterBag::SetBagInfo(int iParam1, int MonsterClass)
 	this->m_BagMonsterClass = MonsterClass;
 }
 
-bool CMonsterBag::CheckCondition(LPGameObject &lpObj, int MonsterClass, int iParam2)
+bool CMonsterBag::CheckCondition(CGameObject &lpObj, int MonsterClass, int iParam2)
 {
 	if (rand() % 10000 >= this->m_BagData.dwBagUseRate)
 	{
@@ -36,7 +36,7 @@ bool CMonsterBag::CheckCondition(LPGameObject &lpObj, int MonsterClass, int iPar
 	return false;
 }
 
-bool CMonsterBag::IsBag(LPGameObject &lpObj, int MonsterClass, int iParam2)
+bool CMonsterBag::IsBag(CGameObject &lpObj, int MonsterClass, int iParam2)
 {
 	if (this->m_BagMonsterClass == MonsterClass)
 	{
@@ -46,19 +46,19 @@ bool CMonsterBag::IsBag(LPGameObject &lpObj, int MonsterClass, int iParam2)
 	return false;
 }
 
-bool CMonsterBag::UseBag(LPGameObject &lpObj, int iMonsterIndex)
+bool CMonsterBag::UseBag(CGameObject &lpObj, int iMonsterIndex)
 {
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return false;
 	}
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
-	LPGameObject lpMonsterObj = &gGameObjects[iMonsterIndex];
+	
+	CGameObject lpMonsterObj = &gGameObjects[iMonsterIndex];
 
 	if (rand() % 10000 >= this->m_BagData.dwItemDropRate)
 	{
-		MapC[lpObj->MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, lpObj->X, lpObj->Y);
+		MapC[lpObj.MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, lpObj.X, lpObj.Y);
 
 		return true;
 	}
@@ -66,9 +66,9 @@ bool CMonsterBag::UseBag(LPGameObject &lpObj, int iMonsterIndex)
 	if (rand() % 10000 < this->m_BagData.dwGainRuudRate)
 	{
 		int iRuudValue = this->GetValueMinMax(this->m_BagData.dwMinGainRuud, this->m_BagData.dwMaxGainRuud);
-		lpObj->m_PlayerData->Ruud += iRuudValue;
+		lpObj.m_PlayerData->Ruud += iRuudValue;
 
-		GSProtocol.GCSendRuud(aIndex, lpObj->m_PlayerData->Ruud, iRuudValue, true);
+		GSProtocol.GCSendRuud(aIndex, lpObj.m_PlayerData->Ruud, iRuudValue, true);
 		return true;
 	}
 
@@ -99,7 +99,7 @@ bool CMonsterBag::UseBag(LPGameObject &lpObj, int iMonsterIndex)
 	{
 		if (rand()%10000 < this->m_BagData.dwRandomSetItemDropRate)
 		{
-			MakeRewardSetItem(aIndex, lpMonsterObj->X, lpMonsterObj->Y, 1, lpObj->MapNumber);
+			MakeRewardSetItem(aIndex, lpMonsterObj.X, lpMonsterObj.Y, 1, lpObj.MapNumber);
 			return true;
 		}
 
@@ -108,7 +108,7 @@ bool CMonsterBag::UseBag(LPGameObject &lpObj, int iMonsterIndex)
 			return false;
 		}
 
-		bool bResult = gLuaBag.DropCommonBag(aIndex, lpMonsterObj->MapNumber, lpMonsterObj->X, lpMonsterObj->Y, &m_Item);
+		bool bResult = gLuaBag.DropCommonBag(aIndex, lpMonsterObj.MapNumber, lpMonsterObj.X, lpMonsterObj.Y, &m_Item);
 
 		if (bResult == false)
 		{
@@ -120,18 +120,18 @@ bool CMonsterBag::UseBag(LPGameObject &lpObj, int iMonsterIndex)
 
 	for (int i = 0; i < m_ItemSection.btItemDropCount; i++)
 	{
- 		BYTE cDropX = lpMonsterObj->X;
-		BYTE cDropY = lpMonsterObj->Y;
+ 		BYTE cDropX = lpMonsterObj.X;
+		BYTE cDropY = lpMonsterObj.Y;
 
-		if (!gObjGetRandomItemDropLocation(lpMonsterObj->MapNumber, cDropX, cDropY, 4, 4, 10))
+		if (!gObjGetRandomItemDropLocation(lpMonsterObj.MapNumber, cDropX, cDropY, 4, 4, 10))
 		{
-			cDropX = lpMonsterObj->X;
-			cDropY = lpMonsterObj->Y;
+			cDropX = lpMonsterObj.X;
+			cDropY = lpMonsterObj.Y;
 		}
 
 		if (rand()%10000 < this->m_BagData.dwRandomSetItemDropRate)
 		{
-			MakeRewardSetItem(aIndex, cDropX, cDropY, 1, lpObj->MapNumber);
+			MakeRewardSetItem(aIndex, cDropX, cDropY, 1, lpObj.MapNumber);
 			continue;
 		}	
 
@@ -140,7 +140,7 @@ bool CMonsterBag::UseBag(LPGameObject &lpObj, int iMonsterIndex)
 			return false;
 		}
 
-		bool bResult = gLuaBag.DropMonsterBag(aIndex, iMonsterIndex, lpMonsterObj->MapNumber, cDropX, cDropY, &m_Item);
+		bool bResult = gLuaBag.DropMonsterBag(aIndex, iMonsterIndex, lpMonsterObj.MapNumber, cDropX, cDropY, &m_Item);
 
 		if (bResult == false)
 		{
@@ -151,7 +151,7 @@ bool CMonsterBag::UseBag(LPGameObject &lpObj, int iMonsterIndex)
 	return true;
 }
 
-bool CMonsterBag::UseBag_GremoryCase(LPGameObject &lpObj, int iMonsterIndex, BYTE btStorageType, BYTE btRewardSource, int iExpireDays)
+bool CMonsterBag::UseBag_GremoryCase(CGameObject &lpObj, int iMonsterIndex, BYTE btStorageType, BYTE btRewardSource, int iExpireDays)
 {
 	return false;
 }

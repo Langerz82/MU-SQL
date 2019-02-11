@@ -153,17 +153,17 @@ void CIllusionTempleEvent_Renewal::SetRelicsInventoryPos(BYTE btMapNumber, int a
 	this->m_cITR_Proc[btMapNumber - 45].SetRelicsInventoryPos(aIndex, btPos);
 }
 
-void CIllusionTempleEvent_Renewal::SendRelicsUserInfo(OBJECTSTRUCT* lpObj)
+void CIllusionTempleEvent_Renewal::SendRelicsUserInfo(CGameObject* lpObj)
 {
-	if (!IT_MAP_RANGE(lpObj->MapNumber))
+	if (!IT_MAP_RANGE(lpObj.MapNumber))
 	{
 		return;
 	}
 
-	this->m_cITR_Proc[lpObj->MapNumber - 45].SendRelicsUserInfo(lpObj, 0);
+	this->m_cITR_Proc[lpObj.MapNumber - 45].SendRelicsUserInfo(lpObj, 0);
 }
 
-BOOL CIllusionTempleEvent_Renewal::Enter_ITR(LPGameObject &lpObj, BYTE byTempleIndex, BYTE bySlotNum)
+BOOL CIllusionTempleEvent_Renewal::Enter_ITR(CGameObject &lpObj, BYTE byTempleIndex, BYTE bySlotNum)
 {
 	if (g_IT_Event.IsEventEnable() == false)
 	{
@@ -175,19 +175,19 @@ BOOL CIllusionTempleEvent_Renewal::Enter_ITR(LPGameObject &lpObj, BYTE byTempleI
 		return FALSE;
 	}
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
 	if (!lpObj)
 	{
 		return FALSE;
 	}
 
-	if (this->m_cITR_Proc[byTempleIndex].EnterUserIllusionTemple(aIndex, byTempleIndex, lpObj->PartyNumber) == TRUE)
+	if (this->m_cITR_Proc[byTempleIndex].EnterUserIllusionTemple(aIndex, byTempleIndex, lpObj.PartyNumber) == TRUE)
 	{
 		sLog->outBasic("[ ITR ] ITR index:(%d) EnterUser: (%s)(%s) class:%d",
-			byTempleIndex + 1, lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->DbClass);
+			byTempleIndex + 1, lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->DbClass);
 
-		this->m_cITR_Proc[byTempleIndex].SendIllusionTempleState(0, lpObj->m_Index);
+		this->m_cITR_Proc[byTempleIndex].SendIllusionTempleState(0, lpObj.m_Index);
 
 		return TRUE;
 	}
@@ -195,13 +195,13 @@ BOOL CIllusionTempleEvent_Renewal::Enter_ITR(LPGameObject &lpObj, BYTE byTempleI
 	else
 	{
 		sLog->outBasic("[ ITR ] ITR index:(%d) EnterUser FAIL: (%s)(%s) class:%d",
-			byTempleIndex + 1, lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->DbClass);
+			byTempleIndex + 1, lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->DbClass);
 
 		return FALSE;
 	}
 }
 
-int CIllusionTempleEvent_Renewal::Leave_ITR(LPGameObject &lpObj, BYTE btMapNumber)
+int CIllusionTempleEvent_Renewal::Leave_ITR(CGameObject &lpObj, BYTE btMapNumber)
 {
 	if (!IT_MAP_RANGE(btMapNumber))
 	{
@@ -212,7 +212,7 @@ int CIllusionTempleEvent_Renewal::Leave_ITR(LPGameObject &lpObj, BYTE btMapNumbe
 	return TRUE;
 }
 
-void CIllusionTempleEvent_Renewal::ActRelicsGetOrRegister(LPGameObject &lpNpc, LPGameObject lpObj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType)
+void CIllusionTempleEvent_Renewal::ActRelicsGetOrRegister(CGameObject &lpNpc, CGameObject lpObj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType)
 {
 	if (!IT_MAP_RANGE(byMapNumber))
 	{
@@ -350,31 +350,31 @@ void CIllusionTempleEvent_Renewal::ITR_USeSkill(int iIndex, WORD MagicNumber, in
 	this->m_cITR_Proc[gGameObjects[iIndex].MapNumber - 45].ITR_UseSkill(iIndex, MagicNumber, wTargetObjIndex, btDis);
 }
 
-void CIllusionTempleEvent_Renewal::EventSkillProc(OBJECTSTRUCT* lpObj)
+void CIllusionTempleEvent_Renewal::EventSkillProc(CGameObject* lpObj)
 {
-	return this->m_cITR_Proc[lpObj->MapNumber - 45].ITRSkillProc(lpObj);
+	return this->m_cITR_Proc[lpObj.MapNumber - 45].ITRSkillProc(lpObj);
 }
 
-void CIllusionTempleEvent_Renewal::IllusionTempleUserDie(LPGameObject &lpObj)
+void CIllusionTempleEvent_Renewal::IllusionTempleUserDie(CGameObject &lpObj)
 {
-	this->m_cITR_Proc[lpObj->MapNumber - 45].ITRUserDie(lpObj);
+	this->m_cITR_Proc[lpObj.MapNumber - 45].ITRUserDie(lpObj);
 }
 
-void CIllusionTempleEvent_Renewal::IllusionTempleUserDieRegen(LPGameObject &lpObj)
+void CIllusionTempleEvent_Renewal::IllusionTempleUserDieRegen(CGameObject &lpObj)
 {
-	if (!ObjectMaxRange(lpObj->m_Index))
+	if (!ObjectMaxRange(lpObj.m_Index))
 	{
 		return;
 	}
 
-	if (!IT_MAP_RANGE(lpObj->MapNumber))
+	if (!IT_MAP_RANGE(lpObj.MapNumber))
 	{
 		return;
 	}
 
-	if (this->m_cITR_Proc[lpObj->MapNumber - 45].GetIllusionTempleState() == 2)
+	if (this->m_cITR_Proc[lpObj.MapNumber - 45].GetIllusionTempleState() == 2)
 	{
-		this->m_cITR_Proc[lpObj->MapNumber - 45].UseSkillProdection(lpObj);
+		this->m_cITR_Proc[lpObj.MapNumber - 45].UseSkillProdection(lpObj);
 	}
 }
 

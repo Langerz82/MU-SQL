@@ -77,7 +77,7 @@ namespace ENEWPVP
 	};
 };
 
-typedef  PMSG_DUEL_OBSERVERLIST_BROADCAST
+typedef struct PMSG_DUEL_OBSERVERLIST_BROADCAST
 {
 	PBMSG_HEAD2 h;
 	BYTE nCount;
@@ -91,7 +91,7 @@ typedef  PMSG_DUEL_OBSERVERLIST_BROADCAST
 
 } PMSG_DUEL_OBSERVERLIST_BROADCAST, *LPMSG_DUEL_OBSERVERLIST_BROADCAST;
 
-typedef  PMSG_ANS_DUEL_CHANNELLIST
+typedef struct PMSG_ANS_DUEL_CHANNELLIST
 {
 	PBMSG_HEAD2 h;
 
@@ -141,7 +141,7 @@ typedef struct PMSG_REQ_DUEL_ANSWER
 	char szName[MAX_ACCOUNT_LEN];
 } PMSG_REQ_DUEL_ANSWER, *LPMSG_REQ_DUEL_ANSWER;
 
-typedef  PMSG_ANS_DUEL_INVITE 
+typedef struct PMSG_ANS_DUEL_INVITE
 {
 	PBMSG_HEAD2 h;
 	BYTE nResult;
@@ -150,7 +150,7 @@ typedef  PMSG_ANS_DUEL_INVITE
 	char szName[MAX_ACCOUNT_LEN];
 } PMSG_ANS_DUEL_INVITE, *LPMSG_ANS_DUEL_INVITE;
 
-typedef  PMSG_ANS_DUEL_EXIT 
+typedef struct PMSG_ANS_DUEL_EXIT 
 {
 	PBMSG_HEAD2 h;
 	BYTE nResult;
@@ -159,7 +159,7 @@ typedef  PMSG_ANS_DUEL_EXIT
 	char szName[MAX_ACCOUNT_LEN];
 } PMSG_ANS_DUEL_EXIT, *LPMSG_ANS_DUEL_EXIT ;
 
-typedef  PMSG_ANS_DUEL_JOINCNANNEL 
+typedef struct PMSG_ANS_DUEL_JOINCNANNEL 
 {
 	PBMSG_HEAD2 h;
 	BYTE nResult;
@@ -172,13 +172,13 @@ typedef  PMSG_ANS_DUEL_JOINCNANNEL
 	BYTE NumberL2;
 } PMSG_ANS_DUEL_JOINCNANNEL, *LPMSG_ANS_DUEL_JOINCNANNEL ;
 
-typedef  PMSG_ANS_DUEL_LEAVECNANNEL 
+typedef struct PMSG_ANS_DUEL_LEAVECNANNEL 
 {
 	PBMSG_HEAD2 h;
 	BYTE nResult;
 } PMSG_ANS_DUEL_LEAVECNANNEL, *LPMSG_ANS_DUEL_LEAVECNANNEL ;
 
-typedef  PMSG_DUEL_SCORE_BROADCAST 
+typedef struct PMSG_DUEL_SCORE_BROADCAST 
 {
 	PBMSG_HEAD2 h;
 	BYTE NumberH1;
@@ -190,14 +190,14 @@ typedef  PMSG_DUEL_SCORE_BROADCAST
 
 } PMSG_DUEL_SCORE_BROADCAST, *LPMSG_DUEL_SCORE_BROADCAST;
 
-typedef  PMSG_DUEL_RESULT_BROADCAST 
+typedef struct PMSG_DUEL_RESULT_BROADCAST 
 {
 	PBMSG_HEAD2 h;
 	char szWinner[MAX_ACCOUNT_LEN];
 	char szLoser[MAX_ACCOUNT_LEN];
 } PMSG_DUEL_RESULT_BROADCAST, *LPMSG_DUEL_RESULT_BROADCAST ;
 
-typedef  PMSG_DUEL_HP_BROADCAST 
+typedef struct PMSG_DUEL_HP_BROADCAST 
 {
 	PBMSG_HEAD2 h;
 	BYTE NumberH1;
@@ -210,19 +210,19 @@ typedef  PMSG_DUEL_HP_BROADCAST
 	BYTE nShield2;
 } PMSG_DUEL_HP_BROADCAST, *LPMSG_DUEL_HP_BROADCAST ;
 
-typedef  PMSG_DUEL_JOINCNANNEL_BROADCAST 
+typedef struct PMSG_DUEL_JOINCNANNEL_BROADCAST
 {
 	PBMSG_HEAD2 h;
 	char szName[MAX_ACCOUNT_LEN];
 } PMSG_DUEL_JOINCNANNEL_BROADCAST, *LPMSG_DUEL_JOINCNANNEL_BROADCAST ;
 
-typedef  PMSG_DUEL_LEAVECNANNEL_BROADCAST 
+typedef struct PMSG_DUEL_LEAVECNANNEL_BROADCAST
 {
 	PBMSG_HEAD2 h;
 	char szName[MAX_ACCOUNT_LEN];
 } PMSG_DUEL_LEAVECNANNEL_BROADCAST, *LPMSG_DUEL_LEAVECNANNEL_BROADCAST ;
 
-typedef  PMSG_DUEL_ROUNDSTART_BROADCAST 
+typedef struct PMSG_DUEL_ROUNDSTART_BROADCAST
 {
 	PBMSG_HEAD2 h;
 	BYTE nFlag;
@@ -237,49 +237,49 @@ public:
 	void LoadData();
 	void Run();
 
-	int Reserve(LPGameObject &requester, LPGameObject &responsor);
-	int Join(LPGameObject &requester, LPGameObject &responsor);
-	void Cancel(LPGameObject &requester, LPGameObject &responsor, BOOL bSendPacket);
-	int Leave(LPGameObject &Obj);
-	void SetScore(LPGameObject &Obj);
-	void CheckScore(LPGameObject &Obj, LPGameObject &target);
-	BOOL SendChannelList(LPGameObject &npc, LPGameObject &Obj);
-	int JoinChannel(int nId, LPGameObject &Obj);
-	int LeaveChannel(int nId, LPGameObject &Obj);
-	void ChatMsgSend(LPGameObject &Obj, BYTE* Msg, int size);
-	void SetBuff(LPGameObject &Obj, BOOL bUse);
-	int GetChannelStatus(LPGameObject &Obj);
-	BOOL IsSafeState(LPGameObject &Obj);
+	int Reserve(CGameObject &requester, CGameObject &responsor);
+	int Join(CGameObject &requester, CGameObject &responsor);
+	void Cancel(CGameObject &requester, CGameObject &responsor, BOOL bSendPacket);
+	int Leave(CGameObject &Obj);
+	void SetScore(CGameObject &Obj);
+	void CheckScore(CGameObject &Obj, CGameObject &target);
+	BOOL SendChannelList(CGameObject &npc, CGameObject &Obj);
+	int JoinChannel(int nId, CGameObject &Obj);
+	int LeaveChannel(int nId, CGameObject &Obj);
+	void ChatMsgSend(CGameObject &Obj, BYTE* Msg, int size);
+	void SetBuff(CGameObject &Obj, BOOL bUse);
+	int GetChannelStatus(CGameObject &Obj);
+	BOOL IsSafeState(CGameObject &Obj);
 
-	BOOL IsDuelRequested(LPGameObject &Obj)
+	BOOL IsDuelRequested(CGameObject &Obj)
 	{
-		return CHECK_LIMIT(Obj->m_iDuelUserRequested, g_ConfigRead.server.GetObjectMax());
+		return CHECK_LIMIT(Obj.m_iDuelUserRequested, g_ConfigRead.server.GetObjectMax());
 	}
 	
-	BOOL IsDuelReserved(LPGameObject &Obj)
+	BOOL IsDuelReserved(CGameObject &Obj)
 	{
-		return CHECK_LIMIT(Obj->m_iDuelUserReserved, g_ConfigRead.server.GetObjectMax());
+		return CHECK_LIMIT(Obj.m_iDuelUserReserved, g_ConfigRead.server.GetObjectMax());
 	}
 	
-	BOOL IsDuel(LPGameObject &Obj,int nIndex)
+	BOOL IsDuel(CGameObject &Obj,int nIndex)
 	{
-		if(CHECK_LIMIT(Obj->m_iDuelUser, g_ConfigRead.server.GetObjectMax()) && Obj->m_iDuelUser == nIndex)
+		if(CHECK_LIMIT(Obj.m_iDuelUser, g_ConfigRead.server.GetObjectMax()) && Obj.m_iDuelUser == nIndex)
 		{
 			return TRUE;
 		}
 		return FALSE;
 	}
 
-	BOOL IsDuel(LPGameObject &Obj)
+	BOOL IsDuel(CGameObject &Obj)
 	{
-		return CHECK_LIMIT(Obj->m_iDuelUser, g_ConfigRead.server.GetObjectMax());
+		return CHECK_LIMIT(Obj.m_iDuelUser, g_ConfigRead.server.GetObjectMax());
 	}
 
-	int IsObserver(LPGameObject &Obj);
-	void Reset(LPGameObject &Obj);
-	BOOL CheckPKPenalty(LPGameObject &lpObj);
-	BOOL IsSelfDefense(LPGameObject &lpObj);
-	BOOL IsGuildWar(LPGameObject &lpObj);
+	int IsObserver(CGameObject &Obj);
+	void Reset(CGameObject &Obj);
+	BOOL CheckPKPenalty(CGameObject &lpObj);
+	BOOL IsSelfDefense(CGameObject &lpObj);
+	BOOL IsGuildWar(CGameObject &lpObj);
 
 	int IsVulcanusMap(int nMapNumber)
 	{
@@ -298,7 +298,7 @@ public:
 
 	int IsEnable();
 
-	BOOL DropItem(LPGameObject &lpObj, LPGameObject &lpMonsterObj);
+	BOOL DropItem(CGameObject &lpObj, CGameObject &lpMonsterObj);
 
 private:
 	int GetDuelChannelId(char* lpszName);
@@ -308,22 +308,22 @@ private:
 	LPDUEL_CHANNEL GetDuelChannel(char* lpszName);
 	LPDUEL_CHANNEL GetDuelChannel();
 
-	void SetStatus(int nStatus,int nId, LPGameObject &requester, LPGameObject &responsor);
-	void SetDuelStatus(LPGameObject &requester, LPGameObject &responsor, int nStatus);
+	void SetStatus(int nStatus,int nId, CGameObject &requester, CGameObject &responsor);
+	void SetDuelStatus(CGameObject &requester, CGameObject &responsor, int nStatus);
 	
-	int GetDuelStatus(LPGameObject &Obj)
+	int GetDuelStatus(CGameObject &Obj)
 	{
-		if(CHECK_LIMIT(obj.m_iDuelUserRequested, g_ConfigRead.server.GetObjectMax()))
+		if(CHECK_LIMIT(Obj.m_iDuelUserRequested, g_ConfigRead.server.GetObjectMax()))
 		{
 			return ENEWPVP::E_ALREADY_DUELREQUESTED;
 		}
 
-		if(CHECK_LIMIT(obj.m_iDuelUserReserved, g_ConfigRead.server.GetObjectMax()))
+		if(CHECK_LIMIT(Obj.m_iDuelUserReserved, g_ConfigRead.server.GetObjectMax()))
 		{
 			return ENEWPVP::E_ALREADY_DUELRESERVED;
 		}
 
-		if(CHECK_LIMIT(obj.m_iDuelUser, g_ConfigRead.server.GetObjectMax()))
+		if(CHECK_LIMIT(Obj.m_iDuelUser, g_ConfigRead.server.GetObjectMax()))
 		{
 			return ENEWPVP::E_ALREADY_DUELLING;
 		}
@@ -331,14 +331,14 @@ private:
 		return 0;
 	};
 
-	int GetDuelStatusByResponsor(LPGameObject &Obj)
+	int GetDuelStatusByResponsor(CGameObject &Obj)
 	{
-		if(CHECK_LIMIT(obj->m_iDuelUserRequested, g_ConfigRead.server.GetObjectMax()))
+		if(CHECK_LIMIT(Obj.m_iDuelUserRequested, g_ConfigRead.server.GetObjectMax()))
 		{
 			return ENEWPVP::E_ALREADY_DUELREQUESTED_1;
 		}
 
-		if(CHECK_LIMIT(obj->m_iDuelUserReserved, g_ConfigRead.server.GetObjectMax()))
+		if(CHECK_LIMIT(Obj.m_iDuelUserReserved, g_ConfigRead.server.GetObjectMax()))
 		{
 			return ENEWPVP::E_ALREADY_DUELRESERVED_1;
 		}
@@ -351,21 +351,21 @@ private:
 		return 0;
 	};
 
-	void Leave(LPGameObject &requester, LPGameObject &responsor);
-	void ReFill(LPGameObject &obj);
+	void Leave(CGameObject &requester, CGameObject &responsor);
+	void ReFill(CGameObject &obj);
 	BOOL MoveGate(int nIndex,int nGateNum);
 	BOOL CheckLimitLevel(int nIndex, int nGateNum);
-	int GetChannelIdByObserver(LPGameObject &Obj);
+	int GetChannelIdByObserver(CGameObject &Obj);
 	int CheckUsersOnConnect(int nId);
 	void GetObserverList(int nId,PMSG_DUEL_OBSERVERLIST_BROADCAST& res);
 	void LeaveChannelObserver(int nId);
 	void CheckChannelListInfo(int nId);
 
 	void BroadcastScore(int nId, BYTE nFlag);
-	void BroadcastResult(int nId,BYTE nFlag, LPGameObject &Obj);
+	void BroadcastResult(int nId,BYTE nFlag, CGameObject &Obj);
 	void BroadcastDuelInfo(int nId,BYTE nFlag);
-	void BroadcastJoinChannel(int nId,LPGameObject &Obj);
-	void BroadcastLeaveChannel(int nId,LPGameObject &Obj);
+	void BroadcastJoinChannel(int nId,CGameObject &Obj);
+	void BroadcastLeaveChannel(int nId,CGameObject &Obj);
 	void BroadcastToObserver(int nId,BYTE* lpData,int nSize);
 	void BroadcastMessage(int nId,BYTE nFlag, BYTE nMsgType,int nNotifySec);
 	void BroadcastRound(int nId, BYTE nFlag, BOOL bEnd);

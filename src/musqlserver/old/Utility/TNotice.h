@@ -19,13 +19,13 @@ public:
 	static void MakeNoticeMsgEx(void * lpNotice, BYTE btType, LPSTR szNoticeMsg, ...);
 	static void SetNoticeProperty(void * lpNotice, BYTE btType, DWORD dwColor, BYTE btCount, WORD wDelay, BYTE btSpeed);
 	static void SendNoticeToAllUser(void * lpNotice);
-	static void SendNoticeToUser(LPGameObject &lpObj, void * lpNotice);
+	static void SendNoticeToUser(CGameObject &lpObj, void * lpNotice);
 	static void AllSendServerMsg(LPSTR chatmsg);
 	static void GCServerMsgStringSend(LPSTR szMsg, int aIndex, BYTE type);
 
 	TNotice(BYTE btType);
 
-	void __cdecl SendToUser(LPGameObject &lpObj, LPSTR szMsg, ...);
+	void __cdecl SendToUser(CGameObject &lpObj, LPSTR szMsg, ...);
 	void __cdecl SendToAllUser(LPSTR szMsg, ...);
 
 	// Dont have prefix

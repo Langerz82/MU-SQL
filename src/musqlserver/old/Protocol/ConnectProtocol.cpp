@@ -65,7 +65,7 @@ void UDPSetServerInfo(PMSG_SERVERINFO * aRecv)
 	}
 }
 
-void SCSendServerList(LPGameObject &lpObj)
+void SCSendServerList(CGameObject &lpObj)
 {
 	PMSG_SERVERSLIST_COUNT * pMsg;///(0xC2, 0xF4, 0x06);
 	PMSG_SERVERLIST_SERVER * pServer;
@@ -120,7 +120,7 @@ void SCSendServerList(LPGameObject &lpObj)
 	g_Log.Add("[Server] Sent Server List COUNT: [%d] (Index: [%d])", Count, aIndex);
 }
 
-void SCSendServerInfo(LPGameObject &lpObj, PMSG_SERVER_SELECT * aRecv)
+void SCSendServerInfo(CGameObject &lpObj, PMSG_SERVER_SELECT * aRecv)
 {
 	PMSG_CONNECT_INFO pMsg;
 
@@ -147,7 +147,7 @@ void SCSendServerInfo(LPGameObject &lpObj, PMSG_SERVER_SELECT * aRecv)
 	}
 }
 
-void SCConnectResultSend(LPGameObject &lpObj, BYTE btResult)
+void SCConnectResultSend(CGameObject &lpObj, BYTE btResult)
 {
 	PMSG_RESULT pMsg;
 
@@ -159,7 +159,7 @@ void SCConnectResultSend(LPGameObject &lpObj, BYTE btResult)
 	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void SCSendNews(LPGameObject &lpObj)
+void SCSendNews(CGameObject &lpObj)
 {
 	PMSG_SEND_TITLE pTitle;
 	pTitle.h.c = 0xC1;
@@ -204,7 +204,7 @@ void SCSendNews(LPGameObject &lpObj)
 	}
 }
 
-void SCSendAutoUpdateData(LPGameObject &lpObj, PMSG_CLIENTVERSION *aRecv)
+void SCSendAutoUpdateData(CGameObject &lpObj, PMSG_CLIENTVERSION *aRecv)
 {
 	unsigned int MainVersion, HeadVersion, SubVersion;
 

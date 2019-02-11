@@ -199,7 +199,7 @@ BOOL CEventDungeonItemBag::DropEventItem(int nIndex, int nMaxUserLevel)
 		return FALSE;
 	}
 
-	LPGameObject lpObj = &gGameObjects[nIndex];
+	CGameObject lpObj = &gGameObjects[nIndex];
 	CEventItemBagAttr BagObject;
 	CEventItemBagAttr BagObject2;
 	int nItemCount = this->GetRegItemCount(nMaxUserLevel);
@@ -210,8 +210,8 @@ BOOL CEventDungeonItemBag::DropEventItem(int nIndex, int nMaxUserLevel)
 	{
 		for (int n=0; n < nDropItemCount; n++ )
 		{
-			int x = lpObj->X;
-			int y = lpObj->Y;
+			int x = lpObj.X;
+			int y = lpObj.Y;
 			DWORD nRand = GetLargeRand() % 1000000;
 			bool bDropItem = false;
 			bool bSetItem = false;
@@ -251,13 +251,13 @@ BOOL CEventDungeonItemBag::DropEventItem(int nIndex, int nMaxUserLevel)
 		}
 	}
 
-	int x = lpObj->X;
-	int y = lpObj->Y;
+	int x = lpObj.X;
+	int y = lpObj.Y;
 	int nDropZen = this->GetDropZen(nMaxUserLevel);
 
 	if ( nDropZen > 0 )
 	{
-		MapC[lpObj->MapNumber].MoneyItemDrop(nDropZen, x, y);
+		MapC[lpObj.MapNumber].MoneyItemDrop(nDropZen, x, y);
 	}
 
 	return TRUE;
@@ -274,7 +274,7 @@ BOOL CEventDungeonItemBag::CreateNormalItem(int nIndex, int nMaxUserLevel, CEven
 	BYTE btNewExOption[5];
 	memset(btNewExOption, -1, sizeof(btNewExOption));
 
-	LPGameObject lpObj = &gGameObjects[nIndex];
+	CGameObject lpObj = &gGameObjects[nIndex];
 
 	if ( nType == -1 )
 	{
@@ -355,18 +355,18 @@ BOOL CEventDungeonItemBag::CreateNormalItem(int nIndex, int nMaxUserLevel, CEven
 		nLevel = 0;
 	}
 
-	BYTE btDropX = lpObj->X;
-	BYTE btDropY = lpObj->Y;
+	BYTE btDropX = lpObj.X;
+	BYTE btDropY = lpObj.Y;
 
-	if( !gObjGetRandomItemDropLocation(lpObj->MapNumber, btDropX, btDropY, 2, 2, 10) )
+	if( !gObjGetRandomItemDropLocation(lpObj.MapNumber, btDropX, btDropY, 2, 2, 10) )
 	{
-		btDropX = lpObj->X;
-		btDropY = lpObj->Y;
+		btDropX = lpObj.X;
+		btDropY = lpObj.Y;
 	}
 
-	ItemSerialCreateSend(nIndex, lpObj->MapNumber, btDropX, btDropY, nType, nLevel, 0, Option1, Option2, Option3, nIndex, ExOption, 0, 0, 0, 0);
+	ItemSerialCreateSend(nIndex, lpObj.MapNumber, btDropX, btDropY, nType, nLevel, 0, Option1, Option2, Option3, nIndex, ExOption, 0, 0, 0, 0);
 	sLog->outBasic("[IMPERIALGUARDIAN] Drop Item : (%d)(%d/%d) Item:(%s)%d Level:%d op1:%d op2:%d op3:%d ExOp:%d",
-		lpObj->MapNumber, btDropX, btDropY, ItemAttribute[nType].Name, nType, nLevel, Option1, Option2, Option3, ExOption);
+		lpObj.MapNumber, btDropX, btDropY, ItemAttribute[nType].Name, nType, nLevel, Option1, Option2, Option3, ExOption);
 
 	return TRUE;
 }
@@ -377,7 +377,7 @@ int CEventDungeonItemBag::CreateSetItem(int nIndex, CEventItemBagAttr BagObject)
 	int SetOption = gSetItemOption.GenSetOption(nType);
 	int Option2 = 0;
 	int Option3 = 0;
-	LPGameObject lpObj = &gGameObjects[nIndex];
+	CGameObject lpObj = &gGameObjects[nIndex];
 	BYTE btMapNumber = gGameObjects[nIndex].MapNumber;
 	int option2rand = 4;
 	int option3rand = rand()%100;
@@ -411,13 +411,13 @@ int CEventDungeonItemBag::CreateSetItem(int nIndex, CEventItemBagAttr BagObject)
 			Option3 = 3;
 	}
 
-	BYTE btDropX = lpObj->X;
-	BYTE btDropY = lpObj->Y;
+	BYTE btDropX = lpObj.X;
+	BYTE btDropY = lpObj.Y;
 
 	if ( !gObjGetRandomItemDropLocation(btMapNumber, btDropX, btDropY, 2, 2, 10) )
 	{
-		btDropX = lpObj->X;
-		btDropY = lpObj->Y;
+		btDropX = lpObj.X;
+		btDropY = lpObj.Y;
 	}
 
 	int tmpSetOption = 0;
@@ -435,7 +435,7 @@ int CEventDungeonItemBag::CreateSetItem(int nIndex, CEventItemBagAttr BagObject)
 
 	ItemSerialCreateSend(nIndex, btMapNumber, btDropX, btDropY, nType, 0, 0, TRUE, Option2, Option3, nIndex, 0, SetOption, 0, 0, 0);
 	sLog->outBasic("[IMPERIALGUARDIAN] Drop Set Item [%s][%s] : (%d)(%d/%d) Itemnum:[%d] skill:[%d] luck:[%d] option:[%d] SetOption:[%d], SetName:[%s]",
-		lpObj->AccountID, lpObj->Name, btMapNumber, btDropX, btDropY, nType, TRUE, Option2, Option3, SetOption, gSetItemOption.GetSetOptionName(tmpSetOption));
+		lpObj.AccountID, lpObj.Name, btMapNumber, btDropX, btDropY, nType, TRUE, Option2, Option3, SetOption, gSetItemOption.GetSetOptionName(tmpSetOption));
 
 	return TRUE;
 }

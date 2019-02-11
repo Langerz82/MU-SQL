@@ -64,20 +64,20 @@ public:
 	void ReadFile(char *filename);
 
 	void Run();
-	void SetVipForUser(LPGameObject &lpObj, BYTE btVipType);
+	void SetVipForUser(CGameObject &lpObj, BYTE btVipType);
 
-	float GetExpBonus(LPGameObject &lpObj);
-	int GetDropBonus(LPGameObject &lpObj);
-	int GetExcDropBonus(LPGameObject &lpObj);
-	WORD GetMLMonsterMinLevel(LPGameObject &lpObj);
-	DWORD GetPointPerReset(LPGameObject &lpObj);
-	int GetPlusItemMixRate(LPGameObject &lpObj, int iMixType);
-	int GetPlusItemAddLuckRate(LPGameObject &lpObj);
-	int GetWing2ndRate(LPGameObject &lpObj);
-	int GetWing25Rate(LPGameObject &lpObj);
-	int GetWing3rdRate(LPGameObject &lpObj);
-	int GetCapeOfLordRate(LPGameObject &lpObj);
-	int GetFeatherOfCondorRate(LPGameObject &lpObj);
+	float GetExpBonus(CGameObject &lpObj);
+	int GetDropBonus(CGameObject &lpObj);
+	int GetExcDropBonus(CGameObject &lpObj);
+	WORD GetMLMonsterMinLevel(CGameObject &lpObj);
+	DWORD GetPointPerReset(CGameObject &lpObj);
+	int GetPlusItemMixRate(CGameObject &lpObj, int iMixType);
+	int GetPlusItemAddLuckRate(CGameObject &lpObj);
+	int GetWing2ndRate(CGameObject &lpObj);
+	int GetWing25Rate(CGameObject &lpObj);
+	int GetWing3rdRate(CGameObject &lpObj);
+	int GetCapeOfLordRate(CGameObject &lpObj);
+	int GetFeatherOfCondorRate(CGameObject &lpObj);
 
 	int IsServerVIP() { return this->m_IsServerVIP; }
 	char * GetVipName(BYTE btVipType);

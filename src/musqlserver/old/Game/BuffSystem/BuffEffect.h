@@ -90,21 +90,21 @@ public:
 	CBuffEffect();
 	virtual ~CBuffEffect();
 
-	void SetBuffEffect(LPGameObject &lpObj, BYTE EffectType, int EffectValue);
-	void ClearBuffEffect(LPGameObject &lpObj, BYTE EffectType, int EffectValue);
-	void SetActiveBuffEffect(LPGameObject &lpObj, BYTE EffectType, int EffectValue);
-	void SetPrevEffect(LPGameObject &lpObj);
-	void SetNextEffect(LPGameObject &lpObj);
-	void ClearPrevEffect(LPGameObject &lpObj);
-	void GiveDamageEffect(LPGameObject &lpObj, int Damage);
-	void PoisonEffect(LPGameObject &lpObj, BYTE PoisonRate);
-	void GiveDamageFillHPEffect(LPGameObject &lpObj, int Damage);
+	void SetBuffEffect(CGameObject &lpObj, BYTE EffectType, int EffectValue);
+	void ClearBuffEffect(CGameObject &lpObj, BYTE EffectType, int EffectValue);
+	void SetActiveBuffEffect(CGameObject &lpObj, BYTE EffectType, int EffectValue);
+	void SetPrevEffect(CGameObject &lpObj);
+	void SetNextEffect(CGameObject &lpObj);
+	void ClearPrevEffect(CGameObject &lpObj);
+	void GiveDamageEffect(CGameObject &lpObj, int Damage);
+	void PoisonEffect(CGameObject &lpObj, BYTE PoisonRate);
+	void GiveDamageFillHPEffect(CGameObject &lpObj, int Damage);
 	void RequestGuildPeriodBuffInsert(char *szGuildName,PeriodBuffInfo *lpBuffInfo);
 	void RequestGuildPeriodBuffDelete(WORD *wBuffIndex, char btGuildCnt);
-	void RequestPeriodBuffDelete(LPGameObject lpObj, WORD wBuffIndex);
+	void RequestPeriodBuffDelete(CGameObject lpObj, WORD wBuffIndex);
 	void RequestPeriodBuffDelete(char *szName, WORD wBuffIndex);
-	void RequestPeriodBuffInsert(LPGameObject lpObj,PeriodBuffInfo *lpBuffInfo);
-	void RequestPeriodBuffSelect(LPGameObject &lpObj);
+	void RequestPeriodBuffInsert(CGameObject lpObj,PeriodBuffInfo *lpBuffInfo);
+	void RequestPeriodBuffSelect(CGameObject &lpObj);
 	void DGPeriodItemExSelect(PMSG_ANS_PERIODBUFF_SELECT *lpMsg);
 };
 

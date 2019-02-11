@@ -9,101 +9,101 @@
 // Construction
 //////////////////////////////////////////////////////////////////////
 
-void TMonsterSkillElementInfo::CheckSkillElementInfoProc(LPGameObject &lpObj)
+void TMonsterSkillElementInfo::CheckSkillElementInfoProc(CGameObject &lpObj)
 {
-	if ( lpObj->m_MonsterSkillElementInfo.CheckAttackTime() )
+	if ( lpObj.m_MonsterSkillElementInfo.CheckAttackTime() )
 	{
-		if ( lpObj->m_MonsterSkillElementInfo.DecAttackTime() )
+		if ( lpObj.m_MonsterSkillElementInfo.DecAttackTime() )
 		{
-			lpObj->m_MonsterSkillElementInfo.ResetAttack();
+			lpObj.m_MonsterSkillElementInfo.ResetAttack();
 		}
 	}
 
-	if ( lpObj->m_MonsterSkillElementInfo.CheckDefenseTime() )
+	if ( lpObj.m_MonsterSkillElementInfo.CheckDefenseTime() )
 	{
-		if ( lpObj->m_MonsterSkillElementInfo.DecDefenseTime() )
+		if ( lpObj.m_MonsterSkillElementInfo.DecDefenseTime() )
 		{
-			lpObj->m_MonsterSkillElementInfo.ResetDefense();
+			lpObj.m_MonsterSkillElementInfo.ResetDefense();
 		}
 	}
 	
-	if ( lpObj->m_MonsterSkillElementInfo.CheckAutoAGTime() )
+	if ( lpObj.m_MonsterSkillElementInfo.CheckAutoAGTime() )
 	{
-		if ( lpObj->m_MonsterSkillElementInfo.DecAutoAGTime() )
+		if ( lpObj.m_MonsterSkillElementInfo.DecAutoAGTime() )
 		{
-			lpObj->m_MonsterSkillElementInfo.ResetAutoAG();
+			lpObj.m_MonsterSkillElementInfo.ResetAutoAG();
 		}
 	}
 
-	if ( lpObj->m_MonsterSkillElementInfo.CheckAutoHPTime() )
+	if ( lpObj.m_MonsterSkillElementInfo.CheckAutoHPTime() )
 	{
-		if ( lpObj->m_MonsterSkillElementInfo.DecAutoHPTime() )
+		if ( lpObj.m_MonsterSkillElementInfo.DecAutoHPTime() )
 		{
-			lpObj->m_MonsterSkillElementInfo.ResetAutoHP();
+			lpObj.m_MonsterSkillElementInfo.ResetAutoHP();
 		}
 		else 
 		{
-			if ( lpObj->m_MonsterSkillElementInfo.m_iSkillElementAutoHPCycle == 110 )
-				lpObj->Life += lpObj->m_MonsterSkillElementInfo.m_iSkillElementAutoHP;
+			if ( lpObj.m_MonsterSkillElementInfo.m_iSkillElementAutoHPCycle == 110 )
+				lpObj.Life += lpObj.m_MonsterSkillElementInfo.m_iSkillElementAutoHP;
 			else
-				lpObj->Life += lpObj->Life * lpObj->m_MonsterSkillElementInfo.m_iSkillElementAutoHP / 100.0f;
+				lpObj.Life += lpObj.Life * lpObj.m_MonsterSkillElementInfo.m_iSkillElementAutoHP / 100.0f;
 
-			if ( lpObj->Life <0 )
+			if ( lpObj.Life <0 )
 			{
-				lpObj->Life = 0;
-				GSProtocol.GCReFillSend(lpObj->m_Index, lpObj->Life, 0xFF, 0, lpObj->iShield);
+				lpObj.Life = 0;
+				GSProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
 			}
-			else if ( (lpObj->MaxLife + lpObj->AddLife) < lpObj->Life )
+			else if ( (lpObj.MaxLife + lpObj.AddLife) < lpObj.Life )
 			{
-				lpObj->Life = lpObj->MaxLife + lpObj->AddLife;
-				GSProtocol.GCReFillSend(lpObj->m_Index, lpObj->Life, 0xFF, 0, lpObj->iShield);
+				lpObj.Life = lpObj.MaxLife + lpObj.AddLife;
+				GSProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
 			}
 			else
 			{
-				GSProtocol.GCReFillSend(lpObj->m_Index, lpObj->Life, 0xFF, 0, lpObj->iShield);
+				GSProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
 			}
 		}
 	}
 
-	if ( lpObj->m_MonsterSkillElementInfo.CheckAutoMPTime() )
+	if ( lpObj.m_MonsterSkillElementInfo.CheckAutoMPTime() )
 	{
-		if ( lpObj->m_MonsterSkillElementInfo.DecAutoMPTime() )
+		if ( lpObj.m_MonsterSkillElementInfo.DecAutoMPTime() )
 		{
-			lpObj->m_MonsterSkillElementInfo.ResetAutoMP();
+			lpObj.m_MonsterSkillElementInfo.ResetAutoMP();
 		}
 	}
 
-	if ( lpObj->m_MonsterSkillElementInfo.CheckImmuneTime() )
+	if ( lpObj.m_MonsterSkillElementInfo.CheckImmuneTime() )
 	{
-		if ( lpObj->m_MonsterSkillElementInfo.DecImmuneTime() )
+		if ( lpObj.m_MonsterSkillElementInfo.DecImmuneTime() )
 		{
-			lpObj->m_MonsterSkillElementInfo.ResetImmune();
+			lpObj.m_MonsterSkillElementInfo.ResetImmune();
 			gObjRemoveBuffEffect(lpObj, BUFFTYPE_MONSTER_MAGIC_IMMUNE);
 			gObjRemoveBuffEffect(lpObj, BUFFTYPE_MONSTER_MELEE_IMMUNE);
 		}
 	}
 
-	if ( lpObj->m_MonsterSkillElementInfo.CheckResistTime() )
+	if ( lpObj.m_MonsterSkillElementInfo.CheckResistTime() )
 	{
-		if ( lpObj->m_MonsterSkillElementInfo.DecResistTime() )
+		if ( lpObj.m_MonsterSkillElementInfo.DecResistTime() )
 		{
-			lpObj->m_MonsterSkillElementInfo.ResetResist();
+			lpObj.m_MonsterSkillElementInfo.ResetResist();
 		}
 	}
 
-	if ( lpObj->m_MonsterSkillElementInfo.CheckModifyStatTime() )
+	if ( lpObj.m_MonsterSkillElementInfo.CheckModifyStatTime() )
 	{
-		if ( lpObj->m_MonsterSkillElementInfo.DecModifyStatTime() )
+		if ( lpObj.m_MonsterSkillElementInfo.DecModifyStatTime() )
 		{
-			lpObj->m_MonsterSkillElementInfo.ResetModifyStat();
+			lpObj.m_MonsterSkillElementInfo.ResetModifyStat();
 		}
 	}
 
-	if (lpObj->m_MonsterSkillElementInfo.CheckImmuneAllTime())
+	if (lpObj.m_MonsterSkillElementInfo.CheckImmuneAllTime())
 	{
-		if (lpObj->m_MonsterSkillElementInfo.DecImmuneAllTime())
+		if (lpObj.m_MonsterSkillElementInfo.DecImmuneAllTime())
 		{
-			lpObj->m_MonsterSkillElementInfo.ResetImmuneAll();
+			lpObj.m_MonsterSkillElementInfo.ResetImmuneAll();
 		}
 	}
 }

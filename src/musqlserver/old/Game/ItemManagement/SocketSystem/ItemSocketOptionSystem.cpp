@@ -878,7 +878,7 @@ BONUS_SOCKET_OPTION * CItemSocketOptionSystem::GetBonusSocketOption(BYTE btBonus
 	return NULL;
 }
 
-int CItemSocketOptionSystem::ApplySeedSphereEffect(LPGameObject &lpObj)
+int CItemSocketOptionSystem::ApplySeedSphereEffect(CGameObject &lpObj)
 {
 	int iTotalSeedSphereCount = 0;
 	BYTE SeedSphereIndex = 0;
@@ -889,11 +889,11 @@ int CItemSocketOptionSystem::ApplySeedSphereEffect(LPGameObject &lpObj)
 
 	for (int iEquip = 0; iEquip < INVETORY_WEAR_SIZE; iEquip++)
 	{
-		if (!IsEnableSocketItem(&lpObj->pInventory[iEquip]))	continue;
+		if (!IsEnableSocketItem(&lpObj.pInventory[iEquip]))	continue;
 
 		for (int i = 0; i < 5; i++)
 		{
-			SeedSphereIndex = lpObj->pInventory[iEquip].m_SocketOption[i];
+			SeedSphereIndex = lpObj.pInventory[iEquip].m_SocketOption[i];
 
 			if (SeedSphereIndex == 0xFF ||
 				SeedSphereIndex == 0xFE)
@@ -914,16 +914,16 @@ int CItemSocketOptionSystem::ApplySeedSphereEffect(LPGameObject &lpObj)
 	return iTotalSeedSphereCount;
 }
 
-void CItemSocketOptionSystem::ApplyBonusOptionEffect(LPGameObject &lpObj)
+void CItemSocketOptionSystem::ApplyBonusOptionEffect(CGameObject &lpObj)
 {
 	BYTE btBonusSocketIndex = 0;
 	LPBONUS_SOCKET_OPTION lpBonusOptionData = NULL;
 
 	for (int iEquip = 0; iEquip < INVETORY_WEAR_SIZE; iEquip++)
 	{
-		if (!IsEnableSocketItem(&lpObj->pInventory[iEquip]))	continue;
+		if (!IsEnableSocketItem(&lpObj.pInventory[iEquip]))	continue;
 
-		btBonusSocketIndex = lpObj->pInventory[iEquip].m_BonusSocketOption;
+		btBonusSocketIndex = lpObj.pInventory[iEquip].m_BonusSocketOption;
 
 		if (btBonusSocketIndex == 0xFF ||
 			btBonusSocketIndex == 0xFE)
@@ -939,9 +939,9 @@ void CItemSocketOptionSystem::ApplyBonusOptionEffect(LPGameObject &lpObj)
 	}
 }
 
-void CItemSocketOptionSystem::ApplySetOptionEffect(LPGameObject &lpObj)
+void CItemSocketOptionSystem::ApplySetOptionEffect(CGameObject &lpObj)
 {
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return;
 	}
@@ -954,10 +954,10 @@ void CItemSocketOptionSystem::ApplySetOptionEffect(LPGameObject &lpObj)
 
 	for (int iUserSocketIndex = 0; iUserSocketIndex < 35; iUserSocketIndex++)
 	{
-		btSeedType = GetSocketType(lpObj->m_PlayerData->m_SeedOptionList[iUserSocketIndex].m_SocketOptionIndex);
+		btSeedType = GetSocketType(lpObj.m_PlayerData->m_SeedOptionList[iUserSocketIndex].m_SocketOptionIndex);
 		if (btSeedType == SEED_TYPE_NONE)	break;
 
-		btTotalSeedTypeList[btSeedType - 1] += lpObj->m_PlayerData->m_SeedOptionList[iUserSocketIndex].m_SocketOptionCount;
+		btTotalSeedTypeList[btSeedType - 1] += lpObj.m_PlayerData->m_SeedOptionList[iUserSocketIndex].m_SocketOptionCount;
 	}
 
 	for (int iSetOptionIndex = 0; iSetOptionIndex < 2; iSetOptionIndex++)
@@ -978,14 +978,14 @@ void CItemSocketOptionSystem::ApplySetOptionEffect(LPGameObject &lpObj)
 	}
 }
 
-bool CItemSocketOptionSystem::SetApplySocketEffect(LPGameObject &lpObj)
+bool CItemSocketOptionSystem::SetApplySocketEffect(CGameObject &lpObj)
 {
 	int iTotalSeedSphereCount = 0;
 
 	if (lpObj == NULL)	return false;
 
-	if (lpObj->Type != OBJ_USER ||
-		lpObj->Connected < PLAYER_PLAYING)	return false;
+	if (lpObj.Type != OBJ_USER ||
+		lpObj.Connected < PLAYER_PLAYING)	return false;
 
 	SetClearSocketEffect(lpObj);
 
@@ -997,41 +997,41 @@ bool CItemSocketOptionSystem::SetApplySocketEffect(LPGameObject &lpObj)
 	return true;
 }
 
-void CItemSocketOptionSystem::SetClearSocketEffect(LPGameObject &lpObj)
+void CItemSocketOptionSystem::SetClearSocketEffect(CGameObject &lpObj)
 {
 	if (lpObj == NULL)	return;
 
-	if (lpObj->Type != OBJ_USER ||
-		lpObj->Connected < PLAYER_PLAYING)	return;
+	if (lpObj.Type != OBJ_USER ||
+		lpObj.Connected < PLAYER_PLAYING)	return;
 
 	int iIndex = 0;
 
 	for (iIndex = 0; iIndex < 35; iIndex++)
 	{
-		if (lpObj->m_PlayerData->m_SeedOptionList[iIndex].m_SocketOptionIndex == 0xFF)	break;
-		lpObj->m_PlayerData->m_SeedOptionList[iIndex].Clear();
+		if (lpObj.m_PlayerData->m_SeedOptionList[iIndex].m_SocketOptionIndex == 0xFF)	break;
+		lpObj.m_PlayerData->m_SeedOptionList[iIndex].Clear();
 	}
 
 	for (iIndex = 0; iIndex < 7; iIndex++)
 	{
-		if (lpObj->m_PlayerData->m_BonusOptionList[iIndex].m_SocketOptionIndex == 0xFF)	break;
-		lpObj->m_PlayerData->m_BonusOptionList[iIndex].Clear();
+		if (lpObj.m_PlayerData->m_BonusOptionList[iIndex].m_SocketOptionIndex == 0xFF)	break;
+		lpObj.m_PlayerData->m_BonusOptionList[iIndex].Clear();
 	}
 
 	for (iIndex = 0; iIndex < 2; iIndex++)
 	{
-		if (lpObj->m_PlayerData->m_SetOptionList[iIndex].m_SocketOptionIndex == 0xFF)	break;
-		lpObj->m_PlayerData->m_SetOptionList[iIndex].Clear();
+		if (lpObj.m_PlayerData->m_SetOptionList[iIndex].m_SocketOptionIndex == 0xFF)	break;
+		lpObj.m_PlayerData->m_SetOptionList[iIndex].Clear();
 	}
 
-	lpObj->m_PlayerData->m_btRefillHPSocketOption = 0;
-	lpObj->m_PlayerData->m_btRefillMPSocketOption = 0;
-	lpObj->m_PlayerData->m_wSocketOptionMonsterDieGetHp = 0;
-	lpObj->m_PlayerData->m_wSocketOptionMonsterDieGetMana = 0;
-	lpObj->m_PlayerData->m_btAGReduceRate = 0;
+	lpObj.m_PlayerData->m_btRefillHPSocketOption = 0;
+	lpObj.m_PlayerData->m_btRefillMPSocketOption = 0;
+	lpObj.m_PlayerData->m_wSocketOptionMonsterDieGetHp = 0;
+	lpObj.m_PlayerData->m_wSocketOptionMonsterDieGetMana = 0;
+	lpObj.m_PlayerData->m_btAGReduceRate = 0;
 }
 
-void CItemSocketOptionSystem::SetEffect(LPGameObject &lpObj, BYTE btOptionType, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemSocketOptionSystem::SetEffect(CGameObject &lpObj, BYTE btOptionType, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	if (btEffectType >= 0 && btEffectType <= 9)
 	{
@@ -1068,31 +1068,31 @@ void CItemSocketOptionSystem::SetEffect(LPGameObject &lpObj, BYTE btOptionType, 
 
 	for (int i = 0; i < 43; i++) //{Nice WebZen =D}
 	{
-		if (lpObj->m_PlayerData->m_SeedOptionList[i].m_SocketOptionIndex == btEffectType &&
-			lpObj->m_PlayerData->m_SeedOptionList[i].m_SocketOptionValueType == btEffectValueType)
+		if (lpObj.m_PlayerData->m_SeedOptionList[i].m_SocketOptionIndex == btEffectType &&
+			lpObj.m_PlayerData->m_SeedOptionList[i].m_SocketOptionValueType == btEffectValueType)
 		{
-			lpObj->m_PlayerData->m_SeedOptionList[i].m_SocketOptionValue += wEffectValue;
-			lpObj->m_PlayerData->m_SeedOptionList[i].m_SocketOptionCount++;
+			lpObj.m_PlayerData->m_SeedOptionList[i].m_SocketOptionValue += wEffectValue;
+			lpObj.m_PlayerData->m_SeedOptionList[i].m_SocketOptionCount++;
 			break;
 		}
 
-		if (lpObj->m_PlayerData->m_SeedOptionList[i].m_SocketOptionIndex == 0xFF)
+		if (lpObj.m_PlayerData->m_SeedOptionList[i].m_SocketOptionIndex == 0xFF)
 		{
-			lpObj->m_PlayerData->m_SeedOptionList[i].m_SocketOptionIndex = btEffectType;
-			lpObj->m_PlayerData->m_SeedOptionList[i].m_SocketOptionValueType = btEffectValueType;
-			lpObj->m_PlayerData->m_SeedOptionList[i].m_SocketOptionValue = wEffectValue;
-			lpObj->m_PlayerData->m_SeedOptionList[i].m_SocketOptionCount = 1;
+			lpObj.m_PlayerData->m_SeedOptionList[i].m_SocketOptionIndex = btEffectType;
+			lpObj.m_PlayerData->m_SeedOptionList[i].m_SocketOptionValueType = btEffectValueType;
+			lpObj.m_PlayerData->m_SeedOptionList[i].m_SocketOptionValue = wEffectValue;
+			lpObj.m_PlayerData->m_SeedOptionList[i].m_SocketOptionCount = 1;
 			break;
 		}
 	}
 }
 
-void CItemSocketOptionSystem::ClearEffect(LPGameObject &lpObj, LPSOCKET_OPTION_LIST lpOptionData)
+void CItemSocketOptionSystem::ClearEffect(CGameObject &lpObj, LPSOCKET_OPTION_LIST lpOptionData)
 {
 	//empty, possible due to "return;" in the beggining
 }
 
-void CItemSocketOptionSystem::_SetFireEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemSocketOptionSystem::_SetFireEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	int iCalcEffectValue = 0;
 
@@ -1100,93 +1100,93 @@ void CItemSocketOptionSystem::_SetFireEffect(LPGameObject &lpObj, BYTE btEffectT
 	{
 	case SEED_EFFECT_TYPE_ATTACK_POWER:
 	{
-		iCalcEffectValue = CalcEffectValue(lpObj->m_AttackDamageMaxLeft, wEffectValue, btEffectValueType);
-		lpObj->m_AttackDamageMaxLeft += iCalcEffectValue;
+		iCalcEffectValue = CalcEffectValue(lpObj.m_AttackDamageMaxLeft, wEffectValue, btEffectValueType);
+		lpObj.m_AttackDamageMaxLeft += iCalcEffectValue;
 
-		iCalcEffectValue = CalcEffectValue(lpObj->m_AttackDamageMinLeft, wEffectValue, btEffectValueType);
-		lpObj->m_AttackDamageMinLeft += iCalcEffectValue;
+		iCalcEffectValue = CalcEffectValue(lpObj.m_AttackDamageMinLeft, wEffectValue, btEffectValueType);
+		lpObj.m_AttackDamageMinLeft += iCalcEffectValue;
 
-		iCalcEffectValue = CalcEffectValue(lpObj->m_AttackDamageMaxRight, wEffectValue, btEffectValueType);
-		lpObj->m_AttackDamageMaxRight += iCalcEffectValue;
+		iCalcEffectValue = CalcEffectValue(lpObj.m_AttackDamageMaxRight, wEffectValue, btEffectValueType);
+		lpObj.m_AttackDamageMaxRight += iCalcEffectValue;
 
-		iCalcEffectValue = CalcEffectValue(lpObj->m_AttackDamageMinRight, wEffectValue, btEffectValueType);
-		lpObj->m_AttackDamageMinRight += iCalcEffectValue;
+		iCalcEffectValue = CalcEffectValue(lpObj.m_AttackDamageMinRight, wEffectValue, btEffectValueType);
+		lpObj.m_AttackDamageMinRight += iCalcEffectValue;
 
-		iCalcEffectValue = CalcEffectValue(lpObj->m_MagicDamageMin, wEffectValue, btEffectValueType);
-		lpObj->m_MagicDamageMin += iCalcEffectValue;
+		iCalcEffectValue = CalcEffectValue(lpObj.m_MagicDamageMin, wEffectValue, btEffectValueType);
+		lpObj.m_MagicDamageMin += iCalcEffectValue;
 
-		iCalcEffectValue = CalcEffectValue(lpObj->m_MagicDamageMax, wEffectValue, btEffectValueType);
-		lpObj->m_MagicDamageMax += iCalcEffectValue;
+		iCalcEffectValue = CalcEffectValue(lpObj.m_MagicDamageMax, wEffectValue, btEffectValueType);
+		lpObj.m_MagicDamageMax += iCalcEffectValue;
 	}
 	break;
 	case SEED_EFFECT_TYPE_ATTACK_SPEED:
 	{
-		iCalcEffectValue = CalcEffectValue(lpObj->m_AttackSpeed, wEffectValue, btEffectValueType);
-		lpObj->m_AttackSpeed += iCalcEffectValue;
+		iCalcEffectValue = CalcEffectValue(lpObj.m_AttackSpeed, wEffectValue, btEffectValueType);
+		lpObj.m_AttackSpeed += iCalcEffectValue;
 
-		iCalcEffectValue = CalcEffectValue(lpObj->m_MagicSpeed, wEffectValue, btEffectValueType);
-		lpObj->m_MagicSpeed += iCalcEffectValue;
+		iCalcEffectValue = CalcEffectValue(lpObj.m_MagicSpeed, wEffectValue, btEffectValueType);
+		lpObj.m_MagicSpeed += iCalcEffectValue;
 	}
 	break;
 	case SEED_EFFECT_TYPE_MAX_ATTACK_POWER:
 	{
-		iCalcEffectValue = CalcEffectValue(lpObj->m_AttackDamageMaxLeft, wEffectValue, btEffectValueType);
-		lpObj->m_AttackDamageMaxLeft += iCalcEffectValue;
+		iCalcEffectValue = CalcEffectValue(lpObj.m_AttackDamageMaxLeft, wEffectValue, btEffectValueType);
+		lpObj.m_AttackDamageMaxLeft += iCalcEffectValue;
 
-		iCalcEffectValue = CalcEffectValue(lpObj->m_AttackDamageMaxRight, wEffectValue, btEffectValueType);
-		lpObj->m_AttackDamageMaxRight += iCalcEffectValue;
+		iCalcEffectValue = CalcEffectValue(lpObj.m_AttackDamageMaxRight, wEffectValue, btEffectValueType);
+		lpObj.m_AttackDamageMaxRight += iCalcEffectValue;
 
-		iCalcEffectValue = CalcEffectValue(lpObj->m_MagicDamageMax, wEffectValue, btEffectValueType);
-		lpObj->m_MagicDamageMax += iCalcEffectValue;
+		iCalcEffectValue = CalcEffectValue(lpObj.m_MagicDamageMax, wEffectValue, btEffectValueType);
+		lpObj.m_MagicDamageMax += iCalcEffectValue;
 	}
 	break;
 	case SEED_EFFECT_TYPE_MIN_ATTACK_POWER:
 	{
-		iCalcEffectValue = CalcEffectValue(lpObj->m_AttackDamageMinLeft, wEffectValue, btEffectValueType);
-		lpObj->m_AttackDamageMinLeft += iCalcEffectValue;
+		iCalcEffectValue = CalcEffectValue(lpObj.m_AttackDamageMinLeft, wEffectValue, btEffectValueType);
+		lpObj.m_AttackDamageMinLeft += iCalcEffectValue;
 
-		iCalcEffectValue = CalcEffectValue(lpObj->m_AttackDamageMinRight, wEffectValue, btEffectValueType);
-		lpObj->m_AttackDamageMinRight += iCalcEffectValue;
+		iCalcEffectValue = CalcEffectValue(lpObj.m_AttackDamageMinRight, wEffectValue, btEffectValueType);
+		lpObj.m_AttackDamageMinRight += iCalcEffectValue;
 
-		iCalcEffectValue = CalcEffectValue(lpObj->m_MagicDamageMin, wEffectValue, btEffectValueType);
-		lpObj->m_MagicDamageMin += iCalcEffectValue;
+		iCalcEffectValue = CalcEffectValue(lpObj.m_MagicDamageMin, wEffectValue, btEffectValueType);
+		lpObj.m_MagicDamageMin += iCalcEffectValue;
 	}
 	break;
 	case SEED_EFFECT_TYPE_MIN_MAX_ATTACK_POWER:
 	{
-		iCalcEffectValue = CalcEffectValue(lpObj->m_AttackDamageMaxLeft, wEffectValue, btEffectValueType);
-		lpObj->m_AttackDamageMaxLeft += iCalcEffectValue;
+		iCalcEffectValue = CalcEffectValue(lpObj.m_AttackDamageMaxLeft, wEffectValue, btEffectValueType);
+		lpObj.m_AttackDamageMaxLeft += iCalcEffectValue;
 
-		iCalcEffectValue = CalcEffectValue(lpObj->m_AttackDamageMinLeft, wEffectValue, btEffectValueType);
-		lpObj->m_AttackDamageMinLeft += iCalcEffectValue;
+		iCalcEffectValue = CalcEffectValue(lpObj.m_AttackDamageMinLeft, wEffectValue, btEffectValueType);
+		lpObj.m_AttackDamageMinLeft += iCalcEffectValue;
 
-		iCalcEffectValue = CalcEffectValue(lpObj->m_AttackDamageMaxRight, wEffectValue, btEffectValueType);
-		lpObj->m_AttackDamageMaxRight += iCalcEffectValue;
+		iCalcEffectValue = CalcEffectValue(lpObj.m_AttackDamageMaxRight, wEffectValue, btEffectValueType);
+		lpObj.m_AttackDamageMaxRight += iCalcEffectValue;
 
-		iCalcEffectValue = CalcEffectValue(lpObj->m_AttackDamageMinRight, wEffectValue, btEffectValueType);
-		lpObj->m_AttackDamageMinRight += iCalcEffectValue;
+		iCalcEffectValue = CalcEffectValue(lpObj.m_AttackDamageMinRight, wEffectValue, btEffectValueType);
+		lpObj.m_AttackDamageMinRight += iCalcEffectValue;
 
-		iCalcEffectValue = CalcEffectValue(lpObj->m_MagicDamageMin, wEffectValue, btEffectValueType);
-		lpObj->m_MagicDamageMin += iCalcEffectValue;
+		iCalcEffectValue = CalcEffectValue(lpObj.m_MagicDamageMin, wEffectValue, btEffectValueType);
+		lpObj.m_MagicDamageMin += iCalcEffectValue;
 
-		iCalcEffectValue = CalcEffectValue(lpObj->m_MagicDamageMax, wEffectValue, btEffectValueType);
-		lpObj->m_MagicDamageMax += iCalcEffectValue;
+		iCalcEffectValue = CalcEffectValue(lpObj.m_MagicDamageMax, wEffectValue, btEffectValueType);
+		lpObj.m_MagicDamageMax += iCalcEffectValue;
 	}
 	break;
 	case SEED_EFFECT_TYPE_REDUCE_AG_RATE:
 	{
-		lpObj->m_PlayerData->m_btAGReduceRate += wEffectValue;
+		lpObj.m_PlayerData->m_btAGReduceRate += wEffectValue;
 
-		if (lpObj->m_PlayerData->m_btAGReduceRate > 100)
+		if (lpObj.m_PlayerData->m_btAGReduceRate > 100)
 		{
-			lpObj->m_PlayerData->m_btAGReduceRate = 100;
+			lpObj.m_PlayerData->m_btAGReduceRate = 100;
 		}
 	}
 	break;
 	}
 }
 
-void CItemSocketOptionSystem::_SetWaterEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemSocketOptionSystem::_SetWaterEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	int iCalcEffectValue = 0;
 
@@ -1194,38 +1194,38 @@ void CItemSocketOptionSystem::_SetWaterEffect(LPGameObject &lpObj, BYTE btEffect
 	{
 	case SEED_EFFECT_TYPE_SUCCESS_BLOCK:
 	{
-		iCalcEffectValue = CalcEffectValue(lpObj->m_SuccessfulBlocking, wEffectValue, btEffectValueType);
-		lpObj->m_SuccessfulBlocking += iCalcEffectValue;
+		iCalcEffectValue = CalcEffectValue(lpObj.m_SuccessfulBlocking, wEffectValue, btEffectValueType);
+		lpObj.m_SuccessfulBlocking += iCalcEffectValue;
 	}
 	break;
 	case SEED_EFFECT_TYPE_BLOCK_POWER:
 	{
-		iCalcEffectValue = CalcEffectValue(lpObj->m_Defense, wEffectValue, btEffectValueType);
-		lpObj->m_Defense += iCalcEffectValue;
+		iCalcEffectValue = CalcEffectValue(lpObj.m_Defense, wEffectValue, btEffectValueType);
+		lpObj.m_Defense += iCalcEffectValue;
 
-		iCalcEffectValue = CalcEffectValue(lpObj->m_MagicDefense, wEffectValue, btEffectValueType);
-		lpObj->m_MagicDefense += iCalcEffectValue;
+		iCalcEffectValue = CalcEffectValue(lpObj.m_MagicDefense, wEffectValue, btEffectValueType);
+		lpObj.m_MagicDefense += iCalcEffectValue;
 	}
 	break;
 	case SEED_EFFECT_TYPE_SHIELD_BLOCK_POWER:
 	{
-		lpObj->m_PlayerData->SetOpImproveSheldDefence += wEffectValue;
+		lpObj.m_PlayerData->SetOpImproveSheldDefence += wEffectValue;
 	}
 	break;
 	case SEED_EFFECT_TYPE_REDUCE_DAMAGE:
 	{
-		lpObj->DamageDecrease += wEffectValue;
+		lpObj.DamageDecrease += wEffectValue;
 	}
 	break;
 	case SEED_EFFECT_TYPE_REFLECT_DAMAGE:
 	{
-		lpObj->DamageReflect += wEffectValue;
+		lpObj.DamageReflect += wEffectValue;
 	}
 	break;
 	}
 }
 
-void CItemSocketOptionSystem::_SetIceEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemSocketOptionSystem::_SetIceEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	int iAddValue = 0;
 
@@ -1233,32 +1233,32 @@ void CItemSocketOptionSystem::_SetIceEffect(LPGameObject &lpObj, BYTE btEffectTy
 	{
 	case SEED_EFFECT_TYPE_MONSTER_KILL_REFILL_HP:
 	{
-		iAddValue += CalcEffectValue(lpObj->MaxLife, wEffectValue, btEffectValueType);
-		lpObj->m_PlayerData->m_wSocketOptionMonsterDieGetHp += iAddValue;
+		iAddValue += CalcEffectValue(lpObj.MaxLife, wEffectValue, btEffectValueType);
+		lpObj.m_PlayerData->m_wSocketOptionMonsterDieGetHp += iAddValue;
 	}
 	break;
 	case SEED_EFFECT_TYPE_MONSTER_KILL_REFILL_MP:
 	{
-		iAddValue += CalcEffectValue(lpObj->MaxMana, wEffectValue, btEffectValueType);
-		lpObj->m_PlayerData->m_wSocketOptionMonsterDieGetMana += iAddValue;
+		iAddValue += CalcEffectValue(lpObj.MaxMana, wEffectValue, btEffectValueType);
+		lpObj.m_PlayerData->m_wSocketOptionMonsterDieGetMana += iAddValue;
 	}
 	break;
 	case SEED_EFFECT_TYPE_ATTACK_SKILL_POWER:
 	{
-		iAddValue = CalcEffectValue(lpObj->m_PlayerData->SetOpAddSkillAttack, wEffectValue, btEffectValueType);
-		lpObj->m_PlayerData->SetOpAddSkillAttack += iAddValue;
+		iAddValue = CalcEffectValue(lpObj.m_PlayerData->SetOpAddSkillAttack, wEffectValue, btEffectValueType);
+		lpObj.m_PlayerData->SetOpAddSkillAttack += iAddValue;
 	}
 	break;
 	case SEED_EFFECT_TYPE_ATTACK_ACCURACY:
 	{
-		lpObj->m_AttackRating += wEffectValue;
+		lpObj.m_AttackRating += wEffectValue;
 	}
 	break;
 
 	}
 }
 
-void CItemSocketOptionSystem::_SetWindEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemSocketOptionSystem::_SetWindEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	int iAddValue = 0;
 
@@ -1266,55 +1266,55 @@ void CItemSocketOptionSystem::_SetWindEffect(LPGameObject &lpObj, BYTE btEffectT
 	{
 	case SEED_EFFECT_TYPE_REFILL_HP_INC:
 	{
-		iAddValue = CalcEffectValue(lpObj->MaxLife, wEffectValue, btEffectValueType);
-		lpObj->m_PlayerData->m_btRefillHPSocketOption += iAddValue;
+		iAddValue = CalcEffectValue(lpObj.MaxLife, wEffectValue, btEffectValueType);
+		lpObj.m_PlayerData->m_btRefillHPSocketOption += iAddValue;
 	}
 	break;
 	case SEED_EFFECT_TYPE_MAX_HP_INC:
 	{
-		iAddValue = CalcEffectValue(lpObj->MaxLife, wEffectValue, btEffectValueType);
-		lpObj->AddLife += iAddValue;
-		GSProtocol.GCReFillSend(lpObj->m_Index, (lpObj->AddLife + lpObj->MaxLife), 0xFE, 0, (lpObj->iMaxShield + lpObj->iAddShield));
-		GSProtocol.GCReFillSend(lpObj->m_Index, lpObj->Life, 0xFF, 0, lpObj->iShield);
+		iAddValue = CalcEffectValue(lpObj.MaxLife, wEffectValue, btEffectValueType);
+		lpObj.AddLife += iAddValue;
+		GSProtocol.GCReFillSend(lpObj.m_Index, (lpObj.AddLife + lpObj.MaxLife), 0xFE, 0, (lpObj.iMaxShield + lpObj.iAddShield));
+		GSProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
 	}
 	break;
 	case SEED_EFFECT_TYPE_MAX_MP_INC:
 	{
-		iAddValue = CalcEffectValue(lpObj->MaxMana, wEffectValue, btEffectValueType);
-		lpObj->AddMana += iAddValue;
-		GSProtocol.GCManaSend(lpObj->m_Index, (lpObj->AddMana + lpObj->MaxMana), 0xFE, 0, (lpObj->MaxBP + lpObj->AddBP));
-		GSProtocol.GCManaSend(lpObj->m_Index, lpObj->Mana, 0xFF, 0, lpObj->BP);
+		iAddValue = CalcEffectValue(lpObj.MaxMana, wEffectValue, btEffectValueType);
+		lpObj.AddMana += iAddValue;
+		GSProtocol.GCManaSend(lpObj.m_Index, (lpObj.AddMana + lpObj.MaxMana), 0xFE, 0, (lpObj.MaxBP + lpObj.AddBP));
+		GSProtocol.GCManaSend(lpObj.m_Index, lpObj.Mana, 0xFF, 0, lpObj.BP);
 	}
 	break;
 	case SEED_EFFECT_TYPE_REFILL_MP_INC:
 	{
-		iAddValue = CalcEffectValue(lpObj->MaxMana, wEffectValue, btEffectValueType);
-		lpObj->m_PlayerData->m_btRefillMPSocketOption += iAddValue;
+		iAddValue = CalcEffectValue(lpObj.MaxMana, wEffectValue, btEffectValueType);
+		lpObj.m_PlayerData->m_btRefillMPSocketOption += iAddValue;
 	}
 	break;
 	case SEED_EFFECT_TYPE_MAX_AG_INC:
 	{
-		iAddValue = CalcEffectValue(lpObj->MaxBP, wEffectValue, btEffectValueType);
-		lpObj->AddBP += iAddValue;
-		GSProtocol.GCManaSend(lpObj->m_Index, (lpObj->AddMana + lpObj->MaxMana), 0xFE, 0, (lpObj->MaxBP + lpObj->AddBP));
-		GSProtocol.GCManaSend(lpObj->m_Index, lpObj->Mana, 0xFF, 0, lpObj->BP);
+		iAddValue = CalcEffectValue(lpObj.MaxBP, wEffectValue, btEffectValueType);
+		lpObj.AddBP += iAddValue;
+		GSProtocol.GCManaSend(lpObj.m_Index, (lpObj.AddMana + lpObj.MaxMana), 0xFE, 0, (lpObj.MaxBP + lpObj.AddBP));
+		GSProtocol.GCManaSend(lpObj.m_Index, lpObj.Mana, 0xFF, 0, lpObj.BP);
 	}
 	break;
 	case SEED_EFFECT_TYPE_REFILL_AG_INC:
 	{
-		iAddValue = CalcEffectValue(lpObj->m_PlayerData->SetOpIncAGValue, wEffectValue, btEffectValueType);
-		lpObj->m_PlayerData->SetOpIncAGValue += iAddValue;
+		iAddValue = CalcEffectValue(lpObj.m_PlayerData->SetOpIncAGValue, wEffectValue, btEffectValueType);
+		lpObj.m_PlayerData->SetOpIncAGValue += iAddValue;
 	}
 	break;
 	case SEED_EFFECT_TYPE_MONSTER_KILL_ZEN_INC:
 	{
-		lpObj->MonsterDieGetMoney += wEffectValue;
+		lpObj.MonsterDieGetMoney += wEffectValue;
 	}
 	break;
 	}
 }
 
-void CItemSocketOptionSystem::_SetThunderEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemSocketOptionSystem::_SetThunderEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	int iAddValue = 0;
 
@@ -1322,32 +1322,32 @@ void CItemSocketOptionSystem::_SetThunderEffect(LPGameObject &lpObj, BYTE btEffe
 	{
 	case SEED_EFFECT_TYPE_EXCELLENT_DAMAGE_INC:
 	{
-		iAddValue = CalcEffectValue(lpObj->m_PlayerData->SetOpAddExDamage, wEffectValue, btEffectValueType);
-		lpObj->m_PlayerData->SetOpAddExDamage += iAddValue;
+		iAddValue = CalcEffectValue(lpObj.m_PlayerData->SetOpAddExDamage, wEffectValue, btEffectValueType);
+		lpObj.m_PlayerData->SetOpAddExDamage += iAddValue;
 	}
 	break;
 	case SEED_EFFECT_TYPE_EXCELLENT_DAMAGE_RATE_INC:
 	{
-		lpObj->m_ExcelentDamage += wEffectValue;
+		lpObj.m_ExcelentDamage += wEffectValue;
 	}
 	break;
 	case SEED_EFFECT_TYPE_CRITICAL_DAMAGE_INC:
 	{
-		iAddValue = CalcEffectValue(lpObj->m_PlayerData->SetOpAddCriticalDamage, wEffectValue, btEffectValueType);
-		lpObj->m_PlayerData->SetOpAddCriticalDamage += iAddValue;
+		iAddValue = CalcEffectValue(lpObj.m_PlayerData->SetOpAddCriticalDamage, wEffectValue, btEffectValueType);
+		lpObj.m_PlayerData->SetOpAddCriticalDamage += iAddValue;
 	}
 	break;
 	case SEED_EFFECT_TYPE_CRITICAL_DAMAGE_RATE_INC:
 	{
-		lpObj->m_CriticalDamage += wEffectValue;
+		lpObj.m_CriticalDamage += wEffectValue;
 	}
 	break;
 	}
 }
 
-void CItemSocketOptionSystem::_SetEarthEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemSocketOptionSystem::_SetEarthEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return;
 	}
@@ -1358,36 +1358,36 @@ void CItemSocketOptionSystem::_SetEarthEffect(LPGameObject &lpObj, BYTE btEffect
 	{
 	case SEED_EFFECT_TYPE_STRENGTH_INC:
 	{
-		iAddValue = CalcEffectValue(lpObj->m_PlayerData->Strength + lpObj->AddStrength, wEffectValue, btEffectValueType);
-		lpObj->AddStrength += iAddValue;
+		iAddValue = CalcEffectValue(lpObj.m_PlayerData->Strength + lpObj.AddStrength, wEffectValue, btEffectValueType);
+		lpObj.AddStrength += iAddValue;
 	}
 	break;
 	case SEED_EFFECT_TYPE_DEXTERITY_INC:
 	{
-		iAddValue = CalcEffectValue(lpObj->m_PlayerData->Dexterity + lpObj->AddDexterity, wEffectValue, btEffectValueType);
+		iAddValue = CalcEffectValue(lpObj.m_PlayerData->Dexterity + lpObj.AddDexterity, wEffectValue, btEffectValueType);
 
-		EnterCriticalSection(&lpObj->m_PlayerData->AgiCheckCriti);
-		lpObj->m_PlayerData->AgilityCheckDelay = GetTickCount();
-		lpObj->AddDexterity += iAddValue;
-		LeaveCriticalSection(&lpObj->m_PlayerData->AgiCheckCriti);
+		EnterCriticalSection(&lpObj.m_PlayerData->AgiCheckCriti);
+		lpObj.m_PlayerData->AgilityCheckDelay = GetTickCount();
+		lpObj.AddDexterity += iAddValue;
+		LeaveCriticalSection(&lpObj.m_PlayerData->AgiCheckCriti);
 	}
 	break;
 	case SEED_EFFECT_TYPE_VITALITY_INC:
 	{
-		iAddValue = CalcEffectValue(lpObj->m_PlayerData->Vitality + lpObj->AddVitality, wEffectValue, btEffectValueType);
-		lpObj->AddVitality += iAddValue;
+		iAddValue = CalcEffectValue(lpObj.m_PlayerData->Vitality + lpObj.AddVitality, wEffectValue, btEffectValueType);
+		lpObj.AddVitality += iAddValue;
 	}
 	break;
 	case SEED_EFFECT_TYPE_ENERGY_INC:
 	{
-		iAddValue = CalcEffectValue(lpObj->m_PlayerData->Energy + lpObj->AddEnergy, wEffectValue, btEffectValueType);
-		lpObj->AddEnergy += iAddValue;
+		iAddValue = CalcEffectValue(lpObj.m_PlayerData->Energy + lpObj.AddEnergy, wEffectValue, btEffectValueType);
+		lpObj.AddEnergy += iAddValue;
 	}
 	break;
 	}
 }
 
-void CItemSocketOptionSystem::_SetUniqueEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemSocketOptionSystem::_SetUniqueEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	//int iAddValue = btEffectType;
 
@@ -1404,7 +1404,7 @@ void CItemSocketOptionSystem::_SetUniqueEffect(LPGameObject &lpObj, BYTE btEffec
 	}
 }
 
-void CItemSocketOptionSystem::_SetSetEffect(LPGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemSocketOptionSystem::_SetSetEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	int iCalcEffectValue = 0;
 
@@ -1412,12 +1412,12 @@ void CItemSocketOptionSystem::_SetSetEffect(LPGameObject &lpObj, BYTE btEffectTy
 	{
 	case SEED_EFFECT_TYPE_SET_DOUBLE_DAMAGE_RATE_INC:
 	{
-		lpObj->m_PlayerData->SetOpDoubleDamage += wEffectValue;
+		lpObj.m_PlayerData->SetOpDoubleDamage += wEffectValue;
 	}
 	break;
 	case SEED_EFFECT_TYPE_SET_IGNORE_ENERMY_DEFENSE:
 	{
-		lpObj->m_PlayerData->SetOpIgnoreDefense += wEffectValue;
+		lpObj.m_PlayerData->SetOpIgnoreDefense += wEffectValue;
 	}
 	break;
 	}
@@ -1522,16 +1522,16 @@ BYTE CItemSocketOptionSystem::GetMakeSocketSlotCount(int iItemCode)
 	return iSocketSlotCount;
 }
 
-void CItemSocketOptionSystem::ClearUserData(LPGameObject &lpObj)
+void CItemSocketOptionSystem::ClearUserData(CGameObject &lpObj)
 {
 	int iIndex = 0;
 
 	if (lpObj == NULL)	return;
-	if (lpObj->Type != OBJ_USER)	return;
+	if (lpObj.Type != OBJ_USER)	return;
 
-	for (iIndex = 0; iIndex < 35; iIndex++)	lpObj->m_PlayerData->m_SeedOptionList[iIndex].Clear();
-	for (iIndex = 0; iIndex < 7; iIndex++)	lpObj->m_PlayerData->m_BonusOptionList[iIndex].Clear();
-	for (iIndex = 0; iIndex < 2; iIndex++)	lpObj->m_PlayerData->m_SetOptionList[iIndex].Clear();
+	for (iIndex = 0; iIndex < 35; iIndex++)	lpObj.m_PlayerData->m_SeedOptionList[iIndex].Clear();
+	for (iIndex = 0; iIndex < 7; iIndex++)	lpObj.m_PlayerData->m_BonusOptionList[iIndex].Clear();
+	for (iIndex = 0; iIndex < 2; iIndex++)	lpObj.m_PlayerData->m_SetOptionList[iIndex].Clear();
 }
 
 bool CItemSocketOptionSystem::SetSocketSlot(CItem *lpTargetItem, CItem *lpSeedSphere, BYTE btSocketSlotIndex)

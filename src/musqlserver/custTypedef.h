@@ -1,8 +1,6 @@
 #ifndef _CUSTTYPEDEF_H
 #define _CUSTTYPEDEF_H
 
-#include "CGameObject.h"
-
 typedef int BOOL;
 typedef wchar_t WCHAR;
 
@@ -21,7 +19,5 @@ typedef long long LONGLONG;
 typedef long long time_t;
 
 typedef unsigned long long SOCKET;
-
-typedef CGameObject *LPGameObject;
 
 #endif

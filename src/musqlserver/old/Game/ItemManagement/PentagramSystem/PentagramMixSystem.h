@@ -21,14 +21,14 @@ public:
 	bool LoadMixNeedSourceScript(char *pchFileName);
 	bool LoadJewelOptionScript(char *pchFileName);
 
-	int PentagramMixBoxInit(OBJECTSTRUCT* lpObj);
+	int PentagramMixBoxInit(CGameObject* lpObj);
 	BYTE PentagramJewelRefine(int iIndex, int iRefineType);
 	BYTE PentagramJewel_Upgrade(int iIndex, int iUpgradeType, int iTargetValue);
 	int CheckLevelCondition(CItem *pItem, WORD pLevel, BYTE pOpt1, BYTE pOpt2, BYTE pOpt3, BYTE pSetOpt, BYTE pExOpt);
-	void LogPentagramItem(LPGameObject lpObj, char *sLogType);
+	void LogPentagramItem(CGameObject lpObj, char *sLogType);
 
 	void CGPentagramJewelRefineRecv(PMSG_PENTAGRAM_JEWEL_REFINE_RECV* lpMsg, int aIndex); // OK
-	BOOL PentagramJewelMix(LPGameObject &lpObj);
+	BOOL PentagramJewelMix(CGameObject &lpObj);
 	bool IsErrtelType(int ItemCode);
 public:
 	REFINE_OPTION m_RefineOptionData[18];

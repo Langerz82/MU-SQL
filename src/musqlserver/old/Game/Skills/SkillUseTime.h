@@ -23,7 +23,7 @@ public:
 
 	bool LoadFile(LPSTR lpFile);
 	bool LoadConfig(LPSTR lpFile);
-	bool CheckSkillTime(LPGameObject &lpObj, int Skill);
+	bool CheckSkillTime(CGameObject &lpObj, int Skill);
 
 private:
 	std::vector<SKILL_TIME_INFO> m_vtSkillTimeInfo;

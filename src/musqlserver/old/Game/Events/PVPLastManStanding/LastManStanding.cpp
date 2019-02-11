@@ -131,7 +131,7 @@ void CLastManStanding::SpawnRegNPC()
 		return;
 	}
 
-	LPGameObject lpNpc = &gGameObjects[this->iRegNpcIndex];
+	CGameObject lpNpc = &gGameObjects[this->iRegNpcIndex];
 	lpNpc->Live = TRUE;
 	lpNpc->Dir = this->m_Cfg.iRegNPCDir;
 	lpNpc->X = this->m_Cfg.iRegNPCX;
@@ -153,7 +153,7 @@ void CLastManStanding::Init()
 	}
 }
 
-int CLastManStanding::AddUser(LPGameObject &lpObj)
+int CLastManStanding::AddUser(CGameObject &lpObj)
 {
 	if (!ObjectMaxRange(aIndex))
 		return -1;
@@ -161,11 +161,11 @@ int CLastManStanding::AddUser(LPGameObject &lpObj)
 	if (!gObjIsConnectedGP(aIndex))
 		return -1;
 
-	int resets = lpObj->m_PlayerData->m_iResets;
+	int resets = lpObj.m_PlayerData->m_iResets;
 
 	for (int i = 0; i < m_iRoomCount; i++)
 	{
-		if (resets >= this->m_Rooms[i].MinReset  && resets <= this->m_Rooms[i].MaxReset && lpObj->Level > 6) 
+		if (resets >= this->m_Rooms[i].MinReset  && resets <= this->m_Rooms[i].MaxReset && lpObj.Level > 6) 
 		{
 			if (this->m_Rooms[i].regCount >= this->m_Cfg.iMaxPlayers)
 			{
@@ -187,8 +187,8 @@ int CLastManStanding::AddUser(LPGameObject &lpObj)
 					this->m_Rooms[i].m_Data[n].iScore = 0;
 					this->m_Rooms[i].m_Data[n].bWinner = false;
 					this->m_Rooms[i].m_Data[n].iDeaths = 0;
-					lpObj->m_PlayerData->RegisterdLMS = 1;
-					lpObj->m_PlayerData->RegisteredLMSRoom = i;
+					lpObj.m_PlayerData->RegisterdLMS = 1;
+					lpObj.m_PlayerData->RegisteredLMSRoom = i;
 					this->m_Rooms[i].regCount++;
 					return true;
 				}
@@ -430,9 +430,9 @@ void CLastManStanding::EndEvent(int room)
 	StartMinute = 0;
 }
 
-void CLastManStanding::UserDie(LPGameObject &lpObj, int aTargetIndex)
+void CLastManStanding::UserDie(CGameObject &lpObj, int aTargetIndex)
 {
-	int room = lpObj->m_PlayerData->RegisteredLMSRoom;
+	int room = lpObj.m_PlayerData->RegisteredLMSRoom;
 	for(int i=0;i<this->m_Rooms[room].regCount;i++)
 	{
 		if(this->m_Rooms[room].m_Data[i].iIndex == aIndex)
@@ -492,7 +492,7 @@ void CLastManStanding::AllPlayerMsgSend( char* chatmsg)
 	}
 }
 
-void CLastManStanding::RewardUser(LPGameObject &lpObj)
+void CLastManStanding::RewardUser(CGameObject &lpObj)
 {
 	g_BagManager.SearchAndUseBag(aIndex, BAG_EVENT, EVENTBAG_LMS, aIndex);
 }

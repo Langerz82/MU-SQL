@@ -100,7 +100,7 @@ BOOL CDataServerProtocol::Init()
 	return TRUE;
 }
 
-void CDataServerProtocol::DataServerLogin(LPGameObject &lpObj, SDHP_SERVERINFO * lpMsg)
+void CDataServerProtocol::DataServerLogin(CGameObject &lpObj, SDHP_SERVERINFO * lpMsg)
 {
 	SDHP_RESULT pResult = { 0 };
 
@@ -117,7 +117,7 @@ void CDataServerProtocol::DataServerLogin(LPGameObject &lpObj, SDHP_SERVERINFO *
 	//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::JGPGetCharList(LPGameObject &lpObj, SDHP_GETCHARLIST * aRecv)
+void CDataServerProtocol::JGPGetCharList(CGameObject &lpObj, SDHP_GETCHARLIST * aRecv)
 {
 	char cBUFFER[10000] = { 0 };
 
@@ -303,7 +303,7 @@ void CDataServerProtocol::JGPGetCharList(LPGameObject &lpObj, SDHP_GETCHARLIST *
 	//DataSend(aIndex, (LPBYTE)cBUFFER, sizeof(SDHP_CHARLISTCOUNT) + sizeof(SDHP_CHARLIST) * iCharCount, __FUNCTION__);
 }
 
-void CDataServerProtocol::JGCharacterCreateRequest(LPGameObject &lpObj, SDHP_CREATECHAR * aRecv)
+void CDataServerProtocol::JGCharacterCreateRequest(CGameObject &lpObj, SDHP_CREATECHAR * aRecv)
 {
 	SDHP_CREATECHARRESULT pResult = { 0 };
 	PHeadSetB((LPBYTE)&pResult, 0x04, sizeof(pResult));
@@ -381,7 +381,7 @@ void CDataServerProtocol::JGCharacterCreateRequest(LPGameObject &lpObj, SDHP_CRE
 	//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::JGCharDelRequest(LPGameObject &lpObj, SDHP_CHARDELETE * aRecv)
+void CDataServerProtocol::JGCharDelRequest(CGameObject &lpObj, SDHP_CHARDELETE * aRecv)
 {
 	SDHP_CHARDELETERESULT pResult = { 0 };
 
@@ -442,7 +442,7 @@ void CDataServerProtocol::JGCharDelRequest(LPGameObject &lpObj, SDHP_CHARDELETE 
 	//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::JGGetCharacterInfo(LPGameObject &lpObj, SDHP_DBCHARINFOREQUEST * aRecv)
+void CDataServerProtocol::JGGetCharacterInfo(CGameObject &lpObj, SDHP_DBCHARINFOREQUEST * aRecv)
 {
 	SDHP_DBCHAR_INFORESULT pResult = { 0 };
 
@@ -651,7 +651,7 @@ void CDataServerProtocol::JGGetCharacterInfo(LPGameObject &lpObj, SDHP_DBCHARINF
 	//DataSend(aIndex, (LPBYTE)&pMuBot, sizeof(pMuBot), __FUNCTION__); // TODO
 }
 
-void CDataServerProtocol::GJSetCharacterInfo(LPGameObject &lpObj, SDHP_DBCHAR_INFOSAVE * aRecv)
+void CDataServerProtocol::GJSetCharacterInfo(CGameObject &lpObj, SDHP_DBCHAR_INFOSAVE * aRecv)
 {
 	char szName[11] = { 0 };
 	szName[10] = 0;
@@ -689,7 +689,7 @@ void CDataServerProtocol::GJSetCharacterInfo(LPGameObject &lpObj, SDHP_DBCHAR_IN
 	}
 }
 
-void CDataServerProtocol::GDUserItemSave(LPGameObject &lpObj, SDHP_DBCHAR_ITEMSAVE * aRecv)
+void CDataServerProtocol::GDUserItemSave(CGameObject &lpObj, SDHP_DBCHAR_ITEMSAVE * aRecv)
 {
 	char szName[11] = { 0 };
 	szName[10] = 0;
@@ -702,7 +702,7 @@ void CDataServerProtocol::GDUserItemSave(LPGameObject &lpObj, SDHP_DBCHAR_ITEMSA
 
 /*
 // TODO
-void CDataServerProtocol::ItemSerialCreateRecv(LPGameObject &lpObj, SDHP_ITEMCREATE * aRecv)
+void CDataServerProtocol::ItemSerialCreateRecv(CGameObject &lpObj, SDHP_ITEMCREATE * aRecv)
 {
 	SDHP_ITEMCREATERECV pResult;
 
@@ -730,7 +730,7 @@ void CDataServerProtocol::ItemSerialCreateRecv(LPGameObject &lpObj, SDHP_ITEMCRE
 
 /*
 // TODO
-void CDataServerProtocol::PetItemSerialCreateRecv(LPGameObject &lpObj, SDHP_ITEMCREATE * aRecv)
+void CDataServerProtocol::PetItemSerialCreateRecv(CGameObject &lpObj, SDHP_ITEMCREATE * aRecv)
 {
 	SDHP_ITEMCREATERECV pResult;
 
@@ -761,7 +761,7 @@ void CDataServerProtocol::PetItemSerialCreateRecv(LPGameObject &lpObj, SDHP_ITEM
 }
 */
 
-void CDataServerProtocol::DGRecvPetItemInfo(LPGameObject &lpObj, SDHP_REQUEST_PETITEM_INFO * aRecv)
+void CDataServerProtocol::DGRecvPetItemInfo(CGameObject &lpObj, SDHP_REQUEST_PETITEM_INFO * aRecv)
 {
 	char szAccountID[11] = { 0 };
 	szAccountID[10] = 0;
@@ -850,7 +850,7 @@ void CDataServerProtocol::DGRecvPetItemInfo(LPGameObject &lpObj, SDHP_REQUEST_PE
 	// TODO
 }
 
-void CDataServerProtocol::GDSavePetItemInfo(LPGameObject &lpObj, SDHP_SAVE_PETITEM_INFO * aRecv)
+void CDataServerProtocol::GDSavePetItemInfo(CGameObject &lpObj, SDHP_SAVE_PETITEM_INFO * aRecv)
 {
 	int lOfs = sizeof(SDHP_SAVE_PETITEM_INFO);
 
@@ -877,7 +877,7 @@ void CDataServerProtocol::GDSavePetItemInfo(LPGameObject &lpObj, SDHP_SAVE_PETIT
 	}
 }
 
-void CDataServerProtocol::DGOptionDataRecv(LPGameObject &lpObj, SDHP_SKILLKEYDATA * aRecv)
+void CDataServerProtocol::DGOptionDataRecv(CGameObject &lpObj, SDHP_SKILLKEYDATA * aRecv)
 {
 	char szName[11] = { 0 };
 	szName[10] = 0;
@@ -900,12 +900,12 @@ void CDataServerProtocol::DGOptionDataRecv(LPGameObject &lpObj, SDHP_SKILLKEYDAT
 	this->m_OptionDataDB->SetAsBinary(szTemp, aRecv->SkillKeyBuffer, sizeof(aRecv->SkillKeyBuffer));
 }
 
-void CDataServerProtocol::DGMoveOtherServer(LPGameObject &lpObj, SDHP_CHARACTER_TRANSFER * aRecv)
+void CDataServerProtocol::DGMoveOtherServer(CGameObject &lpObj, SDHP_CHARACTER_TRANSFER * aRecv)
 {
 	sLog->outError("[MuOnlineDB] Error Character Transfer is not longer avaible");
 }
 
-void CDataServerProtocol::GDDeleteTempUserInfo(LPGameObject &lpObj, SDHP_DELETE_TEMPUSERINFO * aRecv)
+void CDataServerProtocol::GDDeleteTempUserInfo(CGameObject &lpObj, SDHP_DELETE_TEMPUSERINFO * aRecv)
 {
 	SDHP_DELETE_TEMPUSERINFO_RESULT pMsg;
 
@@ -927,7 +927,7 @@ void CDataServerProtocol::GDDeleteTempUserInfo(LPGameObject &lpObj, SDHP_DELETE_
 	}
 }
 
-void CDataServerProtocol::GS_DGAnsCastleInitData(LPGameObject &lpObj, CSP_REQ_CSINITDATA * aRecv)
+void CDataServerProtocol::GS_DGAnsCastleInitData(CGameObject &lpObj, CSP_REQ_CSINITDATA * aRecv)
 {
 	BYTE SendData[sizeof(CSP_ANS_CSINITDATA) + (sizeof(CSP_CSINITDATA) * MAX_CS_NPC)] = { 0 };
 
@@ -991,7 +991,7 @@ void CDataServerProtocol::GS_DGAnsCastleInitData(LPGameObject &lpObj, CSP_REQ_CS
 	//DataSend(aIndex, (PBYTE)SendData, size, __FUNCTION__); // TODO
 }
 
-void CDataServerProtocol::GS_DGAnsOwnerGuildMaster(LPGameObject &lpObj, CSP_REQ_OWNERGUILDMASTER * aRecv)
+void CDataServerProtocol::GS_DGAnsOwnerGuildMaster(CGameObject &lpObj, CSP_REQ_OWNERGUILDMASTER * aRecv)
 {
 	CSP_ANS_OWNERGUILDMASTER pMsg;
 
@@ -1016,7 +1016,7 @@ void CDataServerProtocol::GS_DGAnsOwnerGuildMaster(LPGameObject &lpObj, CSP_REQ_
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__); // TODO
 }
 
-void CDataServerProtocol::GS_DGAnsCastleNpcBuy(LPGameObject &lpObj, CSP_REQ_NPCBUY * aRecv)
+void CDataServerProtocol::GS_DGAnsCastleNpcBuy(CGameObject &lpObj, CSP_REQ_NPCBUY * aRecv)
 {
 	CSP_ANS_NPCBUY pMsg;
 
@@ -1041,7 +1041,7 @@ void CDataServerProtocol::GS_DGAnsCastleNpcBuy(LPGameObject &lpObj, CSP_REQ_NPCB
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__); // TODO
 }
 
-void CDataServerProtocol::GS_DGAnsCastleNpcRepair(LPGameObject &lpObj, CSP_REQ_NPCREPAIR * aRecv)
+void CDataServerProtocol::GS_DGAnsCastleNpcRepair(CGameObject &lpObj, CSP_REQ_NPCREPAIR * aRecv)
 {
 	CSP_ANS_NPCREPAIR pMsg;
 
@@ -1067,7 +1067,7 @@ void CDataServerProtocol::GS_DGAnsCastleNpcRepair(LPGameObject &lpObj, CSP_REQ_N
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GS_DGAnsCastleNpcUpgrade(LPGameObject &lpObj, CSP_REQ_NPCUPGRADE * aRecv)
+void CDataServerProtocol::GS_DGAnsCastleNpcUpgrade(CGameObject &lpObj, CSP_REQ_NPCUPGRADE * aRecv)
 {
 	CSP_ANS_NPCUPGRADE pMsg;
 
@@ -1095,7 +1095,7 @@ void CDataServerProtocol::GS_DGAnsCastleNpcUpgrade(LPGameObject &lpObj, CSP_REQ_
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__); // TODO
 }
 
-void CDataServerProtocol::GS_DGAnsTaxInfo(LPGameObject &lpObj, CSP_REQ_TAXINFO * aRecv)
+void CDataServerProtocol::GS_DGAnsTaxInfo(CGameObject &lpObj, CSP_REQ_TAXINFO * aRecv)
 {
 	CSP_ANS_TAXINFO pMsg;
 
@@ -1122,7 +1122,7 @@ void CDataServerProtocol::GS_DGAnsTaxInfo(LPGameObject &lpObj, CSP_REQ_TAXINFO *
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GS_DGAnsTaxRateChange(LPGameObject &lpObj, CSP_REQ_TAXRATECHANGE * aRecv)
+void CDataServerProtocol::GS_DGAnsTaxRateChange(CGameObject &lpObj, CSP_REQ_TAXRATECHANGE * aRecv)
 {
 	CSP_ANS_TAXRATECHANGE pMsg;
 
@@ -1151,7 +1151,7 @@ void CDataServerProtocol::GS_DGAnsTaxRateChange(LPGameObject &lpObj, CSP_REQ_TAX
 ///
 ///
 
-void CDataServerProtocol::GS_DGAnsCastleMoneyChange(LPGameObject &lpObj, CSP_REQ_MONEYCHANGE * aRecv)
+void CDataServerProtocol::GS_DGAnsCastleMoneyChange(CGameObject &lpObj, CSP_REQ_MONEYCHANGE * aRecv)
 {
 	CSP_ANS_MONEYCHANGE pMsg;
 
@@ -1175,7 +1175,7 @@ void CDataServerProtocol::GS_DGAnsCastleMoneyChange(LPGameObject &lpObj, CSP_REQ
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GS_DGAnsSiegeDateChange(LPGameObject &lpObj, CSP_REQ_SDEDCHANGE * aRecv)
+void CDataServerProtocol::GS_DGAnsSiegeDateChange(CGameObject &lpObj, CSP_REQ_SDEDCHANGE * aRecv)
 {
 	CSP_ANS_SDEDCHANGE pMsg;
 
@@ -1206,7 +1206,7 @@ void CDataServerProtocol::GS_DGAnsSiegeDateChange(LPGameObject &lpObj, CSP_REQ_S
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GS_DGAnsGuildMarkRegInfo(LPGameObject &lpObj, CSP_REQ_GUILDREGINFO * aRecv)
+void CDataServerProtocol::GS_DGAnsGuildMarkRegInfo(CGameObject &lpObj, CSP_REQ_GUILDREGINFO * aRecv)
 {
 	CSP_ANS_GUILDREGINFO pMsg;
 
@@ -1243,7 +1243,7 @@ void CDataServerProtocol::GS_DGAnsGuildMarkRegInfo(LPGameObject &lpObj, CSP_REQ_
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GS_DGAnsSiegeEndedChange(LPGameObject &lpObj, CSP_REQ_SIEGEENDCHANGE * aRecv)
+void CDataServerProtocol::GS_DGAnsSiegeEndedChange(CGameObject &lpObj, CSP_REQ_SIEGEENDCHANGE * aRecv)
 {
 	CSP_ANS_SIEGEENDCHANGE pMsg;
 
@@ -1265,7 +1265,7 @@ void CDataServerProtocol::GS_DGAnsSiegeEndedChange(LPGameObject &lpObj, CSP_REQ_
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GS_DGAnsCastleOwnerChange(LPGameObject &lpObj, CSP_REQ_CASTLEOWNERCHANGE * aRecv)
+void CDataServerProtocol::GS_DGAnsCastleOwnerChange(CGameObject &lpObj, CSP_REQ_CASTLEOWNERCHANGE * aRecv)
 {
 	CSP_ANS_CASTLEOWNERCHANGE pMsg;
 
@@ -1292,7 +1292,7 @@ void CDataServerProtocol::GS_DGAnsCastleOwnerChange(LPGameObject &lpObj, CSP_REQ
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GS_DGAnsRegAttackGuild(LPGameObject &lpObj, CSP_REQ_REGATTACKGUILD * aRecv)
+void CDataServerProtocol::GS_DGAnsRegAttackGuild(CGameObject &lpObj, CSP_REQ_REGATTACKGUILD * aRecv)
 {
 	CSP_ANS_REGATTACKGUILD pMsg;
 
@@ -1319,7 +1319,7 @@ void CDataServerProtocol::GS_DGAnsRegAttackGuild(LPGameObject &lpObj, CSP_REQ_RE
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GS_DGAnsRestartCastleState(LPGameObject &lpObj, CSP_REQ_CASTLESIEGEEND * aRecv)
+void CDataServerProtocol::GS_DGAnsRestartCastleState(CGameObject &lpObj, CSP_REQ_CASTLESIEGEEND * aRecv)
 {
 	CSP_ANS_CASTLESIEGEEND pMsg;
 
@@ -1340,7 +1340,7 @@ void CDataServerProtocol::GS_DGAnsRestartCastleState(LPGameObject &lpObj, CSP_RE
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GS_DGAnsMapSvrMsgMultiCast(LPGameObject &lpObj, CSP_REQ_MAPSVRMULTICAST * aRecv)
+void CDataServerProtocol::GS_DGAnsMapSvrMsgMultiCast(CGameObject &lpObj, CSP_REQ_MAPSVRMULTICAST * aRecv)
 {
 	CSP_ANS_MAPSVRMULTICAST pMsg;
 
@@ -1364,7 +1364,7 @@ void CDataServerProtocol::GS_DGAnsMapSvrMsgMultiCast(LPGameObject &lpObj, CSP_RE
 	}
 }
 
-void CDataServerProtocol::GS_DGAnsGlobalPostMultiCast(LPGameObject &lpObj, CSP_GLOBALPOST_MULTICAST * aRecv)
+void CDataServerProtocol::GS_DGAnsGlobalPostMultiCast(CGameObject &lpObj, CSP_GLOBALPOST_MULTICAST * aRecv)
 {
 	CSP_GLOBALPOST_MULTICAST pMsg;
 
@@ -1391,7 +1391,7 @@ void CDataServerProtocol::GS_DGAnsGlobalPostMultiCast(LPGameObject &lpObj, CSP_G
 	}
 }
 
-void CDataServerProtocol::GS_DGAnsRegGuildMark(LPGameObject &lpObj, CSP_REQ_GUILDREGMARK * aRecv)
+void CDataServerProtocol::GS_DGAnsRegGuildMark(CGameObject &lpObj, CSP_REQ_GUILDREGMARK * aRecv)
 {
 	CSP_ANS_GUILDREGMARK pMsg;
 
@@ -1421,7 +1421,7 @@ void CDataServerProtocol::GS_DGAnsRegGuildMark(LPGameObject &lpObj, CSP_REQ_GUIL
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GS_DGAnsGuildMarkReset(LPGameObject &lpObj, CSP_REQ_GUILDRESETMARK * aRecv)
+void CDataServerProtocol::GS_DGAnsGuildMarkReset(CGameObject &lpObj, CSP_REQ_GUILDRESETMARK * aRecv)
 {
 	CSP_ANS_GUILDRESETMARK pMsg;
 
@@ -1450,7 +1450,7 @@ void CDataServerProtocol::GS_DGAnsGuildMarkReset(LPGameObject &lpObj, CSP_REQ_GU
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GS_DGAnsGuildSetGiveUp(LPGameObject &lpObj, CSP_REQ_GUILDSETGIVEUP * aRecv)
+void CDataServerProtocol::GS_DGAnsGuildSetGiveUp(CGameObject &lpObj, CSP_REQ_GUILDSETGIVEUP * aRecv)
 {
 	CSP_ANS_GUILDSETGIVEUP pMsg;
 
@@ -1480,7 +1480,7 @@ void CDataServerProtocol::GS_DGAnsGuildSetGiveUp(LPGameObject &lpObj, CSP_REQ_GU
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GS_DGAnsNpcRemove(LPGameObject &lpObj, CSP_REQ_NPCREMOVE * aRecv)
+void CDataServerProtocol::GS_DGAnsNpcRemove(CGameObject &lpObj, CSP_REQ_NPCREMOVE * aRecv)
 {
 	CSP_ANS_NPCREMOVE pMsg;
 
@@ -1503,7 +1503,7 @@ void CDataServerProtocol::GS_DGAnsNpcRemove(LPGameObject &lpObj, CSP_REQ_NPCREMO
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GS_DGAnsCastleStateSync(LPGameObject &lpObj, CSP_REQ_CASTLESTATESYNC * aRecv)
+void CDataServerProtocol::GS_DGAnsCastleStateSync(CGameObject &lpObj, CSP_REQ_CASTLESTATESYNC * aRecv)
 {
 	CSP_ANS_CASTLESTATESYNC pMsg;
 
@@ -1531,7 +1531,7 @@ void CDataServerProtocol::GS_DGAnsCastleStateSync(LPGameObject &lpObj, CSP_REQ_C
 	}
 }
 
-void CDataServerProtocol::GS_DGAnsCastleTributeMoney(LPGameObject &lpObj, CSP_REQ_CASTLETRIBUTEMONEY * aRecv)
+void CDataServerProtocol::GS_DGAnsCastleTributeMoney(CGameObject &lpObj, CSP_REQ_CASTLETRIBUTEMONEY * aRecv)
 {
 	/***********************************
 	NEED TESTINGS HERE
@@ -1560,7 +1560,7 @@ void CDataServerProtocol::GS_DGAnsCastleTributeMoney(LPGameObject &lpObj, CSP_RE
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GS_DGAnsResetCastleTaxInfo(LPGameObject &lpObj, CSP_REQ_RESETCASTLETAXINFO * aRecv)
+void CDataServerProtocol::GS_DGAnsResetCastleTaxInfo(CGameObject &lpObj, CSP_REQ_RESETCASTLETAXINFO * aRecv)
 {
 	CSP_ANS_RESETCASTLETAXINFO pMsg;
 
@@ -1581,7 +1581,7 @@ void CDataServerProtocol::GS_DGAnsResetCastleTaxInfo(LPGameObject &lpObj, CSP_RE
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GS_DGAnsResetSiegeGuildInfo(LPGameObject &lpObj, CSP_REQ_RESETSIEGEGUILDINFO * aRecv)
+void CDataServerProtocol::GS_DGAnsResetSiegeGuildInfo(CGameObject &lpObj, CSP_REQ_RESETSIEGEGUILDINFO * aRecv)
 {
 	CSP_ANS_RESETSIEGEGUILDINFO pMsg;
 
@@ -1602,7 +1602,7 @@ void CDataServerProtocol::GS_DGAnsResetSiegeGuildInfo(LPGameObject &lpObj, CSP_R
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GS_DGAnsResetRegSiegeInfo(LPGameObject &lpObj, CSP_REQ_RESETREGSIEGEINFO * aRecv)
+void CDataServerProtocol::GS_DGAnsResetRegSiegeInfo(CGameObject &lpObj, CSP_REQ_RESETREGSIEGEINFO * aRecv)
 {
 	CSP_ANS_RESETREGSIEGEINFO pMsg;
 
@@ -1623,7 +1623,7 @@ void CDataServerProtocol::GS_DGAnsResetRegSiegeInfo(LPGameObject &lpObj, CSP_REQ
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GS_DGAnsAllGuildMarkRegInfo(LPGameObject &lpObj, CSP_REQ_ALLGUILDREGINFO * aRecv)
+void CDataServerProtocol::GS_DGAnsAllGuildMarkRegInfo(CGameObject &lpObj, CSP_REQ_ALLGUILDREGINFO * aRecv)
 {
 	BYTE SendData[sizeof(CSP_ANS_ALLGUILDREGINFO) + sizeof(CSP_GUILDREGINFO) * MAX_CS_GUILDLIST] = { 0 };
 
@@ -1659,7 +1659,7 @@ void CDataServerProtocol::GS_DGAnsAllGuildMarkRegInfo(LPGameObject &lpObj, CSP_R
 	//DataSend(aIndex, (PBYTE)SendData, size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GS_DGAnsFirstCreateNPC(LPGameObject &lpObj, CSP_REQ_NPCSAVEDATA * aRecv)
+void CDataServerProtocol::GS_DGAnsFirstCreateNPC(CGameObject &lpObj, CSP_REQ_NPCSAVEDATA * aRecv)
 {
 	CSP_ANS_NPCSAVEDATA pMsg;
 
@@ -1695,7 +1695,7 @@ void CDataServerProtocol::GS_DGAnsFirstCreateNPC(LPGameObject &lpObj, CSP_REQ_NP
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GS_DGAnsCalcRegGuildList(LPGameObject &lpObj, CSP_REQ_CALCREGGUILDLIST * aRecv)
+void CDataServerProtocol::GS_DGAnsCalcRegGuildList(CGameObject &lpObj, CSP_REQ_CALCREGGUILDLIST * aRecv)
 {
 	BYTE SendData[sizeof(CSP_ANS_CALCREGGUILDLIST) + sizeof(CSP_CALCREGGUILDLIST) * MAX_CS_GUILDLIST] = { 0 };
 
@@ -1736,7 +1736,7 @@ void CDataServerProtocol::GS_DGAnsCalcRegGuildList(LPGameObject &lpObj, CSP_REQ_
 	//DataSend(aIndex, (PBYTE)SendData, size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GS_DGAnsCsGulidUnionInfo(LPGameObject &lpObj, CSP_REQ_CSGUILDUNIONINFO * aRecv)
+void CDataServerProtocol::GS_DGAnsCsGulidUnionInfo(CGameObject &lpObj, CSP_REQ_CSGUILDUNIONINFO * aRecv)
 {
 	BYTE SendData[sizeof(CSP_ANS_CSGUILDUNIONINFO) + sizeof(CSP_CSGUILDUNIONINFO) * MAX_CS_GUILDLIST * 3] = { 0 };
 
@@ -1784,7 +1784,7 @@ void CDataServerProtocol::GS_DGAnsCsGulidUnionInfo(LPGameObject &lpObj, CSP_REQ_
 	//DataSend(aIndex, (PBYTE)SendData, size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GS_DGAnsCsSaveTotalGuildInfo(LPGameObject &lpObj, CSP_REQ_CSSAVETOTALGUILDINFO * aRecv)
+void CDataServerProtocol::GS_DGAnsCsSaveTotalGuildInfo(CGameObject &lpObj, CSP_REQ_CSSAVETOTALGUILDINFO * aRecv)
 {
 	CSP_ANS_CSSAVETOTALGUILDINFO pMsg;
 	CSP_CSSAVETOTALGUILDINFO * lpMsgBody = (CSP_CSSAVETOTALGUILDINFO*)((PBYTE)aRecv + sizeof(CSP_REQ_CSSAVETOTALGUILDINFO));
@@ -1816,7 +1816,7 @@ void CDataServerProtocol::GS_DGAnsCsSaveTotalGuildInfo(LPGameObject &lpObj, CSP_
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GS_DGAnsCsLoadTotalGuildInfo(LPGameObject &lpObj, CSP_REQ_CSLOADTOTALGUILDINFO * aRecv)
+void CDataServerProtocol::GS_DGAnsCsLoadTotalGuildInfo(CGameObject &lpObj, CSP_REQ_CSLOADTOTALGUILDINFO * aRecv)
 {
 	BYTE SendData[sizeof(CSP_ANS_CSLOADTOTALGUILDINFO) + sizeof(CSP_CSLOADTOTALGUILDINFO) * MAX_CS_GUILDLIST] = { 0 };
 
@@ -1853,7 +1853,7 @@ void CDataServerProtocol::GS_DGAnsCsLoadTotalGuildInfo(LPGameObject &lpObj, CSP_
 	//DataSend(aIndex, (PBYTE)SendData, size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GS_DGAnsCastleNpcUpdate(LPGameObject &lpObj, CSP_REQ_NPCUPDATEDATA * aRecv)
+void CDataServerProtocol::GS_DGAnsCastleNpcUpdate(CGameObject &lpObj, CSP_REQ_NPCUPDATEDATA * aRecv)
 {
 	CSP_ANS_NPCUPDATEDATA pMsg;
 
@@ -1892,7 +1892,7 @@ void CDataServerProtocol::GS_DGAnsCastleNpcUpdate(LPGameObject &lpObj, CSP_REQ_N
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::DGAnsCrywolfSync(LPGameObject &lpObj, CWP_REQ_CRYWOLFSYNC * aRecv)
+void CDataServerProtocol::DGAnsCrywolfSync(CGameObject &lpObj, CWP_REQ_CRYWOLFSYNC * aRecv)
 {
 	CWP_ANS_CRYWOLFSYNC pMsg;
 
@@ -1922,7 +1922,7 @@ void CDataServerProtocol::DGAnsCrywolfSync(LPGameObject &lpObj, CWP_REQ_CRYWOLFS
 	}
 }
 
-void CDataServerProtocol::DGAnsCrywolfInfoLoad(LPGameObject &lpObj, CWP_REQ_CRYWOLFINFOLOAD * aRecv)
+void CDataServerProtocol::DGAnsCrywolfInfoLoad(CGameObject &lpObj, CWP_REQ_CRYWOLFINFOLOAD * aRecv)
 {
 	CWP_ANS_CRYWOLFINFOLOAD pMsg;
 
@@ -1942,7 +1942,7 @@ void CDataServerProtocol::DGAnsCrywolfInfoLoad(LPGameObject &lpObj, CWP_REQ_CRYW
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::DGAnsCrywolfInfoSave(LPGameObject &lpObj, CWP_REQ_CRYWOLFINFOSAVE * aRecv)
+void CDataServerProtocol::DGAnsCrywolfInfoSave(CGameObject &lpObj, CWP_REQ_CRYWOLFINFOSAVE * aRecv)
 {
 	CWP_ANS_CRYWOLFINFOSAVE pMsg;
 
@@ -1960,7 +1960,7 @@ void CDataServerProtocol::DGAnsCrywolfInfoSave(LPGameObject &lpObj, CWP_REQ_CRYW
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::DGAnsPeriodItemExInsert(LPGameObject &lpObj, PMSG_REQ_PERIODITEMEX_INSERT * aRecv)
+void CDataServerProtocol::DGAnsPeriodItemExInsert(CGameObject &lpObj, PMSG_REQ_PERIODITEMEX_INSERT * aRecv)
 {
 	PMSG_ANS_PERIODITEMEX_INSERT pMsg;
 
@@ -1998,7 +1998,7 @@ void CDataServerProtocol::DGAnsPeriodItemExInsert(LPGameObject &lpObj, PMSG_REQ_
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::DGAnsPeriodItemExDelete(LPGameObject &lpObj, PMSG_REQ_PERIODITEMEX_DELETE * aRecv)
+void CDataServerProtocol::DGAnsPeriodItemExDelete(CGameObject &lpObj, PMSG_REQ_PERIODITEMEX_DELETE * aRecv)
 {
 	PMSG_ANS_PERIODITEMEX_DELETE pMsg;
 
@@ -2020,7 +2020,7 @@ void CDataServerProtocol::DGAnsPeriodItemExDelete(LPGameObject &lpObj, PMSG_REQ_
 	//DataSend(aIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::DGAnsPeriodItemExSelect(LPGameObject &lpObj, PMSG_REQ_PERIODITEMEX_SELECT * aRecv)
+void CDataServerProtocol::DGAnsPeriodItemExSelect(CGameObject &lpObj, PMSG_REQ_PERIODITEMEX_SELECT * aRecv)
 {
 	char szName[11] = { 0 };
 	szName[10] = 0;
@@ -2461,7 +2461,7 @@ void CDataServerProtocol::ReqInGameShopItemRollbackUse(short aIndex, ISHOP_ITEM_
 	}
 }
 
-void CDataServerProtocol::ReqLuckyCoinInfo(LPGameObject &lpObj, PMSG_REQ_LUCKYCOIN * lpMsg)
+void CDataServerProtocol::ReqLuckyCoinInfo(CGameObject &lpObj, PMSG_REQ_LUCKYCOIN * lpMsg)
 {
 	int test = SQL_NO_DATA;
 	PMSG_ANS_LUCKYCOIN pMsg;
@@ -2503,7 +2503,7 @@ void CDataServerProtocol::ReqLuckyCoinInfo(LPGameObject &lpObj, PMSG_REQ_LUCKYCO
 	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::ReqRegLuckyCoin(LPGameObject &lpObj, PMSG_REQ_REGISTER_LUCKYCOIN * lpMsg)
+void CDataServerProtocol::ReqRegLuckyCoin(CGameObject &lpObj, PMSG_REQ_REGISTER_LUCKYCOIN * lpMsg)
 {
 	PMSG_ANS_REG_LUCKYCOIN pMsg;
 
@@ -2559,7 +2559,7 @@ void CDataServerProtocol::DevilSqureScore(PMSG_ANS_EVENTUSERSCORE * lpMsg)
 
 }
 
-void CDataServerProtocol::GDReqBloodCastleEnterCount(LPGameObject &lpObj, PMSG_REQ_BLOODCASTLE_ENTERCOUNT * lpMsg)
+void CDataServerProtocol::GDReqBloodCastleEnterCount(CGameObject &lpObj, PMSG_REQ_BLOODCASTLE_ENTERCOUNT * lpMsg)
 {
 	PMSG_ANS_BLOODCASTLE_ENTERCOUNT pMsg;
 
@@ -2638,7 +2638,7 @@ void CDataServerProtocol::ChaosCastleScore(PMSG_ANS_CHAOSCASTLE_RANKING * lpMsg)
 		lpMsg->ServerCode / 20 + 1, lpMsg->Castle, szAccountID, szName, lpMsg->Class, lpMsg->PlayerKill, lpMsg->MonsterKill, lpMsg->Experience, lpMsg->IsWinner);
 }
 
-void CDataServerProtocol::EGAnsEventChipInfo(LPGameObject &lpObj, PMSG_REQ_VIEW_EC_MN * lpMsg)
+void CDataServerProtocol::EGAnsEventChipInfo(CGameObject &lpObj, PMSG_REQ_VIEW_EC_MN * lpMsg)
 {
 	int test = SQL_NO_DATA;
 	PMSG_ANS_VIEW_EC_MN pMsg;
@@ -2692,7 +2692,7 @@ void CDataServerProtocol::EGAnsEventChipInfo(LPGameObject &lpObj, PMSG_REQ_VIEW_
 	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::EGAnsRegEventChipInfo(LPGameObject &lpObj, PMSG_REQ_REGISTER_EVENTCHIP * lpMsg)
+void CDataServerProtocol::EGAnsRegEventChipInfo(CGameObject &lpObj, PMSG_REQ_REGISTER_EVENTCHIP * lpMsg)
 {
 	PMSG_ANS_REGISTER_EVENTCHIP pMsg;
 
@@ -2731,7 +2731,7 @@ void CDataServerProtocol::EGAnsRegEventChipInfo(LPGameObject &lpObj, PMSG_REQ_RE
 	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::EGAnsResetEventChip(LPGameObject &lpObj, PMSG_REQ_RESET_EVENTCHIP * lpMsg)
+void CDataServerProtocol::EGAnsResetEventChip(CGameObject &lpObj, PMSG_REQ_RESET_EVENTCHIP * lpMsg)
 {
 	PMSG_ANS_RESET_EVENTCHIP pMsg;
 
@@ -2758,7 +2758,7 @@ void CDataServerProtocol::EGAnsResetEventChip(LPGameObject &lpObj, PMSG_REQ_RESE
 	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::EGAnsEventStoneInfo(LPGameObject &lpObj, PMSG_REQ_VIEW_EC_MN * lpMsg)
+void CDataServerProtocol::EGAnsEventStoneInfo(CGameObject &lpObj, PMSG_REQ_VIEW_EC_MN * lpMsg)
 {
 	PMSG_ANS_VIEW_STONES pMsg;
 
@@ -2805,7 +2805,7 @@ void CDataServerProtocol::EGAnsEventStoneInfo(LPGameObject &lpObj, PMSG_REQ_VIEW
 	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::EGAnsRegEventStoneInfo(LPGameObject &lpObj, PMSG_REQ_REGISTER_STONES * lpMsg)
+void CDataServerProtocol::EGAnsRegEventStoneInfo(CGameObject &lpObj, PMSG_REQ_REGISTER_STONES * lpMsg)
 {
 	PMSG_ANS_REGISTER_STONES pMsg;
 
@@ -2848,7 +2848,7 @@ void CDataServerProtocol::EGAnsRegEventStoneInfo(LPGameObject &lpObj, PMSG_REQ_R
 	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::EGAnsDeleteStones(LPGameObject &lpObj, PMSG_REQ_DELETE_STONES * lpMsg)
+void CDataServerProtocol::EGAnsDeleteStones(CGameObject &lpObj, PMSG_REQ_DELETE_STONES * lpMsg)
 {
 	PMSG_ANS_DELETE_STONES pMsg = { 0 };
 
@@ -2891,7 +2891,7 @@ void CDataServerProtocol::EGAnsDeleteStones(LPGameObject &lpObj, PMSG_REQ_DELETE
 	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::EGAns2AnivRegSerial(LPGameObject &lpObj, PMSG_REQ_2ANIV_SERIAL * lpMsg)
+void CDataServerProtocol::EGAns2AnivRegSerial(CGameObject &lpObj, PMSG_REQ_2ANIV_SERIAL * lpMsg)
 {
 	PMSG_ANS_2ANIV_SERIAL pMsg = { 0 };
 
@@ -2947,7 +2947,7 @@ void CDataServerProtocol::EGAns2AnivRegSerial(LPGameObject &lpObj, PMSG_REQ_2ANI
 	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::EGAnsResetStoneInfo(LPGameObject &lpObj, PMSG_REQ_RESET_EVENTCHIP * lpMsg)
+void CDataServerProtocol::EGAnsResetStoneInfo(CGameObject &lpObj, PMSG_REQ_RESET_EVENTCHIP * lpMsg)
 {
 	PMSG_ANS_RESET_EVENTCHIP pMsg;
 
@@ -2977,7 +2977,7 @@ void CDataServerProtocol::EGAnsResetStoneInfo(LPGameObject &lpObj, PMSG_REQ_RESE
 	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::EGAnsRegCCOfflineGift(LPGameObject &lpObj, PMSG_REQ_REG_CC_OFFLINE_GIFT * lpMsg)
+void CDataServerProtocol::EGAnsRegCCOfflineGift(CGameObject &lpObj, PMSG_REQ_REG_CC_OFFLINE_GIFT * lpMsg)
 {
 	PMSG_ANS_REG_CC_OFFLINE_GIFT pMsg;
 
@@ -3012,7 +3012,7 @@ void CDataServerProtocol::EGAnsRegCCOfflineGift(LPGameObject &lpObj, PMSG_REQ_RE
 	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::EGAnsRegDLOfflineGift(LPGameObject &lpObj, PMSG_REQ_REG_DL_OFFLINE_GIFT * lpMsg)
+void CDataServerProtocol::EGAnsRegDLOfflineGift(CGameObject &lpObj, PMSG_REQ_REG_DL_OFFLINE_GIFT * lpMsg)
 {
 	PMSG_ANS_REG_DL_OFFLINE_GIFT pMsg;
 
@@ -3047,7 +3047,7 @@ void CDataServerProtocol::EGAnsRegDLOfflineGift(LPGameObject &lpObj, PMSG_REQ_RE
 	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::EGAnsRegHTOfflineGift(LPGameObject &lpObj, PMSG_REQ_REG_HT_OFFLINE_GIFT * lpMsg)
+void CDataServerProtocol::EGAnsRegHTOfflineGift(CGameObject &lpObj, PMSG_REQ_REG_HT_OFFLINE_GIFT * lpMsg)
 {
 	PMSG_ANS_REG_HT_OFFLINE_GIFT pMsg;
 
@@ -3082,7 +3082,7 @@ void CDataServerProtocol::EGAnsRegHTOfflineGift(LPGameObject &lpObj, PMSG_REQ_RE
 	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::EGAnsLuckyCoinInfo(LPGameObject &lpObj, PMSG_REQ_LUCKYCOIN * lpMsg)
+void CDataServerProtocol::EGAnsLuckyCoinInfo(CGameObject &lpObj, PMSG_REQ_LUCKYCOIN * lpMsg)
 {
 	int test = SQL_NO_DATA;
 	PMSG_ANS_LUCKYCOIN pMsg;
@@ -3124,7 +3124,7 @@ void CDataServerProtocol::EGAnsLuckyCoinInfo(LPGameObject &lpObj, PMSG_REQ_LUCKY
 	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::EGAnsRegLuckyCoin(LPGameObject &lpObj, PMSG_REQ_REGISTER_LUCKYCOIN * lpMsg)
+void CDataServerProtocol::EGAnsRegLuckyCoin(CGameObject &lpObj, PMSG_REQ_REGISTER_LUCKYCOIN * lpMsg)
 {
 	PMSG_ANS_REG_LUCKYCOIN pMsg;
 
@@ -3263,7 +3263,7 @@ void CDataServerProtocol::ReqSavePlayerKiller(short aIndex, DS_SAVE_PLAYERKILLER
 
 }
 
-void CDataServerProtocol::GDReqArcaBattleGuildJoin(LPGameObject &lpObj, PMSG_REQ_ARCA_BATTLE_GUILD_JOIN_DS * aRecv)
+void CDataServerProtocol::GDReqArcaBattleGuildJoin(CGameObject &lpObj, PMSG_REQ_ARCA_BATTLE_GUILD_JOIN_DS * aRecv)
 {
 	PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS pMsg;
 
@@ -3279,7 +3279,7 @@ void CDataServerProtocol::GDReqArcaBattleGuildJoin(LPGameObject &lpObj, PMSG_REQ
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqArcaBattleGuildMemberJoin(LPGameObject &lpObj, PMSG_REQ_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleGuildMemberJoin(CGameObject &lpObj, PMSG_REQ_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *aRecv)
 {
 	PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS pMsg;
 
@@ -3295,7 +3295,7 @@ void CDataServerProtocol::GDReqArcaBattleGuildMemberJoin(LPGameObject &lpObj, PM
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqArcaBattleEnter(LPGameObject &lpObj, PMSG_REQ_ARCA_BATTLE_ENTER_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleEnter(CGameObject &lpObj, PMSG_REQ_ARCA_BATTLE_ENTER_DS *aRecv)
 {
 	PMSG_ANS_ARCA_BATTLE_ENTER_DS pMsg;
 
@@ -3312,7 +3312,7 @@ void CDataServerProtocol::GDReqArcaBattleEnter(LPGameObject &lpObj, PMSG_REQ_ARC
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqArcaBattleWinGuildInfoInsert(LPGameObject &lpObj, PMSG_REQ_AB_WIN_GUILD_INFO_INSERT_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleWinGuildInfoInsert(CGameObject &lpObj, PMSG_REQ_AB_WIN_GUILD_INFO_INSERT_DS *aRecv)
 {
 	PMSG_ANS_AB_WIN_GUILD_INFO_DS pMsg;
 
@@ -3349,7 +3349,7 @@ void CDataServerProtocol::GDReqArcaBattleWinGuildInfoInsert(LPGameObject &lpObj,
 	}
 }
 
-void CDataServerProtocol::GDReqArcaBattleWinGuildInfo(LPGameObject &lpObj, PMSG_REQ_AB_WIN_GUILD_INFO_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleWinGuildInfo(CGameObject &lpObj, PMSG_REQ_AB_WIN_GUILD_INFO_DS *aRecv)
 {
 	PMSG_ANS_AB_WIN_GUILD_INFO_DS pMsg;
 
@@ -3376,14 +3376,14 @@ void CDataServerProtocol::GDReqArcaBattleWinGuildInfo(LPGameObject &lpObj, PMSG_
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqDeleteArcaBattleInfo(LPGameObject &lpObj)
+void CDataServerProtocol::GDReqDeleteArcaBattleInfo(CGameObject &lpObj)
 {
 	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleInfoDelete");
 	this->m_ArcaDB->Fetch();
 
 }
 
-void CDataServerProtocol::GDReqArcaBattleProcMultiCast(LPGameObject &lpObj, PMSG_REQ_AB_PROC_INSERT_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleProcMultiCast(CGameObject &lpObj, PMSG_REQ_AB_PROC_INSERT_DS *aRecv)
 {
 	PMSG_ANS_AB_PROC_STATE_DS pMsg;
 
@@ -3406,7 +3406,7 @@ void CDataServerProtocol::GDReqArcaBattleProcMultiCast(LPGameObject &lpObj, PMSG
 	}
 }
 
-void CDataServerProtocol::GDReqArcaBattleProcState(LPGameObject &lpObj, PMSG_REQ_AB_PROC_STATE_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleProcState(CGameObject &lpObj, PMSG_REQ_AB_PROC_STATE_DS *aRecv)
 {
 	PMSG_ANS_AB_PROC_STATE_DS pMsg;
 
@@ -3421,7 +3421,7 @@ void CDataServerProtocol::GDReqArcaBattleProcState(LPGameObject &lpObj, PMSG_REQ
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqArcaBattleJoinMemberUnder(LPGameObject &lpObj, PMSG_REQ_AB_JOIN_MEMBER_UNDER_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleJoinMemberUnder(CGameObject &lpObj, PMSG_REQ_AB_JOIN_MEMBER_UNDER_DS *aRecv)
 {
 	PMSG_ANS_AB_JOIN_MEMBER_UNDER_DS pMsg;
 
@@ -3466,7 +3466,7 @@ void CDataServerProtocol::GDReqArcaBattleJoinMemberUnder(LPGameObject &lpObj, PM
 	}
 }
 
-void CDataServerProtocol::GDReqArcaBattleJoinMemberUnderReq(LPGameObject &lpObj, PMSG_REQ_AB_JOIN_CANCEL_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleJoinMemberUnderReq(CGameObject &lpObj, PMSG_REQ_AB_JOIN_CANCEL_DS *aRecv)
 {
 	PMSG_ANS_AB_JOIN_CANCEL_DS pMsg;
 
@@ -3524,7 +3524,7 @@ void CDataServerProtocol::GDReqArcaBattleJoinMemberUnderReq(LPGameObject &lpObj,
 	}
 }
 
-void CDataServerProtocol::GDReqArcaBattleRegisteredMemberCnt(LPGameObject &lpObj, PMSG_REQ_AB_REG_MEMBER_CNT_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleRegisteredMemberCnt(CGameObject &lpObj, PMSG_REQ_AB_REG_MEMBER_CNT_DS *aRecv)
 {
 	PMSG_ANS_AB_REG_MEMBER_CNT_DS pMsg;
 
@@ -3540,7 +3540,7 @@ void CDataServerProtocol::GDReqArcaBattleRegisteredMemberCnt(LPGameObject &lpObj
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqRemoveAllGuildBuffMultiCast(LPGameObject &lpObj, PMSG_REQ_REMOVE_ALL_GUILD_BUFF_DS *aRecv)
+void CDataServerProtocol::GDReqRemoveAllGuildBuffMultiCast(CGameObject &lpObj, PMSG_REQ_REMOVE_ALL_GUILD_BUFF_DS *aRecv)
 {
 	PMSG_ANS_REMOVE_ALL_GUILD_BUFF_DS pMsg;
 
@@ -3557,7 +3557,7 @@ void CDataServerProtocol::GDReqRemoveAllGuildBuffMultiCast(LPGameObject &lpObj, 
 	}
 }
 
-void CDataServerProtocol::GDReqArcaBattleMarkCnt(LPGameObject &lpObj, PMSG_REQ_ARCA_BATTLE_MARK_CNT_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleMarkCnt(CGameObject &lpObj, PMSG_REQ_ARCA_BATTLE_MARK_CNT_DS *aRecv)
 {
 	PMSG_ANS_ARCA_BATTLE_MARK_CNT_DS pMsg;
 
@@ -3586,7 +3586,7 @@ void CDataServerProtocol::GDReqArcaBattleMarkCnt(LPGameObject &lpObj, PMSG_REQ_A
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqArcaBattleMarkReg(LPGameObject &lpObj, PMSG_REQ_ARCA_BATTLE_MARK_REG_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleMarkReg(CGameObject &lpObj, PMSG_REQ_ARCA_BATTLE_MARK_REG_DS *aRecv)
 {
 	PMSG_ANS_ARCA_BATTLE_MARK_REG_DS pMsg;
 
@@ -3610,7 +3610,7 @@ void CDataServerProtocol::GDReqArcaBattleMarkReg(LPGameObject &lpObj, PMSG_REQ_A
 	}
 }
 
-void CDataServerProtocol::GDReqArcaBattleMarkRank(LPGameObject &lpObj, PMSG_REQ_ARCA_BATTLE_MARK_RANK_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleMarkRank(CGameObject &lpObj, PMSG_REQ_ARCA_BATTLE_MARK_RANK_DS *aRecv)
 {
 	PMSG_ANS_ARCA_BATTLE_MARK_RANK_DS pMsg;
 
@@ -3660,14 +3660,14 @@ void CDataServerProtocol::GDReqArcaBattleMarkRank(LPGameObject &lpObj, PMSG_REQ_
 
 }
 
-void CDataServerProtocol::GDReqArcaBattleMarkRegDel(LPGameObject &lpObj, PMSG_REQ_ARCA_BATTLE_MARK_REG_DEL_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleMarkRegDel(CGameObject &lpObj, PMSG_REQ_ARCA_BATTLE_MARK_REG_DEL_DS *aRecv)
 {
 	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleMarkRegDel %d", aRecv->dwGuildNum);
 	this->m_ArcaDB->Fetch();
 
 }
 
-void CDataServerProtocol::GDReqArcaBattleIsTopRank(LPGameObject &lpObj, PMSG_REQ_ARCA_BATTLE_IS_TOP_RANK *aRecv)
+void CDataServerProtocol::GDReqArcaBattleIsTopRank(CGameObject &lpObj, PMSG_REQ_ARCA_BATTLE_IS_TOP_RANK *aRecv)
 {
 	PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS pMsg;
 
@@ -3693,14 +3693,14 @@ void CDataServerProtocol::GDReqArcaBattleIsTopRank(LPGameObject &lpObj, PMSG_REQ
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqArcaBattleMarkRegAllDel(LPGameObject &lpObj)
+void CDataServerProtocol::GDReqArcaBattleMarkRegAllDel(CGameObject &lpObj)
 {
 	this->m_ArcaDB->ExecQuery("CALL IGC_ArcaBattleGuildMarkInfoAllDel");
 	this->m_ArcaDB->Fetch();
 
 }
 
-void CDataServerProtocol::GDReqArcaBattleAllGuildMarkCnt(LPGameObject &lpObj)
+void CDataServerProtocol::GDReqArcaBattleAllGuildMarkCnt(CGameObject &lpObj)
 {
 	PMSG_ANS_ALL_GUILD_MARK_CNT_DS pMsg;
 
@@ -3725,19 +3725,19 @@ void CDataServerProtocol::GDReqArcaBattleAllGuildMarkCnt(LPGameObject &lpObj)
 	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqArcaBattleMarkRegSet(LPGameObject &lpObj, PMSG_REQ_AB_MARK_REG_UPDATE_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleMarkRegSet(CGameObject &lpObj, PMSG_REQ_AB_MARK_REG_UPDATE_DS *aRecv)
 {
 	this->m_ArcaDB->ExecQuery("UPDATE IGC_ARCA_BATTLE_GUILDMARK_REG SET MarkCnt = %d WHERE G_Number = %d", aRecv->dwMarkCnt, aRecv->dwGuildNum);
 }
 
-void CDataServerProtocol::GDReqArcaBattleGuildRegInit(LPGameObject &lpObj, PMSG_REQ_GUILD_REG_INIT *aRecv)
+void CDataServerProtocol::GDReqArcaBattleGuildRegInit(CGameObject &lpObj, PMSG_REQ_GUILD_REG_INIT *aRecv)
 {
 	this->m_ArcaDB->ExecQuery("DELETE IGC_ARCA_BATTLE_MEMBER_JOIN_INFO");
 	this->m_ArcaDB->ExecQuery("DELETE IGC_ARCA_BATTLE_GUILD_JOIN_INFO");
 	this->m_ArcaDB->ExecQuery("DELETE IGC_ARCA_BATTLE_GUILDMARK_REG");
 }
 
-void CDataServerProtocol::GDReqArcaBattleAllJoinUser(LPGameObject &lpObj, PMSG_REQ_AB_ALL_JOIN_USER_DS *aRecv)
+void CDataServerProtocol::GDReqArcaBattleAllJoinUser(CGameObject &lpObj, PMSG_REQ_AB_ALL_JOIN_USER_DS *aRecv)
 {
 	PMSG_ANS_AB_ALL_JOIN_USER_DS pMsg;
 
@@ -3763,17 +3763,17 @@ void CDataServerProtocol::GDReqArcaBattleAllJoinUser(LPGameObject &lpObj, PMSG_R
 	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqPeriodBuffInsert(LPGameObject &lpObj, PMSG_REQ_PERIODBUFF_INSERT *aRecv)
+void CDataServerProtocol::GDReqPeriodBuffInsert(CGameObject &lpObj, PMSG_REQ_PERIODBUFF_INSERT *aRecv)
 {
 	this->m_PeriodItemDB->ExecQuery("CALL IGC_PeriodBuffInsert '%s', %d, %d, %d, %d, %I64d", aRecv->szCharacterName, aRecv->wBuffIndex, aRecv->btEffectType1, aRecv->btEffectType2, aRecv->dwDuration, aRecv->lExpireDate);
 }
 
-void CDataServerProtocol::GDReqPeriodBuffDelete(LPGameObject &lpObj, PMSG_REQ_PERIODBUFF_DELETE *aRecv)
+void CDataServerProtocol::GDReqPeriodBuffDelete(CGameObject &lpObj, PMSG_REQ_PERIODBUFF_DELETE *aRecv)
 {
 	this->m_PeriodItemDB->ExecQuery("CALL IGC_PeriodBuffDelete '%s', %d", aRecv->szCharacterName, aRecv->wBuffIndex);
 }
 
-void CDataServerProtocol::GDReqPeriodBuffSelect(LPGameObject &lpObj, PMSG_REQ_PERIODBUFF_SELECT *aRecv)
+void CDataServerProtocol::GDReqPeriodBuffSelect(CGameObject &lpObj, PMSG_REQ_PERIODBUFF_SELECT *aRecv)
 {
 	PMSG_ANS_PERIODBUFF_SELECT pMsg;
 
@@ -3815,7 +3815,7 @@ void CDataServerProtocol::GDReqPeriodBuffSelect(LPGameObject &lpObj, PMSG_REQ_PE
 	}
 }
 
-void CDataServerProtocol::GDReqQuestExpInfoLoad(LPGameObject &lpObj, PMSG_REQ_QUESTEXP_INFO *aRecv)
+void CDataServerProtocol::GDReqQuestExpInfoLoad(CGameObject &lpObj, PMSG_REQ_QUESTEXP_INFO *aRecv)
 {
 	EnterCriticalSection(&this->m_QuestExpDBCriti);
 
@@ -3905,7 +3905,7 @@ void CDataServerProtocol::GDReqQuestExpInfoLoad(LPGameObject &lpObj, PMSG_REQ_QU
 	LeaveCriticalSection(&this->m_QuestExpDBCriti);
 }
 
-void CDataServerProtocol::GDReqQuestExpInfoSave(LPGameObject &lpObj, LPBYTE lpRecv)
+void CDataServerProtocol::GDReqQuestExpInfoSave(CGameObject &lpObj, LPBYTE lpRecv)
 {
 	_PMSG_QUESTEXP_INFO * lpMsg = (_PMSG_QUESTEXP_INFO *)lpRecv;
 	_QUESTEXP_INFO * QuestInfo = (_QUESTEXP_INFO *)(lpRecv + sizeof(_PMSG_QUESTEXP_INFO));
@@ -4007,7 +4007,7 @@ void CDataServerProtocol::GDReqQuestExpInfoSave(LPGameObject &lpObj, LPBYTE lpRe
 	LeaveCriticalSection(&this->m_QuestExpDBCriti);
 }
 
-void CDataServerProtocol::GDReqLuckyItemInsert(LPGameObject &lpObj, PMSG_REQ_LUCKYITEM_INSERT *lpMsg)
+void CDataServerProtocol::GDReqLuckyItemInsert(CGameObject &lpObj, PMSG_REQ_LUCKYITEM_INSERT *lpMsg)
 {
 	this->m_LuckyItemDB->ExecQuery("CALL IGC_LuckyItemInsert %d, '%s', %d, %I64d, %d",
 		lpMsg->dwUserGuid, lpMsg->szCharName, lpMsg->LuckyItemDBInfo.wItemCode,
@@ -4017,7 +4017,7 @@ void CDataServerProtocol::GDReqLuckyItemInsert(LPGameObject &lpObj, PMSG_REQ_LUC
 
 }
 
-void CDataServerProtocol::GDReqLuckyItemInsert2nd(LPGameObject &lpObj, PMSG_REQ_LUCKYITEM_INSERT_2ND *lpMsg)
+void CDataServerProtocol::GDReqLuckyItemInsert2nd(CGameObject &lpObj, PMSG_REQ_LUCKYITEM_INSERT_2ND *lpMsg)
 {
 	int iItemCnt = lpMsg->btItemCnt;
 
@@ -4037,14 +4037,14 @@ void CDataServerProtocol::GDReqLuckyItemInsert2nd(LPGameObject &lpObj, PMSG_REQ_
 	}
 }
 
-void CDataServerProtocol::GDReqLuckyItemDelete(LPGameObject &lpObj, PMSG_REQ_LUCKYITEM_DELETE *lpMsg)
+void CDataServerProtocol::GDReqLuckyItemDelete(CGameObject &lpObj, PMSG_REQ_LUCKYITEM_DELETE *lpMsg)
 {
 	this->m_LuckyItemDB->ExecQuery("CALL IGC_LuckyItemDelete '%s', %d, %u", lpMsg->szCharName, lpMsg->wItemCode, lpMsg->Serial);
 	this->m_LuckyItemDB->Fetch();
 
 }
 
-void CDataServerProtocol::GDReqLuckyItemSelect(LPGameObject &lpObj, PMSG_REQ_LUCKYITEM_SELECT *lpMsg)
+void CDataServerProtocol::GDReqLuckyItemSelect(CGameObject &lpObj, PMSG_REQ_LUCKYITEM_SELECT *lpMsg)
 {
 	char BUFFER[2048];
 	memset(BUFFER, 0x00, sizeof(BUFFER));
@@ -4084,7 +4084,7 @@ void CDataServerProtocol::GDReqLuckyItemSelect(LPGameObject &lpObj, PMSG_REQ_LUC
 	//DataSend(aIndex, (LPBYTE)&BUFFER, lOfs, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqGetPentagramJewel(LPGameObject &lpObj, PMSG_REQ_PENTAGRAMJEWEL *lpMsg)
+void CDataServerProtocol::GDReqGetPentagramJewel(CGameObject &lpObj, PMSG_REQ_PENTAGRAMJEWEL *lpMsg)
 {
 	BYTE Buffer[4096];
 	memset(&Buffer, 0x00, sizeof(Buffer));
@@ -4133,7 +4133,7 @@ void CDataServerProtocol::GDReqGetPentagramJewel(LPGameObject &lpObj, PMSG_REQ_P
 	//DataSend(aIndex, Buffer, dwSize, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqSetPentagramJewel(LPGameObject &lpObj, LPBYTE lpRecv)
+void CDataServerProtocol::GDReqSetPentagramJewel(CGameObject &lpObj, LPBYTE lpRecv)
 {
 	PMSG_REQ_SETPENTAGRAMJEWEL * lpMsg = (PMSG_REQ_SETPENTAGRAMJEWEL *)(lpRecv);
 
@@ -4150,7 +4150,7 @@ void CDataServerProtocol::GDReqSetPentagramJewel(LPGameObject &lpObj, LPBYTE lpR
 	}
 }
 
-void CDataServerProtocol::GDReqDelPentagramJewel(LPGameObject &lpObj, PMSG_DEL_PENTAGRAMJEWEL *lpMsg)
+void CDataServerProtocol::GDReqDelPentagramJewel(CGameObject &lpObj, PMSG_DEL_PENTAGRAMJEWEL *lpMsg)
 {
 	this->m_PentagramDB->ExecQuery("CALL IGC_PentagramInfoDelete %d, '%s', '%s', %d, %d",
 		lpMsg->iUserGuid, lpMsg->szAccountID, lpMsg->szName, lpMsg->btJewelPos, lpMsg->btJewelIndex);
@@ -4158,7 +4158,7 @@ void CDataServerProtocol::GDReqDelPentagramJewel(LPGameObject &lpObj, PMSG_DEL_P
 
 }
 
-void CDataServerProtocol::GDReqInsertPentagramJewel(LPGameObject &lpObj, PMSG_INSERT_PENTAGRAMJEWEL *lpMsg)
+void CDataServerProtocol::GDReqInsertPentagramJewel(CGameObject &lpObj, PMSG_INSERT_PENTAGRAMJEWEL *lpMsg)
 {
 	this->m_PentagramDB->ExecQuery("CALL IGC_PentagramInfoUpdate %d, '%s', '%s', %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d",
 		lpMsg->iUserGuid, lpMsg->szAccountID, lpMsg->szName, lpMsg->btJewelPos, lpMsg->btJewelPos, lpMsg->btItemType, lpMsg->wItemIndex,
@@ -4168,14 +4168,14 @@ void CDataServerProtocol::GDReqInsertPentagramJewel(LPGameObject &lpObj, PMSG_IN
 
 }
 
-void CDataServerProtocol::GDReqChaosCastleFinalSave(LPGameObject &lpObj, PMSG_REQ_SAVE_CCF_RESULT* lpMsg)
+void CDataServerProtocol::GDReqChaosCastleFinalSave(CGameObject &lpObj, PMSG_REQ_SAVE_CCF_RESULT* lpMsg)
 {
 	this->m_CCFinalDB->ExecQuery("CALL IGC_ChaosCastleFinal_Save '%s', %d, %d, %d, %I64d, %d", lpMsg->szCharName, lpMsg->nPoint, lpMsg->nCharClass, lpMsg->nCharLevel, lpMsg->nCharExp, lpMsg->byCCFType);
 	this->m_CCFinalDB->Fetch();
 
 }
 
-void CDataServerProtocol::GDReqChaosCastleFinalPermission(LPGameObject &lpObj, PMSG_REQ_CCF_PERMISSION* lpMsg)
+void CDataServerProtocol::GDReqChaosCastleFinalPermission(CGameObject &lpObj, PMSG_REQ_CCF_PERMISSION* lpMsg)
 {
 	SDHP_ANS_CCF_GETPERMISSION pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF9, 0xA3, sizeof(pMsg));
@@ -4199,7 +4199,7 @@ void CDataServerProtocol::GDReqChaosCastleFinalPermission(LPGameObject &lpObj, P
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqChaosCastleFinalLoad(LPGameObject &lpObj, SDHP_REQ_CCF_RANKING* lpMsg)
+void CDataServerProtocol::GDReqChaosCastleFinalLoad(CGameObject &lpObj, SDHP_REQ_CCF_RANKING* lpMsg)
 {
 	PMSG_ANS_CCF_RANK pMsg;
 	PHeadSetW((LPBYTE)&pMsg, 0xF5, sizeof(pMsg));
@@ -4233,14 +4233,14 @@ void CDataServerProtocol::GDReqChaosCastleFinalLoad(LPGameObject &lpObj, SDHP_RE
 	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqChaosCastleFinalRenew(LPGameObject &lpObj, SDHP_RENEW_RANKING* lpMsg)
+void CDataServerProtocol::GDReqChaosCastleFinalRenew(CGameObject &lpObj, SDHP_RENEW_RANKING* lpMsg)
 {
 	this->m_CCFinalDB->ExecQuery("CALL IGC_ChaosCastleFinal_Renew %d", lpMsg->byRankingType);
 	this->m_CCFinalDB->Fetch();
 
 }
 
-void CDataServerProtocol::GDReqChaosCastleFinalSendMsgAllSvr(LPGameObject &lpObj, PMSG_SEND_CCF_INFO_ALL_SVR* lpMsg)
+void CDataServerProtocol::GDReqChaosCastleFinalSendMsgAllSvr(CGameObject &lpObj, PMSG_SEND_CCF_INFO_ALL_SVR* lpMsg)
 {
 	SDHP_ANS_CCF_INFO_NOTIFY pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF9, 0xA4, sizeof(pMsg));
@@ -4259,7 +4259,7 @@ void CDataServerProtocol::GDReqChaosCastleFinalSendMsgAllSvr(LPGameObject &lpObj
 	}
 }
 
-void CDataServerProtocol::GDReqLoadMuunInvenItem(LPGameObject &lpObj, SDHP_REQ_DBMUUN_INVEN_LOAD* lpMsg)
+void CDataServerProtocol::GDReqLoadMuunInvenItem(CGameObject &lpObj, SDHP_REQ_DBMUUN_INVEN_LOAD* lpMsg)
 {
 	SDHP_ANS_DBMUUN_INVEN_LOAD pMsg;
 	PHeadSetW((LPBYTE)&pMsg, 0xF1, sizeof(pMsg));
@@ -4293,7 +4293,7 @@ void CDataServerProtocol::GDReqLoadMuunInvenItem(LPGameObject &lpObj, SDHP_REQ_D
 	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqSaveMuunInvenItem(LPGameObject &lpObj, SDHP_REQ_DBMUUN_INVEN_SAVE * aRecv)
+void CDataServerProtocol::GDReqSaveMuunInvenItem(CGameObject &lpObj, SDHP_REQ_DBMUUN_INVEN_SAVE * aRecv)
 {
 	char szName[11] = { 0 };
 	memcpy(szName, aRecv->Name, MAX_ACCOUNT_LEN); //
@@ -4305,7 +4305,7 @@ void CDataServerProtocol::GDReqSaveMuunInvenItem(LPGameObject &lpObj, SDHP_REQ_D
 	this->m_MuunDB->SetAsBinary(szTemp, aRecv->dbInventory, sizeof(aRecv->dbInventory));
 }
 
-void CDataServerProtocol::GDReqLoadEventInvenItem(LPGameObject &lpObj, SDHP_REQ_DBEVENT_INVEN_LOAD * aRecv)
+void CDataServerProtocol::GDReqLoadEventInvenItem(CGameObject &lpObj, SDHP_REQ_DBEVENT_INVEN_LOAD * aRecv)
 {
 	SDHP_ANS_DBEVENT_INVEN_LOAD pMsg;
 	PHeadSetW((LPBYTE)&pMsg, 0xE6, sizeof(pMsg));
@@ -4337,14 +4337,14 @@ void CDataServerProtocol::GDReqLoadEventInvenItem(LPGameObject &lpObj, SDHP_REQ_
 	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqSaveEventInvenItem(LPGameObject &lpObj, SDHP_REQ_DBEVENT_INVEN_SAVE * aRecv)
+void CDataServerProtocol::GDReqSaveEventInvenItem(CGameObject &lpObj, SDHP_REQ_DBEVENT_INVEN_SAVE * aRecv)
 {
 	char szTemp[1024];
 	wsprintf(szTemp, "UPDATE T_Event_Inventory SET Inventory=? WHERE Name = '%s'", aRecv->Name);
 	this->m_EventInvDB->SetAsBinary(szTemp, aRecv->dbInventory, sizeof(aRecv->dbInventory));
 }
 
-void CDataServerProtocol::GDReqCardInfo(LPGameObject &lpObj, PMSG_REQ_MURUMMY_SELECT_DS * aRecv)
+void CDataServerProtocol::GDReqCardInfo(CGameObject &lpObj, PMSG_REQ_MURUMMY_SELECT_DS * aRecv)
 {
 	PMSG_ANS_MURUMMY_SELECT_DS pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xE8, 0x00, sizeof(pMsg));
@@ -4381,7 +4381,7 @@ void CDataServerProtocol::GDReqCardInfo(LPGameObject &lpObj, PMSG_REQ_MURUMMY_SE
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqCardInfoInsert(LPGameObject &lpObj, PMSG_REQ_MURUMMY_INSERT_DS * aRecv)
+void CDataServerProtocol::GDReqCardInfoInsert(CGameObject &lpObj, PMSG_REQ_MURUMMY_INSERT_DS * aRecv)
 {
 	this->m_RummyDB->ExecQuery("CALL IGC_SetSaveMuRummyInfo '%s', '%s', %d", aRecv->AccountID, aRecv->Name, 0);
 	this->m_RummyDB->Fetch();
@@ -4397,7 +4397,7 @@ void CDataServerProtocol::GDReqCardInfoInsert(LPGameObject &lpObj, PMSG_REQ_MURU
 	}
 }
 
-void CDataServerProtocol::GDReqScoreUpdate(LPGameObject &lpObj, PMSG_REQ_MURUMMY_SCORE_UPDATE_DS * aRecv)
+void CDataServerProtocol::GDReqScoreUpdate(CGameObject &lpObj, PMSG_REQ_MURUMMY_SCORE_UPDATE_DS * aRecv)
 {
 	this->m_RummyDB->ExecQuery("CALL IGC_SetSaveMuRummyInfo '%s', '%s', %d", aRecv->AccountID, aRecv->Name, aRecv->wScore);
 	this->m_RummyDB->Fetch();
@@ -4416,21 +4416,21 @@ void CDataServerProtocol::GDReqScoreUpdate(LPGameObject &lpObj, PMSG_REQ_MURUMMY
 	}
 }
 
-void CDataServerProtocol::GDReqCardInfoUpdate(LPGameObject &lpObj, PMSG_REQ_MURUMMY_UPDATE_DS * aRecv)
+void CDataServerProtocol::GDReqCardInfoUpdate(CGameObject &lpObj, PMSG_REQ_MURUMMY_UPDATE_DS * aRecv)
 {
 	this->m_RummyDB->ExecQuery("CALL IGC_SetUpdateMuRummy  '%s', '%s', %d, %d, %d", aRecv->AccountID, aRecv->Name, aRecv->btSlotNum, aRecv->btStatus, aRecv->btSequence);
 	this->m_RummyDB->Fetch();
 
 }
 
-void CDataServerProtocol::GDReqScoreDelete(LPGameObject &lpObj, PMSG_REQ_MURUMMY_DELETE_DS * aRecv)
+void CDataServerProtocol::GDReqScoreDelete(CGameObject &lpObj, PMSG_REQ_MURUMMY_DELETE_DS * aRecv)
 {
 	this->m_RummyDB->ExecQuery("CALL IGC_SetDeleteMuRummy '%s', '%s'", aRecv->AccountID, aRecv->Name);
 	this->m_RummyDB->Fetch();
 
 }
 
-void CDataServerProtocol::GDReqSlotInfoUpdate(LPGameObject &lpObj, PMSG_REQ_MURUMMY_SLOTUPDATE_DS * aRecv)
+void CDataServerProtocol::GDReqSlotInfoUpdate(CGameObject &lpObj, PMSG_REQ_MURUMMY_SLOTUPDATE_DS * aRecv)
 {
 	if (aRecv->stCardUpdateDS.btSeq == 255 || aRecv->stCardUpdateDS.btSeq >= 8)
 	{
@@ -4442,7 +4442,7 @@ void CDataServerProtocol::GDReqSlotInfoUpdate(LPGameObject &lpObj, PMSG_REQ_MURU
 
 }
 
-void CDataServerProtocol::GDReqMuRummyInfoUpdate(LPGameObject &lpObj, PMSG_REQ_MURUMMY_INFO_UPDATE_DS * aRecv)
+void CDataServerProtocol::GDReqMuRummyInfoUpdate(CGameObject &lpObj, PMSG_REQ_MURUMMY_INFO_UPDATE_DS * aRecv)
 {
 	this->m_RummyDB->ExecQuery("CALL IGC_SetSaveMuRummyInfo '%s', '%s', %d", aRecv->AccountID, aRecv->Name, aRecv->wScore);
 	this->m_RummyDB->Fetch();
@@ -4461,14 +4461,14 @@ void CDataServerProtocol::GDReqMuRummyInfoUpdate(LPGameObject &lpObj, PMSG_REQ_M
 	}
 }
 
-void CDataServerProtocol::GDReqMuRummyDBLog(LPGameObject &lpObj, PMSG_REQ_MURUMMY_LOG_INSERT_DS * aRecv)
+void CDataServerProtocol::GDReqMuRummyDBLog(CGameObject &lpObj, PMSG_REQ_MURUMMY_LOG_INSERT_DS * aRecv)
 {
 	this->m_RummyDB->ExecQuery("CALL IGC_SetSaveMuRummyLog '%s', '%s', %d", aRecv->AccountID, aRecv->Name, aRecv->wScore);
 	this->m_RummyDB->Fetch();
 
 }
 
-void CDataServerProtocol::GDReqMineModifyUPTUserInfo(LPGameObject &lpObj, SDHP_REQ_MINESYSTEM_UPT_USERINFO * aRecv)
+void CDataServerProtocol::GDReqMineModifyUPTUserInfo(CGameObject &lpObj, SDHP_REQ_MINESYSTEM_UPT_USERINFO * aRecv)
 {
 	if (aRecv->byRequestType == 0)
 	{
@@ -4494,7 +4494,7 @@ void CDataServerProtocol::GDReqMineModifyUPTUserInfo(LPGameObject &lpObj, SDHP_R
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqMineCheckIsUPTWhenUserConnect(LPGameObject &lpObj, SDHP_REQ_LOAD_MINESYSTEM_UPT_USERINFO * aRecv)
+void CDataServerProtocol::GDReqMineCheckIsUPTWhenUserConnect(CGameObject &lpObj, SDHP_REQ_LOAD_MINESYSTEM_UPT_USERINFO * aRecv)
 {
 	SDHP_ANS_LOAD_MINESYSTEM_UPT_USERINFO pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x4C, 0x01, sizeof(pMsg));
@@ -4520,7 +4520,7 @@ void CDataServerProtocol::GDReqMineCheckIsUPTWhenUserConnect(LPGameObject &lpObj
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqPShopItemValue(LPGameObject &lpObj, PMSG_REQ_PSHOPITEMVALUE_INFO * aRecv)
+void CDataServerProtocol::GDReqPShopItemValue(CGameObject &lpObj, PMSG_REQ_PSHOPITEMVALUE_INFO * aRecv)
 {
 	PMSG_ANS_PSHOPITEMVALUE_INFO pMsg;
 	PHeadSetW((LPBYTE)&pMsg, 0xE9, sizeof(pMsg));
@@ -4549,7 +4549,7 @@ void CDataServerProtocol::GDReqPShopItemValue(LPGameObject &lpObj, PMSG_REQ_PSHO
 	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GDAllSavePShopItemValue(LPGameObject &lpObj, PMSG_UPDATE_PSHOPITEMVALUE_INFO * aRecv)
+void CDataServerProtocol::GDAllSavePShopItemValue(CGameObject &lpObj, PMSG_UPDATE_PSHOPITEMVALUE_INFO * aRecv)
 {
 	for (int i = 0; i < aRecv->btItemCnt; i++)
 	{
@@ -4563,21 +4563,21 @@ void CDataServerProtocol::GDAllSavePShopItemValue(LPGameObject &lpObj, PMSG_UPDA
 	}
 }
 
-void CDataServerProtocol::GDDelPShopItemValue(LPGameObject &lpObj, PMSG_DEL_PSHOPITEM * aRecv)
+void CDataServerProtocol::GDDelPShopItemValue(CGameObject &lpObj, PMSG_DEL_PSHOPITEM * aRecv)
 {
 	this->m_PShopDB->ExecQuery("CALL IGC_PShopItemValueInfoDel '%s', '%s', %d", aRecv->AccountId, aRecv->szName, aRecv->nPShopItemInvenNum);
 	this->m_PShopDB->Fetch();
 
 }
 
-void CDataServerProtocol::GDMovePShopItem(LPGameObject &lpObj, PMSG_MOVE_PSHOPITEM * aRecv)
+void CDataServerProtocol::GDMovePShopItem(CGameObject &lpObj, PMSG_MOVE_PSHOPITEM * aRecv)
 {
 	this->m_PShopDB->ExecQuery("CALL IGC_PShopItemMove '%s', '%s', %d, %d", aRecv->AccountId, aRecv->szName, aRecv->nOldPShopItemInvenNum, aRecv->nNewPShopItemInvenNum);
 	this->m_PShopDB->Fetch();
 
 }
 
-void CDataServerProtocol::GDReqAcheronGuardianProcMultiCast(LPGameObject &lpObj, PMSG_REQ_AE_PLAY_DS * aRecv)
+void CDataServerProtocol::GDReqAcheronGuardianProcMultiCast(CGameObject &lpObj, PMSG_REQ_AE_PLAY_DS * aRecv)
 {
 	PMSG_ANS_AE_PLAY_DS pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF8, 0xF1, sizeof(pMsg));
@@ -4595,7 +4595,7 @@ void CDataServerProtocol::GDReqAcheronGuardianProcMultiCast(LPGameObject &lpObj,
 	}
 }
 
-void CDataServerProtocol::GDReqClassDefData(LPGameObject &lpObj)
+void CDataServerProtocol::GDReqClassDefData(CGameObject &lpObj)
 {
 	PMSG_ANS_CLASSDEF pMsg;
 	PHeadSetW((LPBYTE)&pMsg, 0x02, sizeof(pMsg));
@@ -4629,7 +4629,7 @@ void CDataServerProtocol::GDReqClassDefData(LPGameObject &lpObj)
 	//DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqReBuyItemList(LPGameObject &lpObj, SDHP_REQ_SHOP_REBUY_LIST * aRecv)
+void CDataServerProtocol::GDReqReBuyItemList(CGameObject &lpObj, SDHP_REQ_SHOP_REBUY_LIST * aRecv)
 {
 	this->m_ReBuyDB->ExecQuery("CALL IGC_CancelItemSale_ClearExpiredItems '%s', '%s', %I64d", aRecv->szAccountID, aRecv->szName, aRecv->CurrTime);
 
@@ -4688,7 +4688,7 @@ void CDataServerProtocol::GDReqReBuyItemList(LPGameObject &lpObj, SDHP_REQ_SHOP_
 	//DataSend(aIndex, BUFFER, PacketSize, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqReBuyAddItem(LPGameObject &lpObj, SDHP_REQ_SHOP_REBUY_ADD_ITEM * aRecv)
+void CDataServerProtocol::GDReqReBuyAddItem(CGameObject &lpObj, SDHP_REQ_SHOP_REBUY_ADD_ITEM * aRecv)
 {
 	this->m_ReBuyDB->ExecQuery("CALL IGC_CancelItemSale_ClearExpiredItems '%s', '%s', %I64d", aRecv->szAccountID, aRecv->szName, aRecv->SellDate);
 
@@ -4738,7 +4738,7 @@ void CDataServerProtocol::GDReqReBuyAddItem(LPGameObject &lpObj, SDHP_REQ_SHOP_R
 	memset(szTemp, 0, 256);
 }
 
-void CDataServerProtocol::GDReqReBuyGetItem(LPGameObject &lpObj, SDHP_REQ_SHOP_REBUY_GET_ITEM * aRecv)
+void CDataServerProtocol::GDReqReBuyGetItem(CGameObject &lpObj, SDHP_REQ_SHOP_REBUY_GET_ITEM * aRecv)
 {
 	SDHP_ANS_SHOP_REBUY_GET_ITEM pMsg;
 	char szTemp[256];
@@ -4781,13 +4781,13 @@ void CDataServerProtocol::GDReqReBuyGetItem(LPGameObject &lpObj, SDHP_REQ_SHOP_R
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqDeleteSoldItem(LPGameObject &lpObj, SDHP_REQ_SHOP_REBUY_DELETE_ITEM * aRecv)
+void CDataServerProtocol::GDReqDeleteSoldItem(CGameObject &lpObj, SDHP_REQ_SHOP_REBUY_DELETE_ITEM * aRecv)
 {
 	this->m_ReBuyDB->ExecQuery("CALL IGC_CancelItemSale_DeleteItem '%s', '%s', %d, %d", aRecv->szAccountID, aRecv->szName, aRecv->btItemNumber, aRecv->dwItemPrice);
 
 }
 
-void CDataServerProtocol::GDReqGremoryCaseItemList(LPGameObject &lpObj, _stReqGremoryCaseItemList * aRecv)
+void CDataServerProtocol::GDReqGremoryCaseItemList(CGameObject &lpObj, _stReqGremoryCaseItemList * aRecv)
 {
 	BYTE BUFFER[8192];
 
@@ -4855,7 +4855,7 @@ void CDataServerProtocol::GDReqGremoryCaseItemList(LPGameObject &lpObj, _stReqGr
 	//DataSend(aIndex, BUFFER, PacketSize, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqGremoryCaseAddItem(LPGameObject &lpObj, _stReqAddItemToGremoryCase * aRecv)
+void CDataServerProtocol::GDReqGremoryCaseAddItem(CGameObject &lpObj, _stReqAddItemToGremoryCase * aRecv)
 {
 	_stAnsAddItemToGremoryCase pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x4F, 0x01, sizeof(pMsg));
@@ -4910,7 +4910,7 @@ void CDataServerProtocol::GDReqGremoryCaseAddItem(LPGameObject &lpObj, _stReqAdd
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqCheckUseItemGremoryCase(LPGameObject &lpObj, _stReqCheckUseItemGremoryCase * aRecv)
+void CDataServerProtocol::GDReqCheckUseItemGremoryCase(CGameObject &lpObj, _stReqCheckUseItemGremoryCase * aRecv)
 {
 	_stAnsCheckUseItemGremoryCase pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x4F, 0x02, sizeof(pMsg));
@@ -4931,13 +4931,13 @@ void CDataServerProtocol::GDReqCheckUseItemGremoryCase(LPGameObject &lpObj, _stR
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqGremoryCaseDeleteItem(LPGameObject &lpObj, _stReqDeleteItemFromGremoryCase * aRecv)
+void CDataServerProtocol::GDReqGremoryCaseDeleteItem(CGameObject &lpObj, _stReqDeleteItemFromGremoryCase * aRecv)
 {
 	this->m_GremoryCaseDB->ExecQuery("CALL IGC_GremoryCase_DeleteItem %d, %d, %d", aRecv->wItemID, aRecv->dwItemGUID, aRecv->dwAuthCode);
 	this->m_GremoryCaseDB->Fetch();
 }
 
-void CDataServerProtocol::GDReqUBFCheckIsJoinedUser(LPGameObject &lpObj, PMSG_REQ_UBF_ACCOUNT_USERINFO * aRecv)
+void CDataServerProtocol::GDReqUBFCheckIsJoinedUser(CGameObject &lpObj, PMSG_REQ_UBF_ACCOUNT_USERINFO * aRecv)
 {
 	PMSG_ANS_UBF_ACCOUNT_USERINFO pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF3, 0x01, sizeof(pMsg));
@@ -4969,7 +4969,7 @@ void CDataServerProtocol::GDReqUBFCheckIsJoinedUser(LPGameObject &lpObj, PMSG_RE
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqUBFJoinUser(LPGameObject &lpObj, PMSG_UBF_REGISTER_ACCOUNT_USER * aRecv)
+void CDataServerProtocol::GDReqUBFJoinUser(CGameObject &lpObj, PMSG_UBF_REGISTER_ACCOUNT_USER * aRecv)
 {
 	PMSG_UBF_REGISTER_ACCOUNT_USER_RESULT pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF3, 0x02, sizeof(pMsg));
@@ -4999,7 +4999,7 @@ void CDataServerProtocol::GDReqUBFJoinUser(LPGameObject &lpObj, PMSG_UBF_REGISTE
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqUBFCopyCharacter(LPGameObject &lpObj, PMSG_UBF_ACCOUNT_USER_COPY * aRecv)
+void CDataServerProtocol::GDReqUBFCopyCharacter(CGameObject &lpObj, PMSG_UBF_ACCOUNT_USER_COPY * aRecv)
 {
 	PMSG_UBF_ACCOUNT_USER_COPY_RESULT pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF3, 0x03, sizeof(pMsg));
@@ -5026,7 +5026,7 @@ void CDataServerProtocol::GDReqUBFCopyCharacter(LPGameObject &lpObj, PMSG_UBF_AC
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqUBFCancelUser(LPGameObject &lpObj, PMSG_UBF_REQ_CANCEL_REGISTER_USER * aRecv)
+void CDataServerProtocol::GDReqUBFCancelUser(CGameObject &lpObj, PMSG_UBF_REQ_CANCEL_REGISTER_USER * aRecv)
 {
 	PMSG_UBF_ANS_CANCEL_REGISTER_USER pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF3, 0x07, sizeof(pMsg));
@@ -5088,7 +5088,7 @@ void CDataServerProtocol::GDReqUBFCancelUser(LPGameObject &lpObj, PMSG_UBF_REQ_C
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqUBFGetRealName(LPGameObject &lpObj, PMSG_REQ_GET_UBF_REAL_NAME * aRecv)
+void CDataServerProtocol::GDReqUBFGetRealName(CGameObject &lpObj, PMSG_REQ_GET_UBF_REAL_NAME * aRecv)
 {
 	PMSG_ANS_GET_UBF_REAL_NAME pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF3, 0x08, sizeof(pMsg));
@@ -5108,7 +5108,7 @@ void CDataServerProtocol::GDReqUBFGetRealName(LPGameObject &lpObj, PMSG_REQ_GET_
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqUBFCopyPetItem(LPGameObject &lpObj, LPBYTE lpRecv)
+void CDataServerProtocol::GDReqUBFCopyPetItem(CGameObject &lpObj, LPBYTE lpRecv)
 {
 	PMSG_UBF_ACCOUNT_USER_COPY_PETITEM * lpMsg = (PMSG_UBF_ACCOUNT_USER_COPY_PETITEM *)lpRecv;
 	PMSG_UBF_COPY_PETITEM * lpItem = (PMSG_UBF_COPY_PETITEM *)lpRecv + sizeof(PMSG_UBF_ACCOUNT_USER_COPY_PETITEM);
@@ -5123,28 +5123,28 @@ void CDataServerProtocol::GDReqUBFCopyPetItem(LPGameObject &lpObj, LPBYTE lpRecv
 	}
 }
 
-void CDataServerProtocol::GDReqUBFSetCCFReward(LPGameObject &lpObj, SDHP_REQ_SET_CCF_WINNER_INFO * aRecv)
+void CDataServerProtocol::GDReqUBFSetCCFReward(CGameObject &lpObj, SDHP_REQ_SET_CCF_WINNER_INFO * aRecv)
 {
 	this->m_BattleCoreDB->ExecQuery("CALL IGC_BattleCore_SetCCFReward '%s', %d, %d", aRecv->UBFName, aRecv->btCCFType, aRecv->btRewardType);
 	this->m_BattleCoreDB->Fetch();
 
 }
 
-void CDataServerProtocol::GDReqUBFSetCCBattleReward(LPGameObject &lpObj, SDHP_REQ_SET_CC_WINNER_INFO_UBF * aRecv)
+void CDataServerProtocol::GDReqUBFSetCCBattleReward(CGameObject &lpObj, SDHP_REQ_SET_CC_WINNER_INFO_UBF * aRecv)
 {
 	this->m_BattleCoreDB->ExecQuery("CALL IGC_BattleCore_SetCCReward '%s', %d", aRecv->UBFName, aRecv->btRewardType);
 	this->m_BattleCoreDB->Fetch();
 
 }
 
-void CDataServerProtocol::GDReqUBFSetDSFReward(LPGameObject &lpObj, PMSG_REQ_SET_DSF_WINNER_INFO * aRecv)
+void CDataServerProtocol::GDReqUBFSetDSFReward(CGameObject &lpObj, PMSG_REQ_SET_DSF_WINNER_INFO * aRecv)
 {
 	this->m_BattleCoreDB->ExecQuery("CALL IGC_BattleCore_SetDSFReward '%s', %d, %d", aRecv->UBFName, aRecv->btDSFType, aRecv->btRewardType);
 	this->m_BattleCoreDB->Fetch();
 
 }
 
-void CDataServerProtocol::GDReqUBFGetReward(LPGameObject &lpObj, PMSG_REQ_UBF_GET_REWARD * aRecv)
+void CDataServerProtocol::GDReqUBFGetReward(CGameObject &lpObj, PMSG_REQ_UBF_GET_REWARD * aRecv)
 {
 	PMSG_ANS_UBF_GET_REWARD pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF3, 0x06, sizeof(pMsg));
@@ -5356,7 +5356,7 @@ void CDataServerProtocol::GDReqUBFGetReward(LPGameObject &lpObj, PMSG_REQ_UBF_GE
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqUBFSetGainReward(LPGameObject &lpObj, PMSG_REQ_UBF_SET_RECEIVED_REWARD * aRecv)
+void CDataServerProtocol::GDReqUBFSetGainReward(CGameObject &lpObj, PMSG_REQ_UBF_SET_RECEIVED_REWARD * aRecv)
 {
 	PMSG_ANS_UBF_SET_RECEIVED_REWARD pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF3, 0x05, sizeof(pMsg));
@@ -5396,7 +5396,7 @@ void CDataServerProtocol::GDReqUBFSetGainReward(LPGameObject &lpObj, PMSG_REQ_UB
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqDSFCanPartyEnter(LPGameObject &lpObj, PMSG_REQ_DSF_CAN_PARTY_ENTER * aRecv)
+void CDataServerProtocol::GDReqDSFCanPartyEnter(CGameObject &lpObj, PMSG_REQ_DSF_CAN_PARTY_ENTER * aRecv)
 {
 	PMSG_ANS_DSF_CAN_PARTY_ENTER pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xFD, 0x00, sizeof(pMsg));
@@ -5413,7 +5413,7 @@ void CDataServerProtocol::GDReqDSFCanPartyEnter(LPGameObject &lpObj, PMSG_REQ_DS
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqDSFSavePartyPoint(LPGameObject &lpObj, PMSG_REQ_SAVE_DSF_PARTYPOINT * aRecv)
+void CDataServerProtocol::GDReqDSFSavePartyPoint(CGameObject &lpObj, PMSG_REQ_SAVE_DSF_PARTYPOINT * aRecv)
 {
 	this->m_DSFinalDB->ExecQuery("CALL IGC_DevilSquareFinal_Save '%s', '%s', %d, '%s', '%s', %d, %d, %d, %d",
 		aRecv->szAccountID1, aRecv->szUserName1, aRecv->nUserLevel1,
@@ -5424,7 +5424,7 @@ void CDataServerProtocol::GDReqDSFSavePartyPoint(LPGameObject &lpObj, PMSG_REQ_S
 
 }
 
-void CDataServerProtocol::GDReqDSFPartyRankRenew(LPGameObject &lpObj, PMSG_REQ_DSF_PARTYRANKRENEW * aRecv)
+void CDataServerProtocol::GDReqDSFPartyRankRenew(CGameObject &lpObj, PMSG_REQ_DSF_PARTYRANKRENEW * aRecv)
 {
 	this->m_DSFinalDB->ExecQuery("CALL IGC_DevilSquareFinal_Renew %d", aRecv->btDSFType);
 	this->m_DSFinalDB->Fetch();
@@ -5437,7 +5437,7 @@ void CDataServerProtocol::GDReqDSFPartyRankRenew(LPGameObject &lpObj, PMSG_REQ_D
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqDSFGoFinalParty(LPGameObject &lpObj, PMSG_REQ_DSF_GO_FINAL_PARTY * aRecv)
+void CDataServerProtocol::GDReqDSFGoFinalParty(CGameObject &lpObj, PMSG_REQ_DSF_GO_FINAL_PARTY * aRecv)
 {
 	PMSG_ANS_DSF_GO_FINAL_PARTY pMsg;
 	DSF_GO_FINAL_PARTY pParty;
@@ -5477,7 +5477,7 @@ void CDataServerProtocol::GDReqDSFGoFinalParty(LPGameObject &lpObj, PMSG_REQ_DSF
 	//DataSend(aIndex, sendBuf, iSize, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqDSFInsertRewardUser(LPGameObject &lpObj, PMSG_REQ_SAVE_DSF_REWARD_USER * aRecv)
+void CDataServerProtocol::GDReqDSFInsertRewardUser(CGameObject &lpObj, PMSG_REQ_SAVE_DSF_REWARD_USER * aRecv)
 {
 	this->m_DSFinalDB->ExecQuery("CALL IGC_DevilSquareFinal_SetReward '%s', '%s', %d, %d, %d, %d, %d, %d",
 		aRecv->szAccountID, aRecv->szUserName, aRecv->iClass, aRecv->btDSFType,
@@ -5487,7 +5487,7 @@ void CDataServerProtocol::GDReqDSFInsertRewardUser(LPGameObject &lpObj, PMSG_REQ
 
 }
 
-void CDataServerProtocol::GDReqDSFGetReward(LPGameObject &lpObj, PMSG_REQ_GET_DSF_REWARD * aRecv)
+void CDataServerProtocol::GDReqDSFGetReward(CGameObject &lpObj, PMSG_REQ_GET_DSF_REWARD * aRecv)
 {
 	PMSG_ANS_GET_DSF_REWARD pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xFD, 0x07, sizeof(pMsg));
@@ -5507,7 +5507,7 @@ void CDataServerProtocol::GDReqDSFGetReward(LPGameObject &lpObj, PMSG_REQ_GET_DS
 
 // JoinMu
 
-void CDataServerProtocol::GDReqWishperOtherChannel(LPGameObject &lpObj, PMSG_RECV_CHATDATA_WHISPER * aRecv)
+void CDataServerProtocol::GDReqWishperOtherChannel(CGameObject &lpObj, PMSG_RECV_CHATDATA_WHISPER * aRecv)
 {
 	PMSG_RECV_CHATDATA_WHISPER pMsg;
 	pMsg.h.c = 0xC1;
@@ -5530,7 +5530,7 @@ void CDataServerProtocol::GDReqWishperOtherChannel(LPGameObject &lpObj, PMSG_REC
 	}
 }
 
-void CDataServerProtocol::GDReqMapSrvGroupServerCount(LPGameObject &lpObj, DSMSG_REQ_SUBSERVER_COUNT * aRecv)
+void CDataServerProtocol::GDReqMapSrvGroupServerCount(CGameObject &lpObj, DSMSG_REQ_SUBSERVER_COUNT * aRecv)
 {
 	WORD wServerCount = 0;
 	DSMSG_ANS_SUBSERVER_COUNT pMsg;
@@ -5553,7 +5553,7 @@ void CDataServerProtocol::GDReqMapSrvGroupServerCount(LPGameObject &lpObj, DSMSG
 
 }
 
-void CDataServerProtocol::DGWhisperResponseRecv(LPGameObject &lpObj, DSMSG_ANS_WHISPER_RESULT * aRecv)
+void CDataServerProtocol::DGWhisperResponseRecv(CGameObject &lpObj, DSMSG_ANS_WHISPER_RESULT * aRecv)
 {
 	DSMSG_GS_WHISPER_RESULT pMsg;
 	pMsg.h.set((LPBYTE)&pMsg, 0xC3, 0x03, sizeof(pMsg));
@@ -5564,13 +5564,13 @@ void CDataServerProtocol::DGWhisperResponseRecv(LPGameObject &lpObj, DSMSG_ANS_W
 	//DataSend(aRecv->OriginGSIndex, (PBYTE)&pMsg, sizeof(pMsg), __FUNCTION__);
 }
 
-void CDataServerProtocol::DGChaosMachineLogLostItems(LPGameObject &lpObj, DSMSG_CHAOSMACHINE_LOSTITEMS * aRecv)
+void CDataServerProtocol::DGChaosMachineLogLostItems(CGameObject &lpObj, DSMSG_CHAOSMACHINE_LOSTITEMS * aRecv)
 {
 	char szTemp[256];
 	sprintf(szTemp, "INSERT INTO IGC_ChaosMachine_LostItems (AccountID, Name, LostDate, ?) VALUES ('%s', '%s', GETDATE())", aRecv->szAccountID, aRecv->szName);
 }
 
-void CDataServerProtocol::GDDisconnectOtherChannel(LPGameObject &lpObj, PMSG_RECV_DC_OTHER_CHANNEL * aRecv)
+void CDataServerProtocol::GDDisconnectOtherChannel(CGameObject &lpObj, PMSG_RECV_DC_OTHER_CHANNEL * aRecv)
 {
 	PMSG_RECV_DC_OTHER_CHANNEL pMsg;
 	pMsg.h.set((LPBYTE)&pMsg, 0xC3, 0x04, sizeof(pMsg));
@@ -5589,7 +5589,7 @@ void CDataServerProtocol::GDDisconnectOtherChannel(LPGameObject &lpObj, PMSG_REC
 
 }
 
-void CDataServerProtocol::GDReqEventEntryCount(LPGameObject &lpObj, PMSG_REQ_EVENTENTRY_INFO * aRecv)
+void CDataServerProtocol::GDReqEventEntryCount(CGameObject &lpObj, PMSG_REQ_EVENTENTRY_INFO * aRecv)
 {
 	PMSG_ANS_EVENTENTRY_INFO pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xEE, 0x00, sizeof(pMsg));
@@ -5613,7 +5613,7 @@ void CDataServerProtocol::GDReqEventEntryCount(LPGameObject &lpObj, PMSG_REQ_EVE
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqEvoMonMaxScore(LPGameObject &lpObj, PMSG_REQ_EVOMON_MAXSCORE * aRecv)
+void CDataServerProtocol::GDReqEvoMonMaxScore(CGameObject &lpObj, PMSG_REQ_EVOMON_MAXSCORE * aRecv)
 {
 	PMSG_ANS_EVOMON_MAXSCORE pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x3E, 0x00, sizeof(pMsg));
@@ -5637,7 +5637,7 @@ void CDataServerProtocol::GDReqEvoMonMaxScore(LPGameObject &lpObj, PMSG_REQ_EVOM
 	//DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CDataServerProtocol::GDReqEvoMonSaveScore(LPGameObject &lpObj, PMSG_REQ_SAVE_EVOMON_RESULT * aRecv)
+void CDataServerProtocol::GDReqEvoMonSaveScore(CGameObject &lpObj, PMSG_REQ_SAVE_EVOMON_RESULT * aRecv)
 {
 	if (g_DSBattleCoreEnable == 1)
 	{

@@ -280,7 +280,7 @@ void CCrywolf::SetCrywolfCommonNPC(int iOccupationState)
 		if ( !gObjIsConnected(this->m_ObjCommonNPC.m_iObjIndex[i]) )
 			break;
 
-		LPGameObject lpObj = &gGameObjects[this->m_ObjCommonNPC.m_iObjIndex[i]];
+		CGameObject lpObj = &gGameObjects[this->m_ObjCommonNPC.m_iObjIndex[i]];
 
 		if ( iOccupationState == 2 )
 		{
@@ -304,17 +304,17 @@ void CCrywolf::SetCrywolfAllCommonMonsterState2(int iMonsterState, int iMode)
 		if ( !gObjIsConnected(this->m_ObjCommonMonster.m_iObjIndex[i]) )
 			break;
 
-		LPGameObject lpObj = &gGameObjects[this->m_ObjCommonMonster.m_iObjIndex[i]];
+		CGameObject lpObj = &gGameObjects[this->m_ObjCommonMonster.m_iObjIndex[i]];
 
 		if ( iMode == 0 )
 		{
-			//lpObj->m_ViewSkillState &= ~iMonsterState;
-			//GCStateInfoSend(lpObj, 0, lpObj->m_ViewSkillState);
+			//lpObj.m_ViewSkillState &= ~iMonsterState;
+			//GCStateInfoSend(lpObj, 0, lpObj.m_ViewSkillState);
 		}
 		else if ( iMode == 1 )
 		{
-			//lpObj->m_ViewSkillState |= iMonsterState;
-			//GCStateInfoSend(lpObj, 1, lpObj->m_ViewSkillState);
+			//lpObj.m_ViewSkillState |= iMonsterState;
+			//GCStateInfoSend(lpObj, 1, lpObj.m_ViewSkillState);
 		}
 	}
 }
@@ -582,13 +582,13 @@ void CCrywolf::SetState_START()
 		if ( gGameObjects[iLeaderIndex].Class != 340 )
 			continue;
 
-		LPGameObject lpObj = &gGameObjects[iLeaderIndex];
+		CGameObject lpObj = &gGameObjects[iLeaderIndex];
 
 		for ( int i=0;i<MaxViewportMonster;i++)
 		{
-			if ( lpObj->VpPlayer2[i].state )
+			if ( lpObj.VpPlayer2[i].state )
 			{
-				int number = lpObj->VpPlayer2[i].number;
+				int number = lpObj.VpPlayer2[i].number;
 
 				if ( ObjectMaxRange(number) != FALSE )
 				{
@@ -1002,7 +1002,7 @@ void CCrywolf::NotifyCrywolfHeroList()
 	memset(cBUFFER, 0, sizeof(cBUFFER));
 	PMSG_ANS_CRYWOLF_HERO_LIST_INFO_COUNT * lpMsg = (PMSG_ANS_CRYWOLF_HERO_LIST_INFO_COUNT *)cBUFFER;
 	PMSG_ANS_CRYWOLF_HERO_LIST_INFO * lpMsgBody = (PMSG_ANS_CRYWOLF_HERO_LIST_INFO *)(cBUFFER + 5);
-	std::set<LPGameObject,CCrywolfScoreSort> HeroSet;
+	std::set<CGameObject,CCrywolfScoreSort> HeroSet;
 	
 	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
@@ -1014,23 +1014,23 @@ void CCrywolf::NotifyCrywolfHeroList()
 		}
 	}
 
-	std::set<LPGameObject, CCrywolfScoreSort>::iterator _Itor = HeroSet.begin();
+	std::set<CGameObject, CCrywolfScoreSort>::iterator _Itor = HeroSet.begin();
 	
 	for (int j = 0; j < 5 && _Itor != HeroSet.end(); j++, _Itor++)
 	{
-		LPGameObject lpHeroObj = (*(_Itor));
+		CGameObject lpHeroObj = (*(_Itor));
 
 		lpMsgBody[j].iRank = iHeroCount;
-		lpMsgBody[j].btHeroClass = lpHeroObj->Class;
-		lpMsgBody[j].iHeroScore = lpHeroObj->m_iCrywolfMVPScore;
-		memcpy(lpMsgBody[j].szHeroName, lpHeroObj->Name, MAX_ACCOUNT_LEN);
+		lpMsgBody[j].btHeroClass = lpHeroObj.Class;
+		lpMsgBody[j].iHeroScore = lpHeroObj.m_iCrywolfMVPScore;
+		memcpy(lpMsgBody[j].szHeroName, lpHeroObj.Name, MAX_ACCOUNT_LEN);
 		iHeroCount++;
 
 		if (this->GetOccupationState() != 1)
 		{
 			if (lpMsgBody[j].iRank <= 5)
 			{
-				this->MakeRewardForHeroListTop5(lpHeroObj->m_Index);
+				this->MakeRewardForHeroListTop5(lpHeroObj.m_Index);
 			}
 		}
 	}
@@ -1124,21 +1124,21 @@ void CCrywolf::ApplyCrywolfDBInfo(int iCrywolfState, int iOccupationState)
 
 void CCrywolf::CrywolfMonsterDieProc(int iMonIndex, int iKillerIndex)
 {
-	LPGameObject lpMonObj = &gGameObjects[iMonIndex];
-	LPGameObject lpKillerObj = &gGameObjects[iKillerIndex];
+	CGameObject lpMonObj = &gGameObjects[iMonIndex];
+	CGameObject lpKillerObj = &gGameObjects[iKillerIndex];
 	BOOL bExistKiller = gObjIsConnected(iKillerIndex);
 
 	if ( g_Crywolf.GetCrywolfState() == CRYWOLF_STATE_START )
 	{
-		if ( lpMonObj->MapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE )
+		if ( lpMonObj.MapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE )
 		{
-			if ( lpMonObj->m_iCurrentAI != 0 )
+			if ( lpMonObj.m_iCurrentAI != 0 )
 			{
-				if ( lpMonObj->Class == 349 )
+				if ( lpMonObj.Class == 349 )
 				{
 					if ( bExistKiller )
 					{
-						UTIL.SendCrywolfUserAnyMsg(2, Lang.GetText(0,239), lpKillerObj->Name);
+						UTIL.SendCrywolfUserAnyMsg(2, Lang.GetText(0,239), lpKillerObj.Name);
 
 					}
 					else
@@ -1148,12 +1148,12 @@ void CCrywolf::CrywolfMonsterDieProc(int iMonIndex, int iKillerIndex)
 					}
 				}
 
-				if ( lpMonObj->Class == 340 )
+				if ( lpMonObj.Class == 340 )
 				{
 					if ( bExistKiller )
 					{
 						UTIL.SendCrywolfUserAnyMsg(2, Lang.GetText(0,241),
-							lpMonObj->m_iGroupNumber, lpKillerObj->Name);
+							lpMonObj.m_iGroupNumber, lpKillerObj.Name);
 
 					}
 				}

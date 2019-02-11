@@ -15,7 +15,7 @@ public:
 	CGameSecurity();
 	~CGameSecurity();
 
-	void DebugInfo(LPGameObject &lpObj);
+	void DebugInfo(CGameObject &lpObj);
 	
 	std::map<int,ATTACK_SPEED> m_ASData;
 	CRITICAL_SECTION lpCritiASData;

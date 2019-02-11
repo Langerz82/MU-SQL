@@ -657,14 +657,14 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 		return;
 	}
 
-	LPGameObject lpObj = &gGameObjects[nUserIndex];
+	CGameObject lpObj = &gGameObjects[nUserIndex];
 
-	if ( lpObj->Type != OBJ_USER )
+	if ( lpObj.Type != OBJ_USER )
 	{
 		return;
 	}
 
-	if ( lpObj->Level < 150 )
+	if ( lpObj.Level < 150 )
 	{
 		PMSG_ENTER_ZONE_RESULT pMsg;
 
@@ -680,7 +680,7 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 		return;
 	}
 
-	if ( lpObj->m_bPShopOpen == true )
+	if ( lpObj.m_bPShopOpen == true )
 		g_PersonalStore.CGPShopReqClose(nUserIndex);
 
 	int nEnterItemPos = -1;
@@ -716,7 +716,7 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 		nDayOfWeek = time.wDayOfWeek;
 	}
 
-	if ( lpObj->PartyNumber < 0 )
+	if ( lpObj.PartyNumber < 0 )
 	{
 		pMsg.m_btResult = 5;
 		IOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
@@ -725,7 +725,7 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 
 	if ( this->m_nCheatMode != TRUE )
 	{
-		if ( gParty.m_PartyS[lpObj->PartyNumber].Count < 1 )
+		if ( gParty.m_PartyS[lpObj.PartyNumber].Count < 1 )
 		{
 			pMsg.m_btResult = 5;
 			IOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
@@ -788,7 +788,7 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 
 				for( int i=1;i<4 ;i++ )
 				{
-					if ( this->m_stZoneInfo[i].m_nPartyNumber == lpObj->PartyNumber )
+					if ( this->m_stZoneInfo[i].m_nPartyNumber == lpObj.PartyNumber )
 					{
 						bFlag = true;
 						break;
@@ -817,7 +817,7 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 			if ( this->m_stZoneInfo[nDestZoneIndex].m_nPartyNumber >= 0 ||
 				this->m_stZoneInfo[nDestZoneIndex].m_vtUserIndex.size() >= 1 )
 			{
-				if ( this->m_stZoneInfo[nDestZoneIndex].m_nPartyNumber != lpObj->PartyNumber )
+				if ( this->m_stZoneInfo[nDestZoneIndex].m_nPartyNumber != lpObj.PartyNumber )
 				{
 					char szMsg[256];
 					wsprintf(szMsg, Lang.GetText(0,348));
@@ -863,7 +863,7 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 					return;
 				}
 
-				this->m_stZoneInfo[nDestZoneIndex].m_nPartyNumber = lpObj->PartyNumber;
+				this->m_stZoneInfo[nDestZoneIndex].m_nPartyNumber = lpObj.PartyNumber;
 
 				if ( nDestZoneIndex )
 				{
@@ -893,7 +893,7 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 				
 				else
 				{
-					nMaxLevel = lpObj->Level + lpObj->m_PlayerData->MasterLevel;
+					nMaxLevel = lpObj.Level + lpObj.m_PlayerData->MasterLevel;
 				}
 
 				this->m_stZoneInfo[nDestZoneIndex].m_nMaxUserLevel = nMaxLevel;
@@ -928,17 +928,17 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 
 				if ( !this->m_nCheatMode && !nDestZoneIndex && nEnterItemPos >= 0 )
 				{
-					if ( lpObj->pInventory[nEnterItemPos].m_Type != ITEMGET(14,102) &&
-						lpObj->pInventory[nEnterItemPos].m_Type != ITEMGET(14,109) )
+					if ( lpObj.pInventory[nEnterItemPos].m_Type != ITEMGET(14,102) &&
+						lpObj.pInventory[nEnterItemPos].m_Type != ITEMGET(14,109) )
 					{
-						if ( lpObj->pInventory[nEnterItemPos].m_Type == ITEMGET(13,126) ||
-							lpObj->pInventory[nEnterItemPos].m_Type == ITEMGET(13,127) )
+						if ( lpObj.pInventory[nEnterItemPos].m_Type == ITEMGET(13,126) ||
+							lpObj.pInventory[nEnterItemPos].m_Type == ITEMGET(13,127) )
 						{
-							lpObj->pInventory[nEnterItemPos].m_Durability -= 1.0;
+							lpObj.pInventory[nEnterItemPos].m_Durability -= 1.0;
 
-							if ( lpObj->pInventory[nEnterItemPos].m_Durability > 0.0 )
+							if ( lpObj.pInventory[nEnterItemPos].m_Durability > 0.0 )
 							{
-								GSProtocol.GCItemDurSend2(nUserIndex, nEnterItemPos, lpObj->pInventory[nEnterItemPos].m_Durability, 0);
+								GSProtocol.GCItemDurSend2(nUserIndex, nEnterItemPos, lpObj.pInventory[nEnterItemPos].m_Durability, 0);
 							}
 
 							else
@@ -956,7 +956,7 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 					}
 				}
 
-				sLog->outBasic("[IMPERIALGUARDIAN] Enter Zone User -> [AccountID]:%s [NAME]:%s [ZONE]:%d", lpObj->AccountID, lpObj->Name, nDestZoneIndex+1);
+				sLog->outBasic("[IMPERIALGUARDIAN] Enter Zone User -> [AccountID]:%s [NAME]:%s [ZONE]:%d", lpObj.AccountID, lpObj.Name, nDestZoneIndex+1);
 				sLog->outBasic("[IMPERIALGUARDIAN] [%d ZONE USER COUNT] : %d", nDestZoneIndex+1, this->GetPlayerCount(nDestZoneIndex));
 			}
 		}
@@ -1127,19 +1127,19 @@ bool CImperialGuardian::SetPosMonster(int nIndex, std::vector<_stIFMonsterPos>::
 		return false;
 	}
 
-	LPGameObject lpObj = &gGameObjects[nIndex];
+	CGameObject lpObj = &gGameObjects[nIndex];
 
-	lpObj->m_PosNum = -1;
-	lpObj->X = Iter->m_X;
-	lpObj->Y = Iter->m_Y;
-	lpObj->MapNumber = Iter->m_MapNumber;
-	lpObj->TX = lpObj->X;
-	lpObj->TY = lpObj->Y;
-	lpObj->m_OldX = lpObj->X;
-	lpObj->m_OldY = lpObj->Y;
-	lpObj->Dir = Iter->m_Dir;
-	lpObj->StartX = lpObj->X;
-	lpObj->StartY = lpObj->Y;
+	lpObj.m_PosNum = -1;
+	lpObj.X = Iter->m_X;
+	lpObj.Y = Iter->m_Y;
+	lpObj.MapNumber = Iter->m_MapNumber;
+	lpObj.TX = lpObj.X;
+	lpObj.TY = lpObj.Y;
+	lpObj.m_OldX = lpObj.X;
+	lpObj.m_OldY = lpObj.Y;
+	lpObj.Dir = Iter->m_Dir;
+	lpObj.StartX = lpObj.X;
+	lpObj.StartY = lpObj.Y;
 
 	return true;
 }
@@ -1152,30 +1152,30 @@ bool CImperialGuardian::SetMonster(int nIndex, int MonsterClass, int nMaxLevel)
 		return false;
 	}
 
-	LPGameObject lpObj = &gGameObjects[nIndex];
+	CGameObject lpObj = &gGameObjects[nIndex];
 
-	lpObj->ConnectCheckTime = GetTickCount();
-	lpObj->TargetNumber = -1;
-	lpObj->m_RecallMon = -1;
-	lpObj->Connected = PLAYER_PLAYING;
-	lpObj->Live = TRUE;
-	lpObj->m_State = 1;
-	lpObj->DieRegen = FALSE;
-	lpObj->Type = OBJ_MONSTER;
-	lpObj->Class = MonsterClass;
-	lpObj->LastAttackerID = -1;
+	lpObj.ConnectCheckTime = GetTickCount();
+	lpObj.TargetNumber = -1;
+	lpObj.m_RecallMon = -1;
+	lpObj.Connected = PLAYER_PLAYING;
+	lpObj.Live = TRUE;
+	lpObj.m_State = 1;
+	lpObj.DieRegen = FALSE;
+	lpObj.Type = OBJ_MONSTER;
+	lpObj.Class = MonsterClass;
+	lpObj.LastAttackerID = -1;
 	g_MonsterStatCalc.ConvertMonsterStat(lpObj, nMaxLevel);
-	lpObj->pInventoryCount[0] = 0;
+	lpObj.pInventoryCount[0] = 0;
 	
-	if ( lpObj->m_AttackType )
-		gObjMonsterMagicAdd(lpObj, lpObj->m_AttackType, 1);
+	if ( lpObj.m_AttackType )
+		gObjMonsterMagicAdd(lpObj, lpObj.m_AttackType, 1);
 
 	gObjMonsterHitDamageInit(lpObj);
 	gObjSetInventory1Pointer(lpObj);
-	CreateFrustrum(lpObj->X, lpObj->Y, nIndex);
-	MapC[lpObj->MapNumber].SetStandAttr(lpObj->X, lpObj->Y);
-	lpObj->m_OldX = lpObj->X;
-	lpObj->m_OldY = lpObj->Y;
+	CreateFrustrum(lpObj.X, lpObj.Y, nIndex);
+	MapC[lpObj.MapNumber].SetStandAttr(lpObj.X, lpObj.Y);
+	lpObj.m_OldX = lpObj.X;
+	lpObj.m_OldY = lpObj.Y;
 
 	return true;
 }
@@ -1985,21 +1985,21 @@ int CImperialGuardian::CheckGaionOrderPaper(int nIndex)
 		return -2;
 	}
 
-	LPGameObject lpObj = &gGameObjects[nIndex];
+	CGameObject lpObj = &gGameObjects[nIndex];
 
-	if ( lpObj->m_IfState.use > 0 )
+	if ( lpObj.m_IfState.use > 0 )
 	{
 		return -3;
 	}
 
-	if ( lpObj->Type != OBJ_USER || lpObj->Connected <= PLAYER_LOGGED )
+	if ( lpObj.Type != OBJ_USER || lpObj.Connected <= PLAYER_LOGGED )
 	{
 		return -2;
 	}
 
 	for ( int i=INVETORY_WEAR_SIZE;i<INVENTORY_SIZE;i++ )
 	{
-		if ( lpObj->pInventory[i].IsItem() == TRUE && lpObj->pInventory[i].m_Type == ITEMGET(14,102) )
+		if ( lpObj.pInventory[i].IsItem() == TRUE && lpObj.pInventory[i].m_Type == ITEMGET(14,102) )
 		{
 			return i;
 		}
@@ -2007,7 +2007,7 @@ int CImperialGuardian::CheckGaionOrderPaper(int nIndex)
 
 	for ( int i=INVETORY_WEAR_SIZE;i<INVENTORY_SIZE;i++ )
 	{
-		if ( lpObj->pInventory[i].m_Type == ITEMGET(13,126) && lpObj->pInventory[i].m_Durability > 0.0 )
+		if ( lpObj.pInventory[i].m_Type == ITEMGET(13,126) && lpObj.pInventory[i].m_Durability > 0.0 )
 		{
 			return i;
 		}
@@ -2024,21 +2024,21 @@ int CImperialGuardian::CheckFullSecromicon(int nIndex)
 		return -2;
 	}
 
-	LPGameObject lpObj = &gGameObjects[nIndex];
+	CGameObject lpObj = &gGameObjects[nIndex];
 
-	if ( lpObj->m_IfState.use > 0 )
+	if ( lpObj.m_IfState.use > 0 )
 	{
 		return -3;
 	}
 
-	if ( lpObj->Type != OBJ_USER || lpObj->Connected <= PLAYER_LOGGED )
+	if ( lpObj.Type != OBJ_USER || lpObj.Connected <= PLAYER_LOGGED )
 	{
 		return -2;
 	}
 
 	for ( int i=INVETORY_WEAR_SIZE;i<INVENTORY_SIZE;i++ )
 	{
-		if ( lpObj->pInventory[i].IsItem() == TRUE && lpObj->pInventory[i].m_Type == ITEMGET(14,109) )
+		if ( lpObj.pInventory[i].IsItem() == TRUE && lpObj.pInventory[i].m_Type == ITEMGET(14,109) )
 		{
 			return i;
 		}
@@ -2046,7 +2046,7 @@ int CImperialGuardian::CheckFullSecromicon(int nIndex)
 
 	for ( int i=INVETORY_WEAR_SIZE;i<INVENTORY_SIZE;i++ )
 	{
-		if ( lpObj->pInventory[i].m_Type == ITEMGET(13,127) && lpObj->pInventory[i].m_Durability > 0.0 )
+		if ( lpObj.pInventory[i].m_Type == ITEMGET(13,127) && lpObj.pInventory[i].m_Durability > 0.0 )
 		{
 			return i;
 		}
@@ -2087,9 +2087,9 @@ void CImperialGuardian::SetAtackAbleState(int nZoneIndex, int nMonsterClass, boo
 
 	for (std::vector<_stMonsterIndexInfo>::iterator it = this->m_stZoneInfo[nZoneIndex].m_vtMonsterIndexInfo.begin(); it != this->m_stZoneInfo[nZoneIndex].m_vtMonsterIndexInfo.end(); it++ )
 	{
-		LPGameObject lpObj = &gGameObjects[it->m_nIndex];
+		CGameObject lpObj = &gGameObjects[it->m_nIndex];
 
-		if ( lpObj->Class == nMonsterClass )
+		if ( lpObj.Class == nMonsterClass )
 		{
 			it->m_bAttackAble = bState;
 		}
@@ -2138,26 +2138,26 @@ void CImperialGuardian::SetTargetMoveAllMonster(int nZoneIndex, int nTargetNumbe
 	{
 		if ( it->m_bLive == true )
 		{
-			LPGameObject lpObj = &gGameObjects[it->m_nIndex];
+			CGameObject lpObj = &gGameObjects[it->m_nIndex];
 			
-			if ( lpObj->TargetNumber != -1 || lpObj->m_ActState.Emotion != 0 )
+			if ( lpObj.TargetNumber != -1 || lpObj.m_ActState.Emotion != 0 )
 			{
-				if ( lpObj->TargetNumber != nTargetNumber )
+				if ( lpObj.TargetNumber != nTargetNumber )
 				{
 					if ( rand()%100 < 30 )
 					{
-						lpObj->TargetNumber = nTargetNumber;
-						lpObj->m_ActState.Emotion = 1;
-						lpObj->m_ActState.EmotionCount = 50;
+						lpObj.TargetNumber = nTargetNumber;
+						lpObj.m_ActState.Emotion = 1;
+						lpObj.m_ActState.EmotionCount = 50;
 					}
 				}
 			}
 
 			else
 			{
-				lpObj->TargetNumber = nTargetNumber;
-				lpObj->m_ActState.Emotion = 1;
-				lpObj->m_ActState.EmotionCount = 50;
+				lpObj.TargetNumber = nTargetNumber;
+				lpObj.m_ActState.Emotion = 1;
+				lpObj.m_ActState.EmotionCount = 50;
 			}
 		}
 	}
@@ -2330,39 +2330,39 @@ void CImperialGuardian::UserMonsterCountCheck()
 	// empty
 }
 
-void CImperialGuardian::MonsterBaseAct(LPGameObject &lpObj)
+void CImperialGuardian::MonsterBaseAct(CGameObject &lpObj)
 {
-	LPGameObject lpTargetObj = NULL;
+	CGameObject lpTargetObj = NULL;
 
-	if ( lpObj->TargetNumber >= 0 )
-		lpTargetObj = &gGameObjects[lpObj->TargetNumber];
+	if ( lpObj.TargetNumber >= 0 )
+		lpTargetObj = &gGameObjects[lpObj.TargetNumber];
 	else
-		lpObj->m_ActState.Emotion = 0;
+		lpObj.m_ActState.Emotion = 0;
 
-	if ( lpObj->m_ActState.Emotion == 1 )
+	if ( lpObj.m_ActState.Emotion == 1 )
 	{
-		if ( lpObj->m_ActState.EmotionCount > 0 )
+		if ( lpObj.m_ActState.EmotionCount > 0 )
 		{
-			lpObj->m_ActState.EmotionCount--;
+			lpObj.m_ActState.EmotionCount--;
 		}
 		else
 		{
-			lpObj->m_ActState.Emotion = 0;
+			lpObj.m_ActState.Emotion = 0;
 		}
 
-		if ( lpObj->TargetNumber >= 0 && lpObj->PathStartEnd == 0)
+		if ( lpObj.TargetNumber >= 0 && lpObj.PathStartEnd == 0)
 		{
 			int dis = gObjCalDistance(lpObj, lpTargetObj);
 			int attackrange;
 
-			if ( lpObj->m_AttackType >= 100 )	// #warning Change this To Level
-				attackrange = lpObj->m_AttackRange+2;
+			if ( lpObj.m_AttackType >= 100 )	// #warning Change this To Level
+				attackrange = lpObj.m_AttackRange+2;
 			else
-				attackrange = lpObj->m_AttackRange;
+				attackrange = lpObj.m_AttackRange;
 
 			if ( dis <= attackrange )
 			{
-				int tuser = lpObj->TargetNumber;
+				int tuser = lpObj.TargetNumber;
 
 				if (!ObjectMaxRange(tuser))
 				{
@@ -2378,24 +2378,24 @@ void CImperialGuardian::MonsterBaseAct(LPGameObject &lpObj)
 					return;
 				}
 
-				if ( MapC[map].CheckWall(lpObj->X, lpObj->Y, gGameObjects[tuser].X, gGameObjects[tuser].Y) == TRUE )
+				if ( MapC[map].CheckWall(lpObj.X, lpObj.Y, gGameObjects[tuser].X, gGameObjects[tuser].Y) == TRUE )
 				{
 					attr = MapC[map].GetAttr(gGameObjects[tuser].X, gGameObjects[tuser].Y);
 
 					if ( (attr&1) != 1 )
 					{
-						lpObj->m_ActState.Attack = 1;
-						lpObj->m_ActState.EmotionCount = rand()%30;
+						lpObj.m_ActState.Attack = 1;
+						lpObj.m_ActState.EmotionCount = rand()%30;
 					}
 					else
 					{
-						lpObj->TargetNumber = -1;
-						lpObj->m_ActState.EmotionCount = 30;
-						lpObj->m_ActState.Emotion = 1;
+						lpObj.TargetNumber = -1;
+						lpObj.m_ActState.EmotionCount = 30;
+						lpObj.m_ActState.Emotion = 1;
 					}
 
-					lpObj->Dir = GetPathPacketDirPos(lpTargetObj->X-lpObj->X, lpTargetObj->Y-lpObj->Y);
-					lpObj->NextActionTime = lpObj->m_AttackSpeed;
+					lpObj.Dir = GetPathPacketDirPos(lpTargetObj.X-lpObj.X, lpTargetObj.Y-lpObj.Y);
+					lpObj.NextActionTime = lpObj.m_AttackSpeed;
 				}
 			}
 			
@@ -2403,23 +2403,23 @@ void CImperialGuardian::MonsterBaseAct(LPGameObject &lpObj)
 			{
 				if ( gObjMonsterGetTargetPos(lpObj) == TRUE )
 				{
-					if ( MAX_MAP_RANGE(lpObj->MapNumber) == FALSE )
+					if ( MAX_MAP_RANGE(lpObj.MapNumber) == FALSE )
 					{
-						sLog->outError( "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", lpObj->MapNumber);
+						sLog->outError( "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", lpObj.MapNumber);
 						return;
 					}
 
-					if ( MapC[lpObj->MapNumber].CheckWall(lpObj->X, lpObj->Y, lpObj->MTX, lpObj->MTY) == TRUE )
+					if ( MapC[lpObj.MapNumber].CheckWall(lpObj.X, lpObj.Y, lpObj.MTX, lpObj.MTY) == TRUE )
 					{
-						lpObj->m_ActState.Move = 1;
-						lpObj->NextActionTime = 400;
-						lpObj->Dir = GetPathPacketDirPos(lpTargetObj->X-lpObj->X, lpTargetObj->Y-lpObj->Y);
+						lpObj.m_ActState.Move = 1;
+						lpObj.NextActionTime = 400;
+						lpObj.Dir = GetPathPacketDirPos(lpTargetObj.X-lpObj.X, lpTargetObj.Y-lpObj.Y);
 					}
 					else
 					{
 						gObjMonsterMoveAction(lpObj);
-						lpObj->m_ActState.Emotion = 3;
-						lpObj->m_ActState.EmotionCount = 10;
+						lpObj.m_ActState.Emotion = 3;
+						lpObj.m_ActState.EmotionCount = 10;
 
 					}
 				}
@@ -2429,28 +2429,28 @@ void CImperialGuardian::MonsterBaseAct(LPGameObject &lpObj)
 					int tx = 0;
 					int ty = 0;
 
-					if ( lpTargetObj->Connected > PLAYER_LOGGED && gObjGetTargetPos(lpObj, lpTargetObj->X, lpTargetObj->Y, tx, ty) == TRUE )
+					if ( lpTargetObj.Connected > PLAYER_LOGGED && gObjGetTargetPos(lpObj, lpTargetObj.X, lpTargetObj.Y, tx, ty) == TRUE )
 					{
-						if ( MAX_MAP_RANGE(lpObj->MapNumber) == FALSE )
+						if ( MAX_MAP_RANGE(lpObj.MapNumber) == FALSE )
 						{
-							sLog->outError( "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", lpObj->MapNumber);
+							sLog->outError( "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", lpObj.MapNumber);
 							return;
 						}
 
-							if ( MapC[lpObj->MapNumber].CheckWall(lpObj->X, lpObj->Y, lpObj->MTX, lpObj->MTY) == TRUE )
+							if ( MapC[lpObj.MapNumber].CheckWall(lpObj.X, lpObj.Y, lpObj.MTX, lpObj.MTY) == TRUE )
 							{
-								lpObj->MTX = tx;
-								lpObj->MTY = ty;
-								lpObj->m_ActState.Move = 1;
-								lpObj->NextActionTime = 400;
-								lpObj->Dir = GetPathPacketDirPos(lpTargetObj->X-lpObj->X, lpTargetObj->Y-lpObj->Y);
+								lpObj.MTX = tx;
+								lpObj.MTY = ty;
+								lpObj.m_ActState.Move = 1;
+								lpObj.NextActionTime = 400;
+								lpObj.Dir = GetPathPacketDirPos(lpTargetObj.X-lpObj.X, lpTargetObj.Y-lpObj.Y);
 							}
 
 							else
 							{
 								gObjMonsterMoveAction(lpObj);
-								lpObj->m_ActState.Emotion = 3;
-								lpObj->m_ActState.EmotionCount = 10;
+								lpObj.m_ActState.Emotion = 3;
+								lpObj.m_ActState.EmotionCount = 10;
 							}
 					}
 				}
@@ -2458,48 +2458,48 @@ void CImperialGuardian::MonsterBaseAct(LPGameObject &lpObj)
 		}
 	}
 
-	else if ( lpObj->m_ActState.Emotion == 3 )
+	else if ( lpObj.m_ActState.Emotion == 3 )
 	{
-		if ( lpObj->m_ActState.EmotionCount > 0 )
+		if ( lpObj.m_ActState.EmotionCount > 0 )
 		{
-			lpObj->m_ActState.EmotionCount--;
+			lpObj.m_ActState.EmotionCount--;
 		}
 		else
 		{
-			lpObj->m_ActState.Emotion = 0;
+			lpObj.m_ActState.Emotion = 0;
 		}
 
-		lpObj->m_ActState.Move = 0;
-		lpObj->m_ActState.Attack = 0;
-		lpObj->NextActionTime = 400;
+		lpObj.m_ActState.Move = 0;
+		lpObj.m_ActState.Attack = 0;
+		lpObj.NextActionTime = 400;
 	}
 
-	else if ( lpObj->m_ActState.Emotion == 0 )
+	else if ( lpObj.m_ActState.Emotion == 0 )
 	{
-		if ( lpObj->m_ActState.Attack )
+		if ( lpObj.m_ActState.Attack )
 		{
-			lpObj->m_ActState.Attack = 0;
-			lpObj->TargetNumber = -1;
-			lpObj->NextActionTime = 500;
+			lpObj.m_ActState.Attack = 0;
+			lpObj.TargetNumber = -1;
+			lpObj.NextActionTime = 500;
 		}
 
 		int actcode = rand()%2;
 
-		if ( lpObj->m_MoveRange > 0 && !gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STONE) && !gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STUN) && !gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_SLEEP) &&
+		if ( lpObj.m_MoveRange > 0 && !gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STONE) && !gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STUN) && !gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_SLEEP) &&
 			!gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_FREEZE_2) && !gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_EARTH_BINDS))
 		{
 			gObjMonsterMoveAction(lpObj);
 		}
 
-		if ( lpObj->m_bIsMonsterAttackFirst == true )
+		if ( lpObj.m_bIsMonsterAttackFirst == true )
 		{
-			lpObj->TargetNumber = gObjMonsterSearchEnemy(lpObj, OBJ_USER);
+			lpObj.TargetNumber = gObjMonsterSearchEnemy(lpObj, OBJ_USER);
 
-			if ( lpObj->TargetNumber >= 0 )
+			if ( lpObj.TargetNumber >= 0 )
 			{
-				lpObj->m_ActState.Emotion = 1;
-				lpObj->m_ActState.EmotionCount = 100;
-				this->SetTargetMoveAllMonster(lpObj->m_nZoneIndex, lpObj->TargetNumber);
+				lpObj.m_ActState.Emotion = 1;
+				lpObj.m_ActState.EmotionCount = 100;
+				this->SetTargetMoveAllMonster(lpObj.m_nZoneIndex, lpObj.TargetNumber);
 			}
 		}
 	}

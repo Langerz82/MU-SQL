@@ -2,7 +2,7 @@
 // DoppelGangerEventInfo.h
 #pragma once
 
-structDOPPELGANGER_EVENT_INFO
+struct DOPPELGANGER_EVENT_INFO
 {
 	int nUserMaxLevel;
 	float fMonsterLevel[5];

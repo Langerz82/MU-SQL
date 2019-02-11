@@ -185,7 +185,7 @@ void CVipSystem::Run()
 	}
 }
 
-void CVipSystem::SetVipForUser(LPGameObject &lpObj, BYTE btVipType)
+void CVipSystem::SetVipForUser(CGameObject &lpObj, BYTE btVipType)
 {
 	if (btVipType == 0)
 	{
@@ -202,7 +202,7 @@ void CVipSystem::SetVipForUser(LPGameObject &lpObj, BYTE btVipType)
 		return;
 	}
 
-	lpObj->m_PlayerData->VipType = btVipType;
+	lpObj.m_PlayerData->VipType = btVipType;
 
 	SYSTEMTIME m_time;
 	GetLocalTime(&m_time);
@@ -211,33 +211,33 @@ void CVipSystem::SetVipForUser(LPGameObject &lpObj, BYTE btVipType)
 	{
 		if ((m_time.wHour * 60 + m_time.wMinute) < (it->second.wNightEndHour * 60 + it->second.wNightEndMinute))
 		{
-			lpObj->m_PlayerData->VipEffect = VIP_EFFECT_NIGHT;
+			lpObj.m_PlayerData->VipEffect = VIP_EFFECT_NIGHT;
 		}
 
 		else
 		{
-			lpObj->m_PlayerData->VipEffect = VIP_EFFECT_DAY;
+			lpObj.m_PlayerData->VipEffect = VIP_EFFECT_DAY;
 		}
 	}
 
 	else
 	{
-		lpObj->m_PlayerData->VipEffect = VIP_EFFECT_DAY;
+		lpObj.m_PlayerData->VipEffect = VIP_EFFECT_DAY;
 	}
 
 	LeaveCriticalSection(&this->m_criti);
 }
 
-float CVipSystem::GetExpBonus(LPGameObject &lpObj)
+float CVipSystem::GetExpBonus(CGameObject &lpObj)
 {
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return 0;
 	}
 
 	EnterCriticalSection(&this->m_criti);
 
-	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj->m_PlayerData->VipType);
+	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj.m_PlayerData->VipType);
 
 	if (it == this->m_mapVipInfo.end())
 	{
@@ -245,7 +245,7 @@ float CVipSystem::GetExpBonus(LPGameObject &lpObj)
 		return 0;
 	}
 
-	if (lpObj->m_PlayerData->VipEffect < 0 || lpObj->m_PlayerData->VipEffect > 1)
+	if (lpObj.m_PlayerData->VipEffect < 0 || lpObj.m_PlayerData->VipEffect > 1)
 	{
 		LeaveCriticalSection(&this->m_criti);
 		return 0;
@@ -255,28 +255,28 @@ float CVipSystem::GetExpBonus(LPGameObject &lpObj)
 
 	if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(lpObj))
 	{
-		fEffect = it->second.m_VipEffect[lpObj->m_PlayerData->VipEffect].fMLExpBonus;
+		fEffect = it->second.m_VipEffect[lpObj.m_PlayerData->VipEffect].fMLExpBonus;
 	}
 
 	else
 	{
-		fEffect = it->second.m_VipEffect[lpObj->m_PlayerData->VipEffect].fExpBonus;
+		fEffect = it->second.m_VipEffect[lpObj.m_PlayerData->VipEffect].fExpBonus;
 	}
 
 	LeaveCriticalSection(&this->m_criti);
 	return fEffect;
 }
 
-int CVipSystem::GetDropBonus(LPGameObject &lpObj)
+int CVipSystem::GetDropBonus(CGameObject &lpObj)
 {
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return 0;
 	}
 
 	EnterCriticalSection(&this->m_criti);
 
-	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj->m_PlayerData->VipType);
+	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj.m_PlayerData->VipType);
 
 	if (it == this->m_mapVipInfo.end())
 	{
@@ -284,7 +284,7 @@ int CVipSystem::GetDropBonus(LPGameObject &lpObj)
 		return 0;
 	}
 
-	if (lpObj->m_PlayerData->VipEffect < 0 || lpObj->m_PlayerData->VipEffect > 1)
+	if (lpObj.m_PlayerData->VipEffect < 0 || lpObj.m_PlayerData->VipEffect > 1)
 	{
 		LeaveCriticalSection(&this->m_criti);
 		return 0;
@@ -294,28 +294,28 @@ int CVipSystem::GetDropBonus(LPGameObject &lpObj)
 
 	if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(lpObj))
 	{
-		iEffect = it->second.m_VipEffect[lpObj->m_PlayerData->VipEffect].iMLDropBonus;
+		iEffect = it->second.m_VipEffect[lpObj.m_PlayerData->VipEffect].iMLDropBonus;
 	}
 
 	else
 	{
-		iEffect = it->second.m_VipEffect[lpObj->m_PlayerData->VipEffect].iDropBonus;
+		iEffect = it->second.m_VipEffect[lpObj.m_PlayerData->VipEffect].iDropBonus;
 	}
 
 	LeaveCriticalSection(&this->m_criti);
 	return iEffect;
 }
 
-int CVipSystem::GetExcDropBonus(LPGameObject &lpObj)
+int CVipSystem::GetExcDropBonus(CGameObject &lpObj)
 {
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return 0;
 	}
 
 	EnterCriticalSection(&this->m_criti);
 
-	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj->m_PlayerData->VipType);
+	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj.m_PlayerData->VipType);
 
 	if (it == this->m_mapVipInfo.end())
 	{
@@ -323,7 +323,7 @@ int CVipSystem::GetExcDropBonus(LPGameObject &lpObj)
 		return 0;
 	}
 
-	if (lpObj->m_PlayerData->VipEffect < 0 || lpObj->m_PlayerData->VipEffect > 1)
+	if (lpObj.m_PlayerData->VipEffect < 0 || lpObj.m_PlayerData->VipEffect > 1)
 	{
 		LeaveCriticalSection(&this->m_criti);
 		return 0;
@@ -333,28 +333,28 @@ int CVipSystem::GetExcDropBonus(LPGameObject &lpObj)
 
 	if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(lpObj))
 	{
-		iEffect = it->second.m_VipEffect[lpObj->m_PlayerData->VipEffect].iMLExcDropBonus;
+		iEffect = it->second.m_VipEffect[lpObj.m_PlayerData->VipEffect].iMLExcDropBonus;
 	}
 
 	else
 	{
-		iEffect = it->second.m_VipEffect[lpObj->m_PlayerData->VipEffect].iExcDropBonus;
+		iEffect = it->second.m_VipEffect[lpObj.m_PlayerData->VipEffect].iExcDropBonus;
 	}
 
 	LeaveCriticalSection(&this->m_criti);
 	return iEffect;
 }
 
-WORD CVipSystem::GetMLMonsterMinLevel(LPGameObject &lpObj)
+WORD CVipSystem::GetMLMonsterMinLevel(CGameObject &lpObj)
 {
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return 0;
 	}
 
 	EnterCriticalSection(&this->m_criti);
 
-	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj->m_PlayerData->VipType);
+	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj.m_PlayerData->VipType);
 
 	if (it == this->m_mapVipInfo.end())
 	{
@@ -386,16 +386,16 @@ char * CVipSystem::GetVipName(BYTE btVipType)
 	return szVipName;
 }
 
-DWORD CVipSystem::GetPointPerReset(LPGameObject &lpObj)
+DWORD CVipSystem::GetPointPerReset(CGameObject &lpObj)
 {
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return 0;
 	}
 
 	EnterCriticalSection(&this->m_criti);
 
-	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj->m_PlayerData->VipType);
+	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj.m_PlayerData->VipType);
 
 	if (it == this->m_mapVipInfo.end())
 	{
@@ -409,16 +409,16 @@ DWORD CVipSystem::GetPointPerReset(LPGameObject &lpObj)
 	return dwEffect;
 }
 
-int CVipSystem::GetPlusItemMixRate(LPGameObject &lpObj, int iMixType)
+int CVipSystem::GetPlusItemMixRate(CGameObject &lpObj, int iMixType)
 {
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return 0;
 	}
 
 	EnterCriticalSection(&this->m_criti);
 
-	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj->m_PlayerData->VipType);
+	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj.m_PlayerData->VipType);
 
 	if (it == this->m_mapVipInfo.end())
 	{
@@ -467,16 +467,16 @@ int CVipSystem::GetPlusItemMixRate(LPGameObject &lpObj, int iMixType)
 	return iEffect;
 }
 
-int CVipSystem::GetPlusItemAddLuckRate(LPGameObject &lpObj)
+int CVipSystem::GetPlusItemAddLuckRate(CGameObject &lpObj)
 {
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return 0;
 	}
 
 	EnterCriticalSection(&this->m_criti);
 
-	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj->m_PlayerData->VipType);
+	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj.m_PlayerData->VipType);
 
 	if (it == this->m_mapVipInfo.end())
 	{
@@ -490,16 +490,16 @@ int CVipSystem::GetPlusItemAddLuckRate(LPGameObject &lpObj)
 	return iEffect;
 }
 
-int CVipSystem::GetWing2ndRate(LPGameObject &lpObj)
+int CVipSystem::GetWing2ndRate(CGameObject &lpObj)
 {
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return 0;
 	}
 
 	EnterCriticalSection(&this->m_criti);
 
-	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj->m_PlayerData->VipType);
+	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj.m_PlayerData->VipType);
 
 	if (it == this->m_mapVipInfo.end())
 	{
@@ -513,16 +513,16 @@ int CVipSystem::GetWing2ndRate(LPGameObject &lpObj)
 	return iEffect;
 }
 
-int CVipSystem::GetWing25Rate(LPGameObject &lpObj)
+int CVipSystem::GetWing25Rate(CGameObject &lpObj)
 {
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return 0;
 	}
 
 	EnterCriticalSection(&this->m_criti);
 
-	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj->m_PlayerData->VipType);
+	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj.m_PlayerData->VipType);
 
 	if (it == this->m_mapVipInfo.end())
 	{
@@ -536,16 +536,16 @@ int CVipSystem::GetWing25Rate(LPGameObject &lpObj)
 	return iEffect;
 }
 
-int CVipSystem::GetWing3rdRate(LPGameObject &lpObj)
+int CVipSystem::GetWing3rdRate(CGameObject &lpObj)
 {
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return 0;
 	}
 
 	EnterCriticalSection(&this->m_criti);
 
-	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj->m_PlayerData->VipType);
+	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj.m_PlayerData->VipType);
 
 	if (it == this->m_mapVipInfo.end())
 	{
@@ -559,16 +559,16 @@ int CVipSystem::GetWing3rdRate(LPGameObject &lpObj)
 	return iEffect;
 }
 
-int CVipSystem::GetCapeOfLordRate(LPGameObject &lpObj)
+int CVipSystem::GetCapeOfLordRate(CGameObject &lpObj)
 {
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return 0;
 	}
 
 	EnterCriticalSection(&this->m_criti);
 
-	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj->m_PlayerData->VipType);
+	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj.m_PlayerData->VipType);
 
 	if (it == this->m_mapVipInfo.end())
 	{
@@ -582,16 +582,16 @@ int CVipSystem::GetCapeOfLordRate(LPGameObject &lpObj)
 	return iEffect;
 }
 
-int CVipSystem::GetFeatherOfCondorRate(LPGameObject &lpObj)
+int CVipSystem::GetFeatherOfCondorRate(CGameObject &lpObj)
 {
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return 0;
 	}
 
 	EnterCriticalSection(&this->m_criti);
 
-	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj->m_PlayerData->VipType);
+	std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(lpObj.m_PlayerData->VipType);
 
 	if (it == this->m_mapVipInfo.end())
 	{

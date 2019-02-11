@@ -48,12 +48,12 @@ public:
 	void DeleteInventoryItem(QuestGetItem* pQuestGetItem, int iObjIndex);
 	void ChkUserQuestTypeItem(QuestGetItem* pQuestGetItem, UserQuestAskInfo* pUserQuestAskInfo, int iObjIndex);
 
-	void ChkMonsterKillPartyPlay(DWORD dwQuestInfoIndexID, int iAskIndex, QuestMonsterKill* pQuestMonsterKill, LPGameObject &lpObj, LPGameObject &lpMonsterObj);
-	void ChkUserQuestTypeMonsterKill(LPGameObject lpObj, LPGameObject lpMonsterObj);
+	void ChkMonsterKillPartyPlay(DWORD dwQuestInfoIndexID, int iAskIndex, QuestMonsterKill* pQuestMonsterKill, CGameObject &lpObj, CGameObject &lpMonsterObj);
+	void ChkUserQuestTypeMonsterKill(CGameObject lpObj, CGameObject lpMonsterObj);
 
-	void ChkUserQuestType(int iQuestType, LPGameObject lpObj, LPGameObject lpMonsterObj, int iKillerObjIndex);
+	void ChkUserQuestType(int iQuestType, CGameObject lpObj, CGameObject lpMonsterObj, int iKillerObjIndex);
 
-	void ChkUserQuestTypeEventMap(int iQuestType, LPGameObject lpObj, int iMapLevel, int iValue);
+	void ChkUserQuestTypeEventMap(int iQuestType, CGameObject lpObj, int iMapLevel, int iValue);
 
 	void AddQuestSwitchList(int iEpisode, int iQS);
 	void SendQuestSwitchList(int iObjIndex, int iSendType);
@@ -67,7 +67,7 @@ public:
 	bool ChkQuestIndexIDToQSLimit(DWORD dwQuestInfoIndexID, int iObjIndex);
 	bool ChkQuestIndexIDToEpAndQSLimit(DWORD dwQuestInfoIndexID, int iObjIndex);
 
-	void QuestMonsterItemDrop(DWORD dwQuestInfoIndexID, LPGameObject lpObj, LPGameObject lpMonsterObj);
+	void QuestMonsterItemDrop(DWORD dwQuestInfoIndexID, CGameObject lpObj, CGameObject lpMonsterObj);
 	bool ChkQuestMonsterItemDrop(QuestDropItemInfo* pQuestDropItemInfo);
 	bool ChkQuestMonsterItemDrop(DWORD dwQuestInfoIndexID);
 	bool IsQuestDropItem(int iIndex, WORD nType, WORD nLevel);

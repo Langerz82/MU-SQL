@@ -247,17 +247,17 @@ struct PMSG_ANS_SANTAGIFT
 };
 */
 
-extern LPGameObject pEventObj;
+extern CGameObject pEventObj;
 
 void EventChipEventProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen);
 
 
-void FireworksOpenEven(LPGameObject &lpObj);
-void ChristmasFireCrackDrop(LPGameObject &lpObj);
+void FireworksOpenEven(CGameObject &lpObj);
+void ChristmasFireCrackDrop(CGameObject &lpObj);
 
-void HallowinDayEventItemBoxOpen(LPGameObject &lpObj);
-void KanturuMayaHandItemBagOpen(LPGameObject &lpObj, BYTE btMapNumber, BYTE cX, BYTE cY);
-void KanturuNightmareItemBagOpen(LPGameObject &lpObj, BYTE btMapNumber, BYTE cX, BYTE cY);
+void HallowinDayEventItemBoxOpen(CGameObject &lpObj);
+void KanturuMayaHandItemBagOpen(CGameObject &lpObj, BYTE btMapNumber, BYTE cX, BYTE cY);
+void KanturuNightmareItemBagOpen(CGameObject &lpObj, BYTE btMapNumber, BYTE cX, BYTE cY);
 void EGRecvEventChipInfo(PMSG_ANS_VIEW_EC_MN * aRecv);
 void EGResultRegEventChip(PMSG_ANS_REGISTER_EVENTCHIP * aRecv);
 void EGRecvRegMutoNum( PMSG_ANS_REGISTER_MUTONUM* aRecv);
@@ -278,11 +278,11 @@ void EGReqRegHTOfflineGift(int iIndex);
 void EGAnsRegHTOfflineGift( PMSG_ANS_REG_HT_OFFLINE_GIFT* lpMsg);
 void EGAnsRegLuckyCoin(PMSG_ANS_REG_LUCKYCOIN * lpMsg);
 void EGAnsLuckyCoinInfo(PMSG_ANS_LUCKYCOIN * lpMsg);
-void EGReqSantaGift(LPGameObject &lpObj);
+void EGReqSantaGift(CGameObject &lpObj);
 void EGAnsSantaCheck(PMSG_ANS_SANTACHECK *lpMsg);
 void EGAnsSantaGift(PMSG_ANS_SANTAGIFT *lpMsg);
 
-extern LPGameObject pEventObj;
+extern CGameObject pEventObj;
 
 #endif
 

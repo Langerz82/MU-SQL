@@ -667,7 +667,7 @@ void CAcheronGuardianEvent::RegenMonster(int nGroupNumber, int iGenSeq, int iGen
 		nGroupNumber, this->m_stMonsterGroupInfo[nGroupNumber].m_nGenTotCnt);
 }
 
-int CAcheronGuardianEvent::SetPosMonster(LPGameObject &lpObj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY)
+int CAcheronGuardianEvent::SetPosMonster(CGameObject &lpObj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -675,20 +675,20 @@ int CAcheronGuardianEvent::SetPosMonster(LPGameObject &lpObj, int nMapNumber, in
 		return false;
 	}
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
-	lpObj->m_PosNum = -1;
-	lpObj->MapNumber = nMapNumber;
-	this->GetBoxPosition(nMapNumber, nBeginX, nBeginY, nEndX, nEndY, lpObj->X, lpObj->Y);
-	lpObj->TX = lpObj->X;
-	lpObj->TY = lpObj->Y;
-	lpObj->m_OldX = lpObj->X;
-	lpObj->m_OldY = lpObj->Y;
-	lpObj->Dir = rand() % 8;
-	lpObj->StartX = lpObj->X;
-	lpObj->StartY = lpObj->Y;
-	lpObj->DieRegen = 0;
-	lpObj->MaxRegenTime = 0;
+	lpObj.m_PosNum = -1;
+	lpObj.MapNumber = nMapNumber;
+	this->GetBoxPosition(nMapNumber, nBeginX, nBeginY, nEndX, nEndY, lpObj.X, lpObj.Y);
+	lpObj.TX = lpObj.X;
+	lpObj.TY = lpObj.Y;
+	lpObj.m_OldX = lpObj.X;
+	lpObj.m_OldY = lpObj.Y;
+	lpObj.Dir = rand() % 8;
+	lpObj.StartX = lpObj.X;
+	lpObj.StartY = lpObj.Y;
+	lpObj.DieRegen = 0;
+	lpObj.MaxRegenTime = 0;
 
 	return true;
 }
@@ -786,14 +786,14 @@ void CAcheronGuardianEvent::DeleteAcheronEventAllMonster()
 	}
 }
 
-void CAcheronGuardianEvent::DestroyObelisk(LPGameObject lpObj, BYTE btMapNumber, BYTE cX, BYTE cY, int nMaxHitUser)
+void CAcheronGuardianEvent::DestroyObelisk(CGameObject lpObj, BYTE btMapNumber, BYTE cX, BYTE cY, int nMaxHitUser)
 {
-	sLog->outBasic("[AcheronGuardianEvent] Destroyed an Obelisk. [%s][%s]", lpObj->AccountID, lpObj->Name);
+	sLog->outBasic("[AcheronGuardianEvent] Destroyed an Obelisk. [%s][%s]", lpObj.AccountID, lpObj.Name);
 
-	g_BagManager.SearchAndUseBag(lpObj->m_Index, BAG_EVENT, EVENTBAG_ACHERONGUARDIAN, lpObj->m_Index);
+	g_BagManager.SearchAndUseBag(lpObj.m_Index, BAG_EVENT, EVENTBAG_ACHERONGUARDIAN, lpObj.m_Index);
 
 	char szTemp[256];
-	sprintf(szTemp, Lang.GetText(0,584), lpObj->Name);
+	sprintf(szTemp, Lang.GetText(0,584), lpObj.Name);
 
 	this->SendMapServerGroupMsg(szTemp);
 	this->SendMapServerGroupMsg(Lang.GetText(0,585));
@@ -807,9 +807,9 @@ void CAcheronGuardianEvent::CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER 
 		return;
 	}
 
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return;
 	}
@@ -824,14 +824,14 @@ void CAcheronGuardianEvent::CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER 
 		return;
 	}
 
-	BYTE btAttr = MapC[lpObj->MapNumber].GetAttr(lpObj->X, lpObj->Y);
+	BYTE btAttr = MapC[lpObj.MapNumber].GetAttr(lpObj.X, lpObj.Y);
 
 	if ((btAttr & 1) != 1)
 	{
 		return;
 	}
 
-	if (lpObj->m_PlayerData->m_bUsePartyMatching == true)
+	if (lpObj.m_PlayerData->m_bUsePartyMatching == true)
 	{
 		PMSG_ANS_PARTYMATCHING_ERROR pMsg;
 		PHeadSubSetB((LPBYTE)&pMsg, 0xEF, 0x09, sizeof(pMsg));

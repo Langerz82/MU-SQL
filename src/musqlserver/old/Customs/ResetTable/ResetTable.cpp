@@ -73,13 +73,13 @@ void CResetTable::SetInfo(RESET_TABLE_INFO info) // OK
 	this->m_count++;
 }
 
-int CResetTable::GetResetPoint(LPGameObject &lpObj) // OK
+int CResetTable::GetResetPoint(CGameObject &lpObj) // OK
 {
 	int point = 0;
 
 	for (int n = 0; n < this->m_count; n++)
 	{
-		for (int i = 0; i <= lpObj->m_PlayerData->m_iResets; i++)
+		for (int i = 0; i <= lpObj.m_PlayerData->m_iResets; i++)
 		{
 			if (i >= this->m_ResetTableInfo[n].MinReset && i <= this->m_ResetTableInfo[n].MaxReset)
 			{

@@ -43,7 +43,7 @@ void CPacketCheckSum::Init()
 
 
 
-void CPacketCheckSum::Check(LPGameObject &lpObj)
+void CPacketCheckSum::Check(CGameObject &lpObj)
 {
 	if ( aIndex < 0 || aIndex > g_ConfigRead.server.GetObjectMax()-1)
 	{
@@ -57,7 +57,7 @@ void CPacketCheckSum::Check(LPGameObject &lpObj)
 			char szPacketError[256];
 
 			sLog->outBasic("PacketCheckSum Error [%d][%s][%s] %d",
-				aIndex, lpObj->AccountID, lpObj->Name, i);
+				aIndex, lpObj.AccountID, lpObj.Name, i);
 			
 			wsprintf(szPacketError, "PacketCheckSum Error %d", i);
 
@@ -72,18 +72,18 @@ void CPacketCheckSum::Check(LPGameObject &lpObj)
 		}
 	}
 
-	sLog->outBasic("Check PacketCheckSum [%d][%s][%s]", aIndex, lpObj->AccountID, lpObj->Name);
+	sLog->outBasic("Check PacketCheckSum [%d][%s][%s]", aIndex, lpObj.AccountID, lpObj.Name);
 	this->ClearCheckSum(aIndex);
 }
 
 
-void CPacketCheckSum::ClearCheckSum(LPGameObject &lpObj)
+void CPacketCheckSum::ClearCheckSum(CGameObject &lpObj)
 {
 	memset(&this->PaketChecksum[aIndex], 0, sizeof(PAKETCHECKSUM) );
 }
 
 
-BOOL CPacketCheckSum::Add(LPGameObject &lpObj, int funcindex, DWORD checksum)
+BOOL CPacketCheckSum::Add(CGameObject &lpObj, int funcindex, DWORD checksum)
 {
 	if ( aIndex < 0 || aIndex > g_ConfigRead.server.GetObjectMax()-1)
 	{
@@ -105,7 +105,7 @@ BOOL CPacketCheckSum::Add(LPGameObject &lpObj, int funcindex, DWORD checksum)
 		char szPacketError[256];
 
 		sLog->outBasic("PacketCheckSum : Compare Fail : [%d][%s][%s] (%d,%d)", aIndex,
-			lpObj->AccountID, lpObj->Name, funcindex, checksum);
+			lpObj.AccountID, lpObj.Name, funcindex, checksum);
 
 		wsprintf(szPacketError, "PacketCheckSum : Compare Fail : (%d,%d)", funcindex, checksum);
 
@@ -120,7 +120,7 @@ BOOL CPacketCheckSum::Add(LPGameObject &lpObj, int funcindex, DWORD checksum)
 
 
 
-void CPacketCheckSum::AddCheckSum(LPGameObject &lpObj, int funcindex, DWORD checksum)
+void CPacketCheckSum::AddCheckSum(CGameObject &lpObj, int funcindex, DWORD checksum)
 {
 	if ( funcindex < 0 || funcindex >= MAX_PACKET_CHECKSUM_FUNCTION_INDEX )
 	{

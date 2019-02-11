@@ -41,7 +41,7 @@ void BattleSoccerGoalEnd(int ground);
 int  GetBattleSoccerGoalMove(int ground);
 BOOL gBattleSoccerScoreUpdate(int ground, int team);
 int  gCheckGoal(int x, int y, int & ground);	// R:[-1:FAIL ; 0:Team_0 ; 1:Team_1]
-int  gCheckBattleGround(LPGameObject &lpObj);
+int  gCheckBattleGround(CGameObject &lpObj);
 
 #endif
 

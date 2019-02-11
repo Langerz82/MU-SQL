@@ -72,8 +72,8 @@ public:
 	void	Load();
 	void	Read(LPSTR File);
 
-	void	ProcInsert(LPGameObject &lpUser, int JewelPos, int TargetPos);
-	bool	ProcUpgrade(LPGameObject &lpUser, int JewelPos, int TargetPos, ItemUpgradeJewelsInfo* lpJewel);
+	void	ProcInsert(CGameObject &lpUser, int JewelPos, int TargetPos);
+	bool	ProcUpgrade(CGameObject &lpUser, int JewelPos, int TargetPos, ItemUpgradeJewelsInfo* lpJewel);
 
 	bool	IsJewel(int ItemCode);
 

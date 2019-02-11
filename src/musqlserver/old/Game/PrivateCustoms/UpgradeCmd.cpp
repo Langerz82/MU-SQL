@@ -120,7 +120,7 @@ void CUpgradeCmd::LoadFile(char * szFile)
 	}
 }
 
-int CUpgradeCmd::DoUpgrade(LPGameObject &lpObj)
+int CUpgradeCmd::DoUpgrade(CGameObject &lpObj)
 {
 	if (this->m_bSystemEnable == false)
 	{
@@ -132,12 +132,12 @@ int CUpgradeCmd::DoUpgrade(LPGameObject &lpObj)
 		return -1;
 	}
 
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return -1;
 	}
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
 	for (int i = INVETORY_WEAR_SIZE; i < INVENTORY_SIZE - 1; i++) // Pentagram excluded, so -1
 	{
@@ -146,39 +146,39 @@ int CUpgradeCmd::DoUpgrade(LPGameObject &lpObj)
 			continue;
 		}
 
-		if (lpObj->pInventory[i].IsItem() == false)
+		if (lpObj.pInventory[i].IsItem() == false)
 		{
 			continue;
 		}
 
 		for (std::map<int, UPGRADECMD_DATA>::iterator It = this->m_mapUpgradeData.begin(); It != this->m_mapUpgradeData.end(); It++)
 		{
-			if (It->second.m_NeedItem.wItemID != lpObj->pInventory[i].m_Type)
+			if (It->second.m_NeedItem.wItemID != lpObj.pInventory[i].m_Type)
 			{
 				continue;
 			}
 
-			if (It->second.m_NeedItem.btItemLevel != lpObj->pInventory[i].m_Level)
+			if (It->second.m_NeedItem.btItemLevel != lpObj.pInventory[i].m_Level)
 			{
 				continue;
 			}
 
-			if (It->second.m_NeedItem.btOption != lpObj->pInventory[i].m_Option3)
+			if (It->second.m_NeedItem.btOption != lpObj.pInventory[i].m_Option3)
 			{
 				continue;
 			}
 
-			if (It->second.m_NeedItem.btSetOption != lpObj->pInventory[i].m_SetOption)
+			if (It->second.m_NeedItem.btSetOption != lpObj.pInventory[i].m_SetOption)
 			{
 				continue;
 			}
 
-			if (It->second.m_NeedItem.btExc != lpObj->pInventory[i].m_NewOption)
+			if (It->second.m_NeedItem.btExc != lpObj.pInventory[i].m_NewOption)
 			{
 				continue;
 			}
 
-			if (memcmp(It->second.m_NeedItem.btSocketOption, lpObj->pInventory[i].m_SocketOption, 5) != 0)
+			if (memcmp(It->second.m_NeedItem.btSocketOption, lpObj.pInventory[i].m_SocketOption, 5) != 0)
 			{
 				continue;
 			}
@@ -189,7 +189,7 @@ int CUpgradeCmd::DoUpgrade(LPGameObject &lpObj)
 				return 0;
 			}
 
-			CItem CopyItem = lpObj->pInventory[i];
+			CItem CopyItem = lpObj.pInventory[i];
 			CItem NewItem;
 
 			gObjInventoryDeleteItem(aIndex, i);

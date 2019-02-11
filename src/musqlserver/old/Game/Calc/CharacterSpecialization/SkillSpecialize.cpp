@@ -19,14 +19,14 @@ void CSkillSpecialize::LoadScript()
 	this->m_Lua.DoFile(g_ConfigRead.GetPath("\\Scripts\\Specialization\\SkillSpec.lua"));
 }
 
-int CSkillSpecialize::CalcStatBonus(LPGameObject lpObj, int iSkill)
+int CSkillSpecialize::CalcStatBonus(CGameObject lpObj, int iSkill)
 {
 	if (!lpObj)
 	{
 		return 0;
 	}
 
-	if (lpObj->Type != OBJ_USER)
+	if (lpObj.Type != OBJ_USER)
 	{
 		return 0;
 	}
@@ -34,12 +34,12 @@ int CSkillSpecialize::CalcStatBonus(LPGameObject lpObj, int iSkill)
 	int iSkillBonus = 0;
 
 	this->m_Lua.Generic_Call("SkillSpec_GetBonusValue", "iiiiii>i",
-		(int)lpObj->Class, 
+		(int)lpObj.Class, 
 		iSkill, 
-		int(lpObj->m_PlayerData->Strength + lpObj->AddStrength),
-		int(lpObj->m_PlayerData->Dexterity + lpObj->AddDexterity),
-		int(lpObj->m_PlayerData->Vitality + lpObj->AddVitality),
-		int(lpObj->m_PlayerData->Energy + lpObj->AddEnergy),
+		int(lpObj.m_PlayerData->Strength + lpObj.AddStrength),
+		int(lpObj.m_PlayerData->Dexterity + lpObj.AddDexterity),
+		int(lpObj.m_PlayerData->Vitality + lpObj.AddVitality),
+		int(lpObj.m_PlayerData->Energy + lpObj.AddEnergy),
 		&iSkillBonus);
 
 	return iSkillBonus;

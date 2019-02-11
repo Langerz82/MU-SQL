@@ -23,7 +23,7 @@ public:
 	static bool  RunAI(int iIndex, int iMonsterClass);
 	static bool  UpdateCurrentAIUnit(int iIndex);
 	static void  MonsterStateMsgProc(int iIndex);
-	static void  ProcessStateMsg(struct OBJECTSTRUCT* lpObj, int iMsgCode, int iIndex, int aMsgSubCode);
+	static void  ProcessStateMsg(struct CGameObject* lpObj, int iMsgCode, int iIndex, int aMsgSubCode);
 
 private:
 

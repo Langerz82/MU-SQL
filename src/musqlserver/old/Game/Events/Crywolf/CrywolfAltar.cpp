@@ -353,9 +353,9 @@ int CCrywolfAltar::GetPriestHPSum()
 		if ( !gObjIsConnected(AltarInfo->m_iUserIndex))
 			continue;
 
-		LPGameObject lpUserObj = &gGameObjects[AltarInfo->m_iUserIndex];
-		iPriestHPSum += lpUserObj->Life;
-		iPriestHPSum += lpUserObj->AddLife;
+		CGameObject lpUserObj = &gGameObjects[AltarInfo->m_iUserIndex];
+		iPriestHPSum += lpUserObj.Life;
+		iPriestHPSum += lpUserObj.AddLife;
 	}
 
 	return iPriestHPSum;
@@ -375,8 +375,8 @@ int CCrywolfAltar::GetPriestMaxHPSum()
 		if ( !gObjIsConnected(AltarInfo->m_iUserIndex))
 			continue;
 
-		LPGameObject lpUserObj = &gGameObjects[AltarInfo->m_iUserIndex];
-		iPriestHPSum += lpUserObj->AddLife + lpUserObj->MaxLife;
+		CGameObject lpUserObj = &gGameObjects[AltarInfo->m_iUserIndex];
+		iPriestHPSum += lpUserObj.AddLife + lpUserObj.MaxLife;
 		int iOption = 0;
 		gObjGetValueOfBuffIndex(lpUserObj, BUFFTYPE_HP_INC, &iOption, 0);
 		iPriestHPSum += iOption;
@@ -412,12 +412,12 @@ void CCrywolfAltar::CrywolfAltarAct(int iIndex)
 		return;
 	}
 
-	LPGameObject lpObj = &gGameObjects[iIndex];
-	LPGameObject lpUserObj = &gGameObjects[iUserIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpUserObj = &gGameObjects[iUserIndex];
 
-	if ( lpUserObj->Live != FALSE && lpUserObj->MapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE )
+	if ( lpUserObj.Live != FALSE && lpUserObj.MapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE )
 	{
-		if ( abs(lpObj->Y-lpUserObj->Y) <= 0 && abs(lpObj->X - lpUserObj->X) <= 0 )
+		if ( abs(lpObj.Y-lpUserObj.Y) <= 0 && abs(lpObj.X - lpUserObj.X) <= 0 )
 		{
 			if ( this->CheckAltarValidContract(gGameObjects[iIndex].Class) != FALSE )
 			{

@@ -158,15 +158,15 @@ public:
 
 	bool isCanReceiveChat(short SenderIndex, short TargetIndex) 
 	{
-		LPGameObject tmpSender = &gGameObjects[SenderIndex];
+		CGameObject* tmpSender = gGameObjects[SenderIndex];
 		dataUserChatBlockListSet* targetList = getSlot(TargetIndex);
 		if (targetList == NULL) 
 		{
 			return true;
 		}
-		if (!targetList->isFreeName(tmpSender->Name)) 
+		if (!targetList.isFreeName(tmpSender->Name)) 
 		{
-			MsgOutput(SenderIndex, "Failure, %s add you to black list", gGameObjects[TargetIndex].Name);
+			MsgOutput(SenderIndex, "Failure, %s add you to black list", gGameObjects[TargetIndex]->Name);
 			return false;
 		}
 		return true;

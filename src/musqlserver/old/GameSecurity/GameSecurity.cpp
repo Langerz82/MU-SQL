@@ -17,7 +17,7 @@ CGameSecurity::~CGameSecurity()
 
 }
 
-void CGameSecurity::DebugInfo(LPGameObject &lpObj)
+void CGameSecurity::DebugInfo(CGameObject &lpObj)
 {
 	ATTACK_SPEED sAttackSpeed;
 	EnterCriticalSection(&lpCritiASData);
@@ -39,7 +39,7 @@ void CGameSecurity::DebugInfo(LPGameObject &lpObj)
 
 		double realAttackSpeed = (double)((double)dwTimeNow - (double)sAttackSpeed.LastAttackTime) / 1000.00;
 
-		sLog->outDebug("[Debug ANTI-HACK][%d][%s][%s] Attack Speed: %d Time Between last attack = %f",aIndex, lpObj->AccountID, lpObj->Name, lpObj->m_AttackSpeed, realAttackSpeed);
+		sLog->outDebug("[Debug ANTI-HACK][%d][%s][%s] Attack Speed: %d Time Between last attack = %f",aIndex, lpObj.AccountID, lpObj.Name, lpObj.m_AttackSpeed, realAttackSpeed);
 
 		iter->second.LastAttackTime = dwTimeNow;
 

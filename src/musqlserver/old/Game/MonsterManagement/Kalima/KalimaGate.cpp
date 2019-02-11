@@ -206,8 +206,8 @@ BOOL CKalimaGate::CreateKalimaGate(int iIndex, BYTE btLevel, BYTE cTX, BYTE cTY)
 
 void CKalimaGate::KalimaGateAct(int iIndex)
 {
-	LPGameObject lpObj=NULL;
-	LPGameObject lpObjCallOwner=NULL;
+	CGameObject lpObj=NULL;
+	CGameObject lpObjCallOwner=NULL;
 
 	if ( ObjectMaxRange(iIndex ) == FALSE)
 	{
@@ -230,7 +230,7 @@ void CKalimaGate::KalimaGateAct(int iIndex)
 	}
 
 	lpObj = &gGameObjects[iIndex];
-	lpObjCallOwner = &gGameObjects[lpObj->m_RecallMon];
+	lpObjCallOwner = &gGameObjects[lpObj.m_RecallMon];
 
 	if ( gGameObjects[gGameObjects[iIndex].m_RecallMon].DieRegen > 0 )
 	{
@@ -258,7 +258,7 @@ void CKalimaGate::KalimaGateAct(int iIndex)
 		
 	DWORD dwTickCount = GetTickCount();
 
-	if ( dwTickCount > lpObj->RegenTime + KALIMA_GATE_TIMEOUT )
+	if ( dwTickCount > lpObj.RegenTime + KALIMA_GATE_TIMEOUT )
 	{
 		lpObjCallOwner->AccountID[MAX_ACCOUNT_LEN]=0;
 		lpObjCallOwner->Name[MAX_ACCOUNT_LEN]=0;
@@ -266,11 +266,11 @@ void CKalimaGate::KalimaGateAct(int iIndex)
 		sLog->outBasic("[Kalima] [%s][%s] Kalima Gate Vanished - Time Out (SummonIndex:%d, EnterCount:%d)",
 			lpObjCallOwner->AccountID, lpObjCallOwner->Name,
 			iIndex, gGameObjects[iIndex].m_cKalimaGateEnterCount );
-		this->DeleteKalimaGate(lpObj->m_Index, lpObjCallOwner->m_Index);
+		this->DeleteKalimaGate(lpObj.m_Index, lpObjCallOwner->m_Index);
 		return;
 	}
 
-	if ( lpObj->VPCount < 1 )
+	if ( lpObj.VPCount < 1 )
 	{
 		return;
 	}
@@ -279,7 +279,7 @@ void CKalimaGate::KalimaGateAct(int iIndex)
 
 	for ( int i=0;i<MaxViewportMonster;i++)
 	{
-		tObjNum = lpObj->VpPlayer[i].number;
+		tObjNum = lpObj.VpPlayer[i].number;
 
 		if ( tObjNum >= 0 )
 		{
@@ -287,13 +287,13 @@ void CKalimaGate::KalimaGateAct(int iIndex)
 			{
 				if ( gGameObjects[tObjNum].Live != FALSE )
 				{
-					if ( abs(lpObj->Y - gGameObjects[tObjNum].Y) < 2 )
+					if ( abs(lpObj.Y - gGameObjects[tObjNum].Y) < 2 )
 					{
-						if ( abs(lpObj->X - gGameObjects[tObjNum].X) < 2 )
+						if ( abs(lpObj.X - gGameObjects[tObjNum].X) < 2 )
 						{
-							if ( lpObj->m_RecallMon == tObjNum || (gGameObjects[tObjNum].PartyNumber != -1 && lpObjCallOwner->PartyNumber == gGameObjects[tObjNum].PartyNumber ))
+							if ( lpObj.m_RecallMon == tObjNum || (gGameObjects[tObjNum].PartyNumber != -1 && lpObjCallOwner->PartyNumber == gGameObjects[tObjNum].PartyNumber ))
 							{
-								int iMoveMapLevel = lpObj->m_Attribute -51;
+								int iMoveMapLevel = lpObj.m_Attribute -51;
 								int iMapNumber = iMoveMapLevel + 24;
 								int iGateNumber = g_iKalimaGateGateIndex[iMoveMapLevel];
 								int iOverLevel = this->GetKalimaGateLevel(tObjNum);
@@ -589,8 +589,8 @@ BOOL CKalimaGate::CreateKalimaGate2(int iIndex, int iMonMapNumber, BYTE cTX, BYT
 
 void CKalimaGate::KalimaGateAct2(int iIndex)
 {
-	LPGameObject lpObj = NULL;
-	LPGameObject lpObjCallOwner = NULL;
+	CGameObject lpObj = NULL;
+	CGameObject lpObjCallOwner = NULL;
 
 	if ( ObjectMaxRange(iIndex) == FALSE )
 		return;
@@ -611,7 +611,7 @@ void CKalimaGate::KalimaGateAct2(int iIndex)
 	}
 
 	lpObj = &gGameObjects[iIndex];
-	lpObjCallOwner = &gGameObjects[lpObj->m_RecallMon];
+	lpObjCallOwner = &gGameObjects[lpObj.m_RecallMon];
 
 	if ( gGameObjects[iIndex].m_cKalimaGateEnterCount >= MAX_KALIMA_ENTER )
 	{
@@ -628,7 +628,7 @@ void CKalimaGate::KalimaGateAct2(int iIndex)
 
 	DWORD dwTickCount = GetTickCount();
 
-	if ( dwTickCount > (lpObj->RegenTime+60000) )
+	if ( dwTickCount > (lpObj.RegenTime+60000) )
 	{
 		lpObjCallOwner->AccountID[MAX_ACCOUNT_LEN]=0;
 		lpObjCallOwner->Name[MAX_ACCOUNT_LEN]=0;
@@ -636,22 +636,22 @@ void CKalimaGate::KalimaGateAct2(int iIndex)
 		sLog->outBasic("[Kalima] [%s][%s] Kalima Gate Vanished (NextMap) - Time Out (SummonIndex:%d, EnterCount:%d)",
 			lpObjCallOwner->AccountID, lpObjCallOwner->Name, iIndex, gGameObjects[iIndex].m_cKalimaGateEnterCount);
 
-		this->DeleteKalimaGate(lpObj->m_Index, lpObjCallOwner->m_Index);
+		this->DeleteKalimaGate(lpObj.m_Index, lpObjCallOwner->m_Index);
 
 		return;
 	}
 
-	if ( lpObj->VPCount < 1 )
+	if ( lpObj.VPCount < 1 )
 		return;
 
-	if ( lpObj->MapNumber < MAP_INDEX_KALIMA1 || lpObj->MapNumber > MAP_INDEX_KALIMA6-1 )
+	if ( lpObj.MapNumber < MAP_INDEX_KALIMA1 || lpObj.MapNumber > MAP_INDEX_KALIMA6-1 )
 		return;
 
 	int tObjNum = -1;
 
 	for ( int i=0;i<MaxViewportMonster;i++)
 	{
-		tObjNum = lpObj->VpPlayer[i].number;
+		tObjNum = lpObj.VpPlayer[i].number;
 
 		if ( tObjNum >= 0 )
 		{
@@ -659,13 +659,13 @@ void CKalimaGate::KalimaGateAct2(int iIndex)
 			{
 				if ( gGameObjects[tObjNum].Live )
 				{
-					if ( abs(lpObj->Y - gGameObjects[tObjNum].Y) < 2 )
+					if ( abs(lpObj.Y - gGameObjects[tObjNum].Y) < 2 )
 					{
-						if ( abs(lpObj->X - gGameObjects[tObjNum].X) < 2 )
+						if ( abs(lpObj.X - gGameObjects[tObjNum].X) < 2 )
 						{
-							if ( lpObj->m_RecallMon == tObjNum || (gGameObjects[tObjNum].PartyNumber != -1 && lpObjCallOwner->PartyNumber == gGameObjects[tObjNum].PartyNumber ))
+							if ( lpObj.m_RecallMon == tObjNum || (gGameObjects[tObjNum].PartyNumber != -1 && lpObjCallOwner->PartyNumber == gGameObjects[tObjNum].PartyNumber ))
 							{
-								int iMoveMapLevel = lpObj->MapNumber - MAP_INDEX_KALIMA1+1;	// #error "Deatwway - remove the -1
+								int iMoveMapLevel = lpObj.MapNumber - MAP_INDEX_KALIMA1+1;	// #error "Deatwway - remove the -1
 								int iGateNumber = g_iKalimaGateGateIndex[iMoveMapLevel];
 
 								if ( !gObjMoveGate(tObjNum, iGateNumber))
@@ -673,14 +673,14 @@ void CKalimaGate::KalimaGateAct2(int iIndex)
 									sLog->outBasic("[Kalima] [%s][%s] - [%s][%s] move fail (MapNumber:%d)",
 										lpObjCallOwner->AccountID, lpObjCallOwner->Name,
 										gGameObjects[tObjNum].AccountID, gGameObjects[tObjNum].Name,
-										lpObj->MapNumber);
+										lpObj.MapNumber);
 								}
 								else
 								{
 									sLog->outBasic("[Kalima] [%s][%s] - [%s][%s] Transported by Kalima Gate (NextMap) (SummonIndex:%d, GateNo.:%d, MapNumber:%d)",
 										lpObjCallOwner->AccountID, lpObjCallOwner->Name,
 										gGameObjects[tObjNum].AccountID, gGameObjects[tObjNum].Name,
-										iIndex, iMoveMapLevel+1, lpObj->MapNumber);
+										iIndex, iMoveMapLevel+1, lpObj.MapNumber);
 
 									gGameObjects[iIndex].m_cKalimaGateEnterCount++;
 

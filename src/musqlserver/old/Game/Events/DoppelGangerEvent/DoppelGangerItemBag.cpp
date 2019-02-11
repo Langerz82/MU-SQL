@@ -125,7 +125,7 @@ void CDoppelGangerItemBag::LoadDoppelgangerItemBag(LPSTR lpFile)
 	this->m_bLoad = TRUE;
 }
 
-BOOL CDoppelGangerItemBag::DoppelgangerItemDrop(LPGameObject lpObj, int nItemBagIndex, int nDropRate, BYTE btFlag)
+BOOL CDoppelGangerItemBag::DoppelgangerItemDrop(CGameObject lpObj, int nItemBagIndex, int nDropRate, BYTE btFlag)
 {
 	if ( this->m_bLoad == FALSE )
 	{
@@ -145,8 +145,8 @@ BOOL CDoppelGangerItemBag::DoppelgangerItemDrop(LPGameObject lpObj, int nItemBag
 		bItemDrop = FALSE;
 	}
 
-	BYTE cDropX = lpObj->X;
-	BYTE cDropY = lpObj->Y;
+	BYTE cDropX = lpObj.X;
+	BYTE cDropY = lpObj.Y;
 	
 	if ( bItemDrop == FALSE )
 	{
@@ -154,26 +154,26 @@ BOOL CDoppelGangerItemBag::DoppelgangerItemDrop(LPGameObject lpObj, int nItemBag
 
 		for ( int i=0;i<Count;i++ )
 		{
-			cDropX = lpObj->X;
-			cDropY = lpObj->Y;
+			cDropX = lpObj.X;
+			cDropY = lpObj.Y;
 
-			if ( !gObjGetRandomItemDropLocation(lpObj->MapNumber, cDropX, cDropY, 4, 4, 10) )
+			if ( !gObjGetRandomItemDropLocation(lpObj.MapNumber, cDropX, cDropY, 4, 4, 10) )
 			{
-				cDropX = lpObj->X;
-				cDropY = lpObj->Y;
+				cDropX = lpObj.X;
+				cDropY = lpObj.Y;
 			}
 
-			MapC[lpObj->MapNumber].MoneyItemDrop(10000, cDropX, cDropY);
+			MapC[lpObj.MapNumber].MoneyItemDrop(10000, cDropX, cDropY);
 
 		}
 	}
 
 	else
 	{
-		if ( !gObjGetRandomItemDropLocation(lpObj->MapNumber, cDropX, cDropY, 4, 4, 10) )
+		if ( !gObjGetRandomItemDropLocation(lpObj.MapNumber, cDropX, cDropY, 4, 4, 10) )
 		{
-			cDropX = lpObj->X;
-			cDropY = lpObj->Y;
+			cDropX = lpObj.X;
+			cDropY = lpObj.Y;
 		}
 
 		if ( this->vtDPItemBag[nTmpItemBagIndex].vtDropItemGroup.size() == 0 )
@@ -393,7 +393,7 @@ BOOL CDoppelGangerItemBag::DoppelgangerItemDrop(LPGameObject lpObj, int nItemBag
 		stItem.btItemOption = iOption3;
 		stItem.btItemExcOption = iExOption;
 
-		g_GremoryCase.GDReqAddItemToGremoryCase(lpObj->m_Index, stItem, 30);
+		g_GremoryCase.GDReqAddItemToGremoryCase(lpObj.m_Index, stItem, 30);
 
 	}
 }

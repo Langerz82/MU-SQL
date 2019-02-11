@@ -30,7 +30,7 @@ void CCannonTower::CannonTowerAct(int iIndex) // 0x00560940  1.00.19
 	{
 		return;
 	}
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 	int count = 0;
 	int ASBOfs = 0;
 	PMSG_BEATTACK_COUNT pCount;
@@ -48,8 +48,8 @@ void CCannonTower::CannonTowerAct(int iIndex) // 0x00560940  1.00.19
 	pCount.MagicNumberH = 0x00;
 	pCount.MagicNumberL = 0x00;
 	pCount.Count = 0x00;
-	pCount.X = lpObj->X;
-	pCount.Y = lpObj->Y;
+	pCount.X = lpObj.X;
+	pCount.Y = lpObj.Y;
 
 	ASBOfs = sizeof(PMSG_BEATTACK_COUNT);
 
@@ -57,11 +57,11 @@ void CCannonTower::CannonTowerAct(int iIndex) // 0x00560940  1.00.19
 
 	while (true)
 	{
-		if (lpObj->VpPlayer2[count].state)
+		if (lpObj.VpPlayer2[count].state)
 		{
-			if (lpObj->VpPlayer2[count].type == OBJ_USER)
+			if (lpObj.VpPlayer2[count].type == OBJ_USER)
 			{
-				int tObjNum = lpObj->VpPlayer2[count].number;
+				int tObjNum = lpObj.VpPlayer2[count].number;
 
 				if (tObjNum >= 0)
 				{
@@ -88,14 +88,14 @@ void CCannonTower::CannonTowerAct(int iIndex) // 0x00560940  1.00.19
 		pCount.h.size = ASBOfs;
 
 		memcpy(AttackSendBuff, (LPBYTE)&pCount, sizeof(PMSG_BEATTACK_COUNT));
-		GSProtocol.CGBeattackRecv(AttackSendBuff, lpObj->m_Index, 1);
+		GSProtocol.CGBeattackRecv(AttackSendBuff, lpObj.m_Index, 1);
 		WORD MagicNumber = 50;
 		PMSG_DURATION_MAGIC_SEND pSend;
 		PHeadSetBE((LPBYTE)&pSend, 0x1E, sizeof(pSend));
 		pSend.MagicNumberH = SET_NUMBERH(MagicNumber);
 		pSend.MagicNumberL = SET_NUMBERL(MagicNumber);
-		pSend.X = lpObj->X;
-		pSend.Y = lpObj->Y;
+		pSend.X = lpObj.X;
+		pSend.Y = lpObj.Y;
 		pSend.Dir = 0;
 		pSend.NumberH = SET_NUMBERH(iIndex);
 		pSend.NumberL = SET_NUMBERL(iIndex);

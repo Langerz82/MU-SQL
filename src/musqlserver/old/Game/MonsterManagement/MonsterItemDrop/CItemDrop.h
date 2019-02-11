@@ -19,7 +19,7 @@ public:
 
 	bool LoadFile(const char* szFile);
 	bool LoadZenDropFile(const char* szFile);
-	bool DropItem(LPGameObject &lpUser, LPGameObject &lpMonster);
+	bool DropItem(CGameObject &lpUser, CGameObject &lpMonster);
 	bool IsZenDropActive(BYTE btMapNumber);
 	UINT64 GetZenAmount(BYTE btMapNumber, WORD wMonsterLevel);
 
@@ -42,12 +42,12 @@ private:
 		}
 	}
 
-	ITEMDROP_ITEM ** GetItem(LPGameObject &lpUser, LPGameObject &lpMonster, int & ItemCount);
+	ITEMDROP_ITEM ** GetItem(CGameObject &lpUser, CGameObject &lpMonster, int & ItemCount);
 
-	boost::shared_ptr<ITEMDROP_MONSTER> GetMonsterData(LPGameObject &lpUser, LPGameObject &lpMonster);
+	boost::shared_ptr<ITEMDROP_MONSTER> GetMonsterData(CGameObject &lpUser, CGameObject &lpMonster);
 	boost::shared_ptr<ITEMDROP_ITEM> GetItemFromMonster(boost::shared_ptr<ITEMDROP_MONSTER> itemdrop_monster_ptr);
 
-	void AddCoinReward(boost::shared_ptr<ITEMDROP_MONSTER> itemdrop_monster_ptr, LPGameObject &lpUser);
+	void AddCoinReward(boost::shared_ptr<ITEMDROP_MONSTER> itemdrop_monster_ptr, CGameObject &lpUser);
 
 	std::vector<boost::shared_ptr<ITEMDROP_MONSTER>> m_vtMonsterList;
 	std::map<int, ZEN_DROP> m_mapZenDrop;

@@ -91,7 +91,7 @@ private:
 public:
 	void GamblingItemBagInit(char* name);
 	void LoadItem(char* script_file);
-	BYTE GetGamblingSystemItem(LPGameObject &lpObj, BYTE btMapNumber, BYTE cX, BYTE cY, BYTE btItemType);
+	BYTE GetGamblingSystemItem(CGameObject &lpObj, BYTE btMapNumber, BYTE cX, BYTE cY, BYTE btItemType);
 	BYTE GamblingOptionRand(int iOptionCount);
 	BYTE ExcellentOptionRand();
 

@@ -324,7 +324,7 @@ void CNewPVP::SetDuelStatus(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor, in
 	}
 }
 
-int CNewPVP::Reserve(OBJECTSTRUCT & requester,LPGameObject &responsor)
+int CNewPVP::Reserve(OBJECTSTRUCT & requester,CGameObject &responsor)
 {
 	int nRet = GetDuelStatus(requester);
 	if(nRet)	return nRet;
@@ -505,17 +505,17 @@ void CNewPVP::Cancel(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor, BOOL bSen
     }
 }
 
-int CNewPVP::Leave(LPGameObject &Obj)
+int CNewPVP::Leave(CGameObject &Obj)
 {
 	int nId = GetDuelChannelId(obj.m_Index);
 	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){	sLog->outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","ENEWPVP::E_INVALID_CHANNELID","NULL",__FILE__, __LINE__); return ENEWPVP::E_INVALID_CHANNELID; }
 	if( !IS_START(m_DuelChannel[nId].nStatus ) && m_DuelChannel[nId].nStatus != DC_RESERVEDEND ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)||m_DuelChannel[nId].nStatus==DC_RESERVEDEND", "ENEWPVP::E_INVALID_STATUS","NULL",__FILE__, __LINE__); return ENEWPVP::E_INVALID_STATUS; }	
 
-	LPGameObjectECTSTRUCT lpTargetObj = NULL;
+	CGameObjectECTSTRUCT lpTargetObj = NULL;
 
 	obj.m_iDuelUserReserved = -1;
 
-	if( IsDuel(obj) )	lpTargetObj = (LPGameObjectECTSTRUCT)&gGameObjects[obj.m_iDuelUser];
+	if( IsDuel(obj) )	lpTargetObj = (CGameObjectECTSTRUCT)&gGameObjects[obj.m_iDuelUser];
 
 	if(lpTargetObj == NULL){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","lpTargetObj","ENEWPVP::E_INVALID_INDEX","NULL", __FILE__, __LINE__); return ENEWPVP::E_INVALID_INDEX; }
 
@@ -571,7 +571,7 @@ void CNewPVP::Leave(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor)
     }
 }
 
-void CNewPVP::SetScore(LPGameObject &Obj)
+void CNewPVP::SetScore(CGameObject &Obj)
 {
 	int nId = GetDuelChannelId(obj.m_Index);
 	if(nId < 0 || nId >= DUEL_CHANNEL_MAX) { sLog->outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return;	}
@@ -579,7 +579,7 @@ void CNewPVP::SetScore(LPGameObject &Obj)
     obj.m_btDuelScore++;
 }
 
-void CNewPVP::CheckScore(LPGameObject &Obj, LPGameObject &target)
+void CNewPVP::CheckScore(CGameObject &Obj, CGameObject &target)
 {
 	int nId = GetDuelChannelId(obj.m_Index);
 	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
@@ -618,7 +618,7 @@ void CNewPVP::CheckScore(LPGameObject &Obj, LPGameObject &target)
     SetStatus(4, nId, requester, responsor);
 }
 
-void CNewPVP::ReFill(LPGameObject &Obj)
+void CNewPVP::ReFill(CGameObject &Obj)
 {
 	if( !gObjIsConnected(&obj) ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","gObjIsConnected(&obj)","0","NULL", __FILE__, __LINE__); return; }
 
@@ -663,7 +663,7 @@ BOOL CNewPVP::CheckLimitLevel(int nIndex, int nGateNum)
 	return TRUE;
 }
 
-void CNewPVP::SetBuff(LPGameObject &Obj, BOOL bUse)
+void CNewPVP::SetBuff(CGameObject &Obj, BOOL bUse)
 {
 	if( bUse )
 	{
@@ -678,20 +678,20 @@ void CNewPVP::SetBuff(LPGameObject &Obj, BOOL bUse)
 	gObjViewportListProtocolCreate(&obj);
 }
 
-BOOL CNewPVP::SendChannelList(OBJECTSTRUCT &npc, LPGameObject &Obj)
+BOOL CNewPVP::SendChannelList(OBJECTSTRUCT &npc, CGameObject &Obj)
 {
 	IOCP.DataSend(obj.m_Index, (LPBYTE)&m_DuelChannelList, m_DuelChannelList.h.size);
 	return FALSE;
 }
 
-int CNewPVP::GetChannelStatus(LPGameObject &Obj)
+int CNewPVP::GetChannelStatus(CGameObject &Obj)
 {
 	DUEL_CHANNEL * lpChannel = GetDuelChannel(obj.Name);
 	if(lpChannel != NULL)	return lpChannel->nStatus;
 	return 0;
 }
 
-BOOL CNewPVP::IsSafeState(LPGameObject &Obj)
+BOOL CNewPVP::IsSafeState(CGameObject &Obj)
 {
 	DUEL_CHANNEL * lpChannel = GetDuelChannel(obj.Name);
 	if(lpChannel == NULL)	return TRUE;
@@ -706,7 +706,7 @@ BOOL CNewPVP::IsSafeState(LPGameObject &Obj)
 	return FALSE;
 }
 
-int CNewPVP::IsObserver(LPGameObject &Obj)
+int CNewPVP::IsObserver(CGameObject &Obj)
 {
 	return gObjCheckUsedBuffEffect(&obj, BUFFTYPE_OBSERVER);
 }
@@ -750,7 +750,7 @@ int CNewPVP::CheckUsersOnConnect(int nId)
 	return TRUE;
 }
 
-void CNewPVP::ChatMsgSend(LPGameObject &Obj,BYTE* Msg, int size)
+void CNewPVP::ChatMsgSend(CGameObject &Obj,BYTE* Msg, int size)
 {
 	int nId = -1;
 
@@ -765,8 +765,8 @@ void CNewPVP::ChatMsgSend(LPGameObject &Obj,BYTE* Msg, int size)
 
 	LPDUEL_CHANNEL lpChannel = &m_DuelChannel[nId];
 
-	LPGameObject &requester = gGameObjects[lpChannel->nIndex1];
-    LPGameObject &responsor = gGameObjects[lpChannel->nIndex2];
+	CGameObject &requester = gGameObjects[lpChannel->nIndex1];
+    CGameObject &responsor = gGameObjects[lpChannel->nIndex2];
 
 	if(gObjIsConnected(&requester))
 	{
@@ -781,7 +781,7 @@ void CNewPVP::ChatMsgSend(LPGameObject &Obj,BYTE* Msg, int size)
 	BroadcastToObserver(nId, Msg, size);
 }
 
-void CNewPVP::Reset(LPGameObject &Obj)
+void CNewPVP::Reset(CGameObject &Obj)
 {
 	if( IsDuelRequested(obj) )	Cancel(obj, gGameObjects[obj.m_iDuelUserRequested], TRUE);
 	if( IsDuel(obj) )	Leave(obj);
@@ -825,7 +825,7 @@ void CNewPVP::GetObserverList(int nId, PMSG_DUEL_OBSERVERLIST_BROADCAST& res)
 	LeaveCriticalSection(&this->m_csObserver);
 }
 
-int CNewPVP::JoinChannel(int nId,LPGameObject &Obj)
+int CNewPVP::JoinChannel(int nId,CGameObject &Obj)
 {
 	if( IsDuel(obj) ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","!IsDuel(obj)","ENEWPVP::E_ALREADY_DUELLING", "NULL", __FILE__,  __LINE__); return ENEWPVP::E_ALREADY_DUELLING; }
 	if( IsDuelRequested(obj) ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","!IsDuelRequested(obj)","ENEWPVP::E_ALREADY_DUELREQUESTED","NULL",  __FILE__,  __LINE__); return ENEWPVP::E_ALREADY_DUELREQUESTED; }
@@ -912,7 +912,7 @@ int CNewPVP::JoinChannel(int nId,LPGameObject &Obj)
 	return 0;
 }
 
-int CNewPVP::LeaveChannel(int nId,LPGameObject &Obj)
+int CNewPVP::LeaveChannel(int nId,CGameObject &Obj)
 {
 	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","ENEWPVP::E_INVALID_CHANNELID","NULL",__FILE__, __LINE__); return ENEWPVP::E_INVALID_CHANNELID; }
 	if( !IS_START(m_DuelChannel[nId].nStatus) ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)", "ENEWPVP::E_INVALID_STATUS","NULL",__FILE__, __LINE__); return ENEWPVP::E_INVALID_STATUS; }	
@@ -985,31 +985,31 @@ void CNewPVP::LeaveChannelObserver(int nId)
 		ObserverInfo & info = iter->second;		
 		if(info.nId == nId)
 		{
-			LPGameObject &lpObj = (LPGameObjectECTSTRUCT)&gGameObjects[info.nIndex];
+			CGameObject &lpObj = (CGameObjectECTSTRUCT)&gGameObjects[info.nIndex];
 
-			if( IsPKFieldMap(lpObj->MapNumber) )
+			if( IsPKFieldMap(lpObj.MapNumber) )
 			{
-				if (lpObj->Level < gGateC.GetLevel(294))
+				if (lpObj.Level < gGateC.GetLevel(294))
 				{
-					if (lpObj->Class == CLASS_ELF)
+					if (lpObj.Class == CLASS_ELF)
 					{
-						MoveGate(lpObj->m_Index, 27);
+						MoveGate(lpObj.m_Index, 27);
 					}
 
-					else if(lpObj->Class == CLASS_SUMMONER)
+					else if(lpObj.Class == CLASS_SUMMONER)
 					{
-						MoveGate(lpObj->m_Index, 267);
+						MoveGate(lpObj.m_Index, 267);
 					}
 
 					else
 					{
-						MoveGate(lpObj->m_Index, 17);
+						MoveGate(lpObj.m_Index, 17);
 					}
 				}
 
 				else
 				{
-					MoveGate(lpObj->m_Index, 294);
+					MoveGate(lpObj.m_Index, 294);
 				}
 			}
 			
@@ -1061,7 +1061,7 @@ void CNewPVP::BroadcastScore(int nId, BYTE nFlag)
 	}
 }
 
-void CNewPVP::BroadcastResult(int nId, BYTE nFlag, LPGameObject &Obj)
+void CNewPVP::BroadcastResult(int nId, BYTE nFlag, CGameObject &Obj)
 {
 	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
 	if( m_DuelChannel[nId].nStatus != DC_RESERVEDEND ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","m_DuelChannel[nId].nStatus==DC_RESERVEDEND", "0","NULL",__FILE__, __LINE__); return;	}
@@ -1152,7 +1152,7 @@ void CNewPVP::BroadcastDuelInfo(int nId, BYTE nFlag)
 	}
 }
 
-void CNewPVP::BroadcastJoinChannel(int nId, LPGameObject &Obj)
+void CNewPVP::BroadcastJoinChannel(int nId, CGameObject &Obj)
 {
 	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
 	if( !IS_START(m_DuelChannel[nId].nStatus) ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)","0","NULL",__FILE__, __LINE__); return; }
@@ -1166,7 +1166,7 @@ void CNewPVP::BroadcastJoinChannel(int nId, LPGameObject &Obj)
     BroadcastToObserver(nId, (LPBYTE)&res, res.h.size);
 }
 
-void CNewPVP::BroadcastLeaveChannel(int nId, LPGameObject &Obj)
+void CNewPVP::BroadcastLeaveChannel(int nId, CGameObject &Obj)
 {
 	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
 	if( !IS_START(m_DuelChannel[nId].nStatus) ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)","0","NULL",__FILE__, __LINE__); return; }
@@ -1263,19 +1263,19 @@ void CNewPVP::BroadcastRound(int nId, BYTE nFlag, BOOL bEnd)
 	}
 }
 
-BOOL CNewPVP::CheckPKPenalty(LPGameObject &lpObj)
+BOOL CNewPVP::CheckPKPenalty(CGameObject &lpObj)
 {
 	if( !g_ConfigRead.pk.bPkPenaltyDisable )
 	{
-		if( lpObj->PartyNumber >= 0 )
+		if( lpObj.PartyNumber >= 0 )
 		{
-			if( gParty.GetPKPartyPenalty( lpObj->PartyNumber) >= 6 )
+			if( gParty.GetPKPartyPenalty( lpObj.PartyNumber) >= 6 )
 			{
 				return TRUE;
 			}
 		}
 
-		else if( lpObj->m_PK_Level >= 6 )
+		else if( lpObj.m_PK_Level >= 6 )
 		{
 			 return TRUE;
 		}
@@ -1283,12 +1283,12 @@ BOOL CNewPVP::CheckPKPenalty(LPGameObject &lpObj)
 	return FALSE;
 }
 
-BOOL CNewPVP::IsSelfDefense(LPGameObject &lpObj)
+BOOL CNewPVP::IsSelfDefense(CGameObject &lpObj)
 {
 	BOOL bRetVal = FALSE;
 	for ( int i = 0; i < MAX_SELF_DEFENSE; i++ )
 	{
-		if( lpObj->SelfDefense[i] >= 0 )
+		if( lpObj.SelfDefense[i] >= 0 )
 		{
 			bRetVal = TRUE;
 			break;
@@ -1297,24 +1297,24 @@ BOOL CNewPVP::IsSelfDefense(LPGameObject &lpObj)
 	return bRetVal;
 }
 
-BOOL CNewPVP::IsGuildWar(LPGameObject &lpObj)
+BOOL CNewPVP::IsGuildWar(CGameObject &lpObj)
 {
-	if( lpObj->m_PlayerData->lpGuild && 
-		lpObj->m_PlayerData->lpGuild->WarState == 1)
+	if( lpObj.m_PlayerData->lpGuild && 
+		lpObj.m_PlayerData->lpGuild->WarState == 1)
 	{
 		return TRUE;
 	}
 	return FALSE;
 }
 
-BOOL CNewPVP::DropItem(LPGameObject &lpObj, LPGameObjectECTSTRUCT lpMonsterObj)
+BOOL CNewPVP::DropItem(CGameObject &lpObj, CGameObjectECTSTRUCT lpMonsterObj)
 {
-	if( !IsVulcanusMap(lpObj->MapNumber) ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","IsVulcanusMap(lpObj->MapNumber)","FALSE","NULL",__FILE__,  __LINE__); return FALSE; }
+	if( !IsVulcanusMap(lpObj.MapNumber) ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","IsVulcanusMap(lpObj.MapNumber)","FALSE","NULL",__FILE__,  __LINE__); return FALSE; }
 	if( m_bNewPVP != TRUE){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","m_bNewPVP==TRUE","FALSE","NULL", __FILE__,  __LINE__); return FALSE; }
 	if( !gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_GLORYOFGLADIATOR) )	return FALSE;
 	if( !gObjGetTotalValueOfEffect(lpObj, EFFECTTYPE_VULCANUS_ITEMDROPRATE) )	return FALSE;
 
-	if (g_BagManager.SearchAndUseBag(lpObj->m_Index, BAG_EVENT, EVENTBAG_NEWPVP, lpMonsterObj->m_Index) == false)
+	if (g_BagManager.SearchAndUseBag(lpObj.m_Index, BAG_EVENT, EVENTBAG_NEWPVP, lpMonsterObj.m_Index) == false)
 	{
 		return FALSE;
 	}

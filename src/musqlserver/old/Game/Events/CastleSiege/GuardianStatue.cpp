@@ -25,16 +25,16 @@ void CGuardianStatue::GuardianStatueAct(int iIndex)
 	if( ::gObjIsConnected(iIndex) == FALSE )
 		return;
 
-	LPGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = &gGameObjects[iIndex];
 
-	if( lpObj->VPCount < 1 )
+	if( lpObj.VPCount < 1 )
 		return;
 
 	int tObjNum = -1;
 
 	for( int i = 0; i < MAX_VIEWPORT; i++ )
 	{
-		tObjNum = lpObj->VpPlayer[i].number;
+		tObjNum = lpObj.VpPlayer[i].number;
 
 		if( tObjNum >= 0 )
 		{
@@ -44,7 +44,7 @@ void CGuardianStatue::GuardianStatueAct(int iIndex)
 				{
 					if( gGameObjects[tObjNum].m_btCsJoinSide == 1 )
 					{
-						if( (abs(lpObj->X - gGameObjects[tObjNum].X) <= 3) && (abs(lpObj->Y - gGameObjects[tObjNum].Y) <= 3) )
+						if( (abs(lpObj.X - gGameObjects[tObjNum].X) <= 3) && (abs(lpObj.Y - gGameObjects[tObjNum].Y) <= 3) )
 						{
 							BOOL bIsMaxLife = FALSE;
 							BOOL bIsMaxMana = FALSE;
@@ -52,7 +52,7 @@ void CGuardianStatue::GuardianStatueAct(int iIndex)
 
 							if( gGameObjects[tObjNum].Life < (gGameObjects[tObjNum].Life+gGameObjects[tObjNum].AddLife) )
 							{
-								gGameObjects[tObjNum].Life = gGameObjects[tObjNum].Life + ((gGameObjects[tObjNum].AddLife+gGameObjects[tObjNum].MaxLife) * (lpObj->m_btCsNpcRgLevel+1)) / 100;
+								gGameObjects[tObjNum].Life = gGameObjects[tObjNum].Life + ((gGameObjects[tObjNum].AddLife+gGameObjects[tObjNum].MaxLife) * (lpObj.m_btCsNpcRgLevel+1)) / 100;
 
 								if( gGameObjects[tObjNum].Life > (gGameObjects[tObjNum].Life+gGameObjects[tObjNum].AddLife) )
 								{
@@ -63,7 +63,7 @@ void CGuardianStatue::GuardianStatueAct(int iIndex)
 
 							if( gGameObjects[tObjNum].Mana < (gGameObjects[tObjNum].Mana+gGameObjects[tObjNum].AddMana) )
 							{
-								gGameObjects[tObjNum].Mana = gGameObjects[tObjNum].Mana + ((gGameObjects[tObjNum].AddMana+gGameObjects[tObjNum].MaxMana) * (lpObj->m_btCsNpcRgLevel+1)) / 100;
+								gGameObjects[tObjNum].Mana = gGameObjects[tObjNum].Mana + ((gGameObjects[tObjNum].AddMana+gGameObjects[tObjNum].MaxMana) * (lpObj.m_btCsNpcRgLevel+1)) / 100;
 
 								if( gGameObjects[tObjNum].Mana > (gGameObjects[tObjNum].Mana+gGameObjects[tObjNum].AddMana) )
 								{
@@ -74,7 +74,7 @@ void CGuardianStatue::GuardianStatueAct(int iIndex)
 
 							if( gGameObjects[tObjNum].BP < (gGameObjects[tObjNum].BP+gGameObjects[tObjNum].AddBP) )
 							{
-								gGameObjects[tObjNum].BP = gGameObjects[tObjNum].BP + ((gGameObjects[tObjNum].AddBP+gGameObjects[tObjNum].MaxBP) * (lpObj->m_btCsNpcRgLevel+1)) / 100;
+								gGameObjects[tObjNum].BP = gGameObjects[tObjNum].BP + ((gGameObjects[tObjNum].AddBP+gGameObjects[tObjNum].MaxBP) * (lpObj.m_btCsNpcRgLevel+1)) / 100;
 
 								if( gGameObjects[tObjNum].BP > (gGameObjects[tObjNum].BP+gGameObjects[tObjNum].AddBP) )
 								{

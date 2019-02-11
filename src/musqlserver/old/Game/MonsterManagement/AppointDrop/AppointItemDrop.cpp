@@ -105,14 +105,14 @@ void CAppointItemDrop::LoadAppointItemDropScript()
 	this->m_bIsSuccessReadScript = true;
 }
 
-BOOL CAppointItemDrop::AppointItemDrop(LPGameObject lpObj, LPGameObject lpMonsterObj)
+BOOL CAppointItemDrop::AppointItemDrop(CGameObject lpObj, CGameObject lpMonsterObj)
 {
 	if (this->m_bIsSuccessReadScript == false)
 	{
 		return FALSE;
 	}
 		
-	std::map<int, _ST_APP_MONSTER_ITEMGROUP_LINK>::iterator iterMonsterItemGroupLink = this->m_mapMonsterItemGroupLink.find(lpMonsterObj->Class);
+	std::map<int, _ST_APP_MONSTER_ITEMGROUP_LINK>::iterator iterMonsterItemGroupLink = this->m_mapMonsterItemGroupLink.find(lpMonsterObj.Class);
 
 	if (iterMonsterItemGroupLink == m_mapMonsterItemGroupLink.end())
 	{
@@ -144,8 +144,8 @@ BOOL CAppointItemDrop::AppointItemDrop(LPGameObject lpObj, LPGameObject lpMonste
 			int iType = ItemGetNumberMake(iterDropItem->iType, iterDropItem->iIndex);
 			int iLevel = rand() % (iterDropItem->iMaxLevel + 1 - iterDropItem->iMinLevel);
 			iLevel += iterDropItem->iMinLevel;
-			BYTE iX = lpObj->X;
-			BYTE iY = lpObj->Y;
+			BYTE iX = lpObj.X;
+			BYTE iY = lpObj.Y;
 			int iDur = ItemGetDurability(iType, iLevel, iterDropItem->iExcelent, 0);
 			int iSkill = iterDropItem->iSkill;
 			int iLuck = iterDropItem->iLuck;
@@ -188,7 +188,7 @@ BOOL CAppointItemDrop::AppointItemDrop(LPGameObject lpObj, LPGameObject lpMonste
 			}
 
 			int iMaxHitUser = gObjMonsterTopHitDamageUser(lpMonsterObj);
-			ItemSerialCreateSend(lpObj->m_Index, lpObj->MapNumber, iX, iY, iType, iLevel, iDur, iSkill, iLuck, iOption3, iMaxHitUser, byExOption, 0, 0, btSocketOption, 0);
+			ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, iX, iY, iType, iLevel, iDur, iSkill, iLuck, iOption3, iMaxHitUser, byExOption, 0, 0, btSocketOption, 0);
 			
 			return TRUE;
 		}

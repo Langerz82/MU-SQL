@@ -305,17 +305,17 @@ void CIllusionTempleLeagueEvent::SetRelicsInventoryPos(BYTE btMapNumber, int aIn
 	this->m_cIllusionTempleLeagueProc[btMapNumber - 98].SetRelicsInventoryPos(aIndex, btPos);
 }
 
-void CIllusionTempleLeagueEvent::SendRelicsUserInfo(OBJECTSTRUCT* lpObj)
+void CIllusionTempleLeagueEvent::SendRelicsUserInfo(CGameObject* lpObj)
 {
-	if (!ITL_MAP_RANGE(lpObj->MapNumber))
+	if (!ITL_MAP_RANGE(lpObj.MapNumber))
 	{
 		return;
 	}
 
-	this->m_cIllusionTempleLeagueProc[lpObj->MapNumber - 98].SendRelicsUserInfo(lpObj, 0);
+	this->m_cIllusionTempleLeagueProc[lpObj.MapNumber - 98].SendRelicsUserInfo(lpObj, 0);
 }
 
-BOOL CIllusionTempleLeagueEvent::Enter_ITL(LPGameObject &lpObj, BYTE byTempleIndex, BYTE bySlotNum)
+BOOL CIllusionTempleLeagueEvent::Enter_ITL(CGameObject &lpObj, BYTE byTempleIndex, BYTE bySlotNum)
 {
 	if (CIllusionTempleLeagueEvent::m_bITL_Event_Enable == false)
 	{
@@ -327,19 +327,19 @@ BOOL CIllusionTempleLeagueEvent::Enter_ITL(LPGameObject &lpObj, BYTE byTempleInd
 		return FALSE;
 	}
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
 	if (!lpObj)
 	{
 		return FALSE;
 	}
 
-	if (this->m_cIllusionTempleLeagueProc[byTempleIndex].EnterUserIllusionTempleLeague(aIndex, byTempleIndex, lpObj->m_PlayerData->GuildNumber, lpObj->PartyNumber) == TRUE)
+	if (this->m_cIllusionTempleLeagueProc[byTempleIndex].EnterUserIllusionTempleLeague(aIndex, byTempleIndex, lpObj.m_PlayerData->GuildNumber, lpObj.PartyNumber) == TRUE)
 	{
 		sLog->outBasic("[ ITL ] ITL index:(%d) EnterUser: (%s)(%s) class:%d",
-			byTempleIndex + 1, lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->DbClass);
+			byTempleIndex + 1, lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->DbClass);
 
-		this->m_cIllusionTempleLeagueProc[byTempleIndex].SendIllusionTempleLeagueState(0, lpObj->m_Index);
+		this->m_cIllusionTempleLeagueProc[byTempleIndex].SendIllusionTempleLeagueState(0, lpObj.m_Index);
 
 		return TRUE;
 	}
@@ -347,13 +347,13 @@ BOOL CIllusionTempleLeagueEvent::Enter_ITL(LPGameObject &lpObj, BYTE byTempleInd
 	else
 	{
 		sLog->outBasic("[ ITL ] ITL index:(%d) EnterUser FAIL: (%s)(%s) class:%d",
-			byTempleIndex + 1, lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->DbClass);
+			byTempleIndex + 1, lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->DbClass);
 
 		return FALSE;
 	}
 }
 
-int CIllusionTempleLeagueEvent::Leave_ITL(LPGameObject &lpObj, BYTE btMapNumber)
+int CIllusionTempleLeagueEvent::Leave_ITL(CGameObject &lpObj, BYTE btMapNumber)
 {
 	if (!ITL_MAP_RANGE(btMapNumber))
 	{
@@ -364,7 +364,7 @@ int CIllusionTempleLeagueEvent::Leave_ITL(LPGameObject &lpObj, BYTE btMapNumber)
 	return TRUE;
 }
 
-void CIllusionTempleLeagueEvent::ActRelicsGetOrRegister(LPGameObject &lpNpc, LPGameObject lpObj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType)
+void CIllusionTempleLeagueEvent::ActRelicsGetOrRegister(CGameObject &lpNpc, CGameObject lpObj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType)
 {
 	if (!ITL_MAP_RANGE(byMapNumber))
 	{
@@ -495,31 +495,31 @@ void CIllusionTempleLeagueEvent::ITL_UseSkill(int iIndex, WORD MagicNumber, int 
 	this->m_cIllusionTempleLeagueProc[gGameObjects[iIndex].MapNumber - 98].ITL_UseSkill(iIndex, MagicNumber, wTargetObjIndex, btDis);
 }
 
-void CIllusionTempleLeagueEvent::EventSkillProc(OBJECTSTRUCT* lpObj)
+void CIllusionTempleLeagueEvent::EventSkillProc(CGameObject* lpObj)
 {
-	return this->m_cIllusionTempleLeagueProc[lpObj->MapNumber - 98].ITLSkillProc(lpObj);
+	return this->m_cIllusionTempleLeagueProc[lpObj.MapNumber - 98].ITLSkillProc(lpObj);
 }
 
-void CIllusionTempleLeagueEvent::IllusionTempleLeagueUserDie(LPGameObject &lpObj)
+void CIllusionTempleLeagueEvent::IllusionTempleLeagueUserDie(CGameObject &lpObj)
 {
-	this->m_cIllusionTempleLeagueProc[lpObj->MapNumber - 98].ITLUserDie(lpObj);
+	this->m_cIllusionTempleLeagueProc[lpObj.MapNumber - 98].ITLUserDie(lpObj);
 }
 
-void CIllusionTempleLeagueEvent::IllusionTempleLeagueUserDieRegen(LPGameObject &lpObj)
+void CIllusionTempleLeagueEvent::IllusionTempleLeagueUserDieRegen(CGameObject &lpObj)
 {
-	if (!ObjectMaxRange(lpObj->m_Index))
+	if (!ObjectMaxRange(lpObj.m_Index))
 	{
 		return;
 	}
 
-	if (!ITL_MAP_RANGE(lpObj->MapNumber))
+	if (!ITL_MAP_RANGE(lpObj.MapNumber))
 	{
 		return;
 	}
 
-	if (this->m_cIllusionTempleLeagueProc[lpObj->MapNumber - 98].GetIllusionTempleLeagueState() == 2)
+	if (this->m_cIllusionTempleLeagueProc[lpObj.MapNumber - 98].GetIllusionTempleLeagueState() == 2)
 	{
-		this->m_cIllusionTempleLeagueProc[lpObj->MapNumber - 98].UseSkillProdection(lpObj);
+		this->m_cIllusionTempleLeagueProc[lpObj.MapNumber - 98].UseSkillProdection(lpObj);
 	}
 }
 
@@ -906,7 +906,7 @@ BYTE CIllusionTempleLeagueEvent::FindMyEnemy(char* GuildName)
 	return 0;
 }
 
-void CIllusionTempleLeagueEvent::Send_ITL_Tournament(LPGameObject &lpObj, BYTE byError)
+void CIllusionTempleLeagueEvent::Send_ITL_Tournament(CGameObject &lpObj, BYTE byError)
 {
 	PMSG_ITL_GUILD_RANKINFO pMsg;
 	__ITL_GUILD_RANK pGuildInfo;
@@ -967,10 +967,10 @@ void CIllusionTempleLeagueEvent::Send_ITL_Tournament(LPGameObject &lpObj, BYTE b
 	memcpy(sendbuf, &pMsg, sizeof(pMsg));
 
 	IOCP.DataSend(aIndex, (LPBYTE)sendbuf, lOfs);
-	lpObj->m_bITL_TournamentInfoSend = true;
+	lpObj.m_bITL_TournamentInfoSend = true;
 }
 
-void CIllusionTempleLeagueEvent::Send_ITL_GuildRankInfo(LPGameObject &lpObj)
+void CIllusionTempleLeagueEvent::Send_ITL_GuildRankInfo(CGameObject &lpObj)
 {
 	PMSG_ITL_GUILD_RANKINFO pMsg;
 	__ITL_GUILD_RANK pGuildInfo;
@@ -1000,7 +1000,7 @@ void CIllusionTempleLeagueEvent::Send_ITL_GuildRankInfo(LPGameObject &lpObj)
 
 	memcpy(sendbuf, &pMsg, sizeof(pMsg));
 	IOCP.DataSend(aIndex, (LPBYTE)sendbuf, lOfs);
-	lpObj->m_bITL_GuildRankInfoSend = true;
+	lpObj.m_bITL_GuildRankInfoSend = true;
 }
 
 bool CIllusionTempleLeagueEvent::IsRewardRenewDay()
@@ -1161,16 +1161,16 @@ void CIllusionTempleLeagueEvent::DG_ITL_UserCount(PMSG_ANS_ITL_USERCOUNTANS *lpM
 		return;
 	}
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
 	if (!lpObj)
 	{
 		return;
 	}
 
-	lpObj->m_byEnterITLUserCount = lpMsg->byCount;
+	lpObj.m_byEnterITLUserCount = lpMsg->byCount;
 	sLog->outBasic("[ ITL ][ DG_ITL_UserCount ] Name :%s ,Cnt:%d",
-		lpObj->Name, lpObj->m_byEnterITLUserCount);
+		lpObj.Name, lpObj.m_byEnterITLUserCount);
 }
 
 void CIllusionTempleLeagueEvent::DG_ITL_GuildCount(PMSG_ANS_ITL_GUILDCOUNTANS *lpMsg)
@@ -1182,17 +1182,17 @@ void CIllusionTempleLeagueEvent::DG_ITL_GuildCount(PMSG_ANS_ITL_GUILDCOUNTANS *l
 		return;
 	}
 
-	LPGameObject lpObj = &gGameObjects[aIndex];
+	
 
 	if (!lpObj)
 	{
 		return;
 	}
 
-	lpObj->m_bEnterCountLoad = true;
-	lpObj->m_byEnterITLCount = lpMsg->byCount;
+	lpObj.m_bEnterCountLoad = true;
+	lpObj.m_byEnterITLCount = lpMsg->byCount;
 	sLog->outBasic("[ ITL ][ DG_ITL_GuildCount ] Name :%s ,Cnt:%d",
-		lpObj->Name, lpMsg->byCount);
+		lpObj.Name, lpMsg->byCount);
 }
 
 void CIllusionTempleLeagueEvent::DG_ITL_GuildLeagueRank_Get(PMSG_ANS_ITL_GUILDLEAGUERANK *lpMsg)
@@ -1233,22 +1233,22 @@ void CIllusionTempleLeagueEvent::ResetITL_FlagAll()
 {
 	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
-		LPGameObject lpObj = &gGameObjects[i];
+		CGameObject lpObj = &gGameObjects[i];
 
-		if (gObjIsConnected(i) == TRUE && lpObj->Type == OBJ_USER)
+		if (gObjIsConnected(i) == TRUE && lpObj.Type == OBJ_USER)
 		{
 			if (g_ConfigRead.server.GetServerType() == SERVER_NORMAL)
 			{
-				lpObj->m_bITL_GuildRankInfoSend = false;
-				lpObj->m_bITL_ScheduleInfoSend = false;
-				lpObj->m_bITL_TournamentInfoSend = false;
-				lpObj->m_nITLRelicsTick = 0;
-				lpObj->m_bRegisteringRelics = false;
-				lpObj->m_bGettingRelics = false;
-				lpObj->m_wITLNpcType = 0;
-				lpObj->m_byStoneState = 99;
-				lpObj->m_byEnterITLCount = -1;
-				lpObj->m_bEnterCountLoad = false;
+				lpObj.m_bITL_GuildRankInfoSend = false;
+				lpObj.m_bITL_ScheduleInfoSend = false;
+				lpObj.m_bITL_TournamentInfoSend = false;
+				lpObj.m_nITLRelicsTick = 0;
+				lpObj.m_bRegisteringRelics = false;
+				lpObj.m_bGettingRelics = false;
+				lpObj.m_wITLNpcType = 0;
+				lpObj.m_byStoneState = 99;
+				lpObj.m_byEnterITLCount = -1;
+				lpObj.m_bEnterCountLoad = false;
 			}
 		}
 	}
@@ -1383,7 +1383,7 @@ BYTE CIllusionTempleLeagueEvent::CheckCanReEnterTiming(BYTE byMapNumber, BYTE &b
 	return 0;
 }
 
-BYTE CIllusionTempleLeagueEvent::ReEnterITL(LPGameObject &lpObj, BYTE btTempleIndex, int nGuildIdx, int nPartyIdx, int nUserArrayNo, int nITLState, BYTE byTeamIndex)
+BYTE CIllusionTempleLeagueEvent::ReEnterITL(CGameObject &lpObj, BYTE btTempleIndex, int nGuildIdx, int nPartyIdx, int nUserArrayNo, int nITLState, BYTE byTeamIndex)
 {
 	return this->m_cIllusionTempleLeagueProc[btTempleIndex].ReEnterUserIllusionTempleLeague(aIndex, btTempleIndex, nGuildIdx, nPartyIdx, nUserArrayNo, byTeamIndex);
 }
@@ -1403,7 +1403,7 @@ void CIllusionTempleLeagueEvent::Insert_RewardList(char *Name, char *GuildName, 
 	}
 }
 
-void CIllusionTempleLeagueEvent::Send_RewardList(LPGameObject &lpObj, BYTE byError)
+void CIllusionTempleLeagueEvent::Send_RewardList(CGameObject &lpObj, BYTE byError)
 {
 	PMSG_ANS_REWARDLIST pMsg;
 	ITL_REWARDLIST ITLRewardList;
@@ -1489,18 +1489,18 @@ void CIllusionTempleLeagueEvent::Update_ITL_RewardFlag(char *Name)
 
 BYTE CIllusionTempleLeagueEvent::Check_ITLRewardList(int nUserIndex)
 {
-	LPGameObject lpObj = &gGameObjects[nUserIndex];
+	CGameObject lpObj = &gGameObjects[nUserIndex];
 
-	if (gObjIsConnected(nUserIndex) == TRUE && lpObj->Type == OBJ_USER)
+	if (gObjIsConnected(nUserIndex) == TRUE && lpObj.Type == OBJ_USER)
 	{
 		for (int i = 0; i < 5; i++)
 		{
-			if (strcmp(this->m_ITL_Winner_RewardList[i].szGuildName, lpObj->m_PlayerData->GuildName))
+			if (strcmp(this->m_ITL_Winner_RewardList[i].szGuildName, lpObj.m_PlayerData->GuildName))
 			{
 				return 2;
 			}
 
-			if (!strcmp(this->m_ITL_Winner_RewardList[i].szCharName, lpObj->Name))
+			if (!strcmp(this->m_ITL_Winner_RewardList[i].szCharName, lpObj.Name))
 			{
 				if (this->m_ITL_Winner_RewardList[i].bGotReward)
 				{

@@ -112,7 +112,7 @@ public:
 	char GetLorenMarketUserCount(int partynumber);
 
 	void ReadBonusInfo(LPSTR File);
-	int GetExpBonus(LPGameObject &lpUser, LPGameObject lpMonster, int PartyNumber);
+	int GetExpBonus(CGameObject &lpUser, CGameObject lpMonster, int PartyNumber);
 	bool SetLeader(int OldLeader, int NewLeader);
 
 public:
