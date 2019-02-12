@@ -879,7 +879,7 @@ void GCUseBuffEffect(CGameObject &lpObj, BYTE BuffEffectIndex, BYTE EffectUseOpt
 
 	if ( lpObj.Type == OBJ_USER )
 	{
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 	}
 
 	if(EffectUseOption == 0) {

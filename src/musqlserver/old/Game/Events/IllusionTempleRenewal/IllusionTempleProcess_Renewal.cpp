@@ -2325,7 +2325,7 @@ void CIllusionTempleProcess_Renewal::Send_ITR_SkillEnd(CGameObject lpObj, WORD w
 	pMsg.MagicNumberL = LOBYTE(wSkillNumber);
 	pMsg.wObjIndex = lpObj.m_Index;
 
-	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 	GSProtocol.MsgSendV2(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 }
 

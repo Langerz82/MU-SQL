@@ -315,7 +315,7 @@ BOOL CItemShop::AddUser(CGameObject &lpObj)
 {
 	PMSG_REQ_INGAMESHOPINIT pInit;
 	PHeadSubSetB((LPBYTE)&pInit, 0xD2, 0x00, sizeof(pInit));
-	IOCP.DataSend(lpObj, (LPBYTE)&pInit, sizeof(pInit));
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pInit, sizeof(pInit));
 	this->GCShopVersion(lpObj);
 	lpObj.m_PlayerData->m_GoblinTime = GetTickCount();
 	this->CGCashPoint(lpObj);
@@ -341,7 +341,7 @@ BOOL CItemShop::CGCashShopOpen(CGameObject &lpObj, PMSG_REQ_INGAMESHOPOPEN * lpM
 	if ( this->bCashItemListReload == TRUE )
 	{
 		pMsg.btResult = 6;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.head.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.head.size);
 
 		return FALSE;
 	}
@@ -349,7 +349,7 @@ BOOL CItemShop::CGCashShopOpen(CGameObject &lpObj, PMSG_REQ_INGAMESHOPOPEN * lpM
 	if (this->bIsCashShop == FALSE)
 	{
 		pMsg.btResult = 6;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.head.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.head.size);
 
 		return FALSE;
 	}
@@ -366,7 +366,7 @@ BOOL CItemShop::CGCashShopOpen(CGameObject &lpObj, PMSG_REQ_INGAMESHOPOPEN * lpM
 	{
 		MsgOutput(lpObj.m_Index, Lang.GetText(0,394));
 		pMsg.btResult = 0;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.head.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.head.size);
 
 		return FALSE;
 	}
@@ -377,7 +377,7 @@ BOOL CItemShop::CGCashShopOpen(CGameObject &lpObj, PMSG_REQ_INGAMESHOPOPEN * lpM
 		IMPERIAL_MAP_RANGE(lpObj.MapNumber) || lpObj.MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL )
 	{
 		pMsg.btResult = 0;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.head.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.head.size);
 
 		return FALSE;
 	}
@@ -385,7 +385,7 @@ BOOL CItemShop::CGCashShopOpen(CGameObject &lpObj, PMSG_REQ_INGAMESHOPOPEN * lpM
 	if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE)
 	{
 		pMsg.btResult = 0;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.head.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.head.size);
 
 		return FALSE;
 	}
@@ -393,7 +393,7 @@ BOOL CItemShop::CGCashShopOpen(CGameObject &lpObj, PMSG_REQ_INGAMESHOPOPEN * lpM
 	if ( lpMsg->btShopOpenType == 0 && lpObj.m_IfState.use != 0)
 	{
 		pMsg.btResult = 0;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.head.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.head.size);
 
 		return FALSE;
 	}
@@ -401,7 +401,7 @@ BOOL CItemShop::CGCashShopOpen(CGameObject &lpObj, PMSG_REQ_INGAMESHOPOPEN * lpM
 	else if ( lpMsg->btShopOpenType == 1 && (lpObj.m_IfState.use == 0 || lpObj.m_IfState.type != 19) )
 	{
 		pMsg.btResult = 0;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.head.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.head.size);
 
 		return FALSE;
 	}
@@ -427,7 +427,7 @@ BOOL CItemShop::CGCashShopOpen(CGameObject &lpObj, PMSG_REQ_INGAMESHOPOPEN * lpM
 	}
 
 	pMsg.btResult = btResult;
-	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.head.size);
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.head.size);
 
 	return TRUE;
 }
@@ -489,7 +489,7 @@ void CItemShop::GCCashPoint(CGameObject &lpObj)
 	pMsg.GoblinPoint = lpObj.m_PlayerData->m_GoblinPoint;
 	pMsg.dwTotalCash = lpObj.m_PlayerData->m_WCoinC;
 
-	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void CItemShop::GCCashInventoryItemCount(CGameObject &lpObj, LPBYTE lpRecv)
@@ -532,7 +532,7 @@ void CItemShop::GCCashInventoryItemCount(CGameObject &lpObj, LPBYTE lpRecv)
 		if(pMsg.CurrentItemCount >= (lpMsg->Count-CurrItem) ) break;
 	}
 
-	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 
 	if(lpMsg->Count > 0)
 	{
@@ -555,7 +555,7 @@ void CItemShop::GCCashInventoryItemCount(CGameObject &lpObj, LPBYTE lpRecv)
 				pItem.UniqueValue2 = lpItem->UniqueID2;
 				pItem.UniqueValue3 = lpItem->UniqueID3;
 
-				IOCP.DataSend(lpObj, (LPBYTE)&pItem, pItem.h.size);
+				IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pItem, pItem.h.size);
 			
 				count++;
 				if(count >= (lpMsg->Count-StartItem) ) break;
@@ -582,7 +582,7 @@ void CItemShop::GCCashInventoryItemCount(CGameObject &lpObj, LPBYTE lpRecv)
 				memcpy(pItem.szUser, lpItem->GiftName, 10);
 				memcpy(pItem.szText, lpItem->Message, 200);
 
-				IOCP.DataSend(lpObj, (LPBYTE)&pItem, pItem.h.size);
+				IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pItem, pItem.h.size);
 			
 				count++;
 				if(count >= lpMsg->Count ) break;
@@ -609,7 +609,7 @@ void CItemShop::CGCashInventoryItemUseInfo(CGameObject &lpObj, PMSG_REQ_INGAMESH
 		return;
 
 	pMsg.UniqueCode = lpMsg->UniqueCode;
-	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 }
 void CItemShop::CGCashInventoryItemUse(CGameObject &lpObj, PMSG_REQ_INGAMESHOP_ITEMUSE *lpMsg)
 {
@@ -634,35 +634,35 @@ void CItemShop::CGCashInventoryItemUse(CGameObject &lpObj, PMSG_REQ_INGAMESHOP_I
 	if(lpItem == NULL)
 	{
 		pMsg.result = CS_USE_ITEM_INTERNAL_ERROR;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
 	if(lpItem->ItemKindA == 11 && CheckEventInventoryEmptySpace(lpObj, lpItem->Height, lpItem->Width) == false)
 	{
 		pMsg.result = CS_USE_ITEM_CANNOT_USE;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
 	else if(lpItem->ItemKindA == 12 && gObjChkMuunInventoryEmpty(lpObj) == false)
 	{
 		pMsg.result = CS_USE_ITEM_CANNOT_USE;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
 	else if ( ::CheckInventoryEmptySpace(lpObj, lpItem->Height, lpItem->Width ) == 0 )
 	{
 		pMsg.result = CS_USE_ITEM_CANNOT_USE;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
 	if(this->CheckBuyCondition(lpObj, lpMsg->ItemID) == false)
 	{
 		pMsg.result = CS_USE_ITEM_CANNOT_USE;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -687,7 +687,7 @@ void CItemShop::GCCashInventoryItemUse(CGameObject &lpObj, int Result, int Uniqu
 	if(Iter == this->MapItemInfo.end())
 	{
 		pMsg.result = CS_USE_ITEM_INTERNAL_ERROR;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -696,7 +696,7 @@ void CItemShop::GCCashInventoryItemUse(CGameObject &lpObj, int Result, int Uniqu
 	if(lpItemInfo == NULL)
 	{
 		pMsg.result = CS_USE_ITEM_INTERNAL_ERROR;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -704,7 +704,7 @@ void CItemShop::GCCashInventoryItemUse(CGameObject &lpObj, int Result, int Uniqu
 	{
 		GDReqInGameShopItemRollbackUse(lpObj.m_Index, UniqueCode, AuthCode);
 		pMsg.result = CS_USE_ITEM_CANNOT_USE;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -712,7 +712,7 @@ void CItemShop::GCCashInventoryItemUse(CGameObject &lpObj, int Result, int Uniqu
 	{
 		GDReqInGameShopItemRollbackUse(lpObj.m_Index, UniqueCode, AuthCode);
 		pMsg.result = CS_USE_ITEM_CANNOT_USE;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -720,14 +720,14 @@ void CItemShop::GCCashInventoryItemUse(CGameObject &lpObj, int Result, int Uniqu
 	{
 		GDReqInGameShopItemRollbackUse(lpObj.m_Index, UniqueCode, AuthCode);
 		pMsg.result = CS_USE_ITEM_CANNOT_USE;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
 	if(Result == 0)
 	{
 		pMsg.result = CS_USE_ITEM_NOT_EXISTS;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -759,7 +759,7 @@ void CItemShop::GCCashInventoryItemUse(CGameObject &lpObj, int Result, int Uniqu
 		else
 		{
 			pMsg.result = CS_USE_ITEM_CANNOT_USE;
-			IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 			return;
 		}
 	}
@@ -770,7 +770,7 @@ void CItemShop::GCCashInventoryItemUse(CGameObject &lpObj, int Result, int Uniqu
 		{
 			GDReqInGameShopItemRollbackUse(lpObj.m_Index, UniqueCode, AuthCode);
 			pMsg.result = CS_USE_ITEM_TICKET_ERROR;
-			IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 			return;
 		}
 
@@ -778,7 +778,7 @@ void CItemShop::GCCashInventoryItemUse(CGameObject &lpObj, int Result, int Uniqu
 		{
 			GDReqInGameShopItemRollbackUse(lpObj.m_Index, UniqueCode, AuthCode);
 			pMsg.result = CS_USE_ITEM_TICKET_ERROR;
-			IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 			return;
 		}
 
@@ -851,7 +851,7 @@ void CItemShop::GCCashInventoryItemUse(CGameObject &lpObj, int Result, int Uniqu
 	GDReqInGameShopItemDelete(lpObj.m_Index, UniqueCode, AuthCode);
 
 	pMsg.result = CS_USE_ITEM_SUCCESS;
-	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 
 	ITEMSHOP_LOG->Output("[ItemShop] [%s][%s] Using Item Success: (%d/%d) (ID:%d/%d) (Code:%d) (Auth:%d)", lpObj.AccountID, lpObj.Name, ID2, ID3, Iter->second.wItemGroup, Iter->second.wItemType, UniqueCode, AuthCode);
 
@@ -888,7 +888,7 @@ void CItemShop::CGCashItemBuy(CGameObject &lpObj, PMSG_REQ_INGAMESHOP_ITEMBUY *l
 	if(Iter == this->VecItemList.end())
 	{
 		pMsg.Result = 6;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -898,7 +898,7 @@ void CItemShop::CGCashItemBuy(CGameObject &lpObj, PMSG_REQ_INGAMESHOP_ITEMBUY *l
 		if(Iter2 == this->MapItemInfo.end())
 		{
 			pMsg.Result = 6;
-			IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 			return;
 		}
 	}
@@ -906,14 +906,14 @@ void CItemShop::CGCashItemBuy(CGameObject &lpObj, PMSG_REQ_INGAMESHOP_ITEMBUY *l
 	if(Iter->btEnableForSale == FALSE)
 	{
 		pMsg.Result = 6;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
 	if(this->CheckBuyCondition(lpObj, lpMsg->ItemID) == false)
 	{
 		pMsg.Result = 6;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -938,7 +938,7 @@ void CItemShop::CGCashItemBuy(CGameObject &lpObj, PMSG_REQ_INGAMESHOP_ITEMBUY *l
 	if(UserCoin < Iter->wPrice)
 	{
 		pMsg.Result = 1;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -952,7 +952,7 @@ void CItemShop::CGCashItemBuy(CGameObject &lpObj, PMSG_REQ_INGAMESHOP_ITEMBUY *l
 			if(GUID == -1 || ID == -1)
 			{
 				pMsg.Result = 6;
-				IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+				IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 				return;
 			}
 
@@ -1074,7 +1074,7 @@ void CItemShop::CGCashItemGift(CGameObject &lpObj, PMSG_REQ_CASHITEM_GIFT *lpMsg
 	if (this->bIsGiftSystem == FALSE)
 	{
 		pMsg.Result = 7;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -1091,7 +1091,7 @@ void CItemShop::CGCashItemGift(CGameObject &lpObj, PMSG_REQ_CASHITEM_GIFT *lpMsg
 	if(Iter == this->VecItemList.end()) 
 	{
 		pMsg.Result = 7;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -1102,7 +1102,7 @@ void CItemShop::CGCashItemGift(CGameObject &lpObj, PMSG_REQ_CASHITEM_GIFT *lpMsg
 		if(Iter2 == this->MapItemInfo.end())
 		{
 			pMsg.Result = 7;
-			IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 			return;
 		}
 	}
@@ -1110,7 +1110,7 @@ void CItemShop::CGCashItemGift(CGameObject &lpObj, PMSG_REQ_CASHITEM_GIFT *lpMsg
 	if(Iter->btEnableForGift == FALSE)
 	{
 		pMsg.Result = 7;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -1135,7 +1135,7 @@ void CItemShop::CGCashItemGift(CGameObject &lpObj, PMSG_REQ_CASHITEM_GIFT *lpMsg
 	if(UserCoin < Iter->wPrice)
 	{
 		pMsg.Result = 1;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -1149,7 +1149,7 @@ void CItemShop::CGCashItemGift(CGameObject &lpObj, PMSG_REQ_CASHITEM_GIFT *lpMsg
 			if(GUID == -1 || ID == -1)
 			{
 				pMsg.Result = 7;
-				IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+				IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 				return;
 			}
 
@@ -1230,14 +1230,14 @@ void CItemShop::GCCashItemBuy(CGameObject &lpObj, int ID1, int ID2, int ID3, int
 	{
 		ITEMSHOP_LOG->Output("[ItemShop] (%s)(%s) Purchase Failed (%d) - Item does not found in CashItemList (ItemInfo) (GUID:%d)(ID:%d)", lpObj.AccountID, lpObj.Name, Result, ID2, ID3);
 		pMsg.Result = 2;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 	}
 
 	else if(Result == 2)
 	{
 		ITEMSHOP_LOG->Output("[ItemShop] (%s)(%s) Purchase Failed (%d) - Not enough money (GUID:%d)(ID:%d)", lpObj.AccountID, lpObj.Name, Result, ID2, ID3);
 		pMsg.Result = 1;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 	}
 
 	else if(Result == 1)
@@ -1245,7 +1245,7 @@ void CItemShop::GCCashItemBuy(CGameObject &lpObj, int ID1, int ID2, int ID3, int
 		ITEMSHOP_LOG->Output("[ItemShop] (%s)(%s) Purchase Success (%d) (GUID:%d)(ID:%d)", lpObj.AccountID, lpObj.Name, Result, ID2, ID3);
 		
 		pMsg.Result = 0;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 
 		PMSG_REQ_INGAMESHOP_INVENTORY pList = {0};
 		pList.InventoryType = 0x53;
@@ -1265,14 +1265,14 @@ void CItemShop::GCCashItemGift(CGameObject &lpObj, int ID1, int ID2, int ID3, in
 	{
 		ITEMSHOP_LOG->Output("[ItemShop] (%s)(%s) Purchase Failed (Gift) (%d) - Item does not found in CashItemList (ItemInfo) (GUID:%d)(ID:%d)", lpObj.AccountID, lpObj.Name, Result, ID2, ID3);
 		pMsg.Result = 3;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 	}
 
 	else if(Result == 2)
 	{
 		ITEMSHOP_LOG->Output("[ItemShop] (%s)(%s) Purchase Failed (Gift) (%d) - Not enough money (GUID:%d)(ID:%d)", lpObj.AccountID, lpObj.Name, Result, ID2, ID3);
 		pMsg.Result = 1;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 	}
 
 	else if(Result == 1)
@@ -1280,7 +1280,7 @@ void CItemShop::GCCashItemGift(CGameObject &lpObj, int ID1, int ID2, int ID3, in
 		ITEMSHOP_LOG->Output("[ItemShop] (%s)(%s) Purchase Success (Gift) (%d) (GUID:%d)(ID:%d)", lpObj.AccountID, lpObj.Name, Result, ID2, ID3);
 		
 		pMsg.Result = 0;
-		IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 
 		this->CGCashPoint(lpObj);
 	}
@@ -1294,14 +1294,14 @@ void CItemShop::GCShopVersion(CGameObject &lpObj)
 	pMsg.ver.Ver2 = this->ItemVer2;
 	pMsg.ver.Ver3 = this->ItemVer3;
 
-	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xD2, 0x15, sizeof(pMsg));
 	pMsg.ver.Ver1 = this->BannerVer1;
 	pMsg.ver.Ver2 = this->BannerVer2;
 	pMsg.ver.Ver3 = this->BannerVer3;
 
-	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 BOOL IsCashItem(int iItemCode)

@@ -49,7 +49,7 @@ void CGReqQuestSwitch(PMSG_REQ_QUESTEXP *pMsg, int aIndex)
         pAnsMsg.btResult = 1;
 
         PHeadSubSetB((LPBYTE)&pAnsMsg, 0xF6, 0x00, sizeof(pAnsMsg));
-        IOCP.DataSend(lpObj, (LPBYTE)&pAnsMsg, sizeof(pAnsMsg));
+        IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pAnsMsg, sizeof(pAnsMsg));
     }
 }
 

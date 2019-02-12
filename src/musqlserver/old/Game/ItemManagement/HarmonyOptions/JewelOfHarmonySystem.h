@@ -35,21 +35,21 @@ public:
 	BYTE GetItemOptionLevel(CItem* pItem);
 	BOOL IsActive(CItem* pItem);
 	BOOL IsStrengthenByJewelOfHarmony(CItem* pItem);
-	BOOL StrengthenItemByJewelOfHarmony(struct CGameObject &lpObj, int source, int target);
-	BOOL StrengthenItemByJewelOfRise(struct CGameObject &lpObj, int source, int target);
-	void StrengthenItemByMacro(struct CGameObject &lpObj, BYTE invenrotyTargetPos, BYTE btOptionType,  BYTE btOptionLevel);
-	void SetApplyStrengthenItem(struct CGameObject &lpObj);
+	BOOL StrengthenItemByJewelOfHarmony(CGameObject &lpObj, int source, int target);
+	BOOL StrengthenItemByJewelOfRise(CGameObject &lpObj, int source, int target);
+	void StrengthenItemByMacro(CGameObject &lpObj, BYTE invenrotyTargetPos, BYTE btOptionType,  BYTE btOptionLevel);
+	void SetApplyStrengthenItem(CGameObject &lpObj);
 	void InitEffectValue(JEWELOFHARMONY_ITEM_EFFECT* pItemEffect);
 	int GetItemEffectValue(CItem* pItem, int iOptionType);
 	BOOL IsEnableToMakeSmeltingStoneItem(CItem* pItem);
-	BOOL MakeSmeltingStoneItem(struct CGameObject &lpObj);
-	BOOL MakeSmeltingStoneItem_MultiMix(struct CGameObject &lpObj, int iMixCount);
-	BOOL SmeltItemBySmeltingStone(struct CGameObject &lpObj, int source, int target);
-	BOOL RestoreStrengthenItem(struct CGameObject &lpObj);
-	BYTE MakeCharSetData(struct CGameObject &lpObj);
-	BOOL NpcJewelOfHarmony(struct CGameObject  lpNpc, struct CGameObject &lpObj);
+	BOOL MakeSmeltingStoneItem(CGameObject &lpObj);
+	BOOL MakeSmeltingStoneItem_MultiMix(CGameObject &lpObj, int iMixCount);
+	BOOL SmeltItemBySmeltingStone(CGameObject &lpObj, int source, int target);
+	BOOL RestoreStrengthenItem(CGameObject &lpObj);
+	BYTE MakeCharSetData(CGameObject &lpObj);
+	BOOL NpcJewelOfHarmony(CGameObject &lpNpc, CGameObject &lpObj);
 	BYTE ShowStrengthenOption(CItem* pItem);
-	BOOL IsEnableToTrade(struct CGameObject &lpObj);
+	BOOL IsEnableToTrade(CGameObject &lpObj);
 
 	BOOL m_bSystemSmeltingItem;	// 5328
 	BOOL _MakeOption(CItem* pItem, BYTE btOptionType, BYTE btOptionLevel);
@@ -86,7 +86,7 @@ private:
 	int m_iRateSmeltingSuccessNor;	// 5344
 	int m_iRateSmeltingSuccessExt;	// 5348
 	std::map<int,int> m_mapEnableMixList;	// 534C
-	//TRandomPoolMgr m_kRandomPool;	// 535C
+	TRandomPoolMgr m_kRandomPool;	// 535C
 };
 
 extern CJewelOfHarmonySystem g_kJewelOfHarmonySystem;

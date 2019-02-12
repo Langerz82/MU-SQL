@@ -528,7 +528,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 			pMsg.X = x + (rand() % 5) * 2 - 4;
 			pMsg.Y = y + (rand() % 5) * 2 - 4;
 			GSProtocol.MsgSendV2(lpObj, (UCHAR*)&pMsg, sizeof(pMsg));
-			::IOCP.DataSend(lpObj, (UCHAR*)&pMsg, sizeof(pMsg));
+			::IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (UCHAR*)&pMsg, sizeof(pMsg));
 		}
 	}
 	break;

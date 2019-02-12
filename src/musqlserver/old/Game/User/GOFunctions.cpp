@@ -17922,7 +17922,7 @@ void gObjSecondProc()
 					if ((GetTickCount64() - lpObj.m_dwDCTimer) > 5000)
 					{
 						//BYTE btKillClient[] = { 0xC1, 0x04, 0xFA, 0xA6 };
-						//IOCP.DataSend(lpObj, btKillClient, sizeof(btKillClient));
+						//IOCP.DataSend(lpObj.m_PlayerData->IDNumber, btKillClient, sizeof(btKillClient));
 						//	sLog->outError( "(%d)[%s][%s][%s] User did not disconnect upon request. Modified client?", lpObj, lpObj.m_PlayerData->Ip_addr, lpObj.AccountID, lpObj.Name);
 					}
 				}
@@ -18886,7 +18886,7 @@ void gObjViewportListProtocolCreate(CGameObject &lpObj)
 
 		memcpy(sendBuf, &pwCount, sizeof(pwCount));
 
-		IOCP.DataSend(lpObj, sendBuf, lOfs); //[K2]
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, sendBuf, lOfs); //[K2]
 
 		if (lpObj.m_PlayerData->GuildNumber != 0)
 		{
@@ -18931,7 +18931,7 @@ void gObjViewportListProtocolCreate(CGameObject &lpObj)
 
 			memcpy(GuildInfoBuf, &pwCount, sizeof(pwCount));
 
-			IOCP.DataSend(lpObj, GuildInfoBuf, GuildInfoOfs);
+			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, GuildInfoBuf, GuildInfoOfs);
 		}
 
 		g_GensSystem.SendGensInfo(lpObj);
@@ -19205,7 +19205,7 @@ void gObjViewportListProtocol(short lpObj)
 			pCount.count = count;
 
 			memcpy(sendBuf, &pCount, sizeof(pCount));
-			IOCP.DataSend(lpObj, sendBuf, lOfs);
+			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, sendBuf, lOfs);
 		}
 
 		if (count_Item > 0)
@@ -19217,7 +19217,7 @@ void gObjViewportListProtocol(short lpObj)
 			pItemCount.count = count_Item;
 
 			memcpy(ItemBuf, &pItemCount, sizeof(pItemCount));
-			IOCP.DataSend(lpObj, ItemBuf, lOfs_Item);
+			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, ItemBuf, lOfs_Item);
 		}
 	}
 
@@ -19782,7 +19782,7 @@ void gObjViewportListProtocol(short lpObj)
 				pCount.count = count;
 
 				memcpy(sendBuf, &pCount, sizeof(pCount));
-				IOCP.DataSend(lpObj, (unsigned char *)&sendBuf, lOfs);
+				IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&sendBuf, lOfs);
 			}
 
 			if (ChangeCount > 0)
@@ -19796,7 +19796,7 @@ void gObjViewportListProtocol(short lpObj)
 				pCount.count = ChangeCount;
 
 				memcpy(SendGBufChange, &pCount, sizeof(pCount));
-				IOCP.DataSend(lpObj, (unsigned char *)&SendGBufChange, lOfsChange);
+				IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&SendGBufChange, lOfsChange);
 			}
 
 			if (monstercount > 0)
@@ -19810,7 +19810,7 @@ void gObjViewportListProtocol(short lpObj)
 				pCount.count = monstercount;
 
 				memcpy(MonstersendBuf, &pCount, sizeof(pCount));
-				IOCP.DataSend(lpObj, (unsigned char *)&MonstersendBuf, MonlOfs);
+				IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&MonstersendBuf, MonlOfs);
 			}
 
 			if (callmonstercount > 0)
@@ -19824,7 +19824,7 @@ void gObjViewportListProtocol(short lpObj)
 				pCount.count = callmonstercount;
 
 				memcpy(callMonstersendBuf, &pCount, sizeof(pCount));
-				IOCP.DataSend(lpObj, (unsigned char *)&callMonstersendBuf, callMonlOfs);
+				IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&callMonstersendBuf, callMonlOfs);
 			}
 
 			if (count_Item > 0)
@@ -19838,7 +19838,7 @@ void gObjViewportListProtocol(short lpObj)
 				pCount.h.sizeL = SET_NUMBERL(lOfs_Item);
 
 				memcpy(ItemBuf, &pCount, sizeof(pCount));
-				IOCP.DataSend(lpObj, (unsigned char *)&ItemBuf, lOfs_Item);
+				IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&ItemBuf, lOfs_Item);
 			}
 
 			if (GuildInfoCount != 0)
@@ -19852,7 +19852,7 @@ void gObjViewportListProtocol(short lpObj)
 				pCount.count = GuildInfoCount;
 
 				memcpy(GuildInfoBuf, &pCount, sizeof(pCount));
-				IOCP.DataSend(lpObj, (unsigned char *)&GuildInfoBuf, GuildInfoOfs);
+				IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&GuildInfoBuf, GuildInfoOfs);
 			}
 
 			if (GensInfoCount != 0)
@@ -19866,7 +19866,7 @@ void gObjViewportListProtocol(short lpObj)
 				pGensCount.Count = GensInfoCount;
 
 				memcpy(GensInfoBuf, &pGensCount, sizeof(pGensCount));
-				IOCP.DataSend(lpObj, (unsigned char *)&GensInfoBuf, GensInfoOfs);
+				IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&GensInfoBuf, GensInfoOfs);
 			}
 		}
 	}
@@ -20664,7 +20664,7 @@ BOOL gObjMoveGate(CGameObject &lpObj, int gt)
 			PHeadSubSetB((LPBYTE)&pMsg, 0xEF, 0x09, sizeof(pMsg));
 
 			pMsg.iResult = -1;
-			IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 			return FALSE;
 		}
 	}
@@ -20943,7 +20943,7 @@ BOOL gObjMoveGate(CGameObject &lpObj, int gt)
 
 					PHeadSubSetB((LPBYTE)&pMsg, 0xEFu, 0x09, sizeof(pMsg));
 					pMsg.iResult = -2;
-					IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+					IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 				}
 			}
 		}
@@ -23206,14 +23206,14 @@ void gObjUseCircle(CGameObject &lpObj, int pos)
 	if (lpObj.Level <= 10 || level > 3)
 	{
 		pResult.result |= 0xC0;
-		IOCP.DataSend(lpObj, (unsigned char*)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char*)&pResult, pResult.h.size);
 		return;
 	}
 
 	if (gObjCheckStatPointUp(lpObj) == 0)
 	{
 		pResult.result |= 0xC0;
-		IOCP.DataSend(lpObj, (unsigned char*)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char*)&pResult, pResult.h.size);
 		return;
 	}
 
@@ -23286,7 +23286,7 @@ void gObjUseCircle(CGameObject &lpObj, int pos)
 		pResult.result |= level * 16;
 		pResult.result |= AddStat;
 
-		IOCP.DataSend(lpObj, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&pResult, pResult.h.size);
 
 		incvalue = AddStat;
 
@@ -23298,7 +23298,7 @@ void gObjUseCircle(CGameObject &lpObj, int pos)
 		pResult.result |= level * 16;
 		pResult.result = pResult.result;
 
-		IOCP.DataSend(lpObj, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&pResult, pResult.h.size);
 		sLog->outBasic("[StatUp] [%s][%s] Fail [%d] %d", lpObj.AccountID, lpObj.Name, level, iSerial);
 		return;
 	}
@@ -23355,14 +23355,14 @@ void gObjUsePlusStatFruit(CGameObject &lpObj, int pos)
 	if (lpObj.Level <= 9 || iItemLevel > 4)
 	{
 		pResult.result = 2;
-		IOCP.DataSend(lpObj, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&pResult, pResult.h.size);
 		return;
 	}
 
 	if (iItemLevel == 4 && lpObj.Class != 4)
 	{
 		pResult.result = 2;
-		IOCP.DataSend(lpObj, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&pResult, pResult.h.size);
 		return;
 	}
 
@@ -23373,7 +23373,7 @@ void gObjUsePlusStatFruit(CGameObject &lpObj, int pos)
 			if (g_ConfigRead.data.common.joinmuFruitRequireUnWearItem == true)
 			{
 				pResult.result = 16;
-				IOCP.DataSend(lpObj, (unsigned char *)&pResult, pResult.h.size);
+				IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&pResult, pResult.h.size);
 				return;
 			}
 		}
@@ -23382,7 +23382,7 @@ void gObjUsePlusStatFruit(CGameObject &lpObj, int pos)
 	if (gObjCheckStatPointUp(lpObj) == false)
 	{
 		pResult.result = 33;
-		IOCP.DataSend(lpObj, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&pResult, pResult.h.size);
 		return;
 	}
 
@@ -23463,7 +23463,7 @@ void gObjUsePlusStatFruit(CGameObject &lpObj, int pos)
 		pResult.btStatValue = AddStat;
 		pResult.btFruitType = iItemLevel;
 
-		IOCP.DataSend(lpObj, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&pResult, pResult.h.size);
 		iIncStat = AddStat;
 
 		sLog->outBasic("[StatUp] [%s][%s] Success [%d][%d] %d",
@@ -23475,7 +23475,7 @@ void gObjUsePlusStatFruit(CGameObject &lpObj, int pos)
 		pResult.btStatValue = 0;
 		pResult.btFruitType = iItemLevel;
 
-		IOCP.DataSend(lpObj, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&pResult, pResult.h.size);
 
 		sLog->outBasic("[StatUp] [%s][%s] Fail [%d] %d",
 			lpObj.AccountID, lpObj.Name, iItemLevel, iItemSerial);
@@ -23528,14 +23528,14 @@ void gObjUseMinusStatFruit(CGameObject &lpObj, int pos)
 	if (lpObj.Level <= 9 || iItemLevel > 4)
 	{
 		pResult.result = 5;
-		IOCP.DataSend(lpObj, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&pResult, pResult.h.size);
 		return;
 	}
 
 	if (iItemLevel == 4 && lpObj.Class != 4)
 	{
 		pResult.result = 5;
-		IOCP.DataSend(lpObj, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&pResult, pResult.h.size);
 		return;
 	}
 
@@ -23546,7 +23546,7 @@ void gObjUseMinusStatFruit(CGameObject &lpObj, int pos)
 			if (g_ConfigRead.data.common.joinmuFruitRequireUnWearItem == true)
 			{
 				pResult.result = 16;
-				IOCP.DataSend(lpObj, (unsigned char *)&pResult, pResult.h.size);
+				IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&pResult, pResult.h.size);
 				return;
 			}
 		}
@@ -23610,7 +23610,7 @@ void gObjUseMinusStatFruit(CGameObject &lpObj, int pos)
 	if (bEnableUseFruit == 0)
 	{
 		pResult.result = 38;
-		IOCP.DataSend(lpObj, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&pResult, pResult.h.size);
 		return;
 	}
 
@@ -23624,7 +23624,7 @@ void gObjUseMinusStatFruit(CGameObject &lpObj, int pos)
 	if (MinusPoint >= MaxMinusPoint || MinusPoint < 0)
 	{
 		pResult.result = 37;
-		IOCP.DataSend(lpObj, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&pResult, pResult.h.size);
 		return;
 	}
 
@@ -23694,7 +23694,7 @@ void gObjUseMinusStatFruit(CGameObject &lpObj, int pos)
 		pResult.btFruitType = iItemLevel;
 		pResult.btStatValue = iDecStat;
 
-		IOCP.DataSend(lpObj, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&pResult, pResult.h.size);
 		sLog->outBasic("[StatDown] [%s][%s] Success [%d][%d] %d",
 			lpObj.AccountID, lpObj.Name, iItemLevel, iDecStat, iItemSerial);
 	}
@@ -23703,7 +23703,7 @@ void gObjUseMinusStatFruit(CGameObject &lpObj, int pos)
 		pResult.result = 4;
 		pResult.btFruitType = iItemLevel;
 		pResult.btStatValue = 0;
-		IOCP.DataSend(lpObj, (unsigned char *)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&pResult, pResult.h.size);
 		sLog->outBasic("[StatDown] [%s][%s] Fail [%d] %d",
 			lpObj.AccountID, lpObj.Name, iItemLevel, iItemSerial);
 		return;
@@ -23791,7 +23791,7 @@ void CashShopExMinusStatFruit(CGameObject &lpObj, int pos) //GS-CS Need Decompil
 			if (g_ConfigRead.data.common.joinmuFruitRequireUnWearItem == true)
 			{
 				pResult.result = 16;
-				IOCP.DataSend(lpObj, (unsigned char *)&pResult, pResult.h.size);
+				IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&pResult, pResult.h.size);
 				return;
 			}
 		}
@@ -23883,7 +23883,7 @@ void CashShopExMinusStatFruit(CGameObject &lpObj, int pos) //GS-CS Need Decompil
 		pResult.btFruitType = iItemLevel;
 		pResult.btStatValue = iStatPoint;
 
-		IOCP.DataSend(lpObj, (LPBYTE)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pResult, pResult.h.size);
 
 		switch (iItemLevel)
 		{
@@ -23907,7 +23907,7 @@ void CashShopExMinusStatFruit(CGameObject &lpObj, int pos) //GS-CS Need Decompil
 	else
 	{
 		pResult.result = 38;
-		IOCP.DataSend(lpObj, (LPBYTE)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pResult, pResult.h.size);
 
 		sLog->outBasic("[InGameShop][ExMinusStatPoint] [%s][%s] MinusStat[%d]",
 			lpObj.AccountID, lpObj.Name, iStatPoint);
@@ -24418,7 +24418,7 @@ void gObjRecall(CGameObject &lpObj, int mapnumber, int x, int y)
 		pAttack.TargetNumberH = SET_NUMBERH(lpObj);
 		pAttack.TargetNumberL = SET_NUMBERL(lpObj);
 
-		IOCP.DataSend(lpObj, (unsigned char *)&pAttack, pAttack.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)&pAttack, pAttack.h.size);
 		GSProtocol.MsgSendV2(*gGameObjects[lpObj], (unsigned char*)&pAttack, pAttack.h.size);
 
 		gObjTeleportMagicUse(lpObj, x, y);
@@ -24794,7 +24794,7 @@ void gObjNotifyUpdateUnionV1(CGameObject &lpObj)
 
 		PHeadSetW((unsigned char *)lpMsg, 0x67, iVp1Count * sizeof(PMSG_UNION_VIEWPORT_NOTIFY) + sizeof(PMSG_UNION_VIEWPORT_NOTIFY_COUNT));
 
-		IOCP.DataSend(lpObj, (unsigned char *)lpMsg, ((lpMsg->h.sizeL & 0xFF) & 0xFF | ((lpMsg->h.sizeH & 0xFF) & 0xFF) << 8) & 0xFFFF);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)lpMsg, ((lpMsg->h.sizeL & 0xFF) & 0xFF | ((lpMsg->h.sizeH & 0xFF) & 0xFF) << 8) & 0xFFFF);
 	}
 	else
 	{
@@ -24841,7 +24841,7 @@ void gObjNotifyUpdateUnionV2(CGameObject &lpObj)
 
 	PHeadSetW((unsigned char *)lpMsg2, 0x67, sizeof(lpMsg2) + sizeof(lpMsgBody2[0]) + 1);
 
-	IOCP.DataSend(lpObj, (unsigned char *)lpMsg2, ((lpMsg2->h.sizeL & 0xFF) & 0xFF | ((lpMsg2->h.sizeH & 0xFF) & 0xFF) << 8) & 0xFFFF);
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (unsigned char *)lpMsg2, ((lpMsg2->h.sizeL & 0xFF) & 0xFF | ((lpMsg2->h.sizeH & 0xFF) & 0xFF) << 8) & 0xFFFF);
 
 	for (int n = 0; n < MAX_VIEWPORT; n++)
 	{
@@ -24944,7 +24944,7 @@ void gObjSetKillCount(CGameObject &lpObj, int iOption)	// Option : [0 : SetToZer
 
 	pMsg.btKillCount = lpObj.m_btKillCount;
 
-	IOCP.DataSend(lpObj, (UCHAR*)&pMsg, sizeof(pMsg));
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (UCHAR*)&pMsg, sizeof(pMsg));
 }
 
 struct PMSG_NOTIFY_REGION_OF_WEAPON
@@ -29299,7 +29299,7 @@ void gObjMuBotProc(CGameObject &lpObj)
 		if (lpObj.m_iMUBOT_TIME >= 60000)
 		{
 			pMsg.Status = 1;
-			IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 			return;
 		}
 
@@ -29348,7 +29348,7 @@ void gObjMuBotProc(CGameObject &lpObj)
 				pMsg.Time = lpObj.m_iMUBOT_TIME / 60;
 			}
 
-			IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 		}
 	}
 }

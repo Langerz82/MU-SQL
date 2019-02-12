@@ -99,7 +99,7 @@ bool CRuudStore::NpcTalk(CGameObject & lpNpc, CGameObject &lpObj)
 	pResult.h.size = sizeof(pResult);
 	pResult.result = 0x35;
 
-	IOCP.DataSend(lpObj, (LPBYTE)&pResult, pResult.h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pResult, pResult.h.size);
 
 	PMSG_SHOPITEMCOUNT pShopItemCount;
 	BYTE SendByte[4096];
@@ -127,7 +127,7 @@ bool CRuudStore::NpcTalk(CGameObject & lpNpc, CGameObject &lpObj)
 	pShopItemCount.h.sizeL = LOBYTE(lOfs);
 	memcpy(SendByte, &pShopItemCount, sizeof(pShopItemCount));
 
-	IOCP.DataSend(lpObj, SendByte, lOfs);
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, SendByte, lOfs);
 }
 
 void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, int iIndex)

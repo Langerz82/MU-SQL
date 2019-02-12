@@ -284,7 +284,7 @@ BOOL CPeriodItemEx::RemovePeriodItemData(CGameObject &lpObj, BYTE ItemType, WORD
 			if (pChange.ItemInfo[5] == 0xF0)
 				pChange.ItemInfo[5] = 0xF1;
 
-			IOCP.DataSend(lpObj, (LPBYTE)&pChange, pChange.h.size);
+			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pChange, pChange.h.size);
 			GSProtocol.MsgSendV2(lpObj, (LPBYTE)&pChange, pChange.h.size);
 		}
 	}
@@ -855,7 +855,7 @@ void CPeriodItemEx::OnRequestPeriodItemList(CGameObject &lpObj)
 	
 	pMsg1.btCount = this->m_PeriodData[PeriodIndex].btItemCount;
 
-	IOCP.DataSend(lpObj, (LPBYTE)&pMsg1, sizeof(pMsg1));
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg1, sizeof(pMsg1));
 
 	if ( this->m_PeriodData[PeriodIndex].btUsedInfo == TRUE )
 	{
@@ -867,7 +867,7 @@ void CPeriodItemEx::OnRequestPeriodItemList(CGameObject &lpObj)
 				pMsg2.Pos = this->GetItemFromInventory(lpObj, this->m_PeriodData[PeriodIndex].m_ItemInfo[i].wItemCode, this->m_PeriodData[PeriodIndex].m_ItemInfo[i].Serial);
 				pMsg2.Time = this->m_PeriodData[PeriodIndex].m_ItemInfo[i].lItemExpireDate;
 
-				IOCP.DataSend(lpObj, (LPBYTE)&pMsg2, sizeof(pMsg2));
+				IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg2, sizeof(pMsg2));
 			}
 		}
 	}
@@ -886,7 +886,7 @@ void CPeriodItemEx::OnRequestPeriodItemListOnce(CGameObject &lpObj, ITEM_DATA * 
 	pMsg.Pos = this->GetItemFromInventory(lpObj, lpItemData->wItemCode, lpItemData->Serial);
 	pMsg.Time = lpItemData->lItemExpireDate;
 
-	IOCP.DataSend(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 BOOL CPeriodItemEx::SendPeriodItemInfoOnce(CGameObject &lpObj, CItem * Item)

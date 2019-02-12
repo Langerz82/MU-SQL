@@ -370,7 +370,7 @@ public:
 	void ShieldPotionLv3_Mix_Multi(CGameObject &lpObj, int iMixCount);
 	void PremiumBoxMix_Multi(CGameObject &lpObj, int iMixCount);
 	void JewelOfHarmonyItemPurityMix(CGameObject &lpObj);
-	void PurityJewelOfHarmony_MultiMix(struct CGameObject &lpObj, int iMixCount);
+	void PurityJewelOfHarmony_MultiMix(CGameObject &lpObj, int iMixCount);
 private:
 	int			CHAOS_GEM_ITEMINDEX;
 	int			BLESS_GEM_ITEMINDEX;
