@@ -269,7 +269,7 @@ BYTE gObjEventInvenItemOverlap(CGameObject &lpObj, int *durSsend, int *durTsend,
 			{
 				gObjEventInventoryItemSet(lpObj, target, -1);
 				lpObj.pEventInventory[target].Clear();
-				GSProtocol.GCEventInventoryItemDeleteSend(lpObj, target, TRUE);
+				gGameProtocol.GCEventInventoryItemDeleteSend(lpObj, target, TRUE);
 				// TODO - Send to player
 
 				*durTsend = FALSE;
@@ -293,7 +293,7 @@ BYTE gObjEventInvenItemOverlap(CGameObject &lpObj, int *durSsend, int *durTsend,
 			{
 				gObjEventInventoryItemSet(lpObj, target, -1);
 				lpObj.pEventInventory[target].Clear();
-				GSProtocol.GCEventInventoryItemDeleteSend(lpObj, target, TRUE); // TODO Send Player.
+				gGameProtocol.GCEventInventoryItemDeleteSend(lpObj, target, TRUE); // TODO Send Player.
 
 				*durTsend = FALSE;
 			}
@@ -303,7 +303,7 @@ BYTE gObjEventInvenItemOverlap(CGameObject &lpObj, int *durSsend, int *durTsend,
 				*durTsend = TRUE;
 			}
 
-			ItemSerialCreateSend(lpObj.m_Index, 226, lpObj.X, lpObj.Y, ITEMGET(14, 244), sitem->m_Level, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+			ItemSerialCreateSend(lpObj, 226, lpObj.X, lpObj.Y, ITEMGET(14, 244), sitem->m_Level, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 			// TODO Add DB.
 		}
 
@@ -311,7 +311,7 @@ BYTE gObjEventInvenItemOverlap(CGameObject &lpObj, int *durSsend, int *durTsend,
 		{
 			gObjEventInventoryItemSet(lpObj, source, -1);
 			sitem->Clear();
-			GSProtocol.GCEventInventoryItemDeleteSend(lpObj, source, FALSE); // TODO - Send Player.
+			gGameProtocol.GCEventInventoryItemDeleteSend(lpObj, source, FALSE); // TODO - Send Player.
 			*durSsend = TRUE;
 			return 21;
 		}
@@ -481,7 +481,7 @@ BYTE gObjEventInventoryTradeMove(CGameObject &lpObj, BYTE source, BYTE target)
 		gObjEventInventoryDeleteItem(lpObj, source);
 		gObjTradeItemBoxSet(lpObj, blank, iwidth, iheight, lpObj.Trade[blank].m_Type);
 		ItemByteConvert(itembuf, lpObj.Trade[blank]);
-		GSProtocol.GCTradeOtherAdd(lpObj, blank, itembuf); // TODO Send Player.
+		gGameProtocol.GCTradeOtherAdd(lpObj, blank, itembuf); // TODO Send Player.
 		return true;
 	}
 
@@ -541,7 +541,7 @@ BYTE gObjTradeEventInventoryMove(CGameObject &lpObj, BYTE source, BYTE target)
 
 	ItemByteConvert(itembuf, lpObj.Trade[source]);
 
-	GSProtocol.GCTradeOtherDel(lpObj, source); // TODO Send Player
+	gGameProtocol.GCTradeOtherDel(lpObj, source); // TODO Send Player
 
 	if (gObjCheckSerial0ItemList(&lpObj.Trade[source]) != 0)
 	{
@@ -830,7 +830,7 @@ BOOL gObjEventInventorySearchSerialNum(CGameObject &lpObj, UINT64 serial)
 		if (s_num != 0 && s_num == serial && s_num != (UINT64)-1)
 		{
 			sLog->outBasic("error-L1: CopyItem Id[%s] Char[%s] Item[%s] InventoryPos[%d] serial[%I64d]", lpObj.AccountID, lpObj.Name, lpObj.pEventInventory[n].GetName(), n, s_num);
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 15), lpObj, 1); // TODO Send to game server.
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 15), lpObj, 1); // TODO Send to game server.
 			gObjUserKill(lpObj);
 		}
 	}

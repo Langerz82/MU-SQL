@@ -518,14 +518,14 @@ void CXMasAttackEvent::ProcState_Closed()
 				{
 					char szTemp[256];
 					wsprintf(szTemp, Lang.GetText(0,210), 3);
-					GSProtocol.AllSendServerMsg(szTemp);
+					gGameProtocol.AllSendServerMsg(szTemp);
 
 					PMSG_ANS_CL_EFFECT pMsg;
 
 					PHeadSetB((LPBYTE)&pMsg, 0x9E, sizeof(pMsg));
 					pMsg.wEffectNum = 0;
 
-					GSProtocol.DataSendAll((LPBYTE)&pMsg, pMsg.h.size);
+					gGameProtocol.DataSendAll((LPBYTE)&pMsg, pMsg.h.size);
 
 					sLog->outBasic("[XMas Event] - Before 3 minutes - Advertise");
 				}
@@ -537,14 +537,14 @@ void CXMasAttackEvent::ProcState_Closed()
 	{
 		char szTemp[256];
 		wsprintf(szTemp, Lang.GetText(0,209));
-		GSProtocol.AllSendServerMsg(szTemp);
+		gGameProtocol.AllSendServerMsg(szTemp);
 
 		PMSG_ANS_CL_EFFECT pMsg;
 
 		PHeadSetB((LPBYTE)&pMsg, 0x9E, sizeof(pMsg));
 		pMsg.wEffectNum = 1;
 
-		GSProtocol.DataSendAll((LPBYTE)&pMsg, pMsg.h.size);
+		gGameProtocol.DataSendAll((LPBYTE)&pMsg, pMsg.h.size);
 
 		if ( this->m_bDoEvent )
 		{
@@ -723,14 +723,14 @@ void CXMasAttackEvent::Start_Menual()
 	char szTemp[256];
 
 	wsprintf(szTemp, Lang.GetText(0,209));
-	GSProtocol.AllSendServerMsg(szTemp);
+	gGameProtocol.AllSendServerMsg(szTemp);
 
 	PMSG_ANS_CL_EFFECT pMsg;
 
 	PHeadSetB((LPBYTE)&pMsg, 0x9E, sizeof(pMsg));
 	pMsg.wEffectNum = 1;
 
-	GSProtocol.DataSendAll((LPBYTE)&pMsg, pMsg.h.size);
+	gGameProtocol.DataSendAll((LPBYTE)&pMsg, pMsg.h.size);
 	this->SetState(2);
 }
 

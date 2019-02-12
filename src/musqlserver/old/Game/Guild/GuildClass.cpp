@@ -496,7 +496,7 @@ BOOL CGuildClass::SetGuildMemberStatus(char* szGuildName, char* szMemberName, in
 		if ( strcmp(lpObj.Name, szMemberName) == 0 )
 		{
 			lpObj.m_PlayerData->GuildStatus = iGuildStatus;
-			GSProtocol.GCGuildViewportNowPaint(lpObj.m_Index, lpObj.m_PlayerData->GuildName, 0, 0);
+			gGameProtocol.GCGuildViewportNowPaint(lpObj.m_Index, lpObj.m_PlayerData->GuildName, 0, 0);
 		}
 
 	}
@@ -549,7 +549,7 @@ BOOL CGuildClass::SetGuildType(char* szGuildName, int iGuildType)
 				}
 
 				CGameObject lpObj = &gGameObjects[pNode->Index[n]];
-				GSProtocol.GCGuildViewportNowPaint(lpObj.m_Index, lpObj.m_PlayerData->GuildName, 0, 0);
+				gGameProtocol.GCGuildViewportNowPaint(lpObj.m_Index, lpObj.m_PlayerData->GuildName, 0, 0);
 			}
 		}
 	}

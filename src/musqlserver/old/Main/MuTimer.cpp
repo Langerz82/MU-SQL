@@ -183,7 +183,7 @@ VOID WINAPI TimerProcQueue(LPVOID lpParameter, BOOL TimerOrWaitFired)
 				{
 					if (gCloseMsgTime == 1)
 					{
-						GSProtocol.AllSendServerMsg(Lang.GetText(0,1));
+						gGameProtocol.AllSendServerMsg(Lang.GetText(0,1));
 						sLog->outError( "GameServer closed");
 					}
 				}
@@ -194,7 +194,7 @@ VOID WINAPI TimerProcQueue(LPVOID lpParameter, BOOL TimerOrWaitFired)
 						char szTemp[256];
 
 						wsprintf(szTemp, Lang.GetText(0,2), gCloseMsgTime);
-						GSProtocol.AllSendServerMsg(szTemp);
+						gGameProtocol.AllSendServerMsg(szTemp);
 						sLog->outError( "Server close automatically in %d second(s)", gCloseMsgTime);
 					}
 				}

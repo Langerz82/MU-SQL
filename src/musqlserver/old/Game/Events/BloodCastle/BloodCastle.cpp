@@ -691,7 +691,7 @@ void CBloodCastle::ProcState_Closed(int iBridgeIndex)
 				this->m_BridgeData[iBridgeIndex].m_bBC_CAN_PARTY = true;
 			}
 
-			GSProtocol.CGEventEntryNotice(EVENT_NOTIFICATION_BLOOD_CASTLE, this->m_BridgeData[iBridgeIndex].m_bBC_CAN_ENTER ? 1 : 0);
+			gGameProtocol.CGEventEntryNotice(EVENT_NOTIFICATION_BLOOD_CASTLE, this->m_BridgeData[iBridgeIndex].m_bBC_CAN_ENTER ? 1 : 0);
 
 			if ( this->m_BridgeData[iBridgeIndex].m_i64_BC_REMAIN_MSEC <= ( this->m_iBC_TIME_MIN_OPEN * 60 * 1000 ) && this->m_BridgeData[iBridgeIndex].m_i64_BC_REMAIN_MSEC > 0 && (this->m_BridgeData[iBridgeIndex].m_i64_BC_REMAIN_MSEC/60000) !=this->m_BridgeData[iBridgeIndex].m_iBC_NOTIFY_COUNT)
 			{
@@ -1235,7 +1235,7 @@ bool CBloodCastle::BloodCastleChaosMix(int iIndex, int iLEVEL)
 
 	gGameObjects[iIndex]->m_PlayerData->Money -= iMIX_NEED_MONEY;
 	g_CastleSiegeSync.AddTributeMoney(iChaosTaxMoney);
-	GSProtocol.GCMoneySend(iIndex, gGameObjects[iIndex]->m_PlayerData->Money);
+	gGameProtocol.GCMoneySend(iIndex, gGameObjects[iIndex]->m_PlayerData->Money);
 
 	if ( (rand()%100) < iMIX_SUCCESS_RATE )
 	{
@@ -1245,7 +1245,7 @@ bool CBloodCastle::BloodCastleChaosMix(int iIndex, int iLEVEL)
 	else
 	{
 		g_MixSystem.ChaosBoxInit(&gGameObjects[iIndex]);
-		GSProtocol.GCUserChaosBoxSend(&gGameObjects[iIndex], 0);
+		gGameProtocol.GCUserChaosBoxSend(&gGameObjects[iIndex], 0);
 		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
 		return false;
 	}
@@ -2115,7 +2115,7 @@ int  CBloodCastle::LevelUp(int iIndex, int iAddExp)
 
 	if ( gGameObjects[iIndex]->Level >= g_ConfigRead.data.common.UserMaxLevel )
 	{
-		::GSProtocol.GCServerMsgStringSend(Lang.GetText(0,45), gGameObjects[iIndex]->m_Index, 1);
+		::gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,45), gGameObjects[iIndex]->m_Index, 1);
 		return 0;
 	}
 
@@ -2163,7 +2163,7 @@ int  CBloodCastle::LevelUp(int iIndex, int iAddExp)
 		gObjGetStatPointState(gGameObjects[iIndex]->m_Index, AddPoint, MaxAddPoint, MinusPoint, MaxMinusPoint);*/
 
 
-		GSProtocol.GCLevelUpMsgSend(gGameObjects[iIndex]->m_Index, 1);//gGameObjects[iIndex]->Level, gGameObjects[iIndex]->LevelUpPoint, 
+		gGameProtocol.GCLevelUpMsgSend(gGameObjects[iIndex]->m_Index, 1);//gGameObjects[iIndex]->Level, gGameObjects[iIndex]->LevelUpPoint, 
 		//	(int)((float)gGameObjects[iIndex]->AddLife + gGameObjects[iIndex]->MaxLife), (int)((float)gGameObjects[iIndex]->AddMana + gGameObjects[iIndex]->MaxMana),
 		//	gGameObjects[iIndex]->MaxBP + gGameObjects[iIndex]->AddBP, AddPoint, MaxAddPoint);
 		gObjCalcMaxLifePower(gGameObjects[iIndex]->m_Index);
@@ -2759,7 +2759,7 @@ void CBloodCastle::SearchUserDeleteQuestItem(int iIndex)
 				{
 					::gObjInventoryItemSet(iIndex, x, -1);
 					::gObjInventoryDeleteItem(iIndex, x);
-					::GSProtocol.GCInventoryItemDeleteSend(iIndex, x, TRUE);
+					::gGameProtocol.GCInventoryItemDeleteSend(iIndex, x, TRUE);
 
 				}
 			}
@@ -3236,7 +3236,7 @@ int  CBloodCastle::CalcSendRewardEXP(int iIndex, int iEXP)
 
 		if(g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&gGameObjects[iIndex]) == false) //season3 add-on
 		{
-			GSProtocol.GCKillPlayerMasterExpSend(iIndex, (WORD)-1, iRET_EXP, 0, 0);
+			gGameProtocol.GCKillPlayerMasterExpSend(iIndex, (WORD)-1, iRET_EXP, 0, 0);
 		}
 	}
 
@@ -3274,7 +3274,7 @@ int  CBloodCastle::CalcSendRewardZEN(int iIndex, int iZEN)
 
 	gGameObjects[iIndex]->m_PlayerData->Money += iZEN;
 	iRET_ZEN = iZEN;
-	GSProtocol.GCMoneySend(iIndex, gGameObjects[iIndex]->m_PlayerData->Money);
+	gGameProtocol.GCMoneySend(iIndex, gGameObjects[iIndex]->m_PlayerData->Money);
 
 
 	return iRET_ZEN;
@@ -3835,7 +3835,7 @@ BOOL CBloodCastle::DropItemDirectly(int iBridgeIndex, int iIndex, int iItemType,
 			pMsg.Element = gGameObjects[iIndex]->m_iPentagramMainAttribute;
 
 			IOCP.DataSend(iIndex, (UCHAR*)&pMsg, pMsg.h.size);
-			GSProtocol.MsgSendV2(&gGameObjects[iIndex], (UCHAR*)&pMsg, pMsg.h.size);
+			gGameProtocol.MsgSendV2(&gGameObjects[iIndex], (UCHAR*)&pMsg, pMsg.h.size);
 		}
 	}
 
@@ -4606,25 +4606,25 @@ bool CBloodCastle::NpcAngelKing(CGameObject &lpNpc, CGameObject lpObj)
 
 	if (BC_BRIDGE_RANGE(iBLOODCASTLE_INDEX) == FALSE)
 	{
-		GSProtocol.GCServerCmd(lpObj.m_Index, 1, 0x18, 0);
+		gGameProtocol.GCServerCmd(lpObj.m_Index, 1, 0x18, 0);
 		return FALSE;
 	}
 
 	if (this->m_BridgeData[iBLOODCASTLE_INDEX].m_bBC_REWARDED != false)
 	{
-		GSProtocol.GCServerCmd(lpObj.m_Index, 1, 0x2E, 0);
+		gGameProtocol.GCServerCmd(lpObj.m_Index, 1, 0x2E, 0);
 		return FALSE;
 	}
 
 	if (this->GetCurrentState(iBLOODCASTLE_INDEX) != 2 || this->CheckPlayStart(iBLOODCASTLE_INDEX) == false)
 	{
-		GSProtocol.GCServerCmd(lpObj.m_Index, 1, 0x18, 0);
+		gGameProtocol.GCServerCmd(lpObj.m_Index, 1, 0x18, 0);
 		return FALSE;
 	}
 
 	if (lpObj.m_bBloodCastleComplete == true)
 	{
-		GSProtocol.GCServerCmd(lpObj.m_Index, 1, 0x2E, 0);
+		gGameProtocol.GCServerCmd(lpObj.m_Index, 1, 0x2E, 0);
 		return FALSE;
 	}
 
@@ -4632,13 +4632,13 @@ bool CBloodCastle::NpcAngelKing(CGameObject &lpNpc, CGameObject lpObj)
 	{
 		if (lpNpc->m_cBloodCastleIndex != iBLOODCASTLE_INDEX)
 		{
-			GSProtocol.GCServerCmd(lpObj.m_Index, 1, 0x18, 0);
+			gGameProtocol.GCServerCmd(lpObj.m_Index, 1, 0x18, 0);
 			return FALSE;
 		}
 
 		if (this->CheckUserBridgeMember(iBLOODCASTLE_INDEX, lpObj.m_Index) == false)
 		{
-			GSProtocol.GCServerCmd(lpObj.m_Index, 1, 0x18, 0);
+			gGameProtocol.GCServerCmd(lpObj.m_Index, 1, 0x18, 0);
 			return FALSE;
 		}
 
@@ -4665,12 +4665,12 @@ bool CBloodCastle::NpcAngelKing(CGameObject &lpNpc, CGameObject lpObj)
 
 			if (this->CheckPartyExist(lpObj.m_Index) == FALSE)
 			{
-				GSProtocol.GCServerCmd(lpObj.m_Index, 1, 0x17, 0);
+				gGameProtocol.GCServerCmd(lpObj.m_Index, 1, 0x17, 0);
 
 			}
 			else
 			{
-				GSProtocol.GCServerCmd(lpObj.m_Index, 1, 0x17, 0);
+				gGameProtocol.GCServerCmd(lpObj.m_Index, 1, 0x17, 0);
 			}
 		}
 		else
@@ -4688,18 +4688,18 @@ bool CBloodCastle::NpcAngelKing(CGameObject &lpNpc, CGameObject lpObj)
 
 			if (this->CheckPartyExist(lpObj.m_Index) == FALSE)
 			{
-				GSProtocol.GCServerCmd(lpObj.m_Index, 1, 0x17, 0);
+				gGameProtocol.GCServerCmd(lpObj.m_Index, 1, 0x17, 0);
 
 			}
 			else
 			{
-				GSProtocol.GCServerCmd(lpObj.m_Index, 1, 0x17, 0);
+				gGameProtocol.GCServerCmd(lpObj.m_Index, 1, 0x17, 0);
 			}
 
 			return FALSE;
 		}
 
-		GSProtocol.GCServerCmd(lpObj.m_Index, 1, 0x18, 0);
+		gGameProtocol.GCServerCmd(lpObj.m_Index, 1, 0x18, 0);
 	}
 
 	return FALSE;

@@ -305,7 +305,7 @@ BOOL TMonsterSkillElement::ApplyElementHP(int iIndex, int iTargetIndex)
 	if ( lpTargetObj.Life < 0 )
 	{
 		lpTargetObj.Life = 0;
-		GSProtocol.GCReFillSend(lpTargetObj.m_Index, lpTargetObj.Life, 0xFF, 0, lpTargetObj.iShield);
+		gGameProtocol.GCReFillSend(lpTargetObj.m_Index, lpTargetObj.Life, 0xFF, 0, lpTargetObj.iShield);
 
 		return TRUE;
 	}
@@ -313,12 +313,12 @@ BOOL TMonsterSkillElement::ApplyElementHP(int iIndex, int iTargetIndex)
 	if ( (lpTargetObj.MaxLife + lpTargetObj.AddLife) < lpTargetObj.Life )
 	{
 		lpTargetObj.Life = lpTargetObj.MaxLife + lpTargetObj.AddLife;
-		GSProtocol.GCReFillSend(lpTargetObj.m_Index, lpTargetObj.Life, 0xFF, 0, lpTargetObj.iShield);
+		gGameProtocol.GCReFillSend(lpTargetObj.m_Index, lpTargetObj.Life, 0xFF, 0, lpTargetObj.iShield);
 
 		return TRUE;
 	}
 
-	GSProtocol.GCReFillSend(lpTargetObj.m_Index, lpTargetObj.Life, 0xFF, 0, lpTargetObj.iShield);
+	gGameProtocol.GCReFillSend(lpTargetObj.m_Index, lpTargetObj.Life, 0xFF, 0, lpTargetObj.iShield);
 
 	return FALSE;
 }
@@ -354,7 +354,7 @@ BOOL TMonsterSkillElement::ApplyElementMP(int iIndex, int iTargetIndex)
 	if ( lpTargetObj.Mana < 0 )
 	{
 		lpTargetObj.Mana = 0;
-		GSProtocol.GCManaSend(lpTargetObj.m_Index, lpTargetObj.Mana, 0xFF, 0, lpTargetObj.BP);
+		gGameProtocol.GCManaSend(lpTargetObj.m_Index, lpTargetObj.Mana, 0xFF, 0, lpTargetObj.BP);
 
 		return TRUE;
 	}
@@ -362,12 +362,12 @@ BOOL TMonsterSkillElement::ApplyElementMP(int iIndex, int iTargetIndex)
 	if ( (lpTargetObj.MaxMana + lpTargetObj.AddMana) < lpTargetObj.Mana )
 	{
 		lpTargetObj.Mana = lpTargetObj.MaxMana + lpTargetObj.AddMana;
-		GSProtocol.GCManaSend(lpTargetObj.m_Index, lpTargetObj.Mana, 0xFF, 0, lpTargetObj.BP);
+		gGameProtocol.GCManaSend(lpTargetObj.m_Index, lpTargetObj.Mana, 0xFF, 0, lpTargetObj.BP);
 
 		return TRUE;
 	}
 
-	GSProtocol.GCManaSend(lpTargetObj.m_Index, lpTargetObj.Mana, 0xFF, 0, lpTargetObj.BP);
+	gGameProtocol.GCManaSend(lpTargetObj.m_Index, lpTargetObj.Mana, 0xFF, 0, lpTargetObj.BP);
 	return FALSE;
 }
 
@@ -402,7 +402,7 @@ BOOL TMonsterSkillElement::ApplyElementAG(int iIndex, int iTargetIndex)
 	if ( lpTargetObj.BP < 0 )
 	{
 		lpTargetObj.BP = 0;
-		GSProtocol.GCManaSend(lpTargetObj.m_Index, lpTargetObj.Mana, 0xFF, 0, lpTargetObj.BP);
+		gGameProtocol.GCManaSend(lpTargetObj.m_Index, lpTargetObj.Mana, 0xFF, 0, lpTargetObj.BP);
 
 		return TRUE;
 	}
@@ -410,12 +410,12 @@ BOOL TMonsterSkillElement::ApplyElementAG(int iIndex, int iTargetIndex)
 	if ( (lpTargetObj.MaxBP + lpTargetObj.AddBP) < lpTargetObj.BP )
 	{
 		lpTargetObj.BP = lpTargetObj.MaxBP + lpTargetObj.AddBP;
-		GSProtocol.GCManaSend(lpTargetObj.m_Index, lpTargetObj.Mana, 0xFF, 0, lpTargetObj.BP);
+		gGameProtocol.GCManaSend(lpTargetObj.m_Index, lpTargetObj.Mana, 0xFF, 0, lpTargetObj.BP);
 
 		return TRUE;
 	}
 
-	GSProtocol.GCManaSend(lpTargetObj.m_Index, lpTargetObj.Mana, 0xFF, 0, lpTargetObj.BP);
+	gGameProtocol.GCManaSend(lpTargetObj.m_Index, lpTargetObj.Mana, 0xFF, 0, lpTargetObj.BP);
 
 	return FALSE;
 }
@@ -544,7 +544,7 @@ BOOL TMonsterSkillElement::ApplyElementDurability(int iIndex, int iTargetIndex)
 		if ( lpEquipment->m_Durability < 0.0f )
 			lpEquipment->m_Durability = 0;
 
-		GSProtocol.GCItemDurSend(lpTargetObj.m_Index, iEquipmentPos, lpEquipment->m_Durability, 0);
+		gGameProtocol.GCItemDurSend(lpTargetObj.m_Index, iEquipmentPos, lpEquipment->m_Durability, 0);
 	}
 
 	return FALSE;
@@ -788,7 +788,7 @@ BOOL TMonsterSkillElement::ApplyElementTeleportSkill(int iIndex, int iTargetInde
 	if ( lpObj.Type == OBJ_USER )
 		IOCP.DataSend(iIndex, (LPBYTE)&pAttack, pAttack.h.size);	
 
-	GSProtocol.MsgSendV2(lpObj, (LPBYTE)&pAttack, pAttack.h.size);
+	gGameProtocol.MsgSendV2(lpObj, (LPBYTE)&pAttack, pAttack.h.size);
 
 	gObjTeleportMagicUse(iIndex, x, y);
 	lpObj.TargetNumber = -1;

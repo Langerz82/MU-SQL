@@ -78,7 +78,7 @@ void CMuunAttack::SendAttackMsg(CGameObject &lpObj, int aTargetIndex, int SubCod
 		pMsg.h.set((LPBYTE)&pMsg, 0x4E, 0x12, sizeof(pMsg));
 
 		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
-		GSProtocol.MsgSendV2(&gGameObjects[aIndex], (LPBYTE)&pMsg, pMsg.h.size);
+		gGameProtocol.MsgSendV2(&gGameObjects[aIndex], (LPBYTE)&pMsg, pMsg.h.size);
 	}
 
 	gObjAddAttackProcMsgSendDelay(&gGameObjects[aIndex], 63, aTargetIndex, 600, SubCode, SubCode2);
@@ -497,7 +497,7 @@ bool CMuunAttack::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf 
 			AttackDamage = AttackDamage * dinorantdecdamage / 100;
 		}
 
-		GSProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
+		gGameProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
 	}
 
 	if ( gObjDarkHorse(lpTargetObj ) )
@@ -516,7 +516,7 @@ bool CMuunAttack::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf 
 			AttackDamage = AttackDamage * decdamage / 100;
 		}
 
-		GSProtocol.GCReFillSend(lpTargetObj.m_Index, lpTargetObj.Life, 0xFF, 0, lpTargetObj.iShield);
+		gGameProtocol.GCReFillSend(lpTargetObj.m_Index, lpTargetObj.Life, 0xFF, 0, lpTargetObj.iShield);
 	}
 
 	if (AttackDamage > 1)
@@ -808,7 +808,7 @@ bool CMuunAttack::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf 
 	{
 		if ( lpObj.m_Change == 9 )
 		{
-			GSProtocol.GCMagicAttackNumberSend(lpObj, 3, lpTargetObj.m_Index, 1);
+			gGameProtocol.GCMagicAttackNumberSend(lpObj, 3, lpTargetObj.m_Index, 1);
 		}
 	}
 
@@ -842,7 +842,7 @@ bool CMuunAttack::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf 
 	}
 	else
 	{
-		GSProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, MsgDamage, 0);
+		gGameProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, MsgDamage, 0);
 	}
 
 	if ( lpObj.Life <= 0.0f && lpObj.Type == OBJ_USER )
@@ -949,7 +949,7 @@ int CMuunAttack::GetShieldDamage(CGameObject &lpObj, CGameObject lpTargetObj, in
 	{
 		if ( !CC_MAP_RANGE(lpTargetObj.MapNumber) && lpTargetObj.MapNumber != MAP_INDEX_CHAOSCASTLE_SURVIVAL )
 		{
-			GSProtocol.GCSendEffectInfo(lpTargetObj.m_Index, 17);
+			gGameProtocol.GCSendEffectInfo(lpTargetObj.m_Index, 17);
 		}
 	}
 
@@ -1027,7 +1027,7 @@ void CMuunSystem::MuunItemDamage(CGameObject lpObj, int damage)
 
 			if (lpObj.pMuunInventory[i].m_Durability != 0.0)
 			{
-				GSProtocol.GCMuunItemDurSend(lpObj.m_Index, i, lpObj.pMuunInventory[i].m_Durability);
+				gGameProtocol.GCMuunItemDurSend(lpObj.m_Index, i, lpObj.pMuunInventory[i].m_Durability);
 			}
 
 			if (lpObj.pMuunInventory[i].m_Durability < 1.0)
@@ -1064,7 +1064,7 @@ BOOL CMuunSystem::MuunItemEquipment(CGameObject &lpObj, int iPos, int iSource)
 
 			this->RemoveUserMuunEffect(lpObj, iSource);
 			this->GCSendConditionStatus(aIndex, iSource, 0);
-			GSProtocol.GCMuunEquipmentChange(lpObj.m_Index, iSource);
+			gGameProtocol.GCMuunEquipmentChange(lpObj.m_Index, iSource);
 		}
 	}
 	else
@@ -1256,7 +1256,7 @@ bool CMuunSystem::GetMuunItemValueOfOptType(CGameObject lpObj, int iMuunOptIndex
 			PHeadSubSetB((LPBYTE)&pMsg, 0x4E, 0x12, sizeof(pMsg));
 
 			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
-			GSProtocol.MsgSendV2(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+			gGameProtocol.MsgSendV2(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 		}
 
 		return true;
@@ -1511,7 +1511,7 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 
 				if (!n)
 				{
-					GSProtocol.GCMuunEquipmentChange(lpObj.m_Index, 0);
+					gGameProtocol.GCMuunEquipmentChange(lpObj.m_Index, 0);
 				}
 			}
 
@@ -1780,7 +1780,7 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 
 	if (g_NewPVP.IsObserver(gGameObjects[aIndex]))
 	{
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,562), aIndex, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,562), aIndex, 1);
 		this->GCMuunInventoryUseItemResult(aIndex, iItemUseType, 1);
 
 		return;
@@ -1807,8 +1807,8 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 
 			this->ClearPeriodMuunItemData(&gGameObjects[aIndex], lpObj.pMuunInventory[lpMsg->inventoryPos]->m_Type, lpObj.pMuunInventory[lpMsg->inventoryPos]->m_Number);
 			lpObj.pMuunInventory[lpMsg->inventoryPos].Clear();
-			GSProtocol.GCMuunInventoryItemDeleteSend(aIndex, lpMsg->inventoryPos, 1);
-			GSProtocol.GCMuunInventoryItemOneSend(aIndex, lpMsg->invenrotyTarget);
+			gGameProtocol.GCMuunInventoryItemDeleteSend(aIndex, lpMsg->inventoryPos, 1);
+			gGameProtocol.GCMuunInventoryItemOneSend(aIndex, lpMsg->invenrotyTarget);
 			break;
 
 		case 2:
@@ -1821,7 +1821,7 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 			}
 
 			lpObj.pMuunInventory[lpMsg->inventoryPos].Clear();
-			GSProtocol.GCMuunInventoryItemDeleteSend(aIndex, lpMsg->inventoryPos, 1);
+			gGameProtocol.GCMuunInventoryItemDeleteSend(aIndex, lpMsg->inventoryPos, 1);
 			break;
 
 		case 3:
@@ -1835,8 +1835,8 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 
 			gObjInventoryItemSet(aIndex, lpMsg->inventoryPos, -1);
 			lpObj.pInventory[lpMsg->inventoryPos].Clear();
-			GSProtocol.GCInventoryItemDeleteSend(aIndex, lpMsg->inventoryPos, 1);
-			GSProtocol.GCMuunItemDurSend(aIndex, lpMsg->invenrotyTarget, -1);
+			gGameProtocol.GCInventoryItemDeleteSend(aIndex, lpMsg->inventoryPos, 1);
+			gGameProtocol.GCMuunItemDurSend(aIndex, lpMsg->invenrotyTarget, -1);
 			break;
 
 		case 4:
@@ -1850,8 +1850,8 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 
 			this->ClearPeriodMuunItemData(&gGameObjects[aIndex], lpObj.pMuunInventory[lpMsg->inventoryPos]->m_Type, lpObj.pMuunInventory[lpMsg->inventoryPos]->m_Number);
 			lpObj.pMuunInventory[lpMsg->inventoryPos].Clear();
-			GSProtocol.GCMuunInventoryItemDeleteSend(aIndex, lpMsg->inventoryPos, 1);
-			GSProtocol.GCMuunInventoryItemOneSend(aIndex, lpMsg->invenrotyTarget);
+			gGameProtocol.GCMuunInventoryItemDeleteSend(aIndex, lpMsg->inventoryPos, 1);
+			gGameProtocol.GCMuunInventoryItemOneSend(aIndex, lpMsg->invenrotyTarget);
 			break;
 	}
 
@@ -1938,7 +1938,7 @@ bool CMuunSystem::MuunItemEvolution(CGameObject lpObj, int source, int target)
 	float fDur = lpObj.pMuunInventory[target].m_Durability;
 
 	this->ClearPeriodMuunItemData(lpObj, lpObj.pMuunInventory[target].m_Type, lpObj.pMuunInventory[target].m_Number);
-	GSProtocol.GCMuunInventoryItemDeleteSend(lpObj.m_Index, target, 1);
+	gGameProtocol.GCMuunInventoryItemDeleteSend(lpObj.m_Index, target, 1);
 
 	lpObj.pMuunInventory[target].Clear();
 
@@ -2172,7 +2172,7 @@ bool CMuunSystem::MuunItemEnergyGenerator(CGameObject &lpObj, int source, int ta
 		}
 
 		lpObj.pMuunInventory[target].m_Durability = nMuunDurability;
-		GSProtocol.GCMuunItemDurSend(lpObj.m_Index, target, nMuunDurability);
+		gGameProtocol.GCMuunItemDurSend(lpObj.m_Index, target, nMuunDurability);
 	}
 
 	else
@@ -2197,7 +2197,7 @@ bool CMuunSystem::MuunItemEnergyGenerator(CGameObject &lpObj, int source, int ta
 		ItemSerialCreateSend(lpObj.m_Index, 0xE0, 0, 0, iType, iLevel, fDur, 0, 0, 0, lpObj.m_Index, 0, 0, 0, SocketOption, 0);
 
 		lpObj.pMuunInventory[target].Clear();
-		GSProtocol.GCMuunInventoryItemDeleteSend(lpObj.m_Index, target, 1);
+		gGameProtocol.GCMuunInventoryItemDeleteSend(lpObj.m_Index, target, 1);
 	}
 
 	return true;
@@ -3139,7 +3139,7 @@ BYTE CMuunSystem::DGMuunExchangeInsertInven(CGameObject &lpObj, CItem CreateItem
 
 		if (btRet != 0xFF)
 		{
-			GSProtocol.GCMuunInventoryItemOneSend(lpObj.m_Index, btRet);
+			gGameProtocol.GCMuunInventoryItemOneSend(lpObj.m_Index, btRet);
 			this->SendMsgMuunExchange(lpObj.m_Index, 0);
 			return btRet;
 		}
@@ -3151,7 +3151,7 @@ BYTE CMuunSystem::DGMuunExchangeInsertInven(CGameObject &lpObj, CItem CreateItem
 
 		if (btRet != 0xFF)
 		{
-			GSProtocol.GCInventoryItemOneSend(lpObj.m_Index, btRet);
+			gGameProtocol.GCInventoryItemOneSend(lpObj.m_Index, btRet);
 			this->SendMsgMuunExchange(lpObj.m_Index, 0);
 			return btRet;
 		}
@@ -3210,7 +3210,7 @@ bool CMuunSystem::ChkAndDelItemMuunExchange(CGameObject &lpObj, int iSelect)
 
 				this->ClearPeriodMuunItemData(lpObj, lpObj.pMuunInventory[nItemPos].m_Type, lpObj.pMuunInventory[nItemPos].m_Number);
 				lpObj.pMuunInventory[nItemPos].Clear();
-				GSProtocol.GCMuunInventoryItemDeleteSend(lpObj.m_Index, nItemPos, 1);
+				gGameProtocol.GCMuunInventoryItemDeleteSend(lpObj.m_Index, nItemPos, 1);
 			}
 		}
 	}
@@ -3241,7 +3241,7 @@ bool CMuunSystem::ChkAndDelItemMuunExchange(CGameObject &lpObj, int iSelect)
 
 				gObjInventoryItemSet(lpObj.m_Index, nItemPos, -1);
 				lpObj.pInventory[nItemPos].Clear();
-				GSProtocol.GCInventoryItemDeleteSend(lpObj.m_Index, nItemPos, 1);
+				gGameProtocol.GCInventoryItemDeleteSend(lpObj.m_Index, nItemPos, 1);
 			}
 		}
 	}

@@ -703,16 +703,16 @@ void CEledoradoEvent::CheckGoldDercon(int MapNumber)
 
 	if (EventClearMapNumber != -1)
 	{
-		GSProtocol.GCMapEventStateSend(EventClearMapNumber, 0, 3);
+		gGameProtocol.GCMapEventStateSend(EventClearMapNumber, 0, 3);
 	}
 
 	if (EventOn != FALSE)
 	{
-		GSProtocol.GCMapEventStateSend(MapNumber, 1, 3);
+		gGameProtocol.GCMapEventStateSend(MapNumber, 1, 3);
 	}
 	else
 	{
-		GSProtocol.GCMapEventStateSend(MapNumber, 0, 3);
+		gGameProtocol.GCMapEventStateSend(MapNumber, 0, 3);
 	}
 }
 

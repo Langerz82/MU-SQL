@@ -274,7 +274,7 @@ void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, int aIndex)
 		if (lpObj.pInventory[0].m_Durability >= itMineSuccessInfo->second.iDurabilityDecrement)
 		{
 			lpObj.pInventory[0].m_Durability -= itMineSuccessInfo->second.iDurabilityDecrement;
-			GSProtocol.GCItemDurSend(aIndex, 0, lpObj.pInventory[0].m_Durability, 0);
+			gGameProtocol.GCItemDurSend(aIndex, 0, lpObj.pInventory[0].m_Durability, 0);
 
 			if (this->SuccessOrFailure(it->second.wTwinkleType, it->second.iCurrentStage))
 			{
@@ -426,7 +426,7 @@ void CMineSystem::RewardMineTwinkle(PMSG_REQ_MINETWINKLE_REWARD *lpMsg, int aInd
 				ServerCmd.CmdType = 0;
 				ServerCmd.X = lpObj.X;
 				ServerCmd.Y = lpObj.Y;
-				GSProtocol.MsgSendV2(&gGameObjects[aIndex], (LPBYTE)&ServerCmd, sizeof(ServerCmd));
+				gGameProtocol.MsgSendV2(&gGameObjects[aIndex], (LPBYTE)&ServerCmd, sizeof(ServerCmd));
 				IOCP.DataSend(lpObj.m_Index, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
 			}
 
@@ -740,7 +740,7 @@ BOOL CMineSystem::CheckValidationMineState(CGameObject &lpObj, WORD wTwinkleInde
 			lpObj.AccountID, lpObj.Name, byMapNumber, wTwinkleIndex);
 
 		*iResult = 20;
-		GSProtocol.GCSendDisableReconnect(aIndex);
+		gGameProtocol.GCSendDisableReconnect(aIndex);
 		//IOCP.CloseClient(aIndex);
 		return FALSE;
 	}
@@ -753,7 +753,7 @@ BOOL CMineSystem::CheckValidationMineState(CGameObject &lpObj, WORD wTwinkleInde
 			lpObj.AccountID, lpObj.Name, byMapNumber, wTwinkleIndex, wTwinkleType);
 
 		*iResult = 14;
-		GSProtocol.GCSendDisableReconnect(aIndex);
+		gGameProtocol.GCSendDisableReconnect(aIndex);
 		//IOCP.CloseClient(aIndex);
 		return FALSE;
 	}
@@ -766,7 +766,7 @@ BOOL CMineSystem::CheckValidationMineState(CGameObject &lpObj, WORD wTwinkleInde
 				lpObj.AccountID, lpObj.Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 			*iResult = 7;
-			GSProtocol.GCSendDisableReconnect(aIndex);
+			gGameProtocol.GCSendDisableReconnect(aIndex);
 			//IOCP.CloseClient(aIndex);
 			return FALSE;
 		}

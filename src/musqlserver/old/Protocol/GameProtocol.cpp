@@ -88,7 +88,7 @@
 #include "SocketItemType.h"
 #include "CustomMichi.h"
 
-GameProtocol GSProtocol;
+GameProtocol gGameProtocol;
 
 GameProtocol::GameProtocol()
 {
@@ -100,11 +100,6 @@ GameProtocol::~GameProtocol()
 
 bool GameProtocol::PacketCheckTime(CGameObject &lpObj)
 {
-	if (!ObjectMaxRange(aIndex))
-		return false;
-
-	
-
 	if ((GetTickCount() - lpObj.m_PacketCheckTime) < 300)
 	{
 		return false;
@@ -117,14 +112,11 @@ bool GameProtocol::PacketCheckTime(CGameObject &lpObj)
 bool GameProtocol::DataEncryptCheck(CGameObject &lpObj, BYTE protoNum, BOOL Encrypt)
 {
 #ifndef EMU_NOCRYPT
-	if (!ObjectMaxRange(aIndex))
-		return false;
-
 	if (Encrypt == FALSE)
 	{
 		sLog->outBasic("Error-L1 : Not Encrypt %s %d", lpObj.AccountID, protoNum);
 		//this->GCSendDisableReconnect(aIndex);
-		IOCP.CloseClient(aIndex);
+		IOCP.CloseClient(lppObj);
 		return false;
 	}
 #endif
@@ -875,9 +867,9 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 		case 0xA7:
 			this->CGRequestPetItemCommand((PMSG_REQUEST_PET_ITEM_COMMAND *)aRecv, aIndex);
 			break;
-		case 0xA9:
-			this->CGRequestPetItemInfo((PMSG_REQUEST_PET_ITEMINFO *)aRecv, aIndex);
-			break;
+		//case 0xA9:
+		//	this->CGRequestPetItemInfo((PMSG_REQUEST_PET_ITEMINFO *)aRecv, *gGameObjects[aIndex]);
+		//	break;
 		case 0xAA:
 		{
 			PMSG_DEFAULT2 * lpDef = (PMSG_DEFAULT2 *)aRecv;
@@ -3246,8 +3238,8 @@ void GameProtocol::CGLevelUpPointAdd(PMSG_LVPOINTADD * lpMsg, int aIndex)
 	pAddStats.cmdadd = lpObj.AddLeadership;
 	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pAddStats, pAddStats.h.size); */
 
-	GSProtocol.GCPlayerStatsPanelNew(aIndex);
-	GSProtocol.GCPlayerStatsPanelRates(aIndex);
+	GameProtocol.GCPlayerStatsPanelNew(aIndex);
+	GameProtocol.GCPlayerStatsPanelRates(aIndex);
 }
 
 void GameProtocol::GCInventoryItemOneSend(CGameObject &lpObj, int pos)
@@ -16473,94 +16465,79 @@ void GameProtocol::CGRequestPetItemCommand(PMSG_REQUEST_PET_ITEM_COMMAND * lpMsg
 }
 
 
-
-void GameProtocol::CGRequestPetItemInfo(PMSG_REQUEST_PET_ITEMINFO * lpMsg, int aIndex)
+// DONE YAYA!!!
+void GameProtocol::CGRequestPetItemInfo(CGameObject &lpObj, PMSG_SEND_PET_ITEMINFO &pMsg)
 {
-	if (!gObjIsConnectedGP(aIndex))
+	if (!gObjIsConnectedGP(lpObj))
 	{
 		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
-	if (!ObjectMaxRange(aIndex))
+	if (pMsg.PetType != 0 && pMsg.PetType != 1)
 		return;
 
-	
-
-	if (lpMsg->PetType != 0 && lpMsg->PetType != 1)
-		return;
-
-	PMSG_SEND_PET_ITEMINFO pMsg;
-
-	pMsg.h.set((LPBYTE)&pMsg, 0xA9, sizeof(pMsg));
-	pMsg.PetType = lpMsg->PetType;
-	pMsg.InvenType = lpMsg->InvenType;
-	pMsg.nPos = lpMsg->nPos;
-
-	if (lpMsg->InvenType == 0)	// Inventory
+	if (pMsg.InvenType == 0)	// Inventory
 	{
-		if (!INVENTORY_RANGE(lpMsg->nPos))
+		if (!INVENTORY_RANGE(pMsg.nPos))
 		{
-			sLog->outBasic("[PetItem] [%s][%s] RequestPetItem Invalid Iventory nPos %d",
-				lpObj.AccountID, lpObj.Name, lpMsg->nPos);
-
+			sLog->outError("[PetItem] [%s][%s] RequestPetItem Invalid Iventory nPos %d",
+				lpObj.AccountID, lpObj.Name, pMsg.nPos);
 			return;
 		}
 
-		if (lpObj.pInventory[lpMsg->nPos].IsItem())
+		if (lpObj.pInventory[pMsg.nPos].IsItem())
 		{
-			pMsg.Level = lpObj.pInventory[lpMsg->nPos].m_PetItem_Level;
-			pMsg.Exp = lpObj.pInventory[lpMsg->nPos].m_PetItem_Exp - gPetItemExp.m_DarkSpiritExpTable[pMsg.Level];
-			pMsg.Dur = (BYTE)lpObj.pInventory[lpMsg->nPos].m_Durability;
+			pMsg.Level = lpObj.pInventory[pMsg.nPos].m_PetItem_Level;
+			pMsg.Exp = lpObj.pInventory[pMsg.nPos].m_PetItem_Exp - gPetItemExp.m_DarkSpiritExpTable[pMsg.Level];
+			pMsg.Dur = (BYTE)lpObj.pInventory[pMsg.nPos].m_Durability;
 
-			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
+			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, sizeof(pMsg));
 		}
 	}
-	else if (lpMsg->InvenType == 1)	// Warehouse
+	else if (pMsg.InvenType == 1)	// Warehouse
 	{
 		if (lpObj.LoadWareHouseInfo != false)
 		{
-			if (!WAREHOUSE_RANGE(lpMsg->nPos))
+			if (!WAREHOUSE_RANGE(pMsg.nPos))
 			{
-				sLog->outBasic("[PetItem] [%s][%s] RequestPetItem Invalid WareHouse nPos %d",
-					lpObj.AccountID, lpObj.Name, lpMsg->nPos);
-
+				sLog->outError("[PetItem] [%s][%s] RequestPetItem Invalid WareHouse nPos %d",
+					lpObj.AccountID, lpObj.Name, pMsg.nPos);
 				return;
 			}
 
-			if (lpObj.pWarehouse[lpMsg->nPos].IsItem())
+			if (lpObj.pWarehouse[pMsg.nPos].IsItem())
 			{
-				pMsg.Level = lpObj.pWarehouse[lpMsg->nPos].m_PetItem_Level;
-				pMsg.Exp = lpObj.pWarehouse[lpMsg->nPos].m_PetItem_Exp - gPetItemExp.m_DarkSpiritExpTable[pMsg.Level];
-				pMsg.Dur = (BYTE)lpObj.pInventory[lpMsg->nPos].m_Durability;
+				pMsg.Level = lpObj.pWarehouse[pMsg.nPos].m_PetItem_Level;
+				pMsg.Exp = lpObj.pWarehouse[pMsg.nPos].m_PetItem_Exp - gPetItemExp.m_DarkSpiritExpTable[pMsg.Level];
+				pMsg.Dur = (BYTE)lpObj.pInventory[pMsg.nPos].m_Durability;
 
-				IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
+				IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, sizeof(pMsg));
 			}
 		}
 	}
-	else if (lpMsg->InvenType == 2)	// Trade
+	else if (pMsg.InvenType == 2)	// Trade
 	{
 		if (lpObj.m_IfState.use < 1 || lpObj.m_IfState.type != 1)
 			return;
 
-		if (!TRADE_BOX_RANGE(lpMsg->nPos))
+		if (!TRADE_BOX_RANGE(pMsg.nPos))
 		{
-			sLog->outBasic("[PetItem] [%s][%s] RequestPetItem Invalid Trade nPos %d",
-				lpObj.AccountID, lpObj.Name, lpMsg->nPos);
-
+			sLog->outError("[PetItem] [%s][%s] RequestPetItem Invalid Trade nPos %d",
+				lpObj.AccountID, lpObj.Name, pMsg.nPos);
 			return;
 		}
 
-		if (lpObj.Trade[lpMsg->nPos].IsItem())
+		if (lpObj.Trade[pMsg.nPos].IsItem())
 		{
-			pMsg.Level = lpObj.Trade[lpMsg->nPos].m_PetItem_Level;
-			pMsg.Exp = lpObj.Trade[lpMsg->nPos].m_PetItem_Exp - gPetItemExp.m_DarkSpiritExpTable[pMsg.Level];
-			pMsg.Dur = (BYTE)lpObj.pInventory[lpMsg->nPos].m_Durability;
+			pMsg.Level = lpObj.Trade[pMsg.nPos].m_PetItem_Level;
+			pMsg.Exp = lpObj.Trade[pMsg.nPos].m_PetItem_Exp - gPetItemExp.m_DarkSpiritExpTable[pMsg.Level];
+			pMsg.Dur = (BYTE)lpObj.pInventory[pMsg.nPos].m_Durability;
 
-			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
+			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, sizeof(pMsg));
 		}
 	}
-	else if (lpMsg->InvenType == 3)	// Target Trade
+	else if (pMsg.InvenType == 3)	// Target Trade
 	{
 		if (lpObj.m_IfState.use < 1 || lpObj.m_IfState.type != 1)
 			return;
@@ -16576,49 +16553,46 @@ void GameProtocol::CGRequestPetItemInfo(PMSG_REQUEST_PET_ITEMINFO * lpMsg, int a
 		if (gGameObjects[iTargetIndex]->m_IfState.use < 1 || gGameObjects[iTargetIndex]->m_IfState.type != 1)
 			return;
 
-		if (!TRADE_BOX_RANGE(lpMsg->nPos))
+		if (!TRADE_BOX_RANGE(pMsg.nPos))
 		{
-			sLog->outBasic("[PetItem] [%s][%s] RequestPetItem Invalid TargetTrade nPos %d",
-				lpObj.AccountID, lpObj.Name, lpMsg->nPos);
-
+			sLog->outError("[PetItem] [%s][%s] RequestPetItem Invalid TargetTrade nPos %d",
+				lpObj.AccountID, lpObj.Name, pMsg.nPos);
 			return;
 		}
 
-		if (gGameObjects[iTargetIndex]->Trade[lpMsg->nPos]->IsItem())
+		if (gGameObjects[iTargetIndex]->Trade[pMsg.nPos].IsItem())
 		{
-			pMsg.Level = gGameObjects[iTargetIndex]->Trade[lpMsg->nPos]->m_PetItem_Level;
-			pMsg.Exp = gGameObjects[iTargetIndex]->Trade[lpMsg->nPos]->m_PetItem_Exp - gPetItemExp.m_DarkSpiritExpTable[pMsg.Level];
-			pMsg.Dur = (BYTE)lpObj.pInventory[lpMsg->nPos].m_Durability;
+			pMsg.Level = gGameObjects[iTargetIndex]->Trade[pMsg.nPos].m_PetItem_Level;
+			pMsg.Exp = gGameObjects[iTargetIndex]->Trade[pMsg.nPos].m_PetItem_Exp - gPetItemExp.m_DarkSpiritExpTable[pMsg.Level];
+			pMsg.Dur = (BYTE)lpObj.pInventory[pMsg.nPos].m_Durability;
 
-			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
+			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, sizeof(pMsg));
 		}
 	}
-	else if (lpMsg->InvenType == 4)	// Chaos
+	else if (pMsg.InvenType == 4)	// Chaos
 	{
-		if (!CHAOS_BOX_RANGE(lpMsg->nPos))
+		if (!CHAOS_BOX_RANGE(pMsg.nPos))
 		{
-			sLog->outBasic("[PetItem] [%s][%s] RequestPetItem Invalid Chaos nPos %d",
-				lpObj.AccountID, lpObj.Name, lpMsg->nPos);
-
+			sLog->outError("[PetItem] [%s][%s] RequestPetItem Invalid Chaos nPos %d",
+				lpObj.AccountID, lpObj.Name, pMsg.nPos);
 			return;
 		}
 
-		if (lpObj.pChaosBox[lpMsg->nPos].IsItem())
+		if (lpObj.pChaosBox[pMsg.nPos].IsItem())
 		{
-			pMsg.Level = lpObj.pChaosBox[lpMsg->nPos].m_PetItem_Level;
-			pMsg.Exp = lpObj.pChaosBox[lpMsg->nPos].m_PetItem_Exp - gPetItemExp.m_DarkSpiritExpTable[pMsg.Level];
-			pMsg.Dur = (BYTE)lpObj.pInventory[lpMsg->nPos].m_Durability;
+			pMsg.Level = lpObj.pChaosBox[pMsg.nPos].m_PetItem_Level;
+			pMsg.Exp = lpObj.pChaosBox[pMsg.nPos].m_PetItem_Exp - gPetItemExp.m_DarkSpiritExpTable[pMsg.Level];
+			pMsg.Dur = (BYTE)lpObj.pInventory[pMsg.nPos].m_Durability;
 
-			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
+			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, sizeof(pMsg));
 		}
 	}
-	else if (lpMsg->InvenType == 5)	// Personal Shop
+	else if (pMsg.InvenType == 5)	// Personal Shop
 	{
-		if (!INVENTORY_RANGE(lpMsg->nPos))
+		if (!INVENTORY_RANGE(pMsg.nPos))
 		{
-			sLog->outBasic("[PetItem] [%s][%s] RequestPetItem Invalid Iventory nPos %d",
-				lpObj.AccountID, lpObj.Name, lpMsg->nPos);
-
+			sLog->outError("[PetItem] [%s][%s] RequestPetItem Invalid Iventory nPos %d",
+				lpObj.AccountID, lpObj.Name, pMsg.nPos);
 			return;
 		}
 
@@ -16626,13 +16600,13 @@ void GameProtocol::CGRequestPetItemInfo(PMSG_REQUEST_PET_ITEMINFO * lpMsg, int a
 		{
 			if (ObjectMaxRange(lpObj.m_iPShopDealerIndex))
 			{
-				if (gGameObjects[lpObj.m_iPShopDealerIndex]->pInventory[lpMsg->nPos]->IsItem())
+				if (gGameObjects[lpObj.m_iPShopDealerIndex]->pInventory[pMsg.nPos].IsItem())
 				{
-					pMsg.Level = gGameObjects[lpObj.m_iPShopDealerIndex]->pInventory[lpMsg->nPos]->m_PetItem_Level;
-					pMsg.Exp = gGameObjects[lpObj.m_iPShopDealerIndex]->pInventory[lpMsg->nPos]->m_PetItem_Exp - gPetItemExp.m_DarkSpiritExpTable[pMsg.Level];
-					pMsg.Dur = (BYTE)lpObj.pInventory[lpMsg->nPos].m_Durability;
+					pMsg.Level = gGameObjects[lpObj.m_iPShopDealerIndex]->pInventory[pMsg.nPos].m_PetItem_Level;
+					pMsg.Exp = gGameObjects[lpObj.m_iPShopDealerIndex]->pInventory[pMsg.nPos].m_PetItem_Exp - gPetItemExp.m_DarkSpiritExpTable[pMsg.Level];
+					pMsg.Dur = (BYTE)lpObj.pInventory[pMsg.nPos].m_Durability;
 
-					IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
+					IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, sizeof(pMsg));
 				}
 			}
 		}
@@ -24808,7 +24782,7 @@ void GameProtocol::CGReqUseBoxInInventory(CGameObject &lpObj, PMSG_REQ_USE_BOX *
 	}
 
 	gObjInventoryDeleteItem(aIndex, aRecv->btPos);
-	GSProtocol.GCInventoryItemDeleteSend(aIndex, aRecv->btPos, 0);
+	GameProtocol.GCInventoryItemDeleteSend(aIndex, aRecv->btPos, 0);
 
 	if (iResult == 2 || iResult == 3)
 	{
@@ -24908,7 +24882,7 @@ void GameProtocol::CGRecvHitHackValues(CGameObject &lpObj, PMSG_SEND_HITHACK_INF
 	{
 		sLog->outError( "[AntiHack][%s][%s][%s] Hit Hack detected", lpObj.m_PlayerData->Ip_addr, lpObj.AccountID, lpObj.Name);
 		AntiHackLog->Output("[AntiHack][%s][%s][%s] Hit Hack detected", lpObj.m_PlayerData->Ip_addr, lpObj.AccountID, lpObj.Name);
-		GSProtocol.GCSendDisableReconnect(aIndex);
+		GameProtocol.GCSendDisableReconnect(aIndex);
 	}
 
 	lpObj.m_PlayerData->dwLastHitHackTick = GetTickCount64();
@@ -25225,7 +25199,184 @@ void GameProtocol::CGRequestStartMuBot(PMSG_MUBOT_REQ_START* lpMsg, int aIndex)
 	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
+std::vector<Recv_PetItem_Info>& GameProtocol::gObjRequestPetItemInfoDS(CGameObject &lpObj, int inventype, std::vector<int> serials)
+{
+	int serverCode = g_ConfigRead.server.GetGameServerCode() / 20;
+	int founditemcount = 0;
+	int serverType = g_ConfigRead.server.GetServerType(); // stub server type.
+
+	std::vector<Recv_PetItem_Info> tData;
+	if (serverType == 0) // normal GS
+	{
+		for (int i = 0; i < serials.size(); i++)
+		{
+			Recv_PetItem_Info pRecvPetInfo;
+
+			QueryResult* res = this->m_PetDB->Fetch("SELECT Pet_Level, Pet_Exp FROM T_PetItem_Info WHERE ItemSerial=%I64d",
+				serials[i]);
+
+			if (res == NULL)
+			{
+				this->m_PetDB->ExecQuery("INSERT INTO T_PetItem_Info (ItemSerial, Pet_Level, Pet_Exp) VALUES (%I64d, %d, %I64d)",
+					serials[i], 1, 0);
+
+				pRecvPetInfo.Level = 1;
+				pRecvPetInfo.Exp = 0;
+				pRecvPetInfo.nPos = i;
+				pRecvPetInfo.nSerial = serials[i];
+
+			}
+			else
+			{
+				pRecvPetInfo.Level = this->m_PetDB->GetAsInteger(0);
+				pRecvPetInfo.Exp = this->m_PetDB->GetAsInteger64(1);
+				pRecvPetInfo.nPos = i;
+				pRecvPetInfo.nSerial = serials[i];
+			}
+			tData.push_back(pRecvPetInfo);
+		}
+	}
+	else // battlecore GS
+	{
+		for (int i = 0; i < serials.size(); i++)
+		{
+			Recv_PetItem_Info pRecvPetInfo;
+
+			QueryResult* res = this->m_PetDB->Fetch("CALL IGC_BattleCore_LoadPetItemInfo (%I64d, %d);",
+				serials[i], serverCode);
+
+			if (res == NULL)
+			{
+				this->m_PetDB->ExecQuery("CALL IGC_BattleCore_SavePetItemInfo (%I64d, %d, %d, %I64d);",
+					serials[i], serverCode, i, 0);
+
+				pRecvPetInfo.Level = 1);
+				pRecvPetInfo.Exp = 0;
+				pRecvPetInfo.nPos = i;
+				pRecvPetInfo.nSerial = serials[i];
+			}
+			else
+			{
+				pRecvPetInfo.Level = this->m_PetDB->GetAsInteger(0);
+				pRecvPetInfo.Exp = this->m_PetDB->GetAsInteger64(1);
+				pRecvPetInfo.nPos = this->m_PetDB->GetAsInteger64(2);
+				pRecvPetInfo.nSerial = this->m_PetDB->GetAsInteger64(3);
+			}
+			tData.push_back(pRecvPetInfo);
+		}
+	}
+	return tData;
+}
+
+
+void GameProtocol::gObjRequestPetItemInfo(CGameObject &lpObj, int inventype)
+{
+	std::vector<int> serials;
+	int founditemcount = 0;
+	if (inventype == 0)
+	{
+		for (int n = 0; n < INVENTORY_SIZE; n++)
+		{
+			if (lpObj.pInventory[n].IsItem())
+			{
+				if (lpObj.pInventory[n].m_Type == ITEMGET(13, 4) || lpObj.pInventory[n].m_Type == ITEMGET(13, 5))
+				{
+					founditemcount++;
+					serials.push_back(lpObj.pInventory[n].m_Number);
+				}
+			}
+		}
+	}
+	else if (inventype == 1)
+	{
+		for (int n = 0; n < WAREHOUSE_SIZE; n++)
+		{
+			if (lpObj.pWarehouse[n].IsItem())
+			{
+				if (lpObj.pWarehouse[n].m_Type == ITEMGET(13, 4) || lpObj.pWarehouse[n].m_Type == ITEMGET(13, 5))
+				{
+					founditemcount++;
+					serials.push_back(lpObj.pWarehouse[n].m_Number);
+				}
+			}
+		}
+	}
+
+	std::vector<Recv_PetItem_Info> data = gObjRequestPetItemInfoDS(lpObj, inventype, serials);
+
+	PMSG_SEND_PET_ITEMINFO pMsg;
+	pMsg.h.set((LPBYTE)&pMsg, 0xA9, sizeof(pMsg));
+	pMsg.InvenType = inventype;
+	pMsg.PetType = g_ConfigRead.server.GetServerType();
+
+	if (inventype == 0)
+	{
+		BOOL ReCalc = 0;
+
+		for (int n = 0; n < data.size(); n++)
+		{
+			if (data[n].nPos < INVETORY_WEAR_SIZE)
+			{
+				ReCalc = 1;
+			}
+
+			if (lpObj.pInventory[data[n].nPos].IsItem())
+			{
+				if (lpObj.pInventory[data[n].nPos].m_Number == data[n].nSerial)
+				{
+					lpObj.pInventory[data[n].nPos].SetPetItemInfo(data[n].Level, data[n].Exp);
+				}
+			}
+			this->CGRequestPetItemInfo(lpObj, pMsg);
+		}
+
+		if (ReCalc != FALSE)
+		{
+			gObjCalCharacter.CalcCharacter(lpObj);
+		}
+	}
+	else if (inventype == 1)
+	{
+		for (int n = 0; n < data.size(); n++)
+		{
+
+			if (lpObj.pWarehouse[data[n].nPos].IsItem())
+			{
+				if (lpObj.pWarehouse[data[n].nPos].m_Number == data[n].nSerial)
+				{
+					lpObj.pWarehouse[data[n].nPos].SetPetItemInfo(data[n].Level, data[n].Exp);
+				}
+			}
+			this->CGRequestPetItemInfo(lpObj, pMsg);
+		}
+	}
+}
+
+void GameProtocol::GJPUserClose(LPSTR szAccountID)
+{
+	SDHP_USERCLOSE_ID pClose;
+
+	pClose.h.c = 0xC1;
+	pClose.h.size = sizeof(SDHP_USERCLOSE_ID);
+	pClose.h.headcode = 0x05;
+	memcpy(pClose.szId, szAccountID, 10);
+
+	wsJServerCli.DataSend((char*)&pClose, pClose.h.size);
+}
+
+void GameProtocol::GJPUserClose(CGameObject &lpObj)
+{
+	SDHP_USERCLOSE_ID pClose;
+
+	pClose.h.c = 0xC1;
+	pClose.h.size = sizeof(SDHP_USERCLOSE_ID);
+	pClose.h.headcode = 0x05;
+	memcpy(pClose.szId, lpObj.AccountID, 10);
+	memcpy(pClose.szName, lpObj.BackName, 10);
+	pClose.Level = lpObj.Level;
+	pClose.DbClass = lpObj.m_PlayerData->DbClass;
+
+	wsJServerCli.DataSend((char*)&pClose, pClose.h.size);
+}
+
 

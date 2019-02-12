@@ -742,7 +742,7 @@ void CEvolutionMonsterMng::GCSendEvoMonNotice(CGameObject &lpObj)
 
 	if (this->IsEvoMonEnable() == true)
 	{
-		GSProtocol.GCSendEventBanner(aIndex, 2); //[K2]
+		gGameProtocol.GCSendEventBanner(aIndex, 2); //[K2]
 	}
 }
 

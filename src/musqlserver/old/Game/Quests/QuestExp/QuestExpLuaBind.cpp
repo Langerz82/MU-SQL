@@ -1040,7 +1040,7 @@ int QuestExpLuaBind::SubQuestZen(lua_State *L)
 		gGameObjects[iObjIndex]->m_PlayerData->Money -= iSubMoney;
 	}
 
-	GSProtocol.GCMoneySend(iObjIndex, gGameObjects[iObjIndex]->m_PlayerData->Money);
+	gGameProtocol.GCMoneySend(iObjIndex, gGameObjects[iObjIndex]->m_PlayerData->Money);
 	lua_settop(L, -3);
 
 	return 0;

@@ -198,7 +198,7 @@ void CLifeStone::LifeStoneAct(int iIndex)
 		lpObj.m_btCreationState = 5;
 
 	if ( btCreationState != lpObj.m_btCreationState )
-		GSProtocol.GCSendObjectCreationState(iIndex);
+		gGameProtocol.GCSendObjectCreationState(iIndex);
 
 	if ( lpObj.m_btCreationState < 5 )
 		return;
@@ -260,10 +260,10 @@ void CLifeStone::LifeStoneAct(int iIndex)
 						}
 
 						if (bLifeChange )
-							GSProtocol.GCReFillSend(tObjNum, gGameObjects[tObjNum]->Life, 0xFF, 1, gGameObjects[tObjNum]->iShield);
+							gGameProtocol.GCReFillSend(tObjNum, gGameObjects[tObjNum]->Life, 0xFF, 1, gGameObjects[tObjNum]->iShield);
 
 						if (bManaChange ||bBpChange ) 
-							GSProtocol.GCManaSend(tObjNum, gGameObjects[tObjNum]->Mana, 0xFF, 0, gGameObjects[tObjNum]->BP);
+							gGameProtocol.GCManaSend(tObjNum, gGameObjects[tObjNum]->Mana, 0xFF, 0, gGameObjects[tObjNum]->BP);
 					}
 				}
 			}

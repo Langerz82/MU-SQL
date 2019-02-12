@@ -2157,7 +2157,7 @@ void CArcaBattle::SendPlayResult()
 				
 			if (gObjLevelUp(&gGameObjects[n], iRewardExp, 0, "Arca Battle") == true)
 			{
-				GSProtocol.GCKillPlayerMasterExpSend(n, -1, iRewardExp, 0, 0);
+				gGameProtocol.GCKillPlayerMasterExpSend(n, -1, iRewardExp, 0, 0);
 			}
 
 			g_GensSystem.AddContributePoint(lpObj, pUserInfo->m_stAcquiredPoints.dwContributePoints);
@@ -3025,7 +3025,7 @@ void CArcaBattle::CGReqMarkRegButtonClick(CGameObject &lpObj)
 
 	if (iArcaBattleState >= ARCA_STATE_MASTER_REG && iArcaBattleState <= ARCA_STATE_CHANNEL_CLOSE)
 	{
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,532), lpObj.m_Index, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,532), lpObj.m_Index, 1);
 		pMsg.Result = CB_ARCA_MARK_REG_ERROR;
 		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 
@@ -3080,7 +3080,7 @@ void CArcaBattle::CGReqMarkRegButtonClick(CGameObject &lpObj)
 	}
 
 	g_MixSystem.ChaosBoxInit(lpObj);
-	GSProtocol.GCUserChaosBoxSend(lpObj, 0);
+	gGameProtocol.GCUserChaosBoxSend(lpObj, 0);
 	gObjInventoryCommit(lpObj.m_Index);
 
 	pMsg.Result = CB_ARCA_MARK_REG_SUCCESS;
@@ -3202,7 +3202,7 @@ void CArcaBattle::DGAnsMarkCnt(PMSG_ANS_ARCA_BATTLE_MARK_CNT_DS *lpMsg)
 		{
 			sLog->outBasic("[%s][%s] is Already Opening PShop, ChaosBox Failed",
 				lpObj.AccountID, lpObj.Name);
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,112), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,112), lpObj.m_Index, 1);
 
 			return;
 		}
@@ -3769,10 +3769,10 @@ void CArcaBattle::BootyExchange(CGameObject &lpObj)
 	if (bReward == 2)
 	{
 		g_MixSystem.ChaosBoxInit(lpObj);
-		GSProtocol.GCUserChaosBoxSend(lpObj, 0);
+		gGameProtocol.GCUserChaosBoxSend(lpObj, 0);
 
 		sLog->outBasic("[ArcaBattle][Booty] Mix Fail [%s][%s] ", lpObj.AccountID, lpObj.Name);
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,333), lpObj.m_Index, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,333), lpObj.m_Index, 1);
 
 		pMsg.Result = CB_ERROR;
 		lpObj.ChaosLock = FALSE;

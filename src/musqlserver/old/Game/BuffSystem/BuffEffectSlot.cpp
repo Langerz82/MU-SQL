@@ -883,12 +883,12 @@ void GCUseBuffEffect(CGameObject &lpObj, BYTE BuffEffectIndex, BYTE EffectUseOpt
 	}
 
 	if(EffectUseOption == 0) {
-		GSProtocol.GCStateInfoSend(lpObj, 1, BuffEffectIndex);
+		gGameProtocol.GCStateInfoSend(lpObj, 1, BuffEffectIndex);
 	}
-	else GSProtocol.GCStateInfoSend(lpObj, 0, BuffEffectIndex);
+	else gGameProtocol.GCStateInfoSend(lpObj, 0, BuffEffectIndex);
 
-	GSProtocol.GCSendAttackSpeed(lpObj.m_Index);
-	GSProtocol.GCDisplayBuffeffectPartyMember(lpObj.m_Index);
+	gGameProtocol.GCSendAttackSpeed(lpObj.m_Index);
+	gGameProtocol.GCDisplayBuffeffectPartyMember(lpObj.m_Index);
 }
 
 void gObjSendBuffList(CGameObject &lpObj)
@@ -903,7 +903,7 @@ void gObjSendBuffList(CGameObject &lpObj)
 	{
 		if(lpObj.m_BuffEffectList[i].BuffIndex != BUFFTYPE_NONE)
 		{
-			GSProtocol.GCStateInfoSend(lpObj, 1, lpObj.m_BuffEffectList[i].BuffIndex);
+			gGameProtocol.GCStateInfoSend(lpObj, 1, lpObj.m_BuffEffectList[i].BuffIndex);
 		}
 	}
 }

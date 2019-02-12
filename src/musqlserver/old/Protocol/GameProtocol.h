@@ -7,7 +7,7 @@
 
 #include "StdAfx.h"
 #include "ProtocolStructs.h"
-
+#include "CQueue.h"
 
 struct CSP_ANS_GUILDREGINFO;
 struct CSP_ANS_GUILDREGMARK;
@@ -421,7 +421,7 @@ struct PMSG_REQ_INVENTORY_EQUIPMENT_ITEM;
 struct PMSG_REQ_NIXIELAKE_ENTER;
 struct PMSG_REQ_REG_GENS_MEMBER;
 struct PMSG_REQ_SEGEDE_GENS_MEMBER;
-
+struct PetItemInfoData;
 
 class GameProtocol
 {
@@ -609,7 +609,7 @@ public:
 	void GCSendGetItemInfoForParty(CGameObject &lpObj, class CMapItem* lpItem);
 	void GCSendEffectInfo(CGameObject &lpObj, BYTE btType);
 	void CGRequestPetItemCommand(PMSG_REQUEST_PET_ITEM_COMMAND* lpMsg, CGameObject &lpObj);
-	void CGRequestPetItemInfo(PMSG_REQUEST_PET_ITEMINFO* lpMsg, CGameObject &lpObj);
+	void CGRequestPetItemInfo(CGameObject &lpObj, PMSG_SEND_PET_ITEMINFO &data);
 	void GCGuildViewportInfo(PMSG_REQ_GUILDVIEWPORT* aRecv, CGameObject &lpObj);
 	void CGGuildAssignStatus(PMSG_GUILD_ASSIGN_STATUS_REQ* aRecv, CGameObject &lpObj);
 	void CGGuildAssignType(PMSG_GUILD_ASSIGN_TYPE_REQ* aRecv, CGameObject &lpObj);
@@ -820,12 +820,52 @@ public:
 	void GCSendMuBotSettings(CGameObject &lpObj, BYTE* lpData);
 
 	void CGRecvHitHackValues(CGameObject &lpObj, PMSG_SEND_HITHACK_INFO * lpMsg);
+
+	void gObjRequestPetItemInfo(CGameObject &lpObj, int inventype);
+	std::vector<Recv_PetItem_Info>& gObjRequestPetItemInfoDS(CGameObject &lpObj, int inventype, std::vector<int> serials);
+
+
+	// From SProtocol.
+	void GJPUserClose(LPSTR szAccountID);
+	void GJPUserClose(CGameObject &lpObj);
+
+
 	bool First = true;
+
+	CQuery* m_CharDB;
+	CQuery* m_AccDB;
+	CQuery* m_GSDB;
+	CQuery* m_PetDB;
+	CQuery* m_CastleDB;
+	CQuery* m_CrywolfDB;
+	CQuery* m_PentagramDB;
+	CQuery* m_EventDB;
+	CQuery* m_RankingDB;
+	CQuery* m_ItemShopDB;
+	CQuery* m_PeriodItemDB;
+	CQuery* m_CharMiscDB;
+	CQuery* m_ArcaDB;
+	CQuery* m_QuestExpDB;
+	CQuery* m_LuckyItemDB;
+	CQuery* m_CCFinalDB;
+	CQuery* m_RummyDB;
+	CQuery* m_MineDB;
+	CQuery* m_PShopDB;
+	CQuery* m_EventInvDB;
+	CQuery* m_MuunDB;
+	CQuery* m_OptionDataDB;
+	CQuery* m_ReBuyDB;
+	CQuery* m_GremoryCaseDB;
+	CQuery* m_BattleCoreDB;
+	CQuery* m_DSFinalDB;
+	CQuery* m_EvoMonDB;
+	CQuery* m_Survivor;
+
 private:
 	bool DataEncryptCheck(CGameObject &lpObj, BYTE protoNum, BOOL Encrypt);
 };
 
-extern GameProtocol GSProtocol;
+extern GameProtocol gGameProtocol;
 
 
 #endif // _GAMEPROTOCOL_H

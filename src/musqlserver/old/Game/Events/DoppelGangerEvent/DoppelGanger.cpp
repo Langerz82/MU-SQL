@@ -949,7 +949,7 @@ void CDoppelGanger::ProcDoppelgangerState_End(ULONGLONG i64CurTime)
 					gParty.Delete(nPartyNumber, index);
 					lpObj.PartyNumber = -1;
 					lpObj.PartyTargetUser = -1;
-					GSProtocol.GCPartyDelUserSend(aIndex);
+					gGameProtocol.GCPartyDelUserSend(aIndex);
 				}
 			}
 
@@ -971,7 +971,7 @@ void CDoppelGanger::ProcDoppelgangerState_End(ULONGLONG i64CurTime)
 			}
 		}
 
-		GSProtocol.CGPartyListAll(nPartyNumber);
+		gGameProtocol.CGPartyListAll(nPartyNumber);
 		this->m_nPartyNumber = -1;
 	}
 }
@@ -1060,7 +1060,7 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(CGameObject &lpObj, BYTE btItemPos)
 		if (lpObj.pInventory[btItemPos].m_Type == ITEMGET(14, 111))
 		{
 			gObjInventoryDeleteItem(aIndex, btItemPos);
-			GSProtocol.GCInventoryItemDeleteSend(aIndex, btItemPos, 0);
+			gGameProtocol.GCInventoryItemDeleteSend(aIndex, btItemPos, 0);
 		}
 
 		else if (lpObj.pInventory[btItemPos].m_Type == ITEMGET(13, 125))
@@ -1070,12 +1070,12 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(CGameObject &lpObj, BYTE btItemPos)
 			if (lpObj.pInventory[btItemPos].m_Durability < 1.0)
 			{
 				gObjInventoryDeleteItem(aIndex, btItemPos);
-				GSProtocol.GCInventoryItemDeleteSend(aIndex, btItemPos, 0);
+				gGameProtocol.GCInventoryItemDeleteSend(aIndex, btItemPos, 0);
 			}
 
 			else
 			{
-				GSProtocol.GCItemDurSend2(aIndex, btItemPos, lpObj.pInventory[btItemPos].m_Durability, 0);
+				gGameProtocol.GCItemDurSend2(aIndex, btItemPos, lpObj.pInventory[btItemPos].m_Durability, 0);
 			}
 		}
 
@@ -1349,7 +1349,7 @@ void CDoppelGanger::PlatformLugardAct(CGameObject &lpNpc, CGameObject lpObj)
 
 	if (lpObj.m_PK_Level >= 4)
 	{
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,336), lpObj.m_Index, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,336), lpObj.m_Index, 1);
 		return;
 	}
 
@@ -1967,7 +1967,7 @@ void CDoppelGanger::SelfExplosion(CGameObject &lpObj, CMagicInf * lpMagic, int a
 	if (iMIN_Y > 255)
 		iMIN_Y = 255;
 
-	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 
 	for (int Cnt = 0; Cnt < MAX_DOPPELGANGER_USER_INFO; Cnt++)
 	{

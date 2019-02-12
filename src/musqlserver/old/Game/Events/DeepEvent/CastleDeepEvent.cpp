@@ -425,7 +425,7 @@ using namespace std;
 				char szTemp[256];
 
 				wsprintf(szTemp, Lang.GetText(0,215));
-				GSProtocol.AllSendServerMsg(szTemp);
+				gGameProtocol.AllSendServerMsg(szTemp);
 
 				if(m_bDoEvent != 0)
 				{

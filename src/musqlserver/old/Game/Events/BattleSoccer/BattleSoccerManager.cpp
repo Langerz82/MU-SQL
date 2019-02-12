@@ -72,7 +72,7 @@ int gCheckBattleGroundTimer()
 
 		if ( UserIndex != -1 )
 		{
-			GSProtocol.GCTimeViewSend(UserIndex, time);
+			gGameProtocol.GCTimeViewSend(UserIndex, time);
 		}
 	}
 
@@ -84,7 +84,7 @@ int gCheckBattleGroundTimer()
 
 			if ( UserIndex != -1 )
 			{
-				GSProtocol.GCTimeViewSend(UserIndex, time);
+				gGameProtocol.GCTimeViewSend(UserIndex, time);
 			}
 		}
 	}

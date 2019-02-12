@@ -639,7 +639,7 @@ void CIllusionTempleLeagueProcess::Proc_ITLState_End(int nCurTime)
 						if (gGameObjects[this->m_UserData[i]->m_nIndex]->pInventory[this->m_UserData[i]->m_nRelicsInvenPos]->m_Type == ITEMGET(14, 223))
 						{
 							gObjInventoryDeleteItem(this->m_UserData[i].m_nIndex, this->m_UserData[i].m_nRelicsInvenPos);
-							GSProtocol.GCInventoryItemDeleteSend(this->m_UserData[i].m_nIndex, this->m_UserData[i].m_nRelicsInvenPos, 0);
+							gGameProtocol.GCInventoryItemDeleteSend(this->m_UserData[i].m_nIndex, this->m_UserData[i].m_nRelicsInvenPos, 0);
 							this->m_UserData[i].m_nRelicsInvenPos = -1;
 						}
 					}
@@ -881,7 +881,7 @@ BOOL CIllusionTempleLeagueProcess::EnterUserIllusionTempleLeague(CGameObject &lp
 	if (nItemPos >= 0 && lpObj.pInventory[nItemPos].m_Type == ITEMGET(14, 223))
 	{
 		gObjInventoryDeleteItem(aIndex, nItemPos);
-		GSProtocol.GCInventoryItemDeleteSend(aIndex, nItemPos, 0);
+		gGameProtocol.GCInventoryItemDeleteSend(aIndex, nItemPos, 0);
 	}
 
 	BOOL bResult = FALSE;
@@ -1225,7 +1225,7 @@ void CIllusionTempleLeagueProcess::DeleteAllRelicsItem()
 						this->m_nTempleNumber + 1, lpObj.AccountID, lpObj.Name, lpObj.pInventory[this->m_UserData[i].m_nRelicsInvenPos].m_Number);
 
 					gObjInventoryDeleteItem(this->m_UserData[i].m_nIndex, this->m_UserData[i].m_nRelicsInvenPos);
-					GSProtocol.GCInventoryItemDeleteSend(this->m_UserData[i].m_nIndex, this->m_UserData[i].m_nRelicsInvenPos, 0);
+					gGameProtocol.GCInventoryItemDeleteSend(this->m_UserData[i].m_nIndex, this->m_UserData[i].m_nRelicsInvenPos, 0);
 					this->m_UserData[i].m_nRelicsInvenPos = -1;
 				}
 			}
@@ -1911,7 +1911,7 @@ void CIllusionTempleLeagueProcess::RegisterRelics(CGameObject &lpNpc, CGameObjec
 										this->m_nTempleNumber + 1, lpObj.AccountID, lpObj.Name, lpObj.pInventory[this->m_UserData[nRegisterRelicsUserArray].m_nRelicsInvenPos].m_Number);
 
 									gObjInventoryDeleteItem(lpObj.m_Index, this->m_UserData[nRegisterRelicsUserArray].m_nRelicsInvenPos);
-									GSProtocol.GCInventoryItemDeleteSend(lpObj.m_Index, this->m_UserData[nRegisterRelicsUserArray].m_nRelicsInvenPos, 0);
+									gGameProtocol.GCInventoryItemDeleteSend(lpObj.m_Index, this->m_UserData[nRegisterRelicsUserArray].m_nRelicsInvenPos, 0);
 									this->m_UserData[nRegisterRelicsUserArray].m_nRelicsInvenPos = -1;
 								}
 							}
@@ -2429,7 +2429,7 @@ void CIllusionTempleLeagueProcess::Send_ITL_SkillEnd(CGameObject lpObj, WORD wSk
 	pMsg.wObjIndex = lpObj.m_Index;
 
 	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
-	GSProtocol.MsgSendV2(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+	gGameProtocol.MsgSendV2(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 int CIllusionTempleLeagueProcess::UseSkillProdection(CGameObject &lpObj)
@@ -2563,7 +2563,7 @@ int CIllusionTempleLeagueProcess::UseSkillShieldBurn(CGameObject &lpObj, CGameOb
 
 	if (lpTargetObj.iShield <= 1)
 	{
-		GSProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
+		gGameProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
 		return TRUE;
 	}
 
@@ -2571,7 +2571,7 @@ int CIllusionTempleLeagueProcess::UseSkillShieldBurn(CGameObject &lpObj, CGameOb
 
 	lpTargetObj.iShield = nShieldDamage;
 
-	GSProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, 0, nShieldDamage);
+	gGameProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, 0, nShieldDamage);
 	return TRUE;
 }
 
@@ -2590,7 +2590,7 @@ void CIllusionTempleLeagueProcess::SendUseSkillResult(int nIndex, int nTargetInd
 
 	if (btResult == TRUE)
 	{
-		GSProtocol.MsgSendV2(&gGameObjects[nIndex], (LPBYTE)&pResult, pResult.h.size);
+		gGameProtocol.MsgSendV2(&gGameObjects[nIndex], (LPBYTE)&pResult, pResult.h.size);
 	}
 
 	sLog->outBasic("[ ITL ] SendUseSkillResult Success:[%d], Index:[%d], Target:[%d], Skill:[%d] ",
@@ -3266,7 +3266,7 @@ BOOL CIllusionTempleLeagueProcess::ReEnterUserIllusionTempleLeague(CGameObject &
 	if (nItemPos >= 0 && lpObj.pInventory[nItemPos].m_Type == ITEMGET(14, 223))
 	{
 		gObjInventoryDeleteItem(aIndex, nItemPos);
-		GSProtocol.GCInventoryItemDeleteSend(aIndex, nItemPos, 0);
+		gGameProtocol.GCInventoryItemDeleteSend(aIndex, nItemPos, 0);
 	}
 
 	BOOL bResult = 0;

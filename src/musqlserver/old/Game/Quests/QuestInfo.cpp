@@ -600,7 +600,7 @@ BOOL CQuestInfo::NpcTalk(CGameObject &lpNpc, CGameObject lpObj)
 	if ( queststate != -1 )
 	{
 		this->SendQuestMonsterKill(lpObj, questindex);
-		GSProtocol.GCSendQuestInfo(lpObj.m_Index, questindex);
+		gGameProtocol.GCSendQuestInfo(lpObj.m_Index, questindex);
 		lpObj.m_IfState.type = 10;
 		lpObj.m_IfState.state = 0;
 		lpObj.m_IfState.use = 1;
@@ -1065,7 +1065,7 @@ BOOL CQuestInfo::QuestAccept(CGameObject &lpObj, int QuestIndex)
 	}
 	
 	lpObj.m_PlayerData->Money -= NeedZen;
-	GSProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
+	gGameProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
 	return true;
 }
 
@@ -1096,7 +1096,7 @@ BOOL CQuestInfo::QuestClear(CGameObject &lpObj, int QuestIndex)
 			if ( lpSubInfo->RewardType == QUEST_COMPENSATION_CHANGEUP )
 			{
 				lpObj.m_PlayerData->LevelUpPoint += lpSubInfo->RewardCount;
-				GSProtocol.GCSendQuestPrize(lpObj.m_Index, QUEST_COMPENSATION_STATUP, lpSubInfo->RewardCount );
+				gGameProtocol.GCSendQuestPrize(lpObj.m_Index, QUEST_COMPENSATION_STATUP, lpSubInfo->RewardCount );
 				lpObj.m_PlayerData->ChangeUP = true;
 				lpObj.m_PlayerData->DbClass |= 1;
 				gObjMakePreviewCharSet(lpObj.m_Index);
@@ -1108,14 +1108,14 @@ BOOL CQuestInfo::QuestClear(CGameObject &lpObj, int QuestIndex)
 				btClass = btClass / 2;
 			//	btClass |= (lpObj.m_PlayerData->ChangeUP * 16) & 16;
 			//	sLog->outBasic("[K2] btClass %d ChangeUP %d", btClass, lpObj.m_PlayerData->ChangeUP);
-				GSProtocol.GCSendQuestPrize(lpObj.m_Index, QUEST_COMPENSATION_CHANGEUP, btClass);
+				gGameProtocol.GCSendQuestPrize(lpObj.m_Index, QUEST_COMPENSATION_CHANGEUP, btClass);
 			//	sLog->outBasic("[Quest] Quest Clear (%s) : [%s][%s] Stat(%d,%d), ChangeUp",
 			//		lpQuestInfo->Name, lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->LevelUpPoint,lpSubInfo->RewardCount );
 			}
 			else if ( lpSubInfo->RewardType == QUEST_COMPENSATION_STATUP )
 			{
 				lpObj.m_PlayerData->LevelUpPoint += lpSubInfo->RewardCount;
-				GSProtocol.GCSendQuestPrize(lpObj.m_Index, QUEST_COMPENSATION_STATUP, lpSubInfo->RewardCount );
+				gGameProtocol.GCSendQuestPrize(lpObj.m_Index, QUEST_COMPENSATION_STATUP, lpSubInfo->RewardCount );
 				//sLog->outBasic("[Quest] Quest Clear (%s) : [%s][%s] Stat(%d,%d)",lpQuestInfo->Name, lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->LevelUpPoint,
 				//	lpSubInfo->RewardCount );
 			}
@@ -1130,20 +1130,20 @@ BOOL CQuestInfo::QuestClear(CGameObject &lpObj, int QuestIndex)
 
 				lpObj.m_PlayerData->LevelUpPoint += level;
 				lpObj.m_PlayerData->PlusStatQuestClear = true;
-				GSProtocol.GCSendQuestPrize(lpObj.m_Index, QUEST_COMPENSATION_PLUSSSTAT, level );
+				gGameProtocol.GCSendQuestPrize(lpObj.m_Index, QUEST_COMPENSATION_PLUSSSTAT, level );
 				//sLog->outBasic("[Quest] Quest Clear (%s) : [%s][%s] Stat(%d,%d), PlusStat",
 				//	lpQuestInfo->Name, lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->LevelUpPoint,level );
 			}
 			else if ( lpSubInfo->RewardType == QUEST_COMPENSATION_COMBOSKILL )
 			{
-				GSProtocol.GCSendQuestPrize(lpObj.m_Index, QUEST_COMPENSATION_COMBOSKILL, 0 );
+				gGameProtocol.GCSendQuestPrize(lpObj.m_Index, QUEST_COMPENSATION_COMBOSKILL, 0 );
 				lpObj.m_PlayerData->ComboSkillquestClear = true;
 				//sLog->outBasic("[Quest] Quest Clear (%s) : [%s][%s] ComboSkill",	lpQuestInfo->Name, lpObj.AccountID, lpObj.Name);
 			}
 			else if ( lpSubInfo->RewardType == QUEST_COMPENSATION_CHANGEUP2 )
 			{
 				lpObj.m_PlayerData->LevelUpPoint += lpSubInfo->RewardCount;
-				GSProtocol.GCSendQuestPrize(lpObj.m_Index, QUEST_COMPENSATION_STATUP, lpSubInfo->RewardCount);
+				gGameProtocol.GCSendQuestPrize(lpObj.m_Index, QUEST_COMPENSATION_STATUP, lpSubInfo->RewardCount);
 				lpObj.m_PlayerData->ChangeUP = 2;
 				g_MasterLevelSkillTreeSystem.InitData(lpObj);
 
@@ -1167,7 +1167,7 @@ BOOL CQuestInfo::QuestClear(CGameObject &lpObj, int QuestIndex)
 				}
 
 				gObjMakePreviewCharSet(lpObj.m_Index);
-				GSProtocol.GCSendQuestPrize(lpObj.m_Index, QUEST_COMPENSATION_CHANGEUP2, btClass);
+				gGameProtocol.GCSendQuestPrize(lpObj.m_Index, QUEST_COMPENSATION_CHANGEUP2, btClass);
 				//sLog->outBasic("[Quest] Quest Clear (%s) : [%s][%s] Class:%d(%d), 3rd ChangeUp",	lpQuestInfo->Name, lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->DbClass, lpObj.m_PlayerData->DbClass-1 );
 
 				lpObj.m_PlayerData->m_Quest[20] = 0;
@@ -1479,7 +1479,7 @@ void CQuestInfo::CheckQuestMapEnterOnWerwolf(int iIndex)
 	if (gObjMoveGate(iIndex, 256) == TRUE)
 	{
 		lpObj.m_PlayerData->Money -= 3000000;
-		GSProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
+		gGameProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
 	}
 
 	else

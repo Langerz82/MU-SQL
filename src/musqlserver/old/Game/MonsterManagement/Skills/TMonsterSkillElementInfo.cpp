@@ -51,16 +51,16 @@ void TMonsterSkillElementInfo::CheckSkillElementInfoProc(CGameObject &lpObj)
 			if ( lpObj.Life <0 )
 			{
 				lpObj.Life = 0;
-				GSProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
+				gGameProtocol.GCReFillSend(lpObj, lpObj.Life, 0xFF, 0, lpObj.iShield);
 			}
 			else if ( (lpObj.MaxLife + lpObj.AddLife) < lpObj.Life )
 			{
 				lpObj.Life = lpObj.MaxLife + lpObj.AddLife;
-				GSProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
+				gGameProtocol.GCReFillSend(lpObj, lpObj.Life, 0xFF, 0, lpObj.iShield);
 			}
 			else
 			{
-				GSProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
+				gGameProtocol.GCReFillSend(lpObj, lpObj.Life, 0xFF, 0, lpObj.iShield);
 			}
 		}
 	}

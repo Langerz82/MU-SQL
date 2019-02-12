@@ -306,7 +306,7 @@ void CGMMng::ManagerSendData(LPSTR szMsg, int size)
 	{
 		if (this->ManagerIndex[n] != -1)
 		{
-			GSProtocol.GCServerMsgStringSend(szMsg, this->ManagerIndex[n], 0);
+			gGameProtocol.GCServerMsgStringSend(szMsg, this->ManagerIndex[n], 0);
 		}
 	}
 }
@@ -328,7 +328,7 @@ void CGMMng::BattleInfoSend(char* Name1, BYTE score1, char* Name2, BYTE score2)
 	{
 		if (this->ManagerIndex[n] != -1)
 		{
-			GSProtocol.GCGoalSend(this->ManagerIndex[n], Name1, score1, Name2, score2);
+			gGameProtocol.GCGoalSend(this->ManagerIndex[n], Name1, score1, Name2, score2);
 		}
 	}
 }
@@ -406,7 +406,7 @@ void PostSend(CGameObject &lpObj, char * szMessage)
 	strcpy(pMsg.szTag, Lang.GetText(0, 334));
 	strcpy(pMsg.szMessage, szMessage);
 
-	GSProtocol.DataSendAll((LPBYTE)&pMsg, sizeof(pMsg));
+	gGameProtocol.DataSendAll((LPBYTE)&pMsg, sizeof(pMsg));
 }
 
 int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
@@ -527,7 +527,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		{
 			pMsg.X = x + (rand() % 5) * 2 - 4;
 			pMsg.Y = y + (rand() % 5) * 2 - 4;
-			GSProtocol.MsgSendV2(lpObj, (UCHAR*)&pMsg, sizeof(pMsg));
+			gGameProtocol.MsgSendV2(lpObj, (UCHAR*)&pMsg, sizeof(pMsg));
 			::IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (UCHAR*)&pMsg, sizeof(pMsg));
 		}
 	}
@@ -571,12 +571,12 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 			this->WatchTargetIndex = -1;
 
 			wsprintf(szTemp, "%s - invalid target", lpTargetObj.Name);
-			GSProtocol.GCServerMsgStringSend(szTemp, lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(szTemp, lpObj.m_Index, 1);
 		}
 		else
 		{
 			wsprintf(szTemp, "%s - monitoring set", lpTargetObj.Name);
-			GSProtocol.GCServerMsgStringSend(szTemp, lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(szTemp, lpObj.m_Index, 1);
 			this->WatchTargetIndex = lpTargetObj.m_Index;
 		}
 	}
@@ -812,7 +812,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 
 				if (lpObj.Teleport != 0)
 				{
-					GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 153), lpObj.m_Index, 1);
+					gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 153), lpObj.m_Index, 1);
 					return 0;
 				}
 
@@ -828,13 +828,13 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 
 				if (lpObj.m_IfState.use > 0)
 				{
-					GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 153), lpObj.m_Index, 1);
+					gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 153), lpObj.m_Index, 1);
 					return 0;
 				}
 
 				if (lpObj.IsInBattleGround != false)
 				{
-					GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 153), lpObj.m_Index, 1);
+					gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 153), lpObj.m_Index, 1);
 					return 0;
 				}
 			}
@@ -953,7 +953,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 
 			if (szGuild != NULL)
 			{
-				GSProtocol.GCManagerGuildWarEnd(szGuild);
+				gGameProtocol.GCManagerGuildWarEnd(szGuild);
 			}
 		}
 		else
@@ -969,8 +969,8 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 						char szTemp[100];
 
 						wsprintf(szTemp, Lang.GetText(0, 61), lpObj.m_PlayerData->lpGuild->Names[0]);
-						GSProtocol.GCServerMsgStringSendGuild(lpObj.m_PlayerData->lpGuild, szTemp, 1);
-						GSProtocol.GCServerMsgStringSendGuild(lpObj.m_PlayerData->lpGuild->lpTargetGuildNode, szTemp, 1);
+						gGameProtocol.GCServerMsgStringSendGuild(lpObj.m_PlayerData->lpGuild, szTemp, 1);
+						gGameProtocol.GCServerMsgStringSendGuild(lpObj.m_PlayerData->lpGuild->lpTargetGuildNode, szTemp, 1);
 					}
 				}
 			}
@@ -1060,7 +1060,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		{
 			if (strlen(pId) >= 1)
 			{
-				GSProtocol.GCGuildWarRequestResult(pId, aIndex, 0);
+				gGameProtocol.GCGuildWarRequestResult(pId, aIndex, 0);
 			}
 		}
 	}
@@ -1092,7 +1092,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 					{
 						if (strlen(Rival) >= 1)
 						{
-							GSProtocol.GCManagerGuildWarSet(pId, Rival, 1);
+							gGameProtocol.GCManagerGuildWarSet(pId, Rival, 1);
 						}
 					}
 				}
@@ -1112,7 +1112,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 			{
 				if (strlen(pId) >= 1)
 				{
-					GSProtocol.GCGuildWarRequestResult(pId, aIndex, 1);
+					gGameProtocol.GCGuildWarRequestResult(pId, aIndex, 1);
 				}
 			}
 		}
@@ -1157,7 +1157,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 
 			if (lpObj.m_PlayerData->SwearWarning >= 3)
 			{
-				GSProtocol.GCSendDisableReconnect(aIndex);
+				gGameProtocol.GCSendDisableReconnect(aIndex);
 				MsgOutput(aIndex, Lang.GetText(0, 431));
 			}
 
@@ -1165,7 +1165,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 			{
 				MsgOutput(aIndex, Lang.GetText(0, 432), lpObj.m_PlayerData->SwearWarning);
 				lpObj.m_PlayerData->Money -= g_ConfigRead.data.post.iPostPrice * 2;
-				GSProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
+				gGameProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
 			}
 
 			return 0;
@@ -1179,7 +1179,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 
 		lpObj.m_PostCMDLastUseTick = GetTickCount();
 		lpObj.m_PlayerData->Money -= g_ConfigRead.data.post.iPostPrice;
-		GSProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
+		gGameProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
 
 		PostSend(lpObj, (char*)szCmd + strlen(this->m_CommandNames.PostCMD));
 		break;
@@ -1211,7 +1211,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 
 			if (lpObj.m_PlayerData->SwearWarning >= 3)
 			{
-				GSProtocol.GCSendDisableReconnect(aIndex);
+				gGameProtocol.GCSendDisableReconnect(aIndex);
 				MsgOutput(aIndex, Lang.GetText(0, 431));
 				//IOCP.CloseClient(aIndex);
 			}
@@ -1220,7 +1220,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 			{
 				MsgOutput(aIndex, Lang.GetText(0, 432), lpObj.m_PlayerData->SwearWarning);
 				lpObj.m_PlayerData->Money -= g_ConfigRead.data.post.iPostPrice * 2;
-				GSProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
+				gGameProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
 			}
 
 			return 0;
@@ -1234,7 +1234,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 
 		lpObj.m_PostCMDLastUseTick = GetTickCount();
 		lpObj.m_PlayerData->Money -= g_ConfigRead.data.post.iPostPrice;
-		GSProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
+		gGameProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
 
 		GS_GDReqGlobalPostMultiCast(g_MapServerManager.GetMapSvrGroup(), lpObj.m_Index, (char*)szCmd + strlen(m_CommandNames.GPostCMD));
 		break;
@@ -1257,17 +1257,17 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		Pontos = GetTokenNumber();
 		if (Pontos == NULL)
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 434), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 434), lpObj.m_Index, 1);
 			return FALSE;
 		}
 		if (lpObj.m_PlayerData->LevelUpPoint < Pontos || Pontos < 1)
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 435), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 435), lpObj.m_Index, 1);
 			return FALSE;
 		}
 		if ((Pontos + lpObj.m_PlayerData->Strength) > g_MaxStatsInfo.GetClass.MaxStats[lpObj.Class][0])
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 436), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 436), lpObj.m_Index, 1);
 			return FALSE;
 		}
 		lpObj.m_PlayerData->LevelUpPoint -= Pontos;
@@ -1285,7 +1285,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 
 		gObjCalCharacter.CalcCharacter(aIndex);
 		gObjSetBP(aIndex);
-		GSProtocol.GCLevelUpMsgSend(lpObj.m_Index, 1);
+		gGameProtocol.GCLevelUpMsgSend(lpObj.m_Index, 1);
 		gObjCalcMaxLifePower(lpObj.m_Index);
 		return TRUE;
 	}
@@ -1297,17 +1297,17 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 
 		if (Pontos == NULL)
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 434), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 434), lpObj.m_Index, 1);
 			return FALSE;
 		}
 		if (lpObj.m_PlayerData->LevelUpPoint < Pontos || Pontos < 1)
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 435), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 435), lpObj.m_Index, 1);
 			return FALSE;
 		}
 		if ((Pontos + lpObj.m_PlayerData->Dexterity) > g_MaxStatsInfo.GetClass.MaxStats[lpObj.Class][1])
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 436), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 436), lpObj.m_Index, 1);
 			return FALSE;
 		}
 
@@ -1328,7 +1328,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pStats, sizeof(pStats));
 
 		gObjCalCharacter.CalcCharacter(aIndex);
-		GSProtocol.GCLevelUpMsgSend(lpObj.m_Index, 1);
+		gGameProtocol.GCLevelUpMsgSend(lpObj.m_Index, 1);
 		return TRUE;
 	}
 	break;
@@ -1338,17 +1338,17 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		Pontos = GetTokenNumber();
 		if (Pontos == NULL)
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 434), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 434), lpObj.m_Index, 1);
 			return FALSE;
 		}
 		if (lpObj.m_PlayerData->LevelUpPoint < Pontos || Pontos < 1)
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 435), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 435), lpObj.m_Index, 1);
 			return FALSE;
 		}
 		if ((Pontos + lpObj.m_PlayerData->Vitality) > g_MaxStatsInfo.GetClass.MaxStats[lpObj.Class][2])
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 436), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 436), lpObj.m_Index, 1);
 			return FALSE;
 		}
 
@@ -1369,7 +1369,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pStats, sizeof(pStats));
 
 		gObjCalCharacter.CalcCharacter(lpObj.m_Index);
-		GSProtocol.GCLevelUpMsgSend(lpObj.m_Index, 1);
+		gGameProtocol.GCLevelUpMsgSend(lpObj.m_Index, 1);
 		return TRUE;
 	}
 	case Command::AddEne:
@@ -1378,17 +1378,17 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		Pontos = GetTokenNumber();
 		if (Pontos == NULL)
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 434), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 434), lpObj.m_Index, 1);
 			return FALSE;
 		}
 		if (lpObj.m_PlayerData->LevelUpPoint < Pontos || Pontos < 1)
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 435), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 435), lpObj.m_Index, 1);
 			return FALSE;
 		}
 		if ((Pontos + lpObj.m_PlayerData->Energy) > g_MaxStatsInfo.GetClass.MaxStats[lpObj.Class][3])
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 436), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 436), lpObj.m_Index, 1);
 			return FALSE;
 		}
 
@@ -1408,7 +1408,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pStats, sizeof(pStats));
 
 		gObjCalCharacter.CalcCharacter(lpObj.m_Index);
-		GSProtocol.GCLevelUpMsgSend(lpObj.m_Index, 1);
+		gGameProtocol.GCLevelUpMsgSend(lpObj.m_Index, 1);
 		return TRUE;
 		break;
 	}
@@ -1416,7 +1416,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 	{
 		if (lpObj.Class != 4)
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 441), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 441), lpObj.m_Index, 1);
 			return FALSE;
 		}
 
@@ -1424,17 +1424,17 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		Pontos = GetTokenNumber();
 		if (Pontos == NULL)
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 434), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 434), lpObj.m_Index, 1);
 			return FALSE;
 		}
 		if (lpObj.m_PlayerData->LevelUpPoint < Pontos || Pontos < 1)
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 435), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 435), lpObj.m_Index, 1);
 			return FALSE;
 		}
 		if ((Pontos + lpObj.Leadership) > g_MaxStatsInfo.GetClass.MaxStats[lpObj.Class][4])
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 436), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 436), lpObj.m_Index, 1);
 			return FALSE;
 		}
 
@@ -1452,7 +1452,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pStats, sizeof(pStats));
 
 		gObjCalCharacter.CalcCharacter(aIndex);
-		GSProtocol.GCLevelUpMsgSend(lpObj.m_Index, 1);
+		gGameProtocol.GCLevelUpMsgSend(lpObj.m_Index, 1);
 		return TRUE;
 	}
 	case 435:
@@ -1461,24 +1461,24 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		Pontos = GetTokenNumber();
 		if (Pontos == NULL)
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 434), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 434), lpObj.m_Index, 1);
 			return FALSE;
 		}
 		if (lpObj.m_PlayerData->LevelUpPoint < Pontos || Pontos < 1)
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 435), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 435), lpObj.m_Index, 1);
 			return FALSE;
 		}
 		if ((Pontos + lpObj.m_PlayerData->Strength) > g_MaxStatsInfo.GetClass.MaxStats[lpObj.Class][0])
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 436), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 436), lpObj.m_Index, 1);
 			return FALSE;
 		}
 		lpObj.m_PlayerData->LevelUpPoint -= Pontos;
 		lpObj.m_PlayerData->Strength += Pontos;
 		char Msg[100];
 		sprintf(Msg, Lang.GetText(0, 437), Pontos);
-		GSProtocol.GCServerMsgStringSend(Msg, lpObj.m_Index, 1);
+		gGameProtocol.GCServerMsgStringSend(Msg, lpObj.m_Index, 1);
 		return TRUE;
 	}
 	break;
@@ -1488,17 +1488,17 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 
 		if (Pontos == NULL)
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 434), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 434), lpObj.m_Index, 1);
 			return FALSE;
 		}
 		if (lpObj.m_PlayerData->LevelUpPoint < Pontos || Pontos < 1)
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 435), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 435), lpObj.m_Index, 1);
 			return FALSE;
 		}
 		if ((Pontos + lpObj.m_PlayerData->Dexterity) > g_MaxStatsInfo.GetClass.MaxStats[lpObj.Class][1])
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 436), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 436), lpObj.m_Index, 1);
 			return FALSE;
 		}
 
@@ -1510,7 +1510,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 
 		char Msg[100];
 		sprintf(Msg, Lang.GetText(0, 438), Pontos);
-		GSProtocol.GCServerMsgStringSend(Msg, lpObj.m_Index, 1);
+		gGameProtocol.GCServerMsgStringSend(Msg, lpObj.m_Index, 1);
 
 		return TRUE;
 	}
@@ -1521,17 +1521,17 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		Pontos = GetTokenNumber();
 		if (Pontos == NULL)
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 434), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 434), lpObj.m_Index, 1);
 			return FALSE;
 		}
 		if (lpObj.m_PlayerData->LevelUpPoint < Pontos || Pontos < 1)
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 435), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 435), lpObj.m_Index, 1);
 			return FALSE;
 		}
 		if ((Pontos + lpObj.m_PlayerData->Vitality) > g_MaxStatsInfo.GetClass.MaxStats[lpObj.Class][2])
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 407), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 407), lpObj.m_Index, 1);
 			return FALSE;
 		}
 
@@ -1539,7 +1539,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		lpObj.m_PlayerData->Vitality += Pontos;
 		char Msg[100];
 		sprintf(Msg, Lang.GetText(0, 439), Pontos);
-		GSProtocol.GCServerMsgStringSend(Msg, lpObj.m_Index, 1);
+		gGameProtocol.GCServerMsgStringSend(Msg, lpObj.m_Index, 1);
 		gObjCalCharacter.CalcCharacter(lpObj.m_Index);
 		return TRUE;
 	}
@@ -1549,17 +1549,17 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		Pontos = GetTokenNumber();
 		if (Pontos == NULL)
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 434), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 434), lpObj.m_Index, 1);
 			return FALSE;
 		}
 		if (lpObj.m_PlayerData->LevelUpPoint < Pontos || Pontos < 1)
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 435), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 435), lpObj.m_Index, 1);
 			return FALSE;
 		}
 		if ((Pontos + lpObj.m_PlayerData->Energy) > g_MaxStatsInfo.GetClass.MaxStats[lpObj.Class][3])
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 436), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 436), lpObj.m_Index, 1);
 			return FALSE;
 		}
 
@@ -1567,7 +1567,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		lpObj.m_PlayerData->LevelUpPoint -= Pontos;
 		char Msg[100];
 		sprintf(Msg, Lang.GetText(0, 440), Pontos);
-		GSProtocol.GCServerMsgStringSend(Msg, lpObj.m_Index, 1);
+		gGameProtocol.GCServerMsgStringSend(Msg, lpObj.m_Index, 1);
 		gObjCalCharacter.CalcCharacter(lpObj.m_Index);
 		return TRUE;
 		break;
@@ -1576,7 +1576,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 	{
 		if (lpObj.Class != 4)
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 441), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 441), lpObj.m_Index, 1);
 			return FALSE;
 		}
 
@@ -1584,17 +1584,17 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		Pontos = GetTokenNumber();
 		if (Pontos == NULL)
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 434), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 434), lpObj.m_Index, 1);
 			return FALSE;
 		}
 		if (lpObj.m_PlayerData->LevelUpPoint < Pontos || Pontos < 1)
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 435), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 435), lpObj.m_Index, 1);
 			return FALSE;
 		}
 		if ((Pontos + lpObj.Leadership) > g_MaxStatsInfo.GetClass.MaxStats[lpObj.Class][4])
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 436), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 436), lpObj.m_Index, 1);
 			return FALSE;
 		}
 
@@ -1602,7 +1602,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		lpObj.m_PlayerData->LevelUpPoint -= Pontos;
 		char Msg[100];
 		sprintf(Msg, Lang.GetText(0, 442), Pontos);
-		GSProtocol.GCServerMsgStringSend(Msg, lpObj.m_Index, 1);
+		gGameProtocol.GCServerMsgStringSend(Msg, lpObj.m_Index, 1);
 		return TRUE;
 	}
 
@@ -1869,7 +1869,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		if (index == -1) break;
 		gGameObjects[index]->m_PK_Level = pklevel;
 		gGameObjects[index]->m_PK_Count = pkcount;
-		GSProtocol.GCPkLevelSend(index, gGameObjects[index]->m_PK_Level);
+		gGameProtocol.GCPkLevelSend(index, gGameObjects[index]->m_PK_Level);
 		break;
 	}
 
@@ -1941,10 +1941,10 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		else
 		{
 			lpObj.m_PlayerData->Money -= Price;
-			GSProtocol.GCMoneySend(aIndex, lpObj.m_PlayerData->Money);
+			gGameProtocol.GCMoneySend(aIndex, lpObj.m_PlayerData->Money);
 			lpObj.m_PK_Level = 3;
 			lpObj.m_PK_Count = 0;
-			GSProtocol.GCPkLevelSend(aIndex, lpObj.m_PK_Level);
+			gGameProtocol.GCPkLevelSend(aIndex, lpObj.m_PK_Level);
 		}
 		break;
 	}
@@ -2389,14 +2389,14 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 			if (pindex >= 0)
 			{
 				pMsg.Number = pindex;
-				GSProtocol.CGPartyDelUser(&pMsg, lpObj.m_Index, 0);
+				gGameProtocol.CGPartyDelUser(&pMsg, lpObj.m_Index, 0);
 			}
 		}
 
 		if (lpObj.m_SkillInfo.LordSummonTime != 0)
 		{
 			lpObj.m_SkillInfo.LordSummonTime = 0;
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 146), aIndex, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 146), aIndex, 1);
 		}
 
 		gObjClearBuffEffect(lpObj, CLEAR_TYPE_NON_PCS_ITEM_EFFECT);
@@ -2448,14 +2448,14 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		lpObj.m_PlayerData->m_iResets += 1;
 		gObjNextExpCal(lpObj);
 		lpObj.m_PlayerData->Money -= g_ConfigRead.data.reset.iCost;
-		GSProtocol.GCMoneySend(aIndex, lpObj.m_PlayerData->Money);
+		gGameProtocol.GCMoneySend(aIndex, lpObj.m_PlayerData->Money);
 		gObjCalCharacter.CalcCharacter(lpObj.m_Index);
 		GJSetCharacterInfo(lpObj, aIndex, 0);
-		GSProtocol.GCLevelUpMsgSend(aIndex, 1);
+		gGameProtocol.GCLevelUpMsgSend(aIndex, 1);
 
 		if (g_ConfigRead.data.reset.ResetML == true)
 		{
-			GSProtocol.GCMasterLevelUpMsgSend(aIndex);
+			gGameProtocol.GCMasterLevelUpMsgSend(aIndex);
 		}
 
 		if (lpObj.Class == CLASS_ELF)
@@ -2535,12 +2535,12 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 				}
 
 				gObjInventoryDeleteItem(aIndex, i);
-				GSProtocol.GCInventoryItemDeleteSend(aIndex, i, 1);
+				gGameProtocol.GCInventoryItemDeleteSend(aIndex, i, 1);
 			}
 
 		}
 		lpObj.m_PlayerData->Money = 0;
-		GSProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
+		gGameProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
 		sLog->outError( "[%s][%s] Cleared inventory", lpObj.AccountID, lpObj.Name);
 		MsgOutput(lpObj.m_Index, Lang.GetText(0, 465));
 		break;
@@ -2834,7 +2834,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		if (gObjPasswordCheck(lpDcOBJ->m_Index, password))
 		{
 			//gObjCloseSet(lpDcOBJ->m_Index,0);
-			GSProtocol.GCSendDisableReconnect(lpDcOBJ->m_Index);
+			gGameProtocol.GCSendDisableReconnect(lpDcOBJ->m_Index);
 			//IOCP.CloseClient(lpDcOBJ->m_Index);
 			MsgOutput(aIndex, Lang.GetText(0, 485));
 		}
@@ -2862,16 +2862,16 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		switch (wCheatMode)
 		{
 		case 1:
-			GSProtocol.GCServerMsgStringSend("[EventDungeon] CheatMode On", aIndex, 1);
+			gGameProtocol.GCServerMsgStringSend("[EventDungeon] CheatMode On", aIndex, 1);
 			break;
 		case 2:
-			GSProtocol.GCServerMsgStringSend("[EventDungeon] CheatMode On", aIndex, 1);
+			gGameProtocol.GCServerMsgStringSend("[EventDungeon] CheatMode On", aIndex, 1);
 			break;
 		case 3:
-			GSProtocol.GCServerMsgStringSend("[EventDungeon] CheatMode On - LOG START", aIndex, 1);
+			gGameProtocol.GCServerMsgStringSend("[EventDungeon] CheatMode On - LOG START", aIndex, 1);
 			break;
 		default:
-			GSProtocol.GCServerMsgStringSend("[EventDungeon] CheatMode Off", aIndex, 1);
+			gGameProtocol.GCServerMsgStringSend("[EventDungeon] CheatMode Off", aIndex, 1);
 			break;
 		}
 	}
@@ -2893,7 +2893,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		else
 		{
 			g_ImperialGuardian.SetDayOfWeekGM(nDayOfWeeks);
-			GSProtocol.GCServerMsgStringSend("[EventDungeon] SetDayOfWeek Success", aIndex, 1);
+			gGameProtocol.GCServerMsgStringSend("[EventDungeon] SetDayOfWeek Success", aIndex, 1);
 		}
 	}
 	break;
@@ -3648,7 +3648,7 @@ bool CGMMng::CommandReset(CGameObject &lpObj)
 	if (ResetFee > 0)
 	{
 		lpObj.m_PlayerData->Money -= ResetFee;
-		GSProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
+		gGameProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
 	}
 
 	lpObj.Level = g_ConfigRead.ResetStartLevel;
@@ -3719,7 +3719,7 @@ bool CGMMng::CommandReset(CGameObject &lpObj)
 	gObjCalCharacter.CalcCharacter(lpObj.m_Index);
 
 	GJSetCharacterInfo(lpObj, lpObj.m_Index, 0);
-	GSProtocol.GCLevelUpMsgSend(lpObj.m_Index, 1);
+	gGameProtocol.GCLevelUpMsgSend(lpObj.m_Index, 1);
 	g_StatSpec.CalcStatOption(lpObj, STAT_OPTION_INC_ATTACK_POWER); 
 	g_StatSpec.CalcStatOption(lpObj, STAT_OPTION_INC_MAGIC_DAMAGE);
 	g_StatSpec.CalcStatOption(lpObj, STAT_OPTION_INC_CURSE_DAMAGE);
@@ -3817,7 +3817,7 @@ void ServerMsgSend(CGameObject &lpObj, int Type, char Sender[20], const char*Mes
 	memcpy((Packet+13),szBuffer,strlen(szBuffer));
 	int Len = (strlen(szBuffer)+0x13);
 	*(Packet+1)=Len;
-	if(!lpObj)GSProtocol.DataSendAll(Packet,Len);
+	if(!lpObj)gGameProtocol.DataSendAll(Packet,Len);
 	else
 		if(lpObj.Connected)
 			IOCP.DataSend(lpObj,Packet,Len);

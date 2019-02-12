@@ -333,7 +333,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(CGameObject &lpObj, int 
 {
 	if ( this->m_bSystemStrengthenItem == FALSE )
 	{
-		//GSProtocol.GCServerMsgStringSend(Lang.GetText(0,281), lpObj, 1);
+		//gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,281), lpObj, 1);
 		return FALSE;
 	}
 
@@ -395,7 +395,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(CGameObject &lpObj, int 
 		sLog->outBasic("[LuckyItem][Strengthen Item] Strengthen Fail [%s][%s] Name[%s] Type[%d] Serial[%I64d]  Rate (%d/%d)",
 			lpObj.AccountID, lpObj.Name, pTarget->GetName(), pTarget->m_Type,
 			pTarget->m_Number, iSuccessRate, this->m_iRateStrengthenSuccess);
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,274), lpObj, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,274), lpObj, 1);
 		return TRUE;
 	}
 
@@ -406,7 +406,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(CGameObject &lpObj, int 
 		pTarget->m_Number, iSuccessRate, this->m_iRateStrengthenSuccess,
 		iItemOption, iItemOptionLevel);
 
-	GSProtocol.GCServerMsgStringSend(Lang.GetText(0,275), lpObj, 1);
+	gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,275), lpObj, 1);
 
 	gObjMakePreviewCharSet(lpObj);
 
@@ -429,7 +429,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfHarmony(CGameObject &lpObj, i
 {
 	if ( this->m_bSystemStrengthenItem == FALSE )
 	{
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,281), lpObj, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,281), lpObj, 1);
 		return FALSE;
 	}
 
@@ -455,13 +455,13 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfHarmony(CGameObject &lpObj, i
 
 	if (pTarget->IsSetItem() != false && g_ConfigRead.data.common.AncHarmonyLimit == false )
 	{
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,273), lpObj, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,273), lpObj, 1);
 		return FALSE;
 	}
 
 	if (gSocketItemType.CheckSocketItemType((int)pTarget) )
 	{
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,273), lpObj, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,273), lpObj, 1);
 		return FALSE;
 	}
 
@@ -484,14 +484,14 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfHarmony(CGameObject &lpObj, i
 
 	if ( iSuccessRate >= this->m_iRateStrengthenSuccess )
 	{
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,274), lpObj, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,274), lpObj, 1);
 		return TRUE;
 	}
 
 	this->_MakeOption(pTarget, iItemOption, iItemOptionLevel);
 
 	
-	GSProtocol.GCServerMsgStringSend(Lang.GetText(0,275), lpObj, 1);
+	gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,275), lpObj, 1);
 
 	gObjMakePreviewCharSet(lpObj);
 
@@ -863,7 +863,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(CGameObject &lpObj, i
 {
 	if (this->m_bSystemMixSmeltingStone != TRUE)
 	{
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 282), lpObj, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 282), lpObj, 1);
 		return TRUE;
 	}
 
@@ -958,7 +958,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(CGameObject &lpObj, i
 
 	lpObj.m_PlayerData->Money -= iMakeSmeltingStoneMixPrice;
 	g_CastleSiegeSync.AddTributeMoney(iChaosTaxMoney);
-	GSProtocol.GCMoneySend(lpObj, lpObj.m_PlayerData->Money);
+	gGameProtocol.GCMoneySend(lpObj, lpObj.m_PlayerData->Money);
 	g_MixSystem.LogChaosItem(lpObj, "JewelOfHarmony][Smelt Item Mix");
 	
 	pMsg.Result = CB_MULTIMIX_RESULT;
@@ -992,7 +992,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(CGameObject &lpObj, i
 	if (lpObj.ChaosMassMixSuccessCount == 0)
 	{
 		g_MixSystem.ChaosBoxInit(lpObj);
-		GSProtocol.GCUserChaosBoxSend(lpObj, 0);
+		gGameProtocol.GCUserChaosBoxSend(lpObj, 0);
 
 		lpObj.ChaosLock = FALSE;
 		return FALSE;
@@ -1018,7 +1018,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject &lpObj)
 {
 	if ( this->m_bSystemMixSmeltingStone != TRUE )
 	{
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,282), lpObj, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,282), lpObj, 1);
 		return TRUE;
 	}
 
@@ -1095,7 +1095,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject &lpObj)
 
 	lpObj.m_PlayerData->Money -= iMakeSmeltingStoneMixPrice;
 	g_CastleSiegeSync.AddTributeMoney(iChaosTaxMoney);
-	GSProtocol.GCMoneySend(lpObj, lpObj.m_PlayerData->Money);
+	gGameProtocol.GCMoneySend(lpObj, lpObj.m_PlayerData->Money);
 	
 	int iRate = rand() % 100;
 
@@ -1116,7 +1116,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject &lpObj)
 	else
 	{
 		g_MixSystem.ChaosBoxInit(lpObj);
-		GSProtocol.GCUserChaosBoxSend(lpObj, 0);
+		gGameProtocol.GCUserChaosBoxSend(lpObj, 0);
 		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 
 	}
@@ -1131,7 +1131,7 @@ BOOL CJewelOfHarmonySystem::SmeltItemBySmeltingStone(CGameObject &lpObj, int sou
 {
 	if ( this->m_bSystemSmeltingItem == FALSE )
 	{
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,280), lpObj, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,280), lpObj, 1);
 		return FALSE;
 	}
 
@@ -1161,11 +1161,11 @@ BOOL CJewelOfHarmonySystem::SmeltItemBySmeltingStone(CGameObject &lpObj, int sou
 	{
 		if (pTarget->m_Level >= 13 )
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,270), lpObj, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,270), lpObj, 1);
 		}
 		else
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,269), lpObj, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,269), lpObj, 1);
 		}
 
 		
@@ -1181,7 +1181,7 @@ BOOL CJewelOfHarmonySystem::SmeltItemBySmeltingStone(CGameObject &lpObj, int sou
 
 			if ( (pTarget->m_DamageMin+iValue) > (pTarget->m_DamageMax-1) )
 			{
-				GSProtocol.GCServerMsgStringSend(Lang.GetText(0,270), lpObj, 1);
+				gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,270), lpObj, 1);
 				return FALSE;
 			}
 		}
@@ -1203,7 +1203,7 @@ BOOL CJewelOfHarmonySystem::SmeltItemBySmeltingStone(CGameObject &lpObj, int sou
 		pTarget->m_JewelOfHarmonyOption |= iItemOptionNewLevel & 0x0F;
 		this->ShowStrengthenOption(pTarget);
 
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,276), lpObj, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,276), lpObj, 1);
 	}
 	else
 	{
@@ -1212,7 +1212,7 @@ BOOL CJewelOfHarmonySystem::SmeltItemBySmeltingStone(CGameObject &lpObj, int sou
 		pTarget->m_JewelOfHarmonyOption |= iItemOptionNewLevel & 0x0F;
 		this->ShowStrengthenOption(pTarget);
 
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,277), lpObj, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,277), lpObj, 1);
 	}
 
 	return TRUE;
@@ -1244,7 +1244,7 @@ BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(CGameObject &lpObj)
 {
 	if ( this->m_bSystemRestoreStrengthen != TRUE )
 	{
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,283), lpObj, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,283), lpObj, 1);
 		return TRUE;
 	}
 
@@ -1311,10 +1311,10 @@ BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(CGameObject &lpObj)
 
 	lpObj.m_PlayerData->Money -= JEWEL_OF_HARMONY_RETORE_NEEDZEN;
 	g_CastleSiegeSync.AddTributeMoney(iChaosTaxMoney);
-	GSProtocol.GCMoneySend(lpObj, lpObj.m_PlayerData->Money);
+	gGameProtocol.GCMoneySend(lpObj, lpObj.m_PlayerData->Money);
 
 	pItem->m_JewelOfHarmonyOption = 0;
-	GSProtocol.GCUserChaosBoxSend(lpObj, 0);
+	gGameProtocol.GCUserChaosBoxSend(lpObj, 0);
 	this->ShowStrengthenOption(pItem);
 	lpObj.ChaosLock = FALSE;
 
@@ -1339,13 +1339,13 @@ BOOL CJewelOfHarmonySystem::NpcJewelOfHarmony(CGameObject &lpNpc, CGameObject &l
 
 		if ( this->m_bSystemPrutiyJewel != TRUE )
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,279), lpObj, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,279), lpObj, 1);
 			return TRUE;
 		}
 
 		if ( !this->IsEnableToUsePuritySystem() )
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,279), lpObj, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,279), lpObj, 1);
 			return TRUE;
 		}
 	}
@@ -1357,7 +1357,7 @@ BOOL CJewelOfHarmonySystem::NpcJewelOfHarmony(CGameObject &lpNpc, CGameObject &l
 
 		if ( this->m_bSystemMixSmeltingStone != TRUE )
 		{
-			GSProtocol.ChatTargetSend(lpNpc, Lang.GetText(0,282), lpObj.m_Index);
+			gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0,282), lpObj.m_Index);
 			return TRUE;
 		}
 	}
@@ -1367,7 +1367,7 @@ BOOL CJewelOfHarmonySystem::NpcJewelOfHarmony(CGameObject &lpNpc, CGameObject &l
 
 		if ( this->m_bSystemRestoreStrengthen != TRUE )
 		{
-			GSProtocol.ChatTargetSend(lpNpc, Lang.GetText(0,283), lpObj.m_Index);
+			gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0,283), lpObj.m_Index);
 			return TRUE;
 		}
 	}
@@ -1380,7 +1380,7 @@ BOOL CJewelOfHarmonySystem::NpcJewelOfHarmony(CGameObject &lpNpc, CGameObject &l
 	{
 		if ( lpObj.m_bPShopOpen == true )
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,112), lpObj, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,112), lpObj, 1);
 			return TRUE;
 		}
 
@@ -1394,7 +1394,7 @@ BOOL CJewelOfHarmonySystem::NpcJewelOfHarmony(CGameObject &lpNpc, CGameObject &l
 
 		gObjItemTextSave(lpObj);
 		gObjWarehouseTextSave(lpObj);
-		GSProtocol.GCAnsCsMapSvrTaxInfo(lpObj.m_Index, 1, g_CastleSiegeSync.GetTaxRateChaos(lpObj.m_Index));
+		gGameProtocol.GCAnsCsMapSvrTaxInfo(lpObj.m_Index, 1, g_CastleSiegeSync.GetTaxRateChaos(lpObj.m_Index));
 	}
 
 	return TRUE;

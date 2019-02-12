@@ -110,7 +110,7 @@ BOOL CKalimaGate::CreateKalimaGate(int iIndex, BYTE btLevel, BYTE cTX, BYTE cTY)
 
 		if ( gGameObjects[iIndex]->m_cKalimaGateExist == TRUE )
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,150), iIndex, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,150), iIndex, 1);
 			sLog->outBasic("[Kalima] [%s][%s] Failed to Summon Kalima Gate - Already Have Gate (SummonIndex:%d)",
 				gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, gGameObjects[iIndex]->m_iKalimaGateIndex);
 			return false;
@@ -223,7 +223,7 @@ void CKalimaGate::KalimaGateAct(int iIndex)
 	{
 		sLog->outBasic("[Kalima] Kalima Gate Vanished - Summoner Vanished (SummonIndex:%d, EnterCount:%d)",
 			iIndex, gGameObjects[iIndex]->m_cKalimaGateEnterCount );
-		GSProtocol.GCDiePlayerSend( &gGameObjects[iIndex], iIndex, 0, 0);
+		gGameProtocol.GCDiePlayerSend( &gGameObjects[iIndex], iIndex, 0, 0);
 		gObjDel(iIndex);
 		gObjCharZeroSet(iIndex);
 		return;
@@ -430,7 +430,7 @@ BOOL CKalimaGate::DeleteKalimaGate(int iKalimaGateIndex, int iCallOwnerIndex)
 			return 0;
 		}
 
-		GSProtocol.GCDiePlayerSend( &gGameObjects[iKalimaGateIndex], iKalimaGateIndex, 0 , 0);
+		gGameProtocol.GCDiePlayerSend( &gGameObjects[iKalimaGateIndex], iKalimaGateIndex, 0 , 0);
 		gGameObjects[iCallOwnerIndex]->m_cKalimaGateExist = FALSE;
 		gGameObjects[iCallOwnerIndex]->m_iKalimaGateIndex = -1;
 		gObjDel(iKalimaGateIndex);
@@ -496,7 +496,7 @@ BOOL CKalimaGate::CreateKalimaGate2(int iIndex, int iMonMapNumber, BYTE cTX, BYT
 
 		if ( gGameObjects[iIndex]->m_cKalimaGateExist == TRUE )
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,150), iIndex, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,150), iIndex, 1);
 
 			sLog->outBasic("[Kalima] [%s][%s] Failed to Summon Kalima Gate (NextMap) - Already Have Gate (SummonIndex:%d)",
 				gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, gGameObjects[iIndex]->m_iKalimaGateIndex);
@@ -603,7 +603,7 @@ void CKalimaGate::KalimaGateAct2(int iIndex)
 		sLog->outBasic("[Kalima] Kalima Gate Vanished (NextMap) - Summoner Vanished (SummonIndex:%d, EnterCount:%d)",
 			iIndex, gGameObjects[iIndex]->m_cKalimaGateEnterCount);
 
-		GSProtocol.GCDiePlayerSend(&gGameObjects[iIndex], iIndex, 0, 0);
+		gGameProtocol.GCDiePlayerSend(&gGameObjects[iIndex], iIndex, 0, 0);
 		gObjDel(iIndex);
 		gObjCharZeroSet(iIndex);
 

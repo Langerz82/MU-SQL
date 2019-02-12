@@ -252,7 +252,7 @@ DWORD CIOCP::IocpServerWorker(void * p)
 				gGameObjects[ClientIndex]->PerSocketContext->dwIOCount++;
 
 				LeaveCriticalSection(&criti);
-				GSProtocol.SCPJoinResultSend(ClientIndex, 1);
+				gGameProtocol.SCPJoinResultSend(ClientIndex, 1);
 			}
 		}
 	}
@@ -519,7 +519,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 					if (gGameObjects[uIndex]->m_PlayerData->PacketsPerSecond >= g_ConfigRead.PacketLimit)
 					{
 						sLog->outError("[ANTI-HACK] Packets Per Second: %d / %d", gGameObjects[uIndex]->m_PlayerData->PacketsPerSecond, g_ConfigRead.PacketLimit);
-						//GSProtocol.GCSendDisableReconnect(uIndex);
+						//gGameProtocol.GCSendDisableReconnect(uIndex);
 						IOCP.CloseClient(uIndex);
 						return 0;
 					}
@@ -548,7 +548,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 						return 0;
 					}
 
-					GSProtocol.ProtocolCore(headcode, byDec, ret, uIndex, 1);
+					gGameProtocol.ProtocolCore(headcode, byDec, ret, uIndex, 1);
 
 				}
 			}
@@ -576,7 +576,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 					if (gGameObjects[uIndex]->m_PlayerData->PacketsPerSecond >= g_ConfigRead.PacketLimit)
 					{
 						sLog->outError("[ANTI-HACK] Packets Per Second: %d / %d", gGameObjects[uIndex]->m_PlayerData->PacketsPerSecond, g_ConfigRead.PacketLimit);
-						//GSProtocol.GCSendDisableReconnect(uIndex);
+						//gGameProtocol.GCSendDisableReconnect(uIndex);
 						IOCP.CloseClient(uIndex);
 						return 0;
 					}
@@ -598,7 +598,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 						return false;
 					}
 
-					GSProtocol.ProtocolCore(headcode, byDec, ret, uIndex, 1);
+					gGameProtocol.ProtocolCore(headcode, byDec, ret, uIndex, 1);
 				}
 			}
 			else
@@ -624,12 +624,12 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 				if (gGameObjects[uIndex]->m_PlayerData->PacketsPerSecond >= g_ConfigRead.PacketLimit)
 				{
 					sLog->outError("[ANTI-HACK] Packets Per Second: %d / %d", gGameObjects[uIndex]->m_PlayerData->PacketsPerSecond, g_ConfigRead.PacketLimit);
-					GSProtocol.GCSendDisableReconnect(uIndex);
+					gGameProtocol.GCSendDisableReconnect(uIndex);
 					//IOCP.CloseClient(uIndex);
 					return 0;
 				}
 
-				GSProtocol.ProtocolCore(headcode, byDec, size, uIndex, 0); // here
+				gGameProtocol.ProtocolCore(headcode, byDec, size, uIndex, 0); // here
 			}
 
 			lOfs += size; // wait

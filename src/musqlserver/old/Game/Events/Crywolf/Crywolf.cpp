@@ -1319,8 +1319,8 @@ void CCrywolf::GiveRewardExp(int iUserIndex, int iRewardExp)
 
 		if( g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&gGameObjects[iUserIndex]) == FALSE) //season3 add-on
 		{
-			GSProtocol.GCKillPlayerExpSend(iUserIndex, -1, iRewardExp, 0, 0);
-			//GSProtocol.(iUserIndex, (WORD)-1, iRewardExp, 0, 0);
+			gGameProtocol.GCKillPlayerExpSend(iUserIndex, -1, iRewardExp, 0, 0);
+			//gGameProtocol.(iUserIndex, (WORD)-1, iRewardExp, 0, 0);
 		}
 	}
 }

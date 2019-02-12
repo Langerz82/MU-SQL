@@ -932,19 +932,19 @@ bool PartyClass::SetLeader(int OldLeader, int NewLeader)
 	// ----
 	if (!this->IsParty(PartyNumber))
 	{
-		GSProtocol.GCServerMsgStringSend("Your character is not in party", lpObj.m_Index, 1);
+		gGameProtocol.GCServerMsgStringSend("Your character is not in party", lpObj.m_Index, 1);
 		return false;
 	}
 	// ----
 	if (lpObj.PartyNumber != lpTargetObj.PartyNumber)
 	{
-		GSProtocol.GCServerMsgStringSend("Target is not party member", lpObj.m_Index, 1);
+		gGameProtocol.GCServerMsgStringSend("Target is not party member", lpObj.m_Index, 1);
 		return false;
 	}
 	// ----
 	if (!this->Isleader(PartyNumber, lpObj.m_Index, lpObj.DBNumber))
 	{
-		GSProtocol.GCServerMsgStringSend("Your character is not party leader", lpObj.m_Index, 1);
+		gGameProtocol.GCServerMsgStringSend("Your character is not party leader", lpObj.m_Index, 1);
 		return false;
 	}
 	// ----
@@ -967,8 +967,8 @@ bool PartyClass::SetLeader(int OldLeader, int NewLeader)
 		// ----
 		if (UserIndex >= 0 && gGameObjects[UserIndex]->Connected == 3)
 		{
-			GSProtocol.GCServerMsgStringSend(Text, this->m_PartyS[PartyNumber].Number[i], 1);
-			GSProtocol.CGPartyList(this->m_PartyS[PartyNumber].Number[i]);
+			gGameProtocol.GCServerMsgStringSend(Text, this->m_PartyS[PartyNumber].Number[i], 1);
+			gGameProtocol.CGPartyList(this->m_PartyS[PartyNumber].Number[i]);
 		}
 	}
 	return true;

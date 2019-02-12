@@ -1563,7 +1563,7 @@ void CCastleSiege::ProcState_STARTSIEGE()
 		{
 			if( this->m_iCS_REMAIN_MSEC > 180000 )
 			{
-				GSProtocol.GCAnsCsLeftTimeAlarm( (this->m_iCS_REMAIN_MSEC/1000)/3600, ((this->m_iCS_REMAIN_MSEC/1000)%3600)/60);
+				gGameProtocol.GCAnsCsLeftTimeAlarm( (this->m_iCS_REMAIN_MSEC/1000)/3600, ((this->m_iCS_REMAIN_MSEC/1000)%3600)/60);
 				this->m_dwCS_LEFTTIME_TICK_COUNT = GetTickCount();
 			}
 		}
@@ -1572,7 +1572,7 @@ void CCastleSiege::ProcState_STARTSIEGE()
 		{
 			if( (GetTickCount() - this->m_dwCS_LEFTTIME_TICK_COUNT) > 60000 )
 			{
-				GSProtocol.GCAnsCsLeftTimeAlarm( ((this->m_iCS_REMAIN_MSEC/1000)/3600), ((this->m_iCS_REMAIN_MSEC/1000)%3600)/60);
+				gGameProtocol.GCAnsCsLeftTimeAlarm( ((this->m_iCS_REMAIN_MSEC/1000)/3600), ((this->m_iCS_REMAIN_MSEC/1000)%3600)/60);
 				this->m_dwCS_LEFTTIME_TICK_COUNT = GetTickCount();
 			}
 		}
@@ -2913,7 +2913,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 					
 					if( gGameObjects[iIndex]->m_PlayerData->Money < iNEED_MONEY )
 					{
-						GSProtocol.GCAnsNpcUpgrade(iIndex, 3, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
+						gGameProtocol.GCAnsNpcUpgrade(iIndex, 3, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
 						return FALSE;
 					}
 
@@ -2921,7 +2921,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 
 					if( iDelResult == FALSE )
 					{
-						GSProtocol.GCAnsNpcUpgrade(iIndex, 4, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
+						gGameProtocol.GCAnsNpcUpgrade(iIndex, 4, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
 						return FALSE;	
 					}
 
@@ -2935,7 +2935,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 
 					if( gGameObjects[iIndex]->m_PlayerData->Money < iNEED_MONEY )
 					{
-						GSProtocol.GCAnsNpcUpgrade(iIndex, 3, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
+						gGameProtocol.GCAnsNpcUpgrade(iIndex, 3, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
 						return FALSE;
 					}
 
@@ -2943,7 +2943,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 
 					if( iDelResult == FALSE )
 					{
-						GSProtocol.GCAnsNpcUpgrade(iIndex, 4, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
+						gGameProtocol.GCAnsNpcUpgrade(iIndex, 4, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
 						return FALSE;	
 					}
 
@@ -2952,7 +2952,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 				break;
 			default:
 				{
-					GSProtocol.GCAnsNpcUpgrade(iIndex, 5, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
+					gGameProtocol.GCAnsNpcUpgrade(iIndex, 5, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
 					return FALSE;	
 				}
 				break;
@@ -2970,7 +2970,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 					
 					if( gGameObjects[iIndex]->m_PlayerData->Money < iNEED_MONEY )
 					{
-						GSProtocol.GCAnsNpcUpgrade(iIndex, 3, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
+						gGameProtocol.GCAnsNpcUpgrade(iIndex, 3, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
 						return FALSE;
 					}
 
@@ -2978,7 +2978,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 
 					if( iDelResult == FALSE )
 					{
-						GSProtocol.GCAnsNpcUpgrade(iIndex, 4, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
+						gGameProtocol.GCAnsNpcUpgrade(iIndex, 4, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
 						return FALSE;	
 					}
 
@@ -2992,7 +2992,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 
 					if( gGameObjects[iIndex]->m_PlayerData->Money < iNEED_MONEY )
 					{
-						GSProtocol.GCAnsNpcUpgrade(iIndex, 3, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
+						gGameProtocol.GCAnsNpcUpgrade(iIndex, 3, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
 						return FALSE;
 					}
 
@@ -3000,7 +3000,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 
 					if( iDelResult == FALSE )
 					{
-						GSProtocol.GCAnsNpcUpgrade(iIndex, 4, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
+						gGameProtocol.GCAnsNpcUpgrade(iIndex, 4, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
 						return FALSE;	
 					}
 
@@ -3014,7 +3014,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 
 					if( gGameObjects[iIndex]->m_PlayerData->Money < iNEED_MONEY )
 					{
-						GSProtocol.GCAnsNpcUpgrade(iIndex, 3, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
+						gGameProtocol.GCAnsNpcUpgrade(iIndex, 3, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
 						return FALSE;
 					}
 
@@ -3022,7 +3022,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 
 					if( iDelResult == FALSE )
 					{
-						GSProtocol.GCAnsNpcUpgrade(iIndex, 4, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
+						gGameProtocol.GCAnsNpcUpgrade(iIndex, 4, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
 						return FALSE;	
 					}
 
@@ -3031,7 +3031,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 				break;
 			default:
 				{
-					GSProtocol.GCAnsNpcUpgrade(iIndex, 5, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
+					gGameProtocol.GCAnsNpcUpgrade(iIndex, 5, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
 					return FALSE;	
 				}
 				break;
@@ -3040,7 +3040,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 		break;
 	}
 
-	GSProtocol.GCMoneySend(iIndex, gGameObjects[iIndex]->m_PlayerData->Money);
+	gGameProtocol.GCMoneySend(iIndex, gGameObjects[iIndex]->m_PlayerData->Money);
 
 	return TRUE;
 }
@@ -3084,7 +3084,7 @@ BOOL CCastleSiege::UpgradeDbNPC(int iIndex, int iNpcType, int iNpcIndex, int iNp
 
 					default:
 						{
-							GSProtocol.GCAnsNpcUpgrade(iIndex, 5, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
+							gGameProtocol.GCAnsNpcUpgrade(iIndex, 5, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
 							return FALSE;
 						}
 						break;
@@ -3116,7 +3116,7 @@ BOOL CCastleSiege::UpgradeDbNPC(int iIndex, int iNpcType, int iNpcIndex, int iNp
 
 					default:
 						{
-							GSProtocol.GCAnsNpcUpgrade(iIndex, 5, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
+							gGameProtocol.GCAnsNpcUpgrade(iIndex, 5, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
 							return FALSE;
 						}
 						break;
@@ -3490,7 +3490,7 @@ void CCastleSiege::SendCsGateStateViewPort(int iGateIndex, BYTE btOperate)
 		{
 			if( gGameObjects[tObjNum]->Type == OBJ_USER && gObjIsConnected(tObjNum) )
 			{
-				GSProtocol.GCAnsCsGateCurState(tObjNum, iGateIndex, btOperate);
+				gGameProtocol.GCAnsCsGateCurState(tObjNum, iGateIndex, btOperate);
 			}
 		}
 	}
@@ -3695,7 +3695,7 @@ int CCastleSiege::DelGemOfDefend(int iIndex, int iNeedGemOfDefend)
 
 				gObjInventoryItemSet(iIndex, x, 0xff);
 				gObjInventoryDeleteItem(iIndex, x);
-				GSProtocol.GCInventoryItemDeleteSend(iIndex, x, 1);
+				gGameProtocol.GCInventoryItemDeleteSend(iIndex, x, 1);
 
 				iGemOfDefendDeletCount++;
 
@@ -4653,7 +4653,7 @@ BOOL CCastleSiege::CheckMiddleWinnerGuild()
 				{
 					sLog->outBasic("[CastleSiege] Castle Winner Has been Changed (GUILD:%s)", gGameObjects[this->m_iCastleCrownAccessUser]->m_PlayerData->GuildName);
 
-					GSProtocol.GCAnsCsAccessCrownState(this->m_iCastleCrownAccessUser, 1);
+					gGameProtocol.GCAnsCsAccessCrownState(this->m_iCastleCrownAccessUser, 1);
 
 					this->NotifyCrownState(2);
 
@@ -4672,7 +4672,7 @@ BOOL CCastleSiege::CheckMiddleWinnerGuild()
 					this->m_bRegCrownAvailable = FALSE;
 					this->ReSpawnEnemyUser(FALSE);
 	
-					GSProtocol.GCAnsCsLeftTimeAlarm( (this->m_iCS_REMAIN_MSEC/1000)/3600, ((this->m_iCS_REMAIN_MSEC/1000)%3600)/60);
+					gGameProtocol.GCAnsCsLeftTimeAlarm( (this->m_iCS_REMAIN_MSEC/1000)/3600, ((this->m_iCS_REMAIN_MSEC/1000)%3600)/60);
 
 					this->m_dwCS_LEFTTIME_TICK_COUNT = GetTickCount();
 
@@ -4884,7 +4884,7 @@ BOOL CCastleSiege::CheckTeleportMagicAxisY(int iStartY, int iTargetX, int iTarge
 
 void CCastleSiege::NotifyCsSelfLeftTime(int iIndex)
 {
-	GSProtocol.GCAnsSelfCsLeftTimeAlarm(iIndex, (this->m_iCS_REMAIN_MSEC/1000)/3600, ((this->m_iCS_REMAIN_MSEC/1000)%3600)/60);
+	gGameProtocol.GCAnsSelfCsLeftTimeAlarm(iIndex, (this->m_iCS_REMAIN_MSEC/1000)/3600, ((this->m_iCS_REMAIN_MSEC/1000)%3600)/60);
 }
 
 void CCastleSiege::CheckReviveNonDbNPC()
@@ -5135,7 +5135,7 @@ void CCastleSiege::ReSpawnAllUser()
 			gGameObjects[iUSER]->Teleport = 0;
 
 			gObjClearViewport(&gGameObjects[iUSER]);
-			GSProtocol.GCTeleportSend(&gGameObjects[iUSER], -1, MAP_INDEX_CASTLESIEGE, gGameObjects[iUSER]->X, gGameObjects[iUSER]->Y, gGameObjects[iUSER]->Dir);
+			gGameProtocol.GCTeleportSend(&gGameObjects[iUSER], -1, MAP_INDEX_CASTLESIEGE, gGameObjects[iUSER]->X, gGameObjects[iUSER]->Y, gGameObjects[iUSER]->Dir);
 
 			if( gGameObjects[iUSER]->m_Change >= 0 )
 			{
@@ -5210,7 +5210,7 @@ void CCastleSiege::ReSpawnEnemyUser(int bRefreshOwnerUser)
 
 				gObjClearViewport(&gGameObjects[iUSER]);
 
-				GSProtocol.GCTeleportSend(&gGameObjects[iUSER],-1,gGameObjects[iUSER]->MapNumber,gGameObjects[iUSER]->X,gGameObjects[iUSER]->Y,gGameObjects[iUSER]->Dir); //season 2.5 changed
+				gGameProtocol.GCTeleportSend(&gGameObjects[iUSER],-1,gGameObjects[iUSER]->MapNumber,gGameObjects[iUSER]->X,gGameObjects[iUSER]->Y,gGameObjects[iUSER]->Dir); //season 2.5 changed
 
 				if(gGameObjects[iUSER]->m_Change >= 0)
 				{
@@ -5269,7 +5269,7 @@ void CCastleSiege::ReSpawnEnemyUser(int bRefreshOwnerUser)
 			gGameObjects[iUSER]->Teleport = 0;
 
 			gObjClearViewport(&gGameObjects[iUSER]);
-			GSProtocol.GCTeleportSend(&gGameObjects[iUSER],-1,MAP_INDEX_CASTLESIEGE,gGameObjects[iUSER]->X,gGameObjects[iUSER]->Y,gGameObjects[iUSER]->Dir);
+			gGameProtocol.GCTeleportSend(&gGameObjects[iUSER],-1,MAP_INDEX_CASTLESIEGE,gGameObjects[iUSER]->X,gGameObjects[iUSER]->Y,gGameObjects[iUSER]->Dir);
 
 			if(gGameObjects[iUSER]->m_Change >= 0)
 			{
@@ -6027,7 +6027,7 @@ void CCastleSiege::OperateGmCommand(int iIndex, int iGmCommand, void* lpParam)
 							this->m_bRegCrownAvailable = FALSE;
 							this->ReSpawnEnemyUser(FALSE);
 
-							GSProtocol.GCAnsCsLeftTimeAlarm(((this->m_iCS_REMAIN_MSEC / 1000) % 3600), ((this->m_iCS_REMAIN_MSEC / 1000) % 3600) / 60);
+							gGameProtocol.GCAnsCsLeftTimeAlarm(((this->m_iCS_REMAIN_MSEC / 1000) % 3600), ((this->m_iCS_REMAIN_MSEC / 1000) % 3600) / 60);
 
 							this->m_dwCS_LEFTTIME_TICK_COUNT = GetTickCount();
 

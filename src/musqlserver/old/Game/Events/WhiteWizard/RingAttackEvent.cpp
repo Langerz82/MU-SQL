@@ -41,7 +41,7 @@ BOOL CRingMonsterHerd::MonsterHerdItemDrop(CGameObject &lpObj)
 			itemnumber, 0, 0, 0, 0, 0, iIndex, 0, 0, 0, 0, 0);
 		char szTemp[256];
 		wsprintf(szTemp, Lang.GetText(0,101), gGameObjects[iIndex]->Name, Lang.GetMap(0, lpObj.MapNumber));	// #error Apply Deathway fix here
-		GSProtocol.AllSendServerMsg( szTemp ); 
+		gGameProtocol.AllSendServerMsg( szTemp ); 
 		sLog->outBasic("[Ring Event] White Wizard Killed by [%s][%s], MapNumber:%d",
 			gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, gGameObjects[iIndex]->MapNumber);
 
@@ -486,14 +486,14 @@ void CRingAttackEvent::ProcState_Closed()
 				{
 					char szTemp[256];
 					wsprintf(szTemp, Lang.GetText(0,102));
-					GSProtocol.AllSendServerMsg(szTemp);
+					gGameProtocol.AllSendServerMsg(szTemp);
 
 					PMSG_ANS_CL_EFFECT pMsg;
 
 					PHeadSetB((LPBYTE)&pMsg, 0x9E, sizeof(pMsg));
 					pMsg.wEffectNum = 0;
 
-					GSProtocol.DataSendAll((LPBYTE)&pMsg, pMsg.h.size);
+					gGameProtocol.DataSendAll((LPBYTE)&pMsg, pMsg.h.size);
 
 					sLog->outBasic("[Ring Event] - Before 3 minutes - Advertise");
 				}
@@ -505,14 +505,14 @@ void CRingAttackEvent::ProcState_Closed()
 	{
 		char szTemp[256];
 		wsprintf(szTemp, Lang.GetText(0,103));
-		GSProtocol.AllSendServerMsg(szTemp);
+		gGameProtocol.AllSendServerMsg(szTemp);
 
 		PMSG_ANS_CL_EFFECT pMsg;
 
 		PHeadSetB((LPBYTE)&pMsg, 0x9E, sizeof(pMsg));
 		pMsg.wEffectNum = 1;
 
-		GSProtocol.DataSendAll((LPBYTE)&pMsg, pMsg.h.size);
+		gGameProtocol.DataSendAll((LPBYTE)&pMsg, pMsg.h.size);
 
 		if ( this->m_bDoEvent )
 		{
@@ -589,14 +589,14 @@ void CRingAttackEvent::ProcState_Playing()
 	{
 		char szTemp[256];
 		wsprintf(szTemp, Lang.GetText(0,104));
-		GSProtocol.AllSendServerMsg(szTemp);
+		gGameProtocol.AllSendServerMsg(szTemp);
 
 		PMSG_ANS_CL_EFFECT pMsg;
 
 		PHeadSetB((LPBYTE)&pMsg, 0x9E, sizeof(pMsg));
 		pMsg.wEffectNum = 2;
 
-		GSProtocol.DataSendAll((LPBYTE)&pMsg, pMsg.h.size);
+		gGameProtocol.DataSendAll((LPBYTE)&pMsg, pMsg.h.size);
 
 		if ( this->m_bDoEvent )
 		{
@@ -698,14 +698,14 @@ void CRingAttackEvent::Start_Menual()
 	char szTemp[256];
 
 	wsprintf(szTemp, Lang.GetText(0,103));
-	GSProtocol.AllSendServerMsg(szTemp);
+	gGameProtocol.AllSendServerMsg(szTemp);
 
 	PMSG_ANS_CL_EFFECT pMsg;
 
 	PHeadSetB((LPBYTE)&pMsg, 0x9E, sizeof(pMsg));
 	pMsg.wEffectNum = 1;
 
-	GSProtocol.DataSendAll((LPBYTE)&pMsg, pMsg.h.size);
+	gGameProtocol.DataSendAll((LPBYTE)&pMsg, pMsg.h.size);
 	this->SetState(2);
 }
 

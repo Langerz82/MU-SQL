@@ -420,7 +420,7 @@ int CNewPVP::Join(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor)
 		if( requester.m_PlayerData->Money - lpData->NeedZen >= 0 )
 		{
 			requester.m_PlayerData->Money -= lpData->NeedZen;
-			GSProtocol.GCMoneySend(requester.m_Index, requester.m_PlayerData->Money);
+			gGameProtocol.GCMoneySend(requester.m_Index, requester.m_PlayerData->Money);
 		}
 		else return ENEWPVP::E_NOT_ENOUGH_MONEY;
    	}
@@ -430,7 +430,7 @@ int CNewPVP::Join(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor)
 		if( responsor.m_PlayerData->Money - lpData->NeedZen >= 0 )
 		{
 			responsor.m_PlayerData->Money -= lpData->NeedZen;
-			GSProtocol.GCMoneySend(responsor.m_Index, responsor.m_PlayerData->Money);
+			gGameProtocol.GCMoneySend(responsor.m_Index, responsor.m_PlayerData->Money);
 		}
 		else return ENEWPVP::E_NOT_ENOUGH_MONEY;
 	}
@@ -624,11 +624,11 @@ void CNewPVP::ReFill(CGameObject &Obj)
 
 	obj.BP = obj.MaxBP + obj.AddBP;
 	obj.Mana = obj.MaxMana + obj.AddMana;
-	GSProtocol.GCManaSend(obj.m_Index, (WORD)obj.Mana, 0xFF, 0, (WORD)obj.BP);
+	gGameProtocol.GCManaSend(obj.m_Index, (WORD)obj.Mana, 0xFF, 0, (WORD)obj.BP);
 
 	obj.Life = obj.MaxLife + obj.AddLife;
 	obj.iShield = obj.iMaxShield + obj.iAddShield;
-	GSProtocol.GCReFillSend(obj.m_Index, obj.Life, 0xFF, 0, obj.iShield);
+	gGameProtocol.GCReFillSend(obj.m_Index, obj.Life, 0xFF, 0, obj.iShield);
 }
 
 BOOL CNewPVP::MoveGate(int nIndex, int nGateNum)

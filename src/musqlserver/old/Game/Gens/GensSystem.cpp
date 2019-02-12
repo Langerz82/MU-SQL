@@ -600,7 +600,7 @@ void GensSystem::PkPenaltyDropInvenItem(CGameObject &lpObj)
 					pDropItem.px = lpObj.X;
 					pDropItem.py = lpObj.Y;
 
-					if (GSProtocol.CGItemDropRequest(&pDropItem, lpObj.m_Index, 1) == true)
+					if (gGameProtocol.CGItemDropRequest(&pDropItem, lpObj.m_Index, 1) == true)
 					{
 					}
 
@@ -849,7 +849,7 @@ void GensSystem::CalcContributePoint(CGameObject &lpObj, CGameObject lpTargetObj
 					
 							if (lpObj.m_PlayerData->m_GensClass > 9 && iAddBonusValue + iAddValue >= this->GetNextContributePoint(lpObj))
 							{
-								GSProtocol.GCServerMsgStringSend(Lang.GetText(0,369), lpObj.m_Index, 1);
+								gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,369), lpObj.m_Index, 1);
 							}
 
 							this->AddContributePoint(lpObj, iAddValue);				
@@ -860,7 +860,7 @@ void GensSystem::CalcContributePoint(CGameObject &lpObj, CGameObject lpTargetObj
 							{
 								this->AddContributePoint(lpObj, iAddBonusValue);
 
-								GSProtocol.GCServerMsgStringSend(Lang.GetText(0,370), lpObj.m_Index, 1);
+								gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,370), lpObj.m_Index, 1);
 
 							}
 						}
@@ -937,13 +937,13 @@ int GensSystem::AbusingPenalty(CGameObject &lpObj, int iKillUserIndex)
 		{
 			char szMsg[128];
 			wsprintf(szMsg, Lang.GetText(0,372), m_iGensAbusingPenaltyWarning, m_iGensAbusingPenaltyLimit);
-			GSProtocol.GCServerMsgStringSend(szMsg, lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(szMsg, lpObj.m_Index, 1);
 			return false;
 		}
 
 		else if (iKillUserCnt >= this->m_iGensAbusingPenaltyLimit)
 		{
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,371), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,371), lpObj.m_Index, 1);
 
 			EnterCriticalSection((LPCRITICAL_SECTION)&criti);
 		
@@ -1014,8 +1014,8 @@ void GensSystem::MoveInBattleZonePartySplit(CGameObject &lpObj)
 		if (pindex >= 0)
 		{
 			pMsg.Number = pindex;
-			GSProtocol.CGPartyDelUser(&pMsg, lpObj.m_Index, 0); 
-			GSProtocol.GCResultSend(lpObj.m_Index, 0x41, 0x7);
+			gGameProtocol.CGPartyDelUser(&pMsg, lpObj.m_Index, 0); 
+			gGameProtocol.GCResultSend(lpObj.m_Index, 0x41, 0x7);
 		}
 	}
 };

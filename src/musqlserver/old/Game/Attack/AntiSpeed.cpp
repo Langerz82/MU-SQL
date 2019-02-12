@@ -31,7 +31,7 @@ CAttackMagic::~CAttackMagic()
 
 void CAttackMagic::Process()
 {
-	GSProtocol.CGMagicAttack((PMSG_MAGICATTACK *)this->m_Msg, m_Obj.m_Index);
+	gGameProtocol.CGMagicAttack((PMSG_MAGICATTACK *)this->m_Msg, m_Obj.m_Index);
 	//gObjUseSkill.UseSkill(m_Obj.m_Index, m_TargetObj.m_Index, m_Magic);
 }
 
@@ -51,9 +51,9 @@ CAttackRange::~CAttackRange()
 void CAttackRange::Process()
 {
 	if(m_Type == 0)
-		GSProtocol.CGBeattackRecv(m_Msg, m_Obj.m_Index, FALSE);
+		gGameProtocol.CGBeattackRecv(m_Msg, m_Obj.m_Index, FALSE);
 	else
-		GSProtocol.CGDurationMagicRecv((PMSG_DURATION_MAGIC_RECV*) m_Msg, m_Obj.m_Index);
+		gGameProtocol.CGDurationMagicRecv((PMSG_DURATION_MAGIC_RECV*) m_Msg, m_Obj.m_Index);
 }
 
 
@@ -269,16 +269,16 @@ void CAttackMsg::Process()
 	switch(m_Type)
 	{
 	case ATTACK_MELEE:
-		GSProtocol.CGAttack((PMSG_ATTACK*)m_Msg, m_Obj);
+		gGameProtocol.CGAttack((PMSG_ATTACK*)m_Msg, m_Obj);
 		break;
 	case ATTACK_MAGIC:
-		GSProtocol.CGMagicAttack((PMSG_MAGICATTACK*)m_Msg, m_Obj);
+		gGameProtocol.CGMagicAttack((PMSG_MAGICATTACK*)m_Msg, m_Obj);
 		break;
 	case ATTACK_RANGE_OLD:
-		GSProtocol.CGBeattackRecv(m_Msg, m_Obj, FALSE);
+		gGameProtocol.CGBeattackRecv(m_Msg, m_Obj, FALSE);
 		break;
 	case ATTACK_RANGE_NEW:
-		GSProtocol.CGDurationMagicRecv((PMSG_DURATION_MAGIC_RECV*)m_Msg, m_Obj);
+		gGameProtocol.CGDurationMagicRecv((PMSG_DURATION_MAGIC_RECV*)m_Msg, m_Obj);
 		break;
 	case ATTACK_RAGE_FIGHTER:
 		//

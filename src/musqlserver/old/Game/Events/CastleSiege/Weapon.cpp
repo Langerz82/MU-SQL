@@ -314,7 +314,7 @@ BOOL CWeapon::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf * lp
 			iAttackDamage = (iAttackDamage * ReduceDamage) / 100;
 		}
 
-		GSProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
+		gGameProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
 	}	
 	
 
@@ -335,7 +335,7 @@ BOOL CWeapon::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf * lp
 			iAttackDamage = (iAttackDamage * DHPercent)/100;
 		}
 
-		GSProtocol.GCReFillSend(lpTargetObj.m_Index, lpTargetObj.Life, 0xFF, 0, lpTargetObj.iShield);
+		gGameProtocol.GCReFillSend(lpTargetObj.m_Index, lpTargetObj.Life, 0xFF, 0, lpTargetObj.iShield);
 	}
 
 	if ( lpTargetObj.Live != FALSE )
@@ -456,7 +456,7 @@ BOOL CWeapon::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf * lp
 
 	if ( ManaChange != FALSE )
 	{
-		GSProtocol.GCManaSend(lpTargetObj.m_Index, lpTargetObj.Mana, (BYTE)-1, 0, lpTargetObj.BP);
+		gGameProtocol.GCManaSend(lpTargetObj.m_Index, lpTargetObj.Mana, (BYTE)-1, 0, lpTargetObj.BP);
 	}
 
 	lpObj.m_Rest = 0;

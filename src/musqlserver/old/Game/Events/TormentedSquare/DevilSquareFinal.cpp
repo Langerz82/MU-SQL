@@ -2943,7 +2943,7 @@ void CDevilSquareFinal::SetUBFGetReward(int iUserIndex, WORD wItemCode, UINT64 I
 	}
 
 	gObjInventoryDeleteItem(iUserIndex, btItemPos);
-	GSProtocol.GCInventoryItemDeleteSend(iUserIndex, btItemPos, 0);
+	gGameProtocol.GCInventoryItemDeleteSend(iUserIndex, btItemPos, 0);
 
 	this->GDReqSetDSFReward_UBF(iUserIndex, this->m_nDSF_TYPE, 0);
 }

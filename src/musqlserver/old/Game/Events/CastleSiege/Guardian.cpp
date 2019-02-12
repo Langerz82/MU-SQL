@@ -66,8 +66,8 @@ void CGuardian::GuardianAct(int iIndex)
 							if (gGameObjects[tObjNum]->BP > gGameObjects[tObjNum]->MaxBP)
 								gGameObjects[tObjNum]->BP = gGameObjects[tObjNum]->MaxBP;
 
-							GSProtocol.GCReFillSend(tObjNum, gGameObjects[tObjNum]->Life, 0xFF, 1, gGameObjects[tObjNum]->iShield);
-							GSProtocol.GCManaSend(tObjNum, gGameObjects[tObjNum]->Mana, 0xFF, 0, gGameObjects[tObjNum]->BP);
+							gGameProtocol.GCReFillSend(tObjNum, gGameObjects[tObjNum]->Life, 0xFF, 1, gGameObjects[tObjNum]->iShield);
+							gGameProtocol.GCManaSend(tObjNum, gGameObjects[tObjNum]->Mana, 0xFF, 0, gGameObjects[tObjNum]->BP);
 						}
 					}
 				}

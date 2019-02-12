@@ -88,7 +88,7 @@ void CCannonTower::CannonTowerAct(int iIndex) // 0x00560940  1.00.19
 		pCount.h.size = ASBOfs;
 
 		memcpy(AttackSendBuff, (LPBYTE)&pCount, sizeof(PMSG_BEATTACK_COUNT));
-		GSProtocol.CGBeattackRecv(AttackSendBuff, lpObj.m_Index, 1);
+		gGameProtocol.CGBeattackRecv(AttackSendBuff, lpObj.m_Index, 1);
 		WORD MagicNumber = 50;
 		PMSG_DURATION_MAGIC_SEND pSend;
 		PHeadSetBE((LPBYTE)&pSend, 0x1E, sizeof(pSend));
@@ -100,7 +100,7 @@ void CCannonTower::CannonTowerAct(int iIndex) // 0x00560940  1.00.19
 		pSend.NumberH = SET_NUMBERH(iIndex);
 		pSend.NumberL = SET_NUMBERL(iIndex);
 
-		GSProtocol.MsgSendV2(lpObj, (PBYTE)&pSend, pSend.h.size);
+		gGameProtocol.MsgSendV2(lpObj, (PBYTE)&pSend, pSend.h.size);
 	}
 }
 

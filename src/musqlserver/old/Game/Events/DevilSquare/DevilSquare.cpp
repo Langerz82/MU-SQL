@@ -731,7 +731,7 @@ void CDevilSquare::ProcOpen()
 
 				TNotice::MakeNoticeMsgEx(&pNotice, 0, Lang.GetText(0, 6), this->m_iRemainTime);
 
-				GSProtocol.CGEventEntryNotice(EVENT_NOTIFICATION_DEVIL_SQUARE, 1);
+				gGameProtocol.CGEventEntryNotice(EVENT_NOTIFICATION_DEVIL_SQUARE, 1);
 
 				for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i<g_ConfigRead.server.GetObjectMax(); i++)
 				{
@@ -786,8 +786,8 @@ void CDevilSquare::ProcPlaying()
 
 				PHeadSetB((LPBYTE)&pMsg, 0x92, sizeof(pMsg));
 				pMsg.Type = DevilSquare_PLAYING;
-				GSProtocol.AllSendSameMapMsg((UCHAR*)&pMsg, sizeof(pMsg), MAP_INDEX_DEVILSQUARE);
-				GSProtocol.AllSendSameMapMsg((UCHAR*)&pMsg, sizeof(pMsg), MAP_INDEX_DEVILSQUARE2);
+				gGameProtocol.AllSendSameMapMsg((UCHAR*)&pMsg, sizeof(pMsg), MAP_INDEX_DEVILSQUARE);
+				gGameProtocol.AllSendSameMapMsg((UCHAR*)&pMsg, sizeof(pMsg), MAP_INDEX_DEVILSQUARE2);
 				this->m_bSendTimeCount = TRUE;
 			}
 
@@ -812,8 +812,8 @@ void CDevilSquare::ProcPlaying()
 
 					TNotice::MakeNoticeMsgEx((TNotice *)&pNotice, 0, Lang.GetText(0, 7), this->m_iRemainTime);
 					sLog->outBasic((char*)pNotice.Notice);
-					GSProtocol.AllSendSameMapMsg((UCHAR*)&pNotice, pNotice.h.size, MAP_INDEX_DEVILSQUARE);
-					GSProtocol.AllSendSameMapMsg((UCHAR*)&pNotice, pNotice.h.size, MAP_INDEX_DEVILSQUARE2);
+					gGameProtocol.AllSendSameMapMsg((UCHAR*)&pNotice, pNotice.h.size, MAP_INDEX_DEVILSQUARE);
+					gGameProtocol.AllSendSameMapMsg((UCHAR*)&pNotice, pNotice.h.size, MAP_INDEX_DEVILSQUARE2);
 				}
 
 				for (int i = 0; i<MAX_DEVILSQUARE_GROUND; i++)
@@ -944,7 +944,7 @@ void CDevilSquare::SendEventStartMsg()
 	TNotice::MakeNoticeMsg(&pToEventer, 0, Lang.GetText(0, 8));
 	TNotice::MakeNoticeMsg(&pWithOutEvneter, 0, Lang.GetText(0, 9));
 
-	GSProtocol.CGEventEntryNotice(EVENT_NOTIFICATION_DEVIL_SQUARE, 0);
+	gGameProtocol.CGEventEntryNotice(EVENT_NOTIFICATION_DEVIL_SQUARE, 0);
 
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
@@ -971,7 +971,7 @@ void CDevilSquare::DieProcDevilSquare(CGameObject &lpObj)
 	char msg[255];
 
 	wsprintf(msg, Lang.GetText(0, 10), lpObj.m_nEventScore);
-	GSProtocol.GCServerMsgStringSend(msg, lpObj.m_Index, 1);
+	gGameProtocol.GCServerMsgStringSend(msg, lpObj.m_Index, 1);
 
 	if (lpObj.m_nEventScore <= 0)
 		return;
@@ -1399,7 +1399,7 @@ void CDevilSquare::gObjExpParty(CGameObject &lpObj, CGameObject lpTargetObj, int
 
 					if (lpPartyObj.Type == OBJ_USER && exp > 0)
 					{
-						GSProtocol.GCKillPlayerExpSend(lpPartyObj.m_Index, lpTargetObj.m_Index, exp, AttackDamage, MSBFlag);
+						gGameProtocol.GCKillPlayerExpSend(lpPartyObj.m_Index, lpTargetObj.m_Index, exp, AttackDamage, MSBFlag);
 					}
 				}
 			}

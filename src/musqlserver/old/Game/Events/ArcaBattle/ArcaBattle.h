@@ -527,17 +527,8 @@ struct PMSG_AB_RESULT
 	_stABObeliskOccupy m_stABObeliskOccupy[5];
 };
 
-// DS
-struct PMSG_REQ_AB_WIN_GUILD_INFO_DS
-{
-	PBMSG_HEAD2 h;
-	WORD wNumber;
-};
 
-struct PMSG_REQ_AB_PROC_STATE_DS
-{
-	PBMSG_HEAD2 h;
-};
+
 
 struct _stABWinGuildInfoDS
 {
@@ -547,38 +538,18 @@ struct _stABWinGuildInfoDS
 	WORD wObeliskGroup;
 };
 
-struct PMSG_REQ_AB_WIN_GUILD_INFO_INSERT_DS
-{
-	PBMSG_HEAD2 h;
-	char btGuildCnt;
-	unsigned __int16 wMapSvrNum;
-	_stABWinGuildInfoDS m_stABWinGuildInfoDS[5];
-};
+
 
 struct PMSG_REQ_ARCA_BATTLE_INFO_DS
 {
 	PBMSG_HEAD2 h;
 };
 
-struct PMSG_REQ_AB_PROC_INSERT_DS
-{
-	PBMSG_HEAD2 h;
-	WORD wMapSvrNum;
-	BYTE btProcState;
-};
 
-struct PMSG_REQ_AB_JOIN_MEMBER_UNDER_DS
-{
-	PBMSG_HEAD2 h;
-	WORD wMapSvrNum;
-};
 
-struct PMSG_REQ_AB_JOIN_CANCEL_DS
-{
-	PBMSG_HEAD2 h;
-	BYTE btMinGuildMemNum;
-	WORD wMapSvrNum;
-};
+
+
+
 
 struct _stCancelGuildNames
 {
@@ -600,13 +571,6 @@ struct PMSG_ANS_AB_REG_MEMBER_CNT
 	BYTE btRegMemCnt;
 };
 
-struct PMSG_REQ_AB_REG_MEMBER_CNT_DS
-{
-	PBMSG_HEAD2 h;
-	int iIndex;
-	int iGuildNumber;
-};
-
 struct PMSG_ANS_REGISTERED_MEMBER_CNT
 {
 	PBMSG_HEAD2 h;
@@ -615,12 +579,6 @@ struct PMSG_ANS_REGISTERED_MEMBER_CNT
 };
 
 
-struct PMSG_REQ_ARCA_BATTLE_IS_TOP_RANK
-{
-	PBMSG_HEAD2 h;
-	WORD wNumber;
-	DWORD dwGuildNum;
-};
 
 struct _stArcaBattleMarkTopRankDS
 {
@@ -629,69 +587,10 @@ struct _stArcaBattleMarkTopRankDS
 	DWORD dwMarkCnt;
 };
 
-struct PMSG_REQ_ARCA_BATTLE_MARK_RANK_DS
-{
-	PBMSG_HEAD2 h;
-	WORD wNumber;
-	DWORD dwGuildNum;
-};
-
-struct PMSG_REQ_ARCA_BATTLE_MARK_CNT_DS
-{
-	PBMSG_HEAD2 h;
-	WORD wNumber;
-	DWORD dwGuildNum;
-};
-
-struct PMSG_REQ_ARCA_BATTLE_MARK_REG_DS
-{
-	PBMSG_HEAD2 h;
-	WORD wNumber;
-	char szGuildMaster[MAX_ACCOUNT_LEN+1];
-	char szGuildName[MAX_GUILD_LEN+1];
-	DWORD dwMarkCnt;
-	DWORD dwGuildNum;
-};
-
-struct PMSG_REQ_ARCA_BATTLE_MARK_REG_DEL_DS
-{
-	PBMSG_HEAD2 h;
-	WORD wNumber;
-	DWORD dwGuildNum;
-};
-
-struct PMSG_REQ_AB_MARK_REG_ALL_DEL_DS
-{
-	PBMSG_HEAD2 h;
-};
-
-struct PMSG_REQ_ALL_GUILD_MARK_CNT_DS
-{
-	PBMSG_HEAD2 h;
-};
-
 struct _stABAllGuildMark
 {
 	char szGuildName[MAX_GUILD_LEN+1];
 	DWORD dwMarkCnt;
-};
-
-
-struct PMSG_REQ_AB_MARK_REG_UPDATE_DS
-{
-	PBMSG_HEAD2 h;
-	DWORD dwGuildNum;
-	DWORD dwMarkCnt;
-};
-
-struct PMSG_REQ_GUILD_REG_INIT
-{
-	PBMSG_HEAD2 h;
-};
-
-struct PMSG_REQ_AB_ALL_JOIN_USER_DS
-{
-	PBMSG_HEAD2 h;
 };
 
 struct _stABJoinUserInfoDS

@@ -571,7 +571,7 @@ void CDarkSpirit::SendAttackMsg(CGameObject &lpObj, int aTargetIndex, int iDamag
 	pMsg.h.set((LPBYTE)&pMsg, 0xA8, sizeof(pMsg));
 	
 	IOCP.DataSend(lpObj.m_Index, (UCHAR*)&pMsg, pMsg.h.size);
-	GSProtocol.MsgSendV2(&gGameObjects[aIndex], (UCHAR*)&pMsg, pMsg.h.size);
+	gGameProtocol.MsgSendV2(&gGameObjects[aIndex], (UCHAR*)&pMsg, pMsg.h.size);
 
 	if (iActionType == 1)
 	{
@@ -1183,7 +1183,7 @@ BOOL CDarkSpirit::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf 
 				}
 			}
 
-			GSProtocol.GCItemDurSend(lpObj.m_Index, lpObj.m_btInvenPetPos, lpObj.pInventory[lpObj.m_btInvenPetPos].m_Durability, 0);
+			gGameProtocol.GCItemDurSend(lpObj.m_Index, lpObj.m_btInvenPetPos, lpObj.pInventory[lpObj.m_btInvenPetPos].m_Durability, 0);
 		}
 	}
 
@@ -1233,7 +1233,7 @@ BOOL CDarkSpirit::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf 
 			AttackDamage = AttackDamage * dinorantdecdamage / 100;
 		}
 
-		GSProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
+		gGameProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
 	}
 
 	if ( gObjDarkHorse(lpTargetObj ) )
@@ -1252,7 +1252,7 @@ BOOL CDarkSpirit::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf 
 			AttackDamage = AttackDamage * decdamage / 100;
 		}
 
-		GSProtocol.GCReFillSend(lpTargetObj.m_Index, lpTargetObj.Life, 0xFF, 0, lpTargetObj.iShield);
+		gGameProtocol.GCReFillSend(lpTargetObj.m_Index, lpTargetObj.Life, 0xFF, 0, lpTargetObj.iShield);
 	}
 
 	if ( lpTargetObj.Live )
@@ -1421,7 +1421,7 @@ BOOL CDarkSpirit::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf 
 	if ( gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_STONE) == true )
 	{
 		gObjRemoveBuffEffect(lpTargetObj, BUFFTYPE_STONE);
-		GSProtocol.GCMagicCancelSend(lpTargetObj, 51);
+		gGameProtocol.GCMagicCancelSend(lpTargetObj, 51);
 	}
 
 	BOOL selfdefense = 0;
@@ -1559,14 +1559,14 @@ BOOL CDarkSpirit::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf 
 
 	if ( ManaChange )
 	{
-		GSProtocol.GCManaSend(lpTargetObj.m_Index, lpTargetObj.Mana, 0xFF, 0, lpTargetObj.BP);
+		gGameProtocol.GCManaSend(lpTargetObj.m_Index, lpTargetObj.Mana, 0xFF, 0, lpTargetObj.BP);
 	}
 
 	if ( lpObj.Type == OBJ_USER )
 	{
 		if ( lpObj.m_Change == 9 )
 		{
-			GSProtocol.GCMagicAttackNumberSend(lpObj, 3, lpTargetObj.m_Index, 1);
+			gGameProtocol.GCMagicAttackNumberSend(lpObj, 3, lpTargetObj.m_Index, 1);
 		}
 	}
 
@@ -1600,7 +1600,7 @@ BOOL CDarkSpirit::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf 
 	}
 	else
 	{
-		GSProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, MsgDamage, 0);
+		gGameProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, MsgDamage, 0);
 	}
 
 	if ( lpObj.Life <= 0.0f && lpObj.Type == OBJ_USER )
@@ -1709,13 +1709,13 @@ BOOL CDarkSpirit::MissCheck(CGameObject &lpObj, CGameObject lpTargetObj, int ski
 		{
 			if (g_IT_Event.CheckSkillProdection(lpTargetObj.m_nITR_Index, lpTargetObj.MapNumber) == TRUE)
 			{
-				GSProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
+				gGameProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
 				return 0;
 			}
 
 			if (lpTargetObj.PartyNumber == lpObj.PartyNumber)
 			{
-				GSProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
+				gGameProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
 				return 0;
 			}
 		}
@@ -1739,7 +1739,7 @@ BOOL CDarkSpirit::MissCheck(CGameObject &lpObj, CGameObject lpTargetObj, int ski
 	{
 		if ( (rand()%100) >= 5 )
 		{
-			GSProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, MsgDamage, 0);
+			gGameProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, MsgDamage, 0);
 			return FALSE;
 		}
 	}
@@ -1747,7 +1747,7 @@ BOOL CDarkSpirit::MissCheck(CGameObject &lpObj, CGameObject lpTargetObj, int ski
 	{
 		if ( (rand()%SuccessAttackRate) < TargetSuccessfulBlocking)
 		{
-			GSProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, MsgDamage, 0);
+			gGameProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, MsgDamage, 0);
 			return FALSE;
 		}
 	}
@@ -1770,13 +1770,13 @@ BOOL CDarkSpirit::MissCheckPvP(CGameObject &lpObj, CGameObject lpTargetObj, int 
 		{
 			if (g_IT_Event.CheckSkillProdection(lpTargetObj.m_nITR_Index, lpTargetObj.MapNumber) == TRUE)
 			{
-				GSProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
+				gGameProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
 				return 0;
 			}
 			
 			if (lpTargetObj.PartyNumber == lpObj.PartyNumber)
 			{
-				GSProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
+				gGameProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
 				return 0;
 			}
 		}
@@ -1879,7 +1879,7 @@ BOOL CDarkSpirit::MissCheckPvP(CGameObject &lpObj, CGameObject lpTargetObj, int 
 
 	if ( dwRate > iAttackSuccessRate )
 	{
-		GSProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
+		gGameProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
 		return FALSE;
 	}
 
@@ -2007,7 +2007,7 @@ int CDarkSpirit::GetShieldDamage(CGameObject &lpObj, CGameObject lpTargetObj, in
 	{
 		if ( !CC_MAP_RANGE(lpTargetObj.MapNumber) && lpTargetObj.MapNumber != MAP_INDEX_CHAOSCASTLE_SURVIVAL )
 		{
-			GSProtocol.GCSendEffectInfo(lpTargetObj.m_Index, 17);
+			gGameProtocol.GCSendEffectInfo(lpTargetObj.m_Index, 17);
 		}
 	}
 
