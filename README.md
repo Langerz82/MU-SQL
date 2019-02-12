@@ -1,5 +1,5 @@
 # MuMySQL
-MuOnline - MySQL - Project for migrating all old MSSQL over to MySQL.
+MuMySQL - Project for migrating all old MSSQL over to MySQL.
 <br/><br/>
 Would anyone be interested in creating a github with the source from here and try to convert it into a Linux/MySQL Server? Its very possible and I am a decent programmer I just need help with the tedious jobs, such as converting the Stored Procedures over.
 <br/><br/>
