@@ -37,7 +37,7 @@ GUILD_INFO_STRUCT * CGuildClass::AddGuild(int number, char* guildname, GUILDMARK
 		return pSearchGuild;
 	}
 
-	pNewNode = (GUILD_INFO_STRUCT*)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(GUILD_INFO_STRUCT));
+	pNewNode = (GUILD_INFO_STRUCT &)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(GUILD_INFO_STRUCT));
 
 	if ( pNewNode != NULL )
 	{

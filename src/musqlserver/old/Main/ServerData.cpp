@@ -55,6 +55,8 @@ void CServerData::LoadServerFile(LPSTR lpszFile)
 					
 void CServerData::LoadNewsFile(LPSTR lpszFile)
 {
+	// TODO
+	/*
 	SMDFile = fopen(lpszFile, "r");
 
 	if(SMDFile == NULL)
@@ -171,6 +173,7 @@ void CServerData::LoadNewsFile(LPSTR lpszFile)
 			}
 		}
 	}
+	*/
 }
 
 void CServerData::Run()

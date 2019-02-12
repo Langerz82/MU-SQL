@@ -219,7 +219,7 @@ void SCSendAutoUpdateData(CGameObject &lpObj, PMSG_CLIENTVERSION *aRecv)
 		pMsg.h.size = sizeof(pMsg);
 		pMsg.VersionOK = 1;
 
-		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 	}
 
 	else

@@ -1254,7 +1254,7 @@ struct STR_STRINGCOMPARE
 } ;
 
 typedef std::map<std::string, STR_GUILD_MEMBER*, STR_STRINGCOMPARE> MAP_GUILD_MEMBER;
-typedef std::map<std::string, STR_GUILD_INFO_STRUCT*, STR_STRINGCOMPARE> MAP_GUILD_INFO;
+typedef std::map<std::string, STR_GUILD_INFO_STRUCT &, STR_STRINGCOMPARE> MAP_GUILD_INFO;
 typedef std::map<int, STR_UNION_MEMBER_DATA*> MAP_MEMBER_DATA;
 
 
@@ -1719,7 +1719,7 @@ struct _GUILD_INFO_STRUCT
 	char pServer[MAX_USER_GUILD];	//490
 	char TargetGuildName[9];	//4E0
 	short TargetIndex[MAX_USER_GUILD];	//4EA
-	struct _GUILD_INFO_STRUCT* lpTargetGuildNode;	//58C
+	_GUILD_INFO_STRUCT *lpTargetGuildNode;	//58C
 	unsigned char WarDeclareState;	//590
 	unsigned char WarState;	//591
 	unsigned char WarType;	//592
@@ -1734,9 +1734,9 @@ struct _GUILD_INFO_STRUCT
 	int iGuildRival;	//720
 	int iTimeStamp;	//724
 	char szGuildRivalName[9];	//728
-	struct _GUILD_INFO_STRUCT* back;	//734
-	struct _GUILD_INFO_STRUCT* next;	//738
-	struct OBJECTSTRUCT* lpLifeStone;
+	_GUILD_INFO_STRUCT *back;	//734
+	_GUILD_INFO_STRUCT *next;	//738
+	CGameObject* lpLifeStone;
 	int btLifeStoneCount;
 
 	// #error Deathay Fix here

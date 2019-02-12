@@ -6,6 +6,21 @@
 #endif // _MSC_VER > 1000
 
 
+// Guild.
+#define MAX_USER_GUILD			80
+#define MAX_GUILD_NOTICE_LEN	60
+#define MAX_WC_GUILD_NOTICE_LEN	(MAX_GUILD_NOTICE_LEN/2)
+#define MIN_GUILD_COUNT_FOR_CS	20
+
+// Member Type
+// -------------------------------
+#define GUILD_MASTER		0x80
+#define GUILD_ASSISTANT		0x40
+#define GUILD_BATTLE_MASTER	0x20
+#define GUILD_NORMAL_USER	0x00
+
+#define GUILD_RELATION_UNION	0x01
+#define GUILD_RELATION_RIVAL	0x02
 
 
 #define MAX_INFLUENCE_TYPE		3

@@ -35,8 +35,8 @@ public:
 	int m_BallIndex;	// 64 - D
 	RECT m_GoalLeft;	// 68 - D
 	RECT m_GoalRight;	// 78 - D
-	GUILD_INFO_STRUCT* m_RedTeam;	// 88 - D
-	GUILD_INFO_STRUCT* m_BlueTeam;	// 8C - D
+	GUILD_INFO_STRUCT &m_RedTeam;	// 88 - D
+	GUILD_INFO_STRUCT &m_BlueTeam;	// 8C - D
 };
 
 extern CBattleSoccer * gBSGround[MAX_BATTLESOCCER_GROUND];

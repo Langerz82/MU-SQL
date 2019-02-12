@@ -96,7 +96,7 @@ void UserDieItemDrop::Read(LPSTR File)
 
 void UserDieItemDrop::Drop(CGameObject &lpUser, CGameObject &lpKiller)
 {
-	if (lpUser->Type != OBJ_USER)
+	if (lpUser.Type != OBJ_USER)
 	{
 		return;
 	}
@@ -108,14 +108,14 @@ void UserDieItemDrop::Drop(CGameObject &lpUser, CGameObject &lpKiller)
 	// ----
 	DWORD Rate = 0;
 	// ----
-	if (lpKiller->Type == OBJ_USER)
+	if (lpKiller.Type == OBJ_USER)
 	{
 		if (!this->m_PvPEnabled)
 		{
 			return;
 		}
 		// ----
-		if (lpUser->m_PK_Level < this->m_PvPMinPK)
+		if (lpUser.m_PK_Level < this->m_PvPMinPK)
 		{
 			return;
 		}
@@ -123,14 +123,14 @@ void UserDieItemDrop::Drop(CGameObject &lpUser, CGameObject &lpKiller)
 		Rate = this->m_PvPRate;
 	}
 	// ----
-	if (lpKiller->Type == OBJ_MONSTER)
+	if (lpKiller.Type == OBJ_MONSTER)
 	{
 		if (!this->m_PvMEnabled)
 		{
 			return;
 		}
 		// ----
-		if (lpUser->m_PK_Level < this->m_PvMMinPK)
+		if (lpUser.m_PK_Level < this->m_PvMMinPK)
 		{
 			return;
 		}
@@ -144,7 +144,7 @@ void UserDieItemDrop::Drop(CGameObject &lpUser, CGameObject &lpKiller)
 		// ----
 		for (int i = 0; i < this->m_MapList.size(); i++)
 		{
-			if (this->m_MapList[i] == lpUser->MapNumber)
+			if (this->m_MapList[i] == lpUser.MapNumber)
 			{
 				IsCorrectMap = true;
 			}
@@ -216,17 +216,17 @@ void UserDieItemDrop::Drop(CGameObject &lpUser, CGameObject &lpKiller)
 				}
 			}
 			// ----
-			if (lpUser->pInventory[Slot].IsItem()
-				&& !g_kJewelOfHarmonySystem.IsStrengthenByJewelOfHarmony(&lpUser->pInventory[Slot]))
+			if (lpUser.pInventory[Slot].IsItem()
+				&& !g_kJewelOfHarmonySystem.IsStrengthenByJewelOfHarmony(&lpUser.pInventory[Slot]))
 			{
 				PMSG_ITEMTHROW lpMsg;
 				lpMsg.Ipos = Slot;
-				lpMsg.px = lpUser->X;
-				lpMsg.py = lpUser->Y;
+				lpMsg.px = lpUser.X;
+				lpMsg.py = lpUser.Y;
 				// ----
-				if (gGameProtocol.CGItemDropRequest(&lpMsg, lpUser->m_Index, 1))
+				if (gGameProtocol.CGItemDropRequest(&lpMsg, lpUser.m_Index, 1))
 				{
-					sLog->outBasic("[UserDieItemDrop] [%s][%s] Item has been droped (Slot: %d)",	lpUser->AccountID, lpUser->Name);
+					sLog->outBasic("[UserDieItemDrop] [%s][%s] Item has been droped (Slot: %d)",	lpUser.AccountID, lpUser.Name);
 					break;
 				}
 			}

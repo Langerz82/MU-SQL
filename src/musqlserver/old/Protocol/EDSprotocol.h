@@ -318,8 +318,8 @@ private:
 
 	void CloseExDataServer();
 
-	GUILD_INFO_STRUCT* GetGuild(char *szGuild);
-	GUILD_INFO_STRUCT* GetGuild(int iNumber);
+	GUILD_INFO_STRUCT &GetGuild(char *szGuild);
+	GUILD_INFO_STRUCT &GetGuild(int iNumber);
 	STR_GUILD_MEMBER* GetGuildMember(char *szGuild, char *szName);
 	STR_GUILD_MEMBER* GetGuildMember(int nGuildNumber, char *szName);
 	STR_UNION_MEMBER_DATA* GetUnionData(int iGuild);
@@ -360,23 +360,23 @@ private:
 
 	int RelationShipOperation(int iReqGuild, int iTargGuild, int relation_type, int operation);
 
-	int RelationShipJoin(GUILD_INFO_STRUCT* lpReqGuild, GUILD_INFO_STRUCT* lpTargGuild, int type);
-	int UnionJoin(GUILD_INFO_STRUCT* lpReqGuild, GUILD_INFO_STRUCT* lpTargGuild);
-	int RivalJoin(GUILD_INFO_STRUCT* lpReqGuild, GUILD_INFO_STRUCT* lpTargGuild);
+	int RelationShipJoin(GUILD_INFO_STRUCT &lpReqGuild, GUILD_INFO_STRUCT &lpTargGuild, int type);
+	int UnionJoin(GUILD_INFO_STRUCT &lpReqGuild, GUILD_INFO_STRUCT &lpTargGuild);
+	int RivalJoin(GUILD_INFO_STRUCT &lpReqGuild, GUILD_INFO_STRUCT &lpTargGuild);
 
-	int RelationShipBreak(GUILD_INFO_STRUCT* lpMasterGuild, GUILD_INFO_STRUCT* lpKickGuild, int type);
-	int UnionBreak(GUILD_INFO_STRUCT* lpMasterGuild, GUILD_INFO_STRUCT* lpKickGuild);
-	int RivalBreak(GUILD_INFO_STRUCT* lpMasterGuild, GUILD_INFO_STRUCT* lpKickGuild);
+	int RelationShipBreak(GUILD_INFO_STRUCT &lpMasterGuild, GUILD_INFO_STRUCT &lpKickGuild, int type);
+	int UnionBreak(GUILD_INFO_STRUCT &lpMasterGuild, GUILD_INFO_STRUCT &lpKickGuild);
+	int RivalBreak(GUILD_INFO_STRUCT &lpMasterGuild, GUILD_INFO_STRUCT &lpKickGuild);
 
-	BOOL AddUnion(GUILD_INFO_STRUCT* lpReqGuild, GUILD_INFO_STRUCT* lpTargGuild);
+	BOOL AddUnion(GUILD_INFO_STRUCT &lpReqGuild, GUILD_INFO_STRUCT &lpTargGuild);
 	BOOL AddUnion(int iReqGuild, int iTargGuild);
-	BOOL KickUnion(GUILD_INFO_STRUCT* lpMasterGuild, GUILD_INFO_STRUCT* lpKickGuild);
+	BOOL KickUnion(GUILD_INFO_STRUCT &lpMasterGuild, GUILD_INFO_STRUCT &lpKickGuild);
 
 	BOOL UpdateDBUnion(int iGuild, int iUnion);
 	BOOL UpdateDBRival(int iGuild, int iRival);
 
 	void RelationShipBreakSend(int iGuild, int iType);
-	void SendListToAllRivals(GUILD_INFO_STRUCT* lpGuild);
+	void SendListToAllRivals(GUILD_INFO_STRUCT &lpGuild);
 
 	int GetChatServer();
 

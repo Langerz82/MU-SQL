@@ -5,19 +5,14 @@
 //------------------------------------------
 // WinUtil.h	: Status Exactly as GameServer
 //------------------------------------------
-#ifndef __UTIL_H
-#define __UTIL_H
+#ifndef _MU_UTIL_H
+#define _MU_UTIL_H
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "custTypedef.h"
-//#include "GameProtocol.h"
-//#include "User/CUserData.h"
-#include "prodef.h"
-#include "configread.h"
-#include <string>
+#include "StdAfx.h"
 
 #define TRUE 1
 #define FALSE 0

@@ -450,53 +450,53 @@ void MoveMonsterProc()
 {
 	DWORD MoveTime;
 	int DelayTime;
-	CGameObject lpObj;
+	CGameObject* lpObj;
 
 	for (int n = 0; n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
 		lpObj = gGameObjects[n];
 
-		if (lpObj.m_iCurrentAI != 0)
+		if (lpObj->m_iCurrentAI != 0)
 		{
-			if (lpObj.Type == OBJ_MONSTER || lpObj.Type == OBJ_NPC)
+			if (lpObj->Type == OBJ_MONSTER || lpObj->Type == OBJ_NPC)
 			{
 				continue;
 			}
 		}
 
-		if (DG_MAP_RANGE(gGameObjects[n]->MapNumber))
+		if (DG_MAP_RANGE(lpObj->MapNumber))
 		{
 			continue;
 		}
 
-		if (lpObj.Connected == PLAYER_PLAYING)
+		if (lpObj->Connected == PLAYER_PLAYING)
 		{
-			if (lpObj.Type == OBJ_MONSTER)
+			if (lpObj->Type == OBJ_MONSTER)
 			{
 				if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
 				{
-					if (ATTRIBUTE_RANGE(lpObj.m_Attribute) != FALSE)
+					if (ATTRIBUTE_RANGE(lpObj->m_Attribute) != FALSE)
 					{
-						CreateFrustrum(lpObj.X, lpObj.Y, n);
+						CreateFrustrum(lpObj->X, lpObj->Y, n);
 						continue;
 					}
 				}
 
 				else
 				{
-					if (ATTRIBUTE_RANGE(lpObj.m_Attribute) != FALSE || lpObj.Class == 277 || lpObj.Class == 283 || lpObj.Class == 288 || lpObj.Class == 278 || lpObj.Class == 216 || lpObj.Class == 217 || lpObj.Class == 218 || lpObj.Class == 219 || (CRYWOLF_ALTAR_CLASS_RANGE(lpObj.Class) != FALSE || CRYWOLF_STATUE_CHECK(lpObj.Class) != FALSE))
+					if (ATTRIBUTE_RANGE(lpObj->m_Attribute) != FALSE || lpObj->Class == 277 || lpObj->Class == 283 || lpObj->Class == 288 || lpObj->Class == 278 || lpObj->Class == 216 || lpObj->Class == 217 || lpObj->Class == 218 || lpObj->Class == 219 || (CRYWOLF_ALTAR_CLASS_RANGE(lpObj->Class) != FALSE || CRYWOLF_STATUE_CHECK(lpObj->Class) != FALSE))
 					{
-						CreateFrustrum(lpObj.X, lpObj.Y, n);
+						CreateFrustrum(lpObj->X, lpObj->Y, n);
 						continue;
 					}
 				}
 			}
 
-			if (lpObj.m_State == 2)
+			if (lpObj->m_State == 2)
 			{
-				if (lpObj.PathCount != 0)
+				if (lpObj->PathCount != 0)
 				{
-					if (lpObj.DelayLevel != 0)
+					if (lpObj->DelayLevel != 0)
 					{
 						DelayTime = 300;
 					}
@@ -505,80 +505,80 @@ void MoveMonsterProc()
 						DelayTime = 0;
 					}
 
-					if (lpObj.Type == OBJ_MONSTER && lpObj.m_RecallMon >= 100)
+					if (lpObj->Type == OBJ_MONSTER && lpObj->m_RecallMon >= 100)
 					{
-						lpObj.m_MoveSpeed = 200;
+						lpObj->m_MoveSpeed = 200;
 					}
 					else
 					{
-						lpObj.m_MoveSpeed = 400;
+						lpObj->m_MoveSpeed = 400;
 					}
 
-					if (lpObj.PathDir[lpObj.PathCur] % 2 == 0)
+					if (lpObj->PathDir[lpObj->PathCur] % 2 == 0)
 					{
-						MoveTime = (lpObj.m_MoveSpeed + DelayTime)*(double)1.3;
+						MoveTime = (lpObj->m_MoveSpeed + DelayTime)*(double)1.3;
 					}
 					else
 					{
-						MoveTime = lpObj.m_MoveSpeed + DelayTime;
+						MoveTime = lpObj->m_MoveSpeed + DelayTime;
 					}
 
-					if ((GetTickCount() - lpObj.PathTime) > MoveTime && lpObj.PathCur < 14)
+					if ((GetTickCount() - lpObj->PathTime) > MoveTime && lpObj->PathCur < 14)
 					{
-						int nextX = lpObj.PathX[lpObj.PathCur];
-						int nextY = lpObj.PathY[lpObj.PathCur];
-						BYTE mapnumber = lpObj.MapNumber;
+						int nextX = lpObj->PathX[lpObj->PathCur];
+						int nextY = lpObj->PathY[lpObj->PathCur];
+						BYTE mapnumber = lpObj->MapNumber;
 						BYTE attr = MapC[mapnumber].GetAttr(nextX, nextY);
 
-						if (lpObj.Type == OBJ_USER &&
+						if (lpObj->Type == OBJ_USER &&
 							((attr & 4) == 4 || (attr & 8) == 8))
 						{
 							sLog->outBasic("[ CHECK POSITION ] MoveMosterProc [%s][%s] Map[%d]-(%d,%d) User(%d,%d) Can not Move Position Attr[%d]",
-								lpObj.AccountID, lpObj.Name, lpObj.MapNumber, nextX, nextY, lpObj.X, lpObj.Y, attr);
+								lpObj->AccountID, lpObj->Name, lpObj->MapNumber, nextX, nextY, lpObj->X, lpObj->Y, attr);
 							for (int n = 0; n < 15; n++)
 							{
-								lpObj.PathX[n] = 0;
-								lpObj.PathY[n] = 0;
-								lpObj.PathOri[n] = 0;
+								lpObj->PathX[n] = 0;
+								lpObj->PathY[n] = 0;
+								lpObj->PathOri[n] = 0;
 							}
 
-							lpObj.PathCount = 0;
-							lpObj.PathCur = 0;
-							lpObj.PathTime = GetTickCount();
+							lpObj->PathCount = 0;
+							lpObj->PathCur = 0;
+							lpObj->PathTime = GetTickCount();
 
-							if (lpObj.Type == OBJ_MONSTER || lpObj.Type == OBJ_NPC)
+							if (lpObj->Type == OBJ_MONSTER || lpObj->Type == OBJ_NPC)
 							{
-								lpObj.PathStartEnd = 0;
+								lpObj->PathStartEnd = 0;
 							}
 
-							if (lpObj.Type == OBJ_USER)
+							if (lpObj->Type == OBJ_USER)
 							{
-								gObjSetPosition(lpObj, lpObj.X, lpObj.Y);
+								gObjSetPosition(lpObj, lpObj->X, lpObj->Y);
 							}
 						}
 						else
 						{
-							lpObj.X = lpObj.PathX[lpObj.PathCur];
-							lpObj.Y = lpObj.PathY[lpObj.PathCur];
-							lpObj.Dir = lpObj.PathDir[lpObj.PathCur];
+							lpObj->X = lpObj->PathX[lpObj->PathCur];
+							lpObj->Y = lpObj->PathY[lpObj->PathCur];
+							lpObj->Dir = lpObj->PathDir[lpObj->PathCur];
 
-							lpObj.PathTime = GetTickCount();
-							lpObj.PathCur++;
+							lpObj->PathTime = GetTickCount();
+							lpObj->PathCur++;
 
-							if (lpObj.PathCur >= lpObj.PathCount)
+							if (lpObj->PathCur >= lpObj->PathCount)
 							{
-								lpObj.PathCur = 0;
-								lpObj.PathCount = 0;
+								lpObj->PathCur = 0;
+								lpObj->PathCount = 0;
 
-								if (lpObj.Type == OBJ_MONSTER || lpObj.Type == OBJ_NPC)
+								if (lpObj->Type == OBJ_MONSTER || lpObj->Type == OBJ_NPC)
 								{
-									lpObj.PathStartEnd = 0;
+									lpObj->PathStartEnd = 0;
 								}
 							}
 						}
 					}
 				}
-				CreateFrustrum(lpObj.X, lpObj.Y, n);
+				CreateFrustrum(lpObj->X, lpObj->Y, n);
 			}
 		}
 	}

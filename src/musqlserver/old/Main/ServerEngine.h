@@ -7,7 +7,6 @@
 
 #include "StdAfx.h"
 #include "IOCP.h"
-#include "custTypedef.h"
 
 class CGameObject;
 

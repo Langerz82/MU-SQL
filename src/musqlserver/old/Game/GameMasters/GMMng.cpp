@@ -869,7 +869,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 		int iTokenNumber1 = this->GetTokenNumber();
 		int iTokenNumber2 = this->GetTokenNumber();
 		int iTokenNumber3 = this->GetTokenNumber();
-		GUILD_INFO_STRUCT* lpGuild = Guild.SearchGuild(pId);
+		GUILD_INFO_STRUCT &lpGuild = Guild.SearchGuild(pId);
 		int iIndex;
 
 		if (lpGuild != NULL)
@@ -3820,7 +3820,7 @@ void ServerMsgSend(CGameObject &lpObj, int Type, char Sender[20], const char*Mes
 	if(!lpObj)gGameProtocol.DataSendAll(Packet,Len);
 	else
 		if(lpObj.Connected)
-			IOCP.DataSend(lpObj,Packet,Len);
+			IOCP.DataSend(lpObj.m_PlayerData->IDNumber,Packet,Len);
 	delete [] Packet;*/
 }
 

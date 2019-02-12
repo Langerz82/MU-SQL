@@ -85,7 +85,7 @@ public:
 	WORD Energy;	// BE
 	BYTE  DbClass;	// 9E
 	BYTE  ChangeUP; // 9F
-	_GUILD_INFO_STRUCT* lpGuild;	// 2D4
+	_GUILD_INFO_STRUCT *lpGuild;	// 2D4
 	char GuildName[11]; // 2D8
 	int GuildStatus;	// 2E4
 	int iGuildUnionTimeStamp;	// 2E8

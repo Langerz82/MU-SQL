@@ -968,8 +968,37 @@ struct PMSG_REQ_PSHOP_LOG;
 struct PMSG_REQ_SEARCH_ITEM_PSHOP;
 struct PMSG_AUTOUPDATE;
 
+struct PMSG_CLIENTVERSION
+{
+	PBMSG_HEAD h;
+	char ClientMainVersion;
+	char ClientHeadVersion;
+	char ClientSubVersion;
+};
 
+struct PMSG_VERSIONOK
+{
+	PBMSG_HEAD h;
+	char VersionOK;
+};
 
+struct PMSG_LAUNCHER
+{
+	PWMSG_HEAD h;
+	char FTP[200];
+	char HASH[200];
+};
+
+struct PMSG_LAUNCHERNOLICENSE
+{
+	PBMSG_HEAD h;
+};
+
+struct PMSG_LAUNCHERERROR
+{
+	PBMSG_HEAD h;
+	BYTE ERRORCODE;
+};
 
 struct PMSG_AUTOUPDATE
 {

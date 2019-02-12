@@ -2388,7 +2388,7 @@ void GameProtocol::GCServerMsgStringSendEx(CGameObject &lpObj, BYTE type, LPSTR 
 }
 
 
-void GameProtocol::GCServerMsgStringSendGuild(GUILD_INFO_STRUCT* lpNode, LPSTR szMsg, BYTE type)
+void GameProtocol::GCServerMsgStringSendGuild(GUILD_INFO_STRUCT &lpNode, LPSTR szMsg, BYTE type)
 {
 	if (lpNode == NULL)
 	{
@@ -17173,29 +17173,24 @@ void GameProtocol::CGUnionList(PMSG_UNIONLIST_REQ * aRecv, int aIndex)
 }
 
 
-void GameProtocol::CGRelationShipReqKickOutUnionMember(PMSG_KICKOUT_UNIONMEMBER_REQ* aRecv, int aIndex)
+void GameProtocol::CGRelationShipReqKickOutUnionMember(PMSG_KICKOUT_UNIONMEMBER_REQ* aRecv, CGameObject &lpObj)
 {
-	if (!ObjectMaxRange(aIndex))
+	if (this->PacketCheckTime(lpObj) == FALSE)
 		return;
-
-	if (this->PacketCheckTime(aIndex) == FALSE)
-		return;
-
-	
 
 	if (lpObj == NULL)
 		return;
 
-	if (gObjIsConnected(&gGameObjects[aIndex]) == FALSE)
+	if (gObjIsConnected(lpObj) == FALSE)
 	{
-		GCResultSend(aIndex, 0x51, 3);
-		MsgOutput(aIndex, Lang.GetText(0, 529));
+		GCResultSend(lpObj, 0x51, 3);
+		MsgOutput(lpObj, Lang.GetText(0, 529));
 		return;
 	}
 
 	if (lpObj.m_PlayerData->lpGuild == NULL)
 	{
-		GCResultSend(aIndex, 0x51, 3);
+		GCResultSend(lpObj, 0x51, 3);
 		MsgOutput(aIndex, Lang.GetText(0, 530));
 		return;
 	}
@@ -25199,7 +25194,7 @@ void GameProtocol::CGRequestStartMuBot(PMSG_MUBOT_REQ_START* lpMsg, int aIndex)
 	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-std::vector<Recv_PetItem_Info>& GameProtocol::gObjRequestPetItemInfoDS(CGameObject &lpObj, int inventype, std::vector<int> serials)
+std::vector<Recv_PetItem_Info> GameProtocol::gObjRequestPetItemInfoDS(CGameObject &lpObj, int inventype, std::vector<int> serials)
 {
 	int serverCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	int founditemcount = 0;

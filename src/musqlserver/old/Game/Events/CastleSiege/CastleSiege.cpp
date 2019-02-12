@@ -4506,7 +4506,7 @@ BOOL CCastleSiege::CheckCastleOwnerMember(int iIndex)
 
 BOOL CCastleSiege::CheckCastleOwnerUnionMember(int iIndex)
 {
-	GUILD_INFO_STRUCT* lpGuildInfo;
+	GUILD_INFO_STRUCT &lpGuildInfo;
 	TUnionInfo * pUnionInfo;
 
 	if( ::gObjIsConnected(iIndex) == FALSE )
@@ -4734,7 +4734,7 @@ int CCastleSiege::CheckCastleSiegeResult()
 
 BOOL CCastleSiege::CheckUnionGuildMaster(int iIndex)
 {
-	GUILD_INFO_STRUCT* lpGuildInfo;
+	GUILD_INFO_STRUCT &lpGuildInfo;
 
 	if( gObjIsConnected(iIndex) == FALSE )
 	{

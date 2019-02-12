@@ -350,7 +350,7 @@ void CIllusionTempleEvent_Renewal::ITR_USeSkill(int iIndex, WORD MagicNumber, in
 	this->m_cITR_Proc[gGameObjects[iIndex]->MapNumber - 45]->ITR_UseSkill(iIndex, MagicNumber, wTargetObjIndex, btDis);
 }
 
-void CIllusionTempleEvent_Renewal::EventSkillProc(CGameObject* lpObj)
+void CIllusionTempleEvent_Renewal::EventSkillProc(CGameObject &lpObj)
 {
 	return this->m_cITR_Proc[lpObj.MapNumber - 45].ITRSkillProc(lpObj);
 }

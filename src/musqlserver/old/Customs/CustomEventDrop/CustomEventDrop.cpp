@@ -7,7 +7,7 @@
 #include "MapServerManager.h"
 #include "MemScript.h"
 #include "TNotice.h"
-#include "ScheduleManager.h"
+// #include "ScheduleManager.h" - TODO Make non-win equivalent
 
 #include "CUserData.h"
 #include "GOEventFunctions.h"

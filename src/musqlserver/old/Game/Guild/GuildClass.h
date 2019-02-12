@@ -100,31 +100,31 @@ public:
 	virtual ~CGuildClass();
 	
 	void Init();
-	GUILD_INFO_STRUCT* AddGuild(int number, LPSTR guildname, LPBYTE mark, LPSTR mastername,  int score);
-	GUILD_INFO_STRUCT* AddMember(GUILD_INFO_STRUCT* pNode, LPSTR player_name, int aIndex, int totalcount, int pServer);
-	GUILD_INFO_STRUCT* AddMember(LPSTR guild_name, LPSTR player_name, int aIndex, int totalcount, int iGuildStatus,  int pServer);
+	GUILD_INFO_STRUCT &AddGuild(int number, LPSTR guildname, LPBYTE mark, LPSTR mastername,  int score);
+	GUILD_INFO_STRUCT &AddMember(GUILD_INFO_STRUCT &pNode, LPSTR player_name, int aIndex, int totalcount, int pServer);
+	GUILD_INFO_STRUCT &AddMember(LPSTR guild_name, LPSTR player_name, int aIndex, int totalcount, int iGuildStatus,  int pServer);
 	int GetGuildMemberStatus(LPSTR szGuildName, LPSTR szMemberName);
 	int SetGuildMemberStatus(LPSTR szGuildName, LPSTR szMemberName, int iGuildStatus);
 	int GetGuildType(LPSTR szGuildName);
 	int SetGuildType(LPSTR szGuildName, int iGuildType);
-	int BuildMemberTotal(GUILD_INFO_STRUCT* lpNode);
+	int BuildMemberTotal(GUILD_INFO_STRUCT &lpNode);
 	int DelMember(LPSTR guild_name, LPSTR player_name);
-	void AddTail(GUILD_INFO_STRUCT* pNewNode);
+	void AddTail(GUILD_INFO_STRUCT &pNewNode);
 	int DeleteGuild(LPSTR guildname, LPSTR commader);
 	void AllDelete();
 	void Print();
 	void PrintGuild(LPSTR guildname);
-	int ConnectUser(GUILD_INFO_STRUCT* lpNode, LPSTR guild_name, LPSTR player_name,  int aIndex, int pServer);
+	int ConnectUser(GUILD_INFO_STRUCT &lpNode, LPSTR guild_name, LPSTR player_name,  int aIndex, int pServer);
 	int SetServer(LPSTR guild_name, LPSTR player_name, int pServer);
-	GUILD_INFO_STRUCT* SearchGuild(LPSTR guildname);
-	GUILD_INFO_STRUCT* SearchGuild_Number(int number);
-	GUILD_INFO_STRUCT* SearchGuild_NumberAndId(int number, LPSTR name);
+	GUILD_INFO_STRUCT &SearchGuild(LPSTR guildname);
+	GUILD_INFO_STRUCT &SearchGuild_Number(int number);
+	GUILD_INFO_STRUCT &SearchGuild_NumberAndId(int number, LPSTR name);
 	int CloseMember(LPSTR guild_name, LPSTR player_name);
 
 private:
 
-	GUILD_INFO_STRUCT* head;	// 4
-	GUILD_INFO_STRUCT* tail;	// 8
+	GUILD_INFO_STRUCT &head;	// 4
+	GUILD_INFO_STRUCT &tail;	// 8
 	std::map<std::string,GUILD_INFO_STRUCT *> m_GuildMap;	// C
 	std::map<int,GUILD_INFO_STRUCT *> m_GuildNumberMap;	// 1C
 

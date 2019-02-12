@@ -7,7 +7,8 @@
 
 #include "StdAfx.h"
 #include "ProtocolStructs.h"
-#include "CQueue.h"
+#include "Database/Query.h"
+
 
 struct CSP_ANS_GUILDREGINFO;
 struct CSP_ANS_GUILDREGMARK;
@@ -421,7 +422,9 @@ struct PMSG_REQ_INVENTORY_EQUIPMENT_ITEM;
 struct PMSG_REQ_NIXIELAKE_ENTER;
 struct PMSG_REQ_REG_GENS_MEMBER;
 struct PMSG_REQ_SEGEDE_GENS_MEMBER;
-struct PetItemInfoData;
+struct PMSG_SEND_PET_ITEMINFO;
+struct Recv_PetItem_Info;
+
 
 class GameProtocol
 {
@@ -451,7 +454,7 @@ public:
 	void GCServerMsgStringSendEx(CGameObject &lpObj, BYTE type, LPSTR szMsg, ...);
 	void GCServerMsgStringSendAll(LPSTR  szMsg, BYTE type);
 	void GCServerMsgStringSendAllEx(BYTE type, LPSTR szMsg, ...);
-	void GCServerMsgStringSendGuild(GUILD_INFO_STRUCT* lpNode, char* szMsg, BYTE type);
+	void GCServerMsgStringSendGuild(GUILD_INFO_STRUCT &lpNode, char* szMsg, BYTE type);
 	void GCEventStateSend(CGameObject &lpObj, BYTE state, BYTE event);
 	void GCMapEventStateSend(int map, BYTE state, BYTE event);
 	void CGChatWhisperRecv(PMSG_CHATDATA_WHISPER* lpMsg, CGameObject &lpObj);
@@ -822,7 +825,7 @@ public:
 	void CGRecvHitHackValues(CGameObject &lpObj, PMSG_SEND_HITHACK_INFO * lpMsg);
 
 	void gObjRequestPetItemInfo(CGameObject &lpObj, int inventype);
-	std::vector<Recv_PetItem_Info>& gObjRequestPetItemInfoDS(CGameObject &lpObj, int inventype, std::vector<int> serials);
+	std::vector<Recv_PetItem_Info> gObjRequestPetItemInfoDS(CGameObject &lpObj, int inventype, std::vector<int> serials);
 
 
 	// From SProtocol.

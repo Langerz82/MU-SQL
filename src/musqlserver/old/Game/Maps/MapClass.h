@@ -9,10 +9,6 @@
 #include "zzzpath.h"
 #include "MapItem.h"
 
-#define MAX_NUMBER_MAP 115
-
-#define MAX_MAP_RANGE(x) (((x)<0)?FALSE:((x)>MAX_NUMBER_MAP-1)?FALSE:TRUE)
-
 extern inline bool MaxItemTypeRange(int x);
 
 struct MAP_SETTINGS

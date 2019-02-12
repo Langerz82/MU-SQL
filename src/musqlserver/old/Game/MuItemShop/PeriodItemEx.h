@@ -58,7 +58,7 @@ struct PERIOD_DATA
 
 		for(int i=0;i<30;i++)
 		{
-			this->m_ItemInfo[i].Clear();
+			this->m_ItemInfo[i]->Clear();
 		}
 	}
 };
