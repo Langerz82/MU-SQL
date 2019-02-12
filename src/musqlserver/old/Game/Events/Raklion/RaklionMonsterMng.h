@@ -27,7 +27,7 @@ public:
 	void ResetLoadData();
 	BOOL LoadData(LPSTR lpszFileName);
 
-	void SetMonsterSetBaseInfo(int iIndex, BYTE btGroup, WORD wType, BYTE btMapNumber, BYTE btDistance, BYTE btX, BYTE btY, BYTE btDir);
+	void SetMonsterSetBaseInfo(CGameObject &Obj, BYTE btGroup, WORD wType, BYTE btMapNumber, BYTE btDistance, BYTE btX, BYTE btY, BYTE btDir);
 
 	void SetAllMonsters();
 	int SetPosition(int iMonsterIndex, int iTableNum);

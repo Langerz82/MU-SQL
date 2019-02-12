@@ -148,7 +148,7 @@ BOOL TMonsterSkillManager::CheckMonsterSkill(int iMonsterClass)
 	return TRUE;
 }
 
-BOOL TMonsterSkillManager::AddMonsterSkillDelayInfo(int iIndex, int iTargetIndex, int iDelayTime, TMonsterSkillUnit * lpMonsterSkillUnit)
+BOOL TMonsterSkillManager::AddMonsterSkillDelayInfo(CGameObject &Obj, int iTargetIndex, int iDelayTime, TMonsterSkillUnit * lpMonsterSkillUnit)
 {
 	for ( int i=0;i<MAX_MONSTER_SKILL_DELAY_INFO_ARRAY;i++)
 	{
@@ -210,9 +210,9 @@ void TMonsterSkillManager::MonsterSkillProc()
 	}
 }
 
-TMonsterSkillUnit * TMonsterSkillManager::FindMonsterSkillUnit(int iIndex, int iMonsterSkillUnitType)
+TMonsterSkillUnit * TMonsterSkillManager::FindMonsterSkillUnit(CGameObject &Obj, int iMonsterSkillUnitType)
 {
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 	TMonsterSkillInfo * lpMonsterSkillInfo = &TMonsterSkillManager::s_MonsterSkillInfoArray[lpObj.Class];
 
 	if ( lpMonsterSkillInfo->IsValid() == FALSE )
@@ -246,7 +246,7 @@ TMonsterSkillUnit * TMonsterSkillManager::FindMonsterSkillUnit(int iIndex, int i
 }
 
 
-void TMonsterSkillManager::UseMonsterSkill(int iIndex, int iTargetIndex, int iMonsterSkillUnitType, int iMonsterSkillUnit, CMagicInf * lpMagic)
+void TMonsterSkillManager::UseMonsterSkill(CGameObject &Obj, int iTargetIndex, int iMonsterSkillUnitType, int iMonsterSkillUnit, CMagicInf * lpMagic)
 {
 	if(!OBJMON_RANGE(iIndex))
 	{
@@ -261,9 +261,9 @@ void TMonsterSkillManager::UseMonsterSkill(int iIndex, int iTargetIndex, int iMo
 	}
 
 	/* sLog->outBasic("[TMonsterSkillManager] [%s] Used skill at INDEX:%d (UNITTYPE:%d UNIT:%d)",
-		gGameObjects[iIndex]->Name, iTargetIndex, iMonsterSkillUnitType, iMonsterSkillUnit); */
+		Obj.Name, iTargetIndex, iMonsterSkillUnitType, iMonsterSkillUnit); */
 
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 	CGameObject lpTargetObj = &gGameObjects[iTargetIndex];
 	TMonsterSkillInfo * lpMonsterSkillInfo = &TMonsterSkillManager::s_MonsterSkillInfoArray[lpObj.Class];
 
@@ -309,7 +309,7 @@ void TMonsterSkillManager::UseMonsterSkill(int iIndex, int iTargetIndex, int iMo
 
 		if ( lpMonsterSkillUnit->m_iUnitTargetType == 5 )
 		{
-			lpTargetObj = &gGameObjects[iIndex];
+			lpTargetObj = Obj;
 			iTargetIndex = iIndex;
 		}
 

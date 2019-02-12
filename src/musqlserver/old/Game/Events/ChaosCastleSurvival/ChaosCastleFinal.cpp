@@ -994,12 +994,12 @@ void ChaosCastleFinal::SearchNBlowObjs(int iMapNumber, int iX, int iY)
 
 		int iIndex = this->m_stCCFData.m_UserData[i].m_nIndex;
 
-		if (gGameObjects[iIndex]->MapNumber == iMapNumber && gGameObjects[iIndex]->Connected > PLAYER_LOGGED)
+		if (Obj.MapNumber == iMapNumber && Obj.Connected > PLAYER_LOGGED)
 		{
-			if (gGameObjects[iIndex]->X >= iMIN_X && gGameObjects[iIndex]->X <= iMAX_X &&
-				gGameObjects[iIndex]->Y >= iMIN_Y && gGameObjects[iIndex]->Y <= iMAX_Y)
+			if (Obj.X >= iMIN_X && Obj.X <= iMAX_X &&
+				Obj.Y >= iMIN_Y && Obj.Y <= iMAX_Y)
 			{
-				this->BlowObjsFromPoint(gGameObjects[iIndex]->m_Index, iMapNumber, iX, iY);
+				this->BlowObjsFromPoint(Obj.m_Index, iMapNumber, iX, iY);
 
 				BYTE btMapAttr = MapC[iMapNumber].m_attrbuf[iY * 256 + iX] & 0x08;
 
@@ -1008,14 +1008,14 @@ void ChaosCastleFinal::SearchNBlowObjs(int iMapNumber, int iX, int iY)
 					this->AddFallUser(iIndex);
 
 					sLog->outBasic("[Chaos Castle Survival] [%s][%s] User Dead In Chaos Castle : Fall from Castle (X:%d, Y:%d)",
-						gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, iX, iY);
+						Obj.AccountID, Obj.Name, iX, iY);
 				}
 			}
 		}
 	}
 }
 
-int ChaosCastleFinal::BlowObjsFromPoint(int iIndex, int iMapNumber, int & iX, int & iY)
+int ChaosCastleFinal::BlowObjsFromPoint(CGameObject &Obj, int iMapNumber, int & iX, int & iY)
 {
 	if (this->m_bCCF_CHEAT_BLOW == false)
 		return FALSE;
@@ -1026,7 +1026,7 @@ int ChaosCastleFinal::BlowObjsFromPoint(int iIndex, int iMapNumber, int & iX, in
 	if (!CHECK_LIMIT(iX, 256) || !CHECK_LIMIT(iY, 256))
 		return FALSE;
 
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 
 	if (lpObj.DieRegen)
 		return FALSE;
@@ -2295,12 +2295,12 @@ void ChaosCastleFinal::RewardUserEXP(BOOL bWinner)
 	}
 }
 
-int ChaosCastleFinal::ObjSetPosition(int iIndex, int iX, int iY)
+int ChaosCastleFinal::ObjSetPosition(CGameObject &Obj, int iX, int iY)
 {
 	if (!ObjectMaxRange(iIndex))
 		return TRUE;
 
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 
 	if (lpObj.MapNumber != MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 		return FALSE;
@@ -2346,10 +2346,10 @@ int ChaosCastleFinal::ObjSetPosition(int iIndex, int iX, int iY)
 
 	if (lpObj.Type == OBJ_USER)
 	{
-		IOCP.DataSend(iIndex, (UCHAR *)&pMove2, pMove2.h.size);
+		IOCP.DataSend(Obj.m_Index, (UCHAR *)&pMove2, pMove2.h.size);
 	}
 
-	gGameProtocol.MsgSendV2(&gGameObjects[iIndex], (UCHAR *)&pMove2, pMove2.h.size);
+	gGameProtocol.MsgSendV2(Obj, (UCHAR *)&pMove2, pMove2.h.size);
 
 	MapC[lpObj.MapNumber].ClearStandAttr(lpObj.m_OldX, lpObj.m_OldY);
 	MapC[lpObj.MapNumber].SetStandAttr(lpObj.TX, lpObj.TY);

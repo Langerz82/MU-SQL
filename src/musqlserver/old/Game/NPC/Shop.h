@@ -83,17 +83,17 @@ public:
 	CCancelItemSale();
 	virtual ~CCancelItemSale();
 
-	void CGReqSoldItemList(int iIndex);
-	void GCAnsSoldItemList(int iIndex);
-	void CGReqEndCancelItemSale(int iIndex);
+	void CGReqSoldItemList(CGameObject &Obj);
+	void GCAnsSoldItemList(CGameObject &Obj);
+	void CGReqEndCancelItemSale(CGameObject &Obj);
 	void CGReqReBuyItem(PMSG_REQ_REBUY_ITEM *lpMsg, int iIndex);
 
-	void GDReqSoldItemList(int iIndex);
+	void GDReqSoldItemList(CGameObject &Obj);
 	void DGAnsSoldItemList(LPBYTE lpRecv);
-	void GDReqAddItemToList(int iIndex, CItem Item, DWORD dwSellPrice);
-	void GDReqGetReBuyItem(int iIndex, BYTE btItemNumber, DWORD dwItemPrice);
+	void GDReqAddItemToList(CGameObject &Obj, CItem Item, DWORD dwSellPrice);
+	void GDReqGetReBuyItem(CGameObject &Obj, BYTE btItemNumber, DWORD dwItemPrice);
 	void DGAnsGetReBuyItem(SDHP_ANS_SHOP_REBUY_GET_ITEM *lpMsg);
-	void GDReqDeleteSoldItem(int iIndex, BYTE btItemNumber, WORD wItemCode, DWORD dwItemPrice);
+	void GDReqDeleteSoldItem(CGameObject &Obj, BYTE btItemNumber, WORD wItemCode, DWORD dwItemPrice);
 
 	void MakeItem(LPBYTE lpData, CItem * lpItem);
 };

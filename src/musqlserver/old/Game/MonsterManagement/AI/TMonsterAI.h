@@ -17,12 +17,12 @@ public:
 	TMonsterAI();
 	virtual ~TMonsterAI();
 
-	static void  MonsterMove(int iIndex);
+	static void  MonsterMove(CGameObject &Obj);
 	static void  MonsterMoveProc();
 	static void  MonsterAIProc();
-	static bool  RunAI(int iIndex, int iMonsterClass);
-	static bool  UpdateCurrentAIUnit(int iIndex);
-	static void  MonsterStateMsgProc(int iIndex);
+	static bool  RunAI(CGameObject &Obj, int iMonsterClass);
+	static bool  UpdateCurrentAIUnit(CGameObject &Obj);
+	static void  MonsterStateMsgProc(CGameObject &Obj);
 	static void  ProcessStateMsg(struct CGameObject* lpObj, int iMsgCode, int iIndex, int aMsgSubCode);
 
 private:

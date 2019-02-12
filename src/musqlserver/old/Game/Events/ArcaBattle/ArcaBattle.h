@@ -852,22 +852,22 @@ public:
 
 	void SetArcaBattleProcMultiCast(int bABInitState);
 
-	void GDReqArcaBattleIsTopRank(int iIndex, DWORD dwGuildNum);
-	bool CGReqMarkReg(int iIndex);
-	void GCAnsMarkReg(int iIndex, DWORD dwMarkCnt);
+	void GDReqArcaBattleIsTopRank(CGameObject &Obj, DWORD dwGuildNum);
+	bool CGReqMarkReg(CGameObject &Obj);
+	void GCAnsMarkReg(CGameObject &Obj, DWORD dwMarkCnt);
 	void GCAnsMarkRegErrCode(int iResult, int iIndex);
 
 	void CGReqMarkRegButtonClick(CGameObject &lpObj);
 
-	void CGReqMarkRank(int iIndex);
-	void GCAnsMarkRank(int iIndex, BYTE btRank, DWORD dwMarkCnt, BYTE btTopRankCnt, _stArcaBattleMarkTopRankDS *pArcaBattleMarkTopRank);
+	void CGReqMarkRank(CGameObject &Obj);
+	void GCAnsMarkRank(CGameObject &Obj, BYTE btRank, DWORD dwMarkCnt, BYTE btTopRankCnt, _stArcaBattleMarkTopRankDS *pArcaBattleMarkTopRank);
 
-	void GDReqMarkCnt(int iIndex, DWORD dwGuildNum);
+	void GDReqMarkCnt(CGameObject &Obj, DWORD dwGuildNum);
 	void DGAnsMarkCnt(PMSG_ANS_ARCA_BATTLE_MARK_CNT_DS *lpMsg);
-	void GDReqMarkReg(int iIndex, DWORD dwMarkCnt);
-	void GDReqMarkRank(int iIndex, DWORD dwGuildNum);
+	void GDReqMarkReg(CGameObject &Obj, DWORD dwMarkCnt);
+	void GDReqMarkRank(CGameObject &Obj, DWORD dwGuildNum);
 	void DGAnsMarkRank(PMSG_ANS_ARCA_BATTLE_MARK_RANK_DS *lpMsg);
-	void GDReqMarkRegDel(int iIndex, DWORD dwGuildNum);
+	void GDReqMarkRegDel(CGameObject &Obj, DWORD dwGuildNum);
 	void GDReqMarkRegAllDel();
 	void DGAnsMarkReg(PMSG_ANS_ARCA_BATTLE_MARK_REG_DS *lpMsg);
 	void GDReqAllGuildMarkCnt();
@@ -886,8 +886,8 @@ public:
 
 	void SetJoinMemberCnt(int iJoinGuildMemberCnt);
 
-	void CheatGDReqMarkReg(int iIndex, char *szGuildName, DWORD dwGuildNum, DWORD dwMarkCnt);
-	void CheatGDReqMarkRegSet(int iIndex, DWORD dwMarkCnt);
+	void CheatGDReqMarkReg(CGameObject &Obj, char *szGuildName, DWORD dwGuildNum, DWORD dwMarkCnt);
+	void CheatGDReqMarkRegSet(CGameObject &Obj, DWORD dwMarkCnt);
 
 	void GuildMemberAssignStatus(CGameObject lpObj, int iGuildStatus);
 

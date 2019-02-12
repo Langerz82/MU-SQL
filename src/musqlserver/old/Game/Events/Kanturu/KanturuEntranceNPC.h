@@ -17,8 +17,8 @@ public:
   CKanturuEntranceNPC();
   virtual ~CKanturuEntranceNPC();
 
-  void NotifyEntranceInfo(int iIndex);
-  void NotifyResultEnterKanturuBossMap(int iIndex);
+  void NotifyEntranceInfo(CGameObject &Obj);
+  void NotifyResultEnterKanturuBossMap(CGameObject &Obj);
 
 private:
 

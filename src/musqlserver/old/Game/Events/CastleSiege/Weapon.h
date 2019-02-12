@@ -60,7 +60,7 @@ public:
 	BOOL GetWeaponCalDamageInfo(WORD wObjIndex, BYTE& btTargetX, BYTE& btTargetY);
 	BOOL AddWeaponDamagedTargetInfo(int iWeaponIndex, int iTargetIndex, int iDelayTime);
 	void WeaponAttackProc();
-	void WeaponAct(int iIndex);
+	void WeaponAct(CGameObject &Obj);
 	BOOL Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf* lpMagic,  int iCriticalDamage, int iActionType);
 	int GetAttackDamage(int iObjClass);
 	BOOL GetTargetPointXY(int iObjClass, int iTargetPointIndex, BYTE& btX, BYTE& btY, BOOL bRandomPos);

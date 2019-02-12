@@ -46,13 +46,13 @@ public:
 	virtual void SetPosition(BYTE iTX, BYTE iTY);	// 10
 	virtual BOOL Start();	// 14
 	virtual void Stop();	// 18
-	virtual BOOL CheckInRadius(int iIndex);	// 1C
+	virtual BOOL CheckInRadius(CGameObject &Obj);	// 1C
 	virtual BOOL GetCurrentLocation(BYTE&cX, BYTE& cY);	// 20
 	virtual BOOL GetRandomLocation(BYTE& cX, BYTE& cY);	// 24
 	virtual BOOL CheckLocation(BYTE& cX, BYTE& cY);	// 28
 	virtual int MoveHerd(BYTE iTX, BYTE iTY);	// 2C
 	virtual int MonsterHerdItemDrop(CGameObject &lpObj);	// 30
-	virtual _MONSTER_HERD_DATA* GetMonsterData(int iIndex);	// 34
+	virtual _MONSTER_HERD_DATA* GetMonsterData(CGameObject &Obj);	// 34
 	virtual void BeenAttacked(CGameObject &lpObj, CGameObject lpTargetObj);	// 38
 	virtual void OrderAttack(CGameObject &lpObj, CGameObject lpTargetObj, int iAttackPercent);	// 3C
 	virtual void MonsterBaseAct(CGameObject &lpObj);	// 40

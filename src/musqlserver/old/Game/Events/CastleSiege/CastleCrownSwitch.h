@@ -19,7 +19,7 @@ public:
 	CCastleCrownSwitch();
 	virtual ~CCastleCrownSwitch();
 
-	void CastleCrownSwitchAct(int iIndex);
+	void CastleCrownSwitchAct(CGameObject &Obj);
 
 };
 

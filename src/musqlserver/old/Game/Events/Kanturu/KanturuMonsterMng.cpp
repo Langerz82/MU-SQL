@@ -58,9 +58,9 @@ void CKanturuMonsterMng::ResetRegenMonsterObjData()
 }
 
 
-void CKanturuMonsterMng::MonsterDie(int iIndex)
+void CKanturuMonsterMng::MonsterDie(CGameObject &Obj)
 {
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 
 	for ( int iCount=0;iCount<this->m_KanturuMonster.GetCount();iCount++)
 	{
@@ -134,7 +134,7 @@ BOOL CKanturuMonsterMng::LoadData(LPSTR lpszFileName)
 }
 
 
-void CKanturuMonsterMng::SetMonsterSetBaseInfo(int iIndex, BYTE btGroup, WORD wType, BYTE btMapNumber, BYTE btDistance, BYTE btX, BYTE btY, BYTE btDir)
+void CKanturuMonsterMng::SetMonsterSetBaseInfo(CGameObject &Obj, BYTE btGroup, WORD wType, BYTE btMapNumber, BYTE btDistance, BYTE btX, BYTE btY, BYTE btDir)
 {
 	this->m_SetBaseInfo[iIndex].btGroup = btGroup;
 	this->m_SetBaseInfo[iIndex].wType = wType;

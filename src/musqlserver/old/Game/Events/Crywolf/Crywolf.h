@@ -83,8 +83,8 @@ public:
 	void ProcState_START();
 	void ProcState_END();
 	void ProcState_ENDCYCLE();
-	void CrywolfNpcAct(int iIndex);
-	void CrywolfMonsterAct(int iIndex);
+	void CrywolfNpcAct(CGameObject &Obj);
+	void CrywolfMonsterAct(CGameObject &Obj);
 	void CrywolfSecondAct();
 	int GetCrywolfState(){return this->m_iCrywolfState;}
 	int GetOccupationState(){return this->m_iOccupationState;}

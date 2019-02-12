@@ -279,7 +279,7 @@ void CKanturuBattleOfNightmare::ProcState_START()
 
 	if (ObjectMaxRange(iIndex))
 	{
-		if ( gGameObjects[iIndex]->Live == FALSE )
+		if ( Obj.Live == FALSE )
 		{
 			this->SetSuccessValue(TRUE);
 

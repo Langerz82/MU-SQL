@@ -24,18 +24,18 @@ CCastleCrownSwitch::~CCastleCrownSwitch()
 	return;
 }
 
-void CCastleCrownSwitch::CastleCrownSwitchAct(int iIndex)
+void CCastleCrownSwitch::CastleCrownSwitchAct(CGameObject &Obj)
 {
 	if ( !gObjIsConnected(iIndex))
 		return;
 
-	if ( gGameObjects[iIndex]->Type != OBJ_NPC ||
-		((gGameObjects[iIndex]->Class < 217 )?FALSE:(gGameObjects[iIndex]->Class > 219-1 )?FALSE:TRUE)==FALSE )
+	if ( Obj.Type != OBJ_NPC ||
+		((Obj.Class < 217 )?FALSE:(Obj.Class > 219-1 )?FALSE:TRUE)==FALSE )
 		return;
 
-	if ( !gObjIsConnected(g_CastleSiege.GetCrownSwitchUserIndex(gGameObjects[iIndex]->Class)) )
+	if ( !gObjIsConnected(g_CastleSiege.GetCrownSwitchUserIndex(Obj.Class)) )
 	{
-		g_CastleSiege.ResetCrownSwitchUserIndex(gGameObjects[iIndex]->Class);
+		g_CastleSiege.ResetCrownSwitchUserIndex(Obj.Class);
 
 		if ( g_CastleSiege.GetRegCrownAvailable() == 1 )
 		{
@@ -46,8 +46,8 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(int iIndex)
 		return;
 	}
 	
-	CGameObject lpObj= &gGameObjects[iIndex];
-	CGameObject lpUserObj = &gGameObjects[g_CastleSiege.GetCrownSwitchUserIndex(gGameObjects[iIndex]->Class)];
+	CGameObject lpObj= Obj;
+	CGameObject lpUserObj = &gGameObjects[g_CastleSiege.GetCrownSwitchUserIndex(Obj.Class)];
 	g_CastleSiege.NotifyCrownSwitchInfo(iIndex);
 
 	if ( lpUserObj.MapNumber == MAP_INDEX_CASTLESIEGE &&
@@ -74,7 +74,7 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(int iIndex)
 		else
 		{
 			gGameProtocol.GCAnsCsAccessSwitchState(lpUserObj.m_Index, lpObj.m_Index, -1, 0);
-			g_CastleSiege.ResetCrownSwitchUserIndex(gGameObjects[iIndex]->Class);
+			g_CastleSiege.ResetCrownSwitchUserIndex(Obj.Class);
 
 			if ( g_CastleSiege.GetRegCrownAvailable() == 1 )
 			{
@@ -90,7 +90,7 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(int iIndex)
 	{
 		gGameProtocol.GCAnsCsAccessSwitchState(lpUserObj.m_Index, lpObj.m_Index, -1, 0);
 
-		g_CastleSiege.ResetCrownSwitchUserIndex(gGameObjects[iIndex]->Class);
+		g_CastleSiege.ResetCrownSwitchUserIndex(Obj.Class);
 
 		if ( g_CastleSiege.GetRegCrownAvailable() == 1 )
 		{

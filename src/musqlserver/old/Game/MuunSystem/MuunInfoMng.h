@@ -19,7 +19,7 @@ public:
 	bool InsertMuunOptionInfo(CMuunOpt *pCMuunOpt);
 	time_t ConvertStringToTime(const char *pchTime);
 
-	CMuunInfo * GetMuunInfo(int iIndex);
+	CMuunInfo * GetMuunInfo(CGameObject &Obj);
 	CMuunInfo * GetMuunItemNumToMuunInfo(int iMuunItemNum);
 
 	int GetBeforeEvolutionMuunItemIndex(int iItemNum);

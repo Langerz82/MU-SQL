@@ -1345,15 +1345,15 @@ void QuestExpProgMng::SendQuestSwitchList(int iObjIndex, int iSendType)
 
 		/*if (iSendType == QUESTEXP_SEND_NPC)
 		{
-			sLog->outBasic("[QuestExp] Send Quest List To NPC: [%s][%s] Ep[%d] QS[%d] QuestListCnt[%d]",	gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, iEpisode, iQS, QuestList.wQuestCnt);
+			sLog->outBasic("[QuestExp] Send Quest List To NPC: [%s][%s] Ep[%d] QS[%d] QuestListCnt[%d]",	Obj.AccountID, Obj.Name, iEpisode, iQS, QuestList.wQuestCnt);
 		}
 		else if (iSendType == QUESTEXP_SEND_EVENT)
 		{
-			sLog->outBasic("[QuestExp] Send Quest List To Event: [%s][%s] Ep[%d] QS[%d] QuestListCnt[%d]",gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, iEpisode, iQS, QuestList.wQuestCnt);
+			sLog->outBasic("[QuestExp] Send Quest List To Event: [%s][%s] Ep[%d] QS[%d] QuestListCnt[%d]",Obj.AccountID, Obj.Name, iEpisode, iQS, QuestList.wQuestCnt);
 		}
 		else if (iSendType == QUESTEXP_SEND_ITEM)
 		{
-			sLog->outBasic("[QuestExp] Send Quest List Item Used: [%s][%s] Ep[%d] QS[%d] QuestListCnt[%d]",gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, iEpisode, iQS, QuestList.wQuestCnt);
+			sLog->outBasic("[QuestExp] Send Quest List Item Used: [%s][%s] Ep[%d] QS[%d] QuestListCnt[%d]",Obj.AccountID, Obj.Name, iEpisode, iQS, QuestList.wQuestCnt);
 		}*/
 	}
 
@@ -1362,7 +1362,7 @@ void QuestExpProgMng::SendQuestSwitchList(int iObjIndex, int iSendType)
 	if (iSendType == QUESTEXP_SEND_NPC)
 	{
 		PHeadSubSetB(reinterpret_cast<BYTE *>(&QuestList), 0xF6, 0x0A, 0);
-		QuestList.wNPCIndex = gGameObjects[gGameObjects[iIndex]->TargetNpcNumber]->Class;
+		QuestList.wNPCIndex = gGameObjects[Obj.TargetNpcNumber]->Class;
 	}
 
 	else if (iSendType == QUESTEXP_SEND_EVENT)
@@ -1377,7 +1377,7 @@ void QuestExpProgMng::SendQuestSwitchList(int iObjIndex, int iSendType)
 
 	QuestList.h.size = lOfs;
 	memcpy(sendBuff, &QuestList, sizeof(QuestList));
-	IOCP.DataSend(iIndex, static_cast<BYTE*>(sendBuff), lOfs);
+	IOCP.DataSend(Obj.m_Index, static_cast<BYTE*>(sendBuff), lOfs);
 
 	this->m_vtQuestListNpcTalk.erase(this->m_vtQuestListNpcTalk.begin(), this->m_vtQuestListNpcTalk.end());
 }
@@ -1620,9 +1620,9 @@ bool QuestExpProgMng::ChkQuestMonsterItemDrop(DWORD dwQuestInfoIndexID)
 	}
 }
 
-bool QuestExpProgMng::IsQuestDropItem(int iIndex, WORD nType, WORD nLevel)
+bool QuestExpProgMng::IsQuestDropItem(CGameObject &Obj, WORD nType, WORD nLevel)
 {
-	CGameObject* lpObj = &gGameObjects[iIndex];
+	CGameObject* lpObj = Obj;
 
 	for (int i = 0; i < MAX_QUESTEXP_USER_INFO; ++i)
 	{

@@ -22,8 +22,8 @@ public:
 	virtual ~CKanturuBattleUserMng();
 
 	void ResetAllData();
-	int AddUserData(int iIndex);
-	int DeleteUserData(int iIndex);
+	int AddUserData(CGameObject &Obj);
+	int DeleteUserData(CGameObject &Obj);
 	void CheckUserState();
 	int MoveAllUser(int iGateNumber);
 	int GetUserCount();

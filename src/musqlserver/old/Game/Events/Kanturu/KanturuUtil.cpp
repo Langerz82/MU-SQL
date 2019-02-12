@@ -51,14 +51,14 @@ struct PMSG_ANS_ENTER_KANTURU_BOSS_MAP
 	BYTE btResult;	// 4
 };
 
-void CKanturuUtil::NotifyKanturuEntranceReqResult(int iIndex, int iResult)
+void CKanturuUtil::NotifyKanturuEntranceReqResult(CGameObject &Obj, int iResult)
 {
 	PMSG_ANS_ENTER_KANTURU_BOSS_MAP pMsg = {0};
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xD1, 0x01, sizeof(pMsg));
 	pMsg.btResult = iResult;
 
-	IOCP.DataSend(iIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+	IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
 }
 
 struct PMSG_ANS_KANTURU_BATTLE_RESULT
@@ -85,7 +85,7 @@ struct PMSG_ANS_KANTURU_CURRENT_STATE
 	BYTE btCurrentDetailState;	// 5
 };
 
-void CKanturuUtil::NotifyKanturuCurrentState(int iIndex, int iState, int iDetailState)
+void CKanturuUtil::NotifyKanturuCurrentState(CGameObject &Obj, int iState, int iDetailState)
 {
 	PMSG_ANS_KANTURU_CURRENT_STATE pMsg = {0};
 
@@ -93,7 +93,7 @@ void CKanturuUtil::NotifyKanturuCurrentState(int iIndex, int iState, int iDetail
 	pMsg.btCurrentState = iState;
 	pMsg.btCurrentDetailState = iDetailState;
 
-	IOCP.DataSend(iIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+	IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
 }
 
 
@@ -121,13 +121,13 @@ struct PMSG_NOTIFY_KANTURU_WIDE_AREA_ATTACK
 	BYTE btType;	// 6
 };
 
-void CKanturuUtil::NotifyKanturuWideAreaAttack(int iIndex, int iTargetIndex, int iSkillType)
+void CKanturuUtil::NotifyKanturuWideAreaAttack(CGameObject &Obj, int iTargetIndex, int iSkillType)
 {
 	PMSG_NOTIFY_KANTURU_WIDE_AREA_ATTACK pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xD1, 0x06, sizeof(pMsg));
-	pMsg.btObjClassH = SET_NUMBERH(gGameObjects[iIndex]->Class);
-	pMsg.btObjClassL = SET_NUMBERL(gGameObjects[iIndex]->Class);
+	pMsg.btObjClassH = SET_NUMBERH(Obj.Class);
+	pMsg.btObjClassL = SET_NUMBERL(Obj.Class);
 	pMsg.btType = iSkillType;
 
 	this->SendDataToUser(iTargetIndex, (LPBYTE)&pMsg, sizeof(pMsg));
@@ -315,7 +315,7 @@ void CKanturuUtil::SendDataAllUser(LPBYTE lpMsg, int iSize)
 	}
 }
 
-void CKanturuUtil::SendMsgToUser(int iIndex, LPSTR lpszMsg, ...)
+void CKanturuUtil::SendMsgToUser(CGameObject &Obj, LPSTR lpszMsg, ...)
 {
 	if ( !lpszMsg )
 		return;
@@ -333,18 +333,18 @@ void CKanturuUtil::SendMsgToUser(int iIndex, LPSTR lpszMsg, ...)
 	TNotice::SendNoticeToUser(iIndex, &pNotice);
 }
 
-void CKanturuUtil::SendDataToUser(int iIndex, LPBYTE lpMsg, int iSize)
+void CKanturuUtil::SendDataToUser(CGameObject &Obj, LPBYTE lpMsg, int iSize)
 {
-	if ( gGameObjects[iIndex]->Connected == PLAYER_PLAYING &&
-		 gGameObjects[iIndex]->Type == OBJ_USER )
+	if ( Obj.Connected == PLAYER_PLAYING &&
+		 Obj.Type == OBJ_USER )
 	{
-		IOCP.DataSend(iIndex, lpMsg, iSize);
+		IOCP.DataSend(Obj.m_Index, lpMsg, iSize);
 	}
 }
 
 // #error Bad Coded Function
 #pragma warning ( disable : 4700 )
-void CKanturuUtil::SendKanturuChattingMsg(int iIndex, LPSTR lpMsg, ...)
+void CKanturuUtil::SendKanturuChattingMsg(CGameObject &Obj, LPSTR lpMsg, ...)
 {
 	return;
 	CGameObject lpObj;
@@ -380,15 +380,15 @@ struct PMSG_REQ_LOG_KANTURU_TIMEATTACK_EVENT
 	int iExp;	// 34
 };
 
-void CKanturuUtil::SendDataKanturuTimeAttackEvent(int iIndex, BYTE btFlag, int iClearTime)
+void CKanturuUtil::SendDataKanturuTimeAttackEvent(CGameObject &Obj, BYTE btFlag, int iClearTime)
 {
 	PMSG_REQ_LOG_KANTURU_TIMEATTACK_EVENT pMsg = {0};
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xBE, 0x22, sizeof(pMsg));
 	pMsg.nINDEX = iIndex;
-	memcpy(pMsg.szUID, gGameObjects[iIndex]->AccountID, MAX_ACCOUNT_LEN);
+	memcpy(pMsg.szUID, Obj.AccountID, MAX_ACCOUNT_LEN);
 	pMsg.szUID[10] = '\0';	// #error Change 11 to 10
-	memcpy(pMsg.szNAME, gGameObjects[iIndex]->Name, MAX_ACCOUNT_LEN);
+	memcpy(pMsg.szNAME, Obj.Name, MAX_ACCOUNT_LEN);
 	pMsg.szNAME[10] = '\0';	// #error Change 11 to 10
 	pMsg.wServerCode = g_ConfigRead.server.GetGameServerCode() / 20;	// #warning Change the 20 for a posible macro of MapServerInfo
 
@@ -402,8 +402,8 @@ void CKanturuUtil::SendDataKanturuTimeAttackEvent(int iIndex, BYTE btFlag, int i
 	memcpy(pMsg.szBattleID, szKanturuBattleDate, sizeof(pMsg.szBattleID));
 	pMsg.btStageNumber = btFlag;
 	pMsg.wClearTime = iClearTime;
-	pMsg.iLevel = gGameObjects[iIndex]->Level;
-	pMsg.iExp = gGameObjects[iIndex]->m_PlayerData->Experience;
+	pMsg.iLevel = Obj.Level;
+	pMsg.iExp = Obj.m_PlayerData->Experience;
 
 	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
 }

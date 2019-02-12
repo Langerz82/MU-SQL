@@ -21,13 +21,13 @@ public:
 	CRaklionBattleUserMng();
 	virtual ~CRaklionBattleUserMng();
 	void ResetAllData();
-	int AddUserData(int iIndex);
-	int DeleteUserData(int iIndex);
+	int AddUserData(CGameObject &Obj);
+	int DeleteUserData(CGameObject &Obj);
 	void CheckUserState();
 	int MoveAllUser(int iGateNumber);
 	int GetUserCount();
 	int IsEmpty();
-	int IsBattleUser(int iIndex);
+	int IsBattleUser(CGameObject &Obj);
 	int GetUserObjIndex(int iBattleUserNumber);
 	void LogBattleWinnerUserInfo(BYTE btFlag, int iElapsedTime);
 

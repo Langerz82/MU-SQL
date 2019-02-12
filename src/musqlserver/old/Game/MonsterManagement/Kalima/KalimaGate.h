@@ -31,19 +31,19 @@ public:
 	CKalimaGate();
 	virtual ~CKalimaGate();
 
-	int CreateKalimaGate(int iIndex, BYTE btLevel, BYTE cTX,  BYTE cTY);
-	void KalimaGateAct(int iIndex);
-	int CheckOverlapKundunMark(int iIndex, BYTE btLevel);
+	int CreateKalimaGate(CGameObject &Obj, BYTE btLevel, BYTE cTX,  BYTE cTY);
+	void KalimaGateAct(CGameObject &Obj);
+	int CheckOverlapKundunMark(CGameObject &Obj, BYTE btLevel);
 	int DeleteKalimaGate(int iCallOwnerIndex);
 	int DeleteKalimaGate(int iKalimaGateIndex, int iCallOwnerIndex);
-	int CreateKalimaGate2(int iIndex, int iMonMapNumber, BYTE cTX, BYTE cTY);
-	void KalimaGateAct2(int iIndex);
-	int GetKalimaGateLevel2(int iIndex);
+	int CreateKalimaGate2(CGameObject &Obj, int iMonMapNumber, BYTE cTX, BYTE cTY);
+	void KalimaGateAct2(CGameObject &Obj);
+	int GetKalimaGateLevel2(CGameObject &Obj);
 
 private:
 
 	int GetRandomLocation(int iMapNumber, BYTE& cX, BYTE& cY);
-	int GetKalimaGateLevel(int iIndex);
+	int GetKalimaGateLevel(CGameObject &Obj);
 };
 
 extern CKalimaGate g_KalimaGate;

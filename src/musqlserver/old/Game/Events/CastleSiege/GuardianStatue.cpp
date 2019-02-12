@@ -20,12 +20,12 @@ CGuardianStatue::~CGuardianStatue()
 
 }
 
-void CGuardianStatue::GuardianStatueAct(int iIndex)
+void CGuardianStatue::GuardianStatueAct(CGameObject &Obj)
 {
 	if( ::gObjIsConnected(iIndex) == FALSE )
 		return;
 
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 
 	if( lpObj.VPCount < 1 )
 		return;

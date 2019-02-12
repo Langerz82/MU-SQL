@@ -77,15 +77,15 @@ void CCrywolfStatue::SetStatueViewState(CGameObject &lpObj, int iPriestNumber)
 }
 
 
-void CCrywolfStatue::CrywolfStatueAct(int iIndex)
+void CCrywolfStatue::CrywolfStatueAct(CGameObject &Obj)
 {
 	if ( !gObjIsConnected(iIndex))
 		return;
 
-	if ( gGameObjects[iIndex]->Type != OBJ_NPC || CHECK_CLASS(204, gGameObjects[iIndex]->Class) == FALSE )
+	if ( Obj.Type != OBJ_NPC || CHECK_CLASS(204, Obj.Class) == FALSE )
 		return;
 
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 	int iContractedAlterCount = g_CrywolfNPC_Altar.GetContractedAltarCount();
 	int iPriestHPSum = g_CrywolfNPC_Altar.GetPriestHPSum();
 	int iPriestMaxHPSum = g_CrywolfNPC_Altar.GetPriestMaxHPSum();

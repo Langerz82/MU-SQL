@@ -17,10 +17,10 @@ public:
 
 	static void LoadMixJewelPrice();
 
-	static int GetJewelCount(int iIndex, int iJewelType);
+	static int GetJewelCount(CGameObject &Obj, int iJewelType);
 	static int GetJewelCountPerLevel(int iJewelType, int iJewelLevel);
-	static int MixJewel(int iIndex, int iJewelType, int iMixType);
-	static int UnMixJewel(int iIndex, int iJewelType, int iJewelLevel, int iInventoryPos);
+	static int MixJewel(CGameObject &Obj, int iJewelType, int iMixType);
+	static int UnMixJewel(CGameObject &Obj, int iJewelType, int iJewelLevel, int iInventoryPos);
 
 private:
 	static int UnMixJewelPrice;

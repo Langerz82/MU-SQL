@@ -386,21 +386,21 @@ int CCrywolfAltar::GetPriestMaxHPSum()
 }
 
 
-void CCrywolfAltar::CrywolfAltarAct(int iIndex)
+void CCrywolfAltar::CrywolfAltarAct(CGameObject &Obj)
 {
 	if ( !gObjIsConnected(iIndex))
 		return;
 
-	if ( gGameObjects[iIndex]->Type != OBJ_NPC || CRYWOLF_ALTAR_CLASS_RANGE(gGameObjects[iIndex]->Class) == FALSE )
+	if ( Obj.Type != OBJ_NPC || CRYWOLF_ALTAR_CLASS_RANGE(Obj.Class) == FALSE )
 		return;
 
-	int iUserIndex = this->GetAltarUserIndex(gGameObjects[iIndex]->Class);
+	int iUserIndex = this->GetAltarUserIndex(Obj.Class);
 
 	if ( gObjIsConnected(iUserIndex) == FALSE )
 	{
 		if ( iUserIndex != -1 )
 		{
-			this->ResetAltarUserIndex(iIndex, gGameObjects[iIndex]->Class);
+			this->ResetAltarUserIndex(iIndex, Obj.Class);
 		}
 
 		return;
@@ -408,34 +408,34 @@ void CCrywolfAltar::CrywolfAltarAct(int iIndex)
 
 	if ( gObjIsConnected(&gGameObjects[iUserIndex]) == FALSE )
 	{
-		this->ResetAltarUserIndex(iIndex, gGameObjects[iIndex]->Class);
+		this->ResetAltarUserIndex(iIndex, Obj.Class);
 		return;
 	}
 
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 	CGameObject lpUserObj = &gGameObjects[iUserIndex];
 
 	if ( lpUserObj.Live != FALSE && lpUserObj.MapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE )
 	{
 		if ( abs(lpObj.Y-lpUserObj.Y) <= 0 && abs(lpObj.X - lpUserObj.X) <= 0 )
 		{
-			if ( this->CheckAltarValidContract(gGameObjects[iIndex]->Class) != FALSE )
+			if ( this->CheckAltarValidContract(Obj.Class) != FALSE )
 			{
 
 			}
 			else
 			{
-				this->SetAltarValidContract(iIndex, gGameObjects[iIndex]->Class);
+				this->SetAltarValidContract(iIndex, Obj.Class);
 			}
 		}
 		else
 		{
-			this->ResetAltarUserIndex(iIndex, gGameObjects[iIndex]->Class);
+			this->ResetAltarUserIndex(iIndex, Obj.Class);
 		}
 	}
 	else
 	{
-		this->ResetAltarUserIndex(iIndex, gGameObjects[iIndex]->Class);
+		this->ResetAltarUserIndex(iIndex, Obj.Class);
 	}
 }
 

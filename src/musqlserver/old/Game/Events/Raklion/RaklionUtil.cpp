@@ -55,7 +55,7 @@ void CRaklionUtil::NotifyRaklionSuccessValue(int iSuccessValue)
 	SendDataRaklionBossMapUser((LPBYTE)&pMsg, sizeof(pMsg));
 }
 
-void CRaklionUtil::NotifyRaklionCurrentState(int iIndex, int iState, int iDetailState)
+void CRaklionUtil::NotifyRaklionCurrentState(CGameObject &Obj, int iState, int iDetailState)
 {
 	PMSG_ANS_RAKLION_CURRENT_STATE pMsg = {0};
 
@@ -63,16 +63,16 @@ void CRaklionUtil::NotifyRaklionCurrentState(int iIndex, int iState, int iDetail
 	pMsg.btCurrentState = iState;
 	pMsg.btCurrentDetailState = iDetailState;
 
-	IOCP.DataSend(iIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+	IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
 }
 
-void CRaklionUtil::NotifyRaklionWideAreaAttack(int iIndex, int iTargetIndex, int iSkillType)
+void CRaklionUtil::NotifyRaklionWideAreaAttack(CGameObject &Obj, int iTargetIndex, int iSkillType)
 {
 	PMSG_NOTIFY_RAKLION_WIDE_AREA_ATTACK pMsg;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xD1, 0x14, sizeof(pMsg));
-	pMsg.btObjClassH = HIBYTE(gGameObjects[iIndex]->Class);
-	pMsg.btObjClassL = LOBYTE(gGameObjects[iIndex]->Class);
+	pMsg.btObjClassH = HIBYTE(Obj.Class);
+	pMsg.btObjClassL = LOBYTE(Obj.Class);
 	pMsg.btType = iSkillType;
 
 	SendDataToUser(iTargetIndex, (LPBYTE)&pMsg, sizeof(pMsg));
@@ -217,7 +217,7 @@ void CRaklionUtil::SendDataAllUser(BYTE *lpMsg, int iSize)
 	}
 }
 
-void CRaklionUtil::SendMsgToUser(int iIndex, char *lpszMsg, ...)
+void CRaklionUtil::SendMsgToUser(CGameObject &Obj, char *lpszMsg, ...)
 {
 	if(lpszMsg == NULL)	return;
 
@@ -233,16 +233,16 @@ void CRaklionUtil::SendMsgToUser(int iIndex, char *lpszMsg, ...)
 	TNotice::SendNoticeToUser(iIndex, &pNotice);
 }
 
-void CRaklionUtil::SendDataToUser(int iIndex, BYTE *lpMsg, int iSize)
+void CRaklionUtil::SendDataToUser(CGameObject &Obj, BYTE *lpMsg, int iSize)
 {
-	if ( gGameObjects[iIndex]->Connected == PLAYER_PLAYING &&
-		 gGameObjects[iIndex]->Type == OBJ_USER )
+	if ( Obj.Connected == PLAYER_PLAYING &&
+		 Obj.Type == OBJ_USER )
 	{
-		IOCP.DataSend(iIndex, lpMsg, iSize);
+		IOCP.DataSend(Obj.m_Index, lpMsg, iSize);
 	}
 }
 
-void CRaklionUtil::SendSystemMsgToUser(int iIndex, char *lpszMsg, ...)
+void CRaklionUtil::SendSystemMsgToUser(CGameObject &Obj, char *lpszMsg, ...)
 {
 	if(lpszMsg == NULL)	return;
 

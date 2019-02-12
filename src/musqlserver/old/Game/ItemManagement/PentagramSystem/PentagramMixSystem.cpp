@@ -321,14 +321,14 @@ BOOL CPentagramMixSystem::PentagramMixBoxInit(CGameObject &lpObj)
 	return true;
 }
 
-BYTE CPentagramMixSystem::PentagramJewelRefine(int iIndex, int iRefineType)
+BYTE CPentagramMixSystem::PentagramJewelRefine(CGameObject &Obj, int iRefineType)
 {
 	if (!gObjIsConnected(iIndex))
 	{
 		return 0;
 	}
 
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -606,14 +606,14 @@ BYTE CPentagramMixSystem::PentagramJewelRefine(int iIndex, int iRefineType)
 	return btReturnValue;
 }
 
-BYTE CPentagramMixSystem::PentagramJewel_Upgrade(int iIndex, int iUpgradeType, int iTargetValue)
+BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeType, int iTargetValue)
 {
 	if (!gObjIsConnected(iIndex))
 	{
 		return 0;
 	}
 
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -871,7 +871,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(int iIndex, int iUpgradeType, i
 				{
 					pMsg.Result = PENTAGRAM_MIX_FAILED_WITH_TALISMAN;
 					gObjPentagramMixItemSet(iIndex, btResult, 1);
-					IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+					IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 					btReturnValue = TRUE;
 				}
 			}
@@ -955,7 +955,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(int iIndex, int iUpgradeType, i
 			{
 				pMsg.Result = CB_SUCCESS;
 				gObjPentagramMixItemSet(iIndex, btResult, 1);
-				IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+				IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
 				BYTE ExOption[MAX_EXOPTION_SIZE];
 				ItemIsBufExOption(ExOption, &Item);
@@ -1177,7 +1177,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(int iIndex, int iUpgradeType, i
 				{
 					pMsg.Result = PENTAGRAM_MIX_FAILED_WITH_TALISMAN;
 					gObjPentagramMixItemSet(iIndex, btResult, 1);
-					IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+					IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 					btReturnValue = TRUE;
 				}
 			}
@@ -1235,7 +1235,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(int iIndex, int iUpgradeType, i
 			{
 				pMsg.Result = CB_SUCCESS;
 				gObjPentagramMixItemSet(iIndex, btResult, 1);
-				IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+				IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
 				BYTE ExOption[MAX_EXOPTION_SIZE];
 				ItemIsBufExOption(ExOption, &pModifyItem);

@@ -525,7 +525,7 @@ void CWeapon::WeaponAttackProc()
 }
 
 
-void CWeapon::WeaponAct(int iIndex)
+void CWeapon::WeaponAct(CGameObject &Obj)
 {
 	for ( int i=0;i<MAX_WEAPON_CAL_DAMAGER_INFO;i++)
 	{

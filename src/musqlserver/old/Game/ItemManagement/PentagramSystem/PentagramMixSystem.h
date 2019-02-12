@@ -22,8 +22,8 @@ public:
 	bool LoadJewelOptionScript(char *pchFileName);
 
 	int PentagramMixBoxInit(CGameObject* lpObj);
-	BYTE PentagramJewelRefine(int iIndex, int iRefineType);
-	BYTE PentagramJewel_Upgrade(int iIndex, int iUpgradeType, int iTargetValue);
+	BYTE PentagramJewelRefine(CGameObject &Obj, int iRefineType);
+	BYTE PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeType, int iTargetValue);
 	int CheckLevelCondition(CItem *pItem, WORD pLevel, BYTE pOpt1, BYTE pOpt2, BYTE pOpt3, BYTE pSetOpt, BYTE pExOpt);
 	void LogPentagramItem(CGameObject lpObj, char *sLogType);
 

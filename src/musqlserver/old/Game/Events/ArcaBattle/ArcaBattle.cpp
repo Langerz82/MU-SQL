@@ -321,13 +321,13 @@ void CArcaBattle::RemoveGuildBuff(char *szGuildName, WORD wBuffIndex)
 		
 		if ( gObjIsConnected(iIndex) == TRUE )
 		{
-			if ( gObjCheckUsedBuffEffect(&gGameObjects[iIndex], wBuffIndex) == TRUE )
+			if ( gObjCheckUsedBuffEffect(Obj, wBuffIndex) == TRUE )
 			{
-				gObjRemoveBuffEffect(&gGameObjects[iIndex], wBuffIndex);
+				gObjRemoveBuffEffect(Obj, wBuffIndex);
 				gObjCalCharacter.CalcCharacter(iIndex);
 
 				sLog->outBasic( "[ArcaBattle] Remove Buff [%s][%s] GuildName [%s] BuffIndex [%d]", 
-					gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, szGuildName, wBuffIndex);
+					Obj.AccountID, Obj.Name, szGuildName, wBuffIndex);
 			}
 		}	
 	}
@@ -2916,7 +2916,7 @@ void CArcaBattle::SetArcaBattleProcMultiCast(int bABInitState)
 	this->GDReqArcaBattleProcMultiCast(this->GetState());
 }
 
-void CArcaBattle::GDReqArcaBattleIsTopRank(int iIndex, DWORD dwGuildNum)
+void CArcaBattle::GDReqArcaBattleIsTopRank(CGameObject &Obj, DWORD dwGuildNum)
 {
 	PMSG_REQ_ARCA_BATTLE_IS_TOP_RANK pMsg;
 
@@ -2930,7 +2930,7 @@ void CArcaBattle::GDReqArcaBattleIsTopRank(int iIndex, DWORD dwGuildNum)
 	wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
 }
 
-bool CArcaBattle::CGReqMarkReg(int iIndex)
+bool CArcaBattle::CGReqMarkReg(CGameObject &Obj)
 {
 	int iArcaBattleState = this->GetState();
 
@@ -2940,12 +2940,12 @@ bool CArcaBattle::CGReqMarkReg(int iIndex)
 		return false;
 	}
 
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 	GUILD_INFO_STRUCT * lpGuildInfo = lpObj.m_PlayerData->lpGuild;
 
 	if (!lpGuildInfo)
 	{
-		sLog->outBasic("[ArcaBattle] [%s][%s] error-L3 : ArcaBattle Mark Reg GuildInfo is NULL", gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name);
+		sLog->outBasic("[ArcaBattle] [%s][%s] error-L3 : ArcaBattle Mark Reg GuildInfo is NULL", Obj.AccountID, Obj.Name);
 		this->GCAnsMarkRegErrCode(15, iIndex);
 
 		return false;
@@ -2967,7 +2967,7 @@ bool CArcaBattle::CGReqMarkReg(int iIndex)
 	return true;
 }
 
-void CArcaBattle::GCAnsMarkReg(int iIndex, DWORD dwMarkCnt)
+void CArcaBattle::GCAnsMarkReg(CGameObject &Obj, DWORD dwMarkCnt)
 {
 	PMSG_ANS_MARK_REG pMsg;
 
@@ -2980,7 +2980,7 @@ void CArcaBattle::GCAnsMarkReg(int iIndex, DWORD dwMarkCnt)
 	pMsg.btMarkCnt3 = SET_NUMBERH(SET_NUMBERLW(dwMarkCnt));
 	pMsg.btMarkCnt4 = SET_NUMBERL(SET_NUMBERLW(dwMarkCnt));
 
-	IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void CArcaBattle::GCAnsMarkRegErrCode(int iResult, int iIndex)
@@ -2988,16 +2988,16 @@ void CArcaBattle::GCAnsMarkRegErrCode(int iResult, int iIndex)
 	switch (iResult)
 	{
 		case 5:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle MarkReg Fail to Time Over", gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name);
+			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle MarkReg Fail to Time Over", Obj.AccountID, Obj.Name);
 			break;
 		case 15:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle MarkReg Fail to No Registration Authority", gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name);
+			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle MarkReg Fail to No Registration Authority", Obj.AccountID, Obj.Name);
 			break;
 		case 16:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle MarkReg Fail to Below Guild Member", gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name);
+			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle MarkReg Fail to Below Guild Member", Obj.AccountID, Obj.Name);
 			break;
 		case 17:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle MarkReg Fail to Guild Is More than 250 Registered", gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name);
+			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle MarkReg Fail to Guild Is More than 250 Registered", Obj.AccountID, Obj.Name);
 			break;
 	}
 
@@ -3009,7 +3009,7 @@ void CArcaBattle::GCAnsMarkRegErrCode(int iResult, int iIndex)
 	pMsg.h.subcode = 0x47;
 	pMsg.btResult = iResult;
 
-	IOCP.DataSend(iIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+	IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
 }
 
 void CArcaBattle::CGReqMarkRegButtonClick(CGameObject &lpObj)
@@ -3094,19 +3094,19 @@ void CArcaBattle::CGReqMarkRegButtonClick(CGameObject &lpObj)
 	this->GDReqMarkReg(lpObj.m_Index, iItemCnt);
 }
 
-void CArcaBattle::CGReqMarkRank(int iIndex)
+void CArcaBattle::CGReqMarkRank(CGameObject &Obj)
 {
-	this->GDReqMarkRank(iIndex, gGameObjects[iIndex]->m_PlayerData->GuildNumber);
+	this->GDReqMarkRank(iIndex, Obj.m_PlayerData->GuildNumber);
 }
 
-void CArcaBattle::GCAnsMarkRank(int iIndex, BYTE btRank, DWORD dwMarkCnt, BYTE btTopRankCnt, _stArcaBattleMarkTopRankDS *pArcaBattleMarkTopRank)
+void CArcaBattle::GCAnsMarkRank(CGameObject &Obj, BYTE btRank, DWORD dwMarkCnt, BYTE btTopRankCnt, _stArcaBattleMarkTopRankDS *pArcaBattleMarkTopRank)
 {
 	if (!ObjectMaxRange(iIndex))
 	{
 		return;
 	}
 
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 
 	if (!gObjIsConnected(iIndex))
 	{
@@ -3122,7 +3122,7 @@ void CArcaBattle::GCAnsMarkRank(int iIndex, BYTE btRank, DWORD dwMarkCnt, BYTE b
 		pMsg.h.headcode = 0xF8;
 		pMsg.h.subcode = 0x46;
 		
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
 		return;
 	}
 
@@ -3157,10 +3157,10 @@ void CArcaBattle::GCAnsMarkRank(int iIndex, BYTE btRank, DWORD dwMarkCnt, BYTE b
 	pMsg.btGuildCnt = btTopRankCnt;
 
 	memcpy(&sendbuf, &pMsg, sizeof(pMsg));
-	IOCP.DataSend(iIndex, sendbuf, lOfs);
+	IOCP.DataSend(Obj.m_Index, sendbuf, lOfs);
 }
 
-void CArcaBattle::GDReqMarkCnt(int iIndex, DWORD dwGuildNum)
+void CArcaBattle::GDReqMarkCnt(CGameObject &Obj, DWORD dwGuildNum)
 {
 	PMSG_REQ_ARCA_BATTLE_MARK_CNT_DS pMsg;
 
@@ -3189,7 +3189,7 @@ void CArcaBattle::DGAnsMarkCnt(PMSG_ANS_ARCA_BATTLE_MARK_CNT_DS *lpMsg)
 		return;
 	}
 
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 
 	if (!gObjIsConnected(iIndex))
 	{
@@ -3218,13 +3218,13 @@ void CArcaBattle::DGAnsMarkCnt(PMSG_ANS_ARCA_BATTLE_MARK_CNT_DS *lpMsg)
 	this->GCAnsMarkReg(lpMsg->wNumber, lpMsg->dwMarkCnt);
 }
 
-void CArcaBattle::GDReqMarkReg(int iIndex, DWORD dwMarkCnt)
+void CArcaBattle::GDReqMarkReg(CGameObject &Obj, DWORD dwMarkCnt)
 {
-	GUILD_INFO_STRUCT *lpGuild = gGameObjects[iIndex]->m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT *lpGuild = Obj.m_PlayerData->lpGuild;
 
 	if (!lpGuild)
 	{
-		sLog->outBasic("[ArcaBattle][MarkReg] [%s][%s]  GuildInfo NULL GDReqMarkReg()", gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name);
+		sLog->outBasic("[ArcaBattle][MarkReg] [%s][%s]  GuildInfo NULL GDReqMarkReg()", Obj.AccountID, Obj.Name);
 		return;
 	}
 
@@ -3233,7 +3233,7 @@ void CArcaBattle::GDReqMarkReg(int iIndex, DWORD dwMarkCnt)
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.wNumber = iIndex;
-	pMsg.dwGuildNum = gGameObjects[iIndex]->m_PlayerData->GuildNumber;
+	pMsg.dwGuildNum = Obj.m_PlayerData->GuildNumber;
 	pMsg.dwMarkCnt = dwMarkCnt;
 	pMsg.h.headcode = 0xF8;
 	pMsg.h.subcode = 0x4F;
@@ -3247,11 +3247,11 @@ void CArcaBattle::GDReqMarkReg(int iIndex, DWORD dwMarkCnt)
 		}
 	}
 
-	memcpy(pMsg.szGuildName, gGameObjects[iIndex]->m_PlayerData->GuildName, MAX_GUILD_LEN+1);
+	memcpy(pMsg.szGuildName, Obj.m_PlayerData->GuildName, MAX_GUILD_LEN+1);
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CArcaBattle::GDReqMarkRank(int iIndex, DWORD dwGuildNum)
+void CArcaBattle::GDReqMarkRank(CGameObject &Obj, DWORD dwGuildNum)
 {
 	PMSG_REQ_ARCA_BATTLE_MARK_RANK_DS pMsg;
 
@@ -3270,7 +3270,7 @@ void CArcaBattle::DGAnsMarkRank(PMSG_ANS_ARCA_BATTLE_MARK_RANK_DS *lpMsg)
 	this->GCAnsMarkRank(lpMsg->wNumber, lpMsg->btRank, lpMsg->dwMarkCnt, lpMsg->btGuildCnt, lpMsg->ArcaBattleMarkTopRank);
 }
 
-void CArcaBattle::GDReqMarkRegDel(int iIndex, DWORD dwGuildNum)
+void CArcaBattle::GDReqMarkRegDel(CGameObject &Obj, DWORD dwGuildNum)
 {
 	PMSG_REQ_ARCA_BATTLE_MARK_REG_DEL_DS pMsg;
 
@@ -3306,7 +3306,7 @@ void CArcaBattle::DGAnsMarkReg(PMSG_ANS_ARCA_BATTLE_MARK_REG_DS *lpMsg)
 	}
 
 	sLog->outBasic("[ArcaBattle][MarkReg] Error Mark Reg Ans [%s][%s][%s] ",
-		gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, gGameObjects[iIndex]->m_PlayerData->GuildName);
+		Obj.AccountID, Obj.Name, Obj.m_PlayerData->GuildName);
 }
 
 void CArcaBattle::GDReqAllGuildMarkCnt()
@@ -3435,13 +3435,13 @@ void CArcaBattle::SetJoinMemberCnt(int iJoinGuildMemberCnt)
 	this->m_iJoinGuildMemberCnt = iJoinGuildMemberCnt;
 }
 
-void CArcaBattle::CheatGDReqMarkReg(int iIndex, char *szGuildName, DWORD dwGuildNum, DWORD dwMarkCnt)
+void CArcaBattle::CheatGDReqMarkReg(CGameObject &Obj, char *szGuildName, DWORD dwGuildNum, DWORD dwMarkCnt)
 {
-	GUILD_INFO_STRUCT *lpGuild = gGameObjects[iIndex]->m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT *lpGuild = Obj.m_PlayerData->lpGuild;
 
 	if (!lpGuild)
 	{
-		sLog->outBasic("[ArcaBattle][MarkReg] [%s][%s]  GuildInfo NULL GDReqMarkReg()", gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name);
+		sLog->outBasic("[ArcaBattle][MarkReg] [%s][%s]  GuildInfo NULL GDReqMarkReg()", Obj.AccountID, Obj.Name);
 		return;
 	}
 
@@ -3470,13 +3470,13 @@ void CArcaBattle::CheatGDReqMarkReg(int iIndex, char *szGuildName, DWORD dwGuild
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CArcaBattle::CheatGDReqMarkRegSet(int iIndex, DWORD dwMarkCnt)
+void CArcaBattle::CheatGDReqMarkRegSet(CGameObject &Obj, DWORD dwMarkCnt)
 {
-	GUILD_INFO_STRUCT *lpGuild = gGameObjects[iIndex]->m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT *lpGuild = Obj.m_PlayerData->lpGuild;
 
 	if (!lpGuild)
 	{
-		sLog->outBasic("[ArcaBattle][MarkReg] [%s][%s]  GuildInfo NULL GDReqMarkReg()", gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name);
+		sLog->outBasic("[ArcaBattle][MarkReg] [%s][%s]  GuildInfo NULL GDReqMarkReg()", Obj.AccountID, Obj.Name);
 		return;
 	}
 
@@ -3484,7 +3484,7 @@ void CArcaBattle::CheatGDReqMarkRegSet(int iIndex, DWORD dwMarkCnt)
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
-	pMsg.dwGuildNum = gGameObjects[iIndex]->m_PlayerData->GuildNumber;
+	pMsg.dwGuildNum = Obj.m_PlayerData->GuildNumber;
 	pMsg.dwMarkCnt = dwMarkCnt;
 	pMsg.h.headcode = 0xF8;
 	pMsg.h.subcode = 0xFD;
@@ -3890,16 +3890,16 @@ void CArcaBattle::GCArcaBattleUserInfo(int iUserIndex)
 
 								else
 								{
-									if ((gGameObjects[iIndex]->MapNumber == MAP_INDEX_ARCA_WAR || gGameObjects[iIndex]->MapNumber == MAP_INDEX_DEBENTER_ARCA_WAR) &&
-										!strcmp(gGameObjects[iIndex]->Name, this->m_stABJoinUserInfo[k]->szUserName) &&
+									if ((Obj.MapNumber == MAP_INDEX_ARCA_WAR || Obj.MapNumber == MAP_INDEX_DEBENTER_ARCA_WAR) &&
+										!strcmp(Obj.Name, this->m_stABJoinUserInfo[k]->szUserName) &&
 										gObjIsConnected(iIndex) == TRUE)
 									{
-										memcpy(stABCurJoinGuildUser.szUserName, gGameObjects[iIndex]->Name, MAX_ACCOUNT_LEN + 1);
-										stABCurJoinGuildUser.btStatus = gGameObjects[iIndex]->m_PlayerData->GuildStatus;
-										stABCurJoinGuildUser.btPosX = gGameObjects[iIndex]->X;
-										stABCurJoinGuildUser.btPosY = gGameObjects[iIndex]->Y;
+										memcpy(stABCurJoinGuildUser.szUserName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+										stABCurJoinGuildUser.btStatus = Obj.m_PlayerData->GuildStatus;
+										stABCurJoinGuildUser.btPosX = Obj.X;
+										stABCurJoinGuildUser.btPosY = Obj.Y;
 
-										BYTE btAttr = MapC[gGameObjects[iIndex]->MapNumber]->GetAttr(gGameObjects[iIndex]->X, gGameObjects[iIndex]->Y);
+										BYTE btAttr = MapC[Obj.MapNumber]->GetAttr(Obj.X, Obj.Y);
 
 										if ((btAttr & 1) == 1)
 										{

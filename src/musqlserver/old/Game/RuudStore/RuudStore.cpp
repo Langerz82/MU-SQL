@@ -144,12 +144,12 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, int iIndex)
 		return;
 	}
 
-	if (gGameObjects[iIndex]->Type != OBJ_USER)
+	if (Obj.Type != OBJ_USER)
 	{
 		return;
 	}
 
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 	int Option2 = 0;
 
 	PMSG_ANS_RUUD_STORE_BUYITEM pMsg;
@@ -158,14 +158,14 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, int iIndex)
 	if (lpObj.CloseType != -1)
 	{
 		pMsg.btResult = 0xFF;
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
 	if (lpObj.TargetNpcNumber == -1)
 	{
 		pMsg.btResult = 0xFF;
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -187,7 +187,7 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, int iIndex)
 		}
 
 		pMsg.btResult = 0xFE;
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -196,7 +196,7 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, int iIndex)
 		if (lpObj.m_IfState.type != 3)
 		{
 			pMsg.btResult = 0xFF;
-			IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 			return;
 		}
 	}
@@ -206,14 +206,14 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, int iIndex)
 	if (It == this->m_mapItemList.end())
 	{
 		pMsg.btResult = 0xFD;
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
 	if (lpObj.m_PlayerData->Ruud < It->second.dwRuudPrice)
 	{
 		pMsg.btResult = 0xFC;
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -223,7 +223,7 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, int iIndex)
 	if (CheckInventoryEmptySpace(lpObj, h, w) == FALSE)
 	{
 		pMsg.btResult = 0xFB;
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 

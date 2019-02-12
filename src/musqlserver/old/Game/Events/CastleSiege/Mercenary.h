@@ -20,10 +20,10 @@ public:
 	virtual ~CMercenary();
 
 	//int __thiscall UseLifeStoneScroll(int);
-	BOOL CreateMercenary(int iIndex, int iMercenaryTypeIndex, BYTE cTX, BYTE cTY);
-	BOOL DeleteMercenary(int iIndex);
+	BOOL CreateMercenary(CGameObject &Obj, int iMercenaryTypeIndex, BYTE cTX, BYTE cTY);
+	BOOL DeleteMercenary(CGameObject &Obj);
 	BOOL SearchEnemy(CGameObject* lpObj);
-	void MercenaryAct(int iIndex);
+	void MercenaryAct(CGameObject &Obj);
 
 private:
 

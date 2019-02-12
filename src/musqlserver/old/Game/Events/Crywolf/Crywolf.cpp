@@ -354,7 +354,7 @@ void CCrywolf::CreateCrywolfCommonMonster()
 					continue;
 				}
 
-				if ( gGameObjects[iIndex]->Type == OBJ_MONSTER )
+				if ( Obj.Type == OBJ_MONSTER )
 				{
 					g_Crywolf.m_ObjCommonMonster.AddObj(iIndex);
 				}
@@ -1340,7 +1340,7 @@ void CCrywolf::ResetAllUserMVPScore()
 }
 
 
-void CCrywolf::CrywolfNpcAct(int iIndex)
+void CCrywolf::CrywolfNpcAct(CGameObject &Obj)
 {
 	if ( this->GetCrywolfState() == CRYWOLF_STATE_READY ||
 		 this->GetCrywolfState() == CRYWOLF_STATE_START )
@@ -1351,7 +1351,7 @@ void CCrywolf::CrywolfNpcAct(int iIndex)
 }
 
 
-void CCrywolf::CrywolfMonsterAct(int iIndex)
+void CCrywolf::CrywolfMonsterAct(CGameObject &Obj)
 {
 	return;
 }

@@ -169,9 +169,9 @@ TMonsterAIAutomata * TMonsterAIAutomata::FindAutomata(int iAutomataNumber)
 }
 
 
-TMonsterAIState * TMonsterAIAutomata::RunAutomata(int iIndex)
+TMonsterAIState * TMonsterAIAutomata::RunAutomata(CGameObject &Obj)
 {
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 
 	if ( MAX_AI_STATE_RANGE(lpObj.m_iCurrentAIState) == FALSE )
 		return NULL;

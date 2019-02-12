@@ -18,11 +18,11 @@ public:
 	virtual ~CKanturuUtil();
 
 	void NotifyKanturuChangeState(int iState, int iDetailState);
-	void NotifyKanturuEntranceReqResult(int iIndex, int iResult);
+	void NotifyKanturuEntranceReqResult(CGameObject &Obj, int iResult);
 	void NotifyKanturuSuccessValue(int iSuccessValue);
-	void NotifyKanturuCurrentState(int iIndex, int iState, int iDetailState);
+	void NotifyKanturuCurrentState(CGameObject &Obj, int iState, int iDetailState);
 	void NotifyKanturuBattleTime(int iBattleTime);
-	void NotifyKanturuWideAreaAttack(int iIndex, int iTargetIndex, int iSkillType);
+	void NotifyKanturuWideAreaAttack(CGameObject &Obj, int iTargetIndex, int iSkillType);
 	void NotifyKanturuUserMonsterCount(int iMonsterCount, int iUserCount);
 	void __cdecl SendMsgKanturuBattleUser(LPSTR lpszMsg, ...);
 	void SendDataKanturuBattleUser(LPBYTE lpMsg, int iSize);
@@ -32,10 +32,10 @@ public:
 	void SendDataKanturuMapUser(unsigned char* lpMsg, int iSize);
 	void __cdecl SendMsgAllUser(LPSTR lpszMsg, ...);
 	void SendDataAllUser(unsigned char* lpMsg, int iSize);
-	void __cdecl SendMsgToUser(int iIndex, char* lpszMsg, ...);
-	void SendDataToUser(int iIndex, unsigned char* lpMsg, int iSize);
-	void __cdecl SendKanturuChattingMsg(int iIndex, char* lpszMsg, ...);
-	void SendDataKanturuTimeAttackEvent(int iIndex, BYTE btFlag, int iClearTime);
+	void __cdecl SendMsgToUser(CGameObject &Obj, char* lpszMsg, ...);
+	void SendDataToUser(CGameObject &Obj, unsigned char* lpMsg, int iSize);
+	void __cdecl SendKanturuChattingMsg(CGameObject &Obj, char* lpszMsg, ...);
+	void SendDataKanturuTimeAttackEvent(CGameObject &Obj, BYTE btFlag, int iClearTime);
 
 };
 

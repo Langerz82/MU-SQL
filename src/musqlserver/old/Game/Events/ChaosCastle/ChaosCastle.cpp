@@ -2063,29 +2063,29 @@ float CChaosCastle::GetExperienceBonus(int iChaosCastleIndex)
 	return this->m_stChaosCastleData[iChaosCastleIndex].m_iCastleExperience;
 }
 
-int  CChaosCastle::CheckEnterLevel(int iIndex, int iLevel)
+int  CChaosCastle::CheckEnterLevel(CGameObject &Obj, int iLevel)
 {
 	if (ObjectMaxRange(iIndex) == FALSE)
 	{
 		return 2;
 	}
 
-	if (gGameObjects[iIndex]->Type != OBJ_USER || gGameObjects[iIndex]->Connected <= PLAYER_LOGGED)
+	if (Obj.Type != OBJ_USER || Obj.Connected <= PLAYER_LOGGED)
 	{
 		return 2;
 	}
 
-	if (gGameObjects[iIndex]->Level + gGameObjects[iIndex]->m_PlayerData->MasterLevel >= g_sttCHAOSCASTLE_LEVEL[iLevel - 1]->iLOWER_BOUND && gGameObjects[iIndex]->Level + gGameObjects[iIndex]->m_PlayerData->MasterLevel <= g_sttCHAOSCASTLE_LEVEL[iLevel - 1]->iUPPER_BOUND)
+	if (Obj.Level + Obj.m_PlayerData->MasterLevel >= g_sttCHAOSCASTLE_LEVEL[iLevel - 1]->iLOWER_BOUND && Obj.Level + Obj.m_PlayerData->MasterLevel <= g_sttCHAOSCASTLE_LEVEL[iLevel - 1]->iUPPER_BOUND)
 	{
 		return 0;
 	}
 
-	if (gGameObjects[iIndex]->Level + gGameObjects[iIndex]->m_PlayerData->MasterLevel < g_sttCHAOSCASTLE_LEVEL[iLevel - 1]->iLOWER_BOUND)
+	if (Obj.Level + Obj.m_PlayerData->MasterLevel < g_sttCHAOSCASTLE_LEVEL[iLevel - 1]->iLOWER_BOUND)
 	{
 		return -1;
 	}
 
-	if (gGameObjects[iIndex]->Level + gGameObjects[iIndex]->m_PlayerData->MasterLevel > g_sttCHAOSCASTLE_LEVEL[iLevel - 1]->iUPPER_BOUND)
+	if (Obj.Level + Obj.m_PlayerData->MasterLevel > g_sttCHAOSCASTLE_LEVEL[iLevel - 1]->iUPPER_BOUND)
 	{
 		return 1;
 	}
@@ -2096,7 +2096,7 @@ int  CChaosCastle::CheckEnterLevel(int iIndex, int iLevel)
 
 
 
-int  CChaosCastle::CheckEnterItem(int iIndex)
+int  CChaosCastle::CheckEnterItem(CGameObject &Obj)
 {
 	int iITEM_LEVEL = 0;
 
@@ -2105,18 +2105,18 @@ int  CChaosCastle::CheckEnterItem(int iIndex)
 		return 0;
 	}
 
-	if ( gGameObjects[iIndex]->Type != OBJ_USER || gGameObjects[iIndex]->Connected <= PLAYER_LOGGED )
+	if ( Obj.Type != OBJ_USER || Obj.Connected <= PLAYER_LOGGED )
 	{
 		return 0;
 	}
 
 	for ( int x=0;x<MAIN_INVENTORY_SIZE;x++)
 	{
-		if ( gGameObjects[iIndex]->pInventory[x]->IsItem() == TRUE )
+		if ( Obj.pInventory[x]->IsItem() == TRUE )
 		{
-			if ( gGameObjects[iIndex]->pInventory[x]->m_Type == ITEMGET(13,29) )
+			if ( Obj.pInventory[x]->m_Type == ITEMGET(13,29) )
 			{
-				iITEM_LEVEL = gGameObjects[iIndex]->pInventory[x]->m_Level;
+				iITEM_LEVEL = Obj.pInventory[x]->m_Level;
 
 				if ( CHECK_LIMIT(iITEM_LEVEL, MAX_CHAOSCASTLE_LEVEL+2) == FALSE )	// #error Change 2 to 1
 				{
@@ -2350,12 +2350,12 @@ int  CChaosCastle::GetCurrentRemainSec(int iChaosCastleIndex)
 
 
 
-BOOL CChaosCastle::ObjSetPosition(int iIndex, int iX, int iY)
+BOOL CChaosCastle::ObjSetPosition(CGameObject &Obj, int iX, int iY)
 {
 	if ( !ObjectMaxRange(iIndex))
 		return TRUE;
 
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 
 	if (!MAX_MAP_RANGE(lpObj.MapNumber))
 		return FALSE;
@@ -2403,10 +2403,10 @@ BOOL CChaosCastle::ObjSetPosition(int iIndex, int iX, int iY)
 
 	if ( lpObj.Type == OBJ_USER )
 	{
-		IOCP.DataSend(iIndex, (UCHAR *)&pMove2, pMove2.h.size);
+		IOCP.DataSend(Obj.m_Index, (UCHAR *)&pMove2, pMove2.h.size);
 	}
 
-	gGameProtocol.MsgSendV2(&gGameObjects[iIndex], (UCHAR *)&pMove2, pMove2.h.size);
+	gGameProtocol.MsgSendV2(Obj, (UCHAR *)&pMove2, pMove2.h.size);
 
 	MapC[lpObj.MapNumber].ClearStandAttr(lpObj.m_OldX, lpObj.m_OldY);
 	MapC[lpObj.MapNumber].SetStandAttr(lpObj.TX, lpObj.TY);
@@ -2449,12 +2449,12 @@ void CChaosCastle::SearchNBlowObjs(int iMapNumber, int iX, int iY)
 
 		int iIndex = this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex;
 
-		if ( gGameObjects[iIndex]->MapNumber == iMapNumber && gGameObjects[iIndex]->Connected > PLAYER_LOGGED )
+		if ( Obj.MapNumber == iMapNumber && Obj.Connected > PLAYER_LOGGED )
 		{
-			if ( gGameObjects[iIndex]->X >= iMIN_X && gGameObjects[iIndex]->X <= iMAX_X &&
-				 gGameObjects[iIndex]->Y >= iMIN_Y && gGameObjects[iIndex]->Y <= iMAX_Y )
+			if ( Obj.X >= iMIN_X && Obj.X <= iMAX_X &&
+				 Obj.Y >= iMIN_Y && Obj.Y <= iMAX_Y )
 			{
-				this->BlowObjsFromPoint(gGameObjects[iIndex]->m_Index, iMapNumber, iX, iY);
+				this->BlowObjsFromPoint(Obj.m_Index, iMapNumber, iX, iY);
 
 				BYTE btMapAttr = MapC[iMapNumber].m_attrbuf[iY * 256 + iX]&0x08;
 
@@ -2463,7 +2463,7 @@ void CChaosCastle::SearchNBlowObjs(int iMapNumber, int iX, int iY)
 					this->AddFallUser(iChaosCastleIndex, iIndex);
 
 					//sLog->outBasic("[Chaos Castle] (%d) [%s][%s] User Dead In Chaos Castle : Fall from Castle (X:%d, Y:%d)",
-					//	iChaosCastleIndex+1, gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, iX, iY);
+					//	iChaosCastleIndex+1, Obj.AccountID, Obj.Name, iX, iY);
 				}
 			}
 		}
@@ -2472,7 +2472,7 @@ void CChaosCastle::SearchNBlowObjs(int iMapNumber, int iX, int iY)
 
 
 
-BOOL CChaosCastle::BlowObjsFromPoint(int iIndex, int iMapNumber, int& iX, int& iY)
+BOOL CChaosCastle::BlowObjsFromPoint(CGameObject &Obj, int iMapNumber, int& iX, int& iY)
 {
 	if ( !gObjIsConnected(iIndex))
 		return FALSE;
@@ -2480,7 +2480,7 @@ BOOL CChaosCastle::BlowObjsFromPoint(int iIndex, int iMapNumber, int& iX, int& i
 	if ( !CHECK_LIMIT(iX, 256) || !CHECK_LIMIT(iY, 256))
 		return FALSE;
 
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 
 	if ( lpObj.DieRegen )
 		return FALSE;
@@ -2577,7 +2577,7 @@ BOOL CChaosCastle::BlowObjsFromPoint(int iIndex, int iMapNumber, int& iX, int& i
 
 
 
-BOOL CChaosCastle::BlowObjsToPoint(int iIndex, int iMapNumber, int iX, int iY)
+BOOL CChaosCastle::BlowObjsToPoint(CGameObject &Obj, int iMapNumber, int iX, int iY)
 {
 	return TRUE;
 }

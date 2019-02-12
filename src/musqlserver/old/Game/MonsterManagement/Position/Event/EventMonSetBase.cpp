@@ -117,7 +117,7 @@ void CEventMonSetBase::Run()
 	}
 }
 
-bool CEventMonSetBase::IsEventMonster(int iIndex)
+bool CEventMonSetBase::IsEventMonster(CGameObject &Obj)
 {
 	std::map<int, boost::shared_ptr<EVENT_MONSTER_DATA>>::iterator Iter = this->m_mapMonsterData.find(iIndex);
 
@@ -129,7 +129,7 @@ bool CEventMonSetBase::IsEventMonster(int iIndex)
 	return false;
 }
 
-int CEventMonSetBase::GetDistance(int iIndex)
+int CEventMonSetBase::GetDistance(CGameObject &Obj)
 {
 	std::map<int, boost::shared_ptr<EVENT_MONSTER_DATA>>::iterator Iter = this->m_mapMonsterData.find(iIndex);
 
@@ -179,7 +179,7 @@ void CEventMonSetBase::SpawnMonster(boost::shared_ptr<EVENT_MONSTER_POSITION> lp
 	//sLog->outBasic("[Event Spawn] Set Monster (%d) (%d) (%d)(%d)(%d)", result, lpSpotData->m_Type, gGameObjects[result]->MapNumber, gGameObjects[result]->X, gGameObjects[result]->Y);
 }
 
-void CEventMonSetBase::RegenMonster(int iIndex)
+void CEventMonSetBase::RegenMonster(CGameObject &Obj)
 {
 	if (this->IsEventMonster(iIndex) == false)
 	{
@@ -187,7 +187,7 @@ void CEventMonSetBase::RegenMonster(int iIndex)
 	}
 
 	std::map<int, boost::shared_ptr<EVENT_MONSTER_DATA>>::iterator Iter = this->m_mapMonsterData.find(iIndex);
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 
 	if (Iter->second->lpSpotData->m_DoSpawn == FALSE)
 	{

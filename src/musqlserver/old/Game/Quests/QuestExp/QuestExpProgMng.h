@@ -70,7 +70,7 @@ public:
 	void QuestMonsterItemDrop(DWORD dwQuestInfoIndexID, CGameObject lpObj, CGameObject lpMonsterObj);
 	bool ChkQuestMonsterItemDrop(QuestDropItemInfo* pQuestDropItemInfo);
 	bool ChkQuestMonsterItemDrop(DWORD dwQuestInfoIndexID);
-	bool IsQuestDropItem(int iIndex, WORD nType, WORD nLevel);
+	bool IsQuestDropItem(CGameObject &Obj, WORD nType, WORD nLevel);
 
 	void SetQuestTimeLimit(int iObjIndex, DWORD dwQuestIndexID, int iDuration);
 

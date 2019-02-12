@@ -12,7 +12,7 @@ CMuunInfo::~CMuunInfo()
 {
 
 }
-void CMuunInfo::SetIndex(int iIndex)
+void CMuunInfo::SetIndex(CGameObject &Obj)
 {
 	this->m_iIndex = iIndex;
 }

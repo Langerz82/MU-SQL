@@ -23,13 +23,13 @@ CCastleCrown::~CCastleCrown()
 
 }
 
-void CCastleCrown::CastleCrownAct(int iIndex)
+void CCastleCrown::CastleCrownAct(CGameObject &Obj)
 {
 	if ( !gObjIsConnected(iIndex))
 		return;
 
-	if ( gGameObjects[iIndex]->Type != OBJ_NPC ||
-		 gGameObjects[iIndex]->Class != 216 )
+	if ( Obj.Type != OBJ_NPC ||
+		 Obj.Class != 216 )
 		 return;
 
 	if ( !gObjIsConnected(g_CastleSiege.GetCrownUserIndex()) )
@@ -42,7 +42,7 @@ void CCastleCrown::CastleCrownAct(int iIndex)
 		return;
 	}
 
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 	CGameObject lpUserObj = &gGameObjects[g_CastleSiege.GetCrownUserIndex()];
 
 	if ( lpUserObj.MapNumber == MAP_INDEX_CASTLESIEGE &&

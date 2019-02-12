@@ -257,7 +257,7 @@ public:
 	CChaosCastle();
 	virtual ~CChaosCastle();
 
-	friend int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, CGameObject &lpObj);
+	friend int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, CGameObject &lpObjTarget);
 
 	void Run();
 	void Init();
@@ -299,16 +299,16 @@ public:
 	float GetExperienceBonus(int iChaosCastleIndex);
 	//int __thiscall GetExcelItemDropRate();
 	//int __thiscall GetNormalItemDropRate();
-	int CheckEnterLevel(int iIndex, int iLevel);
-	int CheckEnterItem(int iIndex);
+	int CheckEnterLevel(CGameObject &Obj, int iLevel);
+	int CheckEnterItem(CGameObject &Obj);
 	int CheckPlayEnded(int iChaosCastleIndex);
 	bool CheckCanEnter(int iChaosCastleIndex);
 	bool CheckPlayStart(int iChaosCastleIndex);
 	bool CheckCanStartPlay(int iChaosCastleIndex);
-	int ObjSetPosition(int iIndex, int iX, int iY);
+	int ObjSetPosition(CGameObject &Obj, int iX, int iY);
 	void SearchNBlowObjs(int iMapNumber, int iX, int iY);
-	int BlowObjsFromPoint(int iIndex, int iMapNumber, int& iX, int& iY);
-	int BlowObjsToPoint(int iIndex, int iMapNumber, int iX, int iY);
+	int BlowObjsFromPoint(CGameObject &Obj, int iMapNumber, int& iX, int& iY);
+	int BlowObjsToPoint(CGameObject &Obj, int iMapNumber, int iX, int iY);
 	int CalDistance(int iX1, int iY1, int iX2, int iY2);
 	void SafetyCastleZone(int iChaosCastleIndex);
 	void UnSafetyCastleZone(int iChaosCastleIndex);

@@ -55,7 +55,7 @@ public:
 	BYTE GetUserTeam(BYTE btMapNumber, int nIndex);
 	void SetStatusRegenTime(BYTE btMapNumber);
 
-	void ITR_USeSkill(int iIndex, WORD MagicNumber, int wTargetObjIndex, BYTE btDis);
+	void ITR_USeSkill(CGameObject &Obj, WORD MagicNumber, int wTargetObjIndex, BYTE btDis);
 	void EventSkillProc(CGameObject &lpObj);
 
 	void IllusionTempleUserDie(CGameObject &lpObj);

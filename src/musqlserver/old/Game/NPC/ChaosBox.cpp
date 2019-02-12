@@ -10006,22 +10006,22 @@ void CMixSystem::BloodCastleItemChaosMix_Multi(CGameObject &lpObj, int iMixCount
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (gGameObjects[iIndex]->pChaosBox[i]->IsItem() == TRUE)
+		if (Obj.pChaosBox[i]->IsItem() == TRUE)
 		{
-			if (gGameObjects[iIndex]->pChaosBox[i]->m_Type == ITEMGET(12, 15)) // Chaos
+			if (Obj.pChaosBox[i]->m_Type == ITEMGET(12, 15)) // Chaos
 			{
 				bIsChaosGemExist++;
 			}
-			else if (gGameObjects[iIndex]->pChaosBox[i]->m_Type == ITEMGET(13, 16)) //Scroll of Archangel
+			else if (Obj.pChaosBox[i]->m_Type == ITEMGET(13, 16)) //Scroll of Archangel
 			{
-				int iSCROLL_LEVEL = gGameObjects[iIndex]->pChaosBox[i]->m_Level;
+				int iSCROLL_LEVEL = Obj.pChaosBox[i]->m_Level;
 				iEventItemCount++;
 				bIsAngelKingPaperExist++;
 				iAngelKingPaperLevel = iSCROLL_LEVEL;
 			}
-			else if (gGameObjects[iIndex]->pChaosBox[i]->m_Type == ITEMGET(13, 17)) //Blood Bone
+			else if (Obj.pChaosBox[i]->m_Type == ITEMGET(13, 17)) //Blood Bone
 			{
-				int iBLOOD_BONE_LEVEL = gGameObjects[iIndex]->pChaosBox[i]->m_Level;
+				int iBLOOD_BONE_LEVEL = Obj.pChaosBox[i]->m_Level;
 				iEventItemCount++;
 				bIsBloodBoneExist++;
 				iBloodBoneLevel = iBLOOD_BONE_LEVEL;
@@ -10048,7 +10048,7 @@ void CMixSystem::BloodCastleItemChaosMix_Multi(CGameObject &lpObj, int iMixCount
 	if (bIsAngelKingPaperExist == FALSE || bIsBloodBoneExist == FALSE)
 	{
 		pMsg.Result = CB_NO_BC_CORRECT_ITEMS;
-		IOCP.DataSend(iIndex, (UCHAR*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (UCHAR*)&pMsg, pMsg.h.size);
 
 		lpObj.ChaosLock = FALSE;
 		return;
@@ -10057,7 +10057,7 @@ void CMixSystem::BloodCastleItemChaosMix_Multi(CGameObject &lpObj, int iMixCount
 	if (iEventItemCount > (2 * iMixCount))
 	{
 		pMsg.Result = CB_INVALID_ITEM_LEVEL;
-		IOCP.DataSend(iIndex, (UCHAR*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (UCHAR*)&pMsg, pMsg.h.size);
 
 		lpObj.ChaosLock = FALSE;
 		return;
@@ -10066,7 +10066,7 @@ void CMixSystem::BloodCastleItemChaosMix_Multi(CGameObject &lpObj, int iMixCount
 	if (iAngelKingPaperLevel != iBloodBoneLevel)
 	{
 		pMsg.Result = CB_NO_BC_CORRECT_ITEMS;
-		IOCP.DataSend(iIndex, (UCHAR*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (UCHAR*)&pMsg, pMsg.h.size);
 
 		lpObj.ChaosLock = FALSE;
 		return;
@@ -10075,7 +10075,7 @@ void CMixSystem::BloodCastleItemChaosMix_Multi(CGameObject &lpObj, int iMixCount
 	if (BC_BRIDGE_RANGE(iAngelKingPaperLevel - 1) == FALSE)
 	{
 		pMsg.Result = CB_NO_BC_CORRECT_ITEMS;
-		IOCP.DataSend(iIndex, (UCHAR*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (UCHAR*)&pMsg, pMsg.h.size);
 
 		lpObj.ChaosLock = FALSE;
 		return;
@@ -10084,7 +10084,7 @@ void CMixSystem::BloodCastleItemChaosMix_Multi(CGameObject &lpObj, int iMixCount
 	if (BC_BRIDGE_RANGE(iBloodBoneLevel - 1) == FALSE)
 	{
 		pMsg.Result = CB_NO_BC_CORRECT_ITEMS;
-		IOCP.DataSend(iIndex, (UCHAR*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (UCHAR*)&pMsg, pMsg.h.size);
 
 		lpObj.ChaosLock = FALSE;
 		return;
@@ -10093,16 +10093,16 @@ void CMixSystem::BloodCastleItemChaosMix_Multi(CGameObject &lpObj, int iMixCount
 	if (bIsChaosGemExist == FALSE)
 	{
 		pMsg.Result = CB_NO_BC_CORRECT_ITEMS;
-		IOCP.DataSend(iIndex, (UCHAR*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (UCHAR*)&pMsg, pMsg.h.size);
 
 		lpObj.ChaosLock = FALSE;
 		return;
 	}
 
-	if (gGameObjects[iIndex]->Level < g_sttBLOODCASTLE_LEVEL[0]->iLOWER_BOUND)
+	if (Obj.Level < g_sttBLOODCASTLE_LEVEL[0]->iLOWER_BOUND)
 	{
 		pMsg.Result = CB_USER_CLASS_LOW_LEVEL;
-		IOCP.DataSend(iIndex, (UCHAR*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (UCHAR*)&pMsg, pMsg.h.size);
 
 		lpObj.ChaosLock = FALSE;
 		return;
@@ -10120,13 +10120,13 @@ void CMixSystem::BloodCastleItemChaosMix_Multi(CGameObject &lpObj, int iMixCount
 		char szTemp[64];
 		wsprintf(szTemp, "BloodCastle Ticket Mix,%d", iAngelKingPaperLevel); //Season 2.5 add-on
 
-		g_MixSystem.LogChaosItem(&gGameObjects[iIndex], szTemp);
+		g_MixSystem.LogChaosItem(Obj, szTemp);
 
 		int iMIX_SUCCESS_RATE = g_iBC_ChoasMixSuccessRate[iAngelKingPaperLevel - 1];
 
 		if (iMIX_SUCCESS_RATE < 0 || iMIX_SUCCESS_RATE > 100)
 		{
-			IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 			return;
 		}
 
@@ -10152,20 +10152,20 @@ void CMixSystem::BloodCastleItemChaosMix_Multi(CGameObject &lpObj, int iMixCount
 
 		if (iMIX_NEED_MONEY < 0)
 		{
-			IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 			return;
 		}
 
-		if ((gGameObjects[iIndex]->m_PlayerData->Money - iMIX_NEED_MONEY) < 0)
+		if ((Obj.m_PlayerData->Money - iMIX_NEED_MONEY) < 0)
 		{
 			pMsg.Result = CB_BC_NOT_ENOUGH_ZEN;
-			IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 			return;
 		}
 
-		gGameObjects[iIndex]->m_PlayerData->Money -= iMIX_NEED_MONEY;
+		Obj.m_PlayerData->Money -= iMIX_NEED_MONEY;
 		g_CastleSiegeSync.AddTributeMoney(iChaosTaxMoney);
-		gGameProtocol.GCMoneySend(iIndex, gGameObjects[iIndex]->m_PlayerData->Money);
+		gGameProtocol.GCMoneySend(iIndex, Obj.m_PlayerData->Money);
 
 		pMsg.Result = CB_MULTIMIX_RESULT;
 		pMsg.Pos = iMixCount;

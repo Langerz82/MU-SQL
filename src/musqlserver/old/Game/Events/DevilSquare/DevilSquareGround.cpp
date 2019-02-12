@@ -620,7 +620,7 @@ int CDevilSquareGround::GetPlayUserCountRightNow()
 
 	return Count;
 }
-void CDevilSquareGround::DropReward(int iIndex)
+void CDevilSquareGround::DropReward(CGameObject &Obj)
 {
 	if (ObjectMaxRange(iIndex) == FALSE)
 	{
@@ -632,7 +632,7 @@ void CDevilSquareGround::DropReward(int iIndex)
 		return;
 	}
 
-	switch (gGameObjects[iIndex]->m_bDevilSquareIndex)
+	switch (Obj.m_bDevilSquareIndex)
 	{
 	case 0:
 		g_BagManager.UseBag_GremoryCase(iIndex, BAG_EVENT, EVENTBAG_DS1, iIndex, GC_STORAGE_CHARACTER, GC_REWARD_DEVIL_SQUARE, 30);
@@ -658,7 +658,7 @@ void CDevilSquareGround::DropReward(int iIndex)
 
 	}
 
-	g_CashShop.AddCoin(&gGameObjects[iIndex], EVENT_DS);
+	g_CashShop.AddCoin(Obj, EVENT_DS);
 }
 
 

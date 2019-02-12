@@ -271,7 +271,7 @@ public:
 	void AddGPMonster(CGameObject &lpMonsterObj);
 	void Run();
 	bool GetRandomItemFromPackage(int PackageID, int & GUID, int & ID);
-	std::vector<ITEMSHOP_ITEMLIST>::iterator FindItemInList(int iIndex, int iOption, int iCategory);
+	std::vector<ITEMSHOP_ITEMLIST>::iterator FindItemInList(CGameObject &Obj, int iOption, int iCategory);
 
 private:
 

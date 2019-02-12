@@ -73,7 +73,7 @@ public:
 	void Start_Menual();
 	void End_Menual();
 
-	bool IsEledoradoMonster(int iIndex);
+	bool IsEledoradoMonster(CGameObject &Obj);
 
 	int m_BossGoldDerconMapNumber[4];	// 44
 

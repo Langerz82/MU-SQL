@@ -2528,7 +2528,7 @@ void CCastleSiege::CreateNonDbNPC(BOOL bDelFirst)
 	LeaveCriticalSection(&this->m_critNpcData);
 }
 
-int CCastleSiege::CheckAddDbNPC(int iIndex, int iNpcType, int iNpcIndex, BYTE & btResult)
+int CCastleSiege::CheckAddDbNPC(CGameObject &Obj, int iNpcType, int iNpcIndex, BYTE & btResult)
 {
 	int iRETVAL = 0;
 
@@ -2564,7 +2564,7 @@ int CCastleSiege::CheckAddDbNPC(int iIndex, int iNpcType, int iNpcIndex, BYTE & 
 				break;
 			}
 
-			if( gGameObjects[iIndex]->m_PlayerData->Money < iNpcBuyCost )
+			if( Obj.m_PlayerData->Money < iNpcBuyCost )
 			{
 				btResult = 3;
 				iRETVAL = 0;
@@ -2766,7 +2766,7 @@ int CCastleSiege::AddDbNPC(int iNpcType, int iNpcIndex)
 	return iRETVAL;
 }
 
-BOOL CCastleSiege::DelNPC(int iIndex, int iNpcType, int iMonsterExistVal, int bDbSave)
+BOOL CCastleSiege::DelNPC(CGameObject &Obj, int iNpcType, int iMonsterExistVal, int bDbSave)
 {
 	if( !ObjectMaxRange(iIndex) )
 	{
@@ -2879,7 +2879,7 @@ BOOL CCastleSiege::RepairDbNPC(int iNpcType, int iNpcIndex, int iNpcHP, int iNpc
 	return bEXIST;
 }
 
-int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, int iNpcUpType, int iNpcUpValue, int iNpcUpIndex)
+int CCastleSiege::PayForUpgradeDbNpc(CGameObject &Obj, int iNpcType, int iNpcIndex, int iNpcUpType, int iNpcUpValue, int iNpcUpIndex)
 {
 	int iNEED_GEMOFDEFEND = 0;
 	int iNEED_MONEY = 0;
@@ -2911,7 +2911,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 					iNEED_GEMOFDEFEND = g_iNpcUpDfLevel_CGATE[iNpcUpIndex][1];
 					iNEED_MONEY = g_iNpcUpDfLevel_CGATE[iNpcUpIndex][2];
 					
-					if( gGameObjects[iIndex]->m_PlayerData->Money < iNEED_MONEY )
+					if( Obj.m_PlayerData->Money < iNEED_MONEY )
 					{
 						gGameProtocol.GCAnsNpcUpgrade(iIndex, 3, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
 						return FALSE;
@@ -2925,7 +2925,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 						return FALSE;	
 					}
 
-					gGameObjects[iIndex]->m_PlayerData->Money -= iNEED_MONEY;
+					Obj.m_PlayerData->Money -= iNEED_MONEY;
 				}
 				break;
 			case 3:
@@ -2933,7 +2933,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 					iNEED_GEMOFDEFEND = g_iNpcUpMaxHP_CGATE[iNpcUpIndex][1];
 					iNEED_MONEY = g_iNpcUpMaxHP_CGATE[iNpcUpIndex][2];
 
-					if( gGameObjects[iIndex]->m_PlayerData->Money < iNEED_MONEY )
+					if( Obj.m_PlayerData->Money < iNEED_MONEY )
 					{
 						gGameProtocol.GCAnsNpcUpgrade(iIndex, 3, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
 						return FALSE;
@@ -2947,7 +2947,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 						return FALSE;	
 					}
 
-					gGameObjects[iIndex]->m_PlayerData->Money -= iNEED_MONEY;
+					Obj.m_PlayerData->Money -= iNEED_MONEY;
 				}
 				break;
 			default:
@@ -2968,7 +2968,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 					iNEED_GEMOFDEFEND = g_iNpcUpDfLevel_CSTATUE[iNpcUpIndex][1];
 					iNEED_MONEY = g_iNpcUpDfLevel_CSTATUE[iNpcUpIndex][2];
 					
-					if( gGameObjects[iIndex]->m_PlayerData->Money < iNEED_MONEY )
+					if( Obj.m_PlayerData->Money < iNEED_MONEY )
 					{
 						gGameProtocol.GCAnsNpcUpgrade(iIndex, 3, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
 						return FALSE;
@@ -2982,7 +2982,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 						return FALSE;	
 					}
 
-					gGameObjects[iIndex]->m_PlayerData->Money -= iNEED_MONEY;
+					Obj.m_PlayerData->Money -= iNEED_MONEY;
 				}
 				break;
 			case 2:
@@ -2990,7 +2990,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 					iNEED_GEMOFDEFEND = g_iNpcUpRgLevel_CSTATUE[iNpcUpIndex][1];
 					iNEED_MONEY = g_iNpcUpRgLevel_CSTATUE[iNpcUpIndex][2];
 
-					if( gGameObjects[iIndex]->m_PlayerData->Money < iNEED_MONEY )
+					if( Obj.m_PlayerData->Money < iNEED_MONEY )
 					{
 						gGameProtocol.GCAnsNpcUpgrade(iIndex, 3, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
 						return FALSE;
@@ -3004,7 +3004,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 						return FALSE;	
 					}
 
-					gGameObjects[iIndex]->m_PlayerData->Money -= iNEED_MONEY;
+					Obj.m_PlayerData->Money -= iNEED_MONEY;
 				}
 				break;
 			case 3:
@@ -3012,7 +3012,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 					iNEED_GEMOFDEFEND = g_iNpcUpMaxHP_CSTATUE[iNpcUpIndex][1];
 					iNEED_MONEY = g_iNpcUpMaxHP_CSTATUE[iNpcUpIndex][2];
 
-					if( gGameObjects[iIndex]->m_PlayerData->Money < iNEED_MONEY )
+					if( Obj.m_PlayerData->Money < iNEED_MONEY )
 					{
 						gGameProtocol.GCAnsNpcUpgrade(iIndex, 3, iNpcType, iNpcIndex, iNpcUpType, iNpcUpValue);
 						return FALSE;
@@ -3026,7 +3026,7 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 						return FALSE;	
 					}
 
-					gGameObjects[iIndex]->m_PlayerData->Money -= iNEED_MONEY;
+					Obj.m_PlayerData->Money -= iNEED_MONEY;
 				}
 				break;
 			default:
@@ -3040,12 +3040,12 @@ int CCastleSiege::PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, in
 		break;
 	}
 
-	gGameProtocol.GCMoneySend(iIndex, gGameObjects[iIndex]->m_PlayerData->Money);
+	gGameProtocol.GCMoneySend(iIndex, Obj.m_PlayerData->Money);
 
 	return TRUE;
 }
 
-BOOL CCastleSiege::UpgradeDbNPC(int iIndex, int iNpcType, int iNpcIndex, int iNpcUpType, int iNpcUpValue, int iNpcUpIndex)
+BOOL CCastleSiege::UpgradeDbNPC(CGameObject &Obj, int iNpcType, int iNpcIndex, int iNpcUpType, int iNpcUpValue, int iNpcUpIndex)
 {
 	if( CS_CHECK_UPGRADE(iNpcUpIndex) == FALSE )
 	{
@@ -3288,7 +3288,7 @@ void CCastleSiege::StoreDbNpc()
 	sLog->outBasic("[CastleSiege] CCastleSiege::StoreDbNpc() - << END >>");
 }
 
-void CCastleSiege::SendNpcStateList(int iIndex, int iNpcType)
+void CCastleSiege::SendNpcStateList(CGameObject &Obj, int iNpcType)
 {
 	if( gObjIsConnected(iIndex) == FALSE )
 	{
@@ -3365,7 +3365,7 @@ void CCastleSiege::SendNpcStateList(int iIndex, int iNpcType)
 	lpMsgSend->h.set((LPBYTE)&cNPC_LIST, 0xB3, (sizeof(PMSG_NPCDBLIST) * iNPC_COUNT)+sizeof(PMSG_ANS_NPCDBLIST));
 	lpMsgSend->iCount = iNPC_COUNT;
 
-	IOCP.DataSend(iIndex, (LPBYTE)&cNPC_LIST, (sizeof(PMSG_NPCDBLIST) * iNPC_COUNT)+sizeof(PMSG_ANS_NPCDBLIST));
+	IOCP.DataSend(Obj.m_Index, (LPBYTE)&cNPC_LIST, (sizeof(PMSG_NPCDBLIST) * iNPC_COUNT)+sizeof(PMSG_ANS_NPCDBLIST));
 }
 
 int CCastleSiege::GetNpcData(int iNpcType, int iNpcIndex, _CS_NPC_DATA & pRetNpcData)
@@ -3653,7 +3653,7 @@ BOOL CCastleSiege::CheckCsGateAlive(int iGateIndex)
 	return TRUE;
 }
 
-int CCastleSiege::DelGemOfDefend(int iIndex, int iNeedGemOfDefend)
+int CCastleSiege::DelGemOfDefend(CGameObject &Obj, int iNeedGemOfDefend)
 {
 	if( gObjIsConnected(iIndex) == FALSE )
 	{
@@ -3669,9 +3669,9 @@ int CCastleSiege::DelGemOfDefend(int iIndex, int iNeedGemOfDefend)
 
 	for( int x = 0; x < INVENTORY_SIZE; x++ )
 	{
-		if( gGameObjects[iIndex]->pInventory[x]->IsItem() == TRUE )
+		if( Obj.pInventory[x]->IsItem() == TRUE )
 		{
-			if( gGameObjects[iIndex]->pInventory[x]->m_Type == ITEMGET(14,31) )
+			if( Obj.pInventory[x]->m_Type == ITEMGET(14,31) )
 			{
 				iGemOfDefendCount++;
 			}
@@ -3687,11 +3687,11 @@ int CCastleSiege::DelGemOfDefend(int iIndex, int iNeedGemOfDefend)
 
 	for( int x = 0; x < INVENTORY_SIZE; x++ )
 	{
-		if( gGameObjects[iIndex]->pInventory[x]->IsItem() == TRUE )
+		if( Obj.pInventory[x]->IsItem() == TRUE )
 		{
-			if( gGameObjects[iIndex]->pInventory[x]->m_Type == ITEMGET(14,31) )
+			if( Obj.pInventory[x]->m_Type == ITEMGET(14,31) )
 			{
-				sLog->outBasic("[CastleSiege] [%s][%s] Deleting Gem of Defend (GUILD:%s) - Serial:%u", gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, gGameObjects[iIndex]->m_PlayerData->GuildName, gGameObjects[iIndex]->pInventory[x]->m_Number);
+				sLog->outBasic("[CastleSiege] [%s][%s] Deleting Gem of Defend (GUILD:%s) - Serial:%u", Obj.AccountID, Obj.Name, Obj.m_PlayerData->GuildName, Obj.pInventory[x]->m_Number);
 
 				gObjInventoryItemSet(iIndex, x, 0xff);
 				gObjInventoryDeleteItem(iIndex, x);
@@ -4285,7 +4285,7 @@ void CCastleSiege::ResetAllUserCsJoinSide()
 	LeaveCriticalSection(&this->m_critCsTotalGuildInfo);
 }
 
-void CCastleSiege::NotifySelfCsJoinSide(int iIndex)
+void CCastleSiege::NotifySelfCsJoinSide(CGameObject &Obj)
 {
 	if(gObjIsConnected(iIndex) == FALSE)
 	{
@@ -4295,7 +4295,7 @@ void CCastleSiege::NotifySelfCsJoinSide(int iIndex)
 	int iState = 0;
 	int iViewState = 0;
 
-	BYTE btCsJoinSide = gGameObjects[iIndex]->m_btCsJoinSide; //loc4
+	BYTE btCsJoinSide = Obj.m_btCsJoinSide; //loc4
 
 	PMSG_ANS_NOTIFYCSJOINSIDE pMsg;
 
@@ -4309,7 +4309,7 @@ void CCastleSiege::NotifySelfCsJoinSide(int iIndex)
 		btCsJoinSide = 0;
 	}
 
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 
 	switch(btCsJoinSide) //season3 all changed
 	{
@@ -4372,7 +4372,7 @@ void CCastleSiege::NotifySelfCsJoinSide(int iIndex)
 
 	if(btCsJoinSide == 2) //same result...
 	{
-		pMsg.btCsJoinSide = gGameObjects[iIndex]->m_btCsJoinSide;
+		pMsg.btCsJoinSide = Obj.m_btCsJoinSide;
 	}
 	else
 	{
@@ -4381,7 +4381,7 @@ void CCastleSiege::NotifySelfCsJoinSide(int iIndex)
 
 	//GCSendState iViewState
 
-	IOCP.DataSend(iIndex,(LPBYTE)&pMsg,pMsg.h.size);
+	IOCP.DataSend(Obj.m_Index,(LPBYTE)&pMsg,pMsg.h.size);
 }
 
 int CCastleSiege::OperateGate(int iObjIndex, int iMonsterExistVal, int bOpenType)
@@ -4479,7 +4479,7 @@ int CCastleSiege::CheckAttackGuildExist()
 	return iRETVAL;
 }
 
-BOOL CCastleSiege::CheckCastleOwnerMember(int iIndex)
+BOOL CCastleSiege::CheckCastleOwnerMember(CGameObject &Obj)
 {
 	if( gObjIsConnected(iIndex) == FALSE )
 	{
@@ -4491,12 +4491,12 @@ BOOL CCastleSiege::CheckCastleOwnerMember(int iIndex)
 		return FALSE;
 	}
 
-	if( strcmp(gGameObjects[iIndex]->m_PlayerData->GuildName, "") == 0 )
+	if( strcmp(Obj.m_PlayerData->GuildName, "") == 0 )
 	{
 		return FALSE;
 	}
 
-	if( strcmp(gGameObjects[iIndex]->m_PlayerData->GuildName, this->m_szCastleOwnerGuild) != 0 )
+	if( strcmp(Obj.m_PlayerData->GuildName, this->m_szCastleOwnerGuild) != 0 )
 	{
 		return FALSE;
 	}
@@ -4504,7 +4504,7 @@ BOOL CCastleSiege::CheckCastleOwnerMember(int iIndex)
 	return TRUE;
 }
 
-BOOL CCastleSiege::CheckCastleOwnerUnionMember(int iIndex)
+BOOL CCastleSiege::CheckCastleOwnerUnionMember(CGameObject &Obj)
 {
 	GUILD_INFO_STRUCT &lpGuildInfo;
 	TUnionInfo * pUnionInfo;
@@ -4519,12 +4519,12 @@ BOOL CCastleSiege::CheckCastleOwnerUnionMember(int iIndex)
 		return FALSE;
 	}
 
-	if( strcmp(gGameObjects[iIndex]->m_PlayerData->GuildName, "") == 0 )
+	if( strcmp(Obj.m_PlayerData->GuildName, "") == 0 )
 	{
 		return FALSE;
 	}
 
-	lpGuildInfo = gGameObjects[iIndex]->m_PlayerData->lpGuild;
+	lpGuildInfo = Obj.m_PlayerData->lpGuild;
 
 	if( lpGuildInfo == NULL )
 	{
@@ -4732,7 +4732,7 @@ int CCastleSiege::CheckCastleSiegeResult()
 	return bRETVAL;
 }
 
-BOOL CCastleSiege::CheckUnionGuildMaster(int iIndex)
+BOOL CCastleSiege::CheckUnionGuildMaster(CGameObject &Obj)
 {
 	GUILD_INFO_STRUCT &lpGuildInfo;
 
@@ -4741,14 +4741,14 @@ BOOL CCastleSiege::CheckUnionGuildMaster(int iIndex)
 		return FALSE;
 	}
 
-	lpGuildInfo = gGameObjects[iIndex]->m_PlayerData->lpGuild;
+	lpGuildInfo = Obj.m_PlayerData->lpGuild;
 
 	if( lpGuildInfo == NULL )
 	{
 		return FALSE;
 	}
 
-	if( gGameObjects[iIndex]->m_PlayerData->GuildStatus == GUILD_MASTER )
+	if( Obj.m_PlayerData->GuildStatus == GUILD_MASTER )
 	{
 		if( (lpGuildInfo->Number == lpGuildInfo->iGuildUnion) || (lpGuildInfo->iGuildUnion == 0) )
 		{
@@ -4812,15 +4812,15 @@ void CCastleSiege::ResetCrownAccessTickCount()
 	this->m_dwCrownAccessTime = 0;
 }
 
-int CCastleSiege::CheckOverlapCsMarks(int iIndex)
+int CCastleSiege::CheckOverlapCsMarks(CGameObject &Obj)
 {
 	for( int x = INVETORY_WEAR_SIZE; x < MAIN_INVENTORY_SIZE; x++ )
 	{
-		if( gGameObjects[iIndex]->pInventory[x]->IsItem() == TRUE )
+		if( Obj.pInventory[x]->IsItem() == TRUE )
 		{
-			if( (gGameObjects[iIndex]->pInventory[x]->m_Type == ITEMGET(14,21)) && (gGameObjects[iIndex]->pInventory[x]->m_Level == 3) )
+			if( (Obj.pInventory[x]->m_Type == ITEMGET(14,21)) && (Obj.pInventory[x]->m_Level == 3) )
 			{
-				int dur = gGameObjects[iIndex]->pInventory[x]->m_Durability;
+				int dur = Obj.pInventory[x]->m_Durability;
 
 				if( ITEM_DUR_RANGE(dur) )
 				{
@@ -4882,7 +4882,7 @@ BOOL CCastleSiege::CheckTeleportMagicAxisY(int iStartY, int iTargetX, int iTarge
 	return TRUE;
 }
 
-void CCastleSiege::NotifyCsSelfLeftTime(int iIndex)
+void CCastleSiege::NotifyCsSelfLeftTime(CGameObject &Obj)
 {
 	gGameProtocol.GCAnsSelfCsLeftTimeAlarm(iIndex, (this->m_iCS_REMAIN_MSEC/1000)/3600, ((this->m_iCS_REMAIN_MSEC/1000)%3600)/60);
 }
@@ -5377,7 +5377,7 @@ void CCastleSiege::SetAllCastleGateState(BOOL bOpenType)
 	LeaveCriticalSection(&m_critNpcData);
 }
 
-void CCastleSiege::AddMiniMapDataReqUser(int iIndex)
+void CCastleSiege::AddMiniMapDataReqUser(CGameObject &Obj)
 {
 	EnterCriticalSection(&this->m_critCsMiniMap);
 		
@@ -5389,7 +5389,7 @@ void CCastleSiege::AddMiniMapDataReqUser(int iIndex)
 	LeaveCriticalSection(&this->m_critCsMiniMap);
 }
 
-void CCastleSiege::DelMiniMapDataReqUser(int iIndex)
+void CCastleSiege::DelMiniMapDataReqUser(CGameObject &Obj)
 {
 	EnterCriticalSection(&this->m_critCsMiniMap);
 	
@@ -5784,19 +5784,19 @@ void CCastleSiege::SendCsUserAnyMsg(char* lpszMsg)
 	}
 }
 
-void CCastleSiege::OperateGmCommand(int iIndex, int iGmCommand, void* lpParam)
+void CCastleSiege::OperateGmCommand(CGameObject &Obj, int iGmCommand, void* lpParam)
 {
 	if( gObjIsConnected(iIndex) == FALSE )
 	{
 		return;
 	}
 
-	if( (gGameObjects[iIndex]->Authority & 0x20) != 0x20 )
+	if( (Obj.Authority & 0x20) != 0x20 )
 	{
 		return;
 	}
 
-	if( (gGameObjects[iIndex]->GameMaster & GM_EVENT_MODIFY) != GM_EVENT_MODIFY )
+	if( (Obj.GameMaster & GM_EVENT_MODIFY) != GM_EVENT_MODIFY )
 	{
 		MsgOutput(iIndex, Lang.GetText(0,882));
 		return;

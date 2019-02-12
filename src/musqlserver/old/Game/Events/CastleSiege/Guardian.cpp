@@ -20,20 +20,20 @@ CGuardian::~CGuardian()
 	return;
 }
 
-BOOL CGuardian::CreateGuardian(int iIndex)
+BOOL CGuardian::CreateGuardian(CGameObject &Obj)
 {	
 	MsgOutput(iIndex, Lang.GetText(0,175));
 	return true;
 }
 
-void CGuardian::GuardianAct(int iIndex)
+void CGuardian::GuardianAct(CGameObject &Obj)
 {
 	if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE)
 	{
 		if (!gObjIsConnected(iIndex))
 			return;
 
-		CGameObject lpObj = &gGameObjects[iIndex];
+		CGameObject lpObj = Obj;
 
 		if (lpObj.VPCount < 1)
 			return;

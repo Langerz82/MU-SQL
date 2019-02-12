@@ -872,13 +872,13 @@ void QuestExpUserMng::UserAllQuestInfoSave(int iObjIndex)
 	PMSG_QUESTEXP_INFO pMsg;
 	int lOfs = sizeof(pMsg);
 
-	strcpy(pMsg.szCharName, gGameObjects[iIndex]->Name);
+	strcpy(pMsg.szCharName, Obj.Name);
 	int iEpCnt = 1;
 	int iQuestCnt = 0;
 
 	while (iEpCnt < MAX_QUESTEXP_EPISODE)
 	{
-		UserQuestInfo* pUserQuestInfo = &gGameObjects[iIndex]->m_PlayerData->m_UserQuestInfo[iEpCnt];
+		UserQuestInfo* pUserQuestInfo = &Obj.m_PlayerData->m_UserQuestInfo[iEpCnt];
 		int iEpisode = pUserQuestInfo->GetEpisode();
 		int iQuestSwitch = pUserQuestInfo->GetQuestSwitch();
 
@@ -928,17 +928,17 @@ void QuestExpUserMng::UserQuestInfoSave(DWORD dwQuestInfoIndexID, int iObjIndex)
 	int iIndex = iObjIndex;
 	QUESTEXP_INFO QuestInfo;
 	PMSG_QUESTEXP_INFO pMsg;
-	strcpy(pMsg.szCharName, gGameObjects[iIndex]->Name);
+	strcpy(pMsg.szCharName, Obj.Name);
 
 	int iEpisode = GetQuestEpisodeFromInfoIndexId(dwQuestInfoIndexID);
 	int iQuestSwitch = GetQuestSwitchFromInfoIndexId(dwQuestInfoIndexID);
 	QuestInfo.dwQuestIndexID = dwQuestInfoIndexID;
 
-	int iAskCnt = gGameObjects[iIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetAskCnt();
-	WORD wProgState = gGameObjects[iIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetQuestProgState();
+	int iAskCnt = Obj.m_PlayerData->m_UserQuestInfo[iEpisode]->GetAskCnt();
+	WORD wProgState = Obj.m_PlayerData->m_UserQuestInfo[iEpisode]->GetQuestProgState();
 
-	QuestInfo.lStartDate = gGameObjects[iIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetStartDate();
-	QuestInfo.lEndDate = gGameObjects[iIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetEndDate();
+	QuestInfo.lStartDate = Obj.m_PlayerData->m_UserQuestInfo[iEpisode]->GetStartDate();
+	QuestInfo.lEndDate = Obj.m_PlayerData->m_UserQuestInfo[iEpisode]->GetEndDate();
 	QuestInfo.wProgState = wProgState;
 
 	if (iAskCnt == 0)
@@ -948,9 +948,9 @@ void QuestExpUserMng::UserQuestInfoSave(DWORD dwQuestInfoIndexID, int iObjIndex)
 
 	for (int i = 0; i < iAskCnt; i++)
 	{
-		QuestInfo.btAskIndex[i] = gGameObjects[iIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->m_UserQuestAskInfo[i]->GetIndexID();
-		QuestInfo.btAskValue[i] = gGameObjects[iIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->m_UserQuestAskInfo[i]->GetValue();
-		QuestInfo.btAskState[i] = gGameObjects[iIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->m_UserQuestAskInfo[i]->IsComplete();
+		QuestInfo.btAskIndex[i] = Obj.m_PlayerData->m_UserQuestInfo[iEpisode]->m_UserQuestAskInfo[i]->GetIndexID();
+		QuestInfo.btAskValue[i] = Obj.m_PlayerData->m_UserQuestInfo[iEpisode]->m_UserQuestAskInfo[i]->GetValue();
+		QuestInfo.btAskState[i] = Obj.m_PlayerData->m_UserQuestInfo[iEpisode]->m_UserQuestAskInfo[i]->IsComplete();
 
 	}
 

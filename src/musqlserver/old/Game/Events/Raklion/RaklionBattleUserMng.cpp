@@ -35,11 +35,11 @@ void CRaklionBattleUserMng::ResetAllData()
 	m_BattleUser.clear();
 }
 
-BOOL CRaklionBattleUserMng::AddUserData(int iIndex)
+BOOL CRaklionBattleUserMng::AddUserData(CGameObject &Obj)
 {
 	if(gObjIsConnected(iIndex) == FALSE)
 	{
-		sLog->outBasic("[ RAKLION ][ BattleUser ] Add User Fail - Disconnect User [%s][%s]", gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name);
+		sLog->outBasic("[ RAKLION ][ BattleUser ] Add User Fail - Disconnect User [%s][%s]", Obj.AccountID, Obj.Name);
 		return FALSE;
 	}
 
@@ -47,11 +47,11 @@ BOOL CRaklionBattleUserMng::AddUserData(int iIndex)
 
 	g_RaklionUtil.NotifyRaklionCurrentState(iIndex, g_Raklion.GetRaklionState(), g_Raklion.GetRaklionStateDetail());
 
-	sLog->outBasic("[ RAKLION ][ Battle User ] Add User [%s][%s] Current Battle User:%d", gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, m_BattleUser.size());
+	sLog->outBasic("[ RAKLION ][ Battle User ] Add User [%s][%s] Current Battle User:%d", Obj.AccountID, Obj.Name, m_BattleUser.size());
 	return TRUE;
 }
 
-BOOL CRaklionBattleUserMng::DeleteUserData(int iIndex)
+BOOL CRaklionBattleUserMng::DeleteUserData(CGameObject &Obj)
 {
 	if( iIndex < 0 || iIndex > g_ConfigRead.server.GetObjectMax()-1 )
 	{
@@ -64,7 +64,7 @@ BOOL CRaklionBattleUserMng::DeleteUserData(int iIndex)
 		if(m_BattleUser[iCount] == iIndex)
 		{
 			m_BattleUser.erase(m_BattleUser.begin()+iCount);
-			sLog->outBasic("[ RAKLION ][ BattleUser ] Delete User - [%s][%s] Current Battle User:%d", gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, m_BattleUser.size());
+			sLog->outBasic("[ RAKLION ][ BattleUser ] Delete User - [%s][%s] Current Battle User:%d", Obj.AccountID, Obj.Name, m_BattleUser.size());
 			return TRUE;
 		}
 	}
@@ -131,7 +131,7 @@ void CRaklionBattleUserMng::LogBattleWinnerUserInfo(BYTE btFlag, int iElapsedTim
 	for(int iCount=0; iCount<GetUserCount(); iCount++)
 	{
 		iIndex = m_BattleUser[iCount];
-		LogAddTD("[ RAKLION ][ BATTLE WINNER ] [%d/ElapsedTime:%0.3f] [%s][%s] MapNumber[%d]-(%d/%d)", btFlag, fTime, gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, gGameObjects[iIndex]->MapNumber, gGameObjects[iIndex]->X, gGameObjects[iIndex]->Y);
+		LogAddTD("[ RAKLION ][ BATTLE WINNER ] [%d/ElapsedTime:%0.3f] [%s][%s] MapNumber[%d]-(%d/%d)", btFlag, fTime, Obj.AccountID, Obj.Name, Obj.MapNumber, Obj.X, Obj.Y);
 		//g_RaklionUtil.SendDataRaklionTimeAttackEvent(iIndex, btFlag, fTime);
 	}*/
 }
@@ -142,7 +142,7 @@ int CRaklionBattleUserMng::GetUserObjIndex(int iBattleUserNumber)
 	return iObjIndex;
 }
 
-BOOL CRaklionBattleUserMng::IsBattleUser(int iIndex)
+BOOL CRaklionBattleUserMng::IsBattleUser(CGameObject &Obj)
 {
 	for(int iCount=0; iCount<GetUserCount(); iCount++)
 	{

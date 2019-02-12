@@ -87,10 +87,10 @@ public:
 	int GetRemainTimeMin();
 	int GetEnterRemainTimeMin();
 
-	int SearchRelicsItem(int iIndex);
+	int SearchRelicsItem(CGameObject &Obj);
 	void DeleteAllRelicsItem();
 	int FindITRUser(int index);
-	void DropRelicsItem(int iIndex, BYTE byAct);
+	void DropRelicsItem(CGameObject &Obj, BYTE byAct);
 	char CheckHaveRelics(CGameObject &lpObj);
 	void SetRelicsInventoryPos(CGameObject &lpObj, BYTE btPos);
 

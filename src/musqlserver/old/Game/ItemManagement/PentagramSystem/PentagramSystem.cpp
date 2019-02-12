@@ -3306,9 +3306,9 @@ BOOL CPentagramSystem::IsEnableTransPentagramJewelInfo(CGameObject &lpObj, int t
 	return bRet;
 }
 
-int CPentagramSystem::CheckOverlapMythrilPiece(int iIndex, int iItemType, int iMainAttribute)
+int CPentagramSystem::CheckOverlapMythrilPiece(CGameObject &Obj, int iItemType, int iMainAttribute)
 {
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 
 	for (int x = 0; x < MAIN_INVENTORY_SIZE; x++)
 	{

@@ -819,7 +819,7 @@ void CAcheronGuardianEvent::CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER 
 		return;
 	}
 
-	if (gGameObjects[iIndex]->Teleport != FALSE)
+	if (Obj.Teleport != FALSE)
 	{
 		return;
 	}
@@ -837,7 +837,7 @@ void CAcheronGuardianEvent::CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER 
 		PHeadSubSetB((LPBYTE)&pMsg, 0xEF, 0x09, sizeof(pMsg));
 		pMsg.iResult = -1;
 
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -852,14 +852,14 @@ void CAcheronGuardianEvent::CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER 
 	if (this->IsPlayStart() == TRUE)
 	{
 		sLog->outBasic("[AcheronGuardianEvent] [%s][%s] Acheron Event Enter",
-			gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name);
+			Obj.AccountID, Obj.Name);
 
 		gObjMoveGate(*gGameObjects[iIndex], 426);
 	}
 
 	else
 	{
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 	}
 }
 

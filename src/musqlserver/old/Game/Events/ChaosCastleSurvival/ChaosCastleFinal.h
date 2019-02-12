@@ -258,8 +258,8 @@ public:
 
 	void AddFallUser(int iUserIndex);
 	void SearchNBlowObjs(int iMapNumber, int iX, int iY);
-	int BlowObjsFromPoint(int iIndex, int iMapNumber, int& iX, int& iY);
-	int ObjSetPosition(int iIndex, int iX, int iY);
+	int BlowObjsFromPoint(CGameObject &Obj, int iMapNumber, int& iX, int& iY);
+	int ObjSetPosition(CGameObject &Obj, int iX, int iY);
 	int CalDistance(int iX1, int iY1, int iX2, int iY2);
 	void PullObjInnerPlace(int iTRAP_STEP);
 	void SetMapAttrHollow(int iTRAP_STEP);

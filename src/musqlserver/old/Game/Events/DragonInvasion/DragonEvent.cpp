@@ -323,7 +323,7 @@ BOOL CDragonEvent::GetBoxPosition(int mapnumber, int ax, int ay, int aw, int ah,
 	return false;
 }
 
-bool CDragonEvent::IsDragonEventMonster(int iIndex)
+bool CDragonEvent::IsDragonEventMonster(CGameObject &Obj)
 {
 	std::map<int, DRAGON_MONSTER_INFO>::iterator It = this->m_mapMonsterInfo.find(iIndex);
 

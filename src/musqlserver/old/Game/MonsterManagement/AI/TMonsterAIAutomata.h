@@ -25,7 +25,7 @@ public:
 	TMonsterAIAutomata();
 	virtual ~TMonsterAIAutomata();
 
-	TMonsterAIState* RunAutomata(int iIndex);
+	TMonsterAIState* RunAutomata(CGameObject &Obj);
 	void Reset();
 
 	static bool LoadData(char* lpszFileName);

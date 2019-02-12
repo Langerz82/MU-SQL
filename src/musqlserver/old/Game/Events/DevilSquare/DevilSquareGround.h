@@ -39,7 +39,7 @@ public:
 	BOOL DelUser(CGameObject &lpObj);
 	BOOL ChangerUserIndex(int OldIndex, int NewIndex);
 	int GetPlayUserCountRightNow();
-	void DropReward(int iIndex);
+	void DropReward(CGameObject &Obj);
 private:
 
 	DevilSquareMonsterInfo m_DevilSquareMonsterInfo[MAX_ST_DEVILSQUARE_MONSTER];	// 4

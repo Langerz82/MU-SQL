@@ -58,34 +58,34 @@ class TMonsterSkillElement  : public  TSkillElement
 
 public:
 
-	virtual void ForceSkillElement(int iIndex, int iTargetIndex);	// 0
+	virtual void ForceSkillElement(CGameObject &Obj, int iTargetIndex);	// 0
 	TMonsterSkillElement();
 	
 	virtual ~TMonsterSkillElement();	// 4
 
-	int ApplyElementStun(int iIndex, int iTargetIndex);
-	int ApplyElementMove(int iIndex, int iTargetIndex);
-	int ApplyElementHP(int iIndex, int iTargetIndex);
-	int ApplyElementMP(int iIndex, int iTargetIndex);
-	int ApplyElementAG(int iIndex, int iTargetIndex);
-	int ApplyElementDefense(int iIndex, int iTargetIndex);
-	int ApplyElementAttack(int iIndex, int iTargetIndex);
-	int ApplyElementDurability(int iIndex, int iTargetIndex);
-	int ApplyElementSummon(int iIndex, int iTargetIndex);
-	int ApplyElementPush(int iIndex, int iTargetIndex);
-	int ApplyElementStatEnergy(int iIndex, int iTargetIndex);
-	int ApplyElementStatStrength(int iIndex, int iTargetIndex);
-	int ApplyElementStatDexiterity(int iIndex, int iTargetIndex);
-	int ApplyElementStatVitality(int iIndex, int iTargetIndex);
-	int ApplyElementRemoveSkill(int iIndex, int iTargetIndex);
-	int ApplyElementResistSkill(int iIndex, int iTargetIndex);
-	int ApplyElementImmuneSkill(int iIndex, int iTargetIndex);
-	int ApplyElementTeleportSkill(int iIndex, int iTargetIndex);
-	int ApplyElementDoubleHP(int iIndex, int iTargetIndex);
-	int ApplyElementPoison(int iIndex, int iTargetIndex);
-	int ApplyElementNormalAttack(int iIndex, int iTargetIndex);
-	int ApplyElementImmuneAllSkill(int iIndex, int iTargetIndex);
-	int ApplyElementPercentDamageNormalAttack(int iIndex, int iTargetIndex);
+	int ApplyElementStun(CGameObject &Obj, int iTargetIndex);
+	int ApplyElementMove(CGameObject &Obj, int iTargetIndex);
+	int ApplyElementHP(CGameObject &Obj, int iTargetIndex);
+	int ApplyElementMP(CGameObject &Obj, int iTargetIndex);
+	int ApplyElementAG(CGameObject &Obj, int iTargetIndex);
+	int ApplyElementDefense(CGameObject &Obj, int iTargetIndex);
+	int ApplyElementAttack(CGameObject &Obj, int iTargetIndex);
+	int ApplyElementDurability(CGameObject &Obj, int iTargetIndex);
+	int ApplyElementSummon(CGameObject &Obj, int iTargetIndex);
+	int ApplyElementPush(CGameObject &Obj, int iTargetIndex);
+	int ApplyElementStatEnergy(CGameObject &Obj, int iTargetIndex);
+	int ApplyElementStatStrength(CGameObject &Obj, int iTargetIndex);
+	int ApplyElementStatDexiterity(CGameObject &Obj, int iTargetIndex);
+	int ApplyElementStatVitality(CGameObject &Obj, int iTargetIndex);
+	int ApplyElementRemoveSkill(CGameObject &Obj, int iTargetIndex);
+	int ApplyElementResistSkill(CGameObject &Obj, int iTargetIndex);
+	int ApplyElementImmuneSkill(CGameObject &Obj, int iTargetIndex);
+	int ApplyElementTeleportSkill(CGameObject &Obj, int iTargetIndex);
+	int ApplyElementDoubleHP(CGameObject &Obj, int iTargetIndex);
+	int ApplyElementPoison(CGameObject &Obj, int iTargetIndex);
+	int ApplyElementNormalAttack(CGameObject &Obj, int iTargetIndex);
+	int ApplyElementImmuneAllSkill(CGameObject &Obj, int iTargetIndex);
+	int ApplyElementPercentDamageNormalAttack(CGameObject &Obj, int iTargetIndex);
 
 	void Reset();
 	char* GetElementName(){return this->m_szElementName;}

@@ -1224,9 +1224,9 @@ void CQuestInfo::QuestInfoSave(CGameObject &lpObj)
 	}
 }
 
-BOOL CQuestInfo::GetQuestItem(int iIndex, short nType, short nLevel)
+BOOL CQuestInfo::GetQuestItem(CGameObject &Obj, short nType, short nLevel)
 {
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 
 	LPQUEST_INFO lpQuestInfo;
 	LPQUEST_SUB_INFO lpSubInfo;
@@ -1389,10 +1389,10 @@ void CQuestInfo::SendQuestMonsterKill(CGameObject &lpObj, int iQuestIndex)
 	}
 }
 
-void CQuestInfo::CheckQuestMapEnterOnWerwolf(int iIndex)
+void CQuestInfo::CheckQuestMapEnterOnWerwolf(CGameObject &Obj)
 {
 	PMSG_ANS_ENTER_ON_QUESTNPC pMsg;
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 
 	if (!lpObj)
 	{
@@ -1409,13 +1409,13 @@ void CQuestInfo::CheckQuestMapEnterOnWerwolf(int iIndex)
 
 	if (lpObj.m_IfState.use && lpObj.m_IfState.type != 12)
 	{
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
 	if (lpObj.TargetNpcNumber == -1)
 	{
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -1423,25 +1423,25 @@ void CQuestInfo::CheckQuestMapEnterOnWerwolf(int iIndex)
 
 	if (lpNpc->Class != 407)
 	{
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
 	if (gObjCalDistance(lpObj, lpNpc) > 5)
 	{
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
 	if (lpObj.Level < 350)
 	{
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
 	if (lpObj.m_PlayerData->Money < 3000000)
 	{
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -1449,7 +1449,7 @@ void CQuestInfo::CheckQuestMapEnterOnWerwolf(int iIndex)
 
 	if (iQuestState != 1 && iQuestState != 2)
 	{
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -1470,7 +1470,7 @@ void CQuestInfo::CheckQuestMapEnterOnWerwolf(int iIndex)
 					gObjCalDistance(lpObj, lpPartyObj) < 10 && 
 					gObjMoveGate(iPartyUserIndex, 256) == FALSE )
 				{
-					IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+					IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 				}
 			}
 		}
@@ -1484,14 +1484,14 @@ void CQuestInfo::CheckQuestMapEnterOnWerwolf(int iIndex)
 
 	else
 	{
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 	}
 }
 
-void CQuestInfo::CheckQuestMapEnterOnGateKeeper(int iIndex)
+void CQuestInfo::CheckQuestMapEnterOnGateKeeper(CGameObject &Obj)
 {
 	PMSG_ANS_ENTER_ON_QUESTNPC pMsg;
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 
 	if (!lpObj)
 	{
@@ -1508,13 +1508,13 @@ void CQuestInfo::CheckQuestMapEnterOnGateKeeper(int iIndex)
 
 	if (lpObj.m_IfState.use && lpObj.m_IfState.type != 12)
 	{
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
 	if (lpObj.TargetNpcNumber == -1)
 	{
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -1522,19 +1522,19 @@ void CQuestInfo::CheckQuestMapEnterOnGateKeeper(int iIndex)
 
 	if (lpNpc->Class != 408)
 	{
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
 	if (gObjCalDistance(lpObj, lpNpc) > 5)
 	{
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
 	if (lpObj.Level < 350)
 	{
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -1542,7 +1542,7 @@ void CQuestInfo::CheckQuestMapEnterOnGateKeeper(int iIndex)
 
 	if (iQuestState != 1)
 	{
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -1563,7 +1563,7 @@ void CQuestInfo::CheckQuestMapEnterOnGateKeeper(int iIndex)
 					gObjCalDistance(lpObj, lpPartyObj) < 10 && 
 					gObjMoveGate(iPartyUserIndex, 257) == FALSE )
 				{
-					IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+					IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 				}
 			}
 		}
@@ -1571,7 +1571,7 @@ void CQuestInfo::CheckQuestMapEnterOnGateKeeper(int iIndex)
 
 	if (gObjMoveGate(iIndex, 257) == FALSE)
 	{
-		IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 	}
 }
 

@@ -39,7 +39,7 @@ struct PMSG_ANS_KANTURU_STATE_INFO
 	int iRemainTime;	// 8
 };
 
-void CKanturuEntranceNPC::NotifyEntranceInfo(int iIndex)
+void CKanturuEntranceNPC::NotifyEntranceInfo(CGameObject &Obj)
 {
 	PMSG_ANS_KANTURU_STATE_INFO pMsg = {0};
 
@@ -56,14 +56,14 @@ void CKanturuEntranceNPC::NotifyEntranceInfo(int iIndex)
 }
 
 
-void CKanturuEntranceNPC::NotifyResultEnterKanturuBossMap(int iIndex)
+void CKanturuEntranceNPC::NotifyResultEnterKanturuBossMap(CGameObject &Obj)
 {
 	if ( !gObjIsConnectedGP(iIndex))
 	{
 		return;
 	}
 
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 	BOOL bMoveGateSuccess = FALSE;
 	int iResult = g_Kanturu.CheckEnterKanturu(iIndex);
 
@@ -84,7 +84,7 @@ void CKanturuEntranceNPC::NotifyResultEnterKanturuBossMap(int iIndex)
 
 				if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
 				{
-					gGameObjects[iIndex]->m_PlayerData->m_bKanturuEntranceByNPC = TRUE;
+					Obj.m_PlayerData->m_bKanturuEntranceByNPC = TRUE;
 				}
 			}
 		}
@@ -97,7 +97,7 @@ void CKanturuEntranceNPC::NotifyResultEnterKanturuBossMap(int iIndex)
 
 			if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
 			{
-				gGameObjects[iIndex]->m_PlayerData->m_bKanturuEntranceByNPC = TRUE;
+				Obj.m_PlayerData->m_bKanturuEntranceByNPC = TRUE;
 			}
 		}
 		else
@@ -110,7 +110,7 @@ void CKanturuEntranceNPC::NotifyResultEnterKanturuBossMap(int iIndex)
 
 		if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
 		{
-			gGameObjects[iIndex]->m_PlayerData->m_bKanturuEntranceByNPC = FALSE;
+			Obj.m_PlayerData->m_bKanturuEntranceByNPC = FALSE;
 		}
 	}
 }

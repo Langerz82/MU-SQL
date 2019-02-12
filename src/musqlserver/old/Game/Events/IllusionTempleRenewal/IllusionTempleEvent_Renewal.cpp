@@ -333,7 +333,7 @@ void CIllusionTempleEvent_Renewal::SetStatusRegenTime(BYTE btMapNumber)
 	this->m_cITR_Proc[btMapNumber - 45].SetStatusRegenTime();
 }
 
-void CIllusionTempleEvent_Renewal::ITR_USeSkill(int iIndex, WORD MagicNumber, int wTargetObjIndex, BYTE btDis)
+void CIllusionTempleEvent_Renewal::ITR_USeSkill(CGameObject &Obj, WORD MagicNumber, int wTargetObjIndex, BYTE btDis)
 {
 	if (!ObjectMaxRange(iIndex))
 	{
@@ -341,13 +341,13 @@ void CIllusionTempleEvent_Renewal::ITR_USeSkill(int iIndex, WORD MagicNumber, in
 		return;
 	}
 
-	if (!IT_MAP_RANGE(gGameObjects[iIndex]->MapNumber))
+	if (!IT_MAP_RANGE(Obj.MapNumber))
 	{
-		sLog->outBasic("ITR_UseSkill Error #2 iIndex :%d Map:%d ", iIndex, gGameObjects[iIndex]->MapNumber);
+		sLog->outBasic("ITR_UseSkill Error #2 iIndex :%d Map:%d ", iIndex, Obj.MapNumber);
 		return;
 	}
 
-	this->m_cITR_Proc[gGameObjects[iIndex]->MapNumber - 45]->ITR_UseSkill(iIndex, MagicNumber, wTargetObjIndex, btDis);
+	this->m_cITR_Proc[Obj.MapNumber - 45]->ITR_UseSkill(iIndex, MagicNumber, wTargetObjIndex, btDis);
 }
 
 void CIllusionTempleEvent_Renewal::EventSkillProc(CGameObject &lpObj)

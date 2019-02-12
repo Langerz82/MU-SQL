@@ -89,16 +89,16 @@ BOOL MonsterHerd::AddMonster(int iMonsterType, BOOL bRegen, BOOL bAttackFirst)
 
 	if ( iIndex >= 0 )
 	{
-		gGameObjects[iIndex]->m_PosNum = -1;
-		gGameObjects[iIndex]->X = cX;
-		gGameObjects[iIndex]->Y = cY;
-		gGameObjects[iIndex]->MapNumber = this->m_iMapNumber;
-		gGameObjects[iIndex]->TX = gGameObjects[iIndex]->X;
-		gGameObjects[iIndex]->TY = gGameObjects[iIndex]->Y;
-		gGameObjects[iIndex]->m_OldX = gGameObjects[iIndex]->X;
-		gGameObjects[iIndex]->m_OldY = gGameObjects[iIndex]->Y;
-		gGameObjects[iIndex]->StartX = gGameObjects[iIndex]->X;
-		gGameObjects[iIndex]->StartY = gGameObjects[iIndex]->Y;
+		Obj.m_PosNum = -1;
+		Obj.X = cX;
+		Obj.Y = cY;
+		Obj.MapNumber = this->m_iMapNumber;
+		Obj.TX = Obj.X;
+		Obj.TY = Obj.Y;
+		Obj.m_OldX = Obj.X;
+		Obj.m_OldY = Obj.Y;
+		Obj.StartX = Obj.X;
+		Obj.StartY = Obj.Y;
 
 		LPMONSTER_ATTRIBUTE iAttr = gMAttr.GetAttr(iMonsterType);
 
@@ -108,13 +108,13 @@ BOOL MonsterHerd::AddMonster(int iMonsterType, BOOL bRegen, BOOL bAttackFirst)
 			return false;
 		}
 
-		gGameObjects[iIndex]->Level = iAttr->m_Level;
+		Obj.Level = iAttr->m_Level;
 		gObjSetMonster(iIndex, iMonsterType);
-		gGameObjects[iIndex]->MaxRegenTime = 1000;
-		gGameObjects[iIndex]->Dir = rand() % 8;
-		gGameObjects[iIndex]->m_bIsInMonsterHerd = 1;
-		gGameObjects[iIndex]->m_bIsMonsterAttackFirst = bAttackFirst;
-		gGameObjects[iIndex]->m_lpMonsterHerd = this;
+		Obj.MaxRegenTime = 1000;
+		Obj.Dir = rand() % 8;
+		Obj.m_bIsInMonsterHerd = 1;
+		Obj.m_bIsMonsterAttackFirst = bAttackFirst;
+		Obj.m_lpMonsterHerd = this;
 
 		EnterCriticalSection(&this->m_critMonsterHerd);
 
@@ -218,14 +218,14 @@ void MonsterHerd::Stop()
 }
 
 
-_MONSTER_HERD_DATA * MonsterHerd::GetMonsterData(int iIndex)
+_MONSTER_HERD_DATA * MonsterHerd::GetMonsterData(CGameObject &Obj)
 {
 	if ( ObjectMaxRange(iIndex) == FALSE )
 	{
 		return NULL;
 	}
 
-	CGameObject lpOBJ = &gGameObjects[iIndex];
+	CGameObject lpOBJ = Obj;
 
 	if ( lpOBJ->Connected != PLAYER_PLAYING || lpOBJ->Type != OBJ_MONSTER )
 	{
@@ -387,14 +387,14 @@ void MonsterHerd::OrderAttack(CGameObject &lpObj, CGameObject lpTargetObj, int i
 }
 
 
-BOOL MonsterHerd::CheckInRadius(int iIndex)
+BOOL MonsterHerd::CheckInRadius(CGameObject &Obj)
 {
 	if ( ObjectMaxRange(iIndex) == FALSE )
 	{
 		return FALSE;
 	}
 
-	CGameObject lpOBJ = &gGameObjects[iIndex];
+	CGameObject lpOBJ = Obj;
 
 	if ( lpOBJ->Connected != PLAYER_PLAYING || lpOBJ->Type != OBJ_MONSTER )
 	{

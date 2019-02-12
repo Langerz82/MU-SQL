@@ -87,7 +87,7 @@ BOOL CRaklionMonsterMng::LoadData(LPSTR lpszFileName)
 	return this->m_iFileDataLoad;
 }
 
-void CRaklionMonsterMng::SetMonsterSetBaseInfo(int iIndex, BYTE btGroup, WORD wType, BYTE btMapNumber, BYTE btDistance, BYTE btX, BYTE btY, BYTE btDir)
+void CRaklionMonsterMng::SetMonsterSetBaseInfo(CGameObject &Obj, BYTE btGroup, WORD wType, BYTE btMapNumber, BYTE btDistance, BYTE btX, BYTE btY, BYTE btDir)
 {
 	this->m_SetBaseInfo[iIndex].btGroup = btGroup;
 	this->m_SetBaseInfo[iIndex].wType = wType;

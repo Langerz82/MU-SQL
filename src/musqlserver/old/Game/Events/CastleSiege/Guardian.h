@@ -14,8 +14,8 @@ public:
 	CGuardian();
 	virtual ~CGuardian();
 
-	BOOL CreateGuardian(int iIndex);
-	void GuardianAct(int iIndex);
+	BOOL CreateGuardian(CGameObject &Obj);
+	void GuardianAct(CGameObject &Obj);
 
 private:
 	

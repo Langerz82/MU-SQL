@@ -60,7 +60,7 @@ public:
 	int IsEnableToTradePentagramItem(CGameObject &lpObj);
 	int IsEnableTransPentagramJewelInfo(CGameObject &lpObj, int targetIndex);
 
-	int CheckOverlapMythrilPiece(int iIndex, int iItemType, int iMainAttribute);
+	int CheckOverlapMythrilPiece(CGameObject &Obj, int iItemType, int iMainAttribute);
 
 	int AddTradeCount(CGameObject lpObj, int source, int target);
 

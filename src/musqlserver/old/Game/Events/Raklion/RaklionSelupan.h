@@ -37,7 +37,7 @@ public:
 	void RaklionSelupanAct_Berserk4();
 	void RaklionSelupanAct_Berserk_Cancel();
 	
-	void SetSelupanObjIndex(int iIndex);
+	void SetSelupanObjIndex(CGameObject &Obj);
 	int GetSelupanObjIndex();
 	void InitSelupanIndex();
 	

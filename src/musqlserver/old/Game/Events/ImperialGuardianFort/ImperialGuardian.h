@@ -147,7 +147,7 @@ private:
 	BOOL CheckFullSecromicon(int nIndex);
 	void SetAtackAbleState(int nZoneIndex, int nMonsterClass, bool bState);
 	void GCSendServerMsgAll(int nZoneIndex, char *szMsg);
-	int ImperialGuardianLevelUp(int iIndex, int iAddExp);
+	int ImperialGuardianLevelUp(CGameObject &Obj, int iAddExp);
 	void RegAllPartyUser(int nZoneIndex, int nFirstEnterUserIndex);
 	bool IsRegPartyUser(int nZoneIndex, int nUserIndex);
 	void UserMonsterCountCheck();

@@ -69,7 +69,7 @@ public:
 
 	DRAGON_EVENT_INFO * GetMonsterPos(int iMonsterIndex);
 
-	bool IsDragonEventMonster(int iIndex);
+	bool IsDragonEventMonster(CGameObject &Obj);
 
 private:
 	BOOL GetBoxPosition(int mapnumber, int ax, int ay, int aw, int ah, short &mx, short &my);

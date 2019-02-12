@@ -2220,73 +2220,73 @@ void CImperialGuardian::GCSendServerMsgAll(int nZoneIndex, char* szMsg)
 	}
 }
 
-int CImperialGuardian::ImperialGuardianLevelUp(int iIndex, int iAddExp)
+int CImperialGuardian::ImperialGuardianLevelUp(CGameObject &Obj, int iAddExp)
 {
 	if ( ObjectMaxRange(iIndex) == FALSE )
 	{
 		return 0;
 	}
 
-	if ( g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&gGameObjects[iIndex]) == true)
+	if ( g_MasterLevelSkillTreeSystem.IsMasterLevelUser(Obj) == true)
 	{
-		g_MasterLevelSkillTreeSystem.MasterLevelUp(&gGameObjects[iIndex], iAddExp, 0, "Imperial Guardian");
+		g_MasterLevelSkillTreeSystem.MasterLevelUp(Obj, iAddExp, 0, "Imperial Guardian");
 		return 0;
 	}
 
 	int iLEFT_EXP = 0;
 
 	sLog->outBasic("[Imperial Guardian] Experience : [%s][%s](%d) Experience: %d + %d",	
-		gGameObjects[iIndex]->AccountID,	gGameObjects[iIndex]->Name,
-		gGameObjects[iIndex]->Level, gGameObjects[iIndex]->m_PlayerData->Experience,
+		Obj.AccountID,	Obj.Name,
+		Obj.Level, Obj.m_PlayerData->Experience,
 		iAddExp);
 
 	::gObjSetExpPetItem(*gGameObjects[iIndex], iAddExp);
 
-	if ( gGameObjects[iIndex]->Level >= g_ConfigRead.data.common.UserMaxLevel)
+	if ( Obj.Level >= g_ConfigRead.data.common.UserMaxLevel)
 	{
 		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,45), *gGameObjects[iIndex], 1);
 		return 0;
 	}
 
-	if ( (gGameObjects[iIndex]->m_PlayerData->Experience + iAddExp) < gGameObjects[iIndex]->m_PlayerData->NextExp )
+	if ( (Obj.m_PlayerData->Experience + iAddExp) < Obj.m_PlayerData->NextExp )
 	{
-		gGameObjects[iIndex]->m_PlayerData->Experience += iAddExp;
+		Obj.m_PlayerData->Experience += iAddExp;
 	}
 	else
 	{
-		iLEFT_EXP = gGameObjects[iIndex]->m_PlayerData->Experience + iAddExp - gGameObjects[iIndex]->m_PlayerData->NextExp;
-		gGameObjects[iIndex]->m_PlayerData->Experience = gGameObjects[iIndex]->m_PlayerData->NextExp;
-		gGameObjects[iIndex]->Level++;
+		iLEFT_EXP = Obj.m_PlayerData->Experience + iAddExp - Obj.m_PlayerData->NextExp;
+		Obj.m_PlayerData->Experience = Obj.m_PlayerData->NextExp;
+		Obj.Level++;
 
-		if ( g_ConfigRead.data.reset.iBlockLevelUpPointAfterResets == -1 || gGameObjects[iIndex]->m_PlayerData->m_iResets < g_ConfigRead.data.reset.iBlockLevelUpPointAfterResets )
+		if ( g_ConfigRead.data.reset.iBlockLevelUpPointAfterResets == -1 || Obj.m_PlayerData->m_iResets < g_ConfigRead.data.reset.iBlockLevelUpPointAfterResets )
 		{
-			if (gGameObjects[iIndex]->Class == CLASS_DARKLORD || gGameObjects[iIndex]->Class == CLASS_MAGUMSA || gGameObjects[iIndex]->Class == CLASS_RAGEFIGHTER || gGameObjects[iIndex]->Class == CLASS_GROWLANCER)
+			if (Obj.Class == CLASS_DARKLORD || Obj.Class == CLASS_MAGUMSA || Obj.Class == CLASS_RAGEFIGHTER || Obj.Class == CLASS_GROWLANCER)
 			{
-				gGameObjects[iIndex]->m_PlayerData->LevelUpPoint += g_MaxStatsInfo.GetClass.LevelUpPointMGDL;
+				Obj.m_PlayerData->LevelUpPoint += g_MaxStatsInfo.GetClass.LevelUpPointMGDL;
 			}
 
 			else
 			{
-				gGameObjects[iIndex]->m_PlayerData->LevelUpPoint += g_MaxStatsInfo.GetClass.LevelUpPointNormal;
+				Obj.m_PlayerData->LevelUpPoint += g_MaxStatsInfo.GetClass.LevelUpPointNormal;
 			}
 
-			if ( gGameObjects[iIndex]->m_PlayerData->PlusStatQuestClear != false )
+			if ( Obj.m_PlayerData->PlusStatQuestClear != false )
 			{
-				gGameObjects[iIndex]->m_PlayerData->LevelUpPoint++;
+				Obj.m_PlayerData->LevelUpPoint++;
 
-				//sLog->outBasic("[%s][%s] LevelUp PlusStatQuest Clear AddStat %d",gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, gGameObjects[iIndex]->m_PlayerData->LevelUpPoint);
+				//sLog->outBasic("[%s][%s] LevelUp PlusStatQuest Clear AddStat %d",Obj.AccountID, Obj.Name, Obj.m_PlayerData->LevelUpPoint);
 			}
 		}
 
-		gGameObjects[iIndex]->MaxLife += DCInfo.DefClass[gGameObjects[iIndex]->Class]->LevelLife;
-		gGameObjects[iIndex]->MaxMana += DCInfo.DefClass[gGameObjects[iIndex]->Class]->LevelMana;
-		gGameObjects[iIndex]->Life = gGameObjects[iIndex]->MaxLife;
-		gGameObjects[iIndex]->Mana = gGameObjects[iIndex]->MaxMana;
+		Obj.MaxLife += DCInfo.DefClass[Obj.Class]->LevelLife;
+		Obj.MaxMana += DCInfo.DefClass[Obj.Class]->LevelMana;
+		Obj.Life = Obj.MaxLife;
+		Obj.Mana = Obj.MaxMana;
 		gObjNextExpCal(*gGameObjects[iIndex]);
 		gObjSetBP(*gGameObjects[iIndex]);
 		gGameProtocol.GCLevelUpMsgSend(*gGameObjects[iIndex], 1);
 		gObjCalcMaxLifePower(*gGameObjects[iIndex]);
-		sLog->outBasic("Level Up [%s][%s][%d]", gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, gGameObjects[iIndex]->Level);
+		sLog->outBasic("Level Up [%s][%s][%d]", Obj.AccountID, Obj.Name, Obj.Level);
 		return 0;
 	}
 

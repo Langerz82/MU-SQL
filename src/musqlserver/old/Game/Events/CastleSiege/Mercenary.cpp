@@ -24,9 +24,9 @@ CMercenary::~CMercenary()
 }
 
 
-BOOL CMercenary::CreateMercenary(int iIndex, int iMercenaryTypeIndex, BYTE cTX, BYTE cTY)
+BOOL CMercenary::CreateMercenary(CGameObject &Obj, int iMercenaryTypeIndex, BYTE cTX, BYTE cTY)
 {
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 	int iMonsterIndex = -1;
 	BYTE cX = cTX;
 	BYTE cY = cTY;
@@ -139,7 +139,7 @@ BOOL CMercenary::CreateMercenary(int iIndex, int iMercenaryTypeIndex, BYTE cTX, 
 	return TRUE;
 }
 
-BOOL CMercenary::DeleteMercenary(int iIndex)
+BOOL CMercenary::DeleteMercenary(CGameObject &Obj)
 {
 	if ( iIndex < 0 || iIndex > g_ConfigRead.server.GetObjectMax()-1 )
 	{
@@ -227,14 +227,14 @@ BOOL CMercenary::SearchEnemy(CGameObject &lpObj)
 	return FALSE;
 }
 
-void CMercenary::MercenaryAct(int iIndex)
+void CMercenary::MercenaryAct(CGameObject &Obj)
 {
 	if ( ::gObjIsConnected(iIndex) == FALSE )
 	{
 		return;
 	}
 
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 
 	if ( lpObj.VPCount2 < 1 )
 	{

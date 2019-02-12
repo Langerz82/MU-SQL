@@ -59,7 +59,7 @@ public:
 	CCrywolfStatue();
 	virtual ~CCrywolfStatue();
 
-	void CrywolfStatueAct(int iIndex);
+	void CrywolfStatueAct(CGameObject &Obj);
 	int GetStatueViewState(int iPriestNumber);
 	void SetStatueViewState(CGameObject lpObj, int iPriestNumber);
 

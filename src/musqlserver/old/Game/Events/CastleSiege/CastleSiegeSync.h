@@ -19,15 +19,15 @@ public:
 
 	void Clear();
 	void SetCastleOwnerGuild(char * lpszGuildName);
-	int GetTaxRateChaos(int iIndex);
-	int GetTaxRateStore(int iIndex);
-	int GetTaxHuntZone(int iIndex, BOOL bCheckOwnerGuild);
+	int GetTaxRateChaos(CGameObject &Obj);
+	int GetTaxRateStore(CGameObject &Obj);
+	int GetTaxHuntZone(CGameObject &Obj, BOOL bCheckOwnerGuild);
 	void AddTributeMoney(int iMoney);
 	void ResetTributeMoney();
 	void AdjustTributeMoney();
-	BOOL CheckCastleOwnerMember(int iIndex);
-	BOOL CheckCastleOwnerUnionMember(int iIndex);
-	int CheckOverlapCsMarks(int iIndex);
+	BOOL CheckCastleOwnerMember(CGameObject &Obj);
+	BOOL CheckCastleOwnerUnionMember(CGameObject &Obj);
+	int CheckOverlapCsMarks(CGameObject &Obj);
 
 	void SetCastleState(int iCastleState){this->m_iCurCastleState = iCastleState;};	// line : 56
 	void SetTaxRateChaos(int iTaxRate){this->m_iCurTaxRateChaos = iTaxRate;};	// line : 59

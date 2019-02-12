@@ -259,17 +259,17 @@ public:
 	void ClearAllNPC();
 	void CreateDbNPC();
 	void CreateNonDbNPC(BOOL bDelFirst);
-	int CheckAddDbNPC(int iIndex, int iNpcType, int iNpcIndex, BYTE & btResult);
+	int CheckAddDbNPC(CGameObject &Obj, int iNpcType, int iNpcIndex, BYTE & btResult);
 	int AddDbNPC(int iNpcType, int iNpcIndex);
 	int RepairDbNPC(int iNpcType, int iNpcIndex, int iNpcHP, int iNpcMaxHP);
-	int PayForUpgradeDbNpc(int iIndex, int iNpcType, int iNpcIndex, int iNpcUpType, int iNpcUpValue, int iNpcUpIndex);
-	int UpgradeDbNPC(int iIndex, int iNpcType, int iNpcIndex, int iNpcUpType, int iNpcUpValue, int iNpcUpIndex);
+	int PayForUpgradeDbNpc(CGameObject &Obj, int iNpcType, int iNpcIndex, int iNpcUpType, int iNpcUpValue, int iNpcUpIndex);
+	int UpgradeDbNPC(CGameObject &Obj, int iNpcType, int iNpcIndex, int iNpcUpType, int iNpcUpValue, int iNpcUpIndex);
 	int UpgradeDbNPC_DFLEVEL(int iNpcType, int iNpcIndex, int iNpcDfLevel);
 	int UpgradeDbNPC_RGLEVEL(int iNpcType, int  iNpcIndex, int iNpcRgLevel);
 	int UpgradeDbNPC_MAXHP(int iNpcType, int iNpcIndex, int iNpcMaxHP);
 	void StoreDbNpc();
-	int DelNPC(int iIndex, int iNpcType, int iMonsterExistVal, BOOL bDbSave);
-	void SendNpcStateList(int iIndex, int iNpcType);
+	int DelNPC(CGameObject &Obj, int iNpcType, int iMonsterExistVal, BOOL bDbSave);
+	void SendNpcStateList(CGameObject &Obj, int iNpcType);
 	int GetNpcData(int iNpcType, int iNpcIndex,_CS_NPC_DATA & pRetNpcData);
 	void AdjustDbNpcLevel();
 	void SendCsGateStateViewPort(int iGateIndex, BYTE btOperate);
@@ -279,13 +279,13 @@ public:
 	int CheckLeverAlive(int iLeverIndex);
 	int CheckCsGateAlive(int iGateIndex);
 	void CheckCsDbNpcAlive();
-	void SetCrownIndex(int iIndex){m_iCrownIndex = iIndex;}
+	void SetCrownIndex(CGameObject &Obj){m_iCrownIndex = iIndex;}
 	void NotifyCrownState(BYTE btState);
 	BOOL GetRegCrownAvailable(){return m_bRegCrownAvailable;}
 	void SetRegCrownAvailable(BOOL bRegCrownAvailable){m_bRegCrownAvailable = bRegCrownAvailable;}
 	int GetCastleTowerAccessable(){return m_bCastleTowerAccessable;}
 	void SetCastleTowerAccessable(BOOL bTowerAccessable){m_bCastleTowerAccessable = bTowerAccessable;}
-	int DelGemOfDefend(int iIndex, int iNeedGemOfDefend);
+	int DelGemOfDefend(CGameObject &Obj, int iNeedGemOfDefend);
 	void SetTaxRate(int iTaxType, int iTaxRate);
 	int CheckCastleHasMoney(__int64 i64CastleMoney);
 	__int64 GetCastleMoney() { return m_i64CastleMoney; }
@@ -312,18 +312,18 @@ public:
 	int GetCsJoinSide(char * lpszGuildName, BYTE * btCsJoinSide, bool * bCsGuildInvolved);
 	void SetAllUserCsJoinSide();
 	void ResetAllUserCsJoinSide();
-	void NotifySelfCsJoinSide(int iIndex);
+	void NotifySelfCsJoinSide(CGameObject &Obj);
 	int OperateGate(int iNpcIndex, BOOL bOpenType);
 	int OperateGate(int iObjIndex, int iMonsterExistVal, BOOL bOpenType);
 	int CheckAttackGuildExist();
-	int CheckCastleOwnerMember(int iIndex);
-	int CheckCastleOwnerUnionMember(int iIndex);
+	int CheckCastleOwnerMember(CGameObject &Obj);
+	int CheckCastleOwnerUnionMember(CGameObject &Obj);
 	int CheckGuardianStatueExist();
 	void ChangeWinnerGuild(int iCsJoinSide);
 	int CheckMiddleWinnerGuild();
 	int CheckCastleSiegeResult();
-	int CheckUnionGuildMaster(int iIndex);
-	void SetCrownUserIndex(int iIndex){this->m_iCastleCrownAccessUser = iIndex;}
+	int CheckUnionGuildMaster(CGameObject &Obj);
+	void SetCrownUserIndex(CGameObject &Obj){this->m_iCastleCrownAccessUser = iIndex;}
 	int GetCrownUserIndex(){return m_iCastleCrownAccessUser;}
 	void ResetCrownUserIndex(){m_iCastleCrownAccessUser=-1;}
 	int GetCrownAccessUserX(){return m_btCastleCrownAccessUserX;}
@@ -335,10 +335,10 @@ public:
 	void ResetCrownSwitchUserIndex(int iMonsterClass);
 	void SetCrownAccessTickCount();
 	void ResetCrownAccessTickCount();
-	int CheckOverlapCsMarks(int iIndex);
+	int CheckOverlapCsMarks(CGameObject &Obj);
 	int GetCsAttkGuildList(PMSG_CSATTKGUILDLIST * lpMsgBody, int & iCount);
 	int CheckTeleportMagicAxisY(int iStartY, int iTargetX, int iTargetY);
-	void NotifyCsSelfLeftTime(int iIndex);
+	void NotifyCsSelfLeftTime(CGameObject &Obj);
 	void CheckReviveNonDbNPC();
 	void CheckReviveGuardianStatue();
 	void ReSpawnAllUser();
@@ -347,8 +347,8 @@ public:
 	void NotifyAllUserCsProgState(BYTE btProgState, char * lpszGuildName);
 	void ClearCastleTowerBarrier();
 	void SetAllCastleGateState(BOOL bOpenType);
-	void AddMiniMapDataReqUser(int iIndex);
-	void DelMiniMapDataReqUser(int iIndex);
+	void AddMiniMapDataReqUser(CGameObject &Obj);
+	void DelMiniMapDataReqUser(CGameObject &Obj);
 	void OperateMiniMapWork();
 	void SendMapServerGroupMsg(char *  lpszMsg);
 	void SendAllUserAnyData(LPBYTE lpMsg, int iSize);
@@ -356,11 +356,11 @@ public:
 	void SendCsUserAnyData(LPBYTE lpMsg, int iSize);
 	void SendCsUserAnyMsg(char * lpszMsg);
 	static BYTE RegGuildScoreCompFunc(_CS_REG_GUILD_DATA & A, _CS_REG_GUILD_DATA & B);
-	void OperateGmCommand(int iIndex, int iGmCommand, void * lpParam);
+	void OperateGmCommand(CGameObject &Obj, int iGmCommand, void * lpParam);
 	void CreateDbNPC_INS();
 	void SavePcRoomUserList();
 	DWORD GetCrownAccessTickCount(){return m_dwCrownAccessTime;}
-	void NotifyCrownSwitchInfo(int iIndex);
+	void NotifyCrownSwitchInfo(CGameObject &Obj);
 	void GetStateDate(int iCastleSiegeState, SYSTEMTIME* st);
 	void CastleLordMixRun();
 	int GetLordMixLimit() { return this->m_CurrentLordMixLimit; }

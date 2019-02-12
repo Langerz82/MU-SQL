@@ -15,7 +15,7 @@ public:
 	CCastleCrown();
 	virtual ~CCastleCrown();
 
-	void CastleCrownAct(int iIndex);
+	void CastleCrownAct(CGameObject &Obj);
 
 };
 

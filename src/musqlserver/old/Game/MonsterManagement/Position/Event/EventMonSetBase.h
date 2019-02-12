@@ -40,12 +40,12 @@ public:
 	void Run();
 
 	void SpawnMonster(boost::shared_ptr<EVENT_MONSTER_POSITION> lpSpotData);
-	void RegenMonster(int iIndex);
+	void RegenMonster(CGameObject &Obj);
 	void DeleteAllMonsters();
 
-	bool IsEventMonster(int iIndex);
+	bool IsEventMonster(CGameObject &Obj);
 
-	int GetDistance(int iIndex);
+	int GetDistance(CGameObject &Obj);
 
 private:
 

@@ -18,7 +18,7 @@ public:
 	CRingMonsterHerd();
 	virtual ~CRingMonsterHerd();
 
-	void SendEventGiftWinner(int iIndex, int iGiftKind);
+	void SendEventGiftWinner(CGameObject &Obj, int iGiftKind);
 	BYTE GetX(){return this->m_iCUR_X;}
 	BYTE GetY(){return this->m_iCUR_Y;}
 

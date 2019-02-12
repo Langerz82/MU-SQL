@@ -22,7 +22,7 @@ public:
 	TMonsterAIUnit();
 	virtual ~TMonsterAIUnit();
 
-	int RunAIUnit(int iIndex);
+	int RunAIUnit(CGameObject &Obj);
 	void Reset();
 
 	static int LoadData(char* lpszFileName);

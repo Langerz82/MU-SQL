@@ -15,10 +15,10 @@ public:
 	CLifeStone();
 	virtual ~CLifeStone();
 
-	int CreateLifeStone(int iIndex);
-	int DeleteLifeStone(int iIndex);
+	int CreateLifeStone(CGameObject &Obj);
+	int DeleteLifeStone(CGameObject &Obj);
 	int SetReSpawnUserXY(int iUserIndex);
-	void LifeStoneAct(int iIndex);
+	void LifeStoneAct(CGameObject &Obj);
 };
 
 extern CLifeStone g_CsNPC_LifeStone;

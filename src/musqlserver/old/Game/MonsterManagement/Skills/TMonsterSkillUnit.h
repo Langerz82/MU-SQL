@@ -31,7 +31,7 @@ public:
 	TMonsterSkillUnit();
 	virtual ~TMonsterSkillUnit();
 
-	void RunSkill(int iIndex, int iTargetIndex);
+	void RunSkill(CGameObject &Obj, int iTargetIndex);
 	void Reset();
 
 	static int LoadData(char* lpszFileName);

@@ -115,10 +115,10 @@ public:
 	int QuestClear(CGameObject &lpObj, int QuestIndex);
 	void QuestInfoSave(CGameObject &lpObj);
 	int GetQuestKillCount(CGameObject &lpObj, int uClass);
-	int GetQuestItem(int iIndex, short nType, short nLevel);
+	int GetQuestItem(CGameObject &Obj, short nType, short nLevel);
 	void SendQuestMonsterKill(CGameObject &lpObj, int iQuestIndex);
-	void CheckQuestMapEnterOnWerwolf(int iIndex);
-	void CheckQuestMapEnterOnGateKeeper(int iIndex);
+	void CheckQuestMapEnterOnWerwolf(CGameObject &Obj);
+	void CheckQuestMapEnterOnGateKeeper(CGameObject &Obj);
 
 private:
 

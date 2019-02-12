@@ -178,7 +178,7 @@ time_t CMuunInfoMng::ConvertStringToTime(const char *pchTime)
 	return result;
 }
 
-CMuunInfo * CMuunInfoMng::GetMuunInfo(int iIndex)
+CMuunInfo * CMuunInfoMng::GetMuunInfo(CGameObject &Obj)
 {
 	if (iIndex < 0 && iIndex > MAX_MUUN_ITEM - 1)
 	{

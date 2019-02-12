@@ -79,7 +79,7 @@ public:
 	CCrywolfAltar();
 	virtual ~CCrywolfAltar();
 
-	void CrywolfAltarAct(int iIndex);
+	void CrywolfAltarAct(CGameObject &Obj);
 	void SetAltarObjIndex(int iClass, int iObjIndex);
 	void SetAllAltarObjectIndex();
 	int GetAlatarNumber(int iClass);

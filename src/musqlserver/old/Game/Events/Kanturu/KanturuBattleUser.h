@@ -26,7 +26,7 @@ public:
 		return this->m_iIndex;
 	}
 
-	void SetIndex(int iIndex)
+	void SetIndex(CGameObject &Obj)
 	{
 		this->m_iIndex = iIndex;
 		this->m_bIsUse = TRUE;

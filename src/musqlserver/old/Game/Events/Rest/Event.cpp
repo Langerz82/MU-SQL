@@ -987,7 +987,7 @@ struct PMSG_REQ_BLOODCASTLE_ENTERCOUNT
 };
 
 
-void EGReqBloodCastleEnterCount(int iIndex)
+void EGReqBloodCastleEnterCount(CGameObject &Obj)
 {
 	if ( !gObjIsConnected(iIndex) )
 		return;
@@ -998,8 +998,8 @@ void EGReqBloodCastleEnterCount(int iIndex)
 	pMsg.h.headcode = 0xBD;
 	pMsg.h.subcode = 0x02;
 	pMsg.h.size = sizeof(pMsg);
-	memcpy(pMsg.AccountID, gGameObjects[iIndex]->AccountID, 10);
-	memcpy(pMsg.GameID, gGameObjects[iIndex]->Name, 10);
+	memcpy(pMsg.AccountID, Obj.AccountID, 10);
+	memcpy(pMsg.GameID, Obj.Name, 10);
 	pMsg.ServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.iObjIndex = iIndex;
 
@@ -1053,7 +1053,7 @@ struct PMSG_REQ_REG_CC_OFFLINE_GIFT
 	char szNAME[11];	// 16
 };
 
-void EGReqRegCCOfflineGift(int iIndex)
+void EGReqRegCCOfflineGift(CGameObject &Obj)
 {
 	if ( !gObjIsConnected(iIndex) )
 		return;
@@ -1064,8 +1064,8 @@ void EGReqRegCCOfflineGift(int iIndex)
 	pMsg.h.headcode = 0xBE;
 	pMsg.h.subcode = 0x15;
 	pMsg.h.size = sizeof(pMsg);
-	memcpy(pMsg.szUID, gGameObjects[iIndex]->AccountID, 11);
-	memcpy(pMsg.szNAME, gGameObjects[iIndex]->Name, 11);
+	memcpy(pMsg.szUID, Obj.AccountID, 11);
+	memcpy(pMsg.szNAME, Obj.Name, 11);
 	pMsg.wServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.iINDEX = iIndex;
 	pMsg.szUID[10] = 0;
@@ -1117,7 +1117,7 @@ struct PMSG_REQ_REG_DL_OFFLINE_GIFT
 	char szNAME[11];	// 16
 };
 
-void EGReqRegDLOfflineGift(int iIndex)
+void EGReqRegDLOfflineGift(CGameObject &Obj)
 {
 	if ( !gObjIsConnected(iIndex) )
 		return;
@@ -1128,8 +1128,8 @@ void EGReqRegDLOfflineGift(int iIndex)
 	pMsg.h.headcode = 0xBE;
 	pMsg.h.subcode = 0x16;
 	pMsg.h.size = sizeof(pMsg);
-	memcpy(pMsg.szUID, gGameObjects[iIndex]->AccountID, 11);
-	memcpy(pMsg.szNAME, gGameObjects[iIndex]->Name, 11);
+	memcpy(pMsg.szUID, Obj.AccountID, 11);
+	memcpy(pMsg.szNAME, Obj.Name, 11);
 	pMsg.wServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.iINDEX = iIndex;
 	pMsg.szUID[10] = 0;
@@ -1180,7 +1180,7 @@ struct PMSG_REQ_REG_HT_OFFLINE_GIFT
 	char szNAME[11];	// 16
 };
 
-void EGReqRegHTOfflineGift(int iIndex)
+void EGReqRegHTOfflineGift(CGameObject &Obj)
 {
 	if ( !gObjIsConnected(iIndex) )
 		return;
@@ -1191,8 +1191,8 @@ void EGReqRegHTOfflineGift(int iIndex)
 	pMsg.h.headcode = 0xBE;
 	pMsg.h.subcode = 0x17;
 	pMsg.h.size = sizeof(pMsg);
-	memcpy(pMsg.szUID, gGameObjects[iIndex]->AccountID, 11);
-	memcpy(pMsg.szNAME, gGameObjects[iIndex]->Name, 11);
+	memcpy(pMsg.szUID, Obj.AccountID, 11);
+	memcpy(pMsg.szNAME, Obj.Name, 11);
 	pMsg.wServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.iINDEX = iIndex;
 	pMsg.szUID[10] = 0;

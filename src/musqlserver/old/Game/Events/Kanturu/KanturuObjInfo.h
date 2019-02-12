@@ -29,7 +29,7 @@ public:
 		this->m_iObjCount=0;
 	}
 
-	BOOL AddObj(int iIndex)
+	BOOL AddObj(CGameObject &Obj)
 	{
 		if ( this->m_iObjCount >= MAX_KANTURU_OBJ_INDEX )
 		{

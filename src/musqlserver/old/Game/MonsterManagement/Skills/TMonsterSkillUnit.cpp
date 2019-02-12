@@ -169,7 +169,7 @@ TMonsterSkillUnit * TMonsterSkillUnit::FindSkillUnit(int iUnitNumber)
 	return FALSE;
 }
 
-void TMonsterSkillUnit::RunSkill(int iIndex, int iTargetIndex)
+void TMonsterSkillUnit::RunSkill(CGameObject &Obj, int iTargetIndex)
 {
 	char szElementsName[5][20] = {0};
 

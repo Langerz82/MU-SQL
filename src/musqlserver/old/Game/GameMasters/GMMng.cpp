@@ -409,7 +409,7 @@ void PostSend(CGameObject &lpObj, char * szMessage)
 	gGameProtocol.DataSendAll((LPBYTE)&pMsg, sizeof(pMsg));
 }
 
-int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, CGameObject &lpObj2)
+int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, CGameObject &lpObjTarget)
 {
 	char seps[2] = " ";
 	char * szCmdToken;

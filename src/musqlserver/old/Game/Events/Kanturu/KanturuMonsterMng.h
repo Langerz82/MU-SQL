@@ -34,9 +34,9 @@ public:
 
 	void ResetLoadData();
 	void ResetRegenMonsterObjData();
-	void MonsterDie(int iIndex);
+	void MonsterDie(CGameObject &Obj);
 	BOOL LoadData(LPSTR lpszFileName);
-	void SetMonsterSetBaseInfo(int iIndex, BYTE btGroup, WORD wType, BYTE btMapNumber, BYTE btDistance, BYTE btX, BYTE btY, BYTE btDir);
+	void SetMonsterSetBaseInfo(CGameObject &Obj, BYTE btGroup, WORD wType, BYTE btMapNumber, BYTE btDistance, BYTE btX, BYTE btY, BYTE btDir);
 	//void __thiscall SetMaxMonsterCount(int);
 	//int __thiscall GetMaxMonsterCount();
 	int SetKanturuMonster(int iGroupNumber);

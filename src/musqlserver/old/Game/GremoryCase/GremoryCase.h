@@ -27,23 +27,23 @@ public:
 
 	void CheckStorageExpiredItems();
 
-	void GDReqStorageItemList(int iIndex);
+	void GDReqStorageItemList(CGameObject &Obj);
 	void DGAnsStorageItemList(LPBYTE lpRecv);
-	void GDReqAddItemToGremoryCase(int iIndex, _stGremoryCaseItem stItem, int iDaysToExpire);
+	void GDReqAddItemToGremoryCase(CGameObject &Obj, _stGremoryCaseItem stItem, int iDaysToExpire);
 	void DGAnsAddItemToGremoryCase(_stAnsAddItemToGremoryCase * lpMsg);
-	void GDReqCheckItemUseGremoryCase(int iIndex, WORD wItemID, DWORD dwItemGUID, DWORD dwAuthCode);
+	void GDReqCheckItemUseGremoryCase(CGameObject &Obj, WORD wItemID, DWORD dwItemGUID, DWORD dwAuthCode);
 	void DGAnsCheckItemUseGremoryCase(_stAnsCheckUseItemGremoryCase * lpMsg);
-	void GDReqDeleteItemFromGremoryCase(int iIndex, WORD wItemID, DWORD dwItemGUID, DWORD dwAuthCode);
+	void GDReqDeleteItemFromGremoryCase(CGameObject &Obj, WORD wItemID, DWORD dwItemGUID, DWORD dwAuthCode);
 
-	void GCSendStorageItemList(int iIndex);
-	void GCSendAddItemToGremoryCase(int iIndex, BYTE btStorageType, BYTE btItemArrayIndex);
+	void GCSendStorageItemList(CGameObject &Obj);
+	void GCSendAddItemToGremoryCase(CGameObject &Obj, BYTE btStorageType, BYTE btItemArrayIndex);
 	void CGReqGetItemFromGremoryCase(PMSG_ADD_GREMORYCASE_ITEM_TO_INVENTORY_REQ * lpMsg, int iIndex);
-	void GCSendDeleteItemFromGremoryCase(int iIndex, BYTE btStorageType, int iItemArrayIndex);
-	void CGReqOpenGremoryCase(int iIndex);
+	void GCSendDeleteItemFromGremoryCase(CGameObject &Obj, BYTE btStorageType, int iItemArrayIndex);
+	void CGReqOpenGremoryCase(CGameObject &Obj);
 
 private:
-	void CheckIsInStorageItemAboutToExpire(int iIndex);
-	void CheckIsStorageFull(int iIndex);
+	void CheckIsInStorageItemAboutToExpire(CGameObject &Obj);
+	void CheckIsStorageFull(CGameObject &Obj);
 };
 
 extern CGremoryCase g_GremoryCase;

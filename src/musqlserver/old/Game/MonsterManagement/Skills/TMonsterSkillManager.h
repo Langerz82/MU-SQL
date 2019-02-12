@@ -62,10 +62,10 @@ public:
 	static int LoadData(char* lpszFileName);
 	static void DelAllSkillManagerInfo();
 	static int CheckMonsterSkill(int iMonsterClass);
-	static void TMonsterSkillManager::UseMonsterSkill(int iIndex, int iTargetIndex, int iMonsterSkillUnitType, int iMonsterSkillUnit, CMagicInf * lpMagic);
-	static class TMonsterSkillUnit* FindMonsterSkillUnit(int iIndex, int iMonsterSkillUnitType);
+	static void TMonsterSkillManager::UseMonsterSkill(CGameObject &Obj, int iTargetIndex, int iMonsterSkillUnitType, int iMonsterSkillUnit, CMagicInf * lpMagic);
+	static class TMonsterSkillUnit* FindMonsterSkillUnit(CGameObject &Obj, int iMonsterSkillUnitType);
 	static void MonsterSkillProc();
-	static int AddMonsterSkillDelayInfo(int iIndex, int iTargetIndex, int iDelayTime, TMonsterSkillUnit* lpMonsterSkillUnit);
+	static int AddMonsterSkillDelayInfo(CGameObject &Obj, int iTargetIndex, int iDelayTime, TMonsterSkillUnit* lpMonsterSkillUnit);
 	static bool FindMagicInf(TMonsterSkillUnit* lpMonsterSkillUnit, CMagicInf* lpOutMagic);
 
 public:

@@ -10,7 +10,7 @@ public:
 	CMuunInfo();
 	~CMuunInfo();
 
-	void SetIndex(int iIndex);
+	void SetIndex(CGameObject &Obj);
 	int GetIndex();
 
 	void SetItemNum(int iItemNum);

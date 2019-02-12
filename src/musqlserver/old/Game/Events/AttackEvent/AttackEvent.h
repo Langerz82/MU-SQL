@@ -55,7 +55,7 @@ public:
 	void SetMenualStart(BOOL bMenualStart){this->m_bMenualStart = bMenualStart;};	// line : 39
 	void End_Menual();
 
-	bool IsAttackEventMonster(int iIndex);
+	bool IsAttackEventMonster(CGameObject &Obj);
 
 	ATTACKEVENT_MONSTER_POS * GetMonsterPos(int iMonsterIndex);
 

@@ -181,7 +181,7 @@ public:
 
 	void Init();
 	int GetCmd(LPSTR szCmd);
-	int ManagementProc(CGameObject &lpObj, LPSTR szCmd, CGameObject &lpObj2);
+	int ManagementProc(CGameObject &lpObj, LPSTR szCmd, CGameObject &lpObjTarget);
 	LPSTR GetTokenString();
 	CGameObject GetUserInfo(CGameObject &lpUser, LPSTR UserName);
 	int GetTokenNumber();

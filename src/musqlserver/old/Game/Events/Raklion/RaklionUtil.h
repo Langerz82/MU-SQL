@@ -58,8 +58,8 @@ public:
 	
 	void NotifyRaklionChangeState(int iState, int iDetailState);
 	void NotifyRaklionSuccessValue(int iSuccessValue);
-	void NotifyRaklionCurrentState(int iIndex, int iState, int iDetailState);
-	void NotifyRaklionWideAreaAttack(int iIndex, int iTargetIndex, int iSkillType);
+	void NotifyRaklionCurrentState(CGameObject &Obj, int iState, int iDetailState);
+	void NotifyRaklionWideAreaAttack(CGameObject &Obj, int iTargetIndex, int iSkillType);
 	void NotifyRaklionUserMonsterCount(int iMonsterCount, int iUserCount);
 	void NotifyLeftTopMsgRaklionBattleUser(char* lpszMsg, ...);
 	void SendMsgRaklionBossMapUser(char* lpszMsg, ...);
@@ -68,9 +68,9 @@ public:
 	void SendDataRaklionMapUser(BYTE* lpMsg, int iSize);
 	void SendMsgAllUser(char* lpszMsg, ...);
 	void SendDataAllUser(BYTE* lpMsg, int iSize);
-	void SendMsgToUser(int iIndex, char* lpszMsg, ...);
-	void SendDataToUser(int iIndex, BYTE* lpMsg, int iSize);
-	void SendSystemMsgToUser(int iIndex, char* lpszMsg, ...);
+	void SendMsgToUser(CGameObject &Obj, char* lpszMsg, ...);
+	void SendDataToUser(CGameObject &Obj, BYTE* lpMsg, int iSize);
+	void SendSystemMsgToUser(CGameObject &Obj, char* lpszMsg, ...);
 
 };
 

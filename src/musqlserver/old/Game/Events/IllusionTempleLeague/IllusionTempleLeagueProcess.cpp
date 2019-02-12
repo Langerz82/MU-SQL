@@ -1187,7 +1187,7 @@ int CIllusionTempleLeagueProcess::GetEnterRemainTimeMin()
 	return btRemainTime;
 }
 
-int CIllusionTempleLeagueProcess::SearchRelicsItem(int iIndex)
+int CIllusionTempleLeagueProcess::SearchRelicsItem(CGameObject &Obj)
 {
 	if (!ObjectMaxRange(iIndex))
 	{
@@ -1197,8 +1197,8 @@ int CIllusionTempleLeagueProcess::SearchRelicsItem(int iIndex)
 
 	for (int x = 0; x < INVENTORY_SIZE; x++)
 	{
-		if (gGameObjects[iIndex]->pInventory[x]->IsItem() == TRUE &&
-			gGameObjects[iIndex]->pInventory[x]->m_Type == ITEMGET(14, 223))
+		if (Obj.pInventory[x]->IsItem() == TRUE &&
+			Obj.pInventory[x]->m_Type == ITEMGET(14, 223))
 		{
 			return x;
 		}
@@ -1246,7 +1246,7 @@ int CIllusionTempleLeagueProcess::FindITLUser(int index)
 	return -1;
 }
 
-void CIllusionTempleLeagueProcess::DropRelicsItem(int iIndex, BYTE byAct)
+void CIllusionTempleLeagueProcess::DropRelicsItem(CGameObject &Obj, BYTE byAct)
 {
 	if (!ObjectMaxRange(iIndex))
 	{
@@ -1254,7 +1254,7 @@ void CIllusionTempleLeagueProcess::DropRelicsItem(int iIndex, BYTE byAct)
 		return;
 	}
 
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 	int nITL_USER_ARRAY = this->FindITLUser(iIndex);
 
 	if (nITL_USER_ARRAY == -1)
@@ -1277,30 +1277,30 @@ void CIllusionTempleLeagueProcess::DropRelicsItem(int iIndex, BYTE byAct)
 	pResult.Result = TRUE;
 	pResult.Ipos = iItemPos;
 
-	int map_num = gGameObjects[iIndex]->MapNumber;
-	int type = gGameObjects[iIndex]->pInventory[iItemPos]->m_Type;
-	int level = gGameObjects[iIndex]->pInventory[iItemPos]->m_Level;
-	float dur = gGameObjects[iIndex]->pInventory[iItemPos]->m_Durability;
-	BOOL ret = gGameObjects[iIndex]->pInventory[iItemPos]->IsItem();
-	BYTE Option1 = gGameObjects[iIndex]->pInventory[iItemPos]->m_Option1;
-	BYTE Option2 = gGameObjects[iIndex]->pInventory[iItemPos]->m_Option2;
-	BYTE Option3 = gGameObjects[iIndex]->pInventory[iItemPos]->m_Option3;
-	BYTE NOption = gGameObjects[iIndex]->pInventory[iItemPos]->m_NewOption;
-	UINT64 s_num = gGameObjects[iIndex]->pInventory[iItemPos]->m_Number;
-	BYTE ItemExOption = g_kJewelOfHarmonySystem.GetItemStrengthenOption(&gGameObjects[iIndex]->pInventory[iItemPos]);
-	BYTE ItemExLevel = g_kJewelOfHarmonySystem.GetItemOptionLevel(&gGameObjects[iIndex]->pInventory[iItemPos]);
+	int map_num = Obj.MapNumber;
+	int type = Obj.pInventory[iItemPos]->m_Type;
+	int level = Obj.pInventory[iItemPos]->m_Level;
+	float dur = Obj.pInventory[iItemPos]->m_Durability;
+	BOOL ret = Obj.pInventory[iItemPos]->IsItem();
+	BYTE Option1 = Obj.pInventory[iItemPos]->m_Option1;
+	BYTE Option2 = Obj.pInventory[iItemPos]->m_Option2;
+	BYTE Option3 = Obj.pInventory[iItemPos]->m_Option3;
+	BYTE NOption = Obj.pInventory[iItemPos]->m_NewOption;
+	UINT64 s_num = Obj.pInventory[iItemPos]->m_Number;
+	BYTE ItemExOption = g_kJewelOfHarmonySystem.GetItemStrengthenOption(&Obj.pInventory[iItemPos]);
+	BYTE ItemExLevel = g_kJewelOfHarmonySystem.GetItemOptionLevel(&Obj.pInventory[iItemPos]);
 
 	BYTE NewOption[8];
 
-	::ItemIsBufExOption(NewOption, &gGameObjects[iIndex]->pInventory[iItemPos]);
+	::ItemIsBufExOption(NewOption, &Obj.pInventory[iItemPos]);
 
-	int PetLevel = gGameObjects[iIndex]->pInventory[iItemPos]->m_PetItem_Level;
+	int PetLevel = Obj.pInventory[iItemPos]->m_PetItem_Level;
 
-	UINT64 PetExp = gGameObjects[iIndex]->pInventory[iItemPos]->m_PetItem_Exp;
-	BYTE SOption = gGameObjects[iIndex]->pInventory[iItemPos]->m_SetOption;
+	UINT64 PetExp = Obj.pInventory[iItemPos]->m_PetItem_Exp;
+	BYTE SOption = Obj.pInventory[iItemPos]->m_SetOption;
 
-	BYTE ItemEffectEx = gGameObjects[iIndex]->pInventory[iItemPos]->m_ItemOptionEx;
-	int item_number = gGameObjects[iIndex]->pInventory[iItemPos]->m_Number;
+	BYTE ItemEffectEx = Obj.pInventory[iItemPos]->m_ItemOptionEx;
+	int item_number = Obj.pInventory[iItemPos]->m_Number;
 
 	char szItemName[50] = "Relics Item";
 
@@ -1308,7 +1308,7 @@ void CIllusionTempleLeagueProcess::DropRelicsItem(int iIndex, BYTE byAct)
 	short X = 0;
 	short Y = 0;
 
-	BYTE btMapAttr = MapC[map_num].GetAttr(gGameObjects[iIndex]->X, gGameObjects[iIndex]->Y);
+	BYTE btMapAttr = MapC[map_num].GetAttr(Obj.X, Obj.Y);
 
 	if ((btMapAttr & 4) == 4 || (btMapAttr & 8) == 8)
 	{
@@ -1318,8 +1318,8 @@ void CIllusionTempleLeagueProcess::DropRelicsItem(int iIndex, BYTE byAct)
 
 	else
 	{
-		X = gGameObjects[iIndex]->X;
-		Y = gGameObjects[iIndex]->Y;
+		X = Obj.X;
+		Y = Obj.Y;
 	}
 
 	if (MapC[map_num].ItemDrop(type, level, dur, X, Y, Option1, Option2, Option3, NOption, SOption, item_number, aAntiLootIndex, PetLevel, PetExp, ItemEffectEx, NULL, 0xFF, 0) == TRUE)
@@ -1337,7 +1337,7 @@ void CIllusionTempleLeagueProcess::DropRelicsItem(int iIndex, BYTE byAct)
 	}
 
 	this->m_UserData[nITL_USER_ARRAY].m_nRelicsInvenPos = -1;
-	IOCP.DataSend(iIndex, (LPBYTE)&pResult, pResult.h.size);
+	IOCP.DataSend(Obj.m_Index, (LPBYTE)&pResult, pResult.h.size);
 }
 
 void CIllusionTempleLeagueProcess::SetRelicsInventoryPos(CGameObject &lpObj, BYTE btPos)

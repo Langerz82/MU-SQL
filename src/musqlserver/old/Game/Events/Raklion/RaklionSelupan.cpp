@@ -436,7 +436,7 @@ void CRaklionSelupan::InitSelupanDamage(int iMinDamage,int iMaxDamage)
 	m_iSelupanMaxDamage = iMaxDamage;
 }
 
-void CRaklionSelupan::SetSelupanObjIndex(int iIndex)
+void CRaklionSelupan::SetSelupanObjIndex(CGameObject &Obj)
 {
 	if( iIndex < 0 || iIndex > g_ConfigRead.server.GetObjectMaxMonster() ) 
 	{

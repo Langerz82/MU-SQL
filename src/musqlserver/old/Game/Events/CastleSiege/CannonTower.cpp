@@ -24,13 +24,13 @@ CCannonTower::~CCannonTower()
 
 }
 
-void CCannonTower::CannonTowerAct(int iIndex) // 0x00560940  1.00.19
+void CCannonTower::CannonTowerAct(CGameObject &Obj) // 0x00560940  1.00.19
 {
 	if ((rand() % 2) != 0) 	// review this
 	{
 		return;
 	}
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject lpObj = Obj;
 	int count = 0;
 	int ASBOfs = 0;
 	PMSG_BEATTACK_COUNT pCount;

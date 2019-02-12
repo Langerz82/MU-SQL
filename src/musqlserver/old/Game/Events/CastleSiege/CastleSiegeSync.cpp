@@ -47,7 +47,7 @@ void CCastleSiegeSync::SetCastleOwnerGuild(char * lpszGuildName)
 
 
 
-int CCastleSiegeSync::GetTaxRateChaos(int iIndex)
+int CCastleSiegeSync::GetTaxRateChaos(CGameObject &Obj)
 {
 	int iCurTaxRateChaos = this->m_iCurTaxRateChaos;
 
@@ -61,7 +61,7 @@ int CCastleSiegeSync::GetTaxRateChaos(int iIndex)
 
 
 
-int CCastleSiegeSync::GetTaxRateStore(int iIndex)
+int CCastleSiegeSync::GetTaxRateStore(CGameObject &Obj)
 {
 	int iCurTaxRateStore = this->m_iCurTaxRateStore;
 
@@ -75,7 +75,7 @@ int CCastleSiegeSync::GetTaxRateStore(int iIndex)
 
 
 
-int CCastleSiegeSync::GetTaxHuntZone(int iIndex, BOOL bCheckOwnerGuild)
+int CCastleSiegeSync::GetTaxHuntZone(CGameObject &Obj, BOOL bCheckOwnerGuild)
 {
 	int iCurTaxHuntZone = this->m_iCurTaxHuntZone;
 
@@ -147,7 +147,7 @@ void CCastleSiegeSync::AdjustTributeMoney()
 
 
 
-BOOL CCastleSiegeSync::CheckCastleOwnerMember(int iIndex)
+BOOL CCastleSiegeSync::CheckCastleOwnerMember(CGameObject &Obj)
 {
 	if ( gObjIsConnected(iIndex) == FALSE )
 	{
@@ -159,7 +159,7 @@ BOOL CCastleSiegeSync::CheckCastleOwnerMember(int iIndex)
 		return FALSE;
 	}
 
-	if ( strcmp(gGameObjects[iIndex]->m_PlayerData->GuildName, this->m_szCastleOwnerGuild) != 0 )
+	if ( strcmp(Obj.m_PlayerData->GuildName, this->m_szCastleOwnerGuild) != 0 )
 	{
 		return FALSE;
 	}
@@ -169,7 +169,7 @@ BOOL CCastleSiegeSync::CheckCastleOwnerMember(int iIndex)
 
 
 
-BOOL CCastleSiegeSync::CheckCastleOwnerUnionMember(int iIndex)
+BOOL CCastleSiegeSync::CheckCastleOwnerUnionMember(CGameObject &Obj)
 {
 	if ( gObjIsConnected(iIndex) == FALSE )
 	{
@@ -181,7 +181,7 @@ BOOL CCastleSiegeSync::CheckCastleOwnerUnionMember(int iIndex)
 		return FALSE;
 	}
 
-	GUILD_INFO_STRUCT * lpGuildInfo = gGameObjects[iIndex]->m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT * lpGuildInfo = Obj.m_PlayerData->lpGuild;
 	
 	if ( lpGuildInfo == NULL )
 	{
@@ -205,19 +205,19 @@ BOOL CCastleSiegeSync::CheckCastleOwnerUnionMember(int iIndex)
 
 
 
-int CCastleSiegeSync::CheckOverlapCsMarks(int iIndex)
+int CCastleSiegeSync::CheckOverlapCsMarks(CGameObject &Obj)
 {
 	for ( int x=INVENTORY_BAG_START;x<MAIN_INVENTORY_SIZE;x++)
 	{
-		if ( gGameObjects[iIndex]->pInventory[x]->IsItem() == TRUE )
+		if ( Obj.pInventory[x]->IsItem() == TRUE )
 		{
-			if ( gGameObjects[iIndex]->pInventory[x]->m_Type == ITEMGET(14,21) )
+			if ( Obj.pInventory[x]->m_Type == ITEMGET(14,21) )
 			{
-				if ( gGameObjects[iIndex]->pInventory[x]->m_Level == 3 )
+				if ( Obj.pInventory[x]->m_Level == 3 )
 				{
-					int op = gGameObjects[iIndex]->pInventory[x]->m_Durability;
+					int op = Obj.pInventory[x]->m_Durability;
 
-					if (op >= 0 && op < IsOverlapItem(gGameObjects[iIndex]->pInventory[x]->m_Type))
+					if (op >= 0 && op < IsOverlapItem(Obj.pInventory[x]->m_Type))
 					{
 						return x;
 					}

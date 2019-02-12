@@ -1442,7 +1442,7 @@ bool CItemShop::GetRandomItemFromPackage(int PackageID, int & GUID, int & ID)
 	return true;
 }
 
-std::vector<ITEMSHOP_ITEMLIST>::iterator CItemShop::FindItemInList(int iIndex, int iOption, int iCategory)
+std::vector<ITEMSHOP_ITEMLIST>::iterator CItemShop::FindItemInList(CGameObject &Obj, int iOption, int iCategory)
 {
 	std::vector<ITEMSHOP_ITEMLIST>::iterator It;
 

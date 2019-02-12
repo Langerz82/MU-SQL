@@ -478,7 +478,7 @@ void CIllusionTempleLeagueEvent::SetStatusRegenTime(BYTE btMapNumber)
 	this->m_cIllusionTempleLeagueProc[btMapNumber - 98].SetStatusRegenTime();
 }
 
-void CIllusionTempleLeagueEvent::ITL_UseSkill(int iIndex, WORD MagicNumber, int wTargetObjIndex, BYTE btDis)
+void CIllusionTempleLeagueEvent::ITL_UseSkill(CGameObject &Obj, WORD MagicNumber, int wTargetObjIndex, BYTE btDis)
 {
 	if (!ObjectMaxRange(iIndex))
 	{
@@ -486,13 +486,13 @@ void CIllusionTempleLeagueEvent::ITL_UseSkill(int iIndex, WORD MagicNumber, int 
 		return;
 	}
 
-	if (!ITL_MAP_RANGE(gGameObjects[iIndex]->MapNumber))
+	if (!ITL_MAP_RANGE(Obj.MapNumber))
 	{
-		sLog->outBasic("ITL_UseSkill Error #2 iIndex :%d Map:%d ", iIndex, gGameObjects[iIndex]->MapNumber);
+		sLog->outBasic("ITL_UseSkill Error #2 iIndex :%d Map:%d ", iIndex, Obj.MapNumber);
 		return;
 	}
 
-	this->m_cIllusionTempleLeagueProc[gGameObjects[iIndex]->MapNumber - 98]->ITL_UseSkill(iIndex, MagicNumber, wTargetObjIndex, btDis);
+	this->m_cIllusionTempleLeagueProc[Obj.MapNumber - 98]->ITL_UseSkill(iIndex, MagicNumber, wTargetObjIndex, btDis);
 }
 
 void CIllusionTempleLeagueEvent::EventSkillProc(CGameObject* lpObj)

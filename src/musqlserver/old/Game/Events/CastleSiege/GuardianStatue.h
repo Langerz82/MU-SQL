@@ -15,7 +15,7 @@ public:
 	CGuardianStatue();
 	virtual ~CGuardianStatue();
 
-	void GuardianStatueAct(int iIndex);
+	void GuardianStatueAct(CGameObject &Obj);
 };
 extern CGuardianStatue g_CsNPC_GuardianStatue;
 
