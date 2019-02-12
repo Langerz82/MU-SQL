@@ -96,7 +96,7 @@ void ItemUpgradeJewels::ProcInsert(CGameObject &lpUser, int JewelPos, int Target
 	for (int i = 0; i < this->m_UpradeInfo.size(); i++)
 	{
 		if (ITEMGET(this->m_UpradeInfo[i].ItemType,
-			this->m_UpradeInfo[i].ItemIndex) == lpUser->pInventory[JewelPos].m_Type)
+			this->m_UpradeInfo[i].ItemIndex) == lpUser.pInventory[JewelPos].m_Type)
 		{
 			lpJewel = &this->m_UpradeInfo[i];
 			break;
@@ -105,20 +105,20 @@ void ItemUpgradeJewels::ProcInsert(CGameObject &lpUser, int JewelPos, int Target
 
 	if (lpJewel == NULL)
 	{
-		GSProtocol.GCReFillSend(lpUser->m_Index, (WORD)lpUser->Life, 0xFD, 1, lpUser->iShield);
+		GSProtocol.GCReFillSend(lpUser.m_Index, (WORD)lpUser.Life, 0xFD, 1, lpUser.iShield);
 		return;
 	}
 
 	if (this->ProcUpgrade(lpUser, JewelPos, TargetPos, lpJewel))
 	{
-		gObjInventoryItemSet(lpUser->m_Index, JewelPos, -1);
-		lpUser->pInventory[JewelPos].Clear();
-		GSProtocol.GCInventoryItemOneSend(lpUser->m_Index, TargetPos);
-		GSProtocol.GCInventoryItemDeleteSend(lpUser->m_Index, JewelPos, 1);
+		gObjInventoryItemSet(lpUser.m_Index, JewelPos, -1);
+		lpUser.pInventory[JewelPos].Clear();
+		GSProtocol.GCInventoryItemOneSend(lpUser.m_Index, TargetPos);
+		GSProtocol.GCInventoryItemDeleteSend(lpUser.m_Index, JewelPos, 1);
 	}
 	else
 	{
-		GSProtocol.GCReFillSend(lpUser->m_Index, (WORD)lpUser->Life, 0xFD, 1, lpUser->iShield);
+		GSProtocol.GCReFillSend(lpUser, (WORD)lpUser.Life, 0xFD, 1, lpUser.iShield);
 	}
 }
 

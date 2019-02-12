@@ -662,9 +662,7 @@ BYTE CBotSystem::GetBotType(CGameObject &lpObj)
 
 int CBotSystem::GetSkillTime(CGameObject &lpObj, WORD wSkill)
 {
-	
-
-	if(!lpObj)
+	if(!&lpObj)
 		return 0;
 
 	for(int i=0;i<MAX_BUFFS_PER_BOT;i++)
@@ -797,41 +795,41 @@ int CBotSystem::AlchemistTradeItemCount(CGameObject &lpObj)
 
 void CBotSystem::AlchemistTradeOk(CGameObject &lpObj, int botIndex)
 {
-	CGameObject lpBot = &gGameObjects[botIndex];
-	
+	CGameObject* lpBot = gGameObjects[botIndex];
 
-	if(!lpObj || !lpBot)
+	if(!&lpObj || !&lpBot)
 		return;
-	sBOT_REWARD_STRUCT reward = ConfirmMixSuccess(aIndex,gGameObjects[botIndex]->m_PlayerData->wBotIndex);
+
+	sBOT_REWARD_STRUCT reward = ConfirmMixSuccess(lpObj, gGameObjects[botIndex]->m_PlayerData->wBotIndex);
 	if(reward.m_Reward.m_Type > 0)
 	{
-		int iEmptyCount = CheckInventoryEmptySpaceCount(&gGameObjects[aIndex], ItemAttribute[reward.m_Reward.m_Type]->Width, ItemAttribute[reward.m_Reward.m_Type]->Height);
+		int iEmptyCount = CheckInventoryEmptySpaceCount(lpObj, ItemAttribute[reward.m_Reward.m_Type]->Width, ItemAttribute[reward.m_Reward.m_Type]->Height);
 
 		if(iEmptyCount < reward.iCount)
 		{
-			MsgOutput(aIndex,"No space in inventory");
+			MsgOutput(lpObj,"No space in inventory");
 			return;
 		}
 		if(rand()%100 > reward.iSuccessRate)
 		{
-			MsgOutput(aIndex,"Combination failed! ");
+			MsgOutput(lpObj,"Combination failed! ");
 			return;
 		}
 		for(int i=0;i<reward.iCount;i++)
 		{
-			ItemSerialCreateSend(aIndex, 235, lpObj.X, lpObj.Y, reward.m_Reward.m_Type, reward.m_Reward.m_Level, 0, reward.m_Reward.m_Option1,reward.m_Reward.m_Option2, reward.m_Reward.m_Option3, aIndex, reward.m_Reward.m_NewOption, reward.m_Reward.m_SetOption, 0, 0, 0);
+			ItemSerialCreateSend(lpObj, 235, lpObj.X, lpObj.Y, reward.m_Reward.m_Type, reward.m_Reward.m_Level, 0, reward.m_Reward.m_Option1,reward.m_Reward.m_Option2, reward.m_Reward.m_Option3, aIndex, reward.m_Reward.m_NewOption, reward.m_Reward.m_SetOption, 0, 0, 0);
 		}
-		gObjInventoryCommit(aIndex);
-		gObjMakePreviewCharSet(aIndex);
-		GJSetCharacterInfo(&gGameObjects[aIndex],aIndex,0);
-		gObjItemTextSave(&gGameObjects[aIndex]);
-		gObjStatTextSave(&gGameObjects[aIndex]);
-		gObjSavePetItemInfo(aIndex, 0);
+		gObjInventoryCommit(lpObj);
+		gObjMakePreviewCharSet(lpObj);
+		GJSetCharacterInfo(lpObj, lpObj.m_Index, 0);
+		gObjItemTextSave(lpObj);
+		gObjStatTextSave(lpObj);
+		gObjSavePetItemInfo(lpObj, 0);
 		lpObj.TargetNumber = -1;
 		lpObj.m_IfState.use = 0;
 		lpObj.TradeOk = 0;
 		lpObj.TradeMoney = 0;
-		GSProtocol.CGTradeResult(aIndex,1);
+		GSProtocol.CGTradeResult(lpObj,1);
 	}
 	else
 	{
@@ -842,7 +840,7 @@ void CBotSystem::AlchemistTradeOk(CGameObject &lpObj, int botIndex)
 void CBotSystem::AlchemistTradeOpen(CGameObject &lpObj, int botIndex)
 {
 	
-	CGameObject lpBot = &gGameObjects[botIndex];
+	CGameObject* lpBot = gGameObjects[botIndex];
 
 	lpObj.m_IfState.use = 1;
 	lpObj.m_IfState.state = 0;
@@ -850,10 +848,10 @@ void CBotSystem::AlchemistTradeOpen(CGameObject &lpObj, int botIndex)
 	lpObj.TargetNumber = botIndex;
 	lpObj.m_InterfaceTime = GetTickCount64();
 	lpObj.TradeMoney = 0;
-	lpBot->TargetNumber = aIndex;
+	lpBot->TargetNumber = lpObj.m_Index;
 	PMSG_TRADE_RESPONSE tr;
 	tr.Response = true;
-	GSProtocol.CGTradeResponseRecv(&tr,botIndex);
+	GSProtocol.CGTradeResponseRecv(&tr, *lpBot);
 
 }
 

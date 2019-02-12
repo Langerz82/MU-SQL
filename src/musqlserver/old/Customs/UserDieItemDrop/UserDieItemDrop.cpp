@@ -94,7 +94,7 @@ void UserDieItemDrop::Read(LPSTR File)
 }
 // -------------------------------------------------------------------------------
 
-void UserDieItemDrop::Drop(CGameObject &lpUser, CGameObject lpKiller)
+void UserDieItemDrop::Drop(CGameObject &lpUser, CGameObject &lpKiller)
 {
 	if (lpUser->Type != OBJ_USER)
 	{

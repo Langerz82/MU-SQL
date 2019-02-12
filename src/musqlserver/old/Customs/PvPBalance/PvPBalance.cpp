@@ -142,8 +142,8 @@ void PvPBalance::modifyAttackRate(short UserIndex, short TargetIndex, float& Val
 
 void PvPBalance::modifyDefenseRate(short UserIndex, short TargetIndex, float& Value)
 {
-	CGameObject objSource = &gGameObjects[UserIndex];
-	CGameObject objTarget = &gGameObjects[TargetIndex];
+	CGameObject* objSource = gGameObjects[UserIndex];
+	CGameObject* objTarget = gGameObjects[TargetIndex];
 	PvPBalanceInfo* modifyInfo = getInfo(objSource->Class, objTarget->Class);
 
 	if (modifyInfo == NULL) {

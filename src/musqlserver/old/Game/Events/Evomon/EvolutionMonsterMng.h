@@ -83,7 +83,7 @@ public:
 	bool IsEventMap(int iMapNumber, int iX, int iY);
 	int GetRewardItemType(BYTE btType);
 
-	bool IsEvolutedEvoMon(int iMonsterIndex);
+	bool IsEvolutedEvoMon(CGameObject &monster);
 	int GetOwnerIndex(int iMonsterIndex);
 
 	void GDReqEvoMonMaxScore(CGameObject &lpObj);

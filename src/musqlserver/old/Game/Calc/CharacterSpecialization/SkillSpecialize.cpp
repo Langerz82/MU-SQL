@@ -21,7 +21,7 @@ void CSkillSpecialize::LoadScript()
 
 int CSkillSpecialize::CalcStatBonus(CGameObject lpObj, int iSkill)
 {
-	if (!lpObj)
+	if (!&lpObj)
 	{
 		return 0;
 	}

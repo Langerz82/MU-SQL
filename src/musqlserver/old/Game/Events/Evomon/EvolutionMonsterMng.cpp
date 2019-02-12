@@ -913,9 +913,9 @@ int CEvolutionMonsterMng::GetRewardItemType(BYTE btType)
 	return -1;
 }
 
-bool CEvolutionMonsterMng::IsEvolutedEvoMon(int iMonsterIndex)
+bool CEvolutionMonsterMng::IsEvolutedEvoMon(CGameObject &monster)
 {
-	if (gGameObjects[iMonsterIndex]->Class == 681 && gGameObjects[iMonsterIndex]->Level > 1)
+	if (monster->Class == 681 && monster->Level > 1)
 	{
 		return true;
 	}
