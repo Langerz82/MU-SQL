@@ -554,13 +554,13 @@ void CCancelItemSale::GCAnsSoldItemList(int iIndex)
 
 	for (int i = 0; i < MAX_CANCEL_ITEMS_SALE; i++)
 	{
-		if (gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i].btUsed == TRUE)
+		if (gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i]->btUsed == TRUE)
 		{
-			pItem.wItemCount = gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i].wItemCount;
-			pItem.dwItemPrice = gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i].dwItemPrice;
-			pItem.iLeftTime = gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i].iLeftTime;
-			pItem.btItemNumber = gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i].btItemNumber;
-			memcpy(&pItem.btItemInfo, gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i].btItemInfo, MAX_ITEM_INFO);
+			pItem.wItemCount = gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i]->wItemCount;
+			pItem.dwItemPrice = gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i]->dwItemPrice;
+			pItem.iLeftTime = gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i]->iLeftTime;
+			pItem.btItemNumber = gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i]->btItemNumber;
+			memcpy(&pItem.btItemInfo, gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i]->btItemInfo, MAX_ITEM_INFO);
 
 			memcpy(&Buffer[iSize], &pItem, sizeof(pItem));
 			iSize += sizeof(pItem);
@@ -602,7 +602,7 @@ void CCancelItemSale::CGReqEndCancelItemSale(int iIndex)
 
 	for (int i = 0; i < MAX_CANCEL_ITEMS_SALE; i++)
 	{
-		gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i].Clear();
+		gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i]->Clear();
 	}
 }
 
@@ -641,12 +641,12 @@ void CCancelItemSale::CGReqReBuyItem(PMSG_REQ_REBUY_ITEM *lpMsg, int iIndex)
 
 	for (int i = 0; i < MAX_CANCEL_ITEMS_SALE; i++)
 	{
-		if (gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i].btUsed == TRUE)
+		if (gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i]->btUsed == TRUE)
 		{
-			if (gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i].btItemNumber == lpMsg->btItemNumber &&
-				gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i].wItemCode == lpMsg->wItemCode &&
-				gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i].dwItemPrice == lpMsg->dwItemPrice &&
-				gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i].iLeftTime == lpMsg->dwLeftTime)
+			if (gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i]->btItemNumber == lpMsg->btItemNumber &&
+				gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i]->wItemCode == lpMsg->wItemCode &&
+				gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i]->dwItemPrice == lpMsg->dwItemPrice &&
+				gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i]->iLeftTime == lpMsg->dwLeftTime)
 			{
 				btItemNumber = i;
 				break;
@@ -721,7 +721,7 @@ void CCancelItemSale::DGAnsSoldItemList(LPBYTE lpRecv)
 
 		for (int i = 0; i < MAX_CANCEL_ITEMS_SALE; i++)
 		{
-			gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i].Clear();
+			gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i]->Clear();
 		}
 
 		for (int i = 0; i < lpMsg->iCount; i++)
@@ -731,14 +731,14 @@ void CCancelItemSale::DGAnsSoldItemList(LPBYTE lpRecv)
 
 			this->MakeItem(lpItemList->ItemData, &Item);
 
-			gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i].btUsed = TRUE;
-			gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i].btItemNumber = lpItemList->btItemNumber;
-			gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i].wItemCode = Item.m_Type;
-			gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i].dwItemPrice = lpItemList->dwSellPrice;
-			gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i].iLeftTime = lpItemList->SellExpireDate - time(NULL);
-			gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i].wItemCount = lpItemList->wItemCount;
+			gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i]->btUsed = TRUE;
+			gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i]->btItemNumber = lpItemList->btItemNumber;
+			gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i]->wItemCode = Item.m_Type;
+			gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i]->dwItemPrice = lpItemList->dwSellPrice;
+			gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i]->iLeftTime = lpItemList->SellExpireDate - time(NULL);
+			gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i]->wItemCount = lpItemList->wItemCount;
 
-			ItemByteConvert(gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i].btItemInfo, Item);
+			ItemByteConvert(gGameObjects[iIndex]->m_PlayerData->m_CancelItemSaleList[i]->btItemInfo, Item);
 		}
 
 		this->GCAnsSoldItemList(iIndex);

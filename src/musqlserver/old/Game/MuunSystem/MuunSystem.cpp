@@ -105,7 +105,7 @@ void CMuunAttack::SkillProc(CGameObject &lpObj)
 					return;
 				}
 
-				if ((MapC[gGameObjects[nTargetIndex]->MapNumber].GetAttr(gGameObjects[nTargetIndex]->X, gGameObjects[nTargetIndex]->Y) & 1) == 1)
+				if ((MapC[gGameObjects[nTargetIndex]->MapNumber]->GetAttr(gGameObjects[nTargetIndex]->X, gGameObjects[nTargetIndex]->Y) & 1) == 1)
 				{
 					g_CMuunSystem.ReSetTarget(lpObj, nTargetIndex);
 					return;
@@ -1805,7 +1805,7 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 				return;
 			}
 
-			this->ClearPeriodMuunItemData(&gGameObjects[aIndex], lpObj.pMuunInventory[lpMsg->inventoryPos].m_Type, lpObj.pMuunInventory[lpMsg->inventoryPos].m_Number);
+			this->ClearPeriodMuunItemData(&gGameObjects[aIndex], lpObj.pMuunInventory[lpMsg->inventoryPos]->m_Type, lpObj.pMuunInventory[lpMsg->inventoryPos]->m_Number);
 			lpObj.pMuunInventory[lpMsg->inventoryPos].Clear();
 			GSProtocol.GCMuunInventoryItemDeleteSend(aIndex, lpMsg->inventoryPos, 1);
 			GSProtocol.GCMuunInventoryItemOneSend(aIndex, lpMsg->invenrotyTarget);
@@ -1848,7 +1848,7 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int
 				return;
 			}
 
-			this->ClearPeriodMuunItemData(&gGameObjects[aIndex], lpObj.pMuunInventory[lpMsg->inventoryPos].m_Type, lpObj.pMuunInventory[lpMsg->inventoryPos].m_Number);
+			this->ClearPeriodMuunItemData(&gGameObjects[aIndex], lpObj.pMuunInventory[lpMsg->inventoryPos]->m_Type, lpObj.pMuunInventory[lpMsg->inventoryPos]->m_Number);
 			lpObj.pMuunInventory[lpMsg->inventoryPos].Clear();
 			GSProtocol.GCMuunInventoryItemDeleteSend(aIndex, lpMsg->inventoryPos, 1);
 			GSProtocol.GCMuunInventoryItemOneSend(aIndex, lpMsg->invenrotyTarget);

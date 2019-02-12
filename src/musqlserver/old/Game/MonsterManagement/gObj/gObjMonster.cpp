@@ -436,11 +436,11 @@ int gObjMonsterHitDamageUserDel(CGameObject &lpObj)
 					delok = TRUE;
 				}
 
-				if (gGameObjects[lpObj.sHD[n].number].MapNumber != lpObj.MapNumber)
+				if (gGameObjects[lpObj.sHD[n]->number]->MapNumber != lpObj.MapNumber)
 				{
 					delok = TRUE;
 				}
-				else if (gObjCheckTileArea(lpObj.m_Index, gGameObjects[lpObj.sHD[n].number].X, gGameObjects[lpObj.sHD[n].number].Y, 20) == FALSE)
+				else if (gObjCheckTileArea(lpObj.m_Index, gGameObjects[lpObj.sHD[n]->number]->X, gGameObjects[lpObj.sHD[n]->number]->Y, 20) == FALSE)
 				{
 					delok = TRUE;
 				}
@@ -1256,7 +1256,7 @@ int gObjGuardSearchEnemy(CGameObject &lpObj)
 			{
 				if(bEnableAttack == TRUE) //Season 2.5 add-on
 				{
-					attr = MapC[gGameObjects[tObjNum]->MapNumber].GetAttr(gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y);
+					attr = MapC[gGameObjects[tObjNum]->MapNumber]->GetAttr(gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y);
 
 					if ( (attr&1) != 1 )
 					{
@@ -2627,7 +2627,7 @@ void gObjMonsterBaseAct(CGameObject &lpObj)
 
 						if ( lpObj.m_RecallMon >= 0 )
 						{
-							if ( gGameObjects[lpObj.m_RecallMon].Connected > PLAYER_LOGGED )
+							if ( gGameObjects[lpObj.m_RecallMon]->Connected > PLAYER_LOGGED )
 							{
 								CGameObject lpRecallObj = &gGameObjects[lpObj.m_RecallMon];
 
@@ -2817,8 +2817,8 @@ void gObjMonsterBaseAct(CGameObject &lpObj)
 				{
 					if ( lpObj.LastAttackerID != -1 && lpObj.LastAttackerID != lpObj.TargetNumber )
 					{
-						if ( gGameObjects[lpObj.LastAttackerID].Connected > PLAYER_LOGGED &&
-							lpObj.MapNumber == gGameObjects[lpObj.LastAttackerID].MapNumber )
+						if ( gGameObjects[lpObj.LastAttackerID]->Connected > PLAYER_LOGGED &&
+							lpObj.MapNumber == gGameObjects[lpObj.LastAttackerID]->MapNumber )
 						{
 							lpObj.TargetNumber = lpObj.LastAttackerID;
 							lpTargetObj = &gGameObjects[lpObj.LastAttackerID];

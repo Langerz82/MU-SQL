@@ -623,7 +623,7 @@ BOOL MapClass::ItemGive(CGameObject &lpObj, int item_num, bool bFailNotSend)
 					{
 						if (lpObj.PartyNumber >= 0)
 						{
-							if (lpObj.PartyNumber == gGameObjects[this->m_cItem[item_num].m_UserIndex].PartyNumber)
+							if (lpObj.PartyNumber == gGameObjects[this->m_cItem[item_num]->m_UserIndex]->PartyNumber)
 							{
 								if (BC_MAP_RANGE(lpObj.MapNumber) != FALSE)
 								{

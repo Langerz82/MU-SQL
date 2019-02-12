@@ -368,177 +368,177 @@ BOOL CDevilSquareFinal::CheckWearingMOPH(int iUserIndex)
 		return FALSE;
 	}
 
-	if (gGameObjects[iUserIndex]->pInventory[10].IsItem() == TRUE)
+	if (gGameObjects[iUserIndex]->pInventory[10]->IsItem() == TRUE)
 	{
-		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,10))
+		if (gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,10))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,39))
+		if (gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,39))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,40))
+		if (gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,40))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,41))
+		if (gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,41))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,68))
+		if (gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,68))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,76))
+		if (gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,76))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,77))
+		if (gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,77))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,78))
+		if (gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,78))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,122))
+		if (gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,122))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,163))
+		if (gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,163))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,164))
+		if (gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,164))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,165))
+		if (gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,165))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,166))
+		if (gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,166))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,122))
+		if (gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,122))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,166))
+		if (gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,166))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,169))
+		if (gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,169))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,170))
+		if (gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,170))
 		{
 			return TRUE;
 		}
 	}
 
-	if (gGameObjects[iUserIndex]->pInventory[11].IsItem() == TRUE)
+	if (gGameObjects[iUserIndex]->pInventory[11]->IsItem() == TRUE)
 	{
-		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,10))
+		if (gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,10))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,39))
+		if (gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,39))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,40))
+		if (gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,40))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,41))
+		if (gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,41))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,68))
+		if (gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,68))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,76))
+		if (gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,76))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,77))
+		if (gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,77))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,78))
+		if (gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,78))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,122))
+		if (gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,122))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,163))
+		if (gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,163))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,164))
+		if (gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,164))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,165))
+		if (gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,165))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,166))
+		if (gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,166))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,122))
+		if (gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,122))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,166))
+		if (gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,166))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,169))
+		if (gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,169))
 		{
 			return TRUE;
 		}
 
-		if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,170))
+		if (gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,170))
 		{
 			return TRUE;
 		}
@@ -792,17 +792,17 @@ void CDevilSquareFinal::Proc_DSFState_None(int nCurTime)
 					for (int j = 0; j < 20; j++)
 					{
 						if (this->m_UserData[j].m_nIndex != -1 &&
-							gGameObjects[this->m_UserData[j].m_nIndex].Connected > PLAYER_LOGGED &&
-							gGameObjects[this->m_UserData[j].m_nIndex].MapNumber == MAP_INDEX_DEVILSQUARE_FINAL &&
-							gGameObjects[this->m_UserData[j].m_nIndex].PartyNumber < 0)
+							gGameObjects[this->m_UserData[j]->m_nIndex]->Connected > PLAYER_LOGGED &&
+							gGameObjects[this->m_UserData[j]->m_nIndex]->MapNumber == MAP_INDEX_DEVILSQUARE_FINAL &&
+							gGameObjects[this->m_UserData[j]->m_nIndex]->PartyNumber < 0)
 						{
-							gGameObjects[this->m_UserData[j].m_nIndex].m_nDSFIndex = -1;
+							gGameObjects[this->m_UserData[j]->m_nIndex]->m_nDSFIndex = -1;
 							gObjMoveGate(this->m_UserData[j].m_nIndex, 333);
 							this->ClearUserData(j);
 
 							sLog->outBasic("[DSF][Proc_DSFState_None][%s][%s][%s][%d] Not PartyUser Kick Out",
-								gGameObjects[this->m_UserData[j].m_nIndex].AccountID, gGameObjects[this->m_UserData[j].m_nIndex].m_PlayerData->m_RealNameOfUBF,
-								gGameObjects[this->m_UserData[j].m_nIndex].Name, gGameObjects[this->m_UserData[j].m_nIndex].m_PlayerData->m_nServerCodeOfHomeWorld);
+								gGameObjects[this->m_UserData[j]->m_nIndex]->AccountID, gGameObjects[this->m_UserData[j]->m_nIndex]->m_PlayerData->m_RealNameOfUBF,
+								gGameObjects[this->m_UserData[j]->m_nIndex]->Name, gGameObjects[this->m_UserData[j]->m_nIndex]->m_PlayerData->m_nServerCodeOfHomeWorld);
 						}
 					}
 
@@ -881,8 +881,8 @@ void CDevilSquareFinal::Proc_DSFState_Ready(int nCurTime)
 			for (int i = 0; i < 20; i++)
 			{
 				if (this->m_UserData[i].m_nIndex != -1 && 
-					gGameObjects[this->m_UserData[i].m_nIndex].Connected > PLAYER_LOGGED && 
-					gGameObjects[this->m_UserData[i].m_nIndex].MapNumber == MAP_INDEX_DEVILSQUARE_FINAL)
+					gGameObjects[this->m_UserData[i]->m_nIndex]->Connected > PLAYER_LOGGED && 
+					gGameObjects[this->m_UserData[i]->m_nIndex]->MapNumber == MAP_INDEX_DEVILSQUARE_FINAL)
 				{
 					IOCP.DataSend(this->m_UserData[i].m_nIndex, (LPBYTE)&pMsg, pMsg.h.size);
 				}
@@ -1119,8 +1119,8 @@ void CDevilSquareFinal::Set_DSFState_Ready()
 			DSF_TEAM_PARTY_USER_NAME PartyUserName;
 
 			PartyUserName.iTeamIndex = this->m_PartyDataSave[i].btTeamIndex;
-			memcpy(PartyUserName.szUserName1, gGameObjects[this->m_PartyDataSave[i].nRequestUserIndex].m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN+1);
-			memcpy(PartyUserName.szUserName2, gGameObjects[this->m_PartyDataSave[i].n2ndPartyUserIndex].m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN+1);
+			memcpy(PartyUserName.szUserName1, gGameObjects[this->m_PartyDataSave[i]->nRequestUserIndex]->m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN+1);
+			memcpy(PartyUserName.szUserName2, gGameObjects[this->m_PartyDataSave[i]->n2ndPartyUserIndex]->m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN+1);
 			PartyUserName.iTeamLevel = this->m_PartyDataSave[i].nRequestUserLevel + this->m_PartyDataSave[i].n2ndPartyUserLevel;
 			
 			memcpy(&sendbuf[lOfs], &PartyUserName, sizeof(DSF_TEAM_PARTY_USER_NAME));
@@ -1148,7 +1148,7 @@ void CDevilSquareFinal::Set_DSFState_Ready()
 
 	for (int j = 0; j < 20; j++)
 	{
-		if (this->m_UserData[j].m_nIndex != -1 && gGameObjects[this->m_UserData[j].m_nIndex].Connected > PLAYER_LOGGED)
+		if (this->m_UserData[j].m_nIndex != -1 && gGameObjects[this->m_UserData[j]->m_nIndex]->Connected > PLAYER_LOGGED)
 		{
 			IOCP.DataSend(this->m_UserData[j].m_nIndex, (LPBYTE)sendbuf, lOfs);
 		}
@@ -1651,7 +1651,7 @@ void CDevilSquareFinal::SendDSFState(BYTE btDSFState, int nIndex)
 	{
 		for (int i = 0; i < 20; i++)
 		{
-			if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i].m_nIndex].Connected > PLAYER_LOGGED)
+			if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i]->m_nIndex]->Connected > PLAYER_LOGGED)
 			{
 				IOCP.DataSend(this->m_UserData[i].m_nIndex, (LPBYTE)&pMsg, pMsg.h.size);
 			}
@@ -1680,9 +1680,9 @@ void CDevilSquareFinal::Send_DSF_PlayState(BYTE btTeam)
 
 	for (int i = 0; i < 20; i++)
 	{
-		if ( this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i].m_nIndex].Connected > PLAYER_LOGGED && this->m_UserData[i].m_btTeam == btTeam )
+		if ( this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i]->m_nIndex]->Connected > PLAYER_LOGGED && this->m_UserData[i]->m_btTeam == btTeam )
 		{
-			if (!strcmp(gGameObjects[this->m_UserData[i].m_nIndex].Name, this->m_UserData[i].PlayerName))
+			if (!strcmp(gGameObjects[this->m_UserData[i]->m_nIndex]->Name, this->m_UserData[i]->PlayerName))
 			{
 				IOCP.DataSend(this->m_UserData[i].m_nIndex, (LPBYTE)&pMsg, pMsg.h.size);
 			}
@@ -1701,21 +1701,21 @@ void CDevilSquareFinal::CheckUsersOnConnect()
 		{
 			if (gObjIsConnected(this->m_UserData[i].m_nIndex))
 			{
-				if (gGameObjects[this->m_UserData[i].m_nIndex].MapNumber == MAP_INDEX_DEVILSQUARE_FINAL)
+				if (gGameObjects[this->m_UserData[i]->m_nIndex]->MapNumber == MAP_INDEX_DEVILSQUARE_FINAL)
 				{
 					this->m_nUserCount++;
 				}
 
 				else
 				{
-					gGameObjects[this->m_UserData[i].m_nIndex].m_nDSFIndex = -1;
+					gGameObjects[this->m_UserData[i]->m_nIndex]->m_nDSFIndex = -1;
 					this->ClearUserData(i);
 				}
 			}
 
 			else
 			{
-				gGameObjects[this->m_UserData[i].m_nIndex].m_nDSFIndex = -1;
+				gGameObjects[this->m_UserData[i]->m_nIndex]->m_nDSFIndex = -1;
 				this->ClearUserData(i);
 			}
 		}
@@ -1780,9 +1780,9 @@ void CDevilSquareFinal::SendDSFResult(CGameObject &lpObj)
 	{
 		for (int i = 0; i < 20; i++)
 		{
-			if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i].m_nIndex].Connected > PLAYER_LOGGED)
+			if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i]->m_nIndex]->Connected > PLAYER_LOGGED)
 			{
-				if (!strcmp(gGameObjects[this->m_UserData[i].m_nIndex].Name, this->m_UserData[i].PlayerName))
+				if (!strcmp(gGameObjects[this->m_UserData[i]->m_nIndex]->Name, this->m_UserData[i]->PlayerName))
 				{
 					IOCP.DataSend(this->m_UserData[i].m_nIndex, (LPBYTE)&pMsg, pMsg.h.size);
 				}
@@ -1794,7 +1794,7 @@ void CDevilSquareFinal::SendDSFResult(CGameObject &lpObj)
 	{
 		for (int i = 0; i < 20; i++)
 		{
-			if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i].m_nIndex].Connected > PLAYER_LOGGED)
+			if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i]->m_nIndex]->Connected > PLAYER_LOGGED)
 			{
 				if (!strcmp(lpObj.Name, this->m_UserData[i].PlayerName))
 				{
@@ -2637,14 +2637,14 @@ int CDevilSquareFinal::SetMonster()
 			if (result >= 0)
 			{
 				gGameObjects[result]->m_PosNum = n;
-				gGameObjects[result]->X = this->m_DSFMonsterRegenInfo[n].RegenX;
-				gGameObjects[result]->Y = this->m_DSFMonsterRegenInfo[n].RegenY;
-				gGameObjects[result]->MapNumber = this->m_DSFMonsterRegenInfo[n].MonsterMapNum;
+				gGameObjects[result]->X = this->m_DSFMonsterRegenInfo[n]->RegenX;
+				gGameObjects[result]->Y = this->m_DSFMonsterRegenInfo[n]->RegenY;
+				gGameObjects[result]->MapNumber = this->m_DSFMonsterRegenInfo[n]->MonsterMapNum;
 				gGameObjects[result]->TX = gGameObjects[result]->X;
 				gGameObjects[result]->TY = gGameObjects[result]->Y;
 				gGameObjects[result]->m_OldX = gGameObjects[result]->X;
 				gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
-				gGameObjects[result]->Dir = this->m_DSFMonsterRegenInfo[n].MonsterDir;
+				gGameObjects[result]->Dir = this->m_DSFMonsterRegenInfo[n]->MonsterDir;
 				gGameObjects[result]->StartX = gGameObjects[result]->X;
 				gGameObjects[result]->StartY = gGameObjects[result]->Y;
 				gObjSetMonster(result, nMonsterType);
@@ -2700,14 +2700,14 @@ int CDevilSquareFinal::SetMonster()
 			if (result >= 0)
 			{
 				gGameObjects[result]->m_PosNum = l;
-				gGameObjects[result]->X = this->m_DSFMonsterRegenInfo[l].RegenX;
-				gGameObjects[result]->Y = this->m_DSFMonsterRegenInfo[l].RegenY;
-				gGameObjects[result]->MapNumber = this->m_DSFMonsterRegenInfo[l].MonsterMapNum;
+				gGameObjects[result]->X = this->m_DSFMonsterRegenInfo[l]->RegenX;
+				gGameObjects[result]->Y = this->m_DSFMonsterRegenInfo[l]->RegenY;
+				gGameObjects[result]->MapNumber = this->m_DSFMonsterRegenInfo[l]->MonsterMapNum;
 				gGameObjects[result]->TX = gGameObjects[result]->X;
 				gGameObjects[result]->TY = gGameObjects[result]->Y;
 				gGameObjects[result]->m_OldX = gGameObjects[result]->X;
 				gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
-				gGameObjects[result]->Dir = this->m_DSFMonsterRegenInfo[l].MonsterDir;
+				gGameObjects[result]->Dir = this->m_DSFMonsterRegenInfo[l]->MonsterDir;
 				gGameObjects[result]->StartX = gGameObjects[result]->X;
 				gGameObjects[result]->StartY = gGameObjects[result]->Y;
 				gGameObjects[result]->m_Disappear_Monster = GetTickCount();
@@ -2788,7 +2788,7 @@ BYTE CDevilSquareFinal::GetUserTeam(int nIndex)
 		return -1;
 	}
 
-	if (this->m_UserData[gGameObjects[nIndex]->m_nDSFIndex].m_nIndex != nIndex)
+	if (this->m_UserData[gGameObjects[nIndex]->m_nDSFIndex]->m_nIndex != nIndex)
 	{
 		return -1;
 	}
@@ -2798,7 +2798,7 @@ BYTE CDevilSquareFinal::GetUserTeam(int nIndex)
 		return -1;
 	}
 
-	return this->m_UserData[gGameObjects[nIndex]->m_nDSFIndex].m_btTeam;
+	return this->m_UserData[gGameObjects[nIndex]->m_nDSFIndex]->m_btTeam;
 }
 
 int CDevilSquareFinal::MonsterKillPoint(int nMonsterType)
@@ -2836,7 +2836,7 @@ void CDevilSquareFinal::MonsterKillPointCalc(CGameObject &lpObj, int nPoint)
 	for (int i = 0; i < 20; i++)
 	{
 		if (this->m_UserData[i].m_nIndex != -1 && 
-			gGameObjects[this->m_UserData[i].m_nIndex].Connected > PLAYER_LOGGED && 
+			gGameObjects[this->m_UserData[i]->m_nIndex]->Connected > PLAYER_LOGGED && 
 			this->m_UserData[i].m_nIndex == aIndex)
 		{
 			this->m_UserData[i].m_nPoint += nPoint;
@@ -2881,8 +2881,8 @@ void CDevilSquareFinal::EndUserMove()
 	for (int i = 0; i < 20; i++)
 	{
 		if (this->m_UserData[i].m_nIndex != -1 &&
-			gGameObjects[this->m_UserData[i].m_nIndex].Connected > PLAYER_LOGGED &&
-			gGameObjects[this->m_UserData[i].m_nIndex].MapNumber == MAP_INDEX_DEVILSQUARE_FINAL)
+			gGameObjects[this->m_UserData[i]->m_nIndex]->Connected > PLAYER_LOGGED &&
+			gGameObjects[this->m_UserData[i]->m_nIndex]->MapNumber == MAP_INDEX_DEVILSQUARE_FINAL)
 		{
 			int aIndex = this->m_UserData[i].m_nIndex;
 			lpObj.m_nDSFIndex = -1;

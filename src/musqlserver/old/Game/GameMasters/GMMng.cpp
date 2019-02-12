@@ -2043,7 +2043,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 				{
 					if (lpObj.VpPlayer[n].number >= 0)
 					{
-						CGameObject lpTarget = &gGameObjects[lpObj.VpPlayer[n].number];
+						CGameObject lpTarget = &gGameObjects[lpObj.VpPlayer[n]->number];
 
 						if (lpTarget->Class == 275)
 						{
@@ -2086,7 +2086,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 				{
 					if (lpObj.VpPlayer[n].number >= 0)
 					{
-						CGameObject lpTarget = &gGameObjects[lpObj.VpPlayer[n].number];
+						CGameObject lpTarget = &gGameObjects[lpObj.VpPlayer[n]->number];
 
 						if (lpTarget->Class == 275)
 						{

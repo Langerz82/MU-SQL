@@ -244,8 +244,8 @@ int CCrywolfUtil::CrywolfMVPLevelUp(int iUserIndex, int iAddExp)
 			}
 		}
 
-		gGameObjects[iUserIndex]->MaxLife += DCInfo.DefClass[gGameObjects[iUserIndex]->Class].LevelLife;
-		gGameObjects[iUserIndex]->MaxMana += DCInfo.DefClass[gGameObjects[iUserIndex]->Class].LevelMana;
+		gGameObjects[iUserIndex]->MaxLife += DCInfo.DefClass[gGameObjects[iUserIndex]->Class]->LevelLife;
+		gGameObjects[iUserIndex]->MaxMana += DCInfo.DefClass[gGameObjects[iUserIndex]->Class]->LevelMana;
 		gGameObjects[iUserIndex]->Life = gGameObjects[iUserIndex]->MaxLife;
 		gGameObjects[iUserIndex]->Mana = gGameObjects[iUserIndex]->MaxMana;
 		gObjNextExpCal(&gGameObjects[iUserIndex]);

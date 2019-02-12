@@ -225,7 +225,7 @@ void CEventMonSetBase::DeleteAllMonsters()
 {
 	for (std::map<int, boost::shared_ptr<EVENT_MONSTER_DATA>>::iterator It = this->m_mapMonsterData.begin(); It != this->m_mapMonsterData.end(); It++)
 	{
-		//sLog->outBasic("[Event Spawn] Delete Monster (%d)(%d) (%d)(%d)(%d)", It->first,	gGameObjects[It->first].Class, gGameObjects[It->first].MapNumber, gGameObjects[It->first].X, gGameObjects[It->first].Y);
+		//sLog->outBasic("[Event Spawn] Delete Monster (%d)(%d) (%d)(%d)(%d)", It->first,	gGameObjects[It->first]->Class, gGameObjects[It->first]->MapNumber, gGameObjects[It->first]->X, gGameObjects[It->first]->Y);
 
 		gObjDel(It->first);
 		this->m_mapMonsterData.erase(It);

@@ -217,7 +217,7 @@ void CGReqQuestExp(PMSG_REQ_NPC_QUESTEXP *pMsg, int aIndex)
 			return;
 		}
 
-		g_MuLuaQuestExp.Generic_Call("NpcTalkClick", "ii>", (int)gGameObjects[lpObj.TargetNpcNumber].Class, lpObj.m_Index);
+		g_MuLuaQuestExp.Generic_Call("NpcTalkClick", "ii>", (int)gGameObjects[lpObj.TargetNpcNumber]->Class, lpObj.m_Index);
     }
 }
 

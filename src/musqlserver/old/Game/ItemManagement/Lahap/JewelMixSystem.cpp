@@ -274,18 +274,18 @@ BOOL CJewelMixSystem::MixJewel( int iIndex, int iJewelType, int iMixType)
 
 	for ( int x= INVETORY_WEAR_SIZE ; x< MAIN_INVENTORY_SIZE; x++)
 	{
-		if ( gGameObjects[iIndex]->pInventory[x].IsItem() == TRUE )
+		if ( gGameObjects[iIndex]->pInventory[x]->IsItem() == TRUE )
 		{
-			if ( gGameObjects[iIndex]->pInventory[x].m_Type == iItemType )
+			if ( gGameObjects[iIndex]->pInventory[x]->m_Type == iItemType )
 			{
 				sLog->outBasic("[JewelMix] [%s][%s] Mix - Delete Jewel, Type:%d, Level:%d, Serial:%I64d",
 					gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name,
-					gGameObjects[iIndex]->pInventory[x].m_Type,
-					gGameObjects[iIndex]->pInventory[x].m_Level,
-					gGameObjects[iIndex]->pInventory[x].m_Number);
+					gGameObjects[iIndex]->pInventory[x]->m_Type,
+					gGameObjects[iIndex]->pInventory[x]->m_Level,
+					gGameObjects[iIndex]->pInventory[x]->m_Number);
 
 				gObjInventoryItemSet(iIndex, x, 0xFF);
-				gGameObjects[iIndex]->pInventory[x].Clear();
+				gGameObjects[iIndex]->pInventory[x]->Clear();
 				iDelJewelCount++;
 
 				if ( iJewelCount <= iDelJewelCount )
@@ -386,18 +386,18 @@ BOOL CJewelMixSystem::UnMixJewel(int iIndex, int iJewelType, int iJewelLevel, in
 	int iInventoryItemType;
 	int iInventoryItemLevel;
 
-	if ( gGameObjects[iIndex]->pInventory[iInventoryPos].IsItem() == TRUE )
+	if ( gGameObjects[iIndex]->pInventory[iInventoryPos]->IsItem() == TRUE )
 	{
-		if ( gGameObjects[iIndex]->pInventory[iInventoryPos].m_Level == iJewelLevel )
+		if ( gGameObjects[iIndex]->pInventory[iInventoryPos]->m_Level == iJewelLevel )
 		{
-			iInventoryItemType = gGameObjects[iIndex]->pInventory[iInventoryPos].m_Type;
-			iInventoryItemLevel = gGameObjects[iIndex]->pInventory[iInventoryPos].m_Level;
+			iInventoryItemType = gGameObjects[iIndex]->pInventory[iInventoryPos]->m_Type;
+			iInventoryItemLevel = gGameObjects[iIndex]->pInventory[iInventoryPos]->m_Level;
 		}
 		else
 		{
 			sLog->outBasic("[JewelMix] [%s][%s] iJewelLevel is different from request : %d / %d",
 				gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name,
-				gGameObjects[iIndex]->pInventory[iInventoryPos].m_Level, iJewelLevel);
+				gGameObjects[iIndex]->pInventory[iInventoryPos]->m_Level, iJewelLevel);
 
 			gGameObjects[iIndex]->ChaosLock = FALSE;
 			GSProtocol.GCAnsJewelUnMix(iIndex, 3);
@@ -466,9 +466,9 @@ BOOL CJewelMixSystem::UnMixJewel(int iIndex, int iJewelType, int iJewelLevel, in
 
 	sLog->outBasic("[JewelMix] [%s][%s] UnMix - Delete Jewel, Type:%d, Level:%d, Serial:%I64d",
 		gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name,
-		gGameObjects[iIndex]->pInventory[iInventoryPos].m_Type,
-		gGameObjects[iIndex]->pInventory[iInventoryPos].m_Level,
-		gGameObjects[iIndex]->pInventory[iInventoryPos].m_Number);
+		gGameObjects[iIndex]->pInventory[iInventoryPos]->m_Type,
+		gGameObjects[iIndex]->pInventory[iInventoryPos]->m_Level,
+		gGameObjects[iIndex]->pInventory[iInventoryPos]->m_Number);
 
 	gObjInventoryItemSet(iIndex, iInventoryPos, 0xFF);
 	gObjInventoryDeleteItem(iIndex, iInventoryPos);

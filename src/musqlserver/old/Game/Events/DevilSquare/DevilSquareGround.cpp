@@ -610,7 +610,7 @@ int CDevilSquareGround::GetPlayUserCountRightNow()
 		{
 			if ( ObjectMaxRange(this->m_iUserIndex[i]) == TRUE )
 			{
-				if ( gGameObjects[this->m_iUserIndex[i]].Connected == PLAYER_PLAYING )
+				if ( gGameObjects[this->m_iUserIndex[i]]->Connected == PLAYER_PLAYING )
 				{
 					Count++;
 				}

@@ -484,49 +484,49 @@ int CKanturu::CheckEnterKanturu(int iUserIndex)
 
 		if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
 		{
-			if ((gGameObjects[iUserIndex]->pInventory[7].m_Type < ITEMGET(12, 0) || gGameObjects[iUserIndex]->pInventory[7].m_Type > ITEMGET(12, 6) && gGameObjects[iUserIndex]->pInventory[7].m_Type < ITEMGET(12, 36)) &&
-				gGameObjects[iUserIndex]->pInventory[7].m_Type != ITEMGET(13, 30) &&
-				gGameObjects[iUserIndex]->pInventory[gGameObjects[iUserIndex]->m_btInvenPetPos].m_Type != ITEMGET(13, 3) &&
-				gGameObjects[iUserIndex]->pInventory[gGameObjects[iUserIndex]->m_btInvenPetPos].m_Type != ITEMGET(13, 37) &&
-				gGameObjects[iUserIndex]->pInventory[7].m_Type != ITEMGET(12, 49) &&
-				gGameObjects[iUserIndex]->pInventory[7].m_Type != ITEMGET(12, 50) &&
-				!(gGameObjects[iUserIndex]->pInventory[7].m_Type >= ITEMGET(12, 36) && gGameObjects[iUserIndex]->pInventory[7].m_Type <= ITEMGET(12, 43)) &&
-				!(gGameObjects[iUserIndex]->pInventory[7].m_Type >= ITEMGET(12, 262) && gGameObjects[iUserIndex]->pInventory[7].m_Type <= ITEMGET(12, 265)) &&
-				gGameObjects[iUserIndex]->pInventory[7].m_Type != ITEMGET(12, 266) &&
-				gGameObjects[iUserIndex]->pInventory[7].m_Type != ITEMGET(12, 267) &&
-				gGameObjects[iUserIndex]->pInventory[7].m_Type != ITEMGET(12, 268) &&
-				gGameObjects[iUserIndex]->pInventory[7].m_Type != ITEMGET(12, 269) &&
-				gGameObjects[iUserIndex]->pInventory[7].m_Type != ITEMGET(12, 270))
+			if ((gGameObjects[iUserIndex]->pInventory[7]->m_Type < ITEMGET(12, 0) || gGameObjects[iUserIndex]->pInventory[7]->m_Type > ITEMGET(12, 6) && gGameObjects[iUserIndex]->pInventory[7]->m_Type < ITEMGET(12, 36)) &&
+				gGameObjects[iUserIndex]->pInventory[7]->m_Type != ITEMGET(13, 30) &&
+				gGameObjects[iUserIndex]->pInventory[gGameObjects[iUserIndex]->m_btInvenPetPos]->m_Type != ITEMGET(13, 3) &&
+				gGameObjects[iUserIndex]->pInventory[gGameObjects[iUserIndex]->m_btInvenPetPos]->m_Type != ITEMGET(13, 37) &&
+				gGameObjects[iUserIndex]->pInventory[7]->m_Type != ITEMGET(12, 49) &&
+				gGameObjects[iUserIndex]->pInventory[7]->m_Type != ITEMGET(12, 50) &&
+				!(gGameObjects[iUserIndex]->pInventory[7]->m_Type >= ITEMGET(12, 36) && gGameObjects[iUserIndex]->pInventory[7]->m_Type <= ITEMGET(12, 43)) &&
+				!(gGameObjects[iUserIndex]->pInventory[7]->m_Type >= ITEMGET(12, 262) && gGameObjects[iUserIndex]->pInventory[7]->m_Type <= ITEMGET(12, 265)) &&
+				gGameObjects[iUserIndex]->pInventory[7]->m_Type != ITEMGET(12, 266) &&
+				gGameObjects[iUserIndex]->pInventory[7]->m_Type != ITEMGET(12, 267) &&
+				gGameObjects[iUserIndex]->pInventory[7]->m_Type != ITEMGET(12, 268) &&
+				gGameObjects[iUserIndex]->pInventory[7]->m_Type != ITEMGET(12, 269) &&
+				gGameObjects[iUserIndex]->pInventory[7]->m_Type != ITEMGET(12, 270))
 			{
 				return 7;
 			}
 
-			if (gGameObjects[iUserIndex]->pInventory[gGameObjects[iUserIndex]->m_btInvenPetPos].m_Type == ITEMGET(13, 2))
+			if (gGameObjects[iUserIndex]->pInventory[gGameObjects[iUserIndex]->m_btInvenPetPos]->m_Type == ITEMGET(13, 2))
 			{
 				return 5;
 			}
 
-			if (gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13, 10) ||
-				gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13, 10))
+			if (gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13, 10) ||
+				gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13, 10))
 			{
 				return 6;
 			}
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,39) ||
-			gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,39) )
+		if ( gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,39) ||
+			gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,39) )
 		{
 			return 6;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,40) ||
-			gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,40) )
+		if ( gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,40) ||
+			gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,40) )
 		{
 			return 6;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,41) ||
-			gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,41) )
+		if ( gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,41) ||
+			gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,41) )
 		{
 			return 6;
 		}
@@ -570,17 +570,17 @@ BOOL CKanturu::CheckEqipmentMoonStone(int iUserIndex)
 	if ( !gObjIsConnected(iUserIndex) )
 		return FALSE;
 
-	if ( gGameObjects[iUserIndex]->pInventory[10].IsItem() ||
-		 gGameObjects[iUserIndex]->pInventory[11].IsItem() )	
+	if ( gGameObjects[iUserIndex]->pInventory[10]->IsItem() ||
+		 gGameObjects[iUserIndex]->pInventory[11]->IsItem() )	
 	{
-		if ( gGameObjects[iUserIndex]->pInventory[10].m_Type == ITEMGET(13,38) &&
-			 gGameObjects[iUserIndex]->pInventory[10].m_Durability != 0.0f )
+		if ( gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,38) &&
+			 gGameObjects[iUserIndex]->pInventory[10]->m_Durability != 0.0f )
 		{
 			return TRUE;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[11].m_Type == ITEMGET(13,38) &&
-			 gGameObjects[iUserIndex]->pInventory[11].m_Durability != 0.0f )
+		if ( gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,38) &&
+			 gGameObjects[iUserIndex]->pInventory[11]->m_Durability != 0.0f )
 		{
 			return TRUE;
 		}

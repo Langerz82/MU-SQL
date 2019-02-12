@@ -1362,7 +1362,7 @@ void CObjUseSkill::KnightSkillAddLife(CGameObject &lpObj, CMagicInf * lpMagic)
 
 	else if (lpObj.Type == OBJ_USER && lpObj.m_PlayerData->ISBOT == true)
 	{
-		iaddlife = (gGameObjects[lpObj.BuffPlayerIndex].MaxLife) * (iaddLifepower + 100) / 100;
+		iaddlife = (gGameObjects[lpObj.BuffPlayerIndex]->MaxLife) * (iaddLifepower + 100) / 100;
 
 		if (iaddlife > 3000000)
 		{
@@ -1476,7 +1476,7 @@ void CObjUseSkill::SkillDefense(CGameObject &lpObj, int aTargetIndex, CMagicInf 
 	{
 		if (lpObj.VpPlayer2[n].type == OBJ_MONSTER && lpObj.VpPlayer2[n].state != 0)
 		{
-			CGameObject lpMonster = &gGameObjects[lpObj.VpPlayer2[n].number];
+			CGameObject lpMonster = &gGameObjects[lpObj.VpPlayer2[n]->number];
 			if (lpMonster->m_iCurrentAI != 0)
 			{
 				lpMonster->m_Agro->IncAgro(lpObj.m_Index, int(skill_defense) / 10);
@@ -1558,7 +1558,7 @@ void CObjUseSkill::SkillAttack(CGameObject &lpObj, int aTargetIndex, CMagicInf *
 	{
 		if (lpObj.VpPlayer2[n].type == OBJ_MONSTER && lpObj.VpPlayer2[n].state != 0)
 		{
-			CGameObject lpMonster = &gGameObjects[lpObj.VpPlayer2[n].number];
+			CGameObject lpMonster = &gGameObjects[lpObj.VpPlayer2[n]->number];
 			if (lpMonster->m_iCurrentAI != 0)
 			{
 				lpMonster->m_Agro->IncAgro(lpObj.m_Index, int(skill_attack) / 10);
@@ -2066,7 +2066,7 @@ void CObjUseSkill::SkillHealing(CGameObject &lpObj, int aTargetIndex, CMagicInf 
 		{
 			if (lpObj.VpPlayer2[n].type == OBJ_MONSTER && lpObj.VpPlayer2[n].state != 0)
 			{
-				CGameObject lpMonster = &gGameObjects[lpObj.VpPlayer2[n].number];
+				CGameObject lpMonster = &gGameObjects[lpObj.VpPlayer2[n]->number];
 				if (lpMonster->m_iCurrentAI != 0)
 				{
 					lpMonster->m_Agro->IncAgro(lpObj.m_Index, (lpObj.m_PlayerData->Energy / 5) / 40);
@@ -2191,7 +2191,7 @@ void CObjUseSkill::SkillBlowOfFury(CGameObject &lpObj, CMagicInf * lpMagic, BYTE
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
@@ -2288,7 +2288,7 @@ void CObjUseSkill::SkillWheel(CGameObject &lpObj, CMagicInf* lpMagic, int aTarge
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
@@ -2387,7 +2387,7 @@ void CObjUseSkill::SkillPowerSlash(CGameObject &lpObj, CMagicInf * lpMagic, BYTE
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
@@ -2488,7 +2488,7 @@ int CObjUseSkill::SkillDeathPoison(CGameObject &lpObj, CMagicInf * lpMagic, BYTE
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
@@ -2650,7 +2650,7 @@ int CObjUseSkill::SkillSuddenIce(CGameObject &lpObj, CMagicInf * lpMagic, BYTE x
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
@@ -2768,7 +2768,7 @@ BOOL CObjUseSkill::SkillHellFire2(CGameObject &lpObj, int aTargetIndex, CMagicIn
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
@@ -2873,7 +2873,7 @@ BOOL CObjUseSkill::SkillKnightBlow(CGameObject &lpObj, int aTargetIndex, CMagicI
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
@@ -3131,7 +3131,7 @@ BOOL CObjUseSkill::SkillSpear(CGameObject &lpObj, int aTargetIndex, CMagicInf * 
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
@@ -3220,7 +3220,7 @@ BOOL CObjUseSkill::SkillFireBurst(CGameObject &lpObj, int aTargetIndex, CMagicIn
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
@@ -3331,7 +3331,7 @@ BOOL CObjUseSkill::SkillDarkHorseAttack(CGameObject &lpObj, int aTargetIndex, CM
 
 						if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 						{
-							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 						}
 
 						if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
@@ -3731,7 +3731,7 @@ void CObjUseSkill::SkillElectricSpark(CGameObject &lpObj, CMagicInf * lpMagic, B
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
@@ -4676,7 +4676,7 @@ int CObjUseSkill::SkillFenrirAttack(CGameObject &lpObj, int aTargetIndex, CMagic
 
 						if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 						{
-							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 						}
 
 						if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
@@ -4873,7 +4873,7 @@ int CObjUseSkill::SkillBookSahamutt(CGameObject &lpObj, CMagicInf *lpMagic, BYTE
 
 						if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 						{
-							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 						}
 
 						if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
@@ -4968,7 +4968,7 @@ int CObjUseSkill::SkillSummonerSleep(CGameObject &lpObj, int aTargetIndex, CMagi
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -5097,7 +5097,7 @@ int CObjUseSkill::SkillBookNeil(CGameObject &lpObj, CMagicInf *lpMagic, BYTE x, 
 
 						if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 						{
-							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 						}
 
 						if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
@@ -5372,7 +5372,7 @@ int CObjUseSkill::SkillChainLighting(CGameObject &lpObj, CMagicInf *lpMagic, int
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
@@ -5583,7 +5583,7 @@ int CObjUseSkill::SkillAreaMonsterAttack(CGameObject &lpObj, CMagicInf *lpMagic,
 
 						if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 						{
-							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 						}
 
 						if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
@@ -5664,7 +5664,7 @@ int CObjUseSkill::SkillAreaMonsterAttack(CGameObject &lpObj, CMagicInf *lpMagic,
 												else
 												{
 													int Dec = 0;
-													BYTE btAttr = MapC[gGameObjects[tObjNum]->MapNumber].GetAttr(gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y);
+													BYTE btAttr = MapC[gGameObjects[tObjNum]->MapNumber]->GetAttr(gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y);
 
 													if ((btAttr & 1) != 1)
 													{
@@ -5881,7 +5881,7 @@ int CObjUseSkill::SkillShieldRefill(CGameObject &lpObj, CMagicInf *lpMagic, int 
 			{
 				if (lpObj.VpPlayer2[n].type == OBJ_MONSTER && lpObj.VpPlayer2[n].state != 0)
 				{
-					CGameObject lpMonster = &gGameObjects[lpObj.VpPlayer2[n].number];
+					CGameObject lpMonster = &gGameObjects[lpObj.VpPlayer2[n]->number];
 					if (lpMonster->m_iCurrentAI != 0)
 					{
 						lpMonster->m_Agro->IncAgro(lpObj.m_Index, lpObj.m_PlayerData->Energy / 5 / 40);
@@ -6021,7 +6021,7 @@ int CObjUseSkill::SkillFiveShot(CGameObject &lpObj, CMagicInf *lpMagic, BYTE Tar
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -6109,7 +6109,7 @@ int CObjUseSkill::SkillBirds(CGameObject &lpObj, CMagicInf *lpMagic, BYTE Target
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -6190,7 +6190,7 @@ int CObjUseSkill::SkillFlameStrike(CGameObject &lpObj, CMagicInf *lpMagic, BYTE 
 
 				if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 				{
-					CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+					CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 				}
 
 				if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
@@ -6637,7 +6637,7 @@ int CObjUseSkill::SkillMonkBarrageJustOneTarget(CGameObject &lpObj, CMagicInf * 
 
 	else if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 	{
-		CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+		CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 
 		if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
 		{
@@ -6807,7 +6807,7 @@ int CObjUseSkill::SkillMonkDarkSideGetTargetIndex(CGameObject &lpObj, int aTarge
 
 						else if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 						{
-							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 
 							if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
 							{
@@ -7083,7 +7083,7 @@ void CObjUseSkill::SkillSpinStep(CGameObject &lpObj, int iTargetIndex, CMagicInf
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
@@ -7179,7 +7179,7 @@ void CObjUseSkill::SkillGrowLancerAttackOneTarget(CGameObject &lpObj, int aTarge
 
 	else if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 	{
-		CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+		CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 
 		if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
 		{
@@ -7266,7 +7266,7 @@ int CObjUseSkill::SkillBreche(CGameObject &lpObj, CMagicInf * lpMagic, BYTE x, B
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
@@ -7378,7 +7378,7 @@ int CObjUseSkill::SkillShiningPeak(CGameObject &lpObj, CMagicInf * lpMagic, int 
 
 	else if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 	{
-		CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+		CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 
 		if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
 		{
@@ -7625,7 +7625,7 @@ int CObjUseSkill::SkillFireBeast(CGameObject &lpObj, int aTargetIndex, CMagicInf
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
@@ -7690,7 +7690,7 @@ int CObjUseSkill::SkillIceBeast(CGameObject &lpObj, int aTargetIndex, CMagicInf 
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
@@ -7757,7 +7757,7 @@ int CObjUseSkill::SkillMeteorStorm(CGameObject &lpObj, CMagicInf* lpMagic, BYTE 
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)

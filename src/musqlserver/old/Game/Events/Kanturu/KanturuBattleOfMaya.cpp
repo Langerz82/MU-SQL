@@ -603,7 +603,7 @@ void CKanturuBattleOfMaya::ProcState_MAYA1()
 		return;
 	}
 
-	if ( gGameObjects[this->m_iMayaLeftHandObjIndex].Live == FALSE )
+	if ( gGameObjects[this->m_iMayaLeftHandObjIndex]->Live == FALSE )
 	{
 		if ( this->m_iMayaHandDieTimeCounter == 0 )
 		{
@@ -675,7 +675,7 @@ void CKanturuBattleOfMaya::ProcState_MAYA2()
 		return;
 	}
 
-	if ( gGameObjects[this->m_iMayaRightHandObjIndex].Live == FALSE )
+	if ( gGameObjects[this->m_iMayaRightHandObjIndex]->Live == FALSE )
 	{
 		if ( this->m_iMayaHandDieTimeCounter == 0 )
 		{
@@ -752,12 +752,12 @@ void CKanturuBattleOfMaya::ProcState_MAYA3()
 		return;
 	}
 
-	if ( gGameObjects[this->m_iMayaLeftHandObjIndex].Live != FALSE )
+	if ( gGameObjects[this->m_iMayaLeftHandObjIndex]->Live != FALSE )
 	{
 		iAliveCount++;
 	}
 
-	if ( gGameObjects[this->m_iMayaRightHandObjIndex].Live != FALSE )
+	if ( gGameObjects[this->m_iMayaRightHandObjIndex]->Live != FALSE )
 	{
 		iAliveCount++;
 	}
@@ -889,8 +889,8 @@ void CKanturuBattleOfMaya::ResetAIMonster()
 {
 	if(this->m_iMayaLeftHandObjIndex != -1 && this->m_iMayaRightHandObjIndex != -1)
 	{
-		gGameObjects[this->m_iMayaLeftHandObjIndex].Life = 0;
-		gGameObjects[this->m_iMayaRightHandObjIndex].Life = 0;
+		gGameObjects[this->m_iMayaLeftHandObjIndex]->Life = 0;
+		gGameObjects[this->m_iMayaRightHandObjIndex]->Life = 0;
 	}
 
 	for ( int iCount=0;iCount < KANTURU_MAYA_AI_CHANGE_TIME ; iCount++)

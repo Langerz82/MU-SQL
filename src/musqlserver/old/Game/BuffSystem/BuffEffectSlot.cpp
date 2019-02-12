@@ -1296,7 +1296,7 @@ void CheckItemOptForGetExpExRenewal(CGameObject &lpObj, CGameObject lpTargetObj,
 				if (!ObjectMaxRange(gParty.m_PartyS[lpObj.PartyNumber].Number[i]))
 					continue;
 
-				CGameObject lpPartyObj = &gGameObjects[gParty.m_PartyS[lpObj.PartyNumber].Number[i]];
+				CGameObject lpPartyObj = &gGameObjects[gParty.m_PartyS[lpObj.PartyNumber]->Number[i]];
 				int iPartyDis = gObjCalDistance(lpObj, lpPartyObj);
 
 				if (lpObj.m_Index != lpPartyObj.m_Index)

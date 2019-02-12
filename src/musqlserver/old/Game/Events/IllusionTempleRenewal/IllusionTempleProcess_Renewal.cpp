@@ -351,14 +351,14 @@ void CIllusionTempleProcess_Renewal::Proc_ITRState_None(int nCurTime)
 
 			for (int i = 0; i < 10; i++)
 			{
-				if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i].m_nIndex].m_nITR_Index == i)
+				if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i]->m_nIndex]->m_nITR_Index == i)
 				{
 					if (this->m_UserData[i].m_btTeam == 1)
 					{
 						g_SendNPCInfo.SendITLNpcCoordinate(this->m_UserData[i].m_nIndex, this->m_nTempleNumber + 45);
 						gObjMoveGate(this->m_UserData[i].m_nIndex, this->m_nTempleNumber + 154);
-						gGameObjects[this->m_UserData[i].m_nIndex].m_Change = 405;
-						gObjViewportListProtocolCreate(&gGameObjects[this->m_UserData[i].m_nIndex]);
+						gGameObjects[this->m_UserData[i]->m_nIndex]->m_Change = 405;
+						gObjViewportListProtocolCreate(&gGameObjects[this->m_UserData[i]->m_nIndex]);
 						this->m_nIllusionUserCount++;
 					}
 
@@ -366,8 +366,8 @@ void CIllusionTempleProcess_Renewal::Proc_ITRState_None(int nCurTime)
 					{
 						g_SendNPCInfo.SendITLNpcCoordinate(this->m_UserData[i].m_nIndex, this->m_nTempleNumber + 45);
 						gObjMoveGate(this->m_UserData[i].m_nIndex, this->m_nTempleNumber + 148);
-						gGameObjects[this->m_UserData[i].m_nIndex].m_Change = 404;
-						gObjViewportListProtocolCreate(&gGameObjects[this->m_UserData[i].m_nIndex]);
+						gGameObjects[this->m_UserData[i]->m_nIndex]->m_Change = 404;
+						gObjViewportListProtocolCreate(&gGameObjects[this->m_UserData[i]->m_nIndex]);
 						this->m_nAlliedUserCount++;
 					}
 				}
@@ -394,7 +394,7 @@ void CIllusionTempleProcess_Renewal::Proc_ITRState_None(int nCurTime)
 
 			for (int nIndex = 0; nIndex < 10; nIndex++)
 			{
-				if (this->m_UserData[nIndex].m_nIndex != -1 && gGameObjects[this->m_UserData[nIndex].m_nIndex].Connected > PLAYER_LOGGED && gGameObjects[this->m_UserData[nIndex].m_nIndex].MapNumber == this->m_nTempleNumber + 45)
+				if (this->m_UserData[nIndex].m_nIndex != -1 && gGameObjects[this->m_UserData[nIndex]->m_nIndex]->Connected > PLAYER_LOGGED && gGameObjects[this->m_UserData[nIndex]->m_nIndex]->MapNumber == this->m_nTempleNumber + 45)
 				{
 					gObjMoveGate(this->m_UserData[nIndex].m_nIndex, 333);
 					this->ClearUserData(nIndex);
@@ -429,9 +429,9 @@ void CIllusionTempleProcess_Renewal::Proc_ITRState_Ready(int nCurTime)
 
 			for (int i = 0; i < 10; i++)
 			{
-				if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i].m_nIndex].Connected > PLAYER_LOGGED)
+				if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i]->m_nIndex]->Connected > PLAYER_LOGGED)
 				{
-					if (gGameObjects[this->m_UserData[i].m_nIndex].MapNumber == this->m_nTempleNumber + 45)
+					if (gGameObjects[this->m_UserData[i]->m_nIndex]->MapNumber == this->m_nTempleNumber + 45)
 					{
 						IOCP.DataSend(this->m_UserData[i].m_nIndex, (LPBYTE)&pMsg, pMsg.h.size);
 					}
@@ -524,7 +524,7 @@ void CIllusionTempleProcess_Renewal::Proc_ITRState_End(int nCurTime)
 
 				for (int i = 0; i < 10; i++)
 				{
-					if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i].m_nIndex].Connected > PLAYER_LOGGED && gGameObjects[this->m_UserData[i].m_nIndex].MapNumber == this->m_nTempleNumber + 45)
+					if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i]->m_nIndex]->Connected > PLAYER_LOGGED && gGameObjects[this->m_UserData[i]->m_nIndex]->MapNumber == this->m_nTempleNumber + 45)
 					{
 						if (this->m_UserData[i].m_btTeam == 1)
 						{
@@ -536,12 +536,12 @@ void CIllusionTempleProcess_Renewal::Proc_ITRState_End(int nCurTime)
 							gObjMoveGate(this->m_UserData[i].m_nIndex, this->m_nTempleNumber + 148);
 						}
 
-						gObjSetPosition(this->m_UserData[i].m_nIndex, gGameObjects[this->m_UserData[i].m_nIndex].X, gGameObjects[this->m_UserData[i].m_nIndex].Y);
+						gObjSetPosition(this->m_UserData[i].m_nIndex, gGameObjects[this->m_UserData[i]->m_nIndex]->X, gGameObjects[this->m_UserData[i]->m_nIndex]->Y);
 					}
 
 					if (this->m_UserData[i].m_nRelicsInvenPos > 0)
 					{
-						if (gGameObjects[this->m_UserData[i].m_nIndex].pInventory[this->m_UserData[i].m_nRelicsInvenPos].m_Type == ITEMGET(14, 223))
+						if (gGameObjects[this->m_UserData[i]->m_nIndex]->pInventory[this->m_UserData[i]->m_nRelicsInvenPos]->m_Type == ITEMGET(14, 223))
 						{
 							gObjInventoryDeleteItem(this->m_UserData[i].m_nIndex, this->m_UserData[i].m_nRelicsInvenPos);
 							GSProtocol.GCInventoryItemDeleteSend(this->m_UserData[i].m_nIndex, this->m_UserData[i].m_nRelicsInvenPos, 0);
@@ -609,18 +609,18 @@ void CIllusionTempleProcess_Renewal::Set_ITRState_None()
 
 	for (int i = 0; i < 10; i++)
 	{
-		if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i].m_nIndex].Connected > PLAYER_LOGGED)
+		if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i]->m_nIndex]->Connected > PLAYER_LOGGED)
 		{
-			gGameObjects[this->m_UserData[i].m_nIndex].m_nITR_Index = -1;
-			gGameObjects[this->m_UserData[i].m_nIndex].m_nITR_RelicsTick = 0;
-			gGameObjects[this->m_UserData[i].m_nIndex].m_bITR_GettingRelics = 0;
-			gGameObjects[this->m_UserData[i].m_nIndex].m_bITR_RegisteringRelics = 0;
-			gGameObjects[this->m_UserData[i].m_nIndex].m_wITR_NpcType = 0;
-			gGameObjects[this->m_UserData[i].m_nIndex].m_byITR_StoneState = 99;
+			gGameObjects[this->m_UserData[i]->m_nIndex]->m_nITR_Index = -1;
+			gGameObjects[this->m_UserData[i]->m_nIndex]->m_nITR_RelicsTick = 0;
+			gGameObjects[this->m_UserData[i]->m_nIndex]->m_bITR_GettingRelics = 0;
+			gGameObjects[this->m_UserData[i]->m_nIndex]->m_bITR_RegisteringRelics = 0;
+			gGameObjects[this->m_UserData[i]->m_nIndex]->m_wITR_NpcType = 0;
+			gGameObjects[this->m_UserData[i]->m_nIndex]->m_byITR_StoneState = 99;
 
 			gObjMoveGate(this->m_UserData[i].m_nIndex, 333);
-			gGameObjects[this->m_UserData[i].m_nIndex].m_Change = -1;
-			gObjViewportListProtocolCreate(&gGameObjects[this->m_UserData[i].m_nIndex]);
+			gGameObjects[this->m_UserData[i]->m_nIndex]->m_Change = -1;
+			gObjViewportListProtocolCreate(&gGameObjects[this->m_UserData[i]->m_nIndex]);
 
 		}
 	}
@@ -657,13 +657,13 @@ void CIllusionTempleProcess_Renewal::Set_ITRState_Playing()
 
 		for (int i = 0; i < 10; i++)
 		{
-			if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i].m_nIndex].Connected > PLAYER_LOGGED)
+			if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i]->m_nIndex]->Connected > PLAYER_LOGGED)
 			{
-				if (gGameObjects[this->m_UserData[i].m_nIndex].MapNumber == this->m_nTempleNumber + 45)
+				if (gGameObjects[this->m_UserData[i]->m_nIndex]->MapNumber == this->m_nTempleNumber + 45)
 				{
 					sLog->outBasic("[ ITR ] MAP:[%d], ACC:[%s], NAME:[%s], TEAM:[%d], CLASS:[%d]",
-						this->m_nTempleNumber, gGameObjects[this->m_UserData[i].m_nIndex].AccountID, gGameObjects[this->m_UserData[i].m_nIndex].Name,
-						this->m_UserData[i].m_btTeam, gGameObjects[this->m_UserData[i].m_nIndex].m_PlayerData->DbClass);
+						this->m_nTempleNumber, gGameObjects[this->m_UserData[i]->m_nIndex]->AccountID, gGameObjects[this->m_UserData[i]->m_nIndex]->Name,
+						this->m_UserData[i].m_btTeam, gGameObjects[this->m_UserData[i]->m_nIndex]->m_PlayerData->DbClass);
 				}
 			}
 		}
@@ -697,23 +697,23 @@ void CIllusionTempleProcess_Renewal::Set_ITRState_End()
 
 	for (int i = 0; i < 10; i++)
 	{
-		if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i].m_nIndex].Connected > PLAYER_LOGGED && gGameObjects[this->m_UserData[i].m_nIndex].MapNumber == this->m_nTempleNumber + 45)
+		if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i]->m_nIndex]->Connected > PLAYER_LOGGED && gGameObjects[this->m_UserData[i]->m_nIndex]->MapNumber == this->m_nTempleNumber + 45)
 		{
 			if (this->m_UserData[i].m_dwSkillProdectionTime != 0)
 			{
 				this->m_UserData[i].m_dwSkillProdectionTime = 0;
-				gObjRemoveBuffEffect(&gGameObjects[this->m_UserData[i].m_nIndex], BUFFTYPE_TEMPLE_PROTECTION);
-				this->Send_ITR_SkillEnd(&gGameObjects[this->m_UserData[i].m_nIndex], 210);
+				gObjRemoveBuffEffect(&gGameObjects[this->m_UserData[i]->m_nIndex], BUFFTYPE_TEMPLE_PROTECTION);
+				this->Send_ITR_SkillEnd(&gGameObjects[this->m_UserData[i]->m_nIndex], 210);
 			}
 
 			if (this->m_UserData[i].m_dwSkillRestraintTime != 0)
 			{
 				this->m_UserData[i].m_dwSkillRestraintTime = 0;
-				gObjRemoveBuffEffect(&gGameObjects[this->m_UserData[i].m_nIndex], BUFFTYPE_RESTRICTION);
-				this->Send_ITR_SkillEnd(&gGameObjects[this->m_UserData[i].m_nIndex], 211);
+				gObjRemoveBuffEffect(&gGameObjects[this->m_UserData[i]->m_nIndex], BUFFTYPE_RESTRICTION);
+				this->Send_ITR_SkillEnd(&gGameObjects[this->m_UserData[i]->m_nIndex], 211);
 			}
 
-			this->ResetUserFlag_DoingRelicsThing(&gGameObjects[this->m_UserData[i].m_nIndex]);
+			this->ResetUserFlag_DoingRelicsThing(&gGameObjects[this->m_UserData[i]->m_nIndex]);
 		}
 	}
 
@@ -767,12 +767,12 @@ BOOL CIllusionTempleProcess_Renewal::EnterUserIllusionTemple(CGameObject &lpObj,
 			this->m_UserData[i].m_bEnterOk = true;
 			bResult = TRUE;
 
-			if (this->m_PartyTeam[0].nPartyIndex == gGameObjects[this->m_UserData[i].m_nIndex].PartyNumber)
+			if (this->m_PartyTeam[0].nPartyIndex == gGameObjects[this->m_UserData[i]->m_nIndex]->PartyNumber)
 			{
 				this->m_UserData[i].m_btTeam = 0;
 			}
 
-			else if (this->m_PartyTeam[1].nPartyIndex == gGameObjects[this->m_UserData[i].m_nIndex].PartyNumber)
+			else if (this->m_PartyTeam[1].nPartyIndex == gGameObjects[this->m_UserData[i]->m_nIndex]->PartyNumber)
 			{
 				this->m_UserData[i].m_btTeam = 1;
 			}
@@ -898,21 +898,21 @@ void CIllusionTempleProcess_Renewal::CheckUsersOnConnect()
 		{
 			if (gObjIsConnected(this->m_UserData[i].m_nIndex))
 			{
-				if (gGameObjects[this->m_UserData[i].m_nIndex].MapNumber == this->m_nTempleNumber + 45)
+				if (gGameObjects[this->m_UserData[i]->m_nIndex]->MapNumber == this->m_nTempleNumber + 45)
 				{
 					this->m_nUserCount++;
 				}
 
 				else
 				{
-					gGameObjects[this->m_UserData[i].m_nIndex].m_nITR_Index = -1;
+					gGameObjects[this->m_UserData[i]->m_nIndex]->m_nITR_Index = -1;
 					this->ClearUserData(i);
 				}
 			}
 
 			else
 			{
-				gGameObjects[this->m_UserData[i].m_nIndex].m_nITR_Index = -1;
+				gGameObjects[this->m_UserData[i]->m_nIndex]->m_nITR_Index = -1;
 				this->ClearUserData(i);
 			}
 		}
@@ -1048,8 +1048,8 @@ int CIllusionTempleProcess_Renewal::SearchRelicsItem(int iIndex)
 
 	for (int x = 0; x < INVENTORY_SIZE; x++)
 	{
-		if (gGameObjects[iIndex]->pInventory[x].IsItem() == TRUE &&
-			gGameObjects[iIndex]->pInventory[x].m_Type == ITEMGET(14, 223))
+		if (gGameObjects[iIndex]->pInventory[x]->IsItem() == TRUE &&
+			gGameObjects[iIndex]->pInventory[x]->m_Type == ITEMGET(14, 223))
 		{
 			return x;
 		}
@@ -1064,7 +1064,7 @@ void CIllusionTempleProcess_Renewal::DeleteAllRelicsItem()
 	{
 		if (this->m_UserData[i].m_nRelicsInvenPos > 0)
 		{
-			CGameObject lpObj = &gGameObjects[this->m_UserData[i].m_nIndex];
+			CGameObject lpObj = &gGameObjects[this->m_UserData[i]->m_nIndex];
 
 			if (lpObj)
 			{
@@ -1134,15 +1134,15 @@ void CIllusionTempleProcess_Renewal::DropRelicsItem(int iIndex, BYTE byAct)
 	pResult.Ipos = iItemPos;
 
 	int map_num = gGameObjects[iIndex]->MapNumber;
-	int type = gGameObjects[iIndex]->pInventory[iItemPos].m_Type;
-	int level = gGameObjects[iIndex]->pInventory[iItemPos].m_Level;
-	float dur = gGameObjects[iIndex]->pInventory[iItemPos].m_Durability;
-	BOOL ret = gGameObjects[iIndex]->pInventory[iItemPos].IsItem();
-	BYTE Option1 = gGameObjects[iIndex]->pInventory[iItemPos].m_Option1;
-	BYTE Option2 = gGameObjects[iIndex]->pInventory[iItemPos].m_Option2;
-	BYTE Option3 = gGameObjects[iIndex]->pInventory[iItemPos].m_Option3;
-	BYTE NOption = gGameObjects[iIndex]->pInventory[iItemPos].m_NewOption;
-	UINT64 s_num = gGameObjects[iIndex]->pInventory[iItemPos].m_Number;
+	int type = gGameObjects[iIndex]->pInventory[iItemPos]->m_Type;
+	int level = gGameObjects[iIndex]->pInventory[iItemPos]->m_Level;
+	float dur = gGameObjects[iIndex]->pInventory[iItemPos]->m_Durability;
+	BOOL ret = gGameObjects[iIndex]->pInventory[iItemPos]->IsItem();
+	BYTE Option1 = gGameObjects[iIndex]->pInventory[iItemPos]->m_Option1;
+	BYTE Option2 = gGameObjects[iIndex]->pInventory[iItemPos]->m_Option2;
+	BYTE Option3 = gGameObjects[iIndex]->pInventory[iItemPos]->m_Option3;
+	BYTE NOption = gGameObjects[iIndex]->pInventory[iItemPos]->m_NewOption;
+	UINT64 s_num = gGameObjects[iIndex]->pInventory[iItemPos]->m_Number;
 	BYTE ItemExOption = g_kJewelOfHarmonySystem.GetItemStrengthenOption(&gGameObjects[iIndex]->pInventory[iItemPos]);
 	BYTE ItemExLevel = g_kJewelOfHarmonySystem.GetItemOptionLevel(&gGameObjects[iIndex]->pInventory[iItemPos]);
 
@@ -1150,13 +1150,13 @@ void CIllusionTempleProcess_Renewal::DropRelicsItem(int iIndex, BYTE byAct)
 
 	::ItemIsBufExOption(NewOption, &gGameObjects[iIndex]->pInventory[iItemPos]);
 
-	int PetLevel = gGameObjects[iIndex]->pInventory[iItemPos].m_PetItem_Level;
+	int PetLevel = gGameObjects[iIndex]->pInventory[iItemPos]->m_PetItem_Level;
 
-	UINT64 PetExp = gGameObjects[iIndex]->pInventory[iItemPos].m_PetItem_Exp;
-	BYTE SOption = gGameObjects[iIndex]->pInventory[iItemPos].m_SetOption;
+	UINT64 PetExp = gGameObjects[iIndex]->pInventory[iItemPos]->m_PetItem_Exp;
+	BYTE SOption = gGameObjects[iIndex]->pInventory[iItemPos]->m_SetOption;
 
-	BYTE ItemEffectEx = gGameObjects[iIndex]->pInventory[iItemPos].m_ItemOptionEx;
-	int item_number = gGameObjects[iIndex]->pInventory[iItemPos].m_Number;
+	BYTE ItemEffectEx = gGameObjects[iIndex]->pInventory[iItemPos]->m_ItemOptionEx;
+	int item_number = gGameObjects[iIndex]->pInventory[iItemPos]->m_Number;
 
 	char szItemName[50] = "Relics Item";
 
@@ -1228,7 +1228,7 @@ void CIllusionTempleProcess_Renewal::SendRelicsUserInfo(CGameObject &lpObj, BYTE
 
 	for (int i = 0; i < 10; i++)
 	{
-		if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i].m_nIndex].Connected > PLAYER_LOGGED)
+		if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i]->m_nIndex]->Connected > PLAYER_LOGGED)
 		{
 			IOCP.DataSend(this->m_UserData[i].m_nIndex, (LPBYTE)&pRelicsUser, sizeof(pRelicsUser));
 		}
@@ -1311,9 +1311,9 @@ void CIllusionTempleProcess_Renewal::RemoveAllObj()
 		if (this->m_Occupied_StoneStatus[i].m_nIndex != -1)
 		{
 			sLog->outBasic("[ ITR ] (%d) Remove Occupied_StoneStatus Name: %s, (%d: %d/%d)",
-				this->m_nTempleNumber + 1, gGameObjects[this->m_Occupied_StoneStatus[i].m_nIndex].Name,
-				gGameObjects[this->m_Occupied_StoneStatus[i].m_nIndex].MapNumber, gGameObjects[this->m_Occupied_StoneStatus[i].m_nIndex].X,
-				gGameObjects[this->m_Occupied_StoneStatus[i].m_nIndex].Y);
+				this->m_nTempleNumber + 1, gGameObjects[this->m_Occupied_StoneStatus[i]->m_nIndex]->Name,
+				gGameObjects[this->m_Occupied_StoneStatus[i]->m_nIndex]->MapNumber, gGameObjects[this->m_Occupied_StoneStatus[i]->m_nIndex]->X,
+				gGameObjects[this->m_Occupied_StoneStatus[i]->m_nIndex]->Y);
 
 			gObjDel(this->m_Occupied_StoneStatus[i].m_nIndex);
 			this->m_Occupied_StoneStatus[i].m_nIndex = -1;
@@ -1327,9 +1327,9 @@ void CIllusionTempleProcess_Renewal::RemoveAllObj()
 	if (this->m_Cursed_StoneStatus.m_nIndex != -1)
 	{
 		sLog->outBasic("[ ITR ] (%d) Remove Cursed_StoneStatus Name: %s, (%d: %d/%d)",
-			this->m_nTempleNumber + 1, gGameObjects[this->m_Cursed_StoneStatus.m_nIndex].Name,
-			gGameObjects[this->m_Cursed_StoneStatus.m_nIndex].MapNumber, gGameObjects[this->m_Cursed_StoneStatus.m_nIndex].X,
-			gGameObjects[this->m_Cursed_StoneStatus.m_nIndex].Y);
+			this->m_nTempleNumber + 1, gGameObjects[this->m_Cursed_StoneStatus.m_nIndex]->Name,
+			gGameObjects[this->m_Cursed_StoneStatus.m_nIndex]->MapNumber, gGameObjects[this->m_Cursed_StoneStatus.m_nIndex]->X,
+			gGameObjects[this->m_Cursed_StoneStatus.m_nIndex]->Y);
 
 		gObjDel(this->m_Cursed_StoneStatus.m_nIndex);
 		this->m_Cursed_StoneStatus.m_nIndex = -1;
@@ -1840,7 +1840,7 @@ void CIllusionTempleProcess_Renewal::FirstRegen_OccupiedStone()
 {
 	for (int i = 0; i < 10; i++)
 	{
-		CGameObject lpObj = &gGameObjects[this->m_Occupied_StoneStatus[i].m_nIndex];
+		CGameObject lpObj = &gGameObjects[this->m_Occupied_StoneStatus[i]->m_nIndex];
 
 		if (lpObj)
 		{
@@ -1964,14 +1964,14 @@ void CIllusionTempleProcess_Renewal::SetNpc()
 		if (result > 0)
 		{
 			gGameObjects[result]->m_PosNum = i;
-			gGameObjects[result]->X = this->m_ITRNpcInfo[i].byX;
-			gGameObjects[result]->Y = this->m_ITRNpcInfo[i].byY;
-			gGameObjects[result]->MapNumber = this->m_ITRNpcInfo[i].byMapNumber;
+			gGameObjects[result]->X = this->m_ITRNpcInfo[i]->byX;
+			gGameObjects[result]->Y = this->m_ITRNpcInfo[i]->byY;
+			gGameObjects[result]->MapNumber = this->m_ITRNpcInfo[i]->byMapNumber;
 			gGameObjects[result]->TX = gGameObjects[result]->X;
 			gGameObjects[result]->TY = gGameObjects[result]->Y;
 			gGameObjects[result]->m_OldX = gGameObjects[result]->X;
 			gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
-			gGameObjects[result]->Dir = this->m_ITRNpcInfo[i].byDir;
+			gGameObjects[result]->Dir = this->m_ITRNpcInfo[i]->byDir;
 			gGameObjects[result]->StartX = gGameObjects[result]->X;
 			gGameObjects[result]->StartY = gGameObjects[result]->Y;
 			gObjSetMonster(result, this->m_ITRNpcInfo[i].wNpcType);
@@ -1998,7 +1998,7 @@ void CIllusionTempleProcess_Renewal::RegenOccupiedStoneStatus()
 	{
 		if (this->m_Occupied_StoneStatus[i].m_nIndex != -1)
 		{
-			CGameObject lpObj = &gGameObjects[this->m_Occupied_StoneStatus[i].m_nIndex];
+			CGameObject lpObj = &gGameObjects[this->m_Occupied_StoneStatus[i]->m_nIndex];
 
 			lpObj.m_PosNum = this->m_Occupied_StoneStatus[i].m_wPosNum;
 			lpObj.Live = TRUE;
@@ -2034,7 +2034,7 @@ void CIllusionTempleProcess_Renewal::SendNoticeMessage(char *lpMsg)
 	{
 		if (this->m_UserData[i].m_nIndex != -1)
 		{
-			if (gGameObjects[this->m_UserData[i].m_nIndex].Connected > PLAYER_LOGGED)
+			if (gGameObjects[this->m_UserData[i]->m_nIndex]->Connected > PLAYER_LOGGED)
 			{
 				IOCP.DataSend(this->m_UserData[i].m_nIndex, (LPBYTE)&pNotice, pNotice.h.size);
 			}
@@ -2056,7 +2056,7 @@ void CIllusionTempleProcess_Renewal::Send_ITR_StoneInfo(int userindex, WORD wNpc
 	{
 		if (this->m_UserData[i].m_nIndex != -1)
 		{
-			if (IT_MAP_RANGE(gGameObjects[this->m_UserData[i].m_nIndex].MapNumber))
+			if (IT_MAP_RANGE(gGameObjects[this->m_UserData[i]->m_nIndex]->MapNumber))
 			{
 				IOCP.DataSend(this->m_UserData[i].m_nIndex, (LPBYTE)&pMsg, pMsg.h.size);
 				sLog->outBasic("[ ITR ][Send_ITR_StoneInfo] userindex:%d, npcType:%d, npcstate:%d ,npcindex:%d,MAPTAG:%d",
@@ -2086,7 +2086,7 @@ void CIllusionTempleProcess_Renewal::Send_ITR_PlayState(BYTE btTeam)
 
 	for (int i = 0; i < 10; i++)
 	{
-		if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i].m_nIndex].Connected > PLAYER_LOGGED)
+		if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i]->m_nIndex]->Connected > PLAYER_LOGGED)
 		{
 			if (this->m_UserData[i].m_btTeam == btTeam)
 			{
@@ -2108,7 +2108,7 @@ void CIllusionTempleProcess_Renewal::SendIllusionTempleState(BYTE btTempleState,
 	{
 		for (int i = 0; i < 10; i++)
 		{
-			if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i].m_nIndex].Connected > PLAYER_LOGGED)
+			if (this->m_UserData[i].m_nIndex != -1 && gGameObjects[this->m_UserData[i]->m_nIndex]->Connected > PLAYER_LOGGED)
 			{
 				IOCP.DataSend(this->m_UserData[i].m_nIndex, (LPBYTE)&pMsg, pMsg.h.size);
 			}
@@ -2129,7 +2129,7 @@ BYTE CIllusionTempleProcess_Renewal::GetUserTeam(int nIndex)
 		return -1;
 	}
 
-	if (gGameObjects[nIndex]->m_nITR_Index == -1 || this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_nIndex != nIndex)
+	if (gGameObjects[nIndex]->m_nITR_Index == -1 || this->m_UserData[gGameObjects[nIndex]->m_nITR_Index]->m_nIndex != nIndex)
 	{
 		return -1;
 	}
@@ -2139,7 +2139,7 @@ BYTE CIllusionTempleProcess_Renewal::GetUserTeam(int nIndex)
 		return -1;
 	}
 
-	return this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_btTeam;
+	return this->m_UserData[gGameObjects[nIndex]->m_nITR_Index]->m_btTeam;
 }
 
 void CIllusionTempleProcess_Renewal::IncUserKillCount(int nIndex)
@@ -2150,7 +2150,7 @@ void CIllusionTempleProcess_Renewal::IncUserKillCount(int nIndex)
 		return;
 	}
 
-	if (gGameObjects[nIndex]->m_nITR_Index == -1 || this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_nIndex != nIndex)
+	if (gGameObjects[nIndex]->m_nITR_Index == -1 || this->m_UserData[gGameObjects[nIndex]->m_nITR_Index]->m_nIndex != nIndex)
 	{
 		return;
 	}
@@ -2160,16 +2160,16 @@ void CIllusionTempleProcess_Renewal::IncUserKillCount(int nIndex)
 		return;
 	}
 
-	if (this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_btUserKillCount >= 255)
+	if (this->m_UserData[gGameObjects[nIndex]->m_nITR_Index]->m_btUserKillCount >= 255)
 	{
 		return;
 	}
 
 	sLog->outBasic("[ ITR ][UserKill] map:%d, ACC:%s, NAME:%s ,KillCnt:%d -> %d",
 		this->m_nTempleNumber + 1, gGameObjects[nIndex]->AccountID, gGameObjects[nIndex]->Name,
-		this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_btUserKillCount, this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_btUserKillCount + 1);
+		this->m_UserData[gGameObjects[nIndex]->m_nITR_Index]->m_btUserKillCount, this->m_UserData[gGameObjects[nIndex]->m_nITR_Index]->m_btUserKillCount + 1);
 
-	this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_btUserKillCount++;
+	this->m_UserData[gGameObjects[nIndex]->m_nITR_Index]->m_btUserKillCount++;
 }
 
 void CIllusionTempleProcess_Renewal::ResetKillCount()
@@ -2577,12 +2577,12 @@ void CIllusionTempleProcess_Renewal::CalCursetTempleResult()
 						{
 							if (this->m_UserData[i].m_btTeam == 0)
 							{
-								nAlliedLevelSum += (gGameObjects[this->m_UserData[i].m_nIndex].Level + gGameObjects[this->m_UserData[i].m_nIndex].m_PlayerData->MasterLevel);
+								nAlliedLevelSum += (gGameObjects[this->m_UserData[i]->m_nIndex]->Level + gGameObjects[this->m_UserData[i]->m_nIndex]->m_PlayerData->MasterLevel);
 							}
 
 							else if (this->m_UserData[i].m_btTeam == 1)
 							{
-								nIllusionLevelSum += (gGameObjects[this->m_UserData[i].m_nIndex].Level + gGameObjects[this->m_UserData[i].m_nIndex].m_PlayerData->MasterLevel);
+								nIllusionLevelSum += (gGameObjects[this->m_UserData[i]->m_nIndex]->Level + gGameObjects[this->m_UserData[i]->m_nIndex]->m_PlayerData->MasterLevel);
 							}
 						}
 
@@ -2673,7 +2673,7 @@ void CIllusionTempleProcess_Renewal::DropITR_RewardBox(int nIndex)
 		return;
 	}
 
-	if (this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_nIndex != nIndex)
+	if (this->m_UserData[gGameObjects[nIndex]->m_nITR_Index]->m_nIndex != nIndex)
 	{
 		return;
 	}
@@ -2683,7 +2683,7 @@ void CIllusionTempleProcess_Renewal::DropITR_RewardBox(int nIndex)
 		return;
 	}
 
-	if (this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_btTeam == 0xFF)
+	if (this->m_UserData[gGameObjects[nIndex]->m_nITR_Index]->m_btTeam == 0xFF)
 	{
 		return;
 	}
@@ -2693,17 +2693,17 @@ void CIllusionTempleProcess_Renewal::DropITR_RewardBox(int nIndex)
 		return;
 	}
 
-	if (this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_btTeam != this->m_btWinTeam)
+	if (this->m_UserData[gGameObjects[nIndex]->m_nITR_Index]->m_btTeam != this->m_btWinTeam)
 	{
 		return;
 	}
 
-	if (this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_bReward == true)
+	if (this->m_UserData[gGameObjects[nIndex]->m_nITR_Index]->m_bReward == true)
 	{
 		return;
 	}
 
-	this->m_UserData[gGameObjects[nIndex]->m_nITR_Index].m_bReward = true;
+	this->m_UserData[gGameObjects[nIndex]->m_nITR_Index]->m_bReward = true;
 
 	_stGremoryCaseItem stItem;
 	stItem.btStorageType = GC_STORAGE_CHARACTER;
@@ -2798,20 +2798,20 @@ void CIllusionTempleProcess_Renewal::SendITRResult()
 	{
 		if (this->m_UserData[j].m_nIndex != -1)
 		{
-			if (gGameObjects[this->m_UserData[j].m_nIndex].Connected > PLAYER_LOGGED)
+			if (gGameObjects[this->m_UserData[j]->m_nIndex]->Connected > PLAYER_LOGGED)
 			{
-				memcpy(pAddExpMsg.GameID, gGameObjects[this->m_UserData[j].m_nIndex].Name, MAX_ACCOUNT_LEN);
+				memcpy(pAddExpMsg.GameID, gGameObjects[this->m_UserData[j]->m_nIndex]->Name, MAX_ACCOUNT_LEN);
 				pAddExpMsg.btMapNumber = this->m_nTempleNumber + 45;
 				pAddExpMsg.btTeam = this->m_UserData[j].m_btTeam;
-				pAddExpMsg.btClass = gGameObjects[this->m_UserData[j].m_nIndex].Class;
+				pAddExpMsg.btClass = gGameObjects[this->m_UserData[j]->m_nIndex]->Class;
 				pAddExpMsg.btUserKillCount = this->m_UserData[j].m_btUserKillCount;
 
 				memcpy(&SendByte[nOffset], &pAddExpMsg, sizeof(pAddExpMsg));
 				nOffset += sizeof(PMSG_ITR_USER_ADD_EXP);
 
 				sLog->outBasic("[ ITR ] MAP:(%d) ITR Result  (Account:%s, Name:%s, G.Name:%s Team:%d, Class:%d, UserKillCount:%d,InvalidationCount:%d,OccupiedCount:%d)",
-					this->m_nTempleNumber + 1, gGameObjects[this->m_UserData[j].m_nIndex].AccountID, gGameObjects[this->m_UserData[j].m_nIndex].Name, gGameObjects[this->m_UserData[j].m_nIndex].m_PlayerData->GuildName,
-					this->m_UserData[j].m_btTeam, gGameObjects[this->m_UserData[j].m_nIndex].m_PlayerData->DbClass, this->m_UserData[j].m_btUserKillCount, this->m_UserData[j].m_byInvalidationCount,
+					this->m_nTempleNumber + 1, gGameObjects[this->m_UserData[j]->m_nIndex]->AccountID, gGameObjects[this->m_UserData[j]->m_nIndex]->Name, gGameObjects[this->m_UserData[j]->m_nIndex]->m_PlayerData->GuildName,
+					this->m_UserData[j].m_btTeam, gGameObjects[this->m_UserData[j]->m_nIndex]->m_PlayerData->DbClass, this->m_UserData[j]->m_btUserKillCount, this->m_UserData[j]->m_byInvalidationCount,
 					this->m_UserData[j].m_byOccupiedCount);
 			}
 		}
@@ -2824,7 +2824,7 @@ void CIllusionTempleProcess_Renewal::SendITRResult()
 	{
 		if (this->m_UserData[i].m_btTeam != 0xFF &&
 			this->m_UserData[i].m_nIndex != -1 &&
-			gGameObjects[this->m_UserData[i].m_nIndex].Connected > PLAYER_LOGGED)
+			gGameObjects[this->m_UserData[i]->m_nIndex]->Connected > PLAYER_LOGGED)
 		{
 			IOCP.DataSend(this->m_UserData[i].m_nIndex, (LPBYTE)SendByte, pMsg.h.size);
 		}
@@ -2844,8 +2844,8 @@ void CIllusionTempleProcess_Renewal::MoveToStartPoint_WhenRoundBreak()
 	for (int i = 0; i < 10; i++)
 	{
 		if (this->m_UserData[i].m_nIndex != -1 &&
-			gGameObjects[this->m_UserData[i].m_nIndex].Connected > PLAYER_LOGGED &&
-			gGameObjects[this->m_UserData[i].m_nIndex].MapNumber == this->m_nTempleNumber + 45)
+			gGameObjects[this->m_UserData[i]->m_nIndex]->Connected > PLAYER_LOGGED &&
+			gGameObjects[this->m_UserData[i]->m_nIndex]->MapNumber == this->m_nTempleNumber + 45)
 		{
 			if (this->m_UserData[i].m_btTeam == 0)
 			{

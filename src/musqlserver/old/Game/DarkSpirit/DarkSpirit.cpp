@@ -240,7 +240,7 @@ void CDarkSpirit::ModeAttackRandom()
 						{
 							if ( gGameObjects[tObjNum]->m_RecallMon >= 0 )
 							{
-								lc85 = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index; 
+								lc85 = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index; 
 							}
 						}
 
@@ -482,7 +482,7 @@ void CDarkSpirit::RangeAttack(CGameObject &lpObj, int aTargetIndex)
 					{
 						if ( gGameObjects[tObjNum]->m_RecallMon >= 0 )
 						{
-							lc10 = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+							lc10 = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 						}
 					}
 

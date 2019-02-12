@@ -232,7 +232,7 @@ void CKalimaGate::KalimaGateAct(int iIndex)
 	lpObj = &gGameObjects[iIndex];
 	lpObjCallOwner = &gGameObjects[lpObj.m_RecallMon];
 
-	if ( gGameObjects[gGameObjects[iIndex]->m_RecallMon].DieRegen > 0 )
+	if ( gGameObjects[gGameObjects[iIndex]->m_RecallMon]->DieRegen > 0 )
 	{
 		lpObjCallOwner->AccountID[MAX_ACCOUNT_LEN]=0;
 		lpObjCallOwner->Name[MAX_ACCOUNT_LEN]=0;
@@ -336,15 +336,15 @@ int CKalimaGate::CheckOverlapKundunMark(int iIndex, BYTE btLevel)
 {
 	for ( int x = 0;x<MAIN_INVENTORY_SIZE;x++ )
 	{
-		if ( gGameObjects[iIndex]->pInventory[x].IsItem() == TRUE )
+		if ( gGameObjects[iIndex]->pInventory[x]->IsItem() == TRUE )
 		{
-			if ( gGameObjects[iIndex]->pInventory[x].m_Type == ITEMGET(14, 29) )
+			if ( gGameObjects[iIndex]->pInventory[x]->m_Type == ITEMGET(14, 29) )
 			{
-				if ( gGameObjects[iIndex]->pInventory[x].m_Level == btLevel )
+				if ( gGameObjects[iIndex]->pInventory[x]->m_Level == btLevel )
 				{
-					int iITEM_DUR = gGameObjects[iIndex]->pInventory[x].m_Durability;
+					int iITEM_DUR = gGameObjects[iIndex]->pInventory[x]->m_Durability;
 
-					if (iITEM_DUR >= 0 && iITEM_DUR <= IsOverlapItem(gGameObjects[iIndex]->pInventory[x].m_Type))
+					if (iITEM_DUR >= 0 && iITEM_DUR <= IsOverlapItem(gGameObjects[iIndex]->pInventory[x]->m_Type))
 					{
 						return x;
 					}
@@ -391,9 +391,9 @@ int CKalimaGate::GetKalimaGateLevel(int iIndex)
 	{
 		for ( int i =0;i<KALIMA_FLOORS;i++)
 		{
-			if ( gGameObjects[iIndex]->Level >= g_sttKALIMAGATE_LEVEL[i].iLOWER_BOUND_MAGUMSA )
+			if ( gGameObjects[iIndex]->Level >= g_sttKALIMAGATE_LEVEL[i]->iLOWER_BOUND_MAGUMSA )
 			{
-				if ( gGameObjects[iIndex]->Level <= g_sttKALIMAGATE_LEVEL[i].iUPPER_BOUND_MAGUMSA )
+				if ( gGameObjects[iIndex]->Level <= g_sttKALIMAGATE_LEVEL[i]->iUPPER_BOUND_MAGUMSA )
 				{
 					return i;
 				}
@@ -404,9 +404,9 @@ int CKalimaGate::GetKalimaGateLevel(int iIndex)
 	{
 		for ( int i =0;i<KALIMA_FLOORS;i++)
 		{
-			if ( gGameObjects[iIndex]->Level >= g_sttKALIMAGATE_LEVEL[i].iLOWER_BOUND )
+			if ( gGameObjects[iIndex]->Level >= g_sttKALIMAGATE_LEVEL[i]->iLOWER_BOUND )
 			{
-				if ( gGameObjects[iIndex]->Level <= g_sttKALIMAGATE_LEVEL[i].iUPPER_BOUND )
+				if ( gGameObjects[iIndex]->Level <= g_sttKALIMAGATE_LEVEL[i]->iUPPER_BOUND )
 				{
 					return i;
 				}
@@ -704,9 +704,9 @@ int CKalimaGate::GetKalimaGateLevel2(int iIndex)
 	{
 		for ( int i =0;i<KALIMA_FLOORS;i++)
 		{
-			if ( gGameObjects[iIndex]->Level >= g_sttKALIMAGATE_LEVEL[i].iLOWER_BOUND_MAGUMSA )
+			if ( gGameObjects[iIndex]->Level >= g_sttKALIMAGATE_LEVEL[i]->iLOWER_BOUND_MAGUMSA )
 			{
-				if ( gGameObjects[iIndex]->Level <= g_sttKALIMAGATE_LEVEL[i].iUPPER_BOUND_MAGUMSA )
+				if ( gGameObjects[iIndex]->Level <= g_sttKALIMAGATE_LEVEL[i]->iUPPER_BOUND_MAGUMSA )
 				{
 					return i;
 				}
@@ -717,9 +717,9 @@ int CKalimaGate::GetKalimaGateLevel2(int iIndex)
 	{
 		for ( int i =0;i<KALIMA_FLOORS;i++)
 		{
-			if ( gGameObjects[iIndex]->Level >= g_sttKALIMAGATE_LEVEL[i].iLOWER_BOUND )
+			if ( gGameObjects[iIndex]->Level >= g_sttKALIMAGATE_LEVEL[i]->iLOWER_BOUND )
 			{
-				if ( gGameObjects[iIndex]->Level <= g_sttKALIMAGATE_LEVEL[i].iUPPER_BOUND )
+				if ( gGameObjects[iIndex]->Level <= g_sttKALIMAGATE_LEVEL[i]->iUPPER_BOUND )
 				{
 					return i;
 				}

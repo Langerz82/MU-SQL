@@ -484,16 +484,16 @@ void CAcheronGuardianEvent::GenObelisk(int iGroupNum)
 		gObjSetMonster(result, this->m_stObeliskInfo[iGroupNum].m_iMonsterNum);
 
 		this->m_stObeliskInfo[iGroupNum].m_iMonIndex = result;
-		gGameObjects[result]->Class = this->m_stObeliskInfo[iGroupNum].m_iMonsterNum;
-		gGameObjects[result]->MapNumber = this->m_stObeliskInfo[iGroupNum].m_iMapIndex;
-		gGameObjects[result]->X = this->m_stObeliskInfo[iGroupNum].m_iPosX;
-		gGameObjects[result]->Y = this->m_stObeliskInfo[iGroupNum].m_iPosY;
-		gGameObjects[result]->TX = this->m_stObeliskInfo[iGroupNum].m_iPosX;
-		gGameObjects[result]->TY = this->m_stObeliskInfo[iGroupNum].m_iPosY;
-		gGameObjects[result]->m_OldX = this->m_stObeliskInfo[iGroupNum].m_iPosX;
-		gGameObjects[result]->m_OldY = this->m_stObeliskInfo[iGroupNum].m_iPosY;
-		gGameObjects[result]->StartX = this->m_stObeliskInfo[iGroupNum].m_iPosX;
-		gGameObjects[result]->StartY = this->m_stObeliskInfo[iGroupNum].m_iPosY;
+		gGameObjects[result]->Class = this->m_stObeliskInfo[iGroupNum]->m_iMonsterNum;
+		gGameObjects[result]->MapNumber = this->m_stObeliskInfo[iGroupNum]->m_iMapIndex;
+		gGameObjects[result]->X = this->m_stObeliskInfo[iGroupNum]->m_iPosX;
+		gGameObjects[result]->Y = this->m_stObeliskInfo[iGroupNum]->m_iPosY;
+		gGameObjects[result]->TX = this->m_stObeliskInfo[iGroupNum]->m_iPosX;
+		gGameObjects[result]->TY = this->m_stObeliskInfo[iGroupNum]->m_iPosY;
+		gGameObjects[result]->m_OldX = this->m_stObeliskInfo[iGroupNum]->m_iPosX;
+		gGameObjects[result]->m_OldY = this->m_stObeliskInfo[iGroupNum]->m_iPosY;
+		gGameObjects[result]->StartX = this->m_stObeliskInfo[iGroupNum]->m_iPosX;
+		gGameObjects[result]->StartY = this->m_stObeliskInfo[iGroupNum]->m_iPosY;
 		gGameObjects[result]->Dir = 1;
 		gGameObjects[result]->Live = TRUE;
 		gGameObjects[result]->DieRegen = 0;

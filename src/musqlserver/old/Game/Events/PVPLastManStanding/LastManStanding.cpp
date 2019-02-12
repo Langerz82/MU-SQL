@@ -342,7 +342,7 @@ void CLastManStanding::Run()
 		  {
 				  for(int i=0;i<m_Rooms[n].regCount;i++)
 				  {
-					  if(m_Rooms[n].m_Data[i].iIndex != 0 && gGameObjects[m_Rooms[n].m_Data[i].iIndex].MapNumber != this->m_Cfg.iPVPMap)
+					  if(m_Rooms[n].m_Data[i].iIndex != 0 && gGameObjects[m_Rooms[n]->m_Data[i]->iIndex]->MapNumber != this->m_Cfg.iPVPMap)
 					  {
 						  this->DelUser(m_Rooms[n].m_Data[i].iIndex);
 						  if(m_Rooms[n].m_iLiveUser <= 1)
@@ -356,7 +356,7 @@ void CLastManStanding::Run()
 										this->RewardUser(m_Rooms[n].m_Data[i].iIndex);
 										char text[200]; 
 
-										sprintf(text, Lang.GetText(0,360), gGameObjects[this->m_Rooms[n].m_Data[i].iIndex].Name, n, this->m_Rooms[n].m_Data[i].iScore);						
+										sprintf(text, Lang.GetText(0,360), gGameObjects[this->m_Rooms[n]->m_Data[i]->iIndex]->Name, n, this->m_Rooms[n]->m_Data[i]->iScore);						
 										AllPlayerMsgSend(text);
 									}
 								}
@@ -453,7 +453,7 @@ void CLastManStanding::UserDie(CGameObject &lpObj, int aTargetIndex)
 							{
 								this->m_Rooms[room].m_Data[i].bWinner = true;
 								char text[200]; 
-								sprintf(text, Lang.GetText(0,362), gGameObjects[this->m_Rooms[room].m_Data[i].iIndex].Name, room, this->m_Rooms[room].m_Data[i].iScore);
+								sprintf(text, Lang.GetText(0,362), gGameObjects[this->m_Rooms[room]->m_Data[i]->iIndex]->Name, room, this->m_Rooms[room]->m_Data[i]->iScore);
 								this->RewardUser(this->m_Rooms[room].m_Data[i].iIndex);
 								AllPlayerMsgSend(text);
 							}

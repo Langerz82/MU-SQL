@@ -9818,7 +9818,7 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject& lpObj, int AttackDamag
 	{
 		if (lpTargetObj.m_RecallMon >= 0)
 		{
-			GSProtocol.GCRecallMonLife(lpTargetObj.m_RecallMon, lpTargetObj.MaxLife, lpTargetObj.Life);
+			GSProtocol.GCRecallMonLife(lpCallObj, lpTargetObj.MaxLife, lpTargetObj.Life);
 		}
 
 		gObjMonsterSetHitDamage(lpTargetObj, lpCallObj->m_Index, AttackDamage);
@@ -9828,7 +9828,7 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject& lpObj, int AttackDamag
 	{
 		if (DamageSendType == 0)
 		{
-			GSProtocol.GCDamageSend(lpCallObj->m_Index, lpTargetObj.m_Index, AttackDamage, MSBFlag, MSBDamage, iShieldDamage);
+			GSProtocol.GCDamageSend(lpCallObj, lpTargetObj.m_Index, AttackDamage, MSBFlag, MSBDamage, iShieldDamage);
 		}
 		else if (DamageSendType == 1)
 		{
@@ -9836,16 +9836,16 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject& lpObj, int AttackDamag
 		}
 		else if (DamageSendType == 2)
 		{
-			GSProtocol.GCDamageSend(lpCallObj->m_Index, lpTargetObj.m_Index, AttackDamage, MSBFlag, 5, iShieldDamage);
+			GSProtocol.GCDamageSend(lpCallObj, lpTargetObj.m_Index, AttackDamage, MSBFlag, 5, iShieldDamage);
 		}
 
 		if (iElementalDamage != 0)
 		{
-			GSProtocol.GCElementalDamageSend(lpCallObj->m_Index, lpTargetObj.m_Index, iElementalDamage, lpCallObj->m_iPentagramMainAttribute);
+			GSProtocol.GCElementalDamageSend(lpCallObj, lpTargetObj.m_Index, iElementalDamage, lpCallObj->m_iPentagramMainAttribute);
 		}
 		if (lpCallObj->Type == OBJ_MONSTER)
 		{
-			gObjAddMsgSend(lpCallObj, 3, lpTargetObj.m_Index, 0);
+			gObjAddMsgSend(*lpCallObj, 3, lpTargetObj.m_Index, 0);
 			CreateFrustrum(lpCallObj->X, lpCallObj->Y, lpCallObj->m_Index);
 			lpTargetObj.KillerType = 1;
 		}
@@ -9858,7 +9858,7 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject& lpObj, int AttackDamag
 
 		if (lpCallObj->Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
 		{
-			gObjSetKillCount(lpCallObj->m_Index, 1);
+			gObjSetKillCount(*lpCallObj, 1);
 		}
 
 		if (IT_MAP_RANGE(lpCallObj->MapNumber))
@@ -9949,7 +9949,7 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject& lpObj, int AttackDamag
 					{
 						PMSG_NOTICE pNotice;
 
-						ItemSerialCreateSend(lpCallObj->m_Index, lpCallObj->MapNumber, lpCallObj->X, lpCallObj->Y, ItemGetNumberMake(14, 13), 0, 0, 0, 0, 0, lpCallObj->m_Index, 0, 0, 0, 0, 0);
+						ItemSerialCreateSend(lpCallObj, lpCallObj->MapNumber, lpCallObj->X, lpCallObj->Y, ItemGetNumberMake(14, 13), 0, 0, 0, 0, 0, lpCallObj->m_Index, 0, 0, 0, 0, 0);
 
 						if (gObjIsConnected(lpCallObj->m_Index))
 						{
@@ -10029,7 +10029,7 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject& lpObj, int AttackDamag
 			{
 				if (lpObj.m_Attribute == 100)
 				{
-					CGameObject lpCallObj = *gGameObjects[lpObj.m_RecallMon];
+					CGameObject* lpCallObj = gGameObjects[lpObj.m_RecallMon];
 
 					if (lpCallObj->Type != OBJ_USER)
 					{
@@ -10124,11 +10124,11 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject& lpObj, int AttackDamag
 					lpTargetObj.Class, nPoint);
 			}
 
-			gObjPkDownTimeCheck(lpCallObj, lpTargetObj.Level);
+			gObjPkDownTimeCheck(*lpCallObj, lpTargetObj.Level);
 
 			if (lpCallObj->Type == OBJ_USER)
 			{
-				gObjAddMsgSendDelay(lpCallObj, 3, lpTargetObj.m_Index, 2000, 0);
+				gObjAddMsgSendDelay(*lpCallObj, 3, lpTargetObj.m_Index, 2000, 0);
 			}
 		}
 		else if (lpTargetObj.Type == OBJ_USER)
@@ -10182,16 +10182,16 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject& lpObj, int AttackDamag
 
 			lpTargetObj.KillerType = 0;
 
-			gObjUserDie(lpTargetObj, lpCallObj);
+			gObjUserDie(lpTargetObj, *lpCallObj);
 
-			int iGuildWar = gObjGuildWarCheck(lpCallObj, lpTargetObj);
-			int iDuel = gObjDuelCheck(lpCallObj, lpTargetObj);
+			int iGuildWar = gObjGuildWarCheck(*lpCallObj, lpTargetObj);
+			int iDuel = gObjDuelCheck(*lpCallObj, lpTargetObj);
 
 			if (iGuildWar == 0 && iDuel == 0)
 			{
 				if (lpTargetObj.m_bAttackerKilled == 0)
 				{
-					gObjPlayerKiller(lpCallObj, lpTargetObj, MSBDamage);
+					gObjPlayerKiller(*lpCallObj, lpTargetObj, MSBDamage);
 				}
 			}
 
@@ -10199,7 +10199,7 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject& lpObj, int AttackDamag
 
 			if (lpTargetObj.m_RecallMon >= 0)
 			{
-				gObjMonsterCallKill(lpTargetObj.m_Index);
+				gObjMonsterCallKill(lpTargetObj);
 			}
 
 			g_QuestExpProgMng.ChkUserQuestTypeEventMap(QUESTEXP_ASK_CONTRIBUTION_POINT, lpObj, lpObj.MapNumber, 0);
@@ -10211,15 +10211,15 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject& lpObj, int AttackDamag
 		lpTargetObj.DieRegen = 1;
 		lpTargetObj.PathCount = 0;
 
-		if (gObjTargetGuildWarCheck(lpTargetObj, lpCallObj) == 1)
+		if (gObjTargetGuildWarCheck(lpTargetObj, *lpCallObj) == 1)
 		{
 			lpTargetObj.KillerType = 2;
 		}
 
-		if (gObjDuelCheck(lpCallObj, lpTargetObj) == TRUE)
+		if (gObjDuelCheck(lpCallObj, *lpTargetObj) == TRUE)
 		{
 			lpTargetObj.KillerType = 3;
-			g_NewPVP.CheckScore(*lpCallObj, *lpTargetObj);
+			g_NewPVP.CheckScore(*lpCallObj, lpTargetObj);
 		}
 
 		if (lpTargetObj.Teleport == 1)
@@ -10254,7 +10254,7 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject& lpObj, int AttackDamag
 
 		if ((lpTargetObj.Class >= 504 && lpTargetObj.Class <= 511) || lpTargetObj.Class == 526)
 		{
-			g_ImperialGuardian.DropItem(lpObj, lpTargetObj.m_Index);
+			g_ImperialGuardian.DropItem(lpObj, *lpTargetObj);
 		}
 
 		if (lpTargetObj.MapNumber == MAP_INDEX_HATCHERY) //season4 add-on
@@ -16379,12 +16379,12 @@ void gObjViewportAllDel(CGameObject &lpObj)
 	{
 		if (lpObj.VpPlayer[n].state == 1 || lpObj.VpPlayer[n].state == 2)
 		{
-			Viewport2Del(*gGameObjects[lpObj.VpPlayer[n].number], lpObj.m_Index);
+			Viewport2Del(*gGameObjects[lpObj.VpPlayer[n]->number], lpObj.m_Index);
 		}
 
 		if (lpObj.VpPlayer2[n].state == 1 || lpObj.VpPlayer2[n].state == 2)
 		{
-			ViewportDel(*gGameObjects[lpObj.VpPlayer2[n].number], lpObj.m_Index);
+			ViewportDel(*gGameObjects[lpObj.VpPlayer2[n]->number], lpObj.m_Index);
 		}
 	}
 }
@@ -26768,7 +26768,7 @@ BYTE gObjMuunInventoryInsertItem(CGameObject &lpObj, CMapItem *item)
 
 BYTE gObjMuunInventoryDeleteItem(CGameObject &lpObj, int itempos)
 {
-	g_CMuunSystem.ClearPeriodMuunItemData(*gGameObjects[lpObj], lpObj.pMuunInventory[itempos].m_Type, lpObj.pMuunInventory[itempos]->m_Number);
+	g_CMuunSystem.ClearPeriodMuunItemData(*gGameObjects[lpObj], lpObj.pMuunInventory[itempos]->m_Type, lpObj.pMuunInventory[itempos]->m_Number);
 	lpObj.pMuunInventory[itempos].Clear();
 	return 1;
 }

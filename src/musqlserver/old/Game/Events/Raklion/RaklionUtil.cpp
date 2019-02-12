@@ -105,8 +105,8 @@ void CRaklionUtil::NotifyLeftTopMsgRaklionBattleUser(char *lpszMsg, ...)
 
 	for(int iCount=0; iCount<g_RaklionBattleUserMng.m_BattleUser.size(); iCount++)
 	{
-		if( gGameObjects[g_RaklionBattleUserMng.m_BattleUser[iCount]].Connected == PLAYER_PLAYING &&
-			gGameObjects[g_RaklionBattleUserMng.m_BattleUser[iCount]].Type == OBJ_USER)
+		if( gGameObjects[g_RaklionBattleUserMng.m_BattleUser[iCount]]->Connected == PLAYER_PLAYING &&
+			gGameObjects[g_RaklionBattleUserMng.m_BattleUser[iCount]]->Type == OBJ_USER)
 		{
 			TNotice::SendNoticeToUser(g_RaklionBattleUserMng.m_BattleUser[iCount], &pNotice);
 		}

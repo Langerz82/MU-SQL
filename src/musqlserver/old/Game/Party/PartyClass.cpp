@@ -803,7 +803,7 @@ char PartyClass::GetLorenMarketUserCount(int partynumber)
 			continue;
 		}
 
-		if (gGameObjects[this->m_PartyS[partynumber].Number[i]].MapNumber == MAP_INDEX_LORENMARKET)
+		if (gGameObjects[this->m_PartyS[partynumber]->Number[i]]->MapNumber == MAP_INDEX_LORENMARKET)
 		{
 			bReturn++;
 		}

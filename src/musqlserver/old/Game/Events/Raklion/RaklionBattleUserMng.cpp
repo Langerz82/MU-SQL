@@ -78,16 +78,16 @@ void CRaklionBattleUserMng::CheckUserState()
 		if( !gObjIsConnected(m_BattleUser[iCount]))
 		{
 			DeleteUserData(m_BattleUser[iCount]);
-			sLog->outBasic("[ RAKLION ][ BattleUser ] Delete User - Disconnect [%s][%s]", gGameObjects[m_BattleUser[iCount]].AccountID, gGameObjects[m_BattleUser[iCount]].Name);
+			sLog->outBasic("[ RAKLION ][ BattleUser ] Delete User - Disconnect [%s][%s]", gGameObjects[m_BattleUser[iCount]]->AccountID, gGameObjects[m_BattleUser[iCount]]->Name);
 		}
 
-		if( gGameObjects[m_BattleUser[iCount]].MapNumber != MAP_INDEX_HATCHERY &&
-			 gGameObjects[m_BattleUser[iCount]].m_State == 2 &&
-			 gGameObjects[m_BattleUser[iCount]].Live == 1 &&
-			 gGameObjects[m_BattleUser[iCount]].m_SkillInfo.LordSummonMapNumber != MAP_INDEX_HATCHERY )
+		if( gGameObjects[m_BattleUser[iCount]]->MapNumber != MAP_INDEX_HATCHERY &&
+			 gGameObjects[m_BattleUser[iCount]]->m_State == 2 &&
+			 gGameObjects[m_BattleUser[iCount]]->Live == 1 &&
+			 gGameObjects[m_BattleUser[iCount]]->m_SkillInfo.LordSummonMapNumber != MAP_INDEX_HATCHERY )
 		{
 			DeleteUserData(m_BattleUser[iCount]);
-			sLog->outBasic("[ RAKLION ][ BattleUser ] Delete User - Map Move [%s][%s]", gGameObjects[m_BattleUser[iCount]].AccountID, gGameObjects[m_BattleUser[iCount]].Name);
+			sLog->outBasic("[ RAKLION ][ BattleUser ] Delete User - Map Move [%s][%s]", gGameObjects[m_BattleUser[iCount]]->AccountID, gGameObjects[m_BattleUser[iCount]]->Name);
 		}
 	}
 }
@@ -101,12 +101,12 @@ BOOL CRaklionBattleUserMng::MoveAllUser(int iGateNumber)
 		bMoveGateSuccess = gObjMoveGate(m_BattleUser[iCount], iGateNumber);
 		if(bMoveGateSuccess == TRUE)
 		{
-			sLog->outBasic("[ RAKLION ][ BattleUser ] [%s][%s] MoveGate(%d)", gGameObjects[m_BattleUser[iCount]].AccountID, gGameObjects[m_BattleUser[iCount]].Name, iGateNumber);
+			sLog->outBasic("[ RAKLION ][ BattleUser ] [%s][%s] MoveGate(%d)", gGameObjects[m_BattleUser[iCount]]->AccountID, gGameObjects[m_BattleUser[iCount]]->Name, iGateNumber);
 		}
 		else
 		{
 			DeleteUserData(m_BattleUser[iCount]);
-			sLog->outBasic("[ RAKLION ][ BattleUser ] [%s][%s] MoveGate Fail (%d)", gGameObjects[m_BattleUser[iCount]].AccountID, gGameObjects[m_BattleUser[iCount]].Name, iGateNumber);
+			sLog->outBasic("[ RAKLION ][ BattleUser ] [%s][%s] MoveGate Fail (%d)", gGameObjects[m_BattleUser[iCount]]->AccountID, gGameObjects[m_BattleUser[iCount]]->Name, iGateNumber);
 			gObjMoveGate(m_BattleUser[iCount], 286); //Raklion Entrance
 		}
 	}

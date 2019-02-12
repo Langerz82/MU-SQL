@@ -56,8 +56,8 @@ void CCastleCrown::CastleCrownAct(int iIndex)
 				 gObjIsConnected(g_CastleSiege.GetCrownSwitchUserIndex(217)) &&
 				 gObjIsConnected(g_CastleSiege.GetCrownSwitchUserIndex(218)) )
 			{
-				if ( gGameObjects[g_CastleSiege.GetCrownUserIndex()].m_btCsJoinSide == gGameObjects[g_CastleSiege.GetCrownSwitchUserIndex(217)].m_btCsJoinSide &&
-					 gGameObjects[g_CastleSiege.GetCrownUserIndex()].m_btCsJoinSide == gGameObjects[g_CastleSiege.GetCrownSwitchUserIndex(218)].m_btCsJoinSide )	// #warning ??? maybe is 218??? 
+				if ( gGameObjects[g_CastleSiege.GetCrownUserIndex()]->m_btCsJoinSide == gGameObjects[g_CastleSiege.GetCrownSwitchUserIndex(217)]->m_btCsJoinSide &&
+					 gGameObjects[g_CastleSiege.GetCrownUserIndex()]->m_btCsJoinSide == gGameObjects[g_CastleSiege.GetCrownSwitchUserIndex(218)]->m_btCsJoinSide )	// #warning ??? maybe is 218??? 
 				{
 					DWORD dwTime = GetTickCount() - g_CastleSiege.GetCrownAccessTickCount();
 		

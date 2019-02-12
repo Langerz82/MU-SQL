@@ -100,7 +100,7 @@ int QuestExpLuaBind::GetNpcIndex(lua_State *L)
 		return 0;
 	}
 
-	int iNpcIndex = gGameObjects[gGameObjects[iObjIndex]->TargetNpcNumber].Class;
+	int iNpcIndex = gGameObjects[gGameObjects[iObjIndex]->TargetNpcNumber]->Class;
 	lua_settop(L, -2);
 
 	lua_pushnumber(L, iNpcIndex);
@@ -188,30 +188,30 @@ int QuestExpLuaBind::GetInvenItemFind(lua_State *L)
 
 	for (int x = 0; x < INVENTORY_SIZE; x++)
 	{
-		if (!gGameObjects[iObjIndex]->pInventory[x].IsItem())
+		if (!gGameObjects[iObjIndex]->pInventory[x]->IsItem())
 		{
 			continue;
 		}
 
-		if (gGameObjects[iObjIndex]->pInventory[x].m_Type != ITEMGET(iItemType, iItemIndex))
+		if (gGameObjects[iObjIndex]->pInventory[x]->m_Type != ITEMGET(iItemType, iItemIndex))
 		{
 			continue;
 		}
 
-		if (gGameObjects[iObjIndex]->pInventory[x].m_Level != iItemLevel)
+		if (gGameObjects[iObjIndex]->pInventory[x]->m_Level != iItemLevel)
 		{
 			continue;
 		}
 
-		if ((gGameObjects[iObjIndex]->pInventory[x].m_Type < ITEMGET(14, 0)
-			|| gGameObjects[iObjIndex]->pInventory[x].m_Type > ITEMGET(14, 8))
-			&& (gGameObjects[iObjIndex]->pInventory[x].m_Type < ITEMGET(14, 35)
-				|| gGameObjects[iObjIndex]->pInventory[x].m_Type > ITEMGET(14, 40))
-			&& g_QuestExpManager.IsQuestItemAtt(gGameObjects[iObjIndex]->pInventory[x].m_Type, QUESTEXP_ITEM_OVERLAP) != true)
+		if ((gGameObjects[iObjIndex]->pInventory[x]->m_Type < ITEMGET(14, 0)
+			|| gGameObjects[iObjIndex]->pInventory[x]->m_Type > ITEMGET(14, 8))
+			&& (gGameObjects[iObjIndex]->pInventory[x]->m_Type < ITEMGET(14, 35)
+				|| gGameObjects[iObjIndex]->pInventory[x]->m_Type > ITEMGET(14, 40))
+			&& g_QuestExpManager.IsQuestItemAtt(gGameObjects[iObjIndex]->pInventory[x]->m_Type, QUESTEXP_ITEM_OVERLAP) != true)
 		{
-			if (gGameObjects[iObjIndex]->pInventory[x].m_Option1 == iItemSkill && gGameObjects[iObjIndex]->pInventory[x].m_Option3 == iItemOpt && gGameObjects[iObjIndex]->pInventory[x].m_NewOption == iItemExOpt)
+			if (gGameObjects[iObjIndex]->pInventory[x]->m_Option1 == iItemSkill && gGameObjects[iObjIndex]->pInventory[x]->m_Option3 == iItemOpt && gGameObjects[iObjIndex]->pInventory[x]->m_NewOption == iItemExOpt)
 			{
-				if (gGameObjects[iObjIndex]->pInventory[x].m_Option2 == 0 && gGameObjects[iObjIndex]->pInventory[x].m_SetOption == 0)
+				if (gGameObjects[iObjIndex]->pInventory[x]->m_Option2 == 0 && gGameObjects[iObjIndex]->pInventory[x]->m_SetOption == 0)
 				{
 					iItemCnt++;
 				}
@@ -219,7 +219,7 @@ int QuestExpLuaBind::GetInvenItemFind(lua_State *L)
 		}
 		else
 		{
-			iDur += gGameObjects[iObjIndex]->pInventory[x].m_Durability;
+			iDur += gGameObjects[iObjIndex]->pInventory[x]->m_Durability;
 		}
 	}
 
@@ -1120,13 +1120,13 @@ int QuestExpLuaBind::SendQuestConfirmBtn(lua_State *L)
     DWORD dwQuestInfoIndexID = GetQuestInfoIndexId(iEpisode, iQS);
     g_QuestExpProgMng.GCANSQuestCompleteBtnClick(iObjIndex, dwQuestInfoIndexID, 1);
 
-    if( gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].GetAskCnt() > 0 )
+    if( gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetAskCnt() > 0 )
     {
-		gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].SetAskCnt(0);
+		gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->SetAskCnt(0);
 
 		for (int i = 0; i < MAX_QUESTEXP_USER_INFO; i++)
 		{
-			gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].m_UserQuestAskInfo[i].Clear();
+			gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->m_UserQuestAskInfo[i]->Clear();
 		}
     }
 

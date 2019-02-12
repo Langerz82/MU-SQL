@@ -615,7 +615,7 @@ void CCrywolf::SetState_END()
 
 	if ( this->m_bTurnUpBoss != FALSE && CHECK_LIMIT(this->m_iBossIndex, g_ConfigRead.server.GetObjectMaxMonster()) )
 	{
-		if ( gGameObjects[this->m_iBossIndex].Live != FALSE )
+		if ( gGameObjects[this->m_iBossIndex]->Live != FALSE )
 		{
 			UTIL.SendCrywolfUserAnyMsg(2, Lang.GetText(0,225));
 			this->SetOccupationState(1);
@@ -783,7 +783,7 @@ void CCrywolf::ProcState_START()
 
 	if ( this->m_bTurnUpBoss != FALSE && CHECK_LIMIT(this->m_iBossIndex, g_ConfigRead.server.GetObjectMaxMonster()) != FALSE )
 	{
-		if ( gGameObjects[this->m_iBossIndex].Live == FALSE )
+		if ( gGameObjects[this->m_iBossIndex]->Live == FALSE )
 		{
 			UTIL.SendCrywolfUserAnyMsg(2, Lang.GetText(0,235));	
 

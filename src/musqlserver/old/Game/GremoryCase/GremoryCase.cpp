@@ -34,14 +34,14 @@ void CGremoryCase::CheckStorageExpiredItems()
 					{
 						for (int k = 0; k < MAX_GREMORYCASE_STORAGE_ITEMS; k++)
 						{
-							if (gGameObjects[i]->m_PlayerData->m_GremoryCaseData[j][k].btRewardInventory != 0)
+							if (gGameObjects[i]->m_PlayerData->m_GremoryCaseData[j][k]->btRewardInventory != 0)
 							{
-								if (gGameObjects[i]->m_PlayerData->m_GremoryCaseData[j][k].dwExpireTime < CurrTime)
+								if (gGameObjects[i]->m_PlayerData->m_GremoryCaseData[j][k]->dwExpireTime < CurrTime)
 								{
-									this->GDReqDeleteItemFromGremoryCase(i, gGameObjects[i]->m_PlayerData->m_GremoryCaseData[j][k].ItemInfo.m_Type, gGameObjects[i]->m_PlayerData->m_GremoryCaseData[j][k].dwItemGUID, gGameObjects[i]->m_PlayerData->m_GremoryCaseData[j][k].dwAuthCode);
+									this->GDReqDeleteItemFromGremoryCase(i, gGameObjects[i]->m_PlayerData->m_GremoryCaseData[j][k]->ItemInfo.m_Type, gGameObjects[i]->m_PlayerData->m_GremoryCaseData[j][k]->dwItemGUID, gGameObjects[i]->m_PlayerData->m_GremoryCaseData[j][k]->dwAuthCode);
 									this->GCSendDeleteItemFromGremoryCase(i, j, k);
 
-									gGameObjects[i]->m_PlayerData->m_GremoryCaseData[j][k].Clear();
+									gGameObjects[i]->m_PlayerData->m_GremoryCaseData[j][k]->Clear();
 
 								}
 							}
@@ -726,9 +726,9 @@ void CGremoryCase::GCSendDeleteItemFromGremoryCase(int iIndex, BYTE btStorageTyp
 	PHeadSubSetB((LPBYTE)&pMsg, 0x4F, 0x03, sizeof(pMsg));
 
 	pMsg.btStorageType = btStorageType+1;
-	pMsg.wItemID = gGameObjects[iIndex]->m_PlayerData->m_GremoryCaseData[btStorageType][iItemArrayIndex].ItemInfo.m_Type;
-	pMsg.dwItemGUID = gGameObjects[iIndex]->m_PlayerData->m_GremoryCaseData[btStorageType][iItemArrayIndex].dwItemGUID;
-	pMsg.dwAuthCode =  gGameObjects[iIndex]->m_PlayerData->m_GremoryCaseData[btStorageType][iItemArrayIndex].dwAuthCode;
+	pMsg.wItemID = gGameObjects[iIndex]->m_PlayerData->m_GremoryCaseData[btStorageType][iItemArrayIndex]->ItemInfo.m_Type;
+	pMsg.dwItemGUID = gGameObjects[iIndex]->m_PlayerData->m_GremoryCaseData[btStorageType][iItemArrayIndex]->dwItemGUID;
+	pMsg.dwAuthCode =  gGameObjects[iIndex]->m_PlayerData->m_GremoryCaseData[btStorageType][iItemArrayIndex]->dwAuthCode;
 
 	IOCP.DataSend(iIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }

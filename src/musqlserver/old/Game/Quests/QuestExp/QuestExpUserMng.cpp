@@ -32,7 +32,7 @@ int QuestExpUserMng::IsProgQuestInfo(int iEpisode, int iObjIndex)
 		return 0;
 	}
 
-	return gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].GetAskCnt();
+	return gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetAskCnt();
 }
 
 int QuestExpUserMng::IsProgQuestInfo(DWORD dwQuestInfoIndexID, int iObjIndex)
@@ -63,7 +63,7 @@ bool QuestExpUserMng::IsQuestComplete(int iEpisode, int iObjIndex)
 
 	for (int i = 0; i < iAskCnt; i++)
 	{
-		if (gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].m_UserQuestAskInfo[i].IsComplete() == false)
+		if (gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->m_UserQuestAskInfo[i]->IsComplete() == false)
 		{
 			return false;
 		}
@@ -278,7 +278,7 @@ int QuestExpUserMng::InvenChk_EnableReward(int iEpisode, int iObjIndex, int *pRa
 		return 0;
 	}
 
-	int iQuestSwitch = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].GetQuestSwitch();
+	int iQuestSwitch = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetQuestSwitch();
 
 	DWORD dwQuestInfoIndexID = GetQuestInfoIndexId(iEpisode, iQuestSwitch);
 	QuestExpInfo* pQuestExpInfo = g_QuestExpManager.GetQuestExpInfo(dwQuestInfoIndexID);
@@ -379,7 +379,7 @@ int QuestExpUserMng::SendQuestReward(int iEpisode, int iObjIndex)
 
 	int RandResultIndexId[MAX_QUESTEXP_REWARDKIND_RANDOM];
 	int iResult = this->InvenChk_EnableReward(iEpisode, iObjIndex, RandResultIndexId);
-	int iQuestSwitch = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].GetQuestSwitch();
+	int iQuestSwitch = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetQuestSwitch();
 
 	DWORD dwQuestInfoIndexID = GetQuestInfoIndexId(iEpisode, iQuestSwitch);
 
@@ -584,7 +584,7 @@ void QuestExpUserMng::InitUserQuestAskInfo(int iEpisode, int iObjIndex)
 		return;
 	}
 
-	gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].QuestAskInfoClear();
+	gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->QuestAskInfoClear();
 
 }
 
@@ -612,26 +612,26 @@ void QuestExpUserMng::SetQuestSwitch(int iEpisode, int iQuestSwitch, int iObjInd
 
 	if (pUserQuestInfo->SetEpisode(iEpisode) == false)
 	{
-		int iUserQuestSwitch = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].GetQuestSwitch();
-		int iUserEpisode = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].GetEpisode();
+		int iUserQuestSwitch = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetQuestSwitch();
+		int iUserEpisode = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetEpisode();
 
 		return;
 	}
 
 	if (pUserQuestInfo->SetQuestSwitch(iQuestSwitch) == false)
 	{
-		int iUserQuestSwitch = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].GetQuestSwitch();
-		int iUserEpisode = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].GetEpisode();
+		int iUserQuestSwitch = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetQuestSwitch();
+		int iUserEpisode = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetEpisode();
 
 		return;
 	}
 
-	int iUserQuestSwitch = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].GetQuestSwitch();
-	int iUserEpisode = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].GetEpisode();
+	int iUserQuestSwitch = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetQuestSwitch();
+	int iUserEpisode = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetEpisode();
 
 	if (this->AddUserQuestAskInfo(dwQuestInfoIndexID, iObjIndex) == true)
 	{
-		gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].SetQuestProgState(QUESTEXP_PROG_STATE_ONGOING);
+		gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->SetQuestProgState(QUESTEXP_PROG_STATE_ONGOING);
 	}
 }
 
@@ -828,7 +828,7 @@ int QuestExpUserMng::GetQuestSwitch(int iEpisode, int iObjIndex)
 		return -1;
 	}
 
-	return gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].GetQuestSwitch();
+	return gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetQuestSwitch();
 
 }
 
@@ -934,11 +934,11 @@ void QuestExpUserMng::UserQuestInfoSave(DWORD dwQuestInfoIndexID, int iObjIndex)
 	int iQuestSwitch = GetQuestSwitchFromInfoIndexId(dwQuestInfoIndexID);
 	QuestInfo.dwQuestIndexID = dwQuestInfoIndexID;
 
-	int iAskCnt = gGameObjects[iIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].GetAskCnt();
-	WORD wProgState = gGameObjects[iIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].GetQuestProgState();
+	int iAskCnt = gGameObjects[iIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetAskCnt();
+	WORD wProgState = gGameObjects[iIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetQuestProgState();
 
-	QuestInfo.lStartDate = gGameObjects[iIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].GetStartDate();
-	QuestInfo.lEndDate = gGameObjects[iIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].GetEndDate();
+	QuestInfo.lStartDate = gGameObjects[iIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetStartDate();
+	QuestInfo.lEndDate = gGameObjects[iIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetEndDate();
 	QuestInfo.wProgState = wProgState;
 
 	if (iAskCnt == 0)
@@ -948,9 +948,9 @@ void QuestExpUserMng::UserQuestInfoSave(DWORD dwQuestInfoIndexID, int iObjIndex)
 
 	for (int i = 0; i < iAskCnt; i++)
 	{
-		QuestInfo.btAskIndex[i] = gGameObjects[iIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].m_UserQuestAskInfo[i].GetIndexID();
-		QuestInfo.btAskValue[i] = gGameObjects[iIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].m_UserQuestAskInfo[i].GetValue();
-		QuestInfo.btAskState[i] = gGameObjects[iIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].m_UserQuestAskInfo[i].IsComplete();
+		QuestInfo.btAskIndex[i] = gGameObjects[iIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->m_UserQuestAskInfo[i]->GetIndexID();
+		QuestInfo.btAskValue[i] = gGameObjects[iIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->m_UserQuestAskInfo[i]->GetValue();
+		QuestInfo.btAskState[i] = gGameObjects[iIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->m_UserQuestAskInfo[i]->IsComplete();
 
 	}
 
@@ -1090,17 +1090,17 @@ int QuestExpUserMng::GetQuestProgState(DWORD dwQuestInfoIndexID, int iObjIndex)
 
 int QuestExpUserMng::GetQuestProgState(int iEp, int iObjIndex)
 {
-	if (gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEp].GetQuestProgState() == QUESTEXP_PROG_STATE_TIME_LIMIT)
+	if (gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEp]->GetQuestProgState() == QUESTEXP_PROG_STATE_TIME_LIMIT)
     {
-		time_t end_date = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEp].GetEndDate();
+		time_t end_date = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEp]->GetEndDate();
 
 		if (g_QuestExpProgMng.CheckExpireDate(end_date) == true)
 		{
-			gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEp].SetQuestProgState(QUESTEXP_PROG_STATE_NONE);
+			gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEp]->SetQuestProgState(QUESTEXP_PROG_STATE_NONE);
 		}
     }
 
-	return gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEp].GetQuestProgState();
+	return gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEp]->GetQuestProgState();
 }
 
 bool QuestExpUserMng::IsQuestAccept(DWORD dwQuestInfoIndexID, int iObjIndex)

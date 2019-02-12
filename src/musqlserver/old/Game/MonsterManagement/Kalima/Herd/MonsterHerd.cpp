@@ -287,12 +287,12 @@ void MonsterHerd::BeenAttacked(CGameObject &lpObj, CGameObject lpTargetObj)
 			continue;
 		}
 
-		if ( gGameObjects[lpMHD->m_iIndex].Live == FALSE || gGameObjects[lpMHD->m_iIndex].m_State != 2 )
+		if ( gGameObjects[lpMHD->m_iIndex]->Live == FALSE || gGameObjects[lpMHD->m_iIndex]->m_State != 2 )
 		{
 			continue;
 		}
 
-		if ( gGameObjects[lpMHD->m_iIndex].m_lpMonsterHerd != lpObj.m_lpMonsterHerd )
+		if ( gGameObjects[lpMHD->m_iIndex]->m_lpMonsterHerd != lpObj.m_lpMonsterHerd )
 		{
 			continue;
 		}
@@ -302,21 +302,21 @@ void MonsterHerd::BeenAttacked(CGameObject &lpObj, CGameObject lpTargetObj)
 			continue;
 		}
 
-		if ( gGameObjects[lpMHD->m_iIndex].TargetNumber == -1 )
+		if ( gGameObjects[lpMHD->m_iIndex]->TargetNumber == -1 )
 		{
 			if ( (rand()%100) < 70 )
 			{
-				gGameObjects[lpMHD->m_iIndex].TargetNumber = lpTargetObj.m_Index;
-				gGameObjects[lpMHD->m_iIndex].m_ActState.Emotion = 1;
-				gGameObjects[lpMHD->m_iIndex].m_ActState.EmotionCount = 50;
+				gGameObjects[lpMHD->m_iIndex]->TargetNumber = lpTargetObj.m_Index;
+				gGameObjects[lpMHD->m_iIndex]->m_ActState.Emotion = 1;
+				gGameObjects[lpMHD->m_iIndex]->m_ActState.EmotionCount = 50;
 				continue;
 			}
 		}
 		else if ( (rand()%100) < 30 )
 		{
-			gGameObjects[lpMHD->m_iIndex].TargetNumber = lpTargetObj.m_Index;
-			gGameObjects[lpMHD->m_iIndex].m_ActState.Emotion = 1;
-			gGameObjects[lpMHD->m_iIndex].m_ActState.EmotionCount = 50;
+			gGameObjects[lpMHD->m_iIndex]->TargetNumber = lpTargetObj.m_Index;
+			gGameObjects[lpMHD->m_iIndex]->m_ActState.Emotion = 1;
+			gGameObjects[lpMHD->m_iIndex]->m_ActState.EmotionCount = 50;
 			continue;
 		}
 	}
@@ -360,12 +360,12 @@ void MonsterHerd::OrderAttack(CGameObject &lpObj, CGameObject lpTargetObj, int i
 			continue;
 		}
 
-		if ( gGameObjects[lpMHD->m_iIndex].Live == FALSE || gGameObjects[lpMHD->m_iIndex].m_State != 2 )
+		if ( gGameObjects[lpMHD->m_iIndex]->Live == FALSE || gGameObjects[lpMHD->m_iIndex]->m_State != 2 )
 		{
 			continue;
 		}
 
-		if ( gGameObjects[lpMHD->m_iIndex].m_lpMonsterHerd != lpObj.m_lpMonsterHerd )
+		if ( gGameObjects[lpMHD->m_iIndex]->m_lpMonsterHerd != lpObj.m_lpMonsterHerd )
 		{
 			continue;
 		}
@@ -377,9 +377,9 @@ void MonsterHerd::OrderAttack(CGameObject &lpObj, CGameObject lpTargetObj, int i
 
 		if ( (rand()%100) < iAttackPercent )
 		{
-			gGameObjects[lpMHD->m_iIndex].TargetNumber = lpTargetObj.m_Index;
-			gGameObjects[lpMHD->m_iIndex].m_ActState.Emotion = 1;
-			gGameObjects[lpMHD->m_iIndex].m_ActState.EmotionCount = 50;
+			gGameObjects[lpMHD->m_iIndex]->TargetNumber = lpTargetObj.m_Index;
+			gGameObjects[lpMHD->m_iIndex]->m_ActState.Emotion = 1;
+			gGameObjects[lpMHD->m_iIndex]->m_ActState.EmotionCount = 50;
 
 			continue;
 		}

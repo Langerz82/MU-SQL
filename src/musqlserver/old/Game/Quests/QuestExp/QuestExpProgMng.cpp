@@ -32,12 +32,12 @@ void QuestExpProgMng::ReqQuestAskComplete(DWORD dwQuestInfoIndexID, int iObjInde
 	int iEpisode = GetQuestEpisodeFromInfoIndexId(dwQuestInfoIndexID);
 	int iQS = GetQuestSwitchFromInfoIndexId(dwQuestInfoIndexID);
 
-	if (gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].m_UserQuestAskInfo[0].GetQuestType() == QUESTEXP_ASK_TUTORIAL_KEY)
+	if (gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->m_UserQuestAskInfo[0]->GetQuestType() == QUESTEXP_ASK_TUTORIAL_KEY)
 	{
-		gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].m_UserQuestAskInfo[0].SetComplete(true);
-		gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].m_UserQuestAskInfo[0].SetValue(1);
+		gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->m_UserQuestAskInfo[0]->SetComplete(true);
+		gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->m_UserQuestAskInfo[0]->SetValue(1);
 
-		this->SendQuestAskInfoUpdate(iEpisode, iQS, QUESTEXP_ASK_TUTORIAL_KEY, gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].m_UserQuestAskInfo[0].GetValue(), iObjIndex);
+		this->SendQuestAskInfoUpdate(iEpisode, iQS, QUESTEXP_ASK_TUTORIAL_KEY, gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->m_UserQuestAskInfo[0]->GetValue(), iObjIndex);
 	}
 }
 
@@ -54,7 +54,7 @@ void QuestExpProgMng::QuestExpGiveUpBtnClick(DWORD dwQuestInfoIndexID, int iObjI
 
 	//sLog->outBasic("[QuestExp] Give Up [%s][%s] Ep[%d] QS[%d]", gGameObjects[iObjIndex]->AccountID, gGameObjects[iObjIndex]->Name, iEpisode, iQS);
 
-	int iUserQuestSwitch = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].GetQuestSwitch();
+	int iUserQuestSwitch = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetQuestSwitch();
 
 	lua_State *L = g_MuLuaQuestExp.GetLua();
 
@@ -66,9 +66,9 @@ void QuestExpProgMng::QuestExpGiveUpBtnClick(DWORD dwQuestInfoIndexID, int iObjI
 
 	g_MuLuaQuestExp.Generic_Call("QuestGiveUp", "iii>", iObjIndex, iEpisode, iUserQuestSwitch);
 
-	gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].QuestAskInfoClear();
+	gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->QuestAskInfoClear();
 
-	int iSendQS = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].GetQuestSwitch();
+	int iSendQS = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetQuestSwitch();
 
 	//sLog->outBasic("[QuestExp] Give Up - SetQuestSwitch [%s][%s] Ep[%d] QS[%d]", gGameObjects[iObjIndex]->AccountID, gGameObjects[iObjIndex]->Name, iEpisode, iSendQS);
 
@@ -753,9 +753,9 @@ void QuestExpProgMng::ChkUserQuestTypeSkillLearn(QuestSkillLearn* pQuestSkillLea
 
 	for (int n = 0; n < MAX_MAGIC; n++)
 	{
-		if (gGameObjects[iObjIndex]->Magic[n].IsMagic())
+		if (gGameObjects[iObjIndex]->Magic[n]->IsMagic())
 		{
-			if (gGameObjects[iObjIndex]->Magic[n].m_Skill == iSkillIndex)
+			if (gGameObjects[iObjIndex]->Magic[n]->m_Skill == iSkillIndex)
 			{
 				if (!pUserQuestAskInfo->IsComplete())
 				{
@@ -799,7 +799,7 @@ void QuestExpProgMng::DeleteInventoryItem(QuestGetItem* pQuestGetItem, int iObjI
 
 	for (int x = 0; x < INVENTORY_SIZE; ++x)
 	{
-		if (!gGameObjects[iObjIndex]->pInventory[x].IsItem())
+		if (!gGameObjects[iObjIndex]->pInventory[x]->IsItem())
 		{
 			continue;
 		}
@@ -807,43 +807,43 @@ void QuestExpProgMng::DeleteInventoryItem(QuestGetItem* pQuestGetItem, int iObjI
 		if (iItemCnt <= 0)
 			return;
 
-		if (gGameObjects[iObjIndex]->pInventory[x].m_Type != iItemNum)
+		if (gGameObjects[iObjIndex]->pInventory[x]->m_Type != iItemNum)
 		{
 			continue;
 		}
 
-		if (gGameObjects[iObjIndex]->pInventory[x].m_Level != iItemLevel)
+		if (gGameObjects[iObjIndex]->pInventory[x]->m_Level != iItemLevel)
 		{
 			continue;
 		}
 
-		if ((gGameObjects[iObjIndex]->pInventory[x].m_Type < ITEMGET(14, 0)
-			|| gGameObjects[iObjIndex]->pInventory[x].m_Type > ITEMGET(14, 8))
-			&& (gGameObjects[iObjIndex]->pInventory[x].m_Type < ITEMGET(14, 35)
-				|| gGameObjects[iObjIndex]->pInventory[x].m_Type > ITEMGET(14, 40))
-			&& g_QuestExpManager.IsQuestItemAtt(gGameObjects[iObjIndex]->pInventory[x].m_Type, QUESTEXP_ITEM_OVERLAP) != true)
+		if ((gGameObjects[iObjIndex]->pInventory[x]->m_Type < ITEMGET(14, 0)
+			|| gGameObjects[iObjIndex]->pInventory[x]->m_Type > ITEMGET(14, 8))
+			&& (gGameObjects[iObjIndex]->pInventory[x]->m_Type < ITEMGET(14, 35)
+				|| gGameObjects[iObjIndex]->pInventory[x]->m_Type > ITEMGET(14, 40))
+			&& g_QuestExpManager.IsQuestItemAtt(gGameObjects[iObjIndex]->pInventory[x]->m_Type, QUESTEXP_ITEM_OVERLAP) != true)
 		{
-			if (gGameObjects[iObjIndex]->pInventory[x].m_Option1 != iItemSkill)
+			if (gGameObjects[iObjIndex]->pInventory[x]->m_Option1 != iItemSkill)
 			{
 				continue;
 			}
 
-			if (gGameObjects[iObjIndex]->pInventory[x].m_Option3 != iItemOpt)
+			if (gGameObjects[iObjIndex]->pInventory[x]->m_Option3 != iItemOpt)
 			{
 				continue;
 			}
 
-			if (gGameObjects[iObjIndex]->pInventory[x].m_NewOption != iItemExOpt)
+			if (gGameObjects[iObjIndex]->pInventory[x]->m_NewOption != iItemExOpt)
 			{
 				continue;
 			}
 
-			if (gGameObjects[iObjIndex]->pInventory[x].m_Option2 != 0)
+			if (gGameObjects[iObjIndex]->pInventory[x]->m_Option2 != 0)
 			{
 				continue;
 			}
 
-			if (gGameObjects[iObjIndex]->pInventory[x].m_SetOption != 0)
+			if (gGameObjects[iObjIndex]->pInventory[x]->m_SetOption != 0)
 			{
 				continue;
 			}
@@ -852,16 +852,16 @@ void QuestExpProgMng::DeleteInventoryItem(QuestGetItem* pQuestGetItem, int iObjI
 			ItemIsBufExOption(NewOption, &gGameObjects[iObjIndex]->pInventory[x]);
 
 			/*sLog->outBasic("[QuestExp] DeleteInvenItem [%s][%s] Delete Item Info - Item:[%s,%d,%d,%d,%d] serial:[%I64d][%d] Ex:[%d,%d,%d,%d,%d,%d,%d] Set[%d] 380:[%d] HO:[%d,%d] SC[%d,%d,%d,%d,%d] BonusOption[%d]",
-				gGameObjects[iObjIndex]->AccountID, gGameObjects[iObjIndex]->Name, gGameObjects[iObjIndex]->pInventory[x].GetName(), gGameObjects[iObjIndex]->pInventory[x].m_Level, gGameObjects[iObjIndex]->pInventory[x].m_Option1,
-				gGameObjects[iObjIndex]->pInventory[x].m_Option2, gGameObjects[iObjIndex]->pInventory[x].m_Option3, gGameObjects[iObjIndex]->pInventory[x].m_Number, (int)gGameObjects[iObjIndex]->pInventory[x].m_Durability,
-				NewOption[0], NewOption[1], NewOption[2], NewOption[3], NewOption[4], NewOption[5], NewOption[6], gGameObjects[iObjIndex]->pInventory[x].m_SetOption,
-				gGameObjects[iObjIndex]->pInventory[x].m_ItemOptionEx >> 7, g_kJewelOfHarmonySystem.GetItemStrengthenOption(&gGameObjects[iObjIndex]->pInventory[x]),
-				g_kJewelOfHarmonySystem.GetItemOptionLevel(&gGameObjects[iObjIndex]->pInventory[x]), gGameObjects[iObjIndex]->pInventory[x].m_SocketOption[0],
-				gGameObjects[iObjIndex]->pInventory[x].m_SocketOption[1], gGameObjects[iObjIndex]->pInventory[x].m_SocketOption[2], gGameObjects[iObjIndex]->pInventory[x].m_SocketOption[3],
-				gGameObjects[iObjIndex]->pInventory[x].m_SocketOption[4], gGameObjects[iObjIndex]->pInventory[x].m_BonusSocketOption);*/
+				gGameObjects[iObjIndex]->AccountID, gGameObjects[iObjIndex]->Name, gGameObjects[iObjIndex]->pInventory[x]->GetName(), gGameObjects[iObjIndex]->pInventory[x]->m_Level, gGameObjects[iObjIndex]->pInventory[x]->m_Option1,
+				gGameObjects[iObjIndex]->pInventory[x]->m_Option2, gGameObjects[iObjIndex]->pInventory[x]->m_Option3, gGameObjects[iObjIndex]->pInventory[x]->m_Number, (int)gGameObjects[iObjIndex]->pInventory[x]->m_Durability,
+				NewOption[0], NewOption[1], NewOption[2], NewOption[3], NewOption[4], NewOption[5], NewOption[6], gGameObjects[iObjIndex]->pInventory[x]->m_SetOption,
+				gGameObjects[iObjIndex]->pInventory[x]->m_ItemOptionEx >> 7, g_kJewelOfHarmonySystem.GetItemStrengthenOption(&gGameObjects[iObjIndex]->pInventory[x]),
+				g_kJewelOfHarmonySystem.GetItemOptionLevel(&gGameObjects[iObjIndex]->pInventory[x]), gGameObjects[iObjIndex]->pInventory[x]->m_SocketOption[0],
+				gGameObjects[iObjIndex]->pInventory[x]->m_SocketOption[1], gGameObjects[iObjIndex]->pInventory[x]->m_SocketOption[2], gGameObjects[iObjIndex]->pInventory[x]->m_SocketOption[3],
+				gGameObjects[iObjIndex]->pInventory[x]->m_SocketOption[4], gGameObjects[iObjIndex]->pInventory[x]->m_BonusSocketOption);*/
 
 			gObjInventoryItemSet(iObjIndex, x, -1);
-			gGameObjects[iObjIndex]->pInventory[x].Clear();
+			gGameObjects[iObjIndex]->pInventory[x]->Clear();
 			GSProtocol.GCInventoryItemDeleteSend(iObjIndex, x, 1);
 
 			iItemCnt--;
@@ -879,16 +879,16 @@ void QuestExpProgMng::DeleteInventoryItem(QuestGetItem* pQuestGetItem, int iObjI
 				ItemIsBufExOption(NewOption, &gGameObjects[iObjIndex]->pInventory[x]);
 
 				//sLog->outBasic("[QuestExp] DeleteInvenItem [%s][%s] Delete Item Info - Item:[%s,%d,%d,%d,%d] serial:[%I64d][%d] Ex:[%d,%d,%d,%d,%d,%d,%d] Set[%d] 380:[%d] HO:[%d,%d] SC[%d,%d,%d,%d,%d] BonusOption[%d]",
-				//	gGameObjects[iObjIndex]->AccountID, gGameObjects[iObjIndex]->Name, gGameObjects[iObjIndex]->pInventory[x].GetName(), gGameObjects[iObjIndex]->pInventory[x].m_Level, gGameObjects[iObjIndex]->pInventory[x].m_Option1,
-				//	gGameObjects[iObjIndex]->pInventory[x].m_Option2, gGameObjects[iObjIndex]->pInventory[x].m_Option3, gGameObjects[iObjIndex]->pInventory[x].m_Number, (int)gGameObjects[iObjIndex]->pInventory[x].m_Durability,
-				//	NewOption[0], NewOption[1], NewOption[2], NewOption[3], NewOption[4], NewOption[5], NewOption[6], gGameObjects[iObjIndex]->pInventory[x].m_SetOption,
-				//	gGameObjects[iObjIndex]->pInventory[x].m_ItemOptionEx >> 7, g_kJewelOfHarmonySystem.GetItemStrengthenOption(&gGameObjects[iObjIndex]->pInventory[x]),
-				//	g_kJewelOfHarmonySystem.GetItemOptionLevel(&gGameObjects[iObjIndex]->pInventory[x]), gGameObjects[iObjIndex]->pInventory[x].m_SocketOption[0],
-				//	gGameObjects[iObjIndex]->pInventory[x].m_SocketOption[1], gGameObjects[iObjIndex]->pInventory[x].m_SocketOption[2], gGameObjects[iObjIndex]->pInventory[x].m_SocketOption[3],
-				//	gGameObjects[iObjIndex]->pInventory[x].m_SocketOption[4], gGameObjects[iObjIndex]->pInventory[x].m_BonusSocketOption);
+				//	gGameObjects[iObjIndex]->AccountID, gGameObjects[iObjIndex]->Name, gGameObjects[iObjIndex]->pInventory[x]->GetName(), gGameObjects[iObjIndex]->pInventory[x]->m_Level, gGameObjects[iObjIndex]->pInventory[x]->m_Option1,
+				//	gGameObjects[iObjIndex]->pInventory[x]->m_Option2, gGameObjects[iObjIndex]->pInventory[x]->m_Option3, gGameObjects[iObjIndex]->pInventory[x]->m_Number, (int)gGameObjects[iObjIndex]->pInventory[x]->m_Durability,
+				//	NewOption[0], NewOption[1], NewOption[2], NewOption[3], NewOption[4], NewOption[5], NewOption[6], gGameObjects[iObjIndex]->pInventory[x]->m_SetOption,
+				//	gGameObjects[iObjIndex]->pInventory[x]->m_ItemOptionEx >> 7, g_kJewelOfHarmonySystem.GetItemStrengthenOption(&gGameObjects[iObjIndex]->pInventory[x]),
+				//	g_kJewelOfHarmonySystem.GetItemOptionLevel(&gGameObjects[iObjIndex]->pInventory[x]), gGameObjects[iObjIndex]->pInventory[x]->m_SocketOption[0],
+				//	gGameObjects[iObjIndex]->pInventory[x]->m_SocketOption[1], gGameObjects[iObjIndex]->pInventory[x]->m_SocketOption[2], gGameObjects[iObjIndex]->pInventory[x]->m_SocketOption[3],
+				//	gGameObjects[iObjIndex]->pInventory[x]->m_SocketOption[4], gGameObjects[iObjIndex]->pInventory[x]->m_BonusSocketOption);
 
 				gObjInventoryItemSet(iObjIndex, x, -1);
-				gGameObjects[iObjIndex]->pInventory[x].Clear();
+				gGameObjects[iObjIndex]->pInventory[x]->Clear();
 				GSProtocol.GCInventoryItemDeleteSend(iObjIndex, x, 1);
 			}
 
@@ -909,34 +909,34 @@ void QuestExpProgMng::ChkUserQuestTypeItem(QuestGetItem* pQuestGetItem, UserQues
 
 	for (int x = 0; x < INVENTORY_SIZE; ++x)
 	{
-		if (!gGameObjects[iObjIndex]->pInventory[x].IsItem())
+		if (!gGameObjects[iObjIndex]->pInventory[x]->IsItem())
 		{
 			continue;
 		}
 
-		if (gGameObjects[iObjIndex]->pInventory[x].m_Type != iItemNum)
+		if (gGameObjects[iObjIndex]->pInventory[x]->m_Type != iItemNum)
 		{
 			continue;
 		}
 
-		if (gGameObjects[iObjIndex]->pInventory[x].m_Level != iItemLevel)
+		if (gGameObjects[iObjIndex]->pInventory[x]->m_Level != iItemLevel)
 		{
 			continue;
 		}
 
-		if ((gGameObjects[iObjIndex]->pInventory[x].m_Type < ITEMGET(14, 0) || gGameObjects[iObjIndex]->pInventory[x].m_Type > ITEMGET(14, 8))
-			&& (gGameObjects[iObjIndex]->pInventory[x].m_Type < ITEMGET(14, 35) || gGameObjects[iObjIndex]->pInventory[x].m_Type > ITEMGET(14, 40))
-			&& g_QuestExpManager.IsQuestItemAtt(gGameObjects[iObjIndex]->pInventory[x].m_Type, QUESTEXP_ITEM_OVERLAP) != true)
+		if ((gGameObjects[iObjIndex]->pInventory[x]->m_Type < ITEMGET(14, 0) || gGameObjects[iObjIndex]->pInventory[x]->m_Type > ITEMGET(14, 8))
+			&& (gGameObjects[iObjIndex]->pInventory[x]->m_Type < ITEMGET(14, 35) || gGameObjects[iObjIndex]->pInventory[x]->m_Type > ITEMGET(14, 40))
+			&& g_QuestExpManager.IsQuestItemAtt(gGameObjects[iObjIndex]->pInventory[x]->m_Type, QUESTEXP_ITEM_OVERLAP) != true)
 		{
-			if (gGameObjects[iObjIndex]->pInventory[x].m_Option1 == iItemSkill)
+			if (gGameObjects[iObjIndex]->pInventory[x]->m_Option1 == iItemSkill)
 			{
-				if (gGameObjects[iObjIndex]->pInventory[x].m_Option3 == iItemOpt)
+				if (gGameObjects[iObjIndex]->pInventory[x]->m_Option3 == iItemOpt)
 				{
-					if (gGameObjects[iObjIndex]->pInventory[x].m_NewOption == iItemExOpt)
+					if (gGameObjects[iObjIndex]->pInventory[x]->m_NewOption == iItemExOpt)
 					{
-						if (!gGameObjects[iObjIndex]->pInventory[x].m_Option2)
+						if (!gGameObjects[iObjIndex]->pInventory[x]->m_Option2)
 						{
-							if (!gGameObjects[iObjIndex]->pInventory[x].m_SetOption)
+							if (!gGameObjects[iObjIndex]->pInventory[x]->m_SetOption)
 								iItemCnt++;
 						}
 					}
@@ -945,7 +945,7 @@ void QuestExpProgMng::ChkUserQuestTypeItem(QuestGetItem* pQuestGetItem, UserQues
 		}
 		else
 		{
-			iItemDur += gGameObjects[iObjIndex]->pInventory[x].m_Durability;
+			iItemDur += gGameObjects[iObjIndex]->pInventory[x]->m_Durability;
 		}
 	}
 
@@ -1362,7 +1362,7 @@ void QuestExpProgMng::SendQuestSwitchList(int iObjIndex, int iSendType)
 	if (iSendType == QUESTEXP_SEND_NPC)
 	{
 		PHeadSubSetB(reinterpret_cast<BYTE *>(&QuestList), 0xF6, 0x0A, 0);
-		QuestList.wNPCIndex = gGameObjects[gGameObjects[iIndex]->TargetNpcNumber].Class;
+		QuestList.wNPCIndex = gGameObjects[gGameObjects[iIndex]->TargetNpcNumber]->Class;
 	}
 
 	else if (iSendType == QUESTEXP_SEND_EVENT)
@@ -1438,9 +1438,9 @@ void QuestExpProgMng::SendProgressQuestList(int iObjIndex)
 
 	for (int i = 0; i < MAX_QUESTEXP_USER_INFO; ++i)
 	{
-		int iEpisode = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[i].GetEpisode();
-		int iQS = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[i].GetQuestSwitch();
-		WORD wProgState = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[i].GetQuestProgState();
+		int iEpisode = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[i]->GetEpisode();
+		int iQS = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[i]->GetQuestSwitch();
+		WORD wProgState = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[i]->GetQuestProgState();
 
 		if (wProgState == 0)
 			continue;
@@ -1480,9 +1480,9 @@ void QuestExpProgMng::SetQuestProg(int iEpisode, int iObjIndex, int iState)
 		return;
 	}
 
-	if (gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].GetQuestProgState() != QUESTEXP_PROG_STATE_TIME_LIMIT)
+	if (gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetQuestProgState() != QUESTEXP_PROG_STATE_TIME_LIMIT)
 	{
-		gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode].SetQuestProgState(iState);
+		gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->SetQuestProgState(iState);
 	}
 }
 

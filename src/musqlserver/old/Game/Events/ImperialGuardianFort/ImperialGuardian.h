@@ -87,12 +87,12 @@ public:
 	void CGEnterPortal(int nUserIndex, int nDestZoneIndex);
 	int GetCurrentZoneIndex(int nUserNumber);
 	void GCMissionFailUserDie(int nUserNumber);
-	void DropItem(int nIndex, int nMonsterIndex);
+	void DropItem(CGameObject &player, CGameObject &monster);
 	bool IsAttackAbleMonster(int nMonsterIndex);
 	void DestroyGate(int nZoneIndex, int nIndex, int nTargetIndex);
 	_stZoneInfo * GetZoneInfo(_stZoneInfo * result, int nZoneIndex);
 	void SetTargetMoveAllMonster(int nZoneIndex, int nTargetNumber);
-	void MonsterBaseAct(CGameObject* lpObj);
+	void MonsterBaseAct(CGameObject &lpObj);
 	void SetDayOfWeekGM(int nDayOfWeeks);
 	void SetCheatModeGM(WORD nCheatMode);
 	void WarpZoneGM(int nUserIndex, int nZoneIndex);

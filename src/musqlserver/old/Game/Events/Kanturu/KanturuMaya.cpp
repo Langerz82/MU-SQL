@@ -79,14 +79,14 @@ void CKanturuMaya::KanturuMayaAct_Hands()
 
 			if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
 			{
-				if (gGameObjects[iCount]->pInventory[10].m_Type == ITEMGET(13, 38) &&
-					gGameObjects[iCount]->pInventory[10].m_Durability != 0.0f)
+				if (gGameObjects[iCount]->pInventory[10]->m_Type == ITEMGET(13, 38) &&
+					gGameObjects[iCount]->pInventory[10]->m_Durability != 0.0f)
 				{
 					continue;
 				}
 
-				if (gGameObjects[iCount]->pInventory[11].m_Type == ITEMGET(13, 38) &&
-					gGameObjects[iCount]->pInventory[11].m_Durability != 0.0f)
+				if (gGameObjects[iCount]->pInventory[11]->m_Type == ITEMGET(13, 38) &&
+					gGameObjects[iCount]->pInventory[11]->m_Durability != 0.0f)
 				{
 					continue;
 				}

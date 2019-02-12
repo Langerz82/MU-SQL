@@ -817,7 +817,7 @@ void LuckyItemManager::DGAnsLuckyItemList(PMSG_ANS_LUCKYITEM_SELECT * lpRecv)
 	
 	for( int iInven = 0; iInven < MAIN_INVENTORY_SIZE; iInven++ )
 	{
-		if( gGameObjects[iObjIndex]->pInventory[iInven].IsItem() )
+		if( gGameObjects[iObjIndex]->pInventory[iInven]->IsItem() )
 		{
 			CItem * pItem = &gGameObjects[iObjIndex]->pInventory[iInven];
 

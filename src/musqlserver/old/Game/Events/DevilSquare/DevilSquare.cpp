@@ -441,7 +441,7 @@ int  CDevilSquare::GetUserLevelToEnter(int iUserIndex, WORD& wMoveGate)
 
 	for (int i = 0; i<MAX_DEVILSQUARE_GROUND; i++)
 	{
-		if (gGameObjects[iUserIndex]->Level + gGameObjects[iUserIndex]->m_PlayerData->MasterLevel >= g_sttDEVILSQUARE_LEVEL[i].NormalCharacterMinLevel  && gGameObjects[iUserIndex]->Level + gGameObjects[iUserIndex]->m_PlayerData->MasterLevel <= g_sttDEVILSQUARE_LEVEL[i].NormalCharacterMaxLevel)
+		if (gGameObjects[iUserIndex]->Level + gGameObjects[iUserIndex]->m_PlayerData->MasterLevel >= g_sttDEVILSQUARE_LEVEL[i]->NormalCharacterMinLevel  && gGameObjects[iUserIndex]->Level + gGameObjects[iUserIndex]->m_PlayerData->MasterLevel <= g_sttDEVILSQUARE_LEVEL[i]->NormalCharacterMaxLevel)
 		{
 			iENTER_LEVEL = i;
 			wMoveGate = g_sttDEVILSQUARE_LEVEL[i].MoveGate;
@@ -860,9 +860,9 @@ void CDevilSquare::SetMonster()
 					if (result >= 0)
 					{
 						gGameObjects[result]->m_PosNum = j;
-						gGameObjects[result]->X = this->m_DSMP[i][j].m_X;
-						gGameObjects[result]->Y = this->m_DSMP[i][j].m_Y;
-						gGameObjects[result]->MapNumber = this->m_DSMP[i][j].m_MapNumber;
+						gGameObjects[result]->X = this->m_DSMP[i][j]->m_X;
+						gGameObjects[result]->Y = this->m_DSMP[i][j]->m_Y;
+						gGameObjects[result]->MapNumber = this->m_DSMP[i][j]->m_MapNumber;
 
 						this->GetPosition(j, i, this->m_DSMP[i][j].m_MapNumber, gGameObjects[result]->X, gGameObjects[result]->Y);
 
@@ -870,7 +870,7 @@ void CDevilSquare::SetMonster()
 						gGameObjects[result]->TY = gGameObjects[result]->Y;
 						gGameObjects[result]->m_OldX = gGameObjects[result]->X;
 						gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
-						gGameObjects[result]->Dir = this->m_DSMP[i][j].m_Dir;
+						gGameObjects[result]->Dir = this->m_DSMP[i][j]->m_Dir;
 						gGameObjects[result]->StartX = gGameObjects[result]->X;
 						gGameObjects[result]->StartY = gGameObjects[result]->Y;
 						gObjSetMonster(result, wMonIndex);
@@ -1458,7 +1458,7 @@ void CDevilSquare::CalcScore()
 			{
 				if (DS_LEVEL_RANGE(gGameObjects[n]->m_bDevilSquareIndex) != FALSE)
 				{
-					this->m_DevilSquareGround[gGameObjects[n]->m_bDevilSquareIndex].InsertObj(&gGameObjects[n]);
+					this->m_DevilSquareGround[gGameObjects[n]->m_bDevilSquareIndex]->InsertObj(&gGameObjects[n]);
 				}
 			}
 		}

@@ -59,8 +59,8 @@ public:
 
 		PHeadSubSetB((LPBYTE)&ServerCmd, 0xF3, 0x40, sizeof(ServerCmd));
 		ServerCmd.CmdType = 0;
-		ServerCmd.X = gGameObjects[lua_tointeger(Lua, 1)].X;
-		ServerCmd.Y = gGameObjects[lua_tointeger(Lua, 1)].Y;
+		ServerCmd.X = gGameObjects[lua_tointeger(Lua, 1)]->X;
+		ServerCmd.Y = gGameObjects[lua_tointeger(Lua, 1)]->Y;
 
 		GSProtocol.MsgSendV2(&gGameObjects[lua_tointeger(Lua, 1)], (LPBYTE)&ServerCmd, sizeof(ServerCmd));
 		IOCP.DataSend(lua_tointeger(Lua, 1), (LPBYTE)&ServerCmd, sizeof(ServerCmd));

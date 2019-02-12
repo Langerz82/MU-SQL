@@ -127,23 +127,23 @@ void TMonsterAIGroup::ChangeAIOrder(int iGroupNumber, int iAIOrder)
 		{
 			if ( iAIOrder == 0 )
 			{
-				gGameObjects[lpMemb->m_iObjIndex].m_iBasicAI = lpMemb->m_iStartAI;
-				gGameObjects[lpMemb->m_iObjIndex].m_iCurrentAI = lpMemb->m_iStartAI;
+				gGameObjects[lpMemb->m_iObjIndex]->m_iBasicAI = lpMemb->m_iStartAI;
+				gGameObjects[lpMemb->m_iObjIndex]->m_iCurrentAI = lpMemb->m_iStartAI;
 			}
 			else if (iAIOrder == 1 )
 			{
-				gGameObjects[lpMemb->m_iObjIndex].m_iBasicAI = lpMemb->m_iAI01;
-				gGameObjects[lpMemb->m_iObjIndex].m_iCurrentAI = lpMemb->m_iAI01;
+				gGameObjects[lpMemb->m_iObjIndex]->m_iBasicAI = lpMemb->m_iAI01;
+				gGameObjects[lpMemb->m_iObjIndex]->m_iCurrentAI = lpMemb->m_iAI01;
 			}
 			else if (iAIOrder == 2 )
 			{
-				gGameObjects[lpMemb->m_iObjIndex].m_iBasicAI = lpMemb->m_iAI02;
-				gGameObjects[lpMemb->m_iObjIndex].m_iCurrentAI = lpMemb->m_iAI02;
+				gGameObjects[lpMemb->m_iObjIndex]->m_iBasicAI = lpMemb->m_iAI02;
+				gGameObjects[lpMemb->m_iObjIndex]->m_iCurrentAI = lpMemb->m_iAI02;
 			}
 			else if (iAIOrder == 3 )
 			{
-				gGameObjects[lpMemb->m_iObjIndex].m_iBasicAI = lpMemb->m_iAI03;
-				gGameObjects[lpMemb->m_iObjIndex].m_iCurrentAI = lpMemb->m_iAI03;
+				gGameObjects[lpMemb->m_iObjIndex]->m_iBasicAI = lpMemb->m_iAI03;
+				gGameObjects[lpMemb->m_iObjIndex]->m_iCurrentAI = lpMemb->m_iAI03;
 			}
 		}		
 	}
@@ -270,7 +270,7 @@ TMonsterAIGroupMember * TMonsterAIGroup::FindGroupMemberToHeal(int iObjIndex, in
 	{
 		if ( TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iGroupNumber == iGroupNumber )
 		{
-			CGameObject lpTargetObj = &gGameObjects[TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iObjIndex];
+			CGameObject lpTargetObj = &gGameObjects[TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i]->m_iObjIndex];
 
 			if ( lpTargetObj == NULL )
 				continue;
@@ -316,7 +316,7 @@ TMonsterAIGroupMember * TMonsterAIGroup::FindGroupMemberToSommon(int iObjIndex, 
 	{
 		if ( TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iGroupNumber == iGroupNumber )
 		{
-			CGameObject lpTargetObj = &gGameObjects[TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iObjIndex];
+			CGameObject lpTargetObj = &gGameObjects[TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i]->m_iObjIndex];
 
 			if ( lpTargetObj.m_Index == iObjIndex )
 				continue;

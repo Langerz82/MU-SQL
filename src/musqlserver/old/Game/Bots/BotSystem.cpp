@@ -643,7 +643,7 @@ void CBotSystem::BuffPlayer(WORD  wBufferindex,short aIndex)
 				lpObj.BuffId = i;
 				gObjUseSkill.RunningSkill(lpBot->aIndex,aIndex,lpMagic,0);
 			}*/
-			gObjAddBuffEffect(&gGameObjects[aIndex], gBotObj.m_BotBuffs[i].wBuffId, gBotObj.m_BotBuffs[i].wEffectType, gBotObj.m_BotBuffs[i].iEffect, 0, 0, gBotObj.m_BotBuffs[i].wDuration);
+			gObjAddBuffEffect(&gGameObjects[aIndex], gBotObj.m_BotBuffs[i]->wBuffId, gBotObj.m_BotBuffs[i]->wEffectType, gBotObj.m_BotBuffs[i]->iEffect, 0, 0, gBotObj.m_BotBuffs[i]->wDuration);
 		}
 	}
 	GSProtocol.ChatTargetSend(gBotObj, Lang.GetText(0,367), aIndex);
@@ -805,7 +805,7 @@ void CBotSystem::AlchemistTradeOk(CGameObject &lpObj, int botIndex)
 	sBOT_REWARD_STRUCT reward = ConfirmMixSuccess(aIndex,gGameObjects[botIndex]->m_PlayerData->wBotIndex);
 	if(reward.m_Reward.m_Type > 0)
 	{
-		int iEmptyCount = CheckInventoryEmptySpaceCount(&gGameObjects[aIndex], ItemAttribute[reward.m_Reward.m_Type].Width, ItemAttribute[reward.m_Reward.m_Type].Height);
+		int iEmptyCount = CheckInventoryEmptySpaceCount(&gGameObjects[aIndex], ItemAttribute[reward.m_Reward.m_Type]->Width, ItemAttribute[reward.m_Reward.m_Type]->Height);
 
 		if(iEmptyCount < reward.iCount)
 		{
@@ -862,7 +862,7 @@ bool CBotSystem::StoreAddItems(int botIndex)
 	int aIndex = this->m_BotData[botIndex].aIndex;
 	for(int i=0;i<this->m_BotData[botIndex].m_Shop.iItemCount;i++)
 	{
-		BYTE blank = this->PShopCheckSpace(&gGameObjects[aIndex],this->m_BotData[botIndex].m_Shop.pItems[i].wItemId,&lpObj.pInventoryMap[PSHOP_START_RANGE]);
+		BYTE blank = this->PShopCheckSpace(&gGameObjects[aIndex],this->m_BotData[botIndex]->m_Shop.pItems[i]->wItemId,&lpObj.pInventoryMap[PSHOP_START_RANGE]);
 		
 		if(blank != 255)
 		{

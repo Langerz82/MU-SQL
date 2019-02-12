@@ -654,7 +654,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 			return;
 		}
 
-		if (::gObjInventorySearchSerialNumber(&gGameObjects[aSourceIndex], lpObj.Inventory1[lpMsg->btItemPos].GetNumber()) == FALSE)
+		if (::gObjInventorySearchSerialNumber(&gGameObjects[aSourceIndex], lpObj.Inventory1[lpMsg->btItemPos]->GetNumber()) == FALSE)
 		{
 			GSProtocol.GCReFillSend(aSourceIndex, gGameObjects[aSourceIndex]->Life, 0xFD, 1, gGameObjects[aSourceIndex]->iShield);
 			return;
@@ -717,7 +717,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 
 				if (lpObj.m_bOff == false && lpObj.m_PlayerData->ISBOT == false)
 				{
-					if (gGameObjects[aSourceIndex]->m_PlayerData->Money < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
+					if (gGameObjects[aSourceIndex]->m_PlayerData->Money < lpObj.Inventory1[lpMsg->btItemPos]->m_iPShopValue)
 					{
 						g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, lpObj.m_Index, 0, 7);
 
@@ -728,7 +728,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 				{
 					if (!lpObj.m_bOff && lpObj.m_PlayerData->ISBOT == false)
 					{
-						if (gGameObjects[aSourceIndex]->m_PlayerData->Money < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
+						if (gGameObjects[aSourceIndex]->m_PlayerData->Money < lpObj.Inventory1[lpMsg->btItemPos]->m_iPShopValue)
 						{
 							g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, lpObj.m_Index, 0, 7);
 
@@ -741,7 +741,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 						{
 						case 0:
 						{
-							if (gGameObjects[aSourceIndex]->m_PlayerData->Money < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
+							if (gGameObjects[aSourceIndex]->m_PlayerData->Money < lpObj.Inventory1[lpMsg->btItemPos]->m_iPShopValue)
 							{
 								g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, lpObj.m_Index, 0, 7);
 								return;
@@ -750,7 +750,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 						break;
 						case 1:
 						{
-							if (gGameObjects[aSourceIndex]->m_PlayerData->m_WCoinC < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
+							if (gGameObjects[aSourceIndex]->m_PlayerData->m_WCoinC < lpObj.Inventory1[lpMsg->btItemPos]->m_iPShopValue)
 							{
 								g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, lpObj.m_Index, 0, 7);
 								return;
@@ -759,7 +759,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 						break;
 						case 2:
 						{
-							if (gGameObjects[aSourceIndex]->m_PlayerData->m_GoblinPoint < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
+							if (gGameObjects[aSourceIndex]->m_PlayerData->m_GoblinPoint < lpObj.Inventory1[lpMsg->btItemPos]->m_iPShopValue)
 							{
 								g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, lpObj.m_Index, 0, 7);
 								return;
@@ -768,7 +768,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 						break;
 						case 3:
 						{
-							if (gGameObjects[aSourceIndex]->m_PlayerData->m_GoblinPoint < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
+							if (gGameObjects[aSourceIndex]->m_PlayerData->m_GoblinPoint < lpObj.Inventory1[lpMsg->btItemPos]->m_iPShopValue)
 							{
 								g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, lpObj.m_Index, 0, 7);
 								return;
@@ -783,7 +783,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 						{
 						case 0:
 						{
-							if (gGameObjects[aSourceIndex]->m_PlayerData->Money < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
+							if (gGameObjects[aSourceIndex]->m_PlayerData->Money < lpObj.Inventory1[lpMsg->btItemPos]->m_iPShopValue)
 							{
 								g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, lpObj.m_Index, 0, 7);
 								return;
@@ -792,7 +792,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 						break;
 						case 1:
 						{
-							if (gGameObjects[aSourceIndex]->m_PlayerData->m_WCoinC < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
+							if (gGameObjects[aSourceIndex]->m_PlayerData->m_WCoinC < lpObj.Inventory1[lpMsg->btItemPos]->m_iPShopValue)
 							{
 								g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, lpObj.m_Index, 0, 7);
 								return;
@@ -801,7 +801,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 						break;
 						case 2:
 						{
-							if (gGameObjects[aSourceIndex]->m_PlayerData->m_GoblinPoint < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
+							if (gGameObjects[aSourceIndex]->m_PlayerData->m_GoblinPoint < lpObj.Inventory1[lpMsg->btItemPos]->m_iPShopValue)
 							{
 								g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, lpObj.m_Index, 0, 7);
 								return;
@@ -810,7 +810,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 						break;
 						case 3:
 						{
-							if (gGameObjects[aSourceIndex]->m_PlayerData->m_GoblinPoint < lpObj.Inventory1[lpMsg->btItemPos].m_iPShopValue)
+							if (gGameObjects[aSourceIndex]->m_PlayerData->m_GoblinPoint < lpObj.Inventory1[lpMsg->btItemPos]->m_iPShopValue)
 							{
 								g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, lpObj.m_Index, 0, 7);
 								return;
@@ -1097,7 +1097,7 @@ void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
 
 				if (lpObj.m_PlayerData->ISBOT == true && g_BotSystem.GetBotType(lpObj.m_Index) == BOT_SHOP)
 				{
-					BotShopLog->Output("[BOT SHOP] [%s][%s][%s] Buy %s from %s for %d", gGameObjects[aSourceIndex]->m_PlayerData->Ip_addr, gGameObjects[aSourceIndex]->AccountID, gGameObjects[aSourceIndex]->Name, ItemAttribute[iITEM_LOG_TYPE].Name, lpObj.Name, dwCost);
+					BotShopLog->Output("[BOT SHOP] [%s][%s][%s] Buy %s from %s for %d", gGameObjects[aSourceIndex]->m_PlayerData->Ip_addr, gGameObjects[aSourceIndex]->AccountID, gGameObjects[aSourceIndex]->Name, ItemAttribute[iITEM_LOG_TYPE]->Name, lpObj.Name, dwCost);
 				}
 				if (g_PersonalStore.PShop_CheckInventoryEmpty(lpObj.m_Index) == true)
 				{

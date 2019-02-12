@@ -147,10 +147,10 @@ void CCrywolfAltar::SetAltarValidContract(int iAltarObjIndex, int iClass)
 	if ( AltarInfo->m_dwValidContractTime < GetTickCount() )
 	{
 		MsgOutput(AltarInfo->m_iUserIndex, Lang.GetText(0,243), iAltarNumber);
-		UTIL.SendCrywolfUserAnyMsg(2, Lang.GetText(0,244), gGameObjects[AltarInfo->m_iUserIndex].Name, iAltarNumber);
+		UTIL.SendCrywolfUserAnyMsg(2, Lang.GetText(0,244), gGameObjects[AltarInfo->m_iUserIndex]->Name, iAltarNumber);
 
 		sLog->outBasic("[Crywolf][Altar op.]  [%s][%s] Set Valid Contract Altar[%d]",
-			gGameObjects[AltarInfo->m_iUserIndex].AccountID, gGameObjects[AltarInfo->m_iUserIndex].Name, iAltarNumber);
+			gGameObjects[AltarInfo->m_iUserIndex]->AccountID, gGameObjects[AltarInfo->m_iUserIndex]->Name, iAltarNumber);
 
 		AltarInfo->SetAltarState(1);
 
@@ -209,10 +209,10 @@ BOOL CCrywolfAltar::SetAltarUserIndex(int iAltarObjIndex, int iClass, int iUserI
 	AltarInfo->m_iContractCount++;
 	gObjAddBuffEffect(&gGameObjects[iAltarObjIndex], 24, 0, 0, 0, 0, -10);
 
-	UTIL.SendCrywolfUserAnyMsg(2, Lang.GetText(0,249), gGameObjects[AltarInfo->m_iUserIndex].Name, iAltarNumber);
+	UTIL.SendCrywolfUserAnyMsg(2, Lang.GetText(0,249), gGameObjects[AltarInfo->m_iUserIndex]->Name, iAltarNumber);
 
 	sLog->outBasic("[Crywolf][Altar Op.] [%s][%s] Attempt to contract Altar[%d]",
-		gGameObjects[AltarInfo->m_iUserIndex].AccountID, gGameObjects[AltarInfo->m_iUserIndex].Name,
+		gGameObjects[AltarInfo->m_iUserIndex]->AccountID, gGameObjects[AltarInfo->m_iUserIndex]->Name,
 		iAltarNumber);
 
 	MsgOutput(iUserIndex, Lang.GetText(0,250));
@@ -231,7 +231,7 @@ void CCrywolfAltar::ResetAltarUserIndex(int iAltarObjIndex, int iClass)
 	{
 		MsgOutput(AltarInfo->m_iUserIndex, Lang.GetText(0,252), iAltarNumber);
 		sLog->outBasic("[Crywolf][Altar Op.] [%s][%s] Remove contract Altar[%d]",
-		gGameObjects[AltarInfo->m_iUserIndex].AccountID, gGameObjects[AltarInfo->m_iUserIndex].Name,
+		gGameObjects[AltarInfo->m_iUserIndex]->AccountID, gGameObjects[AltarInfo->m_iUserIndex]->Name,
 		iAltarNumber);
 	}
 

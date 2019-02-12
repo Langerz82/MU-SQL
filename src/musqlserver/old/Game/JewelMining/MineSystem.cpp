@@ -476,7 +476,7 @@ void CMineSystem::FailMineTwinkle(PMSG_ANS_MINETWINKLE_END_ANIMATION *lpMsg, int
 		return;
 	}
 
-	if (gGameObjects[lpMsg->wTwinkleIndex].Life == 0.0 && gGameObjects[lpMsg->wTwinkleIndex].MapNumber == lpMsg->byMapNumber)
+	if (gGameObjects[lpMsg->wTwinkleIndex]->Life == 0.0 && gGameObjects[lpMsg->wTwinkleIndex]->MapNumber == lpMsg->byMapNumber)
 	{
 		gObjLifeCheck(&gGameObjects[lpMsg->wTwinkleIndex], &gGameObjects[aIndex], 0, 1, 0, 0, 0, 0, 0);
 	}
@@ -506,7 +506,7 @@ void CMineSystem::GDAnsModifyMineSystemUPTUserInfo(SDHP_ANS_MINESYSTEM_UPT_USERI
 	if (lpMsg->Result == 0)
 	{
 		sLog->outBasic("[MineSystem][UPT Info][DELETE/INSERT][ERROR][ID:%s][Name:%s]",
-			gGameObjects[lpMsg->wUserIndex].AccountID, gGameObjects[lpMsg->wUserIndex].Name);
+			gGameObjects[lpMsg->wUserIndex]->AccountID, gGameObjects[lpMsg->wUserIndex]->Name);
 	}
 
 	else if (lpMsg->Result == 1)
@@ -519,13 +519,13 @@ void CMineSystem::GDAnsModifyMineSystemUPTUserInfo(SDHP_ANS_MINESYSTEM_UPT_USERI
 		else if (lpMsg->byRequestType == 1)
 		{
 			sLog->outBasic("[MineSystem][UPT Info][DELETE][SUCCESS][ID:%s][Name:%s]",
-				gGameObjects[lpMsg->wUserIndex].AccountID, gGameObjects[lpMsg->wUserIndex].Name);
+				gGameObjects[lpMsg->wUserIndex]->AccountID, gGameObjects[lpMsg->wUserIndex]->Name);
 		}
 
 		else
 		{
 			sLog->outBasic("[MineSystem][UPT Info][DELETE][ERROR][Undefined Request Type][ID:%s][Name:%s]",
-				gGameObjects[lpMsg->wUserIndex].AccountID, gGameObjects[lpMsg->wUserIndex].Name);
+				gGameObjects[lpMsg->wUserIndex]->AccountID, gGameObjects[lpMsg->wUserIndex]->Name);
 		}
 	}
 }

@@ -213,42 +213,42 @@ DWORD CIOCP::IocpServerWorker(void * p)
 					continue;
 				}
 
-				memset(&gGameObjects[ClientIndex]->PerSocketContext->IOContext[0].Overlapped, 0, sizeof(WSAOVERLAPPED));
-				memset(&gGameObjects[ClientIndex]->PerSocketContext->IOContext[1].Overlapped, 0, sizeof(WSAOVERLAPPED));
+				memset(&gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->Overlapped, 0, sizeof(WSAOVERLAPPED));
+				memset(&gGameObjects[ClientIndex]->PerSocketContext->IOContext[1]->Overlapped, 0, sizeof(WSAOVERLAPPED));
 
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0].wsabuf.buf = (char*)&gGameObjects[ClientIndex]->PerSocketContext->IOContext[0].Buffer;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0].wsabuf.len = MAX_IO_BUFFER_SIZE;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0].nTotalBytes = 0;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0].nSentBytes = 0;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0].nWaitIO = 0;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0].nSecondOfs = 0;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0].IOOperation = 0;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[1].wsabuf.buf = (char*)gGameObjects[ClientIndex]->PerSocketContext->IOContext[1].Buffer;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[1].wsabuf.len = MAX_IO_BUFFER_SIZE;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[1].nTotalBytes = 0;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[1].nSentBytes = 0;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[1].nWaitIO = 0;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[1].nSecondOfs = 0;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[1].IOOperation = 1;
+				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->wsabuf.buf = (char*)&gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->Buffer;
+				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->wsabuf.len = MAX_IO_BUFFER_SIZE;
+				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->nTotalBytes = 0;
+				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->nSentBytes = 0;
+				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->nWaitIO = 0;
+				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->nSecondOfs = 0;
+				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->IOOperation = 0;
+				gGameObjects[ClientIndex]->PerSocketContext->IOContext[1]->wsabuf.buf = (char*)gGameObjects[ClientIndex]->PerSocketContext->IOContext[1]->Buffer;
+				gGameObjects[ClientIndex]->PerSocketContext->IOContext[1]->wsabuf.len = MAX_IO_BUFFER_SIZE;
+				gGameObjects[ClientIndex]->PerSocketContext->IOContext[1]->nTotalBytes = 0;
+				gGameObjects[ClientIndex]->PerSocketContext->IOContext[1]->nSentBytes = 0;
+				gGameObjects[ClientIndex]->PerSocketContext->IOContext[1]->nWaitIO = 0;
+				gGameObjects[ClientIndex]->PerSocketContext->IOContext[1]->nSecondOfs = 0;
+				gGameObjects[ClientIndex]->PerSocketContext->IOContext[1]->IOOperation = 1;
 				gGameObjects[ClientIndex]->PerSocketContext->m_socket = Accept;
 				gGameObjects[ClientIndex]->PerSocketContext->nIndex = ClientIndex;
 
-				nRet = WSARecv(Accept, &gGameObjects[ClientIndex]->PerSocketContext->IOContext[0].wsabuf, 1, (unsigned long*)&RecvBytes, &Flags,
-					&gGameObjects[ClientIndex]->PerSocketContext->IOContext[0].Overlapped, NULL);
+				nRet = WSARecv(Accept, &gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->wsabuf, 1, (unsigned long*)&RecvBytes, &Flags,
+					&gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->Overlapped, NULL);
 
 				if (nRet == -1)
 				{
 					if (WSAGetLastError() != WSA_IO_PENDING)
 					{
 						sLog->outError("error-L1 : WSARecv() failed with error %d", WSAGetLastError());
-						gGameObjects[ClientIndex]->PerSocketContext->IOContext[0].nWaitIO = 4;
+						gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->nWaitIO = 4;
 						CloseClient(gGameObjects[ClientIndex]->PerSocketContext, 0);
 						LeaveCriticalSection(&criti);
 						continue;
 					}
 				}
 
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0].nWaitIO = 1;
+				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->nWaitIO = 1;
 				gGameObjects[ClientIndex]->PerSocketContext->dwIOCount++;
 
 				LeaveCriticalSection(&criti);

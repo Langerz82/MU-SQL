@@ -10006,22 +10006,22 @@ void CMixSystem::BloodCastleItemChaosMix_Multi(CGameObject &lpObj, int iMixCount
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (gGameObjects[iIndex]->pChaosBox[i].IsItem() == TRUE)
+		if (gGameObjects[iIndex]->pChaosBox[i]->IsItem() == TRUE)
 		{
-			if (gGameObjects[iIndex]->pChaosBox[i].m_Type == ITEMGET(12, 15)) // Chaos
+			if (gGameObjects[iIndex]->pChaosBox[i]->m_Type == ITEMGET(12, 15)) // Chaos
 			{
 				bIsChaosGemExist++;
 			}
-			else if (gGameObjects[iIndex]->pChaosBox[i].m_Type == ITEMGET(13, 16)) //Scroll of Archangel
+			else if (gGameObjects[iIndex]->pChaosBox[i]->m_Type == ITEMGET(13, 16)) //Scroll of Archangel
 			{
-				int iSCROLL_LEVEL = gGameObjects[iIndex]->pChaosBox[i].m_Level;
+				int iSCROLL_LEVEL = gGameObjects[iIndex]->pChaosBox[i]->m_Level;
 				iEventItemCount++;
 				bIsAngelKingPaperExist++;
 				iAngelKingPaperLevel = iSCROLL_LEVEL;
 			}
-			else if (gGameObjects[iIndex]->pChaosBox[i].m_Type == ITEMGET(13, 17)) //Blood Bone
+			else if (gGameObjects[iIndex]->pChaosBox[i]->m_Type == ITEMGET(13, 17)) //Blood Bone
 			{
-				int iBLOOD_BONE_LEVEL = gGameObjects[iIndex]->pChaosBox[i].m_Level;
+				int iBLOOD_BONE_LEVEL = gGameObjects[iIndex]->pChaosBox[i]->m_Level;
 				iEventItemCount++;
 				bIsBloodBoneExist++;
 				iBloodBoneLevel = iBLOOD_BONE_LEVEL;
@@ -10099,7 +10099,7 @@ void CMixSystem::BloodCastleItemChaosMix_Multi(CGameObject &lpObj, int iMixCount
 		return;
 	}
 
-	if (gGameObjects[iIndex]->Level < g_sttBLOODCASTLE_LEVEL[0].iLOWER_BOUND)
+	if (gGameObjects[iIndex]->Level < g_sttBLOODCASTLE_LEVEL[0]->iLOWER_BOUND)
 	{
 		pMsg.Result = CB_USER_CLASS_LOW_LEVEL;
 		IOCP.DataSend(iIndex, (UCHAR*)&pMsg, pMsg.h.size);

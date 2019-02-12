@@ -1583,7 +1583,7 @@ void CMasterLevelSkillTreeSystem::MLS_Healing(CGameObject &lpObj, int aTargetInd
 		{
 			if (lpObj.VpPlayer2[n].type == OBJ_MONSTER && lpObj.VpPlayer2[n].state != 0)
 			{
-				CGameObject lpMonster = &gGameObjects[lpObj.VpPlayer2[n].number];
+				CGameObject lpMonster = &gGameObjects[lpObj.VpPlayer2[n]->number];
 
 				if (lpMonster->m_iCurrentAI != 0)
 				{
@@ -1637,7 +1637,7 @@ void CMasterLevelSkillTreeSystem::MLS_Wheel(CGameObject &lpObj, CMagicInf *lpMag
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -1795,7 +1795,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenDesruction(CGameObject &lpO
 
 						if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 						{
-							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 						}
 
 						if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -1946,7 +1946,7 @@ void CMasterLevelSkillTreeSystem::MLS_KnightSkillAddLife(CGameObject &lpObj, CMa
 		{
 			if (ApplyPartyIndex[i] != -1)
 			{
-				gObjAddBuffEffect(&gGameObjects[ApplyPartyIndex[i]], BUFFTYPE_HP_INC, EFFECTTYPE_HP, (gGameObjects[ApplyPartyIndex[i]].MaxLife * faddLifepower / 100.0), 0, 0, iLifeTime);
+				gObjAddBuffEffect(&gGameObjects[ApplyPartyIndex[i]], BUFFTYPE_HP_INC, EFFECTTYPE_HP, (gGameObjects[ApplyPartyIndex[i]]->MaxLife * faddLifepower / 100.0), 0, 0, iLifeTime);
 				GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, ApplyPartyIndex[i], TRUE);
 			}
 		}
@@ -2067,7 +2067,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillFulKnightSkillAddLife(CGameObject &lp
 		{
 			if (ApplyPartyIndex[i] != -1)
 			{
-				gObjAddBuffEffect(&gGameObjects[ApplyPartyIndex[i]], BUFFTYPE_HP_INC_STR, EFFECTTYPE_HP, (gGameObjects[ApplyPartyIndex[i]].MaxLife * faddLifepower / 100.0), EFFECTTYPE_MANA, (gGameObjects[ApplyPartyIndex[i]].MaxMana * faddManapower / 100.0), iLifeTime);
+				gObjAddBuffEffect(&gGameObjects[ApplyPartyIndex[i]], BUFFTYPE_HP_INC_STR, EFFECTTYPE_HP, (gGameObjects[ApplyPartyIndex[i]]->MaxLife * faddLifepower / 100.0), EFFECTTYPE_MANA, (gGameObjects[ApplyPartyIndex[i]]->MaxMana * faddManapower / 100.0), iLifeTime);
 				GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, ApplyPartyIndex[i], TRUE);
 			}
 		}
@@ -2206,8 +2206,8 @@ void CMasterLevelSkillTreeSystem::MLS_MasteryKnightSkillAddLife(CGameObject &lpO
 		{
 			if (ApplyPartyIndex[i] != -1)
 			{
-				gGameObjects[ApplyPartyIndex[i]].m_PlayerData->m_MPSkillOpt.iMpsIncMaxBP = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
-				gObjAddBuffEffect(&gGameObjects[ApplyPartyIndex[i]], BUFFTYPE_HP_INC_STR, EFFECTTYPE_HP, (gGameObjects[ApplyPartyIndex[i]].MaxLife * faddLifepower / 100.0), EFFECTTYPE_MANA, (gGameObjects[ApplyPartyIndex[i]].MaxMana * faddManapower / 100.0), iLifeTime);
+				gGameObjects[ApplyPartyIndex[i]]->m_PlayerData->m_MPSkillOpt.iMpsIncMaxBP = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
+				gObjAddBuffEffect(&gGameObjects[ApplyPartyIndex[i]], BUFFTYPE_HP_INC_STR, EFFECTTYPE_HP, (gGameObjects[ApplyPartyIndex[i]]->MaxLife * faddLifepower / 100.0), EFFECTTYPE_MANA, (gGameObjects[ApplyPartyIndex[i]]->MaxMana * faddManapower / 100.0), iLifeTime);
 				GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, ApplyPartyIndex[i], TRUE);
 			}
 		}
@@ -2378,7 +2378,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenExPoison(CGameObject &lpObj
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -2862,7 +2862,7 @@ void CMasterLevelSkillTreeSystem::MLS_DarkHorseAttack(CGameObject &lpObj, int aT
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -2935,7 +2935,7 @@ void CMasterLevelSkillTreeSystem::MLS_FireBurst(CGameObject &lpObj, int aTargetI
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -3015,7 +3015,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenSpear(CGameObject &lpObj, i
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -3091,7 +3091,7 @@ void CMasterLevelSkillTreeSystem::MLS_SuddenIce(CGameObject &lpObj, CMagicInf *l
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -3230,7 +3230,7 @@ void CMasterLevelSkillTreeSystem::MLS_KnightBlow(CGameObject &lpObj, int aTarget
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -3324,7 +3324,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillBlowOfFury(CGameObject &lpObj, CMagic
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -3394,7 +3394,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillDefense(CGameObject &lpObj, int aTarg
 	{
 		if (lpObj.VpPlayer2[n].type == OBJ_MONSTER && lpObj.VpPlayer2[n].state != 0)
 		{
-			CGameObject lpMonster = &gGameObjects[lpObj.VpPlayer2[n].number];
+			CGameObject lpMonster = &gGameObjects[lpObj.VpPlayer2[n]->number];
 			if (lpMonster->m_iCurrentAI != 0)
 			{
 				lpMonster->m_Agro->IncAgro(lpObj.m_Index, int(skill_defense) / 10);
@@ -3472,7 +3472,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillAttack(CGameObject &lpObj, int aTarge
 	{
 		if (lpObj.VpPlayer2[n].type == OBJ_MONSTER && lpObj.VpPlayer2[n].state != 0)
 		{
-			CGameObject lpMonster = &gGameObjects[lpObj.VpPlayer2[n].number];
+			CGameObject lpMonster = &gGameObjects[lpObj.VpPlayer2[n]->number];
 			if (lpMonster->m_iCurrentAI != 0)
 			{
 				lpMonster->m_Agro->IncAgro(lpObj.m_Index, int(skill_attack) / 10);
@@ -3562,7 +3562,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrenghtenAttack(CGameObject &lpObj, 
 	{
 		if (lpObj.VpPlayer2[n].type == OBJ_MONSTER && lpObj.VpPlayer2[n].state != 0)
 		{
-			CGameObject lpMonster = &gGameObjects[lpObj.VpPlayer2[n].number];
+			CGameObject lpMonster = &gGameObjects[lpObj.VpPlayer2[n]->number];
 			if (lpMonster->m_iCurrentAI != 0)
 			{
 				lpMonster->m_Agro->IncAgro(lpObj.m_Index, int(skill_attack) / 10);
@@ -3629,7 +3629,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenDefense(CGameObject &lpObj,
 	{
 		if (lpObj.VpPlayer2[n].type == OBJ_MONSTER && lpObj.VpPlayer2[n].state != 0)
 		{
-			CGameObject lpMonster = &gGameObjects[lpObj.VpPlayer2[n].number];
+			CGameObject lpMonster = &gGameObjects[lpObj.VpPlayer2[n]->number];
 			if (lpMonster->m_iCurrentAI != 0)
 			{
 				lpMonster->m_Agro->IncAgro(lpObj.m_Index, int(skill_defense) / 10);
@@ -3703,7 +3703,7 @@ void CMasterLevelSkillTreeSystem::MLS_PowerSlash(CGameObject &lpObj, CMagicInf* 
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -3846,7 +3846,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMonkBarrageJustOneTarget(CGameObject 
 
 	else if (gGameObjects[nTargetObjNum]->Type == OBJ_MONSTER && gGameObjects[nTargetObjNum]->m_RecallMon >= 0)
 	{
-		int CallMonIndex = gGameObjects[gGameObjects[nTargetObjNum]->m_RecallMon].m_Index;
+		int CallMonIndex = gGameObjects[gGameObjects[nTargetObjNum]->m_RecallMon]->m_Index;
 
 		if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
 		{
@@ -4003,7 +4003,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenDragonRoar(CGameObject &lpO
 
 						if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 						{
-							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 						}
 
 						if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -4362,7 +4362,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillBloodStorm(CGameObject &lpObj, CMagic
 
 						if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 						{
-							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 						}
 
 						if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -4469,7 +4469,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillEarthPrison(CGameObject &lpObj, int a
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -5099,7 +5099,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillfulKnightBlow(CGameObject &lpObj, int
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -5243,7 +5243,7 @@ void CMasterLevelSkillTreeSystem::MLS_MasteryKnightBlow(CGameObject &lpObj, int 
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -5378,7 +5378,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillSkillfulDesruction(CGameObject lpObj,
 
 						if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 						{
-							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 						}
 
 						if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -5492,7 +5492,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMasteryDesruction(CGameObject lpObj, 
 
 						if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 						{
-							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 						}
 
 						if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -5610,7 +5610,7 @@ void CMasterLevelSkillTreeSystem::MLS_MasterySuddenIce(CGameObject &lpObj, CMagi
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -5734,7 +5734,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenMultiShot(CGameObject &lpOb
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -5826,7 +5826,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillHellBust(CGameObject &lpObj, int aTar
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
@@ -5977,7 +5977,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenWeakness(CGameObject &lpObj
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -6064,7 +6064,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenEnervation(CGameObject &lpO
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -6175,7 +6175,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenFlameStrike(CGameObject &lp
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -6266,7 +6266,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillGiganticStorm(CGameObject &lpObj, CMa
 
 						if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 						{
-							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 						}
 
 						if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -6489,7 +6489,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenElectricSpark(CGameObject &
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
@@ -6572,7 +6572,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenchaoticDesair(CGameObject &
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -6765,7 +6765,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillSleep(CGameObject &lpObj, int aTarget
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -6853,7 +6853,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillChainLightning(CGameObject &lpObj, in
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
@@ -7052,7 +7052,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillDrainLife(CGameObject &lpObj, int aTa
 
 					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon].m_Index;
+						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
 					}
 
 					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)

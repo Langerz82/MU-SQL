@@ -410,7 +410,7 @@ void CArcaBattle::AddArcaBattleWinGuildInfo(_stABWinGuildInfoDS *pABWinGuildInfo
 			{
 				if ( gObjIsConnected(lpGuild->Index[nGuildCnt]) == TRUE )
 				{
-					this->WinGuildMemberAddBuff(&gGameObjects[lpGuild->Index[nGuildCnt]], this->m_stABWinGuildInfo[i].wOccupyObelisk);
+					this->WinGuildMemberAddBuff(&gGameObjects[lpGuild->Index[nGuildCnt]], this->m_stABWinGuildInfo[i]->wOccupyObelisk);
 				}
 			}	
 		}
@@ -1390,23 +1390,23 @@ int CArcaBattle::RegenObelisk()
 				if (result >= 0)
 				{
 					gObjSetMonster(result, this->m_stObeliskInfo[i].m_iMonsterNum);
-					gGameObjects[result]->Class = this->m_stObeliskInfo[i].m_iMonsterNum;
-					gGameObjects[result]->MapNumber = this->m_stObeliskInfo[i].m_iMapIndex;
-					gGameObjects[result]->X = this->m_stObeliskInfo[i].m_iPosX;
-					gGameObjects[result]->Y = this->m_stObeliskInfo[i].m_iPosY;
-					gGameObjects[result]->TX = this->m_stObeliskInfo[i].m_iPosX;
-					gGameObjects[result]->TY = this->m_stObeliskInfo[i].m_iPosY;
-					gGameObjects[result]->m_OldX = this->m_stObeliskInfo[i].m_iPosX;
-					gGameObjects[result]->m_OldY = this->m_stObeliskInfo[i].m_iPosY;
-					gGameObjects[result]->StartX = this->m_stObeliskInfo[i].m_iPosX;
-					gGameObjects[result]->StartY = this->m_stObeliskInfo[i].m_iPosY;
+					gGameObjects[result]->Class = this->m_stObeliskInfo[i]->m_iMonsterNum;
+					gGameObjects[result]->MapNumber = this->m_stObeliskInfo[i]->m_iMapIndex;
+					gGameObjects[result]->X = this->m_stObeliskInfo[i]->m_iPosX;
+					gGameObjects[result]->Y = this->m_stObeliskInfo[i]->m_iPosY;
+					gGameObjects[result]->TX = this->m_stObeliskInfo[i]->m_iPosX;
+					gGameObjects[result]->TY = this->m_stObeliskInfo[i]->m_iPosY;
+					gGameObjects[result]->m_OldX = this->m_stObeliskInfo[i]->m_iPosX;
+					gGameObjects[result]->m_OldY = this->m_stObeliskInfo[i]->m_iPosY;
+					gGameObjects[result]->StartX = this->m_stObeliskInfo[i]->m_iPosX;
+					gGameObjects[result]->StartY = this->m_stObeliskInfo[i]->m_iPosY;
 					gGameObjects[result]->Dir = 1;
 					gGameObjects[result]->Live = 1;
 					gGameObjects[result]->DieRegen = FALSE;
 					gGameObjects[result]->m_State = 1;
 					gGameObjects[result]->MaxRegenTime = 0;
-					gGameObjects[result]->MaxLife = this->m_stObeliskInfo[i].m_iOccupyHP;
-					gGameObjects[result]->Life = this->m_stObeliskInfo[i].m_iOccupyHP;
+					gGameObjects[result]->MaxLife = this->m_stObeliskInfo[i]->m_iOccupyHP;
+					gGameObjects[result]->Life = this->m_stObeliskInfo[i]->m_iOccupyHP;
 					this->m_stObeliskState[i].m_iMonIndex = result;
 
 					sLog->outBasic("[ArcaBattle] (%d) Obelisk be Regen.", result);
@@ -1494,23 +1494,23 @@ int CArcaBattle::SetObelisk()
 		if ( nResult >= 0 )
 		{
 			gObjSetMonster(nResult, this->m_stObeliskInfo[i].m_iMonsterNum);
-			gGameObjects[nResult]->Class = this->m_stObeliskInfo[i].m_iMonsterNum;
-			gGameObjects[nResult]->MapNumber = this->m_stObeliskInfo[i].m_iMapIndex;
-			gGameObjects[nResult]->X = this->m_stObeliskInfo[i].m_iPosX;
-			gGameObjects[nResult]->Y = this->m_stObeliskInfo[i].m_iPosY;
-			gGameObjects[nResult]->TX = this->m_stObeliskInfo[i].m_iPosX;
-			gGameObjects[nResult]->TY = this->m_stObeliskInfo[i].m_iPosY;
-			gGameObjects[nResult]->m_OldX = this->m_stObeliskInfo[i].m_iPosX;
-			gGameObjects[nResult]->m_OldY = this->m_stObeliskInfo[i].m_iPosY;
-			gGameObjects[nResult]->StartX = this->m_stObeliskInfo[i].m_iPosX;
-			gGameObjects[nResult]->StartY = this->m_stObeliskInfo[i].m_iPosY;
+			gGameObjects[nResult]->Class = this->m_stObeliskInfo[i]->m_iMonsterNum;
+			gGameObjects[nResult]->MapNumber = this->m_stObeliskInfo[i]->m_iMapIndex;
+			gGameObjects[nResult]->X = this->m_stObeliskInfo[i]->m_iPosX;
+			gGameObjects[nResult]->Y = this->m_stObeliskInfo[i]->m_iPosY;
+			gGameObjects[nResult]->TX = this->m_stObeliskInfo[i]->m_iPosX;
+			gGameObjects[nResult]->TY = this->m_stObeliskInfo[i]->m_iPosY;
+			gGameObjects[nResult]->m_OldX = this->m_stObeliskInfo[i]->m_iPosX;
+			gGameObjects[nResult]->m_OldY = this->m_stObeliskInfo[i]->m_iPosY;
+			gGameObjects[nResult]->StartX = this->m_stObeliskInfo[i]->m_iPosX;
+			gGameObjects[nResult]->StartY = this->m_stObeliskInfo[i]->m_iPosY;
 			gGameObjects[nResult]->Dir = 1;
 			gGameObjects[nResult]->Live = 1;
 			gGameObjects[nResult]->DieRegen = 0;
 			gGameObjects[nResult]->m_State = 1;
 			gGameObjects[nResult]->MaxRegenTime = 0;
-			gGameObjects[nResult]->MaxLife = this->m_stObeliskInfo[i].m_iHP;
-			gGameObjects[nResult]->Life = this->m_stObeliskInfo[i].m_iHP;
+			gGameObjects[nResult]->MaxLife = this->m_stObeliskInfo[i]->m_iHP;
+			gGameObjects[nResult]->Life = this->m_stObeliskInfo[i]->m_iHP;
 			this->m_stObeliskState[i].m_iMonIndex = nResult;
 
 			sLog->outBasic("[ArcaBattle] (%d) Obelisk be created.", nResult);
@@ -1524,15 +1524,15 @@ int CArcaBattle::SetObelisk()
 			{
 				gObjSetMonster(nResult, 603);
 				gGameObjects[nResult]->Class = 603;
-				gGameObjects[nResult]->MapNumber = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iMapIndex;
-				gGameObjects[nResult]->X = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosX;
-				gGameObjects[nResult]->Y = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosY;
-				gGameObjects[nResult]->TX = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosX;
-				gGameObjects[nResult]->TY = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosX;
-				gGameObjects[nResult]->m_OldX = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosX;
-				gGameObjects[nResult]->m_OldY = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosX;
-				gGameObjects[nResult]->StartX = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosX;
-				gGameObjects[nResult]->StartY = this->m_stObeliskInfo[i].m_stAuraInfo[nAura].m_iAuraPosX;
+				gGameObjects[nResult]->MapNumber = this->m_stObeliskInfo[i]->m_stAuraInfo[nAura]->m_iMapIndex;
+				gGameObjects[nResult]->X = this->m_stObeliskInfo[i]->m_stAuraInfo[nAura]->m_iAuraPosX;
+				gGameObjects[nResult]->Y = this->m_stObeliskInfo[i]->m_stAuraInfo[nAura]->m_iAuraPosY;
+				gGameObjects[nResult]->TX = this->m_stObeliskInfo[i]->m_stAuraInfo[nAura]->m_iAuraPosX;
+				gGameObjects[nResult]->TY = this->m_stObeliskInfo[i]->m_stAuraInfo[nAura]->m_iAuraPosX;
+				gGameObjects[nResult]->m_OldX = this->m_stObeliskInfo[i]->m_stAuraInfo[nAura]->m_iAuraPosX;
+				gGameObjects[nResult]->m_OldY = this->m_stObeliskInfo[i]->m_stAuraInfo[nAura]->m_iAuraPosX;
+				gGameObjects[nResult]->StartX = this->m_stObeliskInfo[i]->m_stAuraInfo[nAura]->m_iAuraPosX;
+				gGameObjects[nResult]->StartY = this->m_stObeliskInfo[i]->m_stAuraInfo[nAura]->m_iAuraPosX;
 				gGameObjects[nResult]->Dir = 1;
 				gGameObjects[nResult]->Live = TRUE;
 				gGameObjects[nResult]->DieRegen = 0;
@@ -1651,12 +1651,12 @@ void CArcaBattle::ChkAuraUserHover()
 					{
 						if (this->m_stObeliskState[i].m_iObeliskState == 1)
 						{
-							gGameObjects[iObeliskIndex]->Life = this->m_stObeliskInfo[i].m_iOccupyHP;
+							gGameObjects[iObeliskIndex]->Life = this->m_stObeliskInfo[i]->m_iOccupyHP;
 						}
 
 						else
 						{
-							gGameObjects[iObeliskIndex]->Life = this->m_stObeliskInfo[i].m_iHP;
+							gGameObjects[iObeliskIndex]->Life = this->m_stObeliskInfo[i]->m_iHP;
 						}
 					}
 				}
@@ -1748,7 +1748,7 @@ void CArcaBattle::ChkAuraUserHover()
 			if (this->m_stObeliskState[i].m_stAuraState[nAura].m_iIndex == -1)
 				continue;
 
-			CGameObject lpObj = &gGameObjects[this->m_stObeliskState[i].m_stAuraState[nAura].m_iIndex];
+			CGameObject lpObj = &gGameObjects[this->m_stObeliskState[i]->m_stAuraState[nAura]->m_iIndex];
 
 			for ( int k = 0; k < MAX_VIEWPORT; ++k )
 			{
@@ -1766,10 +1766,10 @@ void CArcaBattle::ChkAuraUserHover()
 
 						pMsg.m_btAuraState[j] = this->m_stObeliskState[i].m_stAuraState[j].m_btAuraState;
 						
-						if(gGameObjects[this->m_stObeliskState[i].m_stAuraState[nAura].m_iHoverUserIndex].Type == OBJ_USER && ObjectMaxRange(this->m_stObeliskState[i].m_stAuraState[nAura].m_iHoverUserIndex))
+						if(gGameObjects[this->m_stObeliskState[i]->m_stAuraState[nAura]->m_iHoverUserIndex]->Type == OBJ_USER && ObjectMaxRange(this->m_stObeliskState[i]->m_stAuraState[nAura]->m_iHoverUserIndex))
 						{
 							if ( this->m_stObeliskState[i].m_stAuraState[j].m_btAuraState != 0 && (this->m_stObeliskState[i].m_stAuraState[nAura].m_iHoverUserIndex != 0 ||
-								gGameObjects[iTarObjIndex]->m_PlayerData->GuildNumber != gGameObjects[this->m_stObeliskState[i].m_stAuraState[nAura].m_iHoverUserIndex].m_PlayerData->GuildNumber ))
+								gGameObjects[iTarObjIndex]->m_PlayerData->GuildNumber != gGameObjects[this->m_stObeliskState[i]->m_stAuraState[nAura]->m_iHoverUserIndex]->m_PlayerData->GuildNumber ))
 							{
 								pMsg.m_btAuraState[j] += 2;
 							}
@@ -2802,7 +2802,7 @@ int CArcaBattle::GetGuildMasterPos(CGameObject &lpObj, int nGateNum, short & x, 
 		return FALSE;
 	}
 
-	attr = MapC[gGameObjects[iMasterIndex]->MapNumber].GetAttr(gGameObjects[iMasterIndex]->X, gGameObjects[iMasterIndex]->Y);
+	attr = MapC[gGameObjects[iMasterIndex]->MapNumber]->GetAttr(gGameObjects[iMasterIndex]->X, gGameObjects[iMasterIndex]->Y);
 
 	if (attr & 1)
 	{
@@ -3362,21 +3362,21 @@ void CArcaBattle::SetRegenObelisk(int iGroupNum, int iAttribute)
 	{
 		gObjSetMonster(result, iArrMonsterIndex[iAttribute]);
 		gGameObjects[result]->Class = iArrMonsterIndex[iAttribute];
-		gGameObjects[result]->MapNumber = this->m_stObeliskInfo[iGroupNum].m_iMapIndex;
-		gGameObjects[result]->X = this->m_stObeliskInfo[iGroupNum].m_iPosX;
-		gGameObjects[result]->Y = this->m_stObeliskInfo[iGroupNum].m_iPosY;
-		gGameObjects[result]->TX = this->m_stObeliskInfo[iGroupNum].m_iPosX;
-		gGameObjects[result]->TY = this->m_stObeliskInfo[iGroupNum].m_iPosY;
-		gGameObjects[result]->m_OldX = this->m_stObeliskInfo[iGroupNum].m_iPosX;
-		gGameObjects[result]->m_OldY = this->m_stObeliskInfo[iGroupNum].m_iPosY;
-		gGameObjects[result]->StartX = this->m_stObeliskInfo[iGroupNum].m_iPosX;
-		gGameObjects[result]->StartY = this->m_stObeliskInfo[iGroupNum].m_iPosY;
+		gGameObjects[result]->MapNumber = this->m_stObeliskInfo[iGroupNum]->m_iMapIndex;
+		gGameObjects[result]->X = this->m_stObeliskInfo[iGroupNum]->m_iPosX;
+		gGameObjects[result]->Y = this->m_stObeliskInfo[iGroupNum]->m_iPosY;
+		gGameObjects[result]->TX = this->m_stObeliskInfo[iGroupNum]->m_iPosX;
+		gGameObjects[result]->TY = this->m_stObeliskInfo[iGroupNum]->m_iPosY;
+		gGameObjects[result]->m_OldX = this->m_stObeliskInfo[iGroupNum]->m_iPosX;
+		gGameObjects[result]->m_OldY = this->m_stObeliskInfo[iGroupNum]->m_iPosY;
+		gGameObjects[result]->StartX = this->m_stObeliskInfo[iGroupNum]->m_iPosX;
+		gGameObjects[result]->StartY = this->m_stObeliskInfo[iGroupNum]->m_iPosY;
 		gGameObjects[result]->Dir = 1;
 		gGameObjects[result]->Live = TRUE;
 		gGameObjects[result]->DieRegen = 0;
 		gGameObjects[result]->MaxRegenTime = 0;
-		gGameObjects[result]->MaxLife = this->m_stObeliskInfo[iGroupNum].m_iOccupyHP;
-		gGameObjects[result]->Life = this->m_stObeliskInfo[iGroupNum].m_iOccupyHP;
+		gGameObjects[result]->MaxLife = this->m_stObeliskInfo[iGroupNum]->m_iOccupyHP;
+		gGameObjects[result]->Life = this->m_stObeliskInfo[iGroupNum]->m_iOccupyHP;
 		this->m_stObeliskState[iGroupNum].m_iMonIndex = result;
 
 		sLog->outBasic("[ArcaBattle] (%d) Cheat Obelisk be Regen.", result);
@@ -3891,7 +3891,7 @@ void CArcaBattle::GCArcaBattleUserInfo(int iUserIndex)
 								else
 								{
 									if ((gGameObjects[iIndex]->MapNumber == MAP_INDEX_ARCA_WAR || gGameObjects[iIndex]->MapNumber == MAP_INDEX_DEBENTER_ARCA_WAR) &&
-										!strcmp(gGameObjects[iIndex]->Name, this->m_stABJoinUserInfo[k].szUserName) &&
+										!strcmp(gGameObjects[iIndex]->Name, this->m_stABJoinUserInfo[k]->szUserName) &&
 										gObjIsConnected(iIndex) == TRUE)
 									{
 										memcpy(stABCurJoinGuildUser.szUserName, gGameObjects[iIndex]->Name, MAX_ACCOUNT_LEN + 1);
@@ -3899,7 +3899,7 @@ void CArcaBattle::GCArcaBattleUserInfo(int iUserIndex)
 										stABCurJoinGuildUser.btPosX = gGameObjects[iIndex]->X;
 										stABCurJoinGuildUser.btPosY = gGameObjects[iIndex]->Y;
 
-										BYTE btAttr = MapC[gGameObjects[iIndex]->MapNumber].GetAttr(gGameObjects[iIndex]->X, gGameObjects[iIndex]->Y);
+										BYTE btAttr = MapC[gGameObjects[iIndex]->MapNumber]->GetAttr(gGameObjects[iIndex]->X, gGameObjects[iIndex]->Y);
 
 										if ((btAttr & 1) == 1)
 										{

@@ -2542,9 +2542,9 @@ int CCastleSiege::CheckAddDbNPC(int iIndex, int iNpcType, int iNpcIndex, BYTE & 
 
 		if( NpcData.m_iNPC_NUM == iNpcType && NpcData.m_iNPC_INDEX == iNpcIndex )
 		{
-			if( NpcData.m_bIN_USE == TRUE && NpcData.m_iNPC_LIVE > 0 && gObjIsConnected(NpcData.m_iNPC_OBJINDEX) && gGameObjects[NpcData.m_iNPC_OBJINDEX].Class == iNpcType )
+			if( NpcData.m_bIN_USE == TRUE && NpcData.m_iNPC_LIVE > 0 && gObjIsConnected(NpcData.m_iNPC_OBJINDEX) && gGameObjects[NpcData.m_iNPC_OBJINDEX]->Class == iNpcType )
 			{
-				if( gGameObjects[NpcData.m_iNPC_OBJINDEX].Live == 1 && gGameObjects[NpcData.m_iNPC_OBJINDEX].m_iCsNpcExistVal == NpcData.m_iCsNpcExistVal && gGameObjects[NpcData.m_iNPC_OBJINDEX].m_iCsNpcExistVal != 0 )
+				if( gGameObjects[NpcData.m_iNPC_OBJINDEX]->Live == 1 && gGameObjects[NpcData.m_iNPC_OBJINDEX]->m_iCsNpcExistVal == NpcData.m_iCsNpcExistVal && gGameObjects[NpcData.m_iNPC_OBJINDEX]->m_iCsNpcExistVal != 0 )
 				{
 					btResult = 0;
 					iRETVAL = 0;
@@ -2600,15 +2600,15 @@ int CCastleSiege::AddDbNPC(int iNpcType, int iNpcIndex)
 		{
 			if( gObjIsConnected(NpcData.m_iNPC_OBJINDEX) )
 			{
-				if( gGameObjects[NpcData.m_iNPC_OBJINDEX].Class == iNpcType )
+				if( gGameObjects[NpcData.m_iNPC_OBJINDEX]->Class == iNpcType )
 				{
-					if( gGameObjects[NpcData.m_iNPC_OBJINDEX].Live == TRUE )
+					if( gGameObjects[NpcData.m_iNPC_OBJINDEX]->Live == TRUE )
 					{
-						if( gGameObjects[NpcData.m_iNPC_OBJINDEX].m_iCsNpcExistVal == NpcData.m_iCsNpcExistVal )
+						if( gGameObjects[NpcData.m_iNPC_OBJINDEX]->m_iCsNpcExistVal == NpcData.m_iCsNpcExistVal )
 						{
-							if( gGameObjects[NpcData.m_iNPC_OBJINDEX].m_iCsNpcExistVal )
+							if( gGameObjects[NpcData.m_iNPC_OBJINDEX]->m_iCsNpcExistVal )
 							{
-								sLog->outBasic("[CastleSiege] CCastleSiege::AddDbNPC() ERROR - DB NPC EXIST (CLS:%d, IDX:%d(%d), MAXHP:%d, HP:%d, DF:%d, RG:%d)",	NpcData.m_iNPC_NUM, NpcData.m_iNPC_INDEX, NpcData.m_iNPC_OBJINDEX, gGameObjects[NpcData.m_iNPC_OBJINDEX].MaxLife, gGameObjects[NpcData.m_iNPC_OBJINDEX].Life, gGameObjects[NpcData.m_iNPC_OBJINDEX].m_btCsNpcDfLevel, gGameObjects[NpcData.m_iNPC_OBJINDEX].m_btCsNpcRgLevel);
+								sLog->outBasic("[CastleSiege] CCastleSiege::AddDbNPC() ERROR - DB NPC EXIST (CLS:%d, IDX:%d(%d), MAXHP:%d, HP:%d, DF:%d, RG:%d)",	NpcData.m_iNPC_NUM, NpcData.m_iNPC_INDEX, NpcData.m_iNPC_OBJINDEX, gGameObjects[NpcData.m_iNPC_OBJINDEX]->MaxLife, gGameObjects[NpcData.m_iNPC_OBJINDEX]->Life, gGameObjects[NpcData.m_iNPC_OBJINDEX]->m_btCsNpcDfLevel, gGameObjects[NpcData.m_iNPC_OBJINDEX]->m_btCsNpcRgLevel);
 								break;
 							}
 						}
@@ -3255,14 +3255,14 @@ void CCastleSiege::StoreDbNpc()
 
 		_CS_NPC_DATA & pNpcData = _CS_NPC_DATA(*it);
 
-		if(pNpcData.m_bNPC_DBSAVE == TRUE  && gObjIsConnected(pNpcData.m_iNPC_OBJINDEX) && gGameObjects[pNpcData.m_iNPC_OBJINDEX].Class == pNpcData.m_iNPC_NUM && gGameObjects[pNpcData.m_iNPC_OBJINDEX].m_iCsNpcExistVal == pNpcData.m_iCsNpcExistVal && gGameObjects[pNpcData.m_iNPC_OBJINDEX].m_iCsNpcExistVal != NULL && gGameObjects[pNpcData.m_iNPC_OBJINDEX].Live == TRUE && gGameObjects[pNpcData.m_iNPC_OBJINDEX].Life > 0)
+		if(pNpcData.m_bNPC_DBSAVE == TRUE  && gObjIsConnected(pNpcData.m_iNPC_OBJINDEX) && gGameObjects[pNpcData.m_iNPC_OBJINDEX]->Class == pNpcData.m_iNPC_NUM && gGameObjects[pNpcData.m_iNPC_OBJINDEX]->m_iCsNpcExistVal == pNpcData.m_iCsNpcExistVal && gGameObjects[pNpcData.m_iNPC_OBJINDEX]->m_iCsNpcExistVal != NULL && gGameObjects[pNpcData.m_iNPC_OBJINDEX]->Live == TRUE && gGameObjects[pNpcData.m_iNPC_OBJINDEX]->Life > 0)
 		{
 			lpMsgBody[iCOUNT].iNpcNumber = pNpcData.m_iNPC_NUM;
 			lpMsgBody[iCOUNT].iNpcIndex = pNpcData.m_iNPC_INDEX;
 			lpMsgBody[iCOUNT].iNpcDfLevel = pNpcData.m_iNPC_DF_LEVEL;
 			lpMsgBody[iCOUNT].iNpcRgLevel = pNpcData.m_iNPC_RG_LEVEL;
-			lpMsgBody[iCOUNT].iNpcMaxHp = gGameObjects[pNpcData.m_iNPC_OBJINDEX].MaxLife;
-			lpMsgBody[iCOUNT].iNpcHp = gGameObjects[pNpcData.m_iNPC_OBJINDEX].Life;
+			lpMsgBody[iCOUNT].iNpcMaxHp = gGameObjects[pNpcData.m_iNPC_OBJINDEX]->MaxLife;
+			lpMsgBody[iCOUNT].iNpcHp = gGameObjects[pNpcData.m_iNPC_OBJINDEX]->Life;
 			lpMsgBody[iCOUNT].btNpcX = pNpcData.m_iNPC_SX;
 			lpMsgBody[iCOUNT].btNpcY = pNpcData.m_iNPC_SY;
 			lpMsgBody[iCOUNT].btNpcDIR = pNpcData.m_iNPC_DIR;
@@ -3612,7 +3612,7 @@ void CCastleSiege::CheckCsDbNpcAlive()
 
 			if( (NpcData.m_iNPC_NUM == 277 || NpcData.m_iNPC_NUM == 283) && NpcData.m_iNPC_OBJINDEX != OBJ_EMPTY )
 			{
-				if( !gObjIsConnected(NpcData.m_iNPC_OBJINDEX) || gGameObjects[NpcData.m_iNPC_OBJINDEX].m_iCsNpcExistVal != NpcData.m_iCsNpcExistVal || gGameObjects[NpcData.m_iNPC_OBJINDEX].m_iCsNpcExistVal == 0 || (gGameObjects[NpcData.m_iNPC_OBJINDEX].Class != 277 && gGameObjects[NpcData.m_iNPC_OBJINDEX].Class != 283) || gGameObjects[NpcData.m_iNPC_OBJINDEX].Live == FALSE) //HermeX Fix
+				if( !gObjIsConnected(NpcData.m_iNPC_OBJINDEX) || gGameObjects[NpcData.m_iNPC_OBJINDEX]->m_iCsNpcExistVal != NpcData.m_iCsNpcExistVal || gGameObjects[NpcData.m_iNPC_OBJINDEX]->m_iCsNpcExistVal == 0 || (gGameObjects[NpcData.m_iNPC_OBJINDEX]->Class != 277 && gGameObjects[NpcData.m_iNPC_OBJINDEX]->Class != 283) || gGameObjects[NpcData.m_iNPC_OBJINDEX]->Live == FALSE) //HermeX Fix
 				{
 					NpcData.m_iNPC_HP = NpcData.m_iNPC_BASE_HP;
 					NpcData.m_iNPC_MAXHP = NpcData.m_iNPC_BASE_MAXHP;
@@ -3669,9 +3669,9 @@ int CCastleSiege::DelGemOfDefend(int iIndex, int iNeedGemOfDefend)
 
 	for( int x = 0; x < INVENTORY_SIZE; x++ )
 	{
-		if( gGameObjects[iIndex]->pInventory[x].IsItem() == TRUE )
+		if( gGameObjects[iIndex]->pInventory[x]->IsItem() == TRUE )
 		{
-			if( gGameObjects[iIndex]->pInventory[x].m_Type == ITEMGET(14,31) )
+			if( gGameObjects[iIndex]->pInventory[x]->m_Type == ITEMGET(14,31) )
 			{
 				iGemOfDefendCount++;
 			}
@@ -3687,11 +3687,11 @@ int CCastleSiege::DelGemOfDefend(int iIndex, int iNeedGemOfDefend)
 
 	for( int x = 0; x < INVENTORY_SIZE; x++ )
 	{
-		if( gGameObjects[iIndex]->pInventory[x].IsItem() == TRUE )
+		if( gGameObjects[iIndex]->pInventory[x]->IsItem() == TRUE )
 		{
-			if( gGameObjects[iIndex]->pInventory[x].m_Type == ITEMGET(14,31) )
+			if( gGameObjects[iIndex]->pInventory[x]->m_Type == ITEMGET(14,31) )
 			{
-				sLog->outBasic("[CastleSiege] [%s][%s] Deleting Gem of Defend (GUILD:%s) - Serial:%u", gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, gGameObjects[iIndex]->m_PlayerData->GuildName, gGameObjects[iIndex]->pInventory[x].m_Number);
+				sLog->outBasic("[CastleSiege] [%s][%s] Deleting Gem of Defend (GUILD:%s) - Serial:%u", gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name, gGameObjects[iIndex]->m_PlayerData->GuildName, gGameObjects[iIndex]->pInventory[x]->m_Number);
 
 				gObjInventoryItemSet(iIndex, x, 0xff);
 				gObjInventoryDeleteItem(iIndex, x);
@@ -4638,31 +4638,31 @@ BOOL CCastleSiege::CheckMiddleWinnerGuild()
 		return FALSE;
 	}
 
-	if( (strcmp(gGameObjects[this->m_iCastleCrownAccessUser].m_PlayerData->GuildName, "") == 0) || (strcmp(gGameObjects[this->m_iCastleSwitchAccessUser1].m_PlayerData->GuildName, "") == 0) || (strcmp(gGameObjects[this->m_iCastleSwitchAccessUser2].m_PlayerData->GuildName, "") == 0) )
+	if( (strcmp(gGameObjects[this->m_iCastleCrownAccessUser]->m_PlayerData->GuildName, "") == 0) || (strcmp(gGameObjects[this->m_iCastleSwitchAccessUser1]->m_PlayerData->GuildName, "") == 0) || (strcmp(gGameObjects[this->m_iCastleSwitchAccessUser2]->m_PlayerData->GuildName, "") == 0) )
 	{
 		return FALSE;
 	}
 
-	if( (gGameObjects[this->m_iCastleCrownAccessUser].m_btCsJoinSide >= 2 ) && (gGameObjects[this->m_iCastleSwitchAccessUser1].m_btCsJoinSide >= 2 ) && (gGameObjects[this->m_iCastleSwitchAccessUser2].m_btCsJoinSide >= 2 ) )
+	if( (gGameObjects[this->m_iCastleCrownAccessUser]->m_btCsJoinSide >= 2 ) && (gGameObjects[this->m_iCastleSwitchAccessUser1]->m_btCsJoinSide >= 2 ) && (gGameObjects[this->m_iCastleSwitchAccessUser2]->m_btCsJoinSide >= 2 ) )
 	{
-		if( gGameObjects[this->m_iCastleCrownAccessUser].m_bCsGuildInvolved == 1 )
+		if( gGameObjects[this->m_iCastleCrownAccessUser]->m_bCsGuildInvolved == 1 )
 		{
-			if( (gGameObjects[this->m_iCastleCrownAccessUser].m_btCsJoinSide == gGameObjects[this->m_iCastleSwitchAccessUser1].m_btCsJoinSide) && (gGameObjects[this->m_iCastleCrownAccessUser].m_btCsJoinSide == gGameObjects[this->m_iCastleSwitchAccessUser2].m_btCsJoinSide) )
+			if( (gGameObjects[this->m_iCastleCrownAccessUser]->m_btCsJoinSide == gGameObjects[this->m_iCastleSwitchAccessUser1]->m_btCsJoinSide) && (gGameObjects[this->m_iCastleCrownAccessUser]->m_btCsJoinSide == gGameObjects[this->m_iCastleSwitchAccessUser2]->m_btCsJoinSide) )
 			{
-				if( ( ( GetTickCount() - this->m_dwCrownAccessTime ) + gGameObjects[this->m_iCastleCrownAccessUser].m_iAccumulatedCrownAccessTime ) >= 60000 ) //season4.5 changed
+				if( ( ( GetTickCount() - this->m_dwCrownAccessTime ) + gGameObjects[this->m_iCastleCrownAccessUser]->m_iAccumulatedCrownAccessTime ) >= 60000 ) //season4.5 changed
 				{
-					sLog->outBasic("[CastleSiege] Castle Winner Has been Changed (GUILD:%s)", gGameObjects[this->m_iCastleCrownAccessUser].m_PlayerData->GuildName);
+					sLog->outBasic("[CastleSiege] Castle Winner Has been Changed (GUILD:%s)", gGameObjects[this->m_iCastleCrownAccessUser]->m_PlayerData->GuildName);
 
 					GSProtocol.GCAnsCsAccessCrownState(this->m_iCastleCrownAccessUser, 1);
 
 					this->NotifyCrownState(2);
 
 					memset(&this->m_szMiddleWinnerGuild, 0, sizeof(this->m_szMiddleWinnerGuild));
-					memcpy(&this->m_szMiddleWinnerGuild, gGameObjects[this->m_iCastleCrownAccessUser].m_PlayerData->GuildName, 8);
+					memcpy(&this->m_szMiddleWinnerGuild, gGameObjects[this->m_iCastleCrownAccessUser]->m_PlayerData->GuildName, 8);
 
 					this->ClearNonDbNPC_MidWin();
-					this->ChangeWinnerGuild(gGameObjects[this->m_iCastleCrownAccessUser].m_btCsJoinSide);
-					this->NotifyAllUserCsProgState(1, gGameObjects[this->m_iCastleCrownAccessUser].m_PlayerData->GuildName);
+					this->ChangeWinnerGuild(gGameObjects[this->m_iCastleCrownAccessUser]->m_btCsJoinSide);
+					this->NotifyAllUserCsProgState(1, gGameObjects[this->m_iCastleCrownAccessUser]->m_PlayerData->GuildName);
 					this->ResetCrownAccessTickCount();
 					this->ResetCrownUserIndex();
 					this->SetCrownAccessUserX(0);
@@ -4816,11 +4816,11 @@ int CCastleSiege::CheckOverlapCsMarks(int iIndex)
 {
 	for( int x = INVETORY_WEAR_SIZE; x < MAIN_INVENTORY_SIZE; x++ )
 	{
-		if( gGameObjects[iIndex]->pInventory[x].IsItem() == TRUE )
+		if( gGameObjects[iIndex]->pInventory[x]->IsItem() == TRUE )
 		{
-			if( (gGameObjects[iIndex]->pInventory[x].m_Type == ITEMGET(14,21)) && (gGameObjects[iIndex]->pInventory[x].m_Level == 3) )
+			if( (gGameObjects[iIndex]->pInventory[x]->m_Type == ITEMGET(14,21)) && (gGameObjects[iIndex]->pInventory[x]->m_Level == 3) )
 			{
-				int dur = gGameObjects[iIndex]->pInventory[x].m_Durability;
+				int dur = gGameObjects[iIndex]->pInventory[x]->m_Durability;
 
 				if( ITEM_DUR_RANGE(dur) )
 				{
@@ -5354,19 +5354,19 @@ void CCastleSiege::SetAllCastleGateState(BOOL bOpenType)
 	{
 		_CS_NPC_DATA & pNpcData = _CS_NPC_DATA(*it);
 
-		if(pNpcData.m_iNPC_NUM == 277 && gObjIsConnected(pNpcData.m_iNPC_OBJINDEX) && gGameObjects[pNpcData.m_iNPC_OBJINDEX].Class == 277)
+		if(pNpcData.m_iNPC_NUM == 277 && gObjIsConnected(pNpcData.m_iNPC_OBJINDEX) && gGameObjects[pNpcData.m_iNPC_OBJINDEX]->Class == 277)
 		{
 			switch(bOpenType)
 			{
 			case 0:
 				SetGateBlockState(pNpcData.m_iNPC_SX,pNpcData.m_iNPC_SY,0);
 				gObjRemoveBuffEffect(&gGameObjects[pNpcData.m_iNPC_OBJINDEX], BUFFTYPE_CASTLE_DOOR_STATE);
-				gGameObjects[pNpcData.m_iNPC_OBJINDEX].m_btCsGateOpen = 0;
+				gGameObjects[pNpcData.m_iNPC_OBJINDEX]->m_btCsGateOpen = 0;
 				break;
 			case 1:
 				SetGateBlockState(pNpcData.m_iNPC_SX,pNpcData.m_iNPC_SY,1);
 				gObjAddBuffEffect(&gGameObjects[pNpcData.m_iNPC_OBJINDEX], BUFFTYPE_CASTLE_DOOR_STATE, 0, 0, 0, 0, -10);
-				gGameObjects[pNpcData.m_iNPC_OBJINDEX].m_btCsGateOpen = 1;
+				gGameObjects[pNpcData.m_iNPC_OBJINDEX]->m_btCsGateOpen = 1;
 				break;
 			}
 		}
@@ -5459,7 +5459,7 @@ void CCastleSiege::OperateMiniMapWork()
 
 			if( (NpcData.m_iNPC_NUM == 277 || NpcData.m_iNPC_NUM == 283) && NpcData.m_iNPC_OBJINDEX != OBJ_EMPTY )
 			{
-				if( !gObjIsConnected(NpcData.m_iNPC_OBJINDEX) || gGameObjects[NpcData.m_iNPC_OBJINDEX].m_iCsNpcExistVal != NpcData.m_iCsNpcExistVal || (gGameObjects[NpcData.m_iNPC_OBJINDEX].Class != 277 && gGameObjects[NpcData.m_iNPC_OBJINDEX].Class != 283) )
+				if( !gObjIsConnected(NpcData.m_iNPC_OBJINDEX) || gGameObjects[NpcData.m_iNPC_OBJINDEX]->m_iCsNpcExistVal != NpcData.m_iCsNpcExistVal || (gGameObjects[NpcData.m_iNPC_OBJINDEX]->Class != 277 && gGameObjects[NpcData.m_iNPC_OBJINDEX]->Class != 283) )
 				{
 					BYTE btNpcType = 0;
 
@@ -5477,8 +5477,8 @@ void CCastleSiege::OperateMiniMapWork()
 					}
 
 					lpMsgSendBody2[lpMsgSend2->iCount].btNpcType = btNpcType;
-					lpMsgSendBody2[lpMsgSend2->iCount].btX = gGameObjects[NpcData.m_iNPC_OBJINDEX].X;
-					lpMsgSendBody2[lpMsgSend2->iCount].btY = gGameObjects[NpcData.m_iNPC_OBJINDEX].Y;
+					lpMsgSendBody2[lpMsgSend2->iCount].btX = gGameObjects[NpcData.m_iNPC_OBJINDEX]->X;
+					lpMsgSendBody2[lpMsgSend2->iCount].btY = gGameObjects[NpcData.m_iNPC_OBJINDEX]->Y;
 
 					lpMsgSend2->iCount++;
 				}
