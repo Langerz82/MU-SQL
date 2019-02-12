@@ -330,7 +330,7 @@ public:
 	int GetCrownAccessUserY(){return m_btCastleCrownAccessUserY;}
 	void SetCrownAccessUserX(BYTE iX){m_btCastleCrownAccessUserX = iX;}
 	void SetCrownAccessUserY(BYTE iY){m_btCastleCrownAccessUserY = iY;}
-	void SetCrownSwitchUserIndex(int iMonsterClass, int iIndex);
+	void SetCrownSwitchUserIndex(int iMonsterClass, CGameObject &Obj);
 	int GetCrownSwitchUserIndex(int iMonsterClass);
 	void ResetCrownSwitchUserIndex(int iMonsterClass);
 	void SetCrownAccessTickCount();

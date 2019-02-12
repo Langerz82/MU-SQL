@@ -344,19 +344,19 @@ void CCrywolf::CreateCrywolfCommonMonster()
 			{
 				if ( gObjSetPosMonster(iIndex, n) == FALSE )
 				{
-					gObjDel(iIndex);
+					gObjDel(Obj.m_Index);
 					continue;
 				}
 				
 				if ( gObjSetMonster(iIndex, gMSetBase.m_Mp[n].m_Type) == FALSE )
 				{
-					gObjDel(iIndex);
+					gObjDel(Obj.m_Index);
 					continue;
 				}
 
 				if ( Obj.Type == OBJ_MONSTER )
 				{
-					g_Crywolf.m_ObjCommonMonster.AddObj(iIndex);
+					g_Crywolf.m_ObjCommonMonster.AddObj(Obj.m_Index);
 				}
 			}
 		}
@@ -1345,8 +1345,8 @@ void CCrywolf::CrywolfNpcAct(CGameObject &Obj)
 	if ( this->GetCrywolfState() == CRYWOLF_STATE_READY ||
 		 this->GetCrywolfState() == CRYWOLF_STATE_START )
 	{
-		g_CrywolfNPC_Statue.CrywolfStatueAct(iIndex);
-		g_CrywolfNPC_Altar.CrywolfAltarAct(iIndex);
+		g_CrywolfNPC_Statue.CrywolfStatueAct(Obj.m_Index);
+		g_CrywolfNPC_Altar.CrywolfAltarAct(Obj.m_Index);
 	}
 }
 

@@ -38,7 +38,7 @@ public:
 	void LoadFile(char *szFile);
 
 	bool NpcTalk(CGameObject & lpNpc, CGameObject &lpObj);
-	void CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, int iIndex);
+	void CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, CGameObject &Obj);
 
 private:
 	bool m_bEnable;

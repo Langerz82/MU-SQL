@@ -514,7 +514,7 @@ void LuckyItemManager::LuckyItemTicketExchange(CGameObject &lpObj)
 	gObjInventoryCommit(lpObj.m_Index);
 }
 
-BYTE LuckyItemManager::GambleGetLevel(_ITEM_LEVEL_RATE * pItemLevelRandRate, int iIndex)
+BYTE LuckyItemManager::GambleGetLevel(_ITEM_LEVEL_RATE * pItemLevelRandRate, CGameObject &Obj)
 {
 	BYTE level			= 0;
 	long dwRandRate		= GetLargeRand() % 1000000;

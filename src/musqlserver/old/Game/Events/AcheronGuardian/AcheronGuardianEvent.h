@@ -150,7 +150,7 @@ public:
 
 	void DestroyObelisk(CGameObject lpObj, BYTE btMapNumber, BYTE cX, BYTE cY, int nMaxHitUser);
 
-	void CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER *lpMsg, int iIndex);
+	void CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER *lpMsg, CGameObject &Obj);
 
 	void GDReqAcheronEventProcMultiCast(BYTE btPlay);
 	void DGAnsAcheronEventProcMultiCast(PMSG_ANS_AE_PLAY_DS *lpMsg);

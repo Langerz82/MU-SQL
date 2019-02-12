@@ -10141,7 +10141,7 @@ void CMixSystem::BloodCastleItemChaosMix_Multi(CGameObject &lpObj, int iMixCount
 		}
 
 		int iMIX_NEED_MONEY = g_iBC_ChoasMixMoney[iAngelKingPaperLevel - 1] * iMixCount;
-		int iChaosTaxMoney = (int)((__int64)(iMIX_NEED_MONEY)* (__int64)(g_CastleSiegeSync.GetTaxRateChaos(iIndex)) / (__int64)100);
+		int iChaosTaxMoney = (int)((__int64)(iMIX_NEED_MONEY)* (__int64)(g_CastleSiegeSync.GetTaxRateChaos(Obj.m_Index)) / (__int64)100);
 
 		if (iChaosTaxMoney < 0)
 		{
@@ -10208,7 +10208,7 @@ void CMixSystem::BloodCastleItemChaosMix_Multi(CGameObject &lpObj, int iMixCount
 			ItemSerialCreateSend(iIndex, -1, 0, 0, item_num, iAngelKingPaperLevel, 255, 0, 0, 0, -1, 0, 0, 0, 0, 0);
 		}
 
-		gObjInventoryCommit(iIndex);
+		gObjInventoryCommit(Obj.m_Index);
 
 		return;
 	}

@@ -24866,7 +24866,7 @@ void gObjNotifyUpdateUnionV2(CGameObject &lpObj)
 void gObjUnionUpdateProc(CGameObject &Obj)
 {
 
-	if (gObjIsConnected(iIndex) == FALSE)
+	if (gObjIsConnected(Obj.m_Index) == FALSE)
 	{
 		return;
 	}

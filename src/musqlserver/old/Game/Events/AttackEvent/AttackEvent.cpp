@@ -455,7 +455,7 @@ ATTACKEVENT_MONSTER_POS * CAttackEvent::GetMonsterPos(int iMonsterIndex)
 
 bool CAttackEvent::IsAttackEventMonster(CGameObject &Obj)
 {
-	std::map<int, ATTACKEVENT_MONSTER_INFO>::iterator It = this->m_mapMonsterInfo.find(iIndex);
+	std::map<int, ATTACKEVENT_MONSTER_INFO>::iterator It = this->m_mapMonsterInfo.find(Obj.m_Index);
 
 	if (It == this->m_mapMonsterInfo.end())
 	{

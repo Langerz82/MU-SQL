@@ -1005,7 +1005,7 @@ void ChaosCastleFinal::SearchNBlowObjs(int iMapNumber, int iX, int iY)
 
 				if (btMapAttr == 8)
 				{
-					this->AddFallUser(iIndex);
+					this->AddFallUser(Obj.m_Index);
 
 					sLog->outBasic("[Chaos Castle Survival] [%s][%s] User Dead In Chaos Castle : Fall from Castle (X:%d, Y:%d)",
 						Obj.AccountID, Obj.Name, iX, iY);
@@ -1020,7 +1020,7 @@ int ChaosCastleFinal::BlowObjsFromPoint(CGameObject &Obj, int iMapNumber, int & 
 	if (this->m_bCCF_CHEAT_BLOW == false)
 		return FALSE;
 
-	if (!gObjIsConnected(iIndex))
+	if (!gObjIsConnected(Obj.m_Index))
 		return FALSE;
 
 	if (!CHECK_LIMIT(iX, 256) || !CHECK_LIMIT(iY, 256))
@@ -2297,7 +2297,7 @@ void ChaosCastleFinal::RewardUserEXP(BOOL bWinner)
 
 int ChaosCastleFinal::ObjSetPosition(CGameObject &Obj, int iX, int iY)
 {
-	if (!ObjectMaxRange(iIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 		return TRUE;
 
 	CGameObject lpObj = Obj;
@@ -2335,8 +2335,8 @@ int ChaosCastleFinal::ObjSetPosition(CGameObject &Obj, int iX, int iY)
 	PMSG_RECV_POSISTION_SET pMove2;
 
 	PHeadSetB((LPBYTE)&pMove2, 0x10, sizeof(pMove2));
-	pMove2.NumberH = SET_NUMBERH(iIndex);
-	pMove2.NumberL = SET_NUMBERL(iIndex);
+	pMove2.NumberH = SET_NUMBERH(Obj.m_Index);
+	pMove2.NumberL = SET_NUMBERL(Obj.m_Index);
 	pMove2.X = pMove.X;
 	pMove2.Y = pMove.Y;
 	lpObj.TX = pMove.X;

@@ -61,7 +61,7 @@ bool TMonsterAI::RunAI(CGameObject &Obj, int iMonsterClass)
 {
 	CGameObject lpObj = Obj;
 
-	TMonsterAI::MonsterStateMsgProc(iIndex);
+	TMonsterAI::MonsterStateMsgProc(Obj.m_Index);
 
 	if ( lpObj.m_iCurrentAI == 0 )
 		return FALSE;
@@ -74,7 +74,7 @@ bool TMonsterAI::RunAI(CGameObject &Obj, int iMonsterClass)
 	if ( (GetTickCount() - lpObj.m_iLastAIRunTime) < lpAIUnit->m_iDelayTime )
 		return FALSE;
 
-	if ( lpAIUnit->RunAIUnit(iIndex) == FALSE )
+	if ( lpAIUnit->RunAIUnit(Obj.m_Index) == FALSE )
 		return FALSE;
 
 	lpObj.m_iLastAIRunTime = GetTickCount();
@@ -102,7 +102,7 @@ void TMonsterAI::MonsterStateMsgProc(CGameObject &Obj)
 
 
 
-void TMonsterAI::ProcessStateMsg(CGameObject &lpObj, int iMsgCode, int iIndex, int aMsgSubCode)
+void TMonsterAI::ProcessStateMsg(CGameObject &lpObj, int iMsgCode, CGameObject &Obj, int aMsgSubCode)
 {
 	switch ( iMsgCode )
 	{

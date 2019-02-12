@@ -37,13 +37,13 @@ void CRaklionBattleUserMng::ResetAllData()
 
 BOOL CRaklionBattleUserMng::AddUserData(CGameObject &Obj)
 {
-	if(gObjIsConnected(iIndex) == FALSE)
+	if(gObjIsConnected(Obj.m_Index) == FALSE)
 	{
 		sLog->outBasic("[ RAKLION ][ BattleUser ] Add User Fail - Disconnect User [%s][%s]", Obj.AccountID, Obj.Name);
 		return FALSE;
 	}
 
-	m_BattleUser.push_back(iIndex);
+	m_BattleUser.push_back(Obj.m_Index);
 
 	g_RaklionUtil.NotifyRaklionCurrentState(iIndex, g_Raklion.GetRaklionState(), g_Raklion.GetRaklionStateDetail());
 

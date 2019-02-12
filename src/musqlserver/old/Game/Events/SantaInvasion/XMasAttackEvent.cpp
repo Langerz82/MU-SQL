@@ -142,7 +142,7 @@ struct PMSG_REQ_REG_XMasGIFT
 
 void CXMasMonsterHerd::SendEventGiftWinner(CGameObject &Obj, int iGiftKind)
 {
-	if ( gObjIsConnected(iIndex) == FALSE )
+	if ( gObjIsConnected(Obj.m_Index) == FALSE )
 	{
 		return;
 	}

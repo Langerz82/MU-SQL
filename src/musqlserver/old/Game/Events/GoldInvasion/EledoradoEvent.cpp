@@ -1571,7 +1571,7 @@ ELEDORARO_MONSTER_POS * CEledoradoEvent::GetMonsterPos(int iMonsterIndex)
 
 bool CEledoradoEvent::IsEledoradoMonster(CGameObject &Obj)
 {
-	std::map<int, ELEDORADO_MONSTER_INFO>::iterator It = this->m_mapMonsterInfo.find(iIndex);
+	std::map<int, ELEDORADO_MONSTER_INFO>::iterator It = this->m_mapMonsterInfo.find(Obj.m_Index);
 
 	if (It == this->m_mapMonsterInfo.end())
 	{

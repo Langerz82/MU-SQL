@@ -112,7 +112,7 @@ int CDoppelGangerMonsterHerd::AddMonsterEX(int iMonsterType, int bAttackFirst, i
 
 	if (iAttr == NULL)
 	{
-		gObjDel(iIndex);
+		gObjDel(Obj.m_Index);
 		return -1;
 	}
 
@@ -2369,7 +2369,7 @@ int CDoppelGanger::AddMiddleTreasureBox(int nMapNumber, BYTE cX, BYTE cY)
 
 	if (iAttr == NULL)
 	{
-		gObjDel(iIndex);
+		gObjDel(Obj.m_Index);
 		return -1;
 	}
 
@@ -2412,7 +2412,7 @@ BOOL CDoppelGanger::AddLastTreasureBox(BYTE cX, BYTE cY)
 
 	if (iAttr == NULL)
 	{
-		gObjDel(iIndex);
+		gObjDel(Obj.m_Index);
 		return FALSE;
 	}
 
@@ -2460,7 +2460,7 @@ int CDoppelGanger::AddMonsterLarva(int nMapNumber, BYTE btX, BYTE btY, int nMons
 
 	if (iAttr == NULL)
 	{
-		gObjDel(iIndex);
+		gObjDel(Obj.m_Index);
 		return -1;
 	}
 

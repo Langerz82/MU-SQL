@@ -51,7 +51,7 @@ int CCastleSiegeSync::GetTaxRateChaos(CGameObject &Obj)
 {
 	int iCurTaxRateChaos = this->m_iCurTaxRateChaos;
 
-	if ( this->CheckCastleOwnerMember(iIndex) == TRUE || this->CheckCastleOwnerUnionMember(iIndex) == TRUE )
+	if ( this->CheckCastleOwnerMember(Obj.m_Index) == TRUE || this->CheckCastleOwnerUnionMember(Obj.m_Index) == TRUE )
 	{
 		iCurTaxRateChaos = 0;
 	}
@@ -65,7 +65,7 @@ int CCastleSiegeSync::GetTaxRateStore(CGameObject &Obj)
 {
 	int iCurTaxRateStore = this->m_iCurTaxRateStore;
 
-	if ( this->CheckCastleOwnerMember(iIndex) == TRUE || this->CheckCastleOwnerUnionMember(iIndex) == TRUE )
+	if ( this->CheckCastleOwnerMember(Obj.m_Index) == TRUE || this->CheckCastleOwnerUnionMember(Obj.m_Index) == TRUE )
 	{
 		iCurTaxRateStore = 0;
 	}
@@ -81,7 +81,7 @@ int CCastleSiegeSync::GetTaxHuntZone(CGameObject &Obj, BOOL bCheckOwnerGuild)
 
 	if ( bCheckOwnerGuild == TRUE )
 	{
-		if ( this->CheckCastleOwnerMember(iIndex) == TRUE || this->CheckCastleOwnerUnionMember(iIndex) == TRUE )
+		if ( this->CheckCastleOwnerMember(Obj.m_Index) == TRUE || this->CheckCastleOwnerUnionMember(Obj.m_Index) == TRUE )
 		{
 			iCurTaxHuntZone = 0;
 		}
@@ -149,7 +149,7 @@ void CCastleSiegeSync::AdjustTributeMoney()
 
 BOOL CCastleSiegeSync::CheckCastleOwnerMember(CGameObject &Obj)
 {
-	if ( gObjIsConnected(iIndex) == FALSE )
+	if ( gObjIsConnected(Obj.m_Index) == FALSE )
 	{
 		return FALSE;
 	}
@@ -171,7 +171,7 @@ BOOL CCastleSiegeSync::CheckCastleOwnerMember(CGameObject &Obj)
 
 BOOL CCastleSiegeSync::CheckCastleOwnerUnionMember(CGameObject &Obj)
 {
-	if ( gObjIsConnected(iIndex) == FALSE )
+	if ( gObjIsConnected(Obj.m_Index) == FALSE )
 	{
 		return FALSE;
 	}

@@ -388,7 +388,7 @@ int CCrywolfAltar::GetPriestMaxHPSum()
 
 void CCrywolfAltar::CrywolfAltarAct(CGameObject &Obj)
 {
-	if ( !gObjIsConnected(iIndex))
+	if ( !gObjIsConnected(Obj.m_Index))
 		return;
 
 	if ( Obj.Type != OBJ_NPC || CRYWOLF_ALTAR_CLASS_RANGE(Obj.Class) == FALSE )

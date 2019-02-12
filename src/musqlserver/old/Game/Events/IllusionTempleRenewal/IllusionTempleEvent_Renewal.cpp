@@ -335,7 +335,7 @@ void CIllusionTempleEvent_Renewal::SetStatusRegenTime(BYTE btMapNumber)
 
 void CIllusionTempleEvent_Renewal::ITR_USeSkill(CGameObject &Obj, WORD MagicNumber, int wTargetObjIndex, BYTE btDis)
 {
-	if (!ObjectMaxRange(iIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		sLog->outBasic("ITR_UseSkill Error #1 iIndex :%d ", iIndex);
 		return;

@@ -277,7 +277,7 @@ void CKanturuBattleOfNightmare::ProcState_START()
 
 	int iIndex = this->m_iNightmareObjIndex;
 
-	if (ObjectMaxRange(iIndex))
+	if (ObjectMaxRange(Obj.m_Index))
 	{
 		if ( Obj.Live == FALSE )
 		{

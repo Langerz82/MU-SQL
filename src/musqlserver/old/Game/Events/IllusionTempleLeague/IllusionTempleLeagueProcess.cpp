@@ -1189,7 +1189,7 @@ int CIllusionTempleLeagueProcess::GetEnterRemainTimeMin()
 
 int CIllusionTempleLeagueProcess::SearchRelicsItem(CGameObject &Obj)
 {
-	if (!ObjectMaxRange(iIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		sLog->outBasic("return %s %d", __FILE__, __LINE__);
 		return -1;
@@ -1248,14 +1248,14 @@ int CIllusionTempleLeagueProcess::FindITLUser(int index)
 
 void CIllusionTempleLeagueProcess::DropRelicsItem(CGameObject &Obj, BYTE byAct)
 {
-	if (!ObjectMaxRange(iIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		sLog->outBasic("return %s %d", __FILE__, __LINE__);
 		return;
 	}
 
 	CGameObject lpObj = Obj;
-	int nITL_USER_ARRAY = this->FindITLUser(iIndex);
+	int nITL_USER_ARRAY = this->FindITLUser(Obj.m_Index);
 
 	if (nITL_USER_ARRAY == -1)
 	{

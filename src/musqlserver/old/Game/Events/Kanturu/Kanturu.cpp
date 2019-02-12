@@ -328,7 +328,7 @@ void CKanturu::ProcState_BATTLE_OF_NIGHTMARE()
 			{
 				int iIndex = g_KanturuBattleUserMng.m_BattleUser[i].GetIndex();
 
-				if(ObjectMaxRange(iIndex) && gObjIsConnected(iIndex) && Obj.Type == OBJ_USER)
+				if(ObjectMaxRange(Obj.m_Index) && gObjIsConnected(Obj.m_Index) && Obj.Type == OBJ_USER)
 				{
 					g_CashShop.AddCoin(Obj, EVENT_DEEP);
 				}

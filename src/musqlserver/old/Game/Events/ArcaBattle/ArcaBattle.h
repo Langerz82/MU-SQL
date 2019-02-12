@@ -855,7 +855,7 @@ public:
 	void GDReqArcaBattleIsTopRank(CGameObject &Obj, DWORD dwGuildNum);
 	bool CGReqMarkReg(CGameObject &Obj);
 	void GCAnsMarkReg(CGameObject &Obj, DWORD dwMarkCnt);
-	void GCAnsMarkRegErrCode(int iResult, int iIndex);
+	void GCAnsMarkRegErrCode(int iResult, CGameObject &Obj);
 
 	void CGReqMarkRegButtonClick(CGameObject &lpObj);
 

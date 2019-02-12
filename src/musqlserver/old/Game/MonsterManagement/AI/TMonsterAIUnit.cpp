@@ -168,7 +168,7 @@ BOOL TMonsterAIUnit::RunAIUnit(CGameObject &Obj)
 	if ( (GetTickCount() - lpObj.m_iLastAutomataRuntime) < lpObj.m_iLastAutomataDelay )
 		return FALSE;
 
-	TMonsterAIState * pAIState = this->m_lpAutomata->RunAutomata(iIndex);
+	TMonsterAIState * pAIState = this->m_lpAutomata->RunAutomata(Obj.m_Index);
 
 	if ( pAIState == NULL )
 		return FALSE;

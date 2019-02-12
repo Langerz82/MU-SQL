@@ -52,7 +52,7 @@ struct PMSG_SETMAPATTR
 
 typedef struct _BLOODCASTLE_USER
 {
-	int m_iIndex;	// 0
+	CGameObject* m_user; // 0
 	int m_iEXP;	// 4
 	int m_iScore;	// 8
 	int m_iUserState;	// C
@@ -96,7 +96,7 @@ struct BLOODCASTLE_MONSTER_POSITION
 typedef struct _BLOODCASTLE_BRIDGE
 {
 	CRITICAL_SECTION m_critUserData;	// 0
-	BLOODCASTLE_USER m_UserData[MAX_BLOOD_CASTLE_SUB_BRIDGE];	// 18
+	std::vector<BLOODCASTLE_USER> m_UserData;	// 18
 
 	int m_iTOTAL_EXP;	// 138
 	int m_iMapNumber;	// 13C
@@ -174,7 +174,7 @@ public:
 	void SendNoticeMessage(int iBridgeIndex, char* lpszMSG);
 	void SendNoticeScore(int iBridgeIndex);
 	void SendNoticeState(int iBridgeIndex, int iPlayState);
-	bool CheckUserBridgeMember(int iBridgeIndex, int iIndex);
+	bool CheckUserBridgeMember(int iBridgeIndex, CGameObject &Obj);
 	void BlockCastleEntrance(int iBridgeIndex);
 	void ReleaseCastleEntrance(int iBridgeIndex);
 	void BlockCastleBridge(int iBridgeIndex);
@@ -190,14 +190,14 @@ public:
 	bool CheckAngelKingExist(int iBridgeIndex);
 	int GetWhoGotUltimateWeapon(int iBridgeIndex);
 	int GetCurrentLiveUserCount(int iBridgeIndex);
-	BOOL DropItemDirectly(int iBridgeIndex, int iIndex, int iItemType, int iItemPos);
+	BOOL DropItemDirectly(int iBridgeIndex, CGameObject &Obj, int iItemType, int iItemPos);
 	void ClearMonster(int iBridgeIndex, bool bClearCastleDoor);
 	void SetMonster(int iBridgeIndex);
 	void SetBossMonster(int iBridgeIndex);
 	void SetSaintStatue(int iBridgeIndex);
 	//void __thiscall LoadBossMonster(int, int, int, int, int, int, int, int);
 	int LeaveUserBridge(int iBridgeIndex, int iBridgeSubIndex, int iUserIndex);
-	int EnterUserBridge(int iBridgeIndex, int iUserIndex);
+	int EnterUserBridge(int iBridgeIndex, CGameObject &Obj);
 	int LevelUp(CGameObject &Obj, int iAddExp);
 	void CheckUsersOnConnect(int iBridgeIndex);
 	int GetCurrentState(int iBridgeIndex);
@@ -217,13 +217,13 @@ public:
 	bool CheckUserHaveUlimateWeapon(CGameObject &Obj);
 	bool CheckWinnerExist(int iBridgeIndex);
 	bool CheckWinnerValid(int iBridgeIndex);
-	bool CheckUserWinnerParty(int iBridgeIndex, int iIndex);
+	bool CheckUserWinnerParty(int iBridgeIndex, CGameObject &Obj);
 	bool CheckPartyExist(CGameObject &Obj);
 	bool CheckWinnerPartyComplete(int iBridgeIndex);
-	bool SetBridgeWinner(int iBridgeIndex, int iIndex);
+	bool SetBridgeWinner(int iBridgeIndex, CGameObject &Obj);
 	int GetWinnerPartyCompleteCount(int iBridgeIndex);
 	int GetWinnerPartyCompletePoint(int iBridgeIndex);
-	void ChangeMonsterState(int iBridgeIndex, int iIndex);
+	void ChangeMonsterState(int iBridgeIndex, CGameObject &Obj);
 	void FixUsersPlayStateWin(int iBridgeIndex);
 	void FixUsersPlayStateFail(int iBridgeIndex);
 

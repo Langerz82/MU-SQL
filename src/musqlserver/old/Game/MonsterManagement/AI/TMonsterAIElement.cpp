@@ -692,10 +692,10 @@ BOOL TMonsterAIElement::ApplyElementNightmareWarp(CGameObject &Obj, int iTargetI
 
 	pAttack.MagicNumberH = HIBYTE(AT_SKILL_TELEPORT);
 	pAttack.MagicNumberL = LOBYTE(AT_SKILL_TELEPORT);
-	pAttack.SourceNumberH = SET_NUMBERH(iIndex);
-	pAttack.SourceNumberL = SET_NUMBERL(iIndex);
-	pAttack.TargetNumberH = SET_NUMBERH(iIndex);
-	pAttack.TargetNumberL = SET_NUMBERL(iIndex);
+	pAttack.SourceNumberH = SET_NUMBERH(Obj.m_Index);
+	pAttack.SourceNumberL = SET_NUMBERL(Obj.m_Index);
+	pAttack.TargetNumberH = SET_NUMBERH(Obj.m_Index);
+	pAttack.TargetNumberL = SET_NUMBERL(Obj.m_Index);
 
 	if ( lpObj.Type == OBJ_USER )
 		IOCP.DataSend(Obj.m_Index,(unsigned char *)&pAttack,pAttack.h.size);

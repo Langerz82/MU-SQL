@@ -37,7 +37,7 @@ public:
 
 	void GCSendStorageItemList(CGameObject &Obj);
 	void GCSendAddItemToGremoryCase(CGameObject &Obj, BYTE btStorageType, BYTE btItemArrayIndex);
-	void CGReqGetItemFromGremoryCase(PMSG_ADD_GREMORYCASE_ITEM_TO_INVENTORY_REQ * lpMsg, int iIndex);
+	void CGReqGetItemFromGremoryCase(PMSG_ADD_GREMORYCASE_ITEM_TO_INVENTORY_REQ * lpMsg, CGameObject &Obj);
 	void GCSendDeleteItemFromGremoryCase(CGameObject &Obj, BYTE btStorageType, int iItemArrayIndex);
 	void CGReqOpenGremoryCase(CGameObject &Obj);
 

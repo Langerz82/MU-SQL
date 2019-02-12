@@ -30,7 +30,7 @@ public:
 	STR_SMELT_RATE * GetSmeltingRateInfo(int iItemNum);
 
 	void	LuckyItemTicketExchange(CGameObject &lpObj);
-	BYTE	GambleGetLevel(STR_ITEM_LEVEL_RATE * pItemLevelRandRate, int iIndex);
+	BYTE	GambleGetLevel(STR_ITEM_LEVEL_RATE * pItemLevelRandRate, CGameObject &Obj);
 	void	LuckyItemSmelting(CGameObject &lpObj);
 	int		GambleLuckyItemSmelting(int iItemNum, int iDur);
 	int		GetLuckyItemDurabilityTime();

@@ -513,12 +513,12 @@ CCancelItemSale::~CCancelItemSale()
 
 void CCancelItemSale::CGReqSoldItemList(CGameObject &Obj)
 {
-	if (ObjectMaxRange(iIndex) == false)
+	if (ObjectMaxRange(Obj.m_Index) == false)
 	{
 		return;
 	}
 
-	if (gObjIsConnected(iIndex) == false)
+	if (gObjIsConnected(Obj.m_Index) == false)
 	{
 		return;
 	}
@@ -540,7 +540,7 @@ void CCancelItemSale::CGReqSoldItemList(CGameObject &Obj)
 		return;
 	}
 
-	this->GDReqSoldItemList(iIndex);
+	this->GDReqSoldItemList(Obj.m_Index);
 }
 
 void CCancelItemSale::GCAnsSoldItemList(CGameObject &Obj)
@@ -578,12 +578,12 @@ void CCancelItemSale::GCAnsSoldItemList(CGameObject &Obj)
 
 void CCancelItemSale::CGReqEndCancelItemSale(CGameObject &Obj)
 {
-	if (ObjectMaxRange(iIndex) == false)
+	if (ObjectMaxRange(Obj.m_Index) == false)
 	{
 		return;
 	}
 
-	if (gObjIsConnected(iIndex) == false)
+	if (gObjIsConnected(Obj.m_Index) == false)
 	{
 		return;
 	}
@@ -606,14 +606,14 @@ void CCancelItemSale::CGReqEndCancelItemSale(CGameObject &Obj)
 	}
 }
 
-void CCancelItemSale::CGReqReBuyItem(PMSG_REQ_REBUY_ITEM *lpMsg, int iIndex)
+void CCancelItemSale::CGReqReBuyItem(PMSG_REQ_REBUY_ITEM *lpMsg, CGameObject &Obj)
 {
-	if (ObjectMaxRange(iIndex) == false)
+	if (ObjectMaxRange(Obj.m_Index) == false)
 	{
 		return;
 	}
 
-	if (gObjIsConnected(iIndex) == false)
+	if (gObjIsConnected(Obj.m_Index) == false)
 	{
 		return;
 	}
@@ -685,12 +685,12 @@ void CCancelItemSale::DGAnsSoldItemList(LPBYTE lpRecv)
 
 	int iIndex = lpMsg->iIndex;
 
-	if (ObjectMaxRange(iIndex) == false)
+	if (ObjectMaxRange(Obj.m_Index) == false)
 	{
 		return;
 	}
 
-	if (gObjIsConnected(iIndex) == false)
+	if (gObjIsConnected(Obj.m_Index) == false)
 	{
 		return;
 	}
@@ -741,7 +741,7 @@ void CCancelItemSale::DGAnsSoldItemList(LPBYTE lpRecv)
 			ItemByteConvert(Obj.m_PlayerData->m_CancelItemSaleList[i]->btItemInfo, Item);
 		}
 
-		this->GCAnsSoldItemList(iIndex);
+		this->GCAnsSoldItemList(Obj.m_Index);
 	}
 }
 
@@ -783,12 +783,12 @@ void CCancelItemSale::DGAnsGetReBuyItem(SDHP_ANS_SHOP_REBUY_GET_ITEM *lpMsg)
 {
 	int iIndex = lpMsg->iIndex;
 
-	if (ObjectMaxRange(iIndex) == false)
+	if (ObjectMaxRange(Obj.m_Index) == false)
 	{
 		return;
 	}
 
-	if (gObjIsConnected(iIndex) == false)
+	if (gObjIsConnected(Obj.m_Index) == false)
 	{
 		return;
 	}
@@ -855,7 +855,7 @@ void CCancelItemSale::DGAnsGetReBuyItem(SDHP_ANS_SHOP_REBUY_GET_ITEM *lpMsg)
 		this->GDReqDeleteSoldItem(iIndex, lpMsg->btItemNumber, Item.m_Type, lpMsg->dwSellPrice);
 	}
 
-	this->GDReqSoldItemList(iIndex);
+	this->GDReqSoldItemList(Obj.m_Index);
 }
 
 void CCancelItemSale::GDReqDeleteSoldItem(CGameObject &Obj, BYTE btItemNumber, WORD wItemCode, DWORD dwItemPrice)

@@ -340,7 +340,9 @@ extern bool gObjGetValueOfBuffIndex(CGameObject &lpObj, int iBuffIndex, int *Eff
 extern void GCUseBuffEffect(CGameObject &lpObj, BYTE BuffEffectIndex, BYTE EffectUseOption, WORD OptionType, WORD EffectType, int LeftTime, DWORD EffectValue);
 extern void gObjSendBuffList(CGameObject &lpObj);
 extern BOOL gObjAddBuffEffectWideArea(CGameObject &lpTargetObj, int nDistance, int& nAffectedCount, int iBuffIndex, BYTE EffectType1, int EffectValue1, BYTE EffectType2, int EffectValue2, int Duration);
-extern void CheckItemOptForGetExpExRenewal(CGameObject &lpObj, CGameObject lpTargetObj, UINT64 &iExp, UINT64 iDefaultExp, BOOL bRewardExp);
+
+CGameObject ObjNULL;
+extern void CheckItemOptForGetExpExRenewal(CGameObject &lpObj, UINT64 &iExp, UINT64 iDefaultExp, BOOL bRewardExp, CGameObject &lpTargetObj = ObjNULL);
 
 #endif // !defined(AFX_BUFFEFFECTSLOT_H__C993C98D_6A26_4086_8251_DC502D0BCC40__INCLUDED_)
 

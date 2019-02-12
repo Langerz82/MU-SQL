@@ -2222,7 +2222,7 @@ void CImperialGuardian::GCSendServerMsgAll(int nZoneIndex, char* szMsg)
 
 int CImperialGuardian::ImperialGuardianLevelUp(CGameObject &Obj, int iAddExp)
 {
-	if ( ObjectMaxRange(iIndex) == FALSE )
+	if ( ObjectMaxRange(Obj.m_Index) == FALSE )
 	{
 		return 0;
 	}

@@ -622,12 +622,12 @@ int CDevilSquareGround::GetPlayUserCountRightNow()
 }
 void CDevilSquareGround::DropReward(CGameObject &Obj)
 {
-	if (ObjectMaxRange(iIndex) == FALSE)
+	if (ObjectMaxRange(Obj.m_Index) == FALSE)
 	{
 		return;
 	}
 
-	if (ObjectMaxRange(iIndex) == FALSE)
+	if (ObjectMaxRange(Obj.m_Index) == FALSE)
 	{
 		return;
 	}

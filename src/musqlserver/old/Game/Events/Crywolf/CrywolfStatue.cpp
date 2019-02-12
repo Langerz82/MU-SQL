@@ -79,7 +79,7 @@ void CCrywolfStatue::SetStatueViewState(CGameObject &lpObj, int iPriestNumber)
 
 void CCrywolfStatue::CrywolfStatueAct(CGameObject &Obj)
 {
-	if ( !gObjIsConnected(iIndex))
+	if ( !gObjIsConnected(Obj.m_Index))
 		return;
 
 	if ( Obj.Type != OBJ_NPC || CHECK_CLASS(204, Obj.Class) == FALSE )

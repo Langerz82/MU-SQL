@@ -18,7 +18,7 @@ CJewelMixSystem::~CJewelMixSystem()
 
 int CJewelMixSystem::GetJewelCount(CGameObject &Obj, int iJewelType)
 {
-	if ( !gObjIsConnected(iIndex) )
+	if ( !gObjIsConnected(Obj.m_Index) )
 		return -1;
 
 	int iItemType;
@@ -180,7 +180,7 @@ int CJewelMixSystem::GetJewelCountPerLevel(int iJewelType, int iJewelLevel)
 
 BOOL CJewelMixSystem::MixJewel( int iIndex, int iJewelType, int iMixType)
 {
-	if ( !gObjIsConnected(iIndex))
+	if ( !gObjIsConnected(Obj.m_Index))
 		return FALSE;
 
 /*	if ( gObjCheckInventorySerial0Item(Obj))
@@ -297,7 +297,7 @@ BOOL CJewelMixSystem::MixJewel( int iIndex, int iJewelType, int iMixType)
 		}
 	}
 
-	GCItemListSend(iIndex);
+	GCItemListSend(Obj.m_Index);
 	g_PeriodItemEx.OnRequestPeriodItemList(Obj);
 
 	if ( bItemDelOK == FALSE )
@@ -330,7 +330,7 @@ BOOL CJewelMixSystem::MixJewel( int iIndex, int iJewelType, int iMixType)
 
 BOOL CJewelMixSystem::UnMixJewel(CGameObject &Obj, int iJewelType, int iJewelLevel, int iInventoryPos)
 {
-	if ( !gObjIsConnected(iIndex))
+	if ( !gObjIsConnected(Obj.m_Index))
 		return FALSE;
 
 /*	if ( gObjCheckInventorySerial0Item(Obj))

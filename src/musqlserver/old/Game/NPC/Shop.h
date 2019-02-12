@@ -86,7 +86,7 @@ public:
 	void CGReqSoldItemList(CGameObject &Obj);
 	void GCAnsSoldItemList(CGameObject &Obj);
 	void CGReqEndCancelItemSale(CGameObject &Obj);
-	void CGReqReBuyItem(PMSG_REQ_REBUY_ITEM *lpMsg, int iIndex);
+	void CGReqReBuyItem(PMSG_REQ_REBUY_ITEM *lpMsg, CGameObject &Obj);
 
 	void GDReqSoldItemList(CGameObject &Obj);
 	void DGAnsSoldItemList(LPBYTE lpRecv);

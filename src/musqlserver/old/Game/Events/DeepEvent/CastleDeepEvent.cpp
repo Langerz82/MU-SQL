@@ -446,9 +446,9 @@ void CCastleDeepEvent::ClearMonster()
 {
 	for(int iIndex = 0; iIndex < g_ConfigRead.server.GetObjectMaxMonster(); iIndex++)
 	{
-		if(gObjIsConnected(iIndex) && Obj.m_Attribute == 62)
+		if(gObjIsConnected(Obj.m_Index) && Obj.m_Attribute == 62)
 		{
-			gObjDel(iIndex);
+			gObjDel(Obj.m_Index);
 		}
 	}
 }

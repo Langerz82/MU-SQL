@@ -80,7 +80,7 @@ void CGremoryCase::DGAnsStorageItemList(LPBYTE lpRecv)
 
 	int iIndex = lpMsg->iIndex;
 
-	if ( !ObjectMaxRange(iIndex) )
+	if ( !ObjectMaxRange(Obj.m_Index) )
 	{
 		return;
 	}
@@ -238,9 +238,9 @@ void CGremoryCase::DGAnsStorageItemList(LPBYTE lpRecv)
 
 	lpObj.m_PlayerData->m_bGremoryCaseDBInfo = true;
 	
-	this->GCSendStorageItemList(iIndex);
-	this->CheckIsInStorageItemAboutToExpire(iIndex);
-	this->CheckIsStorageFull(iIndex);
+	this->GCSendStorageItemList(Obj.m_Index);
+	this->CheckIsInStorageItemAboutToExpire(Obj.m_Index);
+	this->CheckIsStorageFull(Obj.m_Index);
 }
 
 void CGremoryCase::GDReqAddItemToGremoryCase(CGameObject &Obj, _stGremoryCaseItem stItem, int iDaysToExpire)
@@ -295,7 +295,7 @@ void CGremoryCase::DGAnsAddItemToGremoryCase(_stAnsAddItemToGremoryCase * lpMsg)
 {
 	int iIndex = lpMsg->iIndex;
 
-	if ( !ObjectMaxRange(iIndex) )
+	if ( !ObjectMaxRange(Obj.m_Index) )
 	{
 		return;
 	}
@@ -467,7 +467,7 @@ void CGremoryCase::DGAnsCheckItemUseGremoryCase(_stAnsCheckUseItemGremoryCase * 
 {
 	int iIndex = lpMsg->iIndex;
 
-	if ( !ObjectMaxRange(iIndex) )
+	if ( !ObjectMaxRange(Obj.m_Index) )
 	{
 		return;
 	}
@@ -666,12 +666,12 @@ void CGremoryCase::GCSendStorageItemList(CGameObject &Obj)
 
 void CGremoryCase::GCSendAddItemToGremoryCase(CGameObject &Obj, BYTE btStorageType, BYTE btItemArrayIndex)
 {
-	if (!ObjectMaxRange(iIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return;
 	}
 
-	if (!gObjIsConnected(iIndex))
+	if (!gObjIsConnected(Obj.m_Index))
 	{
 		return;
 	}
@@ -695,17 +695,17 @@ void CGremoryCase::GCSendAddItemToGremoryCase(CGameObject &Obj, BYTE btStorageTy
 
 	IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
-	this->GCSendStorageItemList(iIndex);
+	this->GCSendStorageItemList(Obj.m_Index);
 }
 
-void CGremoryCase::CGReqGetItemFromGremoryCase(PMSG_ADD_GREMORYCASE_ITEM_TO_INVENTORY_REQ * lpMsg, int iIndex)
+void CGremoryCase::CGReqGetItemFromGremoryCase(PMSG_ADD_GREMORYCASE_ITEM_TO_INVENTORY_REQ * lpMsg, CGameObject &Obj)
 {
-	if (!ObjectMaxRange(iIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return;
 	}
 
-	if (!gObjIsConnected(iIndex))
+	if (!gObjIsConnected(Obj.m_Index))
 	{
 		return;
 	}
@@ -735,12 +735,12 @@ void CGremoryCase::GCSendDeleteItemFromGremoryCase(CGameObject &Obj, BYTE btStor
 
 void CGremoryCase::CGReqOpenGremoryCase(CGameObject &Obj)
 {
-	if (!ObjectMaxRange(iIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return;
 	}
 
-	if (!gObjIsConnected(iIndex))
+	if (!gObjIsConnected(Obj.m_Index))
 	{
 		return;
 	}
@@ -766,8 +766,8 @@ void CGremoryCase::CGReqOpenGremoryCase(CGameObject &Obj)
 	pMsg.btResult = 0;
 	IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
-	//this->GDReqStorageItemList(iIndex);
-	//this->GCSendStorageItemList(iIndex);
+	//this->GDReqStorageItemList(Obj.m_Index);
+	//this->GCSendStorageItemList(Obj.m_Index);
 
 }
 

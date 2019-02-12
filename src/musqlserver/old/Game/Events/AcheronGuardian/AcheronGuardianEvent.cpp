@@ -512,7 +512,7 @@ void CAcheronGuardianEvent::DelObelisk()
 		if (iIndex >= 0)
 		{
 			sLog->outBasic("[AcheronGuardianEvent][Obelisk] Delete Monster - %d ", iIndex);
-			gObjDel(iIndex);
+			gObjDel(Obj.m_Index);
 		}
 	}
 }
@@ -800,9 +800,9 @@ void CAcheronGuardianEvent::DestroyObelisk(CGameObject lpObj, BYTE btMapNumber, 
 	this->SetProcState(6);
 }
 
-void CAcheronGuardianEvent::CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER *lpMsg, int iIndex)
+void CAcheronGuardianEvent::CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER *lpMsg, CGameObject &Obj)
 {
-	if (!ObjectMaxRange(iIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return;
 	}
@@ -814,7 +814,7 @@ void CAcheronGuardianEvent::CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER 
 		return;
 	}
 
-	if (gObjIsConnected(iIndex) == FALSE)
+	if (gObjIsConnected(Obj.m_Index) == FALSE)
 	{
 		return;
 	}

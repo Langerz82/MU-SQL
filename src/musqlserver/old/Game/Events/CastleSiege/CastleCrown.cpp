@@ -25,7 +25,7 @@ CCastleCrown::~CCastleCrown()
 
 void CCastleCrown::CastleCrownAct(CGameObject &Obj)
 {
-	if ( !gObjIsConnected(iIndex))
+	if ( !gObjIsConnected(Obj.m_Index))
 		return;
 
 	if ( Obj.Type != OBJ_NPC ||

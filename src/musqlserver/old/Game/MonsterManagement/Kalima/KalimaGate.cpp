@@ -44,13 +44,13 @@ BOOL CKalimaGate::CreateKalimaGate(CGameObject &Obj, BYTE btLevel, BYTE cTX, BYT
 		BYTE cY;
 
 		
-		if ( gObjIsConnected(iIndex) == PLAYER_EMPTY )
+		if ( gObjIsConnected(Obj.m_Index) == PLAYER_EMPTY )
 		{
 			return false;
 		}
 
 		sLog->outBasic("[Kalima] [%s][%s] Try to Create Kalima Gate", Obj.AccountID, Obj.Name);
-		iKalimaGateLevel = this->GetKalimaGateLevel(iIndex);
+		iKalimaGateLevel = this->GetKalimaGateLevel(Obj.m_Index);
 
 		if ( iKalimaGateLevel < btLevel-1 )
 		{
@@ -224,8 +224,8 @@ void CKalimaGate::KalimaGateAct(CGameObject &Obj)
 		sLog->outBasic("[Kalima] Kalima Gate Vanished - Summoner Vanished (SummonIndex:%d, EnterCount:%d)",
 			iIndex, Obj.m_cKalimaGateEnterCount );
 		gGameProtocol.GCDiePlayerSend( Obj, iIndex, 0, 0);
-		gObjDel(iIndex);
-		gObjCharZeroSet(iIndex);
+		gObjDel(Obj.m_Index);
+		gObjCharZeroSet(Obj.m_Index);
 		return;
 	}
 
@@ -480,7 +480,7 @@ BOOL CKalimaGate::CreateKalimaGate2(CGameObject &Obj, int iMonMapNumber, BYTE cT
 
 	__try
 	{
-		if ( !gObjIsConnected(iIndex))
+		if ( !gObjIsConnected(Obj.m_Index))
 			return FALSE;
 
 		sLog->outBasic("[Kalima] [%s][%s] Try to Create Kalima Gate (NextMap)",
@@ -592,7 +592,7 @@ void CKalimaGate::KalimaGateAct2(CGameObject &Obj)
 	CGameObject lpObj = NULL;
 	CGameObject lpObjCallOwner = NULL;
 
-	if ( ObjectMaxRange(iIndex) == FALSE )
+	if ( ObjectMaxRange(Obj.m_Index) == FALSE )
 		return;
 
 	if ( Obj.Live == 0 )
@@ -604,8 +604,8 @@ void CKalimaGate::KalimaGateAct2(CGameObject &Obj)
 			iIndex, Obj.m_cKalimaGateEnterCount);
 
 		gGameProtocol.GCDiePlayerSend(Obj, iIndex, 0, 0);
-		gObjDel(iIndex);
-		gObjCharZeroSet(iIndex);
+		gObjDel(Obj.m_Index);
+		gObjCharZeroSet(Obj.m_Index);
 
 		return;
 	}

@@ -2065,7 +2065,7 @@ float CChaosCastle::GetExperienceBonus(int iChaosCastleIndex)
 
 int  CChaosCastle::CheckEnterLevel(CGameObject &Obj, int iLevel)
 {
-	if (ObjectMaxRange(iIndex) == FALSE)
+	if (ObjectMaxRange(Obj.m_Index) == FALSE)
 	{
 		return 2;
 	}
@@ -2100,7 +2100,7 @@ int  CChaosCastle::CheckEnterItem(CGameObject &Obj)
 {
 	int iITEM_LEVEL = 0;
 
-	if ( ObjectMaxRange(iIndex) == FALSE )
+	if ( ObjectMaxRange(Obj.m_Index) == FALSE )
 	{
 		return 0;
 	}
@@ -2352,7 +2352,7 @@ int  CChaosCastle::GetCurrentRemainSec(int iChaosCastleIndex)
 
 BOOL CChaosCastle::ObjSetPosition(CGameObject &Obj, int iX, int iY)
 {
-	if ( !ObjectMaxRange(iIndex))
+	if ( !ObjectMaxRange(Obj.m_Index))
 		return TRUE;
 
 	CGameObject lpObj = Obj;
@@ -2392,8 +2392,8 @@ BOOL CChaosCastle::ObjSetPosition(CGameObject &Obj, int iX, int iY)
 
 	PMSG_RECV_POSISTION_SET pMove2;
 	PHeadSetB((LPBYTE)&pMove2, 0x10, sizeof(pMove2));
-	pMove2.NumberH = SET_NUMBERH(iIndex);
-	pMove2.NumberL = SET_NUMBERL(iIndex);
+	pMove2.NumberH = SET_NUMBERH(Obj.m_Index);
+	pMove2.NumberL = SET_NUMBERL(Obj.m_Index);
 	pMove2.X = pMove.X;
 	pMove2.Y = pMove.Y;
 	lpObj.TX = pMove.X;
@@ -2474,7 +2474,7 @@ void CChaosCastle::SearchNBlowObjs(int iMapNumber, int iX, int iY)
 
 BOOL CChaosCastle::BlowObjsFromPoint(CGameObject &Obj, int iMapNumber, int& iX, int& iY)
 {
-	if ( !gObjIsConnected(iIndex))
+	if ( !gObjIsConnected(Obj.m_Index))
 		return FALSE;
 
 	if ( !CHECK_LIMIT(iX, 256) || !CHECK_LIMIT(iY, 256))

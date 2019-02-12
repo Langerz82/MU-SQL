@@ -22,7 +22,7 @@ CGuardianStatue::~CGuardianStatue()
 
 void CGuardianStatue::GuardianStatueAct(CGameObject &Obj)
 {
-	if( ::gObjIsConnected(iIndex) == FALSE )
+	if( ::gObjIsConnected(Obj.m_Index) == FALSE )
 		return;
 
 	CGameObject lpObj = Obj;

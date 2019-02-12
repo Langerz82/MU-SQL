@@ -2768,7 +2768,7 @@ int CCastleSiege::AddDbNPC(int iNpcType, int iNpcIndex)
 
 BOOL CCastleSiege::DelNPC(CGameObject &Obj, int iNpcType, int iMonsterExistVal, int bDbSave)
 {
-	if( !ObjectMaxRange(iIndex) )
+	if( !ObjectMaxRange(Obj.m_Index) )
 	{
 		return FALSE;
 	}
@@ -3290,7 +3290,7 @@ void CCastleSiege::StoreDbNpc()
 
 void CCastleSiege::SendNpcStateList(CGameObject &Obj, int iNpcType)
 {
-	if( gObjIsConnected(iIndex) == FALSE )
+	if( gObjIsConnected(Obj.m_Index) == FALSE )
 	{
 		return;
 	}
@@ -3655,7 +3655,7 @@ BOOL CCastleSiege::CheckCsGateAlive(int iGateIndex)
 
 int CCastleSiege::DelGemOfDefend(CGameObject &Obj, int iNeedGemOfDefend)
 {
-	if( gObjIsConnected(iIndex) == FALSE )
+	if( gObjIsConnected(Obj.m_Index) == FALSE )
 	{
 		return FALSE;
 	}
@@ -4287,7 +4287,7 @@ void CCastleSiege::ResetAllUserCsJoinSide()
 
 void CCastleSiege::NotifySelfCsJoinSide(CGameObject &Obj)
 {
-	if(gObjIsConnected(iIndex) == FALSE)
+	if(gObjIsConnected(Obj.m_Index) == FALSE)
 	{
 		return;
 	}
@@ -4481,7 +4481,7 @@ int CCastleSiege::CheckAttackGuildExist()
 
 BOOL CCastleSiege::CheckCastleOwnerMember(CGameObject &Obj)
 {
-	if( gObjIsConnected(iIndex) == FALSE )
+	if( gObjIsConnected(Obj.m_Index) == FALSE )
 	{
 		return FALSE;
 	}
@@ -4509,7 +4509,7 @@ BOOL CCastleSiege::CheckCastleOwnerUnionMember(CGameObject &Obj)
 	GUILD_INFO_STRUCT &lpGuildInfo;
 	TUnionInfo * pUnionInfo;
 
-	if( ::gObjIsConnected(iIndex) == FALSE )
+	if( ::gObjIsConnected(Obj.m_Index) == FALSE )
 	{
 		return FALSE;
 	}
@@ -4736,7 +4736,7 @@ BOOL CCastleSiege::CheckUnionGuildMaster(CGameObject &Obj)
 {
 	GUILD_INFO_STRUCT &lpGuildInfo;
 
-	if( gObjIsConnected(iIndex) == FALSE )
+	if( gObjIsConnected(Obj.m_Index) == FALSE )
 	{
 		return FALSE;
 	}
@@ -4759,7 +4759,7 @@ BOOL CCastleSiege::CheckUnionGuildMaster(CGameObject &Obj)
 	return FALSE;
 }
 
-void CCastleSiege::SetCrownSwitchUserIndex(int iMonsterClass, int iIndex)
+void CCastleSiege::SetCrownSwitchUserIndex(int iMonsterClass, CGameObject &Obj)
 {
 	switch( iMonsterClass )
 	{
@@ -5383,7 +5383,7 @@ void CCastleSiege::AddMiniMapDataReqUser(CGameObject &Obj)
 		
 	if( std::find(this->m_vtMiniMapReqUser.begin(), this->m_vtMiniMapReqUser.end(), iIndex) == this->m_vtMiniMapReqUser.end() )
 	{
-		this->m_vtMiniMapReqUser.push_back(iIndex);
+		this->m_vtMiniMapReqUser.push_back(Obj.m_Index);
 	}
 
 	LeaveCriticalSection(&this->m_critCsMiniMap);
@@ -5786,7 +5786,7 @@ void CCastleSiege::SendCsUserAnyMsg(char* lpszMsg)
 
 void CCastleSiege::OperateGmCommand(CGameObject &Obj, int iGmCommand, void* lpParam)
 {
-	if( gObjIsConnected(iIndex) == FALSE )
+	if( gObjIsConnected(Obj.m_Index) == FALSE )
 	{
 		return;
 	}

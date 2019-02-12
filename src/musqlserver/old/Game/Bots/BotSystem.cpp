@@ -221,7 +221,7 @@ void CBotSystem::SetAllBots()
 
 		int iIndex = this->AddBot(*pBot);
 
-		if (!ObjectMaxRange(iIndex))
+		if (!ObjectMaxRange(Obj.m_Index))
 		{
 			continue;
 		}

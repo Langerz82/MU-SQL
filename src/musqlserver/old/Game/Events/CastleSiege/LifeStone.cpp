@@ -184,7 +184,7 @@ int CLifeStone::SetReSpawnUserXY(int iUserIndex)
 
 void CLifeStone::LifeStoneAct(CGameObject &Obj)
 {
-	if ( !gObjIsConnected(iIndex))
+	if ( !gObjIsConnected(Obj.m_Index))
 		return;
 
 	CGameObject lpObj = Obj;
@@ -198,7 +198,7 @@ void CLifeStone::LifeStoneAct(CGameObject &Obj)
 		lpObj.m_btCreationState = 5;
 
 	if ( btCreationState != lpObj.m_btCreationState )
-		gGameProtocol.GCSendObjectCreationState(iIndex);
+		gGameProtocol.GCSendObjectCreationState(Obj.m_Index);
 
 	if ( lpObj.m_btCreationState < 5 )
 		return;

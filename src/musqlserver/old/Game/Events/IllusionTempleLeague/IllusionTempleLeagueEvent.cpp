@@ -480,7 +480,7 @@ void CIllusionTempleLeagueEvent::SetStatusRegenTime(BYTE btMapNumber)
 
 void CIllusionTempleLeagueEvent::ITL_UseSkill(CGameObject &Obj, WORD MagicNumber, int wTargetObjIndex, BYTE btDis)
 {
-	if (!ObjectMaxRange(iIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		sLog->outBasic("ITL_UseSkill Error #1 iIndex :%d ", iIndex);
 		return;

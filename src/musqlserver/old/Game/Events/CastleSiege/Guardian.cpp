@@ -30,7 +30,7 @@ void CGuardian::GuardianAct(CGameObject &Obj)
 {
 	if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE)
 	{
-		if (!gObjIsConnected(iIndex))
+		if (!gObjIsConnected(Obj.m_Index))
 			return;
 
 		CGameObject lpObj = Obj;

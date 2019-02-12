@@ -26,7 +26,7 @@ CCastleCrownSwitch::~CCastleCrownSwitch()
 
 void CCastleCrownSwitch::CastleCrownSwitchAct(CGameObject &Obj)
 {
-	if ( !gObjIsConnected(iIndex))
+	if ( !gObjIsConnected(Obj.m_Index))
 		return;
 
 	if ( Obj.Type != OBJ_NPC ||
@@ -48,7 +48,7 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(CGameObject &Obj)
 	
 	CGameObject lpObj= Obj;
 	CGameObject lpUserObj = &gGameObjects[g_CastleSiege.GetCrownSwitchUserIndex(Obj.Class)];
-	g_CastleSiege.NotifyCrownSwitchInfo(iIndex);
+	g_CastleSiege.NotifyCrownSwitchInfo(Obj.m_Index);
 
 	if ( lpUserObj.MapNumber == MAP_INDEX_CASTLESIEGE &&
 		 lpUserObj.m_btCsJoinSide >= 2 )

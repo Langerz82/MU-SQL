@@ -741,7 +741,7 @@ BOOL TMonsterSkillElement::ApplyElementImmuneSkill(CGameObject &Obj, int iTarget
 
 BOOL TMonsterSkillElement::ApplyElementTeleportSkill(CGameObject &Obj, int iTargetIndex)
 {
-	if ( !ObjectMaxRange(iIndex))
+	if ( !ObjectMaxRange(Obj.m_Index))
 		return FALSE;
 
 	CGameObject lpObj = Obj;
@@ -780,10 +780,10 @@ BOOL TMonsterSkillElement::ApplyElementTeleportSkill(CGameObject &Obj, int iTarg
 
 	pAttack.MagicNumberH = SET_NUMBERH(AT_SKILL_TELEPORT);
 	pAttack.MagicNumberL = SET_NUMBERL(AT_SKILL_TELEPORT);
-	pAttack.SourceNumberH = SET_NUMBERH(iIndex);
-	pAttack.SourceNumberL = SET_NUMBERL(iIndex);
-	pAttack.TargetNumberH = SET_NUMBERH(iIndex);
-	pAttack.TargetNumberL = SET_NUMBERL(iIndex);
+	pAttack.SourceNumberH = SET_NUMBERH(Obj.m_Index);
+	pAttack.SourceNumberL = SET_NUMBERL(Obj.m_Index);
+	pAttack.TargetNumberH = SET_NUMBERH(Obj.m_Index);
+	pAttack.TargetNumberL = SET_NUMBERL(Obj.m_Index);
 
 	if ( lpObj.Type == OBJ_USER )
 		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pAttack, pAttack.h.size);	

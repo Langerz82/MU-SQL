@@ -119,7 +119,7 @@ void CEventMonSetBase::Run()
 
 bool CEventMonSetBase::IsEventMonster(CGameObject &Obj)
 {
-	std::map<int, boost::shared_ptr<EVENT_MONSTER_DATA>>::iterator Iter = this->m_mapMonsterData.find(iIndex);
+	std::map<int, boost::shared_ptr<EVENT_MONSTER_DATA>>::iterator Iter = this->m_mapMonsterData.find(Obj.m_Index);
 
 	if (Iter != this->m_mapMonsterData.end())
 	{
@@ -131,7 +131,7 @@ bool CEventMonSetBase::IsEventMonster(CGameObject &Obj)
 
 int CEventMonSetBase::GetDistance(CGameObject &Obj)
 {
-	std::map<int, boost::shared_ptr<EVENT_MONSTER_DATA>>::iterator Iter = this->m_mapMonsterData.find(iIndex);
+	std::map<int, boost::shared_ptr<EVENT_MONSTER_DATA>>::iterator Iter = this->m_mapMonsterData.find(Obj.m_Index);
 
 	if (Iter == this->m_mapMonsterData.end())
 	{
@@ -181,12 +181,12 @@ void CEventMonSetBase::SpawnMonster(boost::shared_ptr<EVENT_MONSTER_POSITION> lp
 
 void CEventMonSetBase::RegenMonster(CGameObject &Obj)
 {
-	if (this->IsEventMonster(iIndex) == false)
+	if (this->IsEventMonster(Obj.m_Index) == false)
 	{
 		return;
 	}
 
-	std::map<int, boost::shared_ptr<EVENT_MONSTER_DATA>>::iterator Iter = this->m_mapMonsterData.find(iIndex);
+	std::map<int, boost::shared_ptr<EVENT_MONSTER_DATA>>::iterator Iter = this->m_mapMonsterData.find(Obj.m_Index);
 	CGameObject lpObj = Obj;
 
 	if (Iter->second->lpSpotData->m_DoSpawn == FALSE)
@@ -194,7 +194,7 @@ void CEventMonSetBase::RegenMonster(CGameObject &Obj)
 		sLog->outBasic("[Event Spawn] End of Regen Time -> Delete Monster (%d)(%d) (%d)(%d)(%d)",
 			iIndex, lpObj.Class, lpObj.MapNumber, lpObj.X, lpObj.Y);
 
-		gObjDel(iIndex);
+		gObjDel(Obj.m_Index);
 		this->m_mapMonsterData.erase(Iter);
 		return;
 	}
@@ -206,7 +206,7 @@ void CEventMonSetBase::RegenMonster(CGameObject &Obj)
 		sLog->outBasic("[Event Spawn] Failed to find empty space on map -> Delete Monster (%d)(%d) (%d)(%d)(%d)",
 			iIndex, lpObj.Class, lpObj.MapNumber, lpObj.X, lpObj.Y);
 
-		gObjDel(iIndex);
+		gObjDel(Obj.m_Index);
 		this->m_mapMonsterData.erase(Iter);
 		return;
 	}

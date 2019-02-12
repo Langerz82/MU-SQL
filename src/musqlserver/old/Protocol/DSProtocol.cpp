@@ -7764,7 +7764,7 @@ void DGAnsSwitchWare(PMSG_ANS_SWITCHWARE *lpMsg)
 {
 	int iIndex = lpMsg->iIndex;
 
-	if (ObjectMaxRange(iIndex) == false)
+	if (ObjectMaxRange(Obj.m_Index) == false)
 	{
 		return;
 	}

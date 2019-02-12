@@ -130,16 +130,16 @@ bool CRuudStore::NpcTalk(CGameObject & lpNpc, CGameObject &lpObj)
 	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, SendByte, lOfs);
 }
 
-void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, int iIndex)
+void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, CGameObject &Obj)
 {
 	CLogToFile g_RuudLog("RUUD_BUYITEM", ".\\RUUD_BUYITEM", 1);
 
-	if (!ObjectMaxRange(iIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return;
 	}
 
-	if (!gObjIsConnected(iIndex))
+	if (!gObjIsConnected(Obj.m_Index))
 	{
 		return;
 	}
@@ -169,7 +169,7 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, int iIndex)
 		return;
 	}
 
-	if (!::gObjFixInventoryPointer(iIndex))
+	if (!::gObjFixInventoryPointer(Obj.m_Index))
 	{
 		sLog->outBasic("[Fix Inv.Ptr] False Location - %s, %d", __FILE__, __LINE__);
 	}

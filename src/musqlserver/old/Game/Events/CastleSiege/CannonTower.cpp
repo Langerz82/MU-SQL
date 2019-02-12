@@ -97,8 +97,8 @@ void CCannonTower::CannonTowerAct(CGameObject &Obj) // 0x00560940  1.00.19
 		pSend.X = lpObj.X;
 		pSend.Y = lpObj.Y;
 		pSend.Dir = 0;
-		pSend.NumberH = SET_NUMBERH(iIndex);
-		pSend.NumberL = SET_NUMBERL(iIndex);
+		pSend.NumberH = SET_NUMBERH(Obj.m_Index);
+		pSend.NumberL = SET_NUMBERL(Obj.m_Index);
 
 		gGameProtocol.MsgSendV2(lpObj, (PBYTE)&pSend, pSend.h.size);
 	}

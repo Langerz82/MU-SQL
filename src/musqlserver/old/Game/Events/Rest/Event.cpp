@@ -989,7 +989,7 @@ struct PMSG_REQ_BLOODCASTLE_ENTERCOUNT
 
 void EGReqBloodCastleEnterCount(CGameObject &Obj)
 {
-	if ( !gObjIsConnected(iIndex) )
+	if ( !gObjIsConnected(Obj.m_Index) )
 		return;
 
 	PMSG_REQ_BLOODCASTLE_ENTERCOUNT pMsg;
@@ -1055,7 +1055,7 @@ struct PMSG_REQ_REG_CC_OFFLINE_GIFT
 
 void EGReqRegCCOfflineGift(CGameObject &Obj)
 {
-	if ( !gObjIsConnected(iIndex) )
+	if ( !gObjIsConnected(Obj.m_Index) )
 		return;
 
 	PMSG_REQ_REG_CC_OFFLINE_GIFT pMsg;
@@ -1119,7 +1119,7 @@ struct PMSG_REQ_REG_DL_OFFLINE_GIFT
 
 void EGReqRegDLOfflineGift(CGameObject &Obj)
 {
-	if ( !gObjIsConnected(iIndex) )
+	if ( !gObjIsConnected(Obj.m_Index) )
 		return;
 
 	PMSG_REQ_REG_DL_OFFLINE_GIFT pMsg;
@@ -1182,7 +1182,7 @@ struct PMSG_REQ_REG_HT_OFFLINE_GIFT
 
 void EGReqRegHTOfflineGift(CGameObject &Obj)
 {
-	if ( !gObjIsConnected(iIndex) )
+	if ( !gObjIsConnected(Obj.m_Index) )
 		return;
 
 	PMSG_REQ_REG_HT_OFFLINE_GIFT pMsg;

@@ -741,7 +741,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, CGameObject &lpObjTa
 					if (iIndex >= 0)
 					{
 						sLog->outBasic("%s is forced to disconnect", pId);
-						IOCP.CloseClient(iIndex);
+						IOCP.CloseClient(Obj.m_Index);
 					}
 				}
 			}
@@ -791,7 +791,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, CGameObject &lpObjTa
 
 				if (iTokenNumber1 == MAP_INDEX_HATCHERY)
 				{
-					g_RaklionBattleUserMng.AddUserData(iIndex);
+					g_RaklionBattleUserMng.AddUserData(Obj.m_Index);
 				}
 
 				if (iTokenNumber1 == MAP_INDEX_URUK_MOUNTAIN)

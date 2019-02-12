@@ -188,7 +188,7 @@ void CQuery::GetAsString(CGameObject &Obj, LPTSTR pOutBuffer, int size)
 
 	if (iIndex != -1)
 	{
-		return this->GetAsInteger(iIndex);
+		return this->GetAsInteger(Obj.m_Index);
 	}
 
 	return -1;
@@ -210,7 +210,7 @@ DWORD CQuery::GetAsInteger(CGameObject &Obj)
 
 	if (iIndex != -1)
 	{
-		return this->GetAsInteger64(iIndex);
+		return this->GetAsInteger64(Obj.m_Index);
 	}
 
 	return -1LL;
@@ -231,7 +231,7 @@ INT64 CQuery::GetAsInteger64(CGameObject &Obj)
 
 	if (iIndex != -1)
 	{
-		return this->GetAsFloat(iIndex);
+		return this->GetAsFloat(Obj.m_Index);
 	}
 
 	return -1;

@@ -319,12 +319,12 @@ void CArcaBattle::RemoveGuildBuff(char *szGuildName, WORD wBuffIndex)
 	{
 		int iIndex = lpGuild->Index[nGuildCnt];
 		
-		if ( gObjIsConnected(iIndex) == TRUE )
+		if ( gObjIsConnected(Obj.m_Index) == TRUE )
 		{
 			if ( gObjCheckUsedBuffEffect(Obj, wBuffIndex) == TRUE )
 			{
 				gObjRemoveBuffEffect(Obj, wBuffIndex);
-				gObjCalCharacter.CalcCharacter(iIndex);
+				gObjCalCharacter.CalcCharacter(Obj.m_Index);
 
 				sLog->outBasic( "[ArcaBattle] Remove Buff [%s][%s] GuildName [%s] BuffIndex [%d]", 
 					Obj.AccountID, Obj.Name, szGuildName, wBuffIndex);
@@ -2983,7 +2983,7 @@ void CArcaBattle::GCAnsMarkReg(CGameObject &Obj, DWORD dwMarkCnt)
 	IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void CArcaBattle::GCAnsMarkRegErrCode(int iResult, int iIndex)
+void CArcaBattle::GCAnsMarkRegErrCode(int iResult, CGameObject &Obj)
 {
 	switch (iResult)
 	{
@@ -3101,14 +3101,14 @@ void CArcaBattle::CGReqMarkRank(CGameObject &Obj)
 
 void CArcaBattle::GCAnsMarkRank(CGameObject &Obj, BYTE btRank, DWORD dwMarkCnt, BYTE btTopRankCnt, _stArcaBattleMarkTopRankDS *pArcaBattleMarkTopRank)
 {
-	if (!ObjectMaxRange(iIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return;
 	}
 
 	CGameObject lpObj = Obj;
 
-	if (!gObjIsConnected(iIndex))
+	if (!gObjIsConnected(Obj.m_Index))
 	{
 		return;
 	}
@@ -3184,14 +3184,14 @@ void CArcaBattle::DGAnsMarkCnt(PMSG_ANS_ARCA_BATTLE_MARK_CNT_DS *lpMsg)
 		return;
 	}
 
-	if (!ObjectMaxRange(iIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return;
 	}
 
 	CGameObject lpObj = Obj;
 
-	if (!gObjIsConnected(iIndex))
+	if (!gObjIsConnected(Obj.m_Index))
 	{
 		return;
 	}
@@ -3300,7 +3300,7 @@ void CArcaBattle::DGAnsMarkReg(PMSG_ANS_ARCA_BATTLE_MARK_REG_DS *lpMsg)
 {
 	int iIndex = lpMsg->wNumber;
 
-	if (!ObjectMaxRange(iIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return;
 	}
@@ -3892,7 +3892,7 @@ void CArcaBattle::GCArcaBattleUserInfo(int iUserIndex)
 								{
 									if ((Obj.MapNumber == MAP_INDEX_ARCA_WAR || Obj.MapNumber == MAP_INDEX_DEBENTER_ARCA_WAR) &&
 										!strcmp(Obj.Name, this->m_stABJoinUserInfo[k]->szUserName) &&
-										gObjIsConnected(iIndex) == TRUE)
+										gObjIsConnected(Obj.m_Index) == TRUE)
 									{
 										memcpy(stABCurJoinGuildUser.szUserName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 										stABCurJoinGuildUser.btStatus = Obj.m_PlayerData->GuildStatus;

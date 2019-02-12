@@ -58,14 +58,14 @@ void CKanturuEntranceNPC::NotifyEntranceInfo(CGameObject &Obj)
 
 void CKanturuEntranceNPC::NotifyResultEnterKanturuBossMap(CGameObject &Obj)
 {
-	if ( !gObjIsConnectedGP(iIndex))
+	if ( !gObjIsConnectedGP(Obj.m_Index))
 	{
 		return;
 	}
 
 	CGameObject lpObj = Obj;
 	BOOL bMoveGateSuccess = FALSE;
-	int iResult = g_Kanturu.CheckEnterKanturu(iIndex);
+	int iResult = g_Kanturu.CheckEnterKanturu(Obj.m_Index);
 
 	if ( iResult == 0 )
 	{
@@ -77,7 +77,7 @@ void CKanturuEntranceNPC::NotifyResultEnterKanturuBossMap(CGameObject &Obj)
 
 			if ( bMoveGateSuccess ==TRUE )
 			{
-				g_KanturuBattleUserMng.AddUserData(iIndex);
+				g_KanturuBattleUserMng.AddUserData(Obj.m_Index);
 
 				KANTURU_UTIL.NotifyKanturuCurrentState(iIndex, 
 					g_Kanturu.GetKanturuState(),g_Kanturu.GetKanturuDetailState());

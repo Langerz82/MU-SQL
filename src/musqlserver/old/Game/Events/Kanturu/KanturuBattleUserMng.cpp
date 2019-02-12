@@ -40,7 +40,7 @@ void CKanturuBattleUserMng::ResetAllData()
 
 BOOL CKanturuBattleUserMng::AddUserData(CGameObject &Obj)
 {
-	if ( !gObjIsConnected(iIndex))
+	if ( !gObjIsConnected(Obj.m_Index))
 	{
 		return FALSE;
 	}
@@ -54,7 +54,7 @@ BOOL CKanturuBattleUserMng::AddUserData(CGameObject &Obj)
 	{
 		if ( this->m_BattleUser[iCount].IsUseData() == FALSE )
 		{
-			this->m_BattleUser[iCount].SetIndex(iIndex);
+			this->m_BattleUser[iCount].SetIndex(Obj.m_Index);
 			this->m_iBattleUserCount++;
 			
 			return TRUE;
@@ -103,9 +103,9 @@ void CKanturuBattleUserMng::CheckUserState()
 		{
 			iIndex = this->m_BattleUser[iCount].GetIndex();
 
-			if ( !gObjIsConnected(iIndex))
+			if ( !gObjIsConnected(Obj.m_Index))
 			{
-				this->DeleteUserData(iIndex);
+				this->DeleteUserData(Obj.m_Index);
 
 			}
 
@@ -113,7 +113,7 @@ void CKanturuBattleUserMng::CheckUserState()
 				 Obj.m_State == 2 &&
 				 Obj.Live == 1 )
 			{
-				this->DeleteUserData(iIndex);
+				this->DeleteUserData(Obj.m_Index);
 
 			}
 		}
@@ -139,7 +139,7 @@ BOOL CKanturuBattleUserMng::MoveAllUser(int iGateNumber)
 			}
 			else
 			{
-				this->DeleteUserData(iIndex);
+				this->DeleteUserData(Obj.m_Index);
 
 				gObjMoveGate(iIndex, 137);
 			}

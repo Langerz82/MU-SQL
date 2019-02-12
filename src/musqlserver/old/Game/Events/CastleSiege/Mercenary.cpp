@@ -229,7 +229,7 @@ BOOL CMercenary::SearchEnemy(CGameObject &lpObj)
 
 void CMercenary::MercenaryAct(CGameObject &Obj)
 {
-	if ( ::gObjIsConnected(iIndex) == FALSE )
+	if ( ::gObjIsConnected(Obj.m_Index) == FALSE )
 	{
 		return;
 	}

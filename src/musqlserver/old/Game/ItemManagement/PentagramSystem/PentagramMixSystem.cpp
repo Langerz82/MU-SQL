@@ -323,7 +323,7 @@ BOOL CPentagramMixSystem::PentagramMixBoxInit(CGameObject &lpObj)
 
 BYTE CPentagramMixSystem::PentagramJewelRefine(CGameObject &Obj, int iRefineType)
 {
-	if (!gObjIsConnected(iIndex))
+	if (!gObjIsConnected(Obj.m_Index))
 	{
 		return 0;
 	}
@@ -440,7 +440,7 @@ BYTE CPentagramMixSystem::PentagramJewelRefine(CGameObject &Obj, int iRefineType
 	}
 
 	int iPentagramMixNeedMoney = lpRefineOptionData->NeedMoney;
-	int iChaosTaxMoney = iPentagramMixNeedMoney * g_CastleSiegeSync.GetTaxRateChaos(iIndex) / 100;
+	int iChaosTaxMoney = iPentagramMixNeedMoney * g_CastleSiegeSync.GetTaxRateChaos(Obj.m_Index) / 100;
 	if (iChaosTaxMoney < 0)
 		iChaosTaxMoney = 0;
 
@@ -601,14 +601,14 @@ BYTE CPentagramMixSystem::PentagramJewelRefine(CGameObject &Obj, int iRefineType
 	}
 
 	lpObj.m_PlayerData->m_PentagramMixLock = FALSE;
-	gObjInventoryCommit(iIndex);
+	gObjInventoryCommit(Obj.m_Index);
 
 	return btReturnValue;
 }
 
 BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeType, int iTargetValue)
 {
-	if (!gObjIsConnected(iIndex))
+	if (!gObjIsConnected(Obj.m_Index))
 	{
 		return 0;
 	}
@@ -776,7 +776,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 			}
 		}
 
-		int iChaosTaxMoney = iPentagramMixNeedMoney * g_CastleSiegeSync.GetTaxRateChaos(iIndex) / 100;
+		int iChaosTaxMoney = iPentagramMixNeedMoney * g_CastleSiegeSync.GetTaxRateChaos(Obj.m_Index) / 100;
 		if (iChaosTaxMoney < 0)
 			iChaosTaxMoney = 0;
 
@@ -1097,7 +1097,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 			}
 		}
 
-		int iChaosTaxMoney = iPentagramMixNeedMoney * g_CastleSiegeSync.GetTaxRateChaos(iIndex) / 100;
+		int iChaosTaxMoney = iPentagramMixNeedMoney * g_CastleSiegeSync.GetTaxRateChaos(Obj.m_Index) / 100;
 		if (iChaosTaxMoney < 0)
 			iChaosTaxMoney = 0;
 
@@ -1246,7 +1246,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 	}
 
 	lpObj.m_PlayerData->m_PentagramMixLock = FALSE;
-	gObjInventoryCommit(iIndex);
+	gObjInventoryCommit(Obj.m_Index);
 
 	return btReturnValue;
 }

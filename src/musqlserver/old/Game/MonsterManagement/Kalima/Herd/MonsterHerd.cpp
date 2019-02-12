@@ -104,7 +104,7 @@ BOOL MonsterHerd::AddMonster(int iMonsterType, BOOL bRegen, BOOL bAttackFirst)
 
 		if ( iAttr == NULL )
 		{
-			gObjDel(iIndex);
+			gObjDel(Obj.m_Index);
 			return false;
 		}
 
@@ -220,7 +220,7 @@ void MonsterHerd::Stop()
 
 _MONSTER_HERD_DATA * MonsterHerd::GetMonsterData(CGameObject &Obj)
 {
-	if ( ObjectMaxRange(iIndex) == FALSE )
+	if ( ObjectMaxRange(Obj.m_Index) == FALSE )
 	{
 		return NULL;
 	}
@@ -243,7 +243,7 @@ _MONSTER_HERD_DATA * MonsterHerd::GetMonsterData(CGameObject &Obj)
 
 	EnterCriticalSection(&lpMH->m_critMonsterHerd);
 	
-	std::map<int, _MONSTER_HERD_DATA>::iterator it = lpMH->m_mapMonsterHerd.find(iIndex);
+	std::map<int, _MONSTER_HERD_DATA>::iterator it = lpMH->m_mapMonsterHerd.find(Obj.m_Index);
 
 	if ( it != lpMH->m_mapMonsterHerd.end() )
 	{
@@ -389,7 +389,7 @@ void MonsterHerd::OrderAttack(CGameObject &lpObj, CGameObject lpTargetObj, int i
 
 BOOL MonsterHerd::CheckInRadius(CGameObject &Obj)
 {
-	if ( ObjectMaxRange(iIndex) == FALSE )
+	if ( ObjectMaxRange(Obj.m_Index) == FALSE )
 	{
 		return FALSE;
 	}

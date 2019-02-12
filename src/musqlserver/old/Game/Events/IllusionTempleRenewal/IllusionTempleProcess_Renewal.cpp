@@ -1040,7 +1040,7 @@ int CIllusionTempleProcess_Renewal::GetEnterRemainTimeMin()
 
 int CIllusionTempleProcess_Renewal::SearchRelicsItem(CGameObject &Obj)
 {
-	if (!ObjectMaxRange(iIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		sLog->outBasic("return %s %d", __FILE__, __LINE__);
 		return -1;
@@ -1099,14 +1099,14 @@ int CIllusionTempleProcess_Renewal::FindITRUser(int index)
 
 void CIllusionTempleProcess_Renewal::DropRelicsItem(CGameObject &Obj, BYTE byAct)
 {
-	if (!ObjectMaxRange(iIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		sLog->outBasic("return %s %d", __FILE__, __LINE__);
 		return;
 	}
 
 	CGameObject lpObj = Obj;
-	int nITR_USER_ARRAY = this->FindITRUser(iIndex);
+	int nITR_USER_ARRAY = this->FindITRUser(Obj.m_Index);
 
 	if (nITR_USER_ARRAY == -1)
 	{

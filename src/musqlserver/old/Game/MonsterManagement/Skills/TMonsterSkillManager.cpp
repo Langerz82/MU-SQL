@@ -248,7 +248,7 @@ TMonsterSkillUnit * TMonsterSkillManager::FindMonsterSkillUnit(CGameObject &Obj,
 
 void TMonsterSkillManager::UseMonsterSkill(CGameObject &Obj, int iTargetIndex, int iMonsterSkillUnitType, int iMonsterSkillUnit, CMagicInf * lpMagic)
 {
-	if(!OBJMON_RANGE(iIndex))
+	if(!OBJMON_RANGE(Obj.m_Index))
 	{
 		sLog->outError( "[TMonsterSkillManager][UserMonsterSkill] error: iIndex(%d)", iIndex);
 		return;
