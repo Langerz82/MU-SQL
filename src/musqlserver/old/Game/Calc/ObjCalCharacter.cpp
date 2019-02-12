@@ -2233,7 +2233,7 @@ void CObjCalCharacter::SetItemApply(CGameObject &lpObj)
 		GSProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
 	}
 
-	gObjSetBP(lpObj.m_Index);
+	gObjSetBP(lpObj);
 
 	if ((lpObj.MaxMana + lpObj.AddMana) < lpObj.Mana)
 	{

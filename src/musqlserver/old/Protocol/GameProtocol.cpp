@@ -220,7 +220,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 			case 0x10: // not used packet
 				break;
 			case 0x12:
-				gObjMoveDataLoadingOK(aIndex);
+				gObjMoveDataLoadingOK(*gGameObjects[aIndex]);
 				break;
 			case 0x15: // by drakelv & wizzy
 			{

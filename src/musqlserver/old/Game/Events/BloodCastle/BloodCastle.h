@@ -164,7 +164,7 @@ public:
 	void GiveReward_Win(int iIndex, int iBridgeIndex);
 	void GiveReward_Fail(int iBridgeIndex);
 	void SearchUserDeleteQuestItem(int iIndex);
-	void SearchUserDropQuestItem(int iIndex);
+	void SearchUserDropQuestItem(CGameObject &Obj);
 	void SetUserState(int iIndex, int iState);
 	void SendCastleEntranceBlockInfo(int iBridgeIndex, bool bLive);
 	void SendCastleBridgeBlockInfo(int iBridgeIndex, bool bLive);

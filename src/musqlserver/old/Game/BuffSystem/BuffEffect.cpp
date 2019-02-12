@@ -451,7 +451,7 @@ void CBuffEffect::PoisonEffect(CGameObject &lpObj, BYTE PoisonRate)
 
 	if(lpObj.lpAttackObj != NULL)
 	{
-		gObjLifeCheck(lpObj, lpObj.lpAttackObj, DecreaseHealthPoint, 2, 0, 0, 1, DecreaseShiledPoint, 0);
+		gObjLifeCheck(lpObj, *lpObj.lpAttackObj, DecreaseHealthPoint, 2, 0, 0, 1, DecreaseShiledPoint, 0);
 	}
 }
 
@@ -497,7 +497,7 @@ void CBuffEffect::GiveDamageFillHPEffect(CGameObject &lpObj, int Damage)
 
 	if (lpObj.lpAttackObj != NULL)
 	{
-		gObjLifeCheck(lpObj, lpObj.lpAttackObj, DecreaseHealthPoint, 3, 0, 0, 0, DecreaseShiledPoint, 0);
+		gObjLifeCheck(lpObj, *lpObj.lpAttackObj, DecreaseHealthPoint, 3, 0, 0, 0, DecreaseShiledPoint, 0);
 	}
 
 	if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_BLEEDING) == true)

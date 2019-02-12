@@ -131,7 +131,7 @@ void gObjMonsterExpDivisionRenewal(CGameObject &lpMonObj, CGameObject &lpObj, in
 UINT64 gObjMonsterExpSingle(CGameObject &lpObj, CGameObject &lpTargetObj, int dmg, int tot_dmg, bool& bSendExp, UINT64& nDropZen);
 UINT64 gObjMonsterExpSingleRenewal(CGameObject &lpObj, CGameObject &lpTargetObj, int dmg, int tot_dmg, bool &bSendExp);
 void gObjExpParty(CGameObject &lpObj, CGameObject &lpTargetObj, int AttackDamage, int MSBFlag);
-UINT64 gObjExpPartyRenewal(int nPartyNumber, int nLastAttackUserIndex, CGameObject &lpTargetObj, int AttackDamage, int nTotalDamage, int MSBFlag);
+UINT64 gObjExpPartyRenewal(int nPartyNumber, CGameObject lpObj, CGameObject lpTargetObj, int AttackDamage, int nTotalDamage, int MSBFlag);
 void gObjMonsterDieLifePlus(CGameObject &lpObj, CGameObject &lpTartObj);
 void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject &lpObj, int AttackDamage, int DamageSendType, int MSBFlag, int MSBDamage, WORD Skill, int iShieldDamage, int iElementalDamage);
 int gObjInventoryTrans(CGameObject &lpObj);
@@ -507,7 +507,7 @@ extern void gObjMonsterExpDivisionRenewal(CGameObject &lpMonObj, CGameObject &lp
 extern UINT64 gObjMonsterExpSingle(CGameObject &lpObj, CGameObject &lpTargetObj, int dmg, int tot_dmg, bool& bSendExp, UINT64& nDropZen);
 extern UINT64 gObjMonsterExpSingleRenewal(CGameObject &lpObj, CGameObject &lpTargetObj, int dmg, int tot_dmg, bool &bSendExp);
 extern void gObjExpParty(CGameObject &lpObj, CGameObject &lpTargetObj, int AttackDamage, int MSBFlag);
-extern UINT64 gObjExpPartyRenewal(int nPartyNumber, int nLastAttackUserIndex, CGameObject &lpTargetObj, int AttackDamage, int nTotalDamage, int MSBFlag);
+extern UINT64 gObjExpPartyRenewal(int nPartyNumber, CGameObject lpObj, CGameObject lpTargetObj, int AttackDamage, int nTotalDamage, int MSBFlag);
 extern void gObjMonsterDieLifePlus(CGameObject &lpObj, CGameObject &lpTartObj);
 extern void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject &lpObj, int AttackDamage, int DamageSendType, int MSBFlag, int MSBDamage, WORD Skill, int iShieldDamage, int iElementalDamage);
 extern int gObjInventoryTrans(CGameObject &lpObj);

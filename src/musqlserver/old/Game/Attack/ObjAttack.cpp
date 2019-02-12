@@ -713,7 +713,7 @@ BOOL CObjAttack::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf* 
 			lpTargetObj.PathStartEnd = 0;
 			skillSuccess = TRUE;
 
-			gObjSetPosition(lpTargetObj.m_Index, lpTargetObj.X, lpTargetObj.Y);
+			gObjSetPosition(lpTargetObj, lpTargetObj.X, lpTargetObj.Y);
 		}
 
 		int iOriginTargetDefense = 0;

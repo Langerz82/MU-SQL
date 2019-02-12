@@ -2770,7 +2770,7 @@ void CBloodCastle::SearchUserDeleteQuestItem(int iIndex)
 
 
 
-void CBloodCastle::SearchUserDropQuestItem(int iIndex)
+void CBloodCastle::SearchUserDropQuestItem(CGameObject &Obj)
 {
 	if ( ObjectMaxRange(iIndex) == FALSE )
 	{
