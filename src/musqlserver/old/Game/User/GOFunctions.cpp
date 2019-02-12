@@ -268,7 +268,7 @@ void gObjSkillUseProcTime500(CGameObject &lpObj)
 				pMsg.NumberH = SET_NUMBERH(lpObj);
 				pMsg.NumberL = SET_NUMBERL(lpObj);
 
-				IOCP.DataSend(lpObj, (UCHAR *)&pMsg, pMsg.h.size);
+				IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (UCHAR *)&pMsg, pMsg.h.size);
 				GSProtocol.MsgSendV2(lpObj, (UCHAR *)&pMsg, pMsg.h.size);
 			}
 		}
@@ -364,7 +364,7 @@ void gObjSkillUseProcTime500(CGameObject &lpObj)
 				pMsg.NumberH = SET_NUMBERH(lpObj);
 				pMsg.NumberL = SET_NUMBERL(lpObj);
 
-				IOCP.DataSend(lpObj, (UCHAR *)&pMsg, pMsg.h.size);
+				IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (UCHAR *)&pMsg, pMsg.h.size);
 				GSProtocol.MsgSendV2(lpObj, (UCHAR *)&pMsg, pMsg.h.size);
 			}
 		}
@@ -1362,12 +1362,12 @@ void gObjSetTradeOption(CGameObject &lpObj, int option)
 		if (option == 0)
 		{
 			lpObj.m_Option = 0;
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 33), lpObj.m_Index, 1);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 33), lpObj, 1);
 		}
 		else
 		{
 			lpObj.m_Option |= 1;
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 32), lpObj.m_Index, 1);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 32), lpObj, 1);
 		}
 	}
 }
@@ -1804,14 +1804,14 @@ bool gObjSetCharacter(LPBYTE lpdata, int aIndex)
 		return FALSE;
 	}
 
-	gObjCharZeroSet(lpObj);
+	gObjCharZeroSet(*lpObj);
 
-	if (g_MixSystem.ChaosBoxInit(lpObj) == FALSE)
+	if (g_MixSystem.ChaosBoxInit(*lpObj) == FALSE)
 	{
 
 	}
 
-	if (g_PentagramMixSystem.PentagramMixBoxInit(lpObj) == FALSE)
+	if (g_PentagramMixSystem.PentagramMixBoxInit(*lpObj) == FALSE)
 	{
 
 	}
@@ -1952,7 +1952,7 @@ bool gObjSetCharacter(LPBYTE lpdata, int aIndex)
 		}
 	}
 
-	if (lpObj->MapNumber == MAP_INDEX_SANTAVILLAGE && gGateC.CheckGateLevel(lpObj, 22) == false) //season4 add-on
+	if (lpObj->MapNumber == MAP_INDEX_SANTAVILLAGE && gGateC.CheckGateLevel(*lpObj, 22) == false) //season4 add-on
 	{
 		if (lpObj->Class == CLASS_ELF)
 		{
@@ -2096,7 +2096,7 @@ bool gObjSetCharacter(LPBYTE lpdata, int aIndex)
 
 	if (lpObj->m_bMapSvrMoveReq == true)
 	{
-		short sSVR_CODE = ::g_MapServerManager.CheckMoveMapSvr(lpObj->m_Index, lpObj->m_sDestMapNumber, lpObj->m_sPrevMapSvrCode);
+		short sSVR_CODE = ::g_MapServerManager.CheckMoveMapSvr(*lpObj, lpObj->m_sDestMapNumber, lpObj->m_sPrevMapSvrCode);
 
 		if (sSVR_CODE == g_ConfigRead.server.GetGameServerCode())
 		{
@@ -2289,7 +2289,7 @@ bool gObjSetCharacter(LPBYTE lpdata, int aIndex)
 
 	if (lpMsg->mlNextExp == NULL && lpMsg->mLevel == NULL && lpMsg->mlExp == NULL)
 	{
-		g_MasterLevelSkillTreeSystem.InitData(lpObj);
+		g_MasterLevelSkillTreeSystem.InitData(*lpObj);
 	}
 
 	else
@@ -2380,9 +2380,9 @@ bool gObjSetCharacter(LPBYTE lpdata, int aIndex)
 	lpObj->VitalityToLife = DCInfo.DefClass[lpObj->Class].VitalityToLife;
 	lpObj->EnergyToMana = DCInfo.DefClass[lpObj->Class].EnergyToMana;
 
-	gObjSetBP(lpObj);
+	gObjSetBP(*lpObj);
 	lpObj->BP = lpObj->MaxBP / 2;
-	::gObjCalcMaxLifePower(lpObj->m_Index);
+	::gObjCalcMaxLifePower(*lpObj);
 	lpObj->m_PK_Count = lpMsg->PkCount;
 	lpObj->m_PK_Level = lpMsg->PkLevel;
 	lpObj->m_PK_Time = lpMsg->PkTime;
@@ -2406,11 +2406,11 @@ bool gObjSetCharacter(LPBYTE lpdata, int aIndex)
 		memset(lpObj->m_PlayerData->m_Quest, (BYTE)-1, sizeof(lpObj->m_PlayerData->m_Quest));
 	}
 
-	if (::g_QuestInfo.GetQuestState(&lpObj, 2) == 2)	// Ring of Honor
+	if (::g_QuestInfo.GetQuestState(*lpObj, 2) == 2)	// Ring of Honor
 	{
 		if (lpObj->Level < /*QUEST_MINLEVEL_PLUSSTAT*/1)	// Repair Bug of Marlon Before
 		{
-			::g_QuestInfo.ReSetQuestState(&lpObj, 2);
+			::g_QuestInfo.ReSetQuestState(*lpObj, 2);
 		}
 		else
 		{
@@ -2445,7 +2445,7 @@ bool gObjSetCharacter(LPBYTE lpdata, int aIndex)
 		lpObj->m_PlayerData->m_Quest[24] = 0;
 	}
 
-	::gObjSetInventory1Pointer(lpObj);
+	::gObjSetInventory1Pointer(*lpObj);
 	lpObj->m_PlayerData->GuildNumber = 0;
 	lpObj->m_PlayerData->lpGuild = NULL;
 
@@ -2649,7 +2649,7 @@ bool gObjSetCharacter(LPBYTE lpdata, int aIndex)
 	if ((lpMsg->CtlCode & 8) == 8 && lpMsg->GmCode != 0)
 	{
 		lpObj->Authority = 2;
-		gObjAddBuffEffect(&lpObj, BUFFTYPE_GM_MARK, 0, 0, 0, 0, -10);
+		gObjAddBuffEffect(*lpObj, BUFFTYPE_GM_MARK, 0, 0, 0, 0, -10);
 		cManager.ManagerAdd(lpObj->Name, lpObj->m_Index);
 		MsgOutput(lpObj->m_Index, Lang.GetText(0, 408), lpMsg->GmExpDays);
 	}
@@ -2662,7 +2662,7 @@ bool gObjSetCharacter(LPBYTE lpdata, int aIndex)
 	if ((lpMsg->CtlCode & 0x20) == 0x20 && lpMsg->GmCode != 0)
 	{
 		lpObj->Authority = 0x20;
-		gObjAddBuffEffect(&lpObj, BUFFTYPE_GM_MARK, 0, 0, 0, 0, -10);
+		gObjAddBuffEffect(*lpObj, BUFFTYPE_GM_MARK, 0, 0, 0, 0, -10);
 		MsgOutput(lpObj->m_Index, Lang.GetText(0, 409), lpMsg->GmExpDays);
 	}
 
@@ -2682,7 +2682,7 @@ bool gObjSetCharacter(LPBYTE lpdata, int aIndex)
 	{
 		lpObj->Penalty |= 2;
 		lpObj->ChatBlockTime = lpMsg->ChatBlockTime;
-		MsgOutput(lpObj, Lang.GetText(0, 410));
+		MsgOutput(*lpObj, Lang.GetText(0, 410));
 	}
 
 	gObjAuthorityCodeSet(&lpObj);
@@ -2734,7 +2734,7 @@ bool gObjSetCharacter(LPBYTE lpdata, int aIndex)
 	{
 		PMSG_NOTICE pNotice;
 		TNotice::MakeNoticeMsgEx((TNotice *)&pNotice, 1, Lang.GetText(0, 411));
-		IOCP.DataSend(&lpObj, (UCHAR *)&pNotice, pNotice.h.size);
+		IOCP.DataSend(lpObj->m_PlayerData->IDNumber, (UCHAR *)&pNotice, pNotice.h.size);
 	}
 
 	if (lpObj->Level <= g_iCharacterRecuperationMaxLevel)
@@ -2748,9 +2748,9 @@ bool gObjSetCharacter(LPBYTE lpdata, int aIndex)
 
 	lpObj->dwShieldAutoRefillTimer = GetTickCount();
 
-	g_CashShop.AddUser(&lpObj);
-	g_PeriodItemEx.AddPeriodInfo(&lpObj);
-	g_CMuunSystem.AddMuunItemPeriodInfo(&lpObj);
+	g_CashShop.AddUser(*lpObj);
+	g_PeriodItemEx.AddPeriodInfo(*lpObj);
+	g_CMuunSystem.AddMuunItemPeriodInfo(*lpObj);
 
 	if (lpObj->Class == CLASS_DARKLORD && lpObj->m_Index >= g_ConfigRead.server.GetObjectStartUserIndex())
 	{
@@ -2987,14 +2987,6 @@ int gObjSetPosMonster(CGameObject &lpObj, int PosTableNum)
 int gObjSetMonster(CGameObject &lpObj, int MonsterClass)
 {
 	int Level;
-
-	if (ObjectMaxRange(lpObj) == FALSE)
-	{
-		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
-		return false;
-	}
-
-	
 
 	lpObj.ConnectCheckTime = GetTickCount();
 
@@ -3459,7 +3451,7 @@ short gObjAddMonster(int iMapNumber)
 	{
 		if (gGameObjects[count]->Connected == PLAYER_EMPTY)
 		{
-			gObjCharZeroSet(count);
+			gObjCharZeroSet(*gGameObjects[count]);
 			gGameObjects[count]->m_Index = count;
 			gGameObjects[count]->Connected = PLAYER_CONNECTED;
 			gGameObjects[count]->MapNumber = iMapNumber;
@@ -3507,7 +3499,7 @@ short gObjAddCallMon()
 	{
 		if (gGameObjects[count]->Connected == PLAYER_EMPTY)
 		{
-			gObjCharZeroSet(count);
+			gObjCharZeroSet(*gGameObjects[count]);
 			gGameObjects[count]->m_Index = count;
 			gGameObjects[count]->Connected = PLAYER_CONNECTED;
 			gObjCallMonCount++;
@@ -3598,14 +3590,14 @@ void gObjTradeSave(CGameObject &lpObj, int index)
 		{
 			char szTemp[256];
 
-			GSProtocol.CGTradeResult(tObjNum, 0);
+			GSProtocol.CGTradeResult(*gGameObjects[tObjNum], 0);
 			wsprintf(szTemp, Lang.GetText(0, 14), lpObj.Name);
-			GSProtocol.GCServerMsgStringSend((char*)szTemp, tObjNum, 1);
-			gObjTradeCancel(tObjNum);
+			GSProtocol.GCServerMsgStringSend((char*)szTemp, *gGameObjects[tObjNum], 1);
+			gObjTradeCancel(*gGameObjects[tObjNum]);
 			sLog->outBasic("Opposite canceled trade: [%s][%s]", gGameObjects[tObjNum]->AccountID, gGameObjects[tObjNum]->Name);
 		}
 
-		gObjTradeCancel(index);
+		gObjTradeCancel(lpObj);
 		sLog->outBasic("Cancel trade: [%s][%s]", lpObj.AccountID, lpObj.Name);
 	}
 }
@@ -4449,7 +4441,7 @@ BOOL gObjCheckXYMapTile(CGameObject &lpObj, int iDbgName)
 
 			else if (lpObj.MapNumber == MAP_INDEX_DEVILSQUARE_FINAL && g_DevilSquareFinal.m_btDSFCurState == 2)
 			{
-				if (g_DevilSquareFinal.GetUserTeam(lpObj) == -1)
+				if (g_DevilSquareFinal.GetUserTeam(*lpObj) == -1)
 				{
 					pMsg.MoveNumber = 17;
 				}
@@ -4476,12 +4468,6 @@ BOOL gObjCheckXYMapTile(CGameObject &lpObj, int iDbgName)
 
 BOOL gObjSetAccountLogin(CGameObject &lpObj, char * szId, int aUserNumber, int aDBNumber, char* Password)
 {
-	if (!ObjectMaxRange(lpObj))
-	{
-		sLog->outBasic("error: %s %d", __FILE__, __LINE__);
-		return 0;
-	}
-
 	if (lpObj.Connected != PLAYER_CONNECTED)
 	{
 		sLog->outBasic("error-L2: [%d] User(%s) is not connected. DBNumber: %d %s %d", lpObj.m_Index, szId, aDBNumber, __FILE__, __LINE__);
@@ -4653,9 +4639,9 @@ BYTE GetPathPacketDirPos(int px, int py)
 
 
 
-int  gObjCalDistance(CGameObject &lpObj1, CGameObject lpObj2)
+int  gObjCalDistance(CGameObject &lpObj1, CGameObject &lpObj2)
 {
-	if (!lpObj1 || !lpObj2)
+	if (lpObj1 == NULL || lpObj2 == NULL)
 	{
 		return 0;
 	}
@@ -4976,7 +4962,7 @@ void gObjAddMsgSend(CGameObject &lpObj, int aMsgCode, int aIndex, int  SubCode)
 		{
 			gSMMsg[lpObj.m_Index][n].MsgCode = aMsgCode;
 			gSMMsg[lpObj.m_Index][n].MsgTime = GetTickCount64();
-			gSMMsg[lpObj.m_Index][n].SendUser = lpObj;
+			gSMMsg[lpObj.m_Index][n].SendUser = aIndex;
 			gSMMsg[lpObj.m_Index][n].SubCode = SubCode;
 
 			return;
@@ -5025,7 +5011,7 @@ void gObjAddMsgSendDelayInSpecificQPos(CGameObject &lpObj, int aMsgCode, int aIn
 	{
 		gSMMsg[lpObj.m_Index][iQPosition].MsgCode = aMsgCode;
 		gSMMsg[lpObj.m_Index][iQPosition].MsgTime = GetTickCount64();
-		gSMMsg[lpObj.m_Index][iQPosition].SendUser = lpObj;
+		gSMMsg[lpObj.m_Index][iQPosition].SendUser = aIndex;
 		gSMMsg[lpObj.m_Index][iQPosition].SubCode = SubCode;
 	}
 
@@ -5044,7 +5030,7 @@ void gObjAddAttackProcMsgSendDelay(CGameObject &lpObj, int aMsgCode, int aIndex,
 		{
 			gSMAttackProcMsg[iIndex][n].MsgCode = aMsgCode;
 			gSMAttackProcMsg[iIndex][n].MsgTime = GetTickCount64() + delay;
-			gSMAttackProcMsg[iIndex][n].SendUser = lpObj;
+			gSMAttackProcMsg[iIndex][n].SendUser = aIndex;
 			gSMAttackProcMsg[iIndex][n].SubCode = SubCode;
 			gSMAttackProcMsg[iIndex][n].SubCode2 = SubCode2;
 
@@ -5063,9 +5049,6 @@ void gObjMsgProc(CGameObject &lpObj)
 
 	int aIndex = lpObj.m_Index;
 
-	if (!ObjectMaxRange(lpObj))
-		return;
-
 	for (int n = 0; n < MAX_MONSTER_SEND_MSG; n++)
 	{
 		if (gSMMsg[lpObj][n].MsgCode >= 0)
@@ -5074,11 +5057,11 @@ void gObjMsgProc(CGameObject &lpObj)
 			{
 				if (lpObj.Type == OBJ_MONSTER || lpObj.Type == OBJ_NPC)
 				{
-					gObjMonsterStateProc(lpObj, gSMMsg[lpObj][n].MsgCode, gSMMsg[lpObj][n].SendUser, gSMMsg[lpObj][n].SubCode);
+					gObjMonsterStateProc(lpObj, gSMMsg[aIndex][n].MsgCode, gSMMsg[aIndex][n].SendUser, gSMMsg[aIndex][n].SubCode);
 				}
 				else
 				{
-					gObjStateProc(lpObj, gSMMsg[lpObj][n].MsgCode, gSMMsg[lpObj][n].SendUser, gSMMsg[lpObj][n].SubCode);
+					gObjStateProc(lpObj, gSMMsg[aIndex][n].MsgCode, gSMMsg[aIndex][n].SendUser, gSMMsg[aIndex][n].SubCode);
 				}
 
 				gSMMsg[lpObj][n].MsgCode = -1;
@@ -5092,13 +5075,7 @@ void gObjMsgProc(CGameObject &lpObj)
 
 void gObjStateProc(CGameObject &lpObj, int aMsgCode, int aIndex, int SubCode)
 {
-	if (lpObj == NULL)
-	{
-		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
-		return;
-	}
-
-	if (ObjectMaxRange(lpObj) == FALSE)
+	if (&lpObj == NULL)
 	{
 		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return;
@@ -5107,11 +5084,11 @@ void gObjStateProc(CGameObject &lpObj, int aMsgCode, int aIndex, int SubCode)
 	switch (aMsgCode)
 	{
 	case  2:
-		gObjBackSpring(lpObj, *gGameObjects[lpObj]);
+		gObjBackSpring(lpObj, *gGameObjects[aIndex]);
 		break;
 
 	case  3:
-		gObjMonsterDieLifePlus(lpObj, *gGameObjects[lpObj]);
+		gObjMonsterDieLifePlus(lpObj, *gGameObjects[aIndex]);
 		break;
 
 	case 1000:
@@ -5158,11 +5135,11 @@ void gObjStateProc(CGameObject &lpObj, int aMsgCode, int aIndex, int SubCode)
 	case 10:
 		if (lpObj.DamageReflect != 0)
 		{
-			gObjAttack(lpObj, *gGameObjects[lpObj], 0, 0, 0, SubCode, 0, 0, 1);
+			gObjAttack(lpObj, *gGameObjects[aIndex], 0, 0, 0, SubCode, 0, 0, 1);
 		}
 		break;
 	case 12:
-		gObjAttack(lpObj, *gGameObjects[lpObj], 0, 0, 0, SubCode, 0, 0, 0);
+		gObjAttack(lpObj, *gGameObjects[aIndex], 0, 0, 0, SubCode, 0, 0, 0);
 		break;
 	case 13:
 		lpObj.Life = lpObj.MaxLife + lpObj.AddLife;
@@ -5505,7 +5482,7 @@ BOOL gObjBackSpring(CGameObject &lpObj, CGameObject lpTargetObj)
 	MapC[lpObj.MapNumber].SetStandAttr(x, y);
 	lpObj.m_OldX = x;
 	lpObj.m_OldY = y;
-	GSProtocol.RecvPositionSetProc(&pMove, lpObj.m_Index);
+	GSProtocol.RecvPositionSetProc(&pMove, lpObj);
 
 	if (lpObj.Type == OBJ_USER)
 	{
@@ -5730,7 +5707,7 @@ BOOL gObjBackSpring2(CGameObject &lpObj, CGameObject lpTargetObj, int count)
 	MapC[lpObj.MapNumber].SetStandAttr(x, y);
 	lpObj.m_OldX = x;
 	lpObj.m_OldY = y;
-	GSProtocol.RecvPositionSetProc(&pMove, lpObj.m_Index);
+	GSProtocol.RecvPositionSetProc(&pMove, lpObj);
 
 	return TRUE;
 }
@@ -6411,7 +6388,7 @@ void gObjPlayerKiller(CGameObject &lpObj, CGameObject &lpTargetObj, int MSBDamag
 
 }
 
-void gObjUserDie(CGameObject &lpObj, CGameObject lpTargetObj)
+void gObjUserDie(CGameObject &lpObj, CGameObject& lpTargetObj)
 {
 	int count = 76;
 	int itemdrop = 0;
@@ -6429,7 +6406,7 @@ void gObjUserDie(CGameObject &lpObj, CGameObject lpTargetObj)
 
 	gObjUseSkill.RemoveAllCharacterInvalidMagicAndSkillState(lpObj);
 
-	if (gObjTargetGuildWarCheck(lpObj, lpTargetObj) == 1)
+	if (gObjTargetGuildWarCheck(*lpObj, lpTargetObj) == 1)
 	{
 		return;
 	}
@@ -6458,24 +6435,24 @@ void gObjUserDie(CGameObject &lpObj, CGameObject lpTargetObj)
 
 	if (lpObj.MapNumber == MAP_INDEX_DEVILSQUARE_FINAL)
 	{
-		g_DevilSquareFinal.DSFUserDie(lpObj);
+		g_DevilSquareFinal.DSFUserDie(*lpObj);
 	}
 
 	if (BC_MAP_RANGE(lpObj.MapNumber))
 	{
-		g_BloodCastle.SetUserState(lpObj, 1);
+		g_BloodCastle.SetUserState(*lpObj, 1);
 
 		int iBridgeIndex = g_BloodCastle.GetBridgeIndex(lpObj.MapNumber);
 
 		if (g_BloodCastle.GetCurrentState(iBridgeIndex + 1) == BC_STATE_PLAYING)
 		{
 			sLog->outBasic("[Blood Castle] (%d) Try to drop Ultimate Weapon [%s][%s]", iBridgeIndex + 1, lpObj.AccountID, lpObj.Name);
-			g_BloodCastle.SearchUserDropQuestItem(lpObj);
+			g_BloodCastle.SearchUserDropQuestItem(*lpObj);
 		}
 		else
 		{
 			sLog->outBasic("[Blood Castle] (%d) Try to delete Ultimate Weapon [%s][%s]", iBridgeIndex + 1, lpObj.AccountID, lpObj.Name);
-			g_BloodCastle.SearchUserDeleteQuestItem(lpObj);
+			g_BloodCastle.SearchUserDeleteQuestItem(*lpObj);
 		}
 
 		if (lpTargetObj.Type == OBJ_MONSTER)
@@ -6485,7 +6462,7 @@ void gObjUserDie(CGameObject &lpObj, CGameObject lpTargetObj)
 			if (mAttr != 0)
 			{
 				sLog->outBasic("[Blood Castle] (%d) Dead In Blood Castle, Killed by Monster [%s][%s][%s]", iBridgeIndex + 1, lpObj.AccountID, lpObj.Name, mAttr->m_Name);
-				g_BloodCastle.SearchUserDropQuestItem(lpObj);
+				g_BloodCastle.SearchUserDropQuestItem(*lpObj);
 			}
 		}
 		else if (lpTargetObj.Type == OBJ_USER)
@@ -6693,7 +6670,7 @@ void gObjUserDie(CGameObject &lpObj, CGameObject lpTargetObj)
 
 	if (lpObj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
 	{
-		if (IsOnDuel(lpObj, lpTargetObj.m_Index))
+		if (IsOnDuel(lpObj, lpTargetObj))
 		{
 			g_NewPVP.SetScore(*lpTargetObj);
 		}
@@ -6858,7 +6835,7 @@ void gObjInterfaceTimeCheck(CGameObject &lpObj)
 	}
 
 	tObjNum = lpObj.TargetNumber;
-
+	CGameObject* target = gGameObjects[tObjNum];
 	if (tObjNum < 0)
 	{
 		return;
@@ -6867,9 +6844,9 @@ void gObjInterfaceTimeCheck(CGameObject &lpObj)
 	if (lpObj.m_IfState.type == 1)
 	{
 		GSProtocol.CGTradeResult(lpObj, 3);
-		GSProtocol.CGTradeResult(tObjNum, 3);
+		GSProtocol.CGTradeResult(*target, 3);
 
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 47), tObjNum, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 47), *target, 1);
 		TimeCheck = TRUE;
 	}
 	else
@@ -6877,8 +6854,8 @@ void gObjInterfaceTimeCheck(CGameObject &lpObj)
 		if (lpObj.m_IfState.type == 2)
 		{
 			lpObj.PartyTargetUser = -1;
-			gGameObjects[tObjNum]->PartyTargetUser = -1;
-			GSProtocol.GCResultSend(tObjNum, 0x41, FALSE);
+			target->PartyTargetUser = -1;
+			GSProtocol.GCResultSend(*target, 0x41, FALSE);
 			TimeCheck = TRUE;
 		}
 	}
@@ -6887,8 +6864,8 @@ void gObjInterfaceTimeCheck(CGameObject &lpObj)
 	{
 		lpObj.m_IfState.use = 0;
 		lpObj.TargetNumber = -1;
-		gGameObjects[tObjNum]->m_IfState.use = 0;
-		gGameObjects[tObjNum]->TargetNumber = -1;
+		target->m_IfState.use = 0;
+		target->TargetNumber = -1;
 	}
 
 }
@@ -8662,7 +8639,7 @@ void gObjCheckSelfDefense(CGameObject &lpObj, int aTargetIndex)
 	wsprintf(szTemp, Lang.GetText(0, 27), lpObj.Name, gGameObjects[aTargetIndex]->Name);
 
 	GSProtocol.GCServerMsgStringSend(szTemp, lpObj, 1);
-	GSProtocol.GCServerMsgStringSend(szTemp, aTargetIndex, 1);
+	GSProtocol.GCServerMsgStringSend(szTemp, *gGameObjects[aTargetIndex], 1);
 
 }
 
@@ -8706,35 +8683,35 @@ void gObjMonsterExpDivision(CGameObject &lpMonObj, CGameObject lpObj, int Attack
 	int tObjNum;
 	UINT64 exp;
 	UINT64 nDropZen = 0;
-	CGameObject lpTargetObj;
+	CGameObject* lpTargetObj;
 
 	for (int n = 0; n < MAX_ST_HIT_DAMAGE; n++)
 	{
 		if (lpMonObj.sHD[n].number >= 0)
 		{
 			tObjNum = lpMonObj.sHD[n].number;
-			lpTargetObj = *gGameObjects[tObjNum];
+			lpTargetObj = gGameObjects[tObjNum];
 
 			if (lpMonObj.sHD[n].HitDamage > 0)
 			{
 				bool bSendExp = 1;
 
-				exp = gObjMonsterExpSingle(lpTargetObj, lpMonObj, lpMonObj.sHD[n].HitDamage, lpMonObj.MaxLife, bSendExp, nDropZen);
+				exp = gObjMonsterExpSingle(*lpTargetObj, lpMonObj, lpMonObj.sHD[n].HitDamage, lpMonObj.MaxLife, bSendExp, nDropZen);
 
 				if (exp > 0)
 				{
 					if (bSendExp == 1)
 					{
-						if (lpTargetObj.m_Index == lpObj.m_Index)
+						if (lpTargetObj->m_Index == lpObj.m_Index)
 						{
 							if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(lpObj))
 							{
-								GSProtocol.GCKillPlayerMasterExpSend(lpTargetObj.m_Index, lpMonObj.m_Index, exp, AttackDamage, MSBFlag);
+								GSProtocol.GCKillPlayerMasterExpSend(*lpTargetObj, lpMonObj.m_Index, exp, AttackDamage, MSBFlag);
 							}
 
 							else
 							{
-								GSProtocol.GCKillPlayerExpSend(lpTargetObj.m_Index, lpMonObj.m_Index, exp, AttackDamage, MSBFlag);
+								GSProtocol.GCKillPlayerExpSend(*lpTargetObj, lpMonObj.m_Index, exp, AttackDamage, MSBFlag);
 							}
 						}
 					}
@@ -9208,7 +9185,7 @@ void gObjExpParty(CGameObject &lpObj, CGameObject lpTargetObj, int AttackDamage,
 		{
 			CGameObject lpPartyObj = *gGameObjects[number];
 
-			int dis = gObjCalDistance(lpTargetObj, lpPartyObj); //Season 2.5 add-on
+			int dis = gObjCalDistance(*lpTargetObj, lpPartyObj); //Season 2.5 add-on
 
 			if (dis < 10) //Season 2.5 add-on
 			{
@@ -9248,7 +9225,7 @@ void gObjExpParty(CGameObject &lpObj, CGameObject lpTargetObj, int AttackDamage,
 
 			if (lpTargetObj.MapNumber == lpPartyObj.MapNumber)
 			{
-				dis[n] = gObjCalDistance(lpTargetObj, *gGameObjects[number]);
+				dis[n] = gObjCalDistance(*lpTargetObj, *gGameObjects[number]);
 
 				if (dis[n] < 10)
 				{
@@ -9463,7 +9440,7 @@ void gObjExpParty(CGameObject &lpObj, CGameObject lpTargetObj, int AttackDamage,
 						continue;
 					}
 
-					GSProtocol.GCKillPlayerMasterExpSend(lpPartyObj.m_Index, lpTargetObj.m_Index, exp, AttackDamage, MSBFlag);
+					GSProtocol.GCKillPlayerMasterExpSend(lpPartyObj, lpTargetObj.m_Index, exp, AttackDamage, MSBFlag);
 				}
 			}
 		}
@@ -9516,7 +9493,7 @@ UINT64 gObjExpPartyRenewal(int nPartyNumber, int nLastAttackUserIndex, CGameObje
 			{
 				if (lpTargetObj.MapNumber == gGameObjects[nNumber]->MapNumber)
 				{
-					dis[n] = gObjCalDistance(lpTargetObj, *gGameObjects[nNumber]);
+					dis[n] = gObjCalDistance(*lpTargetObj, *gGameObjects[nNumber]);
 
 					if (dis[n] < 10)
 					{
@@ -9813,7 +9790,7 @@ void gObjMonsterDieLifePlus(CGameObject &lpObj, CGameObject lpTartObj)
 	}
 }
 
-void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject lpObj, int AttackDamage, int DamageSendType, int MSBFlag, int MSBDamage, WORD Skill, int iShieldDamage, int iElementalDamage)
+void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject& lpObj, int AttackDamage, int DamageSendType, int MSBFlag, int MSBDamage, WORD Skill, int iShieldDamage, int iElementalDamage)
 {
 	if (lpObj.Connected < PLAYER_PLAYING)
 	{
@@ -9830,11 +9807,11 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject lpObj, int AttackDamage
 		return;
 	}
 
-	CGameObject lpCallObj = lpObj;
+	CGameObject* lpCallObj = lpObj;
 
 	if (lpObj.Type == OBJ_MONSTER && lpObj.m_RecallMon >= 0)
 	{
-		lpCallObj = *gGameObjects[lpObj.m_RecallMon];
+		lpCallObj = gGameObjects[lpObj.m_RecallMon];
 	}
 
 	if (AttackDamage != 0 && lpTargetObj.Type == OBJ_MONSTER)
@@ -9844,14 +9821,14 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject lpObj, int AttackDamage
 			GSProtocol.GCRecallMonLife(lpTargetObj.m_RecallMon, lpTargetObj.MaxLife, lpTargetObj.Life);
 		}
 
-		gObjMonsterSetHitDamage(lpTargetObj, lpCallObj.m_Index, AttackDamage);
+		gObjMonsterSetHitDamage(lpTargetObj, lpCallObj->m_Index, AttackDamage);
 	}
 
 	if (lpTargetObj.Life <= 0 && lpTargetObj.Live != 0)
 	{
 		if (DamageSendType == 0)
 		{
-			GSProtocol.GCDamageSend(lpCallObj.m_Index, lpTargetObj.m_Index, AttackDamage, MSBFlag, MSBDamage, iShieldDamage);
+			GSProtocol.GCDamageSend(lpCallObj->m_Index, lpTargetObj.m_Index, AttackDamage, MSBFlag, MSBDamage, iShieldDamage);
 		}
 		else if (DamageSendType == 1)
 		{
@@ -9859,39 +9836,39 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject lpObj, int AttackDamage
 		}
 		else if (DamageSendType == 2)
 		{
-			GSProtocol.GCDamageSend(lpCallObj.m_Index, lpTargetObj.m_Index, AttackDamage, MSBFlag, 5, iShieldDamage);
+			GSProtocol.GCDamageSend(lpCallObj->m_Index, lpTargetObj.m_Index, AttackDamage, MSBFlag, 5, iShieldDamage);
 		}
 
 		if (iElementalDamage != 0)
 		{
-			GSProtocol.GCElementalDamageSend(lpCallObj.m_Index, lpTargetObj.m_Index, iElementalDamage, lpCallObj.m_iPentagramMainAttribute);
+			GSProtocol.GCElementalDamageSend(lpCallObj->m_Index, lpTargetObj.m_Index, iElementalDamage, lpCallObj->m_iPentagramMainAttribute);
 		}
-		if (lpCallObj.Type == OBJ_MONSTER)
+		if (lpCallObj->Type == OBJ_MONSTER)
 		{
 			gObjAddMsgSend(lpCallObj, 3, lpTargetObj.m_Index, 0);
-			CreateFrustrum(lpCallObj.X, lpCallObj.Y, lpCallObj.m_Index);
+			CreateFrustrum(lpCallObj->X, lpCallObj->Y, lpCallObj->m_Index);
 			lpTargetObj.KillerType = 1;
 		}
 
-		if (lpCallObj.Type == OBJ_USER && lpCallObj.m_PlayerData->ISBOT == false && lpObj.m_Index >= g_ConfigRead.server.GetObjectStartUserIndex())
+		if (lpCallObj->Type == OBJ_USER && lpCallObj->m_PlayerData->ISBOT == false && lpObj.m_Index >= g_ConfigRead.server.GetObjectStartUserIndex())
 		{
-			gDarkSpirit[lpCallObj.m_Index - g_ConfigRead.server.GetObjectStartUserIndex()].ReSetTarget(lpTargetObj.m_Index);
+			gDarkSpirit[lpCallObj->m_Index - g_ConfigRead.server.GetObjectStartUserIndex()].ReSetTarget(lpTargetObj.m_Index);
 			g_CMuunSystem.ReSetTarget(lpObj, lpTargetObj.m_Index);
 		}
 
-		if (lpCallObj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+		if (lpCallObj->Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
 		{
-			gObjSetKillCount(lpCallObj.m_Index, 1);
+			gObjSetKillCount(lpCallObj->m_Index, 1);
 		}
 
-		if (IT_MAP_RANGE(lpCallObj.MapNumber))
+		if (IT_MAP_RANGE(lpCallObj->MapNumber))
 		{
-			if (g_IT_Event.GetIllusionTempleState(lpCallObj.MapNumber) == 2)
+			if (g_IT_Event.GetIllusionTempleState(lpCallObj->MapNumber) == 2)
 			{
-				g_IT_Event.IncreaseKillCount(lpCallObj.m_Index, lpCallObj.MapNumber, 1);
+				g_IT_Event.IncreaseKillCount(lpCallObj->m_Index, lpCallObj->MapNumber, 1);
 
 				sLog->outBasic("[ ITR ] [IncreaseKillCount] Map:%d, (%s)(%s) Kill User TargetInfo (%s)(%s)",
-					lpCallObj.MapNumber - 44, lpCallObj.AccountID, lpCallObj.Name, lpTargetObj.AccountID, lpTargetObj.Name);
+					lpCallObj->MapNumber - 44, lpCallObj->AccountID, lpCallObj->Name, lpTargetObj.AccountID, lpTargetObj.Name);
 			}
 		}
 
@@ -9908,14 +9885,14 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject lpObj, int AttackDamage
 					|| lpTargetObj.Class == 498 || lpTargetObj.Class == 499 || lpTargetObj.Class == 500 || lpTargetObj.Class == 501
 					|| lpTargetObj.Class == 502)
 				{
-					gObjAddMsgSendDelayInSpecificQPos(lpTargetObj, 1, lpCallObj.m_Index, 800, 0, 0);
+					gObjAddMsgSendDelayInSpecificQPos(lpTargetObj, 1, lpCallObj->m_Index, 800, 0, 0);
 				}
 				else
 				{
-					gObjAddMsgSendDelay(lpTargetObj, 1, lpCallObj.m_Index, 800, 0);
+					gObjAddMsgSendDelay(lpTargetObj, 1, lpCallObj->m_Index, 800, 0);
 				}
 
-				g_Crywolf.CrywolfMonsterDieProc(lpTargetObj.m_Index, lpCallObj.m_Index);
+				g_Crywolf.CrywolfMonsterDieProc(lpTargetObj.m_Index, lpCallObj->m_Index);
 			}
 
 			else
@@ -9931,7 +9908,7 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject lpObj, int AttackDamage
 					|| lpTargetObj.Class == 629 || lpTargetObj.Class == 630 || lpTargetObj.Class == 631 || lpTargetObj.Class == 459
 					|| lpTargetObj.Class == 673) // Boss monsters, fixed for bug which boss sometimes doesn't drop item if he is killed by one hit
 				{
-					gObjAddMsgSendDelayInSpecificQPos(lpTargetObj, 1, lpCallObj.m_Index, 800, 0, 0);
+					gObjAddMsgSendDelayInSpecificQPos(lpTargetObj, 1, lpCallObj->m_Index, 800, 0, 0);
 
 					if (g_ConfigRead.data.common.BossKillMessage == true)
 					{
@@ -9943,7 +9920,7 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject lpObj, int AttackDamage
 
 						if (iMaxHitUser == -1)
 						{
-							iMaxHitUser = lpCallObj.m_Index;
+							iMaxHitUser = lpCallObj->m_Index;
 						}
 
 						wsprintf(szMsg, Lang.GetText(0, 581), lpm->m_Name, gGameObjects[iMaxHitUser]->Name);
@@ -9953,7 +9930,7 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject lpObj, int AttackDamage
 				}
 				else
 				{
-					gObjAddMsgSendDelay(lpTargetObj, 1, lpCallObj.m_Index, 800, 0);
+					gObjAddMsgSendDelay(lpTargetObj, 1, lpCallObj->m_Index, 800, 0);
 				}
 			}
 
@@ -9972,11 +9949,11 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject lpObj, int AttackDamage
 					{
 						PMSG_NOTICE pNotice;
 
-						ItemSerialCreateSend(lpCallObj.m_Index, lpCallObj.MapNumber, lpCallObj.X, lpCallObj.Y, ItemGetNumberMake(14, 13), 0, 0, 0, 0, 0, lpCallObj.m_Index, 0, 0, 0, 0, 0);
+						ItemSerialCreateSend(lpCallObj->m_Index, lpCallObj->MapNumber, lpCallObj->X, lpCallObj->Y, ItemGetNumberMake(14, 13), 0, 0, 0, 0, 0, lpCallObj->m_Index, 0, 0, 0, 0, 0);
 
-						if (gObjIsConnected(lpCallObj.m_Index))
+						if (gObjIsConnected(lpCallObj->m_Index))
 						{
-							wsprintf(szMsg, Lang.GetText(0, 216), lpTargetObj.Name, lpCallObj.Name);
+							wsprintf(szMsg, Lang.GetText(0, 216), lpTargetObj.Name, lpCallObj->Name);
 						}
 						else
 						{
@@ -9999,9 +9976,9 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject lpObj, int AttackDamage
 					{
 						PMSG_NOTICE pNotice;
 
-						if (gObjIsConnected(lpCallObj.m_Index))
+						if (gObjIsConnected(lpCallObj->m_Index))
 						{
-							wsprintf(szMsg, Lang.GetText(0, 218), lpCallObj.Name);
+							wsprintf(szMsg, Lang.GetText(0, 218), lpCallObj->Name);
 						}
 						else
 						{
@@ -10025,7 +10002,7 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject lpObj, int AttackDamage
 
 			else
 			{
-				g_Kanturu.KanturuMonsterDieProc(lpTargetObj.m_Index, lpCallObj.m_Index);
+				g_Kanturu.KanturuMonsterDieProc(lpTargetObj.m_Index, lpCallObj->m_Index);
 			}
 
 			if (lpTargetObj.Class >= 678 && lpTargetObj.Class <= 680)
@@ -10054,7 +10031,7 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject lpObj, int AttackDamage
 				{
 					CGameObject lpCallObj = *gGameObjects[lpObj.m_RecallMon];
 
-					if (lpCallObj.Type != OBJ_USER)
+					if (lpCallObj->Type != OBJ_USER)
 					{
 						return;
 					}
@@ -10149,7 +10126,7 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject lpObj, int AttackDamage
 
 			gObjPkDownTimeCheck(lpCallObj, lpTargetObj.Level);
 
-			if (lpCallObj.Type == OBJ_USER)
+			if (lpCallObj->Type == OBJ_USER)
 			{
 				gObjAddMsgSendDelay(lpCallObj, 3, lpTargetObj.m_Index, 2000, 0);
 			}
@@ -10171,11 +10148,11 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject lpObj, int AttackDamage
 			{
 				g_ChaosCastle.SetUserState(lpTargetObj.m_Index, 1);
 
-				if (CC_MAP_RANGE(lpCallObj.MapNumber))
+				if (CC_MAP_RANGE(lpCallObj->MapNumber))
 				{
-					if (gObjIsConnected(lpCallObj.m_Index))
+					if (gObjIsConnected(lpCallObj->m_Index))
 					{
-						lpCallObj.m_cKillUserCount += 1;
+						lpCallObj->m_cKillUserCount += 1;
 
 						int KillUserCount = lpObj.m_cKillUserCount;
 						int CCIndex = g_ChaosCastle.GetChaosCastleIndex(lpObj.MapNumber);
@@ -10185,21 +10162,21 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject lpObj, int AttackDamage
 
 				g_ChaosCastle.SendFailMessage(g_ChaosCastle.GetChaosCastleIndex(lpTargetObj.MapNumber), lpTargetObj.m_Index);
 
-				sLog->outBasic("[Chaos Castle] (%d) [%s][%s] User Dead In Chaos Castle : Killed by [%s][%s]", g_ChaosCastle.GetChaosCastleIndex(lpTargetObj.MapNumber) + 1, lpTargetObj.AccountID, lpTargetObj.Name, lpCallObj.AccountID, lpCallObj.Name);
+				sLog->outBasic("[Chaos Castle] (%d) [%s][%s] User Dead In Chaos Castle : Killed by [%s][%s]", g_ChaosCastle.GetChaosCastleIndex(lpTargetObj.MapNumber) + 1, lpTargetObj.AccountID, lpTargetObj.Name, lpCallObj->AccountID, lpCallObj->Name);
 			}
 
 			if (lpTargetObj.MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 			{
 				g_ChaosCastleFinal.SetUserState(lpTargetObj.m_Index, 1);
 
-				if (lpCallObj.MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL && gObjIsConnected(lpObj) == TRUE)
+				if (lpCallObj->MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL && gObjIsConnected(lpObj) == TRUE)
 				{
-					lpCallObj.m_byKillUserCount++;
+					lpCallObj->m_byKillUserCount++;
 				}
 
 				g_ChaosCastleFinal.SendFailMessage(lpTargetObj.m_Index);
 
-				sLog->outBasic("[Chaos Castle Survival] [%s][%s] User Dead In Chaos Castle Survival : Killed by [%s][%s]", lpTargetObj.AccountID, lpTargetObj.Name, lpCallObj.AccountID, lpCallObj.Name);
+				sLog->outBasic("[Chaos Castle Survival] [%s][%s] User Dead In Chaos Castle Survival : Killed by [%s][%s]", lpTargetObj.AccountID, lpTargetObj.Name, lpCallObj->AccountID, lpCallObj->Name);
 				sLog->outBasic("[Chaos Castle Survival] [gObjLifeCheck] NAME :%s, Index :%d ", lpTargetObj.Name, lpTargetObj.m_Index);
 			}
 
@@ -10250,7 +10227,7 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject lpObj, int AttackDamage
 			lpTargetObj.Teleport = 0;
 		}
 
-		GSProtocol.GCDiePlayerSend(lpTargetObj, lpTargetObj.m_Index, Skill, lpCallObj.m_Index);
+		GSProtocol.GCDiePlayerSend(lpTargetObj, lpTargetObj.m_Index, Skill, lpCallObj->m_Index);
 
 		if (lpTargetObj.Class >= 524 && lpTargetObj.Class <= 528 && lpTargetObj.Class != 526)
 		{
@@ -10297,7 +10274,7 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject lpObj, int AttackDamage
 		if (lpTargetObj.Class == 79)
 		{
 			gEledoradoEvent.m_BossGoldDerconMapNumber[lpTargetObj.m_BossGoldDerconMapNumber] = -1;
-			gEledoradoEvent.CheckGoldDercon(lpCallObj.MapNumber);
+			gEledoradoEvent.CheckGoldDercon(lpCallObj->MapNumber);
 		}
 
 		if (lpTargetObj.m_RecallMon >= 0)
@@ -10361,7 +10338,7 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject lpObj, int AttackDamage
 			return;
 		}
 
-		if (lpCallObj.Type == OBJ_USER)
+		if (lpCallObj->Type == OBJ_USER)
 		{
 			//g_Log.AddC(TColor::Yellow, "[K2] m_btExpType %d", lpTargetObj.m_btExpType);
 			//	lpTargetObj.m_btExpType = 1;
@@ -10370,7 +10347,7 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject lpObj, int AttackDamage
 				gObjMonsterExpDivisionRenewal(lpTargetObj, lpCallObj, AttackDamage, MSBFlag);
 			}
 
-			if (lpCallObj.PartyNumber >= 0)
+			if (lpCallObj->PartyNumber >= 0)
 			{
 				gObjExpParty(lpCallObj, lpTargetObj, AttackDamage, MSBFlag);
 			}
@@ -10408,12 +10385,12 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject lpObj, int AttackDamage
 
 		if (iElementalDamage == TRUE)
 		{
-			GSProtocol.GCElementalDamageSend(lpCallObj.m_Index, lpTargetObj.m_Index, AttackDamage, MSBDamage);
+			GSProtocol.GCElementalDamageSend(lpCallObj->m_Index, lpTargetObj.m_Index, AttackDamage, MSBDamage);
 		}
 
 		else if (DamageSendType == 0)
 		{
-			GSProtocol.GCDamageSend(lpCallObj.m_Index, lpTargetObj.m_Index, AttackDamage, MSBFlag, MSBDamage, iShieldDamage);
+			GSProtocol.GCDamageSend(lpCallObj->m_Index, lpTargetObj.m_Index, AttackDamage, MSBFlag, MSBDamage, iShieldDamage);
 		}
 		else if (DamageSendType == 1)
 		{
@@ -10421,17 +10398,17 @@ void gObjLifeCheck(CGameObject &lpTargetObj, CGameObject lpObj, int AttackDamage
 		}
 		else if (DamageSendType == 2)
 		{
-			GSProtocol.GCDamageSend(lpCallObj.m_Index, lpTargetObj.m_Index, AttackDamage, MSBFlag, 5, iShieldDamage);
+			GSProtocol.GCDamageSend(lpCallObj->m_Index, lpTargetObj.m_Index, AttackDamage, MSBFlag, 5, iShieldDamage);
 		}
 		else if (DamageSendType == 3)
 		{
-			GSProtocol.GCDamageSend(lpCallObj.m_Index, lpTargetObj.m_Index, AttackDamage, MSBFlag, 6, iShieldDamage);
+			GSProtocol.GCDamageSend(lpCallObj->m_Index, lpTargetObj.m_Index, AttackDamage, MSBFlag, 6, iShieldDamage);
 		}
 	}
 
 	if (lpTargetObj.Type == OBJ_MONSTER)
 	{
-		GSProtocol.GCSendObjectHP(lpCallObj.m_Index, lpTargetObj.m_Index);
+		GSProtocol.GCSendObjectHP(lpCallObj->m_Index, lpTargetObj.m_Index);
 	}
 
 	if (lpTargetObj.Type == OBJ_MONSTER)
@@ -19279,7 +19256,7 @@ void gObjViewportListProtocol(short lpObj)
 						if ((gGameObjects[tObjNum]->Authority & 0x20) == 0x20 && gObjCheckUsedBuffEffect(*gGameObjects[tObjNum], BUFFTYPE_INVISABLE))
 							continue;
 
-						if (g_NewPVP.IsObserver(gGameObjects[tObjNum]) == TRUE)
+						if (g_NewPVP.IsObserver(*gGameObjects[tObjNum]) == TRUE)
 						{
 							continue;
 						}
@@ -22312,7 +22289,7 @@ int gObjGuildWarItemGive(GUILD_INFO_STRUCT * lpWinGuild, GUILD_INFO_STRUCT * lpL
 
 		if (lpObj.pInventory[number].IsItem() == 1)
 		{
-			if (gObjInventoryInsertItem(win_user, lpObj.pInventory[number]) != 0xFF)
+			if (gObjInventoryInsertItem(win_user, lpObj->pInventory[number]) != 0xFF)
 			{
 				return true;
 			}
@@ -22328,7 +22305,7 @@ int gObjGuildWarItemGive(GUILD_INFO_STRUCT * lpWinGuild, GUILD_INFO_STRUCT * lpL
 
 		if (lpObj.pInventory[number].IsItem() == 1)
 		{
-			if (gObjInventoryInsertItem(win_user, lpObj.pInventory[number]) != 0xFF)
+			if (gObjInventoryInsertItem(win_user, lpObj->pInventory[number]) != 0xFF)
 			{
 				return true;
 			}
@@ -25861,11 +25838,11 @@ int gGetLowHPMonster(int nZoneIndex, int nIndex, int nDistance)
 	{
 		_stMonsterIndexInfo monsterIndexInfo = result->m_vtMonsterIndexInfo.at(i);
 
-		if (gObjCalDistance(lpObj, *gGameObjects[monsterIndexInfo.m_nIndex]) < nDistance)
+		if (gObjCalDistance(*lpObj, *gGameObjects[monsterIndexInfo.m_nIndex]) < nDistance)
 		{
 			if (monsterIndexInfo.m_bLive == true)
 			{
-				nTempTargetLife = gGameObjects[monsterIndexInfo.m_nIndex].Life / gGameObjects[monsterIndexInfo.m_nIndex]->MaxLife * 100;
+				nTempTargetLife = gGameObjects[monsterIndexInfo.m_nIndex]->Life / gGameObjects[monsterIndexInfo.m_nIndex]->MaxLife * 100;
 
 				if (nTempTargetLife < nTargetLife || !nTargetLife)
 				{

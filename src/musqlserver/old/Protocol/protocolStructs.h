@@ -967,9 +967,23 @@ struct PMSG_REQ_PSHOPDEAL_CLOSE;
 struct PMSG_ANS_PSHOP_VIEWPORT_NOTIFY;
 struct PMSG_REQ_PSHOP_LOG;
 struct PMSG_REQ_SEARCH_ITEM_PSHOP;
+struct PMSG_AUTOUPDATE;
 
 
 
+
+struct PMSG_AUTOUPDATE
+{
+	PBMSG_HEAD h;
+	BYTE MainVersion;
+	BYTE HeadVersion;
+	BYTE SubVersion;
+	char HostURL[100];
+	WORD FTPPort;
+	char FTPLogin[20];
+	char FTPPassword[20];
+	char VersionFile[20];
+};
 
 struct PMSG_REQ_SEARCH_ITEM_PSHOP
 {

@@ -65,16 +65,16 @@ void UDPSetServerInfo(PMSG_SERVERINFO * aRecv)
 	}
 }
 
-void SCSendServerList(CGameObject &lpObj)
+void SCSendServerList(CUserData &Obj)
 {
 	PMSG_SERVERSLIST_COUNT * pMsg;///(0xC2, 0xF4, 0x06);
 	PMSG_SERVERLIST_SERVER * pServer;
 	BYTE cBUFF[65535];
 
-	if(Users[aIndex].News == 0)
+	if(Obj.News == 0)
 	{
-		SCSendNews(aIndex);
-		Users[aIndex].News = 1;
+		SCSendNews(Obj);
+		Obj.News = 1;
 	}
 
 	int Count = 0;
@@ -96,8 +96,8 @@ void SCSendServerList(CGameObject &lpObj)
 
 	if(Count == 0)
 	{
-		g_Log.AddC(TColor::Red, "[Server] No active Game Servers found - disconnect: (Index: [%d])", aIndex);
-		IOCP.CloseClient(aIndex);
+		sLog->outError("[Server] No active Game Servers found - disconnect: (Index: [%d])", Obj.IDNumber);
+		IOCP.CloseClient(Obj.IDNumber);
 		return;
 	}
 
@@ -115,7 +115,7 @@ void SCSendServerList(CGameObject &lpObj)
 	pMsg->h.sizeL	= LOBYTE(PacketSize);
 	pMsg->h.sizeH	= HIBYTE(PacketSize);
 
-	IOCP.DataSend(lpObj.m_Index, cBUFF, PacketSize);
+	IOCP.DataSend(Obj.m_Index, cBUFF, PacketSize);
 
 	g_Log.Add("[Server] Sent Server List COUNT: [%d] (Index: [%d])", Count, aIndex);
 }

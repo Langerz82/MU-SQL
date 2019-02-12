@@ -463,13 +463,6 @@ struct PMSG_ARCA_BATTLE_PLAY_INFO
 	_stArcaBattleObeliskInfo m_stObeliskInfo[5];
 };
 
-
-
-struct PMSG_ANS_REMOVE_ALL_GUILD_BUFF_DS
-{
-	PBMSG_HEAD2 h;
-};
-
 struct PMSG_ANS_REMOVE_GUILD_BUFF_DS
 {
   PBMSG_HEAD2 h;
@@ -592,24 +585,13 @@ struct _stCancelGuildNames
 	char szGuildNames[9];
 };
 
-struct PMSG_ANS_AB_JOIN_CANCEL_DS
-{
-	PBMSG_HEAD2 h;
-	BYTE btGuildCnt;
-	_stCancelGuildNames CancelGuildNames[6];
-};
+
 
 struct PMSG_SEND_AB_JOIN_CANCEL
 {
 	PBMSG_HEAD2 h;
 };
 
-struct PMSG_ANS_AB_REG_MEMBER_CNT_DS
-{
-	PBMSG_HEAD2 h;
-	WORD wNumber;
-	BYTE btRegMemCnt;
-};
 
 struct PMSG_ANS_AB_REG_MEMBER_CNT
 {
@@ -632,12 +614,6 @@ struct PMSG_ANS_REGISTERED_MEMBER_CNT
 	BYTE unk2;
 };
 
-struct PMSG_ANS_AB_WIN_GUILD_INFO_DS
-{
-	PBMSG_HEAD2 h;
-	char btGuildCnt;
-	_stABWinGuildInfoDS m_stABWinGuildInfoDS[5];
-};
 
 struct PMSG_REQ_ARCA_BATTLE_IS_TOP_RANK
 {
@@ -653,16 +629,6 @@ struct _stArcaBattleMarkTopRankDS
 	DWORD dwMarkCnt;
 };
 
-struct PMSG_ANS_ARCA_BATTLE_MARK_RANK_DS
-{
-	PBMSG_HEAD2 h;
-	WORD wNumber;
-	BYTE btRank;
-	DWORD dwMarkCnt;
-	BYTE btGuildCnt;
-	_stArcaBattleMarkTopRankDS ArcaBattleMarkTopRank[6];
-};
-
 struct PMSG_REQ_ARCA_BATTLE_MARK_RANK_DS
 {
 	PBMSG_HEAD2 h;
@@ -675,14 +641,6 @@ struct PMSG_REQ_ARCA_BATTLE_MARK_CNT_DS
 	PBMSG_HEAD2 h;
 	WORD wNumber;
 	DWORD dwGuildNum;
-};
-
-struct PMSG_ANS_ARCA_BATTLE_MARK_CNT_DS
-{
-	PBMSG_HEAD2 h;
-	BYTE btResult;
-	WORD wNumber;
-	DWORD dwMarkCnt;
 };
 
 struct PMSG_REQ_ARCA_BATTLE_MARK_REG_DS
@@ -707,12 +665,6 @@ struct PMSG_REQ_AB_MARK_REG_ALL_DEL_DS
 	PBMSG_HEAD2 h;
 };
 
-struct PMSG_ANS_ARCA_BATTLE_MARK_REG_DS
-{
-	PBMSG_HEAD2 h;
-	WORD wNumber;
-};
-
 struct PMSG_REQ_ALL_GUILD_MARK_CNT_DS
 {
 	PBMSG_HEAD2 h;
@@ -724,12 +676,6 @@ struct _stABAllGuildMark
 	DWORD dwMarkCnt;
 };
 
-struct PMSG_ANS_ALL_GUILD_MARK_CNT_DS
-{
-	PWMSG_HEAD2 h;
-	WORD wGuildCnt;
-	_stABAllGuildMark ABAllGuildMark[250];
-};
 
 struct PMSG_REQ_AB_MARK_REG_UPDATE_DS
 {
@@ -755,12 +701,7 @@ struct _stABJoinUserInfoDS
 	char szUserName[MAX_ACCOUNT_LEN+1];
 };
 
-struct PMSG_ANS_AB_ALL_JOIN_USER_DS
-{
-	PWMSG_HEAD h;
-	BYTE btUserCnt;
-	_stABJoinUserInfoDS stABJoinUserInfo[200];
-};
+
 
 #pragma pack (1)
 

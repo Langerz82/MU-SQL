@@ -577,11 +577,11 @@ void CDarkSpirit::SendAttackMsg(CGameObject &lpObj, int aTargetIndex, int iDamag
 	{
 		EnterCriticalSection(&this->m_SpiritCriti);
 		
-		CGameObject lpObj = &gGameObjects[this->m_iMasterIndex];
+		CGameObject* lpObj = gGameObjects[this->m_iMasterIndex];
 		int iDamageType = 0;
-		int iCriticalDamage = this->m_CriticalDamage + lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddCriticalDamageRate;
-		int iExcellentDamage = this->m_ExcellentDamage + lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddExcellentDamageRate;
-		int iDoubleDamage = this->m_DoubleDamage + lpObj.m_PlayerData->m_MPSkillOpt.iMpsIncDarkSpiritDoubleDamageRate;
+		int iCriticalDamage = this->m_CriticalDamage + lpObj->m_PlayerData->m_MPSkillOpt.iMpsAddCriticalDamageRate;
+		int iExcellentDamage = this->m_ExcellentDamage + lpObj->m_PlayerData->m_MPSkillOpt.iMpsAddExcellentDamageRate;
+		int iDoubleDamage = this->m_DoubleDamage + lpObj->m_PlayerData->m_MPSkillOpt.iMpsIncDarkSpiritDoubleDamageRate;
 
 		LeaveCriticalSection(&this->m_SpiritCriti);
 

@@ -807,7 +807,7 @@ void CAcheronGuardianEvent::CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER 
 		return;
 	}
 
-	CGameObject lpObj = &gGameObjects[iIndex];
+	CGameObject* lpObj = gGameObjects[iIndex];
 
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -824,14 +824,14 @@ void CAcheronGuardianEvent::CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER 
 		return;
 	}
 
-	BYTE btAttr = MapC[lpObj.MapNumber].GetAttr(lpObj.X, lpObj.Y);
+	BYTE btAttr = MapC[lpObj->MapNumber].GetAttr(lpObj->X, lpObj->Y);
 
 	if ((btAttr & 1) != 1)
 	{
 		return;
 	}
 
-	if (lpObj.m_PlayerData->m_bUsePartyMatching == true)
+	if (lpObj->m_PlayerData->m_bUsePartyMatching == true)
 	{
 		PMSG_ANS_PARTYMATCHING_ERROR pMsg;
 		PHeadSubSetB((LPBYTE)&pMsg, 0xEF, 0x09, sizeof(pMsg));
@@ -854,7 +854,7 @@ void CAcheronGuardianEvent::CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER 
 		sLog->outBasic("[AcheronGuardianEvent] [%s][%s] Acheron Event Enter",
 			gGameObjects[iIndex]->AccountID, gGameObjects[iIndex]->Name);
 
-		gObjMoveGate(iIndex, 426);
+		gObjMoveGate(*gGameObjects[iIndex], 426);
 	}
 
 	else

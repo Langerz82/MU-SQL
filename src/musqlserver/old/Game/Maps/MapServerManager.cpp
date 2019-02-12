@@ -246,33 +246,31 @@ BOOL CMapServerManager::LoadMapData(char* lpszFileName)
 	return TRUE;
 } 
 
-BOOL CMapServerManager::GetSvrCodeData(WORD wServerCode, char* lpszIpAddress, WORD * lpwPort)
+BOOL CMapServerManager::CheckMapCanMove(int iMAP_NUM)
 {
-	if ( !lpszIpAddress || !lpwPort )
+	if (MapNumberCheck(iMAP_NUM) == 0)
 	{
 		return FALSE;
 	}
 
-	_MAPSVR_DATA * lpMapSvrData = NULL;
+	_MAPSVR_DATA * lpMapSvrData = this->m_lpThisMapSvrData;
 
-	//EnterCriticalSection(&this->m_critSVRCODE_MAP);
-
-	std::map<int, _MAPSVR_DATA *>::iterator it = this->m_mapSVRCODE_MAP.find(wServerCode);
-
-	if ( it != this->m_mapSVRCODE_MAP.end() )
-	{
-		lpMapSvrData = it->second;
-	}
-
-	//LeaveCriticalSection(&this->m_critSVRCODE_MAP);
-
-	if ( lpMapSvrData == NULL )
+	if (lpMapSvrData == NULL)
 	{
 		return FALSE;
 	}
 
-	strcpy(lpszIpAddress, lpMapSvrData->m_cIPADDR);
-	*lpwPort = lpMapSvrData->m_wPORT;
+	if (lpMapSvrData->m_bIN_USE == FALSE)
+	{
+		return FALSE;
+	}
+
+	short sMAP_MOVE_INFO = lpMapSvrData->m_sMAP_MOVE[iMAP_NUM];
+
+	if (sMAP_MOVE_INFO != -3)
+	{
+		return FALSE;
+	}
 
 	return TRUE;
 }
@@ -531,8 +529,4 @@ BOOL CMapServerManager::GetSvrCodeData(WORD wServerCode, char* lpszIpAddress, WO
 
 
 CMapServerManager	g_MapServerManager;
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
 

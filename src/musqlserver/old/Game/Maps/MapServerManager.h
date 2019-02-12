@@ -36,7 +36,9 @@ public:
 	CMapServerManager();
 	virtual ~CMapServerManager();
 
-	BOOL LoadMapData(char* lpszFileName);
+	BOOL LoadData(char* lpszFileName);
+	BOOL CheckMapCanMove(int iMAP_NUM);
+
 	BOOL GetSvrCodeData(WORD wServerCode, char* lpszIpAddress, WORD* lpwPort);
 	BOOL GetMapSvrGroup(WORD wServerCode);
 	short CheckMoveMapSvr(CGameObject &Obj, int iMAP_NUM, short sSVR_CODE_BEFORE);
