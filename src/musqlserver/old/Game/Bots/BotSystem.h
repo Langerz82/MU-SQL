@@ -121,7 +121,7 @@ struct _sBOT_SETTINGS
 //--
 	std::string sPathActionFile;
 //-- index in gObj
-	int aIndex;
+	CGameObject &lpObj;
 //-- Bot Count for reference
 	std::map<int,sBOT_CRAFTING> m_Crafting;
 	sBOT_PSHOP m_Shop;

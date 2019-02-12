@@ -1268,7 +1268,7 @@ void CPentagramMixSystem::LogPentagramItem(CGameObject &lpObj, char* szLogType)
 	return; // Function not used
 }
 
-void CPentagramMixSystem::CGPentagramJewelRefineRecv(PMSG_PENTAGRAM_JEWEL_REFINE_RECV* lpMsg, int aIndex) // OK
+void CPentagramMixSystem::CGPentagramJewelRefineRecv(PMSG_PENTAGRAM_JEWEL_REFINE_RECV* lpMsg, CGameObject &lpObj) // OK
 {
 	
 

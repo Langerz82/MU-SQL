@@ -15,7 +15,7 @@ void UDPInit()
 	g_UDPPort.Run();
 }
 
-void CSProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, int aIndex, bool Encrypt, int serial)
+void CSProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, CGameObject &lpObj, bool Encrypt, int serial)
 {
 
 	switch ( protoNum )

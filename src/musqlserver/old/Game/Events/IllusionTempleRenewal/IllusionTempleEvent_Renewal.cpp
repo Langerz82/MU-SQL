@@ -143,7 +143,7 @@ void CIllusionTempleEvent_Renewal::ITR_Run()
 	}
 }
 
-void CIllusionTempleEvent_Renewal::SetRelicsInventoryPos(BYTE btMapNumber, int aIndex, BYTE btPos)
+void CIllusionTempleEvent_Renewal::SetRelicsInventoryPos(BYTE btMapNumber, CGameObject &lpObj, BYTE btPos)
 {
 	if (!IT_MAP_RANGE(btMapNumber))
 	{

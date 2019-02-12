@@ -1506,7 +1506,7 @@ void CDevilSquare::CheckInvalidUser()
 	}
 }
 
-BOOL CDevilSquare::AddUser(BYTE cSquareNumber, int aIndex)
+BOOL CDevilSquare::AddUser(BYTE cSquareNumber, CGameObject &lpObj)
 {
 	if (DS_LEVEL_RANGE(cSquareNumber) == FALSE)
 	{
@@ -1516,7 +1516,7 @@ BOOL CDevilSquare::AddUser(BYTE cSquareNumber, int aIndex)
 	return this->m_DevilSquareGround[cSquareNumber].AddUser(aIndex);
 }
 
-BOOL CDevilSquare::DelUser(BYTE cSquareNumber, int aIndex)
+BOOL CDevilSquare::DelUser(BYTE cSquareNumber, CGameObject &lpObj)
 {
 	if (DS_LEVEL_RANGE(cSquareNumber) == FALSE)
 	{
@@ -1546,7 +1546,7 @@ int CDevilSquare::GetPlayUserCountRightNow(BYTE cSquareNumber)
 	return this->m_DevilSquareGround[cSquareNumber].GetPlayUserCountRightNow();
 }
 
-BOOL CDevilSquare::LeaveDevilSquare(BYTE cSquareNumber, int aIndex)
+BOOL CDevilSquare::LeaveDevilSquare(BYTE cSquareNumber, CGameObject &lpObj)
 {
 	return this->DelUser(cSquareNumber, aIndex);
 }

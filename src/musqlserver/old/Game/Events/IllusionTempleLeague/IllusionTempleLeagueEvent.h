@@ -31,7 +31,7 @@ public:
 
 	void ITL_Run();
 
-	void SetRelicsInventoryPos(BYTE btMapNumber, int aIndex, BYTE btPos);
+	void SetRelicsInventoryPos(BYTE btMapNumber, CGameObject &lpObj, BYTE btPos);
 	void SendRelicsUserInfo(CGameObject* lpObj);
 
 	int Enter_ITL(CGameObject &lpObj, BYTE byTempleIndex, BYTE bySlotNum);

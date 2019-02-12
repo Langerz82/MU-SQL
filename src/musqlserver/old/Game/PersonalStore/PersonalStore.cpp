@@ -28,7 +28,7 @@ CPersonalStore::~CPersonalStore()
 
 }
 
-void CPersonalStore::CGPShopReqSetItemPrice(PMSG_REQ_PSHOP_SETITEMPRICE * lpMsg, int aIndex)
+void CPersonalStore::CGPShopReqSetItemPrice(PMSG_REQ_PSHOP_SETITEMPRICE * lpMsg, CGameObject &lpObj)
 {
 
 	if (gDoPShopOpen == FALSE)
@@ -125,7 +125,7 @@ void CPersonalStore::CGPShopAnsSetItemPrice(CGameObject &lpObj, BYTE btResult, B
 }
 
 
-void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, int aIndex)
+void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, CGameObject &lpObj)
 {
 	if (::gDoPShopOpen == FALSE)
 		return;
@@ -1135,7 +1135,7 @@ void CPersonalStore::CGPShopAnsBuyItem(int aSourceIndex, int aTargetIndex, int i
 	IOCP.DataSend(aSourceIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void CPersonalStore::CGPShopReqCloseDeal(PMSG_REQ_PSHOPDEAL_CLOSE * lpMsg, int aIndex)
+void CPersonalStore::CGPShopReqCloseDeal(PMSG_REQ_PSHOPDEAL_CLOSE * lpMsg, CGameObject &lpObj)
 {
 	if (!gObjIsConnected(aIndex))
 		return;
@@ -1407,7 +1407,7 @@ void CPersonalStore::gObjInventoryItemBoxSet_PShop(CGameObject &lpObj, int itemp
 	}
 }
 
-void CPersonalStore::CGReqSearchItemInPShop(PMSG_REQ_SEARCH_ITEM_PSHOP *lpMsg, int aIndex)
+void CPersonalStore::CGReqSearchItemInPShop(PMSG_REQ_SEARCH_ITEM_PSHOP *lpMsg, CGameObject &lpObj)
 {
 	if (!lpMsg)
 	{
@@ -1430,7 +1430,7 @@ void CPersonalStore::CGReqSearchItemInPShop(PMSG_REQ_SEARCH_ITEM_PSHOP *lpMsg, i
 	}
 }
 
-void CPersonalStore::CGReqPShopLog(PMSG_REQ_PSHOP_LOG *lpMsg, int aIndex)
+void CPersonalStore::CGReqPShopLog(PMSG_REQ_PSHOP_LOG *lpMsg, CGameObject &lpObj)
 {
 	if (!lpMsg)
 	{

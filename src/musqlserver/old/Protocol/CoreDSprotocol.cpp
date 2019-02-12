@@ -5688,7 +5688,7 @@ void CDataServerProtocol::GDReqEvoMonSaveScore(CGameObject &lpObj, PMSG_REQ_SAVE
 	}
 }
 
-void CDataServerProtocol::DGMuBotOptionRecv(MUBOT_SETTINGS_REQ_SAVE* lpMsg, int aIndex)
+void CDataServerProtocol::DGMuBotOptionRecv(MUBOT_SETTINGS_REQ_SAVE* lpMsg, CGameObject &lpObj)
 {
 	char szName[MAX_IDSTRING + 1];
 	memcpy(szName, lpMsg->szName, MAX_IDSTRING);

@@ -518,7 +518,7 @@ int CFriendSystem::AddDBWaitFriend(char *szMaster, char *szFriend)
 	return res;
 }
 
-void CFriendSystem::FriendAddRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
+void CFriendSystem::FriendAddRequest( CGameObject &lpObj, FHP_FRIEND_ADD_REQ* lpMsg)
 {
 	FHP_FRIEND_ADD_RESULT Result;
 	std::ZeroMemory(&Result, sizeof(Result));
@@ -711,7 +711,7 @@ int CFriendSystem::WaitFriendAdd(char *szMaster, char *szFriend)
 	return 1;
 }
 
-void CFriendSystem::WaitFriendAddRequest( int aIndex,  FHP_WAITFRIEND_ADD_REQ* lpMsg)
+void CFriendSystem::WaitFriendAddRequest( CGameObject &lpObj,  FHP_WAITFRIEND_ADD_REQ* lpMsg)
 {
 	FHP_WAITFRIEND_ADD_RESULT Result;
 	std::ZeroMemory(&Result, sizeof(Result));
@@ -755,7 +755,7 @@ void CFriendSystem::WaitFriendAddRequest( int aIndex,  FHP_WAITFRIEND_ADD_REQ* l
 	DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size, __FUNCTION__);
 }
 
-void CFriendSystem::FriendStateClientRecv( int aIndex, FHP_FRIEND_STATE_C* lpMsg)
+void CFriendSystem::FriendStateClientRecv( CGameObject &lpObj, FHP_FRIEND_STATE_C* lpMsg)
 {
 
 	char szMaster[11] = {0};
@@ -814,7 +814,7 @@ BOOL CFriendSystem::DelFriend(char *szMaster, char *szFriend)
 	return TRUE;
 }
 
-void CFriendSystem::FriendDelRequest( int aIndex, FHP_FRIEND_ADD_REQ* lpMsg)
+void CFriendSystem::FriendDelRequest( CGameObject &lpObj, FHP_FRIEND_ADD_REQ* lpMsg)
 {
 	FHP_FRIEND_DEL_RESULT Result;
 	std::ZeroMemory(&Result, sizeof(Result));
@@ -890,7 +890,7 @@ void CFriendSystem::MemoListSend(CGameObject &lpObj, WORD wNumber, char *szName)
 	sLog->outBasic("[Mail List Send] Mail Count: %d.", cnt);
 }
 
-void CFriendSystem::FriendMemoListReq( int aIndex, FHP_FRIEND_MEMO_LIST_REQ* lpMsg)
+void CFriendSystem::FriendMemoListReq( CGameObject &lpObj, FHP_FRIEND_MEMO_LIST_REQ* lpMsg)
 {
 
 	char szName[11] = {0};
@@ -912,7 +912,7 @@ int CFriendSystem::DBWriteMail(MEMO_SEND_HEADER * lpMemoSendHdr, LPBYTE Photo, B
 	return -1;
 }
 
-void CFriendSystem::FriendMemoSend( int aIndex, FHP_FRIEND_MEMO_SEND* lpMsg)
+void CFriendSystem::FriendMemoSend( CGameObject &lpObj, FHP_FRIEND_MEMO_SEND* lpMsg)
 {
 	FHP_FRIEND_MEMO_SEND_RESULT Result;
 	std::ZeroMemory(&Result, sizeof(Result));
@@ -1004,7 +1004,7 @@ BOOL CFriendSystem::DBReadMail(int iMemoId, int iGuid, MEMO_READ * lpMemoRead, L
 	return FALSE;
 }
 
-void CFriendSystem::FriendMemoReadReq( int aIndex, FHP_FRIEND_MEMO_RECV_REQ* lpMsg)
+void CFriendSystem::FriendMemoReadReq( CGameObject &lpObj, FHP_FRIEND_MEMO_RECV_REQ* lpMsg)
 {
 
 	MEMO_READ memo;
@@ -1053,7 +1053,7 @@ BOOL CFriendSystem::DBDelMail(char *szName, int iMemoId)
 	return res;
 }
 
-void CFriendSystem::FriendMemoDelReq( int aIndex, FHP_FRIEND_MEMO_DEL_REQ* lpMsg)
+void CFriendSystem::FriendMemoDelReq( CGameObject &lpObj, FHP_FRIEND_MEMO_DEL_REQ* lpMsg)
 {
 
 	FHP_FRIEND_MEMO_DEL_RESULT Result;

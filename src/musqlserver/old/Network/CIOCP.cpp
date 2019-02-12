@@ -500,7 +500,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 	return true;
 }
 
-bool CIOCP::DataSend(int aIndex, unsigned char* lpMsg, DWORD dwSize, bool Encrypt)
+bool CIOCP::DataSend(int aInt, unsigned char* lpMsg, DWORD dwSize, bool Encrypt)
 {
 	unsigned long SendBytes;
 	_PER_SOCKET_CONTEXT * lpPerSocketContext;
@@ -624,7 +624,7 @@ bool CIOCP::DataSend(int aIndex, unsigned char* lpMsg, DWORD dwSize, bool Encryp
 bool CIOCP::IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 {
 	unsigned long SendBytes;
-	int aIndex;
+	CGameObject &lpObj;
 	_PER_IO_CONTEXT * lpIoCtxt;
 
 	EnterCriticalSection(&criti);
@@ -679,7 +679,7 @@ bool CIOCP::IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 bool CIOCP::IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 {
 	unsigned long SendBytes;
-	int aIndex;
+	CGameObject &lpObj;
 	_PER_IO_CONTEXT * lpIoCtxt;
 
 	EnterCriticalSection(&criti);

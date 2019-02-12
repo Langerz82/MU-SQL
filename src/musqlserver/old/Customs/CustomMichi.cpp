@@ -53,7 +53,7 @@ void CConfigMichi::GCFireworksSend(CGameObject &lpObj, int x, int y) // OK
 }
 
 
-void CConfigMichi::UseHealingPotion(CItem * citem, int pos, int aIndex)
+void CConfigMichi::UseHealingPotion(CItem * citem, int pos, CGameObject &lpObj)
 {
 	if (this->FixHackPotions.m_CheckHealingAutoPotionHack == 1)
 	{

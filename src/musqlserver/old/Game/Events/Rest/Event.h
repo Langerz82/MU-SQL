@@ -215,7 +215,7 @@ struct PMSG_ANS_SANTACHECK
 	PBMSG_HEAD2 h;
 	char AccountID[11];
 	short gGameServerCode;
-	int aIndex;
+	CGameObject &lpObj;
 	WORD Result;
 	WORD UseCount;
 };
@@ -225,7 +225,7 @@ struct PMSG_REQ_SANTACHECK
 	PBMSG_HEAD2 h;
 	char AccountID[11];
 	short gGameServerCode;
-	int aIndex;
+	CGameObject &lpObj;
 };
 
 struct PMSG_REQ_SANTAGIFT
@@ -233,7 +233,7 @@ struct PMSG_REQ_SANTAGIFT
 	PBMSG_HEAD2 h;
 	char AccountID[11];
 	short gGameServerCode;
-	int aIndex;
+	CGameObject &lpObj;
 };
 
 struct PMSG_ANS_SANTAGIFT
@@ -241,7 +241,7 @@ struct PMSG_ANS_SANTAGIFT
 	PBMSG_HEAD2 h;
 	char AccountID[11];
 	short gGameServerCode;
-	int aIndex;
+	CGameObject &lpObj;
 	WORD Result;
 	WORD UseCount;
 };

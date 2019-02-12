@@ -14,6 +14,8 @@
 struct PMSG_REQ_REBUY_ITEM;
 struct SDHP_ANS_SHOP_REBUY_GET_ITEM;
 
+class CItem;
+
 class CShop
 {
 
@@ -31,7 +33,7 @@ public:
 
 	BYTE ShopInventoryMap[MAX_ITEM_IN_SHOP];	// 4
 	int ItemCount;	// 7C
-	CItem m_item[MAX_ITEM_IN_SHOP];	// 80
+	CItem* m_item[MAX_ITEM_IN_SHOP];	// 80
 	BYTE SendItemData[MAX_ITEM_IN_SHOP*(MAX_ITEM_INFO+1)];	// 5300
 	int SendItemDataLen;	// 56C0
 };

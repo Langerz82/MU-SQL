@@ -2740,26 +2740,26 @@ int  CBloodCastle::GetAliveUserTotalEXP(int iBridgeIndex)
 
 
 
-void CBloodCastle::SearchUserDeleteQuestItem(int iIndex)
+void CBloodCastle::SearchUserDeleteQuestItem(CGameObject &Obj)
 {
-	if ( gObjIsConnected(iIndex) == FALSE )
+	if ( gObjIsConnected(Obj) == FALSE )
 	{
 		return;
 	}
 
 	for ( int x=0;x<INVENTORY_SIZE;x++)
 	{
-		if ( gGameObjects[iIndex]->pInventory[x]->IsItem() == TRUE )
+		if (Obj.pInventory[x]->IsItem() == TRUE )
 		{
-			if ( gGameObjects[iIndex]->pInventory[x]->m_Type == ITEMGET(13,19) )
+			if (Obj.pInventory[x]->m_Type == ITEMGET(13,19) )
 			{
-				int iLEVEL = gGameObjects[iIndex]->pInventory[x]->m_Level;
+				int iLEVEL = Obj.pInventory[x]->m_Level;
 
 				if ( BC_WEAPON_LEVEL_RANGE(iLEVEL) != FALSE )
 				{
-					::gObjInventoryItemSet(iIndex, x, -1);
-					::gObjInventoryDeleteItem(iIndex, x);
-					::gGameProtocol.GCInventoryItemDeleteSend(iIndex, x, TRUE);
+					::gObjInventoryItemSet(Obj, x, -1);
+					::gObjInventoryDeleteItem(Obj, x);
+					::gGameProtocol.GCInventoryItemDeleteSend(Obj, x, TRUE);
 
 				}
 			}
@@ -4417,7 +4417,7 @@ bool CBloodCastle::ChangeUserIndex(int OldIndex, int NewIndex, int iBridgeIndex)
 	return false;
 }
 
-void CBloodCastle::SendNoticeMessageToSpecificUser(int iBridgeIndex, int aIndex, int iPlayState)
+void CBloodCastle::SendNoticeMessageToSpecificUser(int iBridgeIndex, CGameObject &lpObj, int iPlayState)
 {
 	if ( BC_BRIDGE_RANGE(iBridgeIndex) == FALSE )
 	{

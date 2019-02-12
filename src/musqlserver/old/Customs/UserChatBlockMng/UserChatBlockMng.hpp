@@ -166,7 +166,7 @@ public:
 		}
 		if (!targetList->isFreeName(tmpSender->Name)) 
 		{
-			MsgOutput(SenderIndex, "Failure, %s add you to black list", gGameObjects[TargetIndex]->Name);
+			MsgOutput(*tmpSender, "Failure, %s add you to black list", gGameObjects[TargetIndex]->Name);
 			return false;
 		}
 		return true;

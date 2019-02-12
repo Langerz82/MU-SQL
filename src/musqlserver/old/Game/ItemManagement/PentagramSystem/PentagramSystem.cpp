@@ -2369,7 +2369,7 @@ void CPentagramSystem::DBANS_GetPentagramJewel(LPBYTE lpRecv)
 {
 	PMSG_ANS_PENTAGRAMJEWEL * lpMsg = (PMSG_ANS_PENTAGRAMJEWEL*)lpRecv;
 
-	int aIndex = lpMsg->iUserIndex;
+	CGameObject &lpObj = lpMsg->iUserIndex;
 
 	if (!ObjectMaxRange(aIndex))
 	{

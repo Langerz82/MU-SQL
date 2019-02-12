@@ -251,7 +251,7 @@ void CMineSystem::GiveRewardItemToUPTUser(CGameObject &lpObj, WORD wTwinkleType,
 	}
 }
 
-void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, int aIndex)
+void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, CGameObject &lpObj)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -396,7 +396,7 @@ void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, int aIndex)
 	}
 }
 
-void CMineSystem::RewardMineTwinkle(PMSG_REQ_MINETWINKLE_REWARD *lpMsg, int aIndex)
+void CMineSystem::RewardMineTwinkle(PMSG_REQ_MINETWINKLE_REWARD *lpMsg, CGameObject &lpObj)
 {
 	int iRewardResult = 0;
 
@@ -457,7 +457,7 @@ void CMineSystem::RewardMineTwinkle(PMSG_REQ_MINETWINKLE_REWARD *lpMsg, int aInd
 	this->ResetTwinkleInfo(aIndex, lpMsg->wTwinkleIndex, 0);
 }
 
-void CMineSystem::FailMineTwinkle(PMSG_ANS_MINETWINKLE_END_ANIMATION *lpMsg, int aIndex, bool bError)
+void CMineSystem::FailMineTwinkle(PMSG_ANS_MINETWINKLE_END_ANIMATION *lpMsg, CGameObject &lpObj, bool bError)
 {
 	std::map<int, _ST_MINESYSTEM_TWINKLE>::iterator it = this->m_mapTwinkle.find(lpMsg->wTwinkleIndex);
 

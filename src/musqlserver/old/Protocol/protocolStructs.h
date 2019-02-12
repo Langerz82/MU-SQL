@@ -9,10 +9,12 @@
 #include "StdAfx.h"
 #include "GensSystemProtocol.h"
 #include "CUserData.h"
+#include "ItemManagement/Item.h"
 #include "generalStructs.h"
 
 #include <string>
 #include <map>
+
 
 // Forward Declarations.
 
@@ -1441,7 +1443,7 @@ struct STR_DEFAULTCLASSTYPE
 	float MaxMana;	// 20
 	float VitalityToLife;	// 24
 	float EnergyToMana;	// 28
-	CItem Equipment[MAX_PLAYER_EQUIPMENT + 2];	// 2C
+	CItem* Equipment[MAX_PLAYER_EQUIPMENT + 2];	// 2C
 	WORD Leadership;	// 9CC
 };
 
@@ -3627,7 +3629,7 @@ typedef struct MUBOT_SETTINGS_REQ_SAVE {
 
 struct MUBOT_SETTINGS_SEND {
 	PWMSG_HEAD h;
-	int aIndex;
+	CGameObject &lpObj;
 	char szName[11];
 	BYTE btDATA[512];
 };
@@ -4569,7 +4571,7 @@ struct PMSG_ANS_SANTACHECK {
 	PBMSG_HEAD2 h;
 	char AccountID[11];
 	short gGameServerCode;
-	int aIndex;
+	CGameObject &lpObj;
 	WORD Result;
 	WORD UseCount;
 };
@@ -4578,7 +4580,7 @@ struct PMSG_ANS_SANTAGIFT {
 	PBMSG_HEAD2 h;
 	char AccountID[11];
 	short gGameServerCode;
-	int aIndex;
+	CGameObject &lpObj;
 	WORD Result;
 	WORD UseCount;
 };
@@ -6762,14 +6764,14 @@ struct PMSG_REQ_SANTACHECK {
 	PBMSG_HEAD2 h;
 	char AccountID[11];
 	short gGameServerCode;
-	int aIndex;
+	CGameObject &lpObj;
 };
 
 struct PMSG_REQ_SANTAGIFT {
 	PBMSG_HEAD2 h;
 	char AccountID[11];
 	short gGameServerCode;
-	int aIndex;
+	CGameObject &lpObj;
 };
 
 struct PMSG_REQ_SAVE_DSF_PARTYPOINT {
@@ -8101,7 +8103,7 @@ struct SDHP_ITEMCREATE {
 	BYTE Op2;
 	BYTE Op3;
 	BYTE NewOption;
-	int aIndex;
+	CGameObject &lpObj;
 	int lootindex;
 	BYTE SetOption;
 	time_t lDuration;
@@ -8122,7 +8124,7 @@ struct SDHP_ITEMCREATERECV {
 	BYTE Op2;
 	BYTE Op3;
 	BYTE NewOption;
-	int aIndex;
+	CGameObject &lpObj;
 	int lootindex;
 	BYTE SetOption;
 	time_t lDuration;
@@ -8237,7 +8239,7 @@ struct SDHP_SAVE_PETITEM_INFO {
 
 struct SDHP_SKILLKEYDATA_SEND {
 	PBMSG_HEAD2 h;
-	int aIndex;
+	CGameObject &lpObj;
 	char Name[11];
 	BYTE SkillKeyBuffer[20];
 	BYTE GameOption;

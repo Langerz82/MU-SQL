@@ -85,7 +85,7 @@ void TNotice::AllSendServerMsg(LPSTR chatmsg)
 	}
 }
 
-void TNotice::GCServerMsgStringSend(LPSTR szMsg, int aIndex, BYTE type)
+void TNotice::GCServerMsgStringSend(LPSTR szMsg, CGameObject &lpObj, BYTE type)
 {
 	PMSG_NOTICE pNotice;
 	

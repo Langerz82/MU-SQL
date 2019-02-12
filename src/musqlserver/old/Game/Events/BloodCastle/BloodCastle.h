@@ -163,7 +163,7 @@ public:
 	void SendRewardScore(int iIndex, int iSCORE, int iLeftTime, int iAlivePartyCount);
 	void GiveReward_Win(int iIndex, int iBridgeIndex);
 	void GiveReward_Fail(int iBridgeIndex);
-	void SearchUserDeleteQuestItem(int iIndex);
+	void SearchUserDeleteQuestItem(CGameObject &Obj);
 	void SearchUserDropQuestItem(CGameObject &Obj);
 	void SetUserState(int iIndex, int iState);
 	void SendCastleEntranceBlockInfo(int iBridgeIndex, bool bLive);
@@ -245,7 +245,7 @@ public:
 	bool IsEventEnable() { return this->m_bBC_EVENT_ENABLE; }
 
 	bool ChangeUserIndex(int OldIndex, int NewIndex, int iBridgeIndex);
-	void SendNoticeMessageToSpecificUser(int iBridgeIndex, int aIndex, int iPlayState);
+	void SendNoticeMessageToSpecificUser(int iBridgeIndex, CGameObject &lpObj, int iPlayState);
 	bool SetCastleBlockInfo(int iBridgeIndex, int iCastleBlockInfo);
 	int  GetCastleBlockInfo(int iBridgeIndex);
 	int  GetPlayUserCountRightNow(int iBridgeIndex);

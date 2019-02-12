@@ -942,7 +942,7 @@ void CDoppelGanger::ProcDoppelgangerState_End(ULONGLONG i64CurTime)
 		{
 			for (int index = 0; index < MAX_USER_IN_PARTY; index++)
 			{
-				int aIndex = gParty.m_PartyS[nPartyNumber].Number[index];
+				CGameObject &lpObj = gParty.m_PartyS[nPartyNumber].Number[index];
 
 				if (aIndex >= 0)
 				{
@@ -960,7 +960,7 @@ void CDoppelGanger::ProcDoppelgangerState_End(ULONGLONG i64CurTime)
 		{
 			for (int index = 0; index < MAX_USER_IN_PARTY; index++)
 			{
-				int aIndex = gParty.m_PartyS[nPartyNumber].Number[index];
+				CGameObject &lpObj = gParty.m_PartyS[nPartyNumber].Number[index];
 
 				if (aIndex >= 0 && lpObj.Connected < PLAYER_PLAYING)
 				{

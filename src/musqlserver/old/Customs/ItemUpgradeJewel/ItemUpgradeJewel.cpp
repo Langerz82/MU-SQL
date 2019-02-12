@@ -105,16 +105,16 @@ void ItemUpgradeJewels::ProcInsert(CGameObject &lpUser, int JewelPos, int Target
 
 	if (lpJewel == NULL)
 	{
-		gGameProtocol.GCReFillSend(lpUser.m_Index, (WORD)lpUser.Life, 0xFD, 1, lpUser.iShield);
+		gGameProtocol.GCReFillSend(lpUser, (WORD)lpUser.Life, 0xFD, 1, lpUser.iShield);
 		return;
 	}
 
 	if (this->ProcUpgrade(lpUser, JewelPos, TargetPos, lpJewel))
 	{
-		gObjInventoryItemSet(lpUser.m_Index, JewelPos, -1);
+		gObjInventoryItemSet(lpUser, JewelPos, -1);
 		lpUser.pInventory[JewelPos].Clear();
-		gGameProtocol.GCInventoryItemOneSend(lpUser.m_Index, TargetPos);
-		gGameProtocol.GCInventoryItemDeleteSend(lpUser.m_Index, JewelPos, 1);
+		gGameProtocol.GCInventoryItemOneSend(lpUser, TargetPos);
+		gGameProtocol.GCInventoryItemDeleteSend(lpUser, JewelPos, 1);
 	}
 	else
 	{
@@ -134,14 +134,14 @@ bool ItemUpgradeJewels::ProcUpgrade(CGameObject &lpUser, int JewelPos, int Targe
 		return false;
 	}
 
-	if (!lpUser->pInventory[JewelPos].IsItem()
-		|| !lpUser->pInventory[TargetPos].IsItem())
+	if (!lpUser.pInventory[JewelPos].IsItem()
+		|| !lpUser.pInventory[TargetPos].IsItem())
 	{
 		return false;
 	}
 
-	int JewelCode = lpUser->pInventory[JewelPos].m_Type;
-	int TargetCode = lpUser->pInventory[TargetPos].m_Type;
+	int JewelCode = lpUser.pInventory[JewelPos].m_Type;
+	int TargetCode = lpUser.pInventory[TargetPos].m_Type;
 
 	if (JewelCode == ITEMGET(14, 13) && TargetCode == ITEMGET(0, 41))
 	{
@@ -157,7 +157,7 @@ bool ItemUpgradeJewels::ProcUpgrade(CGameObject &lpUser, int JewelPos, int Targe
 
 	if (JewelCode == ITEMGET(14, 13) && TargetCode == ITEMGET(13, 37))
 	{
-		CItem* ItemFenrir = &lpUser->pInventory[TargetPos];
+		CItem* ItemFenrir = &lpUser.pInventory[TargetPos];
 
 		if (ItemFenrir->m_Durability >= 255)
 		{
@@ -177,17 +177,17 @@ bool ItemUpgradeJewels::ProcUpgrade(CGameObject &lpUser, int JewelPos, int Targe
 				ItemFenrir->m_Durability += iAddDur;
 			}
 
-			MsgOutput(lpUser->m_Index, "[FENRIR REPAIR] Success - %d/255", int(ItemFenrir->m_Durability));
+			MsgOutput(lpUser, "[FENRIR REPAIR] Success - %d/255", int(ItemFenrir->m_Durability));
 		}
 		else
 		{
-			MsgOutput(lpUser->m_Index, "[FENRIR REPAIR] Failed.");
+			MsgOutput(lpUser, "[FENRIR REPAIR] Failed.");
 		}
 
 		return true;
 	}
 
-	CItem* ItemTarget = &lpUser->pInventory[TargetPos];
+	CItem* ItemTarget = &lpUser.pInventory[TargetPos];
 
 	if (g_LuckyItemManager.IsLuckyItemEquipment(ItemTarget->m_Type) == TRUE)
 	{
@@ -444,24 +444,24 @@ bool ItemUpgradeJewels::ProcUpgrade(CGameObject &lpUser, int JewelPos, int Targe
 		if (rand() % 10000 < Rate)
 		{
 			g_kJewelOfHarmonySystem._MakeOption(ItemTarget, iItemOption, iItemOptionLevel);
-			gGameProtocol.GCServerMsgStringSend("Adding Jewel Of Harmony Succes!", lpUser->m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend("Adding Jewel Of Harmony Succes!", lpUser.m_Index, 1);
 		}
 		else
 		{
-			gGameProtocol.GCServerMsgStringSend("Adding Jewel Of Harmony Failed", lpUser->m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend("Adding Jewel Of Harmony Failed", lpUser.m_Index, 1);
 		}
 	}
 
-	gObjMakePreviewCharSet(lpUser->m_Index);
+	gObjMakePreviewCharSet(lpUser);
 
-	float levelitemdur = (float)ItemGetDurability(lpUser->pInventory[TargetPos].m_Type,
-		lpUser->pInventory[TargetPos].m_Level,lpUser->pInventory[TargetPos].IsExtItem(),lpUser->pInventory[TargetPos].IsSetItem());
+	float levelitemdur = (float)ItemGetDurability(lpUser.pInventory[TargetPos].m_Type,
+		lpUser.pInventory[TargetPos].m_Level,lpUser.pInventory[TargetPos].IsExtItem(),lpUser.pInventory[TargetPos].IsSetItem());
 
-	lpUser->pInventory[TargetPos].m_Durability = levelitemdur * lpUser->pInventory[TargetPos].m_Durability / lpUser->pInventory[TargetPos].m_BaseDurability;
+	lpUser.pInventory[TargetPos].m_Durability = levelitemdur * lpUser.pInventory[TargetPos].m_Durability / lpUser.pInventory[TargetPos].m_BaseDurability;
 
-	lpUser->pInventory[TargetPos].Convert(lpUser->pInventory[TargetPos].m_Type,lpUser->pInventory[TargetPos].m_Option1,
-		lpUser->pInventory[TargetPos].m_Option2,lpUser->pInventory[TargetPos].m_Option3,lpUser->pInventory[TargetPos].m_NewOption,
-		lpUser->pInventory[TargetPos].m_SetOption,lpUser->pInventory[TargetPos].m_ItemOptionEx, 0, -1, 0,CURRENT_DB_VERSION);
+	lpUser.pInventory[TargetPos].Convert(lpUser.pInventory[TargetPos].m_Type,lpUser.pInventory[TargetPos].m_Option1,
+		lpUser.pInventory[TargetPos].m_Option2,lpUser.pInventory[TargetPos].m_Option3,lpUser.pInventory[TargetPos].m_NewOption,
+		lpUser.pInventory[TargetPos].m_SetOption,lpUser.pInventory[TargetPos].m_ItemOptionEx, 0, -1, 0,CURRENT_DB_VERSION);
 
 	return true;
 }

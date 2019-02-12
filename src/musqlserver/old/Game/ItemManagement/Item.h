@@ -12,6 +12,7 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
+#include "CGameObject.h"
 
 #define MAX_TYPE_PLAYER 8 
 #define MAX_ITEM_LEVEL	15
@@ -269,6 +270,7 @@ extern  ITEM_ATTRIBUTE ItemAttribute[MAX_ITEMS];
 
 typedef ITEM_ATTRIBUTE* LPITEM_ATTRIBUTE;
 
+class CGameObject;
 
 class CItem
 {
@@ -312,13 +314,13 @@ public:
 	int IsFenrirIllusion();				//Golden Fenrir
 	int IsFenrirAddExp();
 	int SimpleDurabilityDown(int iDur);
-	int DurabilityDown(int dur, int aIndex);
-	int DurabilityDown2(int dur, int aIndex);
-	int NormalWeaponDurabilityDown(int defence, int aIndex);
-	int BowWeaponDurabilityDown(int defence, int aIndex);
-	int StaffWeaponDurabilityDown(int defence, int aIndex);
-	int LuckyItemArmorDurabilityDown(int damagemin, int aIndex);
-	int ArmorDurabilityDown(int damagemin, int aIndex);
+	int DurabilityDown(int dur, CGameObject &lpObj);
+	int DurabilityDown2(int dur, CGameObject &lpObj);
+	int NormalWeaponDurabilityDown(int defence, CGameObject &lpObj);
+	int BowWeaponDurabilityDown(int defence, CGameObject &lpObj);
+	int StaffWeaponDurabilityDown(int defence, CGameObject &lpObj);
+	int LuckyItemArmorDurabilityDown(int damagemin, CGameObject &lpObj);
+	int ArmorDurabilityDown(int damagemin, CGameObject &lpObj);
 	int CheckDurabilityState();
 	int IsCurseSpell();
 	bool IsMuunItemPeriodExpire();
@@ -483,7 +485,7 @@ int IsJumpingEventItem(int iItemCode);
 int IsExpensiveItem(CItem * item);
 int GetItemKindA(int item_num);
 int GetItemKindB(int item_num);
-bool CheckCanWearResetItem(int aIndex, int itemid);
+bool CheckCanWearResetItem(CGameObject &lpObj, int itemid);
 bool IsBloodAngelItem(int item_num);
 int SafeGetItem(int index);
 

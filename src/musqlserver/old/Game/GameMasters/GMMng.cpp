@@ -270,14 +270,14 @@ void CGMMng::ManagerInit()
 	}
 }
 
-int CGMMng::ManagerAdd(char* name, int aIndex)
+int CGMMng::ManagerAdd(char* name, CGameObject &lpObj)
 {
 	for (int n = 0; n < MAX_GAME_MASTER; n++)
 	{
 		if (this->ManagerIndex[n] == -1)
 		{
 			strcpy(this->szManagerName[n], name);
-			this->ManagerIndex[n] = aIndex;
+			this->ManagerIndex[n] = lpObj.m_Index;
 			return n;
 		}
 	}
@@ -373,7 +373,7 @@ CGameObject CGMMng::GetUserInfo(CGameObject &lpUser, LPSTR UserName)
 		}
 	}
 	// ----
-	MsgOutput(lpUser->m_Index, "Target user not found");
+	MsgOutput(lpUser.m_Index, "Target user not found");
 	return NULL;
 }
 // -------------------------------------------------------------------------------
@@ -409,7 +409,7 @@ void PostSend(CGameObject &lpObj, char * szMessage)
 	gGameProtocol.DataSendAll((LPBYTE)&pMsg, sizeof(pMsg));
 }
 
-int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
+int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, CGameObject &lpObj2)
 {
 	char seps[2] = " ";
 	char * szCmdToken;
@@ -964,13 +964,14 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex)
 				{
 					if (lpObj.m_PlayerData->lpGuild->BattleGroundIndex >= 0 && lpObj.m_PlayerData->lpGuild->WarType == 1)
 					{
-						::gObjAddMsgSendDelay(&gGameObjects[aIndex], 7, aIndex, 10000, 0);
+						::gObjAddMsgSendDelay(lpObj2, 7, lpObj2.m_Index, 10000, 0);
 
 						char szTemp[100];
 
+						_GUILD_INFO_STRUCT* guild = lpObj.m_PlayerData->lpGuild;
 						wsprintf(szTemp, Lang.GetText(0, 61), lpObj.m_PlayerData->lpGuild->Names[0]);
-						gGameProtocol.GCServerMsgStringSendGuild(lpObj.m_PlayerData->lpGuild, szTemp, 1);
-						gGameProtocol.GCServerMsgStringSendGuild(lpObj.m_PlayerData->lpGuild->lpTargetGuildNode, szTemp, 1);
+						gGameProtocol.GCServerMsgStringSendGuild(*guild, szTemp, 1);
+						gGameProtocol.GCServerMsgStringSendGuild(*guild, szTemp, 1);
 					}
 				}
 			}

@@ -71,9 +71,9 @@ public:
 
 	void LoadConfig(LPSTR file);
 	void Init();
-	int AddUser(int index);
-	void DelUser(int index);
-	void UserQuit(int index);
+	int AddUser(CGameObject &lpObj);
+	void DelUser(CGameObject &lpObj);
+	void UserQuit(CGameObject &lpObj);
 	void Run();
 	void UserDie(CGameObject &lpObj,int aTargetIndex);
 	void RewardUser(CGameObject &lpObj);

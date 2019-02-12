@@ -454,7 +454,7 @@ public:
 	void GCServerMsgStringSendEx(CGameObject &lpObj, BYTE type, LPSTR szMsg, ...);
 	void GCServerMsgStringSendAll(LPSTR  szMsg, BYTE type);
 	void GCServerMsgStringSendAllEx(BYTE type, LPSTR szMsg, ...);
-	void GCServerMsgStringSendGuild(GUILD_INFO_STRUCT &lpNode, char* szMsg, BYTE type);
+	void GCServerMsgStringSendGuild(_GUILD_INFO_STRUCT &lpNode, char* szMsg, BYTE type);
 	void GCEventStateSend(CGameObject &lpObj, BYTE state, BYTE event);
 	void GCMapEventStateSend(int map, BYTE state, BYTE event);
 	void CGChatWhisperRecv(PMSG_CHATDATA_WHISPER* lpMsg, CGameObject &lpObj);
@@ -556,8 +556,8 @@ public:
 	void CGMagicAttack(PMSG_MAGICATTACK* lpMsg, CGameObject &lpObj);
 	void CGRageAttack(LPBYTE lpRecv, CGameObject &lpObj);
 	void CGRageAttackRange(PMSG_RAGE_ATTACK_RANGE* lpMsg, CGameObject &lpObj);
-	void GCMagicAttackNumberSend(CGameObject &lpObj, WORD MagicNumber, int usernumber, BYTE skillsuccess);
-	void GCMonkMagicAttack(CGameObject &lpObj, WORD MagicNumber, int usernumber,  BYTE skillsuccess);
+	void GCMagicAttackNumberSend(CGameObject &lpObj, WORD MagicNumber, CGameObject &lpObj2, BYTE skillsuccess);
+	void GCMonkMagicAttack(CGameObject &lpObj, WORD MagicNumber, CGameObject &lpObj2,  BYTE skillsuccess);
 	void GCMagicCancelSend(CGameObject &lpObj, WORD MagicNumber);
 	void GCMagicCancel(PMSG_MAGICCANCEL* lpMsg, CGameObject &lpObj);
 	void GCUseEffectItem(CGameObject &lpObj, int iEffectUseOption, int iOptionType, int iEffectType, int iLeftTime);

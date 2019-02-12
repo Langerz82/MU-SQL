@@ -3494,7 +3494,7 @@ void CArcaBattle::CheatGDReqMarkRegSet(int iIndex, DWORD dwMarkCnt)
 
 void CArcaBattle::GuildMemberAssignStatus(CGameObject lpObj, int iGuildStatus)
 {
-	int aIndex = lpObj.m_Index;
+	CGameObject &lpObj = lpObj.m_Index;
 
 	if (iGuildStatus == 1)
 	{

@@ -100,9 +100,9 @@ public:
 	virtual ~CGuildClass();
 	
 	void Init();
-	GUILD_INFO_STRUCT &AddGuild(int number, LPSTR guildname, LPBYTE mark, LPSTR mastername,  int score);
-	GUILD_INFO_STRUCT &AddMember(GUILD_INFO_STRUCT &pNode, LPSTR player_name, int aIndex, int totalcount, int pServer);
-	GUILD_INFO_STRUCT &AddMember(LPSTR guild_name, LPSTR player_name, int aIndex, int totalcount, int iGuildStatus,  int pServer);
+	GUILD_INFO_STRUCT* AddGuild(int number, LPSTR guildname, LPBYTE mark, LPSTR mastername,  int score);
+	GUILD_INFO_STRUCT* AddMember(GUILD_INFO_STRUCT* pNode, char* player_name, CGameObject &lpObj, int totalcount, int pServer);
+	GUILD_INFO_STRUCT* AddMember(LPSTR guild_name, LPSTR player_name, CGameObject &lpObj, int totalcount, int iGuildStatus,  int pServer);
 	int GetGuildMemberStatus(LPSTR szGuildName, LPSTR szMemberName);
 	int SetGuildMemberStatus(LPSTR szGuildName, LPSTR szMemberName, int iGuildStatus);
 	int GetGuildType(LPSTR szGuildName);
@@ -114,27 +114,22 @@ public:
 	void AllDelete();
 	void Print();
 	void PrintGuild(LPSTR guildname);
-	int ConnectUser(GUILD_INFO_STRUCT &lpNode, LPSTR guild_name, LPSTR player_name,  int aIndex, int pServer);
+	int ConnectUser(GUILD_INFO_STRUCT &lpNode, LPSTR guild_name, LPSTR player_name,  CGameObject &lpObj, int pServer);
 	int SetServer(LPSTR guild_name, LPSTR player_name, int pServer);
-	GUILD_INFO_STRUCT &SearchGuild(LPSTR guildname);
-	GUILD_INFO_STRUCT &SearchGuild_Number(int number);
-	GUILD_INFO_STRUCT &SearchGuild_NumberAndId(int number, LPSTR name);
+	GUILD_INFO_STRUCT* SearchGuild(LPSTR guildname);
+	GUILD_INFO_STRUCT* SearchGuild_Number(int number);
+	GUILD_INFO_STRUCT* SearchGuild_NumberAndId(int number, LPSTR name);
 	int CloseMember(LPSTR guild_name, LPSTR player_name);
 
 private:
 
-	GUILD_INFO_STRUCT &head;	// 4
-	GUILD_INFO_STRUCT &tail;	// 8
-	std::map<std::string,GUILD_INFO_STRUCT *> m_GuildMap;	// C
-	std::map<int,GUILD_INFO_STRUCT *> m_GuildNumberMap;	// 1C
+	GUILD_INFO_STRUCT* head;	// 4
+	GUILD_INFO_STRUCT* tail;	// 8
+	std::map<std::string,GUILD_INFO_STRUCT*> m_GuildMap;	// C
+	std::map<int,GUILD_INFO_STRUCT*> m_GuildNumberMap;	// 1C
 
 };
 
 BOOL gGuildNoticeStringCheck(LPSTR notice);
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

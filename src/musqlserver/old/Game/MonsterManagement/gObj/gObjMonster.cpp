@@ -1283,7 +1283,7 @@ int gObjGuardSearchEnemy(CGameObject &lpObj)
 
 
 
-void gObjMonsterStateProc(CGameObject &lpObj, int aMsgCode, int aIndex, int aMsgSubCode)
+void gObjMonsterStateProc(CGameObject &lpObj, int aMsgCode, CGameObject &lpObj, int aMsgSubCode)
 {
 	if ( lpObj.m_iMonsterBattleDelay > 0 )
 	{
@@ -2124,7 +2124,7 @@ void gObjUseMonsterSpecialAbillity(CGameObject &lpMonsterObj)
 	}
 }
 
-void gObjMonsterBeattackRecv(BYTE * lpRecv, int aIndex)
+void gObjMonsterBeattackRecv(BYTE * lpRecv, CGameObject &lpObj)
 {
 	PMSG_BEATTACK_COUNT * lpCount = (PMSG_BEATTACK_COUNT *)lpRecv;
 	int lOfs = sizeof(PMSG_BEATTACK_COUNT);

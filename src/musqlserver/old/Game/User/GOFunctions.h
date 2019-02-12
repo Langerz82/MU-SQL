@@ -299,7 +299,7 @@ void gObjUseBlessAndSoulPotion(CGameObject &lpObj, int iItemLevel);
 void gObjWeaponDurDownInCastle(CGameObject &lpObj, CGameObject &lpTargetObj, int iDecValue);
 void gObjReady4Relife(CGameObject &lpObj);
 void gObjCheckTimeOutValue(CGameObject &lpObj, DWORD& rNowTick);
-void MsgOutput(int aIndex, char* msg, ...);
+void MsgOutput(CGameObject &lpObj, char* msg, ...);
 void gProcessAutoRecuperation(CGameObject &lpObj);
 void gObjShieldAutoRefill(CGameObject &lpObj);
 int gObjCheckOverlapItemUsingDur(int iUserIndex, int iMaxOverlapped, int iItemType, int iItemLevel);

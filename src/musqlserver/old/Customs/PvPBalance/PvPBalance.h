@@ -1,6 +1,9 @@
-////////////////////////////////////////////////////////////////////////////////
-// PvPBalance.h
+#include _MU_PVPBALANCE_H_
+#define _MU_PVPBALANCE_H_
+
 #pragma once
+
+#include "StdAfx.h"
 
 #define ENABLE_CUSTOM_PVPBALANCE 1
 #define PVPBALANCE_DEBUG 0
@@ -30,9 +33,9 @@ public:
 
 	PvPBalanceInfo* getInfo(BYTE SourceClassType, BYTE TargetClassType);
 
-	void modifyDamage(short UserIndex, short TargetIndex, int& Value);
-	void modifyAttackRate(short UserIndex, short TargetIndex, float& Value);
-	void modifyDefenseRate(short UserIndex, short TargetIndex, float& Value);
+	void modifyDamage(CGameObject &objSource, CGameObject &objTarget, int& Value);
+	void modifyAttackRate(CGameObject &objSource, CGameObject &objTarget, float& Value);
+	void modifyDefenseRate(CGameObject &objSource, CGameObject &objTarget, float& Value);
 
 private:
 	bool m_isLoaded;
@@ -41,7 +44,4 @@ private:
 
 extern PvPBalance g_PvPBalance;
 
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-
+#endif

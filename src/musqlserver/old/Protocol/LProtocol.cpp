@@ -149,7 +149,7 @@ void CConServ::LoadServerList(LPSTR szFile)
 	}
 
 	SMDToken Token;
-	int aIndex;
+	CGameObject &lpObj;
 	ServerList m_Server;
 	g_CServerList.clear();
 	g_ConnectedServers.clear();
@@ -208,7 +208,7 @@ void CConServ::LoadNewsFile(LPSTR szFile)
 			return;
 		 }
 		SMDToken Token;
-		int aIndex = 0;
+		CGameObject &lpObj = 0;
 		int iIndex = 0;
 		// Date RGB
 		BYTE dateR = 0;

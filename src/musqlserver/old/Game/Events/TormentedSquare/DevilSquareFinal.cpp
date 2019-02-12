@@ -833,7 +833,7 @@ void CDevilSquareFinal::Proc_DSFState_None(int nCurTime)
 
 					for (int j = 0; j < 20; j++)
 					{
-						int aIndex = this->m_UserData[j].m_nIndex;
+						CGameObject &lpObj = this->m_UserData[j].m_nIndex;
 
 						if (aIndex != -1 &&
 							lpObj.Connected > PLAYER_LOGGED &&
@@ -2884,7 +2884,7 @@ void CDevilSquareFinal::EndUserMove()
 			gGameObjects[this->m_UserData[i]->m_nIndex]->Connected > PLAYER_LOGGED &&
 			gGameObjects[this->m_UserData[i]->m_nIndex]->MapNumber == MAP_INDEX_DEVILSQUARE_FINAL)
 		{
-			int aIndex = this->m_UserData[i].m_nIndex;
+			CGameObject &lpObj = this->m_UserData[i].m_nIndex;
 			lpObj.m_nDSFIndex = -1;
 			gObjMoveGate(aIndex, 333);
 			lpObj.m_Change = -1;

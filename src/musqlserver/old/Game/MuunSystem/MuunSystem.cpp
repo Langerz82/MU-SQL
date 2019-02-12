@@ -1292,7 +1292,7 @@ void CMuunSystem::GDReqLoadMuunInvenItem(CGameObject &obj)
 
 void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 {
-	int aIndex = lpMsg->aIndex;
+	CGameObject &lpObj = lpMsg->aIndex;
 	char szId[11];
 	szId[MAX_ACCOUNT_LEN] = 0;
 	memcpy(szId, lpObj.AccountID, MAX_ACCOUNT_LEN);
@@ -1745,7 +1745,7 @@ int CMuunSystem::GetMuunRankOfMuunInfo(int iItemNum)
 	return pCMuunInfo->GetMuunRank();
 }
 
-void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int aIndex)
+void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, CGameObject &lpObj)
 {
 	int iItemUseType = lpMsg->btItemUseType;
 
@@ -2606,7 +2606,7 @@ void CMuunSystem::CalCharacterStat(CGameObject &lpObj, CMuunInfo *pCMuunInfo)
 	}
 }
 
-void CMuunSystem::CalCharacterStat( int aIndex, int iOptType)
+void CMuunSystem::CalCharacterStat( CGameObject &lpObj, int iOptType)
 {
 	if (iOptType == 7 || iOptType == 1)
 	{
@@ -2941,7 +2941,7 @@ bool CMuunSystem::LoadScriptMuunExchange(char *lpszFileName)
 	return true;
 }
 
-void CMuunSystem::CGMuunExchangeItem(PMSG_REQ_MUUN_EXCHANGE *lpMsg, int aIndex)
+void CMuunSystem::CGMuunExchangeItem(PMSG_REQ_MUUN_EXCHANGE *lpMsg, CGameObject &lpObj)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -3393,7 +3393,7 @@ void CMuunSystem::ReSetTarget(CGameObject &lpObj, int aTargetIndex)
 	}
 }
 
-void CMuunSystem::CGReqRideSelect(PMSG_MUUN_RIDE_SELECT *lpMsg, int aIndex)
+void CMuunSystem::CGReqRideSelect(PMSG_MUUN_RIDE_SELECT *lpMsg, CGameObject &lpObj)
 {
 	if(!ObjectMaxRange(aIndex))
 		return;

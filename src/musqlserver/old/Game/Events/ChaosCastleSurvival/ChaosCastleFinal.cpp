@@ -2971,7 +2971,7 @@ void ChaosCastleFinal::DG_Ans_CCF_Rank(PMSG_ANS_CCF_RANK * lpMsg)
 	}
 }
 
-void ChaosCastleFinal::Send_RankingInfo(BYTE byCCFType, int aIndex)
+void ChaosCastleFinal::Send_RankingInfo(BYTE byCCFType, CGameObject &lpObj)
 {
 	_stPMSG_CCF_RANK_INFO pMsg;
 	_CCFRankingInfo pRankInfo;

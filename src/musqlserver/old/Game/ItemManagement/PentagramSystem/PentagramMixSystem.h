@@ -27,7 +27,7 @@ public:
 	int CheckLevelCondition(CItem *pItem, WORD pLevel, BYTE pOpt1, BYTE pOpt2, BYTE pOpt3, BYTE pSetOpt, BYTE pExOpt);
 	void LogPentagramItem(CGameObject lpObj, char *sLogType);
 
-	void CGPentagramJewelRefineRecv(PMSG_PENTAGRAM_JEWEL_REFINE_RECV* lpMsg, int aIndex); // OK
+	void CGPentagramJewelRefineRecv(PMSG_PENTAGRAM_JEWEL_REFINE_RECV* lpMsg, CGameObject &lpObj); // OK
 	BOOL PentagramJewelMix(CGameObject &lpObj);
 	bool IsErrtelType(int ItemCode);
 public:

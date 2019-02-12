@@ -78,7 +78,7 @@ public:
 
 class CAttackQueue{
 private:
-	int aIndex;
+	CGameObject &lpObj;
 	std::queue<CAttackMsg*> m_Queue;
 	
 

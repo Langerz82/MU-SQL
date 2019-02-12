@@ -119,7 +119,7 @@ void EGResultRegEventChip(PMSG_ANS_REGISTER_EVENTCHIP * aRecv)
 {
 	PMSG_REGEVENTCHIP_RESULT Result;
 	CGameObject lpObj;
-	int aIndex;
+	CGameObject &lpObj;
 
 	PHeadSetB((LPBYTE)&Result, 0x95, sizeof(Result));
 	lpObj = &gGameObjects[aRecv->iINDEX];
@@ -154,7 +154,7 @@ void EGResultRegEventChip(PMSG_ANS_REGISTER_EVENTCHIP * aRecv)
 void EGRecvRegMutoNum( PMSG_ANS_REGISTER_MUTONUM* aRecv)
 {
 	CGameObject lpObj;
-	int aIndex;
+	CGameObject &lpObj;
 	
 
 	lpObj = &gGameObjects[aRecv->iINDEX];
@@ -196,7 +196,7 @@ void EGRecvChangeRena( PMSG_ANS_RESET_EVENTCHIP* aRecv)
 {
 	PMSG_REGEVENTCHIP_RESULT Result;
 	CGameObject lpObj;
-	int aIndex;
+	CGameObject &lpObj;
 
 	PHeadSetB((LPBYTE)&Result, 0x95, sizeof(Result));
 	lpObj = &gGameObjects[aRecv->iINDEX];
@@ -256,7 +256,7 @@ void EGRecvRegStone( PMSG_ANS_REGISTER_STONES* aRecv)
 {
 	PMSG_REGEVENTCHIP_RESULT Result;
 	CGameObject lpObj;
-	int aIndex;
+	CGameObject &lpObj;
 	
 
 	PHeadSetB((LPBYTE)&Result, 0x95, sizeof(Result));
@@ -296,7 +296,7 @@ void EGRecvChangeStones( PMSG_ANS_RESET_EVENTCHIP* aRecv)
 {
 	PMSG_REGEVENTCHIP_RESULT Result;
 	CGameObject lpObj;
-	int aIndex;
+	CGameObject &lpObj;
 	
 
 	PHeadSetB((LPBYTE)&Result, 0x95, sizeof(Result));

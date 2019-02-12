@@ -2,8 +2,8 @@
 // GuildClass.cpp
 #include "StdAfx.h"
 #include "GuildClass.h"
-#include "Main.h"
-#include "GameProtocol.h"
+//#include "Main.h"
+//#include "GameProtocol.h"
 
 // GS-N 0.99.60T 0x0048F590
 //BOOL CGuildClass::SetGuildMemberStatus(char* szGuildName, char* szMemberName, int iGuildStatus) - Special IF
@@ -27,17 +27,17 @@ void CGuildClass::Init()
 	this->m_GuildNumberMap.clear();
 }
 
-GUILD_INFO_STRUCT * CGuildClass::AddGuild(int number, char* guildname, GUILDMARK mark, char * mastername, int score)
+GUILD_INFO_STRUCT* CGuildClass::AddGuild(int number, char* guildname, GUILDMARK mark, char * mastername, int score)
 {
-	GUILD_INFO_STRUCT * pNewNode;
-	GUILD_INFO_STRUCT * pSearchGuild = this->SearchGuild(guildname);
+	GUILD_INFO_STRUCT* pNewNode;
+	GUILD_INFO_STRUCT* pSearchGuild = this->SearchGuild(guildname);
 
 	if ( pSearchGuild != NULL )
 	{
 		return pSearchGuild;
 	}
 
-	pNewNode = (GUILD_INFO_STRUCT &)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(GUILD_INFO_STRUCT));
+	pNewNode = (GUILD_INFO_STRUCT*)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(GUILD_INFO_STRUCT));
 
 	if ( pNewNode != NULL )
 	{
@@ -82,10 +82,10 @@ GUILD_INFO_STRUCT * CGuildClass::AddGuild(int number, char* guildname, GUILDMARK
 	return NULL;
 }
 
-void CGuildClass::AddTail(GUILD_INFO_STRUCT * pNewNode)
+void CGuildClass::AddTail(GUILD_INFO_STRUCT &pNewNode)
 {
-	pNewNode->back = this->tail;
-	pNewNode->next = NULL;
+	pNewNode.back = this->tail;
+	pNewNode.next = NULL;
 
 	if ( this->head == NULL )
 	{
@@ -97,8 +97,8 @@ void CGuildClass::AddTail(GUILD_INFO_STRUCT * pNewNode)
 	}
 
 	this->tail = pNewNode;
-	this->m_GuildMap[pNewNode->Name] = pNewNode;
-	this->m_GuildNumberMap[pNewNode->Number] = pNewNode;
+	this->m_GuildMap[pNewNode.Name] = pNewNode;
+	this->m_GuildNumberMap[pNewNode.Number] = pNewNode;
 }
 
 
@@ -200,7 +200,7 @@ BOOL CGuildClass::DeleteGuild(char* guildname, char* commander)
 
 	
 
-GUILD_INFO_STRUCT * CGuildClass::SearchGuild(char* guildname)
+GUILD_INFO_STRUCT* CGuildClass::SearchGuild(char* guildname)
 {
 	std::map<std::string, GUILD_INFO_STRUCT *>::iterator Itor = this->m_GuildMap.find(guildname);
 
@@ -214,7 +214,7 @@ GUILD_INFO_STRUCT * CGuildClass::SearchGuild(char* guildname)
 
 
 
-GUILD_INFO_STRUCT * CGuildClass::SearchGuild_Number(int number)
+GUILD_INFO_STRUCT* CGuildClass::SearchGuild_Number(int number)
 {
 	std::map<int , GUILD_INFO_STRUCT *>::iterator Itor = this->m_GuildNumberMap.find(number);
 
@@ -227,9 +227,9 @@ GUILD_INFO_STRUCT * CGuildClass::SearchGuild_Number(int number)
 }
 
 
-GUILD_INFO_STRUCT * CGuildClass::SearchGuild_NumberAndId(int number, char* name)
+GUILD_INFO_STRUCT* CGuildClass::SearchGuild_NumberAndId(int number, char* name)
 {
-	GUILD_INFO_STRUCT * pNode = this->SearchGuild_Number(number);
+	GUILD_INFO_STRUCT* pNode = SearchGuild_Number(number);
 
 	if ( pNode != NULL )
 	{
@@ -245,7 +245,7 @@ GUILD_INFO_STRUCT * CGuildClass::SearchGuild_NumberAndId(int number, char* name)
 	return NULL;
 }
 
-BOOL CGuildClass::ConnectUser(GUILD_INFO_STRUCT * lpNode, char* guild_name, char* player_name, int aIndex, int pServer)
+BOOL CGuildClass::ConnectUser(GUILD_INFO_STRUCT &lpNode, char* guild_name, char* player_name, CGameObject &lpObj, int pServer)
 {
 	if ( lpNode == NULL )
 	{
@@ -283,7 +283,7 @@ BOOL CGuildClass::ConnectUser(GUILD_INFO_STRUCT * lpNode, char* guild_name, char
 }
 
 
-GUILD_INFO_STRUCT * CGuildClass::AddMember(char* guild_name, char* player_name, int aIndex, int totalcount, int iGuildStatus, int pServer)
+GUILD_INFO_STRUCT* CGuildClass::AddMember(char* guild_name, char* player_name, CGameObject &lpObj, int totalcount, int iGuildStatus, int pServer)
 {
 	GUILD_INFO_STRUCT * pNode = this->SearchGuild(guild_name);
 	int blank = -1;
@@ -354,7 +354,7 @@ GUILD_INFO_STRUCT * CGuildClass::AddMember(char* guild_name, char* player_name, 
 
 
 
-GUILD_INFO_STRUCT * CGuildClass::AddMember(GUILD_INFO_STRUCT * pNode, char* player_name, int aIndex, int totalcount, int pServer)
+GUILD_INFO_STRUCT* CGuildClass::AddMember(GUILD_INFO_STRUCT* pNode, char* player_name, CGameObject &lpObj, int totalcount, int pServer)
 {
 	int blank = -1;
 
@@ -557,25 +557,25 @@ BOOL CGuildClass::SetGuildType(char* szGuildName, int iGuildType)
 	return TRUE;
 }
 
-BOOL CGuildClass::BuildMemberTotal(GUILD_INFO_STRUCT * lpNode)
+BOOL CGuildClass::BuildMemberTotal(GUILD_INFO_STRUCT &lpNode)
 {
-	if (lpNode == NULL )
+	if (&lpNode == NULL )
 	{
 		return FALSE;
 	}
 
-	lpNode->TotalCount = 0;
-	lpNode->Count = 0;
+	lpNode.TotalCount = 0;
+	lpNode.Count = 0;
 
 	for ( int n=0;n<MAX_USER_GUILD;n++)
 	{
-		if ( lpNode->Use[n] == TRUE )
+		if ( lpNode.Use[n] == TRUE )
 		{
-			lpNode->TotalCount++;
+			lpNode.TotalCount++;
 
-			if ( lpNode->Index[n] != 0 )
+			if ( lpNode.Index[n] != 0 )
 			{
-				lpNode->Count++;
+				lpNode.Count++;
 			}
 		}
 	}
@@ -585,7 +585,7 @@ BOOL CGuildClass::BuildMemberTotal(GUILD_INFO_STRUCT * lpNode)
 
 BOOL CGuildClass::DelMember(char* guild_name, char* player_name)
 {
-	GUILD_INFO_STRUCT * pNode = this->SearchGuild(guild_name);
+	GUILD_INFO_STRUCT* pNode = this->SearchGuild(guild_name);
 
 	if (pNode == NULL )
 	{
@@ -681,10 +681,3 @@ BOOL gGuildNoticeStringCheck(char* notice)
 
 	return FALSE;
 }
-				
-
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

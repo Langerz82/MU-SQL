@@ -811,7 +811,7 @@ BOOL NpcRusipher(CGameObject &lpNpc, CGameObject lpObj)
 		return TRUE;
 	}
 
-	int aIndex = lpObj.m_Index;
+	CGameObject &lpObj = lpObj.m_Index;
 
 	if ((lpObj.m_IfState.use) > 0)
 	{

@@ -130,7 +130,7 @@ public:
 	int GetBaseMasterLevelSkill(int iMLSkill);
 	int gObjMagicAdd_MLS(CGameObject lpObj, int iMLSkill, int iSkillLevel);
 	void CGReqGetMasterLevelSkillTree(CGameObject &lpObj);
-	void CGReqGetMasterLevelSkill(PMSG_REQ_MASTERLEVEL_SKILL *lpMsg, int aIndex);
+	void CGReqGetMasterLevelSkill(PMSG_REQ_MASTERLEVEL_SKILL *lpMsg, CGameObject &lpObj);
 	int RunningSkill_MLS(CGameObject lpObj, int aTargetIndex, CMagicInf *lpMagic, BOOL bCombo, BYTE x, BYTE y, BYTE aTargetPos);
 	int CheckUsableWeaponSkill(CGameObject lpObj, int nCount);
 	int GetRequireMLPoint(int iClass, int iSkill);

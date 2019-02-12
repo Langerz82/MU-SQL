@@ -5,6 +5,10 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+// Map.
+#define MAX_NUMBER_MAP 115
+#define MAX_MAP_RANGE(x) (((x)<0)?FALSE:((x)>MAX_NUMBER_MAP-1)?FALSE:TRUE)
+
 
 // Guild.
 #define MAX_USER_GUILD			80

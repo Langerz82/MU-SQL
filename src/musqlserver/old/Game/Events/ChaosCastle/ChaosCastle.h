@@ -257,7 +257,7 @@ public:
 	CChaosCastle();
 	virtual ~CChaosCastle();
 
-	friend int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, int aIndex);
+	friend int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, CGameObject &lpObj);
 
 	void Run();
 	void Init();

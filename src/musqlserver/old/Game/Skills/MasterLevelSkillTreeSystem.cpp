@@ -1067,7 +1067,7 @@ void CMasterLevelSkillTreeSystem::CGReqGetMasterLevelSkillTree(CGameObject &lpOb
 	IOCP.DataSend(lpObj.m_Index, sendbuf, lOfs);
 }
 
-void CMasterLevelSkillTreeSystem::CGReqGetMasterLevelSkill(PMSG_REQ_MASTERLEVEL_SKILL *lpMsg, int aIndex)
+void CMasterLevelSkillTreeSystem::CGReqGetMasterLevelSkill(PMSG_REQ_MASTERLEVEL_SKILL *lpMsg, CGameObject &lpObj)
 {
 	if (!gObjIsConnected(aIndex))
 	{

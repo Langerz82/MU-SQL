@@ -4035,7 +4035,7 @@ int CItem::SimpleDurabilityDown(int iDecValue)
 	return this->m_Durability;
 }
 
-int CItem::DurabilityDown(int dur, int aIndex)
+int CItem::DurabilityDown(int dur, CGameObject &lpObj)
 {
 	if (this->m_Durability <= 0)
 	{
@@ -4083,7 +4083,7 @@ int CItem::DurabilityDown(int dur, int aIndex)
 
 
 
-int CItem::DurabilityDown2(int dur, int aIndex)
+int CItem::DurabilityDown2(int dur, CGameObject &lpObj)
 {
 	if (this->m_Durability <= 0)
 	{
@@ -4131,7 +4131,7 @@ int CItem::DurabilityDown2(int dur, int aIndex)
 
 
 
-int CItem::NormalWeaponDurabilityDown(int defense, int aIndex)
+int CItem::NormalWeaponDurabilityDown(int defense, CGameObject &lpObj)
 {
 	if (this->m_Durability <= 0)
 	{
@@ -4205,7 +4205,7 @@ int CItem::NormalWeaponDurabilityDown(int defense, int aIndex)
 }
 
 
-int CItem::BowWeaponDurabilityDown(int defense, int aIndex)
+int CItem::BowWeaponDurabilityDown(int defense, CGameObject &lpObj)
 {
 	if (this->m_Durability <= 0)
 	{
@@ -4272,7 +4272,7 @@ int CItem::BowWeaponDurabilityDown(int defense, int aIndex)
 	return 0;
 }
 
-int CItem::StaffWeaponDurabilityDown(int defence, int aIndex)
+int CItem::StaffWeaponDurabilityDown(int defence, CGameObject &lpObj)
 {
 	if (this->m_Durability <= 0)
 	{
@@ -4337,7 +4337,7 @@ int CItem::StaffWeaponDurabilityDown(int defence, int aIndex)
 	return 0;
 }
 
-int CItem::LuckyItemArmorDurabilityDown(int damagemin, int aIndex)
+int CItem::LuckyItemArmorDurabilityDown(int damagemin, CGameObject &lpObj)
 {
 	if (this->m_Durability <= 0.0f)
 	{
@@ -4382,7 +4382,7 @@ int CItem::LuckyItemArmorDurabilityDown(int damagemin, int aIndex)
 
 }
 
-int CItem::ArmorDurabilityDown(int damagemin, int aIndex)
+int CItem::ArmorDurabilityDown(int damagemin, CGameObject &lpObj)
 {
 	if (this->m_Durability <= 0)
 	{
@@ -5939,20 +5939,15 @@ void LoadResetItemList(LPSTR szFile)
 	sLog->outBasic("[%s]::LoadFile() -> Success!", szFile);
 }
 
-bool CheckCanWearResetItem(int aIndex, int itemid)
+bool CheckCanWearResetItem(CGameObject &lpObj, int itemid)
 {
-	if (!ObjectMaxRange(aIndex))
-		return false;
-
-	
-
 	for (int i = 0; i < 1000; i++)
 	{
 		if (gObjResetItem[i].itemIndex == itemid)
 		{
 			if (lpObj.m_PlayerData->m_iResets < gObjResetItem[i].iResets)
 			{
-				MsgOutput(aIndex, Lang.GetText(0, 599), gObjResetItem[i].iResets);
+				MsgOutput(lpObj, Lang.GetText(0, 599), gObjResetItem[i].iResets);
 				return false;
 			}
 			else

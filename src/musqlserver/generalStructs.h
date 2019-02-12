@@ -15,6 +15,10 @@
 #include <string>
 #include <map>
 
+// Fwd Declaration.
+class CItem;
+
+
 struct STR_ITEM_LEVEL_RATE;
 struct STR_LUCKY_ITEM_EQUIPMENT;
 struct STR_SMELT_RATE;
@@ -43,12 +47,57 @@ struct JEWELOFHARMONY_ITEM_EFFECT;
 struct JEWELOFHARMONY_ITEM_OPTION;
 struct ITEMEFFECT;
 struct STR_STRINGCOMPARE;
-struct MU_WSAOVERLAPPED;
-struct MU_WSABUF;
 struct _PER_IO_CONTEXT;
 struct _GUILD_INFO_STRUCT;
+struct _stGremoryCaseItem;
 
 
+
+
+
+struct _stGremoryCaseItem
+{
+	_stGremoryCaseItem()
+	{
+		this->btStorageType = 0;
+		this->btRewardSource = 0;
+		this->btItemGUID = 0;
+		this->wItemID = 0;
+		this->btItemLevel = 0;
+		this->btItemDurability = 0;
+		this->btItemSkill = 0;
+		this->btItemLuck = 0;
+		this->btItemOption = 0;
+		this->btItemExcOption = 0;
+		this->btItemSetOption = 0;
+		memset(this->btItemSocketOption, -1, sizeof(this->btItemSocketOption));
+		this->btItemMainAttribute = 0;
+		this->wMuunEvoItemType = 0;
+		this->btMuunEvoItemIndex = 0;
+		this->dwAuthCode = 0;
+		this->iReceiveDate = 0;
+		this->iExpireDate = 0;
+	}
+
+	BYTE btStorageType;
+	BYTE btRewardSource;
+	BYTE btItemGUID;
+	WORD wItemID;
+	BYTE btItemLevel;
+	BYTE btItemDurability;
+	BYTE btItemSkill;
+	BYTE btItemLuck;
+	BYTE btItemOption;
+	BYTE btItemExcOption;
+	BYTE btItemSetOption;
+	BYTE btItemSocketOption[5];
+	BYTE btItemMainAttribute;
+	WORD wMuunEvoItemType;
+	BYTE btMuunEvoItemIndex;
+	DWORD dwAuthCode;
+	time_t iReceiveDate;
+	time_t iExpireDate;
+};
 
 struct ComboSkillData
 {
@@ -846,51 +895,6 @@ struct JEWELOFHARMONY_ITEM_EFFECT
 };
 
 
-struct _stGremoryCaseItem
-{
-	_stGremoryCaseItem()
-	{
-		this->btStorageType = 0;
-		this->btRewardSource = 0;
-		this->btItemGUID = 0;
-		this->wItemID = 0;
-		this->btItemLevel = 0;
-		this->btItemDurability = 0;
-		this->btItemSkill = 0;
-		this->btItemLuck = 0;
-		this->btItemOption = 0;
-		this->btItemExcOption = 0;
-		this->btItemSetOption = 0;
-		memset(this->btItemSocketOption, -1, sizeof(this->btItemSocketOption));
-		this->btItemMainAttribute = 0;
-		this->wMuunEvoItemType = 0;
-		this->btMuunEvoItemIndex = 0;
-		this->dwAuthCode = 0;
-		this->iReceiveDate = 0;
-		this->iExpireDate = 0;
-	}
-
-	BYTE btStorageType;
-	BYTE btRewardSource;
-	BYTE btItemGUID;
-	WORD wItemID;
-	BYTE btItemLevel;
-	BYTE btItemDurability;
-	BYTE btItemSkill;
-	BYTE btItemLuck;
-	BYTE btItemOption;
-	BYTE btItemExcOption;
-	BYTE btItemSetOption;
-	BYTE btItemSocketOption[5];
-	BYTE btItemMainAttribute;
-	WORD wMuunEvoItemType;
-	BYTE btMuunEvoItemIndex;
-	DWORD dwAuthCode;
-	time_t iReceiveDate;
-	time_t iExpireDate;
-};
-
-
 struct PMSG_GREMORYCASE_ITEM
 {
 	BYTE btRewardInventory;
@@ -914,7 +918,7 @@ struct GREMORYCASE_ITEM_DATA
 		this->btRewardInventory = 0;
 		this->btRewardSource = 0;
 		this->dwItemGUID = (DWORD)-1;
-		this->ItemInfo.Clear();
+		this->ItemInfo->Clear();
 		this->dwAuthCode = 0;
 		this->dwReceiveDate = 0;
 		this->dwExpireTime = 0;
@@ -923,7 +927,7 @@ struct GREMORYCASE_ITEM_DATA
 	BYTE btRewardInventory;
 	BYTE btRewardSource;
 	DWORD dwItemGUID;
-	CItem ItemInfo;
+	CItem* ItemInfo;
 	DWORD dwAuthCode;
 	DWORD dwReceiveDate;
 	DWORD dwExpireTime;

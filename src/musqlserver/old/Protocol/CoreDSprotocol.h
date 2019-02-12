@@ -510,7 +510,7 @@ private:
 	void GDReqEvoMonMaxScore(CGameObject &lpObj, PMSG_REQ_EVOMON_MAXSCORE * aRecv);
 	void GDReqEvoMonSaveScore(CGameObject &lpObj, PMSG_REQ_SAVE_EVOMON_RESULT * aRecv);
 
-	void DGMuBotOptionRecv(MUBOT_SETTINGS_REQ_SAVE* lpMsg, int aIndex);
+	void DGMuBotOptionRecv(MUBOT_SETTINGS_REQ_SAVE* lpMsg, CGameObject &lpObj);
 	void MuBotSaveOption(char* szName, MUBOT_SETTINGS_REQ_SAVE* lpMsg);
 	void GetMuBotData(char* szName, MUBOT_SETTINGS_SEND* lpMsg);
 

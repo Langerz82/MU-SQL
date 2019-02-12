@@ -13,7 +13,7 @@
 
 #include "IOCP.h"
 
-#include "MapServerManager.h"
+//#include "MapServerManager.h"
 #include "ItemSerial.h"
 
 #include "database/Database/DatabaseEnv.h"
@@ -397,7 +397,7 @@ extern int main(int argc, char** argv)
 	GetPrivateProfileString("SETTINGS", "MapServerInfoPath", "..\\Data\\MapServerInfo.ini", g_MapSvrFilePath, sizeof(g_MapSvrFilePath), ".\\DataServer.ini");
 	GetPrivateProfileString("SETTINGS", "WanIP", "127.0.0.1", szWANIP, 150, ".\\DataServer.ini");
 	//std::memcpy(szWANIP, ValidateAndResolveIP(szWANIP), 15); // temp
-	g_MapServerManager.LoadMapData(g_MapSvrFilePath);
+	//g_MapServerManager.LoadMapData(g_MapSvrFilePath);
 	//SendMessage(ghWnd, WM_TIMER, WM_LOG_PAINT, NULL);
 
 	gObjServerInit();

@@ -1,4 +1,5 @@
 #include "GOFunctions.h"
+#include "MuDefines.h"
 #include "generalStructs.h"
 #include "GameServer.h"
 #include "GameMain.h"
@@ -553,7 +554,7 @@ void MoveMonsterProc()
 
 							if (lpObj->Type == OBJ_USER)
 							{
-								gObjSetPosition(lpObj, lpObj->X, lpObj->Y);
+								gObjSetPosition(*lpObj, lpObj->X, lpObj->Y);
 							}
 						}
 						else
@@ -2096,7 +2097,7 @@ bool gObjSetCharacter(LPBYTE lpdata, int aIndex)
 
 	if (lpObj->m_bMapSvrMoveReq == true)
 	{
-		short sSVR_CODE = ::g_MapServerManager.CheckMoveMapSvr(*lpObj, lpObj->m_sDestMapNumber, lpObj->m_sPrevMapSvrCode);
+		short sSVR_CODE = g_MapServerManager.CheckMoveMapSvr(*lpObj, lpObj->m_sDestMapNumber, lpObj->m_sPrevMapSvrCode);
 
 		if (sSVR_CODE == g_ConfigRead.server.GetGameServerCode())
 		{
@@ -3397,7 +3398,7 @@ short gObjAdd(SOCKET aSocket, char* ip, int aIndex)
 	lpObj->LoginMsgCount = 0;
 	lpObj->EnableCharacterCreate = 0;
 	lpObj->Type = OBJ_USER;
-	m_ObjBill[lpObj - g_ConfigRead.server.GetObjectStartUserIndex()].Init();
+	m_ObjBill[aIndex - g_ConfigRead.server.GetObjectStartUserIndex()].Init();
 	strcpy(lpObj->m_PlayerData->Ip_addr, ip);
 	sLog->outBasic("Connection Accept : [%d][%s]", lpObj, ip);
 	gObjCount++;
@@ -3767,10 +3768,10 @@ short gObjMemFree(int index)
 					}
 				}
 
-				gGameProtocol.SetCharacterInfo(lpObj, index, 0);
+				// gGameProtocol.SetCharacterInfo(lpObj, index, 0);  // TODO
 			}
 
-			GJPUserClose(lpObj);
+			// GJPUserClose(lpObj); // TODO
 		}
 	}
 
@@ -6400,7 +6401,7 @@ void gObjUserDie(CGameObject &lpObj, CGameObject& lpTargetObj)
 
 	gObjUseSkill.RemoveAllCharacterInvalidMagicAndSkillState(lpObj);
 
-	if (gObjTargetGuildWarCheck(*lpObj, lpTargetObj) == 1)
+	if (gObjTargetGuildWarCheck(lpObj, lpTargetObj) == 1)
 	{
 		return;
 	}
@@ -6429,24 +6430,24 @@ void gObjUserDie(CGameObject &lpObj, CGameObject& lpTargetObj)
 
 	if (lpObj.MapNumber == MAP_INDEX_DEVILSQUARE_FINAL)
 	{
-		g_DevilSquareFinal.DSFUserDie(*lpObj);
+		g_DevilSquareFinal.DSFUserDie(lpObj);
 	}
 
 	if (BC_MAP_RANGE(lpObj.MapNumber))
 	{
-		g_BloodCastle.SetUserState(*lpObj, 1);
+		g_BloodCastle.SetUserState(lpObj, 1);
 
 		int iBridgeIndex = g_BloodCastle.GetBridgeIndex(lpObj.MapNumber);
 
 		if (g_BloodCastle.GetCurrentState(iBridgeIndex + 1) == BC_STATE_PLAYING)
 		{
 			sLog->outBasic("[Blood Castle] (%d) Try to drop Ultimate Weapon [%s][%s]", iBridgeIndex + 1, lpObj.AccountID, lpObj.Name);
-			g_BloodCastle.SearchUserDropQuestItem(*lpObj);
+			g_BloodCastle.SearchUserDropQuestItem(lpObj);
 		}
 		else
 		{
 			sLog->outBasic("[Blood Castle] (%d) Try to delete Ultimate Weapon [%s][%s]", iBridgeIndex + 1, lpObj.AccountID, lpObj.Name);
-			g_BloodCastle.SearchUserDeleteQuestItem(*lpObj);
+			g_BloodCastle.SearchUserDeleteQuestItem(lpObj);
 		}
 
 		if (lpTargetObj.Type == OBJ_MONSTER)
@@ -6456,7 +6457,7 @@ void gObjUserDie(CGameObject &lpObj, CGameObject& lpTargetObj)
 			if (mAttr != 0)
 			{
 				sLog->outBasic("[Blood Castle] (%d) Dead In Blood Castle, Killed by Monster [%s][%s][%s]", iBridgeIndex + 1, lpObj.AccountID, lpObj.Name, mAttr->m_Name);
-				g_BloodCastle.SearchUserDropQuestItem(*lpObj);
+				g_BloodCastle.SearchUserDropQuestItem(lpObj);
 			}
 		}
 		else if (lpTargetObj.Type == OBJ_USER)
@@ -6666,7 +6667,7 @@ void gObjUserDie(CGameObject &lpObj, CGameObject& lpTargetObj)
 	{
 		if (IsOnDuel(lpObj, lpTargetObj))
 		{
-			g_NewPVP.SetScore(*lpTargetObj);
+			g_NewPVP.SetScore(lpTargetObj);
 		}
 
 		return;
@@ -25254,7 +25255,7 @@ void gObjCheckTimeOutValue(CGameObject &lpObj, DWORD& rNowTick)
 
 
 
-void MsgOutput(int aIndex, char* msg, ...)
+void MsgOutput(CGameObject &lpObj, char* msg, ...)
 {
 	char szBuffer[512] = "";
 	va_list pArguments;
@@ -26664,7 +26665,7 @@ bool gObjFixMuunInventoryPointer(CGameObject &lpObj)
 		sLog->outBasic("[Fix Muun Inv.Ptr] [%s][%s] - Muun Inventory Pointer was Wrong", lpObj.AccountID, lpObj.Name);
 	}
 
-	gObjSetMuunInventory1Pointer(*gGameObjects[aIndex]);
+	gObjSetMuunInventory1Pointer(lpObj);
 	return false;
 }
 
@@ -29134,7 +29135,7 @@ bool gObjChaosBoxPutItemTest(CGameObject &lpObj, CItem Item, BYTE btCount)
 		{
 			if (IsEventItem(Item.m_Type))
 			{
-				if (gObjTempEventInventoryInsertItem(*gGameObjects[aIndex], Item, TempEventInventoryMap) == 255)
+				if (gObjTempEventInventoryInsertItem(lpObj, Item, TempEventInventoryMap) == 255)
 				{
 					return false;
 				}
@@ -29142,7 +29143,7 @@ bool gObjChaosBoxPutItemTest(CGameObject &lpObj, CItem Item, BYTE btCount)
 
 			else
 			{
-				if (gObjTempInventoryInsertItem(*gGameObjects[aIndex], Item, TempInventoryMap) == 255)
+				if (gObjTempInventoryInsertItem(lpObj, Item, TempInventoryMap) == 255)
 				{
 					return false;
 				}
@@ -29216,7 +29217,7 @@ BOOL gObjUnicornSprite(CGameObject &lpObj) // Season 5 Episode 2 JPN
 void gObjUseRecoveryPotion(CGameObject &lpObj, int pos, double value) //00518400
 
 {
-	if (lpObj == NULL)
+	if (&lpObj == NULL)
 	{
 		return;
 	}

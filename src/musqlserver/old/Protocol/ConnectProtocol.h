@@ -7,7 +7,7 @@
 #include "ConnectServer.h"
 #include "ConnectEngine.h"
 
-void CSProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, int aIndex, bool Encrypt, int serial);
+void CSProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, CGameObject &lpObj, bool Encrypt, int serial);
 void UDPProtocolCore(BYTE hCode, LPBYTE aRecv, int aLen);
 void UDPSetServerInfo(PMSG_SERVERINFO * aRecv);
 void SCSendServerList(CUserData &Obj);

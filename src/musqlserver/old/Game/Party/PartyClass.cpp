@@ -46,7 +46,7 @@ BOOL PartyClass::IsParty(int party_number)
 	return TRUE;
 }
 
-BOOL PartyClass::Isleader(int party_number, int usernumber, int dbnumber)
+BOOL PartyClass::Isleader(int party_number, CGameObject &lpObj, int dbnumber)
 {
 	if ( this->IsParty(party_number) == FALSE )
 	{
@@ -134,7 +134,7 @@ BOOL PartyClass::GetIndexUser(int party_number, int index, int& usernumber,  int
 }
 
 
-int PartyClass::GetIndex(int party_number, int usernumber, int dbnumber)
+int PartyClass::GetIndex(int party_number, CGameObject &lpObj, int dbnumber)
 {
 	if ( this->IsParty(party_number) == FALSE )
 	{
@@ -152,7 +152,7 @@ int PartyClass::GetIndex(int party_number, int usernumber, int dbnumber)
 	return -1;
 }
 
-int PartyClass::Create(int usernumber, int dbnumber, int level)
+int PartyClass::Create(CGameObject &lpObj, int dbnumber, int level)
 {
 	int n = this->m_PartyCount;
 	int loopcount = 0;
@@ -284,7 +284,7 @@ BOOL PartyClass::Destroy(int party_number)
 	return FALSE;
 }
 
-int PartyClass::Add(int party_number, int usernumber, int dbnumber, int level)
+int PartyClass::Add(int party_number, CGameObject &lpObj, int dbnumber, int level)
 {
 	if ( this->IsParty(party_number ) == FALSE )
 	{
@@ -335,7 +335,7 @@ int PartyClass::Add(int party_number, int usernumber, int dbnumber, int level)
 	return -1;
 }
 
-int PartyClass::Delete(int party_number, int usernumber, int dbnumber)	// Kick a User from Party
+int PartyClass::Delete(int party_number, CGameObject &lpObj, int dbnumber)	// Kick a User from Party
 {
 	if ( this->IsParty(party_number) == FALSE )
 	{
@@ -507,7 +507,7 @@ char PartyClass::GetPKPartyPenalty(int party_number)
 	return m_PartyS[party_number].m_PKPartyLevel;
 }
 
-void PartyClass::UpdatePKUserInfo(int party_number, int usernumber, int dbnumber, char userPKLevel)
+void PartyClass::UpdatePKUserInfo(int party_number, CGameObject &lpObj, int dbnumber, char userPKLevel)
 {
 	if( IsParty(party_number) == FALSE )	return;
 

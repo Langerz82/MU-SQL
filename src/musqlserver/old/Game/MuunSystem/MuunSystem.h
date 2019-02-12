@@ -179,7 +179,7 @@ public:
 	int GetBeforeEvolutionMuunItemIndex(int iItemNum);
 	int GetMuunRankOfMuunInfo(int iItemNum);
 
-	void CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, int aIndex);
+	void CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, CGameObject &lpObj);
 
 	bool MuunItemEvolution(CGameObject lpObj, int source, int target);
 	bool MuunItemLevelUp(CGameObject lpObj, int source, int target);
@@ -216,7 +216,7 @@ public:
 
 	int GetItemFromMuunInventory(CGameObject lpObj, WORD wItemCode, UINT64 dwSerial);
 
-	void CGMuunExchangeItem(PMSG_REQ_MUUN_EXCHANGE *lpMsg, int aIndex);
+	void CGMuunExchangeItem(PMSG_REQ_MUUN_EXCHANGE *lpMsg, CGameObject &lpObj);
 
 	bool ChkMuunExchangeInvenNeedItem(int & iItemCnt, int iInvenPos, int iNeedItemCnt, int iInvenItemNum, int iNeedItemNum, int *ItemPos);
 	bool ChkMuunExchangeInvenNeedItem(CGameObject &lpObj, int iSelect, int *ItemPos);
@@ -231,7 +231,7 @@ public:
 	void SetTarget(CGameObject &lpObj, int aTargetIndex);
 	void ReSetTarget(CGameObject &lpObj, int aTargetIndex);
 
-	void CGReqRideSelect(PMSG_MUUN_RIDE_SELECT *lpMsg, int aIndex);
+	void CGReqRideSelect(PMSG_MUUN_RIDE_SELECT *lpMsg, CGameObject &lpObj);
 
 	void SkillProc(CGameObject &lpObj);
 

@@ -64,17 +64,17 @@ struct PMSG_REQ_ATTDEF_POWER_INC
     PBMSG_HEAD2 h;
 };
 
-void CGReqQuestSwitch(PMSG_REQ_QUESTEXP *pMsg, int aIndex);
-void CGReqQuestProgress(PMSG_REQ_QUESTEXP *pMsg, int aIndex);
-void CGReqQuestComplete(PMSG_REQ_QUESTEXP_COMPLETE *pMsg, int aIndex);
-void CGReqQuestGiveUp(PMSG_REQ_QUESTEXP_GIVEUP *pMsg, int aIndex);
-void CGReqTutorialKeyComplete(PMSG_REQ_QUESTEXP_ASK_COMPLETE *pMsg, int aIndex);
-void CGReqProgressQuestList(PMSG_REQ_QUESTEXP_PROGRESS_LIST *pMsg, int aIndex);
-void CGReqProgressQuestInfo(PMSG_REQ_QUESTEXP_PROGRESS_INFO *pMsg, int aIndex);
-void CGReqEventItemQuestList(PMSG_REQ_EVENT_ITEM_EP_LIST *pMsg, int aIndex);
+void CGReqQuestSwitch(PMSG_REQ_QUESTEXP *pMsg, CGameObject &lpObj);
+void CGReqQuestProgress(PMSG_REQ_QUESTEXP *pMsg, CGameObject &lpObj);
+void CGReqQuestComplete(PMSG_REQ_QUESTEXP_COMPLETE *pMsg, CGameObject &lpObj);
+void CGReqQuestGiveUp(PMSG_REQ_QUESTEXP_GIVEUP *pMsg, CGameObject &lpObj);
+void CGReqTutorialKeyComplete(PMSG_REQ_QUESTEXP_ASK_COMPLETE *pMsg, CGameObject &lpObj);
+void CGReqProgressQuestList(PMSG_REQ_QUESTEXP_PROGRESS_LIST *pMsg, CGameObject &lpObj);
+void CGReqProgressQuestInfo(PMSG_REQ_QUESTEXP_PROGRESS_INFO *pMsg, CGameObject &lpObj);
+void CGReqEventItemQuestList(PMSG_REQ_EVENT_ITEM_EP_LIST *pMsg, CGameObject &lpObj);
 
-void CGReqQuestExp(PMSG_REQ_NPC_QUESTEXP *pMsg, int aIndex);
-void CGReqAttDefPowerInc(PMSG_REQ_ATTDEF_POWER_INC *pMsg, int aIndex);
+void CGReqQuestExp(PMSG_REQ_NPC_QUESTEXP *pMsg, CGameObject &lpObj);
+void CGReqAttDefPowerInc(PMSG_REQ_ATTDEF_POWER_INC *pMsg, CGameObject &lpObj);
 
 #endif
 

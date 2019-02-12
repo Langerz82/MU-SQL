@@ -31,7 +31,7 @@ struct IPList;
 void gObjServerInit();
 int gObjServerAddSearch();
 int gObjServerAdd(SOCKET Socket, char * Ip, int ServerIndex, eSERVER_TYPE eServerType);
-void gObjServerDel(int aIndex);
+void gObjServerDel(CGameObject &lpObj);
 void LoadAllowableIpList(LPSTR filename);
 
 void gObjConnectStatSyncThread();

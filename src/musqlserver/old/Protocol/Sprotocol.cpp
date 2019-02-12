@@ -912,7 +912,7 @@ void CLoginServerProtocol::GCUserKillSend(int MuLoginIndex, bool IsForceDC)
 	memcpy(pMsg.Id, this->m_UserData.GetAccountID(MuLoginIndex), 10);
 	pMsg.Number = this->m_UserData.GetUserIndex(MuLoginIndex);
 
-	int aIndex = this->m_ServerData.GetServerIndex(this->m_ServerData.MuLoginFindServer(this->m_UserData.GetServerCode(MuLoginIndex)));
+	CGameObject &lpObj = this->m_ServerData.GetServerIndex(this->m_ServerData.MuLoginFindServer(this->m_UserData.GetServerCode(MuLoginIndex)));
 
 	if (aIndex < 0 || aIndex > g_dwMaxServerGroups)
 	{
@@ -1366,7 +1366,7 @@ void CLoginServerProtocol::CheckVIPTimeProc()
 							int Type = this->m_VIPDB.GetAsInteger("Type");
 							this->m_VIPDB.Close();
 
-							int aIndex = this->m_ServerData.MuLoginFindServer(this->m_UserData.GetServerCode(i));
+							CGameObject &lpObj = this->m_ServerData.MuLoginFindServer(this->m_UserData.GetServerCode(i));
 
 							if (VIP == 0)
 							{

@@ -34,7 +34,7 @@ struct OFF_LEVEL_GENERAL_SETTINGS
 };
 struct OFF_LEVEL_PLAYERS
 {
-	int aIndex;
+	CGameObject &lpObj;
 	WORD wSkillNumber;
 	DWORD dwOffTime;
 };

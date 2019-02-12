@@ -715,7 +715,7 @@ BOOL CQuestInfo::MonsterItemDropParty(CGameObject &lpObj, CGameObject lpTargetOb
 
 	for(int i=0;i<MAX_USER_IN_PARTY;i++)
 	{
-		int aIndex = gParty.m_PartyS[lpTargetObj.PartyNumber].Number[i];
+		CGameObject &lpObj = gParty.m_PartyS[lpTargetObj.PartyNumber].Number[i];
 
 		if(aIndex >= 0 && lpObj.MapNumber == lpTargetObj.MapNumber)
 		{
@@ -814,7 +814,7 @@ BOOL CQuestInfo::AddMonsterKillCount(CGameObject &lpObj)
 	{
 		for(int i=0;i<MAX_USER_IN_PARTY;i++)
 		{
-			int aIndex = gParty.m_PartyS[lpTarget->PartyNumber].Number[i];
+			CGameObject &lpObj = gParty.m_PartyS[lpTarget->PartyNumber].Number[i];
 
 			if(aIndex >= 0 && lpObj.MapNumber == lpTarget->MapNumber)
 			{

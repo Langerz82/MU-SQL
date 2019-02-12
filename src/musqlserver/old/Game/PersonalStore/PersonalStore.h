@@ -52,9 +52,9 @@ public:
 	CPersonalStore();
 	virtual ~CPersonalStore();
 
-	void CGPShopReqSetItemPrice(PMSG_REQ_PSHOP_SETITEMPRICE* lpMsg, int aIndex);
+	void CGPShopReqSetItemPrice(PMSG_REQ_PSHOP_SETITEMPRICE* lpMsg, CGameObject &lpObj);
 	void CGPShopAnsSetItemPrice(CGameObject &lpObj, BYTE btResult, BYTE btItemPos);
-	void CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN* lpMsg, int aIndex);
+	void CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN* lpMsg, CGameObject &lpObj);
 	void CGPShopAnsOpen(CGameObject &lpObj, BYTE btResult);
 	void CGPShopReqClose(CGameObject &lpObj);
 	void CGPShopAnsClose(CGameObject &lpObj, BYTE btResult);
@@ -64,7 +64,7 @@ public:
 	void CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex);
 
 	void CGPShopAnsBuyItem(int aSourceIndex, int aTargetIndex, int iItemPos, BYTE btResult);
-	void CGPShopReqCloseDeal(PMSG_REQ_PSHOPDEAL_CLOSE* lpMsg, int aIndex);
+	void CGPShopReqCloseDeal(PMSG_REQ_PSHOPDEAL_CLOSE* lpMsg, CGameObject &lpObj);
 	void CGPShopAnsSoldItem(int aSourceIndex, int aTargetIndex, int iItemPos);
 	void CGPShopAnsDealerClosedShop(int aSourceIndex, int aTargetIndex);
 
@@ -75,8 +75,8 @@ public:
 	bool PShop_CheckInventoryEmpty(short aIndex);
 
 	// Season 8
-	void CGReqSearchItemInPShop(PMSG_REQ_SEARCH_ITEM_PSHOP *lpMsg, int aIndex);
-	void CGReqPShopLog(PMSG_REQ_PSHOP_LOG *lpMsg, int aIndex);
+	void CGReqSearchItemInPShop(PMSG_REQ_SEARCH_ITEM_PSHOP *lpMsg, CGameObject &lpObj);
+	void CGReqPShopLog(PMSG_REQ_PSHOP_LOG *lpMsg, CGameObject &lpObj);
 
 	void GDRequestPShopItemValue(CGameObject* lpObj, char *szAccountID);
 	void GDUpdatePShopItemValue(CGameObject* lpObj);

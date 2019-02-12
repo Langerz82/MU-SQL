@@ -11,7 +11,7 @@
 #include "util.h"
 #include "GameMain.h"
 
-void CGReqQuestSwitch(PMSG_REQ_QUESTEXP *pMsg, int aIndex)
+void CGReqQuestSwitch(PMSG_REQ_QUESTEXP *pMsg, CGameObject &lpObj)
 {
     if( !ObjectMaxRange(aIndex) )
         return;
@@ -53,7 +53,7 @@ void CGReqQuestSwitch(PMSG_REQ_QUESTEXP *pMsg, int aIndex)
     }
 }
 
-void CGReqQuestProgress(PMSG_REQ_QUESTEXP *pMsg, int aIndex)
+void CGReqQuestProgress(PMSG_REQ_QUESTEXP *pMsg, CGameObject &lpObj)
 {
     if( !ObjectMaxRange(aIndex) )
         return;
@@ -83,7 +83,7 @@ void CGReqQuestProgress(PMSG_REQ_QUESTEXP *pMsg, int aIndex)
 	g_MuLuaQuestExp.Generic_Call("CGReqQuestProgress", "iii>", (int)pMsg->dwQuestInfoIndexID, (int)pMsg->btResult, aIndex);
 }
 
-void CGReqQuestComplete(PMSG_REQ_QUESTEXP_COMPLETE *pMsg, int aIndex)
+void CGReqQuestComplete(PMSG_REQ_QUESTEXP_COMPLETE *pMsg, CGameObject &lpObj)
 {
     if( !ObjectMaxRange(aIndex) )
         return;
@@ -112,7 +112,7 @@ void CGReqQuestComplete(PMSG_REQ_QUESTEXP_COMPLETE *pMsg, int aIndex)
 	g_MuLuaQuestExp.Generic_Call("CGReqQuestComplete", "ii>", (int)pMsg->dwQuestInfoIndexID, aIndex);
 }
 
-void CGReqQuestGiveUp(PMSG_REQ_QUESTEXP_GIVEUP *pMsg, int aIndex)
+void CGReqQuestGiveUp(PMSG_REQ_QUESTEXP_GIVEUP *pMsg, CGameObject &lpObj)
 {
     if( !ObjectMaxRange(aIndex) )
         return;
@@ -129,7 +129,7 @@ void CGReqQuestGiveUp(PMSG_REQ_QUESTEXP_GIVEUP *pMsg, int aIndex)
     g_QuestExpProgMng.QuestExpGiveUpBtnClick(pMsg->dwQuestInfoIndexID, aIndex);
 }
 
-void CGReqTutorialKeyComplete(PMSG_REQ_QUESTEXP_ASK_COMPLETE *pMsg, int aIndex)
+void CGReqTutorialKeyComplete(PMSG_REQ_QUESTEXP_ASK_COMPLETE *pMsg, CGameObject &lpObj)
 {
 	if (!ObjectMaxRange(aIndex))
         return;
@@ -146,7 +146,7 @@ void CGReqTutorialKeyComplete(PMSG_REQ_QUESTEXP_ASK_COMPLETE *pMsg, int aIndex)
     g_QuestExpProgMng.ReqQuestAskComplete(pMsg->dwQuestInfoIndexID, aIndex);
 }
 
-void CGReqProgressQuestList(PMSG_REQ_QUESTEXP_PROGRESS_LIST *pMsg, int aIndex)
+void CGReqProgressQuestList(PMSG_REQ_QUESTEXP_PROGRESS_LIST *pMsg, CGameObject &lpObj)
 {
 	if (!ObjectMaxRange(aIndex))
         return;
@@ -157,7 +157,7 @@ void CGReqProgressQuestList(PMSG_REQ_QUESTEXP_PROGRESS_LIST *pMsg, int aIndex)
     g_QuestExpProgMng.SendProgressQuestList(aIndex);
 }
 
-void CGReqProgressQuestInfo(PMSG_REQ_QUESTEXP_PROGRESS_INFO *pMsg, int aIndex)
+void CGReqProgressQuestInfo(PMSG_REQ_QUESTEXP_PROGRESS_INFO *pMsg, CGameObject &lpObj)
 {
 	if (!ObjectMaxRange(aIndex))
         return;
@@ -175,7 +175,7 @@ void CGReqProgressQuestInfo(PMSG_REQ_QUESTEXP_PROGRESS_INFO *pMsg, int aIndex)
     g_QuestExpProgMng.SendQuestProgressInfo(pMsg->dwQuestInfoIndexID, aIndex);
 }
 
-void CGReqEventItemQuestList(PMSG_REQ_EVENT_ITEM_EP_LIST *pMsg, int aIndex)
+void CGReqEventItemQuestList(PMSG_REQ_EVENT_ITEM_EP_LIST *pMsg, CGameObject &lpObj)
 {
 	if (!ObjectMaxRange(aIndex))
         return;
@@ -194,7 +194,7 @@ void CGReqEventItemQuestList(PMSG_REQ_EVENT_ITEM_EP_LIST *pMsg, int aIndex)
 	g_MuLuaQuestExp.Generic_Call("ItemAndEvent", "i>", aIndex);
 }
 
-void CGReqQuestExp(PMSG_REQ_NPC_QUESTEXP *pMsg, int aIndex)
+void CGReqQuestExp(PMSG_REQ_NPC_QUESTEXP *pMsg, CGameObject &lpObj)
 {
 	if (!ObjectMaxRange(aIndex))
         return;
@@ -221,7 +221,7 @@ void CGReqQuestExp(PMSG_REQ_NPC_QUESTEXP *pMsg, int aIndex)
     }
 }
 
-void CGReqAttDefPowerInc(PMSG_REQ_ATTDEF_POWER_INC *pMsg, int aIndex)
+void CGReqAttDefPowerInc(PMSG_REQ_ATTDEF_POWER_INC *pMsg, CGameObject &lpObj)
 {
 	if (!ObjectMaxRange(aIndex))
         return;

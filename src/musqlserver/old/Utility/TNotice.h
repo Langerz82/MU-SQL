@@ -21,7 +21,7 @@ public:
 	static void SendNoticeToAllUser(void * lpNotice);
 	static void SendNoticeToUser(CGameObject &lpObj, void * lpNotice);
 	static void AllSendServerMsg(LPSTR chatmsg);
-	static void GCServerMsgStringSend(LPSTR szMsg, int aIndex, BYTE type);
+	static void GCServerMsgStringSend(LPSTR szMsg, CGameObject &lpObj, BYTE type);
 
 	TNotice(BYTE btType);
 

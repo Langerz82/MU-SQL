@@ -181,7 +181,7 @@ public:
 
 	void Init();
 	int GetCmd(LPSTR szCmd);
-	int ManagementProc(CGameObject &lpObj, LPSTR szCmd, int aIndex);
+	int ManagementProc(CGameObject &lpObj, LPSTR szCmd, CGameObject &lpObj2);
 	LPSTR GetTokenString();
 	CGameObject GetUserInfo(CGameObject &lpUser, LPSTR UserName);
 	int GetTokenNumber();
@@ -192,7 +192,7 @@ public:
 	void SetInfinityArrowTime(CGameObject &lpObj, int iValue);
 	void ControlFireScreamDoubleAttackDistance(CGameObject &lpObj, int iValue);
 	void ManagerInit();
-	int  ManagerAdd(LPSTR name, int aIndex);
+	int  ManagerAdd(LPSTR name, CGameObject &lpObj);
 	void ManagerDel(LPSTR name);
 	void ManagerSendData(LPSTR szMsg, int size);
 	void BattleInfoSend(LPSTR Name1, BYTE score1, LPSTR Name2, BYTE score2);

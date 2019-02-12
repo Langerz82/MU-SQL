@@ -321,7 +321,7 @@ public:
 	int EnterCCF(int iUserIndex, int & nCCFUserIndex);
 	int CheckRankingReqValid(BYTE byCCFType);
 	void DG_Ans_CCF_Rank(PMSG_ANS_CCF_RANK *lpMsg);
-	void Send_RankingInfo(BYTE byCCFType, int aIndex);
+	void Send_RankingInfo(BYTE byCCFType, CGameObject &lpObj);
 	void GiveCCFWinnerItem(int iWinnerIndex, BYTE byCCFType, BYTE byRewardType);
 	void SendNoticeMessage(char* lpszMSG);
 	void GD_SendCCFInfoAllServer(int nMinute, int nType);

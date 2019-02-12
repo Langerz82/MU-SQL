@@ -53,7 +53,7 @@ CMapServerManager::~CMapServerManager()
 	//DeleteCriticalSection(&this->m_critSVRCODE_MAP);
 }
 
-BOOL CMapServerManager::LoadMapData(char* lpszFileName)
+BOOL CMapServerManager::LoadMapData(LPTSTR lpszFileName)
 {
 	if ( (lpszFileName == NULL) || ( strcmp(lpszFileName, "") == 0 ) ) 
 	{

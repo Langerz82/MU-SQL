@@ -357,7 +357,7 @@ public:
 	BOOL bloodangelmix128(CGameObject &lpObj);
 	BOOL bloodangelmix129(CGameObject &lpObj);
 
-	void CheckEmptySpace_MultiMix(PMSG_REQ_CHAOS_MULTIMIX_CHECK * aRecv, int aIndex);
+	void CheckEmptySpace_MultiMix(PMSG_REQ_CHAOS_MULTIMIX_CHECK * aRecv, CGameObject &lpObj);
 
 	void BlessPotionChaosMix_Multi(CGameObject &lpObj, int iMixCount);
 	void SoulPotionChaosMix_Multi(CGameObject &lpObj, int iMixCount);

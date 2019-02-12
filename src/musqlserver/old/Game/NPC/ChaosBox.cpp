@@ -379,7 +379,7 @@ void CMixSystem::DefaultChaosMix(CGameObject &lpObj)
 
 	PHeadSetB((LPBYTE)&pMsg.h, 0x86, sizeof(PMSG_CHAOSMIXRESULT));
 	pMsg.Result = CB_ERROR;
-	int aIndex = lpObj.m_Index;
+	CGameObject &lpObj = lpObj.m_Index;
 	BOOL fail = TRUE;
 	int MixResult2;
 	int WingNum;
@@ -670,7 +670,7 @@ void CMixSystem::LogDQChaosItem(CGameObject &lpObj)
 BOOL CMixSystem::DevilSquareEventChaosMix(CGameObject &lpObj, BOOL bCheckType, int iItemLevel)
 {
 	BOOL fail = TRUE;
-	int aIndex = lpObj.m_Index;
+	CGameObject &lpObj = lpObj.m_Index;
 	PMSG_CHAOSMIXRESULT pMsg;
 
 	PHeadSetB((LPBYTE)&pMsg.h, 0x86, sizeof(PMSG_CHAOSMIXRESULT));
@@ -2944,7 +2944,7 @@ void CMixSystem::DevilSquareItemChaosMix(CGameObject &lpObj)
 		PMSG_CHAOSMIXRESULT pMsg;
 		PHeadSetB((LPBYTE)&pMsg.h, 0x86, sizeof(PMSG_CHAOSMIXRESULT));
 		pMsg.Result = CB_ERROR;
-		int aIndex = lpObj.m_Index;
+		CGameObject &lpObj = lpObj.m_Index;
 		int eventitemcount;
 		int itemlevel;
 		int Ret = CheckDevilSquareItem(lpObj, eventitemcount, itemlevel);
@@ -3021,7 +3021,7 @@ void CMixSystem::BloodCastleItemChaosMix(CGameObject &lpObj)
 	PHeadSetB((LPBYTE)&pMsg.h, 0x86, sizeof(PMSG_CHAOSMIXRESULT));
 	pMsg.Result = CB_ERROR;
 
-	int aIndex = lpObj.m_Index;
+	CGameObject &lpObj = lpObj.m_Index;
 
 	int iRET_VAL = g_BloodCastle.CheckChoasMixItem(aIndex);
 
@@ -9367,7 +9367,7 @@ void CMixSystem::DarkAngelWeaponMix(CGameObject &lpObj, int iMixType)
 	sLog->outBasic("[DarkAngel Weapon] [%s][%s] CBMix Success %d", lpObj.AccountID, lpObj.Name, lpObj.ChaosSuccessRate);
 }
 
-void CMixSystem::CheckEmptySpace_MultiMix(PMSG_REQ_CHAOS_MULTIMIX_CHECK * aRecv, int aIndex)
+void CMixSystem::CheckEmptySpace_MultiMix(PMSG_REQ_CHAOS_MULTIMIX_CHECK * aRecv, CGameObject &lpObj)
 {
 	if (!gObjIsConnectedGP(aIndex))
 	{
@@ -10227,7 +10227,7 @@ void CMixSystem::DevilSquareItemChaosMix_Multi(CGameObject &lpObj, int iMixCount
 	PMSG_CHAOSMIXRESULT pMsg;
 	PHeadSetB((LPBYTE)&pMsg.h, 0x86, sizeof(PMSG_CHAOSMIXRESULT));
 	pMsg.Result = CB_ERROR;
-	int aIndex = lpObj.m_Index;
+	CGameObject &lpObj = lpObj.m_Index;
 
 	BOOL bChaoseGem = FALSE;
 	BOOL bEyeOfDevil = FALSE;

@@ -48,20 +48,20 @@ public:
 	int IsCardNumber(CMuRummyCardInfo *pCCardInfo);
 	BYTE GetColorName(int iColorNum);
 
-	void CGReqMuRummyEventOpen(PMSG_REQ_MURUMMY_EVENT_OPEN *lpMsg, int aIndex);
-	void CGReqMuRummyStart(PMSG_REQ_MURUMMY_INFO *lpMsg, int aIndex);
-	void CGReqCardReveal(PMSG_REQ_REVEAL_CARD *lpMsg, int aIndex);
-	void CGReqCardMove(PMSG_REQ_CARD_MOVE *lpMsg, int aIndex);
-	void CGReqCardReMove(PMSG_REQ_CARD_REMOVE *lpMsg, int aIndex);
-	void CGReqCardMatch(PMSG_REQ_CARD_MATCH *lpMsg, int aIndex);
-	void CGReqMuRummyEnd(PMSG_REQ_MURUMMY_END *lpMsg, int aIndex);
+	void CGReqMuRummyEventOpen(PMSG_REQ_MURUMMY_EVENT_OPEN *lpMsg, CGameObject &lpObj);
+	void CGReqMuRummyStart(PMSG_REQ_MURUMMY_INFO *lpMsg, CGameObject &lpObj);
+	void CGReqCardReveal(PMSG_REQ_REVEAL_CARD *lpMsg, CGameObject &lpObj);
+	void CGReqCardMove(PMSG_REQ_CARD_MOVE *lpMsg, CGameObject &lpObj);
+	void CGReqCardReMove(PMSG_REQ_CARD_REMOVE *lpMsg, CGameObject &lpObj);
+	void CGReqCardMatch(PMSG_REQ_CARD_MATCH *lpMsg, CGameObject &lpObj);
+	void CGReqMuRummyEnd(PMSG_REQ_MURUMMY_END *lpMsg, CGameObject &lpObj);
 
 	void GCSendCardList(CGameObject &lpObj);
 	void GCSendMsg(CGameObject &lpObj, BYTE btNotiIndex, int iValue);
 
-	void CheatSetCardColorAsc(CMuRummyInfo *pMuRummyInfo, int aIndex);
-	void CheatSetCardNumAsc(CMuRummyInfo *pMuRummyInfo, int aIndex);
-	void CheatSetScore(CMuRummyInfo *pMuRummyInfo, int iScore, int aIndex);
+	void CheatSetCardColorAsc(CMuRummyInfo *pMuRummyInfo, CGameObject &lpObj);
+	void CheatSetCardNumAsc(CMuRummyInfo *pMuRummyInfo, CGameObject &lpObj);
+	void CheatSetScore(CMuRummyInfo *pMuRummyInfo, int iScore, CGameObject &lpObj);
 
 	void GDReqCardInfo(CGameObject &lpObj);
 	void GDAnsCardInfo(PMSG_ANS_MURUMMY_SELECT_DS *lpMsg);

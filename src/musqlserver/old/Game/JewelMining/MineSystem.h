@@ -18,9 +18,9 @@ public:
 	void CheckIsUPTUserWhenConnect(CGameObject &lpObj);
 	void GiveRewardItemToUPTUser(CGameObject &lpObj, WORD wTwinkleType, int iStage);
 	
-	void MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, int aIndex);
-	void RewardMineTwinkle(PMSG_REQ_MINETWINKLE_REWARD *lpMsg, int aIndex);
-	void FailMineTwinkle(PMSG_ANS_MINETWINKLE_END_ANIMATION *lpMsg, int aIndex, bool bError);
+	void MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, CGameObject &lpObj);
+	void RewardMineTwinkle(PMSG_REQ_MINETWINKLE_REWARD *lpMsg, CGameObject &lpObj);
+	void FailMineTwinkle(PMSG_ANS_MINETWINKLE_END_ANIMATION *lpMsg, CGameObject &lpObj, bool bError);
 
 	void RequestDBToModifyUPTUserInfo(CGameObject &lpObj, char *szCharName, WORD wTwinkleType, int iCurrentStage, BYTE byRequestType);
 	void GDAnsModifyMineSystemUPTUserInfo(SDHP_ANS_MINESYSTEM_UPT_USERINFO *lpMsg);

@@ -240,7 +240,7 @@ bool CMuRummyMng::SetPlayCardInfo(CMuRummyInfo *pMuRummyInfo,MuRummyCardInfo *pO
 	return true;
 }
 
-void CMuRummyMng::CGReqMuRummyEventOpen(PMSG_REQ_MURUMMY_EVENT_OPEN *lpMsg, int aIndex)
+void CMuRummyMng::CGReqMuRummyEventOpen(PMSG_REQ_MURUMMY_EVENT_OPEN *lpMsg, CGameObject &lpObj)
 {
 	PMSG_ANS_MURUMMY_EVENT_OPEN pMsg;
 
@@ -321,7 +321,7 @@ void CMuRummyMng::CGReqMuRummyEventOpen(PMSG_REQ_MURUMMY_EVENT_OPEN *lpMsg, int 
 	}
 }
 
-void CMuRummyMng::CGReqMuRummyStart(PMSG_REQ_MURUMMY_INFO *lpMsg, int aIndex)
+void CMuRummyMng::CGReqMuRummyStart(PMSG_REQ_MURUMMY_INFO *lpMsg, CGameObject &lpObj)
 {
 	PMSG_ANS_MURUMMY_INFO pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x4D, 0x10, sizeof(pMsg));
@@ -442,7 +442,7 @@ void CMuRummyMng::CGReqMuRummyStart(PMSG_REQ_MURUMMY_INFO *lpMsg, int aIndex)
 	}
 }
 
-void CMuRummyMng::CGReqCardReveal(PMSG_REQ_REVEAL_CARD *lpMsg, int aIndex)
+void CMuRummyMng::CGReqCardReveal(PMSG_REQ_REVEAL_CARD *lpMsg, CGameObject &lpObj)
 {
 	PMSG_ANS_REVEAL_CARD pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x4D, 0x11, sizeof(pMsg));
@@ -629,7 +629,7 @@ BYTE CMuRummyMng::GetTempCardShowSlot(BYTE *pSlotCardIndex)
 	return -1;
 }
 
-void CMuRummyMng::CGReqCardMove(PMSG_REQ_CARD_MOVE *lpMsg, int aIndex)
+void CMuRummyMng::CGReqCardMove(PMSG_REQ_CARD_MOVE *lpMsg, CGameObject &lpObj)
 {
 	PMSG_ANS_CARD_MOVE pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x4D, 0x12, sizeof(pMsg));
@@ -779,7 +779,7 @@ BYTE CMuRummyMng::CardSlotMove(CMuRummyInfo *pCMuRummyInfo, int sSlot, int tSlot
 	return 0;
 }
 
-void CMuRummyMng::CGReqCardReMove(PMSG_REQ_CARD_REMOVE *lpMsg, int aIndex)
+void CMuRummyMng::CGReqCardReMove(PMSG_REQ_CARD_REMOVE *lpMsg, CGameObject &lpObj)
 {
 	PMSG_ANS_CARD_REMOVE pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x4D, 0x13, sizeof(pMsg));
@@ -897,7 +897,7 @@ BYTE CMuRummyMng::CardSlotReMove(CMuRummyInfo *pCMuRummyInfo, int sSlot)
 	return sCardArr;
 }
 
-void CMuRummyMng::CGReqCardMatch(PMSG_REQ_CARD_MATCH *lpMsg, int aIndex)
+void CMuRummyMng::CGReqCardMatch(PMSG_REQ_CARD_MATCH *lpMsg, CGameObject &lpObj)
 {
 	PMSG_ANS_CARD_MATCH pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x4D, 0x14, sizeof(pMsg));
@@ -1181,7 +1181,7 @@ int CMuRummyMng::IsCardNumber(CMuRummyCardInfo *pCCardInfo)
 	return 3;
 }
 
-void CMuRummyMng::CGReqMuRummyEnd(PMSG_REQ_MURUMMY_END *lpMsg, int aIndex)
+void CMuRummyMng::CGReqMuRummyEnd(PMSG_REQ_MURUMMY_END *lpMsg, CGameObject &lpObj)
 {
 	if (ObjectMaxRange(aIndex) == false)
 	{
@@ -1440,7 +1440,7 @@ void CMuRummyMng::GDReqCardInfo(CGameObject &lpObj)
 
 void CMuRummyMng::GDAnsCardInfo(PMSG_ANS_MURUMMY_SELECT_DS *lpMsg)
 {
-	int aIndex = lpMsg->aIndex;
+	CGameObject &lpObj = lpMsg->aIndex;
 
 	if (ObjectMaxRange(aIndex) == false)
 	{
@@ -1740,7 +1740,7 @@ void CMuRummyMng::GDReqMuRummyInfoUpdate(CGameObject &lpObj)
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CMuRummyMng::CheatSetCardColorAsc(CMuRummyInfo *pMuRummyInfo, int aIndex)
+void CMuRummyMng::CheatSetCardColorAsc(CMuRummyInfo *pMuRummyInfo, CGameObject &lpObj)
 {
 	int nCardArr = 0;
 
@@ -1802,7 +1802,7 @@ void CMuRummyMng::CheatSetCardColorAsc(CMuRummyInfo *pMuRummyInfo, int aIndex)
 	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void CMuRummyMng::CheatSetCardNumAsc(CMuRummyInfo *pMuRummyInfo, int aIndex)
+void CMuRummyMng::CheatSetCardNumAsc(CMuRummyInfo *pMuRummyInfo, CGameObject &lpObj)
 {
 	this->SetCardDeck(pMuRummyInfo);
 
@@ -1812,7 +1812,7 @@ void CMuRummyMng::CheatSetCardNumAsc(CMuRummyInfo *pMuRummyInfo, int aIndex)
 	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void CMuRummyMng::CheatSetScore(CMuRummyInfo *pMuRummyInfo, int iScore, int aIndex)
+void CMuRummyMng::CheatSetScore(CMuRummyInfo *pMuRummyInfo, int iScore, CGameObject &lpObj)
 {
 	PMSG_ANS_CARD_MATCH pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0x4D, 0x14, sizeof(pMsg));

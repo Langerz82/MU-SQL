@@ -72,11 +72,9 @@ PvPBalanceInfo* PvPBalance::getInfo(BYTE SourceClassType, BYTE TargetClassType)
 	return NULL;
 }
 
-void PvPBalance::modifyDamage(short UserIndex, short TargetIndex, int& Value)
+void PvPBalance::modifyDamage(CGameObject &objSource, CGameObject &objTarget, int& Value)
 {
-	CGameObject objSource = &gGameObjects[UserIndex];
-	CGameObject objTarget = &gGameObjects[TargetIndex];
-	PvPBalanceInfo* modifyInfo = getInfo(objSource->Class, objTarget->Class);
+	PvPBalanceInfo* modifyInfo = getInfo(objSource.Class, objTarget.Class);
 
 	if (modifyInfo == NULL)
 	{
@@ -106,11 +104,9 @@ void PvPBalance::modifyDamage(short UserIndex, short TargetIndex, int& Value)
 	}
 }
 
-void PvPBalance::modifyAttackRate(short UserIndex, short TargetIndex, float& Value)
+void PvPBalance::modifyAttackRate(CGameObject &objSource, CGameObject &objTarget, float& Value)
 {
-	CGameObject objSource = &gGameObjects[UserIndex];
-	CGameObject objTarget = &gGameObjects[TargetIndex];
-	PvPBalanceInfo* modifyInfo = getInfo(objSource->Class, objTarget->Class);
+	PvPBalanceInfo* modifyInfo = getInfo(objSource.Class, objTarget.Class);
 
 	if (modifyInfo == NULL) {
 		return;
@@ -140,11 +136,9 @@ void PvPBalance::modifyAttackRate(short UserIndex, short TargetIndex, float& Val
 	}
 }
 
-void PvPBalance::modifyDefenseRate(short UserIndex, short TargetIndex, float& Value)
+void PvPBalance::modifyDefenseRate(CGameObject &objSource, CGameObject &objTarget, float& Value)
 {
-	CGameObject* objSource = gGameObjects[UserIndex];
-	CGameObject* objTarget = gGameObjects[TargetIndex];
-	PvPBalanceInfo* modifyInfo = getInfo(objSource->Class, objTarget->Class);
+	PvPBalanceInfo* modifyInfo = getInfo(objSource.Class, objTarget.Class);
 
 	if (modifyInfo == NULL) {
 		return;
@@ -172,8 +166,4 @@ void PvPBalance::modifyDefenseRate(short UserIndex, short TargetIndex, float& Va
 		}
 	}
 }
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
 

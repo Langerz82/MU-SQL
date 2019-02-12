@@ -86,7 +86,7 @@ int gObjServerAdd(SOCKET Socket, char * Ip, int ServerIndex, eSERVER_TYPE eServe
 }
 
 
-void gObjServerDel(int aIndex)
+void gObjServerDel(CGameObject &lpObj)
 {
 
 	EnterCriticalSection(&scriti);

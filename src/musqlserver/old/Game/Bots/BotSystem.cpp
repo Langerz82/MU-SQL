@@ -237,7 +237,7 @@ void CBotSystem::SetAllBots()
 int CBotSystem::AddBot(_sBOT_SETTINGS pBot)
 {
 //--- declare
-	int aIndex = gObjAddMonster(pBot.btMap);
+	CGameObject &lpObj = gObjAddMonster(pBot.btMap);
 	CGameObject lpBotObj = &gGameObjects[aIndex];
 //--- valide
 	if(aIndex == -1)
@@ -857,7 +857,7 @@ void CBotSystem::AlchemistTradeOpen(CGameObject &lpObj, int botIndex)
 
 bool CBotSystem::StoreAddItems(int botIndex)
 {
-	int aIndex = this->m_BotData[botIndex].aIndex;
+	CGameObject &lpObj = this->m_BotData[botIndex].aIndex;
 	for(int i=0;i<this->m_BotData[botIndex].m_Shop.iItemCount;i++)
 	{
 		BYTE blank = this->PShopCheckSpace(&gGameObjects[aIndex],this->m_BotData[botIndex]->m_Shop.pItems[i]->wItemId,&lpObj.pInventoryMap[PSHOP_START_RANGE]);

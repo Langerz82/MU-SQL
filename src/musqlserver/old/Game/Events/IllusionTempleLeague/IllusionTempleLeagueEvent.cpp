@@ -295,7 +295,7 @@ void CIllusionTempleLeagueEvent::ITL_Run()
 	}
 }
 
-void CIllusionTempleLeagueEvent::SetRelicsInventoryPos(BYTE btMapNumber, int aIndex, BYTE btPos)
+void CIllusionTempleLeagueEvent::SetRelicsInventoryPos(BYTE btMapNumber, CGameObject &lpObj, BYTE btPos)
 {
 	if (!ITL_MAP_RANGE(btMapNumber))
 	{
@@ -1154,7 +1154,7 @@ void CIllusionTempleLeagueEvent::DG_ITL_UserCount(PMSG_ANS_ITL_USERCOUNTANS *lpM
 		return;
 	}
 
-	int aIndex = lpMsg->nUserIndex;
+	CGameObject &lpObj = lpMsg->nUserIndex;
 
 	if (!gObjIsConnected(aIndex))
 	{
@@ -1175,7 +1175,7 @@ void CIllusionTempleLeagueEvent::DG_ITL_UserCount(PMSG_ANS_ITL_USERCOUNTANS *lpM
 
 void CIllusionTempleLeagueEvent::DG_ITL_GuildCount(PMSG_ANS_ITL_GUILDCOUNTANS *lpMsg)
 {
-	int aIndex = lpMsg->nUserIndex;
+	CGameObject &lpObj = lpMsg->nUserIndex;
 
 	if (!gObjIsConnected(aIndex))
 	{

@@ -458,7 +458,7 @@ void CIllusionTempleLeagueProcess::Proc_ITLState_None(int nCurTime)
 
 				for (int nIndex = 0; nIndex < 10; nIndex++)
 				{
-					int aIndex = this->m_UserData[nIndex].m_nIndex;
+					CGameObject &lpObj = this->m_UserData[nIndex].m_nIndex;
 
 					if (this->m_UserData[nIndex].m_nIndex != -1 && gGameObjects[this->m_UserData[nIndex]->m_nIndex]->Connected > PLAYER_LOGGED && gGameObjects[this->m_UserData[nIndex]->m_nIndex]->MapNumber == this->m_nTempleNumber + 98)
 					{

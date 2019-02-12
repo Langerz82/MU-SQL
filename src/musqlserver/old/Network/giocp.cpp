@@ -854,7 +854,7 @@ bool CIOCP::DataSend(int aIndex, unsigned char* lpMsg, DWORD dwSize, bool Encryp
 bool CIOCP::IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 {
 	unsigned long SendBytes;
-	int aIndex;
+	CGameObject &lpObj;
 	_PER_IO_CONTEXT * lpIoCtxt;
 
 	EnterCriticalSection(&criti);
@@ -909,7 +909,7 @@ bool CIOCP::IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 bool CIOCP::IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 {
 	unsigned long SendBytes;
-	int aIndex;
+	CGameObject &lpObj;
 	_PER_IO_CONTEXT * lpIoCtxt;
 
 	EnterCriticalSection(&criti);
