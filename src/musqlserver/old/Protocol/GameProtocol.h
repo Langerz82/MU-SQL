@@ -549,7 +549,7 @@ public:
 	void GCDamageSendPoison(CGameObject &lpObj, int damage, int iShieldDamage);
 	void GCDamageSend(CGameObject &lpObj, int TargetIndex, int AttackDamage, int MSBFlag, int MSBDamage, int iShieldDamage);
 	void GCKillPlayerExpSend(CGameObject &lpObj, int TargetIndex, int exp, int AttackDamage, int MSBFlag);
-	void GCKillPlayerMasterExpSend(CGameObject &lpObj, int TargetIndex, int exp, int AttackDamage, BOOL MSBFlag);
+	void GCKillPlayerMasterExpSend(CGameObject &Obj, CGameObject &ObjTarget, int exp, int AttackDamage, BOOL MSBFlag);
 	void GCDiePlayerSend(CGameObject &lpObj, int TargetIndex, BYTE skill, int KillerIndex);
 	void GCActionSend(CGameObject &lpObj, BYTE ActionNumber, CGameObject &lpObjTarget);
 	void CGActionRecv(PMSG_ACTION* lpMsg, CGameObject &lpObj);

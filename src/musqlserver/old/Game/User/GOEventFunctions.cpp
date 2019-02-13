@@ -91,7 +91,7 @@ bool gObjEventInventoryDeleteItem(CGameObject &lpObj, int itempos)
 
 BYTE gObjEventInventoryInsertItemTemp(CGameObject &lpObj, CMapItem * Item)
 {
-	CItem item;
+	CItemObject item;
 	int w, h, iwidth, iheight;
 	BYTE blank = 0;
 
@@ -130,7 +130,7 @@ BYTE gObjEventInventoryInsertItem(CGameObject &lpObj, CMapItem * item)
 	int w, h, iwidth, iheight;
 	BYTE blank = 0;
 
-	CItem copyitem;
+	CItemObject copyitem;
 
 	if (item->GetSize((int &)iwidth, (int &)iheight) == 0)
 	{
@@ -172,7 +172,7 @@ GOTO_EndFunc:
 	return -1;
 }
 
-BYTE gObjEventInventoryInsertItem(CGameObject &lpObj, CItem item)
+BYTE gObjEventInventoryInsertItem(CGameObject &lpObj, CItemObject item)
 {
 	int w, h, iwidth, iheight;
 	BYTE blank = 0;
@@ -605,7 +605,7 @@ BYTE gObjTempEventInventoryRectCheck(CGameObject &lpObj, BYTE * TempMap, int sx,
 	return -1;
 }
 
-BYTE gObjTempEventInventoryInsertItem(CGameObject &lpObj, CItem item, BYTE * TempMap)
+BYTE gObjTempEventInventoryInsertItem(CGameObject &lpObj, CItemObject item, BYTE * TempMap)
 {
 	int w, h, iwidth, iheight;
 	BYTE blank = 0;
@@ -666,7 +666,7 @@ BOOL CheckEventInventoryEmptySpace(CGameObject &lpObj, int iItemHeight, int iIte
 	return FALSE;
 }
 
-BOOL IsEventItem(CItem item)
+BOOL IsEventItem(CItemObject &item)
 {
 	LPITEM_ATTRIBUTE pItemAttribute = GetItemAttr(item.m_Type);
 
@@ -738,7 +738,7 @@ BYTE gObjEventInventoryRectCheck(CGameObject &lpObj, int sx, int sy, int width, 
 	return  -1;
 }
 
-BYTE gObjEventInventoryInsertItemPos(CGameObject &lpObj, CItem item, int pos, BOOL RequestCheck)
+BYTE gObjEventInventoryInsertItemPos(CGameObject &lpObj, CItemObject item, int pos, BOOL RequestCheck)
 {
 	if (pos < 0 || pos > EVENT_INVENTORY_SIZE)
 	{

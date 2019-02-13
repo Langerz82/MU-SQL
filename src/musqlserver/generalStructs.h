@@ -38,7 +38,7 @@ struct STR_PARTY_MEMBER_WAIT_LIST;
 
 
 // Forward Declarations.
-
+struct _PER_SOCKET_CONTEXT;
 struct __ITL_GUILD_RANK;
 struct _ITL_AnswerEnter;
 struct _ITR_AcceptEnter;

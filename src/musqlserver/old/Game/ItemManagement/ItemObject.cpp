@@ -4578,7 +4578,7 @@ int CItemObject::GetMuunItemRank()
 }
 
 //-----------------------------------------------------------
-// End of CItem class
+// End of CItemObject class
 //-----------------------------------------------------------
 
 void BufferItemtoConvert3(unsigned char* buf, int& type, BYTE& level, BYTE& op1, BYTE& op2, BYTE& op3, BYTE& dur)

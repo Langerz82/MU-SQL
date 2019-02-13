@@ -11678,7 +11678,7 @@ void GameProtocol::GCKillPlayerExpSend(CGameObject &lpObj, int TargetIndex, int 
 	IOCP.DataSend(lpObj.m_Index, (UCHAR*)&pkillMsg, pkillMsg.h.size);
 }
 
-void GameProtocol::GCKillPlayerMasterExpSend(CGameObject &lpObj, int TargetIndex, int exp, int AttackDamage, BOOL MSBFlag)
+void GameProtocol::GCKillPlayerMasterExpSend(CGameObject &Obj, CGameObject &ObjTarget, int exp, int AttackDamage, BOOL MSBFlag)
 {
 	PMSG_KILLPLAYER_EXT pkillMsg;
 

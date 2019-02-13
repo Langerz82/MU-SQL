@@ -23,8 +23,7 @@ void gObjTempEventInventoryItemBoxSet(BYTE * TempMap, int itempos, int xl, int y
 BYTE gObjTempEventInventoryRectCheck(CGameObject &lpObj, BYTE * TempMap, int sx, int sy, int width, int height);
 BYTE gObjTempEventInventoryInsertItem(CGameObject &lpObj, CItemObject item, BYTE * TempMap);
 int CheckEventInventoryEmptySpace(CGameObject &lpObj, int iItemHeight, int iItemWidth);
-int IsEventItem(CItemObject item);
-int IsEventItem(int iType);
+int IsEventItem(CItemObject &item);
 BYTE gObjEventInventoryRectCheck(CGameObject &lpObj, int sx, int sy, int width, int height);
 BYTE gObjEventInventoryInsertItemPos(CGameObject &lpObj, CItemObject item, int pos, BOOL RequestCheck);
 int gObjEventInventorySearchSerialNum(CGameObject &lpObj, UINT64 serial);
@@ -46,8 +45,7 @@ extern void gObjTempEventInventoryItemBoxSet(BYTE * TempMap, int itempos, int xl
 extern BYTE gObjTempEventInventoryRectCheck(CGameObject &lpObj, BYTE * TempMap, int sx, int sy, int width, int height);
 extern BYTE gObjTempEventInventoryInsertItem(CGameObject &lpObj, CItemObject item, BYTE * TempMap);
 extern int CheckEventInventoryEmptySpace(CGameObject &lpObj, int iItemHeight, int iItemWidth);
-extern int IsEventItem(CItemObject item);
-extern int IsEventItem(int iType);
+extern int IsEventItem(CItemObject &item);
 extern BYTE gObjEventInventoryRectCheck(CGameObject &lpObj, int sx, int sy, int width, int height);
 extern BYTE gObjEventInventoryInsertItemPos(CGameObject &lpObj, CItemObject item, int pos, BOOL RequestCheck);
 extern int gObjEventInventorySearchSerialNum(CGameObject &lpObj, UINT64 serial);
