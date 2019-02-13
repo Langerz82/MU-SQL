@@ -13,12 +13,18 @@
 #include "EvolutionMonsterInfo.h"
 #include "QuestExpUserInfo.h"
 
+
+
 class CAttackQueue;
 class CUserData;
+struct CharacterNameOfUBF;
+
 struct MessageStateMachine;
 struct ExMessageStateMachine;
-struct _GUILD_INFO_STRUCT;
-
+struct GUILD_INFO_STRUCT;
+struct STR_CONNECT_USER;
+struct JEWELOFHARMONY_ITEM_EFFECT;
+struct SOCKET_OPTION_LIST;
 
 
 extern int MaxViewportMonster;
@@ -53,7 +59,8 @@ public:
 
 public:
 	int IDNumber;
-	char Ip_addr[16];	// 18
+	STR_CONNECT_USER* ConnectUser;
+	//char Ip_addr[16];	// 18
 	char HWID[100];
 	UINT64 Experience;	// AC
 	UINT64 NextExp; // B0
@@ -71,7 +78,7 @@ public:
 	WORD Energy;	// BE
 	BYTE  DbClass;	// 9E
 	BYTE  ChangeUP; // 9F
-	_GUILD_INFO_STRUCT *lpGuild;	// 2D4
+	GUILD_INFO_STRUCT *lpGuild;	// 2D4
 	char GuildName[11]; // 2D8
 	int GuildStatus;	// 2E4
 	int iGuildUnionTimeStamp;	// 2E8

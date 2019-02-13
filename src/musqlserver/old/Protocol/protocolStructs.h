@@ -969,6 +969,89 @@ struct PMSG_ANS_PSHOP_VIEWPORT_NOTIFY;
 struct PMSG_REQ_PSHOP_LOG;
 struct PMSG_REQ_SEARCH_ITEM_PSHOP;
 struct PMSG_AUTOUPDATE;
+struct PMSG_SERVER_SELECT;
+
+
+
+////////// Connect Server - Packets.
+struct PMSG_CONNECT_INFO
+{
+	PBMSG_HEAD		h;
+	UCHAR			SubHead;
+	char			IP[16];
+	USHORT			Port;
+};
+
+struct PMSG_SERVERSLIST_COUNT
+{
+	PWMSG_HEAD2		h;
+	BYTE			CountH;
+	BYTE			CountL;
+};
+
+struct PMSG_SERVERLIST_SERVER
+{
+	WORD			wServerCode;
+	BYTE			btPercent;
+	BYTE			btPlayType;
+};
+
+struct PMSG_SERVER_SELECT
+{
+	PBMSG_HEAD2		h;
+	WORD			ServerCode;
+};
+
+struct PMSG_SEND_NEWS
+{
+	PWMSG_HEAD2 h;
+	BYTE Day;
+	BYTE Month;
+	WORD year;
+
+	COLORREF dateColor;
+	COLORREF titleColor;
+	COLORREF textColor;
+	char title[40];
+	WORD textLen;
+	//char Text[2048];
+};
+
+struct PMSG_SEND_TITLE
+{
+	PBMSG_HEAD2 h;
+	char ServerName[12];
+};
+
+struct PMSG_RESULT
+{
+	PBMSG_HEAD		h;
+	UCHAR			result;
+};
+
+struct PMSG_SERVERINFO
+{
+	PBMSG_HEAD h;	// C1:01
+	short ServerCode;	// 4
+	BYTE Percent;	// 6
+	BYTE PlayType;
+	short UserCount;	// 8
+	short AccountCount;	// A
+	short MaxUserCount;	// E
+};
+
+struct PMSG_AUTOUPDATE
+{
+	PBMSG_HEAD h;
+	BYTE MainVersion;
+	BYTE HeadVersion;
+	BYTE SubVersion;
+	char HostURL[100];
+	WORD FTPPort;
+	char FTPLogin[20];
+	char FTPPassword[20];
+	char VersionFile[20];
+};
 
 struct PMSG_CLIENTVERSION
 {
@@ -1002,18 +1085,6 @@ struct PMSG_LAUNCHERERROR
 	BYTE ERRORCODE;
 };
 
-struct PMSG_AUTOUPDATE
-{
-	PBMSG_HEAD h;
-	BYTE MainVersion;
-	BYTE HeadVersion;
-	BYTE SubVersion;
-	char HostURL[100];
-	WORD FTPPort;
-	char FTPLogin[20];
-	char FTPPassword[20];
-	char VersionFile[20];
-};
 
 struct PMSG_REQ_SEARCH_ITEM_PSHOP
 {
@@ -1045,7 +1116,7 @@ struct PMSG_REQ_PSHOP_SETITEMPRICE
 	BYTE sJewelOfChaosPrice1;
 	BYTE sJewelOfChaosPrice2;
 };
-
+////////// Connect Server - Packets.
 
 struct PMSG_REQ_PSHOP_OPEN
 {
@@ -7077,6 +7148,7 @@ struct PMSG_SERVERINFO {
 	PBMSG_HEAD2 h;
 	short ServerCode;
 	BYTE Percent;
+	BYTE PlayType; // added
 	short UserCount;
 	short AccountCount;
 	short PCbangCount;

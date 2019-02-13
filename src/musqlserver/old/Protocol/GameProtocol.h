@@ -454,7 +454,7 @@ public:
 	void GCServerMsgStringSendEx(CGameObject &lpObj, BYTE type, LPSTR szMsg, ...);
 	void GCServerMsgStringSendAll(LPSTR  szMsg, BYTE type);
 	void GCServerMsgStringSendAllEx(BYTE type, LPSTR szMsg, ...);
-	void GCServerMsgStringSendGuild(_GUILD_INFO_STRUCT &lpNode, char* szMsg, BYTE type);
+	void GCServerMsgStringSendGuild(GUILD_INFO_STRUCT &lpNode, char* szMsg, BYTE type);
 	void GCEventStateSend(CGameObject &lpObj, BYTE state, BYTE event);
 	void GCMapEventStateSend(int map, BYTE state, BYTE event);
 	void CGChatWhisperRecv(PMSG_CHATDATA_WHISPER* lpMsg, CGameObject &lpObj);

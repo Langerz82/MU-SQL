@@ -7284,7 +7284,7 @@ void GDAnsJoinMemberUnder(_tagPMSG_ANS_AB_JOIN_MEMBER_UNDER_DS *lpMsg)
 
 	for (int i = 0; i < lpMsg->btGuildCnt; ++i)
 	{
-		_GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild(lpMsg->GuildMemberCnt[i].szGuildNames);
+		GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild(lpMsg->GuildMemberCnt[i].szGuildNames);
 
 		if (lpMsg->GuildMemberCnt[i].btGuildMemberCnt < g_ArcaBattle.GetJoinMemberCnt() && lpGuild != NULL)
 		{

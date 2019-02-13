@@ -21,7 +21,7 @@ class CItem;
 
 // Fwd Declaration.
 
-struct _GUILD_INFO_STRUCT;
+struct GUILD_INFO_STRUCT;
 struct _ListNode;
 struct _PER_IO_CONTEXT;
 struct _stGremoryCaseItem;
@@ -41,7 +41,6 @@ struct MU_WSAOVERLAPPED;
 struct PARTYMATCHING_PARTYUSERDATA;
 struct PER_IO_CONTEXT_L;
 struct PMSG_GREMORYCASE_ITEM;
-struct STR_GUILD_INFO_STRUCT;
 struct STR_GUILD_MEMBER;
 struct STR_ITEM_LEVEL_RATE;
 struct STR_ITEMPERIOD_DATEINFO;
@@ -56,7 +55,41 @@ struct STR_STAT_BONUS;
 struct STR_STRINGCOMPARE;
 struct STR_UNION_MEMBER_DATA;
 struct STR_USER_SHOP_REBUY_ITEM;
+struct STR_CONNECT_USER;
+struct CharacterNameOfUBF;
 
+struct STR_CONNECT_USER
+{
+	int Index;
+	int ConnectionState;
+	char IP[20];
+	unsigned int Port;
+	unsigned char Type;
+	SOCKET socket;
+	_PER_SOCKET_CONTEXT * PerSocketContext;
+	bool News;
+	int PacketCount;
+	ULONGLONG i64PacketTime;
+};
+
+
+
+
+struct SOCKET_OPTION_LIST
+{
+	BYTE m_SocketOptionIndex;
+	BYTE m_SocketOptionValueType;
+	WORD m_SocketOptionValue;
+	BYTE m_SocketOptionCount;
+
+	void Clear()
+	{
+		this->m_SocketOptionIndex = 0xFF;
+		this->m_SocketOptionValue = 0;
+		this->m_SocketOptionValueType = 0;
+		this->m_SocketOptionCount = 0;
+	}
+};
 
 struct MU_WSAOVERLAPPED {
 	DWORD    Internal;
@@ -931,6 +964,7 @@ struct JEWELOFHARMONY_ITEM_OPTION
 
 struct JEWELOFHARMONY_ITEM_EFFECT
 {
+	JEWELOFHARMONY_ITEM_EFFECT() {}
 	short HJOpAddMinAttackDamage;	// 0
 	short HJOpAddMaxAttackDamage;	// 2
 	short HJOpRequireStr;	// 4
@@ -1316,7 +1350,7 @@ struct STR_STRINGCOMPARE
 } ;
 
 typedef std::map<std::string, STR_GUILD_MEMBER*, STR_STRINGCOMPARE> MAP_GUILD_MEMBER;
-typedef std::map<std::string, STR_GUILD_INFO_STRUCT &, STR_STRINGCOMPARE> MAP_GUILD_INFO;
+typedef std::map<std::string, GUILD_INFO_STRUCT &, STR_STRINGCOMPARE> MAP_GUILD_INFO;
 typedef std::map<int, STR_UNION_MEMBER_DATA*> MAP_MEMBER_DATA;
 
 
@@ -1768,7 +1802,7 @@ struct stMemberPosInfo {
 	BYTE btPosY;
 };
 
-struct _GUILD_INFO_STRUCT
+struct GUILD_INFO_STRUCT
 {
 	int Number;	//0
 	char Name[9];	//4
@@ -1781,7 +1815,7 @@ struct _GUILD_INFO_STRUCT
 	char pServer[MAX_USER_GUILD];	//490
 	char TargetGuildName[9];	//4E0
 	short TargetIndex[MAX_USER_GUILD];	//4EA
-	_GUILD_INFO_STRUCT *lpTargetGuildNode;	//58C
+	GUILD_INFO_STRUCT *lpTargetGuildNode;	//58C
 	unsigned char WarDeclareState;	//590
 	unsigned char WarState;	//591
 	unsigned char WarType;	//592
@@ -1796,13 +1830,13 @@ struct _GUILD_INFO_STRUCT
 	int iGuildRival;	//720
 	int iTimeStamp;	//724
 	char szGuildRivalName[9];	//728
-	_GUILD_INFO_STRUCT *back;	//734
-	_GUILD_INFO_STRUCT *next;	//738
+	GUILD_INFO_STRUCT *back;	//734
+	GUILD_INFO_STRUCT *next;	//738
 	CGameObject* lpLifeStone;
 	int btLifeStoneCount;
 
 	// #error Deathay Fix here
-	_GUILD_INFO_STRUCT() { return; };
+	GUILD_INFO_STRUCT() { return; };
 	int  GetGuildUnion() { return this->iGuildUnion; };
 	int  GetGuildRival() { return this->iGuildRival; };
 
@@ -1832,33 +1866,6 @@ struct _GUILD_INFO_STRUCT
 	{
 		return (iTime == this->iTimeStamp) ? TRUE : FALSE;
 	}	// line : 129
-};
-
-struct STR_GUILD_INFO_STRUCT {
-	int m_iNumber;
-	char m_szGuildName[9];
-	char m_szGuildMaster[11];
-	BYTE m_btGuildType;
-	MAP_GUILD_MEMBER m_mapGuildMember;
-	int m_iRivalGuild;
-	int m_iUnionGuild;
-	BYTE m_Mark[32];
-	int m_Score;
-	char m_Notice[128];
-	BOOL m_bGSHasData;
-	STR_GUILD_INFO_STRUCT() {
-		m_iNumber = -1;
-		memset(m_szGuildName, 0, sizeof(m_szGuildName));
-		memset(m_szGuildMaster, 0, sizeof(m_szGuildMaster));
-		m_btGuildType = -1;
-		memset(m_Mark, 0, sizeof(m_Mark));
-		memset(m_Notice, 0, sizeof(m_Notice));
-		m_iRivalGuild = 0;
-		m_iUnionGuild = 0;
-		m_Score = 0;
-		m_mapGuildMember.clear();
-		m_bGSHasData = FALSE;
-	}
 };
 
 struct JOIN_SERVER_SERVER_DATA {
@@ -1991,13 +1998,14 @@ struct PacketQueue
 
 // USER STRUCTS
 
-typedef union tagPATHTABLE
+struct PATHTABLE
 {
 	short sPathTable[16];
 	char cPathTable[32];
-} PATHTABLE, *LPPATHTABLE;
+};
 
-typedef struct tagActionState
+
+struct STR_ACTION_STATE
 {
 	unsigned long Rest : 1;	// 0
 	unsigned long Attack : 1;	// 1
@@ -2006,15 +2014,29 @@ typedef struct tagActionState
 	unsigned long Emotion : 4;	// 4
 	unsigned long EmotionCount : 8;	// 8
 
-} ACTION_STATE, *LPACTION_STATE;
+};
 
-typedef struct tagInterfaceState
+struct STR_INTERFACE_STATE;
+struct STR_INTERFACE_STATE
 {
 	DWORD use : 2;
 	DWORD state : 4;
 	DWORD type : 10;
 
-} INTERFACE_STATE, *LPINTERFACE_STATE;
+};
+
+struct STR_EFFECTLIST;
+struct STR_EFFECTLIST
+{
+	BYTE BuffIndex;
+	BYTE EffectCategory;
+	BYTE EffectType1;
+	BYTE EffectType2;
+	int EffectValue1;
+	int EffectValue2;
+	ULONGLONG EffectSetTime;
+	int EffectDuration;
+};
 
 extern short RoadPathTable[MAX_ROAD_PATH_TABLE];
 extern BOOL g_EnergyCheckOff;
@@ -2599,6 +2621,7 @@ struct MOVE_MAPSERVER_AUTHINFO
 	int iJA4;
 };
 
+struct CharacterNameOfUBF;
 struct CharacterNameOfUBF
 {
 	void Clear()

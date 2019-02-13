@@ -10,12 +10,23 @@
 #include "TDurMagicKeyChecker.h"
 #include "TMonsterSkillElementInfo.h"
 #include "TMonsterAIAgro.h"
+#include "MagicInf.h"
 
 #include <vector>
 
 class CRaklionUtil;
 class CGameObject;
 class CUserData;
+class CItem;
+
+struct STR_ACTION_STATE;
+struct VIEWPORT_STRUCT;
+struct VIEWPORT_PLAYER_STRUCT;
+struct HITDAMAGE_STRUCT;
+struct STR_INTERFACE_STATE;
+struct STR_EFFECTLIST;
+struct JEWELOFHARMONY_ITEM_EFFECT;
+
 
 
 class CGameObject
@@ -29,7 +40,7 @@ public:
 	char CloseCount;	// A
 	char CloseType;	// B
 	bool bEnableDelCharacter;	// C
-	_PER_SOCKET_CONTEXT* PerSocketContext;	// 10
+	//_PER_SOCKET_CONTEXT* PerSocketContext;	// 10
 	unsigned int m_socket;	// 14
 	int UserNumber;	// 28
 	int DBNumber;	// 2C
@@ -129,7 +140,7 @@ public:
 	DWORD PenaltyMask;
 	time_t ChatBlockTime;
 	BYTE  m_cAccountItemBlock; // 1D0
-	ACTION_STATE m_ActState;	// 1D4
+	STR_ACTION_STATE* m_ActState;	// 1D4
 	BYTE  m_ActionNumber;	// 1D8
 	DWORD m_ActionTime;
 	BYTE  m_ActionCount;
@@ -139,7 +150,7 @@ public:
 	unsigned char m_Rest;	// 1E1
 	BYTE		m_ViewState;
 	BYTE		m_BuffEffectCount;
-	EFFECTLIST	m_BuffEffectList[MAX_BUFFEFFECT];
+	STR_EFFECTLIST* m_BuffEffectList[MAX_BUFFEFFECT];
 	DWORD m_LastMoveTime;	// 1E8
 	DWORD m_LastAttackTime;	// 1EC
 	BYTE m_FriendServerOnline;	// 1F0
@@ -149,7 +160,7 @@ public:
 	int m_DetectedHackKickCount;	// 200
 	int m_SpeedHackPenalty;	// 204
 	unsigned char m_AttackSpeedHackDetectedCount;	// 208
-	unsigned long m_PacketCheckTime;	// 20C
+	//unsigned long m_PacketCheckTime;	// 20C
 	unsigned char m_ShopTime;	// 210
 	unsigned long m_TotalAttackTime;	// 214
 	int m_TotalAttackCount;	// 218
@@ -240,13 +251,13 @@ public:
 	char m_AddResistance[MAX_RESISTENCE_TYPE];	// 389
 	int FrustrumX[MAX_ARRAY_FRUSTRUM];	// 390
 	int FrustrumY[MAX_ARRAY_FRUSTRUM]; // 3A4
-	VIEWPORT_STRUCT * VpPlayer;	// 3B0
+	VIEWPORT_STRUCT* VpPlayer;	// 3B0
 	VIEWPORT_PLAYER_STRUCT * VpPlayer2;	// 734
 	int VPCount; // AB8
 	int VPCount2;	// ABC
-	HITDAMAGE_STRUCT * sHD;	// AC0
+	HITDAMAGE_STRUCT* sHD;	// AC0
 	short sHDCount;	// CA0
-	tagInterfaceState m_IfState;	// CA4
+	STR_INTERFACE_STATE* m_IfState;	// CA4
 	DWORD m_InterfaceTime;	// CA8
 	CItem* pInventory; // CAC
 	LPBYTE  pInventoryMap; // CB0

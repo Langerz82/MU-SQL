@@ -2388,7 +2388,7 @@ void GameProtocol::GCServerMsgStringSendEx(CGameObject &lpObj, BYTE type, LPSTR 
 }
 
 
-void GameProtocol::GCServerMsgStringSendGuild(_GUILD_INFO_STRUCT &lpNode, LPSTR szMsg, BYTE type)
+void GameProtocol::GCServerMsgStringSendGuild(GUILD_INFO_STRUCT &lpNode, LPSTR szMsg, BYTE type)
 {
 	if (lpNode == NULL)
 	{

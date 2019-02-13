@@ -2,12 +2,15 @@
 #define _MU_CONNECTPROTOCOL_H_
 
 #include "StdAfx.h"
+#include "protocolStructs.h"
 #include "IOCP.h"
 #include "ServerData.h"
 #include "ConnectServer.h"
 #include "ConnectEngine.h"
 
-void CSProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, CGameObject &lpObj, bool Encrypt, int serial);
+class CUserData;
+
+void CSProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, CUserData &Obj, bool Encrypt, int serial);
 void UDPProtocolCore(BYTE hCode, LPBYTE aRecv, int aLen);
 void UDPSetServerInfo(PMSG_SERVERINFO * aRecv);
 void SCSendServerList(CUserData &Obj);

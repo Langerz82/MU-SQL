@@ -968,7 +968,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, CGameObject &lpObjTa
 
 						char szTemp[100];
 
-						_GUILD_INFO_STRUCT* guild = lpObj.m_PlayerData->lpGuild;
+						GUILD_INFO_STRUCT* guild = lpObj.m_PlayerData->lpGuild;
 						wsprintf(szTemp, Lang.GetText(0, 61), lpObj.m_PlayerData->lpGuild->Names[0]);
 						gGameProtocol.GCServerMsgStringSendGuild(*guild, szTemp, 1);
 						gGameProtocol.GCServerMsgStringSendGuild(*guild, szTemp, 1);
