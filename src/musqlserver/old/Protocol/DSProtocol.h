@@ -12,8 +12,8 @@
 #endif // _MSC_VER > 1000
 
 #include "prodef.h"
-#include "user.h"
-#include "./Eventos/ArcaBattle/ArcaBattle.h"
+#include "CUserData.h"
+#include "ArcaBattle.h"
 #include "DevilSquareFinal.h"
 
 /* * * * * * * * * * * * * * * * * * * * * 

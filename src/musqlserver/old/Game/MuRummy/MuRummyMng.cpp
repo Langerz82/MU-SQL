@@ -9,7 +9,7 @@
 #include "BagManager.h"
 
 #include "Logging/Log.h"
-#include "IniReader.h"
+#include "iniReader/IniReader.h"
 #include "configread.h"
 
 CMuRummyMng g_CMuRummyMng;

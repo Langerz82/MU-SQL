@@ -14,97 +14,6 @@
 #include "StdAfx.h"
 #include "CGameObject.h"
 
-#define MAX_TYPE_PLAYER 8 
-#define MAX_ITEM_LEVEL	15
-// ItemAttribute Begin:9439368 END 9446B68 Array[512]
-
-// ***************************
-// Item Limits
-// **************************
-#define MAX_TYPE_ITEMS 16
-#define MAX_SUBTYPE_ITEMS 512
-
-#define MAX_EXOPTION_SIZE 8
-
-// ********************
-// MACRO for get Item
-// ********************
-#define ITEMGET(x,y) ( (x)*MAX_SUBTYPE_ITEMS + (y))
-
-// **************
-// Pet Level
-// **************
-#define MAX_PET_LEVEL 70
-
-#define MAX_ITEM_DURABILITY	255
-
-#define MAX_ITEMS (MAX_TYPE_ITEMS*MAX_SUBTYPE_ITEMS)
-
-#define CHECK_ITEM(x) (((x)<0)?-1:((x)>=MAX_ITEMS)?-1:x)
-
-#define MAX_ITEM_SPECIAL_ATTRIBUTE 7
-
-#define DBI_GET_TYPE(x) ( ((x)&((MAX_TYPE_ITEMS-1)<<8))>>4 )
-#define DBI_GET_INDEX(x) ( (x) & 0xFF )
-#define DBI_GET_LEVEL(x)  ( ((x)>>3)& 0xF )
-#define DBI_GET_SKILL(x)  ( ((x) >> 7) & 0x01)
-#define DBI_GET_LUCK(x)  ( ((x) >> 2) & 0x01)
-#define DBI_GET_OPTION(x)  ( ( (x) ) & 0x03 )
-#define DBI_GET_OPTION16(x) ( (x) & 0x40  )
-#define DBI_GET_DINO_OPTION(x)  ( DBI_GET_OPTION16((x)) >> 4 )
-#define DBI_GET_NOPTION(x)  ( (x) & 0x3F  )
-#define DBI_GET_380OPTION(x) ( ((x) & 0x08) << 4  )
-#define ITEM_GET_TYPE(x)  ( (x)/MAX_SUBTYPE_ITEMS  )
-#define ITEM_GET_INDEX(x) ( (x)%MAX_SUBTYPE_ITEMS  )
-
-#define DBI_TYPE			0
-#define DBI_OPTION_DATA		1
-#define DBI_DUR				2
-#define DBI_SERIAL1			3
-#define DBI_SERIAL2			4
-#define DBI_SERIAL3			5
-#define DBI_SERIAL4			6
-#define DBI_NOPTION_DATA	7
-#define DBI_SOPTION_DATA	8
-#define DBI_OPTION380_DATA	9
-#define DBI_JOH_DATA		10
-#define DBI_SOCKET_1		11
-#define DBI_SOCKET_2		12
-#define DBI_SOCKET_3		13
-#define DBI_SOCKET_4		14
-#define DBI_SOCKET_5		15
-#define DBI_SERIAL5			16
-#define DBI_SERIAL6			17
-#define DBI_SERIAL7			18
-#define DBI_SERIAL8			19
-
-#define MAX_ITEM_INFO		12
-#define MAX_DBITEM_INFO		32
-
-#define I_TYPE		0
-#define I_OPTION	1
-#define I_DUR		2
-#define I_NOPTION	3
-#define I_SOPTION	4
-#define I_380OPTION	5
-#define I_JOHOPTION	6
-#define I_SOCKET1	7
-#define I_SOCKET2	8
-#define I_SOCKET3	9
-#define I_SOCKET4	10
-#define I_SOCKET5	11
-
-#define MAX_SOCKET_OPTION 5
-
-#define ITEMTYPE_COMMON		0
-#define ITEMTYPE_NORMAL		1
-#define ITEMTYPE_SOCKET		2
-#define ITEMTYPE_380		3
-#define ITEMTYPE_LUCKY		4
-#define ITEMTYPE_EVENT		5
-#define ITEMTYPE_ANGEL		6
-#define ITEMTYPE_CHAOS		7
-
 enum DETAIL_ITEM_TYPE
 {
 	ITEM_TWOHAND_SWORD = 0,
@@ -271,6 +180,7 @@ extern  ITEM_ATTRIBUTE ItemAttribute[MAX_ITEMS];
 typedef ITEM_ATTRIBUTE* LPITEM_ATTRIBUTE;
 
 class CGameObject;
+class CItem;
 
 class CItem
 {

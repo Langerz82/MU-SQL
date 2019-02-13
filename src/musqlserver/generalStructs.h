@@ -6,53 +6,111 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "MuDefines.h"
+#include "CGameObject.h"
+#include "CUserData.h"
+#include "ItemManagement/Item.h"
+
 #include "ServerEngine.h"
 #include "MuunInfo.h"
-#include "ItemManagement/Item.h"
 #include "itemsocketoptiondefine.h"
 
 #include <string>
 #include <map>
 
-// Fwd Declaration.
 class CItem;
 
+// Fwd Declaration.
 
-struct STR_ITEM_LEVEL_RATE;
-struct STR_LUCKY_ITEM_EQUIPMENT;
-struct STR_SMELT_RATE;
-struct STR_LUCKY_ITEM_INFO;
-struct STR_USER_SHOP_REBUY_ITEM;
-struct STR_ITEMPERIOD_DATEINFO;
-struct STR_GUILD_MEMBER;
-struct STR_GUILD_INFO_STRUCT;
-struct STR_UNION_MEMBER_DATA;
-struct PARTYMATCHING_PARTYUSERDATA;
-struct STR_sellItemPrice;
-struct STR_PARTY_MEMBER_WAIT_LIST;
-struct STR_PSHOP_ITEMVALUE_INFO_DS;
-struct STR_STAT_BONUS;
-struct STR_PARTYMATCHING_PARTYUSERDATA;
-struct DevilSquareScoreInfo;
-struct DevilSquareBossMonsterInfo;
-struct DevilSquareMonsterInfo;
+struct _GUILD_INFO_STRUCT;
+struct _ListNode;
+struct _PER_IO_CONTEXT;
+struct _stGremoryCaseItem;
 struct CUSTOM_EVENT_DROP_INFO;
-struct CUSTOM_EVENT_DROP_START_TIME;
 struct CUSTOM_EVENT_DROP_ITEM_INFO;
 struct CUSTOM_EVENT_DROP_RULE_INFO;
+struct CUSTOM_EVENT_DROP_START_TIME;
+struct DevilSquareBossMonsterInfo;
+struct DevilSquareMonsterInfo;
+struct DevilSquareScoreInfo;
 struct GREMORYCASE_ITEM_DATA;
-struct PMSG_GREMORYCASE_ITEM;
+struct ITEMEFFECT;
 struct JEWELOFHARMONY_ITEM_EFFECT;
 struct JEWELOFHARMONY_ITEM_OPTION;
-struct ITEMEFFECT;
+struct MU_WSABUF;
+struct MU_WSAOVERLAPPED;
+struct PARTYMATCHING_PARTYUSERDATA;
+struct PER_IO_CONTEXT_L;
+struct PMSG_GREMORYCASE_ITEM;
+struct STR_GUILD_INFO_STRUCT;
+struct STR_GUILD_MEMBER;
+struct STR_ITEM_LEVEL_RATE;
+struct STR_ITEMPERIOD_DATEINFO;
+struct STR_LUCKY_ITEM_EQUIPMENT;
+struct STR_LUCKY_ITEM_INFO;
+struct STR_PARTY_MEMBER_WAIT_LIST;
+struct STR_PARTYMATCHING_PARTYUSERDATA;
+struct STR_PSHOP_ITEMVALUE_INFO_DS;
+struct STR_sellItemPrice;
+struct STR_SMELT_RATE;
+struct STR_STAT_BONUS;
 struct STR_STRINGCOMPARE;
-struct _PER_IO_CONTEXT;
-struct _GUILD_INFO_STRUCT;
-struct _stGremoryCaseItem;
+struct STR_UNION_MEMBER_DATA;
+struct STR_USER_SHOP_REBUY_ITEM;
 
 
+struct MU_WSAOVERLAPPED {
+	DWORD    Internal;
+	DWORD    InternalHigh;
+	DWORD    Offset;
+	DWORD    OffsetHigh;
+	DWORD	 hEvent;
+};
 
+struct MU_WSABUF {
+	ULONG len;
+	CHAR* buf;
+};
+
+// END USER STRUCTS
+
+struct _PER_IO_CONTEXT
+{
+	MU_WSAOVERLAPPED m_Overlapped; // 0
+	MU_WSABUF m_wsabuf;
+	unsigned char Buffer[MAX_IO_BUFFER_SIZE]; // 1C
+	unsigned char BufferSecond[MAX_IO_BUFFER_SIZE]; // 178C
+	int nSecondOfs; // 2EFC
+	int nTotalBytes;	// 2F00
+	int nSentBytes; // 2F04
+	int IOOperation; // 2F08
+	int nWaitIO; // 2F0C
+
+};
+
+struct PER_IO_CONTEXT_L
+{
+	MU_WSAOVERLAPPED			m_Overlapped;
+	MU_WSABUF					m_wsabuf;
+	CHAR						Buffer[MAX_BUFF_SIZE];
+	int							nTotalBytes;
+	int							nSentBytes;
+	int							IOOperation;
+	void*						ListNode;
+};
+
+struct ListNode
+{
+	ListNode*	        pUpLink;
+	ListNode*	        pDownLink;
+	unsigned char *		pObject;
+	unsigned int		nSize;
+	BOOL				bSending;
+	int					nOfs;
+	BYTE				headcode;
+	int					uindex;
+	int					iSessionId; //new
+	PER_IO_CONTEXT_L	IoCtxt; //re-enabled old one :)
+};
 
 
 struct _stGremoryCaseItem
@@ -918,7 +976,7 @@ struct GREMORYCASE_ITEM_DATA
 		this->btRewardInventory = 0;
 		this->btRewardSource = 0;
 		this->dwItemGUID = (DWORD)-1;
-		this->ItemInfo->Clear();
+		//this->m_ItemInfo->Clear();
 		this->dwAuthCode = 0;
 		this->dwReceiveDate = 0;
 		this->dwExpireTime = 0;
@@ -927,7 +985,7 @@ struct GREMORYCASE_ITEM_DATA
 	BYTE btRewardInventory;
 	BYTE btRewardSource;
 	DWORD dwItemGUID;
-	CItem* ItemInfo;
+	CItem* m_ItemInfo;
 	DWORD dwAuthCode;
 	DWORD dwReceiveDate;
 	DWORD dwExpireTime;
@@ -2555,33 +2613,6 @@ struct CharacterNameOfUBF
 	WORD nServerCodeOfHomeWorld;
 };
 
-struct MU_WSAOVERLAPPED {
-	DWORD    Internal;
-	DWORD    InternalHigh;
-	DWORD    Offset;
-	DWORD    OffsetHigh;
-	DWORD	 hEvent;
-};
 
-struct MU_WSABUF {
-	ULONG len;
-	CHAR* buf;
-};
-
-// END USER STRUCTS
-
-struct _PER_IO_CONTEXT
-{
-	MU_WSAOVERLAPPED m_Overlapped; // 0
-	MU_WSABUF m_wsabuf;
-	unsigned char Buffer[MAX_IO_BUFFER_SIZE]; // 1C
-	unsigned char BufferSecond[MAX_IO_BUFFER_SIZE]; // 178C
-	int nSecondOfs; // 2EFC
-	int nTotalBytes;	// 2F00
-	int nSentBytes; // 2F04
-	int IOOperation; // 2F08
-	int nWaitIO; // 2F0C
-
-};
 
 #endif

@@ -6,36 +6,22 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-//#include "ComboAttack.h"
-#include "generalStructs.h"
-#include "MagicInf.h"
-#include "IOCP.h"
-#include "ItemManagement/Item.h"
-#include "GuildClass.h"
-#include "TDurMagicKeyChecker.h"
-#include "TMonsterAIAgro.h"
-#include "TMonsterSkillElementInfo.h"
-#include "JewelOfHarmonySystem.h"
-#include "ItemSystemFor380.h"
-#include "QuestExpUserInfo.h"
-#include "itemsocketoptiondefine.h"
-#include "Lua/MuLua.h"
-#include "MuunInfo.h"
-#include "MuRummyInfo.h"
-#include "SkillDelay.h"
-#include "Shop.h"
-#include "GremoryCase.h"
-#include "UnityBattleField.h"
-#include "EvolutionMonsterInfo.h"
-#include "AntiSpeed.h"
 
-extern int MaxViewportMonster;
+#include "ViewPortGuild.h"
+#include "ItemSystemFor380.h"
+#include "SkillDelay.h"
+#include "EvolutionMonsterInfo.h"
+#include "QuestExpUserInfo.h"
 
 class CAttackQueue;
 class CUserData;
+struct MessageStateMachine;
+struct ExMessageStateMachine;
+struct _GUILD_INFO_STRUCT;
 
-#include "ViewPortGuild.h"
 
+
+extern int MaxViewportMonster;
 
 class CNameConvert
 {

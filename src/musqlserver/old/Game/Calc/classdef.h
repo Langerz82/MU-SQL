@@ -49,9 +49,6 @@ enum ClassNumber
 	CLASS_GROWLANCER = 0x7
 };
 
-#define MAX_ITEM_SPECIAL_ATTRIBUTE 7
-#define MAX_SOCKET_OPTION 5
-
 class classdef
 {
 public:

@@ -10,38 +10,7 @@
 #include "StdAfx.h"
 #include "generalStructs.h"
 
-#define MAX_BUFF_SIZE		100000
-
-struct MU_WSAOVERLAPPED;
-struct MU_WSABUF;
-
-typedef struct
-{
-	MU_WSAOVERLAPPED			m_Overlapped;
-	MU_WSABUF					m_wsabuf;
-	CHAR						Buffer[MAX_BUFF_SIZE];
-	int							nTotalBytes;
-	int							nSentBytes;
-	int							IOOperation;
-	void*						ListNode;
-} PER_IO_CONTEXT_L, * LPPER_IO_CONTEXT_L;
-
-typedef struct _ListNode
-{
-	struct _ListNode*	pUpLink;
-	struct _ListNode*	pDownLink;
-	unsigned char *		pObject;
-	unsigned int		nSize;
-	BOOL				bSending;
-	int					nOfs;
-	BYTE				headcode;
-	int					uindex;
-	int					iSessionId; //new
-	PER_IO_CONTEXT_L	IoCtxt; //re-enabled old one :)
-} ListNode;
-
-#define MAX_NODE		50000
-#define SPIN_COUNT		4000
+struct ListNode;
 
 class  CQueue
 {

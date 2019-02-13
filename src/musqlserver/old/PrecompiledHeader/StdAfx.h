@@ -36,19 +36,20 @@
 
 //#include <vld.h>
 // Local Header Files
+#include "MuDefines.h"
 #include "custTypedef.h"
-#include "GensSystemProtocol.h"
+#include "MuEnums.h"
 #include "classdef.h"
+#include "GensSystemProtocol.h"
 
 #include "Lang.h"
 #include "Config\iniReader\IniReader.h"
-#include "MuDefines.h"
-#include "MuEnums.h"
 #include "configread.h"
-#include "Utility/util.h"
+
 #include "generalStructs.h"
-#include "CGameObject.h"
-#include "CUserData.h"
+
+#include "Utility/util.h"
+
 #include "GOFunctions.h"
 
 
