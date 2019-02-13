@@ -17,11 +17,13 @@ CItemSystemFor380 g_kItemSystemFor380;
 
 CItemSystemFor380::CItemSystemFor380()
 {
-	memset(this->m_itemOption, 0, sizeof(this->m_itemOption));
+	//memset(this->m_itemOption, 0, sizeof(this->m_itemOption));
+	this->m_itemOption = new ITEMOPTION_FOR380ITEM[MAX_ITEMS];
 }
 
 CItemSystemFor380::~CItemSystemFor380()
 {
+	delete[] this->m_itemOption;
 	return;
 }
 
@@ -95,7 +97,7 @@ BOOL CItemSystemFor380::Load380ItemOptionInfo(LPSTR filename)
 
 
 
-BOOL CItemSystemFor380::Is380Item(CItem const *  pItem)
+BOOL CItemSystemFor380::Is380Item(CItem*  pItem)
 {
 	if (pItem == NULL)
 	{
@@ -117,7 +119,7 @@ BOOL CItemSystemFor380::Is380Item(CItem const *  pItem)
 	return TRUE;
 }
 
-BOOL CItemSystemFor380::Is380OptionItem(CItem const *  pItem)
+BOOL CItemSystemFor380::Is380OptionItem(CItem*  pItem)
 {
 	if (pItem == NULL)
 		return FALSE;
@@ -146,7 +148,7 @@ void CItemSystemFor380::InitEffectValue(ITEMOPTION_FOR380ITEM_EFFECT * pItemEffe
 }
 
 
-BOOL CItemSystemFor380::ApplyFor380Option(CGameObject &lpObj)
+BOOL CItemSystemFor380::ApplyFor380Option(CGameObject &Obj)
 {
 	ITEMOPTION_FOR380ITEM_EFFECT * pItemEffect = &lpObj.m_PlayerData->m_ItemOptionExFor380;
 	this->InitEffectValue(pItemEffect);
@@ -238,19 +240,19 @@ BOOL CItemSystemFor380::_SetOption(CItem * pItem, BOOL bOption)
 }
 
 
-void CItemSystemFor380::SetOptionItemByMacro(CGameObject &lpObj, BYTE invenrotyTargetPos, int bOption)
+void CItemSystemFor380::SetOptionItemByMacro(CGameObject &Obj, BYTE invenrotyTargetPos, int bOption)
 {
 	// HERE GOES A MACRO
 	return;
 	CItem * pItem=NULL;
 }
 
-BOOL CItemSystemFor380::ChaosMix380ItemOption(CGameObject &lpObj)
+BOOL CItemSystemFor380::ChaosMix380ItemOption(CGameObject &Obj)
 {
 	if (this->m_bSystemFor380ItemOption != TRUE)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,284), lpObj.m_Index, 1);
-		lpObj.bIsChaosMixCompleted = false;
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,284), Obj.m_Index, 1);
+		Obj.bIsChaosMixCompleted = false;
 
 		return FALSE;
 	}
@@ -321,7 +323,7 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(CGameObject &lpObj)
 	}
 
 	iMixPrice = this->m_iNeedZenFor380Option;
-	int iChaosTaxMoney = iMixPrice * g_CastleSiegeSync.GetTaxRateChaos(lpObj.m_Index) / 100;
+	int iChaosTaxMoney = iMixPrice * g_CastleSiegeSync.GetTaxRateChaos(lpObj) / 100;
 
 	if (iChaosTaxMoney < 0)
 		iChaosTaxMoney = 0;

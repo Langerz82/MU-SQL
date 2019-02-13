@@ -2,7 +2,7 @@
 #define _MU_CONNECTPROTOCOL_H_
 
 #include "StdAfx.h"
-#include "protocolStructs.h"
+
 #include "IOCP.h"
 #include "ServerData.h"
 #include "ConnectServer.h"

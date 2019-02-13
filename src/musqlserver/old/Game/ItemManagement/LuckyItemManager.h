@@ -3,7 +3,6 @@
 #pragma once
 
 #include "StdAfx.h"
-#include "Protocol/protocolStructs.h"
 #include "generalStructs.h"
 
 struct STR_LUCKY_ITEM_INFO;

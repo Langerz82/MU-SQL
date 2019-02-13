@@ -8,10 +8,11 @@
 
 #include "StdAfx.h"
 #include "ItemManagement/Item.h"
+#include "generalStructs.h"
 
 #ifndef _MUPROTOCOLSTRUCTS_H
 #define _MUPROTOCOLSTRUCTS_H
-#include "protocolStructs.h"
+
 #endif
 
 #define TRACE_PACKET 0	
@@ -63,7 +64,7 @@ public:
 
 public:
 
-	STR_DEFAULTCLASSTYPE DefClass[MAX_TYPE_PLAYER];	// 4
+	STR_DEFAULTCLASSTYPE* DefClass;	// 4
 	
 };
 

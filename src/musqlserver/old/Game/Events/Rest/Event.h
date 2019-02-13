@@ -8,7 +8,7 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "protocolStructs.h"
+
 #include "User/CUserData.h"
 
 struct PBMSG_HEAD;

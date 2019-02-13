@@ -56,14 +56,14 @@ void CChaosCastle::Run()
 {
 	if ( this->m_bCC_EVENT_ENABLE != FALSE )
 	{
-		VM_TIGER_LONDON_START
+		//VM_TIGER_LONDON_START <-- WTF
 
 		if ( g_AuthSys.IsLongDisconnect() == true )
 		{
 			return;
 		}
 
-		VM_TIGER_LONDON_END
+		//VM_TIGER_LONDON_END
 
 		for ( int i=0;i<MAX_CHAOSCASTLE_LEVEL;i++)
 		{

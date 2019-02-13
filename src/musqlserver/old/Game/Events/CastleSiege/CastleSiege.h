@@ -323,7 +323,7 @@ public:
 	int CheckMiddleWinnerGuild();
 	int CheckCastleSiegeResult();
 	int CheckUnionGuildMaster(CGameObject &Obj);
-	void SetCrownUserIndex(CGameObject &Obj){this->m_iCastleCrownAccessUser = iIndex;}
+	void SetCrownUserIndex(CGameObject &Obj){this->m_iCastleCrownAccessUser = Obj.m_Index;}
 	int GetCrownUserIndex(){return m_iCastleCrownAccessUser;}
 	void ResetCrownUserIndex(){m_iCastleCrownAccessUser=-1;}
 	int GetCrownAccessUserX(){return m_btCastleCrownAccessUserX;}

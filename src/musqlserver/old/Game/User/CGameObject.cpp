@@ -82,3 +82,16 @@ PMSG_VIEWPORTDESTROY pItemViewportDestroy;
 
 short RoadPathTable[MAX_ROAD_PATH_TABLE] = { -1, -1, 0, -1, 1, -1, 1, 0, 1, 1, 0, 1, -1, 1, -1, 0 };	// THIS VARIABLE HAS SOME STRANGE THINGS ONT ITS UBICATION
 BOOL g_EnergyCheckOff = 1; // THIS VARIABLE HAS SOME STRANGE THINGS ONT ITS UBICATION
+
+CGameObject::CGameObject()
+{
+	this->m_BotBuffs = new BOT_BUFF_LIST[10];
+	this->m_MuunEffectList = new MUUN_EFFECT_LIST[MAX_MUUN_EFFECT_LIST];
+}
+
+CGameObject::~CGameObject()
+{
+	delete[] this->m_BotBuffs;
+	delete[] this->m_MuunEffectList;
+
+}

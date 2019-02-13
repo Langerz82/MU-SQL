@@ -11,6 +11,7 @@
 
 #include "StdAfx.h"
 #include "generalStructs.h"
+#include "CGameObject.h"
 #include "ItemManagement/Item.h"
 
 #define ITEMOPTION_FOR380ITEM_EFFECT_NONE							0
@@ -23,12 +24,11 @@
 #define ITEMOPTION_FOR380ITEM_EFFECT_OPREFILLON						7
 #define ITEMOPTION_FOR380ITEM_EFFECT_OPADDREFILLSD					8
 
+class CGameObject;
+//class Citem;
+
 struct ITEMOPTION_FOR380ITEM_EFFECT;
 struct ITEMOPTION_FOR380ITEM;
-
-class CGameObject;
-class Citem;
-
 
 class CItemSystemFor380
 {
@@ -39,12 +39,12 @@ public:
 	virtual ~CItemSystemFor380();
 
 	BOOL Load380ItemOptionInfo(LPSTR filename);
-	BOOL Is380Item( CItem const *  pItem);
-	BOOL Is380OptionItem( CItem const * pItem);
+	BOOL Is380Item( CItem*  pItem);
+	BOOL Is380OptionItem( CItem* pItem);
 	void InitEffectValue( ITEMOPTION_FOR380ITEM_EFFECT* pItemEffect);
-	int ApplyFor380Option(CGameObject* lpObj);
-	void SetOptionItemByMacro(CGameObject* lpObj, BYTE invenrotyTargetPos, int bOption);
-	int ChaosMix380ItemOption(CGameObject* lpObj);
+	int ApplyFor380Option(CGameObject &Obj);
+	void SetOptionItemByMacro(CGameObject &Obj, BYTE invenrotyTargetPos, int bOption);
+	int ChaosMix380ItemOption(CGameObject &Obj);
 
 private:
 
@@ -54,7 +54,7 @@ private:
 
 private:
 
-	ITEMOPTION_FOR380ITEM m_itemOption[MAX_ITEMS];	// 4
+	ITEMOPTION_FOR380ITEM* m_itemOption;	// 4
 	BOOL m_bSystemFor380ItemOption;	// 20004
 	int m_iNeedJewelOfHarmonyCount;	// 20008
 	int m_iNeedJewelOfSuhoCount;	// 2000C

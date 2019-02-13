@@ -9,6 +9,8 @@
 #include "CUserData.h"
 #include "GameProtocol.h"
 
+struct _stGremoryCaseItem;
+
 void gObjSkillUseProcTime500(CGameObject &lpObj);
 void MonsterAndMsgProc();
 void MoveMonsterProc();

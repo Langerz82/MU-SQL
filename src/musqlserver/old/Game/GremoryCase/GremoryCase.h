@@ -9,8 +9,8 @@
 
 #include "StdAfx.h"
 #include "ItemManagement/Item.h"
-#include "protocolStructs.h"
-//#include "generalStructs.h"
+
+#include "generalStructs.h"
 
 struct _stGremoryCaseItem;
 struct _stAnsAddItemToGremoryCase;

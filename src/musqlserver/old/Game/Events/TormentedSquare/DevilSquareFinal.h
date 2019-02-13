@@ -7,7 +7,7 @@
 
 #include "StdAfx.h"
 #include "User/CUserData.h"
-#include "protocolStructs.h"
+
 #include "generalStructs.h"
 
 struct PMSG_REQ_DSF_CAN_PARTY_ENTER;

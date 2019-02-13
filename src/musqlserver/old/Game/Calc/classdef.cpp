@@ -3,12 +3,12 @@
 
 classdef::classdef()
 {
-
+	this->DefClass = STR_DEFAULTCLASSTYPE[MAX_TYPE_PLAYER];
 }
 
 classdef::~classdef()
 {
-	return;
+	delete[] this->DefClass;
 }
 
 void classdef::GDReqClassDefData()

@@ -10,12 +10,32 @@ CPentagramSystem g_PentagramSystem;
 
 CPentagramSystem::CPentagramSystem(void)
 {
-
+	this->Penta_DropRate = new TEST_ITEMSDROP[50];
+	this->m_ServerAttributeDefine = new SERVER_ATTRIBUTE_DEFINE[14];
+	this->m_PentagramItemOpenSocketRate = new PENTAGRAM_ITEM_OPEN_SOCKET_RATE[13];
+	this->m_MonsterDropItemRate = new MONSTER_DROP_ITEM_RATE[30];
+	this->m_JewelOutRate = new JEWEL_OUT_RATE[55];
+	this->m_AttackSetEffect = new PENTAGRAM_SET_EFFECT[6];
+	this->m_RelationShipSetEffect = new PENTAGRAM_SET_EFFECT[20];
+	this->m_PentagramHaveSetOption = new PENTAGRAM_HAVE_SET_OPTION[20];
+	this->m_PentagramItemOption = new PENTAGRAM_ITEM_OPTION[20];
+	this->m_PentagramItemOptionEnableNeed = new PENTAGRAM_ITEM_OPTION_ENABLE_NEED[10];
+	this->m_PentagramSocketRateByGrade = new PENTAGRAM_SOCKET_RATE_BY_GRADE[3];
 }
 
 CPentagramSystem::~CPentagramSystem(void)
 {
-
+	delete[] this->Penta_DropRate;
+	delete[] this->m_ServerAttributeDefine;
+	delete[] this->m_PentagramItemOpenSocketRate;
+	delete[] this->m_MonsterDropItemRate;
+	delete[] this->m_JewelOutRate;
+	delete[] this->m_AttackSetEffect;
+	delete[] this->m_RelationShipSetEffect;
+	delete[] this->m_PentagramHaveSetOption;
+	delete[] this->m_PentagramItemOption;
+	delete[] this->m_PentagramItemOptionEnableNeed;
+	delete[] this->m_PentagramSocketRateByGrade;
 }
 
 void CPentagramSystem::Initialize_Drop()

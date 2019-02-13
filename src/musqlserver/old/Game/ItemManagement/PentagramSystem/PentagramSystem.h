@@ -2,7 +2,6 @@
 #define _MU_PENTAGRAMSYSTEM_H
 
 #include "StdAfx.h"
-#include "generalStructs.h"
 #include "ItemManagement/Item.h"
 #include "CGameObject.h"
 #include "TRandomPoolMgr.h"
@@ -18,6 +17,7 @@ struct PENTAGRAM_HAVE_SET_OPTION;
 struct PENTAGRAM_ITEM_OPTION;
 struct PENTAGRAM_ITEM_OPTION_ENABLE_NEED;
 struct PENTAGRAM_SOCKET_RATE_BY_GRADE;
+
 
 class CItem;
 class TRandomPoolMgr;
@@ -88,7 +88,7 @@ public:
 	BOOL ElementDrop(CGameObject &lpObj, CGameObject lpTargetObj);
 	TRandomPoolMgr m_SlotCountRate;
 
-	TEST_ITEMSDROP Penta_DropRate[50];
+	TEST_ITEMSDROP* Penta_DropRate;
 
 	int m_iSpiritMap_DropLevel;
 	int m_iSpiritMap_DropRate;
@@ -102,16 +102,16 @@ public:
 	int m_iEtramuScroll_DropRate;
 private:
 
-	SERVER_ATTRIBUTE_DEFINE m_ServerAttributeDefine[14];
-	PENTAGRAM_ITEM_OPEN_SOCKET_RATE m_PentagramItemOpenSocketRate[13];
-	MONSTER_DROP_ITEM_RATE m_MonsterDropItemRate[30];
-	JEWEL_OUT_RATE m_JewelOutRate[55];
-	PENTAGRAM_SET_EFFECT m_AttackSetEffect[6];
-	PENTAGRAM_SET_EFFECT m_RelationShipSetEffect[20];
-	PENTAGRAM_HAVE_SET_OPTION m_PentagramHaveSetOption[20];
-	PENTAGRAM_ITEM_OPTION m_PentagramItemOption[20];
-	PENTAGRAM_ITEM_OPTION_ENABLE_NEED m_PentagramItemOptionEnableNeed[10];
-	PENTAGRAM_SOCKET_RATE_BY_GRADE m_PentagramSocketRateByGrade[3];
+	SERVER_ATTRIBUTE_DEFINE* m_ServerAttributeDefine;
+	PENTAGRAM_ITEM_OPEN_SOCKET_RATE* m_PentagramItemOpenSocketRate;
+	MONSTER_DROP_ITEM_RATE* m_MonsterDropItemRate;
+	JEWEL_OUT_RATE* m_JewelOutRate;
+	PENTAGRAM_SET_EFFECT* m_AttackSetEffect;
+	PENTAGRAM_SET_EFFECT* m_RelationShipSetEffect;
+	PENTAGRAM_HAVE_SET_OPTION* m_PentagramHaveSetOption;
+	PENTAGRAM_ITEM_OPTION* m_PentagramItemOption;
+	PENTAGRAM_ITEM_OPTION_ENABLE_NEED* m_PentagramItemOptionEnableNeed;
+	PENTAGRAM_SOCKET_RATE_BY_GRADE* m_PentagramSocketRateByGrade;
 };
 
 extern CPentagramSystem g_PentagramSystem;

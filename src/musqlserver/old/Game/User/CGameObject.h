@@ -33,7 +33,8 @@ struct STR_INTERFACE_STATE;
 struct VIEWPORT_PLAYER_STRUCT;
 struct VIEWPORT_STRUCT;
 struct WHISPER_STRUCT;
-
+struct SKILL_INFO;
+struct MUUN_EFFECT_LIST;
 
 
 
@@ -42,6 +43,8 @@ struct WHISPER_STRUCT;
 class CGameObject
 {
 public:
+	CGameObject();
+	~CGameObject();
 
 	int m_Index;	// 0
 	int Connected;	// 4
@@ -422,7 +425,7 @@ public:
 	int m_iAutoRecuperationTime;	// 18F8
 	int m_iSkillDistanceErrorCount;	// 190C
 	DWORD m_dwSkillDistanceErrorTick;	// 1910
-	SKILL_INFO	m_SkillInfo;
+	SKILL_INFO*	m_SkillInfo;
 	int BufferIndex;
 	int BuffId;
 	int BuffPlayerIndex;
@@ -433,7 +436,7 @@ public:
 	bool m_bOffLevel;
 	DWORD64 m_dwOffLevelTime;
 	CUserData* m_PlayerData;
-	BOT_BUFF_LIST m_BotBuffs[10];
+	BOT_BUFF_LIST* m_BotBuffs;
 	UINT64 MonsterMoneyDrop;
 	BYTE m_btOpenWarehouse;
 	WORD m_wMineCount;
@@ -442,7 +445,7 @@ public:
 	DWORD m_LastAttackTick;
 	WORD m_SkillCheckWrongCastCount;
 	short m_RegenSysGroupNum;
-	MOVE_MAPSERVER_AUTHINFO m_MapServerAuthInfo;
+	MOVE_MAPSERVER_AUTHINFO* m_MapServerAuthInfo;
 	bool m_bBlind;
 	int m_iPentagramMainAttribute;
 	int m_iPentagramAttributePattern;
@@ -498,13 +501,13 @@ public:
 	BYTE  *pEventInventoryMap;
 	BYTE  *pEventInventoryMap1;
 	BYTE  *pEventInventoryMap2;
-	MUUN_EFFECT_LIST m_MuunEffectList[MAX_MUUN_EFFECT_LIST];
+	MUUN_EFFECT_LIST* m_MuunEffectList;
 	bool EventInventoryLoad;
 	bool bMuunInventoryLoad;
 	DWORD dwCheckMuunItemTime;
 	BOOL bSubEquip;
 	int m_iMuunItmePeriodDataIndex;
-	WHISPER_STRUCT m_Whispering;
+	WHISPER_STRUCT* m_Whispering;
 	BYTE m_btExpType;
 	int m_nEvoMonOwnerIndex;
 	BYTE EventNotification[EVENT_NOTIFICATION::EVENT_NOTIFICATION_MAX];
