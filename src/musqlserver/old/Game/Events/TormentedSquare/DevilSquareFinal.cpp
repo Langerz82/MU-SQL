@@ -2776,7 +2776,7 @@ void CDevilSquareFinal::ClearMonster()
 	sLog->outBasic("[DSF][ClearMonster] Clear Monster");
 }
 
-BYTE CDevilSquareFinal::GetUserTeam(int nIndex)
+BYTE CDevilSquareFinal::GetUserTeam(CGameObject &Obj)
 {
 	if (!ObjectMaxRange(nIndex))
 	{

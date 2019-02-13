@@ -516,7 +516,7 @@ BYTE gObjTradeEventInventoryMove(CGameObject &Obj, BYTE source, BYTE target)
 		return -1;
 	}
 
-	if (IsEventItem(Obj.Trade[source]->m_Type) == FALSE)
+	if (IsEventItem(gGameObjects[Obj.Trade[source]->m_Type]) == FALSE)
 	{
 		return -1;
 	}

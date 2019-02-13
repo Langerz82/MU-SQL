@@ -46,7 +46,7 @@ public:
 
 	void ActRelicsGetOrRegister(CGameObject &Npc, CGameObject &Obj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType);
 	void CancleStoneState(WORD wNpcType, BYTE byState, BYTE mapnumber);
-	void DropRelicsItem(BYTE btMapNumber, int nIndex);
+	void DropRelicsItem(BYTE btMapNumber, CGameObject &Obj);
 
 	BYTE GetIllusionTempleState(BYTE btMapNumber);
 	void AddNpcPosNum();

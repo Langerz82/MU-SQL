@@ -2746,7 +2746,8 @@ struct GUILD_INFO_STRUCT
 	BYTE Mark[32];	//D
 	BYTE Count;	//2D
 	BYTE TotalCount;	//2E
-	char Names[MAX_USER_GUILD][11];	//2F
+	std::vector<CGameObject*> Users;
+	//char Names[MAX_USER_GUILD][11];	//2F
 	short Index[MAX_USER_GUILD];	//3A0
 	BYTE Use[MAX_USER_GUILD];	//440
 	char pServer[MAX_USER_GUILD];	//490
@@ -2773,7 +2774,9 @@ struct GUILD_INFO_STRUCT
 	int btLifeStoneCount;
 
 	// #error Deathay Fix here
-	GUILD_INFO_STRUCT() { return; };
+	GUILD_INFO_STRUCT() {
+		return; 
+	};
 	int  GetGuildUnion() { return this->iGuildUnion; };
 	int  GetGuildRival() { return this->iGuildRival; };
 

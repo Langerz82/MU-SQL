@@ -265,7 +265,7 @@ void CIllusionTempleEvent_Renewal::CancleStoneState(WORD wNpcType, BYTE byState,
 	}
 }
 
-void CIllusionTempleEvent_Renewal::DropRelicsItem(BYTE btMapNumber, int nIndex)
+void CIllusionTempleEvent_Renewal::DropRelicsItem(BYTE btMapNumber, CGameObject &Obj)
 {
 	if (!IT_MAP_RANGE(btMapNumber))
 	{

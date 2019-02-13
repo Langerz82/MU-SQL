@@ -90,7 +90,7 @@ void gObjAddMsgSendDelay(CGameObject &Obj, int aMsgCode, int aIndex, int delay, 
 void gObjAddMsgSendDelayInSpecificQPos(CGameObject &Obj, int aMsgCode, int aIndex, int delay, int SubCode, int iQPosition);
 void gObjAddAttackProcMsgSendDelay(CGameObject &Obj, int aMsgCode, int aIndex, int delay, int SubCode, int SubCode2);
 void gObjMsgProc(CGameObject &Obj);
-void gObjStateProc(CGameObject &Obj, int aMsgCode, int aIndex, int SubCode);
+void gObjStateProc(CGameObject &Obj, int aMsgCode, CGameObject &objTarget, int SubCode);
 void gObjStateAttackProc(CGameObject &Obj, int aMsgCode, int aIndex, int SubCode, int SubCode2);
 int gObjBackSpring(CGameObject &Obj, CGameObject &TargetObj);
 int BackSpringCheck(int& x, int& y, int& dir, BYTE map);
@@ -465,7 +465,7 @@ extern void gObjAddMsgSendDelay(CGameObject &Obj, int aMsgCode, int aIndex, int 
 extern void gObjAddMsgSendDelayInSpecificQPos(CGameObject &Obj, int aMsgCode, int aIndex, int delay, int SubCode, int iQPosition);
 extern void gObjAddAttackProcMsgSendDelay(CGameObject &Obj, int aMsgCode, int aIndex, int delay, int SubCode, int SubCode2);
 extern void gObjMsgProc(CGameObject &Obj);
-extern void gObjStateProc(CGameObject &Obj, int aMsgCode, int aIndex, int SubCode);
+extern void gObjStateProc(CGameObject &Obj, int aMsgCode, CGameObject &ObjTarget, int SubCode);
 extern void gObjStateAttackProc(CGameObject &Obj, int aMsgCode, int aIndex, int SubCode, int SubCode2);
 extern int gObjBackSpring(CGameObject &Obj, CGameObject &TargetObj);
 extern int BackSpringCheck(int& x, int& y, int& dir, BYTE map);

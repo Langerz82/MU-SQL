@@ -101,7 +101,7 @@ public:
 	void DSFMonsterRegen(CGameObject &Obj);
 	void ClearMonster();
 
-	BYTE GetUserTeam(int nIndex);
+	BYTE GetUserTeam(CGameObject &Obj);
 
 	int MonsterKillPoint(int nMonsterType);
 	void MonsterKillPointCalc(CGameObject &Obj, int nPoint);
