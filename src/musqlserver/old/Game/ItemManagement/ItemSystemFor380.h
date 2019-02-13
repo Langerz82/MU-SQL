@@ -10,6 +10,7 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
+#include "MuEnums.h"
 #include "ItemManagement/Item.h"
 
 #define ITEMOPTION_FOR380ITEM_EFFECT_NONE							0

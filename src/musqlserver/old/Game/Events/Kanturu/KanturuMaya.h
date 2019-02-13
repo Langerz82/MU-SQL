@@ -20,7 +20,7 @@ public:
 	void Init();
 	void KanturuMayaAct_IceStorm(int iSkillUsingRate);
 	void KanturuMayaAct_Hands();
-	void SetMayaObjIndex(CGameObject &Obj){this->m_iMayaObjIndex = iIndex;}
+	void SetMayaObjIndex(CGameObject &Obj){this->m_iMayaObjIndex = Obj.m_Index;}
 	//int __thiscall GetMayaObjIndex();
 
 private:

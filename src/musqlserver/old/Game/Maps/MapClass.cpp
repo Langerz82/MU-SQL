@@ -405,7 +405,7 @@ int MapClass::MonsterItemDrop(int type, int level, float dur, int x, int y, BYTE
 		if (this->m_cItem[count].IsItem() == FALSE)
 		{
 			this->m_cItem[count].CreateItem(type, level, x, y, dur, Option1, Option2, Option3, NOption, SOption, number, ItemEffectEx, SocketOption, SocketBonusOption);
-			this->m_cItem[count].m_UserIndex = aIndex;
+			this->m_cItem[count].m_UserIndex = lpObj.m_Index;
 			this->m_cItem[count].m_PeriodItemDuration = PeriodDuration;
 			this->m_ItemCount++;
 
@@ -460,7 +460,7 @@ BOOL MapClass::ItemDrop(int type, int level, float dur, int x, int y, BYTE Optio
 		if (this->m_cItem[count].IsItem() == FALSE)
 		{
 			this->m_cItem[count].DropCreateItem(type, level, x, y, dur, Option1, Option2, Option3, NOption, SOption, number, PetLevel, PetExp, ItemEffectEx, SocketOption, SocketBonusOption);
-			this->m_cItem[count].m_UserIndex = aIndex;
+			this->m_cItem[count].m_UserIndex = lpObj.m_Index;
 			this->m_cItem[count].m_PeriodItemDuration = PeriodDuration;
 			this->m_ItemCount++;
 

@@ -53,7 +53,7 @@ public:
 
 	void ChkUserQuestType(int iQuestType, CGameObject lpObj, CGameObject lpMonsterObj, int iKillerObjIndex);
 
-	void ChkUserQuestTypeEventMap(int iQuestType, CGameObject lpObj, int iMapLevel, int iValue);
+	void ChkUserQuestTypeEventMap(int iQuestType, CGameObject &lpObj, int iMapLevel, int iValue);
 
 	void AddQuestSwitchList(int iEpisode, int iQS);
 	void SendQuestSwitchList(int iObjIndex, int iSendType);

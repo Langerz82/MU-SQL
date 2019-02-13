@@ -28,7 +28,7 @@ public:
 
 	void SetIndex(CGameObject &Obj)
 	{
-		this->m_iIndex = iIndex;
+		this->m_iIndex = Obj.m_Index;
 		this->m_bIsUse = TRUE;
 	}
 

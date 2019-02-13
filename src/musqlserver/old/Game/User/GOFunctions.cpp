@@ -1312,7 +1312,7 @@ void gObjCharZeroSet(CGameObject &lpObj)
 	for (int k = 0; k < 3; k++)
 		lpObj.m_nRecallMonIndex[k] = -1;//
 
-	for (int i = 0; i < EVENT_NOTIFICATION_MAX; ++i)
+	for (int i = 0; i < EVENT_NOTIFICATION::EVENT_NOTIFICATION_MAX; ++i)
 	{
 		lpObj.EventNotification[i] = 0;
 	}

@@ -506,7 +506,7 @@ public:
 	WHISPER_STRUCT m_Whispering;
 	BYTE m_btExpType;
 	int m_nEvoMonOwnerIndex;
-	BYTE EventNotification[EVENT_NOTIFICATION_MAX];
+	BYTE EventNotification[EVENT_NOTIFICATION::EVENT_NOTIFICATION_MAX];
 	BYTE EventMap;
 	BYTE BCState = 0;
 	BYTE DSState = 0;

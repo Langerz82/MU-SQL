@@ -1156,7 +1156,7 @@ void QuestExpProgMng::ChkUserQuestType(int iQuestType, CGameObject lpObj, CGameO
 	}
 }
 
-void QuestExpProgMng::ChkUserQuestTypeEventMap(int iQuestType, CGameObject lpObj, int iMapLevel, int iValue)
+void QuestExpProgMng::ChkUserQuestTypeEventMap(int iQuestType, CGameObject &lpObj, int iMapLevel, int iValue)
 {
 	if (lpObj.Type != OBJ_USER)
 	{

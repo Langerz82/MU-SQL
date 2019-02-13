@@ -24888,7 +24888,7 @@ void GameProtocol::CGRecvHitHackValues(CGameObject &lpObj, PMSG_SEND_HITHACK_INF
 
 void GameProtocol::CGEventEntryNotice(int iEventType, BYTE state)
 {
-	if (iEventType >= EVENT_NOTIFICATION_MAX)
+	if (iEventType >= EVENT_NOTIFICATION::EVENT_NOTIFICATION_MAX)
 	{
 		return;
 	}

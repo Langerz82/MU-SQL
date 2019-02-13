@@ -256,7 +256,7 @@ public:
 	UINT64 GetQuestItemSerialNumber(int iBridgeIndex);
 
 	void ThrowQuestItemByUser(int iBridgeIndex, UINT64 iQuestItemSerial);
-	void CatchQuestItemByUser(int iBridgeIndex, int iUserIndex, int iItemLevel);
+	void CatchQuestItemByUser(int iBridgeIndex, CGameObject &Obj, int iItemLevel);
 
 	bool NpcAngelKing(CGameObject &lpNpc, CGameObject lpObj);
 

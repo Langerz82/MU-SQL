@@ -75,7 +75,7 @@ struct sBOT_REWARD_STRUCT
 
 struct _sBOT_SETTINGS
 {
-	_sBOT_SETTINGS()
+	_sBOT_SETTINGS(CGameObject &Obj)
 	{
 		this->wID = -1;
 		this->btType = -1;
@@ -95,6 +95,7 @@ struct _sBOT_SETTINGS
 		this->btCoinType = 0;
 		this->iCoinValue = 0;
 		memset(this->m_Items,0,sizeof(m_Items));
+		this->lpObj = &Obj;
 	}
 //-- General Settings
 	WORD wID;
@@ -121,7 +122,7 @@ struct _sBOT_SETTINGS
 //--
 	std::string sPathActionFile;
 //-- index in gObj
-	CGameObject &lpObj;
+	CGameObject* lpObj;
 //-- Bot Count for reference
 	std::map<int,sBOT_CRAFTING> m_Crafting;
 	sBOT_PSHOP m_Shop;

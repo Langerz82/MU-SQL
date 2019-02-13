@@ -1283,9 +1283,9 @@ int gObjGuardSearchEnemy(CGameObject &lpObj)
 
 
 
-void gObjMonsterStateProc(CGameObject &lpObj, int aMsgCode, CGameObject &lpObj, int aMsgSubCode)
+void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &ObjTarget, int aMsgSubCode)
 {
-	if ( lpObj.m_iMonsterBattleDelay > 0 )
+	if ( ObjSource.m_iMonsterBattleDelay > 0 )
 	{
 		return;
 	}
@@ -1294,100 +1294,100 @@ void gObjMonsterStateProc(CGameObject &lpObj, int aMsgCode, CGameObject &lpObj, 
 	{
 		case 0:
 
-			if ( lpObj.m_Attribute == 0 )
+			if ( ObjSource.m_Attribute == 0 )
 			{
 				return;
 			}
 			
-			if ( lpObj.Live == FALSE || lpObj.m_State != 2)
+			if ( ObjSource.Live == FALSE || ObjSource.m_State != 2)
 			{
 				return;
 			}
 
-			if ( lpObj.m_ActState.Emotion == 0 )
+			if ( ObjSource.m_ActState.Emotion == 0 )
 			{
-				lpObj.m_ActState.Emotion = 1;
-				lpObj.m_ActState.EmotionCount = 10;
+				ObjSource.m_ActState.Emotion = 1;
+				ObjSource.m_ActState.EmotionCount = 10;
 			}
-			else if ( lpObj.m_ActState.Emotion == 1 )
+			else if ( ObjSource.m_ActState.Emotion == 1 )
 			{
-				lpObj.m_ActState.EmotionCount = 10;
+				ObjSource.m_ActState.EmotionCount = 10;
 			}
 
-			if ( lpObj.Class >= 504 && lpObj.Class <= 511 && lpObj.MaxLife * 0.3 >= lpObj.Life && gObjCheckUsedBuffEffect(lpObj, 81) == false )
+			if ( ObjSource.Class >= 504 && ObjSource.Class <= 511 && ObjSource.MaxLife * 0.3 >= ObjSource.Life && gObjCheckUsedBuffEffect(ObjSource, 81) == false )
 			{
 				CMagicInf cMagicInf;
 				memset(&cMagicInf, 0x00, sizeof(cMagicInf));
 
 				cMagicInf.m_Skill = AT_SKILL_BERSERKER;
-				gObjUseSkill.SkillBerserker(lpObj.m_Index, &cMagicInf, lpObj.m_Index);
-				gGameProtocol.GCUseMonsterSkillSend(lpObj, lpObj, 59);
-				lpObj.m_ActState.Attack = 0;
-				lpObj.m_ActState.Move = 0;
-				lpObj.m_ActState.Emotion = 0;
-				lpObj.NextActionTime = 1000;
+				gObjUseSkill.SkillBerserker(ObjSource.m_Index, &cMagicInf, ObjSource.m_Index);
+				gGameProtocol.GCUseMonsterSkillSend(ObjSource, ObjSource, 59);
+				ObjSource.m_ActState.Attack = 0;
+				ObjSource.m_ActState.Move = 0;
+				ObjSource.m_ActState.Emotion = 0;
+				ObjSource.NextActionTime = 1000;
 			}
 
-			if ( lpObj.Class >= 504 && lpObj.Class <= 521 )
+			if ( ObjSource.Class >= 504 && ObjSource.Class <= 521 )
 			{
-				g_ImperialGuardian.SetTargetMoveAllMonster(lpObj.m_nZoneIndex, aIndex);
+				g_ImperialGuardian.SetTargetMoveAllMonster(ObjSource.m_nZoneIndex, aIndex);
 			}
 
-			if ( lpObj.m_ActState.Attack == 0 && lpObj.PathStartEnd == 0)
+			if ( ObjSource.m_ActState.Attack == 0 && ObjSource.PathStartEnd == 0)
 			{
 				if ( ObjectMaxRange(aIndex) )
 				{
-					int map = lpObj.MapNumber;
+					int map = ObjSource.MapNumber;
 					BYTE attr;
-					int dis = gObjCalDistance(lpObj, &gGameObjects[aIndex]);
+					int dis = gObjCalDistance(ObjSource, &gGameObjects[aIndex]);
 					int range;
 
-					if ( lpObj.m_AttackType >= 100 )
+					if ( ObjSource.m_AttackType >= 100 )
 					{
-						range = lpObj.m_AttackRange +2;
+						range = ObjSource.m_AttackRange +2;
 					}
 					else
 					{
-						range = lpObj.m_AttackRange;
+						range = ObjSource.m_AttackRange;
 					}
 
 					if ( dis <= range )
 					{
-						if ( lpObj.m_RecallMon >= 0 )
+						if ( ObjSource.m_RecallMon >= 0 )
 						{
-							if ( lpObj.m_RecallMon >= 0 )
+							if ( ObjSource.m_RecallMon >= 0 )
 							{
-								if ( lpObj.Type == OBJ_MONSTER )
+								if ( ObjSource.Type == OBJ_MONSTER )
 								{
-									lpObj.TargetNumber = aIndex;
+									ObjSource.TargetNumber = aIndex;
 								}
 							}
 							else
 							{
-								lpObj.TargetNumber = aIndex;
+								ObjSource.TargetNumber = aIndex;
 							}
 						}
 						else if ( (rand()%100) < 90 )
 						{
-							if ( lpObj.m_RecallMon >= 0 )
+							if ( ObjSource.m_RecallMon >= 0 )
 							{
-								if ( lpObj.Type == OBJ_MONSTER )
+								if ( ObjSource.Type == OBJ_MONSTER )
 								{
-									lpObj.TargetNumber = aIndex;
+									ObjSource.TargetNumber = aIndex;
 								}
 							}
 							else
 							{
-								lpObj.TargetNumber = aIndex;
+								ObjSource.TargetNumber = aIndex;
 							}
 						}
 					}
 					else
 					{
-						if ( IMPERIAL_MAP_RANGE(lpObj.MapNumber) == TRUE &&
-							lpObj.Class >= 504 && lpObj.Class <= 521 )
+						if ( IMPERIAL_MAP_RANGE(ObjSource.MapNumber) == TRUE &&
+							ObjSource.Class >= 504 && ObjSource.Class <= 521 )
 						{
-							g_ImperialGuardian.SetTargetMoveAllMonster(lpObj.m_nZoneIndex, aIndex);
+							g_ImperialGuardian.SetTargetMoveAllMonster(ObjSource.m_nZoneIndex, aIndex);
 						}
 
 						else
@@ -1400,79 +1400,79 @@ void gObjMonsterStateProc(CGameObject &lpObj, int aMsgCode, CGameObject &lpObj, 
 								return;
 							}
 
-							wall = MapC[map].CheckWall2(lpObj.X, lpObj.Y, lpObj.X, lpObj.Y);
+							wall = MapC[map].CheckWall2(ObjSource.X, ObjSource.Y, ObjSource.X, ObjSource.Y);
 	
 							if ( wall == 1 )
 							{
-								attr = MapC[map].GetAttr(lpObj.X, lpObj.Y);
+								attr = MapC[map].GetAttr(ObjSource.X, ObjSource.Y);
 
 								if ( (attr&1) != 1 )
 								{
-									if ( lpObj.TargetNumber < 0 )
+									if ( ObjSource.TargetNumber < 0 )
 									{
-										lpObj.TargetNumber = aIndex;
+										ObjSource.TargetNumber = aIndex;
 									}
 								}
 							}
 						}
 					}
 
-					if ( lpObj.m_bIsInMonsterHerd != false && lpObj.TargetNumber == aIndex )
+					if ( ObjSource.m_bIsInMonsterHerd != false && ObjSource.TargetNumber == aIndex )
 					{
-						if ( lpObj.m_lpMonsterHerd )
+						if ( ObjSource.m_lpMonsterHerd )
 						{
-							lpObj.m_lpMonsterHerd->BeenAttacked (lpObj, &gGameObjects[aIndex]);
+							ObjSource.m_lpMonsterHerd->BeenAttacked (ObjSource, &gGameObjects[aIndex]);
 						}
 					}
 				}
 			}
 			else
 			{
-				if ( (rand() % 2 )== 1 && lpObj.PathStartEnd == 0)
+				if ( (rand() % 2 )== 1 && ObjSource.PathStartEnd == 0)
 				{
-					int IndexEnemy = lpObj.TargetNumber;
+					int IndexEnemy = ObjSource.TargetNumber;
 					if(ObjectMaxRange(IndexEnemy))
 					{
 						int EnemyMap = gGameObjects[IndexEnemy]->MapNumber;
 
-						int enemydis = gObjCalDistance(lpObj, &gGameObjects[aIndex]);
+						int enemydis = gObjCalDistance(ObjSource, &gGameObjects[aIndex]);
 						int range;
 
-						if ( lpObj.m_AttackType >= 100 )
+						if ( ObjSource.m_AttackType >= 100 )
 						{
-							range = lpObj.m_AttackRange + 2;
+							range = ObjSource.m_AttackRange + 2;
 						}
 						else
 						{
-							range = lpObj.m_AttackRange;
+							range = ObjSource.m_AttackRange;
 						}
 
 						if ( enemydis <= range )
 						{
-							lpObj.m_ActState.Attack = 1;
-							lpObj.TargetNumber = aIndex;
+							ObjSource.m_ActState.Attack = 1;
+							ObjSource.TargetNumber = aIndex;
 						}
 						else
 						{
-							if ( MapC[EnemyMap].CheckWall2(lpObj.X, lpObj.Y, gGameObjects[IndexEnemy]->X, gGameObjects[IndexEnemy]->Y) == 1 )
+							if ( MapC[EnemyMap].CheckWall2(ObjSource.X, ObjSource.Y, gGameObjects[IndexEnemy]->X, gGameObjects[IndexEnemy]->Y) == 1 )
 							{
-								lpObj.m_ActState.Attack = 1;
-								lpObj.TargetNumber = aIndex;
+								ObjSource.m_ActState.Attack = 1;
+								ObjSource.TargetNumber = aIndex;
 							}
 						}
 					}
 				}
 				else
 				{
-					int MaxLife = lpObj.MaxLife;
+					int MaxLife = ObjSource.MaxLife;
 					MaxLife >>= 1;
 
-					if ( MaxLife > lpObj.Life )
+					if ( MaxLife > ObjSource.Life )
 					{
-						if ( lpObj.m_Attribute != 2 )
+						if ( ObjSource.m_Attribute != 2 )
 						{
-							lpObj.m_ActState.Emotion = 2;
-							lpObj.m_ActState.EmotionCount = 2;
+							ObjSource.m_ActState.Emotion = 2;
+							ObjSource.m_ActState.EmotionCount = 2;
 						}
 					}
 				}
@@ -1482,40 +1482,40 @@ void gObjMonsterStateProc(CGameObject &lpObj, int aMsgCode, CGameObject &lpObj, 
 		case 1:
 			if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE)
 			{
-				if (lpObj.m_btCsNpcType)
+				if (ObjSource.m_btCsNpcType)
 				{
-					switch (lpObj.m_btCsNpcType)
+					switch (ObjSource.m_btCsNpcType)
 					{
-					case 1:	g_CastleSiege.DelNPC(lpObj.m_Index, lpObj.Class, lpObj.m_iCsNpcExistVal, TRUE);	break;
-					case 2:	g_CastleSiege.DelNPC(lpObj.m_Index, lpObj.Class, lpObj.m_iCsNpcExistVal, FALSE); break;
-					case 3:	g_CastleSiege.DelNPC(lpObj.m_Index, lpObj.Class, lpObj.m_iCsNpcExistVal, FALSE);	break;
+					case 1:	g_CastleSiege.DelNPC(ObjSource.m_Index, ObjSource.Class, ObjSource.m_iCsNpcExistVal, TRUE);	break;
+					case 2:	g_CastleSiege.DelNPC(ObjSource.m_Index, ObjSource.Class, ObjSource.m_iCsNpcExistVal, FALSE); break;
+					case 3:	g_CastleSiege.DelNPC(ObjSource.m_Index, ObjSource.Class, ObjSource.m_iCsNpcExistVal, FALSE);	break;
 					}
 
-					if (lpObj.Class == 287 || lpObj.Class == 286)
-						g_CsNPC_Mercenary.DeleteMercenary(lpObj.m_Index);
+					if (ObjSource.Class == 287 || ObjSource.Class == 286)
+						g_CsNPC_Mercenary.DeleteMercenary(ObjSource.m_Index);
 
-					if (lpObj.Class == 278)
-						g_CsNPC_LifeStone.DeleteLifeStone(lpObj.m_Index);
+					if (ObjSource.Class == 278)
+						g_CsNPC_LifeStone.DeleteLifeStone(ObjSource.m_Index);
 
-					gObjDel(lpObj.m_Index);
+					gObjDel(ObjSource.m_Index);
 				}
 			}
 
-			if ( KALIMA_MAP_RANGE(lpObj.MapNumber)  )
+			if ( KALIMA_MAP_RANGE(ObjSource.MapNumber)  )
 			{
-				if ( lpObj.Class == 161 || lpObj.Class == 181 || lpObj.Class == 189 || lpObj.Class == 197 || lpObj.Class == 267 )
+				if ( ObjSource.Class == 161 || ObjSource.Class == 181 || ObjSource.Class == 189 || ObjSource.Class == 197 || ObjSource.Class == 267 )
 				{
-					g_KalimaGate.CreateKalimaGate2(aIndex, lpObj.MapNumber, lpObj.X, lpObj.Y);
+					g_KalimaGate.CreateKalimaGate2(aIndex, ObjSource.MapNumber, ObjSource.X, ObjSource.Y);
 				}
 			}
 
-			if (lpObj.Type == OBJ_USER)
+			if (ObjSource.Type == OBJ_USER)
 			{
-				g_QuestExpProgMng.ChkUserQuestTypeMonsterKill(&gGameObjects[aIndex], lpObj);
-				g_QuestExpProgMng.QuestMonsterItemDrop(0, &gGameObjects[aIndex], lpObj);
+				g_QuestExpProgMng.ChkUserQuestTypeMonsterKill(&gGameObjects[aIndex], ObjSource);
+				g_QuestExpProgMng.QuestMonsterItemDrop(0, &gGameObjects[aIndex], ObjSource);
 			}
 
-			if ( lpObj.Class == 673 )
+			if ( ObjSource.Class == 673 )
 			{
 				g_bActiveUrukTrap = false;
 				g_bSilvesterEntranceBlock = false;
@@ -1525,40 +1525,40 @@ void gObjMonsterStateProc(CGameObject &lpObj, int aMsgCode, CGameObject &lpObj, 
 				SendLordSilvesterBlockInfo(-1, 1);
 			}
 
-			if ( lpObj.Class >= 678 && lpObj.Class <= 680 )
+			if ( ObjSource.Class >= 678 && ObjSource.Class <= 680 )
 			{
 			
 			}
 
-			gObjMonsterDieGiveItem(lpObj, &gGameObjects[aIndex] );
-			lpObj.NextActionTime = 500;
+			gObjMonsterDieGiveItem(ObjSource, &gGameObjects[aIndex] );
+			ObjSource.NextActionTime = 500;
 
-			if ( lpObj.m_RecallMon >= 0 )
+			if ( ObjSource.m_RecallMon >= 0 )
 			{
-				gObjMonsterCallKill(lpObj.m_RecallMon);
+				gObjMonsterCallKill(ObjSource.m_RecallMon);
 			}
 
-			if ( lpObj.Class == 409 || lpObj.Class == 410 || lpObj.Class == 411 || lpObj.Class == 412 )
+			if ( ObjSource.Class == 409 || ObjSource.Class == 410 || ObjSource.Class == 411 || ObjSource.Class == 412 )
 			{
-				g_QuestInfo.AddMonsterKillCount(lpObj);
+				g_QuestInfo.AddMonsterKillCount(ObjSource);
 			}
 
-			if (  BC_MAP_RANGE(lpObj.MapNumber) != FALSE && lpObj.Type >= OBJ_MONSTER)
+			if (  BC_MAP_RANGE(ObjSource.MapNumber) != FALSE && ObjSource.Type >= OBJ_MONSTER)
 			{
-				int iBridgeIndex = g_BloodCastle.GetBridgeIndex(lpObj.MapNumber); //season3 add-on
-				g_BloodCastle.KillMonsterProc(iBridgeIndex, lpObj);
+				int iBridgeIndex = g_BloodCastle.GetBridgeIndex(ObjSource.MapNumber); //season3 add-on
+				g_BloodCastle.KillMonsterProc(iBridgeIndex, ObjSource);
 			}
 			
 			break;
 
 		case 2:
-			if ( lpObj.Live != FALSE )
+			if ( ObjSource.Live != FALSE )
 			{
-				if ( BC_MAP_RANGE(lpObj.MapNumber) == FALSE )
+				if ( BC_MAP_RANGE(ObjSource.MapNumber) == FALSE )
 				{
-					if ( lpObj.Class != 131 ||  ((  (lpObj.Class-132)<0)?FALSE:((lpObj.Class-132)>2)?FALSE:TRUE)==FALSE )
+					if ( ObjSource.Class != 131 ||  ((  (ObjSource.Class-132)<0)?FALSE:((ObjSource.Class-132)>2)?FALSE:TRUE)==FALSE )
 					{
-						gObjBackSpring(lpObj, &gGameObjects[aIndex]);
+						gObjBackSpring(ObjSource, &gGameObjects[aIndex]);
 					}
 				}
 			}
@@ -1566,40 +1566,40 @@ void gObjMonsterStateProc(CGameObject &lpObj, int aMsgCode, CGameObject &lpObj, 
 			break;
 
 		case 3:
-			lpObj.TargetNumber = -1;
-			lpObj.LastAttackerID = -1;
-			lpObj.m_ActState.Emotion = 0;
-			lpObj.m_ActState.Attack = 0;
-			lpObj.m_ActState.Move = 0;
-			lpObj.NextActionTime = 1000;
+			ObjSource.TargetNumber = -1;
+			ObjSource.LastAttackerID = -1;
+			ObjSource.m_ActState.Emotion = 0;
+			ObjSource.m_ActState.Attack = 0;
+			ObjSource.m_ActState.Move = 0;
+			ObjSource.NextActionTime = 1000;
 			break;
 
 		case 4:
-			lpObj.m_ActState.Emotion = 3;
-			lpObj.m_ActState.EmotionCount = 1;
+			ObjSource.m_ActState.Emotion = 3;
+			ObjSource.m_ActState.EmotionCount = 1;
 			break;
 
 		case 5:
-			gObjMemFree(lpObj.m_Index);
+			gObjMemFree(ObjSource.m_Index);
 			break;
 
 		case 6:
-			if ( lpObj.Live != FALSE )
+			if ( ObjSource.Live != FALSE )
 			{
-				gObjBackSpring2(lpObj, &gGameObjects[aIndex], 2);
+				gObjBackSpring2(ObjSource, &gGameObjects[aIndex], 2);
 			}
 
 			break;
 
 		case 7:
-			if ( lpObj.Live != FALSE )
+			if ( ObjSource.Live != FALSE )
 			{
-				gObjBackSpring2(lpObj, &gGameObjects[aIndex], 3);
+				gObjBackSpring2(ObjSource, &gGameObjects[aIndex], 3);
 			}
 			break;
 
 		case 55:
-			gObjAttack(lpObj, &gGameObjects[aIndex], NULL, FALSE, 0, 0, FALSE, 0, 0);
+			gObjAttack(ObjSource, &gGameObjects[aIndex], NULL, FALSE, 0, 0, FALSE, 0, 0);
 			break;
 
 		case 56:
@@ -1610,7 +1610,7 @@ void gObjMonsterStateProc(CGameObject &lpObj, int aMsgCode, CGameObject &lpObj, 
 				{
 					if ( retResistance(lpTargetObj, 1) == 0 )
 					{
-						lpTargetObj.lpAttackObj = lpObj;
+						lpTargetObj.lpAttackObj = ObjSource;
 						gObjAddBuffEffect(lpTargetObj, BUFFTYPE_POISON, EFFECTTYPE_POISON_DMG_TICK, 3, 0, 0, aMsgSubCode);
 					}
 				}
@@ -1620,24 +1620,24 @@ void gObjMonsterStateProc(CGameObject &lpObj, int aMsgCode, CGameObject &lpObj, 
 		case 57:
 			{
 				CGameObject lpTargetObj = &gGameObjects[aIndex];
-				gObjBackSpring2(lpTargetObj, lpObj, aMsgSubCode);
+				gObjBackSpring2(lpTargetObj, ObjSource, aMsgSubCode);
 			}
 			break;
 
 		case 50:
 			{
-				if ( lpObj.Class == 533 )
+				if ( ObjSource.Class == 533 )
 				{
-					CMagicInf* lpMagic = gObjGetMagicSearch(lpObj, aMsgSubCode);
-					gObjAttack(lpObj, &gGameObjects[aIndex], lpMagic, 0, 1, 0, 0, 0, 0);
+					CMagicInf* lpMagic = gObjGetMagicSearch(ObjSource, aMsgSubCode);
+					gObjAttack(ObjSource, &gGameObjects[aIndex], lpMagic, 0, 1, 0, 0, 0, 0);
 				}
 
 				else
 				{
-					if ( lpObj.Live == TRUE )
+					if ( ObjSource.Live == TRUE )
 					{
-						CMagicInf* lpMagic = gObjGetMagicSearch(lpObj, aMsgSubCode);
-						gObjAttack(lpObj, &gGameObjects[aIndex], lpMagic, 0, 1, 0, 0, 0, 0);
+						CMagicInf* lpMagic = gObjGetMagicSearch(ObjSource, aMsgSubCode);
+						gObjAttack(ObjSource, &gGameObjects[aIndex], lpMagic, 0, 1, 0, 0, 0, 0);
 					}
 				}
 			}
@@ -1645,8 +1645,8 @@ void gObjMonsterStateProc(CGameObject &lpObj, int aMsgCode, CGameObject &lpObj, 
 
 		case 62:
 			{
-				int nDamage = 20 * lpObj.MaxLife / 100;
-				gObjAttack(lpObj, &gGameObjects[aIndex], 0, 0, 0, nDamage, 0, 0, 0);
+				int nDamage = 20 * ObjSource.MaxLife / 100;
+				gObjAttack(ObjSource, &gGameObjects[aIndex], 0, 0, 0, nDamage, 0, 0, 0);
 			}
 			break;
 	}

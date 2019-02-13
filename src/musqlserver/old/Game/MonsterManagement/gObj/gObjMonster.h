@@ -118,7 +118,7 @@ BOOL gObjGetTargetPos(CGameObject &lpObj, int sx, int sy, int & tx , int & ty);
 int  gObjCallMonsterSetEnemy(CGameObject &lpObj, int Target);
 int  gObjMonsterSearchEnemy(CGameObject &lpObj, BYTE objtype);
 int  gObjGuardSearchEnemy(CGameObject &lpObj);
-void gObjMonsterStateProc(CGameObject &lpObj, int aMsgCode, CGameObject &lpObj, int aMsgSubCode);
+void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &ObjTarget, int aMsgSubCode);
 void gObjMonsterProcess(CGameObject &lpObj);
 void gObjMonsterMagicAttack(CGameObject &lpObj, int iMonsterClass);
 void gObjUseMonsterSpecialAbillity(CGameObject &lpMonsterObj);
