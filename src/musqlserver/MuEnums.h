@@ -1,12 +1,27 @@
 #ifndef _MU_MUENUMS_H_
 #define _MU_MUENUMS_H_
 
-
-
 enum
 {
 	CS_SERVER_SELECT = 0x03,
 	CS_CLIENT_CONNECT = 0x06
+};
+
+enum eSERVER_TYPE
+{
+	ST_NONE = 0,
+	ST_JOINSERVER = 1,
+	ST_DATASERVER = 2,
+	ST_EXDATASERVER = 3,
+};
+
+enum eSERVER_STATE
+{
+	SS_CLOSED,
+	SS_CONNECTED,
+	SS_LOGGED,
+	SS_GUILD,
+	SS_CHAT,
 };
 
 enum eMasterSkillType

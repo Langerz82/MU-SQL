@@ -94,9 +94,6 @@
 
 
 
-#define MAX_NUMBER_MAP 101
-#define MAX_SERVER_TYPE 4
-
 // Old ACE versions (pre-ACE-5.5.4) not have this type (add for allow use at Unix side external old ACE versions)
 #if PLATFORM != PLATFORM_WINDOWS
 #  ifndef ACE_OFF_T

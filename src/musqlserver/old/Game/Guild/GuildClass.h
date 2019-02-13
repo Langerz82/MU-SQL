@@ -89,7 +89,7 @@ enum GUILD_REQ_COMMON_RESULT
 	GUILD_ANS_WRONG_GENS = 0xA3
 };
 
-class GUILD_INFO_STRUCT;
+struct GUILD_INFO_STRUCT;
 
 class CGuildClass
 {

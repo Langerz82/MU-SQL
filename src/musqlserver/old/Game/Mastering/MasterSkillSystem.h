@@ -25,7 +25,8 @@ public:
 
 	UINT64 * gMasterExperience;
 };
-extern CMasterSkillSystem g_MasterLevelSystem;
+
+extern CMasterLevelSystem g_MasterLevelSystem;
 
 #endif
 

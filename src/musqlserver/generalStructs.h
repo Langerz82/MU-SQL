@@ -5,7 +5,12 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "StdAfx.h"
+#include "MuDefines.h"
+#include "custTypedef.h"
+#include "MuEnums.h"
+#include "classdef.h"
+#include "GensSystemProtocol.h"
+
 #include "CGameObject.h"
 #include "CUserData.h"
 #include "ItemManagement/Item.h"
@@ -24,7 +29,7 @@ class CItem;
 struct GUILD_INFO_STRUCT;
 struct _ListNode;
 struct _PER_IO_CONTEXT;
-struct _stGremoryCaseItem;
+//struct _stGremoryCaseItem;
 struct CUSTOM_EVENT_DROP_INFO;
 struct CUSTOM_EVENT_DROP_ITEM_INFO;
 struct CUSTOM_EVENT_DROP_RULE_INFO;
@@ -41,7 +46,7 @@ struct MU_WSABUF;
 struct MU_WSAOVERLAPPED;
 struct PARTYMATCHING_PARTYUSERDATA;
 struct PER_IO_CONTEXT_L;
-struct PMSG_GREMORYCASE_ITEM;
+
 struct STR_GUILD_MEMBER;
 struct STR_ITEM_LEVEL_RATE;
 struct STR_ITEMPERIOD_DATEINFO;
@@ -57,6 +62,10 @@ struct STR_STRINGCOMPARE;
 struct STR_UNION_MEMBER_DATA;
 struct STR_USER_SHOP_REBUY_ITEM;
 struct STR_CONNECT_USER;
+struct SERVER_ATTRIBUTE_DEFINE;
+struct TEST_ITEMSDROP;
+
+
 
 struct STR_CONNECT_USER
 {
@@ -155,52 +164,6 @@ struct ListNode
 	int					iSessionId; //new
 	PER_IO_CONTEXT_L	IoCtxt; //re-enabled old one :)
 };
-
-
-struct _stGremoryCaseItem
-{
-	_stGremoryCaseItem()
-	{
-		this->btStorageType = 0;
-		this->btRewardSource = 0;
-		this->btItemGUID = 0;
-		this->wItemID = 0;
-		this->btItemLevel = 0;
-		this->btItemDurability = 0;
-		this->btItemSkill = 0;
-		this->btItemLuck = 0;
-		this->btItemOption = 0;
-		this->btItemExcOption = 0;
-		this->btItemSetOption = 0;
-		memset(this->btItemSocketOption, -1, sizeof(this->btItemSocketOption));
-		this->btItemMainAttribute = 0;
-		this->wMuunEvoItemType = 0;
-		this->btMuunEvoItemIndex = 0;
-		this->dwAuthCode = 0;
-		this->iReceiveDate = 0;
-		this->iExpireDate = 0;
-	}
-
-	BYTE btStorageType;
-	BYTE btRewardSource;
-	BYTE btItemGUID;
-	WORD wItemID;
-	BYTE btItemLevel;
-	BYTE btItemDurability;
-	BYTE btItemSkill;
-	BYTE btItemLuck;
-	BYTE btItemOption;
-	BYTE btItemExcOption;
-	BYTE btItemSetOption;
-	BYTE btItemSocketOption[5];
-	BYTE btItemMainAttribute;
-	WORD wMuunEvoItemType;
-	BYTE btMuunEvoItemIndex;
-	DWORD dwAuthCode;
-	time_t iReceiveDate;
-	time_t iExpireDate;
-};
-
 
 struct PSHOP_ITEMVALUE_INFO_DS {
 	int nPShopItemInvenNum;
@@ -432,7 +395,7 @@ struct SET_SOCKET_OPTION
 	BYTE EffectType;
 	int ExtractRate;
 	BYTE SeedTypeTable[6];
-	void Clear();
+	//void Clear();
 };
 
 struct CUSTOM_SOCKET_LIST
@@ -463,6 +426,7 @@ struct SERVER_ATTRIBUTE_DEFINE
 	int DarkRate;
 };
 
+struct PENTAGRAM_ITEM_OPEN_SOCKET_RATE;
 struct PENTAGRAM_ITEM_OPEN_SOCKET_RATE
 {
 	void Clear()
@@ -489,6 +453,7 @@ struct PENTAGRAM_ITEM_OPEN_SOCKET_RATE
 
 struct MONSTER_DROP_ITEM_RATE
 {
+	MONSTER_DROP_ITEM_RATE() {}
 	void Clear()
 	{
 		this->MonsterClass = 0;
@@ -523,6 +488,7 @@ struct JEWEL_OUT_RATE
 	int OutRate;
 };
 
+struct PENTAGRAM_SET_EFFECT;
 struct PENTAGRAM_SET_EFFECT
 {
 	void Clear()
@@ -548,6 +514,7 @@ struct PENTAGRAM_SET_EFFECT
 	int Value4;
 };
 
+struct PENTAGRAM_HAVE_SET_OPTION;
 struct PENTAGRAM_HAVE_SET_OPTION
 {
 	int BundleIndex;
@@ -556,6 +523,7 @@ struct PENTAGRAM_HAVE_SET_OPTION
 	int SetOptionIndex[26];
 };
 
+struct PENTAGRAM_ITEM_OPTION;
 struct PENTAGRAM_ITEM_OPTION
 {
 	void Clear()
@@ -578,6 +546,7 @@ struct PENTAGRAM_ITEM_OPTION
 	int OptionNum[7];
 };
 
+struct PENTAGRAM_ITEM_OPTION_ENABLE_NEED;
 struct PENTAGRAM_ITEM_OPTION_ENABLE_NEED
 {
 	void Clear()
@@ -600,6 +569,7 @@ struct PENTAGRAM_ITEM_OPTION_ENABLE_NEED
 	int Need_ErrtelLevel[3];
 };
 
+struct PENTAGRAM_SOCKET_RATE_BY_GRADE;
 struct PENTAGRAM_SOCKET_RATE_BY_GRADE
 {
 	void Clear()
@@ -977,17 +947,6 @@ struct JEWELOFHARMONY_ITEM_EFFECT
 	short HJOpAddSDRate;	// 24
 };
 
-
-struct PMSG_GREMORYCASE_ITEM
-{
-	BYTE btRewardInventory;
-	BYTE btRewardSource;
-	DWORD dwItemGUID;
-	BYTE btItemInfo[MAX_ITEM_INFO];
-	DWORD dwAuthCode;
-	DWORD dwExpireTime;
-};
-
 struct ComboSkillData;
 struct ComboSkillData
 {
@@ -1343,7 +1302,6 @@ struct DevilSquareBossMonsterInfo
 	int m_iDevilSquareNumber;	// 1C
 };
 
-
 struct DevilSquareScoreInfo
 {
 	char Name[10];	// 0
@@ -1490,6 +1448,7 @@ struct stGuildMatchingAllowListDB {
 	BYTE btState;
 };
 
+struct stGuildMatchingList;
 struct stGuildMatchingList {
 	char szMemo[41];
 	char szRegistrant[MAX_ACCOUNT_LEN + 1];
@@ -1571,6 +1530,7 @@ struct STR_QUESTEXP_INFO {
 	time_t lEndDate;
 };
 
+struct SEND_PARTYMEMBER_INFO;
 struct SEND_PARTYMEMBER_INFO {
 	SEND_PARTYMEMBER_INFO() {
 		this->bUse = FALSE;
@@ -1631,7 +1591,7 @@ struct STR_GUILD_MEMBER {
 	}
 };
 
-
+struct PARTY_INFO_LIST;
 struct PARTY_INFO_LIST {
 	char szLeaderName[MAX_ACCOUNT_LEN + 1];
 	char szTitle[41];
@@ -1648,6 +1608,7 @@ struct PARTY_INFO_LIST {
 	BYTE btGensType;
 };
 
+struct PARTY_INFO_LISTDB;
 struct PARTY_INFO_LISTDB {
 	char szLeaderName[MAX_ACCOUNT_LEN + 1];
 	char szTitle[41];

@@ -17,8 +17,6 @@
 #define TRACE_PACKET 0	
 #define CURRENT_DB_VERSION 3
 #define MAX_TYPE_PLAYER 8
-#define MAX_NUMBER_MAP 101
-#define CHECK_LIMIT(value, limit) (((value)< 0)?FALSE:((value)> limit-1)?FALSE:TRUE)
 #define AUTO_REG 0
 #define DATASERVER_VERSION "1.0.0.0"
 

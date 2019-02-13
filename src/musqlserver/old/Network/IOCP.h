@@ -11,14 +11,6 @@
 #include "MuDefines.h"
 #include "CQueue.h"
 
-enum eSERVER_TYPE
-{
-	ST_NONE = 0,
-	ST_JOINSERVER = 1,
-	ST_DATASERVER = 2,
-	ST_EXDATASERVER = 3,
-};
-
 struct _PER_IO_CONTEXT;
 struct _PER_SOCKET_CONTEXT;
 

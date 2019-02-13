@@ -12,28 +12,29 @@
 
 #include <vector>
 
-class CRaklionUtil;
-class CGameObject;
-class CUserData;
-class CItem;
-class CMuRummyInfo;
 class CEvolutionMonsterInfo;
-class CViewportGuild;
+class CGameObject;
+class CItem;
 class CMagicInf;
+class CMuRummyInfo;
+class CRaklionUtil;
+class CUserData;
+class CViewportGuild;
 class TDurMagicKeyChecker;
+class TMonsterAIAgro;
 
-struct STR_ACTION_STATE;
-struct VIEWPORT_STRUCT;
-struct VIEWPORT_PLAYER_STRUCT;
-struct HITDAMAGE_STRUCT;
-struct STR_INTERFACE_STATE;
-struct STR_EFFECTLIST;
-struct JEWELOFHARMONY_ITEM_EFFECT;
 struct BOT_BUFF_LIST;
+struct HITDAMAGE_STRUCT;
+struct JEWELOFHARMONY_ITEM_EFFECT;
 struct MOVE_MAPSERVER_AUTHINFO;
+struct STR_ACTION_STATE;
+struct STR_EFFECTLIST;
+struct STR_INTERFACE_STATE;
+struct VIEWPORT_PLAYER_STRUCT;
+struct VIEWPORT_STRUCT;
 struct WHISPER_STRUCT;
 
-struct TMonsterAIAgro;
+
 
 
 

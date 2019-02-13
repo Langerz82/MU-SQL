@@ -2,8 +2,26 @@
 #define _MU_PENTAGRAMSYSTEM_H
 
 #include "StdAfx.h"
+#include "generalStructs.h"
 #include "ItemManagement/Item.h"
-#include "User/CUserData.h"
+#include "CGameObject.h"
+#include "TRandomPoolMgr.h"
+
+
+struct TEST_ITEMSDROP;
+struct SERVER_ATTRIBUTE_DEFINE;
+struct PENTAGRAM_ITEM_OPEN_SOCKET_RATE;
+struct MONSTER_DROP_ITEM_RATE;
+struct JEWEL_OUT_RATE;
+struct PENTAGRAM_SET_EFFECT;
+struct PENTAGRAM_HAVE_SET_OPTION;
+struct PENTAGRAM_ITEM_OPTION;
+struct PENTAGRAM_ITEM_OPTION_ENABLE_NEED;
+struct PENTAGRAM_SOCKET_RATE_BY_GRADE;
+
+class CItem;
+class TRandomPoolMgr;
+
 
 class CPentagramSystem
 {

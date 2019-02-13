@@ -10,10 +10,18 @@
 #include "GensSystemProtocol.h"
 #include "CUserData.h"
 #include "ItemManagement/Item.h"
-#include "generalStructs.h"
+
 
 #include <string>
 #include <map>
+
+
+// External Structs.
+struct DevilSquareScoreInfo;
+struct PARTY_INFO_LIST;
+struct SEND_PARTYMEMBER_INFO;
+struct stGuildMatchingAllowListDB;
+struct STR_PARTY_MEMBER_WAIT_LIST;
 
 
 // Forward Declarations.
@@ -874,8 +882,6 @@ struct USER_CONNECT_DATA;
 struct STR_GUILD_MEMBER;
 struct _ITL_AnswerEnter;
 struct _ITR_AcceptEnter;
-struct _PARTY_INFO_LIST;
-struct _PARTY_INFO_LISTDB;
 struct _PARTY_MEMBER_WAIT_LIST;
 struct _PMSG_QUESTEXP_INFO;
 struct _QUESTEXP_INFO;
@@ -948,6 +954,7 @@ struct STR_GENS_RANKING;
 struct STR_GENS_RANKING_DATA;
 struct STR_GUILD_MEMBER;
 struct STR_DEFAULTCLASSTYPE;
+struct PMSG_GREMORYCASE_ITEM;
 struct PMSG_ANS_REGISTER_MUTONUM;
 struct PMSG_EVENTCHIPINFO;
 struct PMSG_REGEVENTCHIP_RESULT;
@@ -972,6 +979,49 @@ struct PMSG_AUTOUPDATE;
 struct PMSG_SERVER_SELECT;
 
 
+typedef struct _stGremoryCaseItem
+{
+	_stGremoryCaseItem()
+	{
+		this->btStorageType = 0;
+		this->btRewardSource = 0;
+		this->btItemGUID = 0;
+		this->wItemID = 0;
+		this->btItemLevel = 0;
+		this->btItemDurability = 0;
+		this->btItemSkill = 0;
+		this->btItemLuck = 0;
+		this->btItemOption = 0;
+		this->btItemExcOption = 0;
+		this->btItemSetOption = 0;
+		memset(this->btItemSocketOption, -1, sizeof(this->btItemSocketOption));
+		this->btItemMainAttribute = 0;
+		this->wMuunEvoItemType = 0;
+		this->btMuunEvoItemIndex = 0;
+		this->dwAuthCode = 0;
+		this->iReceiveDate = 0;
+		this->iExpireDate = 0;
+	}
+
+	BYTE btStorageType;
+	BYTE btRewardSource;
+	BYTE btItemGUID;
+	WORD wItemID;
+	BYTE btItemLevel;
+	BYTE btItemDurability;
+	BYTE btItemSkill;
+	BYTE btItemLuck;
+	BYTE btItemOption;
+	BYTE btItemExcOption;
+	BYTE btItemSetOption;
+	BYTE btItemSocketOption[5];
+	BYTE btItemMainAttribute;
+	WORD wMuunEvoItemType;
+	BYTE btMuunEvoItemIndex;
+	DWORD dwAuthCode;
+	time_t iReceiveDate;
+	time_t iExpireDate;
+} _stGremoryCaseItem;
 
 ////////// Connect Server - Packets.
 struct PMSG_CONNECT_INFO
@@ -1128,7 +1178,7 @@ struct PMSG_REQ_BUYLIST_FROM_PSHOP
 	BYTE btName[10];	// 6
 };
 
-#pragma pack (1)
+
 struct PMSG_REQ_BUYITEM_FROM_PSHOP
 {
 	PBMSG_HEAD2 h;
@@ -1143,7 +1193,7 @@ struct PMSG_REQ_BUYITEM_FROM_PSHOP
 	short PShopItemSoulJewelValue;
 	short PShopItemChaosJewelValue;
 };
-#pragma pack ()
+
 
 struct PMSG_REQ_PSHOPDEAL_CLOSE
 {
@@ -1327,6 +1377,7 @@ struct _stAnsGremoryCaseItemList
 	BYTE btCount;
 };
 
+struct _stReqAddItemToGremoryCase;
 struct _stReqAddItemToGremoryCase
 {
 	PBMSG_HEAD2 h;
@@ -1379,19 +1430,27 @@ struct _stReqDeleteItemFromGremoryCase
 	DWORD dwAuthCode;
 };
 
+struct PMSG_GREMORYCASE_ITEM
+{
+	BYTE btRewardInventory;
+	BYTE btRewardSource;
+	DWORD dwItemGUID;
+	BYTE btItemInfo[MAX_ITEM_INFO];
+	DWORD dwAuthCode;
+	DWORD dwExpireTime;
+};
+
 struct PMSG_RECEIVE_GREMORYCASE_ITEMLIST // 4F:00 GS->CL
 {
 	PWMSG_HEAD2 h;
 	BYTE btCount;
 };
 
-#pragma pack (1)
 struct PMSG_RECEIVE_GREMORYCASE_ITEM // 4F:01 GS->CL
 {
 	PBMSG_HEAD2 h;
 	PMSG_GREMORYCASE_ITEM m_ReceivedItem;
 };
-#pragma pack ()
 
 struct PMSG_ADD_GREMORYCASE_ITEM_TO_INVENTORY_REQ // 4F:02 CL->GS
 {
@@ -1485,6 +1544,14 @@ struct NOTICE_INFO
 	int RepeatTime;
 };
 
+struct DevilSquareScoreInfo;
+struct DevilSquareScoreInfo
+{
+	char Name[10];	// 0
+	int TotalScore;	// C
+	int BonusExp;	// 10
+	int BonusZen;	// 14
+};
 
 struct PMSG_DEVILSQUARERESULT
 {
@@ -1493,6 +1560,7 @@ struct PMSG_DEVILSQUARERESULT
 	BYTE Count;	// 4
 	DevilSquareScoreInfo Score[11];	// 5
 };
+
 
 struct STR_DEFAULTCLASSTYPE
 {
@@ -1590,6 +1658,23 @@ struct stAnsDelWaitGuildMatchingList {
 	int nUserIndex;
 	int nType;
 	int nResult;
+};
+
+struct PARTY_INFO_LIST;
+struct PARTY_INFO_LIST {
+	char szLeaderName[MAX_ACCOUNT_LEN + 1];
+	char szTitle[41];
+	WORD nMinLevel;
+	WORD nMaxLevel;
+	WORD nHuntingGround;
+	int nLeaderLevel;
+	BYTE btLeaderClass;
+	BYTE btWantedClass;
+	BYTE btCurPartyMemberCnt;
+	BYTE btUsePassword;
+	BYTE btWantedClassDetailInfo[7];
+	int nServerChannel;
+	BYTE btGensType;
 };
 
 struct stAnsGetPartyMatchingList {

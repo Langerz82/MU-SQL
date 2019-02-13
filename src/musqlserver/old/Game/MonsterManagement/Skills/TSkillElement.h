@@ -9,6 +9,11 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "StdAfx.h"
+#include "CGameObject.h"
+
+class CGameObject;
+
 class TSkillElement
 {
 

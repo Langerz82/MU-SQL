@@ -10,15 +10,6 @@
 
 class CGameObject;
 
-enum eSERVER_STATE
-{
-	SS_CLOSED,
-	SS_CONNECTED,
-	SS_LOGGED,
-	SS_GUILD,
-	SS_CHAT,
-};
-
 typedef void (*WsProtocolCore)(int, BYTE, LPBYTE, int);
 
 #ifndef MAX_SERVER_TYPE
