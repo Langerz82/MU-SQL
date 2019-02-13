@@ -521,7 +521,7 @@ BYTE gObjTradeEventInventoryMove(CGameObject &lpObj, BYTE source, BYTE target)
 		return -1;
 	}
 
-	if (lpObj.m_IfState.use == 0 || lpObj.m_IfState.type != 1)
+	if (lpObj.m_IfState->use == 0 || lpObj.m_IfState->type != 1)
 	{
 		return -1;
 	}

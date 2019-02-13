@@ -1,4 +1,6 @@
+#include "StdAfx.h"
 #include "CGameObject.h"
+
 #include "AntiSpeed.h"
 #include "ComboAttack.h"
 #include "EvolutionMonsterInfo.h"

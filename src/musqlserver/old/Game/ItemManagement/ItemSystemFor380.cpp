@@ -4,11 +4,10 @@
 
 #include "StdAfx.h"
 #include "ItemSystemFor380.h"
-#include "Gamemain.h"
 #include "CastleSiegeSync.h"
-#include "Logging/Log.h"
 #include "ChaosBox.h"
-#include "util.h"
+#include "JewelOfHarmonySystem.h"
+
 
 CItemSystemFor380 g_kItemSystemFor380;
 //////////////////////////////////////////////////////////////////////
@@ -150,13 +149,13 @@ void CItemSystemFor380::InitEffectValue(ITEMOPTION_FOR380ITEM_EFFECT * pItemEffe
 
 BOOL CItemSystemFor380::ApplyFor380Option(CGameObject &Obj)
 {
-	ITEMOPTION_FOR380ITEM_EFFECT * pItemEffect = &lpObj.m_PlayerData->m_ItemOptionExFor380;
+	ITEMOPTION_FOR380ITEM_EFFECT * pItemEffect = Obj.m_PlayerData->m_ItemOptionExFor380;
 	this->InitEffectValue(pItemEffect);
 	int iItemIndex = 0;
 
 	for ( iItemIndex = 0; iItemIndex < INVETORY_WEAR_SIZE ; iItemIndex++)
 	{
-		CItem * pItem = &lpObj.pInventory[iItemIndex];
+		CItem * pItem = &Obj.pInventory[iItemIndex];
 
 		if ( pItem->IsItem() &&
 			 pItem->m_IsValidItem &&
@@ -175,8 +174,8 @@ BOOL CItemSystemFor380::ApplyFor380Option(CGameObject &Obj)
 		}
 	}
 
-	lpObj.AddLife += pItemEffect->OpAddMaxHP;
-	lpObj.iAddShield += pItemEffect->OpAddMaxSD;
+	Obj.AddLife += pItemEffect->OpAddMaxHP;
+	Obj.iAddShield += pItemEffect->OpAddMaxSD;
 
 	return TRUE;
 }
@@ -251,13 +250,13 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(CGameObject &Obj)
 {
 	if (this->m_bSystemFor380ItemOption != TRUE)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,284), Obj.m_Index, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,284), Obj, 1);
 		Obj.bIsChaosMixCompleted = false;
 
 		return FALSE;
 	}
 
-	lpObj.ChaosLock = TRUE;
+	Obj.ChaosLock = TRUE;
 
 	int iValidItemCount = 0;
 	int iJewelOfHarmony = 0;
@@ -276,29 +275,29 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (lpObj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pChaosBox[n].IsItem() == TRUE)
 		{
-			if (this->Is380Item(&lpObj.pChaosBox[n]) == TRUE &&
-				this->Is380OptionItem(&lpObj.pChaosBox[n]) == FALSE &&
-				lpObj.pChaosBox[n].m_Level > 3 &&
-				(lpObj.pChaosBox[n].m_Option3 << 2) > 3)
+			if (this->Is380Item(&Obj.pChaosBox[n]) == TRUE &&
+				this->Is380OptionItem(&Obj.pChaosBox[n]) == FALSE &&
+				Obj.pChaosBox[n].m_Level > 3 &&
+				(Obj.pChaosBox[n].m_Option3 << 2) > 3)
 			{
 				iValidItemCount++;
-				pTargetItem = &lpObj.pChaosBox[n];
+				pTargetItem = &Obj.pChaosBox[n];
 			}
-			else if (g_kJewelOfHarmonySystem.IsJewelOfHarmonyPurity(lpObj.pChaosBox[n].m_Type) == TRUE)
+			else if (g_kJewelOfHarmonySystem.IsJewelOfHarmonyPurity(Obj.pChaosBox[n].m_Type) == TRUE)
 			{
 				iJewelOfHarmony++;
 				iPosOfJewelOfHarmony = n;
 			}
-			else if (lpObj.pChaosBox[n].m_Type == ITEMGET(14, 31))
+			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 31))
 			{
 				iJewelOfSuho++;
 				iPosOfJewelOfSuho = n;
 			}
-			else if (lpObj.pChaosBox[n].m_Type == ITEMGET(14, 53))
+			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 53))
 			{
-				iCharmOfLuckCount += lpObj.pChaosBox[n].m_Durability;
+				iCharmOfLuckCount += Obj.pChaosBox[n].m_Durability;
 			}
 			else
 			{
@@ -316,14 +315,14 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(CGameObject &Obj)
 		iPosOfJewelOfSuho == -1 ||
 		iCharmOfLuckCount > 10)
 	{
-		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
-		lpObj.ChaosLock = FALSE;
+		IOCP.DataSend(Obj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+		Obj.ChaosLock = FALSE;
 
 		return FALSE;
 	}
 
 	iMixPrice = this->m_iNeedZenFor380Option;
-	int iChaosTaxMoney = iMixPrice * g_CastleSiegeSync.GetTaxRateChaos(lpObj) / 100;
+	int iChaosTaxMoney = iMixPrice * g_CastleSiegeSync.GetTaxRateChaos(Obj) / 100;
 
 	if (iChaosTaxMoney < 0)
 		iChaosTaxMoney = 0;
@@ -333,20 +332,20 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(CGameObject &Obj)
 	if (iMixPrice < 0)
 		iMixPrice = 0;
 
-	if (lpObj.m_PlayerData->Money < iMixPrice)
+	if (Obj.m_PlayerData->Money < iMixPrice)
 	{
 		pMsg.Result = 2;
-		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
-		lpObj.ChaosLock = FALSE;
+		IOCP.DataSend(Obj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+		Obj.ChaosLock = FALSE;
 
 		return FALSE;
 	}
 
-	lpObj.m_PlayerData->Money -= iMixPrice;
+	Obj.m_PlayerData->Money -= iMixPrice;
 	g_CastleSiegeSync.AddTributeMoney(iChaosTaxMoney);
 
-	gGameProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
-	g_MixSystem.LogChaosItem(lpObj, "[380Item][Item Mix");
+	gGameProtocol.GCMoneySend(Obj, Obj.m_PlayerData->Money);
+	g_MixSystem.LogChaosItem(Obj, "[380Item][Item Mix");
 	sLog->outBasic("[380Item][Item Mix] - Mix Start");
 
 	int iRate = rand() % 100;
@@ -365,20 +364,20 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE;i++)
 	{
-		if (&lpObj.pChaosBox[i] != pTargetItem)
+		if (&Obj.pChaosBox[i] != pTargetItem)
 		{
-			lpObj.pChaosBox[i].Clear();
-			lpObj.pChaosBoxMap[i] = -1;
+			Obj.pChaosBox[i].Clear();
+			Obj.pChaosBoxMap[i] = -1;
 		}
 	}
 
 	if (iRate < iRateSuccess)
 	{
 		this->_SetOption(pTargetItem, TRUE);
-		gGameProtocol.GCUserChaosBoxSend(lpObj, 0);
+		gGameProtocol.GCUserChaosBoxSend(Obj, 0);
 
 		sLog->outBasic("[380Item][ItemMix] Mix Success [%s][%s], Money(%d-%d) Rate(%d/%d) Option(%d,%d) OptionValue(%d,%d)",
-			lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->Money,
+			Obj.AccountID, Obj.Name, Obj.m_PlayerData->Money,
 			iMixPrice, iRate, iRateSuccess,
 			this->m_itemOption[(pTargetItem->m_Type)].m_Option1,
 			this->m_itemOption[(pTargetItem->m_Type)].m_Option2,
@@ -387,30 +386,15 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(CGameObject &Obj)
 	}
 	else
 	{
-		gGameProtocol.GCUserChaosBoxSend(lpObj, 0);
-		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+		gGameProtocol.GCUserChaosBoxSend(Obj, 0);
+		IOCP.DataSend(Obj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 
 		sLog->outBasic("[380Item][ItemMix] Mix Fail [%s][%s], Money(%d-%d) Rate(%d/%d)",
-			lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->Money,
+			Obj.AccountID, Obj.Name, Obj.m_PlayerData->Money,
 			iMixPrice, iRate, iRateSuccess);
 
 	}
 
-	lpObj.ChaosLock = FALSE;
+	Obj.ChaosLock = FALSE;
 	return TRUE;
 }
-
-
-
-
-
-
-
-
-
-
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

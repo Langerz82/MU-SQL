@@ -1,9 +1,3 @@
-////////////////////////////////////////////////////////////////////////////////
-// zzzitem.h
-// ------------------------------
-// Decompiled by Deathway
-// Date : 2007-03-09
-// ------------------------------
 #ifndef _MU_ZZZITEM_H
 #define _MU_ZZZITEM_H
 
@@ -182,12 +176,12 @@ typedef ITEM_ATTRIBUTE* LPITEM_ATTRIBUTE;
 class CGameObject;
 class CItem;
 
-class CItem
+class CItemObject
 {
 
 public:
 
-	CItem();
+	CItemObject();
 
 	void Convert(int type, BYTE Option1, BYTE Option2, BYTE Option3, BYTE Attribute2, BYTE SetOption, BYTE ItemEffectEx, BYTE *SocketOption, BYTE SocketBonusOption, BYTE PeriodItemOption, BYTE DbVersion);
 	void Value();

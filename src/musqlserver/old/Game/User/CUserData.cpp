@@ -12,6 +12,7 @@
 	void SkillFrustrum()	-	Wrong Symbol NAmes of the zzmath functions
 */
 
+#include "StdAfx.h"
 #include "CUserData.h"
 
 #include "AcheronGuardianEvent.h"

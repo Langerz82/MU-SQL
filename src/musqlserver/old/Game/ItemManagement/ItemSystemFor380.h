@@ -10,7 +10,6 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "generalStructs.h"
 #include "CGameObject.h"
 #include "ItemManagement/Item.h"
 
@@ -25,7 +24,7 @@
 #define ITEMOPTION_FOR380ITEM_EFFECT_OPADDREFILLSD					8
 
 class CGameObject;
-//class Citem;
+class Citem;
 
 struct ITEMOPTION_FOR380ITEM_EFFECT;
 struct ITEMOPTION_FOR380ITEM;

@@ -8,7 +8,6 @@
 #endif // _MSC_VER > 1000
 
 #include "MuRummyInfo.h"
-#include "Protocol/protocolStructs.h"
 
 struct PMSG_REQ_MURUMMY_EVENT_OPEN;
 struct PMSG_REQ_MURUMMY_INFO;

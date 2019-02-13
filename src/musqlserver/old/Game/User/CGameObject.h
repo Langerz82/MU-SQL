@@ -5,7 +5,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "StdAfx.h"
+#include "PrecompiledHeader/StdAfx.h"
 #include "generalStructs.h"
 #include "TSkillElement.h"
 #include "TMonsterSkillElementInfo.h"

@@ -279,7 +279,7 @@ public:
 	int CheckLeverAlive(int iLeverIndex);
 	int CheckCsGateAlive(int iGateIndex);
 	void CheckCsDbNpcAlive();
-	void SetCrownIndex(CGameObject &Obj){m_iCrownIndex = iIndex;}
+	void SetCrownIndex(CGameObject &Obj){m_iCrownIndex = Obj.m_Index;}
 	void NotifyCrownState(BYTE btState);
 	BOOL GetRegCrownAvailable(){return m_bRegCrownAvailable;}
 	void SetRegCrownAvailable(BOOL bRegCrownAvailable){m_bRegCrownAvailable = bRegCrownAvailable;}
