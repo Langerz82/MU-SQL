@@ -93,7 +93,7 @@ public:
 	void SetClearSocketEffect(CGameObject &lpObj);
 
 	void SetEffect(CGameObject &lpObj, BYTE btOptionType, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue);
-	void ClearEffect(CGameObject &lpObj, LPSOCKET_OPTION_LIST lpOptionData);
+	void ClearEffect(CGameObject &lpObj, SOCKET_OPTION_LIST* lpOptionData);
 
 	void _SetFireEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue);
 	void _SetWaterEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue);

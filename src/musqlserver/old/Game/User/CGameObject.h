@@ -6,11 +6,9 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "CUserData.h"
-#include "TDurMagicKeyChecker.h"
+#include "generalStructs.h"
+#include "TSkillElement.h"
 #include "TMonsterSkillElementInfo.h"
-#include "TMonsterAIAgro.h"
-#include "MagicInf.h"
 
 #include <vector>
 
@@ -18,6 +16,11 @@ class CRaklionUtil;
 class CGameObject;
 class CUserData;
 class CItem;
+class CMuRummyInfo;
+class CEvolutionMonsterInfo;
+class CViewportGuild;
+class CMagicInf;
+class TDurMagicKeyChecker;
 
 struct STR_ACTION_STATE;
 struct VIEWPORT_STRUCT;
@@ -26,6 +29,12 @@ struct HITDAMAGE_STRUCT;
 struct STR_INTERFACE_STATE;
 struct STR_EFFECTLIST;
 struct JEWELOFHARMONY_ITEM_EFFECT;
+struct BOT_BUFF_LIST;
+struct MOVE_MAPSERVER_AUTHINFO;
+struct WHISPER_STRUCT;
+
+struct TMonsterAIAgro;
+
 
 
 
@@ -423,7 +432,7 @@ public:
 	bool m_bOffLevel;
 	DWORD64 m_dwOffLevelTime;
 	CUserData* m_PlayerData;
-	_BOT_BUFF_LIST m_BotBuffs[10];
+	BOT_BUFF_LIST m_BotBuffs[10];
 	UINT64 MonsterMoneyDrop;
 	BYTE m_btOpenWarehouse;
 	WORD m_wMineCount;

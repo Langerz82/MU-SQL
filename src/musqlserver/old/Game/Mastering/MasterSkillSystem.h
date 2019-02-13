@@ -5,6 +5,7 @@
 
 #include "StdAfx.h"
 
+struct MASTERLEVEL_PASSIVE_SKILL_OPTION;
 
 class CMasterLevelSystem
 {
@@ -24,7 +25,7 @@ public:
 
 	UINT64 * gMasterExperience;
 };
-//extern CMasterSkillSystem g_MasterLevelSystem;
+extern CMasterSkillSystem g_MasterLevelSystem;
 
 #endif
 

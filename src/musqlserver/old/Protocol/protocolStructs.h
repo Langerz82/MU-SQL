@@ -1023,11 +1023,6 @@ struct PMSG_SEND_TITLE
 	char ServerName[12];
 };
 
-struct PMSG_RESULT
-{
-	PBMSG_HEAD		h;
-	UCHAR			result;
-};
 
 struct PMSG_SERVERINFO
 {
@@ -7113,22 +7108,6 @@ struct PMSG_SEND_MUUN_RIDE_VIEWPORT_INFO {
 	BYTE Count;
 };
 
-struct PMSG_SEND_NEWS {
-	PWMSG_HEAD2 h;
-	BYTE Day;
-	BYTE Month;
-	WORD year;
-	DWORD dateColor;
-	DWORD titleColor;
-	DWORD textColor;
-	char title[40];
-	WORD textLen;
-};
-
-struct PMSG_SEND_TITLE {
-	PBMSG_HEAD2 h;
-	char ServerName[12];
-};
 
 struct PMSG_SEND_PCPOINT {
 	PBMSG_HEAD2 h;
@@ -7144,33 +7123,9 @@ struct PMSG_SERVERCMD {
 	BYTE Y;
 };
 
-struct PMSG_SERVERINFO {
-	PBMSG_HEAD2 h;
-	short ServerCode;
-	BYTE Percent;
-	BYTE PlayType; // added
-	short UserCount;
-	short AccountCount;
-	short PCbangCount;
-	short MaxUserCount;
-};
-
-struct PMSG_SERVERLIST_SERVER
-{
-	WORD			wServerCode;
-	BYTE			btPercent;
-	BYTE			btPlayType;
-};
-
 struct PMSG_SERVERMSG {
 	PBMSG_HEAD2 h;
 	BYTE MsgNumber;
-};
-
-struct PMSG_SERVERSLIST_COUNT {
-	PWMSG_HEAD2 h;
-	BYTE CountH;
-	BYTE CountL;
 };
 
 struct PMSG_SET_CHAT_COLOR {

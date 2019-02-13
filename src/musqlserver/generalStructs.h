@@ -36,6 +36,7 @@ struct GREMORYCASE_ITEM_DATA;
 struct ITEMEFFECT;
 struct JEWELOFHARMONY_ITEM_EFFECT;
 struct JEWELOFHARMONY_ITEM_OPTION;
+struct MASTERLEVEL_PASSIVE_SKILL_OPTION;
 struct MU_WSABUF;
 struct MU_WSAOVERLAPPED;
 struct PARTYMATCHING_PARTYUSERDATA;
@@ -56,7 +57,6 @@ struct STR_STRINGCOMPARE;
 struct STR_UNION_MEMBER_DATA;
 struct STR_USER_SHOP_REBUY_ITEM;
 struct STR_CONNECT_USER;
-struct CharacterNameOfUBF;
 
 struct STR_CONNECT_USER
 {
@@ -72,9 +72,20 @@ struct STR_CONNECT_USER
 	ULONGLONG i64PacketTime;
 };
 
+struct ITEMOPTION_FOR380ITEM;
+struct ITEMOPTION_FOR380ITEM
+{
+	BOOL IsLoad;	// 0
+	BYTE m_Type;	// 4
+	BYTE m_Index;	// 5
+	BYTE m_Option1;	// 6
+	WORD m_Value1;	// 8
+	BYTE m_Option2;	// A
+	WORD m_Value2;	// C
+};
 
 
-
+struct SOCKET_OPTION_LIST;
 struct SOCKET_OPTION_LIST
 {
 	BYTE m_SocketOptionIndex;
@@ -188,26 +199,6 @@ struct _stGremoryCaseItem
 	DWORD dwAuthCode;
 	time_t iReceiveDate;
 	time_t iExpireDate;
-};
-
-struct ComboSkillData
-{
-
-public:
-
-	void Init()	// line : 19
-	{
-		this->dwTime = 0;
-		this->Skill[0] = -1;
-		this->Skill[1] = -1;
-		this->Skill[2] = -1;
-		this->ProgressIndex = -1;
-	};	// line : 23
-
-	DWORD dwTime;	// 0
-	WORD Skill[3];	// 4
-	int ProgressIndex;	// 8
-
 };
 
 
@@ -997,6 +988,26 @@ struct PMSG_GREMORYCASE_ITEM
 	DWORD dwExpireTime;
 };
 
+struct ComboSkillData;
+struct ComboSkillData
+{
+
+public:
+
+	void Init()	// line : 19
+	{
+		this->dwTime = 0;
+		this->Skill[0] = -1;
+		this->Skill[1] = -1;
+		this->Skill[2] = -1;
+		this->ProgressIndex = -1;
+	};	// line : 23
+
+	DWORD dwTime;	// 0
+	WORD Skill[3];	// 4
+	int ProgressIndex;	// 8
+
+};
 
 struct GREMORYCASE_ITEM_DATA
 {
@@ -2136,9 +2147,10 @@ struct SKILL_INFO
 	float	fCircleShieldRate;
 };
 
-struct _MASTERLEVEL_PASSIVE_SKILL_OPTION
+
+struct MASTERLEVEL_PASSIVE_SKILL_OPTION
 {
-	_MASTERLEVEL_PASSIVE_SKILL_OPTION()
+	MASTERLEVEL_PASSIVE_SKILL_OPTION()
 	{
 		this->Clear();
 	}
@@ -2413,6 +2425,7 @@ struct EFFECTLIST
 	int EffectDuration;
 };
 
+struct PENTAGRAMJEWEL_INFO;
 #pragma pack (1)
 struct PENTAGRAMJEWEL_INFO
 {
@@ -2455,6 +2468,20 @@ struct PENTAGRAMJEWEL_INFO
 };
 #pragma pack ()
 
+struct ITEMOPTION_FOR380ITEM_EFFECT;
+struct ITEMOPTION_FOR380ITEM_EFFECT
+{
+	short OpAddAttackSuccessRatePVP;	// 0
+	short OpAddDamage;	// 2
+	short OpAddDefenseSuccessRatePvP;	// 4
+	short OpAddDefense;	// 6
+	short OpAddMaxHP;	// 8
+	short OpAddMaxSD;	// A
+	short OpRefillOn;	// C
+	short OpAddRefillSD;	// E
+};
+
+struct PENTAGRAM_OPTION;
 struct PENTAGRAM_OPTION
 {
 	int m_iRuby_1RankAddDamage;
@@ -2515,7 +2542,8 @@ struct PENTAGRAM_OPTION
 	bool m_isAddResistByPentaAttack;
 };
 
-struct _BOT_BUFF_LIST
+struct BOT_BUFF_LIST;
+struct BOT_BUFF_LIST
 {
 	WORD wBuffId;
 	WORD wDuration;
@@ -2523,6 +2551,7 @@ struct _BOT_BUFF_LIST
 	WORD wEffectType;
 };
 
+struct EXC_WING_OPTION;
 struct EXC_WING_OPTION
 {
 	EXC_WING_OPTION()
@@ -2546,6 +2575,7 @@ struct EXC_WING_OPTION
 	int iWingOpAddDoubleDamage;
 };
 
+struct STAT_USER_OPTION;
 struct STAT_USER_OPTION
 {
 	STAT_USER_OPTION()

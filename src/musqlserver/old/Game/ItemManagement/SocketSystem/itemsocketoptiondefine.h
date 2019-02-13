@@ -111,22 +111,6 @@ enum
 	SEED_EFFECT_TYPE_SET_END = 0x2d,
 };
 
-typedef struct
-{
-	BYTE m_SocketOptionIndex;
-	BYTE m_SocketOptionValueType;
-	WORD m_SocketOptionValue;
-	BYTE m_SocketOptionCount;
-	
-	void Clear()
-	{
-		this->m_SocketOptionIndex = 0xFF;
-		this->m_SocketOptionValue = 0;
-		this->m_SocketOptionValueType = 0;
-		this->m_SocketOptionCount = 0;
-	}
-} SOCKET_OPTION_LIST, *LPSOCKET_OPTION_LIST;
-
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////

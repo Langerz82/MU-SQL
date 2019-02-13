@@ -11,6 +11,8 @@
 
 #include "StdAfx.h"
 
+class TMonsterSkillElementInfo;
+
 class TMonsterSkillElementInfo
 {
 

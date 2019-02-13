@@ -52,6 +52,7 @@ enum MONSTER_SKILL_ELEMENT_INCDEC_TYPE
 	MSE_INCDEC_TYPE_CYCLE_CONSTANTDEC = 0x70,
 };
 
+class CGameObject;
 
 class TMonsterSkillElement  : public  TSkillElement
 {

@@ -22,6 +22,7 @@
 #include "TMonsterAIAgro.h"
 #include "TMonsterSkillElementInfo.h"
 #include "UnityBattleField.h"
+#include "ViewportGuild.h"
 
 //Y
 //|-------

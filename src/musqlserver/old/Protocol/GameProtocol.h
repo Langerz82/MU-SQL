@@ -424,6 +424,7 @@ struct PMSG_REQ_REG_GENS_MEMBER;
 struct PMSG_REQ_SEGEDE_GENS_MEMBER;
 struct PMSG_SEND_PET_ITEMINFO;
 struct Recv_PetItem_Info;
+struct SHOP_DATA;
 
 
 class GameProtocol

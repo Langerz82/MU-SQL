@@ -65,7 +65,7 @@
 #include "ItemOptionTypeMng.h"
 #include "itemsocketoptiondefine.h"
 #include "ItemSocketOptionSystem.h"
-#include "ItemSystemFor380.h"
+
 #include "JewelOfHarmonySystem.h"
 #include "KalimaGate.h"
 #include "Kanturu.h"
@@ -131,6 +131,123 @@
 #include "Weapon.h"
 #include "zzzmathlib.h"
 
+
+CNameConvert::CNameConvert()
+{
+	this->m_perCharacterInfo = new CharacterNameOfUBF[5];
+}
+
+CNameConvert::~CNameConvert()
+{
+	delete this->m_perCharacterInfo;
+}
+
+void CNameConvert::InitData()
+{
+	for (int i = 0; i < 5; i++)
+	{
+		this->m_perCharacterInfo[i].Clear();
+	}
+}
+
+void CNameConvert::InputData(int cnt, const char *name, const char *realNameOfUbf, WORD serverCode, int Length)
+{
+	if (cnt > -1 && cnt < 5)
+	{
+		memcpy(this->m_perCharacterInfo[cnt].szCharacterName, name, Length);
+		this->m_perCharacterInfo[cnt].szCharacterName[Length] = 0;
+		memcpy(this->m_perCharacterInfo[cnt].szCharacterNameOfUBF, realNameOfUbf, Length);
+		this->m_perCharacterInfo[cnt].szCharacterNameOfUBF[Length] = 0;
+		this->m_perCharacterInfo[cnt].nServerCodeOfHomeWorld = serverCode;
+	}
+}
+
+char * CNameConvert::ConvertNameToRealName(const char *name)
+{
+	for (int i = 0; i < 5; i++)
+	{
+		if (!strcmp(this->m_perCharacterInfo[i].szCharacterName, name))
+		{
+			return this->m_perCharacterInfo[i].szCharacterNameOfUBF;
+		}
+	}
+
+	return this->m_perCharacterInfo[0].szCharacterNameOfUBF;
+}
+
+char * CNameConvert::ConvertRealNameToName(const char *realName)
+{
+	for (int i = 0; i < 5; i++)
+	{
+		if (!strcmp(this->m_perCharacterInfo[i].szCharacterNameOfUBF, realName))
+		{
+			return this->m_perCharacterInfo[i].szCharacterName;
+		}
+	}
+
+	return this->m_perCharacterInfo[0].szCharacterName;
+}
+
+WORD CNameConvert::FindServerCodeAtRealName(const char *realName)
+{
+	for (int i = 0; i < 5; i++)
+	{
+		if (!strcmp(this->m_perCharacterInfo[i].szCharacterNameOfUBF, realName))
+		{
+			return this->m_perCharacterInfo[i].nServerCodeOfHomeWorld;
+		}
+	}
+
+	return 0;
+}
+
+WORD CNameConvert::FindServerCodeAtCharacterName(const char *name)
+{
+	for (int i = 0; i < 5; i++)
+	{
+		if (!strcmp(this->m_perCharacterInfo[i].szCharacterName, name))
+		{
+			return this->m_perCharacterInfo[i].nServerCodeOfHomeWorld;
+		}
+	}
+
+	return 0;
+}
+
+char * CNameConvert::ConvertSlotIndexToName(int slotindex)
+{
+	int SlotNumber = slotindex;
+
+	if (slotindex > 2 && slotindex > -1)
+	{
+		SlotNumber = 0;
+		sLog->outBasic("[UBF][CNAMECONVERT][ConvertSlotIndexToName] Map Join Request Fail, Wrong SlotIndex :%d. Default (ChName,RealName): (%s,%s)",
+			slotindex, this->m_perCharacterInfo[0].szCharacterName, this->m_perCharacterInfo[0].szCharacterNameOfUBF);
+	}
+
+	return this->m_perCharacterInfo[SlotNumber].szCharacterName;
+}
+
+int CNameConvert::IsDuplicationOfName()
+{
+	for (int pivotIndex = 0; pivotIndex < 5; pivotIndex++)
+	{
+		for (int searchIndex = 0; searchIndex < 5; searchIndex++)
+		{
+			if (pivotIndex != searchIndex)
+			{
+				if (!strcmp(this->m_perCharacterInfo[pivotIndex].szCharacterNameOfUBF, this->m_perCharacterInfo[searchIndex].szCharacterNameOfUBF))
+				{
+					return TRUE;
+				}
+			}
+		}
+	}
+
+	return FALSE;
+}
+
+
 CUserData::CUserData(int IDNumber)
 {
 	this->IDNumber;
@@ -141,6 +258,12 @@ CUserData::CUserData(int IDNumber)
 	this->m_pCEvoMonInfo = new CEvolutionMonsterInfo;
 	this->pPentagramMixBox = new CItem[CHAOS_BOX_SIZE];
 	this->pPentagramMixBoxMap = new BYTE[CHAOS_BOX_MAP_SIZE];
+	this->m_SeedOptionList = new SOCKET_OPTION_LIST[35];
+	this->m_BonusOptionList = new SOCKET_OPTION_LIST[7];
+	this->m_SetOptionList = new SOCKET_OPTION_LIST[2];
+	this->m_CancelItemSaleList = new STR_USER_SHOP_REBUY_ITEM[MAX_CANCEL_ITEMS_SALE];
+	this->m_GremoryCaseData = new GREMORYCASE_ITEM_DATA[MAX_GREMORYCASE_STORAGE_TYPES * MAX_GREMORYCASE_STORAGE_ITEMS];
+	this->m_StatSpecOption = new STAT_USER_OPTION[12];
 
 	this->Init();
 }
@@ -174,6 +297,13 @@ CUserData::~CUserData()
 		delete[] this->pPentagramMixBoxMap;
 		this->pPentagramMixBoxMap = NULL;
 	}
+
+	delete[] this->m_SeedOptionList;
+	delete[] this->m_BonusOptionList;
+	delete[] this->m_SetOptionList;
+	delete[] this->m_CancelItemSaleList;
+	delete[] this->m_GremoryCaseData;
+	delete[] this->m_StatSpecOption;
 }
 
 void CUserData::Init(bool VipReset)
@@ -188,8 +318,8 @@ void CUserData::Init(bool VipReset)
 	this->RegisterdLMS = 0;
 	this->RegisteredLMSRoom = -1;
 	this->MoveGate = -1;
-	g_kJewelOfHarmonySystem.InitEffectValue(&this->m_JewelOfHarmonyEffect);
-	g_kItemSystemFor380.InitEffectValue(&this->m_ItemOptionExFor380);
+	g_kJewelOfHarmonySystem.InitEffectValue(this->m_JewelOfHarmonyEffect);
+	g_kItemSystemFor380.InitEffectValue(this->m_ItemOptionExFor380);
 	this->m_iResets = 0;
 
 	this->LastAuthTime = 0;
@@ -342,7 +472,7 @@ void CUserData::Init(bool VipReset)
 	{
 		for (int j = 0; j < MAX_GREMORYCASE_STORAGE_ITEMS; j++)
 		{
-			this->m_GremoryCaseData[i][j].Clear();
+			this->m_GremoryCaseData[i * MAX_GREMORYCASE_STORAGE_TYPES + j].Clear();
 		}
 	}
 
