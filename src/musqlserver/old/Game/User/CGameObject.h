@@ -37,7 +37,7 @@ struct SKILL_INFO;
 struct MUUN_EFFECT_LIST;
 
 
-
+extern std::vector<CGameObject*> gGameObjects;
 
 
 class CGameObject
@@ -219,6 +219,12 @@ public:
 	int m_Change;	// 2F0
 	short TargetNumber;	// 2F4
 	short TargetNpcNumber;	// 2F6
+	CGameObject* GetTarget() {
+		return gGameObjects[this->TargetNumber];
+	};
+	CGameObject* GetTargetNPC() {
+		return gGameObjects[this->TargetNpcNumber];
+	};
 	short LastAttackerID;	// 2FA
 	int m_AttackDamageMin;	// 2FC
 	int m_AttackDamageMax;	// 300
@@ -575,7 +581,7 @@ public:
 
 
 //extern CViewportGuild ViewGuildMng;
-extern std::vector<CGameObject*> gGameObjects;
+
 extern BILL_CLASS* m_ObjBill;
 extern int gItemLoop;
 extern int gItemLoop2;

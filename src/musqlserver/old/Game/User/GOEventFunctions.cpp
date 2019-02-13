@@ -516,7 +516,7 @@ BYTE gObjTradeEventInventoryMove(CGameObject &Obj, BYTE source, BYTE target)
 		return -1;
 	}
 
-	if (IsEventItem(Obj.Trade[source].m_Type) == FALSE)
+	if (IsEventItem(Obj.Trade[source]->m_Type) == FALSE)
 	{
 		return -1;
 	}
@@ -669,18 +669,6 @@ BOOL CheckEventInventoryEmptySpace(CGameObject &Obj, int iItemHeight, int iItemW
 BOOL IsEventItem(CItemObject &item)
 {
 	LPITEM_ATTRIBUTE pItemAttribute = GetItemAttr(item.m_Type);
-
-	if (!pItemAttribute)
-	{
-		return FALSE;
-	}
-
-	return pItemAttribute->ItemKindA == 11;
-}
-
-BOOL IsEventItem(int iType)
-{
-	LPITEM_ATTRIBUTE pItemAttribute = GetItemAttr(iType);
 
 	if (!pItemAttribute)
 	{
