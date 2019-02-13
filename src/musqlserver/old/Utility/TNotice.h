@@ -32,7 +32,7 @@ public:
 	//void __thiscall SetSpeed(BYTE);
 	//void __thiscall SetColor(unsigned long);
 	//void __thiscall SetCount(BYTE);
-	//void __thiscall SetDelay(unsigned short);
+	//void __thiscall SetDelay(WORD);
 	//void __thiscall SetType(BYTE);
 
 	PMSG_NOTICE m_Notice;

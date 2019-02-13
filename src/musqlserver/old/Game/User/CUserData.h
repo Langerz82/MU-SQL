@@ -117,10 +117,10 @@ public:
 	SOCKET_OPTION_LIST* m_SeedOptionList; // Size=210 Offset=9392
 	SOCKET_OPTION_LIST* m_BonusOptionList; // Size=42 Offset=9602
 	SOCKET_OPTION_LIST* m_SetOptionList; // Size=12 Offset=9644
-	unsigned short m_btRefillHPSocketOption; // Size=2 Offset=9656
-	unsigned short m_btRefillMPSocketOption; // Size=2 Offset=9658
-	unsigned short m_wSocketOptionMonsterDieGetHp; // Size=2 Offset=9660
-	unsigned short m_wSocketOptionMonsterDieGetMana; // Size=2 Offset=9662
+	WORD m_btRefillHPSocketOption; // Size=2 Offset=9656
+	WORD m_btRefillMPSocketOption; // Size=2 Offset=9658
+	WORD m_wSocketOptionMonsterDieGetHp; // Size=2 Offset=9660
+	WORD m_wSocketOptionMonsterDieGetMana; // Size=2 Offset=9662
 	BYTE m_btAGReduceRate; // Size=1 Offset=9664
 	//=========
 	BYTE m_InventoryExpansion;

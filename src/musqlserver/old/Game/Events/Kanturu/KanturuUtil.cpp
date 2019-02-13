@@ -372,7 +372,7 @@ struct PMSG_REQ_LOG_KANTURU_TIMEATTACK_EVENT
 	short nINDEX;	// 4
 	char szUID[11];	// 6
 	char szNAME[11];	// 11
-	unsigned short wServerCode;	// 1C
+	WORD wServerCode;	// 1C
 	char szBattleID[14];	// 1E
 	BYTE btStageNumber;	// 2C
 	WORD wClearTime;	// 2E

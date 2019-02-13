@@ -5943,9 +5943,9 @@ bool CheckCanWearResetItem(CGameObject &Obj, int itemid)
 	{
 		if (gObjResetItem[i].itemIndex == itemid)
 		{
-			if (lpObj.m_PlayerData->m_iResets < gObjResetItem[i].iResets)
+			if (Obj.m_PlayerData->m_iResets < gObjResetItem[i].iResets)
 			{
-				MsgOutput(lpObj, Lang.GetText(0, 599), gObjResetItem[i].iResets);
+				MsgOutput(Obj, Lang.GetText(0, 599), gObjResetItem[i].iResets);
 				return false;
 			}
 			else

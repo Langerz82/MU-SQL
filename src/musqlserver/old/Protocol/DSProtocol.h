@@ -672,7 +672,7 @@ struct ATTRIBUTE_ADD_ERTELANS
 typedef struct 
 {
 	PBMSG_HEAD h;
-	unsigned short ServerCode;
+	WORD ServerCode;
 	char CharName[MAX_ACCOUNT_LEN+1];
 }SDHP_DELETE_TEMPUSERINFO,* LPSDHP_DELETE_TEMPUSERINFO;
 

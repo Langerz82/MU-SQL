@@ -186,7 +186,7 @@ struct COMMON_CONFIG
 struct Reset
 {
 	bool enable;
-	unsigned short iMinLevel;
+	WORD iMinLevel;
 	int iCost;
 	int iResetLimit;
 	bool ResetML;
@@ -246,8 +246,8 @@ struct ANTIHACK_CONFIG
 struct MUBOT_CONFIG
 {
 	bool enable;
-	unsigned short minlevel;
-	unsigned short minreset;
+	WORD minlevel;
+	WORD minreset;
 	int cost;
 	char viplevel;
 	int autodisabletime;

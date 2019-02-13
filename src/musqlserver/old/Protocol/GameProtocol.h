@@ -436,7 +436,7 @@ public:
 
 	void ProtocolCore(BYTE protoNum, BYTE* aRecv, int aLen, CGameObject &Obj, BOOL Encrypt);
 	void MsgSendV2(CGameObject &Obj, BYTE* Msg, int size);
-	void ChatSendV2(CGameObject &Obj, BYTE* Msg, int size);
+	//void ChatSendV2(CGameObject &Obj, BYTE* Msg, int size);
 	void CGLiveClient(PMSG_CLIENTTIME* lpClientTime, short aIndex);
 	void GCCheckMainExeKeySend(CGameObject &Obj);
 	WORD EncryptCheckSumKey(WORD wSource);
@@ -474,8 +474,8 @@ public:
 	void CGLevelUpPointAdd(PMSG_LVPOINTADD* lpMsg, CGameObject &Obj);
 	void GCInventoryItemOneSend(CGameObject &Obj, int pos);
 	void GCPkLevelSend(CGameObject &Obj, BYTE pklevel);
-	void GCMagicListOneSend(CGameObject &Obj, char Pos, unsigned short type, BYTE level, unsigned short skill, BYTE btListType);
-	void GCMagicListOneDelSend(CGameObject &Obj, char Pos, unsigned short type, BYTE level, unsigned short skill, BYTE btListType);
+	void GCMagicListOneSend(CGameObject &Obj, char Pos, WORD type, BYTE level, WORD skill, BYTE btListType);
+	void GCMagicListOneDelSend(CGameObject &Obj, char Pos, WORD type, BYTE level, WORD skill, BYTE btListType);
 	void GCMagicListMultiSend(CGameObject &Obj, BYTE btListType);
 	void GCEquipmentSend(CGameObject &Obj);
 	void GCRecallMonLife(CGameObject &Obj, int maxlife, int life);
@@ -554,7 +554,7 @@ public:
 	void GCActionSend(CGameObject &Obj, BYTE ActionNumber, CGameObject &ObjTarget);
 	void CGActionRecv(PMSG_ACTION* lpMsg, CGameObject &Obj);
 	void CGMagicAttack(PMSG_MAGICATTACK* lpRecv, CGameObject &Obj);
-	void CGMagicAttack(PMSG_MAGICATTACK* lpMsg, CGameObject &Obj);
+	//void CGMagicAttack(PMSG_MAGICATTACK* lpMsg, CGameObject &Obj);
 	void CGRageAttack(PMSG_RAGEATTACK_REQ* lpRecv, CGameObject &Obj);
 	void CGRageAttackRange(PMSG_RAGE_ATTACK_RANGE* lpMsg, CGameObject &Obj);
 	void GCMagicAttackNumberSend(CGameObject &Obj, WORD MagicNumber, CGameObject &Obj2, BYTE skillsuccess);
@@ -570,7 +570,7 @@ public:
 	void CGReqMapMove(PMSG_REQ_MAPMOVE *lpMsg, CGameObject &Obj);
 	void GCSendMapMoveCheckSum(CGameObject &Obj);
 	void CGTargetTeleportRecv(PMSG_TARGET_TELEPORT* lpMsg, CGameObject &Obj);
-	void GCTeleportSend(CGameObject &Obj, unsigned short MoveNumber, BYTE MapNumber, BYTE MapX, BYTE MapY, BYTE Dir);
+	void GCTeleportSend(CGameObject &Obj, WORD MoveNumber, BYTE MapNumber, BYTE MapX, BYTE MapY, BYTE Dir);
 	void CGBeattackRecv(BYTE* lpRecv, CGameObject &Obj, int magic_send);
 	void CGDurationMagicRecv(PMSG_DURATION_MAGIC_RECV * lpMsg, CGameObject &Obj);
 	void CGDurationMagicRecv(LPBYTE lpRecv, CGameObject &Obj);

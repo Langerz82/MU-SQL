@@ -69,7 +69,7 @@ private:
 
 // first, some types:
   typedef unsigned       int uint4; // assumes integer is 4 words long
-  typedef unsigned short int uint2; // assumes short integer is 2 words long
+  typedef WORD int uint2; // assumes short integer is 2 words long
   typedef unsigned      char uint1; // assumes char is 1 word long
 
 // next, the private data:

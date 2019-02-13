@@ -1801,11 +1801,11 @@ void GameProtocol::vChatSend(CGameObject &Obj, char* szChat, ...)
 		return;
 
 	/*	char szTempMsg[4096] = {0};
-		MultiByteToWideChar(1258, 0, szChat, len, (unsigned short*)szTempMsg, sizeof(szTempMsg));
+		MultiByteToWideChar(1258, 0, szChat, len, (WORD*)szTempMsg, sizeof(szTempMsg));
 		memcpy(&pMsg.szChatMsg, szTempMsg, sizeof(pMsg.szChatMsg));
 		pMsg.szChatMsg[MAX_CHAT_LEN-2]=0;
 		pMsg.szChatMsg[MAX_CHAT_LEN-1]=0;
-		PHeadSetB((BYTE*)&pMsg, 0x01, wcslen((unsigned short*)pMsg.szChatMsg)*2 + (sizeof(GC_CHATSEND)-sizeof(pMsg.szChatMsg)));
+		PHeadSetB((BYTE*)&pMsg, 0x01, wcslen((WORD*)pMsg.szChatMsg)*2 + (sizeof(GC_CHATSEND)-sizeof(pMsg.szChatMsg)));
 		pMsg.sIndex[0] = lpObj.m_Index >> 8;
 		pMsg.sIndex[1] = lpObj.m_Index & 0xFF;*/
 
@@ -14131,7 +14131,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 				}
 			}
 
-			unsigned short skillnumber;
+			WORD skillnumber;
 
 			if (CItemObject->IsClass(lpObj.Class, lpObj.m_PlayerData->ChangeUP) == FALSE)
 			{
@@ -20030,7 +20030,7 @@ int GameProtocol::OnCGAnswerDuel(PMSG_ANS_DUEL_ANSWER* lpMsg, CGameObject &Obj)
 	return ENEWPVP::E_NO_ERROR;
 }
 
-int GameProtocol::OnCGLeaveDuel(LPPMSG_REQ_DUEL_EXIT lpMsg, CGameObject &Obj)
+int GameProtocol::OnCGLeaveDuel(PMSG_REQ_DUEL_EXIT* lpMsg, CGameObject &Obj)
 {
 	if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE)
 	{
@@ -20043,7 +20043,7 @@ int GameProtocol::OnCGLeaveDuel(LPPMSG_REQ_DUEL_EXIT lpMsg, CGameObject &Obj)
 	return ENEWPVP::E_NO_ERROR;
 }
 
-int GameProtocol::OnDuelChannelJoin(LPPMSG_REQ_DUEL_JOINCNANNEL lpMsg, CGameObject &Obj)
+int GameProtocol::OnDuelChannelJoin(PMSG_REQ_DUEL_JOINCNANNEL* lpMsg, CGameObject &Obj)
 {
 	if (lpObj.CloseType != -1)	return ENEWPVP::E_DISCONNECT;
 	int nRet = g_NewPVP.JoinChannel(lpMsg->nChannelId, gGameObjects[aIndex]);
@@ -20051,7 +20051,7 @@ int GameProtocol::OnDuelChannelJoin(LPPMSG_REQ_DUEL_JOINCNANNEL lpMsg, CGameObje
 	return ENEWPVP::E_NO_ERROR;
 }
 
-int GameProtocol::OnDuelChannelLeave(LPPMSG_REQ_DUEL_LEAVECNANNEL lpMsg, CGameObject &Obj)
+int GameProtocol::OnDuelChannelLeave(PMSG_REQ_DUEL_LEAVECNANNEL* lpMsg, CGameObject &Obj)
 {
 	if (lpObj.CloseType != -1)	return ENEWPVP::E_DISCONNECT;
 	int nRet = g_NewPVP.LeaveChannel(lpMsg->nChannelId, gGameObjects[aIndex]);

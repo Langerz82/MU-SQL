@@ -123,7 +123,7 @@ public:
 	int SkillFiveShot(CGameObject &Obj, CMagicInf * lpMagic, BYTE TargetPos, int aTargetIndex);
 	int SkillBirds(CGameObject &Obj, CMagicInf * lpMagic, BYTE TargetPos, int aTargetIndex);
 	int SkillFlameStrike(CGameObject &Obj, CMagicInf * lpMagic, BYTE TargetPos, int aTargetIndex);
-	void NewSkillProc(CGameObject &Obj, CMagicInf *lpMagic, BYTE x, BYTE y, CGameObject &ObjTarget, int aMsgSubCode, BOOL bCombo)
+	void NewSkillProc(CGameObject &Obj, CMagicInf *lpMagic, BYTE x, BYTE y, CGameObject &ObjTarget, int aMsgSubCode, BOOL bCombo);
 	int SkillMonkBuff(CGameObject &Obj, CMagicInf * lpMagic);
 	int SkillMonkBuffApplyParty(CGameObject &Obj, CMagicInf * lpMagic);
 	int SkillMonkBarrageJustOneTarget(CGameObject &Obj, CMagicInf *lpMagic, int aTargetIndex);

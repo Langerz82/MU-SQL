@@ -2877,7 +2877,7 @@ struct STR_SERVER_ENGINE
 	WsProtocolCore m_ProtocolCore;
 	WORD m_ServerCode;
 	WORD m_ServerGroup;
-	unsigned short m_ConnectPort;
+	WORD m_ConnectPort;
 };
 
 struct IPList
@@ -2926,7 +2926,7 @@ struct PacketQueue
 	}
 
 	boost::shared_ptr<BYTE[]> pData;
-	unsigned short nSize;
+	WORD nSize;
 	BYTE headcode;
 	int uindex;
 	int iSessionId;
@@ -4979,7 +4979,7 @@ struct CONNECT_OBJECT {
 struct CSP_ANS_ALLGUILDREGINFO {
 	struct PWMSG_HEAD h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int iIndex;
 	int iCount;
 };
@@ -4987,14 +4987,14 @@ struct CSP_ANS_ALLGUILDREGINFO {
 struct CSP_ANS_CALCREGGUILDLIST {
 	PWMSG_HEAD h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int iCount;
 };
 
 struct CSP_ANS_CASTLEOWNERCHANGE {
 	PBMSG_HEAD2 h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int bIsCastleOccupied;
 	char szOwnerGuildName[0x8];
 };
@@ -5002,7 +5002,7 @@ struct CSP_ANS_CASTLEOWNERCHANGE {
 struct CSP_ANS_CASTLESIEGEEND {
 	PBMSG_HEAD2 h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 };
 
 struct CSP_ANS_CASTLESTATESYNC {
@@ -5024,18 +5024,18 @@ struct CSP_ANS_CASTLETRIBUTEMONEY {
 struct CSP_ANS_CSGUILDUNIONINFO {
 	PWMSG_HEAD h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int iCount;
 };
 
 struct CSP_ANS_CSINITDATA {
 	struct PWMSG_HEAD h;
 	int iResult;
-	unsigned short wMapSvrNum;
-	unsigned short wStartYear;
+	WORD wMapSvrNum;
+	WORD wStartYear;
 	BYTE btStartMonth;
 	BYTE btStartDay;
-	unsigned short wEndYear;
+	WORD wEndYear;
 	BYTE btEndMonth;
 	BYTE btEndDay;
 	BYTE btIsSiegeGuildList;
@@ -5053,20 +5053,20 @@ struct CSP_ANS_CSINITDATA {
 struct CSP_ANS_CSLOADTOTALGUILDINFO {
 	PWMSG_HEAD h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int iCount;
 };
 
 struct CSP_ANS_CSSAVETOTALGUILDINFO {
 	PBMSG_HEAD2 h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 };
 
 struct CSP_ANS_GUILDREGINFO {
 	PBMSG_HEAD2 h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int iIndex;
 	char szGuildName[0x8];
 	int iRegMarkCount;
@@ -5077,7 +5077,7 @@ struct CSP_ANS_GUILDREGINFO {
 struct CSP_ANS_GUILDREGMARK {
 	PBMSG_HEAD2 h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int iIndex;
 	char szGuildName[0x8];
 	int iItemPos;
@@ -5087,7 +5087,7 @@ struct CSP_ANS_GUILDREGMARK {
 struct CSP_ANS_GUILDRESETMARK {
 	PBMSG_HEAD2 h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int iIndex;
 	char szGuildName[0x8];
 	int iRegMarkCount;
@@ -5096,7 +5096,7 @@ struct CSP_ANS_GUILDRESETMARK {
 struct CSP_ANS_GUILDSETGIVEUP {
 	PBMSG_HEAD2 h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int iIndex;
 	char szGuildName[0x8];
 	int bIsGiveUp;
@@ -5112,7 +5112,7 @@ struct CSP_ANS_MAPSVRMULTICAST {
 struct CSP_ANS_MONEYCHANGE {
 	PBMSG_HEAD2 h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int iIndex;
 	int iMoneyChanged;
 	__int64 i64CastleMoney;
@@ -5121,7 +5121,7 @@ struct CSP_ANS_MONEYCHANGE {
 struct CSP_ANS_NPCBUY {
 	PBMSG_HEAD2 h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int iIndex;
 	int iNpcNumber;
 	int iNpcIndex;
@@ -5139,7 +5139,7 @@ struct CSP_ANS_NPCDATA {
 struct CSP_ANS_NPCREMOVE {
 	PBMSG_HEAD2 h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int iNpcNumber;
 	int iNpcIndex;
 };
@@ -5147,7 +5147,7 @@ struct CSP_ANS_NPCREMOVE {
 struct CSP_ANS_NPCREPAIR {
 	PBMSG_HEAD2 h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int iIndex;
 	int iNpcNumber;
 	int iNpcIndex;
@@ -5159,19 +5159,19 @@ struct CSP_ANS_NPCREPAIR {
 struct CSP_ANS_NPCSAVEDATA {
 	PBMSG_HEAD2 h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 };
 
 struct CSP_ANS_NPCUPDATEDATA {
 	PBMSG_HEAD2 h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 };
 
 struct CSP_ANS_NPCUPGRADE {
 	PBMSG_HEAD2 h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int iIndex;
 	int iNpcNumber;
 	int iNpcIndex;
@@ -5183,7 +5183,7 @@ struct CSP_ANS_NPCUPGRADE {
 struct CSP_ANS_OWNERGUILDMASTER {
 	PBMSG_HEAD2 h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int iIndex;
 	char szCastleOwnGuild[0x8];
 	char szCastleOwnGuildMaster[0xA];
@@ -5192,7 +5192,7 @@ struct CSP_ANS_OWNERGUILDMASTER {
 struct CSP_ANS_REGATTACKGUILD {
 	PBMSG_HEAD2 h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int iIndex;
 	char szEnemyGuildName[0x8];
 };
@@ -5200,30 +5200,30 @@ struct CSP_ANS_REGATTACKGUILD {
 struct CSP_ANS_RESETCASTLETAXINFO {
 	PBMSG_HEAD2 h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 };
 
 struct CSP_ANS_RESETREGSIEGEINFO {
 	PBMSG_HEAD2 h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 };
 
 struct CSP_ANS_RESETSIEGEGUILDINFO {
 	PBMSG_HEAD2 h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 };
 
 struct CSP_ANS_SDEDCHANGE {
 	PBMSG_HEAD2 h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int iIndex;
-	unsigned short wStartYear;
+	WORD wStartYear;
 	BYTE btStartMonth;
 	BYTE btStartDay;
-	unsigned short wEndYear;
+	WORD wEndYear;
 	BYTE btEndMonth;
 	char btEndDay;
 };
@@ -5231,14 +5231,14 @@ struct CSP_ANS_SDEDCHANGE {
 struct CSP_ANS_SIEGEENDCHANGE {
 	PBMSG_HEAD2 h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int bIsSiegeEnded;
 };
 
 struct CSP_ANS_TAXINFO {
 	PBMSG_HEAD2 h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int iIndex;
 	__int64 i64CastleMoney;
 	int iTaxRateChaos;
@@ -5249,7 +5249,7 @@ struct CSP_ANS_TAXINFO {
 struct CSP_ANS_TAXRATECHANGE {
 	PBMSG_HEAD2 h;
 	int iResult;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int iIndex;
 	int iTaxKind;
 	int iTaxRate;
@@ -5381,7 +5381,7 @@ struct CSP_REQ_CASTLETRIBUTEMONEY {
 
 struct CSP_REQ_CSGUILDUNIONINFO {
 	PWMSG_HEAD h;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int iCount;
 };
 
@@ -5398,7 +5398,7 @@ struct CSP_REQ_CSLOADTOTALGUILDINFO {
 
 struct CSP_REQ_CSSAVETOTALGUILDINFO {
 	PWMSG_HEAD h;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int iCount;
 };
 
@@ -5485,13 +5485,13 @@ struct CSP_REQ_NPCREPAIR {
 
 struct CSP_REQ_NPCSAVEDATA {
 	PWMSG_HEAD h;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int iCount;
 };
 
 struct CSP_REQ_NPCUPDATEDATA {
 	PWMSG_HEAD h;
-	unsigned short wMapSvrNum;
+	WORD wMapSvrNum;
 	int iCount;
 };
 
@@ -5715,7 +5715,7 @@ struct EXSDHP_GUILD_ASSIGN_STATUS_REQ {
 struct EXSDHP_GUILD_ASSIGN_STATUS_RESULT {
 	PBMSG_HEAD2 h;
 	BYTE btFlag;
-	unsigned short wUserIndex;
+	WORD wUserIndex;
 	BYTE btType;
 	BYTE btResult;
 	BYTE btGuildStatus;
@@ -5733,7 +5733,7 @@ struct EXSDHP_GUILD_ASSIGN_TYPE_REQ {
 struct EXSDHP_GUILD_ASSIGN_TYPE_RESULT {
 	PBMSG_HEAD2 h;
 	BYTE btFlag;
-	unsigned short wUserIndex;
+	WORD wUserIndex;
 	BYTE btGuildType;
 	BYTE btResult;
 	char szGuildName[9];
@@ -5741,7 +5741,7 @@ struct EXSDHP_GUILD_ASSIGN_TYPE_RESULT {
 
 struct EXSDHP_KICKOUT_UNIONMEMBER_REQ {
 	PBMSG_HEAD2 h;
-	unsigned short wRequestUserIndex;
+	WORD wRequestUserIndex;
 	BYTE btRelationShipType;
 	char szUnionMasterGuildName[8];
 	char szUnionMemberGuildName[8];
@@ -5750,7 +5750,7 @@ struct EXSDHP_KICKOUT_UNIONMEMBER_REQ {
 struct EXSDHP_KICKOUT_UNIONMEMBER_RESULT {
 	PBMSG_HEAD2 h;
 	BYTE btFlag;
-	unsigned short wRequestUserIndex;
+	WORD wRequestUserIndex;
 	BYTE btRelationShipType;
 	BYTE btResult;
 	char szUnionMasterGuildName[9];
@@ -5767,8 +5767,8 @@ struct EXSDHP_NOTIFICATION_RELATIONSHIP {
 
 struct EXSDHP_RELATIONSHIP_BREAKOFF_REQ {
 	PBMSG_HEAD2 h;
-	unsigned short wRequestUserIndex;
-	unsigned short wTargetUserIndex;
+	WORD wRequestUserIndex;
+	WORD wTargetUserIndex;
 	BYTE btRelationShipType;
 	int iRequestGuildNum;
 	int iTargetGuildNum;
@@ -5777,8 +5777,8 @@ struct EXSDHP_RELATIONSHIP_BREAKOFF_REQ {
 struct EXSDHP_RELATIONSHIP_BREAKOFF_RESULT {
 	PBMSG_HEAD2 h;
 	BYTE btFlag;
-	unsigned short wRequestUserIndex;
-	unsigned short wTargetUserIndex;
+	WORD wRequestUserIndex;
+	WORD wTargetUserIndex;
 	BYTE btResult;
 	BYTE btRelationShipType;
 	int iRequestGuildNum;
@@ -5787,8 +5787,8 @@ struct EXSDHP_RELATIONSHIP_BREAKOFF_RESULT {
 
 struct EXSDHP_RELATIONSHIP_JOIN_REQ {
 	PBMSG_HEAD2 h;
-	unsigned short wRequestUserIndex;
-	unsigned short wTargetUserIndex;
+	WORD wRequestUserIndex;
+	WORD wTargetUserIndex;
 	BYTE btRelationShipType;
 	int iRequestGuildNum;
 	int iTargetGuildNum;
@@ -5797,8 +5797,8 @@ struct EXSDHP_RELATIONSHIP_JOIN_REQ {
 struct EXSDHP_RELATIONSHIP_JOIN_RESULT {
 	PBMSG_HEAD2 h;
 	BYTE btFlag;
-	unsigned short wRequestUserIndex;
-	unsigned short wTargetUserIndex;
+	WORD wRequestUserIndex;
+	WORD wTargetUserIndex;
 	BYTE btResult;
 	BYTE btRelationShipType;
 	int iRequestGuildNum;
@@ -5832,7 +5832,7 @@ struct EXSDHP_UNION_LIST_COUNT {
 	struct PWMSG_HEAD h;
 	BYTE btCount;
 	BYTE btResult;
-	unsigned short wRequestUserIndex;
+	WORD wRequestUserIndex;
 	int iTimeStamp;
 	BYTE btRivalMemberNum;
 	BYTE btUnionMemberNum;
@@ -5840,7 +5840,7 @@ struct EXSDHP_UNION_LIST_COUNT {
 
 struct EXSDHP_UNION_LIST_REQ {
 	PBMSG_HEAD2 h;
-	unsigned short wRequestUserIndex;
+	WORD wRequestUserIndex;
 	int iUnionMasterGuildNumber;
 };
 
@@ -5923,7 +5923,7 @@ struct FHP_FRIEND_CHATROOM_CREATE_RESULT {
 	char Name[10];
 	char FriendName[10];
 	char ServerIp[15];
-	unsigned short RoomNumber;
+	WORD RoomNumber;
 	unsigned long Ticket;
 	BYTE Type;
 };
@@ -5941,7 +5941,7 @@ struct FHP_FRIEND_INVITATION_REQ {
 	short Number;
 	char Name[10];
 	char FriendName[10];
-	unsigned short RoomNumber;
+	WORD RoomNumber;
 	unsigned long WindowGuid;
 };
 
@@ -5956,28 +5956,28 @@ struct FHP_FRIEND_INVITATION_RET {
 struct FHP_FRIEND_MEMO_DEL_REQ {
 	PBMSG_HEAD2 h;
 	short Number;
-	unsigned short MemoIndex;
+	WORD MemoIndex;
 	char Name[10];
 };
 
 struct FHP_FRIEND_MEMO_DEL_RESULT {
 	PBMSG_HEAD2 h;
 	BYTE Result;
-	unsigned short MemoIndex;
+	WORD MemoIndex;
 	short Number;
 	char Name[10];
 };
 
 struct FHP_FRIEND_MEMO_LIST_REQ {
 	PBMSG_HEAD2 h;
-	unsigned short Number;
+	WORD Number;
 	char Name[10];
 };
 
 struct FHP_FRIEND_MEMO_LIST {
 	PWMSG_HEAD h;
-	unsigned short Number;
-	unsigned short MemoIndex;
+	WORD Number;
+	WORD MemoIndex;
 	char SendName[10];
 	char RecvName[10];
 	char Date[30];
@@ -5989,7 +5989,7 @@ struct FHP_FRIEND_MEMO_RECV_OLD {
 	PWMSG_HEAD h;
 	short Number;
 	char Name[10];
-	unsigned short MemoIndex;
+	WORD MemoIndex;
 	short MemoSize;
 	BYTE Photo[13];
 	BYTE Dir;
@@ -6000,7 +6000,7 @@ struct FHP_FRIEND_MEMO_RECV_OLD {
 struct FHP_FRIEND_MEMO_RECV_REQ {
 	PBMSG_HEAD2 h;
 	short Number;
-	unsigned short MemoIndex;
+	WORD MemoIndex;
 	char Name[10];
 };
 
@@ -6008,7 +6008,7 @@ struct FHP_FRIEND_MEMO_RECV {
 	PWMSG_HEAD h;
 	short Number;
 	char Name[10];
-	unsigned short MemoIndex;
+	WORD MemoIndex;
 	short MemoSize;
 	BYTE Photo[18];
 	BYTE Dir;
@@ -6335,7 +6335,7 @@ struct ITEMPERIOD_DATEINFO {
 };
 
 struct MEMO_HEADER {
-	unsigned short MemoIndex;
+	WORD MemoIndex;
 	char SendName[10];
 	char RecvName[10];
 	char Date[30];
@@ -6927,9 +6927,9 @@ struct PMSG_ANS_MAPSVRMOVE {
 	int iIndex;
 	char szAccountID[11];
 	char szCharName[11];
-	unsigned short wCurMapSvrCode;
-	unsigned short wDstMapSvrCode;
-	unsigned short wMapNumber;
+	WORD wCurMapSvrCode;
+	WORD wDstMapSvrCode;
+	WORD wMapNumber;
 	BYTE btX;
 	BYTE btY;
 	int iResult;
@@ -7195,7 +7195,7 @@ struct PMSG_ANS_REG_CC_OFFLINE_GIFT {
 	PBMSG_HEAD2 h;
 	int iINDEX;
 	char szUID[11];
-	unsigned short wServerCode;
+	WORD wServerCode;
 	char szNAME[11];
 	int iResultCode;
 	char szGIFT_NAME[50];
@@ -7205,7 +7205,7 @@ struct PMSG_ANS_REG_DL_OFFLINE_GIFT {
 	PBMSG_HEAD2 h;
 	int iINDEX;
 	char szUID[11];
-	unsigned short wServerCode;
+	WORD wServerCode;
 	char szNAME[11];
 	int iResultCode;
 	char szGIFT_NAME[50];
@@ -7215,7 +7215,7 @@ struct PMSG_ANS_REG_HT_OFFLINE_GIFT {
 	PBMSG_HEAD2 h;
 	int iINDEX;
 	char szUID[11];
-	unsigned short wServerCode;
+	WORD wServerCode;
 	char szNAME[11];
 	int iResultCode;
 	char szGIFT_NAME[50];
@@ -9159,7 +9159,7 @@ struct PMSG_REQ_MAPSVRAUTH {
 	int iIndex;
 	char szAccountID[11];
 	char szCharName[11];
-	unsigned short wDstMapSvrCode;
+	WORD wDstMapSvrCode;
 	int iJoinAuthCode1;
 	int iJoinAuthCode2;
 	int iJoinAuthCode3;
@@ -9174,9 +9174,9 @@ struct PMSG_REQ_MAPSVRMOVE {
 	char szPassword[20];
 	BYTE btSecurityLock;
 	unsigned int dwSecurityCode;
-	unsigned short wCurMapSvrCode;
-	unsigned short wDstMapSvrCode;
-	unsigned short wMapNumber;
+	WORD wCurMapSvrCode;
+	WORD wDstMapSvrCode;
+	WORD wMapNumber;
 	BYTE btX;
 	BYTE btY;
 };
@@ -9395,7 +9395,7 @@ struct PMSG_REQ_REG_CC_OFFLINE_GIFT {
 	PBMSG_HEAD2 h;
 	int iINDEX;
 	char szUID[11];
-	unsigned short wServerCode;
+	WORD wServerCode;
 	char szNAME[11];
 };
 
@@ -9403,7 +9403,7 @@ struct PMSG_REQ_REG_DL_OFFLINE_GIFT {
 	PBMSG_HEAD2 h;
 	int iINDEX;
 	char szUID[11];
-	unsigned short wServerCode;
+	WORD wServerCode;
 	char szNAME[11];
 };
 
@@ -9411,7 +9411,7 @@ struct PMSG_REQ_REG_HT_OFFLINE_GIFT {
 	PBMSG_HEAD2 h;
 	int iINDEX;
 	char szUID[11];
-	unsigned short wServerCode;
+	WORD wServerCode;
 	char szNAME[11];
 };
 
@@ -10540,7 +10540,7 @@ struct SDHP_DELETE_TEMPUSERINFO_RESULT {
 
 struct SDHP_DELETE_TEMPUSERINFO {
 	PBMSG_HEAD2 h;
-	unsigned short ServerCode;
+	WORD ServerCode;
 	char CharName[MAX_ACCOUNT_LEN + 1];
 };
 
@@ -10643,7 +10643,7 @@ struct SDHP_GUILDCREATE {
 
 struct SDHP_GUILDCREATED {
 	PBMSG_HEAD2 h;
-	unsigned short Number;
+	WORD Number;
 	char GuildName[9];
 	char Master[11];
 	BYTE Mark[32];
@@ -10973,7 +10973,7 @@ struct SDHP_USERCLOSE_ID {
 	PBMSG_HEAD2 h;
 	char szId[10];
 	char szName[10];
-	unsigned short Level;
+	WORD Level;
 	BYTE DbClass;
 };
 

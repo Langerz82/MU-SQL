@@ -215,7 +215,7 @@ public:
 private:
 	int m_Damage[MAX_SKILL];	// 4
 	BYTE m_rLevel[MAX_SKILL];	// 3604
-	unsigned short m_Mana[MAX_SKILL];	// 3704
+	WORD m_Mana[MAX_SKILL];	// 3704
 	BYTE m_Distance[MAX_SKILL];	// 3904
 	int m_RequireEnergy[MAX_SKILL];	// 3A04
 	BYTE m_RequireClass[MAX_SKILL][MAX_TYPE_PLAYER+1];	// 3E04

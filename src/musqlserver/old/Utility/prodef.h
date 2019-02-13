@@ -238,11 +238,11 @@ struct SDHP_SERVERINFO
 {
 	PBMSG_HEAD2 h;
 	BYTE Type;
-	unsigned short Port;
+	WORD Port;
 	char ServerName[50];
-	unsigned short ServerCode;
+	WORD ServerCode;
 	BYTE ServerVIP;
-	unsigned short MaxHWIDUseCount;
+	WORD MaxHWIDUseCount;
 };
 
 /* ------------------------------------------------*

@@ -5726,7 +5726,7 @@ struct CSP_ANS_CASTLEOWNERCHANGE
 {
 	PBMSG_HEAD2 h;	// C1:80:0C
 	int iResult;	// 4
-	unsigned short wMapSvrNum;	// 8
+	WORD wMapSvrNum;	// 8
 	int bIsCastleOccupied;	// C
 	char szOwnerGuildName[0x8];	// 10
 };
