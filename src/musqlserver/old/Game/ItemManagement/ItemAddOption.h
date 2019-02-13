@@ -1,4 +1,4 @@
-// ItemAddOption.h: interface for the CItemAddOption class.
+// ItemAddOption.h: interface for the CItemObjectAddOption class.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -14,12 +14,12 @@
 
 struct ITEMEFFECT;
 
-class CItemAddOption  
+class CItemObjectAddOption  
 {
 public:
 
-	CItemAddOption();
-	virtual ~CItemAddOption();
+	CItemObjectAddOption();
+	virtual ~CItemObjectAddOption();
 
 	void Load(PCHAR chFileName);
 	void Initialize();
@@ -34,6 +34,6 @@ private:
 	ITEMEFFECT m_ItemAddOption[100];
 };
 
-extern CItemAddOption	g_ItemAddOption;
+extern CItemObjectAddOption	g_ItemAddOption;
 
 #endif // !defined(AFX_ITEMADDOPTION_H__96FEC421_39C3_40DD_9D47_EE1D86DD8A21__INCLUDED_)

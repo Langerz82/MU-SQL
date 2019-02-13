@@ -68,7 +68,7 @@ struct sBOT_CRAFTING
 
 struct sBOT_REWARD_STRUCT
 {
-	CItem m_Reward;
+	CItemObject m_Reward;
 	int iCount;
 	int iSuccessRate;
 };
@@ -149,7 +149,7 @@ class CBotSystem
 	void AlchemistTradeOpen(CGameObject &lpObj, int botIndex);
 	void AlchemistTradeOk(CGameObject &lpObj, int botIndex);
 	sBOT_REWARD_STRUCT ConfirmMixSuccess(CGameObject &lpObj,int botIndex);
-	bool AlchemistVerifyItem(s_BOT_CRAFTING_ITEM_STRUCT lpReqItem, CItem TradeItem);
+	bool AlchemistVerifyItem(s_BOT_CRAFTING_ITEM_STRUCT lpReqItem, CItemObject TradeItem);
 	bool StoreAddItems(int botIndex);
 	BYTE PShopCheckSpace(CGameObject &lpObj, int type, BYTE * TempMap);
 	std::map<int,_sBOT_SETTINGS> m_BotData;

@@ -46,8 +46,8 @@ BOOL CObjBaseAttack::DecreaseArrow(CGameObject &lpObj)
 {
 	if ( lpObj.Class == CLASS_ELF && lpObj.Type == OBJ_USER && g_ConfigRead.data.common.joinmuIsDecreaseAllow == true )
 	{
-		CItem * Left = &lpObj.pInventory[0];
-		CItem * Right  = &lpObj.pInventory[1];
+		CItemObject * Left = &lpObj.pInventory[0];
+		CItemObject * Right  = &lpObj.pInventory[1];
 
 		/*(if ( (Right->m_Type >= ITEMGET(4,8) && Right->m_Type <= ITEMGET(4,14)) ||
 			  Right->m_Type == ITEMGET(4,16) || Right->m_Type == ITEMGET(4,18) ||
@@ -63,7 +63,7 @@ BOOL CObjBaseAttack::DecreaseArrow(CGameObject &lpObj)
 				}
 
 				Left->m_Durability -= 1.0f;
-				gGameProtocol.GCItemDurSend(lpObj.m_Index, 1, Left->m_Durability, 0);
+				gGameProtocol.GCItemObjectDurSend(lpObj.m_Index, 1, Left->m_Durability, 0);
 
 				if ( Left->m_Durability < 1.0f )
 				{
@@ -85,7 +85,7 @@ BOOL CObjBaseAttack::DecreaseArrow(CGameObject &lpObj)
 					return FALSE;
 				}
 				Right->m_Durability -= 1.0f;
-				gGameProtocol.GCItemDurSend(lpObj.m_Index, 1, Right->m_Durability, 0);
+				gGameProtocol.GCItemObjectDurSend(lpObj.m_Index, 1, Right->m_Durability, 0);
 
 				if ( Right->m_Durability < 1.0f )
 				{
@@ -102,7 +102,7 @@ BOOL CObjBaseAttack::DecreaseArrow(CGameObject &lpObj)
 
 				Right->m_Durability -= 0.0f;
 
-				gGameProtocol.GCItemDurSend(lpObj.m_Index, 1, Right->m_Durability, 0);
+				gGameProtocol.GCItemObjectDurSend(lpObj.m_Index, 1, Right->m_Durability, 0);
 			}
 			else
 			{

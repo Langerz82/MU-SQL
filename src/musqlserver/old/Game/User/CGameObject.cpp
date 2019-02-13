@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "PrecompiledHeader/StdAfx.h"
 #include "CGameObject.h"
 
 #include "AntiSpeed.h"
@@ -8,7 +8,7 @@
 #include "GremoryCase.h"
 #include "GuildClass.h"
 #include "IOCP.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 #include "itemsocketoptiondefine.h"
 #include "ItemSystemFor380.h"
 #include "JewelOfHarmonySystem.h"

@@ -1370,17 +1370,17 @@ void ChaosCastleFinal::PullObjInnerPlace(int iTRAP_STEP)
 
 	for (int iMAP_ITEM = 0; iMAP_ITEM < g_ConfigRead.server.GetObjectMaxItem(); iMAP_ITEM++)
 	{
-		if (MapC[MAP_INDEX_CHAOSCASTLE_SURVIVAL].m_cItem[iMAP_ITEM].IsItem())
+		if (MapC[MAP_INDEX_CHAOSCASTLE_SURVIVAL].m_CItemObject[iMAP_ITEM].IsItem())
 		{
-			int x = MapC[MAP_INDEX_CHAOSCASTLE_SURVIVAL].m_cItem[iMAP_ITEM].px;
-			int y = MapC[MAP_INDEX_CHAOSCASTLE_SURVIVAL].m_cItem[iMAP_ITEM].py;
+			int x = MapC[MAP_INDEX_CHAOSCASTLE_SURVIVAL].m_CItemObject[iMAP_ITEM].px;
+			int y = MapC[MAP_INDEX_CHAOSCASTLE_SURVIVAL].m_CItemObject[iMAP_ITEM].py;
 
 			if (x < ::g_iCCF_DamageAxis[iTRAP_STEP][0] || x > ::g_iCCF_DamageAxis[iTRAP_STEP][2] ||
 				y < ::g_iCCF_DamageAxis[iTRAP_STEP][1] || y > ::g_iCCF_DamageAxis[iTRAP_STEP][3])
 			{
-				MapC[MAP_INDEX_CHAOSCASTLE_SURVIVAL].m_cItem[iMAP_ITEM].m_State = 8;
-				MapC[MAP_INDEX_CHAOSCASTLE_SURVIVAL].m_cItem[iMAP_ITEM].Give = true;
-				MapC[MAP_INDEX_CHAOSCASTLE_SURVIVAL].m_cItem[iMAP_ITEM].live = false;
+				MapC[MAP_INDEX_CHAOSCASTLE_SURVIVAL].m_CItemObject[iMAP_ITEM].m_State = 8;
+				MapC[MAP_INDEX_CHAOSCASTLE_SURVIVAL].m_CItemObject[iMAP_ITEM].Give = true;
+				MapC[MAP_INDEX_CHAOSCASTLE_SURVIVAL].m_CItemObject[iMAP_ITEM].live = false;
 			}
 		}
 	}

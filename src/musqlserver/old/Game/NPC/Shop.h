@@ -8,13 +8,13 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 #include "ItemOptionTypeMng.h"
 
 struct PMSG_REQ_REBUY_ITEM;
 struct SDHP_ANS_SHOP_REBUY_GET_ITEM;
 
-class CItem;
+class CItemObject;
 
 class CShop
 {
@@ -33,7 +33,7 @@ public:
 
 	BYTE ShopInventoryMap[MAX_ITEM_IN_SHOP];	// 4
 	int ItemCount;	// 7C
-	CItem* m_item[MAX_ITEM_IN_SHOP];	// 80
+	CItemObject* m_item[MAX_ITEM_IN_SHOP];	// 80
 	BYTE SendItemData[MAX_ITEM_IN_SHOP*(MAX_ITEM_INFO+1)];	// 5300
 	int SendItemDataLen;	// 56C0
 };
@@ -90,12 +90,12 @@ public:
 
 	void GDReqSoldItemList(CGameObject &Obj);
 	void DGAnsSoldItemList(LPBYTE lpRecv);
-	void GDReqAddItemToList(CGameObject &Obj, CItem Item, DWORD dwSellPrice);
+	void GDReqAddItemToList(CGameObject &Obj, CItemObject Item, DWORD dwSellPrice);
 	void GDReqGetReBuyItem(CGameObject &Obj, BYTE btItemNumber, DWORD dwItemPrice);
 	void DGAnsGetReBuyItem(SDHP_ANS_SHOP_REBUY_GET_ITEM *lpMsg);
 	void GDReqDeleteSoldItem(CGameObject &Obj, BYTE btItemNumber, WORD wItemCode, DWORD dwItemPrice);
 
-	void MakeItem(LPBYTE lpData, CItem * lpItem);
+	void MakeItem(LPBYTE lpData, CItemObject * lpItem);
 };
 
 extern CCancelItemSale g_CancelItemSale;

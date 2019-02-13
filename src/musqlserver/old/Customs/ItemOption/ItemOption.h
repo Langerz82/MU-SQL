@@ -1,10 +1,10 @@
-// ItemOption.h: interface for the CItemOption class.
+// ItemOption.h: interface for the CItemObjectOption class.
 //
 //////////////////////////////////////////////////////////////////////
 
 #pragma once
 
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 #include "User/CUserData.h"
 
 //#define ENABLE_CUSTOM_ITEMOPTION
@@ -94,20 +94,20 @@ struct ITEM_OPTION_INFO
 	int ItemNewOption;
 };
 
-class CItemOption
+class CItemObjectOption
 {
 public:
-	CItemOption();
-	virtual ~CItemOption();
+	CItemObjectOption();
+	virtual ~CItemObjectOption();
 	void Load(char* path);
-	bool GetItemOption(int index, CItem* lpItem);
-	void CalcItemCommonOption(CGameObject &lpObj, bool flag);
-	void InsertOption(CGameObject &lpObj, CItem* lpItem, bool flag);
+	bool GetItemOption(int index, CItemObject* lpItem);
+	void CalCItemObjectCommonOption(CGameObject &lpObj, bool flag);
+	void InsertOption(CGameObject &lpObj, CItemObject* lpItem, bool flag);
 private:
 	std::map<int, std::vector<ITEM_OPTION_INFO>> m_ItemOptionInfo;
 };
 
-extern CItemOption gItemOption;
+extern CItemObjectOption gItemOption;
 
 
 ////////////////////////////////////////////////////////////////////////////////

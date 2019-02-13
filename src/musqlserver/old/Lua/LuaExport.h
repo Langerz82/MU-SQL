@@ -344,7 +344,7 @@ public:
 
 	static BOOL		LuaIsSocketItem(lua_State * Lua)
 	{
-		CItem Item;
+		CItemObject Item;
 		Item.m_Type = lua_tointeger(Lua, 1);
 		bool Result = g_SocketOptionSystem.IsEnableSocketItem(&Item);
 		lua_pushboolean(Lua, Result);

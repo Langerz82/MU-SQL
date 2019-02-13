@@ -3693,7 +3693,7 @@ void CArcaBattle::BootyExchange(CGameObject &lpObj)
 	int iInvalidItemCount = 0;
 	int iItemPos = -1;
 	int iItemCnt = 0;
-	CItem NewItem;
+	CItemObject NewItem;
 
 	PMSG_CHAOSMIXRESULT pMsg;
 	PHeadSetB((LPBYTE)&pMsg, 0x86, sizeof(pMsg));

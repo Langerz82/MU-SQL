@@ -9,7 +9,7 @@
 
 #include "User/CUserData.h"
 #include "MagicInf.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 #include "ObjBaseAttack.h"
 
 
@@ -52,7 +52,7 @@ public:
 		PetItem_Mode_Attack_Target = 0x3,
 
 	} m_ActionMode;	// 20
-	CItem * m_pPetItem;	// 24
+	CItemObject * m_pPetItem;	// 24
 	CRITICAL_SECTION m_SpiritCriti;
 
 public:
@@ -68,7 +68,7 @@ public:
   void ModeAttakTarget();
   void SetTarget(int aTargetIndex);
   void ReSetTarget(int aTargetIndex);
-  void Set(CGameObject &lpObj, CItem* pPetItem);
+  void Set(CGameObject &lpObj, CItemObject* pPetItem);
   void SetMode(ePetItem_Mode mode, int iTargetindex);
   int Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf* lpMagic, int criticaldamage, int iActionType);
   int GetAttackDamage(CGameObject &lpObj, int targetDefense, int criticaldamage);

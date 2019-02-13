@@ -3,19 +3,19 @@
 #include "CUserData.h"
 #include "GameProtocol.h"
 
-CItemSocketOptionSystem	g_SocketOptionSystem;
+CItemObjectSocketOptionSystem	g_SocketOptionSystem;
 
-CItemSocketOptionSystem::CItemSocketOptionSystem()
+CItemObjectSocketOptionSystem::CItemObjectSocketOptionSystem()
 {
 
 }
 
-CItemSocketOptionSystem::~CItemSocketOptionSystem()
+CItemObjectSocketOptionSystem::~CItemObjectSocketOptionSystem()
 {
 
 }
 
-void CItemSocketOptionSystem::Initialize()
+void CItemObjectSocketOptionSystem::Initialize()
 {
 	int iClearIndex = 0;
 
@@ -43,7 +43,7 @@ void CItemSocketOptionSystem::Initialize()
 	}
 }
 
-bool CItemSocketOptionSystem::LoadOptionScript(char *pchFileName)
+bool CItemObjectSocketOptionSystem::LoadOptionScript(char *pchFileName)
 {
 	Initialize();
 
@@ -214,7 +214,7 @@ bool CItemSocketOptionSystem::LoadOptionScript(char *pchFileName)
 	return true;
 }
 
-void CItemSocketOptionSystem::LoadScript()
+void CItemObjectSocketOptionSystem::LoadScript()
 {
 	m_mapSocketSlotCountPool.clear();
 	m_TwoHandWeaponMakeSocketSlotCountPool.InitPool();
@@ -315,7 +315,7 @@ void CItemSocketOptionSystem::LoadScript()
 	}
 }
 
-bool CItemSocketOptionSystem::LoadSocketSlotRateFile(char *pchFileName)
+bool CItemObjectSocketOptionSystem::LoadSocketSlotRateFile(char *pchFileName)
 {
 	this->m_mapSocketSlotCountPool.clear();
 	this->m_TwoHandWeaponMakeSocketSlotCountPool.InitPool();
@@ -368,7 +368,7 @@ bool CItemSocketOptionSystem::LoadSocketSlotRateFile(char *pchFileName)
 	}
 }
 
-bool CItemSocketOptionSystem::IsEnableSocketItem(CItem *lpItemData)
+bool CItemObjectSocketOptionSystem::IsEnableSocketItem(CItemObject *lpItemData)
 {
 	if (lpItemData == NULL)	return false;
 
@@ -377,12 +377,12 @@ bool CItemSocketOptionSystem::IsEnableSocketItem(CItem *lpItemData)
 	return IsEnableSocketItem(lpItemData->m_Type);
 }
 
-bool CItemSocketOptionSystem::IsEnableSocketItem(int iItemCode)
+bool CItemObjectSocketOptionSystem::IsEnableSocketItem(int iItemCode)
 {
 	return GetItemGroup(iItemCode) == ITEMTYPE_SOCKET;
 }
 
-BYTE CItemSocketOptionSystem::GetEmptySlotCount(CItem *lpItemData)
+BYTE CItemObjectSocketOptionSystem::GetEmptySlotCount(CItemObject *lpItemData)
 {
 	BYTE btEmptySlotCount = 0;
 
@@ -397,7 +397,7 @@ BYTE CItemSocketOptionSystem::GetEmptySlotCount(CItem *lpItemData)
 	return btEmptySlotCount;
 }
 
-bool CItemSocketOptionSystem::GetSeedSphereEffect(BYTE btSeedSphereIndex, BYTE& pbSeedType, BYTE& pbEffectValueType, WORD& pwEffectValue)
+bool CItemObjectSocketOptionSystem::GetSeedSphereEffect(BYTE btSeedSphereIndex, BYTE& pbSeedType, BYTE& pbEffectValueType, WORD& pwEffectValue)
 {
 	BYTE SeedIndex = 0;
 	BYTE SphereLevel = 0;
@@ -423,7 +423,7 @@ bool CItemSocketOptionSystem::GetSeedSphereEffect(BYTE btSeedSphereIndex, BYTE& 
 	return true;
 }
 
-void CItemSocketOptionSystem::GetSocketOption(CItem *lpItemData, BYTE *pbSocketOption, BYTE& pbSocketBonusOption)
+void CItemObjectSocketOptionSystem::GetSocketOption(CItemObject *lpItemData, BYTE *pbSocketOption, BYTE& pbSocketBonusOption)
 {
 	if (lpItemData == NULL)	return;
 
@@ -437,7 +437,7 @@ void CItemSocketOptionSystem::GetSocketOption(CItem *lpItemData, BYTE *pbSocketO
 	pbSocketBonusOption = lpItemData->m_BonusSocketOption;
 }
 
-bool CItemSocketOptionSystem::IsSocketItem(CItem *lpItemData)
+bool CItemObjectSocketOptionSystem::IsSocketItem(CItemObject *lpItemData)
 {
 	if (lpItemData == NULL)
 	{
@@ -452,7 +452,7 @@ bool CItemSocketOptionSystem::IsSocketItem(CItem *lpItemData)
 	return IsEnableSocketItem(lpItemData->m_Type);
 }
 
-bool CItemSocketOptionSystem::IsSeedItem(int ItemCode)
+bool CItemObjectSocketOptionSystem::IsSeedItem(int ItemCode)
 {
 	switch (ItemCode)
 	{
@@ -468,7 +468,7 @@ bool CItemSocketOptionSystem::IsSeedItem(int ItemCode)
 	return false;
 }
 
-bool CItemSocketOptionSystem::IsSphereItem(int ItemCode)
+bool CItemObjectSocketOptionSystem::IsSphereItem(int ItemCode)
 {
 	switch (ItemCode)
 	{
@@ -483,7 +483,7 @@ bool CItemSocketOptionSystem::IsSphereItem(int ItemCode)
 	return false;
 }
 
-bool CItemSocketOptionSystem::IsSeedSphereItem(int ItemCode)
+bool CItemObjectSocketOptionSystem::IsSeedSphereItem(int ItemCode)
 {
 	switch (ItemCode)
 	{
@@ -554,7 +554,7 @@ bool CItemSocketOptionSystem::IsSeedSphereItem(int ItemCode)
 	}
 }
 
-BYTE CItemSocketOptionSystem::GetSeedIndex(int ItemCode, BYTE ItemLevel)
+BYTE CItemObjectSocketOptionSystem::GetSeedIndex(int ItemCode, BYTE ItemLevel)
 {
 	for (int i = 0; i < 50; i++)
 	{
@@ -567,7 +567,7 @@ BYTE CItemSocketOptionSystem::GetSeedIndex(int ItemCode, BYTE ItemLevel)
 	return 0xFF;
 }
 
-BYTE CItemSocketOptionSystem::GetSphereLevel(int ItemCode)
+BYTE CItemObjectSocketOptionSystem::GetSphereLevel(int ItemCode)
 {
 	switch (ItemCode)
 	{
@@ -581,7 +581,7 @@ BYTE CItemSocketOptionSystem::GetSphereLevel(int ItemCode)
 	return 0;
 }
 
-bool CItemSocketOptionSystem::CheckItemForSameSeedType(CItem *lpItemData, WORD SeedSphereItemCode, BYTE ItemLevel)
+bool CItemObjectSocketOptionSystem::CheckItemForSameSeedType(CItemObject *lpItemData, WORD SeedSphereItemCode, BYTE ItemLevel)
 {
 	BYTE btSeedIndex = 0;
 	BYTE btSeedSphereIndex = 0;
@@ -602,7 +602,7 @@ bool CItemSocketOptionSystem::CheckItemForSameSeedType(CItem *lpItemData, WORD S
 	return true;
 }
 
-BYTE CItemSocketOptionSystem::GetSeedSphereIndexForItemCode(WORD ItemCode, BYTE ItemLevel)
+BYTE CItemObjectSocketOptionSystem::GetSeedSphereIndexForItemCode(WORD ItemCode, BYTE ItemLevel)
 {
 	BYTE btSeedType = 0;
 	BYTE btSphereLevel = 0;
@@ -624,7 +624,7 @@ BYTE CItemSocketOptionSystem::GetSeedSphereIndexForItemCode(WORD ItemCode, BYTE 
 	return 0xFF;
 }
 
-DWORD CItemSocketOptionSystem::GetSeedSphereValue(BYTE btSeedSphereIndex)
+DWORD CItemObjectSocketOptionSystem::GetSeedSphereValue(BYTE btSeedSphereIndex)
 {
 	BYTE btSeedIndex = 0;
 	BYTE btSphereLevel = 0;
@@ -649,7 +649,7 @@ DWORD CItemSocketOptionSystem::GetSeedSphereValue(BYTE btSeedSphereIndex)
 	return dwSeedSphereValue;
 }
 
-bool CItemSocketOptionSystem::CheckSetSeedSphereItemType(CItem *lpItemData, BYTE btSeedSphereIndex)
+bool CItemObjectSocketOptionSystem::CheckSetSeedSphereItemType(CItemObject *lpItemData, BYTE btSeedSphereIndex)
 {
 	if (!IsEnableSocketItem(lpItemData))	return false;
 
@@ -689,7 +689,7 @@ bool CItemSocketOptionSystem::CheckSetSeedSphereItemType(CItem *lpItemData, BYTE
 	return false;
 }
 
-bool CItemSocketOptionSystem::IsEnableDropSocketItemMap(int iMapIndex)
+bool CItemObjectSocketOptionSystem::IsEnableDropSocketItemMap(int iMapIndex)
 {
 	switch (iMapIndex)
 	{
@@ -701,7 +701,7 @@ bool CItemSocketOptionSystem::IsEnableDropSocketItemMap(int iMapIndex)
 	return false;
 }
 
-int CItemSocketOptionSystem::GetSphereDropInfo(int iMonsterLevel)
+int CItemObjectSocketOptionSystem::GetSphereDropInfo(int iMonsterLevel)
 {
 	int iItemCode = -1;
 	int iSphereLevel = 0;
@@ -741,7 +741,7 @@ int CItemSocketOptionSystem::GetSphereDropInfo(int iMonsterLevel)
 	return iItemCode;
 }
 
-int CItemSocketOptionSystem::GetTetraDropInfo(int iMonsterLevel)
+int CItemObjectSocketOptionSystem::GetTetraDropInfo(int iMonsterLevel)
 {
 	int iItemCode = -1;
 	int iTetraLevel = 0;
@@ -776,7 +776,7 @@ int CItemSocketOptionSystem::GetTetraDropInfo(int iMonsterLevel)
 	return iItemCode;
 }
 
-BYTE CItemSocketOptionSystem::GetSeedIndexForSeedSpearItemCode(WORD ItemCode, BYTE ItemLevel)
+BYTE CItemObjectSocketOptionSystem::GetSeedIndexForSeedSpearItemCode(WORD ItemCode, BYTE ItemLevel)
 {
 	for (int i = 0; i < 50; i++)
 	{
@@ -790,12 +790,12 @@ BYTE CItemSocketOptionSystem::GetSeedIndexForSeedSpearItemCode(WORD ItemCode, BY
 	return -1;
 }
 
-BYTE CItemSocketOptionSystem::GetSeedSphereIndex(BYTE btSeedIndex, BYTE btSphereLevel)
+BYTE CItemObjectSocketOptionSystem::GetSeedSphereIndex(BYTE btSeedIndex, BYTE btSphereLevel)
 {
 	return btSphereLevel * 50 + btSeedIndex;
 }
 
-bool CItemSocketOptionSystem::MakeSeedSphere(CSeedSphereItem *lpSeedSphere, BYTE btSeedIndex, BYTE btSphereLevel)
+bool CItemObjectSocketOptionSystem::MakeSeedSphere(CSeedSphereItem *lpSeedSphere, BYTE btSeedIndex, BYTE btSphereLevel)
 {
 	CSeedItem* lpSeedData = NULL;
 	CSphereItem* lpSphereData = NULL;
@@ -809,7 +809,7 @@ bool CItemSocketOptionSystem::MakeSeedSphere(CSeedSphereItem *lpSeedSphere, BYTE
 	return true;
 }
 
-CSeedItem * CItemSocketOptionSystem::GetSeedData(BYTE btSeedIndex)
+CSeedItem * CItemObjectSocketOptionSystem::GetSeedData(BYTE btSeedIndex)
 {
 	for (int i = 0; i < 50; i++)
 	{
@@ -822,7 +822,7 @@ CSeedItem * CItemSocketOptionSystem::GetSeedData(BYTE btSeedIndex)
 	return NULL;
 }
 
-CSphereItem * CItemSocketOptionSystem::GetSphereData(BYTE btSphereLevel)
+CSphereItem * CItemObjectSocketOptionSystem::GetSphereData(BYTE btSphereLevel)
 {
 	for (int i = 0; i < 5; i++)
 	{
@@ -835,7 +835,7 @@ CSphereItem * CItemSocketOptionSystem::GetSphereData(BYTE btSphereLevel)
 	return NULL;
 }
 
-BYTE CItemSocketOptionSystem::GetExtractSeed()
+BYTE CItemObjectSocketOptionSystem::GetExtractSeed()
 {
 	int iSeedDataIndex = 0;
 
@@ -844,7 +844,7 @@ BYTE CItemSocketOptionSystem::GetExtractSeed()
 	return iSeedDataIndex;
 }
 
-BYTE CItemSocketOptionSystem::GetSocketType(BYTE btSeedSphereIndex)
+BYTE CItemObjectSocketOptionSystem::GetSocketType(BYTE btSeedSphereIndex)
 {
 	BYTE btSeedIndex = 0;
 	CSeedItem* lpSeedData = NULL;
@@ -857,7 +857,7 @@ BYTE CItemSocketOptionSystem::GetSocketType(BYTE btSeedSphereIndex)
 	return lpSeedData->m_SeedType;
 }
 
-int CItemSocketOptionSystem::GetSeedSphereLevel(BYTE btSeedSphereIndex)
+int CItemObjectSocketOptionSystem::GetSeedSphereLevel(BYTE btSeedSphereIndex)
 {
 	BYTE SeedIndex = btSeedSphereIndex % 50;
 	BYTE SphereLevel = (btSeedSphereIndex - SeedIndex) / 50;
@@ -865,7 +865,7 @@ int CItemSocketOptionSystem::GetSeedSphereLevel(BYTE btSeedSphereIndex)
 	return SphereLevel;
 }
 
-BONUS_SOCKET_OPTION * CItemSocketOptionSystem::GetBonusSocketOption(BYTE btBonusSocketOptionIndex)
+BONUS_SOCKET_OPTION * CItemObjectSocketOptionSystem::GetBonusSocketOption(BYTE btBonusSocketOptionIndex)
 {
 	for (int i = 0; i < 12; i++)
 	{
@@ -878,7 +878,7 @@ BONUS_SOCKET_OPTION * CItemSocketOptionSystem::GetBonusSocketOption(BYTE btBonus
 	return NULL;
 }
 
-int CItemSocketOptionSystem::ApplySeedSphereEffect(CGameObject &lpObj)
+int CItemObjectSocketOptionSystem::ApplySeedSphereEffect(CGameObject &lpObj)
 {
 	int iTotalSeedSphereCount = 0;
 	BYTE SeedSphereIndex = 0;
@@ -914,7 +914,7 @@ int CItemSocketOptionSystem::ApplySeedSphereEffect(CGameObject &lpObj)
 	return iTotalSeedSphereCount;
 }
 
-void CItemSocketOptionSystem::ApplyBonusOptionEffect(CGameObject &lpObj)
+void CItemObjectSocketOptionSystem::ApplyBonusOptionEffect(CGameObject &lpObj)
 {
 	BYTE btBonusSocketIndex = 0;
 	LPBONUS_SOCKET_OPTION lpBonusOptionData = NULL;
@@ -939,7 +939,7 @@ void CItemSocketOptionSystem::ApplyBonusOptionEffect(CGameObject &lpObj)
 	}
 }
 
-void CItemSocketOptionSystem::ApplySetOptionEffect(CGameObject &lpObj)
+void CItemObjectSocketOptionSystem::ApplySetOptionEffect(CGameObject &lpObj)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -978,7 +978,7 @@ void CItemSocketOptionSystem::ApplySetOptionEffect(CGameObject &lpObj)
 	}
 }
 
-bool CItemSocketOptionSystem::SetApplySocketEffect(CGameObject &lpObj)
+bool CItemObjectSocketOptionSystem::SetApplySocketEffect(CGameObject &lpObj)
 {
 	int iTotalSeedSphereCount = 0;
 
@@ -997,7 +997,7 @@ bool CItemSocketOptionSystem::SetApplySocketEffect(CGameObject &lpObj)
 	return true;
 }
 
-void CItemSocketOptionSystem::SetClearSocketEffect(CGameObject &lpObj)
+void CItemObjectSocketOptionSystem::SetClearSocketEffect(CGameObject &lpObj)
 {
 	if (lpObj == NULL)	return;
 
@@ -1031,7 +1031,7 @@ void CItemSocketOptionSystem::SetClearSocketEffect(CGameObject &lpObj)
 	lpObj.m_PlayerData->m_btAGReduceRate = 0;
 }
 
-void CItemSocketOptionSystem::SetEffect(CGameObject &lpObj, BYTE btOptionType, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemObjectSocketOptionSystem::SetEffect(CGameObject &lpObj, BYTE btOptionType, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	if (btEffectType >= 0 && btEffectType <= 9)
 	{
@@ -1087,12 +1087,12 @@ void CItemSocketOptionSystem::SetEffect(CGameObject &lpObj, BYTE btOptionType, B
 	}
 }
 
-void CItemSocketOptionSystem::ClearEffect(CGameObject &lpObj, LPSOCKET_OPTION_LIST lpOptionData)
+void CItemObjectSocketOptionSystem::ClearEffect(CGameObject &lpObj, LPSOCKET_OPTION_LIST lpOptionData)
 {
 	//empty, possible due to "return;" in the beggining
 }
 
-void CItemSocketOptionSystem::_SetFireEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemObjectSocketOptionSystem::_SetFireEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	int iCalcEffectValue = 0;
 
@@ -1186,7 +1186,7 @@ void CItemSocketOptionSystem::_SetFireEffect(CGameObject &lpObj, BYTE btEffectTy
 	}
 }
 
-void CItemSocketOptionSystem::_SetWaterEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemObjectSocketOptionSystem::_SetWaterEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	int iCalcEffectValue = 0;
 
@@ -1225,7 +1225,7 @@ void CItemSocketOptionSystem::_SetWaterEffect(CGameObject &lpObj, BYTE btEffectT
 	}
 }
 
-void CItemSocketOptionSystem::_SetIceEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemObjectSocketOptionSystem::_SetIceEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	int iAddValue = 0;
 
@@ -1258,7 +1258,7 @@ void CItemSocketOptionSystem::_SetIceEffect(CGameObject &lpObj, BYTE btEffectTyp
 	}
 }
 
-void CItemSocketOptionSystem::_SetWindEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemObjectSocketOptionSystem::_SetWindEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	int iAddValue = 0;
 
@@ -1314,7 +1314,7 @@ void CItemSocketOptionSystem::_SetWindEffect(CGameObject &lpObj, BYTE btEffectTy
 	}
 }
 
-void CItemSocketOptionSystem::_SetThunderEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemObjectSocketOptionSystem::_SetThunderEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	int iAddValue = 0;
 
@@ -1345,7 +1345,7 @@ void CItemSocketOptionSystem::_SetThunderEffect(CGameObject &lpObj, BYTE btEffec
 	}
 }
 
-void CItemSocketOptionSystem::_SetEarthEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemObjectSocketOptionSystem::_SetEarthEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -1387,7 +1387,7 @@ void CItemSocketOptionSystem::_SetEarthEffect(CGameObject &lpObj, BYTE btEffectT
 	}
 }
 
-void CItemSocketOptionSystem::_SetUniqueEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemObjectSocketOptionSystem::_SetUniqueEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	//int iAddValue = btEffectType;
 
@@ -1404,7 +1404,7 @@ void CItemSocketOptionSystem::_SetUniqueEffect(CGameObject &lpObj, BYTE btEffect
 	}
 }
 
-void CItemSocketOptionSystem::_SetSetEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
+void CItemObjectSocketOptionSystem::_SetSetEffect(CGameObject &lpObj, BYTE btEffectType, BYTE btEffectValueType, WORD wEffectValue)
 {
 	int iCalcEffectValue = 0;
 
@@ -1423,7 +1423,7 @@ void CItemSocketOptionSystem::_SetSetEffect(CGameObject &lpObj, BYTE btEffectTyp
 	}
 }
 
-int CItemSocketOptionSystem::CalcEffectValue(int iInputValue, WORD wEffectValue, BYTE btEffectValueType)
+int CItemObjectSocketOptionSystem::CalcEffectValue(int iInputValue, WORD wEffectValue, BYTE btEffectValueType)
 {
 	int iReturnValue = 0;
 
@@ -1442,7 +1442,7 @@ int CItemSocketOptionSystem::CalcEffectValue(int iInputValue, WORD wEffectValue,
 	return iReturnValue;
 }
 
-void CItemSocketOptionSystem::SetRequireStatOption(CItem *lpItemdata)
+void CItemObjectSocketOptionSystem::SetRequireStatOption(CItemObject *lpItemdata)
 {
 	if (lpItemdata == NULL)	return;
 
@@ -1488,12 +1488,12 @@ void CItemSocketOptionSystem::SetRequireStatOption(CItem *lpItemdata)
 	}
 }
 
-void CItemSocketOptionSystem::MakeSocketSlot(CItem *lpItemData, BYTE btSocketSlotCount)
+void CItemObjectSocketOptionSystem::MakeSocketSlot(CItemObject *lpItemData, BYTE btSocketSlotCount)
 {
 	lpItemData->MakeSocketSlot(btSocketSlotCount);
 }
 
-BYTE CItemSocketOptionSystem::GetMakeSocketSlotCount(int iItemCode)
+BYTE CItemObjectSocketOptionSystem::GetMakeSocketSlotCount(int iItemCode)
 {
 	int iSocketSlotCount = 0;
 
@@ -1522,7 +1522,7 @@ BYTE CItemSocketOptionSystem::GetMakeSocketSlotCount(int iItemCode)
 	return iSocketSlotCount;
 }
 
-void CItemSocketOptionSystem::ClearUserData(CGameObject &lpObj)
+void CItemObjectSocketOptionSystem::ClearUserData(CGameObject &lpObj)
 {
 	int iIndex = 0;
 
@@ -1534,7 +1534,7 @@ void CItemSocketOptionSystem::ClearUserData(CGameObject &lpObj)
 	for (iIndex = 0; iIndex < 2; iIndex++)	lpObj.m_PlayerData->m_SetOptionList[iIndex].Clear();
 }
 
-bool CItemSocketOptionSystem::SetSocketSlot(CItem *lpTargetItem, CItem *lpSeedSphere, BYTE btSocketSlotIndex)
+bool CItemObjectSocketOptionSystem::SetSocketSlot(CItemObject *lpTargetItem, CItemObject *lpSeedSphere, BYTE btSocketSlotIndex)
 {
 	if (lpTargetItem == NULL || lpSeedSphere == NULL)	return false;
 	if (lpTargetItem->IsItem() == FALSE || lpSeedSphere->IsItem() == FALSE)	return false;
@@ -1557,7 +1557,7 @@ bool CItemSocketOptionSystem::SetSocketSlot(CItem *lpTargetItem, CItem *lpSeedSp
 	return true;
 }
 
-bool CItemSocketOptionSystem::SetSocketSlot(CItem *lpTargetItem, BYTE btSeedIndex, BYTE btSphereLevel, BYTE btSocketSlotIndex)
+bool CItemObjectSocketOptionSystem::SetSocketSlot(CItemObject *lpTargetItem, BYTE btSeedIndex, BYTE btSphereLevel, BYTE btSocketSlotIndex)
 {
 	if (lpTargetItem == NULL)	return false;
 	if (lpTargetItem->IsItem() == FALSE)	return false;
@@ -1572,7 +1572,7 @@ bool CItemSocketOptionSystem::SetSocketSlot(CItem *lpTargetItem, BYTE btSeedInde
 	return true;
 }
 
-bool CItemSocketOptionSystem::SetSocketSlot(CItem *lpTargetItem, BYTE btSeedSphereIndex, BYTE btSocketSlotIndex)
+bool CItemObjectSocketOptionSystem::SetSocketSlot(CItemObject *lpTargetItem, BYTE btSeedSphereIndex, BYTE btSocketSlotIndex)
 {
 	if (lpTargetItem == NULL)	return false;
 	if (lpTargetItem->IsItem() == FALSE)	return false;
@@ -1585,7 +1585,7 @@ bool CItemSocketOptionSystem::SetSocketSlot(CItem *lpTargetItem, BYTE btSeedSphe
 	return true;
 }
 
-bool CItemSocketOptionSystem::SetBonusSocketOption(CItem *lpItemData)
+bool CItemObjectSocketOptionSystem::SetBonusSocketOption(CItemObject *lpItemData)
 {
 	BYTE SeedSphereType[5];
 
@@ -1684,7 +1684,7 @@ bool CItemSocketOptionSystem::SetBonusSocketOption(CItem *lpItemData)
 	return false;
 }
 
-bool CItemSocketOptionSystem::ClearSocketSlot(CItem* lpTargetItem, BYTE btSocketSlotIndex)
+bool CItemObjectSocketOptionSystem::ClearSocketSlot(CItemObject* lpTargetItem, BYTE btSocketSlotIndex)
 {
 	if (lpTargetItem == NULL)	return false;
 	if (IsEnableSocketItem(lpTargetItem) == false)	return false;

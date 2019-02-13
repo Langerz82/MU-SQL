@@ -115,7 +115,7 @@ void CMaxStatsInfo::ReadDrop(const char* File)
 	GetGeneralDrop.ItemDropPer = CommonDropRate.child("ItemDropPer").text().as_int(0);
 	GetGeneralDrop.ItemLuckDrop = CommonDropRate.child("ItemLuckDrop").text().as_int(0);
 	GetGeneralDrop.SkillDropRate = CommonDropRate.child("SkillDropRate").text().as_int(0);
-	GetGeneralDrop.ExcItemDropPer = CommonDropRate.child("ExcItemDropPer").text().as_int(0);
+	GetGeneralDrop.ExCItemObjectDropPer = CommonDropRate.child("ExCItemObjectDropPer").text().as_int(0);
 	GetGeneralDrop.ExcLuckDropRate = CommonDropRate.child("ExcLuckDropRate").text().as_int(0);
 	GetGeneralDrop.ExcSkillDropRate = CommonDropRate.child("ExcSkillDropRate").text().as_int(0);
 

@@ -1,4 +1,4 @@
-// ItemOptionRate.h: interface for the CItemOptionRate class.
+// ItemOptionRate.h: interface for the CItemObjectOptionRate class.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -56,11 +56,11 @@ struct ITEM_OPTION6_RATE_INFO
 	int Rate[MAX_ITEM_OPTION6_RATE];
 };
 
-class CItemOptionRate
+class CItemObjectOptionRate
 {
 public:
-	CItemOptionRate();
-	virtual ~CItemOptionRate();
+	CItemObjectOptionRate();
+	virtual ~CItemObjectOptionRate();
 	void Load(char* path);
 	bool GetItemOption0(int index, BYTE* option);
 	bool GetItemOption1(int index, BYTE* option);
@@ -82,7 +82,7 @@ private:
 	std::map<int, ITEM_OPTION6_RATE_INFO> m_ItemOption6RateInfo;
 };
 
-extern CItemOptionRate gItemOptionRate;
+extern CItemObjectOptionRate gItemOptionRate;
 
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -53,7 +53,7 @@ void CConfigMichi::GCFireworksSend(CGameObject &lpObj, int x, int y) // OK
 }
 
 
-void CConfigMichi::UseHealingPotion(CItem * citem, int pos, CGameObject &lpObj)
+void CConfigMichi::UseHealingPotion(CItemObject * CItemObject, int pos, CGameObject &lpObj)
 {
 	if (this->FixHackPotions.m_CheckHealingAutoPotionHack == 1)
 	{
@@ -66,7 +66,7 @@ void CConfigMichi::UseHealingPotion(CItem * citem, int pos, CGameObject &lpObj)
 	
 	lpObj.m_PlayerData->PotionTime = GetTickCount();
 
-	int tLife = (citem->m_Value * 10) - (lpObj.Level * 2);
+	int tLife = (CItemObject->m_Value * 10) - (lpObj.Level * 2);
 
 	if (tLife <  0)
 	{
@@ -75,7 +75,7 @@ void CConfigMichi::UseHealingPotion(CItem * citem, int pos, CGameObject &lpObj)
 
 	int nAddRate = 0;
 
-	switch (citem->m_Type)
+	switch (CItemObject->m_Type)
 	{
 	case ITEMGET(14, 0):
 		nAddRate = this->FixHackPotions.Potion0;
@@ -91,16 +91,16 @@ void CConfigMichi::UseHealingPotion(CItem * citem, int pos, CGameObject &lpObj)
 		break;
 	}
 
-	if (citem->m_Level == 1)
+	if (CItemObject->m_Level == 1)
 	{
 		nAddRate += 5;
 	}
 
 	tLife += ((int)lpObj.MaxLife * nAddRate) / 100;
 
-	if (citem->m_Type == ITEMGET(14, 0))
+	if (CItemObject->m_Type == ITEMGET(14, 0))
 	{
-		if (citem->m_Level < 2)
+		if (CItemObject->m_Level < 2)
 		{
 			lpObj.FillLife += tLife;
 			tLife = 0;
@@ -123,11 +123,11 @@ void CConfigMichi::UseHealingPotion(CItem * citem, int pos, CGameObject &lpObj)
 	lpObj.FillLifeMax = tLife;
 	lpObj.FillLife = tLife;
 
-	if (citem->m_Type == ITEMGET(14, 0) && citem->m_Level < 2)	//ok
+	if (CItemObject->m_Type == ITEMGET(14, 0) && CItemObject->m_Level < 2)	//ok
 	{
 		lpObj.FillLifeCount = 0;
 	}
-	else if (citem->m_Level == 1)
+	else if (CItemObject->m_Level == 1)
 	{
 		lpObj.FillLifeCount = 2;
 	}

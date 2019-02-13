@@ -2,7 +2,7 @@
 // UpgradeCmd.cpp
 #include "StdAfx.h"
 #include "UpgradeCmd.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 #include "Logging/Log.h"
 #include "User/CUserData.h"
 
@@ -189,8 +189,8 @@ int CUpgradeCmd::DoUpgrade(CGameObject &lpObj)
 				return 0;
 			}
 
-			CItem CopyItem = lpObj.pInventory[i];
-			CItem NewItem;
+			CItemObject CopyItem = lpObj.pInventory[i];
+			CItemObject NewItem;
 
 			gObjInventoryDeleteItem(aIndex, i);
 			gGameProtocol.GCInventoryItemDeleteSend(aIndex, i, 1);

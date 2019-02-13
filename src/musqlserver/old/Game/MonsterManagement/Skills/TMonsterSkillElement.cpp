@@ -503,7 +503,7 @@ BOOL TMonsterSkillElement::ApplyElementDurability(CGameObject &Obj, int iTargetI
 		return FALSE;
 
 	int iEquipmentPos = rand()%6+2;	// Armors
-	CItem * lpEquipment = &lpTargetObj.pInventory[iEquipmentPos];
+	CItemObject * lpEquipment = &lpTargetObj.pInventory[iEquipmentPos];
 
 	if ( lpEquipment == NULL || lpEquipment->IsItem() == FALSE )
 		return FALSE;
@@ -544,7 +544,7 @@ BOOL TMonsterSkillElement::ApplyElementDurability(CGameObject &Obj, int iTargetI
 		if ( lpEquipment->m_Durability < 0.0f )
 			lpEquipment->m_Durability = 0;
 
-		gGameProtocol.GCItemDurSend(lpTargetObj.m_Index, iEquipmentPos, lpEquipment->m_Durability, 0);
+		gGameProtocol.GCItemObjectDurSend(lpTargetObj.m_Index, iEquipmentPos, lpEquipment->m_Durability, 0);
 	}
 
 	return FALSE;

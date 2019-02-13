@@ -256,9 +256,9 @@ void CConfigread::ReadConfig()
 	
 	this->data.common.UserMaxLevel = ReadCommon.ReadInt("General", "MaxNormalLevel", 400);
 
-	this->data.common.TradeExcItemLimit = ReadCommon.ReadInt("General", "CanTradeFullExcItem", 1);
-	this->data.common.StoreExcItemLimit = ReadCommon.ReadInt("General", "CanSellInStoreFullExcItem", 1);
-	this->data.common.ShopExcItemLimit = ReadCommon.ReadInt("General", "CanSellToShopFullExcItem", 1);
+	this->data.common.TradeExCItemObjectLimit = ReadCommon.ReadInt("General", "CanTradeFullExCItemObject", 1);
+	this->data.common.StoreExCItemObjectLimit = ReadCommon.ReadInt("General", "CanSellInStoreFullExCItemObject", 1);
+	this->data.common.ShopExCItemObjectLimit = ReadCommon.ReadInt("General", "CanSellToShopFullExCItemObject", 1);
 	this->data.common.TradeHarmonyBlock = ReadCommon.ReadInt("General", "CanTradeHarmonyItem", 1);
 
 	this->data.post.bPostEnable = ReadCommon.ReadInt("PostCMD", "Enable", 1);

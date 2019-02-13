@@ -14,7 +14,7 @@
 
 class CEvolutionMonsterInfo;
 class CGameObject;
-class CItem;
+class CItemObject;
 class CMagicInf;
 class CMuRummyInfo;
 class CRaklionUtil;
@@ -272,21 +272,21 @@ public:
 	short sHDCount;	// CA0
 	STR_INTERFACE_STATE* m_IfState;	// CA4
 	DWORD m_InterfaceTime;	// CA8
-	CItem* pInventory; // CAC
+	CItemObject* pInventory; // CAC
 	LPBYTE  pInventoryMap; // CB0
 	char * pInventoryCount;	// CB4
 	char pTransaction;	// CB8
-	CItem * Inventory1;	//CBC
+	CItemObject * Inventory1;	//CBC
 	LPBYTE  InventoryMap1;	// CC0
 	char InventoryCount1;	// CC4
-	CItem * Inventory2;	// CC8
+	CItemObject * Inventory2;	// CC8
 	LPBYTE InventoryMap2;	// CCC
 	char InventoryCount2;	// CD0
-	CItem * Trade; // CD4
+	CItemObject * Trade; // CD4
 	LPBYTE TradeMap;	// unkCD8
 	int TradeMoney;	// CDC
 	bool TradeOk;	// CE0
-	CItem * pWarehouse; // CE4
+	CItemObject * pWarehouse; // CE4
 	char WarehouseID;
 	DWORD WarehouseTick;
 	LPBYTE pWarehouseMap; // CE8
@@ -295,7 +295,7 @@ public:
 	BYTE WarehouseLock;	// CF0
 	BYTE WarehouseUnfailLock;	// CF1
 	int WarehouseMoney;	// CF4
-	CItem * pChaosBox;	// CFC
+	CItemObject * pChaosBox;	// CFC
 	LPBYTE pChaosBoxMap;	// D00
 	int ChaosMoney;	// D04
 	int ChaosSuccessRate;	// D08
@@ -492,12 +492,12 @@ public:
 	WORD m_wMuunRideItem;
 	BYTE m_btInvenPetPos;
 	WORD m_wInvenPet;
-	CItem *pMuunInventory;
-	CItem *pMuunInventory1;
-	CItem *pMuunInventory2;
-	CItem *pEventInventory;
-	CItem *pEventInventory1;
-	CItem *pEventInventory2;
+	CItemObject *pMuunInventory;
+	CItemObject *pMuunInventory1;
+	CItemObject *pMuunInventory2;
+	CItemObject *pEventInventory;
+	CItemObject *pEventInventory1;
+	CItemObject *pEventInventory2;
 	BYTE  *pEventInventoryMap;
 	BYTE  *pEventInventoryMap1;
 	BYTE  *pEventInventoryMap2;

@@ -464,7 +464,7 @@ bool QuestExpProgMng::GetSendQuestInfo(QuestExpInfo* pQuestExpInfo, DWORD dwQues
 			pNpcQuestExpInfo->NpcQuestAskInfo[iAskCnt].dwValue = pQuestGetItem->GetQuestItemCnt();
 			pNpcQuestExpInfo->NpcQuestAskInfo[iAskCnt].dwCurrentValue = pUserQuestInfo->m_UserQuestAskInfo[iAskCnt].GetValue();
 
-			CItem Item;
+			CItemObject Item;
 			Item.m_Type = pQuestGetItem->GetQuestItemNum();
 			Item.m_Level = pQuestGetItem->GetQuestItemLevel();
 			Item.m_Option1 = pQuestGetItem->GetQuestItemSkill();
@@ -673,7 +673,7 @@ bool QuestExpProgMng::GetSendQuestInfo(QuestExpInfo* pQuestExpInfo, DWORD dwQues
 			pNpcQuestExpInfo->NpcQuestRewardInfo[iReward].wIndex = pRewardItem->GetRewardItemNum();
 			pNpcQuestExpInfo->NpcQuestRewardInfo[iReward].dwValue = pRewardItem->GetRewardItemCnt();
 
-			CItem Item;
+			CItemObject Item;
 			Item.m_Type = pRewardItem->GetRewardItemNum();
 			Item.m_Level = pRewardItem->GetRewardItemLevel();
 			Item.m_Option1 = pRewardItem->GetRewardItemSkill();

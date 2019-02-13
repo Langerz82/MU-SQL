@@ -25,7 +25,7 @@
 #include "DoppelGanger.h"
 #include "ItemSocketOptionSystem.h"
 #include "CashShop.h"
-#include "CItemDrop.h"
+#include "CItemObjectDrop.h"
 #include "configread.h"
 #include "SetItemDrop.h"
 #include "PentagramSystem.h"
@@ -3391,7 +3391,7 @@ void gObjMonsterDieGiveItem(CGameObject &lpObj, CGameObject lpTargetObj)
 	unsigned char NOption=0;
 	BOOL item_drop=0;
 	int n;
-	CItem * DropItem=NULL;
+	CItemObject * DropItem=NULL;
 
 	if ( gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_HACKTOOL_PENALTY) == TRUE )
 	{
@@ -3867,7 +3867,7 @@ void gObjMonsterDieGiveItem(CGameObject &lpObj, CGameObject lpTargetObj)
 		}
 	}
 
-	int iExcDropRate = g_MaxStatsInfo.GetGeneralDrop.ExcItemDropPer + g_VipSystem.GetExcDropBonus(lpTargetObj) + g_BonusEvent.GetAddExcDrop() + g_GensSystem.GetBattleZoneExcDropBonus(lpTargetObj);
+	int iExcDropRate = g_MaxStatsInfo.GetGeneralDrop.ExCItemObjectDropPer + g_VipSystem.GetExcDropBonus(lpTargetObj) + g_BonusEvent.GetAddExcDrop() + g_GensSystem.GetBattleZoneExcDropBonus(lpTargetObj);
 
 	if (lpTargetObj.Type == OBJ_USER)
 	{

@@ -8,7 +8,7 @@
 #endif // _MSC_VER > 1000
 
 #include "User/CUserData.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 
 class CObjCalCharacter
 {
@@ -27,7 +27,7 @@ public:
 	void SetItemPlusSpecial(CGameObject &lpObj, int option, int ivalue);
 	void SetItemApply(CGameObject &lpObj);
 	void CalcMLSkillItemOption(CGameObject &lpObj);
-	BOOL ValidItem(CGameObject &lpObj, CItem * lpItem, int pos);
+	BOOL ValidItem(CGameObject &lpObj, CItemObject * lpItem, int pos);
 	void CalcShieldPoint(CGameObject &lpObj);
 	void PremiumItemApply(CGameObject &lpObj);
 

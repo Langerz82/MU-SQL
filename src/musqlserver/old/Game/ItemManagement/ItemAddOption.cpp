@@ -1,27 +1,27 @@
-// ItemAddOption.cpp: implementation of the CItemAddOption class.
+// ItemAddOption.cpp: implementation of the CItemObjectAddOption class.
 //
 //////////////////////////////////////////////////////////////////////
 
 #include "ItemAddOption.h"
 #include "GameProtocol.h"
 
-CItemAddOption	g_ItemAddOption;
+CItemObjectAddOption	g_ItemAddOption;
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CItemAddOption::CItemAddOption()
+CItemObjectAddOption::CItemObjectAddOption()
 {
 	Initialize();
 }
 
-CItemAddOption::~CItemAddOption()
+CItemObjectAddOption::~CItemObjectAddOption()
 {
 
 }
 
-void CItemAddOption::Load(char *chFileName)
+void CItemObjectAddOption::Load(char *chFileName)
 {
 	Initialize();
 
@@ -77,7 +77,7 @@ void CItemAddOption::Load(char *chFileName)
 	}
 }
 
-void CItemAddOption::Initialize()
+void CItemObjectAddOption::Initialize()
 {
 	for ( int i=0; i<100; i++)
 	{
@@ -92,7 +92,7 @@ void CItemAddOption::Initialize()
 	}
 }
 
-LPITEMEFFECT CItemAddOption::SearchItemEffect(int iItemNumber)
+LPITEMEFFECT CItemObjectAddOption::SearchItemEffect(int iItemNumber)
 {
 	for( int i=0;i<100;i++)
 	{
@@ -104,13 +104,13 @@ LPITEMEFFECT CItemAddOption::SearchItemEffect(int iItemNumber)
 	return NULL;
 }
 
-bool CItemAddOption::IsValidEffect(int iItemNumber)
+bool CItemObjectAddOption::IsValidEffect(int iItemNumber)
 {
 	if( SearchItemEffect(iItemNumber) == NULL )	return false;
 	return true;
 }
 
-LPITEMEFFECT CItemAddOption::GetItemEffectData(int iItemNumber)
+LPITEMEFFECT CItemObjectAddOption::GetItemEffectData(int iItemNumber)
 {
 	return SearchItemEffect(iItemNumber);
 }

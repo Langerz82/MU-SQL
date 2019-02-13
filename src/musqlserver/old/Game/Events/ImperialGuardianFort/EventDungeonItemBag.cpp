@@ -64,7 +64,7 @@ void CEventDungeonItemBag::LoadScript(char* szFileName)
 		this->eventDungeonItemInfo[nLevelIndex].m_nDropZen = section.attribute("MoneyCount").as_int();
 	}
 
-	pugi::xml_node exc_rate = mainXML.child("ExcItemDropSettings");
+	pugi::xml_node exc_rate = mainXML.child("ExCItemObjectDropSettings");
 
 	for (pugi::xml_node section = exc_rate.child("Section"); section; section = section.next_sibling())
 	{

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ItemSeedSphere.h
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 
 enum
 {
@@ -22,7 +22,7 @@ public:
 	~CSeedItem();
 	
 	int GetItemCode(); //function without a body
-	bool IsMatched(CItem* lpItem);
+	bool IsMatched(CItemObject* lpItem);
 	void SetOption(BYTE SeedIndex, BYTE SeedType, BYTE ItemLevel, BYTE SeedOptionValueType, WORD* SeeedOptionValue, int ExtractRate);
 	void Clear();
 

@@ -4,19 +4,19 @@
 #include "ItemSerial.h"
 #include "DSprotocol.h"
 
-CItemSerial g_ItemSerial;
+CItemObjectSerial g_ItemSerial;
 
-CItemSerial::CItemSerial(void)
+CItemObjectSerial::CItemObjectSerial(void)
 {
 	//InitializeCriticalSection(&this->m_ItemSerialCriti);
 }
 
-CItemSerial::~CItemSerial(void)
+CItemObjectSerial::~CItemObjectSerial(void)
 {
 	//DeleteCriticalSection(&this->m_ItemSerialCriti);
 }
 
-bool CItemSerial::Init()
+bool CItemObjectSerial::Init()
 {
 	// TODO
 	//if (this->m_Query.Connect(g_MuOnlineDNS, g_UserID, g_Password, g_ServerName) == FALSE)
@@ -31,7 +31,7 @@ bool CItemSerial::Init()
 	return true;
 }
 
-UINT64 CItemSerial::MakeSerial()
+UINT64 CItemObjectSerial::MakeSerial()
 {
 	if( this->GetSerialFromDB(this->m_dwItemSerial, 3000) == FALSE )
 	{
@@ -42,7 +42,7 @@ UINT64 CItemSerial::MakeSerial()
 	return 1;
 }
 
-UINT64 CItemSerial::GenerateSerial()
+UINT64 CItemObjectSerial::GenerateSerial()
 {
 	//EnterCriticalSection(&this->m_ItemSerialCriti);
 	
@@ -60,13 +60,13 @@ UINT64 CItemSerial::GenerateSerial()
 	return retserial;
 }
 
-BOOL CItemSerial::GetSerialFromDB(UINT64 & serial, int MakeSerialCount)
+BOOL CItemObjectSerial::GetSerialFromDB(UINT64 & serial, int MakeSerialCount)
 {
 	// TODO
 	return TRUE;
 }
 
-UINT64 CItemSerial::GetSerialCount()
+UINT64 CItemObjectSerial::GetSerialCount()
 {
 	return this->m_dwItemSerial;
 }

@@ -2,7 +2,7 @@
 #define _MU_PENTAGRAMSYSTEM_H
 
 #include "StdAfx.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 #include "CGameObject.h"
 #include "TRandomPoolMgr.h"
 
@@ -19,7 +19,7 @@ struct PENTAGRAM_ITEM_OPTION_ENABLE_NEED;
 struct PENTAGRAM_SOCKET_RATE_BY_GRADE;
 
 
-class CItem;
+class CItemObject;
 class TRandomPoolMgr;
 
 
@@ -38,28 +38,28 @@ public:
 	void Initialize_PentagramItemOption();
 	bool LoadPentagramOptionScript(char* pchFileName);
 
-	bool IsPentagramItem(CItem *lpItemData);
+	bool IsPentagramItem(CItemObject *lpItemData);
 	bool IsPentagramItem(int ItemCode);
 
 	bool IsPentagramMithril(int ItemIndex);
-	bool IsPentagramJewel(CItem *lpItemData);
+	bool IsPentagramJewel(CItemObject *lpItemData);
 	bool IsPentagramJewel(int ItemCode);
 
 	void ClearPentagramItem(CGameObject &lpObj);
-	void CalcPentagramItem(CGameObject &lpObj, CItem *lpItemData);
+	void CalcPentagramItem(CGameObject &lpObj, CItemObject *lpItemData);
 
 	bool IsEnableDropPentagramItemMap(int iMapIndex);
 	int AttributeMonsterItemDrop(CGameObject &lpObj);
 
 	BYTE GetMakePentagramSlotCountNKind(BYTE *btEnableSlot, int iType);
-	bool SetPentagramMainAttribute(CItem *lpItemData, BYTE btAttributeNumber);
-	bool MakePentagramSocketSlot(CItem *lpItemData, BYTE btSocketSlot1, BYTE btSocketSlot2, BYTE btSocketSlot3, BYTE btSocketSlot4, BYTE btSocketSlot5);
-	bool ClearPentagramSocketSlot(CGameObject &lpObj, int iInventoryPos, CItem *lpTargetItem, BYTE btSocketSlotIndex);
-	bool SetPentagramSocketSlot(CItem *lpTargetItem, BYTE bt1RankOptionNum, BYTE bt1RankLevel, BYTE bt2RankOptionNum, BYTE bt2RankLevel, BYTE bt3RankOptionNum, BYTE bt3RankLevel, BYTE bt4RankOptionNum, BYTE bt4RankLevel, BYTE bt5RankOptionNum, BYTE bt5RankLevel, BYTE curRank);
+	bool SetPentagramMainAttribute(CItemObject *lpItemData, BYTE btAttributeNumber);
+	bool MakePentagramSocketSlot(CItemObject *lpItemData, BYTE btSocketSlot1, BYTE btSocketSlot2, BYTE btSocketSlot3, BYTE btSocketSlot4, BYTE btSocketSlot5);
+	bool ClearPentagramSocketSlot(CGameObject &lpObj, int iInventoryPos, CItemObject *lpTargetItem, BYTE btSocketSlotIndex);
+	bool SetPentagramSocketSlot(CItemObject *lpTargetItem, BYTE bt1RankOptionNum, BYTE bt1RankLevel, BYTE bt2RankOptionNum, BYTE bt2RankLevel, BYTE bt3RankOptionNum, BYTE bt3RankLevel, BYTE bt4RankOptionNum, BYTE bt4RankLevel, BYTE bt5RankOptionNum, BYTE bt5RankLevel, BYTE curRank);
 
-	bool SwitchPentagramJewel(CGameObject &lpObj, CItem *lpSourceItem, int iSwitchType);
+	bool SwitchPentagramJewel(CGameObject &lpObj, CItemObject *lpSourceItem, int iSwitchType);
 	bool AddPentagramJewelInfo(CGameObject &lpObj, int iJewelPos, int iJewelIndex, int iItemType, int iItemIndex, int iMainAttribute, int iJewelLevel, BYTE btRank1OptionNum, BYTE btRank1Level, BYTE btRank2OptionNum, BYTE btRank2Level, BYTE btRank3OptionNum, BYTE btRank3Level, BYTE btRank4OptionNum, BYTE btRank4Level, BYTE btRank5OptionNum, BYTE btRank5Level);
-	bool DelPentagramJewelInfo(CGameObject &lpObj, CItem *lpItemData);
+	bool DelPentagramJewelInfo(CGameObject &lpObj, CItemObject *lpItemData);
 	bool DelPentagramJewelInfo(CGameObject &lpObj, int iJewelPos, int iJewelIndex);
 
 	void DBREQ_GetPentagramJewel(CGameObject lpObj, char *szAccountId, int iJewelPos);
@@ -72,7 +72,7 @@ public:
 	int PentagramJewel_IN(CGameObject &lpObj, int iPentagramItemPos, int iJewelItemPos);
 	int PentagramJewel_OUT(CGameObject &lpObj, int iPentagramItemPos, BYTE btSocketIndex, BYTE *btJewelPos, BYTE *btJewelDBIndex);
 
-	bool GCTransPentagramJewelViewInfo(CGameObject &lpObj, CItem *lpItemData);
+	bool GCTransPentagramJewelViewInfo(CGameObject &lpObj, CItemObject *lpItemData);
 	bool GCPShopPentagramJewelViewInfo(CGameObject &lpObj, int aSourceIndex);
 	bool AddRadianceSlot(BYTE TargetSlot);
 	int IsEnableToTradePentagramItem(CGameObject &lpObj);

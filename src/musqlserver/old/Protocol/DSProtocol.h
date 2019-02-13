@@ -1181,7 +1181,7 @@ void JGCharacterCreateRequest( SDHP_CREATECHARRESULT* lpMsg);
 void JGCharacterCreateFailSend(CGameObject &lpObj, char* id);
 void JGCharDelRequest( SDHP_CHARDELETERESULT* lpMsg);
 void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT* lpMsg);
-void GCItemListSend(CGameObject &lpObj);
+void GCItemObjectListSend(CGameObject &lpObj);
 void GJSetCharacterInfo(struct OBJECTSTRUCT* lpObj, CGameObject &lpObj, BOOL bMapServerMove);
 void GDGetWarehouseList(CGameObject &lpObj, char* AccountID);
 void DGGetWarehouseList( SDHP_GETWAREHOUSEDB_SAVE* lpMsg);

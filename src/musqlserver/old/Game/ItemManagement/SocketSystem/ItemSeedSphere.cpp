@@ -34,7 +34,7 @@ void CSeedItem::Clear()
 	m_ItemCode = 0;
 }
 
-bool CSeedItem::IsMatched(CItem *lpItem)
+bool CSeedItem::IsMatched(CItemObject *lpItem)
 {
 	if(lpItem == NULL)	return false;
 

@@ -2,7 +2,7 @@
 // ChangeCmd.cpp
 #include "StdAfx.h"
 #include "ChangeCmd.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 #include "Logging/Log.h"
 #include "User/CUserData.h"
 

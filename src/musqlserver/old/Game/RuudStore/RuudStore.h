@@ -25,7 +25,7 @@ struct RUUD_MAP_ITEM_DATA
 {
 	BYTE btClass;
 	DWORD dwRuudPrice;
-	CItem Item;
+	CItemObject Item;
 };
 
 #pragma once

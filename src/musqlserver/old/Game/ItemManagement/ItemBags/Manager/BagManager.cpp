@@ -155,7 +155,7 @@ bool CBagManager::SearchAndUseBag(CGameObject &lpObj, int BagType, int iParam1, 
 	return false;
 }
 
-int CBagManager::GetItemFromBag(CGameObject &lpObj, int BagType, int iParam1, int iParam2, CItem & Item, time_t & DurationItem) // 0 - fail, 1 - item, 2 - zen, 3 - ruud
+int CBagManager::GetItemFromBag(CGameObject &lpObj, int BagType, int iParam1, int iParam2, CItemObject & Item, time_t & DurationItem) // 0 - fail, 1 - item, 2 - zen, 3 - ruud
 {
 	EnterCriticalSection(&this->m_criti);
 

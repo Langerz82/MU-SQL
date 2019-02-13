@@ -11,7 +11,7 @@
 
 #include "StdAfx.h"
 #include "CGameObject.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 
 #define ITEMOPTION_FOR380ITEM_EFFECT_NONE							0
 #define ITEMOPTION_FOR380ITEM_EFFECT_OPADDATTACKSUCCESSRATEPVP		1
@@ -24,7 +24,7 @@
 #define ITEMOPTION_FOR380ITEM_EFFECT_OPADDREFILLSD					8
 
 class CGameObject;
-class Citem;
+class CItemObject;
 
 struct ITEMOPTION_FOR380ITEM_EFFECT;
 struct ITEMOPTION_FOR380ITEM;
@@ -38,8 +38,8 @@ public:
 	virtual ~CItemSystemFor380();
 
 	BOOL Load380ItemOptionInfo(LPSTR filename);
-	BOOL Is380Item( CItem*  pItem);
-	BOOL Is380OptionItem( CItem* pItem);
+	BOOL Is380Item( CItemObject*  pItem);
+	BOOL Is380OptionItem( CItemObject* pItem);
 	void InitEffectValue( ITEMOPTION_FOR380ITEM_EFFECT* pItemEffect);
 	int ApplyFor380Option(CGameObject &Obj);
 	void SetOptionItemByMacro(CGameObject &Obj, BYTE invenrotyTargetPos, int bOption);
@@ -49,7 +49,7 @@ private:
 
 	void _InitOption();
 	int _CalcItemEffectValue(int iItemOptionType, int iItemEffectValue, ITEMOPTION_FOR380ITEM_EFFECT* pItemEffect);
-	int _SetOption(CItem* pItem, int bOption);
+	int _SetOption(CItemObject* pItem, int bOption);
 
 private:
 

@@ -12,7 +12,7 @@
 	void SkillFrustrum()	-	Wrong Symbol NAmes of the zzmath functions
 */
 
-#include "StdAfx.h"
+#include "PrecompiledHeader/StdAfx.h"
 #include "CUserData.h"
 
 #include "AcheronGuardianEvent.h"
@@ -62,7 +62,7 @@
 #include "IllusionTempleEvent_Renewal.h"
 #include "ImperialGuardian.h"
 #include "IOCP.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 #include "ItemOptionTypeMng.h"
 #include "itemsocketoptiondefine.h"
 #include "ItemSocketOptionSystem.h"
@@ -257,7 +257,7 @@ CUserData::CUserData(int IDNumber)
 	InitializeCriticalSection(&this->AgiCheckCriti);
 	this->m_pCMuRummyInfo = new CMuRummyInfo;
 	this->m_pCEvoMonInfo = new CEvolutionMonsterInfo;
-	this->pPentagramMixBox = new CItem[CHAOS_BOX_SIZE];
+	this->pPentagramMixBox = new CItemObject[CHAOS_BOX_SIZE];
 	this->pPentagramMixBoxMap = new BYTE[CHAOS_BOX_MAP_SIZE];
 	this->m_SeedOptionList = new SOCKET_OPTION_LIST[35];
 	this->m_BonusOptionList = new SOCKET_OPTION_LIST[7];

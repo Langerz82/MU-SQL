@@ -1669,7 +1669,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, CGameObject &lpObjTa
 
 		if ((type >= 0 && type <= 17))
 		{
-			CItem Item;
+			CItemObject Item;
 			Item.m_Type = ItemGetNumberMake(type, index);
 
 			if (Item.m_Type == -1)
@@ -3169,7 +3169,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, CGameObject &lpObjTa
 			return 0;
 		}
 
-		CItem Item;
+		CItemObject Item;
 		Item.m_Type = iType;
 
 		ITEM_ATTRIBUTE * p = &ItemAttribute[iType];
@@ -3584,7 +3584,7 @@ bool CGMMng::CommandClearInventory(CGameObject &lpObj)
 		}
 	}
 	// ----
-	GCItemListSend(lpTarget->m_Index);
+	GCItemObjectListSend(lpTarget->m_Index);
 }
 
 bool CGMMng::CommandReset(CGameObject &lpObj)

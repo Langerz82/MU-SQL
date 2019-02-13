@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-// CItemDrop.h
+// CItemObjectDrop.h
 #ifndef _MU_ITEMDROP_H
 #define _MU_ITEMDROP_H
 
@@ -11,11 +11,11 @@
 #include "User/CUserData.h"
 
 
-class CItemDrop
+class CItemObjectDrop
 {
 public:
-	CItemDrop(void);
-	virtual ~CItemDrop(void);
+	CItemObjectDrop(void);
+	virtual ~CItemObjectDrop(void);
 
 	bool LoadFile(const char* szFile);
 	bool LoadZenDropFile(const char* szFile);
@@ -58,6 +58,6 @@ private:
 	DWORD m_dwMultiplyZenChanceRate;
 };
 
-extern CItemDrop ItemDrop;
+extern CItemObjectDrop ItemDrop;
 
 #endif

@@ -1,4 +1,4 @@
-// ItemOption.cpp: implementation of the CItemOption class.
+// ItemOption.cpp: implementation of the CItemObjectOption class.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -10,22 +10,22 @@
 #include <vector>
 #include <string>
 
-CItemOption gItemOption;
+CItemObjectOption gItemOption;
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CItemOption::CItemOption() // OK
+CItemObjectOption::CItemObjectOption() // OK
 {
 	this->m_ItemOptionInfo.clear();
 }
 
-CItemOption::~CItemOption() // OK
+CItemObjectOption::~CItemObjectOption() // OK
 {
 
 }
 
-void CItemOption::Load(char* path) // OK
+void CItemObjectOption::Load(char* path) // OK
 {
 	CMemScript* lpMemScript = new CMemScript;
 
@@ -98,7 +98,7 @@ void CItemOption::Load(char* path) // OK
 	delete lpMemScript;
 }
 
-bool CItemOption::GetItemOption(int index, CItem* lpItem) // OK
+bool CItemObjectOption::GetItemOption(int index, CItemObject* lpItem) // OK
 {
 	bool result = 0;
 
@@ -154,7 +154,7 @@ bool CItemOption::GetItemOption(int index, CItem* lpItem) // OK
 	return result;
 }
 
-void CItemOption::CalcItemCommonOption(CGameObject &lpObj, bool flag) // OK
+void CItemObjectOption::CalCItemObjectCommonOption(CGameObject &lpObj, bool flag) // OK
 {
 	for (int n = 0; n < INVETORY_WEAR_SIZE; n++)
 	{
@@ -165,7 +165,7 @@ void CItemOption::CalcItemCommonOption(CGameObject &lpObj, bool flag) // OK
 	}
 }
 
-void CItemOption::InsertOption(CGameObject &lpObj, CItem* lpItem, bool flag) // OK
+void CItemObjectOption::InsertOption(CGameObject &lpObj, CItemObject* lpItem, bool flag) // OK
 {
 	for (int n = 0; n < MAX_SPECIAL; n++)
 	{

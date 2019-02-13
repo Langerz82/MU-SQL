@@ -938,7 +938,7 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 
 							if ( lpObj->pInventory[nEnterItemPos].m_Durability > 0.0 )
 							{
-								gGameProtocol.GCItemDurSend2(*gGameObjects[nUserIndex], nEnterItemPos, lpObj->pInventory[nEnterItemPos].m_Durability, 0);
+								gGameProtocol.GCItemObjectDurSend2(*gGameObjects[nUserIndex], nEnterItemPos, lpObj->pInventory[nEnterItemPos].m_Durability, 0);
 							}
 
 							else

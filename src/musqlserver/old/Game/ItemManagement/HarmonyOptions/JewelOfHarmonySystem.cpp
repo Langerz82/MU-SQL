@@ -224,22 +224,22 @@ BOOL CJewelOfHarmonySystem::IsEnableToUsePuritySystem()
 	return this->m_bEnable;
 }
 
-BYTE CJewelOfHarmonySystem::GetItemStrengthenOption(CItem *pItem)
+BYTE CJewelOfHarmonySystem::GetItemStrengthenOption(CItemObject *pItem)
 {
 	return ( pItem->m_JewelOfHarmonyOption & 0xF0 ) >> 4;
 }
 
-BYTE CJewelOfHarmonySystem::GetItemOptionLevel(CItem *pItem)
+BYTE CJewelOfHarmonySystem::GetItemOptionLevel(CItemObject *pItem)
 {
 	return this->_GetItemOptionLevel(pItem);
 }
 
-BYTE CJewelOfHarmonySystem::_GetItemOptionLevel(CItem *pItem)
+BYTE CJewelOfHarmonySystem::_GetItemOptionLevel(CItemObject *pItem)
 {
 	return ( pItem->m_JewelOfHarmonyOption & 0x0F ) ;
 }
 
-BOOL CJewelOfHarmonySystem::IsStrengthenByJewelOfHarmony(CItem *pItem)
+BOOL CJewelOfHarmonySystem::IsStrengthenByJewelOfHarmony(CItemObject *pItem)
 {
 	if (gSocketItemType.CheckSocketItemType((int)pItem) == true )
 		return FALSE;
@@ -250,7 +250,7 @@ BOOL CJewelOfHarmonySystem::IsStrengthenByJewelOfHarmony(CItem *pItem)
 	return FALSE;
 }
 
-BOOL CJewelOfHarmonySystem::IsActive(CItem *pItem)
+BOOL CJewelOfHarmonySystem::IsActive(CItemObject *pItem)
 {
 	if ( this->IsStrengthenByJewelOfHarmony(pItem) == FALSE )
 		return FALSE;
@@ -263,7 +263,7 @@ BOOL CJewelOfHarmonySystem::IsActive(CItem *pItem)
 	return TRUE;
 }
 
-BYTE CJewelOfHarmonySystem::_GetItemOptionRequireLevel(CItem * pItem)
+BYTE CJewelOfHarmonySystem::_GetItemOptionRequireLevel(CItemObject * pItem)
 {
 	int iItemType = this->_GetItemType(pItem);
 	BYTE iItemOption = this->GetItemStrengthenOption(pItem);
@@ -276,7 +276,7 @@ BYTE CJewelOfHarmonySystem::_GetItemOptionRequireLevel(CItem * pItem)
 
 
 
-int CJewelOfHarmonySystem::_GetItemType(CItem *pItem)
+int CJewelOfHarmonySystem::_GetItemType(CItemObject *pItem)
 {
 	int iItemType = JEWELOFHARMONY_ITEM_TYPE_NULL;
 
@@ -294,7 +294,7 @@ int CJewelOfHarmonySystem::_GetItemType(CItem *pItem)
 
 
 
-int CJewelOfHarmonySystem::_GetSelectRandomOption(CItem * pItem, int iItemType)
+int CJewelOfHarmonySystem::_GetSelectRandomOption(CItemObject * pItem, int iItemType)
 {
 	if ( iItemType == 0 )
 		return iItemType;
@@ -349,8 +349,8 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(CGameObject &lpObj, int 
 	if ( lpObj.pInventory[target].IsItem() == FALSE )
 		return FALSE;
 
-	CItem * pSource = &lpObj.pInventory[source];
-	CItem * pTarget = &lpObj.pInventory[target];
+	CItemObject * pSource = &lpObj.pInventory[source];
+	CItemObject * pTarget = &lpObj.pInventory[target];
 
 	if (!g_LuckyItemManager.IsLuckyItemEquipment(pTarget->m_Type))
 	{
@@ -445,8 +445,8 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfHarmony(CGameObject &lpObj, i
 	if ( lpObj.pInventory[target].IsItem() == FALSE )
 		return FALSE;
 
-	CItem * pSource = &lpObj.pInventory[source];
-	CItem * pTarget = &lpObj.pInventory[target];
+	CItemObject * pSource = &lpObj.pInventory[source];
+	CItemObject * pTarget = &lpObj.pInventory[target];
 
 	if ( this->IsStrengthenByJewelOfHarmony(pTarget) == TRUE )
 	{
@@ -511,7 +511,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfHarmony(CGameObject &lpObj, i
 }
 
 
-BOOL CJewelOfHarmonySystem::_MakeOption(CItem *pItem, BYTE btOptionType, BYTE btOptionLevel)
+BOOL CJewelOfHarmonySystem::_MakeOption(CItemObject *pItem, BYTE btOptionType, BYTE btOptionLevel)
 {
 	pItem->m_JewelOfHarmonyOption = AT_JEWELOFHARMONY_NOT_STRENGTHEN_ITEM;
 	pItem->m_JewelOfHarmonyOption |= btOptionType << 4;
@@ -528,7 +528,7 @@ void CJewelOfHarmonySystem::StrengthenItemByMacro(CGameObject &lpObj, BYTE inven
 	return;
 	
 	int iType;
-	CItem * pItem;
+	CItemObject * pItem;
 	char szMsg[256];
 	{
 		char szMsg[256];
@@ -558,7 +558,7 @@ void CJewelOfHarmonySystem::StrengthenItemByMacro(CGameObject &lpObj, BYTE inven
 }
 #pragma warning ( default : 4101 )
 
-BYTE CJewelOfHarmonySystem::ShowStrengthenOption(CItem *pItem)
+BYTE CJewelOfHarmonySystem::ShowStrengthenOption(CItemObject *pItem)
 {
 	BYTE bResult = -1;
 
@@ -617,7 +617,7 @@ void CJewelOfHarmonySystem::SetApplyStrengthenItem(CGameObject &lpObj)
 		{
 			if ( lpObj.pInventory[iItemIndex].m_IsValidItem !=  false )
 			{
-				BOOL bResult = this->_CalcItemEffectValue(&lpObj.pInventory[iItemIndex], pItemEffect);
+				BOOL bResult = this->_CalCItemObjectEffectValue(&lpObj.pInventory[iItemIndex], pItemEffect);
 			}
 		}
 	}
@@ -650,7 +650,7 @@ void CJewelOfHarmonySystem::SetApplyStrengthenItem(CGameObject &lpObj)
 
 
 
-int CJewelOfHarmonySystem::GetItemEffectValue(CItem * pItem, int iOptionType)
+int CJewelOfHarmonySystem::GetItemEffectValue(CItemObject * pItem, int iOptionType)
 {
 	int iItemType = this->_GetItemType(pItem);
 
@@ -674,7 +674,7 @@ int CJewelOfHarmonySystem::GetItemEffectValue(CItem * pItem, int iOptionType)
 }
 
 
-BOOL CJewelOfHarmonySystem::_CalcItemEffectValue(CItem *pItem, JEWELOFHARMONY_ITEM_EFFECT * pItemEffect)
+BOOL CJewelOfHarmonySystem::_CalCItemObjectEffectValue(CItemObject *pItem, JEWELOFHARMONY_ITEM_EFFECT * pItemEffect)
 {
 	int iItemType = this->_GetItemType(pItem);
 
@@ -699,7 +699,7 @@ BOOL CJewelOfHarmonySystem::_CalcItemEffectValue(CItem *pItem, JEWELOFHARMONY_IT
 	int iItemEffectValue = this->m_itemOption[iItemType][iItemOptionType].iItemEffectValue[iItemOptionLevel];
 
 	BOOL bResult = TRUE;
-//#pragma message("Add the LAcking Effects CJewelOfHarmonySystem::_CalcItemEffectValue")
+//#pragma message("Add the LAcking Effects CJewelOfHarmonySystem::_CalCItemObjectEffectValue")
 	switch ( iItemType )
 	{
 		case JEWELOFHARMONY_ITEM_TYPE_WEAPON:
@@ -834,7 +834,7 @@ void CJewelOfHarmonySystem::InitEffectValue(JEWELOFHARMONY_ITEM_EFFECT * pItemEf
 
 
 
-BOOL CJewelOfHarmonySystem::IsEnableToMakeSmeltingStoneItem(CItem * pItem)
+BOOL CJewelOfHarmonySystem::IsEnableToMakeSmeltingStoneItem(CItemObject * pItem)
 {
 	if ( this->_GetItemType(pItem) == JEWELOFHARMONY_ITEM_TYPE_NULL )
 		return FALSE;
@@ -1147,8 +1147,8 @@ BOOL CJewelOfHarmonySystem::SmeltItemBySmeltingStone(CGameObject &lpObj, int sou
 	if ( lpObj.pInventory[target].IsItem() == FALSE )
 		return FALSE;
 
-	CItem * pSource = &lpObj.pInventory[source];
-	CItem * pTarget = &lpObj.pInventory[target];
+	CItemObject * pSource = &lpObj.pInventory[source];
+	CItemObject * pTarget = &lpObj.pInventory[target];
 
 	if ( !this->IsStrengthenByJewelOfHarmony(pTarget)  )
 	{
@@ -1218,7 +1218,7 @@ BOOL CJewelOfHarmonySystem::SmeltItemBySmeltingStone(CGameObject &lpObj, int sou
 	return TRUE;
 }
 
-int CJewelOfHarmonySystem::_GetZenForRestoreItem(CItem * pItem)
+int CJewelOfHarmonySystem::_GetZenForRestoreItem(CItemObject * pItem)
 {
 	int iItemType = this->_GetItemType(pItem);
 
@@ -1256,7 +1256,7 @@ BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(CGameObject &lpObj)
 	pMsg.Result = 0;
 	int iStrengtenItemCount = 0;
 	int iInvalidItemCount = 0;
-	CItem * pItem = NULL;
+	CItemObject * pItem = NULL;
 
 	for ( int n=0;n<CHAOS_BOX_SIZE;n++)
 	{

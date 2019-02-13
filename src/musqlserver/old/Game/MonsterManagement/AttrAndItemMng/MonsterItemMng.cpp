@@ -29,8 +29,8 @@ void CMonsterItemMng::Init()
 
 	for (int j = 0; j < MAX_LEVEL_MONSTER; j++)
 	{
-		this->m_MonsterInvenItems[j] = new CItem[MAX_ITEM_IN_MONSTER];
-		this->m_MagicBookItems[j] = new CItem[MAX_MAGIC_IN_MONSTER];
+		this->m_MonsterInvenItems[j] = new CItemObject[MAX_ITEM_IN_MONSTER];
+		this->m_MagicBookItems[j] = new CItemObject[MAX_MAGIC_IN_MONSTER];
 	}
 
 	for (int i = 0; i < MAX_MONSTER_TYPE; i++)
@@ -106,7 +106,7 @@ BYTE CMonsterItemMng::InsertItem(int monsterlevel, int type, int index, int item
 		return -1;
 	}
 
-	CItem *item = &this->m_MonsterInvenItems[monsterlevel][itemcount];
+	CItemObject *item = &this->m_MonsterInvenItems[monsterlevel][itemcount];
 
 	item->m_Level = itemlevel;
 	item->Convert(ITEMGET(type, index), op1, op2, op3, 0, 0, 0, 0, -1, 0, 3);
@@ -125,7 +125,7 @@ BYTE CMonsterItemMng::InsertItem(int monsterlevel, int type, int index, int item
 	return 0;
 }
 
-CItem * CMonsterItemMng::GetItem(int monsterlevel)
+CItemObject * CMonsterItemMng::GetItem(int monsterlevel)
 {
 	if (monsterlevel < 0 || monsterlevel >= MAX_LEVEL_MONSTER)
 	{
@@ -196,11 +196,11 @@ void CMonsterItemMng::LoadMonsterItemDropRate()
 
 void CMonsterItemMng::MakeJewelItem()
 {
-	this->m_JewelOfBlessItem = new CItem;
-	this->m_JewelOfSoulItem = new CItem;
-	this->m_JewelOfChaosItem = new CItem;
-	this->m_JewelOfLifeItem = new CItem;
-	this->m_JewelOfCreationItem = new CItem;
+	this->m_JewelOfBlessItem = new CItemObject;
+	this->m_JewelOfSoulItem = new CItemObject;
+	this->m_JewelOfChaosItem = new CItemObject;
+	this->m_JewelOfLifeItem = new CItemObject;
+	this->m_JewelOfCreationItem = new CItemObject;
 
 	this->m_JewelOfBlessItem->Convert(ITEMGET(14, 13), 0, 0, 0, 0, 0, 0, 0, -1, 0, 3);
 	this->m_JewelOfBlessItem->m_Level = 0;
@@ -710,7 +710,7 @@ int CMonsterItemMng::CheckMonsterDropItem(int type, int index)
 	return result;
 }
 
-CItem * CMonsterItemMng::GetItemEx(int monsterlevel)
+CItemObject * CMonsterItemMng::GetItemEx(int monsterlevel)
 {
 	if (this->m_bLoad == false)
 	{

@@ -1317,7 +1317,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 			//sLog->outError( "rare Item ticket 0x01");
 
 			//int Slot = aRecv[4];
-			//CItem * lpItem = NULL;;
+			//CItemObject * lpItem = NULL;;
 			//BOOL cont = false;
 			//lpItem = &lpObj.pInventory[Slot];
 
@@ -1522,7 +1522,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 		case 0x35:
 		{
 			int Slot = aRecv[3];
-			CItem * lpItem = NULL;;
+			CItemObject * lpItem = NULL;;
 			BOOL cont = false;
 			lpItem = &lpObj.pInventory[Slot];
 			if (lpItem->IsSetItem() != FALSE)
@@ -3511,7 +3511,7 @@ void GameProtocol::GCMoneySend(CGameObject &lpObj, DWORD money)
 }
 
 
-void GameProtocol::GCItemInventoryPutSend(CGameObject &lpObj, BYTE result, BYTE iteminfo1, BYTE iteminfo2)
+void GameProtocol::GCItemObjectInventoryPutSend(CGameObject &lpObj, BYTE result, BYTE iteminfo1, BYTE iteminfo2)
 {
 	PMSG_ITEMGETRESULT pResult;
 
@@ -3645,7 +3645,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 		return;
 	}
 
-	lpItem = &MapC[map_num].m_cItem[item_num];
+	lpItem = &MapC[map_num].m_CItemObject[item_num];
 
 	if (lpItem->IsItem() == TRUE && lpItem->Give == false && lpItem->live == true)
 	{
@@ -3838,14 +3838,14 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 		{
 			if (lpItem->m_Type == ITEMGET(13, 32))
 			{
-				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItem *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(13, 32), 0);
+				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItemObject *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(13, 32), 0);
 
 				if (MAIN_INVENTORY_RANGE(pos) != FALSE)
 				{
 					pResult.result = -3;
 					IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
 					lpObj.pInventory[pos].m_Durability += lpItem->m_Durability;
-					GCItemDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
+					GCItemObjectDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
 
 					return;
 				}
@@ -3853,14 +3853,14 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 
 			if (lpItem->m_Type == ITEMGET(13, 33))
 			{
-				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItem *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(13, 33), 0);
+				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItemObject *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(13, 33), 0);
 
 				if (MAIN_INVENTORY_RANGE(pos) != FALSE)
 				{
 					pResult.result = -3;
 					IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
 					lpObj.pInventory[pos].m_Durability += lpItem->m_Durability;
-					GCItemDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
+					GCItemObjectDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
 
 					return;
 				}
@@ -3868,14 +3868,14 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 
 			if (lpItem->m_Type == ITEMGET(13, 34))
 			{
-				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItem *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(13, 34), 0);
+				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItemObject *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(13, 34), 0);
 
 				if (MAIN_INVENTORY_RANGE(pos) != FALSE)
 				{
 					pResult.result = -3;
 					IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
 					lpObj.pInventory[pos].m_Durability += lpItem->m_Durability;
-					GCItemDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
+					GCItemObjectDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
 
 					return;
 				}
@@ -3885,28 +3885,28 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 				|| lpItem->m_Type == ITEMGET(14, 133)	//6.2
 				)
 			{
-				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItem *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, 50, lpItem->m_Type, 0);
+				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItemObject *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, 50, lpItem->m_Type, 0);
 
 				if (MAIN_INVENTORY_RANGE(pos) != FALSE)
 				{
 					pResult.result = -3;
 					IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
 					lpObj.pInventory[pos].m_Durability += lpItem->m_Durability;
-					GCItemDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
+					GCItemObjectDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
 					return;
 				}
 			}
 
 			if (lpItem->m_Type == ITEMGET(13, 147)) // Trophy of Battle
 			{
-				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItem *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(13, 147), 0);
+				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItemObject *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(13, 147), 0);
 
 				if (MAIN_INVENTORY_RANGE(pos) != FALSE)
 				{
 					pResult.result = -3;
 					IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
 					lpObj.pInventory[pos].m_Durability += lpItem->m_Durability;
-					GCItemDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
+					GCItemObjectDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
 
 					return;
 				}
@@ -3924,7 +3924,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 						{
 							BYTE NewOption[MAX_EXOPTION_SIZE];
 
-							::ItemIsBufExOption(NewOption, (lpItem != NULL) ? (CItem*)&lpItem->m_Number : NULL);
+							::ItemIsBufExOption(NewOption, (lpItem != NULL) ? (CItemObject*)&lpItem->m_Number : NULL);
 
 							pResult.result = -3;
 
@@ -3954,7 +3954,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 							}
 							else
 							{
-								GCItemDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
+								GCItemObjectDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
 
 							}
 							return;
@@ -3968,7 +3968,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 			}
 			if (lpItem->m_Type == ITEMGET(14, 110)) // Double Goer
 			{
-				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItem *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(14, 110), 0);
+				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItemObject *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(14, 110), 0);
 				if (MAIN_INVENTORY_RANGE(pos))
 				{
 					pResult.result = -3;
@@ -3998,7 +3998,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 					}
 					else
 					{
-						GCItemDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
+						GCItemObjectDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
 
 					}
 					return;
@@ -4026,7 +4026,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 					{
 						BYTE NewOption[MAX_EXOPTION_SIZE];
 
-						::ItemIsBufExOption(NewOption, (lpItem != NULL) ? (CItem*)&lpItem->m_Number : NULL);
+						::ItemIsBufExOption(NewOption, (lpItem != NULL) ? (CItemObject*)&lpItem->m_Number : NULL);
 
 						pResult.result = -3;
 						IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
@@ -4035,7 +4035,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 
 						if (lpObj.pInventory[iInventoryPos].m_Durability < IsOverlapItem(lpItem->m_Type))
 						{
-							this->GCItemDurSend(aIndex, iInventoryPos, lpObj.pInventory[iInventoryPos].m_Durability, 0);
+							this->GCItemObjectDurSend(aIndex, iInventoryPos, lpObj.pInventory[iInventoryPos].m_Durability, 0);
 							return;
 						}
 
@@ -4066,7 +4066,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 			//============
 			if (lpItem->m_Type == ITEMGET(14, 290)) // Elemental Powder
 			{
-				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItem *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(14, 290), 0);
+				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItemObject *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(14, 290), 0);
 				if (MAIN_INVENTORY_RANGE(pos))
 				{
 					pResult.result = -3;
@@ -4095,7 +4095,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 					}
 					else
 					{
-						GCItemDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
+						GCItemObjectDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
 
 					}
 					return;
@@ -4108,7 +4108,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 
 			if (lpItem->m_Type == ITEMGET(13, 145)) // Spirit Map
 			{
-				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItem *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(13, 145), 0);
+				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItemObject *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(13, 145), 0);
 				if (MAIN_INVENTORY_RANGE(pos))
 				{
 					pResult.result = -3;
@@ -4138,7 +4138,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 					}
 					else
 					{
-						GCItemDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
+						GCItemObjectDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
 
 					}
 					return;
@@ -4150,7 +4150,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 			}
 			if (lpItem->m_Type == ITEMGET(14, 101)) // Imperial Fort
 			{
-				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItem *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(14, 101), 0);
+				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItemObject *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(14, 101), 0);
 				if (MAIN_INVENTORY_RANGE(pos))
 				{
 					pResult.result = -3;
@@ -4180,7 +4180,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 					}
 					else
 					{
-						GCItemDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
+						GCItemObjectDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
 
 					}
 					return;
@@ -4193,7 +4193,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 
 			if (lpItem->m_Type == ITEMGET(14, 100)) // Lucky Coin
 			{
-				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItem *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(14, 100), 0);
+				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItemObject *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(14, 100), 0);
 				if (MAIN_INVENTORY_RANGE(pos))
 				{
 					pResult.result = -3;
@@ -4201,7 +4201,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 					IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
 					lpObj.pInventory[pos].m_Durability += lpItem->m_Durability;
 
-					GCItemDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
+					GCItemObjectDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
 
 					return;
 				}
@@ -4228,7 +4228,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 								pResult.result = -3;
 								IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
 								lpObj.pInventory[pos].m_Durability += lpItem->m_Durability;
-								GCItemDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
+								GCItemObjectDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
 								return;
 							}
 						}
@@ -4236,7 +4236,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 						{
 							lpItem->m_Durability = Dur - IsOverlapItem(lpItem->m_Type);
 							lpObj.pInventory[pos].m_Durability = IsOverlapItem(lpItem->m_Type);
-							GCItemDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
+							GCItemObjectDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
 						}
 
 					}
@@ -4249,7 +4249,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 
 			if (lpItem->m_Type == ITEMGET(14, 90)) // Golden cherry blossom
 			{
-				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItem *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(14, 90), 0);
+				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItemObject *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(14, 90), 0);
 				if (MAIN_INVENTORY_RANGE(pos))
 				{
 					pResult.result = -3;
@@ -4258,7 +4258,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 
 					lpObj.pInventory[pos].m_Durability += lpItem->m_Durability;
 
-					GCItemDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
+					GCItemObjectDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
 
 					return;
 				}
@@ -4271,7 +4271,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 
 			if (lpItem->m_Type == ITEMGET(14, 89)) // Red cherry blossom
 			{
-				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItem *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(14, 89), 0);
+				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItemObject *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(14, 89), 0);
 				if (MAIN_INVENTORY_RANGE(pos))
 				{
 					pResult.result = -3;
@@ -4280,7 +4280,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 
 					lpObj.pInventory[pos].m_Durability += lpItem->m_Durability;
 
-					GCItemDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
+					GCItemObjectDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
 
 					return;
 				}
@@ -4293,7 +4293,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 
 			if (lpItem->m_Type == ITEMGET(14, 88)) // White cherry blossom
 			{
-				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItem *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(14, 88), 0);
+				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItemObject *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(14, 88), 0);
 				if (MAIN_INVENTORY_RANGE(pos))
 				{
 					pResult.result = -3;
@@ -4302,7 +4302,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 
 					lpObj.pInventory[pos].m_Durability += lpItem->m_Durability;
 
-					GCItemDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
+					GCItemObjectDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
 
 					return;
 				}
@@ -4315,7 +4315,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 
 			if (lpItem->m_Type == ITEMGET(14, 153)) // White cherry blossom
 			{
-				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItem *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(14, 153), 0);
+				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItemObject *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(14, 153), 0);
 				if (MAIN_INVENTORY_RANGE(pos))
 				{
 					pResult.result = -3;
@@ -4324,7 +4324,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 
 					lpObj.pInventory[pos].m_Durability += lpItem->m_Durability;
 
-					GCItemDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
+					GCItemObjectDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
 
 					return;
 				}
@@ -4337,7 +4337,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 
 			if (lpItem->m_Type == ITEMGET(14, 154)) // White cherry blossom
 			{
-				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItem *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(14, 154), 0);
+				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItemObject *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(14, 154), 0);
 				if (MAIN_INVENTORY_RANGE(pos))
 				{
 					pResult.result = -3;
@@ -4346,7 +4346,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 
 					lpObj.pInventory[pos].m_Durability += lpItem->m_Durability;
 
-					GCItemDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
+					GCItemObjectDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
 
 					return;
 				}
@@ -4359,7 +4359,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 
 			if (lpItem->m_Type == ITEMGET(14, 155)) // White cherry blossom
 			{
-				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItem *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(14, 155), 0);
+				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItemObject *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(14, 155), 0);
 				if (MAIN_INVENTORY_RANGE(pos))
 				{
 					pResult.result = -3;
@@ -4368,7 +4368,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 
 					lpObj.pInventory[pos].m_Durability += lpItem->m_Durability;
 
-					GCItemDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
+					GCItemObjectDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
 
 					return;
 				}
@@ -4381,7 +4381,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 
 			if (lpItem->m_Type == ITEMGET(14, 156)) // White cherry blossom
 			{
-				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItem *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(14, 156), 0);
+				int pos = gObjOverlapItemUsingDur((lpItem) ? ((CItemObject *)&lpItem->m_Number) : NULL, map_num, item_num, aIndex, IsOverlapItem(lpItem->m_Type), ITEMGET(14, 156), 0);
 				if (MAIN_INVENTORY_RANGE(pos))
 				{
 					pResult.result = -3;
@@ -4390,7 +4390,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 
 					lpObj.pInventory[pos].m_Durability += lpItem->m_Durability;
 
-					GCItemDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
+					GCItemObjectDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
 
 					return;
 				}
@@ -4407,7 +4407,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 				int tmpSetOption = 0;
 				BYTE NewOption[8] = { 0 };
 
-				ItemIsBufExOption(NewOption, (lpItem != NULL) ? (CItem*)&lpItem->m_Number : NULL);
+				ItemIsBufExOption(NewOption, (lpItem != NULL) ? (CItemObject*)&lpItem->m_Number : NULL);
 
 				if (gSetItemOption.IsSetItem(lpItem->m_Type))
 				{
@@ -4451,7 +4451,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 						{
 							lpItem->m_Durability = lpObj.pInventory[pos].m_Durability + lpItem->m_Durability - IsOverlapItem(lpItem->m_Type);
 							lpObj.pInventory[pos].m_Durability = IsOverlapItem(lpItem->m_Type);
-							this->GCItemDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
+							this->GCItemObjectDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
 						}
 
 						else
@@ -4462,7 +4462,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 								IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
 
 								lpObj.pInventory[pos].m_Durability += lpItem->m_Durability;
-								GCItemDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
+								GCItemObjectDurSend(aIndex, pos, lpObj.pInventory[pos].m_Durability, 0);
 								return;
 							}
 						}
@@ -4492,14 +4492,14 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &lp
 
 					if (pos == 0xFF)
 					{
-						::GCItemListSend(aIndex);
+						::GCItemObjectListSend(aIndex);
 						g_PeriodItemEx.OnRequestPeriodItemList(&gGameObjects[aIndex]);
 					}
 					else
 					{
 						BYTE NewOption[MAX_EXOPTION_SIZE];
 
-						::ItemIsBufExOption(NewOption, (lpItem != NULL) ? (CItem*)&lpItem->m_Number : NULL);
+						::ItemIsBufExOption(NewOption, (lpItem != NULL) ? (CItemObject*)&lpItem->m_Number : NULL);
 
 						this->GCSendGetItemInfoForParty(aIndex, lpItem);
 
@@ -5226,7 +5226,7 @@ bool GameProtocol::CGItemDropRequest(PMSG_ITEMTHROW * lpMsg, CGameObject &lpObj,
 
 	if (CopyItem != FALSE)
 	{
-		::GCItemListSend(aIndex);
+		::GCItemObjectListSend(aIndex);
 		g_PeriodItemEx.OnRequestPeriodItemList(lpObj);
 	}
 
@@ -5260,7 +5260,7 @@ bool GameProtocol::CGItemDropRequest(PMSG_ITEMTHROW * lpMsg, CGameObject &lpObj,
 	return pResult.Result;
 }
 
-void GameProtocol::GCItemMoveResultSend(CGameObject &lpObj, BYTE result, BYTE pos, LPBYTE const ItemInfo)
+void GameProtocol::GCItemObjectMoveResultSend(CGameObject &lpObj, BYTE result, BYTE pos, LPBYTE const ItemInfo)
 {
 	PMSG_INVENTORYITEMMOVE_RESULT pMsg;
 
@@ -5292,20 +5292,20 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 
 	if (!PacketCheckTime(aIndex))
 	{
-		this->GCItemMoveResultSend(aIndex, -1, 0, ItemInfo);
+		this->GCItemObjectMoveResultSend(aIndex, -1, 0, ItemInfo);
 		return;
 	}
 
 	if (!::gObjIsConnectedGP(aIndex))
 	{
-		this->GCItemMoveResultSend(aIndex, -1, 0, ItemInfo);
+		this->GCItemObjectMoveResultSend(aIndex, -1, 0, ItemInfo);
 		return;
 	}
 
 	if (lpObj.m_PlayerData->m_bSecurityCheck == false)
 	{
 		MsgOutput(aIndex, Lang.GetText(0, 822));
-		this->GCItemMoveResultSend(aIndex, -1, 0, ItemInfo);
+		this->GCItemObjectMoveResultSend(aIndex, -1, 0, ItemInfo);
 		return;
 	}
 
@@ -5314,7 +5314,7 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 
 	if (lpObj.m_PlayerData->m_ReqWarehouseOpen != false)
 	{
-		this->GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
+		this->GCItemObjectMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 
 		return;
 	}
@@ -5339,26 +5339,26 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 		{
 			if (target >= 12 || source < 12)
 			{
-				this->GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
+				this->GCItemObjectMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 				return;
 			}
 		}
 		else
 		{
-			this->GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
+			this->GCItemObjectMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 			return;
 		}
 	}
 
 	if (lpObj.DieRegen != FALSE)
 	{
-		this->GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
+		this->GCItemObjectMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 		return;
 	}
 
 	if (lpObj.Teleport != FALSE)
 	{
-		this->GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
+		this->GCItemObjectMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 		return;
 	}
 
@@ -5379,13 +5379,13 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 	{
 		if (lpObj.m_IfState.use < 1 || lpObj.m_IfState.type != 7)
 		{
-			this->GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
+			this->GCItemObjectMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 			return;
 		}
 
 		if (lpObj.ChaosLock == TRUE)
 		{
-			this->GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
+			this->GCItemObjectMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 
 			return;
 		}
@@ -5395,13 +5395,13 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 	{
 		if (lpObj.m_IfState.use < 1 || lpObj.m_IfState.type != 13)
 		{
-			this->GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
+			this->GCItemObjectMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 			return;
 		}
 
 		if (lpObj.ChaosLock == TRUE)
 		{
-			this->GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
+			this->GCItemObjectMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 
 			return;
 		}
@@ -5412,13 +5412,13 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 	{
 		if (lpObj.m_IfState.use < 1 || lpObj.m_IfState.type != 7)
 		{
-			this->GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
+			this->GCItemObjectMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 			return;
 		}
 
 		if (lpObj.ChaosLock == TRUE)
 		{
-			this->GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
+			this->GCItemObjectMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 
 			return;
 		}
@@ -5427,13 +5427,13 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 	{
 		if (lpObj.m_IfState.use < 1 || lpObj.m_IfState.type != 7)
 		{
-			this->GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
+			this->GCItemObjectMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 			return;
 		}
 
 		if (lpObj.ChaosLock == TRUE)
 		{
-			this->GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
+			this->GCItemObjectMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 
 			return;
 		}
@@ -5443,13 +5443,13 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 	{
 		if (lpObj.m_IfState.use < 1 || lpObj.m_IfState.type != 7)
 		{
-			this->GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
+			this->GCItemObjectMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 			return;
 		}
 
 		if (lpObj.ChaosLock == TRUE)
 		{
-			this->GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
+			this->GCItemObjectMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 
 			return;
 		}
@@ -5460,7 +5460,7 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 	{
 		if (lpObj.m_IfState.use < 1 || lpObj.m_IfState.type != 6)
 		{
-			this->GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
+			this->GCItemObjectMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 			return;
 		}
 	}
@@ -5468,7 +5468,7 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 	{
 		if (lpObj.m_IfState.use < 1 || lpObj.m_IfState.type != 1)
 		{
-			this->GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
+			this->GCItemObjectMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 			return;
 		}
 	}
@@ -5479,7 +5479,7 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 
 		if ((lpObj.m_PlayerData->Money - money) < 1 && (lpObj.WarehouseMoney - money) < 1)
 		{
-			this->GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
+			this->GCItemObjectMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 			char szTemp[256];
 			wsprintf(szTemp, Lang.GetText(0, 154), money);
 			this->GCServerMsgStringSend(szTemp, lpObj.m_Index, 1);
@@ -5491,7 +5491,7 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 		{
 			if (lpObj.WarehouseLock == 1)
 			{
-				this->GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
+				this->GCItemObjectMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 				this->GCServerMsgStringSend(Lang.GetText(0, 155), lpObj.m_Index, 1);
 
 				return;
@@ -5506,26 +5506,26 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 
 		if (lpItemAttr == NULL)
 		{
-			this->GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
+			this->GCItemObjectMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 			return;
 		}
 
 		if (lpItemAttr->QuestItem != false && !g_QuestExpManager.IsQuestItemAtt(type, 4))
 		{
-			this->GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
+			this->GCItemObjectMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 			return;
 		}
 
 		if (type == ITEMGET(14, 64)) // cursed castle water
 		{
-			this->GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
+			this->GCItemObjectMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 			return;
 		}
 	}
 
 	if (lpMsg->sFlag == 21 && lpMsg->tFlag != 21 && lpMsg->tFlag != 1)
 	{
-		this->GCItemMoveResultSend(aIndex, -1, 0, ItemInfo);
+		this->GCItemObjectMoveResultSend(aIndex, -1, 0, ItemInfo);
 		return;
 	}
 
@@ -5537,7 +5537,7 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 			{
 				if (IsEventItem(lpObj.Trade[source]) == TRUE)
 				{
-					GCItemMoveResultSend(aIndex, -1, 0, ItemInfo);
+					GCItemObjectMoveResultSend(aIndex, -1, 0, ItemInfo);
 					return;
 				}
 			}
@@ -5549,14 +5549,14 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 
 		if (IsEventItem(type) == TRUE)
 		{
-			this->GCItemMoveResultSend(aIndex, -1, 0, ItemInfo);
+			this->GCItemObjectMoveResultSend(aIndex, -1, 0, ItemInfo);
 			return;
 		}
 	}
 
 	if (lpMsg->sFlag == 22 && lpMsg->tFlag != 22)
 	{
-		this->GCItemMoveResultSend(aIndex, -1, 0, ItemInfo);
+		this->GCItemObjectMoveResultSend(aIndex, -1, 0, ItemInfo);
 		return;
 	}
 
@@ -5626,12 +5626,12 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 			this->GCPriceSend(lpObj.m_Index, 1, 0);
 		}
 
-		this->GCItemMoveResultSend(aIndex, result, target, (LPBYTE)&ItemInfo);
+		this->GCItemObjectMoveResultSend(aIndex, result, target, (LPBYTE)&ItemInfo);
 		if (DurSSend != FALSE)
-			this->GCItemDurSend(aIndex, source, lpObj.pInventory[source].m_Durability, FALSE);
+			this->GCItemObjectDurSend(aIndex, source, lpObj.pInventory[source].m_Durability, FALSE);
 
 		if (DurTSend != FALSE)
-			this->GCItemDurSend(aIndex, target, lpObj.pInventory[target].m_Durability, FALSE);
+			this->GCItemObjectDurSend(aIndex, target, lpObj.pInventory[target].m_Durability, FALSE);
 		if (result != 0xFF && lpMsg->sFlag == 2 && lpMsg->tFlag == 0)
 		{
 			int money = ::GetWarehouseUsedHowMuch(lpObj.Level, lpObj.WarehousePW);
@@ -5662,7 +5662,7 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 	if (lpMsg->sFlag == 22 && lpMsg->tFlag == 22)
 	{
 		result = gObjMuunInvenMove(lpObj, 0, 0, source, target, (LPBYTE)ItemInfo);
-		GCItemMoveResultSend(aIndex, result, target, (LPBYTE)ItemInfo);
+		GCItemObjectMoveResultSend(aIndex, result, target, (LPBYTE)ItemInfo);
 	}
 
 	if (lpMsg->sFlag == 1 && lpMsg->tFlag == 21)
@@ -5671,14 +5671,14 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 
 		if (result == 255)
 		{
-			this->GCItemMoveResultSend(aIndex, -1, target, ItemInfo);
+			this->GCItemObjectMoveResultSend(aIndex, -1, target, ItemInfo);
 			this->CGTradeCancelButtonRecv(aIndex);
 
 		}
 
 		else
 		{
-			this->GCItemMoveResultSend(aIndex, result, target, ItemInfo);
+			this->GCItemObjectMoveResultSend(aIndex, result, target, ItemInfo);
 		}
 
 		if (result == 255)
@@ -5703,7 +5703,7 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 	if (lpMsg->sFlag == 21 && lpMsg->tFlag == 1)
 	{
 		result = gObjEventInventoryTradeMove(lpObj, source, target);
-		GCItemMoveResultSend(aIndex, result, target, ItemInfo);
+		GCItemObjectMoveResultSend(aIndex, result, target, ItemInfo);
 
 		return;
 	}
@@ -5714,7 +5714,7 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 		BOOL DurTSend;
 
 		result = gObjEventInvenMove(lpObj, &DurSSend, &DurTSend, source, target);
-		this->GCItemMoveResultSend(aIndex, result, target, ItemInfo);
+		this->GCItemObjectMoveResultSend(aIndex, result, target, ItemInfo);
 
 		if (result == 255)
 		{
@@ -5742,7 +5742,7 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 	if (lpMsg->sFlag == 1 && lpMsg->tFlag == 1)
 	{
 		result = gObjTradeTradeMove(lpObj, source, target);
-		this->GCItemMoveResultSend(aIndex, result, target, (LPBYTE)&ItemInfo);
+		this->GCItemObjectMoveResultSend(aIndex, result, target, (LPBYTE)&ItemInfo);
 		return;
 	}
 
@@ -5752,18 +5752,18 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 
 		if (result == 0xFF)
 		{
-			this->GCItemMoveResultSend(aIndex, 0xFF, target, (LPBYTE)&ItemInfo);
+			this->GCItemObjectMoveResultSend(aIndex, 0xFF, target, (LPBYTE)&ItemInfo);
 			this->CGTradeCancelButtonRecv(aIndex);
 		}
 		else
 		{
-			this->GCItemMoveResultSend(aIndex, result, target, (LPBYTE)&ItemInfo);
+			this->GCItemObjectMoveResultSend(aIndex, result, target, (LPBYTE)&ItemInfo);
 		}
 
 		if (result == 0xFF)
 		{
 			lpObj.m_IfState.state = 0;
-			GCItemListSend(aIndex);
+			GCItemObjectListSend(aIndex);
 			g_PeriodItemEx.OnRequestPeriodItemList(lpObj);
 		}
 
@@ -5781,7 +5781,7 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 	if (lpMsg->sFlag == 0 && lpMsg->tFlag == 1)
 	{
 		result = gObjInventoryTradeMove(lpObj, source, target);
-		this->GCItemMoveResultSend(aIndex, result, target, (LPBYTE)&ItemInfo);
+		this->GCItemObjectMoveResultSend(aIndex, result, target, (LPBYTE)&ItemInfo);
 	}
 }
 
@@ -6501,7 +6501,7 @@ void GameProtocol::CGSellRequestRecv(PMSG_SELLREQUEST * lpMsg, CGameObject &lpOb
 		return;
 	}
 
-	if (g_ConfigRead.data.common.ShopExcItemLimit == FALSE)
+	if (g_ConfigRead.data.common.ShopExCItemObjectLimit == FALSE)
 	{
 		if (lpObj.pInventory[lpMsg->Pos].m_NewOption == 63)
 		{
@@ -6588,7 +6588,7 @@ void GameProtocol::CGSellRequestRecv(PMSG_SELLREQUEST * lpMsg, CGameObject &lpOb
 		return;
 	}
 
-	if (!IsSellToNPCItem(lpObj.pInventory[lpMsg->Pos].m_Type))
+	if (!IsSellToNPCItemObject(lpObj.pInventory[lpMsg->Pos].m_Type))
 	{
 		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
 		return;
@@ -6664,7 +6664,7 @@ void GameProtocol::CGSellRequestRecv(PMSG_SELLREQUEST * lpMsg, CGameObject &lpOb
 }
 
 
-int GameProtocol::GetNeedMoneyItemDurRepaire(/*CGameObject &lpObj, */CItem *  DurItem, BOOL RequestPos)
+int GameProtocol::GetNeedMoneyItemDurRepaire(/*CGameObject &lpObj, */CItemObject *  DurItem, BOOL RequestPos)
 {
 	if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 	{
@@ -6752,7 +6752,7 @@ struct PMSG_ITEMDURREPAIR_RESULT
 
 
 
-void GameProtocol::ItemDurRepaire(CGameObject &lpObj, /*CGameObject &lpObj, */CItem * DurItem, int pos, int RequestPos)
+void GameProtocol::ItemDurRepaire(CGameObject &lpObj, /*CGameObject &lpObj, */CItemObject * DurItem, int pos, int RequestPos)
 {
 	PMSG_ITEMDURREPAIR_RESULT pResult;
 	int result = TRUE;
@@ -6846,7 +6846,7 @@ void GameProtocol::ItemDurRepaire(CGameObject &lpObj, /*CGameObject &lpObj, */CI
 		DurItem->m_Durability = (float)((int)DurItem->m_BaseDurability);
 		DurItem->Convert(DurItem->m_Type, DurItem->m_Option1, DurItem->m_Option2, DurItem->m_Option3,
 			DurItem->m_NewOption, DurItem->m_SetOption, DurItem->m_ItemOptionEx, 0, -1, 0, CURRENT_DB_VERSION);
-		GCItemDurSend(lpObj.m_Index, pos, DurItem->m_Durability, FALSE);
+		GCItemObjectDurSend(lpObj.m_Index, pos, DurItem->m_Durability, FALSE);
 	}
 
 	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pResult, pResult.h.size);
@@ -13377,7 +13377,7 @@ void GameProtocol::CGDurationMagicRecv(PMSG_DURATION_MAGIC_RECV* lpMsg, CGameObj
 void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 {
 	int pos;
-	CItem * citem;
+	CItemObject * CItemObject;
 	int iItemUseType = lpMsg->btItemUseType;
 
 	if (lpObj.Type != OBJ_USER)
@@ -13451,14 +13451,14 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 	}
 
 	// Set Pointer
-	citem = &lpObj.pInventory[pos];
-	citem->FixIt(); //K2
-	//citem.FixIt;
+	CItemObject = &lpObj.pInventory[pos];
+	CItemObject->FixIt(); //K2
+	//CItemObject.FixIt;
 	// The item is ITEM
-	if (citem->IsItem())
+	if (CItemObject->IsItem())
 	{
 		// Check if item have 0 as Serial
-		if (gObjCheckSerial0ItemList(citem))
+		if (gObjCheckSerial0ItemList(CItemObject))
 		{
 			MsgOutput(aIndex, Lang.GetText(0, 259));
 
@@ -13469,40 +13469,40 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 
 		// Check the item Serial
 		if (gObjInventorySearchSerialNumber(&gGameObjects[aIndex],
-			citem->GetNumber()) == FALSE)
+			CItemObject->GetNumber()) == FALSE)
 		{
 			GCReFillSend(aIndex, lpObj.Life, 0xFD, 1, lpObj.iShield);
 			return;
 		}
 
-		if (citem->m_serial && !gObjCanItemTouch(&gGameObjects[aIndex], 1))
+		if (CItemObject->m_serial && !gObjCanItemTouch(&gGameObjects[aIndex], 1))
 		{
 			GCReFillSend(aIndex, lpObj.Life, 0xFD, 1, lpObj.iShield);
 			return;
 		}
 
-		if (citem->m_Type == ITEMGET(14, 0) || citem->m_Type == ITEMGET(14, 1) || citem->m_Type == ITEMGET(14, 2) || citem->m_Type == ITEMGET(14, 3) || citem->m_Type == ITEMGET(14, 133))
+		if (CItemObject->m_Type == ITEMGET(14, 0) || CItemObject->m_Type == ITEMGET(14, 1) || CItemObject->m_Type == ITEMGET(14, 2) || CItemObject->m_Type == ITEMGET(14, 3) || CItemObject->m_Type == ITEMGET(14, 133))
 		{
 			int potion;
 			for (potion = 0; potion < g_Michi.FixHackPotions.m_LifePotionMultiplyCount; potion++)
 			{
 				if (potion == 0 || (rand() % 100) < g_Michi.FixHackPotions.m_LifePotionMultiplyRate)
 				{
-					g_Michi.UseHealingPotion(citem, pos, aIndex);
+					g_Michi.UseHealingPotion(CItemObject, pos, aIndex);
 				}
 			}
 		}
-		else if (citem->m_Type == ITEMGET(14, 4) ||	// Small Mana Potion
-			citem->m_Type == ITEMGET(14, 5) || citem->m_Type == ITEMGET(14, 6))
+		else if (CItemObject->m_Type == ITEMGET(14, 4) ||	// Small Mana Potion
+			CItemObject->m_Type == ITEMGET(14, 5) || CItemObject->m_Type == ITEMGET(14, 6))
 		{
-			int tMana = (citem->m_Value * 10) - (lpObj.Level);	// #formula
+			int tMana = (CItemObject->m_Value * 10) - (lpObj.Level);	// #formula
 
 			if (tMana < 0)
 			{
 				tMana = 0;
 			}
 
-			switch (citem->m_Type)
+			switch (CItemObject->m_Type)
 			{
 			case ITEMGET(14, 4):	// Small Mana Potion
 				tMana += ((int)(lpObj.MaxMana + lpObj.AddMana)) * 20 / 100;
@@ -13529,7 +13529,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				GCInventoryItemDeleteSend(aIndex, pos, 1);
 			}
 		}
-		else if (citem->m_Type == ITEMGET(14, 36))
+		else if (CItemObject->m_Type == ITEMGET(14, 36))
 		{
 			int iShieldGage = (lpObj.iMaxShield + lpObj.iAddShield) * 35 / 100;	// #formula
 
@@ -13557,7 +13557,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				GCInventoryItemDeleteSend(aIndex, pos, 1);
 			}
 		}
-		else if (citem->m_Type == ITEMGET(14, 35))
+		else if (CItemObject->m_Type == ITEMGET(14, 35))
 		{
 			int iShieldGage = (lpObj.iMaxShield + lpObj.iAddShield) * 25 / 100;	// #formula
 
@@ -13585,7 +13585,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				GCInventoryItemDeleteSend(aIndex, pos, 1);
 			}
 		}
-		else if (citem->m_Type == ITEMGET(14, 37))
+		else if (CItemObject->m_Type == ITEMGET(14, 37))
 		{
 			int iShieldGage = (lpObj.iMaxShield + lpObj.iAddShield) * 45 / 100; // #formula
 
@@ -13613,7 +13613,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				GCInventoryItemDeleteSend(aIndex, pos, 1);
 			}
 		}
-		else if (citem->m_Type == ITEMGET(14, 38))	// Small Compound Potion 
+		else if (CItemObject->m_Type == ITEMGET(14, 38))	// Small Compound Potion 
 		{
 			int iShieldGage = (lpObj.iMaxShield + lpObj.iAddShield) * 5 / 100;	// #formula
 			int iHPGage = (int)((lpObj.MaxLife + lpObj.AddLife) * 10.0f / 100.0f);	// #formula
@@ -13657,7 +13657,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				lpObj.AccountID, lpObj.Name, lpObj.iShield, lpObj.Life,
 				lpObj.iShield + iShieldGage, (double)(lpObj.Life + (float)iHPGage));
 		}
-		else if (citem->m_Type == ITEMGET(14, 39))	// Compound Potion 
+		else if (CItemObject->m_Type == ITEMGET(14, 39))	// Compound Potion 
 		{
 			int iShieldGage = (lpObj.iMaxShield + lpObj.iAddShield) * 10 / 100;	// #formula
 			int iHPGage = (int)((lpObj.MaxLife + lpObj.AddLife) * 25.0f / 100.0f);	// #formula
@@ -13701,7 +13701,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				lpObj.AccountID, lpObj.Name, lpObj.iShield, lpObj.Life,
 				lpObj.iShield + iShieldGage, (double)(lpObj.Life + (float)iHPGage));
 		}
-		else if (citem->m_Type == ITEMGET(14, 40))	// Large Compound Potion 
+		else if (CItemObject->m_Type == ITEMGET(14, 40))	// Large Compound Potion 
 		{
 			int iShieldGage = (lpObj.iMaxShield + lpObj.iAddShield) * 20 / 100;	// #formula
 			int iHPGage = (int)((lpObj.MaxLife + lpObj.AddLife) * 45.0f / 100.0f);	// #formula
@@ -13746,7 +13746,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				lpObj.iShield, lpObj.Life,
 				lpObj.iShield + iShieldGage, (double)(lpObj.Life + (float)iHPGage));
 		}
-		else if (citem->m_Type == ITEMGET(14, 8)) // Antidote
+		else if (CItemObject->m_Type == ITEMGET(14, 8)) // Antidote
 		{
 			if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 			{
@@ -13771,7 +13771,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				GCMagicCancelSend(&gGameObjects[aIndex], 7);
 			}
 		}
-		else if (citem->m_Type == ITEMGET(14, 46))
+		else if (CItemObject->m_Type == ITEMGET(14, 46))
 		{
 			if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 			{
@@ -13782,7 +13782,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 
 			gObjAddBuffEffect(&gGameObjects[aIndex], BUFFTYPE_HALLOWEEN_BLESS);
 		}
-		else if (citem->m_Type == ITEMGET(14, 47))
+		else if (CItemObject->m_Type == ITEMGET(14, 47))
 		{
 			if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 			{
@@ -13793,7 +13793,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 
 			gObjAddBuffEffect(&gGameObjects[aIndex], BUFFTYPE_HALLOWEEN_ANGER);
 		}
-		else if (citem->m_Type == ITEMGET(14, 48))
+		else if (CItemObject->m_Type == ITEMGET(14, 48))
 		{
 			if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 			{
@@ -13804,7 +13804,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 
 			gObjAddBuffEffect(&gGameObjects[aIndex], BUFFTYPE_HALLOWEEN_CRY);
 		}
-		else if (citem->m_Type == ITEMGET(14, 49))
+		else if (CItemObject->m_Type == ITEMGET(14, 49))
 		{
 			if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 			{
@@ -13815,7 +13815,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 
 			gObjAddBuffEffect(&gGameObjects[aIndex], BUFFTYPE_HALLOWEEN_FOOD);
 		}
-		else if (citem->m_Type == ITEMGET(14, 50))
+		else if (CItemObject->m_Type == ITEMGET(14, 50))
 		{
 			if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 			{
@@ -13826,7 +13826,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 
 			gObjAddBuffEffect(&gGameObjects[aIndex], BUFFTYPE_HALLOWEEN_DRINK);
 		}
-		else if (citem->m_Type == ITEMGET(14, 85))
+		else if (CItemObject->m_Type == ITEMGET(14, 85))
 		{
 			if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 			{
@@ -13837,7 +13837,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 
 			gObjAddBuffEffect(&gGameObjects[aIndex], BUFFTYPE_CHERRYBLOSSOM_DRINK);
 		}
-		else if (citem->m_Type == ITEMGET(14, 86))
+		else if (CItemObject->m_Type == ITEMGET(14, 86))
 		{
 			if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 			{
@@ -13848,7 +13848,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 
 			gObjAddBuffEffect(&gGameObjects[aIndex], BUFFTYPE_CHERRYBLOSSOM_DUMPLING);
 		}
-		else if (citem->m_Type == ITEMGET(14, 87))
+		else if (CItemObject->m_Type == ITEMGET(14, 87))
 		{
 			if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 			{
@@ -13859,7 +13859,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 
 			gObjAddBuffEffect(&gGameObjects[aIndex], BUFFTYPE_CHERRYBLOSSOM_PETAL);
 		}
-		else if (citem->m_Type == ITEMGET(13, 81))
+		else if (CItemObject->m_Type == ITEMGET(13, 81))
 		{
 			if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 			{
@@ -13870,7 +13870,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 
 			gObjAddBuffEffect(&gGameObjects[aIndex], BUFFTYPE_CHARM_GUARDIAN);
 		}
-		else if (citem->m_Type == ITEMGET(13, 82))
+		else if (CItemObject->m_Type == ITEMGET(13, 82))
 		{
 			if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 			{
@@ -13882,7 +13882,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 			gObjAddBuffEffect(&gGameObjects[aIndex], BUFFTYPE_CHARM_PROTECTITEM);
 		}
 
-		else if (citem->m_Type == ITEMGET(13, 43))
+		else if (CItemObject->m_Type == ITEMGET(13, 43))
 		{
 			if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 			{
@@ -13894,7 +13894,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 			gObjAddBuffEffect(&gGameObjects[aIndex], BUFFTYPE_PCS_MARK1);
 		}
 
-		else if (citem->m_Type == ITEMGET(13, 44))
+		else if (CItemObject->m_Type == ITEMGET(13, 44))
 		{
 			if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 			{
@@ -13906,7 +13906,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 			gObjAddBuffEffect(&gGameObjects[aIndex], BUFFTYPE_PCS_MARK2);
 		}
 
-		else if (citem->m_Type == ITEMGET(13, 45))
+		else if (CItemObject->m_Type == ITEMGET(13, 45))
 		{
 			if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 			{
@@ -13917,7 +13917,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 
 			gObjAddBuffEffect(&gGameObjects[aIndex], BUFFTYPE_PCS_MARK3);
 		}
-		else if (g_kJewelOfHarmonySystem.IsJewelOfHarmonySmeltingItems(citem->m_Type) == TRUE)
+		else if (g_kJewelOfHarmonySystem.IsJewelOfHarmonySmeltingItems(CItemObject->m_Type) == TRUE)
 		{
 			if (g_kJewelOfHarmonySystem.SmeltItemBySmeltingStone(&gGameObjects[aIndex], lpMsg->inventoryPos, lpMsg->invenrotyTarget) == TRUE)
 			{
@@ -13931,7 +13931,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				GCReFillSend(aIndex, lpObj.Life, 0xFD, 1, lpObj.iShield);
 			}
 		}
-		else if (citem->m_Type == ITEMGET(12, 30))
+		else if (CItemObject->m_Type == ITEMGET(12, 30))
 		{
 			if (UseBundleOfBlessJewel(&gGameObjects[aIndex], lpMsg->inventoryPos, lpMsg->invenrotyTarget) == TRUE)
 			{
@@ -13943,12 +13943,12 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 		}
 
 #if( ENABLETEST_ITEMUPGRADEJEWELS == 1 )
-		else if (g_ItemUpgradeJewels.IsJewel(citem->m_Type))
+		else if (g_ItemUpgradeJewels.IsJewel(CItemObject->m_Type))
 		{
 			g_ItemUpgradeJewels.ProcInsert(&gGameObjects[aIndex], lpMsg->inventoryPos, lpMsg->invenrotyTarget);
 		}
 #else
-		else if (g_kJewelOfHarmonySystem.IsJewelOfHarmonyPurity(citem->m_Type) == TRUE && gSocketItemType.CheckSocketItemType(&lpObj.pInventory[lpMsg->invenrotyTarget]) == FALSE) //season4 add-on)
+		else if (g_kJewelOfHarmonySystem.IsJewelOfHarmonyPurity(CItemObject->m_Type) == TRUE && gSocketItemType.CheckSocketItemType(&lpObj.pInventory[lpMsg->invenrotyTarget]) == FALSE) //season4 add-on)
 		{
 			if (g_kJewelOfHarmonySystem.StrengthenItemByJewelOfHarmony(&gGameObjects[aIndex], lpMsg->inventoryPos, lpMsg->invenrotyTarget) == TRUE)
 			{
@@ -13962,7 +13962,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				GCReFillSend(aIndex, lpObj.Life, 0xFD, 1, lpObj.iShield);
 			}
 		}
-		else if (citem->m_Type == ITEMGET(14, 13)) // Jewel Of Bless
+		else if (CItemObject->m_Type == ITEMGET(14, 13)) // Jewel Of Bless
 		{
 			if (gObjItemLevelUp(&gGameObjects[aIndex], lpMsg->inventoryPos, lpMsg->invenrotyTarget) == TRUE)
 			{
@@ -13972,7 +13972,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				GCInventoryItemDeleteSend(aIndex, pos, 1);
 			}
 		}
-		else if (citem->m_Type == ITEMGET(14, 14)) // Jewel Of Soul
+		else if (CItemObject->m_Type == ITEMGET(14, 14)) // Jewel Of Soul
 		{
 			if (gObjItemRandomLevelUp(&gGameObjects[aIndex], lpMsg->inventoryPos, lpMsg->invenrotyTarget) == TRUE)
 			{
@@ -13982,7 +13982,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				GCInventoryItemDeleteSend(aIndex, pos, 1);
 			}
 		}
-		else if (citem->m_Type == ITEMGET(14, 16)) // Jewel Of Life
+		else if (CItemObject->m_Type == ITEMGET(14, 16)) // Jewel Of Life
 		{
 			if (gObjItemRandomOption3Up(&gGameObjects[aIndex], lpMsg->inventoryPos, lpMsg->invenrotyTarget) == TRUE)
 			{
@@ -13997,7 +13997,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 			}
 		}
 #endif
-		else if (citem->m_Type == ITEMGET(14, 160))	//1.01.00 update
+		else if (CItemObject->m_Type == ITEMGET(14, 160))	//1.01.00 update
 		{
 			if (g_LuckyItemManager.LuckyItemRepaire(&gGameObjects[aIndex], lpMsg->inventoryPos, lpMsg->invenrotyTarget))
 			{
@@ -14012,7 +14012,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 			}
 		}
 
-		else if (citem->m_Type == ITEMGET(14, 161))	//1.01.00 update
+		else if (CItemObject->m_Type == ITEMGET(14, 161))	//1.01.00 update
 		{
 			if (g_kJewelOfHarmonySystem.StrengthenItemByJewelOfRise(&gGameObjects[aIndex], lpMsg->inventoryPos, lpMsg->invenrotyTarget))
 			{
@@ -14026,7 +14026,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				GCReFillSend(aIndex, lpObj.Life, 0xFD, 1, lpObj.iShield);
 			}
 		}
-		else if (citem->m_Type == ITEMGET(14, 209)) // Tradeable Seal Season 8
+		else if (CItemObject->m_Type == ITEMGET(14, 209)) // Tradeable Seal Season 8
 		{
 			if (g_PentagramSystem.AddTradeCount(&gGameObjects[aIndex], lpMsg->inventoryPos, lpMsg->invenrotyTarget) == TRUE)
 			{
@@ -14042,7 +14042,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 			}
 		}
 
-		else if (citem->m_Type == ITEMGET(14, 224))
+		else if (CItemObject->m_Type == ITEMGET(14, 224))
 		{
 			if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 			{
@@ -14055,7 +14055,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 			//[K2]Light
 		}
 
-		else if (citem->m_Type == ITEMGET(14, 263))
+		else if (CItemObject->m_Type == ITEMGET(14, 263))
 		{
 			if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 			{
@@ -14068,7 +14068,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 			gObjAddBuffEffect(&gGameObjects[aIndex], BUFFTYPE_LIGHT_BLESSING_LOW);
 		}
 
-		else if (citem->m_Type == ITEMGET(14, 264))
+		else if (CItemObject->m_Type == ITEMGET(14, 264))
 		{
 			if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 			{
@@ -14080,40 +14080,40 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 			gObjAddBuffEffect(&gGameObjects[aIndex], BUFFTYPE_LIGHT_BLESSING_MIDDLE);
 		}
 
-		else if (citem->m_Type >= ITEMGET(15, 0) ||	// Group 15 - Scrolls
-			citem->m_Type == ITEMGET(12, 7) || // Orb of Twisting Slash
-			citem->m_Type == ITEMGET(12, 289) || // 
-			citem->m_Type == ITEMGET(12, 290) || // 
-			citem->m_Type == ITEMGET(12, 291) || // 
-			citem->m_Type == ITEMGET(12, 292) || // 
-			citem->m_Type == ITEMGET(12, 293) || // 
-			citem->m_Type == ITEMGET(12, 295) || // 
-			citem->m_Type == ITEMGET(12, 296) || // 
-			citem->m_Type == ITEMGET(12, 297) || // 
-			citem->m_Type == ITEMGET(12, 298) || // 
-			citem->m_Type == ITEMGET(12, 299) || // 
-			citem->m_Type == ITEMGET(12, 300) || // 
-			citem->m_Type == ITEMGET(12, 303) || // 
-			citem->m_Type == ITEMGET(12, 305) || // 
-			(citem->m_Type >= ITEMGET(12, 8) && citem->m_Type <= ITEMGET(12, 24)) ||	// Orbs
-			citem->m_Type == ITEMGET(12, 35) ||
-			(citem->m_Type >= ITEMGET(12, 44) && citem->m_Type <= ITEMGET(12, 48)) ||	// Scroll of Fire Scream
-			(citem->m_Type >= ITEMGET(12, 271) && citem->m_Type <= ITEMGET(12, 277))) // Grow Lancer Skills
+		else if (CItemObject->m_Type >= ITEMGET(15, 0) ||	// Group 15 - Scrolls
+			CItemObject->m_Type == ITEMGET(12, 7) || // Orb of Twisting Slash
+			CItemObject->m_Type == ITEMGET(12, 289) || // 
+			CItemObject->m_Type == ITEMGET(12, 290) || // 
+			CItemObject->m_Type == ITEMGET(12, 291) || // 
+			CItemObject->m_Type == ITEMGET(12, 292) || // 
+			CItemObject->m_Type == ITEMGET(12, 293) || // 
+			CItemObject->m_Type == ITEMGET(12, 295) || // 
+			CItemObject->m_Type == ITEMGET(12, 296) || // 
+			CItemObject->m_Type == ITEMGET(12, 297) || // 
+			CItemObject->m_Type == ITEMGET(12, 298) || // 
+			CItemObject->m_Type == ITEMGET(12, 299) || // 
+			CItemObject->m_Type == ITEMGET(12, 300) || // 
+			CItemObject->m_Type == ITEMGET(12, 303) || // 
+			CItemObject->m_Type == ITEMGET(12, 305) || // 
+			(CItemObject->m_Type >= ITEMGET(12, 8) && CItemObject->m_Type <= ITEMGET(12, 24)) ||	// Orbs
+			CItemObject->m_Type == ITEMGET(12, 35) ||
+			(CItemObject->m_Type >= ITEMGET(12, 44) && CItemObject->m_Type <= ITEMGET(12, 48)) ||	// Scroll of Fire Scream
+			(CItemObject->m_Type >= ITEMGET(12, 271) && CItemObject->m_Type <= ITEMGET(12, 277))) // Grow Lancer Skills
 		{
 
-			if ((lpObj.m_PlayerData->Strength + lpObj.AddStrength) < citem->m_RequireStrength)
+			if ((lpObj.m_PlayerData->Strength + lpObj.AddStrength) < CItemObject->m_RequireStrength)
 			{
 				GCReFillSend(aIndex, lpObj.Life, 0xFD, 1, lpObj.iShield);
 				return;
 			}
 
-			if ((lpObj.m_PlayerData->Dexterity + lpObj.AddDexterity) < citem->m_RequireDexterity)
+			if ((lpObj.m_PlayerData->Dexterity + lpObj.AddDexterity) < CItemObject->m_RequireDexterity)
 			{
 				GCReFillSend(aIndex, lpObj.Life, 0xFD, 1, lpObj.iShield);
 				return;
 			}
 
-			if (citem->m_Type == ITEMGET(15, 18))	// Scroll of HellBurst
+			if (CItemObject->m_Type == ITEMGET(15, 18))	// Scroll of HellBurst
 			{
 				if (g_QuestInfo.GetQuestState(&gGameObjects[aIndex], 2) != 2)
 				{
@@ -14122,9 +14122,9 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				}
 			}
 
-			if (citem->m_Type >= ITEMGET(12, 8) && citem->m_Type <= ITEMGET(12, 24))
+			if (CItemObject->m_Type >= ITEMGET(12, 8) && CItemObject->m_Type <= ITEMGET(12, 24))
 			{
-				if (lpObj.Level < citem->m_RequireLevel)	// Orbs
+				if (lpObj.Level < CItemObject->m_RequireLevel)	// Orbs
 				{
 					GCReFillSend(aIndex, lpObj.Life, 0xFD, 1, lpObj.iShield);
 					return;
@@ -14133,19 +14133,19 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 
 			unsigned short skillnumber;
 
-			if (citem->IsClass(lpObj.Class, lpObj.m_PlayerData->ChangeUP) == FALSE)
+			if (CItemObject->IsClass(lpObj.Class, lpObj.m_PlayerData->ChangeUP) == FALSE)
 			{
 				GCInventoryItemDeleteSend(aIndex, -1, 1);
 
 			}
 			else
 			{
-				int addskill = gObjMagicAdd(&gGameObjects[aIndex], ITEM_GET_TYPE(citem->m_Type), ITEM_GET_INDEX(citem->m_Type), citem->m_Level, skillnumber);
+				int addskill = gObjMagicAdd(&gGameObjects[aIndex], ITEM_GET_TYPE(CItemObject->m_Type), ITEM_GET_INDEX(CItemObject->m_Type), CItemObject->m_Level, skillnumber);
 
 				if (addskill >= 0)
 				{
 					gObjInventoryItemSet(aIndex, pos, -1);
-					GCMagicListOneSend(aIndex, addskill, skillnumber, citem->m_Level, 0, 0);
+					GCMagicListOneSend(aIndex, addskill, skillnumber, CItemObject->m_Level, 0, 0);
 					lpObj.pInventory[pos].Clear();
 					GCInventoryItemDeleteSend(aIndex, pos, 1);
 				}
@@ -14155,7 +14155,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				}
 			}
 		}
-		else if (citem->m_Type == ITEMGET(14, 10)) // Town Portal Scroll
+		else if (CItemObject->m_Type == ITEMGET(14, 10)) // Town Portal Scroll
 		{
 			if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 			{
@@ -14337,7 +14337,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 			}
 
 		}
-		else if (citem->m_Type == ITEMGET(13, 66))
+		else if (CItemObject->m_Type == ITEMGET(13, 66))
 		{
 			if (DG_MAP_RANGE(lpObj.MapNumber) == TRUE)
 			{
@@ -14359,7 +14359,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 			}
 		}
 
-		else if (citem->m_Type == ITEMGET(14, 162))
+		else if (CItemObject->m_Type == ITEMGET(14, 162))
 		{
 			if (lpObj.m_PlayerData->m_InventoryExpansion < 2)
 			{
@@ -14376,7 +14376,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 			}
 		}
 
-		else if (citem->m_Type == ITEMGET(14, 163))
+		else if (CItemObject->m_Type == ITEMGET(14, 163))
 		{
 			if (lpObj.m_PlayerData->m_WarehouseExpansion < 1)
 			{
@@ -14393,7 +14393,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 			}
 		}
 
-		else if (citem->m_Type == ITEMGET(13, 152) || citem->m_Type == ITEMGET(13, 156))
+		else if (CItemObject->m_Type == ITEMGET(13, 152) || CItemObject->m_Type == ITEMGET(13, 156))
 		{
 			if (g_MasterLevelSkillTreeSystem.CheckMasterSkillPoint(aIndex, 1) == TRUE)
 			{
@@ -14411,7 +14411,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 			}
 		}
 
-		else if (citem->m_Type == ITEMGET(13, 153) || citem->m_Type == ITEMGET(13, 157))
+		else if (CItemObject->m_Type == ITEMGET(13, 153) || CItemObject->m_Type == ITEMGET(13, 157))
 		{
 			if (g_MasterLevelSkillTreeSystem.CheckMasterSkillPoint(aIndex, 2) == TRUE)
 			{
@@ -14429,7 +14429,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 			}
 		}
 
-		else if (citem->m_Type == ITEMGET(13, 154) || citem->m_Type == ITEMGET(13, 158))
+		else if (CItemObject->m_Type == ITEMGET(13, 154) || CItemObject->m_Type == ITEMGET(13, 158))
 		{
 			if (g_MasterLevelSkillTreeSystem.CheckMasterSkillPoint(aIndex, 3) == TRUE)
 			{
@@ -14447,7 +14447,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 			}
 		}
 
-		else if (citem->m_Type == ITEMGET(13, 155) || citem->m_Type == ITEMGET(13, 159))
+		else if (CItemObject->m_Type == ITEMGET(13, 155) || CItemObject->m_Type == ITEMGET(13, 159))
 		{
 			if (g_MasterLevelSkillTreeSystem.CheckMasterSkillPoint(aIndex, 0) == TRUE)
 			{
@@ -14465,18 +14465,18 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 			}
 		}
 
-		else if (citem->m_Type == ITEMGET(14, 9)) // Ale
+		else if (CItemObject->m_Type == ITEMGET(14, 9)) // Ale
 		{
-			int level = citem->m_Level;
+			int level = CItemObject->m_Level;
 
 			gObjInventoryItemSet(aIndex, pos, -1);
 			lpObj.pInventory[pos].Clear();
 			GCInventoryItemDeleteSend(aIndex, pos, 1);
 			gObjUseDrink(&gGameObjects[aIndex], level);
 		}
-		else if (citem->m_Type == ITEMGET(14, 20)) // Remedy of Love
+		else if (CItemObject->m_Type == ITEMGET(14, 20)) // Remedy of Love
 		{
-			if (citem->m_Level == 0)
+			if (CItemObject->m_Level == 0)
 			{
 				gObjInventoryItemSet(aIndex, pos, -1);
 				lpObj.pInventory[pos].Clear();
@@ -14484,7 +14484,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				gObjUseDrink(&gGameObjects[aIndex], 2);
 			}
 		}
-		else if (citem->m_Type == ITEMGET(13, 15)) // Fruits
+		else if (CItemObject->m_Type == ITEMGET(13, 15)) // Fruits
 		{
 			if (iItemUseType == 0)
 			{
@@ -14495,7 +14495,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				gObjUseMinusStatFruit(aIndex, pos);
 			}
 		}
-		else if (citem->m_Type == ITEMGET(13, 70))
+		else if (CItemObject->m_Type == ITEMGET(13, 70))
 		{
 			if (lpObj.SaveMapNumber != -1)
 			{
@@ -14527,7 +14527,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				}
 			}
 		}
-		else if (citem->m_Type == ITEMGET(13, 69))
+		else if (CItemObject->m_Type == ITEMGET(13, 69))
 		{
 			if (lpObj.DieMapNumber != -1)
 			{
@@ -14546,13 +14546,13 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				}
 			}
 		}
-		else if (citem->m_Type >= ITEMGET(13, 54) && citem->m_Type <= ITEMGET(13, 58))
+		else if (CItemObject->m_Type >= ITEMGET(13, 54) && CItemObject->m_Type <= ITEMGET(13, 58))
 		{
 			CashShopExMinusStatFruit(aIndex, pos);
 		}
-		else if (citem->m_Type == ITEMGET(14, 70)) // CSHOP HP Potions
+		else if (CItemObject->m_Type == ITEMGET(14, 70)) // CSHOP HP Potions
 		{
-			int tLife = (citem->m_Value * 10) - (lpObj.Level);	// #formula
+			int tLife = (CItemObject->m_Value * 10) - (lpObj.Level);	// #formula
 
 			if (tLife < 0)
 			{
@@ -14577,9 +14577,9 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				GCInventoryItemDeleteSend(aIndex, pos, 1);
 			}
 		}
-		else if (citem->m_Type == ITEMGET(14, 71)) // CSHOP MP Potions
+		else if (CItemObject->m_Type == ITEMGET(14, 71)) // CSHOP MP Potions
 		{
-			int tMana = (citem->m_Value * 10) - (lpObj.Level);	// #formula
+			int tMana = (CItemObject->m_Value * 10) - (lpObj.Level);	// #formula
 
 			if (tMana < 0)
 			{
@@ -14601,13 +14601,13 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				GCInventoryItemDeleteSend(aIndex, pos, 1);
 			}
 		}
-		else if (citem->m_Type == ITEMGET(14, 133))
+		else if (CItemObject->m_Type == ITEMGET(14, 133))
 		{
 			gObjUseRecoveryPotion(&gGameObjects[aIndex], pos, (double)0.65);
 		}
-		else if (citem->m_Type == ITEMGET(14, 78)) // CSHOP Arcanum For?a
+		else if (CItemObject->m_Type == ITEMGET(14, 78)) // CSHOP Arcanum For?a
 		{
-			LPITEMEFFECT lpEffect = g_ItemAddOption.GetItemEffectData(citem->m_Type);
+			LPITEMEFFECT lpEffect = g_ItemAddOption.GetItemEffectData(CItemObject->m_Type);
 
 			if (lpEffect == NULL)
 			{
@@ -14615,7 +14615,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				return;
 			}
 
-			g_PeriodItemEx.SetPeriodItemInfo(&gGameObjects[aIndex], citem->m_Type, 0, lpEffect->iEffectValidTime);
+			g_PeriodItemEx.SetPeriodItemInfo(&gGameObjects[aIndex], CItemObject->m_Type, 0, lpEffect->iEffectValidTime);
 			if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 			{
 				gObjInventoryItemSet(aIndex, pos, -1);
@@ -14623,9 +14623,9 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				GCInventoryItemDeleteSend(aIndex, pos, 1);
 			}
 		}
-		else if (citem->m_Type == ITEMGET(14, 79)) // CSHOP Arcanum Agilidade
+		else if (CItemObject->m_Type == ITEMGET(14, 79)) // CSHOP Arcanum Agilidade
 		{
-			LPITEMEFFECT lpEffect = g_ItemAddOption.GetItemEffectData(citem->m_Type);
+			LPITEMEFFECT lpEffect = g_ItemAddOption.GetItemEffectData(CItemObject->m_Type);
 
 			if (lpEffect == NULL)
 			{
@@ -14633,7 +14633,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				return;
 			}
 
-			g_PeriodItemEx.SetPeriodItemInfo(&gGameObjects[aIndex], citem->m_Type, 0, lpEffect->iEffectValidTime);
+			g_PeriodItemEx.SetPeriodItemInfo(&gGameObjects[aIndex], CItemObject->m_Type, 0, lpEffect->iEffectValidTime);
 			if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 			{
 				gObjInventoryItemSet(aIndex, pos, -1);
@@ -14641,9 +14641,9 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				GCInventoryItemDeleteSend(aIndex, pos, 1);
 			}
 		}
-		else if (citem->m_Type == ITEMGET(14, 80)) // CSHOP Arcanum Vitalidade
+		else if (CItemObject->m_Type == ITEMGET(14, 80)) // CSHOP Arcanum Vitalidade
 		{
-			LPITEMEFFECT lpEffect = g_ItemAddOption.GetItemEffectData(citem->m_Type);
+			LPITEMEFFECT lpEffect = g_ItemAddOption.GetItemEffectData(CItemObject->m_Type);
 
 			if (lpEffect == NULL)
 			{
@@ -14651,7 +14651,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				return;
 			}
 
-			g_PeriodItemEx.SetPeriodItemInfo(&gGameObjects[aIndex], citem->m_Type, 0, lpEffect->iEffectValidTime);
+			g_PeriodItemEx.SetPeriodItemInfo(&gGameObjects[aIndex], CItemObject->m_Type, 0, lpEffect->iEffectValidTime);
 			if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 			{
 				gObjInventoryItemSet(aIndex, pos, -1);
@@ -14659,9 +14659,9 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				GCInventoryItemDeleteSend(aIndex, pos, 1);
 			}
 		}
-		else if (citem->m_Type == ITEMGET(14, 81)) // CSHOP Arcanum Energia
+		else if (CItemObject->m_Type == ITEMGET(14, 81)) // CSHOP Arcanum Energia
 		{
-			LPITEMEFFECT lpEffect = g_ItemAddOption.GetItemEffectData(citem->m_Type);
+			LPITEMEFFECT lpEffect = g_ItemAddOption.GetItemEffectData(CItemObject->m_Type);
 
 			if (lpEffect == NULL)
 			{
@@ -14669,7 +14669,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				return;
 			}
 
-			g_PeriodItemEx.SetPeriodItemInfo(&gGameObjects[aIndex], citem->m_Type, 0, lpEffect->iEffectValidTime);
+			g_PeriodItemEx.SetPeriodItemInfo(&gGameObjects[aIndex], CItemObject->m_Type, 0, lpEffect->iEffectValidTime);
 			if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 			{
 				gObjInventoryItemSet(aIndex, pos, -1);
@@ -14677,9 +14677,9 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				GCInventoryItemDeleteSend(aIndex, pos, 1);
 			}
 		}
-		else if (citem->m_Type == ITEMGET(14, 82)) // CSHOP Arcanum Comando
+		else if (CItemObject->m_Type == ITEMGET(14, 82)) // CSHOP Arcanum Comando
 		{
-			LPITEMEFFECT lpEffect = g_ItemAddOption.GetItemEffectData(citem->m_Type);
+			LPITEMEFFECT lpEffect = g_ItemAddOption.GetItemEffectData(CItemObject->m_Type);
 
 			if (lpEffect == NULL)
 			{
@@ -14687,7 +14687,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				return;
 			}
 
-			g_PeriodItemEx.SetPeriodItemInfo(&gGameObjects[aIndex], citem->m_Type, 0, lpEffect->iEffectValidTime);
+			g_PeriodItemEx.SetPeriodItemInfo(&gGameObjects[aIndex], CItemObject->m_Type, 0, lpEffect->iEffectValidTime);
 			if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 			{
 				gObjInventoryItemSet(aIndex, pos, -1);
@@ -14695,7 +14695,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				GCInventoryItemDeleteSend(aIndex, pos, 1);
 			}
 		}
-		else if (citem->m_Type == ITEMGET(13, 60)) // CSHOP PK Free Ticket
+		else if (CItemObject->m_Type == ITEMGET(13, 60)) // CSHOP PK Free Ticket
 		{
 			if (lpObj.m_PK_Level == 6)
 			{
@@ -14724,7 +14724,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 			}
 			sLog->outBasic("[PCS] [%s][%s] Use PK Clear Item", lpObj.AccountID, lpObj.Name);
 		}
-		else if (citem->m_Type == ITEMGET(14, 7))	// Siege Potion
+		else if (CItemObject->m_Type == ITEMGET(14, 7))	// Siege Potion
 		{
 			if (!gObjSearchItemMinus(&gGameObjects[aIndex], pos, 1))
 			{
@@ -14733,9 +14733,9 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				GCInventoryItemDeleteSend(aIndex, pos, 1);
 			}
 
-			int iLevel = citem->m_Level;
-			int iSerial = citem->GetNumber();
-			int iDur = citem->m_Durability;
+			int iLevel = CItemObject->m_Level;
+			int iSerial = CItemObject->GetNumber();
+			int iDur = CItemObject->m_Durability;
 
 			if (lpObj.m_PlayerData->lpGuild)
 			{
@@ -14757,13 +14757,13 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 				gObjUseBlessAndSoulPotion(aIndex, iLevel);
 			}
 		}
-		else if (citem->m_Type == ITEMGET(13, 48))
+		else if (CItemObject->m_Type == ITEMGET(13, 48))
 		{
 			if ((lpObj.MapNumber < MAP_INDEX_KALIMA1 || lpObj.MapNumber > MAP_INDEX_KALIMA6) && lpObj.MapNumber != MAP_INDEX_KALIMA7)
 			{
 				int iLevel = g_KalimaGate.GetKalimaGateLevel2(aIndex);
-				int iSerial = citem->GetNumber();
-				int iDuration = citem->m_Durability;
+				int iSerial = CItemObject->GetNumber();
+				int iDuration = CItemObject->m_Durability;
 				BOOL bKalimaGateCreateResult = FALSE;
 				int iKalimaGateX = 0;
 				int iKalimaGateY = 0;
@@ -14792,9 +14792,9 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &lpObj)
 			}
 		}
 
-		else if (g_QuestExpManager.IsQuestItemAtt(citem->m_Type, 64) == true)
+		else if (g_QuestExpManager.IsQuestItemAtt(CItemObject->m_Type, 64) == true)
 		{
-			int Ep = g_QuestExpManager.GetQuestItemEp(citem->m_Type);
+			int Ep = g_QuestExpManager.GetQuestItemEp(CItemObject->m_Type);
 			int iResult = 0;
 			lua_State *L = g_MuLuaQuestExp.GetLua();
 
@@ -14928,7 +14928,7 @@ struct PMSG_ITEMUSESPECIALTIME
 	WORD Time;	// 4
 };
 
-void GameProtocol::GCItemUseSpecialTimeSend(CGameObject &lpObj, unsigned char number, int time)
+void GameProtocol::GCItemObjectUseSpecialTimeSend(CGameObject &lpObj, unsigned char number, int time)
 {
 	if (time > 65535)
 	{
@@ -14953,7 +14953,7 @@ struct PMSG_ITEMDUR
 };
 
 
-void GameProtocol::GCItemDurSend(CGameObject &lpObj, BYTE pos, BYTE dur, unsigned char flag)
+void GameProtocol::GCItemObjectDurSend(CGameObject &lpObj, BYTE pos, BYTE dur, unsigned char flag)
 {
 	PMSG_ITEMDUR pMsg;
 
@@ -14967,7 +14967,7 @@ void GameProtocol::GCItemDurSend(CGameObject &lpObj, BYTE pos, BYTE dur, unsigne
 
 
 
-void GameProtocol::GCItemDurSend2(CGameObject &lpObj, unsigned char pos, unsigned char dur, unsigned char flag)
+void GameProtocol::GCItemObjectDurSend2(CGameObject &lpObj, unsigned char pos, unsigned char dur, unsigned char flag)
 {
 	PMSG_ITEMDUR pMsg;
 
@@ -15095,7 +15095,7 @@ void GameProtocol::GCReqmoveDevilSquare(PMSG_REQ_MOVEDEVILSQUARE* lpMsg, CGameOb
 		return;
 	}
 
-	CItem * sitem = &lpObj.pInventory[cInvitationItemPos];
+	CItemObject * sitem = &lpObj.pInventory[cInvitationItemPos];
 
 	if (sitem->m_Type != ITEMGET(14, 19) && (sitem->m_Type != ITEMGET(13, 46) || sitem->m_Durability <= 0.0f))	// Devil's Invitation
 	{
@@ -15173,7 +15173,7 @@ void GameProtocol::GCReqmoveDevilSquare(PMSG_REQ_MOVEDEVILSQUARE* lpMsg, CGameOb
 	else if (sitem->m_Type == ITEMGET(13, 46) && sitem->m_Durability > 1.0f)
 	{
 		sitem->m_Durability -= 1.0f;
-		GCItemDurSend2(lpObj.m_Index, cInvitationItemPos, sitem->m_Durability, 0);
+		GCItemObjectDurSend2(lpObj.m_Index, cInvitationItemPos, sitem->m_Durability, 0);
 	}
 
 	lpObj.m_nEventExp = 0;
@@ -15435,7 +15435,7 @@ void GameProtocol::GCRegEventChipRecv(PMSG_REGEVENTCHIP* lpMsg, CGameObject &lpO
 	}
 
 	int Pos = lpMsg->ChipPos + INVENTORY_BAG_START;
-	CItem * sitem = &lpObj.pInventory[Pos];
+	CItemObject * sitem = &lpObj.pInventory[Pos];
 
 	if (!sitem->IsItem())
 	{
@@ -15919,7 +15919,7 @@ void GameProtocol::CGRequestEnterBloodCastle(PMSG_REQ_MOVEBLOODCASTLE* lpMsg, CG
 					GCInventoryItemDeleteSend(iIndex, btInvisibleCourtItemPos, 1);
 				}
 				else
-					GCItemDurSend2(Obj.m_Index, btInvisibleCourtItemPos, Obj.pInventory[btInvisibleCourtItemPos]->m_Durability, 0);
+					GCItemObjectDurSend2(Obj.m_Index, btInvisibleCourtItemPos, Obj.pInventory[btInvisibleCourtItemPos]->m_Durability, 0);
 				Err++;
 				break;
 			}
@@ -16386,7 +16386,7 @@ void GameProtocol::GCSendGetItemInfoForParty(CGameObject &lpObj, CMapItem * lpIt
 		if (lpItem->m_SetOption)
 			pMsg.ItemInfo |= 0x20000;
 
-		if (g_kItemSystemFor380.Is380OptionItem((lpItem != NULL) ? (CItem*)&lpItem->m_Number : NULL))
+		if (g_kItemSystemFor380.Is380OptionItem((lpItem != NULL) ? (CItemObject*)&lpItem->m_Number : NULL))
 			pMsg.ItemInfo |= 0x40000;
 
 		pMsg.Level = lpItem->m_Level;
@@ -17696,7 +17696,7 @@ void GameProtocol::GCAnsRegGuildMark(CGameObject &Obj, int iResult, CSP_ANS_GUIL
 		{
 			if ((Obj.pInventory[lpMsgResult->iItemPos]->m_Durability -= 1.0) > 0.0f)
 			{
-				GCItemDurSend(iIndex, lpMsgResult->iItemPos, Obj.pInventory[lpMsgResult->iItemPos]->m_Durability, 0);
+				GCItemObjectDurSend(iIndex, lpMsgResult->iItemPos, Obj.pInventory[lpMsgResult->iItemPos]->m_Durability, 0);
 			}
 			else
 			{
@@ -19285,7 +19285,7 @@ void GameProtocol::CGReqLuckyCoinRegister(PMSG_REQ_LUCKYCOIN_REGISTER *aRecv, CG
 
 void GameProtocol::CGReqLuckyCoinTrade(PMSG_REQ_LUCKYCOIN_TRADE * aRecv, CGameObject &lpObj)
 {
-	//CItemBagEx * Bag = NULL;
+	//CItemObjectBagEx * Bag = NULL;
 	
 
 	if (gObjIsConnectedGP(aIndex) == false)
@@ -19304,7 +19304,7 @@ void GameProtocol::CGReqLuckyCoinTrade(PMSG_REQ_LUCKYCOIN_TRADE * aRecv, CGameOb
 	}
 
 	int Count = 0;
-	CItem Item;
+	CItemObject Item;
 	time_t Duration;
 	int iBagResult = 0;
 
@@ -19335,7 +19335,7 @@ void GameProtocol::CGReqLuckyCoinTrade(PMSG_REQ_LUCKYCOIN_TRADE * aRecv, CGameOb
 			if (lpObj.pInventory[i].m_Durability > Count)
 			{
 				lpObj.pInventory[i].m_Durability -= Count;
-				GCItemDurSend2(aIndex, i, lpObj.pInventory[i].m_Durability, 0);
+				GCItemObjectDurSend2(aIndex, i, lpObj.pInventory[i].m_Durability, 0);
 				Count = 0;
 			}
 			else
@@ -22459,7 +22459,7 @@ void GameProtocol::CGMuunItemGetRequest(PMSG_MUUNITEM_GETREQUEST *lpMsg, CGameOb
 		return;
 	}
 
-	lpItem = &MapC[map_num].m_cItem[item_num];
+	lpItem = &MapC[map_num].m_CItemObject[item_num];
 
 	if (lpItem->IsItem() == TRUE && lpItem->Give == false && lpItem->live == true)
 	{
@@ -22521,7 +22521,7 @@ void GameProtocol::CGMuunItemGetRequest(PMSG_MUUNITEM_GETREQUEST *lpMsg, CGameOb
 			{
 				BYTE NewOption[MAX_EXOPTION_SIZE];
 
-				::ItemIsBufExOption(NewOption, (lpItem != NULL) ? (CItem*)&lpItem->m_Number : NULL);
+				::ItemIsBufExOption(NewOption, (lpItem != NULL) ? (CItemObject*)&lpItem->m_Number : NULL);
 
 				if (g_CMuunSystem.IsStoneofEvolution(lpItem))
 				{
@@ -22646,7 +22646,7 @@ void GameProtocol::CGMuunItemSellRequestRecv(PMSG_MUUN_ITEM_SELLREQUEST *lpMsg, 
 		return;
 	}
 
-	if (!IsSellToNPCItem(lpObj.pMuunInventory[lpMsg->Pos].m_Type))
+	if (!IsSellToNPCItemObject(lpObj.pMuunInventory[lpMsg->Pos].m_Type))
 	{
 		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
 		return;
@@ -22864,7 +22864,7 @@ void GameProtocol::CGEventItemGetRequest(PMSG_EVENTITEM_GETREQUEST *lpMsg, CGame
 		return;
 	}
 
-	lpItem = &MapC[map_num].m_cItem[item_num];
+	lpItem = &MapC[map_num].m_CItemObject[item_num];
 
 	if (lpItem->IsItem() == TRUE && lpItem->Give == false && lpItem->live == true)
 	{
@@ -22911,7 +22911,7 @@ void GameProtocol::CGEventItemGetRequest(PMSG_EVENTITEM_GETREQUEST *lpMsg, CGame
 				{
 					BYTE NewOption[MAX_EXOPTION_SIZE];
 
-					::ItemIsBufExOption(NewOption, (lpItem != NULL) ? (CItem*)&lpItem->m_Number : NULL);
+					::ItemIsBufExOption(NewOption, (lpItem != NULL) ? (CItemObject*)&lpItem->m_Number : NULL);
 
 					pResult.result = -3;
 					IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
@@ -22974,7 +22974,7 @@ void GameProtocol::CGEventItemGetRequest(PMSG_EVENTITEM_GETREQUEST *lpMsg, CGame
 				{
 					BYTE NewOption[MAX_EXOPTION_SIZE];
 
-					::ItemIsBufExOption(NewOption, (lpItem != NULL) ? (CItem*)&lpItem->m_Number : NULL);
+					::ItemIsBufExOption(NewOption, (lpItem != NULL) ? (CItemObject*)&lpItem->m_Number : NULL);
 
 					pResult.result = -3;
 					IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
@@ -23046,7 +23046,7 @@ void GameProtocol::CGEventItemGetRequest(PMSG_EVENTITEM_GETREQUEST *lpMsg, CGame
 			{
 				BYTE NewOption[MAX_EXOPTION_SIZE];
 
-				::ItemIsBufExOption(NewOption, (lpItem != NULL) ? (CItem*)&lpItem->m_Number : NULL);
+				::ItemIsBufExOption(NewOption, (lpItem != NULL) ? (CItemObject*)&lpItem->m_Number : NULL);
 
 				this->GCSendGetItemInfoForParty(aIndex, lpItem);
 			}
@@ -24703,7 +24703,7 @@ void GameProtocol::CGReqUseBoxInInventory(CGameObject &lpObj, PMSG_REQ_USE_BOX *
 		return;
 	}
 
-	CItem Item;
+	CItemObject Item;
 	time_t Duration;
 	int iResult = 0;
 	int iBoxType = lpObj.pInventory[aRecv->btPos].m_Type;

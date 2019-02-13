@@ -262,12 +262,12 @@ BOOL CCashLotterySystem::InsertItem(int iItemCategory, int iItemType, int iItemI
 }
 
 
-int CCashLotterySystem::GetItem(CItem *lpItem)
+int CCashLotterySystem::GetItem(CItemObject *lpItem)
 {
 	int iItemCategory = 0;
 	int iMaxItemCountInCategory = 0;
 	int iItemSelectNumber = 0;
-	CItem ReturnItem;
+	CItemObject ReturnItem;
 	int iItemNumber = 0;
 	int iItemType = 0;
 	int iItemIndex = 0;
@@ -487,7 +487,7 @@ CCashLotterySystem* CCashLottery::GetLottery(const char* szName)
 	return FALSE;
 }
 
-int CCashLottery::GetItem(const char* szName, CItem* lpItem)
+int CCashLottery::GetItem(const char* szName, CItemObject* lpItem)
 {
 	CCashLotterySystem* lpLottery = GetLottery(szName);
 

@@ -7,12 +7,12 @@
 
 #include "StdAfx.h"
 #include "itemsocketoptiondefine.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 #include "TRandomPoolMgr.h"
 #include "ItemSeedSphere.h"
 
 
-class CItemSocketOptionSystem
+class CItemObjectSocketOptionSystem
 {
 	CSeedItem m_SeedData[50];
 	CSphereItem m_SphereData[5];
@@ -45,13 +45,13 @@ public:
 	void LoadScript();
 
 	bool IsEnableSocketItem(int ItemCode);
-	bool IsEnableSocketItem(CItem* lpItemData);
+	bool IsEnableSocketItem(CItemObject* lpItemData);
 
-	BYTE GetEmptySlotCount(CItem* lpItemData);
+	BYTE GetEmptySlotCount(CItemObject* lpItemData);
 	bool GetSeedSphereEffect(BYTE btSeedSphereIndex, BYTE& pbSeedType, BYTE& pbEffectValueType, WORD& pwEffectValue);
-	void GetSocketOption(CItem* lpItemData, BYTE *pbSocketOption, BYTE& pbSocketBonusOption);
+	void GetSocketOption(CItemObject* lpItemData, BYTE *pbSocketOption, BYTE& pbSocketBonusOption);
 
-	bool IsSocketItem(CItem* lpItemData);
+	bool IsSocketItem(CItemObject* lpItemData);
 	bool IsSeedItem(int ItemCode);
 	bool IsSphereItem(int ItemCode);
 	bool IsSeedSphereItem(int ItemCode);
@@ -59,12 +59,12 @@ public:
 	BYTE GetSeedIndex(int ItemCode, BYTE ItemLevel);
 	BYTE GetSphereLevel(int ItemCode);
 
-	bool CheckItemForSameSeedType(CItem* lpItemData, WORD SeedSphereItemCode, BYTE ItemLevel);
+	bool CheckItemForSameSeedType(CItemObject* lpItemData, WORD SeedSphereItemCode, BYTE ItemLevel);
 
 	BYTE GetSeedSphereIndexForItemCode(WORD ItemCode, BYTE ItemLevel);
 	DWORD GetSeedSphereValue(BYTE btSeedSphereIndex);
 
-	bool CheckSetSeedSphereItemType(CItem* lpItemData, BYTE btSeedSphereIndex);
+	bool CheckSetSeedSphereItemType(CItemObject* lpItemData, BYTE btSeedSphereIndex);
 
 	bool IsEnableDropSocketItemMap(int iMapIndex);
 
@@ -106,24 +106,24 @@ public:
 
 	int CalcEffectValue(int iInputValue, WORD wEffectValue, BYTE btEffectValueType);
 
-	void SetRequireStatOption(CItem* lpItemdata);
+	void SetRequireStatOption(CItemObject* lpItemdata);
 
-	void MakeSocketSlot(CItem* lpItemData, BYTE btSocketSlotCount);
+	void MakeSocketSlot(CItemObject* lpItemData, BYTE btSocketSlotCount);
 
 	BYTE GetMakeSocketSlotCount(int iItemCode);
 
 	void ClearUserData(CGameObject &lpObj);
 
-	bool SetSocketSlot(CItem* lpTargetItem, BYTE btSeedSphereIndex, BYTE btSocketSlotIndex);
-	bool SetSocketSlot(CItem* lpTargetItem, BYTE btSeedIndex, BYTE btSphereLevel, BYTE btSocketSlotIndex);
-	bool SetSocketSlot(CItem* lpTargetItem, CItem* lpSeedSphere, BYTE btSocketSlotIndex);
+	bool SetSocketSlot(CItemObject* lpTargetItem, BYTE btSeedSphereIndex, BYTE btSocketSlotIndex);
+	bool SetSocketSlot(CItemObject* lpTargetItem, BYTE btSeedIndex, BYTE btSphereLevel, BYTE btSocketSlotIndex);
+	bool SetSocketSlot(CItemObject* lpTargetItem, CItemObject* lpSeedSphere, BYTE btSocketSlotIndex);
 
-	bool SetBonusSocketOption(CItem* lpItemData);
+	bool SetBonusSocketOption(CItemObject* lpItemData);
 
-	bool ClearSocketSlot(CItem* lpTargetItem, BYTE btSocketSlotIndex);
+	bool ClearSocketSlot(CItemObject* lpTargetItem, BYTE btSocketSlotIndex);
 
-	CItemSocketOptionSystem();
-	virtual ~CItemSocketOptionSystem();
+	CItemObjectSocketOptionSystem();
+	virtual ~CItemObjectSocketOptionSystem();
 
 	int m_RequireMoneyForSeedExtract;
 	int m_RequireMoneyForSeedSphereComposite;
@@ -131,7 +131,7 @@ public:
 	int m_RequireMoneyForSeedSphereRemove;
 };
 
-extern	CItemSocketOptionSystem	g_SocketOptionSystem;
+extern	CItemObjectSocketOptionSystem	g_SocketOptionSystem;
 
 #endif // !defined(AFX_ITEMSOCKETOPTIONSYSTEM_H__A18208BC_3285_4EB6_9540_22B7877904EF__INCLUDED_)
 

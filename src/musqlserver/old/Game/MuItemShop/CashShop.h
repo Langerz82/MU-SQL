@@ -1,4 +1,4 @@
-// CashShop.h: interface for the CItemShop class.
+// CashShop.h: interface for the CItemObjectShop class.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -233,13 +233,13 @@ enum CASH_SHOP_ITEM_USE_RESULT
 	CS_USE_ITEM_INTERNAL_ERROR = 0x04
 };
 
-class CItemShop
+class CItemObjectShop
 {
 
 public:
 	bool First = true;
-  	CItemShop();
-	virtual ~CItemShop();
+  	CItemObjectShop();
+	virtual ~CItemObjectShop();
 
 	void Initialize();
 	void LoadItemInfo(LPSTR pchFilename);
@@ -282,7 +282,7 @@ private:
 	int iPackItemCount;
 	BOOL bCashItemListReload;	// C
 	std::map<int, ITEMSHOP_ITEMINFO> MapItemInfo;
-	std::vector<ITEMSHOP_ITEMLIST> VecItemList;	// 20
+	std::vector<ITEMSHOP_ITEMLIST> VeCItemObjectList;	// 20
 	std::vector<ITEMSHOP_PACKAGELIST> VecPackageList;
 	std::vector<GP_PERMONSTER_DATA> VecGpMonster;
 
@@ -318,7 +318,7 @@ private:
 	bool CheckBuyCondition(CGameObject &lpObj, int ItemCode);
 };
 
-extern CItemShop g_CashShop;
+extern CItemObjectShop g_CashShop;
 
 BOOL IsCashItem(int iItemCode);
 BOOL IsPremiumItem(int iItemCode);

@@ -5,9 +5,9 @@
 #include "FormulaParse.h"
 #include "MasterLevelSkillTreeSystem.h"
 
-CItemOptionTypeMng g_ItemOptionTypeMng;
+CItemObjectOptionTypeMng g_ItemOptionTypeMng;
 
-void CItemOptionTypeMng::Initialize()
+void CItemObjectOptionTypeMng::Initialize()
 {
 	for (int iClearIndex = 0; iClearIndex < MAX_EXCELLENT_COMMON_OPTIONS; iClearIndex++)
 	{
@@ -23,7 +23,7 @@ void CItemOptionTypeMng::Initialize()
 	this->m_ExcellentOptionRate.m_vtWingOptionRate.clear();
 }
 
-bool CItemOptionTypeMng::LoadScript(char *pchFileName)
+bool CItemObjectOptionTypeMng::LoadScript(char *pchFileName)
 {
 	this->Initialize();
 
@@ -150,7 +150,7 @@ bool CItemOptionTypeMng::LoadScript(char *pchFileName)
 	}
 }
 
-void CItemOptionTypeMng::Initialize_AccessoryItemOption()
+void CItemObjectOptionTypeMng::Initialize_AccessoryItemOption()
 {
 	for (int iClearIndex = 0; iClearIndex < 6; iClearIndex++)
 	{
@@ -158,7 +158,7 @@ void CItemOptionTypeMng::Initialize_AccessoryItemOption()
 	}
 }
 
-bool CItemOptionTypeMng::LoadAccessoryItemOptionScript(char *pchFileName)
+bool CItemObjectOptionTypeMng::LoadAccessoryItemOptionScript(char *pchFileName)
 {
 	ACCESSORY_ITEM_OPTION_VALUE AccessoryItemOptionValue; 
 	int iValueCount = 0; 
@@ -198,7 +198,7 @@ bool CItemOptionTypeMng::LoadAccessoryItemOptionScript(char *pchFileName)
 	return true;
 }
 
-int CItemOptionTypeMng::CommonExcOptionRand(int ItemKindA, BYTE *btSocketExcOption)
+int CItemObjectOptionTypeMng::CommonExcOptionRand(int ItemKindA, BYTE *btSocketExcOption)
 {
 	BYTE btExcOptions[9];
 	DWORD dwExcOptionRate[9];
@@ -359,7 +359,7 @@ int CItemOptionTypeMng::CommonExcOptionRand(int ItemKindA, BYTE *btSocketExcOpti
 }
 
 /*
-int CItemOptionTypeMng::CommonExcOptionRand(int ItemKindA, BYTE *btSocketExcOption)
+int CItemObjectOptionTypeMng::CommonExcOptionRand(int ItemKindA, BYTE *btSocketExcOption)
 {
 	BYTE btExcOptions[9];
 	DWORD dwExcOptionRate[9];
@@ -520,7 +520,7 @@ int CItemOptionTypeMng::CommonExcOptionRand(int ItemKindA, BYTE *btSocketExcOpti
 	return ExcOption;
 }*/
 
-int CItemOptionTypeMng::CommonExcOptionGetCount(int ItemKindA, BYTE * btSocketExcOption, int iOptionCount)
+int CItemObjectOptionTypeMng::CommonExcOptionGetCount(int ItemKindA, BYTE * btSocketExcOption, int iOptionCount)
 {
 	BYTE btExcOptions[9];
 	DWORD dwExcOptionRate[9];
@@ -614,7 +614,7 @@ int CItemOptionTypeMng::CommonExcOptionGetCount(int ItemKindA, BYTE * btSocketEx
 	return ExcOption;
 }
 
-int CItemOptionTypeMng::WingExcOptionRand(int ItemKindA, int ItemKindB, BYTE * btSocketExcOption)
+int CItemObjectOptionTypeMng::WingExcOptionRand(int ItemKindA, int ItemKindB, BYTE * btSocketExcOption)
 {
 	BYTE btExcOptions[9];
 	DWORD dwExcOptionRate[9];
@@ -787,7 +787,7 @@ int CItemOptionTypeMng::WingExcOptionRand(int ItemKindA, int ItemKindB, BYTE * b
 	return ExcOption;
 }
 
-int CItemOptionTypeMng::WingExcOptionGetCount(int ItemKindA, int ItemKindB, BYTE * btSocketExcOption, int iOptionCount)
+int CItemObjectOptionTypeMng::WingExcOptionGetCount(int ItemKindA, int ItemKindB, BYTE * btSocketExcOption, int iOptionCount)
 {
 	BYTE btExcOptions[9];
 	DWORD dwExcOptionRate[9];
@@ -880,7 +880,7 @@ int CItemOptionTypeMng::WingExcOptionGetCount(int ItemKindA, int ItemKindB, BYTE
 	return ExcOption;
 }
 
-void CItemOptionTypeMng::CalcExcOptionEffect(CGameObject &lpObj)
+void CItemObjectOptionTypeMng::CalcExcOptionEffect(CGameObject &lpObj)
 {
 	for (int i = 0; i < INVETORY_WEAR_SIZE; i++)
 	{
@@ -953,7 +953,7 @@ void CItemOptionTypeMng::CalcExcOptionEffect(CGameObject &lpObj)
 	}
 }
 
-COMMON_EXT_OPTION_TYPE * CItemOptionTypeMng::GetCommonExcOption(int ExcOptionID)
+COMMON_EXT_OPTION_TYPE * CItemObjectOptionTypeMng::GetCommonExcOption(int ExcOptionID)
 {
 	for (int i = 0; i < MAX_EXCELLENT_COMMON_OPTIONS; i++)
 	{
@@ -966,7 +966,7 @@ COMMON_EXT_OPTION_TYPE * CItemOptionTypeMng::GetCommonExcOption(int ExcOptionID)
 	return NULL;
 }
 
-void CItemOptionTypeMng::CalcWingOptionEffect(CGameObject &lpObj)
+void CItemObjectOptionTypeMng::CalcWingOptionEffect(CGameObject &lpObj)
 {
 	if (lpObj.pInventory[7].IsItem() == FALSE)
 	{
@@ -1036,7 +1036,7 @@ void CItemOptionTypeMng::CalcWingOptionEffect(CGameObject &lpObj)
 	}
 }
 
-WING_EXT_OPTION_TYPE * CItemOptionTypeMng::GetWingOption(int ExcOptionID)
+WING_EXT_OPTION_TYPE * CItemObjectOptionTypeMng::GetWingOption(int ExcOptionID)
 {
 	for (int i = 0; i < MAX_EXCELLENT_WING_OPTIONS; i++)
 	{
@@ -1049,7 +1049,7 @@ WING_EXT_OPTION_TYPE * CItemOptionTypeMng::GetWingOption(int ExcOptionID)
 	return NULL;
 }
 
-int CItemOptionTypeMng::_CalcEffectValue(CGameObject lpObj, int iInputValue, int iOperator, int iBaseValue, int iFormulaID, CItem * Item)
+int CItemObjectOptionTypeMng::_CalcEffectValue(CGameObject lpObj, int iInputValue, int iOperator, int iBaseValue, int iFormulaID, CItemObject * Item)
 {
 	int iEffectValue = 0;
 	//g_Log.AddC(TColor::Yellow, "[K2] Operator [%d] iBaseValue %d", iOperator, iBaseValue);
@@ -1091,7 +1091,7 @@ int CItemOptionTypeMng::_CalcEffectValue(CGameObject lpObj, int iInputValue, int
 	return iEffectValue;
 }
 
-void CItemOptionTypeMng::_SetOptionEffect(CGameObject &lpObj, BYTE * OptionEffect, int iEffectValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemObjectOptionTypeMng::_SetOptionEffect(CGameObject &lpObj, BYTE * OptionEffect, int iEffectValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	this->_SetEffect_Etc(lpObj, OptionEffect[0], iEffectValue, iOperator, iFormulaID, btItemPos);
 	this->_SetEffect_Rate(lpObj, OptionEffect[1], iEffectValue, iOperator, iFormulaID, btItemPos);
@@ -1102,7 +1102,7 @@ void CItemOptionTypeMng::_SetOptionEffect(CGameObject &lpObj, BYTE * OptionEffec
 	this->_SetEffect_Skill(lpObj, OptionEffect[6], iEffectValue, iOperator, iFormulaID, btItemPos);
 }
 
-void CItemOptionTypeMng::_SetEffect_Etc(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemObjectOptionTypeMng::_SetEffect_Etc(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	int iEffectValue = 0;
 
@@ -1117,7 +1117,7 @@ void CItemOptionTypeMng::_SetEffect_Etc(CGameObject lpObj, BYTE OptionEffectID, 
 	}
 }
 
-void CItemOptionTypeMng::_SetEffect_Rate(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemObjectOptionTypeMng::_SetEffect_Rate(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	int iEffectValue = 0;
 	switch (OptionEffectID)
@@ -1155,7 +1155,7 @@ void CItemOptionTypeMng::_SetEffect_Rate(CGameObject lpObj, BYTE OptionEffectID,
 	}
 }
 
-void CItemOptionTypeMng::_SetEffect_Attack(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemObjectOptionTypeMng::_SetEffect_Attack(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	int iEffectValue = 0;
 
@@ -1209,7 +1209,7 @@ void CItemOptionTypeMng::_SetEffect_Attack(CGameObject lpObj, BYTE OptionEffectI
 	}
 }
 
-void CItemOptionTypeMng::_SetEffect_Defense(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemObjectOptionTypeMng::_SetEffect_Defense(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	int iEffectValue = 0;
 
@@ -1235,7 +1235,7 @@ void CItemOptionTypeMng::_SetEffect_Defense(CGameObject lpObj, BYTE OptionEffect
 	}
 }
 
-void CItemOptionTypeMng::_SetEffect_Life(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemObjectOptionTypeMng::_SetEffect_Life(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	int iEffectValue = 0;
 
@@ -1255,7 +1255,7 @@ void CItemOptionTypeMng::_SetEffect_Life(CGameObject lpObj, BYTE OptionEffectID,
 	}
 }
 
-void CItemOptionTypeMng::_SetEffect_Mana(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemObjectOptionTypeMng::_SetEffect_Mana(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	int iEffectValue = 0;
 
@@ -1273,7 +1273,7 @@ void CItemOptionTypeMng::_SetEffect_Mana(CGameObject lpObj, BYTE OptionEffectID,
 	}
 }
 
-void CItemOptionTypeMng::_SetEffect_Skill(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemObjectOptionTypeMng::_SetEffect_Skill(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	int iEffectValue = 0;
 

@@ -1075,7 +1075,7 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(CGameObject &lpObj, BYTE btItemPos)
 
 			else
 			{
-				gGameProtocol.GCItemDurSend2(aIndex, btItemPos, lpObj.pInventory[btItemPos].m_Durability, 0);
+				gGameProtocol.GCItemObjectDurSend2(aIndex, btItemPos, lpObj.pInventory[btItemPos].m_Durability, 0);
 			}
 		}
 

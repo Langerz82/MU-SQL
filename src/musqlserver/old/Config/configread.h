@@ -117,9 +117,9 @@ struct COMMON_CONFIG
 	bool AncHarmonyLimit;	
 	bool TradeBlock;
 	bool EnableSellAllItems;
-	int TradeExcItemLimit;
-	int StoreExcItemLimit;
-	int ShopExcItemLimit;
+	int TradeExCItemObjectLimit;
+	int StoreExCItemObjectLimit;
+	int ShopExCItemObjectLimit;
 	int TradeHarmonyBlock;
 	int Item380DropMap;
 	int TempUserManagerClearDataTime;

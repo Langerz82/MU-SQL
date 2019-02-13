@@ -5,7 +5,7 @@
 
 #include "StdAfx.h"
 #include "User/CUserData.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 #include "PentagramSystem.h"
 
 class CPentagramMixSystem
@@ -24,7 +24,7 @@ public:
 	int PentagramMixBoxInit(CGameObject* lpObj);
 	BYTE PentagramJewelRefine(CGameObject &Obj, int iRefineType);
 	BYTE PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeType, int iTargetValue);
-	int CheckLevelCondition(CItem *pItem, WORD pLevel, BYTE pOpt1, BYTE pOpt2, BYTE pOpt3, BYTE pSetOpt, BYTE pExOpt);
+	int CheckLevelCondition(CItemObject *pItem, WORD pLevel, BYTE pOpt1, BYTE pOpt2, BYTE pOpt3, BYTE pSetOpt, BYTE pExOpt);
 	void LogPentagramItem(CGameObject lpObj, char *sLogType);
 
 	void CGPentagramJewelRefineRecv(PMSG_PENTAGRAM_JEWEL_REFINE_RECV* lpMsg, CGameObject &lpObj); // OK

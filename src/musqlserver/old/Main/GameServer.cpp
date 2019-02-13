@@ -29,7 +29,7 @@
 #include "configread.h"
 #include "TServerInfoDisplayer.h"
 #include "DevilSquare.h"
-#include "CItemDrop.h"
+#include "CItemObjectDrop.h"
 //Added by HermeX
 #include "mdump.h"
 #include "NewsSystem.h"

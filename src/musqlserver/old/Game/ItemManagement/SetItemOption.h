@@ -6,7 +6,7 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "Item.h"
+#include "ItemObject.h"
 
 
 enum eOptionType

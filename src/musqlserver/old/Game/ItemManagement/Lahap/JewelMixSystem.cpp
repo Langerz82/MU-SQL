@@ -297,7 +297,7 @@ BOOL CJewelMixSystem::MixJewel( int iIndex, int iJewelType, int iMixType)
 		}
 	}
 
-	GCItemListSend(Obj.m_Index);
+	GCItemObjectListSend(Obj.m_Index);
 	g_PeriodItemEx.OnRequestPeriodItemList(Obj);
 
 	if ( bItemDelOK == FALSE )

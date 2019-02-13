@@ -4,7 +4,7 @@
 #define PERSONALSTORE_H
 
 #include "StdAfx.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 #include "User/CUserData.h"
 #include "MuDefines.h"
 

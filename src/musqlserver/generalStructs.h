@@ -13,7 +13,7 @@
 
 #include "CGameObject.h"
 #include "CUserData.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 
 #include "ServerEngine.h"
 #include "MuunInfo.h"
@@ -25,7 +25,7 @@
 
 class CUserData;
 class CGameObject;
-class CItem;
+class CItemObject;
 
 // Fwd Declaration.
 
@@ -1954,7 +1954,7 @@ struct GREMORYCASE_ITEM_DATA
 	BYTE btRewardInventory;
 	BYTE btRewardSource;
 	DWORD dwItemGUID;
-	CItem* m_ItemInfo;
+	CItemObject* m_ItemInfo;
 	DWORD dwAuthCode;
 	DWORD dwReceiveDate;
 	DWORD dwExpireTime;
@@ -4179,7 +4179,7 @@ struct STR_DEFAULTCLASSTYPE
 	float MaxMana;	// 20
 	float VitalityToLife;	// 24
 	float EnergyToMana;	// 28
-	CItem* Equipment[MAX_PLAYER_EQUIPMENT + 2];	// 2C
+	CItemObject* Equipment[MAX_PLAYER_EQUIPMENT + 2];	// 2C
 	WORD Leadership;	// 9CC
 };
 

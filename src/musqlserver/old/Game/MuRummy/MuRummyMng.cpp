@@ -1235,7 +1235,7 @@ void CMuRummyMng::CGReqMuRummyEnd(PMSG_REQ_MURUMMY_END *lpMsg, CGameObject &lpOb
 			{
 				if (pCMuRummyInfo->GetScore() >= this->GetRewardScore2())
 				{
-					CItem Item;
+					CItemObject Item;
 					time_t Duration;
 
 					if (g_BagManager.GetItemFromBag(aIndex, BAG_EVENT, EVENTBAG_MURUMMY_2, aIndex, Item, Duration) != TRUE)
@@ -1257,7 +1257,7 @@ void CMuRummyMng::CGReqMuRummyEnd(PMSG_REQ_MURUMMY_END *lpMsg, CGameObject &lpOb
 
 			else
 			{
-				CItem Item;
+				CItemObject Item;
 				time_t Duration;
 
 				if (g_BagManager.GetItemFromBag(aIndex, BAG_EVENT, EVENTBAG_MURUMMY_1, aIndex, Item, Duration) == false)

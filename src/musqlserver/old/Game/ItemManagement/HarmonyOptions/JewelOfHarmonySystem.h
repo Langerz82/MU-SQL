@@ -7,11 +7,11 @@
 
 #include "StdAfx.h"
 #include <map>
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 
 #include "TRandomPoolMgr.h"
 
-class CItem;
+class CItemObject;
 
 struct JEWELOFHARMONY_ITEM_EFFECT;
 struct JEWELOFHARMONY_ITEM_OPTION;
@@ -31,30 +31,30 @@ public:
 	BOOL IsJewelOfHarmonySmeltingItems(short type);
 	void SetEnableToUsePuritySystem(int bEnable);
 	BOOL IsEnableToUsePuritySystem();
-	BYTE GetItemStrengthenOption(CItem* pItem);
-	BYTE GetItemOptionLevel(CItem* pItem);
-	BOOL IsActive(CItem* pItem);
-	BOOL IsStrengthenByJewelOfHarmony(CItem* pItem);
+	BYTE GetItemStrengthenOption(CItemObject* pItem);
+	BYTE GetItemOptionLevel(CItemObject* pItem);
+	BOOL IsActive(CItemObject* pItem);
+	BOOL IsStrengthenByJewelOfHarmony(CItemObject* pItem);
 	BOOL StrengthenItemByJewelOfHarmony(CGameObject &lpObj, int source, int target);
 	BOOL StrengthenItemByJewelOfRise(CGameObject &lpObj, int source, int target);
 	void StrengthenItemByMacro(CGameObject &lpObj, BYTE invenrotyTargetPos, BYTE btOptionType,  BYTE btOptionLevel);
 	void SetApplyStrengthenItem(CGameObject &lpObj);
 	void InitEffectValue(JEWELOFHARMONY_ITEM_EFFECT* pItemEffect);
-	int GetItemEffectValue(CItem* pItem, int iOptionType);
-	BOOL IsEnableToMakeSmeltingStoneItem(CItem* pItem);
+	int GetItemEffectValue(CItemObject* pItem, int iOptionType);
+	BOOL IsEnableToMakeSmeltingStoneItem(CItemObject* pItem);
 	BOOL MakeSmeltingStoneItem(CGameObject &lpObj);
 	BOOL MakeSmeltingStoneItem_MultiMix(CGameObject &lpObj, int iMixCount);
 	BOOL SmeltItemBySmeltingStone(CGameObject &lpObj, int source, int target);
 	BOOL RestoreStrengthenItem(CGameObject &lpObj);
 	BYTE MakeCharSetData(CGameObject &lpObj);
 	BOOL NpcJewelOfHarmony(CGameObject &lpNpc, CGameObject &lpObj);
-	BYTE ShowStrengthenOption(CItem* pItem);
+	BYTE ShowStrengthenOption(CItemObject* pItem);
 	BOOL IsEnableToTrade(CGameObject &lpObj);
 
 	BOOL m_bSystemSmeltingItem;	// 5328
-	BOOL _MakeOption(CItem* pItem, BYTE btOptionType, BYTE btOptionLevel);
-	int _GetSelectRandomOption(CItem* pItem, int iItemType);
-	int _GetItemType(CItem* pItem);
+	BOOL _MakeOption(CItemObject* pItem, BYTE btOptionType, BYTE btOptionLevel);
+	int _GetSelectRandomOption(CItemObject* pItem, int iItemType);
+	int _GetItemType(CItemObject* pItem);
 	BOOL m_bSystemPrutiyJewel;	// 5318
 	int m_iZenForPurity;	// 5330
 	int m_iRatePuritySuccess;	// 532C
@@ -64,10 +64,10 @@ private:
 	void _InitOption();
 	BOOL _IsJewelOfHarmonySmeltingItemNor( short type);
 	BOOL _IsJewelOfHarmonySmeltingItemExt(short type);
-	BYTE _GetItemOptionLevel(CItem* pItem);
-	BYTE _GetItemOptionRequireLevel(CItem* pItem);
-	BOOL _CalcItemEffectValue(CItem* pItem, JEWELOFHARMONY_ITEM_EFFECT* pItemEffect);
-	int _GetZenForRestoreItem(CItem* pItem);
+	BYTE _GetItemOptionLevel(CItemObject* pItem);
+	BYTE _GetItemOptionRequireLevel(CItemObject* pItem);
+	BOOL _CalcItemEffectValue(CItemObject* pItem, JEWELOFHARMONY_ITEM_EFFECT* pItemEffect);
+	int _GetZenForRestoreItem(CItemObject* pItem);
 
 private:
 

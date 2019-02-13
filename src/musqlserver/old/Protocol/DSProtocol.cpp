@@ -1618,7 +1618,7 @@ void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT * lpMsg)
 	IOCP.DataSend(aIndex, (UCHAR*)&pRSMsg, pRSMsg.h.size);
 	IOCP.DataSend(aIndex, (UCHAR*)&pjMsg, pjMsg.h.size);
 
-	GCItemListSend(aIndex);
+	GCItemObjectListSend(aIndex);
 	FriendListRequest(aIndex);
 
 	g_CMuRummyMng.GDReqCardInfo(lpObj);
@@ -1741,7 +1741,7 @@ void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT * lpMsg)
 	}
 }
 
-void GCItemListSend(CGameObject &lpObj)
+void GCItemObjectListSend(CGameObject &lpObj)
 {
 	PMSG_INVENTORYLISTCOUNT pMsgILC;	// Packet Message Item List Count
 	PMSG_INVENTORYLIST pMsgIL;	// Packet Message Item List
@@ -2034,7 +2034,7 @@ void DGGetWarehouseList(SDHP_GETWAREHOUSEDB_SAVE * lpMsg)
 	int itype;
 	int _type;
 	BYTE OptionData;
-	CItem item;
+	CItemObject item;
 
 	memset(gObj[aIndex].pWarehouseMap, (BYTE)-1, WAREHOUSE_SIZE);
 	gObj[aIndex].WarehouseMoney = lpMsg->Money;
@@ -2591,7 +2591,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 			pMsg.Result = 1;
 		}
 
-		CItem NewItem;
+		CItemObject NewItem;
 
 		NewItem.m_Type = lpMsg->Type;
 		NewItem.m_Level = lpMsg->Level;
@@ -2695,7 +2695,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 	if (lpMsg->MapNumber == 230)
 	{
-		CItem Item;
+		CItemObject Item;
 		int iType = ITEM_GET_TYPE(lpMsg->Type);
 		int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
 		Item.m_Level = lpMsg->Level;
@@ -2733,7 +2733,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 	else if (lpMsg->MapNumber == 231)
 	{
-		CItem Item;
+		CItemObject Item;
 		int iType = ITEM_GET_TYPE(lpMsg->Type);
 		int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
 		Item.m_Level = lpMsg->Level;
@@ -2764,7 +2764,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 	{
 		if (gObj[lpMsg->aIndex].Connected > PLAYER_CONNECTED)
 		{
-			CItem Item;
+			CItemObject Item;
 			int iType = ITEM_GET_TYPE(lpMsg->Type);
 			int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
 			Item.m_Level = lpMsg->Level;
@@ -2792,7 +2792,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 	{
 		if (gObj[lpMsg->aIndex].Connected > PLAYER_CONNECTED)
 		{
-			CItem Item;
+			CItemObject Item;
 			int iType = ITEM_GET_TYPE(lpMsg->Type);
 			int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
 			Item.m_Level = lpMsg->Level;
@@ -2835,7 +2835,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 	{
 		if (gObj[lpMsg->aIndex].Connected > PLAYER_CONNECTED)
 		{
-			CItem Item;
+			CItemObject Item;
 			int iType = ITEM_GET_TYPE(lpMsg->Type);
 			int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
 			Item.m_Level = lpMsg->Level;
@@ -2874,7 +2874,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 	{
 		if (gObj[lpMsg->aIndex].Connected > PLAYER_CONNECTED)
 		{
-			CItem pCreateItem;
+			CItemObject pCreateItem;
 			time_t curtime = time(NULL);
 			int iItemType = ITEM_GET_TYPE(lpMsg->Type);
 			int iItemIndex = ITEM_GET_INDEX(lpMsg->Type);
@@ -2914,7 +2914,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 		if (gObj[lpMsg->aIndex].Connected > PLAYER_LOGGED)
 		{
 			PMSG_BUYRESULT pResult;
-			CItem pCreateItem;
+			CItemObject pCreateItem;
 			int iItemType = ITEM_GET_TYPE(lpMsg->Type);
 			int iItemIndex = ITEM_GET_INDEX(lpMsg->Type);
 
@@ -2994,7 +2994,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 	{
 		if (gObj[lpMsg->aIndex].Connected > PLAYER_CONNECTED)
 		{
-			CItem Item;
+			CItemObject Item;
 			int iType = ITEM_GET_TYPE(lpMsg->Type);
 			int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
 			Item.m_Level = lpMsg->Level;
@@ -3020,7 +3020,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 	else if (lpMsg->MapNumber == 227)
 	{
-		CItem Item;
+		CItemObject Item;
 		int iType = ITEM_GET_TYPE(lpMsg->Type);
 		int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
 		Item.m_Level = lpMsg->Level;
@@ -3098,7 +3098,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 	{
 		if (gObj[lpMsg->aIndex].Connected > 1)
 		{
-			CItem Item;
+			CItemObject Item;
 			int iType = ITEM_GET_TYPE(lpMsg->Type);
 			int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
 			Item.m_Level = lpMsg->Level;
@@ -3134,7 +3134,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 				return;
 			}
 
-			CItem Item;
+			CItemObject Item;
 			int iType = ITEM_GET_TYPE(lpMsg->Type);
 			int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
 			Item.m_Level = lpMsg->Level;
@@ -3218,7 +3218,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 		{
 			LPOBJ lpObj = &gObj[lpMsg->aIndex];
 
-			CItem MuunItem;
+			CItemObject MuunItem;
 			int ItemType = ITEM_GET_TYPE(lpMsg->Type);
 			int ItemIndex = ITEM_GET_INDEX(lpMsg->Type);
 			int nMuunRank = g_CMuunSystem.GetMuunRankOfMuunInfo(lpMsg->Type);
@@ -3257,7 +3257,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 	{
 		if (gObj[lpMsg->aIndex].Connected > PLAYER_CONNECTED)
 		{
-			CItem Item;
+			CItemObject Item;
 			int iType = ITEM_GET_TYPE(lpMsg->Type);
 			int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
 			Item.m_Level = lpMsg->Level;
@@ -3285,7 +3285,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 	{
 		if (gObj[lpMsg->aIndex].Connected > PLAYER_CONNECTED)
 		{
-			CItem Item;
+			CItemObject Item;
 			int iType = ITEM_GET_TYPE(lpMsg->Type);
 			int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
 			Item.m_Level = lpMsg->Level;
@@ -3318,7 +3318,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 	{
 		if (gObj[lpMsg->aIndex].Connected > PLAYER_CONNECTED)
 		{
-			CItem Item;
+			CItemObject Item;
 
 			int iType = ITEM_GET_TYPE(lpMsg->Type);
 			int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
@@ -3360,7 +3360,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 				return;
 			}
 
-			CItem MuunItem;
+			CItemObject MuunItem;
 			int ItemType = ITEM_GET_TYPE(lpMsg->Type);
 			int ItemIndex = ITEM_GET_INDEX(lpMsg->Type);
 			int nMuunRank = g_CMuunSystem.GetMuunRankOfMuunInfo(lpMsg->Type);
@@ -3417,7 +3417,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 	{
 		if (gObj[lpMsg->aIndex].Connected > 1)
 		{
-			CItem Item;
+			CItemObject Item;
 			int ItemType = ITEM_GET_TYPE(lpMsg->Type);
 			int ItemIndex = ITEM_GET_INDEX(lpMsg->Type);
 			Item.m_Level = lpMsg->Level;
@@ -3473,7 +3473,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 				SocketOption[n] = lpMsg->SocketOption[n];
 			}
 
-			CItem Item;
+			CItemObject Item;
 			int ItemType = ITEM_GET_TYPE(lpMsg->Type);
 			int ItemIndex = ITEM_GET_INDEX(lpMsg->Type);
 			Item.m_Level = lpMsg->Level;
@@ -3519,7 +3519,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 	{
 		if (gObj[lpMsg->aIndex].Connected > PLAYER_CONNECTED)
 		{
-			CItem Item;
+			CItemObject Item;
 
 			int iType = ITEM_GET_TYPE(lpMsg->Type);
 			int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
@@ -3584,7 +3584,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 			}
 		}
 
-		CItem Item;
+		CItemObject Item;
 
 		Item.m_Type = lpMsg->Type;
 
@@ -3728,15 +3728,15 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 		{
 			if (iRetMapNumber >= 238 && iRetMapNumber <= 245)
 			{
-				MapC[mapnumber].m_cItem[iItemCount].m_Time = GetTickCount() + 300000;
-				MapC[mapnumber].m_cItem[iItemCount].m_LootTime = GetTickCount() + 20000;
+				MapC[mapnumber].m_CItemObject[iItemCount].m_Time = GetTickCount() + 300000;
+				MapC[mapnumber].m_CItemObject[iItemCount].m_LootTime = GetTickCount() + 20000;
 
 			}
 
 			if (iRetMapNumber >= 246 && iRetMapNumber <= 253)
 			{
-				MapC[mapnumber].m_cItem[iItemCount].m_Time = GetTickCount() + 900000;
-				MapC[mapnumber].m_cItem[iItemCount].m_LootTime = GetTickCount() + 10000;
+				MapC[mapnumber].m_CItemObject[iItemCount].m_Time = GetTickCount() + 900000;
+				MapC[mapnumber].m_CItemObject[iItemCount].m_LootTime = GetTickCount() + 10000;
 
 				int iBridgeIndex = g_BloodCastle.GetBridgeIndex(mapnumber); //s3 add-on (loc108)
 
@@ -3747,14 +3747,14 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 			{
 				if (lpMsg->Type == ITEMGET(14, 64))
 				{
-					MapC[mapnumber].m_cItem[iItemCount].m_Time = GetTickCount() + 15000;
-					MapC[mapnumber].m_cItem[iItemCount].m_LootTime = GetTickCount() + 5000;
+					MapC[mapnumber].m_CItemObject[iItemCount].m_Time = GetTickCount() + 15000;
+					MapC[mapnumber].m_CItemObject[iItemCount].m_LootTime = GetTickCount() + 5000;
 				}
 
 				if (lpMsg->Type == ITEMGET(12, 15))
 				{
-					MapC[mapnumber].m_cItem[iItemCount].m_Time = GetTickCount() + 300000;
-					MapC[mapnumber].m_cItem[iItemCount].m_LootTime = GetTickCount() + 10000;
+					MapC[mapnumber].m_CItemObject[iItemCount].m_Time = GetTickCount() + 300000;
+					MapC[mapnumber].m_CItemObject[iItemCount].m_LootTime = GetTickCount() + 10000;
 				}
 			}
 		}
@@ -7567,7 +7567,7 @@ void DGLoadEventInvenItem(_tagSDHP_ANS_DBEVENT_INVEN_LOAD *lpMsg)
 	int itype;
 	int _type;
 	BYTE OptionData;
-	CItem item;
+	CItemObject item;
 
 	memset(gObj[aIndex].pEventInventoryMap, (BYTE)-1, EVENT_INVENTORY_MAP_SIZE);
 

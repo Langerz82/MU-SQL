@@ -295,13 +295,13 @@ int CBotSystem::AddBot(_sBOT_SETTINGS pBot)
 	lpBotObj.m_PlayerData->wBotIndex = pBot.wID;
 	if(pBot.btType == BOT_TRADE)
 	{
-		lpBotObj.Trade = new CItem[TRADE_BOX_SIZE];
+		lpBotObj.Trade = new CItemObject[TRADE_BOX_SIZE];
 		lpBotObj.TradeMap = new BYTE[TRADE_BOX_MAP_SIZE];
 	}
 	if(pBot.btType == BOT_SHOP)
 	{
 		lpBotObj.pInventoryMap = new BYTE[INVENTORY_SIZE];
-		lpBotObj.Inventory1 = new CItem[INVENTORY_SIZE];
+		lpBotObj.Inventory1 = new CItemObject[INVENTORY_SIZE];
 		for(int n=0;n<INVENTORY_SIZE;n++)
 		{
 			lpBotObj.Inventory1[n].Clear();
@@ -708,7 +708,7 @@ sBOT_REWARD_STRUCT CBotSystem::ConfirmMixSuccess(CGameObject &lpObj, int botInde
 		}
 	}
 }
-bool CBotSystem::AlchemistVerifyItem(s_BOT_CRAFTING_ITEM_STRUCT lpReqItem, CItem TradeItem)
+bool CBotSystem::AlchemistVerifyItem(s_BOT_CRAFTING_ITEM_STRUCT lpReqItem, CItemObject TradeItem)
 {
 	if(lpReqItem.wItemId == TradeItem.m_Type &&
 		lpReqItem.btLevel == TradeItem.m_Level && 
@@ -733,7 +733,7 @@ bool CBotSystem::CheckAlchemist(CGameObject &lpObj, int botIndex)
 	
 	CGameObject lpBotObj = &gGameObjects[botIndex];
 
-	CItem rewardItem;
+	CItemObject rewardItem;
 	int iMixNeedCount = 0;
 	int foundItems = 0;
 	int n=0;
@@ -864,7 +864,7 @@ bool CBotSystem::StoreAddItems(int botIndex)
 		
 		if(blank != 255)
 		{
-			CItem item;
+			CItemObject item;
 			item.m_Level = this->m_BotData[botIndex].m_Shop.pItems[i].btLevel;
 			item.m_Option1 = this->m_BotData[botIndex].m_Shop.pItems[i].btSkill;
 			item.m_Option2 = this->m_BotData[botIndex].m_Shop.pItems[i].btLuck;

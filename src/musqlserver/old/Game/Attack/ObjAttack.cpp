@@ -1118,7 +1118,7 @@ BOOL CObjAttack::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf* 
 
 		if (gObjWingSprite(lpObj) == TRUE)
 		{
-			CItem * Wing = &lpObj.pInventory[7];
+			CItemObject * Wing = &lpObj.pInventory[7];
 
 			int LifeDec = 0;
 
@@ -1140,7 +1140,7 @@ BOOL CObjAttack::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf* 
 
 		if (gObjWingSprite(lpTargetObj) == TRUE)
 		{
-			CItem * Wing = &lpTargetObj.pInventory[7];
+			CItemObject * Wing = &lpTargetObj.pInventory[7];
 
 			if (AttackDamage > 1)
 			{
@@ -1258,7 +1258,7 @@ BOOL CObjAttack::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf* 
 
 		if (gObjDenorantSprite(lpTargetObj))
 		{
-			CItem * Dinorant = &lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos];
+			CItemObject * Dinorant = &lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos];
 			int dinorantdecdamage = 90 - Dinorant->IsDinorantReduceAttackDamaege();
 			lpObj.Life -= 1.0f;
 
@@ -1276,7 +1276,7 @@ BOOL CObjAttack::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf* 
 
 		if (gObjDarkHorse(lpTargetObj))
 		{
-			CItem * Darkhorse = &lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos];
+			CItemObject * Darkhorse = &lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos];
 			int decdamage = 100 - ((Darkhorse->m_PetItem_Level + 30) / 2);
 
 			lpTargetObj.Life -= 1.0f;
@@ -2755,7 +2755,7 @@ BOOL CObjAttack::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf* 
 						if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE || (lpObj.m_btCsJoinSide == FALSE || (lpObj.m_btCsJoinSide != lpTargetObj.m_btCsJoinSide)))
 						{
 							int iEquipmentPos = rand() % 5 + 2;	// Select and Armor
-							CItem * lpEquipment = &lpTargetObj.pInventory[iEquipmentPos];
+							CItemObject * lpEquipment = &lpTargetObj.pInventory[iEquipmentPos];
 
 							if (lpEquipment && lpEquipment->IsItem())
 							{
@@ -2792,7 +2792,7 @@ BOOL CObjAttack::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf* 
 									lpEquipment->m_Durability = 0.0f;
 								}
 
-								gGameProtocol.GCItemDurSend(lpTargetObj.m_Index, iEquipmentPos, lpEquipment->m_Durability, 0);
+								gGameProtocol.GCItemObjectDurSend(lpTargetObj.m_Index, iEquipmentPos, lpEquipment->m_Durability, 0);
 							}
 						}
 					}
@@ -3002,7 +3002,7 @@ BOOL CObjAttack::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf* 
 						item_num[3] = 5;
 						item_num[4] = 6;
 						int iEquipmentPos = rand() % 5;	// Select and Armor
-						CItem * lpEquipment = &lpTargetObj.pInventory[item_num[iEquipmentPos]];
+						CItemObject * lpEquipment = &lpTargetObj.pInventory[item_num[iEquipmentPos]];
 
 						if (lpEquipment && lpEquipment->IsItem())
 						{
@@ -3041,7 +3041,7 @@ BOOL CObjAttack::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf* 
 								lpEquipment->m_Durability = 0.0f;
 							}
 
-							gGameProtocol.GCItemDurSend(lpTargetObj.m_Index, item_num[iEquipmentPos], (BYTE)lpEquipment->m_Durability, 0);
+							gGameProtocol.GCItemObjectDurSend(lpTargetObj.m_Index, item_num[iEquipmentPos], (BYTE)lpEquipment->m_Durability, 0);
 						}
 					}
 				}
@@ -3596,8 +3596,8 @@ BOOL CObjAttack::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf* 
 		}
 	}
 
-	CItem* Right = &lpObj.pInventory[0];
-	CItem* Left = &lpObj.pInventory[1];
+	CItemObject* Right = &lpObj.pInventory[0];
+	CItemObject* Left = &lpObj.pInventory[1];
 
 	if (Right->GetDetailItemType() == ITEM_MACE || Left->GetDetailItemType() == ITEM_MACE)
 	{
@@ -3879,8 +3879,8 @@ int  CObjAttack::GetAttackDamage(CGameObject &lpObj, CGameObject lpTargetObj, in
 	int SkillRightMinDamage = 0;
 	int SkillLeftMaxDamage = 0;
 	int SkillLeftMinDamage = 0;
-	CItem * Right = &lpObj.pInventory[0];
-	CItem * Left = &lpObj.pInventory[1];
+	CItemObject * Right = &lpObj.pInventory[0];
+	CItemObject * Left = &lpObj.pInventory[1];
 	BOOL bTwoHandWeapon = FALSE;
 
 	if (lpObj.Type == OBJ_MONSTER || lpObj.Type == OBJ_NPC)
@@ -5097,7 +5097,7 @@ int  CObjAttack::GetAttackDamageWizard(CGameObject &lpObj, CGameObject lpTargetO
 		damagemax += lpObj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSkillAttack;
 	}
 
-	CItem * Right = &lpObj.pInventory[0];
+	CItemObject * Right = &lpObj.pInventory[0];
 
 	if (Right->IsItem())
 	{
@@ -5235,7 +5235,7 @@ BOOL gObjDenorantSprite(CGameObject &lpObj)
 		return FALSE;
 	}
 
-	CItem * Denorant = &lpObj.pInventory[lpObj.m_btInvenPetPos];
+	CItemObject * Denorant = &lpObj.pInventory[lpObj.m_btInvenPetPos];
 
 	if (Denorant->m_Type == ITEMGET(13, 3))
 	{
@@ -5262,7 +5262,7 @@ BOOL gObjDarkHorse(CGameObject &lpObj)
 		return FALSE;
 	}
 
-	CItem * Denorant = &lpObj.pInventory[lpObj.m_btInvenPetPos];
+	CItemObject * Denorant = &lpObj.pInventory[lpObj.m_btInvenPetPos];
 
 	if (Denorant->m_Type == ITEMGET(13, 4))
 	{
@@ -5288,7 +5288,7 @@ BOOL gObjFenrir(CGameObject &lpObj)
 		return FALSE;
 	}
 
-	CItem * lpFenrir = &lpObj.pInventory[lpObj.m_btInvenPetPos];
+	CItemObject * lpFenrir = &lpObj.pInventory[lpObj.m_btInvenPetPos];
 
 	if (lpFenrir->m_Type == ITEMGET(13, 37))	// Fenrir
 	{

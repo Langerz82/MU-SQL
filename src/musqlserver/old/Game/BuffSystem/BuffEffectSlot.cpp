@@ -10,7 +10,7 @@
 #include "ItemAddOption.h"
 #include "ObjCalCharacter.h"
 #include "util.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 #include "ProDef.h"
 #include "GameProtocol.h"
 #include "GameMain.h"

@@ -2,11 +2,11 @@
 #define _MU_ITEMOPTIONTYPEMNG_H
 
 #include "StdAfx.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 #include "User/CUserData.h"
 
 
-class CItemOptionTypeMng
+class CItemObjectOptionTypeMng
 {
 public:
 
@@ -27,7 +27,7 @@ public:
 
 	int GetOptionEffectValue(CGameObject &lpObj, int iOptionType, int iOptionEffect);
 
-	int _CalcEffectValue(CGameObject lpObj, int iInputValue, int iOperator, int iBaseValue, int iFormulaID, CItem * Item);
+	int _CalcEffectValue(CGameObject lpObj, int iInputValue, int iOperator, int iBaseValue, int iFormulaID, CItemObject * Item);
 	void _SetOptionEffect(CGameObject lpObj, BYTE *OptionEffect, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos);
 
 	void _SetEffect_Etc(CGameObject lpObj, BYTE OptionEffectID, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos);
@@ -47,6 +47,6 @@ public:
 	EXC_OPTION_RATE m_ExcellentOptionRate;
 }; 
 
-extern CItemOptionTypeMng g_ItemOptionTypeMng;
+extern CItemObjectOptionTypeMng g_ItemOptionTypeMng;
 
 #endif

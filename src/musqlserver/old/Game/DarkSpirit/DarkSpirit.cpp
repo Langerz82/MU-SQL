@@ -15,7 +15,7 @@
 #include "ImperialGuardian.h"
 #include "GensSystem.h"
 #include "AcheronGuardianEvent.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 #include "NewPVP.h"
 #include "ArcaBattle.h"
 #include "EvolutionMonsterMng.h"
@@ -750,7 +750,7 @@ void CDarkSpirit::SetMode(ePetItem_Mode mode, int iTargetindex)
 
 
 
-void CDarkSpirit::Set(CGameObject &lpObj, CItem * pPetItem)
+void CDarkSpirit::Set(CGameObject &lpObj, CItemObject * pPetItem)
 {
 	EnterCriticalSection(&this->m_SpiritCriti);
 	
@@ -1183,7 +1183,7 @@ BOOL CDarkSpirit::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf 
 				}
 			}
 
-			gGameProtocol.GCItemDurSend(lpObj.m_Index, lpObj.m_btInvenPetPos, lpObj.pInventory[lpObj.m_btInvenPetPos].m_Durability, 0);
+			gGameProtocol.GCItemObjectDurSend(lpObj.m_Index, lpObj.m_btInvenPetPos, lpObj.pInventory[lpObj.m_btInvenPetPos].m_Durability, 0);
 		}
 	}
 
@@ -1198,7 +1198,7 @@ BOOL CDarkSpirit::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf 
 
 	if ( gObjWingSprite(lpTargetObj) == TRUE )
 	{
-		CItem * Wing = &lpTargetObj.pInventory[7];
+		CItemObject * Wing = &lpTargetObj.pInventory[7];
 
 		if ( AttackDamage > 1 && Wing->m_Type != ITEMGET(13, 30) )
 		{
@@ -1220,7 +1220,7 @@ BOOL CDarkSpirit::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf 
 
 	if ( gObjDenorantSprite(lpTargetObj ) )
 	{
-		CItem * Dinorant = &lpTargetObj.pInventory[8];
+		CItemObject * Dinorant = &lpTargetObj.pInventory[8];
 		int dinorantdecdamage = 90 - Dinorant->IsDinorantReduceAttackDamaege();
 		lpObj.Life -= 1.0f;
 
@@ -1238,7 +1238,7 @@ BOOL CDarkSpirit::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf 
 
 	if ( gObjDarkHorse(lpTargetObj ) )
 	{
-		CItem * Darkhorse = &lpTargetObj.pInventory[8];
+		CItemObject * Darkhorse = &lpTargetObj.pInventory[8];
 		int decdamage = 100 - ((Darkhorse->m_PetItem_Level + 30) / 2 );
 
 		lpTargetObj.Life -= 1.0f;

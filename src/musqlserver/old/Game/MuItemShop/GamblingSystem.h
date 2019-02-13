@@ -11,12 +11,12 @@
 
 #include "StdAfx.h"
 
-class CItemBagAttrEx
+class CItemObjectBagAttrEx
 {
 
 public:
 
-	CItemBagAttrEx()	// line : 26
+	CItemObjectBagAttrEx()	// line : 26
 	{
 		this->m_type = 0;
 		this->m_index = 0;
@@ -71,7 +71,7 @@ class CGamblingItemBag
 	int m_iBagObjectCount;
 	int m_iDropRatePerItemCount[25];
 	int m_iRateKindCount;
-	CItemBagAttrEx BagObject[150];
+	CItemObjectBagAttrEx BagObject[150];
 	bool m_bEnabled;
 	int m_iGamblingValue;
 	int m_iGamblingShopTime;

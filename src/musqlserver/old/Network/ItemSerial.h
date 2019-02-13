@@ -5,11 +5,11 @@
 
 #include "StdAfx.h"
 
-class CItemSerial
+class CItemObjectSerial
 {
 public:
-	CItemSerial(void);
-	virtual ~CItemSerial(void);
+	CItemObjectSerial(void);
+	virtual ~CItemObjectSerial(void);
 
 	bool Init();
 	UINT64 GenerateSerial();
@@ -24,7 +24,7 @@ private:
 	UINT64 m_dwLastSerial;
 };
 
-extern CItemSerial g_ItemSerial;
+extern CItemObjectSerial g_ItemSerial;
 
 #endif
 

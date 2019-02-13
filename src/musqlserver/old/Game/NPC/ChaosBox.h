@@ -8,7 +8,7 @@
 #endif // _MSC_VER > 1000
 
 #include "GameProtocol.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 
 #define MAX_TALISMAN_OF_LUCK 10
 #define CHAOS_BOX_SIZE 32
@@ -240,7 +240,7 @@ public:
 	CMixSystem();
 	virtual ~CMixSystem();
 
-	void GCChaosMixSend(CGameObject &lpObj, BYTE result, CItem* lpItem);
+	void GCChaosMixSend(CGameObject &lpObj, BYTE result, CItemObject* lpItem);
 	BOOL ChaosBoxCheck(CGameObject &lpObj);
 	BOOL ChaosBoxInit(CGameObject &lpObj);
 	BOOL ChaosBoxItemDown(CGameObject &lpObj);
@@ -261,11 +261,11 @@ public:
 	BOOL CheckWingItem(int iItemCode);
 	BOOL Check2ndWingItem(int iItemCode);
 	BOOL Check3rdWingItem(int iItemCode);
-	BOOL CheckLevelCondition(CItem * lpItem, short Level, BYTE Op1, BYTE Op2, BYTE Op3, BYTE SetOption, BYTE NewOption);
+	BOOL CheckLevelCondition(CItemObject * lpItem, short Level, BYTE Op1, BYTE Op2, BYTE Op3, BYTE SetOption, BYTE NewOption);
 	BOOL FeatherOfCondorMix(CGameObject &lpObj);
 	BOOL ThirdWingLevel2ChaosMix(CGameObject &lpObj);
 	void ThirdWingMixFail(CGameObject &lpObj);
-	void ThirdWingMixFailItemPanalty(CItem * lpItem);
+	void ThirdWingMixFailItemPanalty(CItemObject * lpItem);
 	void DefaultChaosMix(CGameObject &lpObj);
 	void DevilSquareItemChaosMix(CGameObject &lpObj);
 	void BloodCastleItemChaosMix(CGameObject &lpObj);

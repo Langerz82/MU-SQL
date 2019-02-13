@@ -174,7 +174,7 @@ extern  ITEM_ATTRIBUTE ItemAttribute[MAX_ITEMS];
 typedef ITEM_ATTRIBUTE* LPITEM_ATTRIBUTE;
 
 class CGameObject;
-class CItem;
+class CItemObject;
 
 class CItemObject
 {
@@ -353,11 +353,11 @@ struct RESETITEMLIST
 extern int g_MaxItemIndexOfEachItemType[MAX_TYPE_ITEMS];
 
 void BufferItemtoConvert3(unsigned char* buf, int& type, BYTE& level, BYTE& op1, BYTE& op2, BYTE& op3, BYTE& dur);
-void ItemByteConvert7(unsigned char * buf, CItem * const item , int maxitem);
-void ItemByteConvert10(unsigned char * buf, CItem * const item , int maxitem);
-void ItemByteConvert16(BYTE* buf, CItem * const item , int maxitem);
-void ItemByteConvert32(BYTE* buf, CItem * const item , int maxitem);
-void ItemByteConvert(unsigned char* buf, CItem item);
+void ItemByteConvert7(unsigned char * buf, CItemObject * const item , int maxitem);
+void ItemByteConvert10(unsigned char * buf, CItemObject * const item , int maxitem);
+void ItemByteConvert16(BYTE* buf, CItemObject * const item , int maxitem);
+void ItemByteConvert32(BYTE* buf, CItemObject * const item , int maxitem);
+void ItemByteConvert(unsigned char* buf, CItemObject &item);
 void ItemByteConvert(unsigned char* buf, int type, BYTE Option1, BYTE Option2, BYTE Option3, BYTE level, BYTE dur, BYTE Noption, BYTE SetOption, BYTE JewelOfHarmonyOption, BYTE ItemEffectEx, BYTE *SocketOption, BYTE SocketBonusOption, BYTE PeriodItemOption);
 int ItemGetNumberMake(int type, int index);
 void ItemGetSize(int index, int & width, int & height);
@@ -386,7 +386,7 @@ int IsRepairItem(int item_num);
 int IsOverlapItem(int item_num);
 void LoadResetItemList(const char* szFile);
 int IsJumpingEventItem(int iItemCode);
-int IsExpensiveItem(CItem * item);
+int IsExpensiveItem(CItemObject * item);
 int GetItemKindA(int item_num);
 int GetItemKindB(int item_num);
 bool CheckCanWearResetItem(CGameObject &lpObj, int itemid);

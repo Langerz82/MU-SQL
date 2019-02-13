@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 
 #define FILE_CUSTOM_NEWSOCKETTYPE		"SocketSystem\\IGC_SocketItemType.ini"
 

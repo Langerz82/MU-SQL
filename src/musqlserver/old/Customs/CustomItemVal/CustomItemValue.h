@@ -1,12 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 // CustomItemValue.h
-// ItemValue.h: interface for the CItemValue class.
+// ItemValue.h: interface for the CItemObjectValue class.
 //
 //////////////////////////////////////////////////////////////////////
 
 #pragma once
 
-#include "Item.h"
+#include "ItemObject.h"
 
 #define FILE_CUSTOM_ITEMVAL "IGC_ItemValue.ini"
 
@@ -18,18 +18,18 @@ struct ITEM_VALUE_INFO
 	int Value;
 };
 
-class CItemValue
+class CItemObjectValue
 {
 public:
-	CItemValue();
-	virtual ~CItemValue();
+	CItemObjectValue();
+	virtual ~CItemObjectValue();
 	void Load(char* path);
-	bool GetItemValue(CItem* lpItem, int* value);
+	bool GetItemValue(CItemObject* lpItem, int* value);
 private:
 	std::vector<ITEM_VALUE_INFO> m_ItemValueInfo;
 };
 
-extern CItemValue gItemValue;
+extern CItemObjectValue gItemValue;
 
 
 ////////////////////////////////////////////////////////////////////////////////

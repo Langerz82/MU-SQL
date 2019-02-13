@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
-// CItemDrop.cpp
+// CItemObjectDrop.cpp
 
-#include "CItemDrop.h"
+#include "CItemObjectDrop.h"
 #include "User/CUserData.h"
 #include "GameProtocol.h"
 #include "configread.h"
@@ -16,18 +16,18 @@
 #include "SocketItemType.h"
 #include "CustomMaxStats.h"
 
-CItemDrop ItemDrop;
+CItemObjectDrop ItemDrop;
 
-CItemDrop::CItemDrop(void)
+CItemObjectDrop::CItemObjectDrop(void)
 {
 	this->m_dwDropUseRate = 0;
 }
 
-CItemDrop::~CItemDrop(void)
+CItemObjectDrop::~CItemObjectDrop(void)
 {
 }
 
-bool CItemDrop::LoadFile(const char *szFile)
+bool CItemObjectDrop::LoadFile(const char *szFile)
 {
 	this->m_vtMonsterList.clear();
 
@@ -105,7 +105,7 @@ bool CItemDrop::LoadFile(const char *szFile)
 	} 
 }
 
-bool CItemDrop::DropItem(CGameObject &lpUser, CGameObject lpMonster)
+bool CItemObjectDrop::DropItem(CGameObject &lpUser, CGameObject lpMonster)
 {
 	if(!ObjectMaxRange(lpUser->m_Index))
 		return false;
@@ -137,7 +137,7 @@ bool CItemDrop::DropItem(CGameObject &lpUser, CGameObject lpMonster)
 		if (ItemNumber == -1)
 		{
 			delete [] lpItems;
-			sLog->outError( "ERROR - Bad Index (%d) CItemDrop::DropItem (%s)(%d)", ItemNumber, lpUser->Name, lpMonster->Class);
+			sLog->outError( "ERROR - Bad Index (%d) CItemObjectDrop::DropItem (%s)(%d)", ItemNumber, lpUser->Name, lpMonster->Class);
 			return false;
 		}
 
@@ -146,7 +146,7 @@ bool CItemDrop::DropItem(CGameObject &lpUser, CGameObject lpMonster)
 		if (!p)
 		{
 			delete [] lpItems;
-			sLog->outError( "ERROR - Item not found (%d) CItemDrop::DropItem (%s)(%d)", ItemNumber, lpUser->Name, lpMonster->Class);
+			sLog->outError( "ERROR - Item not found (%d) CItemObjectDrop::DropItem (%s)(%d)", ItemNumber, lpUser->Name, lpMonster->Class);
 			return false;
 		}
 
@@ -364,7 +364,7 @@ bool CItemDrop::DropItem(CGameObject &lpUser, CGameObject lpMonster)
 	return true;
 }
 
-ITEMDROP_ITEM ** CItemDrop::GetItem(CGameObject &lpUser, CGameObject &lpMonster, int & iItemCount)
+ITEMDROP_ITEM ** CItemObjectDrop::GetItem(CGameObject &lpUser, CGameObject &lpMonster, int & iItemCount)
 {
 	boost::shared_ptr<ITEMDROP_MONSTER> itemdrop_monster_ = this->GetMonsterData(lpUser, lpMonster);
 
@@ -399,7 +399,7 @@ ITEMDROP_ITEM ** CItemDrop::GetItem(CGameObject &lpUser, CGameObject &lpMonster,
 	return lpItems;
 }
 
-boost::shared_ptr<ITEMDROP_MONSTER> CItemDrop::GetMonsterData(CGameObject &lpUser, CGameObject &lpMonster)
+boost::shared_ptr<ITEMDROP_MONSTER> CItemObjectDrop::GetMonsterData(CGameObject &lpUser, CGameObject &lpMonster)
 {
 	TRandomPoolMgr RandomPoolSection;
 
@@ -458,7 +458,7 @@ boost::shared_ptr<ITEMDROP_MONSTER> CItemDrop::GetMonsterData(CGameObject &lpUse
 	return this->m_vtMonsterList[RetSection-1];
 }
 
-boost::shared_ptr<ITEMDROP_ITEM> CItemDrop::GetItemFromMonster(boost::shared_ptr<ITEMDROP_MONSTER> itemdrop_monster_ptr)
+boost::shared_ptr<ITEMDROP_ITEM> CItemObjectDrop::GetItemFromMonster(boost::shared_ptr<ITEMDROP_MONSTER> itemdrop_monster_ptr)
 {
 	int iSuccessRate = 0;
 	int iSuccessMaxRate = 0;
@@ -493,7 +493,7 @@ boost::shared_ptr<ITEMDROP_ITEM> CItemDrop::GetItemFromMonster(boost::shared_ptr
 	return NULL;
 }
 
-void CItemDrop::AddCoinReward(boost::shared_ptr<ITEMDROP_MONSTER> itemdrop_monster_ptr, CGameObject lpUser)
+void CItemObjectDrop::AddCoinReward(boost::shared_ptr<ITEMDROP_MONSTER> itemdrop_monster_ptr, CGameObject lpUser)
 {
 	if (itemdrop_monster_ptr->bIsCoinReward == false)
 	{
@@ -503,7 +503,7 @@ void CItemDrop::AddCoinReward(boost::shared_ptr<ITEMDROP_MONSTER> itemdrop_monst
 	GDReqInGameShopPointAdd(lpUser->m_Index, itemdrop_monster_ptr->btCoinType, itemdrop_monster_ptr->dwCoinValue);
 }
 
-bool CItemDrop::LoadZenDropFile(const char *szFile)
+bool CItemObjectDrop::LoadZenDropFile(const char *szFile)
 {
 	pugi::xml_document file;
 	pugi::xml_parse_result res = file.load_file(szFile);
@@ -534,7 +534,7 @@ bool CItemDrop::LoadZenDropFile(const char *szFile)
 	}
 }
 
-bool CItemDrop::IsZenDropActive(BYTE btMapNumber)
+bool CItemObjectDrop::IsZenDropActive(BYTE btMapNumber)
 {
 //this->m_bZenDropEnable = true;
 //	return true;
@@ -551,7 +551,7 @@ bool CItemDrop::IsZenDropActive(BYTE btMapNumber)
 	return true;
 }
 
-UINT64 CItemDrop::GetZenAmount(BYTE btMapNumber, WORD wMonsterLevel)
+UINT64 CItemObjectDrop::GetZenAmount(BYTE btMapNumber, WORD wMonsterLevel)
 {
 
 	if (this->m_bZenDropEnable == false)

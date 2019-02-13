@@ -1,12 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ItemOptionRate.cpp
-// ItemOptionManager.cpp: implementation of the CItemOptionManager class.
+// ItemOptionManager.cpp: implementation of the CItemObjectOptionManager class.
 //
 //////////////////////////////////////////////////////////////////////
 
 #include "StdAfx.h"
 #include "ItemOptionRate.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 #include "MemScript.h"
 #include "PentagramSystem.h"
 #include "RandomManager.h"
@@ -17,12 +17,12 @@
 #include "LargeRand.h"
 #include "SocketItemType.h"
 
-CItemOptionRate gItemOptionRate;
+CItemObjectOptionRate gItemOptionRate;
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CItemOptionRate::CItemOptionRate() // OK
+CItemObjectOptionRate::CItemObjectOptionRate() // OK
 {
 	this->m_ItemOption0RateInfo.clear();
 
@@ -39,12 +39,12 @@ CItemOptionRate::CItemOptionRate() // OK
 	this->m_ItemOption6RateInfo.clear();
 }
 
-CItemOptionRate::~CItemOptionRate() // OK
+CItemObjectOptionRate::~CItemObjectOptionRate() // OK
 {
 
 }
 
-void CItemOptionRate::Load(char* path) // OK
+void CItemObjectOptionRate::Load(char* path) // OK
 {
 	CMemScript* lpMemScript = new CMemScript;
 
@@ -229,7 +229,7 @@ void CItemOptionRate::Load(char* path) // OK
 	delete lpMemScript;
 }
 
-bool CItemOptionRate::GetItemOption0(int index, BYTE* option) // OK
+bool CItemObjectOptionRate::GetItemOption0(int index, BYTE* option) // OK
 {
 	std::map<int, ITEM_OPTION0_RATE_INFO>::iterator it = this->m_ItemOption0RateInfo.find(index);
 
@@ -248,7 +248,7 @@ bool CItemOptionRate::GetItemOption0(int index, BYTE* option) // OK
 	return RandomManager.GetRandomElement(option);
 }
 
-bool CItemOptionRate::GetItemOption1(int index, BYTE* option) // OK
+bool CItemObjectOptionRate::GetItemOption1(int index, BYTE* option) // OK
 {
 	std::map<int, ITEM_OPTION1_RATE_INFO>::iterator it = this->m_ItemOption1RateInfo.find(index);
 
@@ -267,7 +267,7 @@ bool CItemOptionRate::GetItemOption1(int index, BYTE* option) // OK
 	return RandomManager.GetRandomElement(option);
 }
 
-bool CItemOptionRate::GetItemOption2(int index, BYTE* option) // OK
+bool CItemObjectOptionRate::GetItemOption2(int index, BYTE* option) // OK
 {
 	std::map<int, ITEM_OPTION2_RATE_INFO>::iterator it = this->m_ItemOption2RateInfo.find(index);
 
@@ -286,7 +286,7 @@ bool CItemOptionRate::GetItemOption2(int index, BYTE* option) // OK
 	return RandomManager.GetRandomElement(option);
 }
 
-bool CItemOptionRate::GetItemOption3(int index, BYTE* option) // OK
+bool CItemObjectOptionRate::GetItemOption3(int index, BYTE* option) // OK
 {
 	std::map<int, ITEM_OPTION3_RATE_INFO>::iterator it = this->m_ItemOption3RateInfo.find(index);
 
@@ -305,7 +305,7 @@ bool CItemOptionRate::GetItemOption3(int index, BYTE* option) // OK
 	return RandomManager.GetRandomElement(option);
 }
 
-bool CItemOptionRate::GetItemOption4(int index, BYTE* option) // OK
+bool CItemObjectOptionRate::GetItemOption4(int index, BYTE* option) // OK
 {
 	std::map<int, ITEM_OPTION4_RATE_INFO>::iterator it = this->m_ItemOption4RateInfo.find(index);
 
@@ -324,7 +324,7 @@ bool CItemOptionRate::GetItemOption4(int index, BYTE* option) // OK
 	return RandomManager.GetRandomElement(option);
 }
 
-bool CItemOptionRate::GetItemOption5(int index, BYTE* option) // OK
+bool CItemObjectOptionRate::GetItemOption5(int index, BYTE* option) // OK
 {
 	std::map<int, ITEM_OPTION5_RATE_INFO>::iterator it = this->m_ItemOption5RateInfo.find(index);
 
@@ -343,7 +343,7 @@ bool CItemOptionRate::GetItemOption5(int index, BYTE* option) // OK
 	return RandomManager.GetRandomElement(option);
 }
 
-bool CItemOptionRate::GetItemOption6(int index, BYTE* option) // OK
+bool CItemObjectOptionRate::GetItemOption6(int index, BYTE* option) // OK
 {
 	std::map<int, ITEM_OPTION6_RATE_INFO>::iterator it = this->m_ItemOption6RateInfo.find(index);
 
@@ -362,7 +362,7 @@ bool CItemOptionRate::GetItemOption6(int index, BYTE* option) // OK
 	return RandomManager.GetRandomElement(option);
 }
 
-bool CItemOptionRate::MakeNewOption(int ItemIndex, int value, BYTE* option) // OK
+bool CItemObjectOptionRate::MakeNewOption(int ItemIndex, int value, BYTE* option) // OK
 {
 	(*option) = 0;
 
@@ -424,7 +424,7 @@ bool CItemOptionRate::MakeNewOption(int ItemIndex, int value, BYTE* option) // O
 	return 1;
 }
 
-bool CItemOptionRate::MakeSetOption(int ItemIndex, int value, BYTE* option) // OK
+bool CItemObjectOptionRate::MakeSetOption(int ItemIndex, int value, BYTE* option) // OK
 {
 	if (gSetItemOption.IsSetItem(ItemIndex) == 0 || value == 0)
 	{
@@ -447,7 +447,7 @@ bool CItemOptionRate::MakeSetOption(int ItemIndex, int value, BYTE* option) // O
 	return 1;
 }
 
-bool CItemOptionRate::MakeSocketOption(int ItemIndex, int value, BYTE* option) // OK
+bool CItemObjectOptionRate::MakeSocketOption(int ItemIndex, int value, BYTE* option) // OK
 {
 	if ((gSocketItemType.CheckSocketItemType(ItemIndex) == 0 && g_PentagramSystem.IsPentagramItem(ItemIndex) == 0) || value == 0 || value == 0xFF)
 	{

@@ -7928,8 +7928,8 @@ BYTE CMasterLevelSkillTreeSystem::ResetMasterSkill(CGameObject &lpObj, int nTree
 
 					else
 					{
-						CItem * lpLeftItem = &lpObj.pInventory[1];
-						CItem * lpRightItem = &lpObj.pInventory[0];
+						CItemObject * lpLeftItem = &lpObj.pInventory[1];
+						CItemObject * lpRightItem = &lpObj.pInventory[0];
 
 						if (lpLeftItem->m_Special[0] == iBrandOfSkill)
 						{

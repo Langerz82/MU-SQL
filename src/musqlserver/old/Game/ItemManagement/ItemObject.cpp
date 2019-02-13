@@ -7,10 +7,8 @@
 // GS-N 0.99.60T 0x004E5740 - Status Completed :)
 // GS-N	1.00.18	JPN	0x0051E110	-	Completed.
 
-//#include "StdAfx.h"
-
-#include "Item.h"
-
+#include "PrecompiledHeader/StdAfx.h"
+#include "ItemObject.h"
 
 #include "Main.h"
 #include "ItemSystemFor380.h"
@@ -37,12 +35,12 @@ CPetItemExp gPetItemExp;
 int g_MaxItemIndexOfEachItemType[MAX_TYPE_ITEMS];
 RESETITEMLIST gObjResetItem[1000];
 
-CItem::CItem()
+CItemObject::CItemObject()
 {
 	this->Clear();
 }
 
-void CItem::Clear()	// Fine
+void CItemObject::Clear()	// Fine
 {
 	this->m_Type = -1;
 	this->m_Level = 0;
@@ -89,7 +87,7 @@ void CItem::Clear()	// Fine
 	this->m_wPShopChaosValue = 0;
 }
 
-BOOL CItem::IsItem() // Good
+BOOL CItemObject::IsItem() // Good
 {
 	if (this->m_Type < 0)
 	{
@@ -101,7 +99,7 @@ BOOL CItem::IsItem() // Good
 	}
 }
 
-int CItem::IsSetItem() // Good
+int CItemObject::IsSetItem() // Good
 {
 	if (this->m_Type < 0)
 	{
@@ -113,7 +111,7 @@ int CItem::IsSetItem() // Good
 	}
 }
 
-void CItem::Convert(int type, BYTE Option1, BYTE Option2, BYTE Option3, BYTE Attribute2, BYTE SetOption, BYTE ItemEffectEx, BYTE *SocketOption, BYTE SocketBonusOption, BYTE PeriodItemOption, BYTE DbVersion)
+void CItemObject::Convert(int type, BYTE Option1, BYTE Option2, BYTE Option3, BYTE Attribute2, BYTE SetOption, BYTE ItemEffectEx, BYTE *SocketOption, BYTE SocketBonusOption, BYTE PeriodItemOption, BYTE DbVersion)
 {
 	int _type;
 	int ItemLevel;
@@ -1917,18 +1915,18 @@ void CItem::Convert(int type, BYTE Option1, BYTE Option2, BYTE Option3, BYTE Att
 #endif
 }
 
-int CItem::GetLevel()
+int CItemObject::GetLevel()
 {
 	return ItemAttribute[this->m_Type].Level;
 }
 
-UINT64 CItem::GetNumber()
+UINT64 CItemObject::GetNumber()
 {
 	return this->m_Number;
 	}
 
 
-void CItem::Value()
+void CItemObject::Value()
 {
 	if (this->m_Type == -1)
 	{
@@ -3177,7 +3175,7 @@ void CItem::Value()
 }
 
 
-void CItem::OldValue()
+void CItemObject::OldValue()
 {
 	if (this->m_Type == -1)
 	{
@@ -3224,7 +3222,7 @@ void CItem::OldValue()
 	}
 }
 
-BOOL CItem::GetSize(int & w, int & h)
+BOOL CItemObject::GetSize(int & w, int & h)
 {
 	w = ItemAttribute[this->m_Type].Width;
 	h = ItemAttribute[this->m_Type].Height;
@@ -3232,7 +3230,7 @@ BOOL CItem::GetSize(int & w, int & h)
 	return 1;
 }
 
-int CItem::ItemDamageMin()
+int CItemObject::ItemDamageMin()
 {
 	int damagemin;
 
@@ -3248,7 +3246,7 @@ int CItem::ItemDamageMin()
 	}
 }
 
-int CItem::ItemDefense()
+int CItemObject::ItemDefense()
 {
 	int Defense;
 
@@ -3274,7 +3272,7 @@ int CItem::ItemDefense()
 
 
 
-BOOL CItem::IsClass(char aClass, int ChangeUP)
+BOOL CItemObject::IsClass(char aClass, int ChangeUP)
 {
 	if ((aClass < 0) || (aClass >= MAX_TYPE_PLAYER))
 	{
@@ -3299,13 +3297,13 @@ BOOL CItem::IsClass(char aClass, int ChangeUP)
 	return 1;
 }
 
-LPSTR CItem::GetName()
+LPSTR CItemObject::GetName()
 {
 	return &ItemAttribute[this->m_Type].Name[0];
 }
 
 
-void CItem::PlusSpecialSetRing(BYTE * Value)
+void CItemObject::PlusSpecialSetRing(BYTE * Value)
 {
 	if (this->m_Type < 0)
 	{
@@ -3340,7 +3338,7 @@ void CItem::PlusSpecialSetRing(BYTE * Value)
 }
 
 
-void CItem::PlusSpecial(int * Value, int Special)
+void CItemObject::PlusSpecial(int * Value, int Special)
 {
 	if (this->m_Type < 0)
 	{
@@ -3405,7 +3403,7 @@ void CItem::PlusSpecial(int * Value, int Special)
 	}
 }
 
-void CItem::PlusSpecialPercent(int * Value, int Special, WORD Percent)
+void CItemObject::PlusSpecialPercent(int * Value, int Special, WORD Percent)
 {
 	if (this->m_Type < 0)
 	{
@@ -3422,7 +3420,7 @@ void CItem::PlusSpecialPercent(int * Value, int Special, WORD Percent)
 }
 
 
-void CItem::PlusSpecialPercentEx(int * Value, int SourceValue, int Special)
+void CItemObject::PlusSpecialPercentEx(int * Value, int SourceValue, int Special)
 {
 	if (this->m_Type < 0)
 	{
@@ -3449,7 +3447,7 @@ void CItem::PlusSpecialPercentEx(int * Value, int SourceValue, int Special)
 	}
 }
 
-void CItem::PlusSpecialPercentEx(float * Value, float SourceValue, float Special)
+void CItemObject::PlusSpecialPercentEx(float * Value, float SourceValue, float Special)
 {
 	if (this->m_Type < 0)
 	{
@@ -3476,7 +3474,7 @@ void CItem::PlusSpecialPercentEx(float * Value, float SourceValue, float Special
 	}
 }
 
-void CItem::SetItemPlusSpecialStat(int * Value, int Special)
+void CItemObject::SetItemPlusSpecialStat(int * Value, int Special)
 {
 	if (this->m_Type < 0)
 	{
@@ -3514,14 +3512,14 @@ void CItem::SetItemPlusSpecialStat(int * Value, int Special)
 	}
 }
 
-int CItem::GetAddStatType()
+int CItemObject::GetAddStatType()
 {
 	LPITEM_ATTRIBUTE p;
 	p = &ItemAttribute[this->m_Type];
 	return p->SetAttr;
 }
 
-int CItem::GetWeaponType()
+int CItemObject::GetWeaponType()
 {
 	if (this->m_Type <= ITEMGET(5, 0))
 	{
@@ -3536,7 +3534,7 @@ int CItem::GetWeaponType()
 }
 
 
-void CItem::SetPetItemInfo(int petlevel, UINT64 petexp)
+void CItemObject::SetPetItemInfo(int petlevel, UINT64 petexp)
 {
 	if (this->m_Type == ITEMGET(13, 4))
 	{
@@ -3573,7 +3571,7 @@ void CItem::SetPetItemInfo(int petlevel, UINT64 petexp)
 
 
 
-BOOL CItem::AddPetItemExp(UINT64 petexp)
+BOOL CItemObject::AddPetItemExp(UINT64 petexp)
 {
 	if (this->m_Durability <= 0.0f)
 	{
@@ -3666,7 +3664,7 @@ BOOL CItem::AddPetItemExp(UINT64 petexp)
 	return FALSE;
 }
 
-BOOL CItem::DecPetItemExp(int percent)
+BOOL CItemObject::DecPetItemExp(int percent)
 {
 	if (this->m_IsLoadPetItemInfo == 0)
 	{
@@ -3736,7 +3734,7 @@ BOOL CItem::DecPetItemExp(int percent)
 	return FALSE;
 }
 
-BOOL CItem::PetItemLevelDown(UINT64 exp)
+BOOL CItemObject::PetItemLevelDown(UINT64 exp)
 {
 	if (this->m_IsLoadPetItemInfo == FALSE)
 	{
@@ -3797,7 +3795,7 @@ BOOL CItem::PetItemLevelDown(UINT64 exp)
 
 
 
-void CItem::PetValue()
+void CItemObject::PetValue()
 {
 	if (this->m_Type == ITEMGET(13, 4))
 	{
@@ -3834,7 +3832,7 @@ void CItem::PetValue()
 	}
 }
 
-BOOL CItem::IsExtItem()
+BOOL CItemObject::IsExtItem()
 {
 	if (this->m_Type == ITEMGET(13, 37))
 	{
@@ -3862,7 +3860,7 @@ BOOL CItem::IsExtItem()
 	return FALSE;
 }
 
-BOOL CItem::IsCurseSpell()
+BOOL CItemObject::IsCurseSpell()
 {
 	if (this->m_IsValidItem == FALSE)
 	{
@@ -3877,7 +3875,7 @@ BOOL CItem::IsCurseSpell()
 	return this->m_CurseSpell;
 }
 
-BOOL CItem::IsDinorantReduceAttackDamaege()
+BOOL CItemObject::IsDinorantReduceAttackDamaege()
 {
 	if (this->m_Durability < 1.0f)
 	{
@@ -3891,7 +3889,7 @@ BOOL CItem::IsDinorantReduceAttackDamaege()
 	return 0;
 }
 
-int CItem::IsFenrirIncLastAttackDamage()
+int CItemObject::IsFenrirIncLastAttackDamage()
 {
 	if (this->m_Durability < 1.0f)
 	{
@@ -3906,7 +3904,7 @@ int CItem::IsFenrirIncLastAttackDamage()
 	return 0;
 }
 
-int CItem::IsFenrirDecLastAttackDamage()
+int CItemObject::IsFenrirDecLastAttackDamage()
 {
 	if (this->m_Durability < 1.0f)
 	{
@@ -3921,7 +3919,7 @@ int CItem::IsFenrirDecLastAttackDamage()
 	return 0;
 }
 
-int CItem::IsFenrirAddExp()
+int CItemObject::IsFenrirAddExp()
 {
 	if (this->m_Durability < 1.0f)
 	{
@@ -3951,7 +3949,7 @@ int CItem::IsFenrirAddExp()
 	return 0;
 }
 
-int CItem::IsFenrirIllusionDecDmg()
+int CItemObject::IsFenrirIllusionDecDmg()
 {
 	if (this->m_Durability < 1.0f)
 	{
@@ -3966,7 +3964,7 @@ int CItem::IsFenrirIllusionDecDmg()
 	return 0;
 }
 
-int CItem::IsFenrirIllusion()
+int CItemObject::IsFenrirIllusion()
 {
 	if (this->m_Durability < 1.0f)
 	{
@@ -3981,12 +3979,12 @@ int CItem::IsFenrirIllusion()
 	return 0;
 }
 
-int CItem::IsPeriodItem()
+int CItemObject::IsPeriodItem()
 {
 	return (this->m_PeriodItemOption & 1) == 1;
 }
 
-int CItem::IsPeriodItemExpire()
+int CItemObject::IsPeriodItemExpire()
 {
 	if (this->IsPeriodItem() == false)
 	{
@@ -3996,18 +3994,18 @@ int CItem::IsPeriodItemExpire()
 	return (this->m_PeriodItemOption & 2) == 2;
 }
 
-void CItem::SetPeriodItem()
+void CItemObject::SetPeriodItem()
 {
 	this->m_PeriodItemOption = 1;
 }
 
-void CItem::SetPeriodItemExpire()
+void CItemObject::SetPeriodItemExpire()
 {
 	this->m_PeriodItemOption |= 2;
 	this->m_Durability = 0.0;
 }
 
-int CItem::SimpleDurabilityDown(int iDecValue)
+int CItemObject::SimpleDurabilityDown(int iDecValue)
 {
 	if (this->IsPeriodItem() == TRUE)
 	{
@@ -4035,7 +4033,7 @@ int CItem::SimpleDurabilityDown(int iDecValue)
 	return this->m_Durability;
 }
 
-int CItem::DurabilityDown(int dur, CGameObject &lpObj)
+int CItemObject::DurabilityDown(int dur, CGameObject &lpObj)
 {
 	if (this->m_Durability <= 0)
 	{
@@ -4083,7 +4081,7 @@ int CItem::DurabilityDown(int dur, CGameObject &lpObj)
 
 
 
-int CItem::DurabilityDown2(int dur, CGameObject &lpObj)
+int CItemObject::DurabilityDown2(int dur, CGameObject &lpObj)
 {
 	if (this->m_Durability <= 0)
 	{
@@ -4131,7 +4129,7 @@ int CItem::DurabilityDown2(int dur, CGameObject &lpObj)
 
 
 
-int CItem::NormalWeaponDurabilityDown(int defense, CGameObject &lpObj)
+int CItemObject::NormalWeaponDurabilityDown(int defense, CGameObject &lpObj)
 {
 	if (this->m_Durability <= 0)
 	{
@@ -4205,7 +4203,7 @@ int CItem::NormalWeaponDurabilityDown(int defense, CGameObject &lpObj)
 }
 
 
-int CItem::BowWeaponDurabilityDown(int defense, CGameObject &lpObj)
+int CItemObject::BowWeaponDurabilityDown(int defense, CGameObject &lpObj)
 {
 	if (this->m_Durability <= 0)
 	{
@@ -4272,7 +4270,7 @@ int CItem::BowWeaponDurabilityDown(int defense, CGameObject &lpObj)
 	return 0;
 }
 
-int CItem::StaffWeaponDurabilityDown(int defence, CGameObject &lpObj)
+int CItemObject::StaffWeaponDurabilityDown(int defence, CGameObject &lpObj)
 {
 	if (this->m_Durability <= 0)
 	{
@@ -4337,7 +4335,7 @@ int CItem::StaffWeaponDurabilityDown(int defence, CGameObject &lpObj)
 	return 0;
 }
 
-int CItem::LuckyItemArmorDurabilityDown(int damagemin, CGameObject &lpObj)
+int CItemObject::LuckyItemArmorDurabilityDown(int damagemin, CGameObject &Obj)
 {
 	if (this->m_Durability <= 0.0f)
 	{
@@ -4372,7 +4370,7 @@ int CItem::LuckyItemArmorDurabilityDown(int damagemin, CGameObject &lpObj)
 
 	if (CheckDurabilityState())
 	{
-		g_LuckyItemManager.GDReqLuckyItemDelete(this->m_Type, this->m_Number, aIndex);
+		g_LuckyItemManager.GDReqLuckyItemDelete(this->m_Type, this->m_Number, Obj.m_Index);
 		return 2;
 	}
 	else
@@ -4382,7 +4380,7 @@ int CItem::LuckyItemArmorDurabilityDown(int damagemin, CGameObject &lpObj)
 
 }
 
-int CItem::ArmorDurabilityDown(int damagemin, CGameObject &lpObj)
+int CItemObject::ArmorDurabilityDown(int damagemin, CGameObject &lpObj)
 {
 	if (this->m_Durability <= 0)
 	{
@@ -4500,13 +4498,13 @@ int CItem::ArmorDurabilityDown(int damagemin, CGameObject &lpObj)
 	return 0;
 }
 
-void CItem::FixIt()
+void CItemObject::FixIt()
 {
 	this->Convert(this->m_Type, this->m_Option1, this->m_Option2, this->m_Option3, this->m_NewOption,
 		this->m_SetOption, this->m_ItemOptionEx, 0, -1, 0, CURRENT_DB_VERSION);
 }
 
-BOOL CItem::CheckDurabilityState()
+BOOL CItemObject::CheckDurabilityState()
 {
 	if (this->m_Durability == 0.0f)
 	{
@@ -4559,22 +4557,22 @@ BOOL CItem::CheckDurabilityState()
 	return false;
 }
 
-bool CItem::IsMuunItemPeriodExpire()
+bool CItemObject::IsMuunItemPeriodExpire()
 {
 	return (this->m_BonusSocketOption & 0x10) != false;
 }
 
-void CItem::SetMuunItemPeriodExpire()
+void CItemObject::SetMuunItemPeriodExpire()
 {
 	this->m_BonusSocketOption |= 0x10;
 }
 
-void CItem::SetMuunItemPeriodReset()
+void CItemObject::SetMuunItemPeriodReset()
 {
 	this->m_BonusSocketOption &= 0xF;
 }
 
-int CItem::GetMuunItemRank()
+int CItemObject::GetMuunItemRank()
 {
 	return this->m_BonusSocketOption & 0xF;
 }
@@ -4594,7 +4592,7 @@ void BufferItemtoConvert3(unsigned char* buf, int& type, BYTE& level, BYTE& op1,
 	op3 |= (buf[3] & 0x40) >> 4;
 }
 
-void ItemByteConvert(unsigned char* buf, CItem item)
+void ItemByteConvert(unsigned char* buf, CItemObject &item)
 {
 	int n = 0;
 
@@ -4759,7 +4757,7 @@ void ItemByteConvert(unsigned char* buf, int type, BYTE Option1, BYTE Option2, B
 	}
 }
 
-void ItemByteConvert32(LPBYTE buf, CItem * const item, int maxitem)
+void ItemByteConvert32(LPBYTE buf, CItemObject * const item, int maxitem)
 {
 	int n = 0;
 	int count = 0;
@@ -5754,7 +5752,7 @@ int IsOverlapItem(int item_num)
 	return pItemAttribute->ItemOverlap;
 }
 
-int CItem::GetDetailItemType()
+int CItemObject::GetDetailItemType()
 {
 	LPITEM_ATTRIBUTE p = &ItemAttribute[this->m_Type];
 
@@ -5870,7 +5868,7 @@ int CItem::GetDetailItemType()
 	return -1;
 }
 
-void CItem::InitSocketItem(BYTE btCount)
+void CItemObject::InitSocketItem(BYTE btCount)
 {
 	if (g_SocketOptionSystem.IsSocketItem(this) == FALSE)
 	{
@@ -5885,7 +5883,7 @@ void CItem::InitSocketItem(BYTE btCount)
 	m_BonusSocketOption = 0xFF;
 }
 
-void CItem::MakeSocketSlot(BYTE SlotCount)
+void CItemObject::MakeSocketSlot(BYTE SlotCount)
 {
 	if (g_SocketOptionSystem.IsSocketItem(this) == FALSE)
 	{
@@ -5900,7 +5898,7 @@ void CItem::MakeSocketSlot(BYTE SlotCount)
 	m_BonusSocketOption = 0xFF;
 }
 
-bool CItem::IsPentagramItem() // OK
+bool CItemObject::IsPentagramItem() // OK
 {
 	return g_PentagramSystem.IsPentagramItem(this);
 }
@@ -6003,7 +6001,7 @@ BOOL IsJumpingEventItem(int iItemCode)
 	}
 }
 
-int IsExpensiveItem(CItem * item)
+int IsExpensiveItem(CItemObject * item)
 {
 	if (item->m_Type >= ITEMGET(0, 0) && item->m_Type < ITEMGET(12, 0))
 	{

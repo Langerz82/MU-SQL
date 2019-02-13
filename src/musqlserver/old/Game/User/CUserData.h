@@ -213,7 +213,7 @@ public:
 	DWORD LastSkillUseNumber;
 	DWORD LastSkillUseCount;
 	PENTAGRAM_OPTION* m_PentagramOptions;
-	class CItem * pPentagramMixBox;
+	class CItemObject * pPentagramMixBox;
 	unsigned char * pPentagramMixBoxMap;
 	int PentagramMixMoney;
 	int PentagramMixSuccessRate;

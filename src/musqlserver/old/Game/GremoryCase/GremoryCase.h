@@ -8,7 +8,7 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 
 #include "generalStructs.h"
 

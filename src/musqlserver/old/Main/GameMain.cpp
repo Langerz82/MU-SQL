@@ -39,7 +39,7 @@
 #include "MapServerManager.h"
 #include "QuestInfo.h"
 #include "SkillHitBox.h"
-#include "CItemDrop.h"
+#include "CItemObjectDrop.h"
 #include "EventManagement.h"
 #include "SetItemOption.h"
 #include "ItemSocketOptionSystem.h"

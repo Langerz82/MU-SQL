@@ -8,7 +8,7 @@
 #endif // _MSC_VER > 1000
 
 #include "TRandomPoolMgr.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 
 #define MAX_LOTTERY_ITEM_CATEGORY	23
 #define MAX_LOTTERY_ITEM_COUNT	130
@@ -46,7 +46,7 @@ public:
 	void Load(LPSTR pchFilename);
 	void SetitemDropRate(int iCategory, int iDropRate, int iSkillOptionRate, int iLuckOptionRate, int iAddOptionRate, int iExOptionRate);
 	BOOL InsertItem(int iItemCategory, int iItemType, int iItemIndex, int iItemLevelMin, int iItemLevelMax, int iSkillOption, int iLuckOption, int iAddOption, int iExOption);
-	int GetItem(CItem* lpItem);
+	int GetItem(CItemObject* lpItem);
 	void GetRequireInvenSize(int* piHeight, int* piWidth);
 
 private:
@@ -81,7 +81,7 @@ public:
 	void Init();
 	BYTE LoadLottery(const char* LotteryName, char* szFileName);
 	CCashLotterySystem* GetLottery(const char* szName);
-	int GetItem(const char* szName, CItem* lpItem);
+	int GetItem(const char* szName, CItemObject* lpItem);
 protected:
 	LOTTERY Lottery[MAX_LOTTERY];
 };

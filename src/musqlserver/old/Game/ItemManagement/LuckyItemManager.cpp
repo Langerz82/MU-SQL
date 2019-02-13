@@ -346,7 +346,7 @@ void LuckyItemManager::LuckyItemTicketExchange(CGameObject &lpObj)
 {
 	int iValidItemCount		= 0;
 	int iInvalidItemCount	= 0;
-	CItem NewItem;
+	CItemObject NewItem;
 	
 	PMSG_CHAOSMIXRESULT pMsg;
 	PHeadSetB((LPBYTE)&pMsg.h, 0x86, sizeof(PMSG_CHAOSMIXRESULT));
@@ -539,7 +539,7 @@ void LuckyItemManager::LuckyItemSmelting(CGameObject &lpObj)
 	int iValidItemCount		= 0;
 	BYTE iInvalidItemCount	= 0;
 	
-	CItem NewItem;
+	CItemObject NewItem;
 	PMSG_CHAOSMIXRESULT pMsg;
 	PHeadSetB((LPBYTE)&pMsg, 0x86, sizeof(PMSG_CHAOSMIXRESULT));
 	
@@ -675,7 +675,7 @@ int LuckyItemManager::LuckyItemRepaire(CGameObject &lpObj, int source, int targe
 		return false;
 	}
 	
-	CItem * LuckyItemEquipment	= &lpObj.pInventory[target];
+	CItemObject * LuckyItemEquipment	= &lpObj.pInventory[target];
 	int	bLuckyItemEquipment		= this->IsLuckyItemEquipment(LuckyItemEquipment->m_Type);
 	
 	if( !bLuckyItemEquipment )
@@ -718,7 +718,7 @@ int LuckyItemManager::LuckyItemRepaire(CGameObject &lpObj, int source, int targe
 	return true;
 }
 
-int LuckyItemManager::GDReqLuckyItemInsert(CItem * pItem, int iObjIndex)
+int LuckyItemManager::GDReqLuckyItemInsert(CItemObject * pItem, int iObjIndex)
 {
 	WORD wItemCode			= pItem->m_Type;
 	UINT64 Serial			= pItem->m_serial;
@@ -759,7 +759,7 @@ void LuckyItemManager::GDReqLuckyItemInsert2nd(int iObjIndex)
 	
 	for( int i = 0; i < 5; i++ )
 	{
-		CItem pItem = lpObj.pInventory[iItemType[i]];
+		CItemObject pItem = lpObj.pInventory[iItemType[i]];
 		
 		if( this->IsLuckyItemEquipment(pItem.m_Type) )
 		{
@@ -819,7 +819,7 @@ void LuckyItemManager::DGAnsLuckyItemList(PMSG_ANS_LUCKYITEM_SELECT * lpRecv)
 	{
 		if( gGameObjects[iObjIndex]->pInventory[iInven]->IsItem() )
 		{
-			CItem * pItem = &gGameObjects[iObjIndex]->pInventory[iInven];
+			CItemObject * pItem = &gGameObjects[iObjIndex]->pInventory[iInven];
 
 			for( int i = 0; i < iItemCnt; i++ )
 			{

@@ -153,7 +153,7 @@ void CLuaBag::LoadItemBag()
 	this->m_Lua.Generic_Call("LoadItemBag", ">");
 }
 
-bool CLuaBag::MakeItemFromBag(CGameObject &lpObj, BAG_ITEM * m_Item, CItem & Item, time_t & DurationItem)
+bool CLuaBag::MakeItemFromBag(CGameObject &lpObj, BAG_ITEM * m_Item, CItemObject & Item, time_t & DurationItem)
 {
 	this->InsertItemMap(m_Item);
 

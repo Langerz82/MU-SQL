@@ -480,7 +480,7 @@ bool CPentagramSystem::LoadPentagramOptionScript(char *pchFileName)
 	return true;
 }
 
-bool CPentagramSystem::IsPentagramItem(CItem *lpItemData)
+bool CPentagramSystem::IsPentagramItem(CItemObject *lpItemData)
 {
 	if (!lpItemData)
 	{
@@ -537,7 +537,7 @@ bool CPentagramSystem::IsPentagramMithril(int ItemIndex) // OK
 	return 0;
 }
 
-bool CPentagramSystem::IsPentagramJewel(CItem *lpItemData)
+bool CPentagramSystem::IsPentagramJewel(CItemObject *lpItemData)
 {
 	if (!lpItemData)
 	{
@@ -609,7 +609,7 @@ void CPentagramSystem::ClearPentagramItem(CGameObject &lpObj)
 	memset(&lpObj.m_PlayerData->m_PentagramOptions, 0x00, sizeof(PENTAGRAM_OPTION));
 }
 
-void CPentagramSystem::CalcPentagramItem(CGameObject &lpObj, CItem* lpItemData)
+void CPentagramSystem::CalcPentagramItem(CGameObject &lpObj, CItemObject* lpItemData)
 {
 	if (!lpItemData)
 	{
@@ -1871,7 +1871,7 @@ END_LOOP2:
 	return iSlot_1 + iSlot_2 + iSlot_3 + iSlot_4 + iSlot_5;
 }
 
-bool CPentagramSystem::SetPentagramMainAttribute(CItem *lpItemData, BYTE btAttributeNumber)
+bool CPentagramSystem::SetPentagramMainAttribute(CItemObject *lpItemData, BYTE btAttributeNumber)
 {
 	if (!lpItemData)
 	{
@@ -1887,7 +1887,7 @@ bool CPentagramSystem::SetPentagramMainAttribute(CItem *lpItemData, BYTE btAttri
 	return true;
 }
 
-bool CPentagramSystem::MakePentagramSocketSlot(CItem *lpItemData, BYTE btSocketSlot1, BYTE btSocketSlot2, BYTE btSocketSlot3, BYTE btSocketSlot4, BYTE btSocketSlot5)
+bool CPentagramSystem::MakePentagramSocketSlot(CItemObject *lpItemData, BYTE btSocketSlot1, BYTE btSocketSlot2, BYTE btSocketSlot3, BYTE btSocketSlot4, BYTE btSocketSlot5)
 {
 	if (!lpItemData)
 	{
@@ -1928,7 +1928,7 @@ bool CPentagramSystem::MakePentagramSocketSlot(CItem *lpItemData, BYTE btSocketS
 
 }
 
-bool CPentagramSystem::ClearPentagramSocketSlot(CGameObject &lpObj, int iInventoryPos, CItem *lpTargetItem, BYTE btSocketSlotIndex)
+bool CPentagramSystem::ClearPentagramSocketSlot(CGameObject &lpObj, int iInventoryPos, CItemObject *lpTargetItem, BYTE btSocketSlotIndex)
 {
 	if (!lpTargetItem)
 	{
@@ -1960,7 +1960,7 @@ bool CPentagramSystem::AddRadianceSlot(BYTE TargetSlot)
 		return false;
 	//m_SocketOption[0] = 0xFE;
 }
-bool CPentagramSystem::SetPentagramSocketSlot(CItem *lpTargetItem, BYTE bt1RankOptionNum, BYTE bt1RankLevel, BYTE bt2RankOptionNum, BYTE bt2RankLevel, BYTE bt3RankOptionNum, BYTE bt3RankLevel, BYTE bt4RankOptionNum, BYTE bt4RankLevel, BYTE bt5RankOptionNum, BYTE bt5RankLevel, BYTE curRank)
+bool CPentagramSystem::SetPentagramSocketSlot(CItemObject *lpTargetItem, BYTE bt1RankOptionNum, BYTE bt1RankLevel, BYTE bt2RankOptionNum, BYTE bt2RankLevel, BYTE bt3RankOptionNum, BYTE bt3RankLevel, BYTE bt4RankOptionNum, BYTE bt4RankLevel, BYTE bt5RankOptionNum, BYTE bt5RankLevel, BYTE curRank)
 {
 	if (!lpTargetItem)
 	{
@@ -2026,7 +2026,7 @@ bool CPentagramSystem::SetPentagramSocketSlot(CItem *lpTargetItem, BYTE bt1RankO
 	return true;
 }
 
-bool CPentagramSystem::SwitchPentagramJewel(CGameObject &lpObj, CItem *lpSourceItem, int iSwitchType)
+bool CPentagramSystem::SwitchPentagramJewel(CGameObject &lpObj, CItemObject *lpSourceItem, int iSwitchType)
 {
 	
 
@@ -2260,7 +2260,7 @@ bool CPentagramSystem::AddPentagramJewelInfo(CGameObject &lpObj, int iJewelPos, 
 	return iAddSuccess;
 }
 
-bool CPentagramSystem::DelPentagramJewelInfo(CGameObject &lpObj, CItem *lpItemData)
+bool CPentagramSystem::DelPentagramJewelInfo(CGameObject &lpObj, CItemObject *lpItemData)
 {
 	if (!lpItemData)
 	{
@@ -3055,7 +3055,7 @@ BOOL CPentagramSystem::PentagramJewel_OUT(CGameObject &lpObj, int iPentagramItem
 	return iReturnValue;
 }
 
-bool CPentagramSystem::GCTransPentagramJewelViewInfo(CGameObject &lpObj, CItem *lpItemData)
+bool CPentagramSystem::GCTransPentagramJewelViewInfo(CGameObject &lpObj, CItemObject *lpItemData)
 {
 	PMSG_PENTAGRAMJEWEL_INFO pMsg;
 	PENTAGRAMJEWEL_INFO m_PentagramJewelInfo;

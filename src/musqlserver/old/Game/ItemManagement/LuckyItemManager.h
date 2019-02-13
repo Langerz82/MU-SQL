@@ -36,7 +36,7 @@ public:
 	BYTE	GetLevel(int iMinLv, int iMaxLv);
 	int		LuckyItemRepaire(CGameObject &lpObj, int source, int target);
 
-	int		GDReqLuckyItemInsert(CItem * pItem, int iObjIndex);
+	int		GDReqLuckyItemInsert(CItemObject * pItem, int iObjIndex);
 	int		GDReqLuckyItemInsert(short wItemCode, UINT64 dwSerial, short wDurabilitySmall, int iObjIndex);
 	void	GDReqLuckyItemInsert2nd(int iObjIndex);
 	void	GDReqLuckyItemDelete(short wItemCode, UINT64 dwSerial, int iObjIndex);

@@ -224,8 +224,8 @@ GOTO_EndFunc:
 
 BYTE gObjEventInvenItemOverlap(CGameObject &lpObj, int *durSsend, int *durTsend, BYTE source, BYTE target)
 {
-	CItem* sitem = &lpObj.pEventInventory[source];
-	CItem* titem = &lpObj.pEventInventory[target];
+	CItemObject* sitem = &lpObj.pEventInventory[source];
+	CItemObject* titem = &lpObj.pEventInventory[target];
 
 	int max_count = 0;
 

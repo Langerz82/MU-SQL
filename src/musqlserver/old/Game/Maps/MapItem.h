@@ -11,10 +11,10 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 #include "User/CUserData.h"
 
-class CMapItem : public CItem
+class CMapItem : public CItemObject
 {
 
 public:

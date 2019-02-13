@@ -276,7 +276,7 @@ int CBag::GetItem(BAG_SECTION_ITEMS &pItemsSec, BAG_ITEM & pRetItem)
 	return TRUE;
 }
 
-int CBag::GetReadyItemToUse(CGameObject &lpObj, CItem &pItem, time_t & DurationItem)
+int CBag::GetReadyItemToUse(CGameObject &lpObj, CItemObject &pItem, time_t & DurationItem)
 {
 	
 

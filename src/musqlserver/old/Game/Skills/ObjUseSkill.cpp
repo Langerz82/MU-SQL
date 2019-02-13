@@ -4778,8 +4778,8 @@ int CObjUseSkill::GetAddUseMana(CGameObject &lpObj, CMagicInf * lpMagic)
 		{
 			int iArrowLevel = 0;
 
-			CItem * Right = &lpObj.pInventory[0];
-			CItem * Left = &lpObj.pInventory[1];
+			CItemObject * Right = &lpObj.pInventory[0];
+			CItemObject * Left = &lpObj.pInventory[1];
 
 			if (Right->m_Type >= ITEMGET(4, 8) && Right->m_Type <= ITEMGET(4, 14)
 				|| Right->m_Type == ITEMGET(4, 16)

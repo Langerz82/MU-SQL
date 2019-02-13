@@ -107,7 +107,7 @@ void CDoppelGangerItemBag::LoadDoppelgangerItemBag(LPSTR lpFile)
 
 		for (pugi::xml_node item = item_section.child("Item"); item; item = item.next_sibling())
 		{
-			CItemBagAttrEx tmpItemBagAttr;
+			CItemObjectBagAttrEx tmpItemBagAttr;
 
 			tmpItemBagAttr.m_type		= item.attribute("Cat").as_int();
 			tmpItemBagAttr.m_index		= item.attribute("Index").as_int();
@@ -184,7 +184,7 @@ BOOL CDoppelGangerItemBag::DoppelgangerItemDrop(CGameObject lpObj, int nItemBagI
 
 		int nItemNum = GetLargeRand() % this->vtDPItemBag[nTmpItemBagIndex].vtDropItemGroup.size();
 
-		CItemBagAttrEx * pItemBagAttr = &this->vtDPItemBag[nTmpItemBagIndex].vtDropItemGroup[nItemNum];
+		CItemObjectBagAttrEx * pItemBagAttr = &this->vtDPItemBag[nTmpItemBagIndex].vtDropItemGroup[nItemNum];
 
 		float fDur = 0.0;
 		int iOption1 = 0;

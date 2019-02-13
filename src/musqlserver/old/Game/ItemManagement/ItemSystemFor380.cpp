@@ -96,7 +96,7 @@ BOOL CItemSystemFor380::Load380ItemOptionInfo(LPSTR filename)
 
 
 
-BOOL CItemSystemFor380::Is380Item(CItem*  pItem)
+BOOL CItemSystemFor380::Is380Item(CItemObject*  pItem)
 {
 	if (pItem == NULL)
 	{
@@ -118,7 +118,7 @@ BOOL CItemSystemFor380::Is380Item(CItem*  pItem)
 	return TRUE;
 }
 
-BOOL CItemSystemFor380::Is380OptionItem(CItem*  pItem)
+BOOL CItemSystemFor380::Is380OptionItem(CItemObject*  pItem)
 {
 	if (pItem == NULL)
 		return FALSE;
@@ -155,7 +155,7 @@ BOOL CItemSystemFor380::ApplyFor380Option(CGameObject &Obj)
 
 	for ( iItemIndex = 0; iItemIndex < INVETORY_WEAR_SIZE ; iItemIndex++)
 	{
-		CItem * pItem = &Obj.pInventory[iItemIndex];
+		CItemObject * pItem = &Obj.pInventory[iItemIndex];
 
 		if ( pItem->IsItem() &&
 			 pItem->m_IsValidItem &&
@@ -222,7 +222,7 @@ BOOL CItemSystemFor380::_CalcItemEffectValue(int iItemOptionType, int iItemEffec
 	return bResult;
 }
 
-BOOL CItemSystemFor380::_SetOption(CItem * pItem, BOOL bOption)
+BOOL CItemSystemFor380::_SetOption(CItemObject * pItem, BOOL bOption)
 {
 	if (pItem == NULL)
 		return FALSE;
@@ -243,7 +243,7 @@ void CItemSystemFor380::SetOptionItemByMacro(CGameObject &Obj, BYTE invenrotyTar
 {
 	// HERE GOES A MACRO
 	return;
-	CItem * pItem=NULL;
+	CItemObject * pItem=NULL;
 }
 
 BOOL CItemSystemFor380::ChaosMix380ItemOption(CGameObject &Obj)
@@ -269,7 +269,7 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(CGameObject &Obj)
 
 	PHeadSetB((LPBYTE)&pMsg, 0x86, sizeof(pMsg));
 	pMsg.Result = 0;
-	CItem * pTargetItem = NULL;
+	CItemObject * pTargetItem = NULL;
 	int iPosOfJewelOfHarmony = -1;
 	int iPosOfJewelOfSuho = -1;
 

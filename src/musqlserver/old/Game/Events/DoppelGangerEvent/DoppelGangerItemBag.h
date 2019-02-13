@@ -22,7 +22,7 @@ struct _DOPPELGANGER_DROP_ITEM_GROUP_INFO
 	int nLuckRate;
 	int nAddOptRate;
 	int nExOptRate;
-	std::vector<CItemBagAttrEx> vtDropItemGroup;
+	std::vector<CItemObjectBagAttrEx> vtDropItemGroup;
 };
 
 #pragma once

@@ -53,19 +53,19 @@ void CObjCalCharacter::CalcCharacter(CGameObject &lpObj)
 	int Vitality = 0;
 	int Energy = 0;
 	int Leadership = 0;
-	CItem * Right = &lpObj.pInventory[0];
-	CItem * Left = &lpObj.pInventory[1];
-	CItem * Helmet = &lpObj.pInventory[2];
-	CItem * Armor = &lpObj.pInventory[3];
-	CItem * Pants = &lpObj.pInventory[4];
-	CItem * Gloves = &lpObj.pInventory[5];
-	CItem * Boots = &lpObj.pInventory[6];
-	CItem * Amulet = &lpObj.pInventory[9];
-	CItem * Helper = &lpObj.pInventory[8];
-	CItem * Wing = &lpObj.pInventory[7];
-	CItem * RightRing = &lpObj.pInventory[10];
-	CItem * LeftRing = &lpObj.pInventory[11];
-	CItem * Pentagram = &lpObj.pInventory[236];
+	CItemObject * Right = &lpObj.pInventory[0];
+	CItemObject * Left = &lpObj.pInventory[1];
+	CItemObject * Helmet = &lpObj.pInventory[2];
+	CItemObject * Armor = &lpObj.pInventory[3];
+	CItemObject * Pants = &lpObj.pInventory[4];
+	CItemObject * Gloves = &lpObj.pInventory[5];
+	CItemObject * Boots = &lpObj.pInventory[6];
+	CItemObject * Amulet = &lpObj.pInventory[9];
+	CItemObject * Helper = &lpObj.pInventory[8];
+	CItemObject * Wing = &lpObj.pInventory[7];
+	CItemObject * RightRing = &lpObj.pInventory[10];
+	CItemObject * LeftRing = &lpObj.pInventory[11];
+	CItemObject * Pentagram = &lpObj.pInventory[236];
 
 	lpObj.HaveWeaponInHand = 1;
 
@@ -121,7 +121,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &lpObj)
 	{
 
 #ifdef ENABLE_CUSTOM_ITEMOPTION
-		gItemOption.CalcItemCommonOption(lpObj, 1);
+		gItemOption.CalCItemObjectCommonOption(lpObj, 1);
 #endif
 
 		lpObj.m_PlayerData->SetOpAddMaxAttackDamage = 0;
@@ -1445,7 +1445,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &lpObj)
 	lpObj.pInventory[10].PlusSpecialPercentEx(&lpObj.AddMana, lpObj.MaxMana, 172);
 	lpObj.pInventory[11].PlusSpecialPercentEx(&lpObj.AddMana, lpObj.MaxMana, 172);
 
-	CItem * rItem[3];
+	CItemObject * rItem[3];
 	int comparecount = 0;
 
 	rItem[0] = &lpObj.pInventory[10];
@@ -1752,7 +1752,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &lpObj)
 	gGameProtocol.GCSendAttackSpeed(lpObj.m_Index);
 
 #ifdef ENABLE_CUSTOM_ITEMOPTION
-	gItemOption.CalcItemCommonOption(lpObj, 0);
+	gItemOption.CalCItemObjectCommonOption(lpObj, 0);
 #endif
 
 	/*PMSG_ADDSTATS_RESULT pAddStats;
@@ -2543,7 +2543,7 @@ void CObjCalCharacter::CalcMLSkillItemOption(CGameObject &lpObj)
 	}
 }
 
-BOOL CObjCalCharacter::ValidItem(CGameObject &lpObj, CItem * lpItem, int pos)
+BOOL CObjCalCharacter::ValidItem(CGameObject &lpObj, CItemObject * lpItem, int pos)
 {
 	if (g_ConfigRead.data.common.CheckValidItem == false)
 	{

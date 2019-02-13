@@ -807,17 +807,17 @@ void CChaosCastle::PullObjInnerPlace(int iChaosCastleIndex, int iTRAP_STEP)
 	{
 		int iMapNumber = this->GetChaosCastleMapNumber(iChaosCastleIndex);
 
-		if ( MapC[iMapNumber].m_cItem[iMAP_ITEM].IsItem() )
+		if ( MapC[iMapNumber].m_CItemObject[iMAP_ITEM].IsItem() )
 		{
-			int x = MapC[this->m_stChaosCastleData[iChaosCastleIndex].m_iMapNumber].m_cItem[iMAP_ITEM].px;
-			int y = MapC[this->m_stChaosCastleData[iChaosCastleIndex].m_iMapNumber].m_cItem[iMAP_ITEM].py;
+			int x = MapC[this->m_stChaosCastleData[iChaosCastleIndex].m_iMapNumber].m_CItemObject[iMAP_ITEM].px;
+			int y = MapC[this->m_stChaosCastleData[iChaosCastleIndex].m_iMapNumber].m_CItemObject[iMAP_ITEM].py;
 
 			if ( x < ::g_iChaosCastle_DamageAxis[iTRAP_STEP][0] || x > ::g_iChaosCastle_DamageAxis[iTRAP_STEP][2] ||
 				 y < ::g_iChaosCastle_DamageAxis[iTRAP_STEP][1] || y > ::g_iChaosCastle_DamageAxis[iTRAP_STEP][3] )
 			{
-				MapC[this->m_stChaosCastleData[iChaosCastleIndex].m_iMapNumber].m_cItem[iMAP_ITEM].m_State = 8;
-				MapC[this->m_stChaosCastleData[iChaosCastleIndex].m_iMapNumber].m_cItem[iMAP_ITEM].Give = true;
-				MapC[this->m_stChaosCastleData[iChaosCastleIndex].m_iMapNumber].m_cItem[iMAP_ITEM].live = false;
+				MapC[this->m_stChaosCastleData[iChaosCastleIndex].m_iMapNumber].m_CItemObject[iMAP_ITEM].m_State = 8;
+				MapC[this->m_stChaosCastleData[iChaosCastleIndex].m_iMapNumber].m_CItemObject[iMAP_ITEM].Give = true;
+				MapC[this->m_stChaosCastleData[iChaosCastleIndex].m_iMapNumber].m_CItemObject[iMAP_ITEM].live = false;
 			}
 		}
 	}

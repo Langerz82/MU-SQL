@@ -1556,8 +1556,8 @@ int GensSystem::LoadData(char *lpszFileName)
 		m_BattleZone.m_fMLExpBonus[0] = duprian.attribute("MLExpBonus").as_float();
 		m_BattleZone.m_iDropBonus[0] = duprian.attribute("ItemDropBonus").as_int();
 		m_BattleZone.m_iMLDropBonus[0] = duprian.attribute("MLItemDropBonus").as_int();
-		m_BattleZone.m_iExcDropBonus[0] = duprian.attribute("ExcItemDropBonus").as_int();
-		m_BattleZone.m_iMLExcDropBonus[0] = duprian.attribute("MLExcItemDropBonus").as_int();
+		m_BattleZone.m_iExcDropBonus[0] = duprian.attribute("ExCItemObjectDropBonus").as_int();
+		m_BattleZone.m_iMLExcDropBonus[0] = duprian.attribute("MLExCItemObjectDropBonus").as_int();
 
 		pugi::xml_node vanert = map.child("Vanert");
 
@@ -1565,8 +1565,8 @@ int GensSystem::LoadData(char *lpszFileName)
 		m_BattleZone.m_fMLExpBonus[1]		= vanert.attribute("MLExpBonus").as_float();
 		m_BattleZone.m_iDropBonus[1]		= vanert.attribute("ItemDropBonus").as_int();
 		m_BattleZone.m_iMLDropBonus[1]		= vanert.attribute("MLItemDropBonus").as_int();
-		m_BattleZone.m_iExcDropBonus[1]	= vanert.attribute("ExcItemDropBonus").as_int();
-		m_BattleZone.m_iMLExcDropBonus[1]	= vanert.attribute("MLExcItemDropBonus").as_int();
+		m_BattleZone.m_iExcDropBonus[1]	= vanert.attribute("ExCItemObjectDropBonus").as_int();
+		m_BattleZone.m_iMLExcDropBonus[1]	= vanert.attribute("MLExCItemObjectDropBonus").as_int();
 
 		this->m_mapBattleZoneData.insert(std::pair<int, BATTLEZONE_MAP_DATA>(iMapNumber, m_BattleZone));
 	}

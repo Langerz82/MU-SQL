@@ -6,7 +6,7 @@
 #pragma once
 
 #include "StdAfx.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 #include "ItemOptionTypeMng.h"
 
 extern const char * szFileClassName[];
@@ -29,7 +29,7 @@ public:
 	int GetDropSection(CGameObject &lpObj, BAG_SECTION_DROP &pRetDrop);
 	int GetItemsSection(BAG_SECTION_DROP & pDropSec, BAG_SECTION_ITEMS &pRetItems);
 	int GetItem(BAG_SECTION_ITEMS &pItemsSec, BAG_ITEM & pRetItem);
-	int GetReadyItemToUse(CGameObject &lpObj, CItem & pItem, time_t & DurationItem);
+	int GetReadyItemToUse(CGameObject &lpObj, CItemObject & pItem, time_t & DurationItem);
 	static int GetItemLevel(int MinLevel, int MaxLevel);
 	void MakeBagEffectUse(CGameObject &lpObj, int MonsterIndex);
 	void AddCoin(CGameObject &lpObj);

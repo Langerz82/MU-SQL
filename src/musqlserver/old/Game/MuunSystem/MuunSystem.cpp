@@ -462,7 +462,7 @@ bool CMuunAttack::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf 
 
 	if ( gObjWingSprite(lpTargetObj) == TRUE )
 	{
-		CItem * Wing = &lpTargetObj.pInventory[7];
+		CItemObject * Wing = &lpTargetObj.pInventory[7];
 
 		if ( AttackDamage > 1 && Wing->m_Type != ITEMGET(13, 30) )
 		{
@@ -484,7 +484,7 @@ bool CMuunAttack::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf 
 
 	if ( gObjDenorantSprite(lpTargetObj ) )
 	{
-		CItem * Dinorant = &lpTargetObj.pInventory[8];
+		CItemObject * Dinorant = &lpTargetObj.pInventory[8];
 		int dinorantdecdamage = 90 - Dinorant->IsDinorantReduceAttackDamaege();
 		lpObj.Life -= 1.0f;
 
@@ -502,7 +502,7 @@ bool CMuunAttack::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf 
 
 	if ( gObjDarkHorse(lpTargetObj ) )
 	{
-		CItem * Darkhorse = &lpTargetObj.pInventory[8];
+		CItemObject * Darkhorse = &lpTargetObj.pInventory[8];
 		int decdamage = 100 - ((Darkhorse->m_PetItem_Level + 30) / 2 );
 
 		lpTargetObj.Life -= 1.0f;
@@ -1333,7 +1333,7 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 	int itype;
 	int _type;
 	BYTE OptionData;
-	CItem item;
+	CItemObject item;
 	int nMuunInvenItemCount = 0;
 
 	for (int n = 0; n < MUUN_INVENTORY_SIZE; n++)
@@ -1644,14 +1644,14 @@ void CMuunSystem::GCSendConditionStatus(CGameObject &lpObj, int iPos, int iStatu
 	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-bool CMuunSystem::IsMuunItem(CItem *pCitem)
+bool CMuunSystem::IsMuunItem(CItemObject *pCItemObject)
 {
-	if (!pCitem)
+	if (!pCItemObject)
 	{
 		return false;
 	}
 
-	LPITEM_ATTRIBUTE pItemAttribute = GetItemAttr(pCitem->m_Type);
+	LPITEM_ATTRIBUTE pItemAttribute = GetItemAttr(pCItemObject->m_Type);
 
 	if (!pItemAttribute)
 	{
@@ -1685,14 +1685,14 @@ bool CMuunSystem::IsMuunItem(int iItemNum)
 	return pItemAttribute->ItemKindA == 12 && (pItemAttribute->ItemKindB >= 63 && pItemAttribute->ItemKindB <= 66);
 }
 
-bool CMuunSystem::IsStoneofEvolution(CItem *pCitem)
+bool CMuunSystem::IsStoneofEvolution(CItemObject *pCItemObject)
 {
-	if (!pCitem)
+	if (!pCItemObject)
 	{
 		return false;
 	}
 
-	LPITEM_ATTRIBUTE pItemAttribute = GetItemAttr(pCitem->m_Type);
+	LPITEM_ATTRIBUTE pItemAttribute = GetItemAttr(pCItemObject->m_Type);
 
 	if (!pItemAttribute)
 	{
@@ -3110,7 +3110,7 @@ bool CMuunSystem::GDMuunExchangeInsertInven(CGameObject &lpObj, int iSelect)
 	return true;
 }
 
-BYTE CMuunSystem::DGMuunExchangeInsertInven(CGameObject &lpObj, CItem CreateItem, int iSelect)
+BYTE CMuunSystem::DGMuunExchangeInsertInven(CGameObject &lpObj, CItemObject CreateItem, int iSelect)
 {
 	if (!ObjectMaxRange(lpObj.m_Index))
 	{

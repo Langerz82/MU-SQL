@@ -298,7 +298,7 @@ BOOL CPentagramMixSystem::PentagramMixBoxInit(CGameObject &lpObj)
 		return TRUE;
 	}
 
-	lpObj.m_PlayerData->pPentagramMixBox = new CItem[CHAOS_BOX_SIZE];
+	lpObj.m_PlayerData->pPentagramMixBox = new CItemObject[CHAOS_BOX_SIZE];
 
 	if (lpObj.m_PlayerData->pPentagramMixBox == NULL)
 	{
@@ -827,7 +827,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 
 			if (btPentagramChaosCharm == TRUE)
 			{
-				CItem Item;
+				CItemObject Item;
 				BYTE ItemType;
 				WORD ItemIndex;
 				int iLevel;
@@ -885,7 +885,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 
 		else
 		{
-			CItem Item;
+			CItemObject Item;
 			BYTE ItemType = 0xFF;
 			WORD ItemIndex = 0xFFFF;
 			int iRand = rand() % 10000;
@@ -1133,7 +1133,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 
 			if (bPentagramChaosCharm == TRUE)
 			{
-				CItem Item;
+				CItemObject Item;
 				BYTE ItemType;
 				WORD ItemIndex;
 				int iLevel;
@@ -1191,7 +1191,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 
 		else
 		{
-			CItem pModifyItem;
+			CItemObject pModifyItem;
 
 			BYTE iItemType = 0xFF;
 			WORD iItemIndex = 0xFFFF;
@@ -1251,7 +1251,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 	return btReturnValue;
 }
 
-int CPentagramMixSystem::CheckLevelCondition(CItem *lpItem, WORD Level, BYTE Op1, BYTE  Op2, BYTE Op3, BYTE SetOption, BYTE NewOption)
+int CPentagramMixSystem::CheckLevelCondition(CItemObject *lpItem, WORD Level, BYTE Op1, BYTE  Op2, BYTE Op3, BYTE SetOption, BYTE NewOption)
 {
 	if (lpItem == NULL) { return FALSE; }
 	if (Level != FALSE) { if (lpItem->m_Level < Level) { return FALSE; } }
@@ -1378,7 +1378,7 @@ BOOL CPentagramMixSystem::PentagramJewelMix(CGameObject &lpObj) // OK
 			ITEMGET(12, 261);
 		}
 		
-		CItem NewItem;
+		CItemObject NewItem;
 		NewItem.m_Type = type;
 		NewItem.m_SocketOption[0] = lpObj.pInventory->m_SocketOption[0];
 		NewItem.m_SocketOption[1] = lpObj.pInventory->m_SocketOption[1];

@@ -168,11 +168,11 @@ public:
 
 	void GCSendConditionStatus(CGameObject &lpObj, int iPos, int iStatus);
 
-	bool IsMuunItem(CItem *pCitem);
+	bool IsMuunItem(CItemObject *pCItemObject);
 	bool IsMuunUtil(int ItemIndex);
 	bool IsMuunItem(int iItemNum);
 
-	bool IsStoneofEvolution(CItem *pCitem);
+	bool IsStoneofEvolution(CItemObject *pCItemObject);
 	bool IsStoneofEvolution(int iItemNum);
 
 	int GetEvolutionMuunItemIndex(int iItemNum);
@@ -225,7 +225,7 @@ public:
 	bool ChkMuunExchangeInvenEmpty(CGameObject &lpObj, int iSelect);
 
 	bool GDMuunExchangeInsertInven(CGameObject &lpObj, int iSelect);
-	BYTE DGMuunExchangeInsertInven(CGameObject &lpObj, CItem CreateItem, int iSelect);
+	BYTE DGMuunExchangeInsertInven(CGameObject &lpObj, CItemObject CreateItem, int iSelect);
 	bool ChkAndDelItemMuunExchange(CGameObject &lpObj, int iSelect);
 
 	void SetTarget(CGameObject &lpObj, int aTargetIndex);

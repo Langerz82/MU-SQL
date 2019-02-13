@@ -33,7 +33,7 @@ struct ExcellentOptCount
 struct MaxGeneralDrop
 {
 	int ItemDropPer;
-	int ExcItemDropPer;
+	int ExCItemObjectDropPer;
 	int ItemLuckDrop;
 	int SkillDropRate;
 	int ExcLuckDropRate;

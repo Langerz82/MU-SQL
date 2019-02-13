@@ -101,7 +101,7 @@ public:
 	void DGPeriodItemExListCount(PMSG_ANS_PERIODITEMEX_LIST_COUNT * lpMsg);
 	void DGPeriodItemExList(PMSG_ANS_PERIODITEMEX_LIST * lpMsg);
 	
-	BOOL SendPeriodItemInfoOnce(CGameObject &lpObj, CItem * Item);
+	BOOL SendPeriodItemInfoOnce(CGameObject &lpObj, CItemObject * Item);
 	BOOL SendPeriodItemInfoOnce(CGameObject &lpObj, UINT64 Serial);
 
 	BOOL SetPeriodItemInfo(CGameObject &lpObj, WORD wItemCode, UINT64 Serial, DWORD dwDuration);

@@ -66,7 +66,7 @@ void CPersonalStore::CGPShopReqSetItemPrice(PMSG_REQ_PSHOP_SETITEMPRICE * lpMsg,
 		return;
 	}
 
-	CItem * sitem = &lpObj.Inventory1[lpMsg->btItemPos];
+	CItemObject * sitem = &lpObj.Inventory1[lpMsg->btItemPos];
 	int iItemPrice = MAKE_NUMBERDW(MAKE_NUMBERW(lpMsg->sItemPrice4, lpMsg->sItemPrice3), MAKE_NUMBERW(lpMsg->sItemPrice2, lpMsg->sItemPrice1));
 
 	WORD wBlessPrice = MAKE_NUMBERW(lpMsg->sJewelOfBlessPrice2, lpMsg->sJewelOfBlessPrice1);
@@ -1130,7 +1130,7 @@ void CPersonalStore::CGPShopAnsBuyItem(int aSourceIndex, int aTargetIndex, int i
 	pMsg.NumberL = SET_NUMBERL(aTargetIndex);
 	pMsg.btItemPos = iItemPos;
 	pMsg.Result = btResult;
-	ItemByteConvert(pMsg.cItemInfo, gGameObjects[aSourceIndex]->Inventory1[iItemPos]);
+	ItemByteConvert(pMsg.CItemObjectInfo, gGameObjects[aSourceIndex]->Inventory1[iItemPos]);
 
 	IOCP.DataSend(aSourceIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }

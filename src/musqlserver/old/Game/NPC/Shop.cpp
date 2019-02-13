@@ -726,7 +726,7 @@ void CCancelItemSale::DGAnsSoldItemList(LPBYTE lpRecv)
 
 		for (int i = 0; i < lpMsg->iCount; i++)
 		{
-			CItem Item;
+			CItemObject Item;
 			lpItemList = (SDHP_SHOP_REBUY_ITEM *)(lpRecv + sizeof(SDHP_ANS_SHOP_REBUY_LIST) + (i * sizeof(SDHP_SHOP_REBUY_ITEM)));
 
 			this->MakeItem(lpItemList->ItemData, &Item);
@@ -745,7 +745,7 @@ void CCancelItemSale::DGAnsSoldItemList(LPBYTE lpRecv)
 	}
 }
 
-void CCancelItemSale::GDReqAddItemToList(CGameObject &Obj, CItem Item, DWORD dwSellPrice)
+void CCancelItemSale::GDReqAddItemToList(CGameObject &Obj, CItemObject Item, DWORD dwSellPrice)
 {
 	if (g_ConfigRead.data.common.CancelItemSaleEnable == false)
 	{
@@ -828,7 +828,7 @@ void CCancelItemSale::DGAnsGetReBuyItem(SDHP_ANS_SHOP_REBUY_GET_ITEM *lpMsg)
 			return;
 		}
 
-		CItem Item;
+		CItemObject Item;
 		this->MakeItem(lpMsg->ItemData, &Item);
 
 		LPITEM_ATTRIBUTE p = &ItemAttribute[Item.m_Type];
@@ -872,11 +872,11 @@ void CCancelItemSale::GDReqDeleteSoldItem(CGameObject &Obj, BYTE btItemNumber, W
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CCancelItemSale::MakeItem(LPBYTE lpData, CItem * lpItem)
+void CCancelItemSale::MakeItem(LPBYTE lpData, CItemObject * lpItem)
 {
 	int itype;
 	int _type;
-	CItem item;
+	CItemObject item;
 	BYTE OptionData;
 	WORD hiWord;
 	WORD loWord;

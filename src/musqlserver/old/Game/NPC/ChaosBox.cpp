@@ -79,7 +79,7 @@ BOOL CMixSystem::ChaosBoxCheck(CGameObject &lpObj)
 	return true;
 }
 
-void CMixSystem::GCChaosMixSend(CGameObject &lpObj, BYTE result, CItem* lpItem) // OK
+void CMixSystem::GCChaosMixSend(CGameObject &lpObj, BYTE result, CItemObject* lpItem) // OK
 {
 	PMSG_CHAOSMIXRESULT pMsg;
 
@@ -1145,7 +1145,7 @@ BOOL CMixSystem::PlusItemLevelChaosMix(CGameObject &lpObj, int mixType)
 		lpObj.pChaosBox[PlusItemPos].m_Level++;
 		pMsg.Result = CB_SUCCESS;
 
-		CItem Item;
+		CItemObject Item;
 
 		Item.Convert(lpObj.pChaosBox[PlusItemPos].m_Type, lpObj.pChaosBox[PlusItemPos].m_Option1, lpObj.pChaosBox[PlusItemPos].m_Option2, lpObj.pChaosBox[PlusItemPos].m_Option3,
 			lpObj.pChaosBox[PlusItemPos].m_NewOption, lpObj.pChaosBox[PlusItemPos].m_SetOption, lpObj.pChaosBox[PlusItemPos].m_ItemOptionEx, lpObj.pChaosBox[PlusItemPos].m_SocketOption
@@ -1328,7 +1328,7 @@ void CMixSystem::PlusItemLevelMixTest(CGameObject &lpObj, int type) // OK
 	{
 		pMsg.Result = CB_SUCCESS;
 
-		CItem item = lpObj.pChaosBox[ItemSlot];
+		CItemObject item = lpObj.pChaosBox[ItemSlot];
 
 		item.m_Level++;
 
@@ -1808,7 +1808,7 @@ BOOL CMixSystem::WingChaosMix(CGameObject &lpObj)
 		return TRUE;
 	}
 
-	CItem * pWing = &lpObj.pChaosBox[WingIndex];
+	CItemObject * pWing = &lpObj.pChaosBox[WingIndex];
 	lpObj.ChaosSuccessRate = (DWORD)((DWORD)iWingChaosMoney / (DWORD)4000000);
 	lpObj.ChaosSuccessRate += iChaosMoney / 40000;
 
@@ -2279,7 +2279,7 @@ BOOL CMixSystem::Check3rdWingItem(int iItemCode)
 	return false;
 }
 
-BOOL CMixSystem::CheckLevelCondition(CItem * lpItem, short Level, BYTE Op1, BYTE Op2, BYTE Op3, BYTE SetOption, BYTE NewOption)
+BOOL CMixSystem::CheckLevelCondition(CItemObject * lpItem, short Level, BYTE Op1, BYTE Op2, BYTE Op3, BYTE SetOption, BYTE NewOption)
 {
 	if (lpItem == NULL) { return FALSE; }
 	if (Level != FALSE) { if (lpItem->m_Level < Level) { return FALSE; } }
@@ -2398,7 +2398,7 @@ BOOL CMixSystem::AdvancedWingMix(CGameObject &lpObj)
 	int BundleOfBlessCount = 0;
 	int BundleOfCreationCount = 0;
 	int BundleOfHarmonyCount = 0;
-	int ExcItemCount = 0;
+	int ExCItemObjectCount = 0;
 	DWORD iChaosMoney = 0;
 	int iCharmOfLuckCount = 0;
 
@@ -2440,7 +2440,7 @@ BOOL CMixSystem::AdvancedWingMix(CGameObject &lpObj)
 			{
 			if ( lpObj.pChaosBox[n].m_Level >= 9 && lpObj.pChaosBox[n].m_Option3 >= 1 )
 			{
-			ExcItemCount++;
+			ExCItemObjectCount++;
 			iChaosMoney += lpObj.pChaosBox[n].m_BuyMoney;
 			}
 			}*/
@@ -2623,7 +2623,7 @@ BOOL CMixSystem::ThirdWingLevel2ChaosMix(CGameObject &lpObj)
 	int JewelOfCreationCount = 0;
 	int CondorFlameCount = 0;
 	int CondorFeatherCount = 0;
-	int ExcItemCount = 0;
+	int ExCItemObjectCount = 0;
 	DWORD iChaosMoney = 0;
 	int iCharmOfLuckCount = 0;
 
@@ -2662,7 +2662,7 @@ BOOL CMixSystem::ThirdWingLevel2ChaosMix(CGameObject &lpObj)
 
 			else if (this->CheckLevelCondition(&lpObj.pChaosBox[n], 7, 0, 0, 1, 0, 1) != FALSE)
 			{
-				ExcItemCount++;
+				ExCItemObjectCount++;
 				iChaosMoney += lpObj.pChaosBox[n].m_BuyMoney;
 			}
 		}
@@ -2675,7 +2675,7 @@ BOOL CMixSystem::ThirdWingLevel2ChaosMix(CGameObject &lpObj)
 
 	if (CondorFeatherCount != 0 && CondorFlameCount != 0 && JewelOfCreationCount != 0)
 	{
-		if (ChoasGemCount != 1 || BundleOfSoulCount != 1 || BundleOfBlessCount != 1 || JewelOfCreationCount != 1 || ExcItemCount < 1)
+		if (ChoasGemCount != 1 || BundleOfSoulCount != 1 || BundleOfBlessCount != 1 || JewelOfCreationCount != 1 || ExCItemObjectCount < 1)
 		{
 			pMsg.Result = CB_INCORRECT_MIX_ITEMS;
 			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE *)&pMsg, pMsg.h.size);
@@ -2915,7 +2915,7 @@ void CMixSystem::ThirdWingMixFail(CGameObject &lpObj)
 	}
 }
 
-void CMixSystem::ThirdWingMixFailItemPanalty(CItem * lpItem)
+void CMixSystem::ThirdWingMixFailItemPanalty(CItemObject * lpItem)
 {
 	if (lpItem == NULL)
 	{
@@ -3229,7 +3229,7 @@ void CMixSystem::SetItemChaosMix(CGameObject &lpObj)
 		}
 
 		pMsg.Result = CB_SUCCESS;
-		CItem Item;
+		CItemObject Item;
 
 		float Dur = ItemGetDurability(lpObj.pChaosBox[MixSetItemIndex].m_Type, lpObj.pChaosBox[MixSetItemIndex].m_Level,
 			lpObj.pChaosBox[MixSetItemIndex].IsExtItem(), gSetItemOption.IsSetItem(lpObj.pChaosBox[MixSetItemIndex].m_Type));
@@ -3993,7 +3993,7 @@ void CMixSystem::CastleSpecialItemMix(CGameObject &lpObj)
 
 	if ((rand() % 100) < lpObj.ChaosSuccessRate)
 	{
-		CItem Item;
+		CItemObject Item;
 		time_t Duration;
 
 		if (g_BagManager.GetItemFromBag(lpObj.m_Index, BAG_EVENT, EVENTBAG_LORDMIX, lpObj.m_Index, Item, Duration) != TRUE)
@@ -5108,7 +5108,7 @@ void CMixSystem::LotteryItemMix(CGameObject &lpObj, int type)
 		return;
 	}
 
-	CItem LotteryItem;
+	CItemObject LotteryItem;
 
 	if (type == 1)
 	{
@@ -5177,11 +5177,11 @@ void CMixSystem::LotteryItemMix(CGameObject &lpObj, int type)
 BOOL CMixSystem::SeedExtractMixS12(CGameObject &lpObj, BYTE AncientPos, BYTE ExePos, BYTE JOHPos, BYTE JOCPos, BYTE ChaosPos)
 {
 	//
-	CItem * lpAncientItem = NULL;
-	CItem * lpExeItem = NULL;
-	CItem * lpJohItem = NULL;
-	CItem * lpJocItem = NULL;
-	CItem * lpChaosItem = NULL;
+	CItemObject * lpAncientItem = NULL;
+	CItemObject * lpExeItem = NULL;
+	CItemObject * lpJohItem = NULL;
+	CItemObject * lpJoCItemObject = NULL;
+	CItemObject * lpChaosItem = NULL;
 	int isChaos = 0;
 	int isSeed = 0;
 	int isSphere = 0;
@@ -5198,7 +5198,7 @@ BOOL CMixSystem::SeedExtractMixS12(CGameObject &lpObj, BYTE AncientPos, BYTE Exe
 	lpAncientItem = &lpObj.pInventory[AncientPos];
 	lpExeItem = &lpObj.pInventory[ExePos];
 	lpJohItem = &lpObj.pInventory[JOHPos];
-	lpJocItem = &lpObj.pInventory[JOCPos];
+	lpJoCItemObject = &lpObj.pInventory[JOCPos];
 	lpChaosItem = &lpObj.pInventory[ChaosPos];
 
 	PMSG_SEEDRESULT pMsg;
@@ -5209,7 +5209,7 @@ BOOL CMixSystem::SeedExtractMixS12(CGameObject &lpObj, BYTE AncientPos, BYTE Exe
 	{
 		isChaos++;
 	}
-	if (lpJocItem->m_Type == ITEMGET(14, 22))
+	if (lpJoCItemObject->m_Type == ITEMGET(14, 22))
 	{
 		isJoc++;
 	}
@@ -5292,7 +5292,7 @@ BOOL CMixSystem::SeedExtractMixS12(CGameObject &lpObj, BYTE AncientPos, BYTE Exe
 
 void CMixSystem::SeedExtractMix(CGameObject &lpObj)
 {
-	int iExcItemCount = 0;
+	int iExCItemObjectCount = 0;
 	int iSetItemCount = 0;
 	int iHarmonyCount = 0;
 	int iChoasGemCount = 0;
@@ -5303,7 +5303,7 @@ void CMixSystem::SeedExtractMix(CGameObject &lpObj)
 	int iMixMoney = 0;
 	int iChaosTaxMoney = 0;
 	int iSetItemNum = 0;
-	int iExcItemNum = 0;
+	int iExCItemObjectNum = 0;
 	int iHarmonyItemNum = 0;
 	int iChoasGemItemNum = 0;
 	int iCreationItemNum = 0;
@@ -5319,9 +5319,9 @@ void CMixSystem::SeedExtractMix(CGameObject &lpObj)
 		{
 			if (lpObj.pChaosBox[n].IsExtItem() == TRUE && lpObj.pChaosBox[n].m_Level >= 4)
 			{
-				iExcItemCount++;
+				iExCItemObjectCount++;
 				iChaosMoney += lpObj.pChaosBox[n].m_BuyMoney;
-				iExcItemNum = n;
+				iExCItemObjectNum = n;
 			}
 			else if (lpObj.pChaosBox[n].IsSetItem() != FALSE && lpObj.pChaosBox[n].m_Level >= 4)
 			{
@@ -5359,7 +5359,7 @@ void CMixSystem::SeedExtractMix(CGameObject &lpObj)
 		return;
 	}
 
-	if (iExcItemCount != 1 || iSetItemCount != 1 || iHarmonyCount != 1 || iChoasGemCount != 1 || iCreationGemCount != 1)
+	if (iExCItemObjectCount != 1 || iSetItemCount != 1 || iHarmonyCount != 1 || iChoasGemCount != 1 || iCreationGemCount != 1)
 	{
 		pMsg.Result = CB_INCORRECT_MIX_ITEMS;
 		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
@@ -5399,7 +5399,7 @@ void CMixSystem::SeedExtractMix(CGameObject &lpObj)
 	if (rand() % 100 > iSeedExtractRate)
 	{
 		lpObj.pChaosBox[iSetItemNum].m_Level -= rand() % 3;
-		lpObj.pChaosBox[iExcItemNum].m_Level -= rand() % 3;
+		lpObj.pChaosBox[iExCItemObjectNum].m_Level -= rand() % 3;
 		lpObj.pChaosBox[iHarmonyItemNum].Clear();
 		lpObj.pChaosBox[iChoasGemItemNum].Clear();
 		lpObj.pChaosBox[iCreationItemNum].Clear();
@@ -5425,7 +5425,7 @@ void CMixSystem::SeedExtractMix(CGameObject &lpObj)
 	else
 	{
 		lpObj.pChaosBox[iSetItemNum].m_Level -= rand() % 3;
-		lpObj.pChaosBox[iExcItemNum].m_Level -= rand() % 3;
+		lpObj.pChaosBox[iExCItemObjectNum].m_Level -= rand() % 3;
 		lpObj.pChaosBox[iHarmonyItemNum].Clear();
 		lpObj.pChaosBox[iChoasGemItemNum].Clear();
 		lpObj.pChaosBox[iCreationItemNum].Clear();
@@ -5437,10 +5437,10 @@ void CMixSystem::SeedExtractMix(CGameObject &lpObj)
 
 BOOL CMixSystem::SeedSphereEnhance(CGameObject &lpObj, BYTE Sphere1, BYTE Sphere2, BYTE Rune)
 {
-	CItem * lpSphere1 = NULL;
-	CItem * lpSphere2 = NULL;
-	CItem lpNewSphere;
-	CItem * lpRune = NULL;
+	CItemObject * lpSphere1 = NULL;
+	CItemObject * lpSphere2 = NULL;
+	CItemObject lpNewSphere;
+	CItemObject * lpRune = NULL;
 	int Item = 0;
 	int ReqZen = 0;
 	int ReqRune = 0;
@@ -5563,19 +5563,19 @@ BOOL CMixSystem::SeedSphereEnhance(CGameObject &lpObj, BYTE Sphere1, BYTE Sphere
 
 void CMixSystem::SeedSphereRemoveMixS12(CGameObject &lpObj, BYTE ItemPos, BYTE Slot, BYTE JogPos, BYTE JohPos1, BYTE JohPos2, BYTE JohPos3, BYTE JohPos4, BYTE JohPos5, BYTE ChaosPos1, BYTE ChaosPos2, BYTE ChaosPos3, BYTE ChaosPos4, BYTE ChaosPos5)
 {
-	CItem * lpSocketItem = NULL;
-	CItem * lpJog = NULL;
-	CItem * lpJoh1 = NULL;
-	CItem * lpJoh2 = NULL;
-	CItem * lpJoh3 = NULL;
-	CItem * lpJoh4 = NULL;
-	CItem * lpJoh5 = NULL;
+	CItemObject * lpSocketItem = NULL;
+	CItemObject * lpJog = NULL;
+	CItemObject * lpJoh1 = NULL;
+	CItemObject * lpJoh2 = NULL;
+	CItemObject * lpJoh3 = NULL;
+	CItemObject * lpJoh4 = NULL;
+	CItemObject * lpJoh5 = NULL;
 
-	CItem * lpChaos1 = NULL;
-	CItem * lpChaos2 = NULL;
-	CItem * lpChaos3 = NULL;
-	CItem * lpChaos4 = NULL;
-	CItem * lpChaos5 = NULL;
+	CItemObject * lpChaos1 = NULL;
+	CItemObject * lpChaos2 = NULL;
+	CItemObject * lpChaos3 = NULL;
+	CItemObject * lpChaos4 = NULL;
+	CItemObject * lpChaos5 = NULL;
 
 	int Item = 0;
 	int ReqZen = 0;
@@ -5726,7 +5726,7 @@ void CMixSystem::SeedSphereRemoveMixS12(CGameObject &lpObj, BYTE ItemPos, BYTE S
 
 	int levelitemdur = ItemGetDurability(lpSocketItem->m_Type, lpSocketItem->m_Level, lpSocketItem->IsExtItem(), lpSocketItem->IsSetItem());
 
-	CItem NewItem;
+	CItemObject NewItem;
 	NewItem.m_Number = lpSocketItem->m_Number;
 	NewItem.m_Level = lpSocketItem->m_Level;
 	NewItem.m_Durability = levelitemdur * lpSocketItem->m_Durability / lpSocketItem->m_BaseDurability;
@@ -5788,19 +5788,19 @@ void CMixSystem::SeedSphereRemoveMixS12(CGameObject &lpObj, BYTE ItemPos, BYTE S
 
 BOOL CMixSystem::SocketItemUpgradeMixS12(CGameObject &lpObj, BYTE ItemPos, BYTE SocketUpgradeNotePos, BYTE JoBlessPos1, BYTE JoBlessPos2, BYTE JoBlessPos3, BYTE JoBlessPos4, BYTE JoBlessPos5, BYTE JoSoulPos1, BYTE JoSoulPos2, BYTE JoSoulPos3, BYTE JoSoulPos4, BYTE JoSoulPos5, BYTE JoChaosPos)
 {
-	CItem * IsItem = NULL;
-	CItem * lpUpgradeNoteItem = NULL;
-	CItem * JewelOfBless1 = NULL;
-	CItem * JewelOfBless2 = NULL;
-	CItem * JewelOfBless3 = NULL;
-	CItem * JewelOfBless4 = NULL;
-	CItem * JewelOfBless5 = NULL;
-	CItem * JewelOfSoul1 = NULL;
-	CItem * JewelOfSoul2 = NULL;
-	CItem * JewelOfSoul3 = NULL;
-	CItem * JewelOfSoul4 = NULL;
-	CItem * JewelOfSoul5 = NULL;
-	CItem * lpChaosItem = NULL;
+	CItemObject * IsItem = NULL;
+	CItemObject * lpUpgradeNoteItem = NULL;
+	CItemObject * JewelOfBless1 = NULL;
+	CItemObject * JewelOfBless2 = NULL;
+	CItemObject * JewelOfBless3 = NULL;
+	CItemObject * JewelOfBless4 = NULL;
+	CItemObject * JewelOfBless5 = NULL;
+	CItemObject * JewelOfSoul1 = NULL;
+	CItemObject * JewelOfSoul2 = NULL;
+	CItemObject * JewelOfSoul3 = NULL;
+	CItemObject * JewelOfSoul4 = NULL;
+	CItemObject * JewelOfSoul5 = NULL;
+	CItemObject * lpChaosItem = NULL;
 
 	int isChaos = 0;
 	int isJoSoul = 0;
@@ -6129,7 +6129,7 @@ BOOL CMixSystem::SocketItemUpgradeMixS12(CGameObject &lpObj, BYTE ItemPos, BYTE 
 			NewItemType = IsItem->m_Type + 5;
 		}
 
-		CItem NewItem;
+		CItemObject NewItem;
 		NewItem.m_Type = NewItemType;
 		NewItem.m_Option1 = IsItem->m_Option1;
 		NewItem.m_Option2 = IsItem->m_Option2;
@@ -6262,10 +6262,10 @@ BOOL CMixSystem::SocketItemUpgradeMixS12(CGameObject &lpObj, BYTE ItemPos, BYTE 
 
 void CMixSystem::SeedSphereCompositeMixS12(CGameObject &lpObj, BYTE SeedPos, BYTE SpherePos, BYTE JocPos, BYTE ChaosPos)
 {
-	CItem * lpSeedItem = NULL;
-	CItem * lpSphereItem = NULL;
-	CItem * lpJocItem = NULL;
-	CItem * lpChaosItem = NULL;
+	CItemObject * lpSeedItem = NULL;
+	CItemObject * lpSphereItem = NULL;
+	CItemObject * lpJoCItemObject = NULL;
+	CItemObject * lpChaosItem = NULL;
 	int isChaos = 0;
 	int isSeed = 0;
 	int isSphere = 0;
@@ -6280,7 +6280,7 @@ void CMixSystem::SeedSphereCompositeMixS12(CGameObject &lpObj, BYTE SeedPos, BYT
 
 	lpSeedItem = &lpObj.pInventory[SeedPos];
 	lpSphereItem = &lpObj.pInventory[SpherePos];
-	lpJocItem = &lpObj.pInventory[JocPos];
+	lpJoCItemObject = &lpObj.pInventory[JocPos];
 	lpChaosItem = &lpObj.pInventory[ChaosPos];
 	PMSG_SEEDRESULT pMsg;
 	PHeadSetB((LPBYTE)&pMsg.h, 0x78, sizeof(PMSG_SEEDRESULT));
@@ -6291,7 +6291,7 @@ void CMixSystem::SeedSphereCompositeMixS12(CGameObject &lpObj, BYTE SeedPos, BYT
 	{
 		isChaos++;
 	}
-	if (lpJocItem->m_Type == ITEMGET(14, 22))
+	if (lpJoCItemObject->m_Type == ITEMGET(14, 22))
 	{
 		isJoc++;
 	}
@@ -6386,8 +6386,8 @@ void CMixSystem::SeedSphereCompositeMix(CGameObject &lpObj)
 	int iMixMoney = 0; //8
 	DWORD iChaosMoney = 0; //9
 	int iSeedSphereCompositeRate = 0; //10
-	CItem * lpSeedItem = NULL; //11
-	CItem * lpSphereItem = NULL; //12
+	CItemObject * lpSeedItem = NULL; //11
+	CItemObject * lpSphereItem = NULL; //12
 	int iTetraGoldCount = 0;
 	int iTetraSilverCount = 0;
 	int iTetraBronzeCount = 0;
@@ -6600,10 +6600,10 @@ void CMixSystem::SeedSphereCompositeMix(CGameObject &lpObj)
 }
 void CMixSystem::SetSeedSphereMixS12(CGameObject &lpObj, BYTE ItemPos, BYTE Slot, BYTE SeedPos, BYTE JocPos, BYTE ChaosPos)
 {
-	CItem * pSocketItem = NULL;
-	CItem * lpSphereItem = NULL;
-	CItem * lpJocItem = NULL;
-	CItem * lpChaosItem = NULL;
+	CItemObject * pSocketItem = NULL;
+	CItemObject * lpSphereItem = NULL;
+	CItemObject * lpJoCItemObject = NULL;
+	CItemObject * lpChaosItem = NULL;
 	int isChaos = 0;
 	int isSeed = 0;
 	int isSphere = 0;
@@ -6614,15 +6614,15 @@ void CMixSystem::SetSeedSphereMixS12(CGameObject &lpObj, BYTE ItemPos, BYTE Slot
 	int iSeedSpearItemCount = 0; //4
 	int iChoasGemCount = 0; //5
 	int iCreationGemCount = 0; //6
-							   //	CItem * pSocketItem = NULL; //7
-	CItem * pSeedSpearItem = NULL; //8
-	CItem Item;
+							   //	CItemObject * pSocketItem = NULL; //7
+	CItemObject * pSeedSpearItem = NULL; //8
+	CItemObject Item;
 	int iChaosTaxMoney = 0;
 	int iMixMoney = 0;
 
 	pSocketItem = &lpObj.pInventory[ItemPos];
 	pSeedSpearItem = &lpObj.pInventory[SeedPos];
-	lpJocItem = &lpObj.pInventory[JocPos];
+	lpJoCItemObject = &lpObj.pInventory[JocPos];
 	lpChaosItem = &lpObj.pInventory[ChaosPos];
 	PMSG_SEEDRESULT pMsg;
 	PHeadSetB((LPBYTE)&pMsg.h, 0x78, sizeof(PMSG_SEEDRESULT));
@@ -6646,7 +6646,7 @@ void CMixSystem::SetSeedSphereMixS12(CGameObject &lpObj, BYTE ItemPos, BYTE Slot
 			{
 				iChoasGemCount++;
 			}
-			if (lpJocItem->m_Type == ITEMGET(14, 22))
+			if (lpJoCItemObject->m_Type == ITEMGET(14, 22))
 			{
 				iCreationGemCount++;
 			}
@@ -6745,9 +6745,9 @@ void CMixSystem::SetSeedSphereMix(CGameObject &lpObj, BYTE btPos)
 	int iSeedSpearItemCount = 0; //4
 	int iChoasGemCount = 0; //5
 	int iCreationGemCount = 0; //6
-	CItem * pSocketItem = NULL; //7
-	CItem * pSeedSpearItem = NULL; //8
-	CItem Item;
+	CItemObject * pSocketItem = NULL; //7
+	CItemObject * pSeedSpearItem = NULL; //8
+	CItemObject Item;
 	int iChaosTaxMoney = 0;
 	int iMixMoney = 0;
 
@@ -6918,7 +6918,7 @@ void CMixSystem::SeedSphereRemoveMix(CGameObject &lpObj, BYTE btPos)
 	iJewelOfHarmonyPosition[3] = -1;
 	iJewelOfHarmonyPosition[4] = -1;
 
-	CItem * lpSocketItem = NULL;
+	CItemObject * lpSocketItem = NULL;
 
 	PMSG_CHAOSMIXRESULT pMsg;
 	PHeadSetB((LPBYTE)&pMsg.h, 0x86, sizeof(PMSG_CHAOSMIXRESULT));
@@ -7065,7 +7065,7 @@ void CMixSystem::SeedSphereRemoveMix(CGameObject &lpObj, BYTE btPos)
 
 	int levelitemdur = ItemGetDurability(lpSocketItem->m_Type, lpSocketItem->m_Level, lpSocketItem->IsExtItem(), lpSocketItem->IsSetItem());
 
-	CItem NewItem;
+	CItemObject NewItem;
 	NewItem.m_Number = lpSocketItem->m_Number;
 	NewItem.m_Level = lpSocketItem->m_Level;
 	NewItem.m_Durability = levelitemdur * lpSocketItem->m_Durability / lpSocketItem->m_BaseDurability;
@@ -7301,7 +7301,7 @@ void CMixSystem::CherryBlossomMix(CGameObject &lpObj)
 
 	int bResult = 0;
 
-	CItem Item;
+	CItemObject Item;
 	time_t Duration;
 
 	if (pTmp.m_Item == ITEMGET(14, 88))
@@ -7432,7 +7432,7 @@ return;
 
 LogChaosItem(lpObj, "CherryBlosssomMix");
 
-CItem Item;
+CItemObject Item;
 time_t Duration;
 int BagType;
 
@@ -7477,12 +7477,12 @@ void CMixSystem::ItemRefineMix(CGameObject &lpObj)
 
 	WORD ItemType = 0xFFFF;
 
-	BYTE SonicItem = 0;
+	BYTE SoniCItemObject = 0;
 	BYTE CycloneItem = 0;
 	BYTE BlastItem = 0;
 	BYTE MagmaItem = 0;
 	BYTE HornItem = 0;
-	BYTE AngelicItem = 0;
+	BYTE AngeliCItemObject = 0;
 	BYTE DevilItem = 0;
 	BYTE SpiteItem = 0;
 	BYTE AsuraItem = 0;
@@ -7513,7 +7513,7 @@ void CMixSystem::ItemRefineMix(CGameObject &lpObj)
 		{
 			if (lpObj.pChaosBox[n].m_Type == ITEMGET(14, 191))
 			{
-				SonicItem++;
+				SoniCItemObject++;
 				ItemType = ITEMGET(0, 29);
 			}
 
@@ -7543,7 +7543,7 @@ void CMixSystem::ItemRefineMix(CGameObject &lpObj)
 
 			else if (lpObj.pChaosBox[n].m_Type == ITEMGET(14, 196))
 			{
-				AngelicItem++;
+				AngeliCItemObject++;
 				ItemType = ITEMGET(4, 25);
 			}
 
@@ -7661,7 +7661,7 @@ void CMixSystem::ItemRefineMix(CGameObject &lpObj)
 	switch (ItemType)
 	{
 	case ITEMGET(0, 29):
-		if (SonicItem != 1 || DarkIronKnightItem != 1 || IceWalkerItem != 2)
+		if (SoniCItemObject != 1 || DarkIronKnightItem != 1 || IceWalkerItem != 2)
 		{
 			Error = true;
 		}
@@ -7691,7 +7691,7 @@ void CMixSystem::ItemRefineMix(CGameObject &lpObj)
 		}
 		break;
 	case ITEMGET(4, 25):
-		if (AngelicItem != 1 || DarkMammothItem != 1 || IceWalkerItem != 2)
+		if (AngeliCItemObject != 1 || DarkMammothItem != 1 || IceWalkerItem != 2)
 		{
 			Error = true;
 		}
@@ -7792,7 +7792,7 @@ void CMixSystem::ItemRefineMix(CGameObject &lpObj)
 
 	if (rand() % 100 <= lpObj.ChaosSuccessRate)
 	{
-		CItem Item;
+		CItemObject Item;
 		Item.m_Type = ItemType;
 
 		Item.m_Level = 0;
@@ -9374,7 +9374,7 @@ void CMixSystem::CheckEmptySpace_MultiMix(PMSG_REQ_CHAOS_MULTIMIX_CHECK * aRecv,
 		return;
 	}
 
-	CItem MixItem;
+	CItemObject MixItem;
 
 	switch (aRecv->btMixType)
 	{

@@ -526,7 +526,7 @@ BOOL CPeriodItemEx::SetDisableItemToExpire(CGameObject &lpObj, int pos)
 	}
 
 	lpObj.pInventory[pos].SetPeriodItemExpire();
-	GCItemListSend(lpObj.m_Index);
+	GCItemObjectListSend(lpObj.m_Index);
 	this->OnRequestPeriodItemList(lpObj);
 
 	return TRUE;
@@ -574,7 +574,7 @@ void CPeriodItemEx::SetExpireNotMatchedData(CGameObject &lpObj)
 
 	if ( ItemCount > 0 )
 	{
-		GCItemListSend(lpObj.m_Index);
+		GCItemObjectListSend(lpObj.m_Index);
 	}
 }
 
@@ -889,7 +889,7 @@ void CPeriodItemEx::OnRequestPeriodItemListOnce(CGameObject &lpObj, ITEM_DATA * 
 	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-BOOL CPeriodItemEx::SendPeriodItemInfoOnce(CGameObject &lpObj, CItem * Item)
+BOOL CPeriodItemEx::SendPeriodItemInfoOnce(CGameObject &lpObj, CItemObject * Item)
 {
 	if ( lpObj.Type != OBJ_USER )
 	{

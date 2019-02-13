@@ -1,33 +1,33 @@
 ////////////////////////////////////////////////////////////////////////////////
 // CustomItemValue.cpp
-// ItemValue.cpp: implementation of the CItemValue class.
+// ItemValue.cpp: implementation of the CItemObjectValue class.
 //
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "CustomItemValue.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 #include "ItemOptionTypeMng.h"
 #include "MemScript.h"
 #include "Utility/util.h"
 #include "Logging/Log.h"
 
-CItemValue gItemValue;
+CItemObjectValue gItemValue;
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CItemValue::CItemValue() // OK
+CItemObjectValue::CItemObjectValue() // OK
 {
 	this->m_ItemValueInfo.clear();
 }
 
-CItemValue::~CItemValue() // OK
+CItemObjectValue::~CItemObjectValue() // OK
 {
 
 }
 
-void CItemValue::Load(char* path) // OK
+void CItemObjectValue::Load(char* path) // OK
 {
 	CMemScript* lpMemScript = new CMemScript;
 
@@ -81,7 +81,7 @@ void CItemValue::Load(char* path) // OK
 	delete lpMemScript;
 }
 
-bool CItemValue::GetItemValue(CItem* lpItem, int* value) // OK
+bool CItemObjectValue::GetItemValue(CItemObject* lpItem, int* value) // OK
 {
 	for (std::vector<ITEM_VALUE_INFO>::iterator it = this->m_ItemValueInfo.begin(); it != this->m_ItemValueInfo.end(); it++)
 	{

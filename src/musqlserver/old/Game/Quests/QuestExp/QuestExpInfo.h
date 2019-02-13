@@ -5,7 +5,7 @@
 
 #pragma once
 #include "QuestExpDefine.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 
 class QuestExpAsk
 {

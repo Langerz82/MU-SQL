@@ -10,7 +10,7 @@
 #include "StdAfx.h"
 #include "BaseBagClass/Bag.h"
 #include "MuLua.h"
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 #include "GremoryCase.h"
 
 #define MAX_ITEM_VARIABLES 29
@@ -37,7 +37,7 @@ public:
 	bool DropCommonBag(CGameObject &lpObj, BYTE MapNumber, BYTE DropX, BYTE DropY, BAG_ITEM * m_Item);
 	bool DropMonsterBag(CGameObject &lpObj, int iMonsterIndex, BYTE MapNumber, BYTE DropX, BYTE DropY, BAG_ITEM * m_Item);
 	bool DropEventBag(CGameObject &lpObj, int iMonsterIndex, BYTE MapNumber, BYTE DropX, BYTE DropY, BAG_ITEM * m_Item);
-	bool MakeItemFromBag(CGameObject &lpObj, BAG_ITEM * m_Item, CItem & Item, time_t & Duration);
+	bool MakeItemFromBag(CGameObject &lpObj, BAG_ITEM * m_Item, CItemObject & Item, time_t & Duration);
 	bool MakeItemFromBagForGremoryCase(CGameObject &lpObj, BAG_ITEM* m_Item, _stGremoryCaseItem &Item);
 
 	void LoadItemBag();

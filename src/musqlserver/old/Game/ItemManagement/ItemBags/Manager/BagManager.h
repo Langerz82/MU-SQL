@@ -104,7 +104,7 @@ public:
 
 	bool IsBag(CGameObject &lpObj, int BagType, int iParam1, int iParam2);
 	bool SearchAndUseBag(CGameObject &lpObj, int BagType, int iParam1, int iParam2);
-	int GetItemFromBag(CGameObject &lpObj, int BagType, int iParam1, int iParam2, CItem & Item, time_t & DurationItem);
+	int GetItemFromBag(CGameObject &lpObj, int BagType, int iParam1, int iParam2, CItemObject & Item, time_t & DurationItem);
 	bool UseBag_GremoryCase(CGameObject &lpObj, int BagType, int iParam1, int iParam2, BYTE btStorageType, BYTE btRewardSource, int iExpireDays);
 
 	void AddCashCoin(CGameObject &lpObj, int BagType, int iParam1, int iParam2);

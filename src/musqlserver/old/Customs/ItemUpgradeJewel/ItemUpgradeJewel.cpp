@@ -157,7 +157,7 @@ bool ItemUpgradeJewels::ProcUpgrade(CGameObject &lpUser, int JewelPos, int Targe
 
 	if (JewelCode == ITEMGET(14, 13) && TargetCode == ITEMGET(13, 37))
 	{
-		CItem* ItemFenrir = &lpUser.pInventory[TargetPos];
+		CItemObject* ItemFenrir = &lpUser.pInventory[TargetPos];
 
 		if (ItemFenrir->m_Durability >= 255)
 		{
@@ -187,7 +187,7 @@ bool ItemUpgradeJewels::ProcUpgrade(CGameObject &lpUser, int JewelPos, int Targe
 		return true;
 	}
 
-	CItem* ItemTarget = &lpUser.pInventory[TargetPos];
+	CItemObject* ItemTarget = &lpUser.pInventory[TargetPos];
 
 	if (g_LuckyItemManager.IsLuckyItemEquipment(ItemTarget->m_Type) == TRUE)
 	{

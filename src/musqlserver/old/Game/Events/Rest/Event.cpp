@@ -1260,7 +1260,7 @@ void EGAnsRegLuckyCoin(PMSG_ANS_REG_LUCKYCOIN * lpMsg)
 			if(lpObj.pInventory[lpMsg->Pos].m_Durability > 1.0)
 			{
 				lpObj.pInventory[lpMsg->Pos].m_Durability -= 1.0f;
-				gGameProtocol.GCItemDurSend2(lpObj.m_Index, lpMsg->Pos, lpObj.pInventory[lpMsg->Pos].m_Durability, 0);
+				gGameProtocol.GCItemObjectDurSend2(lpObj.m_Index, lpMsg->Pos, lpObj.pInventory[lpMsg->Pos].m_Durability, 0);
 			}
 			else
 			{

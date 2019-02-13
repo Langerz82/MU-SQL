@@ -7,7 +7,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "ItemManagement/Item.h"
+#include "ItemObject.h"
 
 #define MAX_ITEM_IN_MONSTER 1000
 #define MAX_LEVEL_MONSTER 255
@@ -38,7 +38,7 @@ public:
 	void Clear();
 
 	BYTE InsertItem(int monsterlevel, int type, int index, int itemlevel, int op1, int op2, int op3);
-	CItem * GetItem(int monsterlevel);
+	CItemObject * GetItem(int monsterlevel);
 
 	void gObjGiveItemSearch(int monsterlevel, int maxlevel);
 	void MakeJewelItem();
@@ -46,20 +46,20 @@ public:
 	void MagicBookGiveItemSearch(int monsterlevel, int maxlevel);
 	void NormalGiveItemSearch(int monsterlevel,  int maxlevel);
 	int CheckMonsterDropItem(int type, int index);
-	CItem * GetItemEx(int monsterlevel);
+	CItemObject * GetItemEx(int monsterlevel);
 	void NormalGiveItemSearchEx(int monsterlevel, int maxlevel);
 	_MONSTER_ITEM_DROP_PRATE_ m_MonsterItemDropRate[MAX_LEVEL_MONSTER];
-	CItem *m_MonsterInvenItems[MAX_LEVEL_MONSTER];
+	CItemObject *m_MonsterInvenItems[MAX_LEVEL_MONSTER];
 	int m_iMonsterInvenItemCount[MAX_LEVEL_MONSTER];
 	char MonsterName[255];
 	int m_bLoad;
 	int m_iMagicBookItmeCount[MAX_LEVEL_MONSTER];
-	CItem *m_MagicBookItems[MAX_LEVEL_MONSTER];
-	CItem *m_JewelOfBlessItem;
-	CItem *m_JewelOfSoulItem;
-	CItem *m_JewelOfChaosItem;
-	CItem *m_JewelOfLifeItem;
-	CItem *m_JewelOfCreationItem;
+	CItemObject *m_MagicBookItems[MAX_LEVEL_MONSTER];
+	CItemObject *m_JewelOfBlessItem;
+	CItemObject *m_JewelOfSoulItem;
+	CItemObject *m_JewelOfChaosItem;
+	CItemObject *m_JewelOfLifeItem;
+	CItemObject *m_JewelOfCreationItem;
 }; extern CMonsterItemMng g_MonsterItemMng;
 
 #endif
