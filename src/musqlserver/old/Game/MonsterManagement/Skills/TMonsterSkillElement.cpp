@@ -776,7 +776,7 @@ BOOL TMonsterSkillElement::ApplyElementTeleportSkill(CGameObject &Obj, int iTarg
 
 	PMSG_MAGICATTACK_RESULT pAttack;
 
-	PHeadSetBE((LPBYTE)&pAttack, 0x19, sizeof(pAttack));
+	PHeadSetBE((BYTE*)&pAttack, 0x19, sizeof(pAttack));
 
 	pAttack.MagicNumberH = SET_NUMBERH(AT_SKILL_TELEPORT);
 	pAttack.MagicNumberL = SET_NUMBERL(AT_SKILL_TELEPORT);
@@ -786,9 +786,9 @@ BOOL TMonsterSkillElement::ApplyElementTeleportSkill(CGameObject &Obj, int iTarg
 	pAttack.TargetNumberL = SET_NUMBERL(Obj.m_Index);
 
 	if ( lpObj.Type == OBJ_USER )
-		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pAttack, pAttack.h.size);	
+		IOCP.DataSend(Obj.m_Index, (BYTE*)&pAttack, pAttack.h.size);	
 
-	gGameProtocol.MsgSendV2(lpObj, (LPBYTE)&pAttack, pAttack.h.size);
+	gGameProtocol.MsgSendV2(lpObj, (BYTE*)&pAttack, pAttack.h.size);
 
 	gObjTeleportMagicUse(iIndex, x, y);
 	lpObj.TargetNumber = -1;

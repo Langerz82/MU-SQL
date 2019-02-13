@@ -37,7 +37,7 @@ public:
 
 	void LoadFile(char *szFile);
 
-	bool NpcTalk(CGameObject & lpNpc, CGameObject &lpObj);
+	bool NpcTalk(CGameObject & lpNpc, CGameObject &Obj);
 	void CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, CGameObject &Obj);
 
 private:

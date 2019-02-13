@@ -75,8 +75,8 @@ void QuestExpProgMng::QuestExpGiveUpBtnClick(DWORD dwQuestInfoIndexID, int iObjI
 	PMSG_QUEST_GIVEUP_ANS pMsg;
 	pMsg.dwQuestInfoIndexID = GetQuestInfoIndexId(iEpisode, iSendQS);
 
-	PHeadSubSetB(reinterpret_cast<LPBYTE>(&pMsg), 0xF6, 0x0F, sizeof(pMsg));
-	IOCP.DataSend(iObjIndex, reinterpret_cast<LPBYTE>(&pMsg), pMsg.h.size);
+	PHeadSubSetB(reinterpret_cast<BYTE*>(&pMsg), 0xF6, 0x0F, sizeof(pMsg));
+	IOCP.DataSend(iObjIndex, reinterpret_cast<BYTE*>(&pMsg), pMsg.h.size);
 }
 
 #pragma pack (1)
@@ -105,8 +105,8 @@ void QuestExpProgMng::SendQuestProgress(DWORD dwQuestInfoIndexID, int iObjIndex)
 	pMsg.dwQuestInfoIndexID = dwQuestInfoIndexID;
 	pMsg.btAskCnt = 0;
 	pMsg.btRewardCnt = 0;
-	PHeadSubSetB((LPBYTE)&pMsg, 0xF6, 0x0B, sizeof(pMsg));
-	IOCP.DataSend(iObjIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	PHeadSubSetB((BYTE*)&pMsg, 0xF6, 0x0B, sizeof(pMsg));
+	IOCP.DataSend(iObjIndex, (BYTE*)&pMsg, pMsg.h.size);
 
 	//sLog->outBasic("[QuestExp] - Ans Send User : Selection Statements Choose One [%s][%s] QuestIndexID[0x%x]", gGameObjects[iObjIndex]->AccountID, gGameObjects[iObjIndex]->Name, dwQuestInfoIndexID);
 }
@@ -970,7 +970,7 @@ void QuestExpProgMng::ChkUserQuestTypeItem(QuestGetItem* pQuestGetItem, UserQues
 	}
 }
 
-void QuestExpProgMng::ChkMonsterKillPartyPlay(DWORD dwQuestInfoIndexID, int iAskIndex, QuestMonsterKill* pQuestMonsterKill, CGameObject &lpObj, CGameObject &lpMonsterObj)
+void QuestExpProgMng::ChkMonsterKillPartyPlay(DWORD dwQuestInfoIndexID, int iAskIndex, QuestMonsterKill* pQuestMonsterKill, CGameObject &Obj, CGameObject &MonsterObj)
 {
 	if (!pQuestMonsterKill)
 	{
@@ -1156,7 +1156,7 @@ void QuestExpProgMng::ChkUserQuestType(int iQuestType, CGameObject lpObj, CGameO
 	}
 }
 
-void QuestExpProgMng::ChkUserQuestTypeEventMap(int iQuestType, CGameObject &lpObj, int iMapLevel, int iValue)
+void QuestExpProgMng::ChkUserQuestTypeEventMap(int iQuestType, CGameObject &Obj, int iMapLevel, int iValue)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -1705,14 +1705,14 @@ struct PMSG_ANS_QUESTEXP_ASK_UPDATE
 void QuestExpProgMng::SendQuestAskInfoUpdate(int iEpisode, int iQS, int iAskType, int iAskCount, int iObjIndex)
 {
 	PMSG_ANS_QUESTEXP_ASK_UPDATE pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0xF6, 0x06, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xF6, 0x06, sizeof(pMsg));
 
 	pMsg.wEp = iEpisode;
 	pMsg.wQS = iQS;
 	pMsg.btAskType = iAskType;
 	pMsg.iAskCnt = iAskCount;
 
-	IOCP.DataSend(iObjIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(iObjIndex, (BYTE*)&pMsg, pMsg.h.size);
 }
 
 time_t QuestExpProgMng::GetCurrentDate()

@@ -9,10 +9,10 @@ public:
 	CCommonBag();
 	virtual ~CCommonBag();
 
-	bool IsBag(CGameObject &lpObj, int ItemID, int ItemLevel);
-	bool UseBag(CGameObject &lpObj, int iParam2);
-	bool CheckCondition(CGameObject &lpObj, int ItemID, int ItemLevel);
-	bool UseBag_GremoryCase(CGameObject &lpObj, int iMonsterIndex, BYTE btStorageType, BYTE btRewardSource, int iExpireDays);
+	bool IsBag(CGameObject &Obj, int ItemID, int ItemLevel);
+	bool UseBag(CGameObject &Obj, int iParam2);
+	bool CheckCondition(CGameObject &Obj, int ItemID, int ItemLevel);
+	bool UseBag_GremoryCase(CGameObject &Obj, int iMonsterIndex, BYTE btStorageType, BYTE btRewardSource, int iExpireDays);
 	void SetBagInfo(int ItemID, int ItemLevel);
 
 private:

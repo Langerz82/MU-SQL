@@ -40,7 +40,7 @@ void CObjCalCharacter::Init()
 	this->m_Lua.DoFile(g_ConfigRead.GetPath("\\Scripts\\Character\\CalcCharacter.lua"));
 }
 
-void CObjCalCharacter::CalcCharacter(CGameObject &lpObj)
+void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -1756,7 +1756,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &lpObj)
 #endif
 
 	/*PMSG_ADDSTATS_RESULT pAddStats;
-	PHeadSubSetB((LPBYTE)&pAddStats, 0xEC, 0x25, sizeof(pAddStats));
+	PHeadSubSetB((BYTE*)&pAddStats, 0xEC, 0x25, sizeof(pAddStats));
 	pAddStats.str = lpObj.m_PlayerData->Strength;
 	pAddStats.stradd = lpObj.AddStrength;
 	pAddStats.agi = lpObj.m_PlayerData->Dexterity;
@@ -1767,7 +1767,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &lpObj)
 	pAddStats.eneadd = lpObj.AddEnergy;
 	pAddStats.cmd = lpObj.Leadership;
 	pAddStats.cmdadd = lpObj.AddLeadership;
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pAddStats, pAddStats.h.size); */
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)&pAddStats, pAddStats.h.size); */
 
 	gGameProtocol.GCPlayerStatsPanelNew(aIndex);
 	gGameProtocol.GCPlayerStatsPanelRates(aIndex);
@@ -1783,7 +1783,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &lpObj)
 	}
 }
 
-void CObjCalCharacter::CalcSetItemStat(CGameObject &lpObj)
+void CObjCalCharacter::CalcSetItemStat(CGameObject &Obj)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -1845,7 +1845,7 @@ void CObjCalCharacter::CalcSetItemStat(CGameObject &lpObj)
 
 
 
-void CObjCalCharacter::GetSetItemOption(CGameObject &lpObj, LPBYTE pSetOptionTable, LPBYTE pSetOptionCountTable, int * pSetOptionCount)
+void CObjCalCharacter::GetSetItemOption(CGameObject &Obj, BYTE* pSetOptionTable, BYTE* pSetOptionCountTable, int * pSetOptionCount)
 {
 	*pSetOptionCount = 0;
 	int RightSetOptionIndex = -1;
@@ -1921,7 +1921,7 @@ void CObjCalCharacter::GetSetItemOption(CGameObject &lpObj, LPBYTE pSetOptionTab
 		}
 	}
 }
-void CObjCalCharacter::CalcSetItemOption(CGameObject &lpObj)
+void CObjCalCharacter::CalcSetItemOption(CGameObject &Obj)
 {
 	BYTE SetOptionTable[29];
 	BYTE SetOptionCountTable[29];
@@ -2016,7 +2016,7 @@ void CObjCalCharacter::CalcSetItemOption(CGameObject &lpObj)
 
 
 
-void CObjCalCharacter::SetItemStatPlusSpecial(CGameObject &lpObj, int option, int ivalue)
+void CObjCalCharacter::SetItemStatPlusSpecial(CGameObject &Obj, int option, int ivalue)
 {
 	if (lpObj.Type != OBJ_USER)
 		return;
@@ -2062,7 +2062,7 @@ void CObjCalCharacter::SetItemStatPlusSpecial(CGameObject &lpObj, int option, in
 }
 
 
-void CObjCalCharacter::SetItemPlusSpecial(CGameObject &lpObj, int option, int ivalue)
+void CObjCalCharacter::SetItemPlusSpecial(CGameObject &Obj, int option, int ivalue)
 {
 	if (option == -1)
 		return;
@@ -2170,7 +2170,7 @@ void CObjCalCharacter::SetItemPlusSpecial(CGameObject &lpObj, int option, int iv
 
 
 
-void CObjCalCharacter::SetItemApply(CGameObject &lpObj)
+void CObjCalCharacter::SetItemApply(CGameObject &Obj)
 {
 	lpObj.m_AttackDamageMinLeft += lpObj.m_PlayerData->SetOpAddAttackDamage;
 	lpObj.m_AttackDamageMaxLeft += lpObj.m_PlayerData->SetOpAddAttackDamage;
@@ -2196,17 +2196,17 @@ void CObjCalCharacter::SetItemApply(CGameObject &lpObj)
 	lpObj.m_ExcelentDamage += lpObj.m_PlayerData->SetOpAddExDamageSuccessRate;
 	if (lpObj.pInventory[10].IsSetItem())
 	{
-		lpObj.pInventory[10].PlusSpecialSetRing((LPBYTE)lpObj.m_AddResistance);
+		lpObj.pInventory[10].PlusSpecialSetRing((BYTE*)lpObj.m_AddResistance);
 	}
 
 	if (lpObj.pInventory[11].IsSetItem())
 	{
-		lpObj.pInventory[11].PlusSpecialSetRing((LPBYTE)lpObj.m_AddResistance);
+		lpObj.pInventory[11].PlusSpecialSetRing((BYTE*)lpObj.m_AddResistance);
 	}
 
 	if (lpObj.pInventory[9].IsSetItem())
 	{
-		lpObj.pInventory[9].PlusSpecialSetRing((LPBYTE)lpObj.m_AddResistance);
+		lpObj.pInventory[9].PlusSpecialSetRing((BYTE*)lpObj.m_AddResistance);
 	}
 
 	if (lpObj.m_PlayerData->SetOpTwoHandSwordImproveDamage)
@@ -2250,7 +2250,7 @@ void CObjCalCharacter::SetItemApply(CGameObject &lpObj)
 	}
 }
 
-void CObjCalCharacter::CalcMLSkillItemOption(CGameObject &lpObj)
+void CObjCalCharacter::CalcMLSkillItemOption(CGameObject &Obj)
 {
 	if (lpObj.Type != OBJ_USER)
 		return;
@@ -2543,7 +2543,7 @@ void CObjCalCharacter::CalcMLSkillItemOption(CGameObject &lpObj)
 	}
 }
 
-BOOL CObjCalCharacter::ValidItem(CGameObject &lpObj, CItemObject * lpItem, int pos)
+BOOL CObjCalCharacter::ValidItem(CGameObject &Obj, CItemObject * lpItem, int pos)
 {
 	if (g_ConfigRead.data.common.CheckValidItem == false)
 	{
@@ -2607,7 +2607,7 @@ BOOL CObjCalCharacter::ValidItem(CGameObject &lpObj, CItemObject * lpItem, int p
 }
 
 
-void CObjCalCharacter::CalcShieldPoint(CGameObject &lpObj)
+void CObjCalCharacter::CalcShieldPoint(CGameObject &Obj)
 {
 	int iMaxShieldPoint = 0;
 	int iExpressionA = (lpObj.m_PlayerData->Strength + lpObj.AddStrength) + (lpObj.m_PlayerData->Dexterity + lpObj.AddDexterity) + (lpObj.m_PlayerData->Vitality + lpObj.AddVitality) + (lpObj.m_PlayerData->Energy + lpObj.AddEnergy);
@@ -2631,7 +2631,7 @@ void CObjCalCharacter::CalcShieldPoint(CGameObject &lpObj)
 	lpObj.iMaxShield = iMaxShieldPoint;
 }
 
-void CObjCalCharacter::PremiumItemApply(CGameObject &lpObj)
+void CObjCalCharacter::PremiumItemApply(CGameObject &Obj)
 {
 	for (int i = 9; i < 12; ++i)
 	{

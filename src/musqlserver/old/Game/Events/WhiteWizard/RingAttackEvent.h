@@ -23,8 +23,8 @@ public:
 	BYTE GetY(){return this->m_iCUR_Y;}
 
 	virtual int Start();	// 4
-	virtual int MonsterHerdItemDrop(CGameObject &lpObj);	// 8
-	virtual void MonsterAttackAction(CGameObject &lpObj, CGameObject lpTargetObj);	// C
+	virtual int MonsterHerdItemDrop(CGameObject &Obj);	// 8
+	virtual void MonsterAttackAction(CGameObject &Obj, CGameObject lpTargetObj);	// C
 
 private:
 

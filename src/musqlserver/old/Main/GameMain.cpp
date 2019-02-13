@@ -993,10 +993,10 @@ void ExDataClientMsgProc(WPARAM wParam, LPARAM lParam)
 				{
 					PMSG_FRIEND_STATE pMsg;
 					
-					pMsg.h.set((LPBYTE)&pMsg, 0xC4 , sizeof(pMsg) );
+					pMsg.h.set((BYTE*)&pMsg, 0xC4 , sizeof(pMsg) );
 					pMsg.State = -4;
 
-					IOCP.DataSend(i, (unsigned char*)&pMsg, sizeof(pMsg) );
+					IOCP.DataSend(i, (BYTE*)&pMsg, sizeof(pMsg) );
 
 					gGameObjects[i]->m_FriendServerOnline = FRIEND_SERVER_STATE_OFFLINE;
 
@@ -1612,7 +1612,7 @@ void GameServerInfoSend()
 			}
 		}
 
-		gUdpSoc.SendData((LPBYTE)&pMsg, pMsg.h.size);
+		gUdpSoc.SendData((BYTE*)&pMsg, pMsg.h.size);
 		Sleep(1000);
 	}
 }

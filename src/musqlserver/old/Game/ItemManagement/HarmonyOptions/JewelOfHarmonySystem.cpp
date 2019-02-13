@@ -329,7 +329,7 @@ int CJewelOfHarmonySystem::_GetSelectRandomOption(CItemObject * pItem, int iItem
 	return iItemOption;
 }
 
-BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(CGameObject &lpObj, int source, int target)
+BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(CGameObject &Obj, int source, int target)
 {
 	if ( this->m_bSystemStrengthenItem == FALSE )
 	{
@@ -425,7 +425,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(CGameObject &lpObj, int 
 	return TRUE;
 }
 
-BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfHarmony(CGameObject &lpObj, int source, int target)
+BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfHarmony(CGameObject &Obj, int source, int target)
 {
 	if ( this->m_bSystemStrengthenItem == FALSE )
 	{
@@ -522,7 +522,7 @@ BOOL CJewelOfHarmonySystem::_MakeOption(CItemObject *pItem, BYTE btOptionType, B
 
 
 #pragma warning ( disable : 4101 )
-void CJewelOfHarmonySystem::StrengthenItemByMacro(CGameObject &lpObj, BYTE invenrotyTargetPos, BYTE btOptionType,  BYTE btOptionLevel)
+void CJewelOfHarmonySystem::StrengthenItemByMacro(CGameObject &Obj, BYTE invenrotyTargetPos, BYTE btOptionType,  BYTE btOptionLevel)
 {
 //#pragma message("Add Here code to make an Artificial JOH Item")
 	return;
@@ -572,7 +572,7 @@ BYTE CJewelOfHarmonySystem::ShowStrengthenOption(CItemObject *pItem)
 }
 
 
-BYTE CJewelOfHarmonySystem::MakeCharSetData(CGameObject &lpObj)
+BYTE CJewelOfHarmonySystem::MakeCharSetData(CGameObject &Obj)
 {
 	BYTE btResult = 0;
 
@@ -603,7 +603,7 @@ BYTE CJewelOfHarmonySystem::MakeCharSetData(CGameObject &lpObj)
 	return btResult;
 }
 
-void CJewelOfHarmonySystem::SetApplyStrengthenItem(CGameObject &lpObj)
+void CJewelOfHarmonySystem::SetApplyStrengthenItem(CGameObject &Obj)
 {
 	JEWELOFHARMONY_ITEM_EFFECT * pItemEffect = &lpObj.m_PlayerData->m_JewelOfHarmonyEffect;
 
@@ -859,7 +859,7 @@ BOOL CJewelOfHarmonySystem::IsEnableToMakeSmeltingStoneItem(CItemObject * pItem)
 	return TRUE;
 }
 
-BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(CGameObject &lpObj, int iMixCount)
+BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(CGameObject &Obj, int iMixCount)
 {
 	if (this->m_bSystemMixSmeltingStone != TRUE)
 	{
@@ -876,7 +876,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(CGameObject &lpObj, i
 
 	PMSG_CHAOSMIXRESULT pMsg;
 
-	PHeadSetB((LPBYTE)&pMsg, 0x86, sizeof(pMsg));
+	PHeadSetB((BYTE*)&pMsg, 0x86, sizeof(pMsg));
 	pMsg.Result = CB_ERROR;
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
@@ -908,7 +908,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(CGameObject &lpObj, i
 	if (iValidItemCount != iMixCount ||
 		iInvalidItemCount)
 	{
-		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 		lpObj.ChaosLock = FALSE;
 
 		return FALSE;
@@ -916,7 +916,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(CGameObject &lpObj, i
 
 	if (iNormalItemCount > 0 && iExtItemCount > 0)
 	{
-		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 		lpObj.ChaosLock = FALSE;
 
 		return FALSE;
@@ -950,7 +950,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(CGameObject &lpObj, i
 	if (lpObj.m_PlayerData->Money < iMakeSmeltingStoneMixPrice)
 	{
 		pMsg.Result = 2;
-		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 		lpObj.ChaosLock = FALSE;
 
 		return FALSE;
@@ -987,7 +987,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(CGameObject &lpObj, i
 		}
 	}
 
-	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 
 	if (lpObj.ChaosMassMixSuccessCount == 0)
 	{
@@ -1014,7 +1014,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(CGameObject &lpObj, i
 	return TRUE;
 }
 
-BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject &lpObj)
+BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject &Obj)
 {
 	if ( this->m_bSystemMixSmeltingStone != TRUE )
 	{
@@ -1029,7 +1029,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject &lpObj)
 
 	PMSG_CHAOSMIXRESULT pMsg;
 
-	PHeadSetB((LPBYTE)&pMsg, 0x86, sizeof(pMsg));
+	PHeadSetB((BYTE*)&pMsg, 0x86, sizeof(pMsg));
 	pMsg.Result = 0;
 	int iItemPos = -1;
 
@@ -1053,7 +1053,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject &lpObj)
 		 iInvalidItemCount ||
 		 iItemPos == -1 )
 	{
-		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 		lpObj.ChaosLock = FALSE;
 
 		return FALSE;
@@ -1087,7 +1087,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject &lpObj)
 	if ( lpObj.m_PlayerData->Money < iMakeSmeltingStoneMixPrice )
 	{
 		pMsg.Result = 2;
-		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 		lpObj.ChaosLock = FALSE;
 
 		return FALSE;
@@ -1117,7 +1117,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject &lpObj)
 	{
 		g_MixSystem.ChaosBoxInit(lpObj);
 		gGameProtocol.GCUserChaosBoxSend(lpObj, 0);
-		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 
 	}
 
@@ -1127,7 +1127,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject &lpObj)
 
 
 
-BOOL CJewelOfHarmonySystem::SmeltItemBySmeltingStone(CGameObject &lpObj, int source, int target)
+BOOL CJewelOfHarmonySystem::SmeltItemBySmeltingStone(CGameObject &Obj, int source, int target)
 {
 	if ( this->m_bSystemSmeltingItem == FALSE )
 	{
@@ -1240,7 +1240,7 @@ int CJewelOfHarmonySystem::_GetZenForRestoreItem(CItemObject * pItem)
 	return iZenForRestore;
 }
 
-BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(CGameObject &lpObj)
+BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(CGameObject &Obj)
 {
 	if ( this->m_bSystemRestoreStrengthen != TRUE )
 	{
@@ -1252,7 +1252,7 @@ BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(CGameObject &lpObj)
 
 	PMSG_CHAOSMIXRESULT pMsg;
 
-	PHeadSetB((LPBYTE)&pMsg, 0x86, sizeof(pMsg));
+	PHeadSetB((BYTE*)&pMsg, 0x86, sizeof(pMsg));
 	pMsg.Result = 0;
 	int iStrengtenItemCount = 0;
 	int iInvalidItemCount = 0;
@@ -1272,7 +1272,7 @@ BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(CGameObject &lpObj)
 
 	if ( iStrengtenItemCount != 1 )
 	{
-		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 		lpObj.ChaosLock = FALSE;
 
 		return FALSE;
@@ -1284,7 +1284,7 @@ BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(CGameObject &lpObj)
 
 	if ( JEWEL_OF_HARMONY_RETORE_NEEDZEN < 0 ) 
 	{
-		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 		lpObj.ChaosLock = FALSE;
 
 		return FALSE;
@@ -1303,7 +1303,7 @@ BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(CGameObject &lpObj)
 	if ( lpObj.m_PlayerData->Money < JEWEL_OF_HARMONY_RETORE_NEEDZEN )
 	{
 		pMsg.Result = 2;
-		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 		lpObj.ChaosLock = FALSE;
 
 		return FALSE;
@@ -1321,7 +1321,7 @@ BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(CGameObject &lpObj)
 	return TRUE;
 }
 
-BOOL CJewelOfHarmonySystem::NpcJewelOfHarmony(CGameObject &lpNpc, CGameObject &lpObj)
+BOOL CJewelOfHarmonySystem::NpcJewelOfHarmony(CGameObject &Npc, CGameObject &Obj)
 {
 	if ( lpObj.m_IfState.use > 0 )
 		return TRUE;
@@ -1389,7 +1389,7 @@ BOOL CJewelOfHarmonySystem::NpcJewelOfHarmony(CGameObject &lpNpc, CGameObject &l
 		lpObj.m_IfState.use = 1;
 		lpObj.bIsChaosMixCompleted = false;
 
-		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pResult, pResult.h.size);
 		gObjInventoryTrans(lpObj.m_Index);
 
 		gObjItemTextSave(lpObj);
@@ -1401,7 +1401,7 @@ BOOL CJewelOfHarmonySystem::NpcJewelOfHarmony(CGameObject &lpNpc, CGameObject &l
 }
 
 
-BOOL CJewelOfHarmonySystem::IsEnableToTrade(CGameObject &lpObj) 
+BOOL CJewelOfHarmonySystem::IsEnableToTrade(CGameObject &Obj) 
 {
 	BOOL bRet = TRUE;
 

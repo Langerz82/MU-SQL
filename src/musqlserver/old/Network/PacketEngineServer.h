@@ -40,7 +40,7 @@ protected:
 			return false;
 		}
 
-		unsigned char byXorFilter[32];
+		BYTE byXorFilter[32];
 
 		byXorFilter[0] = 0xAB;
 		byXorFilter[1] = 0x11;

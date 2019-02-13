@@ -82,7 +82,7 @@ bool CQuery::HasFields()
 	return (m_Fields != NULL);
 }
 
-int CQuery::GetAsBinary(LPSTR lpszStatement, LPBYTE OUT lpszReturnBuffer, int size)
+int CQuery::GetAsBinary(LPSTR lpszStatement, BYTE* OUT lpszReturnBuffer, int size)
 {
 	QueryResult* res = Fetch(lpszStatement);
 	Field* field = NULL; // TODO stub
@@ -95,7 +95,7 @@ int CQuery::GetAsBinary(LPSTR lpszStatement, LPBYTE OUT lpszReturnBuffer, int si
 	return sizeof(lpszReturnBuffer);
 }
 
-void CQuery::SetAsBinary(LPTSTR lpszStatement, LPBYTE lpBinaryBuffer, UINT32 BinaryBufferSize)
+void CQuery::SetAsBinary(LPTSTR lpszStatement, BYTE* lpBinaryBuffer, UINT32 BinaryBufferSize)
 {
 	// TODO.
 /* // Old Implementation.

@@ -98,7 +98,7 @@ BOOL wsJoinServerCli::DataSend(PCHAR buf, int len)
 	int nResult;
 	int nLeft;
 	int nDx;	// Degeneration X :)
-	LPBYTE sendbuf;
+	BYTE* sendbuf;
 	int* sendbuflen;
 	
 	if ( len <= 0 )
@@ -190,7 +190,7 @@ BOOL wsJoinServerCli::FDWRITE_MsgDataSend()
 {
 	int nResult;
 	int nDx;	// Degeneration X :)
-	LPBYTE sendbuf;
+	BYTE* sendbuf;
 	int* sendbuflen;
 
 	nDx=0;
@@ -241,7 +241,7 @@ BOOL wsJoinServerCli::FDWRITE_MsgDataSend()
 int wsJoinServerCli::DataRecv()
 {
 	int nResult;
-	unsigned char* recvbuf;
+	BYTE* recvbuf;
 	int* recvbuflen;
 	int lOfs;
 	int size;
@@ -391,13 +391,13 @@ int wsJoinServerCli::DataRecv()
 		{
 			if (recvbuf[lOfs] == 0xC1 )	// Type packet handling C1 Type
 			{
-				unsigned char* c1subbase = (UCHAR*)&recvbuf[lOfs];
+				BYTE* c1subbase = (UCHAR*)&recvbuf[lOfs];
 				size=c1subbase[1];
 				headcode=c1subbase[2];
 			}
 			else if ( recvbuf[lOfs] == 0xC2 ) // Type packet handling C2 Type
 			{
-				unsigned char* c2subbase=(UCHAR*)&recvbuf[lOfs];
+				BYTE* c2subbase=(UCHAR*)&recvbuf[lOfs];
 				size = c2subbase[1] * 256;
 				size |= c2subbase[2];
 				headcode = c2subbase[3];

@@ -26,7 +26,7 @@ class CAttackMelee : public CAttackBase{
 	CGameObject*  m_TargetObj;
 	CGameObject* m_Obj;
 public:
-	CAttackMelee(CGameObject &lpObj, CGameObject &lpTargetObj);
+	CAttackMelee(CGameObject &Obj, CGameObject &TargetObj);
 	void Process();
 };
 
@@ -34,7 +34,7 @@ class CAttackMagic : public CAttackBase{
 	CGameObject*  m_Obj;
 	BYTE* m_Msg;
 public:
-	CAttackMagic(CGameObject &lpObj, BYTE* pmsg, int len);
+	CAttackMagic(CGameObject &Obj, BYTE* pmsg, int len);
 	~CAttackMagic();
 	void Process();
 };
@@ -44,7 +44,7 @@ class CAttackRange : public CAttackBase{
 	BYTE* m_Msg;
 	int m_Type;
 public:
-	CAttackRange(CGameObject &lpObj, BYTE* pmsg, int len, int type);
+	CAttackRange(CGameObject &Obj, BYTE* pmsg, int len, int type);
 	~CAttackRange();
 
 	void Process();
@@ -65,7 +65,7 @@ class CAttackMsg{
 	int m_Len;
 	int m_Type;
 public:
-	CAttackMsg(CGameObject &lpObj, BYTE* pmsg, int len, int type);
+	CAttackMsg(CGameObject &Obj, BYTE* pmsg, int len, int type);
 	~CAttackMsg();
 
 	void Process();
@@ -78,7 +78,7 @@ public:
 
 class CAttackQueue{
 private:
-	CGameObject &lpObj;
+	CGameObject &Obj;
 	std::queue<CAttackMsg*> m_Queue;
 	
 
@@ -94,8 +94,8 @@ public:
 	CAttackQueue(CUserData* userData);
 	~CAttackQueue();
 //	void Push(CGameObject & lpTargetObj);
-//	void Push(unsigned char* msg, int len);
-	void Push(unsigned char* msg, int len, int type);
+//	void Push(BYTE* msg, int len);
+	void Push(BYTE* msg, int len, int type);
 
 	void ProcessQueue();
 	static bool ThreadActive;

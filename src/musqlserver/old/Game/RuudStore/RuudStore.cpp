@@ -79,7 +79,7 @@ void CRuudStore::LoadFile(char * szFile)
 	}
 }
 
-bool CRuudStore::NpcTalk(CGameObject & lpNpc, CGameObject &lpObj)
+bool CRuudStore::NpcTalk(CGameObject & lpNpc, CGameObject &Obj)
 {
 	if (!gObjIsConnected(lpObj.m_Index))
 		return false;
@@ -99,13 +99,13 @@ bool CRuudStore::NpcTalk(CGameObject & lpNpc, CGameObject &lpObj)
 	pResult.h.size = sizeof(pResult);
 	pResult.result = 0x35;
 
-	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pResult, pResult.h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pResult, pResult.h.size);
 
 	PMSG_SHOPITEMCOUNT pShopItemCount;
 	BYTE SendByte[4096];
 	int lOfs = sizeof(pShopItemCount);
 
-	PHeadSetW((LPBYTE)&pShopItemCount, 0x31, 0);
+	PHeadSetW((BYTE*)&pShopItemCount, 0x31, 0);
 	pShopItemCount.count = 0;
 
 	for (std::map<int, RUUD_MAP_ITEM_DATA>::iterator It = this->m_mapItemList.begin(); It != this->m_mapItemList.end(); It++)
@@ -153,19 +153,19 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, CGameObject &
 	int Option2 = 0;
 
 	PMSG_ANS_RUUD_STORE_BUYITEM pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0xD0, 0xF0, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xD0, 0xF0, sizeof(pMsg));
 
 	if (lpObj.CloseType != -1)
 	{
 		pMsg.btResult = 0xFF;
-		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 		return;
 	}
 
 	if (lpObj.TargetNpcNumber == -1)
 	{
 		pMsg.btResult = 0xFF;
-		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -187,7 +187,7 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, CGameObject &
 		}
 
 		pMsg.btResult = 0xFE;
-		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -196,7 +196,7 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, CGameObject &
 		if (lpObj.m_IfState.type != 3)
 		{
 			pMsg.btResult = 0xFF;
-			IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 			return;
 		}
 	}
@@ -206,14 +206,14 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, CGameObject &
 	if (It == this->m_mapItemList.end())
 	{
 		pMsg.btResult = 0xFD;
-		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 		return;
 	}
 
 	if (lpObj.m_PlayerData->Ruud < It->second.dwRuudPrice)
 	{
 		pMsg.btResult = 0xFC;
-		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -223,7 +223,7 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, CGameObject &
 	if (CheckInventoryEmptySpace(lpObj, h, w) == FALSE)
 	{
 		pMsg.btResult = 0xFB;
-		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 		return;
 	}
 

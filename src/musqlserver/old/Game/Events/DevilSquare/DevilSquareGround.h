@@ -30,13 +30,13 @@ public:
 	void RegenBossMonster(int currtime);
 	int FindMonsterType(WORD type);
 	WORD GetMonsterType(int currtime);
-	void SendRankingInfo(CGameObject &lpObj);
+	void SendRankingInfo(CGameObject &Obj);
 	void ClearScore();
 	void SortScore();
-	void InsertObj(CGameObject &lpObj);
+	void InsertObj(CGameObject &Obj);
 	void SendScore();
-	BOOL AddUser(CGameObject &lpObj);
-	BOOL DelUser(CGameObject &lpObj);
+	BOOL AddUser(CGameObject &Obj);
+	BOOL DelUser(CGameObject &Obj);
 	BOOL ChangerUserIndex(int OldIndex, int NewIndex);
 	int GetPlayUserCountRightNow();
 	void DropReward(CGameObject &Obj);

@@ -596,7 +596,7 @@ bool CPentagramSystem::IsPentagramJewel(int ItemCode)
 	}
 }
 
-void CPentagramSystem::ClearPentagramItem(CGameObject &lpObj)
+void CPentagramSystem::ClearPentagramItem(CGameObject &Obj)
 {
 	
 
@@ -609,7 +609,7 @@ void CPentagramSystem::ClearPentagramItem(CGameObject &lpObj)
 	memset(&lpObj.m_PlayerData->m_PentagramOptions, 0x00, sizeof(PENTAGRAM_OPTION));
 }
 
-void CPentagramSystem::CalcPentagramItem(CGameObject &lpObj, CItemObject* lpItemData)
+void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemData)
 {
 	if (!lpItemData)
 	{
@@ -1327,7 +1327,7 @@ bool CPentagramSystem::IsEnableDropPentagramItemMap(int iMapIndex)
 	}
 }
 
-int CPentagramSystem::AttributeMonsterItemDrop(CGameObject &lpObj)
+int CPentagramSystem::AttributeMonsterItemDrop(CGameObject &Obj)
 {
 	int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
@@ -1928,7 +1928,7 @@ bool CPentagramSystem::MakePentagramSocketSlot(CItemObject *lpItemData, BYTE btS
 
 }
 
-bool CPentagramSystem::ClearPentagramSocketSlot(CGameObject &lpObj, int iInventoryPos, CItemObject *lpTargetItem, BYTE btSocketSlotIndex)
+bool CPentagramSystem::ClearPentagramSocketSlot(CGameObject &Obj, int iInventoryPos, CItemObject *lpTargetItem, BYTE btSocketSlotIndex)
 {
 	if (!lpTargetItem)
 	{
@@ -2026,7 +2026,7 @@ bool CPentagramSystem::SetPentagramSocketSlot(CItemObject *lpTargetItem, BYTE bt
 	return true;
 }
 
-bool CPentagramSystem::SwitchPentagramJewel(CGameObject &lpObj, CItemObject *lpSourceItem, int iSwitchType)
+bool CPentagramSystem::SwitchPentagramJewel(CGameObject &Obj, CItemObject *lpSourceItem, int iSwitchType)
 {
 	
 
@@ -2181,7 +2181,7 @@ bool CPentagramSystem::SwitchPentagramJewel(CGameObject &lpObj, CItemObject *lpS
 	return bReturnValue;
 }
 
-bool CPentagramSystem::AddPentagramJewelInfo(CGameObject &lpObj, int iJewelPos, int iJewelIndex, int iItemType, int iItemIndex, int iMainAttribute, int iJewelLevel, BYTE btRank1OptionNum, BYTE btRank1Level, BYTE btRank2OptionNum, BYTE btRank2Level, BYTE btRank3OptionNum, BYTE btRank3Level, BYTE btRank4OptionNum, BYTE btRank4Level, BYTE btRank5OptionNum, BYTE btRank5Level)
+bool CPentagramSystem::AddPentagramJewelInfo(CGameObject &Obj, int iJewelPos, int iJewelIndex, int iItemType, int iItemIndex, int iMainAttribute, int iJewelLevel, BYTE btRank1OptionNum, BYTE btRank1Level, BYTE btRank2OptionNum, BYTE btRank2Level, BYTE btRank3OptionNum, BYTE btRank3Level, BYTE btRank4OptionNum, BYTE btRank4Level, BYTE btRank5OptionNum, BYTE btRank5Level)
 {
 	
 	bool iAddSuccess = false;
@@ -2260,7 +2260,7 @@ bool CPentagramSystem::AddPentagramJewelInfo(CGameObject &lpObj, int iJewelPos, 
 	return iAddSuccess;
 }
 
-bool CPentagramSystem::DelPentagramJewelInfo(CGameObject &lpObj, CItemObject *lpItemData)
+bool CPentagramSystem::DelPentagramJewelInfo(CGameObject &Obj, CItemObject *lpItemData)
 {
 	if (!lpItemData)
 	{
@@ -2283,7 +2283,7 @@ bool CPentagramSystem::DelPentagramJewelInfo(CGameObject &lpObj, CItemObject *lp
 	return true;
 }
 
-bool CPentagramSystem::DelPentagramJewelInfo(CGameObject &lpObj, int iJewelPos, int iJewelIndex)
+bool CPentagramSystem::DelPentagramJewelInfo(CGameObject &Obj, int iJewelPos, int iJewelIndex)
 {
 	
 	bool iDelSuccess = false;
@@ -2381,15 +2381,15 @@ void CPentagramSystem::DBREQ_GetPentagramJewel(CGameObject lpObj, char *szAccoun
 	memcpy(&pMsg.szName, lpObj.Name, MAX_ACCOUNT_LEN);
 	pMsg.szName[10] = 0;
 
-	PHeadSetB((LPBYTE)&pMsg, 0xE0, sizeof(pMsg));
+	PHeadSetB((BYTE*)&pMsg, 0xE0, sizeof(pMsg));
 	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
-void CPentagramSystem::DBANS_GetPentagramJewel(LPBYTE lpRecv)
+void CPentagramSystem::DBANS_GetPentagramJewel(BYTE* lpRecv)
 {
 	PMSG_ANS_PENTAGRAMJEWEL * lpMsg = (PMSG_ANS_PENTAGRAMJEWEL*)lpRecv;
 
-	CGameObject &lpObj = lpMsg->iUserIndex;
+	CGameObject &Obj = lpMsg->iUserIndex;
 
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -2464,7 +2464,7 @@ void CPentagramSystem::DBANS_GetPentagramJewel(LPBYTE lpRecv)
 	this->GCPentagramJewelInfo(aIndex, lpMsg->iAnsType);
 }
 
-void CPentagramSystem::GCPentagramJewelInfo(CGameObject &lpObj, int iJewelPos)
+void CPentagramSystem::GCPentagramJewelInfo(CGameObject &Obj, int iJewelPos)
 {
 	
 
@@ -2546,7 +2546,7 @@ void CPentagramSystem::GCPentagramJewelInfo(CGameObject &lpObj, int iJewelPos)
 	pMsg.btResult = dwJewelCnt > 0;
 	pMsg.btJewelCnt = dwJewelCnt;
 	pMsg.btJewelPos = iJewelPos;
-	PHeadSubSetW((LPBYTE)&pMsg, 0xEE, 0x01, dwSize);
+	PHeadSubSetW((BYTE*)&pMsg, 0xEE, 0x01, dwSize);
 	memcpy(&Buff, &pMsg, sizeof(pMsg));
 
 	IOCP.DataSend(lpObj.m_Index, Buff, dwSize);
@@ -2565,7 +2565,7 @@ struct PMSG_REQ_SETPENTAGRAMJEWEL
 };
 #pragma pack ()
 
-void CPentagramSystem::DBREQ_SetPentagramJewel(CGameObject &lpObj, int iJewelPos)
+void CPentagramSystem::DBREQ_SetPentagramJewel(CGameObject &Obj, int iJewelPos)
 {
 	
 
@@ -2703,7 +2703,7 @@ void CPentagramSystem::DBREQ_SetPentagramJewel(CGameObject &lpObj, int iJewelPos
 	{
 		pMsg.btJewelCnt = JewelCnt;
 		pMsg.btJewelPos = iJewelPos;
-		PHeadSetW((LPBYTE)&pMsg, 0xE1, dwSize);
+		PHeadSetW((BYTE*)&pMsg, 0xE1, dwSize);
 		memcpy(&Buff, &pMsg, sizeof(pMsg));
 		wsDataCli.DataSend((char *)Buff, dwSize);
 	}
@@ -2719,7 +2719,7 @@ struct PMSG_DEL_PENTAGRAMJEWEL
 	BYTE btJewelIndex;
 };
 
-void CPentagramSystem::DBREQ_DelPentagramJewel(CGameObject &lpObj, int iJewelPos, int iJewelIndex)
+void CPentagramSystem::DBREQ_DelPentagramJewel(CGameObject &Obj, int iJewelPos, int iJewelIndex)
 {
 	PMSG_DEL_PENTAGRAMJEWEL pMsg;
 
@@ -2729,7 +2729,7 @@ void CPentagramSystem::DBREQ_DelPentagramJewel(CGameObject &lpObj, int iJewelPos
 	pMsg.btJewelPos = iJewelPos;
 	pMsg.btJewelIndex = iJewelIndex;
 
-	PHeadSetB((LPBYTE)&pMsg, 0xE2, sizeof(pMsg));
+	PHeadSetB((BYTE*)&pMsg, 0xE2, sizeof(pMsg));
 	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
@@ -2757,7 +2757,7 @@ struct PMSG_INSERT_PENTAGRAMJEWEL
 	BYTE btRank5Level;
 };
 
-void CPentagramSystem::DBREQ_InsertPentagramJewel(CGameObject &lpObj, int iJewelPos, int iJewelIndex, int iItemType, int iItemIndex, int iMainAttribute, int iJewelLevel, BYTE btRank1, BYTE btRank1Level, BYTE btRank2, BYTE btRank2Level, BYTE btRank3, BYTE btRank3Level, BYTE btRank4, BYTE btRank4Level, BYTE btRank5, BYTE btRank5Level)
+void CPentagramSystem::DBREQ_InsertPentagramJewel(CGameObject &Obj, int iJewelPos, int iJewelIndex, int iItemType, int iItemIndex, int iMainAttribute, int iJewelLevel, BYTE btRank1, BYTE btRank1Level, BYTE btRank2, BYTE btRank2Level, BYTE btRank3, BYTE btRank3Level, BYTE btRank4, BYTE btRank4Level, BYTE btRank5, BYTE btRank5Level)
 {
 	PMSG_INSERT_PENTAGRAMJEWEL pMsg;
 
@@ -2782,11 +2782,11 @@ void CPentagramSystem::DBREQ_InsertPentagramJewel(CGameObject &lpObj, int iJewel
 	pMsg.btRank5OptionNum = btRank5;
 	pMsg.btRank5Level = btRank5Level;
 
-	PHeadSetB((LPBYTE)&pMsg, 0xE3, sizeof(pMsg));
+	PHeadSetB((BYTE*)&pMsg, 0xE3, sizeof(pMsg));
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-BOOL CPentagramSystem::PentagramJewel_IN(CGameObject &lpObj, int iPentagramItemPos, int iJewelItemPos)
+BOOL CPentagramSystem::PentagramJewel_IN(CGameObject &Obj, int iPentagramItemPos, int iJewelItemPos)
 {
 	if (!gObjIsConnected(aIndex))
 	{
@@ -2940,7 +2940,7 @@ BOOL CPentagramSystem::PentagramJewel_IN(CGameObject &lpObj, int iPentagramItemP
 	return TRUE;
 }
 
-BOOL CPentagramSystem::PentagramJewel_OUT(CGameObject &lpObj, int iPentagramItemPos, BYTE btSocketIndex, BYTE *btJewelPos, BYTE *btJewelDBIndex)
+BOOL CPentagramSystem::PentagramJewel_OUT(CGameObject &Obj, int iPentagramItemPos, BYTE btSocketIndex, BYTE *btJewelPos, BYTE *btJewelDBIndex)
 {
 	if (!gObjIsConnected(aIndex))
 	{
@@ -3055,7 +3055,7 @@ BOOL CPentagramSystem::PentagramJewel_OUT(CGameObject &lpObj, int iPentagramItem
 	return iReturnValue;
 }
 
-bool CPentagramSystem::GCTransPentagramJewelViewInfo(CGameObject &lpObj, CItemObject *lpItemData)
+bool CPentagramSystem::GCTransPentagramJewelViewInfo(CGameObject &Obj, CItemObject *lpItemData)
 {
 	PMSG_PENTAGRAMJEWEL_INFO pMsg;
 	PENTAGRAMJEWEL_INFO m_PentagramJewelInfo;
@@ -3128,7 +3128,7 @@ bool CPentagramSystem::GCTransPentagramJewelViewInfo(CGameObject &lpObj, CItemOb
 		pMsg.btResult = TRUE;
 		pMsg.btJewelCnt = iJewelCount;
 		pMsg.btJewelPos = 2;
-		PHeadSubSetW((LPBYTE)&pMsg, 0xEE, 0x01, dwSize);
+		PHeadSubSetW((BYTE*)&pMsg, 0xEE, 0x01, dwSize);
 		memcpy(&Buff, &pMsg, sizeof(pMsg));
 
 		IOCP.DataSend(TargetIndex, Buff, dwSize);
@@ -3139,7 +3139,7 @@ bool CPentagramSystem::GCTransPentagramJewelViewInfo(CGameObject &lpObj, CItemOb
 	return false;
 }
 
-bool CPentagramSystem::GCPShopPentagramJewelViewInfo(CGameObject &lpObj, int aSourceIndex)
+bool CPentagramSystem::GCPShopPentagramJewelViewInfo(CGameObject &Obj, int aSourceIndex)
 {
 	PMSG_PENTAGRAMJEWEL_INFO pMsg;
 	PENTAGRAMJEWEL_INFO m_PentagramJewelInfo;
@@ -3207,7 +3207,7 @@ bool CPentagramSystem::GCPShopPentagramJewelViewInfo(CGameObject &lpObj, int aSo
 		pMsg.btResult = TRUE;
 		pMsg.btJewelCnt = iJewelCount;
 		pMsg.btJewelPos = 3;
-		PHeadSubSetW((LPBYTE)&pMsg, 0xEE, 0x01, dwSize);
+		PHeadSubSetW((BYTE*)&pMsg, 0xEE, 0x01, dwSize);
 		memcpy(&Buff, &pMsg, sizeof(pMsg));
 
 		IOCP.DataSend(aSourceIndex, Buff, dwSize);
@@ -3218,7 +3218,7 @@ bool CPentagramSystem::GCPShopPentagramJewelViewInfo(CGameObject &lpObj, int aSo
 	return false;
 }
 
-BOOL CPentagramSystem::IsEnableToTradePentagramItem(CGameObject &lpObj)
+BOOL CPentagramSystem::IsEnableToTradePentagramItem(CGameObject &Obj)
 {
 	for (int i = 0; i < TRADE_BOX_SIZE; i++)
 	{
@@ -3234,7 +3234,7 @@ BOOL CPentagramSystem::IsEnableToTradePentagramItem(CGameObject &lpObj)
 	return TRUE;
 }
 
-BOOL CPentagramSystem::IsEnableTransPentagramJewelInfo(CGameObject &lpObj, int targetIndex)
+BOOL CPentagramSystem::IsEnableTransPentagramJewelInfo(CGameObject &Obj, int targetIndex)
 {
 	BOOL bRet = TRUE;
 	BYTE iTargetDBJewelIndex = 0xFF;
@@ -3441,7 +3441,7 @@ void CPentagramSystem::LoadOptionNews()
 	m_SlotCountRate.AddValue(5, tmpRate);
 }
 
-BOOL CPentagramSystem::ElementDrop(CGameObject &lpObj, CGameObject lpTargetObj)
+BOOL CPentagramSystem::ElementDrop(CGameObject &Obj, CGameObject lpTargetObj)
 {
 
 	if (lpObj.Level >= m_iSpiritMap_DropLevel && rand() % 10000 < m_iSpiritMap_DropRate)

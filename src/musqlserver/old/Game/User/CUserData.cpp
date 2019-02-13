@@ -6,9 +6,9 @@
 // -------------------------------
 // GS-N 0.99.60T 0x004B1200
 /*	GS-N	1.00.18	JPN	0x004CF4C0	-	Completed
-	void gObjSpriteDamage(CGameObject &lpObj, int damage)	-	Wierd Compilation - Status OK
-	void gObjTradeCancel(CGameObject &lpObj)	-	Wierd Compilation - Status OK
-	BOOL gObjJoominCheck(CGameObject &lpObj, char* szInJN)	-	strcmpi comflict symbols
+	void gObjSpriteDamage(CGameObject &Obj, int damage)	-	Wierd Compilation - Status OK
+	void gObjTradeCancel(CGameObject &Obj)	-	Wierd Compilation - Status OK
+	BOOL gObjJoominCheck(CGameObject &Obj, char* szInJN)	-	strcmpi comflict symbols
 	void SkillFrustrum()	-	Wrong Symbol NAmes of the zzmath functions
 */
 

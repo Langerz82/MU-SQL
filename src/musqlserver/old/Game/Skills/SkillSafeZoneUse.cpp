@@ -57,7 +57,7 @@ void CSkillSafeZoneUse::LoadFile(char *szFileName)
 	this->m_bFileLoad = true;
 }
 
-bool CSkillSafeZoneUse::CanUseSkill(CGameObject &lpObj, CMagicInf * lpMagic)
+bool CSkillSafeZoneUse::CanUseSkill(CGameObject &Obj, CMagicInf * lpMagic)
 {
 	if (this->m_bFileLoad == false)
 	{

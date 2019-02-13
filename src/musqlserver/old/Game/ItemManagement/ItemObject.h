@@ -208,7 +208,7 @@ public:
 	void PlusSpecialPercentEx(float* Value, float SourceValue, float Special);
 	void SetItemPlusSpecialStat(int* Value, int Special);
 	int GetWeaponType();
-	void PlusSpecialSetRing(unsigned char* Value);
+	void PlusSpecialSetRing(BYTE* Value);
 	UINT64 GetNumber();
 	int IsExtItem();
 	int IsDinorantReduceAttackDamaege();
@@ -218,13 +218,13 @@ public:
 	int IsFenrirIllusion();				//Golden Fenrir
 	int IsFenrirAddExp();
 	int SimpleDurabilityDown(int iDur);
-	int DurabilityDown(int dur, CGameObject &lpObj);
-	int DurabilityDown2(int dur, CGameObject &lpObj);
-	int NormalWeaponDurabilityDown(int defence, CGameObject &lpObj);
-	int BowWeaponDurabilityDown(int defence, CGameObject &lpObj);
-	int StaffWeaponDurabilityDown(int defence, CGameObject &lpObj);
-	int LuckyItemArmorDurabilityDown(int damagemin, CGameObject &lpObj);
-	int ArmorDurabilityDown(int damagemin, CGameObject &lpObj);
+	int DurabilityDown(int dur, CGameObject &Obj);
+	int DurabilityDown2(int dur, CGameObject &Obj);
+	int NormalWeaponDurabilityDown(int defence, CGameObject &Obj);
+	int BowWeaponDurabilityDown(int defence, CGameObject &Obj);
+	int StaffWeaponDurabilityDown(int defence, CGameObject &Obj);
+	int LuckyItemArmorDurabilityDown(int damagemin, CGameObject &Obj);
+	int ArmorDurabilityDown(int damagemin, CGameObject &Obj);
 	int CheckDurabilityState();
 	int IsCurseSpell();
 	bool IsMuunItemPeriodExpire();
@@ -352,13 +352,13 @@ struct RESETITEMLIST
 
 extern int g_MaxItemIndexOfEachItemType[MAX_TYPE_ITEMS];
 
-void BufferItemtoConvert3(unsigned char* buf, int& type, BYTE& level, BYTE& op1, BYTE& op2, BYTE& op3, BYTE& dur);
-void ItemByteConvert7(unsigned char * buf, CItemObject * const item , int maxitem);
-void ItemByteConvert10(unsigned char * buf, CItemObject * const item , int maxitem);
+void BufferItemtoConvert3(BYTE* buf, int& type, BYTE& level, BYTE& op1, BYTE& op2, BYTE& op3, BYTE& dur);
+void ItemByteConvert7(BYTE * buf, CItemObject * const item , int maxitem);
+void ItemByteConvert10(BYTE * buf, CItemObject * const item , int maxitem);
 void ItemByteConvert16(BYTE* buf, CItemObject * const item , int maxitem);
 void ItemByteConvert32(BYTE* buf, CItemObject * const item , int maxitem);
-void ItemByteConvert(unsigned char* buf, CItemObject &item);
-void ItemByteConvert(unsigned char* buf, int type, BYTE Option1, BYTE Option2, BYTE Option3, BYTE level, BYTE dur, BYTE Noption, BYTE SetOption, BYTE JewelOfHarmonyOption, BYTE ItemEffectEx, BYTE *SocketOption, BYTE SocketBonusOption, BYTE PeriodItemOption);
+void ItemByteConvert(BYTE* buf, CItemObject &item);
+void ItemByteConvert(BYTE* buf, int type, BYTE Option1, BYTE Option2, BYTE Option3, BYTE level, BYTE dur, BYTE Noption, BYTE SetOption, BYTE JewelOfHarmonyOption, BYTE ItemEffectEx, BYTE *SocketOption, BYTE SocketBonusOption, BYTE PeriodItemOption);
 int ItemGetNumberMake(int type, int index);
 void ItemGetSize(int index, int & width, int & height);
 BOOL HasItemDurability(int index);
@@ -389,7 +389,7 @@ int IsJumpingEventItem(int iItemCode);
 int IsExpensiveItem(CItemObject * item);
 int GetItemKindA(int item_num);
 int GetItemKindB(int item_num);
-bool CheckCanWearResetItem(CGameObject &lpObj, int itemid);
+bool CheckCanWearResetItem(CGameObject &Obj, int itemid);
 bool IsBloodAngelItem(int item_num);
 int SafeGetItem(int index);
 

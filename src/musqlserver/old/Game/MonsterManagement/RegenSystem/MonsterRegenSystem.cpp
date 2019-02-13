@@ -264,7 +264,7 @@ void CMonsterRegenSystem::RegenMonster(int nGroupNumber)
 								{
 									if (gGameObjects[i]->Connected == PLAYER_PLAYING && gGameObjects[i]->Type == OBJ_USER)
 									{
-										IOCP.DataSend(i, (LPBYTE)&pNotice, pNotice.h.size);
+										IOCP.DataSend(i, (BYTE*)&pNotice, pNotice.h.size);
 									}
 								}
 							}
@@ -287,7 +287,7 @@ void CMonsterRegenSystem::RegenMonster(int nGroupNumber)
 	}
 }
 
-bool CMonsterRegenSystem::SetPosMonster(CGameObject &lpObj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY)
+bool CMonsterRegenSystem::SetPosMonster(CGameObject &Obj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -430,7 +430,7 @@ bool CMonsterRegenSystem::IsRegenTime(int nGroupNumber, int nCurHour, int nCurMi
 	return false;
 }
 
-bool CMonsterRegenSystem::MonsterKillCheck(CGameObject &lpPlayer, CGameObject lpMonster)
+bool CMonsterRegenSystem::MonsterKillCheck(CGameObject &Player, CGameObject lpMonster)
 {
 	for (int i = 0; i < MAX_MONSTER_GROUP_INFO && this->m_stMonsterGroupInfo[i].m_nGroupNumber > -1; i++)
 	{

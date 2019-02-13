@@ -674,9 +674,9 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 		pMsg.m_btWeather = 0;
 		
 		pMsg.m_btResult = 6;
-		PHeadSubSetB((LPBYTE)&pMsg, 0xF7, 0x02, sizeof(PMSG_ENTER_ZONE_RESULT));
+		PHeadSubSetB((BYTE*)&pMsg, 0xF7, 0x02, sizeof(PMSG_ENTER_ZONE_RESULT));
 
-		IOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(nUserIndex, (BYTE*)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -691,7 +691,7 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 	pMsg.m_btWeather = 0;		
 	pMsg.m_btResult = 0;
 		
-	PHeadSubSetB((LPBYTE)&pMsg, 0xF7, 0x02, sizeof(PMSG_ENTER_ZONE_RESULT));
+	PHeadSubSetB((BYTE*)&pMsg, 0xF7, 0x02, sizeof(PMSG_ENTER_ZONE_RESULT));
 
 	pMsg.m_btZoneIndex = nDestZoneIndex+1;
 	pMsg.m_dwRemainTime = this->m_stZoneInfo[nDestZoneIndex].m_dwRemainWaitPlayerTime + this->m_stZoneInfo[nDestZoneIndex].m_dwRemainLootTime + this->m_stZoneInfo[nDestZoneIndex].m_dwRemainTimeAttack;
@@ -719,7 +719,7 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 	if ( lpObj->PartyNumber < 0 )
 	{
 		pMsg.m_btResult = 5;
-		IOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(nUserIndex, (BYTE*)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -728,7 +728,7 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 		if ( gParty.m_PartyS[lpObj->PartyNumber].Count < 1 )
 		{
 			pMsg.m_btResult = 5;
-			IOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(nUserIndex, (BYTE*)&pMsg, pMsg.h.size);
 			return;
 		}
 
@@ -1453,7 +1453,7 @@ bool CImperialGuardian::GCNotifyAllZoneClear(int nZoneIndex)
 	}
 
 	PMSG_NOTIFY_ZONE_CLEAR pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0xF7, 0x06, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xF7, 0x06, sizeof(pMsg));
 	pMsg.m_nType = 2;
 
 	int nUserIndex[5];
@@ -1516,7 +1516,7 @@ void CImperialGuardian::GCMissionFail(int nZoneIndex)
 	}
 
 	PMSG_NOTIFY_ZONE_CLEAR pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0xF7, 0x06, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xF7, 0x06, sizeof(pMsg));
 	pMsg.m_nType = 0;
 	pMsg.m_nRewardExp = 0;
 
@@ -1557,7 +1557,7 @@ void CImperialGuardian::GCMissionFailUserDie(int nUserNumber)
 
 	PMSG_NOTIFY_ZONE_CLEAR pMsg;
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xF7, 0x06, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xF7, 0x06, sizeof(pMsg));
 
 	pMsg.m_nType = 0;
 	pMsg.m_nRewardExp = 0;
@@ -1580,7 +1580,7 @@ void CImperialGuardian::GCSendDataToUser(int nIndex, char* lpMsg, int nSize)
 
 	if ( gGameObjects[nIndex]->Connected == PLAYER_PLAYING && gGameObjects[nIndex]->Type == OBJ_USER )
 	{
-		IOCP.DataSend(nIndex, (LPBYTE)lpMsg, nSize);
+		IOCP.DataSend(nIndex, (BYTE*)lpMsg, nSize);
 	}
 }
 
@@ -1588,7 +1588,7 @@ void CImperialGuardian::GCNotifyRemainTickCount(int nZoneIndex, char btMsgType, 
 {
 	PMSG_NOTIFY_ZONE_TIME pMsg;
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xF7, 0x04, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xF7, 0x04, sizeof(pMsg));
 
 	pMsg.m_btMsgType = btMsgType;
 	pMsg.m_wZoneIndex = nZoneIndex;
@@ -1776,7 +1776,7 @@ void CImperialGuardian::GCSendCastleGateInfo(int nGateIndex, int nZoneIndex, int
 	PMSG_SETMAPATTR_COUNT * lpMsg = (PMSG_SETMAPATTR_COUNT *)(cTEMP_BUF);
 	PMSG_SETMAPATTR * lpMsgBody = (PMSG_SETMAPATTR *)(cTEMP_BUF + sizeof(PMSG_SETMAPATTR_COUNT));
 
-	PHeadSetB((LPBYTE)lpMsg, 0x46, sizeof(PMSG_SETMAPATTR_COUNT)+sizeof(PMSG_SETMAPATTR)*6);
+	PHeadSetB((BYTE*)lpMsg, 0x46, sizeof(PMSG_SETMAPATTR_COUNT)+sizeof(PMSG_SETMAPATTR)*6);
 
 	lpMsg->btType = 0;
 	lpMsg->btMapAttr = 16;
@@ -1838,7 +1838,7 @@ void CImperialGuardian::GCSendCastleGateInfo(int nGateIndex, int nZoneIndex, int
 
 	if ( gGameObjects[nUserIndex]->Connected == PLAYER_PLAYING )
 	{
-		IOCP.DataSend(nUserIndex, (LPBYTE)&cTEMP_BUF, (sizeof(PMSG_SETMAPATTR_COUNT)+6*sizeof(PMSG_SETMAPATTR)));
+		IOCP.DataSend(nUserIndex, (BYTE*)&cTEMP_BUF, (sizeof(PMSG_SETMAPATTR_COUNT)+6*sizeof(PMSG_SETMAPATTR)));
 
 		sLog->outBasic("[IMPERIALGUARDIAN] SEND GATE STATE -> [ZONE]:%d [AccountID]:%s, [NAME]:%s [STATE]:%d",
 			nZoneIndex+1, gGameObjects[nUserIndex]->AccountID, gGameObjects[nUserIndex]->Name, iGateState);
@@ -2330,7 +2330,7 @@ void CImperialGuardian::UserMonsterCountCheck()
 	// empty
 }
 
-void CImperialGuardian::MonsterBaseAct(CGameObject &lpObj)
+void CImperialGuardian::MonsterBaseAct(CGameObject &Obj)
 {
 	CGameObject* lpTargetObj = NULL;
 

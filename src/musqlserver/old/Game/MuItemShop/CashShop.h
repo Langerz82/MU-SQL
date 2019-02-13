@@ -248,27 +248,27 @@ public:
 	void LoadGPMonsterData(LPSTR pchFilename);
 	void LoadShopOption(LPSTR pchFilename);
 	void CashShopOptioNReload();
-	BOOL AddUser(CGameObject &lpObj);
-	BOOL CGCashShopOpen(CGameObject &lpObj, PMSG_REQ_INGAMESHOPOPEN* lpMsg);
-	BOOL CGCashPoint(CGameObject &lpObj);
-	void CGCashItemBuy(CGameObject &lpObj, PMSG_REQ_INGAMESHOP_ITEMBUY* lpMsg);
-	void GCCashItemBuy(CGameObject &lpObj, int ID1, int ID2, int ID3, int Result);
-	void GCCashPoint(CGameObject &lpObj);
-	void CGCashItemGift(CGameObject &lpObj, PMSG_REQ_CASHITEM_GIFT* lpMsg);
-	void GCCashItemGift(CGameObject &lpObj, int ID1, int ID2, int ID3, int Result);
-	void GCCashItemBuyResult(CGameObject &lpObj, BYTE btResult);
-	BOOL CGCashInventoryItemCount(CGameObject &lpObj, PMSG_REQ_INGAMESHOP_INVENTORY* lpMsg);
-	void GCCashInventoryItemCount(CGameObject &lpObj, LPBYTE lpRecv);
-	void CGCashInventoryItemUse(CGameObject &lpObj, PMSG_REQ_INGAMESHOP_ITEMUSE* lpMsg);
-	void CGCashInventoryItemUseInfo(CGameObject &lpObj, PMSG_REQ_INGAMESHOP_ITEMUSEINFO* lpMsg);
-	void GCCashInventoryItemUse(CGameObject &lpObj, int Result, int UniqueCode, int AuthCode, int ID1, int ID2, int ID3);
-	void GCShopVersion(CGameObject &lpObj);
-	BOOL CheckPeriodItemUsed(CGameObject &lpObj, int iItemCode);
+	BOOL AddUser(CGameObject &Obj);
+	BOOL CGCashShopOpen(CGameObject &Obj, PMSG_REQ_INGAMESHOPOPEN* lpMsg);
+	BOOL CGCashPoint(CGameObject &Obj);
+	void CGCashItemBuy(CGameObject &Obj, PMSG_REQ_INGAMESHOP_ITEMBUY* lpMsg);
+	void GCCashItemBuy(CGameObject &Obj, int ID1, int ID2, int ID3, int Result);
+	void GCCashPoint(CGameObject &Obj);
+	void CGCashItemGift(CGameObject &Obj, PMSG_REQ_CASHITEM_GIFT* lpMsg);
+	void GCCashItemGift(CGameObject &Obj, int ID1, int ID2, int ID3, int Result);
+	void GCCashItemBuyResult(CGameObject &Obj, BYTE btResult);
+	BOOL CGCashInventoryItemCount(CGameObject &Obj, PMSG_REQ_INGAMESHOP_INVENTORY* lpMsg);
+	void GCCashInventoryItemCount(CGameObject &Obj, LPBYTE lpRecv);
+	void CGCashInventoryItemUse(CGameObject &Obj, PMSG_REQ_INGAMESHOP_ITEMUSE* lpMsg);
+	void CGCashInventoryItemUseInfo(CGameObject &Obj, PMSG_REQ_INGAMESHOP_ITEMUSEINFO* lpMsg);
+	void GCCashInventoryItemUse(CGameObject &Obj, int Result, int UniqueCode, int AuthCode, int ID1, int ID2, int ID3);
+	void GCShopVersion(CGameObject &Obj);
+	BOOL CheckPeriodItemUsed(CGameObject &Obj, int iItemCode);
 	BOOL CheckPeriodItem(int iItemCode);
-	bool UsePackage(CGameObject &lpObj, int PackageID);
+	bool UsePackage(CGameObject &Obj, int PackageID);
 	LPBYTE GetItemList(int iCategory, int iPageCount);
-	void AddCoin(CGameObject &lpObj, char EventType);
-	void AddGPMonster(CGameObject &lpMonsterObj);
+	void AddCoin(CGameObject &Obj, char EventType);
+	void AddGPMonster(CGameObject &MonsterObj);
 	void Run();
 	bool GetRandomItemFromPackage(int PackageID, int & GUID, int & ID);
 	std::vector<ITEMSHOP_ITEMLIST>::iterator FindItemInList(CGameObject &Obj, int iOption, int iCategory);
@@ -315,7 +315,7 @@ private:
 
 	HANDLE hGoblinThread;
 
-	bool CheckBuyCondition(CGameObject &lpObj, int ItemCode);
+	bool CheckBuyCondition(CGameObject &Obj, int ItemCode);
 };
 
 extern CItemObjectShop g_CashShop;

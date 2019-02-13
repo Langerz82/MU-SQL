@@ -35,7 +35,7 @@ CBuffEffectSlot::~CBuffEffectSlot()
 
 }
 
-int CBuffEffectSlot::SetEffect(CGameObject &lpObj, int iBuffIndex, BYTE btEffectType1, BYTE btEffectType2, int iEffectValue1, int iEffectValue2, int iDuration)
+int CBuffEffectSlot::SetEffect(CGameObject &Obj, int iBuffIndex, BYTE btEffectType1, BYTE btEffectType2, int iEffectValue1, int iEffectValue2, int iDuration)
 {
 	LPBUFF_EFFECT_DATE lpBuffData = NULL;
 	LPBUFF_EFFECT_DATE lpPrevBuffData = NULL;
@@ -104,7 +104,7 @@ int CBuffEffectSlot::SetEffect(CGameObject &lpObj, int iBuffIndex, BYTE btEffect
 	return iRemovedBuffIndex;
 }
 
-bool CBuffEffectSlot::RemoveEffect(CGameObject &lpObj, int iBuffIndex)
+bool CBuffEffectSlot::RemoveEffect(CGameObject &Obj, int iBuffIndex)
 {
 	bool bIsRemoveEffect = false;
 
@@ -137,7 +137,7 @@ bool CBuffEffectSlot::RemoveEffect(CGameObject &lpObj, int iBuffIndex)
 	return bIsRemoveEffect;
 }
 
-bool CBuffEffectSlot::CheckUsedEffect(CGameObject &lpObj, int iBuffIndex)
+bool CBuffEffectSlot::CheckUsedEffect(CGameObject &Obj, int iBuffIndex)
 {
 	if( g_BuffScript.CheckVaildBuffEffect(iBuffIndex) == false )	return false;
 
@@ -149,7 +149,7 @@ bool CBuffEffectSlot::CheckUsedEffect(CGameObject &lpObj, int iBuffIndex)
 	return false;
 }
 
-void CBuffEffectSlot::RemoveBuffVariable(CGameObject &lpObj, int iBuffIndex)
+void CBuffEffectSlot::RemoveBuffVariable(CGameObject &Obj, int iBuffIndex)
 {
 	switch(iBuffIndex)
 	{
@@ -163,7 +163,7 @@ void CBuffEffectSlot::RemoveBuffVariable(CGameObject &lpObj, int iBuffIndex)
 	}
 }
 
-int CBuffEffectSlot::ClearEffect(CGameObject &lpObj, enum eBuffClearType ClearType)
+int CBuffEffectSlot::ClearEffect(CGameObject &Obj, enum eBuffClearType ClearType)
 {
 	LPBUFF_EFFECT_DATE lpBuffData = NULL;
 
@@ -236,7 +236,7 @@ int CBuffEffectSlot::GetBuffClearType(int iBuffIndex)
 	return lpBuffData->ClearType;
 }
 
-void gObjCheckBuffEffectList(CGameObject &lpObj)
+void gObjCheckBuffEffectList(CGameObject &Obj)
 {
 	if(lpObj == NULL)	return;
 
@@ -278,7 +278,7 @@ void gObjCheckBuffEffectList(CGameObject &lpObj)
 	}
 }
 
-bool gObjAddBuffEffect(CGameObject &lpObj, int iBuffIndex)
+bool gObjAddBuffEffect(CGameObject &Obj, int iBuffIndex)
 {
 	if(lpObj == NULL)	return false;
 
@@ -318,7 +318,7 @@ bool gObjAddBuffEffect(CGameObject &lpObj, int iBuffIndex)
 	return false;
 }
 
-bool gObjAddBuffEffect(CGameObject &lpObj, int iBuffIndex, BYTE EffectType1, int EffectValue1, BYTE EffectType2, int EffectValue2, int Duration)
+bool gObjAddBuffEffect(CGameObject &Obj, int iBuffIndex, BYTE EffectType1, int EffectValue1, BYTE EffectType2, int EffectValue2, int Duration)
 {
 	if(lpObj == NULL)	return false;
 
@@ -348,7 +348,7 @@ bool gObjAddBuffEffect(CGameObject &lpObj, int iBuffIndex, BYTE EffectType1, int
 	return false;
 }
 
-bool gObjAddBuffEffect(CGameObject &lpObj, int iBuffIndex, int Duration)
+bool gObjAddBuffEffect(CGameObject &Obj, int iBuffIndex, int Duration)
 {
 	if(lpObj == NULL)	return false;
 
@@ -423,7 +423,7 @@ bool gObjAddPeriodBuffEffect(CGameObject lpObj,PeriodBuffEffectInfo *lpPeriBuff,
 	return false;
 }
 
-bool gObjAddBuffEffectForInGameShop(CGameObject &lpObj, WORD wItemCode, int Duration)
+bool gObjAddBuffEffectForInGameShop(CGameObject &Obj, WORD wItemCode, int Duration)
 {
 	if(lpObj == NULL) return false;
 
@@ -464,7 +464,7 @@ bool gObjAddBuffEffectForInGameShop(CGameObject &lpObj, WORD wItemCode, int Dura
 	return true;
 }
 
-bool gObjRemoveBuffEffect(CGameObject &lpObj, int iBuffIndex)
+bool gObjRemoveBuffEffect(CGameObject &Obj, int iBuffIndex)
 {
 	if(lpObj == NULL)	return false;
 
@@ -495,7 +495,7 @@ bool gObjRemoveBuffEffect(CGameObject &lpObj, int iBuffIndex)
 	return false;
 }
 
-bool gObjClearBuffEffect(CGameObject &lpObj, enum eBuffClearType ClearType)
+bool gObjClearBuffEffect(CGameObject &Obj, enum eBuffClearType ClearType)
 {
 	if(lpObj == NULL)	return false;
 
@@ -679,7 +679,7 @@ bool gObjClearBuffEffect(CGameObject &lpObj, enum eBuffClearType ClearType)
 	return true;
 }
 
-bool gObjCheckUsedBuffEffect(CGameObject &lpObj, int iBuffIndex)
+bool gObjCheckUsedBuffEffect(CGameObject &Obj, int iBuffIndex)
 {
 	if(lpObj == NULL)	return false;
 
@@ -688,7 +688,7 @@ bool gObjCheckUsedBuffEffect(CGameObject &lpObj, int iBuffIndex)
 	return g_BuffEffectSlot.CheckUsedEffect(lpObj, iBuffIndex);
 }
 
-void gObjRemoveOneDebuffEffect(CGameObject &lpObj)
+void gObjRemoveOneDebuffEffect(CGameObject &Obj)
 {
 	ULONGLONG iTime = 0;
 	int iIndex = -1;
@@ -722,7 +722,7 @@ void gObjRemoveOneDebuffEffect(CGameObject &lpObj)
 	}
 }
 
-bool gObjChangeBuffValidTime(CGameObject &lpObj, int iBuffIndex, int iTime)
+bool gObjChangeBuffValidTime(CGameObject &Obj, int iBuffIndex, int iTime)
 {
 	if(lpObj == NULL)	return false;
 
@@ -744,7 +744,7 @@ bool gObjChangeBuffValidTime(CGameObject &lpObj, int iBuffIndex, int iTime)
 	return false;
 }
 
-void gObjSetActiveEffectAtTick(CGameObject &lpObj)
+void gObjSetActiveEffectAtTick(CGameObject &Obj)
 {
 	int EffectValue = 0;
 
@@ -758,7 +758,7 @@ void gObjSetActiveEffectAtTick(CGameObject &lpObj)
 	}
 }
 
-int gObjMakeViewportState(CGameObject &lpObj, BYTE *lpBuffer)
+int gObjMakeViewportState(CGameObject &Obj, BYTE *lpBuffer)
 {
 	if(lpObj == NULL)	return -1;
 
@@ -789,7 +789,7 @@ int gObjMakeViewportState(CGameObject &lpObj, BYTE *lpBuffer)
 	return iBuffCount;
 }
 
-bool gObjCheckPowerfulEffect(CGameObject &lpObj, int iBuffIndex, int EffectValue1, int EffectValue2)
+bool gObjCheckPowerfulEffect(CGameObject &Obj, int iBuffIndex, int EffectValue1, int EffectValue2)
 {
 	if(lpObj == NULL)	return false;
 
@@ -807,7 +807,7 @@ bool gObjCheckPowerfulEffect(CGameObject &lpObj, int iBuffIndex, int EffectValue
 	return false;
 }
 
-int gObjGetTotalValueOfEffect(CGameObject &lpObj, int EffectType)
+int gObjGetTotalValueOfEffect(CGameObject &Obj, int EffectType)
 {
 	if(lpObj == NULL)	return 0;
 
@@ -833,7 +833,7 @@ int gObjGetTotalValueOfEffect(CGameObject &lpObj, int EffectType)
 	return iTotalValue;
 }
 
-bool gObjGetValueOfBuffIndex(CGameObject &lpObj, int iBuffIndex, int *EffectValue1, int *EffectValue2)
+bool gObjGetValueOfBuffIndex(CGameObject &Obj, int iBuffIndex, int *EffectValue1, int *EffectValue2)
 {
 	if(lpObj == NULL)	return false;
 
@@ -857,11 +857,11 @@ bool gObjGetValueOfBuffIndex(CGameObject &lpObj, int iBuffIndex, int *EffectValu
 	return false;
 }
 
-void GCUseBuffEffect(CGameObject &lpObj, BYTE BuffEffectIndex, BYTE EffectUseOption, WORD OptionType, WORD EffectType, int LeftTime, DWORD EffectValue)
+void GCUseBuffEffect(CGameObject &Obj, BYTE BuffEffectIndex, BYTE EffectUseOption, WORD OptionType, WORD EffectType, int LeftTime, DWORD EffectValue)
 {
 	PMSG_USEEFFECTITEM pMsg;
 
-	PHeadSetB((LPBYTE)&pMsg, 0x2D, sizeof(PMSG_USEEFFECTITEM));
+	PHeadSetB((BYTE*)&pMsg, 0x2D, sizeof(PMSG_USEEFFECTITEM));
 	pMsg.btBuffEffectType = BuffEffectIndex;
 	pMsg.byEffectOption = EffectUseOption;
 	pMsg.wOptionType = OptionType;
@@ -879,7 +879,7 @@ void GCUseBuffEffect(CGameObject &lpObj, BYTE BuffEffectIndex, BYTE EffectUseOpt
 
 	if ( lpObj.Type == OBJ_USER )
 	{
-		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 	}
 
 	if(EffectUseOption == 0) {
@@ -891,7 +891,7 @@ void GCUseBuffEffect(CGameObject &lpObj, BYTE BuffEffectIndex, BYTE EffectUseOpt
 	gGameProtocol.GCDisplayBuffeffectPartyMember(lpObj.m_Index);
 }
 
-void gObjSendBuffList(CGameObject &lpObj)
+void gObjSendBuffList(CGameObject &Obj)
 {
 	if(lpObj == NULL)	return;
 
@@ -914,7 +914,7 @@ BOOL gObjAddBuffEffectWideArea(CGameObjectECTSTRUCT lpTargetObj, int nDistance, 
 
 	for(int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
-		CGameObject &lpObj = (CGameObjectECTSTRUCT)&gGameObjects[i];
+		CGameObject &Obj = (CGameObjectECTSTRUCT)&gGameObjects[i];
 
 		if(lpObj.Type == OBJ_USER && gObjIsConnected(i) != FALSE)
 		{
@@ -1040,7 +1040,7 @@ int GetPremiumExp(int nAddExp)
 	return nPremiumExp;
 }
 
-void CheckItemOptForGetExpExRenewal(CGameObject &lpObj, UINT64 &iExp, UINT64 iDefaultExp, BOOL bRewardExp, CGameObject &lpTargetObj /* = ObjNULL */)
+void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefaultExp, BOOL bRewardExp, CGameObject &TargetObj /* = ObjNULL */)
 {
 	UINT64 iRetExp = iExp;
 	int nAddExp = 100;

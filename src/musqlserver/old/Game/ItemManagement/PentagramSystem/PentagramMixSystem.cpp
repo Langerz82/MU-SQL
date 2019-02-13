@@ -276,7 +276,7 @@ bool CPentagramMixSystem::LoadJewelOptionScript(char *pchFileName)
 	return true;
 }
 
-BOOL CPentagramMixSystem::PentagramMixBoxInit(CGameObject &lpObj)
+BOOL CPentagramMixSystem::PentagramMixBoxInit(CGameObject &Obj)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -856,7 +856,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 				PMSG_CHAOSMIXRESULT pMsg;
 				this->PentagramMixBoxInit(lpObj);
 
-				PHeadSetB((LPBYTE)&pMsg, 0x86, sizeof(pMsg));
+				PHeadSetB((BYTE*)&pMsg, 0x86, sizeof(pMsg));
 				pMsg.Result = CB_ERROR;
 				ItemByteConvert(pMsg.ItemInfo, Item);
 
@@ -871,7 +871,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 				{
 					pMsg.Result = PENTAGRAM_MIX_FAILED_WITH_TALISMAN;
 					gObjPentagramMixItemSet(iIndex, btResult, 1);
-					IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+					IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 					btReturnValue = TRUE;
 				}
 			}
@@ -940,7 +940,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 			PMSG_CHAOSMIXRESULT pMsg;
 			this->PentagramMixBoxInit(lpObj);
 
-			PHeadSetB((LPBYTE)&pMsg, 0x86, sizeof(pMsg));
+			PHeadSetB((BYTE*)&pMsg, 0x86, sizeof(pMsg));
 			pMsg.Result = CB_ERROR;
 			ItemByteConvert(pMsg.ItemInfo, Item);
 
@@ -955,7 +955,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 			{
 				pMsg.Result = CB_SUCCESS;
 				gObjPentagramMixItemSet(iIndex, btResult, 1);
-				IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+				IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 
 				BYTE ExOption[MAX_EXOPTION_SIZE];
 				ItemIsBufExOption(ExOption, &Item);
@@ -1162,7 +1162,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 				PMSG_CHAOSMIXRESULT pMsg;
 				this->PentagramMixBoxInit(lpObj);
 
-				PHeadSetB((LPBYTE)&pMsg, 0x86, sizeof(pMsg));
+				PHeadSetB((BYTE*)&pMsg, 0x86, sizeof(pMsg));
 				pMsg.Result = CB_ERROR;
 				ItemByteConvert(pMsg.ItemInfo, Item);
 
@@ -1177,7 +1177,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 				{
 					pMsg.Result = PENTAGRAM_MIX_FAILED_WITH_TALISMAN;
 					gObjPentagramMixItemSet(iIndex, btResult, 1);
-					IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+					IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 					btReturnValue = TRUE;
 				}
 			}
@@ -1220,7 +1220,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 			PMSG_CHAOSMIXRESULT pMsg;
 			this->PentagramMixBoxInit(lpObj);
 
-			PHeadSetB((LPBYTE)&pMsg, 0x86, sizeof(pMsg));
+			PHeadSetB((BYTE*)&pMsg, 0x86, sizeof(pMsg));
 			pMsg.Result = CB_ERROR;
 			ItemByteConvert(pMsg.ItemInfo, pModifyItem);
 
@@ -1235,7 +1235,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 			{
 				pMsg.Result = CB_SUCCESS;
 				gObjPentagramMixItemSet(iIndex, btResult, 1);
-				IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+				IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 
 				BYTE ExOption[MAX_EXOPTION_SIZE];
 				ItemIsBufExOption(ExOption, &pModifyItem);
@@ -1263,12 +1263,12 @@ int CPentagramMixSystem::CheckLevelCondition(CItemObject *lpItem, WORD Level, BY
 	return TRUE;
 }
 
-void CPentagramMixSystem::LogPentagramItem(CGameObject &lpObj, char* szLogType)
+void CPentagramMixSystem::LogPentagramItem(CGameObject &Obj, char* szLogType)
 {
 	return; // Function not used
 }
 
-void CPentagramMixSystem::CGPentagramJewelRefineRecv(PMSG_PENTAGRAM_JEWEL_REFINE_RECV* lpMsg, CGameObject &lpObj) // OK
+void CPentagramMixSystem::CGPentagramJewelRefineRecv(PMSG_PENTAGRAM_JEWEL_REFINE_RECV* lpMsg, CGameObject &Obj) // OK
 {
 	
 
@@ -1309,7 +1309,7 @@ bool CPentagramMixSystem::IsErrtelType(int ItemCode)
 	}
 }
 
-BOOL CPentagramMixSystem::PentagramJewelMix(CGameObject &lpObj) // OK
+BOOL CPentagramMixSystem::PentagramJewelMix(CGameObject &Obj) // OK
 {
 	
 
@@ -1317,7 +1317,7 @@ BOOL CPentagramMixSystem::PentagramJewelMix(CGameObject &lpObj) // OK
 
 	PMSG_CHAOSMIXRESULT pMsg;
 
-	PHeadSetB((LPBYTE)&pMsg.h, 0x86, sizeof(PMSG_CHAOSMIXRESULT));
+	PHeadSetB((BYTE*)&pMsg.h, 0x86, sizeof(PMSG_CHAOSMIXRESULT));
 	pMsg.Result = 1;
 
 	int iMithrilCount = 0;
@@ -1344,7 +1344,7 @@ BOOL CPentagramMixSystem::PentagramJewelMix(CGameObject &lpObj) // OK
 
 	if (lpObj.m_PlayerData->Money <= 100000)
 	{
-		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 		return 0; //No Zen
 	}
 

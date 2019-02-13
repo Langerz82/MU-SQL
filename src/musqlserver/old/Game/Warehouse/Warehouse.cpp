@@ -153,12 +153,12 @@ void CWarehouse::SetWarehouseOpenState(char * szAccountID, bool bState)
 	}
 }
 
-void CWarehouse::GDReqSwitchWarehouse(CGameObject &lpObj, PMSG_REQ_SWITCHWARE * aRecv)
+void CWarehouse::GDReqSwitchWarehouse(CGameObject &Obj, PMSG_REQ_SWITCHWARE * aRecv)
 {
 	EnterCriticalSection(&this->m_WareDataCriti);
 
 	PMSG_ANS_SWITCHWARE pMsg;
-	PHeadSetB((LPBYTE)&pMsg, 0x03, sizeof(pMsg));
+	PHeadSetB((BYTE*)&pMsg, 0x03, sizeof(pMsg));
 
 	pMsg.iIndex = aRecv->iIndex;
 	pMsg.WarehouseID = aRecv->WarehouseID;
@@ -167,11 +167,11 @@ void CWarehouse::GDReqSwitchWarehouse(CGameObject &lpObj, PMSG_REQ_SWITCHWARE * 
 
 	LeaveCriticalSection(&this->m_WareDataCriti);
 
-	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
 	sLog->outBasic("[Warehouse][%s] Switch to Warehouse:%d Result:%d", pMsg.szAccountID, pMsg.WarehouseID, pMsg.Result);
 }
 
-void CWarehouse::DGGetWarehouseList(CGameObject &lpObj, SDHP_GETWAREHOUSEDB * aRecv)
+void CWarehouse::DGGetWarehouseList(CGameObject &Obj, SDHP_GETWAREHOUSEDB * aRecv)
 {
 	EnterCriticalSection(&this->m_WareDataCriti);
 
@@ -181,7 +181,7 @@ void CWarehouse::DGGetWarehouseList(CGameObject &lpObj, SDHP_GETWAREHOUSEDB * aR
 
 	SDHP_GETWAREHOUSEDB_SAVE pResult;
 
-	PHeadSetW((LPBYTE)&pResult, 0x08, sizeof(pResult));
+	PHeadSetW((BYTE*)&pResult, 0x08, sizeof(pResult));
 	memcpy(pResult.AccountID, szAccountID, 11);
 	pResult.aIndex = aRecv->aIndex;
 
@@ -203,12 +203,12 @@ void CWarehouse::DGGetWarehouseList(CGameObject &lpObj, SDHP_GETWAREHOUSEDB * aR
 		this->SetWarehouseOpenState(szAccountID, true);
 
 		SDHP_GETWAREHOUSEDB_RESULT pMsg;
-		PHeadSetB((LPBYTE)&pMsg, 0x10, sizeof(pMsg));
+		PHeadSetB((BYTE*)&pMsg, 0x10, sizeof(pMsg));
 		pMsg.aIndex = aRecv->aIndex;
 		memcpy(pMsg.AccountID, szAccountID, 11);
 
 		LeaveCriticalSection(&this->m_WareDataCriti);
-		DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -260,10 +260,10 @@ void CWarehouse::DGGetWarehouseList(CGameObject &lpObj, SDHP_GETWAREHOUSEDB * aR
 	}
 
 	LeaveCriticalSection(&this->m_WareDataCriti);
-	DataSend(lpObj.m_Index, (LPBYTE)&pResult, sizeof(pResult), __FUNCTION__);
+	DataSend(lpObj.m_Index, (BYTE*)&pResult, sizeof(pResult), __FUNCTION__);
 }
 
-void CWarehouse::GDSetWarehouseList(CGameObject &lpObj, SDHP_GETWAREHOUSEDB_SAVE * aRecv)
+void CWarehouse::GDSetWarehouseList(CGameObject &Obj, SDHP_GETWAREHOUSEDB_SAVE * aRecv)
 {
 	EnterCriticalSection(&this->m_WareDataCriti);
 
@@ -310,17 +310,17 @@ void CWarehouse::GDSetWarehouseList(CGameObject &lpObj, SDHP_GETWAREHOUSEDB_SAVE
 	}
 
 	PMSG_ANS_WARESAVE pMsg;
-	PHeadSetB((LPBYTE)&pMsg, 0x09, sizeof(pMsg));
+	PHeadSetB((BYTE*)&pMsg, 0x09, sizeof(pMsg));
 
 	pMsg.Result = TRUE;
 	pMsg.CloseWindow = aRecv->CloseWindow;
 	pMsg.iIndex = aRecv->aIndex;
 
 	LeaveCriticalSection(&this->m_WareDataCriti);
-	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
-void CWarehouse::GDSetWarehouseMoney(CGameObject &lpObj, SDHP_WAREHOUSEMONEY_SAVE * aRecv)
+void CWarehouse::GDSetWarehouseMoney(CGameObject &Obj, SDHP_WAREHOUSEMONEY_SAVE * aRecv)
 {
 	EnterCriticalSection(&this->m_WareDataCriti);
 

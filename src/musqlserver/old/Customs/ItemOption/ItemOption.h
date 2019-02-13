@@ -101,8 +101,8 @@ public:
 	virtual ~CItemObjectOption();
 	void Load(char* path);
 	bool GetItemOption(int index, CItemObject* lpItem);
-	void CalCItemObjectCommonOption(CGameObject &lpObj, bool flag);
-	void InsertOption(CGameObject &lpObj, CItemObject* lpItem, bool flag);
+	void CalCItemObjectCommonOption(CGameObject &Obj, bool flag);
+	void InsertOption(CGameObject &Obj, CItemObject* lpItem, bool flag);
 private:
 	std::map<int, std::vector<ITEM_OPTION_INFO>> m_ItemOptionInfo;
 };

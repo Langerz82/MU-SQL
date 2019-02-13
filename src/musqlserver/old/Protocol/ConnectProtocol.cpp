@@ -40,7 +40,7 @@ void CSProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, CUserData &Obj, bool E
 	}
 }
 
-void UDPProtocolCore(BYTE hCode, LPBYTE aRecv, int aLen)
+void UDPProtocolCore(BYTE hCode, BYTE* aRecv, int aLen)
 {
 	switch ( hCode )
 	{
@@ -136,7 +136,7 @@ void SCSendServerInfo(CUserData &Obj, PMSG_SERVER_SELECT * aRecv)
 			pMsg.Port = m_ServerData.m_Servers[i].Port;
 			memcpy(&pMsg.IP, m_ServerData.m_Servers[i].IP, sizeof(pMsg.IP));
 
-			IOCP.DataSend(Obj.IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(Obj.IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 
 			sLog->outBasic("[Server] Connecting to Server: %s (IP: [%s] PORT: [%d]) (Players: [%d] / Max: [%d])",
 				m_ServerData.m_Servers[i].Name, m_ServerData.m_Servers[i].IP, m_ServerData.m_Servers[i].Port,
@@ -156,7 +156,7 @@ void SCConnectResultSend(CUserData &Obj, BYTE btResult)
 	pMsg.result = btResult;
 	pMsg.h.size = sizeof(pMsg);
 
-	IOCP.DataSend(Obj.IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(Obj.IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 }
 
 void SCSendNews(CUserData &Obj)
@@ -167,7 +167,7 @@ void SCSendNews(CUserData &Obj)
 	pTitle.h.subcode = 0x00;
 	memcpy(pTitle.ServerName, m_ServerData.szTitle, sizeof(pTitle.ServerName));
 
-	IOCP.DataSend(Obj.IDNumber, (LPBYTE)&pTitle, pTitle.h.size);
+	IOCP.DataSend(Obj.IDNumber, (BYTE*)&pTitle, pTitle.h.size);
 
 	PMSG_SEND_NEWS pMsg = {0};
 
@@ -200,7 +200,7 @@ void SCSendNews(CUserData &Obj)
 		memcpy(buffer, &pMsg, sizeof(PMSG_SEND_NEWS));
 		memcpy(&buffer[sizeof(PMSG_SEND_NEWS)], m_ServerData.m_News[i].Text, textlen);
 
-		IOCP.DataSend(Obj.IDNumber, (LPBYTE)buffer, sizeof(PMSG_SEND_NEWS)+textlen);
+		IOCP.DataSend(Obj.IDNumber, (BYTE*)buffer, sizeof(PMSG_SEND_NEWS)+textlen);
 	}
 }
 
@@ -219,7 +219,7 @@ void SCSendAutoUpdateData(CUserData &lpObj, PMSG_CLIENTVERSION *aRecv)
 		pMsg.h.size = sizeof(pMsg);
 		pMsg.VersionOK = 1;
 
-		IOCP.DataSend(lpObj.IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 	}
 
 	else
@@ -239,7 +239,7 @@ void SCSendAutoUpdateData(CUserData &lpObj, PMSG_CLIENTVERSION *aRecv)
 		memcpy(pMsg.FTPPassword, g_FTPPassword, sizeof(pMsg.FTPPassword));
 		memcpy(pMsg.VersionFile, g_VersionFile, sizeof(pMsg.VersionFile));
 
-		unsigned char Keys[3] = {0xFC, 0xCF, 0xAB};
+		BYTE Keys[3] = {0xFC, 0xCF, 0xAB};
 
 		for(short i = 0; i <= 3;++i)
 		{
@@ -252,6 +252,6 @@ void SCSendAutoUpdateData(CUserData &lpObj, PMSG_CLIENTVERSION *aRecv)
 			}
 		}
 
-		IOCP.DataSend(lpObj.IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 	}
 }

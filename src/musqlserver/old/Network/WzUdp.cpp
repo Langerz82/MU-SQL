@@ -121,7 +121,7 @@ int WzUdp::RecvSet(int port)
 	{
 		return 0;
 	}
-	this->m_Recvbuf=(unsigned char*)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, this->m_dwLength);
+	this->m_Recvbuf=(BYTE*)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, this->m_dwLength);
 
 	if ( this->m_Recvbuf == 0)
 	{
@@ -130,7 +130,7 @@ int WzUdp::RecvSet(int port)
 	return 1;
 }
 
-int WzUdp::SendData(LPBYTE SendData, DWORD nSendDataLen)
+int WzUdp::SendData(BYTE* SendData, DWORD nSendDataLen)
 {
 	int Ret;
 	memset(&this->m_PerIoSendData.Overlapped, 0, sizeof(WSAOVERLAPPED));	// Add Type Structure {$D}
@@ -152,7 +152,7 @@ int WzUdp::SendData(LPBYTE SendData, DWORD nSendDataLen)
 	return 1;
 }
 
-int WzUdp::MuProtocolParse(LPBYTE RecvData, int& nRecvDataLen)
+int WzUdp::MuProtocolParse(BYTE* RecvData, int& nRecvDataLen)
 {
 	int lOfs=0;
 	int size=0;

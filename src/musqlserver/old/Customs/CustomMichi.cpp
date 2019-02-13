@@ -39,11 +39,11 @@ void CConfigMichi::LoadPotionHack()
 
 }
 
-void CConfigMichi::GCFireworksSend(CGameObject &lpObj, int x, int y) // OK
+void CConfigMichi::GCFireworksSend(CGameObject &Obj, int x, int y) // OK
 {
 	PMSG_SERVERCMD ServerCmd;
 
-	PHeadSubSetB((LPBYTE)&ServerCmd, 0xF3, 0x40, sizeof(ServerCmd));
+	PHeadSubSetB((BYTE*)&ServerCmd, 0xF3, 0x40, sizeof(ServerCmd));
 	ServerCmd.CmdType = 0;
 	ServerCmd.X = x;
 	ServerCmd.Y = y;
@@ -53,7 +53,7 @@ void CConfigMichi::GCFireworksSend(CGameObject &lpObj, int x, int y) // OK
 }
 
 
-void CConfigMichi::UseHealingPotion(CItemObject * CItemObject, int pos, CGameObject &lpObj)
+void CConfigMichi::UseHealingPotion(CItemObject * CItemObject, int pos, CGameObject &Obj)
 {
 	if (this->FixHackPotions.m_CheckHealingAutoPotionHack == 1)
 	{

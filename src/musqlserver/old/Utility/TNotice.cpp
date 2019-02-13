@@ -19,7 +19,7 @@ void TNotice::MakeNoticeMsg(void * lpNotice, BYTE btType, char * szNoticeMsg)
 	pNotice->type  = btType;
 	memcpy(pNotice->Notice,szNoticeMsg,strlen(szNoticeMsg));
 	wsprintf(pNotice->Notice, szNoticeMsg);
-	PHeadSetB((LPBYTE)pNotice, 0x0D, strlen(pNotice->Notice) + sizeof(PMSG_NOTICE) - sizeof(pNotice->Notice) + 1 );
+	PHeadSetB((BYTE*)pNotice, 0x0D, strlen(pNotice->Notice) + sizeof(PMSG_NOTICE) - sizeof(pNotice->Notice) + 1 );
 }
 
 void TNotice::MakeNoticeMsgEx(void * lpNotice, BYTE btType, char * szNoticeMsg, ...)
@@ -30,7 +30,7 @@ void TNotice::MakeNoticeMsgEx(void * lpNotice, BYTE btType, char * szNoticeMsg, 
 	va_start(pArguments, szNoticeMsg);
 	vsprintf((char*)pNotice->Notice, (char*)szNoticeMsg, pArguments);
 	va_end(pArguments);
-	PHeadSetB((LPBYTE)pNotice, 0x0D, strlen(pNotice->Notice) + sizeof(PMSG_NOTICE) - sizeof(pNotice->Notice) + 1);
+	PHeadSetB((BYTE*)pNotice, 0x0D, strlen(pNotice->Notice) + sizeof(PMSG_NOTICE) - sizeof(pNotice->Notice) + 1);
 }
 
 void TNotice::SetNoticeProperty(void * lpNotice, BYTE btType, DWORD dwColor, BYTE btCount, WORD wDelay, BYTE btSpeed)
@@ -54,16 +54,16 @@ void TNotice::SendNoticeToAllUser(void * lpNotice)
 		{
 			if ( gGameObjects[n]->Type  == OBJ_USER )
 			{
-				IOCP.DataSend(n, (unsigned char*)pNotice  , pNotice->h.size  );
+				IOCP.DataSend(n, (BYTE*)pNotice  , pNotice->h.size  );
 			}
 		}
 	}
 }
 
-void TNotice::SendNoticeToUser(CGameObject &lpObj, void * lpNotice)
+void TNotice::SendNoticeToUser(CGameObject &Obj, void * lpNotice)
 {
 	PMSG_NOTICE * pNotice = (PMSG_NOTICE *)lpNotice;
-	IOCP.DataSend(lpObj.m_Index, (unsigned char*)pNotice, pNotice->h.size  );
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)pNotice, pNotice->h.size  );
 }
 
 
@@ -79,18 +79,18 @@ void TNotice::AllSendServerMsg(LPSTR chatmsg)
 		{
 			if ( gGameObjects[n]->Type  == OBJ_USER )
 			{
-				IOCP.DataSend(n, (unsigned char*)&pNotice , pNotice.h.size );
+				IOCP.DataSend(n, (BYTE*)&pNotice , pNotice.h.size );
 			}
 		}
 	}
 }
 
-void TNotice::GCServerMsgStringSend(LPSTR szMsg, CGameObject &lpObj, BYTE type)
+void TNotice::GCServerMsgStringSend(LPSTR szMsg, CGameObject &Obj, BYTE type)
 {
 	PMSG_NOTICE pNotice;
 	
 	MakeNoticeMsg(&pNotice, type, szMsg);
-	IOCP.DataSend(lpObj.m_Index, (unsigned char*)&pNotice, pNotice.h.size);
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)&pNotice, pNotice.h.size);
 }
 
 
@@ -113,7 +113,7 @@ void TNotice::SendToAllUser(LPSTR szMsg, ...)
 	va_start(pArguments, szMsg);
 	vsprintf(this->m_Notice.Notice, (char*)szMsg, pArguments);
 	va_end(pArguments);
-	PHeadSetB((LPBYTE)&this->m_Notice, 0x0D, strlen(this->m_Notice.Notice)  + sizeof(PMSG_NOTICE) - sizeof(this->m_Notice.Notice) + 1);
+	PHeadSetB((BYTE*)&this->m_Notice, 0x0D, strlen(this->m_Notice.Notice)  + sizeof(PMSG_NOTICE) - sizeof(this->m_Notice.Notice) + 1);
 
 	for ( int n = g_ConfigRead.server.GetObjectStartUserIndex() ; n < g_ConfigRead.server.GetObjectMax() ; n++)
 	{
@@ -121,20 +121,20 @@ void TNotice::SendToAllUser(LPSTR szMsg, ...)
 		{
 			if ( gGameObjects[n]->Type  == OBJ_USER )
 			{
-				IOCP.DataSend(n, (LPBYTE)&this->m_Notice , this->m_Notice.h.size );
+				IOCP.DataSend(n, (BYTE*)&this->m_Notice , this->m_Notice.h.size );
 			}
 		}
 	}
 }
 
-void TNotice::SendToUser(CGameObject &lpObj, LPSTR szMsg, ...)
+void TNotice::SendToUser(CGameObject &Obj, LPSTR szMsg, ...)
 {
 	va_list pArguments;
 	va_start(pArguments, szMsg);
 	vsprintf(this->m_Notice.Notice, (char*)szMsg, pArguments);
 	va_end(pArguments);
-	PHeadSetB((LPBYTE)&this->m_Notice, 0x0D, strlen(this->m_Notice.Notice)  + sizeof(PMSG_NOTICE) - sizeof(this->m_Notice.Notice) + 1);
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&this->m_Notice , this->m_Notice.h.size );
+	PHeadSetB((BYTE*)&this->m_Notice, 0x0D, strlen(this->m_Notice.Notice)  + sizeof(PMSG_NOTICE) - sizeof(this->m_Notice.Notice) + 1);
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)&this->m_Notice , this->m_Notice.h.size );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

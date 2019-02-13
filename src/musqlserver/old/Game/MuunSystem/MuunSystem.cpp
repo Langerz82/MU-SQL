@@ -33,7 +33,7 @@ CMuunAttack::~CMuunAttack()
 
 }
 
-void CMuunAttack::SendAttackMsg(CGameObject &lpObj, int aTargetIndex, int SubCode, int SubCode2)
+void CMuunAttack::SendAttackMsg(CGameObject &Obj, int aTargetIndex, int SubCode, int SubCode2)
 {
 	if (SubCode == MUUN_DEC_ENEMY_ATTACK_SKILL)
 	{
@@ -75,16 +75,16 @@ void CMuunAttack::SendAttackMsg(CGameObject &lpObj, int aTargetIndex, int SubCod
 		pMsg.TargetNumberH = HIBYTE(aTargetIndex);
 		pMsg.TargetNumberL = LOBYTE(aTargetIndex);
 
-		pMsg.h.set((LPBYTE)&pMsg, 0x4E, 0x12, sizeof(pMsg));
+		pMsg.h.set((BYTE*)&pMsg, 0x4E, 0x12, sizeof(pMsg));
 
-		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
-		gGameProtocol.MsgSendV2(&gGameObjects[aIndex], (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
+		gGameProtocol.MsgSendV2(&gGameObjects[aIndex], (BYTE*)&pMsg, pMsg.h.size);
 	}
 
 	gObjAddAttackProcMsgSendDelay(&gGameObjects[aIndex], 63, aTargetIndex, 600, SubCode, SubCode2);
 }
 
-void CMuunAttack::SkillProc(CGameObject &lpObj)
+void CMuunAttack::SkillProc(CGameObject &Obj)
 {
 	for (int i = 0; i < MAX_MUUN_EFFECT_LIST; i++)
 	{
@@ -132,13 +132,13 @@ void CMuunAttack::SkillProc(CGameObject &lpObj)
 	}
 }
 
-bool CMuunAttack::DamageAbsorb(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2)
+bool CMuunAttack::DamageAbsorb(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2)
 {
 	lpObj.m_MuunEffectList[SubCode2].bSkillUsed = false;
 	return true;
 }
 
-bool CMuunAttack::Stun(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2)
+bool CMuunAttack::Stun(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2)
 {
 	if (g_ConfigRead.EnableStunEffect == 1)
 	{
@@ -159,7 +159,7 @@ bool CMuunAttack::Stun(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf *l
 	return true;
 }
 
-bool CMuunAttack::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2)
+bool CMuunAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode2)
 {
 	int skillSuccess = 0;
 	CGameObject lpCallObj;
@@ -867,7 +867,7 @@ bool CMuunAttack::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf 
 	return TRUE;
 }
 
-int CMuunAttack::GetAttackDamage(CGameObject &lpObj, int targetDefense, int SubCode2, CGameObject lpTargetObj)
+int CMuunAttack::GetAttackDamage(CGameObject &Obj, int targetDefense, int SubCode2, CGameObject lpTargetObj)
 {
 	int ad = 0;
 	int AttackDamage = lpObj.m_MuunEffectList[SubCode2].nOptValue * (lpObj.m_PlayerData->MasterLevel + lpObj.Level) + 10;
@@ -885,7 +885,7 @@ int CMuunAttack::GetAttackDamage(CGameObject &lpObj, int targetDefense, int SubC
 	return ad;
 }
 
-int CMuunAttack::GetShieldDamage(CGameObject &lpObj, CGameObject lpTargetObj, int iAttackDamage)
+int CMuunAttack::GetShieldDamage(CGameObject &Obj, CGameObject lpTargetObj, int iAttackDamage)
 {
 	if (g_ConfigRead.g_ShieldSystemOn == FALSE)
 		return 0;
@@ -1039,7 +1039,7 @@ void CMuunSystem::MuunItemDamage(CGameObject lpObj, int damage)
 	}
 }
 
-BOOL CMuunSystem::MuunItemEquipment(CGameObject &lpObj, int iPos, int iSource)
+BOOL CMuunSystem::MuunItemEquipment(CGameObject &Obj, int iPos, int iSource)
 {
 	
 
@@ -1253,10 +1253,10 @@ bool CMuunSystem::GetMuunItemValueOfOptType(CGameObject lpObj, int iMuunOptIndex
 			pMsg.TargetNumberH = HIBYTE(lpObj.m_Index);
 			pMsg.TargetNumberL = LOBYTE(lpObj.m_Index);
 
-			PHeadSubSetB((LPBYTE)&pMsg, 0x4E, 0x12, sizeof(pMsg));
+			PHeadSubSetB((BYTE*)&pMsg, 0x4E, 0x12, sizeof(pMsg));
 
-			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
-			gGameProtocol.MsgSendV2(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
+			gGameProtocol.MsgSendV2(lpObj, (BYTE*)&pMsg, pMsg.h.size);
 		}
 
 		return true;
@@ -1292,7 +1292,7 @@ void CMuunSystem::GDReqLoadMuunInvenItem(CGameObject &obj)
 
 void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 {
-	CGameObject &lpObj = lpMsg->aIndex;
+	CGameObject &Obj = lpMsg->aIndex;
 	char szId[11];
 	szId[MAX_ACCOUNT_LEN] = 0;
 	memcpy(szId, lpObj.AccountID, MAX_ACCOUNT_LEN);
@@ -1560,7 +1560,7 @@ std::string hexStr(BYTE *data, int len)
 	for (int i(0); i<len; ++i)
 		ss << (int)data[i];
 	return ss.str();
-}void CMuunSystem::GDReqSaveMuunInvenItem(CGameObject &lpObj)
+}void CMuunSystem::GDReqSaveMuunInvenItem(CGameObject &Obj)
 {
 	if (lpObj.bMuunInventoryLoad == false)
 	{
@@ -1619,7 +1619,7 @@ std::string hexStr(BYTE *data, int len)
 	pMsg.h.sizeH = SET_NUMBERH(sizeof(pMsg));
 	pMsg.h.sizeL = SET_NUMBERL(sizeof(pMsg));
 	pMsg.h.headcode = 0xF2;
-	ItemByteConvert32((LPBYTE)pMsg.dbInventory, lpObj.pMuunInventory, MUUN_INVENTORY_SIZE);
+	ItemByteConvert32((BYTE*)pMsg.dbInventory, lpObj.pMuunInventory, MUUN_INVENTORY_SIZE);
 
 	int i;
 	char* buf_str = (char*)malloc(2 * MUUN_INVENTORY_SIZE + 1);
@@ -1632,16 +1632,16 @@ std::string hexStr(BYTE *data, int len)
 	wsDataCli.DataSend((char*)&pMsg, sizeof(pMsg));
 }
 
-void CMuunSystem::GCSendConditionStatus(CGameObject &lpObj, int iPos, int iStatus)
+void CMuunSystem::GCSendConditionStatus(CGameObject &Obj, int iPos, int iStatus)
 {
 	PMSG_MUUNITEM_CONDITION_STATUS pMsg;
 
 	pMsg.btStatus = iStatus;
 	pMsg.btIPos = iPos;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x4E, 0x07, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x4E, 0x07, sizeof(pMsg));
 
 	this->MsgIsMuunItemActive(&gGameObjects[aIndex], iPos);
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 }
 
 bool CMuunSystem::IsMuunItem(CItemObject *pCItemObject)
@@ -1745,7 +1745,7 @@ int CMuunSystem::GetMuunRankOfMuunInfo(int iItemNum)
 	return pCMuunInfo->GetMuunRank();
 }
 
-void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, CGameObject &lpObj)
+void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, CGameObject &Obj)
 {
 	int iItemUseType = lpMsg->btItemUseType;
 
@@ -2080,7 +2080,7 @@ bool CMuunSystem::MuunItemLifeGem(CGameObject lpObj, int source, int target)
 	return true;
 }
 
-bool CMuunSystem::MuunItemEnergyGenerator(CGameObject &lpObj, int source, int target)
+bool CMuunSystem::MuunItemEnergyGenerator(CGameObject &Obj, int source, int target)
 {
 	if (source < 2 || source > MUUN_INVENTORY_SIZE - 1)
 	{
@@ -2203,17 +2203,17 @@ bool CMuunSystem::MuunItemEnergyGenerator(CGameObject &lpObj, int source, int ta
 	return true;
 }
 
-void CMuunSystem::GCMuunInventoryUseItemResult(CGameObject &lpObj, int iUseType, int iResult)
+void CMuunSystem::GCMuunInventoryUseItemResult(CGameObject &Obj, int iUseType, int iResult)
 {
 	PMSG_USEITEM_MUUN_INVEN_RESULT pResult; 
 
 	pResult.btItemUseType = iUseType;
 	pResult.btResult = iResult;
-	PHeadSubSetB((LPBYTE)&pResult, 0x4E, 0x08, sizeof(pResult));
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
+	PHeadSubSetB((BYTE*)&pResult, 0x4E, 0x08, sizeof(pResult));
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size);
 }
 
-int CMuunSystem::AddMuunItemPeriodInfo(CGameObject &lpObj)
+int CMuunSystem::AddMuunItemPeriodInfo(CGameObject &Obj)
 {
 	for (int i = 0; i < g_ConfigRead.server.GetObjectMaxUser(); i++)
 	{
@@ -2236,7 +2236,7 @@ int CMuunSystem::AddMuunItemPeriodInfo(CGameObject &lpObj)
 	return -1;
 }
 
-bool CMuunSystem::RemoveMuunItemPeriodInfo(CGameObject &lpObj)
+bool CMuunSystem::RemoveMuunItemPeriodInfo(CGameObject &Obj)
 {
 	if (this->IsCorrectUser(lpObj) == false)
 	{
@@ -2260,7 +2260,7 @@ bool CMuunSystem::RemoveMuunItemPeriodInfo(CGameObject &lpObj)
 	return true;
 }
 
-bool CMuunSystem::IsCorrectUser(CGameObject &lpObj)
+bool CMuunSystem::IsCorrectUser(CGameObject &Obj)
 {
 	int iPeriodItemSlotIndex = lpObj.m_iMuunItmePeriodDataIndex;
 
@@ -2307,7 +2307,7 @@ int CMuunSystem::AddMuunItmePeriodData(CGameObject lpObj, WORD wItemCode, UINT64
 	return -1;
 }
 
-void CMuunSystem::CheckMuunItemPeriodData(CGameObject &lpObj)
+void CMuunSystem::CheckMuunItemPeriodData(CGameObject &Obj)
 {
 	if (lpObj == NULL)
 	{
@@ -2477,7 +2477,7 @@ bool CMuunSystem::SetDisableMuunItemToExpire(CGameObject lpObj, int iInventoryPo
 	return result;
 }
 
-void CMuunSystem::CheckMuunItemConditionLevelUp(CGameObject &lpObj)
+void CMuunSystem::CheckMuunItemConditionLevelUp(CGameObject &Obj)
 {
 	int nMaxLv; 
 	CMuunOpt *pCMuunInfo; 
@@ -2555,7 +2555,7 @@ void CMuunSystem::CheckMuunItemMoveMapConditionMap(CGameObject lpObj, int iMapNu
 	}
 }
 
-void CMuunSystem::CheckEquipMuunItemCondition(CGameObject &lpObj)
+void CMuunSystem::CheckEquipMuunItemCondition(CGameObject &Obj)
 {
 	 int iRet; 
 
@@ -2573,7 +2573,7 @@ void CMuunSystem::CheckEquipMuunItemCondition(CGameObject &lpObj)
 	}
 }
 
-void CMuunSystem::CheckEquipMuunItemConditionProc(CGameObject &lpObj)
+void CMuunSystem::CheckEquipMuunItemConditionProc(CGameObject &Obj)
 {
 
 	signed int iRet; 
@@ -2592,7 +2592,7 @@ void CMuunSystem::CheckEquipMuunItemConditionProc(CGameObject &lpObj)
 	}
 }
 
-void CMuunSystem::CalCharacterStat(CGameObject &lpObj, CMuunInfo *pCMuunInfo)
+void CMuunSystem::CalCharacterStat(CGameObject &Obj, CMuunInfo *pCMuunInfo)
 {
 	if (!pCMuunInfo)
 	{
@@ -2606,7 +2606,7 @@ void CMuunSystem::CalCharacterStat(CGameObject &lpObj, CMuunInfo *pCMuunInfo)
 	}
 }
 
-void CMuunSystem::CalCharacterStat( CGameObject &lpObj, int iOptType)
+void CMuunSystem::CalCharacterStat( CGameObject &Obj, int iOptType)
 {
 	if (iOptType == 7 || iOptType == 1)
 	{
@@ -2614,7 +2614,7 @@ void CMuunSystem::CalCharacterStat( CGameObject &lpObj, int iOptType)
 	}
 }
 
-int CMuunSystem::CheckMuunItemCondition(CGameObject &lpObj,MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
+int CMuunSystem::CheckMuunItemCondition(CGameObject &Obj,MUUN_EFFECT_LIST *pUserMuunEffect, CMuunInfo *pCMuunInfo)
 {
 	if (pCMuunInfo == NULL)
 	{
@@ -2941,7 +2941,7 @@ bool CMuunSystem::LoadScriptMuunExchange(char *lpszFileName)
 	return true;
 }
 
-void CMuunSystem::CGMuunExchangeItem(PMSG_REQ_MUUN_EXCHANGE *lpMsg, CGameObject &lpObj)
+void CMuunSystem::CGMuunExchangeItem(PMSG_REQ_MUUN_EXCHANGE *lpMsg, CGameObject &Obj)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -2980,7 +2980,7 @@ void CMuunSystem::CGMuunExchangeItem(PMSG_REQ_MUUN_EXCHANGE *lpMsg, CGameObject 
 	this->GDMuunExchangeInsertInven(&gGameObjects[aIndex], nSelect);
 }
 
-bool CMuunSystem::GDMuunExchangeInsertInven(CGameObject &lpObj, int iSelect)
+bool CMuunSystem::GDMuunExchangeInsertInven(CGameObject &Obj, int iSelect)
 {
 	if (!ObjectMaxRange(lpObj.m_Index))
 	{
@@ -3110,7 +3110,7 @@ bool CMuunSystem::GDMuunExchangeInsertInven(CGameObject &lpObj, int iSelect)
 	return true;
 }
 
-BYTE CMuunSystem::DGMuunExchangeInsertInven(CGameObject &lpObj, CItemObject CreateItem, int iSelect)
+BYTE CMuunSystem::DGMuunExchangeInsertInven(CGameObject &Obj, CItemObject CreateItem, int iSelect)
 {
 	if (!ObjectMaxRange(lpObj.m_Index))
 	{
@@ -3170,7 +3170,7 @@ BYTE CMuunSystem::DGMuunExchangeInsertInven(CGameObject &lpObj, CItemObject Crea
 	return btRet;
 }
 
-bool CMuunSystem::ChkAndDelItemMuunExchange(CGameObject &lpObj, int iSelect)
+bool CMuunSystem::ChkAndDelItemMuunExchange(CGameObject &Obj, int iSelect)
 {
 	int ItemPos[10];
 	memset(ItemPos, -1, sizeof(ItemPos));
@@ -3282,7 +3282,7 @@ bool CMuunSystem::ChkMuunExchangeInvenNeedItem(int & iItemCnt, int iInvenPos, in
 	return true;
 }
 
-bool CMuunSystem::ChkMuunExchangeInvenNeedItem(CGameObject &lpObj, int iSelect, int *ItemPos)
+bool CMuunSystem::ChkMuunExchangeInvenNeedItem(CGameObject &Obj, int iSelect, int *ItemPos)
 {
 	int nItemCnt = 0;
 	int nNeedItemCnt = this->m_stMuunExchangeInfo[iSelect].iItemCnt;
@@ -3323,7 +3323,7 @@ bool CMuunSystem::ChkMuunExchangeInvenNeedItem(CGameObject &lpObj, int iSelect, 
 	return false;
 }
 
-bool CMuunSystem::ChkMuunExchangeInvenEmpty(CGameObject &lpObj, int iSelect)
+bool CMuunSystem::ChkMuunExchangeInvenEmpty(CGameObject &Obj, int iSelect)
 {
 	int nChkInven = this->m_stMuunExchangeItembag[this->m_stMuunExchangeInfo[iSelect].iItemBagIndex].iInvenChk;
 
@@ -3354,16 +3354,16 @@ bool CMuunSystem::ChkMuunExchangeInvenEmpty(CGameObject &lpObj, int iSelect)
 	return true;
 }
 
-void CMuunSystem::SendMsgMuunExchange(CGameObject &lpObj, int iResult)
+void CMuunSystem::SendMsgMuunExchange(CGameObject &Obj, int iResult)
 {
 	PMSG_ANS_MUUN_EXCHANGE pMsg; 
 
 	pMsg.btResult = iResult;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x4E, 0x13, sizeof(pMsg));
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+	PHeadSubSetB((BYTE*)&pMsg, 0x4E, 0x13, sizeof(pMsg));
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 }
 
-void CMuunSystem::SetTarget(CGameObject &lpObj, int aTargetIndex)
+void CMuunSystem::SetTarget(CGameObject &Obj, int aTargetIndex)
 {
 	for (int i = 0; i < 2; i++)
 	{
@@ -3382,7 +3382,7 @@ void CMuunSystem::SetTarget(CGameObject &lpObj, int aTargetIndex)
 	}
 }
 
-void CMuunSystem::ReSetTarget(CGameObject &lpObj, int aTargetIndex)
+void CMuunSystem::ReSetTarget(CGameObject &Obj, int aTargetIndex)
 {
 	for (int i = 0; i < 2; i++)
 	{
@@ -3393,7 +3393,7 @@ void CMuunSystem::ReSetTarget(CGameObject &lpObj, int aTargetIndex)
 	}
 }
 
-void CMuunSystem::CGReqRideSelect(PMSG_MUUN_RIDE_SELECT *lpMsg, CGameObject &lpObj)
+void CMuunSystem::CGReqRideSelect(PMSG_MUUN_RIDE_SELECT *lpMsg, CGameObject &Obj)
 {
 	if(!ObjectMaxRange(aIndex))
 		return;
@@ -3438,7 +3438,7 @@ void CMuunSystem::CGReqRideSelect(PMSG_MUUN_RIDE_SELECT *lpMsg, CGameObject &lpO
 	lOfs += sizeof(MuunRideViewPortInfo);
 
 	pMsgMuun.Count = 1;
-	pMsgMuun.h.set((LPBYTE)&pMsgMuun,0x4E,0x14,lOfs);
+	pMsgMuun.h.set((BYTE*)&pMsgMuun,0x4E,0x14,lOfs);
 	memcpy(btMuunInfosendBuf, &pMsgMuun, sizeof(pMsgMuun));
 
 	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, btMuunInfosendBuf, lOfs);
@@ -3457,7 +3457,7 @@ void CMuunSystem::CGReqRideSelect(PMSG_MUUN_RIDE_SELECT *lpMsg, CGameObject &lpO
 	}
 }
 
-void CMuunSystem::SkillProc(CGameObject &lpObj)
+void CMuunSystem::SkillProc(CGameObject &Obj)
 {
 	this->m_MuunAttack.SkillProc(lpObj);
 }
@@ -3484,7 +3484,7 @@ bool CMuunSystem::IsMuunExpireDate(int iType)
 	return false;
 }
 
-void CMuunSystem::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode, int SubCode2)
+void CMuunSystem::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf *lpMagic, int SubCode, int SubCode2)
 {
 	switch (SubCode)
 	{

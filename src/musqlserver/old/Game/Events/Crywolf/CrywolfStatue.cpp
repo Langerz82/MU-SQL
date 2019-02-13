@@ -54,7 +54,7 @@ int CCrywolfStatue::GetStatueViewState(int iPriestNumber)
 	return iViewState;
 }
 
-void CCrywolfStatue::SetStatueViewState(CGameObject &lpObj, int iPriestNumber)
+void CCrywolfStatue::SetStatueViewState(CGameObject &Obj, int iPriestNumber)
 {
 	switch ( iPriestNumber )
 	{

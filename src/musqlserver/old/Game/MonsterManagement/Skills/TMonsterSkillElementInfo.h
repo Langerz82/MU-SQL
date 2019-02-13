@@ -56,7 +56,7 @@ public:
 	int  DecModifyStatTime();
 	int	 DecImmuneAllTime();//NEW
 
-	static void CheckSkillElementInfoProc(CGameObject &lpObj);
+	static void CheckSkillElementInfoProc(CGameObject &Obj);
 
 public:
 

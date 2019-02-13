@@ -82,7 +82,7 @@ void CBotSystem::LoadData(LPSTR szFile)
 	this->SetAllBots();
 
 }
-bool CBotSystem::LoadBotSpecializationData(CGameObject &lpObj, LPSTR szFile, BYTE type)
+bool CBotSystem::LoadBotSpecializationData(CGameObject &Obj, LPSTR szFile, BYTE type)
 {
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file(szFile);
@@ -237,7 +237,7 @@ void CBotSystem::SetAllBots()
 int CBotSystem::AddBot(_sBOT_SETTINGS pBot)
 {
 //--- declare
-	CGameObject &lpObj = gObjAddMonster(pBot.btMap);
+	CGameObject &Obj = gObjAddMonster(pBot.btMap);
 	CGameObject lpBotObj = &gGameObjects[aIndex];
 //--- valide
 	if(aIndex == -1)
@@ -312,7 +312,7 @@ int CBotSystem::AddBot(_sBOT_SETTINGS pBot)
 	return aIndex;
 }
 
-void CBotSystem::MakePreviewCharSet(CGameObject &lpObj, _sBOT_INVENTORY_WEAR_ITEMS * pInv)
+void CBotSystem::MakePreviewCharSet(CGameObject &Obj, _sBOT_INVENTORY_WEAR_ITEMS * pInv)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -651,7 +651,7 @@ void CBotSystem::BuffPlayer(WORD  wBufferindex,short aIndex)
 	gGameProtocol.GCMoneySend(aIndex,lpObj.m_PlayerData->Money);
 }
 
-BYTE CBotSystem::GetBotType(CGameObject &lpObj)
+BYTE CBotSystem::GetBotType(CGameObject &Obj)
 {
 	for(int i=0;i<this->iCount;i++)
 	{
@@ -660,7 +660,7 @@ BYTE CBotSystem::GetBotType(CGameObject &lpObj)
 	}
 }
 
-int CBotSystem::GetSkillTime(CGameObject &lpObj, WORD wSkill)
+int CBotSystem::GetSkillTime(CGameObject &Obj, WORD wSkill)
 {
 	if(!&lpObj)
 		return 0;
@@ -674,7 +674,7 @@ int CBotSystem::GetSkillTime(CGameObject &lpObj, WORD wSkill)
 	}
 	return 0;
 }
-sBOT_REWARD_STRUCT CBotSystem::ConfirmMixSuccess(CGameObject &lpObj, int botIndex)
+sBOT_REWARD_STRUCT CBotSystem::ConfirmMixSuccess(CGameObject &Obj, int botIndex)
 {
 	
 	CGameObject lpBotObj = &gGameObjects[botIndex];
@@ -728,7 +728,7 @@ bool CBotSystem::AlchemistVerifyItem(s_BOT_CRAFTING_ITEM_STRUCT lpReqItem, CItem
 
 }
 
-bool CBotSystem::CheckAlchemist(CGameObject &lpObj, int botIndex)
+bool CBotSystem::CheckAlchemist(CGameObject &Obj, int botIndex)
 {
 	
 	CGameObject lpBotObj = &gGameObjects[botIndex];
@@ -771,7 +771,7 @@ bool CBotSystem::CheckAlchemist(CGameObject &lpObj, int botIndex)
 		BYTE ItemBuf[13];
 		ItemByteConvert(ItemBuf,rewardItem);
 		gGameProtocol.GCTradeOtherAdd(aIndex,1,ItemBuf);
-		//int gGameProtocol::GCTradeOtherAdd(CGameObject &lpObj, BYTE tradeindex, LPBYTE iteminfo)
+		//int gGameProtocol::GCTradeOtherAdd(CGameObject &Obj, BYTE tradeindex, BYTE* iteminfo)
 	}
 	else
 	{
@@ -779,7 +779,7 @@ bool CBotSystem::CheckAlchemist(CGameObject &lpObj, int botIndex)
 	}
 	return true;
 }
-int CBotSystem::AlchemistTradeItemCount(CGameObject &lpObj)
+int CBotSystem::AlchemistTradeItemCount(CGameObject &Obj)
 {
 	int Count=0;
 
@@ -793,7 +793,7 @@ int CBotSystem::AlchemistTradeItemCount(CGameObject &lpObj)
 	return Count;
 }
 
-void CBotSystem::AlchemistTradeOk(CGameObject &lpObj, int botIndex)
+void CBotSystem::AlchemistTradeOk(CGameObject &Obj, int botIndex)
 {
 	CGameObject* lpBot = gGameObjects[botIndex];
 
@@ -837,7 +837,7 @@ void CBotSystem::AlchemistTradeOk(CGameObject &lpObj, int botIndex)
 	}
 
 }
-void CBotSystem::AlchemistTradeOpen(CGameObject &lpObj, int botIndex)
+void CBotSystem::AlchemistTradeOpen(CGameObject &Obj, int botIndex)
 {
 	
 	CGameObject* lpBot = gGameObjects[botIndex];
@@ -857,7 +857,7 @@ void CBotSystem::AlchemistTradeOpen(CGameObject &lpObj, int botIndex)
 
 bool CBotSystem::StoreAddItems(int botIndex)
 {
-	CGameObject &lpObj = this->m_BotData[botIndex].aIndex;
+	CGameObject &Obj = this->m_BotData[botIndex].aIndex;
 	for(int i=0;i<this->m_BotData[botIndex].m_Shop.iItemCount;i++)
 	{
 		BYTE blank = this->PShopCheckSpace(&gGameObjects[aIndex],this->m_BotData[botIndex]->m_Shop.pItems[i]->wItemId,&lpObj.pInventoryMap[PSHOP_START_RANGE]);
@@ -898,7 +898,7 @@ bool CBotSystem::StoreAddItems(int botIndex)
 	return true;
 }
 
-BYTE CBotSystem::PShopCheckSpace(CGameObject &lpObj, int type, BYTE * TempMap)
+BYTE CBotSystem::PShopCheckSpace(CGameObject &Obj, int type, BYTE * TempMap)
 {
 	int w,h,iwidth,iheight;
 	BYTE blank = 0;
@@ -969,7 +969,7 @@ BYTE gObjTempPShopRectCheck(BYTE * TempMap, int sx, int sy, int width, int heigh
 		lpReqItem.btExc == TradeItem.m_NewOption)
 */
 
-int gObjGetItemCountInTradeWindow(CGameObject &lpObj, WORD itemtype, int itemlevel, BYTE btExc, BYTE btSet, BYTE btOpt, BYTE btLuck, BYTE btSkill)
+int gObjGetItemCountInTradeWindow(CGameObject &Obj, WORD itemtype, int itemlevel, BYTE btExc, BYTE btSet, BYTE btOpt, BYTE btLuck, BYTE btSkill)
 {
 	int Count=0;
 

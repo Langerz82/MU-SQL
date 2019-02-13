@@ -32,61 +32,61 @@ void CRaklionUtil::NotifyRaklionChangeState(int iState, int iDetailState)
 {
 	PMSG_ANS_RAKLION_STATE_CHANGE pMsg = {0};
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xD1, 0x12, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xD1, 0x12, sizeof(pMsg));
 	pMsg.btState = iState;
 	pMsg.btDetailState = iDetailState;
 
 	if(iState == RAKLION_STATE_NOTIFY_1)
 	{
-		SendDataRaklionMapUser((LPBYTE)&pMsg,sizeof(pMsg));	
+		SendDataRaklionMapUser((BYTE*)&pMsg,sizeof(pMsg));	
 		return;
 	}
 
-	SendDataRaklionBossMapUser((LPBYTE)&pMsg, sizeof(pMsg));
+	SendDataRaklionBossMapUser((BYTE*)&pMsg, sizeof(pMsg));
 }
 
 void CRaklionUtil::NotifyRaklionSuccessValue(int iSuccessValue)
 {
 	PMSG_ANS_RAKLION_BATTLE_RESULT pMsg = {0};
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xD1, 0x13, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xD1, 0x13, sizeof(pMsg));
 	pMsg.btResult = iSuccessValue;
 
-	SendDataRaklionBossMapUser((LPBYTE)&pMsg, sizeof(pMsg));
+	SendDataRaklionBossMapUser((BYTE*)&pMsg, sizeof(pMsg));
 }
 
 void CRaklionUtil::NotifyRaklionCurrentState(CGameObject &Obj, int iState, int iDetailState)
 {
 	PMSG_ANS_RAKLION_CURRENT_STATE pMsg = {0};
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xD1, 0x11, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xD1, 0x11, sizeof(pMsg));
 	pMsg.btCurrentState = iState;
 	pMsg.btCurrentDetailState = iDetailState;
 
-	IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
+	IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, sizeof(pMsg));
 }
 
 void CRaklionUtil::NotifyRaklionWideAreaAttack(CGameObject &Obj, int iTargetIndex, int iSkillType)
 {
 	PMSG_NOTIFY_RAKLION_WIDE_AREA_ATTACK pMsg;
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xD1, 0x14, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xD1, 0x14, sizeof(pMsg));
 	pMsg.btObjClassH = HIBYTE(Obj.Class);
 	pMsg.btObjClassL = LOBYTE(Obj.Class);
 	pMsg.btType = iSkillType;
 
-	SendDataToUser(iTargetIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+	SendDataToUser(iTargetIndex, (BYTE*)&pMsg, sizeof(pMsg));
 }
 
 void CRaklionUtil::NotifyRaklionUserMonsterCount(int iMonsterCount, int iUserCount)
 {
 	PMSG_NOTIFY_RAKLION_USER_MONSTER_COUNT pMsg;
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xD1, 0x15, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xD1, 0x15, sizeof(pMsg));
 	pMsg.btMonsterCount = iMonsterCount;
 	pMsg.btUserCount = iUserCount;
 
-	SendDataRaklionBossMapUser((LPBYTE)&pMsg, sizeof(pMsg));
+	SendDataRaklionBossMapUser((BYTE*)&pMsg, sizeof(pMsg));
 }
 
 void CRaklionUtil::NotifyLeftTopMsgRaklionBattleUser(char *lpszMsg, ...)

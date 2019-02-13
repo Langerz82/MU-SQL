@@ -739,7 +739,7 @@ public:
 
 	void Clear();
 	bool LoadScriptArcaBattle(char *lpszFileName);
-	void BootyExchange(CGameObject &lpObj);
+	void BootyExchange(CGameObject &Obj);
 	int LoadScriptBootyMix(char *lpszFileName);
 	int GetBootyRewardItem(int iBootyCnt,ARCA_BATTLE_BOOTY_REWARD *pBootyRewardItem);
 
@@ -795,7 +795,7 @@ public:
 	void SendMapServerGroupMsg(char *lpszMsg);
 	int GetJoinMemberCnt();
 
-	int EnterArcaBattleEvent(CGameObject &lpObj);
+	int EnterArcaBattleEvent(CGameObject &Obj);
 	ArcaBattleUserInfo * GetUserInfo(char *szName);
 
 	void SendObeliskLife();
@@ -826,13 +826,13 @@ public:
 	void RegenMonsterRun();
 	void DeleteMonster(int nGroupNumber);
 	void RegenMonster(int nGroupNumber);
-	int SetPosMonster(CGameObject &lpObj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY);
+	int SetPosMonster(CGameObject &Obj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY);
 	int GetBoxPosition(int mapnumber, int ax, int ay, int aw, int ah, short &mx, short &my);
 
 	void AddContributePoint(CGameObject &obj, CGameObject Tarobj);
 	void AddKillPoint(CGameObject &obj, CGameObject Tarobj);
 
-	void BootyItemGetCnt(CGameObject &lpObj);
+	void BootyItemGetCnt(CGameObject &Obj);
 	void CalcRewardExp(CGameObject lpObj, UINT64 & iRewardExp);
 
 	int DropItem(CGameObject lpObj, CGameObject lpMonsterObj);
@@ -857,7 +857,7 @@ public:
 	void GCAnsMarkReg(CGameObject &Obj, DWORD dwMarkCnt);
 	void GCAnsMarkRegErrCode(int iResult, CGameObject &Obj);
 
-	void CGReqMarkRegButtonClick(CGameObject &lpObj);
+	void CGReqMarkRegButtonClick(CGameObject &Obj);
 
 	void CGReqMarkRank(CGameObject &Obj);
 	void GCAnsMarkRank(CGameObject &Obj, BYTE btRank, DWORD dwMarkCnt, BYTE btTopRankCnt, _stArcaBattleMarkTopRankDS *pArcaBattleMarkTopRank);
@@ -879,7 +879,7 @@ public:
 	void SetCheatABEnd();
 	void SetCheatABNextProc();
 
-	void CheatGDReqArcaBattleGuildJoin(CGameObject &lpObj);
+	void CheatGDReqArcaBattleGuildJoin(CGameObject &Obj);
 	void CheatGDReqArcaBattleGuildMemberJoin(CGameObject lpObj, const char *lpszName);
 
 	void CheatABOccupyObelisk(CGameObject lpObj, int iObeliskGroup);

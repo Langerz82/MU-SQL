@@ -28,7 +28,7 @@ CConServ::~CConServ()
 
 }
 
-void CConServ::ConnectResultSend(CGameObject &lpObj)
+void CConServ::ConnectResultSend(CGameObject &Obj)
 {
 	PMSG_HELLO pMsg = {0};
 	pMsg.h.c = 0xC1;
@@ -36,7 +36,7 @@ void CConServ::ConnectResultSend(CGameObject &lpObj)
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.result = 0x01;
 
-	DataSend(lpObj.m_Index,(LPBYTE)&pMsg,sizeof(pMsg), nullptr);
+	DataSend(lpObj.m_Index,(BYTE*)&pMsg,sizeof(pMsg), nullptr);
 	/*if(!newssent)
 	{
 		newssent = true;
@@ -45,7 +45,7 @@ void CConServ::ConnectResultSend(CGameObject &lpObj)
 	
 }
 
-void CConServ::ServerListSend(CGameObject &lpObj)
+void CConServ::ServerListSend(CGameObject &Obj)
 {
 	PMSG_SERVERSLIST_COUNT * pMsg;///(0xC2, 0xF4, 0x06);
 	PMSG_SERVERLIST_SERVER * pServer;
@@ -94,7 +94,7 @@ void CConServ::ServerListSend(CGameObject &lpObj)
 //	this->SendNews(aIndex);
 }
 
-void CConServ::GetServerInfo(CGameObject &lpObj, USHORT id)
+void CConServ::GetServerInfo(CGameObject &Obj, USHORT id)
 {
 	GS_CONNECT_INFO pMsg	= {0};
 
@@ -112,7 +112,7 @@ void CConServ::GetServerInfo(CGameObject &lpObj, USHORT id)
 
 			pMsg.Port = It->wServerPort;
 
-			DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg), nullptr);
+			DataSend(lpObj.m_Index, (BYTE*)&pMsg, sizeof(pMsg), nullptr);
 
 			sLog->outBasic(0, szModule, __FUNCTION__, "INDEX : %d; SERVER SELECTED (%d) (%s:%d)", aIndex, id, pMsg.IP, pMsg.Port);
 			
@@ -121,7 +121,7 @@ void CConServ::GetServerInfo(CGameObject &lpObj, USHORT id)
 	}
 }
 
-void CConServ::GetServerList(CGameObject &lpObj)
+void CConServ::GetServerList(CGameObject &Obj)
 {
 	if(g_ConnectedServers.size() > 0)
 	{	
@@ -149,7 +149,7 @@ void CConServ::LoadServerList(LPSTR szFile)
 	}
 
 	SMDToken Token;
-	CGameObject &lpObj;
+	CGameObject &Obj;
 	ServerList m_Server;
 	g_CServerList.clear();
 	g_ConnectedServers.clear();
@@ -208,7 +208,7 @@ void CConServ::LoadNewsFile(LPSTR szFile)
 			return;
 		 }
 		SMDToken Token;
-		CGameObject &lpObj = 0;
+		CGameObject &Obj = 0;
 		int iIndex = 0;
 		// Date RGB
 		BYTE dateR = 0;
@@ -318,7 +318,7 @@ void CConServ::LoadNewsFile(LPSTR szFile)
 
 }
 
-void CConServ::SendNews(CGameObject &lpObj)
+void CConServ::SendNews(CGameObject &Obj)
 {
 
 	PMSG_SEND_TITLE pTitle;
@@ -327,7 +327,7 @@ void CConServ::SendNews(CGameObject &lpObj)
 	pTitle.h.subcode = 0x00;
 	memcpy(pTitle.ServerName, Title, sizeof(pTitle.ServerName));
 
-	DataSend(lpObj.m_Index, (LPBYTE)&pTitle, pTitle.h.size, nullptr);
+	DataSend(lpObj.m_Index, (BYTE*)&pTitle, pTitle.h.size, nullptr);
 
 	PMSG_SEND_NEWS pMsg = {0};
 
@@ -357,14 +357,14 @@ void CConServ::SendNews(CGameObject &lpObj)
 		memcpy(buffer, &pMsg, sizeof(PMSG_SEND_NEWS));
 		memcpy(&buffer[sizeof(PMSG_SEND_NEWS)], gObjNews[i].Text, textlen);
 
-		DataSend(lpObj.m_Index, (LPBYTE)buffer, sizeof(PMSG_SEND_NEWS)+textlen, nullptr);
+		DataSend(lpObj.m_Index, (BYTE*)buffer, sizeof(PMSG_SEND_NEWS)+textlen, nullptr);
 	}
 	sLog->outBasic(0,szModule,"::SendNews()","News Sent. Amount : %d",newscount);
 }
 
 
 
-void LProtocolCore(CGameObject &lpObj, BYTE hCode, LPBYTE aRecv, int aLen)
+void LProtocolCore(CGameObject &Obj, BYTE hCode, BYTE* aRecv, int aLen)
 {
 	switch (hCode)
 	{
@@ -384,7 +384,7 @@ void LProtocolCore(CGameObject &lpObj, BYTE hCode, LPBYTE aRecv, int aLen)
 	}
 }
 
-void LSProtocolCore(BYTE hCode, LPBYTE aRecv, int aLen)
+void LSProtocolCore(BYTE hCode, BYTE* aRecv, int aLen)
 {
 	switch ( hCode )
 	{

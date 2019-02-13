@@ -7,7 +7,7 @@
 #include "BagManager.h"
 #include "configread.h"
 
-void EventChipEventProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen)
+void EventChipEventProtocolCore(BYTE protoNum, BYTE* aRecv, int aLen)
 {
 #if (TRACE_PROTOCOL==1)
 	LogAddHeadHex("EVENT_SERVER", aRecv, aLen);
@@ -69,29 +69,29 @@ void EventChipEventProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen)
 	}
 }
 
-void FireworksOpenEven(CGameObject &lpObj)
+void FireworksOpenEven(CGameObject &Obj)
 {
 	PMSG_SERVERCMD ServerCmd;
 
-	PHeadSubSetB((LPBYTE)&ServerCmd, 0xF3, 0x40, sizeof(ServerCmd));
+	PHeadSubSetB((BYTE*)&ServerCmd, 0xF3, 0x40, sizeof(ServerCmd));
 	ServerCmd.CmdType = 0;
 	ServerCmd.X = lpObj.X;
 	ServerCmd.Y = lpObj.Y;
 
-	gGameProtocol.MsgSendV2(lpObj, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
-	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
+	gGameProtocol.MsgSendV2(lpObj, (BYTE*)&ServerCmd, sizeof(ServerCmd));
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&ServerCmd, sizeof(ServerCmd));
 }
 
-void ChristmasFireCrackDrop(CGameObject &lpObj) //season 4.5 add-on
+void ChristmasFireCrackDrop(CGameObject &Obj) //season 4.5 add-on
 {
 	PMSG_SERVERCMD ServerCmd;
 
-	PHeadSubSetB((LPBYTE)&ServerCmd, 0xF3, 0x40, sizeof(ServerCmd));
+	PHeadSubSetB((BYTE*)&ServerCmd, 0xF3, 0x40, sizeof(ServerCmd));
 	ServerCmd.CmdType = 59;
 	ServerCmd.X = lpObj.X;
 	ServerCmd.Y = lpObj.Y;
-	gGameProtocol.MsgSendV2(lpObj, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
-	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
+	gGameProtocol.MsgSendV2(lpObj, (BYTE*)&ServerCmd, sizeof(ServerCmd));
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&ServerCmd, sizeof(ServerCmd));
 }
 
 #pragma warning ( disable : 4101 )
@@ -102,13 +102,13 @@ void EGRecvEventChipInfo(PMSG_ANS_VIEW_EC_MN * aRecv)
 	PMSG_EVENTCHIPINFO eventchipeventinfo;
 	char msg[255];
 
-	PHeadSetB((LPBYTE)&eventchipeventinfo, 0x94, sizeof(eventchipeventinfo));
+	PHeadSetB((BYTE*)&eventchipeventinfo, 0x94, sizeof(eventchipeventinfo));
 	eventchipeventinfo.Type = 0;
 	eventchipeventinfo.ChipCount = aRecv->nEVENT_CHIPS;
 	lpObj.EventChipCount = aRecv->nEVENT_CHIPS;
 	lpObj.MutoNumber = aRecv->iMUTO_NUM;
 
-	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&eventchipeventinfo, eventchipeventinfo.h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&eventchipeventinfo, eventchipeventinfo.h.size);
 
 	lpObj.UseEventServer = FALSE;
 }
@@ -119,9 +119,9 @@ void EGResultRegEventChip(PMSG_ANS_REGISTER_EVENTCHIP * aRecv)
 {
 	PMSG_REGEVENTCHIP_RESULT Result;
 	CGameObject lpObj;
-	CGameObject &lpObj;
+	CGameObject &Obj;
 
-	PHeadSetB((LPBYTE)&Result, 0x95, sizeof(Result));
+	PHeadSetB((BYTE*)&Result, 0x95, sizeof(Result));
 	lpObj = &gGameObjects[aRecv->iINDEX];
 	aIndex = aRecv->iINDEX;
 
@@ -144,7 +144,7 @@ void EGResultRegEventChip(PMSG_ANS_REGISTER_EVENTCHIP * aRecv)
 
 	Result.Type = 0;
 
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size);
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)&Result, Result.h.size);
 
 	lpObj.UseEventServer = FALSE;
 }
@@ -154,7 +154,7 @@ void EGResultRegEventChip(PMSG_ANS_REGISTER_EVENTCHIP * aRecv)
 void EGRecvRegMutoNum( PMSG_ANS_REGISTER_MUTONUM* aRecv)
 {
 	CGameObject lpObj;
-	CGameObject &lpObj;
+	CGameObject &Obj;
 	
 
 	lpObj = &gGameObjects[aRecv->iINDEX];
@@ -162,7 +162,7 @@ void EGRecvRegMutoNum( PMSG_ANS_REGISTER_MUTONUM* aRecv)
 
 	PMSG_GETMUTONUMBER_RESULT Result;
 
-	PHeadSetB((LPBYTE)&Result, 0x96, sizeof(Result));
+	PHeadSetB((BYTE*)&Result, 0x96, sizeof(Result));
 	
 	if ( gObjFind10EventChip(aIndex) == FALSE )
 	{
@@ -170,7 +170,7 @@ void EGRecvRegMutoNum( PMSG_ANS_REGISTER_MUTONUM* aRecv)
 		Result.MutoNum[1] = 0;
 		Result.MutoNum[2] = 0;
 
-		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size);
+		IOCP.DataSend(lpObj.m_Index, (BYTE*)&Result, Result.h.size);
 
 		lpObj.UseEventServer = FALSE;
 
@@ -187,7 +187,7 @@ void EGRecvRegMutoNum( PMSG_ANS_REGISTER_MUTONUM* aRecv)
 		lpObj.AccountID, lpObj.Name, 
 		Result.MutoNum[0], Result.MutoNum[1], Result.MutoNum[2]);
 
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size);
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)&Result, Result.h.size);
 	lpObj.UseEventServer = FALSE;
 }
 
@@ -196,9 +196,9 @@ void EGRecvChangeRena( PMSG_ANS_RESET_EVENTCHIP* aRecv)
 {
 	PMSG_REGEVENTCHIP_RESULT Result;
 	CGameObject lpObj;
-	CGameObject &lpObj;
+	CGameObject &Obj;
 
-	PHeadSetB((LPBYTE)&Result, 0x95, sizeof(Result));
+	PHeadSetB((BYTE*)&Result, 0x95, sizeof(Result));
 	lpObj = &gGameObjects[aRecv->iINDEX];
 	aIndex = aRecv->iINDEX;
 
@@ -219,7 +219,7 @@ void EGRecvChangeRena( PMSG_ANS_RESET_EVENTCHIP* aRecv)
 	Result.ChipCount = 0;
 	lpObj.EventChipCount = 0;
 
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size);
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)&Result, Result.h.size);
 
 	lpObj.UseEventServer = FALSE;
 }
@@ -233,7 +233,7 @@ void EGRecvStoneInfo( PMSG_ANS_VIEW_STONES* aRecv)
 
 	PMSG_EVENTCHIPINFO Result;
 	
-	PHeadSetB((LPBYTE)&Result, 0x94, sizeof(Result));
+	PHeadSetB((BYTE*)&Result, 0x94, sizeof(Result));
 
 	if ( aRecv->bSUCCESS )
 		lpObj.iStoneCount = aRecv->iStoneCount;
@@ -244,7 +244,7 @@ void EGRecvStoneInfo( PMSG_ANS_VIEW_STONES* aRecv)
 	Result.Type = 3;
 	Result.ChipCount = aRecv->iStoneCount;
 
-	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&Result, Result.h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&Result, Result.h.size);
 
 	char msg[128];
 	wsprintf(msg, Lang.GetText(0,78), Result.ChipCount);
@@ -256,10 +256,10 @@ void EGRecvRegStone( PMSG_ANS_REGISTER_STONES* aRecv)
 {
 	PMSG_REGEVENTCHIP_RESULT Result;
 	CGameObject lpObj;
-	CGameObject &lpObj;
+	CGameObject &Obj;
 	
 
-	PHeadSetB((LPBYTE)&Result, 0x95, sizeof(Result));
+	PHeadSetB((BYTE*)&Result, 0x95, sizeof(Result));
 	lpObj = &gGameObjects[aRecv->iINDEX];
 	aIndex = aRecv->iINDEX;
 
@@ -280,7 +280,7 @@ void EGRecvRegStone( PMSG_ANS_REGISTER_STONES* aRecv)
 			lpObj.AccountID, lpObj.Name, aRecv->iStoneCount);
 	}
 
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size);
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)&Result, Result.h.size);
 
 	lpObj.UseEventServer = FALSE;
 }
@@ -296,10 +296,10 @@ void EGRecvChangeStones( PMSG_ANS_RESET_EVENTCHIP* aRecv)
 {
 	PMSG_REGEVENTCHIP_RESULT Result;
 	CGameObject lpObj;
-	CGameObject &lpObj;
+	CGameObject &Obj;
 	
 
-	PHeadSetB((LPBYTE)&Result, 0x95, sizeof(Result));
+	PHeadSetB((BYTE*)&Result, 0x95, sizeof(Result));
 	lpObj = &gGameObjects[aRecv->iINDEX];
 	aIndex = aRecv->iINDEX;
 
@@ -320,7 +320,7 @@ void EGRecvChangeStones( PMSG_ANS_RESET_EVENTCHIP* aRecv)
 	Result.ChipCount = 0;
 	lpObj.iStoneCount = 0;
 
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&Result, Result.h.size);
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)&Result, Result.h.size);
 
 	lpObj.UseEventServer = FALSE;
 }
@@ -344,7 +344,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 {
 	PMSG_ANS_2ANV_LOTTO_EVENT Result;
 
-	PHeadSetB((LPBYTE)&Result, 0x9D, sizeof(Result));
+	PHeadSetB((BYTE*)&Result, 0x9D, sizeof(Result));
 
 	if ( !ObjectMaxRange(aRecv->iINDEX))
 	{
@@ -374,13 +374,13 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 		{
 			PMSG_SERVERCMD ServerCmd;
 
-			PHeadSubSetB((LPBYTE)&ServerCmd, 0xF3, 0x40, sizeof(ServerCmd));
+			PHeadSubSetB((BYTE*)&ServerCmd, 0xF3, 0x40, sizeof(ServerCmd));
 			ServerCmd.CmdType = 0;
 			ServerCmd.X = gGameObjects[aRecv->iINDEX]->X;
 			ServerCmd.Y = gGameObjects[aRecv->iINDEX]->Y;
 
-			gGameProtocol.MsgSendV2(&gGameObjects[aRecv->iINDEX], (LPBYTE)&ServerCmd, sizeof(ServerCmd));
-			IOCP.DataSend(aRecv->iINDEX, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
+			gGameProtocol.MsgSendV2(&gGameObjects[aRecv->iINDEX], (BYTE*)&ServerCmd, sizeof(ServerCmd));
+			IOCP.DataSend(aRecv->iINDEX, (BYTE*)&ServerCmd, sizeof(ServerCmd));
 		}
 
 		if ( g_bRingEventItemTextLoad )
@@ -920,7 +920,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 	sLog->outBasic("[Mu_2Anv_Event] Register Serial Result : %d [%s][%s]",
 		aRecv->btIsRegistered, gGameObjects[aRecv->iINDEX]->AccountID, gGameObjects[aRecv->iINDEX]->Name);
 
-	IOCP.DataSend(aRecv->iINDEX, (LPBYTE)&Result, Result.h.size);
+	IOCP.DataSend(aRecv->iINDEX, (BYTE*)&Result, Result.h.size);
 
 	gGameObjects[aRecv->iINDEX]->UseEventServer = FALSE;
 }
@@ -1039,7 +1039,7 @@ void EGAnsBloodCastleEnterCount( PMSG_ANS_BLOODCASTLE_ENTERCOUNT* lpMsg)
 	pMsgSend.btEventType = 2;
 	pMsgSend.btLeftEnterCount = lpMsg->iLeftCount;
 
-	IOCP.DataSend(lpMsg->iObjIndex, (LPBYTE)&pMsgSend, sizeof(pMsgSend));
+	IOCP.DataSend(lpMsg->iObjIndex, (BYTE*)&pMsgSend, sizeof(pMsgSend));
 }
 
 
@@ -1247,7 +1247,7 @@ void EGAnsRegLuckyCoin(PMSG_ANS_REG_LUCKYCOIN * lpMsg)
 		return;
 
 	PMSG_ANS_LUCKYCOIN_REGISTER pMsg = {0};
-	PHeadSubSetB((LPBYTE)&pMsg, 0xBF, 0x0C, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xBF, 0x0C, sizeof(pMsg));
 
 	CGameObject lpObj = &gGameObjects[lpMsg->iIndex];
 
@@ -1276,7 +1276,7 @@ void EGAnsRegLuckyCoin(PMSG_ANS_REG_LUCKYCOIN * lpMsg)
 			pMsg.iLuckyCoin = lpMsg->LuckyCoins;
 		}
 	}
-	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 	lpObj.UseEventServer = FALSE;
 }
 
@@ -1286,13 +1286,13 @@ void EGAnsLuckyCoinInfo(PMSG_ANS_LUCKYCOIN *lpMsg)
 		return;
 
 	PMSG_ANS_LUCKYCOININFO pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0xBF, 0x0B, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xBF, 0x0B, sizeof(pMsg));
 	CGameObject lpObj = &gGameObjects[lpMsg->iIndex];
 
 	pMsg.iLuckyCoin = lpMsg->LuckyCoins;
 	lpObj.LuckyCoinCount = lpMsg->LuckyCoins;
 
-	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 	lpObj.UseEventServer = FALSE;
 }
 
@@ -1321,13 +1321,13 @@ void EGAnsSantaCheck(PMSG_ANS_SANTACHECK *lpMsg)
 	}
 }
 
-void EGReqSantaGift(CGameObject &lpObj)
+void EGReqSantaGift(CGameObject &Obj)
 {
 	if(gObjIsConnected(aIndex) == false)
 		return;
 
 	PMSG_REQ_SANTAGIFT pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0xBE, 0x21, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xBE, 0x21, sizeof(pMsg));
 
 	memcpy(pMsg.AccountID, lpObj.AccountID, 11);
 	pMsg.gGameServerCode = g_ConfigRead.server.GetGameServerCode();

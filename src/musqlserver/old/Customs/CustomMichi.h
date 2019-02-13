@@ -28,8 +28,8 @@ public:
 	virtual ~CConfigMichi();
 
 	void LoadPotionHack();
-	void UseHealingPotion(CItemObject * CItemObject, int pos, CGameObject &lpObj);
-	void GCFireworksSend(CGameObject &lpObj, int x, int y);
+	void UseHealingPotion(CItemObject * CItemObject, int pos, CGameObject &Obj);
+	void GCFireworksSend(CGameObject &Obj, int x, int y);
 	bool IsEventItem(int ItemIndex);
 	bool Ex_IsBadFileLine(char *FileLine, int *Flag);
 	int GetNumberByPercent(int Proc, int Min, int Max);

@@ -807,11 +807,11 @@ void CCrywolf::NotifyCrywolfCurrentState()
 {
 	PMSG_ANS_CRYWOLF_INFO pMsg = {0};
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xBD, 0x00, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xBD, 0x00, sizeof(pMsg));
 	pMsg.btOccupationState = this->GetOccupationState();
 	pMsg.btCrywolfState = this->GetCrywolfState();
 
-	UTIL.SendCrywolfUserAnyData((LPBYTE)&pMsg,sizeof(pMsg));
+	UTIL.SendCrywolfUserAnyData((BYTE*)&pMsg,sizeof(pMsg));
 
 }
 
@@ -826,11 +826,11 @@ void CCrywolf::NotifyCrywolfStateLeftTime()
 
 	PMSG_ANS_CRYWOLF_LEFTTIME pMsg = {0};
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xBD, 0x04, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xBD, 0x04, sizeof(pMsg));
 	pMsg.btHour = ( ( this->m_StateTimeInfo[this->GetCrywolfState()].GetLeftTime() / 1000 ) / 60 ) / 24;
 	pMsg.btMinute = ( ( this->m_StateTimeInfo[this->GetCrywolfState()].GetLeftTime() / 1000 ) / 60 );
 
-	UTIL.SendCrywolfUserAnyData((LPBYTE)&pMsg,sizeof(pMsg));
+	UTIL.SendCrywolfUserAnyData((BYTE*)&pMsg,sizeof(pMsg));
 
 }
 
@@ -846,7 +846,7 @@ void CCrywolf::NotifyCrywolfStatueAndAltarInfo()
 
 	PMSG_ANS_CRYWOLF_STATUE_ALTAR_INFO pMsg;
 	
-	PHeadSubSetB((LPBYTE)&pMsg, 0xBD, 0x02, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xBD, 0x02, sizeof(pMsg));
 
 	pMsg.iCrywolfStatueHP = g_CrywolfNPC_Statue.m_Shield.GetHPPercentage();
 	pMsg.btAltarState1 = g_CrywolfNPC_Altar.GetAltarRemainContractCount(205);
@@ -860,7 +860,7 @@ void CCrywolf::NotifyCrywolfStatueAndAltarInfo()
 	pMsg.btAltarState4 |= g_CrywolfNPC_Altar.GetAltarState(208) << 4;
 	pMsg.btAltarState5 |= g_CrywolfNPC_Altar.GetAltarState(209) << 4;
 
-	UTIL.SendCrywolfUserAnyData((LPBYTE)&pMsg,sizeof(pMsg));
+	UTIL.SendCrywolfUserAnyData((BYTE*)&pMsg,sizeof(pMsg));
 
 	for ( int iAltar = 205 ; iAltar <= 209 ; iAltar ++ )
 	{
@@ -892,7 +892,7 @@ void CCrywolf::NotifyCrywolfBossMonsterInfo()
 
 	PMSG_ANS_CRYWOLF_BOSSMONSTER_INFO pMsg;
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xBD, 0x05, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xBD, 0x05, sizeof(pMsg));
 	pMsg.iMonster1HP = -1;
 	pMsg.btMonster2 = 0;
 
@@ -918,7 +918,7 @@ void CCrywolf::NotifyCrywolfBossMonsterInfo()
 		}
 	}
 
-	UTIL.SendCrywolfUserAnyData((LPBYTE)&pMsg,sizeof(pMsg));
+	UTIL.SendCrywolfUserAnyData((BYTE*)&pMsg,sizeof(pMsg));
 
 }
 
@@ -933,10 +933,10 @@ void CCrywolf::NotifyCrywolfStageEffectOnOff(BYTE btOnOff)
 {
 	PMSG_ANS_CRYWOLF_STAGE_EFFECT_ONOFF pMsg = {0};
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xBD, 0x06, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xBD, 0x06, sizeof(pMsg));
 	pMsg.btStageEffectOnOff = btOnOff;
 
-	UTIL.SendCrywolfUserAnyData((LPBYTE)&pMsg,sizeof(pMsg));
+	UTIL.SendCrywolfUserAnyData((BYTE*)&pMsg,sizeof(pMsg));
 }
 
 struct PMSG_ANS_CRYWOLF_PERSONAL_RANK
@@ -950,7 +950,7 @@ void CCrywolf::NotifyCrywolfPersonalRank()
 {
 	PMSG_ANS_CRYWOLF_PERSONAL_RANK pMsg;
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xBD, 0x07, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xBD, 0x07, sizeof(pMsg));
 	pMsg.btRank = 0;
 
 	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
@@ -967,7 +967,7 @@ void CCrywolf::NotifyCrywolfPersonalRank()
 			MsgOutput(i, Lang.GetText(0, 236), pMsg.btRank);
 			MsgOutput(i, Lang.GetText(0, 237), pMsg.iGettingExp);
 
-			IOCP.DataSend(i, (LPBYTE)&pMsg, sizeof(pMsg));
+			IOCP.DataSend(i, (BYTE*)&pMsg, sizeof(pMsg));
 		}
 	}
 }
@@ -1037,9 +1037,9 @@ void CCrywolf::NotifyCrywolfHeroList()
 
 	lpMsg->btCount = iHeroCount;
 
-	PHeadSubSetB((LPBYTE)lpMsg, 0xBD, 0x08, iHeroCount*sizeof(PMSG_ANS_CRYWOLF_HERO_LIST_INFO) + sizeof(PMSG_ANS_CRYWOLF_HERO_LIST_INFO_COUNT));
+	PHeadSubSetB((BYTE*)lpMsg, 0xBD, 0x08, iHeroCount*sizeof(PMSG_ANS_CRYWOLF_HERO_LIST_INFO) + sizeof(PMSG_ANS_CRYWOLF_HERO_LIST_INFO_COUNT));
 
-	UTIL.SendCrywolfUserAnyData((LPBYTE)lpMsg, lpMsg->h.size);
+	UTIL.SendCrywolfUserAnyData((BYTE*)lpMsg, lpMsg->h.size);
 }
 
 

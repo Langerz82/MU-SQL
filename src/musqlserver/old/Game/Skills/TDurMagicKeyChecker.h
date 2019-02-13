@@ -50,7 +50,7 @@ public:
 		}
 	};	// line : 47
 
-	//unsigned char __thiscall DecValidCount(unsigned char);
+	//BYTE __thiscall DecValidCount(BYTE);
 
 	int GetValidDurationTime(BYTE btMagicKey)	// line : 63
 	{

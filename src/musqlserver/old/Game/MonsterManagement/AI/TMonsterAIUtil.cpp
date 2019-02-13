@@ -64,7 +64,7 @@ BOOL TMonsterAIUtil::FindMonViewportObj2(int iObjIndex, int iTargetObjIndex)
 
 
 
-void TMonsterAIUtil::SendMonsterV2Msg(CGameObject &lpObj, LPBYTE lpMsg, int size)
+void TMonsterAIUtil::SendMonsterV2Msg(CGameObject &Obj, BYTE* lpMsg, int size)
 {
 	for ( int i=0;i<MaxViewportMonster;i++)
 	{
@@ -88,7 +88,7 @@ void TMonsterAIUtil::SendMonsterV2Msg(CGameObject &lpObj, LPBYTE lpMsg, int size
 }
 
 
-BOOL TMonsterAIUtil::FindPathToMoveMonster(CGameObject &lpObj, int iTargetX, int iTargetY, int iMaxPathCount, BOOL bPreventOverMoving)
+BOOL TMonsterAIUtil::FindPathToMoveMonster(CGameObject &Obj, int iTargetX, int iTargetY, int iMaxPathCount, BOOL bPreventOverMoving)
 {
 	if ( TMonsterAIUtil::CheckMovingCondition(lpObj)==FALSE)
 		return FALSE;
@@ -168,7 +168,7 @@ BOOL TMonsterAIUtil::FindPathToMoveMonster(CGameObject &lpObj, int iTargetX, int
 
 
 
-BOOL TMonsterAIUtil::CheckMovingCondition(CGameObject &lpObj)
+BOOL TMonsterAIUtil::CheckMovingCondition(CGameObject &Obj)
 {
 	if ( !lpObj.Live )
 		return FALSE;
@@ -191,13 +191,13 @@ BOOL TMonsterAIUtil::CheckMovingCondition(CGameObject &lpObj)
 	return TRUE;
 }
 
-BOOL TMonsterAIUtil::CheckMoveRange(CGameObject &lpObj, int iTargetX, int iTargetY)
+BOOL TMonsterAIUtil::CheckMoveRange(CGameObject &Obj, int iTargetX, int iTargetY)
 {
 	return FALSE;
 }
 
 
-BOOL TMonsterAIUtil::GetXYToPatrol(CGameObject &lpObj)
+BOOL TMonsterAIUtil::GetXYToPatrol(CGameObject &Obj)
 {
 	int maxmoverange = lpObj.m_MoveRange*2+1;
 	int searchc=10;
@@ -230,7 +230,7 @@ BOOL TMonsterAIUtil::GetXYToPatrol(CGameObject &lpObj)
 	return FALSE;
 }
 
-BOOL TMonsterAIUtil::GetXYToEascape(CGameObject &lpObj)
+BOOL TMonsterAIUtil::GetXYToEascape(CGameObject &Obj)
 {
 	int tpx;	// Target Player X
 	int tpy;
@@ -323,7 +323,7 @@ BOOL TMonsterAIUtil::GetXYToEascape(CGameObject &lpObj)
 
 
 
-BOOL TMonsterAIUtil::GetXYToChase(CGameObject &lpObj)
+BOOL TMonsterAIUtil::GetXYToChase(CGameObject &Obj)
 {
 	int tpx;	// Target Player X
 	int tpy;
@@ -412,14 +412,14 @@ BOOL TMonsterAIUtil::GetXYToChase(CGameObject &lpObj)
 
 
 
-BOOL TMonsterAIUtil::SendMonsterMoveMsg(CGameObject &lpObj)
+BOOL TMonsterAIUtil::SendMonsterMoveMsg(CGameObject &Obj)
 {
 	PMSG_RECVMOVE pMove;
 
 #if(ENABLE_SEASON12 == 1)
-	PHeadSetB((LPBYTE)&pMove, HEADCODE_MOVE, sizeof(pMove));
+	PHeadSetB((BYTE*)&pMove, HEADCODE_MOVE, sizeof(pMove));
 #else
-	PHeadSetB((LPBYTE)&pMove, 0xD4, sizeof(pMove));
+	PHeadSetB((BYTE*)&pMove, 0xD4, sizeof(pMove));
 #endif
 
 	pMove.NumberH = SET_NUMBERH(lpObj.m_Index);
@@ -434,7 +434,7 @@ BOOL TMonsterAIUtil::SendMonsterMoveMsg(CGameObject &lpObj)
 		return FALSE;
 	}
 
-	this->SendMonsterV2Msg(lpObj, (LPBYTE)&pMove, pMove.h.size);
+	this->SendMonsterV2Msg(lpObj, (BYTE*)&pMove, pMove.h.size);
 	return TRUE;
 }
 

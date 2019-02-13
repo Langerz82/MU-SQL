@@ -880,7 +880,7 @@ int CItemObjectOptionTypeMng::WingExcOptionGetCount(int ItemKindA, int ItemKindB
 	return ExcOption;
 }
 
-void CItemObjectOptionTypeMng::CalcExcOptionEffect(CGameObject &lpObj)
+void CItemObjectOptionTypeMng::CalcExcOptionEffect(CGameObject &Obj)
 {
 	for (int i = 0; i < INVETORY_WEAR_SIZE; i++)
 	{
@@ -966,7 +966,7 @@ COMMON_EXT_OPTION_TYPE * CItemObjectOptionTypeMng::GetCommonExcOption(int ExcOpt
 	return NULL;
 }
 
-void CItemObjectOptionTypeMng::CalcWingOptionEffect(CGameObject &lpObj)
+void CItemObjectOptionTypeMng::CalcWingOptionEffect(CGameObject &Obj)
 {
 	if (lpObj.pInventory[7].IsItem() == FALSE)
 	{
@@ -1091,7 +1091,7 @@ int CItemObjectOptionTypeMng::_CalcEffectValue(CGameObject lpObj, int iInputValu
 	return iEffectValue;
 }
 
-void CItemObjectOptionTypeMng::_SetOptionEffect(CGameObject &lpObj, BYTE * OptionEffect, int iEffectValue, int iOperator, int iFormulaID, BYTE btItemPos)
+void CItemObjectOptionTypeMng::_SetOptionEffect(CGameObject &Obj, BYTE * OptionEffect, int iEffectValue, int iOperator, int iFormulaID, BYTE btItemPos)
 {
 	this->_SetEffect_Etc(lpObj, OptionEffect[0], iEffectValue, iOperator, iFormulaID, btItemPos);
 	this->_SetEffect_Rate(lpObj, OptionEffect[1], iEffectValue, iOperator, iFormulaID, btItemPos);

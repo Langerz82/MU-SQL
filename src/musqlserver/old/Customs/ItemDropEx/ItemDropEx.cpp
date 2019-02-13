@@ -195,7 +195,7 @@ bool DropEx::IsBlockItem(int ItemID)
 #endif
 // -------------------------------------------------------------------------
 
-bool DropEx::DropItem(CGameObject &lpObj, CGameObject lpTargetObj)
+bool DropEx::DropItem(CGameObject &Obj, CGameObject lpTargetObj)
 {
 	switch (lpObj.Class)
 	{

@@ -510,7 +510,7 @@ BOOL TMonsterAIElement::ApplyElementAttackArea(CGameObject &Obj, int iTargetInde
 		{
 			PMSG_NOTIFY_REGION_MONSTER_ATTACK pMsg;
 
-			PHeadSubSetB((LPBYTE)&pMsg, 0xBD, 0x0C, sizeof(pMsg));
+			PHeadSubSetB((BYTE*)&pMsg, 0xBD, 0x0C, sizeof(pMsg));
 			pMsg.btObjClassH = SET_NUMBERH(lpObj.Class);
 			pMsg.btObjClassL = SET_NUMBERL(lpObj.Class);
 			pMsg.btSourceX = lpObj.X;
@@ -518,7 +518,7 @@ BOOL TMonsterAIElement::ApplyElementAttackArea(CGameObject &Obj, int iTargetInde
 			pMsg.btPointX = iTargetX;
 			pMsg.btPointY = iTargetY;
 
-			IOCP.DataSend(lpTargetObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
+			IOCP.DataSend(lpTargetObj.m_Index, (BYTE*)&pMsg, sizeof(pMsg));
 		}
 
 		if ( iTargetDistance < 6 )
@@ -688,7 +688,7 @@ BOOL TMonsterAIElement::ApplyElementNightmareWarp(CGameObject &Obj, int iTargetI
 
 	PMSG_MAGICATTACK_RESULT pAttack;
 
-	PHeadSetBE((unsigned char *)&pAttack,0x19,sizeof(pAttack));
+	PHeadSetBE((BYTE *)&pAttack,0x19,sizeof(pAttack));
 
 	pAttack.MagicNumberH = HIBYTE(AT_SKILL_TELEPORT);
 	pAttack.MagicNumberL = LOBYTE(AT_SKILL_TELEPORT);
@@ -698,9 +698,9 @@ BOOL TMonsterAIElement::ApplyElementNightmareWarp(CGameObject &Obj, int iTargetI
 	pAttack.TargetNumberL = SET_NUMBERL(Obj.m_Index);
 
 	if ( lpObj.Type == OBJ_USER )
-		IOCP.DataSend(Obj.m_Index,(unsigned char *)&pAttack,pAttack.h.size);
+		IOCP.DataSend(Obj.m_Index,(BYTE *)&pAttack,pAttack.h.size);
 
-	gGameProtocol.MsgSendV2(lpObj,(unsigned char*)&pAttack,pAttack.h.size);
+	gGameProtocol.MsgSendV2(lpObj,(BYTE*)&pAttack,pAttack.h.size);
 
 	gObjTeleportMagicUse(iIndex,x,y);
 	lpObj.TargetNumber = -1;

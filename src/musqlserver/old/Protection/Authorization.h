@@ -214,7 +214,7 @@ public:
 	friend bool CheckAuthThread();
 	
 
-	static void AuthProtocolCore(BYTE protoNum, unsigned char* aRecv, int aLen);
+	static void AuthProtocolCore(BYTE protoNum, BYTE* aRecv, int aLen);
 	void RecvConnResult(PMSG_CONNRESULT *pMsg);
 	void Activate();
 	bool ConnectToAuth();

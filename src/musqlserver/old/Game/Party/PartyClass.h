@@ -76,25 +76,25 @@ public:
 	void Delete();
 
 	BOOL IsParty(int party_number);
-	int Create(CGameObject &lpObj, int dbnumber, int level);
+	int Create(CGameObject &Obj, int dbnumber, int level);
 	BOOL Destroy(int party_number);
-	int Add(int party_number, CGameObject &lpObj, int dbnumber,  int level);
+	int Add(int party_number, CGameObject &Obj, int dbnumber,  int level);
 	void Delete(int party_number, int index);
-	int Delete(int party_number, CGameObject &lpObj, int dbnumber);
+	int Delete(int party_number, CGameObject &Obj, int dbnumber);
 	int GetCount(int party_number);
 	int GetMemberIndex(int index, int number);
 	int RevisionIndexUser(int party_number, BYTE *index, char *szName);
-	int GetIndexUser(int party_number, int index, CGameObject &lpObj,  int& dbnumber);
+	int GetIndexUser(int party_number, int index, CGameObject &Obj,  int& dbnumber);
 	int GetPartyCount(int party_number);
-	int GetIndex(int party_number, CGameObject &lpObj, int dbnumber);
+	int GetIndex(int party_number, CGameObject &Obj, int dbnumber);
 	BOOL SetLevel(int party_number, int level);
 	BOOL GetLevel(int party_number, int& maxlevel, int& minlevel);
-	BOOL Isleader(int party_number, CGameObject &lpObj, int dbnumber);
+	BOOL Isleader(int party_number, CGameObject &Obj, int dbnumber);
 	void Paint(int party_number);
 	void PartyMemberLifeSend(int party_number);
 	void PartyMemberLifeSendS8E3(int party_number);
 	char GetPKPartyPenalty(int party_number);
-	void UpdatePKUserInfo(int party_number, CGameObject &lpObj, int dbnumber, char userPKLevel);
+	void UpdatePKUserInfo(int party_number, CGameObject &Obj, int dbnumber, char userPKLevel);
 	void UpdatePKPartyPanalty(int party_number);
 	void ChangeLeader(int party_number);
 	BOOL EnterITL_PartyAuth(int partynumber, int userindex);
@@ -112,7 +112,7 @@ public:
 	char GetLorenMarketUserCount(int partynumber);
 
 	void ReadBonusInfo(LPSTR File);
-	int GetExpBonus(CGameObject &lpUser, CGameObject lpMonster, int PartyNumber);
+	int GetExpBonus(CGameObject &User, CGameObject lpMonster, int PartyNumber);
 	bool SetLeader(int OldLeader, int NewLeader);
 
 public:

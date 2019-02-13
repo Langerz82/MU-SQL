@@ -103,7 +103,7 @@ void HookSignals();
 
 bool stopEvent = false;                                     ///< Setting it to true stops the server
 
-typedef unsigned char BYTE;
+typedef BYTE BYTE;
 
 bool initDB()
 {

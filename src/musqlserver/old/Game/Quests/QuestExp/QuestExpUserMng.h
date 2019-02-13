@@ -48,7 +48,7 @@ public:
 
     bool IsQuestAccept(DWORD quest_info_index_id, int obj_index);
     bool InventoryExtentCheck(int x, int y, int w, int h);
-    int CheckOutOfInventory(CGameObject &lpObj, int sy, int height);
+    int CheckOutOfInventory(CGameObject &Obj, int sy, int height);
 };
 
 extern QuestExpUserMng g_QuestExpUserMng;

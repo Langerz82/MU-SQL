@@ -69,7 +69,7 @@ void PVPZone::ReadData(char * File)
 }
 // -------------------------------------------------------------------------------
 /*
-bool PVPZone::IsPVPZone(CGameObject &lpUser)
+bool PVPZone::IsPVPZone(CGameObject &User)
 {
 	for (int i = 0; i < this->m_LoadedCount; i++)
 	{

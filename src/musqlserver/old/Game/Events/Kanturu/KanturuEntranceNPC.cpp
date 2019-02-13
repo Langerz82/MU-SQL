@@ -43,7 +43,7 @@ void CKanturuEntranceNPC::NotifyEntranceInfo(CGameObject &Obj)
 {
 	PMSG_ANS_KANTURU_STATE_INFO pMsg = {0};
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xD1, 0x00, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xD1, 0x00, sizeof(pMsg));
 	int iCurrentState = g_Kanturu.GetKanturuState();
 	int iCurrentDetailState = g_Kanturu.GetKanturuDetailState();
 	pMsg.btState = iCurrentState;
@@ -52,7 +52,7 @@ void CKanturuEntranceNPC::NotifyEntranceInfo(CGameObject &Obj)
 	pMsg.btUserCount = g_KanturuBattleUserMng.GetUserCount();
 	pMsg.iRemainTime = g_Kanturu.GetRemainTime();
 
-	KANTURU_UTIL.SendDataToUser(iIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+	KANTURU_UTIL.SendDataToUser(iIndex, (BYTE*)&pMsg, sizeof(pMsg));
 }
 
 

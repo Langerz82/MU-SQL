@@ -205,7 +205,7 @@ BOOL CDoppelGangerMonsterHerd::SetTotalInfo(int iMapNumber, int iRadius, int nPo
 	return TRUE;
 }
 
-void CDoppelGangerMonsterHerd::MonsterBaseAct(CGameObject &lpObj)
+void CDoppelGangerMonsterHerd::MonsterBaseAct(CGameObject &Obj)
 {
 	CGameObject lpTargetObj = NULL;
 
@@ -942,7 +942,7 @@ void CDoppelGanger::ProcDoppelgangerState_End(ULONGLONG i64CurTime)
 		{
 			for (int index = 0; index < MAX_USER_IN_PARTY; index++)
 			{
-				CGameObject &lpObj = gParty.m_PartyS[nPartyNumber].Number[index];
+				CGameObject &Obj = gParty.m_PartyS[nPartyNumber].Number[index];
 
 				if (aIndex >= 0)
 				{
@@ -960,7 +960,7 @@ void CDoppelGanger::ProcDoppelgangerState_End(ULONGLONG i64CurTime)
 		{
 			for (int index = 0; index < MAX_USER_IN_PARTY; index++)
 			{
-				CGameObject &lpObj = gParty.m_PartyS[nPartyNumber].Number[index];
+				CGameObject &Obj = gParty.m_PartyS[nPartyNumber].Number[index];
 
 				if (aIndex >= 0 && lpObj.Connected < PLAYER_PLAYING)
 				{
@@ -976,10 +976,10 @@ void CDoppelGanger::ProcDoppelgangerState_End(ULONGLONG i64CurTime)
 	}
 }
 
-BOOL CDoppelGanger::EnterDoppelgangerEvent(CGameObject &lpObj, BYTE btItemPos)
+BOOL CDoppelGanger::EnterDoppelgangerEvent(CGameObject &Obj, BYTE btItemPos)
 {
 	PMSG_DOPPELGANGER_ENTER_RESULT pResult;
-	PHeadSubSetB((LPBYTE)&pResult, 0xBF, 0x0E, sizeof(pResult));
+	PHeadSubSetB((BYTE*)&pResult, 0xBF, 0x0E, sizeof(pResult));
 
 	pResult.btResult = 0;
 
@@ -1001,7 +1001,7 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(CGameObject &lpObj, BYTE btItemPos)
 	if (this->GetDoppelgangerState() || this->m_bDoppelGangerEnter == false)
 	{
 		pResult.btResult = 2;
-		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size);
 		return FALSE;
 	}
 
@@ -1026,7 +1026,7 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(CGameObject &lpObj, BYTE btItemPos)
 	if (PKFlag == TRUE)
 	{
 		pResult.btResult = 3;
-		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size);
 		return FALSE;
 	}
 
@@ -1038,7 +1038,7 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(CGameObject &lpObj, BYTE btItemPos)
 			lpObj.pInventory[btItemPos].m_Type != ITEMGET(13, 125))
 		{
 			pResult.btResult = 1;
-			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
+			IOCP.DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size);
 			return FALSE;
 		}
 
@@ -1046,14 +1046,14 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(CGameObject &lpObj, BYTE btItemPos)
 			lpObj.pInventory[btItemPos].m_Durability < 1.0)
 		{
 			pResult.btResult = 1;
-			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
+			IOCP.DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size);
 			return FALSE;
 		}
 
 		if (this->AddDoppelgangerUser(aIndex) == FALSE)
 		{
 			pResult.btResult = 2;
-			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
+			IOCP.DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size);
 			return FALSE;
 		}
 
@@ -1079,7 +1079,7 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(CGameObject &lpObj, BYTE btItemPos)
 			}
 		}
 
-		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size);
+		IOCP.DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size);
 		gObjMoveGate(aIndex, this->m_nGateNumber);
 		this->SendMapTileInfo(lpObj, 4);
 
@@ -1089,13 +1089,13 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(CGameObject &lpObj, BYTE btItemPos)
 	return FALSE;
 }
 
-BOOL CDoppelGanger::LeaveDoppelganger(CGameObject &lpObj)
+BOOL CDoppelGanger::LeaveDoppelganger(CGameObject &Obj)
 {
 	this->DelDoppelgangerUser(aIndex);
 	return TRUE;
 }
 
-BOOL CDoppelGanger::AddDoppelgangerUser(CGameObject &lpObj)
+BOOL CDoppelGanger::AddDoppelgangerUser(CGameObject &Obj)
 {
 	EnterCriticalSection(&this->m_critUserData);
 
@@ -1142,7 +1142,7 @@ BOOL CDoppelGanger::AddDoppelgangerUser(CGameObject &lpObj)
 		if (this->m_nPartyNumber > 0)
 		{
 			PMSG_SET_DEVILSQUARE pMsg;
-			PHeadSetB((LPBYTE)&pMsg, 0x92, sizeof(pMsg));
+			PHeadSetB((BYTE*)&pMsg, 0x92, sizeof(pMsg));
 
 			pMsg.Type = 16;
 
@@ -1158,7 +1158,7 @@ BOOL CDoppelGanger::AddDoppelgangerUser(CGameObject &lpObj)
 						IT_MAP_RANGE(gGameObjects[nUserIndex]->MapNumber) == FALSE &&
 						IMPERIAL_MAP_RANGE(gGameObjects[nUserIndex]->MapNumber) == FALSE)
 					{
-						IOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+						IOCP.DataSend(nUserIndex, (BYTE*)&pMsg, pMsg.h.size);
 					}
 				}
 			}
@@ -1172,7 +1172,7 @@ BOOL CDoppelGanger::AddDoppelgangerUser(CGameObject &lpObj)
 	return TRUE;
 }
 
-void CDoppelGanger::DelDoppelgangerUser(CGameObject &lpObj)
+void CDoppelGanger::DelDoppelgangerUser(CGameObject &Obj)
 {
 	EnterCriticalSection(&this->m_critUserData);
 
@@ -1310,7 +1310,7 @@ void CDoppelGanger::SendNoticeMessage(char* lpMsg)
 		{
 			if (gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Connected > PLAYER_LOGGED)
 			{
-				IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (LPBYTE)&pNotice, pNotice.h.size);
+				IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (BYTE*)&pNotice, pNotice.h.size);
 			}
 		}
 	}
@@ -1319,7 +1319,7 @@ void CDoppelGanger::SendNoticeMessage(char* lpMsg)
 void CDoppelGanger::SendDoppelgangerState(BYTE btState)
 {
 	PMSG_DOPPELGANGER_STATE pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0xBF, 0x10, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xBF, 0x10, sizeof(pMsg));
 
 	pMsg.btState = btState;
 
@@ -1329,13 +1329,13 @@ void CDoppelGanger::SendDoppelgangerState(BYTE btState)
 		{
 			if (gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Connected > PLAYER_LOGGED)
 			{
-				IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (LPBYTE)&pMsg, pMsg.h.size);
+				IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (BYTE*)&pMsg, pMsg.h.size);
 			}
 		}
 	}
 }
 
-void CDoppelGanger::PlatformLugardAct(CGameObject &lpNpc, CGameObject lpObj)
+void CDoppelGanger::PlatformLugardAct(CGameObject &Npc, CGameObject lpObj)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -1377,15 +1377,15 @@ void CDoppelGanger::PlatformLugardAct(CGameObject &lpNpc, CGameObject lpObj)
 	}
 
 	PMSG_TALKRESULT pMsg;
-	PHeadSetBE((LPBYTE)&pMsg, 0x30, sizeof(pMsg));
+	PHeadSetBE((BYTE*)&pMsg, 0x30, sizeof(pMsg));
 
 	pMsg.result = 0x23;
 	pMsg.level1 = 0;
 
-	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 }
 
-void CDoppelGanger::MiddleTreasureAct(CGameObject &lpNpc, CGameObject lpObj)
+void CDoppelGanger::MiddleTreasureAct(CGameObject &Npc, CGameObject lpObj)
 {
 	if (lpNpc->m_State == 0)
 	{
@@ -1474,7 +1474,7 @@ void CDoppelGanger::MiddleTreasureAct(CGameObject &lpNpc, CGameObject lpObj)
 	}
 }
 
-void CDoppelGanger::LastTreasureAct(CGameObject &lpNpc, CGameObject lpObj)
+void CDoppelGanger::LastTreasureAct(CGameObject &Npc, CGameObject lpObj)
 {
 	if (lpNpc->m_State == 0)
 	{
@@ -1658,7 +1658,7 @@ void CDoppelGanger::SetIceWorkerRegen(int nPosInfo)
 	this->SendNoticeMessage(Lang.GetText(0,337));
 
 	PMSG_DOPPELGANGER_ICEWORKER_INFO pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0xBF, 0x11, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xBF, 0x11, sizeof(pMsg));
 
 	this->m_i64IceWorkerRegenTime = GetTickCount64();
 	this->m_btIceWorkState = 0;
@@ -1670,7 +1670,7 @@ void CDoppelGanger::SetIceWorkerRegen(int nPosInfo)
 		if (this->m_UserData[Cnt].IsUser() == TRUE &&
 			gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Connected > PLAYER_LOGGED)
 		{
-			IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (BYTE*)&pMsg, pMsg.h.size);
 		}
 	}
 }
@@ -1716,7 +1716,7 @@ BOOL CDoppelGanger::CheckIceWorker()
 
 	this->SendNoticeMessage(Lang.GetText(0,338));
 	PMSG_DOPPELGANGER_ICEWORKER_INFO pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0xBF, 0x11, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xBF, 0x11, sizeof(pMsg));
 
 	pMsg.btIceWorkerState = 1;
 	pMsg.btIceWorkerPos = 0;
@@ -1725,7 +1725,7 @@ BOOL CDoppelGanger::CheckIceWorker()
 	{
 		if (this->m_UserData[Cnt].IsUser() == TRUE && gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Connected > PLAYER_LOGGED)
 		{
-			IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (BYTE*)&pMsg, pMsg.h.size);
 		}
 	}
 
@@ -1766,7 +1766,7 @@ void CDoppelGanger::MonsterHerdStart(int nHerdIndex)
 	}
 }
 
-void CDoppelGanger::CheckDoppelgangerMonsterPos(CGameObject &lpObj)
+void CDoppelGanger::CheckDoppelgangerMonsterPos(CGameObject &Obj)
 {
 	int nPosNum = this->GetDoppelgangerPosIndex(lpObj.X, lpObj.Y);
 	int nLastPos = MAX_DOPPELGANGER_POS_INFO - 1;
@@ -1870,7 +1870,7 @@ int CDoppelGanger::GetDoppelgangerPosIndex(BYTE btX, BYTE btY)
 void CDoppelGanger::SendMonsterGoalCount()
 {
 	PMSG_DOPPELGANGER_GOAL_COUNT pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0xBF, 0x14, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xBF, 0x14, sizeof(pMsg));
 
 	pMsg.btMaxGoalCount = MAX_DOPPELGANGER_MONSTER_IN_PORTAL;
 	pMsg.btCurGoalCount = this->m_nGoalMonsterCnt;
@@ -1879,7 +1879,7 @@ void CDoppelGanger::SendMonsterGoalCount()
 	{
 		if (this->m_UserData[Cnt].IsUser() == TRUE && gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Connected > PLAYER_LOGGED)
 		{
-			IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (BYTE*)&pMsg, pMsg.h.size);
 		}
 	}
 }
@@ -1887,7 +1887,7 @@ void CDoppelGanger::SendMonsterGoalCount()
 void CDoppelGanger::SendDoppelgangerMonsterPos()
 {
 	PMSG_DOPPELGANGER_MONSTER_POS pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0xBF, 0x0F, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xBF, 0x0F, sizeof(pMsg));
 
 	pMsg.btMonsterPos = this->m_btFirstIndex;
 
@@ -1895,7 +1895,7 @@ void CDoppelGanger::SendDoppelgangerMonsterPos()
 	{
 		if (this->m_UserData[Cnt].IsUser() == TRUE && gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Connected > PLAYER_LOGGED)
 		{
-			IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (BYTE*)&pMsg, pMsg.h.size);
 		}
 	}
 }
@@ -1925,7 +1925,7 @@ void CDoppelGanger::SendDoppelgangerUserPos()
 
 	int PacketSize = sizeof(PMSG_DOPPELGANGER_USER_POS) + (sizeof(DOPPELGANGER_USER_POS) * lpMsg->wCount);
 
-	PHeadSubSetB((LPBYTE)lpMsg, 0xBF, 0x12, PacketSize);
+	PHeadSubSetB((BYTE*)lpMsg, 0xBF, 0x12, PacketSize);
 
 	for (int Cnt = 0; Cnt < MAX_DOPPELGANGER_USER_INFO; Cnt++)
 	{
@@ -1936,7 +1936,7 @@ void CDoppelGanger::SendDoppelgangerUserPos()
 	}
 }
 
-void CDoppelGanger::SelfExplosion(CGameObject &lpObj, CMagicInf * lpMagic, int aTargetIndex)
+void CDoppelGanger::SelfExplosion(CGameObject &Obj, CMagicInf * lpMagic, int aTargetIndex)
 {
 	
 
@@ -1983,7 +1983,7 @@ void CDoppelGanger::SelfExplosion(CGameObject &lpObj, CMagicInf * lpMagic, int a
 	}
 }
 
-void CDoppelGanger::AngerKillerAttack(CGameObject &lpObj)
+void CDoppelGanger::AngerKillerAttack(CGameObject &Obj)
 {
 	if (lpObj.X < 0 || lpObj.X > 255)
 	{
@@ -2026,21 +2026,21 @@ void CDoppelGanger::AngerKillerAttack(CGameObject &lpObj)
 	}
 }
 
-void CDoppelGanger::SendDoppelgangerResult(CGameObject &lpObj, BYTE btResult)
+void CDoppelGanger::SendDoppelgangerResult(CGameObject &Obj, BYTE btResult)
 {
 	PMSG_DOPPELGANGER_MISSION_RESULT pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0xBF, 0x13, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xBF, 0x13, sizeof(pMsg));
 
 	pMsg.btMissionResult = btResult;
 	pMsg.dwRewardExp = 0;
 
-	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 }
 
 void CDoppelGanger::SendDoppelgangerResultAll()
 {
 	PMSG_DOPPELGANGER_MISSION_RESULT pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0xBF, 0x13, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xBF, 0x13, sizeof(pMsg));
 
 	if (this->m_nGoalMonsterCnt < MAX_DOPPELGANGER_MONSTER_IN_PORTAL)
 	{
@@ -2058,7 +2058,7 @@ void CDoppelGanger::SendDoppelgangerResultAll()
 	{
 		if (this->m_UserData[Cnt].IsUser() == TRUE && gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Connected == PLAYER_PLAYING)
 		{
-			IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (BYTE*)&pMsg, pMsg.h.size);
 		}
 	}
 
@@ -2084,7 +2084,7 @@ void CDoppelGanger::ArrangeMonsterHerd()
 		this->m_btIceWorkState = 1;
 
 		PMSG_DOPPELGANGER_ICEWORKER_INFO pMsg;
-		PHeadSubSetB((LPBYTE)&pMsg, 0xBF, 0x11, sizeof(pMsg));
+		PHeadSubSetB((BYTE*)&pMsg, 0xBF, 0x11, sizeof(pMsg));
 
 		pMsg.btIceWorkerState = 1;
 		pMsg.btIceWorkerPos = 0;
@@ -2094,7 +2094,7 @@ void CDoppelGanger::ArrangeMonsterHerd()
 			if (this->m_UserData[cnt].IsUser() == TRUE &&
 				gGameObjects[this->m_UserData[cnt]->m_nIndex]->Connected > PLAYER_LOGGED)
 			{
-				IOCP.DataSend(this->m_UserData[cnt].m_nIndex, (LPBYTE)&pMsg, pMsg.h.size);
+				IOCP.DataSend(this->m_UserData[cnt].m_nIndex, (BYTE*)&pMsg, pMsg.h.size);
 			}
 		}
 
@@ -2509,14 +2509,14 @@ BOOL CDoppelGanger::CheckMapTile(int nMapNumber, BYTE btX, BYTE btY)
 	return this->m_PosInfo.CheckStartMapTile(nMapNumber, btX, btY);
 }
 
-void CDoppelGanger::SendMapTileInfo(CGameObject &lpObj, BYTE btMapSetType)
+void CDoppelGanger::SendMapTileInfo(CGameObject &Obj, BYTE btMapSetType)
 {
 	char cTEMP_BUF[256];
 
 	PMSG_SETMAPATTR_COUNT * lpMsg = (PMSG_SETMAPATTR_COUNT *)(cTEMP_BUF);
 	PMSG_SETMAPATTR * lpMsgBody = (PMSG_SETMAPATTR *)(cTEMP_BUF + sizeof(PMSG_SETMAPATTR_COUNT));
 
-	PHeadSetB((LPBYTE)lpMsg, 0x46, sizeof(PMSG_SETMAPATTR_COUNT)+sizeof(PMSG_SETMAPATTR)*2);
+	PHeadSetB((BYTE*)lpMsg, 0x46, sizeof(PMSG_SETMAPATTR_COUNT)+sizeof(PMSG_SETMAPATTR)*2);
 
 	lpMsg->btType = 0;
 	lpMsg->btCount = 1;
@@ -2525,7 +2525,7 @@ void CDoppelGanger::SendMapTileInfo(CGameObject &lpObj, BYTE btMapSetType)
 
 	this->m_PosInfo.GetStartMapAttr(this->m_nMapNumber, &lpMsgBody[0].btX, &lpMsgBody[0].btY, &lpMsgBody[1].btX, &lpMsgBody[1].btY);
 
-	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&cTEMP_BUF, lpMsg->h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&cTEMP_BUF, lpMsg->h.size);
 }
 
 void CDoppelGanger::SendMapTileInfoAll(BYTE btMapSetType)
@@ -2685,7 +2685,7 @@ int CDoppelGanger::GetMiddleBossKill(int nNumber)
 void CDoppelGanger::SendDoppelgangerTimerMsg(BYTE btMsg)
 {
 	PMSG_SET_DEVILSQUARE pMsg;
-	PHeadSetB((LPBYTE)&pMsg, 0x92, sizeof(pMsg));
+	PHeadSetB((BYTE*)&pMsg, 0x92, sizeof(pMsg));
 
 	pMsg.Type = btMsg;
 
@@ -2693,7 +2693,7 @@ void CDoppelGanger::SendDoppelgangerTimerMsg(BYTE btMsg)
 	{
 		if (this->m_UserData[Cnt].IsUser() == TRUE && gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Connected > PLAYER_LOGGED)
 		{
-			IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (BYTE*)&pMsg, pMsg.h.size);
 		}
 	}
 }

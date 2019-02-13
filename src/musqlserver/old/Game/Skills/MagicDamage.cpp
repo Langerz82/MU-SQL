@@ -174,7 +174,7 @@ void CMagicDamage::SetEx(int iSkill, int iSkillUseType, int iSkillBrand, int iKi
 	memcpy(this->m_iRequireStatus[iSkill], pReqStatus, sizeof(this->m_iRequireStatus[iSkill]));	// #error Deathway Fix
 }
 
-void CMagicDamage::Set(char* name, int skill, int damage,  int rlevel,  int mana,  int bp,  int dis, int Attr,  int iSkillType, unsigned char* ReqClass, int rEnergy, int rLeadership, int rdelay, BYTE byItemSkill, BYTE byIsDamage, BYTE byBufIndex)
+void CMagicDamage::Set(char* name, int skill, int damage,  int rlevel,  int mana,  int bp,  int dis, int Attr,  int iSkillType, BYTE* ReqClass, int rEnergy, int rLeadership, int rdelay, BYTE byItemSkill, BYTE byIsDamage, BYTE byBufIndex)
 {
 	if ( skill < 0 || skill > MAX_SKILL -1 )
 	{

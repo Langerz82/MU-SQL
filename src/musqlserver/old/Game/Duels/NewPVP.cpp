@@ -378,7 +378,7 @@ int CNewPVP::Reserve(OBJECTSTRUCT & requester,CGameObject &responsor)
     req.NumberH = HIBYTE(requester.m_Index);
     req.NumberL = LOBYTE(requester.m_Index);
     memcpy(req.szName, requester.Name, MAX_ACCOUNT_LEN);
-    IOCP.DataSend(responsor.m_Index, (LPBYTE)&req, req.h.size);
+    IOCP.DataSend(responsor.m_Index, (BYTE*)&req, req.h.size);
 	return 0;
 }
 
@@ -454,12 +454,12 @@ int CNewPVP::Join(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor)
 	res.NumberH = HIBYTE(requester.m_Index);
 	res.NumberL = LOBYTE(requester.m_Index);
 	memcpy(res.szName, requester.Name, MAX_ACCOUNT_LEN);
-	IOCP.DataSend(responsor.m_Index, (LPBYTE)&res,res.h.size);
+	IOCP.DataSend(responsor.m_Index, (BYTE*)&res,res.h.size);
 
 	res.NumberH = HIBYTE(responsor.m_Index);
 	res.NumberL = LOBYTE(responsor.m_Index);
 	memcpy(res.szName, responsor.Name, MAX_ACCOUNT_LEN);
-	IOCP.DataSend(requester.m_Index, (LPBYTE)&res, res.h.size);
+	IOCP.DataSend(requester.m_Index, (BYTE*)&res, res.h.size);
 	
 	BroadcastScore(nId, 1);
 	MoveGate(requester.m_Index, g_GateRequester[nId]);
@@ -500,8 +500,8 @@ void CNewPVP::Cancel(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor, BOOL bSen
 		memcpy(res.szName, responsor.Name, MAX_ACCOUNT_LEN);
 		res.nResult = 0x0F;
       
-		if( gObjIsConnected(&requester) )	IOCP.DataSend(requester.m_Index, (LPBYTE)&res,res.h.size);
-		if( gObjIsConnected(&responsor) )	IOCP.DataSend(responsor.m_Index, (LPBYTE)&res, res.h.size);
+		if( gObjIsConnected(&requester) )	IOCP.DataSend(requester.m_Index, (BYTE*)&res,res.h.size);
+		if( gObjIsConnected(&responsor) )	IOCP.DataSend(responsor.m_Index, (BYTE*)&res, res.h.size);
     }
 }
 
@@ -547,7 +547,7 @@ void CNewPVP::Leave(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor)
         res.NumberL = LOBYTE(responsor.m_Index);
         memcpy(res.szName, responsor.Name, MAX_ACCOUNT_LEN);
 
-        IOCP.DataSend(requester.m_Index, (LPBYTE)&res, res.h.size);
+        IOCP.DataSend(requester.m_Index, (BYTE*)&res, res.h.size);
         
 		if( IsPKFieldMap(requester.MapNumber) )
 		{
@@ -562,7 +562,7 @@ void CNewPVP::Leave(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor)
         res.NumberL = LOBYTE(responsor.m_Index);
         memcpy(res.szName, requester.Name, MAX_ACCOUNT_LEN);
         
-		IOCP.DataSend(responsor.m_Index, (LPBYTE)&res, res.h.size);
+		IOCP.DataSend(responsor.m_Index, (BYTE*)&res, res.h.size);
         
 		if( IsPKFieldMap(responsor.MapNumber) )
 		{
@@ -680,7 +680,7 @@ void CNewPVP::SetBuff(CGameObject &Obj, BOOL bUse)
 
 BOOL CNewPVP::SendChannelList(OBJECTSTRUCT &npc, CGameObject &Obj)
 {
-	IOCP.DataSend(obj.m_Index, (LPBYTE)&m_DuelChannelList, m_DuelChannelList.h.size);
+	IOCP.DataSend(obj.m_Index, (BYTE*)&m_DuelChannelList, m_DuelChannelList.h.size);
 	return FALSE;
 }
 
@@ -881,7 +881,7 @@ int CNewPVP::JoinChannel(int nId,CGameObject &Obj)
     res.NumberL2 = LOBYTE(responsor.m_Index);
     memcpy(res.szName1, requester.Name, MAX_ACCOUNT_LEN);
     memcpy(res.szName2, responsor.Name, MAX_ACCOUNT_LEN);
-    IOCP.DataSend(obj.m_Index, (LPBYTE)&res,res.h.size);
+    IOCP.DataSend(obj.m_Index, (BYTE*)&res,res.h.size);
 
 	PMSG_DUEL_OBSERVERLIST_BROADCAST Msg = {0};
 	Msg.h.c = 0xC1;
@@ -891,7 +891,7 @@ int CNewPVP::JoinChannel(int nId,CGameObject &Obj)
 
 	GetObserverList(nId, Msg);
 
-	IOCP.DataSend(obj.m_Index, (LPBYTE)&Msg, Msg.h.size);
+	IOCP.DataSend(obj.m_Index, (BYTE*)&Msg, Msg.h.size);
 
 	if( Msg.nCount!=m_ObserverCount[nId] )
     {
@@ -940,7 +940,7 @@ int CNewPVP::LeaveChannel(int nId,CGameObject &Obj)
 		res.h.subcode = 0x09;
 		res.h.size = sizeof(PMSG_ANS_DUEL_LEAVECNANNEL);
 		res.nResult = 0x00;		
-		IOCP.DataSend(obj.m_Index, (LPBYTE)&res, res.h.size);
+		IOCP.DataSend(obj.m_Index, (BYTE*)&res, res.h.size);
           
 		if( IsPKFieldMap(obj.MapNumber) )
 		{
@@ -985,7 +985,7 @@ void CNewPVP::LeaveChannelObserver(int nId)
 		ObserverInfo & info = iter->second;		
 		if(info.nId == nId)
 		{
-			CGameObject &lpObj = (CGameObjectECTSTRUCT)&gGameObjects[info.nIndex];
+			CGameObject &Obj = (CGameObjectECTSTRUCT)&gGameObjects[info.nIndex];
 
 			if( IsPKFieldMap(lpObj.MapNumber) )
 			{
@@ -1052,12 +1052,12 @@ void CNewPVP::BroadcastScore(int nId, BYTE nFlag)
       
 	if( (nFlag & 1) == 1 )
     {
-		IOCP.DataSend(requester.m_Index, (LPBYTE)&res, res.h.size);
-        IOCP.DataSend(responsor.m_Index, (LPBYTE)&res, res.h.size);
+		IOCP.DataSend(requester.m_Index, (BYTE*)&res, res.h.size);
+        IOCP.DataSend(responsor.m_Index, (BYTE*)&res, res.h.size);
     }
 	if( (nFlag & 2) == 2 )
 	{
-        BroadcastToObserver(nId, (LPBYTE)&res, res.h.size);
+        BroadcastToObserver(nId, (BYTE*)&res, res.h.size);
 	}
 }
 
@@ -1080,12 +1080,12 @@ void CNewPVP::BroadcastResult(int nId, BYTE nFlag, CGameObject &Obj)
 	
 	if( (nFlag & 1) == 1 )
 	{
-		IOCP.DataSend(obj.m_Index, (LPBYTE)&res, res.h.size);
-		IOCP.DataSend(targetObj.m_Index, (LPBYTE)&res, res.h.size);
+		IOCP.DataSend(obj.m_Index, (BYTE*)&res, res.h.size);
+		IOCP.DataSend(targetObj.m_Index, (BYTE*)&res, res.h.size);
     }
 	if( (nFlag & 2) == 2 )
 	{
-		BroadcastToObserver(nId, (LPBYTE)&res,res.h.size);
+		BroadcastToObserver(nId, (BYTE*)&res,res.h.size);
 	}
 }
 
@@ -1143,12 +1143,12 @@ void CNewPVP::BroadcastDuelInfo(int nId, BYTE nFlag)
 	
 	if( (nFlag & 1) == 1 )
 	{
-		IOCP.DataSend(requester.m_Index, (LPBYTE)&res, res.h.size);
-		IOCP.DataSend(responsor.m_Index, (LPBYTE)&res, res.h.size);
+		IOCP.DataSend(requester.m_Index, (BYTE*)&res, res.h.size);
+		IOCP.DataSend(responsor.m_Index, (BYTE*)&res, res.h.size);
 	}
 	if( (nFlag & 2) == 2 )
 	{
-		BroadcastToObserver(nId, (LPBYTE)&res, res.h.size);
+		BroadcastToObserver(nId, (BYTE*)&res, res.h.size);
 	}
 }
 
@@ -1163,7 +1163,7 @@ void CNewPVP::BroadcastJoinChannel(int nId, CGameObject &Obj)
     res.h.subcode = 0x08;
 	res.h.size = sizeof(PMSG_DUEL_JOINCNANNEL_BROADCAST);
     memcpy(res.szName, obj.Name, MAX_ACCOUNT_LEN);
-    BroadcastToObserver(nId, (LPBYTE)&res, res.h.size);
+    BroadcastToObserver(nId, (BYTE*)&res, res.h.size);
 }
 
 void CNewPVP::BroadcastLeaveChannel(int nId, CGameObject &Obj)
@@ -1177,7 +1177,7 @@ void CNewPVP::BroadcastLeaveChannel(int nId, CGameObject &Obj)
     res.h.subcode = 0x0A;
 	res.h.size = sizeof(PMSG_DUEL_LEAVECNANNEL_BROADCAST);
     memcpy(res.szName, obj.Name, MAX_ACCOUNT_LEN);
-    BroadcastToObserver(nId, (LPBYTE)&res,res.h.size);
+    BroadcastToObserver(nId, (BYTE*)&res,res.h.size);
 }
 
 void CNewPVP::BroadcastToObserver( int nId, BYTE *lpData, int nSize)
@@ -1229,12 +1229,12 @@ void CNewPVP::BroadcastMessage( int nId, BYTE nFlag, BYTE nMsgType, int nNotifyS
 
 	if( (nFlag & 1) == 1 )
     {
-		if( gObjIsConnected(&requester) )	IOCP.DataSend(requester.m_Index, (LPBYTE)&res,res.h.size);
-		if( gObjIsConnected(&responsor) )	IOCP.DataSend(responsor.m_Index, (LPBYTE)&res,res.h.size);
+		if( gObjIsConnected(&requester) )	IOCP.DataSend(requester.m_Index, (BYTE*)&res,res.h.size);
+		if( gObjIsConnected(&responsor) )	IOCP.DataSend(responsor.m_Index, (BYTE*)&res,res.h.size);
     }
 	if( (nFlag & 2) == 2 )
 	{
-      BroadcastToObserver(nId, (LPBYTE)&res, res.h.size);
+      BroadcastToObserver(nId, (BYTE*)&res, res.h.size);
 	}
 }
 
@@ -1254,16 +1254,16 @@ void CNewPVP::BroadcastRound(int nId, BYTE nFlag, BOOL bEnd)
 
     if( (nFlag & 1) == 1 )
     {
-		IOCP.DataSend(requester.m_Index,(LPBYTE)&res,res.h.size);
-		IOCP.DataSend(responsor.m_Index, (LPBYTE)&res, res.h.size);
+		IOCP.DataSend(requester.m_Index,(BYTE*)&res,res.h.size);
+		IOCP.DataSend(responsor.m_Index, (BYTE*)&res, res.h.size);
     }
     if( (nFlag & 2) == 2 )
 	{
-		BroadcastToObserver(nId, (LPBYTE)&res,res.h.size);
+		BroadcastToObserver(nId, (BYTE*)&res,res.h.size);
 	}
 }
 
-BOOL CNewPVP::CheckPKPenalty(CGameObject &lpObj)
+BOOL CNewPVP::CheckPKPenalty(CGameObject &Obj)
 {
 	if( !g_ConfigRead.pk.bPkPenaltyDisable )
 	{
@@ -1283,7 +1283,7 @@ BOOL CNewPVP::CheckPKPenalty(CGameObject &lpObj)
 	return FALSE;
 }
 
-BOOL CNewPVP::IsSelfDefense(CGameObject &lpObj)
+BOOL CNewPVP::IsSelfDefense(CGameObject &Obj)
 {
 	BOOL bRetVal = FALSE;
 	for ( int i = 0; i < MAX_SELF_DEFENSE; i++ )
@@ -1297,7 +1297,7 @@ BOOL CNewPVP::IsSelfDefense(CGameObject &lpObj)
 	return bRetVal;
 }
 
-BOOL CNewPVP::IsGuildWar(CGameObject &lpObj)
+BOOL CNewPVP::IsGuildWar(CGameObject &Obj)
 {
 	if( lpObj.m_PlayerData->lpGuild && 
 		lpObj.m_PlayerData->lpGuild->WarState == 1)
@@ -1307,7 +1307,7 @@ BOOL CNewPVP::IsGuildWar(CGameObject &lpObj)
 	return FALSE;
 }
 
-BOOL CNewPVP::DropItem(CGameObject &lpObj, CGameObjectECTSTRUCT lpMonsterObj)
+BOOL CNewPVP::DropItem(CGameObject &Obj, CGameObjectECTSTRUCT lpMonsterObj)
 {
 	if( !IsVulcanusMap(lpObj.MapNumber) ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","IsVulcanusMap(lpObj.MapNumber)","FALSE","NULL",__FILE__,  __LINE__); return FALSE; }
 	if( m_bNewPVP != TRUE){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","m_bNewPVP==TRUE","FALSE","NULL", __FILE__,  __LINE__); return FALSE; }

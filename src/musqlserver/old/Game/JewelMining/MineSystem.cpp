@@ -180,7 +180,7 @@ void CMineSystem::LoadMineingDropScript()
 	}
 }
 
-void CMineSystem::CheckIsUPTUserWhenDisconnected(CGameObject &lpObj)
+void CMineSystem::CheckIsUPTUserWhenDisconnected(CGameObject &Obj)
 { 
 	std::map<int, _ST_MINESYSTEM_TWINKLE>::iterator it = this->m_mapTwinkle.begin();
 
@@ -210,7 +210,7 @@ void CMineSystem::CheckIsUPTUserWhenDisconnected(CGameObject &lpObj)
 	this->ResetTwinkleInfo(aIndex, it->second.wTwinkleIndex, 0);
 }
 
-void CMineSystem::CheckIsUPTUserWhenConnect(CGameObject &lpObj)
+void CMineSystem::CheckIsUPTUserWhenConnect(CGameObject &Obj)
 {
 	if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 	{
@@ -218,7 +218,7 @@ void CMineSystem::CheckIsUPTUserWhenConnect(CGameObject &lpObj)
 	}
 
 	SDHP_REQ_LOAD_MINESYSTEM_UPT_USERINFO pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x4C, 0x01, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x4C, 0x01, sizeof(pMsg));
 	
 	memcpy(pMsg.szCharName, lpObj.Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.wUserIndex = aIndex;
@@ -226,7 +226,7 @@ void CMineSystem::CheckIsUPTUserWhenConnect(CGameObject &lpObj)
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CMineSystem::GiveRewardItemToUPTUser(CGameObject &lpObj, WORD wTwinkleType, int iStage)
+void CMineSystem::GiveRewardItemToUPTUser(CGameObject &Obj, WORD wTwinkleType, int iStage)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -251,7 +251,7 @@ void CMineSystem::GiveRewardItemToUPTUser(CGameObject &lpObj, WORD wTwinkleType,
 	}
 }
 
-void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, CGameObject &lpObj)
+void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, CGameObject &Obj)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -328,7 +328,7 @@ void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, CGameObject &lpObj)
 			}
 
 			PMSG_ANS_MINETWINKLE pMsg;
-			PHeadSubSetB((LPBYTE)&pMsg, 0x4C, 0x00, sizeof(pMsg));
+			PHeadSubSetB((BYTE*)&pMsg, 0x4C, 0x00, sizeof(pMsg));
 
 			pMsg.wUserIndex = it->second.wUserIndex;
 			pMsg.wTwinkleIndex = it->second.wTwinkleIndex;
@@ -338,7 +338,7 @@ void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, CGameObject &lpObj)
 			pMsg.iRewardJewelNumber = iRewardJewelNumber;
 			pMsg.iResult = iMineResult;
 
-			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 		}
 
 		else
@@ -347,7 +347,7 @@ void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, CGameObject &lpObj)
 				lpObj.AccountID, lpObj.Name, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 			PMSG_ANS_MINETWINKLE pMsg;
-			PHeadSubSetB((LPBYTE)&pMsg, 0x4C, 0x00, sizeof(pMsg));
+			PHeadSubSetB((BYTE*)&pMsg, 0x4C, 0x00, sizeof(pMsg));
 
 			pMsg.wUserIndex = it->second.wUserIndex;
 			pMsg.wTwinkleIndex = it->second.wTwinkleIndex;
@@ -357,7 +357,7 @@ void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, CGameObject &lpObj)
 			pMsg.iRewardJewelNumber = iRewardJewelNumber;
 			pMsg.iResult = 18;
 
-			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 		}
 	}
 
@@ -366,7 +366,7 @@ void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, CGameObject &lpObj)
 		if (iMineResult != 20 && iMineResult != 7 && iMineResult != 14)
 		{
 			PMSG_ANS_MINETWINKLE pMsg;
-			PHeadSubSetB((LPBYTE)&pMsg, 0x4C, 0x00, sizeof(pMsg));
+			PHeadSubSetB((BYTE*)&pMsg, 0x4C, 0x00, sizeof(pMsg));
 
 			std::map<int, _ST_MINESYSTEM_TWINKLE>::iterator itError = this->m_mapTwinkle.find(lpMsg->wTwinkleIndex);
 
@@ -391,12 +391,12 @@ void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, CGameObject &lpObj)
 			pMsg.iRewardJewelNumber = iRewardJewelNumber;
 			pMsg.iResult = iMineResult;
 
-			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 		}
 	}
 }
 
-void CMineSystem::RewardMineTwinkle(PMSG_REQ_MINETWINKLE_REWARD *lpMsg, CGameObject &lpObj)
+void CMineSystem::RewardMineTwinkle(PMSG_REQ_MINETWINKLE_REWARD *lpMsg, CGameObject &Obj)
 {
 	int iRewardResult = 0;
 
@@ -406,10 +406,10 @@ void CMineSystem::RewardMineTwinkle(PMSG_REQ_MINETWINKLE_REWARD *lpMsg, CGameObj
 			return;
 
 		PMSG_ANS_MINETWINKLE_REWARD pMsg;
-		PHeadSubSetB((LPBYTE)&pMsg, 0x4C, 0x01, sizeof(pMsg));
+		PHeadSubSetB((BYTE*)&pMsg, 0x4C, 0x01, sizeof(pMsg));
 
 		pMsg.iResult = iRewardResult;
-		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 	}
 
 	std::map<int, _ST_MINESYSTEM_TWINKLE>::iterator it = this->m_mapTwinkle.find(lpMsg->wTwinkleIndex);
@@ -421,13 +421,13 @@ void CMineSystem::RewardMineTwinkle(PMSG_REQ_MINETWINKLE_REWARD *lpMsg, CGameObj
 			if (it->second.iCurrentStage == 5)
 			{
 				PMSG_SERVERCMD ServerCmd;
-				PHeadSubSetB((LPBYTE)&ServerCmd, 0xF3, 0x40, sizeof(ServerCmd));
+				PHeadSubSetB((BYTE*)&ServerCmd, 0xF3, 0x40, sizeof(ServerCmd));
 
 				ServerCmd.CmdType = 0;
 				ServerCmd.X = lpObj.X;
 				ServerCmd.Y = lpObj.Y;
-				gGameProtocol.MsgSendV2(&gGameObjects[aIndex], (LPBYTE)&ServerCmd, sizeof(ServerCmd));
-				IOCP.DataSend(lpObj.m_Index, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
+				gGameProtocol.MsgSendV2(&gGameObjects[aIndex], (BYTE*)&ServerCmd, sizeof(ServerCmd));
+				IOCP.DataSend(lpObj.m_Index, (BYTE*)&ServerCmd, sizeof(ServerCmd));
 			}
 
 			iRewardResult = 3;
@@ -444,7 +444,7 @@ void CMineSystem::RewardMineTwinkle(PMSG_REQ_MINETWINKLE_REWARD *lpMsg, CGameObj
 	}
 
 	PMSG_ANS_MINETWINKLE_REWARD pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x4C, 0x01, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x4C, 0x01, sizeof(pMsg));
 
 	pMsg.wUserIndex = it->second.wUserIndex;
 	pMsg.wTwinkleIndex = it->second.wTwinkleIndex;
@@ -453,11 +453,11 @@ void CMineSystem::RewardMineTwinkle(PMSG_REQ_MINETWINKLE_REWARD *lpMsg, CGameObj
 	pMsg.byCurrentStage = it->second.iCurrentStage;
 	pMsg.iResult = iRewardResult;
 
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 	this->ResetTwinkleInfo(aIndex, lpMsg->wTwinkleIndex, 0);
 }
 
-void CMineSystem::FailMineTwinkle(PMSG_ANS_MINETWINKLE_END_ANIMATION *lpMsg, CGameObject &lpObj, bool bError)
+void CMineSystem::FailMineTwinkle(PMSG_ANS_MINETWINKLE_END_ANIMATION *lpMsg, CGameObject &Obj, bool bError)
 {
 	std::map<int, _ST_MINESYSTEM_TWINKLE>::iterator it = this->m_mapTwinkle.find(lpMsg->wTwinkleIndex);
 
@@ -482,10 +482,10 @@ void CMineSystem::FailMineTwinkle(PMSG_ANS_MINETWINKLE_END_ANIMATION *lpMsg, CGa
 	}
 }
 
-void CMineSystem::RequestDBToModifyUPTUserInfo(CGameObject &lpObj, char *szCharName, WORD wTwinkleType, int iCurrentStage, BYTE byRequestType)
+void CMineSystem::RequestDBToModifyUPTUserInfo(CGameObject &Obj, char *szCharName, WORD wTwinkleType, int iCurrentStage, BYTE byRequestType)
 {
 	SDHP_REQ_MINESYSTEM_UPT_USERINFO pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x4C, 0x00, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x4C, 0x00, sizeof(pMsg));
 
 	memcpy(pMsg.szCharName, szCharName, MAX_ACCOUNT_LEN + 1);
 	pMsg.wUserIndex = aIndex;
@@ -538,7 +538,7 @@ void CMineSystem::GDAnsLoadMineSystemUPTUserInfo(SDHP_ANS_LOAD_MINESYSTEM_UPT_US
 	}
 }
 
-BOOL CMineSystem::CheckMoveMapWhileMining(CGameObject &lpObj)
+BOOL CMineSystem::CheckMoveMapWhileMining(CGameObject &Obj)
 {
 	std::map<int, _ST_MINESYSTEM_TWINKLE>::iterator it = this->m_mapTwinkle.begin();
 
@@ -552,14 +552,14 @@ BOOL CMineSystem::CheckMoveMapWhileMining(CGameObject &lpObj)
 		if (it->second.wUserIndex == aIndex)
 		{
 			PMSG_ANS_MINETWINKLE_CANCEL pMsg;
-			PHeadSubSetB((LPBYTE)&pMsg, 0x4C, 0x02, sizeof(pMsg));
+			PHeadSubSetB((BYTE*)&pMsg, 0x4C, 0x02, sizeof(pMsg));
 			pMsg.wUserIndex = it->second.wUserIndex;
 			pMsg.wTwinkleIndex = it->second.wTwinkleIndex;
 			pMsg.wTwinkleType = it->second.wTwinkleType;
 			pMsg.byMapNumber = it->second.byMapNumber;
 			pMsg.byCurrentStage = it->second.iCurrentStage;
 
-			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 
 			this->GiveRewardItem(aIndex, it->second.wTwinkleType, it->second.iCurrentStage, 1);
 			this->ResetTwinkleInfo(aIndex, it->second.wTwinkleIndex, 0);
@@ -623,7 +623,7 @@ void CMineSystem::SetTwinklesInfo()
 	}
 }
 
-void CMineSystem::SetTwinkleInfo(CGameObject &lpObj)
+void CMineSystem::SetTwinkleInfo(CGameObject &Obj)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -690,7 +690,7 @@ BOOL CMineSystem::IsTwinkle(WORD wClass)
 	return wClass >= 605 && wClass <= 607;
 }
 
-BOOL CMineSystem::IsEquipPickax(CGameObject &lpObj)
+BOOL CMineSystem::IsEquipPickax(CGameObject &Obj)
 {
 	return lpObj.pInventory[0].m_Type == ITEMGET(0, 41);
 }
@@ -700,7 +700,7 @@ BOOL CMineSystem::IsPickax(WORD wItemType)
 	return wItemType == ITEMGET(0, 41);
 }
 
-void CMineSystem::ResetTwinkleInfo(CGameObject &lpObj, WORD wTwinkleIndex, bool bFailMining)
+void CMineSystem::ResetTwinkleInfo(CGameObject &Obj, WORD wTwinkleIndex, bool bFailMining)
 {
 	std::map<int, _ST_MINESYSTEM_TWINKLE>::iterator it = this->m_mapTwinkle.find(wTwinkleIndex);
 
@@ -724,7 +724,7 @@ void CMineSystem::ResetTwinkleInfo(CGameObject &lpObj, WORD wTwinkleIndex, bool 
 	lpObj.m_PlayerData->m_bIsMining = false;
 }
 
-BOOL CMineSystem::CheckValidationMineState(CGameObject &lpObj, WORD wTwinkleIndex, WORD wTwinkleType, BYTE byMapNumber, WORD wUserIndex, int *iResult, bool bRewardCheck)
+BOOL CMineSystem::CheckValidationMineState(CGameObject &Obj, WORD wTwinkleIndex, WORD wTwinkleType, BYTE byMapNumber, WORD wUserIndex, int *iResult, bool bRewardCheck)
 {
 	int iEmptyInvenSize = 0;
 
@@ -996,7 +996,7 @@ BOOL CMineSystem::CheckValidationMineState(CGameObject &lpObj, WORD wTwinkleInde
 	return TRUE;
 }
 
-BOOL CMineSystem::GiveRewardItem(CGameObject &lpObj, WORD wTwinkleType, int iStage, int bNotify)
+BOOL CMineSystem::GiveRewardItem(CGameObject &Obj, WORD wTwinkleType, int iStage, int bNotify)
 {
 	if (lpObj.Type != OBJ_USER || lpObj.Connected != PLAYER_PLAYING)
 	{

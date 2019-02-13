@@ -399,7 +399,7 @@ int CMagicInf::UpdateMasterSkill(int iSkill, BYTE btLevel)
 	return this->m_Skill;
 }
 
-void MagicByteConvert(unsigned char* buf, CMagicInf* const Magici, int maxmagic)
+void MagicByteConvert(BYTE* buf, CMagicInf* const Magici, int maxmagic)
 {
 	int n=0;
 

@@ -476,8 +476,8 @@ inline bool ObjectListCheck()
 	// We have the information we need
 	pObjectAllInfo = (POBJECT_ALL_INFORMATION)pMemory;
 
-	unsigned char *pObjInfoLocation = 
-		(unsigned char*)pObjectAllInfo->ObjectTypeInformation;
+	BYTE *pObjInfoLocation = 
+		(BYTE*)pObjectAllInfo->ObjectTypeInformation;
 
 	ULONG NumObjects = pObjectAllInfo->NumberOfObjects;
 
@@ -506,7 +506,7 @@ inline bool ObjectListCheck()
 		// Get the address of the current entries
 		// string so we can find the end
 		pObjInfoLocation = 
-			(unsigned char*)pObjectTypeInfo->TypeName.Buffer;
+			(BYTE*)pObjectTypeInfo->TypeName.Buffer;
 
 		// Add the size
 		pObjInfoLocation += 
@@ -516,7 +516,7 @@ inline bool ObjectListCheck()
 		ULONG tmp = ((ULONG)pObjInfoLocation) & -4;
 
 		// Not pretty but it works
-		pObjInfoLocation = ((unsigned char*)tmp) + 
+		pObjInfoLocation = ((BYTE*)tmp) + 
 						sizeof(unsigned long);
 	}
 

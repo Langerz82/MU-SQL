@@ -19,21 +19,21 @@ public:
 	static void MakeNoticeMsgEx(void * lpNotice, BYTE btType, LPSTR szNoticeMsg, ...);
 	static void SetNoticeProperty(void * lpNotice, BYTE btType, DWORD dwColor, BYTE btCount, WORD wDelay, BYTE btSpeed);
 	static void SendNoticeToAllUser(void * lpNotice);
-	static void SendNoticeToUser(CGameObject &lpObj, void * lpNotice);
+	static void SendNoticeToUser(CGameObject &Obj, void * lpNotice);
 	static void AllSendServerMsg(LPSTR chatmsg);
-	static void GCServerMsgStringSend(LPSTR szMsg, CGameObject &lpObj, BYTE type);
+	static void GCServerMsgStringSend(LPSTR szMsg, CGameObject &Obj, BYTE type);
 
 	TNotice(BYTE btType);
 
-	void __cdecl SendToUser(CGameObject &lpObj, LPSTR szMsg, ...);
+	void __cdecl SendToUser(CGameObject &Obj, LPSTR szMsg, ...);
 	void __cdecl SendToAllUser(LPSTR szMsg, ...);
 
 	// Dont have prefix
-	//void __thiscall SetSpeed(unsigned char);
+	//void __thiscall SetSpeed(BYTE);
 	//void __thiscall SetColor(unsigned long);
-	//void __thiscall SetCount(unsigned char);
+	//void __thiscall SetCount(BYTE);
 	//void __thiscall SetDelay(unsigned short);
-	//void __thiscall SetType(unsigned char);
+	//void __thiscall SetType(BYTE);
 
 	PMSG_NOTICE m_Notice;
 };

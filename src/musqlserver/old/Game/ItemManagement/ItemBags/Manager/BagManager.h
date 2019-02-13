@@ -102,12 +102,12 @@ public:
 	bool AddItemBag(int BagType, int iParam1, int iParam2, const char* lpFileName);
 	void DeleteItemBags();
 
-	bool IsBag(CGameObject &lpObj, int BagType, int iParam1, int iParam2);
-	bool SearchAndUseBag(CGameObject &lpObj, int BagType, int iParam1, int iParam2);
-	int GetItemFromBag(CGameObject &lpObj, int BagType, int iParam1, int iParam2, CItemObject & Item, time_t & DurationItem);
-	bool UseBag_GremoryCase(CGameObject &lpObj, int BagType, int iParam1, int iParam2, BYTE btStorageType, BYTE btRewardSource, int iExpireDays);
+	bool IsBag(CGameObject &Obj, int BagType, int iParam1, int iParam2);
+	bool SearchAndUseBag(CGameObject &Obj, int BagType, int iParam1, int iParam2);
+	int GetItemFromBag(CGameObject &Obj, int BagType, int iParam1, int iParam2, CItemObject & Item, time_t & DurationItem);
+	bool UseBag_GremoryCase(CGameObject &Obj, int BagType, int iParam1, int iParam2, BYTE btStorageType, BYTE btRewardSource, int iExpireDays);
 
-	void AddCashCoin(CGameObject &lpObj, int BagType, int iParam1, int iParam2);
+	void AddCashCoin(CGameObject &Obj, int BagType, int iParam1, int iParam2);
 
 	std::multimap<int, CBag*>	m_multimapBags;
 	CRITICAL_SECTION m_criti;

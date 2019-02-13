@@ -28,7 +28,7 @@ CPersonalStore::~CPersonalStore()
 
 }
 
-void CPersonalStore::CGPShopReqSetItemPrice(PMSG_REQ_PSHOP_SETITEMPRICE * lpMsg, CGameObject &lpObj)
+void CPersonalStore::CGPShopReqSetItemPrice(PMSG_REQ_PSHOP_SETITEMPRICE * lpMsg, CGameObject &Obj)
 {
 
 	if (gDoPShopOpen == FALSE)
@@ -113,19 +113,19 @@ void CPersonalStore::CGPShopReqSetItemPrice(PMSG_REQ_PSHOP_SETITEMPRICE * lpMsg,
 
 
 
-void CPersonalStore::CGPShopAnsSetItemPrice(CGameObject &lpObj, BYTE btResult, BYTE btItemPos)
+void CPersonalStore::CGPShopAnsSetItemPrice(CGameObject &Obj, BYTE btResult, BYTE btItemPos)
 {
 	PMSG_ANS_PSHOP_SETITEMPRICE pMsg;
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0x3F, 0x01, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x3F, 0x01, sizeof(pMsg));
 	pMsg.btResult = btResult;
 	pMsg.btItemPos = btItemPos;
 
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 }
 
 
-void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, CGameObject &lpObj)
+void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, CGameObject &Obj)
 {
 	if (::gDoPShopOpen == FALSE)
 		return;
@@ -261,13 +261,13 @@ void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, CGameObject &lp
 
 			PMSG_ANS_PSHOP_TEXT_CHANGED pMsg;
 
-			PHeadSubSetB((LPBYTE)&pMsg, 0x3F, 0x10, sizeof(pMsg));
+			PHeadSubSetB((BYTE*)&pMsg, 0x3F, 0x10, sizeof(pMsg));
 			pMsg.NumberH = SET_NUMBERH(aIndex);
 			pMsg.NumberL = SET_NUMBERL(aIndex);
 			memcpy(pMsg.btPShopText, lpMsg->szPShopText, sizeof(pMsg.btPShopText));
 			memcpy(pMsg.btName, lpObj.Name, sizeof(pMsg.btName));
 
-			gGameProtocol.MsgSendV2(&gGameObjects[aIndex], (LPBYTE)&pMsg, pMsg.h.size);
+			gGameProtocol.MsgSendV2(&gGameObjects[aIndex], (BYTE*)&pMsg, pMsg.h.size);
 
 		}
 	}
@@ -280,19 +280,19 @@ void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, CGameObject &lp
 	CGPShopAnsOpen(aIndex, 1);
 }
 
-void CPersonalStore::CGPShopAnsOpen(CGameObject &lpObj, BYTE btResult)
+void CPersonalStore::CGPShopAnsOpen(CGameObject &Obj, BYTE btResult)
 {
 	PMSG_ANS_PSHOP_OPEN pMsg;
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0x3F, 0x02, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x3F, 0x02, sizeof(pMsg));
 	pMsg.btResult = btResult;
 
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, sizeof(pMsg));
 }
 
 
 
-void CPersonalStore::CGPShopReqClose(CGameObject &lpObj)
+void CPersonalStore::CGPShopReqClose(CGameObject &Obj)
 {
 	if (!gObjIsConnected(aIndex))
 	{
@@ -321,20 +321,20 @@ void CPersonalStore::CGPShopReqClose(CGameObject &lpObj)
 	CGPShopAnsClose(aIndex, 1);
 }
 
-void CPersonalStore::CGPShopAnsClose(CGameObject &lpObj, BYTE btResult)
+void CPersonalStore::CGPShopAnsClose(CGameObject &Obj, BYTE btResult)
 {
 
 	PMSG_ANS_PSHOP_CLOSE pMsg;
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0x3F, 0x03, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x3F, 0x03, sizeof(pMsg));
 	pMsg.btResult = btResult;
 	pMsg.NumberH = SET_NUMBERH(aIndex);
 	pMsg.NumberL = SET_NUMBERL(aIndex);
 
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, sizeof(pMsg));
 
 	if (btResult == 1)
-		gGameProtocol.MsgSendV2(&gGameObjects[aIndex], (LPBYTE)&pMsg, pMsg.h.size);
+		gGameProtocol.MsgSendV2(&gGameObjects[aIndex], (BYTE*)&pMsg, pMsg.h.size);
 }
 
 
@@ -543,7 +543,7 @@ void CPersonalStore::CGPShopAnsBuyList(int aSourceIndex, int aTargetIndex, BYTE 
 	}
 }
 
-void CPersonalStore::CGPShopReqBuyItem(LPBYTE lpRecv, int aSourceIndex)
+void CPersonalStore::CGPShopReqBuyItem(BYTE* lpRecv, int aSourceIndex)
 {
 	if (gDoPShopOpen == FALSE)
 		return;
@@ -1125,17 +1125,17 @@ void CPersonalStore::CGPShopAnsBuyItem(int aSourceIndex, int aTargetIndex, int i
 {
 	PMSG_ANS_BUYITEM_FROM_PSHOP pMsg;
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0x3F, 0x06, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x3F, 0x06, sizeof(pMsg));
 	pMsg.NumberH = SET_NUMBERH(aTargetIndex);
 	pMsg.NumberL = SET_NUMBERL(aTargetIndex);
 	pMsg.btItemPos = iItemPos;
 	pMsg.Result = btResult;
 	ItemByteConvert(pMsg.CItemObjectInfo, gGameObjects[aSourceIndex]->Inventory1[iItemPos]);
 
-	IOCP.DataSend(aSourceIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(aSourceIndex, (BYTE*)&pMsg, pMsg.h.size);
 }
 
-void CPersonalStore::CGPShopReqCloseDeal(PMSG_REQ_PSHOPDEAL_CLOSE * lpMsg, CGameObject &lpObj)
+void CPersonalStore::CGPShopReqCloseDeal(PMSG_REQ_PSHOPDEAL_CLOSE * lpMsg, CGameObject &Obj)
 {
 	if (!gObjIsConnected(aIndex))
 		return;
@@ -1151,11 +1151,11 @@ void CPersonalStore::CGPShopAnsSoldItem(int aSourceIndex, int aTargetIndex, int 
 {
 	PMSG_ANS_SOLDITEM_FROM_PSHOP pMsg;
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0x3F, 0x08, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x3F, 0x08, sizeof(pMsg));
 	pMsg.btItemPos = iItemPos;
 	memcpy(pMsg.btName, gGameObjects[aTargetIndex]->Name, MAX_ACCOUNT_LEN);
 
-	IOCP.DataSend(aSourceIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(aSourceIndex, (BYTE*)&pMsg, pMsg.h.size);
 }
 
 
@@ -1164,11 +1164,11 @@ void CPersonalStore::CGPShopAnsDealerClosedShop(int aSourceIndex, int aTargetInd
 {
 	PMSG_REQ_DEALER_CLOSED_SHOP pMsg;
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0x3F, 0x12, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x3F, 0x12, sizeof(pMsg));
 	pMsg.NumberH = SET_NUMBERH(aTargetIndex);
 	pMsg.NumberL = SET_NUMBERL(aTargetIndex);
 
-	IOCP.DataSend(aSourceIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(aSourceIndex, (BYTE*)&pMsg, pMsg.h.size);
 }
 
 void CPersonalStore::PShop_ViewportListRegenarate(short aIndex)
@@ -1279,8 +1279,8 @@ void CPersonalStore::PShop_ViewportListRegenarate(short aIndex)
 	if (iVpAddCount > 0 && iVpAddCount <= MAX_VIEWPORT)
 	{
 		lpMsg->btCount = iVpAddCount;
-		PHeadSubSetW((unsigned char *)lpMsg, 0x3F, 0, sizeof(PMSG_ANS_PSHOP_VIEWPORT_NOTIFY) + sizeof(PMSG_PSHOP_VIEWPORT_NOTIFY)*iVpAddCount);
-		IOCP.DataSend(lpObj.m_Index, (unsigned char *)lpMsg, ((lpMsg->h.sizeL & 0xFF) & 0xFF | ((lpMsg->h.sizeH & 0xFF) & 0xFF) << 8) & 0xFFFF);
+		PHeadSubSetW((BYTE *)lpMsg, 0x3F, 0, sizeof(PMSG_ANS_PSHOP_VIEWPORT_NOTIFY) + sizeof(PMSG_PSHOP_VIEWPORT_NOTIFY)*iVpAddCount);
+		IOCP.DataSend(lpObj.m_Index, (BYTE *)lpMsg, ((lpMsg->h.sizeL & 0xFF) & 0xFF | ((lpMsg->h.sizeH & 0xFF) & 0xFF) << 8) & 0xFFFF);
 	}
 	else if (iVpAddCount != 0)
 	{
@@ -1350,7 +1350,7 @@ bool CPersonalStore::PShop_CheckInventoryEmpty(short aIndex)
 	return true;
 }
 
-void CPersonalStore::gObjInventoryItemSet_PShop(CGameObject &lpObj, int itempos, BYTE set_byte)
+void CPersonalStore::gObjInventoryItemSet_PShop(CGameObject &Obj, int itempos, BYTE set_byte)
 {
 	int width;
 	int height;
@@ -1374,7 +1374,7 @@ void CPersonalStore::gObjInventoryItemSet_PShop(CGameObject &lpObj, int itempos,
 
 
 
-void CPersonalStore::gObjInventoryItemBoxSet_PShop(CGameObject &lpObj, int itempos, int xl, int yl, BYTE set_byte)
+void CPersonalStore::gObjInventoryItemBoxSet_PShop(CGameObject &Obj, int itempos, int xl, int yl, BYTE set_byte)
 {
 	int itemposx = (itempos - INVETORY_WEAR_SIZE) % 8;
 	int itemposy = (itempos - INVETORY_WEAR_SIZE) / 8;
@@ -1407,7 +1407,7 @@ void CPersonalStore::gObjInventoryItemBoxSet_PShop(CGameObject &lpObj, int itemp
 	}
 }
 
-void CPersonalStore::CGReqSearchItemInPShop(PMSG_REQ_SEARCH_ITEM_PSHOP *lpMsg, CGameObject &lpObj)
+void CPersonalStore::CGReqSearchItemInPShop(PMSG_REQ_SEARCH_ITEM_PSHOP *lpMsg, CGameObject &Obj)
 {
 	if (!lpMsg)
 	{
@@ -1430,7 +1430,7 @@ void CPersonalStore::CGReqSearchItemInPShop(PMSG_REQ_SEARCH_ITEM_PSHOP *lpMsg, C
 	}
 }
 
-void CPersonalStore::CGReqPShopLog(PMSG_REQ_PSHOP_LOG *lpMsg, CGameObject &lpObj)
+void CPersonalStore::CGReqPShopLog(PMSG_REQ_PSHOP_LOG *lpMsg, CGameObject &Obj)
 {
 	if (!lpMsg)
 	{
@@ -1463,7 +1463,7 @@ void CPersonalStore::CGReqPShopLog(PMSG_REQ_PSHOP_LOG *lpMsg, CGameObject &lpObj
 	}
 }
 
-void CPersonalStore::GDRequestPShopItemValue(CGameObject* lpObj, char *szAccountID)
+void CPersonalStore::GDRequestPShopItemValue(CGameObject &Obj, char *szAccountID)
 {
 	if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 	{
@@ -1475,16 +1475,16 @@ void CPersonalStore::GDRequestPShopItemValue(CGameObject* lpObj, char *szAccount
 	memcpy(pMsg.szName, lpObj.Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.iUserIndex = lpObj.m_Index;
 
-	PHeadSetB((LPBYTE)&pMsg, 0xE9, sizeof(pMsg));
+	PHeadSetB((BYTE*)&pMsg, 0xE9, sizeof(pMsg));
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CPersonalStore::GDUpdatePShopItemValue(CGameObject &lpObj)
+void CPersonalStore::GDUpdatePShopItemValue(CGameObject &Obj)
 {
 	return;
 }
 
-void CPersonalStore::GDAllSavePShopItemValue(CGameObject &lpObj)
+void CPersonalStore::GDAllSavePShopItemValue(CGameObject &Obj)
 {
 	PMSG_UPDATE_PSHOPITEMVALUE_INFO pMsg;
 	int iItemCnt = 0;
@@ -1512,13 +1512,13 @@ void CPersonalStore::GDAllSavePShopItemValue(CGameObject &lpObj)
 		memcpy(pMsg.szName, lpObj.Name, MAX_ACCOUNT_LEN + 1);
 		pMsg.btItemCnt = iItemCnt;
 
-		PHeadSetW((LPBYTE)&pMsg, 0xEB, sizeof(pMsg));
+		PHeadSetW((BYTE*)&pMsg, 0xEB, sizeof(pMsg));
 
 		wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
 	}
 }
 
-void CPersonalStore::GDDelPShopItemValue(CGameObject lpObj, int nPShopItemInvenNum)
+void CPersonalStore::GDDelPShopItemValue(CGameObject &Obj, int nPShopItemInvenNum)
 {
 	PMSG_DEL_PSHOPITEM pMsg;
 
@@ -1526,11 +1526,11 @@ void CPersonalStore::GDDelPShopItemValue(CGameObject lpObj, int nPShopItemInvenN
 	memcpy(pMsg.szName, lpObj.Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.nPShopItemInvenNum = nPShopItemInvenNum;
 
-	PHeadSetB((LPBYTE)&pMsg, 0xEC, sizeof(pMsg));
+	PHeadSetB((BYTE*)&pMsg, 0xEC, sizeof(pMsg));
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CPersonalStore::GDMovePShopItem(CGameObject* lpObj, int nOldPShopItemInvenNum, int nNewPShopItemInvenNum)
+void CPersonalStore::GDMovePShopItem(CGameObject &Obj, int nOldPShopItemInvenNum, int nNewPShopItemInvenNum)
 {
 	PMSG_MOVE_PSHOPITEM pMsg;
 
@@ -1540,7 +1540,7 @@ void CPersonalStore::GDMovePShopItem(CGameObject* lpObj, int nOldPShopItemInvenN
 	pMsg.nOldPShopItemInvenNum = nOldPShopItemInvenNum;
 	pMsg.nNewPShopItemInvenNum = nNewPShopItemInvenNum;
 
-	PHeadSetB((LPBYTE)&pMsg, 0xED, sizeof(pMsg));
+	PHeadSetB((BYTE*)&pMsg, 0xED, sizeof(pMsg));
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
@@ -1578,7 +1578,7 @@ void CPersonalStore::GDAnsPShopItemValue(PMSG_ANS_PSHOPITEMVALUE_INFO *lpMsg)
 	this->GCPShopItemValueInfo(iObjIndex);
 }
 
-void CPersonalStore::GCPShopItemValueInfo(CGameObject &lpObj)
+void CPersonalStore::GCPShopItemValueInfo(CGameObject &Obj)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -1623,7 +1623,7 @@ void CPersonalStore::GCPShopItemValueInfo(CGameObject &lpObj)
 	pMsg.btJewelCommisionRate = 3;
 	pMsg.btItemCnt = iItemCnt;
 
-	PHeadSubSetW((LPBYTE)&pMsg, 0xEC, 0x32, lOfs);
+	PHeadSubSetW((BYTE*)&pMsg, 0xEC, 0x32, lOfs);
 	memcpy(sendbuf, &pMsg, sizeof(pMsg));
 
 	IOCP.DataSend(lpObj.m_Index, sendbuf, lOfs);
@@ -1685,7 +1685,7 @@ void CPersonalStore::GCPShop_AllInfo(short aIndex, int iLastUserCount)
 								pMsg.iPShopCnt = iAddCnt;
 								pMsg.btContinueFlag = TRUE;
 
-								PHeadSubSetW((LPBYTE)&pMsg, 0xEC, 0x31, lOfs);
+								PHeadSubSetW((BYTE*)&pMsg, 0xEC, 0x31, lOfs);
 								memcpy(sendbuf, &pMsg, sizeof(pMsg));
 
 								IOCP.DataSend(lpObj.m_Index, sendbuf, lOfs);
@@ -1710,7 +1710,7 @@ void CPersonalStore::GCPShop_AllInfo(short aIndex, int iLastUserCount)
 		pMsg.btContinueFlag = 0;
 	}
 
-	PHeadSubSetW((LPBYTE)&pMsg, 0xEC, 0x31, lOfs);
+	PHeadSubSetW((BYTE*)&pMsg, 0xEC, 0x31, lOfs);
 	memcpy(sendbuf, &pMsg, sizeof(pMsg));
 
 	IOCP.DataSend(lpObj.m_Index, sendbuf, lOfs);
@@ -1773,7 +1773,7 @@ void CPersonalStore::GCPShop_SearchItem(short aIndex, WORD sSearchItem, int iLas
 									pMsg.iPShopCnt = iAddCnt;
 									pMsg.btContinueFlag = TRUE;
 
-									PHeadSubSetW((LPBYTE)&pMsg, 0xEC, 0x31, lOfs);
+									PHeadSubSetW((BYTE*)&pMsg, 0xEC, 0x31, lOfs);
 									memcpy(sendbuf, &pMsg, sizeof(pMsg));
 
 									IOCP.DataSend(lpObj.m_Index, sendbuf, lOfs);
@@ -1799,7 +1799,7 @@ void CPersonalStore::GCPShop_SearchItem(short aIndex, WORD sSearchItem, int iLas
 		pMsg.btContinueFlag = 0;
 	}
 
-	PHeadSubSetW((LPBYTE)&pMsg, 0xEC, 0x31, lOfs);
+	PHeadSubSetW((BYTE*)&pMsg, 0xEC, 0x31, lOfs);
 	memcpy(sendbuf, &pMsg, sizeof(pMsg));
 
 	IOCP.DataSend(lpObj.m_Index, sendbuf, lOfs);

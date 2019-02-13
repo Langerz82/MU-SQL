@@ -1054,7 +1054,7 @@ PUGI__NS_BEGIN
 		ct_start_symbol = 128	// Any symbol > 127, a-z, A-Z, _, :
 	};
 
-	static const unsigned char chartype_table[256] =
+	static const BYTE chartype_table[256] =
 	{
 		55,  0,   0,   0,   0,   0,   0,   0,      0,   12,  12,  0,   0,   63,  0,   0,   // 0-15
 		0,   0,   0,   0,   0,   0,   0,   0,      0,   0,   0,   0,   0,   0,   0,   0,   // 16-31
@@ -1084,7 +1084,7 @@ PUGI__NS_BEGIN
 		ctx_symbol = 16			  // Any symbol > 127, a-z, A-Z, 0-9, _, -, .
 	};
 	
-	static const unsigned char chartypex_table[256] =
+	static const BYTE chartypex_table[256] =
 	{
 		3,  3,  3,  3,  3,  3,  3,  3,     3,  0,  2,  3,  3,  2,  3,  3,     // 0-15
 		3,  3,  3,  3,  3,  3,  3,  3,     3,  3,  3,  3,  3,  3,  3,  3,     // 16-31
@@ -1109,7 +1109,7 @@ PUGI__NS_BEGIN
 #ifdef PUGIXML_WCHAR_MODE
 	#define PUGI__IS_CHARTYPE_IMPL(c, ct, table) ((static_cast<unsigned int>(c) < 128 ? table[static_cast<unsigned int>(c)] : table[128]) & (ct))
 #else
-	#define PUGI__IS_CHARTYPE_IMPL(c, ct, table) (table[static_cast<unsigned char>(c)] & (ct))
+	#define PUGI__IS_CHARTYPE_IMPL(c, ct, table) (table[static_cast<BYTE>(c)] & (ct))
 #endif
 
 	#define PUGI__IS_CHARTYPE(c, ct) PUGI__IS_CHARTYPE_IMPL(c, ct, chartype_table)
@@ -1119,7 +1119,7 @@ PUGI__NS_BEGIN
 	{
 		unsigned int ui = 1;
 
-		return *reinterpret_cast<unsigned char*>(&ui) == 1;
+		return *reinterpret_cast<BYTE*>(&ui) == 1;
 	}
 
 	PUGI__FN xml_encoding get_wchar_encoding()

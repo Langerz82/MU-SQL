@@ -41,7 +41,7 @@ public:
 	virtual ~CMonsterStatCalc(void);
 	
 	void LoadScript(LPSTR Filename);
-	BOOL ConvertMonsterStat(CGameObject &lpObj, int nUserMaxLevel);
+	BOOL ConvertMonsterStat(CGameObject &Obj, int nUserMaxLevel);
 
 private:
 

@@ -73,7 +73,7 @@ void CResetTable::SetInfo(RESET_TABLE_INFO info) // OK
 	this->m_count++;
 }
 
-int CResetTable::GetResetPoint(CGameObject &lpObj) // OK
+int CResetTable::GetResetPoint(CGameObject &Obj) // OK
 {
 	int point = 0;
 

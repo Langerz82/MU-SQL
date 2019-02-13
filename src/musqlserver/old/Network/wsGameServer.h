@@ -18,7 +18,7 @@ class CwsGameServer : public MyWinsockBase
 
 public:
 
-	BOOL SetSocketIndex(SOCKET socket, CGameObject &lpObj);
+	BOOL SetSocketIndex(SOCKET socket, CGameObject &Obj);
 	BOOL SetSocketBuffer(int index, SOCKET socket, LPSTR ip);
 	BOOL AcceptSocket(SOCKET& clientSocket, in_addr& cInAddr);
 	BOOL DataRecv(SOCKET socket);

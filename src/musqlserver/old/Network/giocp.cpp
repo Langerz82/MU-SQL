@@ -9,7 +9,7 @@ CIOCP IOCP;
 
 void CIOCP::GiocpInit()
 {
-	ExSendBuf = new unsigned char[MAX_EXSENDBUF_SIZE];
+	ExSendBuf = new BYTE[MAX_EXSENDBUF_SIZE];
 }
 
 void CIOCP::GiocpDelete()
@@ -437,7 +437,7 @@ DWORD CIOCP::ServerWorkerThread()
 #define USERIJ 
 bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 {
-	unsigned char* recvbuf;
+	BYTE* recvbuf;
 	int lOfs;
 	int size;
 	BYTE headcode;
@@ -455,7 +455,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 
 	int recvsize = lpIOContext->nSentBytes;
 
-	unsigned char byDec[9216];
+	BYTE byDec[9216];
 
 	while (true)
 	{
@@ -509,7 +509,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 
 				else
 				{
-					unsigned char* pDecBuf = byDec;
+					BYTE* pDecBuf = byDec;
 
 					headcode = pDecBuf[2];
 					byDec[0] = 0xC1;
@@ -564,7 +564,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 
 				else
 				{
-					unsigned char* pDecBuf = byDec;
+					BYTE* pDecBuf = byDec;
 
 					headcode = pDecBuf[3];
 					byDec[0] = 0xC2;
@@ -666,11 +666,11 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 	return true;
 }
 
-bool CIOCP::DataSend(int aIndex, unsigned char* lpMsg, DWORD dwSize, bool Encrypt)
+bool CIOCP::DataSend(int aIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 {
 	unsigned long SendBytes;
 	_PER_SOCKET_CONTEXT * lpPerSocketContext;
-	unsigned char * SendBuf;
+	BYTE * SendBuf;
 	BYTE BUFFER[65535];
 
 	if (aIndex < g_ConfigRead.server.GetObjectStartUserIndex())
@@ -854,7 +854,7 @@ bool CIOCP::DataSend(int aIndex, unsigned char* lpMsg, DWORD dwSize, bool Encryp
 bool CIOCP::IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 {
 	unsigned long SendBytes;
-	CGameObject &lpObj;
+	CGameObject &Obj;
 	_PER_IO_CONTEXT * lpIoCtxt;
 
 	EnterCriticalSection(&criti);
@@ -909,7 +909,7 @@ bool CIOCP::IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 bool CIOCP::IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 {
 	unsigned long SendBytes;
-	CGameObject &lpObj;
+	CGameObject &Obj;
 	_PER_IO_CONTEXT * lpIoCtxt;
 
 	EnterCriticalSection(&criti);

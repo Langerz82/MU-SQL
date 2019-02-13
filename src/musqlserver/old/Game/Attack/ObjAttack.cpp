@@ -48,7 +48,7 @@ void CObjAttack::Init()
 	this->m_Lua.DoFile(g_ConfigRead.GetPath("\\Scripts\\Character\\CalcCharacter.lua"));
 }
 
-BOOL CObjAttack::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf* lpMagic, int magicsend, unsigned char MSBFlag, int AttackDamage, BOOL bCombo, BYTE RFAttack, BYTE byReflect, BYTE byPentagramAttack)
+BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lpMagic, int magicsend, BYTE MSBFlag, int AttackDamage, BOOL bCombo, BYTE RFAttack, BYTE byReflect, BYTE byPentagramAttack)
 {
 	/*if(lpObj.Type == OBJ_USER)
 	{
@@ -3675,7 +3675,7 @@ BOOL CObjAttack::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf* 
 	return TRUE;
 }
 
-BOOL CObjAttack::PentagramAttack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf* lpMagic, BYTE MSBFlag, int MsgDamage, int AttackDamage, int iTargetDefense)
+BOOL CObjAttack::PentagramAttack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lpMagic, BYTE MSBFlag, int MsgDamage, int AttackDamage, int iTargetDefense)
 {
 	bool bPentagramEquip = false;
 	int PentagramAttackDamage = 0;
@@ -3851,7 +3851,7 @@ BOOL CObjAttack::PentagramAttack(CGameObject &lpObj, CGameObject lpTargetObj, CM
 	return TRUE;
 }
 
-BOOL CObjAttack::GetBuffTypePhysicalIncrease(CGameObject &lpObj, int *iAttackBerserkerMin, int *iAttackBerserkerMax, int nBuffType)
+BOOL CObjAttack::GetBuffTypePhysicalIncrease(CGameObject &Obj, int *iAttackBerserkerMin, int *iAttackBerserkerMax, int nBuffType)
 {
 	gObjUseSkill.m_Lua.Generic_Call("SummonerBerserkerAttackDamage", "ii>ii", (lpObj.m_PlayerData->Strength + lpObj.AddStrength), (lpObj.m_PlayerData->Dexterity + lpObj.AddDexterity), iAttackBerserkerMin, iAttackBerserkerMax);
 
@@ -3871,7 +3871,7 @@ BOOL CObjAttack::GetBuffTypePhysicalIncrease(CGameObject &lpObj, int *iAttackBer
 }
 
 
-int  CObjAttack::GetAttackDamage(CGameObject &lpObj, CGameObject lpTargetObj, int targetDefense, int& effect, CMagicInf* lpMagic)
+int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject lpTargetObj, int targetDefense, int& effect, CMagicInf* lpMagic)
 {
 	int ad;
 	int sub;
@@ -4456,7 +4456,7 @@ int  CObjAttack::GetAttackDamage(CGameObject &lpObj, CGameObject lpTargetObj, in
 	return ad;
 }
 
-int CObjAttack::GetAttackDamageSummoner(CGameObject &lpObj, CGameObject lpTargetObj, int targetDefense, CMagicInf* lpMagic, int& effect)
+int CObjAttack::GetAttackDamageSummoner(CGameObject &Obj, CGameObject lpTargetObj, int targetDefense, CMagicInf* lpMagic, int& effect)
 {
 	double fCurseDamageMin = 0;
 	double fCurseDamageMax = 0;
@@ -4783,7 +4783,7 @@ int CObjAttack::GetAttackDamageSummoner(CGameObject &lpObj, CGameObject lpTarget
 	return ad;
 }
 
-int  CObjAttack::GetAttackDamageWizard(CGameObject &lpObj, CGameObject lpTargetObj, int targetDefense, CMagicInf* lpMagic, int& effect)
+int  CObjAttack::GetAttackDamageWizard(CGameObject &Obj, CGameObject lpTargetObj, int targetDefense, CMagicInf* lpMagic, int& effect)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -5223,7 +5223,7 @@ int  CObjAttack::GetAttackDamageWizard(CGameObject &lpObj, CGameObject lpTargetO
 	return ad;
 }
 
-BOOL gObjDenorantSprite(CGameObject &lpObj)
+BOOL gObjDenorantSprite(CGameObject &Obj)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -5250,7 +5250,7 @@ BOOL gObjDenorantSprite(CGameObject &lpObj)
 
 
 
-BOOL gObjDarkHorse(CGameObject &lpObj)
+BOOL gObjDarkHorse(CGameObject &Obj)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -5276,7 +5276,7 @@ BOOL gObjDarkHorse(CGameObject &lpObj)
 }
 
 
-BOOL gObjFenrir(CGameObject &lpObj)
+BOOL gObjFenrir(CGameObject &Obj)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -5301,7 +5301,7 @@ BOOL gObjFenrir(CGameObject &lpObj)
 	return FALSE;
 }
 
-int CObjAttack::GetShieldDamage(CGameObject &lpObj, CGameObject lpTargetObj, int iAttackDamage)
+int CObjAttack::GetShieldDamage(CGameObject &Obj, CGameObject lpTargetObj, int iAttackDamage)
 {
 	int iShieldDamage = 0;
 
@@ -5377,7 +5377,7 @@ int CObjAttack::GetShieldDamage(CGameObject &lpObj, CGameObject lpTargetObj, int
 	return iReduceShield;
 }
 
-int CObjAttack::GetElementalDamage(CGameObject &lpObj, CGameObject lpTargetObj, char* DamageType1, char* DamageType2, int iAttackDamage, int iTargetDefense) // 1.1.0.4 decompilation
+int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, char* DamageType1, char* DamageType2, int iAttackDamage, int iTargetDefense) // 1.1.0.4 decompilation
 {
 	int Strength = 0;
 	int Dexterity = 0;

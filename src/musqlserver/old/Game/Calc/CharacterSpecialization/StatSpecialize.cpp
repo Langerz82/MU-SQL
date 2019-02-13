@@ -59,7 +59,7 @@ bool CStatSpecialize::LoadFile(char *szFile)
 	return true;
 }
 
-void CStatSpecialize::ClearUserOption(CGameObject &lpObj)
+void CStatSpecialize::ClearUserOption(CGameObject &Obj)
 {
 	for (int i = 0; i < MAX_USER_STAT_OPTIONS; i++)
 	{
@@ -67,7 +67,7 @@ void CStatSpecialize::ClearUserOption(CGameObject &lpObj)
 	}
 }
 
-void CStatSpecialize::CalcStatOption(CGameObject &lpObj, int StatOptionID)
+void CStatSpecialize::CalcStatOption(CGameObject &Obj, int StatOptionID)
 {
 	if (this->m_bFileLoad == false)
 	{
@@ -87,7 +87,7 @@ void CStatSpecialize::CalcStatOption(CGameObject &lpObj, int StatOptionID)
 	this->SetStatOption(lpObj, StatOptionID, Percent);
 }
 
-void CStatSpecialize::SetStatOption(CGameObject &lpObj, int StatOptionID, double StatOptionPercent)
+void CStatSpecialize::SetStatOption(CGameObject &Obj, int StatOptionID, double StatOptionPercent)
 {
 	int ArrayIndex = this->GetUserArrayIndex(lpObj);
 
@@ -185,7 +185,7 @@ void CStatSpecialize::SetStatOption(CGameObject &lpObj, int StatOptionID, double
 	}
 }
 
-int CStatSpecialize::GetUserArrayIndex(CGameObject &lpObj)
+int CStatSpecialize::GetUserArrayIndex(CGameObject &Obj)
 {
 	int ArrayIndex = -1;
 
@@ -201,10 +201,10 @@ int CStatSpecialize::GetUserArrayIndex(CGameObject &lpObj)
 	return ArrayIndex;
 }
 
-void CStatSpecialize::SendOptionList(CGameObject &lpObj)
+void CStatSpecialize::SendOptionList(CGameObject &Obj)
 {
 	 PMSG_STAT_SPEC_OPTION pMsg;
-	 PHeadSubSetB((LPBYTE)&pMsg, 0x59, 0x00, sizeof(pMsg));
+	 PHeadSubSetB((BYTE*)&pMsg, 0x59, 0x00, sizeof(pMsg));
 	 int OptionCount = 0;
 
 	 for (int i = 0; i < MAX_USER_STAT_OPTIONS; i++)
@@ -218,7 +218,7 @@ void CStatSpecialize::SendOptionList(CGameObject &lpObj)
 		 }
 	 }
 
-	 IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+	 IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

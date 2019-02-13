@@ -558,7 +558,7 @@ void CDevilSquare::ProcClose()
 			{
 				PMSG_SET_DEVILSQUARE pMsg;
 
-				PHeadSetB((LPBYTE)&pMsg, 0x92, sizeof(pMsg));
+				PHeadSetB((BYTE*)&pMsg, 0x92, sizeof(pMsg));
 				pMsg.Type = DevilSquare_CLOSE;
 
 				for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i<g_ConfigRead.server.GetObjectMax(); i++)
@@ -684,7 +684,7 @@ void CDevilSquare::ProcOpen()
 			{
 				PMSG_SET_DEVILSQUARE pMsg;
 
-				PHeadSetB((LPBYTE)&pMsg, 0x92, sizeof(pMsg));
+				PHeadSetB((BYTE*)&pMsg, 0x92, sizeof(pMsg));
 				pMsg.Type = DevilSquare_OPEN;
 
 				for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i<g_ConfigRead.server.GetObjectMax(); i++)
@@ -784,7 +784,7 @@ void CDevilSquare::ProcPlaying()
 			{
 				PMSG_SET_DEVILSQUARE pMsg;
 
-				PHeadSetB((LPBYTE)&pMsg, 0x92, sizeof(pMsg));
+				PHeadSetB((BYTE*)&pMsg, 0x92, sizeof(pMsg));
 				pMsg.Type = DevilSquare_PLAYING;
 				gGameProtocol.AllSendSameMapMsg((UCHAR*)&pMsg, sizeof(pMsg), MAP_INDEX_DEVILSQUARE);
 				gGameProtocol.AllSendSameMapMsg((UCHAR*)&pMsg, sizeof(pMsg), MAP_INDEX_DEVILSQUARE2);
@@ -894,7 +894,7 @@ void CDevilSquare::ClearMonstr()
 	}
 }
 
-void CDevilSquare::gDevilSquareMonsterRegen(CGameObject &lpObj)
+void CDevilSquare::gDevilSquareMonsterRegen(CGameObject &Obj)
 {
 	BYTE devilsquareindex = lpObj.m_bDevilSquareIndex;
 
@@ -966,7 +966,7 @@ void CDevilSquare::SendEventStartMsg()
 
 
 
-void CDevilSquare::DieProcDevilSquare(CGameObject &lpObj)
+void CDevilSquare::DieProcDevilSquare(CGameObject &Obj)
 {
 	char msg[255];
 
@@ -1022,7 +1022,7 @@ void CDevilSquare::DieProcDevilSquare(CGameObject &lpObj)
 
 
 
-UINT64 CDevilSquare::gObjMonsterExpSingle(CGameObject &lpObj, CGameObject lpTargetObj, int dmg, int tot_dmg)
+UINT64 CDevilSquare::gObjMonsterExpSingle(CGameObject &Obj, CGameObject lpTargetObj, int dmg, int tot_dmg)
 {
 	BYTE devilsquareindex = lpObj.m_bDevilSquareIndex;
 
@@ -1154,7 +1154,7 @@ UINT64 CDevilSquare::gObjMonsterExpSingle(CGameObject &lpObj, CGameObject lpTarg
 
 
 
-void CDevilSquare::gObjExpParty(CGameObject &lpObj, CGameObject lpTargetObj, int AttackDamage, BOOL MSBFlag)
+void CDevilSquare::gObjExpParty(CGameObject &Obj, CGameObject lpTargetObj, int AttackDamage, BOOL MSBFlag)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -1410,7 +1410,7 @@ void CDevilSquare::gObjExpParty(CGameObject &lpObj, CGameObject lpTargetObj, int
 
 
 
-void CDevilSquare::gObjMonsterScoreDivision(CGameObject &lpMonObj, CGameObject lpObj, int AttackDamage, BOOL MSBFlag)
+void CDevilSquare::gObjMonsterScoreDivision(CGameObject &MonObj, CGameObject lpObj, int AttackDamage, BOOL MSBFlag)
 {
 	::gObjMonsterHitDamageUserDel(lpMonObj);
 	lpMonObj.MonsterMoneyDrop = 0;
@@ -1506,7 +1506,7 @@ void CDevilSquare::CheckInvalidUser()
 	}
 }
 
-BOOL CDevilSquare::AddUser(BYTE cSquareNumber, CGameObject &lpObj)
+BOOL CDevilSquare::AddUser(BYTE cSquareNumber, CGameObject &Obj)
 {
 	if (DS_LEVEL_RANGE(cSquareNumber) == FALSE)
 	{
@@ -1516,7 +1516,7 @@ BOOL CDevilSquare::AddUser(BYTE cSquareNumber, CGameObject &lpObj)
 	return this->m_DevilSquareGround[cSquareNumber].AddUser(aIndex);
 }
 
-BOOL CDevilSquare::DelUser(BYTE cSquareNumber, CGameObject &lpObj)
+BOOL CDevilSquare::DelUser(BYTE cSquareNumber, CGameObject &Obj)
 {
 	if (DS_LEVEL_RANGE(cSquareNumber) == FALSE)
 	{
@@ -1546,7 +1546,7 @@ int CDevilSquare::GetPlayUserCountRightNow(BYTE cSquareNumber)
 	return this->m_DevilSquareGround[cSquareNumber].GetPlayUserCountRightNow();
 }
 
-BOOL CDevilSquare::LeaveDevilSquare(BYTE cSquareNumber, CGameObject &lpObj)
+BOOL CDevilSquare::LeaveDevilSquare(BYTE cSquareNumber, CGameObject &Obj)
 {
 	return this->DelUser(cSquareNumber, aIndex);
 }

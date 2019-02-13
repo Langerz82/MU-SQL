@@ -295,7 +295,7 @@ void CIllusionTempleLeagueEvent::ITL_Run()
 	}
 }
 
-void CIllusionTempleLeagueEvent::SetRelicsInventoryPos(BYTE btMapNumber, CGameObject &lpObj, BYTE btPos)
+void CIllusionTempleLeagueEvent::SetRelicsInventoryPos(BYTE btMapNumber, CGameObject &Obj, BYTE btPos)
 {
 	if (!ITL_MAP_RANGE(btMapNumber))
 	{
@@ -315,7 +315,7 @@ void CIllusionTempleLeagueEvent::SendRelicsUserInfo(CGameObject* lpObj)
 	this->m_cIllusionTempleLeagueProc[lpObj.MapNumber - 98].SendRelicsUserInfo(lpObj, 0);
 }
 
-BOOL CIllusionTempleLeagueEvent::Enter_ITL(CGameObject &lpObj, BYTE byTempleIndex, BYTE bySlotNum)
+BOOL CIllusionTempleLeagueEvent::Enter_ITL(CGameObject &Obj, BYTE byTempleIndex, BYTE bySlotNum)
 {
 	if (CIllusionTempleLeagueEvent::m_bITL_Event_Enable == false)
 	{
@@ -353,7 +353,7 @@ BOOL CIllusionTempleLeagueEvent::Enter_ITL(CGameObject &lpObj, BYTE byTempleInde
 	}
 }
 
-int CIllusionTempleLeagueEvent::Leave_ITL(CGameObject &lpObj, BYTE btMapNumber)
+int CIllusionTempleLeagueEvent::Leave_ITL(CGameObject &Obj, BYTE btMapNumber)
 {
 	if (!ITL_MAP_RANGE(btMapNumber))
 	{
@@ -364,7 +364,7 @@ int CIllusionTempleLeagueEvent::Leave_ITL(CGameObject &lpObj, BYTE btMapNumber)
 	return TRUE;
 }
 
-void CIllusionTempleLeagueEvent::ActRelicsGetOrRegister(CGameObject &lpNpc, CGameObject lpObj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType)
+void CIllusionTempleLeagueEvent::ActRelicsGetOrRegister(CGameObject &Npc, CGameObject lpObj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType)
 {
 	if (!ITL_MAP_RANGE(byMapNumber))
 	{
@@ -500,12 +500,12 @@ void CIllusionTempleLeagueEvent::EventSkillProc(CGameObject* lpObj)
 	return this->m_cIllusionTempleLeagueProc[lpObj.MapNumber - 98].ITLSkillProc(lpObj);
 }
 
-void CIllusionTempleLeagueEvent::IllusionTempleLeagueUserDie(CGameObject &lpObj)
+void CIllusionTempleLeagueEvent::IllusionTempleLeagueUserDie(CGameObject &Obj)
 {
 	this->m_cIllusionTempleLeagueProc[lpObj.MapNumber - 98].ITLUserDie(lpObj);
 }
 
-void CIllusionTempleLeagueEvent::IllusionTempleLeagueUserDieRegen(CGameObject &lpObj)
+void CIllusionTempleLeagueEvent::IllusionTempleLeagueUserDieRegen(CGameObject &Obj)
 {
 	if (!ObjectMaxRange(lpObj.m_Index))
 	{
@@ -849,7 +849,7 @@ void CIllusionTempleLeagueEvent::Send_ITL_Schedule(int index)
 	int lOfs;
 	int Cnt;
 
-	PHeadSubSetW((LPBYTE)&pMsg, 0xBF, 0x5C, sizeof(pMsg));
+	PHeadSubSetW((BYTE*)&pMsg, 0xBF, 0x5C, sizeof(pMsg));
 	Cnt = 0;
 	memset(sendbuf, 0x00, sizeof(sendbuf));
 	lOfs = sizeof(PMSG_ANS_ITL_SCHEDULE);
@@ -889,8 +889,8 @@ void CIllusionTempleLeagueEvent::Send_ITL_Schedule(int index)
 	pMsg.h.sizeH = HIBYTE(lOfs);
 	pMsg.h.sizeL = LOBYTE(lOfs);
 
-	memcpy(sendbuf, (LPBYTE)&pMsg, sizeof(pMsg));
-	IOCP.DataSend(index, (LPBYTE)sendbuf, lOfs);
+	memcpy(sendbuf, (BYTE*)&pMsg, sizeof(pMsg));
+	IOCP.DataSend(index, (BYTE*)sendbuf, lOfs);
 }
 
 BYTE CIllusionTempleLeagueEvent::FindMyEnemy(char* GuildName)
@@ -906,11 +906,11 @@ BYTE CIllusionTempleLeagueEvent::FindMyEnemy(char* GuildName)
 	return 0;
 }
 
-void CIllusionTempleLeagueEvent::Send_ITL_Tournament(CGameObject &lpObj, BYTE byError)
+void CIllusionTempleLeagueEvent::Send_ITL_Tournament(CGameObject &Obj, BYTE byError)
 {
 	PMSG_ITL_GUILD_RANKINFO pMsg;
 	__ITL_GUILD_RANK pGuildInfo;
-	PHeadSubSetW((LPBYTE)&pMsg, 0xBF, 0x5E, sizeof(pMsg));
+	PHeadSubSetW((BYTE*)&pMsg, 0xBF, 0x5E, sizeof(pMsg));
 
 	char sendbuf[1024];
 	memset(sendbuf, 0x00, sizeof(sendbuf));
@@ -966,15 +966,15 @@ void CIllusionTempleLeagueEvent::Send_ITL_Tournament(CGameObject &lpObj, BYTE by
 	pMsg.h.sizeL = LOBYTE(lOfs);
 	memcpy(sendbuf, &pMsg, sizeof(pMsg));
 
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)sendbuf, lOfs);
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)sendbuf, lOfs);
 	lpObj.m_bITL_TournamentInfoSend = true;
 }
 
-void CIllusionTempleLeagueEvent::Send_ITL_GuildRankInfo(CGameObject &lpObj)
+void CIllusionTempleLeagueEvent::Send_ITL_GuildRankInfo(CGameObject &Obj)
 {
 	PMSG_ITL_GUILD_RANKINFO pMsg;
 	__ITL_GUILD_RANK pGuildInfo;
-	PHeadSubSetW((LPBYTE)&pMsg, 0xBF, 0x5E, sizeof(pMsg));
+	PHeadSubSetW((BYTE*)&pMsg, 0xBF, 0x5E, sizeof(pMsg));
 
 	char sendbuf[1024];
 	memset(sendbuf, 0x00, sizeof(sendbuf));
@@ -999,7 +999,7 @@ void CIllusionTempleLeagueEvent::Send_ITL_GuildRankInfo(CGameObject &lpObj)
 	pMsg.h.sizeL = LOBYTE(lOfs);
 
 	memcpy(sendbuf, &pMsg, sizeof(pMsg));
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)sendbuf, lOfs);
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)sendbuf, lOfs);
 	lpObj.m_bITL_GuildRankInfoSend = true;
 }
 
@@ -1154,7 +1154,7 @@ void CIllusionTempleLeagueEvent::DG_ITL_UserCount(PMSG_ANS_ITL_USERCOUNTANS *lpM
 		return;
 	}
 
-	CGameObject &lpObj = lpMsg->nUserIndex;
+	CGameObject &Obj = lpMsg->nUserIndex;
 
 	if (!gObjIsConnected(aIndex))
 	{
@@ -1175,7 +1175,7 @@ void CIllusionTempleLeagueEvent::DG_ITL_UserCount(PMSG_ANS_ITL_USERCOUNTANS *lpM
 
 void CIllusionTempleLeagueEvent::DG_ITL_GuildCount(PMSG_ANS_ITL_GUILDCOUNTANS *lpMsg)
 {
-	CGameObject &lpObj = lpMsg->nUserIndex;
+	CGameObject &Obj = lpMsg->nUserIndex;
 
 	if (!gObjIsConnected(aIndex))
 	{
@@ -1383,7 +1383,7 @@ BYTE CIllusionTempleLeagueEvent::CheckCanReEnterTiming(BYTE byMapNumber, BYTE &b
 	return 0;
 }
 
-BYTE CIllusionTempleLeagueEvent::ReEnterITL(CGameObject &lpObj, BYTE btTempleIndex, int nGuildIdx, int nPartyIdx, int nUserArrayNo, int nITLState, BYTE byTeamIndex)
+BYTE CIllusionTempleLeagueEvent::ReEnterITL(CGameObject &Obj, BYTE btTempleIndex, int nGuildIdx, int nPartyIdx, int nUserArrayNo, int nITLState, BYTE byTeamIndex)
 {
 	return this->m_cIllusionTempleLeagueProc[btTempleIndex].ReEnterUserIllusionTempleLeague(aIndex, btTempleIndex, nGuildIdx, nPartyIdx, nUserArrayNo, byTeamIndex);
 }
@@ -1403,12 +1403,12 @@ void CIllusionTempleLeagueEvent::Insert_RewardList(char *Name, char *GuildName, 
 	}
 }
 
-void CIllusionTempleLeagueEvent::Send_RewardList(CGameObject &lpObj, BYTE byError)
+void CIllusionTempleLeagueEvent::Send_RewardList(CGameObject &Obj, BYTE byError)
 {
 	PMSG_ANS_REWARDLIST pMsg;
 	ITL_REWARDLIST ITLRewardList;
 
-	PHeadSubSetW((LPBYTE)&pMsg, 0xBF, 0x68, sizeof(pMsg));
+	PHeadSubSetW((BYTE*)&pMsg, 0xBF, 0x68, sizeof(pMsg));
 
 	char sendbuff[1024];
 	memset(sendbuff, 0x00, sizeof(sendbuff));
@@ -1445,7 +1445,7 @@ void CIllusionTempleLeagueEvent::Send_RewardList(CGameObject &lpObj, BYTE byErro
 	pMsg.h.sizeL = LOBYTE(lOfs);
 	memcpy(sendbuff, &pMsg, sizeof(pMsg));
 
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)sendbuff, lOfs);
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)sendbuff, lOfs);
 }
 
 void CIllusionTempleLeagueEvent::Renew_ITL_RewardList()

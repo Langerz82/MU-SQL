@@ -44,7 +44,7 @@ void CCrywolfUtil::SendMapServerGroupMsg(LPSTR lpszMsg, ...)
 	GS_GDReqMapSvrMsgMultiCast(g_MapServerManager.GetMapSvrGroup(), szBuffer);
 }
 
-void CCrywolfUtil::SendAllUserAnyData(LPBYTE lpMsg, int iSize)
+void CCrywolfUtil::SendAllUserAnyData(BYTE* lpMsg, int iSize)
 {
 	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
@@ -89,7 +89,7 @@ void CCrywolfUtil::SendAllUserAnyMsg(int iType, LPSTR lpszMsg, ...)
 }
 
 
-void CCrywolfUtil::SendCrywolfUserAnyData(LPBYTE lpMsg, int iSize)
+void CCrywolfUtil::SendCrywolfUserAnyData(BYTE* lpMsg, int iSize)
 {
 	for ( int i=g_ConfigRead.server.GetObjectStartUserIndex();i<g_ConfigRead.server.GetObjectMax();i++)
 	{
@@ -141,7 +141,7 @@ void CCrywolfUtil::SendCrywolfUserAnyMsg(int iType, LPSTR lpszMsg, ...)
 			{
 				if ( gGameObjects[i]->MapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE )
 				{
-					IOCP.DataSend(i, (LPBYTE)&pNotice, pNotice.h.size);
+					IOCP.DataSend(i, (BYTE*)&pNotice, pNotice.h.size);
 				}
 			}
 		}

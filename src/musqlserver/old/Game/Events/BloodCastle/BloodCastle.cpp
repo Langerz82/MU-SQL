@@ -700,7 +700,7 @@ void CBloodCastle::ProcState_Closed(int iBridgeIndex)
 				{
 					PMSG_SET_DEVILSQUARE pMsg;
 
-					PHeadSetB((LPBYTE)&pMsg, 0x92, sizeof(pMsg));
+					PHeadSetB((BYTE*)&pMsg, 0x92, sizeof(pMsg));
 					pMsg.Type = 3;
 
 					for (int i= g_ConfigRead.server.GetObjectStartUserIndex();i<g_ConfigRead.server.GetObjectMax();i++)
@@ -764,7 +764,7 @@ void CBloodCastle::ProcState_Playing(int iBridgeIndex)
 				this->m_BridgeData[iBridgeIndex].m_bBC_MSG_BEFORE_PLAY = true;
 				
 				PMSG_SET_DEVILSQUARE pMsg;
-				PHeadSetB((LPBYTE)&pMsg, 0x92, sizeof(pMsg));
+				PHeadSetB((BYTE*)&pMsg, 0x92, sizeof(pMsg));
 				pMsg.Type = 4;
 				this->SendBridgeAnyMsg((BYTE*)&pMsg, sizeof(pMsg), iBridgeIndex);
 			}
@@ -799,7 +799,7 @@ void CBloodCastle::ProcState_Playing(int iBridgeIndex)
 			this->m_BridgeData[iBridgeIndex].m_i64_BC_REMAIN_MSEC = (this->m_iBC_TIME_MIN_PLAY*60)*1000;
 			this->m_BridgeData[iBridgeIndex].m_bBC_CAN_PARTY = false;
 			TNotice::MakeNoticeMsgEx((TNotice*)&pNotice, 0, Lang.GetText(0,66), iBridgeIndex+1);
-			this->SendBridgeAnyMsg( (LPBYTE)&pNotice, pNotice.h.size, iBridgeIndex);
+			this->SendBridgeAnyMsg( (BYTE*)&pNotice, pNotice.h.size, iBridgeIndex);
 			this->ReleaseCastleEntrance(iBridgeIndex);
 			this->SendCastleEntranceBlockInfo(iBridgeIndex, 0);
 			this->m_BridgeData[iBridgeIndex].m_bBC_PLAY_START = true;
@@ -813,7 +813,7 @@ void CBloodCastle::ProcState_Playing(int iBridgeIndex)
 		{
 			this->m_BridgeData[iBridgeIndex].m_bBC_MSG_BEFORE_END = true;
 			PMSG_SET_DEVILSQUARE pMsg;
-			PHeadSetB((LPBYTE)&pMsg, 0x92, sizeof(pMsg));
+			PHeadSetB((BYTE*)&pMsg, 0x92, sizeof(pMsg));
 			pMsg.Type = 5;
 			this->SendBridgeAnyMsg((BYTE *)&pMsg, sizeof(pMsg), iBridgeIndex);
 		}
@@ -823,7 +823,7 @@ void CBloodCastle::ProcState_Playing(int iBridgeIndex)
 			PMSG_NOTICE pNotice;
 
 			TNotice::MakeNoticeMsg(&pNotice, 0, Lang.GetText(0,67));
-			this->SendBridgeAnyMsg( (LPBYTE)&pNotice, pNotice.h.size, iBridgeIndex);
+			this->SendBridgeAnyMsg( (BYTE*)&pNotice, pNotice.h.size, iBridgeIndex);
 
 			this->GiveReward_Fail(iBridgeIndex);
 			this->SetState(iBridgeIndex, BC_STATE_CLOSED);
@@ -896,7 +896,7 @@ void CBloodCastle::ProcState_PlayEnd(int iBridgeIndex)
 
 			PMSG_SET_DEVILSQUARE pMsg;
 
-			PHeadSetB((LPBYTE)&pMsg, 0x92, sizeof(pMsg));
+			PHeadSetB((BYTE*)&pMsg, 0x92, sizeof(pMsg));
 			pMsg.Type = 6;
 
 			this->SendBridgeAnyMsg((BYTE *)&pMsg, sizeof(pMsg), iBridgeIndex);
@@ -993,7 +993,7 @@ void CBloodCastle::SetState_Playing(int iBridgeIndex)
 	PMSG_NOTICE pNotice;
 
 	TNotice::MakeNoticeMsgEx(&pNotice, 1, Lang.GetText(0, 68), iBridgeIndex + 1, 60);
-	this->SendBridgeAnyMsg((LPBYTE)&pNotice, pNotice.h.size, iBridgeIndex);
+	this->SendBridgeAnyMsg((BYTE*)&pNotice, pNotice.h.size, iBridgeIndex);
 
 	PMSG_SERVERCMD ServerCmd;
 
@@ -1013,7 +1013,7 @@ void CBloodCastle::SetState_Playing(int iBridgeIndex)
 	CODEREPLACE_END
 #endif
 
-	PHeadSubSetB((LPBYTE)&ServerCmd, 0xF3, 0x40, sizeof(ServerCmd));
+	PHeadSubSetB((BYTE*)&ServerCmd, 0xF3, 0x40, sizeof(ServerCmd));
 	ServerCmd.CmdType = 1;
 	ServerCmd.X = 45;
 	ServerCmd.Y = 0;
@@ -1139,7 +1139,7 @@ bool CBloodCastle::BloodCastleChaosMix(CGameObject &Obj, int iLEVEL)
 
 	PMSG_CHAOSMIXRESULT pMsg;
 
-	PHeadSetB((LPBYTE)&pMsg.h, 0x86, sizeof(PMSG_CHAOSMIXRESULT));
+	PHeadSetB((BYTE*)&pMsg.h, 0x86, sizeof(PMSG_CHAOSMIXRESULT));
 	pMsg.Result = CB_ERROR; //
 	Obj.ChaosLock = TRUE;
 
@@ -1152,7 +1152,7 @@ bool CBloodCastle::BloodCastleChaosMix(CGameObject &Obj, int iLEVEL)
 
 	if ( iMIX_SUCCESS_RATE < 0 || iMIX_SUCCESS_RATE > 100 )
 	{
-		IOCP.DataSend(Obj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 		return false;
 	}
 
@@ -1171,7 +1171,7 @@ bool CBloodCastle::BloodCastleChaosMix(CGameObject &Obj, int iLEVEL)
 		pMsg.Result = 0xF0;
 		Obj.ChaosLock = FALSE;
 
-		IOCP.DataSend(Obj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 	}
 
 	iMIX_SUCCESS_RATE += Obj.ChaosSuccessRate;
@@ -1187,14 +1187,14 @@ bool CBloodCastle::BloodCastleChaosMix(CGameObject &Obj, int iLEVEL)
 
 	if ( iMIX_NEED_MONEY <  0 )
 	{
-		IOCP.DataSend(Obj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 		return false;
 	}
 
 	if ( (Obj.m_PlayerData->Money - iMIX_NEED_MONEY) < 0 )
 	{
 		pMsg.Result = CB_BC_NOT_ENOUGH_ZEN;
-		IOCP.DataSend(Obj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 		return false;
 	}
 
@@ -1211,7 +1211,7 @@ bool CBloodCastle::BloodCastleChaosMix(CGameObject &Obj, int iLEVEL)
 	{
 		g_MixSystem.ChaosBoxInit(Obj);
 		gGameProtocol.GCUserChaosBoxSend(Obj, 0);
-		IOCP.DataSend(Obj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 		return false;
 	}
 
@@ -2331,7 +2331,7 @@ void CBloodCastle::SendCastleEntranceBlockInfo(int iBridgeIndex, bool bLive)
 	char cTEMP_BUF[256];
 	PMSG_SETMAPATTR_COUNT * lpMsg = (PMSG_SETMAPATTR_COUNT *)cTEMP_BUF;
 
-	PHeadSetB((LPBYTE)lpMsg, 0x46, sizeof(PMSG_SETMAPATTR_COUNT)+sizeof(PMSG_SETMAPATTR)*6);
+	PHeadSetB((BYTE*)lpMsg, 0x46, sizeof(PMSG_SETMAPATTR_COUNT)+sizeof(PMSG_SETMAPATTR)*6);
 	PMSG_SETMAPATTR * lpMsgBody = (PMSG_SETMAPATTR *)&cTEMP_BUF[7];
 	lpMsg->btType = 0;
 	lpMsg->btCount = 1;
@@ -2351,7 +2351,7 @@ void CBloodCastle::SendCastleEntranceBlockInfo(int iBridgeIndex, bool bLive)
 		{
 			if ( gGameObjects[i]->Connected > PLAYER_LOGGED )
 			{
-				IOCP.DataSend(i,(LPBYTE)lpMsg, lpMsg->h.size);
+				IOCP.DataSend(i,(BYTE*)lpMsg, lpMsg->h.size);
 			}
 		}
 	}
@@ -2373,7 +2373,7 @@ void CBloodCastle::SendCastleBridgeBlockInfo(int iBridgeIndex, bool bLive)
 	char cTEMP_BUF[256];
 	PMSG_SETMAPATTR_COUNT * lpMsg = (PMSG_SETMAPATTR_COUNT *)cTEMP_BUF;
 
-	PHeadSetB((LPBYTE)lpMsg, 0x46, sizeof(PMSG_SETMAPATTR_COUNT)+sizeof(PMSG_SETMAPATTR)*6);
+	PHeadSetB((BYTE*)lpMsg, 0x46, sizeof(PMSG_SETMAPATTR_COUNT)+sizeof(PMSG_SETMAPATTR)*6);
 	PMSG_SETMAPATTR * lpMsgBody = (PMSG_SETMAPATTR *)&cTEMP_BUF[7];
 	lpMsg->btType = 0;
 	lpMsg->btCount = 1;
@@ -2393,7 +2393,7 @@ void CBloodCastle::SendCastleBridgeBlockInfo(int iBridgeIndex, bool bLive)
 		{
 			if ( gGameObjects[i]->Connected > PLAYER_LOGGED )
 			{
-				IOCP.DataSend(gGameObjects[i]->m_PlayerData->IDNumber, (LPBYTE)lpMsg, lpMsg->h.size);
+				IOCP.DataSend(gGameObjects[i]->m_PlayerData->IDNumber, (BYTE*)lpMsg, lpMsg->h.size);
 
 			}
 		}
@@ -2414,7 +2414,7 @@ void CBloodCastle::SendCastleDoorBlockInfo(int iBridgeIndex, bool bLive)
 	char cTEMP_BUF[256];
 	PMSG_SETMAPATTR_COUNT * lpMsg = (PMSG_SETMAPATTR_COUNT *)cTEMP_BUF;
 
-	PHeadSetB((LPBYTE)lpMsg, 0x46, sizeof(PMSG_SETMAPATTR_COUNT)+sizeof(PMSG_SETMAPATTR)*6);
+	PHeadSetB((BYTE*)lpMsg, 0x46, sizeof(PMSG_SETMAPATTR_COUNT)+sizeof(PMSG_SETMAPATTR)*6);
 	PMSG_SETMAPATTR * lpMsgBody = (PMSG_SETMAPATTR *)&cTEMP_BUF[7];
 	lpMsg->btType = 0;
 	lpMsg->btCount = 3;
@@ -2444,7 +2444,7 @@ void CBloodCastle::SendCastleDoorBlockInfo(int iBridgeIndex, bool bLive)
 		{
 			if ( gGameObjects[i]->Connected > PLAYER_LOGGED )
 			{
-				IOCP.DataSend(gGameObjects[i]->m_PlayerData->IDNumber, (LPBYTE)lpMsg, lpMsg->h.size);
+				IOCP.DataSend(gGameObjects[i]->m_PlayerData->IDNumber, (BYTE*)lpMsg, lpMsg->h.size);
 			}
 		}
 	}
@@ -2523,7 +2523,7 @@ void CBloodCastle::SendNoticeState(int iBridgeIndex, int iPlayState)
 
 	PMSG_STATEBLOODCASTLE pMsg;
 
-	PHeadSetB((LPBYTE)&pMsg, 0x9B, sizeof(PMSG_STATEBLOODCASTLE));
+	PHeadSetB((BYTE*)&pMsg, 0x9B, sizeof(PMSG_STATEBLOODCASTLE));
 	pMsg.btPlayState = iPlayState;
 	pMsg.wRemainSec = (int)this->m_BridgeData[iBridgeIndex].m_i64_BC_REMAIN_MSEC / 1000;
 
@@ -2944,7 +2944,7 @@ void CBloodCastle::GiveReward_Win(CGameObject &Obj, int iBridgeIndex)
 			pMsg.m_stBCCharScore[0].iEXP = iREWARD_EXP;
 			pMsg.m_stBCCharScore[0].iZEN = iREWARD_ZEN;
 			pMsg.m_stBCCharScore[0].iSCORE = iREWARD_SCR;
-			PHeadSetB((LPBYTE)&pMsg.PHeader, 0x93, sizeof(GCS_BC_GIVE_REWARD) - (sizeof(ST_BC_SCORE) * (this->m_BridgeData[iBridgeIndex].m_UserData.size() -1)) );
+			PHeadSetB((BYTE*)&pMsg.PHeader, 0x93, sizeof(GCS_BC_GIVE_REWARD) - (sizeof(ST_BC_SCORE) * (this->m_BridgeData[iBridgeIndex].m_UserData.size() -1)) );
 
 			IOCP.DataSend(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_PlayerData->IDNumber, (UCHAR*)&pMsg, pMsg.PHeader.uSize);
 			g_QuestExpProgMng.ChkUserQuestTypeEventMap(QUESTEXP_ASK_BLOODCASTLE_CLEAR,
@@ -3027,7 +3027,7 @@ void CBloodCastle::GiveReward_Fail(int iBridgeIndex)
 		pMsg.m_stBCCharScore[0].iEXP = iADD_EXP;
 		pMsg.m_stBCCharScore[0].iZEN = 0;
 		pMsg.m_stBCCharScore[0].iSCORE = g_iBC_EventScore_Fail[iBridgeIndex];
-		PHeadSetB((LPBYTE)&pMsg.PHeader, 0x93, sizeof(GCS_BC_GIVE_REWARD) - (sizeof(ST_BC_SCORE) * (this->m_BridgeData[iBridgeIndex].m_UserData.size() -1)) );
+		PHeadSetB((BYTE*)&pMsg.PHeader, 0x93, sizeof(GCS_BC_GIVE_REWARD) - (sizeof(ST_BC_SCORE) * (this->m_BridgeData[iBridgeIndex].m_UserData.size() -1)) );
 
 		if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_cBloodCastleIndex != -1 && this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_cBloodCastleSubIndex != -1 )
 		{
@@ -3370,7 +3370,7 @@ bool CBloodCastle::CheckEveryUserDie(int iBridgeIndex)
 
 				PMSG_STATEBLOODCASTLE pMsg;
 
-				PHeadSetB((LPBYTE)&pMsg, 0x9B, sizeof(PMSG_STATEBLOODCASTLE));
+				PHeadSetB((BYTE*)&pMsg, 0x9B, sizeof(PMSG_STATEBLOODCASTLE));
 				pMsg.btPlayState = 2;
 				pMsg.wRemainSec = 0;
 				pMsg.wMaxKillMonster = 0;
@@ -3548,7 +3548,7 @@ BOOL CBloodCastle::DropItemDirectly(int iBridgeIndex, CGameObject &Obj, int iIte
 	}
 
 	PMSG_ITEMTHROW_RESULT pResult;
-	PHeadSetB((LPBYTE)&pResult, 0x23, sizeof(pResult));
+	PHeadSetB((BYTE*)&pResult, 0x23, sizeof(pResult));
 	pResult.Result = TRUE;
 	pResult.Ipos = iItemPos;
 	int map_num = Obj.MapNumber;
@@ -3612,7 +3612,7 @@ BOOL CBloodCastle::DropItemDirectly(int iBridgeIndex, CGameObject &Obj, int iIte
 
 			PMSG_USEREQUIPMENTCHANGED pMsg;
 
-			PHeadSetB((LPBYTE)&pMsg, 0x25, sizeof(PMSG_USEREQUIPMENTCHANGED));
+			PHeadSetB((BYTE*)&pMsg, 0x25, sizeof(PMSG_USEREQUIPMENTCHANGED));
 			pMsg.NumberH = SET_NUMBERH(Obj.m_Index);
 			pMsg.NumberL = SET_NUMBERL(Obj.m_Index);
 			ItemByteConvert(pMsg.ItemInfo, Obj.pInventory[iItemPos]);
@@ -4204,7 +4204,7 @@ void CBloodCastle::SendNoticeMessageToSpecificUser(int iBridgeIndex, CGameObject
 
 	PMSG_STATEBLOODCASTLE pMsg;
 
-	PHeadSetB((LPBYTE)&pMsg, 0x9B, sizeof(PMSG_STATEBLOODCASTLE));
+	PHeadSetB((BYTE*)&pMsg, 0x9B, sizeof(PMSG_STATEBLOODCASTLE));
 	pMsg.btPlayState = iPlayState;
 	pMsg.wRemainSec = (int)this->m_BridgeData[iBridgeIndex].m_i64_BC_REMAIN_MSEC / 1000;
 
@@ -4374,7 +4374,7 @@ void CBloodCastle::CatchQuestItemByUser(int iBridgeIndex, CGameObject &Obj, int 
 
 }
 
-bool CBloodCastle::NpcAngelKing(CGameObject &lpNpc, CGameObject lpObj)
+bool CBloodCastle::NpcAngelKing(CGameObject &Npc, CGameObject lpObj)
 {
 	int iITEM_LEVEL = 0;
 	int iBLOODCASTLE_INDEX = lpObj.m_cBloodCastleIndex;
@@ -4489,7 +4489,7 @@ void CBloodCastle::KillMonsterProc(int iBridgeIndex, CGameObject lpMonsterObj)
 
 			PMSG_STATEBLOODCASTLE pMsg;
 
-			PHeadSetB((LPBYTE)&pMsg, 0x9B, sizeof(PMSG_STATEBLOODCASTLE));
+			PHeadSetB((BYTE*)&pMsg, 0x9B, sizeof(PMSG_STATEBLOODCASTLE));
 
 			pMsg.btPlayState = BC_STATE_PLAYEND;
 			pMsg.wRemainSec = 0;
@@ -4498,7 +4498,7 @@ void CBloodCastle::KillMonsterProc(int iBridgeIndex, CGameObject lpMonsterObj)
 			pMsg.wUserHaveWeapon = 0;
 			pMsg.btWeaponNum = -1;
 
-			this->SendBridgeAnyMsg((LPBYTE)&pMsg, pMsg.h.size, iBridgeIndex);
+			this->SendBridgeAnyMsg((BYTE*)&pMsg, pMsg.h.size, iBridgeIndex);
 			this->ReleaseCastleBridge(iBridgeIndex);
 
 			this->m_BridgeData[iBridgeIndex].m_i64_BC_TICK_DOOR_OPEN = GetTickCount64() + 3000;

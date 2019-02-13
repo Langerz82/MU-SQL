@@ -165,7 +165,7 @@ void CBag::InitBag()
 	this->m_BagData.m_bLoadBag = false;
 }
 
-int CBag::GetDropSection(CGameObject &lpObj, BAG_SECTION_DROP &pRetDrop)
+int CBag::GetDropSection(CGameObject &Obj, BAG_SECTION_DROP &pRetDrop)
 {
 	if (this->m_BagData.m_bLoadBag == false)
 	{
@@ -276,7 +276,7 @@ int CBag::GetItem(BAG_SECTION_ITEMS &pItemsSec, BAG_ITEM & pRetItem)
 	return TRUE;
 }
 
-int CBag::GetReadyItemToUse(CGameObject &lpObj, CItemObject &pItem, time_t & DurationItem)
+int CBag::GetReadyItemToUse(CGameObject &Obj, CItemObject &pItem, time_t & DurationItem)
 {
 	
 
@@ -350,11 +350,11 @@ int CBag::GetItemLevel(int MinLevel, int MaxLevel)
 	return level;
 }
 
-void CBag::MakeBagEffectUse(CGameObject &lpObj, int iMonsterIndex)
+void CBag::MakeBagEffectUse(CGameObject &Obj, int iMonsterIndex)
 {
 	PMSG_SERVERCMD ServerCmd;
 
-	PHeadSubSetB((LPBYTE)&ServerCmd, 0xF3, 0x40, sizeof(ServerCmd));
+	PHeadSubSetB((BYTE*)&ServerCmd, 0xF3, 0x40, sizeof(ServerCmd));
 	ServerCmd.CmdType = this->m_BagData.iBagUseEffect;
 
 	switch (this->m_BagData.iBagUseEffect)
@@ -373,11 +373,11 @@ void CBag::MakeBagEffectUse(CGameObject &lpObj, int iMonsterIndex)
 			break;
 	}
 
-	gGameProtocol.MsgSendV2(&gGameObjects[aIndex], (LPBYTE)&ServerCmd, ServerCmd.h.size);
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&ServerCmd, ServerCmd.h.size);
+	gGameProtocol.MsgSendV2(&gGameObjects[aIndex], (BYTE*)&ServerCmd, ServerCmd.h.size);
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)&ServerCmd, ServerCmd.h.size);
 }
 
-void CBag::AddCoin(CGameObject &lpObj)
+void CBag::AddCoin(CGameObject &Obj)
 {
 	if (ObjectMaxRange(aIndex) == false)
 	{
@@ -397,7 +397,7 @@ void CBag::AddCoin(CGameObject &lpObj)
 	sLog->outBasic("[Bag Manager] (%s)(%s) Add Coin: (Type:%d) (Amount:%d) (Bag:%s)", lpObj.AccountID, lpObj.Name, this->m_BagData.btAddCoinType, this->m_BagData.dwAddCoinValue, this->m_BagData.szBagName);
 }
 
-void CBag::DropSummonItem(CGameObject &lpObj)
+void CBag::DropSummonItem(CGameObject &Obj)
 {
 	if (ObjectMaxRange(aIndex) == false)
 	{

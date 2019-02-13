@@ -21,7 +21,7 @@ BOOL CRingMonsterHerd::Start()
 	return this->MonsterHerd::Start();
 }
 
-BOOL CRingMonsterHerd::MonsterHerdItemDrop(CGameObject &lpObj)
+BOOL CRingMonsterHerd::MonsterHerdItemDrop(CGameObject &Obj)
 {
 	
 	if ( lpObj.Class == 135 )
@@ -68,7 +68,7 @@ BOOL CRingMonsterHerd::MonsterHerdItemDrop(CGameObject &lpObj)
 
 }
 
-void CRingMonsterHerd::MonsterAttackAction(CGameObject &lpObj, CGameObject lpTargetObj)
+void CRingMonsterHerd::MonsterAttackAction(CGameObject &Obj, CGameObject lpTargetObj)
 {
 	if ( gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STONE) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STUN) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_SLEEP)
 		|| gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_FREEZE_2) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_EARTH_BINDS) )
@@ -130,7 +130,7 @@ void CRingMonsterHerd::SendEventGiftWinner(CGameObject &Obj, int iGiftKind)
 
 	PMSG_REQ_REG_RINGGIFT pMsg;
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xBE, 0x10, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xBE, 0x10, sizeof(pMsg));
 	pMsg.iINDEX  = iIndex;
 	memcpy(pMsg.szUID, Obj.AccountID, MAX_ACCOUNT_LEN);
 	pMsg.szUID[MAX_ACCOUNT_LEN] = 0;	// #error Remove the +1 to avoid problems
@@ -490,10 +490,10 @@ void CRingAttackEvent::ProcState_Closed()
 
 					PMSG_ANS_CL_EFFECT pMsg;
 
-					PHeadSetB((LPBYTE)&pMsg, 0x9E, sizeof(pMsg));
+					PHeadSetB((BYTE*)&pMsg, 0x9E, sizeof(pMsg));
 					pMsg.wEffectNum = 0;
 
-					gGameProtocol.DataSendAll((LPBYTE)&pMsg, pMsg.h.size);
+					gGameProtocol.DataSendAll((BYTE*)&pMsg, pMsg.h.size);
 
 					sLog->outBasic("[Ring Event] - Before 3 minutes - Advertise");
 				}
@@ -509,10 +509,10 @@ void CRingAttackEvent::ProcState_Closed()
 
 		PMSG_ANS_CL_EFFECT pMsg;
 
-		PHeadSetB((LPBYTE)&pMsg, 0x9E, sizeof(pMsg));
+		PHeadSetB((BYTE*)&pMsg, 0x9E, sizeof(pMsg));
 		pMsg.wEffectNum = 1;
 
-		gGameProtocol.DataSendAll((LPBYTE)&pMsg, pMsg.h.size);
+		gGameProtocol.DataSendAll((BYTE*)&pMsg, pMsg.h.size);
 
 		if ( this->m_bDoEvent )
 		{
@@ -593,10 +593,10 @@ void CRingAttackEvent::ProcState_Playing()
 
 		PMSG_ANS_CL_EFFECT pMsg;
 
-		PHeadSetB((LPBYTE)&pMsg, 0x9E, sizeof(pMsg));
+		PHeadSetB((BYTE*)&pMsg, 0x9E, sizeof(pMsg));
 		pMsg.wEffectNum = 2;
 
-		gGameProtocol.DataSendAll((LPBYTE)&pMsg, pMsg.h.size);
+		gGameProtocol.DataSendAll((BYTE*)&pMsg, pMsg.h.size);
 
 		if ( this->m_bDoEvent )
 		{
@@ -702,10 +702,10 @@ void CRingAttackEvent::Start_Menual()
 
 	PMSG_ANS_CL_EFFECT pMsg;
 
-	PHeadSetB((LPBYTE)&pMsg, 0x9E, sizeof(pMsg));
+	PHeadSetB((BYTE*)&pMsg, 0x9E, sizeof(pMsg));
 	pMsg.wEffectNum = 1;
 
-	gGameProtocol.DataSendAll((LPBYTE)&pMsg, pMsg.h.size);
+	gGameProtocol.DataSendAll((BYTE*)&pMsg, pMsg.h.size);
 	this->SetState(2);
 }
 

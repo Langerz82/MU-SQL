@@ -949,7 +949,7 @@ namespace strtk
       };
 
       typedef adapter<const char> string;
-      typedef adapter<const unsigned char> ustring;
+      typedef adapter<const BYTE> ustring;
 
       template <typename T>
       inline adapter<T> type(const T* begin, const T* end)
@@ -981,7 +981,7 @@ namespace strtk
          return std::string(a.begin(),a.end());
       }
 
-      inline std::string as_string(const adapter<const unsigned char>& a)
+      inline std::string as_string(const adapter<const BYTE>& a)
       {
          return std::string(a.begin(),a.end());
       }
@@ -1093,14 +1093,14 @@ namespace strtk
          setup_delimiter_table(s.data(),s.data() + s.size());
       }
 
-      inline bool operator()(const unsigned char& c) const
+      inline bool operator()(const BYTE& c) const
       {
          return (delimiter_table_[c]);
       }
 
       inline bool operator()(const char& c) const
       {
-         return operator()(static_cast<unsigned char>(c));
+         return operator()(static_cast<BYTE>(c));
       }
 
    private:
@@ -1113,7 +1113,7 @@ namespace strtk
          std::fill_n(delimiter_table_,table_size,false);
          for (Iterator itr = begin; itr != end; ++itr)
          {
-            delimiter_table_[static_cast<unsigned char>(*itr)] = true;
+            delimiter_table_[static_cast<BYTE>(*itr)] = true;
          }
       }
 
@@ -4304,11 +4304,11 @@ namespace strtk
       return (repeated != position) ? (begin + position) : end;
    }
 
-   inline const unsigned char* first_non_repeated_char(const unsigned char* begin, const unsigned char* end)
+   inline const BYTE* first_non_repeated_char(const BYTE* begin, const BYTE* end)
    {
-      char * b = reinterpret_cast<char*>(const_cast<unsigned char*>(begin));
-      char * e = reinterpret_cast<char*>(const_cast<unsigned char*>(end));
-      return const_cast<const unsigned char*>(reinterpret_cast<unsigned char*>(const_cast<char*>(first_non_repeated_char(b,e))));
+      char * b = reinterpret_cast<char*>(const_cast<BYTE*>(begin));
+      char * e = reinterpret_cast<char*>(const_cast<BYTE*>(end));
+      return const_cast<const BYTE*>(reinterpret_cast<BYTE*>(const_cast<char*>(first_non_repeated_char(b,e))));
    }
 
    inline std::size_t first_non_repeated_char(const std::string& str)
@@ -4322,7 +4322,7 @@ namespace strtk
          return static_cast<std::size_t>(std::string::npos);
    }
 
-   inline void convert_bin_to_hex(const unsigned char* begin, const unsigned char* end, unsigned char* out)
+   inline void convert_bin_to_hex(const BYTE* begin, const BYTE* end, BYTE* out)
    {
       static const unsigned short hex_lut[] =
                                   {
@@ -4360,7 +4360,7 @@ namespace strtk
                                      0x3846, 0x3946, 0x4146, 0x4246, 0x4346, 0x4446, 0x4546, 0x4646
                                   };
 
-      for (const unsigned char* itr = begin; end != itr; ++itr)
+      for (const BYTE* itr = begin; end != itr; ++itr)
       {
          *reinterpret_cast<unsigned short*>(out) = hex_lut[(*itr)];
          out += sizeof(unsigned short);
@@ -4369,17 +4369,17 @@ namespace strtk
 
    inline void convert_bin_to_hex(const char* begin, const char* end, char* out)
    {
-      convert_bin_to_hex(reinterpret_cast<const unsigned char*>(begin),
-                         reinterpret_cast<const unsigned char*>(end),
-                         reinterpret_cast<unsigned char*>(out));
+      convert_bin_to_hex(reinterpret_cast<const BYTE*>(begin),
+                         reinterpret_cast<const BYTE*>(end),
+                         reinterpret_cast<BYTE*>(out));
    }
 
-   inline void convert_bin_to_hex(const std::pair<unsigned char*,unsigned char*>& r, unsigned char* out)
+   inline void convert_bin_to_hex(const std::pair<BYTE*,BYTE*>& r, BYTE* out)
    {
       convert_bin_to_hex(r.first,r.second,out);
    }
 
-   inline void convert_bin_to_hex(const std::pair<const unsigned char*,const unsigned char*>& r, unsigned char* out)
+   inline void convert_bin_to_hex(const std::pair<const BYTE*,const BYTE*>& r, BYTE* out)
    {
       convert_bin_to_hex(r.first,r.second,out);
    }
@@ -4404,14 +4404,14 @@ namespace strtk
       return output;
    }
 
-   inline bool convert_hex_to_bin(const unsigned char* begin, const unsigned char* end, unsigned char* out)
+   inline bool convert_hex_to_bin(const BYTE* begin, const BYTE* end, BYTE* out)
    {
       const std::size_t length = std::distance(begin,end);
       if (0 == length)
          return false;
       else if (1 == (length % 2))
          return false;
-      static const unsigned char hex_to_bin[] =
+      static const BYTE hex_to_bin[] =
                                  {
                                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, // 0x00 - 0x07
                                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, // 0x08 - 0x0F
@@ -4447,11 +4447,11 @@ namespace strtk
                                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00  // 0xF8 - 0xFF
                                  };
 
-      const unsigned char* itr = begin;
+      const BYTE* itr = begin;
 
       while (end != itr)
       {
-         *reinterpret_cast<unsigned char*>(out) = static_cast<unsigned char>(hex_to_bin[itr[0]] << 4 | hex_to_bin[itr[1]]);
+         *reinterpret_cast<BYTE*>(out) = static_cast<BYTE>(hex_to_bin[itr[0]] << 4 | hex_to_bin[itr[1]]);
          ++out;
          itr += 2;
       }
@@ -4461,17 +4461,17 @@ namespace strtk
 
    inline bool convert_hex_to_bin(const char* begin, const char* end, char* out)
    {
-      return convert_hex_to_bin(reinterpret_cast<const unsigned char*>(begin),
-                                reinterpret_cast<const unsigned char*>(end),
-                                reinterpret_cast<unsigned char*>(out));
+      return convert_hex_to_bin(reinterpret_cast<const BYTE*>(begin),
+                                reinterpret_cast<const BYTE*>(end),
+                                reinterpret_cast<BYTE*>(out));
    }
 
-   inline bool convert_hex_to_bin(const std::pair<unsigned char*,unsigned char*>& r, unsigned char* out)
+   inline bool convert_hex_to_bin(const std::pair<BYTE*,BYTE*>& r, BYTE* out)
    {
       return convert_hex_to_bin(r.first,r.second,out);
    }
 
-   inline bool convert_hex_to_bin(const std::pair<const unsigned char*,const unsigned char*>& r, unsigned char* out)
+   inline bool convert_hex_to_bin(const std::pair<const BYTE*,const BYTE*>& r, BYTE* out)
    {
       return convert_hex_to_bin(r.first,r.second,out);
    }
@@ -4498,13 +4498,13 @@ namespace strtk
                                 const_cast<char*>(output.data()));
    }
 
-   inline std::size_t convert_bin_to_base64(const unsigned char* begin, const unsigned char* end, unsigned char* out)
+   inline std::size_t convert_bin_to_base64(const BYTE* begin, const BYTE* end, BYTE* out)
    {
-      static const unsigned char bin_to_base64 [] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+      static const BYTE bin_to_base64 [] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
       const std::size_t length = std::distance(begin,end);
       std::size_t rounds = length / 3;
-      const unsigned char* itr = begin;
+      const BYTE* itr = begin;
 
       for (std::size_t i = 0; i < rounds; ++i)
       {
@@ -4522,7 +4522,7 @@ namespace strtk
          switch (rounds)
          {
             case 1 : {
-                       unsigned int block  = (unsigned char) (*itr) << 16;
+                       unsigned int block  = (BYTE) (*itr) << 16;
                        *(out++) = bin_to_base64[( block >> 18 ) & 0x3F];
                        *(out++) = bin_to_base64[( block >> 12 ) & 0x3F];
                        *(out++) = '=';
@@ -4547,9 +4547,9 @@ namespace strtk
 
    inline std::size_t convert_bin_to_base64(const char* begin, const char* end, char* out)
    {
-      return convert_bin_to_base64(reinterpret_cast<const unsigned char*>(begin),
-                                   reinterpret_cast<const unsigned char*>(end),
-                                   reinterpret_cast<unsigned char*>(out));
+      return convert_bin_to_base64(reinterpret_cast<const BYTE*>(begin),
+                                   reinterpret_cast<const BYTE*>(end),
+                                   reinterpret_cast<BYTE*>(out));
    }
 
    inline void convert_bin_to_base64(const std::string& binary_data, std::string& output)
@@ -4561,9 +4561,9 @@ namespace strtk
       output.resize(resize);
    }
 
-   inline std::size_t convert_base64_to_bin(const unsigned char* begin, const unsigned char* end, unsigned char* out)
+   inline std::size_t convert_base64_to_bin(const BYTE* begin, const BYTE* end, BYTE* out)
    {
-      static const unsigned char base64_to_bin[] =
+      static const BYTE base64_to_bin[] =
                                  {
                                     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, // 0x00 - 0x07
                                     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, // 0x08 - 0x0F
@@ -4599,7 +4599,7 @@ namespace strtk
                                     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF  // 0xF8 - 0xFF
                                  };
 
-      const unsigned char* end_itr = end;
+      const BYTE* end_itr = end;
 
       if ('=' == *(end - 2))
          end_itr = end - 2;
@@ -4608,7 +4608,7 @@ namespace strtk
 
       const std::size_t length = std::distance(begin,end_itr);
       const std::size_t rounds = length / 4;
-      const unsigned char* itr = begin;
+      const BYTE* itr = begin;
 
       for (std::size_t i = 0; i < rounds; ++i)
       {
@@ -4617,9 +4617,9 @@ namespace strtk
                       block |= base64_to_bin[*(itr++)] <<  6;
                       block |= base64_to_bin[*(itr++)];
 
-         *(out++) = static_cast<unsigned char>(( block >> 16 ) & 0xFF);
-         *(out++) = static_cast<unsigned char>(( block >>  8 ) & 0xFF);
-         *(out++) = static_cast<unsigned char>(( block       ) & 0xFF);
+         *(out++) = static_cast<BYTE>(( block >> 16 ) & 0xFF);
+         *(out++) = static_cast<BYTE>(( block >>  8 ) & 0xFF);
+         *(out++) = static_cast<BYTE>(( block       ) & 0xFF);
       }
 
       const std::size_t remainder = (length % 4);
@@ -4631,7 +4631,7 @@ namespace strtk
             case 2 : {
                         unsigned int block  = base64_to_bin[*(itr++)] << 18;
                                      block |= base64_to_bin[*(itr++)] << 12;
-                        (*out) = static_cast<unsigned char>(( block >> 16 ) & 0xFF);
+                        (*out) = static_cast<BYTE>(( block >> 16 ) & 0xFF);
                      }
                      break;
 
@@ -4639,8 +4639,8 @@ namespace strtk
                         unsigned int block  = base64_to_bin[*(itr++)] << 18;
                                      block |= base64_to_bin[*(itr++)] << 12;
                                      block |= base64_to_bin[*(itr++)] <<  6;
-                        *(out++) = static_cast<unsigned char>(( block >> 16 ) & 0xFF);
-                        *(out  ) = static_cast<unsigned char>(( block >>  8 ) & 0xFF);
+                        *(out++) = static_cast<BYTE>(( block >> 16 ) & 0xFF);
+                        *(out  ) = static_cast<BYTE>(( block >>  8 ) & 0xFF);
                      }
                      break;
          }
@@ -4651,9 +4651,9 @@ namespace strtk
 
    inline std::size_t convert_base64_to_bin(const char* begin, const char* end, char* out)
    {
-      return convert_base64_to_bin(reinterpret_cast<const unsigned char*>(begin),
-                                   reinterpret_cast<const unsigned char*>(end),
-                                   reinterpret_cast<unsigned char*>(out));
+      return convert_base64_to_bin(reinterpret_cast<const BYTE*>(begin),
+                                   reinterpret_cast<const BYTE*>(end),
+                                   reinterpret_cast<BYTE*>(out));
    }
 
    inline void convert_base64_to_bin(const std::string& binary_data, std::string& output)
@@ -4665,9 +4665,9 @@ namespace strtk
       output.resize(resize);
    }
 
-   inline void convert_to_printable_chars(unsigned char* begin, unsigned char* end)
+   inline void convert_to_printable_chars(BYTE* begin, BYTE* end)
    {
-      static const unsigned char printable_char_table[] =
+      static const BYTE printable_char_table[] =
                                  {
                                     0x2E, 0x2E, 0x2E, 0x2E, 0x2E, 0x2E, 0x2E, 0x2E, // 0x00 - 0x07
                                     0x2E, 0x2E, 0x2E, 0x2E, 0x2E, 0x2E, 0x2E, 0x2E, // 0x08 - 0x0F
@@ -4703,7 +4703,7 @@ namespace strtk
                                     0x2E, 0x2E, 0x2E, 0x2E, 0x2E, 0x2E, 0x2E, 0x2E  // 0xF8 - 0xFF
                                  };
 
-      unsigned char* itr = begin;
+      BYTE* itr = begin;
 
       while (end != itr)
       {
@@ -4714,25 +4714,25 @@ namespace strtk
 
    inline void convert_to_printable_chars(char* begin, char* end)
    {
-      convert_to_printable_chars(reinterpret_cast<unsigned char*>(begin),
-                                 reinterpret_cast<unsigned char*>(end));
+      convert_to_printable_chars(reinterpret_cast<BYTE*>(begin),
+                                 reinterpret_cast<BYTE*>(end));
    }
 
    inline void convert_to_printable_chars(std::string& str)
    {
-      convert_to_printable_chars(reinterpret_cast<unsigned char*>(const_cast<char*>(str.data())),
-                                 reinterpret_cast<unsigned char*>(const_cast<char*>(str.data() + str.size())));
+      convert_to_printable_chars(reinterpret_cast<BYTE*>(const_cast<char*>(str.data())),
+                                 reinterpret_cast<BYTE*>(const_cast<char*>(str.data() + str.size())));
    }
 
-   inline void convert_to_uppercase(unsigned char* begin, unsigned char* end)
+   inline void convert_to_uppercase(BYTE* begin, BYTE* end)
    {
       std::transform(begin,end,begin,::toupper);
       /*
-      unsigned char* itr = begin;
+      BYTE* itr = begin;
       while (end != itr)
       {
          //(*itr) = std::toupper((*itr), std::locale::classic());
-         (*itr) = static_cast<unsigned char>(::toupper(static_cast<int>(*itr)));
+         (*itr) = static_cast<BYTE>(::toupper(static_cast<int>(*itr)));
          ++itr;
       }
       */
@@ -4740,25 +4740,25 @@ namespace strtk
 
    inline void convert_to_uppercase(char* begin, char* end)
    {
-      convert_to_uppercase(reinterpret_cast<unsigned char*>(begin),
-                           reinterpret_cast<unsigned char*>(end));
+      convert_to_uppercase(reinterpret_cast<BYTE*>(begin),
+                           reinterpret_cast<BYTE*>(end));
    }
 
    inline void convert_to_uppercase(std::string& str)
    {
-      convert_to_uppercase(reinterpret_cast<unsigned char*>(const_cast<char*>(str.data())),
-                           reinterpret_cast<unsigned char*>(const_cast<char*>(str.data() + str.size())));
+      convert_to_uppercase(reinterpret_cast<BYTE*>(const_cast<char*>(str.data())),
+                           reinterpret_cast<BYTE*>(const_cast<char*>(str.data() + str.size())));
    }
 
-   inline void convert_to_lowercase(unsigned char* begin, unsigned char* end)
+   inline void convert_to_lowercase(BYTE* begin, BYTE* end)
    {
       std::transform(begin,end,begin,::tolower);
       /*
-      unsigned char* itr = begin;
+      BYTE* itr = begin;
       while (end != itr)
       {
          //(*itr) = std::tolower((*itr), std::locale::classic());
-         (*itr) = static_cast<unsigned char>(::tolower(static_cast<int>(*itr)));
+         (*itr) = static_cast<BYTE>(::tolower(static_cast<int>(*itr)));
          ++itr;
       }
       */
@@ -4766,8 +4766,8 @@ namespace strtk
 
    inline void convert_to_lowercase(char* begin, char* end)
    {
-      convert_to_lowercase(reinterpret_cast<unsigned char*>(begin),
-                           reinterpret_cast<unsigned char*>(end));
+      convert_to_lowercase(reinterpret_cast<BYTE*>(begin),
+                           reinterpret_cast<BYTE*>(end));
    }
 
    inline void convert_to_lowercase(const char* begin, const char* end)
@@ -4777,8 +4777,8 @@ namespace strtk
 
    inline void convert_to_lowercase(std::string& str)
    {
-      convert_to_lowercase(reinterpret_cast<unsigned char*>(const_cast<char*>(str.data())),
-                           reinterpret_cast<unsigned char*>(const_cast<char*>(str.data() + str.size())));
+      convert_to_lowercase(reinterpret_cast<BYTE*>(const_cast<char*>(str.data())),
+                           reinterpret_cast<BYTE*>(const_cast<char*>(str.data() + str.size())));
    }
 
    inline std::string as_lowercase(const std::string& str)
@@ -4795,9 +4795,9 @@ namespace strtk
       return result;
    }
 
-   inline bool twoway_bitwise_interleave(const unsigned char* begin1, const unsigned char* end1,
-                                         const unsigned char* begin2, const unsigned char* end2,
-                                         unsigned char* out)
+   inline bool twoway_bitwise_interleave(const BYTE* begin1, const BYTE* end1,
+                                         const BYTE* begin2, const BYTE* end2,
+                                         BYTE* out)
    {
       if (std::distance(begin1,end1) != std::distance(begin2,end2))
       {
@@ -4841,8 +4841,8 @@ namespace strtk
                                      0x5540, 0x5541, 0x5544, 0x5545, 0x5550, 0x5551, 0x5554, 0x5555  // 0xF8 - 0xFF
                                   };
 
-      const unsigned char* itr1 = begin1;
-      const unsigned char* itr2 = begin2;
+      const BYTE* itr1 = begin1;
+      const BYTE* itr2 = begin2;
 
       while (end1 != itr1)
       {
@@ -4858,11 +4858,11 @@ namespace strtk
                                          const char* begin2, const char* end2,
                                          char* out)
    {
-      return twoway_bitwise_interleave(reinterpret_cast<const unsigned char*>(begin1),
-                                       reinterpret_cast<const unsigned char*>(end1),
-                                       reinterpret_cast<const unsigned char*>(begin2),
-                                       reinterpret_cast<const unsigned char*>(end2),
-                                       reinterpret_cast<unsigned char*>(out));
+      return twoway_bitwise_interleave(reinterpret_cast<const BYTE*>(begin1),
+                                       reinterpret_cast<const BYTE*>(end1),
+                                       reinterpret_cast<const BYTE*>(begin2),
+                                       reinterpret_cast<const BYTE*>(end2),
+                                       reinterpret_cast<BYTE*>(out));
    }
 
    inline bool twoway_bitwise_interleave(const std::string& str1,
@@ -4907,12 +4907,12 @@ namespace strtk
    namespace bitwise_operation { enum type { eAND, eOR, eXOR }; }
 
    inline void bitwise_transform(const bitwise_operation::type& operation,
-                                 const unsigned char* begin1, const unsigned char* end1,
-                                 const unsigned char* begin2,
-                                 unsigned char* out)
+                                 const BYTE* begin1, const BYTE* end1,
+                                 const BYTE* begin2,
+                                 BYTE* out)
    {
-      const unsigned char* itr1 = begin1;
-      const unsigned char* itr2 = begin2;
+      const BYTE* itr1 = begin1;
+      const BYTE* itr2 = begin2;
 
       switch (operation)
       {
@@ -4928,10 +4928,10 @@ namespace strtk
                                  char* out)
    {
       bitwise_transform(operation,
-                        reinterpret_cast<const unsigned char*>(begin1),
-                        reinterpret_cast<const unsigned char*>(end1),
-                        reinterpret_cast<const unsigned char*>(begin2),
-                        reinterpret_cast<unsigned char*>(out));
+                        reinterpret_cast<const BYTE*>(begin1),
+                        reinterpret_cast<const BYTE*>(end1),
+                        reinterpret_cast<const BYTE*>(begin2),
+                        reinterpret_cast<BYTE*>(out));
    }
 
    inline void bitwise_transform(const bitwise_operation::type& operation,
@@ -4947,7 +4947,7 @@ namespace strtk
                         const_cast<char*>(out.data()));
    }
 
-   inline std::size_t high_bit_count(const unsigned char c)
+   inline std::size_t high_bit_count(const BYTE c)
    {
       static const std::size_t high_bits_in_char[256] =
                                {
@@ -4974,30 +4974,30 @@ namespace strtk
 
    inline std::size_t high_bit_count(const unsigned short& s)
    {
-      const unsigned char* ptr = reinterpret_cast<const unsigned char*>(&s);
+      const BYTE* ptr = reinterpret_cast<const BYTE*>(&s);
       return high_bit_count(*(ptr + 0)) + high_bit_count(*(ptr + 1));
    }
 
    inline std::size_t high_bit_count(const unsigned int& i)
    {
-      const unsigned char* ptr = reinterpret_cast<const unsigned char*>(&i);
+      const BYTE* ptr = reinterpret_cast<const BYTE*>(&i);
       return high_bit_count(*(ptr + 0)) + high_bit_count(*(ptr + 1)) +
              high_bit_count(*(ptr + 2)) + high_bit_count(*(ptr + 3));
    }
 
    inline std::size_t high_bit_count(const long long int& ll)
    {
-      const unsigned char* ptr = reinterpret_cast<const unsigned char*>(&ll);
+      const BYTE* ptr = reinterpret_cast<const BYTE*>(&ll);
       return high_bit_count(*(ptr + 0)) + high_bit_count(*(ptr + 1)) +
              high_bit_count(*(ptr + 2)) + high_bit_count(*(ptr + 3)) +
              high_bit_count(*(ptr + 4)) + high_bit_count(*(ptr + 5)) +
              high_bit_count(*(ptr + 6)) + high_bit_count(*(ptr + 7));
    }
 
-   inline std::size_t high_bit_count(const unsigned char* begin, const unsigned char* end)
+   inline std::size_t high_bit_count(const BYTE* begin, const BYTE* end)
    {
       std::size_t count = 0;
-      const unsigned char* itr = begin;
+      const BYTE* itr = begin;
 
       while (end != itr)
       {
@@ -5009,8 +5009,8 @@ namespace strtk
 
    inline std::size_t high_bit_count(const char* begin, const char* end)
    {
-      return high_bit_count(reinterpret_cast<const unsigned char*>(begin),
-                            reinterpret_cast<const unsigned char*>(end));
+      return high_bit_count(reinterpret_cast<const BYTE*>(begin),
+                            reinterpret_cast<const BYTE*>(end));
 
    }
 
@@ -5019,9 +5019,9 @@ namespace strtk
       return high_bit_count(str.data(),str.data() + str.size());
    }
 
-   inline bool bit_state(const std::size_t& index, const unsigned char* ptr)
+   inline bool bit_state(const std::size_t& index, const BYTE* ptr)
    {
-      static const unsigned char bit_mask[] =
+      static const BYTE bit_mask[] =
                                  {
                                     0x01, //00000001
                                     0x02, //00000010
@@ -5035,9 +5035,9 @@ namespace strtk
       return (0 != (ptr[(index >> 3)] & bit_mask[index & 7]));
    }
 
-   inline void set_bit_high(const std::size_t& index, unsigned char* const ptr)
+   inline void set_bit_high(const std::size_t& index, BYTE* const ptr)
    {
-      static const unsigned char bit_mask[] =
+      static const BYTE bit_mask[] =
                                  {
                                     0x01, //00000001
                                     0x02, //00000010
@@ -5051,9 +5051,9 @@ namespace strtk
       ptr[(index >> 3)] |= bit_mask[index & 7];
    }
 
-   inline void set_bit_low(const std::size_t& index, unsigned char* const ptr)
+   inline void set_bit_low(const std::size_t& index, BYTE* const ptr)
    {
-      static const unsigned char bit_mask[] =
+      static const BYTE bit_mask[] =
                                  {
                                     0xFE, //11111110
                                     0xFD, //11111101
@@ -5067,8 +5067,8 @@ namespace strtk
       ptr[(index >> 3)] &= bit_mask[index & 7];
    }
 
-   inline std::size_t hamming_distance(const unsigned char* begin1, const unsigned char* end1,
-                                       const unsigned char* begin2, const unsigned char* end2)
+   inline std::size_t hamming_distance(const BYTE* begin1, const BYTE* end1,
+                                       const BYTE* begin2, const BYTE* end2)
    {
       if (std::distance(begin1,end1) != std::distance(begin2,end2))
       {
@@ -5076,12 +5076,12 @@ namespace strtk
       }
 
       std::size_t distance = 0;
-      const unsigned char* itr1 = begin1;
-      const unsigned char* itr2 = begin2;
+      const BYTE* itr1 = begin1;
+      const BYTE* itr2 = begin2;
 
       while (end1 != itr1)
       {
-         distance += high_bit_count(static_cast<unsigned char>(((*itr1++) ^ (*itr2++)) & 0xFF));
+         distance += high_bit_count(static_cast<BYTE>(((*itr1++) ^ (*itr2++)) & 0xFF));
       }
 
       return distance;
@@ -5090,10 +5090,10 @@ namespace strtk
    inline std::size_t hamming_distance(const char* begin1, const char* end1,
                                        const char* begin2, const char* end2)
    {
-      return hamming_distance(reinterpret_cast<const unsigned char*>(begin1),
-                              reinterpret_cast<const unsigned char*>(end1),
-                              reinterpret_cast<const unsigned char*>(begin2),
-                              reinterpret_cast<const unsigned char*>(end2));
+      return hamming_distance(reinterpret_cast<const BYTE*>(begin1),
+                              reinterpret_cast<const BYTE*>(end1),
+                              reinterpret_cast<const BYTE*>(begin2),
+                              reinterpret_cast<const BYTE*>(end2));
    }
 
    inline std::size_t hamming_distance(const std::string& str1, const std::string& str2)
@@ -5134,7 +5134,7 @@ namespace strtk
    {
    public:
 
-      typedef const unsigned char* iterator_t;
+      typedef const BYTE* iterator_t;
       typedef unsigned int index_t;
       typedef std::pair<iterator_t,iterator_t> range_t;
       typedef std::deque<range_t> token_list_t;
@@ -5337,8 +5337,8 @@ namespace strtk
 
          inline static range_t null_range()
          {
-            static const range_t null_range_ = range_t(reinterpret_cast<const unsigned char*>(0),
-                                                       reinterpret_cast<const unsigned char*>(0));
+            static const range_t null_range_ = range_t(reinterpret_cast<const BYTE*>(0),
+                                                       reinterpret_cast<const BYTE*>(0));
             return null_range_;
          }
 
@@ -6238,11 +6238,11 @@ namespace strtk
         state_(load())
       {}
 
-      token_grid(const unsigned char* input_buffer,
+      token_grid(const BYTE* input_buffer,
                  const std::size_t& input_buffer_size,
                  const token_grid::options& options)
       : file_name_(""),
-        buffer_(const_cast<unsigned char*>(input_buffer)),
+        buffer_(const_cast<BYTE*>(input_buffer)),
         buffer_size_(input_buffer_size),
         min_column_count_(0),
         max_column_count_(0),
@@ -6255,7 +6255,7 @@ namespace strtk
                  const std::size_t& input_buffer_size,
                  const token_grid::options& options)
       : file_name_(""),
-        buffer_(reinterpret_cast<unsigned char*>(const_cast<char*>(input_buffer))),
+        buffer_(reinterpret_cast<BYTE*>(const_cast<char*>(input_buffer))),
         buffer_size_(input_buffer_size),
         min_column_count_(0),
         max_column_count_(0),
@@ -6268,7 +6268,7 @@ namespace strtk
                  const std::size_t& input_buffer_size,
                  const token_grid::options& options)
       : file_name_(""),
-        buffer_(reinterpret_cast<unsigned char*>(const_cast<char*>(input_buffer.data()))),
+        buffer_(reinterpret_cast<BYTE*>(const_cast<char*>(input_buffer.data()))),
         buffer_size_(input_buffer_size),
         min_column_count_(0),
         max_column_count_(0),
@@ -6293,12 +6293,12 @@ namespace strtk
         state_(load())
       {}
 
-      token_grid(const unsigned char* input_buffer,
+      token_grid(const BYTE* input_buffer,
                  const std::size_t& input_buffer_size,
                  const std::string& column_delimiters = ",|;\t",
                  const std::string& row_delimiters = "\n\r")
       : file_name_(""),
-        buffer_(const_cast<unsigned char*>(input_buffer)),
+        buffer_(const_cast<BYTE*>(input_buffer)),
         buffer_size_(input_buffer_size),
         min_column_count_(0),
         max_column_count_(0),
@@ -6315,7 +6315,7 @@ namespace strtk
                  const std::string& column_delimiters = ",|;\t",
                  const std::string& row_delimiters = "\n\r")
       : file_name_(""),
-        buffer_(reinterpret_cast<unsigned char*>(const_cast<char*>(input_buffer))),
+        buffer_(reinterpret_cast<BYTE*>(const_cast<char*>(input_buffer))),
         buffer_size_(input_buffer_size),
         min_column_count_(0),
         max_column_count_(0),
@@ -6332,7 +6332,7 @@ namespace strtk
                  const std::string& column_delimiters = ",;|\t ",
                  const std::string& row_delimiters = "\n\r")
       : file_name_(""),
-        buffer_(reinterpret_cast<unsigned char*>(const_cast<char*>(input_buffer.data()))),
+        buffer_(reinterpret_cast<BYTE*>(const_cast<char*>(input_buffer.data()))),
         buffer_size_(input_buffer_size),
         min_column_count_(0),
         max_column_count_(0),
@@ -7245,7 +7245,7 @@ namespace strtk
          }
       }
 
-      bool load(unsigned char* buffer,
+      bool load(BYTE* buffer,
                 const std::size_t buffer_size,
                 const token_grid::options& options)
       {
@@ -7333,7 +7333,7 @@ namespace strtk
            mdp_(delimiters)
          {}
 
-         inline bool operator()(const unsigned char c) const
+         inline bool operator()(const BYTE c) const
          {
             if ('"' == c)
             {
@@ -7422,7 +7422,7 @@ namespace strtk
             return false;
 
          stream.seekg (0,std::ios::beg);
-         buffer_ = new unsigned char[buffer_size_];
+         buffer_ = new BYTE[buffer_size_];
          stream.read(reinterpret_cast<char*>(buffer_),static_cast<std::streamsize>(buffer_size_));
          stream.close();
 
@@ -7481,7 +7481,7 @@ namespace strtk
 
       store dsv_index_;
       std::string file_name_;
-      unsigned char* buffer_;
+      BYTE* buffer_;
       std::size_t buffer_size_;
       std::size_t min_column_count_;
       std::size_t max_column_count_;
@@ -8831,7 +8831,7 @@ namespace strtk
       private:
 
          mutable container_adder_base* container_adder_base_;
-         unsigned char buffer[64];
+         BYTE buffer[64];
       };
 
       template <typename T,typename is_stl_container_result>
@@ -11516,11 +11516,11 @@ namespace strtk
             throw std::runtime_error("translation_table() - Input/Output table size mismatch.");
          }
 
-         strtk::iota(table_, table_ + 256, static_cast<unsigned char>(0));
+         strtk::iota(table_, table_ + 256, static_cast<BYTE>(0));
 
          for (std::size_t i = 0; i < itable.size(); ++i)
          {
-            table_[static_cast<unsigned int>(itable[i])] = static_cast<unsigned char>(otable[i]);
+            table_[static_cast<unsigned int>(itable[i])] = static_cast<BYTE>(otable[i]);
          }
       }
 
@@ -11529,14 +11529,14 @@ namespace strtk
          return static_cast<char>(table_[static_cast<unsigned int>(c)]);
       }
 
-      inline unsigned char operator()(const unsigned char c) const
+      inline BYTE operator()(const BYTE c) const
       {
-         return static_cast<unsigned char>(table_[static_cast<unsigned int>(c)]);
+         return static_cast<BYTE>(table_[static_cast<unsigned int>(c)]);
       }
 
    private:
 
-      unsigned char table_[256];
+      BYTE table_[256];
    };
 
    inline std::string translate(const translation_table& trans_table, const std::string& s)
@@ -11552,7 +11552,7 @@ namespace strtk
    }
 
    #ifdef strtk_enable_random
-   inline void generate_random_data(unsigned char* data,
+   inline void generate_random_data(BYTE* data,
                                     std::size_t length,
                                     unsigned int pre_gen_cnt = 0,
                                     unsigned int seed = magic_seed)
@@ -11566,7 +11566,7 @@ namespace strtk
          while (pre_gen_cnt--) rnd();
       }
 
-      unsigned char* itr = data;
+      BYTE* itr = data;
       unsigned int* x = 0;
 
       while (length >= sizeof(unsigned int))
@@ -11599,7 +11599,7 @@ namespace strtk
       template<> struct supported_random_type<T> { typedef rand_real_type type;  enum { value = true }; };
 
       strtk_register_rand_int_type(char)
-      strtk_register_rand_int_type(unsigned char)
+      strtk_register_rand_int_type(BYTE)
 
       strtk_register_rand_int_type(short)
       strtk_register_rand_int_type(int)
@@ -12571,7 +12571,7 @@ namespace strtk
          {
             static inline bool process(Iterator itr)
             {
-               return static_cast<unsigned char>(itr[0] - '0') < 10 &&
+               return static_cast<BYTE>(itr[0] - '0') < 10 &&
                       all_digits_check_impl<Iterator,18>::process(itr + 1);
             }
          };
@@ -12581,7 +12581,7 @@ namespace strtk
          {
             static inline bool process(Iterator itr)
             {
-               return static_cast<unsigned char>(itr[0] - '0') < 10 &&
+               return static_cast<BYTE>(itr[0] - '0') < 10 &&
                       all_digits_check_impl<Iterator,17>::process(itr + 1);
             }
          };
@@ -12591,7 +12591,7 @@ namespace strtk
          {
             static inline bool process(Iterator itr)
             {
-               return static_cast<unsigned char>(itr[0] - '0') < 10 &&
+               return static_cast<BYTE>(itr[0] - '0') < 10 &&
                       all_digits_check_impl<Iterator,16>::process(itr + 1);
             }
          };
@@ -12601,22 +12601,22 @@ namespace strtk
          {
             static inline bool process(Iterator itr)
             {
-               return static_cast<unsigned char>(itr[ 0] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 1] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 2] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 3] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 4] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 5] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 6] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 7] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 8] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 9] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[10] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[11] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[12] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[13] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[14] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[15] - '0') < 10;
+               return static_cast<BYTE>(itr[ 0] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 1] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 2] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 3] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 4] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 5] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 6] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 7] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 8] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 9] - '0') < 10 &&
+                      static_cast<BYTE>(itr[10] - '0') < 10 &&
+                      static_cast<BYTE>(itr[11] - '0') < 10 &&
+                      static_cast<BYTE>(itr[12] - '0') < 10 &&
+                      static_cast<BYTE>(itr[13] - '0') < 10 &&
+                      static_cast<BYTE>(itr[14] - '0') < 10 &&
+                      static_cast<BYTE>(itr[15] - '0') < 10;
             }
          };
 
@@ -12625,21 +12625,21 @@ namespace strtk
          {
             static inline bool process(Iterator itr)
             {
-               return static_cast<unsigned char>(itr[ 0] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 1] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 2] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 3] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 4] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 5] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 6] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 7] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 8] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 9] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[10] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[11] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[12] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[13] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[14] - '0') < 10;
+               return static_cast<BYTE>(itr[ 0] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 1] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 2] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 3] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 4] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 5] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 6] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 7] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 8] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 9] - '0') < 10 &&
+                      static_cast<BYTE>(itr[10] - '0') < 10 &&
+                      static_cast<BYTE>(itr[11] - '0') < 10 &&
+                      static_cast<BYTE>(itr[12] - '0') < 10 &&
+                      static_cast<BYTE>(itr[13] - '0') < 10 &&
+                      static_cast<BYTE>(itr[14] - '0') < 10;
             }
          };
 
@@ -12648,20 +12648,20 @@ namespace strtk
          {
             static inline bool process(Iterator itr)
             {
-               return static_cast<unsigned char>(itr[ 0] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 1] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 2] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 3] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 4] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 5] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 6] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 7] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 8] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 9] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[10] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[11] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[12] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[13] - '0') < 10;
+               return static_cast<BYTE>(itr[ 0] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 1] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 2] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 3] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 4] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 5] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 6] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 7] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 8] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 9] - '0') < 10 &&
+                      static_cast<BYTE>(itr[10] - '0') < 10 &&
+                      static_cast<BYTE>(itr[11] - '0') < 10 &&
+                      static_cast<BYTE>(itr[12] - '0') < 10 &&
+                      static_cast<BYTE>(itr[13] - '0') < 10;
             }
          };
 
@@ -12670,19 +12670,19 @@ namespace strtk
          {
             static inline bool process(Iterator itr)
             {
-               return static_cast<unsigned char>(itr[ 0] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 1] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 2] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 3] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 4] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 5] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 6] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 7] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 8] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 9] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[10] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[11] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[12] - '0') < 10;
+               return static_cast<BYTE>(itr[ 0] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 1] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 2] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 3] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 4] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 5] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 6] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 7] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 8] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 9] - '0') < 10 &&
+                      static_cast<BYTE>(itr[10] - '0') < 10 &&
+                      static_cast<BYTE>(itr[11] - '0') < 10 &&
+                      static_cast<BYTE>(itr[12] - '0') < 10;
             }
          };
 
@@ -12691,18 +12691,18 @@ namespace strtk
          {
             static inline bool process(Iterator itr)
             {
-               return static_cast<unsigned char>(itr[ 0] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 1] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 2] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 3] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 4] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 5] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 6] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 7] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 8] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 9] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[10] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[11] - '0') < 10;
+               return static_cast<BYTE>(itr[ 0] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 1] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 2] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 3] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 4] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 5] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 6] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 7] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 8] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 9] - '0') < 10 &&
+                      static_cast<BYTE>(itr[10] - '0') < 10 &&
+                      static_cast<BYTE>(itr[11] - '0') < 10;
             }
          };
 
@@ -12711,17 +12711,17 @@ namespace strtk
          {
             static inline bool process(Iterator itr)
             {
-               return static_cast<unsigned char>(itr[ 0] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 1] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 2] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 3] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 4] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 5] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 6] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 7] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 8] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 9] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[10] - '0') < 10;
+               return static_cast<BYTE>(itr[ 0] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 1] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 2] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 3] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 4] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 5] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 6] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 7] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 8] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 9] - '0') < 10 &&
+                      static_cast<BYTE>(itr[10] - '0') < 10;
             }
          };
 
@@ -12730,16 +12730,16 @@ namespace strtk
          {
             static inline bool process(Iterator itr)
             {
-               return static_cast<unsigned char>(itr[0] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[1] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[2] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[3] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[4] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[5] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[6] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[7] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[8] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[9] - '0') < 10;
+               return static_cast<BYTE>(itr[0] - '0') < 10 &&
+                      static_cast<BYTE>(itr[1] - '0') < 10 &&
+                      static_cast<BYTE>(itr[2] - '0') < 10 &&
+                      static_cast<BYTE>(itr[3] - '0') < 10 &&
+                      static_cast<BYTE>(itr[4] - '0') < 10 &&
+                      static_cast<BYTE>(itr[5] - '0') < 10 &&
+                      static_cast<BYTE>(itr[6] - '0') < 10 &&
+                      static_cast<BYTE>(itr[7] - '0') < 10 &&
+                      static_cast<BYTE>(itr[8] - '0') < 10 &&
+                      static_cast<BYTE>(itr[9] - '0') < 10;
             }
          };
 
@@ -12748,15 +12748,15 @@ namespace strtk
          {
             static inline bool process(Iterator itr)
             {
-               return static_cast<unsigned char>(itr[0] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[1] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[2] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[3] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[4] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[5] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[6] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[7] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[8] - '0') < 10;
+               return static_cast<BYTE>(itr[0] - '0') < 10 &&
+                      static_cast<BYTE>(itr[1] - '0') < 10 &&
+                      static_cast<BYTE>(itr[2] - '0') < 10 &&
+                      static_cast<BYTE>(itr[3] - '0') < 10 &&
+                      static_cast<BYTE>(itr[4] - '0') < 10 &&
+                      static_cast<BYTE>(itr[5] - '0') < 10 &&
+                      static_cast<BYTE>(itr[6] - '0') < 10 &&
+                      static_cast<BYTE>(itr[7] - '0') < 10 &&
+                      static_cast<BYTE>(itr[8] - '0') < 10;
             }
          };
 
@@ -12765,14 +12765,14 @@ namespace strtk
          {
             static inline bool process(Iterator itr)
             {
-               return static_cast<unsigned char>(itr[0] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[1] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[2] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[3] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[4] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[5] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[6] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[7] - '0') < 10;
+               return static_cast<BYTE>(itr[0] - '0') < 10 &&
+                      static_cast<BYTE>(itr[1] - '0') < 10 &&
+                      static_cast<BYTE>(itr[2] - '0') < 10 &&
+                      static_cast<BYTE>(itr[3] - '0') < 10 &&
+                      static_cast<BYTE>(itr[4] - '0') < 10 &&
+                      static_cast<BYTE>(itr[5] - '0') < 10 &&
+                      static_cast<BYTE>(itr[6] - '0') < 10 &&
+                      static_cast<BYTE>(itr[7] - '0') < 10;
             }
          };
 
@@ -12781,13 +12781,13 @@ namespace strtk
          {
             static inline bool process(Iterator itr)
             {
-               return static_cast<unsigned char>(itr[0] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[1] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[2] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[3] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[4] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[5] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[6] - '0') < 10;
+               return static_cast<BYTE>(itr[0] - '0') < 10 &&
+                      static_cast<BYTE>(itr[1] - '0') < 10 &&
+                      static_cast<BYTE>(itr[2] - '0') < 10 &&
+                      static_cast<BYTE>(itr[3] - '0') < 10 &&
+                      static_cast<BYTE>(itr[4] - '0') < 10 &&
+                      static_cast<BYTE>(itr[5] - '0') < 10 &&
+                      static_cast<BYTE>(itr[6] - '0') < 10;
             }
          };
 
@@ -12796,12 +12796,12 @@ namespace strtk
          {
             static inline bool process(Iterator itr)
             {
-               return static_cast<unsigned char>(itr[0] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[1] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[2] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[3] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[4] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[5] - '0') < 10;
+               return static_cast<BYTE>(itr[0] - '0') < 10 &&
+                      static_cast<BYTE>(itr[1] - '0') < 10 &&
+                      static_cast<BYTE>(itr[2] - '0') < 10 &&
+                      static_cast<BYTE>(itr[3] - '0') < 10 &&
+                      static_cast<BYTE>(itr[4] - '0') < 10 &&
+                      static_cast<BYTE>(itr[5] - '0') < 10;
             }
          };
 
@@ -12810,11 +12810,11 @@ namespace strtk
          {
             static inline bool process(Iterator itr)
             {
-               return static_cast<unsigned char>(itr[0] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[1] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[2] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[3] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[4] - '0') < 10;
+               return static_cast<BYTE>(itr[0] - '0') < 10 &&
+                      static_cast<BYTE>(itr[1] - '0') < 10 &&
+                      static_cast<BYTE>(itr[2] - '0') < 10 &&
+                      static_cast<BYTE>(itr[3] - '0') < 10 &&
+                      static_cast<BYTE>(itr[4] - '0') < 10;
             }
          };
 
@@ -12823,10 +12823,10 @@ namespace strtk
          {
             static inline bool process(Iterator itr)
             {
-               return static_cast<unsigned char>(itr[0] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[1] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[2] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[3] - '0') < 10;
+               return static_cast<BYTE>(itr[0] - '0') < 10 &&
+                      static_cast<BYTE>(itr[1] - '0') < 10 &&
+                      static_cast<BYTE>(itr[2] - '0') < 10 &&
+                      static_cast<BYTE>(itr[3] - '0') < 10;
             }
          };
 
@@ -12836,9 +12836,9 @@ namespace strtk
             static inline bool process(Iterator itr)
             {
                return
-                static_cast<unsigned char>(itr[0] - '0') < 10 &&
-                static_cast<unsigned char>(itr[1] - '0') < 10 &&
-                static_cast<unsigned char>(itr[2] - '0') < 10;
+                static_cast<BYTE>(itr[0] - '0') < 10 &&
+                static_cast<BYTE>(itr[1] - '0') < 10 &&
+                static_cast<BYTE>(itr[2] - '0') < 10;
            }
          };
 
@@ -12847,8 +12847,8 @@ namespace strtk
          {
             static inline bool process(Iterator itr)
             {
-               return static_cast<unsigned char>(itr[ 0] - '0') < 10 &&
-                      static_cast<unsigned char>(itr[ 1] - '0') < 10;
+               return static_cast<BYTE>(itr[ 0] - '0') < 10 &&
+                      static_cast<BYTE>(itr[ 1] - '0') < 10;
            }
          };
 
@@ -12857,7 +12857,7 @@ namespace strtk
          {
             static inline bool process(Iterator itr)
             {
-               return static_cast<unsigned char>(itr[ 0] - '0') < 10;
+               return static_cast<BYTE>(itr[ 0] - '0') < 10;
             }
          };
 
@@ -13591,7 +13591,7 @@ namespace strtk
          // should be sourced from cstdint
          typedef unsigned int uint32_t;
          typedef unsigned short uint16_t;
-         typedef unsigned char uint8_t;
+         typedef BYTE uint8_t;
          typedef unsigned long long int uint64_t;
 
          template <typename T>
@@ -14034,7 +14034,7 @@ namespace strtk
          // should be sourced from cstdint
          typedef unsigned int   uint32_t;
          typedef unsigned short uint16_t;
-         typedef unsigned char  uint8_t;
+         typedef BYTE  uint8_t;
          typedef unsigned long long int uint64_t;
 
          template <typename T>
@@ -14525,7 +14525,7 @@ namespace strtk
 
       struct hex_value_check
       {
-         inline bool operator()(const unsigned char c) const
+         inline bool operator()(const BYTE c) const
          {
             return (('0' <= c) && (c <= '9')) ||
                    (('A' <= c) && (c <= 'F')) ||
@@ -14534,7 +14534,7 @@ namespace strtk
 
          inline bool operator()(const char c) const
          {
-            return (*this)(static_cast<unsigned char>(c));
+            return (*this)(static_cast<BYTE>(c));
          }
       };
 
@@ -14599,8 +14599,8 @@ namespace strtk
 
       inline void reverse_bytes()
       {
-         unsigned char* itr1 = reinterpret_cast<unsigned char*>(t_);
-         unsigned char* itr2 = itr1 + (sizeof(T) - 1);
+         BYTE* itr1 = reinterpret_cast<BYTE*>(t_);
+         BYTE* itr2 = itr1 + (sizeof(T) - 1);
 
          while (itr1 < itr2)
          {
@@ -14624,7 +14624,7 @@ namespace strtk
 
       struct base64_value_check
       {
-         inline bool operator()(const unsigned char c) const
+         inline bool operator()(const BYTE c) const
          {
             return (('0' <= c) && (c <= '9')) ||
                    (('A' <= c) && (c <= 'Z')) ||
@@ -14636,7 +14636,7 @@ namespace strtk
 
          inline bool operator()(const char c) const
          {
-            return (*this)(static_cast<unsigned char>(c));
+            return (*this)(static_cast<BYTE>(c));
          }
       };
 
@@ -14700,8 +14700,8 @@ namespace strtk
 
       inline void reverse_bytes()
       {
-         unsigned char* itr1 = reinterpret_cast<unsigned char*>(t_);
-         unsigned char* itr2 = itr1 + (sizeof(T) - 1);
+         BYTE* itr1 = reinterpret_cast<BYTE*>(t_);
+         BYTE* itr2 = itr1 + (sizeof(T) - 1);
 
          while (itr1 < itr2)
          {
@@ -15822,8 +15822,8 @@ namespace strtk
    inline std::size_t split_on_consecutive(const std::size_t& n,
                                            const find_type::type type,
                                            const find_mode::type mode,
-                                           const unsigned char* begin,
-                                           const unsigned char* end,
+                                           const BYTE* begin,
+                                           const BYTE* end,
                                            OutputIterator out)
    {
       return split_on_consecutive<OutputIterator>(n,
@@ -15872,8 +15872,8 @@ namespace strtk
                                              const std::size_t& m,
                                              const find_type::type type,
                                              const find_mode::type mode,
-                                             const unsigned char* begin,
-                                             const unsigned char* end,
+                                             const BYTE* begin,
+                                             const BYTE* end,
                                              OutputIterator out)
    {
       return split_on_consecutive_n<OutputIterator>(n,
@@ -15922,8 +15922,8 @@ namespace strtk
    template <typename Predicate, typename OutputIterator>
    inline std::size_t split_on_consecutive(const std::size_t& n,
                                            Predicate p,
-                                           const unsigned char* begin,
-                                           const unsigned char* end,
+                                           const BYTE* begin,
+                                           const BYTE* end,
                                            OutputIterator out,
                                            const bool stateful_predicate = false)
    {
@@ -15974,8 +15974,8 @@ namespace strtk
    inline std::size_t split_on_consecutive_n(const std::size_t& n,
                                              const std::size_t& m,
                                              Predicate p,
-                                             const unsigned char* begin,
-                                             const unsigned char* end,
+                                             const BYTE* begin,
+                                             const BYTE* end,
                                              OutputIterator out)
    {
       return split_on_consecutive_n<Predicate,
@@ -16288,7 +16288,7 @@ namespace strtk
       {
       public:
 
-         fill_array_impl(unsigned char* data, const std::size_t& size)
+         fill_array_impl(BYTE* data, const std::size_t& size)
          : data_(data),
            size_(size)
          {}
@@ -16308,7 +16308,7 @@ namespace strtk
             return (*this);
          }
 
-         inline fill_array_impl& set(unsigned char* data, const std::size_t& size)
+         inline fill_array_impl& set(BYTE* data, const std::size_t& size)
          {
             data_ = data;
             size_ = size;
@@ -16317,12 +16317,12 @@ namespace strtk
 
          inline fill_array_impl& set(char* data, const std::size_t& size)
          {
-            data_ = reinterpret_cast<unsigned char*>(data);
+            data_ = reinterpret_cast<BYTE*>(data);
             size_ = size;
             return (*this);
          }
 
-         inline fill_array_impl& set_data(unsigned char* data)
+         inline fill_array_impl& set_data(BYTE* data)
          {
             data_ = data;
             return (*this);
@@ -16330,7 +16330,7 @@ namespace strtk
 
          inline fill_array_impl& set_data(char* data)
          {
-            data_ = reinterpret_cast<unsigned char*>(data);
+            data_ = reinterpret_cast<BYTE*>(data);
             return (*this);
          }
 
@@ -16342,7 +16342,7 @@ namespace strtk
 
       private:
 
-         unsigned char* data_;
+         BYTE* data_;
          std::size_t size_;
       };
    }
@@ -16396,18 +16396,18 @@ namespace strtk
       return details::conv_to_ucase_impl(s);
    }
 
-   inline details::fill_array_impl fill_array(unsigned char* data, const std::size_t& size)
+   inline details::fill_array_impl fill_array(BYTE* data, const std::size_t& size)
    {
       return details::fill_array_impl(data,size);
    }
 
    inline details::fill_array_impl fill_array(char* data, const std::size_t& size)
    {
-      return details::fill_array_impl(reinterpret_cast<unsigned char*>(data),size);
+      return details::fill_array_impl(reinterpret_cast<BYTE*>(data),size);
    }
 
    template <std::size_t N>
-   inline details::fill_array_impl fill_array(unsigned char (&data)[N])
+   inline details::fill_array_impl fill_array(BYTE (&data)[N])
    {
       return details::fill_array_impl(data,N);
    }
@@ -16415,7 +16415,7 @@ namespace strtk
    template <std::size_t N>
    inline details::fill_array_impl fill_array(char (&data)[N])
    {
-      return details::fill_array_impl(reinterpret_cast<unsigned char*>(data),N);
+      return details::fill_array_impl(reinterpret_cast<BYTE*>(data),N);
    }
 
    inline details::fill_array_impl fill_array(std::string& data, const std::size_t& size)
@@ -16430,7 +16430,7 @@ namespace strtk
 
    namespace details
    {
-      static const unsigned char digit_table[] =
+      static const BYTE digit_table[] =
                                  {
                                     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, // 0xFF - 0x07
                                     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, // 0x08 - 0x0F
@@ -16466,7 +16466,7 @@ namespace strtk
                                     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF  // 0xF8 - 0xFF
                                  };
 
-      static const std::size_t digit_table_size = sizeof(digit_table) / sizeof(unsigned char);
+      static const std::size_t digit_table_size = sizeof(digit_table) / sizeof(BYTE);
 
       template <typename T>
       static inline bool is_invalid_digit(const T& t)
@@ -16482,12 +16482,12 @@ namespace strtk
          return (static_cast<T>(invalid_digit) != t);
       }
 
-      static const unsigned char digitr[] =
+      static const BYTE digitr[] =
                                  {
                                     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                  };
 
-      static const unsigned char rev_3digit_lut[] =
+      static const BYTE rev_3digit_lut[] =
                                  {
                                     "000001002003004005006007008009010011012013014015016017018019020021022023024"
                                     "025026027028029030031032033034035036037038039040041042043044045046047048049"
@@ -16532,7 +16532,7 @@ namespace strtk
                                     "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
                                  };
 
-      static const unsigned char rev_2digit_lut[] =
+      static const BYTE rev_2digit_lut[] =
                                  {
                                     "0001020304050607080910111213141516171819"
                                     "2021222324252627282930313233343536373839"
@@ -16617,7 +16617,7 @@ namespace strtk
       strtk_register_pod_type(int)
       strtk_register_pod_type(long int)
       strtk_register_pod_type(long long int)
-      strtk_register_pod_type(unsigned char)
+      strtk_register_pod_type(BYTE)
       strtk_register_pod_type(unsigned short)
       strtk_register_pod_type(unsigned int)
       strtk_register_pod_type(unsigned long int)
@@ -16837,8 +16837,8 @@ namespace strtk
       #define strtk_register_sequence_iterator_type(sequence)                        \
       strtk_register_supported_iterator_type(sequence<char>::iterator)               \
       strtk_register_supported_iterator_type(sequence<char>::const_iterator)         \
-      strtk_register_supported_iterator_type(sequence<unsigned char>::iterator)      \
-      strtk_register_supported_iterator_type(sequence<unsigned char>::const_iterator)\
+      strtk_register_supported_iterator_type(sequence<BYTE>::iterator)      \
+      strtk_register_supported_iterator_type(sequence<BYTE>::const_iterator)\
 
       strtk_register_unsigned_type(unsigned short)
       strtk_register_unsigned_type(unsigned int)
@@ -16854,7 +16854,7 @@ namespace strtk
       strtk_register_real_type(double)
       strtk_register_real_type(long double)
 
-      strtk_register_byte_type(unsigned char)
+      strtk_register_byte_type(BYTE)
       strtk_register_byte_type(signed char)
       strtk_register_byte_type(char)
 
@@ -16880,16 +16880,16 @@ namespace strtk
       strtk_register_stdstring_range_type(std::string::const_iterator)
       strtk_register_stdstring_range_type(char*)
       strtk_register_stdstring_range_type(signed char*)
-      strtk_register_stdstring_range_type(unsigned char*)
+      strtk_register_stdstring_range_type(BYTE*)
       strtk_register_stdstring_range_type(const char*)
-      strtk_register_stdstring_range_type(const unsigned char*)
+      strtk_register_stdstring_range_type(const BYTE*)
 
       strtk_register_supported_iterator_type(char*)
       strtk_register_supported_iterator_type(signed char*)
-      strtk_register_supported_iterator_type(unsigned char*)
+      strtk_register_supported_iterator_type(BYTE*)
       strtk_register_supported_iterator_type(const char*)
       strtk_register_supported_iterator_type(const signed char*)
-      strtk_register_supported_iterator_type(const unsigned char*)
+      strtk_register_supported_iterator_type(const BYTE*)
       strtk_register_supported_iterator_type(std::string::iterator)
       strtk_register_supported_iterator_type(std::string::const_iterator)
 
@@ -16905,7 +16905,7 @@ namespace strtk
       strtk_register_sink_type(int)
       strtk_register_sink_type(long)
       strtk_register_sink_type(long long)
-      strtk_register_sink_type(unsigned char)
+      strtk_register_sink_type(BYTE)
       strtk_register_sink_type(unsigned short)
       strtk_register_sink_type(unsigned int)
       strtk_register_sink_type(unsigned long)
@@ -16921,7 +16921,7 @@ namespace strtk
       strtk_register_stl_container_to_string_conv_type(int)
       strtk_register_stl_container_to_string_conv_type(long)
       strtk_register_stl_container_to_string_conv_type(long long)
-      strtk_register_stl_container_to_string_conv_type(unsigned char)
+      strtk_register_stl_container_to_string_conv_type(BYTE)
       strtk_register_stl_container_to_string_conv_type(unsigned short)
       strtk_register_stl_container_to_string_conv_type(unsigned int)
       strtk_register_stl_container_to_string_conv_type(unsigned long)
@@ -16937,7 +16937,7 @@ namespace strtk
       strtk_register_inrange_type(int)
       strtk_register_inrange_type(long)
       strtk_register_inrange_type(long long)
-      strtk_register_inrange_type(unsigned char)
+      strtk_register_inrange_type(BYTE)
       strtk_register_inrange_type(unsigned short)
       strtk_register_inrange_type(unsigned int)
       strtk_register_inrange_type(unsigned long)
@@ -16953,7 +16953,7 @@ namespace strtk
       strtk_register_trim_type(int)
       strtk_register_trim_type(long)
       strtk_register_trim_type(long long)
-      strtk_register_trim_type(unsigned char)
+      strtk_register_trim_type(BYTE)
       strtk_register_trim_type(unsigned short)
       strtk_register_trim_type(unsigned int)
       strtk_register_trim_type(unsigned long)
@@ -16964,7 +16964,7 @@ namespace strtk
       strtk_register_trim_type(truncated_int<int>)
       strtk_register_trim_type(truncated_int<long>)
       strtk_register_trim_type(truncated_int<long long>)
-      strtk_register_trim_type(truncated_int<unsigned char>)
+      strtk_register_trim_type(truncated_int<BYTE>)
       strtk_register_trim_type(truncated_int<unsigned short>)
       strtk_register_trim_type(truncated_int<unsigned int>)
       strtk_register_trim_type(truncated_int<unsigned long long int>)
@@ -17647,8 +17647,8 @@ namespace strtk
          static const std::size_t radix_cube = radix * radix * radix;
          static const std::size_t buffer_size = ((strtk::details::numeric<T>::size < 16) ? 16 : 32);
 
-         unsigned char buffer[buffer_size];
-         unsigned char* itr = buffer + buffer_size;
+         BYTE buffer[buffer_size];
+         BYTE* itr = buffer + buffer_size;
 
          if (value)
          {
@@ -17670,7 +17670,7 @@ namespace strtk
 
             if (value)
             {
-               *(--itr) = static_cast<unsigned char>('0' + value);
+               *(--itr) = static_cast<BYTE>('0' + value);
             }
          }
          else
@@ -17705,8 +17705,8 @@ namespace strtk
          static const std::size_t radix_cube  = radix * radix * radix;
          static const std::size_t buffer_size = ((strtk::details::numeric<T>::size < 16) ? 16 : 32);
 
-         unsigned char buffer[buffer_size];
-         unsigned char* itr = buffer + buffer_size;
+         BYTE buffer[buffer_size];
+         BYTE* itr = buffer + buffer_size;
          bool negative = (valuex < 0);
          typedef typename tsci_type<T>::type TT;
          TT value = (negative) ? -valuex : valuex;
@@ -17731,7 +17731,7 @@ namespace strtk
 
             if (value)
             {
-               *(--itr) = static_cast<unsigned char>('0' + value);
+               *(--itr) = static_cast<BYTE>('0' + value);
             }
 
             if (negative)
@@ -17799,7 +17799,7 @@ namespace strtk
       template <> inline std::string type_name<Type>() { static const std::string s(#Type); return s; }
 
       strtk_register_type_name(signed char)
-      strtk_register_type_name(unsigned char)
+      strtk_register_type_name(BYTE)
       strtk_register_type_name(short)
       strtk_register_type_name(int)
       strtk_register_type_name(long)
@@ -18820,7 +18820,7 @@ namespace strtk
    template <typename T1,  typename T2, typename  T3, typename  T4,
              typename T5,  typename T6, typename  T7, typename  T8,
              typename T9, typename T10, typename T11, typename T12>
-   inline unsigned char* read_pod(unsigned char* data,
+   inline BYTE* read_pod(BYTE* data,
                                   T1& t1, T2&   t2, T3&   t3, T4&   t4,
                                   T5& t5, T6&   t6, T7&   t7, T8&   t8,
                                   T9& t9, T10& t10, T11& t11, T12& t12)
@@ -18843,7 +18843,7 @@ namespace strtk
    template <typename T1,  typename T2, typename  T3, typename T4,
              typename T5,  typename T6, typename  T7, typename T8,
              typename T9, typename T10, typename T11>
-   inline unsigned char* read_pod(unsigned char* data,
+   inline BYTE* read_pod(BYTE* data,
                                   T1& t1, T2&   t2, T3&   t3, T4& t4,
                                   T5& t5, T6&   t6, T7&   t7, T8& t8,
                                   T9& t9, T10& t10, T11& t11)
@@ -18865,7 +18865,7 @@ namespace strtk
    template <typename T1, typename T2, typename T3, typename T4,
              typename T5, typename T6, typename T7, typename T8,
              typename T9, typename T10>
-   inline unsigned char* read_pod(unsigned char* data,
+   inline BYTE* read_pod(BYTE* data,
                                   T1& t1, T2& t2, T3& t3, T4& t4,
                                   T5& t5, T6& t6, T7& t7, T8& t8,
                                   T9& t9, T10& t10)
@@ -18886,7 +18886,7 @@ namespace strtk
    template <typename T1, typename T2, typename T3, typename T4,
              typename T5, typename T6, typename T7, typename T8,
              typename T9>
-   inline unsigned char* read_pod(unsigned char* data,
+   inline BYTE* read_pod(BYTE* data,
                                   T1& t1, T2& t2, T3& t3, T4& t4,
                                   T5& t5, T6& t6, T7& t7, T8& t8,
                                   T9& t9)
@@ -18905,7 +18905,7 @@ namespace strtk
 
    template <typename T1, typename T2, typename T3, typename T4,
              typename T5, typename T6, typename T7, typename T8>
-   inline unsigned char* read_pod(unsigned char* data,
+   inline BYTE* read_pod(BYTE* data,
                                   T1& t1, T2& t2, T3& t3, T4& t4,
                                   T5& t5, T6& t6, T7& t7, T8& t8)
    {
@@ -18922,7 +18922,7 @@ namespace strtk
 
    template <typename T1, typename T2, typename T3, typename T4,
              typename T5, typename T6, typename T7>
-   inline unsigned char* read_pod(unsigned char* data,
+   inline BYTE* read_pod(BYTE* data,
                                   T1& t1, T2& t2, T3& t3, T4& t4,
                                   T5& t5, T6& t6, T7& t7)
    {
@@ -18938,7 +18938,7 @@ namespace strtk
 
    template <typename T1, typename T2, typename T3, typename T4,
              typename T5, typename T6>
-   inline unsigned char* read_pod(unsigned char* data,
+   inline BYTE* read_pod(BYTE* data,
                                   T1& t1, T2& t2, T3& t3, T4& t4,
                                   T5& t5, T6& t6)
    {
@@ -18953,7 +18953,7 @@ namespace strtk
 
    template <typename T1, typename T2, typename T3, typename T4,
              typename T5>
-   inline unsigned char* read_pod(unsigned char* data,
+   inline BYTE* read_pod(BYTE* data,
                                   T1& t1, T2& t2, T3& t3, T4& t4,
                                   T5& t5)
    {
@@ -18966,7 +18966,7 @@ namespace strtk
    }
 
    template <typename T1, typename T2, typename T3, typename T4>
-   inline unsigned char* read_pod(unsigned char* data,
+   inline BYTE* read_pod(BYTE* data,
                                   T1& t1, T2& t2, T3& t3, T4& t4)
    {
       t1 = (*reinterpret_cast<T1*>(data)); data += sizeof(T1);
@@ -18977,7 +18977,7 @@ namespace strtk
    }
 
    template <typename T1, typename T2, typename T3>
-   inline unsigned char* read_pod(unsigned char* data,
+   inline BYTE* read_pod(BYTE* data,
                                   T1& t1, T2& t2, T3& t3)
    {
       t1 = (*reinterpret_cast<T1*>(data)); data += sizeof(T1);
@@ -18987,7 +18987,7 @@ namespace strtk
    }
 
    template <typename T1, typename T2>
-   inline unsigned char* read_pod(unsigned char* data,
+   inline BYTE* read_pod(BYTE* data,
                                   T1& t1, T2& t2)
    {
       t1 = (*reinterpret_cast<T1*>(data)); data += sizeof(T1);
@@ -18996,7 +18996,7 @@ namespace strtk
    }
 
    template <typename T1>
-   inline unsigned char* read_pod(unsigned char* data,
+   inline BYTE* read_pod(BYTE* data,
                                   T1& t1)
    {
       t1 = (*reinterpret_cast<T1*>(data)); data += sizeof(T1);
@@ -19004,7 +19004,7 @@ namespace strtk
    }
 
    template <typename T, std::size_t N>
-   inline unsigned char* read_pod(unsigned char* data, T (&t)[N])
+   inline BYTE* read_pod(BYTE* data, T (&t)[N])
    {
       T* begin = reinterpret_cast<T*>(data);
       T* end = begin + N;
@@ -19015,7 +19015,7 @@ namespace strtk
    template <typename T,
              typename Allocator,
              template <typename,typename> class Sequence>
-   inline unsigned char* read_pod(unsigned char* data,
+   inline BYTE* read_pod(BYTE* data,
                                   const std::size_t& n,
                                   const Sequence<T,Allocator>& sequence)
    {
@@ -19027,7 +19027,7 @@ namespace strtk
    template <typename T,
              typename Comparator,
              typename Allocator>
-   inline unsigned char* read_pod(unsigned char* data,
+   inline BYTE* read_pod(BYTE* data,
                                   const std::size_t& n,
                                   const std::set<T,Comparator,Allocator>& set)
    {
@@ -19039,7 +19039,7 @@ namespace strtk
    template <typename T,
              typename Comparator,
              typename Allocator>
-   inline unsigned char* read_pod(unsigned char* data,
+   inline BYTE* read_pod(BYTE* data,
                                   const std::size_t& n,
                                   const std::multiset<T,Comparator,Allocator>& multiset)
    {
@@ -19051,7 +19051,7 @@ namespace strtk
    template <typename T1,  typename T2, typename  T3, typename  T4,
              typename T5,  typename T6, typename  T7, typename  T8,
              typename T9, typename T10, typename T11, typename T12>
-   inline unsigned char* write_pod(unsigned char* data,
+   inline BYTE* write_pod(BYTE* data,
                                    const T1& t1, const T2&   t2, const T3&   t3, const T4& t4,
                                    const T5& t5, const T6&   t6, const T7&   t7, const T8& t8,
                                    const T9& t9, const T10& t10, const T11& t11, const T12& t12)
@@ -19074,7 +19074,7 @@ namespace strtk
    template <typename T1,  typename T2, typename  T3, typename T4,
              typename T5,  typename T6, typename  T7, typename T8,
              typename T9, typename T10, typename T11>
-   inline unsigned char* write_pod(unsigned char* data,
+   inline BYTE* write_pod(BYTE* data,
                                    const T1& t1, const T2&   t2, const T3&   t3, const T4& t4,
                                    const T5& t5, const T6&   t6, const T7&   t7, const T8& t8,
                                    const T9& t9, const T10& t10, const T11& t11)
@@ -19096,7 +19096,7 @@ namespace strtk
    template <typename T1, typename T2, typename T3, typename T4,
              typename T5, typename T6, typename T7, typename T8,
              typename T9, typename T10>
-   inline unsigned char* write_pod(unsigned char* data,
+   inline BYTE* write_pod(BYTE* data,
                                    const T1& t1, const T2& t2, const T3& t3, const T4& t4,
                                    const T5& t5, const T6& t6, const T7& t7, const T8& t8,
                                    const T9& t9, const T10& t10)
@@ -19117,7 +19117,7 @@ namespace strtk
    template <typename T1, typename T2, typename T3, typename T4,
              typename T5, typename T6, typename T7, typename T8,
              typename T9>
-   inline unsigned char* write_pod(unsigned char* data,
+   inline BYTE* write_pod(BYTE* data,
                                    const T1& t1, const T2& t2, const T3& t3, const T4& t4,
                                    const T5& t5, const T6& t6, const T7& t7, const T8& t8,
                                    const T9& t9)
@@ -19136,7 +19136,7 @@ namespace strtk
 
    template <typename T1, typename T2, typename T3, typename T4,
              typename T5, typename T6, typename T7, typename T8>
-   inline unsigned char* write_pod(unsigned char* data,
+   inline BYTE* write_pod(BYTE* data,
                                    const T1& t1, const T2& t2, const T3& t3, const T4& t4,
                                    const T5& t5, const T6& t6, const T7& t7, const T8& t8)
    {
@@ -19153,7 +19153,7 @@ namespace strtk
 
    template <typename T1, typename T2, typename T3, typename T4,
              typename T5, typename T6, typename T7>
-   inline unsigned char* write_pod(unsigned char* data,
+   inline BYTE* write_pod(BYTE* data,
                                    const T1& t1, const T2& t2, const T3& t3, const T4& t4,
                                    const T5& t5, const T6& t6, const T7& t7)
    {
@@ -19169,7 +19169,7 @@ namespace strtk
 
    template <typename T1, typename T2, typename T3, typename T4,
              typename T5, typename T6>
-   inline unsigned char* write_pod(unsigned char* data,
+   inline BYTE* write_pod(BYTE* data,
                                    const T1& t1, const T2& t2, const T3& t3, const T4& t4,
                                    const T5& t5, const T6& t6)
    {
@@ -19184,7 +19184,7 @@ namespace strtk
 
    template <typename T1, typename T2, typename T3, typename T4,
              typename T5>
-   inline unsigned char* write_pod(unsigned char* data,
+   inline BYTE* write_pod(BYTE* data,
                                    const T1& t1, const T2& t2, const T3& t3, const T4& t4,
                                    const T5& t5)
    {
@@ -19197,7 +19197,7 @@ namespace strtk
    }
 
    template <typename T1, typename T2, typename T3, typename T4>
-   inline unsigned char* write_pod(unsigned char* data,
+   inline BYTE* write_pod(BYTE* data,
                                    const T1& t1, const T2& t2, const T3& t3, const T4& t4)
    {
       (*reinterpret_cast<T1*>(data)) = t1; data += sizeof(T1);
@@ -19208,7 +19208,7 @@ namespace strtk
    }
 
    template <typename T1, typename T2, typename T3>
-   inline unsigned char* write_pod(unsigned char* data,
+   inline BYTE* write_pod(BYTE* data,
                                    const T1& t1, const T2& t2, const T3& t3)
    {
       (*reinterpret_cast<T1*>(data)) = t1; data += sizeof(T1);
@@ -19218,7 +19218,7 @@ namespace strtk
    }
 
    template <typename T1, typename T2>
-   inline unsigned char* write_pod(unsigned char* data,
+   inline BYTE* write_pod(BYTE* data,
                                    const T1& t1, const T2& t2)
    {
       (*reinterpret_cast<T1*>(data)) = t1; data += sizeof(T1);
@@ -19227,7 +19227,7 @@ namespace strtk
    }
 
    template <typename T1>
-   inline unsigned char* write_pod(unsigned char* data,
+   inline BYTE* write_pod(BYTE* data,
                                    const T1& t1)
    {
       (*reinterpret_cast<T1*>(data)) = t1; data += sizeof(T1);
@@ -19235,7 +19235,7 @@ namespace strtk
    }
 
    template <typename T, std::size_t N>
-   inline unsigned char* write_pod(unsigned char* data, const T (&t)[N])
+   inline BYTE* write_pod(BYTE* data, const T (&t)[N])
    {
       T* ptr = reinterpret_cast<T*>(data);
       std::copy(t,t + N,ptr);
@@ -19245,7 +19245,7 @@ namespace strtk
    template <typename T,
              typename Allocator,
              template <typename,typename> class Sequence>
-   inline unsigned char* write_pod(unsigned char* data,
+   inline BYTE* write_pod(BYTE* data,
                                    const Sequence<T,Allocator>& sequence)
    {
       T* ptr = reinterpret_cast<T>(data);
@@ -19256,7 +19256,7 @@ namespace strtk
    template <typename T,
              typename Comparator,
              typename Allocator>
-   inline unsigned char* write_pod(unsigned char* data,
+   inline BYTE* write_pod(BYTE* data,
                                    const std::set<T,Comparator,Allocator>& set)
    {
       T* ptr = reinterpret_cast<T>(data);
@@ -19267,7 +19267,7 @@ namespace strtk
    template <typename T,
              typename Comparator,
              typename Allocator>
-   inline unsigned char* write_pod(unsigned char* data,
+   inline BYTE* write_pod(BYTE* data,
                                    const std::multiset<T,Comparator,Allocator>& multiset)
    {
       T* ptr = reinterpret_cast<T>(data);
@@ -19279,7 +19279,7 @@ namespace strtk
    {
    private:
 
-      typedef const unsigned char* itr_type;
+      typedef const BYTE* itr_type;
 
       inline bool condition_equal(const itr_type begin, const itr_type end) const
       {
@@ -19303,7 +19303,7 @@ namespace strtk
 
       inline bool condition_like(const itr_type begin, const itr_type end) const
       {
-         return match(s_begin,s_end,begin,end,(unsigned char)'*',(unsigned char)'?');
+         return match(s_begin,s_end,begin,end,(BYTE)'*',(BYTE)'?');
       }
 
       inline bool condition_begins_with(const itr_type begin, const itr_type end) const
@@ -19364,8 +19364,8 @@ namespace strtk
       inline explicit string_condition(condition_type cond_type, const std::string& str)
       : cond_type_(cond_type),
         s(str),
-        s_begin(reinterpret_cast<const unsigned char*>(s.data())),
-        s_end(reinterpret_cast<const unsigned char*>(s.data() + str.size())),
+        s_begin(reinterpret_cast<const BYTE*>(s.data())),
+        s_end(reinterpret_cast<const BYTE*>(s.data() + str.size())),
         condition_method_(0)
       {
          switch (cond_type_)
@@ -19395,16 +19395,16 @@ namespace strtk
 
       inline bool operator()(const std::string& str)
       {
-         return operator()(reinterpret_cast<const unsigned char*>(str.data()),
-                           reinterpret_cast<const unsigned char*>(str.data() + str.size()));
+         return operator()(reinterpret_cast<const BYTE*>(str.data()),
+                           reinterpret_cast<const BYTE*>(str.data() + str.size()));
       }
 
    private:
 
       condition_type cond_type_;
       std::string s;
-      const unsigned char* s_begin;
-      const unsigned char* s_end;
+      const BYTE* s_begin;
+      const BYTE* s_end;
       condition_method condition_method_;
    };
 
@@ -19666,15 +19666,15 @@ namespace strtk
       typedef trie::prefix<KeyIterator,ValueType> std_string;
       typedef trie::prefix<char*,ValueType> char_ptr;
       typedef trie::prefix<const char*,ValueType> const_char_ptr;
-      typedef trie::prefix<unsigned char*,ValueType> uchar_ptr;
-      typedef trie::prefix<const unsigned char*,ValueType> const_uchar_ptr;
+      typedef trie::prefix<BYTE*,ValueType> uchar_ptr;
+      typedef trie::prefix<const BYTE*,ValueType> const_uchar_ptr;
    };
 
    namespace bloom
    {
 
       static const std::size_t bits_per_char = 0x08;    // 8 bits in 1 char(unsigned)
-      static const unsigned char bit_mask[bits_per_char] = {
+      static const BYTE bit_mask[bits_per_char] = {
                                                              0x01,  //00000001
                                                              0x02,  //00000010
                                                              0x04,  //00000100
@@ -19829,7 +19829,7 @@ namespace strtk
       protected:
 
          typedef unsigned int bloom_type;
-         typedef unsigned char cell_type;
+         typedef BYTE cell_type;
 
       public:
 
@@ -19923,7 +19923,7 @@ namespace strtk
             inserted_element_count_ = 0;
          }
 
-         inline void insert(const unsigned char* key_begin, const std::size_t& length)
+         inline void insert(const BYTE* key_begin, const std::size_t& length)
          {
             std::size_t bit_index = 0;
             std::size_t bit = 0;
@@ -19939,17 +19939,17 @@ namespace strtk
          inline void insert(const T& t)
          {
             // Note: T must be a C++ POD type.
-            insert(reinterpret_cast<const unsigned char*>(&t),sizeof(T));
+            insert(reinterpret_cast<const BYTE*>(&t),sizeof(T));
          }
 
          inline void insert(const std::string& key)
          {
-            insert(reinterpret_cast<const unsigned char*>(key.data()),key.size());
+            insert(reinterpret_cast<const BYTE*>(key.data()),key.size());
          }
 
          inline void insert(const char* data, const std::size_t& length)
          {
-            insert(reinterpret_cast<const unsigned char*>(data),length);
+            insert(reinterpret_cast<const BYTE*>(data),length);
          }
 
          template <typename InputIterator>
@@ -19962,7 +19962,7 @@ namespace strtk
             }
          }
 
-         inline virtual bool contains(const unsigned char* key_begin, const std::size_t length) const
+         inline virtual bool contains(const BYTE* key_begin, const std::size_t length) const
          {
             std::size_t bit_index = 0;
             std::size_t bit = 0;
@@ -19980,17 +19980,17 @@ namespace strtk
          template <typename T>
          inline bool contains(const T& t) const
          {
-            return contains(reinterpret_cast<const unsigned char*>(&t),static_cast<std::size_t>(sizeof(T)));
+            return contains(reinterpret_cast<const BYTE*>(&t),static_cast<std::size_t>(sizeof(T)));
          }
 
          inline bool contains(const std::string& key) const
          {
-            return contains(reinterpret_cast<const unsigned char*>(key.data()),key.size());
+            return contains(reinterpret_cast<const BYTE*>(key.data()),key.size());
          }
 
          inline bool contains(const char* data, const std::size_t& length) const
          {
-            return contains(reinterpret_cast<const unsigned char*>(data),length);
+            return contains(reinterpret_cast<const BYTE*>(data),length);
          }
 
          template <typename InputIterator>
@@ -20119,7 +20119,7 @@ namespace strtk
             std::ofstream ostream(file_name.c_str(),std::ios::binary);
             if (!ostream)
                return false;
-            unsigned char* buffer = new unsigned char[buffer_size];
+            BYTE* buffer = new BYTE[buffer_size];
             strtk::binary::writer writer(buffer,buffer_size);
             writer.reset(true);
             bool result = writer(salt_count_)                         &&
@@ -20161,7 +20161,7 @@ namespace strtk
 
             bit_table_= 0;
             const std::size_t buffer_size = strtk::fileio::file_size(file_name);
-            unsigned char* buffer = new unsigned char[buffer_size];
+            BYTE* buffer = new BYTE[buffer_size];
 
             strtk::binary::reader reader(buffer,buffer_size);
             reader.reset(true);
@@ -20275,9 +20275,9 @@ namespace strtk
             }
          }
 
-         inline bloom_type hash_ap(const unsigned char* begin, std::size_t remaining_length, bloom_type hash) const
+         inline bloom_type hash_ap(const BYTE* begin, std::size_t remaining_length, bloom_type hash) const
          {
-            const unsigned char* itr = begin;
+            const BYTE* itr = begin;
             unsigned int loop = 0;
 
             while (remaining_length >= 8)
@@ -20325,7 +20325,7 @@ namespace strtk
          }
 
          std::vector<bloom_type> salt_;
-         unsigned char*          bit_table_;
+         BYTE*          bit_table_;
          unsigned int            salt_count_;
          unsigned long long int  table_size_;
          unsigned long long int  raw_table_size_;
@@ -20432,7 +20432,7 @@ namespace strtk
          hash ^= ~((hash << 11) + (data[1] ^ (hash >> 5)));
       }
 
-      inline void compute_pod_hash(const unsigned char data[], unsigned int& hash)
+      inline void compute_pod_hash(const BYTE data[], unsigned int& hash)
       {
          hash ^=  ((hash <<  7) ^  data[0] * (hash >> 3));
          hash ^= ~((hash << 11) + (data[1] ^ (hash >> 5)));
@@ -20440,7 +20440,7 @@ namespace strtk
 
       inline void compute_pod_hash(const int& data, unsigned int& hash)
       {
-         const unsigned char* itr = reinterpret_cast<const unsigned char*>(&data);
+         const BYTE* itr = reinterpret_cast<const BYTE*>(&data);
          hash ^=  ((hash <<  7) ^  itr[0] * (hash >> 3));
          hash ^= ~((hash << 11) + (itr[1] ^ (hash >> 5)));
          hash ^=  ((hash <<  7) ^  itr[2] * (hash >> 3));
@@ -20454,7 +20454,7 @@ namespace strtk
 
       inline void compute_pod_hash(const unsigned long long int& data, unsigned int& hash)
       {
-         const unsigned char* itr = reinterpret_cast<const unsigned char*>(&data);
+         const BYTE* itr = reinterpret_cast<const BYTE*>(&data);
          hash ^=  ((hash <<  7) ^  itr[0] * (hash >> 3));
          hash ^= ~((hash << 11) + (itr[1] ^ (hash >> 5)));
          hash ^=  ((hash <<  7) ^  itr[2] * (hash >> 3));
@@ -20467,7 +20467,7 @@ namespace strtk
 
       inline void compute_pod_hash(const double& data, unsigned int& hash)
       {
-         const unsigned char* itr = reinterpret_cast<const unsigned char*>(&data);
+         const BYTE* itr = reinterpret_cast<const BYTE*>(&data);
          hash ^=  ((hash <<  7) ^  itr[0] * (hash >> 3));
          hash ^= ~((hash << 11) + (itr[1] ^ (hash >> 5)));
          hash ^=  ((hash <<  7) ^  itr[2] * (hash >> 3));
@@ -20492,7 +20492,7 @@ namespace strtk
       }
 
       template <std::size_t block_size>
-      inline void compute_block(unsigned char* itr, std::size_t& length, unsigned int& hash)
+      inline void compute_block(BYTE* itr, std::size_t& length, unsigned int& hash)
       {
          unsigned int local_hash = hash;
 
@@ -20511,7 +20511,7 @@ namespace strtk
       template <std::size_t block_size>
       inline void compute_block(char* itr, std::size_t& length, unsigned int& hash)
       {
-         compute_block<block_size>(reinterpret_cast<unsigned char*>(itr),length,hash);
+         compute_block<block_size>(reinterpret_cast<BYTE*>(itr),length,hash);
       }
 
       static const unsigned int hash_seed = 0xAAAAAAAA;
@@ -20716,7 +20716,7 @@ namespace strtk
          {
          public:
 
-            typedef const unsigned char* itr_type;
+            typedef const BYTE* itr_type;
 
             virtual ~function_holder_base(){}
 
@@ -20822,7 +20822,7 @@ namespace strtk
          template <typename Function, bool b>
          struct construct
          {
-            inline static function_holder_ptr type(Function&, unsigned char*)
+            inline static function_holder_ptr type(Function&, BYTE*)
             {
                return reinterpret_cast<function_holder_ptr>(0);
             }
@@ -20831,7 +20831,7 @@ namespace strtk
          template <typename Function>
          struct construct<Function,true>
          {
-            inline static function_holder_ptr type(Function& f, unsigned char* buffer)
+            inline static function_holder_ptr type(Function& f, BYTE* buffer)
             {
                return new(buffer)function_holder<Function>(f);
             }
@@ -20839,7 +20839,7 @@ namespace strtk
 
          function_holder_ptr function_holder_;
          enum { function_holder_buffer_size = 64 };
-         unsigned char function_holder_buffer_[function_holder_buffer_size];
+         BYTE function_holder_buffer_[function_holder_buffer_size];
       };
 
       template <typename Function>
@@ -20867,7 +20867,7 @@ namespace strtk
       strtk_register_attribute_type(float)
       strtk_register_attribute_type(double)
       strtk_register_attribute_type(long double)
-      strtk_register_attribute_type(unsigned char)
+      strtk_register_attribute_type(BYTE)
       strtk_register_attribute_type(signed char)
       strtk_register_attribute_type(char)
       strtk_register_attribute_type(std::string)
@@ -20922,7 +20922,7 @@ namespace strtk
          {
          public:
 
-            typedef const unsigned char* itr_type;
+            typedef const BYTE* itr_type;
 
             virtual ~type_holder_base(){}
 
@@ -21067,7 +21067,7 @@ namespace strtk
          template <typename T, bool b>
          struct construct
          {
-            inline static type_holder_ptr type(T&, unsigned char*)
+            inline static type_holder_ptr type(T&, BYTE*)
             {
                return reinterpret_cast<type_holder_ptr>(0);
             }
@@ -21076,7 +21076,7 @@ namespace strtk
          template <typename T>
          struct construct<T,true>
          {
-            inline static type_holder_ptr type(T& t, unsigned char* buffer)
+            inline static type_holder_ptr type(T& t, BYTE* buffer)
             {
                return new(buffer)type_holder<T>(t);
             }
@@ -21084,7 +21084,7 @@ namespace strtk
 
          type_holder_ptr type_holder_;
          enum { type_holder_buffer_size = 2 * sizeof(type_holder<unsigned long long int>) };
-         unsigned char type_holder_buffer_[type_holder_buffer_size];
+         BYTE type_holder_buffer_[type_holder_buffer_size];
       };
 
       template <typename Key,
@@ -23539,7 +23539,7 @@ namespace strtk
 
    namespace details
    {
-      typedef const unsigned char* ptr;
+      typedef const BYTE* ptr;
 
       template <typename T>
       bool cmpimpl(ptr c1, ptr c2) { return (*reinterpret_cast<T>(c1)) == (*reinterpret_cast<T>(c2)); }
@@ -23557,7 +23557,7 @@ namespace strtk
       struct size_impl<2> { static inline bool cmp(ptr c1, ptr c2) { return cmpimpl<const unsigned short*>(c1,c2); } };
 
       template <>
-      struct size_impl<1> { static inline bool cmp(ptr c1, ptr c2) { return cmpimpl<const unsigned char*>(c1,c2); } };
+      struct size_impl<1> { static inline bool cmp(ptr c1, ptr c2) { return cmpimpl<const BYTE*>(c1,c2); } };
 
       template <std::size_t N>
       struct next_size { enum { size = (N >= 8) ? 8 : ((N >= 4) ? 4 : ((N >= 2) ? 2 : 1)) }; };
@@ -23577,7 +23577,7 @@ namespace strtk
          }
 
          template <std::size_t K1, std::size_t K2>
-         static inline bool process(const unsigned char (&c1)[K1], const unsigned char (&c2)[K2])
+         static inline bool process(const BYTE (&c1)[K1], const BYTE (&c2)[K2])
          {
             return memcmp_n_impl<N>::process(static_cast<ptr>(c1),static_cast<ptr>(c2));
          }
@@ -23599,7 +23599,7 @@ namespace strtk
    }
 
    template <std::size_t N,std::size_t K1, std::size_t K2>
-   inline bool memcmp_n(const unsigned char (&c1)[K1], const unsigned char (&c2)[K2])
+   inline bool memcmp_n(const BYTE (&c1)[K1], const BYTE (&c2)[K2])
    {
       return details::memcmp_n_impl<N>::process(c1,c2);
    }
@@ -23655,7 +23655,7 @@ namespace strtk
    }
 
    template <std::size_t N>
-   inline std::string make_string(const unsigned char (&s)[N], const std::size_t& length = N)
+   inline std::string make_string(const BYTE (&s)[N], const std::size_t& length = N)
    {
       static const std::string null_string;
       if (N < length)
@@ -23690,10 +23690,10 @@ namespace strtk
    }
 
    template <std::size_t N>
-   inline bool set_array(unsigned char (&a)[N],
+   inline bool set_array(BYTE (&a)[N],
                          const std::string& s,
                          const bool pad = false,
-                         const unsigned char padding = '0')
+                         const BYTE padding = '0')
    {
       if (N < s.size())
          return false;
@@ -23704,10 +23704,10 @@ namespace strtk
    }
 
    template <std::size_t N, std::size_t M>
-   inline bool set_array(unsigned char (&dest)[N],
-                         unsigned char (&src)[M],
+   inline bool set_array(BYTE (&dest)[N],
+                         BYTE (&src)[M],
                          const bool pad = false,
-                         const unsigned char padding = '0')
+                         const BYTE padding = '0')
    {
       if (N < M)
          return false;
@@ -23803,7 +23803,7 @@ namespace strtk
       {
       public:
 
-         typedef unsigned char char_type;
+         typedef BYTE char_type;
          typedef std::pair<char_type*,char_type*> range_type;
 
          template <typename Options>
@@ -23924,7 +23924,7 @@ namespace strtk
       {
       private:
 
-         typedef unsigned char char_type;
+         typedef BYTE char_type;
          typedef strtk::keyvalue::options<char_type> general_options;
 
       public:
@@ -24101,7 +24101,7 @@ namespace
    }
 
    static inline std::ostream& operator<<(std::ostream& os,
-                                          const strtk::std_string::tokenizer<strtk::single_delimiter_predicate<unsigned char> >::type::iterator& range)
+                                          const strtk::std_string::tokenizer<strtk::single_delimiter_predicate<BYTE> >::type::iterator& range)
    {
       os << std::string((*range).first,(*range).second);
       return os;
@@ -24121,9 +24121,9 @@ namespace
    { os << std::string(range.first,range.second); return os; }                                        \
 
    strtk_register_pair_to_ostream(char*)
-   strtk_register_pair_to_ostream(unsigned char*)
+   strtk_register_pair_to_ostream(BYTE*)
    strtk_register_pair_to_ostream(const char*)
-   strtk_register_pair_to_ostream(const unsigned char*)
+   strtk_register_pair_to_ostream(const BYTE*)
    strtk_register_pair_to_ostream(std::string::iterator)
    strtk_register_pair_to_ostream(std::string::const_iterator)
    strtk_register_pair_to_ostream(const std::string::iterator)

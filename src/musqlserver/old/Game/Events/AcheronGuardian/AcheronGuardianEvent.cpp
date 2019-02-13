@@ -367,7 +367,7 @@ void CAcheronGuardianEvent::ProcStateChannelClose()
 			{
 				if (gGameObjects[n]->Connected == PLAYER_PLAYING && gGameObjects[n]->Type == OBJ_USER)
 				{
-					IOCP.DataSend(n, (LPBYTE)&pMsg, pMsg.h.size);
+					IOCP.DataSend(n, (BYTE*)&pMsg, pMsg.h.size);
 				}
 			}
 
@@ -667,7 +667,7 @@ void CAcheronGuardianEvent::RegenMonster(int nGroupNumber, int iGenSeq, int iGen
 		nGroupNumber, this->m_stMonsterGroupInfo[nGroupNumber].m_nGenTotCnt);
 }
 
-int CAcheronGuardianEvent::SetPosMonster(CGameObject &lpObj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY)
+int CAcheronGuardianEvent::SetPosMonster(CGameObject &Obj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -834,10 +834,10 @@ void CAcheronGuardianEvent::CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER 
 	if (lpObj->m_PlayerData->m_bUsePartyMatching == true)
 	{
 		PMSG_ANS_PARTYMATCHING_ERROR pMsg;
-		PHeadSubSetB((LPBYTE)&pMsg, 0xEF, 0x09, sizeof(pMsg));
+		PHeadSubSetB((BYTE*)&pMsg, 0xEF, 0x09, sizeof(pMsg));
 		pMsg.iResult = -1;
 
-		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -859,7 +859,7 @@ void CAcheronGuardianEvent::CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER 
 
 	else
 	{
-		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 	}
 }
 

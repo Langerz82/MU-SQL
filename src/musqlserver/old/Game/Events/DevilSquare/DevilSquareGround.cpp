@@ -283,7 +283,7 @@ void CDevilSquareGround::SortScore()
 
 
 
-void CDevilSquareGround::InsertObj(CGameObject &lpObj)
+void CDevilSquareGround::InsertObj(CGameObject &Obj)
 {
 	if ( lpObj.Authority != 2 )
 	{
@@ -368,7 +368,7 @@ void CDevilSquareGround::SendScore()
 	this->m_DevilSquareScoreInfoTOP10.Count  = count;
 	int iSize = count * 24 + 5;
 
-	PHeadSetB((LPBYTE)&this->m_DevilSquareScoreInfoTOP10, 0x93, iSize);
+	PHeadSetB((BYTE*)&this->m_DevilSquareScoreInfoTOP10, 0x93, iSize);
 	count = 1;
 
 	Itor = this->m_DevilSquareRankList.begin();
@@ -522,7 +522,7 @@ void CDevilSquareGround::SendScore()
 
 
 
-void CDevilSquareGround::SendRankingInfo(CGameObject &lpObj)
+void CDevilSquareGround::SendRankingInfo(CGameObject &Obj)
 {
 	if ( lpObj.m_nEventScore <= 0 )
 	{
@@ -545,7 +545,7 @@ void CDevilSquareGround::SendRankingInfo(CGameObject &lpObj)
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-BOOL CDevilSquareGround::AddUser(CGameObject &lpObj)
+BOOL CDevilSquareGround::AddUser(CGameObject &Obj)
 {
 	EnterCriticalSection(&this->m_criti);
 
@@ -564,7 +564,7 @@ BOOL CDevilSquareGround::AddUser(CGameObject &lpObj)
 
 }
 
-BOOL CDevilSquareGround::DelUser(CGameObject &lpObj)
+BOOL CDevilSquareGround::DelUser(CGameObject &Obj)
 {
 	EnterCriticalSection(&this->m_criti);
 

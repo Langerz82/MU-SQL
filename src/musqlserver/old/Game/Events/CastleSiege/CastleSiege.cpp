@@ -1713,7 +1713,7 @@ BOOL CCastleSiege::FirstCreateDbNPC()
 
 	lpMsg->wMapSvrNum = this->m_iMapSvrGroup;
 	lpMsg->iCount = iCOUNT;
-	lpMsg->h.set((LPBYTE)&cBUFFER, 0x84, (iCOUNT * sizeof(CSP_NPCSAVEDATA)) + sizeof(CSP_REQ_NPCSAVEDATA));
+	lpMsg->h.set((BYTE*)&cBUFFER, 0x84, (iCOUNT * sizeof(CSP_NPCSAVEDATA)) + sizeof(CSP_REQ_NPCSAVEDATA));
 	wsDataCli.DataSend((char*)cBUFFER, (iCOUNT * sizeof(CSP_NPCSAVEDATA)) + sizeof(CSP_REQ_NPCSAVEDATA));
 
 	return TRUE;
@@ -3282,7 +3282,7 @@ void CCastleSiege::StoreDbNpc()
 
 	lpMsg->wMapSvrNum = this->m_iMapSvrGroup;
 	lpMsg->iCount = iCOUNT;
-	lpMsg->h.set((LPBYTE)&cBUFFER,0x89,iCOUNT * sizeof(CSP_NPCUPDATEDATA) + sizeof(CSP_REQ_NPCUPDATEDATA));
+	lpMsg->h.set((BYTE*)&cBUFFER,0x89,iCOUNT * sizeof(CSP_NPCUPDATEDATA) + sizeof(CSP_REQ_NPCUPDATEDATA));
 	wsDataCli.DataSend((char*)cBUFFER,iCOUNT * sizeof(CSP_NPCUPDATEDATA) + sizeof(CSP_REQ_NPCUPDATEDATA));
 
 	sLog->outBasic("[CastleSiege] CCastleSiege::StoreDbNpc() - << END >>");
@@ -3362,10 +3362,10 @@ void CCastleSiege::SendNpcStateList(CGameObject &Obj, int iNpcType)
 	LeaveCriticalSection(&this->m_critNpcData);
 
 	lpMsgSend->btResult = 1;
-	lpMsgSend->h.set((LPBYTE)&cNPC_LIST, 0xB3, (sizeof(PMSG_NPCDBLIST) * iNPC_COUNT)+sizeof(PMSG_ANS_NPCDBLIST));
+	lpMsgSend->h.set((BYTE*)&cNPC_LIST, 0xB3, (sizeof(PMSG_NPCDBLIST) * iNPC_COUNT)+sizeof(PMSG_ANS_NPCDBLIST));
 	lpMsgSend->iCount = iNPC_COUNT;
 
-	IOCP.DataSend(Obj.m_Index, (LPBYTE)&cNPC_LIST, (sizeof(PMSG_NPCDBLIST) * iNPC_COUNT)+sizeof(PMSG_ANS_NPCDBLIST));
+	IOCP.DataSend(Obj.m_Index, (BYTE*)&cNPC_LIST, (sizeof(PMSG_NPCDBLIST) * iNPC_COUNT)+sizeof(PMSG_ANS_NPCDBLIST));
 }
 
 int CCastleSiege::GetNpcData(int iNpcType, int iNpcIndex, _CS_NPC_DATA & pRetNpcData)
@@ -4002,7 +4002,7 @@ void CCastleSiege::SetCalcRegGuildList(CSP_CALCREGGUILDLIST* lpMsg, int iCOUNT)
 
 	this->m_bCsBasicGuildInfoLoadOK = TRUE;
 
-	lpMsgSend->h.set((LPBYTE)&cBUFFER, 0x86, (lpMsgSend->iCount * sizeof(CSP_CSGUILDUNIONINFO))+ sizeof(CSP_REQ_CSGUILDUNIONINFO));
+	lpMsgSend->h.set((BYTE*)&cBUFFER, 0x86, (lpMsgSend->iCount * sizeof(CSP_CSGUILDUNIONINFO))+ sizeof(CSP_REQ_CSGUILDUNIONINFO));
 	wsDataCli.DataSend((char*)cBUFFER, (lpMsgSend->iCount * sizeof(CSP_CSGUILDUNIONINFO))+ sizeof(CSP_REQ_CSGUILDUNIONINFO));
 }
 
@@ -4104,7 +4104,7 @@ void CCastleSiege::SaveCsTotalGuildInfo()
 
 	LeaveCriticalSection(&this->m_critCsTotalGuildInfo);
 
-	lpMsgSend->h.set((LPBYTE)cBUFFER, 0x87, (lpMsgSend->iCount * sizeof(CSP_CSSAVETOTALGUILDINFO))+ sizeof(CSP_REQ_CSSAVETOTALGUILDINFO));
+	lpMsgSend->h.set((BYTE*)cBUFFER, 0x87, (lpMsgSend->iCount * sizeof(CSP_CSSAVETOTALGUILDINFO))+ sizeof(CSP_REQ_CSSAVETOTALGUILDINFO));
 	wsDataCli.DataSend((char*)cBUFFER, (lpMsgSend->iCount * sizeof(CSP_CSSAVETOTALGUILDINFO))+ sizeof(CSP_REQ_CSSAVETOTALGUILDINFO));
 
 	EnterCriticalSection(&this->m_critCsTotalGuildInfo);
@@ -4368,7 +4368,7 @@ void CCastleSiege::NotifySelfCsJoinSide(CGameObject &Obj)
 		gObjClearBuffEffect(lpObj, CLEAR_TYPE_CASTLESIEGE);
 	}
 
-	pMsg.h.set((LPBYTE)&pMsg,0xB2,0x19,sizeof(pMsg));
+	pMsg.h.set((BYTE*)&pMsg,0xB2,0x19,sizeof(pMsg));
 
 	if(btCsJoinSide == 2) //same result...
 	{
@@ -4381,7 +4381,7 @@ void CCastleSiege::NotifySelfCsJoinSide(CGameObject &Obj)
 
 	//GCSendState iViewState
 
-	IOCP.DataSend(Obj.m_Index,(LPBYTE)&pMsg,pMsg.h.size);
+	IOCP.DataSend(Obj.m_Index,(BYTE*)&pMsg,pMsg.h.size);
 }
 
 int CCastleSiege::OperateGate(int iObjIndex, int iMonsterExistVal, int bOpenType)
@@ -5291,14 +5291,14 @@ void CCastleSiege::NotifyAllUserCsStartState(BYTE btStartState)
 {
 	PMSG_ANS_NOTIFYCSSTART pMsg;
 
-	pMsg.h.set((LPBYTE)&pMsg,0xB2,0x17,sizeof(pMsg));
+	pMsg.h.set((BYTE*)&pMsg,0xB2,0x17,sizeof(pMsg));
 	pMsg.btStartState = btStartState;
 
 	for(int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
 		if(gGameObjects[i]->Connected == PLAYER_PLAYING && gGameObjects[i]->Type == OBJ_USER)
 		{
-			IOCP.DataSend(i,(LPBYTE)&pMsg,pMsg.h.size);
+			IOCP.DataSend(i,(BYTE*)&pMsg,pMsg.h.size);
 		}
 	}
 }
@@ -5307,7 +5307,7 @@ void CCastleSiege::NotifyAllUserCsProgState(BYTE btProgState, char* lpszGuildNam
 {
 	PMSG_ANS_NOTIFYCSPROGRESS pMsg;
 	
-	pMsg.h.set((LPBYTE)&pMsg, 0xB2, 0x18, sizeof(pMsg));
+	pMsg.h.set((BYTE*)&pMsg, 0xB2, 0x18, sizeof(pMsg));
 
 	pMsg.btCastleSiegeState = btProgState;
 
@@ -5320,7 +5320,7 @@ void CCastleSiege::NotifyAllUserCsProgState(BYTE btProgState, char* lpszGuildNam
 		{
 			if( gGameObjects[i]->MapNumber == MAP_INDEX_CASTLESIEGE )
 			{
-				IOCP.DataSend(i, (LPBYTE)&pMsg, pMsg.h.size);
+				IOCP.DataSend(i, (BYTE*)&pMsg, pMsg.h.size);
 			}
 		}
 	}
@@ -5601,7 +5601,7 @@ void CCastleSiege::NotifyCrownState(BYTE btState)
 
 	PMSG_ANS_NOTIFYCROWNSTATE pMsg;
 
-	pMsg.h.set((LPBYTE)&pMsg, 0xB2, 0x16, sizeof(pMsg));
+	pMsg.h.set((BYTE*)&pMsg, 0xB2, 0x16, sizeof(pMsg));
 	pMsg.btCrownState = btState;
 
 	int tObjNum = OBJ_EMPTY;
@@ -5614,7 +5614,7 @@ void CCastleSiege::NotifyCrownState(BYTE btState)
 		{
 			if( gGameObjects[tObjNum]->Type == OBJ_USER && gGameObjects[tObjNum]->Live )
 			{
-				IOCP.DataSend(tObjNum, (LPBYTE)&pMsg, pMsg.h.size);
+				IOCP.DataSend(tObjNum, (BYTE*)&pMsg, pMsg.h.size);
 			}
 		}
 	}
@@ -5644,7 +5644,7 @@ void CCastleSiege::NotifyCrownSwitchInfo(int iCrownSwitchIndex)
 	}
 
 	PMSG_ANS_NOTIFY_CROWNSWITCH_INFO pMsg;
-	pMsg.h.set((LPBYTE)&pMsg, 0xB2, 0x20, sizeof(pMsg));
+	pMsg.h.set((BYTE*)&pMsg, 0xB2, 0x20, sizeof(pMsg));
 
 	pMsg.btIndex1 = SET_NUMBERH(LOWORD(iCrownSwitchIndex));
 	pMsg.btIndex2 = SET_NUMBERL(LOWORD(iCrownSwitchIndex));
@@ -5677,7 +5677,7 @@ void CCastleSiege::NotifyCrownSwitchInfo(int iCrownSwitchIndex)
 			}
 		}
 
-		IOCP.DataSend(iCrownSwitchUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(iCrownSwitchUserIndex, (BYTE*)&pMsg, pMsg.h.size);
 	}
 	
 	int tObjNum = OBJ_EMPTY;
@@ -5690,7 +5690,7 @@ void CCastleSiege::NotifyCrownSwitchInfo(int iCrownSwitchIndex)
 		{
 			if( gGameObjects[tObjNum]->Type == OBJ_USER && gGameObjects[tObjNum]->Live )
 			{
-				IOCP.DataSend(tObjNum, (LPBYTE)&pMsg, pMsg.h.size);
+				IOCP.DataSend(tObjNum, (BYTE*)&pMsg, pMsg.h.size);
 			}
 		}
 	}
@@ -5701,7 +5701,7 @@ void CCastleSiege::SendMapServerGroupMsg(char * lpszMsg)
 	GS_GDReqMapSvrMsgMultiCast(this->m_iMapSvrGroup, lpszMsg);
 }
 
-void CCastleSiege::SendAllUserAnyData(LPBYTE lpMsg, int iSize)
+void CCastleSiege::SendAllUserAnyData(BYTE* lpMsg, int iSize)
 {
 	for( int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++ )
 	{
@@ -5736,7 +5736,7 @@ void CCastleSiege::SendAllUserAnyMsg(char * lpszMsg, int iType)
 				{
 					if( (gGameObjects[i]->Connected == PLAYER_PLAYING) && (gGameObjects[i]->Type == OBJ_USER) )
 					{
-						IOCP.DataSend(i, (LPBYTE)&pNotice, pNotice.h.size);
+						IOCP.DataSend(i, (BYTE*)&pNotice, pNotice.h.size);
 					}
 				}
 			}
@@ -5747,7 +5747,7 @@ void CCastleSiege::SendAllUserAnyMsg(char * lpszMsg, int iType)
 	}
 }
 
-void CCastleSiege::SendCsUserAnyData(LPBYTE lpMsg, int iSize)
+void CCastleSiege::SendCsUserAnyData(BYTE* lpMsg, int iSize)
 {
 	for( int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++ )
 	{
@@ -5778,7 +5778,7 @@ void CCastleSiege::SendCsUserAnyMsg(char* lpszMsg)
 		{
 			if( gGameObjects[i]->MapNumber == MAP_INDEX_CASTLESIEGE )
 			{
-				IOCP.DataSend(i, (LPBYTE)&pNotice, pNotice.h.size);
+				IOCP.DataSend(i, (BYTE*)&pNotice, pNotice.h.size);
 			}
 		}
 	}

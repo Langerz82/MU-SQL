@@ -105,7 +105,7 @@ bool CItemObjectDrop::LoadFile(const char *szFile)
 	} 
 }
 
-bool CItemObjectDrop::DropItem(CGameObject &lpUser, CGameObject lpMonster)
+bool CItemObjectDrop::DropItem(CGameObject &User, CGameObject lpMonster)
 {
 	if(!ObjectMaxRange(lpUser->m_Index))
 		return false;
@@ -364,7 +364,7 @@ bool CItemObjectDrop::DropItem(CGameObject &lpUser, CGameObject lpMonster)
 	return true;
 }
 
-ITEMDROP_ITEM ** CItemObjectDrop::GetItem(CGameObject &lpUser, CGameObject &lpMonster, int & iItemCount)
+ITEMDROP_ITEM ** CItemObjectDrop::GetItem(CGameObject &User, CGameObject &Monster, int & iItemCount)
 {
 	boost::shared_ptr<ITEMDROP_MONSTER> itemdrop_monster_ = this->GetMonsterData(lpUser, lpMonster);
 
@@ -399,7 +399,7 @@ ITEMDROP_ITEM ** CItemObjectDrop::GetItem(CGameObject &lpUser, CGameObject &lpMo
 	return lpItems;
 }
 
-boost::shared_ptr<ITEMDROP_MONSTER> CItemObjectDrop::GetMonsterData(CGameObject &lpUser, CGameObject &lpMonster)
+boost::shared_ptr<ITEMDROP_MONSTER> CItemObjectDrop::GetMonsterData(CGameObject &User, CGameObject &Monster)
 {
 	TRandomPoolMgr RandomPoolSection;
 

@@ -5,7 +5,7 @@
 
 void CIOCP::GiocpInit()
 {
-	ExSendBuf=new unsigned char[MAX_EXSENDBUF_SIZE];
+	ExSendBuf=new BYTE[MAX_EXSENDBUF_SIZE];
 }
 
 void CIOCP::GiocpDelete()
@@ -398,7 +398,7 @@ DWORD CIOCP::ServerWorkerThread()
 
 bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)	
 {
-	unsigned char* recvbuf;
+	BYTE* recvbuf;
 	int lOfs;
 	int size;
 	BYTE headcode;
@@ -419,7 +419,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 		if ( recvbuf[lOfs] == 0xC1 ||
 			 recvbuf[lOfs] == 0xC3 )
 		{
-			unsigned char * pBuf;
+			BYTE * pBuf;
 
 			pBuf = &recvbuf[lOfs];
 			size = pBuf[1];
@@ -429,7 +429,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 		else if ( recvbuf[lOfs] == 0xC2 ||
 			      recvbuf[lOfs] == 0xC4 )
 		{
-			unsigned char * pBuf;
+			BYTE * pBuf;
 
 			pBuf = &recvbuf[lOfs];
 			size = pBuf[1] * 256;
@@ -500,11 +500,11 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 	return true;
 }
 
-bool CIOCP::DataSend(int aInt, unsigned char* lpMsg, DWORD dwSize, bool Encrypt)
+bool CIOCP::DataSend(int aInt, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 {
 	unsigned long SendBytes;
 	_PER_SOCKET_CONTEXT * lpPerSocketContext;
-	unsigned char * SendBuf;
+	BYTE * SendBuf;
 	BYTE BUFFER[65535];
 	
 
@@ -624,7 +624,7 @@ bool CIOCP::DataSend(int aInt, unsigned char* lpMsg, DWORD dwSize, bool Encrypt)
 bool CIOCP::IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 {
 	unsigned long SendBytes;
-	CGameObject &lpObj;
+	CGameObject &Obj;
 	_PER_IO_CONTEXT * lpIoCtxt;
 
 	EnterCriticalSection(&criti);
@@ -679,7 +679,7 @@ bool CIOCP::IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 bool CIOCP::IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 {
 	unsigned long SendBytes;
-	CGameObject &lpObj;
+	CGameObject &Obj;
 	_PER_IO_CONTEXT * lpIoCtxt;
 
 	EnterCriticalSection(&criti);

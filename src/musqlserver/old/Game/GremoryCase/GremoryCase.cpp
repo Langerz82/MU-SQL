@@ -63,7 +63,7 @@ void CGremoryCase::GDReqStorageItemList(CGameObject &Obj)
 	Obj.m_PlayerData->m_bGremoryCaseDBInfo = false;
 
 	_stReqGremoryCaseItemList pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x4F, 0x00, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x4F, 0x00, sizeof(pMsg));
 
 	pMsg.iIndex = iIndex;
 	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN+1);
@@ -73,7 +73,7 @@ void CGremoryCase::GDReqStorageItemList(CGameObject &Obj)
 
 }
 
-void CGremoryCase::DGAnsStorageItemList(LPBYTE lpRecv)
+void CGremoryCase::DGAnsStorageItemList(BYTE* lpRecv)
 {
 	_stAnsGremoryCaseItemList * lpMsg = (_stAnsGremoryCaseItemList *)(lpRecv);
 	_stGremoryCaseItem * lpItem;
@@ -263,7 +263,7 @@ void CGremoryCase::GDReqAddItemToGremoryCase(CGameObject &Obj, _stGremoryCaseIte
 	}
 
 	_stReqAddItemToGremoryCase pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x4F, 0x01, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x4F, 0x01, sizeof(pMsg));
 
 	pMsg.iIndex = iIndex;
 	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN+1);
@@ -450,7 +450,7 @@ void CGremoryCase::DGAnsAddItemToGremoryCase(_stAnsAddItemToGremoryCase * lpMsg)
 void CGremoryCase::GDReqCheckItemUseGremoryCase(CGameObject &Obj, WORD wItemID, DWORD dwItemGUID, DWORD dwAuthCode)
 {
 	_stReqCheckUseItemGremoryCase pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x4F, 0x02, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x4F, 0x02, sizeof(pMsg));
 
 	pMsg.iIndex = iIndex;
 	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN+1);
@@ -480,12 +480,12 @@ void CGremoryCase::DGAnsCheckItemUseGremoryCase(_stAnsCheckUseItemGremoryCase * 
 	}
 
 	PMSG_ADD_GREMORYCASE_ITEM_TO_INVENTORY_ANS pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x4F, 0x02, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x4F, 0x02, sizeof(pMsg));
 
 	if ( lpObj.m_PlayerData->m_bGremoryCaseDBInfo == false )
 	{
 		pMsg.btResult = 1;
-		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 
 		return;
 	}
@@ -514,7 +514,7 @@ void CGremoryCase::DGAnsCheckItemUseGremoryCase(_stAnsCheckUseItemGremoryCase * 
 	if ( iStorageType == -1 || iItemArrayIndex == -1 )
 	{
 		pMsg.btResult = 2;
-		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 
 		return;
 	}
@@ -522,7 +522,7 @@ void CGremoryCase::DGAnsCheckItemUseGremoryCase(_stAnsCheckUseItemGremoryCase * 
 	if ( lpMsg->btResult == 0 )
 	{
 		pMsg.btResult = 3;
-		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 
 		return;
 	}
@@ -548,7 +548,7 @@ void CGremoryCase::DGAnsCheckItemUseGremoryCase(_stAnsCheckUseItemGremoryCase * 
 	if ( IsInventoryEmptySpace == false )
 	{
 		pMsg.btResult = 4;
-		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 
 		return;
 	}
@@ -556,7 +556,7 @@ void CGremoryCase::DGAnsCheckItemUseGremoryCase(_stAnsCheckUseItemGremoryCase * 
 	if (lpObj.m_IfState.use)
 	{
 		pMsg.btResult = 5;
-		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 
 		return;
 	}
@@ -600,13 +600,13 @@ void CGremoryCase::DGAnsCheckItemUseGremoryCase(_stAnsCheckUseItemGremoryCase * 
 	this->GDReqDeleteItemFromGremoryCase(iIndex, lpMsg->wItemID, lpMsg->dwItemGUID, lpMsg->dwAuthCode);
 	lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].Clear();
 
-	IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 }
 
 void CGremoryCase::GDReqDeleteItemFromGremoryCase(CGameObject &Obj, WORD wItemID, DWORD dwItemGUID, DWORD dwAuthCode)
 {
 	_stReqDeleteItemFromGremoryCase pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x4F, 0x03, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x4F, 0x03, sizeof(pMsg));
 
 	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN+1);
 	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN+1);
@@ -659,7 +659,7 @@ void CGremoryCase::GCSendStorageItemList(CGameObject &Obj)
 	}
 
 	int PacketSize = sizeof(PMSG_RECEIVE_GREMORYCASE_ITEMLIST) + (lpMsg->btCount * sizeof(PMSG_GREMORYCASE_ITEM));
-	PHeadSubSetW((LPBYTE)lpMsg, 0x4F, 0x00, PacketSize);
+	PHeadSubSetW((BYTE*)lpMsg, 0x4F, 0x00, PacketSize);
 
 	IOCP.DataSend(Obj.m_Index, BUFFER, PacketSize);
 }
@@ -684,7 +684,7 @@ void CGremoryCase::GCSendAddItemToGremoryCase(CGameObject &Obj, BYTE btStorageTy
 	}
 
 	PMSG_RECEIVE_GREMORYCASE_ITEM pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x4F, 0x01, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x4F, 0x01, sizeof(pMsg));
 
 	pMsg.m_ReceivedItem.btRewardInventory = lpObj.m_PlayerData->m_GremoryCaseData[btStorageType][btItemArrayIndex].btRewardInventory;
 	pMsg.m_ReceivedItem.btRewardSource = lpObj.m_PlayerData->m_GremoryCaseData[btStorageType][btItemArrayIndex].btRewardSource;
@@ -693,7 +693,7 @@ void CGremoryCase::GCSendAddItemToGremoryCase(CGameObject &Obj, BYTE btStorageTy
 	pMsg.m_ReceivedItem.dwExpireTime = lpObj.m_PlayerData->m_GremoryCaseData[btStorageType][btItemArrayIndex].dwExpireTime;		
 	ItemByteConvert(pMsg.m_ReceivedItem.btItemInfo, lpObj.m_PlayerData->m_GremoryCaseData[btStorageType][btItemArrayIndex].ItemInfo);
 
-	IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 
 	this->GCSendStorageItemList(Obj.m_Index);
 }
@@ -723,14 +723,14 @@ void CGremoryCase::CGReqGetItemFromGremoryCase(PMSG_ADD_GREMORYCASE_ITEM_TO_INVE
 void CGremoryCase::GCSendDeleteItemFromGremoryCase(CGameObject &Obj, BYTE btStorageType, int iItemArrayIndex)
 {
 	PMSG_REMOVE_ITEM_FROM_GREMORYCASE pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x4F, 0x03, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x4F, 0x03, sizeof(pMsg));
 
 	pMsg.btStorageType = btStorageType+1;
 	pMsg.wItemID = Obj.m_PlayerData->m_GremoryCaseData[btStorageType][iItemArrayIndex]->ItemInfo.m_Type;
 	pMsg.dwItemGUID = Obj.m_PlayerData->m_GremoryCaseData[btStorageType][iItemArrayIndex]->dwItemGUID;
 	pMsg.dwAuthCode =  Obj.m_PlayerData->m_GremoryCaseData[btStorageType][iItemArrayIndex]->dwAuthCode;
 
-	IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 }
 
 void CGremoryCase::CGReqOpenGremoryCase(CGameObject &Obj)
@@ -753,18 +753,18 @@ void CGremoryCase::CGReqOpenGremoryCase(CGameObject &Obj)
 	}
 
 	PMSG_GREMORYCASE_OPEN_ANS pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x4F, 0x05, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x4F, 0x05, sizeof(pMsg));
 
 	if ( lpObj.m_PlayerData->m_bGremoryCaseDBInfo == false )
 	{
 		pMsg.btResult = 1;
-		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 
 		return;
 	}
 
 	pMsg.btResult = 0;
-	IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 
 	//this->GDReqStorageItemList(Obj.m_Index);
 	//this->GCSendStorageItemList(Obj.m_Index);
@@ -810,10 +810,10 @@ void CGremoryCase::CheckIsInStorageItemAboutToExpire(CGameObject &Obj)
 	}
 
 	PMSG_GREMORYCASE_SENT_NOTICE pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x4F, 0x04, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x4F, 0x04, sizeof(pMsg));
 	pMsg.btNoticeIndex = 1;
 
-	IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 }
 
 void CGremoryCase::CheckIsStorageFull(CGameObject &Obj)
@@ -868,10 +868,10 @@ void CGremoryCase::CheckIsStorageFull(CGameObject &Obj)
 	}
 
 	PMSG_GREMORYCASE_SENT_NOTICE pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x4F, 0x04, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x4F, 0x04, sizeof(pMsg));
 	pMsg.btNoticeIndex = btStorageState == 2 ? 5 : 6;
 
-	IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

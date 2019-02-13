@@ -84,7 +84,7 @@ void CSendNPCInfo::SendNpcCoordinate(int nDestUserIndex, BYTE btMapIndex, BYTE b
 	PMSG_ANS_NPC_POSITION pMsg;
 	_stSendNPCInfo sendNpcInfo;
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xE7, 0x03, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xE7, 0x03, sizeof(pMsg));
 
 	for (int i = 0; i < nSize; i++)
 	{
@@ -112,7 +112,7 @@ void CSendNPCInfo::SendNpcCoordinate(int nDestUserIndex, BYTE btMapIndex, BYTE b
 						pMsg.btIdentNo = sendNpcInfo.nIdentNo;
 						pMsg.btIsNpc = TRUE;
 						memcpy(pMsg.szName, sendNpcInfo.szName, 31);
-						IOCP.DataSend(nDestUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+						IOCP.DataSend(nDestUserIndex, (BYTE*)&pMsg, pMsg.h.size);
 						break;
 					}
 				}
@@ -128,7 +128,7 @@ void CSendNPCInfo::SendNpcCoordinate(int nDestUserIndex, BYTE btMapIndex, BYTE b
 			pMsg.btType = btAddType;
 			pMsg.btIsNpc = TRUE;
 			memcpy(pMsg.szName, sendNpcInfo.szName, 31);
-			IOCP.DataSend(nDestUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(nDestUserIndex, (BYTE*)&pMsg, pMsg.h.size);
 		}
 	}
 }
@@ -140,8 +140,8 @@ void CSendNPCInfo::SendPortalCoordinateMoveNpc(BYTE btBeforeMapNumber, BYTE btAf
 	PMSG_ANS_NPC_POSITION pInsertMsg;
 	PMSG_ANS_NPC_POSITION pDeleteMsg;
 
-	PHeadSubSetB((LPBYTE)&pInsertMsg, 0xE7, 0x03, sizeof(pInsertMsg));
-	PHeadSubSetB((LPBYTE)&pDeleteMsg, 0xE7, 0x03, sizeof(pDeleteMsg));
+	PHeadSubSetB((BYTE*)&pInsertMsg, 0xE7, 0x03, sizeof(pInsertMsg));
+	PHeadSubSetB((BYTE*)&pDeleteMsg, 0xE7, 0x03, sizeof(pDeleteMsg));
 
 	_stSendNPCInfo sendNpcInfo;
 
@@ -178,12 +178,12 @@ void CSendNPCInfo::SendPortalCoordinateMoveNpc(BYTE btBeforeMapNumber, BYTE btAf
 		{
 			if (gGameObjects[n]->MapNumber == btBeforeMapNumber)
 			{
-				IOCP.DataSend(n, (LPBYTE)&pDeleteMsg, pDeleteMsg.h.size);
+				IOCP.DataSend(n, (BYTE*)&pDeleteMsg, pDeleteMsg.h.size);
 			}
 
 			else if (gGameObjects[n]->MapNumber == btAfterMapNumber)
 			{
-				IOCP.DataSend(n, (LPBYTE)&pInsertMsg, pInsertMsg.h.size);
+				IOCP.DataSend(n, (BYTE*)&pInsertMsg, pInsertMsg.h.size);
 			}
 		}
 	}
@@ -202,7 +202,7 @@ void CSendNPCInfo::SendPortalCoordinate(int nDestUserIndex, BYTE btMapNumber)
 	PMSG_ANS_NPC_POSITION pMsg;
 	_stSendPortalInfo sendPortalInfo;
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xE7, 0x03, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xE7, 0x03, sizeof(pMsg));
 
 	for (int i = 0; i < nSize; i++)
 	{
@@ -252,7 +252,7 @@ void CSendNPCInfo::SendITLNpcCoordinate(int nDestUserIndex, BYTE btMapIndex)
 	PMSG_ANS_ITL_NPC_POSITION pMsg;
 	_stSendNPCInfo sendNpcInfo;
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xE7, 0x04, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xE7, 0x04, sizeof(pMsg));
 
 	for (int i = 0; i < nSize; i++)
 	{

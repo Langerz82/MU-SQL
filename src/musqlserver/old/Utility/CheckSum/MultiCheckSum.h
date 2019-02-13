@@ -26,7 +26,7 @@ public:
 
 	void Init();
 	void SetFilePath(char* filepath);
-	int CompareCheckSum(CGameObject &lpObj, DWORD TableNum, DWORD Key);
+	int CompareCheckSum(CGameObject &Obj, DWORD TableNum, DWORD Key);
 
 private:
 

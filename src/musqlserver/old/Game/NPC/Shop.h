@@ -62,7 +62,7 @@ public:
 	virtual ~CShopMng();
 
 	void LoadShopList(char* filename);
-	SHOP_DATA * GetShop(CGameObject &lpObj, CGameObject &lpNpc);
+	SHOP_DATA * GetShop(CGameObject &Obj, CGameObject &Npc);
 	bool IsShopNpc(int iNpcIndex, BYTE btMapNumber, BYTE btPosX, BYTE btPosY);
 	void SetShopNpcs();
 

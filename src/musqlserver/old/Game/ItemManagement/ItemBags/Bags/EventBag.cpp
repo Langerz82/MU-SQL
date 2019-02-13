@@ -21,7 +21,7 @@ void CEventBag::SetBagInfo(int EventID, int iParam2)
 	this->EventID = EventID;
 }
 
-bool CEventBag::CheckCondition(CGameObject &lpObj, int EventID, int iParam2)
+bool CEventBag::CheckCondition(CGameObject &Obj, int EventID, int iParam2)
 {
 	if (rand() % 10000 >= this->m_BagData.dwBagUseRate)
 	{
@@ -36,7 +36,7 @@ bool CEventBag::CheckCondition(CGameObject &lpObj, int EventID, int iParam2)
 	return true;
 }
 
-bool CEventBag::IsBag(CGameObject &lpObj, int EventID, int iParam2)
+bool CEventBag::IsBag(CGameObject &Obj, int EventID, int iParam2)
 {
 	if (this->EventID != EventID)
 	{
@@ -46,7 +46,7 @@ bool CEventBag::IsBag(CGameObject &lpObj, int EventID, int iParam2)
 	return true;
 }
 
-bool CEventBag::UseBag(CGameObject &lpObj, int iMonsterIndex)
+bool CEventBag::UseBag(CGameObject &Obj, int iMonsterIndex)
 {
 	
 	CGameObject lpMonsterObj = &gGameObjects[iMonsterIndex];
@@ -146,7 +146,7 @@ bool CEventBag::UseBag(CGameObject &lpObj, int iMonsterIndex)
 	return true;
 }
 
-bool CEventBag::UseBag_GremoryCase(CGameObject &lpObj, int iMonsterIndex, BYTE btStorageType, BYTE btRewardSource, int iExpireDays)
+bool CEventBag::UseBag_GremoryCase(CGameObject &Obj, int iMonsterIndex, BYTE btStorageType, BYTE btRewardSource, int iExpireDays)
 {
 	
 	CGameObject lpMonsterObj = &gGameObjects[iMonsterIndex];

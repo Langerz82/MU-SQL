@@ -32,7 +32,7 @@ CAuthSystem::~CAuthSystem()
 }
 
 
-void CAuthSystem::AuthProtocolCore(BYTE protoNum, unsigned char* aRecv, int aLen)
+void CAuthSystem::AuthProtocolCore(BYTE protoNum, BYTE* aRecv, int aLen)
 {
 	switch(protoNum)
 	{
@@ -232,14 +232,14 @@ void CAuthSystem::AuthServerLogin()
 	memcpy(&Buff[sizeof(p)+Key->m_ESize], Key->m_NBuff, Key->m_NSize);
 
 	// UNSECURED PACKET
-	this->SendData((LPBYTE)&Buff, p.SIZE, FALSE);
+	this->SendData((BYTE*)&Buff, p.SIZE, FALSE);
 
 	sLog->outBasic("[Auth] Logging to Auth ID: %d", this->m_btAuthServerID+1);
 
 	//VM_DOLPHIN_RED_END
 }
 
-void CAuthSystem::SendLicenseInfo(LPBYTE aRecv)
+void CAuthSystem::SendLicenseInfo(BYTE* aRecv)
 {
 #ifdef GS_AUTHORITY
 	PMSG_HANDSHAKE * lpMsg = (PMSG_HANDSHAKE *)aRecv;
@@ -282,7 +282,7 @@ void CAuthSystem::SendLicenseInfo(LPBYTE aRecv)
 		WLHardwareGetID(pMsg.HWID);
 		ParseHardwareID(pMsg.HWID);
 
-		this->SendData((LPBYTE)&pMsg, pMsg.SIZE, TRUE);
+		this->SendData((BYTE*)&pMsg, pMsg.SIZE, TRUE);
 	}
 
 	else
@@ -328,7 +328,7 @@ void CAuthSystem::Activate()
 	WLHardwareGetID(pMsg.HWID);
 	ParseHardwareID(pMsg.HWID);
 
-	this->SendData((LPBYTE)&pMsg, pMsg.SIZE, TRUE);
+	this->SendData((BYTE*)&pMsg, pMsg.SIZE, TRUE);
 	//VM_DOLPHIN_RED_END
 #endif
 }
@@ -388,7 +388,7 @@ void CAuthSystem::SendMessage(DWORD Message)
 	pMsg.Message = Message;
 	memset(pMsg.Text, 0x00, sizeof(pMsg.Text));
 
-	this->SendData((LPBYTE)&pMsg, pMsg.SIZE, TRUE);
+	this->SendData((BYTE*)&pMsg, pMsg.SIZE, TRUE);
 	//ENCODE_END
 }
 
@@ -480,7 +480,7 @@ void CAuthSystem::GetLicenseInfo()
 	pMsg.HEAD = 0x15;
 	pMsg.SIZE = sizeof(pMsg);
 
-	this->SendData((LPBYTE)&pMsg, pMsg.SIZE, TRUE);
+	this->SendData((BYTE*)&pMsg, pMsg.SIZE, TRUE);
 
 	//ENCODE_END
 }
@@ -636,7 +636,7 @@ bool CAuthSystem::CreateRSAKey(int Seed)
 	//VM_TIGER_LONDON_END
 }
 
-bool CAuthSystem::MakeAuthKey(LPBYTE lpRecv)
+bool CAuthSystem::MakeAuthKey(BYTE* lpRecv)
 {
 	//VM_TIGER_LONDON_START
 
@@ -669,7 +669,7 @@ bool CAuthSystem::MakeAuthKey(LPBYTE lpRecv)
 	//VM_TIGER_LONDON_END
 }
 
-void CAuthSystem::SendData(LPBYTE lpMsg, DWORD dwSize, BOOL Encrypt)
+void CAuthSystem::SendData(BYTE* lpMsg, DWORD dwSize, BOOL Encrypt)
 {
 	//VM_TIGER_LONDON_START
 	if ( Encrypt )

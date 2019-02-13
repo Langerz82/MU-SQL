@@ -84,7 +84,7 @@ int CComboAttack::GetSkillPos(int skillnum)
 	}
 }
 
-BOOL CComboAttack::CheckCombo(CGameObject &lpObj, int skillnum)
+BOOL CComboAttack::CheckCombo(CGameObject &Obj, int skillnum)
 {
 	if ( lpObj.Type != OBJ_USER )
 	{

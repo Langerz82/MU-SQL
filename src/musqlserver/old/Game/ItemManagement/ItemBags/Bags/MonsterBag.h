@@ -9,10 +9,10 @@ public:
 	CMonsterBag();
 	virtual ~CMonsterBag();
 
-	bool IsBag(CGameObject &lpObj, int MonsterClass, int iParam2);
-	bool UseBag(CGameObject &lpObj, int iMonsterIndex);
-	bool CheckCondition(CGameObject &lpObj, int MonsterClass, int iParam2);
-	bool UseBag_GremoryCase(CGameObject &lpObj, int iMonsterIndex, BYTE btStorageType, BYTE btRewardSource, int iExpireDays);
+	bool IsBag(CGameObject &Obj, int MonsterClass, int iParam2);
+	bool UseBag(CGameObject &Obj, int iMonsterIndex);
+	bool CheckCondition(CGameObject &Obj, int MonsterClass, int iParam2);
+	bool UseBag_GremoryCase(CGameObject &Obj, int iMonsterIndex, BYTE btStorageType, BYTE btRewardSource, int iExpireDays);
 	void SetBagInfo(int MonsterClass, int iParam2);
 
 private:

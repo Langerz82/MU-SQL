@@ -92,7 +92,7 @@ public:
 	void DestroyGate(int nZoneIndex, int nIndex, int nTargetIndex);
 	_stZoneInfo * GetZoneInfo(_stZoneInfo * result, int nZoneIndex);
 	void SetTargetMoveAllMonster(int nZoneIndex, int nTargetNumber);
-	void MonsterBaseAct(CGameObject &lpObj);
+	void MonsterBaseAct(CGameObject &Obj);
 	void SetDayOfWeekGM(int nDayOfWeeks);
 	void SetCheatModeGM(WORD nCheatMode);
 	void WarpZoneGM(int nUserIndex, int nZoneIndex);

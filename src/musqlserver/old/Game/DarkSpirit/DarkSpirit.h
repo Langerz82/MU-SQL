@@ -68,18 +68,18 @@ public:
   void ModeAttakTarget();
   void SetTarget(int aTargetIndex);
   void ReSetTarget(int aTargetIndex);
-  void Set(CGameObject &lpObj, CItemObject* pPetItem);
+  void Set(CGameObject &Obj, CItemObject* pPetItem);
   void SetMode(ePetItem_Mode mode, int iTargetindex);
-  int Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf* lpMagic, int criticaldamage, int iActionType);
-  int GetAttackDamage(CGameObject &lpObj, int targetDefense, int criticaldamage);
-  int MissCheck(CGameObject &lpObj, CGameObject lpTargetObj, int skill,  int skillSuccess, int& bAllMiss);
-  int MissCheckPvP(CGameObject &lpObj, CGameObject lpTargetObj, int skill,  int skillSuccess, int& bAllMiss);
+  int Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lpMagic, int criticaldamage, int iActionType);
+  int GetAttackDamage(CGameObject &Obj, int targetDefense, int criticaldamage);
+  int MissCheck(CGameObject &Obj, CGameObject lpTargetObj, int skill,  int skillSuccess, int& bAllMiss);
+  int MissCheckPvP(CGameObject &Obj, CGameObject lpTargetObj, int skill,  int skillSuccess, int& bAllMiss);
   void ChangeCommand(int command, int targetindex);
-  void RangeAttack(CGameObject &lpObj, int aTargetIndex);
-  void SendAttackMsg(CGameObject &lpObj, int aTargetIndex, int criticaldamage, int iActionType);
-  int GetShieldDamage(CGameObject &lpObj, CGameObject lpTargetObj, int iAttackDamage);
+  void RangeAttack(CGameObject &Obj, int aTargetIndex);
+  void SendAttackMsg(CGameObject &Obj, int aTargetIndex, int criticaldamage, int iActionType);
+  int GetShieldDamage(CGameObject &Obj, CGameObject lpTargetObj, int iAttackDamage);
  
-  static void __cdecl CDarkSpirit::SendLevelmsg(CGameObject &lpObj, int nPos, int PetType, int InvenType);
+  static void __cdecl CDarkSpirit::SendLevelmsg(CGameObject &Obj, int nPos, int PetType, int InvenType);
 
 
 };

@@ -77,7 +77,7 @@ BOOL CMultiCheckSum::LoadFile(char* filename, int index)
 	return TRUE;
 }
 	
-int CMultiCheckSum::CompareCheckSum(CGameObject &lpObj, DWORD TableNum, DWORD Key)
+int CMultiCheckSum::CompareCheckSum(CGameObject &Obj, DWORD TableNum, DWORD Key)
 {
 	int i;
 

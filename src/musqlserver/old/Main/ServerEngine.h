@@ -22,7 +22,7 @@ struct IPList;
 void gObjServerInit();
 int gObjServerAddSearch();
 int gObjServerAdd(SOCKET Socket, char * Ip, int ServerIndex, eSERVER_TYPE eServerType);
-void gObjServerDel(CGameObject &lpObj);
+void gObjServerDel(CGameObject &Obj);
 void LoadAllowableIpList(LPSTR filename);
 
 void gObjConnectStatSyncThread();

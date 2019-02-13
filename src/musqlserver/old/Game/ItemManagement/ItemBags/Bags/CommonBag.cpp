@@ -22,7 +22,7 @@ void CCommonBag::SetBagInfo(int ItemID, int ItemLevel)
 	this->m_BagItemLevel = ItemLevel;
 }
 
-bool CCommonBag::CheckCondition(CGameObject &lpObj, int ItemID, int ItemLevel)
+bool CCommonBag::CheckCondition(CGameObject &Obj, int ItemID, int ItemLevel)
 {
 	if (rand() % 10000 >= this->m_BagData.dwBagUseRate)
 	{
@@ -37,7 +37,7 @@ bool CCommonBag::CheckCondition(CGameObject &lpObj, int ItemID, int ItemLevel)
 	return false;
 }
 
-bool CCommonBag::IsBag(CGameObject &lpObj, int ItemID, int ItemLevel)
+bool CCommonBag::IsBag(CGameObject &Obj, int ItemID, int ItemLevel)
 {
 	if (this->m_BagItemID == ItemID && this->m_BagItemLevel == ItemLevel)
 	{
@@ -47,7 +47,7 @@ bool CCommonBag::IsBag(CGameObject &lpObj, int ItemID, int ItemLevel)
 	return false;
 }
 
-bool CCommonBag::UseBag(CGameObject &lpObj, int iParam2)
+bool CCommonBag::UseBag(CGameObject &Obj, int iParam2)
 {
 	
 
@@ -147,7 +147,7 @@ bool CCommonBag::UseBag(CGameObject &lpObj, int iParam2)
 	return true;
 }
 
-bool CCommonBag::UseBag_GremoryCase(CGameObject &lpObj, int iMonsterIndex, BYTE btStorageType, BYTE btRewardSource, int iExpireDays)
+bool CCommonBag::UseBag_GremoryCase(CGameObject &Obj, int iMonsterIndex, BYTE btStorageType, BYTE btRewardSource, int iExpireDays)
 {
 	return false;
 }

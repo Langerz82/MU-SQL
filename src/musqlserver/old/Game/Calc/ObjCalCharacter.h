@@ -19,17 +19,17 @@ public:
 	
 	void Init();
 
-	void CalcCharacter(CGameObject &lpObj);
-	void CalcSetItemStat(CGameObject &lpObj);
-	void GetSetItemOption(CGameObject &lpObj, LPBYTE pSetOptionTable, LPBYTE pSetOptionCountTable, int * pSetOptionCount);
-	void CalcSetItemOption(CGameObject &lpObj);
-	void SetItemStatPlusSpecial(CGameObject &lpObj, int option, int ivalue);
-	void SetItemPlusSpecial(CGameObject &lpObj, int option, int ivalue);
-	void SetItemApply(CGameObject &lpObj);
-	void CalcMLSkillItemOption(CGameObject &lpObj);
-	BOOL ValidItem(CGameObject &lpObj, CItemObject * lpItem, int pos);
-	void CalcShieldPoint(CGameObject &lpObj);
-	void PremiumItemApply(CGameObject &lpObj);
+	void CalcCharacter(CGameObject &Obj);
+	void CalcSetItemStat(CGameObject &Obj);
+	void GetSetItemOption(CGameObject &Obj, LPBYTE pSetOptionTable, LPBYTE pSetOptionCountTable, int * pSetOptionCount);
+	void CalcSetItemOption(CGameObject &Obj);
+	void SetItemStatPlusSpecial(CGameObject &Obj, int option, int ivalue);
+	void SetItemPlusSpecial(CGameObject &Obj, int option, int ivalue);
+	void SetItemApply(CGameObject &Obj);
+	void CalcMLSkillItemOption(CGameObject &Obj);
+	BOOL ValidItem(CGameObject &Obj, CItemObject * lpItem, int pos);
+	void CalcShieldPoint(CGameObject &Obj);
+	void PremiumItemApply(CGameObject &Obj);
 
 	MULua m_Lua;
 

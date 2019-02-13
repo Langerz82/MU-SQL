@@ -99,7 +99,7 @@ void CBagManager::DeleteItemBags()
 	LeaveCriticalSection(&this->m_criti);
 }
 
-bool CBagManager::IsBag(CGameObject &lpObj, int BagType, int iParam1, int iParam2)
+bool CBagManager::IsBag(CGameObject &Obj, int BagType, int iParam1, int iParam2)
 {
 	EnterCriticalSection(&this->m_criti);
 
@@ -118,7 +118,7 @@ bool CBagManager::IsBag(CGameObject &lpObj, int BagType, int iParam1, int iParam
 	return false;
 }
 
-bool CBagManager::SearchAndUseBag(CGameObject &lpObj, int BagType, int iParam1, int iParam2)
+bool CBagManager::SearchAndUseBag(CGameObject &Obj, int BagType, int iParam1, int iParam2)
 {
 	EnterCriticalSection(&this->m_criti);
 
@@ -155,7 +155,7 @@ bool CBagManager::SearchAndUseBag(CGameObject &lpObj, int BagType, int iParam1, 
 	return false;
 }
 
-int CBagManager::GetItemFromBag(CGameObject &lpObj, int BagType, int iParam1, int iParam2, CItemObject & Item, time_t & DurationItem) // 0 - fail, 1 - item, 2 - zen, 3 - ruud
+int CBagManager::GetItemFromBag(CGameObject &Obj, int BagType, int iParam1, int iParam2, CItemObject & Item, time_t & DurationItem) // 0 - fail, 1 - item, 2 - zen, 3 - ruud
 {
 	EnterCriticalSection(&this->m_criti);
 
@@ -194,7 +194,7 @@ int CBagManager::GetItemFromBag(CGameObject &lpObj, int BagType, int iParam1, in
 	return 0;
 }
 
-bool CBagManager::UseBag_GremoryCase(CGameObject &lpObj, int BagType, int iParam1, int iParam2, BYTE btStorageType, BYTE btRewardSource, int iExpireDays)
+bool CBagManager::UseBag_GremoryCase(CGameObject &Obj, int BagType, int iParam1, int iParam2, BYTE btStorageType, BYTE btRewardSource, int iExpireDays)
 {
 	EnterCriticalSection(&this->m_criti);
 
@@ -231,7 +231,7 @@ bool CBagManager::UseBag_GremoryCase(CGameObject &lpObj, int BagType, int iParam
 	return false;
 }
 
-void CBagManager::AddCashCoin(CGameObject &lpObj, int BagType, int iParam1, int iParam2)
+void CBagManager::AddCashCoin(CGameObject &Obj, int BagType, int iParam1, int iParam2)
 {
 	EnterCriticalSection(&this->m_criti);
 

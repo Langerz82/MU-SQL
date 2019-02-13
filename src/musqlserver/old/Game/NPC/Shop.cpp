@@ -179,7 +179,7 @@ skiploop:
 
 	this->SendItemData[this->SendItemDataLen] = blank;
 	this->SendItemDataLen++;
-	ItemByteConvert((LPBYTE)&this->SendItemData[this->SendItemDataLen], this->m_item[blank]);
+	ItemByteConvert((BYTE*)&this->SendItemData[this->SendItemDataLen], this->m_item[blank]);
 	this->SendItemDataLen += MAX_ITEM_INFO;//Season 4.5 changed
 	this->ItemCount++;
 
@@ -340,7 +340,7 @@ void CShopMng::LoadShopList(char* filename)
 
 }
 
-SHOP_DATA * CShopMng::GetShop(CGameObject &lpObj, CGameObject &lpNpc)
+SHOP_DATA * CShopMng::GetShop(CGameObject &Obj, CGameObject &Npc)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -568,7 +568,7 @@ void CCancelItemSale::GCAnsSoldItemList(CGameObject &Obj)
 		}
 	}
 
-	PHeadSubSetW((LPBYTE)&pMsg, 0x6F, 0x00, iSize);
+	PHeadSubSetW((BYTE*)&pMsg, 0x6F, 0x00, iSize);
 	pMsg.btCount = iItemCount;
 	pMsg.btResult = 0;
 	memcpy(&Buffer, &pMsg, sizeof(pMsg));
@@ -635,7 +635,7 @@ void CCancelItemSale::CGReqReBuyItem(PMSG_REQ_REBUY_ITEM *lpMsg, CGameObject &Ob
 	}
 
 	PMSG_ANS_REBUY_ITEM pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x6F, 0x02, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x6F, 0x02, sizeof(pMsg));
 
 	BYTE btItemNumber = 0xFF;
 
@@ -658,7 +658,7 @@ void CCancelItemSale::CGReqReBuyItem(PMSG_REQ_REBUY_ITEM *lpMsg, CGameObject &Ob
 	{
 		MsgOutput(iIndex, "Item doesn't exists in DB!");
 		pMsg.btResult = 1;
-		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -668,7 +668,7 @@ void CCancelItemSale::CGReqReBuyItem(PMSG_REQ_REBUY_ITEM *lpMsg, CGameObject &Ob
 void CCancelItemSale::GDReqSoldItemList(CGameObject &Obj)
 {
 	SDHP_REQ_SHOP_REBUY_LIST pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x6F, 0x00, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x6F, 0x00, sizeof(pMsg));
 
 	pMsg.iIndex = iIndex;
 	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
@@ -678,7 +678,7 @@ void CCancelItemSale::GDReqSoldItemList(CGameObject &Obj)
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CCancelItemSale::DGAnsSoldItemList(LPBYTE lpRecv)
+void CCancelItemSale::DGAnsSoldItemList(BYTE* lpRecv)
 {
 	SDHP_ANS_SHOP_REBUY_LIST * lpMsg = (SDHP_ANS_SHOP_REBUY_LIST *)lpRecv;
 	SDHP_SHOP_REBUY_ITEM * lpItemList = (SDHP_SHOP_REBUY_ITEM *)(lpRecv + sizeof(SDHP_ANS_SHOP_REBUY_LIST));
@@ -753,7 +753,7 @@ void CCancelItemSale::GDReqAddItemToList(CGameObject &Obj, CItemObject Item, DWO
 	}
 
 	SDHP_REQ_SHOP_REBUY_ADD_ITEM pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x6F, 0x01, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x6F, 0x01, sizeof(pMsg));
 
 	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
 	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
@@ -768,7 +768,7 @@ void CCancelItemSale::GDReqAddItemToList(CGameObject &Obj, CItemObject Item, DWO
 void CCancelItemSale::GDReqGetReBuyItem(CGameObject &Obj, BYTE btItemNumber, DWORD dwItemPrice)
 {
 	SDHP_REQ_SHOP_REBUY_GET_ITEM pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x6F, 0x02, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x6F, 0x02, sizeof(pMsg));
 
 	pMsg.iIndex = iIndex;
 	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
@@ -799,7 +799,7 @@ void CCancelItemSale::DGAnsGetReBuyItem(SDHP_ANS_SHOP_REBUY_GET_ITEM *lpMsg)
 	}
 
 	PMSG_ANS_REBUY_ITEM pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x6F, 0x02, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x6F, 0x02, sizeof(pMsg));
 
 	if (lpMsg->btResult != 0)
 	{
@@ -815,7 +815,7 @@ void CCancelItemSale::DGAnsGetReBuyItem(SDHP_ANS_SHOP_REBUY_GET_ITEM *lpMsg)
 
 		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 624), iIndex, 1);
 		pMsg.btResult = lpMsg->btResult;
-		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 	}
 
 	else
@@ -824,7 +824,7 @@ void CCancelItemSale::DGAnsGetReBuyItem(SDHP_ANS_SHOP_REBUY_GET_ITEM *lpMsg)
 		{
 			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 623), iIndex, 1);
 			pMsg.btResult = 1;
-			IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 			return;
 		}
 
@@ -837,7 +837,7 @@ void CCancelItemSale::DGAnsGetReBuyItem(SDHP_ANS_SHOP_REBUY_GET_ITEM *lpMsg)
 		{
 			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 622), iIndex, 1);
 			pMsg.btResult = 1;
-			IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 			return;
 		}
 
@@ -851,7 +851,7 @@ void CCancelItemSale::DGAnsGetReBuyItem(SDHP_ANS_SHOP_REBUY_GET_ITEM *lpMsg)
 		gGameProtocol.GCMoneySend(iIndex, Obj.m_PlayerData->Money);
 
 		pMsg.btResult = 0;
-		IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 		this->GDReqDeleteSoldItem(iIndex, lpMsg->btItemNumber, Item.m_Type, lpMsg->dwSellPrice);
 	}
 
@@ -861,7 +861,7 @@ void CCancelItemSale::DGAnsGetReBuyItem(SDHP_ANS_SHOP_REBUY_GET_ITEM *lpMsg)
 void CCancelItemSale::GDReqDeleteSoldItem(CGameObject &Obj, BYTE btItemNumber, WORD wItemCode, DWORD dwItemPrice)
 {
 	SDHP_REQ_SHOP_REBUY_DELETE_ITEM pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x6F, 0x03, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x6F, 0x03, sizeof(pMsg));
 
 	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
 	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
@@ -872,7 +872,7 @@ void CCancelItemSale::GDReqDeleteSoldItem(CGameObject &Obj, BYTE btItemNumber, W
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CCancelItemSale::MakeItem(LPBYTE lpData, CItemObject * lpItem)
+void CCancelItemSale::MakeItem(BYTE* lpData, CItemObject * lpItem)
 {
 	int itype;
 	int _type;

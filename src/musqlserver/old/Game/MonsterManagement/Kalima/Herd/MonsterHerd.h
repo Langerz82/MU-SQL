@@ -51,15 +51,15 @@ public:
 	virtual BOOL GetRandomLocation(BYTE& cX, BYTE& cY);	// 24
 	virtual BOOL CheckLocation(BYTE& cX, BYTE& cY);	// 28
 	virtual int MoveHerd(BYTE iTX, BYTE iTY);	// 2C
-	virtual int MonsterHerdItemDrop(CGameObject &lpObj);	// 30
+	virtual int MonsterHerdItemDrop(CGameObject &Obj);	// 30
 	virtual _MONSTER_HERD_DATA* GetMonsterData(CGameObject &Obj);	// 34
-	virtual void BeenAttacked(CGameObject &lpObj, CGameObject lpTargetObj);	// 38
-	virtual void OrderAttack(CGameObject &lpObj, CGameObject lpTargetObj, int iAttackPercent);	// 3C
-	virtual void MonsterBaseAct(CGameObject &lpObj);	// 40
-	virtual void MonsterMoveAction(CGameObject &lpObj);	// 44
-	virtual void MonsterAttackAction(CGameObject &lpObj, CGameObject lpTargetObj);	// 48
-	virtual void MonsterDieAction(CGameObject &lpObj);	// 4C
-	virtual int MonsterRegenAction(CGameObject &lpObj);	// 50
+	virtual void BeenAttacked(CGameObject &Obj, CGameObject lpTargetObj);	// 38
+	virtual void OrderAttack(CGameObject &Obj, CGameObject lpTargetObj, int iAttackPercent);	// 3C
+	virtual void MonsterBaseAct(CGameObject &Obj);	// 40
+	virtual void MonsterMoveAction(CGameObject &Obj);	// 44
+	virtual void MonsterAttackAction(CGameObject &Obj, CGameObject lpTargetObj);	// 48
+	virtual void MonsterDieAction(CGameObject &Obj);	// 4C
+	virtual int MonsterRegenAction(CGameObject &Obj);	// 50
 	virtual int GetPosIndex();
 	virtual int GetEndPosIndex();
 	virtual void SetPosIndex(int nPosIndex);

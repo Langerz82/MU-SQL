@@ -38,11 +38,11 @@ void CKanturuUtil::NotifyKanturuChangeState(int iState, int iDetailState)
 {
 	PMSG_ANS_KANTURU_STATE_CHANGE pMsg = {0};
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xD1, 0x03, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xD1, 0x03, sizeof(pMsg));
 	pMsg.btState = iState;
 	pMsg.btDetailState = iDetailState;
 
-	this->SendDataKanturuBossMapUser((LPBYTE)&pMsg, sizeof(pMsg));
+	this->SendDataKanturuBossMapUser((BYTE*)&pMsg, sizeof(pMsg));
 }
 
 struct PMSG_ANS_ENTER_KANTURU_BOSS_MAP
@@ -55,10 +55,10 @@ void CKanturuUtil::NotifyKanturuEntranceReqResult(CGameObject &Obj, int iResult)
 {
 	PMSG_ANS_ENTER_KANTURU_BOSS_MAP pMsg = {0};
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xD1, 0x01, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xD1, 0x01, sizeof(pMsg));
 	pMsg.btResult = iResult;
 
-	IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
+	IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, sizeof(pMsg));
 }
 
 struct PMSG_ANS_KANTURU_BATTLE_RESULT
@@ -72,10 +72,10 @@ void CKanturuUtil::NotifyKanturuSuccessValue(int iSuccessValue)
 {
 	PMSG_ANS_KANTURU_BATTLE_RESULT pMsg = {0};
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xD1, 0x04, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xD1, 0x04, sizeof(pMsg));
 	pMsg.btResult = iSuccessValue;
 
-	this->SendDataKanturuBattleUser((LPBYTE)&pMsg, sizeof(pMsg));
+	this->SendDataKanturuBattleUser((BYTE*)&pMsg, sizeof(pMsg));
 }
 
 struct PMSG_ANS_KANTURU_CURRENT_STATE
@@ -89,11 +89,11 @@ void CKanturuUtil::NotifyKanturuCurrentState(CGameObject &Obj, int iState, int i
 {
 	PMSG_ANS_KANTURU_CURRENT_STATE pMsg = {0};
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xD1, 0x02, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xD1, 0x02, sizeof(pMsg));
 	pMsg.btCurrentState = iState;
 	pMsg.btCurrentDetailState = iDetailState;
 
-	IOCP.DataSend(Obj.m_Index, (LPBYTE)&pMsg, sizeof(pMsg));
+	IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, sizeof(pMsg));
 }
 
 
@@ -107,10 +107,10 @@ void CKanturuUtil::NotifyKanturuBattleTime(int iBattleTime)
 {
 	PMSG_ANS_KANTURU_BATTLE_SCENE_TIMELIMIT pMsg;
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xD1, 0x05, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xD1, 0x05, sizeof(pMsg));
 	pMsg.btTimeLimit = iBattleTime;
 
-	this->SendDataKanturuBattleUser((LPBYTE)&pMsg, sizeof(pMsg));
+	this->SendDataKanturuBattleUser((BYTE*)&pMsg, sizeof(pMsg));
 }
 
 struct PMSG_NOTIFY_KANTURU_WIDE_AREA_ATTACK
@@ -125,12 +125,12 @@ void CKanturuUtil::NotifyKanturuWideAreaAttack(CGameObject &Obj, int iTargetInde
 {
 	PMSG_NOTIFY_KANTURU_WIDE_AREA_ATTACK pMsg;
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xD1, 0x06, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xD1, 0x06, sizeof(pMsg));
 	pMsg.btObjClassH = SET_NUMBERH(Obj.Class);
 	pMsg.btObjClassL = SET_NUMBERL(Obj.Class);
 	pMsg.btType = iSkillType;
 
-	this->SendDataToUser(iTargetIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+	this->SendDataToUser(iTargetIndex, (BYTE*)&pMsg, sizeof(pMsg));
 }
 
 
@@ -145,11 +145,11 @@ void CKanturuUtil::NotifyKanturuUserMonsterCount(int iMonsterCount, int iUserCou
 {
 	PMSG_NOTIFY_KANTURU_USER_MONSTER_COUNT pMsg;
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xD1, 0x07, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xD1, 0x07, sizeof(pMsg));
 	pMsg.btMonsterCount = iMonsterCount;
 	pMsg.btUserCount = iUserCount;
 
-	this->SendDataKanturuBattleUser((LPBYTE)&pMsg, sizeof(pMsg));
+	this->SendDataKanturuBattleUser((BYTE*)&pMsg, sizeof(pMsg));
 }
 
 void CKanturuUtil::SendMsgKanturuBattleUser(LPSTR lpszMsg, ...)
@@ -181,7 +181,7 @@ void CKanturuUtil::SendMsgKanturuBattleUser(LPSTR lpszMsg, ...)
 	}
 }
 
-void CKanturuUtil::SendDataKanturuBattleUser(LPBYTE lpMsg, int iSize)
+void CKanturuUtil::SendDataKanturuBattleUser(BYTE* lpMsg, int iSize)
 {
 	int iUserIndex=0;
 
@@ -225,7 +225,7 @@ void CKanturuUtil::SendMsgKauturuBossMapUser(LPSTR lpszMsg, ...)
 }
 
 
-void CKanturuUtil::SendDataKanturuBossMapUser(LPBYTE lpMsg, int iSize)
+void CKanturuUtil::SendDataKanturuBossMapUser(BYTE* lpMsg, int iSize)
 {
 	for (int iCount = g_ConfigRead.server.GetObjectStartUserIndex(); iCount < g_ConfigRead.server.GetObjectMax(); iCount++)
 	{
@@ -267,7 +267,7 @@ void CKanturuUtil::SendMsgKauturuMapUser(LPSTR lpszMsg, ...)
 	}
 }
 
-void CKanturuUtil::SendDataKanturuMapUser(LPBYTE lpMsg, int iSize)
+void CKanturuUtil::SendDataKanturuMapUser(BYTE* lpMsg, int iSize)
 {
 	for (int iCount = g_ConfigRead.server.GetObjectStartUserIndex(); iCount < g_ConfigRead.server.GetObjectMax(); iCount++)
 	{
@@ -303,7 +303,7 @@ void CKanturuUtil::SendMsgAllUser(LPSTR lpszMsg, ...)
 
 
 
-void CKanturuUtil::SendDataAllUser(LPBYTE lpMsg, int iSize)
+void CKanturuUtil::SendDataAllUser(BYTE* lpMsg, int iSize)
 {
 	for (int iCount = g_ConfigRead.server.GetObjectStartUserIndex(); iCount < g_ConfigRead.server.GetObjectMax(); iCount++)
 	{
@@ -333,7 +333,7 @@ void CKanturuUtil::SendMsgToUser(CGameObject &Obj, LPSTR lpszMsg, ...)
 	TNotice::SendNoticeToUser(iIndex, &pNotice);
 }
 
-void CKanturuUtil::SendDataToUser(CGameObject &Obj, LPBYTE lpMsg, int iSize)
+void CKanturuUtil::SendDataToUser(CGameObject &Obj, BYTE* lpMsg, int iSize)
 {
 	if ( Obj.Connected == PLAYER_PLAYING &&
 		 Obj.Type == OBJ_USER )
@@ -384,7 +384,7 @@ void CKanturuUtil::SendDataKanturuTimeAttackEvent(CGameObject &Obj, BYTE btFlag,
 {
 	PMSG_REQ_LOG_KANTURU_TIMEATTACK_EVENT pMsg = {0};
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xBE, 0x22, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xBE, 0x22, sizeof(pMsg));
 	pMsg.nINDEX = iIndex;
 	memcpy(pMsg.szUID, Obj.AccountID, MAX_ACCOUNT_LEN);
 	pMsg.szUID[10] = '\0';	// #error Change 11 to 10

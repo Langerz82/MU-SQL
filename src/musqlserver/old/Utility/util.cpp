@@ -10,7 +10,7 @@
 #include "util.h"
 #include <string>
 
-static unsigned char bBuxCode[3]={0xFC, 0xCF, 0xAB};	// Xox Key for some interesthing things :)
+static BYTE bBuxCode[3]={0xFC, 0xCF, 0xAB};	// Xox Key for some interesthing things :)
 
 void BuxConvert(char* buf, int size)
 {
@@ -255,7 +255,7 @@ void GetTodayString(char* szDate)
 	wsprintf(szDate, "%02d%02d%02d", today->tm_year , today->tm_mon +1 , today->tm_mday );
 }
 
-void PHeadSetB(LPBYTE lpBuf, BYTE head, int size)
+void PHeadSetB(BYTE* lpBuf, BYTE head, int size)
 {
 	lpBuf[0] =0xC1;		// Packets
 	lpBuf[1] =size;
@@ -263,7 +263,7 @@ void PHeadSetB(LPBYTE lpBuf, BYTE head, int size)
 }
 	
 
-void PHeadSubSetB(LPBYTE lpBuf, BYTE head, BYTE sub, int size)
+void PHeadSubSetB(BYTE* lpBuf, BYTE head, BYTE sub, int size)
 {
 	lpBuf[0] =0xC1;	// Packets
 	lpBuf[1] =size;
@@ -271,7 +271,7 @@ void PHeadSubSetB(LPBYTE lpBuf, BYTE head, BYTE sub, int size)
 	lpBuf[3] =sub;
 }
 
-void PHeadSetW(LPBYTE lpBuf, BYTE head,  int size) 
+void PHeadSetW(BYTE* lpBuf, BYTE head,  int size) 
 {
 	lpBuf[0] = 0xC2;	// Packets Header
 	lpBuf[1]= SET_NUMBERH(size);
@@ -279,7 +279,7 @@ void PHeadSetW(LPBYTE lpBuf, BYTE head,  int size)
 	lpBuf[3]= head;
 }
 
-void PHeadSubSetW(LPBYTE lpBuf, BYTE head, BYTE sub,  int size)
+void PHeadSubSetW(BYTE* lpBuf, BYTE head, BYTE sub,  int size)
 {
 	lpBuf[0]=0xC2;	// packet header
 	lpBuf[1]=SET_NUMBERH(size);
@@ -288,14 +288,14 @@ void PHeadSubSetW(LPBYTE lpBuf, BYTE head, BYTE sub,  int size)
 	lpBuf[4]=sub;
 }
 
-void PHeadSetBE( LPBYTE lpBuf, BYTE head,int size)
+void PHeadSetBE( BYTE* lpBuf, BYTE head,int size)
 {
 	lpBuf[0] =0xC3;
 	lpBuf[1] =size;
 	lpBuf[2] =head;
 }
 
-void PHeadSubSetBE(LPBYTE lpBuf, BYTE head,BYTE sub, int size)
+void PHeadSubSetBE(BYTE* lpBuf, BYTE head,BYTE sub, int size)
 {
 	lpBuf[0] =0xC3;
 	lpBuf[1] =size;
@@ -303,7 +303,7 @@ void PHeadSubSetBE(LPBYTE lpBuf, BYTE head,BYTE sub, int size)
 	lpBuf[3] =sub;
 }
 
-void PHeadSetWE(LPBYTE lpBuf, BYTE head, int size)
+void PHeadSetWE(BYTE* lpBuf, BYTE head, int size)
 {
 	lpBuf[0] = 0xC4;	// Packets Header
 	lpBuf[1] = SET_NUMBERH(size);
@@ -311,7 +311,7 @@ void PHeadSetWE(LPBYTE lpBuf, BYTE head, int size)
 	lpBuf[3] = head;
 }
 
-void PHeadSubSetWE(LPBYTE lpBuf, BYTE head, BYTE sub, int size)
+void PHeadSubSetWE(BYTE* lpBuf, BYTE head, BYTE sub, int size)
 {
 	lpBuf[0] = 0xC4;	// packet header
 	lpBuf[1] = SET_NUMBERH(size);

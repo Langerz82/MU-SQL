@@ -215,7 +215,7 @@ struct PMSG_ANS_SANTACHECK
 	PBMSG_HEAD2 h;
 	char AccountID[11];
 	short gGameServerCode;
-	CGameObject &lpObj;
+	CGameObject &Obj;
 	WORD Result;
 	WORD UseCount;
 };
@@ -225,7 +225,7 @@ struct PMSG_REQ_SANTACHECK
 	PBMSG_HEAD2 h;
 	char AccountID[11];
 	short gGameServerCode;
-	CGameObject &lpObj;
+	CGameObject &Obj;
 };
 
 struct PMSG_REQ_SANTAGIFT
@@ -233,7 +233,7 @@ struct PMSG_REQ_SANTAGIFT
 	PBMSG_HEAD2 h;
 	char AccountID[11];
 	short gGameServerCode;
-	CGameObject &lpObj;
+	CGameObject &Obj;
 };
 
 struct PMSG_ANS_SANTAGIFT
@@ -241,7 +241,7 @@ struct PMSG_ANS_SANTAGIFT
 	PBMSG_HEAD2 h;
 	char AccountID[11];
 	short gGameServerCode;
-	CGameObject &lpObj;
+	CGameObject &Obj;
 	WORD Result;
 	WORD UseCount;
 };
@@ -252,12 +252,12 @@ extern CGameObject pEventObj;
 void EventChipEventProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen);
 
 
-void FireworksOpenEven(CGameObject &lpObj);
-void ChristmasFireCrackDrop(CGameObject &lpObj);
+void FireworksOpenEven(CGameObject &Obj);
+void ChristmasFireCrackDrop(CGameObject &Obj);
 
-void HallowinDayEventItemBoxOpen(CGameObject &lpObj);
-void KanturuMayaHandItemBagOpen(CGameObject &lpObj, BYTE btMapNumber, BYTE cX, BYTE cY);
-void KanturuNightmareItemBagOpen(CGameObject &lpObj, BYTE btMapNumber, BYTE cX, BYTE cY);
+void HallowinDayEventItemBoxOpen(CGameObject &Obj);
+void KanturuMayaHandItemBagOpen(CGameObject &Obj, BYTE btMapNumber, BYTE cX, BYTE cY);
+void KanturuNightmareItemBagOpen(CGameObject &Obj, BYTE btMapNumber, BYTE cX, BYTE cY);
 void EGRecvEventChipInfo(PMSG_ANS_VIEW_EC_MN * aRecv);
 void EGResultRegEventChip(PMSG_ANS_REGISTER_EVENTCHIP * aRecv);
 void EGRecvRegMutoNum( PMSG_ANS_REGISTER_MUTONUM* aRecv);
@@ -278,7 +278,7 @@ void EGReqRegHTOfflineGift(CGameObject &Obj);
 void EGAnsRegHTOfflineGift( PMSG_ANS_REG_HT_OFFLINE_GIFT* lpMsg);
 void EGAnsRegLuckyCoin(PMSG_ANS_REG_LUCKYCOIN * lpMsg);
 void EGAnsLuckyCoinInfo(PMSG_ANS_LUCKYCOIN * lpMsg);
-void EGReqSantaGift(CGameObject &lpObj);
+void EGReqSantaGift(CGameObject &Obj);
 void EGAnsSantaCheck(PMSG_ANS_SANTACHECK *lpMsg);
 void EGAnsSantaGift(PMSG_ANS_SANTAGIFT *lpMsg);
 

@@ -380,7 +380,7 @@ void ChaosCastleFinal::ProcState_Closed()
 						PMSG_NOTICE pNotice;
 						TNotice::MakeNoticeMsgEx(&pNotice, 0, Lang.GetText(0,590), this->m_stCCFData.m_nCCF_NOTIFY_COUNT + 1);
 
-						this->SendAllUserAnyMsg((LPBYTE)&pNotice, pNotice.h.size);
+						this->SendAllUserAnyMsg((BYTE*)&pNotice, pNotice.h.size);
 						sLog->outBasic("[Chaos Castle Survival] Event starts in %d minutes", this->m_stCCFData.m_nCCF_NOTIFY_COUNT + 1);
 					}
 
@@ -390,14 +390,14 @@ void ChaosCastleFinal::ProcState_Closed()
 
 						PMSG_SET_DEVILSQUARE pMsg;
 
-						PHeadSetB((LPBYTE)&pMsg, 0x92, sizeof(pMsg));
+						PHeadSetB((BYTE*)&pMsg, 0x92, sizeof(pMsg));
 						pMsg.Type = 20;
 
 						for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 						{
 							if (gGameObjects[n]->Connected == PLAYER_PLAYING && gGameObjects[n]->Type == OBJ_USER && gGameObjects[n]->MapNumber != MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 							{
-								IOCP.DataSend(n, (LPBYTE)&pMsg, pMsg.h.size);
+								IOCP.DataSend(n, (BYTE*)&pMsg, pMsg.h.size);
 							}
 						}
 					}
@@ -497,7 +497,7 @@ void ChaosCastleFinal::ProcState_Playing()
 			this->m_stCCFData.m_bCCF_MSG_BEFORE_PLAY = true;
 
 			PMSG_SET_DEVILSQUARE pMsg;
-			PHeadSetB((LPBYTE)&pMsg, 0x92, sizeof(pMsg));
+			PHeadSetB((BYTE*)&pMsg, 0x92, sizeof(pMsg));
 			pMsg.Type = 21;
 			this->SendChaosCastleAnyMsg((BYTE*)&pMsg, sizeof(pMsg));
 		}
@@ -508,7 +508,7 @@ void ChaosCastleFinal::ProcState_Playing()
 		{
 			this->m_stCCFData.m_bCCF_MSG_BEFORE_END = true;
 			PMSG_SET_DEVILSQUARE pMsg;
-			PHeadSetB((LPBYTE)&pMsg, 0x92, sizeof(pMsg));
+			PHeadSetB((BYTE*)&pMsg, 0x92, sizeof(pMsg));
 			pMsg.Type = 22;
 			this->SendChaosCastleAnyMsg((BYTE*)&pMsg, sizeof(pMsg));
 		}
@@ -521,7 +521,7 @@ void ChaosCastleFinal::ProcState_Playing()
 			this->m_stCCFData.m_nCCF_REMAIN_MSEC = (this->m_iCCF_TIME_MIN_PLAY * 60) * 1000;
 			this->m_stCCFData.m_bCCF_CAN_PARTY = false;
 			TNotice::MakeNoticeMsgEx((TNotice*)&pNotice, 0, Lang.GetText(0,591));
-			this->SendChaosCastleAnyMsg((LPBYTE)&pNotice, pNotice.h.size);
+			this->SendChaosCastleAnyMsg((BYTE*)&pNotice, pNotice.h.size);
 			this->UnSafetyCastleZone();
 			this->SendCastleZoneSafetyInfo(0);
 			this->m_stCCFData.m_bCCF_PLAY_START = true;
@@ -739,10 +739,10 @@ void ChaosCastleFinal::ProcState_PlayEnd()
 
 				PMSG_SET_DEVILSQUARE pMsg;
 
-				PHeadSetB((LPBYTE)&pMsg, 0x92, sizeof(pMsg));
+				PHeadSetB((BYTE*)&pMsg, 0x92, sizeof(pMsg));
 				pMsg.Type = 23;
 
-				this->SendChaosCastleAnyMsg((LPBYTE)&pMsg, sizeof(pMsg));
+				this->SendChaosCastleAnyMsg((BYTE*)&pMsg, sizeof(pMsg));
 			}
 		}
 	}
@@ -753,7 +753,7 @@ void ChaosCastleFinal::ProcState_PlayEnd()
 	}
 }
 
-void ChaosCastleFinal::SendAllUserAnyMsg(LPBYTE lpMsg, int iSize)
+void ChaosCastleFinal::SendAllUserAnyMsg(BYTE* lpMsg, int iSize)
 {
 	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
@@ -889,13 +889,13 @@ void ChaosCastleFinal::SendAllLoserFailMessage(int iWinnerIndex)
 
 				gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,557), this->m_stCCFData.m_UserData[i].m_nIndex, 1);
 
-				PHeadSubSetB((LPBYTE)&pMsg, 0xAF, 0x09, sizeof(pMsg));
+				PHeadSubSetB((BYTE*)&pMsg, 0xAF, 0x09, sizeof(pMsg));
 				pMsg.point = nPoint;
 				pMsg.result = 2;
 				pMsg.type = this->Check_CCF_DayType();
 				pMsg.MobKillCnt = gGameObjects[this->m_stCCFData.m_UserData[i]->m_nIndex]->m_byKillMobCount;
 				pMsg.PCKillCnt = gGameObjects[this->m_stCCFData.m_UserData[i]->m_nIndex]->m_byKillUserCount;
-				IOCP.DataSend(this->m_stCCFData.m_UserData[i].m_nIndex, (LPBYTE)&pMsg, pMsg.h.size);
+				IOCP.DataSend(this->m_stCCFData.m_UserData[i].m_nIndex, (BYTE*)&pMsg, pMsg.h.size);
 
 				gGameObjects[this->m_stCCFData.m_UserData[i]->m_nIndex]->m_bCCF_Quit_Msg = true;
 				sLog->outBasic("[Chaos Castle Survival][GAME-RESULT][FAIL-CASE] NAME:[%s] UBFNAME:[%s] SERVERCODE:[%d],MOBKILL:[%d],USERKILL:[%d],POINT:[%d]",
@@ -939,13 +939,13 @@ void ChaosCastleFinal::SendCCFWinMessage(int iWinnerIndex, int nPoint, bool bFin
 
 		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,558), iWinnerIndex, 1);
 
-		PHeadSubSetB((LPBYTE)&pMsg, 0xAF, 0x09, sizeof(pMsg));
+		PHeadSubSetB((BYTE*)&pMsg, 0xAF, 0x09, sizeof(pMsg));
 		pMsg.point = nPoint;
 		pMsg.result = 1;
 		pMsg.type = this->Check_CCF_DayType();
 		pMsg.MobKillCnt = gGameObjects[iWinnerIndex]->m_byKillMobCount;
 		pMsg.PCKillCnt = gGameObjects[iWinnerIndex]->m_byKillUserCount;
-		IOCP.DataSend(iWinnerIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(iWinnerIndex, (BYTE*)&pMsg, pMsg.h.size);
 
 		gGameObjects[iWinnerIndex]->m_bCCF_Quit_Msg = true;
 		sLog->outBasic("[Chaos Castle Survival][GAME-RESULT][WIN-CASE] NAME:[%s] UBFNAME:[%s] SERVERCODE:[%d],MOBKILL:[%d],USERKILL:[%d],POINT:[%d]",
@@ -1807,7 +1807,7 @@ void ChaosCastleFinal::SendNoticeState(int iPlayState)
 {
 	PMSG_STATEBLOODCASTLE pMsg;
 
-	PHeadSetB((LPBYTE)&pMsg, 0x9B, sizeof(PMSG_STATEBLOODCASTLE));
+	PHeadSetB((BYTE*)&pMsg, 0x9B, sizeof(PMSG_STATEBLOODCASTLE));
 	pMsg.btPlayState = iPlayState;
 	pMsg.wRemainSec = this->m_stCCFData.m_nCCF_REMAIN_MSEC / 1000;
 	pMsg.wMaxKillMonster = this->m_stCCFData.m_nCCF_FIRST_USER_COUNT + this->m_stCCFData.m_nCCF_FIRST_MONSTER_COUNT;
@@ -2105,7 +2105,7 @@ void ChaosCastleFinal::SendCastleZoneSafetyInfo(bool bDoSet)
 	char cTEMP_BUF[256];
 	PMSG_SETMAPATTR_COUNT * lpMsg = (PMSG_SETMAPATTR_COUNT *)cTEMP_BUF;
 
-	PHeadSetB((LPBYTE)lpMsg, 0x46, sizeof(PMSG_SETMAPATTR_COUNT) + sizeof(PMSG_SETMAPATTR) * 6);
+	PHeadSetB((BYTE*)lpMsg, 0x46, sizeof(PMSG_SETMAPATTR_COUNT) + sizeof(PMSG_SETMAPATTR) * 6);
 	PMSG_SETMAPATTR * lpMsgBody = (PMSG_SETMAPATTR *)&cTEMP_BUF[7];
 	lpMsg->btType = 0;
 	lpMsg->btCount = 1;
@@ -2121,7 +2121,7 @@ void ChaosCastleFinal::SendCastleZoneSafetyInfo(bool bDoSet)
 	{
 		if (gGameObjects[i]->Connected > PLAYER_LOGGED)
 		{
-			IOCP.DataSend(i, (LPBYTE)lpMsg, lpMsg->h.size);
+			IOCP.DataSend(i, (BYTE*)lpMsg, lpMsg->h.size);
 		}
 	}
 }
@@ -2148,7 +2148,7 @@ void ChaosCastleFinal::UnSafetyCastleZone()
 	}
 }
 
-void ChaosCastleFinal::SendChaosCastleAnyMsg(LPBYTE lpMsg, int iSize)
+void ChaosCastleFinal::SendChaosCastleAnyMsg(BYTE* lpMsg, int iSize)
 {
 	for (int i = 0; i < 70; i++)
 	{
@@ -2334,7 +2334,7 @@ int ChaosCastleFinal::ObjSetPosition(CGameObject &Obj, int iX, int iY)
 
 	PMSG_RECV_POSISTION_SET pMove2;
 
-	PHeadSetB((LPBYTE)&pMove2, 0x10, sizeof(pMove2));
+	PHeadSetB((BYTE*)&pMove2, 0x10, sizeof(pMove2));
 	pMove2.NumberH = SET_NUMBERH(Obj.m_Index);
 	pMove2.NumberL = SET_NUMBERL(Obj.m_Index);
 	pMove2.X = pMove.X;
@@ -2370,7 +2370,7 @@ void ChaosCastleFinal::GiveUserDamage(int iUserIndex, int iDamage)
 
 	PMSG_ATTACKRESULT pResult;
 
-	PHeadSetB((LPBYTE)&pResult, 0x11, sizeof(pResult));
+	PHeadSetB((BYTE*)&pResult, 0x11, sizeof(pResult));
 	pResult.NumberH = SET_NUMBERH(iUserIndex);
 	pResult.NumberL = SET_NUMBERL(iUserIndex);
 	pResult.DamageH = SET_NUMBERH(iDamage);
@@ -2380,7 +2380,7 @@ void ChaosCastleFinal::GiveUserDamage(int iUserIndex, int iDamage)
 	pResult.IGCDamage = iDamage;
 	
 	if (gGameObjects[iUserIndex]->Type == OBJ_USER)
-		IOCP.DataSend(iUserIndex, (LPBYTE)&pResult, pResult.h.size);
+		IOCP.DataSend(iUserIndex, (BYTE*)&pResult, pResult.h.size);
 
 	gGameObjects[iUserIndex]->Life -= iDamage;
 
@@ -2414,14 +2414,14 @@ void ChaosCastleFinal::SendFailMessage(int iLoserIndex)
 	gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,559), iLoserIndex, 1);
 
 	PMSG_ANS_CCF_RESULT pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0xAF, 0x09, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xAF, 0x09, sizeof(pMsg));
 	pMsg.point = nPoint;
 	pMsg.result = 2;
 	pMsg.type = this->Check_CCF_DayType();
 	pMsg.MobKillCnt = gGameObjects[iLoserIndex]->m_byKillMobCount;
 	pMsg.PCKillCnt = gGameObjects[iLoserIndex]->m_byKillUserCount;
 
-	IOCP.DataSend(iLoserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(iLoserIndex, (BYTE*)&pMsg, pMsg.h.size);
 	sLog->outBasic("[Chaos Castle Survival][GAME-RESULT] NAME:[%s],MOBKILL:[%d],USERKILL:[%d],POINT[%d]",
 		gGameObjects[iLoserIndex]->Name, gGameObjects[iLoserIndex]->m_byKillMobCount, gGameObjects[iLoserIndex]->m_byKillUserCount, nPoint);
 
@@ -2486,7 +2486,7 @@ int ChaosCastleFinal::CalcSendRewardEXP(int iUserIndex, int iEXP, int iKILLCOUNT
 
 		PMSG_KILLPLAYER_EXT pkillMsg;
 
-		PHeadSetBE((LPBYTE)&pkillMsg, 0x9C, sizeof(pkillMsg));
+		PHeadSetBE((BYTE*)&pkillMsg, 0x9C, sizeof(pkillMsg));
 		pkillMsg.NumberH = -1;
 		pkillMsg.NumberL = -1;
 		pkillMsg.ExpH = SET_NUMBERHW(iEXP);
@@ -2494,7 +2494,7 @@ int ChaosCastleFinal::CalcSendRewardEXP(int iUserIndex, int iEXP, int iKILLCOUNT
 		pkillMsg.DamageH = 0;
 		pkillMsg.DamageL = 0;
 
-		IOCP.DataSend(iUserIndex, (LPBYTE)&pkillMsg, pkillMsg.h.size);
+		IOCP.DataSend(iUserIndex, (BYTE*)&pkillMsg, pkillMsg.h.size);
 	}
 
 	return iRET_EXP;
@@ -2666,13 +2666,13 @@ void ChaosCastleFinal::CCF_Start_Fail_So_RollBack()
 
 				PMSG_NOTICE pNotice;
 				TNotice::MakeNoticeMsgEx(&pNotice, 1, Lang.GetText(0,592));
-				IOCP.DataSend(this->m_stCCFData.m_UserData[i].m_nIndex, (LPBYTE)&pNotice, pNotice.h.size);
+				IOCP.DataSend(this->m_stCCFData.m_UserData[i].m_nIndex, (BYTE*)&pNotice, pNotice.h.size);
 			}
 		}
 	}
 }
 
-void ChaosCastleFinal::Send_CCF_Schedule(CGameObject &lpObj)
+void ChaosCastleFinal::Send_CCF_Schedule(CGameObject &Obj)
 {
 	char sendbuf[4096];
 	memset(sendbuf, 0x00, sizeof(sendbuf));
@@ -2681,7 +2681,7 @@ void ChaosCastleFinal::Send_CCF_Schedule(CGameObject &lpObj)
 	PMSG_ANS_CCF_SCHEDULE pMsg;
 	int lOfs = sizeof(pMsg);
 
-	PHeadSubSetW((LPBYTE)&pMsg, 0xAF, 0x03, sizeof(pMsg));
+	PHeadSubSetW((BYTE*)&pMsg, 0xAF, 0x03, sizeof(pMsg));
 	pMsg.byCCFType = this->Check_CCF_DayType();
 	pMsg.Tryout1 = this->m_byTryOut1;
 	pMsg.Tryout2 = this->m_byTryOut2;
@@ -2709,7 +2709,7 @@ void ChaosCastleFinal::Send_CCF_Schedule(CGameObject &lpObj)
 	pMsg.h.sizeH = HIBYTE(lOfs);
 	pMsg.h.sizeL = LOBYTE(lOfs);
 	memcpy(&sendbuf, &pMsg, sizeof(pMsg));
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)sendbuf, lOfs);
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)sendbuf, lOfs);
 }
 
 int ChaosCastleFinal::EnterCheck_CCF_User(int iUserIndex)
@@ -2781,7 +2781,7 @@ void ChaosCastleFinal::GD_Req_Save_CCF_Result(int index, char *Name, int Point, 
 	PMSG_REQ_SAVE_CCF_RESULT pMsg;
 	pMsg.szCharName[MAX_CHARNAME_LEN] = 0;
 	memcpy(pMsg.szCharName, gGameObjects[index]->Name, MAX_ACCOUNT_LEN);
-	PHeadSubSetB((LPBYTE)&pMsg, 0xF9, 0xA1, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xF9, 0xA1, sizeof(pMsg));
 	pMsg.nPoint = Point;
 	pMsg.nCharClass = gGameObjects[index]->Class;
 	pMsg.nCharLevel = gGameObjects[index]->Level;
@@ -2834,7 +2834,7 @@ void ChaosCastleFinal::GD_Load_CCF_RankingList(BYTE byCCFType)
 	wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
 }
 
-void ChaosCastleFinal::GD_Req_Get_Permission(CGameObject &lpObj)
+void ChaosCastleFinal::GD_Req_Get_Permission(CGameObject &Obj)
 {
 	if (ObjectMaxRange(lpObj.m_Index) == false)
 	{
@@ -2971,13 +2971,13 @@ void ChaosCastleFinal::DG_Ans_CCF_Rank(PMSG_ANS_CCF_RANK * lpMsg)
 	}
 }
 
-void ChaosCastleFinal::Send_RankingInfo(BYTE byCCFType, CGameObject &lpObj)
+void ChaosCastleFinal::Send_RankingInfo(BYTE byCCFType, CGameObject &Obj)
 {
 	_stPMSG_CCF_RANK_INFO pMsg;
 	_CCFRankingInfo pRankInfo;
 	char sendbuf[4096];
 
-	PHeadSubSetW((LPBYTE)&pMsg, 0xAF, 0x07, sizeof(pMsg));
+	PHeadSubSetW((BYTE*)&pMsg, 0xAF, 0x07, sizeof(pMsg));
 	memset(sendbuf, 0x00, sizeof(sendbuf));
 	int lOfs = sizeof(pMsg);
 	int nUserCnt = 0;
@@ -3039,7 +3039,7 @@ void ChaosCastleFinal::Send_RankingInfo(BYTE byCCFType, CGameObject &lpObj)
 	pMsg.h.sizeH = HIBYTE(lOfs);
 	pMsg.h.sizeL = LOBYTE(lOfs);
 	memcpy(&sendbuf, &pMsg, sizeof(pMsg));
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)sendbuf, lOfs);
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)sendbuf, lOfs);
 }
 
 void ChaosCastleFinal::GiveCCFWinnerItem(int iWinnerIndex, BYTE byCCFType, BYTE byRewardType)
@@ -3115,7 +3115,7 @@ void ChaosCastleFinal::SendNoticeMessage(char* lpszMSG)
 		{
 			if (gGameObjects[this->m_stCCFData.m_UserData[i]->m_nIndex]->Connected > PLAYER_LOGGED)
 			{
-				IOCP.DataSend(this->m_stCCFData.m_UserData[i].m_nIndex, (LPBYTE)&pNotice, pNotice.h.size);
+				IOCP.DataSend(this->m_stCCFData.m_UserData[i].m_nIndex, (BYTE*)&pNotice, pNotice.h.size);
 			}
 		}
 	}
@@ -3292,7 +3292,7 @@ void ChaosCastleFinal::GDReqSetCCFReward_UBF(int iUserIndex, BYTE btCCFType, BYT
 	pMsg.btCCFType = btCCFType;
 	pMsg.btRewardType = btRewardType;
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xF9, 0xB0, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xF9, 0xB0, sizeof(pMsg));
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 

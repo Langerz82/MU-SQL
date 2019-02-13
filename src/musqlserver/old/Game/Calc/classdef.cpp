@@ -14,7 +14,7 @@ classdef::~classdef()
 void classdef::GDReqClassDefData()
 {
 	PMSG_REQ_CLASSDEF pMsg;
-	PHeadSetB((LPBYTE)&pMsg, 0x02, sizeof(pMsg));
+	PHeadSetB((BYTE*)&pMsg, 0x02, sizeof(pMsg));
 
 	//wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }

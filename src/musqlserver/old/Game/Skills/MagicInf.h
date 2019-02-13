@@ -58,8 +58,8 @@ public:
 extern CMagicInf DefMagicInf[MAX_SKILL-1];
 
 int GetSkillNumberInex(int type, int Index, int level);
-void MagicByteConvert(unsigned char* buf, CMagicInf* const Magici, int maxmagic);
-void MagicByteConvert2(unsigned char* buf, CMagicInf * const Magici, int maxmagic);
+void MagicByteConvert(BYTE* buf, CMagicInf* const Magici, int maxmagic);
+void MagicByteConvert2(BYTE* buf, CMagicInf * const Magici, int maxmagic);
 
 #endif
 

@@ -19,14 +19,14 @@ public:
 	TMonsterAIUtil();
 	virtual ~TMonsterAIUtil();
 
-	BOOL FindPathToMoveMonster(CGameObject &lpObj, int iTargetX, int iTargetY, int iMaxPathCount, BOOL bPreventOverMoving);
-	BOOL SendMonsterMoveMsg(CGameObject &lpObj);
-	BOOL CheckMovingCondition(CGameObject &lpObj);
-	void SendMonsterV2Msg(CGameObject &lpObj, unsigned char* lpMsg, int size);
-	BOOL CheckMoveRange(CGameObject &lpObj, int iTargetX, int iTargetY);
-	BOOL GetXYToPatrol(CGameObject &lpObj);
-	BOOL GetXYToEascape(CGameObject &lpObj);
-	BOOL GetXYToChase(CGameObject &lpObj);
+	BOOL FindPathToMoveMonster(CGameObject &Obj, int iTargetX, int iTargetY, int iMaxPathCount, BOOL bPreventOverMoving);
+	BOOL SendMonsterMoveMsg(CGameObject &Obj);
+	BOOL CheckMovingCondition(CGameObject &Obj);
+	void SendMonsterV2Msg(CGameObject &Obj, BYTE* lpMsg, int size);
+	BOOL CheckMoveRange(CGameObject &Obj, int iTargetX, int iTargetY);
+	BOOL GetXYToPatrol(CGameObject &Obj);
+	BOOL GetXYToEascape(CGameObject &Obj);
+	BOOL GetXYToChase(CGameObject &Obj);
 	BOOL FindMonViewportObj(int iObjIndex, int iTargetObjIndex);
 	BOOL FindMonViewportObj2(int iObjIndex, int iTargetObjIndex);
 	void __cdecl SendChattingMsg(int iObjIndex, char* lpszMsg, ...);

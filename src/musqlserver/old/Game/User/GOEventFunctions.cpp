@@ -1,7 +1,7 @@
 #include "GOEventFunctions.h"
 #include "GOFunctions.h"
 
-void gObjEventInventoryItemSet(CGameObject &lpObj, int itempos, BYTE set_byte)
+void gObjEventInventoryItemSet(CGameObject &Obj, int itempos, BYTE set_byte)
 {
 	int width, height;
 
@@ -18,7 +18,7 @@ void gObjEventInventoryItemSet(CGameObject &lpObj, int itempos, BYTE set_byte)
 	gObjEventInventoryItemBoxSet(lpObj, itempos, width, height, set_byte);
 }
 
-void gObjEventInventoryItemBoxSet(CGameObject &lpObj, int itempos, int xl, int yl, BYTE set_byte)
+void gObjEventInventoryItemBoxSet(CGameObject &Obj, int itempos, int xl, int yl, BYTE set_byte)
 {
 	int itemposx = itempos % 8;
 	int itemposy = itempos / 8;
@@ -41,7 +41,7 @@ void gObjEventInventoryItemBoxSet(CGameObject &lpObj, int itempos, int xl, int y
 	}
 }
 
-bool gObjFixEventInventoryPointer(CGameObject &lpObj)
+bool gObjFixEventInventoryPointer(CGameObject &Obj)
 {
 	if (gObjIsConnected(lpObj) == 0)
 	{
@@ -81,7 +81,7 @@ bool gObjFixEventInventoryPointer(CGameObject &lpObj)
 	return false;
 }
 
-bool gObjEventInventoryDeleteItem(CGameObject &lpObj, int itempos)
+bool gObjEventInventoryDeleteItem(CGameObject &Obj, int itempos)
 {
 	gObjEventInventoryItemSet(lpObj, itempos, -1);
 	lpObj.pEventInventory[itempos].Clear();
@@ -89,7 +89,7 @@ bool gObjEventInventoryDeleteItem(CGameObject &lpObj, int itempos)
 	return TRUE;
 }
 
-BYTE gObjEventInventoryInsertItemTemp(CGameObject &lpObj, CMapItem * Item)
+BYTE gObjEventInventoryInsertItemTemp(CGameObject &Obj, CMapItem * Item)
 {
 	CItemObject item;
 	int w, h, iwidth, iheight;
@@ -125,7 +125,7 @@ GOTO_EndFunc:
 	return -1;
 }
 
-BYTE gObjEventInventoryInsertItem(CGameObject &lpObj, CMapItem * item)
+BYTE gObjEventInventoryInsertItem(CGameObject &Obj, CMapItem * item)
 {
 	int w, h, iwidth, iheight;
 	BYTE blank = 0;
@@ -172,7 +172,7 @@ GOTO_EndFunc:
 	return -1;
 }
 
-BYTE gObjEventInventoryInsertItem(CGameObject &lpObj, CItemObject item)
+BYTE gObjEventInventoryInsertItem(CGameObject &Obj, CItemObject item)
 {
 	int w, h, iwidth, iheight;
 	BYTE blank = 0;
@@ -222,7 +222,7 @@ GOTO_EndFunc:
 	return -1;
 }
 
-BYTE gObjEventInvenItemOverlap(CGameObject &lpObj, int *durSsend, int *durTsend, BYTE source, BYTE target)
+BYTE gObjEventInvenItemOverlap(CGameObject &Obj, int *durSsend, int *durTsend, BYTE source, BYTE target)
 {
 	CItemObject* sitem = &lpObj.pEventInventory[source];
 	CItemObject* titem = &lpObj.pEventInventory[target];
@@ -324,7 +324,7 @@ BYTE gObjEventInvenItemOverlap(CGameObject &lpObj, int *durSsend, int *durTsend,
 
 	return -1;
 }
-BYTE gObjEventInvenMove(CGameObject &lpObj, int *durSsend, int *durTsend, BYTE source, BYTE target)
+BYTE gObjEventInvenMove(CGameObject &Obj, int *durSsend, int *durTsend, BYTE source, BYTE target)
 {
 	BYTE TempEventInventoryMap[32];
 
@@ -396,7 +396,7 @@ BYTE gObjEventInvenMove(CGameObject &lpObj, int *durSsend, int *durTsend, BYTE s
 	return 21;
 }
 
-BYTE gObjEventInventoryTradeMove(CGameObject &lpObj, BYTE source, BYTE target)
+BYTE gObjEventInventoryTradeMove(CGameObject &Obj, BYTE source, BYTE target)
 {
 	int h, w, iwidth, iheight, s_num, blank;
 
@@ -488,7 +488,7 @@ BYTE gObjEventInventoryTradeMove(CGameObject &lpObj, BYTE source, BYTE target)
 	return -1;
 }
 
-BYTE gObjTradeEventInventoryMove(CGameObject &lpObj, BYTE source, BYTE target)
+BYTE gObjTradeEventInventoryMove(CGameObject &Obj, BYTE source, BYTE target)
 {
 	int iwidth, iheight;
 	UINT64 s_num;
@@ -572,7 +572,7 @@ void gObjTempEventInventoryItemBoxSet(BYTE * TempMap, int itempos, int xl, int y
 	}
 }
 
-BYTE gObjTempEventInventoryRectCheck(CGameObject &lpObj, BYTE * TempMap, int sx, int sy, int width, int height)
+BYTE gObjTempEventInventoryRectCheck(CGameObject &Obj, BYTE * TempMap, int sx, int sy, int width, int height)
 {
 	int x, y, blank = 0;
 
@@ -605,7 +605,7 @@ BYTE gObjTempEventInventoryRectCheck(CGameObject &lpObj, BYTE * TempMap, int sx,
 	return -1;
 }
 
-BYTE gObjTempEventInventoryInsertItem(CGameObject &lpObj, CItemObject item, BYTE * TempMap)
+BYTE gObjTempEventInventoryInsertItem(CGameObject &Obj, CItemObject item, BYTE * TempMap)
 {
 	int w, h, iwidth, iheight;
 	BYTE blank = 0;
@@ -640,7 +640,7 @@ GOTO_EndFunc:
 	return -1;
 }
 
-BOOL CheckEventInventoryEmptySpace(CGameObject &lpObj, int iItemHeight, int iItemWidth)
+BOOL CheckEventInventoryEmptySpace(CGameObject &Obj, int iItemHeight, int iItemWidth)
 {
 	int h = 0;
 	int w = 0;
@@ -690,7 +690,7 @@ BOOL IsEventItem(int iType)
 	return pItemAttribute->ItemKindA == 11;
 }
 
-BYTE gObjEventInventoryRectCheck(CGameObject &lpObj, int sx, int sy, int width, int height)
+BYTE gObjEventInventoryRectCheck(CGameObject &Obj, int sx, int sy, int width, int height)
 {
 	int x, y;
 	int blank = 0;
@@ -738,7 +738,7 @@ BYTE gObjEventInventoryRectCheck(CGameObject &lpObj, int sx, int sy, int width, 
 	return  -1;
 }
 
-BYTE gObjEventInventoryInsertItemPos(CGameObject &lpObj, CItemObject item, int pos, BOOL RequestCheck)
+BYTE gObjEventInventoryInsertItemPos(CGameObject &Obj, CItemObject item, int pos, BOOL RequestCheck)
 {
 	if (pos < 0 || pos > EVENT_INVENTORY_SIZE)
 	{
@@ -793,7 +793,7 @@ BYTE gObjEventInventoryInsertItemPos(CGameObject &lpObj, CItemObject item, int p
 	return pos;
 }
 
-BOOL gObjEventInventorySearchSerialNum(CGameObject &lpObj, UINT64 serial)
+BOOL gObjEventInventorySearchSerialNum(CGameObject &Obj, UINT64 serial)
 {
 	UINT64 s_num;
 	int count = 0;
@@ -838,13 +838,13 @@ BOOL gObjEventInventorySearchSerialNum(CGameObject &lpObj, UINT64 serial)
 	return false;
 }
 
-void gObjSetEventInventory1Pointer(CGameObject &lpObj)
+void gObjSetEventInventory1Pointer(CGameObject &Obj)
 {
 	lpObj.pEventInventory = lpObj.pEventInventory1;
 	lpObj.pEventInventoryMap = lpObj.pEventInventoryMap1;
 }
 
-void gObjSetEventInventory2Pointer(CGameObject &lpObj)
+void gObjSetEventInventory2Pointer(CGameObject &Obj)
 {
 	lpObj.pEventInventory = lpObj.pEventInventory2;
 	lpObj.pEventInventoryMap = lpObj.pEventInventoryMap2;

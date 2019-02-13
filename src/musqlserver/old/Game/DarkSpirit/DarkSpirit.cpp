@@ -431,7 +431,7 @@ void CDarkSpirit::ModeAttakTarget()
 
 
 
-void CDarkSpirit::RangeAttack(CGameObject &lpObj, int aTargetIndex)
+void CDarkSpirit::RangeAttack(CGameObject &Obj, int aTargetIndex)
 {
 	EnterCriticalSection(&this->m_SpiritCriti);
 
@@ -553,7 +553,7 @@ struct PMSG_PET_ITEM_ATTACK_COMMAND
 	BYTE TargetNumberL;	// 8
 };
 
-void CDarkSpirit::SendAttackMsg(CGameObject &lpObj, int aTargetIndex, int iDamageType, int iActionType)
+void CDarkSpirit::SendAttackMsg(CGameObject &Obj, int aTargetIndex, int iDamageType, int iActionType)
 {
 	PMSG_PET_ITEM_ATTACK_COMMAND pMsg;
 
@@ -568,7 +568,7 @@ void CDarkSpirit::SendAttackMsg(CGameObject &lpObj, int aTargetIndex, int iDamag
 	pMsg.NumberL = SET_NUMBERL(aIndex);
 	pMsg.TargetNumberH = SET_NUMBERH(aTargetIndex);
 	pMsg.TargetNumberL = SET_NUMBERL(aTargetIndex);
-	pMsg.h.set((LPBYTE)&pMsg, 0xA8, sizeof(pMsg));
+	pMsg.h.set((BYTE*)&pMsg, 0xA8, sizeof(pMsg));
 	
 	IOCP.DataSend(lpObj.m_Index, (UCHAR*)&pMsg, pMsg.h.size);
 	gGameProtocol.MsgSendV2(&gGameObjects[aIndex], (UCHAR*)&pMsg, pMsg.h.size);
@@ -735,7 +735,7 @@ void CDarkSpirit::SetMode(ePetItem_Mode mode, int iTargetindex)
 
 		PMSG_SEND_PET_ITEM_COMMAND pMsg;
 
-		pMsg.h.set((LPBYTE)&pMsg, 0xA7, sizeof(pMsg));
+		pMsg.h.set((BYTE*)&pMsg, 0xA7, sizeof(pMsg));
 		pMsg.PetType = 0;
 		pMsg.Command = mode;
 		pMsg.NumberH = SET_NUMBERH(iTargetIndex);
@@ -750,7 +750,7 @@ void CDarkSpirit::SetMode(ePetItem_Mode mode, int iTargetindex)
 
 
 
-void CDarkSpirit::Set(CGameObject &lpObj, CItemObject * pPetItem)
+void CDarkSpirit::Set(CGameObject &Obj, CItemObject * pPetItem)
 {
 	EnterCriticalSection(&this->m_SpiritCriti);
 	
@@ -807,7 +807,7 @@ void CDarkSpirit::Set(CGameObject &lpObj, CItemObject * pPetItem)
 
 
 
-BOOL CDarkSpirit::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf * lpMagic, int iDamageType, int iActionType)
+BOOL CDarkSpirit::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf * lpMagic, int iDamageType, int iActionType)
 {
 	int skillSuccess = 0;
 	CGameObject lpCallObj;
@@ -1627,7 +1627,7 @@ BOOL CDarkSpirit::Attack(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf 
 
 
 
-int  CDarkSpirit::GetAttackDamage(CGameObject &lpObj, int targetDefense, int crititcaldamage)
+int  CDarkSpirit::GetAttackDamage(CGameObject &Obj, int targetDefense, int crititcaldamage)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -1694,7 +1694,7 @@ int  CDarkSpirit::GetAttackDamage(CGameObject &lpObj, int targetDefense, int cri
 
 
 
-BOOL CDarkSpirit::MissCheck(CGameObject &lpObj, CGameObject lpTargetObj, int skill,  int skillSuccess, BOOL& bAllMiss)
+BOOL CDarkSpirit::MissCheck(CGameObject &Obj, CGameObject lpTargetObj, int skill,  int skillSuccess, BOOL& bAllMiss)
 {
 	EnterCriticalSection(&this->m_SpiritCriti);
 	int SuccessAttackRate = this->m_SuccessAttackRate;
@@ -1756,7 +1756,7 @@ BOOL CDarkSpirit::MissCheck(CGameObject &lpObj, CGameObject lpTargetObj, int ski
 }
 
 
-BOOL CDarkSpirit::MissCheckPvP(CGameObject &lpObj, CGameObject lpTargetObj, int skill,  int skillSuccess, BOOL& bAllMiss)
+BOOL CDarkSpirit::MissCheckPvP(CGameObject &Obj, CGameObject lpTargetObj, int skill,  int skillSuccess, BOOL& bAllMiss)
 {
 	float iAttackRate = 0;
 	float iDefenseRate = 0;
@@ -1915,11 +1915,11 @@ void CDarkSpirit::ChangeCommand(int command, int targetindex)
 	this->SetMode(setmode, targetindex);
 }
 
-void __cdecl CDarkSpirit::SendLevelmsg(CGameObject &lpObj, int nPos, int PetType, int InvenType)
+void __cdecl CDarkSpirit::SendLevelmsg(CGameObject &Obj, int nPos, int PetType, int InvenType)
 {
 	PMSG_SEND_PET_ITEMINFO pMsg;
 
-	pMsg.h.set((LPBYTE)&pMsg, 0xA9, sizeof(pMsg));
+	pMsg.h.set((BYTE*)&pMsg, 0xA9, sizeof(pMsg));
 	pMsg.PetType = PetType;
 	pMsg.InvenType = InvenType;
 	pMsg.nPos = nPos;
@@ -1937,11 +1937,11 @@ void __cdecl CDarkSpirit::SendLevelmsg(CGameObject &lpObj, int nPos, int PetType
 
 	pMsg.Dur = lpObj.pInventory[nPos].m_Durability;
 
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 }
 
 
-int CDarkSpirit::GetShieldDamage(CGameObject &lpObj, CGameObject lpTargetObj, int iAttackDamage)
+int CDarkSpirit::GetShieldDamage(CGameObject &Obj, CGameObject lpTargetObj, int iAttackDamage)
 {
 	int iShieldDamage = 0;
 

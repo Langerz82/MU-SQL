@@ -174,7 +174,7 @@ private:
 
 	int Get(int skill);
 	void SetEx(int iSkill, int iSkillUseType, int iSkillBrand, int iKillCount, int* pReqStatus);
-	void Set(char* name, int skill, int damage,  int rlevel,  int mana,  int bp,  int dis, int Attr,  int iSkillType, unsigned char* ReqClass, int rEnergy, int rLeadership, int rdelay, BYTE byItemSkill, BYTE byItemDamage, BYTE byBufIndex);
+	void Set(char* name, int skill, int damage,  int rlevel,  int mana,  int bp,  int dis, int Attr,  int iSkillType, BYTE* ReqClass, int rEnergy, int rLeadership, int rdelay, BYTE byItemSkill, BYTE byItemDamage, BYTE byBufIndex);
 	void SetMasterLevelSkillInfo(int iSkill, int iSkillRank, int iSkillGroup, int iRequireMLPoint, int iHP, int iSD, WORD wKeepTime, int iRequireStr, int iRequireDex);
 	int CheckSkillAttr(int skill, int attr);
 
@@ -214,11 +214,11 @@ public:
 
 private:
 	int m_Damage[MAX_SKILL];	// 4
-	unsigned char m_rLevel[MAX_SKILL];	// 3604
+	BYTE m_rLevel[MAX_SKILL];	// 3604
 	unsigned short m_Mana[MAX_SKILL];	// 3704
-	unsigned char m_Distance[MAX_SKILL];	// 3904
+	BYTE m_Distance[MAX_SKILL];	// 3904
 	int m_RequireEnergy[MAX_SKILL];	// 3A04
-	unsigned char m_RequireClass[MAX_SKILL][MAX_TYPE_PLAYER+1];	// 3E04
+	BYTE m_RequireClass[MAX_SKILL][MAX_TYPE_PLAYER+1];	// 3E04
 	int m_RequireLevel[MAX_SKILL];	// 4304
 	int m_RequireLeadership[MAX_SKILL];	// 4704
 	int m_Delay[MAX_SKILL];	// 4B04

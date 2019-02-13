@@ -110,10 +110,10 @@ void CEvolutionMonsterMng::LoadFile(char *szFile)
 	this->m_bLoadFile = true;
 }
 
-bool CEvolutionMonsterMng::UseSummonScroll(CGameObject &lpObj)
+bool CEvolutionMonsterMng::UseSummonScroll(CGameObject &Obj)
 {
 	PMSG_EVOMON_SUMMON_RESULT pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x3E, 0x03, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x3E, 0x03, sizeof(pMsg));
 
 	if (this->IsEvoMonEnable() == false)
 	{
@@ -161,7 +161,7 @@ bool CEvolutionMonsterMng::UseSummonScroll(CGameObject &lpObj)
 			pMsg.btY = gGameObjects[iEvoMonIndex]->Y;
 			pMsg.iTimeLeft = (gGameObjects[iEvoMonIndex]->m_Disappear_Monster + (this->m_iEvoMonTimeLimit * 60 * 1000) - GetTickCount()) / 60 / 1000;
 
-			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 			return false;
 		}
 
@@ -169,7 +169,7 @@ bool CEvolutionMonsterMng::UseSummonScroll(CGameObject &lpObj)
 		{
 			pMsg.btResult = 2;
 
-			IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 			return false;
 		}
 	}
@@ -195,7 +195,7 @@ bool CEvolutionMonsterMng::UseSummonScroll(CGameObject &lpObj)
 				{
 					pMsg.btResult = 3;
 
-					IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+					IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 					return false;
 				}
 			}
@@ -207,7 +207,7 @@ bool CEvolutionMonsterMng::UseSummonScroll(CGameObject &lpObj)
 		
 		pMsg.btResult = 4;
 
-		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 		return false;
 	}
 
@@ -226,13 +226,13 @@ bool CEvolutionMonsterMng::UseSummonScroll(CGameObject &lpObj)
 	pEvoMonInfo->SetScore(pEvoMonInfo->GetEvoMonLevel());
 
 	pMsg.btResult = 0;
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 
 	
 	return true;
 }
 
-int CEvolutionMonsterMng::SummonEvoMon(CGameObject &lpObj)
+int CEvolutionMonsterMng::SummonEvoMon(CGameObject &Obj)
 {
 	LPMONSTER_ATTRIBUTE lpMonsterAttr = gMAttr.GetAttr(681);
 	
@@ -299,7 +299,7 @@ int CEvolutionMonsterMng::SetField(int iEvoMonIndex, int nFieldIndex, int nOwner
 	return nFieldIndex;
 }
 
-void CEvolutionMonsterMng::EvolutionMonsterDie(CGameObject & lpTargetObj, CGameObject &lpObj)
+void CEvolutionMonsterMng::EvolutionMonsterDie(CGameObject & lpTargetObj, CGameObject &Obj)
 {
 	if (!lpTargetObj)
 	{
@@ -558,7 +558,7 @@ void CEvolutionMonsterMng::EndTimeProcess(CGameObject & lpMonsterObj)
 	this->EndEvoMon(lpOwnerObj);
 }
 
-void CEvolutionMonsterMng::EvoluteMonster(CGameObject &lpObj)
+void CEvolutionMonsterMng::EvoluteMonster(CGameObject &Obj)
 {
 	if (!lpObj)
 	{
@@ -672,7 +672,7 @@ void CEvolutionMonsterMng::SetMonsterStats(CGameObject & lpMonsterObj, EVOMON_MO
 	lpMonsterObj.m_SuccessfulBlocking = lpAttr->m_Successfulblocking * MonsterData.m_fDefRate;
 }
 
-void CEvolutionMonsterMng::EndEvoMon(CGameObject &lpObj)
+void CEvolutionMonsterMng::EndEvoMon(CGameObject &Obj)
 {
 	if (!lpObj)
 	{
@@ -697,7 +697,7 @@ void CEvolutionMonsterMng::EndEvoMon(CGameObject &lpObj)
 
 }
 
-void CEvolutionMonsterMng::UserQuit(CGameObject &lpObj)
+void CEvolutionMonsterMng::UserQuit(CGameObject &Obj)
 {
 	if (!lpObj)
 	{
@@ -721,24 +721,24 @@ void CEvolutionMonsterMng::UserQuit(CGameObject &lpObj)
 	pEvoMonInfo->SetState(EVOMON_NOT_ACTIVE);
 }
 
-void CEvolutionMonsterMng::GCSendUserScore(CGameObject &lpObj, int nScore)
+void CEvolutionMonsterMng::GCSendUserScore(CGameObject &Obj, int nScore)
 {
 	PMSG_EVOMON_SCORE pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x3E, 0x11, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x3E, 0x11, sizeof(pMsg));
 
 	pMsg.wScore = nScore;
-	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 }
 
-void CEvolutionMonsterMng::GCSendEvoMonNotice(CGameObject &lpObj)
+void CEvolutionMonsterMng::GCSendEvoMonNotice(CGameObject &Obj)
 {
 	PMSG_RANKING_SET pMsg;
-	PHeadSetB((LPBYTE)&pMsg, 0x49, sizeof(pMsg));
+	PHeadSetB((BYTE*)&pMsg, 0x49, sizeof(pMsg));
 
 	pMsg.btSetType = 0;
 	pMsg.iRankingType = this->IsEvoMonEnable();
 
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 
 	if (this->IsEvoMonEnable() == true)
 	{
@@ -746,7 +746,7 @@ void CEvolutionMonsterMng::GCSendEvoMonNotice(CGameObject &lpObj)
 	}
 }
 
-void CEvolutionMonsterMng::GiveReward(CGameObject &lpObj, bool bSpecialEvoMon)
+void CEvolutionMonsterMng::GiveReward(CGameObject &Obj, bool bSpecialEvoMon)
 {
 	if (!lpObj)
 	{
@@ -933,10 +933,10 @@ int CEvolutionMonsterMng::GetOwnerIndex(int iMonsterIndex)
 	return gGameObjects[iMonsterIndex]->m_nEvoMonOwnerIndex;
 }
 
-void CEvolutionMonsterMng::GDReqEvoMonMaxScore(CGameObject &lpObj)
+void CEvolutionMonsterMng::GDReqEvoMonMaxScore(CGameObject &Obj)
 {
 	PMSG_REQ_EVOMON_MAXSCORE pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x3E, 0x00, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x3E, 0x00, sizeof(pMsg));
 
 	pMsg.nUserIndex = aIndex;
 	memcpy(pMsg.szName, lpObj.Name, MAX_ACCOUNT_LEN + 1);
@@ -944,7 +944,7 @@ void CEvolutionMonsterMng::GDReqEvoMonMaxScore(CGameObject &lpObj)
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CEvolutionMonsterMng::DGAnsEvoMonMaxScore(LPBYTE lpRecv)
+void CEvolutionMonsterMng::DGAnsEvoMonMaxScore(BYTE* lpRecv)
 {
 	PMSG_ANS_EVOMON_MAXSCORE * lpMsg = (PMSG_ANS_EVOMON_MAXSCORE *)lpRecv;
 
@@ -966,10 +966,10 @@ void CEvolutionMonsterMng::DGAnsEvoMonMaxScore(LPBYTE lpRecv)
 
 }
 
-void CEvolutionMonsterMng::GDReqSaveEvoMonScore(CGameObject &lpObj, int nScore, int nTotalDamage)
+void CEvolutionMonsterMng::GDReqSaveEvoMonScore(CGameObject &Obj, int nScore, int nTotalDamage)
 {
 	PMSG_REQ_SAVE_EVOMON_RESULT pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x3E, 0x01, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x3E, 0x01, sizeof(pMsg));
 
 	memcpy(pMsg.szName, lpObj.Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.nUserIndex = aIndex;

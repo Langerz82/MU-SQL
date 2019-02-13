@@ -245,7 +245,7 @@ GUILD_INFO_STRUCT* CGuildClass::SearchGuild_NumberAndId(int number, char* name)
 	return NULL;
 }
 
-BOOL CGuildClass::ConnectUser(GUILD_INFO_STRUCT &lpNode, char* guild_name, char* player_name, CGameObject &lpObj, int pServer)
+BOOL CGuildClass::ConnectUser(GUILD_INFO_STRUCT &lpNode, char* guild_name, char* player_name, CGameObject &Obj, int pServer)
 {
 	if ( lpNode == NULL )
 	{
@@ -283,7 +283,7 @@ BOOL CGuildClass::ConnectUser(GUILD_INFO_STRUCT &lpNode, char* guild_name, char*
 }
 
 
-GUILD_INFO_STRUCT* CGuildClass::AddMember(char* guild_name, char* player_name, CGameObject &lpObj, int totalcount, int iGuildStatus, int pServer)
+GUILD_INFO_STRUCT* CGuildClass::AddMember(char* guild_name, char* player_name, CGameObject &Obj, int totalcount, int iGuildStatus, int pServer)
 {
 	GUILD_INFO_STRUCT * pNode = this->SearchGuild(guild_name);
 	int blank = -1;
@@ -354,7 +354,7 @@ GUILD_INFO_STRUCT* CGuildClass::AddMember(char* guild_name, char* player_name, C
 
 
 
-GUILD_INFO_STRUCT* CGuildClass::AddMember(GUILD_INFO_STRUCT* pNode, char* player_name, CGameObject &lpObj, int totalcount, int pServer)
+GUILD_INFO_STRUCT* CGuildClass::AddMember(GUILD_INFO_STRUCT* pNode, char* player_name, CGameObject &Obj, int totalcount, int pServer)
 {
 	int blank = -1;
 

@@ -4033,7 +4033,7 @@ int CItemObject::SimpleDurabilityDown(int iDecValue)
 	return this->m_Durability;
 }
 
-int CItemObject::DurabilityDown(int dur, CGameObject &lpObj)
+int CItemObject::DurabilityDown(int dur, CGameObject &Obj)
 {
 	if (this->m_Durability <= 0)
 	{
@@ -4081,7 +4081,7 @@ int CItemObject::DurabilityDown(int dur, CGameObject &lpObj)
 
 
 
-int CItemObject::DurabilityDown2(int dur, CGameObject &lpObj)
+int CItemObject::DurabilityDown2(int dur, CGameObject &Obj)
 {
 	if (this->m_Durability <= 0)
 	{
@@ -4129,7 +4129,7 @@ int CItemObject::DurabilityDown2(int dur, CGameObject &lpObj)
 
 
 
-int CItemObject::NormalWeaponDurabilityDown(int defense, CGameObject &lpObj)
+int CItemObject::NormalWeaponDurabilityDown(int defense, CGameObject &Obj)
 {
 	if (this->m_Durability <= 0)
 	{
@@ -4203,7 +4203,7 @@ int CItemObject::NormalWeaponDurabilityDown(int defense, CGameObject &lpObj)
 }
 
 
-int CItemObject::BowWeaponDurabilityDown(int defense, CGameObject &lpObj)
+int CItemObject::BowWeaponDurabilityDown(int defense, CGameObject &Obj)
 {
 	if (this->m_Durability <= 0)
 	{
@@ -4270,7 +4270,7 @@ int CItemObject::BowWeaponDurabilityDown(int defense, CGameObject &lpObj)
 	return 0;
 }
 
-int CItemObject::StaffWeaponDurabilityDown(int defence, CGameObject &lpObj)
+int CItemObject::StaffWeaponDurabilityDown(int defence, CGameObject &Obj)
 {
 	if (this->m_Durability <= 0)
 	{
@@ -4380,7 +4380,7 @@ int CItemObject::LuckyItemArmorDurabilityDown(int damagemin, CGameObject &Obj)
 
 }
 
-int CItemObject::ArmorDurabilityDown(int damagemin, CGameObject &lpObj)
+int CItemObject::ArmorDurabilityDown(int damagemin, CGameObject &Obj)
 {
 	if (this->m_Durability <= 0)
 	{
@@ -4581,7 +4581,7 @@ int CItemObject::GetMuunItemRank()
 // End of CItemObject class
 //-----------------------------------------------------------
 
-void BufferItemtoConvert3(unsigned char* buf, int& type, BYTE& level, BYTE& op1, BYTE& op2, BYTE& op3, BYTE& dur)
+void BufferItemtoConvert3(BYTE* buf, int& type, BYTE& level, BYTE& op1, BYTE& op2, BYTE& op3, BYTE& dur)
 {
 	type = buf[0] + ((buf[3] & 0x80) * 2) + ((buf[5] & 0xF0) << 5);
 	level = (buf[1] >> 3) & 15;
@@ -4592,7 +4592,7 @@ void BufferItemtoConvert3(unsigned char* buf, int& type, BYTE& level, BYTE& op1,
 	op3 |= (buf[3] & 0x40) >> 4;
 }
 
-void ItemByteConvert(unsigned char* buf, CItemObject &item)
+void ItemByteConvert(BYTE* buf, CItemObject &item)
 {
 	int n = 0;
 
@@ -4677,7 +4677,7 @@ void ItemByteConvert(unsigned char* buf, CItemObject &item)
 	buf[n] = item.m_SocketOption[4];
 }
 
-void ItemByteConvert(unsigned char* buf, int type, BYTE Option1, BYTE Option2, BYTE Option3, BYTE level, BYTE dur, BYTE Noption, BYTE SetOption, BYTE JewelOfHarmonyOption, BYTE ItemEffectEx, BYTE *SocketOption, BYTE SocketBonusOption, BYTE PeriodItemOption)
+void ItemByteConvert(BYTE* buf, int type, BYTE Option1, BYTE Option2, BYTE Option3, BYTE level, BYTE dur, BYTE Noption, BYTE SetOption, BYTE JewelOfHarmonyOption, BYTE ItemEffectEx, BYTE *SocketOption, BYTE SocketBonusOption, BYTE PeriodItemOption)
 {
 	std::memset(buf, 0, 12);
 	int n = 0;
@@ -4757,7 +4757,7 @@ void ItemByteConvert(unsigned char* buf, int type, BYTE Option1, BYTE Option2, B
 	}
 }
 
-void ItemByteConvert32(LPBYTE buf, CItemObject * const item, int maxitem)
+void ItemByteConvert32(BYTE* buf, CItemObject * const item, int maxitem)
 {
 	int n = 0;
 	int count = 0;
@@ -5937,7 +5937,7 @@ void LoadResetItemList(LPSTR szFile)
 	sLog->outBasic("[%s]::LoadFile() -> Success!", szFile);
 }
 
-bool CheckCanWearResetItem(CGameObject &lpObj, int itemid)
+bool CheckCanWearResetItem(CGameObject &Obj, int itemid)
 {
 	for (int i = 0; i < 1000; i++)
 	{

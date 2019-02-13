@@ -143,7 +143,7 @@ void CIllusionTempleEvent_Renewal::ITR_Run()
 	}
 }
 
-void CIllusionTempleEvent_Renewal::SetRelicsInventoryPos(BYTE btMapNumber, CGameObject &lpObj, BYTE btPos)
+void CIllusionTempleEvent_Renewal::SetRelicsInventoryPos(BYTE btMapNumber, CGameObject &Obj, BYTE btPos)
 {
 	if (!IT_MAP_RANGE(btMapNumber))
 	{
@@ -163,7 +163,7 @@ void CIllusionTempleEvent_Renewal::SendRelicsUserInfo(CGameObject* lpObj)
 	this->m_cITR_Proc[lpObj.MapNumber - 45].SendRelicsUserInfo(lpObj, 0);
 }
 
-BOOL CIllusionTempleEvent_Renewal::Enter_ITR(CGameObject &lpObj, BYTE byTempleIndex, BYTE bySlotNum)
+BOOL CIllusionTempleEvent_Renewal::Enter_ITR(CGameObject &Obj, BYTE byTempleIndex, BYTE bySlotNum)
 {
 	if (g_IT_Event.IsEventEnable() == false)
 	{
@@ -201,7 +201,7 @@ BOOL CIllusionTempleEvent_Renewal::Enter_ITR(CGameObject &lpObj, BYTE byTempleIn
 	}
 }
 
-int CIllusionTempleEvent_Renewal::Leave_ITR(CGameObject &lpObj, BYTE btMapNumber)
+int CIllusionTempleEvent_Renewal::Leave_ITR(CGameObject &Obj, BYTE btMapNumber)
 {
 	if (!IT_MAP_RANGE(btMapNumber))
 	{
@@ -212,7 +212,7 @@ int CIllusionTempleEvent_Renewal::Leave_ITR(CGameObject &lpObj, BYTE btMapNumber
 	return TRUE;
 }
 
-void CIllusionTempleEvent_Renewal::ActRelicsGetOrRegister(CGameObject &lpNpc, CGameObject lpObj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType)
+void CIllusionTempleEvent_Renewal::ActRelicsGetOrRegister(CGameObject &Npc, CGameObject &Obj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType)
 {
 	if (!IT_MAP_RANGE(byMapNumber))
 	{
@@ -350,17 +350,17 @@ void CIllusionTempleEvent_Renewal::ITR_USeSkill(CGameObject &Obj, WORD MagicNumb
 	this->m_cITR_Proc[Obj.MapNumber - 45]->ITR_UseSkill(iIndex, MagicNumber, wTargetObjIndex, btDis);
 }
 
-void CIllusionTempleEvent_Renewal::EventSkillProc(CGameObject &lpObj)
+void CIllusionTempleEvent_Renewal::EventSkillProc(CGameObject &Obj)
 {
 	return this->m_cITR_Proc[lpObj.MapNumber - 45].ITRSkillProc(lpObj);
 }
 
-void CIllusionTempleEvent_Renewal::IllusionTempleUserDie(CGameObject &lpObj)
+void CIllusionTempleEvent_Renewal::IllusionTempleUserDie(CGameObject &Obj)
 {
 	this->m_cITR_Proc[lpObj.MapNumber - 45].ITRUserDie(lpObj);
 }
 
-void CIllusionTempleEvent_Renewal::IllusionTempleUserDieRegen(CGameObject &lpObj)
+void CIllusionTempleEvent_Renewal::IllusionTempleUserDieRegen(CGameObject &Obj)
 {
 	if (!ObjectMaxRange(lpObj.m_Index))
 	{

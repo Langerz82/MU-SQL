@@ -121,7 +121,7 @@ public:
 	unsigned short m_btRefillMPSocketOption; // Size=2 Offset=9658
 	unsigned short m_wSocketOptionMonsterDieGetHp; // Size=2 Offset=9660
 	unsigned short m_wSocketOptionMonsterDieGetMana; // Size=2 Offset=9662
-	unsigned char m_btAGReduceRate; // Size=1 Offset=9664
+	BYTE m_btAGReduceRate; // Size=1 Offset=9664
 	//=========
 	BYTE m_InventoryExpansion;
 	BYTE m_WarehouseExpansion;
@@ -136,7 +136,7 @@ public:
 	BYTE SkillStrengthenHellFire2State;	// FA4
 	BYTE SkillStrengthenHellFire2Count;	// FA5
 	DWORD SkillStrengthenHellFire2Time;	// FA8
-	unsigned char m_ReqWarehouseOpen;	// FAC
+	BYTE m_ReqWarehouseOpen;	// FAC
 	short SetOpAddSkillAttack;	// FB4
 	short SetOpAddExDamage;	// FB6
 	short SetOpAddExDamageSuccessRate;	// FB8
@@ -214,7 +214,7 @@ public:
 	DWORD LastSkillUseCount;
 	PENTAGRAM_OPTION* m_PentagramOptions;
 	class CItemObject * pPentagramMixBox;
-	unsigned char * pPentagramMixBoxMap;
+	BYTE * pPentagramMixBoxMap;
 	int PentagramMixMoney;
 	int PentagramMixSuccessRate;
 	int m_PentagramMixLock;

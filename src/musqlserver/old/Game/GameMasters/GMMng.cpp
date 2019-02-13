@@ -270,7 +270,7 @@ void CGMMng::ManagerInit()
 	}
 }
 
-int CGMMng::ManagerAdd(char* name, CGameObject &lpObj)
+int CGMMng::ManagerAdd(char* name, CGameObject &Obj)
 {
 	for (int n = 0; n < MAX_GAME_MASTER; n++)
 	{
@@ -311,7 +311,7 @@ void CGMMng::ManagerSendData(LPSTR szMsg, int size)
 	}
 }
 
-void CGMMng::DataSend(unsigned char* szMsg, int size)
+void CGMMng::DataSend(BYTE* szMsg, int size)
 {
 	for (int n = 0; n < MAX_GAME_MASTER; n++)
 	{
@@ -357,7 +357,7 @@ char* CGMMng::GetTokenString()
 }
 // -------------------------------------------------------------------------------
 
-CGameObject CGMMng::GetUserInfo(CGameObject &lpUser, LPSTR UserName)
+CGameObject CGMMng::GetUserInfo(CGameObject &User, LPSTR UserName)
 {
 	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
@@ -391,10 +391,10 @@ int CGMMng::GetTokenNumber()
 	return 0;
 }
 
-void PostSend(CGameObject &lpObj, char * szMessage)
+void PostSend(CGameObject &Obj, char * szMessage)
 {
 	PMSG_POST_DATA pMsg;
-	PHeadSubSetB((LPBYTE)&pMsg, 0xFA, 0x10, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xFA, 0x10, sizeof(pMsg));
 
 	pMsg.btColorRGB[0] = g_ConfigRead.data.post.btPostColorRGB[0];
 	pMsg.btColorRGB[1] = g_ConfigRead.data.post.btPostColorRGB[1];
@@ -406,10 +406,10 @@ void PostSend(CGameObject &lpObj, char * szMessage)
 	strcpy(pMsg.szTag, Lang.GetText(0, 334));
 	strcpy(pMsg.szMessage, szMessage);
 
-	gGameProtocol.DataSendAll((LPBYTE)&pMsg, sizeof(pMsg));
+	gGameProtocol.DataSendAll((BYTE*)&pMsg, sizeof(pMsg));
 }
 
-int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, CGameObject &lpObjTarget)
+int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget)
 {
 	char seps[2] = " ";
 	char * szCmdToken;
@@ -520,7 +520,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, CGameObject &lpObjTa
 		int y = lpObj.Y;
 		PMSG_SERVERCMD pMsg;
 
-		PHeadSubSetB((LPBYTE)&pMsg, 0xF3, 0x40, sizeof(pMsg));
+		PHeadSubSetB((BYTE*)&pMsg, 0xF3, 0x40, sizeof(pMsg));
 		pMsg.CmdType = 0;
 
 		for (int i = 0; i < 15; i++)
@@ -1282,7 +1282,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, CGameObject &lpObjTa
 		pStats.Points = lpObj.m_PlayerData->Strength;
 		pStats.statstype = 0;
 		pStats.LUP = lpObj.m_PlayerData->LevelUpPoint;
-		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pStats, sizeof(pStats));
+		IOCP.DataSend(lpObj.m_Index, (BYTE*)&pStats, sizeof(pStats));
 
 		gObjCalCharacter.CalcCharacter(aIndex);
 		gObjSetBP(aIndex);
@@ -1326,7 +1326,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, CGameObject &lpObjTa
 		pStats.Points = lpObj.m_PlayerData->Dexterity;
 		pStats.statstype = 1;
 		pStats.LUP = lpObj.m_PlayerData->LevelUpPoint;
-		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pStats, sizeof(pStats));
+		IOCP.DataSend(lpObj.m_Index, (BYTE*)&pStats, sizeof(pStats));
 
 		gObjCalCharacter.CalcCharacter(aIndex);
 		gGameProtocol.GCLevelUpMsgSend(lpObj.m_Index, 1);
@@ -1367,7 +1367,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, CGameObject &lpObjTa
 		pStats.statstype = 2;
 		pStats.LUP = lpObj.m_PlayerData->LevelUpPoint;
 		pStats.MaxLifeAndMana = lpObj.MaxLife + lpObj.AddLife;
-		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pStats, sizeof(pStats));
+		IOCP.DataSend(lpObj.m_Index, (BYTE*)&pStats, sizeof(pStats));
 
 		gObjCalCharacter.CalcCharacter(lpObj.m_Index);
 		gGameProtocol.GCLevelUpMsgSend(lpObj.m_Index, 1);
@@ -1406,7 +1406,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, CGameObject &lpObjTa
 		pStats.statstype = 3;
 		pStats.LUP = lpObj.m_PlayerData->LevelUpPoint;
 		pStats.MaxLifeAndMana = lpObj.MaxMana + lpObj.AddMana;
-		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pStats, sizeof(pStats));
+		IOCP.DataSend(lpObj.m_Index, (BYTE*)&pStats, sizeof(pStats));
 
 		gObjCalCharacter.CalcCharacter(lpObj.m_Index);
 		gGameProtocol.GCLevelUpMsgSend(lpObj.m_Index, 1);
@@ -1450,7 +1450,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, CGameObject &lpObjTa
 		pStats.Points = lpObj.Leadership;
 		pStats.statstype = 4;
 		pStats.LUP = lpObj.m_PlayerData->LevelUpPoint;
-		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pStats, sizeof(pStats));
+		IOCP.DataSend(lpObj.m_Index, (BYTE*)&pStats, sizeof(pStats));
 
 		gObjCalCharacter.CalcCharacter(aIndex);
 		gGameProtocol.GCLevelUpMsgSend(lpObj.m_Index, 1);
@@ -2608,7 +2608,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, CGameObject &lpObjTa
 		if (g_ConfigRead.data.common.IsJoinMu)
 		{
 			BAN_REQ_USER pBan;
-			PHeadSetB((LPBYTE)&pBan, 0xFA, sizeof(pBan));
+			PHeadSetB((BYTE*)&pBan, 0xFA, sizeof(pBan));
 
 			memcpy(pBan.AccName, pId, sizeof(pBan.AccName));
 			pBan.Ban = 1;
@@ -2641,7 +2641,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, CGameObject &lpObjTa
 		}
 
 		BAN_REQ_USER pBan;
-		PHeadSetB((LPBYTE)&pBan, 0xFA, sizeof(pBan));
+		PHeadSetB((BYTE*)&pBan, 0xFA, sizeof(pBan));
 
 		memcpy(pBan.AccName, pId, sizeof(pBan.AccName));
 		pBan.Ban = 0;
@@ -2680,7 +2680,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, CGameObject &lpObjTa
 		else if (g_ConfigRead.data.common.IsJoinMu && lpBan == NULL)
 		{
 			BAN_REQ_USER pBan;
-			PHeadSetB((LPBYTE)&pBan, 0xFA, sizeof(pBan));
+			PHeadSetB((BYTE*)&pBan, 0xFA, sizeof(pBan));
 
 			memcpy(pBan.AccName, pId, sizeof(pBan.AccName));
 			pBan.Ban = 1;
@@ -2713,7 +2713,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, CGameObject &lpObjTa
 		}
 
 		BAN_REQ_USER pBan;
-		PHeadSetB((LPBYTE)&pBan, 0xFA, sizeof(pBan));
+		PHeadSetB((BYTE*)&pBan, 0xFA, sizeof(pBan));
 
 		memcpy(pBan.AccName, pId, sizeof(pBan.AccName));
 		pBan.Ban = 0;
@@ -3522,7 +3522,7 @@ int CGMMng::ManagementProc(CGameObject &lpObj, char* szCmd, CGameObject &lpObjTa
 	return 0;
 }
 
-void CGMMng::CommandMake(CGameObject &lpObj, int qnt, int section, int type, int level, int skill, int luck, int option, int exc, int SetOpt)
+void CGMMng::CommandMake(CGameObject &Obj, int qnt, int section, int type, int level, int skill, int luck, int option, int exc, int SetOpt)
 {
 
 	for (int i = 0; i < qnt; i++)
@@ -3533,7 +3533,7 @@ void CGMMng::CommandMake(CGameObject &lpObj, int qnt, int section, int type, int
 	sLog->outBasic("[GM][%s]MakeItem:[Cat:%d Index:%d Level:%d Skill:%d Luck:%d Option:%d Excellent:%d Ancient:%d]", lpObj.Name, section, type, level, skill, luck, option, exc, SetOpt);
 }
 
-bool CGMMng::CommandMakeRandomSet(CGameObject &lpObj)
+bool CGMMng::CommandMakeRandomSet(CGameObject &Obj)
 {
 	if ((lpObj.Authority & 2) != 2 && (lpObj.Authority & 0x20) != 0x20)
 	{
@@ -3554,7 +3554,7 @@ bool CGMMng::CommandMakeRandomSet(CGameObject &lpObj)
 	}
 }
 
-bool CGMMng::CommandClearInventory(CGameObject &lpObj)
+bool CGMMng::CommandClearInventory(CGameObject &Obj)
 {
 	if ((lpObj.Authority & 2) != 2 && (lpObj.Authority & 0x20) != 0x20)
 	{
@@ -3587,7 +3587,7 @@ bool CGMMng::CommandClearInventory(CGameObject &lpObj)
 	GCItemObjectListSend(lpTarget->m_Index);
 }
 
-bool CGMMng::CommandReset(CGameObject &lpObj)
+bool CGMMng::CommandReset(CGameObject &Obj)
 {
 	CLogToFile g_ResetLog("TABLE_RESET", ".\\TABLE_RESET", 1);
 
@@ -3749,7 +3749,7 @@ bool CGMMng::CommandReset(CGameObject &lpObj)
 	return true;
 }
 
-void CGMMng::GetInfinityArrowMPConsumption(CGameObject &lpObj)
+void CGMMng::GetInfinityArrowMPConsumption(CGameObject &Obj)
 {
 	MsgOutput(lpObj.m_Index, Lang.GetText(0, 486),
 		g_SkillAdditionInfo.GetInfinityArrowMPConsumptionPlus0(),
@@ -3759,28 +3759,28 @@ void CGMMng::GetInfinityArrowMPConsumption(CGameObject &lpObj)
 
 
 
-void CGMMng::ControlInfinityArrowMPConsumption0(CGameObject &lpObj, int iValue)
+void CGMMng::ControlInfinityArrowMPConsumption0(CGameObject &Obj, int iValue)
 {
 	g_SkillAdditionInfo.SetInfinityArrowMPConsumptionPlus0(iValue);
 	MsgOutput(lpObj.m_Index, Lang.GetText(0, 487), iValue);
 
 }
 
-void CGMMng::ControlInfinityArrowMPConsumption1(CGameObject &lpObj, int iValue)
+void CGMMng::ControlInfinityArrowMPConsumption1(CGameObject &Obj, int iValue)
 {
 	g_SkillAdditionInfo.SetInfinityArrowMPConsumptionPlus1(iValue);
 	MsgOutput(lpObj.m_Index, Lang.GetText(0, 488), iValue);
 
 }
 
-void CGMMng::ControlInfinityArrowMPConsumption2(CGameObject &lpObj, int iValue)
+void CGMMng::ControlInfinityArrowMPConsumption2(CGameObject &Obj, int iValue)
 {
 	g_SkillAdditionInfo.SetInfinityArrowMPConsumptionPlus2(iValue);
 	MsgOutput(lpObj.m_Index, Lang.GetText(0, 489), iValue);
 
 }
 
-void CGMMng::SetInfinityArrowTime(CGameObject &lpObj, int iValue)
+void CGMMng::SetInfinityArrowTime(CGameObject &Obj, int iValue)
 {
 	if (lpObj.Class == CLASS_ELF && lpObj.Type == OBJ_USER && lpObj.m_PlayerData->ChangeUP >= 1)
 	{
@@ -3794,13 +3794,13 @@ void CGMMng::SetInfinityArrowTime(CGameObject &lpObj, int iValue)
 }
 
 
-void CGMMng::ControlFireScreamDoubleAttackDistance(CGameObject &lpObj, int iValue)
+void CGMMng::ControlFireScreamDoubleAttackDistance(CGameObject &Obj, int iValue)
 {
 	g_SkillAdditionInfo.SetFireScreamExplosionAttackDistance(iValue);
 	MsgOutput(lpObj.m_Index, Lang.GetText(0, 492), iValue);
 }
 
-void ServerMsgSend(CGameObject &lpObj, int Type, char Sender[20], const char*Message, ...)
+void ServerMsgSend(CGameObject &Obj, int Type, char Sender[20], const char*Message, ...)
 {
 	PMSG_CHATDATA_WHISPER pMsg;
 
@@ -3825,7 +3825,7 @@ void ServerMsgSend(CGameObject &lpObj, int Type, char Sender[20], const char*Mes
 	delete [] Packet;*/
 }
 
-BOOL CGMMng::CheckTraceMarryCondition(CGameObject &lpObj, CGameObject lpTargetObj)
+BOOL CGMMng::CheckTraceMarryCondition(CGameObject &Obj, CGameObject lpTargetObj)
 {
 	if (lpObj.Married == 0)
 	{

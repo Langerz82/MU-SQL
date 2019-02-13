@@ -150,13 +150,13 @@ void MathAuthenticator::send(int objIndex, int fc, double iv, MAPM *r)
 	PMSG_MATH_AUTHEN pMsg;
 
 	memset(&pMsg, 0x00, sizeof(pMsg));
-	PHeadSubSetB((LPBYTE)&pMsg, 0xF3, 0x32, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xF3, 0x32, sizeof(pMsg));
 
 	pMsg.function = fc;
 	pMsg.input = iv;
 	r->toString(pMsg.result, 5);
 
-	IOCP.DataSend(objIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	IOCP.DataSend(objIndex, (BYTE*)&pMsg, pMsg.h.size);
 }*/
 
 ////////////////////////////////////////////////////////////////////////////////

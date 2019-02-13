@@ -127,7 +127,7 @@ void CMarry::LoadFile(char * filename)
 	LeaveCriticalSection(&this->m_criti);
 }
 
-void CMarry::Propose(CGameObject &lpObj, int uIndex)
+void CMarry::Propose(CGameObject &Obj, int uIndex)
 {
 	if (ObjectMaxRange(aIndex) == 0 || ObjectMaxRange(uIndex) == 0)
 	{
@@ -208,7 +208,7 @@ void CMarry::Propose(CGameObject &lpObj, int uIndex)
 	sLog->outBasic("[Marry][%s][%s] Request to marry with [%s][%s]", lpObj.AccountID, lpObj.Name, gGameObjects[uIndex]->AccountID, gGameObjects[uIndex]->Name);
 }
 
-bool CMarry::Accept(CGameObject &lpObj)
+bool CMarry::Accept(CGameObject &Obj)
 {
 	if (ObjectMaxRange(aIndex) == 0)
 	{
@@ -277,19 +277,19 @@ bool CMarry::Accept(CGameObject &lpObj)
 		
 	PMSG_SERVERCMD ServerCmd;
 
-	PHeadSubSetB((LPBYTE)&ServerCmd, 0xF3, 0x40, sizeof(ServerCmd));
+	PHeadSubSetB((BYTE*)&ServerCmd, 0xF3, 0x40, sizeof(ServerCmd));
 	ServerCmd.CmdType = 0;
 	ServerCmd.X = gGameObjects[uIndex]->X;
 	ServerCmd.Y = gGameObjects[uIndex]->Y;
 
-	gGameProtocol.MsgSendV2(gObj, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
-	IOCP.DataSend(uIndex, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
+	gGameProtocol.MsgSendV2(gObj, (BYTE*)&ServerCmd, sizeof(ServerCmd));
+	IOCP.DataSend(uIndex, (BYTE*)&ServerCmd, sizeof(ServerCmd));
 
 	ServerCmd.X = lpObj.X;
 	ServerCmd.Y = lpObj.Y;
 
-	gGameProtocol.MsgSendV2(gObj, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
-	IOCP.DataSend(lpObj.m_Index, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
+	gGameProtocol.MsgSendV2(gObj, (BYTE*)&ServerCmd, sizeof(ServerCmd));
+	IOCP.DataSend(lpObj.m_Index, (BYTE*)&ServerCmd, sizeof(ServerCmd));
 
 	if (this->m_bGiftEnable == true)
 	{
@@ -304,7 +304,7 @@ bool CMarry::Accept(CGameObject &lpObj)
 	return true;
 }
 
-void CMarry::Divorce(CGameObject &lpObj)
+void CMarry::Divorce(CGameObject &Obj)
 {
 	if (lpObj.Married == 0)
 	{
@@ -343,7 +343,7 @@ void CMarry::Divorce(CGameObject &lpObj)
 	sLog->outBasic("[Marry] Divorce: [%s] [%d]", lpObj.Name, gGameObjects[uIndex]->Name);
 }
 
-bool CMarry::CheckPosition(CGameObject &lpObj, int uIndex)
+bool CMarry::CheckPosition(CGameObject &Obj, int uIndex)
 {
 	int aX = lpObj.X, aY = lpObj.Y, aM = lpObj.MapNumber, uX = gGameObjects[uIndex]->X, uY = gGameObjects[uIndex]->Y, uM = gGameObjects[uIndex]->MapNumber;
 
@@ -355,7 +355,7 @@ bool CMarry::CheckPosition(CGameObject &lpObj, int uIndex)
 	return false;
 }
 
-bool CMarry::CheckRequiredItem(CGameObject &lpObj, int iSide)
+bool CMarry::CheckRequiredItem(CGameObject &Obj, int iSide)
 {
 	if(!this->m_bNeedSpecialItemForMarry) return true;
 
@@ -379,7 +379,7 @@ bool CMarry::CheckRequiredItem(CGameObject &lpObj, int iSide)
 	return true;
 }
 
-bool CMarry::CheckDivorceItem(CGameObject &lpObj)
+bool CMarry::CheckDivorceItem(CGameObject &Obj)
 {
 	if(!this->m_bNeedSpecialItemForDivorce) return true;
 
@@ -398,7 +398,7 @@ bool CMarry::CheckDivorceItem(CGameObject &lpObj)
 	return true;
 }
 
-void CMarry::GiveGiftItem(CGameObject &lpObj, int iSide)
+void CMarry::GiveGiftItem(CGameObject &Obj, int iSide)
 {
 	if (!this->m_bGiftEnable) return;
 
@@ -420,7 +420,7 @@ void CMarry::GiveGiftItem(CGameObject &lpObj, int iSide)
 	LeaveCriticalSection(&this->m_criti);
 }
 
-void CMarry::DeleteRequiredItem(CGameObject &lpObj, int iSide)
+void CMarry::DeleteRequiredItem(CGameObject &Obj, int iSide)
 {
 	if(!this->m_bNeedSpecialItemForMarry) return;
 
@@ -453,7 +453,7 @@ void CMarry::DeleteRequiredItem(CGameObject &lpObj, int iSide)
 	LeaveCriticalSection(&this->m_criti);
 }
 
-void CMarry::DeleteDivorceItem(CGameObject &lpObj)
+void CMarry::DeleteDivorceItem(CGameObject &Obj)
 {
 	if(!this->m_bNeedSpecialItemForDivorce) return;
 

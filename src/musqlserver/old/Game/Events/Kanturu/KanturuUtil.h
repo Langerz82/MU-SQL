@@ -27,13 +27,13 @@ public:
 	void __cdecl SendMsgKanturuBattleUser(LPSTR lpszMsg, ...);
 	void SendDataKanturuBattleUser(LPBYTE lpMsg, int iSize);
 	void __cdecl SendMsgKauturuBossMapUser(LPSTR lpszMsg, ...);
-	void SendDataKanturuBossMapUser(unsigned char* lpMsg, int iSize);
+	void SendDataKanturuBossMapUser(BYTE* lpMsg, int iSize);
 	void __cdecl SendMsgKauturuMapUser(char* lpszMsg, ...);
-	void SendDataKanturuMapUser(unsigned char* lpMsg, int iSize);
+	void SendDataKanturuMapUser(BYTE* lpMsg, int iSize);
 	void __cdecl SendMsgAllUser(LPSTR lpszMsg, ...);
-	void SendDataAllUser(unsigned char* lpMsg, int iSize);
+	void SendDataAllUser(BYTE* lpMsg, int iSize);
 	void __cdecl SendMsgToUser(CGameObject &Obj, char* lpszMsg, ...);
-	void SendDataToUser(CGameObject &Obj, unsigned char* lpMsg, int iSize);
+	void SendDataToUser(CGameObject &Obj, BYTE* lpMsg, int iSize);
 	void __cdecl SendKanturuChattingMsg(CGameObject &Obj, char* lpszMsg, ...);
 	void SendDataKanturuTimeAttackEvent(CGameObject &Obj, BYTE btFlag, int iClearTime);
 

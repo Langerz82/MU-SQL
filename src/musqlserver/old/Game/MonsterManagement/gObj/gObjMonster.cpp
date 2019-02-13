@@ -79,7 +79,7 @@ void gObjMonsterMoveRegen(int x, int y, CGameObject lpObj)
 	lpObj.StartY = lpObj.Y;
 }
 
-BOOL gObjMonsterRegen(CGameObject &lpObj)
+BOOL gObjMonsterRegen(CGameObject &Obj)
 {
 	int map[3];
 
@@ -378,7 +378,7 @@ BOOL gObjMonsterRegen(CGameObject &lpObj)
 
 
 
-int gObjMonsterViewportIsCharacter(CGameObject &lpObj)
+int gObjMonsterViewportIsCharacter(CGameObject &Obj)
 {
 	int tObjNum;
 
@@ -403,7 +403,7 @@ int gObjMonsterViewportIsCharacter(CGameObject &lpObj)
 
 
 
-void gObjMonsterHitDamageInit(CGameObject &lpObj)
+void gObjMonsterHitDamageInit(CGameObject &Obj)
 {
 	for ( int i = 0; i< MAX_ST_HIT_DAMAGE ; i++ )
 	{
@@ -418,7 +418,7 @@ void gObjMonsterHitDamageInit(CGameObject &lpObj)
 
 
 
-int gObjMonsterHitDamageUserDel(CGameObject &lpObj)
+int gObjMonsterHitDamageUserDel(CGameObject &Obj)
 {
 	int delok = 0;
 	int delindex = -1;
@@ -467,7 +467,7 @@ int gObjMonsterHitDamageUserDel(CGameObject &lpObj)
 
 
 
-void gObjMonsterSetHitDamage(CGameObject &lpObj, int hit_player, int hit_damage)
+void gObjMonsterSetHitDamage(CGameObject &Obj, int hit_player, int hit_damage)
 {
 	int blank = -1;
 
@@ -523,7 +523,7 @@ void gObjMonsterSetHitDamage(CGameObject &lpObj, int hit_player, int hit_damage)
 
 
 
-int gObjMonsterTopHitDamageUser(CGameObject &lpMonObj)
+int gObjMonsterTopHitDamageUser(CGameObject &MonObj)
 {
 	int MaxHitDamage = 0;
 	int MaxHitDamageUser = -1;
@@ -549,7 +549,7 @@ int gObjMonsterTopHitDamageUser(CGameObject &lpMonObj)
 
 
 
-int	 gObjMonsterLastHitDamageUser(CGameObject &lpMonObj, int & hitindex)
+int	 gObjMonsterLastHitDamageUser(CGameObject &MonObj, int & hitindex)
 {
 	int LastHitTime = 0;
 	int LastHitUser = -1;
@@ -570,7 +570,7 @@ int	 gObjMonsterLastHitDamageUser(CGameObject &lpMonObj, int & hitindex)
 	return LastHitUser;
 }
 
-int gObjMonsterGetDamageUser(CGameObject &lpMonObj, CGameObject lpUserObj)
+int gObjMonsterGetDamageUser(CGameObject &MonObj, CGameObject lpUserObj)
 {
 	for (int n = 0; n<MAX_ST_HIT_DAMAGE; n++)
 	{
@@ -588,7 +588,7 @@ int gObjMonsterGetDamageUser(CGameObject &lpMonObj, CGameObject lpUserObj)
 
 
 
-BOOL gObjMonsterMoveCheck(CGameObject &lpObj, int tx, int ty)
+BOOL gObjMonsterMoveCheck(CGameObject &Obj, int tx, int ty)
 {
 	if ( lpObj.m_ActState.Emotion  == 1 )
 	{
@@ -851,7 +851,7 @@ BOOL gObjMonsterMoveCheck(CGameObject &lpObj, int tx, int ty)
 
 
 
-BOOL gObjMonsterGetTargetPos(CGameObject &lpObj)
+BOOL gObjMonsterGetTargetPos(CGameObject &Obj)
 {
 	int tpx;	// Target Player X
 	int tpy;
@@ -1004,7 +1004,7 @@ BOOL gObjMonsterGetTargetPos(CGameObject &lpObj)
 
 
 
-BOOL gObjGetTargetPos(CGameObject &lpObj, int sx, int sy, int & tx , int & ty)
+BOOL gObjGetTargetPos(CGameObject &Obj, int sx, int sy, int & tx , int & ty)
 {
 	int tpx;	// Target Player X
 	int tpy;
@@ -1114,7 +1114,7 @@ BOOL gObjGetTargetPos(CGameObject &lpObj, int sx, int sy, int & tx , int & ty)
 
 
 
-int gObjCallMonsterSetEnemy(CGameObject &lpObj, int Target)
+int gObjCallMonsterSetEnemy(CGameObject &Obj, int Target)
 {
 	if ( lpObj.Type != OBJ_USER )
 	{
@@ -1146,7 +1146,7 @@ int gObjCallMonsterSetEnemy(CGameObject &lpObj, int Target)
 
 
 
-int gObjMonsterSearchEnemy(CGameObject &lpObj, BYTE objtype)
+int gObjMonsterSearchEnemy(CGameObject &Obj, BYTE objtype)
 {
 	int n;
 	int tx;
@@ -1214,7 +1214,7 @@ int gObjMonsterSearchEnemy(CGameObject &lpObj, BYTE objtype)
 
 
 
-int gObjGuardSearchEnemy(CGameObject &lpObj)
+int gObjGuardSearchEnemy(CGameObject &Obj)
 {
 	int n;
 	int tx;
@@ -1655,7 +1655,7 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 
 
 
-void gObjMonsterProcess(CGameObject &lpObj)
+void gObjMonsterProcess(CGameObject &Obj)
 {
 	gObjMsgProc(lpObj);
 
@@ -2014,7 +2014,7 @@ void gObjMonsterProcess(CGameObject &lpObj)
 	}
 }
 
-void gObjMonsterMagicAttack(CGameObject &lpObj, int iMonsterClass)
+void gObjMonsterMagicAttack(CGameObject &Obj, int iMonsterClass)
 {
 	int tObjNum;
 	int count = 0;
@@ -2030,7 +2030,7 @@ void gObjMonsterMagicAttack(CGameObject &lpObj, int iMonsterClass)
 	pDuration.X = lpObj.X;
 	pDuration.Y = lpObj.Y;
 
-	gGameProtocol.CGDurationMagicRecv((LPBYTE)&pDuration, lpObj.m_Index);
+	gGameProtocol.CGDurationMagicRecv((BYTE*)&pDuration, lpObj.m_Index);
 
 	pCount.h.c = 0xC1;
 
@@ -2100,7 +2100,7 @@ void gObjMonsterMagicAttack(CGameObject &lpObj, int iMonsterClass)
 	}
 }
 
-void gObjUseMonsterSpecialAbillity(CGameObject &lpMonsterObj)
+void gObjUseMonsterSpecialAbillity(CGameObject &MonsterObj)
 {
 	if ( lpMonsterObj.Class == 275 )	// Kundun
 	{
@@ -2114,17 +2114,17 @@ void gObjUseMonsterSpecialAbillity(CGameObject &lpMonsterObj)
 
 		if ( (lpMonsterObj.MaxLife / 25.0f) > lpMonsterObj.Life  )
 		{
-			gGameProtocol.CGMagicAttack((LPBYTE)&pAttackMsg, lpMonsterObj.m_Index);
-			gGameProtocol.CGMagicAttack((LPBYTE)&pAttackMsg, lpMonsterObj.m_Index);
+			gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, lpMonsterObj.m_Index);
+			gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, lpMonsterObj.m_Index);
 		}
 		else if ( (lpMonsterObj.MaxLife / 5.0f) > lpMonsterObj.Life  )
 		{
-			gGameProtocol.CGMagicAttack((LPBYTE)&pAttackMsg, lpMonsterObj.m_Index);
+			gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, lpMonsterObj.m_Index);
 		}
 	}
 }
 
-void gObjMonsterBeattackRecv(BYTE * lpRecv, CGameObject &lpObj)
+void gObjMonsterBeattackRecv(BYTE * lpRecv, CGameObject &Obj)
 {
 	PMSG_BEATTACK_COUNT * lpCount = (PMSG_BEATTACK_COUNT *)lpRecv;
 	int lOfs = sizeof(PMSG_BEATTACK_COUNT);
@@ -2160,7 +2160,7 @@ void gObjMonsterBeattackRecv(BYTE * lpRecv, CGameObject &lpObj)
 
 static int skillevo = 100;
 
-void gObjMonsterAttack(CGameObject &lpObj, CGameObject lpTargetObj)
+void gObjMonsterAttack(CGameObject &Obj, CGameObject lpTargetObj)
 {
 	int AttackType = lpObj.m_AttackType;
 	WORD MagicNumber;
@@ -2183,7 +2183,7 @@ void gObjMonsterAttack(CGameObject &lpObj, CGameObject lpTargetObj)
 			pAttackMsg.NumberL = SET_NUMBERL(lpObj.TargetNumber);
 			pAttackMsg.Dis = 0;
 
-			gGameProtocol.CGMagicAttack((LPBYTE)&pAttackMsg, lpObj.m_Index);
+			gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, lpObj.m_Index);
 			return;
 		}
 
@@ -2201,7 +2201,7 @@ void gObjMonsterAttack(CGameObject &lpObj, CGameObject lpTargetObj)
 		pAttackMsg.NumberL = SET_NUMBERL(lpObj.TargetNumber);
 		pAttackMsg.Dis = 0;
 
-		gGameProtocol.CGMagicAttack((LPBYTE)&pAttackMsg, lpObj.m_Index);
+		gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, lpObj.m_Index);
 
 		if ( MagicNumber == 1 || MagicNumber == 2 || MagicNumber == 0 )
 		{
@@ -2223,7 +2223,7 @@ void gObjMonsterAttack(CGameObject &lpObj, CGameObject lpTargetObj)
 		pAttackMsg.NumberL = SET_NUMBERL(lpObj.TargetNumber);
 		pAttackMsg.Dis = 0;
 
-		gGameProtocol.CGMagicAttack((LPBYTE)&pAttackMsg, lpObj.m_Index);
+		gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, lpObj.m_Index);
 		return;
 	}
 	
@@ -2271,7 +2271,7 @@ void gObjMonsterAttack(CGameObject &lpObj, CGameObject lpTargetObj)
 			pAttackMsg.NumberL = SET_NUMBERL(lpObj.TargetNumber);
 			pAttackMsg.Dis = 0;
 
-			gGameProtocol.CGMagicAttack((LPBYTE)&pAttackMsg, lpObj.m_Index);
+			gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, lpObj.m_Index);
 			return;
 		}
 		AttackType = 0;
@@ -2295,7 +2295,7 @@ void gObjMonsterAttack(CGameObject &lpObj, CGameObject lpTargetObj)
 		pAttackMsg.NumberL = SET_NUMBERL(lpObj.TargetNumber);
 		pAttackMsg.Dis = 0;
 
-		gGameProtocol.CGMagicAttack((LPBYTE)&pAttackMsg, lpObj.m_Index);
+		gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, lpObj.m_Index);
 	}
 	else if (	   lpObj.Class == 163
             || lpObj.Class == 165
@@ -2313,7 +2313,7 @@ void gObjMonsterAttack(CGameObject &lpObj, CGameObject lpTargetObj)
 		pAttackMsg.NumberL = SET_NUMBERL(lpObj.TargetNumber);
 		pAttackMsg.Dis = 0;
 
-		gGameProtocol.CGMagicAttack((LPBYTE)&pAttackMsg, lpObj.m_Index);
+		gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, lpObj.m_Index);
 	}
 	else if ( lpObj.Class == 66 || lpObj.Class == 73 || lpObj.Class == 77 )
 	{
@@ -2325,7 +2325,7 @@ void gObjMonsterAttack(CGameObject &lpObj, CGameObject lpTargetObj)
 		pAttackMsg.NumberL = SET_NUMBERL(lpObj.TargetNumber);
 		pAttackMsg.Dis = 0;
 
-		gGameProtocol.CGMagicAttack((LPBYTE)&pAttackMsg, lpObj.m_Index);
+		gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, lpObj.m_Index);
 	}
 
 	else if ( lpObj.Class >= 533 && lpObj.Class <= 539 )
@@ -2340,7 +2340,7 @@ void gObjMonsterAttack(CGameObject &lpObj, CGameObject lpTargetObj)
 		pAttackMsg.NumberH = SET_NUMBERH(lpObj.TargetNumber);
 		pAttackMsg.NumberL = SET_NUMBERL(lpObj.TargetNumber);
 
-		gGameProtocol.CGDurationMagicRecv((LPBYTE)&pAttackMsg, lpObj.m_Index);
+		gGameProtocol.CGDurationMagicRecv((BYTE*)&pAttackMsg, lpObj.m_Index);
 	}
 
 	else if ( lpObj.Class == 561 )
@@ -2356,7 +2356,7 @@ void gObjMonsterAttack(CGameObject &lpObj, CGameObject lpTargetObj)
 			pAttackMsg.NumberH = SET_NUMBERH(lpObj.TargetNumber);
 			pAttackMsg.NumberL = SET_NUMBERL(lpObj.TargetNumber);
 
-			gGameProtocol.CGMagicAttack((LPBYTE)&pAttackMsg, lpObj.m_Index);
+			gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, lpObj.m_Index);
 		}
 
 		else
@@ -2372,7 +2372,7 @@ void gObjMonsterAttack(CGameObject &lpObj, CGameObject lpTargetObj)
 			pAttackMsg.NumberH = SET_NUMBERH(lpObj.TargetNumber);
 			pAttackMsg.NumberL = SET_NUMBERL(lpObj.TargetNumber);
 
-			gGameProtocol.CGDurationMagicRecv((LPBYTE)&pAttackMsg, lpObj.m_Index);
+			gGameProtocol.CGDurationMagicRecv((BYTE*)&pAttackMsg, lpObj.m_Index);
 		}
 	}
 	
@@ -2402,13 +2402,13 @@ void gObjMonsterAttack(CGameObject &lpObj, CGameObject lpTargetObj)
 					pAttackMsg.NumberL = SET_NUMBERL(lpObj.TargetNumber);
 					pAttackMsg.Dis = 0;
 
-					gGameProtocol.CGMagicAttack((LPBYTE)&pAttackMsg, lpObj.m_Index);
+					gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, lpObj.m_Index);
 				}
 		}
 	}
 }
 
-BOOL PathFindMoveMsgSend(CGameObject &lpObj)
+BOOL PathFindMoveMsgSend(CGameObject &Obj)
 {
 	if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STONE) == true ||
 		gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STUN) == true ||
@@ -2423,7 +2423,7 @@ BOOL PathFindMoveMsgSend(CGameObject &lpObj)
 
 	PATH_t path;
 	PMSG_MOVE pMove;
-	unsigned char bPath[8];
+	BYTE bPath[8];
 	
 
 	pMove.h.c = 0xC1;
@@ -2509,7 +2509,7 @@ BOOL PathFindMoveMsgSend(CGameObject &lpObj)
 }
 
 
-void gObjMonsterMoveAction(CGameObject &lpObj)
+void gObjMonsterMoveAction(CGameObject &Obj)
 {
 	if( gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STONE) == true || 
 		gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STUN) == true  ||
@@ -2576,7 +2576,7 @@ void gObjMonsterMoveAction(CGameObject &lpObj)
 
 
 
-void gObjMonsterBaseAct(CGameObject &lpObj)
+void gObjMonsterBaseAct(CGameObject &Obj)
 {
 	CGameObject lpTargetObj = NULL;
 
@@ -2943,7 +2943,7 @@ void gObjMonsterBaseAct(CGameObject &lpObj)
 
 
 
-void gObjTrapAttackEnemySearchX(CGameObject &lpObj, int count)
+void gObjTrapAttackEnemySearchX(CGameObject &Obj, int count)
 {
 	lpObj.TargetNumber = -1;
 	int tObjNum;
@@ -2989,7 +2989,7 @@ void gObjTrapAttackEnemySearchX(CGameObject &lpObj, int count)
 
 
 
-void gObjTrapAttackEnemySearchY(CGameObject &lpObj, int count)
+void gObjTrapAttackEnemySearchY(CGameObject &Obj, int count)
 {
 	lpObj.TargetNumber = -1;
 	int tObjNum;
@@ -3034,7 +3034,7 @@ void gObjTrapAttackEnemySearchY(CGameObject &lpObj, int count)
 
 
 
-void gObjTrapAttackEnemySearch(CGameObject &lpObj)
+void gObjTrapAttackEnemySearch(CGameObject &Obj)
 {
 	int tObjNum;
 	lpObj.TargetNumber = -1;
@@ -3071,7 +3071,7 @@ void gObjTrapAttackEnemySearch(CGameObject &lpObj)
 	}
 }
 
-void gObjTrapAttackEnemySearchRange(CGameObject &lpObj,int iRange)
+void gObjTrapAttackEnemySearchRange(CGameObject &Obj,int iRange)
 {
 	int tObjNum = -1;
 	int iTargetingRate = 0;
@@ -3123,7 +3123,7 @@ void gObjTrapAttackEnemySearchRange(CGameObject &lpObj,int iRange)
 	}
 }
 
-void gObjMonsterTrapAct(CGameObject &lpObj)
+void gObjMonsterTrapAct(CGameObject &Obj)
 {
 	if(lpObj.VPCount2 < 1)
 	{
@@ -3220,7 +3220,7 @@ BYTE NewOptionRand2(int MinOptCount, int MaxOptCount)
 	return ExcOption;
 }
 
-void InventoryDropItem(CGameObject &lpObj, int DropItem)
+void InventoryDropItem(CGameObject &Obj, int DropItem)
 {
 	return;	// there is NO MACRO NOR CODE
 }
@@ -3262,7 +3262,7 @@ BOOL IsCanNotItemDtopInDevilSquare(int ItemType)
 
 }
 
-void gObjRefillMonsterHP(CGameObject &lpMonsterObj, int iRefillHPSec)
+void gObjRefillMonsterHP(CGameObject &MonsterObj, int iRefillHPSec)
 {
 	int iMonsterHP = lpMonsterObj.Life;
 	int iRefillHP = 0;
@@ -3319,7 +3319,7 @@ void gObjRefillMonsterHP(CGameObject &lpMonsterObj, int iRefillHPSec)
 	}
 }
 
-int gObjMonsterSelectSkillForMedusa(CGameObject &lpObj)
+int gObjMonsterSelectSkillForMedusa(CGameObject &Obj)
 {
 	int nTargetCnt = 0;
 	int nSplashTargetCnt = 0;
@@ -3371,7 +3371,7 @@ int gObjMonsterSelectSkillForMedusa(CGameObject &lpObj)
 	return nSkillNumber;
 }
 
-void gObjMonsterDieGiveItem(CGameObject &lpObj, CGameObject lpTargetObj)
+void gObjMonsterDieGiveItem(CGameObject &Obj, CGameObject lpTargetObj)
 {
 
 	int store_count=0;
@@ -3388,7 +3388,7 @@ void gObjMonsterDieGiveItem(CGameObject &lpObj, CGameObject lpTargetObj)
 	int Option1=0;
 	int Option2=0;
 	int Option3=0;
-	unsigned char NOption=0;
+	BYTE NOption=0;
 	BOOL item_drop=0;
 	int n;
 	CItemObject * DropItem=NULL;
@@ -4234,7 +4234,7 @@ void gObjMonsterDieGiveItem(CGameObject &lpObj, CGameObject lpTargetObj)
 }
 
 
-BOOL gEventMonsterItemDrop(CGameObject &lpObj, CGameObject lpTargetObj)
+BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 {
 	int type;
 	int level;
@@ -5248,7 +5248,7 @@ BOOL gEventMonsterItemDrop(CGameObject &lpObj, CGameObject lpTargetObj)
 	return FALSE;
 }
 
-void gObjMonsterSummonSkillForLordSilvester(CGameObject &lpObj)
+void gObjMonsterSummonSkillForLordSilvester(CGameObject &Obj)
 {
 	PMSG_DURATION_MAGIC_RECV pDuration;
 	
@@ -5260,7 +5260,7 @@ void gObjMonsterSummonSkillForLordSilvester(CGameObject &lpObj)
 	pDuration.NumberH = HIBYTE(lpObj.TargetNumber);
 	pDuration.NumberL = LOBYTE(lpObj.TargetNumber);
 
-	gGameProtocol.CGDurationMagicRecv((LPBYTE)&pDuration, lpObj.m_Index);
+	gGameProtocol.CGDurationMagicRecv((BYTE*)&pDuration, lpObj.m_Index);
 
 	lpObj.m_ActState.Attack = 0;
 	lpObj.m_ActState.Move = 0;
@@ -5342,12 +5342,12 @@ void UnBlockLordSilvesterEntrance()
 	}
 }
 
-void SendLordSilvesterBlockInfo(CGameObject &lpObj, BYTE btMapSetType)
+void SendLordSilvesterBlockInfo(CGameObject &Obj, BYTE btMapSetType)
 {
 	char cTEMP_BUF[256];
 	PMSG_SETMAPATTR_COUNT * lpMsg = (PMSG_SETMAPATTR_COUNT *)cTEMP_BUF;
 
-	PHeadSetB((LPBYTE)lpMsg, 0x46, sizeof(PMSG_SETMAPATTR_COUNT) + sizeof(PMSG_SETMAPATTR) * 12);
+	PHeadSetB((BYTE*)lpMsg, 0x46, sizeof(PMSG_SETMAPATTR_COUNT) + sizeof(PMSG_SETMAPATTR) * 12);
 	PMSG_SETMAPATTR * lpMsgBody = (PMSG_SETMAPATTR *)&cTEMP_BUF[7];
 	lpMsg->btType = 0;
 	lpMsg->btCount = 6;
@@ -5392,7 +5392,7 @@ void SendLordSilvesterBlockInfo(CGameObject &lpObj, BYTE btMapSetType)
 			{
 				if (gGameObjects[i]->Connected > PLAYER_LOGGED)
 				{
-					IOCP.DataSend(i, (LPBYTE)lpMsg, lpMsg->h.size);
+					IOCP.DataSend(i, (BYTE*)lpMsg, lpMsg->h.size);
 				}
 			}
 		}
@@ -5400,11 +5400,11 @@ void SendLordSilvesterBlockInfo(CGameObject &lpObj, BYTE btMapSetType)
 
 	else
 	{
-		IOCP.DataSend(lpObj.m_Index, (LPBYTE)lpMsg, lpMsg->h.size);
+		IOCP.DataSend(lpObj.m_Index, (BYTE*)lpMsg, lpMsg->h.size);
 	}
 }
 
-void CQeustNpcTeleport::Run(CGameObject &lpObj)
+void CQeustNpcTeleport::Run(CGameObject &Obj)
 {
 	if ( this->RefCount > 0 )
 	{
@@ -5418,7 +5418,7 @@ void CQeustNpcTeleport::Run(CGameObject &lpObj)
 		PMSG_MAGICATTACK_RESULT pMsg;
 
 		this->TimeCount = 0;
-		PHeadSetBE((LPBYTE)&pMsg, 0x19, sizeof(pMsg));
+		PHeadSetBE((BYTE*)&pMsg, 0x19, sizeof(pMsg));
 		pMsg.MagicNumberH = SET_NUMBERH(AT_SKILL_TELEPORT);
 		pMsg.MagicNumberL = SET_NUMBERL(AT_SKILL_TELEPORT);
 		pMsg.SourceNumberH = SET_NUMBERH(aIndex);

@@ -233,7 +233,7 @@ void CEventMonSetBase::DeleteAllMonsters()
 
 }
 
-int CEventMonSetBase::SetPosMonster(CGameObject &lpObj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY, int nDir)
+int CEventMonSetBase::SetPosMonster(CGameObject &Obj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY, int nDir)
 {
 	if (!ObjectMaxRange(aIndex))
 	{

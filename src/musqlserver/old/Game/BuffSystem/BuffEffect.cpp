@@ -32,7 +32,7 @@ CBuffEffect::~CBuffEffect()
 
 }
 
-void CBuffEffect::SetBuffEffect(CGameObject &lpObj, BYTE EffectType, int EffectValue)
+void CBuffEffect::SetBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectValue)
 {
 	if(lpObj == NULL || EffectType < EFFECTTYPE_NONE)	return;
 
@@ -182,7 +182,7 @@ void CBuffEffect::SetBuffEffect(CGameObject &lpObj, BYTE EffectType, int EffectV
 	}
 }
 
-void CBuffEffect::ClearBuffEffect(CGameObject &lpObj, BYTE EffectType, int EffectValue)
+void CBuffEffect::ClearBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectValue)
 {
 	if(lpObj == NULL || EffectType < EFFECTTYPE_NONE)	return;
 
@@ -329,11 +329,11 @@ void CBuffEffect::ClearBuffEffect(CGameObject &lpObj, BYTE EffectType, int Effec
 	case EFFECTTYPE_ELF_BLESS:
 		{
 			PMSG_USE_STAT_FRUIT pMsg;
-			PHeadSetB((LPBYTE)&pMsg, 0x2C, sizeof(pMsg));
+			PHeadSetB((BYTE*)&pMsg, 0x2C, sizeof(pMsg));
 			pMsg.result = 0x12;
 			pMsg.btStatValue = EffectValue;
 			pMsg.btFruitType = 0x07;
-			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (LPBYTE)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
 		}
 		break;
 	case EFFECTTYPE_BLIND:
@@ -406,7 +406,7 @@ void CBuffEffect::GiveDamageEffect(class CGameObject* lpObj, int Damage)
 	}
 }
 
-void CBuffEffect::PoisonEffect(CGameObject &lpObj, BYTE PoisonRate)
+void CBuffEffect::PoisonEffect(CGameObject &Obj, BYTE PoisonRate)
 {
 	int DecreaseHealthPoint = 0;
 	int DecreaseShiledPoint = 0;
@@ -455,7 +455,7 @@ void CBuffEffect::PoisonEffect(CGameObject &lpObj, BYTE PoisonRate)
 	}
 }
 
-void CBuffEffect::GiveDamageFillHPEffect(CGameObject &lpObj, int Damage)
+void CBuffEffect::GiveDamageFillHPEffect(CGameObject &Obj, int Damage)
 {
 	int DecreaseHealthPoint = 0;
 	int DecreaseShiledPoint = 0;
@@ -523,7 +523,7 @@ void CBuffEffect::GiveDamageFillHPEffect(CGameObject &lpObj, int Damage)
 	}
 }
 
-void CBuffEffect::SetPrevEffect(CGameObject &lpObj)
+void CBuffEffect::SetPrevEffect(CGameObject &Obj)
 {
 	if(lpObj == NULL)	return;
 
@@ -577,7 +577,7 @@ void CBuffEffect::SetPrevEffect(CGameObject &lpObj)
 	}
 }
 
-void CBuffEffect::SetNextEffect(CGameObject &lpObj)
+void CBuffEffect::SetNextEffect(CGameObject &Obj)
 {
 	if(lpObj == NULL)	return;
 
@@ -631,7 +631,7 @@ void CBuffEffect::SetNextEffect(CGameObject &lpObj)
 	}
 }
 
-void CBuffEffect::ClearPrevEffect(CGameObject &lpObj)
+void CBuffEffect::ClearPrevEffect(CGameObject &Obj)
 {
 	if(lpObj == NULL)	return;
 
@@ -706,7 +706,7 @@ void CBuffEffect::RequestGuildPeriodBuffInsert(char *szGuildName,PeriodBuffInfo 
 	pMsg.btEffectType2 = lpBuffInfo->btEffectType2;
 	pMsg.dwDuration = lpBuffInfo->lDuration;
 	pMsg.lExpireDate = g_PeriodItemEx.GetExpireDate(lpBuffInfo->lDuration);
-	PHeadSubSetB((LPBYTE)&pMsg, 0x53, 1, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x53, 1, sizeof(pMsg));
  
 	wsExDbCli.DataSend((char*)&pMsg, pMsg.head.size);
   
@@ -729,7 +729,7 @@ void CBuffEffect::RequestGuildPeriodBuffDelete(WORD *wBuffIndex, char btGuildCnt
 		pMsg.wBuffIndex[i] = wBuffIndex[i];
 
 	pMsg.btGuildCnt = btGuildCnt;
-	PHeadSubSetB((LPBYTE)&pMsg, 0x53, 2, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0x53, 2, sizeof(pMsg));
 
 	wsExDbCli.DataSend((char*)&pMsg, pMsg.head.size);
 	sLog->outBasic("[PeriodBuff][Delete] Request All Delete Guild PeriodBuff");
@@ -750,7 +750,7 @@ void CBuffEffect::RequestPeriodBuffDelete(CGameObject lpObj, WORD wBuffIndex)
 	pMsg.wUserIndex = lpObj.m_Index;
 	pMsg.wBuffIndex = wBuffIndex;
 	memcpy(pMsg.szCharacterName, lpObj.Name, MAX_ACCOUNT_LEN+1);
-	PHeadSubSetB((LPBYTE)&pMsg, 0xE4, 2, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xE4, 2, sizeof(pMsg));
   
 	wsDataCli.DataSend((char*)&pMsg, pMsg.head.size);
 	sLog->outBasic("[PeriodBuff][Delete] Request Delete PeriodBuff. User Id : %s(%d), Name : %s, BuffIndex : %d", lpObj.AccountID, lpObj.DBNumber, lpObj.Name, wBuffIndex);
@@ -763,7 +763,7 @@ void CBuffEffect::RequestPeriodBuffDelete(char *szName, WORD wBuffIndex)
 	pMsg.wUserIndex = 0;
 	pMsg.wBuffIndex = wBuffIndex;
 	memcpy(pMsg.szCharacterName, szName, MAX_ACCOUNT_LEN + 1);
-	PHeadSubSetB((LPBYTE)&pMsg, 0xE4, 2, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xE4, 2, sizeof(pMsg));
 
 	wsDataCli.DataSend((char*)&pMsg, pMsg.head.size);
 	sLog->outBasic("[PeriodBuff][Delete] Request Delete PeriodBuff.Name : %s, BuffIndex : %d", szName, wBuffIndex);
@@ -792,7 +792,7 @@ void CBuffEffect::RequestPeriodBuffInsert(CGameObject lpObj,PeriodBuffInfo *lpBu
 	pMsg.btEffectType2 = lpBuffInfo->btEffectType2;
 	pMsg.dwDuration = lpBuffInfo->lDuration;
 	pMsg.lExpireDate = g_PeriodItemEx.GetExpireDate(lpBuffInfo->lDuration);
-	PHeadSubSetB((LPBYTE)&pMsg, 0xE4, 1, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xE4, 1, sizeof(pMsg));
 
 	wsDataCli.DataSend((char*)&pMsg, pMsg.head.size);
 	sLog->outBasic("[PeriodBuff][Insert] Request Insert PeriodBuff. User Id : %s(%d), Name : %s, BuffIndex : %d, Duration %d, lExpireDate%d",
@@ -806,13 +806,13 @@ struct PMSG_REQ_PERIODBUFF_SELECT
 	char szCharacterName[MAX_ACCOUNT_LEN+1];
 };
 
-void CBuffEffect::RequestPeriodBuffSelect(CGameObject &lpObj)
+void CBuffEffect::RequestPeriodBuffSelect(CGameObject &Obj)
 {
 	PMSG_REQ_PERIODBUFF_SELECT pMsg;
 
 	pMsg.wUserIndex = lpObj.m_Index;
 	memcpy(pMsg.szCharacterName, lpObj.Name, MAX_ACCOUNT_LEN+1);
-	PHeadSubSetB((LPBYTE)&pMsg, 0xE4, 3, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xE4, 3, sizeof(pMsg));
 
 	wsDataCli.DataSend((char*)&pMsg, pMsg.head.size);
 }

@@ -134,7 +134,7 @@ void MD5::init()
 
 //////////////////////////////
 
-// decodes input (unsigned char) into output (uint4). Assumes len is a multiple of 4.
+// decodes input (BYTE) into output (uint4). Assumes len is a multiple of 4.
 void MD5::decode(uint4 output[], const uint1 input[], size_type len)
 {
   for (unsigned int i = 0, j = 0; j < len; i++, j += 4)
@@ -144,7 +144,7 @@ void MD5::decode(uint4 output[], const uint1 input[], size_type len)
 
 //////////////////////////////
 
-// encodes input (uint4) into output (unsigned char). Assumes len is
+// encodes input (uint4) into output (BYTE). Assumes len is
 // a multiple of 4.
 void MD5::encode(uint1 output[], const uint4 input[], size_type len)
 {
@@ -249,7 +249,7 @@ void MD5::transform(const uint1 block[blocksize])
 
 // MD5 block update operation. Continues an MD5 message-digest
 // operation, processing another message block
-void MD5::update(const unsigned char input[], size_type length)
+void MD5::update(const BYTE input[], size_type length)
 {
   // compute number of bytes mod 64
   size_type index = count[0] / 8 % blocksize;
@@ -289,7 +289,7 @@ void MD5::update(const unsigned char input[], size_type length)
 // for convenience provide a verson with signed char
 void MD5::update(const char input[], size_type length)
 {
-  update((const unsigned char*)input, length);
+  update((const BYTE*)input, length);
 }
 
 //////////////////////////////
@@ -298,7 +298,7 @@ void MD5::update(const char input[], size_type length)
 // the message digest and zeroizing the context.
 MD5& MD5::finalize()
 {
-  static unsigned char padding[64] = {
+  static BYTE padding[64] = {
     0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
@@ -306,7 +306,7 @@ MD5& MD5::finalize()
 
   if (!finalized) {
     // Save number of bits
-    unsigned char bits[8];
+    BYTE bits[8];
     encode(bits, count, 8);
 
     // pad out to 56 mod 64.

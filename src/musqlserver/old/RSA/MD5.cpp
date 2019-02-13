@@ -22,7 +22,7 @@ bool WZMD5::WZMD5_EncodeKeyVal	(
 	unsigned int inputlen = (unsigned int)strlen ( (char *)lpszInputStr);
 
 	setmagicnum(iKeyIndex);
-	update ((unsigned char *)lpszInputStr, inputlen);
+	update ((BYTE *)lpszInputStr, inputlen);
 	finalize ();
 	for (int i = 0 ; i < 32 ; i++)
 		lpszOutputKeyVal[i] = digest[i];
@@ -44,7 +44,7 @@ bool WZMD5::WZMD5_EncodeString	(
 	unsigned int inputlen = (unsigned int)strlen ( (char *)lpszInputStr);
 
 	setmagicnum(iKeyIndex);
-	update ((unsigned char *)lpszInputStr, inputlen);
+	update ((BYTE *)lpszInputStr, inputlen);
 	finalize ();
 	strcpy_s (lpszOutputStr,sizeof(lpszOutputStr), hex_digest());
 	init();
@@ -148,7 +148,7 @@ void WZMD5::update (uint1 *input, uint4 input_length) {
 
 void WZMD5::update(FILE *file){
 
-  unsigned char buffer[1024];
+  BYTE buffer[1024];
   int len;
 
   while (len=(int)fread(buffer, 1, 1024, file))
@@ -164,7 +164,7 @@ void WZMD5::update(FILE *file){
 
 void WZMD5::update(std::istream& stream){
 
-  unsigned char buffer[1024];
+  BYTE buffer[1024];
   int len;
 
   while (stream.good()){
@@ -181,7 +181,7 @@ void WZMD5::update(std::istream& stream){
 
 void WZMD5::update(std::ifstream& stream){
 
-  unsigned char buffer[1024];
+  BYTE buffer[1024];
   int len;
 
   while (stream.good()){
@@ -198,7 +198,7 @@ void WZMD5::update(std::ifstream& stream){
 
 void WZMD5::finalize (){
 
-  unsigned char bits[8];
+  BYTE bits[8];
   unsigned int index, padLen;
   static uint1 PADDING[64]={
     0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -257,12 +257,12 @@ WZMD5::WZMD5(std::ifstream& stream){
 }
 
 
-unsigned char *WZMD5::raw_digest(){
+BYTE *WZMD5::raw_digest(){
 
   if (!finalized){
     std::cerr << "WZMD5::raw_digest:  Can't get digest if you haven't "<<
       "finalized the digest!" <<std::endl;
-    return ( (unsigned char*) "");
+    return ( (BYTE*) "");
   }
 
   memcpy((uint1*)m_cRaw_digest, digest, 16);
@@ -403,7 +403,7 @@ void WZMD5::transform (uint1 block[64]){
 }
 
 
-// Encodes input (UINT4) into output (unsigned char). Assumes len is
+// Encodes input (UINT4) into output (BYTE). Assumes len is
 // a multiple of 4.
 void WZMD5::encode (uint1 *output, uint4 *input, uint4 len) {
 
@@ -418,7 +418,7 @@ void WZMD5::encode (uint1 *output, uint4 *input, uint4 len) {
 }
 
 
-// Decodes input (unsigned char) into output (UINT4). Assumes len is
+// Decodes input (BYTE) into output (UINT4). Assumes len is
 // a multiple of 4.
 void WZMD5::decode (uint4 *output, uint1 *input, uint4 len){
 

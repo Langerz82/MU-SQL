@@ -46,7 +46,7 @@ BOOL PartyClass::IsParty(int party_number)
 	return TRUE;
 }
 
-BOOL PartyClass::Isleader(int party_number, CGameObject &lpObj, int dbnumber)
+BOOL PartyClass::Isleader(int party_number, CGameObject &Obj, int dbnumber)
 {
 	if ( this->IsParty(party_number) == FALSE )
 	{
@@ -134,7 +134,7 @@ BOOL PartyClass::GetIndexUser(int party_number, int index, int& usernumber,  int
 }
 
 
-int PartyClass::GetIndex(int party_number, CGameObject &lpObj, int dbnumber)
+int PartyClass::GetIndex(int party_number, CGameObject &Obj, int dbnumber)
 {
 	if ( this->IsParty(party_number) == FALSE )
 	{
@@ -152,7 +152,7 @@ int PartyClass::GetIndex(int party_number, CGameObject &lpObj, int dbnumber)
 	return -1;
 }
 
-int PartyClass::Create(CGameObject &lpObj, int dbnumber, int level)
+int PartyClass::Create(CGameObject &Obj, int dbnumber, int level)
 {
 	int n = this->m_PartyCount;
 	int loopcount = 0;
@@ -284,7 +284,7 @@ BOOL PartyClass::Destroy(int party_number)
 	return FALSE;
 }
 
-int PartyClass::Add(int party_number, CGameObject &lpObj, int dbnumber, int level)
+int PartyClass::Add(int party_number, CGameObject &Obj, int dbnumber, int level)
 {
 	if ( this->IsParty(party_number ) == FALSE )
 	{
@@ -335,7 +335,7 @@ int PartyClass::Add(int party_number, CGameObject &lpObj, int dbnumber, int leve
 	return -1;
 }
 
-int PartyClass::Delete(int party_number, CGameObject &lpObj, int dbnumber)	// Kick a User from Party
+int PartyClass::Delete(int party_number, CGameObject &Obj, int dbnumber)	// Kick a User from Party
 {
 	if ( this->IsParty(party_number) == FALSE )
 	{
@@ -448,7 +448,7 @@ void PartyClass::PartyMemberLifeSend(int party_number)
 	int lOfs = 0;
 	int tlife = 0;
 
-	PHeadSetB((LPBYTE)&pCount, 0x44, sizeof(pCount));
+	PHeadSetB((BYTE*)&pCount, 0x44, sizeof(pCount));
 	pCount.Count = this->m_PartyS[party_number].Count;
 	lOfs += sizeof(pCount);
 
@@ -497,7 +497,7 @@ void PartyClass::PartyMemberLifeSend(int party_number)
 
 		if ( usern >= 0 )
 		{
-			IOCP.DataSend(usern, (unsigned char*)sendbuf, lOfs);
+			IOCP.DataSend(usern, (BYTE*)sendbuf, lOfs);
 		}
 	}
 }
@@ -507,7 +507,7 @@ char PartyClass::GetPKPartyPenalty(int party_number)
 	return m_PartyS[party_number].m_PKPartyLevel;
 }
 
-void PartyClass::UpdatePKUserInfo(int party_number, CGameObject &lpObj, int dbnumber, char userPKLevel)
+void PartyClass::UpdatePKUserInfo(int party_number, CGameObject &Obj, int dbnumber, char userPKLevel)
 {
 	if( IsParty(party_number) == FALSE )	return;
 
@@ -855,7 +855,7 @@ void PartyClass::ReadBonusInfo(LPSTR File) //FILE_PARTYBONUS
 	}
 }
 
-int PartyClass::GetExpBonus(CGameObject &lpUser, CGameObject lpMonster, int PartyNumber)
+int PartyClass::GetExpBonus(CGameObject &User, CGameObject lpMonster, int PartyNumber)
 {
 	if (!lpUser)
 	{

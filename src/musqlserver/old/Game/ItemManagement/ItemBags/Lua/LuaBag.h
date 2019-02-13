@@ -34,11 +34,11 @@ public:
 	static BOOL	GetVariableItem(lua_State * Lua);
 	static BOOL	SetVariableItem(lua_State * Lua);
 
-	bool DropCommonBag(CGameObject &lpObj, BYTE MapNumber, BYTE DropX, BYTE DropY, BAG_ITEM * m_Item);
-	bool DropMonsterBag(CGameObject &lpObj, int iMonsterIndex, BYTE MapNumber, BYTE DropX, BYTE DropY, BAG_ITEM * m_Item);
-	bool DropEventBag(CGameObject &lpObj, int iMonsterIndex, BYTE MapNumber, BYTE DropX, BYTE DropY, BAG_ITEM * m_Item);
-	bool MakeItemFromBag(CGameObject &lpObj, BAG_ITEM * m_Item, CItemObject & Item, time_t & Duration);
-	bool MakeItemFromBagForGremoryCase(CGameObject &lpObj, BAG_ITEM* m_Item, _stGremoryCaseItem &Item);
+	bool DropCommonBag(CGameObject &Obj, BYTE MapNumber, BYTE DropX, BYTE DropY, BAG_ITEM * m_Item);
+	bool DropMonsterBag(CGameObject &Obj, int iMonsterIndex, BYTE MapNumber, BYTE DropX, BYTE DropY, BAG_ITEM * m_Item);
+	bool DropEventBag(CGameObject &Obj, int iMonsterIndex, BYTE MapNumber, BYTE DropX, BYTE DropY, BAG_ITEM * m_Item);
+	bool MakeItemFromBag(CGameObject &Obj, BAG_ITEM * m_Item, CItemObject & Item, time_t & Duration);
+	bool MakeItemFromBagForGremoryCase(CGameObject &Obj, BAG_ITEM* m_Item, _stGremoryCaseItem &Item);
 
 	void LoadItemBag();
 

@@ -33,7 +33,7 @@ bool WZMD5_CheckValue	(						// 문자열과 WZMD5 키값과 키인덱스 (0~255) 를 입력받
 
 // methods for controlled operation:
   WZMD5              ();  // simple initializer
-  void  update     (unsigned char *input, unsigned int input_length);
+  void  update     (BYTE *input, unsigned int input_length);
   void  update     (std::istream& stream);
   void  update     (FILE *file);
   void  update     (std::ifstream& stream);
@@ -41,13 +41,13 @@ bool WZMD5_CheckValue	(						// 문자열과 WZMD5 키값과 키인덱스 (0~255) 를 입력받
   
 // constructors for special circumstances.  All these constructors finalize
 // the WZMD5 context.
-  WZMD5              (unsigned char *string); // digest string, finalize
+  WZMD5              (BYTE *string); // digest string, finalize
   WZMD5              (std::istream& stream);       // digest stream, finalize
   WZMD5              (FILE *file);            // digest file, close, finalize
   WZMD5              (std::ifstream& stream);      // digest stream, close, finalize
 
 // methods to acquire finalized result
-  unsigned char    *raw_digest ();  // digest as a 16-byte binary array
+  BYTE    *raw_digest ();  // digest as a 16-byte binary array
   char *            hex_digest ();  // digest as a 33-byte ascii-hex string
   friend std::ostream&   operator<< (std::ostream&, WZMD5 context);
 
@@ -60,7 +60,7 @@ private:
 
 //---------------------------------------------
 //	WZMD5 추가된 멤버 변수들
-	unsigned char	m_cRaw_digest[16];  
+	BYTE	m_cRaw_digest[16];  
 	char			m_cHex_digest[33];  
 
 

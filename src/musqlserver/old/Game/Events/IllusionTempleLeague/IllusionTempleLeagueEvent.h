@@ -31,13 +31,13 @@ public:
 
 	void ITL_Run();
 
-	void SetRelicsInventoryPos(BYTE btMapNumber, CGameObject &lpObj, BYTE btPos);
+	void SetRelicsInventoryPos(BYTE btMapNumber, CGameObject &Obj, BYTE btPos);
 	void SendRelicsUserInfo(CGameObject* lpObj);
 
-	int Enter_ITL(CGameObject &lpObj, BYTE byTempleIndex, BYTE bySlotNum);
-	int Leave_ITL(CGameObject &lpObj, BYTE btMapNumber);
+	int Enter_ITL(CGameObject &Obj, BYTE byTempleIndex, BYTE bySlotNum);
+	int Leave_ITL(CGameObject &Obj, BYTE btMapNumber);
 
-	void ActRelicsGetOrRegister(CGameObject &lpNpc, CGameObject lpObj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType);
+	void ActRelicsGetOrRegister(CGameObject &Npc, CGameObject lpObj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType);
 	void CancleStoneState(WORD wNpcType, BYTE byState, BYTE mapnumber);
 	void DropRelicsItem(BYTE btMapNumber, int nIndex);
 
@@ -51,8 +51,8 @@ public:
 	void ITL_UseSkill(CGameObject &Obj, WORD MagicNumber, int wTargetObjIndex, BYTE btDis);
 	void EventSkillProc(CGameObject* lpObj);
 
-	void IllusionTempleLeagueUserDie(CGameObject &lpObj);
-	void IllusionTempleLeagueUserDieRegen(CGameObject &lpObj);
+	void IllusionTempleLeagueUserDie(CGameObject &Obj);
+	void IllusionTempleLeagueUserDieRegen(CGameObject &Obj);
 
 	void SetMirageIndex(int nIndex);
 
@@ -81,8 +81,8 @@ public:
 
 	void Send_ITL_Schedule(int index);
 	BYTE FindMyEnemy(char* GuildName);
-	void Send_ITL_Tournament(CGameObject &lpObj, BYTE byError);
-	void Send_ITL_GuildRankInfo(CGameObject &lpObj);
+	void Send_ITL_Tournament(CGameObject &Obj, BYTE byError);
+	void Send_ITL_GuildRankInfo(CGameObject &Obj);
 
 	bool IsRewardRenewDay();
 
@@ -110,10 +110,10 @@ public:
 	BYTE Find_AlreadyEnteredUser(char *Name, BYTE &byMapNumber);
 
 	BYTE CheckCanReEnterTiming(BYTE byMapNumber, BYTE &byNowState);
-	BYTE ReEnterITL(CGameObject &lpObj, BYTE btTempleIndex, int nGuildIdx, int nPartyIdx, int nUserArrayNo, int nITLState, BYTE byTeamIndex);
+	BYTE ReEnterITL(CGameObject &Obj, BYTE btTempleIndex, int nGuildIdx, int nPartyIdx, int nUserArrayNo, int nITLState, BYTE byTeamIndex);
 
 	void Insert_RewardList(char *Name, char *GuildName, BYTE byRank, BYTE byPoint, BYTE byEnter);
-	void Send_RewardList(CGameObject &lpObj, BYTE byError);
+	void Send_RewardList(CGameObject &Obj, BYTE byError);
 	void Renew_ITL_RewardList();
 	void Get_ITL_RewardList();
 	void Update_ITL_RewardFlag(char *Name);

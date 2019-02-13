@@ -38,13 +38,13 @@ public:
 
 	void ITR_Run();
 
-	void SetRelicsInventoryPos(BYTE btMapNumber, CGameObject* lpObj, BYTE btPos);
+	void SetRelicsInventoryPos(BYTE btMapNumber, CGameObject &Obj, BYTE btPos);
 	void SendRelicsUserInfo(CGameObject* lpObj);
 
-	int Enter_ITR(CGameObject &lpObj, BYTE byTempleIndex, BYTE bySlotNum);
-	int Leave_ITR(CGameObject &lpObj, BYTE btMapNumber);
+	int Enter_ITR(CGameObject &Obj, BYTE byTempleIndex, BYTE bySlotNum);
+	int Leave_ITR(CGameObject &Obj, BYTE btMapNumber);
 
-	void ActRelicsGetOrRegister(CGameObject &lpNpc, CGameObject &lpObj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType);
+	void ActRelicsGetOrRegister(CGameObject &Npc, CGameObject &Obj, BYTE byMapNumber, BYTE byPrePacket, BYTE byAct, WORD wNpcType);
 	void CancleStoneState(WORD wNpcType, BYTE byState, BYTE mapnumber);
 	void DropRelicsItem(BYTE btMapNumber, int nIndex);
 
@@ -56,10 +56,10 @@ public:
 	void SetStatusRegenTime(BYTE btMapNumber);
 
 	void ITR_USeSkill(CGameObject &Obj, WORD MagicNumber, int wTargetObjIndex, BYTE btDis);
-	void EventSkillProc(CGameObject &lpObj);
+	void EventSkillProc(CGameObject &Obj);
 
-	void IllusionTempleUserDie(CGameObject &lpObj);
-	void IllusionTempleUserDieRegen(CGameObject &lpObj);
+	void IllusionTempleUserDie(CGameObject &Obj);
+	void IllusionTempleUserDieRegen(CGameObject &Obj);
 
 	void SetMirageIndex(int nIndex);
 

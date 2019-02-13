@@ -144,7 +144,7 @@ BOOL COfflineLevelling::LoadFile(LPCSTR szFile)
 		}
 	}
 }
-int COfflineLevelling::FindUser(CGameObject &lpObj)
+int COfflineLevelling::FindUser(CGameObject &Obj)
 {
 	EnterCriticalSection(&m_OfflevelCriti);
 	std::map<int,OFF_LEVEL_PLAYERS>::iterator iter = m_OffPlayerData.find(aIndex);
@@ -160,7 +160,7 @@ int COfflineLevelling::FindUser(CGameObject &lpObj)
 	return aIndex;
 }
 
-BOOL COfflineLevelling::AddUser(CGameObject &lpObj, WORD wSkillId)
+BOOL COfflineLevelling::AddUser(CGameObject &Obj, WORD wSkillId)
 {
 	EnterCriticalSection(&m_OfflevelCriti);
 
@@ -184,7 +184,7 @@ BOOL COfflineLevelling::AddUser(CGameObject &lpObj, WORD wSkillId)
 	return true;
 }
 
-BOOL COfflineLevelling::DeleteUser(CGameObject &lpObj)
+BOOL COfflineLevelling::DeleteUser(CGameObject &Obj)
 {
 	EnterCriticalSection(&m_OfflevelCriti);
 
@@ -283,7 +283,7 @@ void COfflineLevelling::FindAndAttack(CGameObject &user)
 							user->Dir = Dir;
 							PMSG_ACTIONRESULT pActionResult;
 				
-							PHeadSetB((LPBYTE)&pActionResult, 0x18, sizeof(pActionResult));
+							PHeadSetB((BYTE*)&pActionResult, 0x18, sizeof(pActionResult));
 							pActionResult.NumberH = SET_NUMBERH(user->m_Index);
 							pActionResult.NumberL = SET_NUMBERL(user->m_Index);
 							pActionResult.ActionNumber = 0x7A;
@@ -291,7 +291,7 @@ void COfflineLevelling::FindAndAttack(CGameObject &user)
 							pActionResult.TargetNumberH =SET_NUMBERH(tObj.m_Index);
 							pActionResult.TargetNumberL = SET_NUMBERL(tObj.m_Index);
 
-							IOCP.DataSend(user->m_Index, (LPBYTE)&pActionResult, sizeof(pActionResult));
+							IOCP.DataSend(user->m_Index, (BYTE*)&pActionResult, sizeof(pActionResult));
 	
 							gObjUseSkill.UseSkill(user->m_Index, lpMagic,user->X, user->Y, Dir, 0, tObj.m_Index);
 							return;
@@ -350,7 +350,7 @@ void COfflineLevelling::FindAndAttack(CGameObject &user)
 			break;
 	}
 }
-bool COfflineLevelling::ChargePlayer(CGameObject &lpObj)
+bool COfflineLevelling::ChargePlayer(CGameObject &Obj)
 {
 	
 	
@@ -544,7 +544,7 @@ int COfflineLevelling::GetSkillAttackType(WORD wSkillID)
 	return this->m_SkillCategories[wSkillID].SkillType;
 }
 
-BOOL COfflineLevelling::SkillDistanceCheck(CGameObject &lpObj, int aTargetIndex, int iSkillNum)
+BOOL COfflineLevelling::SkillDistanceCheck(CGameObject &Obj, int aTargetIndex, int iSkillNum)
 {
 
 	if ( iSkillNum == 40 )
@@ -584,7 +584,7 @@ int COfflineLevelling::GetOffLevelerCount()
 	return counter;
 }
 
-bool COfflineLevelling::CheckUseTime(CGameObject &lpObj)
+bool COfflineLevelling::CheckUseTime(CGameObject &Obj)
 {
 	
 
@@ -631,7 +631,7 @@ bool COfflineLevelling::CheckUseTime(CGameObject &lpObj)
 	
 }
 
-void COfflineLevelling::CheckAndPickUpItem(CGameObject &lpObj, CMapItem* cMapItem, short tObjNum)
+void COfflineLevelling::CheckAndPickUpItem(CGameObject &Obj, CMapItem* cMapItem, short tObjNum)
 {
 	bool bTakeItem = false;
 
@@ -674,7 +674,7 @@ void COfflineLevelling::CheckAndPickUpItem(CGameObject &lpObj, CMapItem* cMapIte
 	}
 }
 
-void COfflineLevelling::CheckRepairItems(CGameObject &lpObj)
+void COfflineLevelling::CheckRepairItems(CGameObject &Obj)
 {
 	
 

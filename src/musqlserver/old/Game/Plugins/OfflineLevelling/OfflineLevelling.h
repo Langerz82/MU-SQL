@@ -34,7 +34,7 @@ struct OFF_LEVEL_GENERAL_SETTINGS
 };
 struct OFF_LEVEL_PLAYERS
 {
-	CGameObject &lpObj;
+	CGameObject &Obj;
 	WORD wSkillNumber;
 	DWORD dwOffTime;
 };
@@ -66,17 +66,17 @@ public:
 	void Run();
 	BOOL LoadFile(LPCSTR szFile);
 	BOOL LoadSkillDefinitions(LPCSTR szFile);
-	BOOL AddUser(CGameObject &lpObj, WORD wSkillId);
-	BOOL DeleteUser(CGameObject &lpObj);
-	int FindUser(CGameObject &lpObj);
+	BOOL AddUser(CGameObject &Obj, WORD wSkillId);
+	BOOL DeleteUser(CGameObject &Obj);
+	int FindUser(CGameObject &Obj);
 	void FindAndAttack(CGameObject &user);
-	bool ChargePlayer(CGameObject &lpObj);
+	bool ChargePlayer(CGameObject &Obj);
 	int GetSkillAttackType(WORD wSkillID);
-	BOOL SkillDistanceCheck(CGameObject &lpObj, int aTargetIndex, int iSkillNum);
+	BOOL SkillDistanceCheck(CGameObject &Obj, int aTargetIndex, int iSkillNum);
 	int GetOffLevelerCount();
-	bool CheckUseTime(CGameObject &lpObj);
-	void CheckAndPickUpItem(CGameObject &lpObj, CMapItem* cMapItem,short tObjNum);
-	void CheckRepairItems(CGameObject &lpObj);
+	bool CheckUseTime(CGameObject &Obj);
+	void CheckAndPickUpItem(CGameObject &Obj, CMapItem* cMapItem,short tObjNum);
+	void CheckRepairItems(CGameObject &Obj);
 	// var
 	std::map<int, OFF_LEVEL_PLAYERS> m_OffPlayerData;
 	CRITICAL_SECTION m_OfflevelCriti;

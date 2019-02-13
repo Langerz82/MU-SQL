@@ -119,7 +119,7 @@ void CNotice::MainProc() // OK
 	}
 }
 
-void CNotice::GCNoticeSend(CGameObject &lpObj, BYTE type, BYTE count, BYTE opacity, WORD delay, DWORD color, BYTE speed, char* message, ...) // OK
+void CNotice::GCNoticeSend(CGameObject &Obj, BYTE type, BYTE count, BYTE opacity, WORD delay, DWORD color, BYTE speed, char* message, ...) // OK
 {
 	char buff[256] = { 0 };
 
@@ -134,7 +134,7 @@ void CNotice::GCNoticeSend(CGameObject &lpObj, BYTE type, BYTE count, BYTE opaci
 
 	PMSG_NOTICE_SEND pMsg;
 
-	pMsg.header.set((LPBYTE)&pMsg, 0x0D, (sizeof(pMsg) - (sizeof(pMsg.message) - (size + 1))));
+	pMsg.header.set((BYTE*)&pMsg, 0x0D, (sizeof(pMsg) - (sizeof(pMsg.message) - (size + 1))));
 
 	pMsg.type = type;
 
@@ -170,7 +170,7 @@ void CNotice::GCNoticeSendToAll(BYTE type, BYTE count, BYTE opacity, WORD delay,
 
 	PMSG_NOTICE_SEND pMsg;
 
-	pMsg.header.set((LPBYTE)&pMsg, 0x0D, (sizeof(pMsg) - (sizeof(pMsg.message) - (size + 1))));
+	pMsg.header.set((BYTE*)&pMsg, 0x0D, (sizeof(pMsg) - (sizeof(pMsg.message) - (size + 1))));
 
 	pMsg.type = type;
 
@@ -197,7 +197,7 @@ void CNotice::GCNoticeSendToAll(BYTE type, BYTE count, BYTE opacity, WORD delay,
 	}
 }
 
-void CNotice::NewMessageDevTeam(CGameObject &lpObj, char* message, ...) // OK
+void CNotice::NewMessageDevTeam(CGameObject &Obj, char* message, ...) // OK
 {
 	char buff[256] = { 0 };
 
@@ -212,7 +212,7 @@ void CNotice::NewMessageDevTeam(CGameObject &lpObj, char* message, ...) // OK
 
 	PMSG_NOTICE_DEV_SEND pMsg;
 
-	pMsg.header.set((LPBYTE)&pMsg, 0x00, (sizeof(pMsg) - (sizeof(pMsg.message) - (size + 1))));
+	pMsg.header.set((BYTE*)&pMsg, 0x00, (sizeof(pMsg) - (sizeof(pMsg.message) - (size + 1))));
 
 	memcpy(pMsg.message, buff, size);
 
@@ -222,7 +222,7 @@ void CNotice::NewMessageDevTeam(CGameObject &lpObj, char* message, ...) // OK
 
 }
 
-void CNotice::NewNoticeSend(CGameObject &lpObj, BYTE count, BYTE opacity, WORD delay, DWORD color, BYTE speed, char* message, ...) // OK
+void CNotice::NewNoticeSend(CGameObject &Obj, BYTE count, BYTE opacity, WORD delay, DWORD color, BYTE speed, char* message, ...) // OK
 {
 	char buff[256] = { 0 };
 
@@ -237,7 +237,7 @@ void CNotice::NewNoticeSend(CGameObject &lpObj, BYTE count, BYTE opacity, WORD d
 
 	PMSG_NOTICE_SEND_NEW pMsg;
 
-	pMsg.header.set((LPBYTE)&pMsg, 0x00, (sizeof(pMsg) - (sizeof(pMsg.message) - (size + 1))));
+	pMsg.header.set((BYTE*)&pMsg, 0x00, (sizeof(pMsg) - (sizeof(pMsg.message) - (size + 1))));
 
 	pMsg.count = count;
 
@@ -271,7 +271,7 @@ void CNotice::ChatSend(int Index, char* szChat, ...)
 
 	PMSG_NOTICE_MONSTER_SEND pMsg;
 
-	pMsg.header.set((LPBYTE)&pMsg, 0x00, (sizeof(pMsg) - (sizeof(pMsg.message) - (size + 1))));
+	pMsg.header.set((BYTE*)&pMsg, 0x00, (sizeof(pMsg) - (sizeof(pMsg.message) - (size + 1))));
 
 	memcpy(pMsg.message, buff, size);
 

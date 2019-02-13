@@ -442,12 +442,12 @@ unsigned long __stdcall CLoginServerProtocol::ConnectServerThread(LPVOID pThis)
 	CLoginServerProtocol * pProtocol = (CLoginServerProtocol *)pThis;
 
 	PMSG_LOGINSEVER_LIVE pMsg;
-	PHeadSetB((LPBYTE)&pMsg, 0x02, sizeof(pMsg));
+	PHeadSetB((BYTE*)&pMsg, 0x02, sizeof(pMsg));
 
 	while (true)
 	{
 		pMsg.RQueue = 0;
-		pProtocol->m_ConnecServerUDP.SendData((LPBYTE)&pMsg, pMsg.h.size);
+		pProtocol->m_ConnecServerUDP.SendData((BYTE*)&pMsg, pMsg.h.size);
 		Sleep(1000);
 	}
 
@@ -502,7 +502,7 @@ BOOL CLoginServerProtocol::Init()
 }
 
 
-void CLoginServerProtocol::ProtocolCore(CGameObject &lpObj, BYTE HeadCode, LPBYTE aRecv, int iSize)
+void CLoginServerProtocol::ProtocolCore(CGameObject &Obj, BYTE HeadCode, BYTE* aRecv, int iSize)
 {
 #if (TRACE_PACKET == 1 )
 	LogAddHeadHex("JOIN_SERVER", aRecv, iSize);
@@ -573,11 +573,11 @@ void CLoginServerProtocol::ProtocolCore(CGameObject &lpObj, BYTE HeadCode, LPBYT
 	}
 }
 
-void CLoginServerProtocol::JoinServerLogin(CGameObject &lpObj, SDHP_SERVERINFO * lpMsg)
+void CLoginServerProtocol::JoinServerLogin(CGameObject &Obj, SDHP_SERVERINFO * lpMsg)
 {
 	SDHP_RESULT pResult = { 0 };
 
-	PHeadSetB((LPBYTE)&pResult, 0x00, sizeof(pResult));
+	PHeadSetB((BYTE*)&pResult, 0x00, sizeof(pResult));
 	pResult.Result = 1;
 
 	if (this->m_ServerData.MuLoginAddServer(aIndex, lpMsg->ServerName, lpMsg->ServerCode, lpMsg->Port, lpMsg->ServerVIP, lpMsg->MaxHWIDUseCount) == TRUE)
@@ -592,15 +592,15 @@ void CLoginServerProtocol::JoinServerLogin(CGameObject &lpObj, SDHP_SERVERINFO *
 		pResult.Result = 0;
 	}
 
-	DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 }
 
-void CLoginServerProtocol::JGPAccountRequest(CGameObject &lpObj, SDHP_IDPASS * aRecv)
+void CLoginServerProtocol::JGPAccountRequest(CGameObject &Obj, SDHP_IDPASS * aRecv)
 {
 	SDHP_IDPASSRESULT pResult = { 0 };
 
 	// Copy Data
-	PHeadSetB((LPBYTE)&pResult, 0x01, sizeof(pResult));
+	PHeadSetB((BYTE*)&pResult, 0x01, sizeof(pResult));
 	char szAccountID[11] = { 0 };
 	char szPass[21] = { 0 };
 	char szJoominNumber[21] = { 0 };
@@ -618,7 +618,7 @@ void CLoginServerProtocol::JGPAccountRequest(CGameObject &lpObj, SDHP_IDPASS * a
 		SQLSyntexCheck(szPass) == FALSE)
 	{
 		pResult.result = 2;
-		DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -626,7 +626,7 @@ void CLoginServerProtocol::JGPAccountRequest(CGameObject &lpObj, SDHP_IDPASS * a
 		SpaceSyntexCheck(szPass) == FALSE)
 	{
 		pResult.result = 2;
-		DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -634,7 +634,7 @@ void CLoginServerProtocol::JGPAccountRequest(CGameObject &lpObj, SDHP_IDPASS * a
 		QuoteSpaceSyntaxCheck(szPass) == FALSE)
 	{
 		pResult.result = 2;
-		DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -642,7 +642,7 @@ void CLoginServerProtocol::JGPAccountRequest(CGameObject &lpObj, SDHP_IDPASS * a
 		PercentSyntaxCheck(szPass) == FALSE)
 	{
 		pResult.result = 2;
-		DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+		DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -870,10 +870,10 @@ void CLoginServerProtocol::JGPAccountRequest(CGameObject &lpObj, SDHP_IDPASS * a
 
 	LeaveCriticalSection(&userCheck);
 
-	DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 }
 
-void CLoginServerProtocol::GJPAccountFail(CGameObject &lpObj, SDHP_JOINFAIL * aRecv)
+void CLoginServerProtocol::GJPAccountFail(CGameObject &Obj, SDHP_JOINFAIL * aRecv)
 {
 	char szAccountID[11] = { 0 };
 	memcpy(szAccountID, aRecv->Id, 10);
@@ -884,7 +884,7 @@ void CLoginServerProtocol::GJPAccountFail(CGameObject &lpObj, SDHP_JOINFAIL * aR
 }
 
 
-void CLoginServerProtocol::GJPAccountBlock(CGameObject &lpObj, SDHP_COMMAND_BLOCK * aRecv)
+void CLoginServerProtocol::GJPAccountBlock(CGameObject &Obj, SDHP_COMMAND_BLOCK * aRecv)
 {
 	char szAccountID[11] = { 0 };
 	memcpy(szAccountID, aRecv->Id, 10);
@@ -892,7 +892,7 @@ void CLoginServerProtocol::GJPAccountBlock(CGameObject &lpObj, SDHP_COMMAND_BLOC
 	this->m_AccountDB.ExecQuery("UPDATE MEMB_INFO SET bloc_code = 1 WHERE memb___id = '%s'", szAccountID);
 }
 
-void CLoginServerProtocol::GJPUserClose(CGameObject &lpObj, SDHP_USERCLOSE_ID * aRecv)
+void CLoginServerProtocol::GJPUserClose(CGameObject &Obj, SDHP_USERCLOSE_ID * aRecv)
 {
 	char szAccountID[11] = { 0 };
 	memcpy(szAccountID, aRecv->szId, 10);
@@ -912,7 +912,7 @@ void CLoginServerProtocol::GCUserKillSend(int MuLoginIndex, bool IsForceDC)
 	memcpy(pMsg.Id, this->m_UserData.GetAccountID(MuLoginIndex), 10);
 	pMsg.Number = this->m_UserData.GetUserIndex(MuLoginIndex);
 
-	CGameObject &lpObj = this->m_ServerData.GetServerIndex(this->m_ServerData.MuLoginFindServer(this->m_UserData.GetServerCode(MuLoginIndex)));
+	CGameObject &Obj = this->m_ServerData.GetServerIndex(this->m_ServerData.MuLoginFindServer(this->m_UserData.GetServerCode(MuLoginIndex)));
 
 	if (aIndex < 0 || aIndex > g_dwMaxServerGroups)
 	{
@@ -921,15 +921,15 @@ void CLoginServerProtocol::GCUserKillSend(int MuLoginIndex, bool IsForceDC)
 
 	pMsg.ForceDisconnect = IsForceDC;
 
-	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
 
 }
 
-void CLoginServerProtocol::GCJoinBillCheckSend(CGameObject &lpObj, SDHP_BILLSEARCH * aRecv)
+void CLoginServerProtocol::GCJoinBillCheckSend(CGameObject &Obj, SDHP_BILLSEARCH * aRecv)
 {
 	SDHP_BILLSEARCH_RESULT pResult;
 
-	PHeadSetB((LPBYTE)&pResult, 0x06, sizeof(pResult));
+	PHeadSetB((BYTE*)&pResult, 0x06, sizeof(pResult));
 	char szAccountID[11] = { 0 };
 	memcpy(szAccountID, aRecv->Id, 10);
 	char szDate[20] = { 0 };
@@ -991,21 +991,21 @@ void CLoginServerProtocol::GCJoinBillCheckSend(CGameObject &lpObj, SDHP_BILLSEAR
 	pResult.Number = aRecv->Number;
 	memcpy(pResult.Id, szAccountID, 10);
 
-	DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 }
 
-void CLoginServerProtocol::JGOtherJoin(CGameObject &lpObj, LPTSTR szAccountID)
+void CLoginServerProtocol::JGOtherJoin(CGameObject &Obj, LPTSTR szAccountID)
 {
 	SDHP_OTHERJOINMSG pMsg;
 
-	PHeadSetB((LPBYTE)&pMsg.h, 0x08, sizeof(pMsg));
+	PHeadSetB((BYTE*)&pMsg.h, 0x08, sizeof(pMsg));
 	memcpy(pMsg.AccountID, szAccountID, 10);
 
-	DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 
-void CLoginServerProtocol::LoveHeartEventRecv(CGameObject &lpObj, SDHP_LOVEHEARTEVENT * aRecv)
+void CLoginServerProtocol::LoveHeartEventRecv(CGameObject &Obj, SDHP_LOVEHEARTEVENT * aRecv)
 {
 	char szAccountID[11] = { 0 };
 	char szName[11] = { 0 };
@@ -1015,7 +1015,7 @@ void CLoginServerProtocol::LoveHeartEventRecv(CGameObject &lpObj, SDHP_LOVEHEART
 
 	SDHP_LOVEHEARTEVENT_RESULT pResult;
 
-	PHeadSetB((LPBYTE)&pResult, 0x30, sizeof(pResult));
+	PHeadSetB((BYTE*)&pResult, 0x30, sizeof(pResult));
 	pResult.Result = 0;
 	memcpy(pResult.Name, aRecv->Name, 10);
 
@@ -1063,15 +1063,15 @@ void CLoginServerProtocol::LoveHeartEventRecv(CGameObject &lpObj, SDHP_LOVEHEART
 	}
 
 	pResult.Number = dwHeartCount;
-	DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 }
 
-void CLoginServerProtocol::LoveHeartCreateSend(CGameObject &lpObj, SDHP_LOVEHEARTCREATE * aRecv)
+void CLoginServerProtocol::LoveHeartCreateSend(CGameObject &Obj, SDHP_LOVEHEARTCREATE * aRecv)
 {
 	this->m_AccountDB.ExecQuery("UPDATE LoveHeartCount SET heart_count=heart_count+1  where Number=1");
 }
 
-void CLoginServerProtocol::GJReqMapSvrMove(CGameObject &lpObj, PMSG_REQ_MAPSVRMOVE * aRecv)
+void CLoginServerProtocol::GJReqMapSvrMove(CGameObject &Obj, PMSG_REQ_MAPSVRMOVE * aRecv)
 {
 	char szAccoundID[11] = { 0 };
 	DWORD fResult = 0;
@@ -1085,7 +1085,7 @@ void CLoginServerProtocol::GJReqMapSvrMove(CGameObject &lpObj, PMSG_REQ_MAPSVRMO
 
 	PMSG_ANS_MAPSVRMOVE pResult = { 0 };
 
-	PHeadSetB((LPBYTE)&pResult, 0x7A, sizeof(pResult));
+	PHeadSetB((BYTE*)&pResult, 0x7A, sizeof(pResult));
 
 	pResult.iIndex = aRecv->iIndex;
 	memcpy(pResult.szAccountID, aRecv->szAccountID, 10);
@@ -1164,10 +1164,10 @@ void CLoginServerProtocol::GJReqMapSvrMove(CGameObject &lpObj, PMSG_REQ_MAPSVRMO
 
 	pResult.iResult = fResult;
 
-	DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 }
 
-void CLoginServerProtocol::GJReqMapSvrAuth(CGameObject &lpObj, PMSG_REQ_MAPSVRAUTH * aRecv)
+void CLoginServerProtocol::GJReqMapSvrAuth(CGameObject &Obj, PMSG_REQ_MAPSVRAUTH * aRecv)
 {
 	char szAccoundID[11] = { 0 };
 	DWORD fResult = 0;
@@ -1178,7 +1178,7 @@ void CLoginServerProtocol::GJReqMapSvrAuth(CGameObject &lpObj, PMSG_REQ_MAPSVRAU
 
 	PMSG_ANS_MAPSVRAUTH pResult = { 0 };
 
-	PHeadSetB((LPBYTE)&pResult, 0x7B, sizeof(pResult));
+	PHeadSetB((BYTE*)&pResult, 0x7B, sizeof(pResult));
 	memcpy(pResult.szAccountID, aRecv->szAccountID, 10);
 	memcpy(pResult.szCharName, aRecv->szCharName, 10);
 	pResult.iIndex = aRecv->iIndex;
@@ -1290,13 +1290,13 @@ void CLoginServerProtocol::GJReqMapSvrAuth(CGameObject &lpObj, PMSG_REQ_MAPSVRAU
 
 	pResult.iResult = fResult;
 
-	DataSend(lpObj.m_Index, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+	DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 
 	sLog->outBasic("[JoinServer] GJReqMapSvrAuth() -> User(%s) Character(%s) fResult(%d)",
 		pResult.szAccountID, pResult.szCharName, pResult.iResult);
 }
 
-void CLoginServerProtocol::GJNotifyMaxUserCount(CGameObject &lpObj, PMSG_NOTIFY_MAXUSER * aRecv)
+void CLoginServerProtocol::GJNotifyMaxUserCount(CGameObject &Obj, PMSG_NOTIFY_MAXUSER * aRecv)
 {
 	int iIndex = this->m_ServerData.MuLoginFindServer(aRecv->iSvrCode);
 
@@ -1327,7 +1327,7 @@ void CLoginServerProtocol::DisconnectServer(WORD ServerCode)
 	this->m_UserData.MuLoginDeleteUser(ServerCode, g_MapServerManager.GetMapSvrGroup(ServerCode));
 }
 
-void CLoginServerProtocol::WJKillUser(CGameObject &lpObj, SDHP_USERCLOSE_ID* aRecv)
+void CLoginServerProtocol::WJKillUser(CGameObject &Obj, SDHP_USERCLOSE_ID* aRecv)
 {
 	char szAccountID[11] = { 0 };
 	memcpy(szAccountID, aRecv->szId, 10);
@@ -1366,7 +1366,7 @@ void CLoginServerProtocol::CheckVIPTimeProc()
 							int Type = this->m_VIPDB.GetAsInteger("Type");
 							this->m_VIPDB.Close();
 
-							CGameObject &lpObj = this->m_ServerData.MuLoginFindServer(this->m_UserData.GetServerCode(i));
+							CGameObject &Obj = this->m_ServerData.MuLoginFindServer(this->m_UserData.GetServerCode(i));
 
 							if (VIP == 0)
 							{
@@ -1394,7 +1394,7 @@ void CLoginServerProtocol::CheckVIPTimeProc()
 	}
 }
 
-void CLoginServerProtocol::GJReqSetOffTrade(CGameObject &lpObj, PMSG_SET_OFFTRADE * aRecv)
+void CLoginServerProtocol::GJReqSetOffTrade(CGameObject &Obj, PMSG_SET_OFFTRADE * aRecv)
 {
 	int iUserIndex = this->m_UserData.MuLoginFindUser(aRecv->szAccountID);
 
@@ -1407,7 +1407,7 @@ void CLoginServerProtocol::GJReqSetOffTrade(CGameObject &lpObj, PMSG_SET_OFFTRAD
 	sLog->outBasic("[JoinServer] (%s)(%s) Set OffTrade State: %d", aRecv->szAccountID, aRecv->szName, aRecv->m_bState);
 }
 
-void CLoginServerProtocol::GJReqVipAdd(CGameObject &lpObj, ISHOP_VIP_BUY *aRecv)
+void CLoginServerProtocol::GJReqVipAdd(CGameObject &Obj, ISHOP_VIP_BUY *aRecv)
 {
 	this->m_AccountDB.ExecQuery("EXEC IGC_VipAdd '%s', %d, %d", aRecv->AccountID, aRecv->Days, aRecv->Type);
 	this->m_AccountDB.Close();

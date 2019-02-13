@@ -63,36 +63,36 @@ struct PWMSG_HEAD2;
 // PRIMITIVE HEADS
 typedef struct _PHEADB	// Packet Head Byte Normal / Extended [C1:C3]
 {
-	unsigned char uPacketType;
-	unsigned char uSize;
-	unsigned char uHead;
+	BYTE uPacketType;
+	BYTE uSize;
+	BYTE uHead;
 
 } PHEADB, PHEADBE, *LPHEADB, *LPHEADBE; 
 
 typedef struct _PHEADSUBB	// Packet Sub Head Byte [C1:C3]
 {
-	unsigned char uPacketType;
-	unsigned char uSize;
-	unsigned char uHead;
-	unsigned char uSubHead;
+	BYTE uPacketType;
+	BYTE uSize;
+	BYTE uHead;
+	BYTE uSubHead;
 
 } PHEADSUBB, * LPPHEADSUBB;
 
 
 typedef struct _PHEADW	// Packet Head Word / Extend [C2:C4]
 {
-	unsigned char uPacketType;
-	unsigned char uSize[2];
-	unsigned char uHead;
+	BYTE uPacketType;
+	BYTE uSize[2];
+	BYTE uHead;
 
 } PHEADW, * LPPHEADW;
 
 typedef struct _PHEADSUBW	// Packed Sub Head Word [C2:C4]
 {
-	unsigned char uPacketType;
-	unsigned char uSize[2];
-	unsigned char uHead;
-	unsigned char uSubHead;
+	BYTE uPacketType;
+	BYTE uSize[2];
+	BYTE uHead;
+	BYTE uSubHead;
 
 } PHEADSUBW, *LPPHEADSUBW;
 
@@ -237,11 +237,11 @@ struct PMSG_DEFRESULT
 struct SDHP_SERVERINFO
 {
 	PBMSG_HEAD2 h;
-	unsigned char Type;
+	BYTE Type;
 	unsigned short Port;
 	char ServerName[50];
 	unsigned short ServerCode;
-	unsigned char ServerVIP;
+	BYTE ServerVIP;
 	unsigned short MaxHWIDUseCount;
 };
 
@@ -268,7 +268,7 @@ struct SDHP_SERVERINFO
 struct SDHP_RESULT
 {
 	PBMSG_HEAD2 h;
-	unsigned char Result;
+	BYTE Result;
 	unsigned long ItemCount;
 };
 

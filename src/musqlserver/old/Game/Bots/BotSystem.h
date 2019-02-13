@@ -137,21 +137,21 @@ class CBotSystem
 
 	void Init();
 	void LoadData(LPSTR szFile);
-	bool LoadBotSpecializationData(CGameObject &lpObj, LPSTR szFile, BYTE type);
+	bool LoadBotSpecializationData(CGameObject &Obj, LPSTR szFile, BYTE type);
 	void SetAllBots();
 	int AddBot(_sBOT_SETTINGS pBot); 
 	void BuffPlayer(WORD  wBufferindex,short aIndex);
-	void MakePreviewCharSet(CGameObject &lpObj,_sBOT_INVENTORY_WEAR_ITEMS * pInv);
-	BYTE GetBotType(CGameObject &lpObj);
-	int GetSkillTime(CGameObject &lpObj, WORD wSkillId);
-	bool CheckAlchemist(CGameObject &lpObj, int botIndex );
-	int AlchemistTradeItemCount(CGameObject &lpObj);
-	void AlchemistTradeOpen(CGameObject &lpObj, int botIndex);
-	void AlchemistTradeOk(CGameObject &lpObj, int botIndex);
-	sBOT_REWARD_STRUCT ConfirmMixSuccess(CGameObject &lpObj,int botIndex);
+	void MakePreviewCharSet(CGameObject &Obj,_sBOT_INVENTORY_WEAR_ITEMS * pInv);
+	BYTE GetBotType(CGameObject &Obj);
+	int GetSkillTime(CGameObject &Obj, WORD wSkillId);
+	bool CheckAlchemist(CGameObject &Obj, int botIndex );
+	int AlchemistTradeItemCount(CGameObject &Obj);
+	void AlchemistTradeOpen(CGameObject &Obj, int botIndex);
+	void AlchemistTradeOk(CGameObject &Obj, int botIndex);
+	sBOT_REWARD_STRUCT ConfirmMixSuccess(CGameObject &Obj,int botIndex);
 	bool AlchemistVerifyItem(s_BOT_CRAFTING_ITEM_STRUCT lpReqItem, CItemObject TradeItem);
 	bool StoreAddItems(int botIndex);
-	BYTE PShopCheckSpace(CGameObject &lpObj, int type, BYTE * TempMap);
+	BYTE PShopCheckSpace(CGameObject &Obj, int type, BYTE * TempMap);
 	std::map<int,_sBOT_SETTINGS> m_BotData;
 private:
 
@@ -160,7 +160,7 @@ private:
 extern CBotSystem g_BotSystem;
 
 BYTE gObjTempPShopRectCheck(BYTE * TempMap, int sx, int sy, int width, int height);
-int gObjGetItemCountInTradeWindow(CGameObject &lpObj, WORD itemtype, int itemlevel, BYTE btExc, BYTE btSet, BYTE btOpt, BYTE btLuck, BYTE btSkill);
+int gObjGetItemCountInTradeWindow(CGameObject &Obj, WORD itemtype, int itemlevel, BYTE btExc, BYTE btSet, BYTE btOpt, BYTE btLuck, BYTE btSkill);
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////

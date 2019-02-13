@@ -6,7 +6,7 @@
 
 
 
-CAttackMelee::CAttackMelee( CGameObject &lpObj, CGameObject lpTargetObj )
+CAttackMelee::CAttackMelee( CGameObject &Obj, CGameObject lpTargetObj )
 {
 	m_Obj = lpObj;
 	m_TargetObj = lpTargetObj;
@@ -17,10 +17,10 @@ void CAttackMelee::Process()
 	gObjAttack(m_Obj, m_TargetObj, NULL, 0, 0, 0, 0);
 }
 
-CAttackMagic::CAttackMagic( CGameObject &lpObj,  BYTE* pmsg, int len)
+CAttackMagic::CAttackMagic( CGameObject &Obj,  BYTE* pmsg, int len)
 {
 	m_Obj = lpObj;
-	m_Msg = new unsigned char[len];
+	m_Msg = new BYTE[len];
 	memcpy(m_Msg, pmsg, len);
 }
 
@@ -35,10 +35,10 @@ void CAttackMagic::Process()
 	//gObjUseSkill.UseSkill(m_Obj.m_Index, m_TargetObj.m_Index, m_Magic);
 }
 
-CAttackRange::CAttackRange( CGameObject &lpObj, BYTE* pmsg, int len, int type )
+CAttackRange::CAttackRange( CGameObject &Obj, BYTE* pmsg, int len, int type )
 {
 	m_Obj = lpObj;
-	m_Msg = new unsigned char[len];
+	m_Msg = new BYTE[len];
 	memcpy(m_Msg, pmsg, len);
 	m_Type = type;
 }
@@ -64,7 +64,7 @@ CAttackQueue::CAttackQueue(CUserData* userData)
 	this->m_Obj = userData;
 }
 
-void CAttackQueue::Push( unsigned char* msg, int len, int type )
+void CAttackQueue::Push( BYTE* msg, int len, int type )
 {
 	try
 	{
@@ -241,7 +241,7 @@ void CAttackQueue::Clear()
 	LeaveCriticalSection(&this->m_CritQueue);
 }
 
-CAttackMsg::CAttackMsg(CGameObject &lpObj, BYTE* pmsg, int len, int type )
+CAttackMsg::CAttackMsg(CGameObject &Obj, BYTE* pmsg, int len, int type )
 {
 	if(pmsg == NULL)
 	{

@@ -185,7 +185,7 @@ void CVipSystem::Run()
 	}
 }
 
-void CVipSystem::SetVipForUser(CGameObject &lpObj, BYTE btVipType)
+void CVipSystem::SetVipForUser(CGameObject &Obj, BYTE btVipType)
 {
 	if (btVipType == 0)
 	{
@@ -228,7 +228,7 @@ void CVipSystem::SetVipForUser(CGameObject &lpObj, BYTE btVipType)
 	LeaveCriticalSection(&this->m_criti);
 }
 
-float CVipSystem::GetExpBonus(CGameObject &lpObj)
+float CVipSystem::GetExpBonus(CGameObject &Obj)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -267,7 +267,7 @@ float CVipSystem::GetExpBonus(CGameObject &lpObj)
 	return fEffect;
 }
 
-int CVipSystem::GetDropBonus(CGameObject &lpObj)
+int CVipSystem::GetDropBonus(CGameObject &Obj)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -306,7 +306,7 @@ int CVipSystem::GetDropBonus(CGameObject &lpObj)
 	return iEffect;
 }
 
-int CVipSystem::GetExcDropBonus(CGameObject &lpObj)
+int CVipSystem::GetExcDropBonus(CGameObject &Obj)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -345,7 +345,7 @@ int CVipSystem::GetExcDropBonus(CGameObject &lpObj)
 	return iEffect;
 }
 
-WORD CVipSystem::GetMLMonsterMinLevel(CGameObject &lpObj)
+WORD CVipSystem::GetMLMonsterMinLevel(CGameObject &Obj)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -386,7 +386,7 @@ char * CVipSystem::GetVipName(BYTE btVipType)
 	return szVipName;
 }
 
-DWORD CVipSystem::GetPointPerReset(CGameObject &lpObj)
+DWORD CVipSystem::GetPointPerReset(CGameObject &Obj)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -409,7 +409,7 @@ DWORD CVipSystem::GetPointPerReset(CGameObject &lpObj)
 	return dwEffect;
 }
 
-int CVipSystem::GetPlusItemMixRate(CGameObject &lpObj, int iMixType)
+int CVipSystem::GetPlusItemMixRate(CGameObject &Obj, int iMixType)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -467,7 +467,7 @@ int CVipSystem::GetPlusItemMixRate(CGameObject &lpObj, int iMixType)
 	return iEffect;
 }
 
-int CVipSystem::GetPlusItemAddLuckRate(CGameObject &lpObj)
+int CVipSystem::GetPlusItemAddLuckRate(CGameObject &Obj)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -490,7 +490,7 @@ int CVipSystem::GetPlusItemAddLuckRate(CGameObject &lpObj)
 	return iEffect;
 }
 
-int CVipSystem::GetWing2ndRate(CGameObject &lpObj)
+int CVipSystem::GetWing2ndRate(CGameObject &Obj)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -513,7 +513,7 @@ int CVipSystem::GetWing2ndRate(CGameObject &lpObj)
 	return iEffect;
 }
 
-int CVipSystem::GetWing25Rate(CGameObject &lpObj)
+int CVipSystem::GetWing25Rate(CGameObject &Obj)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -536,7 +536,7 @@ int CVipSystem::GetWing25Rate(CGameObject &lpObj)
 	return iEffect;
 }
 
-int CVipSystem::GetWing3rdRate(CGameObject &lpObj)
+int CVipSystem::GetWing3rdRate(CGameObject &Obj)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -559,7 +559,7 @@ int CVipSystem::GetWing3rdRate(CGameObject &lpObj)
 	return iEffect;
 }
 
-int CVipSystem::GetCapeOfLordRate(CGameObject &lpObj)
+int CVipSystem::GetCapeOfLordRate(CGameObject &Obj)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -582,7 +582,7 @@ int CVipSystem::GetCapeOfLordRate(CGameObject &lpObj)
 	return iEffect;
 }
 
-int CVipSystem::GetFeatherOfCondorRate(CGameObject &lpObj)
+int CVipSystem::GetFeatherOfCondorRate(CGameObject &Obj)
 {
 	if (lpObj.Type != OBJ_USER)
 	{

@@ -57,20 +57,20 @@ public:
 	unsigned int m_socket;	// 14
 	int UserNumber;	// 28
 	int DBNumber;	// 2C
-	unsigned char EnableCharacterCreate;
+	BYTE EnableCharacterCreate;
 	DWORD AutoSaveTime;	// 34
 	DWORD ConnectCheckTime;	// 38
 	DWORD CheckTick;	// 3C
-	unsigned char CheckSpeedHack;	// 40
+	BYTE CheckSpeedHack;	// 40
 	DWORD CheckTick2;	// 44
-	unsigned char CheckTickCount;	// 48
+	BYTE CheckTickCount;	// 48
 	int iPingTime;	// 50
-	unsigned char m_TimeCount;	// 54
+	BYTE m_TimeCount;	// 54
 	DWORD m_dwPKTimer;	// 58
 	short CheckSumTableNum;	// 5C
 	DWORD CheckSumTime;	// 60
 	WORD Type;	// 64
-	unsigned char Live;	// 66
+	BYTE Live;	// 66
 	char  AccountID[11];	// 68
 	char  Name[11];	// 73
 	WORD  Class; // 9C
@@ -160,7 +160,7 @@ public:
 	DWORD m_ChatFloodTime;
 	BYTE  m_ChatFloodCount;
 	DWORD m_State;	// 1DC
-	unsigned char m_Rest;	// 1E1
+	BYTE m_Rest;	// 1E1
 	BYTE		m_ViewState;
 	BYTE		m_BuffEffectCount;
 	STR_EFFECTLIST* m_BuffEffectList[MAX_BUFFEFFECT];
@@ -172,9 +172,9 @@ public:
 	unsigned long m_DetectCount;	// 1FC
 	int m_DetectedHackKickCount;	// 200
 	int m_SpeedHackPenalty;	// 204
-	unsigned char m_AttackSpeedHackDetectedCount;	// 208
+	BYTE m_AttackSpeedHackDetectedCount;	// 208
 	//unsigned long m_PacketCheckTime;	// 20C
-	unsigned char m_ShopTime;	// 210
+	BYTE m_ShopTime;	// 210
 	unsigned long m_TotalAttackTime;	// 214
 	int m_TotalAttackCount;	// 218
 	unsigned long TeleportTime;	// 21C
@@ -253,11 +253,11 @@ public:
 	CMagicInf * m_lpMagicBack;	// 354
 	CMagicInf * Magic;	// 358
 	char MagicCount;	// 35C
-	unsigned char UseMagicNumber;	// 35D
+	BYTE UseMagicNumber;	// 35D
 	unsigned long UseMagicTime;	// 360
 	char UseMagicCount;	// 364
 	short OSAttackSerial;	// 366
-	unsigned char SASCount;	// 368
+	BYTE SASCount;	// 368
 	DWORD SkillAttackTime;	// 36C
 	char CharSet[18]; 	// 370
 	char m_Resistance[MAX_RESISTENCE_TYPE];	// 382
@@ -343,7 +343,7 @@ public:
 	int iStoneCount;	// EDC
 	int m_MaxLifePower;	// F20
 	int m_CheckLifeTime;	// F30
-	unsigned char m_MoveOtherServer;	// F34
+	BYTE m_MoveOtherServer;	// F34
 	char BackName[11];	// F35
 	bool m_bPShopOpen;	// D48
 	bool m_bPShopTransaction;	// D49	

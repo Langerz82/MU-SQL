@@ -767,8 +767,8 @@ public:
 	{
 		this->Width = w;
 		this->Height = h;
-		this->Map = (unsigned char*)map;
-		//this->HitMap = new unsigned char [this->Width * this->Height];
+		this->Map = (BYTE*)map;
+		//this->HitMap = new BYTE [this->Width * this->Height];
 		memset(this->HitMap, 0, sizeof(this->HitMap));
 		this->m_nMapNumber = nMapNumber;
 	};
@@ -778,12 +778,12 @@ public:
 		return this->NumPath;
 	};
 
-	unsigned char * GetPathX()	// line : 364
+	BYTE * GetPathX()	// line : 364
 	{
 		return this->PathX;
 	};
 
-	unsigned char * GetPathY()	// line : 368
+	BYTE * GetPathY()	// line : 368
 	{
 		return this->PathY;
 	};

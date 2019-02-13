@@ -388,7 +388,7 @@ void MapClass::ItemInit()
 
 
 
-int MapClass::MonsterItemDrop(int type, int level, float dur, int x, int y, BYTE Option1, BYTE Option2, BYTE Option3, BYTE NOption, BYTE SOption, CGameObject &lpObj, UINT64 number, BYTE ItemEffectEx, BYTE *SocketOption, BYTE SocketBonusOption, DWORD PeriodDuration)
+int MapClass::MonsterItemDrop(int type, int level, float dur, int x, int y, BYTE Option1, BYTE Option2, BYTE Option3, BYTE NOption, BYTE SOption, CGameObject &Obj, UINT64 number, BYTE ItemEffectEx, BYTE *SocketOption, BYTE SocketBonusOption, DWORD PeriodDuration)
 {
 	int count;
 	int counttot = 0;
@@ -442,7 +442,7 @@ int MapClass::MonsterItemDrop(int type, int level, float dur, int x, int y, BYTE
 
 
 
-BOOL MapClass::ItemDrop(int type, int level, float dur, int x, int y, BYTE Option1, BYTE Option2, BYTE Option3, BYTE NOption, BYTE SOption, UINT64 number, CGameObject &lpObj, int PetLevel, UINT64 PetExp, BYTE ItemEffectEx, BYTE *SocketOption, BYTE SocketBonusOption, DWORD PeriodDuration)
+BOOL MapClass::ItemDrop(int type, int level, float dur, int x, int y, BYTE Option1, BYTE Option2, BYTE Option3, BYTE NOption, BYTE SOption, UINT64 number, CGameObject &Obj, int PetLevel, UINT64 PetExp, BYTE ItemEffectEx, BYTE *SocketOption, BYTE SocketBonusOption, DWORD PeriodDuration)
 {
 	int count;
 	int counttot = 0;
@@ -564,7 +564,7 @@ BOOL MapClass::MoneyItemDrop(int money, int x, int y)
 
 
 
-BOOL MapClass::ItemGive(CGameObject &lpObj, int item_num, bool bFailNotSend)
+BOOL MapClass::ItemGive(CGameObject &Obj, int item_num, bool bFailNotSend)
 {
 	if (((item_num<0) ? FALSE : (item_num>g_ConfigRead.server.GetObjectMaxItem() - 1) ? FALSE : TRUE) == FALSE)
 	{
@@ -717,7 +717,7 @@ void MapClass::StateSetDestroy()
 BOOL MapClass::AttrLoad(char* filename)
 {
 	FILE * fp;
-	unsigned char head;
+	BYTE head;
 
 	fp = fopen(filename, "rb");
 

@@ -4,9 +4,7 @@
 typedef int BOOL;
 typedef wchar_t WCHAR;
 
-typedef unsigned char UCHAR;
-typedef unsigned char* LPBYTE;
-typedef unsigned char BYTE;
+typedef unsigned char BYTE, *LPBYTE, UCHAR;
 typedef unsigned short USHORT;
 typedef unsigned short WORD;
 typedef const WCHAR* LPCWSTR;

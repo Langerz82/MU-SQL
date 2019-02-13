@@ -256,7 +256,7 @@ _MONSTER_HERD_DATA * MonsterHerd::GetMonsterData(CGameObject &Obj)
 }
 
 
-void MonsterHerd::BeenAttacked(CGameObject &lpObj, CGameObject lpTargetObj)
+void MonsterHerd::BeenAttacked(CGameObject &Obj, CGameObject lpTargetObj)
 {
 	if ( lpObj == NULL )
 	{
@@ -324,7 +324,7 @@ void MonsterHerd::BeenAttacked(CGameObject &lpObj, CGameObject lpTargetObj)
 
 
 
-void MonsterHerd::OrderAttack(CGameObject &lpObj, CGameObject lpTargetObj, int iAttackPercent)
+void MonsterHerd::OrderAttack(CGameObject &Obj, CGameObject lpTargetObj, int iAttackPercent)
 {
 	if ( lpObj == NULL )
 	{
@@ -492,12 +492,12 @@ BOOL MonsterHerd::MoveHerd(BYTE iTX, BYTE iTY)
 
 
 
-BOOL MonsterHerd::MonsterHerdItemDrop(CGameObject &lpObj)
+BOOL MonsterHerd::MonsterHerdItemDrop(CGameObject &Obj)
 {
 	return FALSE;	// NO MACRO
 }
 
-void MonsterHerd::MonsterMoveAction(CGameObject &lpObj)
+void MonsterHerd::MonsterMoveAction(CGameObject &Obj)
 {
 	if ( gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STONE) == TRUE )
 	{
@@ -539,7 +539,7 @@ void MonsterHerd::MonsterMoveAction(CGameObject &lpObj)
 	}
 }
 
-void MonsterHerd::MonsterAttackAction(CGameObject &lpObj, CGameObject lpTargetObj)
+void MonsterHerd::MonsterAttackAction(CGameObject &Obj, CGameObject lpTargetObj)
 {
 	return;	// Here goes a MACRO
 }
@@ -547,7 +547,7 @@ void MonsterHerd::MonsterAttackAction(CGameObject &lpObj, CGameObject lpTargetOb
 //*******************************************************
 // START REVIEW HERE
 
-void MonsterHerd::MonsterBaseAct(CGameObject &lpObj)
+void MonsterHerd::MonsterBaseAct(CGameObject &Obj)
 {
 	CGameObject lpTargetObj = NULL;
 
@@ -715,12 +715,12 @@ void MonsterHerd::MonsterBaseAct(CGameObject &lpObj)
 }
 	
 
-void MonsterHerd::MonsterDieAction(CGameObject &lpObj)
+void MonsterHerd::MonsterDieAction(CGameObject &Obj)
 {
 	return;	// Here goes a MACRO
 }
 
-BOOL MonsterHerd::MonsterRegenAction(CGameObject &lpObj)
+BOOL MonsterHerd::MonsterRegenAction(CGameObject &Obj)
 {
 	if ( lpObj == NULL )
 	{

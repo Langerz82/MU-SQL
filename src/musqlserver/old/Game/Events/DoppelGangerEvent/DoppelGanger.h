@@ -166,11 +166,11 @@ public:
 	void ProcDoppelgangerState_Playing(ULONGLONG i64CurTime);
 	void ProcDoppelgangerState_End(ULONGLONG i64CurTime);
 
-	BOOL EnterDoppelgangerEvent(CGameObject &lpObj, BYTE btItemPos);
-	BOOL LeaveDoppelganger(CGameObject &lpObj);
+	BOOL EnterDoppelgangerEvent(CGameObject &Obj, BYTE btItemPos);
+	BOOL LeaveDoppelganger(CGameObject &Obj);
 
-	BOOL AddDoppelgangerUser(CGameObject &lpObj);
-	void DelDoppelgangerUser(CGameObject &lpObj);
+	BOOL AddDoppelgangerUser(CGameObject &Obj);
+	void DelDoppelgangerUser(CGameObject &Obj);
 
 	void CalUserLevel();
 	void ClearUserData();
@@ -187,9 +187,9 @@ public:
 	void SendNoticeMessage(char* lpMsg);
 	void SendDoppelgangerState(BYTE btState);
 
-	void PlatformLugardAct(CGameObject &lpNpc, CGameObject lpObj);
-	void MiddleTreasureAct(CGameObject &lpNpc, CGameObject lpObj);
-	void LastTreasureAct(CGameObject &lpNpc, CGameObject lpObj);
+	void PlatformLugardAct(CGameObject &Npc, CGameObject lpObj);
+	void MiddleTreasureAct(CGameObject &Npc, CGameObject lpObj);
+	void LastTreasureAct(CGameObject &Npc, CGameObject lpObj);
 
 	BOOL OpenTreasureBox();
 	BOOL OpenLastTreasureBox();
@@ -216,16 +216,16 @@ public:
 
 	void MonsterHerdStart(int nHerdIndex);
 
-	void CheckDoppelgangerMonsterPos(CGameObject &lpObj);
+	void CheckDoppelgangerMonsterPos(CGameObject &Obj);
 	int GetDoppelgangerPosIndex(BYTE btX, BYTE btY);
 
 	void SendMonsterGoalCount();
 	void SendDoppelgangerMonsterPos();
 	void SendDoppelgangerUserPos();
 
-	void SelfExplosion(CGameObject &lpObj, CMagicInf *lpMagic, int aTargetIndex);
+	void SelfExplosion(CGameObject &Obj, CMagicInf *lpMagic, int aTargetIndex);
 
-	void AngerKillerAttack(CGameObject &lpObj);
+	void AngerKillerAttack(CGameObject &Obj);
 
 	void SendDoppelgangerResult(CGameObject lpObj, BYTE btResult);
 	void SendDoppelgangerResultAll();

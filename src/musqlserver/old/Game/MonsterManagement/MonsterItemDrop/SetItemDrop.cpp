@@ -90,7 +90,7 @@ void CSetItemDrop::LoadFile(LPSTR lpFile)
 	}
 }
 
-bool CSetItemDrop::DropItem(CGameObject &lpMonster, CGameObject lpUser)
+bool CSetItemDrop::DropItem(CGameObject &Monster, CGameObject lpUser)
 {
 	if (!ObjectMaxRange(lpUser->m_Index))
 		return false;
@@ -287,7 +287,7 @@ bool CSetItemDrop::DropItem(CGameObject &lpMonster, CGameObject lpUser)
 	return true;
 }
 
-SETITEM_DROP_RULE * CSetItemDrop::GetDropRule(CGameObject & lpUser, CGameObject &lpMonster)
+SETITEM_DROP_RULE * CSetItemDrop::GetDropRule(CGameObject & lpUser, CGameObject &Monster)
 {
 	TRandomPoolMgr RandomPoolSection;
 

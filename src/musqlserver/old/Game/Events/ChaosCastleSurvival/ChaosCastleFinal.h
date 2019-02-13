@@ -310,7 +310,7 @@ public:
 	int Check_CCF_DayType();
 	bool CheckCanStart_CCF();
 	void CCF_Start_Fail_So_RollBack();
-	void Send_CCF_Schedule(CGameObject &lpObj);
+	void Send_CCF_Schedule(CGameObject &Obj);
 	int EnterCheck_CCF_User(int iUserIndex);
 	int CheckUserEnterMoney(int iUserIndex, BYTE byBattleType);
 	void GD_Req_Save_CCF_Result(int index, char *Name, int Point, int nCCFtype);
@@ -321,7 +321,7 @@ public:
 	int EnterCCF(int iUserIndex, int & nCCFUserIndex);
 	int CheckRankingReqValid(BYTE byCCFType);
 	void DG_Ans_CCF_Rank(PMSG_ANS_CCF_RANK *lpMsg);
-	void Send_RankingInfo(BYTE byCCFType, CGameObject &lpObj);
+	void Send_RankingInfo(BYTE byCCFType, CGameObject &Obj);
 	void GiveCCFWinnerItem(int iWinnerIndex, BYTE byCCFType, BYTE byRewardType);
 	void SendNoticeMessage(char* lpszMSG);
 	void GD_SendCCFInfoAllServer(int nMinute, int nType);

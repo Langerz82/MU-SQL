@@ -22,10 +22,10 @@ public:
 	int WingExcOptionRand(int ItemKindA, int ItemKindB, BYTE *btSocketExcOption);
 	int WingExcOptionGetCount(int ItemKindA, int ItemKindB, BYTE *btSocketExcOption, int iOptionCount);
 
-	void CalcExcOptionEffect(CGameObject &lpObj);
-	void CalcWingOptionEffect(CGameObject &lpObj);
+	void CalcExcOptionEffect(CGameObject &Obj);
+	void CalcWingOptionEffect(CGameObject &Obj);
 
-	int GetOptionEffectValue(CGameObject &lpObj, int iOptionType, int iOptionEffect);
+	int GetOptionEffectValue(CGameObject &Obj, int iOptionType, int iOptionEffect);
 
 	int _CalcEffectValue(CGameObject lpObj, int iInputValue, int iOperator, int iBaseValue, int iFormulaID, CItemObject * Item);
 	void _SetOptionEffect(CGameObject lpObj, BYTE *OptionEffect, int iBaseValue, int iOperator, int iFormulaID, BYTE btItemPos);

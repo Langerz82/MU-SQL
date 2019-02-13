@@ -17,7 +17,7 @@ CGameSecurity::~CGameSecurity()
 
 }
 
-void CGameSecurity::DebugInfo(CGameObject &lpObj)
+void CGameSecurity::DebugInfo(CGameObject &Obj)
 {
 	ATTACK_SPEED sAttackSpeed;
 	EnterCriticalSection(&lpCritiASData);

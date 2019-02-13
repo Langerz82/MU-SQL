@@ -7,7 +7,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-typedef unsigned char GUILDMARK[32];
+typedef BYTE GUILDMARK[32];
 
 #define MAX_USER_GUILD			80
 #define MAX_GUILD_NOTICE_LEN	60
@@ -101,8 +101,8 @@ public:
 	
 	void Init();
 	GUILD_INFO_STRUCT* AddGuild(int number, LPSTR guildname, LPBYTE mark, LPSTR mastername,  int score);
-	GUILD_INFO_STRUCT* AddMember(GUILD_INFO_STRUCT* pNode, char* player_name, CGameObject &lpObj, int totalcount, int pServer);
-	GUILD_INFO_STRUCT* AddMember(LPSTR guild_name, LPSTR player_name, CGameObject &lpObj, int totalcount, int iGuildStatus,  int pServer);
+	GUILD_INFO_STRUCT* AddMember(GUILD_INFO_STRUCT* pNode, char* player_name, CGameObject &Obj, int totalcount, int pServer);
+	GUILD_INFO_STRUCT* AddMember(LPSTR guild_name, LPSTR player_name, CGameObject &Obj, int totalcount, int iGuildStatus,  int pServer);
 	int GetGuildMemberStatus(LPSTR szGuildName, LPSTR szMemberName);
 	int SetGuildMemberStatus(LPSTR szGuildName, LPSTR szMemberName, int iGuildStatus);
 	int GetGuildType(LPSTR szGuildName);
@@ -114,7 +114,7 @@ public:
 	void AllDelete();
 	void Print();
 	void PrintGuild(LPSTR guildname);
-	int ConnectUser(GUILD_INFO_STRUCT &lpNode, LPSTR guild_name, LPSTR player_name,  CGameObject &lpObj, int pServer);
+	int ConnectUser(GUILD_INFO_STRUCT &lpNode, LPSTR guild_name, LPSTR player_name,  CGameObject &Obj, int pServer);
 	int SetServer(LPSTR guild_name, LPSTR player_name, int pServer);
 	GUILD_INFO_STRUCT* SearchGuild(LPSTR guildname);
 	GUILD_INFO_STRUCT* SearchGuild_Number(int number);

@@ -245,7 +245,7 @@ public:
 	bool IsEventEnable() { return this->m_bBC_EVENT_ENABLE; }
 
 	bool ChangeUserIndex(int OldIndex, int NewIndex, int iBridgeIndex);
-	void SendNoticeMessageToSpecificUser(int iBridgeIndex, CGameObject &lpObj, int iPlayState);
+	void SendNoticeMessageToSpecificUser(int iBridgeIndex, CGameObject &Obj, int iPlayState);
 	bool SetCastleBlockInfo(int iBridgeIndex, int iCastleBlockInfo);
 	int  GetCastleBlockInfo(int iBridgeIndex);
 	int  GetPlayUserCountRightNow(int iBridgeIndex);
@@ -258,7 +258,7 @@ public:
 	void ThrowQuestItemByUser(int iBridgeIndex, UINT64 iQuestItemSerial);
 	void CatchQuestItemByUser(int iBridgeIndex, CGameObject &Obj, int iItemLevel);
 
-	bool NpcAngelKing(CGameObject &lpNpc, CGameObject lpObj);
+	bool NpcAngelKing(CGameObject &Npc, CGameObject lpObj);
 
 	void KillMonsterProc(int iBridgeIndex, CGameObject lpMonsterObj);
 	void DestroyCastleDoor(int iBridgeIndex, CGameObject lpDoorObj);

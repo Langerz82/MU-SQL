@@ -136,7 +136,7 @@ int CMoveCommand::GetMoveLevel(int mapnumber, int x, int y, int Class)
 	return -1;
 }
 
-BOOL CMoveCommand::CheckMainToMove(CGameObject &lpObj)
+BOOL CMoveCommand::CheckMainToMove(CGameObject &Obj)
 {
 	if ( BC_MAP_RANGE(lpObj.MapNumber) != FALSE )
 	{
@@ -182,7 +182,7 @@ BOOL CMoveCommand::CheckMainToMove(CGameObject &lpObj)
 	return TRUE;
 }
 
-BOOL CMoveCommand::CheckEquipmentToMove(CGameObject &lpObj, int iTargetMapNumber)
+BOOL CMoveCommand::CheckEquipmentToMove(CGameObject &Obj, int iTargetMapNumber)
 {
 	if ( iTargetMapNumber == MAP_INDEX_ATHLANSE )
 	{
@@ -242,7 +242,7 @@ BOOL CMoveCommand::CheckEquipmentToMove(CGameObject &lpObj, int iTargetMapNumber
 	return TRUE;
 }
 
-BOOL CMoveCommand::CheckInterfaceToMove(CGameObject &lpObj)
+BOOL CMoveCommand::CheckInterfaceToMove(CGameObject &Obj)
 {
 	if ( lpObj.m_IfState.use == 1 )
 	{
@@ -323,7 +323,7 @@ bool CMoveCommand::GetInfoByName(char* name, MOVE_COMMAND_DATA* lpInfo) // OK
 	return 0;
 }
 
-BOOL CMoveCommand::Move(CGameObject &lpObj, int iMapIndex)
+BOOL CMoveCommand::Move(CGameObject &Obj, int iMapIndex)
 {
 	int m_number = -1;
 	int overlevel = 0;
@@ -488,7 +488,7 @@ BOOL CMoveCommand::Move(CGameObject &lpObj, int iMapIndex)
 
 }
 
-BOOL CMoveCommand::Move(CGameObject &lpObj, LPSTR mapname)
+BOOL CMoveCommand::Move(CGameObject &Obj, LPSTR mapname)
 {
 	int m_number = -1;
 	int overlevel = 0;
@@ -647,7 +647,7 @@ BOOL CMoveCommand::Move(CGameObject &lpObj, LPSTR mapname)
 
 }
 
-int GetKalimaGateLevel(CGameObject &lpObj)
+int GetKalimaGateLevel(CGameObject &Obj)
 {
 	if ( lpObj.Class == CLASS_MAGUMSA || lpObj.Class == CLASS_DARKLORD || lpObj.Class == CLASS_RAGEFIGHTER )
 	{
@@ -673,7 +673,7 @@ int GetKalimaGateLevel(CGameObject &lpObj)
 	return -1;
 }
 
-BOOL CMoveCommand::MoveFree2Kalima(CGameObject &lpObj)
+BOOL CMoveCommand::MoveFree2Kalima(CGameObject &Obj)
 {
 	int iIdx = GetKalimaGateLevel(lpObj);
 

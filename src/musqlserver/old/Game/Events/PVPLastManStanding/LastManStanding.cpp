@@ -153,7 +153,7 @@ void CLastManStanding::Init()
 	}
 }
 
-int CLastManStanding::AddUser(CGameObject &lpObj)
+int CLastManStanding::AddUser(CGameObject &Obj)
 {
 	if (!ObjectMaxRange(aIndex))
 		return -1;
@@ -320,10 +320,10 @@ void CLastManStanding::Run()
 			  {
 				PMSG_SET_DEVILSQUARE pMsg;
 
-				PHeadSetB((LPBYTE)&pMsg, 0x92, sizeof(pMsg));
+				PHeadSetB((BYTE*)&pMsg, 0x92, sizeof(pMsg));
 				pMsg.Type = 17;
 
-				this->SendToPlayers((LPBYTE)&pMsg, pMsg.h.size);
+				this->SendToPlayers((BYTE*)&pMsg, pMsg.h.size);
 				this->bTimerSent = true;
 			  }
 		  }*/
@@ -430,7 +430,7 @@ void CLastManStanding::EndEvent(int room)
 	StartMinute = 0;
 }
 
-void CLastManStanding::UserDie(CGameObject &lpObj, int aTargetIndex)
+void CLastManStanding::UserDie(CGameObject &Obj, int aTargetIndex)
 {
 	int room = lpObj.m_PlayerData->RegisteredLMSRoom;
 	for(int i=0;i<this->m_Rooms[room].regCount;i++)
@@ -486,18 +486,18 @@ void CLastManStanding::AllPlayerMsgSend( char* chatmsg)
 		{
 			if ( gGameObjects[n]->Type == OBJ_USER )
 			{
-				IOCP.DataSend(n, (unsigned char*)&pNotice , pNotice.h.size );
+				IOCP.DataSend(n, (BYTE*)&pNotice , pNotice.h.size );
 			}
 		}
 	}
 }
 
-void CLastManStanding::RewardUser(CGameObject &lpObj)
+void CLastManStanding::RewardUser(CGameObject &Obj)
 {
 	g_BagManager.SearchAndUseBag(aIndex, BAG_EVENT, EVENTBAG_LMS, aIndex);
 }
 
-void CLastManStanding::SendToPlayers(LPBYTE lpMsg, int iSize)
+void CLastManStanding::SendToPlayers(BYTE* lpMsg, int iSize)
 {
 	for(int i=0;i<this->m_iRoomCount;++i)
 	{

@@ -52,7 +52,7 @@ public:
 
   MD5();
   MD5(const std::string& text);
-  void update(const unsigned char *buf, size_type length);
+  void update(const BYTE *buf, size_type length);
   void update(const char *buf, size_type length);
   MD5& finalize();
   std::string hexdigest() const;
@@ -60,7 +60,7 @@ public:
 
 private:
   void init();
-  typedef unsigned char uint1; //  8bit
+  typedef BYTE uint1; //  8bit
   typedef unsigned int uint4;  // 32bit
   enum {blocksize = 64}; // VC6 won't eat a const static int here
 

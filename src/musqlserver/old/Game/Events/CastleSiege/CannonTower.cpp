@@ -53,7 +53,7 @@ void CCannonTower::CannonTowerAct(CGameObject &Obj) // 0x00560940  1.00.19
 
 	ASBOfs = sizeof(PMSG_BEATTACK_COUNT);
 
-	unsigned char AttackSendBuff[256];
+	BYTE AttackSendBuff[256];
 
 	while (true)
 	{
@@ -87,11 +87,11 @@ void CCannonTower::CannonTowerAct(CGameObject &Obj) // 0x00560940  1.00.19
 	{
 		pCount.h.size = ASBOfs;
 
-		memcpy(AttackSendBuff, (LPBYTE)&pCount, sizeof(PMSG_BEATTACK_COUNT));
+		memcpy(AttackSendBuff, (BYTE*)&pCount, sizeof(PMSG_BEATTACK_COUNT));
 		gGameProtocol.CGBeattackRecv(AttackSendBuff, lpObj.m_Index, 1);
 		WORD MagicNumber = 50;
 		PMSG_DURATION_MAGIC_SEND pSend;
-		PHeadSetBE((LPBYTE)&pSend, 0x1E, sizeof(pSend));
+		PHeadSetBE((BYTE*)&pSend, 0x1E, sizeof(pSend));
 		pSend.MagicNumberH = SET_NUMBERH(MagicNumber);
 		pSend.MagicNumberL = SET_NUMBERL(MagicNumber);
 		pSend.X = lpObj.X;

@@ -114,7 +114,7 @@ LPLISTNODE WZQueue::GetHeadNode()
 	return pNode; 
 }
 
-BOOL WZQueue::AddToQueue(LPBYTE  const pObject , UINT nSize, BYTE headcode, INT uindex)
+BOOL WZQueue::AddToQueue(BYTE*  const pObject , UINT nSize, BYTE headcode, INT uindex)
 {
 	BOOL bRet=0;
 	LPLISTNODE pNewNode;
@@ -164,7 +164,7 @@ BOOL WZQueue::AddToQueue(LPBYTE  const pObject , UINT nSize, BYTE headcode, INT 
 	return bRet;
 }
 
-LPLISTNODE WZQueue::AddToQueueList(LPBYTE  pObject, UINT nSize, BYTE headcode, INT uindex)
+LPLISTNODE WZQueue::AddToQueueList(BYTE*  pObject, UINT nSize, BYTE headcode, INT uindex)
 {
 	BOOL bRet=0;
 	LPLISTNODE pNewNode;
@@ -214,7 +214,7 @@ LPLISTNODE WZQueue::AddToQueueList(LPBYTE  pObject, UINT nSize, BYTE headcode, I
 	return pNewNode;
 }
 
-BOOL WZQueue::GetFromQueue(LPBYTE pObject, UINT * pSize, BYTE * headcode, INT * uindex)
+BOOL WZQueue::GetFromQueue(BYTE* pObject, UINT * pSize, BYTE * headcode, INT * uindex)
 {
 	LPLISTNODE pNode=0;
 
@@ -280,7 +280,7 @@ BOOL WZQueue::NextQ()
 	return FALSE;
 }
 
-LPLISTNODE WZQueue::GetCurData(LPBYTE pObject, UINT* pSize, BYTE * headcode, INT * uindex)
+LPLISTNODE WZQueue::GetCurData(BYTE* pObject, UINT* pSize, BYTE * headcode, INT * uindex)
 {
 	if ( this->m_pCur != 0 )
 	{
@@ -301,7 +301,7 @@ LPLISTNODE WZQueue::GetCurData(LPBYTE pObject, UINT* pSize, BYTE * headcode, INT
 	return NULL;
 }
 
-BOOL WZQueue::Pop(LPLISTNODE pCur, LPBYTE pObject, int nOfs, int * nSize, int * sendbytes)
+BOOL WZQueue::Pop(LPLISTNODE pCur, BYTE* pObject, int nOfs, int * nSize, int * sendbytes)
 {
 	BOOL bRet=FALSE;
 

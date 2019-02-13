@@ -204,7 +204,7 @@ int  CObjUseSkill::GetTargetLinePath(int sx, int sy, int tx, int ty, int * PathX
 
 
 
-BOOL CObjUseSkill::SpeedHackCheck(CGameObject &lpObj)
+BOOL CObjUseSkill::SpeedHackCheck(CGameObject &Obj)
 {
 	
 
@@ -499,7 +499,7 @@ BOOL CObjUseSkill::EnableSkill(WORD Skill)
 
 
 
-int  CObjUseSkill::GetUseMana(CGameObject &lpObj, CMagicInf * lpMagic)
+int  CObjUseSkill::GetUseMana(CGameObject &Obj, CMagicInf * lpMagic)
 {
 	
 	float mana = lpObj.Mana;
@@ -546,7 +546,7 @@ int  CObjUseSkill::GetUseMana(CGameObject &lpObj, CMagicInf * lpMagic)
 
 
 
-int  CObjUseSkill::GetUseBP(CGameObject &lpObj, CMagicInf * lpMagic)
+int  CObjUseSkill::GetUseBP(CGameObject &Obj, CMagicInf * lpMagic)
 {
 	
 
@@ -579,7 +579,7 @@ int  CObjUseSkill::GetUseBP(CGameObject &lpObj, CMagicInf * lpMagic)
 	return bp;
 }
 
-void CObjUseSkill::UseSkill(CGameObject &lpObj, CMagicInf * lpMagic, BYTE x, BYTE y, BYTE dir, BYTE TargetPos, int aTargetIndex)
+void CObjUseSkill::UseSkill(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, BYTE y, BYTE dir, BYTE TargetPos, int aTargetIndex)
 {
 	
 
@@ -697,7 +697,7 @@ void CObjUseSkill::UseSkill(CGameObject &lpObj, CMagicInf * lpMagic, BYTE x, BYT
 					case 420:
 						break;
 					default:
-						gGameProtocol.MsgSendV2(lpObj, (LPBYTE)&pMsg, pMsg.h.size);
+						gGameProtocol.MsgSendV2(lpObj, (BYTE*)&pMsg, pMsg.h.size);
 					}
 				}
 				else
@@ -919,7 +919,7 @@ void CObjUseSkill::UseSkill(CGameObject &lpObj, CMagicInf * lpMagic, BYTE x, BYT
 
 
 
-void CObjUseSkill::UseSkill(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+void CObjUseSkill::UseSkill(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	
 	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
@@ -1033,7 +1033,7 @@ void CObjUseSkill::UseSkill(CGameObject &lpObj, int aTargetIndex, CMagicInf * lp
 
 
 
-BOOL CObjUseSkill::RunningSkill(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic, BOOL bCombo)
+BOOL CObjUseSkill::RunningSkill(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic, BOOL bCombo)
 {
 	
 	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
@@ -1230,7 +1230,7 @@ BOOL CObjUseSkill::RunningSkill(CGameObject &lpObj, int aTargetIndex, CMagicInf 
 
 
 
-void CObjUseSkill::MaGumSkillDefenseDown(CGameObject &lpObj, int aTargetIndex, int skill_level)
+void CObjUseSkill::MaGumSkillDefenseDown(CGameObject &Obj, int aTargetIndex, int skill_level)
 {
 	int skillSuccess = 1;
 	
@@ -1255,7 +1255,7 @@ void CObjUseSkill::MaGumSkillDefenseDown(CGameObject &lpObj, int aTargetIndex, i
 
 
 
-void CObjUseSkill::KnightSkillAddLife(CGameObject &lpObj, CMagicInf * lpMagic)
+void CObjUseSkill::KnightSkillAddLife(CGameObject &Obj, CMagicInf * lpMagic)
 {
 	int skillSuccess = true;
 	
@@ -1394,7 +1394,7 @@ void CObjUseSkill::KnightSkillAddLife(CGameObject &lpObj, CMagicInf * lpMagic)
 }
 
 
-void CObjUseSkill::WizardMagicDefense(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+void CObjUseSkill::WizardMagicDefense(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	int skillSuccess = true;
 	double skillInc = 0.0;
@@ -1434,7 +1434,7 @@ void CObjUseSkill::WizardMagicDefense(CGameObject &lpObj, int aTargetIndex, CMag
 	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, lpTargetObj.m_Index, skillSuccess);
 }
 
-void CObjUseSkill::SkillDefense(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+void CObjUseSkill::SkillDefense(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	int skillSuccess = true;
 	
@@ -1487,7 +1487,7 @@ void CObjUseSkill::SkillDefense(CGameObject &lpObj, int aTargetIndex, CMagicInf 
 	gGameProtocol.GCMagicAttackNumberSend(lpObj, AT_SKILL_DEFENSE, lpTargetObj.m_Index, skillSuccess);
 }
 
-void CObjUseSkill::SkillAttack(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+void CObjUseSkill::SkillAttack(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	int skillSuccess = true;
 	
@@ -1571,7 +1571,7 @@ void CObjUseSkill::SkillAttack(CGameObject &lpObj, int aTargetIndex, CMagicInf *
 
 
 
-BOOL CObjUseSkill::SkillChangeUse(CGameObject &lpObj)
+BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 {
 	
 
@@ -2016,7 +2016,7 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &lpObj)
 
 	PMSG_KILLCOUNT pMsg = { 0 };
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xB8, 0x01, sizeof(pMsg));
+	PHeadSubSetB((BYTE*)&pMsg, 0xB8, 0x01, sizeof(pMsg));
 
 	pMsg.btKillCount = lpObj.m_btKillCount;
 
@@ -2026,7 +2026,7 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &lpObj)
 
 
 
-void CObjUseSkill::SkillHealing(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+void CObjUseSkill::SkillHealing(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	int skillSuccess = true;
 	int skillbonus = 0;
@@ -2080,7 +2080,7 @@ void CObjUseSkill::SkillHealing(CGameObject &lpObj, int aTargetIndex, CMagicInf 
 	}
 }
 
-int CObjUseSkill::SkillMonsterCall(CGameObject &lpObj, int MonsterType, int x, int y)
+int CObjUseSkill::SkillMonsterCall(CGameObject &Obj, int MonsterType, int x, int y)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -2151,7 +2151,7 @@ int CObjUseSkill::SkillMonsterCall(CGameObject &lpObj, int MonsterType, int x, i
 
 
 
-void CObjUseSkill::SkillBlowOfFury(CGameObject &lpObj, CMagicInf * lpMagic, BYTE x, BYTE y, BYTE dir, BYTE TargetPos, int aTargetIndex, BOOL isCombo)
+void CObjUseSkill::SkillBlowOfFury(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, BYTE y, BYTE dir, BYTE TargetPos, int aTargetIndex, BOOL isCombo)
 {
 	
 	int tObjNum;
@@ -2247,7 +2247,7 @@ void CObjUseSkill::SkillBlowOfFury(CGameObject &lpObj, CMagicInf * lpMagic, BYTE
 
 
 
-void CObjUseSkill::SkillWheel(CGameObject &lpObj, CMagicInf* lpMagic, int aTargetIndex, BOOL isCombo)
+void CObjUseSkill::SkillWheel(CGameObject &Obj, CMagicInf* lpMagic, int aTargetIndex, BOOL isCombo)
 {
 	
 	int tObjNum;
@@ -2344,7 +2344,7 @@ void CObjUseSkill::SkillWheel(CGameObject &lpObj, CMagicInf* lpMagic, int aTarge
 
 
 
-void CObjUseSkill::SkillPowerSlash(CGameObject &lpObj, CMagicInf * lpMagic, BYTE x, BYTE y, BYTE dir, BYTE targetangle, int aTargetIndex)
+void CObjUseSkill::SkillPowerSlash(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, BYTE y, BYTE dir, BYTE targetangle, int aTargetIndex)
 {
 	
 	int StartDis = 1;
@@ -2445,7 +2445,7 @@ void CObjUseSkill::SkillPowerSlash(CGameObject &lpObj, CMagicInf * lpMagic, BYTE
 
 
 
-int CObjUseSkill::SkillDeathPoison(CGameObject &lpObj, CMagicInf * lpMagic, BYTE x, BYTE y, BYTE dir, BYTE TargetPos, int aTargetIndex)
+int CObjUseSkill::SkillDeathPoison(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, BYTE y, BYTE dir, BYTE TargetPos, int aTargetIndex)
 {
 	
 	int tObjNum;
@@ -2543,7 +2543,7 @@ int CObjUseSkill::SkillDeathPoison(CGameObject &lpObj, CMagicInf * lpMagic, BYTE
 	return true;
 }
 
-int CObjUseSkill::SkillDeathPoisonForMedusa(CGameObject &lpObj, CMagicInf * lpMagic, BYTE x, BYTE y, int aTargetIndex)
+int CObjUseSkill::SkillDeathPoisonForMedusa(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, BYTE y, int aTargetIndex)
 {
 	
 	int tObjNum;
@@ -2607,7 +2607,7 @@ int CObjUseSkill::SkillDeathPoisonForMedusa(CGameObject &lpObj, CMagicInf * lpMa
 	return true;
 }
 
-int CObjUseSkill::SkillSuddenIce(CGameObject &lpObj, CMagicInf * lpMagic, BYTE x, BYTE y, BYTE dir, BYTE TargetPos, int aTargetIndex)
+int CObjUseSkill::SkillSuddenIce(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, BYTE y, BYTE dir, BYTE TargetPos, int aTargetIndex)
 {
 	
 	int tObjNum;
@@ -2707,7 +2707,7 @@ int CObjUseSkill::SkillSuddenIce(CGameObject &lpObj, CMagicInf * lpMagic, BYTE x
 }
 
 
-BOOL CObjUseSkill::SkillHellFire2(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+BOOL CObjUseSkill::SkillHellFire2(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	if (aTargetIndex == 58)
 	{
@@ -2805,7 +2805,7 @@ BOOL CObjUseSkill::SkillHellFire2(CGameObject &lpObj, int aTargetIndex, CMagicIn
 
 
 
-BOOL CObjUseSkill::SkillHellFire2Start(CGameObject &lpObj, CMagicInf * lpMagic)
+BOOL CObjUseSkill::SkillHellFire2Start(CGameObject &Obj, CMagicInf * lpMagic)
 {
 	
 
@@ -2830,7 +2830,7 @@ BOOL CObjUseSkill::SkillHellFire2Start(CGameObject &lpObj, CMagicInf * lpMagic)
 
 
 
-BOOL CObjUseSkill::SkillKnightBlow(CGameObject &lpObj, int aTargetIndex, CMagicInf* lpMagic, BOOL isCombo)
+BOOL CObjUseSkill::SkillKnightBlow(CGameObject &Obj, int aTargetIndex, CMagicInf* lpMagic, BOOL isCombo)
 {
 	
 	int StartDis = 1;
@@ -2927,7 +2927,7 @@ BOOL CObjUseSkill::SkillKnightBlow(CGameObject &lpObj, int aTargetIndex, CMagicI
 
 
 
-void CObjUseSkill::SkillFrustrum(CGameObject &lpObj, float fangle, float tx, float ty)
+void CObjUseSkill::SkillFrustrum(CGameObject &Obj, float fangle, float tx, float ty)
 {
 	
 
@@ -2959,7 +2959,7 @@ void CObjUseSkill::SkillFrustrum(CGameObject &lpObj, float fangle, float tx, flo
 
 
 
-void CObjUseSkill::SkillFrustrum2(CGameObject &lpObj, float fangle, float tx, float ty)
+void CObjUseSkill::SkillFrustrum2(CGameObject &Obj, float fangle, float tx, float ty)
 {
 	
 
@@ -3085,7 +3085,7 @@ BOOL CObjUseSkill::SkillAreaCheck(int angel, int x, int y, int tx, int ty, int d
 
 
 
-BOOL CObjUseSkill::SkillSpear(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+BOOL CObjUseSkill::SkillSpear(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	
 	int StartDis = 1;
@@ -3180,7 +3180,7 @@ BOOL CObjUseSkill::SkillSpear(CGameObject &lpObj, int aTargetIndex, CMagicInf * 
 
 
 
-BOOL CObjUseSkill::SkillFireBurst(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+BOOL CObjUseSkill::SkillFireBurst(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	
 	int StartDis = 1;
@@ -3271,7 +3271,7 @@ BOOL CObjUseSkill::SkillFireBurst(CGameObject &lpObj, int aTargetIndex, CMagicIn
 
 
 
-BOOL CObjUseSkill::SkillDarkHorseAttack(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+BOOL CObjUseSkill::SkillDarkHorseAttack(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	
 	int tObjNum;
@@ -3389,7 +3389,7 @@ BOOL CObjUseSkill::SkillDarkHorseAttack(CGameObject &lpObj, int aTargetIndex, CM
 
 
 
-BOOL CObjUseSkill::RecallPartyCheck(CGameObject &lpObj, int skill_level)
+BOOL CObjUseSkill::RecallPartyCheck(CGameObject &Obj, int skill_level)
 {
 	
 	int number;
@@ -3431,7 +3431,7 @@ BOOL CObjUseSkill::RecallPartyCheck(CGameObject &lpObj, int skill_level)
 
 
 
-void CObjUseSkill::SkillRecallParty(CGameObject &lpObj, int skill_level)
+void CObjUseSkill::SkillRecallParty(CGameObject &Obj, int skill_level)
 {
 	int skillSuccess = true;
 	
@@ -3599,7 +3599,7 @@ void CObjUseSkill::SkillRecallParty(CGameObject &lpObj, int skill_level)
 
 
 
-void CObjUseSkill::SkillAddCriticalDamage(CGameObject &lpObj, int skill_level, CMagicInf* lpMagic)
+void CObjUseSkill::SkillAddCriticalDamage(CGameObject &Obj, int skill_level, CMagicInf* lpMagic)
 {
 	int skillSuccess = true;
 	
@@ -3685,7 +3685,7 @@ void CObjUseSkill::SkillAddCriticalDamage(CGameObject &lpObj, int skill_level, C
 	}
 }
 
-void CObjUseSkill::SkillElectricSpark(CGameObject &lpObj, CMagicInf * lpMagic, BYTE x, BYTE y, BYTE dir, BYTE TargetPos, int aTargetIndex)
+void CObjUseSkill::SkillElectricSpark(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, BYTE y, BYTE dir, BYTE TargetPos, int aTargetIndex)
 {
 	
 
@@ -3772,7 +3772,7 @@ void CObjUseSkill::SkillElectricSpark(CGameObject &lpObj, CMagicInf * lpMagic, B
 
 
 
-int  DecPartyMemberHPandMP(CGameObject &lpObj)
+int  DecPartyMemberHPandMP(CGameObject &Obj)
 {
 	CGameObject lpPartyObj;
 	int partynum = lpObj.PartyNumber;
@@ -3819,7 +3819,7 @@ int  DecPartyMemberHPandMP(CGameObject &lpObj)
 
 
 
-BOOL CObjUseSkill::SkillSummon(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+BOOL CObjUseSkill::SkillSummon(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	if (ObjectMaxRange(aIndex) == false)
 	{
@@ -3907,7 +3907,7 @@ BOOL CObjUseSkill::SkillSummon(CGameObject &lpObj, int aTargetIndex, CMagicInf *
 
 
 
-BOOL CObjUseSkill::SkillImmuneToMagic(CGameObject &lpObj, CMagicInf * lpMagic)
+BOOL CObjUseSkill::SkillImmuneToMagic(CGameObject &Obj, CMagicInf * lpMagic)
 {
 	if (ObjectMaxRange(aIndex) == false)
 	{
@@ -3927,7 +3927,7 @@ BOOL CObjUseSkill::SkillImmuneToMagic(CGameObject &lpObj, CMagicInf * lpMagic)
 
 
 
-BOOL CObjUseSkill::SkillImmuneToHarm(CGameObject &lpObj, CMagicInf * lpMagic)
+BOOL CObjUseSkill::SkillImmuneToHarm(CGameObject &Obj, CMagicInf * lpMagic)
 {
 	if (ObjectMaxRange(aIndex) == false)
 	{
@@ -3947,7 +3947,7 @@ BOOL CObjUseSkill::SkillImmuneToHarm(CGameObject &lpObj, CMagicInf * lpMagic)
 
 
 
-BOOL CObjUseSkill::RemoveAllCharacterInvalidMagicAndSkillState(CGameObject &lpObj)
+BOOL CObjUseSkill::RemoveAllCharacterInvalidMagicAndSkillState(CGameObject &Obj)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -3961,7 +3961,7 @@ BOOL CObjUseSkill::RemoveAllCharacterInvalidMagicAndSkillState(CGameObject &lpOb
 
 
 //
-void CObjUseSkill::SkillKnightRush(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+void CObjUseSkill::SkillKnightRush(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	
 
@@ -3976,7 +3976,7 @@ void CObjUseSkill::SkillKnightRush(CGameObject &lpObj, int aTargetIndex, CMagicI
 
 
 
-BOOL CObjUseSkill::SkillWizardJavalin(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+BOOL CObjUseSkill::SkillWizardJavalin(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	if (ObjectMaxRange(aIndex) == false)
 	{
@@ -4001,7 +4001,7 @@ BOOL CObjUseSkill::SkillWizardJavalin(CGameObject &lpObj, int aTargetIndex, CMag
 
 
 
-BOOL CObjUseSkill::SkillElfRush(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+BOOL CObjUseSkill::SkillElfRush(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	if (ObjectMaxRange(aIndex) == false)
 	{
@@ -4022,7 +4022,7 @@ BOOL CObjUseSkill::SkillElfRush(CGameObject &lpObj, int aTargetIndex, CMagicInf 
 
 
 
-BOOL CObjUseSkill::SkillMagumOneFlash(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+BOOL CObjUseSkill::SkillMagumOneFlash(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	if (ObjectMaxRange(aIndex) == false)
 	{
@@ -4044,7 +4044,7 @@ BOOL CObjUseSkill::SkillMagumOneFlash(CGameObject &lpObj, int aTargetIndex, CMag
 
 
 
-BOOL CObjUseSkill::SkillMagumDeathCannon(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+BOOL CObjUseSkill::SkillMagumDeathCannon(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	if (ObjectMaxRange(aIndex) == false)
 	{
@@ -4065,7 +4065,7 @@ BOOL CObjUseSkill::SkillMagumDeathCannon(CGameObject &lpObj, int aTargetIndex, C
 
 
 
-BOOL CObjUseSkill::SkillDarklordSpaceSplit(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+BOOL CObjUseSkill::SkillDarklordSpaceSplit(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	if (ObjectMaxRange(aIndex) == false)
 	{
@@ -4086,7 +4086,7 @@ BOOL CObjUseSkill::SkillDarklordSpaceSplit(CGameObject &lpObj, int aTargetIndex,
 
 
 
-BOOL CObjUseSkill::SkillBrandOfSkill(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+BOOL CObjUseSkill::SkillBrandOfSkill(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	if (ObjectMaxRange(aIndex) == false)
 	{
@@ -4137,7 +4137,7 @@ BOOL CObjUseSkill::SkillBrandOfSkill(CGameObject &lpObj, int aTargetIndex, CMagi
 
 
 
-BOOL CObjUseSkill::SkillStun(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic, BYTE btX, BYTE btY, BYTE btDir, BYTE btTargetPos)
+BOOL CObjUseSkill::SkillStun(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic, BYTE btX, BYTE btY, BYTE btDir, BYTE btTargetPos)
 {
 	if (ObjectMaxRange(aIndex) == false)
 	{
@@ -4202,7 +4202,7 @@ BOOL CObjUseSkill::SkillStun(CGameObject &lpObj, int aTargetIndex, CMagicInf * l
 
 
 
-BOOL CObjUseSkill::SkillRemoveStun(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+BOOL CObjUseSkill::SkillRemoveStun(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 
 	if (ObjectMaxRange(aIndex) == false)
@@ -4254,7 +4254,7 @@ BOOL CObjUseSkill::SkillRemoveStun(CGameObject &lpObj, int aTargetIndex, CMagicI
 
 
 
-BOOL CObjUseSkill::SkillAddMana(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+BOOL CObjUseSkill::SkillAddMana(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	if (ObjectMaxRange(aIndex) == false)
 	{
@@ -4317,7 +4317,7 @@ BOOL CObjUseSkill::SkillAddMana(CGameObject &lpObj, int aTargetIndex, CMagicInf 
 
 
 
-BOOL CObjUseSkill::SkillCloaking(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+BOOL CObjUseSkill::SkillCloaking(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	if (ObjectMaxRange(aIndex) == false)
 	{
@@ -4356,7 +4356,7 @@ BOOL CObjUseSkill::SkillCloaking(CGameObject &lpObj, int aTargetIndex, CMagicInf
 
 
 
-BOOL CObjUseSkill::SkillRemoveCloaking(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+BOOL CObjUseSkill::SkillRemoveCloaking(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	if (ObjectMaxRange(aIndex) == false)
 	{
@@ -4409,7 +4409,7 @@ BOOL CObjUseSkill::SkillRemoveCloaking(CGameObject &lpObj, int aTargetIndex, CMa
 
 
 
-BOOL CObjUseSkill::SkillRemoveMagic(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+BOOL CObjUseSkill::SkillRemoveMagic(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	if (ObjectMaxRange(aIndex) == false)
 	{
@@ -4457,7 +4457,7 @@ BOOL CObjUseSkill::SkillRemoveMagic(CGameObject &lpObj, int aTargetIndex, CMagic
 
 ////////////////////////////////////////////////////////////////
 
-BOOL CObjUseSkill::SkillFireScream(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+BOOL CObjUseSkill::SkillFireScream(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	if (g_SkillAdditionInfo.GetFireScreamSkill() == false)
 	{
@@ -4487,7 +4487,7 @@ BOOL CObjUseSkill::SkillFireScream(CGameObject &lpObj, int aTargetIndex, CMagicI
 }
 
 
-BOOL CObjUseSkill::FireScreamExplosionAttack(CGameObject &lpObj, CGameObject lpTargetObj, int iAttackDamage, int iAddDamage)
+BOOL CObjUseSkill::FireScreamExplosionAttack(CGameObject &Obj, CGameObject lpTargetObj, int iAttackDamage, int iAddDamage)
 {
 	if (gObjIsConnected(lpObj.m_Index) == false && gObjIsConnected(lpTargetObj.m_Index) == false)
 	{
@@ -4579,7 +4579,7 @@ BOOL CObjUseSkill::FireScreamExplosionAttack(CGameObject &lpObj, CGameObject lpT
 	return true;
 }
 
-BOOL CObjUseSkill::RemoveCloakingEffect(CGameObject &lpObj)
+BOOL CObjUseSkill::RemoveCloakingEffect(CGameObject &Obj)
 {
 	if (ObjectMaxRange(aIndex) == false)
 	{
@@ -4590,7 +4590,7 @@ BOOL CObjUseSkill::RemoveCloakingEffect(CGameObject &lpObj)
 	return true;
 }
 
-void CObjUseSkill::SpecificSkillAdditionTreat(CGameObject &lpObj, CGameObject lpTargetObj, CMagicInf * lpMagic, int iAttackDamage)
+void CObjUseSkill::SpecificSkillAdditionTreat(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf * lpMagic, int iAttackDamage)
 {
 	WORD bySkillNum = lpMagic->m_Skill;
 
@@ -4607,7 +4607,7 @@ void CObjUseSkill::SpecificSkillAdditionTreat(CGameObject &lpObj, CGameObject lp
 	}
 }
 
-int CObjUseSkill::RemoveSpecificSkillState(CGameObject &lpObj, int iSkillNumber)
+int CObjUseSkill::RemoveSpecificSkillState(CGameObject &Obj, int iSkillNumber)
 {
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -4629,7 +4629,7 @@ int CObjUseSkill::RemoveSpecificSkillState(CGameObject &lpObj, int iSkillNumber)
 	return true;
 }
 
-int CObjUseSkill::SkillFenrirAttack(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+int CObjUseSkill::SkillFenrirAttack(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	
 	int tObjNum;
@@ -4731,7 +4731,7 @@ int CObjUseSkill::SkillFenrirAttack(CGameObject &lpObj, int aTargetIndex, CMagic
 	return true;
 }
 
-int CObjUseSkill::SkillInfinityArrow(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+int CObjUseSkill::SkillInfinityArrow(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	
 
@@ -4760,7 +4760,7 @@ int CObjUseSkill::SkillInfinityArrow(CGameObject &lpObj, int aTargetIndex, CMagi
 	return true;
 }
 
-int CObjUseSkill::GetAddUseMana(CGameObject &lpObj, CMagicInf * lpMagic)
+int CObjUseSkill::GetAddUseMana(CGameObject &Obj, CMagicInf * lpMagic)
 {
 	int iRetValue = 0;
 
@@ -4829,7 +4829,7 @@ int CObjUseSkill::GetAddUseMana(CGameObject &lpObj, CMagicInf * lpMagic)
 	return iRetValue;
 }
 
-int CObjUseSkill::SkillBookSahamutt(CGameObject &lpObj, CMagicInf *lpMagic, BYTE x, BYTE y, int aTargetIndex)
+int CObjUseSkill::SkillBookSahamutt(CGameObject &Obj, CMagicInf *lpMagic, BYTE x, BYTE y, int aTargetIndex)
 {
 	int count = 0;
 	int tObjNum;
@@ -4907,7 +4907,7 @@ int CObjUseSkill::SkillBookSahamutt(CGameObject &lpObj, CMagicInf *lpMagic, BYTE
 	}
 	return 1;
 }
-int CObjUseSkill::SkillSummonerSleep(CGameObject &lpObj, int aTargetIndex, CMagicInf *lpMagic)
+int CObjUseSkill::SkillSummonerSleep(CGameObject &Obj, int aTargetIndex, CMagicInf *lpMagic)
 {
 	 //loc2
 
@@ -5007,7 +5007,7 @@ int CObjUseSkill::SkillSummonerSleep(CGameObject &lpObj, int aTargetIndex, CMagi
 
 	return result;
 }
-int CObjUseSkill::SkillDrainLife(CGameObject &lpObj, CMagicInf * lpMagic, int aTargetIndex)
+int CObjUseSkill::SkillDrainLife(CGameObject &Obj, CMagicInf * lpMagic, int aTargetIndex)
 {
 	
 	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, 1);
@@ -5015,7 +5015,7 @@ int CObjUseSkill::SkillDrainLife(CGameObject &lpObj, CMagicInf * lpMagic, int aT
 	return true;
 }
 
-int CObjUseSkill::SkillDamageReflect(CGameObject &lpObj, CMagicInf *lpMagic, int aTargetIndex)
+int CObjUseSkill::SkillDamageReflect(CGameObject &Obj, CMagicInf *lpMagic, int aTargetIndex)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -5046,7 +5046,7 @@ int CObjUseSkill::SkillDamageReflect(CGameObject &lpObj, CMagicInf *lpMagic, int
 
 	return TRUE;
 }
-int CObjUseSkill::SkillBookNeil(CGameObject &lpObj, CMagicInf *lpMagic, BYTE x, BYTE y, int aTargetIndex)
+int CObjUseSkill::SkillBookNeil(CGameObject &Obj, CMagicInf *lpMagic, BYTE x, BYTE y, int aTargetIndex)
 {
 	if (!ObjectMaxRange(aTargetIndex))
 	{
@@ -5131,7 +5131,7 @@ int CObjUseSkill::SkillBookNeil(CGameObject &lpObj, CMagicInf *lpMagic, BYTE x, 
 	}
 	return 1;
 }
-int CObjUseSkill::SkillInnovation(CGameObject &lpObj, CMagicInf * lpMagic, BYTE x, BYTE y, int aTargetIndex)
+int CObjUseSkill::SkillInnovation(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, BYTE y, int aTargetIndex)
 {
 	
 	int EnableAttack;
@@ -5218,7 +5218,7 @@ int CObjUseSkill::SkillInnovation(CGameObject &lpObj, CMagicInf * lpMagic, BYTE 
 	}
 	return 1;
 }
-int CObjUseSkill::SkillWeakness(CGameObject &lpObj, CMagicInf * lpMagic, BYTE x, BYTE y, int aTargetIndex)
+int CObjUseSkill::SkillWeakness(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, BYTE y, int aTargetIndex)
 {
 	
 	int EnableAttack;
@@ -5307,7 +5307,7 @@ int CObjUseSkill::SkillWeakness(CGameObject &lpObj, CMagicInf * lpMagic, BYTE x,
 	return 1;
 }
 
-int CObjUseSkill::SkillChainLighting(CGameObject &lpObj, CMagicInf *lpMagic, int aTargetIndex)
+int CObjUseSkill::SkillChainLighting(CGameObject &Obj, CMagicInf *lpMagic, int aTargetIndex)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -5442,15 +5442,15 @@ int CObjUseSkill::SkillChainLighting(CGameObject &lpObj, CMagicInf *lpMagic, int
 		nOffset += sizeof(PMSG_CHAIN_MAGIC_OBJECT);
 	}
 
-	PHeadSubSetB((LPBYTE)&pMsg, 0xBF, 0x0A, nOffset);
+	PHeadSubSetB((BYTE*)&pMsg, 0xBF, 0x0A, nOffset);
 	memcpy(&SendByte, &pMsg, sizeof(pMsg));
 
 	if (lpObj.Type == OBJ_USER)
 	{
-		IOCP.DataSend(lpObj.m_Index, (LPBYTE)SendByte, nOffset);
+		IOCP.DataSend(lpObj.m_Index, (BYTE*)SendByte, nOffset);
 	}
 
-	gGameProtocol.MsgSendV2(lpObj, (LPBYTE)SendByte, nOffset);
+	gGameProtocol.MsgSendV2(lpObj, (BYTE*)SendByte, nOffset);
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -5461,7 +5461,7 @@ int CObjUseSkill::SkillChainLighting(CGameObject &lpObj, CMagicInf *lpMagic, int
 
 }
 
-int CObjUseSkill::SkillBlowOfDestruction(CGameObject &lpObj, CMagicInf *lpMagic, BYTE x, BYTE y, int aTargetIndex, BOOL bCombo)
+int CObjUseSkill::SkillBlowOfDestruction(CGameObject &Obj, CMagicInf *lpMagic, BYTE x, BYTE y, int aTargetIndex, BOOL bCombo)
 {
 	if (ObjectMaxRange(aIndex) == 0)
 	{
@@ -5522,7 +5522,7 @@ int CObjUseSkill::SkillBlowOfDestruction(CGameObject &lpObj, CMagicInf *lpMagic,
 	return 1;
 }
 
-int CObjUseSkill::SkillAreaMonsterAttack(CGameObject &lpObj, CMagicInf *lpMagic, BYTE x, BYTE y, int aTargetIndex, int Distance, int MultiAttack, int AttackDelay)
+int CObjUseSkill::SkillAreaMonsterAttack(CGameObject &Obj, CMagicInf *lpMagic, BYTE x, BYTE y, int aTargetIndex, int Distance, int MultiAttack, int AttackDelay)
 {
 	
 	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
@@ -5714,7 +5714,7 @@ int CObjUseSkill::SkillAreaMonsterAttack(CGameObject &lpObj, CMagicInf *lpMagic,
 	return 1;
 }
 
-void CObjUseSkill::NewSkillProc(CGameObject &lpObj, CMagicInf *lpMagic, BYTE x, BYTE y, int aTargetIndex, int aMsgSubCode, BOOL bCombo)
+void CObjUseSkill::NewSkillProc(CGameObject &Obj, CMagicInf *lpMagic, BYTE x, BYTE y, CGameObject &ObjTarget, int aMsgSubCode, BOOL bCombo)
 {
 	if (aMsgSubCode == 59)
 	{
@@ -5732,7 +5732,7 @@ void CObjUseSkill::NewSkillProc(CGameObject &lpObj, CMagicInf *lpMagic, BYTE x, 
 	}
 }
 
-void CObjUseSkill::SkillLightingShock(CGameObject &lpObj, CMagicInf *lpMagic, int aTargetIndex)
+void CObjUseSkill::SkillLightingShock(CGameObject &Obj, CMagicInf *lpMagic, int aTargetIndex)
 {
 	
 
@@ -5813,7 +5813,7 @@ void CObjUseSkill::SkillLightingShock(CGameObject &lpObj, CMagicInf *lpMagic, in
 	}
 }
 
-int CObjUseSkill::SkillMagicCircle(CGameObject &lpObj, int aTargetIndex, CMagicInf *lpMagic)
+int CObjUseSkill::SkillMagicCircle(CGameObject &Obj, int aTargetIndex, CMagicInf *lpMagic)
 {
 	if (lpObj.m_PlayerData->ISBOT == true)
 	{
@@ -5832,7 +5832,7 @@ int CObjUseSkill::SkillMagicCircle(CGameObject &lpObj, int aTargetIndex, CMagicI
 	return 1;
 }
 
-int CObjUseSkill::SkillShieldRefill(CGameObject &lpObj, CMagicInf *lpMagic, int aTargetIndex)
+int CObjUseSkill::SkillShieldRefill(CGameObject &Obj, CMagicInf *lpMagic, int aTargetIndex)
 {
 	int skillSuccess = true;
 	
@@ -5898,12 +5898,12 @@ int CObjUseSkill::SkillShieldRefill(CGameObject &lpObj, CMagicInf *lpMagic, int 
 	return 1;
 }
 
-int CObjUseSkill::SkillGiganticStorm(CGameObject &lpObj, CMagicInf *lpMagic, BYTE x, BYTE y, int aTargetIndex)
+int CObjUseSkill::SkillGiganticStorm(CGameObject &Obj, CMagicInf *lpMagic, BYTE x, BYTE y, int aTargetIndex)
 {
 	return this->SkillAreaMonsterAttack(aIndex, lpMagic, x, y, aTargetIndex, 6, 1, 400);
 }
 
-void CObjUseSkill::SkillFrustrum3(CGameObject &lpObj, float fangle, float tx1, float ty1, float tx2, float ty2)
+void CObjUseSkill::SkillFrustrum3(CGameObject &Obj, float fangle, float tx1, float ty1, float tx2, float ty2)
 {
 	
 
@@ -5930,7 +5930,7 @@ void CObjUseSkill::SkillFrustrum3(CGameObject &lpObj, float fangle, float tx1, f
 	}
 }
 
-int CObjUseSkill::SkillFiveShot(CGameObject &lpObj, CMagicInf *lpMagic, BYTE TargetPos, int aTargetIndex)
+int CObjUseSkill::SkillFiveShot(CGameObject &Obj, CMagicInf *lpMagic, BYTE TargetPos, int aTargetIndex)
 {
 	
 
@@ -6066,7 +6066,7 @@ int CObjUseSkill::SkillFiveShot(CGameObject &lpObj, CMagicInf *lpMagic, BYTE Tar
 	return 1;
 }
 
-int CObjUseSkill::SkillBirds(CGameObject &lpObj, CMagicInf *lpMagic, BYTE TargetPos, int aTargetIndex)
+int CObjUseSkill::SkillBirds(CGameObject &Obj, CMagicInf *lpMagic, BYTE TargetPos, int aTargetIndex)
 {
 	int count = 0;
 	int tObjNum;
@@ -6157,7 +6157,7 @@ int CObjUseSkill::SkillBirds(CGameObject &lpObj, CMagicInf *lpMagic, BYTE Target
 	return 1;
 }
 
-int CObjUseSkill::SkillFlameStrike(CGameObject &lpObj, CMagicInf *lpMagic, BYTE TargetPos, int aTargetIndex)
+int CObjUseSkill::SkillFlameStrike(CGameObject &Obj, CMagicInf *lpMagic, BYTE TargetPos, int aTargetIndex)
 {
 	int count = 0;
 	int tObjNum;
@@ -6237,7 +6237,7 @@ int CObjUseSkill::SkillFlameStrike(CGameObject &lpObj, CMagicInf *lpMagic, BYTE 
 	return 1;
 }
 
-int CObjUseSkill::SkillBerserker(CGameObject &lpObj, CMagicInf *lpMagic, int aTargetIndex)
+int CObjUseSkill::SkillBerserker(CGameObject &Obj, CMagicInf *lpMagic, int aTargetIndex)
 {
 	if (!ObjectMaxRange(aIndex))
 		return 0;
@@ -6280,7 +6280,7 @@ int CObjUseSkill::SkillBerserker(CGameObject &lpObj, CMagicInf *lpMagic, int aTa
 	return 1;
 }
 
-int CObjUseSkill::SkillPhoenixShot(CGameObject &lpObj, CMagicInf * lpMagic, BYTE x, BYTE y, int aTargetIndex)
+int CObjUseSkill::SkillPhoenixShot(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, BYTE y, int aTargetIndex)
 {
 	
 	CGameObject lpTargetObj = &gGameObjects[aIndex];
@@ -6357,7 +6357,7 @@ int CObjUseSkill::SkillPhoenixShot(CGameObject &lpObj, CMagicInf * lpMagic, BYTE
 	return 1;
 }
 
-int CObjUseSkill::SkillEvilMonster(CGameObject &lpObj, int aTargetIndex, CMagicInf *lpMagic)
+int CObjUseSkill::SkillEvilMonster(CGameObject &Obj, int aTargetIndex, CMagicInf *lpMagic)
 {
 	
 
@@ -6413,7 +6413,7 @@ int CObjUseSkill::SkillEvilMonster(CGameObject &lpObj, int aTargetIndex, CMagicI
 	return TRUE;
 }
 
-int CObjUseSkill::SkillMonkBuff(CGameObject &lpObj, CMagicInf * lpMagic)
+int CObjUseSkill::SkillMonkBuff(CGameObject &Obj, CMagicInf * lpMagic)
 {
 	
 
@@ -6448,7 +6448,7 @@ int CObjUseSkill::SkillMonkBuff(CGameObject &lpObj, CMagicInf * lpMagic)
 	return 1;
 }
 
-int CObjUseSkill::SkillMonkBuffApplyParty(CGameObject &lpObj, CMagicInf * lpMagic)
+int CObjUseSkill::SkillMonkBuffApplyParty(CGameObject &Obj, CMagicInf * lpMagic)
 {
 	if (ObjectMaxRange(aIndex) == FALSE)
 	{
@@ -6572,7 +6572,7 @@ int CObjUseSkill::SkillMonkBuffApplyParty(CGameObject &lpObj, CMagicInf * lpMagi
 	return TRUE;
 }
 
-int CObjUseSkill::SkillMonkBarrageJustOneTarget(CGameObject &lpObj, CMagicInf * lpMagic, int aTargetIndex)
+int CObjUseSkill::SkillMonkBarrageJustOneTarget(CGameObject &Obj, CMagicInf * lpMagic, int aTargetIndex)
 {
 	
 
@@ -6706,7 +6706,7 @@ int CObjUseSkill::SkillMonkBarrageJustOneTarget(CGameObject &lpObj, CMagicInf * 
 	}
 }
 
-int CObjUseSkill::SkillCharge(CGameObject &lpObj, CMagicInf *lpMagic, int aTargetIndex)
+int CObjUseSkill::SkillCharge(CGameObject &Obj, CMagicInf *lpMagic, int aTargetIndex)
 {
 	if (ObjectMaxRange(aIndex) == FALSE)
 	{
@@ -6729,7 +6729,7 @@ int CObjUseSkill::SkillCharge(CGameObject &lpObj, CMagicInf *lpMagic, int aTarge
 	return FALSE;
 }
 
-int CObjUseSkill::SkillMonkDarkSideGetTargetIndex(CGameObject &lpObj, int aTargetIndex, CMagicInf* lpMagic, WORD *Target)
+int CObjUseSkill::SkillMonkDarkSideGetTargetIndex(CGameObject &Obj, int aTargetIndex, CMagicInf* lpMagic, WORD *Target)
 {
 	
 
@@ -6849,7 +6849,7 @@ int CObjUseSkill::SkillMonkDarkSideGetTargetIndex(CGameObject &lpObj, int aTarge
 	return TRUE;
 }
 
-void CObjUseSkill::SplashDamage(CGameObject &lpObj, CGameObject lpTargetObj, int nSkill, int nAttackDamage, int nDistance, int nDamageRate)
+void CObjUseSkill::SplashDamage(CGameObject &Obj, CGameObject lpTargetObj, int nSkill, int nAttackDamage, int nDistance, int nDamageRate)
 {
 	if (gObjIsConnected(lpObj) && gObjIsConnected(lpTargetObj))
 	{
@@ -6910,7 +6910,7 @@ void CObjUseSkill::SplashDamage(CGameObject &lpObj, CGameObject lpTargetObj, int
 	}
 }
 
-void CObjUseSkill::SkillDarkSide(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+void CObjUseSkill::SkillDarkSide(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	int iTargetCount = 0;
 	WORD wTargetList[5];
@@ -6925,7 +6925,7 @@ void CObjUseSkill::SkillDarkSide(CGameObject &lpObj, int aTargetIndex, CMagicInf
 		this->SkillMonkDarkSideGetTargetIndex(aIndex, aTargetIndex, lpMagic, wTargetList) == TRUE)
 	{
 		PMSG_RAGE_ATTACK_RANGE_ANS pMsg;
-		PHeadSetBE((LPBYTE)&pMsg, 0x4B, sizeof(pMsg));
+		PHeadSetBE((BYTE*)&pMsg, 0x4B, sizeof(pMsg));
 
 		memcpy(&pMsg.Target, wTargetList, sizeof(wTargetList));
 		pMsg.MagicNumber = lpMagic->m_Skill;;
@@ -6945,11 +6945,11 @@ void CObjUseSkill::SkillDarkSide(CGameObject &lpObj, int aTargetIndex, CMagicInf
 		}
 
 		memcpy(lpObj.m_PlayerData->DarkSideTarget, wTargetList, sizeof(wTargetList));
-		IOCP.DataSend(lpObj.m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 	}
 }
 
-void CObjUseSkill::SkillSummonForLordSilvester(CGameObject &lpObj, int iTargetIndex, CMagicInf *lpMagic)
+void CObjUseSkill::SkillSummonForLordSilvester(CGameObject &Obj, int iTargetIndex, CMagicInf *lpMagic)
 {
 	if (!ObjectMaxRange(aIndex))
 	{
@@ -7033,7 +7033,7 @@ void CObjUseSkill::SkillSummonForLordSilvester(CGameObject &lpObj, int iTargetIn
 	}
 }
 
-void CObjUseSkill::SkillSpinStep(CGameObject &lpObj, int iTargetIndex, CMagicInf * lpMagic)
+void CObjUseSkill::SkillSpinStep(CGameObject &Obj, int iTargetIndex, CMagicInf * lpMagic)
 {
 	
 	CGameObject lpTargetObj = &gGameObjects[iTargetIndex];
@@ -7114,7 +7114,7 @@ void CObjUseSkill::SkillSpinStep(CGameObject &lpObj, int iTargetIndex, CMagicInf
 	}
 }
 
-void CObjUseSkill::SkillGrowLancerAttackOneTarget(CGameObject &lpObj, int aTargetIndex, CMagicInf * lpMagic)
+void CObjUseSkill::SkillGrowLancerAttackOneTarget(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	
 
@@ -7224,7 +7224,7 @@ void CObjUseSkill::SkillGrowLancerAttackOneTarget(CGameObject &lpObj, int aTarge
 	}
 }
 
-int CObjUseSkill::SkillBreche(CGameObject &lpObj, CMagicInf * lpMagic, BYTE x, BYTE y, int aTargetIndex)
+int CObjUseSkill::SkillBreche(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, BYTE y, int aTargetIndex)
 {
 	
 	int tObjNum;
@@ -7314,7 +7314,7 @@ int CObjUseSkill::SkillBreche(CGameObject &lpObj, CMagicInf * lpMagic, BYTE x, B
 	return true;
 }
 
-int CObjUseSkill::SkillShiningPeak(CGameObject &lpObj, CMagicInf * lpMagic, int aTargetIndex)
+int CObjUseSkill::SkillShiningPeak(CGameObject &Obj, CMagicInf * lpMagic, int aTargetIndex)
 {
 	
 
@@ -7408,7 +7408,7 @@ int CObjUseSkill::SkillShiningPeak(CGameObject &lpObj, CMagicInf * lpMagic, int 
 	}
 }
 
-int CObjUseSkill::SkillBuffGrowLancer(CGameObject &lpObj, CMagicInf * lpMagic, int aTargetIndex)
+int CObjUseSkill::SkillBuffGrowLancer(CGameObject &Obj, CMagicInf * lpMagic, int aTargetIndex)
 {
 	if (ObjectMaxRange(aIndex) == FALSE)
 	{
@@ -7463,7 +7463,7 @@ int CObjUseSkill::SkillBuffGrowLancer(CGameObject &lpObj, CMagicInf * lpMagic, i
 	return TRUE;
 }
 
-int CObjUseSkill::SkillBuffPartyGrowLancer(CGameObject &lpObj, CMagicInf * lpMagic, int aTargetIndex)
+int CObjUseSkill::SkillBuffPartyGrowLancer(CGameObject &Obj, CMagicInf * lpMagic, int aTargetIndex)
 {
 	if (ObjectMaxRange(aIndex) == FALSE)
 	{
@@ -7585,7 +7585,7 @@ void CObjUseSkill::SkillFireBlood(CGameObject lpObj, CMagicInf * lpMagic, int aT
 	gObjAttack(lpObj, &gGameObjects[aTargetIndex], lpMagic, TRUE, 0, 0, 0, 0, 0);
 }
 
-int CObjUseSkill::SkillFireBeast(CGameObject &lpObj, int aTargetIndex, CMagicInf *lpMagic)
+int CObjUseSkill::SkillFireBeast(CGameObject &Obj, int aTargetIndex, CMagicInf *lpMagic)
 {
 	
 	int StartDis = 1;
@@ -7650,7 +7650,7 @@ int CObjUseSkill::SkillFireBeast(CGameObject &lpObj, int aTargetIndex, CMagicInf
 	return true;
 }
 
-int CObjUseSkill::SkillIceBeast(CGameObject &lpObj, int aTargetIndex, CMagicInf *lpMagic)
+int CObjUseSkill::SkillIceBeast(CGameObject &Obj, int aTargetIndex, CMagicInf *lpMagic)
 {
 	
 	int StartDis = 1;
@@ -7715,7 +7715,7 @@ int CObjUseSkill::SkillIceBeast(CGameObject &lpObj, int aTargetIndex, CMagicInf 
 	return true;
 }
 
-int CObjUseSkill::SkillMeteorStorm(CGameObject &lpObj, CMagicInf* lpMagic, BYTE x, BYTE y, int aTargetIndex)
+int CObjUseSkill::SkillMeteorStorm(CGameObject &Obj, CMagicInf* lpMagic, BYTE x, BYTE y, int aTargetIndex)
 {
 	
 	int tObjNum;
@@ -7816,7 +7816,7 @@ void CObjUseSkill::SkillSoulSeker(CGameObject lpObj, CMagicInf * lpMagic, int aT
 	gObjAttack(lpObj, &gGameObjects[aTargetIndex], lpMagic, TRUE, 0, 0, 0, 0, 0);
 }
 
-int CObjUseSkill::SkillArchangelWillBuff(CGameObject &lpObj, CMagicInf * lpMagic)
+int CObjUseSkill::SkillArchangelWillBuff(CGameObject &Obj, CMagicInf * lpMagic)
 {
 	
 

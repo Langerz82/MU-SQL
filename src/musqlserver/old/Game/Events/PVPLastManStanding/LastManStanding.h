@@ -71,12 +71,12 @@ public:
 
 	void LoadConfig(LPSTR file);
 	void Init();
-	int AddUser(CGameObject &lpObj);
-	void DelUser(CGameObject &lpObj);
-	void UserQuit(CGameObject &lpObj);
+	int AddUser(CGameObject &Obj);
+	void DelUser(CGameObject &Obj);
+	void UserQuit(CGameObject &Obj);
 	void Run();
-	void UserDie(CGameObject &lpObj,int aTargetIndex);
-	void RewardUser(CGameObject &lpObj);
+	void UserDie(CGameObject &Obj,int aTargetIndex);
+	void RewardUser(CGameObject &Obj);
 	void MoveAllUser(int Room);
 	void EndEvent(int room);
 	void AllPlayerMsgSend( char* chatmsg);
