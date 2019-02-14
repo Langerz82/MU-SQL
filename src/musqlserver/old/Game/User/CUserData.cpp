@@ -257,13 +257,13 @@ CUserData::CUserData(int IDNumber)
 	InitializeCriticalSection(&this->AgiCheckCriti);
 	this->m_pCMuRummyInfo = new CMuRummyInfo;
 	this->m_pCEvoMonInfo = new CEvolutionMonsterInfo;
-	this->pPentagramMixBox = new CItemObject[CHAOS_BOX_SIZE];
-	this->pPentagramMixBoxMap = new BYTE[CHAOS_BOX_MAP_SIZE];
+	this->pPentagramMixBox = new CItemObject*[CHAOS_BOX_SIZE];
+	this->pPentagramMixBoxMap = new BYTE*[CHAOS_BOX_MAP_SIZE];
 	this->m_SeedOptionList = new SOCKET_OPTION_LIST[35];
 	this->m_BonusOptionList = new SOCKET_OPTION_LIST[7];
 	this->m_SetOptionList = new SOCKET_OPTION_LIST[2];
-	this->m_CancelItemSaleList = new STR_USER_SHOP_REBUY_ITEM[MAX_CANCEL_ITEMS_SALE];
-	this->m_GremoryCaseData = new GREMORYCASE_ITEM_DATA[MAX_GREMORYCASE_STORAGE_TYPES * MAX_GREMORYCASE_STORAGE_ITEMS];
+	this->m_CancelItemSaleList = new STR_USER_SHOP_REBUY_ITEM*[MAX_CANCEL_ITEMS_SALE];
+	this->m_GremoryCaseData = new GREMORYCASE_ITEM_DATA*[MAX_GREMORYCASE_STORAGE_TYPES * MAX_GREMORYCASE_STORAGE_ITEMS];
 	this->m_StatSpecOption = new STAT_USER_OPTION[12];
 
 	this->Init();
@@ -466,14 +466,14 @@ void CUserData::Init(bool VipReset)
 
 	for (int i = 0; i < MAX_CANCEL_ITEMS_SALE; i++)
 	{
-		this->m_CancelItemSaleList[i].Clear();
+		this->m_CancelItemSaleList[i]->Clear();
 	}
 
 	for (int i = 0; i < MAX_GREMORYCASE_STORAGE_TYPES; i++)
 	{
 		for (int j = 0; j < MAX_GREMORYCASE_STORAGE_ITEMS; j++)
 		{
-			this->m_GremoryCaseData[i * MAX_GREMORYCASE_STORAGE_TYPES + j].Clear();
+			this->m_GremoryCaseData[i * MAX_GREMORYCASE_STORAGE_TYPES + j]->Clear();
 		}
 	}
 

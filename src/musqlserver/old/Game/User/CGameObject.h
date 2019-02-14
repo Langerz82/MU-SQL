@@ -207,6 +207,7 @@ public:
 	DWORD SelfDefenseTime[MAX_SELF_DEFENSE];	// 27C
 	DWORD MySelfDefenseTime;	// 290
 	int PartyNumber; // 2C8
+	CGameObject* GetParty() { return gGameObjects[this->PartyNumber]; }
 	int PartyTargetUser;	// 2CC
 	char Married;
 	char MarryName[11];

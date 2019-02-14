@@ -213,8 +213,8 @@ public:
 	DWORD LastSkillUseNumber;
 	DWORD LastSkillUseCount;
 	PENTAGRAM_OPTION* m_PentagramOptions;
-	class CItemObject * pPentagramMixBox;
-	BYTE * pPentagramMixBoxMap;
+	CItemObject** pPentagramMixBox;
+	BYTE** pPentagramMixBoxMap;
 	int PentagramMixMoney;
 	int PentagramMixSuccessRate;
 	int m_PentagramMixLock;
@@ -249,14 +249,14 @@ public:
 	EXC_WING_OPTION* m_WingExcOption;
 	STAT_USER_OPTION* m_StatSpecOption;
 	bool m_IsOffLevelling;
-	STR_USER_SHOP_REBUY_ITEM* m_CancelItemSaleList;
+	STR_USER_SHOP_REBUY_ITEM** m_CancelItemSaleList;
 	bool m_bIsCancelItemSale;
 	int m_JoinUnityBattle;
 	int m_nServerCodeOfHomeWorld;
 	char m_RealNameOfUBF[11];
 	CNameConvert m_NameConvertOfUBF;
 	bool m_bGremoryCaseDBInfo;
-	GREMORYCASE_ITEM_DATA* m_GremoryCaseData;
+	GREMORYCASE_ITEM_DATA** m_GremoryCaseData;
 	CSkillDelay SkillDelay;
 	DWORD m_dwGensHitTeleportDelay; // Private custom for joinmu
 	DWORD dwOpenWareCnt;

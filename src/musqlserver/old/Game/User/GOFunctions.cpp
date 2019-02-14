@@ -3580,7 +3580,7 @@ void gObjAllDisconnect()
 	}
 }
 
-void gObjTradeSave(CGameObject &Obj, int index)
+void gObjTradeSave(CGameObject &Obj)
 {
 	if (Obj.m_IfState->use != 0 && Obj.m_IfState->type == 1)
 	{
@@ -3714,7 +3714,7 @@ short gObjMemFree(CGameObject &Obj)
 		return false;
 	}
 
-	gObjTradeSave(Obj, index);
+	gObjTradeSave(Obj);
 
 	if (Obj.Connected >= PLAYER_LOGGED)
 	{
@@ -8337,7 +8337,7 @@ void gObjPenaltyDurDown(CGameObject &Obj, CGameObject lpTargetObj)	// Functio n 
 
 	if (Wing->IsItem())
 	{
-		ret = DurItem->DurabilityDown2(decdur, lpObj);
+		ret = DurItem->DurabilityDown2(decdur, Obj);
 
 		if (ret != 0)
 		{
@@ -8390,7 +8390,7 @@ void gObjWeaponDurDown(CGameObject &Obj, CGameObject lpTargetObj, int type)
 		{
 			if (rand() % 2 == 0)
 			{
-				ret = Left->NormalWeaponDurabilityDown(itargetdefence, lpObj);
+				ret = Left->NormalWeaponDurabilityDown(itargetdefence, Obj);
 
 				if (ret != 0)
 				{
@@ -8403,7 +8403,7 @@ void gObjWeaponDurDown(CGameObject &Obj, CGameObject lpTargetObj, int type)
 			}
 			else
 			{
-				ret = Right->NormalWeaponDurabilityDown(itargetdefence, lpObj);
+				ret = Right->NormalWeaponDurabilityDown(itargetdefence, Obj);
 				if (ret != 0)
 				{
 					gGameProtocol.GCItemObjectDurSend(Obj, 0, Right->m_Durability, 0);
@@ -8418,7 +8418,7 @@ void gObjWeaponDurDown(CGameObject &Obj, CGameObject lpTargetObj, int type)
 		}
 		else if (Right->m_Type >= ITEMGET(4, 0) && Right->m_Type <= ITEMGET(4, 6) || Right->m_Type >= ITEMGET(4, 8) && Right->m_Type <= ITEMGET(4, 14) || Right->m_Type >= ITEMGET(4, 16) && Right->m_Type <= ITEMGET(4, 31)) //season12 add-on
 		{
-			ret = Right->BowWeaponDurabilityDown(itargetdefence, lpObj);
+			ret = Right->BowWeaponDurabilityDown(itargetdefence, Obj);
 
 			if (ret != 0)
 			{
@@ -8431,7 +8431,7 @@ void gObjWeaponDurDown(CGameObject &Obj, CGameObject lpTargetObj, int type)
 		}
 		else if (Right->m_Type >= ITEMGET(0, 0) && Right->m_Type < ITEMGET(4, 0))
 		{
-			ret = Right->NormalWeaponDurabilityDown(itargetdefence, lpObj);
+			ret = Right->NormalWeaponDurabilityDown(itargetdefence, Obj);
 
 			if (ret != 0)
 			{
@@ -8444,7 +8444,7 @@ void gObjWeaponDurDown(CGameObject &Obj, CGameObject lpTargetObj, int type)
 		}
 		else if (Right->m_Type >= ITEMGET(5, 0) && Right->m_Type < ITEMGET(6, 0))
 		{
-			ret = Right->StaffWeaponDurabilityDown(itargetdefence, lpObj);
+			ret = Right->StaffWeaponDurabilityDown(itargetdefence, Obj);
 
 			if (ret != 0)
 			{
@@ -8469,7 +8469,7 @@ void gObjWeaponDurDown(CGameObject &Obj, CGameObject lpTargetObj, int type)
 
 	if (Right->m_Type >= ITEMGET(5, 0) && Right->m_Type < ITEMGET(6, 0))
 	{
-		ret = Right->StaffWeaponDurabilityDown(itargetdefence, lpObj);
+		ret = Right->StaffWeaponDurabilityDown(itargetdefence, Obj);
 		if (ret != 0)
 		{
 			gGameProtocol.GCItemObjectDurSend(Obj, 0, Right->m_Durability, 0);
@@ -8507,7 +8507,7 @@ void gObjArmorRandomDurDown(CGameObject &Obj, CGameObject lpAttackObj)
 	{
 		if (DurItem->m_Type >= ITEMGET(6, 0) && DurItem->m_Type < ITEMGET(7, 0))
 		{
-			ret = DurItem->ArmorDurabilityDown(damagemin, lpObj);
+			ret = DurItem->ArmorDurabilityDown(damagemin, Obj);
 
 			if (ret != 0)
 			{
@@ -8524,7 +8524,7 @@ void gObjArmorRandomDurDown(CGameObject &Obj, CGameObject lpAttackObj)
 	{
 		if (DurItem->m_Type != ITEMGET(4, 7) && DurItem->m_Type != ITEMGET(4, 15))
 		{
-			ret = DurItem->ArmorDurabilityDown(damagemin, lpObj);
+			ret = DurItem->ArmorDurabilityDown(damagemin, Obj);
 
 			if (ret != 0)
 			{
@@ -8831,7 +8831,7 @@ void gObjMonsterExpDivisionRenewal(CGameObject &MonObj, CGameObject &Obj, int At
 		{
 			if (stHitParty[i].nPartyNumber >= 0)
 			{
-				UINT64 nTempDropZen = gObjExpPartyRenewal(stHitParty[i].nPartyNumber, Obj, MonObj, stHitParty[i].nHitDamage, lpMonObj.MaxLife, 1);
+				UINT64 nTempDropZen = gObjExpPartyRenewal(stHitParty[i].nPartyNumber, Obj, MonObj, stHitParty[i].nHitDamage, MonObj.MaxLife, 1);
 
 				if (nTempDropZen > 0)
 					nDropZen = nTempDropZen;
@@ -8886,7 +8886,7 @@ UINT64 gObjMonsterExpSingle(CGameObject &Obj, CGameObject &TargetObj, int dmg, i
 		return 0;
 	}
 
-	if (g_MasterLevelSkillTreeSystem.CheckMLGetExp(Obj, lpTargetObj) == FALSE)
+	if (g_MasterLevelSkillTreeSystem.CheckMLGetExp(Obj, TargetObj) == FALSE)
 	{
 		bSendExp = FALSE;
 		return FALSE;
@@ -8899,14 +8899,14 @@ UINT64 gObjMonsterExpSingle(CGameObject &Obj, CGameObject &TargetObj, int dmg, i
 
 	if (DS_MAP_RANGE(Obj.MapNumber))
 	{
-		nDropZen = g_DevilSquare.gObjMonsterExpSingle(Obj, lpTargetObj, dmg, tot_dmg);
+		nDropZen = g_DevilSquare.gObjMonsterExpSingle(Obj, TargetObj, dmg, tot_dmg);
 		return nDropZen;
 	}
 
 	UINT64 exp;
 	UINT64 maxexp = 0;
 
-	int level = (lpTargetObj.Level + 25)*lpTargetObj.Level / 3; //  formula 3
+	int level = (TargetObj.Level + 25)*lpTargetObj.Level / 3; //  formula 3
 	int userlevel = Obj.Level;
 
 	if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(Obj) == TRUE)
@@ -8914,14 +8914,14 @@ UINT64 gObjMonsterExpSingle(CGameObject &Obj, CGameObject &TargetObj, int dmg, i
 		userlevel += Obj.m_PlayerData->MasterLevel;
 	}
 
-	if ((lpTargetObj.Level + 10) < userlevel)
+	if ((TargetObj.Level + 10) < userlevel)
 	{
 		level = level * (lpTargetObj.Level + 10) / userlevel; // formula 3
 	}
 
-	if (lpTargetObj.Level >= 65)
+	if (TargetObj.Level >= 65)
 	{
-		level += (lpTargetObj.Level - 64)*(lpTargetObj.Level / 4); // formula 4
+		level += (TargetObj.Level - 64)*(TargetObj.Level / 4); // formula 4
 	}
 
 	if (level > 0)
@@ -8998,7 +8998,7 @@ UINT64 gObjMonsterExpSingle(CGameObject &Obj, CGameObject &TargetObj, int dmg, i
 
 	if (exp > 0)
 	{
-		CheckItemOptForGetExpExRenewal(Obj, exp, dwDefaultExp, false, lpTargetObj);
+		CheckItemOptForGetExpExRenewal(Obj, exp, dwDefaultExp, false, TargetObj);
 
 		if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(Obj))
 		{
@@ -9009,7 +9009,7 @@ UINT64 gObjMonsterExpSingle(CGameObject &Obj, CGameObject &TargetObj, int dmg, i
 			Obj.m_PlayerData->Experience += exp;
 		}
 
-		if (gObjLevelUp(Obj, exp, lpTargetObj.Class, "Single") == 0)
+		if (gObjLevelUp(Obj, exp, TargetObj.Class, "Single") == 0)
 		{
 			bSendExp = 0;
 		}
@@ -9463,13 +9463,13 @@ UINT64 gObjExpPartyRenewal(int nPartyNumber, CGameObject &Obj, CGameObject &Targ
 		{
 			if (gGameObjects[nNumber]->Connected == PLAYER_PLAYING)
 			{
-				if (lpTargetObj.MapNumber == gGameObjects[nNumber]->MapNumber)
+				if (TargetObj.MapNumber == gGameObjects[nNumber]->MapNumber)
 				{
-					dis[n] = gObjCalDistance(lpTargetObj, *gGameObjects[nNumber]);
+					dis[n] = gObjCalDistance(TargetObj, *gGameObjects[nNumber]);
 
 					if (dis[n] < 10)
 					{
-						CGameObject* lpPartyObj = lpObj;
+						CGameObject* lpPartyObj = Obj.GetParty();
 
 						nViewPlayer++;
 						bCheckSetParty[gGameObjects[nNumber]->Class] = 1;
@@ -9668,7 +9668,7 @@ UINT64 gObjExpPartyRenewal(int nPartyNumber, CGameObject &Obj, CGameObject &Targ
 									lpPartyObj->m_PlayerData->Experience += nExp;
 								}
 
-								if (gObjLevelUp(*lpPartyObj, nExp, lpTargetObj.Class, "Party") == 0)
+								if (gObjLevelUp(*lpPartyObj, nExp, TargetObj.Class, "Party") == 0)
 								{
 									continue;
 								}
@@ -10316,12 +10316,12 @@ void gObjLifeCheck(CGameObject &TargetObj, CGameObject& lpObj, int AttackDamage,
 			//	lpTargetObj.m_btExpType = 1;
 			if (lpTargetObj.m_btExpType == 1)
 			{
-				gObjMonsterExpDivisionRenewal(lpTargetObj, lpCallObj, AttackDamage, MSBFlag);
+				gObjMonsterExpDivisionRenewal(lpTargetObj, *lpCallObj, AttackDamage, MSBFlag);
 			}
 
 			if (lpCallObj->PartyNumber >= 0)
 			{
-				gObjExpParty(lpCallObj, lpTargetObj, AttackDamage, MSBFlag);
+				gObjExpParty(*lpCallObj, lpTargetObj, AttackDamage, MSBFlag);
 			}
 			else if (lpTargetObj.Type == OBJ_MONSTER)
 			{
@@ -22158,10 +22158,13 @@ BOOL gObjGuildWarMasterClose(CGameObject &Obj)
 		return false;
 	}
 
+	// TODO - Is GuildMember Owner.
+	/*
 	if (strcmp(Obj.m_PlayerData->lpGuild->Names[0], Obj.Name))
 	{
 		return false;
 	}
+	*/
 
 	gObjGuildWarEndSend(Obj, 3, 2);
 
@@ -23968,7 +23971,7 @@ BOOL gObjDuelCheck(CGameObject &Obj)
 	return bRetVal;
 }
 
-BOOL gObjDuelCheck(CGameObject &Obj, CGameObject lpTargetObj)
+BOOL gObjDuelCheck(CGameObject &Obj, CGameObject &lpTargetObj)
 {
 	BOOL bRetVal = FALSE;
 	if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
@@ -25920,7 +25923,7 @@ BYTE gObjPentagramMixBoxInsertItemPos(CGameObject &Obj, CItemObject item, int po
 
 	lpObj = lpObj;
 
-	if (Obj.m_PlayerData->pPentagramMixBox[pos].IsItem() == 1)
+	if (Obj.m_PlayerData->pPentagramMixBox[pos]->IsItem() == 1)
 	{
 		return -1;
 	}
