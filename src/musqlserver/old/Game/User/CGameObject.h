@@ -368,7 +368,7 @@ public:
 	BYTE m_ClientHackLogCount;	// F43
 	bool m_bIsInMonsterHerd;	// F44
 	bool m_bIsMonsterAttackFirst;	// F48
-	MonsterHerd* m_lpMonsterHerd;	// F4C
+	class MonsterHerd* m_lpMonsterHerd;	// F4C
 	int fSkillFrustrumX[MAX_ARRAY_FRUSTRUM];	// F84
 	int fSkillFrustrumY[MAX_ARRAY_FRUSTRUM];	// F94
 	TDurMagicKeyChecker* DurMagicKeyChecker;	// FD8

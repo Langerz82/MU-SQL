@@ -1206,8 +1206,8 @@ void gObjCharZeroSet(CGameObject &Obj)
 
 		for (int i = 0; i < EVENT_INVENTORY_SIZE; i++)
 		{
-			Obj.pEventInventoryMap1.Inventory1[i]->Clear();
-			Obj.pEventInventoryMap2.Inventory2[i]->Clear();
+			Obj.pEventInventoryMap1->Inventory1[i]->Clear();
+			Obj.pEventInventoryMap2->Inventory2[i]->Clear();
 		}
 
 		Obj.EventInventoryLoad = false;
@@ -3560,7 +3560,8 @@ void gObjAllDisconnect()
 			{
 				if (gGameObjects[n]->m_bOff != false)
 				{
-					gGameProtocol.SetCharacterInfo(*gGameObjects[n], n, FALSE);
+					// TODO
+					//gGameProtocol.SetCharacterInfo(*gGameObjects[n], n, FALSE);
 					gGameObjects[n]->m_bOff = false;
 					gObjDel(*gGameObjects[n]);
 
@@ -6561,7 +6562,7 @@ void gObjUserDie(CGameObject &Obj, CGameObject& lpTargetObj)
 
 				if (Obj.pInventory[number]->IsItem() == 1 && Obj.pInventory[number]->m_Level < g_ConfigRead.pk.iPkMaxLevelItemDrop)
 				{
-					if (g_kJewelOfHarmonySystem.IsStrengthenByJewelOfHarmony(&Obj.pInventory[number]) == 0 && IsCashItem(Obj.pInventory[number]->m_Type) == 0)
+					if (g_kJewelOfHarmonySystem.IsStrengthenByJewelOfHarmony(Obj.pInventory[number]) == 0 && IsCashItem(Obj.pInventory[number]->m_Type) == 0)
 					{
 						PMSG_ITEMTHROW lpMsg;
 						lpMsg.Ipos = number;
@@ -9369,7 +9370,7 @@ void gObjExpParty(CGameObject &Obj, CGameObject &TargetObj, int AttackDamage, in
 
 				if (exp > 0)
 				{
-					CheckItemOptForGetExpExRenewal(*lpPartyObj, exp, dwDefaultExp, false, ObjTarget);
+					CheckItemOptForGetExpExRenewal(*lpPartyObj, exp, dwDefaultExp, false, TargetObj);
 
 					if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(*lpPartyObj))
 					{
@@ -9386,7 +9387,7 @@ void gObjExpParty(CGameObject &Obj, CGameObject &TargetObj, int AttackDamage, in
 						continue;
 					}
 
-					gGameProtocol.GCKillPlayerMasterExpSend(*lpPartyObj, ObjTarget, exp, AttackDamage, MSBFlag);
+					gGameProtocol.GCKillPlayerMasterExpSend(*lpPartyObj, TargetObj, exp, AttackDamage, MSBFlag);
 				}
 			}
 		}
@@ -12196,7 +12197,7 @@ BYTE gObjInventoryInsertItemPos(CGameObject &Obj, CItemObject &item, int pos, BO
 
 	if (pos < 12 || pos == 236)
 	{
-		CItemObject * lpItem = &Obj.pInventory[pos];
+		CItemObject * lpItem = Obj.pInventory[pos];
 
 		if (lpItem->m_Option1)
 		{
@@ -13400,7 +13401,7 @@ BYTE gObjInventoryMoveItem(CGameObject &Obj, BYTE source, BYTE target, int& durS
 
 				if (target > 12 && g_LuckyItemManager.IsLuckyItemEquipment(Obj.pInventory[target]->m_Type))
 				{
-					CItemObject * lpItem = &Obj.pInventory[target];
+					CItemObject * lpItem = Obj.pInventory[target];
 					g_LuckyItemManager.GDReqLuckyItemInsert(lpItem, Obj.m_Index);
 				}
 				break;
@@ -13457,7 +13458,7 @@ BYTE gObjInventoryMoveItem(CGameObject &Obj, BYTE source, BYTE target, int& durS
 
 			if (target < INVETORY_WEAR_SIZE || target == 236)
 			{
-				CItemObject * lpItem = &Obj.pInventory[target];
+				CItemObject * lpItem = Obj.pInventory[target];
 				if (lpItem->m_Option1)
 				{
 					int s_pos = gObjWeaponMagicAdd(Obj, lpItem->m_Special[0], lpItem->m_Level);
@@ -21682,9 +21683,9 @@ BOOL gObjItemRandomLevelUp(CGameObject &Obj, int source, int target)
 		0,
 		CURRENT_DB_VERSION);
 
-	if (g_kJewelOfHarmonySystem.IsStrengthenByJewelOfHarmony(&Obj.pInventory[target]) == 1)
+	if (g_kJewelOfHarmonySystem.IsStrengthenByJewelOfHarmony(Obj.pInventory[target]) == 1)
 	{
-		if (g_kJewelOfHarmonySystem.IsActive(&Obj.pInventory[target]) == 0)
+		if (g_kJewelOfHarmonySystem.IsActive(Obj.pInventory[target]) == 0)
 		{
 			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 271), Obj, 1);
 		}
@@ -21789,7 +21790,7 @@ BOOL gObjItemRandomOption3Up(CGameObject &Obj, int source, int target)
 
 	BYTE NewOption[8];
 
-	ItemIsBufExOption(NewOption, &Obj.pInventory[target]);
+	ItemIsBufExOption(NewOption, Obj.pInventory[target]);
 
 	return true;
 }
@@ -23246,11 +23247,6 @@ void gObjUseCircle(CGameObject &Obj, int pos)
 
 void gObjUsePlusStatFruit(CGameObject &Obj, int pos)
 {
-	if (!ObjectMaxRange(Obj))
-	{
-		return;
-	}
-
 	if (Obj.Class > 6 || Obj.Class < 0)
 	{
 		return;
@@ -24361,7 +24357,7 @@ void gObjSetExpPetItem(CGameObject &Obj, UINT64 exp)
 
 		if (Obj.pInventory[Obj.m_btInvenPetPos].AddPetItemExp(addexp))
 		{
-			if (gObjUseInvenPetCheck(Obj, &Obj.pInventory[Obj.m_btInvenPetPos], 1) == 0)
+			if (gObjUseInvenPetCheck(Obj, Obj.pInventory[Obj.m_btInvenPetPos], 1) == 0)
 			{
 				Obj.pInventory[Obj.m_btInvenPetPos].PetItemLevelDown(addexp);
 				MsgOutput(Obj, Lang.GetText(0, 137));
@@ -24377,7 +24373,7 @@ void gObjSetExpPetItem(CGameObject &Obj, UINT64 exp)
 
 		if (Obj.pInventory[Obj.m_btInvenPetPos].AddPetItemExp(addexp))
 		{
-			if (gObjUseInvenPetCheck(Obj, &Obj.pInventory[Obj.m_btInvenPetPos], 1) == 0)
+			if (gObjUseInvenPetCheck(Obj, Obj.pInventory[Obj.m_btInvenPetPos], 1) == 0)
 			{
 				Obj.pInventory[Obj.m_btInvenPetPos].PetItemLevelDown(addexp);
 				MsgOutput(Obj, Lang.GetText(0, 138));
@@ -24397,7 +24393,7 @@ void gObjSetExpPetItem(CGameObject &Obj, UINT64 exp)
 
 		if (Obj.pInventory[Obj.m_btInvenPetPos].AddPetItemExp(addexp))
 		{
-			if (gObjUseInvenPetCheck(Obj, &Obj.pInventory[Obj.m_btInvenPetPos], 1) == 0)
+			if (gObjUseInvenPetCheck(Obj, Obj.pInventory[Obj.m_btInvenPetPos], 1) == 0)
 			{
 				Obj.pInventory[Obj.m_btInvenPetPos].PetItemLevelDown(addexp);
 				MsgOutput(Obj, Lang.GetText(0, 138));
@@ -24415,7 +24411,7 @@ void gObjSetExpPetItem(CGameObject &Obj, UINT64 exp)
 
 		if (Obj.pInventory[Obj.m_btInvenPetPos].AddPetItemExp(addexp))
 		{
-			if (gObjUseInvenPetCheck(Obj, &Obj.pInventory[Obj.m_btInvenPetPos], 1) == 0)
+			if (gObjUseInvenPetCheck(Obj, Obj.pInventory[Obj.m_btInvenPetPos], 1) == 0)
 			{
 				Obj.pInventory[Obj.m_btInvenPetPos].PetItemLevelDown(addexp);
 				MsgOutput(Obj, Lang.GetText(0, 137));
@@ -25071,8 +25067,8 @@ void gObjWeaponDurDownInCastle(CGameObject &Obj, CGameObject lpTargetObj, int iD
 
 	int itargetdefence = 0;
 
-	CItemObject * Right = &Obj.pInventory[0];
-	CItemObject * Left = &Obj.pInventory[1];
+	CItemObject * Right = Obj.pInventory[0];
+	CItemObject * Left = Obj.pInventory[1];
 
 	int bIsRightDurDown = 0;
 	int bIsLeftDurDown = 0;
@@ -25532,7 +25528,7 @@ int gObjCheckInventorySerial0Item(CGameObject &Obj)
 			continue;
 		}
 
-		if (gObjCheckSerial0ItemList(&Obj.pInventory[i]) == 0)
+		if (gObjCheckSerial0ItemList(Obj.pInventory[i]) == 0)
 		{
 			continue;
 		}
@@ -26896,7 +26892,7 @@ BOOL UseBundleOfBlessJewel(CGameObject &Obj, int source, int target)
 		return FALSE;
 	}
 
-	CItemObject * ItemPickax = &Obj.pInventory[target];
+	CItemObject * ItemPickax = Obj.pInventory[target];
 	short sRepairValue = g_MineSystem.GetRepairValueOfJewel(Obj.pInventory[source]->m_Type, Obj.pInventory[source]->m_Level);
 
 	if (sRepairValue < 0)
@@ -26921,7 +26917,7 @@ BOOL IsExceptionJewelOfBlessInchant(CGameObject &Obj, int source, int target)
 {
 	if (Obj.pInventory[target]->m_Type == ITEMGET(13, 37))
 	{
-		CItemObject * ItemFenrir = &Obj.pInventory[target];
+		CItemObject * ItemFenrir = Obj.pInventory[target];
 
 		if (ItemFenrir->m_Durability >= 255)
 		{
@@ -26962,7 +26958,7 @@ BOOL IsExceptionJewelOfBlessInchant(CGameObject &Obj, int source, int target)
 
 	else if (g_MineSystem.IsPickax(Obj.pInventory[target]->m_Type) == TRUE)
 	{
-		CItemObject * ItemPickax = &Obj.pInventory[target];
+		CItemObject * ItemPickax = Obj.pInventory[target];
 		short sRepairValue = g_MineSystem.GetRepairValueOfJewel(Obj.pInventory[source]->m_Type, Obj.pInventory[source]->m_Level);
 
 		if (sRepairValue < 0)
@@ -26985,7 +26981,7 @@ BOOL IsExceptionJewelOfBlessInchant(CGameObject &Obj, int source, int target)
 
 	else if (Obj.pInventory[target]->m_Type == ITEMGET(13, 268))
 	{
-		CItemObject * DSFRing = &Obj.pInventory[target];
+		CItemObject * DSFRing = Obj.pInventory[target];
 
 		if (DSFRing->m_Durability >= 255)
 		{
@@ -28262,7 +28258,7 @@ void gObjInvenPetDamage(CGameObject &Obj, int damage)
 	}
 
 	float fN = 10.0f;
-	CItemObject * sprite = &Obj.pInventory[Obj.m_btInvenPetPos];
+	CItemObject * sprite = Obj.pInventory[Obj.m_btInvenPetPos];
 	float fdamage = damage;
 
 	if (sprite->m_Type == ITEMGET(13, 2) && g_ConfigRead.pet.DamageDisableForPet[DAMAGE_OFF_UNIRIA] == false)
@@ -28999,7 +28995,7 @@ BOOL gObjUnicornSprite(CGameObject &Obj) // Season 5 Episode 2 JPN
 		return FALSE;
 	}
 
-	CItemObject * Unicorn = &Obj.pInventory[8];
+	CItemObject * Unicorn = Obj.pInventory[8];
 
 	if (Unicorn->m_Type == ITEMGET(13, 106) && Unicorn->m_Durability > 0.0f)
 	{
