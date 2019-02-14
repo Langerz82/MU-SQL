@@ -2034,7 +2034,7 @@ void DGGetWarehouseList(SDHP_GETWAREHOUSEDB_SAVE * lpMsg)
 	int itype;
 	int _type;
 	BYTE OptionData;
-	CItemObject item;
+	CItemObject &item;
 
 	memset(gObj[aIndex].pWarehouseMap, (BYTE)-1, WAREHOUSE_SIZE);
 	gObj[aIndex].WarehouseMoney = lpMsg->Money;
@@ -7567,7 +7567,7 @@ void DGLoadEventInvenItem(_tagSDHP_ANS_DBEVENT_INVEN_LOAD *lpMsg)
 	int itype;
 	int _type;
 	BYTE OptionData;
-	CItemObject item;
+	CItemObject &item;
 
 	memset(gObj[aIndex].pEventInventoryMap, (BYTE)-1, EVENT_INVENTORY_MAP_SIZE);
 

@@ -3899,7 +3899,7 @@ void CArcaBattle::GCArcaBattleUserInfo(CGameObject &Obj)
 										stABCurJoinGuildUser.btPosX = Obj.X;
 										stABCurJoinGuildUser.btPosY = Obj.Y;
 
-										BYTE btAttr = MapC[Obj.MapNumber]->GetAttr(Obj.X, Obj.Y);
+										BYTE btAttr = MapC[Obj.MapNumber].GetAttr(Obj.X, Obj.Y);
 
 										if ((btAttr & 1) == 1)
 										{

@@ -1333,7 +1333,7 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 	int itype;
 	int _type;
 	BYTE OptionData;
-	CItemObject item;
+	CItemObject &item;
 	int nMuunInvenItemCount = 0;
 
 	for (int n = 0; n < MUUN_INVENTORY_SIZE; n++)

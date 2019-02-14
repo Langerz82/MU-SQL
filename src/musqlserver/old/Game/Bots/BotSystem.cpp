@@ -864,7 +864,7 @@ bool CBotSystem::StoreAddItems(int botIndex)
 		
 		if(blank != 255)
 		{
-			CItemObject item;
+			CItemObject &item;
 			item.m_Level = this->m_BotData[botIndex].m_Shop.pItems[i].btLevel;
 			item.m_Option1 = this->m_BotData[botIndex].m_Shop.pItems[i].btSkill;
 			item.m_Option2 = this->m_BotData[botIndex].m_Shop.pItems[i].btLuck;

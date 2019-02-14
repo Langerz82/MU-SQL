@@ -9,6 +9,8 @@
 #include "generalStructs.h"
 #include "TSkillElement.h"
 #include "TMonsterSkillElementInfo.h"
+#include "TMonsterAIAgro.h"
+#include "TDurMagicKeyChecker.h"
 
 #include <vector>
 
@@ -289,7 +291,7 @@ public:
 	CItemObject** Inventory2;	// CC8
 	LPBYTE InventoryMap2;	// CCC
 	char InventoryCount2;	// CD0
-	CItemObject * Trade; // CD4
+	CItemObject** Trade; // CD4
 	LPBYTE TradeMap;	// unkCD8
 	int TradeMoney;	// CDC
 	bool TradeOk;	// CE0
@@ -302,7 +304,7 @@ public:
 	BYTE WarehouseLock;	// CF0
 	BYTE WarehouseUnfailLock;	// CF1
 	int WarehouseMoney;	// CF4
-	CItemObject * pChaosBox;	// CFC
+	CItemObject** pChaosBox;	// CFC
 	LPBYTE pChaosBoxMap;	// D00
 	int ChaosMoney;	// D04
 	int ChaosSuccessRate;	// D08
@@ -371,7 +373,7 @@ public:
 	class MonsterHerd* m_lpMonsterHerd;	// F4C
 	int fSkillFrustrumX[MAX_ARRAY_FRUSTRUM];	// F84
 	int fSkillFrustrumY[MAX_ARRAY_FRUSTRUM];	// F94
-	TDurMagicKeyChecker* DurMagicKeyChecker;	// FD8
+	class TDurMagicKeyChecker DurMagicKeyChecker;	// FD8
 	bool bIsChaosMixCompleted;	// 110E
 	bool SkillLongSpearChange;	// 110F
 	int iObjectSecTimer;	// 1514
@@ -424,7 +426,7 @@ public:
 	int m_iSubGroupNumber;	// 15B8
 	int m_iGroupMemberGuid;	// 15BC
 	int m_iRegenType;	// 15C0
-	TMonsterAIAgro * m_Agro;	// 15C4
+	class TMonsterAIAgro m_Agro;	// 15C4
 	int m_iLastAutomataRuntime;	// 18E8
 	int m_iLastAutomataDelay;	// 18EC
 	int m_iCrywolfMVPScore;	// 18F0
@@ -499,12 +501,12 @@ public:
 	WORD m_wMuunRideItem;
 	BYTE m_btInvenPetPos;
 	WORD m_wInvenPet;
-	CItemObject *pMuunInventory;
-	CItemObject *pMuunInventory1;
-	CItemObject *pMuunInventory2;
-	CItemObject *pEventInventory;
-	CItemObject *pEventInventory1;
-	CItemObject *pEventInventory2;
+	CItemObject** pMuunInventory;
+	CItemObject** pMuunInventory1;
+	CItemObject** pMuunInventory2;
+	CItemObject** pEventInventory;
+	CItemObject** pEventInventory1;
+	CItemObject** pEventInventory2;
 	BYTE  *pEventInventoryMap;
 	BYTE  *pEventInventoryMap1;
 	BYTE  *pEventInventoryMap2;

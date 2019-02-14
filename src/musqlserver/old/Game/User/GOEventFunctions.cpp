@@ -9,7 +9,7 @@ void gObjEventInventoryItemSet(CGameObject &Obj, int itempos, BYTE set_byte)
 	{
 		return;
 	}
-	if (Obj.pEventInventory[itempos].GetSize(width, height) == 0)
+	if (Obj.pEventInventory[itempos]->GetSize(width, height) == 0)
 	{
 		sLog->outBasic("error %s %d", __FILE__, __LINE__);
 		return;
@@ -67,7 +67,7 @@ bool gObjFixEventInventoryPointer(CGameObject &Obj)
 
 			for (int n = 0; n < INVENTORY_SIZE; n++)
 			{
-				Obj.pEventInventory2[n].Clear();
+				Obj.pEventInventory2[n]->Clear();
 			}
 		}
 	}
@@ -84,14 +84,13 @@ bool gObjFixEventInventoryPointer(CGameObject &Obj)
 bool gObjEventInventoryDeleteItem(CGameObject &Obj, int itempos)
 {
 	gObjEventInventoryItemSet(Obj, itempos, -1);
-	Obj.pEventInventory[itempos].Clear();
+	Obj.pEventInventory[itempos]->Clear();
 
 	return TRUE;
 }
 
 BYTE gObjEventInventoryInsertItemTemp(CGameObject &Obj, CMapItem * Item)
 {
-	CItemObject item;
 	int w, h, iwidth, iheight;
 	BYTE blank = 0;
 
@@ -130,7 +129,7 @@ BYTE gObjEventInventoryInsertItem(CGameObject &Obj, CMapItem * item)
 	int w, h, iwidth, iheight;
 	BYTE blank = 0;
 
-	CItemObject copyitem;
+	CItemObject* copyitem = new CItemObject;
 
 	if (item->GetSize((int &)iwidth, (int &)iheight) == 0)
 	{
@@ -151,17 +150,17 @@ BYTE gObjEventInventoryInsertItem(CGameObject &Obj, CMapItem * item)
 
 				if (blank != 255)
 				{
-					copyitem.m_Level = item->m_Level;
-					copyitem.m_Durability = item->m_Durability;
+					copyitem->m_Level = item->m_Level;
+					copyitem->m_Durability = item->m_Durability;
 
-					copyitem.Convert(item->m_Type, item->m_Option1, item->m_Option2, item->m_Option3, item->m_NewOption, item->m_SetOption, item->m_ItemOptionEx, item->m_SocketOption, item->m_BonusSocketOption, 0, CURRENT_DB_VERSION);
-					copyitem.SetPetItemInfo(item->m_PetItem_Level, item->m_PetItem_Exp);
+					copyitem->Convert(item->m_Type, item->m_Option1, item->m_Option2, item->m_Option3, item->m_NewOption, item->m_SetOption, item->m_ItemOptionEx, item->m_SocketOption, item->m_BonusSocketOption, 0, CURRENT_DB_VERSION);
+					copyitem->SetPetItemInfo(item->m_PetItem_Level, item->m_PetItem_Exp);
 
-					copyitem.m_Number = item->m_Number;
+					copyitem->m_Number = item->m_Number;
 
 					Obj.pEventInventory[blank] = copyitem;
 
-					gObjEventInventoryItemSet(Obj, blank, Obj.pEventInventory[blank].m_Type);
+					gObjEventInventoryItemSet(Obj, blank, Obj.pEventInventory[blank]->m_Type);
 					return blank;
 				}
 			}
@@ -172,7 +171,7 @@ GOTO_EndFunc:
 	return -1;
 }
 
-BYTE gObjEventInventoryInsertItem(CGameObject &Obj, CItemObject item)
+BYTE gObjEventInventoryInsertItem(CGameObject &Obj, CItemObject &item)
 {
 	int w, h, iwidth, iheight;
 	BYTE blank = 0;
@@ -209,9 +208,9 @@ BYTE gObjEventInventoryInsertItem(CGameObject &Obj, CItemObject item)
 						return -1;
 					}
 
-					Obj.pEventInventory[blank] = item;
+					Obj.pEventInventory[blank] = &item;
 
-					gObjEventInventoryItemSet(Obj, blank, Obj.pEventInventory[blank].m_Type);
+					gObjEventInventoryItemSet(Obj, blank, Obj.pEventInventory[blank]->m_Type);
 					return blank;
 				}
 			}
@@ -224,8 +223,8 @@ GOTO_EndFunc:
 
 BYTE gObjEventInvenItemOverlap(CGameObject &Obj, int *durSsend, int *durTsend, BYTE source, BYTE target)
 {
-	CItemObject* sitem = &Obj.pEventInventory[source];
-	CItemObject* titem = &Obj.pEventInventory[target];
+	CItemObject* sitem = Obj.pEventInventory[source];
+	CItemObject* titem = Obj.pEventInventory[target];
 
 	int max_count = 0;
 
@@ -268,7 +267,7 @@ BYTE gObjEventInvenItemOverlap(CGameObject &Obj, int *durSsend, int *durTsend, B
 			if (titem->m_Durability == 0.0)
 			{
 				gObjEventInventoryItemSet(Obj, target, -1);
-				Obj.pEventInventory[target].Clear();
+				Obj.pEventInventory[target]->Clear();
 				gGameProtocol.GCEventInventoryItemDeleteSend(Obj, target, TRUE);
 				// TODO - Send to player
 
@@ -292,7 +291,7 @@ BYTE gObjEventInvenItemOverlap(CGameObject &Obj, int *durSsend, int *durTsend, B
 			if (titem->m_Durability == 0.0)
 			{
 				gObjEventInventoryItemSet(Obj, target, -1);
-				Obj.pEventInventory[target].Clear();
+				Obj.pEventInventory[target]->Clear();
 				gGameProtocol.GCEventInventoryItemDeleteSend(Obj, target, TRUE); // TODO Send Player.
 
 				*durTsend = FALSE;
@@ -355,14 +354,14 @@ BYTE gObjEventInvenMove(CGameObject &Obj, int *durSsend, int *durTsend, BYTE sou
 		return btRet;
 	}
 
-	if (Obj.pEventInventory[source].IsItem() == FALSE || Obj.pEventInventory[target].IsItem() == TRUE)
+	if (Obj.pEventInventory[source]->IsItem() == FALSE || Obj.pEventInventory[target]->IsItem() == TRUE)
 	{
 		return -1;
 	}
 
 	int width, height;
 
-	Obj.pEventInventory[source].GetSize(width, height);
+	Obj.pEventInventory[source]->GetSize(width, height);
 	memcpy(&TempEventInventoryMap, Obj.pEventInventoryMap, EVENT_INVENTORY_MAP_SIZE);
 	gObjEventInventoryItemBoxSet(Obj, source, width, height, -1);
 
@@ -390,8 +389,8 @@ BYTE gObjEventInvenMove(CGameObject &Obj, int *durSsend, int *durTsend, BYTE sou
 	}
 
 	memcpy(&Obj.pEventInventory[blank], &Obj.pEventInventory[source], sizeof(Obj.pEventInventory[blank]));
-	Obj.pEventInventory[source].Clear();
-	gObjEventInventoryItemBoxSet(Obj, blank, width, height, Obj.pEventInventory[blank].m_Type);
+	Obj.pEventInventory[source]->Clear();
+	gObjEventInventoryItemBoxSet(Obj, blank, width, height, Obj.pEventInventory[blank]->m_Type);
 
 	return 21;
 }
@@ -412,7 +411,7 @@ BYTE gObjEventInventoryTradeMove(CGameObject &Obj, BYTE source, BYTE target)
 		return -1;
 	}
 
-	if (Obj.pEventInventory[source].IsItem() == 0)
+	if (Obj.pEventInventory[source]->IsItem() == 0)
 	{
 		return -1;
 	}
@@ -427,7 +426,7 @@ BYTE gObjEventInventoryTradeMove(CGameObject &Obj, BYTE source, BYTE target)
 		return -1;
 	}
 
-	LPITEM_ATTRIBUTE pItemAttribute = GetItemAttr(Obj.pEventInventory[source].m_Type);
+	LPITEM_ATTRIBUTE pItemAttribute = GetItemAttr(Obj.pEventInventory[source]->m_Type);
 
 	if (pItemAttribute == NULL)
 	{
@@ -439,18 +438,18 @@ BYTE gObjEventInventoryTradeMove(CGameObject &Obj, BYTE source, BYTE target)
 		return -1;
 	}
 
-	if (!IsTransactionItem(Obj.pEventInventory[source].m_Type))
+	if (!IsTransactionItem(Obj.pEventInventory[source]->m_Type))
 	{
 		return -1;
 	}
 
-	Obj.pEventInventory[source].GetSize((int &)iwidth, (int &)iheight);
-	s_num = Obj.pEventInventory[source].GetNumber();
+	Obj.pEventInventory[source]->GetSize((int &)iwidth, (int &)iheight);
+	s_num = Obj.pEventInventory[source]->GetNumber();
 
-	if (gObjCheckSerial0ItemList(&Obj.pEventInventory[source]) != 0)
+	if (gObjCheckSerial0ItemList(Obj.pEventInventory[source]) != 0)
 	{
 		MsgOutput(Obj, Lang.GetText(0, 259));
-		sLog->outBasic("[ANTI-HACK][Serial 0 Item] [Trade] (%s)(%s) Item(%s) Pos(%d)", Obj.AccountID, Obj.Name, Obj.pEventInventory[source].GetName(), source);
+		sLog->outBasic("[ANTI-HACK][Serial 0 Item] [Trade] (%s)(%s) Item(%s) Pos(%d)", Obj.AccountID, Obj.Name, Obj.pEventInventory[source]->GetName(), source);
 		return -1;
 	}
 
@@ -479,8 +478,8 @@ BYTE gObjEventInventoryTradeMove(CGameObject &Obj, BYTE source, BYTE target)
 
 		Obj.Trade[blank] = Obj.pEventInventory[source];
 		gObjEventInventoryDeleteItem(Obj, source);
-		gObjTradeItemBoxSet(Obj, blank, iwidth, iheight, Obj.Trade[blank].m_Type);
-		ItemByteConvert(itembuf, Obj.Trade[blank]);
+		gObjTradeItemBoxSet(Obj, blank, iwidth, iheight, Obj.Trade[blank]->m_Type);
+		ItemByteConvert(itembuf, *Obj.Trade[blank]);
 		gGameProtocol.GCTradeOtherAdd(Obj, blank, itembuf); // TODO Send Player.
 		return true;
 	}
@@ -511,12 +510,12 @@ BYTE gObjTradeEventInventoryMove(CGameObject &Obj, BYTE source, BYTE target)
 		return -1;
 	}
 
-	if (Obj.Trade[source].IsItem() == 0)
+	if (Obj.Trade[source]->IsItem() == 0)
 	{
 		return -1;
 	}
 
-	if (IsEventItem(Obj.Trade[source]) == FALSE)
+	if (IsEventItem(*Obj.Trade[source]) == FALSE)
 	{
 		return -1;
 	}
@@ -526,27 +525,27 @@ BYTE gObjTradeEventInventoryMove(CGameObject &Obj, BYTE source, BYTE target)
 		return -1;
 	}
 
-	if (gObjEventInventoryInsertItemPos(Obj, Obj.Trade[source], target, 1) == 255)
+	if (gObjEventInventoryInsertItemPos(Obj, *Obj.Trade[source], target, 1) == 255)
 	{
 		return -1;
 	}
 
 	s_num = 0;
-	s_num = Obj.Trade[source].m_Number;
+	s_num = Obj.Trade[source]->m_Number;
 
-	Obj.Trade[source].GetSize((int &)iwidth, (int &)iheight);
+	Obj.Trade[source]->GetSize((int &)iwidth, (int &)iheight);
 
 	gObjTradeItemBoxSet(Obj, source, iwidth, iheight, 255);
-	Obj.Trade[source].Clear();
+	Obj.Trade[source]->Clear();
 
-	ItemByteConvert(itembuf, Obj.Trade[source]);
+	ItemByteConvert(itembuf, *Obj.Trade[source]);
 
 	gGameProtocol.GCTradeOtherDel(Obj, source); // TODO Send Player
 
-	if (gObjCheckSerial0ItemList(&Obj.Trade[source]) != 0)
+	if (gObjCheckSerial0ItemList(Obj.Trade[source]) != 0)
 	{
 		MsgOutput(Obj, Lang.GetText(0, 259));
-		sLog->outBasic("[ANTI-HACK][Serial 0 Item] [Trade] (%s)(%s) Item(%s) Pos(%d)", Obj.AccountID, Obj.Name, Obj.Trade[source].GetName(), source);
+		sLog->outBasic("[ANTI-HACK][Serial 0 Item] [Trade] (%s)(%s) Item(%s) Pos(%d)", Obj.AccountID, Obj.Name, Obj.Trade[source]->GetName(), source);
 		return -1;
 	}
 
@@ -726,7 +725,7 @@ BYTE gObjEventInventoryRectCheck(CGameObject &Obj, int sx, int sy, int width, in
 	return  -1;
 }
 
-BYTE gObjEventInventoryInsertItemPos(CGameObject &Obj, CItemObject item, int pos, BOOL RequestCheck)
+BYTE gObjEventInventoryInsertItemPos(CGameObject &Obj, CItemObject &item, int pos, BOOL RequestCheck)
 {
 	if (pos < 0 || pos > EVENT_INVENTORY_SIZE)
 	{
@@ -739,7 +738,7 @@ BYTE gObjEventInventoryInsertItemPos(CGameObject &Obj, CItemObject item, int pos
 
 	int blank, useClass = 0;
 
-	if (Obj.pEventInventory[pos].IsItem() == 1)
+	if (Obj.pEventInventory[pos]->IsItem() == 1)
 	{
 		return -1;
 	}
@@ -775,7 +774,7 @@ BYTE gObjEventInventoryInsertItemPos(CGameObject &Obj, CItemObject item, int pos
 		return false;
 	}
 
-	Obj.pEventInventory[pos] = item;
+	Obj.pEventInventory[pos] = &item;
 	gObjEventInventoryItemSet(Obj, pos, 1);
 
 	return pos;
@@ -798,7 +797,7 @@ BOOL gObjEventInventorySearchSerialNum(CGameObject &Obj, UINT64 serial)
 
 	for (int n = 0; n < EVENT_INVENTORY_SIZE; n++)
 	{
-		s_num = Obj.pEventInventory[n].GetNumber();
+		s_num = Obj.pEventInventory[n]->GetNumber();
 
 		if (s_num != 0 && s_num == serial && s_num != (UINT64)-1)
 		{
@@ -813,11 +812,11 @@ BOOL gObjEventInventorySearchSerialNum(CGameObject &Obj, UINT64 serial)
 
 	for (int n = 0; n < EVENT_INVENTORY_SIZE; n++)
 	{
-		s_num = Obj.pEventInventory[n].GetNumber();
+		s_num = Obj.pEventInventory[n]->GetNumber();
 
 		if (s_num != 0 && s_num == serial && s_num != (UINT64)-1)
 		{
-			sLog->outBasic("error-L1: CopyItem Id[%s] Char[%s] Item[%s] InventoryPos[%d] serial[%I64d]", Obj.AccountID, Obj.Name, Obj.pEventInventory[n].GetName(), n, s_num);
+			sLog->outBasic("error-L1: CopyItem Id[%s] Char[%s] Item[%s] InventoryPos[%d] serial[%I64d]", Obj.AccountID, Obj.Name, Obj.pEventInventory[n]->GetName(), n, s_num);
 			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 15), Obj, 1); // TODO Send to game server.
 			gObjUserKill(Obj);
 		}

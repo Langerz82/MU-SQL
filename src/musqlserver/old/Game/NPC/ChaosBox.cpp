@@ -1328,7 +1328,7 @@ void CMixSystem::PlusItemLevelMixTest(CGameObject &Obj, int type) // OK
 	{
 		pMsg.Result = CB_SUCCESS;
 
-		CItemObject item = lpObj.pChaosBox[ItemSlot];
+		CItemObject &item = lpObj.pChaosBox[ItemSlot];
 
 		item.m_Level++;
 

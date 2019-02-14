@@ -22001,7 +22001,7 @@ void GameProtocol::CGReqCCF_EnterCheck(CGameObject &Obj)
 		IOCP.DataSend(Obj.m_Index, &pResult.h.c, pResult.h.size);
 		return;
 	}
-	if ((MapC[Obj.MapNumber]->GetAttr(Obj.X, Obj.Y) & 1) != 1)
+	if ((MapC[Obj.MapNumber].GetAttr(Obj.X, Obj.Y) & 1) != 1)
 	{
 		pResult.byResult = 19;
 		pResult.byRemainTime = 0;

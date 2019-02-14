@@ -876,7 +876,7 @@ void CCancelItemSale::MakeItem(BYTE* lpData, CItemObject * lpItem)
 {
 	int itype;
 	int _type;
-	CItemObject item;
+	CItemObject &item;
 	BYTE OptionData;
 	WORD hiWord;
 	WORD loWord;
