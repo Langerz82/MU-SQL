@@ -480,13 +480,8 @@ bool CPentagramSystem::LoadPentagramOptionScript(char *pchFileName)
 	return true;
 }
 
-bool CPentagramSystem::IsPentagramItem(CItemObject *lpItemData)
+bool CPentagramSystem::IsPentagramItem(CItemObject &Item)
 {
-	if (!lpItemData)
-	{
-		return false;
-	}
-
 	if (lpItemData->IsItem() == FALSE)
 	{
 		return false;
@@ -537,19 +532,14 @@ bool CPentagramSystem::IsPentagramMithril(int ItemIndex) // OK
 	return 0;
 }
 
-bool CPentagramSystem::IsPentagramJewel(CItemObject *lpItemData)
+bool CPentagramSystem::IsPentagramJewel(CItemObject &Item)
 {
-	if (!lpItemData)
+	if (Item.IsItem() == FALSE)
 	{
 		return false;
 	}
 
-	if (lpItemData->IsItem() == FALSE)
-	{
-		return false;
-	}
-
-	return this->IsPentagramJewel(lpItemData->m_Type);
+	return this->IsPentagramJewel(Item.m_Type);
 }
 
 bool CPentagramSystem::IsPentagramJewel(int ItemCode)

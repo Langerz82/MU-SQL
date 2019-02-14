@@ -133,7 +133,7 @@ void gObjMonsterExpDivisionRenewal(CGameObject &MonObj, CGameObject &Obj, int At
 UINT64 gObjMonsterExpSingle(CGameObject &Obj, CGameObject &TargetObj, int dmg, int tot_dmg, bool& bSendExp, UINT64& nDropZen);
 UINT64 gObjMonsterExpSingleRenewal(CGameObject &Obj, CGameObject &TargetObj, int dmg, int tot_dmg, bool &bSendExp);
 void gObjExpParty(CGameObject &Obj, CGameObject &TargetObj, int AttackDamage, int MSBFlag);
-UINT64 gObjExpPartyRenewal(int nPartyNumber, CGameObject lpObj, CGameObject lpTargetObj, int AttackDamage, int nTotalDamage, int MSBFlag);
+UINT64 gObjExpPartyRenewal(int nPartyNumber, CGameObject &Obj, CGameObject &TargetObj, int AttackDamage, int nTotalDamage, int MSBFlag);
 void gObjMonsterDieLifePlus(CGameObject &Obj, CGameObject &TartObj);
 void gObjLifeCheck(CGameObject &TargetObj, CGameObject &Obj, int AttackDamage, int DamageSendType, int MSBFlag, int MSBDamage, WORD Skill, int iShieldDamage, int iElementalDamage);
 int gObjInventoryTrans(CGameObject &Obj);
@@ -438,7 +438,6 @@ extern int gObjIsConnectedGP(CGameObject &Obj, char* CharName);
 extern int gObjIsConnectedGP(CGameObject &Obj);
 extern int gObjIsConnected(CGameObject &Obj, int dbnumber);
 extern bool gObjIsAccountValid(CGameObject &Obj, char* account);
-extern BOOL gObjIsConnected(int aIndex);
 extern int gObjIsConnectedEx(CGameObject &Obj);
 extern int gObjIsAccontConnect(CGameObject &Obj, char* accountid);
 extern int gObjPasswordCheck(CGameObject &Obj, char* szInPassword);
@@ -508,7 +507,7 @@ extern void gObjMonsterExpDivisionRenewal(CGameObject &MonObj, CGameObject &Obj,
 extern UINT64 gObjMonsterExpSingle(CGameObject &Obj, CGameObject &TargetObj, int dmg, int tot_dmg, bool& bSendExp, UINT64& nDropZen);
 extern UINT64 gObjMonsterExpSingleRenewal(CGameObject &Obj, CGameObject &TargetObj, int dmg, int tot_dmg, bool &bSendExp);
 extern void gObjExpParty(CGameObject &Obj, CGameObject &TargetObj, int AttackDamage, int MSBFlag);
-extern UINT64 gObjExpPartyRenewal(int nPartyNumber, CGameObject lpObj, CGameObject lpTargetObj, int AttackDamage, int nTotalDamage, int MSBFlag);
+extern UINT64 gObjExpPartyRenewal(int nPartyNumber, CGameObject &Obj, CGameObject &TargetObj, int AttackDamage, int nTotalDamage, int MSBFlag);
 extern void gObjMonsterDieLifePlus(CGameObject &Obj, CGameObject &TartObj);
 extern void gObjLifeCheck(CGameObject &TargetObj, CGameObject &Obj, int AttackDamage, int DamageSendType, int MSBFlag, int MSBDamage, WORD Skill, int iShieldDamage, int iElementalDamage);
 extern int gObjInventoryTrans(CGameObject &Obj);

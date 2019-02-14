@@ -38,11 +38,11 @@ public:
 	void Initialize_PentagramItemOption();
 	bool LoadPentagramOptionScript(char* pchFileName);
 
-	bool IsPentagramItem(CItemObject *lpItemData);
+	bool IsPentagramItem(CItemObject &Item);
 	bool IsPentagramItem(int ItemCode);
 
 	bool IsPentagramMithril(int ItemIndex);
-	bool IsPentagramJewel(CItemObject *lpItemData);
+	bool IsPentagramJewel(CItemObject &Item);
 	bool IsPentagramJewel(int ItemCode);
 
 	void ClearPentagramItem(CGameObject &Obj);

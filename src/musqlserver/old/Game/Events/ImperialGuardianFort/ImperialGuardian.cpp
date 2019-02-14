@@ -1548,13 +1548,8 @@ void CImperialGuardian::GCMissionFail(int nZoneIndex)
 	}
 }
 
-void CImperialGuardian::GCMissionFailUserDie(int nUserNumber)
+void CImperialGuardian::GCMissionFailUserDie(CGameObject &Obj)
 {
-	if ( !ObjectMaxRange(nUserNumber) )
-	{
-		return;
-	}
-
 	PMSG_NOTIFY_ZONE_CLEAR pMsg;
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xF7, 0x06, sizeof(pMsg));

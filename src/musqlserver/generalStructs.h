@@ -3006,7 +3006,7 @@ struct VIEWPORT_PLAYER_STRUCT
 	BYTE type;	// 4
 	short index;	// 6
 	int dis;	// 8
-
+	CGameObject* user;
 };
 
 struct MessageStateMachine

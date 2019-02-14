@@ -437,7 +437,7 @@ void CItemObjectSocketOptionSystem::GetSocketOption(CItemObject *lpItemData, BYT
 	pbSocketBonusOption = lpItemData->m_BonusSocketOption;
 }
 
-bool CItemObjectSocketOptionSystem::IsSocketItem(CItemObject *lpItemData)
+bool CItemObjectSocketOptionSystem::IsSocketItem(CItemObject &Item)
 {
 	if (lpItemData == NULL)
 	{

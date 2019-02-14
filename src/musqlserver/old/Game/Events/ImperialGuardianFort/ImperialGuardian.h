@@ -84,18 +84,18 @@ public:
 	void ImperialGuardianProcessInit();
 
 	void Run();
-	void CGEnterPortal(int nUserIndex, int nDestZoneIndex);
-	int GetCurrentZoneIndex(int nUserNumber);
-	void GCMissionFailUserDie(int nUserNumber);
+	void CGEnterPortal(CGameObject& Obj, int nDestZoneIndex);
+	int GetCurrentZoneIndex(CGameObject& Obj);
+	void GCMissionFailUserDie(CGameObject& Obj);
 	void DropItem(CGameObject &player, CGameObject &monster);
-	bool IsAttackAbleMonster(int nMonsterIndex);
-	void DestroyGate(int nZoneIndex, int nIndex, int nTargetIndex);
+	bool IsAttackAbleMonster(CGameObject& Obj);
+	void DestroyGate(int nZoneIndex, CGameObject& Obj, CGameObject& ObjTarget);
 	_stZoneInfo * GetZoneInfo(_stZoneInfo * result, int nZoneIndex);
 	void SetTargetMoveAllMonster(int nZoneIndex, int nTargetNumber);
 	void MonsterBaseAct(CGameObject &Obj);
 	void SetDayOfWeekGM(int nDayOfWeeks);
 	void SetCheatModeGM(WORD nCheatMode);
-	void WarpZoneGM(int nUserIndex, int nZoneIndex);
+	void WarpZoneGM(CGameObject& Obj, int nZoneIndex);
 	int GetMixNeedZen();
 
 	int GetPaperScrapDropRate() { return this->m_nPaperScrapDropRate; }

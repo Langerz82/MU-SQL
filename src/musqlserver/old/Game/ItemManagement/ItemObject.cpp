@@ -185,7 +185,7 @@ void CItemObject::Convert(int type, BYTE Option1, BYTE Option2, BYTE Option3, BY
 
 	this->m_ItemOptionEx = ItemEffectEx;
 
-	if (g_SocketOptionSystem.IsSocketItem(this) == true)
+	if (g_SocketOptionSystem.IsSocketItem(*this) == true)
 	{
 
 		if (SocketOption)
@@ -198,7 +198,7 @@ void CItemObject::Convert(int type, BYTE Option1, BYTE Option2, BYTE Option3, BY
 			}
 		}
 
-		if (g_SocketOptionSystem.IsSocketItem(this) == true)
+		if (g_SocketOptionSystem.IsSocketItem(*this) == true)
 		{
 			this->m_ItemOptionEx = 0;
 			this->m_JewelOfHarmonyOption = 0;
@@ -207,7 +207,7 @@ void CItemObject::Convert(int type, BYTE Option1, BYTE Option2, BYTE Option3, BY
 			this->m_NewOption = 0;
 		}
 	}
-	else if (g_PentagramSystem.IsPentagramItem(this) == true || g_PentagramSystem.IsPentagramJewel(this) == true)
+	else if (g_PentagramSystem.IsPentagramItem(*this) == true || g_PentagramSystem.IsPentagramJewel(*this) == true)
 	{
 		if (SocketOption)
 		{
@@ -619,7 +619,7 @@ void CItemObject::Convert(int type, BYTE Option1, BYTE Option2, BYTE Option3, BY
 			}
 		}
 
-		if (g_PentagramSystem.IsPentagramItem(this) == true)
+		if (g_PentagramSystem.IsPentagramItem(*this) == true)
 		{
 			this->m_DamageMax += this->m_Level * 3;
 		}
@@ -657,7 +657,7 @@ void CItemObject::Convert(int type, BYTE Option1, BYTE Option2, BYTE Option3, BY
 			}
 		}
 
-		if (g_PentagramSystem.IsPentagramItem(this) == true)
+		if (g_PentagramSystem.IsPentagramItem(*this) == true)
 		{
 			this->m_DamageMin += this->m_Level * 3;
 		}
@@ -1688,7 +1688,7 @@ void CItemObject::Convert(int type, BYTE Option1, BYTE Option2, BYTE Option3, BY
 	this->m_Part = p->ItemSlot;
 	this->Value();
 
-	if (g_PentagramSystem.IsPentagramItem(this) == TRUE)
+	if (g_PentagramSystem.IsPentagramItem(*this) == TRUE)
 	{
 		this->m_CurrentDurabilityState = 0.0;
 	}
@@ -2998,7 +2998,7 @@ void CItemObject::Value()
 		Gold += (UINT64)(Gold * 16.0 / 100.0);
 	}*/
 
-	if (g_SocketOptionSystem.IsSocketItem(this) == TRUE)
+	if (g_SocketOptionSystem.IsSocketItem(*this) == TRUE)
 	{
 		int iSocketSlotCount = 0;
 		DWORD dwSeedSphereValue = 0;
@@ -3038,7 +3038,7 @@ void CItemObject::Value()
 	}
 	*/
 
-	if (g_PentagramSystem.IsPentagramItem(this) == TRUE)
+	if (g_PentagramSystem.IsPentagramItem(*this) == TRUE)
 	{
 		int iPentagramSocketSlotCount = 0;
 
@@ -4643,12 +4643,12 @@ void ItemByteConvert(BYTE* buf, CItemObject &item)
 
 	buf[n] = item.m_JewelOfHarmonyOption;
 
-	if (g_SocketOptionSystem.IsSocketItem(&item) == true)
+	if (g_SocketOptionSystem.IsSocketItem(item) == true)
 	{
 		buf[n] = item.m_BonusSocketOption;
 	}
 
-	if (g_PentagramSystem.IsPentagramItem(&item) == true || g_PentagramSystem.IsPentagramJewel(&item) == true)
+	if (g_PentagramSystem.IsPentagramItem(item) == true || g_PentagramSystem.IsPentagramJewel(item) == true)
 		buf[n] = item.m_BonusSocketOption;
 
 #if(TEST_FIX_MUUN == 0)
@@ -4903,11 +4903,11 @@ void ItemByteConvert32(BYTE* buf, CItemObject * const item, int maxitem)
 
 			buf[n] = item[index].m_JewelOfHarmonyOption;
 
-			if (g_SocketOptionSystem.IsSocketItem(&item[index]) == true)
+			if (g_SocketOptionSystem.IsSocketItem(item[index]) == true)
 				buf[n] = item[index].m_BonusSocketOption;
 
-			if (g_PentagramSystem.IsPentagramItem(&item[index]) == true
-				|| g_PentagramSystem.IsPentagramJewel(&item[index]) == true)
+			if (g_PentagramSystem.IsPentagramItem(item[index]) == true
+				|| g_PentagramSystem.IsPentagramJewel(item[index]) == true)
 				buf[n] = item[index].m_BonusSocketOption;
 
 			if (g_CMuunSystem.IsMuunItem(&item[index]) == true)
@@ -5870,7 +5870,7 @@ int CItemObject::GetDetailItemType()
 
 void CItemObject::InitSocketItem(BYTE btCount)
 {
-	if (g_SocketOptionSystem.IsSocketItem(this) == FALSE)
+	if (g_SocketOptionSystem.IsSocketItem(*this) == FALSE)
 	{
 		return;
 	}
@@ -5885,7 +5885,7 @@ void CItemObject::InitSocketItem(BYTE btCount)
 
 void CItemObject::MakeSocketSlot(BYTE SlotCount)
 {
-	if (g_SocketOptionSystem.IsSocketItem(this) == FALSE)
+	if (g_SocketOptionSystem.IsSocketItem(*this) == FALSE)
 	{
 		return;
 	}
@@ -5900,7 +5900,7 @@ void CItemObject::MakeSocketSlot(BYTE SlotCount)
 
 bool CItemObject::IsPentagramItem() // OK
 {
-	return g_PentagramSystem.IsPentagramItem(this);
+	return g_PentagramSystem.IsPentagramItem(*this);
 }
 
 void LoadResetItemList(LPSTR szFile)

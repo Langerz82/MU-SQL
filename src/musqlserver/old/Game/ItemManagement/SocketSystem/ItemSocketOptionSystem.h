@@ -51,7 +51,7 @@ public:
 	bool GetSeedSphereEffect(BYTE btSeedSphereIndex, BYTE& pbSeedType, BYTE& pbEffectValueType, WORD& pwEffectValue);
 	void GetSocketOption(CItemObject* lpItemData, BYTE *pbSocketOption, BYTE& pbSocketBonusOption);
 
-	bool IsSocketItem(CItemObject* lpItemData);
+	bool IsSocketItem(CItemObject &Item);
 	bool IsSeedItem(int ItemCode);
 	bool IsSphereItem(int ItemCode);
 	bool IsSeedSphereItem(int ItemCode);
