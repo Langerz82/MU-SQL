@@ -1030,7 +1030,49 @@ struct stReqWaitStateListGuildMatching;
 struct TEST_ITEMSDROP;
 struct USER_CONNECT_DATA;
 struct USERWAREHOUSE_DATA;
+struct PMSG_VIEWPORTCREATE_CHANGE;
 
+
+
+
+struct PMSG_VIEWPORTCREATE_CHANGE
+{
+	BYTE	NumberH;
+	BYTE	NumberL;
+	BYTE	X;
+	BYTE	Y;
+	BYTE	SkinH;
+	BYTE	SkinL;
+	char	Id[MAX_ACCOUNT_LEN];
+	BYTE	TX;
+	BYTE	TY;
+	BYTE	DirAndPkLevel;
+	BYTE	CharSet[18];
+	BYTE	PentagramMainAttribute;
+	BYTE	MuunItemH;
+	BYTE	MuunItemL;
+	BYTE	unk;
+	BYTE	MuunSubItemH;
+	BYTE	MuunSubItemL;
+	BYTE    unk1;
+	BYTE	MuunRideItemH;
+	BYTE	MuunRideItemL;
+	BYTE    unk2;
+	BYTE	LevelH;
+	BYTE	LevelL;
+	BYTE	MaxLifeHH;
+	BYTE	MaxLifeHL;
+	BYTE	MaxLifeLH;
+	BYTE	MaxLifeLL;
+	BYTE	CurLifeHH;
+	BYTE	CurLifeHL;
+	BYTE	CurLifeLH;
+	BYTE	CurLifeLL;
+	WORD	nServerCodeOfHomeWorld;
+	BYTE	BuffEffectCount;
+	BYTE	BuffEffectList[MAX_BUFFEFFECT];
+	BYTE    unk3;
+};
 
 
 struct STR_CONNECT_USER
@@ -10169,44 +10211,6 @@ struct PMSG_USEREQUIPMENTCHANGED {
 	BYTE NumberL;
 	BYTE ItemInfo[MAX_ITEM_INFO];
 	BYTE Element;
-};
-
-struct PMSG_VIEWPORTCREATE_CHANGE {
-	BYTE NumberH;
-	BYTE NumberL;
-	BYTE X;
-	BYTE Y;
-	BYTE SkinH;
-	BYTE SkinL;
-	char Id[MAX_ACCOUNT_LEN];
-	BYTE TX;
-	BYTE TY;
-	BYTE DirAndPkLevel;
-	BYTE CharSet[18];
-	BYTE PentagramMainAttribute;
-	BYTE MuunItemH;
-	BYTE MuunItemL;
-	BYTE unk;
-	BYTE MuunSubItemH;
-	BYTE MuunSubItemL;
-	BYTE unk1;
-	BYTE MuunRideItemH;
-	BYTE MuunRideItemL;
-	BYTE unk2;
-	BYTE LevelH;
-	BYTE LevelL;
-	BYTE MaxLifeHH;
-	BYTE MaxLifeHL;
-	BYTE MaxLifeLH;
-	BYTE MaxLifeLL;
-	BYTE CurLifeHH;
-	BYTE CurLifeHL;
-	BYTE CurLifeLH;
-	BYTE CurLifeLL;
-	WORD nServerCodeOfHomeWorld;
-	BYTE BuffEffectCount;
-	BYTE BuffEffectList[MAX_BUFFEFFECT];
-	BYTE unk3;
 };
 
 struct PMSG_VIEWPORTCREATE {
