@@ -293,7 +293,7 @@ public:
 	LPBYTE TradeMap;	// unkCD8
 	int TradeMoney;	// CDC
 	bool TradeOk;	// CE0
-	CItemObject * pWarehouse; // CE4
+	CItemObject** pWarehouse; // CE4
 	char WarehouseID;
 	DWORD WarehouseTick;
 	LPBYTE pWarehouseMap; // CE8

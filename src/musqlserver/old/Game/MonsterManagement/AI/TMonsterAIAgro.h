@@ -78,11 +78,11 @@ public:
 	virtual ~TMonsterAIAgro();
 
 	void  ResetAll();
-	BOOL  SetAgro(int iTargetIndex, int iValue);
-	BOOL  DelAgro(int iTargetIndex);
-	int  GetAgro(int iTargetIndex);
-	int  IncAgro(int iTargetIndex, int iIncValue);
-	int  DecAgro(int iTargetIndex, int iDecValue);
+	BOOL  SetAgro(CGameObject &ObjTarget, int iValue);
+	BOOL  DelAgro(CGameObject &ObjTarget);
+	int  GetAgro(CGameObject &ObjTarget);
+	int  IncAgro(CGameObject &ObjTarget, int iIncValue);
+	int  DecAgro(CGameObject &ObjTarget, int iDecValue);
 	void  DecAllAgro(int iDecValue);
 	int  GetMaxAgroUserIndex(int iMonsterIndex);
 
@@ -93,10 +93,5 @@ private:
 };
 
 
-#endif // !defined(AFX_TMONSTERAIAGRO_H__691DFAE8_C8F5_4A75_B0D9_9BA0DCC1BCD4__INCLUDED_)
-
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
+#endif
 

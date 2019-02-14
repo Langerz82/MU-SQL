@@ -28,7 +28,7 @@ void TMonsterAIAgro::ResetAll()
 }
 
 
-BOOL TMonsterAIAgro::SetAgro(int iTargetIndex, int iValue)
+BOOL TMonsterAIAgro::SetAgro(CGameObject &ObjTarget, int iValue)
 {
 	for ( int i=0;i<MAX_MONSTER_AI_AGRO;i++)
 	{
@@ -42,7 +42,7 @@ BOOL TMonsterAIAgro::SetAgro(int iTargetIndex, int iValue)
 	return FALSE;
 }
 
-BOOL TMonsterAIAgro::DelAgro(int iTargetIndex)
+BOOL TMonsterAIAgro::DelAgro(CGameObject &ObjTarget)
 {
 	for ( int i=0;i<MAX_MONSTER_AI_AGRO;i++)
 	{
@@ -56,7 +56,7 @@ BOOL TMonsterAIAgro::DelAgro(int iTargetIndex)
 	return FALSE;
 }
 
-int TMonsterAIAgro::GetAgro(int iTargetIndex)
+int TMonsterAIAgro::GetAgro(CGameObject &ObjTarget)
 {
 	for ( int i=0;i<MAX_MONSTER_AI_AGRO;i++)
 	{
@@ -70,7 +70,7 @@ int TMonsterAIAgro::GetAgro(int iTargetIndex)
 }
 
 
-int TMonsterAIAgro::IncAgro(int iTargetIndex, int iIncValue)
+int TMonsterAIAgro::IncAgro(CGameObject &ObjTarget, int iIncValue)
 {
 	for ( int i=0;i<MAX_MONSTER_AI_AGRO;i++)
 	{
@@ -83,7 +83,7 @@ int TMonsterAIAgro::IncAgro(int iTargetIndex, int iIncValue)
 	return -1;
 }
 
-int TMonsterAIAgro::DecAgro(int iTargetIndex, int iDecValue)
+int TMonsterAIAgro::DecAgro(CGameObject &ObjTarget, int iDecValue)
 {
 	for ( int i=0;i<MAX_MONSTER_AI_AGRO;i++)
 	{
@@ -97,7 +97,7 @@ int TMonsterAIAgro::DecAgro(int iTargetIndex, int iDecValue)
 }
 
 
-void TMonsterAIAgro::DecAllAgro(int iDecValue)
+void TMonsterAIAgro::DecAllAgro(CGameObject &ObjTarget)
 {
 	for ( int i=0;i<MAX_MONSTER_AI_AGRO;i++)
 	{

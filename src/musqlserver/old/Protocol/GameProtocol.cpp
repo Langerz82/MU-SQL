@@ -3443,7 +3443,7 @@ void GameProtocol::GCTimeViewSend(CGameObject &Obj, int second)
 	PHeadSubSetB((BYTE*)&pMsg, 0xF3, 0x22, sizeof(pMsg));
 	pMsg.Second = second;
 
-	IOCP.DataSend(lpObj.m_Index, (UCHAR *)&pMsg, pMsg.h.size);
+	IOCP.DataSend(Obj.m_Index, (UCHAR *)&pMsg, pMsg.h.size);
 }
 
 void GameProtocol::GCGoalSend(CGameObject &Obj, char* Name1, BYTE score1, char* Name2, BYTE score2)
@@ -19683,7 +19683,7 @@ void GameProtocol::CGReqEnterAcheron(CGameObject &Obj)
 	this->GCInventoryItemDeleteSend(aIndex, pos, 1);
 }
 
-void GameProtocol::GCObjectLifeInfo(CGameObject &Obj, short sObjNum, int iMaxLife, int iCurLife)
+void GameProtocol::GCObjectLifeInfo(CGameObject &Obj, int sObjNum, int iMaxLife, int iCurLife)
 {
 	PMSG_OBJECT_LIFE_INFO pMsg;
 	PHeadSubSetB((BYTE*)&pMsg, 0xEC, 0x10, sizeof(pMsg));

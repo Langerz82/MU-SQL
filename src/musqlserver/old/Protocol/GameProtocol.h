@@ -697,7 +697,7 @@ public:
 	void GCElementalDamageSend(CGameObject &Obj, int TargetIndex, int Damage, int Elemental);
 	void GCSendErtelInfo(CGameObject &Obj);
 	void CGReqEnterAcheron(CGameObject &Obj);
-	void GCObjectLifeInfo(CGameObject &Obj, short sObjNum, int iMaxLife, int iCurLife);
+	void GCObjectLifeInfo(CGameObject &Obj, int sObjNum, int iMaxLife, int iCurLife);
 	void CGAgilityRecv(CGameObject &Obj, PMSG_AGILITYSEND * aRecv);
 	void GCPriceSend(CGameObject &Obj, BYTE type, SHOP_DATA *lpShopData);
 	int OnCGInviteDuel(PMSG_REQ_DUEL_INVITE* lpMsg, CGameObject &Obj);

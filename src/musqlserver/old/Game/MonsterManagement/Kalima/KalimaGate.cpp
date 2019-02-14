@@ -417,7 +417,7 @@ int CKalimaGate::GetKalimaGateLevel(CGameObject &Obj)
 }
 
 
-BOOL CKalimaGate::DeleteKalimaGate(int iKalimaGateIndex, int iCallOwnerIndex)
+BOOL CKalimaGate::DeleteKalimaGate(CGameObject &Obj, CGameObject &ObjOwner)
 {
 	EnterCriticalSection(&this->m_critKalimaGate);
 
@@ -446,7 +446,7 @@ BOOL CKalimaGate::DeleteKalimaGate(int iKalimaGateIndex, int iCallOwnerIndex)
 
 
 
-BOOL CKalimaGate::DeleteKalimaGate(int iCallOwnerIndex)
+BOOL CKalimaGate::DeleteKalimaGate(CGameObject &Obj)
 {
 	if ( ObjectMaxRange(iCallOwnerIndex ) == FALSE )
 	{	

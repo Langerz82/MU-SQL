@@ -34,8 +34,8 @@ public:
 	int CreateKalimaGate(CGameObject &Obj, BYTE btLevel, BYTE cTX,  BYTE cTY);
 	void KalimaGateAct(CGameObject &Obj);
 	int CheckOverlapKundunMark(CGameObject &Obj, BYTE btLevel);
-	int DeleteKalimaGate(int iCallOwnerIndex);
-	int DeleteKalimaGate(int iKalimaGateIndex, int iCallOwnerIndex);
+	int DeleteKalimaGate(CGameObject &Obj);
+	int DeleteKalimaGate(CGameObject &Obj, CGameObject &ObjOwner);
 	int CreateKalimaGate2(CGameObject &Obj, int iMonMapNumber, BYTE cTX, BYTE cTY);
 	void KalimaGateAct2(CGameObject &Obj);
 	int GetKalimaGateLevel2(CGameObject &Obj);
