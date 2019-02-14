@@ -205,7 +205,7 @@ DWORD CIOCP::IocpServerWorker(void * p)
 					continue;
 				}
 
-				if (gObjAdd(Accept, inet_ntoa(cInAddr), ClientIndex) == -1)
+				if (gObjInit() == -1)
 				{
 					sLog->outError("error-L1 : %d %d gObjAdd() failed with error %d", Accept, ClientIndex, GetLastError());
 					LeaveCriticalSection(&criti);

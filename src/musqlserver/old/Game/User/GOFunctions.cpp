@@ -587,7 +587,7 @@ void MoveMonsterProc()
 	}
 }
 
-void gObjInit()
+int gObjInit()
 {
 	try
 	{
@@ -602,9 +602,9 @@ void gObjInit()
 		gMultiAttackHackCheck = new CMultiAttackHackCheck[g_ConfigRead.server.GetObjectMax()];
 
 		gDarkSpirit = new CDarkSpirit[g_ConfigRead.server.GetObjectMaxUser()];
-		gObjCount = g_ConfigRead.server.GetObjectStartUserIndex();
-		gObjMonCount = 0;
-		gObjCallMonCount = g_ConfigRead.server.GetObjectMaxMonster();
+		//gGameObjects.size() = g_ConfigRead.server.GetObjectStartUserIndex();
+		//gObjMonCount = 0;
+		//gObjCallMonCount = g_ConfigRead.server.GetObjectMaxMonster();
 
 		gSMMsg = new MessageStateMachine *[g_ConfigRead.server.GetObjectMax()];
 		gSMAttackProcMsg = new ExMessageStateMachine *[g_ConfigRead.server.GetObjectMax()];
@@ -616,7 +616,7 @@ void gObjInit()
 		}
 
 		CItemObject* pTempInventory = new CItemObject[INVENTORY_SIZE];
-		BYTE* pTempInventoryMap = new BYTE[INVENTORY_MAP_SIZE];
+		LPBYTE pTempInventoryMap = new BYTE[INVENTORY_MAP_SIZE];
 
 		for (int n = 0; n < g_ConfigRead.server.GetObjectMax(); n++)
 		{
@@ -638,14 +638,14 @@ void gObjInit()
 				gameObject->m_PlayerData = new CUserData(n);
 				gameObject->Inventory1 = new CItemObject*[INVENTORY_SIZE];
 				gameObject->Inventory2 = new CItemObject*[INVENTORY_SIZE];
-				gameObject->InventoryMap1 = new BYTE*[INVENTORY_MAP_SIZE];
-				gameObject->InventoryMap2 = new BYTE*[INVENTORY_MAP_SIZE];
+				gameObject->InventoryMap1 = new LPBYTE[INVENTORY_MAP_SIZE];
+				gameObject->InventoryMap2 = new LPBYTE[INVENTORY_MAP_SIZE];
 				gameObject->pMuunInventory1 = new CItemObject*[MUUN_INVENTORY_SIZE];
 				gameObject->pMuunInventory2 = new CItemObject*[MUUN_INVENTORY_SIZE];
 				gameObject->pEventInventory1 = new CItemObject*[EVENT_INVENTORY_SIZE];
 				gameObject->pEventInventory2 = new CItemObject*[EVENT_INVENTORY_SIZE];
-				gameObject->pEventInventoryMap1 = new BYTE*[EVENT_INVENTORY_MAP_SIZE];
-				gameObject->pEventInventoryMap2 = new BYTE*[EVENT_INVENTORY_MAP_SIZE];
+				gameObject->pEventInventoryMap1 = new LPBYTE[EVENT_INVENTORY_MAP_SIZE];
+				gameObject->pEventInventoryMap2 = new LPBYTE[EVENT_INVENTORY_MAP_SIZE];
 			}
 
 			else
@@ -656,10 +656,10 @@ void gObjInit()
 				gameObject->pMuunInventory2 = &pTempInventory;
 				gameObject->pEventInventory1 = &pTempInventory;
 				gameObject->pEventInventory2 = &pTempInventory;
-				gameObject->InventoryMap1 = pTempInventoryMap;
-				gameObject->InventoryMap2 = pTempInventoryMap;
-				gameObject->pEventInventoryMap1 = pTempInventoryMap;
-				gameObject->pEventInventoryMap2 = pTempInventoryMap;
+				gameObject->InventoryMap1 = &pTempInventoryMap;
+				gameObject->InventoryMap2 = &pTempInventoryMap;
+				gameObject->pEventInventoryMap1 = &pTempInventoryMap;
+				gameObject->pEventInventoryMap2 = &pTempInventoryMap;
 			}
 
 			if (n >= g_ConfigRead.server.GetObjectStartUserIndex())
@@ -683,16 +683,21 @@ void gObjInit()
 
 			InitializeCriticalSection(&gameObject->m_critPShopTrade);
 		}
-		gGameObjects.insert(std::pair<int, CGameObject*>(gameObject->m_Index, gameObject));
+
+		if (gameObject->Type == OBJ_USER)
+		{
+			gObjAdd(gameObject->m_PlayerData->ConnectUser->socket, gameObject->m_PlayerData->ConnectUser->IP, *gameObject);
+		}
 	}
 
 	catch (std::exception e)
 	{
 		sLog->outError("%s", e.what());
-		return;
+		return -1;
 	}
 
 	InitFrustrumEx();
+	return 1;
 }
 
 void gObjEnd()
@@ -1206,8 +1211,8 @@ void gObjCharZeroSet(CGameObject &Obj)
 
 		for (int i = 0; i < EVENT_INVENTORY_SIZE; i++)
 		{
-			Obj.pEventInventoryMap1->Inventory1[i].Clear();
-			Obj.pEventInventoryMap2->Inventory2[i].Clear();
+			Obj.pEventInventoryMap1->Inventory1[i]->Clear();
+			Obj.pEventInventoryMap2->Inventory2[i]->Clear();
 		}
 
 		Obj.EventInventoryLoad = false;
@@ -3344,7 +3349,7 @@ short gObjAddSearch(SOCKET aSocket, char* ip)
 		return -1;
 	}
 
-	count = gObjCount;
+	count = gGameObjects.size();
 
 	while (true)
 	{
@@ -3380,7 +3385,7 @@ short gObjAdd(SOCKET aSocket, char* ip, CGameObject &Obj)
 	lpObj->LoginMsgSnd = FALSE;
 	lpObj->LoginMsgCount = 0;
 	memset(lpObj->AccountID, 0, sizeof(getGameObject(0)->AccountID) - 1);
-	lpObj->m_Index = gObjCount;
+	lpObj->m_Index = gGameObjects.size();
 	lpObj->m_socket = aSocket;
 	lpObj->ConnectCheckTime = GetTickCount();
 	lpObj->AutoSaveTime = lpObj->ConnectCheckTime;
@@ -3389,15 +3394,10 @@ short gObjAdd(SOCKET aSocket, char* ip, CGameObject &Obj)
 	lpObj->LoginMsgCount = 0;
 	lpObj->EnableCharacterCreate = 0;
 	lpObj->Type = OBJ_USER;
-	m_ObjBill[gObjCount - g_ConfigRead.server.GetObjectStartUserIndex()].Init();
+	m_ObjBill[gGameObjects.size() - g_ConfigRead.server.GetObjectStartUserIndex()].Init();
 	sLog->outBasic("Connection Accept : [%d][%s]", lpObj->m_PlayerData->IDNumber, ip);
-	gObjCount++;
 
-	if (gObjCount >= g_ConfigRead.server.GetObjectMax())
-	{
-		gObjCount = g_ConfigRead.server.GetObjectStartUserIndex();
-	}
-	gGameObjects.insert(std::pair<int,CGameObject*>(lpObj->m_Index, lpObj));
+	insertGameObject(lpObj);
 
 	return lpObj->m_Index;
 }
@@ -3475,9 +3475,6 @@ short gObjAddMonster(int iMapNumber)
 	}
 	return -1;
 }
-
-
-
 
 
 short gObjAddCallMon()
@@ -4051,6 +4048,8 @@ short gObjDel(int index)
 
 	for (int k = 0; k < 3; k++)
 		lpObj->m_nRecallMonIndex[k] = -1;
+
+	eraseGameObject(lpObj);
 
 	return 1;
 }
@@ -14048,7 +14047,7 @@ BYTE gObjInventoryMoveItem(CGameObject &Obj, BYTE source, BYTE target, int& durS
 			gGameProtocol.GCEquipmentChange(Obj, target);
 		}
 	}
-	__finally
+	//__finally
 	{
 		if (bPersonalShopTrans == 1)
 		{
@@ -19164,7 +19163,7 @@ void gObjViewportListProtocol(CGameObject &Obj)
 
 					if (tObjNum >= 0)
 					{
-						if ((getGameObject(tObjNum]->Authority & 0x20) == 0x20 && gObjCheckUsedBuffEffect(*getGameObject(tObjNum), BUFFTYPE_INVISABLE))
+						if ((getGameObject(tObjNum)->Authority & 0x20) == 0x20 && gObjCheckUsedBuffEffect(*getGameObject(tObjNum), BUFFTYPE_INVISABLE))
 							continue;
 
 						if (g_NewPVP.IsObserver(*getGameObject(tObjNum)) == TRUE)
@@ -25681,9 +25680,9 @@ int gGetPartyMaxLevel(int nPartyNumber)
 			continue;
 		}
 
-		if (nResult < (getGameObject(nUserIndex]->Level + getGameObject(nUserIndex)->m_PlayerData->MasterLevel))
+		if (nResult < (getGameObject(nUserIndex)->Level + getGameObject(nUserIndex)->m_PlayerData->MasterLevel))
 		{
-			nResult = getGameObject(nUserIndex]->Level + getGameObject(nUserIndex)->m_PlayerData->MasterLevel;
+			nResult = getGameObject(nUserIndex)->Level + getGameObject(nUserIndex)->m_PlayerData->MasterLevel;
 		}
 	}
 
@@ -25709,7 +25708,7 @@ int gGetLowHPMonster(int nZoneIndex, int nIndex, int nDistance)
 		{
 			if (monsterIndexInfo.m_bLive == true)
 			{
-				nTempTargetLife = getGameObject(monsterIndexInfo.m_nIndex]->Life / getGameObject(monsterIndexInfo.m_nIndex)->MaxLife * 100;
+				nTempTargetLife = getGameObject(monsterIndexInfo.m_nIndex)->Life / getGameObject(monsterIndexInfo.m_nIndex)->MaxLife * 100;
 
 				if (nTempTargetLife < nTargetLife || !nTargetLife)
 				{
@@ -28117,7 +28116,7 @@ int gObjGetOffTradeUsercount()
 	{
 		if (getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
 		{
-			if (getGameObject(i)->m_bOff && !gGameObjects(i)->m_bOffLevel)
+			if (getGameObject(i)->m_bOff && !getGameObject(i)->m_bOffLevel)
 				counter++;
 		}
 	}

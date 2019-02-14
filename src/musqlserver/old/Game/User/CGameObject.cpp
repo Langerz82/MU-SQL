@@ -54,7 +54,6 @@ CViewportGuild ViewGuildMng;	// line : 130
 std::map<int, CGameObject*> gGameObjects;
 
 
-int gObjCount;
 int gObjMonCount;
 int gObjCallMonCount;
 MessageStateMachine ** gSMMsg;

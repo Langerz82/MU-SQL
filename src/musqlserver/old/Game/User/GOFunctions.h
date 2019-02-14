@@ -18,7 +18,7 @@ void gObjSkillUseProcTime500(CGameObject &Obj);
 void MonsterAndMsgProc();
 void MoveMonsterProc();
 void gObjSetState();
-void gObjInit(); // constructor ?
+int gObjInit(); // constructor ?
 void gObjEnd(); // destructor ?
 void gObjClearViewportOfMine(CGameObject &Obj);
 void gObjClearViewport(CGameObject &Obj);
@@ -394,7 +394,7 @@ extern void gObjSkillUseProcTime500(CGameObject &Obj);
 extern void MonsterAndMsgProc();
 extern void MoveMonsterProc();
 extern void gObjSetState();
-extern void gObjInit(); // constructor ?
+extern int gObjInit(); // constructor ?
 extern void gObjEnd(); // destructor ?
 extern void gObjClearViewportOfMine(CGameObject &Obj);
 extern void gObjClearViewport(CGameObject &Obj);

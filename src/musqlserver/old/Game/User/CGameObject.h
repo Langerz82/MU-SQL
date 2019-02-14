@@ -25,6 +25,7 @@ class CUserData;
 class CViewportGuild;
 class TDurMagicKeyChecker;
 class TMonsterAIAgro;
+class CGameObject;
 
 struct BOT_BUFF_LIST;
 struct HITDAMAGE_STRUCT;
@@ -41,7 +42,12 @@ struct MUUN_EFFECT_LIST;
 
 
 extern std::map<int, CGameObject*> gGameObjects;
-extern CGameObject* getGameObject(int index) { return gGameObjects.find(index)->second; }
+
+// Functions forward declared.
+CGameObject* getGameObject(int index);
+void insertGameObject(CGameObject* Obj);
+void eraseGameObject(CGameObject* Obj);
+
 
 class CGameObject
 {
@@ -287,10 +293,10 @@ public:
 	char * pInventoryCount;	// CB4
 	char pTransaction;	// CB8
 	CItemObject** Inventory1;	//CBC
-	LPBYTE  InventoryMap1;	// CC0
+	LPBYTE*  InventoryMap1;	// CC0
 	char InventoryCount1;	// CC4
 	CItemObject** Inventory2;	// CC8
-	LPBYTE InventoryMap2;	// CCC
+	LPBYTE* InventoryMap2;	// CCC
 	char InventoryCount2;	// CD0
 	CItemObject** Trade; // CD4
 	LPBYTE TradeMap;	// unkCD8
@@ -584,25 +590,30 @@ public:
 //typedef CGameObject (*CGameObject);
 
 
-//extern CViewportGuild ViewGuildMng;
+extern CViewportGuild ViewGuildMng;
 
-extern BILL_CLASS* m_ObjBill;
-extern int gItemLoop;
-extern int gItemLoop2;
-extern int gItemLoopMax;
+extern int ChangeCount;
+extern int lOfsChange;
+extern int GuildUserCount;
+extern int GuildUserOfs;
+extern int GuildInfoCount;
+extern int GuildInfoOfs;
+extern int GensInfoOfs;
+extern int GensInfoCount;
+extern int gDisconnect;
 extern int gObjTotalUser;
 extern int gObjTotalMonster;
-extern int gDisconnect;
-extern int GuildInfoOfs;
-extern int GuildInfoCount;
-extern int GuilUserOfs;
-extern int GuildUserCount;
-extern int lOfsChange;
-extern int ChangeCount; // 8bf8b44
+extern int gItemLoopMax;
+extern int gItemLoop;
+extern int gItemLoop2;
 
-extern int gObjCallMonCount;
+//extern int gObjCount
 extern int gObjMonCount;
-extern int gObjCount;
+extern int gObjCallMonCount;
+extern MessageStateMachine ** gSMMsg;
+extern ExMessageStateMachine ** gSMAttackProcMsg;
+extern BILL_CLASS * m_ObjBill;	// line : 193
+extern CRaklionUtil RAKLION_UTIL;
 
 extern BYTE GuildInfoBuf[10000];
 extern BYTE GuildUserBuf[10000];
@@ -615,5 +626,13 @@ extern PMSG_VIEWPORTCREATE_CHANGE pViewportCreateChange;
 extern PMSG_VIEWPORTDESTROY pViewportDestroy;
 extern PMSG_MONSTER_VIEWPORTCREATE pMonsterViewportCreate;
 extern PMSG_CALLMONSTER_VIEWPORTCREATE pCallMonsterViewportCreate;
+
+extern PWMSG_COUNT pItemCount;
+extern PMSG_ITEMVIEWPORTCREATE pItemViewportCreate;
+extern PMSG_VIEWPORTDESTROY pItemViewportDestroy;
+
+extern CGameObject* getGameObject(int index) { return gGameObjects.find(index)->second; }
+extern void insertGameObject(CGameObject* Obj) { gGameObjects.insert(std::pair<int, CGameObject*>(Obj->m_Index, Obj)); }
+extern void eraseGameObject(CGameObject* Obj) { gGameObjects.erase(Obj->m_Index); }
 
 #endif

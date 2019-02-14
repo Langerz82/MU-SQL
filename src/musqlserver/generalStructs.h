@@ -10268,9 +10268,15 @@ struct PMSG_WAREHOUSEPASSSEND {
 };
 
 
-
 struct PWMSG_COUNT {
 	PWMSG_HEAD h;
+	BYTE count;
+};
+
+struct PBMSG_COUNT;
+struct PBMSG_COUNT
+{
+	PBMSG_HEAD h;
 	BYTE count;
 };
 
