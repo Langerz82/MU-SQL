@@ -368,10 +368,10 @@ public:
 	BYTE m_ClientHackLogCount;	// F43
 	bool m_bIsInMonsterHerd;	// F44
 	bool m_bIsMonsterAttackFirst;	// F48
-	class MonsterHerd * m_lpMonsterHerd;	// F4C
+	MonsterHerd* m_lpMonsterHerd;	// F4C
 	int fSkillFrustrumX[MAX_ARRAY_FRUSTRUM];	// F84
 	int fSkillFrustrumY[MAX_ARRAY_FRUSTRUM];	// F94
-	TDurMagicKeyChecker * DurMagicKeyChecker;	// FD8
+	TDurMagicKeyChecker* DurMagicKeyChecker;	// FD8
 	bool bIsChaosMixCompleted;	// 110E
 	bool SkillLongSpearChange;	// 110F
 	int iObjectSecTimer;	// 1514

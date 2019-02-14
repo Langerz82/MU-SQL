@@ -86,7 +86,7 @@ BOOL WarehouseExtentCheck(int x, int y, int w, int h);		//-> 1.01.00
 void gObjSetInventory1Pointer(CGameObject &Obj);
 void gObjSetInventory2Pointer(CGameObject &Obj);
 void gObjAddMsgSend(CGameObject &Obj, int aMsgCode, int aIndex, int SubCode);
-void gObjAddMsgSendDelay(CGameObject &Obj, int aMsgCode, int aIndex, int delay, int SubCode);
+void gObjAddMsgSendDelay(CGameObject &Obj, int aMsgCode, CGameObject &ObjTarget, int delay, int SubCode);
 void gObjAddMsgSendDelayInSpecificQPos(CGameObject &Obj, int aMsgCode, int aIndex, int delay, int SubCode, int iQPosition);
 void gObjAddAttackProcMsgSendDelay(CGameObject &Obj, int aMsgCode, int aIndex, int delay, int SubCode, int SubCode2);
 void gObjMsgProc(CGameObject &Obj);
