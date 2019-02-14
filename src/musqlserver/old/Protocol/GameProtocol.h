@@ -547,7 +547,7 @@ public:
 	void RecvPositionSetProc(PMSG_POSISTION_SET* lpMove, CGameObject &Obj);
 	void CGAttack(PMSG_ATTACK* lpMsg, CGameObject &Obj);
 	void GCDamageSendPoison(CGameObject &Obj, int damage, int iShieldDamage);
-	void GCDamageSend(CGameObject &Obj, int TargetIndex, int AttackDamage, int MSBFlag, int MSBDamage, int iShieldDamage);
+	void GCDamageSend(CGameObject &Obj, CGameObject &ObjTarget, int AttackDamage, int MSBFlag, int MSBDamage, int iShieldDamage);
 	void GCKillPlayerExpSend(CGameObject &Obj, CGameObject &ObjTarget, int exp, int AttackDamage, BOOL MSBFlag);
 	void GCKillPlayerMasterExpSend(CGameObject &Obj, CGameObject &ObjTarget, int exp, int AttackDamage, BOOL MSBFlag);
 	void GCDiePlayerSend(CGameObject &Obj, int TargetIndex, BYTE skill, int KillerIndex);
@@ -574,7 +574,7 @@ public:
 	void CGBeattackRecv(BYTE* lpRecv, CGameObject &Obj, int magic_send);
 	void CGDurationMagicRecv(PMSG_DURATION_MAGIC_RECV * lpMsg, CGameObject &Obj);
 	void CGDurationMagicRecv(LPBYTE lpRecv, CGameObject &Obj);
-	void ObjectMapJoinPositionSend(short aIndex);
+	void ObjectMapJoinPositionSend(CGameObject &Obj);
 	void CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj);
 	void GCReFillSend(CGameObject &Obj, int Life, BYTE Ipos, BYTE flag,  WORD wShield);
 	void GCManaSend(CGameObject &Obj, int Mana, BYTE Ipos, BYTE flag,  WORD BP);

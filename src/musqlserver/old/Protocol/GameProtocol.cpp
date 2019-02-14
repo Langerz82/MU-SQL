@@ -11571,7 +11571,7 @@ void GameProtocol::CGAttack(PMSG_ATTACK* lpMsg, CGameObject &Obj)
 	lpObj.UseMagicNumber = 0;
 }
 
-void GameProtocol::GCDamageSend(CGameObject &Obj, int TargetIndex, int AttackDamage, int MSBFlag, int MSBDamage, int iShieldDamage)
+void GameProtocol::GCDamageSend(CGameObject &Obj, CGameObject &ObjTarget, int AttackDamage, int MSBFlag, int MSBDamage, int iShieldDamage)
 {
 	PMSG_ATTACKRESULT pResult;
 

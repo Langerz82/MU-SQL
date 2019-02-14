@@ -3382,7 +3382,7 @@ void CMuunSystem::SetTarget(CGameObject &Obj, int aTargetIndex)
 	}
 }
 
-void CMuunSystem::ReSetTarget(CGameObject &Obj, int aTargetIndex)
+void CMuunSystem::ReSetTarget(CGameObject &Obj, CGameObject &ObjTarget)
 {
 	for (int i = 0; i < 2; i++)
 	{

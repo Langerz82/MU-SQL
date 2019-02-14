@@ -66,18 +66,18 @@ public:
   void ModeAttackRandom();
   void ModeAttackWithMaster();
   void ModeAttakTarget();
-  void SetTarget(int aTargetIndex);
-  void ReSetTarget(int aTargetIndex);
+  void SetTarget(CGameObject &Obj);
+  void ReSetTarget(CGameObject &Obj);
   void Set(CGameObject &Obj, CItemObject* pPetItem);
   void SetMode(ePetItem_Mode mode, int iTargetindex);
-  int Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lpMagic, int criticaldamage, int iActionType);
+  int Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpMagic, int criticaldamage, int iActionType);
   int GetAttackDamage(CGameObject &Obj, int targetDefense, int criticaldamage);
-  int MissCheck(CGameObject &Obj, CGameObject lpTargetObj, int skill,  int skillSuccess, int& bAllMiss);
-  int MissCheckPvP(CGameObject &Obj, CGameObject lpTargetObj, int skill,  int skillSuccess, int& bAllMiss);
+  int MissCheck(CGameObject &Obj, CGameObject &TargetObj, int skill,  int skillSuccess, int& bAllMiss);
+  int MissCheckPvP(CGameObject &Obj, CGameObject &TargetObj, int skill,  int skillSuccess, int& bAllMiss);
   void ChangeCommand(int command, int targetindex);
   void RangeAttack(CGameObject &Obj, int aTargetIndex);
-  void SendAttackMsg(CGameObject &Obj, int aTargetIndex, int criticaldamage, int iActionType);
-  int GetShieldDamage(CGameObject &Obj, CGameObject lpTargetObj, int iAttackDamage);
+  void SendAttackMsg(CGameObject &Obj, CGameObject &ObjTarget, int criticaldamage, int iActionType);
+  int GetShieldDamage(CGameObject &Obj, CGameObject &ObjTarget, int iAttackDamage);
  
   static void __cdecl CDarkSpirit::SendLevelmsg(CGameObject &Obj, int nPos, int PetType, int InvenType);
 
@@ -87,8 +87,3 @@ public:
 extern CDarkSpirit * gDarkSpirit;
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

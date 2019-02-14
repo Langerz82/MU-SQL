@@ -228,8 +228,8 @@ public:
 	BYTE DGMuunExchangeInsertInven(CGameObject &Obj, CItemObject CreateItem, int iSelect);
 	bool ChkAndDelItemMuunExchange(CGameObject &Obj, int iSelect);
 
-	void SetTarget(CGameObject &Obj, int aTargetIndex);
-	void ReSetTarget(CGameObject &Obj, int aTargetIndex);
+	void SetTarget(CGameObject &Obj, CGameObject &ObjTarget);
+	void ReSetTarget(CGameObject &Obj, CGameObject &ObjTarget);
 
 	void CGReqRideSelect(PMSG_MUUN_RIDE_SELECT *lpMsg, CGameObject &Obj);
 

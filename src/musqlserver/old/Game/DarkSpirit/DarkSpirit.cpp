@@ -294,12 +294,12 @@ void CDarkSpirit::ModeAttackRandom()
 		if ( iDamageType != 0 )
 		{
 			int target = FindObj[rand()%FindObjCount];
-			this->SendAttackMsg( lpObj.m_Index, target, iDamageType, iActionType);
+			this->SendAttackMsg( lpObj, target, iDamageType, iActionType);
 		}
 		else
 		{
 			int target = FindObj[rand()%FindObjCount];
-			this->RangeAttack( lpObj.m_Index, target);
+			this->RangeAttack( lpObj, target);
 		}
 	}
 }
@@ -553,7 +553,7 @@ struct PMSG_PET_ITEM_ATTACK_COMMAND
 	BYTE TargetNumberL;	// 8
 };
 
-void CDarkSpirit::SendAttackMsg(CGameObject &Obj, int aTargetIndex, int iDamageType, int iActionType)
+void CDarkSpirit::SendAttackMsg(CGameObject &Obj, CGameObject &ObjTarget, int iDamageType, int iActionType)
 {
 	PMSG_PET_ITEM_ATTACK_COMMAND pMsg;
 
@@ -606,7 +606,7 @@ void CDarkSpirit::SendAttackMsg(CGameObject &Obj, int aTargetIndex, int iDamageT
 
 
 
-void CDarkSpirit::SetTarget(int aTargetIndex)
+void CDarkSpirit::SetTarget(CGameObject &Obj)
 {
 	EnterCriticalSection(&this->m_SpiritCriti);
 
@@ -636,7 +636,7 @@ void CDarkSpirit::SetTarget(int aTargetIndex)
 
 
 
-void CDarkSpirit::ReSetTarget(int aTargetIndex)
+void CDarkSpirit::ReSetTarget(CGameObject &Obj)
 {
 	EnterCriticalSection(&this->m_SpiritCriti);
 
@@ -807,7 +807,7 @@ void CDarkSpirit::Set(CGameObject &Obj, CItemObject * pPetItem)
 
 
 
-BOOL CDarkSpirit::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf * lpMagic, int iDamageType, int iActionType)
+BOOL CDarkSpirit::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf * lpMagic, int iDamageType, int iActionType)
 {
 	int skillSuccess = 0;
 	CGameObject lpCallObj;
@@ -1694,28 +1694,28 @@ int  CDarkSpirit::GetAttackDamage(CGameObject &Obj, int targetDefense, int criti
 
 
 
-BOOL CDarkSpirit::MissCheck(CGameObject &Obj, CGameObject lpTargetObj, int skill,  int skillSuccess, BOOL& bAllMiss)
+BOOL CDarkSpirit::MissCheck(CGameObject &Obj, CGameObject &TargetObj, int skill,  int skillSuccess, BOOL& bAllMiss)
 {
 	EnterCriticalSection(&this->m_SpiritCriti);
 	int SuccessAttackRate = this->m_SuccessAttackRate;
 	LeaveCriticalSection(&this->m_SpiritCriti);
 
-	int TargetSuccessfulBlocking = lpTargetObj.m_SuccessfulBlocking;
+	int TargetSuccessfulBlocking = TargetObj.m_SuccessfulBlocking;
 	int MsgDamage = 0;
 
-	if (IT_MAP_RANGE(lpTargetObj.MapNumber) && lpTargetObj.Type == OBJ_USER)
+	if (IT_MAP_RANGE(TargetObj.MapNumber) && TargetObj.Type == OBJ_USER)
 	{
-		if (g_IT_Event.GetIllusionTempleState(lpTargetObj.MapNumber) == 2)
+		if (g_IT_Event.GetIllusionTempleState(TargetObj.MapNumber) == 2)
 		{
-			if (g_IT_Event.CheckSkillProdection(lpTargetObj.m_nITR_Index, lpTargetObj.MapNumber) == TRUE)
+			if (g_IT_Event.CheckSkillProdection(TargetObj.m_nITR_Index, TargetObj.MapNumber) == TRUE)
 			{
-				gGameProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
+				gGameProtocol.GCDamageSend(lpObj, TargetObj, 0, 0, 0, 0);
 				return 0;
 			}
 
-			if (lpTargetObj.PartyNumber == lpObj.PartyNumber)
+			if (TargetObj.PartyNumber == lpObj.PartyNumber)
 			{
-				gGameProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
+				gGameProtocol.GCDamageSend(lpObj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
 				return 0;
 			}
 		}
@@ -1739,7 +1739,7 @@ BOOL CDarkSpirit::MissCheck(CGameObject &Obj, CGameObject lpTargetObj, int skill
 	{
 		if ( (rand()%100) >= 5 )
 		{
-			gGameProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, MsgDamage, 0);
+			gGameProtocol.GCDamageSend(Obj, TargetObj, 0, 0, MsgDamage, 0);
 			return FALSE;
 		}
 	}
@@ -1747,7 +1747,7 @@ BOOL CDarkSpirit::MissCheck(CGameObject &Obj, CGameObject lpTargetObj, int skill
 	{
 		if ( (rand()%SuccessAttackRate) < TargetSuccessfulBlocking)
 		{
-			gGameProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, MsgDamage, 0);
+			gGameProtocol.GCDamageSend(Obj, TargetObj, 0, 0, MsgDamage, 0);
 			return FALSE;
 		}
 	}
@@ -1756,7 +1756,7 @@ BOOL CDarkSpirit::MissCheck(CGameObject &Obj, CGameObject lpTargetObj, int skill
 }
 
 
-BOOL CDarkSpirit::MissCheckPvP(CGameObject &Obj, CGameObject lpTargetObj, int skill,  int skillSuccess, BOOL& bAllMiss)
+BOOL CDarkSpirit::MissCheckPvP(CGameObject &Obj, CGameObject &TargetObj, int skill,  int skillSuccess, BOOL& bAllMiss)
 {
 	float iAttackRate = 0;
 	float iDefenseRate = 0;
@@ -1941,7 +1941,7 @@ void __cdecl CDarkSpirit::SendLevelmsg(CGameObject &Obj, int nPos, int PetType, 
 }
 
 
-int CDarkSpirit::GetShieldDamage(CGameObject &Obj, CGameObject lpTargetObj, int iAttackDamage)
+int CDarkSpirit::GetShieldDamage(CGameObject &Obj, CGameObject &TargetObj, int iAttackDamage)
 {
 	int iShieldDamage = 0;
 
