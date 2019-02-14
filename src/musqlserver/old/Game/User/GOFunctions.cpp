@@ -1211,8 +1211,8 @@ void gObjCharZeroSet(CGameObject &Obj)
 
 		for (int i = 0; i < EVENT_INVENTORY_SIZE; i++)
 		{
-			Obj.pEventInventoryMap1->Inventory1[i]->Clear();
-			Obj.pEventInventoryMap2->Inventory2[i]->Clear();
+			Obj.pEventInventory1[i]->Clear();
+			Obj.pEventInventory2[i]->Clear();
 		}
 
 		Obj.EventInventoryLoad = false;
@@ -4869,7 +4869,7 @@ BOOL WarehouseExtentCheck(int x, int y, int w, int h)
 void gObjSetInventory1Pointer(CGameObject &Obj)
 {
 	Obj.pInventory = Obj.Inventory1;
-	Obj.pInventoryMap = Obj.InventoryMap1;
+	Obj.pInventoryMap = *Obj.InventoryMap1;
 	Obj.pInventoryCount = &Obj.InventoryCount1;
 }
 
@@ -4878,7 +4878,7 @@ void gObjSetInventory1Pointer(CGameObject &Obj)
 void gObjSetInventory2Pointer(CGameObject &Obj)
 {
 	Obj.pInventory = Obj.Inventory2;
-	Obj.pInventoryMap = Obj.InventoryMap2;
+	Obj.pInventoryMap = *Obj.InventoryMap2;
 	Obj.pInventoryCount = &Obj.InventoryCount2;
 }
 
@@ -21865,15 +21865,15 @@ void gObjGuildWarEndSend(CGameObject &Obj, BYTE Result1, BYTE Result2)
 
 	if (Result1 == 1)
 	{
-		gObjGuildWarItemGive(Obj.m_PlayerData->lpGuild, Obj.m_PlayerData->lpGuild->lpTargetGuildNode);
+		gObjGuildWarItemGive(*Obj.m_PlayerData->lpGuild, *Obj.m_PlayerData->lpGuild->lpTargetGuildNode);
 	}
 	else if (Result1 == 3)
 	{
-		gObjGuildWarItemGive(Obj.m_PlayerData->lpGuild->lpTargetGuildNode, Obj.m_PlayerData->lpGuild);
+		gObjGuildWarItemGive(*Obj.m_PlayerData->lpGuild->lpTargetGuildNode, *Obj.m_PlayerData->lpGuild);
 	}
 	else if (Result1 == 1)
 	{
-		gObjGuildWarItemGive(Obj.m_PlayerData->lpGuild->lpTargetGuildNode, Obj.m_PlayerData->lpGuild);
+		gObjGuildWarItemGive(*Obj.m_PlayerData->lpGuild->lpTargetGuildNode, *Obj.m_PlayerData->lpGuild);
 	}
 
 	for (int n = 0; n < MAX_USER_GUILD; n++)
