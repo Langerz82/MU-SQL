@@ -257,8 +257,8 @@ public:
 	short m_MoneyRate;	// 34A
 	int m_CriticalDamage;	// 34C
 	int m_ExcelentDamage;	// 350
-	CMagicInf * m_lpMagicBack;	// 354
-	CMagicInf * Magic;	// 358
+	CMagicInf* m_lpMagicBack;	// 354
+	CMagicInf* Magic;	// 358
 	char MagicCount;	// 35C
 	BYTE UseMagicNumber;	// 35D
 	unsigned long UseMagicTime;	// 360

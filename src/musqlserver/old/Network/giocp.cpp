@@ -212,44 +212,48 @@ DWORD CIOCP::IocpServerWorker(void * p)
 					closesocket(Accept);
 					continue;
 				}
+				CGameObject* lpObj = gGameObjects[ClientIndex];
+				_PER_SOCKET_CONTEXT* sockCtx = lpObj->m_PlayerData->ConnectUser->PerSocketContext;
+				
+				//memset(&sockCtx->IOContext[0].Overlapped, 0, sizeof(WSAOVERLAPPED));
+				//memset(&sockCtx->IOContext[1].Overlapped, 0, sizeof(WSAOVERLAPPED));
+				
+				//sockCtx->IOContext[0].wsabuf.buf = (char*)&sockCtx.IOContext[0].Buffer;
+				//sockCtx->IOContext[0].wsabuf.len = MAX_IO_BUFFER_SIZE;
+				sockCtx->IOContext[0].nTotalBytes = 0;
+				sockCtx->IOContext[0].nSentBytes = 0;
+				sockCtx->IOContext[0].nWaitIO = 0;
+				sockCtx->IOContext[0].nSecondOfs = 0;
+				sockCtx->IOContext[0].IOOperation = 0;
+				//sockCtx->IOContext[1].wsabuf.buf = (char*)sockCtx.IOContext[1]->Buffer;
+				//sockCtx->IOContext[1].wsabuf.len = MAX_IO_BUFFER_SIZE;
+				sockCtx->IOContext[1].nTotalBytes = 0;
+				sockCtx->IOContext[1].nSentBytes = 0;
+				sockCtx->IOContext[1].nWaitIO = 0;
+				sockCtx->IOContext[1].nSecondOfs = 0;
+				sockCtx->IOContext[1].IOOperation = 1;
+				sockCtx->m_socket = Accept;
+				sockCtx->nIndex = ClientIndex;
 
-				memset(&gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->Overlapped, 0, sizeof(WSAOVERLAPPED));
-				memset(&gGameObjects[ClientIndex]->PerSocketContext->IOContext[1]->Overlapped, 0, sizeof(WSAOVERLAPPED));
-
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->wsabuf.buf = (char*)&gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->Buffer;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->wsabuf.len = MAX_IO_BUFFER_SIZE;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->nTotalBytes = 0;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->nSentBytes = 0;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->nWaitIO = 0;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->nSecondOfs = 0;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->IOOperation = 0;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[1]->wsabuf.buf = (char*)gGameObjects[ClientIndex]->PerSocketContext->IOContext[1]->Buffer;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[1]->wsabuf.len = MAX_IO_BUFFER_SIZE;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[1]->nTotalBytes = 0;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[1]->nSentBytes = 0;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[1]->nWaitIO = 0;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[1]->nSecondOfs = 0;
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[1]->IOOperation = 1;
-				gGameObjects[ClientIndex]->PerSocketContext->m_socket = Accept;
-				gGameObjects[ClientIndex]->PerSocketContext->nIndex = ClientIndex;
-
-				nRet = WSARecv(Accept, &gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->wsabuf, 1, (unsigned long*)&RecvBytes, &Flags,
-					&gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->Overlapped, NULL);
+				/* TODO
+				nRet = WSARecv(Accept, sockCtx->IOContext[0].m_wsabuf.buf, 1, (unsigned long*)&RecvBytes, &Flags,
+					sockCtx->IOContext[0].m_Overlapped.Internal, NULL);
+				*/
 
 				if (nRet == -1)
 				{
 					if (WSAGetLastError() != WSA_IO_PENDING)
 					{
 						sLog->outError("error-L1 : WSARecv() failed with error %d", WSAGetLastError());
-						gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->nWaitIO = 4;
-						CloseClient(gGameObjects[ClientIndex]->PerSocketContext, 0);
+						sockCtx->IOContext[0]->nWaitIO = 4;
+						CloseClient(sockCtx, 0);
 						LeaveCriticalSection(&criti);
 						continue;
 					}
 				}
 
-				gGameObjects[ClientIndex]->PerSocketContext->IOContext[0]->nWaitIO = 1;
-				gGameObjects[ClientIndex]->PerSocketContext->dwIOCount++;
+				sockCtx->IOContext[0]->nWaitIO = 1;
+				sockCtx->dwIOCount++;
 
 				LeaveCriticalSection(&criti);
 				gGameProtocol.SCPJoinResultSend(ClientIndex, 1);

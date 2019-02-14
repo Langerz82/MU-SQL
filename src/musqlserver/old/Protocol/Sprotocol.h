@@ -217,7 +217,7 @@ public:
 
 	void SetUserIndex(int Index, CGameObject &Obj)
 	{
-		this->m_MuLoginUserData[Index].iIndex = iUserIndex;
+		this->m_MuLoginUserData[Index].iIndex = Index;
 	}
 	int m_MuLoginUserDataCount;
 private:

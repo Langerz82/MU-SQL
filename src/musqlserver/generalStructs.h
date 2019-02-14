@@ -2637,16 +2637,17 @@ struct STR_PARTYMATCHING_PARTYUSERDATA {
 	STR_PARTYMATCHING_PARTYUSERDATA() {
 		this->iUsedInfo = FALSE;
 		this->iUserConnected = FALSE;
-		this->iUserIndex = -1;
+		//this->iUserIndex = -1;
 		this->iServerNumber = -1;
 		this->iServerIndex = -1;
+		this->User = nullptr;
 	}
 	int iUsedInfo;
 	int iUserConnected;
-	CGameObject &Obj;
+	CGameObject* User;
 	int iServerNumber;
 	int iServerIndex;
-	char szUserName[MAX_ACCOUNT_LEN + 1];
+	//char szUserName[MAX_ACCOUNT_LEN + 1];
 };
 
 struct PERIOD_EXPIRED_ITEM {
