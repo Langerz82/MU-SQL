@@ -184,7 +184,7 @@ TMonsterAIState * TMonsterAIAutomata::RunAutomata(CGameObject &Obj)
 	// Search The user with Max Agro to make its enemy
 	if ( iTargetIndex != -1 )
 	{
-		lpTargetObj = &gGameObjects[iTargetIndex];
+		lpTargetObj = &getGameObject(iTargetIndex);
 
 		if ( MONSTER_UTIL.FindMonViewportObj(lpObj.m_Index, lpTargetObj.m_Index) )
 		{

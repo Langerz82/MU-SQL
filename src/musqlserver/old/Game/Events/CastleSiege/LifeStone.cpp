@@ -88,35 +88,35 @@ int CLifeStone::CreateLifeStone(CGameObject &Obj)
 
 		gObjSetMonster(iMonsterIndex, 278);
 		
-		gGameObjects[iMonsterIndex]->m_PlayerData = new CUserData(iMonsterIndex);
-		gGameObjects[iMonsterIndex]->Live = TRUE;
-		gGameObjects[iMonsterIndex]->Life = MAttr->m_Hp;
-		gGameObjects[iMonsterIndex]->MaxLife = MAttr->m_Hp;
-		gGameObjects[iMonsterIndex]->m_PosNum = -1;
-		gGameObjects[iMonsterIndex]->X = cX;
-		gGameObjects[iMonsterIndex]->Y = cY;
-		gGameObjects[iMonsterIndex]->MTX = cX;
-		gGameObjects[iMonsterIndex]->MTY = cY;
-		gGameObjects[iMonsterIndex]->TX = cX;
-		gGameObjects[iMonsterIndex]->TY = cY;
-		gGameObjects[iMonsterIndex]->m_OldX = cX;
-		gGameObjects[iMonsterIndex]->m_OldY = cY;
-		gGameObjects[iMonsterIndex]->StartX = cX;
-		gGameObjects[iMonsterIndex]->StartY = cY;
-		gGameObjects[iMonsterIndex]->MapNumber = lpObj.MapNumber;
-		gGameObjects[iMonsterIndex]->m_MoveRange = 0;
-		gGameObjects[iMonsterIndex]->Level = MAttr->m_Level;
-		gGameObjects[iMonsterIndex]->Type = OBJ_MONSTER;
-		gGameObjects[iMonsterIndex]->MaxRegenTime = 1000;
-		gGameObjects[iMonsterIndex]->Dir = 1;
-		gGameObjects[iMonsterIndex]->RegenTime = GetTickCount();
-		gGameObjects[iMonsterIndex]->m_Attribute = 0;
-		gGameObjects[iMonsterIndex]->DieRegen = 0;
-		gGameObjects[iMonsterIndex]->m_btCsNpcType = OBJ_NPC;
-		gGameObjects[iMonsterIndex]->m_btCsJoinSide = lpObj.m_btCsJoinSide;
-		gGameObjects[iMonsterIndex]->m_PlayerData->lpGuild = lpObj.m_PlayerData->lpGuild;
-		gGameObjects[iMonsterIndex]->m_btCreationState = 0;
-		lpObj.m_PlayerData->lpGuild->lpLifeStone = &gGameObjects[iMonsterIndex];
+		getGameObject(iMonsterIndex)->m_PlayerData = new CUserData(iMonsterIndex);
+		getGameObject(iMonsterIndex)->Live = TRUE;
+		getGameObject(iMonsterIndex)->Life = MAttr->m_Hp;
+		getGameObject(iMonsterIndex)->MaxLife = MAttr->m_Hp;
+		getGameObject(iMonsterIndex)->m_PosNum = -1;
+		getGameObject(iMonsterIndex)->X = cX;
+		getGameObject(iMonsterIndex)->Y = cY;
+		getGameObject(iMonsterIndex)->MTX = cX;
+		getGameObject(iMonsterIndex)->MTY = cY;
+		getGameObject(iMonsterIndex)->TX = cX;
+		getGameObject(iMonsterIndex)->TY = cY;
+		getGameObject(iMonsterIndex)->m_OldX = cX;
+		getGameObject(iMonsterIndex)->m_OldY = cY;
+		getGameObject(iMonsterIndex)->StartX = cX;
+		getGameObject(iMonsterIndex)->StartY = cY;
+		getGameObject(iMonsterIndex)->MapNumber = lpObj.MapNumber;
+		getGameObject(iMonsterIndex)->m_MoveRange = 0;
+		getGameObject(iMonsterIndex)->Level = MAttr->m_Level;
+		getGameObject(iMonsterIndex)->Type = OBJ_MONSTER;
+		getGameObject(iMonsterIndex)->MaxRegenTime = 1000;
+		getGameObject(iMonsterIndex)->Dir = 1;
+		getGameObject(iMonsterIndex)->RegenTime = GetTickCount();
+		getGameObject(iMonsterIndex)->m_Attribute = 0;
+		getGameObject(iMonsterIndex)->DieRegen = 0;
+		getGameObject(iMonsterIndex)->m_btCsNpcType = OBJ_NPC;
+		getGameObject(iMonsterIndex)->m_btCsJoinSide = lpObj.m_btCsJoinSide;
+		getGameObject(iMonsterIndex)->m_PlayerData->lpGuild = lpObj.m_PlayerData->lpGuild;
+		getGameObject(iMonsterIndex)->m_btCreationState = 0;
+		lpObj.m_PlayerData->lpGuild->lpLifeStone = &getGameObject(iMonsterIndex);
 
 		MsgOutput(iIndex, Lang.GetText(0,180));
 
@@ -157,7 +157,7 @@ int CLifeStone::SetReSpawnUserXY(CGameObject &Obj)
 	if ( !gObjIsConnected(iUserIndex) )
 		return FALSE;
 
-	CGameObject lpUser = &gGameObjects[iUserIndex];
+	CGameObject lpUser = &getGameObject(iUserIndex);
 
 	if ( lpUser->MapNumber != MAP_INDEX_CASTLESIEGE )
 		return FALSE;
@@ -214,56 +214,56 @@ void CLifeStone::LifeStoneAct(CGameObject &Obj)
 
 		if ( tObjNum >= 0 )
 		{
-			if ( gGameObjects[tObjNum]->Type == OBJ_USER && gGameObjects[tObjNum]->Live )
+			if ( getGameObject(tObjNum]->Type == OBJ_USER && getGameObject(tObjNum)->Live )
 			{
-				if ( gGameObjects[tObjNum]->m_btCsJoinSide == lpObj.m_btCsJoinSide )
+				if ( getGameObject(tObjNum)->m_btCsJoinSide == lpObj.m_btCsJoinSide )
 				{
-					if ( abs(lpObj.Y - gGameObjects[tObjNum]->Y) <= 3 &&
-						 abs(lpObj.X - gGameObjects[tObjNum]->X) <= 3 )
+					if ( abs(lpObj.Y - getGameObject(tObjNum)->Y) <= 3 &&
+						 abs(lpObj.X - getGameObject(tObjNum)->X) <= 3 )
 					{
 						BOOL bLifeChange = FALSE;
 						BOOL bManaChange = FALSE;
 						BOOL bBpChange = FALSE;
 
-						/*gGameObjects[tObjNum]->Life += 100.0f;
-						gGameObjects[tObjNum]->Mana += 100.0f;
-						gGameObjects[tObjNum]->BP += 100;*/
+						/*getGameObject(tObjNum)->Life += 100.0f;
+						getGameObject(tObjNum)->Mana += 100.0f;
+						getGameObject(tObjNum)->BP += 100;*/
 
-						if ( gGameObjects[tObjNum]->Life < (gGameObjects[tObjNum]->MaxLife + gGameObjects[tObjNum]->AddLife))
+						if ( getGameObject(tObjNum]->Life < (getGameObject(tObjNum)->MaxLife + getGameObject(tObjNum)->AddLife))
 						{
-							gGameObjects[tObjNum]->Life += ( gGameObjects[tObjNum]->MaxLife + gGameObjects[tObjNum]->AddLife ) / 100.0f;
+							getGameObject(tObjNum]->Life += ( getGameObject(tObjNum)->MaxLife + getGameObject(tObjNum)->AddLife ) / 100.0f;
 
-							if ( gGameObjects[tObjNum]->Life > (gGameObjects[tObjNum]->MaxLife + gGameObjects[tObjNum]->AddLife))
-								gGameObjects[tObjNum]->Life = gGameObjects[tObjNum]->MaxLife + gGameObjects[tObjNum]->AddLife;
+							if ( getGameObject(tObjNum]->Life > (getGameObject(tObjNum)->MaxLife + getGameObject(tObjNum)->AddLife))
+								getGameObject(tObjNum]->Life = getGameObject(tObjNum)->MaxLife + getGameObject(tObjNum)->AddLife;
 
 							bLifeChange = TRUE;
 						}
 
-						if ( gGameObjects[tObjNum]->Mana < (gGameObjects[tObjNum]->MaxMana + gGameObjects[tObjNum]->AddMana))
+						if ( getGameObject(tObjNum]->Mana < (getGameObject(tObjNum)->MaxMana + getGameObject(tObjNum)->AddMana))
 						{
-							gGameObjects[tObjNum]->Mana += ( gGameObjects[tObjNum]->MaxMana + gGameObjects[tObjNum]->AddMana ) / 100.0f;
+							getGameObject(tObjNum]->Mana += ( getGameObject(tObjNum)->MaxMana + getGameObject(tObjNum)->AddMana ) / 100.0f;
 
-							if ( gGameObjects[tObjNum]->Mana > (gGameObjects[tObjNum]->MaxMana + gGameObjects[tObjNum]->AddMana))
-								gGameObjects[tObjNum]->Mana = gGameObjects[tObjNum]->MaxMana + gGameObjects[tObjNum]->AddMana;
+							if ( getGameObject(tObjNum]->Mana > (getGameObject(tObjNum)->MaxMana + getGameObject(tObjNum)->AddMana))
+								getGameObject(tObjNum]->Mana = getGameObject(tObjNum)->MaxMana + getGameObject(tObjNum)->AddMana;
 
 							bManaChange = TRUE;
 						}
 
-						if ( gGameObjects[tObjNum]->BP < (gGameObjects[tObjNum]->MaxBP + gGameObjects[tObjNum]->AddBP))
+						if ( getGameObject(tObjNum]->BP < (getGameObject(tObjNum)->MaxBP + getGameObject(tObjNum)->AddBP))
 						{
-							gGameObjects[tObjNum]->BP += ( gGameObjects[tObjNum]->MaxBP + gGameObjects[tObjNum]->AddBP ) / 100;
+							getGameObject(tObjNum]->BP += ( getGameObject(tObjNum)->MaxBP + getGameObject(tObjNum)->AddBP ) / 100;
 
-							if ( gGameObjects[tObjNum]->BP > (gGameObjects[tObjNum]->MaxBP + gGameObjects[tObjNum]->AddBP))
-								gGameObjects[tObjNum]->BP = gGameObjects[tObjNum]->MaxBP + gGameObjects[tObjNum]->AddBP;
+							if ( getGameObject(tObjNum]->BP > (getGameObject(tObjNum)->MaxBP + getGameObject(tObjNum)->AddBP))
+								getGameObject(tObjNum]->BP = getGameObject(tObjNum)->MaxBP + getGameObject(tObjNum)->AddBP;
 
 							bBpChange = TRUE;
 						}
 
 						if (bLifeChange )
-							gGameProtocol.GCReFillSend(tObjNum, gGameObjects[tObjNum]->Life, 0xFF, 1, gGameObjects[tObjNum]->iShield);
+							gGameProtocol.GCReFillSend(tObjNum, getGameObject(tObjNum]->Life, 0xFF, 1, getGameObject(tObjNum)->iShield);
 
 						if (bManaChange ||bBpChange ) 
-							gGameProtocol.GCManaSend(tObjNum, gGameObjects[tObjNum]->Mana, 0xFF, 0, gGameObjects[tObjNum]->BP);
+							gGameProtocol.GCManaSend(tObjNum, getGameObject(tObjNum]->Mana, 0xFF, 0, getGameObject(tObjNum)->BP);
 					}
 				}
 			}

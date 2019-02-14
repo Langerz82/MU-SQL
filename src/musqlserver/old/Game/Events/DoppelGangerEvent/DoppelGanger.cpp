@@ -211,7 +211,7 @@ void CDoppelGangerMonsterHerd::MonsterBaseAct(CGameObject &Obj)
 
 	if (lpObj.TargetNumber >= 0)
 	{
-		lpTargetObj = &gGameObjects[lpObj.TargetNumber];
+		lpTargetObj = &getGameObject(lpObj.TargetNumber);
 	}
 	else
 	{
@@ -340,7 +340,7 @@ void CDoppelGangerMonsterHerd::MonsterBaseAct(CGameObject &Obj)
 					break;
 				}
 
-				int map = gGameObjects[tuser]->MapNumber;
+				int map = getGameObject(tuser)->MapNumber;
 
 				if (MAX_MAP_RANGE(map) == FALSE)
 				{
@@ -348,9 +348,9 @@ void CDoppelGangerMonsterHerd::MonsterBaseAct(CGameObject &Obj)
 					break;
 				}
 
-				if (MapC[map].CheckWall(lpObj.X, lpObj.Y, gGameObjects[tuser]->X, gGameObjects[tuser]->Y) == TRUE)
+				if (MapC[map].CheckWall(lpObj.X, lpObj.Y, getGameObject(tuser]->X, getGameObject(tuser)->Y) == TRUE)
 				{
-					BYTE attr = MapC[map].GetAttr(gGameObjects[tuser]->X, gGameObjects[tuser]->Y);
+					BYTE attr = MapC[map].GetAttr(getGameObject(tuser]->X, getGameObject(tuser)->Y);
 
 					if ((attr & 1) != 1)
 					{
@@ -446,7 +446,7 @@ void CDoppelGangerMonsterHerd::ArrangeMonsterHerd()
 
 			_MONSTER_HERD_DATA * pMHD = &it->second;
 
-			if (gGameObjects[pMHD->m_iIndex]->Live == TRUE)
+			if (getGameObject(pMHD->m_iIndex)->Live == TRUE)
 			{
 				break;
 			}
@@ -656,7 +656,7 @@ void CDoppelGanger::SetDoppelgangerStateNone()
 	{
 		for (int i = 0; i<MAX_DOPPELGANGER_USER_INFO; i++)
 		{
-			if (this->m_UserData[i].IsUser() == TRUE && gGameObjects[this->m_UserData[i]->m_nIndex]->Connected > PLAYER_LOGGED)
+			if (this->m_UserData[i].IsUser() == TRUE && getGameObject(this->m_UserData[i]->m_nIndex)->Connected > PLAYER_LOGGED)
 			{
 				gObjMoveGate(this->m_UserData[i].m_nIndex, 267);
 			}
@@ -740,10 +740,10 @@ void CDoppelGanger::SetDoppelgangerStatePlaying()
 	{
 		if (this->m_UserData[i].IsUser() == TRUE)
 		{
-			if (gGameObjects[this->m_UserData[i]->m_nIndex]->Connected > PLAYER_LOGGED)
+			if (getGameObject(this->m_UserData[i]->m_nIndex)->Connected > PLAYER_LOGGED)
 			{
 				int len = strlen(PlayerLog);
-				wsprintf(PlayerLog + len, "(%s)(%s) ", gGameObjects[this->m_UserData[i]->m_nIndex]->AccountID, gGameObjects[this->m_UserData[i]->m_nIndex]->Name);
+				wsprintf(PlayerLog + len, "(%s)(%s) ", getGameObject(this->m_UserData[i]->m_nIndex]->AccountID, getGameObject(this->m_UserData[i)->m_nIndex)->Name);
 			}
 		}
 	}
@@ -777,10 +777,10 @@ void CDoppelGanger::SetDoppelgangerStateEnd()
 
 		for (int Cnt = 0; Cnt<MAX_DOPPELGANGER_USER_INFO; Cnt++)
 		{
-			if (this->m_UserData[Cnt].IsUser() == TRUE && gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Connected > PLAYER_LOGGED)
+			if (this->m_UserData[Cnt].IsUser() == TRUE && getGameObject(this->m_UserData[Cnt]->m_nIndex)->Connected > PLAYER_LOGGED)
 			{
-				g_CashShop.AddCoin(&gGameObjects[this->m_UserData[Cnt]->m_nIndex], EVENT_RAKLION);
-				this->AddLastTreasureBox(gGameObjects[this->m_UserData[Cnt]->m_nIndex]->X, gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Y);
+				g_CashShop.AddCoin(&getGameObject(this->m_UserData[Cnt]->m_nIndex), EVENT_RAKLION);
+				this->AddLastTreasureBox(getGameObject(this->m_UserData[Cnt]->m_nIndex]->X, getGameObject(this->m_UserData[Cnt)->m_nIndex)->Y);
 				break;
 			}
 		}
@@ -910,7 +910,7 @@ void CDoppelGanger::ProcDoppelgangerState_End(ULONGLONG i64CurTime)
 		{
 			if (this->m_UserData[i].IsUser() == TRUE)
 			{
-				if (gGameObjects[this->m_UserData[i]->m_nIndex]->Connected <= PLAYER_LOGGED)
+				if (getGameObject(this->m_UserData[i]->m_nIndex)->Connected <= PLAYER_LOGGED)
 				{
 					this->DelDoppelgangerUser(this->m_UserData[i].m_nIndex);
 				}
@@ -1152,11 +1152,11 @@ BOOL CDoppelGanger::AddDoppelgangerUser(CGameObject &Obj)
 
 				if (nUserIndex > 0)
 				{
-					if (BC_MAP_RANGE(gGameObjects[nUserIndex]->MapNumber) == FALSE &&
-						DS_MAP_RANGE(gGameObjects[nUserIndex]->MapNumber) == FALSE &&
-						CC_MAP_RANGE(gGameObjects[nUserIndex]->MapNumber) == FALSE &&
-						IT_MAP_RANGE(gGameObjects[nUserIndex]->MapNumber) == FALSE &&
-						IMPERIAL_MAP_RANGE(gGameObjects[nUserIndex]->MapNumber) == FALSE)
+					if (BC_MAP_RANGE(getGameObject(nUserIndex)->MapNumber) == FALSE &&
+						DS_MAP_RANGE(getGameObject(nUserIndex)->MapNumber) == FALSE &&
+						CC_MAP_RANGE(getGameObject(nUserIndex)->MapNumber) == FALSE &&
+						IT_MAP_RANGE(getGameObject(nUserIndex)->MapNumber) == FALSE &&
+						IMPERIAL_MAP_RANGE(getGameObject(nUserIndex)->MapNumber) == FALSE)
 					{
 						IOCP.DataSend(nUserIndex, (BYTE*)&pMsg, pMsg.h.size);
 					}
@@ -1281,7 +1281,7 @@ void CDoppelGanger::SetUserAverageLevel()
 		{
 			if (this->m_UserData[i].IsUser() == TRUE)
 			{
-				nLevelSum += gGameObjects[this->m_UserData[i]->m_nIndex]->Level + gGameObjects[this->m_UserData[i]->m_nIndex]->m_PlayerData->MasterLevel;
+				nLevelSum += getGameObject(this->m_UserData[i]->m_nIndex]->Level + getGameObject(this->m_UserData[i)->m_nIndex)->m_PlayerData->MasterLevel;
 			}
 		}
 
@@ -1308,7 +1308,7 @@ void CDoppelGanger::SendNoticeMessage(char* lpMsg)
 	{
 		if (this->m_UserData[Cnt].IsUser() == TRUE)
 		{
-			if (gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Connected > PLAYER_LOGGED)
+			if (getGameObject(this->m_UserData[Cnt]->m_nIndex)->Connected > PLAYER_LOGGED)
 			{
 				IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (BYTE*)&pNotice, pNotice.h.size);
 			}
@@ -1327,7 +1327,7 @@ void CDoppelGanger::SendDoppelgangerState(BYTE btState)
 	{
 		if (this->m_UserData[Cnt].IsUser() == TRUE)
 		{
-			if (gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Connected > PLAYER_LOGGED)
+			if (getGameObject(this->m_UserData[Cnt]->m_nIndex)->Connected > PLAYER_LOGGED)
 			{
 				IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (BYTE*)&pMsg, pMsg.h.size);
 			}
@@ -1668,7 +1668,7 @@ void CDoppelGanger::SetIceWorkerRegen(int nPosInfo)
 	for (int Cnt = 0; Cnt<MAX_DOPPELGANGER_USER_INFO; Cnt++)
 	{
 		if (this->m_UserData[Cnt].IsUser() == TRUE &&
-			gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Connected > PLAYER_LOGGED)
+			getGameObject(this->m_UserData[Cnt]->m_nIndex)->Connected > PLAYER_LOGGED)
 		{
 			IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (BYTE*)&pMsg, pMsg.h.size);
 		}
@@ -1723,7 +1723,7 @@ BOOL CDoppelGanger::CheckIceWorker()
 
 	for (int Cnt = 0; Cnt < MAX_DOPPELGANGER_USER_INFO; Cnt++)
 	{
-		if (this->m_UserData[Cnt].IsUser() == TRUE && gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Connected > PLAYER_LOGGED)
+		if (this->m_UserData[Cnt].IsUser() == TRUE && getGameObject(this->m_UserData[Cnt]->m_nIndex)->Connected > PLAYER_LOGGED)
 		{
 			IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (BYTE*)&pMsg, pMsg.h.size);
 		}
@@ -1844,7 +1844,7 @@ void CDoppelGanger::CheckDoppelgangerMonsterPos(CGameObject &Obj)
 				this->m_btFirstIndex = nPosNum;
 			}
 
-			else if (gGameObjects[this->m_nFirstMonsterIndex]->Live == TRUE)
+			else if (getGameObject(this->m_nFirstMonsterIndex)->Live == TRUE)
 			{
 				if (nPosNum > this->m_btFirstIndex)
 				{
@@ -1877,7 +1877,7 @@ void CDoppelGanger::SendMonsterGoalCount()
 
 	for (int Cnt = 0; Cnt < MAX_DOPPELGANGER_USER_INFO; Cnt++)
 	{
-		if (this->m_UserData[Cnt].IsUser() == TRUE && gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Connected > PLAYER_LOGGED)
+		if (this->m_UserData[Cnt].IsUser() == TRUE && getGameObject(this->m_UserData[Cnt]->m_nIndex)->Connected > PLAYER_LOGGED)
 		{
 			IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (BYTE*)&pMsg, pMsg.h.size);
 		}
@@ -1893,7 +1893,7 @@ void CDoppelGanger::SendDoppelgangerMonsterPos()
 
 	for (int Cnt = 0; Cnt<MAX_DOPPELGANGER_USER_INFO; Cnt++)
 	{
-		if (this->m_UserData[Cnt].IsUser() == TRUE && gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Connected > PLAYER_LOGGED)
+		if (this->m_UserData[Cnt].IsUser() == TRUE && getGameObject(this->m_UserData[Cnt]->m_nIndex)->Connected > PLAYER_LOGGED)
 		{
 			IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (BYTE*)&pMsg, pMsg.h.size);
 		}
@@ -1911,13 +1911,13 @@ void CDoppelGanger::SendDoppelgangerUserPos()
 
 	for (int i = 0; i < MAX_DOPPELGANGER_USER_INFO; i++)
 	{
-		if (this->m_UserData[i].IsUser() == TRUE && gGameObjects[this->m_UserData[i]->m_nIndex]->Connected > PLAYER_LOGGED)
+		if (this->m_UserData[i].IsUser() == TRUE && getGameObject(this->m_UserData[i]->m_nIndex)->Connected > PLAYER_LOGGED)
 		{
 			DOPPELGANGER_USER_POS * lpMsgBody = (DOPPELGANGER_USER_POS *)(SendByte + sizeof(PMSG_DOPPELGANGER_USER_POS) + (sizeof(DOPPELGANGER_USER_POS) * lpMsg->wCount));
 
 			lpMsgBody->wIndex = this->m_UserData[i].m_nIndex;
 			lpMsgBody->btMapNumber = this->m_nMapNumber;
-			lpMsgBody->btPosIndex = this->GetDoppelgangerPosIndex(gGameObjects[this->m_UserData[i]->m_nIndex]->X, gGameObjects[this->m_UserData[i]->m_nIndex]->Y);
+			lpMsgBody->btPosIndex = this->GetDoppelgangerPosIndex(getGameObject(this->m_UserData[i]->m_nIndex]->X, getGameObject(this->m_UserData[i)->m_nIndex)->Y);
 
 			lpMsg->wCount++;
 		}
@@ -1929,7 +1929,7 @@ void CDoppelGanger::SendDoppelgangerUserPos()
 
 	for (int Cnt = 0; Cnt < MAX_DOPPELGANGER_USER_INFO; Cnt++)
 	{
-		if (this->m_UserData[Cnt].IsUser() == TRUE && gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Connected > PLAYER_LOGGED)
+		if (this->m_UserData[Cnt].IsUser() == TRUE && getGameObject(this->m_UserData[Cnt]->m_nIndex)->Connected > PLAYER_LOGGED)
 		{
 			IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, SendByte, PacketSize);
 		}
@@ -1971,10 +1971,10 @@ void CDoppelGanger::SelfExplosion(CGameObject &Obj, CMagicInf * lpMagic, int aTa
 
 	for (int Cnt = 0; Cnt < MAX_DOPPELGANGER_USER_INFO; Cnt++)
 	{
-		if (this->m_UserData[Cnt].IsUser() == TRUE && gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Connected > PLAYER_LOGGED)
+		if (this->m_UserData[Cnt].IsUser() == TRUE && getGameObject(this->m_UserData[Cnt]->m_nIndex)->Connected > PLAYER_LOGGED)
 		{
-			if (gGameObjects[this->m_UserData[Cnt]->m_nIndex]->X >= iMIN_X && gGameObjects[this->m_UserData[Cnt]->m_nIndex]->X <= iMAX_X &&
-				gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Y >= iMIN_Y && gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Y <= iMAX_Y)
+			if (getGameObject(this->m_UserData[Cnt]->m_nIndex]->X >= iMIN_X && getGameObject(this->m_UserData[Cnt)->m_nIndex)->X <= iMAX_X &&
+				getGameObject(this->m_UserData[Cnt]->m_nIndex]->Y >= iMIN_Y && getGameObject(this->m_UserData[Cnt)->m_nIndex)->Y <= iMAX_Y)
 			{
 				gObjAddAttackProcMsgSendDelay(lpObj, 50, this->m_UserData[Cnt].m_nIndex, 500, lpMagic->m_Skill, 0);
 				return;
@@ -2014,13 +2014,13 @@ void CDoppelGanger::AngerKillerAttack(CGameObject &Obj)
 
 	for (int Cnt = 0; Cnt < MAX_DOPPELGANGER_USER_INFO; Cnt++)
 	{
-		if (this->m_UserData[Cnt].IsUser() == TRUE && gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Connected > PLAYER_LOGGED)
+		if (this->m_UserData[Cnt].IsUser() == TRUE && getGameObject(this->m_UserData[Cnt]->m_nIndex)->Connected > PLAYER_LOGGED)
 		{
-			if (gGameObjects[this->m_UserData[Cnt]->m_nIndex]->X >= iMIN_X && gGameObjects[this->m_UserData[Cnt]->m_nIndex]->X <= iMAX_X &&
-				gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Y >= iMIN_Y && gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Y <= iMAX_Y)
+			if (getGameObject(this->m_UserData[Cnt]->m_nIndex]->X >= iMIN_X && getGameObject(this->m_UserData[Cnt)->m_nIndex)->X <= iMAX_X &&
+				getGameObject(this->m_UserData[Cnt]->m_nIndex]->Y >= iMIN_Y && getGameObject(this->m_UserData[Cnt)->m_nIndex)->Y <= iMAX_Y)
 			{
-				gObjAttack(lpObj, &gGameObjects[this->m_UserData[Cnt]->m_nIndex], 0, 0, 0, 0, 0, 0, 0);
-				gObjBackSpring(&gGameObjects[this->m_UserData[Cnt]->m_nIndex], lpObj);
+				gObjAttack(lpObj, &getGameObject(this->m_UserData[Cnt]->m_nIndex), 0, 0, 0, 0, 0, 0, 0);
+				gObjBackSpring(&getGameObject(this->m_UserData[Cnt]->m_nIndex), lpObj);
 			}
 		}
 	}
@@ -2056,7 +2056,7 @@ void CDoppelGanger::SendDoppelgangerResultAll()
 
 	for (int Cnt = 0; Cnt < MAX_DOPPELGANGER_USER_INFO; Cnt++)
 	{
-		if (this->m_UserData[Cnt].IsUser() == TRUE && gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Connected == PLAYER_PLAYING)
+		if (this->m_UserData[Cnt].IsUser() == TRUE && getGameObject(this->m_UserData[Cnt]->m_nIndex)->Connected == PLAYER_PLAYING)
 		{
 			IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (BYTE*)&pMsg, pMsg.h.size);
 		}
@@ -2075,7 +2075,7 @@ void CDoppelGanger::ArrangeMonsterHerd()
 		{
 			if (this->m_nIceWorkerIndex[i] != -1)
 			{
-				gGameObjects[this->m_nIceWorkerIndex[i]]->Live = FALSE;
+				getGameObject(this->m_nIceWorkerIndex[i])->Live = FALSE;
 				gObjDel(this->m_nIceWorkerIndex[i]);
 				this->m_nIceWorkerIndex[i] = -1;
 			}
@@ -2092,7 +2092,7 @@ void CDoppelGanger::ArrangeMonsterHerd()
 		for (int cnt = 0; cnt < MAX_DOPPELGANGER_USER_INFO; cnt++)
 		{
 			if (this->m_UserData[cnt].IsUser() == TRUE &&
-				gGameObjects[this->m_UserData[cnt]->m_nIndex]->Connected > PLAYER_LOGGED)
+				getGameObject(this->m_UserData[cnt]->m_nIndex)->Connected > PLAYER_LOGGED)
 			{
 				IOCP.DataSend(this->m_UserData[cnt].m_nIndex, (BYTE*)&pMsg, pMsg.h.size);
 			}
@@ -2119,7 +2119,7 @@ void CDoppelGanger::MoveDoppelgangerMonsterProc()
 
 	for (int i = 0; i < g_ConfigRead.server.GetObjectMaxMonster(); i++)
 	{
-		CGameObject lpObj = &gGameObjects[i];
+		CGameObject lpObj = &getGameObject(i);
 
 		if (lpObj.Connected == PLAYER_PLAYING && lpObj.m_State == 2 && lpObj.Type == OBJ_MONSTER)
 		{
@@ -2532,9 +2532,9 @@ void CDoppelGanger::SendMapTileInfoAll(BYTE btMapSetType)
 {
 	for (int Cnt = 0; Cnt < MAX_DOPPELGANGER_USER_INFO; Cnt++)
 	{
-		if (this->m_UserData[Cnt].IsUser() == TRUE && gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Connected > PLAYER_LOGGED)
+		if (this->m_UserData[Cnt].IsUser() == TRUE && getGameObject(this->m_UserData[Cnt]->m_nIndex)->Connected > PLAYER_LOGGED)
 		{
-			this->SendMapTileInfo(&gGameObjects[this->m_UserData[Cnt]->m_nIndex], btMapSetType);
+			this->SendMapTileInfo(&getGameObject(this->m_UserData[Cnt]->m_nIndex), btMapSetType);
 		}
 	}
 }
@@ -2691,7 +2691,7 @@ void CDoppelGanger::SendDoppelgangerTimerMsg(BYTE btMsg)
 
 	for (int Cnt = 0; Cnt < MAX_DOPPELGANGER_USER_INFO; Cnt++)
 	{
-		if (this->m_UserData[Cnt].IsUser() == TRUE && gGameObjects[this->m_UserData[Cnt]->m_nIndex]->Connected > PLAYER_LOGGED)
+		if (this->m_UserData[Cnt].IsUser() == TRUE && getGameObject(this->m_UserData[Cnt]->m_nIndex)->Connected > PLAYER_LOGGED)
 		{
 			IOCP.DataSend(this->m_UserData[Cnt].m_nIndex, (BYTE*)&pMsg, pMsg.h.size);
 		}

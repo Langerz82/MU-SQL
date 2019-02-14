@@ -438,17 +438,17 @@ void CKanturu::CheckUserOnKanturuBossMap()
 {
 	for (int iCount = g_ConfigRead.server.GetObjectStartUserIndex(); iCount < g_ConfigRead.server.GetObjectMax(); iCount++)
 	{
-		if (gGameObjects[iCount]->Connected == PLAYER_PLAYING &&
-			gGameObjects[iCount]->Type == OBJ_USER &&
-			gGameObjects[iCount]->MapNumber == MAP_INDEX_KANTURU_BOSS)
+		if (getGameObject(iCount)->Connected == PLAYER_PLAYING &&
+			getGameObject(iCount)->Type == OBJ_USER &&
+			getGameObject(iCount)->MapNumber == MAP_INDEX_KANTURU_BOSS)
 		{
-			if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE && gGameObjects[iCount]->m_PlayerData->m_bKanturuEntranceByNPC == FALSE)
+			if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE && getGameObject(iCount)->m_PlayerData->m_bKanturuEntranceByNPC == FALSE)
 			{
-				if ((gGameObjects[iCount]->Authority & 2) != 2 && (gGameObjects[iCount]->Authority & 0x20) != 0x20)
+				if ((getGameObject(iCount]->Authority & 2) != 2 && (getGameObject(iCount)->Authority & 0x20) != 0x20)
 				{
-					if (gGameObjects[iCount]->RegenOk == 0 &&
-						gGameObjects[iCount]->m_State == 2 &&
-						gGameObjects[iCount]->Live == TRUE)
+					if (getGameObject(iCount)->RegenOk == 0 &&
+						getGameObject(iCount)->m_State == 2 &&
+						getGameObject(iCount)->Live == TRUE)
 					{
 						gObjMoveGate(iCount, 17);
 
@@ -464,7 +464,7 @@ int CKanturu::CheckEnterKanturu(CGameObject &Obj)
 	if ( !gObjIsConnected(iUserIndex) )
 		return -1;
 
-	if ( gGameObjects[iUserIndex]->MapNumber != MAP_INDEX_KANTURU2 ) 
+	if ( getGameObject(iUserIndex)->MapNumber != MAP_INDEX_KANTURU2 ) 
 	{
 		return 4;
 	}
@@ -484,49 +484,49 @@ int CKanturu::CheckEnterKanturu(CGameObject &Obj)
 
 		if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
 		{
-			if ((gGameObjects[iUserIndex]->pInventory[7]->m_Type < ITEMGET(12, 0) || gGameObjects[iUserIndex]->pInventory[7]->m_Type > ITEMGET(12, 6) && gGameObjects[iUserIndex]->pInventory[7]->m_Type < ITEMGET(12, 36)) &&
-				gGameObjects[iUserIndex]->pInventory[7]->m_Type != ITEMGET(13, 30) &&
-				gGameObjects[iUserIndex]->pInventory[gGameObjects[iUserIndex]->m_btInvenPetPos]->m_Type != ITEMGET(13, 3) &&
-				gGameObjects[iUserIndex]->pInventory[gGameObjects[iUserIndex]->m_btInvenPetPos]->m_Type != ITEMGET(13, 37) &&
-				gGameObjects[iUserIndex]->pInventory[7]->m_Type != ITEMGET(12, 49) &&
-				gGameObjects[iUserIndex]->pInventory[7]->m_Type != ITEMGET(12, 50) &&
-				!(gGameObjects[iUserIndex]->pInventory[7]->m_Type >= ITEMGET(12, 36) && gGameObjects[iUserIndex]->pInventory[7]->m_Type <= ITEMGET(12, 43)) &&
-				!(gGameObjects[iUserIndex]->pInventory[7]->m_Type >= ITEMGET(12, 262) && gGameObjects[iUserIndex]->pInventory[7]->m_Type <= ITEMGET(12, 265)) &&
-				gGameObjects[iUserIndex]->pInventory[7]->m_Type != ITEMGET(12, 266) &&
-				gGameObjects[iUserIndex]->pInventory[7]->m_Type != ITEMGET(12, 267) &&
-				gGameObjects[iUserIndex]->pInventory[7]->m_Type != ITEMGET(12, 268) &&
-				gGameObjects[iUserIndex]->pInventory[7]->m_Type != ITEMGET(12, 269) &&
-				gGameObjects[iUserIndex]->pInventory[7]->m_Type != ITEMGET(12, 270))
+			if ((getGameObject(iUserIndex]->pInventory[7]->m_Type < ITEMGET(12, 0) || getGameObject(iUserIndex]->pInventory[7]->m_Type > ITEMGET(12, 6) && getGameObject(iUserIndex)->pInventory[7)->m_Type < ITEMGET(12, 36)) &&
+				getGameObject(iUserIndex]->pInventory[7)->m_Type != ITEMGET(13, 30) &&
+				getGameObject(iUserIndex]->pInventory[getGameObject(iUserIndex)->m_btInvenPetPos)->m_Type != ITEMGET(13, 3) &&
+				getGameObject(iUserIndex]->pInventory[getGameObject(iUserIndex)->m_btInvenPetPos)->m_Type != ITEMGET(13, 37) &&
+				getGameObject(iUserIndex]->pInventory[7)->m_Type != ITEMGET(12, 49) &&
+				getGameObject(iUserIndex]->pInventory[7)->m_Type != ITEMGET(12, 50) &&
+				!(getGameObject(iUserIndex]->pInventory[7]->m_Type >= ITEMGET(12, 36) && getGameObject(iUserIndex)->pInventory[7)->m_Type <= ITEMGET(12, 43)) &&
+				!(getGameObject(iUserIndex]->pInventory[7]->m_Type >= ITEMGET(12, 262) && getGameObject(iUserIndex)->pInventory[7)->m_Type <= ITEMGET(12, 265)) &&
+				getGameObject(iUserIndex]->pInventory[7)->m_Type != ITEMGET(12, 266) &&
+				getGameObject(iUserIndex]->pInventory[7)->m_Type != ITEMGET(12, 267) &&
+				getGameObject(iUserIndex]->pInventory[7)->m_Type != ITEMGET(12, 268) &&
+				getGameObject(iUserIndex]->pInventory[7)->m_Type != ITEMGET(12, 269) &&
+				getGameObject(iUserIndex]->pInventory[7)->m_Type != ITEMGET(12, 270))
 			{
 				return 7;
 			}
 
-			if (gGameObjects[iUserIndex]->pInventory[gGameObjects[iUserIndex]->m_btInvenPetPos]->m_Type == ITEMGET(13, 2))
+			if (getGameObject(iUserIndex]->pInventory[getGameObject(iUserIndex)->m_btInvenPetPos)->m_Type == ITEMGET(13, 2))
 			{
 				return 5;
 			}
 
-			if (gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13, 10) ||
-				gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13, 10))
+			if (getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13, 10) ||
+				getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13, 10))
 			{
 				return 6;
 			}
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,39) ||
-			gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,39) )
+		if ( getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,39) ||
+			getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,39) )
 		{
 			return 6;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,40) ||
-			gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,40) )
+		if ( getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,40) ||
+			getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,40) )
 		{
 			return 6;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,41) ||
-			gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,41) )
+		if ( getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,41) ||
+			getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,41) )
 		{
 			return 6;
 		}
@@ -570,17 +570,17 @@ BOOL CKanturu::CheckEqipmentMoonStone(CGameObject &Obj)
 	if ( !gObjIsConnected(iUserIndex) )
 		return FALSE;
 
-	if ( gGameObjects[iUserIndex]->pInventory[10]->IsItem() ||
-		 gGameObjects[iUserIndex]->pInventory[11]->IsItem() )	
+	if ( getGameObject(iUserIndex]->pInventory[10)->IsItem() ||
+		 getGameObject(iUserIndex]->pInventory[11)->IsItem() )	
 	{
-		if ( gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,38) &&
-			 gGameObjects[iUserIndex]->pInventory[10]->m_Durability != 0.0f )
+		if ( getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,38) &&
+			 getGameObject(iUserIndex]->pInventory[10)->m_Durability != 0.0f )
 		{
 			return TRUE;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,38) &&
-			 gGameObjects[iUserIndex]->pInventory[11]->m_Durability != 0.0f )
+		if ( getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,38) &&
+			 getGameObject(iUserIndex]->pInventory[11)->m_Durability != 0.0f )
 		{
 			return TRUE;
 		}
@@ -596,12 +596,12 @@ void CKanturu::OperateGmCommand(CGameObject &Obj, int iCommand)
 		return;
 	}
 
-	if( (gGameObjects[iUserIndex]->Authority & 0x02) != 0x02 && (gGameObjects[iUserIndex]->Authority & 0x20) != 0x20 )
+	if( (getGameObject(iUserIndex]->Authority & 0x02) != 0x02 && (getGameObject(iUserIndex)->Authority & 0x20) != 0x20 )
 	{
 		return;
 	}
 
-	if( (gGameObjects[iUserIndex]->GameMaster & GM_EVENT_MODIFY) != GM_EVENT_MODIFY )
+	if( (getGameObject(iUserIndex)->GameMaster & GM_EVENT_MODIFY) != GM_EVENT_MODIFY )
 	{
 		MsgOutput(iUserIndex, Lang.GetText(0,882));
 		return;
@@ -621,8 +621,8 @@ void CKanturu::OperateGmCommand(CGameObject &Obj, int iCommand)
 	}
 
 	sLog->outError(  "[ADMIN COMMAND] [%s][%s][%s] Used KANTURU Command ID: %d",
-		gGameObjects[iUserIndex]->AccountID, gGameObjects[iUserIndex]->Name,
-		gGameObjects[iUserIndex]->m_PlayerData->Ip_addr, iCommand);
+		getGameObject(iUserIndex]->AccountID, getGameObject(iUserIndex)->Name,
+		getGameObject(iUserIndex)->m_PlayerData->Ip_addr, iCommand);
 }
 
 void CKanturu::SetKanturuTimeAttackEventInfo()

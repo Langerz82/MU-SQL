@@ -131,7 +131,7 @@ void CLastManStanding::SpawnRegNPC()
 		return;
 	}
 
-	CGameObject lpNpc = &gGameObjects[this->iRegNpcIndex];
+	CGameObject lpNpc = &getGameObject(this->iRegNpcIndex);
 	lpNpc->Live = TRUE;
 	lpNpc->Dir = this->m_Cfg.iRegNPCDir;
 	lpNpc->X = this->m_Cfg.iRegNPCX;
@@ -207,7 +207,7 @@ void CLastManStanding::DelUser(int aindex)
 		return;
 	}
 
-	int room = gGameObjects[aindex]->m_PlayerData->RegisteredLMSRoom;
+	int room = getGameObject(aindex)->m_PlayerData->RegisteredLMSRoom;
 	for(int i=0;i<LMS_MAX_USER_PER_ROOM;i++)
 	{
 		if(this->m_Rooms[room].m_Data[i].iIndex == aindex)
@@ -216,8 +216,8 @@ void CLastManStanding::DelUser(int aindex)
 			this->m_Rooms[room].m_Data[i].iScore = 0;
 			this->m_Rooms[room].m_Data[i].bWinner = false;
 			this->m_Rooms[room].m_Data[i].iDeaths = 0;
-			gGameObjects[aindex]->m_PlayerData->RegisterdLMS = 0;
-			gGameObjects[aindex]->m_PlayerData->RegisteredLMSRoom = -1;
+			getGameObject(aindex)->m_PlayerData->RegisterdLMS = 0;
+			getGameObject(aindex)->m_PlayerData->RegisteredLMSRoom = -1;
 			this->m_Rooms[room].m_iLiveUser--;
 			gObjMoveGate(aindex,17);
 			return;
@@ -232,7 +232,7 @@ void CLastManStanding::UserQuit(int aindex)
 		return;
 	}
 
-	int room = gGameObjects[aindex]->m_PlayerData->RegisteredLMSRoom;
+	int room = getGameObject(aindex)->m_PlayerData->RegisteredLMSRoom;
 	for(int i=0;i<LMS_MAX_USER_PER_ROOM;i++)
 	{
 		if(this->m_Rooms[room].m_Data[i].iIndex == aindex)
@@ -241,8 +241,8 @@ void CLastManStanding::UserQuit(int aindex)
 			this->m_Rooms[room].m_Data[i].iScore = 0;
 			this->m_Rooms[room].m_Data[i].bWinner = false;
 			this->m_Rooms[room].m_Data[i].iDeaths = 0;
-			gGameObjects[aindex]->m_PlayerData->RegisterdLMS = 0;
-			gGameObjects[aindex]->m_PlayerData->RegisteredLMSRoom = -1;
+			getGameObject(aindex)->m_PlayerData->RegisterdLMS = 0;
+			getGameObject(aindex)->m_PlayerData->RegisteredLMSRoom = -1;
 
 			if(this->m_Rooms[room].bState == 1)
 			{
@@ -342,7 +342,7 @@ void CLastManStanding::Run()
 		  {
 				  for(int i=0;i<m_Rooms[n].regCount;i++)
 				  {
-					  if(m_Rooms[n].m_Data[i].iIndex != 0 && gGameObjects[m_Rooms[n]->m_Data[i]->iIndex]->MapNumber != this->m_Cfg.iPVPMap)
+					  if(m_Rooms[n].m_Data[i].iIndex != 0 && getGameObject(m_Rooms[n]->m_Data[i]->iIndex)->MapNumber != this->m_Cfg.iPVPMap)
 					  {
 						  this->DelUser(m_Rooms[n].m_Data[i].iIndex);
 						  if(m_Rooms[n].m_iLiveUser <= 1)
@@ -356,7 +356,7 @@ void CLastManStanding::Run()
 										this->RewardUser(m_Rooms[n].m_Data[i].iIndex);
 										char text[200]; 
 
-										sprintf(text, Lang.GetText(0,360), gGameObjects[this->m_Rooms[n]->m_Data[i]->iIndex]->Name, n, this->m_Rooms[n]->m_Data[i]->iScore);						
+										sprintf(text, Lang.GetText(0,360), getGameObject(this->m_Rooms[n]->m_Data[i]->iIndex]->Name, n, this->m_Rooms[n]->m_Data[i)->iScore);						
 										AllPlayerMsgSend(text);
 									}
 								}
@@ -453,7 +453,7 @@ void CLastManStanding::UserDie(CGameObject &Obj, int aTargetIndex)
 							{
 								this->m_Rooms[room].m_Data[i].bWinner = true;
 								char text[200]; 
-								sprintf(text, Lang.GetText(0,362), gGameObjects[this->m_Rooms[room]->m_Data[i]->iIndex]->Name, room, this->m_Rooms[room]->m_Data[i]->iScore);
+								sprintf(text, Lang.GetText(0,362), getGameObject(this->m_Rooms[room]->m_Data[i]->iIndex]->Name, room, this->m_Rooms[room]->m_Data[i)->iScore);
 								this->RewardUser(this->m_Rooms[room].m_Data[i].iIndex);
 								AllPlayerMsgSend(text);
 							}
@@ -482,9 +482,9 @@ void CLastManStanding::AllPlayerMsgSend( char* chatmsg)
 
 	for ( int n = g_ConfigRead.server.GetObjectStartUserIndex() ; n < g_ConfigRead.server.GetObjectMax() ; n++)
 	{
-		if ( gGameObjects[n]->Connected == PLAYER_PLAYING && gGameObjects[n]->m_PlayerData->RegisterdLMS == 1 )
+		if ( getGameObject(n]->Connected == PLAYER_PLAYING && getGameObject(n)->m_PlayerData->RegisterdLMS == 1 )
 		{
-			if ( gGameObjects[n]->Type == OBJ_USER )
+			if ( getGameObject(n)->Type == OBJ_USER )
 			{
 				IOCP.DataSend(n, (BYTE*)&pNotice , pNotice.h.size );
 			}

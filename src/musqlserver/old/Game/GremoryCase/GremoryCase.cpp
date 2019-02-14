@@ -26,22 +26,22 @@ void CGremoryCase::CheckStorageExpiredItems()
 	{
 		if (gObjIsConnected(i) == TRUE)
 		{
-			if (gGameObjects[i]->Type == OBJ_USER)
+			if (getGameObject(i)->Type == OBJ_USER)
 			{
-				if (gGameObjects[i]->m_PlayerData->m_bGremoryCaseDBInfo == true)
+				if (getGameObject(i)->m_PlayerData->m_bGremoryCaseDBInfo == true)
 				{
 					for (int j = 0; j < MAX_GREMORYCASE_STORAGE_TYPES; j++)
 					{
 						for (int k = 0; k < MAX_GREMORYCASE_STORAGE_ITEMS; k++)
 						{
-							if (gGameObjects[i]->m_PlayerData->m_GremoryCaseData[j][k]->btRewardInventory != 0)
+							if (getGameObject(i]->m_PlayerData->m_GremoryCaseData[j][k)->btRewardInventory != 0)
 							{
-								if (gGameObjects[i]->m_PlayerData->m_GremoryCaseData[j][k]->dwExpireTime < CurrTime)
+								if (getGameObject(i]->m_PlayerData->m_GremoryCaseData[j][k)->dwExpireTime < CurrTime)
 								{
-									this->GDReqDeleteItemFromGremoryCase(i, gGameObjects[i]->m_PlayerData->m_GremoryCaseData[j][k]->ItemInfo.m_Type, gGameObjects[i]->m_PlayerData->m_GremoryCaseData[j][k]->dwItemGUID, gGameObjects[i]->m_PlayerData->m_GremoryCaseData[j][k]->dwAuthCode);
+									this->GDReqDeleteItemFromGremoryCase(i, getGameObject(i]->m_PlayerData->m_GremoryCaseData[j][k]->ItemInfo.m_Type, getGameObject(i]->m_PlayerData->m_GremoryCaseData[j][k]->dwItemGUID, getGameObject(i)->m_PlayerData->m_GremoryCaseData[j)[k)->dwAuthCode);
 									this->GCSendDeleteItemFromGremoryCase(i, j, k);
 
-									gGameObjects[i]->m_PlayerData->m_GremoryCaseData[j][k]->Clear();
+									getGameObject(i]->m_PlayerData->m_GremoryCaseData[j][k)->Clear();
 
 								}
 							}

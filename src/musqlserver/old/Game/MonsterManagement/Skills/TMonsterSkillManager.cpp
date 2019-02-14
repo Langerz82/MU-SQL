@@ -187,8 +187,8 @@ void TMonsterSkillManager::MonsterSkillProc()
 					continue;
 				}
 
-				CGameObject lpObj = &gGameObjects[stInfo.iIndex];
-				CGameObject lpTargetObj = &gGameObjects[stInfo.iTargetIndex];
+				CGameObject lpObj = &getGameObject(stInfo.iIndex);
+				CGameObject lpTargetObj = &getGameObject(stInfo.iTargetIndex);
 
 				if ( !lpObj.Live || !lpTargetObj.Live )
 				{
@@ -264,7 +264,7 @@ void TMonsterSkillManager::UseMonsterSkill(CGameObject &Obj, int iTargetIndex, i
 		Obj.Name, iTargetIndex, iMonsterSkillUnitType, iMonsterSkillUnit); */
 
 	CGameObject lpObj = Obj;
-	CGameObject lpTargetObj = &gGameObjects[iTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 	TMonsterSkillInfo * lpMonsterSkillInfo = &TMonsterSkillManager::s_MonsterSkillInfoArray[lpObj.Class];
 
 	if ( lpMonsterSkillInfo->IsValid() == FALSE )
@@ -303,7 +303,7 @@ void TMonsterSkillManager::UseMonsterSkill(CGameObject &Obj, int iTargetIndex, i
 				return;
 			}
 
-			lpTargetObj = &gGameObjects[nTargetIndex];
+			lpTargetObj = &getGameObject(nTargetIndex);
 			iTargetIndex = nTargetIndex;
 		}
 
@@ -362,13 +362,13 @@ void TMonsterSkillManager::UseMonsterSkill(CGameObject &Obj, int iTargetIndex, i
 
 				if ( ObjectMaxRange(iRangeTargetIndex))
 				{
-					if ( gGameObjects[iRangeTargetIndex]->Type == OBJ_USER )
+					if ( getGameObject(iRangeTargetIndex)->Type == OBJ_USER )
 					{
 						BOOL bTargetOK = FALSE;
 
 						if ( lpMonsterSkillUnit->m_iUnitScopeType == 0 )
 						{
-							if ( gObjCalDistance(lpObj, &gGameObjects[iRangeTargetIndex]) < lpMonsterSkillUnit->m_iUnitScopeValue )
+							if ( gObjCalDistance(lpObj, &getGameObject(iRangeTargetIndex)) < lpMonsterSkillUnit->m_iUnitScopeValue )
 							{
 								bTargetOK = TRUE;
 							}
@@ -376,7 +376,7 @@ void TMonsterSkillManager::UseMonsterSkill(CGameObject &Obj, int iTargetIndex, i
 						else  if ( lpMonsterSkillUnit->m_iUnitScopeType == 1 )
 						{
 							if ( SkillElectricSparkHitBox.HitCheck(iAngle, lpObj.X, lpObj.Y,
-								gGameObjects[iRangeTargetIndex]->X, gGameObjects[iRangeTargetIndex]->Y) )
+								getGameObject(iRangeTargetIndex]->X, getGameObject(iRangeTargetIndex)->Y) )
 							{
 								bTargetOK = TRUE;
 							}

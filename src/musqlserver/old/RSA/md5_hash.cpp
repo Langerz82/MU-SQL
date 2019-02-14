@@ -268,7 +268,7 @@ void MD5::update(const BYTE input[], size_type length)
   if (length >= firstpart)
   {
     // fill buffer first, transform
-    memcpy(&buffer[index], input, firstpart);
+    std::memcpy(&buffer[index], input, firstpart);
     transform(buffer);
 
     // transform chunks of blocksize (64 bytes)
@@ -281,7 +281,7 @@ void MD5::update(const BYTE input[], size_type length)
     i = 0;
 
   // buffer remaining input
-  memcpy(&buffer[index], &input[i], length-i);
+  std::memcpy(&buffer[index], &input[i], length-i);
 }
 
 //////////////////////////////

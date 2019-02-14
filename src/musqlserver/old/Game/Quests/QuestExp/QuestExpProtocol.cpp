@@ -16,7 +16,7 @@ void CGReqQuestSwitch(PMSG_REQ_QUESTEXP *pMsg, CGameObject &Obj)
     if( !ObjectMaxRange(aIndex) )
         return;
 
-    CGameObject* lpObj = &gGameObjects[aIndex];
+    CGameObject* lpObj = &getGameObject(aIndex);
 
     if( !gObjIsConnected(aIndex) )
         return;
@@ -58,7 +58,7 @@ void CGReqQuestProgress(PMSG_REQ_QUESTEXP *pMsg, CGameObject &Obj)
     if( !ObjectMaxRange(aIndex) )
         return;
 
-    CGameObject* lpObj = &gGameObjects[aIndex];
+    CGameObject* lpObj = &getGameObject(aIndex);
 
     if( !gObjIsConnected(aIndex) )
         return;
@@ -88,7 +88,7 @@ void CGReqQuestComplete(PMSG_REQ_QUESTEXP_COMPLETE *pMsg, CGameObject &Obj)
     if( !ObjectMaxRange(aIndex) )
         return;
 
-    CGameObject* lpObj = &gGameObjects[aIndex];
+    CGameObject* lpObj = &getGameObject(aIndex);
 
     if( !gObjIsConnected(aIndex) )
         return;
@@ -199,7 +199,7 @@ void CGReqQuestExp(PMSG_REQ_NPC_QUESTEXP *pMsg, CGameObject &Obj)
 	if (!ObjectMaxRange(aIndex))
         return;
 
-    CGameObject* lpObj = &gGameObjects[aIndex];
+    CGameObject* lpObj = &getGameObject(aIndex);
 
     if( !gObjIsConnected(aIndex) )
         return;
@@ -217,7 +217,7 @@ void CGReqQuestExp(PMSG_REQ_NPC_QUESTEXP *pMsg, CGameObject &Obj)
 			return;
 		}
 
-		g_MuLuaQuestExp.Generic_Call("NpcTalkClick", "ii>", (int)gGameObjects[lpObj.TargetNpcNumber]->Class, lpObj.m_Index);
+		g_MuLuaQuestExp.Generic_Call("NpcTalkClick", "ii>", (int)getGameObject(lpObj.TargetNpcNumber)->Class, lpObj.m_Index);
     }
 }
 

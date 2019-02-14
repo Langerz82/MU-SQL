@@ -992,11 +992,11 @@ int  CObjBaseAttack::GetPartyMemberCount(CGameObject &Obj)
 
 		if ( memberindex >= 0 )
 		{
-			lpPartyObj = &gGameObjects[memberindex];
+			lpPartyObj = &getGameObject(memberindex);
 
 			if ( lpObj.MapNumber == lpPartyObj.MapNumber )
 			{
-				int dis = gObjCalDistance(lpObj, &gGameObjects[memberindex]);
+				int dis = gObjCalDistance(lpObj, &getGameObject(memberindex));
 				
 				if ( dis < MAX_PARTY_DISTANCE_EFFECT )
 				{

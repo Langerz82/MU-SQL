@@ -50,9 +50,9 @@ void TNotice::SendNoticeToAllUser(void * lpNotice)
 
 	for ( int n = g_ConfigRead.server.GetObjectStartUserIndex() ; n < g_ConfigRead.server.GetObjectMax() ; n++)
 	{
-		if ( gGameObjects[n]->Connected == PLAYER_PLAYING )
+		if ( getGameObject(n)->Connected == PLAYER_PLAYING )
 		{
-			if ( gGameObjects[n]->Type  == OBJ_USER )
+			if ( getGameObject(n)->Type  == OBJ_USER )
 			{
 				IOCP.DataSend(n, (BYTE*)pNotice  , pNotice->h.size  );
 			}
@@ -75,9 +75,9 @@ void TNotice::AllSendServerMsg(LPSTR chatmsg)
 
 	for ( int n = g_ConfigRead.server.GetObjectStartUserIndex() ; n < g_ConfigRead.server.GetObjectMax() ; n++)
 	{
-		if ( gGameObjects[n]->Connected == PLAYER_PLAYING )
+		if ( getGameObject(n)->Connected == PLAYER_PLAYING )
 		{
-			if ( gGameObjects[n]->Type  == OBJ_USER )
+			if ( getGameObject(n)->Type  == OBJ_USER )
 			{
 				IOCP.DataSend(n, (BYTE*)&pNotice , pNotice.h.size );
 			}
@@ -117,9 +117,9 @@ void TNotice::SendToAllUser(LPSTR szMsg, ...)
 
 	for ( int n = g_ConfigRead.server.GetObjectStartUserIndex() ; n < g_ConfigRead.server.GetObjectMax() ; n++)
 	{
-		if ( gGameObjects[n]->Connected == PLAYER_PLAYING )
+		if ( getGameObject(n)->Connected == PLAYER_PLAYING )
 		{
-			if ( gGameObjects[n]->Type  == OBJ_USER )
+			if ( getGameObject(n)->Type  == OBJ_USER )
 			{
 				IOCP.DataSend(n, (BYTE*)&this->m_Notice , this->m_Notice.h.size );
 			}

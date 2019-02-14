@@ -5509,7 +5509,7 @@ BOOL CMixSystem::SeedSphereEnhance(CGameObject &Obj, BYTE Sphere1, BYTE Sphere2,
 		return FALSE;
 	}
 
-	if (!gObjSearchItemMinus(&gGameObjects[aIndex], Rune, ReqRune))
+	if (!gObjSearchItemMinus(&getGameObject(aIndex), Rune, ReqRune))
 	{
 		::gObjInventoryItemSet(aIndex, Rune, -1);
 		::lpObj.pInventory[Rune].Clear();

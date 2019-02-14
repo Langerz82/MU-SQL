@@ -144,7 +144,7 @@ void CKanturuBattleStanby::SetState(int iBattleStanbyState)
 	{
 		if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
 		{
-			gGameObjects[iCount]->m_PlayerData->m_bKanturuEntranceByNPC = FALSE;
+			getGameObject(iCount)->m_PlayerData->m_bKanturuEntranceByNPC = FALSE;
 		}
 	}
 

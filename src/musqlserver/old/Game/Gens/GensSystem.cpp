@@ -135,7 +135,7 @@ bool GensSystem::IsInfluenceNPC(CGameObject &Obj)
 		return false;
 	}
 
-	int iNpcClass = gGameObjects[lpObj.TargetNpcNumber]->Class;
+	int iNpcClass = getGameObject(lpObj.TargetNpcNumber)->Class;
 
 	return (iNpcClass == 544 && this->GetGensInfluence(lpObj) == VANERT_INFLUENCE 
 		    || iNpcClass == 543 && this->GetGensInfluence(lpObj) == DUPRIAN_INFLUENCE); 
@@ -298,7 +298,7 @@ void GensSystem::BattleZoneChatMsgSend(CGameObject &Obj, BYTE* Msg, int size)
 
 		for (int n = 0; n < MAX_VIEWPORT; ++n)
 		{
-			if (lpObj.VpPlayer[n].type == OBJ_USER && lpObj.VpPlayer[n].state != 0 && (this->GetGensInfluence(&gGameObjects[lpObj.VpPlayer[n]->number]) == iTarInfluence || CheckAuthorityCondition(98, lpObj) || CheckAuthorityCondition(98, &gGameObjects[lpObj.VpPlayer[n]->number]) || this->CanGensSeeOppositeChat() == TRUE))
+			if (lpObj.VpPlayer[n].type == OBJ_USER && lpObj.VpPlayer[n].state != 0 && (this->GetGensInfluence(&getGameObject(lpObj.VpPlayer[n]->number]) == iTarInfluence || CheckAuthorityCondition(98, lpObj) || CheckAuthorityCondition(98, &getGameObject(lpObj.VpPlayer[n)->number)) || this->CanGensSeeOppositeChat() == TRUE))
 			{				
 				IOCP.DataSend(lpObj.VpPlayer[n].number, Msg, size);
 			}

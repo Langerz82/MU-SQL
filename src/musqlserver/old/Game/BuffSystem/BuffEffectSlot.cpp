@@ -914,7 +914,7 @@ BOOL gObjAddBuffEffectWideArea(CGameObjectECTSTRUCT lpTargetObj, int nDistance, 
 
 	for(int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
-		CGameObject &Obj = (CGameObjectECTSTRUCT)&gGameObjects[i];
+		CGameObject &Obj = (CGameObjectECTSTRUCT)&getGameObject(i);
 
 		if(lpObj.Type == OBJ_USER && gObjIsConnected(i) != FALSE)
 		{
@@ -1296,7 +1296,7 @@ void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefa
 				if (!ObjectMaxRange(gParty.m_PartyS[lpObj.PartyNumber].Number[i]))
 					continue;
 
-				CGameObject lpPartyObj = &gGameObjects[gParty.m_PartyS[lpObj.PartyNumber]->Number[i]];
+				CGameObject lpPartyObj = &getGameObject(gParty.m_PartyS[lpObj.PartyNumber]->Number[i]);
 				int iPartyDis = gObjCalDistance(lpObj, lpPartyObj);
 
 				if (lpObj.m_Index != lpPartyObj.m_Index)

@@ -43,7 +43,7 @@ void CCastleCrown::CastleCrownAct(CGameObject &Obj)
 	}
 
 	CGameObject lpObj = Obj;
-	CGameObject lpUserObj = &gGameObjects[g_CastleSiege.GetCrownUserIndex()];
+	CGameObject lpUserObj = &getGameObject(g_CastleSiege.GetCrownUserIndex());
 
 	if ( lpUserObj.MapNumber == MAP_INDEX_CASTLESIEGE &&
 		 lpUserObj.m_btCsJoinSide >= 2 &&
@@ -56,8 +56,8 @@ void CCastleCrown::CastleCrownAct(CGameObject &Obj)
 				 gObjIsConnected(g_CastleSiege.GetCrownSwitchUserIndex(217)) &&
 				 gObjIsConnected(g_CastleSiege.GetCrownSwitchUserIndex(218)) )
 			{
-				if ( gGameObjects[g_CastleSiege.GetCrownUserIndex()]->m_btCsJoinSide == gGameObjects[g_CastleSiege.GetCrownSwitchUserIndex(217)]->m_btCsJoinSide &&
-					 gGameObjects[g_CastleSiege.GetCrownUserIndex()]->m_btCsJoinSide == gGameObjects[g_CastleSiege.GetCrownSwitchUserIndex(218)]->m_btCsJoinSide )	// #warning ??? maybe is 218??? 
+				if ( getGameObject(g_CastleSiege.GetCrownUserIndex()]->m_btCsJoinSide == getGameObject(g_CastleSiege.GetCrownSwitchUserIndex(217))->m_btCsJoinSide &&
+					 getGameObject(g_CastleSiege.GetCrownUserIndex()]->m_btCsJoinSide == getGameObject(g_CastleSiege.GetCrownSwitchUserIndex(218))->m_btCsJoinSide )	// #warning ??? maybe is 218??? 
 				{
 					DWORD dwTime = GetTickCount() - g_CastleSiege.GetCrownAccessTickCount();
 		

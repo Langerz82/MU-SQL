@@ -176,7 +176,7 @@ void CEventMonSetBase::SpawnMonster(boost::shared_ptr<EVENT_MONSTER_POSITION> lp
 	gObjSetMonster(result, lpSpotData->m_Type);
 	this->m_mapMonsterData.insert(std::pair<int, boost::shared_ptr<EVENT_MONSTER_DATA>>(result, lpMonsterData));
 
-	//sLog->outBasic("[Event Spawn] Set Monster (%d) (%d) (%d)(%d)(%d)", result, lpSpotData->m_Type, gGameObjects[result]->MapNumber, gGameObjects[result]->X, gGameObjects[result]->Y);
+	//sLog->outBasic("[Event Spawn] Set Monster (%d) (%d) (%d)(%d)(%d)", result, lpSpotData->m_Type, getGameObject(result]->MapNumber, getGameObject(result)->X, getGameObject(result)->Y);
 }
 
 void CEventMonSetBase::RegenMonster(CGameObject &Obj)
@@ -225,7 +225,7 @@ void CEventMonSetBase::DeleteAllMonsters()
 {
 	for (std::map<int, boost::shared_ptr<EVENT_MONSTER_DATA>>::iterator It = this->m_mapMonsterData.begin(); It != this->m_mapMonsterData.end(); It++)
 	{
-		//sLog->outBasic("[Event Spawn] Delete Monster (%d)(%d) (%d)(%d)(%d)", It->first,	gGameObjects[It->first]->Class, gGameObjects[It->first]->MapNumber, gGameObjects[It->first]->X, gGameObjects[It->first]->Y);
+		//sLog->outBasic("[Event Spawn] Delete Monster (%d)(%d) (%d)(%d)(%d)", It->first,	getGameObject(It->first]->Class, getGameObject(It->first]->MapNumber, getGameObject(It->first)->X, getGameObject(It->first)->Y);
 
 		gObjDel(It->first);
 		this->m_mapMonsterData.erase(It);

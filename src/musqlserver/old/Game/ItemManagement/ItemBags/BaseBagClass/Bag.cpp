@@ -360,12 +360,12 @@ void CBag::MakeBagEffectUse(CGameObject &Obj, int iMonsterIndex)
 	switch (this->m_BagData.iBagUseEffect)
 	{
 		case 0:
-			ServerCmd.X = gGameObjects[iMonsterIndex]->X;
-			ServerCmd.Y = gGameObjects[iMonsterIndex]->Y;
+			ServerCmd.X = getGameObject(iMonsterIndex)->X;
+			ServerCmd.Y = getGameObject(iMonsterIndex)->Y;
 			break;
 		case 2:
-			ServerCmd.X = gGameObjects[iMonsterIndex]->X;
-			ServerCmd.Y = gGameObjects[iMonsterIndex]->Y;
+			ServerCmd.X = getGameObject(iMonsterIndex)->X;
+			ServerCmd.Y = getGameObject(iMonsterIndex)->Y;
 			break;
 		case 58:
 			ServerCmd.X = SET_NUMBERH(aIndex);
@@ -373,7 +373,7 @@ void CBag::MakeBagEffectUse(CGameObject &Obj, int iMonsterIndex)
 			break;
 	}
 
-	gGameProtocol.MsgSendV2(&gGameObjects[aIndex], (BYTE*)&ServerCmd, ServerCmd.h.size);
+	gGameProtocol.MsgSendV2(&getGameObject(aIndex), (BYTE*)&ServerCmd, ServerCmd.h.size);
 	IOCP.DataSend(lpObj.m_Index, (BYTE*)&ServerCmd, ServerCmd.h.size);
 }
 

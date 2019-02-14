@@ -52,7 +52,7 @@ int MaxViewportMonster = 20;
 
 CViewportGuild ViewGuildMng;	// line : 130
 std::map<int, CGameObject*> gGameObjects;
-extern CGameObject* getGameObject(int index) { return gGameObjects.find(index)->second; }
+
 
 int gObjCount;
 int gObjMonCount;

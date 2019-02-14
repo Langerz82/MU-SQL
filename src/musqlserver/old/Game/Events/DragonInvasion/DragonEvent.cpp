@@ -161,7 +161,7 @@ void CDragonEvent::DragonActive()
 			return;
 		}
 
-		gGameObjects[result]->MapNumber = this->m_MapNumber;
+		getGameObject(result)->MapNumber = this->m_MapNumber;
 
 		DRAGON_SPAWN_INFO SpawnInfo;
 		bool bSpawnFind = false;
@@ -183,26 +183,26 @@ void CDragonEvent::DragonActive()
 			return;
 		}
 
-		this->GetBoxPosition(this->m_MapNumber, SpawnInfo.m_X, SpawnInfo.m_Y, SpawnInfo.m_W, SpawnInfo.m_H, gGameObjects[result]->X, gGameObjects[result]->Y);
+		this->GetBoxPosition(this->m_MapNumber, SpawnInfo.m_X, SpawnInfo.m_Y, SpawnInfo.m_W, SpawnInfo.m_H, getGameObject(result]->X, getGameObject(result)->Y);
 
-		gGameObjects[result]->m_PosNum = -1;
-		gGameObjects[result]->TX = gGameObjects[result]->X;
-		gGameObjects[result]->TY = gGameObjects[result]->Y;
-		gGameObjects[result]->MTX = gGameObjects[result]->X;
-		gGameObjects[result]->MTY = gGameObjects[result]->Y;
-		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
-		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
-		gGameObjects[result]->StartX = gGameObjects[result]->X;
-		gGameObjects[result]->StartY = gGameObjects[result]->Y;
+		getGameObject(result)->m_PosNum = -1;
+		getGameObject(result]->TX = getGameObject(result)->X;
+		getGameObject(result]->TY = getGameObject(result)->Y;
+		getGameObject(result]->MTX = getGameObject(result)->X;
+		getGameObject(result]->MTY = getGameObject(result)->Y;
+		getGameObject(result]->m_OldX = getGameObject(result)->X;
+		getGameObject(result]->m_OldY = getGameObject(result)->Y;
+		getGameObject(result]->StartX = getGameObject(result)->X;
+		getGameObject(result]->StartY = getGameObject(result)->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			gGameObjects[result]->Dir = rand() % 8;
+			getGameObject(result)->Dir = rand() % 8;
 		}
 
 		else
 		{
-			gGameObjects[result]->Dir = It->second.m_Dir;
+			getGameObject(result)->Dir = It->second.m_Dir;
 		}
 
 		gObjSetMonster(result, It->second.m_Type);

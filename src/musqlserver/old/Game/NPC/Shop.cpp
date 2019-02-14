@@ -471,21 +471,21 @@ void CShopMng::SetShopNpcs()
 		}
 		//sLog->outBasic("SetShopNpcs - Map %d %d %d", it->btMapNumber, it->btPosX, it->btPosY);	// Memory allocation error
 		gObjSetMonster(iResult, it->iNpcIndex);
-		gGameObjects[iResult]->m_MoveRange = 0;
-		gGameObjects[iResult]->MapNumber = it->btMapNumber;
-		gGameObjects[iResult]->X = it->btPosX;
-		gGameObjects[iResult]->Y = it->btPosY;
-		gGameObjects[iResult]->TX = it->btPosX;
-		gGameObjects[iResult]->TY = it->btPosY;
-		gGameObjects[iResult]->m_OldX = it->btPosX;
-		gGameObjects[iResult]->m_OldY = it->btPosY;
-		gGameObjects[iResult]->StartX = it->btPosX;
-		gGameObjects[iResult]->StartY = it->btPosY;
-		gGameObjects[iResult]->Dir = it->btDir;
-		gGameObjects[iResult]->Live = TRUE;
-		gGameObjects[iResult]->DieRegen = FALSE;
-		gGameObjects[iResult]->m_State = TRUE;
-		gGameObjects[iResult]->m_btNpcType = NPC_TYPES::NPC_SHOP;
+		getGameObject(iResult)->m_MoveRange = 0;
+		getGameObject(iResult)->MapNumber = it->btMapNumber;
+		getGameObject(iResult)->X = it->btPosX;
+		getGameObject(iResult)->Y = it->btPosY;
+		getGameObject(iResult)->TX = it->btPosX;
+		getGameObject(iResult)->TY = it->btPosY;
+		getGameObject(iResult)->m_OldX = it->btPosX;
+		getGameObject(iResult)->m_OldY = it->btPosY;
+		getGameObject(iResult)->StartX = it->btPosX;
+		getGameObject(iResult)->StartY = it->btPosY;
+		getGameObject(iResult)->Dir = it->btDir;
+		getGameObject(iResult)->Live = TRUE;
+		getGameObject(iResult)->DieRegen = FALSE;
+		getGameObject(iResult)->m_State = TRUE;
+		getGameObject(iResult)->m_btNpcType = NPC_TYPES::NPC_SHOP;
 
 		//sLog->outBasic("[Shops] Spawn Shop NPC (Index:%d) [MAP:%d][X:%d][Y:%d][NPCID:%d][DIR:%d]",iResult, it->btMapNumber, it->btPosX, it->btPosY, it->iNpcIndex, it->btDir);
 

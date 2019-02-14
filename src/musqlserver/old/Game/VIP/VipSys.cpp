@@ -116,24 +116,24 @@ void CVipSystem::Run()
 
 	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
-		if (gGameObjects[i]->Connected < PLAYER_PLAYING)
+		if (getGameObject(i)->Connected < PLAYER_PLAYING)
 		{
 			continue;
 		}
 
-		if (gGameObjects[i]->Type != OBJ_USER)
+		if (getGameObject(i)->Type != OBJ_USER)
 		{
 			continue;
 		}
 
-		if (gGameObjects[i]->m_PlayerData->VipType == 0)
+		if (getGameObject(i)->m_PlayerData->VipType == 0)
 		{
 			continue;
 		}
 
 		EnterCriticalSection(&this->m_criti);
 
-		std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(gGameObjects[i]->m_PlayerData->VipType);
+		std::map<int, VIP_INFO_DATA>::iterator it = this->m_mapVipInfo.find(getGameObject(i)->m_PlayerData->VipType);
 
 		if (it == this->m_mapVipInfo.end())
 		{
@@ -165,9 +165,9 @@ void CVipSystem::Run()
 
 		LeaveCriticalSection(&this->m_criti);
 
-		if (iVipEffect != gGameObjects[i]->m_PlayerData->VipEffect)
+		if (iVipEffect != getGameObject(i)->m_PlayerData->VipEffect)
 		{
-			gGameObjects[i]->m_PlayerData->VipEffect = iVipEffect;
+			getGameObject(i)->m_PlayerData->VipEffect = iVipEffect;
 
 			if (this->m_bIsSendRateChangeMessage == true)
 			{

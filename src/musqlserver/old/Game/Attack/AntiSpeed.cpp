@@ -79,7 +79,7 @@ void CAttackQueue::Push( BYTE* msg, int len, int type )
 
 void CAttackQueue::ProcessQueue()
 {
-	//CGameObject m_Obj = &gGameObjects[this->aIndex];
+	//CGameObject m_Obj = &getGameObject(this->aIndex);
 
 	EnterCriticalSection(&this->m_CritQueue);
 	int TickCount = GetTickCount();

@@ -127,23 +127,23 @@ void TMonsterAIGroup::ChangeAIOrder(int iGroupNumber, int iAIOrder)
 		{
 			if ( iAIOrder == 0 )
 			{
-				gGameObjects[lpMemb->m_iObjIndex]->m_iBasicAI = lpMemb->m_iStartAI;
-				gGameObjects[lpMemb->m_iObjIndex]->m_iCurrentAI = lpMemb->m_iStartAI;
+				getGameObject(lpMemb->m_iObjIndex)->m_iBasicAI = lpMemb->m_iStartAI;
+				getGameObject(lpMemb->m_iObjIndex)->m_iCurrentAI = lpMemb->m_iStartAI;
 			}
 			else if (iAIOrder == 1 )
 			{
-				gGameObjects[lpMemb->m_iObjIndex]->m_iBasicAI = lpMemb->m_iAI01;
-				gGameObjects[lpMemb->m_iObjIndex]->m_iCurrentAI = lpMemb->m_iAI01;
+				getGameObject(lpMemb->m_iObjIndex)->m_iBasicAI = lpMemb->m_iAI01;
+				getGameObject(lpMemb->m_iObjIndex)->m_iCurrentAI = lpMemb->m_iAI01;
 			}
 			else if (iAIOrder == 2 )
 			{
-				gGameObjects[lpMemb->m_iObjIndex]->m_iBasicAI = lpMemb->m_iAI02;
-				gGameObjects[lpMemb->m_iObjIndex]->m_iCurrentAI = lpMemb->m_iAI02;
+				getGameObject(lpMemb->m_iObjIndex)->m_iBasicAI = lpMemb->m_iAI02;
+				getGameObject(lpMemb->m_iObjIndex)->m_iCurrentAI = lpMemb->m_iAI02;
 			}
 			else if (iAIOrder == 3 )
 			{
-				gGameObjects[lpMemb->m_iObjIndex]->m_iBasicAI = lpMemb->m_iAI03;
-				gGameObjects[lpMemb->m_iObjIndex]->m_iCurrentAI = lpMemb->m_iAI03;
+				getGameObject(lpMemb->m_iObjIndex)->m_iBasicAI = lpMemb->m_iAI03;
+				getGameObject(lpMemb->m_iObjIndex)->m_iCurrentAI = lpMemb->m_iAI03;
 			}
 		}		
 	}
@@ -270,7 +270,7 @@ TMonsterAIGroupMember * TMonsterAIGroup::FindGroupMemberToHeal(int iObjIndex, in
 	{
 		if ( TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iGroupNumber == iGroupNumber )
 		{
-			CGameObject lpTargetObj = &gGameObjects[TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i]->m_iObjIndex];
+			CGameObject lpTargetObj = &getGameObject(TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i]->m_iObjIndex);
 
 			if ( lpTargetObj == NULL )
 				continue;
@@ -278,7 +278,7 @@ TMonsterAIGroupMember * TMonsterAIGroup::FindGroupMemberToHeal(int iObjIndex, in
 			if ( lpTargetObj.Live == false )
 				continue;
 
-			if ( gObjCalDistance(&gGameObjects[iObjIndex], lpTargetObj) > iDistance )
+			if ( gObjCalDistance(&getGameObject(iObjIndex), lpTargetObj) > iDistance )
 				continue;
 
 			int iMaxLife = lpTargetObj.MaxLife + 1.0f;
@@ -316,7 +316,7 @@ TMonsterAIGroupMember * TMonsterAIGroup::FindGroupMemberToSommon(int iObjIndex, 
 	{
 		if ( TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iGroupNumber == iGroupNumber )
 		{
-			CGameObject lpTargetObj = &gGameObjects[TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i]->m_iObjIndex];
+			CGameObject lpTargetObj = &getGameObject(TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i]->m_iObjIndex);
 
 			if ( lpTargetObj.m_Index == iObjIndex )
 				continue;
@@ -368,12 +368,12 @@ void TMonsterAIGroup::Init(int iGroupNumber)
 
 		if ( iResult >= 0 )
 		{
-			gGameObjects[iResult]->m_PosNum = -1;
-			gGameObjects[iResult]->MapNumber = Memb.m_iMapNumber;
-			gGameObjects[iResult]->Live = TRUE;
+			getGameObject(iResult)->m_PosNum = -1;
+			getGameObject(iResult)->MapNumber = Memb.m_iMapNumber;
+			getGameObject(iResult)->Live = TRUE;
 
-			gObjViewportListProtocolDestroy(&gGameObjects[iResult]);
-			gObjViewportClose(&gGameObjects[iResult]);
+			gObjViewportListProtocolDestroy(&getGameObject(iResult));
+			gObjViewportClose(&getGameObject(iResult));
 
 			BYTE cX;
 			BYTE cY;
@@ -400,10 +400,10 @@ void TMonsterAIGroup::Init(int iGroupNumber)
 
 				if ( bGetPosition == FALSE )
 				{
-					gGameObjects[iResult]->Live = FALSE;
-					gGameObjects[iResult]->m_State = 4;
-					gGameObjects[iResult]->RegenTime = GetTickCount();
-					gGameObjects[iResult]->DieRegen = 1;
+					getGameObject(iResult)->Live = FALSE;
+					getGameObject(iResult)->m_State = 4;
+					getGameObject(iResult)->RegenTime = GetTickCount();
+					getGameObject(iResult)->DieRegen = 1;
 
 					return;
 				}
@@ -414,40 +414,40 @@ void TMonsterAIGroup::Init(int iGroupNumber)
 				cY = Memb.m_iStartY;
 			}
 
-			gGameObjects[iResult]->X = cX;
-			gGameObjects[iResult]->Y = cY;
-			gGameObjects[iResult]->MTX = gGameObjects[iResult]->X;
-			gGameObjects[iResult]->MTY = gGameObjects[iResult]->Y;
-			gGameObjects[iResult]->TX = gGameObjects[iResult]->X;
-			gGameObjects[iResult]->TY = gGameObjects[iResult]->Y;
-			gGameObjects[iResult]->StartX = gGameObjects[iResult]->X;
-			gGameObjects[iResult]->StartY = gGameObjects[iResult]->Y;
+			getGameObject(iResult)->X = cX;
+			getGameObject(iResult)->Y = cY;
+			getGameObject(iResult]->MTX = getGameObject(iResult)->X;
+			getGameObject(iResult]->MTY = getGameObject(iResult)->Y;
+			getGameObject(iResult]->TX = getGameObject(iResult)->X;
+			getGameObject(iResult]->TY = getGameObject(iResult)->Y;
+			getGameObject(iResult]->StartX = getGameObject(iResult)->X;
+			getGameObject(iResult]->StartY = getGameObject(iResult)->Y;
 
 			gObjSetMonster(iResult, Memb.m_iClass);
 
-			gGameObjects[iResult]->m_iGroupNumber = Memb.m_iGroupNumber;
-			gGameObjects[iResult]->m_iGroupMemberGuid = Memb.m_iGuid;
-			gGameObjects[iResult]->m_iCurrentAI = Memb.m_iStartAI;
-			gGameObjects[iResult]->m_iBasicAI = Memb.m_iStartAI;
-			gGameObjects[iResult]->m_iRegenType = Memb.m_iRegenType;
-			gGameObjects[iResult]->Dir = Memb.m_iStartDir;
-			gGameObjects[iResult]->m_State = 1;
-			gGameObjects[iResult]->DieRegen = 0;
+			getGameObject(iResult)->m_iGroupNumber = Memb.m_iGroupNumber;
+			getGameObject(iResult)->m_iGroupMemberGuid = Memb.m_iGuid;
+			getGameObject(iResult)->m_iCurrentAI = Memb.m_iStartAI;
+			getGameObject(iResult)->m_iBasicAI = Memb.m_iStartAI;
+			getGameObject(iResult)->m_iRegenType = Memb.m_iRegenType;
+			getGameObject(iResult)->Dir = Memb.m_iStartDir;
+			getGameObject(iResult)->m_State = 1;
+			getGameObject(iResult)->DieRegen = 0;
 			Memb.m_iObjIndex = iResult;
 
 			if ( Memb.m_iCreateType == -1 )
 			{
-				gGameObjects[iResult]->Live = FALSE;
-				gGameObjects[iResult]->m_State = 4;
-				gGameObjects[iResult]->RegenTime = GetTickCount();
-				gGameObjects[iResult]->DieRegen = 1;
+				getGameObject(iResult)->Live = FALSE;
+				getGameObject(iResult)->m_State = 4;
+				getGameObject(iResult)->RegenTime = GetTickCount();
+				getGameObject(iResult)->DieRegen = 1;
 
 				continue;
 			}
 
 			sLog->outBasic("[ AI SetMonster ] %s(Index:%d ObjIndex:%d) Map:%d-[%d][%d]",
-				gGameObjects[iResult]->Name, gGameObjects[iResult]->Class, iResult, gGameObjects[iResult]->MapNumber,
-				gGameObjects[iResult]->X, gGameObjects[iResult]->Y);
+				getGameObject(iResult]->Name, getGameObject(iResult)->Class, iResult, getGameObject(iResult)->MapNumber,
+				getGameObject(iResult]->X, getGameObject(iResult)->Y);
 		}
 	}
 }

@@ -642,7 +642,7 @@ void CPeriodItemEx::DGPeriodItemExInsert(PMSG_ANS_PERIODITEMEX_INSERT * lpMsg)
 		return;
 	}
 
-	CGameObject lpObj = &gGameObjects[UserIndex];
+	CGameObject lpObj = &getGameObject(UserIndex);
 
 	if ( lpObj.Connected < PLAYER_LOGGED )
 	{
@@ -673,7 +673,7 @@ void CPeriodItemEx::DGPeriodItemExDelete(PMSG_ANS_PERIODITEMEX_DELETE * lpMsg)
 		return;
 	}
 
-	CGameObject lpObj = &gGameObjects[UserIndex];
+	CGameObject lpObj = &getGameObject(UserIndex);
 
 	if ( lpObj.Connected < PLAYER_LOGGED )
 	{
@@ -705,7 +705,7 @@ void CPeriodItemEx::DGPeriodItemExExpiredItemList(PMSG_ANS_PERIODITEMEX_EXPIRED_
 		return;
 	}
 
-	CGameObject lpObj = &gGameObjects[UserIndex];
+	CGameObject lpObj = &getGameObject(UserIndex);
 
 	if ( lpObj.Connected < PLAYER_LOGGED )
 	{
@@ -742,7 +742,7 @@ void CPeriodItemEx::DGPeriodItemExListCount(PMSG_ANS_PERIODITEMEX_LIST_COUNT * l
 		return;
 	}
 
-	CGameObject lpObj = &gGameObjects[UserIndex];
+	CGameObject lpObj = &getGameObject(UserIndex);
 
 	if ( lpObj.Connected < PLAYER_LOGGED )
 	{
@@ -770,7 +770,7 @@ void CPeriodItemEx::DGPeriodItemExList(PMSG_ANS_PERIODITEMEX_LIST * lpMsg)
 		return;
 	}
 
-	CGameObject lpObj = &gGameObjects[UserIndex];
+	CGameObject lpObj = &getGameObject(UserIndex);
 
 	if ( lpObj.Connected < PLAYER_LOGGED )
 	{

@@ -46,28 +46,28 @@ void CGuardian::GuardianAct(CGameObject &Obj)
 
 			if (tObjNum >= 0)
 			{
-				if (gGameObjects[tObjNum]->Type == OBJ_USER && gGameObjects[tObjNum]->Live)
+				if (getGameObject(tObjNum]->Type == OBJ_USER && getGameObject(tObjNum)->Live)
 				{
-					if (gGameObjects[tObjNum]->m_btCsJoinSide == lpObj.m_btCsJoinSide)
+					if (getGameObject(tObjNum)->m_btCsJoinSide == lpObj.m_btCsJoinSide)
 					{
-						if (abs(lpObj.Y - gGameObjects[tObjNum]->Y) <= 3 &&
-							abs(lpObj.X - gGameObjects[tObjNum]->X) <= 3)
+						if (abs(lpObj.Y - getGameObject(tObjNum)->Y) <= 3 &&
+							abs(lpObj.X - getGameObject(tObjNum)->X) <= 3)
 						{
-							gGameObjects[tObjNum]->Life += 100.0f;
-							gGameObjects[tObjNum]->Mana += 100.0f;
-							gGameObjects[tObjNum]->BP += 100;
+							getGameObject(tObjNum)->Life += 100.0f;
+							getGameObject(tObjNum)->Mana += 100.0f;
+							getGameObject(tObjNum)->BP += 100;
 
-							if (gGameObjects[tObjNum]->Life > gGameObjects[tObjNum]->MaxLife)
-								gGameObjects[tObjNum]->Life = gGameObjects[tObjNum]->MaxLife;
+							if (getGameObject(tObjNum]->Life > getGameObject(tObjNum)->MaxLife)
+								getGameObject(tObjNum]->Life = getGameObject(tObjNum)->MaxLife;
 
-							if (gGameObjects[tObjNum]->Mana > gGameObjects[tObjNum]->MaxMana)
-								gGameObjects[tObjNum]->Mana = gGameObjects[tObjNum]->MaxMana;
+							if (getGameObject(tObjNum]->Mana > getGameObject(tObjNum)->MaxMana)
+								getGameObject(tObjNum]->Mana = getGameObject(tObjNum)->MaxMana;
 
-							if (gGameObjects[tObjNum]->BP > gGameObjects[tObjNum]->MaxBP)
-								gGameObjects[tObjNum]->BP = gGameObjects[tObjNum]->MaxBP;
+							if (getGameObject(tObjNum]->BP > getGameObject(tObjNum)->MaxBP)
+								getGameObject(tObjNum]->BP = getGameObject(tObjNum)->MaxBP;
 
-							gGameProtocol.GCReFillSend(tObjNum, gGameObjects[tObjNum]->Life, 0xFF, 1, gGameObjects[tObjNum]->iShield);
-							gGameProtocol.GCManaSend(tObjNum, gGameObjects[tObjNum]->Mana, 0xFF, 0, gGameObjects[tObjNum]->BP);
+							gGameProtocol.GCReFillSend(tObjNum, getGameObject(tObjNum]->Life, 0xFF, 1, getGameObject(tObjNum)->iShield);
+							gGameProtocol.GCManaSend(tObjNum, getGameObject(tObjNum]->Mana, 0xFF, 0, getGameObject(tObjNum)->BP);
 						}
 					}
 				}

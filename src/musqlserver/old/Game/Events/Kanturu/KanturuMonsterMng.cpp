@@ -166,7 +166,7 @@ int CKanturuMonsterMng::SetKanturuMonster(int iGroupNumber)
 			}
 			else
 			{
-				lpObj = &gGameObjects[iResult];
+				lpObj = &getGameObject(iResult);
 
 				lpObj.m_PosNum = -1;
 				lpObj.X = this->m_SetBaseInfo[iCount].btX;
@@ -210,7 +210,7 @@ int CKanturuMonsterMng::SetKanturuMonster(int iGroupNumber)
 					continue;
 				}
 
-				if ( gGameObjects[iResult]->Type == OBJ_MONSTER )
+				if ( getGameObject(iResult)->Type == OBJ_MONSTER )
 				{
 					this->m_KanturuMonster.AddObj(iResult);
 					this->m_iMaxRegenMonsterCount++;

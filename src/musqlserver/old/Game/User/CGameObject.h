@@ -13,6 +13,7 @@
 #include "TDurMagicKeyChecker.h"
 
 #include <vector>
+#include <map>
 
 class CEvolutionMonsterInfo;
 class CGameObject;
@@ -39,8 +40,8 @@ struct SKILL_INFO;
 struct MUUN_EFFECT_LIST;
 
 
-extern std::vector<CGameObject*> gGameObjects;
-
+extern std::map<int, CGameObject*> gGameObjects;
+extern CGameObject* getGameObject(int index) { return gGameObjects.find(index)->second; }
 
 class CGameObject
 {
@@ -209,7 +210,7 @@ public:
 	DWORD SelfDefenseTime[MAX_SELF_DEFENSE];	// 27C
 	DWORD MySelfDefenseTime;	// 290
 	int PartyNumber; // 2C8
-	CGameObject* GetParty() { return gGameObjects[this->PartyNumber]; }
+	CGameObject* GetParty() { return getGameObject(this->PartyNumber); }
 	int PartyTargetUser;	// 2CC
 	char Married;
 	char MarryName[11];
@@ -223,10 +224,10 @@ public:
 	short TargetNumber;	// 2F4
 	short TargetNpcNumber;	// 2F6
 	CGameObject* GetTarget() {
-		return gGameObjects[this->TargetNumber];
+		return getGameObject(this->TargetNumber);
 	};
 	CGameObject* GetTargetNPC() {
-		return gGameObjects[this->TargetNpcNumber];
+		return getGameObject(this->TargetNpcNumber);
 	};
 	short LastAttackerID;	// 2FA
 	int m_AttackDamageMin;	// 2FC
@@ -507,9 +508,9 @@ public:
 	CItemObject** pEventInventory;
 	CItemObject** pEventInventory1;
 	CItemObject** pEventInventory2;
-	BYTE  *pEventInventoryMap;
-	BYTE  *pEventInventoryMap1;
-	BYTE  *pEventInventoryMap2;
+	BYTE** pEventInventoryMap;
+	BYTE** pEventInventoryMap1;
+	BYTE** pEventInventoryMap2;
 	MUUN_EFFECT_LIST** m_MuunEffectList;
 	bool EventInventoryLoad;
 	bool bMuunInventoryLoad;
@@ -603,5 +604,16 @@ extern int gObjCallMonCount;
 extern int gObjMonCount;
 extern int gObjCount;
 
+extern BYTE GuildInfoBuf[10000];
+extern BYTE GuildUserBuf[10000];
+extern BYTE GensInfoBuf[10000];
+extern BYTE GensUserBuf[10000];
+extern BYTE SendGBufChange[5000];
+
+extern PMSG_VIEWPORTCREATE pViewportCreate;
+extern PMSG_VIEWPORTCREATE_CHANGE pViewportCreateChange;
+extern PMSG_VIEWPORTDESTROY pViewportDestroy;
+extern PMSG_MONSTER_VIEWPORTCREATE pMonsterViewportCreate;
+extern PMSG_CALLMONSTER_VIEWPORTCREATE pCallMonsterViewportCreate;
 
 #endif

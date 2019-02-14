@@ -507,7 +507,7 @@ void CBuffEffect::GiveDamageFillHPEffect(CGameObject &Obj, int Damage)
 
 		if (ObjectMaxRange(value2) == false)	return;
 
-		CGameObject lpTarget = &gGameObjects[value2];
+		CGameObject lpTarget = &getGameObject(value2);
 
 		if ((lpObj.AddLife + lpObj.MaxLife) >= (lpObj.Life+DecreaseHealthPoint))
 		{
@@ -824,7 +824,7 @@ void CBuffEffect::DGPeriodItemExSelect(PMSG_ANS_PERIODBUFF_SELECT *lpMsg)
 		return;
 	}
 
-	CGameObject lpObj = &gGameObjects[lpMsg->wUserIndex];
+	CGameObject lpObj = &getGameObject(lpMsg->wUserIndex);
 
 	if ( lpObj.Connected < PLAYER_LOGGED )
 	{

@@ -554,11 +554,11 @@ void CRingAttackEvent::ProcState_Playing()
 
 			for ( int n=0;n<g_ConfigRead.server.GetObjectStartUserIndex();n++)
 			{
-				if ( gGameObjects[n]->Class == 135 )
+				if ( getGameObject(n)->Class == 135 )
 				{
-					if ( gGameObjects[n]->m_bIsInMonsterHerd )
+					if ( getGameObject(n)->m_bIsInMonsterHerd )
 					{
-						if ( gGameObjects[n]->Live && gGameObjects[n]->MapNumber == g_RingEventMapNum[i] )
+						if ( getGameObject(n]->Live && getGameObject(n)->MapNumber == g_RingEventMapNum[i) )
 						{
 							bLive = TRUE;
 						}

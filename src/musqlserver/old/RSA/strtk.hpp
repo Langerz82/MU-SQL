@@ -17656,7 +17656,7 @@ namespace strtk
             {
                itr -= 3;
                T temp_v = value / radix_cube;
-               memcpy(itr,&details::rev_3digit_lut[3 * (value - (temp_v * radix_cube))],3);
+               std::memcpy(itr,&details::rev_3digit_lut[3 * (value - (temp_v * radix_cube))],3);
                value = temp_v;
             }
 
@@ -17664,7 +17664,7 @@ namespace strtk
             {
                itr -= 2;
                T temp_v = value / radix_sqr;
-               memcpy(itr,&details::rev_2digit_lut[2 * (value - (temp_v * radix_sqr))],2);
+               std::memcpy(itr,&details::rev_2digit_lut[2 * (value - (temp_v * radix_sqr))],2);
                value = temp_v;
             }
 
@@ -17717,7 +17717,7 @@ namespace strtk
             {
                itr -= 3;
                T temp_v = value / radix_cube;
-               memcpy(itr,&details::rev_3digit_lut[3 * (value - (temp_v * radix_cube))],3);
+               std::memcpy(itr,&details::rev_3digit_lut[3 * (value - (temp_v * radix_cube))],3);
                value = temp_v;
             }
 
@@ -17725,7 +17725,7 @@ namespace strtk
             {
                itr -= 2;
                T temp_v = value / radix_sqr;
-               memcpy(itr,&details::rev_2digit_lut[2 * (value - (temp_v * radix_sqr))],2);
+               std::memcpy(itr,&details::rev_2digit_lut[2 * (value - (temp_v * radix_sqr))],2);
                value = temp_v;
             }
 

@@ -193,7 +193,7 @@ void CRaklionBattleOfSelupan::SetState_DIE()
 	DeleteSummonMonster();
 
 	int iSelupanIndex = GetSelupanObjIndex();
-	int iWinner = gObjMonsterTopHitDamageUser(&gGameObjects[iSelupanIndex]);
+	int iWinner = gObjMonsterTopHitDamageUser(&getGameObject(iSelupanIndex));
 
 	if (iWinner == -1)
 	{
@@ -202,7 +202,7 @@ void CRaklionBattleOfSelupan::SetState_DIE()
 
 	if (ObjectMaxRange(iWinner) == true)
 	{
-		CGameObject lpObj = &gGameObjects[iWinner];
+		CGameObject lpObj = &getGameObject(iWinner);
 		g_RaklionUtil.SendMsgAllUser(Lang.GetText(0,307), lpObj.Name);
 	}
 
@@ -215,8 +215,8 @@ void CRaklionBattleOfSelupan::SetState_DIE()
 		sLog->outBasic("[Raklion][SelupanDie] %d/%d/%d %d:%d:%d %dth Winner : %s (%s)",	
 			pCurrentTime->tm_year+1900, pCurrentTime->tm_mon+1, pCurrentTime->tm_mday, 
 			pCurrentTime->tm_hour, pCurrentTime->tm_min, pCurrentTime->tm_sec, iCount+1, 
-			gGameObjects[g_RaklionBattleUserMng.GetUserObjIndex(iCount)]->Name, 
-			gGameObjects[g_RaklionBattleUserMng.GetUserObjIndex(iCount)]->AccountID);
+			getGameObject(g_RaklionBattleUserMng.GetUserObjIndex(iCount))->Name, 
+			getGameObject(g_RaklionBattleUserMng.GetUserObjIndex(iCount))->AccountID);
 	}
 
 	SetBattleOfSelupanState(9);
@@ -308,7 +308,7 @@ void CRaklionBattleOfSelupan::ActionOfSelupan(int iAction)
 {
 	int iSelupanIndex = m_RaklionSelupan.GetSelupanObjIndex();
 
-	CGameObject lpObj = &gGameObjects[iSelupanIndex];
+	CGameObject lpObj = &getGameObject(iSelupanIndex);
 
 	if( lpObj.Teleport || lpObj.m_ActState.Move )	return;
 	if( iAction < 0 || iAction >= 9 )	return;
@@ -354,7 +354,7 @@ void CRaklionBattleOfSelupan::SetBattleOfSelupanStateAuto()
 		return;
 	}
 	
-	lpObj = &gGameObjects[iSelupanObjIndex];
+	lpObj = &getGameObject(iSelupanObjIndex);
 	
 	if( lpObj.DieRegen )	return;
 

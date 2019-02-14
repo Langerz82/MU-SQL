@@ -78,8 +78,8 @@ void CNewPVP::Run()
 		DWORD dwRemainMsec = GetTickCount() - waiting.dwTime;			
 		if( dwRemainMsec > 10000 )
 		{
-			OBJECTSTRUCT & requester = gGameObjects[waiting.nRequester];
-			OBJECTSTRUCT & responsor = gGameObjects[waiting.nResponsor];
+			OBJECTSTRUCT & requester = getGameObject(waiting.nRequester);
+			OBJECTSTRUCT & responsor = getGameObject(waiting.nResponsor);
 			Cancel(requester, responsor, FALSE);
 		}		
 		iter++;
@@ -108,8 +108,8 @@ void CNewPVP::Run()
 				{	
 					if(!CheckUsersOnConnect(i))	continue;
 					
-					OBJECTSTRUCT &requester = gGameObjects[m_DuelChannel[i]->nIndex1];
-					OBJECTSTRUCT &responsor = gGameObjects[m_DuelChannel[i]->nIndex2];
+					OBJECTSTRUCT &requester = getGameObject(m_DuelChannel[i]->nIndex1);
+					OBJECTSTRUCT &responsor = getGameObject(m_DuelChannel[i]->nIndex2);
 					
 					gObjClearBuffEffect(&requester, CLEAR_TYPE_NON_PCS_ITEM_EFFECT);
 					gObjClearBuffEffect(&responsor, CLEAR_TYPE_NON_PCS_ITEM_EFFECT);
@@ -129,8 +129,8 @@ void CNewPVP::Run()
 				{
 					if(!CheckUsersOnConnect(i))	continue;
 					
-					OBJECTSTRUCT & requester = gGameObjects[m_DuelChannel[i]->nIndex1];
-					OBJECTSTRUCT & responsor = gGameObjects[m_DuelChannel[i]->nIndex2];
+					OBJECTSTRUCT & requester = getGameObject(m_DuelChannel[i]->nIndex1);
+					OBJECTSTRUCT & responsor = getGameObject(m_DuelChannel[i]->nIndex2);
 
 					MoveGate(requester.m_Index, g_GateRequester[i]);
 					MoveGate(responsor.m_Index,g_GateResponsor[i]);
@@ -152,8 +152,8 @@ void CNewPVP::Run()
 				}
 				if( dwRemainMsec > 10000 )
 				{
-					OBJECTSTRUCT &requester = gGameObjects[m_DuelChannel[i]->nIndex1];
-				  	OBJECTSTRUCT &responsor = gGameObjects[m_DuelChannel[i]->nIndex2];
+					OBJECTSTRUCT &requester = getGameObject(m_DuelChannel[i]->nIndex1);
+				  	OBJECTSTRUCT &responsor = getGameObject(m_DuelChannel[i]->nIndex2);
 					Leave( requester, responsor);
 					LeaveChannelObserver(i);
 					SetStatus(DC_IDLE, i, requester, responsor);
@@ -377,7 +377,7 @@ int CNewPVP::Reserve(OBJECTSTRUCT & requester,CGameObject &responsor)
     req.h.subcode = 0x02;
     req.NumberH = HIBYTE(requester.m_Index);
     req.NumberL = LOBYTE(requester.m_Index);
-    memcpy(req.szName, requester.Name, MAX_ACCOUNT_LEN);
+    std::memcpy(req.szName, requester.Name, MAX_ACCOUNT_LEN);
     IOCP.DataSend(responsor.m_Index, (BYTE*)&req, req.h.size);
 	return 0;
 }
@@ -515,7 +515,7 @@ int CNewPVP::Leave(CGameObject &Obj)
 
 	obj.m_iDuelUserReserved = -1;
 
-	if( IsDuel(obj) )	lpTargetObj = (CGameObjectECTSTRUCT)&gGameObjects[obj.m_iDuelUser];
+	if( IsDuel(obj) )	lpTargetObj = (CGameObjectECTSTRUCT)&getGameObject(obj.m_iDuelUser);
 
 	if(lpTargetObj == NULL){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","lpTargetObj","ENEWPVP::E_INVALID_INDEX","NULL", __FILE__, __LINE__); return ENEWPVP::E_INVALID_INDEX; }
 
@@ -545,7 +545,7 @@ void CNewPVP::Leave(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor)
 		requester.m_iDuelUser = -1;
         res.NumberH = HIBYTE(responsor.m_Index);
         res.NumberL = LOBYTE(responsor.m_Index);
-        memcpy(res.szName, responsor.Name, MAX_ACCOUNT_LEN);
+        std::memcpy(res.szName, responsor.Name, MAX_ACCOUNT_LEN);
 
         IOCP.DataSend(requester.m_Index, (BYTE*)&res, res.h.size);
         
@@ -560,7 +560,7 @@ void CNewPVP::Leave(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor)
         responsor.m_iDuelUser = -1;
         res.NumberH = HIBYTE(responsor.m_Index);
         res.NumberL = LOBYTE(responsor.m_Index);
-        memcpy(res.szName, requester.Name, MAX_ACCOUNT_LEN);
+        std::memcpy(res.szName, requester.Name, MAX_ACCOUNT_LEN);
         
 		IOCP.DataSend(responsor.m_Index, (BYTE*)&res, res.h.size);
         
@@ -587,8 +587,8 @@ void CNewPVP::CheckScore(CGameObject &Obj, CGameObject &target)
 
 	LPDUEL_CHANNEL lpChannel = &m_DuelChannel[nId];
 
-	OBJECTSTRUCT & requester = gGameObjects[lpChannel->nIndex1];
-	OBJECTSTRUCT & responsor = gGameObjects[lpChannel->nIndex2];
+	OBJECTSTRUCT & requester = getGameObject(lpChannel->nIndex1);
+	OBJECTSTRUCT & responsor = getGameObject(lpChannel->nIndex2);
 
 	if( obj.m_btDuelScore >= 10 )
     {
@@ -644,7 +644,7 @@ BOOL CNewPVP::MoveGate(int nIndex, int nGateNum)
 	if( nMapNumber < 0)	return FALSE;
 
 	gObjTeleport(nIndex, btMapNum, sX, sY);
-	gObjViewportListProtocolCreate(&gGameObjects[nIndex]);
+	gObjViewportListProtocolCreate(&getGameObject(nIndex));
 	return TRUE;
 }
 
@@ -659,7 +659,7 @@ BOOL CNewPVP::CheckLimitLevel(int nIndex, int nGateNum)
 	int nMapNumber =  gGateC.GetGate(nGateNum, sX, sY, btMapNum, btDir, sLevel);
 	if( nMapNumber < 0)	return FALSE;
 
-	if(gGameObjects[nIndex]->Level < sLevel)	return FALSE;
+	if(getGameObject(nIndex)->Level < sLevel)	return FALSE;
 	return TRUE;
 }
 
@@ -742,8 +742,8 @@ int CNewPVP::CheckUsersOnConnect(int nId)
 	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","FALSE","NULL",__FILE__, __LINE__); return FALSE; }
 	if( !IS_START(m_DuelChannel[nId].nStatus) ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)", "FALSE","NULL",__FILE__, __LINE__); return FALSE; }
 
-	OBJECTSTRUCT & requester = gGameObjects[m_DuelChannel[nId]->nIndex1];
-	OBJECTSTRUCT & responsor = gGameObjects[m_DuelChannel[nId]->nIndex2];
+	OBJECTSTRUCT & requester = getGameObject(m_DuelChannel[nId]->nIndex1);
+	OBJECTSTRUCT & responsor = getGameObject(m_DuelChannel[nId]->nIndex2);
 
 	if( !gObjIsConnected(requester.m_Index) || !IsPKFieldMap( requester.MapNumber) ){ Leave(requester); return FALSE; }
 	if( !gObjIsConnected(responsor.m_Index) || !IsPKFieldMap( responsor.MapNumber) ){ Leave(responsor); return FALSE; }
@@ -765,8 +765,8 @@ void CNewPVP::ChatMsgSend(CGameObject &Obj,BYTE* Msg, int size)
 
 	LPDUEL_CHANNEL lpChannel = &m_DuelChannel[nId];
 
-	CGameObject &requester = gGameObjects[lpChannel->nIndex1];
-    CGameObject &responsor = gGameObjects[lpChannel->nIndex2];
+	CGameObject &requester = getGameObject(lpChannel->nIndex1);
+    CGameObject &responsor = getGameObject(lpChannel->nIndex2);
 
 	if(gObjIsConnected(&requester))
 	{
@@ -783,7 +783,7 @@ void CNewPVP::ChatMsgSend(CGameObject &Obj,BYTE* Msg, int size)
 
 void CNewPVP::Reset(CGameObject &Obj)
 {
-	if( IsDuelRequested(obj) )	Cancel(obj, gGameObjects[obj.m_iDuelUserRequested], TRUE);
+	if( IsDuelRequested(obj) )	Cancel(obj, getGameObject(obj.m_iDuelUserRequested), TRUE);
 	if( IsDuel(obj) )	Leave(obj);
 
 	if( IsObserver(obj) )
@@ -846,8 +846,8 @@ int CNewPVP::JoinChannel(int nId,CGameObject &Obj)
 
 	LeaveCriticalSection(&this->m_csObserver);
 
-	OBJECTSTRUCT & requester = gGameObjects[m_DuelChannel[nId]->nIndex1];
-    OBJECTSTRUCT & responsor = gGameObjects[m_DuelChannel[nId]->nIndex2];
+	OBJECTSTRUCT & requester = getGameObject(m_DuelChannel[nId]->nIndex1);
+    OBJECTSTRUCT & responsor = getGameObject(m_DuelChannel[nId]->nIndex2);
 	
 	BroadcastJoinChannel(nId, obj);
 
@@ -879,8 +879,8 @@ int CNewPVP::JoinChannel(int nId,CGameObject &Obj)
     res.NumberL1 = LOBYTE(requester.m_Index);
     res.NumberH2 = HIBYTE(responsor.m_Index);
     res.NumberL2 = LOBYTE(responsor.m_Index);
-    memcpy(res.szName1, requester.Name, MAX_ACCOUNT_LEN);
-    memcpy(res.szName2, responsor.Name, MAX_ACCOUNT_LEN);
+    std::memcpy(res.szName1, requester.Name, MAX_ACCOUNT_LEN);
+    std::memcpy(res.szName2, responsor.Name, MAX_ACCOUNT_LEN);
     IOCP.DataSend(obj.m_Index, (BYTE*)&res,res.h.size);
 
 	PMSG_DUEL_OBSERVERLIST_BROADCAST Msg = {0};
@@ -985,7 +985,7 @@ void CNewPVP::LeaveChannelObserver(int nId)
 		ObserverInfo & info = iter->second;		
 		if(info.nId == nId)
 		{
-			CGameObject &Obj = (CGameObjectECTSTRUCT)&gGameObjects[info.nIndex];
+			CGameObject &Obj = (CGameObjectECTSTRUCT)&getGameObject(info.nIndex);
 
 			if( IsPKFieldMap(lpObj.MapNumber) )
 			{
@@ -1035,8 +1035,8 @@ void CNewPVP::BroadcastScore(int nId, BYTE nFlag)
 	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
 	if( !IS_START(m_DuelChannel[nId].nStatus) ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)", "0","NULL",__FILE__, __LINE__); return; }
 
-	OBJECTSTRUCT & requester = gGameObjects[m_DuelChannel[nId]->nIndex1];
-    OBJECTSTRUCT & responsor = gGameObjects[m_DuelChannel[nId]->nIndex2];
+	OBJECTSTRUCT & requester = getGameObject(m_DuelChannel[nId]->nIndex1);
+    OBJECTSTRUCT & responsor = getGameObject(m_DuelChannel[nId]->nIndex2);
 
 	PMSG_DUEL_SCORE_BROADCAST res = {0};
 	res.h.c = 0xC1;
@@ -1068,7 +1068,7 @@ void CNewPVP::BroadcastResult(int nId, BYTE nFlag, CGameObject &Obj)
 	if( !gObjIsConnected(obj.m_Index) ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","gObjIsConnected(obj.m_Index)", "0","NULL",__FILE__, __LINE__); return; }
 	if( !IsDuel(obj) ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","IsDuel(obj)", "0","NULL",__FILE__, __LINE__); return; }
 
-	OBJECTSTRUCT & targetObj = gGameObjects[obj.m_iDuelUser];
+	OBJECTSTRUCT & targetObj = getGameObject(obj.m_iDuelUser);
      
 	PMSG_DUEL_RESULT_BROADCAST res = {0};
 	res.h.c = 0xC1;
@@ -1094,8 +1094,8 @@ void CNewPVP::BroadcastDuelInfo(int nId, BYTE nFlag)
 	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
 	if( !IS_START(m_DuelChannel[nId].nStatus) ) return;
 
-	OBJECTSTRUCT & requester = gGameObjects[m_DuelChannel[nId]->nIndex1];
-    OBJECTSTRUCT & responsor = gGameObjects[m_DuelChannel[nId]->nIndex2];
+	OBJECTSTRUCT & requester = getGameObject(m_DuelChannel[nId]->nIndex1);
+    OBJECTSTRUCT & responsor = getGameObject(m_DuelChannel[nId]->nIndex2);
 	
 	int nLifePer1 = 0;
     int nLifePer2 = 0;
@@ -1162,7 +1162,7 @@ void CNewPVP::BroadcastJoinChannel(int nId, CGameObject &Obj)
     res.h.headcode = 0xAA;
     res.h.subcode = 0x08;
 	res.h.size = sizeof(PMSG_DUEL_JOINCNANNEL_BROADCAST);
-    memcpy(res.szName, obj.Name, MAX_ACCOUNT_LEN);
+    std::memcpy(res.szName, obj.Name, MAX_ACCOUNT_LEN);
     BroadcastToObserver(nId, (BYTE*)&res, res.h.size);
 }
 
@@ -1176,7 +1176,7 @@ void CNewPVP::BroadcastLeaveChannel(int nId, CGameObject &Obj)
     res.h.headcode = 0xAA;
     res.h.subcode = 0x0A;
 	res.h.size = sizeof(PMSG_DUEL_LEAVECNANNEL_BROADCAST);
-    memcpy(res.szName, obj.Name, MAX_ACCOUNT_LEN);
+    std::memcpy(res.szName, obj.Name, MAX_ACCOUNT_LEN);
     BroadcastToObserver(nId, (BYTE*)&res,res.h.size);
 }
 
@@ -1214,8 +1214,8 @@ void CNewPVP::BroadcastMessage( int nId, BYTE nFlag, BYTE nMsgType, int nNotifyS
 	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
 	if( nNotifySec <= 0 )	return;
 
-	OBJECTSTRUCT &requester = gGameObjects[m_DuelChannel[nId]->nIndex1];
-    OBJECTSTRUCT &responsor = gGameObjects[m_DuelChannel[nId]->nIndex2];
+	OBJECTSTRUCT &requester = getGameObject(m_DuelChannel[nId]->nIndex1);
+    OBJECTSTRUCT &responsor = getGameObject(m_DuelChannel[nId]->nIndex2);
 
 	PMSG_NOTICE res = {0} ;
 
@@ -1242,8 +1242,8 @@ void CNewPVP::BroadcastRound(int nId, BYTE nFlag, BOOL bEnd)
 {
 	if( nId < 0 || nId >= DUEL_CHANNEL_MAX ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","0","NULL",__FILE__, __LINE__); return; }
 
-	OBJECTSTRUCT &requester = gGameObjects[m_DuelChannel[nId]->nIndex1];
-    OBJECTSTRUCT &responsor = gGameObjects[m_DuelChannel[nId]->nIndex2];
+	OBJECTSTRUCT &requester = getGameObject(m_DuelChannel[nId]->nIndex1);
+    OBJECTSTRUCT &responsor = getGameObject(m_DuelChannel[nId]->nIndex2);
 
 	PMSG_DUEL_ROUNDSTART_BROADCAST res = {0}; 
     res.h.c = 0xC1;

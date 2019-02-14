@@ -31,9 +31,9 @@ BOOL TMonsterAIUtil::FindMonViewportObj(int iObjIndex, int iTargetObjIndex)
 
 	for ( int i=0;i<MaxViewportMonster;i++)
 	{
-		if ( gGameObjects[iObjIndex]->VpPlayer[i]->state != FALSE )
+		if ( getGameObject(iObjIndex]->VpPlayer[i)->state != FALSE )
 		{
-			if ( iTargetObjIndex == gGameObjects[iObjIndex]->VpPlayer[i]->number )
+			if ( iTargetObjIndex == getGameObject(iObjIndex]->VpPlayer[i)->number )
 			{
 				return TRUE;
 			}
@@ -50,9 +50,9 @@ BOOL TMonsterAIUtil::FindMonViewportObj2(int iObjIndex, int iTargetObjIndex)
 
 	for ( int i=0;i<MaxViewportMonster;i++)
 	{
-		if ( gGameObjects[iObjIndex]->VpPlayer2[i]->state != FALSE )
+		if ( getGameObject(iObjIndex]->VpPlayer2[i)->state != FALSE )
 		{
-			if ( iTargetObjIndex == gGameObjects[iObjIndex]->VpPlayer2[i]->number )
+			if ( iTargetObjIndex == getGameObject(iObjIndex]->VpPlayer2[i)->number )
 			{
 				return TRUE;
 			}
@@ -252,7 +252,7 @@ BOOL TMonsterAIUtil::GetXYToEascape(CGameObject &Obj)
 		return FALSE;
 	}
 
-	lpTargetObj = &gGameObjects[iTargetIndex];
+	lpTargetObj = &getGameObject(iTargetIndex);
 	tpx = lpTargetObj.X;
 	mtx = tpx;
 	tpy = lpTargetObj.Y;
@@ -343,7 +343,7 @@ BOOL TMonsterAIUtil::GetXYToChase(CGameObject &Obj)
 		return FALSE;
 	}
 
-	lpTargetObj = &gGameObjects[iTargetIndex];
+	lpTargetObj = &getGameObject(iTargetIndex);
 	tpx = lpTargetObj.X;
 	mtx = tpx;
 	tpy = lpTargetObj.Y;
@@ -447,7 +447,7 @@ void TMonsterAIUtil::SendChattingMsg(int iObjIndex, char* lpszMsg, ...)
 	if ( !ObjectMaxRange(iObjIndex))
 		return;
 
-	CGameObject lpObj = &gGameObjects[iObjIndex];
+	CGameObject lpObj = &getGameObject(iObjIndex);
 	char szBuffer[512] = "";
 	va_list pArguments;
 

@@ -649,7 +649,7 @@ void CObjUseSkill::UseSkill(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, BYTE 
 
 	if (usemana >= 0)
 	{
-		int usebp = gObjMagicBPUse(&gGameObjects[aIndex], lpMagic);
+		int usebp = gObjMagicBPUse(&getGameObject(aIndex), lpMagic);
 
 		if (usebp >= 0)
 		{
@@ -858,7 +858,7 @@ void CObjUseSkill::UseSkill(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, BYTE 
 				return;
 			}
 
-			this->SkillAreaMonsterAttack(aIndex, lpMagic, gGameObjects[aTargetIndex]->X, gGameObjects[aTargetIndex]->Y, aTargetIndex, 3, 1, 0);
+			this->SkillAreaMonsterAttack(aIndex, lpMagic, getGameObject(aTargetIndex]->X, getGameObject(aTargetIndex)->Y, aTargetIndex, 3, 1, 0);
 		}
 
 		else if (lpMagic->m_Skill == AT_SKILL_DARK_SIDE)
@@ -874,7 +874,7 @@ void CObjUseSkill::UseSkill(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, BYTE 
 				return;
 			}
 
-			this->SkillAreaMonsterAttack(aIndex, lpMagic, gGameObjects[aTargetIndex]->X, gGameObjects[aTargetIndex]->Y, aTargetIndex, 2, 1, 0);
+			this->SkillAreaMonsterAttack(aIndex, lpMagic, getGameObject(aTargetIndex]->X, getGameObject(aTargetIndex)->Y, aTargetIndex, 2, 1, 0);
 		}
 
 		else if (lpMagic->m_Skill == AT_SKILL_BRECHE || lpMagic->m_Skill == 696 || lpMagic->m_Skill == 697 || lpMagic->m_Skill == 698)
@@ -900,7 +900,7 @@ void CObjUseSkill::UseSkill(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, BYTE 
 		}
 		else if (lpMagic->m_Skill == AT_SKILL_ICE_BLOOD)
 		{
-			this->SkillAreaMonsterAttack(aIndex, lpMagic, gGameObjects[aTargetIndex]->X, gGameObjects[aTargetIndex]->Y, aTargetIndex, 3, 1, 0);
+			this->SkillAreaMonsterAttack(aIndex, lpMagic, getGameObject(aTargetIndex]->X, getGameObject(aTargetIndex)->Y, aTargetIndex, 3, 1, 0);
 		}
 		else if (lpMagic->m_Skill == AT_SKILL_SOUL_SAKER)
 		{
@@ -922,7 +922,7 @@ void CObjUseSkill::UseSkill(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, BYTE 
 void CObjUseSkill::UseSkill(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic)
 {
 	
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 	BOOL bCombo = FALSE;
 
 	if (g_SkillUseTime.CheckSkillTime(lpObj, lpMagic->m_Skill) == false)
@@ -1036,7 +1036,7 @@ void CObjUseSkill::UseSkill(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMa
 BOOL CObjUseSkill::RunningSkill(CGameObject &Obj, int aTargetIndex, CMagicInf * lpMagic, BOOL bCombo)
 {
 	
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 	WORD MagicNumber = lpMagic->m_Skill;
 
 	lpObj.m_SkillNumber = MagicNumber;
@@ -1234,7 +1234,7 @@ void CObjUseSkill::MaGumSkillDefenseDown(CGameObject &Obj, int aTargetIndex, int
 {
 	int skillSuccess = 1;
 	
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 
 	if (lpObj.Type == OBJ_USER && lpObj.Class != CLASS_MAGUMSA)
 	{
@@ -1304,11 +1304,11 @@ void CObjUseSkill::KnightSkillAddLife(CGameObject &Obj, CMagicInf * lpMagic)
 
 			if (number >= 0)
 			{
-				lpPartyObj = &gGameObjects[number];
+				lpPartyObj = &getGameObject(number);
 
 				if (lpObj.MapNumber == lpPartyObj.MapNumber)
 				{
-					dis = gObjCalDistance(lpObj, &gGameObjects[number]);
+					dis = gObjCalDistance(lpObj, &getGameObject(number));
 
 					if (dis < 10)
 					{
@@ -1362,7 +1362,7 @@ void CObjUseSkill::KnightSkillAddLife(CGameObject &Obj, CMagicInf * lpMagic)
 
 	else if (lpObj.Type == OBJ_USER && lpObj.m_PlayerData->ISBOT == true)
 	{
-		iaddlife = (gGameObjects[lpObj.BuffPlayerIndex]->MaxLife) * (iaddLifepower + 100) / 100;
+		iaddlife = (getGameObject(lpObj.BuffPlayerIndex)->MaxLife) * (iaddLifepower + 100) / 100;
 
 		if (iaddlife > 3000000)
 		{
@@ -1371,7 +1371,7 @@ void CObjUseSkill::KnightSkillAddLife(CGameObject &Obj, CMagicInf * lpMagic)
 
 		iLifeTime = g_BotSystem.GetSkillTime(lpObj.m_Index, lpMagic->m_Skill);
 
-		gObjAddBuffEffect(&gGameObjects[lpObj.BuffPlayerIndex], BUFFTYPE_HP_INC, EFFECTTYPE_HP, iaddlife, 0, 0, iLifeTime);
+		gObjAddBuffEffect(&getGameObject(lpObj.BuffPlayerIndex), BUFFTYPE_HP_INC, EFFECTTYPE_HP, iaddlife, 0, 0, iLifeTime);
 		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, lpObj.m_Index, skillSuccess);
 		gObjCalCharacter.CalcCharacter(lpObj.BuffPlayerIndex);
 	}
@@ -1381,7 +1381,7 @@ void CObjUseSkill::KnightSkillAddLife(CGameObject &Obj, CMagicInf * lpMagic)
 		{
 			if (ApplyPartyIndex[n] != -1)
 			{
-				lpPartyObj = &gGameObjects[ApplyPartyIndex[n]];
+				lpPartyObj = &getGameObject(ApplyPartyIndex[n]);
 
 				iaddlife = lpPartyObj.MaxLife * iaddLifepower / 100;
 
@@ -1400,7 +1400,7 @@ void CObjUseSkill::WizardMagicDefense(CGameObject &Obj, int aTargetIndex, CMagic
 	double skillInc = 0.0;
 	int skillTime = 0;
 	
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 
 	if (lpObj.Type != OBJ_USER && lpObj.m_RecallMon == -1)
 	{
@@ -1438,7 +1438,7 @@ void CObjUseSkill::SkillDefense(CGameObject &Obj, int aTargetIndex, CMagicInf * 
 {
 	int skillSuccess = true;
 	
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 
 	if (lpTargetObj.Type != OBJ_USER && lpTargetObj.m_RecallMon == -1)
 	{
@@ -1476,7 +1476,7 @@ void CObjUseSkill::SkillDefense(CGameObject &Obj, int aTargetIndex, CMagicInf * 
 	{
 		if (lpObj.VpPlayer2[n].type == OBJ_MONSTER && lpObj.VpPlayer2[n].state != 0)
 		{
-			CGameObject lpMonster = &gGameObjects[lpObj.VpPlayer2[n]->number];
+			CGameObject lpMonster = &getGameObject(lpObj.VpPlayer2[n]->number);
 			if (lpMonster->m_iCurrentAI != 0)
 			{
 				lpMonster->m_Agro->IncAgro(lpObj.m_Index, int(skill_defense) / 10);
@@ -1491,7 +1491,7 @@ void CObjUseSkill::SkillAttack(CGameObject &Obj, int aTargetIndex, CMagicInf * l
 {
 	int skillSuccess = true;
 	
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 
 	if (lpTargetObj.Type != OBJ_USER && lpTargetObj.m_RecallMon == -1)
 	{
@@ -1558,7 +1558,7 @@ void CObjUseSkill::SkillAttack(CGameObject &Obj, int aTargetIndex, CMagicInf * l
 	{
 		if (lpObj.VpPlayer2[n].type == OBJ_MONSTER && lpObj.VpPlayer2[n].state != 0)
 		{
-			CGameObject lpMonster = &gGameObjects[lpObj.VpPlayer2[n]->number];
+			CGameObject lpMonster = &getGameObject(lpObj.VpPlayer2[n]->number);
 			if (lpMonster->m_iCurrentAI != 0)
 			{
 				lpMonster->m_Agro->IncAgro(lpObj.m_Index, int(skill_attack) / 10);
@@ -2031,7 +2031,7 @@ void CObjUseSkill::SkillHealing(CGameObject &Obj, int aTargetIndex, CMagicInf * 
 	int skillSuccess = true;
 	int skillbonus = 0;
 	
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 
 	if (lpTargetObj.Type != OBJ_USER && lpTargetObj.m_RecallMon == -1)
 	{
@@ -2066,7 +2066,7 @@ void CObjUseSkill::SkillHealing(CGameObject &Obj, int aTargetIndex, CMagicInf * 
 		{
 			if (lpObj.VpPlayer2[n].type == OBJ_MONSTER && lpObj.VpPlayer2[n].state != 0)
 			{
-				CGameObject lpMonster = &gGameObjects[lpObj.VpPlayer2[n]->number];
+				CGameObject lpMonster = &getGameObject(lpObj.VpPlayer2[n]->number);
 				if (lpMonster->m_iCurrentAI != 0)
 				{
 					lpMonster->m_Agro->IncAgro(lpObj.m_Index, (lpObj.m_PlayerData->Energy / 5) / 40);
@@ -2108,42 +2108,42 @@ int CObjUseSkill::SkillMonsterCall(CGameObject &Obj, int MonsterType, int x, int
 
 	if (result >= 0)
 	{
-		gGameObjects[result]->X = x;
-		gGameObjects[result]->Y = y;
-		gGameObjects[result]->MTX = x;
-		gGameObjects[result]->MTY = y;
-		gGameObjects[result]->Dir = 2;
-		gGameObjects[result]->MapNumber = lpObj.MapNumber;
+		getGameObject(result)->X = x;
+		getGameObject(result)->Y = y;
+		getGameObject(result)->MTX = x;
+		getGameObject(result)->MTY = y;
+		getGameObject(result)->Dir = 2;
+		getGameObject(result)->MapNumber = lpObj.MapNumber;
 		gObjSetMonster(result, MonsterType);
-		gGameObjects[result]->m_RecallMon = aIndex;
-		gGameObjects[result]->m_Attribute = 100;
-		gGameObjects[result]->TargetNumber = (WORD)-1;
-		gGameObjects[result]->m_ActState.Emotion = 0;
-		gGameObjects[result]->m_ActState.Attack = 0;
-		gGameObjects[result]->m_ActState.EmotionCount = 0;
-		gGameObjects[result]->PathCount = 0;
+		getGameObject(result)->m_RecallMon = aIndex;
+		getGameObject(result)->m_Attribute = 100;
+		getGameObject(result)->TargetNumber = (WORD)-1;
+		getGameObject(result)->m_ActState.Emotion = 0;
+		getGameObject(result)->m_ActState.Attack = 0;
+		getGameObject(result)->m_ActState.EmotionCount = 0;
+		getGameObject(result)->PathCount = 0;
 
 		lpObj.m_RecallMon = result;
-		gGameObjects[result]->m_MoveRange = 15;
+		getGameObject(result)->m_MoveRange = 15;
 
 		if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonHp > 0.0)
 		{
-			gGameObjects[result]->Life += gGameObjects[result]->Life * lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonHp / 100.0;
-			gGameObjects[result]->MaxLife += gGameObjects[result]->MaxLife * lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonHp / 100.0;
+			getGameObject(result]->Life += getGameObject(result)->Life * lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonHp / 100.0;
+			getGameObject(result]->MaxLife += getGameObject(result)->MaxLife * lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonHp / 100.0;
 		}
 
 		if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonDefense > 0.0)
 		{
-			gGameObjects[result]->m_Defense += gGameObjects[result]->m_Defense * lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonDefense / 100.0;
+			getGameObject(result]->m_Defense += getGameObject(result)->m_Defense * lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonDefense / 100.0;
 		}
 
 		if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonAttack > 0.0)
 		{
-			gGameObjects[result]->m_AttackDamageMin += gGameObjects[result]->m_AttackDamageMin * lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonAttack / 100.0;
-			gGameObjects[result]->m_AttackDamageMax += gGameObjects[result]->m_AttackDamageMax * lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonAttack / 100.0;
+			getGameObject(result]->m_AttackDamageMin += getGameObject(result)->m_AttackDamageMin * lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonAttack / 100.0;
+			getGameObject(result]->m_AttackDamageMax += getGameObject(result)->m_AttackDamageMax * lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonAttack / 100.0;
 		}
 
-		gGameProtocol.GCRecallMonLife(gGameObjects[result]->m_RecallMon, gGameObjects[result]->MaxLife, gGameObjects[result]->Life);
+		gGameProtocol.GCRecallMonLife(getGameObject(result]->m_RecallMon, getGameObject(result)->MaxLife, getGameObject(result)->Life);
 		return true;
 	}
 	return false;
@@ -2171,7 +2171,7 @@ void CObjUseSkill::SkillBlowOfFury(CGameObject &Obj, CMagicInf * lpMagic, BYTE x
 			{
 				EnableAttack = 0;
 
-				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 				{
 					EnableAttack = 1;
 				}
@@ -2180,26 +2180,26 @@ void CObjUseSkill::SkillBlowOfFury(CGameObject &Obj, CMagicInf * lpMagic, BYTE x
 					EnableAttack = 1;
 				}
 
-				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && gGameObjects[tObjNum]->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
+				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && getGameObject(tObjNum)->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					EnableAttack = 1;
 				}
 
 				else
 				{
-					int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
 
-					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+					if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 					{
 						EnableAttack = 1;
 					}
 
-					if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = 1;
 					}
@@ -2207,7 +2207,7 @@ void CObjUseSkill::SkillBlowOfFury(CGameObject &Obj, CMagicInf * lpMagic, BYTE x
 
 				if (EnableAttack != 0)
 				{
-					if (gObjCalDistance(lpObj, &gGameObjects[tObjNum]) <= MagicDamageC.GetSkillDistance(lpMagic->m_Skill))
+					if (gObjCalDistance(lpObj, &getGameObject(tObjNum)) <= MagicDamageC.GetSkillDistance(lpMagic->m_Skill))
 					{
 						bAttack = 0;
 
@@ -2267,7 +2267,7 @@ void CObjUseSkill::SkillWheel(CGameObject &Obj, CMagicInf* lpMagic, int aTargetI
 			{
 				EnableAttack = 0;
 
-				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 				{
 					EnableAttack = 1;
 				}
@@ -2277,26 +2277,26 @@ void CObjUseSkill::SkillWheel(CGameObject &Obj, CMagicInf* lpMagic, int aTargetI
 					EnableAttack = 1;
 				}
 
-				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && gGameObjects[tObjNum]->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
+				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && getGameObject(tObjNum)->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					EnableAttack = 1;
 				}
 
 				else
 				{
-					int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
 
-					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+					if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 					{
 						EnableAttack = 1;
 					}
 
-					if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = 1;
 					}
@@ -2304,7 +2304,7 @@ void CObjUseSkill::SkillWheel(CGameObject &Obj, CMagicInf* lpMagic, int aTargetI
 
 				if (EnableAttack != 0)
 				{
-					if (gObjCalDistance(lpObj, &gGameObjects[tObjNum]) <= MagicDamageC.GetSkillDistance(lpMagic->m_Skill))
+					if (gObjCalDistance(lpObj, &getGameObject(tObjNum)) <= MagicDamageC.GetSkillDistance(lpMagic->m_Skill))
 					{
 						bAttack = 0;
 
@@ -2327,7 +2327,7 @@ void CObjUseSkill::SkillWheel(CGameObject &Obj, CMagicInf* lpMagic, int aTargetI
 
 						if (bAttack != 0)
 						{
-							gObjAttack(lpObj, &gGameObjects[tObjNum], lpMagic, 0, 1, 0, isCombo, 0, 0);
+							gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 0, 1, 0, isCombo, 0, 0);
 						}
 					}
 				}
@@ -2366,7 +2366,7 @@ void CObjUseSkill::SkillPowerSlash(CGameObject &Obj, CMagicInf * lpMagic, BYTE x
 			{
 				EnableAttack = 0;
 
-				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 				{
 					EnableAttack = 1;
 				}
@@ -2376,26 +2376,26 @@ void CObjUseSkill::SkillPowerSlash(CGameObject &Obj, CMagicInf * lpMagic, BYTE x
 					EnableAttack = 1;
 				}
 
-				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && gGameObjects[tObjNum]->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
+				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && getGameObject(tObjNum)->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					EnableAttack = 1;
 				}
 
 				else
 				{
-					int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
 
-					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+					if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 					{
 						EnableAttack = 1;
 					}
 
-					if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = 1;
 					}
@@ -2403,7 +2403,7 @@ void CObjUseSkill::SkillPowerSlash(CGameObject &Obj, CMagicInf * lpMagic, BYTE x
 
 				if (EnableAttack != 0)
 				{
-					if (SkillTestFrustrum(gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y, aIndex))
+					if (SkillTestFrustrum(getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y, aIndex))
 					{
 						bAttack = 0;
 
@@ -2426,7 +2426,7 @@ void CObjUseSkill::SkillPowerSlash(CGameObject &Obj, CMagicInf * lpMagic, BYTE x
 
 						if (bAttack != 0)
 						{
-							gObjAttack(lpObj, &gGameObjects[tObjNum], lpMagic, 1, 1, 0, 0, 0, 0);
+							gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 1, 1, 0, 0, 0, 0);
 						}
 
 						HitCount++;
@@ -2455,7 +2455,7 @@ int CObjUseSkill::SkillDeathPoison(CGameObject &Obj, CMagicInf * lpMagic, BYTE x
 	int bAttack;
 	int DuelIndex = lpObj.m_iDuelUser;
 	int EnableAttack;
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 
 	while (true)
 	{
@@ -2467,7 +2467,7 @@ int CObjUseSkill::SkillDeathPoison(CGameObject &Obj, CMagicInf * lpMagic, BYTE x
 			{
 				EnableAttack = 0;
 
-				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 				{
 					EnableAttack = 1;
 				}
@@ -2477,33 +2477,33 @@ int CObjUseSkill::SkillDeathPoison(CGameObject &Obj, CMagicInf * lpMagic, BYTE x
 					EnableAttack = 1;
 				}
 
-				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && gGameObjects[tObjNum]->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
+				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && getGameObject(tObjNum)->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					EnableAttack = 1;
 				}
 
 				else
 				{
-					int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
 
-					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+					if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 					{
 						EnableAttack = 1;
 					}
 
-					if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = 1;
 					}
 				}
 				if (EnableAttack != 0)
 				{
-					if (this->CalDistance(x, y, gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y) < 4)
+					if (this->CalDistance(x, y, getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y) < 4)
 					{
 						bAttack = 0;
 
@@ -2549,7 +2549,7 @@ int CObjUseSkill::SkillDeathPoisonForMedusa(CGameObject &Obj, CMagicInf * lpMagi
 	int tObjNum;
 	int count = 0;
 	int EnableAttack;
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 
 	while (true)
 	{
@@ -2561,34 +2561,34 @@ int CObjUseSkill::SkillDeathPoisonForMedusa(CGameObject &Obj, CMagicInf * lpMagi
 			{
 				EnableAttack = 0;
 
-				if (lpObj.VpPlayer2[count].type == OBJ_USER && gGameObjects[tObjNum]->m_RecallMon < 0)
+				if (lpObj.VpPlayer2[count].type == OBJ_USER && getGameObject(tObjNum)->m_RecallMon < 0)
 				{
 					EnableAttack = 1;
 				}
 
-				if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+				if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 				{
 					EnableAttack = TRUE;
 				}
 
 				if (EnableAttack == TRUE)
 				{
-					if (this->CalDistance(x, y, gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y) < 8)
+					if (this->CalDistance(x, y, getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y) < 8)
 					{
 						if (aIndex != tObjNum)
 						{
-							if (gObjCalDistance(lpTargetObj, &gGameObjects[tObjNum]) <= 3)
+							if (gObjCalDistance(lpTargetObj, &getGameObject(tObjNum)) <= 3)
 							{
 								int delay = rand() % 500;
 
 								gObjAddAttackProcMsgSendDelay(lpObj, 50, tObjNum, delay, lpMagic->m_Skill, 0);
 
-								if (gObjCheckUsedBuffEffect(&gGameObjects[tObjNum], BUFFTYPE_POISON) == FALSE)
+								if (gObjCheckUsedBuffEffect(&getGameObject(tObjNum), BUFFTYPE_POISON) == FALSE)
 								{
-									if (!retResistance(&gGameObjects[tObjNum], 1))
+									if (!retResistance(&getGameObject(tObjNum), 1))
 									{
-										gGameObjects[tObjNum]->lpAttackObj = lpObj;
-										gObjAddBuffEffect(&gGameObjects[tObjNum], BUFFTYPE_POISON, EFFECTTYPE_POISON_DMG_TICK, 3, 0, 0, 20);
+										getGameObject(tObjNum)->lpAttackObj = lpObj;
+										gObjAddBuffEffect(&getGameObject(tObjNum), BUFFTYPE_POISON, EFFECTTYPE_POISON_DMG_TICK, 3, 0, 0, 20);
 									}
 								}
 							}
@@ -2615,7 +2615,7 @@ int CObjUseSkill::SkillSuddenIce(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, 
 	int FirstHit = 0;
 	int HitCount = 0;
 	int bAttack;
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 	int DuelIndex = lpObj.m_iDuelUser;
 	int EnableAttack;
 
@@ -2629,7 +2629,7 @@ int CObjUseSkill::SkillSuddenIce(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, 
 			{
 				EnableAttack = 0;
 
-				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 				{
 					EnableAttack = 1;
 				}
@@ -2639,26 +2639,26 @@ int CObjUseSkill::SkillSuddenIce(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, 
 					EnableAttack = 1;
 				}
 
-				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && gGameObjects[tObjNum]->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
+				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && getGameObject(tObjNum)->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					EnableAttack = 1;
 				}
 
 				else
 				{
-					int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
 
-					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+					if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 					{
 						EnableAttack = 1;
 					}
 
-					if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = 1;
 					}
@@ -2666,7 +2666,7 @@ int CObjUseSkill::SkillSuddenIce(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, 
 
 				if (EnableAttack != 0)
 				{
-					if (this->CalDistance(x, y, gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y) <= MagicDamageC.GetSkillDistance(lpMagic->m_Skill))
+					if (this->CalDistance(x, y, getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y) <= MagicDamageC.GetSkillDistance(lpMagic->m_Skill))
 					{
 						bAttack = 0;
 
@@ -2690,7 +2690,7 @@ int CObjUseSkill::SkillSuddenIce(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, 
 						if (bAttack != 0)
 						{
 							int delay = rand() % 500;
-							gObjAttack(lpObj, &gGameObjects[tObjNum], lpMagic, 1, 1, 0, 0, 0, 0);
+							gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 1, 1, 0, 0, 0, 0);
 						}
 					}
 				}
@@ -2733,7 +2733,7 @@ BOOL CObjUseSkill::SkillHellFire2(CGameObject &Obj, int aTargetIndex, CMagicInf 
 	int count = 0;
 	lpObj.m_PlayerData->SkillHellFire2Time = 0;
 
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 	int DuelIndex = lpObj.m_iDuelUser;
 	int EnableAttack;
 
@@ -2747,7 +2747,7 @@ BOOL CObjUseSkill::SkillHellFire2(CGameObject &Obj, int aTargetIndex, CMagicInf 
 			{
 				EnableAttack = 0;
 
-				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 				{
 					EnableAttack = 1;
 				}
@@ -2757,26 +2757,26 @@ BOOL CObjUseSkill::SkillHellFire2(CGameObject &Obj, int aTargetIndex, CMagicInf 
 					EnableAttack = 1;
 				}
 
-				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && gGameObjects[tObjNum]->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
+				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && getGameObject(tObjNum)->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					EnableAttack = 1;
 				}
 
 				else
 				{
-					int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
 
-					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+					if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 					{
 						EnableAttack = 1;
 					}
 
-					if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = 1;
 					}
@@ -2784,7 +2784,7 @@ BOOL CObjUseSkill::SkillHellFire2(CGameObject &Obj, int aTargetIndex, CMagicInf 
 
 				if (EnableAttack != 0)
 				{
-					if (gObjCalDistance(lpObj, &gGameObjects[tObjNum]) <= MagicDamageC.GetSkillDistance(lpMagic->m_Skill))
+					if (gObjCalDistance(lpObj, &getGameObject(tObjNum)) <= MagicDamageC.GetSkillDistance(lpMagic->m_Skill))
 					{
 						gObjAddAttackProcMsgSendDelay(lpObj, 50, tObjNum, 600, lpMagic->m_Skill, 0);
 					}
@@ -2836,7 +2836,7 @@ BOOL CObjUseSkill::SkillKnightBlow(CGameObject &Obj, int aTargetIndex, CMagicInf
 	int StartDis = 1;
 	int tObjNum;
 
-	float fangle = this->GetAngle(lpObj.X, lpObj.Y, gGameObjects[aTargetIndex]->X, gGameObjects[aTargetIndex]->Y);
+	float fangle = this->GetAngle(lpObj.X, lpObj.Y, getGameObject(aTargetIndex]->X, getGameObject(aTargetIndex)->Y);
 
 	this->SkillFrustrum(aIndex, fangle, 1.5f, 3.0f);
 
@@ -2859,7 +2859,7 @@ BOOL CObjUseSkill::SkillKnightBlow(CGameObject &Obj, int aTargetIndex, CMagicInf
 			{
 				EnableAttack = 0;
 
-				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 				{
 					EnableAttack = 1;
 				}
@@ -2869,19 +2869,19 @@ BOOL CObjUseSkill::SkillKnightBlow(CGameObject &Obj, int aTargetIndex, CMagicInf
 				}
 				else
 				{
-					int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
 
-					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+					if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 					{
 						EnableAttack = 1;
 					}
 
-					if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = 1;
 					}
@@ -2902,9 +2902,9 @@ BOOL CObjUseSkill::SkillKnightBlow(CGameObject &Obj, int aTargetIndex, CMagicInf
 
 					if (attackcheck != 0)
 					{
-						if (::SkillTestFrustrum(gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y, aIndex))
+						if (::SkillTestFrustrum(getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y, aIndex))
 						{
-							gObjAttack(lpObj, &gGameObjects[tObjNum], lpMagic, 0, 1, 0, isCombo, 0, 0);
+							gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 0, 1, 0, isCombo, 0, 0);
 						}
 					}
 				}
@@ -3091,7 +3091,7 @@ BOOL CObjUseSkill::SkillSpear(CGameObject &Obj, int aTargetIndex, CMagicInf * lp
 	int StartDis = 1;
 	int tObjNum;
 
-	int iangle = this->GetAngle(lpObj.X, lpObj.Y, gGameObjects[aTargetIndex]->X, gGameObjects[aTargetIndex]->Y);
+	int iangle = this->GetAngle(lpObj.X, lpObj.Y, getGameObject(aTargetIndex]->X, getGameObject(aTargetIndex)->Y);
 	int count = 0;
 	int loopcount = 0;
 	int attackcheck;
@@ -3100,7 +3100,7 @@ BOOL CObjUseSkill::SkillSpear(CGameObject &Obj, int aTargetIndex, CMagicInf * lp
 
 	if (lpObj.SkillLongSpearChange == 0)
 	{
-		gObjAttack(lpObj, &gGameObjects[aTargetIndex], lpMagic, 0, 1, 0, 0, 0, 0);
+		gObjAttack(lpObj, &getGameObject(aTargetIndex), lpMagic, 0, 1, 0, 0, 0, 0);
 		return true;
 	}
 
@@ -3117,7 +3117,7 @@ BOOL CObjUseSkill::SkillSpear(CGameObject &Obj, int aTargetIndex, CMagicInf * lp
 			{
 				EnableAttack = 0;
 
-				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 				{
 					EnableAttack = 1;
 				}
@@ -3127,19 +3127,19 @@ BOOL CObjUseSkill::SkillSpear(CGameObject &Obj, int aTargetIndex, CMagicInf * lp
 				}
 				else
 				{
-					int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
 
-					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+					if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 					{
 						EnableAttack = 1;
 					}
 
-					if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = 1;
 					}
@@ -3160,9 +3160,9 @@ BOOL CObjUseSkill::SkillSpear(CGameObject &Obj, int aTargetIndex, CMagicInf * lp
 
 					if (attackcheck != 0)
 					{
-						if (SkillSpearHitBox.HitCheck(iangle, lpObj.X, lpObj.Y, gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y))
+						if (SkillSpearHitBox.HitCheck(iangle, lpObj.X, lpObj.Y, getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y))
 						{
-							gObjAttack(lpObj, &gGameObjects[tObjNum], lpMagic, 0, 1, 0, 0, 0, 0);
+							gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 0, 1, 0, 0, 0, 0);
 						}
 					}
 				}
@@ -3189,7 +3189,7 @@ BOOL CObjUseSkill::SkillFireBurst(CGameObject &Obj, int aTargetIndex, CMagicInf 
 	int loopcount = 0;
 
 	gGameProtocol.GCMagicAttackNumberSend(lpObj, AT_SKILL_FIREBURST, aTargetIndex, 1);
-	gObjAttack(lpObj, &gGameObjects[aTargetIndex], lpMagic, 0, 1, 0, 0, 0, 0);
+	gObjAttack(lpObj, &getGameObject(aTargetIndex), lpMagic, 0, 1, 0, 0, 0, 0);
 
 	int attackcheck;
 	int DuelIndex = lpObj.m_iDuelUser;
@@ -3206,7 +3206,7 @@ BOOL CObjUseSkill::SkillFireBurst(CGameObject &Obj, int aTargetIndex, CMagicInf 
 			{
 				EnableAttack = 0;
 
-				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 				{
 					EnableAttack = 1;
 				}
@@ -3216,19 +3216,19 @@ BOOL CObjUseSkill::SkillFireBurst(CGameObject &Obj, int aTargetIndex, CMagicInf 
 				}
 				else
 				{
-					int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
 
-					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+					if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 					{
 						EnableAttack = 1;
 					}
 
-					if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = 1;
 					}
@@ -3249,7 +3249,7 @@ BOOL CObjUseSkill::SkillFireBurst(CGameObject &Obj, int aTargetIndex, CMagicInf 
 
 					if (attackcheck != 0)
 					{
-						if (gObjCalDistance(&gGameObjects[aTargetIndex], &gGameObjects[tObjNum]) < 3)
+						if (gObjCalDistance(&getGameObject(aTargetIndex], &getGameObject(tObjNum)) < 3)
 						{
 							delaytime = (rand() * 17) % 300 + 500;
 
@@ -3300,9 +3300,9 @@ BOOL CObjUseSkill::SkillDarkHorseAttack(CGameObject &Obj, int aTargetIndex, CMag
 			if (tObjNum >= 0)
 			{
 				EnableAttack = 0;
-				if ((gGameObjects[tObjNum]->Class < 100 || gGameObjects[tObjNum]->Class > 110) && gGameObjects[tObjNum]->Class != 689)
+				if ((getGameObject(tObjNum]->Class < 100 || getGameObject(tObjNum)->Class > 110) && getGameObject(tObjNum)->Class != 689)
 				{
-					if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+					if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 					{
 						EnableAttack = 1;
 					}
@@ -3311,10 +3311,10 @@ BOOL CObjUseSkill::SkillDarkHorseAttack(CGameObject &Obj, int aTargetIndex, CMag
 						EnableAttack = 1;
 					}
 
-					else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && gGameObjects[tObjNum]->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
+					else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && getGameObject(tObjNum)->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 					{
 						if (g_CastleSiege.m_bCastleSiegeFriendlyFire == false &&
-							lpObj.m_btCsJoinSide == gGameObjects[tObjNum]->m_btCsJoinSide)
+							lpObj.m_btCsJoinSide == getGameObject(tObjNum)->m_btCsJoinSide)
 						{
 							EnableAttack = 0;
 						}
@@ -3327,19 +3327,19 @@ BOOL CObjUseSkill::SkillDarkHorseAttack(CGameObject &Obj, int aTargetIndex, CMag
 
 					else
 					{
-						int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+						int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-						if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+						if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 						{
-							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+							CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 						}
 
-						if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+						if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 						{
 							EnableAttack = 1;
 						}
 
-						if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+						if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 						{
 							EnableAttack = 1;
 						}
@@ -3347,7 +3347,7 @@ BOOL CObjUseSkill::SkillDarkHorseAttack(CGameObject &Obj, int aTargetIndex, CMag
 
 					if (EnableAttack != 0)
 					{
-						if (gObjCalDistance(lpObj, &gGameObjects[tObjNum]) < 5)
+						if (gObjCalDistance(lpObj, &getGameObject(tObjNum)) < 5)
 						{
 							bAttack = 0;
 
@@ -3411,7 +3411,7 @@ BOOL CObjUseSkill::RecallPartyCheck(CGameObject &Obj, int skill_level)
 
 			if (number >= 0)
 			{
-				lpPartyObj = &gGameObjects[number];
+				lpPartyObj = &getGameObject(number);
 
 				if (lpPartyObj.m_Index != lpObj.m_Index)
 				{
@@ -3505,9 +3505,9 @@ void CObjUseSkill::SkillRecallParty(CGameObject &Obj, int skill_level)
 
 			if (number >= 0)
 			{
-				lpPartyObj = &gGameObjects[number];
+				lpPartyObj = &getGameObject(number);
 
-				if (g_NewPVP.IsDuel(gGameObjects[number]))
+				if (g_NewPVP.IsDuel(getGameObject(number)))
 				{
 					gGameProtocol.GCServerMsgStringSendEx(aIndex, 1, Lang.GetText(0, 322), lpPartyObj.Name);
 					continue;
@@ -3636,11 +3636,11 @@ void CObjUseSkill::SkillAddCriticalDamage(CGameObject &Obj, int skill_level, CMa
 
 			if (number >= 0)
 			{
-				lpPartyObj = &gGameObjects[number];
+				lpPartyObj = &getGameObject(number);
 
 				if (lpObj.MapNumber == lpPartyObj.MapNumber)
 				{
-					dis = gObjCalDistance(lpObj, &gGameObjects[number]);
+					dis = gObjCalDistance(lpObj, &getGameObject(number));
 					if (dis < 10)
 					{
 						ApplyPartyIndex[n] = lpPartyObj.m_Index;
@@ -3664,7 +3664,7 @@ void CObjUseSkill::SkillAddCriticalDamage(CGameObject &Obj, int skill_level, CMa
 	else if (lpObj.m_PlayerData->ISBOT == true)
 	{
 		SkillTime = g_BotSystem.GetSkillTime(lpObj.m_Index, lpMagic->m_Skill);
-		gObjAddBuffEffect(&gGameObjects[lpObj.BuffPlayerIndex], BUFFTYPE_CRITICAL_DMG_INC, EFFECTTYPE_CRITICAL_DMG, addcriticaldamagevalue, 0, 0, SkillTime);
+		gObjAddBuffEffect(&getGameObject(lpObj.BuffPlayerIndex), BUFFTYPE_CRITICAL_DMG_INC, EFFECTTYPE_CRITICAL_DMG, addcriticaldamagevalue, 0, 0, SkillTime);
 
 		MsgOutput(lpObj.BuffPlayerIndex, Lang.GetText(0, 134), SkillTime);
 		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, lpObj.m_Index, skillSuccess);
@@ -3675,7 +3675,7 @@ void CObjUseSkill::SkillAddCriticalDamage(CGameObject &Obj, int skill_level, CMa
 		{
 			if (ApplyPartyIndex[n] != -1)
 			{
-				lpPartyObj = &gGameObjects[ApplyPartyIndex[n]];
+				lpPartyObj = &getGameObject(ApplyPartyIndex[n]);
 				gObjAddBuffEffect(lpPartyObj, BUFFTYPE_CRITICAL_DMG_INC, EFFECTTYPE_CRITICAL_DMG, addcriticaldamagevalue, 0, 0, SkillTime);
 
 				MsgOutput(ApplyPartyIndex[n], Lang.GetText(0, 134), SkillTime);
@@ -3710,7 +3710,7 @@ void CObjUseSkill::SkillElectricSpark(CGameObject &Obj, CMagicInf * lpMagic, BYT
 			{
 				EnableAttack = 0;
 
-				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 				{
 					EnableAttack = 1;
 				}
@@ -3720,33 +3720,33 @@ void CObjUseSkill::SkillElectricSpark(CGameObject &Obj, CMagicInf * lpMagic, BYT
 					EnableAttack = 1;
 				}
 
-				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && gGameObjects[tObjNum]->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
+				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && getGameObject(tObjNum)->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					EnableAttack = 1;
 				}
 
 				else
 				{
-					int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
 
-					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+					if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 					{
 						EnableAttack = 1;
 					}
 
-					if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = 1;
 					}
 				}
 				if (EnableAttack != 0)
 				{
-					if (SkillElectricSparkHitBox.HitCheck(iangle, lpObj.X, lpObj.Y, gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y))
+					if (SkillElectricSparkHitBox.HitCheck(iangle, lpObj.X, lpObj.Y, getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y))
 					{
 						delaytime = 500;
 						Hit = 1;
@@ -3791,14 +3791,14 @@ int  DecPartyMemberHPandMP(CGameObject &Obj)
 
 		if (number >= 0)
 		{
-			lpPartyObj = &gGameObjects[number];
+			lpPartyObj = &getGameObject(number);
 
 			if (lpObj.MapNumber == lpPartyObj.MapNumber && lpObj.m_Index != number)
 			{
-				int dis = gObjCalDistance(lpObj, &gGameObjects[number]);
+				int dis = gObjCalDistance(lpObj, &getGameObject(number));
 				if (dis < 10)
 				{
-					lpPartyObj = &gGameObjects[number];
+					lpPartyObj = &getGameObject(number);
 
 					int declife = lpPartyObj.Life * 20.0f / 100.0f;
 					int decmana = lpPartyObj.Mana * 5.0f / 100.0f;
@@ -3879,24 +3879,24 @@ BOOL CObjUseSkill::SkillSummon(CGameObject &Obj, int aTargetIndex, CMagicInf * l
 
 			if (result >= 0)
 			{
-				gGameObjects[result]->m_PosNum = (WORD)-1;
-				gGameObjects[result]->X = cSX;
-				gGameObjects[result]->Y = cSY;
-				gGameObjects[result]->MapNumber = lpObj.MapNumber;
-				gGameObjects[result]->TX = gGameObjects[result]->X;
-				gGameObjects[result]->TY = gGameObjects[result]->Y;
-				gGameObjects[result]->m_OldX = gGameObjects[result]->X;
-				gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
-				gGameObjects[result]->Dir = 1;
-				gGameObjects[result]->StartX = gGameObjects[result]->X;
-				gGameObjects[result]->StartY = gGameObjects[result]->Y;
+				getGameObject(result)->m_PosNum = (WORD)-1;
+				getGameObject(result)->X = cSX;
+				getGameObject(result)->Y = cSY;
+				getGameObject(result)->MapNumber = lpObj.MapNumber;
+				getGameObject(result]->TX = getGameObject(result)->X;
+				getGameObject(result]->TY = getGameObject(result)->Y;
+				getGameObject(result]->m_OldX = getGameObject(result)->X;
+				getGameObject(result]->m_OldY = getGameObject(result)->Y;
+				getGameObject(result)->Dir = 1;
+				getGameObject(result]->StartX = getGameObject(result)->X;
+				getGameObject(result]->StartY = getGameObject(result)->Y;
 				gObjSetMonster(result, iSummonMonterType);
-				gGameObjects[result]->m_Attribute = 60;
-				gGameObjects[result]->MaxRegenTime = 0;
-				gGameObjects[result]->Dir = rand() % 8;
+				getGameObject(result)->m_Attribute = 60;
+				getGameObject(result)->MaxRegenTime = 0;
+				getGameObject(result)->Dir = rand() % 8;
 				bSummonSuccess = 1;
-				cSummonX = gGameObjects[result]->StartX;
-				cSummonY = gGameObjects[result]->StartY;
+				cSummonX = getGameObject(result)->StartX;
+				cSummonY = getGameObject(result)->StartY;
 			}
 		}
 	}
@@ -3971,7 +3971,7 @@ void CObjUseSkill::SkillKnightRush(CGameObject &Obj, int aTargetIndex, CMagicInf
 	}
 
 	gGameProtocol.GCMagicAttackNumberSend(lpObj, 631, aTargetIndex, 1);
-	gObjAttack(lpObj, &gGameObjects[aTargetIndex], lpMagic, TRUE, 0, 0, 0, 0, 0);
+	gObjAttack(lpObj, &getGameObject(aTargetIndex), lpMagic, TRUE, 0, 0, 0, 0, 0);
 }
 
 
@@ -4037,7 +4037,7 @@ BOOL CObjUseSkill::SkillMagumOneFlash(CGameObject &Obj, int aTargetIndex, CMagic
 	}
 
 	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, 1);
-	gObjAttack(lpObj, &gGameObjects[aTargetIndex], lpMagic, 0, 1, 0, 0, 0, 0);
+	gObjAttack(lpObj, &getGameObject(aTargetIndex), lpMagic, 0, 1, 0, 0, 0, 0);
 	gObjAddAttackProcMsgSendDelay(lpObj, 50, aTargetIndex, 100, lpMagic->m_Skill, 0);
 	return true;
 }
@@ -4059,7 +4059,7 @@ BOOL CObjUseSkill::SkillMagumDeathCannon(CGameObject &Obj, int aTargetIndex, CMa
 	}
 
 	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, 1);
-	gObjAttack(lpObj, &gGameObjects[aTargetIndex], lpMagic, 0, 1, 0, 0, 0, 0);
+	gObjAttack(lpObj, &getGameObject(aTargetIndex), lpMagic, 0, 1, 0, 0, 0, 0);
 	return true;
 }
 
@@ -4116,9 +4116,9 @@ BOOL CObjUseSkill::SkillBrandOfSkill(CGameObject &Obj, int aTargetIndex, CMagicI
 			{
 				if (lpObj.VpPlayer2[count].type == OBJ_USER)
 				{
-					if (gObjCalDistance(lpObj, &gGameObjects[tObjNum]) < 5)
+					if (gObjCalDistance(lpObj, &getGameObject(tObjNum)) < 5)
 					{
-						gObjAddBuffEffect(&gGameObjects[tObjNum], BUFFTYPE_DARKLORD_CASTLE_SKILL, 0, 0, 0, 0, 10);
+						gObjAddBuffEffect(&getGameObject(tObjNum), BUFFTYPE_DARKLORD_CASTLE_SKILL, 0, 0, 0, 0, 10);
 						gGameProtocol.GCMagicAttackNumberSend(lpObj, AT_SKILL_BRAND_OF_SKILL, tObjNum, 1);
 					}
 				}
@@ -4173,17 +4173,17 @@ BOOL CObjUseSkill::SkillStun(CGameObject &Obj, int aTargetIndex, CMagicInf * lpM
 
 				if (ObjectMaxRange(tObjNum))
 				{
-					if (gObjCalDistance(lpObj, &gGameObjects[tObjNum]) <= 4)
+					if (gObjCalDistance(lpObj, &getGameObject(tObjNum)) <= 4)
 					{
-						if (SkillElectricSparkHitBox.HitCheck(iangle, lpObj.X, lpObj.Y, gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y))
+						if (SkillElectricSparkHitBox.HitCheck(iangle, lpObj.X, lpObj.Y, getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y))
 						{
 							if (g_ConfigRead.EnableStunEffect == 1)
 							{
-								gObjAddBuffEffect(&gGameObjects[tObjNum], BUFFTYPE_STUN, 0, 0, 0, 0, iStunTime);
+								gObjAddBuffEffect(&getGameObject(tObjNum), BUFFTYPE_STUN, 0, 0, 0, 0, iStunTime);
 							}
 
 							gGameProtocol.GCMagicAttackNumberSend(lpObj, AT_SKILL_STUN, tObjNum, 1);
-							gObjSetPosition(tObjNum, gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y);
+							gObjSetPosition(tObjNum, getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y);
 						}
 					}
 				}
@@ -4233,9 +4233,9 @@ BOOL CObjUseSkill::SkillRemoveStun(CGameObject &Obj, int aTargetIndex, CMagicInf
 			{
 				if (lpObj.VpPlayer2[count].type == OBJ_USER)
 				{
-					if (gObjCalDistance(lpObj, &gGameObjects[tObjNum]) < 6)
+					if (gObjCalDistance(lpObj, &getGameObject(tObjNum)) < 6)
 					{
-						gObjRemoveBuffEffect(&gGameObjects[tObjNum], BUFFTYPE_STUN);
+						gObjRemoveBuffEffect(&getGameObject(tObjNum), BUFFTYPE_STUN);
 						gGameProtocol.GCMagicAttackNumberSend(lpObj, AT_SKILL_REMOVAL_STUN, tObjNum, 1);
 					}
 				}
@@ -4286,19 +4286,19 @@ BOOL CObjUseSkill::SkillAddMana(CGameObject &Obj, int aTargetIndex, CMagicInf * 
 
 			if (ObjectMaxRange(tObjNum) && lpObj.VpPlayer2[count].type == OBJ_USER)
 			{
-				if (gObjCalDistance(lpObj, &gGameObjects[tObjNum]) < 5)
+				if (gObjCalDistance(lpObj, &getGameObject(tObjNum)) < 5)
 				{
-					if (lpObj.m_PlayerData->GuildNumber > 0 && gGameObjects[tObjNum]->m_PlayerData->GuildNumber > 0)
+					if (lpObj.m_PlayerData->GuildNumber > 0 && getGameObject(tObjNum)->m_PlayerData->GuildNumber > 0)
 					{
-						if (lpObj.m_PlayerData->GuildNumber != gGameObjects[tObjNum]->m_PlayerData->GuildNumber)
+						if (lpObj.m_PlayerData->GuildNumber != getGameObject(tObjNum)->m_PlayerData->GuildNumber)
 						{
 							count++;
 							continue;
 						}
 
-						iSwelledMana = short(gGameObjects[tObjNum]->MaxMana + gGameObjects[tObjNum]->AddMana) * 50 / 100;
+						iSwelledMana = short(getGameObject(tObjNum]->MaxMana + getGameObject(tObjNum)->AddMana) * 50 / 100;
 
-						gObjAddBuffEffect(&gGameObjects[tObjNum], BUFFTYPE_MANA_INC, EFFECTTYPE_MANA, iSwelledMana, 0, 0, 60);
+						gObjAddBuffEffect(&getGameObject(tObjNum), BUFFTYPE_MANA_INC, EFFECTTYPE_MANA, iSwelledMana, 0, 0, 60);
 						gGameProtocol.GCMagicAttackNumberSend(lpObj, AT_SKILL_ADD_MANA, tObjNum, 1);
 					}
 				}
@@ -4330,7 +4330,7 @@ BOOL CObjUseSkill::SkillCloaking(CGameObject &Obj, int aTargetIndex, CMagicInf *
 	}
 
 	
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 
 	if (lpObj.MapNumber != MAP_INDEX_CASTLESIEGE && lpObj.MapNumber != MAP_INDEX_CASTLEHUNTZONE && this->m_SkillData.EnableSiegeOnAllMaps == false)
 	{
@@ -4389,9 +4389,9 @@ BOOL CObjUseSkill::SkillRemoveCloaking(CGameObject &Obj, int aTargetIndex, CMagi
 
 			if (ObjectMaxRange(tObjNum) && lpObj.VpPlayer2[count].type == OBJ_USER)
 			{
-				if (gObjCalDistance(lpObj, &gGameObjects[tObjNum]) < 5)
+				if (gObjCalDistance(lpObj, &getGameObject(tObjNum)) < 5)
 				{
-					gObjRemoveBuffEffect(&gGameObjects[tObjNum], BUFFTYPE_INVISABLE);
+					gObjRemoveBuffEffect(&getGameObject(tObjNum), BUFFTYPE_INVISABLE);
 					gGameProtocol.GCMagicAttackNumberSend(lpObj, AT_SKILL_REMOVAL_INVISIBLE, tObjNum, 1);
 				}
 			}
@@ -4437,9 +4437,9 @@ BOOL CObjUseSkill::SkillRemoveMagic(CGameObject &Obj, int aTargetIndex, CMagicIn
 
 			if (ObjectMaxRange(tObjNum) && lpObj.VpPlayer2[count].type == OBJ_USER)
 			{
-				if (gObjCalDistance(lpObj, &gGameObjects[tObjNum]) < 5)
+				if (gObjCalDistance(lpObj, &getGameObject(tObjNum)) < 5)
 				{
-					this->RemoveAllCharacterInvalidMagicAndSkillState(&gGameObjects[tObjNum]);
+					this->RemoveAllCharacterInvalidMagicAndSkillState(&getGameObject(tObjNum));
 					gGameProtocol.GCMagicAttackNumberSend(lpObj, AT_SKILL_REMOVAL_MAGIC, tObjNum, 1);
 				}
 			}
@@ -4465,7 +4465,7 @@ BOOL CObjUseSkill::SkillFireScream(CGameObject &Obj, int aTargetIndex, CMagicInf
 	}
 
 	
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 
 	if (gObjIsConnected(lpObj.m_Index) == false && gObjIsConnected(lpTargetObj.m_Index) == false)
 	{
@@ -4526,39 +4526,39 @@ BOOL CObjUseSkill::FireScreamExplosionAttack(CGameObject &Obj, CGameObject lpTar
 			{
 				bEnableAttack = 0;
 
-				if (gGameObjects[iTarObjNum]->Type == OBJ_MONSTER && gGameObjects[iTarObjNum]->m_RecallMon < 0)
+				if (getGameObject(iTarObjNum]->Type == OBJ_MONSTER && getGameObject(iTarObjNum)->m_RecallMon < 0)
 				{
 					bEnableAttack = 1;
 				}
 
-				else if (lpTargetObj.Type == OBJ_USER && lpObj.Type == OBJ_USER && gGameObjects[iTarObjNum]->Type != OBJ_NPC)
+				else if (lpTargetObj.Type == OBJ_USER && lpObj.Type == OBJ_USER && getGameObject(iTarObjNum)->Type != OBJ_NPC)
 				{
 					bEnableAttack = 1;
 				}
 
-				else if (lpTargetObj.m_cChaosCastleIndex == gGameObjects[iTarObjNum]->m_cChaosCastleIndex && lpTargetObj.m_cChaosCastleIndex != -1)
+				else if (lpTargetObj.m_cChaosCastleIndex == getGameObject(iTarObjNum)->m_cChaosCastleIndex && lpTargetObj.m_cChaosCastleIndex != -1)
 				{
 					bEnableAttack = 1;
 				}
 
-				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[iCount].type != OBJ_NPC && gGameObjects[iTarObjNum]->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
+				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[iCount].type != OBJ_NPC && getGameObject(iTarObjNum)->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
-					if (lpObj.m_btCsJoinSide != gGameObjects[iTarObjNum]->m_btCsJoinSide && gGameObjects[iTarObjNum]->m_btCsJoinSide > 0)
+					if (lpObj.m_btCsJoinSide != getGameObject(iTarObjNum]->m_btCsJoinSide && getGameObject(iTarObjNum)->m_btCsJoinSide > 0)
 					{
 						bEnableAttack = TRUE;
 					}
 				}
 
-				if (gGameObjects[iTarObjNum]->Class >= 678 && gGameObjects[iTarObjNum]->Class <= 680)
+				if (getGameObject(iTarObjNum]->Class >= 678 && getGameObject(iTarObjNum)->Class <= 680)
 				{
 					bEnableAttack = 1;
 				}
 
 				if (bEnableAttack != 0)
 				{
-					if (lpObj.m_Index != gGameObjects[iTarObjNum]->m_Index)
+					if (lpObj.m_Index != getGameObject(iTarObjNum)->m_Index)
 					{
-						int iSkillDistance = gObjCalDistance(lpTargetObj, &gGameObjects[iTarObjNum]);
+						int iSkillDistance = gObjCalDistance(lpTargetObj, &getGameObject(iTarObjNum));
 
 						if (iSkillDistance <= g_SkillAdditionInfo.GetFireScreamExplosionAttackDistance())
 						{
@@ -4586,7 +4586,7 @@ BOOL CObjUseSkill::RemoveCloakingEffect(CGameObject &Obj)
 		return false;
 	}
 
-	gObjRemoveBuffEffect(&gGameObjects[aIndex], BUFFTYPE_INVISABLE);
+	gObjRemoveBuffEffect(&getGameObject(aIndex), BUFFTYPE_INVISABLE);
 	return true;
 }
 
@@ -4654,9 +4654,9 @@ int CObjUseSkill::SkillFenrirAttack(CGameObject &Obj, int aTargetIndex, CMagicIn
 			{
 				EnableAttack = 0;
 
-				if ((gGameObjects[tObjNum]->Class < 100 || gGameObjects[tObjNum]->Class > 110) && gGameObjects[tObjNum]->Class != 689)
+				if ((getGameObject(tObjNum]->Class < 100 || getGameObject(tObjNum)->Class > 110) && getGameObject(tObjNum)->Class != 689)
 				{
-					if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+					if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 					{
 						EnableAttack = 1;
 					}
@@ -4665,26 +4665,26 @@ int CObjUseSkill::SkillFenrirAttack(CGameObject &Obj, int aTargetIndex, CMagicIn
 						EnableAttack = 1;
 					}
 
-					else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && gGameObjects[tObjNum]->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
+					else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && getGameObject(tObjNum)->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 					{
 						EnableAttack = 1;
 					}
 
 					else
 					{
-						int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+						int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-						if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+						if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 						{
-							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+							CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 						}
 
-						if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+						if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 						{
 							EnableAttack = 1;
 						}
 
-						if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+						if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 						{
 							EnableAttack = 1;
 						}
@@ -4693,7 +4693,7 @@ int CObjUseSkill::SkillFenrirAttack(CGameObject &Obj, int aTargetIndex, CMagicIn
 
 				if (EnableAttack != 0)
 				{
-					if (gObjCalDistance(lpObj, &gGameObjects[tObjNum]) < 6)
+					if (gObjCalDistance(lpObj, &getGameObject(tObjNum)) < 6)
 					{
 						bAttack = 0;
 
@@ -4851,7 +4851,7 @@ int CObjUseSkill::SkillBookSahamutt(CGameObject &Obj, CMagicInf *lpMagic, BYTE x
 				{
 					EnableAttack = 0;
 
-					if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+					if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 					{
 						EnableAttack = 1;
 					}
@@ -4860,8 +4860,8 @@ int CObjUseSkill::SkillBookSahamutt(CGameObject &Obj, CMagicInf *lpMagic, BYTE x
 						EnableAttack = 1;
 					}
 
-					else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && gGameObjects[tObjNum]->Type != OBJ_NPC &&
-						gGameObjects[tObjNum]->MapNumber == MAP_INDEX_CASTLESIEGE &&
+					else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && getGameObject(tObjNum)->Type != OBJ_NPC &&
+						getGameObject(tObjNum)->MapNumber == MAP_INDEX_CASTLESIEGE &&
 						g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 					{
 						EnableAttack = 1;
@@ -4869,27 +4869,27 @@ int CObjUseSkill::SkillBookSahamutt(CGameObject &Obj, CMagicInf *lpMagic, BYTE x
 
 					else
 					{
-						int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+						int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-						if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+						if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 						{
-							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+							CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 						}
 
-						if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+						if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 						{
 							EnableAttack = 1;
 						}
 					}
 					if (EnableAttack)
 					{
-						if (gGameObjects[tObjNum]->X >= x - 2)
+						if (getGameObject(tObjNum)->X >= x - 2)
 						{
-							if (gGameObjects[tObjNum]->X <= x + 2)
+							if (getGameObject(tObjNum)->X <= x + 2)
 							{
-								if (gGameObjects[tObjNum]->Y >= y - 2)
+								if (getGameObject(tObjNum)->Y >= y - 2)
 								{
-									if (gGameObjects[tObjNum]->Y <= y + 2)
+									if (getGameObject(tObjNum)->Y <= y + 2)
 									{
 										gObjAddAttackProcMsgSendDelay(lpObj, 50, tObjNum, 1000, lpMagic->m_Skill, 0);
 									}
@@ -4915,7 +4915,7 @@ int CObjUseSkill::SkillSummonerSleep(CGameObject &Obj, int aTargetIndex, CMagicI
 
 	int tObjNum; //loc4 -> ebp-10
 
-	int angle = this->GetAngle(lpObj.X, lpObj.Y, gGameObjects[aTargetIndex]->X, gGameObjects[aTargetIndex]->Y); //loc5 ebp14
+	int angle = this->GetAngle(lpObj.X, lpObj.Y, getGameObject(aTargetIndex]->X, getGameObject(aTargetIndex)->Y); //loc5 ebp14
 
 	int count = 0; //loc6 ebp18
 
@@ -4937,7 +4937,7 @@ int CObjUseSkill::SkillSummonerSleep(CGameObject &Obj, int aTargetIndex, CMagicI
 			{
 				bEnableAttack = FALSE; //ebp20
 
-				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 				{
 					bEnableAttack = TRUE;
 				}
@@ -4956,7 +4956,7 @@ int CObjUseSkill::SkillSummonerSleep(CGameObject &Obj, int aTargetIndex, CMagicI
 				}
 
 				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC &&
-					gGameObjects[tObjNum]->MapNumber == MAP_INDEX_CASTLESIEGE &&
+					getGameObject(tObjNum)->MapNumber == MAP_INDEX_CASTLESIEGE &&
 					g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					bEnableAttack = TRUE;
@@ -4964,19 +4964,19 @@ int CObjUseSkill::SkillSummonerSleep(CGameObject &Obj, int aTargetIndex, CMagicI
 
 				else
 				{
-					int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
 
-					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
+					if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == TRUE)
 					{
 						bEnableAttack = TRUE;
 					}
 
-					if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						bEnableAttack = TRUE;
 					}
@@ -4988,7 +4988,7 @@ int CObjUseSkill::SkillSummonerSleep(CGameObject &Obj, int aTargetIndex, CMagicI
 					{
 						if (gCheckSkillDistance(aIndex, aTargetIndex, lpMagic->m_Skill) != FALSE)
 						{
-							gObjAttack(lpObj, &gGameObjects[aTargetIndex], lpMagic, 1, 0, 0, 0, 0, 0);
+							gObjAttack(lpObj, &getGameObject(aTargetIndex), lpMagic, 1, 0, 0, 0, 0, 0);
 							result = 1;
 							break;
 						}
@@ -5041,8 +5041,8 @@ int CObjUseSkill::SkillDamageReflect(CGameObject &Obj, CMagicInf *lpMagic, int a
 
 	this->m_Lua.Generic_Call("SummonerDamageReflect", "i>ii", (lpObj.m_PlayerData->Energy + lpObj.AddEnergy), &RefDmg, &Time);
 
-	gObjAddBuffEffect(&gGameObjects[Index], BUFFTYPE_DAMAGE_REFLECT, EFFECTTYPE_DAMAGEREFLECT, RefDmg, 0, 0, Time);
-	gGameProtocol.GCMagicAttackNumberSend(&gGameObjects[aIndex], lpMagic->m_Skill, Index, 1);
+	gObjAddBuffEffect(&getGameObject(Index), BUFFTYPE_DAMAGE_REFLECT, EFFECTTYPE_DAMAGEREFLECT, RefDmg, 0, 0, Time);
+	gGameProtocol.GCMagicAttackNumberSend(&getGameObject(aIndex), lpMagic->m_Skill, Index, 1);
 
 	return TRUE;
 }
@@ -5058,7 +5058,7 @@ int CObjUseSkill::SkillBookNeil(CGameObject &Obj, CMagicInf *lpMagic, BYTE x, BY
 	int DuelIndex = lpObj.m_iDuelUser;
 
 	
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 	int angle = this->GetAngle(lpObj.X, lpObj.Y, lpTargetObj.X, lpTargetObj.Y);
 	gGameProtocol.GCMagicAttackNumberSend(lpObj, AT_SKILL_NEIL, aTargetIndex, 1);
 	int Distance = MagicDamageC.GetSkillDistance(lpMagic->m_Skill);
@@ -5075,7 +5075,7 @@ int CObjUseSkill::SkillBookNeil(CGameObject &Obj, CMagicInf *lpMagic, BYTE x, BY
 				{
 					EnableAttack = 0;
 
-					if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+					if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 					{
 						EnableAttack = 1;
 					}
@@ -5084,8 +5084,8 @@ int CObjUseSkill::SkillBookNeil(CGameObject &Obj, CMagicInf *lpMagic, BYTE x, BY
 						EnableAttack = 1;
 					}
 
-					else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && gGameObjects[tObjNum]->Type != OBJ_NPC &&
-						gGameObjects[tObjNum]->MapNumber == MAP_INDEX_CASTLESIEGE &&
+					else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && getGameObject(tObjNum)->Type != OBJ_NPC &&
+						getGameObject(tObjNum)->MapNumber == MAP_INDEX_CASTLESIEGE &&
 						g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 					{
 						EnableAttack = 1;
@@ -5093,27 +5093,27 @@ int CObjUseSkill::SkillBookNeil(CGameObject &Obj, CMagicInf *lpMagic, BYTE x, BY
 
 					else
 					{
-						int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+						int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-						if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+						if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 						{
-							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+							CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 						}
 
-						if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+						if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 						{
 							EnableAttack = 1;
 						}
 					}
 					if (EnableAttack)
 					{
-						if (gGameObjects[tObjNum]->X >= x - 2)
+						if (getGameObject(tObjNum)->X >= x - 2)
 						{
-							if (gGameObjects[tObjNum]->X <= x + 2)
+							if (getGameObject(tObjNum)->X <= x + 2)
 							{
-								if (gGameObjects[tObjNum]->Y >= y - 2)
+								if (getGameObject(tObjNum)->Y >= y - 2)
 								{
-									if (gGameObjects[tObjNum]->Y <= y + 2)
+									if (getGameObject(tObjNum)->Y <= y + 2)
 									{
 										gObjAddAttackProcMsgSendDelay(lpObj, 50, tObjNum, 1000, lpMagic->m_Skill, 0);
 									}
@@ -5147,7 +5147,7 @@ int CObjUseSkill::SkillInnovation(CGameObject &Obj, CMagicInf * lpMagic, BYTE x,
 			EnableAttack = 0;
 
 			tObjNum = lpObj.VpPlayer2[count].number;
-			if (lpObj.VpPlayer2[count].type != OBJ_MONSTER || gGameObjects[tObjNum]->m_RecallMon > 0)
+			if (lpObj.VpPlayer2[count].type != OBJ_MONSTER || getGameObject(tObjNum)->m_RecallMon > 0)
 			{
 				if (tObjNum == DuelIndex)
 				{
@@ -5166,12 +5166,12 @@ int CObjUseSkill::SkillInnovation(CGameObject &Obj, CMagicInf * lpMagic, BYTE x,
 					EnableAttack = 1;
 				}
 
-				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && gGameObjects[tObjNum]->Type != OBJ_NPC &&
-					gGameObjects[tObjNum]->MapNumber == MAP_INDEX_CASTLESIEGE &&
+				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && getGameObject(tObjNum)->Type != OBJ_NPC &&
+					getGameObject(tObjNum)->MapNumber == MAP_INDEX_CASTLESIEGE &&
 					g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					if (g_CastleSiege.m_bCastleSiegeFriendlyFire == false &&
-						lpObj.m_btCsJoinSide == gGameObjects[tObjNum]->m_btCsJoinSide)
+						lpObj.m_btCsJoinSide == getGameObject(tObjNum)->m_btCsJoinSide)
 					{
 						EnableAttack = 0;
 					}
@@ -5182,16 +5182,16 @@ int CObjUseSkill::SkillInnovation(CGameObject &Obj, CMagicInf * lpMagic, BYTE x,
 					}
 				}
 			}
-			else if (gGameObjects[tObjNum]->Type == OBJ_MONSTER)
+			else if (getGameObject(tObjNum)->Type == OBJ_MONSTER)
 			{
-				if (gGameObjects[tObjNum]->m_RecallMon >= 0)
+				if (getGameObject(tObjNum)->m_RecallMon >= 0)
 				{
-					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[tObjNum]))
+					if (gObjTargetGuildWarCheck(lpObj, &getGameObject(tObjNum)))
 					{
 						EnableAttack = 1;
 					}
 
-					if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -5203,7 +5203,7 @@ int CObjUseSkill::SkillInnovation(CGameObject &Obj, CMagicInf * lpMagic, BYTE x,
 			}
 			if (EnableAttack)
 			{
-				if (gObjCalDistance(lpObj, &gGameObjects[tObjNum]) <= 6)
+				if (gObjCalDistance(lpObj, &getGameObject(tObjNum)) <= 6)
 				{
 					gObjAddAttackProcMsgSendDelay(lpObj, 50, tObjNum, 700, lpMagic->m_Skill, 0);
 					++attacked;
@@ -5233,7 +5233,7 @@ int CObjUseSkill::SkillWeakness(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, B
 		{
 			EnableAttack = 0;
 			tObjNum = lpObj.VpPlayer2[count].number;
-			if (lpObj.VpPlayer2[count].type != OBJ_MONSTER || gGameObjects[tObjNum]->m_RecallMon > 0)
+			if (lpObj.VpPlayer2[count].type != OBJ_MONSTER || getGameObject(tObjNum)->m_RecallMon > 0)
 			{
 				if (tObjNum == DuelIndex)
 				{
@@ -5252,12 +5252,12 @@ int CObjUseSkill::SkillWeakness(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, B
 					EnableAttack = 1;
 				}
 
-				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && gGameObjects[tObjNum]->Type != OBJ_NPC &&
-					gGameObjects[tObjNum]->MapNumber == MAP_INDEX_CASTLESIEGE &&
+				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && getGameObject(tObjNum)->Type != OBJ_NPC &&
+					getGameObject(tObjNum)->MapNumber == MAP_INDEX_CASTLESIEGE &&
 					g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					if (g_CastleSiege.m_bCastleSiegeFriendlyFire == false &&
-						lpObj.m_btCsJoinSide == gGameObjects[tObjNum]->m_btCsJoinSide)
+						lpObj.m_btCsJoinSide == getGameObject(tObjNum)->m_btCsJoinSide)
 					{
 						EnableAttack = 0;
 					}
@@ -5269,16 +5269,16 @@ int CObjUseSkill::SkillWeakness(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, B
 				}
 
 			}
-			else if (gGameObjects[tObjNum]->Type == OBJ_MONSTER)
+			else if (getGameObject(tObjNum)->Type == OBJ_MONSTER)
 			{
-				if (gGameObjects[tObjNum]->m_RecallMon >= 0)
+				if (getGameObject(tObjNum)->m_RecallMon >= 0)
 				{
-					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[tObjNum]))
+					if (gObjTargetGuildWarCheck(lpObj, &getGameObject(tObjNum)))
 					{
 						EnableAttack = 1;
 					}
 
-					if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -5291,7 +5291,7 @@ int CObjUseSkill::SkillWeakness(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, B
 			}
 			if (EnableAttack)
 			{
-				if (gObjCalDistance(lpObj, &gGameObjects[tObjNum]) <= 6)
+				if (gObjCalDistance(lpObj, &getGameObject(tObjNum)) <= 6)
 				{
 					gObjAddAttackProcMsgSendDelay(lpObj, 50, tObjNum, 700, lpMagic->m_Skill, 0);
 					++attacked;
@@ -5320,7 +5320,7 @@ int CObjUseSkill::SkillChainLighting(CGameObject &Obj, CMagicInf *lpMagic, int a
 	}
 
 	
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 
 	BOOL EnableAttack = FALSE;
 	int count = 0;
@@ -5350,7 +5350,7 @@ int CObjUseSkill::SkillChainLighting(CGameObject &Obj, CMagicInf *lpMagic, int a
 			{
 				EnableAttack = 0;
 
-				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 				{
 					EnableAttack = 1;
 				}
@@ -5359,8 +5359,8 @@ int CObjUseSkill::SkillChainLighting(CGameObject &Obj, CMagicInf *lpMagic, int a
 					EnableAttack = 1;
 				}
 
-				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && gGameObjects[tObjNum]->Type != OBJ_NPC &&
-					gGameObjects[tObjNum]->MapNumber == MAP_INDEX_CASTLESIEGE &&
+				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && getGameObject(tObjNum)->Type != OBJ_NPC &&
+					getGameObject(tObjNum)->MapNumber == MAP_INDEX_CASTLESIEGE &&
 					g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					EnableAttack = 1;
@@ -5368,19 +5368,19 @@ int CObjUseSkill::SkillChainLighting(CGameObject &Obj, CMagicInf *lpMagic, int a
 
 				else
 				{
-					int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
 
-					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+					if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 					{
 						EnableAttack = 1;
 					}
 
-					if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = 1;
 					}
@@ -5388,8 +5388,8 @@ int CObjUseSkill::SkillChainLighting(CGameObject &Obj, CMagicInf *lpMagic, int a
 
 				if (EnableAttack == TRUE)
 				{
-					if (gGameObjects[tObjNum]->X >= gGameObjects[aTargetIndex]->X - 1 && gGameObjects[tObjNum]->X <= gGameObjects[aTargetIndex]->X + 1
-						&& gGameObjects[tObjNum]->Y >= gGameObjects[aTargetIndex]->Y - 1 && gGameObjects[tObjNum]->Y <= gGameObjects[aTargetIndex]->Y + 1)
+					if (getGameObject(tObjNum]->X >= getGameObject(aTargetIndex]->X - 1 && getGameObject(tObjNum)->X <= getGameObject(aTargetIndex)->X + 1
+						&& getGameObject(tObjNum]->Y >= getGameObject(aTargetIndex]->Y - 1 && getGameObject(tObjNum)->Y <= getGameObject(aTargetIndex)->Y + 1)
 					{
 						nChainTarget[1] = tObjNum;
 
@@ -5397,8 +5397,8 @@ int CObjUseSkill::SkillChainLighting(CGameObject &Obj, CMagicInf *lpMagic, int a
 							break;
 
 					}
-					else if (gGameObjects[tObjNum]->X >= gGameObjects[aTargetIndex]->X - 2 && gGameObjects[tObjNum]->X <= gGameObjects[aTargetIndex]->X + 2
-						&& gGameObjects[tObjNum]->Y >= gGameObjects[aTargetIndex]->Y - 2 && gGameObjects[tObjNum]->Y <= gGameObjects[aTargetIndex]->Y + 2)
+					else if (getGameObject(tObjNum]->X >= getGameObject(aTargetIndex]->X - 2 && getGameObject(tObjNum)->X <= getGameObject(aTargetIndex)->X + 2
+						&& getGameObject(tObjNum]->Y >= getGameObject(aTargetIndex]->Y - 2 && getGameObject(tObjNum)->Y <= getGameObject(aTargetIndex)->Y + 2)
 					{
 						nChainTarget[2] = tObjNum;
 
@@ -5479,7 +5479,7 @@ int CObjUseSkill::SkillBlowOfDestruction(CGameObject &Obj, CMagicInf *lpMagic, B
 		EnableAttack = FALSE;
 		int index = lpObj.VpPlayer2[n].number;
 
-		if (gGameObjects[index]->Type == OBJ_MONSTER && gGameObjects[index]->m_RecallMon < 0)
+		if (getGameObject(index]->Type == OBJ_MONSTER && getGameObject(index)->m_RecallMon < 0)
 		{
 			EnableAttack = TRUE;
 		}
@@ -5489,8 +5489,8 @@ int CObjUseSkill::SkillBlowOfDestruction(CGameObject &Obj, CMagicInf *lpMagic, B
 			EnableAttack = TRUE;
 		}
 
-		else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && gGameObjects[index]->Type != OBJ_NPC &&
-			gGameObjects[index]->MapNumber == MAP_INDEX_CASTLESIEGE &&
+		else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && getGameObject(index)->Type != OBJ_NPC &&
+			getGameObject(index)->MapNumber == MAP_INDEX_CASTLESIEGE &&
 			g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 		{
 			EnableAttack = TRUE;
@@ -5503,12 +5503,12 @@ int CObjUseSkill::SkillBlowOfDestruction(CGameObject &Obj, CMagicInf *lpMagic, B
 			summon = lpObj.m_RecallMon;
 		}
 
-		if (gObjTargetGuildWarCheck(&gGameObjects[summon], lpObj) != 0)
+		if (gObjTargetGuildWarCheck(&getGameObject(summon), lpObj) != 0)
 		{
 			EnableAttack = TRUE;
 		}
 
-		if (this->CalDistance(x, y, gGameObjects[index]->X, gGameObjects[index]->Y) < 3 && EnableAttack)
+		if (this->CalDistance(x, y, getGameObject(index]->X, getGameObject(index)->Y) < 3 && EnableAttack)
 		{
 			gObjAddAttackProcMsgSendDelay(lpObj, 50, index, 400, lpMagic->m_Skill, bCombo);
 
@@ -5525,7 +5525,7 @@ int CObjUseSkill::SkillBlowOfDestruction(CGameObject &Obj, CMagicInf *lpMagic, B
 int CObjUseSkill::SkillAreaMonsterAttack(CGameObject &Obj, CMagicInf *lpMagic, BYTE x, BYTE y, int aTargetIndex, int Distance, int MultiAttack, int AttackDelay)
 {
 	
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 
 	int HitCount = 4;
 	int MaxHitCount = 8;
@@ -5560,7 +5560,7 @@ int CObjUseSkill::SkillAreaMonsterAttack(CGameObject &Obj, CMagicInf *lpMagic, B
 				{
 					EnableAttack = 0;
 
-					if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+					if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 					{
 						EnableAttack = 1;
 					}
@@ -5570,8 +5570,8 @@ int CObjUseSkill::SkillAreaMonsterAttack(CGameObject &Obj, CMagicInf *lpMagic, B
 						EnableAttack = 1;
 					}
 
-					else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && gGameObjects[tObjNum]->Type != OBJ_NPC &&
-						gGameObjects[tObjNum]->MapNumber == MAP_INDEX_CASTLESIEGE &&
+					else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && getGameObject(tObjNum)->Type != OBJ_NPC &&
+						getGameObject(tObjNum)->MapNumber == MAP_INDEX_CASTLESIEGE &&
 						g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 					{
 						EnableAttack = 1;
@@ -5579,40 +5579,40 @@ int CObjUseSkill::SkillAreaMonsterAttack(CGameObject &Obj, CMagicInf *lpMagic, B
 
 					if (lpObj.VpPlayer2[count].type == OBJ_NPC || lpObj.MapNumber != MAP_INDEX_CASTLESIEGE || g_CastleSiegeSync.GetCastleState() != 7)
 					{
-						int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+						int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-						if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+						if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 						{
-							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+							CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 						}
 
-						if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+						if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 						{
 							EnableAttack = 1;
 						}
 
-						if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+						if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 						{
 							EnableAttack = TRUE;
 						}
 					}
 
-					if (gGameObjects[tObjNum]->Live == FALSE)
+					if (getGameObject(tObjNum)->Live == FALSE)
 					{
 						EnableAttack = FALSE;
 					}
 
 					if (EnableAttack == TRUE)
 					{
-						if (gGameObjects[tObjNum]->X >= x - Distance)
+						if (getGameObject(tObjNum)->X >= x - Distance)
 						{
-							if (gGameObjects[tObjNum]->X <= x + Distance)
+							if (getGameObject(tObjNum)->X <= x + Distance)
 							{
-								if (gGameObjects[tObjNum]->Y >= y - Distance)
+								if (getGameObject(tObjNum)->Y >= y - Distance)
 								{
-									if (gGameObjects[tObjNum]->Y <= y + Distance)
+									if (getGameObject(tObjNum)->Y <= y + Distance)
 									{
-										gGameObjects[tObjNum]->lpAttackObj = lpObj;
+										getGameObject(tObjNum)->lpAttackObj = lpObj;
 										++CurrHitCount;
 
 										BOOL Attack = FALSE;
@@ -5636,20 +5636,20 @@ int CObjUseSkill::SkillAreaMonsterAttack(CGameObject &Obj, CMagicInf *lpMagic, B
 										{
 											if (AttackDelay)
 											{
-												if (lpMagic->m_Skill == AT_SKILL_GIGANTIC_STORM && lpObj.Class == 561 && gObjCheckUsedBuffEffect(&gGameObjects[tObjNum], BUFFTYPE_FREEZE) == FALSE)
+												if (lpMagic->m_Skill == AT_SKILL_GIGANTIC_STORM && lpObj.Class == 561 && gObjCheckUsedBuffEffect(&getGameObject(tObjNum), BUFFTYPE_FREEZE) == FALSE)
 												{
-													gGameObjects[tObjNum]->DelayActionTime = 800;
-													gGameObjects[tObjNum]->DelayLevel = 1;
-													gGameObjects[tObjNum]->lpAttackObj = lpObj;
-													gObjAddBuffEffect(&gGameObjects[tObjNum], BUFFTYPE_FREEZE, 0, 0, 0, 0, 3);
+													getGameObject(tObjNum)->DelayActionTime = 800;
+													getGameObject(tObjNum)->DelayLevel = 1;
+													getGameObject(tObjNum)->lpAttackObj = lpObj;
+													gObjAddBuffEffect(&getGameObject(tObjNum), BUFFTYPE_FREEZE, 0, 0, 0, 0, 3);
 												}
 
 												if ((lpMagic->m_Skill == AT_SKILL_METEOR_STORM) == FALSE)
 												{
-													gGameObjects[tObjNum]->DelayActionTime = 800;
-													gGameObjects[tObjNum]->DelayLevel = 1;
-													gGameObjects[tObjNum]->lpAttackObj = lpObj;
-													//gObjAddBuffEffect(&gGameObjects[tObjNum], BUFFTYPE_FREEZE, 0, 0, 0, 0, 3);
+													getGameObject(tObjNum)->DelayActionTime = 800;
+													getGameObject(tObjNum)->DelayLevel = 1;
+													getGameObject(tObjNum)->lpAttackObj = lpObj;
+													//gObjAddBuffEffect(&getGameObject(tObjNum), BUFFTYPE_FREEZE, 0, 0, 0, 0, 3);
 												}
 
 												gObjAddAttackProcMsgSendDelay(lpObj, 50, tObjNum, AttackDelay, lpMagic->m_Skill, 0);
@@ -5658,24 +5658,24 @@ int CObjUseSkill::SkillAreaMonsterAttack(CGameObject &Obj, CMagicInf *lpMagic, B
 											{
 												if (lpMagic->m_Skill != AT_SKILL_DRAGON_ROAR && lpMagic->m_Skill != AT_SKILL_PHOENIX_SHOT && lpMagic->m_Skill != 560)
 												{
-													gObjAttack(lpObj, &gGameObjects[tObjNum], lpMagic, 1, 0, 0, 0, 0, 0);
+													gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 1, 0, 0, 0, 0, 0);
 												}
 
 												else
 												{
 													int Dec = 0;
-													BYTE btAttr = MapC[gGameObjects[tObjNum]->MapNumber]->GetAttr(gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y);
+													BYTE btAttr = MapC[getGameObject(tObjNum]->MapNumber]->GetAttr(getGameObject(tObjNum)->X, getGameObject(tObjNum)->Y);
 
 													if ((btAttr & 1) != 1)
 													{
 														if (lpMagic->m_Skill == AT_SKILL_PHOENIX_SHOT && rand() % 100 < 10)
 														{
-															if (gGameObjects[tObjNum]->Type == OBJ_MONSTER)
+															if (getGameObject(tObjNum)->Type == OBJ_MONSTER)
 															{
 																Dec = 50;
 															}
 
-															else if (gGameObjects[tObjNum]->Type == OBJ_USER)
+															else if (getGameObject(tObjNum)->Type == OBJ_USER)
 															{
 																Dec = 10;
 															}
@@ -5685,16 +5685,16 @@ int CObjUseSkill::SkillAreaMonsterAttack(CGameObject &Obj, CMagicInf *lpMagic, B
 																Dec = 0;
 															}
 
-															gObjAddBuffEffect(&gGameObjects[tObjNum], BUFFTYPE_MONK_DECREASE_DEFENSE_RATE, EFFECTTYPE_DECREASE_DEFENSE_RATE, Dec, 0, 0, 10);
+															gObjAddBuffEffect(&getGameObject(tObjNum), BUFFTYPE_MONK_DECREASE_DEFENSE_RATE, EFFECTTYPE_DECREASE_DEFENSE_RATE, Dec, 0, 0, 10);
 														}
 													}
 
 													for (int i = 1; i <= 4; i++)
 													{
 														if (i == 1)
-															gObjAttack(lpObj, &gGameObjects[tObjNum], lpMagic, 1, 1, 0, 0, 1, 0);
+															gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 1, 1, 0, 0, 1, 0);
 														else
-															gObjAttack(lpObj, &gGameObjects[tObjNum], lpMagic, 0, 1, 0, 0, i, 0);
+															gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 0, 1, 0, 0, i, 0);
 													}
 												}
 											}
@@ -5718,7 +5718,7 @@ void CObjUseSkill::NewSkillProc(CGameObject &Obj, CMagicInf *lpMagic, BYTE x, BY
 {
 	if (aMsgSubCode == 59)
 	{
-		gGameProtocol.GCMagicAttackNumberSend(&gGameObjects[aIndex], lpMagic->m_Skill, aTargetIndex, 1);
+		gGameProtocol.GCMagicAttackNumberSend(&getGameObject(aIndex), lpMagic->m_Skill, aTargetIndex, 1);
 	}
 
 	if (lpMagic->m_Skill == AT_SKILL_RAGEUL)
@@ -5728,7 +5728,7 @@ void CObjUseSkill::NewSkillProc(CGameObject &Obj, CMagicInf *lpMagic, BYTE x, BY
 
 	if (aMsgSubCode >= 59 && aMsgSubCode <= 64)
 	{
-		gObjAddMsgSendDelay(&gGameObjects[aIndex], 59, aTargetIndex, 1000, (MAKELONG(MAKEWORD(x, y), aMsgSubCode)));
+		gObjAddMsgSendDelay(&getGameObject(aIndex), 59, aTargetIndex, 1000, (MAKELONG(MAKEWORD(x, y), aMsgSubCode)));
 	}
 }
 
@@ -5754,12 +5754,12 @@ void CObjUseSkill::SkillLightingShock(CGameObject &Obj, CMagicInf *lpMagic, int 
 			continue;
 		}
 
-		if (gGameObjects[index]->Type == OBJ_MONSTER && gGameObjects[index]->m_RecallMon < 0)
+		if (getGameObject(index]->Type == OBJ_MONSTER && getGameObject(index)->m_RecallMon < 0)
 		{
 			EnableAttack = TRUE;
 		}
 
-		if (lpObj.Type == OBJ_MONSTER && gGameObjects[index]->Type == OBJ_USER) // DoppelGanger Fix
+		if (lpObj.Type == OBJ_MONSTER && getGameObject(index)->Type == OBJ_USER) // DoppelGanger Fix
 		{
 			EnableAttack = TRUE;
 		}
@@ -5781,8 +5781,8 @@ void CObjUseSkill::SkillLightingShock(CGameObject &Obj, CMagicInf *lpMagic, int 
 
 		else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE)
 		{
-			if (gGameObjects[index]->Type != OBJ_NPC &&
-				gGameObjects[index]->MapNumber == MAP_INDEX_CASTLESIEGE &&
+			if (getGameObject(index)->Type != OBJ_NPC &&
+				getGameObject(index)->MapNumber == MAP_INDEX_CASTLESIEGE &&
 				g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 			{
 				EnableAttack = TRUE;
@@ -5796,17 +5796,17 @@ void CObjUseSkill::SkillLightingShock(CGameObject &Obj, CMagicInf *lpMagic, int 
 			summon = lpObj.m_RecallMon;
 		}
 
-		if (gObjTargetGuildWarCheck(&gGameObjects[summon], lpObj) != 0)
+		if (gObjTargetGuildWarCheck(&getGameObject(summon), lpObj) != 0)
 		{
 			EnableAttack = TRUE;
 		}
 
-		if (gGameObjects[index]->Class >= 678 && gGameObjects[index]->Class <= 680)
+		if (getGameObject(index]->Class >= 678 && getGameObject(index)->Class <= 680)
 		{
 			EnableAttack = TRUE;
 		}
 
-		if (gObjCalDistance(lpObj, &gGameObjects[index]) <= 6 && EnableAttack == TRUE)
+		if (gObjCalDistance(lpObj, &getGameObject(index)) <= 6 && EnableAttack == TRUE)
 		{
 			gObjAddAttackProcMsgSendDelay(lpObj, 50, index, 300, lpMagic->m_Skill, 0);
 		}
@@ -5817,7 +5817,7 @@ int CObjUseSkill::SkillMagicCircle(CGameObject &Obj, int aTargetIndex, CMagicInf
 {
 	if (lpObj.m_PlayerData->ISBOT == true)
 	{
-		gObjAddBuffEffect(&gGameObjects[lpObj.BuffPlayerIndex], BUFFTYPE_MAGIC_POWER_INC, EFFECTTYPE_MAGICPOWER_INC, 20, 0, 0, g_BotSystem.GetSkillTime(aIndex, lpMagic->m_Skill));
+		gObjAddBuffEffect(&getGameObject(lpObj.BuffPlayerIndex), BUFFTYPE_MAGIC_POWER_INC, EFFECTTYPE_MAGICPOWER_INC, 20, 0, 0, g_BotSystem.GetSkillTime(aIndex, lpMagic->m_Skill));
 	}
 
 	else
@@ -5828,7 +5828,7 @@ int CObjUseSkill::SkillMagicCircle(CGameObject &Obj, int aTargetIndex, CMagicInf
 		gObjAddBuffEffect(lpObj, BUFFTYPE_MAGIC_POWER_INC, EFFECTTYPE_MAGICPOWER_INC, iEffect, 0, 0, 1800);
 	}
 
-	gGameProtocol.GCMagicAttackNumberSend(&gGameObjects[aIndex], lpMagic->m_Skill, aIndex, 1);
+	gGameProtocol.GCMagicAttackNumberSend(&getGameObject(aIndex), lpMagic->m_Skill, aIndex, 1);
 	return 1;
 }
 
@@ -5836,7 +5836,7 @@ int CObjUseSkill::SkillShieldRefill(CGameObject &Obj, CMagicInf *lpMagic, int aT
 {
 	int skillSuccess = true;
 	
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 	int skill_level = lpMagic->m_Level;
 
 	if (lpTargetObj.Type != OBJ_USER && lpTargetObj.m_RecallMon == -1)
@@ -5881,7 +5881,7 @@ int CObjUseSkill::SkillShieldRefill(CGameObject &Obj, CMagicInf *lpMagic, int aT
 			{
 				if (lpObj.VpPlayer2[n].type == OBJ_MONSTER && lpObj.VpPlayer2[n].state != 0)
 				{
-					CGameObject lpMonster = &gGameObjects[lpObj.VpPlayer2[n]->number];
+					CGameObject lpMonster = &getGameObject(lpObj.VpPlayer2[n]->number);
 					if (lpMonster->m_iCurrentAI != 0)
 					{
 						lpMonster->m_Agro->IncAgro(lpObj.m_Index, lpObj.m_PlayerData->Energy / 5 / 40);
@@ -5999,7 +5999,7 @@ int CObjUseSkill::SkillFiveShot(CGameObject &Obj, CMagicInf *lpMagic, BYTE Targe
 			{
 				bEnableAttack = FALSE;
 
-				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 				{
 					bEnableAttack = TRUE;
 				}
@@ -6009,7 +6009,7 @@ int CObjUseSkill::SkillFiveShot(CGameObject &Obj, CMagicInf *lpMagic, BYTE Targe
 				}
 
 				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC &&
-					gGameObjects[tObjNum]->MapNumber == MAP_INDEX_CASTLESIEGE &&
+					getGameObject(tObjNum)->MapNumber == MAP_INDEX_CASTLESIEGE &&
 					g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					bEnableAttack = TRUE;
@@ -6017,19 +6017,19 @@ int CObjUseSkill::SkillFiveShot(CGameObject &Obj, CMagicInf *lpMagic, BYTE Targe
 
 				else
 				{
-					int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
 
-					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
+					if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == TRUE)
 					{
 						bEnableAttack = TRUE;
 					}
 
-					if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						bEnableAttack = TRUE;
 					}
@@ -6041,13 +6041,13 @@ int CObjUseSkill::SkillFiveShot(CGameObject &Obj, CMagicInf *lpMagic, BYTE Targe
 
 					for (int j = 0; j < 5; j++)
 					{
-						Value3[j] = (((int)Value1[j] - lpObj.X) * (gGameObjects[tObjNum]->Y - lpObj.Y)) - (((int)Value2[j] - lpObj.Y) * (gGameObjects[tObjNum]->X - lpObj.X));
+						Value3[j] = (((int)Value1[j] - lpObj.X) * (getGameObject(tObjNum]->Y - lpObj.Y)) - (((int)Value2[j] - lpObj.Y) * (getGameObject(tObjNum)->X - lpObj.X));
 
-						if (SkillTestFrustrum(gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y, aIndex))
+						if (SkillTestFrustrum(getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y, aIndex))
 						{
 							if (Value3[j] > -5 && Value3[j] < 5)
 							{
-								gObjAttack(lpObj, &gGameObjects[tObjNum], lpMagic, 1, 0, 0, 0, 0, 0);
+								gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 1, 0, 0, 0, 0, 0);
 							}
 						}
 					}
@@ -6083,7 +6083,7 @@ int CObjUseSkill::SkillBirds(CGameObject &Obj, CMagicInf *lpMagic, BYTE TargetPo
 			EnableAttack = 0;
 			if (tObjNum >= 0)
 			{
-				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 				{
 					EnableAttack = 1;
 				}
@@ -6097,7 +6097,7 @@ int CObjUseSkill::SkillBirds(CGameObject &Obj, CMagicInf *lpMagic, BYTE TargetPo
 				}
 
 				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC &&
-					gGameObjects[tObjNum]->MapNumber == MAP_INDEX_CASTLESIEGE &&
+					getGameObject(tObjNum)->MapNumber == MAP_INDEX_CASTLESIEGE &&
 					g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					EnableAttack = TRUE;
@@ -6105,19 +6105,19 @@ int CObjUseSkill::SkillBirds(CGameObject &Obj, CMagicInf *lpMagic, BYTE TargetPo
 
 				else
 				{
-					int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
 
-					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == TRUE)
+					if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == TRUE)
 					{
 						EnableAttack = TRUE;
 					}
 
-					if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -6125,7 +6125,7 @@ int CObjUseSkill::SkillBirds(CGameObject &Obj, CMagicInf *lpMagic, BYTE TargetPo
 			}
 			if (EnableAttack)
 			{
-				if (SkillTestFrustrum(gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y, aIndex) == TRUE)
+				if (SkillTestFrustrum(getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y, aIndex) == TRUE)
 				{
 					int Attack = 0;
 					if (HitCount < 8)
@@ -6174,31 +6174,31 @@ int CObjUseSkill::SkillFlameStrike(CGameObject &Obj, CMagicInf *lpMagic, BYTE Ta
 			EnableAttack = 0;
 			if (tObjNum >= 0)
 			{
-				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 				{
 					EnableAttack = 1;
 				}
 
 				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC &&
-					gGameObjects[tObjNum]->MapNumber == MAP_INDEX_CASTLESIEGE &&
+					getGameObject(tObjNum)->MapNumber == MAP_INDEX_CASTLESIEGE &&
 					g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					EnableAttack = TRUE;
 				}
 
-				int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+				int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-				if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+				if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 				{
-					CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+					CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 				}
 
-				if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+				if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 				{
 					EnableAttack = 1;
 				}
 
-				if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+				if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 				{
 					EnableAttack = TRUE;
 				}
@@ -6210,8 +6210,8 @@ int CObjUseSkill::SkillFlameStrike(CGameObject &Obj, CMagicInf *lpMagic, BYTE Ta
 			}
 			if (EnableAttack)
 			{
-				if (SkillTestFrustrum(gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y, aIndex) == TRUE &&
-					gObjCalDistance(lpObj, &gGameObjects[tObjNum]) <= MagicDamageC.GetSkillDistance(lpMagic->m_Skill))
+				if (SkillTestFrustrum(getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y, aIndex) == TRUE &&
+					gObjCalDistance(lpObj, &getGameObject(tObjNum)) <= MagicDamageC.GetSkillDistance(lpMagic->m_Skill))
 				{
 					int Attack = 0;
 					if (HitCount < 8)
@@ -6224,8 +6224,8 @@ int CObjUseSkill::SkillFlameStrike(CGameObject &Obj, CMagicInf *lpMagic, BYTE Ta
 					}
 					if (Attack)
 					{
-						gObjAttack(lpObj, &gGameObjects[tObjNum], lpMagic, 1, 0, 0, 0, 0, 0);
-						gObjAttack(lpObj, &gGameObjects[tObjNum], lpMagic, 1, 0, 0, 0, 0, 0);
+						gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 1, 0, 0, 0, 0, 0);
+						gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 1, 0, 0, 0, 0, 0);
 					}
 				}
 			}
@@ -6250,7 +6250,7 @@ int CObjUseSkill::SkillBerserker(CGameObject &Obj, CMagicInf *lpMagic, int aTarg
 
 	if (lpObj.Type == OBJ_USER && lpObj.m_PlayerData->ISBOT == true && lpObj.BuffPlayerIndex != -1)
 	{
-		lpTargetObj = &gGameObjects[lpObj.BuffPlayerIndex];
+		lpTargetObj = &getGameObject(lpObj.BuffPlayerIndex);
 	}
 
 	int EffectUPValue = 0;
@@ -6283,7 +6283,7 @@ int CObjUseSkill::SkillBerserker(CGameObject &Obj, CMagicInf *lpMagic, int aTarg
 int CObjUseSkill::SkillPhoenixShot(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, BYTE y, int aTargetIndex)
 {
 	
-	CGameObject lpTargetObj = &gGameObjects[aIndex];
+	CGameObject lpTargetObj = &getGameObject(aIndex);
 	BOOL EnableAttack;
 	int attackcheck;
 	int loopcount = 0;
@@ -6298,7 +6298,7 @@ int CObjUseSkill::SkillPhoenixShot(CGameObject &Obj, CMagicInf * lpMagic, BYTE x
 		EnableAttack = FALSE;
 		int index = lpObj.VpPlayer2[n].number;
 
-		if (gGameObjects[index]->Type == OBJ_MONSTER && gGameObjects[index]->m_RecallMon < 0)
+		if (getGameObject(index]->Type == OBJ_MONSTER && getGameObject(index)->m_RecallMon < 0)
 		{
 			EnableAttack = TRUE;
 		}
@@ -6308,8 +6308,8 @@ int CObjUseSkill::SkillPhoenixShot(CGameObject &Obj, CMagicInf * lpMagic, BYTE x
 			EnableAttack = TRUE;
 		}
 
-		else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && gGameObjects[index]->Type != OBJ_NPC &&
-			gGameObjects[index]->MapNumber == MAP_INDEX_CASTLESIEGE &&
+		else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && getGameObject(index)->Type != OBJ_NPC &&
+			getGameObject(index)->MapNumber == MAP_INDEX_CASTLESIEGE &&
 			g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 		{
 			EnableAttack = TRUE;
@@ -6322,7 +6322,7 @@ int CObjUseSkill::SkillPhoenixShot(CGameObject &Obj, CMagicInf * lpMagic, BYTE x
 			summon = lpObj.m_RecallMon;
 		}
 
-		if (gObjTargetGuildWarCheck(&gGameObjects[summon], lpObj) != 0)
+		if (gObjTargetGuildWarCheck(&getGameObject(summon), lpObj) != 0)
 		{
 			EnableAttack = TRUE;
 		}
@@ -6342,7 +6342,7 @@ int CObjUseSkill::SkillPhoenixShot(CGameObject &Obj, CMagicInf * lpMagic, BYTE x
 
 			if (attackcheck != 0)
 			{
-				if (gObjCalDistance(&gGameObjects[aTargetIndex], &gGameObjects[index]) < 3)
+				if (gObjCalDistance(&getGameObject(aTargetIndex], &getGameObject(index)) < 3)
 				{
 					delaytime = (rand() * 17) % 300 + 300;
 
@@ -6374,13 +6374,13 @@ int CObjUseSkill::SkillEvilMonster(CGameObject &Obj, int aTargetIndex, CMagicInf
 		if (tObjNum >= 0 && lpObj.VpPlayer2[count].type == OBJ_USER)
 		{
 			EnableAttack = TRUE;
-			if (gGameObjects[tObjNum]->TargetNumber >= 0)
+			if (getGameObject(tObjNum)->TargetNumber >= 0)
 			{
 				if (tObjNum != aTargetIndex)
 					EnableAttack = FALSE;
 			}
 
-			if (EnableAttack == TRUE && gObjCalDistance(lpObj, &gGameObjects[tObjNum]) < 6)
+			if (EnableAttack == TRUE && gObjCalDistance(lpObj, &getGameObject(tObjNum)) < 6)
 			{
 				BOOL Attack = attackcount < 5;
 				if (tObjNum == aTargetIndex)
@@ -6391,12 +6391,12 @@ int CObjUseSkill::SkillEvilMonster(CGameObject &Obj, int aTargetIndex, CMagicInf
 					gObjAddAttackProcMsgSendDelay(lpObj, 50, tObjNum, 300, lpMagic->m_Skill, 0);
 					attackcount++;
 
-					if (gObjCheckUsedBuffEffect(&gGameObjects[tObjNum], BUFFTYPE_POISON) == FALSE)
+					if (gObjCheckUsedBuffEffect(&getGameObject(tObjNum), BUFFTYPE_POISON) == FALSE)
 					{
-						if (!retResistance(&gGameObjects[tObjNum], 1))
+						if (!retResistance(&getGameObject(tObjNum), 1))
 						{
-							gGameObjects[tObjNum]->lpAttackObj = lpObj;
-							gObjAddBuffEffect(&gGameObjects[tObjNum], BUFFTYPE_POISON, EFFECTTYPE_POISON_DMG_TICK, 3, 0, 0, 20);
+							getGameObject(tObjNum)->lpAttackObj = lpObj;
+							gObjAddBuffEffect(&getGameObject(tObjNum), BUFFTYPE_POISON, EFFECTTYPE_POISON_DMG_TICK, 3, 0, 0, 20);
 						}
 					}
 				}
@@ -6482,7 +6482,7 @@ int CObjUseSkill::SkillMonkBuffApplyParty(CGameObject &Obj, CMagicInf * lpMagic)
 
 			if (index >= 0 && index < g_ConfigRead.server.GetObjectMax())
 			{
-				CGameObject lpPartyObj = &gGameObjects[index];
+				CGameObject lpPartyObj = &getGameObject(index);
 
 				if (lpPartyObj.MapNumber == lpObj.MapNumber)
 				{
@@ -6551,7 +6551,7 @@ int CObjUseSkill::SkillMonkBuffApplyParty(CGameObject &Obj, CMagicInf * lpMagic)
 		{
 			if (partyindex[j] != -1)
 			{
-				CGameObject lpPartyObj = &gGameObjects[partyindex[j]];
+				CGameObject lpPartyObj = &getGameObject(partyindex[j]);
 
 				if (lpMagic->m_Skill == AT_SKILL_FITNESS)
 				{
@@ -6582,7 +6582,7 @@ int CObjUseSkill::SkillMonkBarrageJustOneTarget(CGameObject &Obj, CMagicInf * lp
 		return FALSE;
 	}
 
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 
 	BOOL EnableAttack = FALSE;
 	int count = 0;
@@ -6625,7 +6625,7 @@ int CObjUseSkill::SkillMonkBarrageJustOneTarget(CGameObject &Obj, CMagicInf * lp
 		}
 	}
 
-	else if (lpTargetObj.Type == OBJ_MONSTER || gGameObjects[tObjNum]->m_RecallMon < 0)
+	else if (lpTargetObj.Type == OBJ_MONSTER || getGameObject(tObjNum)->m_RecallMon < 0)
 	{
 		EnableAttack = TRUE;
 	}
@@ -6635,22 +6635,22 @@ int CObjUseSkill::SkillMonkBarrageJustOneTarget(CGameObject &Obj, CMagicInf * lp
 		EnableAttack = TRUE;
 	}
 
-	else if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+	else if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 	{
-		CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+		CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 
-		if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+		if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 		{
 			EnableAttack = TRUE;
 		}
 
-		if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+		if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 		{
 			EnableAttack = TRUE;
 		}
 	}
 
-	if (EnableAttack == TRUE && this->CalDistance(gGameObjects[aTargetIndex]->X, gGameObjects[aTargetIndex]->Y, gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y) < nDistance)
+	if (EnableAttack == TRUE && this->CalDistance(getGameObject(aTargetIndex]->X, getGameObject(aTargetIndex]->Y, getGameObject(tObjNum)->X, getGameObject(tObjNum)->Y) < nDistance)
 	{
 		switch (lpMagic->m_Skill)
 		{
@@ -6698,9 +6698,9 @@ int CObjUseSkill::SkillMonkBarrageJustOneTarget(CGameObject &Obj, CMagicInf * lp
 		for (int i = 1; i < HitCount; i++)
 		{
 			if (i % (HitCount - 1) == 1)
-				gObjAttack(lpObj, &gGameObjects[tObjNum], lpMagic, 1, 1, 0, 0, i, 0);
+				gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 1, 1, 0, 0, i, 0);
 			else
-				gObjAttack(lpObj, &gGameObjects[tObjNum], lpMagic, 0, 1, 0, 0, i, 0);
+				gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 0, 1, 0, 0, i, 0);
 		}
 
 	}
@@ -6714,7 +6714,7 @@ int CObjUseSkill::SkillCharge(CGameObject &Obj, CMagicInf *lpMagic, int aTargetI
 	}
 
 	
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 
 	if (lpObj.MapNumber == MAP_INDEX_CASTLESIEGE || lpObj.MapNumber == MAP_INDEX_CASTLEHUNTZONE || this->m_SkillData.EnableSiegeOnAllMaps == true)
 	{
@@ -6761,7 +6761,7 @@ int CObjUseSkill::SkillMonkDarkSideGetTargetIndex(CGameObject &Obj, int aTargetI
 						{
 							if (tObjNum != 10000 && lpObj.VpPlayer2[count].type == OBJ_USER && tObjNum == aTargetIndex)
 							{
-								if (this->CalDistance(lpObj.X, lpObj.Y, gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y) < nDistance)
+								if (this->CalDistance(lpObj.X, lpObj.Y, getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y) < nDistance)
 								{
 									*Target = tObjNum;
 									HitCount = 1;
@@ -6790,12 +6790,12 @@ int CObjUseSkill::SkillMonkDarkSideGetTargetIndex(CGameObject &Obj, int aTargetI
 
 					if (tObjNum >= 0)
 					{
-						CGameObject lpTargetObj = &gGameObjects[tObjNum];
+						CGameObject lpTargetObj = &getGameObject(tObjNum);
 
 						BOOL EnableAttack = FALSE;
 						int CallMonIndex = -1;
 
-						if (lpTargetObj.Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+						if (lpTargetObj.Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 						{
 							EnableAttack = TRUE;
 						}
@@ -6805,16 +6805,16 @@ int CObjUseSkill::SkillMonkDarkSideGetTargetIndex(CGameObject &Obj, int aTargetI
 							EnableAttack = TRUE;
 						}
 
-						else if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+						else if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 						{
-							CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+							CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 
-							if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+							if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 							{
 								EnableAttack = TRUE;
 							}
 
-							if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+							if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 							{
 								EnableAttack = TRUE;
 							}
@@ -6868,22 +6868,22 @@ void CObjUseSkill::SplashDamage(CGameObject &Obj, CGameObject lpTargetObj, int n
 					{
 						bEnableAttack = FALSE;
 
-						if (lpObj.VpPlayer2[iTarObjNum].type == OBJ_MONSTER && gGameObjects[iTarObjNum]->m_RecallMon < 0)
+						if (lpObj.VpPlayer2[iTarObjNum].type == OBJ_MONSTER && getGameObject(iTarObjNum)->m_RecallMon < 0)
 						{
 							bEnableAttack = TRUE;
 						}
 
-						if (lpTargetObj.m_cChaosCastleIndex != -1 && lpTargetObj.m_cChaosCastleIndex == gGameObjects[iTarObjNum]->m_cChaosCastleIndex)
+						if (lpTargetObj.m_cChaosCastleIndex != -1 && lpTargetObj.m_cChaosCastleIndex == getGameObject(iTarObjNum)->m_cChaosCastleIndex)
 						{
 							bEnableAttack = TRUE;
 						}
 
-						if (lpObj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER && gGameObjects[iTarObjNum]->Type != OBJ_NPC)
+						if (lpObj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER && getGameObject(iTarObjNum)->Type != OBJ_NPC)
 						{
 							bEnableAttack = TRUE;
 						}
 
-						if (gGameObjects[iTarObjNum]->Class >= 678 && gGameObjects[iTarObjNum]->Class <= 680)
+						if (getGameObject(iTarObjNum]->Class >= 678 && getGameObject(iTarObjNum)->Class <= 680)
 						{
 							bEnableAttack = TRUE;
 						}
@@ -6892,7 +6892,7 @@ void CObjUseSkill::SplashDamage(CGameObject &Obj, CGameObject lpTargetObj, int n
 						{
 							if (lpObj.m_Index != iTarObjNum)
 							{
-								if (gObjCalDistance(lpTargetObj, &gGameObjects[iTarObjNum]) <= nDistance)
+								if (gObjCalDistance(lpTargetObj, &getGameObject(iTarObjNum)) <= nDistance)
 								{
 									gObjAddMsgSendDelay(lpObj, 58, iTarObjNum, 300, nDamageRate * nAttackDamage / 100);
 								}
@@ -6939,7 +6939,7 @@ void CObjUseSkill::SkillDarkSide(CGameObject &Obj, int aTargetIndex, CMagicInf *
 			if (wTargetList[i] != 10000)
 			{
 				lpObj.m_PlayerData->DarkSideCount++;
-				gObjAddAttackProcMsgSendDelay(&gGameObjects[aIndex], 61, aIndex, 150 + (iTargetCount * 150), lpMagic->m_Skill, wTargetList[i]);
+				gObjAddAttackProcMsgSendDelay(&getGameObject(aIndex], 61, aIndex, 150 + (iTargetCount * 150), lpMagic->m_Skill, wTargetList[i));
 				iTargetCount++;
 			}
 		}
@@ -6976,22 +6976,22 @@ void CObjUseSkill::SkillSummonForLordSilvester(CGameObject &Obj, int iTargetInde
 
 			if (result >= 0)
 			{
-				gGameObjects[result]->m_PosNum = -1;
-				gGameObjects[result]->X = cSX;
-				gGameObjects[result]->Y = cSY;
-				gGameObjects[result]->MapNumber = lpObj.MapNumber;
-				gGameObjects[result]->TX = gGameObjects[result]->X;
-				gGameObjects[result]->TY = gGameObjects[result]->Y;
-				gGameObjects[result]->m_OldX = gGameObjects[result]->X;
-				gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
-				gGameObjects[result]->Dir = 1;
-				gGameObjects[result]->StartX = gGameObjects[result]->X;
-				gGameObjects[result]->StartY = gGameObjects[result]->Y;
+				getGameObject(result)->m_PosNum = -1;
+				getGameObject(result)->X = cSX;
+				getGameObject(result)->Y = cSY;
+				getGameObject(result)->MapNumber = lpObj.MapNumber;
+				getGameObject(result]->TX = getGameObject(result)->X;
+				getGameObject(result]->TY = getGameObject(result)->Y;
+				getGameObject(result]->m_OldX = getGameObject(result)->X;
+				getGameObject(result]->m_OldY = getGameObject(result)->Y;
+				getGameObject(result)->Dir = 1;
+				getGameObject(result]->StartX = getGameObject(result)->X;
+				getGameObject(result]->StartY = getGameObject(result)->Y;
 				gObjSetMonster(result, nMonsterIndex);
-				gGameObjects[result]->m_Attribute = 100;
-				gGameObjects[result]->MaxRegenTime = 0;
-				gGameObjects[result]->Dir = rand() % 8;
-				gGameObjects[result]->m_RecallMon = aIndex;
+				getGameObject(result)->m_Attribute = 100;
+				getGameObject(result)->MaxRegenTime = 0;
+				getGameObject(result)->Dir = rand() % 8;
+				getGameObject(result)->m_RecallMon = aIndex;
 				lpObj.m_nRecallMonIndex[iSC] = result;
 
 				if (lpm->m_PentagramMainAttribute == 6)
@@ -6999,34 +6999,34 @@ void CObjUseSkill::SkillSummonForLordSilvester(CGameObject &Obj, int iTargetInde
 					switch (rand() % 5)
 					{
 					case 0:
-						gGameObjects[result]->m_iPentagramMainAttribute = EL_FIRE;
+						getGameObject(result)->m_iPentagramMainAttribute = EL_FIRE;
 						break;
 					case 1:
-						gGameObjects[result]->m_iPentagramMainAttribute = EL_WATER;
+						getGameObject(result)->m_iPentagramMainAttribute = EL_WATER;
 						break;
 					case 2:
-						gGameObjects[result]->m_iPentagramMainAttribute = EL_EARTH;
+						getGameObject(result)->m_iPentagramMainAttribute = EL_EARTH;
 						break;
 					case 3:
-						gGameObjects[result]->m_iPentagramMainAttribute = EL_WIND;
+						getGameObject(result)->m_iPentagramMainAttribute = EL_WIND;
 						break;
 					case 4:
-						gGameObjects[result]->m_iPentagramMainAttribute = EL_DARKNESS;
+						getGameObject(result)->m_iPentagramMainAttribute = EL_DARKNESS;
 						break;
 					}
 				}
 
 				else if (lpm->m_PentagramMainAttribute > 0)
 				{
-					gGameObjects[result]->m_iPentagramMainAttribute = lpm->m_PentagramMainAttribute;
+					getGameObject(result)->m_iPentagramMainAttribute = lpm->m_PentagramMainAttribute;
 				}
 
-				gGameObjects[result]->m_iPentagramAttributePattern = lpm->m_PentagramAttributePattern;
-				gGameObjects[result]->m_iPentagramDefense = lpm->m_PentagramDefense;
-				gGameObjects[result]->m_iPentagramAttackMin = lpm->m_PentagramAttackMin;
-				gGameObjects[result]->m_iPentagramAttackMax = lpm->m_PentagramAttackMax;
-				gGameObjects[result]->m_iPentagramAttackRating = lpm->m_PentagramAttackRating;
-				gGameObjects[result]->m_iPentagramDefenseRating = lpm->m_PentagramDefenseRating;
+				getGameObject(result)->m_iPentagramAttributePattern = lpm->m_PentagramAttributePattern;
+				getGameObject(result)->m_iPentagramDefense = lpm->m_PentagramDefense;
+				getGameObject(result)->m_iPentagramAttackMin = lpm->m_PentagramAttackMin;
+				getGameObject(result)->m_iPentagramAttackMax = lpm->m_PentagramAttackMax;
+				getGameObject(result)->m_iPentagramAttackRating = lpm->m_PentagramAttackRating;
+				getGameObject(result)->m_iPentagramDefenseRating = lpm->m_PentagramDefenseRating;
 
 			}
 		}
@@ -7036,7 +7036,7 @@ void CObjUseSkill::SkillSummonForLordSilvester(CGameObject &Obj, int iTargetInde
 void CObjUseSkill::SkillSpinStep(CGameObject &Obj, int iTargetIndex, CMagicInf * lpMagic)
 {
 	
-	CGameObject lpTargetObj = &gGameObjects[iTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 
 	if (gObjIsConnected(lpObj.m_Index) == FALSE && gObjIsConnected(lpTargetObj.m_Index) == FALSE)
 	{
@@ -7063,7 +7063,7 @@ void CObjUseSkill::SkillSpinStep(CGameObject &Obj, int iTargetIndex, CMagicInf *
 			{
 				EnableAttack = 0;
 
-				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 				{
 					EnableAttack = 1;
 				}
@@ -7072,26 +7072,26 @@ void CObjUseSkill::SkillSpinStep(CGameObject &Obj, int iTargetIndex, CMagicInf *
 					EnableAttack = 1;
 				}
 
-				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && gGameObjects[tObjNum]->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
+				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && getGameObject(tObjNum)->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					EnableAttack = 1;
 				}
 
 				else
 				{
-					int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
 
-					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+					if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 					{
 						EnableAttack = 1;
 					}
 
-					if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = 1;
 					}
@@ -7099,9 +7099,9 @@ void CObjUseSkill::SkillSpinStep(CGameObject &Obj, int iTargetIndex, CMagicInf *
 
 				if (EnableAttack != 0)
 				{
-					if (gObjCalDistance(lpTargetObj, &gGameObjects[tObjNum]) <= MagicDamageC.GetSkillDistance(lpMagic->m_Skill)) // 2x2 around target
+					if (gObjCalDistance(lpTargetObj, &getGameObject(tObjNum)) <= MagicDamageC.GetSkillDistance(lpMagic->m_Skill)) // 2x2 around target
 					{
-						gObjAttack(lpObj, &gGameObjects[tObjNum], lpMagic, 1, 0, 0, 0, 0, 0);
+						gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 1, 0, 0, 0, 0, 0);
 					}
 				}
 			}
@@ -7124,7 +7124,7 @@ void CObjUseSkill::SkillGrowLancerAttackOneTarget(CGameObject &Obj, int aTargetI
 		return;
 	}
 
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 
 	BOOL EnableAttack = FALSE;
 	int count = 0;
@@ -7167,7 +7167,7 @@ void CObjUseSkill::SkillGrowLancerAttackOneTarget(CGameObject &Obj, int aTargetI
 		}
 	}
 
-	else if (lpTargetObj.Type == OBJ_MONSTER || gGameObjects[tObjNum]->m_RecallMon < 0)
+	else if (lpTargetObj.Type == OBJ_MONSTER || getGameObject(tObjNum)->m_RecallMon < 0)
 	{
 		EnableAttack = TRUE;
 	}
@@ -7177,16 +7177,16 @@ void CObjUseSkill::SkillGrowLancerAttackOneTarget(CGameObject &Obj, int aTargetI
 		EnableAttack = TRUE;
 	}
 
-	else if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+	else if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 	{
-		CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+		CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 
-		if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+		if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 		{
 			EnableAttack = TRUE;
 		}
 
-		if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+		if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 		{
 			EnableAttack = TRUE;
 		}
@@ -7205,20 +7205,20 @@ void CObjUseSkill::SkillGrowLancerAttackOneTarget(CGameObject &Obj, int aTargetI
 	}
 
 
-	if (EnableAttack == TRUE && this->CalDistance(gGameObjects[aTargetIndex]->X, gGameObjects[aTargetIndex]->Y, gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y) < nDistance)
+	if (EnableAttack == TRUE && this->CalDistance(getGameObject(aTargetIndex]->X, getGameObject(aTargetIndex]->Y, getGameObject(tObjNum)->X, getGameObject(tObjNum)->Y) < nDistance)
 	{
 		for (int i = 1; i < nHitCount; i++)
 		{
 			if ((i % (nHitCount - 1)) == 1)
-				gObjAttack(lpObj, &gGameObjects[tObjNum], lpMagic, 1, 1, 0, 0, i, 0);
+				gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 1, 1, 0, 0, i, 0);
 			else
-				gObjAttack(lpObj, &gGameObjects[tObjNum], lpMagic, 0, 1, 0, 0, i, 0);
+				gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 0, 1, 0, 0, i, 0);
 		}
 
 		if (lpMagic->m_Skill == 274 || lpMagic->m_Skill == 692 || lpMagic->m_Skill == 694 || lpMagic->m_Skill == 695)
 		{
 			CMagicInf * MagicPinExp = &DefMagicInf[AT_SKILL_MAGIC_PIN_EXPLOSION];
-			gObjAttack(lpObj, &gGameObjects[tObjNum], MagicPinExp, 1, 0, 0, 0, 0, 0);
+			gObjAttack(lpObj, &getGameObject(tObjNum), MagicPinExp, 1, 0, 0, 0, 0, 0);
 		}
 
 	}
@@ -7233,7 +7233,7 @@ int CObjUseSkill::SkillBreche(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, BYT
 	int bAttack;
 	int DuelIndex = lpObj.m_iDuelUser;
 	int EnableAttack;
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 
 	while (true)
 	{
@@ -7245,7 +7245,7 @@ int CObjUseSkill::SkillBreche(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, BYT
 			{
 				EnableAttack = 0;
 
-				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 				{
 					EnableAttack = 1;
 				}
@@ -7255,33 +7255,33 @@ int CObjUseSkill::SkillBreche(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, BYT
 					EnableAttack = 1;
 				}
 
-				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && gGameObjects[tObjNum]->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
+				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && getGameObject(tObjNum)->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					EnableAttack = 1;
 				}
 
 				else
 				{
-					int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
 
-					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+					if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 					{
 						EnableAttack = 1;
 					}
 
-					if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = 1;
 					}
 				}
 				if (EnableAttack != 0)
 				{
-					if (this->CalDistance(x, y, gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y) < MagicDamageC.GetSkillDistance(lpMagic->m_Skill))
+					if (this->CalDistance(x, y, getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y) < MagicDamageC.GetSkillDistance(lpMagic->m_Skill))
 					{
 						bAttack = 0;
 
@@ -7298,7 +7298,7 @@ int CObjUseSkill::SkillBreche(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, BYT
 
 						if (bAttack != 0)
 						{
-							gObjAttack(lpObj, &gGameObjects[tObjNum], lpMagic, 1, 1, 0, 0, 0, 0);
+							gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 1, 1, 0, 0, 0, 0);
 						}
 					}
 				}
@@ -7323,7 +7323,7 @@ int CObjUseSkill::SkillShiningPeak(CGameObject &Obj, CMagicInf * lpMagic, int aT
 		return FALSE;
 	}
 
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 
 	BOOL EnableAttack = FALSE;
 	int count = 0;
@@ -7366,7 +7366,7 @@ int CObjUseSkill::SkillShiningPeak(CGameObject &Obj, CMagicInf * lpMagic, int aT
 		}
 	}
 
-	else if (lpTargetObj.Type == OBJ_MONSTER || gGameObjects[tObjNum]->m_RecallMon < 0)
+	else if (lpTargetObj.Type == OBJ_MONSTER || getGameObject(tObjNum)->m_RecallMon < 0)
 	{
 		EnableAttack = TRUE;
 	}
@@ -7376,16 +7376,16 @@ int CObjUseSkill::SkillShiningPeak(CGameObject &Obj, CMagicInf * lpMagic, int aT
 		EnableAttack = TRUE;
 	}
 
-	else if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+	else if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 	{
-		CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+		CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 
-		if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+		if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 		{
 			EnableAttack = TRUE;
 		}
 
-		if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+		if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 		{
 			EnableAttack = TRUE;
 		}
@@ -7394,16 +7394,16 @@ int CObjUseSkill::SkillShiningPeak(CGameObject &Obj, CMagicInf * lpMagic, int aT
 	int nHitCount = 4;
 	BYTE byPentagramAttack = TRUE;
 
-	if (EnableAttack == TRUE && this->CalDistance(gGameObjects[aTargetIndex]->X, gGameObjects[aTargetIndex]->Y, gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y) < nDistance)
+	if (EnableAttack == TRUE && this->CalDistance(getGameObject(aTargetIndex]->X, getGameObject(aTargetIndex]->Y, getGameObject(tObjNum)->X, getGameObject(tObjNum)->Y) < nDistance)
 	{
 		int nHitCount = 4;
 
 		for (int i = 1; i < nHitCount; i++, byPentagramAttack = FALSE)
 		{
 			if ((i % (nHitCount - 1)) == 1)
-				gObjAttack(lpObj, &gGameObjects[tObjNum], lpMagic, 1, 1, 0, 0, i, 0, byPentagramAttack);
+				gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 1, 1, 0, 0, i, 0, byPentagramAttack);
 			else
-				gObjAttack(lpObj, &gGameObjects[tObjNum], lpMagic, 0, 1, 0, 0, i, 0, byPentagramAttack);
+				gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 0, 1, 0, 0, i, 0, byPentagramAttack);
 		}
 	}
 }
@@ -7497,7 +7497,7 @@ int CObjUseSkill::SkillBuffPartyGrowLancer(CGameObject &Obj, CMagicInf * lpMagic
 
 			if (index >= 0 && index < g_ConfigRead.server.GetObjectMax())
 			{
-				CGameObject lpPartyObj = &gGameObjects[index];
+				CGameObject lpPartyObj = &getGameObject(index);
 
 				if (lpPartyObj.MapNumber == lpObj.MapNumber)
 				{
@@ -7530,7 +7530,7 @@ int CObjUseSkill::SkillBuffPartyGrowLancer(CGameObject &Obj, CMagicInf * lpMagic
 		{
 			if (partyindex[j] != -1)
 			{
-				CGameObject lpPartyObj = &gGameObjects[partyindex[j]];
+				CGameObject lpPartyObj = &getGameObject(partyindex[j]);
 
 				gObjAddBuffEffect(lpPartyObj, BuffIndex, EFFECTTYPE_IMPROVE_DAMAGE, skill_improve, 0, 0, skill_time);
 				gGameProtocol.GCMagicAttackNumberSend(lpPartyObj, lpMagic->m_Skill, partyindex[j], TRUE);
@@ -7549,7 +7549,7 @@ void CObjUseSkill::SkillWindSoul(CGameObject lpObj, CMagicInf * lpMagic, int aTa
 	}
 
 	gGameProtocol.GCMagicAttackNumberSend(lpObj, AT_SKILL_WINDSOUL, aTargetIndex, 1);
-	gObjAttack(lpObj, &gGameObjects[aTargetIndex], lpMagic, TRUE, 0, 0, 0, 0, 0);
+	gObjAttack(lpObj, &getGameObject(aTargetIndex), lpMagic, TRUE, 0, 0, 0, 0, 0);
 }
 
 void CObjUseSkill::SkillIceBlood(CGameObject lpObj, CMagicInf * lpMagic, int aTargetIndex)
@@ -7560,7 +7560,7 @@ void CObjUseSkill::SkillIceBlood(CGameObject lpObj, CMagicInf * lpMagic, int aTa
 	}
 
 	gGameProtocol.GCMagicAttackNumberSend(lpObj, AT_SKILL_ICE_BLOOD, aTargetIndex, 1);
-	gObjAttack(lpObj, &gGameObjects[aTargetIndex], lpMagic, TRUE, 0, 0, 0, 0, 0);
+	gObjAttack(lpObj, &getGameObject(aTargetIndex), lpMagic, TRUE, 0, 0, 0, 0, 0);
 }
 
 void CObjUseSkill::SkillDarkBlast(CGameObject lpObj, CMagicInf * lpMagic, int aTargetIndex)
@@ -7571,7 +7571,7 @@ void CObjUseSkill::SkillDarkBlast(CGameObject lpObj, CMagicInf * lpMagic, int aT
 	}
 
 	gGameProtocol.GCMagicAttackNumberSend(lpObj, AT_SKILL_DARKBLAST, aTargetIndex, 1);
-	gObjAttack(lpObj, &gGameObjects[aTargetIndex], lpMagic, TRUE, 0, 0, 0, 0, 0);
+	gObjAttack(lpObj, &getGameObject(aTargetIndex), lpMagic, TRUE, 0, 0, 0, 0, 0);
 }
 
 void CObjUseSkill::SkillFireBlood(CGameObject lpObj, CMagicInf * lpMagic, int aTargetIndex)
@@ -7582,7 +7582,7 @@ void CObjUseSkill::SkillFireBlood(CGameObject lpObj, CMagicInf * lpMagic, int aT
 	}
 
 	gGameProtocol.GCMagicAttackNumberSend(lpObj, AT_SKILL_FIRE_BLOOD, aTargetIndex, 1);
-	gObjAttack(lpObj, &gGameObjects[aTargetIndex], lpMagic, TRUE, 0, 0, 0, 0, 0);
+	gObjAttack(lpObj, &getGameObject(aTargetIndex), lpMagic, TRUE, 0, 0, 0, 0, 0);
 }
 
 int CObjUseSkill::SkillFireBeast(CGameObject &Obj, int aTargetIndex, CMagicInf *lpMagic)
@@ -7594,7 +7594,7 @@ int CObjUseSkill::SkillFireBeast(CGameObject &Obj, int aTargetIndex, CMagicInf *
 	int loopcount = 0;
 
 	gGameProtocol.GCMagicAttackNumberSend(lpObj, AT_SKILL_FIRE_BIRD, aTargetIndex, 1);
-	gObjAttack(lpObj, &gGameObjects[aTargetIndex], lpMagic, 0, 1, 0, 0, 0, 0);
+	gObjAttack(lpObj, &getGameObject(aTargetIndex), lpMagic, 0, 1, 0, 0, 0, 0);
 
 	int attackcheck;
 	int DuelIndex = lpObj.m_iDuelUser;
@@ -7611,7 +7611,7 @@ int CObjUseSkill::SkillFireBeast(CGameObject &Obj, int aTargetIndex, CMagicInf *
 			{
 				EnableAttack = 0;
 
-				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 				{
 					EnableAttack = 1;
 				}
@@ -7621,19 +7621,19 @@ int CObjUseSkill::SkillFireBeast(CGameObject &Obj, int aTargetIndex, CMagicInf *
 				}
 				else
 				{
-					int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
 
-					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+					if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 					{
 						EnableAttack = 1;
 					}
 
-					if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = 1;
 					}
@@ -7659,7 +7659,7 @@ int CObjUseSkill::SkillIceBeast(CGameObject &Obj, int aTargetIndex, CMagicInf *l
 	int loopcount = 0;
 
 	gGameProtocol.GCMagicAttackNumberSend(lpObj, AT_SKILL_ICE_BLOOD, aTargetIndex, 1);
-	gObjAttack(lpObj, &gGameObjects[aTargetIndex], lpMagic, 0, 1, 0, 0, 0, 0);
+	gObjAttack(lpObj, &getGameObject(aTargetIndex), lpMagic, 0, 1, 0, 0, 0, 0);
 
 	int attackcheck;
 	int DuelIndex = lpObj.m_iDuelUser;
@@ -7676,7 +7676,7 @@ int CObjUseSkill::SkillIceBeast(CGameObject &Obj, int aTargetIndex, CMagicInf *l
 			{
 				EnableAttack = 0;
 
-				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 				{
 					EnableAttack = 1;
 				}
@@ -7686,19 +7686,19 @@ int CObjUseSkill::SkillIceBeast(CGameObject &Obj, int aTargetIndex, CMagicInf *l
 				}
 				else
 				{
-					int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
 
-					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+					if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 					{
 						EnableAttack = 1;
 					}
 
-					if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = 1;
 					}
@@ -7724,7 +7724,7 @@ int CObjUseSkill::SkillMeteorStorm(CGameObject &Obj, CMagicInf* lpMagic, BYTE x,
 	int bAttack;
 	int DuelIndex = lpObj.m_iDuelUser;
 	int EnableAttack;
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 
 	while (true)
 	{
@@ -7736,7 +7736,7 @@ int CObjUseSkill::SkillMeteorStorm(CGameObject &Obj, CMagicInf* lpMagic, BYTE x,
 			{
 				EnableAttack = 0;
 
-				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon < 0)
+				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 				{
 					EnableAttack = 1;
 				}
@@ -7746,33 +7746,33 @@ int CObjUseSkill::SkillMeteorStorm(CGameObject &Obj, CMagicInf* lpMagic, BYTE x,
 					EnableAttack = 1;
 				}
 
-				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && gGameObjects[tObjNum]->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
+				else if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE && lpObj.VpPlayer2[count].type != OBJ_NPC && getGameObject(tObjNum)->MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					EnableAttack = 1;
 				}
 
 				else
 				{
-					int CallMonIndex = gGameObjects[tObjNum]->m_Index;
+					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0)
+					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
-						CallMonIndex = gGameObjects[gGameObjects[tObjNum]->m_RecallMon]->m_Index;
+						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
 
-					if (gObjTargetGuildWarCheck(lpObj, &gGameObjects[CallMonIndex]) == 1)
+					if (gObjTargetGuildWarCheck(lpObj, &getGameObject(CallMonIndex)) == 1)
 					{
 						EnableAttack = 1;
 					}
 
-					if (gGameObjects[tObjNum]->Class >= 678 && gGameObjects[tObjNum]->Class <= 680)
+					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = 1;
 					}
 				}
 				if (EnableAttack != 0)
 				{
-					if (this->CalDistance(x, y, gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y) < MagicDamageC.GetSkillDistance(lpMagic->m_Skill))
+					if (this->CalDistance(x, y, getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y) < MagicDamageC.GetSkillDistance(lpMagic->m_Skill))
 					{
 						bAttack = 0;
 
@@ -7789,7 +7789,7 @@ int CObjUseSkill::SkillMeteorStorm(CGameObject &Obj, CMagicInf* lpMagic, BYTE x,
 
 						if (bAttack != 0)
 						{
-							gObjAttack(lpObj, &gGameObjects[tObjNum], lpMagic, 1, 1, 0, 0, 0, 0);
+							gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 1, 1, 0, 0, 0, 0);
 						}
 					}
 				}
@@ -7813,7 +7813,7 @@ void CObjUseSkill::SkillSoulSeker(CGameObject lpObj, CMagicInf * lpMagic, int aT
 	}
 
 	gGameProtocol.GCMagicAttackNumberSend(lpObj, AT_SKILL_SOUL_SAKER, aTargetIndex, 1);
-	gObjAttack(lpObj, &gGameObjects[aTargetIndex], lpMagic, TRUE, 0, 0, 0, 0, 0);
+	gObjAttack(lpObj, &getGameObject(aTargetIndex), lpMagic, TRUE, 0, 0, 0, 0, 0);
 }
 
 int CObjUseSkill::SkillArchangelWillBuff(CGameObject &Obj, CMagicInf * lpMagic)

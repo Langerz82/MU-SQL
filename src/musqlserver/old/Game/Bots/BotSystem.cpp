@@ -238,7 +238,7 @@ int CBotSystem::AddBot(_sBOT_SETTINGS pBot)
 {
 //--- declare
 	CGameObject &Obj = gObjAddMonster(pBot.btMap);
-	CGameObject lpBotObj = &gGameObjects[aIndex];
+	CGameObject lpBotObj = &getGameObject(aIndex);
 //--- valide
 	if(aIndex == -1)
 	{
@@ -608,17 +608,17 @@ void CBotSystem::BuffPlayer(WORD  wBufferindex,short aIndex)
 	if(lpObj.Type != OBJ_USER)
 		return;
 	_sBOT_SETTINGS *lpBot = &this->m_BotData[wBufferindex];
-	CGameObject gBotObj = &gGameObjects[lpBot->aIndex];
+	CGameObject gBotObj = &getGameObject(lpBot->aIndex);
 	if(lpObj.m_PlayerData->Money < lpBot->iCoinValue)
 	{
-		gGameProtocol.ChatTargetSend(&gGameObjects[lpBot->aIndex], Lang.GetText(0,364),aIndex);
+		gGameProtocol.ChatTargetSend(&getGameObject(lpBot->aIndex), Lang.GetText(0,364),aIndex);
 		MsgOutput(aIndex, Lang.GetText(0,365), lpBot->iCoinValue);
 		return;
 	}
 
 	if(lpObj.m_PlayerData->VipType == 0 && lpBot->btVipType > 0)
 	{
-		gGameProtocol.ChatTargetSend(&gGameObjects[lpBot->aIndex], Lang.GetText(0,366), aIndex);
+		gGameProtocol.ChatTargetSend(&getGameObject(lpBot->aIndex), Lang.GetText(0,366), aIndex);
 		return;
 	}
 
@@ -627,7 +627,7 @@ void CBotSystem::BuffPlayer(WORD  wBufferindex,short aIndex)
 		char szTemp[256];
 		sprintf(szTemp, Lang.GetText(0,636), g_VipSystem.GetVipName(lpBot->btVipType));
 
-		gGameProtocol.ChatTargetSend(&gGameObjects[lpBot->aIndex], szTemp, aIndex);
+		gGameProtocol.ChatTargetSend(&getGameObject(lpBot->aIndex), szTemp, aIndex);
 		return;
 	}
 
@@ -643,7 +643,7 @@ void CBotSystem::BuffPlayer(WORD  wBufferindex,short aIndex)
 				lpObj.BuffId = i;
 				gObjUseSkill.RunningSkill(lpBot->aIndex,aIndex,lpMagic,0);
 			}*/
-			gObjAddBuffEffect(&gGameObjects[aIndex], gBotObj.m_BotBuffs[i]->wBuffId, gBotObj.m_BotBuffs[i]->wEffectType, gBotObj.m_BotBuffs[i]->iEffect, 0, 0, gBotObj.m_BotBuffs[i]->wDuration);
+			gObjAddBuffEffect(&getGameObject(aIndex], gBotObj.m_BotBuffs[i]->wBuffId, gBotObj.m_BotBuffs[i]->wEffectType, gBotObj.m_BotBuffs[i]->iEffect, 0, 0, gBotObj.m_BotBuffs[i)->wDuration);
 		}
 	}
 	gGameProtocol.ChatTargetSend(gBotObj, Lang.GetText(0,367), aIndex);
@@ -677,7 +677,7 @@ int CBotSystem::GetSkillTime(CGameObject &Obj, WORD wSkill)
 sBOT_REWARD_STRUCT CBotSystem::ConfirmMixSuccess(CGameObject &Obj, int botIndex)
 {
 	
-	CGameObject lpBotObj = &gGameObjects[botIndex];
+	CGameObject lpBotObj = &getGameObject(botIndex);
 	sBOT_REWARD_STRUCT m_MixResult;
 	int iMixNeedCount = 0;
 	int foundItems = 0;
@@ -731,7 +731,7 @@ bool CBotSystem::AlchemistVerifyItem(s_BOT_CRAFTING_ITEM_STRUCT lpReqItem, CItem
 bool CBotSystem::CheckAlchemist(CGameObject &Obj, int botIndex)
 {
 	
-	CGameObject lpBotObj = &gGameObjects[botIndex];
+	CGameObject lpBotObj = &getGameObject(botIndex);
 
 	CItemObject rewardItem;
 	int iMixNeedCount = 0;
@@ -795,12 +795,12 @@ int CBotSystem::AlchemistTradeItemCount(CGameObject &Obj)
 
 void CBotSystem::AlchemistTradeOk(CGameObject &Obj, int botIndex)
 {
-	CGameObject* lpBot = gGameObjects[botIndex];
+	CGameObject* lpBot = getGameObject(botIndex);
 
 	if(!&lpObj || !&lpBot)
 		return;
 
-	sBOT_REWARD_STRUCT reward = ConfirmMixSuccess(lpObj, gGameObjects[botIndex]->m_PlayerData->wBotIndex);
+	sBOT_REWARD_STRUCT reward = ConfirmMixSuccess(lpObj, getGameObject(botIndex)->m_PlayerData->wBotIndex);
 	if(reward.m_Reward.m_Type > 0)
 	{
 		int iEmptyCount = CheckInventoryEmptySpaceCount(lpObj, ItemAttribute[reward.m_Reward.m_Type]->Width, ItemAttribute[reward.m_Reward.m_Type]->Height);
@@ -840,7 +840,7 @@ void CBotSystem::AlchemistTradeOk(CGameObject &Obj, int botIndex)
 void CBotSystem::AlchemistTradeOpen(CGameObject &Obj, int botIndex)
 {
 	
-	CGameObject* lpBot = gGameObjects[botIndex];
+	CGameObject* lpBot = getGameObject(botIndex);
 
 	lpObj.m_IfState.use = 1;
 	lpObj.m_IfState.state = 0;
@@ -860,7 +860,7 @@ bool CBotSystem::StoreAddItems(int botIndex)
 	CGameObject &Obj = this->m_BotData[botIndex].aIndex;
 	for(int i=0;i<this->m_BotData[botIndex].m_Shop.iItemCount;i++)
 	{
-		BYTE blank = this->PShopCheckSpace(&gGameObjects[aIndex],this->m_BotData[botIndex]->m_Shop.pItems[i]->wItemId,&lpObj.pInventoryMap[PSHOP_START_RANGE]);
+		BYTE blank = this->PShopCheckSpace(&getGameObject(aIndex],this->m_BotData[botIndex]->m_Shop.pItems[i]->wItemId,&lpObj.pInventoryMap[PSHOP_START_RANGE));
 		
 		if(blank != 255)
 		{

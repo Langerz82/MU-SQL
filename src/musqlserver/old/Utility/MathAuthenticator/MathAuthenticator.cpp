@@ -31,14 +31,14 @@ void MathAuthenticator::Update()
 
 	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
-		if (gGameObjects[i]->Connected == PLAYER_PLAYING && gGameObjects[i]->Type == OBJ_USER && gGameObjects[i]->m_PlayerData->ISBOT == false)
+		if (getGameObject(i]->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER && getGameObject(i)->m_PlayerData->ISBOT == false)
 		{
-			gGameObjects[i]->m_PlayerData->MathAuthenElapsed += elapsed;
+			getGameObject(i)->m_PlayerData->MathAuthenElapsed += elapsed;
 
-			if (gGameObjects[i]->m_PlayerData->MathAuthenElapsed > 5000)
+			if (getGameObject(i)->m_PlayerData->MathAuthenElapsed > 5000)
 			{
 				this->authen(i);
-				gGameObjects[i]->m_PlayerData->MathAuthenElapsed = 0;
+				getGameObject(i)->m_PlayerData->MathAuthenElapsed = 0;
 			}
 		}
 	}

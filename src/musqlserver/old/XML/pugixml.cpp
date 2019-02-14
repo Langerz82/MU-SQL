@@ -6348,7 +6348,7 @@ PUGI__NS_BEGIN
 				assert(result);
 
 				// append first string to the new buffer in case there was no reallocation
-				if (!_uses_heap) memcpy(result, _buffer, target_length * sizeof(char_t));
+				if (!_uses_heap) std::memcpy(result, _buffer, target_length * sizeof(char_t));
 
 				// append second string to the new buffer
 				memcpy(result + target_length, o._buffer, source_length * sizeof(char_t));

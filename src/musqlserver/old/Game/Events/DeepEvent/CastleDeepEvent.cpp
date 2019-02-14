@@ -483,27 +483,27 @@ void CCastleDeepEvent::AddMonster(int iAssultType,int iGroup)
 
 				if(result >= 0)
 				{
-					gGameObjects[result]->m_PosNum = -1;
-					gGameObjects[result]->X = cSX;
-					gGameObjects[result]->Y = cSY;
-					gGameObjects[result]->MapNumber = MAP_INDEX_CASTLESIEGE;
-					gGameObjects[result]->TX = gGameObjects[result]->X;
-					gGameObjects[result]->TY = gGameObjects[result]->Y;
-					gGameObjects[result]->m_OldX = gGameObjects[result]->X;
-					gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
-					gGameObjects[result]->Dir = 1;
-					gGameObjects[result]->StartX = gGameObjects[result]->X;
-					gGameObjects[result]->StartY = gGameObjects[result]->Y;
+					getGameObject(result)->m_PosNum = -1;
+					getGameObject(result)->X = cSX;
+					getGameObject(result)->Y = cSY;
+					getGameObject(result)->MapNumber = MAP_INDEX_CASTLESIEGE;
+					getGameObject(result]->TX = getGameObject(result)->X;
+					getGameObject(result]->TY = getGameObject(result)->Y;
+					getGameObject(result]->m_OldX = getGameObject(result)->X;
+					getGameObject(result]->m_OldY = getGameObject(result)->Y;
+					getGameObject(result)->Dir = 1;
+					getGameObject(result]->StartX = getGameObject(result)->X;
+					getGameObject(result]->StartY = getGameObject(result)->Y;
 
 					gObjSetMonster(result, stMonsterInfo->m_iMonsterType);
 
-					gGameObjects[result]->m_Attribute = 62;
-					gGameObjects[result]->MaxRegenTime = 0;
-					gGameObjects[result]->Dir = rand()%8;
-					gGameObjects[result]->DieRegen = 0;
-					gGameObjects[result]->RegenTime = 1;
-					gGameObjects[result]->MaxRegenTime = 1000;
-					gGameObjects[result]->m_dwLastCheckTick = GetTickCount();
+					getGameObject(result)->m_Attribute = 62;
+					getGameObject(result)->MaxRegenTime = 0;
+					getGameObject(result)->Dir = rand()%8;
+					getGameObject(result)->DieRegen = 0;
+					getGameObject(result)->RegenTime = 1;
+					getGameObject(result)->MaxRegenTime = 1000;
+					getGameObject(result)->m_dwLastCheckTick = GetTickCount();
 				}
 			}
 		}

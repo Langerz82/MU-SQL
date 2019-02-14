@@ -82,9 +82,9 @@ int cAntiFlood::GetIPCount(char * IP)
 
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		if (gGameObjects[n]->Connected >= PLAYER_CONNECTED)
+		if (getGameObject(n)->Connected >= PLAYER_CONNECTED)
 		{
-			if (strcmp(&gGameObjects[n]->m_PlayerData->Ip_addr[0], IP) == 0)
+			if (strcmp(&getGameObject(n]->m_PlayerData->Ip_addr[0), IP) == 0)
 			{
 				Count++;
 			}
@@ -97,9 +97,9 @@ void cAntiFlood::AutoClose(char * IP)
 {
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		if (gGameObjects[n]->Connected >= PLAYER_CONNECTED)
+		if (getGameObject(n)->Connected >= PLAYER_CONNECTED)
 		{
-			if (strcmp(&gGameObjects[n]->m_PlayerData->Ip_addr[0], IP) == 0)
+			if (strcmp(&getGameObject(n]->m_PlayerData->Ip_addr[0), IP) == 0)
 			{
 				if (this->IsDebugEnabled == 1)
 				{

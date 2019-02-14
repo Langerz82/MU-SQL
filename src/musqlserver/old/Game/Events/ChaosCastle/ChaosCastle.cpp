@@ -392,17 +392,17 @@ void CChaosCastle::ProcState_Closed(int iChaosCastleIndex)
 
 					for (int i= g_ConfigRead.server.GetObjectStartUserIndex();i<g_ConfigRead.server.GetObjectMax();i++)
 					{
-						if ( gGameObjects[i]->Connected == PLAYER_PLAYING && gGameObjects[i]->Type == OBJ_USER)
+						if ( getGameObject(i]->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
 						{
-							if ( CC_MAP_RANGE(gGameObjects[i]->MapNumber) == FALSE )
+							if ( CC_MAP_RANGE(getGameObject(i)->MapNumber) == FALSE )
 							{
-								if ( BC_MAP_RANGE(gGameObjects[i]->MapNumber) == FALSE )
+								if ( BC_MAP_RANGE(getGameObject(i)->MapNumber) == FALSE )
 								{
-									if ( IT_MAP_RANGE(gGameObjects[i]->MapNumber) == FALSE )
+									if ( IT_MAP_RANGE(getGameObject(i)->MapNumber) == FALSE )
 									{
-										if ( DG_MAP_RANGE(gGameObjects[i]->MapNumber) == FALSE )
+										if ( DG_MAP_RANGE(getGameObject(i)->MapNumber) == FALSE )
 										{
-											if ( IMPERIAL_MAP_RANGE(gGameObjects[i]->MapNumber) == FALSE )
+											if ( IMPERIAL_MAP_RANGE(getGameObject(i)->MapNumber) == FALSE )
 											{
 												IOCP.DataSend(i, (UCHAR*)&pMsg, pMsg.h.size);
 											}
@@ -532,9 +532,9 @@ void CChaosCastle::ProcState_Playing(int iChaosCastleIndex)
 					if ( iWinnerIndex != -1 )
 					{
 						//sLog->outBasic("[Chaos Castle] (%d) [%s][%s] is Winner. [CharInfoSave : Class=%d, Level=%d, LvPoint=%d, Exp=%d, Str=%d, Dex=%d, Vit=%d, Energy=%d, LeaderShip=%d, Map=%d, Pk=%d]",
-						//	iChaosCastleIndex+1, gGameObjects[iWinnerIndex]->AccountID, gGameObjects[iWinnerIndex]->Name,	gGameObjects[iWinnerIndex]->Class, gGameObjects[iWinnerIndex]->Level, gGameObjects[iWinnerIndex]->m_PlayerData->LevelUpPoint,
-						//	gGameObjects[iWinnerIndex]->m_PlayerData->Experience, gGameObjects[iWinnerIndex]->m_PlayerData->Strength,	gGameObjects[iWinnerIndex]->m_PlayerData->Dexterity, gGameObjects[iWinnerIndex]->m_PlayerData->Vitality, gGameObjects[iWinnerIndex]->m_PlayerData->Energy,
-						//	gGameObjects[iWinnerIndex]->Leadership, gGameObjects[iWinnerIndex]->MapNumber, gGameObjects[iWinnerIndex]->m_PK_Level);
+						//	iChaosCastleIndex+1, getGameObject(iWinnerIndex]->AccountID, getGameObject(iWinnerIndex]->Name,	getGameObject(iWinnerIndex)->Class, getGameObject(iWinnerIndex)->Level, getGameObject(iWinnerIndex)->m_PlayerData->LevelUpPoint,
+						//	getGameObject(iWinnerIndex]->m_PlayerData->Experience, getGameObject(iWinnerIndex]->m_PlayerData->Strength,	getGameObject(iWinnerIndex)->m_PlayerData->Dexterity, getGameObject(iWinnerIndex)->m_PlayerData->Vitality, getGameObject(iWinnerIndex)->m_PlayerData->Energy,
+						//	getGameObject(iWinnerIndex]->Leadership, getGameObject(iWinnerIndex)->MapNumber, getGameObject(iWinnerIndex)->m_PK_Level);
 
 						this->SendWinMessage(iChaosCastleIndex, iWinnerIndex);
 						this->GiveWinnerItem(iChaosCastleIndex, iWinnerIndex);
@@ -567,9 +567,9 @@ void CChaosCastle::ProcState_Playing(int iChaosCastleIndex)
 					if ( iWinnerIndex != -1 )
 					{
 						//sLog->outBasic("[Chaos Castle] (%d) [%s][%s] is Winner. [CharInfoSave : Class=%d, Level=%d, LvPoint=%d, Exp=%d, Str=%d, Dex=%d, Vit=%d, Energy=%d, LeaderShip=%d, Map=%d, Pk=%d]",
-						//	iChaosCastleIndex+1, gGameObjects[iWinnerIndex]->AccountID, gGameObjects[iWinnerIndex]->Name,gGameObjects[iWinnerIndex]->Class, gGameObjects[iWinnerIndex]->Level, gGameObjects[iWinnerIndex]->m_PlayerData->LevelUpPoint,
-						//	gGameObjects[iWinnerIndex]->m_PlayerData->Experience, gGameObjects[iWinnerIndex]->m_PlayerData->Strength,	gGameObjects[iWinnerIndex]->m_PlayerData->Dexterity, gGameObjects[iWinnerIndex]->m_PlayerData->Vitality, gGameObjects[iWinnerIndex]->m_PlayerData->Energy,
-						//	gGameObjects[iWinnerIndex]->Leadership, gGameObjects[iWinnerIndex]->MapNumber, gGameObjects[iWinnerIndex]->m_PK_Level);
+						//	iChaosCastleIndex+1, getGameObject(iWinnerIndex]->AccountID, getGameObject(iWinnerIndex]->Name,getGameObject(iWinnerIndex)->Class, getGameObject(iWinnerIndex)->Level, getGameObject(iWinnerIndex)->m_PlayerData->LevelUpPoint,
+						//	getGameObject(iWinnerIndex]->m_PlayerData->Experience, getGameObject(iWinnerIndex]->m_PlayerData->Strength,	getGameObject(iWinnerIndex)->m_PlayerData->Dexterity, getGameObject(iWinnerIndex)->m_PlayerData->Vitality, getGameObject(iWinnerIndex)->m_PlayerData->Energy,
+						//	getGameObject(iWinnerIndex]->Leadership, getGameObject(iWinnerIndex)->MapNumber, getGameObject(iWinnerIndex)->m_PK_Level);
 
 						this->SendWinMessage(iChaosCastleIndex, iWinnerIndex);
 						this->GiveWinnerItem(iChaosCastleIndex, iWinnerIndex);
@@ -611,9 +611,9 @@ void CChaosCastle::ProcState_Playing(int iChaosCastleIndex)
 			if ( iWinnerIndex != -1 )
 			{
 				//sLog->outBasic("[Chaos Castle] (%d) [%s][%s] is Winner. [CharInfoSave : Class=%d, Level=%d, LvPoint=%d, Exp=%d, Str=%d, Dex=%d, Vit=%d, Energy=%d, LeaderShip=%d, Map=%d, Pk=%d]",
-				//	iChaosCastleIndex+1, gGameObjects[iWinnerIndex]->AccountID, gGameObjects[iWinnerIndex]->Name,	gGameObjects[iWinnerIndex]->Class, gGameObjects[iWinnerIndex]->Level, gGameObjects[iWinnerIndex]->m_PlayerData->LevelUpPoint,
-				//	gGameObjects[iWinnerIndex]->m_PlayerData->Experience, gGameObjects[iWinnerIndex]->m_PlayerData->Strength,	gGameObjects[iWinnerIndex]->m_PlayerData->Dexterity, gGameObjects[iWinnerIndex]->m_PlayerData->Vitality, gGameObjects[iWinnerIndex]->m_PlayerData->Energy,
-				//	gGameObjects[iWinnerIndex]->Leadership, gGameObjects[iWinnerIndex]->MapNumber, gGameObjects[iWinnerIndex]->m_PK_Level);
+				//	iChaosCastleIndex+1, getGameObject(iWinnerIndex]->AccountID, getGameObject(iWinnerIndex]->Name,	getGameObject(iWinnerIndex)->Class, getGameObject(iWinnerIndex)->Level, getGameObject(iWinnerIndex)->m_PlayerData->LevelUpPoint,
+				//	getGameObject(iWinnerIndex]->m_PlayerData->Experience, getGameObject(iWinnerIndex]->m_PlayerData->Strength,	getGameObject(iWinnerIndex)->m_PlayerData->Dexterity, getGameObject(iWinnerIndex)->m_PlayerData->Vitality, getGameObject(iWinnerIndex)->m_PlayerData->Energy,
+				//	getGameObject(iWinnerIndex]->Leadership, getGameObject(iWinnerIndex)->MapNumber, getGameObject(iWinnerIndex)->m_PK_Level);
 
 				this->SendWinMessage(iChaosCastleIndex, iWinnerIndex);
 				this->GiveWinnerItem(iChaosCastleIndex, iWinnerIndex);
@@ -642,13 +642,13 @@ void CChaosCastle::ProcState_Playing(int iChaosCastleIndex)
 						continue;
 					}
 
-					if(gGameObjects[CC_MONSTER_COUNT]->Life > 0.0f)
+					if(getGameObject(CC_MONSTER_COUNT)->Life > 0.0f)
 					{
-						if(CC_MAP_RANGE(gGameObjects[CC_MONSTER_COUNT]->MapNumber) != FALSE)
+						if(CC_MAP_RANGE(getGameObject(CC_MONSTER_COUNT)->MapNumber) != FALSE)
 						{
-							if(gGameObjects[CC_MONSTER_COUNT]->Connected > 0)
+							if(getGameObject(CC_MONSTER_COUNT)->Connected > 0)
 							{
-								//sLog->outBasic("[Chaos Castle][Bug Tracer] (%d) Left Monster AttrInfo %d/%d", iChaosCastleIndex+1, gGameObjects[CC_MONSTER_COUNT]->X, gGameObjects[CC_MONSTER_COUNT]->Y);
+								//sLog->outBasic("[Chaos Castle][Bug Tracer] (%d) Left Monster AttrInfo %d/%d", iChaosCastleIndex+1, getGameObject(CC_MONSTER_COUNT]->X, getGameObject(CC_MONSTER_COUNT)->Y);
 							}
 						}
 					}
@@ -712,10 +712,10 @@ void CChaosCastle::PullObjInnerPlace(int iChaosCastleIndex, int iTRAP_STEP)
 	{
 		if ( this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex != -1 )
 		{
-			if ( gObjIsConnected(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex) ==TRUE && gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->MapNumber == (this->GetChaosCastleMapNumber(iChaosCastleIndex)) )
+			if ( gObjIsConnected(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex) ==TRUE && getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->MapNumber == (this->GetChaosCastleMapNumber(iChaosCastleIndex)) )
 			{
-				int iSX = gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->X;
-				int iSY = gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->Y;
+				int iSX = getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->X;
+				int iSY = getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->Y;
 
 				int iMapNumber = this->GetChaosCastleMapNumber(iChaosCastleIndex);
 
@@ -744,7 +744,7 @@ void CChaosCastle::PullObjInnerPlace(int iChaosCastleIndex, int iTRAP_STEP)
 
 						if ( this->ObjSetPosition(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex, ptEMPTY.x, ptEMPTY.y) == TRUE )
 						{
-							gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_iChaosCastleBlowTime = GetTickCount();
+							getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->m_iChaosCastleBlowTime = GetTickCount();
 						}
 					}
 				}
@@ -765,10 +765,10 @@ void CChaosCastle::PullObjInnerPlace(int iChaosCastleIndex, int iTRAP_STEP)
 			continue;
 		}
 
-		if ( gGameObjects[iMON_INDEX]->Life > 0.0f && CC_MAP_RANGE(gGameObjects[iMON_INDEX]->MapNumber) != FALSE && gGameObjects[iMON_INDEX]->Connected > PLAYER_EMPTY )
+		if ( getGameObject(iMON_INDEX]->Life > 0.0f && CC_MAP_RANGE(getGameObject(iMON_INDEX)->MapNumber) != FALSE && getGameObject(iMON_INDEX)->Connected > PLAYER_EMPTY )
 		{
-			int iSX = gGameObjects[iMON_INDEX]->X;
-			int iSY = gGameObjects[iMON_INDEX]->Y;
+			int iSX = getGameObject(iMON_INDEX)->X;
+			int iSY = getGameObject(iMON_INDEX)->Y;
 			int iMapNumber = this->GetChaosCastleMapNumber(iChaosCastleIndex);
 
 			BYTE btMapAttr = MapC[iMapNumber].m_attrbuf[iSY * 256 + iSX] & 0x08;
@@ -796,7 +796,7 @@ void CChaosCastle::PullObjInnerPlace(int iChaosCastleIndex, int iTRAP_STEP)
 
 					if ( this->ObjSetPosition(iMON_INDEX, ptEMPTY.x, ptEMPTY.y) == TRUE )
 					{
-						gGameObjects[iMON_INDEX]->m_iChaosCastleBlowTime = GetTickCount();
+						getGameObject(iMON_INDEX)->m_iChaosCastleBlowTime = GetTickCount();
 					}
 				}
 			}
@@ -971,9 +971,9 @@ void CChaosCastle::SetState_Closed(int iChaosCastleIndex)
 
 	for ( int n=g_ConfigRead.server.GetObjectStartUserIndex();n<g_ConfigRead.server.GetObjectMax();n++)
 	{
-		if ( gGameObjects[n]->MapNumber == this->GetChaosCastleMapNumber(iChaosCastleIndex) )
+		if ( getGameObject(n)->MapNumber == this->GetChaosCastleMapNumber(iChaosCastleIndex) )
 		{
-			if ( gGameObjects[n]->Connected > PLAYER_LOGGED )
+			if ( getGameObject(n)->Connected > PLAYER_LOGGED )
 			{
 				if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 				{
@@ -1053,11 +1053,11 @@ void CChaosCastle::ClearChaosCastleData(int iChaosCastleIndex)
 	{
 		if ( this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex != -1 )
 		{
-			gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_cChaosCastleIndex = -1;
-			gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_cChaosCastleSubIndex = -1;
-			gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_iChaosCastleBlowTime = 0;
-			gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_cKillUserCount = 0;
-			gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_cKillMonsterCount = 0;
+			getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->m_cChaosCastleIndex = -1;
+			getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->m_cChaosCastleSubIndex = -1;
+			getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->m_iChaosCastleBlowTime = 0;
+			getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->m_cKillUserCount = 0;
+			getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->m_cKillMonsterCount = 0;
 		}
 
 		this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].Clear();
@@ -1075,7 +1075,7 @@ void CChaosCastle::ClearMonster(int iChaosCastleIndex)
 
 	for ( int n=0;n<g_ConfigRead.server.GetObjectMaxMonster();n++)
 	{
-		if ( gGameObjects[n]->MapNumber == this->GetChaosCastleMapNumber(iChaosCastleIndex))
+		if ( getGameObject(n)->MapNumber == this->GetChaosCastleMapNumber(iChaosCastleIndex))
 		{
 			gObjDel(n);
 		}
@@ -1117,21 +1117,21 @@ int  CChaosCastle::SetMonster(int iChaosCastleIndex)
 
 			if ( result >= 0 )
 			{
-				gGameObjects[result]->m_PosNum = n;
-				gGameObjects[result]->X = this->m_CCMP[iChaosCastleIndex][n]->m_X;
-				gGameObjects[result]->Y = this->m_CCMP[iChaosCastleIndex][n]->m_Y;
-				gGameObjects[result]->MapNumber = this->m_CCMP[iChaosCastleIndex][n]->m_MapNumber;
-				gGameObjects[result]->TX = gGameObjects[result]->X;
-				gGameObjects[result]->TY = gGameObjects[result]->Y;
-				gGameObjects[result]->m_OldX = gGameObjects[result]->X;
-				gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
-				gGameObjects[result]->Dir = this->m_CCMP[iChaosCastleIndex][n]->m_Dir;
-				gGameObjects[result]->StartX = gGameObjects[result]->X;
-				gGameObjects[result]->StartY = gGameObjects[result]->Y;
+				getGameObject(result)->m_PosNum = n;
+				getGameObject(result]->X = this->m_CCMP[iChaosCastleIndex][n)->m_X;
+				getGameObject(result]->Y = this->m_CCMP[iChaosCastleIndex][n)->m_Y;
+				getGameObject(result]->MapNumber = this->m_CCMP[iChaosCastleIndex][n)->m_MapNumber;
+				getGameObject(result]->TX = getGameObject(result)->X;
+				getGameObject(result]->TY = getGameObject(result)->Y;
+				getGameObject(result]->m_OldX = getGameObject(result)->X;
+				getGameObject(result]->m_OldY = getGameObject(result)->Y;
+				getGameObject(result]->Dir = this->m_CCMP[iChaosCastleIndex][n)->m_Dir;
+				getGameObject(result]->StartX = getGameObject(result)->X;
+				getGameObject(result]->StartY = getGameObject(result)->Y;
 				gObjSetMonster(result, iMonsterIndex);
-				gGameObjects[result]->MaxRegenTime = 0;
-				gGameObjects[result]->m_cChaosCastleIndex = btChaosCastleIndex;
-				gGameObjects[result]->Dir = rand() % 8;
+				getGameObject(result)->MaxRegenTime = 0;
+				getGameObject(result)->m_cChaosCastleIndex = btChaosCastleIndex;
+				getGameObject(result)->Dir = rand() % 8;
 				iNOW_ADDED_MONSTER_COUNT++;
 				this->AddMonsterList(iChaosCastleIndex, result);
 			}
@@ -1218,11 +1218,11 @@ int  CChaosCastle::GetMonsterListCount(int iChaosCastleIndex)
 			continue;
 		}
 
-		if(gGameObjects[CC_MONSTER_COUNT]->Life > 0.0f)
+		if(getGameObject(CC_MONSTER_COUNT)->Life > 0.0f)
 		{
-			if(CC_MAP_RANGE(gGameObjects[CC_MONSTER_COUNT]->MapNumber) != FALSE)
+			if(CC_MAP_RANGE(getGameObject(CC_MONSTER_COUNT)->MapNumber) != FALSE)
 			{
-				if(gGameObjects[CC_MONSTER_COUNT]->Connected > 0)
+				if(getGameObject(CC_MONSTER_COUNT)->Connected > 0)
 				{
 					iAliveMonsterCount++;
 				}
@@ -1331,13 +1331,13 @@ void CChaosCastle::SearchNDropMonsterItem(int iChaosCastleIndex, int iMonsterInd
 		iLevel = rand()%4;
 	}
 
-	::ItemSerialCreateSend(gGameObjects[iMaxHitUserIndex]->m_Index, gGameObjects[iMaxHitUserIndex]->MapNumber, gGameObjects[iMaxHitUserIndex]->X,
-		gGameObjects[iMaxHitUserIndex]->Y, iType, iLevel, 0, 0, 0, 0, iMaxHitUserIndex, 0, 0, 0, 0, 0);
+	::ItemSerialCreateSend(getGameObject(iMaxHitUserIndex]->m_Index, getGameObject(iMaxHitUserIndex)->MapNumber, getGameObject(iMaxHitUserIndex)->X,
+		getGameObject(iMaxHitUserIndex)->Y, iType, iLevel, 0, 0, 0, 0, iMaxHitUserIndex, 0, 0, 0, 0, 0);
 
 	if ( ObjectMaxRange(iMaxHitUserIndex) != FALSE )
 	{
 		//sLog->outBasic("[Chaos Castle] (%d) Monster Dropped ChaosCastle Item To [%s][%s] (Item:%s)",
-		//	iChaosCastleIndex+1, gGameObjects[iMaxHitUserIndex]->AccountID, gGameObjects[iMaxHitUserIndex]->Name,	ItemAttribute[iType]->Name);
+		//	iChaosCastleIndex+1, getGameObject(iMaxHitUserIndex]->AccountID, getGameObject(iMaxHitUserIndex)->Name,	ItemAttribute[iType)->Name);
 	}
 }
 
@@ -1347,11 +1347,11 @@ void CChaosCastle::SendAllUserAnyMsg(BYTE* lpMsg, int iSize)
 {
 	for ( int i=g_ConfigRead.server.GetObjectStartUserIndex();i<g_ConfigRead.server.GetObjectMax();i++)
 	{
-		if ( gGameObjects[i]->Connected == PLAYER_PLAYING )
+		if ( getGameObject(i)->Connected == PLAYER_PLAYING )
 		{
-			if ( gGameObjects[i]->Type == OBJ_USER )
+			if ( getGameObject(i)->Type == OBJ_USER )
 			{
-				if ( DG_MAP_RANGE(gGameObjects[i]->MapNumber) == FALSE )
+				if ( DG_MAP_RANGE(getGameObject(i)->MapNumber) == FALSE )
 				{
 					IOCP.DataSend(i, lpMsg, iSize);
 				}
@@ -1375,7 +1375,7 @@ void CChaosCastle::SendChaosCastleAnyMsg(BYTE* lpMsg, int iSize, int iChaosCastl
 		{
 			if ( gObjIsConnected(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex) != FALSE )
 			{
-				if ( gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_cChaosCastleIndex != -1 && gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_cChaosCastleSubIndex != -1 )
+				if ( getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_cChaosCastleIndex != -1 && getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i)->m_iIndex)->m_cChaosCastleSubIndex != -1 )
 				{
 					IOCP.DataSend(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex, lpMsg, iSize);
 				}
@@ -1400,9 +1400,9 @@ void CChaosCastle::SendNoticeMessage(int iChaosCastleIndex, LPSTR lpszMSG)
 	{
 		if ( this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex != -1 )
 		{
-			if ( gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->Connected > PLAYER_LOGGED )
+			if ( getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->Connected > PLAYER_LOGGED )
 			{
-				if ( gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_cChaosCastleIndex != -1 && gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_cChaosCastleSubIndex != -1 )
+				if ( getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_cChaosCastleIndex != -1 && getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i)->m_iIndex)->m_cChaosCastleSubIndex != -1 )
 				{
 					IOCP.DataSend(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex, (UCHAR*)&pNotice, pNotice.h.size);
 				}
@@ -1435,9 +1435,9 @@ void CChaosCastle::SendNoticeState(int iChaosCastleIndex, int iPlayState)
 	{
 		if ( this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex != -1 )
 		{
-			if ( gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->Connected > PLAYER_LOGGED )
+			if ( getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->Connected > PLAYER_LOGGED )
 			{
-				if ( gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_cChaosCastleIndex != -1 && gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_cChaosCastleSubIndex != -1 )
+				if ( getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_cChaosCastleIndex != -1 && getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i)->m_iIndex)->m_cChaosCastleSubIndex != -1 )
 				{
 					IOCP.DataSend(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex, (UCHAR*)&pMsg, pMsg.h.size);
 
@@ -1445,7 +1445,7 @@ void CChaosCastle::SendNoticeState(int iChaosCastleIndex, int iPlayState)
 					{
 						if (m_stChaosCastleData[iChaosCastleIndex].m_lCC_CURRENT_MONSTER_COUNT == 0)
 						{
-							g_QuestExpProgMng.ChkUserQuestTypeEventMap(QUESTEXP_ASK_CHAOSCASTLE_CLEAR, &gGameObjects[m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex], iChaosCastleIndex, 0);
+							g_QuestExpProgMng.ChkUserQuestTypeEventMap(QUESTEXP_ASK_CHAOSCASTLE_CLEAR, &getGameObject(m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex), iChaosCastleIndex, 0);
 						}
 					}
 				}
@@ -1468,7 +1468,7 @@ void CChaosCastle::SendWinMessage(int iChaosCastleIndex, int iWinnerIndex)
 		return;
 	}
 
-	int iChaosCastleSubIndex = gGameObjects[iWinnerIndex]->m_cChaosCastleSubIndex;
+	int iChaosCastleSubIndex = getGameObject(iWinnerIndex)->m_cChaosCastleSubIndex;
 
 	if ( CC_SUB_FLOOR_RANGE(iChaosCastleSubIndex) == FALSE )
 	{
@@ -1482,8 +1482,8 @@ void CChaosCastle::SendWinMessage(int iChaosCastleIndex, int iWinnerIndex)
 
 	if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 	{
-		this->GD_Req_Save_KillPoint_UBF(iWinnerIndex, gGameObjects[iWinnerIndex]->Name, 
-			3 * gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->m_cKillUserCount + 2 * gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->m_cKillMonsterCount + 50,
+		this->GD_Req_Save_KillPoint_UBF(iWinnerIndex, getGameObject(iWinnerIndex)->Name, 
+			3 * getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->m_cKillUserCount + 2 * getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex)->m_iIndex)->m_cKillMonsterCount + 50,
 			iChaosCastleIndex);
 	}
 
@@ -1494,10 +1494,10 @@ void CChaosCastle::SendWinMessage(int iChaosCastleIndex, int iWinnerIndex)
 
 	else
 	{
-		this->RewardUserEXP(iChaosCastleIndex, gGameObjects[iWinnerIndex]->m_cChaosCastleSubIndex, true );
+		this->RewardUserEXP(iChaosCastleIndex, getGameObject(iWinnerIndex)->m_cChaosCastleSubIndex, true );
 	}
 
-	g_QuestExpProgMng.ChkUserQuestTypeEventMap(QUESTEXP_ASK_CHAOSCASTLE_CLEAR, &gGameObjects[iWinnerIndex], iChaosCastleIndex, 0);
+	g_QuestExpProgMng.ChkUserQuestTypeEventMap(QUESTEXP_ASK_CHAOSCASTLE_CLEAR, &getGameObject(iWinnerIndex), iChaosCastleIndex, 0);
 	gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,128), iWinnerIndex, 1);
 	this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[iChaosCastleSubIndex].m_bSendQuitMsg = true;
 }
@@ -1516,7 +1516,7 @@ void CChaosCastle::SendFailMessage(int iChaosCastleIndex, int iLoserIndex)
 		return;
 	}
 
-	int iChaosCastleSubIndex = gGameObjects[iLoserIndex]->m_cChaosCastleSubIndex;
+	int iChaosCastleSubIndex = getGameObject(iLoserIndex)->m_cChaosCastleSubIndex;
 
 	if ( CC_SUB_FLOOR_RANGE(iChaosCastleSubIndex) == FALSE )
 	{
@@ -1530,8 +1530,8 @@ void CChaosCastle::SendFailMessage(int iChaosCastleIndex, int iLoserIndex)
 
 	if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 	{
-		this->GD_Req_Save_KillPoint_UBF(iLoserIndex, gGameObjects[iLoserIndex]->Name, 
-			3 * gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->m_cKillUserCount + 2 * gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->m_cKillMonsterCount + 50,
+		this->GD_Req_Save_KillPoint_UBF(iLoserIndex, getGameObject(iLoserIndex)->Name, 
+			3 * getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->m_cKillUserCount + 2 * getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex)->m_iIndex)->m_cKillMonsterCount + 50,
 			iChaosCastleIndex);
 	}
 
@@ -1542,7 +1542,7 @@ void CChaosCastle::SendFailMessage(int iChaosCastleIndex, int iLoserIndex)
 
 	else
 	{
-		this->RewardUserEXP(iChaosCastleIndex, gGameObjects[iLoserIndex]->m_cChaosCastleSubIndex, false );
+		this->RewardUserEXP(iChaosCastleIndex, getGameObject(iLoserIndex)->m_cChaosCastleSubIndex, false );
 	}
 
 	this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[iChaosCastleSubIndex].m_bSendQuitMsg = true;
@@ -1572,24 +1572,24 @@ void CChaosCastle::SendAllLoserFailMessage(int iChaosCastleIndex, int iWinnerInd
 				{
 					if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 					{
-						int iChaosCastleSubIndex = gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_cChaosCastleSubIndex;
+						int iChaosCastleSubIndex = getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->m_cChaosCastleSubIndex;
 
-						this->GD_Req_Save_KillPoint_UBF(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[iChaosCastleSubIndex].m_iIndex, gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->Name, 
-							3 * gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->m_cKillUserCount + 2 * gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->m_cKillMonsterCount + 50,
+						this->GD_Req_Save_KillPoint_UBF(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[iChaosCastleSubIndex].m_iIndex, getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex)->Name, 
+							3 * getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->m_cKillUserCount + 2 * getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex)->m_iIndex)->m_cKillMonsterCount + 50,
 							iChaosCastleIndex);
 					}
 
 					if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 					{
-						this->RewardUserKillPointUBF(iChaosCastleIndex, gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_cChaosCastleSubIndex, 0);
+						this->RewardUserKillPointUBF(iChaosCastleIndex, getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->m_cChaosCastleSubIndex, 0);
 					}
 
 					else
 					{
-						this->RewardUserEXP(iChaosCastleIndex, gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_cChaosCastleSubIndex, false);
+						this->RewardUserEXP(iChaosCastleIndex, getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->m_cChaosCastleSubIndex, false);
 					}
 
-					g_QuestExpProgMng.ChkUserQuestTypeEventMap(QUESTEXP_ASK_CHAOSCASTLE_CLEAR, &gGameObjects[m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex], iChaosCastleIndex, 0);
+					g_QuestExpProgMng.ChkUserQuestTypeEventMap(QUESTEXP_ASK_CHAOSCASTLE_CLEAR, &getGameObject(m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex), iChaosCastleIndex, 0);
 					gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,129), this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex, 1);
 					this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_bSendQuitMsg = true;
 				}
@@ -1712,16 +1712,16 @@ void CChaosCastle::ProcessFallUser(int iChaosCastleIndex)
 			int iFALL_INDEX = this->m_stChaosCastleData[iChaosCastleIndex].m_lFallUser[iFALL];
 			InterlockedExchange(&this->m_stChaosCastleData[iChaosCastleIndex].m_lFallUser[iFALL], -1);
 
-			if ( (gGameObjects[iFALL_INDEX]->MapNumber) == this->GetChaosCastleMapNumber(iChaosCastleIndex) &&  gObjIsConnected(iFALL_INDEX) &&  gGameObjects[iFALL_INDEX]->Life > 0 )
+			if ( (getGameObject(iFALL_INDEX]->MapNumber) == this->GetChaosCastleMapNumber(iChaosCastleIndex) &&  gObjIsConnected(iFALL_INDEX) &&  getGameObject(iFALL_INDEX)->Life > 0 )
 			{
-				gGameObjects[iFALL_INDEX]->Life = 0;
-				gGameObjects[iFALL_INDEX]->m_State = 4;
-				gGameObjects[iFALL_INDEX]->KillerType = 1;
-				gGameObjects[iFALL_INDEX]->RegenTime = GetTickCount();
-				gGameObjects[iFALL_INDEX]->DieRegen = 1;
-				gGameObjects[iFALL_INDEX]->PathCount = 0;
+				getGameObject(iFALL_INDEX)->Life = 0;
+				getGameObject(iFALL_INDEX)->m_State = 4;
+				getGameObject(iFALL_INDEX)->KillerType = 1;
+				getGameObject(iFALL_INDEX)->RegenTime = GetTickCount();
+				getGameObject(iFALL_INDEX)->DieRegen = 1;
+				getGameObject(iFALL_INDEX)->PathCount = 0;
 				
-				gGameProtocol.GCDiePlayerSend(&gGameObjects[iFALL_INDEX], gGameObjects[iFALL_INDEX]->m_Index, 0, 0);
+				gGameProtocol.GCDiePlayerSend(&getGameObject(iFALL_INDEX], getGameObject(iFALL_INDEX)->m_Index, 0, 0);
 			}
 		}
 	}
@@ -1734,8 +1734,8 @@ void CChaosCastle::SetUserState(CGameObject &Obj, int iState)
 	if ( !ObjectMaxRange(iUserIndex))
 		return;
 
-	int iChaosCastleIndex = gGameObjects[iUserIndex]->m_cChaosCastleIndex;
-	int iChaosCastleSubIndex = gGameObjects[iUserIndex]->m_cChaosCastleSubIndex;
+	int iChaosCastleIndex = getGameObject(iUserIndex)->m_cChaosCastleIndex;
+	int iChaosCastleSubIndex = getGameObject(iUserIndex)->m_cChaosCastleSubIndex;
 
 	if ( CC_FLOOR_RANGE(iChaosCastleIndex) == FALSE )
 		return;
@@ -1772,30 +1772,30 @@ int  CChaosCastle::CalcSendRewardEXP(CGameObject &Obj, int iEXP, int iKILLCOUNT_
 	if ( !gObjIsConnected(iUserIndex))
 		return 0;
 
-	if(g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&gGameObjects[iUserIndex]) == false)
+	if(g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&getGameObject(iUserIndex)) == false)
 	{
-		if(iCAL_EXP > gGameObjects[iUserIndex]->m_PlayerData->Experience+gGameObjects[iUserIndex]->m_PlayerData->NextExp)
+		if(iCAL_EXP > getGameObject(iUserIndex]->m_PlayerData->Experience+getGameObject(iUserIndex)->m_PlayerData->NextExp)
 		{
-			iCAL_EXP = gGameObjects[iUserIndex]->m_PlayerData->NextExp;
+			iCAL_EXP = getGameObject(iUserIndex)->m_PlayerData->NextExp;
 		}
 	}
 	else
 	{
-		if(iCAL_EXP > gGameObjects[iUserIndex]->m_PlayerData->MasterExperience+gGameObjects[iUserIndex]->m_PlayerData->MasterNextExp)
+		if(iCAL_EXP > getGameObject(iUserIndex]->m_PlayerData->MasterExperience+getGameObject(iUserIndex)->m_PlayerData->MasterNextExp)
 		{
-			iCAL_EXP = gGameObjects[iUserIndex]->m_PlayerData->MasterNextExp;
+			iCAL_EXP = getGameObject(iUserIndex)->m_PlayerData->MasterNextExp;
 		}
 	}
 
 	iRET_EXP = iCAL_EXP;
 
-	if ( gGameObjects[iUserIndex]->Type == OBJ_USER )
+	if ( getGameObject(iUserIndex)->Type == OBJ_USER )
 	{
 		while ( iCAL_EXP > 0 )
 		{
 			if ( iCAL_EXP > 0 )
 			{
-				CheckItemOptForGetExpExRenewal(&gGameObjects[iUserIndex], 0, iCAL_EXP, 0, true);
+				CheckItemOptForGetExpExRenewal(&getGameObject(iUserIndex), 0, iCAL_EXP, 0, true);
 
 				iCAL_EXP = this->LevelUp(iUserIndex, iCAL_EXP);
 			}
@@ -1838,8 +1838,8 @@ int  CChaosCastle::GetUserLevelToEnter(CGameObject &Obj)
 
 	for (int i = 0; i < MAX_CHAOSCASTLE_LEVEL; i++)
 	{
-		if (gGameObjects[iUserIndex]->Level + gGameObjects[iUserIndex]->m_PlayerData->MasterLevel >= g_sttCHAOSCASTLE_LEVEL[i]->iLOWER_BOUND &&
-			gGameObjects[iUserIndex]->Level + gGameObjects[iUserIndex]->m_PlayerData->MasterLevel <= g_sttCHAOSCASTLE_LEVEL[i]->iUPPER_BOUND)
+		if (getGameObject(iUserIndex]->Level + getGameObject(iUserIndex)->m_PlayerData->MasterLevel >= g_sttCHAOSCASTLE_LEVEL[i)->iLOWER_BOUND &&
+			getGameObject(iUserIndex]->Level + getGameObject(iUserIndex)->m_PlayerData->MasterLevel <= g_sttCHAOSCASTLE_LEVEL[i)->iUPPER_BOUND)
 		{
 			iENTER_LEVEL = i;
 			break;
@@ -1863,7 +1863,7 @@ BOOL CChaosCastle::CheckUserEnterMoney(CGameObject &Obj, int iEnterLevel)
 		return FALSE;
 	}
 
-	if ( gGameObjects[iUserIndex]->m_PlayerData->Money >= ::g_iChaosCastle_EnterCost[iEnterLevel] )
+	if ( getGameObject(iUserIndex]->m_PlayerData->Money >= ::g_iChaosCastle_EnterCost[iEnterLevel) )
 	{
 		return TRUE;
 	}
@@ -1885,10 +1885,10 @@ BOOL CChaosCastle::PayUserEnterMoney(CGameObject &Obj, int iEnterLevel)
 		return FALSE;
 	}
 
-	if ( gGameObjects[iUserIndex]->m_PlayerData->Money >= ::g_iChaosCastle_EnterCost[iEnterLevel] )
+	if ( getGameObject(iUserIndex]->m_PlayerData->Money >= ::g_iChaosCastle_EnterCost[iEnterLevel) )
 	{
-		gGameObjects[iUserIndex]->m_PlayerData->Money -= ::g_iChaosCastle_EnterCost[iEnterLevel];
-		gGameProtocol.GCMoneySend(iUserIndex, gGameObjects[iUserIndex]->m_PlayerData->Money);
+		getGameObject(iUserIndex]->m_PlayerData->Money -= ::g_iChaosCastle_EnterCost[iEnterLevel);
+		gGameProtocol.GCMoneySend(iUserIndex, getGameObject(iUserIndex)->m_PlayerData->Money);
 
 		return TRUE;
 	}
@@ -1903,7 +1903,7 @@ void CChaosCastle::GiveUserDamage(CGameObject &Obj, int iDamage)
 	if ( !gObjIsConnected(iUserIndex))
 		return;
 
-	if ( gGameObjects[iUserIndex]->Life <= 0.0 )
+	if ( getGameObject(iUserIndex)->Life <= 0.0 )
 		return;
 
 	PMSG_ATTACKRESULT pResult;
@@ -1916,21 +1916,21 @@ void CChaosCastle::GiveUserDamage(CGameObject &Obj, int iDamage)
 	pResult.btShieldDamageL = 0;
 	pResult.IGCDamage = iDamage;
 
-	if ( gGameObjects[iUserIndex]->Type == OBJ_USER )
+	if ( getGameObject(iUserIndex)->Type == OBJ_USER )
 		IOCP.DataSend(iUserIndex, (BYTE*)&pResult, pResult.h.size);
 
-	gGameObjects[iUserIndex]->Life -= iDamage;
+	getGameObject(iUserIndex)->Life -= iDamage;
 
-	if ( gGameObjects[iUserIndex]->Life <= 0.0 )
+	if ( getGameObject(iUserIndex)->Life <= 0.0 )
 	{
-		gGameObjects[iUserIndex]->Life = 0;
-		gGameObjects[iUserIndex]->m_State = 4;
-		gGameObjects[iUserIndex]->KillerType = 1;
-		gGameObjects[iUserIndex]->RegenTime = GetTickCount();
-		gGameObjects[iUserIndex]->DieRegen = 1;
-		gGameObjects[iUserIndex]->PathCount = 0;
+		getGameObject(iUserIndex)->Life = 0;
+		getGameObject(iUserIndex)->m_State = 4;
+		getGameObject(iUserIndex)->KillerType = 1;
+		getGameObject(iUserIndex)->RegenTime = GetTickCount();
+		getGameObject(iUserIndex)->DieRegen = 1;
+		getGameObject(iUserIndex)->PathCount = 0;
 		
-		gGameProtocol.GCDiePlayerSend(&gGameObjects[iUserIndex], gGameObjects[iUserIndex]->m_Index, 0, 0);
+		gGameProtocol.GCDiePlayerSend(&getGameObject(iUserIndex], getGameObject(iUserIndex)->m_Index, 0, 0);
 	}
 }
 
@@ -1943,64 +1943,64 @@ BOOL CChaosCastle::LevelUp(CGameObject &Obj, int iAddExp)
 		return 0;
 	}
 
-	if ( g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&gGameObjects[iUserIndex]))
+	if ( g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&getGameObject(iUserIndex)))
 	{
-		g_MasterLevelSkillTreeSystem.MasterLevelUp(&gGameObjects[iUserIndex], iAddExp, 0, "Chaos Castle");
+		g_MasterLevelSkillTreeSystem.MasterLevelUp(&getGameObject(iUserIndex), iAddExp, 0, "Chaos Castle");
 		return 0;
 	}
 
 	int iLEFT_EXP = 0;
 
-	//sLog->outBasic("[Chaos Castle] Experience : [%s][%s](%d) Experience: %d + %d",gGameObjects[iUserIndex]->AccountID,	gGameObjects[iUserIndex]->Name,
-	//	gGameObjects[iUserIndex]->Level, gGameObjects[iUserIndex]->m_PlayerData->Experience,iAddExp);
+	//sLog->outBasic("[Chaos Castle] Experience : [%s][%s](%d) Experience: %d + %d",getGameObject(iUserIndex]->AccountID,	getGameObject(iUserIndex)->Name,
+	//	getGameObject(iUserIndex]->Level, getGameObject(iUserIndex)->m_PlayerData->Experience,iAddExp);
 
 	::gObjSetExpPetItem(iUserIndex, iAddExp);
 
-	if ( gGameObjects[iUserIndex]->Level >= g_ConfigRead.data.common.UserMaxLevel)
+	if ( getGameObject(iUserIndex)->Level >= g_ConfigRead.data.common.UserMaxLevel)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,45), gGameObjects[iUserIndex]->m_Index, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,45), getGameObject(iUserIndex)->m_Index, 1);
 		return 0;
 	}
 
-	if ( (gGameObjects[iUserIndex]->m_PlayerData->Experience + iAddExp) < gGameObjects[iUserIndex]->m_PlayerData->NextExp )
+	if ( (getGameObject(iUserIndex]->m_PlayerData->Experience + iAddExp) < getGameObject(iUserIndex)->m_PlayerData->NextExp )
 	{
-		gGameObjects[iUserIndex]->m_PlayerData->Experience += iAddExp;
+		getGameObject(iUserIndex)->m_PlayerData->Experience += iAddExp;
 	}
 	else
 	{
-		iLEFT_EXP = gGameObjects[iUserIndex]->m_PlayerData->Experience + iAddExp - gGameObjects[iUserIndex]->m_PlayerData->NextExp;
-		gGameObjects[iUserIndex]->m_PlayerData->Experience = gGameObjects[iUserIndex]->m_PlayerData->NextExp;
-		gGameObjects[iUserIndex]->Level++;
+		iLEFT_EXP = getGameObject(iUserIndex]->m_PlayerData->Experience + iAddExp - getGameObject(iUserIndex)->m_PlayerData->NextExp;
+		getGameObject(iUserIndex]->m_PlayerData->Experience = getGameObject(iUserIndex)->m_PlayerData->NextExp;
+		getGameObject(iUserIndex)->Level++;
 
-		if ( g_ConfigRead.data.reset.iBlockLevelUpPointAfterResets == -1 || gGameObjects[iUserIndex]->m_PlayerData->m_iResets < g_ConfigRead.data.reset.iBlockLevelUpPointAfterResets )
+		if ( g_ConfigRead.data.reset.iBlockLevelUpPointAfterResets == -1 || getGameObject(iUserIndex)->m_PlayerData->m_iResets < g_ConfigRead.data.reset.iBlockLevelUpPointAfterResets )
 		{
-			if ( gGameObjects[iUserIndex]->Class == CLASS_DARKLORD || gGameObjects[iUserIndex]->Class == CLASS_MAGUMSA || gGameObjects[iUserIndex]->Class == CLASS_RAGEFIGHTER || gGameObjects[iUserIndex]->Class == CLASS_GROWLANCER )
+			if ( getGameObject(iUserIndex]->Class == CLASS_DARKLORD || getGameObject(iUserIndex]->Class == CLASS_MAGUMSA || getGameObject(iUserIndex)->Class == CLASS_RAGEFIGHTER || getGameObject(iUserIndex)->Class == CLASS_GROWLANCER )
 			{
-				gGameObjects[iUserIndex]->m_PlayerData->LevelUpPoint += g_MaxStatsInfo.GetClass.LevelUpPointMGDL;
+				getGameObject(iUserIndex)->m_PlayerData->LevelUpPoint += g_MaxStatsInfo.GetClass.LevelUpPointMGDL;
 			}
 
 			else
 			{
-				gGameObjects[iUserIndex]->m_PlayerData->LevelUpPoint += g_MaxStatsInfo.GetClass.LevelUpPointNormal;
+				getGameObject(iUserIndex)->m_PlayerData->LevelUpPoint += g_MaxStatsInfo.GetClass.LevelUpPointNormal;
 			}
 
-			if ( gGameObjects[iUserIndex]->m_PlayerData->PlusStatQuestClear != false )
+			if ( getGameObject(iUserIndex)->m_PlayerData->PlusStatQuestClear != false )
 			{
-				gGameObjects[iUserIndex]->m_PlayerData->LevelUpPoint++;
+				getGameObject(iUserIndex)->m_PlayerData->LevelUpPoint++;
 
-				//sLog->outBasic("[%s][%s] LevelUp PlusStatQuest Clear AddStat %d",gGameObjects[iUserIndex]->AccountID, gGameObjects[iUserIndex]->Name, gGameObjects[iUserIndex]->m_PlayerData->LevelUpPoint);
+				//sLog->outBasic("[%s][%s] LevelUp PlusStatQuest Clear AddStat %d",getGameObject(iUserIndex]->AccountID, getGameObject(iUserIndex)->Name, getGameObject(iUserIndex)->m_PlayerData->LevelUpPoint);
 			}
 		}
 
-		gGameObjects[iUserIndex]->MaxLife += DCInfo.DefClass[gGameObjects[iUserIndex]->Class]->LevelLife;
-		gGameObjects[iUserIndex]->MaxMana += DCInfo.DefClass[gGameObjects[iUserIndex]->Class]->LevelMana;
-		gGameObjects[iUserIndex]->Life = gGameObjects[iUserIndex]->MaxLife;
-		gGameObjects[iUserIndex]->Mana = gGameObjects[iUserIndex]->MaxMana;
-		gObjNextExpCal(&gGameObjects[iUserIndex]);
+		getGameObject(iUserIndex]->MaxLife += DCInfo.DefClass[getGameObject(iUserIndex)->Class)->LevelLife;
+		getGameObject(iUserIndex]->MaxMana += DCInfo.DefClass[getGameObject(iUserIndex)->Class)->LevelMana;
+		getGameObject(iUserIndex]->Life = getGameObject(iUserIndex)->MaxLife;
+		getGameObject(iUserIndex]->Mana = getGameObject(iUserIndex)->MaxMana;
+		gObjNextExpCal(&getGameObject(iUserIndex));
 		gObjSetBP(iUserIndex);
-		gGameProtocol.GCLevelUpMsgSend(gGameObjects[iUserIndex]->m_Index, 1);
-		gObjCalcMaxLifePower(gGameObjects[iUserIndex]->m_Index);
-		sLog->outBasic("Level Up [%s][%s][%d]", gGameObjects[iUserIndex]->AccountID, gGameObjects[iUserIndex]->Name, gGameObjects[iUserIndex]->Level);
+		gGameProtocol.GCLevelUpMsgSend(getGameObject(iUserIndex)->m_Index, 1);
+		gObjCalcMaxLifePower(getGameObject(iUserIndex)->m_Index);
+		sLog->outBasic("Level Up [%s][%s][%d]", getGameObject(iUserIndex]->AccountID, getGameObject(iUserIndex)->Name, getGameObject(iUserIndex)->Level);
 		return 0;
 	}
 
@@ -2024,10 +2024,10 @@ int  CChaosCastle::GetCurrentWinUser(int iChaosCastleIndex)
 		if ( this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex != -1 )
 		{
 			if ( gObjIsConnected(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex) == TRUE &&
-				 gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->MapNumber == this->GetChaosCastleMapNumber(iChaosCastleIndex) &&	
+				 getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->MapNumber == this->GetChaosCastleMapNumber(iChaosCastleIndex) &&	
 				this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iUserState == 0 )
 			{
-				CGameObject lpObj = &gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex];
+				CGameObject lpObj = &getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex);
 
 				int iUSER_SCORE = lpObj.m_cKillUserCount + lpObj.m_cKillMonsterCount * 2;
 
@@ -2042,8 +2042,8 @@ int  CChaosCastle::GetCurrentWinUser(int iChaosCastleIndex)
 
 	if ( iCC_WINNER_INDEX != -1 )
 	{
-		if ( gGameObjects[iCC_WINNER_INDEX]->m_cKillUserCount == 0 &&
-			 gGameObjects[iCC_WINNER_INDEX]->m_cKillMonsterCount == 0 )
+		if ( getGameObject(iCC_WINNER_INDEX)->m_cKillUserCount == 0 &&
+			 getGameObject(iCC_WINNER_INDEX)->m_cKillMonsterCount == 0 )
 		{
 			int iUSER_COUNT = this->GetCurPlayUser(iChaosCastleIndex);
 			int iMONSTER_COUNT = this->GetMonsterListCount(iChaosCastleIndex);
@@ -2245,7 +2245,7 @@ int  CChaosCastle::GetCurPlayUser(int iChaosCastleIndex)
 		if ( this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex != -1 )
 		{
 			if ( gObjIsConnected(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex) == TRUE &&
-				 gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->MapNumber == this->GetChaosCastleMapNumber(iChaosCastleIndex) )
+				 getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->MapNumber == this->GetChaosCastleMapNumber(iChaosCastleIndex) )
 			{
 				iPlayUser++;
 			}
@@ -2700,9 +2700,9 @@ void CChaosCastle::SendCastleZoneSafetyInfo(int iChaosCastleIndex, bool bDoSet)
 
 	for (int i=g_ConfigRead.server.GetObjectStartUserIndex();i<g_ConfigRead.server.GetObjectMax();i++)
 	{
-		if ( gGameObjects[i]->MapNumber == this->GetChaosCastleMapNumber(iChaosCastleIndex) )
+		if ( getGameObject(i)->MapNumber == this->GetChaosCastleMapNumber(iChaosCastleIndex) )
 		{
-			if ( gGameObjects[i]->Connected > PLAYER_LOGGED )
+			if ( getGameObject(i)->Connected > PLAYER_LOGGED )
 			{
 				IOCP.DataSend(i, (BYTE*)lpMsg, lpMsg->h.size);
 			}
@@ -2758,10 +2758,10 @@ void CChaosCastle::CheckMonsterInDieTile(int iChaosCastleIndex)
 			continue;
 		}
 
-		if ( gGameObjects[iMON_INDEX]->Life > 0.0f && CC_MAP_RANGE(gGameObjects[iMON_INDEX]->MapNumber) != FALSE && gGameObjects[iMON_INDEX]->Connected > PLAYER_EMPTY )
+		if ( getGameObject(iMON_INDEX]->Life > 0.0f && CC_MAP_RANGE(getGameObject(iMON_INDEX)->MapNumber) != FALSE && getGameObject(iMON_INDEX)->Connected > PLAYER_EMPTY )
 		{
-			int iSX = gGameObjects[iMON_INDEX]->X;
-			int iSY = gGameObjects[iMON_INDEX]->Y;
+			int iSX = getGameObject(iMON_INDEX)->X;
+			int iSY = getGameObject(iMON_INDEX)->Y;
 
 			int iMapNumber = this->GetChaosCastleMapNumber(iChaosCastleIndex);
 
@@ -2790,7 +2790,7 @@ void CChaosCastle::CheckMonsterInDieTile(int iChaosCastleIndex)
 
 					if ( this->ObjSetPosition(iMON_INDEX, ptEMPTY.x, ptEMPTY.y) == TRUE )
 					{
-						gGameObjects[iMON_INDEX]->m_iChaosCastleBlowTime = GetTickCount();
+						getGameObject(iMON_INDEX)->m_iChaosCastleBlowTime = GetTickCount();
 					}
 				}
 			}
@@ -2810,30 +2810,30 @@ void CChaosCastle::CheckUserInDieTile(int iChaosCastleIndex)
 		if ( this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex != -1 )
 		{
 			if ( gObjIsConnected(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex) ==TRUE &&
-				 gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->MapNumber == this->GetChaosCastleMapNumber(iChaosCastleIndex) )
+				 getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->MapNumber == this->GetChaosCastleMapNumber(iChaosCastleIndex) )
 			{
-				if ( gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->Life > 0.0 )
+				if ( getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->Life > 0.0 )
 				{
-					int iSX = gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->X;
-					int iSY = gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->Y;
+					int iSX = getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->X;
+					int iSY = getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->Y;
 					int iMapNumber = this->GetChaosCastleMapNumber(iChaosCastleIndex);
 
 					BYTE btMapAttr = MapC[iMapNumber].m_attrbuf[iSY * 256 + iSX] & 0x08;
 
 					if ( btMapAttr == 8 )
 					{
-						gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->Life = 0;
-						gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_State = 4;
-						gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->KillerType = 1;
-						gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->RegenTime = GetTickCount();
-						gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->DieRegen = 1;
-						gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->PathCount = 0;
+						getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->Life = 0;
+						getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->m_State = 4;
+						getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->KillerType = 1;
+						getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->RegenTime = GetTickCount();
+						getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->DieRegen = 1;
+						getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->PathCount = 0;
 
-						gGameProtocol.GCDiePlayerSend(&gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex],
+						gGameProtocol.GCDiePlayerSend(&getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex),
 							this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex, 0, 0);
 
-						//sLog->outBasic("[Chaos Castle] (%d) [%s][%s] User Dead In Chaos Castle : Fall from Castle (X:%d, Y:%d)",	iChaosCastleIndex+1, gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->AccountID,
-						//	gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->Name,iSX, iSY);
+						//sLog->outBasic("[Chaos Castle] (%d) [%s][%s] User Dead In Chaos Castle : Fall from Castle (X:%d, Y:%d)",	iChaosCastleIndex+1, getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->AccountID,
+						//	getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->Name,iSX, iSY);
 
 						this->SendFailMessage(iChaosCastleIndex, this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex);
 
@@ -2856,14 +2856,14 @@ void CChaosCastle::PlayFailedRollBack(int iChaosCastleIndex)
 		if ( this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex != -1 )
 		{
 			if ( gObjIsConnected(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex) ==TRUE &&
-				 gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->MapNumber == this->GetChaosCastleMapNumber(iChaosCastleIndex) )
+				 getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->MapNumber == this->GetChaosCastleMapNumber(iChaosCastleIndex) )
 			{
-				int iFIRST_MONEY = gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_PlayerData->Money;
+				int iFIRST_MONEY = getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->m_PlayerData->Money;
 				int iPAYBACK_MONEY = g_iChaosCastle_EnterCost[iChaosCastleIndex] + g_iChaosCastle_GuardSetValue[iChaosCastleIndex];
-				gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_PlayerData->Money += g_iChaosCastle_EnterCost[iChaosCastleIndex] + g_iChaosCastle_GuardSetValue[iChaosCastleIndex];
-				int iNOW_MONEY = gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_PlayerData->Money;
+				getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_PlayerData->Money += g_iChaosCastle_EnterCost[iChaosCastleIndex] + g_iChaosCastle_GuardSetValue[iChaosCastleIndex);
+				int iNOW_MONEY = getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->m_PlayerData->Money;
 
-				gGameProtocol.GCMoneySend(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex, gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_PlayerData->Money);
+				gGameProtocol.GCMoneySend(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex, getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->m_PlayerData->Money);
 				
 				if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 					gObjMoveGate(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex, 333);
@@ -2876,8 +2876,8 @@ void CChaosCastle::PlayFailedRollBack(int iChaosCastleIndex)
 
 				IOCP.DataSend(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex, (BYTE*)&Notice, Notice.h.size);
 
-				//sLog->outBasic("[Chaos Castle] (%d) [%s][%s] Payback to User ChaosCastle Money (FIRST:%d, PAYBACK:%d, FINAL:%d)",	iChaosCastleIndex+1, gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->AccountID,
-				//	gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->Name,	iFIRST_MONEY, iPAYBACK_MONEY, iNOW_MONEY);
+				//sLog->outBasic("[Chaos Castle] (%d) [%s][%s] Payback to User ChaosCastle Money (FIRST:%d, PAYBACK:%d, FINAL:%d)",	iChaosCastleIndex+1, getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->AccountID,
+				//	getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->Name,	iFIRST_MONEY, iPAYBACK_MONEY, iNOW_MONEY);
 
 			}
 		}
@@ -2907,14 +2907,14 @@ void CChaosCastle::RewardUserEXP(int iChaosCastleIndex, int iChaosCastleSubIndex
 	{
 		if ( gObjIsConnected(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[iChaosCastleSubIndex].m_iIndex) ==TRUE )
 		{
-			if ( gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->m_cChaosCastleIndex == -1 ||
-				 gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->m_cChaosCastleSubIndex == -1 )
+			if ( getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex)->m_cChaosCastleIndex == -1 ||
+				 getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex)->m_cChaosCastleSubIndex == -1 )
 			{
 				return;
 			}
 
-			int iKILLCOUNT_USER = gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->m_cKillUserCount;
-			int iKILLCOUNT_MONSTER = gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->m_cKillMonsterCount;
+			int iKILLCOUNT_USER = getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex)->m_cKillUserCount;
+			int iKILLCOUNT_MONSTER = getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex)->m_cKillMonsterCount;
 			int iTOT_EXP = iKILLCOUNT_USER * g_iChaosCastle_ExpTable[iChaosCastleIndex][0] + iKILLCOUNT_MONSTER * g_iChaosCastle_ExpTable[iChaosCastleIndex][1];
 
 			int iREWARD_EXP = this->CalcSendRewardEXP(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[iChaosCastleSubIndex].m_iIndex,
@@ -2924,7 +2924,7 @@ void CChaosCastle::RewardUserEXP(int iChaosCastleIndex, int iChaosCastleSubIndex
 
 			pMsg.MyRank = bWinner;
 			pMsg.Count = 0xFE;
-			memcpy(pMsg.Score[0].Name, gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->Name, 10);
+			memcpy(pMsg.Score[0].Name, getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex)->Name, 10);
 			pMsg.Score[0].BonusExp = iTOT_EXP;
 			pMsg.Score[0].BonusZen = iKILLCOUNT_USER;
 			pMsg.Score[0].TotalScore = iKILLCOUNT_MONSTER;
@@ -2935,8 +2935,8 @@ void CChaosCastle::RewardUserEXP(int iChaosCastleIndex, int iChaosCastleSubIndex
 			this->ChaosCastleRank(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[iChaosCastleSubIndex].m_iIndex, iKILLCOUNT_USER,
 				iKILLCOUNT_MONSTER, iTOT_EXP, bWinner);
 
-			//sLog->outBasic("[Chaos Castle] (%d) [%s][%s] Reward User EXP (USER_KILL:%d, MON_KILL:%d, TOT_EXP:%d, TOT_REWARD_EXP:%d)",iChaosCastleIndex+1, gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->AccountID,
-			//	gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->Name,	iKILLCOUNT_USER, iKILLCOUNT_MONSTER, iTOT_EXP, iREWARD_EXP);
+			//sLog->outBasic("[Chaos Castle] (%d) [%s][%s] Reward User EXP (USER_KILL:%d, MON_KILL:%d, TOT_EXP:%d, TOT_REWARD_EXP:%d)",iChaosCastleIndex+1, getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex)->AccountID,
+			//	getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex)->Name,	iKILLCOUNT_USER, iKILLCOUNT_MONSTER, iTOT_EXP, iREWARD_EXP);
 		}
 	}
 }
@@ -2994,10 +2994,10 @@ void CChaosCastle::CalUsersInTrap(int iChaosCastleIndex)
 		if ( this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex != -1 )
 		{
 			if ( gObjIsConnected(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex) == TRUE &&
-				 gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->MapNumber == this->GetChaosCastleMapNumber(iChaosCastleIndex) )
+				 getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->MapNumber == this->GetChaosCastleMapNumber(iChaosCastleIndex) )
 			{
-				int iSX = gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->X;
-				int iSY = gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->Y;
+				int iSX = getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->X;
+				int iSY = getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->Y;
 				
 				if ( iSX >= g_iChaosCastle_GroundAxis[0] &&
 					 iSX <= g_iChaosCastle_GroundAxis[2] &&
@@ -3010,11 +3010,11 @@ void CChaosCastle::CalUsersInTrap(int iChaosCastleIndex)
 				{
 					this->GiveUserDamage(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex, 10);
 					
-					if ( gObjCheckUsedBuffEffect(&gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex], BUFFTYPE_FREEZE) != 0 )
+					if ( gObjCheckUsedBuffEffect(&getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex), BUFFTYPE_FREEZE) != 0 )
 					{
-						gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->DelayActionTime = 800;
-						gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->DelayLevel = 1;
-						gObjAddBuffEffect(&gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex], BUFFTYPE_FREEZE, 0, 0, 0, 0, 3);
+						getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->DelayActionTime = 800;
+						getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->DelayLevel = 1;
+						gObjAddBuffEffect(&getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex), BUFFTYPE_FREEZE, 0, 0, 0, 0, 3);
 					}
 				}
 			}
@@ -3031,139 +3031,139 @@ BOOL CChaosCastle::CheckWearingMOPH(CGameObject &Obj)
 		return FALSE;
 	}
 
-	if ( gGameObjects[iUserIndex]->pInventory[10]->IsItem()  )
+	if ( getGameObject(iUserIndex]->pInventory[10)->IsItem()  )
 	{
-		if ( gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,10) ) // Tranformation Ring
+		if ( getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,10) ) // Tranformation Ring
 		{
 			return TRUE;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,39) ) 
+		if ( getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,39) ) 
 		{
 			return TRUE;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,40) ) 
+		if ( getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,40) ) 
 		{
 			return TRUE;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,41) ) 
+		if ( getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,41) ) 
 		{
 			return TRUE;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,42) ) 
+		if ( getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,42) ) 
 		{
 			return TRUE;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,68) ) 
+		if ( getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,68) ) 
 		{
 			return TRUE;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,76) ) 
+		if ( getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,76) ) 
 		{
 			return TRUE;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,77) ) 
+		if ( getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,77) ) 
 		{
 			return TRUE;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,78) ) 
+		if ( getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,78) ) 
 		{
 			return TRUE;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13,122) ) 
+		if ( getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,122) ) 
 		{
 			return TRUE;
 		}
-		if (gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13, 163))
+		if (getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13, 163))
 		{
 			return TRUE;
 		}
-		if (gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13, 164))
+		if (getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13, 164))
 		{
 			return TRUE;
 		}
-		if (gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13, 165))
+		if (getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13, 165))
 		{
 			return TRUE;
 		}
-		if (gGameObjects[iUserIndex]->pInventory[10]->m_Type == ITEMGET(13, 166))
+		if (getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13, 166))
 		{
 			return TRUE;
 		}
 	}
 
-	if ( gGameObjects[iUserIndex]->pInventory[11]->IsItem() )
+	if ( getGameObject(iUserIndex]->pInventory[11)->IsItem() )
 	{
-		if ( gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,10) ) // Tranformation Ring
+		if ( getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,10) ) // Tranformation Ring
 		{
 			return TRUE;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,39) ) 
+		if ( getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,39) ) 
 		{
 			return TRUE;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,40) ) 
+		if ( getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,40) ) 
 		{
 			return TRUE;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,41) ) 
+		if ( getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,41) ) 
 		{
 			return TRUE;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,42) ) 
+		if ( getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,42) ) 
 		{
 			return TRUE;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,68) ) 
+		if ( getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,68) ) 
 		{
 			return TRUE;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,76) ) 
+		if ( getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,76) ) 
 		{
 			return TRUE;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,77) ) 
+		if ( getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,77) ) 
 		{
 			return TRUE;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,78) ) 
+		if ( getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,78) ) 
 		{
 			return TRUE;
 		}
 
-		if ( gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13,122) ) 
+		if ( getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,122) ) 
 		{
 			return TRUE;
 		}
-		if (gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13, 163))
+		if (getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13, 163))
 		{
 			return TRUE;
 		}
-		if (gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13, 164))
+		if (getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13, 164))
 		{
 			return TRUE;
 		}
-		if (gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13, 165))
+		if (getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13, 165))
 		{
 			return TRUE;
 		}
-		if (gGameObjects[iUserIndex]->pInventory[11]->m_Type == ITEMGET(13, 166))
+		if (getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13, 166))
 		{
 			return TRUE;
 		}
@@ -3186,7 +3186,7 @@ void CChaosCastle::GiveWinnerItem(int iChaosCastleIndex, int iWinnerIndex)
 		return;
 	}
 
-	g_CashShop.AddCoin(&gGameObjects[iWinnerIndex], EVENT_CC);
+	g_CashShop.AddCoin(&getGameObject(iWinnerIndex), EVENT_CC);
 
 	switch (iChaosCastleIndex)
 	{
@@ -3334,14 +3334,14 @@ void CChaosCastle::ChaosCastleRank(CGameObject &Obj, int iPlayer, int iMonster, 
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xBD, 0x05, sizeof(pMsg));
 
-	pMsg.Castle = gGameObjects[iUserIndex]->m_cChaosCastleIndex;
-	pMsg.Class = gGameObjects[iUserIndex]->Class;
+	pMsg.Castle = getGameObject(iUserIndex)->m_cChaosCastleIndex;
+	pMsg.Class = getGameObject(iUserIndex)->Class;
 	pMsg.PlayerKill = iPlayer;
 	pMsg.MonsterKill = iMonster;
 	pMsg.Experience = iExp;
 	pMsg.IsWinner = bWinner;
-	memcpy(pMsg.AccountID, gGameObjects[iUserIndex]->AccountID, MAX_ACCOUNT_LEN);
-	memcpy(pMsg.GameID, gGameObjects[iUserIndex]->Name, MAX_ACCOUNT_LEN);
+	memcpy(pMsg.AccountID, getGameObject(iUserIndex)->AccountID, MAX_ACCOUNT_LEN);
+	memcpy(pMsg.GameID, getGameObject(iUserIndex)->Name, MAX_ACCOUNT_LEN);
 
 	wsDataCli.DataSend(reinterpret_cast<char *>(&pMsg), pMsg.h.size);
 }
@@ -3376,7 +3376,7 @@ void CChaosCastle::GD_Req_Save_KillPoint_UBF(int index, char *Name, int KillPoin
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 	sLog->outBasic("[CChaosCastle][GD_Req_Save_KillPoint][%s][%s][%s] Save Requested To DB, KillPoint:%d Castle Index:%d",
-		gGameObjects[index]->AccountID, gGameObjects[index]->m_PlayerData->m_RealNameOfUBF, gGameObjects[index]->Name, KillPoint, CastleIndex);
+		getGameObject(index]->AccountID, getGameObject(index)->m_PlayerData->m_RealNameOfUBF, getGameObject(index)->Name, KillPoint, CastleIndex);
 }
 
 struct PMSG_UBFCHAOSCASTLERESULT
@@ -3407,18 +3407,18 @@ void CChaosCastle::RewardUserKillPointUBF(int iChaosCastleIndex, int iChaosCastl
 		return;
 	}
 
-	if (gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->m_cChaosCastleIndex == -1)
+	if (getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex)->m_cChaosCastleIndex == -1)
 	{
 		return;
 	}
 
-	if (gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->m_cChaosCastleSubIndex == -1)
+	if (getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex)->m_cChaosCastleSubIndex == -1)
 	{
 		return;
 	}
 
-	int iKILLCOUNT_USER = gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->m_cKillUserCount;
-	int iKILLCOUNT_MONSTER = gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->m_cKillMonsterCount;
+	int iKILLCOUNT_USER = getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex)->m_cKillUserCount;
+	int iKILLCOUNT_MONSTER = getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex)->m_cKillMonsterCount;
 	int iTOT_EXP = (g_iChaosCastle_ExpTable[iChaosCastleIndex][1] * iKILLCOUNT_MONSTER) + (g_iChaosCastle_ExpTable[iChaosCastleIndex][0] * iKILLCOUNT_USER);
 	int iREWARD_EXP = g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE ? 0 : this->CalcSendRewardEXP(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[iChaosCastleSubIndex].m_iIndex,
 		iTOT_EXP, iKILLCOUNT_USER, iKILLCOUNT_MONSTER);
@@ -3428,7 +3428,7 @@ void CChaosCastle::RewardUserKillPointUBF(int iChaosCastleIndex, int iChaosCastl
 		PMSG_UBFCHAOSCASTLERESULT pUBFMsg;
 
 		pUBFMsg.btWinner = bWinner;
-		memcpy(pUBFMsg.szName, gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->Name, MAX_ACCOUNT_LEN);
+		memcpy(pUBFMsg.szName, getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex)->Name, MAX_ACCOUNT_LEN);
 		pUBFMsg.nKillCounterMonster = iKILLCOUNT_MONSTER;
 		pUBFMsg.nKillCounterUser = iKILLCOUNT_USER;
 		int Tot_Point = 0;
@@ -3445,9 +3445,9 @@ void CChaosCastle::RewardUserKillPointUBF(int iChaosCastleIndex, int iChaosCastl
 		IOCP.DataSend(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[iChaosCastleSubIndex].m_iIndex, (BYTE*)&pUBFMsg, pUBFMsg.h.size);
 
 		sLog->outBasic("[UBF][Chaos Castle] (%d) [%s][%s][%s] GameResult (USER_KILL:%d, MON_KILL:%d, TOT_KILLPOINT:%d, TOT_REWARD_EXP:%d)",
-			iChaosCastleIndex + 1, gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->AccountID,
-			gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->Name,
-			gGameObjects[this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex]->m_PlayerData->m_RealNameOfUBF,
+			iChaosCastleIndex + 1, getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex)->AccountID,
+			getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex)->Name,
+			getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex)->m_PlayerData->m_RealNameOfUBF,
 			iKILLCOUNT_USER, iKILLCOUNT_MONSTER, Tot_Point, iREWARD_EXP);
 	}
 }
@@ -3466,7 +3466,7 @@ void CChaosCastle::GDReqSetUBFReward_CCBattle(CGameObject &Obj, BYTE byRewardTyp
 		return;
 	}
 
-	CGameObject lpObj = &gGameObjects[iUserIndex];
+	CGameObject lpObj = &getGameObject(iUserIndex);
 
 	if (lpObj.Type != OBJ_USER)
 	{
@@ -3492,15 +3492,15 @@ void CChaosCastle::SetUBFGetReward(CGameObject &Obj, WORD wItemCode, UINT64 Item
 		return;
 	}
 
-	CGameObject lpObj = &gGameObjects[iUserIndex];
+	CGameObject lpObj = &getGameObject(iUserIndex);
 
 	if (lpObj.Type != OBJ_USER)
 	{
 		return;
 	}
 
-	int iChaosCastleIndex = gGameObjects[iUserIndex]->m_cChaosCastleIndex;
-	int iChaosCastleSubIndex = gGameObjects[iUserIndex]->m_cChaosCastleSubIndex;
+	int iChaosCastleIndex = getGameObject(iUserIndex)->m_cChaosCastleIndex;
+	int iChaosCastleSubIndex = getGameObject(iUserIndex)->m_cChaosCastleSubIndex;
 
 	if ( CC_FLOOR_RANGE(iChaosCastleIndex) == FALSE )
 		return;

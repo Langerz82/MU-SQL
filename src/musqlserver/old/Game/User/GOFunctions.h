@@ -10,6 +10,9 @@
 #include "GameProtocol.h"
 
 struct _stGremoryCaseItem;
+class CMapItem;
+class CGameObject;
+class CUserData;
 
 void gObjSkillUseProcTime500(CGameObject &Obj);
 void MonsterAndMsgProc();

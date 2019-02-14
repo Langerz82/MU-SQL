@@ -436,11 +436,11 @@ int gObjMonsterHitDamageUserDel(CGameObject &Obj)
 					delok = TRUE;
 				}
 
-				if (gGameObjects[lpObj.sHD[n]->number]->MapNumber != lpObj.MapNumber)
+				if (getGameObject(lpObj.sHD[n]->number)->MapNumber != lpObj.MapNumber)
 				{
 					delok = TRUE;
 				}
-				else if (gObjCheckTileArea(lpObj.m_Index, gGameObjects[lpObj.sHD[n]->number]->X, gGameObjects[lpObj.sHD[n]->number]->Y, 20) == FALSE)
+				else if (gObjCheckTileArea(lpObj.m_Index, getGameObject(lpObj.sHD[n]->number]->X, getGameObject(lpObj.sHD[n)->number)->Y, 20) == FALSE)
 				{
 					delok = TRUE;
 				}
@@ -886,7 +886,7 @@ BOOL gObjMonsterGetTargetPos(CGameObject &Obj)
 		return FALSE;
 	}
 
-	lpTargetObj = &gGameObjects[tObjNum];
+	lpTargetObj = &getGameObject(tObjNum);
 
 	if ( lpTargetObj.Teleport != 0 )
 	{
@@ -1121,7 +1121,7 @@ int gObjCallMonsterSetEnemy(CGameObject &Obj, int Target)
 		return -1;
 	}
 
-	CGameObject lpCallObj = &gGameObjects[lpObj.m_RecallMon];
+	CGameObject lpCallObj = &getGameObject(lpObj.m_RecallMon);
 
 	if ( lpCallObj.TargetNumber >= 0 )
 	{
@@ -1165,33 +1165,33 @@ int gObjMonsterSearchEnemy(CGameObject &Obj, BYTE objtype)
 
 		if ( tObjNum >= 0 )
 		{
-			if ( (gGameObjects[tObjNum]->Type == t1 || gGameObjects[tObjNum]->Type == t2) && (gGameObjects[tObjNum]->Live != FALSE) )
+			if ( (getGameObject(tObjNum]->Type == t1 || getGameObject(tObjNum)->Type == t2) && (getGameObject(tObjNum)->Live != FALSE) )
 			{
-				if ( ((gGameObjects[tObjNum]->Class >= 100 && gGameObjects[tObjNum]->Class < 110 ) || gGameObjects[tObjNum]->Class == 523) || (gGameObjects[tObjNum]->Type == OBJ_MONSTER && gGameObjects[tObjNum]->m_RecallMon >= 0) )
+				if ( ((getGameObject(tObjNum]->Class >= 100 && getGameObject(tObjNum]->Class < 110 ) || getGameObject(tObjNum)->Class == 523) || (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0) )
 				{
 
 				}
 				
 				else
 				{
-					if (g_NewPVP.IsObserver(gGameObjects[tObjNum]) == TRUE)
+					if (g_NewPVP.IsObserver(getGameObject(tObjNum)) == TRUE)
 					{
 						continue;
 					}
 
-					if ( (gGameObjects[tObjNum]->Authority &2) == 2 || (gGameObjects[tObjNum]->Authority & 0x20) == 0x20)
+					if ( (getGameObject(tObjNum]->Authority &2) == 2 || (getGameObject(tObjNum)->Authority & 0x20) == 0x20)
 					{
-						if ( (gGameObjects[tObjNum]->GameMaster & GM_MONSTERS_INVISIBLE) == GM_MONSTERS_INVISIBLE )
+						if ( (getGameObject(tObjNum)->GameMaster & GM_MONSTERS_INVISIBLE) == GM_MONSTERS_INVISIBLE )
 						{
 							continue;
 						}
 					}
 
 					
-					if ( gGameObjects[tObjNum]->Teleport == 0 )
+					if ( getGameObject(tObjNum)->Teleport == 0 )
 					{
-						tx = lpObj.X - gGameObjects[tObjNum]->X;
-						ty = lpObj.Y - gGameObjects[tObjNum]->Y;
+						tx = lpObj.X - getGameObject(tObjNum)->X;
+						ty = lpObj.Y - getGameObject(tObjNum)->Y;
 						dis = sqrt(static_cast<float>(tx * tx + ty * ty));
 						lpObj.VpPlayer2[n].dis = dis;
 
@@ -1234,34 +1234,34 @@ int gObjGuardSearchEnemy(CGameObject &Obj)
 	{
 		tObjNum = lpObj.VpPlayer2[n].number;
 
-		if ( tObjNum >= 0 && MAX_MAP_RANGE(gGameObjects[tObjNum]->MapNumber))
+		if ( tObjNum >= 0 && MAX_MAP_RANGE(getGameObject(tObjNum)->MapNumber))
 		{
 			BOOL bEnableAttack = FALSE; //Season 2.5 add-on
 
-			if( gGameObjects[tObjNum]->PartyNumber >= 0) //Season 2.5 add-on
+			if( getGameObject(tObjNum)->PartyNumber >= 0) //Season 2.5 add-on
 			{
-				if( gParty.GetPKPartyPenalty(gGameObjects[tObjNum]->PartyNumber) > 4 )
+				if( gParty.GetPKPartyPenalty(getGameObject(tObjNum)->PartyNumber) > 4 )
 				{
 					bEnableAttack = TRUE;
 				}
 				
 			}
 
-			else if( gGameObjects[tObjNum]->m_PK_Level > 4 ) 
+			else if( getGameObject(tObjNum)->m_PK_Level > 4 ) 
 			{
 				bEnableAttack = TRUE;
 			}
 			
-			if ( gGameObjects[tObjNum]->Type == OBJ_USER )
+			if ( getGameObject(tObjNum)->Type == OBJ_USER )
 			{
 				if(bEnableAttack == TRUE) //Season 2.5 add-on
 				{
-					attr = MapC[gGameObjects[tObjNum]->MapNumber]->GetAttr(gGameObjects[tObjNum]->X, gGameObjects[tObjNum]->Y);
+					attr = MapC[getGameObject(tObjNum]->MapNumber]->GetAttr(getGameObject(tObjNum)->X, getGameObject(tObjNum)->Y);
 
 					if ( (attr&1) != 1 )
 					{
-						tx = lpObj.X - gGameObjects[tObjNum]->X;
-						ty = lpObj.Y - gGameObjects[tObjNum]->Y;
+						tx = lpObj.X - getGameObject(tObjNum)->X;
+						ty = lpObj.Y - getGameObject(tObjNum)->Y;
 						dis = sqrt(static_cast<float>(tx * tx + ty * ty));
 						lpObj.VpPlayer2[n].dis = dis;
 
@@ -1339,7 +1339,7 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 				{
 					int map = ObjSource.MapNumber;
 					BYTE attr;
-					int dis = gObjCalDistance(ObjSource, &gGameObjects[aIndex]);
+					int dis = gObjCalDistance(ObjSource, &getGameObject(aIndex));
 					int range;
 
 					if ( ObjSource.m_AttackType >= 100 )
@@ -1421,7 +1421,7 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 					{
 						if ( ObjSource.m_lpMonsterHerd )
 						{
-							ObjSource.m_lpMonsterHerd->BeenAttacked (ObjSource, &gGameObjects[aIndex]);
+							ObjSource.m_lpMonsterHerd->BeenAttacked (ObjSource, &getGameObject(aIndex));
 						}
 					}
 				}
@@ -1433,9 +1433,9 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 					int IndexEnemy = ObjSource.TargetNumber;
 					if(ObjectMaxRange(IndexEnemy))
 					{
-						int EnemyMap = gGameObjects[IndexEnemy]->MapNumber;
+						int EnemyMap = getGameObject(IndexEnemy)->MapNumber;
 
-						int enemydis = gObjCalDistance(ObjSource, &gGameObjects[aIndex]);
+						int enemydis = gObjCalDistance(ObjSource, &getGameObject(aIndex));
 						int range;
 
 						if ( ObjSource.m_AttackType >= 100 )
@@ -1454,7 +1454,7 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 						}
 						else
 						{
-							if ( MapC[EnemyMap].CheckWall2(ObjSource.X, ObjSource.Y, gGameObjects[IndexEnemy]->X, gGameObjects[IndexEnemy]->Y) == 1 )
+							if ( MapC[EnemyMap].CheckWall2(ObjSource.X, ObjSource.Y, getGameObject(IndexEnemy]->X, getGameObject(IndexEnemy)->Y) == 1 )
 							{
 								ObjSource.m_ActState.Attack = 1;
 								ObjSource.TargetNumber = aIndex;
@@ -1511,8 +1511,8 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 
 			if (ObjSource.Type == OBJ_USER)
 			{
-				g_QuestExpProgMng.ChkUserQuestTypeMonsterKill(&gGameObjects[aIndex], ObjSource);
-				g_QuestExpProgMng.QuestMonsterItemDrop(0, &gGameObjects[aIndex], ObjSource);
+				g_QuestExpProgMng.ChkUserQuestTypeMonsterKill(&getGameObject(aIndex), ObjSource);
+				g_QuestExpProgMng.QuestMonsterItemDrop(0, &getGameObject(aIndex), ObjSource);
 			}
 
 			if ( ObjSource.Class == 673 )
@@ -1530,7 +1530,7 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 			
 			}
 
-			gObjMonsterDieGiveItem(ObjSource, &gGameObjects[aIndex] );
+			gObjMonsterDieGiveItem(ObjSource, &getGameObject(aIndex) );
 			ObjSource.NextActionTime = 500;
 
 			if ( ObjSource.m_RecallMon >= 0 )
@@ -1558,7 +1558,7 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 				{
 					if ( ObjSource.Class != 131 ||  ((  (ObjSource.Class-132)<0)?FALSE:((ObjSource.Class-132)>2)?FALSE:TRUE)==FALSE )
 					{
-						gObjBackSpring(ObjSource, &gGameObjects[aIndex]);
+						gObjBackSpring(ObjSource, &getGameObject(aIndex));
 					}
 				}
 			}
@@ -1586,7 +1586,7 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 		case 6:
 			if ( ObjSource.Live != FALSE )
 			{
-				gObjBackSpring2(ObjSource, &gGameObjects[aIndex], 2);
+				gObjBackSpring2(ObjSource, &getGameObject(aIndex), 2);
 			}
 
 			break;
@@ -1594,17 +1594,17 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 		case 7:
 			if ( ObjSource.Live != FALSE )
 			{
-				gObjBackSpring2(ObjSource, &gGameObjects[aIndex], 3);
+				gObjBackSpring2(ObjSource, &getGameObject(aIndex), 3);
 			}
 			break;
 
 		case 55:
-			gObjAttack(ObjSource, &gGameObjects[aIndex], NULL, FALSE, 0, 0, FALSE, 0, 0);
+			gObjAttack(ObjSource, &getGameObject(aIndex), NULL, FALSE, 0, 0, FALSE, 0, 0);
 			break;
 
 		case 56:
 			{
-				CGameObject lpTargetObj = &gGameObjects[aIndex];
+				CGameObject lpTargetObj = &getGameObject(aIndex);
 
 				if ( gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_POISON) == FALSE )
 				{
@@ -1619,7 +1619,7 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 
 		case 57:
 			{
-				CGameObject lpTargetObj = &gGameObjects[aIndex];
+				CGameObject lpTargetObj = &getGameObject(aIndex);
 				gObjBackSpring2(lpTargetObj, ObjSource, aMsgSubCode);
 			}
 			break;
@@ -1629,7 +1629,7 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 				if ( ObjSource.Class == 533 )
 				{
 					CMagicInf* lpMagic = gObjGetMagicSearch(ObjSource, aMsgSubCode);
-					gObjAttack(ObjSource, &gGameObjects[aIndex], lpMagic, 0, 1, 0, 0, 0, 0);
+					gObjAttack(ObjSource, &getGameObject(aIndex), lpMagic, 0, 1, 0, 0, 0, 0);
 				}
 
 				else
@@ -1637,7 +1637,7 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 					if ( ObjSource.Live == TRUE )
 					{
 						CMagicInf* lpMagic = gObjGetMagicSearch(ObjSource, aMsgSubCode);
-						gObjAttack(ObjSource, &gGameObjects[aIndex], lpMagic, 0, 1, 0, 0, 0, 0);
+						gObjAttack(ObjSource, &getGameObject(aIndex), lpMagic, 0, 1, 0, 0, 0, 0);
 					}
 				}
 			}
@@ -1646,7 +1646,7 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 		case 62:
 			{
 				int nDamage = 20 * ObjSource.MaxLife / 100;
-				gObjAttack(ObjSource, &gGameObjects[aIndex], 0, 0, 0, nDamage, 0, 0, 0);
+				gObjAttack(ObjSource, &getGameObject(aIndex), 0, 0, 0, nDamage, 0, 0, 0);
 			}
 			break;
 	}
@@ -1802,7 +1802,7 @@ void gObjMonsterProcess(CGameObject &Obj)
 			CGameObject lpCallMonObj;
 			BOOL Success = FALSE;
 
-			lpCallMonObj = &gGameObjects[lpObj.m_RecallMon];
+			lpCallMonObj = &getGameObject(lpObj.m_RecallMon);
 
 			if ( lpObj.MapNumber != lpCallMonObj.MapNumber )
 			{
@@ -1851,10 +1851,10 @@ void gObjMonsterProcess(CGameObject &Obj)
 			if (iTargetNumber < 0 )
 				bEnableAttack = FALSE;
 
-			else if ( gGameObjects[iTargetNumber]->Live == FALSE || gGameObjects[iTargetNumber]->Teleport != 0)
+			else if ( getGameObject(iTargetNumber]->Live == FALSE || getGameObject(iTargetNumber)->Teleport != 0)
 				bEnableAttack = FALSE;
 
-			else if ( gGameObjects[iTargetNumber]->Connected <= PLAYER_LOGGED || gGameObjects[iTargetNumber]->CloseCount != -1 )
+			else if ( getGameObject(iTargetNumber]->Connected <= PLAYER_LOGGED || getGameObject(iTargetNumber)->CloseCount != -1 )
 				bEnableAttack = FALSE;
 
 			if ( bEnableAttack == FALSE )
@@ -1877,7 +1877,7 @@ void gObjMonsterProcess(CGameObject &Obj)
 				pAttackMsg.NumberL = iTargetNumber &0xFF;
 
 				gGameProtocol.GCActionSend(lpObj, 120, lpObj.m_Index, iTargetNumber);
-				gObjAttack(lpObj, &gGameObjects[iTargetNumber], NULL, FALSE, 0, 0, FALSE, 0, 0);
+				gObjAttack(lpObj, &getGameObject(iTargetNumber), NULL, FALSE, 0, 0, FALSE, 0, 0);
 			}
 
 			else if (lpObj.Class == 681 && g_EvoMonMng.IsEvolutedEvoMon(lpObj.m_Index) == false)
@@ -1890,7 +1890,7 @@ void gObjMonsterProcess(CGameObject &Obj)
 				pAttackMsg.NumberL = iTargetNumber & 0xFF;
 
 				gGameProtocol.GCActionSend(lpObj, 120, lpObj.m_Index, iTargetNumber);
-				gObjAttack(lpObj, &gGameObjects[iTargetNumber], NULL, FALSE, 0, 0, FALSE, 0, 0);
+				gObjAttack(lpObj, &getGameObject(iTargetNumber), NULL, FALSE, 0, 0, FALSE, 0, 0);
 			}
 
 			else
@@ -1929,9 +1929,9 @@ void gObjMonsterProcess(CGameObject &Obj)
 
 				if (iTargetNumber >= 0 )
 				{
-					if ( gGameObjects[iTargetNumber]->Connected > PLAYER_LOGGED && gGameObjects[iTargetNumber]->CloseCount == -1 )
+					if ( getGameObject(iTargetNumber]->Connected > PLAYER_LOGGED && getGameObject(iTargetNumber)->CloseCount == -1 )
 					{
-						if ( gGameObjects[iTargetNumber]->Live == FALSE )
+						if ( getGameObject(iTargetNumber)->Live == FALSE )
 						{
 							lpObj.TargetNumber = -1;
 							lpObj.m_ActState.Emotion = 0;
@@ -1939,7 +1939,7 @@ void gObjMonsterProcess(CGameObject &Obj)
 							lpObj.m_ActState.Move = 0;
 							lpObj.NextActionTime = 1000;
 						}
-						else if ( gGameObjects[iTargetNumber]->Teleport == 0 ) // if is not dead
+						else if ( getGameObject(iTargetNumber)->Teleport == 0 ) // if is not dead
 						{
 							gObjMonsterMagicAttack(lpObj, -1);
 
@@ -1949,7 +1949,7 @@ void gObjMonsterProcess(CGameObject &Obj)
 								{
 									if (lpObj.m_lpMonsterHerd != NULL )
 									{
-										lpObj.m_lpMonsterHerd->MonsterAttackAction(lpObj, &gGameObjects[iTargetNumber]);
+										lpObj.m_lpMonsterHerd->MonsterAttackAction(lpObj, &getGameObject(iTargetNumber));
 									}
 								}
 							}
@@ -1971,9 +1971,9 @@ void gObjMonsterProcess(CGameObject &Obj)
 
 				if (iTargetNumber >= 0 )
 				{
-					if ( gGameObjects[iTargetNumber]->Connected > PLAYER_LOGGED &&  gGameObjects[iTargetNumber]->CloseCount == -1 )
+					if ( getGameObject(iTargetNumber]->Connected > PLAYER_LOGGED &&  getGameObject(iTargetNumber)->CloseCount == -1 )
 					{
-						if ( gGameObjects[iTargetNumber]->Live == FALSE )
+						if ( getGameObject(iTargetNumber)->Live == FALSE )
 						{
 							lpObj.TargetNumber = -1;
 							lpObj.m_ActState.Emotion = 0;
@@ -1981,9 +1981,9 @@ void gObjMonsterProcess(CGameObject &Obj)
 							lpObj.m_ActState.Move = 0;
 							lpObj.NextActionTime = 1000;
 						}
-						else if ( gGameObjects[iTargetNumber]->Teleport == 0 )
+						else if ( getGameObject(iTargetNumber)->Teleport == 0 )
 						{
-							gObjMonsterAttack(lpObj, &gGameObjects[iTargetNumber]);
+							gObjMonsterAttack(lpObj, &getGameObject(iTargetNumber));
 
 							if ( lpObj.Type == OBJ_MONSTER )
 							{
@@ -1991,7 +1991,7 @@ void gObjMonsterProcess(CGameObject &Obj)
 								{
 									if (lpObj.m_lpMonsterHerd != NULL )
 									{
-										lpObj.m_lpMonsterHerd->MonsterAttackAction(lpObj, &gGameObjects[iTargetNumber]);
+										lpObj.m_lpMonsterHerd->MonsterAttackAction(lpObj, &getGameObject(iTargetNumber));
 									}
 								}
 							}
@@ -2066,7 +2066,7 @@ void gObjMonsterMagicAttack(CGameObject &Obj, int iMonsterClass)
 						ASBOfs+= sizeof(pAttack);
 						pCount.Count++;
 					}
-					else if ( lpObj.Class == 275 || gObjCalDistance(lpObj, &gGameObjects[tObjNum]) < 6 )
+					else if ( lpObj.Class == 275 || gObjCalDistance(lpObj, &getGameObject(tObjNum)) < 6 )
 					{
 						pAttack.NumberH = SET_NUMBERH(tObjNum);
 						pAttack.NumberL = SET_NUMBERL(tObjNum);
@@ -2130,7 +2130,7 @@ void gObjMonsterBeattackRecv(BYTE * lpRecv, CGameObject &Obj)
 	int lOfs = sizeof(PMSG_BEATTACK_COUNT);
 	int tNumber;
 	WORD MagicNumber = MAKE_NUMBERW(lpCount->MagicNumberH, lpCount->MagicNumberL);
-	CMagicInf * lpMagic = gObjGetMagic(&gGameObjects[aIndex], MagicNumber);
+	CMagicInf * lpMagic = gObjGetMagic(&getGameObject(aIndex), MagicNumber);
 
 	if ( lpMagic == NULL )
 	{
@@ -2153,7 +2153,7 @@ void gObjMonsterBeattackRecv(BYTE * lpRecv, CGameObject &Obj)
 	{
 		lpMsg = (PMSG_BEATTACK *)&lpRecv[lOfs];
 		tNumber = MAKE_NUMBERW(lpMsg->NumberH, lpMsg->NumberL);
-		gObjAttack(&gGameObjects[aIndex], &gGameObjects[tNumber], lpMagic, 1, 1, 0 ,0, 0, 0);
+		gObjAttack(&getGameObject(aIndex], &getGameObject(tNumber), lpMagic, 1, 1, 0 ,0, 0, 0);
 		lOfs+= sizeof(PMSG_BEATTACK);
 	}
 }
@@ -2581,7 +2581,7 @@ void gObjMonsterBaseAct(CGameObject &Obj)
 	CGameObject lpTargetObj = NULL;
 
 	if ( lpObj.TargetNumber >= 0 )
-		lpTargetObj = &gGameObjects[lpObj.TargetNumber];
+		lpTargetObj = &getGameObject(lpObj.TargetNumber);
 	else
 		lpObj.m_ActState.Emotion = 0;
 
@@ -2627,9 +2627,9 @@ void gObjMonsterBaseAct(CGameObject &Obj)
 
 						if ( lpObj.m_RecallMon >= 0 )
 						{
-							if ( gGameObjects[lpObj.m_RecallMon]->Connected > PLAYER_LOGGED )
+							if ( getGameObject(lpObj.m_RecallMon)->Connected > PLAYER_LOGGED )
 							{
-								CGameObject lpRecallObj = &gGameObjects[lpObj.m_RecallMon];
+								CGameObject lpRecallObj = &getGameObject(lpObj.m_RecallMon);
 
 								if ( lpRecallObj.m_Rest == FALSE )
 								{
@@ -2729,7 +2729,7 @@ void gObjMonsterBaseAct(CGameObject &Obj)
 
 				if (iTargetNumber >= 0 )
 				{
-					if ( gGameObjects[iTargetNumber]->Class >= 248 )
+					if ( getGameObject(iTargetNumber)->Class >= 248 )
 					{
 						lpObj.TargetNumber = -1;
 					}
@@ -2760,7 +2760,7 @@ void gObjMonsterBaseAct(CGameObject &Obj)
 						{
 							if (lpObj.m_RecallMon != -1 && ObjectMaxRange(iTargetNumber) == true)
 							{
-								if (g_ArcaBattle.IsEnableAttackObelisk(&gGameObjects[lpObj.m_RecallMon], gGameObjects[iTargetNumber]->Class) == FALSE)
+								if (g_ArcaBattle.IsEnableAttackObelisk(&getGameObject(lpObj.m_RecallMon], getGameObject(iTargetNumber)->Class) == FALSE)
 								{
 									lpObj.TargetNumber = -1;
 								}
@@ -2817,11 +2817,11 @@ void gObjMonsterBaseAct(CGameObject &Obj)
 				{
 					if ( lpObj.LastAttackerID != -1 && lpObj.LastAttackerID != lpObj.TargetNumber )
 					{
-						if ( gGameObjects[lpObj.LastAttackerID]->Connected > PLAYER_LOGGED &&
-							lpObj.MapNumber == gGameObjects[lpObj.LastAttackerID]->MapNumber )
+						if ( getGameObject(lpObj.LastAttackerID)->Connected > PLAYER_LOGGED &&
+							lpObj.MapNumber == getGameObject(lpObj.LastAttackerID)->MapNumber )
 						{
 							lpObj.TargetNumber = lpObj.LastAttackerID;
-							lpTargetObj = &gGameObjects[lpObj.LastAttackerID];
+							lpTargetObj = &getGameObject(lpObj.LastAttackerID);
 						}
 					}
 				}
@@ -2844,7 +2844,7 @@ void gObjMonsterBaseAct(CGameObject &Obj)
 					return;
 				}
 
-				int map = gGameObjects[tuser]->MapNumber;
+				int map = getGameObject(tuser)->MapNumber;
 				BYTE attr;
 
 				if ( MAX_MAP_RANGE(map) == FALSE )
@@ -2853,9 +2853,9 @@ void gObjMonsterBaseAct(CGameObject &Obj)
 					return;
 				}
 
-				if ( MapC[map].CheckWall(lpObj.X, lpObj.Y, gGameObjects[tuser]->X, gGameObjects[tuser]->Y) == TRUE )
+				if ( MapC[map].CheckWall(lpObj.X, lpObj.Y, getGameObject(tuser]->X, getGameObject(tuser)->Y) == TRUE )
 				{
-					attr = MapC[map].GetAttr(gGameObjects[tuser]->X, gGameObjects[tuser]->Y);
+					attr = MapC[map].GetAttr(getGameObject(tuser]->X, getGameObject(tuser)->Y);
 
 					if ( (attr&1) != 1 )
 					{
@@ -2959,17 +2959,17 @@ void gObjTrapAttackEnemySearchX(CGameObject &Obj, int count)
 
 			if(tObjNum >= 0)
 			{
-				if(gGameObjects[tObjNum]->Type==OBJ_USER)
+				if(getGameObject(tObjNum)->Type==OBJ_USER)
 				{
-					if(gGameObjects[tObjNum]->Live)
+					if(getGameObject(tObjNum)->Live)
 					{
-						if(y == gGameObjects[tObjNum]->Y)
+						if(y == getGameObject(tObjNum)->Y)
 						{
-							if(pos == gGameObjects[tObjNum]->X)
+							if(pos == getGameObject(tObjNum)->X)
 							{
-								if ( (gGameObjects[tObjNum]->Authority &2) == 2 || (gGameObjects[tObjNum]->Authority & 0x20) == 0x20)
+								if ( (getGameObject(tObjNum]->Authority &2) == 2 || (getGameObject(tObjNum)->Authority & 0x20) == 0x20)
 								{
-									if ( (gGameObjects[tObjNum]->GameMaster & GM_MONSTERS_INVISIBLE) == GM_MONSTERS_INVISIBLE )
+									if ( (getGameObject(tObjNum)->GameMaster & GM_MONSTERS_INVISIBLE) == GM_MONSTERS_INVISIBLE )
 									{
 										continue;
 									}
@@ -3005,17 +3005,17 @@ void gObjTrapAttackEnemySearchY(CGameObject &Obj, int count)
 
 			if(tObjNum >= 0)
 			{
-				if(gGameObjects[tObjNum]->Type==1)
+				if(getGameObject(tObjNum)->Type==1)
 				{
-					if(gGameObjects[tObjNum]->Live)
+					if(getGameObject(tObjNum)->Live)
 					{
-						if(pos == gGameObjects[tObjNum]->Y)
+						if(pos == getGameObject(tObjNum)->Y)
 						{
-							if(x == gGameObjects[tObjNum]->X)
+							if(x == getGameObject(tObjNum)->X)
 							{
-								if ( (gGameObjects[tObjNum]->Authority &2) == 2 || (gGameObjects[tObjNum]->Authority & 0x20) == 0x20)
+								if ( (getGameObject(tObjNum]->Authority &2) == 2 || (getGameObject(tObjNum)->Authority & 0x20) == 0x20)
 								{
-									if ( (gGameObjects[tObjNum]->GameMaster & GM_MONSTERS_INVISIBLE) == GM_MONSTERS_INVISIBLE )
+									if ( (getGameObject(tObjNum)->GameMaster & GM_MONSTERS_INVISIBLE) == GM_MONSTERS_INVISIBLE )
 									{
 										continue;
 									}
@@ -3045,17 +3045,17 @@ void gObjTrapAttackEnemySearch(CGameObject &Obj)
 
 		if(tObjNum >= 0)
 		{
-			if(gGameObjects[tObjNum]->Type==1)
+			if(getGameObject(tObjNum)->Type==1)
 			{
-				if(gGameObjects[tObjNum]->Live)
+				if(getGameObject(tObjNum)->Live)
 				{
-					if(lpObj.Y == gGameObjects[tObjNum]->Y)
+					if(lpObj.Y == getGameObject(tObjNum)->Y)
 					{
-						if(lpObj.X == gGameObjects[tObjNum]->X)
+						if(lpObj.X == getGameObject(tObjNum)->X)
 						{
-							if ( (gGameObjects[tObjNum]->Authority &2) == 2 || (gGameObjects[tObjNum]->Authority & 0x20) == 0x20)
+							if ( (getGameObject(tObjNum]->Authority &2) == 2 || (getGameObject(tObjNum)->Authority & 0x20) == 0x20)
 							{
-								if ( (gGameObjects[tObjNum]->GameMaster & GM_MONSTERS_INVISIBLE) == GM_MONSTERS_INVISIBLE )
+								if ( (getGameObject(tObjNum)->GameMaster & GM_MONSTERS_INVISIBLE) == GM_MONSTERS_INVISIBLE )
 								{
 									continue;
 								}
@@ -3092,17 +3092,17 @@ void gObjTrapAttackEnemySearchRange(CGameObject &Obj,int iRange)
 
 		if(tObjNum >= 0)
 		{
-			if(gGameObjects[tObjNum]->Type==1)
+			if(getGameObject(tObjNum)->Type==1)
 			{
-				if(gGameObjects[tObjNum]->Live)
+				if(getGameObject(tObjNum)->Live)
 				{
-					if((lpObj.Y - iRange) <= gGameObjects[tObjNum]->Y && (lpObj.Y + iRange) >= gGameObjects[tObjNum]->Y)
+					if((lpObj.Y - iRange) <= getGameObject(tObjNum]->Y && (lpObj.Y + iRange) >= getGameObject(tObjNum)->Y)
 					{
-						if((lpObj.X - iRange) <= gGameObjects[tObjNum]->X && (lpObj.X + iRange) >= gGameObjects[tObjNum]->X)
+						if((lpObj.X - iRange) <= getGameObject(tObjNum]->X && (lpObj.X + iRange) >= getGameObject(tObjNum)->X)
 						{
-							if ( (gGameObjects[tObjNum]->Authority &2) == 2 || (gGameObjects[tObjNum]->Authority & 0x20) == 0x20)
+							if ( (getGameObject(tObjNum]->Authority &2) == 2 || (getGameObject(tObjNum)->Authority & 0x20) == 0x20)
 							{
-								if ( (gGameObjects[tObjNum]->GameMaster & GM_MONSTERS_INVISIBLE) == GM_MONSTERS_INVISIBLE )
+								if ( (getGameObject(tObjNum)->GameMaster & GM_MONSTERS_INVISIBLE) == GM_MONSTERS_INVISIBLE )
 								{
 									continue;
 								}
@@ -3290,7 +3290,7 @@ void gObjRefillMonsterHP(CGameObject &MonsterObj, int iRefillHPSec)
 		{
 			if(gObjIsConnected(lpMonsterObj.LastAttackerID))
 			{
-				lpObj = &gGameObjects[lpMonsterObj.LastAttackerID];
+				lpObj = &getGameObject(lpMonsterObj.LastAttackerID);
 			}
 		}
 
@@ -3332,14 +3332,14 @@ int gObjMonsterSelectSkillForMedusa(CGameObject &Obj)
 		if ( nObjNum < 0 )
 			break;
 
-		if ( gGameObjects[nObjNum]->Type == OBJ_USER && gGameObjects[nObjNum]->Live == TRUE )
+		if ( getGameObject(nObjNum]->Type == OBJ_USER && getGameObject(nObjNum)->Live == TRUE )
 			nTargetCnt++;
 
 		int iTargetNumber = lpObj.TargetNumber;
 
 		if ( ObjectMaxRange(iTargetNumber) )
 		{
-			if ( gObjCalDistance(&gGameObjects[iTargetNumber], &gGameObjects[nObjNum]) <= 3 )
+			if ( gObjCalDistance(&getGameObject(iTargetNumber], &getGameObject(nObjNum)) <= 3 )
 			{
 				if (iTargetNumber != nObjNum )
 					nSplashTargetCnt++;
@@ -3469,8 +3469,8 @@ void gObjMonsterDieGiveItem(CGameObject &Obj, CGameObject lpTargetObj)
 			nMaxHitUser = lpTargetObj.m_Index;
 		}
 
-		sLog->outBasic("[AcheronGuardianEvent] BossName: %s, CharacterName: %s", lpObj.Name, gGameObjects[nMaxHitUser]->Name);
-		g_AcheronGuardianEvent.DestroyObelisk(&gGameObjects[nMaxHitUser], lpObj.MapNumber, lpObj.X, lpObj.Y, nMaxHitUser);
+		sLog->outBasic("[AcheronGuardianEvent] BossName: %s, CharacterName: %s", lpObj.Name, getGameObject(nMaxHitUser)->Name);
+		g_AcheronGuardianEvent.DestroyObelisk(&getGameObject(nMaxHitUser), lpObj.MapNumber, lpObj.X, lpObj.Y, nMaxHitUser);
 		return;
 	}
 
@@ -3760,7 +3760,7 @@ void gObjMonsterDieGiveItem(CGameObject &Obj, CGameObject lpTargetObj)
 
 		for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 		{
-			if (gGameObjects[i]->Connected == PLAYER_PLAYING && gGameObjects[i]->m_SummonCharDBNum == lpObj.DBNumber)
+			if (getGameObject(i]->Connected == PLAYER_PLAYING && getGameObject(i)->m_SummonCharDBNum == lpObj.DBNumber)
 			{
 				iLootIndex = i;
 				break;
@@ -3798,7 +3798,7 @@ void gObjMonsterDieGiveItem(CGameObject &Obj, CGameObject lpTargetObj)
 
 		for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 		{
-			if (gGameObjects[i]->Connected == PLAYER_PLAYING && gGameObjects[i]->m_SummonCharDBNum == lpObj.DBNumber)
+			if (getGameObject(i]->Connected == PLAYER_PLAYING && getGameObject(i)->m_SummonCharDBNum == lpObj.DBNumber)
 			{
 				iLootIndex = i;
 				break;
@@ -4172,7 +4172,7 @@ void gObjMonsterDieGiveItem(CGameObject &Obj, CGameObject lpTargetObj)
 				return;
 			}
 
-			gGameObjects[MaxHitUser]->m_nEventMoney += (__int64)money;
+			getGameObject(MaxHitUser)->m_nEventMoney += (__int64)money;
 		}
 		else
 		{
@@ -4195,11 +4195,11 @@ void gObjMonsterDieGiveItem(CGameObject &Obj, CGameObject lpTargetObj)
 			x+= rand()%3;
 			y+= rand()%3;
 			int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
-			if (MaxHitUser != -1 && gGameObjects[MaxHitUser]->Type == OBJ_USER)
+			if (MaxHitUser != -1 && getGameObject(MaxHitUser)->Type == OBJ_USER)
 			{
-				if (g_ConfigRead.data.common.joinmuDropItemUnderCharacter[gGameObjects[MaxHitUser]->Class] == true)
+				if (g_ConfigRead.data.common.joinmuDropItemUnderCharacter[getGameObject(MaxHitUser]->Class) == true)
 				{
-					MapC[lpObj.MapNumber].MoneyItemDrop(lpObj.MonsterMoneyDrop, gGameObjects[MaxHitUser]->X, gGameObjects[MaxHitUser]->Y);
+					MapC[lpObj.MapNumber].MoneyItemDrop(lpObj.MonsterMoneyDrop, getGameObject(MaxHitUser]->X, getGameObject(MaxHitUser)->Y);
 				}
 				else
 				{
@@ -4408,7 +4408,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 
 		if ( MaxHitUser != -1 )
 		{
-			int partycount = gParty.GetPartyCount(gGameObjects[MaxHitUser]->PartyNumber);
+			int partycount = gParty.GetPartyCount(getGameObject(MaxHitUser)->PartyNumber);
 
 			if ( partycount > 0 )
 			{
@@ -4755,7 +4755,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 
 						if (ObjectMaxRange(MaxHitUser))
 						{
-							sLog->outBasic("[Castle HuntZone] Drop SetItem [%s][%s] ", gGameObjects[MaxHitUser]->AccountID, gGameObjects[MaxHitUser]->Name);
+							sLog->outBasic("[Castle HuntZone] Drop SetItem [%s][%s] ", getGameObject(MaxHitUser]->AccountID, getGameObject(MaxHitUser)->Name);
 							::MakeRewardSetItem(MaxHitUser, lpObj.X, lpObj.Y, 0, lpObj.MapNumber);
 							return TRUE;
 						}
@@ -5283,7 +5283,7 @@ void KillLordSilvesterRecallMon(int nLordSilvesterIndex, int nRecallMonIndex)
 		return;
 	}
 
-	CGameObject lpObj = &gGameObjects[nLordSilvesterIndex];
+	CGameObject lpObj = &getGameObject(nLordSilvesterIndex);
 
 	if (lpObj.Type != OBJ_MONSTER)
 	{
@@ -5388,9 +5388,9 @@ void SendLordSilvesterBlockInfo(CGameObject &Obj, BYTE btMapSetType)
 	{
 		for (int i = g_ConfigRead.server.GetObjectMaxMonster(); i < g_ConfigRead.server.GetObjectMax(); i++)
 		{
-			if (gGameObjects[i]->MapNumber == MAP_INDEX_URUK_MOUNTAIN) //season3 changed
+			if (getGameObject(i)->MapNumber == MAP_INDEX_URUK_MOUNTAIN) //season3 changed
 			{
-				if (gGameObjects[i]->Connected > PLAYER_LOGGED)
+				if (getGameObject(i)->Connected > PLAYER_LOGGED)
 				{
 					IOCP.DataSend(i, (BYTE*)lpMsg, lpMsg->h.size);
 				}
@@ -5426,10 +5426,10 @@ void CQeustNpcTeleport::Run(CGameObject &Obj)
 		pMsg.TargetNumberH = SET_NUMBERH(aIndex);
 		pMsg.TargetNumberL = SET_NUMBERL(aIndex);
 
-		gGameProtocol.MsgSendV2(&gGameObjects[aIndex], (UCHAR*)&pMsg, pMsg.h.size);
+		gGameProtocol.MsgSendV2(&getGameObject(aIndex), (UCHAR*)&pMsg, pMsg.h.size);
 
-		gObjViewportListProtocolDestroy(&gGameObjects[aIndex]);
-		gObjClearViewport(&gGameObjects[aIndex]);
+		gObjViewportListProtocolDestroy(&getGameObject(aIndex));
+		gObjClearViewport(&getGameObject(aIndex));
 
 		int tableindex;
 

@@ -139,7 +139,7 @@ void WZMD5::update (uint1 *input, uint4 input_length) {
     input_index=0;     // so we can buffer the whole input
 
   // and here we do the buffering:
-  memcpy(buffer+buffer_index, input+input_index, input_length-input_index);
+  std::memcpy(buffer+buffer_index, input+input_index, input_length-input_index);
 }
 
 
@@ -265,7 +265,7 @@ BYTE *WZMD5::raw_digest(){
     return ( (BYTE*) "");
   }
 
-  memcpy((uint1*)m_cRaw_digest, digest, 16);
+  std::memcpy((uint1*)m_cRaw_digest, digest, 16);
   return m_cRaw_digest;
 }
 

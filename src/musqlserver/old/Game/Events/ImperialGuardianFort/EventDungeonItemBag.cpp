@@ -199,7 +199,7 @@ BOOL CEventDungeonItemBag::DropEventItem(int nIndex, int nMaxUserLevel)
 		return FALSE;
 	}
 
-	CGameObject lpObj = &gGameObjects[nIndex];
+	CGameObject lpObj = &getGameObject(nIndex);
 	CEventItemBagAttr BagObject;
 	CEventItemBagAttr BagObject2;
 	int nItemCount = this->GetRegItemCount(nMaxUserLevel);
@@ -274,7 +274,7 @@ BOOL CEventDungeonItemBag::CreateNormalItem(int nIndex, int nMaxUserLevel, CEven
 	BYTE btNewExOption[5];
 	memset(btNewExOption, -1, sizeof(btNewExOption));
 
-	CGameObject lpObj = &gGameObjects[nIndex];
+	CGameObject lpObj = &getGameObject(nIndex);
 
 	if ( nType == -1 )
 	{
@@ -377,8 +377,8 @@ int CEventDungeonItemBag::CreateSetItem(int nIndex, CEventItemBagAttr BagObject)
 	int SetOption = gSetItemOption.GenSetOption(nType);
 	int Option2 = 0;
 	int Option3 = 0;
-	CGameObject lpObj = &gGameObjects[nIndex];
-	BYTE btMapNumber = gGameObjects[nIndex]->MapNumber;
+	CGameObject lpObj = &getGameObject(nIndex);
+	BYTE btMapNumber = getGameObject(nIndex)->MapNumber;
 	int option2rand = 4;
 	int option3rand = rand()%100;
 	int optionc = rand()%3;

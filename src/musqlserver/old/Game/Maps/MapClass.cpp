@@ -322,7 +322,7 @@ void MapClass::SetWeather(BYTE a_weather, BYTE a_variation)
 
 	for (n = g_ConfigRead.server.GetObjectStartUserIndex(); n<g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		lpObj = &gGameObjects[n];
+		lpObj = &getGameObject(n);
 
 		if (lpObj.Connected > PLAYER_CONNECTED && lpObj.Live != 0 && lpObj.MapNumber == this->thisMapNumber)
 		{
@@ -350,7 +350,7 @@ void MapClass::WeatherVariationProcess()
 
 		for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n<g_ConfigRead.server.GetObjectMax(); n++)
 		{
-			lpObj = &gGameObjects[n];
+			lpObj = &getGameObject(n);
 
 			if (lpObj.Connected > PLAYER_CONNECTED && lpObj.Live != 0 && lpObj.MapNumber == this->thisMapNumber)
 			{
@@ -623,7 +623,7 @@ BOOL MapClass::ItemGive(CGameObject &Obj, int item_num, bool bFailNotSend)
 					{
 						if (lpObj.PartyNumber >= 0)
 						{
-							if (lpObj.PartyNumber == gGameObjects[this->m_CItemObject[item_num]->m_UserIndex]->PartyNumber)
+							if (lpObj.PartyNumber == getGameObject(this->m_CItemObject[item_num]->m_UserIndex)->PartyNumber)
 							{
 								if (BC_MAP_RANGE(lpObj.MapNumber) != FALSE)
 								{

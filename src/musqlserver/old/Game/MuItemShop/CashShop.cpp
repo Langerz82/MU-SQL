@@ -109,12 +109,12 @@ void CItemObjectShop::Run()
 
 	for(int i=g_ConfigRead.server.GetObjectStartUserIndex();i<g_ConfigRead.server.GetObjectMax();i++)
 	{
-		if(gGameObjects[i]->Connected > PLAYER_LOGGED && gGameObjects[i]->m_bOff == false)
+		if(getGameObject(i]->Connected > PLAYER_LOGGED && getGameObject(i)->m_bOff == false)
 		{
-			if((GetTickCount() - gGameObjects[i]->m_PlayerData->m_GoblinTime) >= (this->GoblinTime * 1000))
+			if((GetTickCount() - getGameObject(i)->m_PlayerData->m_GoblinTime) >= (this->GoblinTime * 1000))
 			{
 				GDReqInGameShopPointAdd(i, this->GoblinCoinType, this->GoblinAddCoin);
-				gGameObjects[i]->m_PlayerData->m_GoblinTime = GetTickCount();
+				getGameObject(i)->m_PlayerData->m_GoblinTime = GetTickCount();
 			}
 		}
 	}
@@ -1466,7 +1466,7 @@ void CItemObjectShop::AddGPMonster(CGameObject &MonsterObj)
 		return;
 	}
 
-	CGameObject lpObj = &gGameObjects[MaxHitUser];
+	CGameObject lpObj = &getGameObject(MaxHitUser);
 
 	if(lpMonsterObj.Type != OBJ_MONSTER ||
 		lpObj.Type != OBJ_USER)

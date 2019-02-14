@@ -27,7 +27,7 @@ void OffLevelThread()
 				continue;
 			if(g_OffLevel.FindUser(i) != -1)
 			{
-				g_OffLevel.FindAndAttack(&gGameObjects[i]);
+				g_OffLevel.FindAndAttack(&getGameObject(i));
 				g_OffLevel.CheckUseTime(i);
 				if(g_OffLevel.m_General.AutoRepairItems == 1)
 				{
@@ -231,7 +231,7 @@ void COfflineLevelling::FindAndAttack(CGameObject &user)
 							continue;
 						}
 
-						tObj = &gGameObjects[tObjNum];
+						tObj = &getGameObject(tObjNum);
 
 						if(!tObj)
 							continue;
@@ -261,7 +261,7 @@ void COfflineLevelling::FindAndAttack(CGameObject &user)
 							continue;
 						}
 
-						tObj = &gGameObjects[tObjNum];
+						tObj = &getGameObject(tObjNum);
 
 						if(!tObj)
 							continue;
@@ -314,7 +314,7 @@ void COfflineLevelling::FindAndAttack(CGameObject &user)
 							continue;
 						}
 
-						tObj = &gGameObjects[tObjNum];
+						tObj = &getGameObject(tObjNum);
 
 						if(!tObj)
 							continue;
@@ -501,7 +501,7 @@ void COfflineLevelling::Run()
 	EnterCriticalSection(&this->m_OfflevelCriti);
 	for(std::map<int, OFF_LEVEL_PLAYERS>::iterator iter = m_OffPlayerData.begin(); iter != m_OffPlayerData.end(); iter++)
 	{
-		lpObj = &gGameObjects[iter->second.aIndex];
+		lpObj = &getGameObject(iter->second.aIndex);
 		if(!lpObj){
 			this->DeleteUser(iter->second.aIndex);
 			continue;
@@ -560,7 +560,7 @@ BOOL COfflineLevelling::SkillDistanceCheck(CGameObject &Obj, int aTargetIndex, i
 
 	iSkillDistance += 1;
 	
-	CGameObject lpTargetObj = &gGameObjects[aTargetIndex];
+	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 
 	if ( abs(lpObj.X - lpTargetObj.X) > iSkillDistance ||
 		 abs(lpObj.Y - lpTargetObj.Y) > iSkillDistance )
@@ -576,7 +576,7 @@ int COfflineLevelling::GetOffLevelerCount()
 	int counter = 0;
 	for(int i=g_ConfigRead.server.GetObjectStartUserIndex();i<g_ConfigRead.server.GetObjectMax();i++)
 	{
-		if(gGameObjects[i]->Connected == 3 && gGameObjects[i]->Type == OBJ_USER && gGameObjects[i]->m_bOffLevel )
+		if(getGameObject(i]->Connected == 3 && getGameObject(i)->Type == OBJ_USER && getGameObject(i)->m_bOffLevel )
 		{
 			counter++;
 		}

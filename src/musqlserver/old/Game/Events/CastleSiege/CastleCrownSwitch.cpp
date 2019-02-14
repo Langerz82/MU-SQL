@@ -47,7 +47,7 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(CGameObject &Obj)
 	}
 	
 	CGameObject lpObj= Obj;
-	CGameObject lpUserObj = &gGameObjects[g_CastleSiege.GetCrownSwitchUserIndex(Obj.Class)];
+	CGameObject lpUserObj = &getGameObject(g_CastleSiege.GetCrownSwitchUserIndex(Obj.Class));
 	g_CastleSiege.NotifyCrownSwitchInfo(Obj.m_Index);
 
 	if ( lpUserObj.MapNumber == MAP_INDEX_CASTLESIEGE &&
@@ -61,7 +61,7 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(CGameObject &Obj)
 
 			if (gObjIsConnected(iCrownIndex1) && gObjIsConnected(iCrownIndex2) )
 			{
-				if ( gGameObjects[iCrownIndex1]->m_btCsJoinSide == gGameObjects[iCrownIndex2]->m_btCsJoinSide )
+				if ( getGameObject(iCrownIndex1]->m_btCsJoinSide == getGameObject(iCrownIndex2)->m_btCsJoinSide )
 				{
 					if ( g_CastleSiege.GetRegCrownAvailable() == 0 )
 					{

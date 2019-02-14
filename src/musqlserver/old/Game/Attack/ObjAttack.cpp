@@ -452,7 +452,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 	{
 		if (lpObj.m_RecallMon >= 0)
 		{
-			lpCallObj = &gGameObjects[lpObj.m_RecallMon];
+			lpCallObj = &getGameObject(lpObj.m_RecallMon);
 		}
 	}
 
@@ -462,7 +462,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 	{
 		if (lpTargetObj.m_RecallMon >= 0)
 		{
-			lpCallTargetObj = &gGameObjects[lpTargetObj.m_RecallMon];
+			lpCallTargetObj = &getGameObject(lpTargetObj.m_RecallMon);
 		}
 	}
 
@@ -2898,7 +2898,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 	{
 		if (lpTargetObj.m_RecallMon >= 0)
 		{
-			lpCallObj = &gGameObjects[lpTargetObj.m_RecallMon];
+			lpCallObj = &getGameObject(lpTargetObj.m_RecallMon);
 		}
 	}
 

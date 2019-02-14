@@ -32,7 +32,7 @@ int QuestExpUserMng::IsProgQuestInfo(int iEpisode, int iObjIndex)
 		return 0;
 	}
 
-	return gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetAskCnt();
+	return getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode)->GetAskCnt();
 }
 
 int QuestExpUserMng::IsProgQuestInfo(DWORD dwQuestInfoIndexID, int iObjIndex)
@@ -63,7 +63,7 @@ bool QuestExpUserMng::IsQuestComplete(int iEpisode, int iObjIndex)
 
 	for (int i = 0; i < iAskCnt; i++)
 	{
-		if (gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->m_UserQuestAskInfo[i]->IsComplete() == false)
+		if (getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->m_UserQuestAskInfo[i)->IsComplete() == false)
 		{
 			return false;
 		}
@@ -119,7 +119,7 @@ BYTE QuestExpUserMng::QuestExpOnlyInventoryRectCheck(BYTE *btTempInventoryMap, i
 		return -1;
 	}
 
-	if (height + sy > 4 * gGameObjects[iObjIndex]->m_PlayerData->m_InventoryExpansion + 8)
+	if (height + sy > 4 * getGameObject(iObjIndex)->m_PlayerData->m_InventoryExpansion + 8)
 	{
 		return -2;
 	}
@@ -278,7 +278,7 @@ int QuestExpUserMng::InvenChk_EnableReward(int iEpisode, int iObjIndex, int *pRa
 		return 0;
 	}
 
-	int iQuestSwitch = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetQuestSwitch();
+	int iQuestSwitch = getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode)->GetQuestSwitch();
 
 	DWORD dwQuestInfoIndexID = GetQuestInfoIndexId(iEpisode, iQuestSwitch);
 	QuestExpInfo* pQuestExpInfo = g_QuestExpManager.GetQuestExpInfo(dwQuestInfoIndexID);
@@ -291,7 +291,7 @@ int QuestExpUserMng::InvenChk_EnableReward(int iEpisode, int iObjIndex, int *pRa
 	auto MapQuestReward = pQuestExpInfo->GetQuestReward();
 
 	BYTE btTempInventoryMap[INVENTORY_MAP_SIZE];
-	memcpy(btTempInventoryMap, gGameObjects[iObjIndex]->pInventoryMap, INVENTORY_MAP_SIZE);
+	memcpy(btTempInventoryMap, getGameObject(iObjIndex)->pInventoryMap, INVENTORY_MAP_SIZE);
 
 	int RandomRewardIndex[MAX_QUESTEXP_REWARDKIND_RANDOM] = { 0, 0, 0, 0, 0 };
 
@@ -379,7 +379,7 @@ int QuestExpUserMng::SendQuestReward(int iEpisode, int iObjIndex)
 
 	int RandResultIndexId[MAX_QUESTEXP_REWARDKIND_RANDOM];
 	int iResult = this->InvenChk_EnableReward(iEpisode, iObjIndex, RandResultIndexId);
-	int iQuestSwitch = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetQuestSwitch();
+	int iQuestSwitch = getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode)->GetQuestSwitch();
 
 	DWORD dwQuestInfoIndexID = GetQuestInfoIndexId(iEpisode, iQuestSwitch);
 
@@ -444,28 +444,28 @@ int QuestExpUserMng::SendQuestReward(int iEpisode, int iObjIndex)
 
 			UINT64 iExp = pRewardExp->GetRewardExp();
 
-			if (gObjCheckUsedBuffEffect(&gGameObjects[iObjIndex], BUFFTYPE_PCS_MARK3) || gObjCheckUsedBuffEffect(&gGameObjects[iObjIndex], BUFFTYPE_PCBANG_POINT_MARK3))
+			if (gObjCheckUsedBuffEffect(&getGameObject(iObjIndex], BUFFTYPE_PCS_MARK3) || gObjCheckUsedBuffEffect(&getGameObject(iObjIndex), BUFFTYPE_PCBANG_POINT_MARK3))
 			{
 				iExp = 0;
 			}
 
-			if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&gGameObjects[iObjIndex]))
+			if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&getGameObject(iObjIndex)))
 			{
-				gGameObjects[iObjIndex]->m_PlayerData->MasterExperience += iExp;
+				getGameObject(iObjIndex)->m_PlayerData->MasterExperience += iExp;
 			}
 
 			else
 			{
-				gGameObjects[iObjIndex]->m_PlayerData->Experience += iExp;
+				getGameObject(iObjIndex)->m_PlayerData->Experience += iExp;
 			}
 
-			if (gObjLevelUp(&gGameObjects[iObjIndex], iExp, 0, Lang.GetText(0,308)) == true)
+			if (gObjLevelUp(&getGameObject(iObjIndex), iExp, 0, Lang.GetText(0,308)) == true)
 			{
 				gGameProtocol.GCKillPlayerMasterExpSend(iObjIndex, -1, iExp, 0, 0);
 			}
 
 			strcat(LogBuff, "Reward Exp [%s][%s] Exp[%I64d] Ep[%d] QS[%d]");
-			sLog->outBasic(LogBuff, gGameObjects[iObjIndex]->AccountID, gGameObjects[iObjIndex]->Name, pRewardExp->GetRewardExp(), iEpisode, iQuestSwitch);
+			sLog->outBasic(LogBuff, getGameObject(iObjIndex]->AccountID, getGameObject(iObjIndex)->Name, pRewardExp->GetRewardExp(), iEpisode, iQuestSwitch);
 		}
 		break;
 
@@ -473,11 +473,11 @@ int QuestExpUserMng::SendQuestReward(int iEpisode, int iObjIndex)
 		{
 			RewardZen* pRewardZen = static_cast<RewardZen*>(pQuestExpReward);
 
-			gGameObjects[iObjIndex]->m_PlayerData->Money += pRewardZen->GetRewardZen();
-			gGameProtocol.GCMoneySend(iObjIndex, gGameObjects[iObjIndex]->m_PlayerData->Money);
+			getGameObject(iObjIndex)->m_PlayerData->Money += pRewardZen->GetRewardZen();
+			gGameProtocol.GCMoneySend(iObjIndex, getGameObject(iObjIndex)->m_PlayerData->Money);
 
 			strcat(LogBuff, "Reward Money [%s][%s] Money[%d] Ep[%d] QS[%d]");
-			sLog->outBasic(LogBuff, gGameObjects[iObjIndex]->AccountID, gGameObjects[iObjIndex]->Name, pRewardZen->GetRewardZen(), iEpisode, iQuestSwitch);
+			sLog->outBasic(LogBuff, getGameObject(iObjIndex]->AccountID, getGameObject(iObjIndex)->Name, pRewardZen->GetRewardZen(), iEpisode, iQuestSwitch);
 		}
 		break;
 
@@ -521,7 +521,7 @@ int QuestExpUserMng::SendQuestReward(int iEpisode, int iObjIndex)
 					}
 				}
 
-				ItemSerialCreateSend(iObjIndex, 233, gGameObjects[iObjIndex]->X, gGameObjects[iObjIndex]->Y,
+				ItemSerialCreateSend(iObjIndex, 233, getGameObject(iObjIndex]->X, getGameObject(iObjIndex)->Y,
 					pRewardItem->GetRewardItemNum(), pRewardItem->GetRewardItemLevel(),
 					pRewardItem->GetRewardItemDur(), pRewardItem->GetRewardItemSkill(),
 					0, pRewardItem->GetRewardItemOpt(), iObjIndex,
@@ -542,7 +542,7 @@ int QuestExpUserMng::SendQuestReward(int iEpisode, int iObjIndex)
 				strcpy(ItemLogBuff, LogBuff);
 				strcat(ItemLogBuff, "Reward Item [%s][%s] Ep[%d] QS[%d] ItemName[%s] Item Num[%d] Level[%d] Dur[%d] skill[%d]");
 
-				sLog->outBasic(ItemLogBuff, gGameObjects[iObjIndex]->AccountID, gGameObjects[iObjIndex]->Name, iEpisode,
+				sLog->outBasic(ItemLogBuff, getGameObject(iObjIndex]->AccountID, getGameObject(iObjIndex)->Name, iEpisode,
 					iQuestSwitch, szRewardItemName, pRewardItem->GetRewardItemNum(), pRewardItem->GetRewardItemLevel(), pRewardItem->GetRewardItemDur(), pRewardItem->GetRewardItemSkill());
 			}
 		}
@@ -554,13 +554,13 @@ int QuestExpUserMng::SendQuestReward(int iEpisode, int iObjIndex)
 
 			int iContributePt = pRewardContribute->GetRewardContributePoint();
 
-			g_GensSystem.AddContributePoint(&gGameObjects[iObjIndex], iContributePt);
+			g_GensSystem.AddContributePoint(&getGameObject(iObjIndex), iContributePt);
 
 			strcat(LogBuff, "Reward Contribute Point [%s][%s] Point[%d] Ep[%d] QS[%d]");
-			sLog->outBasic(LogBuff, gGameObjects[iObjIndex]->AccountID, gGameObjects[iObjIndex]->Name, iContributePt, iEpisode, iQuestSwitch);
+			sLog->outBasic(LogBuff, getGameObject(iObjIndex]->AccountID, getGameObject(iObjIndex)->Name, iContributePt, iEpisode, iQuestSwitch);
 
 			char client_msg[128] = "";
-			wsprintf(client_msg, Lang.GetText(0,564), iContributePt, g_GensSystem.GetContributePoint(&gGameObjects[iObjIndex]));
+			wsprintf(client_msg, Lang.GetText(0,564), iContributePt, g_GensSystem.GetContributePoint(&getGameObject(iObjIndex)));
 
 			gGameProtocol.GCServerMsgStringSend(client_msg, iObjIndex, 1);
 		}
@@ -584,7 +584,7 @@ void QuestExpUserMng::InitUserQuestAskInfo(int iEpisode, int iObjIndex)
 		return;
 	}
 
-	gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->QuestAskInfoClear();
+	getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode)->QuestAskInfoClear();
 
 }
 
@@ -612,26 +612,26 @@ void QuestExpUserMng::SetQuestSwitch(int iEpisode, int iQuestSwitch, int iObjInd
 
 	if (pUserQuestInfo->SetEpisode(iEpisode) == false)
 	{
-		int iUserQuestSwitch = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetQuestSwitch();
-		int iUserEpisode = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetEpisode();
+		int iUserQuestSwitch = getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode)->GetQuestSwitch();
+		int iUserEpisode = getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode)->GetEpisode();
 
 		return;
 	}
 
 	if (pUserQuestInfo->SetQuestSwitch(iQuestSwitch) == false)
 	{
-		int iUserQuestSwitch = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetQuestSwitch();
-		int iUserEpisode = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetEpisode();
+		int iUserQuestSwitch = getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode)->GetQuestSwitch();
+		int iUserEpisode = getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode)->GetEpisode();
 
 		return;
 	}
 
-	int iUserQuestSwitch = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetQuestSwitch();
-	int iUserEpisode = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetEpisode();
+	int iUserQuestSwitch = getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode)->GetQuestSwitch();
+	int iUserEpisode = getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode)->GetEpisode();
 
 	if (this->AddUserQuestAskInfo(dwQuestInfoIndexID, iObjIndex) == true)
 	{
-		gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->SetQuestProgState(QUESTEXP_PROG_STATE_ONGOING);
+		getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode)->SetQuestProgState(QUESTEXP_PROG_STATE_ONGOING);
 	}
 }
 
@@ -648,7 +648,7 @@ bool QuestExpUserMng::AddUserQuestAskInfo(DWORD dwQuestInfoIndexID, int iObjInde
 	auto MapQuestExpAsk = pQuestExpInfo->GetQuestExpAsk();
 
 	int iAskCnt = 0;
-	UserQuestInfo* pUserQuestInfo = &gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode];
+	UserQuestInfo* pUserQuestInfo = &getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode);
 
 	pUserQuestInfo->SetAskCnt(MapQuestExpAsk.size());
 	auto map_iter = MapQuestExpAsk.begin();
@@ -814,7 +814,7 @@ bool QuestExpUserMng::AddUserQuestAskInfo(DWORD dwQuestInfoIndexID, int iObjInde
 void QuestExpUserMng::AddUserQuestAskMonsterKill(QuestExpAsk* pQuestExpAsk, int iObjIndex, int iEpisode, int iAskCnt)
 {
     QuestMonsterKill* pQuestMonsterKill = static_cast<QuestMonsterKill*>(pQuestExpAsk);
-    UserQuestInfo* pUserQuestInfo = &gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode];
+    UserQuestInfo* pUserQuestInfo = &getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode);
 
     pUserQuestInfo->m_UserQuestAskInfo[iAskCnt].SetIndexID(pQuestMonsterKill->GetIndexID());
     pUserQuestInfo->m_UserQuestAskInfo[iAskCnt].SetComplete(false);
@@ -828,7 +828,7 @@ int QuestExpUserMng::GetQuestSwitch(int iEpisode, int iObjIndex)
 		return -1;
 	}
 
-	return gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->GetQuestSwitch();
+	return getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode)->GetQuestSwitch();
 
 }
 
@@ -981,7 +981,7 @@ void QuestExpUserMng::DB_ReqUserQuestInfo(int iObjIndex)
 
 	pMsg.iUserIndex = iObjIndex;
 	pMsg.szCharName[MAX_ACCOUNT_LEN] = 0;
-	memcpy(pMsg.szCharName, gGameObjects[iObjIndex]->Name, MAX_ACCOUNT_LEN);
+	memcpy(pMsg.szCharName, getGameObject(iObjIndex)->Name, MAX_ACCOUNT_LEN);
 
 	PHeadSetB(reinterpret_cast<BYTE*>(&pMsg), 0xF7, sizeof(pMsg));
 	wsDataCli.DataSend(reinterpret_cast<char*>(&pMsg), pMsg.h.size);
@@ -1004,7 +1004,7 @@ void QuestExpUserMng::UserQuestInfoLoad(PMSG_ANS_QUESTEXP_INFO* lpRecv)
 		return;
 	}
 
-	if(gGameObjects[iObjIndex]->Type != OBJ_USER)
+	if(getGameObject(iObjIndex)->Type != OBJ_USER)
 	{
 		return;
 	}
@@ -1025,7 +1025,7 @@ void QuestExpUserMng::UserQuestInfoLoad(PMSG_ANS_QUESTEXP_INFO* lpRecv)
 		int iQuestSwitch = GetQuestSwitchFromInfoIndexId(dwQuestInfoIndexID);
 		int iAskCnt = 0;
 
-		UserQuestInfo* pUserQuestInfo = &gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode];
+		UserQuestInfo* pUserQuestInfo = &getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode);
 		pUserQuestInfo->SetEpisode(iEpisode);
 		pUserQuestInfo->SetQuestSwitch(iQuestSwitch);
 
@@ -1063,9 +1063,9 @@ void QuestExpUserMng::UserQuestInfoLoad(PMSG_ANS_QUESTEXP_INFO* lpRecv)
 		pUserQuestInfo->SetAskCnt(iAskCnt);
 	}
 
-	if (gGameObjects[iObjIndex]->m_PlayerData->m_bUserQuestInfoSent == false)
+	if (getGameObject(iObjIndex)->m_PlayerData->m_bUserQuestInfoSent == false)
 	{
-		gGameObjects[iObjIndex]->m_PlayerData->m_bUserQuestInfoSent = true;
+		getGameObject(iObjIndex)->m_PlayerData->m_bUserQuestInfoSent = true;
 
 		PBMSG_HEAD2 pMsg;
 		PHeadSubSetB(reinterpret_cast<BYTE*>(&pMsg), 0xF6, 0x20, sizeof(pMsg));
@@ -1080,7 +1080,7 @@ UserQuestInfo* QuestExpUserMng::GetUserQuestInfo(int iEpisode, int iObjIndex)
 		return nullptr;
 	}
 		
-	return &gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode];
+	return &getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode);
 }
 
 int QuestExpUserMng::GetQuestProgState(DWORD dwQuestInfoIndexID, int iObjIndex)
@@ -1090,17 +1090,17 @@ int QuestExpUserMng::GetQuestProgState(DWORD dwQuestInfoIndexID, int iObjIndex)
 
 int QuestExpUserMng::GetQuestProgState(int iEp, int iObjIndex)
 {
-	if (gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEp]->GetQuestProgState() == QUESTEXP_PROG_STATE_TIME_LIMIT)
+	if (getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEp)->GetQuestProgState() == QUESTEXP_PROG_STATE_TIME_LIMIT)
     {
-		time_t end_date = gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEp]->GetEndDate();
+		time_t end_date = getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEp)->GetEndDate();
 
 		if (g_QuestExpProgMng.CheckExpireDate(end_date) == true)
 		{
-			gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEp]->SetQuestProgState(QUESTEXP_PROG_STATE_NONE);
+			getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEp)->SetQuestProgState(QUESTEXP_PROG_STATE_NONE);
 		}
     }
 
-	return gGameObjects[iObjIndex]->m_PlayerData->m_UserQuestInfo[iEp]->GetQuestProgState();
+	return getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEp)->GetQuestProgState();
 }
 
 bool QuestExpUserMng::IsQuestAccept(DWORD dwQuestInfoIndexID, int iObjIndex)

@@ -38,7 +38,7 @@ void TMonsterAI::MonsterAIProc()
 
 	for ( int n=0;n<g_ConfigRead.server.GetObjectMaxMonster();n++)
 	{
-		CGameObject lpObj = &gGameObjects[n];
+		CGameObject lpObj = &getGameObject(n);
 
 		if ( lpObj.m_iCurrentAI == 0 || lpObj.Live == FALSE ||lpObj.Connected != PLAYER_PLAYING )
 		{
@@ -200,7 +200,7 @@ void TMonsterAI::MonsterMoveProc()
 {
 	for ( int i=0;i<g_ConfigRead.server.GetObjectMaxMonster();i++)
 	{
-		if ( gGameObjects[i]->m_iCurrentAI !=  0 )
+		if ( getGameObject(i)->m_iCurrentAI !=  0 )
 		{
 			TMonsterAI::MonsterMove(i);
 		}

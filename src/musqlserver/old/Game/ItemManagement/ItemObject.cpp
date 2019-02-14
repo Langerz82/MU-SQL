@@ -3053,7 +3053,7 @@ void CItemObject::Value()
 		Gold = (Gold * (iPentagramSocketSlotCount * 0.8));
 	}
 
-	if (g_PentagramSystem.IsPentagramJewel(this) == TRUE)
+	if (g_PentagramSystem.IsPentagramJewel(*this) == TRUE)
 	{
 		int iRankCount = 0;
 		int iTotalLevel = 0;

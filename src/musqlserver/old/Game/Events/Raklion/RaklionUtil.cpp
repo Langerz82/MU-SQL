@@ -105,8 +105,8 @@ void CRaklionUtil::NotifyLeftTopMsgRaklionBattleUser(char *lpszMsg, ...)
 
 	for(int iCount=0; iCount<g_RaklionBattleUserMng.m_BattleUser.size(); iCount++)
 	{
-		if( gGameObjects[g_RaklionBattleUserMng.m_BattleUser[iCount]]->Connected == PLAYER_PLAYING &&
-			gGameObjects[g_RaklionBattleUserMng.m_BattleUser[iCount]]->Type == OBJ_USER)
+		if( getGameObject(g_RaklionBattleUserMng.m_BattleUser[iCount])->Connected == PLAYER_PLAYING &&
+			getGameObject(g_RaklionBattleUserMng.m_BattleUser[iCount])->Type == OBJ_USER)
 		{
 			TNotice::SendNoticeToUser(g_RaklionBattleUserMng.m_BattleUser[iCount], &pNotice);
 		}
@@ -129,9 +129,9 @@ void CRaklionUtil::SendMsgRaklionBossMapUser(char *lpszMsg, ...)
 
 	for(int iCount=g_ConfigRead.server.GetObjectStartUserIndex(); iCount<g_ConfigRead.server.GetObjectMax(); iCount++)
 	{
-		if( gGameObjects[iCount]->Connected == PLAYER_PLAYING &&
-			gGameObjects[iCount]->Type == OBJ_USER &&
-			gGameObjects[iCount]->MapNumber == MAP_INDEX_HATCHERY)
+		if( getGameObject(iCount)->Connected == PLAYER_PLAYING &&
+			getGameObject(iCount)->Type == OBJ_USER &&
+			getGameObject(iCount)->MapNumber == MAP_INDEX_HATCHERY)
 		{
 			TNotice::SendNoticeToUser(iCount, &pNotice);
 		}
@@ -142,9 +142,9 @@ void CRaklionUtil::SendDataRaklionBossMapUser(BYTE *lpMsg, int iSize)
 {
 	for(int iCount=g_ConfigRead.server.GetObjectStartUserIndex(); iCount<g_ConfigRead.server.GetObjectMax(); iCount++)
 	{
-		if( gGameObjects[iCount]->Connected == PLAYER_PLAYING &&
-			 gGameObjects[iCount]->Type == OBJ_USER &&
-			 gGameObjects[iCount]->MapNumber == MAP_INDEX_HATCHERY)
+		if( getGameObject(iCount)->Connected == PLAYER_PLAYING &&
+			 getGameObject(iCount)->Type == OBJ_USER &&
+			 getGameObject(iCount)->MapNumber == MAP_INDEX_HATCHERY)
 		{
 			IOCP.DataSend(iCount, lpMsg, iSize);
 		}
@@ -167,9 +167,9 @@ void CRaklionUtil::SendMsgRaklionMapUser(char *lpszMsg, ...)
 
 	for(int iCount=g_ConfigRead.server.GetObjectStartUserIndex(); iCount<g_ConfigRead.server.GetObjectMax(); iCount++)
 	{
-		if( gGameObjects[iCount]->Connected == PLAYER_PLAYING &&
-			gGameObjects[iCount]->Type == OBJ_USER &&
-			(gGameObjects[iCount]->MapNumber == MAP_INDEX_RAKLION || gGameObjects[iCount]->MapNumber == MAP_INDEX_HATCHERY) )
+		if( getGameObject(iCount)->Connected == PLAYER_PLAYING &&
+			getGameObject(iCount)->Type == OBJ_USER &&
+			(getGameObject(iCount]->MapNumber == MAP_INDEX_RAKLION || getGameObject(iCount)->MapNumber == MAP_INDEX_HATCHERY) )
 		{
 			TNotice::SendNoticeToUser(iCount, &pNotice);
 		}
@@ -180,9 +180,9 @@ void CRaklionUtil::SendDataRaklionMapUser(BYTE *lpMsg, int iSize)
 {
 	for(int iCount=g_ConfigRead.server.GetObjectStartUserIndex(); iCount<g_ConfigRead.server.GetObjectMax(); iCount++)
 	{
-		if( gGameObjects[iCount]->Connected == PLAYER_PLAYING &&
-			 gGameObjects[iCount]->Type == OBJ_USER &&
-			 (gGameObjects[iCount]->MapNumber == MAP_INDEX_RAKLION || gGameObjects[iCount]->MapNumber == MAP_INDEX_HATCHERY) )
+		if( getGameObject(iCount)->Connected == PLAYER_PLAYING &&
+			 getGameObject(iCount)->Type == OBJ_USER &&
+			 (getGameObject(iCount]->MapNumber == MAP_INDEX_RAKLION || getGameObject(iCount)->MapNumber == MAP_INDEX_HATCHERY) )
 		{
 			IOCP.DataSend(iCount, lpMsg, iSize);
 		}
@@ -209,8 +209,8 @@ void CRaklionUtil::SendDataAllUser(BYTE *lpMsg, int iSize)
 {
 	for(int iCount=g_ConfigRead.server.GetObjectStartUserIndex(); iCount<g_ConfigRead.server.GetObjectMax(); iCount++)
 	{
-		if( gGameObjects[iCount]->Connected == PLAYER_PLAYING &&
-			gGameObjects[iCount]->Type == OBJ_USER )
+		if( getGameObject(iCount)->Connected == PLAYER_PLAYING &&
+			getGameObject(iCount)->Type == OBJ_USER )
 		{
 			IOCP.DataSend(iCount, lpMsg, iSize);
 		}

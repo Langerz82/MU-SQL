@@ -306,7 +306,7 @@ void CConServ::LoadNewsFile(LPSTR szFile)
 					 }
 					 else if(aIndex == 1)
 					 {
-						 memcpy(Title, TokenString, sizeof(Title));
+						 std::memcpy(Title, TokenString, sizeof(Title));
 					 }
 				 }
 			 }

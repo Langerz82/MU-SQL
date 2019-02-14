@@ -298,7 +298,7 @@ void CUnityBattleField::GDObserverLogoutManager()
 {
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		CGameObject lpObj = &gGameObjects[n];
+		CGameObject lpObj = &getGameObject(n);
 
 		if (gObjIsConnected(n) == TRUE && lpObj.Type == OBJ_USER)
 		{

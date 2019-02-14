@@ -173,8 +173,8 @@ void CKanturuUtil::SendMsgKanturuBattleUser(LPSTR lpszMsg, ...)
 	{
 		iUserIndex = g_KanturuBattleUserMng.m_BattleUser[iCount].GetIndex();
 
-		if ( iUserIndex != -1 && gGameObjects[iUserIndex]->Connected == PLAYER_PLAYING &&
-			 gGameObjects[iUserIndex]->Type == OBJ_USER )
+		if ( iUserIndex != -1 && getGameObject(iUserIndex)->Connected == PLAYER_PLAYING &&
+			 getGameObject(iUserIndex)->Type == OBJ_USER )
 		{
 			TNotice::SendNoticeToUser(iUserIndex, &pNotice);
 		}
@@ -189,8 +189,8 @@ void CKanturuUtil::SendDataKanturuBattleUser(BYTE* lpMsg, int iSize)
 	{
 		iUserIndex = g_KanturuBattleUserMng.m_BattleUser[iCount].GetIndex();
 
-		if ( iUserIndex != -1 && gGameObjects[iUserIndex]->Connected == PLAYER_PLAYING &&
-			 gGameObjects[iUserIndex]->Type == OBJ_USER )
+		if ( iUserIndex != -1 && getGameObject(iUserIndex)->Connected == PLAYER_PLAYING &&
+			 getGameObject(iUserIndex)->Type == OBJ_USER )
 		{
 			IOCP.DataSend(iUserIndex, lpMsg, iSize);
 		}
@@ -215,9 +215,9 @@ void CKanturuUtil::SendMsgKauturuBossMapUser(LPSTR lpszMsg, ...)
 
 	for (int iCount = g_ConfigRead.server.GetObjectStartUserIndex(); iCount < g_ConfigRead.server.GetObjectMax(); iCount++)
 	{
-		if (gGameObjects[iCount]->Connected == PLAYER_PLAYING &&
-			gGameObjects[iCount]->Type == OBJ_USER &&
-			gGameObjects[iCount]->MapNumber == MAP_INDEX_KANTURU_BOSS)
+		if (getGameObject(iCount)->Connected == PLAYER_PLAYING &&
+			getGameObject(iCount)->Type == OBJ_USER &&
+			getGameObject(iCount)->MapNumber == MAP_INDEX_KANTURU_BOSS)
 		{
 			TNotice::SendNoticeToUser(iCount, &pNotice);
 		}
@@ -229,9 +229,9 @@ void CKanturuUtil::SendDataKanturuBossMapUser(BYTE* lpMsg, int iSize)
 {
 	for (int iCount = g_ConfigRead.server.GetObjectStartUserIndex(); iCount < g_ConfigRead.server.GetObjectMax(); iCount++)
 	{
-		if (gGameObjects[iCount]->Connected == PLAYER_PLAYING &&
-			gGameObjects[iCount]->Type == OBJ_USER &&
-			gGameObjects[iCount]->MapNumber == MAP_INDEX_KANTURU_BOSS)
+		if (getGameObject(iCount)->Connected == PLAYER_PLAYING &&
+			getGameObject(iCount)->Type == OBJ_USER &&
+			getGameObject(iCount)->MapNumber == MAP_INDEX_KANTURU_BOSS)
 		{
 			IOCP.DataSend(iCount, lpMsg, iSize);
 		}
@@ -256,11 +256,11 @@ void CKanturuUtil::SendMsgKauturuMapUser(LPSTR lpszMsg, ...)
 
 	for (int iCount = g_ConfigRead.server.GetObjectStartUserIndex(); iCount < g_ConfigRead.server.GetObjectMax(); iCount++)
 	{
-		if (gGameObjects[iCount]->Connected == PLAYER_PLAYING &&
-			gGameObjects[iCount]->Type == OBJ_USER &&
-			(gGameObjects[iCount]->MapNumber == MAP_INDEX_KANTURU1 ||
-				gGameObjects[iCount]->MapNumber == MAP_INDEX_KANTURU2 ||
-				gGameObjects[iCount]->MapNumber == MAP_INDEX_KANTURU_BOSS))
+		if (getGameObject(iCount)->Connected == PLAYER_PLAYING &&
+			getGameObject(iCount)->Type == OBJ_USER &&
+			(getGameObject(iCount)->MapNumber == MAP_INDEX_KANTURU1 ||
+				getGameObject(iCount)->MapNumber == MAP_INDEX_KANTURU2 ||
+				getGameObject(iCount)->MapNumber == MAP_INDEX_KANTURU_BOSS))
 		{
 			TNotice::SendNoticeToUser(iCount, &pNotice);
 		}
@@ -271,11 +271,11 @@ void CKanturuUtil::SendDataKanturuMapUser(BYTE* lpMsg, int iSize)
 {
 	for (int iCount = g_ConfigRead.server.GetObjectStartUserIndex(); iCount < g_ConfigRead.server.GetObjectMax(); iCount++)
 	{
-		if (gGameObjects[iCount]->Connected == PLAYER_PLAYING &&
-			gGameObjects[iCount]->Type == OBJ_USER &&
-			(gGameObjects[iCount]->MapNumber == MAP_INDEX_KANTURU1 ||
-				gGameObjects[iCount]->MapNumber == MAP_INDEX_KANTURU2 ||
-				gGameObjects[iCount]->MapNumber == MAP_INDEX_KANTURU_BOSS))
+		if (getGameObject(iCount)->Connected == PLAYER_PLAYING &&
+			getGameObject(iCount)->Type == OBJ_USER &&
+			(getGameObject(iCount)->MapNumber == MAP_INDEX_KANTURU1 ||
+				getGameObject(iCount)->MapNumber == MAP_INDEX_KANTURU2 ||
+				getGameObject(iCount)->MapNumber == MAP_INDEX_KANTURU_BOSS))
 		{
 			IOCP.DataSend(iCount, lpMsg, iSize);
 		}
@@ -307,8 +307,8 @@ void CKanturuUtil::SendDataAllUser(BYTE* lpMsg, int iSize)
 {
 	for (int iCount = g_ConfigRead.server.GetObjectStartUserIndex(); iCount < g_ConfigRead.server.GetObjectMax(); iCount++)
 	{
-		if (gGameObjects[iCount]->Connected == PLAYER_PLAYING &&
-			gGameObjects[iCount]->Type == OBJ_USER)
+		if (getGameObject(iCount)->Connected == PLAYER_PLAYING &&
+			getGameObject(iCount)->Type == OBJ_USER)
 		{
 			IOCP.DataSend(iCount, lpMsg, iSize);
 		}

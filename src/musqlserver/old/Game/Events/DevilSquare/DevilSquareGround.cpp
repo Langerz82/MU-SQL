@@ -192,28 +192,28 @@ void CDevilSquareGround::RegenBossMonster(int currtime)
 				if ( iMonIndex >= 0 )
 				{
 					gObjSetMonster(iMonIndex, this->m_DevilSquareBossMonsterInfo[i].m_Type);
-					gGameObjects[iMonIndex]->MapNumber = iMapNumber;
-					gMSetBase.GetBoxPosition(gGameObjects[iMonIndex]->MapNumber,
+					getGameObject(iMonIndex)->MapNumber = iMapNumber;
+					gMSetBase.GetBoxPosition(getGameObject(iMonIndex)->MapNumber,
 						this->m_DevilSquareBossMonsterInfo[i].X, this->m_DevilSquareBossMonsterInfo[i].Y,
 						this->m_DevilSquareBossMonsterInfo[i].TX, this->m_DevilSquareBossMonsterInfo[i].TY,
-						gGameObjects[iMonIndex]->X, gGameObjects[iMonIndex]->Y);
-					int map = gGameObjects[iMonIndex]->MapNumber;
-					int x = gGameObjects[iMonIndex]->X;
-					int y = gGameObjects[iMonIndex]->Y;
+						getGameObject(iMonIndex]->X, getGameObject(iMonIndex)->Y);
+					int map = getGameObject(iMonIndex)->MapNumber;
+					int x = getGameObject(iMonIndex)->X;
+					int y = getGameObject(iMonIndex)->Y;
 
 					//sLog->outBasic("[DevilSquare] Boss %d %d %d create ", map, x, y);
 
-					gGameObjects[iMonIndex]->TX = gGameObjects[iMonIndex]->X;
-					gGameObjects[iMonIndex]->TY = gGameObjects[iMonIndex]->Y;
-					gGameObjects[iMonIndex]->MTX = gGameObjects[iMonIndex]->X;
-					gGameObjects[iMonIndex]->MTY = gGameObjects[iMonIndex]->Y;
-					gGameObjects[iMonIndex]->StartX = gGameObjects[iMonIndex]->X;
-					gGameObjects[iMonIndex]->StartY = gGameObjects[iMonIndex]->Y;
-					gGameObjects[iMonIndex]->m_bDevilSquareIndex = this->m_iIndex;
-					gGameObjects[iMonIndex]->DieRegen = FALSE;
-					gGameObjects[iMonIndex]->m_PosNum = -1;
-					gGameObjects[iMonIndex]->Live = TRUE;
-					gGameObjects[iMonIndex]->m_State = 1;
+					getGameObject(iMonIndex]->TX = getGameObject(iMonIndex)->X;
+					getGameObject(iMonIndex]->TY = getGameObject(iMonIndex)->Y;
+					getGameObject(iMonIndex]->MTX = getGameObject(iMonIndex)->X;
+					getGameObject(iMonIndex]->MTY = getGameObject(iMonIndex)->Y;
+					getGameObject(iMonIndex]->StartX = getGameObject(iMonIndex)->X;
+					getGameObject(iMonIndex]->StartY = getGameObject(iMonIndex)->Y;
+					getGameObject(iMonIndex)->m_bDevilSquareIndex = this->m_iIndex;
+					getGameObject(iMonIndex)->DieRegen = FALSE;
+					getGameObject(iMonIndex)->m_PosNum = -1;
+					getGameObject(iMonIndex)->Live = TRUE;
+					getGameObject(iMonIndex)->m_State = 1;
 				}
 			}
 		}
@@ -610,7 +610,7 @@ int CDevilSquareGround::GetPlayUserCountRightNow()
 		{
 			if ( ObjectMaxRange(this->m_iUserIndex[i]) == TRUE )
 			{
-				if ( gGameObjects[this->m_iUserIndex[i]]->Connected == PLAYER_PLAYING )
+				if ( getGameObject(this->m_iUserIndex[i])->Connected == PLAYER_PLAYING )
 				{
 					Count++;
 				}

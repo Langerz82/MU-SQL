@@ -426,7 +426,7 @@ void CMineSystem::RewardMineTwinkle(PMSG_REQ_MINETWINKLE_REWARD *lpMsg, CGameObj
 				ServerCmd.CmdType = 0;
 				ServerCmd.X = lpObj.X;
 				ServerCmd.Y = lpObj.Y;
-				gGameProtocol.MsgSendV2(&gGameObjects[aIndex], (BYTE*)&ServerCmd, sizeof(ServerCmd));
+				gGameProtocol.MsgSendV2(&getGameObject(aIndex), (BYTE*)&ServerCmd, sizeof(ServerCmd));
 				IOCP.DataSend(lpObj.m_Index, (BYTE*)&ServerCmd, sizeof(ServerCmd));
 			}
 
@@ -476,9 +476,9 @@ void CMineSystem::FailMineTwinkle(PMSG_ANS_MINETWINKLE_END_ANIMATION *lpMsg, CGa
 		return;
 	}
 
-	if (gGameObjects[lpMsg->wTwinkleIndex]->Life == 0.0 && gGameObjects[lpMsg->wTwinkleIndex]->MapNumber == lpMsg->byMapNumber)
+	if (getGameObject(lpMsg->wTwinkleIndex]->Life == 0.0 && getGameObject(lpMsg->wTwinkleIndex)->MapNumber == lpMsg->byMapNumber)
 	{
-		gObjLifeCheck(&gGameObjects[lpMsg->wTwinkleIndex], &gGameObjects[aIndex], 0, 1, 0, 0, 0, 0, 0);
+		gObjLifeCheck(&getGameObject(lpMsg->wTwinkleIndex], &getGameObject(aIndex), 0, 1, 0, 0, 0, 0, 0);
 	}
 }
 
@@ -506,7 +506,7 @@ void CMineSystem::GDAnsModifyMineSystemUPTUserInfo(SDHP_ANS_MINESYSTEM_UPT_USERI
 	if (lpMsg->Result == 0)
 	{
 		sLog->outBasic("[MineSystem][UPT Info][DELETE/INSERT][ERROR][ID:%s][Name:%s]",
-			gGameObjects[lpMsg->wUserIndex]->AccountID, gGameObjects[lpMsg->wUserIndex]->Name);
+			getGameObject(lpMsg->wUserIndex]->AccountID, getGameObject(lpMsg->wUserIndex)->Name);
 	}
 
 	else if (lpMsg->Result == 1)
@@ -519,13 +519,13 @@ void CMineSystem::GDAnsModifyMineSystemUPTUserInfo(SDHP_ANS_MINESYSTEM_UPT_USERI
 		else if (lpMsg->byRequestType == 1)
 		{
 			sLog->outBasic("[MineSystem][UPT Info][DELETE][SUCCESS][ID:%s][Name:%s]",
-				gGameObjects[lpMsg->wUserIndex]->AccountID, gGameObjects[lpMsg->wUserIndex]->Name);
+				getGameObject(lpMsg->wUserIndex]->AccountID, getGameObject(lpMsg->wUserIndex)->Name);
 		}
 
 		else
 		{
 			sLog->outBasic("[MineSystem][UPT Info][DELETE][ERROR][Undefined Request Type][ID:%s][Name:%s]",
-				gGameObjects[lpMsg->wUserIndex]->AccountID, gGameObjects[lpMsg->wUserIndex]->Name);
+				getGameObject(lpMsg->wUserIndex]->AccountID, getGameObject(lpMsg->wUserIndex)->Name);
 		}
 	}
 }
@@ -592,34 +592,34 @@ void CMineSystem::SetTwinklesInfo()
 			return;
 		}
 
-		gGameObjects[result]->m_PosNum = It->first;
-		gGameObjects[result]->X = It->second.byX;
-		gGameObjects[result]->Y = It->second.byY;
-		gGameObjects[result]->MapNumber = It->second.byMapNumber;
-		gGameObjects[result]->TX = gGameObjects[result]->X;
-		gGameObjects[result]->TY = gGameObjects[result]->Y;
-		gGameObjects[result]->m_OldX = gGameObjects[result]->X;
-		gGameObjects[result]->m_OldY = gGameObjects[result]->Y;
-		gGameObjects[result]->Dir = It->second.byDir;
-		gGameObjects[result]->StartX = gGameObjects[result]->X;
-		gGameObjects[result]->StartY = gGameObjects[result]->Y;
+		getGameObject(result)->m_PosNum = It->first;
+		getGameObject(result)->X = It->second.byX;
+		getGameObject(result)->Y = It->second.byY;
+		getGameObject(result)->MapNumber = It->second.byMapNumber;
+		getGameObject(result]->TX = getGameObject(result)->X;
+		getGameObject(result]->TY = getGameObject(result)->Y;
+		getGameObject(result]->m_OldX = getGameObject(result)->X;
+		getGameObject(result]->m_OldY = getGameObject(result)->Y;
+		getGameObject(result)->Dir = It->second.byDir;
+		getGameObject(result]->StartX = getGameObject(result)->X;
+		getGameObject(result]->StartY = getGameObject(result)->Y;
 
-		if (gGameObjects[result]->Dir == (BYTE)-1)
+		if (getGameObject(result)->Dir == (BYTE)-1)
 		{
-			gGameObjects[result]->Dir = rand() % 8;
+			getGameObject(result)->Dir = rand() % 8;
 		}
 
 		gObjSetMonster(result, It->second.wType);
 
 		_ST_MINESYSTEM_TWINKLE stTwinkle;
 		stTwinkle.wTwinkleIndex = result;
-		stTwinkle.wTwinkleType = gGameObjects[result]->Class;
-		stTwinkle.byMapNumber = gGameObjects[result]->MapNumber;
+		stTwinkle.wTwinkleType = getGameObject(result)->Class;
+		stTwinkle.byMapNumber = getGameObject(result)->MapNumber;
 		stTwinkle.wUserIndex = 0;
 		stTwinkle.bIsDominated = false;
 
 		this->m_mapTwinkle.insert(std::pair<int, _ST_MINESYSTEM_TWINKLE>(result, stTwinkle));
-		//sLog->outBasic("[MineSystem][SetTwinkleInfo][SUCCESS][Type:%d][Index:%d]", gGameObjects[result]->Class, result);
+		//sLog->outBasic("[MineSystem][SetTwinkleInfo][SUCCESS][Type:%d][Index:%d]", getGameObject(result)->Class, result);
 	}
 }
 
@@ -714,11 +714,11 @@ void CMineSystem::ResetTwinkleInfo(CGameObject &Obj, WORD wTwinkleIndex, bool bF
 
 	memset(&it->second, 0, sizeof(it->second));
 
-	gGameObjects[wTwinkleIndex]->Life = 0.0;
+	getGameObject(wTwinkleIndex)->Life = 0.0;
 
 	if (!bFailMining)
 	{
-		gObjLifeCheck(&gGameObjects[wTwinkleIndex], &gGameObjects[aIndex], 0, 1, 0, 0, 0, 0, 0);
+		gObjLifeCheck(&getGameObject(wTwinkleIndex], &getGameObject(aIndex), 0, 1, 0, 0, 0, 0, 0);
 	}
 
 	lpObj.m_PlayerData->m_bIsMining = false;
@@ -976,8 +976,8 @@ BOOL CMineSystem::CheckValidationMineState(CGameObject &Obj, WORD wTwinkleIndex,
 		return FALSE;
 	}
 
-	if (abs(lpObj.X - gGameObjects[wTwinkleIndex]->X) > 3 ||
-		abs(lpObj.Y - gGameObjects[wTwinkleIndex]->Y) > 3)
+	if (abs(lpObj.X - getGameObject(wTwinkleIndex)->X) > 3 ||
+		abs(lpObj.Y - getGameObject(wTwinkleIndex)->Y) > 3)
 	{
 		sLog->outBasic("[MineSystem][CheckValidationMineState][ERROR][MINESYSTEM_RESULT_INVALID_DISTANCE][%s][%s][Map:%d][Type:%d][Index:%d][Stage:%d]",
 			lpObj.AccountID, lpObj.Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
