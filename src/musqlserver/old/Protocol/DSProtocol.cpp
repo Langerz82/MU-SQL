@@ -7030,7 +7030,7 @@ void ReqSavePlayerKiller(short kIndex, short vIndex)
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void GDReqArcaBattleGuildJoin(OBJECTSTRUCT *obj)
+void GDReqArcaBattleGuildJoin(CGameObject &Obj)
 {
 	_tagPMSG_REQ_ARCA_BATTLE_GUILD_JOIN_DS pMsg;
 
@@ -7117,7 +7117,7 @@ void DGAnsArcaBattleGuildJoinSelect(_tagPMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *lpMs
 	}
 }
 
-void GDReqArcaBattleGuildMemberJoin(OBJECTSTRUCT *obj)
+void GDReqArcaBattleGuildMemberJoin(CGameObject &Obj)
 {
 	_tagPMSG_REQ_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS pMsg;
 
@@ -7192,7 +7192,7 @@ void DGAnsArcaBattleGuildMemberJoin(_tagPMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_D
 	}
 }
 
-void GDReqArcaBattleEnter(OBJECTSTRUCT *obj, BYTE btEnterSeq)
+void GDReqArcaBattleEnter(CGameObject &Obj, BYTE btEnterSeq)
 {
 	_tagPMSG_REQ_ARCA_BATTLE_ENTER_DS pMsg;
 
@@ -7407,7 +7407,7 @@ void DGAns_GetCCFPermission(SDHP_ANS_CCF_GETPERMISSION *lpMsg)
 void GCMuunInventoryItemListSend(CGameObject &Obj)
 {
 	int itemcount;
-	OBJECTSTRUCT *lpObj;
+	CGameObject &Obj;
 	BYTE sendBuf[4096];
 	unsigned int pMsgILSize;
 	unsigned int sOfs;
@@ -7449,7 +7449,7 @@ void GCMuunInventoryItemListSend(CGameObject &Obj)
 	IOCP.DataSend(aIndex, sendBuf, sOfs);
 }
 
-void GDReqSaveEventInvenItem(OBJECTSTRUCT *lpObj)
+void GDReqSaveEventInvenItem(CGameObject &Obj)
 {
 	if (g_CMuRummyMng.IsMuRummyEventOn() == false && g_ConfigRead.data.common.EventInventoryOpen == false)
 	{
@@ -7495,7 +7495,7 @@ void GDReqSaveEventInvenItem(OBJECTSTRUCT *lpObj)
 	wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
 }
 
-void GDReqLoadEventInvenItem(OBJECTSTRUCT *lpObj)
+void GDReqLoadEventInvenItem(CGameObject &Obj)
 {
 	if (g_CMuRummyMng.IsMuRummyEventOn() == false && g_ConfigRead.data.common.EventInventoryOpen == false)
 	{

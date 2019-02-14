@@ -43,7 +43,7 @@
 #include "EventManagement.h"
 #include "SetItemOption.h"
 #include "ItemSocketOptionSystem.h"
-#include "EDSProtocol.h"
+//#include "EDSProtocol.h"
 #include "MonsterItemMng.h"
 #include "ConMember.h"
 #include "GMMng.h"

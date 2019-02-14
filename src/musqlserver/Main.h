@@ -14,7 +14,7 @@
 //#include "Protocol/EDSprotocol.h"
 //#include "Protocol/Fprotocol.h"
 #include "ServerEngine.h"
-#include "Maps/MapClass.h"
+//#include "Maps/MapClass.h"
 
 #define SET_NUMBERH(x) ( (BYTE)((DWORD)(x)>>(DWORD)8) )
 #define SET_NUMBERL(x) ( (BYTE)((DWORD)(x) & 0xFF) )

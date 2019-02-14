@@ -34,18 +34,18 @@ void JGCharacterCreateFailSend(CGameObject &Obj, char* id);
 void JGCharDelRequest( SDHP_CHARDELETERESULT* lpMsg);
 void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT* lpMsg);
 void GCItemObjectListSend(CGameObject &Obj);
-void GJSetCharacterInfo(struct OBJECTSTRUCT* lpObj, CGameObject &Obj, BOOL bMapServerMove);
+void GJSetCharacterInfo(CGameObject &Obj, CGameObject &ObjTarget, BOOL bMapServerMove);
 void GDGetWarehouseList(CGameObject &Obj, char* AccountID);
 void DGGetWarehouseList( SDHP_GETWAREHOUSEDB_SAVE* lpMsg);
 void GDGetWarehouseNoItem( SDHP_GETWAREHOUSEDB_RESULT* lpMsg);
 void GDSetWarehouseList(CGameObject &Obj, BOOL bCloseWindow);
 void DGSetWarehouseList(PMSG_ANS_WARESAVE* lpMsg);
-void GDUserItemSave( OBJECTSTRUCT* lpObj);
+void GDUserItemSave(CGameObject &Obj);
 void GDSetWarehouseMoney(CGameObject &Obj);
 void GDGameServerInfoSave();
 void ItemCreate(CGameObject &Obj, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption, time_t lDuration, BYTE *SocketOption, BYTE MainAttribute);
-void PetGameProtocol.ItemSerialCreateSend(CGameObject &Obj, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level,BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption);
-void ExpGameProtocol.ItemSerialCreateSend(CGameObject &Obj, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption, time_t ExpTime);
+void PetItemSerialCreateSend(CGameObject &Obj, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level,BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption);
+void ExpItemSerialCreateSend(CGameObject &Obj, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption, time_t ExpTime);
 void ItemSerialCreateRecv( SDHP_ITEMCREATERECV* lpMsg);
 void ItemMovePathSave(char* ActID, char* Name, BYTE level, BYTE mapnumber, BYTE x, BYTE y, char* Item, BYTE op1, BYTE op2, BYTE op3, DWORD serial);
 void DGOptionDataSend(CGameObject &Obj, char* szName, LPBYTE KeyBuffer, BYTE GO,BYTE Qk, BYTE Wk, BYTE Ek, BYTE ChatWnd, BYTE Rk, int QWER, BYTE Transform);
@@ -159,22 +159,22 @@ void ReqMonsterCount(short aIndex);
 void ReqSaveMonsterCount(short aIndex, int monsterid);
 void ReqSavePlayerKiller(short kIndex, short vIndex);
 
-void GDReqArcaBattleGuildJoin(OBJECTSTRUCT *obj);
-void DGAnsArcaBattleGuildJoin(_tagPMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *lpMsg);
+void GDReqArcaBattleGuildJoin(CGameObject &Obj);
+void DGAnsArcaBattleGuildJoin(PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *lpMsg);
 
-void DGAnsArcaBattleGuildJoinSelect(_tagPMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *lpMsg);
+void DGAnsArcaBattleGuildJoinSelect(PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *lpMsg);
 
-void GDReqArcaBattleGuildMemberJoin(OBJECTSTRUCT *obj);
-void DGAnsArcaBattleGuildMemberJoin(_tagPMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *lpMsg);
+void GDReqArcaBattleGuildMemberJoin(CGameObject &Obj);
+void DGAnsArcaBattleGuildMemberJoin(PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *lpMsg);
 
-void GDReqArcaBattleEnter(OBJECTSTRUCT *obj, BYTE btEnterSeq);
-void DGAnsArcaBattleEnter(_tagPMSG_ANS_ARCA_BATTLE_ENTER_DS *lpMsg);
+void GDReqArcaBattleEnter(CGameObject &Obj, BYTE btEnterSeq);
+void DGAnsArcaBattleEnter(PMSG_ANS_ARCA_BATTLE_ENTER_DS *lpMsg);
 
-void DGAnsArcaBattleWinGuildInfo(_tagPMSG_ANS_AB_WIN_GUILD_INFO_DS *lpMsg);
+void DGAnsArcaBattleWinGuildInfo(PMSG_ANS_AB_WIN_GUILD_INFO_DS *lpMsg);
 
-void DGReqArcaBattleProcMultiCast(_tagPMSG_ANS_AB_PROC_STATE_DS *lpMsg);
+void DGReqArcaBattleProcMultiCast(PMSG_ANS_AB_PROC_STATE_DS *lpMsg);
 
-void GDAnsJoinMemberUnder(_tagPMSG_ANS_AB_JOIN_MEMBER_UNDER_DS *lpMsg);
+void GDAnsJoinMemberUnder(PMSG_ANS_AB_JOIN_MEMBER_UNDER_DS *lpMsg);
 
 void DGAns_ChaosCastle_KillPoint_Result(SDHP_ANS_KILLPOINT_RESULT_CC_UBF *lpMsg);
 void DGAns_CCF_Info_Notify(SDHP_ANS_CCF_INFO_NOTIFY *lpMsg);
@@ -182,9 +182,9 @@ void DGAns_GetCCFPermission(SDHP_ANS_CCF_GETPERMISSION *lpMsg);
 
 void GCMuunInventoryItemListSend(CGameObject &Obj);
 
-void GDReqSaveEventInvenItem(OBJECTSTRUCT *lpObj);
-void GDReqLoadEventInvenItem(OBJECTSTRUCT *lpObj);
-void DGLoadEventInvenItem(_tagSDHP_ANS_DBEVENT_INVEN_LOAD *lpMsg);
+void GDReqSaveEventInvenItem(CGameObject &Obj);
+void GDReqLoadEventInvenItem(CGameObject &Obj);
+void DGLoadEventInvenItem(SDHP_ANS_DBEVENT_INVEN_LOAD *lpMsg);
 
 void GDReqSwitchWare(CGameObject &Obj, int WareID);
 void DGAnsSwitchWare(PMSG_ANS_SWITCHWARE *lpMsg);

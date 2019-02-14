@@ -1382,7 +1382,7 @@ void CDoppelGanger::PlatformLugardAct(CGameObject &Npc, CGameObject lpObj)
 	pMsg.result = 0x23;
 	pMsg.level1 = 0;
 
-	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 }
 
 void CDoppelGanger::MiddleTreasureAct(CGameObject &Npc, CGameObject lpObj)
@@ -2034,7 +2034,7 @@ void CDoppelGanger::SendDoppelgangerResult(CGameObject &Obj, BYTE btResult)
 	pMsg.btMissionResult = btResult;
 	pMsg.dwRewardExp = 0;
 
-	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 }
 
 void CDoppelGanger::SendDoppelgangerResultAll()
@@ -2525,7 +2525,7 @@ void CDoppelGanger::SendMapTileInfo(CGameObject &Obj, BYTE btMapSetType)
 
 	this->m_PosInfo.GetStartMapAttr(this->m_nMapNumber, &lpMsgBody[0].btX, &lpMsgBody[0].btY, &lpMsgBody[1].btX, &lpMsgBody[1].btY);
 
-	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&cTEMP_BUF, lpMsg->h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&cTEMP_BUF, lpMsg->h.size);
 }
 
 void CDoppelGanger::SendMapTileInfoAll(BYTE btMapSetType)

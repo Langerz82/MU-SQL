@@ -188,7 +188,7 @@ int GensSystem::SendGensInfo(CGameObject &Obj)
 		pMsg.iContributePoint = lpObj.m_PlayerData->m_ContributePoint;
 		pMsg.iNextContributePoint = this->GetNextContributePoint(lpObj);
 
-		if (IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size))
+		if (IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size))
 			return true;
 	}
 	return false;
@@ -210,7 +210,7 @@ int GensSystem::SendPkPenaltyMapMove(CGameObject &Obj)
 	if (gObjIsConnected(lpObj))
 	{
 		BYTE pMsg[4] = { 0xC1, 0x04, 0xF8, 0x08 };
-		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg[1]);
+		IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg[1]);
 		return true;
 	}
 	return false;
@@ -1353,7 +1353,7 @@ int GensSystem::SendGensReward(CGameObject &Obj, BYTE btResult)
 
 		pMsg.bItemType = btResult;
 
-		if (IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size))
+		if (IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size))
 		 return true;
 	}
 	return false;
@@ -1639,7 +1639,7 @@ void GensSystem::SendBattleZoneData(CGameObject &Obj)
 		}
 	}
 
-	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, sizeof(pMsg));
+	IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, sizeof(pMsg));
 }
 
 float GensSystem::GetBattleZoneExpBonus(CGameObject &Obj)

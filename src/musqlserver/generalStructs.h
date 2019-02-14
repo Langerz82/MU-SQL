@@ -1031,9 +1031,103 @@ struct TEST_ITEMSDROP;
 struct USER_CONNECT_DATA;
 struct USERWAREHOUSE_DATA;
 struct PMSG_VIEWPORTCREATE_CHANGE;
+struct SDHP_ANS_KILLPOINT_RESULT_CC_UBF;
 
 
 
+
+struct GSP_REQ_GENS_JOIN;
+struct GSP_REQ_GENS_JOIN
+{
+	PBMSG_HEAD2		h;
+	char			Name[11];
+	short			aIndex;
+	char			GensID;
+};
+
+struct GSP_ANS_GENS_JOIN;
+struct GSP_ANS_GENS_JOIN
+{
+	PBMSG_HEAD2		h;
+	char			Result;
+	short			aIndex;
+	char			Name[11];
+	char			GensID;
+	char			GensPos;
+	int				GensExp;
+	int				GensNextExp;
+};
+
+struct GSP_REQ_GENS_INFO;
+struct GSP_REQ_GENS_INFO
+{
+	PBMSG_HEAD2		h;
+	short			aIndex;
+	char			Name[11];
+};
+
+struct GSP_ANS_GENS_INFO;
+struct GSP_ANS_GENS_INFO
+{
+	PBMSG_HEAD2		h;
+	short			aIndex;
+	char			Name[11];
+	char			GensID;
+	char			GensPos;
+	int				GensExp;
+	int				GensNextExp;
+	short			GensRank;
+	bool			GensReward;
+};
+
+struct GSP_REQ_GENS_QUIT;
+struct GSP_REQ_GENS_QUIT
+{
+	PBMSG_HEAD2		h;
+	short			aIndex;
+	char			Name[11];
+};
+
+struct GSP_ANS_GENS_QUIT;
+struct GSP_ANS_GENS_QUIT
+{
+	PBMSG_HEAD2		h;
+	short			aIndex;
+	char			Name[11];
+	char			Result;
+};
+
+struct GSP_REQ_GENS_RANK;
+struct GSP_REQ_GENS_RANK
+{
+	PBMSG_HEAD2		h;
+	short			aIndex;
+	char			Name[11];
+	short			GensID;
+};
+
+struct GSP_ANS_GENS_RANK;
+struct GSP_ANS_GENS_RANK
+{
+	PBMSG_HEAD2		h;
+	short			aIndex;
+	char			Name[11];
+	short			GensID;
+	char			Result;
+	short			Rank;
+	char			LeadingGens;
+};
+
+
+
+struct SDHP_ANS_KILLPOINT_RESULT_CC_UBF
+{
+	PBMSG_HEAD2 h;
+	int nIndex;
+	int nResult;
+	int nCurrentPoint;
+	int nTotalPoint;
+};
 
 struct PMSG_VIEWPORTCREATE_CHANGE
 {

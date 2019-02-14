@@ -315,7 +315,7 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(CGameObject &Obj)
 		iPosOfJewelOfSuho == -1 ||
 		iCharmOfLuckCount > 10)
 	{
-		IOCP.DataSend(Obj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 		Obj.ChaosLock = FALSE;
 
 		return FALSE;
@@ -335,7 +335,7 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(CGameObject &Obj)
 	if (Obj.m_PlayerData->Money < iMixPrice)
 	{
 		pMsg.Result = 2;
-		IOCP.DataSend(Obj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 		Obj.ChaosLock = FALSE;
 
 		return FALSE;
@@ -387,7 +387,7 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(CGameObject &Obj)
 	else
 	{
 		gGameProtocol.GCUserChaosBoxSend(Obj, 0);
-		IOCP.DataSend(Obj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 
 		sLog->outBasic("[380Item][ItemMix] Mix Fail [%s][%s], Money(%d-%d) Rate(%d/%d)",
 			Obj.AccountID, Obj.Name, Obj.m_PlayerData->Money,

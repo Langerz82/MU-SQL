@@ -48,7 +48,7 @@ void CConfigMichi::GCFireworksSend(CGameObject &Obj, int x, int y) // OK
 	ServerCmd.X = x;
 	ServerCmd.Y = y;
 
-	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&ServerCmd, ServerCmd.h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&ServerCmd, ServerCmd.h.size);
 	gGameProtocol.MsgSendV2(lpObj, (BYTE*)&ServerCmd, ServerCmd.h.size);
 }
 

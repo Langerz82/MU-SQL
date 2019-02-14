@@ -4,7 +4,7 @@
 #include "MuTimer.h"
 #include "GameMain.h"
 #include "GameServer.h"
-#include "EDSProtocol.h"
+//#include "EDSProtocol.h"
 #include "NewPVP.h"
 #include "DoppelGanger.h"
 #include "BloodCastle.h"

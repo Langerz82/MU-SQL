@@ -727,7 +727,7 @@ void CEvolutionMonsterMng::GCSendUserScore(CGameObject &Obj, int nScore)
 	PHeadSubSetB((BYTE*)&pMsg, 0x3E, 0x11, sizeof(pMsg));
 
 	pMsg.wScore = nScore;
-	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
+	IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 }
 
 void CEvolutionMonsterMng::GCSendEvoMonNotice(CGameObject &Obj)

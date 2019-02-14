@@ -6926,7 +6926,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillChainLightning(CGameObject &Obj, int 
 	memcpy(SendByte, &pMsg, sizeof(pMsg));
 
 	if (lpObj.Type == OBJ_USER)
-		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, SendByte, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, SendByte, pMsg.h.size);
 
 	gGameProtocol.MsgSendV2(lpObj, SendByte, pMsg.h.size);
 

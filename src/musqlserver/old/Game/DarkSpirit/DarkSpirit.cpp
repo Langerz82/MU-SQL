@@ -740,7 +740,7 @@ void CDarkSpirit::SetMode(ePetItem_Mode mode, int iTargetindex)
 		pMsg.Command = mode;
 		pMsg.NumberH = SET_NUMBERH(iTargetIndex);
 		pMsg.NumberL = SET_NUMBERL(iTargetIndex);
-		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (UCHAR*)&pMsg, sizeof(pMsg));
+		IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (UCHAR*)&pMsg, sizeof(pMsg));
 		return;
 	}
 

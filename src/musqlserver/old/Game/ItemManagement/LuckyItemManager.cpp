@@ -366,7 +366,7 @@ void LuckyItemManager::LuckyItemTicketExchange(CGameObject &Obj)
 	{
 		sLog->outBasic("[LuckyItem] - Fail - Not Empty Inventory [%s][%s] CharClass[%d]", lpObj.AccountID, lpObj.Name, lpObj.Class);
 		pMsg.Result = 0xF1;
-		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 		lpObj.ChaosLock = false;
 		return;
 	}
@@ -395,7 +395,7 @@ void LuckyItemManager::LuckyItemTicketExchange(CGameObject &Obj)
 		sLog->outBasic("[LuckyItem] - Can Not be Exchanged [%s][%s] CharClass[%d] ItemNum[%d] ItemName[%s]", lpObj.AccountID, lpObj.Name, lpObj.Class,
 			lpObj.pChaosBox[iItemPos].m_Type, ItemAttribute[lpObj.pChaosBox[iItemPos].m_Type].Name);
 		pMsg.Result = 0x20;
-		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 		lpObj.ChaosLock = false;
 		return;
 	}
@@ -421,7 +421,7 @@ void LuckyItemManager::LuckyItemTicketExchange(CGameObject &Obj)
 	{
 		sLog->outBasic("[LuckyItem] --- Error --- [%s][%s] CharClass[%d] ItemNum[%d] ItemName[%s]", lpObj.AccountID, lpObj.Name, lpObj.Class,
 			lpObj.pChaosBox[iItemPos].m_Type, ItemAttribute[lpObj.pChaosBox[iItemPos].m_Type].Name);
-		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 		lpObj.ChaosLock = false;
 		return;
 	}
@@ -567,7 +567,7 @@ void LuckyItemManager::LuckyItemSmelting(CGameObject &Obj)
 	
 	if( iValidItemCount != 1 || iInvalidItemCount != 0 || iItemPos == -1 )
 	{
-		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 		lpObj.ChaosLock = false;
 		return;
 	}
@@ -591,7 +591,7 @@ void LuckyItemManager::LuckyItemSmelting(CGameObject &Obj)
 		{
 			g_MixSystem.ChaosBoxInit(lpObj);
 			gGameProtocol.GCUserChaosBoxSend(lpObj, 0);
-			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 			
 			sLog->outBasic("[LuckyItem][Smelt Item Mix] Mix Fail [%s][%s] ", lpObj.AccountID, lpObj.Name);
 			

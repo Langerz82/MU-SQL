@@ -1255,7 +1255,7 @@ bool CMuunSystem::GetMuunItemValueOfOptType(CGameObject lpObj, int iMuunOptIndex
 
 			PHeadSubSetB((BYTE*)&pMsg, 0x4E, 0x12, sizeof(pMsg));
 
-			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 			gGameProtocol.MsgSendV2(lpObj, (BYTE*)&pMsg, pMsg.h.size);
 		}
 
@@ -3441,7 +3441,7 @@ void CMuunSystem::CGReqRideSelect(PMSG_MUUN_RIDE_SELECT *lpMsg, CGameObject &Obj
 	pMsgMuun.h.set((BYTE*)&pMsgMuun,0x4E,0x14,lOfs);
 	memcpy(btMuunInfosendBuf, &pMsgMuun, sizeof(pMsgMuun));
 
-	IOCP.DataSend(lpObj.m_PlayerData->IDNumber, btMuunInfosendBuf, lOfs);
+	IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, btMuunInfosendBuf, lOfs);
 
 	for (int n = 0; n < MAX_VIEWPORT; n++)
 	{

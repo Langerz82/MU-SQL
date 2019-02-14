@@ -1942,7 +1942,7 @@ void CImperialGuardian::DropItem(CGameObject &player, CGameObject &monster)
 				btDropY = player.Y;
 			}
 
-			GameProtocol.ItemSerialCreateSend(player.m_PlayerData->IDNumber, player.MapNumber, btDropX, btDropY, nType, 0, 0, 0, 0, 0, player.m_Index, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(player.m_PlayerData->ConnectUser->Index, player.MapNumber, btDropX, btDropY, nType, 0, 0, 0, 0, 0, player.m_Index, 0, 0, 0, 0, 0);
 			sLog->outBasic("[IMPERIALGUARDIAN] Drop Item : (%d)(%d/%d) Item:(%s)%d Level:%d op1:%d op2:%d op3:%d",
 				player.MapNumber, btDropX, btDropY, ItemAttribute[nType].Name, nType, 0, 0, 0, 0);
 		}

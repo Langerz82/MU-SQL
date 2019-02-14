@@ -528,7 +528,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 			pMsg.X = x + (rand() % 5) * 2 - 4;
 			pMsg.Y = y + (rand() % 5) * 2 - 4;
 			gGameProtocol.MsgSendV2(lpObj, (UCHAR*)&pMsg, sizeof(pMsg));
-			::IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (UCHAR*)&pMsg, sizeof(pMsg));
+			::IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (UCHAR*)&pMsg, sizeof(pMsg));
 		}
 	}
 	break;
@@ -3821,7 +3821,7 @@ void ServerMsgSend(CGameObject &Obj, int Type, char Sender[20], const char*Messa
 	if(!lpObj)gGameProtocol.DataSendAll(Packet,Len);
 	else
 		if(lpObj.Connected)
-			IOCP.DataSend(lpObj.m_PlayerData->IDNumber,Packet,Len);
+			IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index,Packet,Len);
 	delete [] Packet;*/
 }
 

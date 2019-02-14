@@ -333,7 +333,7 @@ void CBuffEffect::ClearBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectV
 			pMsg.result = 0x12;
 			pMsg.btStatValue = EffectValue;
 			pMsg.btFruitType = 0x07;
-			IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
+			IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 		}
 		break;
 	case EFFECTTYPE_BLIND:

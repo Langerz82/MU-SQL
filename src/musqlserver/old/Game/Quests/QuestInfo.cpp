@@ -1385,7 +1385,7 @@ void CQuestInfo::SendQuestMonsterKill(CGameObject &Obj, int iQuestIndex)
 
 	if (pMsg.btResult == TRUE)
 	{
-		IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, sizeof(pMsg));
+		IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, sizeof(pMsg));
 	}
 }
 

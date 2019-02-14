@@ -218,7 +218,7 @@ void CStatSpecialize::SendOptionList(CGameObject &Obj)
 		 }
 	 }
 
-	 IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
+	 IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

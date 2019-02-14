@@ -676,7 +676,7 @@ void CObjUseSkill::UseSkill(CGameObject &Obj, CMagicInf * lpMagic, BYTE x, BYTE 
 
 			if (lpObj.Type == OBJ_USER)
 			{
-				IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (PBYTE)&pMsg, pMsg.h.size);
+				IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (PBYTE)&pMsg, pMsg.h.size);
 			}
 
 			if (CC_MAP_RANGE(lpObj.MapNumber) || lpObj.MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
