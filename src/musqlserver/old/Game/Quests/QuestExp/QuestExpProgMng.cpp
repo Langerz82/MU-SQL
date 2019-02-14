@@ -1572,7 +1572,7 @@ void QuestExpProgMng::QuestMonsterItemDrop(DWORD dwQuestInfoIndexID, CGameObject
 			int iItemNum = pQuestDropItemInfo->GetItemNum();
 			int iItemLevel = pQuestDropItemInfo->GetItemLevel();
 
-			ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, iItemNum, iItemLevel, 0, 0, 0, 0, iMaxHitUserIndex, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, iItemNum, iItemLevel, 0, 0, 0, 0, iMaxHitUserIndex, 0, 0, 0, 0, 0);
 			//sLog->outBasic("[QuestExp] Monster Kill Quest Item Drop - MonsterName[%s]: [%s][%s] ItemNum[%d]", lpMonsterObj.Name, lpObj.AccountID, lpObj.Name, iItemNum);
 		}
 	}

@@ -41,7 +41,7 @@ short UserAdd(SOCKET s, char *IP)
 			return -1;
 		}
 
-		if (count < MAX_USER && gConnUsers[count]->ConnectionState == 0)
+		if (count < MAX_USER)
 		{
 			STR_CS_USER* connUser = new STR_CS_USER();
 			connUser->ConnectionState = 1;
@@ -50,10 +50,11 @@ short UserAdd(SOCKET s, char *IP)
 			connUser->News = false;
 			connUser->PacketCount = 0;
 			connUser->i64PacketTime = GetTickCount64();
-			gConnUsers.push_back(connUser);
+			connUser->Index = count;
+			insertUser(connUser);
 			SCount++;
 			sLog->outBasic("Connection Accept: %s", IP);
-			return (short)count;
+			return (short)connUser->Index;
 		}
 
 		count++;
@@ -82,8 +83,7 @@ short UserDelete(int index)
 	}
 	sLog->outBasic("Disconnected: %s (%d)", gConnUsers[index]->IP, index);
 
-	delete gConnUsers[index];
-	gConnUsers.erase(gConnUsers.begin()+index);
+	eraseUser(index);
 	SCount--;
 
 	return 1;

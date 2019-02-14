@@ -74,7 +74,7 @@ int gObjServerAdd(SOCKET Socket, char * Ip, int ServerIndex, eSERVER_TYPE eServe
 	switch ( g_Server[ServerIndex].m_Type )
 	{
 		case ST_JOINSERVER:
-			g_Server[ServerIndex].m_ProtocolCore = CLoginServerProtocol::ProtocolCore;
+			g_Server[ServerIndex].m_ProtocolCore = CConnectServerProtocol::ProtocolCore;
 			break;
 	}
 	

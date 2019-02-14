@@ -38,6 +38,9 @@ class UserQuestInfo;
 
 extern int MaxViewportMonster;
 
+extern std::map<int, CUserData*> gUserObjects;
+
+
 class CNameConvert
 {
 public:
@@ -64,15 +67,14 @@ extern MessageStateMachine ** gSMMsg;
 class CUserData
 {
 public:
-	CUserData(int IDNumber);
+	CUserData();
 	virtual ~CUserData();
 
 	void Init(bool VipReset = true);
 
 public:
-	int IDNumber;
 	STR_CONNECT_USER* ConnectUser;
-	//char Ip_addr[16];	// 18
+	//char ConnectUser->IP[16];	// 18
 	char HWID[100];
 	UINT64 Experience;	// AC
 	UINT64 NextExp; // B0
@@ -277,5 +279,6 @@ public:
 	CAttackQueue* m_AttackQueue;
 };
 
+extern CUserData* gGetUserData
 
 #endif

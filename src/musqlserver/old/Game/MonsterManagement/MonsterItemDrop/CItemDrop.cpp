@@ -357,7 +357,7 @@ bool CItemObjectDrop::DropItem(CGameObject &User, CGameObject lpMonster)
 			btSocketOption[1] = ITEM_GET_INDEX(iMuunEvolutionItemID);
 		}
 
-		ItemSerialCreateSend(lpMonster->m_Index, lpMonster->MapNumber, lpMonster->X, lpMonster->Y, ItemNumber, btItemLevel, 0, btSkill, btLuck, btOption, lpUser->m_Index, btExc, btSetItem, dwDuration, btSocketOption, btMainAttribute);
+		GameProtocol.ItemSerialCreateSend(lpMonster->m_Index, lpMonster->MapNumber, lpMonster->X, lpMonster->Y, ItemNumber, btItemLevel, 0, btSkill, btLuck, btOption, lpUser->m_Index, btExc, btSetItem, dwDuration, btSocketOption, btMainAttribute);
 	}
 
 	delete [] lpItems;

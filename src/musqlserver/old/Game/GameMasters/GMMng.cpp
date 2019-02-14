@@ -432,7 +432,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 	if (command_number != 392 && command_number != 412)
 	{
 		//CommandLog->Output("[%s][%s][%s] Used command: %s [AUTH: %d]", 
-		//	lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->Ip_addr, szCmdToken,F
+		//	lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->ConnectUser->IP, szCmdToken,F
 		//	lpObj.Authority);
 	}
 	//sLog->outBasic("Use GM Command -> [ %d ]", command_number);
@@ -514,7 +514,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 		}
 
 		CommandLog->Output("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s",
-			lpObj.m_PlayerData->Ip_addr, lpObj.AccountID, lpObj.Name, "FIRECRACK.");
+			lpObj.m_PlayerData->ConnectUser->IP, lpObj.AccountID, lpObj.Name, "FIRECRACK.");
 
 		int x = lpObj.X;
 		int y = lpObj.Y;
@@ -561,7 +561,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 		}
 
 		/*LogAddTDC(1,"Use GM Command -> [ %s ]	[ %s ]	[ %s ] / Target : [%s][%s] : %s ",
-			lpObj.m_PlayerData->Ip_addr, lpObj.AccountID, lpObj.Name, lpTargetObj.AccountID,
+			lpObj.m_PlayerData->ConnectUser->IP, lpObj.AccountID, lpObj.Name, lpTargetObj.AccountID,
 			lpTargetObj.Name, "User Watching");*/
 
 		char szTemp[256];
@@ -614,7 +614,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 		}
 
 		GMLog->Output("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] / Target : [%s][%s] : %s",
-			lpObj.m_PlayerData->Ip_addr, lpObj.AccountID, lpObj.Name, lpTargetObj.AccountID,
+			lpObj.m_PlayerData->ConnectUser->IP, lpObj.AccountID, lpObj.Name, lpTargetObj.AccountID,
 			lpTargetObj.Name, "User Tracking");
 
 		map = lpTargetObj.MapNumber;
@@ -652,7 +652,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 		}
 
 		sLog->outBasic("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s",
-			lpObj.m_PlayerData->Ip_addr, lpObj.AccountID, lpObj.Name,
+			lpObj.m_PlayerData->ConnectUser->IP, lpObj.AccountID, lpObj.Name,
 			"User Stat (connection)");
 		int lc151 = 0;
 		int lc152 = 400;
@@ -713,11 +713,11 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 		}
 
 		sLog->outBasic("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s",
-			lpObj.m_PlayerData->Ip_addr, lpObj.AccountID, lpObj.Name,
+			lpObj.m_PlayerData->ConnectUser->IP, lpObj.AccountID, lpObj.Name,
 			"Guild Disconnect");
 
 		GMLog->Output("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s",
-			lpObj.m_PlayerData->Ip_addr, lpObj.AccountID, lpObj.Name,
+			lpObj.m_PlayerData->ConnectUser->IP, lpObj.AccountID, lpObj.Name,
 			"Guild Disconnect");
 
 		pId = this->GetTokenString();
@@ -778,7 +778,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 				int nCurrentMap = lpTargetObj.MapNumber;
 
 				GMLog->Output("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] / Target : [%s][%s] : %s",
-					lpObj.m_PlayerData->Ip_addr, lpObj.AccountID, lpObj.Name, lpTargetObj.AccountID,
+					lpObj.m_PlayerData->ConnectUser->IP, lpObj.AccountID, lpObj.Name, lpTargetObj.AccountID,
 					lpTargetObj.Name, "User SetPosition");
 
 				gObjTeleport(iIndex, iTokenNumber1, iTokenNumber2, iTokenNumber3);
@@ -856,7 +856,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 		}
 
 		GMLog->Output("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s",
-			lpObj.m_PlayerData->Ip_addr, lpObj.AccountID, lpObj.Name,
+			lpObj.m_PlayerData->ConnectUser->IP, lpObj.AccountID, lpObj.Name,
 			"Guild SetPosition");
 
 		pId = this->GetTokenString();
@@ -897,7 +897,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 			}
 
 			GMLog->Output("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s",
-				lpObj.m_PlayerData->Ip_addr, lpObj.AccountID, lpObj.Name,
+				lpObj.m_PlayerData->ConnectUser->IP, lpObj.AccountID, lpObj.Name,
 				"Start BattleSoccer");
 
 			BattleSoccerGoalStart(0);
@@ -916,7 +916,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 			}
 
 			GMLog->Output("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s",
-				lpObj.m_PlayerData->Ip_addr, lpObj.AccountID, lpObj.Name,
+				lpObj.m_PlayerData->ConnectUser->IP, lpObj.AccountID, lpObj.Name,
 				"Stop BattleSoccer");
 
 			BattleSoccerGoalEnd(0);
@@ -947,7 +947,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 
 			
 			GMLog->Output("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s",
-				lpObj.m_PlayerData->Ip_addr, lpObj.AccountID, lpObj.Name, "End GuildWar");
+				lpObj.m_PlayerData->ConnectUser->IP, lpObj.AccountID, lpObj.Name, "End GuildWar");
 
 			char * szGuild = this->GetTokenString();
 
@@ -992,7 +992,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 			return 0;
 		}
 
-		GMLog->Output("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj.m_PlayerData->Ip_addr, lpObj.AccountID,
+		GMLog->Output("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj.m_PlayerData->ConnectUser->IP, lpObj.AccountID,
 			lpObj.Name, "Ban Chatting");
 
 		pId = this->GetTokenString();
@@ -1031,7 +1031,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 			return 0;
 		}
 
-		GMLog->Output("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj.m_PlayerData->Ip_addr, lpObj.AccountID,
+		GMLog->Output("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj.m_PlayerData->ConnectUser->IP, lpObj.AccountID,
 			lpObj.Name, "Free Ban-Chatting");
 
 		pId = this->GetTokenString();
@@ -1078,7 +1078,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 				return 0;
 			}
 
-			GMLog->Output("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj.m_PlayerData->Ip_addr, lpObj.AccountID,
+			GMLog->Output("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj.m_PlayerData->ConnectUser->IP, lpObj.AccountID,
 				lpObj.Name, "Set GuildWar");
 
 			pId = this->GetTokenString();
@@ -1675,7 +1675,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 			if (Item.m_Type == -1)
 			{
 				sLog->outError( "[Game Master][Create Item][%s][%s][%s] - Wrong ItemType (%d)",
-					lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->Ip_addr, Item.m_Type);
+					lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->ConnectUser->IP, Item.m_Type);
 
 				return 0;
 			}
@@ -1809,14 +1809,14 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 
 			if (type == 13 && (index == 4 || index == 5))
 			{
-				PetItemSerialCreateSend(aIndex, lpObj.MapNumber, lpObj.X, lpObj.Y, Item.m_Type, ItemLevel, 0, ItemSkill, ItemLuck, ItemOpt, -1, Item.m_NewOption, ItemAncient);
+				PetGameProtocol.ItemSerialCreateSend(aIndex, lpObj.MapNumber, lpObj.X, lpObj.Y, Item.m_Type, ItemLevel, 0, ItemSkill, ItemLuck, ItemOpt, -1, Item.m_NewOption, ItemAncient);
 			}
 			else
 			{
-				ItemSerialCreateSend(aIndex, 227, lpObj.X, lpObj.Y, Item.m_Type, ItemLevel, 0, ItemSkill, ItemLuck, ItemOpt, -1, Item.m_NewOption, ItemAncient, ItemExpireTime, Item.m_SocketOption, MainAttribute);
+				GameProtocol.ItemSerialCreateSend(aIndex, 227, lpObj.X, lpObj.Y, Item.m_Type, ItemLevel, 0, ItemSkill, ItemLuck, ItemOpt, -1, Item.m_NewOption, ItemAncient, ItemExpireTime, Item.m_SocketOption, MainAttribute);
 			}
 
-			GMLog->Output("[%s][%s][%s] Created Item using Admin Command (%s/%d/%d) Auth: %d", lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->Ip_addr, Lang.GetMap(0, lpObj.MapNumber), lpObj.X, lpObj.Y, lpObj.Authority);
+			GMLog->Output("[%s][%s][%s] Created Item using Admin Command (%s/%d/%d) Auth: %d", lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->ConnectUser->IP, Lang.GetMap(0, lpObj.MapNumber), lpObj.X, lpObj.Y, lpObj.Authority);
 		}
 		break;
 	}
@@ -2033,7 +2033,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 			return 0;
 		}
 
-		sLog->outBasic("[KUNDUN] Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj.m_PlayerData->Ip_addr, lpObj.AccountID,
+		sLog->outBasic("[KUNDUN] Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj.m_PlayerData->ConnectUser->IP, lpObj.AccountID,
 			lpObj.Name, "Kundun Event Start");
 
 		for (int n = 0; n < MAX_VIEWPORT; n++)
@@ -2074,7 +2074,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 			return 0;
 		}
 
-		sLog->outBasic("[KUNDUN] Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj.m_PlayerData->Ip_addr, lpObj.AccountID,
+		sLog->outBasic("[KUNDUN] Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj.m_PlayerData->ConnectUser->IP, lpObj.AccountID,
 			lpObj.Name, "Kundun SetHP");
 
 		int iLife = this->GetTokenNumber();
@@ -2127,7 +2127,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 			return 0;
 		}
 
-		sLog->outBasic("[KUNDUN] Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj.m_PlayerData->Ip_addr, lpObj.AccountID,
+		sLog->outBasic("[KUNDUN] Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj.m_PlayerData->ConnectUser->IP, lpObj.AccountID,
 			lpObj.Name, "Kundun SetHPRefill");
 
 		int RefillHP = this->GetTokenNumber();
@@ -2160,7 +2160,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 			return 0;
 		}
 
-		sLog->outBasic("[KUNDUN] Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj.m_PlayerData->Ip_addr, lpObj.AccountID,
+		sLog->outBasic("[KUNDUN] Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj.m_PlayerData->ConnectUser->IP, lpObj.AccountID,
 			lpObj.Name, "Kundun SetHPRefillSec");
 
 		int RefillHPSec = this->GetTokenNumber();
@@ -2192,7 +2192,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 			return 0;
 		}
 
-		sLog->outBasic("[KUNDUN] Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj.m_PlayerData->Ip_addr, lpObj.AccountID,
+		sLog->outBasic("[KUNDUN] Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] : %s", lpObj.m_PlayerData->ConnectUser->IP, lpObj.AccountID,
 			lpObj.Name, "Kundun SetHPRefillTime");
 
 		int RefillHPTime = this->GetTokenNumber();
@@ -2963,11 +2963,11 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 		}
 
 		sLog->outBasic("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] / Target : [%s][%s] : %s",
-			lpObj.m_PlayerData->Ip_addr, lpObj.AccountID, lpObj.Name, lpTargetObj.AccountID,
+			lpObj.m_PlayerData->ConnectUser->IP, lpObj.AccountID, lpObj.Name, lpTargetObj.AccountID,
 			lpTargetObj.Name, "User Trans");
 
 		GMLog->Output("Use GM Command -> [ %s ]\t[ %s ]\t[ %s ] / Target : [%s][%s] : %s",
-			lpObj.m_PlayerData->Ip_addr, lpObj.AccountID, lpObj.Name, lpTargetObj.AccountID,
+			lpObj.m_PlayerData->ConnectUser->IP, lpObj.AccountID, lpObj.Name, lpTargetObj.AccountID,
 			lpTargetObj.Name, "User Trans");
 
 		map = lpObj.MapNumber;
@@ -3323,8 +3323,8 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 
 		g_GremoryCase.GDReqAddItemToGremoryCase(lpTargetObj.m_Index, stItem, DaysToExpire);
 
-		sLog->outBasic("[%s][%s][%s] Added GM Gift to Gremory Case using Admin Command (%s/%d/%d) Auth: %d Target: %s", lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->Ip_addr, Lang.GetMap(0, lpObj.MapNumber), lpObj.X, lpObj.Y, lpObj.Authority, lpTargetObj.Name);
-		GMLog->Output("[%s][%s][%s] Created Added GM Gift to Gremory Case using Admin Command (%s/%d/%d) Auth: %d Target: %s", lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->Ip_addr, Lang.GetMap(0, lpObj.MapNumber), lpObj.X, lpObj.Y, lpObj.Authority, lpTargetObj.Name);
+		sLog->outBasic("[%s][%s][%s] Added GM Gift to Gremory Case using Admin Command (%s/%d/%d) Auth: %d Target: %s", lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->ConnectUser->IP, Lang.GetMap(0, lpObj.MapNumber), lpObj.X, lpObj.Y, lpObj.Authority, lpTargetObj.Name);
+		GMLog->Output("[%s][%s][%s] Created Added GM Gift to Gremory Case using Admin Command (%s/%d/%d) Auth: %d Target: %s", lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->ConnectUser->IP, Lang.GetMap(0, lpObj.MapNumber), lpObj.X, lpObj.Y, lpObj.Authority, lpTargetObj.Name);
 	}
 	break;
 	case 451:
@@ -3527,7 +3527,7 @@ void CGMMng::CommandMake(CGameObject &Obj, int qnt, int section, int type, int l
 
 	for (int i = 0; i < qnt; i++)
 	{
-		ItemSerialCreateSend(lpObj.m_Index, 235, 0, 0, ((section * 512) + type), level, 0, skill, luck, option, -1, exc, SetOpt, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 235, 0, 0, ((section * 512) + type), level, 0, skill, luck, option, -1, exc, SetOpt, 0, 0, 0);
 	}
 
 	sLog->outBasic("[GM][%s]MakeItem:[Cat:%d Index:%d Level:%d Skill:%d Luck:%d Option:%d Excellent:%d Ancient:%d]", lpObj.Name, section, type, level, skill, luck, option, exc, SetOpt);

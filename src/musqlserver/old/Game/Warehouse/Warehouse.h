@@ -8,7 +8,6 @@
 
 #include "StdAfx.h"
 #include "MuDefines.h"
-#include "ProtocolStructs.h"
 #include "Database/Query.h"
 
 class CWarehouse

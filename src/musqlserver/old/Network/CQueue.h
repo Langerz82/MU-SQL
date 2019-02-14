@@ -8,9 +8,10 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "generalStructs.h"
+; // TODO - ?
 
-struct ListNode;
+struct ST_LISTNODE;
+
 
 class  CQueue
 {
@@ -22,7 +23,7 @@ public:
 	unsigned int	GetCount_NoLock();
 	BOOL			IsEmpty();
 	BOOL			AddToQueue(const BYTE* pObject, unsigned int nSize, BYTE headcode, int uindex, int iSessionId);
-	ListNode*		AddToQueueList(const BYTE* pObject, unsigned int nSize, BYTE headcode, int uindex);
+	ST_LISTNODE*		AddToQueueList(const BYTE* pObject, unsigned int nSize, BYTE headcode, int uindex);
 	BOOL			GetFromQueue(BYTE * pObject, unsigned int * pSize, BYTE * headcode, int * uindex, int * iSessionId);
 	//BOOL			GetFromQueue(BYTE* pObject, unsigned int * pSize);
 	void			Init();
@@ -30,24 +31,24 @@ public:
 	
 	BOOL        StartQ();
 	BOOL		NextQ();
-	ListNode*	GetCurData(BYTE* pObject, unsigned int * pSize, BYTE * headcode, int * uindex);
-	BOOL		Pop(ListNode* pCur, BYTE *pObject, int nOfs, int *nSize, int *sentbytes);
-	void		DeleteNode(ListNode* pCur);
-	void		SetCurDataSending(ListNode* pNode);
+	ST_LISTNODE*	GetCurData(BYTE* pObject, unsigned int * pSize, BYTE * headcode, int * uindex);
+	BOOL		Pop(ST_LISTNODE* pCur, BYTE *pObject, int nOfs, int *nSize, int *sentbytes);
+	void		DeleteNode(ST_LISTNODE* pCur);
+	void		SetCurDataSending(ST_LISTNODE* pNode);
 
 private:
 	
-	ListNode*	GetHeadNode();
-    BOOL		AddTail(ListNode* pNewNode);
+	ST_LISTNODE*	GetHeadNode();
+    BOOL		AddTail(ST_LISTNODE* pNewNode);
 	void		DeleteAllNodes();
 
 	
 
 	unsigned int		m_Count;
 	unsigned int		m_Max_Node;
-    ListNode*		m_pHead;
-	ListNode*		m_pTail;
-	ListNode*		m_pCur;
+    ST_LISTNODE*		m_pHead;
+	ST_LISTNODE*		m_pTail;
+	ST_LISTNODE*		m_pCur;
 
 	CRITICAL_SECTION	m_CriticalSection;
 };

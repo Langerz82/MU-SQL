@@ -42,7 +42,7 @@ struct _PER_SOCKET_CONTEXT;
 struct __ITL_GUILD_RANK;
 struct _ITL_AnswerEnter;
 struct _ITR_AcceptEnter;
-struct _ListNode;
+struct ST_LISTNODE;
 struct _PARTY_MEMBER_WAIT_LIST;
 struct _PER_IO_CONTEXT;
 struct _PMSG_QUESTEXP_INFO;
@@ -1155,13 +1155,13 @@ struct PER_IO_CONTEXT_L
 	int							nTotalBytes;
 	int							nSentBytes;
 	int							IOOperation;
-	void*						ListNode;
+	void*						ST_LISTNODE;
 };
 
-struct ListNode
+struct ST_LISTNODE
 {
-	ListNode*	        pUpLink;
-	ListNode*	        pDownLink;
+	ST_LISTNODE*	        pUpLink;
+	ST_LISTNODE*	        pDownLink;
 	BYTE *		pObject;
 	unsigned int		nSize;
 	BOOL				bSending;

@@ -1527,7 +1527,7 @@ void CIllusionTempleLeagueEvent::MakeITLRewardItem_CCFWing(CGameObject &Obj)
 
 	iExOption = g_ItemOptionTypeMng.WingExcOptionRand(GetItemKindA(ITEMGET(12, 266)), GetItemKindB(ITEMGET(12, 266)), btNewExcOption);
 
-	ItemSerialCreateSend(iUserIndex, getGameObject(iUserIndex]->MapNumber, getGameObject(iUserIndex)->X, getGameObject(iUserIndex)->Y, ITEMGET(12, 266), 0, 0, 0, 1, 4, iUserIndex, iExOption, 0, 2419200, btNewExcOption, 0);
+	GameProtocol.ItemSerialCreateSend(iUserIndex, getGameObject(iUserIndex]->MapNumber, getGameObject(iUserIndex)->X, getGameObject(iUserIndex)->Y, ITEMGET(12, 266), 0, 0, 0, 1, 4, iUserIndex, iExOption, 0, 2419200, btNewExcOption, 0);
 	sLog->outBasic("[ ITL ][MakeITLRewardItem_CCFWing] Index:%d, Name:%s", iUserIndex, getGameObject(iUserIndex)->Name);
 }
 

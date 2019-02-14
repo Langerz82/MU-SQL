@@ -391,7 +391,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 		switch ( aRecv->iGiftNumber )
 		{
 			case 1:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 13),
 					0, 0, 0, 0, 0,
@@ -404,7 +404,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 2:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 14),
 					0, 0, 0, 0, 0,
@@ -417,7 +417,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 3:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(12, 15),
 					0, 0, 0, 0, 0,
@@ -430,7 +430,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 4:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 11),
 					0, 0, 0, 0, 0,
@@ -443,7 +443,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 5:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 11),
 					3, 0, 0, 0, 0,
@@ -483,7 +483,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 11:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(12, 19),
 					0, 0, 0, 0, 0,
@@ -496,7 +496,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 12:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(12, 18),
 					0, 0, 0, 0, 0,
@@ -509,7 +509,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 13:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(12, 17),
 					0, 0, 0, 0, 0,
@@ -522,7 +522,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 14:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(12, 16),
 					0, 0, 0, 0, 0,
@@ -535,7 +535,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 15:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(12, 14),
 					0, 0, 0, 0, 0,
@@ -548,7 +548,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 16:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(12, 13),
 					0, 0, 0, 0, 0,
@@ -561,7 +561,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 17:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(12, 12),
 					0, 0, 0, 0, 0,
@@ -574,7 +574,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 18:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(13, 2),
 					0, 255, 0, 0, 0,
@@ -587,7 +587,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 19:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(13, 3),
 					0, 255, 0, 0, 0,
@@ -600,7 +600,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 20:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 16),
 					0, 0, 0, 0, 0,
@@ -613,7 +613,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 21:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(13, 0),
 					0, 255, 0, 0, 0,
@@ -626,7 +626,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 22:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(13, 1),
 					0, 255, 0, 0, 0,
@@ -639,7 +639,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 23:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 11),
 					1, 0, 0, 0, 0,
@@ -652,7 +652,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 24:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 11),
 					9, 0, 0, 0, 0,
@@ -665,7 +665,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 25:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 11),
 					10, 0, 0, 0, 0,
@@ -678,7 +678,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 26:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 19),
 					0, 0, 0, 0, 0,
@@ -691,7 +691,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 27:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 19),
 					1, 0, 0, 0, 0,
@@ -704,7 +704,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 28:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 19),
 					2, 0, 0, 0, 0,
@@ -717,7 +717,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 29:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 19),
 					3, 0, 0, 0, 0,
@@ -730,7 +730,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 30:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 19),
 					4, 0, 0, 0, 0,
@@ -743,7 +743,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 31:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 11),
 					2, 0, 0, 0, 0,
@@ -756,7 +756,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 32:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 20),
 					0, 0, 0, 0, 0,
@@ -769,7 +769,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 33:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 22),
 					0, 0, 0, 0, 0,
@@ -782,7 +782,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 34:	case 35:	case 36:	case 37:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(13, 15),
 					aRecv->iGiftNumber - 34, 0, 0, 0, 0,
@@ -795,7 +795,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 38:	case 39:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 11),
 					aRecv->iGiftNumber - 27, 0, 0, 0, 0,
@@ -808,7 +808,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 40:	case 41:	case 42:	case 43:	case 44:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 20),
 					aRecv->iGiftNumber - 39, 0, 0, 0, 0,
@@ -821,7 +821,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 45:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 11),
 					8, 0, 0, 0, 0,
@@ -834,7 +834,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 46:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 41),
 					0, 0, 0, 0, 0,
@@ -847,7 +847,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 47:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 42),
 					0, 0, 0, 0, 0,
@@ -860,7 +860,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 48:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 44),
 					0, 0, 0, 0, 0,
@@ -873,7 +873,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 49:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 43),
 					0, 0, 0, 0, 0,
@@ -886,7 +886,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 				}
 				break;
 			case 50:
-				ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
+				GameProtocol.ItemSerialCreateSend(getGameObject(aRecv->iINDEX)->m_Index, GIFT_2ANV_MAP, 
 					getGameObject(aRecv->iINDEX]->X, getGameObject(aRecv->iINDEX)->Y,
 					ItemGetNumberMake(14, 31),
 					0, 0, 0, 0, 0,

@@ -5,10 +5,9 @@
  */
 
 // import
-#include "prodef.h"
-#include "Logging/Log.h"
+#include "StdAfx.h"
 #include "User/CUserData.h"
-
+#include "GOFunctions.h"
 // defines
 #define USERCHATBLOCK_LIST_LIMIT	50
 #define USERCHATBLOCK_DB_CONNECTED	FALSE

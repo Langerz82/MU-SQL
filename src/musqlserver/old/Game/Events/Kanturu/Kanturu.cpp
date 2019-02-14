@@ -622,7 +622,7 @@ void CKanturu::OperateGmCommand(CGameObject &Obj, int iCommand)
 
 	sLog->outError(  "[ADMIN COMMAND] [%s][%s][%s] Used KANTURU Command ID: %d",
 		getGameObject(iUserIndex]->AccountID, getGameObject(iUserIndex)->Name,
-		getGameObject(iUserIndex)->m_PlayerData->Ip_addr, iCommand);
+		getGameObject(iUserIndex)->m_PlayerData->ConnectUser->IP, iCommand);
 }
 
 void CKanturu::SetKanturuTimeAttackEventInfo()

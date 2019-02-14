@@ -34,7 +34,7 @@ unsigned int CQueue::GetCount_NoLock()
 	return this->m_Count;
 }
 
-BOOL CQueue::AddTail(ListNode* pNewNode)
+BOOL CQueue::AddTail(ST_LISTNODE* pNewNode)
 {
 	EnterCriticalSection(&m_CriticalSection);
 	BOOL bRet = TRUE;
@@ -60,10 +60,10 @@ BOOL CQueue::AddTail(ListNode* pNewNode)
 	return bRet;
 }
 
-ListNode* CQueue::GetHeadNode()
+ST_LISTNODE* CQueue::GetHeadNode()
 {
 	EnterCriticalSection(&m_CriticalSection);	
-	ListNode* pNode = NULL;
+	ST_LISTNODE* pNode = NULL;
 
 	if(m_pHead)
 	{
@@ -95,7 +95,7 @@ BOOL CQueue::AddToQueue(const BYTE* pObject, unsigned int nSize, BYTE headcode, 
 	}
 
 	EnterCriticalSection(&m_CriticalSection);
-	ListNode* pNewNode = (ListNode*) HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(ListNode));
+	ST_LISTNODE* pNewNode = (ST_LISTNODE*) HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(ST_LISTNODE));
 	
 	if( pNewNode )
 	{
@@ -126,7 +126,7 @@ BOOL CQueue::AddToQueue(const BYTE* pObject, unsigned int nSize, BYTE headcode, 
 	return bRet;
 }
 
-ListNode* CQueue::AddToQueueList(const BYTE* pObject, unsigned int nSize, BYTE headcode, int uindex)
+ST_LISTNODE* CQueue::AddToQueueList(const BYTE* pObject, unsigned int nSize, BYTE headcode, int uindex)
 {
 	BOOL bRet = FALSE;
 
@@ -137,7 +137,7 @@ ListNode* CQueue::AddToQueueList(const BYTE* pObject, unsigned int nSize, BYTE h
 	}
 
 	EnterCriticalSection(&m_CriticalSection);
-	ListNode* pNewNode = (ListNode*) HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(ListNode));
+	ST_LISTNODE* pNewNode = (ST_LISTNODE*) HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(ST_LISTNODE));
 	
 	if( pNewNode )
 	{
@@ -169,7 +169,7 @@ ListNode* CQueue::AddToQueueList(const BYTE* pObject, unsigned int nSize, BYTE h
 
 BOOL CQueue::GetFromQueue(BYTE* pObject, unsigned int * pSize, BYTE * headcode, int * uindex, int * iSessionId)
 {
-	ListNode*	pNode = NULL;
+	ST_LISTNODE*	pNode = NULL;
 	////ASSERT( pObject );
 	
 	EnterCriticalSection(&m_CriticalSection); //wz removed criti for some reason hmm...
@@ -195,7 +195,7 @@ BOOL CQueue::GetFromQueue(BYTE* pObject, unsigned int * pSize, BYTE * headcode, 
 
 void CQueue::DeleteAllNodes()
 {
-	ListNode*	pNode = NULL;
+	ST_LISTNODE*	pNode = NULL;
 
 	EnterCriticalSection(&m_CriticalSection);
 	// DO NOT DELETE Object that pointed by pObject!!!!
@@ -233,7 +233,7 @@ BOOL CQueue::NextQ()
 	return FALSE;
 }
 
-ListNode* CQueue::GetCurData(BYTE* pObject, unsigned int * pSize, BYTE * headcode, int * uindex)
+ST_LISTNODE* CQueue::GetCurData(BYTE* pObject, unsigned int * pSize, BYTE * headcode, int * uindex)
 {
 	if( m_pCur )
 	{		
@@ -248,7 +248,7 @@ ListNode* CQueue::GetCurData(BYTE* pObject, unsigned int * pSize, BYTE * headcod
 	return NULL;
 }
 
-BOOL CQueue::Pop(ListNode* pCur, BYTE *pObject, int nOfs, int *nSize, int *sentbytes)
+BOOL CQueue::Pop(ST_LISTNODE* pCur, BYTE *pObject, int nOfs, int *nSize, int *sentbytes)
 {
 	BOOL bRet=FALSE;
 
@@ -275,7 +275,7 @@ BOOL CQueue::Pop(ListNode* pCur, BYTE *pObject, int nOfs, int *nSize, int *sentb
 	return bRet;
 }
 
-void CQueue::SetCurDataSending(ListNode* pNode)
+void CQueue::SetCurDataSending(ST_LISTNODE* pNode)
 {	
 	if( pNode )
 	{
@@ -285,11 +285,11 @@ void CQueue::SetCurDataSending(ListNode* pNode)
 	}
 }
 
-void CQueue::DeleteNode(ListNode* pCur)
+void CQueue::DeleteNode(ST_LISTNODE* pCur)
 {
-	ListNode* pNode = NULL;
-	ListNode* pPre = NULL;
-	ListNode* pNext = NULL;
+	ST_LISTNODE* pNode = NULL;
+	ST_LISTNODE* pPre = NULL;
+	ST_LISTNODE* pNext = NULL;
 	EnterCriticalSection(&m_CriticalSection);
 	
 	if( pCur )

@@ -9878,7 +9878,7 @@ void gObjLifeCheck(CGameObject &TargetObj, CGameObject& Obj, int AttackDamage, i
 					{
 						PMSG_NOTICE pNotice;
 
-						ItemSerialCreateSend(lpCallObj, lpCallObj->MapNumber, lpCallObj->X, lpCallObj->Y, ItemGetNumberMake(14, 13), 0, 0, 0, 0, 0, lpCallObj->m_Index, 0, 0, 0, 0, 0);
+						GameProtocol.ItemSerialCreateSend(lpCallObj, lpCallObj->MapNumber, lpCallObj->X, lpCallObj->Y, ItemGetNumberMake(14, 13), 0, 0, 0, 0, 0, lpCallObj->m_Index, 0, 0, 0, 0, 0);
 
 						if (gObjIsConnected(*lpCallObj))
 						{
@@ -13083,7 +13083,7 @@ BYTE gObjInventoryMoveItem(CGameObject &Obj, BYTE source, BYTE target, int& durS
 						durTsend = 1;
 					}
 
-					ItemSerialCreateSend(Obj, 235, Obj.X, Obj.Y, ItemGetNumberMake(14, 28), sitem->m_Level, 0, 0, 0, 0, Obj, 0, 0, 0, 0, 0);
+					GameProtocol.ItemSerialCreateSend(Obj, 235, Obj.X, Obj.Y, ItemGetNumberMake(14, 28), sitem->m_Level, 0, 0, 0, 0, Obj, 0, 0, 0, 0, 0);
 				}
 
 				if ((sitem->m_Type == ITEMGET(14, 70) || sitem->m_Type == ITEMGET(14, 71) || sitem->m_Type == ITEMGET(14, 94) || sitem->m_Type == ITEMGET(14, 133)) && titem->m_Durability < 50.0f)
@@ -13107,7 +13107,7 @@ BYTE gObjInventoryMoveItem(CGameObject &Obj, BYTE source, BYTE target, int& durS
 						durTsend = 1;
 					}
 
-					ItemSerialCreateSend(Obj, 235, Obj.X, Obj.Y, ItemGetNumberMake(14, 111), sitem->m_Level, 0, 0, 0, 0, Obj, 0, 0, 0, 0, 0);
+					GameProtocol.ItemSerialCreateSend(Obj, 235, Obj.X, Obj.Y, ItemGetNumberMake(14, 111), sitem->m_Level, 0, 0, 0, 0, Obj, 0, 0, 0, 0, 0);
 				}
 
 				if (titem->m_Type == ITEMGET(12, 144) && max_count <= titem->m_Durability && titem->m_BonusSocketOption == sitem->m_BonusSocketOption)
@@ -13127,7 +13127,7 @@ BYTE gObjInventoryMoveItem(CGameObject &Obj, BYTE source, BYTE target, int& durS
 						durTsend = 1;
 					}
 
-					ItemSerialCreateSend(Obj, 235, Obj.X, Obj.Y, ItemGetNumberMake(12, 145), sitem->m_Level, 0, 0, 0, 0, Obj, 0, 0, 0, 0, sitem->m_BonusSocketOption);
+					GameProtocol.ItemSerialCreateSend(Obj, 235, Obj.X, Obj.Y, ItemGetNumberMake(12, 145), sitem->m_Level, 0, 0, 0, 0, Obj, 0, 0, 0, 0, sitem->m_BonusSocketOption);
 				}
 
 				if (titem->m_Type == ITEMGET(13, 145) && max_count <= titem->m_Durability)
@@ -13146,7 +13146,7 @@ BYTE gObjInventoryMoveItem(CGameObject &Obj, BYTE source, BYTE target, int& durS
 						durTsend = 1;
 					}
 
-					ItemSerialCreateSend(Obj, 235, Obj.X, Obj.Y, ItemGetNumberMake(13, 146), sitem->m_Level, 0, 0, 0, 0, Obj, 0, 0, 0, 0, 0);
+					GameProtocol.ItemSerialCreateSend(Obj, 235, Obj.X, Obj.Y, ItemGetNumberMake(13, 146), sitem->m_Level, 0, 0, 0, 0, Obj, 0, 0, 0, 0, 0);
 				}
 
 				if (titem->m_Type == ITEMGET(14, 290) && max_count <= titem->m_Durability)
@@ -13165,7 +13165,7 @@ BYTE gObjInventoryMoveItem(CGameObject &Obj, BYTE source, BYTE target, int& durS
 						durTsend = 1;
 					}
 
-					ItemSerialCreateSend(Obj, 235, Obj.X, Obj.Y, ItemGetNumberMake(14, 293), sitem->m_Level, 0, 0, 0, 0, Obj, 0, 0, 0, 0, 0);
+					GameProtocol.ItemSerialCreateSend(Obj, 235, Obj.X, Obj.Y, ItemGetNumberMake(14, 293), sitem->m_Level, 0, 0, 0, 0, Obj, 0, 0, 0, 0, 0);
 				}
 
 				if (titem->m_Type == ITEMGET(14, 101) && max_count <= titem->m_Durability)
@@ -13184,7 +13184,7 @@ BYTE gObjInventoryMoveItem(CGameObject &Obj, BYTE source, BYTE target, int& durS
 						durTsend = 1;
 					}
 
-					ItemSerialCreateSend(Obj, 235, Obj.X, Obj.Y, ItemGetNumberMake(14, 102), sitem->m_Level, 0, 0, 0, 0, Obj, 0, 0, 0, 0, 0);
+					GameProtocol.ItemSerialCreateSend(Obj, 235, Obj.X, Obj.Y, ItemGetNumberMake(14, 102), sitem->m_Level, 0, 0, 0, 0, Obj, 0, 0, 0, 0, 0);
 				}
 
 				if (sitem->m_Durability > 0)
@@ -17836,7 +17836,7 @@ void gObjSecondProc()
 					{
 						//BYTE btKillClient[] = { 0xC1, 0x04, 0xFA, 0xA6 };
 						//IOCP.DataSend(lpObj->m_PlayerData->IDNumber, btKillClient, sizeof(btKillClient));
-						//	sLog->outError( "(%d)[%s][%s][%s] User did not disconnect upon request. Modified client?", Obj, lpObj->m_PlayerData->Ip_addr, lpObj->AccountID, lpObj->Name);
+						//	sLog->outError( "(%d)[%s][%s][%s] User did not disconnect upon request. Modified client?", Obj, lpObj->m_PlayerData->ConnectUser->IP, lpObj->AccountID, lpObj->Name);
 					}
 				}
 
@@ -18008,10 +18008,10 @@ void gObjSecondProc()
 			if (lpObj->m_PlayerData->AntiHackCheckTime > 0 && GetTickCount() - lpObj->m_PlayerData->AntiHackCheckTime > 180000 && lpObj->m_bOff == false)
 			{
 				/*	sLog->outError( "[%s][%s][%s][%s] AntiHack breach #1-> No response",
-				lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr, lpObj->m_PlayerData->HWID);
+				lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->ConnectUser->IP, lpObj->m_PlayerData->HWID);
 
 				AntiHackLog->Output("[%s][%s][%s][%s] AntiHack breach #1-> No response",
-				lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->Ip_addr, lpObj->m_PlayerData->HWID);
+				lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->ConnectUser->IP, lpObj->m_PlayerData->HWID);
 
 				if (g_ConfigRead.antihack.AntiHackBreachDisconnectUser == true)
 				{
@@ -24050,7 +24050,7 @@ void MakeRandomSetItem(CGameObject &Obj)
 
 	Option1 = 1;
 
-	ItemSerialCreateSend(Obj, Obj.MapNumber, Obj.X, Obj.Y, itemnum, 0, 0, Option1, Option2, Option3, Obj, 0, SetOption, 0, 0, 0);
+	GameProtocol.ItemSerialCreateSend(Obj, Obj.MapNumber, Obj.X, Obj.Y, itemnum, 0, 0, Option1, Option2, Option3, Obj, 0, SetOption, 0, 0, 0);
 }
 
 void MakeRandomSetItem(CGameObject &Obj, _stGremoryCaseItem & stItem)
@@ -24171,7 +24171,7 @@ void MakeRewardSetItem(CGameObject &Obj, BYTE cDropX, BYTE cDropY, int iRewardTy
 		cDropY = Obj.Y;
 	}
 
-	ItemSerialCreateSend(Obj, iMapnumber, cDropX, cDropY, itemnum, 0, 0, Option1, Option2, Option3, Obj, 0, SetOption, 0, 0, 0);
+	GameProtocol.ItemSerialCreateSend(Obj, iMapnumber, cDropX, cDropY, itemnum, 0, 0, Option1, Option2, Option3, Obj, 0, SetOption, 0, 0, 0);
 
 	if (iRewardType == 1)
 	{
@@ -27531,7 +27531,7 @@ BOOL gJewelInventoryPut(CGameObject &ObjBuyer, CGameObject &ObjSeller, short sBl
 	{
 		for (int i30B = 0; i30B < s30BlessCount; i30B++)
 		{
-			ItemSerialCreateSend(ObjSeller, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(12, 30), 2, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(ObjSeller, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(12, 30), 2, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
 
 			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				ObjSeller.AccountID, ObjSeller.Name, ItemAttribute[ITEMGET(12, 30)].Name, ITEMGET(12, 30), 2);
@@ -27542,7 +27542,7 @@ BOOL gJewelInventoryPut(CGameObject &ObjBuyer, CGameObject &ObjSeller, short sBl
 	{
 		for (int i20B = 0; i20B < s20BlessCount; i20B++)
 		{
-			ItemSerialCreateSend(ObjSeller, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(12, 30), 1, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(ObjSeller, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(12, 30), 1, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
 
 			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				ObjSeller.AccountID, ObjSeller.Name, ItemAttribute[ITEMGET(12, 30)].Name, ITEMGET(12, 30), 1);
@@ -27553,7 +27553,7 @@ BOOL gJewelInventoryPut(CGameObject &ObjBuyer, CGameObject &ObjSeller, short sBl
 	{
 		for (int i10B = 0; i10B < s10BlessCount; i10B++)
 		{
-			ItemSerialCreateSend(ObjSeller, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(12, 30), 0, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(ObjSeller, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(12, 30), 0, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
 
 			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				ObjSeller.AccountID, ObjSeller.Name, ItemAttribute[ITEMGET(12, 30)].Name, ITEMGET(12, 30), 0);
@@ -27564,7 +27564,7 @@ BOOL gJewelInventoryPut(CGameObject &ObjBuyer, CGameObject &ObjSeller, short sBl
 	{
 		for (int iB = 0; iB < sBlessCount; iB++)
 		{
-			ItemSerialCreateSend(ObjSeller, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(14, 13), 0, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(ObjSeller, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(14, 13), 0, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
 
 			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				ObjSeller.AccountID, ObjSeller.Name, ItemAttribute[ITEMGET(14, 13)].Name, ITEMGET(14, 13), 0);
@@ -27575,7 +27575,7 @@ BOOL gJewelInventoryPut(CGameObject &ObjBuyer, CGameObject &ObjSeller, short sBl
 	{
 		for (int i30S = 0; i30S < s30SoulCount; i30S++)
 		{
-			ItemSerialCreateSend(ObjSeller, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(12, 31), 2, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(ObjSeller, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(12, 31), 2, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
 
 			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				ObjSeller.AccountID, ObjSeller.Name, ItemAttribute[ITEMGET(12, 31)].Name, ITEMGET(12, 31), 2);
@@ -27586,7 +27586,7 @@ BOOL gJewelInventoryPut(CGameObject &ObjBuyer, CGameObject &ObjSeller, short sBl
 	{
 		for (int i20S = 0; i20S < s20SoulCount; i20S++)
 		{
-			ItemSerialCreateSend(ObjSeller.m_Index, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(12, 31), 1, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(ObjSeller.m_Index, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(12, 31), 1, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
 
 			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				ObjSeller.AccountID, ObjSeller.Name, ItemAttribute[ITEMGET(12, 31)].Name, ITEMGET(12, 31), 1);
@@ -27597,7 +27597,7 @@ BOOL gJewelInventoryPut(CGameObject &ObjBuyer, CGameObject &ObjSeller, short sBl
 	{
 		for (int i10S = 0; i10S < s10SoulCount; i10S++)
 		{
-			ItemSerialCreateSend(ObjSeller, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(12, 31), 0, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(ObjSeller, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(12, 31), 0, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
 
 			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				ObjSeller.AccountID, ObjSeller.Name, ItemAttribute[ITEMGET(12, 31)].Name, ITEMGET(12, 31), 0);
@@ -27608,7 +27608,7 @@ BOOL gJewelInventoryPut(CGameObject &ObjBuyer, CGameObject &ObjSeller, short sBl
 	{
 		for (int iS = 0; iS < sSoulCount; iS++)
 		{
-			ItemSerialCreateSend(ObjSeller, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(14, 14), 0, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(ObjSeller, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(14, 14), 0, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
 
 			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				ObjSeller.AccountID, ObjSeller.Name, ItemAttribute[ITEMGET(14, 14)].Name, ITEMGET(14, 14), 0);
@@ -27619,7 +27619,7 @@ BOOL gJewelInventoryPut(CGameObject &ObjBuyer, CGameObject &ObjSeller, short sBl
 	{
 		for (int i30C = 0; i30C < s30ChaosCount; i30C++)
 		{
-			ItemSerialCreateSend(ObjSeller, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(12, 141), 2, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(ObjSeller, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(12, 141), 2, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
 
 			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				ObjSeller.AccountID, ObjSeller.Name, ItemAttribute[ITEMGET(12, 141)].Name, ITEMGET(12, 141), 2);
@@ -27630,7 +27630,7 @@ BOOL gJewelInventoryPut(CGameObject &ObjBuyer, CGameObject &ObjSeller, short sBl
 	{
 		for (int i20C = 0; i20C < s20ChaosCount; i20C++)
 		{
-			ItemSerialCreateSend(ObjSeller, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(12, 141), 1, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(ObjSeller, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(12, 141), 1, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
 
 			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				ObjSeller.AccountID, ObjSeller.Name, ItemAttribute[ITEMGET(12, 141)].Name, ITEMGET(12, 141), 1);
@@ -27641,7 +27641,7 @@ BOOL gJewelInventoryPut(CGameObject &ObjBuyer, CGameObject &ObjSeller, short sBl
 	{
 		for (int i10C = 0; i10C < s10ChaosCount; i10C++)
 		{
-			ItemSerialCreateSend(ObjSeller, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(12, 141), 0, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(ObjSeller, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(12, 141), 0, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
 
 			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				ObjSeller.AccountID, ObjSeller.Name, ItemAttribute[ITEMGET(12, 141)].Name, ITEMGET(12, 141), 0);
@@ -27652,7 +27652,7 @@ BOOL gJewelInventoryPut(CGameObject &ObjBuyer, CGameObject &ObjSeller, short sBl
 	{
 		for (int iC = 0; iC < sChaosCount; iC++)
 		{
-			ItemSerialCreateSend(ObjSeller, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(12, 15), 0, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(ObjSeller, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(12, 15), 0, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
 
 			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				ObjSeller.AccountID, ObjSeller.Name, ItemAttribute[ITEMGET(12, 15)].Name, ITEMGET(12, 15), 0);

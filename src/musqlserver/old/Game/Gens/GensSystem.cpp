@@ -1375,7 +1375,7 @@ int GensSystem::SendGensRewardItem(CGameObject &Obj, int iGensClass)
 			{
 				for (int i = 0; i < ItemCount; ++i)
 				{
-					ItemSerialCreateSend(lpObj.m_Index, 228, 0, 0, ItemNumber, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+					GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 228, 0, 0, ItemNumber, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 				}
 				return true;
 			}

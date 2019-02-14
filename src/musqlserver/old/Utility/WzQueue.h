@@ -13,10 +13,10 @@
 
 #include "stdafx.h"
 
-typedef  _ListNode
+typedef  _ST_LISTNODE
 {
-	_ListNode * lpNodePre;	// 0
-	_ListNode * lpNodeNext;	// 4
+	_ST_LISTNODE * lpNodePre;	// 0
+	_ST_LISTNODE * lpNodeNext;	// 4
 	char* pHeapMemory; // 8
 	UINT nSize; // C
 	BOOL bIsDataSending; // 10

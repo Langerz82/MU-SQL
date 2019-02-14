@@ -1471,7 +1471,7 @@ int CPentagramSystem::AttributeMonsterItemDrop(CGameObject &Obj)
 	if (bMakeItem == true)
 	{
 		int ItemNumber = ItemGetNumberMake(DropItemType, DropItemIndex);
-		ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, ItemNumber, 0, ItemGetDurability(ItemNumber, 0, 0, 0), 0, 0, 0, MaxHitUser, 0, 0, 0, 0, iMainAttribute | 0x10);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, ItemNumber, 0, ItemGetDurability(ItemNumber, 0, 0, 0), 0, 0, 0, MaxHitUser, 0, 0, 0, 0, iMainAttribute | 0x10);
 		//sLog->outBasic("[PentagramSystem] Pentagram Item Drop [%s]: [%s][%s] (type:%d)", lpObj.Name, lpUser->AccountID, lpUser->Name, ItemNumber);
 
 		return true;
@@ -3030,7 +3030,7 @@ BOOL CPentagramSystem::PentagramJewel_OUT(CGameObject &Obj, int iPentagramItemPo
 				btSocketOption[3] = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4OptionNum | 0x10 * lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank4Level;
 				btSocketOption[4] = lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5OptionNum | 0x10 * lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5Level;
 
-				ItemSerialCreateSend(aIndex, 231, 0, 0, iResultItemCode, iJewelLevel, iItemDurability, 0, 0, 0, 0, 0, 0, 0, btSocketOption, lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btMainAttribute);
+				GameProtocol.ItemSerialCreateSend(aIndex, 231, 0, 0, iResultItemCode, iJewelLevel, iItemDurability, 0, 0, 0, 0, 0, 0, 0, btSocketOption, lpObj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btMainAttribute);
 				sLog->outBasic("[PentagramJewel_OUT][%s][%s] PentagramJewel Out Success - JewelDBIndex = %d, ItemType = %d, ItemIndex = %d",
 					lpObj.AccountID, lpObj.Name, iJewelDBIndex, iItemType, iItemIndex);
 			}
@@ -3437,7 +3437,7 @@ BOOL CPentagramSystem::ElementDrop(CGameObject &Obj, CGameObject lpTargetObj)
 	if (lpObj.Level >= m_iSpiritMap_DropLevel && rand() % 10000 < m_iSpiritMap_DropRate)
 	{
 		int iMaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
-		ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, ITEMGET(13, 145), 0, 1,
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, ITEMGET(13, 145), 0, 1,
 			0, 0, 0, iMaxHitUser, 0, 0, 0, 0, 0);
 		return true;
 	}
@@ -3472,7 +3472,7 @@ BOOL CPentagramSystem::ElementDrop(CGameObject &Obj, CGameObject lpTargetObj)
 					}
 				} while (scount != count);
 
-				ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, ITEMGET(12, Penta_DropRate[i].ItemDropIndex), 0, 1,
+				GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, ITEMGET(12, Penta_DropRate[i].ItemDropIndex), 0, 1,
 					0, 0, 0, iMaxHitUser, 0, 0, 0, SocketOption, SocketBonus);
 				return true;
 			}

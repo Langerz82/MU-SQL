@@ -521,7 +521,7 @@ int QuestExpUserMng::SendQuestReward(int iEpisode, int iObjIndex)
 					}
 				}
 
-				ItemSerialCreateSend(iObjIndex, 233, getGameObject(iObjIndex]->X, getGameObject(iObjIndex)->Y,
+				GameProtocol.ItemSerialCreateSend(iObjIndex, 233, getGameObject(iObjIndex]->X, getGameObject(iObjIndex)->Y,
 					pRewardItem->GetRewardItemNum(), pRewardItem->GetRewardItemLevel(),
 					pRewardItem->GetRewardItemDur(), pRewardItem->GetRewardItemSkill(),
 					0, pRewardItem->GetRewardItemOpt(), iObjIndex,

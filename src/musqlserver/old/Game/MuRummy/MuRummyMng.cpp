@@ -1251,7 +1251,7 @@ void CMuRummyMng::CGReqMuRummyEnd(PMSG_REQ_MURUMMY_END *lpMsg, CGameObject &Obj)
 					}
 
 					g_BagManager.AddCashCoin(aIndex, BAG_EVENT, EVENTBAG_MURUMMY_2, aIndex);
-					ItemSerialCreateSend(aIndex, lpAttr->ItemKindA == 12 ? 220 : 225, 0, 0, Item.m_Type, Item.m_Level, Item.m_Durability, Item.m_Option1, Item.m_Option2, Item.m_Option3, aIndex, Item.m_NewOption, Item.m_SetOption, Duration, Item.m_SocketOption, 0);
+					GameProtocol.ItemSerialCreateSend(aIndex, lpAttr->ItemKindA == 12 ? 220 : 225, 0, 0, Item.m_Type, Item.m_Level, Item.m_Durability, Item.m_Option1, Item.m_Option2, Item.m_Option3, aIndex, Item.m_NewOption, Item.m_SetOption, Duration, Item.m_SocketOption, 0);
 				}
 			}
 
@@ -1273,7 +1273,7 @@ void CMuRummyMng::CGReqMuRummyEnd(PMSG_REQ_MURUMMY_END *lpMsg, CGameObject &Obj)
 				}
 
 				g_BagManager.AddCashCoin(aIndex, BAG_EVENT, EVENTBAG_MURUMMY_1, aIndex);
-				ItemSerialCreateSend(aIndex, lpAttr->ItemKindA == 12 ? 220 : 225, 0, 0, Item.m_Type, Item.m_Level, Item.m_Durability, Item.m_Option1, Item.m_Option2, Item.m_Option3, aIndex, Item.m_NewOption, Item.m_SetOption, Duration, Item.m_SocketOption, 0);
+				GameProtocol.ItemSerialCreateSend(aIndex, lpAttr->ItemKindA == 12 ? 220 : 225, 0, 0, Item.m_Type, Item.m_Level, Item.m_Durability, Item.m_Option1, Item.m_Option2, Item.m_Option3, aIndex, Item.m_NewOption, Item.m_SetOption, Duration, Item.m_SocketOption, 0);
 			}
 
 			pCMuRummyInfo->SetWaitReward(1);

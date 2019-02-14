@@ -31,13 +31,13 @@ BOOL CRingMonsterHerd::MonsterHerdItemDrop(CGameObject &Obj)
 		if ( iIndex == -1 )
 		{
 			int itemnumber = ItemGetNumberMake(14, 13);
-			ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y,
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y,
 				itemnumber, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0);
 			return TRUE;
 		}
 
 		int itemnumber = ItemGetNumberMake(14, 13);
-		ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y,
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y,
 			itemnumber, 0, 0, 0, 0, 0, iIndex, 0, 0, 0, 0, 0);
 		char szTemp[256];
 		wsprintf(szTemp, Lang.GetText(0,101), Obj.Name, Lang.GetMap(0, lpObj.MapNumber));	// #error Apply Deathway fix here
@@ -55,7 +55,7 @@ BOOL CRingMonsterHerd::MonsterHerdItemDrop(CGameObject &Obj)
 		{
 			int iIndex = gObjMonsterTopHitDamageUser(lpObj);
 			int itemnumber = ItemGetNumberMake(13, 20);	// Wizards Ring
-			ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y,
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y,
 				itemnumber, 0, 30, 0, 0, 0, iIndex, 0, 0, 0, 0, 0);
 			return TRUE;
 		}

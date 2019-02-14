@@ -1044,7 +1044,7 @@ BOOL CMineSystem::GiveRewardItem(CGameObject &Obj, WORD wTwinkleType, int iStage
 
 				for (int i = 0; i < itDropItem->iNumber; i++)
 				{
-					ItemSerialCreateSend(aIndex, 223, 0, 0, ITEMGET(itDropItem->iItemType, itDropItem->iItemIndex), itDropItem->iLevel, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0);
+					GameProtocol.ItemSerialCreateSend(aIndex, 223, 0, 0, ITEMGET(itDropItem->iItemType, itDropItem->iItemIndex), itDropItem->iLevel, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0);
 					sLog->outBasic("[MineSystem][GiveRewardItem][%s][%s][Item Type:%d][Index:%d][Level:%d]",
 						lpObj.AccountID, lpObj.Name, itDropItem->iItemType, itDropItem->iItemIndex, itDropItem->iLevel);
 				}

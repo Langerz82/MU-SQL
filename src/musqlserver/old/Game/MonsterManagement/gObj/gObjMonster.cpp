@@ -3775,7 +3775,7 @@ void gObjMonsterDieGiveItem(CGameObject &Obj, CGameObject lpTargetObj)
 
 		for (int iNum = 0; iNum < iWingCount; iNum++)
 		{
-			ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, lpTargetObj.X, lpTargetObj.Y, ITEMGET(12, 267), 0, 0, 0, 0, 0, iLootIndex, iExOption, 0, iWingExpireTime, btNewExcOption, 0);
+			GameProtocol.ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, lpTargetObj.X, lpTargetObj.Y, ITEMGET(12, 267), 0, 0, 0, 0, 0, iLootIndex, iExOption, 0, iWingExpireTime, btNewExcOption, 0);
 		}
 
 		return;
@@ -3813,7 +3813,7 @@ void gObjMonsterDieGiveItem(CGameObject &Obj, CGameObject lpTargetObj)
 
 		for (int iNum = 0; iNum < iWingCount; iNum++)
 		{
-			ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, lpTargetObj.X, lpTargetObj.Y, ITEMGET(12, 267), 0, 0, 0, 0, 0, iLootIndex, iExOption, 0, iWingExpireTime, btNewExcOption, 0);
+			GameProtocol.ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, lpTargetObj.X, lpTargetObj.Y, ITEMGET(12, 267), 0, 0, 0, 0, 0, iLootIndex, iExOption, 0, iWingExpireTime, btNewExcOption, 0);
 		}
 
 		return;
@@ -3834,7 +3834,7 @@ void gObjMonsterDieGiveItem(CGameObject &Obj, CGameObject lpTargetObj)
 
 		if (rand() % 10000 < g_PentagramSystem.m_iMithril_DropRate)
 		{
-			ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, lpTargetObj.X, lpTargetObj.Y, ITEMGET(12, 144), 0, 1, 0, 0, 0, lpTargetObj.m_Index, 0, 0, 0, 0, MithrilSocketBonus);
+			GameProtocol.ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, lpTargetObj.X, lpTargetObj.Y, ITEMGET(12, 144), 0, 1, 0, 0, 0, lpTargetObj.m_Index, 0, 0, 0, 0, MithrilSocketBonus);
 			return;
 		}
 	}
@@ -3862,7 +3862,7 @@ void gObjMonsterDieGiveItem(CGameObject &Obj, CGameObject lpTargetObj)
 			dur = 1.0f;
 			level = 0;
 			type = ItemGetNumberMake(14, 0);	// Apple
-			ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 				Option1, Option2, Option3, MaxHitUser, 0, 0, 0, 0, 0);
 		}
 	}
@@ -4111,7 +4111,7 @@ void gObjMonsterDieGiveItem(CGameObject &Obj, CGameObject lpTargetObj)
 
 		if ( DropItem->m_serial )
 		{
-			ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 				Option1, Option2, Option3, MaxHitUser, NOption, 0, 0, btSocketOption, 0);
 		}
 		else
@@ -4225,7 +4225,7 @@ void gObjMonsterDieGiveItem(CGameObject &Obj, CGameObject lpTargetObj)
 				x = lpObj.X;
 				y = lpObj.Y;
 				level = 1;
-				ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y,
+				GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y,
 					type, level, dur, 0, 0, 0, -1, 0, 0, 0, 0, 0);
 			}
 		}
@@ -4293,7 +4293,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 			dur = 1.0f;
 			int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-			ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 				Option1, Option2, Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 			return TRUE;
@@ -4307,7 +4307,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 	{
 		int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-		ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, SocketSphereItemType, 0, 1, 0, 0, 0, MaxHitUser, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, SocketSphereItemType, 0, 1, 0, 0, 0, MaxHitUser, 0, 0, 0, 0, 0);
 
 		return TRUE;
 	}
@@ -4319,7 +4319,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 	{
 		int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-		ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, TetraCrystalItemType, 0, 1, 0, 0, 0, MaxHitUser, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, TetraCrystalItemType, 0, 1, 0, 0, 0, MaxHitUser, 0, 0, 0, 0, 0);
 
 		return TRUE;
 	}
@@ -4358,7 +4358,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 			int dur = 1;
 			int iMaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-			ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, iType, level, dur,
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, iType, level, dur,
 				0,0,0, iMaxHitUser, 0, 0, 0, 0, 0);
 
 			return TRUE;
@@ -4394,7 +4394,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 				type = ItemGetNumberMake(13, 10);
 				int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-				ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+				GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 					Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 				return TRUE;
@@ -4426,7 +4426,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 							level = 2;
 							type = ItemGetNumberMake(14, 11);
 
-							ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+							GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 								Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 							return TRUE;
@@ -4444,7 +4444,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 		y = lpObj.Y;
 		int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-		ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, 0, 0,
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, 0, 0,
 			0, 0, 0, MaxHitUser, 0, 0, 0, 0, 0);
 
 		return TRUE;
@@ -4457,7 +4457,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 		y = lpObj.Y;
 		int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-		ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, 0, 0,
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, 0, 0,
 			0, 0, 0, MaxHitUser, 0, 0, 0, 0, 0);
 
 		return TRUE;
@@ -4472,7 +4472,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 			y = lpObj.Y;
 			int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-			ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, 0, 1.0,
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, 0, 1.0,
 				0, 0, 0, MaxHitUser, 0, 0, 0, 0, 0);
 
 			return TRUE;
@@ -4498,7 +4498,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 						type = ItemGetNumberMake(14, 11);
 						int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-						ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+						GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 							Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 						return TRUE;
@@ -4521,7 +4521,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 				type = ItemGetNumberMake(14, 11);
 				int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-				ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+				GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 					Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 				return TRUE;
@@ -4538,7 +4538,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 				type = ItemGetNumberMake(14, 11);
 				int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-				ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+				GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 					Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 				return TRUE;
@@ -4557,7 +4557,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 			type = ItemGetNumberMake(14, 11);
 			int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-			ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 				Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 			return TRUE;
@@ -4596,7 +4596,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 
 		type = ItemGetNumberMake(14, 29);
 		int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
-		ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 			Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 		return TRUE;
@@ -4609,7 +4609,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 		dur = 1.0f;
 		type = ItemGetNumberMake(14, 110);
 		int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
-		ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, 0, dur,
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, 0, dur,
 			0, 0, 0, MaxHitUser, 0, 0, 0, 0, 0);
 
 		return true;
@@ -4622,7 +4622,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 		dur = 1.0f;
 		type = ItemGetNumberMake(14, 101);
 		int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
-		ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, 0, dur,
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, 0, dur,
 			0, 0, 0, MaxHitUser, 0, 0, 0, 0, 0);
 
 		return true;
@@ -4640,7 +4640,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 		type = ItemGetNumberMake(14, 21);
 		int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-		ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 			Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 		return TRUE;
@@ -4658,7 +4658,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 		type = ItemGetNumberMake(14, 100);
 		int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-		ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 			Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 		return TRUE;
@@ -4676,7 +4676,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 				y = lpObj.Y;
 				int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-				ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+				GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 					Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 				return TRUE;
@@ -4693,7 +4693,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 				y = lpObj.Y;
 				int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-				ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+				GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 					Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 				return TRUE;
@@ -4710,7 +4710,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 				y = lpObj.Y;
 				int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-				ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+				GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 					Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 				return TRUE;
@@ -4732,7 +4732,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 					y = lpObj.Y;
 					int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-					ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+					GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 						Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 					return TRUE;
@@ -4777,7 +4777,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 				y = lpObj.Y;
 				int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-				ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur, Option1, Option2, Option3, MaxHitUser, 0, 0, 0, 0, 0);
+				GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur, Option1, Option2, Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 				return TRUE;
 			}
@@ -4793,7 +4793,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 				y = lpObj.Y;
 				int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-				ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur, Option1, Option2, Option3, MaxHitUser, 0, 0, 0, 0, 0);
+				GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur, Option1, Option2, Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 				return TRUE;
 			}
@@ -4826,7 +4826,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 			y = lpObj.Y;
 			int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-			ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 				Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 			return TRUE;
@@ -4866,7 +4866,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 
 				int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-				ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+				GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 					Option1, Option2, Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 				return TRUE;
@@ -4897,7 +4897,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 
 				int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-				ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+				GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 					Option1, Option2, Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 				return TRUE;
@@ -4938,7 +4938,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 
 				int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-				ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+				GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 					Option1, Option2, Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 				return TRUE;
@@ -4969,7 +4969,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 
 				int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-				ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+				GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 					Option1, Option2, Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 				return TRUE;
@@ -4989,7 +4989,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 				y = lpTargetObj.Y;
 				int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-				ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, x, y, type, level, dur,
+				GameProtocol.ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, x, y, type, level, dur,
 					Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 				return TRUE;
@@ -5005,7 +5005,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 				y = lpTargetObj.Y;
 				int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-				ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, x, y, type, level, dur,
+				GameProtocol.ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, x, y, type, level, dur,
 					Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 				return TRUE;
@@ -5021,7 +5021,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 				y = lpTargetObj.Y;
 				int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-				ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, x, y, type, level, dur,
+				GameProtocol.ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, x, y, type, level, dur,
 					Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 				return TRUE;
@@ -5041,7 +5041,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 				y = lpTargetObj.Y;
 				int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-				ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, x, y, type, level, dur,
+				GameProtocol.ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, x, y, type, level, dur,
 					Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 				return TRUE;
@@ -5057,7 +5057,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 				y = lpTargetObj.Y;
 				int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-				ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, x, y, type, level, dur,
+				GameProtocol.ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, x, y, type, level, dur,
 					Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 				return TRUE;
@@ -5073,7 +5073,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 				y = lpTargetObj.Y;
 				int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-				ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, x, y, type, level, dur,
+				GameProtocol.ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, x, y, type, level, dur,
 					Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 				return TRUE;
@@ -5091,7 +5091,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 			y = lpTargetObj.Y;
 			int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-			ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, x, y, type, level, dur,
+			GameProtocol.ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, x, y, type, level, dur,
 				Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 			
 			return TRUE;
@@ -5110,7 +5110,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 				y = lpTargetObj.Y;
 				int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-				ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, x, y, type, level, dur,
+				GameProtocol.ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, x, y, type, level, dur,
 					Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 				return TRUE;
@@ -5126,7 +5126,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 				y = lpTargetObj.Y;
 				int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-				ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, x, y, type, level, dur,
+				GameProtocol.ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, x, y, type, level, dur,
 					Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 				return TRUE;
@@ -5142,7 +5142,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 				y = lpTargetObj.Y;
 				int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-				ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, x, y, type, level, dur,
+				GameProtocol.ItemSerialCreateSend(lpTargetObj.m_Index, lpTargetObj.MapNumber, x, y, type, level, dur,
 					Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 
 				return TRUE;
@@ -5168,7 +5168,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 				y = lpObj.Y;
 				int iMaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-				ItemSerialCreateSend(lpTargetObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+				GameProtocol.ItemSerialCreateSend(lpTargetObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 					Option1,Option2,Option3, iMaxHitUser, 0, 0, 0, 0, 0);
 
 				return TRUE;
@@ -5194,7 +5194,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 				y = lpObj.Y;
 				int iMaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-				ItemSerialCreateSend(lpTargetObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+				GameProtocol.ItemSerialCreateSend(lpTargetObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 					Option1,Option2,Option3, iMaxHitUser, 0, 0, 0, 0, 0);
 
 				return TRUE;
@@ -5212,7 +5212,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 			y = lpObj.Y;
 			int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-			ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur,
 			Option1,Option2,Option3, MaxHitUser, 0, 0, 0, 0, 0);
 			return TRUE;
 		}			
@@ -5226,7 +5226,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 		y = lpObj.Y;
 		int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-		ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, 0, 1.0, 0, 0, 0, MaxHitUser, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, 0, 1.0, 0, 0, 0, MaxHitUser, 0, 0, 0, 0, 0);
 		return TRUE;
 	}
 
@@ -5240,7 +5240,7 @@ BOOL gEventMonsterItemDrop(CGameObject &Obj, CGameObject lpTargetObj)
 			y = lpObj.Y;
 			int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 
-			ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, 0, 1.0, 0, 0, 0, MaxHitUser, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, 0, 1.0, 0, 0, 0, MaxHitUser, 0, 0, 0, 0, 0);
 			return TRUE;
 		}
 	}

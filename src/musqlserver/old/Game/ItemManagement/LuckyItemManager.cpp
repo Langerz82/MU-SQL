@@ -495,7 +495,7 @@ void LuckyItemManager::LuckyItemTicketExchange(CGameObject &Obj)
 	if (g_ConfigRead.data.common.Is28Opt == false)
 		Op3 = 4;
 	
-	ItemSerialCreateSend(lpObj.m_Index, -1, 0, 0, Type, level, dur, Op1, Op2, Op3, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+	GameProtocol.ItemSerialCreateSend(lpObj.m_Index, -1, 0, 0, Type, level, dur, Op1, Op2, Op3, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 	
 	int	tmpSetOption = 0;
 	
@@ -601,7 +601,7 @@ void LuckyItemManager::LuckyItemSmelting(CGameObject &Obj)
 		}
 		else
 		{
-			ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, Type, level, 1, Op1, Op2, Op3, lpObj.m_Index, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, Type, level, 1, Op1, Op2, Op3, lpObj.m_Index, 0, 0, 0, 0, 0);
 		}
 		
 		sLog->outBasic("[LuckyItem][Smelt Item Mix] Mix Success [%s][%s] ItemName[%s] ItemNum[%d] Level[%d] Dur[%d] skill[%d] luck[%d] option[%d]",

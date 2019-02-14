@@ -1097,7 +1097,7 @@ void CPersonalStore::CGPShopReqBuyItem(BYTE* lpRecv, int aSourceIndex)
 
 				if (lpObj.m_PlayerData->ISBOT == true && g_BotSystem.GetBotType(lpObj.m_Index) == BOT_SHOP)
 				{
-					BotShopLog->Output("[BOT SHOP] [%s][%s][%s] Buy %s from %s for %d", getGameObject(aSourceIndex]->m_PlayerData->Ip_addr, getGameObject(aSourceIndex]->AccountID, getGameObject(aSourceIndex)->Name, ItemAttribute[iITEM_LOG_TYPE)->Name, lpObj.Name, dwCost);
+					BotShopLog->Output("[BOT SHOP] [%s][%s][%s] Buy %s from %s for %d", getGameObject(aSourceIndex]->m_PlayerData->ConnectUser->IP, getGameObject(aSourceIndex]->AccountID, getGameObject(aSourceIndex)->Name, ItemAttribute[iITEM_LOG_TYPE)->Name, lpObj.Name, dwCost);
 				}
 				if (g_PersonalStore.PShop_CheckInventoryEmpty(lpObj.m_Index) == true)
 				{

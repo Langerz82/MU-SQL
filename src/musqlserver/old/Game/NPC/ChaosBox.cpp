@@ -497,7 +497,7 @@ void CMixSystem::DefaultChaosMix(CGameObject &Obj)
 						WingNum = ITEMGET(12, 41);
 					}
 
-					::ItemSerialCreateSend(lpObj.m_Index, -1, 0, 0, WingNum, 0, 255, Option1, Option2, Option3, -1, 0, 0, 0, 0, 0);
+					::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, -1, 0, 0, WingNum, 0, 255, Option1, Option2, Option3, -1, 0, 0, 0, 0, 0);
 				}
 				else
 				{
@@ -517,7 +517,7 @@ void CMixSystem::DefaultChaosMix(CGameObject &Obj)
 						ChaosItemNum = ITEMGET(5, 7);
 					}
 
-					::ItemSerialCreateSend(lpObj.m_Index, -1, 0, 0, ChaosItemNum, Level, 255, Option1, Option2, Option3, -1, 0, 0, 0, 0, 0);
+					::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, -1, 0, 0, ChaosItemNum, Level, 255, Option1, Option2, Option3, -1, 0, 0, 0, 0, 0);
 				}
 			}
 		}
@@ -776,7 +776,7 @@ BOOL CMixSystem::DevilSquareEventChaosMix(CGameObject &Obj, BOOL bCheckType, int
 		if (iRate < lpObj.ChaosSuccessRate)
 		{
 			int DevilInv = ITEMGET(14, 19);	// Devil Ticket
-			ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, DevilInv, iItemLevel, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, DevilInv, iItemLevel, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 			fail = FALSE;
 		}
 	}
@@ -1524,7 +1524,7 @@ BOOL CMixSystem::PegasiaChaosMix(CGameObject &Obj)
 			}
 		}
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, Dinorant, 0, 255, 1, 0, Option3, lpObj.m_Index, 0, 0, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, Dinorant, 0, 255, 1, 0, Option3, lpObj.m_Index, 0, 0, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 		return TRUE;
@@ -1653,7 +1653,7 @@ BOOL CMixSystem::CircleChaosMix(CGameObject &Obj)	// Fruits
 			FruitType = 4;
 		}
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, Fruit, FruitType, 255, 1, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, Fruit, FruitType, 255, 1, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 		return TRUE;
@@ -2000,7 +2000,7 @@ BOOL CMixSystem::WingChaosMix(CGameObject &Obj)
 			iOption1 = 1;
 		}
 
-		::ItemSerialCreateSend(lpObj.m_Index, -1, 0, 0, iWingNum, iWingLevel, 0, 0, iOption1, iOption2, -1, iOption3, 0, 0, btNewExcOption, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, -1, 0, 0, iWingNum, iWingLevel, 0, 0, iOption1, iOption2, -1, iOption3, 0, 0, btNewExcOption, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 		::sLog->outBasic("[WingMix,2] [%s][%s] CBMix Success %d Money : %d-%d, CharmRate : %d",
 			lpObj.AccountID, lpObj.Name, lpObj.ChaosSuccessRate, lpObj.m_PlayerData->Money, nChaosNeedMoney, iCharmOfLuckCount);
@@ -2203,7 +2203,7 @@ BOOL CMixSystem::IllusionTempleItemChaosMix(CGameObject &Obj)
 	if ((rand() % 100) < lpObj.ChaosSuccessRate)
 	{
 		int iBloodScroll = ITEMGET(13, 51);
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iBloodScroll, OldScrollLevel, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iBloodScroll, OldScrollLevel, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 		return TRUE;
 	}
@@ -2376,7 +2376,7 @@ BOOL CMixSystem::FeatherOfCondorMix(CGameObject &Obj)
 
 	if ((GetLargeRand() % 100) < lpObj.ChaosSuccessRate)
 	{
-		ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ITEMGET(13, 53), 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0xFF);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ITEMGET(13, 53), 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0xFF);
 		::gObjInventoryCommit(lpObj.m_Index);
 		return TRUE;
 	}
@@ -2598,7 +2598,7 @@ BOOL CMixSystem::AdvancedWingMix(CGameObject &Obj)
 		}
 		}*/
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iWingNum, iWingLevel, 0, 0, iOption1, iOption2, -1, iOption3, 0, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iWingNum, iWingLevel, 0, 0, iOption1, iOption2, -1, iOption3, 0, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 		return TRUE;
 	}
@@ -2864,7 +2864,7 @@ BOOL CMixSystem::ThirdWingLevel2ChaosMix(CGameObject &Obj)
 			iOption1 = 1;
 		}
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iWingNum, 0, 0, 0, iOption1, iOption2, -1, iExcOpt, 0, 0, btNewExcOption, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iWingNum, 0, 0, 0, iOption1, iOption2, -1, iExcOpt, 0, 0, btNewExcOption, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 		::sLog->outBasic("[ThirdWing Mix][Level 02] [%s][%s] CBMix Success %d Money : %d-%d, CharmRate : %d",
 			lpObj.AccountID, lpObj.Name, lpObj.ChaosSuccessRate, lpObj.m_PlayerData->Money, nChaosNeedMoney, iCharmOfLuckCount);
@@ -3417,7 +3417,7 @@ void CMixSystem::DarkHorseChaosMix(CGameObject &Obj)
 			break;
 		}
 
-		::PetItemSerialCreateSend(lpObj.m_Index, 0xFE, 0, 0, ItemNum, Level, 0, Add, Option1, Option2, -1, 0, 0);
+		::PetGameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFE, 0, 0, ItemNum, Level, 0, Add, Option1, Option2, -1, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 	}
 	else
@@ -3582,7 +3582,7 @@ void CMixSystem::DarkSpiritChaosMix(CGameObject &Obj)
 			break;
 		}
 
-		::PetItemSerialCreateSend(lpObj.m_Index, 0xFE, 0, 0, ItemNum, Level, 0, Add, Option1, Option2, -1, 0, 0);
+		::PetGameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFE, 0, 0, ItemNum, Level, 0, Add, Option1, Option2, -1, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 	}
 	else
@@ -3675,7 +3675,7 @@ void CMixSystem::BlessPotionChaosMix(CGameObject &Obj)
 		int Level = 0;
 		int Dur = iBlessGemCount * 10;
 
-		ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ItemNum, Level, Dur, 0, 0, 0, -1, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ItemNum, Level, Dur, 0, 0, 0, -1, 0, 0, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -3769,7 +3769,7 @@ void CMixSystem::SoulPotionChaosMix(CGameObject &Obj)
 		int Level = 1;
 		int Dur = iSoulGemCount * 10;
 
-		ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ItemNum, Level, Dur, 0, 0, 0, -1, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ItemNum, Level, Dur, 0, 0, 0, -1, 0, 0, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -3869,7 +3869,7 @@ void CMixSystem::LifeStoneChaosMix(CGameObject &Obj)
 
 	if ((rand() % 100) < lpObj.ChaosSuccessRate)
 	{
-		ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ITEMGET(13, 11), 1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ITEMGET(13, 11), 1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -4007,7 +4007,7 @@ void CMixSystem::CastleSpecialItemMix(CGameObject &Obj)
 			return;
 		}
 
-		ItemSerialCreateSend(lpObj.m_Index, 255, 0, 0, Item.m_Type, Item.m_Level, Item.m_Durability, Item.m_Option1, Item.m_Option2, Item.m_Option3, lpObj.m_Index, Item.m_NewOption, Item.m_SetOption, Duration, Item.m_SocketOption, Item.m_BonusSocketOption);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 255, 0, 0, Item.m_Type, Item.m_Level, Item.m_Durability, Item.m_Option1, Item.m_Option2, Item.m_Option3, lpObj.m_Index, Item.m_NewOption, Item.m_SetOption, Duration, Item.m_SocketOption, Item.m_BonusSocketOption);
 		gObjInventoryCommit(lpObj.m_Index);
 
 		sLog->outBasic("[CastleSpecialMix] [%s][%s] CBMix Success %d Money : %d-%d",
@@ -4134,10 +4134,10 @@ void CMixSystem::HiddenTreasureBoxItemMix(CGameObject &Obj)
 		switch (iCrystalMixType)
 		{
 		case 0:	case 1:	case 2:
-			ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ITEMGET(12, 26), 4, 1, 0, 0, 0, -1, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ITEMGET(12, 26), 4, 1, 0, 0, 0, -1, 0, 0, 0, 0, 0);
 			break;
 		case 3:
-			ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ITEMGET(12, 26), 5, 1, 0, 0, 0, -1, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ITEMGET(12, 26), 5, 1, 0, 0, 0, -1, 0, 0, 0, 0, 0);
 			break;
 		default:
 			sLog->outBasic("[Hidden TreasureBox Event] [%s][%s] CBMix Failed - iCrystalMixType is wrong : %d",
@@ -4268,7 +4268,7 @@ void CMixSystem::Fenrir_01Level_Mix(CGameObject &Obj)
 		int level = 0;
 		int dur = 1;
 
-		ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, type, level, dur, 0, 0, 0, -1, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, type, level, dur, 0, 0, 0, -1, 0, 0, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 		sLog->outBasic("[Fenrir Mix][Level 01] [%s][%s] CBMix Success %d Money : %d-%d, CharmRate : %d",
@@ -4390,7 +4390,7 @@ void CMixSystem::Fenrir_02Level_Mix(CGameObject &Obj)
 		int level = 0;
 		int dur = 1;
 
-		ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, type, level, dur, 0, 0, 0, -1, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, type, level, dur, 0, 0, 0, -1, 0, 0, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 		sLog->outBasic("[Fenrir Mix][Level 02] [%s][%s] CBMix Success %d Money : %d-%d, CharmRate : %d",
@@ -4515,7 +4515,7 @@ void CMixSystem::Fenrir_03Level_Mix(CGameObject &Obj)
 		int dur = 255;
 		int op1 = 1;
 
-		ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, type, level, dur, op1, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, type, level, dur, op1, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 		sLog->outBasic("[Fenrir Mix][Level 03] [%s][%s] CBMix Success %d Money : %d-%d, CharmRate : %d",
@@ -4707,7 +4707,7 @@ void CMixSystem::Fenrir_04Upgrade_Mix(CGameObject &Obj)
 			nop |= 2;
 		}
 
-		ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, type, level, dur, op1, 0, 0, lpObj.m_Index, nop, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, type, level, dur, op1, 0, 0, lpObj.m_Index, nop, 0, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 		sLog->outBasic("[Fenrir Mix][Level 04] [%s][%s] CBMix Success %d Money : %d-%d, CharmRate : %d",
@@ -4821,7 +4821,7 @@ void CMixSystem::ShieldPotionLv1_Mix(CGameObject &Obj)
 	{
 		int ItemNum = ITEMGET(14, 35);
 
-		ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ItemNum, 0, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ItemNum, 0, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 		sLog->outBasic("[ChaosMix][Shield Potion] Lv1 Potion Mix Success [%s][%s], Money(%d-%d), CharmRate : %d",
@@ -4930,7 +4930,7 @@ void CMixSystem::ShieldPotionLv2_Mix(CGameObject &Obj)
 	{
 		int ItemNum = ITEMGET(14, 36);
 
-		ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ItemNum, 0, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ItemNum, 0, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 		sLog->outBasic("[ChaosMix][Shield Potion] Lv2 Potion Mix Success [%s][%s], Money(%d-%d), CharmRate : %d",
@@ -5037,7 +5037,7 @@ void CMixSystem::ShieldPotionLv3_Mix(CGameObject &Obj)
 	{
 		int ItemNum = ITEMGET(14, 37);
 
-		ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ItemNum, 0, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ItemNum, 0, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 		sLog->outBasic("[ChaosMix][Shield Potion] Lv3 Potion Mix Success [%s][%s], Money(%d-%d), CharmRate : %d",
@@ -5164,7 +5164,7 @@ void CMixSystem::LotteryItemMix(CGameObject &Obj, int type)
 		}
 	}*/
 
-	ItemSerialCreateSend(lpObj.m_Index, 255, 0, 0, LotteryItem.m_Type, LotteryItem.m_Level, LotteryItem.m_Durability,
+	GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 255, 0, 0, LotteryItem.m_Type, LotteryItem.m_Level, LotteryItem.m_Durability,
 		LotteryItem.m_Option1, LotteryItem.m_Option2, LotteryItem.m_Option3, lpObj.m_Index, LotteryItem.m_NewOption, 0, 0, 0, 0);
 
 	gObjInventoryCommit(lpObj.m_Index);
@@ -5280,7 +5280,7 @@ BOOL CMixSystem::SeedExtractMixS12(CGameObject &Obj, BYTE AncientPos, BYTE ExePo
 		::lpObj.pInventory[ChaosPos].Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(aIndex, ChaosPos, 1);
 
-		ItemSerialCreateSend(aIndex, 235, 0, 0, lpSeedData->m_ItemCode, lpSeedData->m_ItemLevel, 0, 0, 0, 0, aIndex, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(aIndex, 235, 0, 0, lpSeedData->m_ItemCode, lpSeedData->m_ItemLevel, 0, 0, 0, 0, aIndex, 0, 0, 0, 0, 0);
 		gObjInventoryCommit(aIndex);
 		pMsg.Result1 = 0x01;
 		IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
@@ -5417,7 +5417,7 @@ void CMixSystem::SeedExtractMix(CGameObject &Obj)
 	if (lpSeedData != NULL)
 	{
 		pMsg.Result = 1;
-		ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, lpSeedData->m_ItemCode, lpSeedData->m_ItemLevel, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, lpSeedData->m_ItemCode, lpSeedData->m_ItemLevel, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 		gObjInventoryCommit(lpObj.m_Index);
 		sLog->outBasic("[%s][%s] Seed Extract Mix Success - SeedInfo ( Index : %d, Type : %d, Level : %d, ItemCode : %d )",
 			lpObj.AccountID, lpObj.Name, lpSeedData->m_SeedIndex, lpSeedData->m_SeedType, lpSeedData->m_ItemLevel, lpSeedData->m_ItemCode);
@@ -5538,7 +5538,7 @@ BOOL CMixSystem::SeedSphereEnhance(CGameObject &Obj, BYTE Sphere1, BYTE Sphere2,
 		}
 		lpObj.m_PlayerData->Money -= ReqZen;
 		gGameProtocol.GCMoneySend(aIndex, lpObj.m_PlayerData->Money);
-		ItemSerialCreateSend(aIndex, 235, 0, 0, lpNewSphere.m_Type, lpNewSphere.m_Level, 0, lpNewSphere.m_Option1, lpNewSphere.m_Option2, lpNewSphere.m_Option3, aIndex, lpNewSphere.m_NewOption, 0, 0, SocketOption, 0);
+		GameProtocol.ItemSerialCreateSend(aIndex, 235, 0, 0, lpNewSphere.m_Type, lpNewSphere.m_Level, 0, lpNewSphere.m_Option1, lpNewSphere.m_Option2, lpNewSphere.m_Option3, aIndex, lpNewSphere.m_NewOption, 0, 0, SocketOption, 0);
 
 		gObjInventoryCommit(aIndex);
 		::gObjInventoryItemSet(aIndex, Sphere1, -1);
@@ -5716,7 +5716,7 @@ void CMixSystem::SeedSphereRemoveMixS12(CGameObject &Obj, BYTE ItemPos, BYTE Slo
 	if (rand() % 100 < g_ConfigRead.SeedSphereRemove)
 	{
 		g_SocketOptionSystem.ClearSocketSlot(lpSocketItem, Slot);
-		ItemSerialCreateSend(aIndex, 235, 0, 0, SeedSphereItem.m_ItemCode, SeedSphereItem.m_ItemLevel, 0, 0, 0, 0, aIndex, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(aIndex, 235, 0, 0, SeedSphereItem.m_ItemCode, SeedSphereItem.m_ItemLevel, 0, 0, 0, 0, aIndex, 0, 0, 0, 0, 0);
 	}
 	else
 	{
@@ -5775,7 +5775,7 @@ void CMixSystem::SeedSphereRemoveMixS12(CGameObject &Obj, BYTE ItemPos, BYTE Slo
 	::gObjInventoryItemSet(aIndex, ChaosPos5, -1);
 	::lpObj.pInventory[ChaosPos5].Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(aIndex, ChaosPos5, 1);
-	ItemSerialCreateSend(aIndex, 235, 0, 0, NewItem.m_Type, NewItem.m_Level, 0, NewItem.m_Option1, NewItem.m_Option2, NewItem.m_Option3, aIndex, NewItem.m_NewOption, 0, 0, NewItem.m_SocketOption, NewItem.m_BonusSocketOption);
+	GameProtocol.ItemSerialCreateSend(aIndex, 235, 0, 0, NewItem.m_Type, NewItem.m_Level, 0, NewItem.m_Option1, NewItem.m_Option2, NewItem.m_Option3, aIndex, NewItem.m_NewOption, 0, 0, NewItem.m_SocketOption, NewItem.m_BonusSocketOption);
 	pMsg.Result1 = 1;
 	IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 	sLog->outBasic("[%s][%s] SeedSphere Remove Success - ItemInfo ( Name : %s, ItemCode : %d, Level : %d, SocketOption[%d,%d,%d,%d,%d], BonusOption : %d )",
@@ -6193,7 +6193,7 @@ BOOL CMixSystem::SocketItemUpgradeMixS12(CGameObject &Obj, BYTE ItemPos, BYTE So
 		::lpObj.pInventory[JoChaosPos].Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(aIndex, JoChaosPos, 1);
 
-		ItemSerialCreateSend(aIndex, 235, 0, 0, NewItem.m_Type, 0, 0, NewItem.m_Option1, NewItem.m_Option2, NewItem.m_Option3, aIndex, 0, 0, 0, NewItem.m_SocketOption, NewItem.m_BonusSocketOption);
+		GameProtocol.ItemSerialCreateSend(aIndex, 235, 0, 0, NewItem.m_Type, 0, 0, NewItem.m_Option1, NewItem.m_Option2, NewItem.m_Option3, aIndex, 0, 0, 0, NewItem.m_SocketOption, NewItem.m_BonusSocketOption);
 		gObjInventoryCommit(aIndex);
 
 		//sLog->outBasic(" Socket Item Upgrade Mix Successfull");
@@ -6368,7 +6368,7 @@ void CMixSystem::SeedSphereCompositeMixS12(CGameObject &Obj, BYTE SeedPos, BYTE 
 		::gObjInventoryItemSet(aIndex, ChaosPos, -1);
 		::lpObj.pInventory[ChaosPos].Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(aIndex, ChaosPos, 1);
-		ItemSerialCreateSend(aIndex, 235, 0, 0, SeedSphereItem.m_ItemCode, SeedSphereItem.m_ItemLevel, 0, 0, 0, 0, aIndex, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(aIndex, 235, 0, 0, SeedSphereItem.m_ItemCode, SeedSphereItem.m_ItemLevel, 0, 0, 0, 0, aIndex, 0, 0, 0, 0, 0);
 		gObjInventoryCommit(aIndex);
 		sLog->outBasic("[%s][%s] SeedSphere Composite Mix Success - SeedSphere Info ( Index : %d, Type : %d, Level : %d, ItemCode : %d )",
 			lpObj.AccountID, lpObj.Name, SeedSphereItem.m_SeedSphereIndex, SeedSphereItem.m_SeedType, SeedSphereItem.m_SphereLevel, SeedSphereItem.m_ItemCode);
@@ -6584,7 +6584,7 @@ void CMixSystem::SeedSphereCompositeMix(CGameObject &Obj)
 		if (SeedSphereItem.m_ItemCode != 0)
 		{
 			pMsg.Result = 1;
-			ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, SeedSphereItem.m_ItemCode, SeedSphereItem.m_ItemLevel, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, SeedSphereItem.m_ItemCode, SeedSphereItem.m_ItemLevel, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 			gObjInventoryCommit(lpObj.m_Index);
 			sLog->outBasic("[%s][%s] SeedSphere Composite Mix Success - SeedSphere Info ( Index : %d, Type : %d, Level : %d, ItemCode : %d )",
 				lpObj.AccountID, lpObj.Name, SeedSphereItem.m_SeedSphereIndex, SeedSphereItem.m_SeedType, SeedSphereItem.m_SphereLevel, SeedSphereItem.m_ItemCode);
@@ -6731,7 +6731,7 @@ void CMixSystem::SetSeedSphereMixS12(CGameObject &Obj, BYTE ItemPos, BYTE Slot, 
 	::gGameProtocol.GCInventoryItemDeleteSend(aIndex, ChaosPos, 1);
 	pMsg.Result1 = 1;
 	IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
-	ItemSerialCreateSend(aIndex, 235, 0, 0, Item.m_Type, Item.m_Level, 0, Item.m_Option1, Item.m_Option2, Item.m_Option3, aIndex, Item.m_NewOption, 0, 0, Item.m_SocketOption, Item.m_BonusSocketOption);
+	GameProtocol.ItemSerialCreateSend(aIndex, 235, 0, 0, Item.m_Type, Item.m_Level, 0, Item.m_Option1, Item.m_Option2, Item.m_Option3, aIndex, Item.m_NewOption, 0, 0, Item.m_SocketOption, Item.m_BonusSocketOption);
 
 	sLog->outBasic("[%s][%s] Set SeedSphere Mix Success - ItemInfo ( Name : %s, ItemCode : %d, Level : %d, SocketOption[%d,%d,%d,%d,%d], BonusOption : %d )",
 		lpObj.AccountID, lpObj.Name, ItemAttribute[Item.m_Type].Name, Item.m_Type, Item.m_Level, Item.m_SocketOption[0], Item.m_SocketOption[1],
@@ -7055,7 +7055,7 @@ void CMixSystem::SeedSphereRemoveMix(CGameObject &Obj, BYTE btPos)
 		g_SocketOptionSystem.ClearSocketSlot(&lpObj.pChaosBox[iSocketItemPosition], btPos);
 		pMsg.Result = CB_SUCCESS;
 
-		ItemSerialCreateSend(lpObj.m_Index, 219, 0, 0, lpSeedData->m_ItemCode, lpSeedData->m_ItemLevel, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 219, 0, 0, lpSeedData->m_ItemCode, lpSeedData->m_ItemLevel, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 	}
 
 	else
@@ -7149,7 +7149,7 @@ void CMixSystem::SecromiconMix(CGameObject &Obj)
 		g_CastleSiegeSync.AddTributeMoney(iMixTax);
 		gGameProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
 
-		ItemSerialCreateSend(lpObj.m_Index, 255, 0, 0, ITEMGET(14, 109), 0, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 255, 0, 0, ITEMGET(14, 109), 0, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 		gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -7193,7 +7193,7 @@ void CMixSystem::PremiumBoxMix(CGameObject &Obj)
 
 	if (SealedSilver == 1 && SilverKey == 1)
 	{
-		ItemSerialCreateSend(lpObj.m_Index, 255, 0, 0, ITEMGET(14, 124), 0, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 255, 0, 0, ITEMGET(14, 124), 0, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 		gObjInventoryCommit(lpObj.m_Index);
 
 		lpObj.ChaosLock = FALSE;
@@ -7201,7 +7201,7 @@ void CMixSystem::PremiumBoxMix(CGameObject &Obj)
 	}
 	else if (SealedGold == 1 && GoldKey == 1)
 	{
-		ItemSerialCreateSend(lpObj.m_Index, 255, 0, 0, ITEMGET(14, 123), 0, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 255, 0, 0, ITEMGET(14, 123), 0, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 		gObjInventoryCommit(lpObj.m_Index);
 
 		lpObj.ChaosLock = FALSE;
@@ -7460,7 +7460,7 @@ lpObj.ChaosLock = FALSE;
 return;
 }
 
-ItemSerialCreateSend(lpObj.m_Index, 255, 0, 0, Item.m_Type, Item.m_Level, Item.m_Durability, Item.m_Option1, Item.m_Option2, Item.m_Option3, lpObj.m_Index, Item.m_NewOption, Item.m_SetOption, Duration, Item.m_SocketOption, Item.m_BonusSocketOption);
+GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 255, 0, 0, Item.m_Type, Item.m_Level, Item.m_Durability, Item.m_Option1, Item.m_Option2, Item.m_Option3, lpObj.m_Index, Item.m_NewOption, Item.m_SetOption, Duration, Item.m_SocketOption, Item.m_BonusSocketOption);
 
 pMsg.Result = CB_SUCCESS;
 IOCP.DataSend(lpObj.m_PlayerData->IDNumber, (BYTE*)&pMsg, pMsg.h.size);
@@ -7807,7 +7807,7 @@ void CMixSystem::ItemRefineMix(CGameObject &Obj)
 			SocketOption[i] = -1;
 		}
 
-		ItemSerialCreateSend(lpObj.m_Index, 255, 0, 0, Item.m_Type, Item.m_Level, 0, Item.m_Option1, Item.m_Option2, Item.m_Option3, lpObj.m_Index, Item.m_NewOption, 0, 0, SocketOption, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 255, 0, 0, Item.m_Type, Item.m_Level, 0, Item.m_Option1, Item.m_Option2, Item.m_Option3, lpObj.m_Index, Item.m_NewOption, 0, 0, SocketOption, 0);
 		gObjInventoryCommit(lpObj.m_Index);
 
 		sLog->outBasic("[SocketWeaponMix] [%s][%s] Mix Success.", lpObj.AccountID, lpObj.Name);
@@ -8064,7 +8064,7 @@ void CMixSystem::MonsterWingMix(CGameObject &Obj)
 			NOption |= 0x10;
 		}
 
-		ItemSerialCreateSend(lpObj.m_Index, 255, 0, 0, ITEMGET(12, WingType), 0, 0, 0, Option2, Option3, -1, NOption, 0, 0, btNewExcOption, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 255, 0, 0, ITEMGET(12, WingType), 0, 0, 0, Option2, Option3, -1, NOption, 0, 0, btNewExcOption, 0);
 		gObjInventoryCommit(lpObj.m_Index);
 
 		sLog->outBasic("[MonsterWing Mix] [%s][%s] CBMix Success %d Money : %d-%d, CharmRate : %d", lpObj.AccountID, lpObj.Name,
@@ -8178,7 +8178,7 @@ void CMixSystem::SummonsMix(CGameObject &Obj, int type)
 
 	if ((GetLargeRand() % 100) < lpObj.ChaosSuccessRate)
 	{
-		ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, (ITEMGET(14, 210) + type), 0, 1, 0, 0, 0, -1, 0, 0, 0, 0, 0xFF);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, (ITEMGET(14, 210) + type), 0, 1, 0, 0, 0, -1, 0, 0, 0, 0, 0xFF);
 
 		lpObj.ChaosLock = TRUE;
 		sLog->outBasic("[SummonScrollMix][Success][%s][%s] - (Type: %d, ChaosSuccessRate: %d, ChaosMoney: %d)", lpObj.AccountID, lpObj.Name, type, lpObj.ChaosSuccessRate, lpObj.ChaosMoney);
@@ -8342,7 +8342,7 @@ void CMixSystem::CCFRewardMix(CGameObject &Obj)
 	break;
 	}
 
-	::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iWingNum, 0, 0, 0, iOption1, iOption2, lpObj.m_Index, iExcOpt, 0, 0, btNewExcOption, 0);
+	::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iWingNum, 0, 0, 0, iOption1, iOption2, lpObj.m_Index, iExcOpt, 0, 0, btNewExcOption, 0);
 	::gObjInventoryCommit(lpObj.m_Index);
 	::sLog->outBasic("[Chaos Castle Survival Reward Mix] [%s][%s] CBMix Success Money : %d-%d",
 		lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->Money, nChaosNeedMoney);
@@ -8436,7 +8436,7 @@ void CMixSystem::DSFRewardMix(CGameObject &Obj)
 
 	int iItemNum = ITEMGET(13, 268);
 
-	::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+	::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 	::gObjInventoryCommit(lpObj.m_Index);
 	::sLog->outBasic("[DSF Reward Mix] [%s][%s] CBMix Success Money : %d-%d",
 		lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->Money, nChaosNeedMoney);
@@ -8540,7 +8540,7 @@ void CMixSystem::AncientSoulItemMix(CGameObject &Obj)
 	{
 		int iItemNum = ITEMGET(13, 407);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -8614,7 +8614,7 @@ void CMixSystem::BloodAngelUnSealMix(CGameObject &Obj, int iMixType)
 		if (rand() % 100 < lpObj.ChaosSuccessRate)
 		{
 			int iItemNum = ITEMGET(13, 407);
-			::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+			::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 			::gObjInventoryCommit(lpObj.m_Index);
 		}
 
@@ -8673,7 +8673,7 @@ void CMixSystem::BloodAngelUnSealMix(CGameObject &Obj, int iMixType)
 
 		BYTE Socks[5];
 		Socks[0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
-		::ItemSerialCreateSend(lpObj.m_Index, 255, 0, 0, iItemType, 0, 0, 0, iOption2, 0, lpObj.m_Index, 0, iSetOption, 0, Socks, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 255, 0, 0, iItemType, 0, 0, 0, iOption2, 0, lpObj.m_Index, 0, iSetOption, 0, Socks, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 	}
 
@@ -8739,7 +8739,7 @@ void CMixSystem::BloodAngelUnSealMix2(CGameObject &Obj, int iMixType)
 		if (rand() % 100 < lpObj.ChaosSuccessRate)
 		{
 			int iItemNum = ITEMGET(14, 399);
-			::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 11, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+			::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 11, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 			::gObjInventoryCommit(lpObj.m_Index);
 		}
 
@@ -8798,7 +8798,7 @@ void CMixSystem::BloodAngelUnSealMix2(CGameObject &Obj, int iMixType)
 
 		BYTE Socks[5];
 		Socks[0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemType, 11, 0, 0, iOption2, 0, lpObj.m_Index, 0, iSetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemType, 11, 0, 0, iOption2, 0, lpObj.m_Index, 0, iSetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 		return;
 	}
@@ -8889,7 +8889,7 @@ void CMixSystem::DarkAngelMix(CGameObject &Obj, int iMixType)
 
 	BYTE Socks[5];
 	Socks[0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
-	::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemType, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, iSetOption, 0, Socks, 0);
+	::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemType, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, iSetOption, 0, Socks, 0);
 	::gObjInventoryCommit(lpObj.m_Index);
 
 	if (iMixType == 0x8F) //DK DA Armor
@@ -8986,7 +8986,7 @@ void CMixSystem::DarkAngelNextMix(CGameObject &Obj, int iMixType)
 
 	BYTE Socks[5];
 	Socks[0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
-	::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemType, 0, 0, 0, iOption2, 0, lpObj.m_Index, 0, iSetOption, 0, Socks, 0);
+	::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemType, 0, 0, 0, iOption2, 0, lpObj.m_Index, 0, iSetOption, 0, Socks, 0);
 	::gObjInventoryCommit(lpObj.m_Index);
 
 	if (iMixType == 0x8F) //DK DA Armor
@@ -9085,7 +9085,7 @@ void CMixSystem::ArchangelHammerMix(CGameObject &Obj)
 	Socks[0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
 	BYTE btNewExcOption[5];
 
-	::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, m_typenew, 0, 0, 1, 0, 0, lpObj.m_Index, 0, 0, 0, Socks, 0);
+	::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, m_typenew, 0, 0, 1, 0, 0, lpObj.m_Index, 0, 0, 0, Socks, 0);
 	::gObjInventoryCommit(lpObj.m_Index);
 }
 
@@ -9226,7 +9226,7 @@ void CMixSystem::BlessedAAMix(CGameObject &Obj)
 		BYTE btNewExcOption[5];
 		//btNewOption = g_ItemOptionTypeMng.CommonExcOptionRand(p->ItemKindA, btNewExcOption);
 		//btNewOption = g_ItemOptionTypeMng.CommonExcOptionGetCount(p->ItemKindA, btNewExcOption, this->m_stCCFFinalReward.m_btNewOption[1]);
-		::ItemSerialCreateSend(lpObj.m_Index, -1, 0, 0, m_typenew, 0, 0, 1, 1, 4, lpObj.m_Index, btNewOption, 0, 0, Socks, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, -1, 0, 0, m_typenew, 0, 0, 1, 1, 4, lpObj.m_Index, btNewOption, 0, 0, Socks, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 		sLog->outBasic("[BlessedWeaponMix] [%s][%s] CBMix Success %d %d", lpObj.AccountID, lpObj.Name, lpObj.ChaosSuccessRate, btNewOption);
 
@@ -9362,7 +9362,7 @@ void CMixSystem::DarkAngelWeaponMix(CGameObject &Obj, int iMixType)
 	Socks[0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
 	BYTE btNewExcOption[5];
 
-	::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, m_typenew, 0, 0, 1, iOption2, iOption3, lpObj.m_Index, btNewOption, 0, 0, Socks, 0);
+	::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, m_typenew, 0, 0, 1, iOption2, iOption3, lpObj.m_Index, btNewOption, 0, 0, Socks, 0);
 	::gObjInventoryCommit(lpObj.m_Index);
 	sLog->outBasic("[DarkAngel Weapon] [%s][%s] CBMix Success %d", lpObj.AccountID, lpObj.Name, lpObj.ChaosSuccessRate);
 }
@@ -9557,7 +9557,7 @@ void CMixSystem::BlessPotionChaosMix_Multi(CGameObject &Obj, int iMixCount)
 			int Level = 0;
 			int Dur = 10;
 
-			ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ItemNum, Level, Dur, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ItemNum, Level, Dur, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 		}
 
 		gObjInventoryCommit(lpObj.m_Index);
@@ -9696,7 +9696,7 @@ void CMixSystem::SoulPotionChaosMix_Multi(CGameObject &Obj, int iMixCount)
 			int Level = 1;
 			int Dur = 10;
 
-			ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ItemNum, Level, Dur, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ItemNum, Level, Dur, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 		}
 
 		gObjInventoryCommit(lpObj.m_Index);
@@ -9848,7 +9848,7 @@ void CMixSystem::CircleChaosMix_Multi(CGameObject &Obj, int iMixCount)	// Fruits
 				FruitType = 4;
 			}
 
-			ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, Fruit, FruitType, 255, 1, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, Fruit, FruitType, 255, 1, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 		}
 
 		gObjInventoryCommit(lpObj.m_Index);
@@ -9978,7 +9978,7 @@ void CMixSystem::PegasiaChaosMix_Multi(CGameObject &Obj, int iMixCount)
 				}
 			}
 
-			ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, Dinorant, 0, 255, 1, 0, Option3, lpObj.m_Index, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, Dinorant, 0, 255, 1, 0, Option3, lpObj.m_Index, 0, 0, 0, 0, 0);
 		}
 
 		gObjInventoryCommit(lpObj.m_Index);
@@ -10205,7 +10205,7 @@ void CMixSystem::BloodCastleItemChaosMix_Multi(CGameObject &Obj, int iMixCount)
 		for (int i = 0; i < lpObj.ChaosMassMixSuccessCount; i++)
 		{
 			int item_num = ITEMGET(13, 18);
-			ItemSerialCreateSend(iIndex, -1, 0, 0, item_num, iAngelKingPaperLevel, 255, 0, 0, 0, -1, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(iIndex, -1, 0, 0, item_num, iAngelKingPaperLevel, 255, 0, 0, 0, -1, 0, 0, 0, 0, 0);
 		}
 
 		gObjInventoryCommit(Obj.m_Index);
@@ -10467,7 +10467,7 @@ void CMixSystem::DevilSquareItemChaosMix_Multi(CGameObject &Obj, int iMixCount)
 	for (int i = 0; i < lpObj.ChaosMassMixSuccessCount; i++)
 	{
 		int item_num = ITEMGET(14, 19);
-		ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, item_num, level, 255, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, item_num, level, 255, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 	}
 
 	gObjInventoryCommit(lpObj.m_Index);
@@ -10585,7 +10585,7 @@ void CMixSystem::ShieldPotionLv1_Mix_Multi(CGameObject &Obj, int iMixCount)
 	for (int i = 0; i < lpObj.ChaosMassMixSuccessCount; i++)
 	{
 		int ItemNum = ITEMGET(14, 35);
-		ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ItemNum, 0, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ItemNum, 0, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 	}
 
 	gObjInventoryCommit(lpObj.m_Index);
@@ -10703,7 +10703,7 @@ void CMixSystem::ShieldPotionLv2_Mix_Multi(CGameObject &Obj, int iMixCount)
 	for (int i = 0; i < lpObj.ChaosMassMixSuccessCount; i++)
 	{
 		int ItemNum = ITEMGET(14, 36);
-		ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ItemNum, 0, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ItemNum, 0, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 	}
 
 	gObjInventoryCommit(lpObj.m_Index);
@@ -10821,7 +10821,7 @@ void CMixSystem::ShieldPotionLv3_Mix_Multi(CGameObject &Obj, int iMixCount)
 	for (int i = 0; i < lpObj.ChaosMassMixSuccessCount; i++)
 	{
 		int ItemNum = ITEMGET(14, 37);
-		ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ItemNum, 0, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ItemNum, 0, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 	}
 
 	gObjInventoryCommit(lpObj.m_Index);
@@ -10938,7 +10938,7 @@ void CMixSystem::PremiumBoxMix_Multi(CGameObject &Obj, int iMixCount)
 			iBoxType = ITEMGET(14, 123);
 		}
 
-		ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iBoxType, 0, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iBoxType, 0, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 	}
 }
 
@@ -11009,7 +11009,7 @@ void CMixSystem::JewelOfHarmonyItemPurityMix(CGameObject &Obj) // OK
 
 	if ((rand() % 100) < lpObj.ChaosSuccessRate)
 	{
-		ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ITEMGET(14, 42), 0, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ITEMGET(14, 42), 0, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 		gObjInventoryCommit(lpObj.m_Index);
 
 		g_Log.AddC(TColor::Aqua, "[JewelOfHarmonyItemPurityMix][Success][%s][%s] - (ChaosSuccessRate: %d, ChaosMoney: %d)", lpObj.AccountID, lpObj.Name, lpObj.ChaosSuccessRate, lpObj.ChaosMoney);
@@ -11144,7 +11144,7 @@ void CMixSystem::PurityJewelOfHarmony_MultiMix(CGameObject &Obj, int iMixCount)
 
 		for (int i = 0; i < lpObj.ChaosMassMixSuccessCount; i++)
 		{
-			ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemType, 0, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemType, 0, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 		}
 
 		gObjInventoryCommit(lpObj.m_Index);
@@ -11262,7 +11262,7 @@ void CMixSystem::BloodCastleMix(CGameObject &Obj) // OK
 
 	if ((GetLargeRand() % 100) <= lpObj.ChaosSuccessRate)
 	{
-		ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ITEMGET(13, 18), ScrollLevel, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, ITEMGET(13, 18), ScrollLevel, 1, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 		gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -11329,7 +11329,7 @@ BOOL CMixSystem::bloodangelmix78(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -11394,7 +11394,7 @@ BOOL CMixSystem::bloodangelmix79(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -11459,7 +11459,7 @@ BOOL CMixSystem::bloodangelmix80(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -11524,7 +11524,7 @@ BOOL CMixSystem::bloodangelmix81(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -11591,7 +11591,7 @@ BOOL CMixSystem::bloodangelmix86(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -11656,7 +11656,7 @@ BOOL CMixSystem::bloodangelmix87(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -11721,7 +11721,7 @@ BOOL CMixSystem::bloodangelmix88(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -11786,7 +11786,7 @@ BOOL CMixSystem::bloodangelmix89(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -11854,7 +11854,7 @@ BOOL CMixSystem::bloodangelmix90(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -11920,7 +11920,7 @@ BOOL CMixSystem::bloodangelmix91(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -11986,7 +11986,7 @@ BOOL CMixSystem::bloodangelmix92(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -12052,7 +12052,7 @@ BOOL CMixSystem::bloodangelmix93(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -12120,7 +12120,7 @@ BOOL CMixSystem::bloodangelmix98(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -12186,7 +12186,7 @@ BOOL CMixSystem::bloodangelmix99(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -12252,7 +12252,7 @@ BOOL CMixSystem::bloodangelmix100(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -12318,7 +12318,7 @@ BOOL CMixSystem::bloodangelmix101(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -12386,7 +12386,7 @@ BOOL CMixSystem::bloodangelmix106(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -12452,7 +12452,7 @@ BOOL CMixSystem::bloodangelmix107(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -12518,7 +12518,7 @@ BOOL CMixSystem::bloodangelmix108(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -12584,7 +12584,7 @@ BOOL CMixSystem::bloodangelmix109(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -12652,7 +12652,7 @@ BOOL CMixSystem::bloodangelmix114(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -12718,7 +12718,7 @@ BOOL CMixSystem::bloodangelmix115(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -12784,7 +12784,7 @@ BOOL CMixSystem::bloodangelmix116(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -12850,7 +12850,7 @@ BOOL CMixSystem::bloodangelmix117(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -12918,7 +12918,7 @@ BOOL CMixSystem::bloodangelmix118(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -12984,7 +12984,7 @@ BOOL CMixSystem::bloodangelmix119(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -13050,7 +13050,7 @@ BOOL CMixSystem::bloodangelmix120(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -13116,7 +13116,7 @@ BOOL CMixSystem::bloodangelmix121(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -13184,7 +13184,7 @@ BOOL CMixSystem::bloodangelmix126(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -13250,7 +13250,7 @@ BOOL CMixSystem::bloodangelmix127(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -13316,7 +13316,7 @@ BOOL CMixSystem::bloodangelmix128(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}
@@ -13382,7 +13382,7 @@ BOOL CMixSystem::bloodangelmix129(CGameObject &Obj)
 
 		gItemOptionRate.GetItemOption2(60, &ItemOption2);
 
-		::ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+		::GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xFF, 0, 0, iItemNum, 0, 0, 0, ItemOption2, 0, lpObj.m_Index, 0, SetOption, 0, 0, 0);
 		::gObjInventoryCommit(lpObj.m_Index);
 
 	}

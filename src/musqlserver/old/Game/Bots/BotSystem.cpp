@@ -817,7 +817,7 @@ void CBotSystem::AlchemistTradeOk(CGameObject &Obj, int botIndex)
 		}
 		for(int i=0;i<reward.iCount;i++)
 		{
-			ItemSerialCreateSend(lpObj, 235, lpObj.X, lpObj.Y, reward.m_Reward.m_Type, reward.m_Reward.m_Level, 0, reward.m_Reward.m_Option1,reward.m_Reward.m_Option2, reward.m_Reward.m_Option3, aIndex, reward.m_Reward.m_NewOption, reward.m_Reward.m_SetOption, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(lpObj, 235, lpObj.X, lpObj.Y, reward.m_Reward.m_Type, reward.m_Reward.m_Level, 0, reward.m_Reward.m_Option1,reward.m_Reward.m_Option2, reward.m_Reward.m_Option3, aIndex, reward.m_Reward.m_NewOption, reward.m_Reward.m_SetOption, 0, 0, 0);
 		}
 		gObjInventoryCommit(lpObj);
 		gObjMakePreviewCharSet(lpObj);

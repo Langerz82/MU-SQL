@@ -1618,7 +1618,7 @@ void CIllusionTempleProcess_Renewal::GetRelics(CGameObject &Npc, CGameObject lpO
 
 	if (bCanGetRelics == TRUE)
 	{
-		ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpNpc->X, lpNpc->Y, ItemGetNumberMake(14, 223), 0, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpNpc->X, lpNpc->Y, ItemGetNumberMake(14, 223), 0, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 	}
 
 	this->ResetUserFlag_DoingRelicsThing(lpObj);

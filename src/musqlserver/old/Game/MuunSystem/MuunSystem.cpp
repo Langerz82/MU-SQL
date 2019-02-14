@@ -1305,19 +1305,19 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 
 	if (lpObj.m_bMapSvrMoveReq == true)
 	{
-		sLog->outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", lpObj.AccountID, lpObj.m_PlayerData->Ip_addr);
+		sLog->outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", lpObj.AccountID, lpObj.m_PlayerData->ConnectUser->IP);
 		return;
 	}
 
 	if (lpObj.m_State == 32)
 	{
-		sLog->outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", lpObj.AccountID, lpObj.m_PlayerData->Ip_addr);
+		sLog->outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", lpObj.AccountID, lpObj.m_PlayerData->ConnectUser->IP);
 		return;
 	}
 
 	if (lpObj.m_bMapSvrMoveQuit == 1)
 	{
-		sLog->outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", lpObj.AccountID, lpObj.m_PlayerData->Ip_addr);
+		sLog->outBasic("[DGLoadMuunInvenItem] MapServerMove User.Can't Open Event Inven. return!! [%s], IP [%s] ", lpObj.AccountID, lpObj.m_PlayerData->ConnectUser->IP);
 		return;
 	}
 
@@ -1945,7 +1945,7 @@ bool CMuunSystem::MuunItemEvolution(CGameObject lpObj, int source, int target)
 	BYTE SocketOption[5];
 	memset(SocketOption, -1, sizeof(SocketOption));
 
-	ItemSerialCreateSend(lpObj.m_Index, 0xE0, 0, 0, nEvolutionMuunNum, 0, fDur, 0, 0, 0, lpObj.m_Index, 0, 0, 0, SocketOption, 0);
+	GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xE0, 0, 0, nEvolutionMuunNum, 0, fDur, 0, 0, 0, lpObj.m_Index, 0, 0, 0, SocketOption, 0);
 
 	return true;
 }
@@ -2194,7 +2194,7 @@ bool CMuunSystem::MuunItemEnergyGenerator(CGameObject &Obj, int source, int targ
 		BYTE SocketOption[5];
 		memset(SocketOption, -1, sizeof(SocketOption));
 
-		ItemSerialCreateSend(lpObj.m_Index, 0xE0, 0, 0, iType, iLevel, fDur, 0, 0, 0, lpObj.m_Index, 0, 0, 0, SocketOption, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 0xE0, 0, 0, iType, iLevel, fDur, 0, 0, 0, lpObj.m_Index, 0, 0, 0, SocketOption, 0);
 
 		lpObj.pMuunInventory[target].Clear();
 		gGameProtocol.GCMuunInventoryItemDeleteSend(lpObj.m_Index, target, 1);
@@ -3103,7 +3103,7 @@ bool CMuunSystem::GDMuunExchangeInsertInven(CGameObject &Obj, int iSelect)
 	if ( iType == ITEMGET(14,53) )
 		fDur = 10.0;
 
-	ItemSerialCreateSend(lpObj.m_Index, 218, nSelect, Y, iType, iLevel, fDur, iOption1, iOption2, iOption3, lpObj.m_Index, iExOption, 0, 0, SocketOption, 0);
+	GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 218, nSelect, Y, iType, iLevel, fDur, iOption1, iOption2, iOption3, lpObj.m_Index, iExOption, 0, 0, SocketOption, 0);
 
 	sLog->outBasic("[MuunSystem][MuunExchange][ItemSerialCreateSend] [%s][%s] : Item:(%s)%d Level:%d op1:%d op2:%d op3:%d ExOp:%d",
 		lpObj.AccountID, lpObj.Name, ItemAttribute->Name, iType, iLevel, iOption1, iOption2, iOption3, iExOption);

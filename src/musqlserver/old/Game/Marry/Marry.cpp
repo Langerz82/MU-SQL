@@ -413,7 +413,7 @@ void CMarry::GiveGiftItem(CGameObject &Obj, int iSide)
 
 		for (int i = 0; i < It->m_iItemCount; i++)
 		{
-			ItemSerialCreateSend(aIndex, 235, 0, 0, It->m_wItemID, 0, 0, 0, 0, 0, aIndex, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(aIndex, 235, 0, 0, It->m_wItemID, 0, 0, 0, 0, 0, aIndex, 0, 0, 0, 0, 0);
 		}
 	}
 

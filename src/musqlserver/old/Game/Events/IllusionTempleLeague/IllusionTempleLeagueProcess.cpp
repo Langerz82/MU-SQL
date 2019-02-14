@@ -1741,7 +1741,7 @@ void CIllusionTempleLeagueProcess::GetRelics(CGameObject &Npc, CGameObject lpObj
 
 	if (bCanGetRelics == TRUE)
 	{
-		ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpNpc->X, lpNpc->Y, ItemGetNumberMake(14, 223), 0, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpNpc->X, lpNpc->Y, ItemGetNumberMake(14, 223), 0, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 	}
 
 	this->ResetUserFlag_DoingRelicsThing(lpObj);
@@ -2816,7 +2816,7 @@ void CIllusionTempleLeagueProcess::DropChaosGem(int nIndex)
 	}
 
 	this->m_UserData[getGameObject(nIndex]->m_nITLIndex)->m_bReward = true;
-	ItemSerialCreateSend(nIndex, getGameObject(nIndex]->MapNumber, getGameObject(nIndex)->X, getGameObject(nIndex)->Y, ItemGetNumberMake(12, 30), 0, 0, 0, 0, 0, nIndex, 0, 0, 0, 0, 0);
+	GameProtocol.ItemSerialCreateSend(nIndex, getGameObject(nIndex]->MapNumber, getGameObject(nIndex)->X, getGameObject(nIndex)->Y, ItemGetNumberMake(12, 30), 0, 0, 0, 0, 0, nIndex, 0, 0, 0, 0, 0);
 
 	sLog->outBasic("[ ITL ] (%d) [DropChaosGem] [ItemSerialCreateSend] Index:[%d],Name:[%s],Acc:[%s]", this->m_nTempleNumber + 1, nIndex, getGameObject(nIndex]->Name, getGameObject(nIndex)->AccountID);
 }

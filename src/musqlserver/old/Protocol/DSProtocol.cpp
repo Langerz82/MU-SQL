@@ -1956,21 +1956,21 @@ void GDGetWarehouseList(CGameObject &Obj, char* AccountID)
 	if (gObj[aIndex].m_bMapSvrMoveReq == true)
 	{
 		g_Log.Add("[GetWarehouseList] MapServerMove User. Can't Open WhareHouse. return!! [%s], IP [%s] ",
-			AccountID, gObj[aIndex].m_PlayerData->Ip_addr);
+			AccountID, gObj[aIndex].m_PlayerData->ConnectUser->IP);
 		return;
 	}
 
 	if (gObj[aIndex].m_State == 32)
 	{
 		g_Log.Add("[GetWarehouseList] MapServerMove User. Can't Open WhareHouse. return!! [%s], IP [%s] ",
-			AccountID, gObj[aIndex].m_PlayerData->Ip_addr);
+			AccountID, gObj[aIndex].m_PlayerData->ConnectUser->IP);
 		return;
 	}
 
 	if (gObj[aIndex].m_bMapSvrMoveQuit == true)
 	{
 		g_Log.Add("[GetWarehouseList] MapServerMove User. Can't Open WhareHouse. return!! [%s], IP [%s] ",
-			AccountID, gObj[aIndex].m_PlayerData->Ip_addr);
+			AccountID, gObj[aIndex].m_PlayerData->ConnectUser->IP);
 		return;
 	}
 
@@ -2006,21 +2006,21 @@ void DGGetWarehouseList(SDHP_GETWAREHOUSEDB_SAVE * lpMsg)
 	if (gObj[aIndex].m_bMapSvrMoveReq == true)
 	{
 		g_Log.Add("[DGGetWarehouseList] MapServerMove User. Can't Open WhareHouse. return!! [%s], IP [%s] ",
-			szId, gObj[aIndex].m_PlayerData->Ip_addr);
+			szId, gObj[aIndex].m_PlayerData->ConnectUser->IP);
 		return;
 	}
 
 	if (gObj[aIndex].m_State == 32)
 	{
 		g_Log.Add("[DGGetWarehouseList] MapServerMove User. Can't Open WhareHouse. return!! [%s], IP [%s] ",
-			szId, gObj[aIndex].m_PlayerData->Ip_addr);
+			szId, gObj[aIndex].m_PlayerData->ConnectUser->IP);
 		return;
 	}
 
 	if (gObj[aIndex].m_bMapSvrMoveQuit == true)
 	{
 		g_Log.Add("[DGGetWarehouseList] MapServerMove User. Can't Open WhareHouse. return!! [%s], IP [%s] ",
-			szId, gObj[aIndex].m_PlayerData->Ip_addr);
+			szId, gObj[aIndex].m_PlayerData->ConnectUser->IP);
 		return;
 	}
 
@@ -2508,7 +2508,7 @@ void ItemCreate(CGameObject &Obj, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE
 	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
-void PetItemSerialCreateSend(CGameObject &Obj, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption)
+void PetGameProtocol.ItemSerialCreateSend(CGameObject &Obj, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption)
 {
 	SDHP_ITEMCREATE  pMsg;
 

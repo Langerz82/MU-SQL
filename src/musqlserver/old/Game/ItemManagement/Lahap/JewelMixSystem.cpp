@@ -311,7 +311,7 @@ BOOL CJewelMixSystem::MixJewel( int iIndex, int iJewelType, int iMixType)
 		return FALSE;
 	}
 
-	ItemSerialCreateSend(iIndex, 235, Obj.X,
+	GameProtocol.ItemSerialCreateSend(iIndex, 235, Obj.X,
 						Obj.Y, iChangeType,
 						iMixType, 0, 0, 0, 0,
 						iIndex, 0, 0, 0, 0, 0);
@@ -479,7 +479,7 @@ BOOL CJewelMixSystem::UnMixJewel(CGameObject &Obj, int iJewelType, int iJewelLev
 
 	for (int x = 0; x < iJewelCount; x++)
 	{
-		ItemSerialCreateSend(iIndex, 235, Obj.X, Obj.Y, iChangeType, 0, 0, 0, 0, 0, iIndex, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(iIndex, 235, Obj.X, Obj.Y, iChangeType, 0, 0, 0, 0, 0, iIndex, 0, 0, 0, 0, 0);
 		iCrtJewelCount++;
 
 		if ( iJewelCount <= iCrtJewelCount )

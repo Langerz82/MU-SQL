@@ -2919,7 +2919,7 @@ void CDevilSquareFinal::DSFDropReward(CGameObject & lpUser, CGameObject &Monster
 
 	if (rand()%10000 < this->m_DSFUnitInfo.MonsterRewardRate[this->m_nDSF_TYPE-1])
 	{
-		ItemSerialCreateSend(lpUser->m_Index, lpUser->MapNumber, lpUser->X, lpUser->Y, wItemCode, 0, 0, 0, 0, 0, lpUser->m_Index, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(lpUser->m_Index, lpUser->MapNumber, lpUser->X, lpUser->Y, wItemCode, 0, 0, 0, 0, 0, lpUser->m_Index, 0, 0, 0, 0, 0);
 	}
 }
 

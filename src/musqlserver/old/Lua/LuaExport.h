@@ -141,7 +141,7 @@ public:
 		return Result;
 	};
 
-	static BOOL		LuaItemSerialCreateSend(lua_State * Lua)
+	static BOOL		LuaGameProtocol.ItemSerialCreateSend(lua_State * Lua)
 	{
 		int iSocketCount = lua_tointeger(Lua, 14);
 		int iMuunEvolutionItemID = lua_tointeger(Lua, 16);
@@ -260,7 +260,7 @@ public:
 			}
 		}
 
-		ItemSerialCreateSend(
+		GameProtocol.ItemSerialCreateSend(
 			lua_tointeger(Lua, 1), lua_tointeger(Lua, 2),
 			lua_tointeger(Lua, 3), lua_tointeger(Lua, 4),
 			iItemID, lua_tointeger(Lua, 6),

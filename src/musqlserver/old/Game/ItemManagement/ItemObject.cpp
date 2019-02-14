@@ -9,7 +9,7 @@
 
 #include "PrecompiledHeader/StdAfx.h"
 #include "ItemObject.h"
-
+#include "GoFunctions.h"
 #include "Main.h"
 #include "ItemSystemFor380.h"
 #include "configread.h"

@@ -1929,7 +1929,7 @@ void ChaosCastleFinal::SearchCCFNDropMonsterItem(int iMonsterIndex, int iMaxHitU
 
 	if (bDrop == TRUE)
 	{
-		ItemSerialCreateSend(iMaxHitUserIndex, getGameObject(iMaxHitUserIndex]->MapNumber, getGameObject(iMaxHitUserIndex)->X, getGameObject(iMaxHitUserIndex)->Y, iItemType, iLevel, 0, 0, 0, 0, iMaxHitUserIndex, 0, 0, 0, 0, 0);
+		GameProtocol.ItemSerialCreateSend(iMaxHitUserIndex, getGameObject(iMaxHitUserIndex]->MapNumber, getGameObject(iMaxHitUserIndex)->X, getGameObject(iMaxHitUserIndex)->Y, iItemType, iLevel, 0, 0, 0, 0, iMaxHitUserIndex, 0, 0, 0, 0, 0);
 
 		sLog->outBasic("[Chaos Castle Survival] Monster Dropped ChaosCastleFinal Item To [%s][%s] (%d)(Item:%s)",
 			getGameObject(iMaxHitUserIndex]->AccountID, getGameObject(iMaxHitUserIndex)->Name, iMonsterIndex, ItemAttribute[iItemType)->Name);
@@ -3247,7 +3247,7 @@ void ChaosCastleFinal::MakeChaosCastleRewardWing(CGameObject &Obj)
 		}
 	}
 
-	ItemSerialCreateSend(iUserIndex, getGameObject(iUserIndex]->MapNumber, getGameObject(iUserIndex)->X, getGameObject(iUserIndex)->Y, ITEMGET(this->m_stCCFFinalReward.m_btCat, this->m_stCCFFinalReward.m_wIndex), this->m_stCCFFinalReward.m_btLevel, this->m_stCCFFinalReward.m_btDurability, this->m_stCCFFinalReward.m_btSkill, this->m_stCCFFinalReward.m_btLuck, this->m_stCCFFinalReward.m_btOption, iUserIndex, btNewOption, 0, this->m_stCCFFinalReward.m_dwExpiryTime, btNewExcOption, 0);
+	GameProtocol.ItemSerialCreateSend(iUserIndex, getGameObject(iUserIndex]->MapNumber, getGameObject(iUserIndex)->X, getGameObject(iUserIndex)->Y, ITEMGET(this->m_stCCFFinalReward.m_btCat, this->m_stCCFFinalReward.m_wIndex), this->m_stCCFFinalReward.m_btLevel, this->m_stCCFFinalReward.m_btDurability, this->m_stCCFFinalReward.m_btSkill, this->m_stCCFFinalReward.m_btLuck, this->m_stCCFFinalReward.m_btOption, iUserIndex, btNewOption, 0, this->m_stCCFFinalReward.m_dwExpiryTime, btNewExcOption, 0);
 }
 
 bool ChaosCastleFinal::IsRealFinalDayEnd()

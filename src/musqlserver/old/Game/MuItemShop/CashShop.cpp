@@ -739,7 +739,7 @@ void CItemObjectShop::GCCashInventoryItemUse(CGameObject &Obj, int Result, int U
 	else if(Iter->second.btItemType == 2)
 	{
 		DWORD periodtime = Iter->second.dwItemPeriodTime * 60;
-		ItemSerialCreateSend(lpObj.m_Index, 236, NULL, NULL, ITEMGET(Iter->second.wItemGroup, Iter->second.wItemType), Iter->second.btItemLevel,
+		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 236, NULL, NULL, ITEMGET(Iter->second.wItemGroup, Iter->second.wItemType), Iter->second.btItemLevel,
 			Iter->second.btItemDurability, Iter->second.btItemSkill, Iter->second.btItemLuck, Iter->second.btItemOption,
 			Iter->second.dwItemPeriodTime, Iter->second.btItemExOption, Iter->second.btItemSetOption, periodtime, 0, 0);
 	}
@@ -789,26 +789,26 @@ void CItemObjectShop::GCCashInventoryItemUse(CGameObject &Obj, int Result, int U
 	{
 		if (lpItemInfo->ItemKindA == 11)
 		{
-			ItemSerialCreateSend(lpObj.m_Index, 226, NULL, NULL, ITEMGET(Iter->second.wItemGroup, Iter->second.wItemType), Iter->second.btItemLevel, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 226, NULL, NULL, ITEMGET(Iter->second.wItemGroup, Iter->second.wItemType), Iter->second.btItemLevel, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 		}
 
 		else if (lpItemInfo->ItemKindA == 12)
 		{
 			BYTE SocketOption[5] = { -1, -1, -1, -1, -1 };
-			ItemSerialCreateSend(lpObj.m_Index, 224, NULL, NULL, ITEMGET(Iter->second.wItemGroup, Iter->second.wItemType), Iter->second.btItemLevel, Iter->second.btItemDurability, 0, 0, 0, lpObj.m_Index, 0, 0, 0, SocketOption, 0);
+			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 224, NULL, NULL, ITEMGET(Iter->second.wItemGroup, Iter->second.wItemType), Iter->second.btItemLevel, Iter->second.btItemDurability, 0, 0, 0, lpObj.m_Index, 0, 0, 0, SocketOption, 0);
 		}
 
 		else
 		{
 			if (lpItemInfo->ItemKindA == 11)
 			{
-				ItemSerialCreateSend(lpObj.m_Index, 226, NULL, NULL, ITEMGET(Iter->second.wItemGroup, Iter->second.wItemType), Iter->second.btItemLevel, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
+				GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 226, NULL, NULL, ITEMGET(Iter->second.wItemGroup, Iter->second.wItemType), Iter->second.btItemLevel, 0, 0, 0, 0, lpObj.m_Index, 0, 0, 0, 0, 0);
 			}
 
 			else if (lpItemInfo->ItemKindA == 12)
 			{
 				BYTE SocketOption[5] = { -1, -1, -1, -1, -1 };
-				ItemSerialCreateSend(lpObj.m_Index, 224, NULL, NULL, ITEMGET(Iter->second.wItemGroup, Iter->second.wItemType), Iter->second.btItemLevel, Iter->second.btItemDurability, 0, 0, 0, lpObj.m_Index, 0, 0, 0, SocketOption, 0);
+				GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 224, NULL, NULL, ITEMGET(Iter->second.wItemGroup, Iter->second.wItemType), Iter->second.btItemLevel, Iter->second.btItemDurability, 0, 0, 0, lpObj.m_Index, 0, 0, 0, SocketOption, 0);
 			}
 
 			else
@@ -841,7 +841,7 @@ void CItemObjectShop::GCCashInventoryItemUse(CGameObject &Obj, int Result, int U
 					MainAttribute = Iter->second.btItemAttribute;
 				}
 
-				ItemSerialCreateSend(lpObj.m_Index, 235, NULL, NULL, ITEMGET(Iter->second.wItemGroup, Iter->second.wItemType), Iter->second.btItemLevel,
+				GameProtocol.ItemSerialCreateSend(lpObj.m_Index, 235, NULL, NULL, ITEMGET(Iter->second.wItemGroup, Iter->second.wItemType), Iter->second.btItemLevel,
 					Iter->second.btItemDurability, Iter->second.btItemSkill, Iter->second.btItemLuck, Iter->second.btItemOption,
 					lpObj.m_Index, Iter->second.btItemExOption, Iter->second.btItemSetOption, 0, SocketOption, MainAttribute);
 			}

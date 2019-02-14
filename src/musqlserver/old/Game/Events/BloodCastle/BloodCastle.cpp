@@ -1205,7 +1205,7 @@ bool CBloodCastle::BloodCastleChaosMix(CGameObject &Obj, int iLEVEL)
 	if ( (rand()%100) < iMIX_SUCCESS_RATE )
 	{
 		int item_num = ITEMGET(13,18);
-		ItemSerialCreateSend(Obj, -1, 0, 0, item_num, iLEVEL, 255, 0, 0, 0, -1, 0, 0, 0, 0, 0); // TODO
+		GameProtocol.ItemSerialCreateSend(Obj, -1, 0, 0, item_num, iLEVEL, 255, 0, 0, 0, -1, 0, 0, 0, 0, 0); // TODO
 	}
 	else
 	{
@@ -4680,7 +4680,7 @@ void CBloodCastle::DestroySaintStatue(int iBridgeIndex, CGameObject lpStatueObj)
 		break;
 	}
 
-	ItemSerialCreateSend(lpStatueObj, iMapNumber, lpStatueObj.X, lpStatueObj.Y, type, level, 0, 0, 0, 0, TopHitUser, 0, 0, 0, 0, 0);
+	GameProtocol.ItemSerialCreateSend(lpStatueObj, iMapNumber, lpStatueObj.X, lpStatueObj.Y, type, level, 0, 0, 0, 0, TopHitUser, 0, 0, 0, 0, 0);
 
 	this->m_BridgeData[iBridgeIndex].m_btBC_QUEST_ITEM_NUMBER = level;
 

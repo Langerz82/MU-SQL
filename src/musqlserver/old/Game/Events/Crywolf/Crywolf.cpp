@@ -1174,7 +1174,7 @@ void CCrywolf::MakeRewardForAltarElf(int iAltarUserIndex)
 {
 	int iItemNumber = ITEMGET(14,13);
 
-	ItemSerialCreateSend(getGameObject(iAltarUserIndex)->m_Index,
+	GameProtocol.ItemSerialCreateSend(getGameObject(iAltarUserIndex)->m_Index,
 						 getGameObject(iAltarUserIndex)->MapNumber,
 						 getGameObject(iAltarUserIndex)->X,
 						 getGameObject(iAltarUserIndex)->Y,
@@ -1193,7 +1193,7 @@ void CCrywolf::MakeRewardForHeroListTop5(CGameObject &Obj)
 {
 	int iItemNumber = ITEMGET(14,13);
 
-	ItemSerialCreateSend(getGameObject(iUserIndex)->m_Index,
+	GameProtocol.ItemSerialCreateSend(getGameObject(iUserIndex)->m_Index,
 						 getGameObject(iUserIndex)->MapNumber,
 						 getGameObject(iUserIndex)->X,
 						 getGameObject(iUserIndex)->Y,

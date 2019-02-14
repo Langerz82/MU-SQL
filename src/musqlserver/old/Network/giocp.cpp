@@ -189,13 +189,13 @@ DWORD CIOCP::IocpServerWorker(void * p)
 				}
 #endif
 
-				if (ClientIndex == -1 || !ObjectMaxRange(ClientIndex))
+				/*if (ClientIndex == -1 || !ObjectMaxRange(ClientIndex))
 				{
 					sLog->outError("error-L2 : ClientIndex = -1");
 					closesocket(Accept);
 					LeaveCriticalSection(&criti);
 					continue;
-				}
+				}*/
 
 				if (UpdateCompletionPort(Accept, ClientIndex, 1) == 0)
 				{
@@ -215,18 +215,18 @@ DWORD CIOCP::IocpServerWorker(void * p)
 				CGameObject* lpObj = getGameObject(ClientIndex);
 				_PER_SOCKET_CONTEXT* sockCtx = lpObj->m_PlayerData->ConnectUser->PerSocketContext;
 				
-				//memset(&sockCtx->IOContext[0].Overlapped, 0, sizeof(WSAOVERLAPPED));
-				//memset(&sockCtx->IOContext[1].Overlapped, 0, sizeof(WSAOVERLAPPED));
+				memset(&sockCtx->IOContext[0].m_Overlapped, 0, sizeof(WSAOVERLAPPED));
+				memset(&sockCtx->IOContext[1].m_Overlapped, 0, sizeof(WSAOVERLAPPED));
 				
-				//sockCtx->IOContext[0].wsabuf.buf = (char*)&sockCtx.IOContext[0].Buffer;
-				//sockCtx->IOContext[0].wsabuf.len = MAX_IO_BUFFER_SIZE;
+				sockCtx->IOContext[0].m_wsabuf.buf = (char*)&sockCtx->IOContext[0].Buffer;
+				sockCtx->IOContext[0].m_wsabuf.len = MAX_IO_BUFFER_SIZE;
 				sockCtx->IOContext[0].nTotalBytes = 0;
 				sockCtx->IOContext[0].nSentBytes = 0;
 				sockCtx->IOContext[0].nWaitIO = 0;
 				sockCtx->IOContext[0].nSecondOfs = 0;
 				sockCtx->IOContext[0].IOOperation = 0;
-				//sockCtx->IOContext[1].wsabuf.buf = (char*)sockCtx.IOContext[1]->Buffer;
-				//sockCtx->IOContext[1].wsabuf.len = MAX_IO_BUFFER_SIZE;
+				sockCtx->IOContext[1].m_wsabuf.buf = (char*)sockCtx->IOContext[1].Buffer;
+				sockCtx->IOContext[1].m_wsabuf.len = MAX_IO_BUFFER_SIZE;
 				sockCtx->IOContext[1].nTotalBytes = 0;
 				sockCtx->IOContext[1].nSentBytes = 0;
 				sockCtx->IOContext[1].nWaitIO = 0;
@@ -245,18 +245,18 @@ DWORD CIOCP::IocpServerWorker(void * p)
 					if (WSAGetLastError() != WSA_IO_PENDING)
 					{
 						sLog->outError("error-L1 : WSARecv() failed with error %d", WSAGetLastError());
-						sockCtx->IOContext[0]->nWaitIO = 4;
+						sockCtx->IOContext[0].nWaitIO = 4;
 						CloseClient(sockCtx, 0);
 						LeaveCriticalSection(&criti);
 						continue;
 					}
 				}
 
-				sockCtx->IOContext[0]->nWaitIO = 1;
+				sockCtx->IOContext[0].nWaitIO = 1;
 				sockCtx->dwIOCount++;
 
 				LeaveCriticalSection(&criti);
-				gGameProtocol.SCPJoinResultSend(ClientIndex, 1);
+				gGameProtocol.SCPJoinResultSend(*lpObj, 1);
 			}
 		}
 	}
@@ -315,9 +315,11 @@ DWORD CIOCP::ServerWorkerThread()
 
 	while (true)
 	{
+		// TODO - Find Equiv.
 		bSuccess = GetQueuedCompletionStatus(CompletionPort, &dwIoSize, &ClientIndex, &lpOverlapped, -1); // WAIT_FOREVER
 
-		if (getGameObject(ClientIndex)->m_socket == INVALID_SOCKET)
+		CGameObject* lpObj = getGameObject(ClientIndex);
+		if (lpObj->m_PlayerData->ConnectUser->socket == INVALID_SOCKET)
 		{
 			continue;
 		}
@@ -338,7 +340,7 @@ DWORD CIOCP::ServerWorkerThread()
 
 		EnterCriticalSection(&criti);
 
-		lpPerSocketContext = getGameObject(ClientIndex)->PerSocketContext;
+		lpPerSocketContext = lpObj->m_PlayerData->ConnectUser->PerSocketContext;
 		lpPerSocketContext->dwIOCount--;
 
 		if (dwIoSize == 0)
@@ -390,16 +392,17 @@ DWORD CIOCP::ServerWorkerThread()
 
 			lpIOContext->nWaitIO = 0;
 			Flags = 0;
-			memset(&lpIOContext->Overlapped, 0, sizeof(WSAOVERLAPPED));
-			lpIOContext->wsabuf.len = MAX_IO_BUFFER_SIZE - lpIOContext->nSentBytes;
-			lpIOContext->wsabuf.buf = (char*)&lpIOContext->Buffer[lpIOContext->nSentBytes];
+			memset(&lpIOContext->m_Overlapped, 0, sizeof(WSAOVERLAPPED));
+			lpIOContext->m_wsabuf.len = MAX_IO_BUFFER_SIZE - lpIOContext->nSentBytes;
+			lpIOContext->m_wsabuf.buf = (char*)&lpIOContext->Buffer[lpIOContext->nSentBytes];
 			lpIOContext->IOOperation = 0;
 			if (lpPerSocketContext->m_socket != INVALID_SOCKET)
 			{
 				try
 				{
-					nRet = WSARecv(lpPerSocketContext->m_socket, &lpIOContext->wsabuf, 1, &RecvBytes, &Flags,
-						&lpIOContext->Overlapped, NULL);
+					// TODO find equiv.
+					nRet = WSARecv(lpPerSocketContext->m_socket, *lpIOContext->m_wsabuf, 1, &RecvBytes, &Flags,
+						&lpIOContext->m_Overlapped, NULL);
 				}
 				catch (const std::exception &e)
 				{
@@ -446,6 +449,8 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 	int size;
 	BYTE headcode;
 	BYTE xcode;
+	CGameObject* lpObj = getGameObject(uIndex);
+	CUserData* lpObjUser = getGameObject(uIndex)->m_PlayerData;
 
 	if (lpIOContext->nSentBytes < 3)
 	{
@@ -508,7 +513,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 
 				if (ret < 0)
 				{
-					sLog->outError("[%s][Packet-Decrypt BYTE] Error: ret < 0 %x/%x/%x)", getGameObject(uIndex]->m_PlayerData->Ip_addr, recvbuf[lOfs], recvbuf[lOfs + 1], recvbuf[lOfs + 2));
+					sLog->outError("[%s][Packet-Decrypt BYTE] Error: ret < 0 %x/%x/%x)", lpObjUser->ConnectUser->IP, recvbuf[lOfs], recvbuf[lOfs + 1], recvbuf[lOfs + 2]);
 				}
 
 				else
@@ -518,11 +523,11 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 					headcode = pDecBuf[2];
 					byDec[0] = 0xC1;
 					byDec[1] = ret + 2;
-					getGameObject(uIndex)->m_PlayerData->PacketsPerSecond++;
+					lpObjUser->PacketsPerSecond++;
 
-					if (getGameObject(uIndex)->m_PlayerData->PacketsPerSecond >= g_ConfigRead.PacketLimit)
+					if (lpObjUser->PacketsPerSecond >= g_ConfigRead.PacketLimit)
 					{
-						sLog->outError("[ANTI-HACK] Packets Per Second: %d / %d", getGameObject(uIndex)->m_PlayerData->PacketsPerSecond, g_ConfigRead.PacketLimit);
+						sLog->outError("[ANTI-HACK] Packets Per Second: %d / %d", lpObjUser->PacketsPerSecond, g_ConfigRead.PacketLimit);
 						//gGameProtocol.GCSendDisableReconnect(uIndex);
 						IOCP.CloseClient(uIndex);
 						return 0;
@@ -535,11 +540,11 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 					{
 
 						sLog->outError("error-L1 : CStreamPacketEngine Adding Error : ip = %s account:%s name:%s HEAD:%x (%s,%d) State:%d",
-							getGameObject(uIndex)->m_PlayerData->Ip_addr,
-							getGameObject(uIndex]->AccountID, getGameObject(uIndex)->Name,
+							lpObjUser->ConnectUser->IP,
+							lpObjUser->IDNumber, lpObj->Name,
 							headcode,
 							__FILE__, __LINE__,
-							getGameObject(uIndex)->Connected);
+							lpObj->Connected);
 
 						return 0;
 					}
@@ -547,12 +552,12 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 					if (PacketStream.ExtractPacket(byDec) != 0)
 					{
 						sLog->outError("error-L1 : CStreamPacketEngine ExtractPacket Error : ip = %s account:%s name:%s HEAD:%x (%s,%d) State:%d",
-							getGameObject(uIndex]->m_PlayerData->Ip_addr, getGameObject(uIndex]->AccountID, getGameObject(uIndex)->Name, headcode, __FILE__, __LINE__, getGameObject(uIndex)->Connected);
+							lpObjUser->ConnectUser->IP, lpObjUser->IDNumber, lpObj->Name, headcode, __FILE__, __LINE__, lpObj->Connected);
 
 						return 0;
 					}
 
-					gGameProtocol.ProtocolCore(headcode, byDec, ret, uIndex, 1);
+					gGameProtocol.ProtocolCore(headcode, byDec, ret, *lpObj, 1);
 
 				}
 			}
@@ -576,10 +581,10 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 					byDec[1] = SET_NUMBERH(size);
 					byDec[2] = SET_NUMBERL(size);
 
-					getGameObject(uIndex)->m_PlayerData->PacketsPerSecond++;
-					if (getGameObject(uIndex)->m_PlayerData->PacketsPerSecond >= g_ConfigRead.PacketLimit)
+					lpObjUser->PacketsPerSecond++;
+					if (lpObjUser->PacketsPerSecond >= g_ConfigRead.PacketLimit)
 					{
-						sLog->outError("[ANTI-HACK] Packets Per Second: %d / %d", getGameObject(uIndex)->m_PlayerData->PacketsPerSecond, g_ConfigRead.PacketLimit);
+						sLog->outError("[ANTI-HACK] Packets Per Second: %d / %d", lpObjUser->PacketsPerSecond, g_ConfigRead.PacketLimit);
 						//gGameProtocol.GCSendDisableReconnect(uIndex);
 						IOCP.CloseClient(uIndex);
 						return 0;
@@ -591,18 +596,18 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 					if (PacketStream.AddData(byDec, ret + 3) == 0)
 					{
 						sLog->outError("error-L1 : CStreamPacketEngine Adding Error : ip = %s account:%s name:%s HEAD:%x (%s,%d) State:%d",
-							getGameObject(uIndex]->m_PlayerData->Ip_addr, getGameObject(uIndex]->AccountID, getGameObject(uIndex)->Name, headcode, __FILE__, __LINE__, getGameObject(uIndex)->Connected);
+							lpObjUser->ConnectUser->IP, lpObj->AccountID, lpObj->Name, headcode, __FILE__, __LINE__, lpObj->Connected);
 						return false;
 					}
 
 					if (PacketStream.ExtractPacket(byDec) != 0)
 					{
 						sLog->outError("error-L1 : CStreamPacketEngine ExtractPacket Error : ip = %s account:%s name:%s HEAD:%x (%s,%d) State:%d",
-							getGameObject(uIndex]->m_PlayerData->Ip_addr, getGameObject(uIndex]->AccountID, getGameObject(uIndex)->Name, headcode, __FILE__, __LINE__, getGameObject(uIndex)->Connected);
+							lpObjUser->ConnectUser->IP, lpObj->AccountID, lpObj->Name, headcode, __FILE__, __LINE__, lpObj->Connected);
 						return false;
 					}
 
-					gGameProtocol.ProtocolCore(headcode, byDec, ret, uIndex, 1);
+					gGameProtocol.ProtocolCore(headcode, byDec, ret, *lpObj, 1);
 				}
 			}
 			else
@@ -613,27 +618,27 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 				if (ps.AddData(&recvbuf[lOfs], size) == 0)
 				{
 					sLog->outError("error-L1 : CStreamPacketEngine Adding Error : ip = %s account:%s name:%s HEAD:%x (%s,%d) State:%d",
-						getGameObject(uIndex]->m_PlayerData->Ip_addr, getGameObject(uIndex]->AccountID, getGameObject(uIndex)->Name, headcode, __FILE__, __LINE__, getGameObject(uIndex)->Connected);
+						lpObjUser->ConnectUser->IP, lpObj->AccountID, lpObj->Name, headcode, __FILE__, __LINE__, lpObj->Connected);
 					return 0;
 				}
 
 				if (ps.ExtractPacket(byDec) != 0)
 				{
 					sLog->outError("error-L1 : CStreamPacketEngine ExtractPacket Error : ip = %s account:%s name:%s HEAD:%x (%s,%d) State:%d",
-						getGameObject(uIndex]->m_PlayerData->Ip_addr, getGameObject(uIndex]->AccountID, getGameObject(uIndex)->Name, headcode, __FILE__, __LINE__, getGameObject(uIndex)->Connected);
+						lpObjUser->ConnectUser->IP, lpObj->AccountID, lpObj->Name, headcode, __FILE__, __LINE__, lpObj->Connected);
 					return 0;
 				}
 
-				getGameObject(uIndex)->m_PlayerData->PacketsPerSecond++;
-				if (getGameObject(uIndex)->m_PlayerData->PacketsPerSecond >= g_ConfigRead.PacketLimit)
+				lpObjUser->PacketsPerSecond++;
+				if (lpObjUser->PacketsPerSecond >= g_ConfigRead.PacketLimit)
 				{
-					sLog->outError("[ANTI-HACK] Packets Per Second: %d / %d", getGameObject(uIndex)->m_PlayerData->PacketsPerSecond, g_ConfigRead.PacketLimit);
-					gGameProtocol.GCSendDisableReconnect(uIndex);
+					sLog->outError("[ANTI-HACK] Packets Per Second: %d / %d", lpObjUser->PacketsPerSecond, g_ConfigRead.PacketLimit);
+					gGameProtocol.GCSendDisableReconnect(*getGameObject(uIndex));
 					//IOCP.CloseClient(uIndex);
 					return 0;
 				}
 
-				gGameProtocol.ProtocolCore(headcode, byDec, size, uIndex, 0); // here
+				gGameProtocol.ProtocolCore(headcode, byDec, size, *getGameObject(uIndex), 0); // here
 			}
 
 			lOfs += size; // wait
@@ -676,11 +681,8 @@ bool CIOCP::DataSend(int aIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 	_PER_SOCKET_CONTEXT * lpPerSocketContext;
 	BYTE * SendBuf;
 	BYTE BUFFER[65535];
+	CGameObject* lpObj = getGameObjectByUser(aIndex);
 
-	if (aIndex < g_ConfigRead.server.GetObjectStartUserIndex())
-	{
-		return true;
-	}
 
 	EnterCriticalSection(&criti);
 
@@ -693,11 +695,11 @@ bool CIOCP::DataSend(int aIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 
 	if (gStalkProtocol)
 	{
-		if (gStalkProtocolId[0] == getGameObject(aIndex]->AccountID[0))
+		if (gStalkProtocolId[0] == lpObj->AccountID[0])
 		{
-			if (gStalkProtocolId[1] == getGameObject(aIndex]->AccountID[1))
+			if (gStalkProtocolId[1] == lpObj->AccountID[1])
 			{
-				if (!strcmp(gStalkProtocolId, getGameObject(aIndex)->AccountID))
+				if (!strcmp(gStalkProtocolId, lpObj->AccountID))
 				{
 					sLog->outMessage("general", LOG_LEVEL_DEBUG, "DATA SEND %s %d", lpMsg, dwSize);
 				}
@@ -708,7 +710,7 @@ bool CIOCP::DataSend(int aIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 	if (lpMsg[0] != 0xC1 && lpMsg[0] != 0xC2 &&
 		lpMsg[0] != 0xC3 && lpMsg[0] != 0xC4)
 	{
-		sLog->outError("[ERROR] Trying to send packet without HEADER (%s)(%s)", getGameObject(aIndex]->AccountID, getGameObject(aIndex)->Name);
+		sLog->outError("[ERROR] Trying to send packet without HEADER (%s)(%s)", lpObj->AccountID, lpObj->Name);
 		LeaveCriticalSection(&criti);
 		return FALSE;
 	}
@@ -759,13 +761,13 @@ bool CIOCP::DataSend(int aIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 		SendBuf = lpMsg;
 	}
 
-	if (getGameObject(aIndex)->Connected < PLAYER_CONNECTED)
+	if (lpObj->Connected < PLAYER_CONNECTED)
 	{
 		LeaveCriticalSection(&criti);
 		return false;
 	}
 
-	lpPerSocketContext = getGameObject(aIndex)->PerSocketContext;
+	lpPerSocketContext = lpObj->PerSocketContext;
 
 	if (dwSize > sizeof(lpPerSocketContext->IOContext[0].Buffer))
 	{
@@ -783,7 +785,7 @@ bool CIOCP::DataSend(int aIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 	{
 		if ((lpIoCtxt->nSecondOfs + dwSize) > MAX_IO_BUFFER_SIZE - 1)
 		{
-			sLog->outBasic("(%d)error-L2 MAX BUFFER OVER %d %d %d [%s][%s]", aIndex, lpIoCtxt->nTotalBytes, lpIoCtxt->nSecondOfs, dwSize, getGameObject(aIndex]->AccountID, getGameObject(aIndex)->Name);
+			sLog->outBasic("(%d)error-L2 MAX BUFFER OVER %d %d %d [%s][%s]", aIndex, lpIoCtxt->nTotalBytes, lpIoCtxt->nSecondOfs, dwSize, lpObj->AccountID, lpObj->Name);
 			lpIoCtxt->nWaitIO = 0;
 			CloseClient(aIndex);
 			LeaveCriticalSection(&criti);
@@ -807,7 +809,7 @@ bool CIOCP::DataSend(int aIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 
 	if ((lpIoCtxt->nTotalBytes + dwSize) > MAX_IO_BUFFER_SIZE - 1)
 	{
-		sLog->outBasic("(%d)error-L2 MAX BUFFER OVER %d %d [%s][%s]", aIndex, lpIoCtxt->nTotalBytes, dwSize, getGameObject(aIndex]->AccountID, getGameObject(aIndex)->Name);
+		sLog->outBasic("(%d)error-L2 MAX BUFFER OVER %d %d [%s][%s]", aIndex, lpIoCtxt->nTotalBytes, dwSize, lpObj->AccountID, lpObj->Name);
 		lpIoCtxt->nWaitIO = 0;
 		CloseClient(aIndex);
 		LeaveCriticalSection(&criti);
@@ -821,7 +823,7 @@ bool CIOCP::DataSend(int aIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 	lpIoCtxt->nSentBytes = 0;
 	lpIoCtxt->IOOperation = 1;
 
-	if (WSASend(getGameObject(aIndex)->m_socket, &lpIoCtxt->wsabuf, 1, &SendBytes, 0, &lpIoCtxt->Overlapped, NULL) == -1)
+	if (WSASend(lpObj->m_socket, &lpIoCtxt->wsabuf, 1, &SendBytes, 0, &lpIoCtxt->Overlapped, NULL) == -1)
 	{
 
 		if (WSAGetLastError() != WSA_IO_PENDING)
@@ -831,12 +833,12 @@ bool CIOCP::DataSend(int aIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 			if (lpIoCtxt->wsabuf.buf[0] == 0xC1)
 			{
 				sLog->outBasic("(%d)WSASend(%d) failed with error [%x][%x] %d %s ", __LINE__, aIndex, (BYTE)lpIoCtxt->wsabuf.buf[0],
-					(BYTE)lpIoCtxt->wsabuf.buf[2], WSAGetLastError(), getGameObject(aIndex)->m_PlayerData->Ip_addr);
+					(BYTE)lpIoCtxt->wsabuf.buf[2], WSAGetLastError(), lpObj->m_PlayerData->ConnectUser->IP);
 			}
 			else if (lpIoCtxt->wsabuf.buf[0] == 0xC2)
 			{
 				sLog->outBasic("(%d)WSASend(%d) failed with error [%x][%x] %d %s ", __LINE__, aIndex, (BYTE)lpIoCtxt->wsabuf.buf[0],
-					(BYTE)lpIoCtxt->wsabuf.buf[3], WSAGetLastError(), getGameObject(aIndex)->m_PlayerData->Ip_addr);
+					(BYTE)lpIoCtxt->wsabuf.buf[3], WSAGetLastError(), lpObj->m_PlayerData->ConnectUser->IP);
 			}
 			CloseClient(aIndex);
 			LeaveCriticalSection(&criti);
@@ -889,11 +891,11 @@ bool CIOCP::IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 	lpIoCtxt->nSentBytes = 0;
 	lpIoCtxt->IOOperation = 1;
 
-	if (WSASend(lpObj.m_socket, &lpIoCtxt->wsabuf, 1, &SendBytes, 0, &lpIoCtxt->Overlapped, NULL) == -1)
+	if (WSASend(lplpObj->m_socket, &lpIoCtxt->wsabuf, 1, &SendBytes, 0, &lpIoCtxt->Overlapped, NULL) == -1)
 	{
 		if (WSAGetLastError() != WSA_IO_PENDING)
 		{
-			sLog->outBasic("WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), lpObj.m_PlayerData->Ip_addr);
+			sLog->outBasic("WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), lplpObjUser->ConnectUser->IP);
 			CloseClient(aIndex);
 			LeaveCriticalSection(&criti);
 			return false;
@@ -930,11 +932,11 @@ bool CIOCP::IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 	lpIoCtxt->wsabuf.len = lpIoCtxt->nTotalBytes - lpIoCtxt->nSentBytes;
 	lpIoCtxt->IOOperation = 1;
 
-	if (WSASend(lpObj.m_socket, &lpIoCtxt->wsabuf, 1, &SendBytes, 0, &lpIoCtxt->Overlapped, NULL) == -1)
+	if (WSASend(lplpObj->m_socket, &lpIoCtxt->wsabuf, 1, &SendBytes, 0, &lpIoCtxt->Overlapped, NULL) == -1)
 	{
 		if (WSAGetLastError() != WSA_IO_PENDING)
 		{
-			sLog->outBasic("WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), lpObj.m_PlayerData->Ip_addr);
+			sLog->outBasic("WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), lplpObjUser->ConnectUser->IP);
 			CloseClient(aIndex);
 			LeaveCriticalSection(&criti);
 			return false;

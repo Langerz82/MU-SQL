@@ -133,6 +133,8 @@
 #include "zzzmathlib.h"
 
 
+
+
 CNameConvert::CNameConvert()
 {
 	this->m_perCharacterInfo = new CharacterNameOfUBF[5];
@@ -249,7 +251,7 @@ int CNameConvert::IsDuplicationOfName()
 }
 
 
-CUserData::CUserData(int IDNumber)
+CUserData::CUserData()
 {
 	this->IDNumber;
 	InitializeCriticalSection(&this->m_MasterSkillCriti);

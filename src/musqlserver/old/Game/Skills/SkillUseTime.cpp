@@ -106,7 +106,7 @@ bool CSkillUseTime::CheckSkillTime(CGameObject &Obj, int iSkill)
 					{
 						if ( lpObj.m_PlayerData->LastSkillUseCount >= this->m_iNumberOfBadSkillUseDC )
 						{
-							sLog->outError( "[ANTI-HACK] [%s][%s][%s] Used skill too fast %d times -> Disconnect", lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->Ip_addr, lpObj.m_PlayerData->LastSkillUseCount);
+							sLog->outError( "[ANTI-HACK] [%s][%s][%s] Used skill too fast %d times -> Disconnect", lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->ConnectUser->IP, lpObj.m_PlayerData->LastSkillUseCount);
 							gGameProtocol.GCSendDisableReconnect(lpObj.m_Index);
 							//IOCP.CloseClient(lpObj.m_Index);
 						}

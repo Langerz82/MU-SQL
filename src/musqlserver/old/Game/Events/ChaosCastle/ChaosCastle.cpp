@@ -1331,7 +1331,7 @@ void CChaosCastle::SearchNDropMonsterItem(int iChaosCastleIndex, int iMonsterInd
 		iLevel = rand()%4;
 	}
 
-	::ItemSerialCreateSend(getGameObject(iMaxHitUserIndex]->m_Index, getGameObject(iMaxHitUserIndex)->MapNumber, getGameObject(iMaxHitUserIndex)->X,
+	::GameProtocol.ItemSerialCreateSend(getGameObject(iMaxHitUserIndex]->m_Index, getGameObject(iMaxHitUserIndex)->MapNumber, getGameObject(iMaxHitUserIndex)->X,
 		getGameObject(iMaxHitUserIndex)->Y, iType, iLevel, 0, 0, 0, 0, iMaxHitUserIndex, 0, 0, 0, 0, 0);
 
 	if ( ObjectMaxRange(iMaxHitUserIndex) != FALSE )

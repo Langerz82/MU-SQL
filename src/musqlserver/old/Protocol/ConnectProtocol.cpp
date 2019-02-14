@@ -15,7 +15,7 @@ void UDPInit()
 	g_UDPPort.Run();
 }
 
-void CSProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, CUserData &Obj, bool Encrypt, int serial)
+void CSProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, STR_CS_USER &Obj, bool Encrypt, int serial)
 {
 
 	switch ( protoNum )
@@ -40,7 +40,7 @@ void CSProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, CUserData &Obj, bool E
 	}
 }
 
-void UDPProtocolCore(BYTE hCode, BYTE* aRecv, int aLen)
+void UDPProtocolCore(BYTE hCode, LPBYTE aRecv, int aLen)
 {
 	switch ( hCode )
 	{
@@ -65,16 +65,16 @@ void UDPSetServerInfo(PMSG_SERVERINFO * aRecv)
 	}
 }
 
-void SCSendServerList(CUserData &Obj)
+void SCSendServerList(STR_CS_USER &Obj)
 {
 	PMSG_SERVERSLIST_COUNT * pMsg;///(0xC2, 0xF4, 0x06);
 	PMSG_SERVERLIST_SERVER * pServer;
 	BYTE cBUFF[65535];
 
-	if(Obj.ConnectUser->News == 0)
+	if(Obj.News == 0)
 	{
 		SCSendNews(Obj);
-		Obj.ConnectUser->News = 1;
+		Obj.News = 1;
 	}
 
 	int Count = 0;
@@ -96,8 +96,8 @@ void SCSendServerList(CUserData &Obj)
 
 	if(Count == 0)
 	{
-		sLog->outError("[Server] No active Game Servers found - disconnect: (Index: [%d])", Obj.IDNumber);
-		IOCP.CloseClient(Obj.IDNumber);
+		sLog->outError("[Server] No active Game Servers found - disconnect: (Index: [%d])", Obj.Index);
+		IOCP.CloseClient(Obj.Index);
 		return;
 	}
 
@@ -115,12 +115,12 @@ void SCSendServerList(CUserData &Obj)
 	pMsg->h.sizeL	= LOBYTE(PacketSize);
 	pMsg->h.sizeH	= HIBYTE(PacketSize);
 
-	IOCP.DataSend(Obj.IDNumber, cBUFF, PacketSize);
+	IOCP.DataSend(Obj.Index, cBUFF, PacketSize);
 
-	sLog->outBasic("[Server] Sent Server List COUNT: [%d] (Index: [%d])", Count, Obj.IDNumber);
+	sLog->outBasic("[Server] Sent Server List COUNT: [%d] (Index: [%d])", Count, Obj.Index);
 }
 
-void SCSendServerInfo(CUserData &Obj, PMSG_SERVER_SELECT * aRecv)
+void SCSendServerInfo(STR_CS_USER &Obj, PMSG_SERVER_SELECT * aRecv)
 {
 	PMSG_CONNECT_INFO pMsg;
 
@@ -136,7 +136,7 @@ void SCSendServerInfo(CUserData &Obj, PMSG_SERVER_SELECT * aRecv)
 			pMsg.Port = m_ServerData.m_Servers[i].Port;
 			memcpy(&pMsg.IP, m_ServerData.m_Servers[i].IP, sizeof(pMsg.IP));
 
-			IOCP.DataSend(Obj.IDNumber, (BYTE*)&pMsg, pMsg.h.size);
+			IOCP.DataSend(Obj.Index, (BYTE*)&pMsg, pMsg.h.size);
 
 			sLog->outBasic("[Server] Connecting to Server: %s (IP: [%s] PORT: [%d]) (Players: [%d] / Max: [%d])",
 				m_ServerData.m_Servers[i].Name, m_ServerData.m_Servers[i].IP, m_ServerData.m_Servers[i].Port,
@@ -147,7 +147,7 @@ void SCSendServerInfo(CUserData &Obj, PMSG_SERVER_SELECT * aRecv)
 	}
 }
 
-void SCConnectResultSend(CUserData &Obj, BYTE btResult)
+void SCConnectResultSend(STR_CS_USER &Obj, BYTE btResult)
 {
 	PMSG_RESULT pMsg;
 
@@ -156,10 +156,10 @@ void SCConnectResultSend(CUserData &Obj, BYTE btResult)
 	pMsg.result = btResult;
 	pMsg.h.size = sizeof(pMsg);
 
-	IOCP.DataSend(Obj.IDNumber, (BYTE*)&pMsg, pMsg.h.size);
+	IOCP.DataSend(Obj.Index, (BYTE*)&pMsg, pMsg.h.size);
 }
 
-void SCSendNews(CUserData &Obj)
+void SCSendNews(STR_CS_USER &Obj)
 {
 	PMSG_SEND_TITLE pTitle;
 	pTitle.h.c = 0xC1;
@@ -167,7 +167,7 @@ void SCSendNews(CUserData &Obj)
 	pTitle.h.subcode = 0x00;
 	memcpy(pTitle.ServerName, m_ServerData.szTitle, sizeof(pTitle.ServerName));
 
-	IOCP.DataSend(Obj.IDNumber, (BYTE*)&pTitle, pTitle.h.size);
+	IOCP.DataSend(Obj.Index, (BYTE*)&pTitle, pTitle.h.size);
 
 	PMSG_SEND_NEWS pMsg = {0};
 
@@ -200,11 +200,11 @@ void SCSendNews(CUserData &Obj)
 		memcpy(buffer, &pMsg, sizeof(PMSG_SEND_NEWS));
 		memcpy(&buffer[sizeof(PMSG_SEND_NEWS)], m_ServerData.m_News[i].Text, textlen);
 
-		IOCP.DataSend(Obj.IDNumber, (BYTE*)buffer, sizeof(PMSG_SEND_NEWS)+textlen);
+		IOCP.DataSend(Obj.Index, (BYTE*)buffer, sizeof(PMSG_SEND_NEWS)+textlen);
 	}
 }
 
-void SCSendAutoUpdateData(CUserData &lpObj, PMSG_CLIENTVERSION *aRecv)
+void SCSendAutoUpdateData(STR_CS_USER &lpObj, PMSG_CLIENTVERSION *aRecv)
 {
 	unsigned int MainVersion, HeadVersion, SubVersion;
 
@@ -219,7 +219,7 @@ void SCSendAutoUpdateData(CUserData &lpObj, PMSG_CLIENTVERSION *aRecv)
 		pMsg.h.size = sizeof(pMsg);
 		pMsg.VersionOK = 1;
 
-		IOCP.DataSend(lpObj.IDNumber, (BYTE*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.Index, (BYTE*)&pMsg, pMsg.h.size);
 	}
 
 	else
@@ -252,6 +252,7 @@ void SCSendAutoUpdateData(CUserData &lpObj, PMSG_CLIENTVERSION *aRecv)
 			}
 		}
 
-		IOCP.DataSend(lpObj.IDNumber, (BYTE*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(lpObj.Index, (BYTE*)&pMsg, pMsg.h.size);
 	}
 }
+

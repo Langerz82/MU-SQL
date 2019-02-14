@@ -50,7 +50,7 @@
 
 #include "Utility/util.h"
 
-#include "GOFunctions.h"
+// #include "GOFunctions.h"
 
 
 // Crypto++
@@ -169,5 +169,7 @@
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+
+; // TODO Remove unknown why needed.
 
 #endif
