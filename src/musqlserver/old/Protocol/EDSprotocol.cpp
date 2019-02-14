@@ -923,7 +923,7 @@ BOOL CExDataServerProtocol::UpdateGuildType(char *szGuild, BYTE btType)
 	return TRUE;
 }
 
-void CExDataServerProtocol::SendGuildMemberInfo(CGameObject &Obj, char *szName, int iUserIndex)
+void CExDataServerProtocol::SendGuildMemberInfo(CGameObject &Obj, char *szName, CGameObject &Obj)
 {
 //	char szMember[11] = {0};
 //	strncpy(szMember, szName, 10);
@@ -1160,7 +1160,7 @@ void CExDataServerProtocol::DGGuildMemberInfoRequest(CGameObject &Obj, SDHP_GUIL
 
 	sLog->outBasic("[Guild Member Info Request] Member [%s].",szName);
 
-	int iUserIndex = MAKE_NUMBERW(aRecv->NumberH, aRecv->NumberL);
+	CGameObject &Obj = MAKE_NUMBERW(aRecv->NumberH, aRecv->NumberL);
 
 	SendGuildMemberInfo(aIndex, szName, iUserIndex);
 }

@@ -118,7 +118,7 @@ public:
 	void Get_ITL_RewardList();
 	void Update_ITL_RewardFlag(char *Name);
 	BYTE Check_ITLRewardList(int nUserIndex);
-	void MakeITLRewardItem_CCFWing(int iUserIndex);
+	void MakeITLRewardItem_CCFWing(CGameObject &Obj);
 
 	void IncreaseKillCount(int nIndex, BYTE byMapNumber, BYTE byObjectType);
 

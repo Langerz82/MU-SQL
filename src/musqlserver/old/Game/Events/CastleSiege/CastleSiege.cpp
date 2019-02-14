@@ -4774,7 +4774,7 @@ void CCastleSiege::SetCrownSwitchUserIndex(int iMonsterClass, CGameObject &Obj)
 
 int CCastleSiege::GetCrownSwitchUserIndex(int iMonsterClass)
 {
-	int iUserIndex = OBJ_EMPTY;
+	CGameObject &Obj = OBJ_EMPTY;
 
 	switch( iMonsterClass )
 	{

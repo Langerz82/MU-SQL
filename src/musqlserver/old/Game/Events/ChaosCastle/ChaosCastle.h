@@ -264,19 +264,19 @@ public:
 	void Load(char* filename);
 	void LoadMonster(char* filename);
 	void SetState(int iChaosCastleIndex, int iCC_STATE);
-	int EnterUserChaosCastle(int iChaosCastleIndex, int iUserIndex);
-	int LeaveUserChaosCastle(int iChaosCastleIndex, int iUserIndex);
-	void AddFallUser(int iChaosCastleIndex, int iUserIndex);
+	int EnterUserChaosCastle(int iChaosCastleIndex, CGameObject &Obj);
+	int LeaveUserChaosCastle(int iChaosCastleIndex, CGameObject &Obj);
+	void AddFallUser(int iChaosCastleIndex, CGameObject &Obj);
 	void ProcessFallUser(int iChaosCastleIndex);
 	//int __thiscall GetCurrentAliveUser(int);
-	void SetUserState(int iUserIndex, int iState);
+	void SetUserState(CGameObject &Obj, int iState);
 	int GetCurrentWinUser(int iChaosCastleIndex);
-	int CalcSendRewardEXP(int iUserIndex, int iEXP, int iKILLCOUNT_USER, int iKILLCOUNT_MONSTER);
-	int LevelUp(int iUserIndex, int iAddExp);
-	int GetUserLevelToEnter(int iUserIndex);
-	int CheckUserEnterMoney(int iUserIndex, int iEnterLevel);
-	int PayUserEnterMoney(int iUserIndex, int iEnterLevel);
-	void GiveUserDamage(int iUserIndex, int iDamage);
+	int CalcSendRewardEXP(CGameObject &Obj, int iEXP, int iKILLCOUNT_USER, int iKILLCOUNT_MONSTER);
+	int LevelUp(CGameObject &Obj, int iAddExp);
+	int GetUserLevelToEnter(CGameObject &Obj);
+	int CheckUserEnterMoney(CGameObject &Obj, int iEnterLevel);
+	int PayUserEnterMoney(CGameObject &Obj, int iEnterLevel);
+	void GiveUserDamage(CGameObject &Obj, int iDamage);
 	void ClearMonster(int iChaosCastleIndex);
 	int SetMonster(int iChaosCastleIndex);
 	void AddMonsterList(int iChaosCastleIndex, int iMonsterIndex);
@@ -320,12 +320,12 @@ public:
 	void RewardUserEXP(int iChaosCastleIndex, int iChaosCastleSubIndex, BOOL bWinner);
 	void ProcessTrapStatus(int iChaosCastleIndex);
 	void CalUsersInTrap(int iChaosCastleIndex);
-	int CheckWearingMOPH(int iUserIndex);
+	int CheckWearingMOPH(CGameObject &Obj);
 	void GiveWinnerItem(int iChaosCastleIndex, int iWinnerIndex);
 	void PullObjInnerPlace(int iChaosCastleIndex, int iTRAP_STEP);
 	void SetMapAttrHollow(int iChaosCastleIndex, int iTRAP_STEP);
 	void SetMapAttrFill(int iChaosCastleIndex);
-	void ChaosCastleRank(int iUserIndex, int iPlayer, int iMonster, __int64 iExp, bool bWinner);
+	void ChaosCastleRank(CGameObject &Obj, int iPlayer, int iMonster, __int64 iExp, bool bWinner);
 	int GetChaosCastleMapNumber(int iChaosCastleIndex);
 	int GetChaosCastleIndex(int iMAP_NUM);
 	bool IsEventEnabled() { return this->m_bCC_EVENT_ENABLE; }
@@ -333,9 +333,9 @@ public:
 	CHAOSCASTLE_MONSTER_POSITION *GetMonsterPosData(int iPosNum, int iChaosCastleIndex);
 	void GD_Req_Save_KillPoint_UBF(int index, char *Name, int KillPoint, int CastleIndex);
 	void RewardUserKillPointUBF(int iChaosCastleIndex, int iChaosCastleSubIndex, bool bWinner);
-	void GDReqSetUBFReward_CCBattle(int iUserIndex, BYTE byRewardType);
-	void SetUBFGetReward(int iUserIndex, WORD wItemCode, UINT64 ItemSerial, BYTE btItemPos);
-	void GiveUBFReward(int iUserIndex, BYTE byRewardType);
+	void GDReqSetUBFReward_CCBattle(CGameObject &Obj, BYTE byRewardType);
+	void SetUBFGetReward(CGameObject &Obj, WORD wItemCode, UINT64 ItemSerial, BYTE btItemPos);
+	void GiveUBFReward(CGameObject &Obj, BYTE byRewardType);
 
 	int GetMaxEnterCount() { return this->m_iCC_MAX_ENTER_COUNT; }
 

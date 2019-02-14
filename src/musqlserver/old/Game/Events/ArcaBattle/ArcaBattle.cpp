@@ -1629,7 +1629,7 @@ void CArcaBattle::ChkAuraUserHover()
 
 			if (this->m_stObeliskState[i].m_iAuraState == 2)
 			{
-				int iUserIndex = this->m_stObeliskState[i].m_stAuraState[0].m_iHoverUserIndex;
+				CGameObject &Obj = this->m_stObeliskState[i].m_stAuraState[0].m_iHoverUserIndex;
 
 				if(iUserIndex == -1)
 				{
@@ -3790,7 +3790,7 @@ void CArcaBattle::BootyExchange(CGameObject &Obj)
 	lpObj.ChaosLock = FALSE;
 }
 
-void CArcaBattle::GCArcaBattleUserInfo(int iUserIndex)
+void CArcaBattle::GCArcaBattleUserInfo(CGameObject &Obj)
 {
 	if (ObjectMaxRange(iUserIndex) == false)
 	{
@@ -3935,7 +3935,7 @@ EndFunc:
 	IOCP.DataSend(iUserIndex, (BYTE*)&BUFFER, lOfs);
 }
 
-void CArcaBattle::GCArcaBattleCurrentStatus(int iObeliskIndex, int iAttrKind, BYTE btObeliskState, int iGuildNum, char *szGuildName, int iUserIndex)
+void CArcaBattle::GCArcaBattleCurrentStatus(int iObeliskIndex, int iAttrKind, BYTE btObeliskState, int iGuildNum, char *szGuildName, CGameObject &Obj)
 {
 	PMSG_ARCA_BATTLE_CURRENT_STATUS pMsg;
 
@@ -4025,7 +4025,7 @@ void CArcaBattle::GCArcaBattleSendNotiMsg(BYTE btNoticeType, int iNoticeValue, c
 	}
 }
 
-void CArcaBattle::GCArcaBattleCurrentStatusForReConnectUser(int iUserIndex)
+void CArcaBattle::GCArcaBattleCurrentStatusForReConnectUser(CGameObject &Obj)
 {
 	for (int i = 0; i < this->m_iObeliskCnt; i++)
 	{

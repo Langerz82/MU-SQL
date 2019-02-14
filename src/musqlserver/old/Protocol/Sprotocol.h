@@ -215,7 +215,7 @@ public:
 		this->m_MuLoginUserData[Index].m_ServerCode = ServerCode;
 	}
 
-	void SetUserIndex(int Index, int iUserIndex)
+	void SetUserIndex(int Index, CGameObject &Obj)
 	{
 		this->m_MuLoginUserData[Index].iIndex = iUserIndex;
 	}

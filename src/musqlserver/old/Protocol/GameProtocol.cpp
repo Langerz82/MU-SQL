@@ -7805,7 +7805,7 @@ void GameProtocol::CGPartyRequestRecv(PMSG_PARTYREQUEST * lpMsg, CGameObject &Ob
 
 	if (lpObj.PartyNumber >= 0)
 	{
-		int iUserIndex;
+		CGameObject &Obj;
 		int iDbNumber;
 		gParty.GetIndexUser(lpObj.PartyNumber, 0, iUserIndex, iDbNumber);
 

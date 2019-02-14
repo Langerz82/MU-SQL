@@ -110,16 +110,16 @@ public:
 	void CreateCrywolfCommonMonster();
 	void CrywolfMonsterDieProc(int iMonIndex, int iKillerIndex);
 	void MakeRewardForAltarElf(int iAltarUserIndex);
-	void MakeRewardForHeroListTop5(int iUserIndex);
-	void OperateGmCommand(int iUserIndex, int iCommand);
+	void MakeRewardForHeroListTop5(CGameObject &Obj);
+	void OperateGmCommand(CGameObject &Obj, int iCommand);
 	void CrywolfServerGroupSync();
 	void CrywolfInfoDBSave();
 	void CrywolfInfoDBLoad();
 	void ApplyCrywolfDBInfo(int iCrywolfState, int iOccupationState);
-	int CalcGettingScore(int iUserIndex, int iMonIndex, int iScoreType);
-	int CalcGettingRank(int iUserIndex);
-	int CalcGettingRewardExp(int iUserIndex, int iMVPRank);
-	void GiveRewardExp(int iUserIndex, int iRewardExp);
+	int CalcGettingScore(CGameObject &Obj, int iMonIndex, int iScoreType);
+	int CalcGettingRank(CGameObject &Obj);
+	int CalcGettingRewardExp(CGameObject &Obj, int iMVPRank);
+	void GiveRewardExp(CGameObject &Obj, int iRewardExp);
 	void ResetAllUserMVPScore();
 
 	CCrywolfObjInfo m_ObjCommonNPC;	// F3154

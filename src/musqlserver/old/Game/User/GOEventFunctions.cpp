@@ -605,7 +605,7 @@ BYTE gObjTempEventInventoryRectCheck(CGameObject &Obj, BYTE * TempMap, int sx, i
 	return -1;
 }
 
-BYTE gObjTempEventInventoryInsertItem(CGameObject &Obj, CItemObject item, BYTE * TempMap)
+BYTE gObjTempEventInventoryInsertItem(CGameObject &Obj, CItemObject &item, BYTE * TempMap)
 {
 	int w, h, iwidth, iheight;
 	BYTE blank = 0;
@@ -666,7 +666,7 @@ BOOL CheckEventInventoryEmptySpace(CGameObject &Obj, int iItemHeight, int iItemW
 	return FALSE;
 }
 
-BOOL IsEventItem(CItemObject &item)
+BOOL IsEventItem(CItemObject &item, int )
 {
 	LPITEM_ATTRIBUTE pItemAttribute = GetItemAttr(item.m_Type);
 

@@ -958,7 +958,7 @@ void ChaosCastleFinal::SendCCFWinMessage(int iWinnerIndex, int nPoint, bool bFin
 	}
 }
 
-void ChaosCastleFinal::AddFallUser(int iUserIndex)
+void ChaosCastleFinal::AddFallUser(CGameObject &Obj)
 {
 	for (int iFALL = 0; iFALL < 70; iFALL++)
 	{
@@ -1455,7 +1455,7 @@ void ChaosCastleFinal::ProcessTrapStatus()
 	}
 }
 
-BOOL ChaosCastleFinal::CheckWearingMOPH(int iUserIndex)
+BOOL ChaosCastleFinal::CheckWearingMOPH(CGameObject &Obj)
 {
 	if (!gObjIsConnected(iUserIndex))
 		return FALSE;
@@ -1675,7 +1675,7 @@ void ChaosCastleFinal::ProcessFallUser()
 	}
 }
 
-void ChaosCastleFinal::SetUserState(int iUserIndex, int iState)
+void ChaosCastleFinal::SetUserState(CGameObject &Obj, int iState)
 {
 	if (!ObjectMaxRange(iUserIndex))
 		return;
@@ -1710,7 +1710,7 @@ int ChaosCastleFinal::GetCurPlayUser()
 	return iPlayUser;
 }
 
-int ChaosCastleFinal::GetFinalRemainTime(int iUserIndex)
+int ChaosCastleFinal::GetFinalRemainTime(CGameObject &Obj)
 {
 	CCF_START_TIME pRET;
 	SYSTEMTIME sysTime;
@@ -1731,7 +1731,7 @@ int ChaosCastleFinal::GetFinalRemainTime(int iUserIndex)
 	return iREMAIN_MINUTE;
 }
 
-int ChaosCastleFinal::GetRemainTime(int iUserIndex)
+int ChaosCastleFinal::GetRemainTime(CGameObject &Obj)
 {
 	int iREMAIN_MINUTE = 0;
 
@@ -2360,7 +2360,7 @@ int ChaosCastleFinal::ObjSetPosition(CGameObject &Obj, int iX, int iY)
 	return TRUE;
 }
 
-void ChaosCastleFinal::GiveUserDamage(int iUserIndex, int iDamage)
+void ChaosCastleFinal::GiveUserDamage(CGameObject &Obj, int iDamage)
 {
 	if (!gObjIsConnected(iUserIndex))
 		return;
@@ -2428,7 +2428,7 @@ void ChaosCastleFinal::SendFailMessage(int iLoserIndex)
 	gGameObjects[iLoserIndex]->m_bCCF_Quit_Msg = true;
 }
 
-int ChaosCastleFinal::CalcSendRewardEXP(int iUserIndex, int iEXP, int iKILLCOUNT_USER, int iKILLCOUNT_MONSTER)
+int ChaosCastleFinal::CalcSendRewardEXP(CGameObject &Obj, int iEXP, int iKILLCOUNT_USER, int iKILLCOUNT_MONSTER)
 {
 	if (iEXP <= 0)
 		return 0;
@@ -2500,7 +2500,7 @@ int ChaosCastleFinal::CalcSendRewardEXP(int iUserIndex, int iEXP, int iKILLCOUNT
 	return iRET_EXP;
 }
 
-BOOL ChaosCastleFinal::LevelUp(int iUserIndex, int iAddExp)
+BOOL ChaosCastleFinal::LevelUp(CGameObject &Obj, int iAddExp)
 {
 	if (ObjectMaxRange(iUserIndex) == FALSE)
 	{
@@ -2712,7 +2712,7 @@ void ChaosCastleFinal::Send_CCF_Schedule(CGameObject &Obj)
 	IOCP.DataSend(lpObj.m_Index, (BYTE*)sendbuf, lOfs);
 }
 
-int ChaosCastleFinal::EnterCheck_CCF_User(int iUserIndex)
+int ChaosCastleFinal::EnterCheck_CCF_User(CGameObject &Obj)
 {
 	for (int i = 0; i < 70; i++)
 	{
@@ -2731,7 +2731,7 @@ int ChaosCastleFinal::EnterCheck_CCF_User(int iUserIndex)
 	return 0;
 }
 
-BOOL ChaosCastleFinal::CheckUserEnterMoney(int iUserIndex, BYTE byBattleType)
+BOOL ChaosCastleFinal::CheckUserEnterMoney(CGameObject &Obj, BYTE byBattleType)
 {
 	int nEnterFee = g_nCCF_EnterFee[byBattleType];
 
@@ -2862,7 +2862,7 @@ void ChaosCastleFinal::GD_Req_Get_Permission(CGameObject &Obj)
 		lpObj.Name, pMsg.byCCFType);
 }
 
-BOOL ChaosCastleFinal::PayUserEnterMoney(int iUserIndex, int nCCFType)
+BOOL ChaosCastleFinal::PayUserEnterMoney(CGameObject &Obj, int nCCFType)
 {
 	if (ObjectMaxRange(iUserIndex) == false)
 	{
@@ -2880,7 +2880,7 @@ BOOL ChaosCastleFinal::PayUserEnterMoney(int iUserIndex, int nCCFType)
 	return TRUE;
 }
 
-int ChaosCastleFinal::EnterCCF(int iUserIndex, int & nCCFUserIndex)
+int ChaosCastleFinal::EnterCCF(CGameObject &Obj, int & nCCFUserIndex)
 {
 	for (int i = 0; i < 70; i++)
 	{
@@ -3165,7 +3165,7 @@ void ChaosCastleFinal::SendAllMemberOfCCF(int index)
 	}
 }
 
-void ChaosCastleFinal::MakeChaosCastleRewardWing(int iUserIndex)
+void ChaosCastleFinal::MakeChaosCastleRewardWing(CGameObject &Obj)
 {
 	BYTE btNewOption;
 	BYTE btNewExcOption[5];
@@ -3269,7 +3269,7 @@ bool ChaosCastleFinal::IsRealFinalDayEnd()
 	return false;
 }
 
-void ChaosCastleFinal::GDReqSetCCFReward_UBF(int iUserIndex, BYTE btCCFType, BYTE btRewardType)
+void ChaosCastleFinal::GDReqSetCCFReward_UBF(CGameObject &Obj, BYTE btCCFType, BYTE btRewardType)
 {
 	if (!ObjectMaxRange(iUserIndex))
 	{
@@ -3330,7 +3330,7 @@ void ChaosCastleFinal::SetOpenTodaySchedule()
 	}
 }
 
-void ChaosCastleFinal::SetUBFGetReward(int iUserIndex, WORD wItemCode, UINT64 ItemSerial, BYTE btItemPos)
+void ChaosCastleFinal::SetUBFGetReward(CGameObject &Obj, WORD wItemCode, UINT64 ItemSerial, BYTE btItemPos)
 {
 	if (!ObjectMaxRange(iUserIndex))
 	{

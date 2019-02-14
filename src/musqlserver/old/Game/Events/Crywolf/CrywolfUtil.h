@@ -46,7 +46,7 @@ public:
   void SendCrywolfUserAnyData(LPBYTE lpMsg, int iSize);
   void __cdecl SendCrywolfUserAnyMsg(int iType, LPSTR lpszMsg, ...);
   void __cdecl SendCrywolfChattingMsg(int iObjIndex, LPSTR lpszMsg, ...);
-  int CrywolfMVPLevelUp(int iUserIndex, int iAddExp);
+  int CrywolfMVPLevelUp(CGameObject &Obj, int iAddExp);
 
 };
 extern CCrywolfUtil UTIL;

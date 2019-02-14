@@ -900,10 +900,10 @@ public:
 
 	void SetDataLoadProcState(int bReqABProcState);
 
-	void GCArcaBattleUserInfo(int iUserIndex);
-	void GCArcaBattleCurrentStatus(int iObeliskIndex, int iAttrKind, BYTE btObeliskState, int iGuildNum, char *szGuildName, int iUserIndex);
+	void GCArcaBattleUserInfo(CGameObject &Obj);
+	void GCArcaBattleCurrentStatus(int iObeliskIndex, int iAttrKind, BYTE btObeliskState, int iGuildNum, char *szGuildName, CGameObject &Obj);
 	void GCArcaBattleSendNotiMsg(BYTE btNoticeType, int iNoticeValue, char *szGuildName);
-	void GCArcaBattleCurrentStatusForReConnectUser(int iUserIndex);
+	void GCArcaBattleCurrentStatusForReConnectUser(CGameObject &Obj);
 
 	int IsDataLoadWinGuild() { return this->m_bReqABWinGuildInfo; }
 	int IsDataLoadProcState() { return this->m_bReqABProcState; }

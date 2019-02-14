@@ -1957,7 +1957,7 @@ void CBloodCastle::SetSaintStatue(int iBridgeIndex)
 
 
 
-int  CBloodCastle::LeaveUserBridge(int iBridgeIndex, int iBridgeSubIndex, int iUserIndex)
+int  CBloodCastle::LeaveUserBridge(int iBridgeIndex, int iBridgeSubIndex, CGameObject &Obj)
 {
 	if ( BC_BRIDGE_RANGE(iBridgeIndex) == FALSE )
 	{
@@ -3737,7 +3737,7 @@ bool CBloodCastle::CheckPartyExist(CGameObject &Obj)
 		return false;
 
 	int iPartyIndex = Obj.PartyNumber;
-	int iUserIndex;
+	CGameObject &Obj;
 
 	if ( !ObjectMaxRange(iPartyIndex))
 		return false;
@@ -3774,7 +3774,7 @@ bool CBloodCastle::CheckWinnerPartyComplete(int iBridgeIndex)
 		return false;
 
 	int iPartyIndex = gGameObjects[this->m_BridgeData[iBridgeIndex].m_iBC_COMPLETE_USER_INDEX]->PartyNumber;
-	int iUserIndex;
+	CGameObject &Obj;
 
 	if ( !ObjectMaxRange(iPartyIndex))
 		return true;	// #error why true??
@@ -3838,7 +3838,7 @@ int CBloodCastle::GetWinnerPartyCompleteCount(int iBridgeIndex)
 		return false;
 
 	int iPartyComplete=0;
-	int iUserIndex;
+	CGameObject &Obj;
 
 	for ( int iPartyUserIndex =0;iPartyUserIndex<MAX_USER_IN_PARTY;iPartyUserIndex++)
 	{

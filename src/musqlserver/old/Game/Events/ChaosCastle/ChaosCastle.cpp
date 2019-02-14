@@ -1600,7 +1600,7 @@ void CChaosCastle::SendAllLoserFailMessage(int iChaosCastleIndex, int iWinnerInd
 
 
 
-int  CChaosCastle::EnterUserChaosCastle(int iChaosCastleIndex, int iUserIndex)
+int  CChaosCastle::EnterUserChaosCastle(int iChaosCastleIndex, CGameObject &Obj)
 {
 	if ( CC_FLOOR_RANGE(iChaosCastleIndex) == FALSE )
 	{
@@ -1644,7 +1644,7 @@ int  CChaosCastle::EnterUserChaosCastle(int iChaosCastleIndex, int iUserIndex)
 
 
 
-int  CChaosCastle::LeaveUserChaosCastle(int iChaosCastleIndex, int iUserIndex)
+int  CChaosCastle::LeaveUserChaosCastle(int iChaosCastleIndex, CGameObject &Obj)
 {
 	if ( CC_FLOOR_RANGE(iChaosCastleIndex) == FALSE )
 	{
@@ -1679,7 +1679,7 @@ int  CChaosCastle::LeaveUserChaosCastle(int iChaosCastleIndex, int iUserIndex)
 
 
 
-void CChaosCastle::AddFallUser(int iChaosCastleIndex, int iUserIndex)
+void CChaosCastle::AddFallUser(int iChaosCastleIndex, CGameObject &Obj)
 {
 	if ( CC_FLOOR_RANGE(iChaosCastleIndex) == FALSE )
 	{
@@ -1729,7 +1729,7 @@ void CChaosCastle::ProcessFallUser(int iChaosCastleIndex)
 
 
 
-void CChaosCastle::SetUserState(int iUserIndex, int iState)
+void CChaosCastle::SetUserState(CGameObject &Obj, int iState)
 {
 	if ( !ObjectMaxRange(iUserIndex))
 		return;
@@ -1755,7 +1755,7 @@ void CChaosCastle::SetUserState(int iUserIndex, int iState)
 
 
 
-int  CChaosCastle::CalcSendRewardEXP(int iUserIndex, int iEXP, int iKILLCOUNT_USER, int iKILLCOUNT_MONSTER)
+int  CChaosCastle::CalcSendRewardEXP(CGameObject &Obj, int iEXP, int iKILLCOUNT_USER, int iKILLCOUNT_MONSTER)
 {
 	if ( iEXP <= 0 )
 		return 0;
@@ -1829,7 +1829,7 @@ int  CChaosCastle::CalcSendRewardEXP(int iUserIndex, int iEXP, int iKILLCOUNT_US
 
 
 
-int  CChaosCastle::GetUserLevelToEnter(int iUserIndex)
+int  CChaosCastle::GetUserLevelToEnter(CGameObject &Obj)
 {
 	if (!gObjIsConnected(iUserIndex))
 		return -1;
@@ -1851,7 +1851,7 @@ int  CChaosCastle::GetUserLevelToEnter(int iUserIndex)
 
 
 
-BOOL CChaosCastle::CheckUserEnterMoney(int iUserIndex, int iEnterLevel)
+BOOL CChaosCastle::CheckUserEnterMoney(CGameObject &Obj, int iEnterLevel)
 {
 	if ( ObjectMaxRange(iUserIndex) == FALSE )
 	{
@@ -1873,7 +1873,7 @@ BOOL CChaosCastle::CheckUserEnterMoney(int iUserIndex, int iEnterLevel)
 
 
 
-BOOL CChaosCastle::PayUserEnterMoney(int iUserIndex, int iEnterLevel)
+BOOL CChaosCastle::PayUserEnterMoney(CGameObject &Obj, int iEnterLevel)
 {
 	if ( ObjectMaxRange(iUserIndex) == FALSE )
 	{
@@ -1898,7 +1898,7 @@ BOOL CChaosCastle::PayUserEnterMoney(int iUserIndex, int iEnterLevel)
 
 
 
-void CChaosCastle::GiveUserDamage(int iUserIndex, int iDamage)
+void CChaosCastle::GiveUserDamage(CGameObject &Obj, int iDamage)
 {
 	if ( !gObjIsConnected(iUserIndex))
 		return;
@@ -1936,7 +1936,7 @@ void CChaosCastle::GiveUserDamage(int iUserIndex, int iDamage)
 
 
 
-BOOL CChaosCastle::LevelUp(int iUserIndex, int iAddExp)
+BOOL CChaosCastle::LevelUp(CGameObject &Obj, int iAddExp)
 {
 	if ( ObjectMaxRange(iUserIndex) == FALSE )
 	{
@@ -3024,7 +3024,7 @@ void CChaosCastle::CalUsersInTrap(int iChaosCastleIndex)
 
 
 
-BOOL CChaosCastle::CheckWearingMOPH(int iUserIndex)
+BOOL CChaosCastle::CheckWearingMOPH(CGameObject &Obj)
 {
 	if (  gObjIsConnected(iUserIndex) == FALSE )
 	{
@@ -3328,7 +3328,7 @@ struct PMSG_ANS_CHAOSCASTLE_RANKING {
 	bool IsWinner;
 };
 
-void CChaosCastle::ChaosCastleRank(int iUserIndex, int iPlayer, int iMonster, __int64 iExp, bool bWinner)
+void CChaosCastle::ChaosCastleRank(CGameObject &Obj, int iPlayer, int iMonster, __int64 iExp, bool bWinner)
 {
 	PMSG_ANS_CHAOSCASTLE_RANKING pMsg = {0};
 
@@ -3459,7 +3459,7 @@ struct SDHP_REQ_SET_CC_WINNER_INFO_UBF
 	BYTE btRewardType;
 };
 
-void CChaosCastle::GDReqSetUBFReward_CCBattle(int iUserIndex, BYTE byRewardType)
+void CChaosCastle::GDReqSetUBFReward_CCBattle(CGameObject &Obj, BYTE byRewardType)
 {
 	if (!ObjectMaxRange(iUserIndex))
 	{
@@ -3485,7 +3485,7 @@ void CChaosCastle::GDReqSetUBFReward_CCBattle(int iUserIndex, BYTE byRewardType)
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
-void CChaosCastle::SetUBFGetReward(int iUserIndex, WORD wItemCode, UINT64 ItemSerial, BYTE btItemPos)
+void CChaosCastle::SetUBFGetReward(CGameObject &Obj, WORD wItemCode, UINT64 ItemSerial, BYTE btItemPos)
 {
 	if (!ObjectMaxRange(iUserIndex))
 	{
@@ -3519,7 +3519,7 @@ void CChaosCastle::SetUBFGetReward(int iUserIndex, WORD wItemCode, UINT64 ItemSe
 	this->GDReqSetUBFReward_CCBattle(iUserIndex, 0);
 }
 
-void CChaosCastle::GiveUBFReward(int iUserIndex, BYTE byRewardType)
+void CChaosCastle::GiveUBFReward(CGameObject &Obj, BYTE byRewardType)
 {
 	_stGremoryCaseItem stItem;
 	WORD wItemType = -1;

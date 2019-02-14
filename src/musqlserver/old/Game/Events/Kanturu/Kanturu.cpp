@@ -459,7 +459,7 @@ void CKanturu::CheckUserOnKanturuBossMap()
 	}
 }
 
-int CKanturu::CheckEnterKanturu(int iUserIndex)
+int CKanturu::CheckEnterKanturu(CGameObject &Obj)
 {
 	if ( !gObjIsConnected(iUserIndex) )
 		return -1;
@@ -562,7 +562,7 @@ BOOL CKanturu::CheckCanEnterKanturuBattle()
 	return FALSE;
 }
 
-BOOL CKanturu::CheckEqipmentMoonStone(int iUserIndex)
+BOOL CKanturu::CheckEqipmentMoonStone(CGameObject &Obj)
 {
 	if ( !this->GetEnableCheckMoonStone() )
 		return TRUE;
@@ -589,7 +589,7 @@ BOOL CKanturu::CheckEqipmentMoonStone(int iUserIndex)
 	return FALSE;
 }
 
-void CKanturu::OperateGmCommand(int iUserIndex, int iCommand)
+void CKanturu::OperateGmCommand(CGameObject &Obj, int iCommand)
 {
 	if(!gObjIsConnected(iUserIndex))
 	{

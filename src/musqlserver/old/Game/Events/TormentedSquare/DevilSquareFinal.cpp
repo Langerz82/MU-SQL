@@ -361,7 +361,7 @@ BOOL CDevilSquareFinal::CheckChangeRing(int nType)
 	return FALSE;
 }
 
-BOOL CDevilSquareFinal::CheckWearingMOPH(int iUserIndex)
+BOOL CDevilSquareFinal::CheckWearingMOPH(CGameObject &Obj)
 {
 	if (gObjIsConnected(iUserIndex) == FALSE)
 	{
@@ -2923,7 +2923,7 @@ void CDevilSquareFinal::DSFDropReward(CGameObject & lpUser, CGameObject &Monster
 	}
 }
 
-void CDevilSquareFinal::SetUBFGetReward(int iUserIndex, WORD wItemCode, UINT64 ItemSerial, BYTE btItemPos)
+void CDevilSquareFinal::SetUBFGetReward(CGameObject &Obj, WORD wItemCode, UINT64 ItemSerial, BYTE btItemPos)
 {
 	if (!ObjectMaxRange(iUserIndex))
 	{
@@ -2948,7 +2948,7 @@ void CDevilSquareFinal::SetUBFGetReward(int iUserIndex, WORD wItemCode, UINT64 I
 	this->GDReqSetDSFReward_UBF(iUserIndex, this->m_nDSF_TYPE, 0);
 }
 
-void CDevilSquareFinal::GDReqSetDSFReward_UBF(int iUserIndex, BYTE btDSFType, BYTE btRewardType)
+void CDevilSquareFinal::GDReqSetDSFReward_UBF(CGameObject &Obj, BYTE btDSFType, BYTE btRewardType)
 {
 	if (!ObjectMaxRange(iUserIndex))
 	{

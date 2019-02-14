@@ -1122,7 +1122,7 @@ void CLoginServerProtocol::GJReqMapSvrMove(CGameObject &Obj, PMSG_REQ_MAPSVRMOVE
 	else
 	{
 		tagSTR_CUserData pUserData;
-		int iUserIndex = this->m_UserData.MuLoginFindUser(szAccoundID);
+		CGameObject &Obj = this->m_UserData.MuLoginFindUser(szAccoundID);
 
 		// User not Connected
 		if (iUserIndex == -1)
@@ -1185,7 +1185,7 @@ void CLoginServerProtocol::GJReqMapSvrAuth(CGameObject &Obj, PMSG_REQ_MAPSVRAUTH
 
 	if (fResult == 0)
 	{
-		int iUserIndex = this->m_UserData.MuLoginFindUser(szAccoundID);
+		CGameObject &Obj = this->m_UserData.MuLoginFindUser(szAccoundID);
 
 		// User Not Connected
 		if (iUserIndex == -1)
@@ -1308,7 +1308,7 @@ void CLoginServerProtocol::GJNotifyMaxUserCount(CGameObject &Obj, PMSG_NOTIFY_MA
 
 BOOL CLoginServerProtocol::DisconnectPlayer(LPTSTR szAccountID)
 {
-	int iUserIndex = this->m_UserData.MuLoginFindUser(szAccountID);
+	CGameObject &Obj = this->m_UserData.MuLoginFindUser(szAccountID);
 
 	if (iUserIndex == -1)
 	{
@@ -1396,7 +1396,7 @@ void CLoginServerProtocol::CheckVIPTimeProc()
 
 void CLoginServerProtocol::GJReqSetOffTrade(CGameObject &Obj, PMSG_SET_OFFTRADE * aRecv)
 {
-	int iUserIndex = this->m_UserData.MuLoginFindUser(aRecv->szAccountID);
+	CGameObject &Obj = this->m_UserData.MuLoginFindUser(aRecv->szAccountID);
 
 	if (iUserIndex == -1)
 	{

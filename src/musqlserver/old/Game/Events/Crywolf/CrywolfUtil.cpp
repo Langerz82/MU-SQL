@@ -175,7 +175,7 @@ void CCrywolfUtil::SendCrywolfChattingMsg(int iObjIndex, LPSTR lpszMsg, ...)
 #pragma warning ( default : 4101 )
 
 
-int CCrywolfUtil::CrywolfMVPLevelUp(int iUserIndex, int iAddExp)
+int CCrywolfUtil::CrywolfMVPLevelUp(CGameObject &Obj, int iAddExp)
 {
 	if ( !ObjectMaxRange(iUserIndex ) )
 		return 0;

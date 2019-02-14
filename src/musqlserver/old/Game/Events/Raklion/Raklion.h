@@ -103,7 +103,7 @@ public:
 	int GetBossKillValue();
 	
 	void CheckUserOnRaklionBossMap();
-	BOOL CheckEnterRaklion(int iUserIndex);
+	BOOL CheckEnterRaklion(CGameObject &Obj);
 	BOOL CheckCanEnterRaklionBattle();
 	
 	void BossEggDieIncrease();
@@ -112,7 +112,7 @@ public:
 	void RegenBossEgg();
 	void DeleteBossEgg();
 
-	void OperateGmCommand(int iUserIndex, int iCommand);
+	void OperateGmCommand(CGameObject &Obj, int iCommand);
 	void UserMonsterCountCheck();
 
 };

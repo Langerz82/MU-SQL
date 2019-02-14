@@ -644,7 +644,7 @@ void CCrywolf::SetState_END()
 	
 	for ( int iAltar = 205 ; iAltar <= 209 ; iAltar++)
 	{
-		int iUserIndex = g_CrywolfNPC_Altar.GetAltarUserIndex(iAltar);
+		CGameObject &Obj = g_CrywolfNPC_Altar.GetAltarUserIndex(iAltar);
 
 		if ( iUserIndex != -1 )
 		{
@@ -864,7 +864,7 @@ void CCrywolf::NotifyCrywolfStatueAndAltarInfo()
 
 	for ( int iAltar = 205 ; iAltar <= 209 ; iAltar ++ )
 	{
-		int iUserIndex = g_CrywolfNPC_Altar.GetAltarUserIndex(iAltar);
+		CGameObject &Obj = g_CrywolfNPC_Altar.GetAltarUserIndex(iAltar);
 
 		if ( iUserIndex != -1 )
 		{
@@ -1043,7 +1043,7 @@ void CCrywolf::NotifyCrywolfHeroList()
 }
 
 
-void CCrywolf::OperateGmCommand(int iUserIndex, int iCommand)
+void CCrywolf::OperateGmCommand(CGameObject &Obj, int iCommand)
 {
 	if ( !gObjIsConnectedGP(iUserIndex))
 		return;
@@ -1189,7 +1189,7 @@ void CCrywolf::MakeRewardForAltarElf(int iAltarUserIndex)
 
 
 
-void CCrywolf::MakeRewardForHeroListTop5(int iUserIndex)
+void CCrywolf::MakeRewardForHeroListTop5(CGameObject &Obj)
 {
 	int iItemNumber = ITEMGET(14,13);
 
@@ -1206,7 +1206,7 @@ void CCrywolf::MakeRewardForHeroListTop5(int iUserIndex)
 }
 
 
-int CCrywolf::CalcGettingScore(int iUserIndex, int iMonIndex, int iScoreType)
+int CCrywolf::CalcGettingScore(CGameObject &Obj, int iMonIndex, int iScoreType)
 {
 	if ( !gObjIsConnected(iUserIndex))
 		return -1;
@@ -1249,7 +1249,7 @@ int CCrywolf::CalcGettingScore(int iUserIndex, int iMonIndex, int iScoreType)
 }
 
 
-int CCrywolf::CalcGettingRewardExp(int iUserIndex, int iMVPRank)
+int CCrywolf::CalcGettingRewardExp(CGameObject &Obj, int iMVPRank)
 {
 	if ( !gObjIsConnected(iUserIndex))
 		return 0;
@@ -1267,7 +1267,7 @@ int CCrywolf::CalcGettingRewardExp(int iUserIndex, int iMVPRank)
 	return iRewardExp;
 }
 
-int CCrywolf::CalcGettingRank(int iUserIndex)
+int CCrywolf::CalcGettingRank(CGameObject &Obj)
 {
 	int iRank = 0;
 
@@ -1283,7 +1283,7 @@ int CCrywolf::CalcGettingRank(int iUserIndex)
 }
 
 
-void CCrywolf::GiveRewardExp(int iUserIndex, int iRewardExp)
+void CCrywolf::GiveRewardExp(CGameObject &Obj, int iRewardExp)
 {
 	if ( !gObjIsConnected(iUserIndex))
 		return;

@@ -167,7 +167,7 @@ void CKanturuUtil::SendMsgKanturuBattleUser(LPSTR lpszMsg, ...)
 	PMSG_NOTICE pNotice;
 	TNotice::MakeNoticeMsg(&pNotice, 0, szBuffer);
 
-	int iUserIndex = 0;
+	CGameObject &Obj = 0;
 
 	for ( int iCount=0;iCount<MAX_KANTURU_BATTLE_USER;iCount++)
 	{
@@ -183,7 +183,7 @@ void CKanturuUtil::SendMsgKanturuBattleUser(LPSTR lpszMsg, ...)
 
 void CKanturuUtil::SendDataKanturuBattleUser(BYTE* lpMsg, int iSize)
 {
-	int iUserIndex=0;
+	CGameObject &Obj=0;
 
 	for ( int iCount=0;iCount<MAX_KANTURU_BATTLE_USER;iCount++)
 	{

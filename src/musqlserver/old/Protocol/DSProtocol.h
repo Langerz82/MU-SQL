@@ -925,7 +925,7 @@ struct PMSG_UBF_REGISTER_ACCOUNT_USER
 	char szAccountID[MAX_ACCOUNT_LEN+1];
 	char szName[MAX_ACCOUNT_LEN+1];
 	char szBattleFieldName[MAX_ACCOUNT_LEN+1];
-	int iUserIndex;
+	CGameObject &Obj;
 	WORD ServerCode;
 	BYTE btRegisterState;
 	BYTE btRegisterMonth;
@@ -935,7 +935,7 @@ struct PMSG_UBF_REGISTER_ACCOUNT_USER
 struct PMSG_UBF_REGISTER_ACCOUNT_USER_RESULT
 {
 	PBMSG_HEAD2 h;
-	int iUserIndex;
+	CGameObject &Obj;
 	BYTE btResult;
 	WORD nLeftSec;
 };
@@ -943,7 +943,7 @@ struct PMSG_UBF_REGISTER_ACCOUNT_USER_RESULT
 struct PMSG_UBF_ACCOUNT_USER_COPY
 {
 	PBMSG_HEAD2 h;
-	int iUserIndex;
+	CGameObject &Obj;
 	char szAccountID[MAX_ACCOUNT_LEN+1];
 	char szName[MAX_ACCOUNT_LEN+1];
 	WORD ServerCode;
@@ -953,7 +953,7 @@ struct PMSG_UBF_ACCOUNT_USER_COPY
 struct PMSG_UBF_ACCOUNT_USER_COPY_RESULT
 {
 	PBMSG_HEAD2 h;
-	int iUserIndex;
+	CGameObject &Obj;
 	BYTE btResult;
 	BYTE btSubResult;
 };
@@ -962,7 +962,7 @@ struct PMSG_UBF_ACCOUNT_USER_COPY_PETITEM
 {
 	PWMSG_HEAD h;
 	char szAccountID[MAX_ACCOUNT_LEN];
-	int iUserIndex;
+	CGameObject &Obj;
 	BYTE btCount;
 	int IsUnityBattleFieldServer;
 	int ServerCode;
@@ -977,7 +977,7 @@ struct PMSG_UBF_COPY_PETITEM
 struct PMSG_REQ_UBF_ACCOUNT_USERINFO
 {
 	PBMSG_HEAD2 h;
-	int iUserIndex;
+	CGameObject &Obj;
 	char szAccountID[MAX_ACCOUNT_LEN+1];
 	char szName[MAX_ACCOUNT_LEN+1];
 	int iServerCode;
@@ -988,7 +988,7 @@ struct PMSG_REQ_UBF_ACCOUNT_USERINFO
 struct PMSG_ANS_UBF_ACCOUNT_USERINFO
 {
 	PBMSG_HEAD2 h;
-	int iUserIndex;
+	CGameObject &Obj;
 	BYTE btResult;
 	BYTE btRegisterState;
 	BYTE btRegisterMonth;
@@ -1001,7 +1001,7 @@ struct PMSG_UBF_REQ_CANCEL_REGISTER_USER
 	PBMSG_HEAD2 h;
 	char szAccountID[MAX_ACCOUNT_LEN+1];
 	char szName[MAX_ACCOUNT_LEN+1];
-	int iUserIndex;
+	CGameObject &Obj;
 	WORD ServerCode;
 	BYTE btCanceled;
 };
@@ -1009,7 +1009,7 @@ struct PMSG_UBF_REQ_CANCEL_REGISTER_USER
 struct PMSG_UBF_ANS_CANCEL_REGISTER_USER
 {
 	PBMSG_HEAD2 h;
-	int iUserIndex;
+	CGameObject &Obj;
 	BYTE btCanceledResult;
 	BYTE btDeletedResult;
 };
@@ -1017,14 +1017,14 @@ struct PMSG_UBF_ANS_CANCEL_REGISTER_USER
 struct PMSG_REQ_GET_UBF_REAL_NAME
 {
 	PBMSG_HEAD2 h;
-	int iUserIndex;
+	CGameObject &Obj;
 	char szUBFName[MAX_ACCOUNT_LEN+1];
 };
 
 struct PMSG_ANS_GET_UBF_REAL_NAME
 {
 	PBMSG_HEAD2 h;
-	int iUserIndex;
+	CGameObject &Obj;
 	char szUBFName[MAX_ACCOUNT_LEN+1];
 	char szRealName[MAX_ACCOUNT_LEN+1];
 	int iServerCode;
@@ -1034,7 +1034,7 @@ struct PMSG_ANS_GET_UBF_REAL_NAME
 struct PMSG_REQ_UBF_GET_REWARD
 {
 	PBMSG_HEAD2 h;
-	int iUserIndex;
+	CGameObject &Obj;
 	int iServerCode;
 	BYTE btBattleKind;
 	char szAccountID[MAX_ACCOUNT_LEN+1];
@@ -1044,7 +1044,7 @@ struct PMSG_REQ_UBF_GET_REWARD
 struct PMSG_ANS_UBF_GET_REWARD
 {
 	PBMSG_HEAD2 h;
-	int iUserIndex;
+	CGameObject &Obj;
 	BYTE btBattleKind;
 	BYTE btReturn;
 	BYTE btStage1;
@@ -1058,7 +1058,7 @@ struct PMSG_ANS_UBF_GET_REWARD
 struct PMSG_REQ_UBF_SET_RECEIVED_REWARD
 {
 	PBMSG_HEAD2 h;
-	int iUserIndex;
+	CGameObject &Obj;
 	int iServerCode;
 	char szAccountID[MAX_ACCOUNT_LEN+1];
 	char szName[MAX_ACCOUNT_LEN+1];
@@ -1069,7 +1069,7 @@ struct PMSG_REQ_UBF_SET_RECEIVED_REWARD
 struct PMSG_ANS_UBF_SET_RECEIVED_REWARD
 {
 	PBMSG_HEAD2 h;
-	int iUserIndex;
+	CGameObject &Obj;
 	BYTE btReturn;
 };
 

@@ -347,7 +347,7 @@ private:
 	BOOL UpdateGuildMemberStatus(char *szGuild, char *szName, BYTE btStatus);
 	BOOL UpdateGuildType(char *szGuild, BYTE btType);
 
-	void SendGuildMemberInfo(CGameObject &Obj, char *szName, int iUserIndex);
+	void SendGuildMemberInfo(CGameObject &Obj, char *szName, CGameObject &Obj);
 	BOOL GetGuildMemberInfo(char *szName, OUT char *szGuild, OUT int& riLevel, OUT int& riStatus);
 
 	BOOL IsCSGuild(char *szGuild);

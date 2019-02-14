@@ -73,13 +73,13 @@ public:
 	void CheckStateTime();
 	int GetRemainTime();
 	void CheckUserOnKanturuBossMap();
-	int CheckEnterKanturu(int iUserIndex);
+	int CheckEnterKanturu(CGameObject &Obj);
 	BOOL CheckCanEnterKanturuBattle();
 	void SetEnableCheckMoonStone(BOOL bEnable){this->m_bEnableCheckMoonStone = bEnable;}
 	int GetEnableCheckMoonStone(){return this->m_bEnableCheckMoonStone;}
-	BOOL CheckEqipmentMoonStone(int iUserIndex);
+	BOOL CheckEqipmentMoonStone(CGameObject &Obj);
 	void KanturuMonsterDieProc(int iMonIndex, int iKillerIndex);
-	void OperateGmCommand(int iUserIndex, int iCommand);
+	void OperateGmCommand(CGameObject &Obj, int iCommand);
 	void SetKanturuTimeAttackEventInfo();
 	int GetKanturuBattleCounter(){return this->m_iKanturuBattleCounter;}
 	int GetKanturuBattleDate(){return this->m_iKanturuBattleDate;}

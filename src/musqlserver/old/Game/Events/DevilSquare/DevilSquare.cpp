@@ -428,7 +428,7 @@ int  CDevilSquare::GetDevilSquareIndex(int iGateNumber)
 
 
 
-int  CDevilSquare::GetUserLevelToEnter(int iUserIndex, WORD& wMoveGate)
+int  CDevilSquare::GetUserLevelToEnter(CGameObject &Obj, WORD& wMoveGate)
 {
 	wMoveGate = -1;
 

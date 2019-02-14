@@ -152,7 +152,7 @@ int CLifeStone::DeleteLifeStone(CGameObject &Obj)
 	return TRUE;
 }
 
-int CLifeStone::SetReSpawnUserXY(int iUserIndex)
+int CLifeStone::SetReSpawnUserXY(CGameObject &Obj)
 {
 	if ( !gObjIsConnected(iUserIndex) )
 		return FALSE;

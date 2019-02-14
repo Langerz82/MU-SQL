@@ -21,7 +21,7 @@ BYTE gObjEventInventoryTradeMove(CGameObject &Obj, BYTE source, BYTE target);
 BYTE gObjTradeEventInventoryMove(CGameObject &Obj, BYTE source, BYTE target);
 void gObjTempEventInventoryItemBoxSet(BYTE * TempMap, int itempos, int xl, int yl, BYTE set_byte);
 BYTE gObjTempEventInventoryRectCheck(CGameObject &Obj, BYTE * TempMap, int sx, int sy, int width, int height);
-BYTE gObjTempEventInventoryInsertItem(CGameObject &Obj, CItemObject item, BYTE * TempMap);
+BYTE gObjTempEventInventoryInsertItem(CGameObject &Obj, CItemObject &item, BYTE * TempMap);
 int CheckEventInventoryEmptySpace(CGameObject &Obj, int iItemHeight, int iItemWidth);
 int IsEventItem(CItemObject &item);
 BYTE gObjEventInventoryRectCheck(CGameObject &Obj, int sx, int sy, int width, int height);
@@ -43,7 +43,7 @@ extern BYTE gObjEventInventoryTradeMove(CGameObject &Obj, BYTE source, BYTE targ
 extern BYTE gObjTradeEventInventoryMove(CGameObject &Obj, BYTE source, BYTE target);
 extern void gObjTempEventInventoryItemBoxSet(BYTE * TempMap, int itempos, int xl, int yl, BYTE set_byte);
 extern BYTE gObjTempEventInventoryRectCheck(CGameObject &Obj, BYTE * TempMap, int sx, int sy, int width, int height);
-extern BYTE gObjTempEventInventoryInsertItem(CGameObject &Obj, CItemObject item, BYTE * TempMap);
+extern BYTE gObjTempEventInventoryInsertItem(CGameObject &Obj, CItemObject &item, BYTE * TempMap);
 extern int CheckEventInventoryEmptySpace(CGameObject &Obj, int iItemHeight, int iItemWidth);
 extern int IsEventItem(CItemObject &item);
 extern BYTE gObjEventInventoryRectCheck(CGameObject &Obj, int sx, int sy, int width, int height);

@@ -41,7 +41,7 @@ public:
 	void DSFEventInit();
 
 	BOOL CheckChangeRing(int nType);
-	BOOL CheckWearingMOPH(int iUserIndex);
+	BOOL CheckWearingMOPH(CGameObject &Obj);
 	
 	void DSF_Run();
 
@@ -110,8 +110,8 @@ public:
 	void EndUserMove();
 	
 	void DSFDropReward(CGameObject & lpUser, CGameObject &Monster);
-	void SetUBFGetReward(int iUserIndex, WORD wItemCode, UINT64 ItemSerial, BYTE btItemPos);
-	void GDReqSetDSFReward_UBF(int iUserIndex, BYTE btDSFType, BYTE btRewardType);
+	void SetUBFGetReward(CGameObject &Obj, WORD wItemCode, UINT64 ItemSerial, BYTE btItemPos);
+	void GDReqSetDSFReward_UBF(CGameObject &Obj, BYTE btDSFType, BYTE btRewardType);
 
 	void GiveDSFWinnerItem(int iWinnerIndex, BYTE btDSFType, BYTE btRewardType);
 

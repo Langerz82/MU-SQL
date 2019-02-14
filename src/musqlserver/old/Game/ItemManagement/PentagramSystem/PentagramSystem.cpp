@@ -2362,7 +2362,7 @@ bool CPentagramSystem::DelPentagramJewelInfo(CGameObject &Obj, int iJewelPos, in
 struct PMSG_REQ_PENTAGRAMJEWEL
 {
 	PBMSG_HEAD2 h;
-	int iUserIndex;
+	CGameObject &Obj;
 	BYTE btJewelPos;
 	int iUserGuid;
 	char szAccountID[MAX_ACCOUNT_LEN + 1];
@@ -2556,7 +2556,7 @@ void CPentagramSystem::GCPentagramJewelInfo(CGameObject &Obj, int iJewelPos)
 struct PMSG_REQ_SETPENTAGRAMJEWEL
 {
 	PWMSG_HEAD h; // 4
-	int iUserIndex; // 4
+	CGameObject &Obj; // 4
 	int iUserGuid; // 4
 	char szAccountID[MAX_ACCOUNT_LEN + 1]; // 11
 	char szName[MAX_ACCOUNT_LEN + 1]; // 11

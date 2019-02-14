@@ -1454,7 +1454,7 @@ BOOL NpcCastleCrown(CGameObject &Npc, CGameObject lpObj) //GS-CS Decompiled 100%
 		return TRUE;
 	}
 
-	int iUserIndex = g_CastleSiege.GetCrownUserIndex();
+	CGameObject &Obj = g_CastleSiege.GetCrownUserIndex();
 
 	if (gObjIsConnected(iUserIndex) == FALSE)
 	{
@@ -1527,7 +1527,7 @@ BOOL NpcCastleSwitch(CGameObject &Npc, CGameObject lpObj) //GS-CS Decompiled 100
 		return TRUE;
 	}
 
-	int iUserIndex = g_CastleSiege.GetCrownSwitchUserIndex(lpNpc->Class);
+	CGameObject &Obj = g_CastleSiege.GetCrownSwitchUserIndex(lpNpc->Class);
 
 	if (!gObjIsConnected(iUserIndex))
 	{

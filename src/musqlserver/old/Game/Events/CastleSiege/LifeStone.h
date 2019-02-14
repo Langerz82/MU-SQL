@@ -17,7 +17,7 @@ public:
 
 	int CreateLifeStone(CGameObject &Obj);
 	int DeleteLifeStone(CGameObject &Obj);
-	int SetReSpawnUserXY(int iUserIndex);
+	int SetReSpawnUserXY(CGameObject &Obj);
 	void LifeStoneAct(CGameObject &Obj);
 };
 

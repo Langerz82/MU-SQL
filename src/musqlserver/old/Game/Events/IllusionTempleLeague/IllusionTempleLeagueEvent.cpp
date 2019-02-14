@@ -1519,7 +1519,7 @@ BYTE CIllusionTempleLeagueEvent::Check_ITLRewardList(int nUserIndex)
 	return -1;
 }
 
-void CIllusionTempleLeagueEvent::MakeITLRewardItem_CCFWing(int iUserIndex)
+void CIllusionTempleLeagueEvent::MakeITLRewardItem_CCFWing(CGameObject &Obj)
 {
 	int iExOption = 0;
 	BYTE btNewExcOption[5];

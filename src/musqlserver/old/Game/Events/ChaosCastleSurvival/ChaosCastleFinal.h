@@ -249,14 +249,14 @@ public:
 	void SendAllLoserFailMessage(int iWinnerIndex);
 	void SendCCFWinMessage(int iWinnerIndex, int nPoint, bool bFinalWinner);
 	void SendFailMessage(int iLoserIndex);
-	void SetUserState(int iUserIndex, int iState);
+	void SetUserState(CGameObject &Obj, int iState);
 	void SendNoticeState(int iPlayState);
 	void SendCastleZoneSafetyInfo(bool bDoSet);
 	void UnSafetyCastleZone();
 	void SafetyCastleZone();
 	void SendChaosCastleAnyMsg(LPBYTE lpMsg, int iSize);
 
-	void AddFallUser(int iUserIndex);
+	void AddFallUser(CGameObject &Obj);
 	void SearchNBlowObjs(int iMapNumber, int iX, int iY);
 	int BlowObjsFromPoint(CGameObject &Obj, int iMapNumber, int& iX, int& iY);
 	int ObjSetPosition(CGameObject &Obj, int iX, int iY);
@@ -268,16 +268,16 @@ public:
 	void ProcessFallUser();
 	void CheckMonsterInDieTile();
 	void CheckUserInDieTile();
-	void GiveUserDamage(int iUserIndex, int iDamage);
+	void GiveUserDamage(CGameObject &Obj, int iDamage);
 
-	int CheckWearingMOPH(int iUserIndex);
+	int CheckWearingMOPH(CGameObject &Obj);
 
 	int GetCurrentCCFWinUser(int *nPoint);
 	int GetMonsterListCount();
 	int GetCurPlayUser();
 	int CheckPlayEnded();
-	int GetFinalRemainTime(int iUserIndex);
-	int GetRemainTime(int iUserIndex);
+	int GetFinalRemainTime(CGameObject &Obj);
+	int GetRemainTime(CGameObject &Obj);
 
 	void SearchCCFNDropMonsterItem(int iMonsterIndex, int iMaxHitUserIndex);
 	void SetItemsToMonster(int iCCFType);
@@ -302,8 +302,8 @@ public:
 	void GetRandomDropPos(BYTE & btPosX, BYTE & btPosY);
 
 	void RewardUserEXP(BOOL bWinner);
-	int CalcSendRewardEXP(int iUserIndex, int iEXP, int iKILLCOUNT_USER, int iKILLCOUNT_MONSTER);
-	int LevelUp(int iUserIndex, int iAddExp);
+	int CalcSendRewardEXP(CGameObject &Obj, int iEXP, int iKILLCOUNT_USER, int iKILLCOUNT_MONSTER);
+	int LevelUp(CGameObject &Obj, int iAddExp);
 
 	// Survival addons
 	int CCF_Ranking_DayType();
@@ -311,14 +311,14 @@ public:
 	bool CheckCanStart_CCF();
 	void CCF_Start_Fail_So_RollBack();
 	void Send_CCF_Schedule(CGameObject &Obj);
-	int EnterCheck_CCF_User(int iUserIndex);
-	int CheckUserEnterMoney(int iUserIndex, BYTE byBattleType);
+	int EnterCheck_CCF_User(CGameObject &Obj);
+	int CheckUserEnterMoney(CGameObject &Obj, BYTE byBattleType);
 	void GD_Req_Save_CCF_Result(int index, char *Name, int Point, int nCCFtype);
 	void GD_Renew_CCF_Ranking(BYTE byCCFType);
 	void GD_Load_CCF_RankingList(BYTE byCCF_Type);
 	void GD_Req_Get_Permission(CGameObject* lpObj);
-	int PayUserEnterMoney(int iUserIndex, int nCCFType);
-	int EnterCCF(int iUserIndex, int & nCCFUserIndex);
+	int PayUserEnterMoney(CGameObject &Obj, int nCCFType);
+	int EnterCCF(CGameObject &Obj, int & nCCFUserIndex);
 	int CheckRankingReqValid(BYTE byCCFType);
 	void DG_Ans_CCF_Rank(PMSG_ANS_CCF_RANK *lpMsg);
 	void Send_RankingInfo(BYTE byCCFType, CGameObject &Obj);
@@ -326,11 +326,11 @@ public:
 	void SendNoticeMessage(char* lpszMSG);
 	void GD_SendCCFInfoAllServer(int nMinute, int nType);
 	void SendAllMemberOfCCF(int index);
-	void MakeChaosCastleRewardWing(int iUserIndex);
+	void MakeChaosCastleRewardWing(CGameObject &Obj);
 	bool IsRealFinalDayEnd();
 	void SetOpenTodaySchedule();
-	void SetUBFGetReward(int iUserIndex, WORD wItemCode, UINT64 ItemSerial, BYTE btItemPos);
-	void GDReqSetCCFReward_UBF(int iUserIndex, BYTE btCCFType, BYTE btRewardType);
+	void SetUBFGetReward(CGameObject &Obj, WORD wItemCode, UINT64 ItemSerial, BYTE btItemPos);
+	void GDReqSetCCFReward_UBF(CGameObject &Obj, BYTE btCCFType, BYTE btRewardType);
 
 	int m_nCCF_MinUserCount;
 	int m_nCCF_Level;

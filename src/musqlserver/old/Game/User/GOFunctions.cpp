@@ -1194,7 +1194,7 @@ void gObjCharZeroSet(CGameObject &Obj)
 
 		for (int i = 0; i < 2; i++)
 		{
-			Obj.m_MuunEffectList[i].Clear();
+			Obj.m_MuunEffectList[i]->Clear();
 		}
 
 		Obj.bMuunInventoryLoad = false;
@@ -10694,7 +10694,7 @@ void gPlusItemNumber()
 	gItemNumberCount++;
 }
 
-BYTE gObjInventoryInsertItem(CGameObject &Obj, CItemObject item)
+BYTE gObjInventoryInsertItem(CGameObject &Obj, CItemObject &item)
 {
 	int w, h, iwidth, iheight;
 	BYTE blank = 0;
@@ -13050,7 +13050,7 @@ BYTE gObjInventoryMoveItem(CGameObject &Obj, BYTE source, BYTE target, int& durS
 				return -1;
 			}
 
-			titem = &Obj.m_PlayerData->pPentagramMixBox[target];
+			titem = Obj.m_PlayerData->pPentagramMixBox[target];
 			break;
 		default: return -1;
 		}
@@ -14642,13 +14642,13 @@ void gObjTradeCancel(CGameObject &Obj)
 
 	gObjInventoryRollback(Obj);
 	g_MixSystem.ChaosBoxInit(Obj);
-	g_PentagramMixSystem.PentagramMixBoxInit(&lpObj);
+	g_PentagramMixSystem.PentagramMixBoxInit(&Obj);
 	Obj.TargetNumber = -1;
 	Obj.m_IfState->use = 0;
 	Obj.m_IfState->state = 0; //season4.5 add-on
 	gObjCharTradeClear(Obj);
 	gGameProtocol.GCMoneySend(Obj, Obj.m_PlayerData->Money);
-	GCItemObjectListSend(&lpObj);
+	GCItemObjectListSend(&Obj);
 	gGameProtocol.GCEventInventoryItemListSend(Obj);
 	gGameProtocol.GCEquipmentSend(Obj);
 	g_PeriodItemEx.OnRequestPeriodItemList(Obj);
@@ -14786,9 +14786,9 @@ BOOL TradeItemInventoryPutTest(CGameObject &Obj)
 	{
 		if (target->Trade[n].IsItem() == 1)
 		{
-			if (IsEventItem(target->Trade[n].m_Type))
+			if (IsEventItem(target->Trade[n]))
 			{
-				if (gObjTempEventInventoryInsertItem(Obj, *target, TempEventInventoryMap) == 255)
+				if (gObjTempEventInventoryInsertItem(Obj, target->Trade[n], TempEventInventoryMap) == 255)
 				{
 					return false;
 				}
@@ -14796,7 +14796,7 @@ BOOL TradeItemInventoryPutTest(CGameObject &Obj)
 
 			else
 			{
-				if (gObjTempInventoryInsertItem(Obj, *target, TempInventoryMap) == 255)
+				if (gObjTempInventoryInsertItem(Obj, target->Trade[n], TempInventoryMap) == 255)
 				{
 					return false;
 				}
@@ -14841,7 +14841,7 @@ BOOL TradeitemInventoryPut(CGameObject &Obj)
 				target->Trade[n].m_Durability -= 1.0;
 			}
 
-			if (IsEventItem(target->Trade[n]->m_Type))
+			if (IsEventItem(target->Trade[n]))
 			{
 				insert = gObjEventInventoryInsertItem(Obj, target->Trade[n]);
 			}
@@ -16352,12 +16352,12 @@ void gObjViewportAllDel(CGameObject &Obj)
 	{
 		if (Obj.VpPlayer[n].state == 1 || Obj.VpPlayer[n].state == 2)
 		{
-			Viewport2Del(*gGameObjects[Obj.VpPlayer[n]->number], Obj.m_Index);
+			Viewport2Del(*Obj.VpPlayer[n].user, Obj.m_Index);
 		}
 
 		if (Obj.VpPlayer2[n].state == 1 || Obj.VpPlayer2[n].state == 2)
 		{
-			ViewportDel(*gGameObjects[Obj.VpPlayer2[n]->number], Obj.m_Index);
+			ViewportDel(*Obj.VpPlayer2[n].user, Obj.m_Index);
 		}
 	}
 }
@@ -22260,7 +22260,7 @@ int gObjGuildWarItemGive(GUILD_INFO_STRUCT * lpWinGuild, GUILD_INFO_STRUCT * lpL
 
 		if (Obj.pInventory[number].IsItem() == 1)
 		{
-			if (gObjInventoryInsertItem(win_user, lpObj->pInventory[number]) != 0xFF)
+			if (gObjInventoryInsertItem(win_user, Obj->pInventory[number]) != 0xFF)
 			{
 				return true;
 			}
@@ -22274,9 +22274,9 @@ int gObjGuildWarItemGive(GUILD_INFO_STRUCT * lpWinGuild, GUILD_INFO_STRUCT * lpL
 	{
 		number = rand() % 64 + 12;
 
-		if (Obj.pInventory[number].IsItem() == 1)
+		if (Obj.pInventory[number]->IsItem() == 1)
 		{
-			if (gObjInventoryInsertItem(win_user, lpObj->pInventory[number]) != 0xFF)
+			if (gObjInventoryInsertItem(win_user, Obj.pInventory[number]) != 0xFF)
 			{
 				return true;
 			}
@@ -24820,11 +24820,11 @@ void gObjNotifyUpdateUnionV2(CGameObject &Obj)
 	{
 		if (Obj.VpPlayer2[n].type == OBJ_USER && Obj.VpPlayer2[n].state != 0)
 		{
-			CGameObject lpTargetObj = *gGameObjects[Obj.VpPlayer2[n]->number];
+			CGameObject *lpTargetObj = Obj.VpPlayer2[n].user;
 
-			if (lpTargetObj.m_PlayerData->lpGuild != 0)
+			if (lpTargetObj->m_PlayerData->lpGuild != 0)
 			{
-				lpMsgBody2->btGuildRelationShip = gObjGetRelationShip(lpTargetObj, lpObj);
+				lpMsgBody2->btGuildRelationShip = gObjGetRelationShip(*lpTargetObj, lpObj);
 			}
 
 			if (lpMsgBody2->btGuildRelationShip != 1)
@@ -25447,15 +25447,15 @@ void gObjShieldAutoRefill(CGameObject &Obj)
 	gGameProtocol.GCReFillSend(Obj, Obj.Life, -1, 0, Obj.iShield);
 }
 
-int gObjCheckOverlapItemUsingDur(int iUserIndex, int iMaxOverlapped, int iItemType, int iItemLevel)
+int gObjCheckOverlapItemUsingDur(CGameObject &Obj, int iMaxOverlapped, int iItemType, int iItemLevel)
 {
 	for (int x = INVETORY_WEAR_SIZE; x < MAIN_INVENTORY_SIZE; x++)
 	{
-		if (gGameObjects[iUserIndex]->pInventory[x]->IsItem() == 1
-			&& gGameObjects[iUserIndex]->pInventory[x]->m_Type == (short)iItemType
-			&& gGameObjects[iUserIndex]->pInventory[x]->m_Level == (short)iItemLevel)
+		if (Obj.pInventory[x].IsItem() == 1
+			&& Obj.pInventory[x].m_Type == (short)iItemType
+			&& Obj.pInventory[x].m_Level == (short)iItemLevel)
 		{
-			int iITEM_DUR = gGameObjects[iUserIndex]->pInventory[x]->m_Durability;
+			int iITEM_DUR = Obj.pInventory[x].m_Durability;
 
 			if ((((iITEM_DUR) < 0) ? FALSE : ((iITEM_DUR) > iMaxOverlapped - 1) ? FALSE : TRUE))
 			{
@@ -25467,19 +25467,19 @@ int gObjCheckOverlapItemUsingDur(int iUserIndex, int iMaxOverlapped, int iItemTy
 	return -1;
 }
 
-int gObjOverlapItemUsingDur(class CItemObject* lpItem, int iMapNumber, int iItemNumber, int iUserIndex, int iMaxOverlapped, int iItemType, int iItemLevel)
+int gObjOverlapItemUsingDur(CItemObject &Item, int iMapNumber, int iItemNumber, CGameObject &Obj, int iMaxOverlapped, int iItemType, int iItemLevel)
 {
 	for (int iLoop = 0; iLoop < MAIN_INVENTORY_SIZE; iLoop++)
 	{
-		int iInventoryIndex = gObjCheckOverlapItemUsingDur(iUserIndex, iMaxOverlapped, iItemType, iItemLevel);
+		int iInventoryIndex = gObjCheckOverlapItemUsingDur(Obj, iMaxOverlapped, iItemType, iItemLevel);
 
 		if (MAIN_INVENTORY_RANGE(iInventoryIndex))
 		{
-			int iItemDur = gGameObjects[iUserIndex]->pInventory[iInventoryIndex]->m_Durability + lpItem->m_Durability;
+			int iItemDur = Obj.pInventory[iInventoryIndex].m_Durability + Item.m_Durability;
 
 			if (iItemDur <= iMaxOverlapped)
 			{
-				if (MapC[iMapNumber].ItemGive(*gGameObjects[iUserIndex], iItemNumber, 1) == 1)
+				if (MapC[iMapNumber].ItemGive(Obj, Item.m_Number, 1) == 1)
 				{
 					return iInventoryIndex;
 				}
@@ -25487,10 +25487,10 @@ int gObjOverlapItemUsingDur(class CItemObject* lpItem, int iMapNumber, int iItem
 
 			else
 			{
-				lpItem->m_Durability = iItemDur - iMaxOverlapped;
-				gGameObjects[iUserIndex]->pInventory[iInventoryIndex]->m_Durability = iMaxOverlapped;
+				Item.m_Durability = iItemDur - iMaxOverlapped;
+				Obj.pInventory[iInventoryIndex].m_Durability = iMaxOverlapped;
 
-				gGameProtocol.GCItemObjectDurSend(*gGameObjects[iUserIndex], iInventoryIndex, gGameObjects[iUserIndex]->pInventory[iInventoryIndex]->m_Durability, 0);
+				gGameProtocol.GCItemObjectDurSend(Obj, iInventoryIndex, Obj.pInventory[iInventoryIndex].m_Durability, 0);
 			}
 		}
 
@@ -25503,15 +25503,15 @@ int gObjOverlapItemUsingDur(class CItemObject* lpItem, int iMapNumber, int iItem
 	return -1;
 }
 
-int gObjCheckOverlapEventItemUsingDur(int iUserIndex, int iMaxOverlapped, int iItemType, int iItemLevel)
+int gObjCheckOverlapEventItemUsingDur(CGameObject &Obj, int iMaxOverlapped, int iItemType, int iItemLevel)
 {
 	for (int x = 0; x < EVENT_INVENTORY_SIZE; x++)
 	{
-		if (gGameObjects[iUserIndex]->pEventInventory[x]->IsItem() == 1
-			&& gGameObjects[iUserIndex]->pEventInventory[x]->m_Type == (short)iItemType
-			&& gGameObjects[iUserIndex]->pEventInventory[x]->m_Level == (short)iItemLevel)
+		if (Obj.pEventInventory[x].IsItem() == 1
+			&& Obj.pEventInventory[x].m_Type == (short)iItemType
+			&& Obj.pEventInventory[x].m_Level == (short)iItemLevel)
 		{
-			int iITEM_DUR = gGameObjects[iUserIndex]->pEventInventory[x]->m_Durability;
+			int iITEM_DUR = Obj.pEventInventory[x].m_Durability;
 
 			if ((((iITEM_DUR) < 0) ? FALSE : ((iITEM_DUR) > iMaxOverlapped - 1) ? FALSE : TRUE))
 			{
@@ -25544,9 +25544,9 @@ int gObjOverlapEventItemUsingDur(class CItemObject* lpItem, int iMapNumber, int 
 			else
 			{
 				lpItem->m_Durability = iItemDur - iMaxOverlapped;
-				Obj.pEventInventory[iInventoryIndex]->m_Durability = iMaxOverlapped;
+				Obj.pEventInventory[iInventoryIndex].m_Durability = iMaxOverlapped;
 
-				gGameProtocol.GCEventItemDurSend(Obj, iInventoryIndex, Obj->pEventInventory[iInventoryIndex]->m_Durability);
+				gGameProtocol.GCEventItemDurSend(Obj, iInventoryIndex, Obj.pEventInventory[iInventoryIndex].m_Durability);
 			}
 		}
 
@@ -26056,7 +26056,7 @@ BYTE gObjPentagramMixBoxRectCheck(CGameObject &Obj, int sx, int sy, int width, i
 BYTE gObjPentagramMixBoxDeleteItem(CGameObject &Obj, int itempos)
 {
 	gObjPentagramMixItemSet(Obj, itempos, -1);
-	Obj.m_PlayerData->pPentagramMixBox[itempos].Clear();
+	Obj.m_PlayerData->pPentagramMixBox[itempos]->Clear();
 	return TRUE;
 }
 
@@ -26741,7 +26741,7 @@ BYTE gObjMuunInventoryInsertItem(CGameObject &Obj, CMapItem *item)
 
 BYTE gObjMuunInventoryDeleteItem(CGameObject &Obj, int itempos)
 {
-	g_CMuunSystem.ClearPeriodMuunItemData(Obj, Obj.pMuunInventory[itempos]->m_Type, Obj.pMuunInventory[itempos]->m_Number);
+	g_CMuunSystem.ClearPeriodMuunItemData(Obj, Obj.pMuunInventory[itempos].m_Type, Obj.pMuunInventory[itempos].m_Number);
 	Obj.pMuunInventory[itempos].Clear();
 	return 1;
 }

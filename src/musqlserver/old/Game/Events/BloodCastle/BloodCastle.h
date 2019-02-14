@@ -196,7 +196,7 @@ public:
 	void SetBossMonster(int iBridgeIndex);
 	void SetSaintStatue(int iBridgeIndex);
 	//void __thiscall LoadBossMonster(int, int, int, int, int, int, int, int);
-	int LeaveUserBridge(int iBridgeIndex, int iBridgeSubIndex, int iUserIndex);
+	int LeaveUserBridge(int iBridgeIndex, int iBridgeSubIndex, CGameObject &Obj);
 	int EnterUserBridge(int iBridgeIndex, CGameObject &Obj);
 	int LevelUp(CGameObject &Obj, int iAddExp);
 	void CheckUsersOnConnect(int iBridgeIndex);

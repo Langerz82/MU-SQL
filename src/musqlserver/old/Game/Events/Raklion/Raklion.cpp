@@ -556,7 +556,7 @@ void CRaklion::CheckUserOnRaklionBossMap()
 	}
 }
 
-int CRaklion::CheckEnterRaklion(int iUserIndex)
+int CRaklion::CheckEnterRaklion(CGameObject &Obj)
 {
 	if( !gObjIsConnected(iUserIndex) )	return -1;
 
@@ -573,7 +573,7 @@ int CRaklion::CheckEnterRaklion(int iUserIndex)
 	return 0;
 }
 
-void CRaklion::OperateGmCommand(int iUserIndex, int iCommand)
+void CRaklion::OperateGmCommand(CGameObject &Obj, int iCommand)
 {
 	return;
 }

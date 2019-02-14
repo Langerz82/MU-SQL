@@ -111,7 +111,7 @@ int CCrywolfAltar::GetAlatarNumber(int iClass)
 
 int CCrywolfAltar::GetAltarUserIndex(int iClass)
 {
-	int iUserIndex = -1;
+	CGameObject &Obj = -1;
 
 	switch ( iClass )
 	{
@@ -171,7 +171,7 @@ BOOL CCrywolfAltar::CheckAltarValidContract(int iClass)
 }
 
 
-BOOL CCrywolfAltar::SetAltarUserIndex(int iAltarObjIndex, int iClass, int iUserIndex)
+BOOL CCrywolfAltar::SetAltarUserIndex(int iAltarObjIndex, int iClass, CGameObject &Obj)
 {
 	int iAltarNumber = this->GetAlatarNumber(iClass);
 	CCrywolfAltarInfo * AltarInfo = &this->m_AltarInfo[iAltarNumber];
@@ -394,7 +394,7 @@ void CCrywolfAltar::CrywolfAltarAct(CGameObject &Obj)
 	if ( Obj.Type != OBJ_NPC || CRYWOLF_ALTAR_CLASS_RANGE(Obj.Class) == FALSE )
 		return;
 
-	int iUserIndex = this->GetAltarUserIndex(Obj.Class);
+	CGameObject &Obj = this->GetAltarUserIndex(Obj.Class);
 
 	if ( gObjIsConnected(iUserIndex) == FALSE )
 	{

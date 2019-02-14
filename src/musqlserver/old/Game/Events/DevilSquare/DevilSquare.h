@@ -73,12 +73,12 @@ public:
 	void CalcScore();
 	void SetClose();
 	int GetDevilSquareIndex(int iGateNumber);
-	int GetUserLevelToEnter(int iUserIndex, WORD& btMoveGate);
-	BOOL AddUser(BYTE cSquareNumber, int iUserIndex);
-	BOOL DelUser(BYTE cSquareNumber, int iUserIndex);
+	int GetUserLevelToEnter(CGameObject &Obj, WORD& btMoveGate);
+	BOOL AddUser(BYTE cSquareNumber, CGameObject &Obj);
+	BOOL DelUser(BYTE cSquareNumber, CGameObject &Obj);
 	BOOL ChangeUserIndex(int iOldIndex, int iNewIndex, BYTE cSquareNumber);
 	int GetPlayUserCountRightNow(BYTE cSquareNumber);
-	BOOL LeaveDevilSquare(BYTE cSquareNumber, int iUserIndex);
+	BOOL LeaveDevilSquare(BYTE cSquareNumber, CGameObject &Obj);
 	void IncObjCount(BYTE cSquareNumber);
 	int GetObjCount(BYTE cSquareNumber);
 

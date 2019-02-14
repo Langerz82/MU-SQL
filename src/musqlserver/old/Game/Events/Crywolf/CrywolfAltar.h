@@ -87,7 +87,7 @@ public:
 	BOOL CheckAltarValidContract(int iClass);
 	int GetAltarState(int iClass);
 	int GetAltarRemainContractCount(int iClass);
-	BOOL SetAltarUserIndex(int iAltarObjIndex, int iClass, int iUserIndex);
+	BOOL SetAltarUserIndex(int iAltarObjIndex, int iClass, CGameObject &Obj);
 	void ResetAltarUserIndex(int iAltarObjIndex, int iClass);
 	int GetAltarUserIndex(int iClass);
 	int GetContractedAltarCount();
