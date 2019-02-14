@@ -279,14 +279,14 @@ public:
 	short sHDCount;	// CA0
 	STR_INTERFACE_STATE* m_IfState;	// CA4
 	DWORD m_InterfaceTime;	// CA8
-	CItemObject* pInventory; // CAC
+	CItemObject** pInventory; // CAC
 	LPBYTE  pInventoryMap; // CB0
 	char * pInventoryCount;	// CB4
 	char pTransaction;	// CB8
-	CItemObject * Inventory1;	//CBC
+	CItemObject** Inventory1;	//CBC
 	LPBYTE  InventoryMap1;	// CC0
 	char InventoryCount1;	// CC4
-	CItemObject * Inventory2;	// CC8
+	CItemObject** Inventory2;	// CC8
 	LPBYTE InventoryMap2;	// CCC
 	char InventoryCount2;	// CD0
 	CItemObject * Trade; // CD4
