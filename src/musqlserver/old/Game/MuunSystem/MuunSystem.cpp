@@ -1834,7 +1834,7 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, CGa
 			}
 
 			gObjInventoryItemSet(Obj.m_Index, lpMsg->inventoryPos, -1);
-			Obj.pInventory[lpMsg->inventoryPos].Clear();
+			Obj.pInventory[lpMsg->inventoryPos]->Clear();
 			gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, lpMsg->inventoryPos, 1);
 			gGameProtocol.GCMuunItemDurSend(Obj.m_Index, lpMsg->invenrotyTarget, -1);
 			break;
@@ -2168,7 +2168,7 @@ bool CMuunSystem::MuunItemEnergyGenerator(CGameObject &Obj, int source, int targ
 		{
 			sLog->outBasic("[MuunSystem][EnergyGenerator] [%s][%s] [Mix Success] Source: [%s] Pos[%d] Rank[%d] Level[%d] Serial[%I64d] - Target: [%s] Pos[%d] Serial[%I64d] Dur[%d/%d/%d]",
 				Obj.AccountID, Obj.Name, pSItemAttribute->Name, source, Obj.pMuunInventory[source].m_Durability, Obj.pMuunInventory[source].m_Level, Obj.pMuunInventory[source].m_Number,
-				pTItemAttribute->Name, target, Obj.pInventory[target]->m_Number, Obj.pMuunInventory[target].m_Durability, nEnergy, nMuunDurability);
+				pTItemAttribute->Name, target, Obj.pInventory[target]->m_Number, Obj.pMuunInventory[target]->m_Durability, nEnergy, nMuunDurability);
 		}
 
 		Obj.pMuunInventory[target].m_Durability = nMuunDurability;
@@ -2184,7 +2184,7 @@ bool CMuunSystem::MuunItemEnergyGenerator(CGameObject &Obj, int source, int targ
 		{
 			sLog->outBasic("[MuunSystem][EnergyGenerator] [%s][%s] [Create Success] Source: [%s] Pos[%d] Rank[%d] Level[%d] Serial[%I64d] - Target: [%s] Pos[%d] Serial[%I64d] Dur[%d/%d/%d]",
 				Obj.AccountID, Obj.Name, pSItemAttribute->Name, source, Obj.pMuunInventory[source].m_Durability, Obj.pMuunInventory[source].m_Level, Obj.pMuunInventory[source].m_Number,
-				pTItemAttribute->Name, target, Obj.pInventory[target]->m_Number, Obj.pMuunInventory[target].m_Durability, nEnergy, nMuunDurability);
+				pTItemAttribute->Name, target, Obj.pInventory[target]->m_Number, Obj.pMuunInventory[target]->m_Durability, nEnergy, nMuunDurability);
 		}
 
 		int iType = ITEMGET(13,240);

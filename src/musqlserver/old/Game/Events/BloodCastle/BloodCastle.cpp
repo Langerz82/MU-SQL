@@ -1470,7 +1470,7 @@ int  CBloodCastle::CheckQuestItem(CGameObject &Obj)
 		{
 			if ( Obj.pInventory[x]->m_Type == ITEMGET(13,19) ) // Absolute Weapon of Archangel QUEST ITEM
 			{
-				if ( Obj.pInventory[x]->m_Number	== this->m_BridgeData[iBridgeIndex].m_nBC_QUESTITEM_SERIAL )
+				if ( Obj.pInventory[x]->m_Number	== this->m_BridgeData[iBridgeIndex]->m_nBC_QUESTITEM_SERIAL )
 				{
 					iITEM_LEVEL = Obj.pInventory[x]->m_Level;
 

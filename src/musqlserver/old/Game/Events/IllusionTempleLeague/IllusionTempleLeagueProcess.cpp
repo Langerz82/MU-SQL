@@ -1217,12 +1217,12 @@ void CIllusionTempleLeagueProcess::DeleteAllRelicsItem()
 
 			if (lpObj)
 			{
-				if (Obj.pInventory[this->m_UserData[i].m_nRelicsInvenPos].m_Type == ITEMGET(14, 223))
+				if (Obj.pInventory[this->m_UserData[i]->m_nRelicsInvenPos]->m_Type == ITEMGET(14, 223))
 				{
 					this->SendRelicsUserInfo(lpObj, 1);
 
 					sLog->outBasic("[ ITL ] (%d) (%s)(%s) to Delete All Relics Item [Serial:%I64d]",
-						this->m_nTempleNumber + 1, Obj.AccountID, Obj.Name, Obj.pInventory[this->m_UserData[i].m_nRelicsInvenPos].m_Number);
+						this->m_nTempleNumber + 1, Obj.AccountID, Obj.Name, Obj.pInventory[this->m_UserData[i]->m_nRelicsInvenPos]->m_Number);
 
 					gObjInventoryDeleteItem(this->m_UserData[i].m_nIndex, this->m_UserData[i].m_nRelicsInvenPos);
 					gGameProtocol.GCInventoryItemDeleteSend(this->m_UserData[i].m_nIndex, this->m_UserData[i].m_nRelicsInvenPos, 0);
@@ -1776,7 +1776,7 @@ void CIllusionTempleLeagueProcess::Check_RegisterRelics(CGameObject &Npc, CGameO
 	int nITL_USER_ARRAY = this->FindITLUser(Obj.m_Index);
 
 	if (this->m_UserData[nITL_USER_ARRAY].m_nRelicsInvenPos <= 0 ||
-		Obj.pInventory[this->m_UserData[nITL_USER_ARRAY].m_nRelicsInvenPos].m_Type != ITEMGET(14, 223))
+		Obj.pInventory[this->m_UserData[nITL_USER_ARRAY]->m_nRelicsInvenPos]->m_Type != ITEMGET(14, 223))
 	{
 		this->SendRelicsError(lpNpc, Obj.m_Index, 12, -1);
 		return;
@@ -1855,7 +1855,7 @@ void CIllusionTempleLeagueProcess::RegisterRelics(CGameObject &Npc, CGameObject 
 	}
 
 	if (this->m_UserData[nRegisterRelicsUserArray].m_nRelicsInvenPos > 0 &&
-		Obj.pInventory[this->m_UserData[nRegisterRelicsUserArray].m_nRelicsInvenPos].m_Type == ITEMGET(14, 223))
+		Obj.pInventory[this->m_UserData[nRegisterRelicsUserArray]->m_nRelicsInvenPos]->m_Type == ITEMGET(14, 223))
 	{
 		bool bFail = false;
 
@@ -1904,11 +1904,11 @@ void CIllusionTempleLeagueProcess::RegisterRelics(CGameObject &Npc, CGameObject 
 
 							if (this->m_UserData[nRegisterRelicsUserArray].m_nRelicsInvenPos > 0)
 							{
-								if (Obj.pInventory[this->m_UserData[nRegisterRelicsUserArray].m_nRelicsInvenPos].m_Type == ITEMGET(14, 223))
+								if (Obj.pInventory[this->m_UserData[nRegisterRelicsUserArray]->m_nRelicsInvenPos]->m_Type == ITEMGET(14, 223))
 								{
 									this->SendRelicsUserInfo(lpObj, 1);
 									sLog->outBasic("[ ITL ][RegisterRelics] (%d) (%s)(%s) to Delete Relics Item [Serial:%I64d]",
-										this->m_nTempleNumber + 1, Obj.AccountID, Obj.Name, Obj.pInventory[this->m_UserData[nRegisterRelicsUserArray].m_nRelicsInvenPos].m_Number);
+										this->m_nTempleNumber + 1, Obj.AccountID, Obj.Name, Obj.pInventory[this->m_UserData[nRegisterRelicsUserArray]->m_nRelicsInvenPos]->m_Number);
 
 									gObjInventoryDeleteItem(Obj.m_Index, this->m_UserData[nRegisterRelicsUserArray].m_nRelicsInvenPos);
 									gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, this->m_UserData[nRegisterRelicsUserArray].m_nRelicsInvenPos, 0);

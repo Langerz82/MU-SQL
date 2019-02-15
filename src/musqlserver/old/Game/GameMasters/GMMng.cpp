@@ -3871,9 +3871,9 @@ BOOL CGMMng::CheckTraceMarryCondition(CGameObject &Obj, CGameObject lpTargetObj)
 
 	if (lpTargetObj.MapNumber == MAP_INDEX_ICARUS)
 	{
-		if ((Obj.pInventory[Obj.m_btInvenPetPos].m_Type != ITEMGET(13, 3) &&
+		if ((Obj.pInventory[Obj.m_btInvenPetPos]->m_Type != ITEMGET(13, 3) &&
 			Obj.pInventory[7]->m_Type != ITEMGET(13, 30) &&
-			Obj.pInventory[Obj.m_btInvenPetPos].m_Type != ITEMGET(13, 37) &&
+			Obj.pInventory[Obj.m_btInvenPetPos]->m_Type != ITEMGET(13, 37) &&
 			Obj.pInventory[7]->m_Type != ITEMGET(12, 36) &&//Season 4.5 addon
 			Obj.pInventory[7]->m_Type != ITEMGET(12, 37) &&//Season 4.5 addon
 			Obj.pInventory[7]->m_Type != ITEMGET(12, 38) &&//Season 4.5 addon
@@ -3882,11 +3882,11 @@ BOOL CGMMng::CheckTraceMarryCondition(CGameObject &Obj, CGameObject lpTargetObj)
 			Obj.pInventory[7]->m_Type != ITEMGET(12, 41) &&//Season 4.5 addon
 			Obj.pInventory[7]->m_Type != ITEMGET(12, 42) &&//Season 4.5 addon
 			Obj.pInventory[7]->m_Type != ITEMGET(12, 43) &&//Season 4.5 addon
-			Obj.pInventory[Obj.m_btInvenPetPos].m_Type != ITEMGET(13, 4) &&//Season 4.5 addon
+			Obj.pInventory[Obj.m_btInvenPetPos]->m_Type != ITEMGET(13, 4) &&//Season 4.5 addon
 			!(Obj.pInventory[7]->m_Type >= ITEMGET(12, 262) && Obj.pInventory[7]->m_Type <= ITEMGET(12, 265)) &&
 			!(Obj.pInventory[7]->m_Type >= ITEMGET(12, 130) && Obj.pInventory[7]->m_Type <= ITEMGET(12, 135)) &&
 			(Obj.pInventory[7]->m_Type < ITEMGET(12, 0) || Obj.pInventory[7]->m_Type > ITEMGET(12, 6))) ||
-			Obj.pInventory[Obj.m_btInvenPetPos].m_Type == ITEMGET(13, 2) ||
+			Obj.pInventory[Obj.m_btInvenPetPos]->m_Type == ITEMGET(13, 2) ||
 			Obj.pInventory[11]->m_Type == ITEMGET(13, 10) || Obj.pInventory[10]->m_Type == ITEMGET(13, 10))
 		{
 			return FALSE;

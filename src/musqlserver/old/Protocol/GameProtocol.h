@@ -9,6 +9,7 @@
 //#include "ProtocolStructs.h"
 #include "Database/Query.h"
 
+#include <vector>
 
 struct CSP_ANS_GUILDREGINFO;
 struct CSP_ANS_GUILDREGMARK;
@@ -884,7 +885,7 @@ void JGCharacterCreateFailSend(CGameObject &Obj, char* id);
 void JGCharDelRequest(SDHP_CHARDELETERESULT* lpMsg);
 void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT* lpMsg);
 void GCItemObjectListSend(CGameObject &Obj);
-void GJSetCharacterInfo(CGameObject &Obj, CGameObject &ObjTarget, BOOL bMapServerMove);
+void GJSetCharacterInfo(CGameObject &Obj, BOOL bMapServerMove);
 void GDGetWarehouseList(CGameObject &Obj, char* AccountID);
 void DGGetWarehouseList(SDHP_GETWAREHOUSEDB_SAVE* lpMsg);
 void GDGetWarehouseNoItem(SDHP_GETWAREHOUSEDB_RESULT* lpMsg);

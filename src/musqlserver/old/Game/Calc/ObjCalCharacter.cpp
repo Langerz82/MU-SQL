@@ -1119,14 +1119,14 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 	Obj.m_Defense += Obj.pInventory[1]->ItemDefense();
 	Obj.m_Defense += Obj.pInventory[7]->ItemDefense();
 
-	if (Obj.m_btInvenPetPos != FALSE && Obj.pInventory[Obj.m_btInvenPetPos].m_JewelOfHarmonyOption == TRUE)
+	if (Obj.m_btInvenPetPos != FALSE && Obj.pInventory[Obj.m_btInvenPetPos]->m_JewelOfHarmonyOption == TRUE)
 	{
-		if (Obj.pInventory[Obj.m_btInvenPetPos].m_Type == ITEMGET(13, 4) && Obj.pInventory[Obj.m_btInvenPetPos].m_Durability > 0.0f)	// Dark Horse
+		if (Obj.pInventory[Obj.m_btInvenPetPos]->m_Type == ITEMGET(13, 4) && Obj.pInventory[Obj.m_btInvenPetPos]->m_Durability > 0.0f)	// Dark Horse
 		{
 			int addDefense = 0;
-			this->m_Lua.Generic_Call("CalcDarkHorseDefenseBonus", "ii>i", Dexterity, Obj.pInventory[Obj.m_btInvenPetPos].m_PetItem_Level, &addDefense);
+			this->m_Lua.Generic_Call("CalcDarkHorseDefenseBonus", "ii>i", Dexterity, Obj.pInventory[Obj.m_btInvenPetPos]->m_PetItem_Level, &addDefense);
 
-			//int addDefense = Dexterity / 20 + 5 + Obj.pInventory[Obj.m_btInvenPetPos].m_PetItem_Level * 2;
+			//int addDefense = Dexterity / 20 + 5 + Obj.pInventory[Obj.m_btInvenPetPos]->m_PetItem_Level * 2;
 			//addDefense = addDefense * g_ConfigRead.calc.DarkHorseDefenseMultiplier / 100.0f;
 
 			Obj.m_Defense += addDefense;
@@ -1383,7 +1383,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 		Obj.AddLife += g_ConfigRead.pet.AngelAddHP;
 	}
 
-	if (Obj.pInventory[Obj.m_btInvenPetPos].m_Type == ITEMGET(13, 37) && Obj.pInventory[Obj.m_btInvenPetPos].m_NewOption == 4 && Obj.pInventory[Obj.m_btInvenPetPos].m_Durability > 0.0f && Obj.pInventory[Obj.m_btInvenPetPos].m_JewelOfHarmonyOption == TRUE) //Golden Fenrir Attribute
+	if (Obj.pInventory[Obj.m_btInvenPetPos]->m_Type == ITEMGET(13, 37) && Obj.pInventory[Obj.m_btInvenPetPos]->m_NewOption == 4 && Obj.pInventory[Obj.m_btInvenPetPos]->m_Durability > 0.0f && Obj.pInventory[Obj.m_btInvenPetPos]->m_JewelOfHarmonyOption == TRUE) //Golden Fenrir Attribute
 	{
 		Obj.AddLife += 200;	//Life +200
 		Obj.AddMana += 200;	//Mana +200
@@ -1400,9 +1400,9 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 		Obj.m_MagicDamageMax += Obj.m_MagicDamageMax * 16 / 100; //Wizardry +16
 	}
 
-	if (Obj.pInventory[Obj.m_btInvenPetPos].m_Type == ITEMGET(13, 3) && Obj.pInventory[Obj.m_btInvenPetPos].m_Durability > 0.0 && Obj.pInventory[Obj.m_btInvenPetPos].m_JewelOfHarmonyOption == TRUE)
+	if (Obj.pInventory[Obj.m_btInvenPetPos]->m_Type == ITEMGET(13, 3) && Obj.pInventory[Obj.m_btInvenPetPos]->m_Durability > 0.0 && Obj.pInventory[Obj.m_btInvenPetPos]->m_JewelOfHarmonyOption == TRUE)
 	{
-		Obj.pInventory[Obj.m_btInvenPetPos].PlusSpecial(&Obj.AddBP, 103);
+		Obj.pInventory[Obj.m_btInvenPetPos]->PlusSpecial(&Obj.AddBP, 103);
 	}
 
 	if (Obj.Type == OBJ_USER && Obj.m_PlayerData->ISBOT == false)
@@ -2503,7 +2503,7 @@ void CObjCalCharacter::CalcMLSkillItemOption(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDarkHorseDefense > 0.0 && Obj.pInventory[Obj.m_btInvenPetPos].m_Type == ITEMGET(13, 4))
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDarkHorseDefense > 0.0 && Obj.pInventory[Obj.m_btInvenPetPos]->m_Type == ITEMGET(13, 4))
 	{
 		Obj.m_Defense += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDarkHorseDefense;
 	}

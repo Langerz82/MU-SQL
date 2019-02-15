@@ -4884,7 +4884,7 @@ void gObjSetInventory2Pointer(CGameObject &Obj)
 	Obj.pInventoryCount = &Obj.InventoryCount2;
 }
 
-void gObjAddMsgSend(CGameObject &Obj, int aMsgCode, CGameObject &Obj, int  SubCode)
+void gObjAddMsgSend(CGameObject &Obj, int aMsgCode, CGameObject &ObjTarget, int  SubCode)
 {
 	for (int n = 0; n < MAX_MONSTER_SEND_MSG; n++)
 	{
@@ -4947,7 +4947,7 @@ void gObjAddMsgSendDelay(CGameObject &Obj, int aMsgCode, CGameObject &ObjTarget,
 
 
 
-void gObjAddMsgSendDelayInSpecificQPos(CGameObject &Obj, int aMsgCode, CGameObject &Obj, int delay, int SubCode, int iQPosition)
+void gObjAddMsgSendDelayInSpecificQPos(CGameObject &Obj, int aMsgCode, CGameObject &ObjTarget, int delay, int SubCode, int iQPosition)
 {
 	if (iQPosition >= 0 && iQPosition < MAX_MONSTER_SEND_MSG)
 	{
@@ -4962,7 +4962,7 @@ void gObjAddMsgSendDelayInSpecificQPos(CGameObject &Obj, int aMsgCode, CGameObje
 
 
 
-void gObjAddAttackProcMsgSendDelay(CGameObject &Obj, int aMsgCode, CGameObject &Obj, int delay, int SubCode, int SubCode2)
+void gObjAddAttackProcMsgSendDelay(CGameObject &Obj, int aMsgCode, CGameObject &ObjTarget, int delay, int SubCode, int SubCode2)
 {
 	for (int n = 0; n < MAX_MONSTER_SEND_ATTACK_MSG; n++)
 	{
@@ -5148,7 +5148,7 @@ void gObjStateProc(CGameObject &Obj, int aMsgCode, CGameObject &ObjTarget, int S
 
 
 
-void gObjStateAttackProc(CGameObject &Obj, int aMsgCode, CGameObject &Obj, int SubCode, int SubCode2)
+void gObjStateAttackProc(CGameObject &Obj, int aMsgCode, CGameObject &ObjTarget, int SubCode, int SubCode2)
 {
 	switch (aMsgCode)
 	{
@@ -10631,7 +10631,7 @@ BYTE gObjInventoryInsertItem(CGameObject &Obj, int item_num)
 				if (blank != 255)
 				{
 					// TODO
-					//Obj.pInventory[blank] = MapC[map_num].m_CItemObject[item_num];
+					//Obj.pInventory[blank] = MapC[map_num]->m_CItemObject[item_num];
 					gObjInventoryItemSet(Obj, blank, Obj.pInventory[blank]->m_Type);
 					return blank;
 				}

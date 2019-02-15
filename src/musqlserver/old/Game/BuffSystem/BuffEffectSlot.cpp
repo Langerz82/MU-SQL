@@ -1317,8 +1317,8 @@ void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefa
 
 	int iPremiumExp = GetPremiumExp(nAddExp);
 
-	if (Obj.m_btInvenPetPos != 0 && Obj.pInventory[Obj.m_btInvenPetPos].IsItem() == TRUE && 
-		Obj.pInventory[Obj.m_btInvenPetPos].m_Type == ITEMGET(13, 37) && Obj.pInventory[Obj.m_btInvenPetPos].m_Durability > 0.0)
+	if (Obj.m_btInvenPetPos != 0 && Obj.pInventory[Obj.m_btInvenPetPos]->IsItem() == TRUE && 
+		Obj.pInventory[Obj.m_btInvenPetPos]->m_Type == ITEMGET(13, 37) && Obj.pInventory[Obj.m_btInvenPetPos]->m_Durability > 0.0)
 	{
 		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCS_MARK3) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCBANG_POINT_MARK3))
 		{
@@ -1327,9 +1327,9 @@ void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefa
 
 		else if (!bRewardExp)
 		{
-			if (Obj.pInventory[Obj.m_btInvenPetPos].IsFenrirAddExp() > 0)
+			if (Obj.pInventory[Obj.m_btInvenPetPos]->IsFenrirAddExp() > 0)
 			{
-				nAddExp += Obj.pInventory[Obj.m_btInvenPetPos].IsFenrirAddExp();
+				nAddExp += Obj.pInventory[Obj.m_btInvenPetPos]->IsFenrirAddExp();
 			}
 		}
 	}

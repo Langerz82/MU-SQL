@@ -429,7 +429,7 @@ BOOL CWeapon::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf * lpMa
 
 	if (lpTargetObj.Type == OBJ_USER)
 	{
-		if (lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos].IsItem() == TRUE && lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos].m_Type == ITEMGET(13,37))
+		if (lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos]->IsItem() == TRUE && lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos]->m_Type == ITEMGET(13,37))
 		{
 			if (g_ConfigRead.data.common.DisableMSBEffect[MSB_DISABLE_CHARACTER_FENRIR] == true)
 			{

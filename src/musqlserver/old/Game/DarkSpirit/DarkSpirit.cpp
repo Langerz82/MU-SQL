@@ -1163,27 +1163,27 @@ BOOL CDarkSpirit::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf * l
 	{
 		int idamage = AttackDamage * 2 / 100;
 
-		Obj.pInventory[Obj.m_btInvenPetPos].m_DurabilitySmall += idamage - (idamage * Obj.m_PlayerData->m_MPSkillOpt.iMpsPetDurDownSpeed / 100);
+		Obj.pInventory[Obj.m_btInvenPetPos]->m_DurabilitySmall += idamage - (idamage * Obj.m_PlayerData->m_MPSkillOpt.iMpsPetDurDownSpeed / 100);
 		int DurabilityVal = 65000;
 
-		if (Obj.pInventory[Obj.m_btInvenPetPos].m_DurabilitySmall >= DurabilityVal)
+		if (Obj.pInventory[Obj.m_btInvenPetPos]->m_DurabilitySmall >= DurabilityVal)
 		{
-			Obj.pInventory[Obj.m_btInvenPetPos].m_DurabilitySmall = 0;
-			Obj.pInventory[Obj.m_btInvenPetPos].m_Durability -= 1.0f;
+			Obj.pInventory[Obj.m_btInvenPetPos]->m_DurabilitySmall = 0;
+			Obj.pInventory[Obj.m_btInvenPetPos]->m_Durability -= 1.0f;
 
-			if (Obj.pInventory[Obj.m_btInvenPetPos].m_Durability < 1.0f)
+			if (Obj.pInventory[Obj.m_btInvenPetPos]->m_Durability < 1.0f)
 			{
-				Obj.pInventory[Obj.m_btInvenPetPos].m_Durability = 0;
-				UINT64 iPetExp = Obj.pInventory[Obj.m_btInvenPetPos].m_PetItem_Exp;
+				Obj.pInventory[Obj.m_btInvenPetPos]->m_Durability = 0;
+				UINT64 iPetExp = Obj.pInventory[Obj.m_btInvenPetPos]->m_PetItem_Exp;
 
-				if (Obj.pInventory[Obj.m_btInvenPetPos].DecPetItemExp(10))
+				if (Obj.pInventory[Obj.m_btInvenPetPos]->DecPetItemExp(10))
 				{
 					this->Set(Obj.m_Index, &Obj.pInventory[Obj.m_btInvenPetPos]);
 					this->SendLevelmsg(Obj.m_Index, Obj.m_btInvenPetPos, 0, 0xFF);
 				}
 			}
 
-			gGameProtocol.GCItemObjectDurSend(Obj.m_Index, Obj.m_btInvenPetPos, Obj.pInventory[Obj.m_btInvenPetPos].m_Durability, 0);
+			gGameProtocol.GCItemObjectDurSend(Obj.m_Index, Obj.m_btInvenPetPos, Obj.pInventory[Obj.m_btInvenPetPos]->m_Durability, 0);
 		}
 	}
 
@@ -1532,7 +1532,7 @@ BOOL CDarkSpirit::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf * l
 
 	if (lpTargetObj.Type == OBJ_USER)
 	{
-		if (lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos].IsItem() == TRUE && lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos].m_Type == ITEMGET(13,37))
+		if (lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos]->IsItem() == TRUE && lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos]->m_Type == ITEMGET(13,37))
 		{
 			if (g_ConfigRead.data.common.DisableMSBEffect[MSB_DISABLE_CHARACTER_FENRIR] == true)
 			{

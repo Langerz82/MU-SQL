@@ -927,7 +927,7 @@ void CItemObjectOptionTypeMng::CalcExcOptionEffect(CGameObject &Obj)
 					{
 						for (int k = 0; k < 5; k++)
 						{
-							if (Obj.pInventory[i]->m_SocketOption[k] == this->m_CommonExtOptionType[j].OptionNumber)
+							if (Obj.pInventory[i]->m_SocketOption[k] == this->m_CommonExtOptionType[j]->OptionNumber)
 							{
 								bOptionExist = true;
 								break;
@@ -936,7 +936,7 @@ void CItemObjectOptionTypeMng::CalcExcOptionEffect(CGameObject &Obj)
 					}
 					else
 					{
-						if ((Obj.pInventory[i]->m_NewOption & (1 << (5 - this->m_CommonExtOptionType[j].OptionNumber))) == (1 << (5 - this->m_CommonExtOptionType[j].OptionNumber)))
+						if ((Obj.pInventory[i]->m_NewOption & (1 << (5 - this->m_CommonExtOptionType[j]->OptionNumber))) == (1 << (5 - this->m_CommonExtOptionType[j]->OptionNumber)))
 						{
 							bOptionExist = true;
 						}
@@ -1010,7 +1010,7 @@ void CItemObjectOptionTypeMng::CalcWingOptionEffect(CGameObject &Obj)
 				{
 					for (int k = 0; k < 5; k++)
 					{
-						if (Obj.pInventory[7]->m_SocketOption[k] == this->m_WingExtOptionType[i].OptionNumber)
+						if (Obj.pInventory[7]->m_SocketOption[k] == this->m_WingExtOptionType[i]->OptionNumber)
 						{
 							bOptionExist = true;
 							break;
@@ -1020,7 +1020,7 @@ void CItemObjectOptionTypeMng::CalcWingOptionEffect(CGameObject &Obj)
 
 				else
 				{
-					if ((Obj.pInventory[7]->m_NewOption & (1 << (5 - this->m_WingExtOptionType[i].OptionNumber))) == (1 << (5 - this->m_WingExtOptionType[i].OptionNumber)))
+					if ((Obj.pInventory[7]->m_NewOption & (1 << (5 - this->m_WingExtOptionType[i]->OptionNumber))) == (1 << (5 - this->m_WingExtOptionType[i]->OptionNumber)))
 					{
 						bOptionExist = true;
 					}

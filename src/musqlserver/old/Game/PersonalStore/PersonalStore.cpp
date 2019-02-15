@@ -1563,14 +1563,14 @@ void CPersonalStore::GDAnsPShopItemValue(PMSG_ANS_PSHOPITEMVALUE_INFO *lpMsg)
 
 	for (int i = 0; i < iItemCnt; i++)
 	{
-		if (lpMsg->PShopItemValueInfo[i].nPShopItemInvenNum >= 204 && Obj.pInventory[lpMsg->PShopItemValueInfo[i].nPShopItemInvenNum].IsItem() == TRUE)
+		if (lpMsg->PShopItemValueInfo[i].nPShopItemInvenNum >= 204 && Obj.pInventory[lpMsg->PShopItemValueInfo[i]->nPShopItemInvenNum]->IsItem() == TRUE)
 		{
-			if (Obj.pInventory[lpMsg->PShopItemValueInfo[i].nPShopItemInvenNum].m_Number == lpMsg->PShopItemValueInfo[i].ItemSerial)
+			if (Obj.pInventory[lpMsg->PShopItemValueInfo[i]->nPShopItemInvenNum]->m_Number == lpMsg->PShopItemValueInfo[i]->ItemSerial)
 			{
-				Obj.pInventory[lpMsg->PShopItemValueInfo[i].nPShopItemInvenNum].m_iPShopValue = lpMsg->PShopItemValueInfo[i].nMoney;
-				Obj.pInventory[lpMsg->PShopItemValueInfo[i].nPShopItemInvenNum].m_wPShopBlessValue = lpMsg->PShopItemValueInfo[i].sBlessJewelValue;
-				Obj.pInventory[lpMsg->PShopItemValueInfo[i].nPShopItemInvenNum].m_wPShopSoulValue = lpMsg->PShopItemValueInfo[i].sSoulJewelValue;
-				Obj.pInventory[lpMsg->PShopItemValueInfo[i].nPShopItemInvenNum].m_wPShopChaosValue = lpMsg->PShopItemValueInfo[i].sChaosJewelValue;
+				Obj.pInventory[lpMsg->PShopItemValueInfo[i]->nPShopItemInvenNum]->m_iPShopValue = lpMsg->PShopItemValueInfo[i]->nMoney;
+				Obj.pInventory[lpMsg->PShopItemValueInfo[i]->nPShopItemInvenNum]->m_wPShopBlessValue = lpMsg->PShopItemValueInfo[i]->sBlessJewelValue;
+				Obj.pInventory[lpMsg->PShopItemValueInfo[i]->nPShopItemInvenNum]->m_wPShopSoulValue = lpMsg->PShopItemValueInfo[i]->sSoulJewelValue;
+				Obj.pInventory[lpMsg->PShopItemValueInfo[i]->nPShopItemInvenNum]->m_wPShopChaosValue = lpMsg->PShopItemValueInfo[i]->sChaosJewelValue;
 			}
 		}
 	}

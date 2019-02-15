@@ -1313,9 +1313,9 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 				break;
 
 			case 47:
-				if (Obj.pInventory[Obj.m_btInvenPetPos].m_Type == ITEMGET(13, 3) ||
-					Obj.pInventory[Obj.m_btInvenPetPos].m_Type == ITEMGET(13, 2) ||
-					Obj.pInventory[Obj.m_btInvenPetPos].m_Type == ITEMGET(13, 37))
+				if (Obj.pInventory[Obj.m_btInvenPetPos]->m_Type == ITEMGET(13, 3) ||
+					Obj.pInventory[Obj.m_btInvenPetPos]->m_Type == ITEMGET(13, 2) ||
+					Obj.pInventory[Obj.m_btInvenPetPos]->m_Type == ITEMGET(13, 37))
 				{
 					gObjUseSkill.m_Lua.Generic_Call("ImpaleSkillCalc", "iii>i", Obj.Class, AttackDamage, Energy, &AttackDamage);
 				}
@@ -2497,7 +2497,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 
 			if (skill == 0)
 			{
-				if (Obj.pInventory[Obj.m_btInvenPetPos].m_Type == ITEMGET(13, 3))
+				if (Obj.pInventory[Obj.m_btInvenPetPos]->m_Type == ITEMGET(13, 3))
 				{
 					AttackDamage = AttackDamage * 130 / 100;
 				}
@@ -2680,8 +2680,8 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 			{
 				int iIncPercent = 0;
 
-				iIncPercent += Obj.pInventory[Obj.m_btInvenPetPos].IsFenrirIncLastAttackDamage();
-				iIncPercent += Obj.pInventory[Obj.m_btInvenPetPos].IsFenrirIllusion();
+				iIncPercent += Obj.pInventory[Obj.m_btInvenPetPos]->IsFenrirIncLastAttackDamage();
+				iIncPercent += Obj.pInventory[Obj.m_btInvenPetPos]->IsFenrirIllusion();
 
 				if (iIncPercent > 0)
 				{
@@ -2693,8 +2693,8 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 			{
 				int iDecPercent = 0;
 
-				iDecPercent += lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos].IsFenrirDecLastAttackDamage();
-				iDecPercent += lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos].IsFenrirIllusionDecDmg();
+				iDecPercent += lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos]->IsFenrirDecLastAttackDamage();
+				iDecPercent += lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos]->IsFenrirIllusionDecDmg();
 
 				if (iDecPercent > 0)
 				{
@@ -3128,7 +3128,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 
 	if (lpTargetObj.Type == OBJ_USER)
 	{
-		if (lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos].IsItem() == TRUE && lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos].m_Type == ITEMGET(13, 37))
+		if (lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos]->IsItem() == TRUE && lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos]->m_Type == ITEMGET(13, 37))
 		{
 			if (g_ConfigRead.data.common.DisableMSBEffect[MSB_DISABLE_CHARACTER_FENRIR] == true)
 			{
@@ -4046,9 +4046,9 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject lpTargetObj, int 
 			}
 			else if (lpMagic->m_Skill == 62 || g_MasterLevelSkillTreeSystem.GetBaseMasterLevelSkill(lpMagic->m_Skill) == 512 || lpMagic->m_Skill == 516)
 			{
-				if (Obj.pInventory[Obj.m_btInvenPetPos].m_Type == ITEMGET(13, 4))	// Dark Horse
+				if (Obj.pInventory[Obj.m_btInvenPetPos]->m_Type == ITEMGET(13, 4))	// Dark Horse
 				{
-					int addskilldamage = (Obj.m_PlayerData->Strength + Obj.AddStrength) / 10 + (Obj.Leadership + Obj.AddLeadership) / 5 + Obj.pInventory[Obj.m_btInvenPetPos].m_PetItem_Level * 10;	// #formula
+					int addskilldamage = (Obj.m_PlayerData->Strength + Obj.AddStrength) / 10 + (Obj.Leadership + Obj.AddLeadership) / 5 + Obj.pInventory[Obj.m_btInvenPetPos]->m_PetItem_Level * 10;	// #formula
 
 					addskilldamage = addskilldamage * g_ConfigRead.calc.DarkHorseDamageMultiplier / 100.0f;
 
