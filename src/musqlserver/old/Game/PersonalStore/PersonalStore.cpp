@@ -60,7 +60,7 @@ void CPersonalStore::CGPShopReqSetItemPrice(PMSG_REQ_PSHOP_SETITEMPRICE * lpMsg,
 		return;
 	}
 
-	if (Obj.pntInventory1[lpMsg->btItemPos].IsItem() == FALSE)
+	if (Obj.pntInventory1[lpMsg->btItemPos]->IsItem() == FALSE)
 	{
 		CGPShopAnsSetItemPrice(Obj.m_Index, 3, lpMsg->btItemPos);
 		return;
@@ -660,7 +660,7 @@ void CPersonalStore::CGPShopReqBuyItem(BYTE* lpRecv, int aSourceIndex)
 			return;
 		}
 
-		if (::gObjInventorySearchSerialNumber(lpObj, Obj.pntInventory1[lpMsg->btItemPos].GetNumber()) == FALSE)
+		if (::gObjInventorySearchSerialNumber(lpObj, Obj.pntInventory1[lpMsg->btItemPos]->GetNumber()) == FALSE)
 		{
 			gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFD, 1, Obj.iShield);
 			return;
@@ -668,7 +668,7 @@ void CPersonalStore::CGPShopReqBuyItem(BYTE* lpRecv, int aSourceIndex)
 
 		if (g_ConfigRead.data.common.BlockTradeFFFFFFFFItems == true)
 		{
-			if (Obj.pntInventory1[lpMsg->btItemPos].m_Number == (UINT64)-1)
+			if (Obj.pntInventory1[lpMsg->btItemPos]->m_Number == (UINT64)-1)
 			{
 				gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFD, 1, Obj.iShield);
 				return;
@@ -705,10 +705,10 @@ void CPersonalStore::CGPShopReqBuyItem(BYTE* lpRecv, int aSourceIndex)
 				return;
 			}
 
-			if (Obj.pntInventory1[lpMsg->btItemPos].IsItem() == TRUE)
+			if (Obj.pntInventory1[lpMsg->btItemPos]->IsItem() == TRUE)
 			{
-				if (Obj.pntInventory1[lpMsg->btItemPos].m_iPShopValue <= 0 && Obj.pntInventory1[lpMsg->btItemPos].m_wPShopBlessValue <= 0
-					&& Obj.pntInventory1[lpMsg->btItemPos].m_wPShopSoulValue <= 0 && Obj.pntInventory1[lpMsg->btItemPos].m_wPShopChaosValue <= 0)
+				if (Obj.pntInventory1[lpMsg->btItemPos]->m_iPShopValue <= 0 && Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopBlessValue <= 0
+					&& Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopSoulValue <= 0 && Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopChaosValue <= 0)
 				{
 					g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, Obj.m_Index, 0, 6);
 
@@ -821,11 +821,11 @@ void CPersonalStore::CGPShopReqBuyItem(BYTE* lpRecv, int aSourceIndex)
 					}
 				}
 
-				if (Obj.pntInventory1[lpMsg->btItemPos].m_Type != lpMsg->iItemType
-					|| Obj.pntInventory1[lpMsg->btItemPos].m_iPShopValue != lpMsg->PShopItemMoneyValue
-					|| Obj.pntInventory1[lpMsg->btItemPos].m_wPShopBlessValue != lpMsg->PShopItemBlessJewelValue
-					|| Obj.pntInventory1[lpMsg->btItemPos].m_wPShopSoulValue != lpMsg->PShopItemSoulJewelValue
-					|| Obj.pntInventory1[lpMsg->btItemPos].m_wPShopChaosValue != lpMsg->PShopItemChaosJewelValue
+				if (Obj.pntInventory1[lpMsg->btItemPos]->m_Type != lpMsg->iItemType
+					|| Obj.pntInventory1[lpMsg->btItemPos]->m_iPShopValue != lpMsg->PShopItemMoneyValue
+					|| Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopBlessValue != lpMsg->PShopItemBlessJewelValue
+					|| Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopSoulValue != lpMsg->PShopItemSoulJewelValue
+					|| Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopChaosValue != lpMsg->PShopItemChaosJewelValue
 					)
 				{
 					g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, Obj.m_Index, 0, 18);
@@ -857,21 +857,21 @@ void CPersonalStore::CGPShopReqBuyItem(BYTE* lpRecv, int aSourceIndex)
 					sSoulJewelTotalCount = 30 * s30SoulJewelCount + 20 * s20SoulJewelCount + 10 * s10SoulJewelCount + sSoulJewelCount;
 					sChaosJewelTotalCount = 30 * s30ChaosJewelCount + 20 * s20ChaosJewelCount + 10 * s10ChaosJewelCount + sChaosJewelCount;
 
-					if (sBlessJewelTotalCount < Obj.pntInventory1[lpMsg->btItemPos].m_wPShopBlessValue)
+					if (sBlessJewelTotalCount < Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopBlessValue)
 					{
 						g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, Obj.m_Index, 0, 11);
 
 						return;
 					}
 
-					if (sSoulJewelTotalCount < Obj.pntInventory1[lpMsg->btItemPos].m_wPShopSoulValue)
+					if (sSoulJewelTotalCount < Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopSoulValue)
 					{
 						g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, Obj.m_Index, 0, 12);
 
 						return;
 					}
 
-					if (sChaosJewelTotalCount < Obj.pntInventory1[lpMsg->btItemPos].m_wPShopChaosValue)
+					if (sChaosJewelTotalCount < Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopChaosValue)
 					{
 						g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, Obj.m_Index, 0, 13);
 
@@ -892,12 +892,12 @@ void CPersonalStore::CGPShopReqBuyItem(BYTE* lpRecv, int aSourceIndex)
 				short s20ChaosJewelNeedCount = 0;
 				short s30ChaosJewelNeedCount = 0;
 
-				if (Obj.pntInventory1[lpMsg->btItemPos].m_wPShopBlessValue > 0
-					|| Obj.pntInventory1[lpMsg->btItemPos].m_wPShopSoulValue > 0
-					|| Obj.pntInventory1[lpMsg->btItemPos].m_wPShopChaosValue > 0)
+				if (Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopBlessValue > 0
+					|| Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopSoulValue > 0
+					|| Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopChaosValue > 0)
 				{
 					int iInvalidValueTestResult = gJewelBuyItemValueTest(aSourceIndex, Obj.m_Index,
-						Obj.pntInventory1[lpMsg->btItemPos].m_wPShopBlessValue, Obj.pntInventory1[lpMsg->btItemPos].m_wPShopSoulValue, Obj.pntInventory1[lpMsg->btItemPos].m_wPShopChaosValue,
+						Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopBlessValue, Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopSoulValue, Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopChaosValue,
 						sBlessJewelCount, s10BlessJewelCount, s20BlessJewelCount, s30BlessJewelCount,
 						sSoulJewelCount, s10SoulJewelCount, s20SoulJewelCount, s30SoulJewelCount,
 						sChaosJewelCount, s10ChaosJewelCount, s20ChaosJewelCount, s30ChaosJewelCount,
@@ -926,7 +926,7 @@ void CPersonalStore::CGPShopReqBuyItem(BYTE* lpRecv, int aSourceIndex)
 					}
 				}
 
-				DWORD dwCost = Obj.pntInventory1[lpMsg->btItemPos].m_iPShopValue;
+				DWORD dwCost = Obj.pntInventory1[lpMsg->btItemPos]->m_iPShopValue;
 
 				if (dwCost > 0 && gObjCheckMaxZen(Obj.m_Index, dwCost) == FALSE)
 				{
@@ -937,7 +937,7 @@ void CPersonalStore::CGPShopReqBuyItem(BYTE* lpRecv, int aSourceIndex)
 
 				if (g_PentagramSystem.IsPentagramItem(&Obj.pntInventory1[lpMsg->btItemPos]) == true)
 				{
-					if (Obj.pntInventory1[lpMsg->btItemPos].m_Durability < 1.0)
+					if (Obj.pntInventory1[lpMsg->btItemPos]->m_Durability < 1.0)
 					{
 						return;
 					}
@@ -948,22 +948,22 @@ void CPersonalStore::CGPShopReqBuyItem(BYTE* lpRecv, int aSourceIndex)
 						return;
 					}
 
-					Obj.pntInventory1[lpMsg->btItemPos].m_Durability -= 1.0;
+					Obj.pntInventory1[lpMsg->btItemPos]->m_Durability -= 1.0;
 				}
 
-				if (Obj.pntInventory1[lpMsg->btItemPos].m_wPShopBlessValue > 0 ||	Obj.pntInventory1[lpMsg->btItemPos].m_wPShopSoulValue > 0 ||
-					Obj.pntInventory1[lpMsg->btItemPos].m_wPShopChaosValue > 0)
+				if (Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopBlessValue > 0 ||	Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopSoulValue > 0 ||
+					Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopChaosValue > 0)
 				{
 					int iJewelPutTest = gJewelInventoryPutTest(aSourceIndex, Obj.m_Index,
-						Obj.pntInventory1[lpMsg->btItemPos].m_wPShopBlessValue,
-						Obj.pntInventory1[lpMsg->btItemPos].m_wPShopSoulValue,
-						Obj.pntInventory1[lpMsg->btItemPos].m_wPShopChaosValue);
+						Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopBlessValue,
+						Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopSoulValue,
+						Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopChaosValue);
 
 					if (iJewelPutTest == 100)
 					{
 						if (g_PentagramSystem.IsPentagramItem(&Obj.pntInventory1[lpMsg->btItemPos]) == TRUE)
 						{
-							Obj.pntInventory1[lpMsg->btItemPos].m_Durability += 1.0;
+							Obj.pntInventory1[lpMsg->btItemPos]->m_Durability += 1.0;
 						}
 
 						g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, Obj.m_Index, 0, 17);
@@ -989,24 +989,24 @@ void CPersonalStore::CGPShopReqBuyItem(BYTE* lpRecv, int aSourceIndex)
 				}
 
 				gJewelInventoryPut(aSourceIndex, Obj.m_Index,
-					Obj.pntInventory1[lpMsg->btItemPos].m_wPShopBlessValue,
-					Obj.pntInventory1[lpMsg->btItemPos].m_wPShopSoulValue,
-					Obj.pntInventory1[lpMsg->btItemPos].m_wPShopChaosValue,
+					Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopBlessValue,
+					Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopSoulValue,
+					Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopChaosValue,
 					sBlessJewelNeedCount, s10BlessJewelNeedCount, s20BlessJewelNeedCount, s30BlessJewelNeedCount,
 					sSoulJewelNeedCount, s10SoulJewelNeedCount, s20SoulJewelNeedCount, s30SoulJewelNeedCount,
 					sChaosJewelNeedCount, s10ChaosJewelNeedCount, s20ChaosJewelNeedCount, s30ChaosJewelNeedCount);
 
-				iITEM_LOG_TYPE = Obj.pntInventory1[lpMsg->btItemPos].m_Type;
-				iITEM_LOG_LEVEL = Obj.pntInventory1[lpMsg->btItemPos].m_Level;
-				iITEM_LOG_DUR = Obj.pntInventory1[lpMsg->btItemPos].m_Durability;
-				iITEM_LOG_SERIAL = Obj.pntInventory1[lpMsg->btItemPos].m_Number;
-				iITEM_LOG_BJPRICE = Obj.pntInventory1[lpMsg->btItemPos].m_wPShopBlessValue;
-				iITEM_LOG_SJPRICE = Obj.pntInventory1[lpMsg->btItemPos].m_wPShopSoulValue;
-				iITEM_LOG_CJPRICE = Obj.pntInventory1[lpMsg->btItemPos].m_wPShopChaosValue;
+				iITEM_LOG_TYPE = Obj.pntInventory1[lpMsg->btItemPos]->m_Type;
+				iITEM_LOG_LEVEL = Obj.pntInventory1[lpMsg->btItemPos]->m_Level;
+				iITEM_LOG_DUR = Obj.pntInventory1[lpMsg->btItemPos]->m_Durability;
+				iITEM_LOG_SERIAL = Obj.pntInventory1[lpMsg->btItemPos]->m_Number;
+				iITEM_LOG_BJPRICE = Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopBlessValue;
+				iITEM_LOG_SJPRICE = Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopSoulValue;
+				iITEM_LOG_CJPRICE = Obj.pntInventory1[lpMsg->btItemPos]->m_wPShopChaosValue;
 				if (Obj.m_PlayerData->ISBOT == false)
 				{
 					g_PersonalStore.gObjInventoryItemSet_PShop(Obj.m_Index, lpMsg->btItemPos, -1);
-					Obj.pntInventory1[lpMsg->btItemPos].Clear();
+					Obj.pntInventory1[lpMsg->btItemPos]->Clear();
 					gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, lpMsg->btItemPos, TRUE);
 				}
 				if (Obj.m_bOff && Obj.m_PlayerData->ISBOT == false)

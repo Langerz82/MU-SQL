@@ -565,7 +565,7 @@ public:
 	void GCUseEffectItem(CGameObject &Obj, int iEffectUseOption, int iOptionType, int iEffectType, int iLeftTime);
 	void GCUseEffectItem2(CGameObject &Obj, int iEffectUseOption, int iOptionType, int iEffectType, int iLeftTime);
 	void CGMagicCancel(PMSG_MAGICCANCEL* lpMsg, CGameObject &Obj);
-	void GCUseMonsterSkillSend(CGameObject &Obj, CGameObject lpTargetObj, int iSkillNumber);
+	void GCUseMonsterSkillSend(CGameObject &Obj, CGameObject &TargetObj, int iSkillNumber);
 	void GCStateInfoSend(CGameObject &Obj, BYTE state, int BuffViewport);
 	void CGTeleportRecv(PMSG_TELEPORT* lpMsg, CGameObject &Obj);
 	void CGReqMapMove(PMSG_REQ_MAPMOVE *lpMsg, CGameObject &Obj);
