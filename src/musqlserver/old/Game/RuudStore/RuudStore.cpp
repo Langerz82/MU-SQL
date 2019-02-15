@@ -84,12 +84,12 @@ bool CRuudStore::NpcTalk(CGameObject & lpNpc, CGameObject &Obj)
 	if (!gObjIsConnected(Obj.m_Index))
 		return false;
 
-	if (Obj.m_IfState.use > 0)
+	if (Obj.m_IfState->use > 0)
 		return false;
 
 	Obj.TargetNpcNumber = lpNpc->m_Index;
-	Obj.m_IfState.use = 1;
-	Obj.m_IfState.type = 3;
+	Obj.m_IfState->use = 1;
+	Obj.m_IfState->type = 3;
 	Obj.m_ShopTime = 0;
 
 	PMSG_TALKRESULT pResult;
@@ -125,7 +125,7 @@ bool CRuudStore::NpcTalk(CGameObject & lpNpc, CGameObject &Obj)
 	pShopItemCount.Type = 23;
 	pShopItemCount.h.sizeH = HIBYTE(lOfs);
 	pShopItemCount.h.sizeL = LOBYTE(lOfs);
-	memcpy(SendByte, &pShopItemCount, sizeof(pShopItemCount));
+	std::memcpy(SendByte, &pShopItemCount, sizeof(pShopItemCount));
 
 	IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, SendByte, lOfs);
 }
@@ -179,11 +179,11 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, CGameObject &
 
 	if (Obj.m_ShopTime > this->m_iShopTime)
 	{
-		if (Obj.m_IfState.use != 0 && Obj.m_IfState.type == 3)
+		if (Obj.m_IfState->use != 0 && Obj.m_IfState->type == 3)
 		{
 			Obj.TargetNpcNumber = -1;
-			Obj.m_IfState.use = 0;
-			Obj.m_IfState.type = 0;
+			Obj.m_IfState->use = 0;
+			Obj.m_IfState->type = 0;
 		}
 
 		pMsg.btResult = 0xFE;
@@ -191,9 +191,9 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, CGameObject &
 		return;
 	}
 
-	if (Obj.m_IfState.use > 0)
+	if (Obj.m_IfState->use > 0)
 	{
-		if (Obj.m_IfState.type != 3)
+		if (Obj.m_IfState->type != 3)
 		{
 			pMsg.btResult = 0xFF;
 			IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);

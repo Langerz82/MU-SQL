@@ -133,7 +133,7 @@ BOOL CMonsterStatCalc::ConvertMonsterStat(CGameObject &Obj, int nUserMaxLevel)
 			Obj.m_iLastAutomataRuntime = 0;
 			Obj.m_iLastAutomataDelay = 0;
 
-			memcpy(Obj.m_Resistance, lpAttr->m_Resistance, MAX_RESISTENCE_TYPE );
+			std::memcpy(Obj.m_Resistance, lpAttr->m_Resistance, MAX_RESISTENCE_TYPE );
 
 			return TRUE;
 		}

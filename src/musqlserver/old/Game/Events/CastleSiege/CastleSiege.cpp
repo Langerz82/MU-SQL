@@ -1746,7 +1746,7 @@ BOOL CCastleSiege::SetCastleInitData(CSP_ANS_CSINITDATA* lpMsg)
 	this->m_btIsCastleOccupied = lpMsg->btIsCastleOccupied;
 
 	memset(&this->m_szCastleOwnerGuild, 0, sizeof(this->m_szCastleOwnerGuild));
-	memcpy(&this->m_szCastleOwnerGuild, lpMsg->szCastleOwnGuild, sizeof(lpMsg->szCastleOwnGuild));
+	std::memcpy(&this->m_szCastleOwnerGuild, lpMsg->szCastleOwnGuild, sizeof(lpMsg->szCastleOwnGuild));
 	
 	this->m_i64CastleMoney = lpMsg->i64CastleMoney;
 	this->m_iTaxRateChaos = lpMsg->iTaxRateChaos;
@@ -3900,7 +3900,7 @@ void CCastleSiege::SetCalcRegGuildList(CSP_CALCREGGUILDLIST* lpMsg, int iCOUNT)
 
 		char szGuildName[16] = {0};
 
-		memcpy(szGuildName, lpMsg[iGCNT].szGuildName, MAX_GUILD_LEN);
+		std::memcpy(szGuildName, lpMsg[iGCNT].szGuildName, MAX_GUILD_LEN);
 		
 		GuildData.m_bIN_USE = TRUE;
 		GuildData.m_strGuildName = szGuildName;
@@ -3992,7 +3992,7 @@ void CCastleSiege::SetCalcRegGuildList(CSP_CALCREGGUILDLIST* lpMsg, int iCOUNT)
 
 		string GuildName = it->first;
 
-		memcpy(&lpMsgSendBody[lpMsgSend->iCount].szGuildName,  &GuildName[0], 8);
+		std::memcpy(&lpMsgSendBody[lpMsgSend->iCount].szGuildName,  &GuildName[0], 8);
 		lpMsgSendBody[lpMsgSend->iCount].iCsGuildID = it->second.m_iCsGuildID;
 
 		lpMsgSend->iCount++;
@@ -4039,7 +4039,7 @@ void CCastleSiege::MakeCsTotalGuildInfo(CSP_CSGUILDUNIONINFO* lpMsg, int iCOUNT)
 	{
 		char szGuildName[16] = {0};
 
-		memcpy(szGuildName, lpMsg[iGCNT].szGuildName, MAX_GUILD_LEN);
+		std::memcpy(szGuildName, lpMsg[iGCNT].szGuildName, MAX_GUILD_LEN);
 
 		std::map<string,_CS_TOTAL_GUILD_DATA>::iterator it = this->m_mapCsTotalGuildInfo.find(szGuildName);
 
@@ -4093,7 +4093,7 @@ void CCastleSiege::SaveCsTotalGuildInfo()
 
 		string szGuildName = it->first;
 
-		memcpy(&lpMsgSendBody[lpMsgSend->iCount].szGuildName[0], &szGuildName[0], MAX_GUILD_LEN);
+		std::memcpy(&lpMsgSendBody[lpMsgSend->iCount].szGuildName[0], &szGuildName[0], MAX_GUILD_LEN);
 		
 		lpMsgSendBody[lpMsgSend->iCount].iCsGuildID = it->second.m_iCsGuildID;
 		lpMsgSendBody[lpMsgSend->iCount].iGuildInvolved = it->second.m_bGuildInvolved;
@@ -4140,7 +4140,7 @@ void CCastleSiege::SetCsTotalGuildInfo(CSP_CSLOADTOTALGUILDINFO* lpMsg, int iCOU
 	{
 		char szGuildName[16] = {0};
 
-		memcpy(szGuildName, lpMsg[iGCNT].szGuildName, MAX_GUILD_LEN);
+		std::memcpy(szGuildName, lpMsg[iGCNT].szGuildName, MAX_GUILD_LEN);
 
 		_CS_TOTAL_GUILD_DATA GuildData;
 		
@@ -4244,7 +4244,7 @@ void CCastleSiege::SetAllUserCsJoinSide()
 
 		char szGuildName[16] = {0};
 
-		memcpy(szGuildName,getGameObject(iUSER)->m_PlayerData->GuildName,MAX_GUILD_LEN);
+		std::memcpy(szGuildName,getGameObject(iUSER)->m_PlayerData->GuildName,MAX_GUILD_LEN);
 
 		std::map<string,_CS_TOTAL_GUILD_DATA>::iterator it = this->m_mapCsTotalGuildInfo.find(szGuildName);
 		
@@ -4582,7 +4582,7 @@ void CCastleSiege::ChangeWinnerGuild(int iCsJoinSide)
 		
 			if(it->second.m_bGuildInvolved == TRUE)
 			{
-				memcpy(&szGuildTo,&it->first[0], MAX_GUILD_LEN);
+				std::memcpy(&szGuildTo,&it->first[0], MAX_GUILD_LEN);
 			}
 		}
 		else if(it->second.m_iCsGuildID == 1)
@@ -4591,7 +4591,7 @@ void CCastleSiege::ChangeWinnerGuild(int iCsJoinSide)
 		
 			if(it->second.m_bGuildInvolved == TRUE)
 			{
-				memcpy(&szGuildFrom,&it->first[0], MAX_GUILD_LEN);
+				std::memcpy(&szGuildFrom,&it->first[0], MAX_GUILD_LEN);
 			}
 		}
 	}
@@ -4609,7 +4609,7 @@ void CCastleSiege::ChangeWinnerGuild(int iCsJoinSide)
 		
 		char szNewGuild[16] = {0};
 
-		memcpy(&szNewGuild,getGameObject(iUSER)->m_PlayerData->GuildName,MAX_GUILD_LEN);
+		std::memcpy(&szNewGuild,getGameObject(iUSER)->m_PlayerData->GuildName,MAX_GUILD_LEN);
 
 		std::map<string,_CS_TOTAL_GUILD_DATA>::iterator it = this->m_mapCsTotalGuildInfo.find(szNewGuild);
 	
@@ -4658,7 +4658,7 @@ BOOL CCastleSiege::CheckMiddleWinnerGuild()
 					this->NotifyCrownState(2);
 
 					memset(&this->m_szMiddleWinnerGuild, 0, sizeof(this->m_szMiddleWinnerGuild));
-					memcpy(&this->m_szMiddleWinnerGuild, getGameObject(this->m_iCastleCrownAccessUser)->m_PlayerData->GuildName, 8);
+					std::memcpy(&this->m_szMiddleWinnerGuild, getGameObject(this->m_iCastleCrownAccessUser)->m_PlayerData->GuildName, 8);
 
 					this->ClearNonDbNPC_MidWin();
 					this->ChangeWinnerGuild(getGameObject(this->m_iCastleCrownAccessUser)->m_btCsJoinSide);
@@ -4701,7 +4701,7 @@ int CCastleSiege::CheckCastleSiegeResult()
 		{
 			this->m_btIsCastleOccupied = 1;
 			memset(this->m_szCastleOwnerGuild,0,sizeof(this->m_szCastleOwnerGuild));
-			memcpy(this->m_szCastleOwnerGuild,this->m_szMiddleWinnerGuild,8);
+			std::memcpy(this->m_szCastleOwnerGuild,this->m_szMiddleWinnerGuild,8);
 			wsprintf(szMsg,Lang.GetText(0,199),this->m_szCastleOwnerGuild);
 			bRETVAL = TRUE;
 		}
@@ -4718,7 +4718,7 @@ int CCastleSiege::CheckCastleSiegeResult()
 		{
 			this->m_btIsCastleOccupied = 1;
 			memset(this->m_szCastleOwnerGuild,0,sizeof(this->m_szCastleOwnerGuild));
-			memcpy(this->m_szCastleOwnerGuild,this->m_szMiddleWinnerGuild,8);
+			std::memcpy(this->m_szCastleOwnerGuild,this->m_szMiddleWinnerGuild,8);
 			wsprintf(szMsg,Lang.GetText(0,199),this->m_szCastleOwnerGuild);
 			bRETVAL = TRUE;
 		}
@@ -4858,7 +4858,7 @@ int CCastleSiege::GetCsAttkGuildList(PMSG_CSATTKGUILDLIST* lpMsgBody, int & iCou
 		lpMsgBody[iCount].btGuildInvolved = it->second.m_bGuildInvolved;
 		
 		memset(&lpMsgBody[iCount].szGuildName, 0, sizeof(lpMsgBody[iCount].szGuildName));
-		memcpy(&lpMsgBody[iCount].szGuildName, &it->first[0], sizeof(lpMsgBody[iCount].szGuildName));
+		std::memcpy(&lpMsgBody[iCount].szGuildName, &it->first[0], sizeof(lpMsgBody[iCount].szGuildName));
 
 		lpMsgBody[iCount].iGuildScore = it->second.m_iGuildScore; //season 2.5 add-on
 
@@ -5312,7 +5312,7 @@ void CCastleSiege::NotifyAllUserCsProgState(BYTE btProgState, char* lpszGuildNam
 	pMsg.btCastleSiegeState = btProgState;
 
 	memset(&pMsg.szGuildName, 0, sizeof(pMsg.szGuildName));
-	memcpy(&pMsg.szGuildName, lpszGuildName, sizeof(pMsg.szGuildName));
+	std::memcpy(&pMsg.szGuildName, lpszGuildName, sizeof(pMsg.szGuildName));
 
 	for( int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++ )
 	{
@@ -5430,7 +5430,7 @@ void CCastleSiege::OperateMiniMapWork()
 		_CS_TOTAL_GUILD_DATA* GuildData = &it->second;
 		_CS_MINIMAP_DATA MiniMapData;
 
-		memcpy(MiniMapData.m_szGuildName, &it->first[0], MAX_GUILD_LEN);
+		std::memcpy(MiniMapData.m_szGuildName, &it->first[0], MAX_GUILD_LEN);
 
 		mapMiniMapData.insert( pair<int,_CS_MINIMAP_DATA>(GuildData->m_iCsGuildID, MiniMapData) );
 	}
@@ -5557,7 +5557,7 @@ void CCastleSiege::OperateMiniMapWork()
 			lpMsgSend1->iCount = 1000;
 		}
 
-		memcpy(lpMsgSendBody1, it4->second.m_stMiniMapPoint, (lpMsgSend1->iCount * sizeof(PMSG_SENDMINIMAPDATA)));
+		std::memcpy(lpMsgSendBody1, it4->second.m_stMiniMapPoint, (lpMsgSend1->iCount * sizeof(PMSG_SENDMINIMAPDATA)));
 
 		lpMsgSend1->h.set(cBUFFER1, 0xB6, (lpMsgSend1->iCount * sizeof(PMSG_SENDMINIMAPDATA)) + sizeof(PMSG_ANS_SENDMINIMAPDATA));
 
@@ -5665,15 +5665,15 @@ void CCastleSiege::NotifyCrownSwitchInfo(int iCrownSwitchIndex)
 		pMsg.btSwitchState = TRUE;
 		pMsg.btJoinSide = lpSwitchObj.m_btCsJoinSide;
 
-		memcpy(&pMsg.szUserName, lpSwitchObj.Name, MAX_ACCOUNT_LEN);
-		memcpy(&pMsg.szGuildName, lpSwitchObj.m_PlayerData->GuildName, MAX_GUILD_LEN);
+		std::memcpy(&pMsg.szUserName, lpSwitchObj.Name, MAX_ACCOUNT_LEN);
+		std::memcpy(&pMsg.szGuildName, lpSwitchObj.m_PlayerData->GuildName, MAX_GUILD_LEN);
 		memset(&szMasterGuildName, 0, MAX_GUILD_LEN);
 
 		if( lpSwitchObj.m_PlayerData->lpGuild )
 		{
 			if( UnionManager.GetUnionName(lpSwitchObj.m_PlayerData->lpGuild->iGuildUnion, szMasterGuildName) != -1 )
 			{
-				memcpy(&pMsg.szGuildName, szMasterGuildName, MAX_GUILD_LEN);
+				std::memcpy(&pMsg.szGuildName, szMasterGuildName, MAX_GUILD_LEN);
 			}
 		}
 
@@ -5817,7 +5817,7 @@ void CCastleSiege::OperateGmCommand(CGameObject &Obj, int iGmCommand, void* lpPa
 					if( strcmp(szNewOwnerGuild, "") != 0 )
 					{
 						memset(&this->m_szCastleOwnerGuild, 0, sizeof(this->m_szCastleOwnerGuild));
-						memcpy(&this->m_szCastleOwnerGuild, szNewOwnerGuild, 8);
+						std::memcpy(&this->m_szCastleOwnerGuild, szNewOwnerGuild, 8);
 						this->m_btIsCastleOccupied = 1;
 						MsgOutput(iIndex, "[Admin cmd] Set new Owner guild: %s", this->m_szCastleOwnerGuild);
 					}
@@ -6012,7 +6012,7 @@ void CCastleSiege::OperateGmCommand(CGameObject &Obj, int iGmCommand, void* lpPa
 							this->NotifyCrownState(2);
 
 							memset(&this->m_szMiddleWinnerGuild, 0, sizeof(this->m_szMiddleWinnerGuild));
-							memcpy(&this->m_szMiddleWinnerGuild, szGuildName, 8);
+							std::memcpy(&this->m_szMiddleWinnerGuild, szGuildName, 8);
 
 							this->ClearNonDbNPC_MidWin();
 							this->ChangeWinnerGuild(btCsJoinSide);

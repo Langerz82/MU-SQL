@@ -154,7 +154,7 @@ bool CItemObjectSocketOptionSystem::LoadOptionScript(char *pchFileName)
 			break;
 		}
 
-		memcpy(&m_BonusSocketOptionData[iBonusSocketOptionDataCount], &BonusOptionData, sizeof(BONUS_SOCKET_OPTION));
+		std::memcpy(&m_BonusSocketOptionData[iBonusSocketOptionDataCount], &BonusOptionData, sizeof(BONUS_SOCKET_OPTION));
 		iBonusSocketOptionDataCount++;
 	}
 

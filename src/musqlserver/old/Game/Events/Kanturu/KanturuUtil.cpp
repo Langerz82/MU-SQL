@@ -386,9 +386,9 @@ void CKanturuUtil::SendDataKanturuTimeAttackEvent(CGameObject &Obj, BYTE btFlag,
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xBE, 0x22, sizeof(pMsg));
 	pMsg.nINDEX = iIndex;
-	memcpy(pMsg.szUID, Obj.AccountID, MAX_ACCOUNT_LEN);
+	std::memcpy(pMsg.szUID, Obj.AccountID, MAX_ACCOUNT_LEN);
 	pMsg.szUID[10] = '\0';	// #error Change 11 to 10
-	memcpy(pMsg.szNAME, Obj.Name, MAX_ACCOUNT_LEN);
+	std::memcpy(pMsg.szNAME, Obj.Name, MAX_ACCOUNT_LEN);
 	pMsg.szNAME[10] = '\0';	// #error Change 11 to 10
 	pMsg.wServerCode = g_ConfigRead.server.GetGameServerCode() / 20;	// #warning Change the 20 for a posible macro of MapServerInfo
 
@@ -399,7 +399,7 @@ void CKanturuUtil::SendDataKanturuTimeAttackEvent(CGameObject &Obj, BYTE btFlag,
 		g_Kanturu.GetKanturuBattleDate(), g_ConfigRead.server.GetGameServerCode(),
 		g_Kanturu.GetKanturuBattleCounter());
 	
-	memcpy(pMsg.szBattleID, szKanturuBattleDate, sizeof(pMsg.szBattleID));
+	std::memcpy(pMsg.szBattleID, szKanturuBattleDate, sizeof(pMsg.szBattleID));
 	pMsg.btStageNumber = btFlag;
 	pMsg.wClearTime = iClearTime;
 	pMsg.iLevel = Obj.Level;

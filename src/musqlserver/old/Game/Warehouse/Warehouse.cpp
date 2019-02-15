@@ -177,12 +177,12 @@ void CWarehouse::DGGetWarehouseList(CGameObject &Obj, SDHP_GETWAREHOUSEDB * aRec
 
 	char szAccountID[11] = { 0 };
 	szAccountID[10] = 0;
-	memcpy(szAccountID, aRecv->AccountID, 10);
+	std::memcpy(szAccountID, aRecv->AccountID, 10);
 
 	SDHP_GETWAREHOUSEDB_SAVE pResult;
 
 	PHeadSetW((BYTE*)&pResult, 0x08, sizeof(pResult));
-	memcpy(pResult.AccountID, szAccountID, 11);
+	std::memcpy(pResult.AccountID, szAccountID, 11);
 	pResult.Obj.m_Index = aRecv->Obj.m_Index;
 
 	if (this->GetWarehouseOpenState(szAccountID) == true)
@@ -205,7 +205,7 @@ void CWarehouse::DGGetWarehouseList(CGameObject &Obj, SDHP_GETWAREHOUSEDB * aRec
 		SDHP_GETWAREHOUSEDB_RESULT pMsg;
 		PHeadSetB((BYTE*)&pMsg, 0x10, sizeof(pMsg));
 		pMsg.Obj.m_Index = aRecv->Obj.m_Index;
-		memcpy(pMsg.AccountID, szAccountID, 11);
+		std::memcpy(pMsg.AccountID, szAccountID, 11);
 
 		LeaveCriticalSection(&this->m_WareDataCriti);
 		DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
@@ -269,7 +269,7 @@ void CWarehouse::GDSetWarehouseList(CGameObject &Obj, SDHP_GETWAREHOUSEDB_SAVE *
 
 	char szAccountID[11] = { 0 };
 	szAccountID[10] = 0;
-	memcpy(szAccountID, aRecv->AccountID, 10);
+	std::memcpy(szAccountID, aRecv->AccountID, 10);
 
 	if (this->GetWarehouseOpenState(szAccountID) == false)
 	{
@@ -326,7 +326,7 @@ void CWarehouse::GDSetWarehouseMoney(CGameObject &Obj, SDHP_WAREHOUSEMONEY_SAVE 
 
 	char szAccountID[11] = { 0 };
 	szAccountID[10] = 0;
-	memcpy(szAccountID, aRecv->AccountID, 10);
+	std::memcpy(szAccountID, aRecv->AccountID, 10);
 
 	this->m_WareDB.ExecQuery("UPDATE warehouse SET Money=%d WHERE AccountID='%s'", aRecv->Money, szAccountID);
 

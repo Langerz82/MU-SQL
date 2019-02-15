@@ -2062,7 +2062,7 @@ void gObjMonsterMagicAttack(CGameObject &Obj, int iMonsterClass)
 					{
 						pAttack.NumberH = SET_NUMBERH(tObjNum);
 						pAttack.NumberL = SET_NUMBERL(tObjNum);
-						memcpy(&AttackSendBuff[ASBOfs], &pAttack, sizeof(pAttack));
+						std::memcpy(&AttackSendBuff[ASBOfs], &pAttack, sizeof(pAttack));
 						ASBOfs+= sizeof(pAttack);
 						pCount.Count++;
 					}
@@ -2070,7 +2070,7 @@ void gObjMonsterMagicAttack(CGameObject &Obj, int iMonsterClass)
 					{
 						pAttack.NumberH = SET_NUMBERH(tObjNum);
 						pAttack.NumberL = SET_NUMBERL(tObjNum);
-						memcpy(&AttackSendBuff[ASBOfs], &pAttack, sizeof(pAttack));
+						std::memcpy(&AttackSendBuff[ASBOfs], &pAttack, sizeof(pAttack));
 						ASBOfs+= sizeof(pAttack);
 						pCount.Count++;
 					}
@@ -2087,7 +2087,7 @@ void gObjMonsterMagicAttack(CGameObject &Obj, int iMonsterClass)
 	if ( pCount.Count > 0 )
 	{
 		pCount.h.size = ASBOfs;
-		memcpy(AttackSendBuff, &pCount, sizeof(pCount));
+		std::memcpy(AttackSendBuff, &pCount, sizeof(pCount));
 
 		if ( Obj.Class == 161 || Obj.Class == 181 || Obj.Class == 189 || Obj.Class == 197 || Obj.Class == 267 || Obj.Class == 275 )
 		{
@@ -2491,7 +2491,7 @@ BOOL PathFindMoveMsgSend(CGameObject &Obj)
 		Obj.PathTime = GetTickCount();
 		bPath[0] &= 0x0F;
 		bPath[0] |= pos*16;
-		memcpy(pMove.Path, bPath, sizeof(pMove.Path));
+		std::memcpy(pMove.Path, bPath, sizeof(pMove.Path));
 
 		if ( Obj.PathCount > 0 )
 		{

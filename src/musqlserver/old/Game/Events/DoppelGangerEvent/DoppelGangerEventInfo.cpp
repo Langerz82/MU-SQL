@@ -159,7 +159,7 @@ BOOL CDoppelGangerEventInfo::SetDoppelgangerEventInfo(int nUserCount, int nUserM
 		return FALSE;
 	}
 
-	memcpy(&this->m_DoppelgangerInfo, lpDGInfo, sizeof(this->m_DoppelgangerInfo));
+	std::memcpy(&this->m_DoppelgangerInfo, lpDGInfo, sizeof(this->m_DoppelgangerInfo));
 	return TRUE;
 }
 

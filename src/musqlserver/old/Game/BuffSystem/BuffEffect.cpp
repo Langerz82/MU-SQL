@@ -700,7 +700,7 @@ void CBuffEffect::RequestGuildPeriodBuffInsert(char *szGuildName,PeriodBuffInfo 
 {
 	PMSG_REQ_GUILD_PERIODBUFF_INSERT pMsg;
 
-	memcpy(pMsg.szGuildName, szGuildName, MAX_GUILD_LEN+1);
+	std::memcpy(pMsg.szGuildName, szGuildName, MAX_GUILD_LEN+1);
 	pMsg.wBuffIndex = lpBuffInfo->wBuffIndex;
 	pMsg.btEffectType1 = lpBuffInfo->btEffectType1;
 	pMsg.btEffectType2 = lpBuffInfo->btEffectType2;
@@ -749,7 +749,7 @@ void CBuffEffect::RequestPeriodBuffDelete(CGameObject lpObj, WORD wBuffIndex)
 
 	pMsg.wUserIndex = Obj.m_Index;
 	pMsg.wBuffIndex = wBuffIndex;
-	memcpy(pMsg.szCharacterName, Obj.Name, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.szCharacterName, Obj.Name, MAX_ACCOUNT_LEN+1);
 	PHeadSubSetB((BYTE*)&pMsg, 0xE4, 2, sizeof(pMsg));
   
 	wsDataCli.DataSend((char*)&pMsg, pMsg.head.size);
@@ -762,7 +762,7 @@ void CBuffEffect::RequestPeriodBuffDelete(char *szName, WORD wBuffIndex)
 
 	pMsg.wUserIndex = 0;
 	pMsg.wBuffIndex = wBuffIndex;
-	memcpy(pMsg.szCharacterName, szName, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szCharacterName, szName, MAX_ACCOUNT_LEN + 1);
 	PHeadSubSetB((BYTE*)&pMsg, 0xE4, 2, sizeof(pMsg));
 
 	wsDataCli.DataSend((char*)&pMsg, pMsg.head.size);
@@ -786,7 +786,7 @@ void CBuffEffect::RequestPeriodBuffInsert(CGameObject lpObj,PeriodBuffInfo *lpBu
 	PMSG_REQ_PERIODBUFF_INSERT pMsg; 
 
 	pMsg.wUserIndex = Obj.m_Index;
-	memcpy(pMsg.szCharacterName, Obj.Name, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.szCharacterName, Obj.Name, MAX_ACCOUNT_LEN+1);
 	pMsg.wBuffIndex = lpBuffInfo->wBuffIndex;
 	pMsg.btEffectType1 = lpBuffInfo->btEffectType1;
 	pMsg.btEffectType2 = lpBuffInfo->btEffectType2;
@@ -811,7 +811,7 @@ void CBuffEffect::RequestPeriodBuffSelect(CGameObject &Obj)
 	PMSG_REQ_PERIODBUFF_SELECT pMsg;
 
 	pMsg.wUserIndex = Obj.m_Index;
-	memcpy(pMsg.szCharacterName, Obj.Name, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.szCharacterName, Obj.Name, MAX_ACCOUNT_LEN+1);
 	PHeadSubSetB((BYTE*)&pMsg, 0xE4, 3, sizeof(pMsg));
 
 	wsDataCli.DataSend((char*)&pMsg, pMsg.head.size);

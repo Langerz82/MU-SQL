@@ -74,7 +74,7 @@ BOOL TMonsterSkillElement::LoadData(LPSTR lpszFileName)
 		for (pugi::xml_node element = mainXML.child("Element"); element; element = element.next_sibling())
 		{
 			char szElementName[50] = {0};
-			memcpy(szElementName, element.attribute("Name").as_string(), sizeof(szElementName));
+			std::memcpy(szElementName, element.attribute("Name").as_string(), sizeof(szElementName));
 
 			int iElementNumber = element.attribute("Number").as_int();						
 			int iElementType = element.attribute("Type").as_int();
@@ -101,7 +101,7 @@ BOOL TMonsterSkillElement::LoadData(LPSTR lpszFileName)
 			TMonsterSkillElement::s_MonsterSkillElementArray[iElementNumber].m_iCharacterLevel = iCharacterLevel;
 			TMonsterSkillElement::s_MonsterSkillElementArray[iElementNumber].m_iElementType = iElementType;
 			TMonsterSkillElement::s_MonsterSkillElementArray[iElementNumber].m_iElementNumber = iElementNumber;
-			memcpy(TMonsterSkillElement::s_MonsterSkillElementArray[iElementNumber].m_szElementName, szElementName, sizeof(TMonsterSkillElement::s_MonsterSkillElementArray[iElementNumber].m_szElementName));
+			std::memcpy(TMonsterSkillElement::s_MonsterSkillElementArray[iElementNumber].m_szElementName, szElementName, sizeof(TMonsterSkillElement::s_MonsterSkillElementArray[iElementNumber].m_szElementName));
 		}
 
 		TMonsterSkillElement::s_bDataLoad = TRUE;

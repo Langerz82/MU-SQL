@@ -2701,14 +2701,14 @@ void ChaosCastleFinal::Send_CCF_Schedule(CGameObject &Obj)
 		pMsgTime.Final = it->m_nFinal;
 		nCount++;
 
-		memcpy(&sendbuf[lOfs], &pMsgTime, sizeof(pMsgTime));
+		std::memcpy(&sendbuf[lOfs], &pMsgTime, sizeof(pMsgTime));
 		lOfs += sizeof(pMsgTime);
 	}
 
 	pMsg.nCount = nCount;
 	pMsg.h.sizeH = HIBYTE(lOfs);
 	pMsg.h.sizeL = LOBYTE(lOfs);
-	memcpy(&sendbuf, &pMsg, sizeof(pMsg));
+	std::memcpy(&sendbuf, &pMsg, sizeof(pMsg));
 	IOCP.DataSend(Obj.m_Index, (BYTE*)sendbuf, lOfs);
 }
 
@@ -2780,7 +2780,7 @@ void ChaosCastleFinal::GD_Req_Save_CCF_Result(int index, char *Name, int Point, 
 
 	PMSG_REQ_SAVE_CCF_RESULT pMsg;
 	pMsg.szCharName[MAX_CHARNAME_LEN] = 0;
-	memcpy(pMsg.szCharName, getGameObject(index)->Name, MAX_ACCOUNT_LEN);
+	std::memcpy(pMsg.szCharName, getGameObject(index)->Name, MAX_ACCOUNT_LEN);
 	PHeadSubSetB((BYTE*)&pMsg, 0xF9, 0xA1, sizeof(pMsg));
 	pMsg.nPoint = Point;
 	pMsg.nCharClass = getGameObject(index)->Class;
@@ -2849,7 +2849,7 @@ void ChaosCastleFinal::GD_Req_Get_Permission(CGameObject &Obj)
 	PMSG_REQ_CCF_PERMISSION pMsg;
 
 	pMsg.szCharName[MAX_ACCOUNT_LEN] = 0;
-	memcpy(pMsg.szCharName, Obj.Name, MAX_ACCOUNT_LEN);
+	std::memcpy(pMsg.szCharName, Obj.Name, MAX_ACCOUNT_LEN);
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.h.headcode = 0xF9;
@@ -2957,7 +2957,7 @@ void ChaosCastleFinal::DG_Ans_CCF_Rank(PMSG_ANS_CCF_RANK * lpMsg)
 
 		else
 		{
-			memcpy(this->m_CCFRanking[i].szCharName, lpMsg->RankingInfo[i].szCharName, MAX_ACCOUNT_LEN + 1);
+			std::memcpy(this->m_CCFRanking[i].szCharName, lpMsg->RankingInfo[i].szCharName, MAX_ACCOUNT_LEN + 1);
 			this->m_CCFRanking[i].byRank = lpMsg->RankingInfo[i].byRank;
 			this->m_CCFRanking[i].nPoint = lpMsg->RankingInfo[i].nPoint;
 			sLog->outBasic("[Chaos Castle Survival] (%d) rank: (Name:%s) (Point:%d)",
@@ -2990,10 +2990,10 @@ void ChaosCastleFinal::Send_RankingInfo(BYTE byCCFType, CGameObject &Obj)
 		{
 			if (this->m_CCFRanking[i].byRank > 0)
 			{
-				memcpy(pRankInfo.szCharName, this->m_CCFRanking[i].szCharName, MAX_ACCOUNT_LEN + 1);
+				std::memcpy(pRankInfo.szCharName, this->m_CCFRanking[i].szCharName, MAX_ACCOUNT_LEN + 1);
 				pRankInfo.byRank = this->m_CCFRanking[i].byRank;
 				pRankInfo.nPoint = this->m_CCFRanking[i].nPoint;
-				memcpy(&sendbuf[lOfs], &pRankInfo, sizeof(pRankInfo));
+				std::memcpy(&sendbuf[lOfs], &pRankInfo, sizeof(pRankInfo));
 				lOfs += sizeof(pRankInfo);
 				nUserCnt++;
 			}
@@ -3038,7 +3038,7 @@ void ChaosCastleFinal::Send_RankingInfo(BYTE byCCFType, CGameObject &Obj)
 	pMsg.btCnt = nUserCnt;
 	pMsg.h.sizeH = HIBYTE(lOfs);
 	pMsg.h.sizeL = LOBYTE(lOfs);
-	memcpy(&sendbuf, &pMsg, sizeof(pMsg));
+	std::memcpy(&sendbuf, &pMsg, sizeof(pMsg));
 	IOCP.DataSend(Obj.m_Index, (BYTE*)sendbuf, lOfs);
 }
 
@@ -3288,7 +3288,7 @@ void ChaosCastleFinal::GDReqSetCCFReward_UBF(CGameObject &Obj, BYTE btCCFType, B
 
 	SDHP_REQ_SET_CCF_WINNER_INFO pMsg;
 	
-	memcpy(pMsg.UBFName, Obj.Name, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.UBFName, Obj.Name, MAX_ACCOUNT_LEN+1);
 	pMsg.btCCFType = btCCFType;
 	pMsg.btRewardType = btRewardType;
 

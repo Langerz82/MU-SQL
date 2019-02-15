@@ -273,7 +273,7 @@ bool CPentagramSystem::LoadPentagramSetOptionScript(char *pchFileName)
 	Token = GetToken();
 	AttackSetEffectData.Value4 = TokenNumber;
 
-	memcpy(&this->m_AttackSetEffect[iValueCount], &AttackSetEffectData, sizeof(PENTAGRAM_SET_EFFECT));
+	std::memcpy(&this->m_AttackSetEffect[iValueCount], &AttackSetEffectData, sizeof(PENTAGRAM_SET_EFFECT));
 	iValueCount++;
 	}
 	}
@@ -321,7 +321,7 @@ bool CPentagramSystem::LoadPentagramSetOptionScript(char *pchFileName)
 	Token = GetToken();
 	RelationshipSetEffectData.Value4 = TokenNumber;
 
-	memcpy(&this->m_RelationShipSetEffect[iValueCount], &RelationshipSetEffectData, sizeof(PENTAGRAM_SET_EFFECT));
+	std::memcpy(&this->m_RelationShipSetEffect[iValueCount], &RelationshipSetEffectData, sizeof(PENTAGRAM_SET_EFFECT));
 	iValueCount++;
 	}
 	}
@@ -355,7 +355,7 @@ bool CPentagramSystem::LoadPentagramSetOptionScript(char *pchFileName)
 	PentagramHaveSetOptionData.SetOptionIndex[i] = TokenNumber;
 	}
 
-	memcpy(&this->m_PentagramHaveSetOption[iValueCount], &PentagramHaveSetOptionData, sizeof(PENTAGRAM_HAVE_SET_OPTION));
+	std::memcpy(&this->m_PentagramHaveSetOption[iValueCount], &PentagramHaveSetOptionData, sizeof(PENTAGRAM_HAVE_SET_OPTION));
 	iValueCount++;
 	}
 	}
@@ -426,7 +426,7 @@ bool CPentagramSystem::LoadPentagramOptionScript(char *pchFileName)
 			PentagramItemOption.OptionNum[i] = pentagram.attribute(szTemp).as_int();
 		}
 
-		memcpy(&this->m_PentagramItemOption[iValueCount], &PentagramItemOption, sizeof(PentagramItemOption));
+		std::memcpy(&this->m_PentagramItemOption[iValueCount], &PentagramItemOption, sizeof(PentagramItemOption));
 		iValueCount++;
 	}
 
@@ -453,7 +453,7 @@ bool CPentagramSystem::LoadPentagramOptionScript(char *pchFileName)
 			PentagramItemOptionEnableNeed.Need_ErrtelLevel[i] = errtel.attribute(szTemp).as_int();
 		}
 
-		memcpy(&this->m_PentagramItemOptionEnableNeed[iValueCount], &PentagramItemOptionEnableNeed, sizeof(PentagramItemOptionEnableNeed));
+		std::memcpy(&this->m_PentagramItemOptionEnableNeed[iValueCount], &PentagramItemOptionEnableNeed, sizeof(PentagramItemOptionEnableNeed));
 		iValueCount++;
 	}
 
@@ -473,7 +473,7 @@ bool CPentagramSystem::LoadPentagramOptionScript(char *pchFileName)
 			PentagramSocketRateByGrade.SocketRate[i] = socket.attribute(szTemp).as_int();
 		}
 
-		memcpy(&this->m_PentagramSocketRateByGrade[iValueCount], &PentagramSocketRateByGrade, sizeof(PentagramSocketRateByGrade));
+		std::memcpy(&this->m_PentagramSocketRateByGrade[iValueCount], &PentagramSocketRateByGrade, sizeof(PentagramSocketRateByGrade));
 		iValueCount++;
 	}
 
@@ -2366,9 +2366,9 @@ void CPentagramSystem::DBREQ_GetPentagramJewel(CGameObject lpObj, char *szAccoun
 	pMsg.iUserIndex = Obj.m_Index;
 	pMsg.btJewelPos = iJewelPos;
 	pMsg.iUserGuid = Obj.DBNumber;
-	memcpy(&pMsg.szAccountID, szAccountId, MAX_ACCOUNT_LEN);
+	std::memcpy(&pMsg.szAccountID, szAccountId, MAX_ACCOUNT_LEN);
 	pMsg.szAccountID[10] = 0;
-	memcpy(&pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN);
+	std::memcpy(&pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN);
 	pMsg.szName[10] = 0;
 
 	PHeadSetB((BYTE*)&pMsg, 0xE0, sizeof(pMsg));
@@ -2495,7 +2495,7 @@ void CPentagramSystem::GCPentagramJewelInfo(CGameObject &Obj, int iJewelPos)
 				m_PentagramJewelInfo.btRank5OptionNum = Obj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5OptionNum;
 				m_PentagramJewelInfo.btRank5Level = Obj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5Level;
 
-				memcpy(&Buff[dwSize], &m_PentagramJewelInfo, sizeof(PENTAGRAMJEWEL_INFO));
+				std::memcpy(&Buff[dwSize], &m_PentagramJewelInfo, sizeof(PENTAGRAMJEWEL_INFO));
 				dwSize += sizeof(PENTAGRAMJEWEL_INFO);
 				dwJewelCnt++;
 			}
@@ -2526,7 +2526,7 @@ void CPentagramSystem::GCPentagramJewelInfo(CGameObject &Obj, int iJewelPos)
 				m_PentagramJewelInfo.btRank5OptionNum = Obj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5OptionNum;
 				m_PentagramJewelInfo.btRank5Level = Obj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5Level;
 
-				memcpy(&Buff[dwSize], &m_PentagramJewelInfo, sizeof(PENTAGRAMJEWEL_INFO));
+				std::memcpy(&Buff[dwSize], &m_PentagramJewelInfo, sizeof(PENTAGRAMJEWEL_INFO));
 				dwSize += sizeof(PENTAGRAMJEWEL_INFO);
 				dwJewelCnt++;
 			}
@@ -2537,7 +2537,7 @@ void CPentagramSystem::GCPentagramJewelInfo(CGameObject &Obj, int iJewelPos)
 	pMsg.btJewelCnt = dwJewelCnt;
 	pMsg.btJewelPos = iJewelPos;
 	PHeadSubSetW((BYTE*)&pMsg, 0xEE, 0x01, dwSize);
-	memcpy(&Buff, &pMsg, sizeof(pMsg));
+	std::memcpy(&Buff, &pMsg, sizeof(pMsg));
 
 	IOCP.DataSend(Obj.m_Index, Buff, dwSize);
 }
@@ -2570,8 +2570,8 @@ void CPentagramSystem::DBREQ_SetPentagramJewel(CGameObject &Obj, int iJewelPos)
 	pMsg.iUserIndex = Obj.m_Index;
 	pMsg.iUserGuid = Obj.DBNumber;
 
-	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 
 	BYTE Buff[4448]; // Fixed size
 	memset(&Buff, 0x00, sizeof(Buff));
@@ -2603,7 +2603,7 @@ void CPentagramSystem::DBREQ_SetPentagramJewel(CGameObject &Obj, int iJewelPos)
 				m_PentagramJewelInfo.btRank5OptionNum = Obj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5OptionNum;
 				m_PentagramJewelInfo.btRank5Level = Obj.m_PlayerData->m_PentagramJewelInfo_Warehouse[i].btRank5Level;
 
-				memcpy(&Buff[dwSize], &m_PentagramJewelInfo, sizeof(PENTAGRAMJEWEL_INFO));
+				std::memcpy(&Buff[dwSize], &m_PentagramJewelInfo, sizeof(PENTAGRAMJEWEL_INFO));
 				dwSize += sizeof(PENTAGRAMJEWEL_INFO);
 				JewelCnt++;
 			}
@@ -2658,7 +2658,7 @@ void CPentagramSystem::DBREQ_SetPentagramJewel(CGameObject &Obj, int iJewelPos)
 				m_PentagramJewelInfo.btRank5OptionNum = Obj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5OptionNum;
 				m_PentagramJewelInfo.btRank5Level = Obj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5Level;
 
-				memcpy(&Buff[dwSize], &m_PentagramJewelInfo, sizeof(PENTAGRAMJEWEL_INFO));
+				std::memcpy(&Buff[dwSize], &m_PentagramJewelInfo, sizeof(PENTAGRAMJEWEL_INFO));
 				dwSize += sizeof(PENTAGRAMJEWEL_INFO);
 				JewelCnt++;
 			}
@@ -2694,7 +2694,7 @@ void CPentagramSystem::DBREQ_SetPentagramJewel(CGameObject &Obj, int iJewelPos)
 		pMsg.btJewelCnt = JewelCnt;
 		pMsg.btJewelPos = iJewelPos;
 		PHeadSetW((BYTE*)&pMsg, 0xE1, dwSize);
-		memcpy(&Buff, &pMsg, sizeof(pMsg));
+		std::memcpy(&Buff, &pMsg, sizeof(pMsg));
 		wsDataCli.DataSend((char *)Buff, dwSize);
 	}
 }
@@ -2714,8 +2714,8 @@ void CPentagramSystem::DBREQ_DelPentagramJewel(CGameObject &Obj, int iJewelPos, 
 	PMSG_DEL_PENTAGRAMJEWEL pMsg;
 
 	pMsg.iUserGuid = Obj.DBNumber;
-	memcpy(&pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(&pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(&pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(&pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.btJewelPos = iJewelPos;
 	pMsg.btJewelIndex = iJewelIndex;
 
@@ -2752,8 +2752,8 @@ void CPentagramSystem::DBREQ_InsertPentagramJewel(CGameObject &Obj, int iJewelPo
 	PMSG_INSERT_PENTAGRAMJEWEL pMsg;
 
 	pMsg.iUserGuid = Obj.DBNumber;
-	memcpy(&pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(&pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(&pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(&pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 
 	pMsg.btJewelPos = iJewelPos;
 	pMsg.btJewelIndex = iJewelIndex;
@@ -3104,7 +3104,7 @@ bool CPentagramSystem::GCTransPentagramJewelViewInfo(CGameObject &Obj, CItemObje
 					m_PentagramJewelInfo.btRank4Level = Obj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank4Level;
 					m_PentagramJewelInfo.btRank5OptionNum = Obj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank5OptionNum;
 					m_PentagramJewelInfo.btRank5Level = Obj.m_PlayerData->m_PentagramJewelInfo_Inven[j].btRank5Level;
-					memcpy(&Buff[dwSize], &m_PentagramJewelInfo, sizeof(m_PentagramJewelInfo));
+					std::memcpy(&Buff[dwSize], &m_PentagramJewelInfo, sizeof(m_PentagramJewelInfo));
 					dwSize += sizeof(m_PentagramJewelInfo);
 					iJewelCount++;
 					break;
@@ -3119,7 +3119,7 @@ bool CPentagramSystem::GCTransPentagramJewelViewInfo(CGameObject &Obj, CItemObje
 		pMsg.btJewelCnt = iJewelCount;
 		pMsg.btJewelPos = 2;
 		PHeadSubSetW((BYTE*)&pMsg, 0xEE, 0x01, dwSize);
-		memcpy(&Buff, &pMsg, sizeof(pMsg));
+		std::memcpy(&Buff, &pMsg, sizeof(pMsg));
 
 		IOCP.DataSend(TargetIndex, Buff, dwSize);
 
@@ -3181,7 +3181,7 @@ bool CPentagramSystem::GCPShopPentagramJewelViewInfo(CGameObject &Obj, int aSour
 							m_PentagramJewelInfo.btRank4Level = Obj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btRank4Level;
 							m_PentagramJewelInfo.btRank5OptionNum = Obj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btRank5OptionNum;
 							m_PentagramJewelInfo.btRank5Level = Obj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btRank5Level;
-							memcpy(&Buff[dwSize], &m_PentagramJewelInfo, sizeof(m_PentagramJewelInfo));
+							std::memcpy(&Buff[dwSize], &m_PentagramJewelInfo, sizeof(m_PentagramJewelInfo));
 							dwSize += sizeof(m_PentagramJewelInfo);
 							iJewelCount++;
 							break;
@@ -3198,7 +3198,7 @@ bool CPentagramSystem::GCPShopPentagramJewelViewInfo(CGameObject &Obj, int aSour
 		pMsg.btJewelCnt = iJewelCount;
 		pMsg.btJewelPos = 3;
 		PHeadSubSetW((BYTE*)&pMsg, 0xEE, 0x01, dwSize);
-		memcpy(&Buff, &pMsg, sizeof(pMsg));
+		std::memcpy(&Buff, &pMsg, sizeof(pMsg));
 
 		IOCP.DataSend(aSourceIndex, Buff, dwSize);
 

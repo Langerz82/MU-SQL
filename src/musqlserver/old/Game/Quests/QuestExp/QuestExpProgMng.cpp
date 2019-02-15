@@ -169,7 +169,7 @@ void QuestExpProgMng::SendQuestProgress(QuestExpInfo* pQuestExpInfo, DWORD dwQue
 		return;
 	}
 
-	memcpy(&sendBuff[lOfs], &NpcQuestExpInfo, sizeof(NpcQuestExpInfo));
+	std::memcpy(&sendBuff[lOfs], &NpcQuestExpInfo, sizeof(NpcQuestExpInfo));
 	lOfs += sizeof(NpcQuestExpInfo);
 
 	auto MapQuestAsk = pQuestExpInfo->GetQuestExpAsk();
@@ -193,7 +193,7 @@ void QuestExpProgMng::SendQuestProgress(QuestExpInfo* pQuestExpInfo, DWORD dwQue
 	pMsg.btRewardCnt = MapQuestReward.size();
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xF6, 0x0C, lOfs);
-	memcpy(sendBuff, &pMsg, sizeof(pMsg));
+	std::memcpy(sendBuff, &pMsg, sizeof(pMsg));
 	IOCP.DataSend(iObjIndex, sendBuff, lOfs);
 
 	//sLog->outBasic("[QuestExp] Send QuestInfo From NPC To User : [%s][%s] Ep[%d] QS[%d]", getGameObject(iObjIndex)->AccountID, getGameObject(iObjIndex)->Name, GetQuestEpisodeFromInfoIndexId(dwQuestInfoIndexID), GetQuestSwitchFromInfoIndexId(dwQuestInfoIndexID));
@@ -247,7 +247,7 @@ void QuestExpProgMng::SendQuestProgressInfo(QuestExpInfo* pQuestExpInfo, DWORD d
 		sLog->outBasic("[QuestExp] - Error - SendQuestProgressInfo() [%s] [%d]", __FILE__, __LINE__);
 	}
 
-	memcpy(&sendBuff[lOfs], &NpcQuestExpInfo, sizeof(NpcQuestExpInfo));
+	std::memcpy(&sendBuff[lOfs], &NpcQuestExpInfo, sizeof(NpcQuestExpInfo));
 	lOfs += sizeof(NpcQuestExpInfo);
 
 	auto MapQuestAsk = pQuestExpInfo->GetQuestExpAsk();
@@ -271,7 +271,7 @@ void QuestExpProgMng::SendQuestProgressInfo(QuestExpInfo* pQuestExpInfo, DWORD d
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xF6, 0x1B, lOfs);
 
-	memcpy(sendBuff, &pMsg, sizeof(pMsg));
+	std::memcpy(sendBuff, &pMsg, sizeof(pMsg));
 	IOCP.DataSend(iObjIndex, sendBuff, lOfs);
 
 	//sLog->outBasic("[QuestExp] Send Quest Info To QuestList : [%s][%s] Ep[%d] QS[%d]",
@@ -598,7 +598,7 @@ bool QuestExpProgMng::GetSendQuestInfo(QuestExpInfo* pQuestExpInfo, DWORD dwQues
 		if (pRewardKind->GetRewardKind() == true)
 		{
 			pRewardKindRandom = static_cast<QuestExpRewardKindRandom*>(pRewardKind);
-			memcpy(iArrRewardIndex, pRewardKindRandom->GetRewardIndex(), sizeof(iArrRewardIndex));
+			std::memcpy(iArrRewardIndex, pRewardKindRandom->GetRewardIndex(), sizeof(iArrRewardIndex));
 		}
 	}
 
@@ -1337,7 +1337,7 @@ void QuestExpProgMng::SendQuestSwitchList(int iObjIndex, int iSendType)
 	{
 		DWORD dwQuestInfoIndexID = *it;
 
-		memcpy(&sendBuff[lOfs], &dwQuestInfoIndexID, sizeof(dwQuestInfoIndexID));
+		std::memcpy(&sendBuff[lOfs], &dwQuestInfoIndexID, sizeof(dwQuestInfoIndexID));
 		lOfs += sizeof(dwQuestInfoIndexID);
 
 		int iEpisode = GetQuestEpisodeFromInfoIndexId(dwQuestInfoIndexID);
@@ -1376,7 +1376,7 @@ void QuestExpProgMng::SendQuestSwitchList(int iObjIndex, int iSendType)
 	}
 
 	QuestList.h.size = lOfs;
-	memcpy(sendBuff, &QuestList, sizeof(QuestList));
+	std::memcpy(sendBuff, &QuestList, sizeof(QuestList));
 	IOCP.DataSend(Obj.m_Index, static_cast<BYTE*>(sendBuff), lOfs);
 
 	this->m_vtQuestListNpcTalk.erase(this->m_vtQuestListNpcTalk.begin(), this->m_vtQuestListNpcTalk.end());
@@ -1456,7 +1456,7 @@ void QuestExpProgMng::SendProgressQuestList(int iObjIndex)
 
 		DWORD dwQuestInfoIndexID = GetQuestInfoIndexId(iEpisode, iQS);
 
-		memcpy(&sendBuff[lOfs], &dwQuestInfoIndexID, sizeof(dwQuestInfoIndexID));
+		std::memcpy(&sendBuff[lOfs], &dwQuestInfoIndexID, sizeof(dwQuestInfoIndexID));
 		lOfs += sizeof(dwQuestInfoIndexID);
 		btQuestCnt++;
 
@@ -1465,7 +1465,7 @@ void QuestExpProgMng::SendProgressQuestList(int iObjIndex)
 
 	pMsg.btQuestCnt = btQuestCnt;
 	PHeadSubSetB((BYTE *)&pMsg, 0xF6, 0x1A, lOfs);
-	memcpy(sendBuff, &pMsg, sizeof(pMsg));
+	std::memcpy(sendBuff, &pMsg, sizeof(pMsg));
 
 	IOCP.DataSend(iObjIndex, (BYTE *)sendBuff, lOfs);
 

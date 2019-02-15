@@ -174,7 +174,7 @@ DWORD CIOCP::IocpServerWorker(void * p)
 				}
 
 				EnterCriticalSection(&criti);
-				memcpy(&cInAddr, &cAddr.sin_addr, sizeof(cInAddr));
+				std::memcpy(&cInAddr, &cAddr.sin_addr, sizeof(cInAddr));
 
 				ClientIndex = gObjAddSearch(Accept, inet_ntoa(cInAddr));
 
@@ -659,7 +659,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 
 			if (lpIOContext->nSentBytes < MAX_IO_BUFFER_SIZE)
 			{
-				memcpy(recvbuf, &recvbuf[lOfs], lpIOContext->nSentBytes);
+				std::memcpy(recvbuf, &recvbuf[lOfs], lpIOContext->nSentBytes);
 				sLog->outBasic("Message copy %d", lpIOContext->nSentBytes);
 			}
 			break;
@@ -792,7 +792,7 @@ bool CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 			return true;
 		}
 
-		memcpy(&lpIoCtxt->BufferSecond[lpIoCtxt->nSecondOfs], SendBuf, dwSize);
+		std::memcpy(&lpIoCtxt->BufferSecond[lpIoCtxt->nSecondOfs], SendBuf, dwSize);
 		lpIoCtxt->nSecondOfs += dwSize;
 		LeaveCriticalSection(&criti);
 		return true;
@@ -802,7 +802,7 @@ bool CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 
 	if (lpIoCtxt->nSecondOfs > 0)
 	{
-		memcpy(lpIoCtxt->Buffer, lpIoCtxt->BufferSecond, lpIoCtxt->nSecondOfs);
+		std::memcpy(lpIoCtxt->Buffer, lpIoCtxt->BufferSecond, lpIoCtxt->nSecondOfs);
 		lpIoCtxt->nTotalBytes = lpIoCtxt->nSecondOfs;
 		lpIoCtxt->nSecondOfs = 0;
 	}
@@ -816,7 +816,7 @@ bool CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 		return false;
 	}
 
-	memcpy(&lpIoCtxt->Buffer[lpIoCtxt->nTotalBytes], SendBuf, dwSize);
+	std::memcpy(&lpIoCtxt->Buffer[lpIoCtxt->nTotalBytes], SendBuf, dwSize);
 	lpIoCtxt->nTotalBytes += dwSize;
 	lpIoCtxt->m_wsabuf.buf = (char*)&lpIoCtxt->Buffer;
 	lpIoCtxt->m_wsabuf.len = lpIoCtxt->nTotalBytes;
@@ -877,7 +877,7 @@ bool CIOCP::IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 	lpIoCtxt->nTotalBytes = 0;
 	if (lpIoCtxt->nSecondOfs > 0)
 	{
-		memcpy(lpIoCtxt->Buffer, lpIoCtxt->BufferSecond, lpIoCtxt->nSecondOfs);
+		std::memcpy(lpIoCtxt->Buffer, lpIoCtxt->BufferSecond, lpIoCtxt->nSecondOfs);
 		lpIoCtxt->nTotalBytes = lpIoCtxt->nSecondOfs;
 		lpIoCtxt->nSecondOfs = 0;
 	}

@@ -74,7 +74,7 @@ bool TMonsterAIAutomata::LoadData(LPSTR lpszFileName)
 		for (pugi::xml_node automata = mainXML.child("Automata"); automata; automata = automata.next_sibling())
 		{
 			char szStateTransitionDesc[100] = {0};
-			memcpy(szStateTransitionDesc, automata.attribute("Name").as_string(), sizeof(szStateTransitionDesc));
+			std::memcpy(szStateTransitionDesc, automata.attribute("Name").as_string(), sizeof(szStateTransitionDesc));
 
 			int iAutomataNumber = automata.attribute("Number").as_int();
 			int iPriority = automata.attribute("Priority").as_int();
@@ -121,7 +121,7 @@ bool TMonsterAIAutomata::LoadData(LPSTR lpszFileName)
 			AIState->m_iTransitionValue = iTransitionValue;
 			AIState->m_iDelayTime = iDelayTime;
 
-			memcpy(AIState->m_szStateTransitionDesc, szStateTransitionDesc, sizeof(szStateTransitionDesc));
+			std::memcpy(AIState->m_szStateTransitionDesc, szStateTransitionDesc, sizeof(szStateTransitionDesc));
 
 			TMonsterAIAutomata::s_MonsterAIAutomataArray[iAutomataNumber].m_iAutomataNumber = iAutomataNumber;
 			TMonsterAIAutomata::s_MonsterAIAutomataArray[iAutomataNumber].m_AIStateTransCount[iCurrentState]++;

@@ -42,7 +42,7 @@ void CCastleSiegeSync::SetCastleOwnerGuild(char * lpszGuildName)
 	}
 
 	memset(this->m_szCastleOwnerGuild, 0, sizeof(this->m_szCastleOwnerGuild));
-	memcpy(this->m_szCastleOwnerGuild, lpszGuildName, sizeof(this->m_szCastleOwnerGuild)/2);
+	std::memcpy(this->m_szCastleOwnerGuild, lpszGuildName, sizeof(this->m_szCastleOwnerGuild)/2);
 }
 
 

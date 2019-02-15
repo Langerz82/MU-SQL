@@ -47,7 +47,7 @@ GUILD_INFO_STRUCT* CGuildClass::AddGuild(int number, char* guildname, GUILDMARK 
 
 		if ( mark != NULL )
 		{
-			memcpy(pNewNode->Mark, mark, sizeof(GUILDMARK));
+			std::memcpy(pNewNode->Mark, mark, sizeof(GUILDMARK));
 		}
 
 		pNewNode->Number = number;

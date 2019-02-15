@@ -63,8 +63,8 @@ int CPeriodItemEx::AddPeriodInfo(CGameObject &Obj)
 			this->m_PeriodData[i].dwUserGuid = Obj.DBNumber;
 			this->m_PeriodData[i].wUserIndex = Obj.m_Index;
 			this->m_PeriodData[i].btItemCount = 0;
-			memcpy(this->m_PeriodData[i].szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN+1);
-			memcpy(this->m_PeriodData[i].szCharacterName, Obj.Name, MAX_ACCOUNT_LEN+1);
+			std::memcpy(this->m_PeriodData[i].szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN+1);
+			std::memcpy(this->m_PeriodData[i].szCharacterName, Obj.Name, MAX_ACCOUNT_LEN+1);
 			
 			Obj.m_PlayerData->m_iPeriodItemEffectIndex = i;
 
@@ -584,7 +584,7 @@ void CPeriodItemEx::RequestPeriodItemInfo(CGameObject &Obj)
 
 	pMsg.dwUserGuid = Obj.DBNumber;
 	pMsg.wUserIndex = Obj.m_Index;
-	memcpy(pMsg.chCharacterName, Obj.Name, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.chCharacterName, Obj.Name, MAX_ACCOUNT_LEN+1);
 	PHeadSubSetB((BYTE*)&pMsg, 0xD0, 0x03, sizeof(pMsg));
 
 	wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
@@ -596,7 +596,7 @@ void CPeriodItemEx::RequestPeriodItemInsert(CGameObject &Obj, ITEM_DATA * lpItem
 
 	pMsg.dwUserGuid = Obj.DBNumber;
 	pMsg.wUserIndex = Obj.m_Index;
-	memcpy(pMsg.chCharacterName, Obj.Name, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.chCharacterName, Obj.Name, MAX_ACCOUNT_LEN+1);
 
 	pMsg.btItemType = lpItemData->btItemType;
 	pMsg.wItemCode = lpItemData->wItemCode;
@@ -619,7 +619,7 @@ void CPeriodItemEx::RequestPeriodItemDelete(CGameObject &Obj, ITEM_DATA * lpItem
 
 	pMsg.dwUserGuid = Obj.DBNumber;
 	pMsg.wUserIndex = Obj.m_Index;
-	memcpy(pMsg.chCharacterName, Obj.Name, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.chCharacterName, Obj.Name, MAX_ACCOUNT_LEN+1);
 
 	pMsg.btItemType = lpItemData->btItemType;
 	pMsg.wItemCode = lpItemData->wItemCode;

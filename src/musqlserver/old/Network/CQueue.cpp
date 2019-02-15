@@ -102,7 +102,7 @@ BOOL CQueue::AddToQueue(const BYTE* pObject, unsigned int nSize, BYTE headcode, 
 		BYTE* pMsg = (BYTE*) HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, nSize);
 		if( pMsg )
 		{
-			memcpy(pMsg, pObject, nSize);
+			std::memcpy(pMsg, pObject, nSize);
 
 			pNewNode->pObject	= pMsg;
 			pNewNode->nSize		= nSize;
@@ -144,7 +144,7 @@ ST_LISTNODE* CQueue::AddToQueueList(const BYTE* pObject, unsigned int nSize, BYT
 		BYTE* pMsg = (BYTE*) HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, nSize);
 		if( pMsg )
 		{
-			memcpy(pMsg, pObject, nSize);
+			std::memcpy(pMsg, pObject, nSize);
 
 			pNewNode->pObject	= pMsg;
 			pNewNode->nSize		= nSize;
@@ -177,7 +177,7 @@ BOOL CQueue::GetFromQueue(BYTE* pObject, unsigned int * pSize, BYTE * headcode, 
 	if(pNode)
 	{
 		
-		memcpy(pObject, pNode->pObject, pNode->nSize);
+		std::memcpy(pObject, pNode->pObject, pNode->nSize);
 		*pSize = pNode->nSize;
 		*headcode =pNode->headcode;
 		*uindex = pNode->uindex;
@@ -239,7 +239,7 @@ ST_LISTNODE* CQueue::GetCurData(BYTE* pObject, unsigned int * pSize, BYTE * head
 	{		
 		if( m_pCur->bSending == 1 ) return FALSE;
 
-		memcpy(pObject, m_pCur->pObject, m_pCur->nSize);
+		std::memcpy(pObject, m_pCur->pObject, m_pCur->nSize);
 		*pSize = m_pCur->nSize;
 		*headcode =m_pCur->headcode;
 		*uindex = m_pCur->uindex;
@@ -260,7 +260,7 @@ BOOL CQueue::Pop(ST_LISTNODE* pCur, BYTE *pObject, int nOfs, int *nSize, int *se
 			pCur->nOfs += nOfs;
 			if( pCur->nSize-nOfs )
 			{
-				memcpy(pObject, pCur->pObject+pCur->nOfs, pCur->nSize-pCur->nOfs);
+				std::memcpy(pObject, pCur->pObject+pCur->nOfs, pCur->nSize-pCur->nOfs);
 				*nSize = pCur->nSize-pCur->nOfs;
 				*sentbytes = pCur->nOfs;
 				bRet = TRUE;

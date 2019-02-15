@@ -73,7 +73,7 @@ public:
 
 		if ( szName != NULL )
 		{
-			memcpy(this->Name, szName, MAX_ACCOUNT_LEN);
+			std::memcpy(this->Name, szName, MAX_ACCOUNT_LEN);
 		}
 	}	// line : 49
 

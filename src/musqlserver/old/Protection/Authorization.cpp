@@ -159,7 +159,7 @@ void CAuthSystem::ValidateServer(PMSG_ACTIVATE *pMsg)
 	if(this->m_KeyTable[0] == 0 && this->m_KeyTable[10] == 0 &&
 		this->m_KeyTable[15] == 0) // First connect
 	{
-		memcpy(&this->m_KeyTable, pMsg->KEYTABLE, 20);
+		std::memcpy(&this->m_KeyTable, pMsg->KEYTABLE, 20);
 
 		if(memcmp(&this->m_KeyTable, KeyTable, 20) == 0 && pMsg->Status == TRUE)
 		{
@@ -227,9 +227,9 @@ void CAuthSystem::AuthServerLogin()
 	p.PROTOCOLVERSION = AUTH_PROTOCOL_VERSION;
 	p.SIZE= sizeof(p) + Key->m_ESize + Key->m_NSize;
 
-	memcpy(&Buff, &p, sizeof(p));
-	memcpy(&Buff[sizeof(p)], Key->m_EBuff, Key->m_ESize);
-	memcpy(&Buff[sizeof(p)+Key->m_ESize], Key->m_NBuff, Key->m_NSize);
+	std::memcpy(&Buff, &p, sizeof(p));
+	std::memcpy(&Buff[sizeof(p)], Key->m_EBuff, Key->m_ESize);
+	std::memcpy(&Buff[sizeof(p)+Key->m_ESize], Key->m_NBuff, Key->m_NSize);
 
 	// UNSECURED PACKET
 	this->SendData((BYTE*)&Buff, p.SIZE, FALSE);
@@ -645,8 +645,8 @@ bool CAuthSystem::MakeAuthKey(BYTE* lpRecv)
 	BYTE * EKey = new BYTE[lpMsg->eSize];
 	BYTE * NKey = new BYTE[lpMsg->nSize];
 
-	memcpy(EKey, &lpRecv[sizeof(PMSG_HANDSHAKE)], lpMsg->eSize);
-	memcpy(NKey, &lpRecv[sizeof(PMSG_HANDSHAKE)+lpMsg->eSize], lpMsg->nSize);
+	std::memcpy(EKey, &lpRecv[sizeof(PMSG_HANDSHAKE)], lpMsg->eSize);
+	std::memcpy(NKey, &lpRecv[sizeof(PMSG_HANDSHAKE)+lpMsg->eSize], lpMsg->nSize);
 
 	if(this->m_AuthKey == NULL)
 	{

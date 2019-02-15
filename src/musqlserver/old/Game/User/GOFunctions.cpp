@@ -1828,7 +1828,7 @@ bool gObjSetCharacter(BYTE* lpdata, CGameObject &Obj)
 	lpObj->m_PlayerData->ChangeUP = lpMsg->Class & 0x07;	// Set Second Type of Character
 
 	szCharName[MAX_ACCOUNT_LEN] = 0;
-	memcpy(szCharName, lpMsg->Name, MAX_ACCOUNT_LEN);
+	std::memcpy(szCharName, lpMsg->Name, MAX_ACCOUNT_LEN);
 	strcpy(lpObj->Name, szCharName);
 
 	if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
@@ -2403,7 +2403,7 @@ bool gObjSetCharacter(BYTE* lpdata, CGameObject &Obj)
 	lpObj->MaxRegenTime = 4000;	// Resurrection of the player if die
 	lpObj->m_MoveSpeed = 1000;
 
-	memcpy(lpObj->m_PlayerData->m_Quest, lpMsg->dbQuest, sizeof(lpObj->m_PlayerData->m_Quest));
+	std::memcpy(lpObj->m_PlayerData->m_Quest, lpMsg->dbQuest, sizeof(lpObj->m_PlayerData->m_Quest));
 
 	if (lpObj->m_PlayerData->m_Quest[0] == 0)
 	{
@@ -2721,7 +2721,7 @@ bool gObjSetCharacter(BYTE* lpdata, CGameObject &Obj)
 
 	if (lpMsg->Married == 1)
 	{
-		memcpy(lpObj->MarryName, lpMsg->MarryName, 10);
+		std::memcpy(lpObj->MarryName, lpMsg->MarryName, 10);
 		lpObj->Married = 1;
 	}
 	else
@@ -3218,7 +3218,7 @@ int gObjSetMonster(CGameObject &Obj, int MonsterClass)
 	Obj.m_iPentagramDefenseRating = lpm->m_PentagramDefenseRating;
 
 	Obj.pInventoryCount[0] = 0;
-	memcpy(Obj.m_Resistance, lpm->m_Resistance, MAX_RESISTENCE_TYPE);
+	std::memcpy(Obj.m_Resistance, lpm->m_Resistance, MAX_RESISTENCE_TYPE);
 	gObjSetInventory1Pointer(Obj);
 
 	if (Obj.m_AttackType != 0)
@@ -3943,7 +3943,7 @@ BOOL gObjGameClose(CGameObject &Obj)
 
 	gObjClearBuffEffect(Obj, CLEAR_TYPE_LOGOUT);
 
-	memcpy(Obj.BackName, Obj.Name, sizeof(Obj.Name) - 1);
+	std::memcpy(Obj.BackName, Obj.Name, sizeof(Obj.Name) - 1);
 	Obj.BackName[10] = 0;
 
 	Obj.Connected = PLAYER_LOGGED;
@@ -10378,8 +10378,8 @@ BOOL gObjInventoryTrans(CGameObject &Obj)
 		Obj.pEventInventory2[n] = Obj.pEventInventory1[n];
 	}
 
-	memcpy(Obj.InventoryMap2, Obj.InventoryMap1, INVENTORY_MAP_SIZE);
-	memcpy(Obj.pEventInventoryMap2, Obj.pEventInventoryMap1, EVENT_INVENTORY_MAP_SIZE);
+	std::memcpy(Obj.InventoryMap2, Obj.InventoryMap1, INVENTORY_MAP_SIZE);
+	std::memcpy(Obj.pEventInventoryMap2, Obj.pEventInventoryMap1, EVENT_INVENTORY_MAP_SIZE);
 
 	Obj.InventoryCount2 = Obj.InventoryCount1;
 	gObjSetInventory2Pointer(Obj);
@@ -10407,7 +10407,7 @@ int gObjInventoryCommit(CGameObject &Obj)
 		Obj.Inventory1[n] = Obj.Inventory2[n];
 	}
 
-	memcpy(Obj.InventoryMap1, Obj.InventoryMap2, INVENTORY_MAP_SIZE);
+	std::memcpy(Obj.InventoryMap1, Obj.InventoryMap2, INVENTORY_MAP_SIZE);
 
 	Obj.InventoryCount1 = Obj.InventoryCount2;
 
@@ -10418,7 +10418,7 @@ int gObjInventoryCommit(CGameObject &Obj)
 		Obj.pEventInventory1[n] = Obj.pEventInventory2[n];
 	}
 
-	memcpy(Obj.pEventInventoryMap1, Obj.pEventInventoryMap2, EVENT_INVENTORY_MAP_SIZE);
+	std::memcpy(Obj.pEventInventoryMap1, Obj.pEventInventoryMap2, EVENT_INVENTORY_MAP_SIZE);
 
 	gObjSetEventInventory1Pointer(Obj);
 
@@ -11991,7 +11991,7 @@ BYTE gObjChaosBoxInsertItemPos(CGameObject &Obj, CItemObject &item, int pos, int
 
 	if (source >= 0)
 	{
-		memcpy(TempMap, Obj.pChaosBoxMap, CHAOS_BOX_MAP_SIZE);
+		std::memcpy(TempMap, Obj.pChaosBoxMap, CHAOS_BOX_MAP_SIZE);
 		gObjChaosItemBoxSet(Obj, source, iwidth, iheight, 255);
 	}
 
@@ -11999,7 +11999,7 @@ BYTE gObjChaosBoxInsertItemPos(CGameObject &Obj, CItemObject &item, int pos, int
 	{
 		if (source >= 0)
 		{
-			memcpy(Obj.pChaosBoxMap, TempMap, CHAOS_BOX_MAP_SIZE);
+			std::memcpy(Obj.pChaosBoxMap, TempMap, CHAOS_BOX_MAP_SIZE);
 		}
 		return -1;
 	}
@@ -12010,7 +12010,7 @@ BYTE gObjChaosBoxInsertItemPos(CGameObject &Obj, CItemObject &item, int pos, int
 	{
 		if (source >= 0)
 		{
-			memcpy(Obj.pChaosBoxMap, TempMap, CHAOS_BOX_MAP_SIZE);
+			std::memcpy(Obj.pChaosBoxMap, TempMap, CHAOS_BOX_MAP_SIZE);
 		}
 		return -1;
 	}
@@ -12060,7 +12060,7 @@ BYTE gObjWarehouseInsertItemPos(CGameObject &Obj, CItemObject &item, int pos, in
 
 	if (source >= 0)
 	{
-		memcpy(TempMap, Obj.pWarehouseMap, WAREHOUSE_SIZE);
+		std::memcpy(TempMap, Obj.pWarehouseMap, WAREHOUSE_SIZE);
 		gObjWarehouseItemBoxSet(Obj, source, iwidth, iheight, 255);
 	}
 
@@ -12068,7 +12068,7 @@ BYTE gObjWarehouseInsertItemPos(CGameObject &Obj, CItemObject &item, int pos, in
 	{
 		if (source >= 0)
 		{
-			memcpy(Obj.pWarehouseMap, TempMap, WAREHOUSE_SIZE);
+			std::memcpy(Obj.pWarehouseMap, TempMap, WAREHOUSE_SIZE);
 		}
 		return -1;
 	}
@@ -12079,7 +12079,7 @@ BYTE gObjWarehouseInsertItemPos(CGameObject &Obj, CItemObject &item, int pos, in
 	{
 		if (source >= 0)
 		{
-			memcpy(Obj.pWarehouseMap, TempMap, WAREHOUSE_SIZE);
+			std::memcpy(Obj.pWarehouseMap, TempMap, WAREHOUSE_SIZE);
 		}
 		return -1;
 	}
@@ -12159,11 +12159,11 @@ BYTE gObjInventoryInsertItemPos(CGameObject &Obj, CItemObject &item, int pos, BO
 			return -1;
 		}
 
-		memcpy(TempInventoryMap, Obj.pInventoryMap, INVENTORY_MAP_SIZE);	//OK
+		std::memcpy(TempInventoryMap, Obj.pInventoryMap, INVENTORY_MAP_SIZE);	//OK
 
 		if (*(BYTE*)(Obj.pInventoryMap + h * 8 + w) != 255)
 		{
-			memcpy(Obj.pInventoryMap, TempInventoryMap, INVENTORY_MAP_SIZE);	//OK
+			std::memcpy(Obj.pInventoryMap, TempInventoryMap, INVENTORY_MAP_SIZE);	//OK
 			return -1;
 		}
 
@@ -12171,7 +12171,7 @@ BYTE gObjInventoryInsertItemPos(CGameObject &Obj, CItemObject &item, int pos, BO
 
 		if (blank >= 254)
 		{
-			memcpy(Obj.pInventoryMap, TempInventoryMap, INVENTORY_MAP_SIZE);	//OK
+			std::memcpy(Obj.pInventoryMap, TempInventoryMap, INVENTORY_MAP_SIZE);	//OK
 			return -1;
 		}
 	}
@@ -13320,7 +13320,7 @@ BYTE gObjInventoryMoveItem(CGameObject &Obj, BYTE source, BYTE target, int& durS
 				}
 
 				sitem->GetSize((int &)iwidth, (int &)iheight);
-				memcpy(TempInventoryMap, Obj.pInventoryMap, size);
+				std::memcpy(TempInventoryMap, Obj.pInventoryMap, size);
 
 				switch (sFlag)
 				{
@@ -13336,7 +13336,7 @@ BYTE gObjInventoryMoveItem(CGameObject &Obj, BYTE source, BYTE target, int& durS
 
 				if (*(BYTE*)(Obj.pInventoryMap + h * 8 + w) != 255)
 				{
-					memcpy(Obj.pInventoryMap, TempInventoryMap, size);
+					std::memcpy(Obj.pInventoryMap, TempInventoryMap, size);
 					return -1;
 				}
 
@@ -13344,7 +13344,7 @@ BYTE gObjInventoryMoveItem(CGameObject &Obj, BYTE source, BYTE target, int& durS
 
 				if (blank >= 254)
 				{
-					memcpy(Obj.pInventoryMap, TempInventoryMap, size);
+					std::memcpy(Obj.pInventoryMap, TempInventoryMap, size);
 					return -1;
 				}
 			}
@@ -13401,7 +13401,7 @@ BYTE gObjInventoryMoveItem(CGameObject &Obj, BYTE source, BYTE target, int& durS
 					g_PentagramSystem.GCPentagramJewelInfo(Obj, 1);
 
 					CItemObject Item;
-					memcpy(&Item, &Obj.pWarehouse[source], sizeof(Item));
+					std::memcpy(&Item, &Obj.pWarehouse[source], sizeof(Item));
 					ItemByteConvert(siteminfo, Item);
 				}
 				Obj.pInventory[target] = Obj.pWarehouse[source];
@@ -13552,7 +13552,7 @@ BYTE gObjInventoryMoveItem(CGameObject &Obj, BYTE source, BYTE target, int& durS
 					g_PentagramSystem.GCPentagramJewelInfo(Obj, 1);
 
 					CItemObject Item;
-					memcpy(&Item, &Obj.pInventory[source], sizeof(Item));
+					std::memcpy(&Item, &Obj.pInventory[source], sizeof(Item));
 					ItemByteConvert(siteminfo, Item);
 				}
 				Obj.pWarehouse[target] = Obj.pInventory[source];
@@ -14541,7 +14541,7 @@ BYTE gObjTradeTradeMove(CGameObject &Obj, BYTE source, BYTE target)
 	}
 
 	Obj.Trade[source]->GetSize((int &)iwidth, (int &)iheight);
-	memcpy(TempTradeMap, Obj.TradeMap, TRADE_BOX_MAP_SIZE);
+	std::memcpy(TempTradeMap, Obj.TradeMap, TRADE_BOX_MAP_SIZE);
 	gObjTradeItemBoxSet(Obj, source, iwidth, iheight, 255);
 
 	w = target % 8;
@@ -14549,7 +14549,7 @@ BYTE gObjTradeTradeMove(CGameObject &Obj, BYTE source, BYTE target)
 
 	if (ExtentCheck(w, h, 8, 4) == 0)
 	{
-		memcpy(Obj.TradeMap, TempTradeMap, TRADE_BOX_MAP_SIZE);
+		std::memcpy(Obj.TradeMap, TempTradeMap, TRADE_BOX_MAP_SIZE);
 		return -1;
 	}
 
@@ -14560,7 +14560,7 @@ BYTE gObjTradeTradeMove(CGameObject &Obj, BYTE source, BYTE target)
 
 		if (blank == 255)
 		{
-			memcpy(Obj.TradeMap, TempTradeMap, TRADE_BOX_MAP_SIZE);
+			std::memcpy(Obj.TradeMap, TempTradeMap, TRADE_BOX_MAP_SIZE);
 			return -1;
 		}
 
@@ -14574,7 +14574,7 @@ BYTE gObjTradeTradeMove(CGameObject &Obj, BYTE source, BYTE target)
 		return true;
 	}
 
-	memcpy(Obj.TradeMap, TempTradeMap, TRADE_BOX_MAP_SIZE);
+	std::memcpy(Obj.TradeMap, TempTradeMap, TRADE_BOX_MAP_SIZE);
 	return -1;
 }
 
@@ -14737,8 +14737,8 @@ BOOL TradeItemInventoryPutTest(CGameObject &Obj)
 		return false;
 	}
 
-	memcpy(TempInventoryMap, Obj.pInventoryMap, INVENTORY_MAP_SIZE);
-	memcpy(TempEventInventoryMap, Obj.pEventInventoryMap, EVENT_INVENTORY_MAP_SIZE);
+	std::memcpy(TempInventoryMap, Obj.pInventoryMap, INVENTORY_MAP_SIZE);
+	std::memcpy(TempEventInventoryMap, Obj.pEventInventoryMap, EVENT_INVENTORY_MAP_SIZE);
 
 	for (int n = 0; n < TRADE_BOX_SIZE; n++)
 	{
@@ -18576,7 +18576,7 @@ void gObjViewportListProtocolDestroy(CGameObject &Obj)
 	pCount.h.size = lOfs;
 	pCount.count = count;
 
-	memcpy(sendBuf, &pCount, sizeof(pCount));
+	std::memcpy(sendBuf, &pCount, sizeof(pCount));
 
 	if (count < 1)
 	{
@@ -18660,17 +18660,17 @@ void gObjViewportListProtocolCreate(CGameObject &Obj)
 			Obj.CharSet[0] &= 0xFC;
 			Obj.CharSet[0] |= Obj.m_ViewState & 0x03;
 
-			memcpy(&pViewportCreateChange.CharSet, Obj.CharSet, 18);
+			std::memcpy(&pViewportCreateChange.CharSet, Obj.CharSet, 18);
 
 			if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 			{
-				memcpy(pViewportCreateChange.Id, Obj.m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN);
+				std::memcpy(pViewportCreateChange.Id, Obj.m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN);
 				pViewportCreateChange.nServerCodeOfHomeWorld = Obj.m_PlayerData->m_nServerCodeOfHomeWorld;
 			}
 
 			else
 			{
-				memcpy(pViewportCreateChange.Id, Obj.Name, MAX_ACCOUNT_LEN);
+				std::memcpy(pViewportCreateChange.Id, Obj.Name, MAX_ACCOUNT_LEN);
 				pViewportCreateChange.nServerCodeOfHomeWorld = 0;
 			}
 
@@ -18682,7 +18682,7 @@ void gObjViewportListProtocolCreate(CGameObject &Obj)
 
 			pViewportCreateChange.BuffEffectCount = iViewportSize = gObjMakeViewportState(Obj, pViewportCreateChange.BuffEffectList);
 
-			memcpy((sendBuf + lOfs), (char*)&pViewportCreateChange, sizeof(PMSG_VIEWPORTCREATE_CHANGE) - (32 - iViewportSize));
+			std::memcpy((sendBuf + lOfs), (char*)&pViewportCreateChange, sizeof(PMSG_VIEWPORTCREATE_CHANGE) - (32 - iViewportSize));
 			lOfs += sizeof(PMSG_VIEWPORTCREATE_CHANGE) - (32 - iViewportSize);
 			count++;
 
@@ -18736,17 +18736,17 @@ void gObjViewportListProtocolCreate(CGameObject &Obj)
 				pViewportCreate.DirAndPkLevel |= (Obj.m_PK_Level & 0x0F);
 			}
 
-			memcpy(&pViewportCreate.CharSet, Obj.CharSet, 18);
+			std::memcpy(&pViewportCreate.CharSet, Obj.CharSet, 18);
 
 			if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 			{
-				memcpy(pViewportCreate.Id, Obj.m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN);
+				std::memcpy(pViewportCreate.Id, Obj.m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN);
 				pViewportCreate.nServerCodeOfHomeWorld = Obj.m_PlayerData->m_nServerCodeOfHomeWorld;
 			}
 
 			else
 			{
-				memcpy(pViewportCreate.Id, Obj.Name, MAX_ACCOUNT_LEN);
+				std::memcpy(pViewportCreate.Id, Obj.Name, MAX_ACCOUNT_LEN);
 				pViewportCreate.nServerCodeOfHomeWorld = 0;
 			}
 
@@ -18782,7 +18782,7 @@ void gObjViewportListProtocolCreate(CGameObject &Obj)
 			pViewportCreate.CurLifeLL = (int)Obj.Life;
 			pViewportCreate.BuffEffectCount = iViewportSize = gObjMakeViewportState(Obj, pViewportCreate.BuffEffectList);
 
-			memcpy((sendBuf + lOfs), (char*)&pViewportCreate, sizeof(PMSG_VIEWPORTCREATE));
+			std::memcpy((sendBuf + lOfs), (char*)&pViewportCreate, sizeof(PMSG_VIEWPORTCREATE));
 			lOfs += sizeof(PMSG_VIEWPORTCREATE) - (32 - iViewportSize);
 			count++;
 
@@ -18799,7 +18799,7 @@ void gObjViewportListProtocolCreate(CGameObject &Obj)
 		pwCount.h.sizeL = SET_NUMBERL(lOfs);
 		pwCount.count = count;
 
-		memcpy(sendBuf, &pwCount, sizeof(pwCount));
+		std::memcpy(sendBuf, &pwCount, sizeof(pwCount));
 
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, sendBuf, lOfs); //[K2]
 
@@ -18829,7 +18829,7 @@ void gObjViewportListProtocolCreate(CGameObject &Obj)
 				pGuild.btOwnerStatus = 0;
 			}
 
-			memcpy(&GuildInfoBuf[GuildInfoOfs], &pGuild, sizeof(pGuild));
+			std::memcpy(&GuildInfoBuf[GuildInfoOfs], &pGuild, sizeof(pGuild));
 
 			GuildInfoOfs += sizeof(pGuild);
 
@@ -18841,7 +18841,7 @@ void gObjViewportListProtocolCreate(CGameObject &Obj)
 			pwCount.h.sizeL = SET_NUMBERL(GuildInfoOfs);
 			pwCount.Count = 1;
 
-			memcpy(GuildInfoBuf, &pwCount, sizeof(pwCount));
+			std::memcpy(GuildInfoBuf, &pwCount, sizeof(pwCount));
 
 			IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, GuildInfoBuf, GuildInfoOfs);
 		}
@@ -18919,7 +18919,7 @@ void gObjViewportListProtocolCreate(CGameObject &Obj)
 
 				if (ObjectMaxRange(iOwnerIndex) == true && getGameObject(iOwnerIndex)->Type == OBJ_USER)
 				{
-					memcpy(pCallMonsterViewportCreate.CharSet, getGameObject(iOwnerIndex)->CharSet, 18);
+					std::memcpy(pCallMonsterViewportCreate.CharSet, getGameObject(iOwnerIndex)->CharSet, 18);
 				}
 			}
 
@@ -18931,7 +18931,7 @@ void gObjViewportListProtocolCreate(CGameObject &Obj)
 
 			if (ObjectMaxRange(iOwnerIndex) == true && getGameObject(iOwnerIndex)->Type == OBJ_USER)
 			{
-				memcpy(pCallMonsterViewportCreate.Id, getGameObject(iOwnerIndex)->Name, sizeof(pCallMonsterViewportCreate.Id));
+				std::memcpy(pCallMonsterViewportCreate.Id, getGameObject(iOwnerIndex)->Name, sizeof(pCallMonsterViewportCreate.Id));
 
 			}
 			else
@@ -18941,14 +18941,14 @@ void gObjViewportListProtocolCreate(CGameObject &Obj)
 
 			if (ObjectMaxRange(iOwnerIndex) == true && getGameObject(iOwnerIndex)->Type == OBJ_USER)
 			{
-				memcpy(pCallMonsterViewportCreate.Id, getGameObject(iOwnerIndex)->Name, MAX_ACCOUNT_LEN);
+				std::memcpy(pCallMonsterViewportCreate.Id, getGameObject(iOwnerIndex)->Name, MAX_ACCOUNT_LEN);
 			}
 
 			else memset(pCallMonsterViewportCreate.Id, 0, MAX_ACCOUNT_LEN);
 
 			pCallMonsterViewportCreate.BuffEffectCount = iViewportSize = gObjMakeViewportState(Obj, pCallMonsterViewportCreate.BuffEffectList);
 
-			memcpy((sendBuf + lOfs), (char*)&pCallMonsterViewportCreate, sizeof(PMSG_CALLMONSTER_VIEWPORTCREATE));
+			std::memcpy((sendBuf + lOfs), (char*)&pCallMonsterViewportCreate, sizeof(PMSG_CALLMONSTER_VIEWPORTCREATE));
 			lOfs += sizeof(PMSG_CALLMONSTER_VIEWPORTCREATE) - (32 - iViewportSize);
 			count++;
 		}
@@ -18980,7 +18980,7 @@ void gObjViewportListProtocolCreate(CGameObject &Obj)
 			pMonsterViewportCreate.CurLifeLH = (int)Obj.Life >> 16;
 			pMonsterViewportCreate.CurLifeLL = (int)Obj.Life;
 			pMonsterViewportCreate.BuffEffectCount = iViewportSize = gObjMakeViewportState(Obj, pMonsterViewportCreate.BuffEffectList);
-			memcpy((sendBuf + lOfs), (char*)&pMonsterViewportCreate, sizeof(PMSG_MONSTER_VIEWPORTCREATE));
+			std::memcpy((sendBuf + lOfs), (char*)&pMonsterViewportCreate, sizeof(PMSG_MONSTER_VIEWPORTCREATE));
 			lOfs += sizeof(PMSG_MONSTER_VIEWPORTCREATE) - (32 - iViewportSize);
 			moncount++;
 		}
@@ -18995,7 +18995,7 @@ void gObjViewportListProtocolCreate(CGameObject &Obj)
 			pwCount.h.sizeL = SET_NUMBERL(lOfs);
 			pwCount.count = count;
 
-			memcpy(sendBuf, &pwCount, sizeof(pwCount));
+			std::memcpy(sendBuf, &pwCount, sizeof(pwCount));
 			gGameProtocol.MsgSendV2(Obj, sendBuf, lOfs);
 		}
 
@@ -19009,7 +19009,7 @@ void gObjViewportListProtocolCreate(CGameObject &Obj)
 			pwCount.h.sizeL = SET_NUMBERL(lOfs);
 			pwCount.count = moncount;
 
-			memcpy(sendBuf, &pwCount, sizeof(pwCount));
+			std::memcpy(sendBuf, &pwCount, sizeof(pwCount));
 			gGameProtocol.MsgSendV2(Obj, sendBuf, lOfs);
 		}
 	}
@@ -19071,7 +19071,7 @@ void gObjViewportListProtocol(CGameObject &Obj)
 						pViewportDestroy.NumberH = SET_NUMBERH(tObjNum);
 						pViewportDestroy.NumberL = SET_NUMBERL(tObjNum);
 
-						memcpy(&sendBuf[lOfs], &pViewportDestroy, sizeof(pViewportDestroy));
+						std::memcpy(&sendBuf[lOfs], &pViewportDestroy, sizeof(pViewportDestroy));
 						lOfs += sizeof(pViewportDestroy);
 						count += 1;
 						break;
@@ -19079,7 +19079,7 @@ void gObjViewportListProtocol(CGameObject &Obj)
 						pItemViewportDestroy.NumberH = SET_NUMBERH(tObjNum);
 						pItemViewportDestroy.NumberL = SET_NUMBERL(tObjNum);
 
-						memcpy(&ItemBuf[lOfs_Item], &pItemViewportDestroy, sizeof(pItemViewportDestroy));
+						std::memcpy(&ItemBuf[lOfs_Item], &pItemViewportDestroy, sizeof(pItemViewportDestroy));
 
 						lOfs_Item += sizeof(pItemViewportDestroy);
 						count_Item += 1;
@@ -19116,7 +19116,7 @@ void gObjViewportListProtocol(CGameObject &Obj)
 			pCount.h.size = lOfs;
 			pCount.count = count;
 
-			memcpy(sendBuf, &pCount, sizeof(pCount));
+			std::memcpy(sendBuf, &pCount, sizeof(pCount));
 			IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, sendBuf, lOfs);
 		}
 
@@ -19128,7 +19128,7 @@ void gObjViewportListProtocol(CGameObject &Obj)
 			pItemCount.h.sizeL = SET_NUMBERL(lOfs_Item);
 			pItemCount.count = count_Item;
 
-			memcpy(ItemBuf, &pItemCount, sizeof(pItemCount));
+			std::memcpy(ItemBuf, &pItemCount, sizeof(pItemCount));
 			IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, ItemBuf, lOfs_Item);
 		}
 	}
@@ -19241,17 +19241,17 @@ void gObjViewportListProtocol(CGameObject &Obj)
 								pViewportCreateChange.CurLifeLH = (int)lpTargetObj->Life >> 16;
 								pViewportCreateChange.CurLifeLL = (int)lpTargetObj->Life;
 
-								memcpy(pViewportCreateChange.CharSet, lpTargetObj->CharSet, sizeof(pViewportCreateChange.CharSet)); //New for Fix Rings of Transformation
+								std::memcpy(pViewportCreateChange.CharSet, lpTargetObj->CharSet, sizeof(pViewportCreateChange.CharSet)); //New for Fix Rings of Transformation
 
 								if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 								{
-									memcpy(pViewportCreateChange.Id, lpTargetObj->m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN);
+									std::memcpy(pViewportCreateChange.Id, lpTargetObj->m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN);
 									pViewportCreateChange.nServerCodeOfHomeWorld = lpTargetObj->m_PlayerData->m_nServerCodeOfHomeWorld;
 								}
 
 								else
 								{
-									memcpy(pViewportCreateChange.Id, lpTargetObj->Name, sizeof(pViewportCreateChange.Id));
+									std::memcpy(pViewportCreateChange.Id, lpTargetObj->Name, sizeof(pViewportCreateChange.Id));
 									pViewportCreateChange.nServerCodeOfHomeWorld = 0;
 								}
 
@@ -19263,7 +19263,7 @@ void gObjViewportListProtocol(CGameObject &Obj)
 
 								pViewportCreateChange.BuffEffectCount = iViewportSize = gObjMakeViewportState(*lpTargetObj, pViewportCreateChange.BuffEffectList);
 
-								memcpy((SendGBufChange + lOfsChange), (char*)&pViewportCreateChange, sizeof(PMSG_VIEWPORTCREATE_CHANGE));
+								std::memcpy((SendGBufChange + lOfsChange), (char*)&pViewportCreateChange, sizeof(PMSG_VIEWPORTCREATE_CHANGE));
 								lOfsChange += sizeof(PMSG_VIEWPORTCREATE_CHANGE) - (MAX_BUFFEFFECT - iViewportSize);
 								ChangeCount++;
 							}
@@ -19332,17 +19332,17 @@ void gObjViewportListProtocol(CGameObject &Obj)
 								pViewportCreate.CurLifeLH = (int)lpTargetObj->Life >> 16;
 								pViewportCreate.CurLifeLL = (int)lpTargetObj->Life;
 
-								memcpy(pViewportCreate.CharSet, lpTargetObj->CharSet, sizeof(pViewportCreate.CharSet));
+								std::memcpy(pViewportCreate.CharSet, lpTargetObj->CharSet, sizeof(pViewportCreate.CharSet));
 
 								if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 								{
-									memcpy(pViewportCreate.Id, lpTargetObj->m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN);
+									std::memcpy(pViewportCreate.Id, lpTargetObj->m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN);
 									pViewportCreate.nServerCodeOfHomeWorld = lpTargetObj->m_PlayerData->m_nServerCodeOfHomeWorld;
 								}
 
 								else
 								{
-									memcpy(pViewportCreate.Id, lpTargetObj->Name, sizeof(pViewportCreate.Id));
+									std::memcpy(pViewportCreate.Id, lpTargetObj->Name, sizeof(pViewportCreate.Id));
 									pViewportCreate.nServerCodeOfHomeWorld = 0;
 								}
 
@@ -19354,7 +19354,7 @@ void gObjViewportListProtocol(CGameObject &Obj)
 
 								pViewportCreate.BuffEffectCount = iViewportSize = gObjMakeViewportState(*lpTargetObj, pViewportCreate.BuffEffectList);
 
-								memcpy((sendBuf + lOfs), (char*)&pViewportCreate, sizeof(PMSG_VIEWPORTCREATE));
+								std::memcpy((sendBuf + lOfs), (char*)&pViewportCreate, sizeof(PMSG_VIEWPORTCREATE));
 								lOfs += sizeof(PMSG_VIEWPORTCREATE) - (MAX_BUFFEFFECT - iViewportSize);
 								count++;
 							}
@@ -19396,7 +19396,7 @@ void gObjViewportListProtocol(CGameObject &Obj)
 										pGuild.btOwnerStatus = 0;
 									}
 
-									memcpy(&GuildInfoBuf[GuildInfoOfs], &pGuild, sizeof(pGuild));
+									std::memcpy(&GuildInfoBuf[GuildInfoOfs], &pGuild, sizeof(pGuild));
 									GuildInfoOfs += sizeof(pGuild);
 									GuildInfoCount += 1;
 								}
@@ -19414,8 +19414,8 @@ void gObjViewportListProtocol(CGameObject &Obj)
 										pGuildViewport.NumberL = SET_NUMBERL(lpTargetObj->m_PlayerData->lpGuild->Number);
 
 										strcpy(pGuildViewport.GuildName, lpTargetObj->m_PlayerData->lpGuild->Name);
-										memcpy(pGuildViewport.Mark, lpTargetObj->m_PlayerData->lpGuild->Mark, sizeof(pGuildViewport.Mark));
-										memcpy(&GuildInfoBuf[GuildInfoOfs], &pGuildViewport, sizeof(pGuildViewport));
+										std::memcpy(pGuildViewport.Mark, lpTargetObj->m_PlayerData->lpGuild->Mark, sizeof(pGuildViewport.Mark));
+										std::memcpy(&GuildInfoBuf[GuildInfoOfs], &pGuildViewport, sizeof(pGuildViewport));
 
 										GuildInfoOfs += sizeof(pGuildViewport);
 										GuildInfoCount += 1;
@@ -19434,7 +19434,7 @@ void gObjViewportListProtocol(CGameObject &Obj)
 										pGuildUserViewport.GNumberH = SET_NUMBERH(lpTargetObj->m_PlayerData->lpGuild->Number);
 										pGuildUserViewport.GNumberL = SET_NUMBERL(lpTargetObj->m_PlayerData->lpGuild->Number);
 
-										memcpy(&GuildUserBuf[GuildUserOfs], &pGuildUserViewport, sizeof(pGuildUserViewport));
+										std::memcpy(&GuildUserBuf[GuildUserOfs], &pGuildUserViewport, sizeof(pGuildUserViewport));
 
 										GuildUserOfs += sizeof(pGuildUserViewport);
 										GuildUserCount += 1;
@@ -19452,7 +19452,7 @@ void gObjViewportListProtocol(CGameObject &Obj)
 									pGensMsg.iGensClass = lpTargetObj->m_PlayerData->m_GensClass;
 									pGensMsg.iContributePoint = lpTargetObj->m_PlayerData->m_ContributePoint;
 
-									memcpy(&GensInfoBuf[GensInfoOfs], &pGensMsg, sizeof(pGensMsg));
+									std::memcpy(&GensInfoBuf[GensInfoOfs], &pGensMsg, sizeof(pGensMsg));
 
 									GensInfoOfs += sizeof(pGensMsg);
 									GensInfoCount += 1;
@@ -19510,7 +19510,7 @@ void gObjViewportListProtocol(CGameObject &Obj)
 
 										if (ObjectMaxRange(iOwnerIndex) == true && getGameObject(iOwnerIndex)->Type == OBJ_USER)
 										{
-											memcpy(pCallMonsterViewportCreate.CharSet, getGameObject(iOwnerIndex)->CharSet, 18);
+											std::memcpy(pCallMonsterViewportCreate.CharSet, getGameObject(iOwnerIndex)->CharSet, 18);
 										}
 									}
 
@@ -19522,7 +19522,7 @@ void gObjViewportListProtocol(CGameObject &Obj)
 
 									if (ObjectMaxRange(iOwnerIndex) == true && getGameObject(iOwnerIndex)->Type == OBJ_USER)
 									{
-										memcpy(pCallMonsterViewportCreate.Id, getGameObject(iOwnerIndex)->Name, sizeof(pCallMonsterViewportCreate.Id));
+										std::memcpy(pCallMonsterViewportCreate.Id, getGameObject(iOwnerIndex)->Name, sizeof(pCallMonsterViewportCreate.Id));
 
 									}
 									else
@@ -19532,7 +19532,7 @@ void gObjViewportListProtocol(CGameObject &Obj)
 
 									pCallMonsterViewportCreate.BuffEffectCount = iViewportSize = gObjMakeViewportState(*lpTargetObj, pCallMonsterViewportCreate.BuffEffectList);
 
-									memcpy((callMonstersendBuf + callMonlOfs), (char*)&pCallMonsterViewportCreate, sizeof(PMSG_CALLMONSTER_VIEWPORTCREATE));
+									std::memcpy((callMonstersendBuf + callMonlOfs), (char*)&pCallMonsterViewportCreate, sizeof(PMSG_CALLMONSTER_VIEWPORTCREATE));
 									callMonlOfs += sizeof(PMSG_CALLMONSTER_VIEWPORTCREATE) - (MAX_BUFFEFFECT - iViewportSize);
 									callmonstercount++;;
 								}
@@ -19623,7 +19623,7 @@ void gObjViewportListProtocol(CGameObject &Obj)
 
 									pMonsterViewportCreate.BuffEffectCount = iViewportSize = gObjMakeViewportState(*lpTargetObj, pMonsterViewportCreate.BuffEffectList);
 
-									memcpy((MonstersendBuf + MonlOfs), (char*)&pMonsterViewportCreate, sizeof(PMSG_MONSTER_VIEWPORTCREATE));
+									std::memcpy((MonstersendBuf + MonlOfs), (char*)&pMonsterViewportCreate, sizeof(PMSG_MONSTER_VIEWPORTCREATE));
 									MonlOfs += sizeof(PMSG_MONSTER_VIEWPORTCREATE) - (MAX_BUFFEFFECT - iViewportSize);
 									monstercount++;
 								}
@@ -19663,13 +19663,13 @@ void gObjViewportListProtocol(CGameObject &Obj)
 									pItemViewportCreate.ItemInfo[9] = BYTE(MapC[Obj.MapNumber].m_CItemObject[tObjNum].m_SocketOption[2]);
 									pItemViewportCreate.ItemInfo[10] = BYTE(MapC[Obj.MapNumber].m_CItemObject[tObjNum].m_SocketOption[3]);
 									pItemViewportCreate.ItemInfo[11] = BYTE(MapC[Obj.MapNumber].m_CItemObject[tObjNum].m_SocketOption[4]);
-									memcpy(&ItemBuf[lOfs_Item], &pItemViewportCreate, sizeof(pItemViewportCreate));
+									std::memcpy(&ItemBuf[lOfs_Item], &pItemViewportCreate, sizeof(pItemViewportCreate));
 									lOfs_Item += ItemStructSize;
 								}
 								else
 								{
 									ItemByteConvert(pItemViewportCreate.ItemInfo, (MapC[Obj.MapNumber].m_CItemObject[tObjNum]));
-									memcpy(&ItemBuf[lOfs_Item], &pItemViewportCreate, sizeof(pItemViewportCreate));
+									std::memcpy(&ItemBuf[lOfs_Item], &pItemViewportCreate, sizeof(pItemViewportCreate));
 									lOfs_Item += ItemStructSize;
 								}
 
@@ -19694,7 +19694,7 @@ void gObjViewportListProtocol(CGameObject &Obj)
 				pCount.h.sizeL = SET_NUMBERL(lOfs);
 				pCount.count = count;
 
-				memcpy(sendBuf, &pCount, sizeof(pCount));
+				std::memcpy(sendBuf, &pCount, sizeof(pCount));
 				IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE *)&sendBuf, lOfs);
 			}
 
@@ -19708,7 +19708,7 @@ void gObjViewportListProtocol(CGameObject &Obj)
 				pCount.h.sizeL = SET_NUMBERL(lOfsChange);
 				pCount.count = ChangeCount;
 
-				memcpy(SendGBufChange, &pCount, sizeof(pCount));
+				std::memcpy(SendGBufChange, &pCount, sizeof(pCount));
 				IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE *)&SendGBufChange, lOfsChange);
 			}
 
@@ -19722,7 +19722,7 @@ void gObjViewportListProtocol(CGameObject &Obj)
 				pCount.h.sizeL = SET_NUMBERL(MonlOfs);
 				pCount.count = monstercount;
 
-				memcpy(MonstersendBuf, &pCount, sizeof(pCount));
+				std::memcpy(MonstersendBuf, &pCount, sizeof(pCount));
 				IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE *)&MonstersendBuf, MonlOfs);
 			}
 
@@ -19736,7 +19736,7 @@ void gObjViewportListProtocol(CGameObject &Obj)
 				pCount.h.sizeL = SET_NUMBERL(callMonlOfs);
 				pCount.count = callmonstercount;
 
-				memcpy(callMonstersendBuf, &pCount, sizeof(pCount));
+				std::memcpy(callMonstersendBuf, &pCount, sizeof(pCount));
 				IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE *)&callMonstersendBuf, callMonlOfs);
 			}
 
@@ -19750,7 +19750,7 @@ void gObjViewportListProtocol(CGameObject &Obj)
 				pCount.h.sizeH = SET_NUMBERH(lOfs_Item);
 				pCount.h.sizeL = SET_NUMBERL(lOfs_Item);
 
-				memcpy(ItemBuf, &pCount, sizeof(pCount));
+				std::memcpy(ItemBuf, &pCount, sizeof(pCount));
 				IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE *)&ItemBuf, lOfs_Item);
 			}
 
@@ -19764,7 +19764,7 @@ void gObjViewportListProtocol(CGameObject &Obj)
 				pCount.h.sizeL = SET_NUMBERL(GuildInfoOfs);
 				pCount.count = GuildInfoCount;
 
-				memcpy(GuildInfoBuf, &pCount, sizeof(pCount));
+				std::memcpy(GuildInfoBuf, &pCount, sizeof(pCount));
 				IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE *)&GuildInfoBuf, GuildInfoOfs);
 			}
 
@@ -19778,7 +19778,7 @@ void gObjViewportListProtocol(CGameObject &Obj)
 				pGensCount.h.sizeL = SET_NUMBERL(GensInfoOfs);
 				pGensCount.Count = GensInfoCount;
 
-				memcpy(GensInfoBuf, &pGensCount, sizeof(pGensCount));
+				std::memcpy(GensInfoBuf, &pGensCount, sizeof(pGensCount));
 				IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE *)&GensInfoBuf, GensInfoOfs);
 			}
 		}
@@ -24535,7 +24535,7 @@ void gObjGetGuildUnionName(CGameObject &Obj, char* szUnionName, int iUnionNameLe
 
 	if (pUnionInfo != NULL)
 	{
-		memcpy(szUnionName, pUnionInfo->m_szMasterGuild, iUnionNameLen);
+		std::memcpy(szUnionName, pUnionInfo->m_szMasterGuild, iUnionNameLen);
 	}
 }
 
@@ -24931,7 +24931,7 @@ void gObjNotifyUseWeaponV1(CGameObject &OwnerObj, CGameObject &WeaponObj, int iT
 			lpMsgBody[iVp1Count].btObjClassH = CS_SET_CLASS(lpTargetObj->Class);
 			lpMsgBody[iVp1Count].btObjClassL = 0;
 
-			memcpy(lpMsgBody[iVp1Count].CharSet, &lpTargetObj->CharSet[1], sizeof(lpMsgBody[iVp1Count].CharSet));
+			std::memcpy(lpMsgBody[iVp1Count].CharSet, &lpTargetObj->CharSet[1], sizeof(lpMsgBody[iVp1Count].CharSet));
 		}
 		else if (lpTargetObj->Type == OBJ_MONSTER)
 		{
@@ -25582,8 +25582,8 @@ void gObjSaveChaosBoxItemList(CGameObject &Obj)
 	//DSMSG_CHAOSMACHINE_LOSTITEMS pMsg;
 	//PHeadSetW((BYTE*)&pMsg, 0xC4, sizeof(pMsg));
 
-	//memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-	//memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	//std::memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+	//std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 	//ItemByteConvert32(pMsg.btLostItems, Obj.pChaosBox, CHAOS_BOX_SIZE);
 
 	//wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
@@ -25841,7 +25841,7 @@ BYTE gObjPentagramMixBoxInsertItemPos(CGameObject &Obj, CItemObject &item, int p
 
 	if (source >= 0)
 	{
-		memcpy(TempMap, Obj.m_PlayerData->pPentagramMixBoxMap, CHAOS_BOX_MAP_SIZE);
+		std::memcpy(TempMap, Obj.m_PlayerData->pPentagramMixBoxMap, CHAOS_BOX_MAP_SIZE);
 		gObjPentagramMixBoxSet(Obj, source, iwidth, iheight, 255);
 	}
 
@@ -25849,7 +25849,7 @@ BYTE gObjPentagramMixBoxInsertItemPos(CGameObject &Obj, CItemObject &item, int p
 	{
 		if (source >= 0)
 		{
-			memcpy(Obj.m_PlayerData->pPentagramMixBoxMap, TempMap, CHAOS_BOX_MAP_SIZE);
+			std::memcpy(Obj.m_PlayerData->pPentagramMixBoxMap, TempMap, CHAOS_BOX_MAP_SIZE);
 		}
 		return -1;
 	}
@@ -25860,7 +25860,7 @@ BYTE gObjPentagramMixBoxInsertItemPos(CGameObject &Obj, CItemObject &item, int p
 	{
 		if (source >= 0)
 		{
-			memcpy(Obj.m_PlayerData->pPentagramMixBoxMap, TempMap, CHAOS_BOX_MAP_SIZE);
+			std::memcpy(Obj.m_PlayerData->pPentagramMixBoxMap, TempMap, CHAOS_BOX_MAP_SIZE);
 		}
 		return -1;
 	}
@@ -26583,7 +26583,7 @@ BYTE gObjMuunInventoryInsertItem(CGameObject &Obj, CItemObject &item)
 		return -1;
 	}
 
-	memcpy(&Obj.pMuunInventory[Ret], &item, sizeof(Obj.pMuunInventory[Ret]));
+	std::memcpy(&Obj.pMuunInventory[Ret], &item, sizeof(Obj.pMuunInventory[Ret]));
 
 	if (g_CMuunSystem.IsMuunItem(item.m_Type) == TRUE && g_CMuunSystem.IsMuunExpireDate(item.m_Type) == FALSE)
 	{

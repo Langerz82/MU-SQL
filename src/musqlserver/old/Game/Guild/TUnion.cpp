@@ -208,7 +208,7 @@ BOOL TUnion::GetUnionName(int iMasterGuildNumber, char* szMasterGuildName)
 	if ( pUnionInfo != NULL )
 	{
 		this->m_Sync.Lock();
-		memcpy(szMasterGuildName, pUnionInfo->m_szMasterGuild, sizeof(pUnionInfo->m_szMasterGuild)-1);
+		std::memcpy(szMasterGuildName, pUnionInfo->m_szMasterGuild, sizeof(pUnionInfo->m_szMasterGuild)-1);
 		this->m_Sync.Unlock();
 		return TRUE;
 	}

@@ -66,8 +66,8 @@ void CGremoryCase::GDReqStorageItemList(CGameObject &Obj)
 	PHeadSubSetB((BYTE*)&pMsg, 0x4F, 0x00, sizeof(pMsg));
 
 	pMsg.iIndex = iIndex;
-	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN+1);
-	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN+1);
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 
@@ -266,8 +266,8 @@ void CGremoryCase::GDReqAddItemToGremoryCase(CGameObject &Obj, _stGremoryCaseIte
 	PHeadSubSetB((BYTE*)&pMsg, 0x4F, 0x01, sizeof(pMsg));
 
 	pMsg.iIndex = iIndex;
-	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN+1);
-	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN+1);
 
 	pMsg.m_GremoryCaseItem.btStorageType = stItem.btStorageType;
 	pMsg.m_GremoryCaseItem.btRewardSource = stItem.btRewardSource;
@@ -281,7 +281,7 @@ void CGremoryCase::GDReqAddItemToGremoryCase(CGameObject &Obj, _stGremoryCaseIte
 	pMsg.m_GremoryCaseItem.btItemOption = stItem.btItemOption;
 	pMsg.m_GremoryCaseItem.btItemExcOption = stItem.btItemExcOption;
 	pMsg.m_GremoryCaseItem.btItemSetOption = stItem.btItemSetOption;
-	memcpy(pMsg.m_GremoryCaseItem.btItemSocketOption, stItem.btItemSocketOption, 5);
+	std::memcpy(pMsg.m_GremoryCaseItem.btItemSocketOption, stItem.btItemSocketOption, 5);
 	pMsg.m_GremoryCaseItem.btItemMainAttribute = stItem.btItemMainAttribute;
 	pMsg.m_GremoryCaseItem.wMuunEvoItemType = stItem.wMuunEvoItemType;
 	pMsg.m_GremoryCaseItem.btMuunEvoItemIndex = stItem.btMuunEvoItemIndex;
@@ -453,8 +453,8 @@ void CGremoryCase::GDReqCheckItemUseGremoryCase(CGameObject &Obj, WORD wItemID, 
 	PHeadSubSetB((BYTE*)&pMsg, 0x4F, 0x02, sizeof(pMsg));
 
 	pMsg.iIndex = iIndex;
-	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN+1);
-	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN+1);
 
 	pMsg.wItemID = wItemID;
 	pMsg.dwItemGUID = dwItemGUID;
@@ -553,7 +553,7 @@ void CGremoryCase::DGAnsCheckItemUseGremoryCase(_stAnsCheckUseItemGremoryCase * 
 		return;
 	}
 
-	if (Obj.m_IfState.use)
+	if (Obj.m_IfState->use)
 	{
 		pMsg.btResult = 5;
 		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
@@ -608,8 +608,8 @@ void CGremoryCase::GDReqDeleteItemFromGremoryCase(CGameObject &Obj, WORD wItemID
 	_stReqDeleteItemFromGremoryCase pMsg;
 	PHeadSubSetB((BYTE*)&pMsg, 0x4F, 0x03, sizeof(pMsg));
 
-	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN+1);
-	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN+1);
 
 	pMsg.wItemID = wItemID;
 	pMsg.dwItemGUID = dwItemGUID;

@@ -928,7 +928,7 @@ void CFriendSystem::FriendMemoSend( CGameObject &Obj, FHP_FRIEND_MEMO_SEND* lpMs
 	MEMO_SEND_HEADER head;
 	std::ZeroMemory(&head, sizeof(head));
 
-	memcpy(&head, lpMsg->Name, sizeof(head));
+	std::memcpy(&head, lpMsg->Name, sizeof(head));
 	
 	int photo_size;
 	int msg_size = MAKEWORD(lpMsg->h.sizeL, lpMsg->h.sizeH);
@@ -1037,8 +1037,8 @@ void CFriendSystem::FriendMemoReadReq( CGameObject &Obj, FHP_FRIEND_MEMO_RECV_RE
 		std::strncpy(Result.Name, lpMsg->Name, 10);
 
 		Result.MemoSize = memo_size;
-		memcpy(&Result.Dir, &memo, sizeof(memo));
-		memcpy(Result.Photo, Photo, 18);
+		std::memcpy(&Result.Dir, &memo, sizeof(memo));
+		std::memcpy(Result.Photo, Photo, 18);
 		
 		DataSend(Obj.m_Index, (BYTE*)&Result, sizeof(Result)-sizeof(Result.Memo)+memo_size, __FUNCTION__);
 

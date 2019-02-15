@@ -390,7 +390,7 @@ BOOL CItemObjectShop::CGCashShopOpen(CGameObject &Obj, PMSG_REQ_INGAMESHOPOPEN *
 		return FALSE;
 	}
 
-	if ( lpMsg->btShopOpenType == 0 && Obj.m_IfState.use != 0)
+	if ( lpMsg->btShopOpenType == 0 && Obj.m_IfState->use != 0)
 	{
 		pMsg.btResult = 0;
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.head.size);
@@ -398,7 +398,7 @@ BOOL CItemObjectShop::CGCashShopOpen(CGameObject &Obj, PMSG_REQ_INGAMESHOPOPEN *
 		return FALSE;
 	}
 
-	else if ( lpMsg->btShopOpenType == 1 && (Obj.m_IfState.use == 0 || Obj.m_IfState.type != 19) )
+	else if ( lpMsg->btShopOpenType == 1 && (Obj.m_IfState->use == 0 || Obj.m_IfState->type != 19) )
 	{
 		pMsg.btResult = 0;
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.head.size);
@@ -410,18 +410,18 @@ BOOL CItemObjectShop::CGCashShopOpen(CGameObject &Obj, PMSG_REQ_INGAMESHOPOPEN *
 
 	if ( lpMsg->btShopOpenType == 0 )
 	{
-		Obj.m_IfState.use = 1;
-		Obj.m_IfState.type = 19;
-		Obj.m_IfState.state = 1;
+		Obj.m_IfState->use = 1;
+		Obj.m_IfState->type = 19;
+		Obj.m_IfState->state = 1;
 
 		btResult = 1;
 	}
 
 	else if ( lpMsg->btShopOpenType == 1 )
 	{
-		Obj.m_IfState.use = 0;
-		Obj.m_IfState.type = 0;
-		Obj.m_IfState.state = 0;
+		Obj.m_IfState->use = 0;
+		Obj.m_IfState->type = 0;
+		Obj.m_IfState->state = 0;
 
 		btResult = 0;
 	}
@@ -579,8 +579,8 @@ void CItemObjectShop::GCCashInventoryItemCount(CGameObject &Obj, BYTE* lpRecv)
 				pItem.unk2_type = lpItem->UniqueID1;
 				pItem.groupId = lpItem->UniqueID2;
 				pItem.itemId = lpItem->UniqueID3;
-				memcpy(pItem.szUser, lpItem->GiftName, 10);
-				memcpy(pItem.szText, lpItem->Message, 200);
+				std::memcpy(pItem.szUser, lpItem->GiftName, 10);
+				std::memcpy(pItem.szText, lpItem->Message, 200);
 
 				IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pItem, pItem.h.size);
 			
@@ -989,7 +989,7 @@ void CItemObjectShop::CGCashItemBuy(CGameObject &Obj, PMSG_REQ_INGAMESHOP_ITEMBU
 			pMsg->Price = Iter->wPrice;
 
 			pMsg->Obj.m_Index = Obj.m_Index;
-			memcpy(pMsg->AccountID, Obj.AccountID, 11);
+			std::memcpy(pMsg->AccountID, Obj.AccountID, 11);
 
 			pMsg->h.c = 0xC2;
 			pMsg->h.headcode = 0xD8;
@@ -1187,10 +1187,10 @@ void CItemObjectShop::CGCashItemGift(CGameObject &Obj, PMSG_REQ_CASHITEM_GIFT *l
 			pMsg->Price = Iter->wPrice;
 
 			pMsg->Obj.m_Index = Obj.m_Index;
-			memcpy(pMsg->AccountID, Obj.AccountID, 11);
-			memcpy(pMsg->Name, Obj.Name, 11);
-			memcpy(pMsg->TargetName, lpMsg->szName, 11);
-			memcpy(pMsg->Message, lpMsg->szText, 200);
+			std::memcpy(pMsg->AccountID, Obj.AccountID, 11);
+			std::memcpy(pMsg->Name, Obj.Name, 11);
+			std::memcpy(pMsg->TargetName, lpMsg->szName, 11);
+			std::memcpy(pMsg->Message, lpMsg->szText, 200);
 
 			pMsg->h.c = 0xC2;
 			pMsg->h.headcode = 0xD8;

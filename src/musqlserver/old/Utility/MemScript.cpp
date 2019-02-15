@@ -86,7 +86,7 @@ bool CMemScript::GetBuffer(char* buff,DWORD* size) // OK
 		return 0;
 	}
 
-	memcpy(buff,this->m_buff,this->m_size);
+	std::memcpy(buff,this->m_buff,this->m_size);
 	(*size) = this->m_size;
 	return 1;
 }

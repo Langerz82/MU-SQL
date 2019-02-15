@@ -264,14 +264,14 @@ void CNewPVP::SetStatus(int nStatus, int nId, OBJECTSTRUCT &requester, OBJECTSTR
 		lpDuelChannel->nIndex1 = requester.m_Index;
 		lpDuelChannel->nIndex2 = responsor.m_Index;
 
-		memcpy(lpDuelChannel->szName1, requester.Name, MAX_ACCOUNT_LEN);
-		memcpy(lpDuelChannel->szName2, responsor.Name, MAX_ACCOUNT_LEN);
+		std::memcpy(lpDuelChannel->szName1, requester.Name, MAX_ACCOUNT_LEN);
+		std::memcpy(lpDuelChannel->szName2, responsor.Name, MAX_ACCOUNT_LEN);
 
 		m_DuelChannelList.channel[nId].bStart = 1;
 		m_DuelChannelList.channel[nId].bWatch = 1;
 
-		memcpy(m_DuelChannelList.channel[nId].szName1, requester.Name, MAX_ACCOUNT_LEN);
-		memcpy(m_DuelChannelList.channel[nId].szName2, responsor.Name, MAX_ACCOUNT_LEN);
+		std::memcpy(m_DuelChannelList.channel[nId].szName1, requester.Name, MAX_ACCOUNT_LEN);
+		std::memcpy(m_DuelChannelList.channel[nId].szName2, responsor.Name, MAX_ACCOUNT_LEN);
 
 		SetDuelStatus(requester, responsor, nStatus);
 	  break;
@@ -449,16 +449,16 @@ int CNewPVP::Join(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor)
 	res.h.headcode = 0xAA;
 	res.h.subcode = 0x01;
 	res.nResult = 0x00;
-	memcpy(res.szName, responsor.Name, MAX_ACCOUNT_LEN);
+	std::memcpy(res.szName, responsor.Name, MAX_ACCOUNT_LEN);
 
 	res.NumberH = HIBYTE(requester.m_Index);
 	res.NumberL = LOBYTE(requester.m_Index);
-	memcpy(res.szName, requester.Name, MAX_ACCOUNT_LEN);
+	std::memcpy(res.szName, requester.Name, MAX_ACCOUNT_LEN);
 	IOCP.DataSend(responsor.m_Index, (BYTE*)&res,res.h.size);
 
 	res.NumberH = HIBYTE(responsor.m_Index);
 	res.NumberL = LOBYTE(responsor.m_Index);
-	memcpy(res.szName, responsor.Name, MAX_ACCOUNT_LEN);
+	std::memcpy(res.szName, responsor.Name, MAX_ACCOUNT_LEN);
 	IOCP.DataSend(requester.m_Index, (BYTE*)&res, res.h.size);
 	
 	BroadcastScore(nId, 1);
@@ -497,7 +497,7 @@ void CNewPVP::Cancel(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor, BOOL bSen
 		res.h.size = sizeof(PMSG_ANS_DUEL_INVITE);
 		res.h.headcode = 0xAA;
 		res.h.subcode = 0x01;
-		memcpy(res.szName, responsor.Name, MAX_ACCOUNT_LEN);
+		std::memcpy(res.szName, responsor.Name, MAX_ACCOUNT_LEN);
 		res.nResult = 0x0F;
       
 		if( gObjIsConnected(&requester) )	IOCP.DataSend(requester.m_Index, (BYTE*)&res,res.h.size);
@@ -815,7 +815,7 @@ void CNewPVP::GetObserverList(int nId, PMSG_DUEL_OBSERVERLIST_BROADCAST& res)
 		ObserverInfo & info = iter->second;		
 		if(info.nId == nId)
 		{
-			memcpy(&res.user[i], info.szName, MAX_ACCOUNT_LEN);
+			std::memcpy(&res.user[i], info.szName, MAX_ACCOUNT_LEN);
 			i++;
 			if( i >= 10 )	break;
 		}
@@ -854,7 +854,7 @@ int CNewPVP::JoinChannel(int nId,CGameObject &Obj)
 	ObserverInfo info = {0};
 	info.nId = nId;
     info.nIndex = obj.m_Index;
-	memcpy(info.szName, obj.Name, MAX_ACCOUNT_LEN);
+	std::memcpy(info.szName, obj.Name, MAX_ACCOUNT_LEN);
 
 	EnterCriticalSection(&this->m_csObserver);
 	std::pair< std::map<int,ObserverInfo>::iterator, bool > pair = m_ObserverInfoList.insert( std::make_pair(obj.m_Index,  info) );
@@ -1075,8 +1075,8 @@ void CNewPVP::BroadcastResult(int nId, BYTE nFlag, CGameObject &Obj)
 	res.h.headcode = 0xAA;
 	res.h.subcode = 0x0C;
 	res.h.size = sizeof(PMSG_DUEL_RESULT_BROADCAST);
-	memcpy(res.szWinner, obj.Name, MAX_ACCOUNT_LEN);
-	memcpy(res.szLoser, targetObj.Name, MAX_ACCOUNT_LEN);
+	std::memcpy(res.szWinner, obj.Name, MAX_ACCOUNT_LEN);
+	std::memcpy(res.szLoser, targetObj.Name, MAX_ACCOUNT_LEN);
 	
 	if( (nFlag & 1) == 1 )
 	{

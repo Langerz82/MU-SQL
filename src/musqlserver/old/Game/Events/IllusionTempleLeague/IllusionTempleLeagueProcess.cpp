@@ -922,7 +922,7 @@ BOOL CIllusionTempleLeagueProcess::EnterUserIllusionTempleLeague(CGameObject &Ob
 		if (ArrayIndex < 10)
 		{
 			this->m_EnteredPlayerName[ArrayIndex].EnteredIndex = ArrayIndex;
-			memcpy(this->m_EnteredPlayerName[ArrayIndex].PlayerName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+			std::memcpy(this->m_EnteredPlayerName[ArrayIndex].PlayerName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 		}
 	}
 	return bResult;
@@ -1363,7 +1363,7 @@ void CIllusionTempleLeagueProcess::SendRelicsUserInfo(CGameObject &Obj, BYTE byG
 
 	pRelicsUser.wUserIndex = Obj.m_Index;
 	pRelicsUser.byGet = byGet;
-	memcpy(pRelicsUser.Name, Obj.Name, MAX_ACCOUNT_LEN);
+	std::memcpy(pRelicsUser.Name, Obj.Name, MAX_ACCOUNT_LEN);
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -2898,13 +2898,13 @@ void CIllusionTempleLeagueProcess::SendITLResult()
 	{
 		if (this->m_GuildDataSave[i].byTeamIndex == 0)
 		{
-			memcpy(pMsg.szAlliedGuildName, this->m_GuildDataSave[i].szGName, MAX_GUILD_LEN + 1);
+			std::memcpy(pMsg.szAlliedGuildName, this->m_GuildDataSave[i].szGName, MAX_GUILD_LEN + 1);
 			gParty.ClearPartyAuthITL(this->m_GuildDataSave[i].nPartyNo);
 		}
 
 		else if (this->m_GuildDataSave[i].byTeamIndex == 1)
 		{
-			memcpy(pMsg.szIllusionGuildName, this->m_GuildDataSave[i].szGName, MAX_GUILD_LEN + 1);
+			std::memcpy(pMsg.szIllusionGuildName, this->m_GuildDataSave[i].szGName, MAX_GUILD_LEN + 1);
 			gParty.ClearPartyAuthITL(this->m_GuildDataSave[i].nPartyNo);
 		}
 
@@ -2921,13 +2921,13 @@ void CIllusionTempleLeagueProcess::SendITLResult()
 	{
 		if (this->m_UserData[i].m_nIndex != -1 && getGameObject(this->m_UserData[i]->m_nIndex)->Connected > PLAYER_LOGGED)
 		{
-			memcpy(pAddExpMsg.GameID, getGameObject(this->m_UserData[i]->m_nIndex)->Name, MAX_ACCOUNT_LEN);
+			std::memcpy(pAddExpMsg.GameID, getGameObject(this->m_UserData[i]->m_nIndex)->Name, MAX_ACCOUNT_LEN);
 			pAddExpMsg.btMapNumber = this->m_nTempleNumber + 98;
 			pAddExpMsg.btTeam = this->m_UserData[i].m_btTeam;
 			pAddExpMsg.btClass = getGameObject(this->m_UserData[i]->m_nIndex)->Class;
 			pAddExpMsg.btUserKillCount = this->m_UserData[i].m_btUserKillCount;
 			
-			memcpy(&SendByte[nOffset], &pAddExpMsg, sizeof(pAddExpMsg));
+			std::memcpy(&SendByte[nOffset], &pAddExpMsg, sizeof(pAddExpMsg));
 			nOffset += sizeof(pAddExpMsg);
 
 			sLog->outBasic("[ ITL ] (%d) ITL Result  (Account:%s, Name:%s, G.name:%s , Team:%d, Class:%d, UserKillCount:%d,InvalidationCount:%d,OccupiedCount:%d)",
@@ -2966,7 +2966,7 @@ void CIllusionTempleLeagueProcess::SendITLResult()
 	}
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xBF, 0x64, nOffset);
-	memcpy(SendByte, (BYTE*)&pMsg, sizeof(pMsg));
+	std::memcpy(SendByte, (BYTE*)&pMsg, sizeof(pMsg));
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -3131,7 +3131,7 @@ BYTE CIllusionTempleLeagueProcess::SetGuild(int nGuildIndex, BYTE bySlotOrder, B
 	this->m_GuildDataSave[bySlotOrder].byITLType = byITLType;
 	this->m_GuildDataSave[bySlotOrder].nPartyNo = nPartyIdx;
 	this->m_GuildDataSave[bySlotOrder].nRequestUserIndex = nUserIndex;
-	memcpy(this->m_GuildDataSave[bySlotOrder].szGName, lpG->Name, MAX_GUILD_LEN + 1);
+	std::memcpy(this->m_GuildDataSave[bySlotOrder].szGName, lpG->Name, MAX_GUILD_LEN + 1);
 	
 	LeaveCriticalSection(&this->m_criGuildData);
 }
@@ -3140,7 +3140,7 @@ void CIllusionTempleLeagueProcess::GDSaveITLGuildPoint(char* GuildName, int Type
 {
 	PMSG_REQ_SAVE_ITL_GUILDPOINT pMsg;
 
-	memcpy(pMsg.GuildName, GuildName, MAX_GUILD_LEN + 1);
+	std::memcpy(pMsg.GuildName, GuildName, MAX_GUILD_LEN + 1);
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.h.headcode = 0xF0;
@@ -3160,8 +3160,8 @@ void CIllusionTempleLeagueProcess::GDSaveITLUserPoint(int index, char* UserName,
 {
 	PMSG_REQ_SAVE_ITL_USERPOINT pMsg;
 
-	memcpy(pMsg.UserName, UserName, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.GName, GuildName, MAX_GUILD_LEN + 1);
+	std::memcpy(pMsg.UserName, UserName, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.GName, GuildName, MAX_GUILD_LEN + 1);
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);

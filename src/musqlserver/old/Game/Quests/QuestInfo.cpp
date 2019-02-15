@@ -601,9 +601,9 @@ BOOL CQuestInfo::NpcTalk(CGameObject &Npc, CGameObject lpObj)
 	{
 		this->SendQuestMonsterKill(lpObj, questindex);
 		gGameProtocol.GCSendQuestInfo(Obj.m_Index, questindex);
-		Obj.m_IfState.type = 10;
-		Obj.m_IfState.state = 0;
-		Obj.m_IfState.use = 1;
+		Obj.m_IfState->type = 10;
+		Obj.m_IfState->state = 0;
+		Obj.m_IfState->use = 1;
 		return true;
 	}
 
@@ -1226,7 +1226,7 @@ void CQuestInfo::QuestInfoSave(CGameObject &Obj)
 
 BOOL CQuestInfo::GetQuestItem(CGameObject &Obj, short nType, short nLevel)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	LPQUEST_INFO lpQuestInfo;
 	LPQUEST_SUB_INFO lpSubInfo;
@@ -1392,7 +1392,7 @@ void CQuestInfo::SendQuestMonsterKill(CGameObject &Obj, int iQuestIndex)
 void CQuestInfo::CheckQuestMapEnterOnWerwolf(CGameObject &Obj)
 {
 	PMSG_ANS_ENTER_ON_QUESTNPC pMsg;
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if (!lpObj)
 	{
@@ -1407,7 +1407,7 @@ void CQuestInfo::CheckQuestMapEnterOnWerwolf(CGameObject &Obj)
 	PHeadSubSetB((BYTE*)&pMsg, 0xD0, 0x07, sizeof(pMsg));
 	pMsg.btResult = 0;
 
-	if (Obj.m_IfState.use && Obj.m_IfState.type != 12)
+	if (Obj.m_IfState->use && Obj.m_IfState->type != 12)
 	{
 		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 		return;
@@ -1491,7 +1491,7 @@ void CQuestInfo::CheckQuestMapEnterOnWerwolf(CGameObject &Obj)
 void CQuestInfo::CheckQuestMapEnterOnGateKeeper(CGameObject &Obj)
 {
 	PMSG_ANS_ENTER_ON_QUESTNPC pMsg;
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if (!lpObj)
 	{
@@ -1506,7 +1506,7 @@ void CQuestInfo::CheckQuestMapEnterOnGateKeeper(CGameObject &Obj)
 	PHeadSubSetB((BYTE*)&pMsg, 0xD0, 0x08, sizeof(pMsg));
 	pMsg.btResult = 0;
 
-	if (Obj.m_IfState.use && Obj.m_IfState.type != 12)
+	if (Obj.m_IfState->use && Obj.m_IfState->type != 12)
 	{
 		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 		return;

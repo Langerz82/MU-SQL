@@ -2940,7 +2940,7 @@ void CBloodCastle::GiveReward_Win(CGameObject &Obj, int iBridgeIndex)
 
 			pMsg.bWinner = true;
 			pMsg.btType = -1;
-			memcpy(pMsg.m_stBCCharScore[0].CharName , this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->Name, MAX_ACCOUNT_LEN);
+			std::memcpy(pMsg.m_stBCCharScore[0].CharName , this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->Name, MAX_ACCOUNT_LEN);
 			pMsg.m_stBCCharScore[0].iEXP = iREWARD_EXP;
 			pMsg.m_stBCCharScore[0].iZEN = iREWARD_ZEN;
 			pMsg.m_stBCCharScore[0].iSCORE = iREWARD_SCR;
@@ -3023,7 +3023,7 @@ void CBloodCastle::GiveReward_Fail(int iBridgeIndex)
 
 		pMsg.bWinner = false;
 		pMsg.btType = -1;
-		memcpy(pMsg.m_stBCCharScore[0].CharName, this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->Name, MAX_ACCOUNT_LEN);
+		std::memcpy(pMsg.m_stBCCharScore[0].CharName, this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->Name, MAX_ACCOUNT_LEN);
 		pMsg.m_stBCCharScore[0].iEXP = iADD_EXP;
 		pMsg.m_stBCCharScore[0].iZEN = 0;
 		pMsg.m_stBCCharScore[0].iSCORE = g_iBC_EventScore_Fail[iBridgeIndex];
@@ -3180,8 +3180,8 @@ void CBloodCastle::SendRewardScore(CGameObject &Obj, int iSCORE, int iLeftTime, 
 	pMsg.Class = Obj.Class;
 	pMsg.ServerCode = g_ConfigRead.server.GetGameServerCode();
 	pMsg.iLeftTime = iLeftTime;
-	memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN);
-	memcpy(pMsg.GameID, Obj.Name, MAX_ACCOUNT_LEN);
+	std::memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN);
+	std::memcpy(pMsg.GameID, Obj.Name, MAX_ACCOUNT_LEN);
 	pMsg.iAlivePartyCount = iAlivePartyCount;
 
 	wsDataCli.DataSend(reinterpret_cast<char *>(&pMsg), pMsg.h.size);
@@ -4429,8 +4429,8 @@ bool CBloodCastle::NpcAngelKing(CGameObject &Npc, CGameObject lpObj)
 		this->SetUserState(lpObj, 2);
 		this->m_BridgeData[iBLOODCASTLE_INDEX].m_iExtraEXP_Win_Quest_Party = Obj.PartyNumber;
 		this->m_BridgeData[iBLOODCASTLE_INDEX].m_iExtraEXP_Win_Quest_Index = Obj.m_Index;
-		memcpy(this->m_BridgeData[iBLOODCASTLE_INDEX].m_szWin_Quest_CharName, Obj.Name, 10);
-		memcpy(this->m_BridgeData[iBLOODCASTLE_INDEX].m_szWin_Quest_AccountID, Obj.AccountID, 10);
+		std::memcpy(this->m_BridgeData[iBLOODCASTLE_INDEX].m_szWin_Quest_CharName, Obj.Name, 10);
+		std::memcpy(this->m_BridgeData[iBLOODCASTLE_INDEX].m_szWin_Quest_AccountID, Obj.AccountID, 10);
 		this->m_BridgeData[iBLOODCASTLE_INDEX].m_szWin_Quest_CharName[10] = 0;	// Zero String terminated
 		this->m_BridgeData[iBLOODCASTLE_INDEX].m_szWin_Quest_AccountID[10] = 0;	// Zero String Terminated
 
@@ -4562,8 +4562,8 @@ void CBloodCastle::DestroyCastleDoor(int iBridgeIndex, CGameObject lpDoorObj)
 		this->m_BridgeData[iBridgeIndex].m_iExtraEXP_Kill_Door_Party = getGameObject(TopHitUser)->PartyNumber;
 		this->m_BridgeData[iBridgeIndex].m_iExtraEXP_Kill_Door_Index = TopHitUser;
 
-		memcpy(this->m_BridgeData[iBridgeIndex].m_szKill_Door_CharName, getGameObject(TopHitUser)->Name, 10);
-		memcpy(this->m_BridgeData[iBridgeIndex].m_szKill_Door_AccountID, getGameObject(TopHitUser)->AccountID, 10);
+		std::memcpy(this->m_BridgeData[iBridgeIndex].m_szKill_Door_CharName, getGameObject(TopHitUser)->Name, 10);
+		std::memcpy(this->m_BridgeData[iBridgeIndex].m_szKill_Door_AccountID, getGameObject(TopHitUser)->AccountID, 10);
 
 		this->m_BridgeData[iBridgeIndex].m_szKill_Door_CharName[10] = 0;
 		this->m_BridgeData[iBridgeIndex].m_szKill_Door_AccountID[10] = 0;
@@ -4634,8 +4634,8 @@ void CBloodCastle::DestroySaintStatue(int iBridgeIndex, CGameObject lpStatueObj)
 		this->m_BridgeData[iBridgeIndex].m_iExtraEXP_Kill_Statue_Party = getGameObject(TopHitUser)->PartyNumber;
 		this->m_BridgeData[iBridgeIndex].m_iExtraEXP_Kill_Statue_Index = getGameObject(TopHitUser)->m_Index;
 
-		memcpy(this->m_BridgeData[iBridgeIndex].m_szKill_Status_CharName, getGameObject(TopHitUser)->Name, 10);
-		memcpy(this->m_BridgeData[iBridgeIndex].m_szKill_Status_AccountID, getGameObject(TopHitUser)->AccountID, 10);
+		std::memcpy(this->m_BridgeData[iBridgeIndex].m_szKill_Status_CharName, getGameObject(TopHitUser)->Name, 10);
+		std::memcpy(this->m_BridgeData[iBridgeIndex].m_szKill_Status_AccountID, getGameObject(TopHitUser)->AccountID, 10);
 
 		this->m_BridgeData[iBridgeIndex].m_szKill_Status_CharName[10] = 0;
 		this->m_BridgeData[iBridgeIndex].m_szKill_Status_AccountID[10] = 0;

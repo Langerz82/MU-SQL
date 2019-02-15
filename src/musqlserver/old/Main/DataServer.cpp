@@ -117,7 +117,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	LoadAllowableIpList("./AllowedIPList.ini");
 	GetPrivateProfileString("SETTINGS", "MapServerInfoPath", "..\\Data\\MapServerInfo.ini", g_MapSvrFilePath, sizeof(g_MapSvrFilePath), ".\\DataServer.ini");
 	GetPrivateProfileString("SETTINGS","WanIP","127.0.0.1", szWANIP, 150, ".\\DataServer.ini");
-	memcpy(szWANIP,ValidateAndResolveIP(szWANIP),15);
+	std::memcpy(szWANIP,ValidateAndResolveIP(szWANIP),15);
 	g_MapServerManager.LoadMapData(g_MapSvrFilePath);
 	SendMessage(ghWnd, WM_TIMER, WM_LOG_PAINT, NULL);
 

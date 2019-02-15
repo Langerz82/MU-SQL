@@ -939,7 +939,7 @@ void CEvolutionMonsterMng::GDReqEvoMonMaxScore(CGameObject &Obj)
 	PHeadSubSetB((BYTE*)&pMsg, 0x3E, 0x00, sizeof(pMsg));
 
 	pMsg.nUserIndex = Obj.m_Index;
-	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
@@ -971,7 +971,7 @@ void CEvolutionMonsterMng::GDReqSaveEvoMonScore(CGameObject &Obj, int nScore, in
 	PMSG_REQ_SAVE_EVOMON_RESULT pMsg;
 	PHeadSubSetB((BYTE*)&pMsg, 0x3E, 0x01, sizeof(pMsg));
 
-	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.nUserIndex = Obj.m_Index;
 	pMsg.nScore = nScore;
 	pMsg.nTotalDamage = nTotalDamage;

@@ -400,8 +400,8 @@ void PostSend(CGameObject &Obj, char * szMessage)
 	pMsg.btColorRGB[1] = g_ConfigRead.data.post.btPostColorRGB[1];
 	pMsg.btColorRGB[2] = g_ConfigRead.data.post.btPostColorRGB[2];
 
-	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN);
-	memcpy(pMsg.szServerName, g_ConfigRead.server.GetServerName(), 50);
+	std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN);
+	std::memcpy(pMsg.szServerName, g_ConfigRead.server.GetServerName(), 50);
 
 	strcpy(pMsg.szTag, Lang.GetText(0, 334));
 	strcpy(pMsg.szMessage, szMessage);
@@ -826,7 +826,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 					}
 				}
 
-				if (Obj.m_IfState.use > 0)
+				if (Obj.m_IfState->use > 0)
 				{
 					gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 153), Obj.m_Index, 1);
 					return 0;
@@ -1958,7 +1958,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 
 		int WareID = this->GetTokenNumber();
 
-		if (Obj.m_IfState.use == 1 && Obj.m_IfState.type == 6)
+		if (Obj.m_IfState->use == 1 && Obj.m_IfState->type == 6)
 		{
 			MsgOutput(Obj.m_Index, Lang.GetText(0, 111));
 			return 0;
@@ -2610,7 +2610,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 			BAN_REQ_USER pBan;
 			PHeadSetB((BYTE*)&pBan, 0xFA, sizeof(pBan));
 
-			memcpy(pBan.AccName, pId, sizeof(pBan.AccName));
+			std::memcpy(pBan.AccName, pId, sizeof(pBan.AccName));
 			pBan.Ban = 1;
 			pBan.Type = 1;
 
@@ -2643,7 +2643,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 		BAN_REQ_USER pBan;
 		PHeadSetB((BYTE*)&pBan, 0xFA, sizeof(pBan));
 
-		memcpy(pBan.AccName, pId, sizeof(pBan.AccName));
+		std::memcpy(pBan.AccName, pId, sizeof(pBan.AccName));
 		pBan.Ban = 0;
 		pBan.Type = 1;
 
@@ -2682,7 +2682,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 			BAN_REQ_USER pBan;
 			PHeadSetB((BYTE*)&pBan, 0xFA, sizeof(pBan));
 
-			memcpy(pBan.AccName, pId, sizeof(pBan.AccName));
+			std::memcpy(pBan.AccName, pId, sizeof(pBan.AccName));
 			pBan.Ban = 1;
 			pBan.Type = 0;
 
@@ -2715,7 +2715,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 		BAN_REQ_USER pBan;
 		PHeadSetB((BYTE*)&pBan, 0xFA, sizeof(pBan));
 
-		memcpy(pBan.AccName, pId, sizeof(pBan.AccName));
+		std::memcpy(pBan.AccName, pId, sizeof(pBan.AccName));
 		pBan.Ban = 0;
 		pBan.Type = 0;
 
@@ -3029,7 +3029,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 			MsgOutput(Obj.m_Index, Lang.GetText(0, 533));
 			return 0;
 		}
-		memcpy(Obj.m_PlayerData->PartyPassword, pId, 10);
+		std::memcpy(Obj.m_PlayerData->PartyPassword, pId, 10);
 
 		MsgOutput(Obj.m_Index, Lang.GetText(0, 555), Obj.m_PlayerData->PartyPassword);
 
@@ -3316,7 +3316,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 		stItem.btItemOption = ItemOption;
 		stItem.btItemExcOption = iExcOption;
 		stItem.btItemSetOption = ItemSetOption;
-		memcpy(stItem.btItemSocketOption, Item.m_SocketOption, 5);
+		std::memcpy(stItem.btItemSocketOption, Item.m_SocketOption, 5);
 		stItem.btItemMainAttribute = ItemMainAttribute;
 		stItem.wMuunEvoItemType = MuunEvoItemType;
 		stItem.btMuunEvoItemIndex = MuunEvoItemIndex;
@@ -3814,8 +3814,8 @@ void ServerMsgSend(CGameObject &Obj, int Type, char Sender[20], const char*Messa
 	*Packet = 0xC1;
 	if(Type)*(Packet+2)=0x02;
 	else *(Packet+2)=0x00;
-	memcpy((Packet+3),Sender,strlen(Sender));
-	memcpy((Packet+13),szBuffer,strlen(szBuffer));
+	std::memcpy((Packet+3),Sender,strlen(Sender));
+	std::memcpy((Packet+13),szBuffer,strlen(szBuffer));
 	int Len = (strlen(szBuffer)+0x13);
 	*(Packet+1)=Len;
 	if(!lpObj)gGameProtocol.DataSendAll(Packet,Len);

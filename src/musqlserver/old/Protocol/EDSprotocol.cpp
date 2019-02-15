@@ -3111,7 +3111,7 @@ void GensSystem_EDS::GDReqRegGensMember(CGameObject &Obj, PMSG_REQ_REG_GENS_MEMB
 		pUser.iContributePoint = 0;
 		pUser.iGensClass = 14;
 		pUser.iRank = 0;
-		memcpy(pUser.Name, aRecv->Name, 10);
+		std::memcpy(pUser.Name, aRecv->Name, 10);
 		pUser.Name[10] = 0;
 
 		if(pMsg.bInfluence == 1)
@@ -3627,8 +3627,8 @@ void CExDataServerProtocol::GDReqAllowJoinGuildMatching(CGameObject &Obj, _stReq
 	pMsg.nResult = Result;
 	pMsg.nAllowType = lpMsg->nAllowType;
 	pMsg.nUserIndex = lpMsg->nUserIndex;
-	memcpy(pMsg.szGuildName, lpMsg->szGuildName, MAX_GUILD_LEN + 1);
-	memcpy(pMsg.szMemberName, lpMsg->szName, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szGuildName, lpMsg->szGuildName, MAX_GUILD_LEN + 1);
+	std::memcpy(pMsg.szMemberName, lpMsg->szName, MAX_ACCOUNT_LEN + 1);
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xA3, 0x06, sizeof(pMsg));
 
@@ -4163,7 +4163,7 @@ void CExDataServerProtocol::GDReqDeletePartyUser(CGameObject &Obj, _stReqDelPart
 	}
 
 	char szLeaderName[MAX_ACCOUNT_LEN + 1];
-	memcpy(szLeaderName, lpPartyData->m_UserData[0].szUserName, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(szLeaderName, lpPartyData->m_UserData[0].szUserName, MAX_ACCOUNT_LEN + 1);
 
 	BOOL bResult = 0;
 
@@ -4227,8 +4227,8 @@ void CExDataServerProtocol::GDSendChatMsgPartyMatching(CGameObject &Obj, _stReqC
 
 	pMsg.nPartyIndex = lpMsg->nPartyIndex;
 	memset(pMsg.szChat, 0x00, sizeof(pMsg.szChat));
-	memcpy(pMsg.szSendCharName, lpMsg->szSendCharName, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szChat, lpMsg->szChat, 63);
+	std::memcpy(pMsg.szSendCharName, lpMsg->szSendCharName, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szChat, lpMsg->szChat, 63);
 
 	for (int i = 0; i < 5; i++)
 	{
@@ -4342,7 +4342,7 @@ void CExDataServerProtocol::SendPartyMatchingMemberList(char* szLeaderName, BYTE
 				{
 					if (lpPartyData->m_UserData[j].iUsedInfo == TRUE)
 					{
-						memcpy(pMsg.stList[j].Name, lpPartyData->m_UserData[j].szUserName, MAX_ACCOUNT_LEN + 1);
+						std::memcpy(pMsg.stList[j].Name, lpPartyData->m_UserData[j].szUserName, MAX_ACCOUNT_LEN + 1);
 						pMsg.stList[j].bUse = lpPartyData->m_UserData[j].iUsedInfo;
 						pMsg.stList[j].nServerChannel = lpPartyData->m_UserData[j].iServerNumber + 1;
 						pMsg.stList[j].nUserIndex = lpPartyData->m_UserData[j].iUserIndex;
@@ -4474,13 +4474,13 @@ void CPartyMatchingData::CreateParty(int Server, int ServerIndex, int nLeaderInd
 
 	m_PartyData.m_PartyMatchingIndex = (int)this->m_vtPartyData.size();
 	m_PartyData.m_UserCount = 1;
-	memcpy(m_PartyData.szLeaderName, szLeaderName, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(m_PartyData.szLeaderName, szLeaderName, MAX_ACCOUNT_LEN + 1);
 	m_PartyData.m_UserData[0].iUsedInfo = TRUE;
 	m_PartyData.m_UserData[0].iUserConnected = TRUE;
 	m_PartyData.m_UserData[0].iServerIndex = ServerIndex;
 	m_PartyData.m_UserData[0].iServerNumber = Server;
 	m_PartyData.m_UserData[0].iUserIndex = nLeaderIndex;
-	memcpy(m_PartyData.m_UserData[0].szUserName, szLeaderName, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(m_PartyData.m_UserData[0].szUserName, szLeaderName, MAX_ACCOUNT_LEN + 1);
 
 	this->m_vtPartyData.push_back(m_PartyData);
 

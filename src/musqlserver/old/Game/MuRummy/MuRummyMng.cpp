@@ -264,8 +264,8 @@ void CMuRummyMng::CGReqMuRummyEventOpen(PMSG_REQ_MURUMMY_EVENT_OPEN *lpMsg, CGam
 		return;
 	}
 
-	if (Obj.m_IfState.use && (Obj.m_IfState.type == 6 ||
-		Obj.m_IfState.type == 3 || Obj.m_IfState.type == 12))
+	if (Obj.m_IfState->use && (Obj.m_IfState->type == 6 ||
+		Obj.m_IfState->type == 3 || Obj.m_IfState->type == 12))
 	{
 		//sLog->outBasic("[MuRummy][Error] [%s][%s] : not event time", Obj.AccountID, Obj.Name);
 		return;
@@ -376,8 +376,8 @@ void CMuRummyMng::CGReqMuRummyStart(PMSG_REQ_MURUMMY_INFO *lpMsg, CGameObject &O
 
 			this->Slot5Log(lpObj, 1);
 			this->Slot3Log(lpObj, 1);
-			memcpy(pMsg.stMuRummyCardInfo, stCardInfo, sizeof(stCardInfo));
-			memcpy(pMsg.btSlotStatus, pMuRummyInfo->GetSlotStatus(), sizeof(pMsg.btSlotStatus));
+			std::memcpy(pMsg.stMuRummyCardInfo, stCardInfo, sizeof(stCardInfo));
+			std::memcpy(pMsg.btSlotStatus, pMuRummyInfo->GetSlotStatus(), sizeof(pMsg.btSlotStatus));
 		}
 
 		else
@@ -424,8 +424,8 @@ void CMuRummyMng::CGReqMuRummyStart(PMSG_REQ_MURUMMY_INFO *lpMsg, CGameObject &O
 		this->CardShuffle(pMuRummyInfo->GetCardInfo());
 		this->GDReqCardInfoInsert(lpObj);
 		this->SetPlayCardInfo(pMuRummyInfo, stCardInfo);
-		memcpy(pMsg.stMuRummyCardInfo, stCardInfo, sizeof(stCardInfo));
-		memcpy(pMsg.btSlotStatus, pMuRummyInfo->GetSlotStatus(), sizeof(pMsg.btSlotStatus));
+		std::memcpy(pMsg.stMuRummyCardInfo, stCardInfo, sizeof(stCardInfo));
+		std::memcpy(pMsg.btSlotStatus, pMuRummyInfo->GetSlotStatus(), sizeof(pMsg.btSlotStatus));
 		bNewGame = true;
 	}
 
@@ -523,7 +523,7 @@ void CMuRummyMng::CGReqCardReveal(PMSG_REQ_REVEAL_CARD *lpMsg, CGameObject &Obj)
 			//sLog->outBasic("[%s][%s][Mu Rummy] Event Card Cnt(%d) (%d)", Obj.AccountID, Obj.Name, iBeforeCardCnt, pMuRummyInfo->GetCardDeckCnt());
 			this->Slot5Log(lpObj, 0);
 
-			memcpy(pMsg.stMuRummyCardInfo, stCardInfo, sizeof(stCardInfo));
+			std::memcpy(pMsg.stMuRummyCardInfo, stCardInfo, sizeof(stCardInfo));
 			pMsg.btCardDeckCnt = pMuRummyInfo->GetCardDeckCnt();
 			IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 		}
@@ -754,7 +754,7 @@ BYTE CMuRummyMng::CardSlotMove(CMuRummyInfo *pCMuRummyInfo, int sSlot, int tSlot
 	pSlotIndexInfo[sSlot] = -1;
 	pSlotIndexInfo[tSlot] = sCardArr;
 	pCCardInfo[sCardArr].SetSlotNum(tSlot);
-	memcpy(pCOutCardInfo, &pCCardInfo[sCardArr], sizeof(CMuRummyCardInfo));
+	std::memcpy(pCOutCardInfo, &pCCardInfo[sCardArr], sizeof(CMuRummyCardInfo));
 
 	if (sSlot < 5 && tSlot >= 5)
 	{
@@ -1427,8 +1427,8 @@ void CMuRummyMng::GDReqCardInfo(CGameObject &Obj)
 	if (this->IsMuRummyEventOn() == true)
 	{
 		PMSG_REQ_MURUMMY_SELECT_DS pMsg;
-		memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-		memcpy(pMsg.Name, Obj.Name, MAX_ACCOUNT_LEN + 1);
+		std::memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+		std::memcpy(pMsg.Name, Obj.Name, MAX_ACCOUNT_LEN + 1);
 		pMsg.Obj.m_Index = Obj.m_Index;
 		pMsg.h.c = 0xC1;
 		pMsg.h.size = sizeof(pMsg);
@@ -1582,8 +1582,8 @@ void CMuRummyMng::GDReqCardInfoInsert(CGameObject &Obj)
 	}
 
 	PMSG_REQ_MURUMMY_INSERT_DS pMsg;
-	memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.Name, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.Name, Obj.Name, MAX_ACCOUNT_LEN + 1);
 
 	for (int i = 0; i < 24; i++)
 	{
@@ -1606,9 +1606,9 @@ void CMuRummyMng::GDReqCardInfoInsert(CGameObject &Obj)
 void CMuRummyMng::GDReqScoreUpdate(CGameObject &Obj, WORD wScore,MuRummyCardUpdateDS *pCardUpdateDS)
 {
 	PMSG_REQ_MURUMMY_SCORE_UPDATE_DS pMsg;
-	memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.Name, Obj.Name, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.stCardUpdateDS, pCardUpdateDS, sizeof(pMsg.stCardUpdateDS));
+	std::memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.Name, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.stCardUpdateDS, pCardUpdateDS, sizeof(pMsg.stCardUpdateDS));
 
 	pMsg.wScore = wScore;
 	pMsg.h.c = 0xC1;
@@ -1622,8 +1622,8 @@ void CMuRummyMng::GDReqScoreUpdate(CGameObject &Obj, WORD wScore,MuRummyCardUpda
 void CMuRummyMng::GDReqCardInfoUpdate(CGameObject lpObj, CMuRummyCardInfo *pCCardInfo, int iSeq)
 {
 	PMSG_REQ_MURUMMY_UPDATE_DS pMsg;
-	memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.Name, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.Name, Obj.Name, MAX_ACCOUNT_LEN + 1);
 
 	pMsg.btSlotNum = pCCardInfo->GetSlotNum();
 	pMsg.btStatus = pCCardInfo->GetState();
@@ -1639,8 +1639,8 @@ void CMuRummyMng::GDReqCardInfoUpdate(CGameObject lpObj, CMuRummyCardInfo *pCCar
 void CMuRummyMng::GDReqScoreDelete(CGameObject &Obj)
 {
 	PMSG_REQ_MURUMMY_DELETE_DS pMsg;
-	memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.Name, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.Name, Obj.Name, MAX_ACCOUNT_LEN + 1);
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -1663,8 +1663,8 @@ void CMuRummyMng::GDReqSlotInfoUpdate(CGameObject lpObj, BYTE btSeq, BYTE btSlot
 	pMsg.stCardUpdateDS.btSeq = btSeq;
 	pMsg.stCardUpdateDS.btStatus = btStatus;
 	pMsg.stCardUpdateDS.btSlotNum = btSlotNum;
-	memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.Name, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.Name, Obj.Name, MAX_ACCOUNT_LEN + 1);
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -1714,8 +1714,8 @@ void CMuRummyMng::GDReqMuRummyInfoUpdate(CGameObject &Obj)
 	}
 
 	PMSG_REQ_MURUMMY_INFO_UPDATE_DS pMsg;
-	memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.Name, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.Name, Obj.Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.wScore = pMuRummyInfo->GetScore();
 
 	for (int i = 0; i < 24; i++)
@@ -2008,8 +2008,8 @@ void CMuRummyMng::GDReqMuRummyDBLog(CGameObject lpObj, int iScore)
 	{
 		PMSG_REQ_MURUMMY_LOG_INSERT_DS pMsg;
 
-		memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-		memcpy(pMsg.Name, Obj.Name, MAX_ACCOUNT_LEN + 1);
+		std::memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+		std::memcpy(pMsg.Name, Obj.Name, MAX_ACCOUNT_LEN + 1);
 		pMsg.wScore = iScore;
 
 		pMsg.h.c = 0xC1;

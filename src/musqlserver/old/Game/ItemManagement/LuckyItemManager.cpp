@@ -733,7 +733,7 @@ int LuckyItemManager::GDReqLuckyItemInsert(short wItemCode, UINT64 Serial, short
 	PMSG_REQ_LUCKYITEM_INSERT pMsg;
 	
 	pMsg.dwUserGuid	= Obj.DBNumber;
-	memcpy(pMsg.szCharName, Obj.Name, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.szCharName, Obj.Name, MAX_ACCOUNT_LEN+1);
 	pMsg.LuckyItemDBInfo.wItemCode			= wItemCode;
 	pMsg.LuckyItemDBInfo.Serial			= Serial;
 	pMsg.LuckyItemDBInfo.wDurabilitySmall	= wDurabilitySmall;
@@ -772,7 +772,7 @@ void LuckyItemManager::GDReqLuckyItemInsert2nd(int iObjIndex)
 	
 	pMsg.btItemCnt	= iItemCnt;
 	pMsg.dwUserGuid	= Obj.DBNumber;
-	memcpy(pMsg.szCharName, Obj.Name, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.szCharName, Obj.Name, MAX_ACCOUNT_LEN+1);
 	
  	PHeadSubSetB((BYTE*)&pMsg, 0xD0, 0x24, sizeof(PMSG_REQ_LUCKYITEM_INSERT_2ND));
  	wsDataCli.DataSend((LPSTR)&pMsg, pMsg.head.size);
@@ -784,7 +784,7 @@ void LuckyItemManager::GDReqLuckyItemDelete(short wItemCode, UINT64 Serial, int 
 	PMSG_REQ_LUCKYITEM_DELETE pMsg;
 	
 	pMsg.wUserIndex = Obj.m_Index;
-	memcpy(pMsg.szCharName, Obj.Name, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.szCharName, Obj.Name, MAX_ACCOUNT_LEN+1);
 	pMsg.wItemCode	= wItemCode;
 	pMsg.Serial	= Serial;
 	
@@ -813,7 +813,7 @@ void LuckyItemManager::DGAnsLuckyItemList(PMSG_ANS_LUCKYITEM_SELECT * lpRecv)
 	BYTE * iDeleteItemList = new BYTE[iItemCnt];
 	memset(iDeleteItemList, 0, iItemCnt);
 	PMSG_LUCKYITME_DB_INFO LuckyItemList[45];
-	memcpy(LuckyItemList, &lpRecv[1], iItemCnt * sizeof(PMSG_LUCKYITME_DB_INFO));
+	std::memcpy(LuckyItemList, &lpRecv[1], iItemCnt * sizeof(PMSG_LUCKYITME_DB_INFO));
 	
 	for( int iInven = 0; iInven < MAIN_INVENTORY_SIZE; iInven++ )
 	{
@@ -850,7 +850,7 @@ void LuckyItemManager::GDReqLuckyItemSelect(CGameObject &Obj)
 	PMSG_REQ_LUCKYITEM_SELECT pMsg;
 	
 	pMsg.wUserIndex = Obj.m_Index;
-	memcpy(pMsg.chCharacterName, Obj.Name, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.chCharacterName, Obj.Name, MAX_ACCOUNT_LEN+1);
 	
 	PHeadSubSetB((BYTE*)&pMsg, 0xD0, 0x20, sizeof(PMSG_REQ_LUCKYITEM_SELECT));
 	wsDataCli.DataSend((char *)&pMsg, pMsg.head.size);

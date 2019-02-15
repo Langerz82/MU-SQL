@@ -1004,8 +1004,8 @@ void CDevilSquare::DieProcDevilSquare(CGameObject &Obj)
 	}
 
 	pMsg.ServerCode = g_ConfigRead.server.GetGameServerCode();
-	memcpy(pMsg.AccountID, Obj.AccountID, sizeof(pMsg.AccountID));
-	memcpy(pMsg.GameID, Obj.Name, sizeof(pMsg.GameID));
+	std::memcpy(pMsg.AccountID, Obj.AccountID, sizeof(pMsg.AccountID));
+	std::memcpy(pMsg.GameID, Obj.Name, sizeof(pMsg.GameID));
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 

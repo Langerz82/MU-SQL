@@ -254,7 +254,7 @@ public:
 			tmpMember.Index = i;
 			tmpMember.inUse = true;
 			strcpy_s(tmpMember.Name, sizeof(tmpMember.Name), tmpList->m_List[i].c_str());
-			memcpy(&tmpBuffer[tmpPosition], &tmpMember, sizeof(GCAnswerUserChatBlockList));
+			std::memcpy(&tmpBuffer[tmpPosition], &tmpMember, sizeof(GCAnswerUserChatBlockList));
 			tmpPosition += sizeof(GCAnswerUserChatBlockList);
 			tmpCount++;
 		}
@@ -263,7 +263,7 @@ public:
 		tmpAnswer.Count = tmpCount;
 		tmpAnswer.ActionType = (BYTE)Action;
 		tmpAnswer.Result = Result;
-		memcpy(&tmpBuffer[0], &tmpAnswer, sizeof(GCAnswerUserChatBlockListHead));
+		std::memcpy(&tmpBuffer[0], &tmpAnswer, sizeof(GCAnswerUserChatBlockListHead));
 		IOCP.DataSend(UserIndex, tmpBuffer, tmpPosition);
 	}
 

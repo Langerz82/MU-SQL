@@ -194,7 +194,7 @@ BOOL CJewelMixSystem::MixJewel( int iIndex, int iJewelType, int iMixType)
 		return FALSE;
 	}*/
 
-	if ( Obj.m_IfState.use != 1 || Obj.m_IfState.type != 12 )
+	if ( Obj.m_IfState->use != 1 || Obj.m_IfState->type != 12 )
 	{
 		sLog->outBasic("[ANTI-HACK][protocol] [Mix Jewel] (%s)(%s)",
 			Obj.AccountID, Obj.Name);
@@ -344,7 +344,7 @@ BOOL CJewelMixSystem::UnMixJewel(CGameObject &Obj, int iJewelType, int iJewelLev
 		return FALSE;
 	}*/
 
-	if ( Obj.m_IfState.use != 1 || Obj.m_IfState.type != 12 )
+	if ( Obj.m_IfState->use != 1 || Obj.m_IfState->type != 12 )
 	{
 		sLog->outBasic("[ANTI-HACK][protocol] [UnMix Jewel] (%s)(%s)",
 			Obj.AccountID, Obj.Name);

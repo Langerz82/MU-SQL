@@ -25,12 +25,12 @@ int CMuunOpt::GetOptType()
 
 void CMuunOpt::SetMuunLvVal(int *iMuunLvVal)
 {
-	memcpy(this->m_iMuunLvVal, iMuunLvVal, sizeof(m_iMuunLvVal));
+	std::memcpy(this->m_iMuunLvVal, iMuunLvVal, sizeof(m_iMuunLvVal));
 }
 
 void CMuunOpt::GetMuunLvVal(int *iOutMuunLvVal)
 {
-	memcpy(iOutMuunLvVal, this->m_iMuunLvVal, sizeof(this->m_iMuunLvVal));
+	std::memcpy(iOutMuunLvVal, this->m_iMuunLvVal, sizeof(this->m_iMuunLvVal));
 }
 
 int CMuunOpt::GetMuunLvVal(int iMuunLv)

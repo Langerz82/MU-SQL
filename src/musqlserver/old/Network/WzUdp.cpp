@@ -91,7 +91,7 @@ int WzUdp::SendSet(LPSTR ip, int port)
 
 		if (host != 0)
 		{
-			memcpy(&this->m_SockAddr.sin_addr.S_un.S_addr,*host->h_addr_list ,host->h_length);	// Add Type Structure {$D }
+			std::memcpy(&this->m_SockAddr.sin_addr.S_un.S_addr,*host->h_addr_list ,host->h_length);	// Add Type Structure {$D }
 		}
 		else
 		{
@@ -134,7 +134,7 @@ int WzUdp::SendData(BYTE* SendData, DWORD nSendDataLen)
 {
 	int Ret;
 	memset(&this->m_PerIoSendData.Overlapped, 0, sizeof(WSAOVERLAPPED));	// Add Type Structure {$D}
-	memcpy(this->m_PerIoSendData.Buffer , SendData, nSendDataLen);
+	std::memcpy(this->m_PerIoSendData.Buffer , SendData, nSendDataLen);
 	
 	this->m_PerIoSendData.lOfs=nSendDataLen;
 	this->m_PerIoSendData.DataBuf.buf =this->m_PerIoSendData.Buffer;	// 40 Pointer 44 ...
@@ -206,7 +206,7 @@ int WzUdp::MuProtocolParse(BYTE* RecvData, int& nRecvDataLen)
 				return 0;
 			}
 
-			memcpy(RecvData, &RecvData[lOfs], this->m_dwRecvOfs);
+			std::memcpy(RecvData, &RecvData[lOfs], this->m_dwRecvOfs);
 			return 1;
 		}
 		else

@@ -39,7 +39,7 @@ BOOL NpcTalk(CGameObject &Npc, CGameObject lpObj)
 		return FALSE;
 	}
 
-	if ((Obj.m_IfState.use) > 0)
+	if ((Obj.m_IfState->use) > 0)
 	{
 		return TRUE;
 	}
@@ -771,7 +771,7 @@ BOOL NpcChaosCardMaster(CGameObject &Npc, CGameObject lpObj)
 
 	if (bCanChaosBox == TRUE)
 	{
-		if (Obj.m_IfState.use > 0)
+		if (Obj.m_IfState->use > 0)
 			return FALSE;
 
 		if (Obj.m_bPShopOpen == true)
@@ -792,8 +792,8 @@ BOOL NpcChaosCardMaster(CGameObject &Npc, CGameObject lpObj)
 
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 
-		Obj.m_IfState.use = 1;
-		Obj.m_IfState.type = 7;
+		Obj.m_IfState->use = 1;
+		Obj.m_IfState->type = 7;
 
 		gObjItemTextSave(lpObj);
 		gObjWarehouseTextSave(lpObj);
@@ -813,7 +813,7 @@ BOOL NpcRusipher(CGameObject &Npc, CGameObject lpObj)
 
 	CGameObject &Obj = Obj.m_Index;
 
-	if ((Obj.m_IfState.use) > 0)
+	if ((Obj.m_IfState->use) > 0)
 	{
 		return TRUE;
 	}
@@ -833,8 +833,8 @@ BOOL NpcRusipher(CGameObject &Npc, CGameObject lpObj)
 
 		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 
-		Obj.m_IfState.use = 1;
-		Obj.m_IfState.type = 12;
+		Obj.m_IfState->use = 1;
+		Obj.m_IfState->type = 12;
 	}
 	else
 	{
@@ -903,7 +903,7 @@ struct PMSG_REQ_VIEW_EC_MN
 
 BOOL NpcEventChipNPC(CGameObject &Npc, CGameObject lpObj)
 {
-	if ((Obj.m_IfState.use) > 0)
+	if ((Obj.m_IfState->use) > 0)
 	{
 		return TRUE;
 	}
@@ -919,9 +919,9 @@ BOOL NpcEventChipNPC(CGameObject &Npc, CGameObject lpObj)
 
 		wsDataCli.DataSend((char*)&pMsgTha, sizeof(pMsgTha));
 
-		Obj.m_IfState.type = 9;
-		Obj.m_IfState.state = 0;
-		Obj.m_IfState.use = 1;
+		Obj.m_IfState->type = 9;
+		Obj.m_IfState->state = 0;
+		Obj.m_IfState->use = 1;
 
 		return TRUE;
 	}
@@ -935,9 +935,9 @@ BOOL NpcEventChipNPC(CGameObject &Npc, CGameObject lpObj)
 
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&Result, Result.h.size);
 
-		Obj.m_IfState.type = 9;
-		Obj.m_IfState.state = 0;
-		Obj.m_IfState.use = 1;
+		Obj.m_IfState->type = 9;
+		Obj.m_IfState->state = 0;
+		Obj.m_IfState->use = 1;
 
 		return TRUE;
 	}
@@ -985,9 +985,9 @@ BOOL NpcServerDivision(CGameObject &Npc, CGameObject lpObj)
 		return TRUE;
 	}
 
-	Obj.m_IfState.type = 11;
-	Obj.m_IfState.state = 0;
-	Obj.m_IfState.use = 1;
+	Obj.m_IfState->type = 11;
+	Obj.m_IfState->state = 0;
+	Obj.m_IfState->use = 1;
 
 	return FALSE;
 }
@@ -1008,7 +1008,7 @@ BOOL NpcAngelKing(CGameObject &Npc, CGameObject lpObj)
 
 BOOL NpcAngelMessanger(CGameObject &Npc, CGameObject lpObj)
 {
-	if ((Obj.m_IfState.use) > 0)
+	if ((Obj.m_IfState->use) > 0)
 	{
 		return TRUE;
 	}
@@ -1022,8 +1022,8 @@ BOOL NpcAngelMessanger(CGameObject &Npc, CGameObject lpObj)
 
 	IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 
-	Obj.m_IfState.use = 1;
-	Obj.m_IfState.type = 12;
+	Obj.m_IfState->use = 1;
+	Obj.m_IfState->type = 12;
 
 	return FALSE;
 }
@@ -1062,9 +1062,9 @@ BOOL NpcDarkSpiritTrainer(CGameObject &Npc, CGameObject lpObj)
 			return TRUE;
 		}
 
-		Obj.m_IfState.type = 13;
-		Obj.m_IfState.state = 0;
-		Obj.m_IfState.use = 1;
+		Obj.m_IfState->type = 13;
+		Obj.m_IfState->state = 0;
+		Obj.m_IfState->use = 1;
 
 		pMsg.result = 0x07;
 		Obj.bIsChaosMixCompleted = false;
@@ -1095,7 +1095,7 @@ BOOL NpcJewelMixDealer(CGameObject &Npc, CGameObject lpObj)
 {
 	if (bCanChaosBox == TRUE)
 	{
-		if ((Obj.m_IfState.use) > 0)
+		if ((Obj.m_IfState->use) > 0)
 		{
 			return TRUE;
 		}
@@ -1109,8 +1109,8 @@ BOOL NpcJewelMixDealer(CGameObject &Npc, CGameObject lpObj)
 
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 
-		Obj.m_IfState.use = 1;
-		Obj.m_IfState.type = 12;
+		Obj.m_IfState->use = 1;
+		Obj.m_IfState->type = 12;
 
 		gObjItemTextSave(lpObj);
 		gObjWarehouseTextSave(lpObj);
@@ -1132,7 +1132,7 @@ struct PMSG_ANS_USE_WEAPON_INTERFACE
 
 BOOL NpcSiegeMachine_Attack(CGameObject &Npc, CGameObject lpObj)
 {
-	if ((Obj.m_IfState.use) > 0)
+	if ((Obj.m_IfState->use) > 0)
 	{
 		return TRUE;
 	}
@@ -1162,8 +1162,8 @@ BOOL NpcSiegeMachine_Attack(CGameObject &Npc, CGameObject lpObj)
 
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pResult, pResult.h.size);
 
-		Obj.m_IfState.use = 1;
-		Obj.m_IfState.type = 15;
+		Obj.m_IfState->use = 1;
+		Obj.m_IfState->type = 15;
 	}
 	else
 	{
@@ -1176,7 +1176,7 @@ BOOL NpcSiegeMachine_Attack(CGameObject &Npc, CGameObject lpObj)
 
 BOOL NpcSiegeMachine_Defense(CGameObject &Npc, CGameObject lpObj)
 {
-	if ((Obj.m_IfState.use) > 0)
+	if ((Obj.m_IfState->use) > 0)
 	{
 		return TRUE;
 	}
@@ -1206,8 +1206,8 @@ BOOL NpcSiegeMachine_Defense(CGameObject &Npc, CGameObject lpObj)
 
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pResult, pResult.h.size);
 
-		Obj.m_IfState.use = 1;
-		Obj.m_IfState.type = 16;
+		Obj.m_IfState->use = 1;
+		Obj.m_IfState->type = 16;
 	}
 	else
 	{
@@ -1219,7 +1219,7 @@ BOOL NpcSiegeMachine_Defense(CGameObject &Npc, CGameObject lpObj)
 
 BOOL NpcElderCircle(CGameObject &Npc, CGameObject lpObj) //GS-CS Decompiled 100%
 {
-	if ((Obj.m_IfState.use) > 0)
+	if ((Obj.m_IfState->use) > 0)
 	{
 		return TRUE;
 	}
@@ -1265,8 +1265,8 @@ BOOL NpcElderCircle(CGameObject &Npc, CGameObject lpObj) //GS-CS Decompiled 100%
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.result = 0x0C;
 
-	Obj.m_IfState.use = 1;
-	Obj.m_IfState.type = 12;
+	Obj.m_IfState->use = 1;
+	Obj.m_IfState->type = 12;
 
 	pMsg.level1 = 0;
 	pMsg.level2 = 0;
@@ -1278,7 +1278,7 @@ BOOL NpcElderCircle(CGameObject &Npc, CGameObject lpObj) //GS-CS Decompiled 100%
 
 	if (bCanChaosBox == TRUE) //Good
 	{
-		Obj.m_IfState.type = 7;
+		Obj.m_IfState->type = 7;
 
 		Obj.bIsChaosMixCompleted = false;
 		Obj.m_bCsGuildInvolved = false; //Good
@@ -1301,7 +1301,7 @@ BOOL NpcElderCircle(CGameObject &Npc, CGameObject lpObj) //GS-CS Decompiled 100%
 
 BOOL NpcCastleGuard(CGameObject &Npc, CGameObject lpObj) //GS-CS Decompiled 100%
 {
-	if ((Obj.m_IfState.use) > 0)
+	if ((Obj.m_IfState->use) > 0)
 	{
 		return TRUE;
 	}
@@ -1326,8 +1326,8 @@ BOOL NpcCastleGuard(CGameObject &Npc, CGameObject lpObj) //GS-CS Decompiled 100%
 
 	IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 
-	Obj.m_IfState.use = 1;
-	Obj.m_IfState.type = 12;
+	Obj.m_IfState->use = 1;
+	Obj.m_IfState->type = 12;
 
 	return TRUE;
 }
@@ -1336,7 +1336,7 @@ BOOL NpcCastleGuard(CGameObject &Npc, CGameObject lpObj) //GS-CS Decompiled 100%
 
 BOOL NpcCastleGateLever(CGameObject &Npc, CGameObject lpObj) //GS-CS Decompiled 100%
 {
-	if ((Obj.m_IfState.use) > 0)
+	if ((Obj.m_IfState->use) > 0)
 	{
 		return TRUE;
 	}
@@ -1409,8 +1409,8 @@ BOOL NpcCastleGateLever(CGameObject &Npc, CGameObject lpObj) //GS-CS Decompiled 
 		return TRUE;
 	}
 
-	Obj.m_IfState.use = 1;
-	Obj.m_IfState.type = 12;
+	Obj.m_IfState->use = 1;
+	Obj.m_IfState->type = 12;
 
 	return TRUE;
 }
@@ -1551,9 +1551,9 @@ BOOL NpcSeedMaster(CGameObject &Npc, CGameObject lpObj)
 	pMsg.h.headcode = 0x30;
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.result = 0x17;
-	Obj.m_IfState.type = 7;
-	Obj.m_IfState.state = 0;
-	Obj.m_IfState.use = 1;
+	Obj.m_IfState->type = 7;
+	Obj.m_IfState->state = 0;
+	Obj.m_IfState->use = 1;
 	Obj.bIsChaosMixCompleted = false;
 
 	gObjInventoryTrans(Obj.m_Index);
@@ -1573,9 +1573,9 @@ BOOL NpcSeedResearcher(CGameObject &Npc, CGameObject lpObj)
 	pMsg.h.headcode = 0x30;
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.result = 0x18;
-	Obj.m_IfState.type = 7;
-	Obj.m_IfState.state = 0;
-	Obj.m_IfState.use = 1;
+	Obj.m_IfState->type = 7;
+	Obj.m_IfState->state = 0;
+	Obj.m_IfState->use = 1;
 	Obj.bIsChaosMixCompleted = false;
 
 	gObjInventoryTrans(Obj.m_Index);
@@ -1593,7 +1593,7 @@ BOOL NpcSeedResearcher(CGameObject &Npc, CGameObject lpObj)
 
 bool NpcTitus(CGameObject &Npc, CGameObject lpObj)
 {
-	if (Obj.m_IfState.use > 0)
+	if (Obj.m_IfState->use > 0)
 	{
 		return TRUE;
 	}
@@ -1608,8 +1608,8 @@ bool NpcTitus(CGameObject &Npc, CGameObject lpObj)
 	pResult.result = 0x21;
 	IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pResult, pResult.h.size);
 
-	Obj.m_IfState.use = 1;
-	Obj.m_IfState.type = 12;
+	Obj.m_IfState->use = 1;
+	Obj.m_IfState->type = 12;
 
 	return TRUE;
 }
@@ -1617,7 +1617,7 @@ bool NpcTitus(CGameObject &Npc, CGameObject lpObj)
 BOOL NpcTitus(CGameObject &Npc,CGameObject lpObj)
 {
 #if (ENABLETEST_NEWPVP == 1)
-if (Obj.m_IfState.use > 0)
+if (Obj.m_IfState->use > 0)
 {
 // ... wait return
 }
@@ -1630,8 +1630,8 @@ pResult.h.headcode = 0x30;
 pResult.h.size = sizeof(pResult);
 pResult.result = 33;
 DataSend(Obj.m_Index, (BYTE*)&pResult, pResult.h.size);
-Obj.m_IfState.type	= 20;
-Obj.m_IfState.use	= 1;
+Obj.m_IfState->type	= 20;
+Obj.m_IfState->use	= 1;
 }
 return TRUE;
 #else
@@ -1720,7 +1720,7 @@ BOOL NpcCastleHuntZoneGuard(CGameObject &Npc, CGameObject lpObj)
 		return TRUE;
 	}
 
-	if ((Obj.m_IfState.use) > 0)
+	if ((Obj.m_IfState->use) > 0)
 	{
 		return TRUE;
 	}
@@ -1781,9 +1781,9 @@ bool NpcDavid(CGameObject &Npc, CGameObject lpObj)
 	pMsg.h.headcode = 0x30;
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.result = 0x26;
-	Obj.m_IfState.type = 7;
-	Obj.m_IfState.state = 0;
-	Obj.m_IfState.use = 1;
+	Obj.m_IfState->type = 7;
+	Obj.m_IfState->state = 0;
+	Obj.m_IfState->use = 1;
 	Obj.bIsChaosMixCompleted = false;
 
 	sLog->outBasic("[LuckyItem Master][%s][%s] Open Chaos Box",
@@ -1835,7 +1835,7 @@ bool NpcSantaClause(CGameObject &Npc, CGameObject lpObj)
 	PMSG_REQ_SANTACHECK pSanta;
 	PHeadSubSetB((BYTE*)&pSanta, 0xBE, 0x20, sizeof(pSanta));
 
-	memcpy(pSanta.AccountID, Obj.AccountID, 11);
+	std::memcpy(pSanta.AccountID, Obj.AccountID, 11);
 	pSanta.Obj.m_Index = Obj.m_Index;
 	pSanta.gGameServerCode = g_ConfigRead.server.GetGameServerCode();
 
@@ -1886,7 +1886,7 @@ bool NpcArcaWar(CGameObject &Npc, CGameObject lpObj)
 
 bool NpcElementalMaster(CGameObject &Npc, CGameObject lpObj)
 {
-	if (Obj.m_IfState.use > 0)
+	if (Obj.m_IfState->use > 0)
 		return FALSE;
 
 	if (Obj.m_bPShopOpen == true)
@@ -1904,9 +1904,9 @@ bool NpcElementalMaster(CGameObject &Npc, CGameObject lpObj)
 	pMsg.h.headcode = 0x30;
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.result = 0x29;
-	Obj.m_IfState.type = 7;
-	Obj.m_IfState.state = 0;
-	Obj.m_IfState.use = 1;
+	Obj.m_IfState->type = 7;
+	Obj.m_IfState->state = 0;
+	Obj.m_IfState->use = 1;
 	Obj.m_PlayerData->m_bIsPentagramMixCompleted = false;
 
 	gObjInventoryTrans(Obj.m_Index);
@@ -1954,8 +1954,8 @@ bool Npc_Dialog(CGameObject &Npc, CGameObject lpObj) //-> Complete
 
 		case 257:
 		{
-			Obj.m_IfState.type = 33;
-			Obj.m_IfState.use = 1;
+			Obj.m_IfState->type = 33;
+			Obj.m_IfState->use = 1;
 			break;
 		}
 		case 566:
@@ -1969,9 +1969,9 @@ bool Npc_Dialog(CGameObject &Npc, CGameObject lpObj) //-> Complete
 
 		if (lpNpc->Class == 568)
 		{
-			Obj.m_IfState.type = 20;
-			Obj.m_IfState.state = 0;
-			Obj.m_IfState.use = 1;
+			Obj.m_IfState->type = 20;
+			Obj.m_IfState->state = 0;
+			Obj.m_IfState->use = 1;
 		}
 
 		pResult.h.c = 0xC3;
@@ -2050,7 +2050,7 @@ bool NpcMonicaTalk(CGameObject &Npc, CGameObject lpObj)
 	if (!gObjIsConnected(Obj.m_Index))
 		return false;
 
-	if (Obj.m_IfState.use > 0)
+	if (Obj.m_IfState->use > 0)
 		return false;
 
 	PMSG_TALKRESULT pResult;

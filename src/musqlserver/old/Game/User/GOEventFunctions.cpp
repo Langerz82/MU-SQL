@@ -362,7 +362,7 @@ BYTE gObjEventInvenMove(CGameObject &Obj, int *durSsend, int *durTsend, BYTE sou
 	int width, height;
 
 	Obj.pEventInventory[source]->GetSize(width, height);
-	memcpy(&TempEventInventoryMap, Obj.pEventInventoryMap, EVENT_INVENTORY_MAP_SIZE);
+	std::memcpy(&TempEventInventoryMap, Obj.pEventInventoryMap, EVENT_INVENTORY_MAP_SIZE);
 	gObjEventInventoryItemBoxSet(Obj, source, width, height, -1);
 
 	int w = target % 8;
@@ -370,13 +370,13 @@ BYTE gObjEventInvenMove(CGameObject &Obj, int *durSsend, int *durTsend, BYTE sou
 
 	if (ExtentCheck(w, h, 8, 4) == FALSE)
 	{
-		memcpy(Obj.pEventInventory, TempEventInventoryMap, EVENT_INVENTORY_MAP_SIZE);
+		std::memcpy(Obj.pEventInventory, TempEventInventoryMap, EVENT_INVENTORY_MAP_SIZE);
 		return -1;
 	}
 
 	if (*(BYTE*)(Obj.pEventInventoryMap + h * 8 + w) != 0xFF)
 	{
-		memcpy(Obj.pEventInventoryMap, TempEventInventoryMap, EVENT_INVENTORY_MAP_SIZE);
+		std::memcpy(Obj.pEventInventoryMap, TempEventInventoryMap, EVENT_INVENTORY_MAP_SIZE);
 		return -1;
 	}
 
@@ -384,11 +384,11 @@ BYTE gObjEventInvenMove(CGameObject &Obj, int *durSsend, int *durTsend, BYTE sou
 
 	if (blank == 0xFF)
 	{
-		memcpy(Obj.pEventInventoryMap, TempEventInventoryMap, EVENT_INVENTORY_MAP_SIZE);
+		std::memcpy(Obj.pEventInventoryMap, TempEventInventoryMap, EVENT_INVENTORY_MAP_SIZE);
 		return -1;
 	}
 
-	memcpy(&Obj.pEventInventory[blank], &Obj.pEventInventory[source], sizeof(Obj.pEventInventory[blank]));
+	std::memcpy(&Obj.pEventInventory[blank], &Obj.pEventInventory[source], sizeof(Obj.pEventInventory[blank]));
 	Obj.pEventInventory[source]->Clear();
 	gObjEventInventoryItemBoxSet(Obj, blank, width, height, Obj.pEventInventory[blank]->m_Type);
 
@@ -758,11 +758,11 @@ BYTE gObjEventInventoryInsertItemPos(CGameObject &Obj, CItemObject &item, int po
 		return -1;
 	}
 
-	memcpy(TempInventoryMap, Obj.pEventInventoryMap, EVENT_INVENTORY_MAP_SIZE);
+	std::memcpy(TempInventoryMap, Obj.pEventInventoryMap, EVENT_INVENTORY_MAP_SIZE);
 
 	if (*(BYTE*)(Obj.pEventInventoryMap + h * 8 + w) != 255)
 	{
-		memcpy(Obj.pEventInventoryMap, TempInventoryMap, EVENT_INVENTORY_MAP_SIZE);
+		std::memcpy(Obj.pEventInventoryMap, TempInventoryMap, EVENT_INVENTORY_MAP_SIZE);
 		return -1;
 	}
 
@@ -770,7 +770,7 @@ BYTE gObjEventInventoryInsertItemPos(CGameObject &Obj, CItemObject &item, int po
 
 	if (blank >= 254)
 	{
-		memcpy(Obj.pEventInventoryMap, TempInventoryMap, EVENT_INVENTORY_MAP_SIZE);
+		std::memcpy(Obj.pEventInventoryMap, TempInventoryMap, EVENT_INVENTORY_MAP_SIZE);
 		return false;
 	}
 

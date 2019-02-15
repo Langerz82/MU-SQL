@@ -1224,7 +1224,7 @@ void CIllusionTempleProcess_Renewal::SendRelicsUserInfo(CGameObject &Obj, BYTE b
 
 	pRelicsUser.wUserIndex = Obj.m_Index;
 	pRelicsUser.byGet = byGet;
-	memcpy(pRelicsUser.Name, Obj.Name, MAX_ACCOUNT_LEN);
+	std::memcpy(pRelicsUser.Name, Obj.Name, MAX_ACCOUNT_LEN);
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -2800,13 +2800,13 @@ void CIllusionTempleProcess_Renewal::SendITRResult()
 		{
 			if (getGameObject(this->m_UserData[j]->m_nIndex)->Connected > PLAYER_LOGGED)
 			{
-				memcpy(pAddExpMsg.GameID, getGameObject(this->m_UserData[j]->m_nIndex)->Name, MAX_ACCOUNT_LEN);
+				std::memcpy(pAddExpMsg.GameID, getGameObject(this->m_UserData[j]->m_nIndex)->Name, MAX_ACCOUNT_LEN);
 				pAddExpMsg.btMapNumber = this->m_nTempleNumber + 45;
 				pAddExpMsg.btTeam = this->m_UserData[j].m_btTeam;
 				pAddExpMsg.btClass = getGameObject(this->m_UserData[j]->m_nIndex)->Class;
 				pAddExpMsg.btUserKillCount = this->m_UserData[j].m_btUserKillCount;
 
-				memcpy(&SendByte[nOffset], &pAddExpMsg, sizeof(pAddExpMsg));
+				std::memcpy(&SendByte[nOffset], &pAddExpMsg, sizeof(pAddExpMsg));
 				nOffset += sizeof(PMSG_ITR_USER_ADD_EXP);
 
 				sLog->outBasic("[ ITR ] MAP:(%d) ITR Result  (Account:%s, Name:%s, G.Name:%s Team:%d, Class:%d, UserKillCount:%d,InvalidationCount:%d,OccupiedCount:%d)",
@@ -2818,7 +2818,7 @@ void CIllusionTempleProcess_Renewal::SendITRResult()
 	}
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xBF, 0x04, nOffset);
-	memcpy(SendByte, &pMsg, sizeof(PMSG_ITR_RESULT));
+	std::memcpy(SendByte, &pMsg, sizeof(PMSG_ITR_RESULT));
 
 	for (int i = 0; i < 10; i++)
 	{

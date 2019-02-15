@@ -191,7 +191,7 @@ bool CItemObjectOptionTypeMng::LoadAccessoryItemOptionScript(char *pchFileName)
 			AccessoryItemOptionValue.LevelValue[i] = item.attribute(szTemp).as_int();
 		}
 
-		memcpy(&this->m_AccessoryItemOptionValue[iValueCount], &AccessoryItemOptionValue, sizeof(AccessoryItemOptionValue));
+		std::memcpy(&this->m_AccessoryItemOptionValue[iValueCount], &AccessoryItemOptionValue, sizeof(AccessoryItemOptionValue));
 		iValueCount++;
 	}
 

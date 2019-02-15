@@ -220,7 +220,7 @@ void CMineSystem::CheckIsUPTUserWhenConnect(CGameObject &Obj)
 	SDHP_REQ_LOAD_MINESYSTEM_UPT_USERINFO pMsg;
 	PHeadSubSetB((BYTE*)&pMsg, 0x4C, 0x01, sizeof(pMsg));
 	
-	memcpy(pMsg.szCharName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szCharName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.wUserIndex = Obj.m_Index;
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
@@ -487,7 +487,7 @@ void CMineSystem::RequestDBToModifyUPTUserInfo(CGameObject &Obj, char *szCharNam
 	SDHP_REQ_MINESYSTEM_UPT_USERINFO pMsg;
 	PHeadSubSetB((BYTE*)&pMsg, 0x4C, 0x00, sizeof(pMsg));
 
-	memcpy(pMsg.szCharName, szCharName, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szCharName, szCharName, MAX_ACCOUNT_LEN + 1);
 	pMsg.wUserIndex = Obj.m_Index;
 	pMsg.wTwinkleType = wTwinkleType;
 	pMsg.iCurrentStage = iCurrentStage;

@@ -456,7 +456,7 @@ void TMonsterAIUtil::SendChattingMsg(int iObjIndex, char* lpszMsg, ...)
 	va_end(pArguments);
 
 	char szChat[60] = {0};
-	memcpy(szChat, szBuffer, sizeof(szChat)-1);
+	std::memcpy(szChat, szBuffer, sizeof(szChat)-1);
 
 	for(int i=0;i<MaxViewportMonster;i++)
 	{

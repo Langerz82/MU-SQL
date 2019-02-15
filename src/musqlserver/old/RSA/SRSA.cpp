@@ -20,10 +20,10 @@ __fastcall CPublicRsaKey::CPublicRsaKey( int KeySize, BYTE* NKey, int NSize, BYT
 	mpz_import(m_E, ESize, 1, sizeof(BYTE), 1, 0, EKey);
 
 	m_NBuff = new BYTE[NSize];
-	memcpy(m_NBuff, NKey, NSize);
+	std::memcpy(m_NBuff, NKey, NSize);
 
 	m_EBuff = new BYTE[ESize];
-	memcpy(m_EBuff, EKey, ESize);
+	std::memcpy(m_EBuff, EKey, ESize);
 
 	m_NSize = NSize;
 	m_ESize = ESize;
@@ -83,7 +83,7 @@ void __fastcall CPublicRsaKey::EncBuffer(BYTE* buff, int size, BYTE* outBuff, in
 	BYTE encData[10000];
 
 	memset(tempData, 0, TempDataSize);
-	memcpy(tempData, buff, size);
+	std::memcpy(tempData, buff, size);
 	memset(encData, 0, EncDataSize);
 
 	int EncBlockSize = m_Size;
@@ -110,9 +110,9 @@ void __fastcall CPublicRsaKey::EncBuffer(BYTE* buff, int size, BYTE* outBuff, in
 
 	BYTE finalData[10000];
 
-	memcpy(finalData, &h, sizeof(RSA_DATA_HEADER));
-	memcpy(&finalData[sizeof(RSA_DATA_HEADER)], encData, EncDataSize);
-	memcpy(outBuff, finalData, sizeof(finalData));
+	std::memcpy(finalData, &h, sizeof(RSA_DATA_HEADER));
+	std::memcpy(&finalData[sizeof(RSA_DATA_HEADER)], encData, EncDataSize);
+	std::memcpy(outBuff, finalData, sizeof(finalData));
 
 	outSize = EncDataSize+sizeof(RSA_DATA_HEADER);
 	VM_TIGER_RED_END
@@ -143,10 +143,10 @@ __fastcall CPrivateRsaKey::CPrivateRsaKey(int KeySize, BYTE* NKey, int NSize, BY
 	mpz_import(m_D, DSize, 1, sizeof(BYTE), 1, 0, DKey);
 
 	m_NBuff = new BYTE[NSize];
-	memcpy(m_NBuff, NKey, NSize);
+	std::memcpy(m_NBuff, NKey, NSize);
 
 	m_DBuff = new BYTE[DSize];
-	memcpy(m_DBuff, DKey, DSize);
+	std::memcpy(m_DBuff, DKey, DSize);
 
 	m_NSize = NSize;
 	m_DSize = DSize;
@@ -226,7 +226,7 @@ int __fastcall CPrivateRsaKey::DecBuffer(BYTE* buff, int size, BYTE* outBuff, in
 		size_t count;
 		//BYTE* decoded = new BYTE[DecBlockSize];
 		//mpz_export(decoded, &count, 1, DecBlockSize, 1, 0, dec);
-		//memcpy(&decData[i*DecBlockSize], decoded, DecBlockSize);
+		//std::memcpy(&decData[i*DecBlockSize], decoded, DecBlockSize);
 		//delete [] decoded;
 		mpz_export(&decData[i*DecBlockSize], &count, 1, DecBlockSize, 1, 0, dec);
 
@@ -237,7 +237,7 @@ int __fastcall CPrivateRsaKey::DecBuffer(BYTE* buff, int size, BYTE* outBuff, in
 
 //	delete [] decData;
 
-	memcpy(outBuff, decData, sizeof(decData));
+	std::memcpy(outBuff, decData, sizeof(decData));
 	outSize = h->old_size;
 	return 0;
 }

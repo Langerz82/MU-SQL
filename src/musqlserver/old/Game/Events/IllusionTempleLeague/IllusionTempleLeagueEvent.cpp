@@ -879,7 +879,7 @@ void CIllusionTempleLeagueEvent::Send_ITL_Schedule(int index)
 		pMsgTime.nType = it->nType;
 		Cnt++;
 
-		memcpy(&sendbuf[lOfs], &pMsgTime, sizeof(pMsgTime));
+		std::memcpy(&sendbuf[lOfs], &pMsgTime, sizeof(pMsgTime));
 		lOfs += sizeof(__ITL_TIME_TABLE);
 
 		it++;
@@ -889,7 +889,7 @@ void CIllusionTempleLeagueEvent::Send_ITL_Schedule(int index)
 	pMsg.h.sizeH = HIBYTE(lOfs);
 	pMsg.h.sizeL = LOBYTE(lOfs);
 
-	memcpy(sendbuf, (BYTE*)&pMsg, sizeof(pMsg));
+	std::memcpy(sendbuf, (BYTE*)&pMsg, sizeof(pMsg));
 	IOCP.DataSend(index, (BYTE*)sendbuf, lOfs);
 }
 
@@ -934,9 +934,9 @@ void CIllusionTempleLeagueEvent::Send_ITL_Tournament(CGameObject &Obj, BYTE byEr
 				pGuildInfo.byWin = this->m_GuildTournamentRank[j].byWin;
 				pGuildInfo.byLose = this->m_GuildTournamentRank[j].byLose;
 				pGuildInfo.byITLType = this->m_GuildTournamentRank[j].byITLType;
-				memcpy(pGuildInfo.szGuildName, this->m_GuildTournamentRank[j].szGuildName, MAX_GUILD_LEN + 1);
+				std::memcpy(pGuildInfo.szGuildName, this->m_GuildTournamentRank[j].szGuildName, MAX_GUILD_LEN + 1);
 
-				memcpy(&sendbuf[lOfs], &pGuildInfo, sizeof(pGuildInfo));
+				std::memcpy(&sendbuf[lOfs], &pGuildInfo, sizeof(pGuildInfo));
 				lOfs += sizeof(pGuildInfo);
 				byGuildRankCnt++;
 			}
@@ -950,9 +950,9 @@ void CIllusionTempleLeagueEvent::Send_ITL_Tournament(CGameObject &Obj, BYTE byEr
 				pGuildInfo.byWin = this->m_GuildLeagueRank[i].byWin;
 				pGuildInfo.byLose = this->m_GuildLeagueRank[i].byLose;
 				pGuildInfo.byITLType = 1;
-				memcpy(pGuildInfo.szGuildName, this->m_GuildLeagueRank[i].szGuildName, MAX_GUILD_LEN + 1);
+				std::memcpy(pGuildInfo.szGuildName, this->m_GuildLeagueRank[i].szGuildName, MAX_GUILD_LEN + 1);
 
-				memcpy(&sendbuf[lOfs], &pGuildInfo, sizeof(pGuildInfo));
+				std::memcpy(&sendbuf[lOfs], &pGuildInfo, sizeof(pGuildInfo));
 				lOfs += sizeof(pGuildInfo);
 				byGuildRankCnt++;
 			}
@@ -964,7 +964,7 @@ void CIllusionTempleLeagueEvent::Send_ITL_Tournament(CGameObject &Obj, BYTE byEr
 	pMsg.byCnt = byGuildRankCnt;
 	pMsg.h.sizeH = HIBYTE(lOfs);
 	pMsg.h.sizeL = LOBYTE(lOfs);
-	memcpy(sendbuf, &pMsg, sizeof(pMsg));
+	std::memcpy(sendbuf, &pMsg, sizeof(pMsg));
 
 	IOCP.DataSend(Obj.m_Index, (BYTE*)sendbuf, lOfs);
 	Obj.m_bITL_TournamentInfoSend = true;
@@ -986,9 +986,9 @@ void CIllusionTempleLeagueEvent::Send_ITL_GuildRankInfo(CGameObject &Obj)
 		pGuildInfo.byRank = this->m_GuildLeagueRank[i].byRank;
 		pGuildInfo.byWin = this->m_GuildLeagueRank[i].byWin;
 		pGuildInfo.byLose = this->m_GuildLeagueRank[i].byLose;
-		memcpy(pGuildInfo.szGuildName, this->m_GuildLeagueRank[i].szGuildName, MAX_GUILD_LEN + 1);
+		std::memcpy(pGuildInfo.szGuildName, this->m_GuildLeagueRank[i].szGuildName, MAX_GUILD_LEN + 1);
 
-		memcpy(&sendbuf[lOfs], &pGuildInfo, sizeof(pGuildInfo));
+		std::memcpy(&sendbuf[lOfs], &pGuildInfo, sizeof(pGuildInfo));
 		lOfs += sizeof(pGuildInfo);
 		byGuildRankCnt++;
 	}
@@ -998,7 +998,7 @@ void CIllusionTempleLeagueEvent::Send_ITL_GuildRankInfo(CGameObject &Obj)
 	pMsg.h.sizeH = HIBYTE(lOfs);
 	pMsg.h.sizeL = LOBYTE(lOfs);
 
-	memcpy(sendbuf, &pMsg, sizeof(pMsg));
+	std::memcpy(sendbuf, &pMsg, sizeof(pMsg));
 	IOCP.DataSend(Obj.m_Index, (BYTE*)sendbuf, lOfs);
 	Obj.m_bITL_GuildRankInfoSend = true;
 }
@@ -1020,7 +1020,7 @@ void CIllusionTempleLeagueEvent::GD_LoadGuildCount(char *GuildName, int UserInde
 	pMsg.h.subcode = 0xAB;
 	pMsg.wMapSvrNum = g_MapServerManager.GetMapSvrGroup();
 	pMsg.nUserIndex = UserIndex;
-	memcpy(pMsg.GuildName, GuildName, MAX_GUILD_LEN + 1);
+	std::memcpy(pMsg.GuildName, GuildName, MAX_GUILD_LEN + 1);
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
@@ -1033,7 +1033,7 @@ void CIllusionTempleLeagueEvent::GD_Load_ITLUserEnterCount(char *CharName, int U
 	pMsg.h.headcode = 0xF0;
 	pMsg.h.subcode = 0xAC;
 	pMsg.nUserIndex = UserIndex;
-	memcpy(pMsg.CharName, CharName, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.CharName, CharName, MAX_ACCOUNT_LEN + 1);
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
@@ -1101,7 +1101,7 @@ void CIllusionTempleLeagueEvent::DG_ITL_Tournament_Get(PMSG_ANS_ITL_TOURNAMENT *
 
 		else
 		{
-			memcpy(this->m_GuildTournamentRank[i].szGuildName, lpMsg->m_GuildTournamentRank[i].szGuildName, MAX_GUILD_LEN + 1);
+			std::memcpy(this->m_GuildTournamentRank[i].szGuildName, lpMsg->m_GuildTournamentRank[i].szGuildName, MAX_GUILD_LEN + 1);
 			this->m_GuildTournamentRank[i].byRank = lpMsg->m_GuildTournamentRank[i].byRank;
 			this->m_GuildTournamentRank[i].byWin = lpMsg->m_GuildTournamentRank[i].byWin;
 			this->m_GuildTournamentRank[i].byLose = lpMsg->m_GuildTournamentRank[i].byLose;
@@ -1130,8 +1130,8 @@ void CIllusionTempleLeagueEvent::DG_ITL_RewardList_Get(PMSG_ANS_ITL_REWARDLIST *
 			this->m_ITL_Winner_RewardList[i].byPoint = lpMsg->m_stRewardList[i].byPoint;
 			this->m_ITL_Winner_RewardList[i].byRank = lpMsg->m_stRewardList[i].byRank;
 			this->m_ITL_Winner_RewardList[i].bGotReward = lpMsg->m_stRewardList[i].byGotReward;
-			memcpy(this->m_ITL_Winner_RewardList[i].szCharName, lpMsg->m_stRewardList[i].szCharName, MAX_ACCOUNT_LEN + 1);
-			memcpy(this->m_ITL_Winner_RewardList[i].szGuildName, lpMsg->m_stRewardList[i].szGuildName, MAX_GUILD_LEN + 1);
+			std::memcpy(this->m_ITL_Winner_RewardList[i].szCharName, lpMsg->m_stRewardList[i].szCharName, MAX_ACCOUNT_LEN + 1);
+			std::memcpy(this->m_ITL_Winner_RewardList[i].szGuildName, lpMsg->m_stRewardList[i].szGuildName, MAX_GUILD_LEN + 1);
 
 			sLog->outBasic("[ ITL ] REWARD RECEIVE NAME:%s, G.NAME:%s , EnterCnt:%d, Point:%d, Rank:%d, Get:%d",
 				this->m_ITL_Winner_RewardList[i].szCharName,
@@ -1219,7 +1219,7 @@ void CIllusionTempleLeagueEvent::DG_ITL_GuildLeagueRank_Get(PMSG_ANS_ITL_GUILDLE
 
 		else
 		{
-			memcpy(this->m_GuildLeagueRank[i].szGuildName, lpMsg->m_GuildLeagueRank[i].szGuildName, MAX_GUILD_LEN + 1);
+			std::memcpy(this->m_GuildLeagueRank[i].szGuildName, lpMsg->m_GuildLeagueRank[i].szGuildName, MAX_GUILD_LEN + 1);
 			this->m_GuildLeagueRank[i].byRank = lpMsg->m_GuildLeagueRank[i].byRank;
 			this->m_GuildLeagueRank[i].byWin = lpMsg->m_GuildLeagueRank[i].byWin;
 			this->m_GuildLeagueRank[i].byLose = lpMsg->m_GuildLeagueRank[i].byLose;
@@ -1397,8 +1397,8 @@ void CIllusionTempleLeagueEvent::Insert_RewardList(char *Name, char *GuildName, 
 			this->m_ITL_Winner_RewardList[i].byEnteredCnt = byEnter;
 			this->m_ITL_Winner_RewardList[i].byPoint = byPoint;
 			this->m_ITL_Winner_RewardList[i].byRank = byRank;
-			memcpy(this->m_ITL_Winner_RewardList[i].szCharName, Name, MAX_ACCOUNT_LEN + 1);
-			memcpy(this->m_ITL_Winner_RewardList[i].szGuildName, GuildName, MAX_GUILD_LEN + 1);
+			std::memcpy(this->m_ITL_Winner_RewardList[i].szCharName, Name, MAX_ACCOUNT_LEN + 1);
+			std::memcpy(this->m_ITL_Winner_RewardList[i].szGuildName, GuildName, MAX_GUILD_LEN + 1);
 		}
 	}
 }
@@ -1429,10 +1429,10 @@ void CIllusionTempleLeagueEvent::Send_RewardList(CGameObject &Obj, BYTE byError)
 			ITLRewardList.bGotReward = this->m_ITL_Winner_RewardList[i].bGotReward;
 			ITLRewardList.byEnteredCnt = this->m_ITL_Winner_RewardList[i].byEnteredCnt;
 			ITLRewardList.byPoint = this->m_ITL_Winner_RewardList[i].byPoint;
-			memcpy(ITLRewardList.szCharName, this->m_ITL_Winner_RewardList[i].szCharName, MAX_ACCOUNT_LEN + 1);
-			memcpy(ITLRewardList.szGuildName, this->m_ITL_Winner_RewardList[i].szGuildName, MAX_GUILD_LEN + 1);
+			std::memcpy(ITLRewardList.szCharName, this->m_ITL_Winner_RewardList[i].szCharName, MAX_ACCOUNT_LEN + 1);
+			std::memcpy(ITLRewardList.szGuildName, this->m_ITL_Winner_RewardList[i].szGuildName, MAX_GUILD_LEN + 1);
 
-			memcpy(&sendbuff[lOfs], &ITLRewardList, sizeof(ITLRewardList));
+			std::memcpy(&sendbuff[lOfs], &ITLRewardList, sizeof(ITLRewardList));
 			lOfs += sizeof(ITLRewardList);
 			nCount++;
 		}
@@ -1443,7 +1443,7 @@ void CIllusionTempleLeagueEvent::Send_RewardList(CGameObject &Obj, BYTE byError)
 
 	pMsg.h.sizeH = HIBYTE(lOfs);
 	pMsg.h.sizeL = LOBYTE(lOfs);
-	memcpy(sendbuff, &pMsg, sizeof(pMsg));
+	std::memcpy(sendbuff, &pMsg, sizeof(pMsg));
 
 	IOCP.DataSend(Obj.m_Index, (BYTE*)sendbuff, lOfs);
 }
@@ -1482,7 +1482,7 @@ void CIllusionTempleLeagueEvent::Update_ITL_RewardFlag(char *Name)
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.h.headcode = 0xF0;
 	pMsg.h.subcode = 0xAA;
-	memcpy(pMsg.CharName, Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.CharName, Name, MAX_ACCOUNT_LEN + 1);
 
 	wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
 }

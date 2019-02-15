@@ -135,7 +135,7 @@ BOOL WZQueue::AddToQueue(BYTE*  const pObject , UINT nSize, BYTE headcode, INT u
 
 		if (p != 0)
 		{
-			memcpy(p, pObject, nSize);
+			std::memcpy(p, pObject, nSize);
 
 			pNewNode->pHeapMemory = p;
 			pNewNode->nSize = nSize;
@@ -185,7 +185,7 @@ LPLISTNODE WZQueue::AddToQueueList(BYTE*  pObject, UINT nSize, BYTE headcode, IN
 
 		if (p != 0)
 		{
-			memcpy(p, pObject, nSize);
+			std::memcpy(p, pObject, nSize);
 
 			pNewNode->pHeapMemory = p;
 			pNewNode->nSize = nSize;
@@ -224,7 +224,7 @@ BOOL WZQueue::GetFromQueue(BYTE* pObject, UINT * pSize, BYTE * headcode, INT * u
 	{
 		EnterCriticalSection(&this->m_CriticalSection);
 
-		memcpy(pObject, pNode->pHeapMemory , pNode->nSize);
+		std::memcpy(pObject, pNode->pHeapMemory , pNode->nSize);
 
 		*pSize = pNode->nSize;
 		*headcode = pNode->Headcode;
@@ -289,7 +289,7 @@ LPLISTNODE WZQueue::GetCurData(BYTE* pObject, UINT* pSize, BYTE * headcode, INT 
 			return NULL;
 		}
 
-		memcpy(pObject, this->m_pCur->pHeapMemory , this->m_pCur->nSize); 
+		std::memcpy(pObject, this->m_pCur->pHeapMemory , this->m_pCur->nSize); 
 
 		*pSize = this->m_pCur->nSize;
 		*headcode = this->m_pCur->Headcode;
@@ -314,7 +314,7 @@ BOOL WZQueue::Pop(LPLISTNODE pCur, BYTE* pObject, int nOfs, int * nSize, int * s
 
 			if ( (pCur->nSize-nOfs) != 0 )
 			{
-				memcpy(pObject, &pCur->pHeapMemory[pCur->iBytesSended ], pCur->nSize - pCur->iBytesSended );
+				std::memcpy(pObject, &pCur->pHeapMemory[pCur->iBytesSended ], pCur->nSize - pCur->iBytesSended );
 				*nSize = pCur->nSize - pCur->iBytesSended ;
 				*sendbytes = pCur->iBytesSended ;
 				bRet=TRUE;

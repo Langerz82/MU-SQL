@@ -998,8 +998,8 @@ void EGReqBloodCastleEnterCount(CGameObject &Obj)
 	pMsg.h.headcode = 0xBD;
 	pMsg.h.subcode = 0x02;
 	pMsg.h.size = sizeof(pMsg);
-	memcpy(pMsg.AccountID, Obj.AccountID, 10);
-	memcpy(pMsg.GameID, Obj.Name, 10);
+	std::memcpy(pMsg.AccountID, Obj.AccountID, 10);
+	std::memcpy(pMsg.GameID, Obj.Name, 10);
 	pMsg.ServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.iObjIndex = iIndex;
 
@@ -1024,8 +1024,8 @@ void EGAnsBloodCastleEnterCount( PMSG_ANS_BLOODCASTLE_ENTERCOUNT* lpMsg)
 
 	char szAccountID[11] = {0};
 	char szName[11] = {0};
-	memcpy(szAccountID, lpMsg->AccountID, 10);
-	memcpy(szName, lpMsg->GameID, 10);
+	std::memcpy(szAccountID, lpMsg->AccountID, 10);
+	std::memcpy(szName, lpMsg->GameID, 10);
 
 	if ( strcmp(getGameObject(lpMsg->iObjIndex)->AccountID, szAccountID) ||
 		 strcmp(getGameObject(lpMsg->iObjIndex)->Name, szName) )
@@ -1064,8 +1064,8 @@ void EGReqRegCCOfflineGift(CGameObject &Obj)
 	pMsg.h.headcode = 0xBE;
 	pMsg.h.subcode = 0x15;
 	pMsg.h.size = sizeof(pMsg);
-	memcpy(pMsg.szUID, Obj.AccountID, 11);
-	memcpy(pMsg.szNAME, Obj.Name, 11);
+	std::memcpy(pMsg.szUID, Obj.AccountID, 11);
+	std::memcpy(pMsg.szNAME, Obj.Name, 11);
 	pMsg.wServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.iINDEX = iIndex;
 	pMsg.szUID[10] = 0;
@@ -1091,9 +1091,9 @@ void EGAnsRegCCOfflineGift( PMSG_ANS_REG_CC_OFFLINE_GIFT* lpMsg)
 	memset(szAccountID, 0, sizeof(szAccountID));
 	memset(szName, 0, sizeof(szName));
 	memset(szGIFT_NAME, 0, sizeof(szGIFT_NAME));
-	memcpy(szAccountID, lpMsg->szUID, sizeof(szAccountID));
-	memcpy(szName, lpMsg->szNAME, sizeof(szName));
-	memcpy(szGIFT_NAME, lpMsg->szGIFT_NAME, sizeof(szGIFT_NAME));
+	std::memcpy(szAccountID, lpMsg->szUID, sizeof(szAccountID));
+	std::memcpy(szName, lpMsg->szNAME, sizeof(szName));
+	std::memcpy(szGIFT_NAME, lpMsg->szGIFT_NAME, sizeof(szGIFT_NAME));
 	szAccountID[10] = 0;
 	szName[10] = 0;
 	szGIFT_NAME[49] = 0;
@@ -1128,8 +1128,8 @@ void EGReqRegDLOfflineGift(CGameObject &Obj)
 	pMsg.h.headcode = 0xBE;
 	pMsg.h.subcode = 0x16;
 	pMsg.h.size = sizeof(pMsg);
-	memcpy(pMsg.szUID, Obj.AccountID, 11);
-	memcpy(pMsg.szNAME, Obj.Name, 11);
+	std::memcpy(pMsg.szUID, Obj.AccountID, 11);
+	std::memcpy(pMsg.szNAME, Obj.Name, 11);
 	pMsg.wServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.iINDEX = iIndex;
 	pMsg.szUID[10] = 0;
@@ -1155,9 +1155,9 @@ void EGAnsRegDLOfflineGift( PMSG_ANS_REG_DL_OFFLINE_GIFT* lpMsg)
 	memset(szAccountID, 0, sizeof(szAccountID));
 	memset(szName, 0, sizeof(szName));
 	memset(szGIFT_NAME, 0, sizeof(szGIFT_NAME));
-	memcpy(szAccountID, lpMsg->szUID, sizeof(szAccountID));
-	memcpy(szName, lpMsg->szNAME, sizeof(szName));
-	memcpy(szGIFT_NAME, lpMsg->szGIFT_NAME, sizeof(szGIFT_NAME));
+	std::memcpy(szAccountID, lpMsg->szUID, sizeof(szAccountID));
+	std::memcpy(szName, lpMsg->szNAME, sizeof(szName));
+	std::memcpy(szGIFT_NAME, lpMsg->szGIFT_NAME, sizeof(szGIFT_NAME));
 	szAccountID[10] = 0;
 	szName[10] = 0;
 	szGIFT_NAME[49] = 0;
@@ -1191,8 +1191,8 @@ void EGReqRegHTOfflineGift(CGameObject &Obj)
 	pMsg.h.headcode = 0xBE;
 	pMsg.h.subcode = 0x17;
 	pMsg.h.size = sizeof(pMsg);
-	memcpy(pMsg.szUID, Obj.AccountID, 11);
-	memcpy(pMsg.szNAME, Obj.Name, 11);
+	std::memcpy(pMsg.szUID, Obj.AccountID, 11);
+	std::memcpy(pMsg.szNAME, Obj.Name, 11);
 	pMsg.wServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.iINDEX = iIndex;
 	pMsg.szUID[10] = 0;
@@ -1226,9 +1226,9 @@ void EGAnsRegHTOfflineGift( PMSG_ANS_REG_HT_OFFLINE_GIFT* lpMsg)
 	memset(szAccountID, 0, sizeof(szAccountID));
 	memset(szName, 0, sizeof(szName));
 	memset(szGIFT_NAME, 0, sizeof(szGIFT_NAME));
-	memcpy(szAccountID, lpMsg->szUID, sizeof(szAccountID));
-	memcpy(szName, lpMsg->szNAME, sizeof(szName));
-	memcpy(szGIFT_NAME, lpMsg->szGIFT_NAME, sizeof(szGIFT_NAME));
+	std::memcpy(szAccountID, lpMsg->szUID, sizeof(szAccountID));
+	std::memcpy(szName, lpMsg->szNAME, sizeof(szName));
+	std::memcpy(szGIFT_NAME, lpMsg->szGIFT_NAME, sizeof(szGIFT_NAME));
 	szAccountID[10] = 0;
 	szName[10] = 0;
 	szGIFT_NAME[49] = 0;
@@ -1329,7 +1329,7 @@ void EGReqSantaGift(CGameObject &Obj)
 	PMSG_REQ_SANTAGIFT pMsg;
 	PHeadSubSetB((BYTE*)&pMsg, 0xBE, 0x21, sizeof(pMsg));
 
-	memcpy(pMsg.AccountID, Obj.AccountID, 11);
+	std::memcpy(pMsg.AccountID, Obj.AccountID, 11);
 	pMsg.gGameServerCode = g_ConfigRead.server.GetGameServerCode();
 	pMsg.Obj.m_Index = Obj.m_Index;
 

@@ -407,7 +407,7 @@ BOOL gJoomin15Check(char* szJN) // Status : Good
 		tyear = 2000;
 	}
 
-	memcpy(&szTyear[0], szJN, sizeof(szTyear)-1);
+	std::memcpy(&szTyear[0], szJN, sizeof(szTyear)-1);
 
 	tyear=tyear+atoi(&szTyear[0]);
 	if ( (gYear-15 ) < tyear )
@@ -433,7 +433,7 @@ BOOL gJoominCheck(char* szJN, int iLimitAge) // Good
 		tyear = 2000;
 	}
 
-	memcpy(&szTyear[0], szJN, sizeof(szTyear)-1);
+	std::memcpy(&szTyear[0], szJN, sizeof(szTyear)-1);
 
 	tyear=tyear+atoi(&szTyear[0]);
 	if ( (gYear-iLimitAge ) < tyear )

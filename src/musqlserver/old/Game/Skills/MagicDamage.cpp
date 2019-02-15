@@ -171,7 +171,7 @@ void CMagicDamage::SetEx(int iSkill, int iSkillUseType, int iSkillBrand, int iKi
 	this->m_iSkillUseType[iSkill] = iSkillUseType;
 	this->m_iSkillBrand[iSkill] = iSkillBrand;
 	this->m_iKillCount[iSkill] = iKillCount;
-	memcpy(this->m_iRequireStatus[iSkill], pReqStatus, sizeof(this->m_iRequireStatus[iSkill]));	// #error Deathway Fix
+	std::memcpy(this->m_iRequireStatus[iSkill], pReqStatus, sizeof(this->m_iRequireStatus[iSkill]));	// #error Deathway Fix
 }
 
 void CMagicDamage::Set(char* name, int skill, int damage,  int rlevel,  int mana,  int bp,  int dis, int Attr,  int iSkillType, BYTE* ReqClass, int rEnergy, int rLeadership, int rdelay, BYTE byItemSkill, BYTE byIsDamage, BYTE byBufIndex)
@@ -198,7 +198,7 @@ void CMagicDamage::Set(char* name, int skill, int damage,  int rlevel,  int mana
 	this->m_BrainPower[skill] = bp;
 	this->m_Attr[skill] = Attr;
 	this->m_iSkillType[skill] = iSkillType;
-	memcpy(this->m_RequireClass[skill], ReqClass, sizeof(this->m_RequireClass[0]));
+	std::memcpy(this->m_RequireClass[skill], ReqClass, sizeof(this->m_RequireClass[0]));
 	this->m_RequireEnergy[skill] = (rEnergy * rlevel * 4) / 100 + 20;
 
 	if ( this->m_RequireEnergy[skill] <= 0 )

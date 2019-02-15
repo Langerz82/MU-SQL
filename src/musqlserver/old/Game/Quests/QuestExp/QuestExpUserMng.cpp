@@ -291,7 +291,7 @@ int QuestExpUserMng::InvenChk_EnableReward(int iEpisode, int iObjIndex, int *pRa
 	auto MapQuestReward = pQuestExpInfo->GetQuestReward();
 
 	BYTE btTempInventoryMap[INVENTORY_MAP_SIZE];
-	memcpy(btTempInventoryMap, getGameObject(iObjIndex)->pInventoryMap, INVENTORY_MAP_SIZE);
+	std::memcpy(btTempInventoryMap, getGameObject(iObjIndex)->pInventoryMap, INVENTORY_MAP_SIZE);
 
 	int RandomRewardIndex[MAX_QUESTEXP_REWARDKIND_RANDOM] = { 0, 0, 0, 0, 0 };
 
@@ -308,7 +308,7 @@ int QuestExpUserMng::InvenChk_EnableReward(int iEpisode, int iObjIndex, int *pRa
 			return 0;
 		}
 
-		memcpy(pRandResultIndexID, RandomRewardIndex, sizeof(RandomRewardIndex));
+		std::memcpy(pRandResultIndexID, RandomRewardIndex, sizeof(RandomRewardIndex));
 	}
 
 	auto it = MapQuestReward.begin();
@@ -903,7 +903,7 @@ void QuestExpUserMng::UserAllQuestInfoSave(int iObjIndex)
 
 			}
 
-			memcpy(&sendBuff[lOfs], &QuestInfo[iQuestCnt], sizeof(QUESTEXP_INFO));
+			std::memcpy(&sendBuff[lOfs], &QuestInfo[iQuestCnt], sizeof(QUESTEXP_INFO));
 			lOfs += sizeof(QUESTEXP_INFO);
 			iQuestCnt++;
 		}
@@ -915,7 +915,7 @@ void QuestExpUserMng::UserAllQuestInfoSave(int iObjIndex)
 	{
 		pMsg.btQuestCnt = iQuestCnt;
 		PHeadSetW(reinterpret_cast<BYTE*>(&pMsg), 0xF6, lOfs);
-		memcpy(sendBuff, &pMsg, sizeof(pMsg));
+		std::memcpy(sendBuff, &pMsg, sizeof(pMsg));
 
 		wsDataCli.DataSend(reinterpret_cast<char*>(sendBuff), lOfs);
 	}
@@ -955,10 +955,10 @@ void QuestExpUserMng::UserQuestInfoSave(DWORD dwQuestInfoIndexID, int iObjIndex)
 	}
 
 	pMsg.btQuestCnt = 1;
-	memcpy(&send_buf[sizeof(pMsg)], &QuestInfo, sizeof(QuestInfo));
+	std::memcpy(&send_buf[sizeof(pMsg)], &QuestInfo, sizeof(QuestInfo));
 
 	PHeadSetW(reinterpret_cast<BYTE*>(&pMsg), 0xF6, sizeof(pMsg) + sizeof(QuestInfo));
-	memcpy(send_buf, &pMsg, sizeof(pMsg));
+	std::memcpy(send_buf, &pMsg, sizeof(pMsg));
 
 	wsDataCli.DataSend(reinterpret_cast<char*>(send_buf), sizeof(pMsg) + sizeof(QuestInfo));
 }
@@ -981,7 +981,7 @@ void QuestExpUserMng::DB_ReqUserQuestInfo(int iObjIndex)
 
 	pMsg.iUserIndex = iObjIndex;
 	pMsg.szCharName[MAX_ACCOUNT_LEN] = 0;
-	memcpy(pMsg.szCharName, getGameObject(iObjIndex)->Name, MAX_ACCOUNT_LEN);
+	std::memcpy(pMsg.szCharName, getGameObject(iObjIndex)->Name, MAX_ACCOUNT_LEN);
 
 	PHeadSetB(reinterpret_cast<BYTE*>(&pMsg), 0xF7, sizeof(pMsg));
 	wsDataCli.DataSend(reinterpret_cast<char*>(&pMsg), pMsg.h.size);
@@ -1016,7 +1016,7 @@ void QuestExpUserMng::UserQuestInfoLoad(PMSG_ANS_QUESTEXP_INFO* lpRecv)
 
 	QUESTEXP_INFO QuestInfo[MAX_QUESTEXP_INFO];
 
-	memcpy(QuestInfo, reinterpret_cast<BYTE*>(lpRecv) + sizeof(*lpRecv), iQuestCnt * sizeof(QUESTEXP_INFO));
+	std::memcpy(QuestInfo, reinterpret_cast<BYTE*>(lpRecv) + sizeof(*lpRecv), iQuestCnt * sizeof(QUESTEXP_INFO));
 
 	for (int i = 0; i < iQuestCnt; i++)
 	{

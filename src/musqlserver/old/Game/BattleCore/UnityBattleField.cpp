@@ -79,7 +79,7 @@ void CUnityBattleField::GDReqJoinUnityBattleField(CGameObject &Obj)
 		return;
 	}
 
-	if (Obj.m_IfState.use && Obj.m_IfState.type == 1)
+	if (Obj.m_IfState->use && Obj.m_IfState->type == 1)
 	{
 		GCServerMsgStringSend(Lang.GetText(0, 634), Obj.m_Index, 1);
 		sLog->outBasic("[UBF][GDReqJoinUnityBattleField][%s][%s][%s][ServerCode:%d] Trading can't be to Join UnityBattleField.",
@@ -105,9 +105,9 @@ void CUnityBattleField::GDReqJoinUnityBattleField(CGameObject &Obj)
 	GetLocalTime(&sysTime);
 
 	PMSG_UBF_REGISTER_ACCOUNT_USER pMsg;
-	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szBattleFieldName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szBattleFieldName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 
 	pMsg.iUserIndex = Obj.m_Index;
 	pMsg.ServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
@@ -182,8 +182,8 @@ void CUnityBattleField::GDReqCopyCharacterInfo(CGameObject &Obj, BYTE CharacterS
 	}
 
 	PMSG_UBF_ACCOUNT_USER_COPY pMsg;
-	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.iUserIndex = Obj.m_Index;
 	pMsg.ServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.btPromotionCode = this->m_bUBFCharacterPromotion;
@@ -247,8 +247,8 @@ void CUnityBattleField::GDReqCheckJoinedUnityBattleField(CGameObject &Obj, int I
 	}
 
 	PMSG_REQ_UBF_ACCOUNT_USERINFO pMsg;
-	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 
 	pMsg.iUserIndex = Obj.m_Index;
 	pMsg.iServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
@@ -328,8 +328,8 @@ void CUnityBattleField::GDReqCancelUnityBattleField(CGameObject &Obj, BYTE btCan
 	}
 
 	PMSG_UBF_REQ_CANCEL_REGISTER_USER pMsg;
-	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.iUserIndex = Obj.m_Index;
 	pMsg.ServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.btCanceled = btCancelType;
@@ -363,8 +363,8 @@ void CUnityBattleField::GDReqCancelUnityBattleField(CGameObject &Obj, BYTE btCan
 	}
 
 	PMSG_UBF_REQ_CANCEL_REGISTER_USER pMsg;
-	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szName, name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szName, name, MAX_ACCOUNT_LEN + 1);
 	pMsg.iUserIndex = Obj.m_Index;
 	pMsg.ServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.btCanceled = btCancelType;
@@ -427,7 +427,7 @@ void CUnityBattleField::GDReqGetRealNameAndServerCode(CGameObject &Obj)
 
 	PMSG_REQ_GET_UBF_REAL_NAME pMsg;
 	pMsg.iUserIndex = Obj.m_Index;
-	memcpy(pMsg.szUBFName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szUBFName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xF3, 0x08, sizeof(pMsg));
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
@@ -466,8 +466,8 @@ void CUnityBattleField::GDReqUBFGetReward(CGameObject &Obj, BYTE btBattleKind)
 	pMsg.iUserIndex = Obj.m_Index;
 	pMsg.iServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.btBattleKind = btBattleKind;
-	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xF3, 0x06, sizeof(pMsg));
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
@@ -498,8 +498,8 @@ void CUnityBattleField::GDReqSetReceivedWinnerItem(CGameObject &Obj, BYTE btBatt
 	PMSG_REQ_UBF_SET_RECEIVED_REWARD pMsg;
 	pMsg.iUserIndex = Obj.m_Index;
 	pMsg.iServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
-	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.btReceivedReward = TRUE;
 	pMsg.btBattleKind = btBattleKind;
 

@@ -120,7 +120,7 @@ bool CBuffEffectSlot::RemoveEffect(CGameObject &Obj, int iBuffIndex)
 		{
 			if( (Obj.m_BuffEffectList[i].BuffIndex != BUFFTYPE_NONE) && (i > 0) )
 			{
-				memcpy(&Obj.m_BuffEffectList[i-1],&Obj.m_BuffEffectList[i],sizeof(Obj.m_BuffEffectList[i])); //Change the Buff Slot to the removed one...
+				std::memcpy(&Obj.m_BuffEffectList[i-1],&Obj.m_BuffEffectList[i],sizeof(Obj.m_BuffEffectList[i])); //Change the Buff Slot to the removed one...
 				memset(&Obj.m_BuffEffectList[i],0,sizeof(Obj.m_BuffEffectList[i]));
 			}
 		}

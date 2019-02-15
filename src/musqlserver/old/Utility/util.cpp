@@ -68,7 +68,7 @@ BOOL SQLSyntexCheckConvert(char* SQLString)
 		{
 			if (temp - temp2 != 0)
 			{
-				memcpy(&tempSQL[tOfs], temp2, temp-temp2);
+				std::memcpy(&tempSQL[tOfs], temp2, temp-temp2);
 			}
 			lOfs = temp - (temp2 + sOfs);
 			tOfs += lOfs;
@@ -219,7 +219,7 @@ void FileSaveString(char* filename, char* string)
 void ProcessClientHWID(char* input, char* output)
 {
 	char temp[40];
-	memcpy(temp, input, 24);
+	std::memcpy(temp, input, 24);
 	temp[24] = 0;
 
 	strcpy(output, temp);

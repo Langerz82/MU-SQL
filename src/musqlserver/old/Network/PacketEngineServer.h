@@ -93,7 +93,7 @@ public:
 			return FALSE;
 		}
 
-		memcpy((void*)&this->m_byBuffer[this->m_wSize], pSrc, wSize);
+		std::memcpy((void*)&this->m_byBuffer[this->m_wSize], pSrc, wSize);
 		this->m_wSize += wSize;
 		return TRUE;
 	}
@@ -183,10 +183,10 @@ public:
 		}
 #endif EMU_NOCRYPT
 
-		memcpy(pTar, this->m_byBuffer, wSize);
+		std::memcpy(pTar, this->m_byBuffer, wSize);
 		this->m_wSize-=wSize;
-		memcpy(byTemp, &this->m_byBuffer[wSize], this->m_wSize);
-		memcpy(this->m_byBuffer, byTemp, this->m_wSize);
+		std::memcpy(byTemp, &this->m_byBuffer[wSize], this->m_wSize);
+		std::memcpy(this->m_byBuffer, byTemp, this->m_wSize);
 		return FALSE;
 	}
 

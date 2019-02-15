@@ -52,7 +52,7 @@ void CSendNPCInfo::LoadScript(char *lpFileName)
 		sendNpcInfo.btPosY = tag.attribute("Y").as_int();
 		sendNpcInfo.btTag = tag.attribute("DisplayType").as_int();
 		sendNpcInfo.btSync = tag.attribute("SyncType").as_int();
-		memcpy(sendNpcInfo.szName, tag.attribute("Name").as_string(), 31);
+		std::memcpy(sendNpcInfo.szName, tag.attribute("Name").as_string(), 31);
 
 		this->m_vtSendNpcInfo.push_back(sendNpcInfo);
 	}
@@ -63,7 +63,7 @@ void CSendNPCInfo::LoadScript(char *lpFileName)
 		sendPortalInfo.btMapNumber = tag.attribute("MapNumber").as_int();
 		sendPortalInfo.btPosX = tag.attribute("X").as_int();
 		sendPortalInfo.btPosY = tag.attribute("Y").as_int();
-		memcpy(sendPortalInfo.szName, tag.attribute("Name").as_string(), 31);
+		std::memcpy(sendPortalInfo.szName, tag.attribute("Name").as_string(), 31);
 
 		this->m_vtSendPortalInfo.push_back(sendPortalInfo);
 	}
@@ -88,7 +88,7 @@ void CSendNPCInfo::SendNpcCoordinate(int nDestUserIndex, BYTE btMapIndex, BYTE b
 
 	for (int i = 0; i < nSize; i++)
 	{
-		memcpy(&sendNpcInfo, &this->m_vtSendNpcInfo.at(i), sizeof(_stSendNPCInfo));
+		std::memcpy(&sendNpcInfo, &this->m_vtSendNpcInfo.at(i), sizeof(_stSendNPCInfo));
 
 		if (sendNpcInfo.btSync == 0)
 		{
@@ -111,7 +111,7 @@ void CSendNPCInfo::SendNpcCoordinate(int nDestUserIndex, BYTE btMapIndex, BYTE b
 						pMsg.btType = btAddType;
 						pMsg.btIdentNo = sendNpcInfo.nIdentNo;
 						pMsg.btIsNpc = TRUE;
-						memcpy(pMsg.szName, sendNpcInfo.szName, 31);
+						std::memcpy(pMsg.szName, sendNpcInfo.szName, 31);
 						IOCP.DataSend(nDestUserIndex, (BYTE*)&pMsg, pMsg.h.size);
 						break;
 					}
@@ -127,7 +127,7 @@ void CSendNPCInfo::SendNpcCoordinate(int nDestUserIndex, BYTE btMapIndex, BYTE b
 			pMsg.btIdentNo = sendNpcInfo.nIdentNo;
 			pMsg.btType = btAddType;
 			pMsg.btIsNpc = TRUE;
-			memcpy(pMsg.szName, sendNpcInfo.szName, 31);
+			std::memcpy(pMsg.szName, sendNpcInfo.szName, 31);
 			IOCP.DataSend(nDestUserIndex, (BYTE*)&pMsg, pMsg.h.size);
 		}
 	}
@@ -147,7 +147,7 @@ void CSendNPCInfo::SendPortalCoordinateMoveNpc(BYTE btBeforeMapNumber, BYTE btAf
 
 	for (int i = 0; i < nSize; i++)
 	{
-		memcpy(&sendNpcInfo, &this->m_vtSendNpcInfo.at(i), sizeof(_stSendNPCInfo));
+		std::memcpy(&sendNpcInfo, &this->m_vtSendNpcInfo.at(i), sizeof(_stSendNPCInfo));
 
 		if (sendNpcInfo.btMapNumber == btBeforeMapNumber && sendNpcInfo.btSync == 2 && sendNpcInfo.nNpcClass == nNpcClass)
 		{
@@ -157,7 +157,7 @@ void CSendNPCInfo::SendPortalCoordinateMoveNpc(BYTE btBeforeMapNumber, BYTE btAf
 			pDeleteMsg.btIdentNo = sendNpcInfo.nIdentNo;
 			pDeleteMsg.btType = 1;
 			pDeleteMsg.btIsNpc = TRUE;
-			memcpy(pDeleteMsg.szName, sendNpcInfo.szName, 31);
+			std::memcpy(pDeleteMsg.szName, sendNpcInfo.szName, 31);
 		}
 
 		if (sendNpcInfo.btMapNumber == btAfterMapNumber && sendNpcInfo.btSync == 2 && sendNpcInfo.nNpcClass == nNpcClass)
@@ -168,7 +168,7 @@ void CSendNPCInfo::SendPortalCoordinateMoveNpc(BYTE btBeforeMapNumber, BYTE btAf
 			pInsertMsg.btType = 0;
 			pInsertMsg.btIdentNo = sendNpcInfo.nIdentNo;
 			pInsertMsg.btIsNpc = TRUE;
-			memcpy(pInsertMsg.szName, sendNpcInfo.szName, 31);
+			std::memcpy(pInsertMsg.szName, sendNpcInfo.szName, 31);
 		}
 	}
 
@@ -206,7 +206,7 @@ void CSendNPCInfo::SendPortalCoordinate(int nDestUserIndex, BYTE btMapNumber)
 
 	for (int i = 0; i < nSize; i++)
 	{
-		memcpy(&sendPortalInfo, &this->m_vtSendPortalInfo.at(i), sizeof(sendPortalInfo));
+		std::memcpy(&sendPortalInfo, &this->m_vtSendPortalInfo.at(i), sizeof(sendPortalInfo));
 
 		if (sendPortalInfo.btMapNumber == btMapNumber)
 		{
@@ -216,7 +216,7 @@ void CSendNPCInfo::SendPortalCoordinate(int nDestUserIndex, BYTE btMapNumber)
 			pMsg.btType = 0;
 			pMsg.btIdentNo = sendPortalInfo.nIdentNo;
 			pMsg.btIsNpc = FALSE;
-			memcpy(pMsg.szName, sendPortalInfo.szName, 31);
+			std::memcpy(pMsg.szName, sendPortalInfo.szName, 31);
 			IOCP.DataSend(nDestUserIndex, &pMsg.h.c, pMsg.h.size);
 		}
 	}
@@ -229,7 +229,7 @@ void CSendNPCInfo::Find_ITL_Npc(BYTE byMapNumber, WORD wNpcType, BYTE & byMapTag
 
 	for (int i = 0; i < nSize; i++)
 	{
-		memcpy(&sendNpcInfo, &this->m_vtSendNpcInfo.at(i), sizeof(_stSendNPCInfo));
+		std::memcpy(&sendNpcInfo, &this->m_vtSendNpcInfo.at(i), sizeof(_stSendNPCInfo));
 
 		if (byMapNumber == sendNpcInfo.btMapNumber && wNpcType == sendNpcInfo.nNpcClass)
 		{
@@ -256,7 +256,7 @@ void CSendNPCInfo::SendITLNpcCoordinate(int nDestUserIndex, BYTE btMapIndex)
 
 	for (int i = 0; i < nSize; i++)
 	{
-		memcpy(&sendNpcInfo, &this->m_vtSendNpcInfo.at(i), sizeof(_stSendNPCInfo));
+		std::memcpy(&sendNpcInfo, &this->m_vtSendNpcInfo.at(i), sizeof(_stSendNPCInfo));
 
 		if (sendNpcInfo.btMapNumber == btMapIndex)
 		{

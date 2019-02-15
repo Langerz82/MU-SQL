@@ -75,7 +75,7 @@ BOOL TMonsterAIUnit::LoadData(LPSTR lpszFileName)
 		for (pugi::xml_node unit = mainXML.child("Unit"); unit; unit = unit.next_sibling())
 		{
 			char szUnitName[50]={0};
-			memcpy(szUnitName, unit.attribute("Name").as_string(), sizeof(szUnitName));
+			std::memcpy(szUnitName, unit.attribute("Name").as_string(), sizeof(szUnitName));
 
 			int iUnitNumber = unit.attribute("Number").as_int();
 			int iDelayTime = unit.attribute("DelayTime").as_int();
@@ -112,7 +112,7 @@ BOOL TMonsterAIUnit::LoadData(LPSTR lpszFileName)
 			TMonsterAIUnit::s_MonsterAIUnitArray[iUnitNumber].m_lpAIClassHelp = TMonsterAIElement::FindAIElement(iAIClassHelp);
 			TMonsterAIUnit::s_MonsterAIUnitArray[iUnitNumber].m_lpAIClassSpecial = TMonsterAIElement::FindAIElement(iAIClassSpecial);
 			TMonsterAIUnit::s_MonsterAIUnitArray[iUnitNumber].m_lpAIClassEvent = TMonsterAIElement::FindAIElement(iAIClassEvent);
-			memcpy(TMonsterAIUnit::s_MonsterAIUnitArray[iUnitNumber].m_szUnitName, szUnitName, sizeof(TMonsterAIUnit::s_MonsterAIUnitArray[iUnitNumber].m_szUnitName));
+			std::memcpy(TMonsterAIUnit::s_MonsterAIUnitArray[iUnitNumber].m_szUnitName, szUnitName, sizeof(TMonsterAIUnit::s_MonsterAIUnitArray[iUnitNumber].m_szUnitName));
 		}
 
 		TMonsterAIUnit::s_bDataLoad = TRUE;

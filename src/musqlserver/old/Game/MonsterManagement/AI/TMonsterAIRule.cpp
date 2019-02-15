@@ -59,7 +59,7 @@ bool TMonsterAIRule::LoadData(LPSTR lpszFileName)
 			int iMonsterClass = rule.attribute("MonsterIndex").as_int();
 			TMonsterAIRuleInfo MonsterAIRuleInfo;
 
-			memcpy(MonsterAIRuleInfo.m_szRuleDesc, rule.attribute("Name").as_string(), sizeof(MonsterAIRuleInfo.m_szRuleDesc));
+			std::memcpy(MonsterAIRuleInfo.m_szRuleDesc, rule.attribute("Name").as_string(), sizeof(MonsterAIRuleInfo.m_szRuleDesc));
 
 			MonsterAIRuleInfo.m_iMonsterAIUnit = rule.attribute("MonsterAIUnit").as_int();
 			MonsterAIRuleInfo.m_iRuleCondition = rule.attribute("Condition").as_int();
@@ -85,7 +85,7 @@ bool TMonsterAIRule::LoadData(LPSTR lpszFileName)
 
 			MonsterAIRuleInfo.m_iRuleNumber = iAIRuleNumber;
 			MonsterAIRuleInfo.m_iMonsterClass = iMonsterClass;
-			memcpy(&TMonsterAIRule::s_MonsterAIRuleInfoArray[TMonsterAIRule::s_iMonsterAIRuleInfoCount], &MonsterAIRuleInfo, sizeof(MonsterAIRuleInfo));
+			std::memcpy(&TMonsterAIRule::s_MonsterAIRuleInfoArray[TMonsterAIRule::s_iMonsterAIRuleInfoCount], &MonsterAIRuleInfo, sizeof(MonsterAIRuleInfo));
 			TMonsterAIRule::s_iMonsterAIRuleInfoCount++;
 		}
 

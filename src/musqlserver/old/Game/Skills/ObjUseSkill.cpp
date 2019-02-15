@@ -5438,12 +5438,12 @@ int CObjUseSkill::SkillChainLighting(CGameObject &Obj, CMagicInf *lpMagic, int a
 	{
 		pMagicObj.nTargetIndex = nChainTarget[i];
 
-		memcpy(&SendByte[nOffset], &pMagicObj, sizeof(PMSG_CHAIN_MAGIC_OBJECT));
+		std::memcpy(&SendByte[nOffset], &pMagicObj, sizeof(PMSG_CHAIN_MAGIC_OBJECT));
 		nOffset += sizeof(PMSG_CHAIN_MAGIC_OBJECT);
 	}
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xBF, 0x0A, nOffset);
-	memcpy(&SendByte, &pMsg, sizeof(pMsg));
+	std::memcpy(&SendByte, &pMsg, sizeof(pMsg));
 
 	if (Obj.Type == OBJ_USER)
 	{
@@ -6927,7 +6927,7 @@ void CObjUseSkill::SkillDarkSide(CGameObject &Obj, int aTargetIndex, CMagicInf *
 		PMSG_RAGE_ATTACK_RANGE_ANS pMsg;
 		PHeadSetBE((BYTE*)&pMsg, 0x4B, sizeof(pMsg));
 
-		memcpy(&pMsg.Target, wTargetList, sizeof(wTargetList));
+		std::memcpy(&pMsg.Target, wTargetList, sizeof(wTargetList));
 		pMsg.MagicNumber = lpMagic->m_Skill;;
 
 		Obj.m_PlayerData->DarkSideCount = 0;
@@ -6944,7 +6944,7 @@ void CObjUseSkill::SkillDarkSide(CGameObject &Obj, int aTargetIndex, CMagicInf *
 			}
 		}
 
-		memcpy(Obj.m_PlayerData->DarkSideTarget, wTargetList, sizeof(wTargetList));
+		std::memcpy(Obj.m_PlayerData->DarkSideTarget, wTargetList, sizeof(wTargetList));
 		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 	}
 }

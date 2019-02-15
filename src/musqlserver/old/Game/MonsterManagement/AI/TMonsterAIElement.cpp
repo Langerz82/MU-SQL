@@ -82,7 +82,7 @@ BOOL TMonsterAIElement::LoadData(LPSTR lpszFileName)
 		for (pugi::xml_node element = mainXML.child("Element"); element; element = element.next_sibling())
 		{
 			char szElementName[50]={0};
-			memcpy(szElementName, element.attribute("Name").as_string(), sizeof(szElementName));
+			std::memcpy(szElementName, element.attribute("Name").as_string(), sizeof(szElementName));
 
 			int iElementNumber = element.attribute("Number").as_int();
 			int iElementClass = element.attribute("Class").as_int();
@@ -113,7 +113,7 @@ BOOL TMonsterAIElement::LoadData(LPSTR lpszFileName)
 			TMonsterAIElement::s_MonsterAIElementArray[iElementNumber].m_iTargetType = iTargetType;
 			TMonsterAIElement::s_MonsterAIElementArray[iElementNumber].m_iX = iX;
 			TMonsterAIElement::s_MonsterAIElementArray[iElementNumber].m_iY = iY;
-			memcpy(TMonsterAIElement::s_MonsterAIElementArray[iElementNumber].m_szElementName, szElementName, sizeof(szElementName));
+			std::memcpy(TMonsterAIElement::s_MonsterAIElementArray[iElementNumber].m_szElementName, szElementName, sizeof(szElementName));
 		}
 
 		TMonsterAIElement::s_bDataLoad = TRUE;

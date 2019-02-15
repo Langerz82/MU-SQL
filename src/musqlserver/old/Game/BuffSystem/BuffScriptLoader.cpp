@@ -122,8 +122,8 @@ bool CBuffScriptLoader::AddBuffEffectData(BYTE btBuffIndex, BYTE btBuffEffectTyp
 	BuffData[iBuffCount].NoticeType = btNoticeType;
 	BuffData[iBuffCount].ClearType = btClearType;
 
-	memcpy(BuffData[iBuffCount].BuffName, pchName, sizeof(BuffData[iBuffCount].BuffName));
-	memcpy(BuffData[iBuffCount].BuffDescript, pchDescript, sizeof(BuffData[iBuffCount].BuffDescript));
+	std::memcpy(BuffData[iBuffCount].BuffName, pchName, sizeof(BuffData[iBuffCount].BuffName));
+	std::memcpy(BuffData[iBuffCount].BuffDescript, pchDescript, sizeof(BuffData[iBuffCount].BuffDescript));
 	
 	iBuffCount++;
 	return true;

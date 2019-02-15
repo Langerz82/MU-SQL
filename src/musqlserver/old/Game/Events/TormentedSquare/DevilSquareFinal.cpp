@@ -1119,11 +1119,11 @@ void CDevilSquareFinal::Set_DSFState_Ready()
 			DSF_TEAM_PARTY_USER_NAME PartyUserName;
 
 			PartyUserName.iTeamIndex = this->m_PartyDataSave[i].btTeamIndex;
-			memcpy(PartyUserName.szUserName1, getGameObject(this->m_PartyDataSave[i]->nRequestUserIndex)->m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN+1);
-			memcpy(PartyUserName.szUserName2, getGameObject(this->m_PartyDataSave[i]->n2ndPartyUserIndex)->m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN+1);
+			std::memcpy(PartyUserName.szUserName1, getGameObject(this->m_PartyDataSave[i]->nRequestUserIndex)->m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN+1);
+			std::memcpy(PartyUserName.szUserName2, getGameObject(this->m_PartyDataSave[i]->n2ndPartyUserIndex)->m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN+1);
 			PartyUserName.iTeamLevel = this->m_PartyDataSave[i].nRequestUserLevel + this->m_PartyDataSave[i].n2ndPartyUserLevel;
 			
-			memcpy(&sendbuf[lOfs], &PartyUserName, sizeof(DSF_TEAM_PARTY_USER_NAME));
+			std::memcpy(&sendbuf[lOfs], &PartyUserName, sizeof(DSF_TEAM_PARTY_USER_NAME));
 			lOfs += sizeof(DSF_TEAM_PARTY_USER_NAME);
 			nPartyCount++;
 		}
@@ -1144,7 +1144,7 @@ void CDevilSquareFinal::Set_DSFState_Ready()
 		pMsg.btResult = 0;
 	}
 
-	memcpy(&sendbuf, &pMsg, sizeof(pMsg));
+	std::memcpy(&sendbuf, &pMsg, sizeof(pMsg));
 
 	for (int j = 0; j < 20; j++)
 	{
@@ -1325,9 +1325,9 @@ char CDevilSquareFinal::SetParty(BYTE btSlotOrder, BYTE btDSFType, int nPartyIdx
 	this->m_PartyDataSave[btSlotOrder].btDSFType = btDSFType;
 	this->m_PartyDataSave[btSlotOrder].nPartyNo = nPartyIdx;
 	this->m_PartyDataSave[btSlotOrder].nRequestUserIndex = nUserIndex;
-	memcpy(this->m_PartyDataSave[btSlotOrder].szRequestUserID, getGameObject(nUserIndex)->AccountID, MAX_ACCOUNT_LEN+1);
-	memcpy(this->m_PartyDataSave[btSlotOrder].szRequestUserName, getGameObject(nUserIndex)->Name, MAX_ACCOUNT_LEN+1);
-	memcpy(this->m_PartyDataSave[btSlotOrder].szRequestUserRealName, getGameObject(nUserIndex)->m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN+1);
+	std::memcpy(this->m_PartyDataSave[btSlotOrder].szRequestUserID, getGameObject(nUserIndex)->AccountID, MAX_ACCOUNT_LEN+1);
+	std::memcpy(this->m_PartyDataSave[btSlotOrder].szRequestUserName, getGameObject(nUserIndex)->Name, MAX_ACCOUNT_LEN+1);
+	std::memcpy(this->m_PartyDataSave[btSlotOrder].szRequestUserRealName, getGameObject(nUserIndex)->m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN+1);
 	this->m_PartyDataSave[btSlotOrder].nRequestUserServerCode = getGameObject(nUserIndex)->m_PlayerData->m_nServerCodeOfHomeWorld;
 	this->m_PartyDataSave[btSlotOrder].nRequestUserClass = getGameObject(nUserIndex)->Class;
 	this->m_PartyDataSave[btSlotOrder].nRequestUserLevel = getGameObject(nUserIndex)->m_PlayerData->MasterLevel + getGameObject(nUserIndex)->Level;
@@ -1345,9 +1345,9 @@ char CDevilSquareFinal::SetParty(BYTE btSlotOrder, BYTE btDSFType, int nPartyIdx
 		if (useridx > 0 && nUserIndex != useridx)
 		{
 			this->m_PartyDataSave[btSlotOrder].n2ndPartyUserIndex = getGameObject(useridx)->m_Index;
-			memcpy(this->m_PartyDataSave[btSlotOrder].sz2ndPartyUserID, getGameObject(useridx)->AccountID, MAX_ACCOUNT_LEN+1);
-			memcpy(this->m_PartyDataSave[btSlotOrder].sz2ndPartyUserName, getGameObject(useridx)->Name, MAX_ACCOUNT_LEN+1);
-			memcpy(this->m_PartyDataSave[btSlotOrder].sz2ndPartyUserRealName, getGameObject(useridx)->m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN+1);
+			std::memcpy(this->m_PartyDataSave[btSlotOrder].sz2ndPartyUserID, getGameObject(useridx)->AccountID, MAX_ACCOUNT_LEN+1);
+			std::memcpy(this->m_PartyDataSave[btSlotOrder].sz2ndPartyUserName, getGameObject(useridx)->Name, MAX_ACCOUNT_LEN+1);
+			std::memcpy(this->m_PartyDataSave[btSlotOrder].sz2ndPartyUserRealName, getGameObject(useridx)->m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN+1);
 			this->m_PartyDataSave[btSlotOrder].n2ndPartyUserServerCode = getGameObject(useridx)->m_PlayerData->m_nServerCodeOfHomeWorld;
 			this->m_PartyDataSave[btSlotOrder].n2ndPartyUserClass = getGameObject(useridx)->Class;
 			this->m_PartyDataSave[btSlotOrder].n2ndPartyUserLevel = getGameObject(useridx)->m_PlayerData->MasterLevel + getGameObject(useridx)->Level;
@@ -1520,7 +1520,7 @@ BOOL CDevilSquareFinal::Enter_DSF(CGameObject &Obj, BYTE btSlotNum)
 				this->m_UserData[i].m_bEnterOk = true;
 				this->m_nUserCount++;
 				Obj.m_nDSFIndex = i;
-				memcpy(this->m_UserData[i].PlayerName, Obj.Name, MAX_ACCOUNT_LEN+1);
+				std::memcpy(this->m_UserData[i].PlayerName, Obj.Name, MAX_ACCOUNT_LEN+1);
 
 				bResult = TRUE;
 				ArrayIndex = i;
@@ -1545,7 +1545,7 @@ BOOL CDevilSquareFinal::Enter_DSF(CGameObject &Obj, BYTE btSlotNum)
 	if (ArrayIndex != -1 && ArrayIndex < 20)
 	{
 		this->m_EnteredPlayerName[ArrayIndex].EnteredIndex = ArrayIndex;
-		memcpy(this->m_EnteredPlayerName[ArrayIndex].PlayerName, Obj.Name, MAX_ACCOUNT_LEN+1);
+		std::memcpy(this->m_EnteredPlayerName[ArrayIndex].PlayerName, Obj.Name, MAX_ACCOUNT_LEN+1);
 	}
 
 	if (bResult == TRUE)
@@ -2415,11 +2415,11 @@ void CDevilSquareFinal::GDSaveDSFPartyPoint(char *szAccountID1, char *szUserName
 	pMsg.h.headcode = 0xFD;
 	pMsg.h.subcode = 0x02;
 
-	memcpy(pMsg.szAccountID1, szAccountID1, MAX_ACCOUNT_LEN+1);
-	memcpy(pMsg.szUserName1, szUserName1, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.szAccountID1, szAccountID1, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.szUserName1, szUserName1, MAX_ACCOUNT_LEN+1);
 	pMsg.nUserLevel1 = nUser1Level;
-	memcpy(pMsg.szAccountID2, szAccountID2, MAX_ACCOUNT_LEN+1);
-	memcpy(pMsg.szUserName2, szUserName2, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.szAccountID2, szAccountID2, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.szUserName2, szUserName2, MAX_ACCOUNT_LEN+1);
 	pMsg.nUserLevel2 = nUser2Level;
 
 	pMsg.nDSFType = iDSFType;
@@ -2494,8 +2494,8 @@ void CDevilSquareFinal::GDInsertRewardUser(char *szAccountID, char *szUserName, 
 	pMsg.h.headcode = 0xFD;
 	pMsg.h.subcode = 0x06;
 
-	memcpy(pMsg.szAccountID, szAccountID, MAX_ACCOUNT_LEN+1);
-	memcpy(pMsg.szUserName, szUserName, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.szAccountID, szAccountID, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.szUserName, szUserName, MAX_ACCOUNT_LEN+1);
 	pMsg.iClass = iClass;
 	pMsg.btDSFType = iDSFType;
 
@@ -2519,8 +2519,8 @@ void CDevilSquareFinal::GDReqGetReward(CGameObject &Obj)
 	pMsg.h.headcode = 0xFD;
 	pMsg.h.subcode = 0x07;
 
-	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN+1);
-	memcpy(pMsg.szUserName, Obj.Name, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.szUserName, Obj.Name, MAX_ACCOUNT_LEN+1);
 	pMsg.nServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.nUserIndex = Obj.m_Index;
 
@@ -2967,7 +2967,7 @@ void CDevilSquareFinal::GDReqSetDSFReward_UBF(CGameObject &Obj, BYTE btDSFType, 
 
 	PMSG_REQ_SET_DSF_WINNER_INFO pMsg;
 	
-	memcpy(pMsg.UBFName, Obj.Name, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.UBFName, Obj.Name, MAX_ACCOUNT_LEN+1);
 	pMsg.btDSFType = btDSFType;
 	pMsg.btRewardType = btRewardType;
 

@@ -134,7 +134,7 @@ void SCSendServerInfo(STR_CS_USER &Obj, PMSG_SERVER_SELECT * aRecv)
 		if(m_ServerData.m_Servers[i].Code == aRecv->ServerCode)
 		{
 			pMsg.Port = m_ServerData.m_Servers[i].Port;
-			memcpy(&pMsg.IP, m_ServerData.m_Servers[i].IP, sizeof(pMsg.IP));
+			std::memcpy(&pMsg.IP, m_ServerData.m_Servers[i].IP, sizeof(pMsg.IP));
 
 			IOCP.DataSend(Obj.Index, (BYTE*)&pMsg, pMsg.h.size);
 
@@ -165,7 +165,7 @@ void SCSendNews(STR_CS_USER &Obj)
 	pTitle.h.c = 0xC1;
 	pTitle.h.headcode = 0xFA;
 	pTitle.h.subcode = 0x00;
-	memcpy(pTitle.ServerName, m_ServerData.szTitle, sizeof(pTitle.ServerName));
+	std::memcpy(pTitle.ServerName, m_ServerData.szTitle, sizeof(pTitle.ServerName));
 
 	IOCP.DataSend(Obj.Index, (BYTE*)&pTitle, pTitle.h.size);
 
@@ -197,8 +197,8 @@ void SCSendNews(STR_CS_USER &Obj)
 		pMsg.textLen = textlen;
 		pMsg.h.sizeH = SET_NUMBERH( sizeof(PMSG_SEND_NEWS)+textlen);
 		pMsg.h.sizeL = SET_NUMBERL( sizeof(PMSG_SEND_NEWS)+textlen);
-		memcpy(buffer, &pMsg, sizeof(PMSG_SEND_NEWS));
-		memcpy(&buffer[sizeof(PMSG_SEND_NEWS)], m_ServerData.m_News[i].Text, textlen);
+		std::memcpy(buffer, &pMsg, sizeof(PMSG_SEND_NEWS));
+		std::memcpy(&buffer[sizeof(PMSG_SEND_NEWS)], m_ServerData.m_News[i].Text, textlen);
 
 		IOCP.DataSend(Obj.Index, (BYTE*)buffer, sizeof(PMSG_SEND_NEWS)+textlen);
 	}
@@ -234,10 +234,10 @@ void SCSendAutoUpdateData(STR_CS_USER &lpObj, PMSG_CLIENTVERSION *aRecv)
 		pMsg.HeadVersion = HeadVersion;
 		pMsg.SubVersion = SubVersion;
 		pMsg.FTPPort = g_FTPPort;
-		memcpy(pMsg.HostURL, g_HostURL, sizeof(pMsg.HostURL));
-		memcpy(pMsg.FTPLogin, g_FTPLogin, sizeof(pMsg.FTPLogin));
-		memcpy(pMsg.FTPPassword, g_FTPPassword, sizeof(pMsg.FTPPassword));
-		memcpy(pMsg.VersionFile, g_VersionFile, sizeof(pMsg.VersionFile));
+		std::memcpy(pMsg.HostURL, g_HostURL, sizeof(pMsg.HostURL));
+		std::memcpy(pMsg.FTPLogin, g_FTPLogin, sizeof(pMsg.FTPLogin));
+		std::memcpy(pMsg.FTPPassword, g_FTPPassword, sizeof(pMsg.FTPPassword));
+		std::memcpy(pMsg.VersionFile, g_VersionFile, sizeof(pMsg.VersionFile));
 
 		BYTE Keys[3] = {0xFC, 0xCF, 0xAB};
 

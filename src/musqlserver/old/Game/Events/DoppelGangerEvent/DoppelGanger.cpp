@@ -990,7 +990,7 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(CGameObject &Obj, BYTE btItemPos)
 		return FALSE;
 	}
 
-	if (Obj.m_IfState.use > 0 && Obj.m_IfState.type != 12)
+	if (Obj.m_IfState->use > 0 && Obj.m_IfState->type != 12)
 	{
 		return FALSE;
 	}

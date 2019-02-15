@@ -66,7 +66,7 @@ int gObjServerAddSearch()
 int gObjServerAdd(SOCKET Socket, char * Ip, int ServerIndex, eSERVER_TYPE eServerType)
 {
 	g_Server[ServerIndex].m_Index = ServerIndex;
-	memcpy(g_Server[ServerIndex].m_ServerIp, Ip, 16);
+	std::memcpy(g_Server[ServerIndex].m_ServerIp, Ip, 16);
 	g_Server[ServerIndex].m_State = SS_CONNECTED;
 	g_Server[ServerIndex].m_Type = eServerType;
 	g_Server[ServerIndex].m_Socket = Socket;

@@ -826,7 +826,7 @@ void CBotSystem::AlchemistTradeOk(CGameObject &Obj, int botIndex)
 		gObjStatTextSave(lpObj);
 		gObjSavePetItemInfo(lpObj, 0);
 		Obj.TargetNumber = -1;
-		Obj.m_IfState.use = 0;
+		Obj.m_IfState->use = 0;
 		Obj.TradeOk = 0;
 		Obj.TradeMoney = 0;
 		gGameProtocol.CGTradeResult(lpObj,1);
@@ -842,9 +842,9 @@ void CBotSystem::AlchemistTradeOpen(CGameObject &Obj, int botIndex)
 	
 	CGameObject* lpBot = getGameObject(botIndex);
 
-	Obj.m_IfState.use = 1;
-	Obj.m_IfState.state = 0;
-	Obj.m_IfState.type = 1;
+	Obj.m_IfState->use = 1;
+	Obj.m_IfState->state = 0;
+	Obj.m_IfState->type = 1;
 	Obj.TargetNumber = botIndex;
 	Obj.m_InterfaceTime = GetTickCount64();
 	Obj.TradeMoney = 0;
@@ -888,13 +888,13 @@ bool CBotSystem::StoreAddItems(int botIndex)
 		}
 	}
 	Obj.m_bPShopOpen = true;
-	//memcpy(Obj.m_szPShopText, this->m_BotData[botIndex].m_Shop.szBotShopName, sizeof(Obj.m_szPShopText));
+	//std::memcpy(Obj.m_szPShopText, this->m_BotData[botIndex].m_Shop.szBotShopName, sizeof(Obj.m_szPShopText));
 	if(this->m_BotData[botIndex].m_Shop.szBotShopName.size() > 36)
 	{
 		MessageBoxA(0,"Max Shop name length is 36 characters","Bot System",MB_OK|MB_TOPMOST);
 		ExitProcess(0);
 	}
-	memcpy(Obj.m_szPShopText, this->m_BotData[botIndex].m_Shop.szBotShopName.c_str(), sizeof(Obj.m_szPShopText));
+	std::memcpy(Obj.m_szPShopText, this->m_BotData[botIndex].m_Shop.szBotShopName.c_str(), sizeof(Obj.m_szPShopText));
 	return true;
 }
 

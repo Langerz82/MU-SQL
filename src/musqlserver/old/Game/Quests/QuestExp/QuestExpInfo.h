@@ -533,14 +533,14 @@ public:
 	int* GetRewardIndex() { return this->m_iRewardIndex; }
 	void SetRewardIndex(int* iRewardIndex)
 	{
-		memcpy(this->m_iRewardIndex, iRewardIndex, sizeof(this->m_iRewardIndex));
+		std::memcpy(this->m_iRewardIndex, iRewardIndex, sizeof(this->m_iRewardIndex));
 	}
 
 	int* GetRewardRate() { return this->m_iRewardRate; }
 
 	void SetRewardRate(int* iRewardRate)
 	{
-		memcpy(this->m_iRewardRate, iRewardRate, sizeof(this->m_iRewardRate));
+		std::memcpy(this->m_iRewardRate, iRewardRate, sizeof(this->m_iRewardRate));
 	}
 
 private:

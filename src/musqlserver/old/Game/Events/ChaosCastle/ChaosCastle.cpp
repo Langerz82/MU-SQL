@@ -2924,7 +2924,7 @@ void CChaosCastle::RewardUserEXP(int iChaosCastleIndex, int iChaosCastleSubIndex
 
 			pMsg.MyRank = bWinner;
 			pMsg.Count = 0xFE;
-			memcpy(pMsg.Score[0].Name, getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex)->Name, 10);
+			std::memcpy(pMsg.Score[0].Name, getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex)->Name, 10);
 			pMsg.Score[0].BonusExp = iTOT_EXP;
 			pMsg.Score[0].BonusZen = iKILLCOUNT_USER;
 			pMsg.Score[0].TotalScore = iKILLCOUNT_MONSTER;
@@ -3340,8 +3340,8 @@ void CChaosCastle::ChaosCastleRank(CGameObject &Obj, int iPlayer, int iMonster, 
 	pMsg.MonsterKill = iMonster;
 	pMsg.Experience = iExp;
 	pMsg.IsWinner = bWinner;
-	memcpy(pMsg.AccountID, getGameObject(iUserIndex)->AccountID, MAX_ACCOUNT_LEN);
-	memcpy(pMsg.GameID, getGameObject(iUserIndex)->Name, MAX_ACCOUNT_LEN);
+	std::memcpy(pMsg.AccountID, getGameObject(iUserIndex)->AccountID, MAX_ACCOUNT_LEN);
+	std::memcpy(pMsg.GameID, getGameObject(iUserIndex)->Name, MAX_ACCOUNT_LEN);
 
 	wsDataCli.DataSend(reinterpret_cast<char *>(&pMsg), pMsg.h.size);
 }
@@ -3365,7 +3365,7 @@ void CChaosCastle::GD_Req_Save_KillPoint_UBF(int index, char *Name, int KillPoin
 
 	PMSG_REQ_SAVE_CHAOSCASTLE_KILLPOINT_UBF pMsg;
 
-	memcpy(pMsg.szCharName, Name, MAX_ACCOUNT_LEN);
+	std::memcpy(pMsg.szCharName, Name, MAX_ACCOUNT_LEN);
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.h.headcode = 0xF9;
@@ -3428,7 +3428,7 @@ void CChaosCastle::RewardUserKillPointUBF(int iChaosCastleIndex, int iChaosCastl
 		PMSG_UBFCHAOSCASTLERESULT pUBFMsg;
 
 		pUBFMsg.btWinner = bWinner;
-		memcpy(pUBFMsg.szName, getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex)->Name, MAX_ACCOUNT_LEN);
+		std::memcpy(pUBFMsg.szName, getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[iChaosCastleSubIndex]->m_iIndex)->Name, MAX_ACCOUNT_LEN);
 		pUBFMsg.nKillCounterMonster = iKILLCOUNT_MONSTER;
 		pUBFMsg.nKillCounterUser = iKILLCOUNT_USER;
 		int Tot_Point = 0;
@@ -3478,7 +3478,7 @@ void CChaosCastle::GDReqSetUBFReward_CCBattle(CGameObject &Obj, BYTE byRewardTyp
 
 	SDHP_REQ_SET_CC_WINNER_INFO_UBF pMsg;
 	
-	memcpy(pMsg.UBFName, Obj.Name, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.UBFName, Obj.Name, MAX_ACCOUNT_LEN+1);
 	pMsg.btRewardType = byRewardType;
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xF9, 0x02, sizeof(pMsg));

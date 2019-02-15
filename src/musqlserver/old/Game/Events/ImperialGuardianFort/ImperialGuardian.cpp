@@ -1982,7 +1982,7 @@ int CImperialGuardian::CheckGaionOrderPaper(int nIndex)
 
 	CGameObject* lpObj = getGameObject(nIndex);
 
-	if ( lpObj->m_IfState.use > 0 )
+	if ( lpObj->m_IfState->use > 0 )
 	{
 		return -3;
 	}
@@ -2021,7 +2021,7 @@ int CImperialGuardian::CheckFullSecromicon(int nIndex)
 
 	CGameObject* lpObj = getGameObject(nIndex);
 
-	if ( lpObj->m_IfState.use > 0 )
+	if ( lpObj->m_IfState->use > 0 )
 	{
 		return -3;
 	}

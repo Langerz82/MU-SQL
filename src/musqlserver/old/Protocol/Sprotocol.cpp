@@ -67,7 +67,7 @@ BOOL CLoginServerData::MuLoginAddServer(int ServerIndex, LPTSTR ServerName, WORD
 				this->m_MuLoginServerData[i].m_wServerCode = ServerCode;
 				this->m_MuLoginServerData[i].m_VipServer = ServerVIP;
 				this->m_MuLoginServerData[i].m_MaxHWIDUseCount = MaxHWIDUseCount;
-				memcpy(this->m_MuLoginServerData[i].m_szServerName, ServerName, 50);
+				std::memcpy(this->m_MuLoginServerData[i].m_szServerName, ServerName, 50);
 				this->m_MuLoginServerDataCount++;
 
 				return TRUE;
@@ -152,9 +152,9 @@ BOOL CLoginUserData::MuLoginAddUser(WORD ServerCode, WORD ServerGroup, char * sz
 		{
 			if (this->m_MuLoginUserData[i].m_AccoundID[1] == 0)
 			{
-				memcpy(this->m_MuLoginUserData[i].m_AccoundID, szAccountID, 10);
-				memcpy(this->m_MuLoginUserData[i].m_Ip, szIp, 17);
-				memcpy(this->m_MuLoginUserData[i].m_HWID, szHWID, 100);
+				std::memcpy(this->m_MuLoginUserData[i].m_AccoundID, szAccountID, 10);
+				std::memcpy(this->m_MuLoginUserData[i].m_Ip, szIp, 17);
+				std::memcpy(this->m_MuLoginUserData[i].m_HWID, szHWID, 100);
 				this->m_MuLoginUserData[i].m_AccoundID[10] = 0;
 				this->m_MuLoginUserData[i].iUserNumber = this->m_iUserNumber;
 				this->m_MuLoginUserData[i].m_ServerCode = ServerCode;
@@ -607,10 +607,10 @@ void CLoginServerProtocol::JGPAccountRequest(CGameObject &Obj, SDHP_IDPASS * aRe
 	char szIp[16] = { 0 };
 	BuxConvert(aRecv->Id, 10);
 	BuxConvert(aRecv->Pass, 20);
-	memcpy(szAccountID, aRecv->Id, 10);
-	memcpy(szPass, aRecv->Pass, 20);
-	memcpy(pResult.Id, aRecv->Id, 10);
-	memcpy(szIp, aRecv->IpAddress, 15);
+	std::memcpy(szAccountID, aRecv->Id, 10);
+	std::memcpy(szPass, aRecv->Pass, 20);
+	std::memcpy(pResult.Id, aRecv->Id, 10);
+	std::memcpy(szIp, aRecv->IpAddress, 15);
 	pResult.Number = aRecv->Number;
 
 	// Prevent SQLInjection
@@ -674,8 +674,8 @@ void CLoginServerProtocol::JGPAccountRequest(CGameObject &Obj, SDHP_IDPASS * aRe
 					pResult.UserNumber = this->m_UserData.GetUserNumber();
 					this->m_UserData.IncUserNumber();
 					pResult.DBNumber = this->m_AccountDB.GetAsInteger("memb_guid");
-					memcpy(szJoominNumber, aRecv->Pass, 20);
-					memcpy(pResult.JoominNumber, szJoominNumber, sizeof(pResult.JoominNumber));;
+					std::memcpy(szJoominNumber, aRecv->Pass, 20);
+					std::memcpy(pResult.JoominNumber, szJoominNumber, sizeof(pResult.JoominNumber));;
 					BlocCode = this->m_AccountDB.GetAsInteger("bloc_code");
 
 					if (g_PwEncrypt != PWENC_NONE)
@@ -876,7 +876,7 @@ void CLoginServerProtocol::JGPAccountRequest(CGameObject &Obj, SDHP_IDPASS * aRe
 void CLoginServerProtocol::GJPAccountFail(CGameObject &Obj, SDHP_JOINFAIL * aRecv)
 {
 	char szAccountID[11] = { 0 };
-	memcpy(szAccountID, aRecv->Id, 10);
+	std::memcpy(szAccountID, aRecv->Id, 10);
 	int UserIndex = this->m_UserData.MuLoginFindUser(szAccountID);
 	this->InsertDataMuLog(this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[Obj.m_Index].m_ServerCode)), szAccountID, this->m_UserData.GetIpAddr(UserIndex), "Login Fail", "N/A");
 	this->m_UserData.MuLoginDeleteUser(szAccountID);
@@ -887,7 +887,7 @@ void CLoginServerProtocol::GJPAccountFail(CGameObject &Obj, SDHP_JOINFAIL * aRec
 void CLoginServerProtocol::GJPAccountBlock(CGameObject &Obj, SDHP_COMMAND_BLOCK * aRecv)
 {
 	char szAccountID[11] = { 0 };
-	memcpy(szAccountID, aRecv->Id, 10);
+	std::memcpy(szAccountID, aRecv->Id, 10);
 	this->m_UserData.MuLoginDeleteUser(szAccountID);
 	this->m_AccountDB.ExecQuery("UPDATE MEMB_INFO SET bloc_code = 1 WHERE memb___id = '%s'", szAccountID);
 }
@@ -895,7 +895,7 @@ void CLoginServerProtocol::GJPAccountBlock(CGameObject &Obj, SDHP_COMMAND_BLOCK 
 void CLoginServerProtocol::GJPUserClose(CGameObject &Obj, SDHP_USERCLOSE_ID * aRecv)
 {
 	char szAccountID[11] = { 0 };
-	memcpy(szAccountID, aRecv->szId, 10);
+	std::memcpy(szAccountID, aRecv->szId, 10);
 	this->InsertDataMuLog(this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[Obj.m_Index].m_ServerCode)), szAccountID, this->m_UserData.GetIpAddr(this->m_UserData.MuLoginFindUser(szAccountID)), "Disconnect", "N/A");
 	this->m_UserData.MuLoginDeleteUser(szAccountID);
 	this->m_AccountDB.ExecQuery("EXEC WZ_DISCONNECT_MEMB '%s'", szAccountID);
@@ -909,7 +909,7 @@ void CLoginServerProtocol::GCUserKillSend(int MuLoginIndex, bool IsForceDC)
 	pMsg.h.headcode = 0x07;
 	pMsg.h.size = sizeof(pMsg);
 
-	memcpy(pMsg.Id, this->m_UserData.GetAccountID(MuLoginIndex), 10);
+	std::memcpy(pMsg.Id, this->m_UserData.GetAccountID(MuLoginIndex), 10);
 	pMsg.Number = this->m_UserData.GetUserIndex(MuLoginIndex);
 
 	CGameObject &Obj = this->m_ServerData.GetServerIndex(this->m_ServerData.MuLoginFindServer(this->m_UserData.GetServerCode(MuLoginIndex)));
@@ -931,7 +931,7 @@ void CLoginServerProtocol::GCJoinBillCheckSend(CGameObject &Obj, SDHP_BILLSEARCH
 
 	PHeadSetB((BYTE*)&pResult, 0x06, sizeof(pResult));
 	char szAccountID[11] = { 0 };
-	memcpy(szAccountID, aRecv->Id, 10);
+	std::memcpy(szAccountID, aRecv->Id, 10);
 	char szDate[20] = { 0 };
 
 	int VIPType = 0;
@@ -989,7 +989,7 @@ void CLoginServerProtocol::GCJoinBillCheckSend(CGameObject &Obj, SDHP_BILLSEARCH
 	this->m_AccountDB.Close();
 
 	pResult.Number = aRecv->Number;
-	memcpy(pResult.Id, szAccountID, 10);
+	std::memcpy(pResult.Id, szAccountID, 10);
 
 	DataSend(Obj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 }
@@ -999,7 +999,7 @@ void CLoginServerProtocol::JGOtherJoin(CGameObject &Obj, LPTSTR szAccountID)
 	SDHP_OTHERJOINMSG pMsg;
 
 	PHeadSetB((BYTE*)&pMsg.h, 0x08, sizeof(pMsg));
-	memcpy(pMsg.AccountID, szAccountID, 10);
+	std::memcpy(pMsg.AccountID, szAccountID, 10);
 
 	DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
 }
@@ -1009,15 +1009,15 @@ void CLoginServerProtocol::LoveHeartEventRecv(CGameObject &Obj, SDHP_LOVEHEARTEV
 {
 	char szAccountID[11] = { 0 };
 	char szName[11] = { 0 };
-	memcpy(szAccountID, aRecv->Account, 10);
-	memcpy(szName, aRecv->Name, 10);
+	std::memcpy(szAccountID, aRecv->Account, 10);
+	std::memcpy(szName, aRecv->Name, 10);
 	DWORD dwHeartCount = 0;
 
 	SDHP_LOVEHEARTEVENT_RESULT pResult;
 
 	PHeadSetB((BYTE*)&pResult, 0x30, sizeof(pResult));
 	pResult.Result = 0;
-	memcpy(pResult.Name, aRecv->Name, 10);
+	std::memcpy(pResult.Name, aRecv->Name, 10);
 
 	if (this->m_AccountDB.ExecQuery("SELECT heart_count FROM LoveHeartCount WHERE Number=0") == TRUE)
 	{
@@ -1075,7 +1075,7 @@ void CLoginServerProtocol::GJReqMapSvrMove(CGameObject &Obj, PMSG_REQ_MAPSVRMOVE
 {
 	char szAccoundID[11] = { 0 };
 	DWORD fResult = 0;
-	memcpy(szAccoundID, aRecv->szAccountID, 10);
+	std::memcpy(szAccoundID, aRecv->szAccountID, 10);
 
 	if (lstrlen(szAccoundID) < 1)
 		fResult = 1;
@@ -1088,8 +1088,8 @@ void CLoginServerProtocol::GJReqMapSvrMove(CGameObject &Obj, PMSG_REQ_MAPSVRMOVE
 	PHeadSetB((BYTE*)&pResult, 0x7A, sizeof(pResult));
 
 	pResult.iIndex = aRecv->iIndex;
-	memcpy(pResult.szAccountID, aRecv->szAccountID, 10);
-	memcpy(pResult.szCharName, aRecv->szCharName, 10);
+	std::memcpy(pResult.szAccountID, aRecv->szAccountID, 10);
+	std::memcpy(pResult.szCharName, aRecv->szCharName, 10);
 	pResult.btX = aRecv->btX;
 	pResult.btY = aRecv->btY;
 	pResult.wMapNumber = aRecv->wMapNumber;
@@ -1147,11 +1147,11 @@ void CLoginServerProtocol::GJReqMapSvrMove(CGameObject &Obj, PMSG_REQ_MAPSVRMOVE
 		{
 			this->m_UserData.SetMapServerMove(iUserIndex, true);
 			pUserData.iUserNumber = this->m_UserData.GetUserNumber(iUserIndex);
-			memcpy(&pUserData.pMapServerMoveData, &pResult, sizeof(pResult));
+			std::memcpy(&pUserData.pMapServerMoveData, &pResult, sizeof(pResult));
 			pUserData.dwTick = GetTickCount();
 			pUserData.btSecurityLock = aRecv->btSecurityLock;
 			pUserData.dwSecurityCode = aRecv->dwSecurityCode;
-			memcpy(&pUserData.szPassword, aRecv->szPassword, sizeof(pUserData.szPassword));
+			std::memcpy(&pUserData.szPassword, aRecv->szPassword, sizeof(pUserData.szPassword));
 
 			EnterCriticalSection(&this->m_UserData.critUserData);
 			this->m_UserData.m_vecMapMove.push_back(pUserData);
@@ -1171,7 +1171,7 @@ void CLoginServerProtocol::GJReqMapSvrAuth(CGameObject &Obj, PMSG_REQ_MAPSVRAUTH
 {
 	char szAccoundID[11] = { 0 };
 	DWORD fResult = 0;
-	memcpy(szAccoundID, aRecv->szAccountID, 10);
+	std::memcpy(szAccoundID, aRecv->szAccountID, 10);
 
 	if (lstrlen(szAccoundID) < 1)
 		fResult = 1;
@@ -1179,8 +1179,8 @@ void CLoginServerProtocol::GJReqMapSvrAuth(CGameObject &Obj, PMSG_REQ_MAPSVRAUTH
 	PMSG_ANS_MAPSVRAUTH pResult = { 0 };
 
 	PHeadSetB((BYTE*)&pResult, 0x7B, sizeof(pResult));
-	memcpy(pResult.szAccountID, aRecv->szAccountID, 10);
-	memcpy(pResult.szCharName, aRecv->szCharName, 10);
+	std::memcpy(pResult.szAccountID, aRecv->szAccountID, 10);
+	std::memcpy(pResult.szCharName, aRecv->szCharName, 10);
 	pResult.iIndex = aRecv->iIndex;
 
 	if (fResult == 0)
@@ -1250,7 +1250,7 @@ void CLoginServerProtocol::GJReqMapSvrAuth(CGameObject &Obj, PMSG_REQ_MAPSVRAUTH
 							if (this->m_AccountDB.Fetch() != SQL_NO_DATA)
 							{
 								pResult.iUserNumber = pDataUser.iUserNumber;
-								memcpy(pResult.szPassword, pDataUser.szPassword, sizeof(pResult.szPassword));
+								std::memcpy(pResult.szPassword, pDataUser.szPassword, sizeof(pResult.szPassword));
 								pResult.iDBNumber = this->m_AccountDB.GetAsInteger("memb_guid");
 								pResult.btBlockCode = (BYTE)this->m_AccountDB.GetAsInteger("bloc_code");
 							}
@@ -1330,7 +1330,7 @@ void CLoginServerProtocol::DisconnectServer(WORD ServerCode)
 void CLoginServerProtocol::WJKillUser(CGameObject &Obj, SDHP_USERCLOSE_ID* aRecv)
 {
 	char szAccountID[11] = { 0 };
-	memcpy(szAccountID, aRecv->szId, 10);
+	std::memcpy(szAccountID, aRecv->szId, 10);
 	this->DisconnectPlayer(szAccountID);
 	//this->InsertDataMuLog(this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[Obj.m_Index].m_ServerCode)), szAccountID, this->m_UserData.GetIpAddr(this->m_UserData.MuLoginFindUser(szAccountID)), "Disconnect");
 	//this->m_UserData.MuLoginDeleteUser(szAccountID);

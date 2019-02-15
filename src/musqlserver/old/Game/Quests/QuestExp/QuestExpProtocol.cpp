@@ -239,7 +239,7 @@ void CGReqAttDefPowerInc(PMSG_REQ_ATTDEF_POWER_INC *pMsg, CGameObject &Obj)
 		return;
 	}
 	//[K2] ANTIHACK NPC BUFF TAKE
-	if (Obj.m_IfState.use > 0 && Obj.m_IfState.type == 33)
+	if (Obj.m_IfState->use > 0 && Obj.m_IfState->type == 33)
     NpcShadowPhantom(Obj.m_Index);
 }
 

@@ -546,7 +546,7 @@ public:
 						-1, 1,
 						-1, 0} ;
 
-		memcpy(this->Dir, dir, sizeof(dir));
+		std::memcpy(this->Dir, dir, sizeof(dir));
 	};	// line : 252
 
 	~PATH() // line : 254

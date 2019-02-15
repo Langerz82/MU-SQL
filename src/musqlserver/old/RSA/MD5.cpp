@@ -125,7 +125,7 @@ void WZMD5::update (uint1 *input, uint4 input_length) {
   // Transform as many times as possible.
   if (input_length >= buffer_space) { // ie. we have enough to fill the buffer
     // fill the rest of the buffer and transform
-    memcpy (buffer + buffer_index, input, buffer_space);
+    std::memcpy (buffer + buffer_index, input, buffer_space);
     transform (buffer);
 
     // now, transform each 64-byte piece of the input, bypassing the buffer
@@ -430,8 +430,8 @@ void WZMD5::decode (uint4 *output, uint1 *input, uint4 len){
 }
 
 
-// Note: Replace "for loop" with standard memcpy if possible.
-void WZMD5::memcpy (uint1 *output, uint1 *input, uint4 len){
+// Note: Replace "for loop" with standard std::memcpy if possible.
+void WZMD5::std::memcpy (uint1 *output, uint1 *input, uint4 len){
 
   unsigned int i;
 

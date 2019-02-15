@@ -1053,7 +1053,7 @@ void CMasterLevelSkillTreeSystem::CGReqGetMasterLevelSkillTree(CGameObject &Obj)
 			}
 
 			nCount++;
-			memcpy(&sendbuf[lOfs], &pElementMsg, sizeof(pElementMsg));
+			std::memcpy(&sendbuf[lOfs], &pElementMsg, sizeof(pElementMsg));
 			lOfs += sizeof(pElementMsg);
 		}
 	}
@@ -1062,7 +1062,7 @@ void CMasterLevelSkillTreeSystem::CGReqGetMasterLevelSkillTree(CGameObject &Obj)
 	pCountMsg.h.sizeH = HIBYTE(lOfs);
 	pCountMsg.h.sizeL = LOBYTE(lOfs);
 
-	memcpy(sendbuf, &pCountMsg, sizeof(pCountMsg));
+	std::memcpy(sendbuf, &pCountMsg, sizeof(pCountMsg));
 
 	IOCP.DataSend(Obj.m_Index, sendbuf, lOfs);
 }
@@ -1091,7 +1091,7 @@ void CMasterLevelSkillTreeSystem::CGReqGetMasterLevelSkill(PMSG_REQ_MASTERLEVEL_
 	pMsg.dwMasterSkillIndex = -1;
 	pMsg.dwMasterSkillLevel = 0;
 
-	if (Obj.m_IfState.use && Obj.m_IfState.type == 1)
+	if (Obj.m_IfState->use && Obj.m_IfState->type == 1)
 	{
 		sLog->outBasic("[MasterSkill] [%s][%s] Fail(Use Trade Interface) - Add Magic List", Obj.AccountID, Obj.Name);
 
@@ -4745,12 +4745,12 @@ void CMasterLevelSkillTreeSystem::MLS_SkillPartyHealing(CGameObject &Obj, int aT
 		for (int i = 0; i<count; i++)
 		{
 			pMagicObj.nTargetIndex = nChainTarget[i];
-			memcpy(&SendByte[nOffset], &pMagicObj, 2);
+			std::memcpy(&SendByte[nOffset], &pMagicObj, 2);
 			nOffset += 2;
 		}
 
 		PHeadSubSetB((BYTE*)&pMsg, 0xBF, 0x18, nOffset);
-		memcpy(&SendByte, &pMsg, sizeof(pMsg));
+		std::memcpy(&SendByte, &pMsg, sizeof(pMsg));
 
 		if (Obj.Type == OBJ_USER)
 		{
@@ -6917,13 +6917,13 @@ void CMasterLevelSkillTreeSystem::MLS_SkillChainLightning(CGameObject &Obj, int 
 	for (int n = 0; n<3; n++)
 	{
 		pMagicObj.nTargetIndex = nChainTarget[n];
-		memcpy(&SendByte[nOffSet], &pMagicObj, sizeof(PMSG_CHAIN_MAGIC_OBJECT));
+		std::memcpy(&SendByte[nOffSet], &pMagicObj, sizeof(PMSG_CHAIN_MAGIC_OBJECT));
 		nOffSet += sizeof(PMSG_CHAIN_MAGIC_OBJECT);
 	}
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xBF, 0x0A, nOffSet);
 
-	memcpy(SendByte, &pMsg, sizeof(pMsg));
+	std::memcpy(SendByte, &pMsg, sizeof(pMsg));
 
 	if (Obj.Type == OBJ_USER)
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, SendByte, pMsg.h.size);

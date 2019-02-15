@@ -62,7 +62,7 @@ BOOL wsJoinServerCli::Connect(LPSTR ip_addr, WORD port, DWORD WinMsgNum)
 			return FALSE;
 		}
 
-		memcpy(&addr.sin_addr.S_un.S_addr, *host->h_addr_list  , host->h_length  );	
+		std::memcpy(&addr.sin_addr.S_un.S_addr, *host->h_addr_list  , host->h_length  );	
 	}
 
 	nResult=connect(this->m_socket, (sockaddr*)&addr, 16);
@@ -120,7 +120,7 @@ BOOL wsJoinServerCli::DataSend(PCHAR buf, int len)
 	{
 		if ( (this->m_SendBufLen +len) < 819200 )
 		{
-			memcpy( &this->m_SendBuf[this->m_SendBufLen]  , buf, len);	// Review this later
+			std::memcpy( &this->m_SendBuf[this->m_SendBufLen]  , buf, len);	// Review this later
 
 			this->m_SendBufLen +=len;
 			return 1;
@@ -156,7 +156,7 @@ BOOL wsJoinServerCli::DataSend(PCHAR buf, int len)
 			if ( nDx >= 0 )
 			{
 				using namespace std;
-				memcpy( &this->m_SendBuf[this->m_SendBufLen],  &buf[nDx], nLeft);
+				std::memcpy( &this->m_SendBuf[this->m_SendBufLen],  &buf[nDx], nLeft);
 				
 				this->m_SendBufLen +=nLeft;
 
@@ -339,7 +339,7 @@ int wsJoinServerCli::DataRecv()
 						break;
 					}
 
-					memcpy(recvbuf, &recvbuf[lOfs], *recvbuflen);
+					std::memcpy(recvbuf, &recvbuf[lOfs], *recvbuflen);
 					break;
 				}
 				else
@@ -378,7 +378,7 @@ int wsJoinServerCli::DataRecv()
 						break;
 					}
 
-					memcpy(recvbuf, &recvbuf[lOfs], *recvbuflen);
+					std::memcpy(recvbuf, &recvbuf[lOfs], *recvbuflen);
 					break;
 				}
 				else
@@ -434,7 +434,7 @@ int wsJoinServerCli::DataRecv()
 					break;
 				}
 
-				memcpy(recvbuf, &recvbuf[lOfs], *recvbuflen);
+				std::memcpy(recvbuf, &recvbuf[lOfs], *recvbuflen);
 				break;
 			}
 			else

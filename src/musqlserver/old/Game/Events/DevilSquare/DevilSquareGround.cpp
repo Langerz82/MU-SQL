@@ -315,7 +315,7 @@ void CDevilSquareGround::SendScore()
 	std::vector<CGameObject >::iterator Itor;
 	for ( Itor = this->m_DevilSquareRankList.begin() ; Itor != this->m_DevilSquareRankList.end() ; Itor++ )
 	{
-		memcpy(this->m_DevilSquareScoreInfoTOP10.Score[count].Name , (*(Itor))->Name, MAX_ACCOUNT_LEN);
+		std::memcpy(this->m_DevilSquareScoreInfoTOP10.Score[count].Name , (*(Itor))->Name, MAX_ACCOUNT_LEN);
 		this->m_DevilSquareScoreInfoTOP10.Score[count].TotalScore = (*(Itor))->m_nEventScore;
 
 		if ( iUserCount <= 6 )
@@ -463,7 +463,7 @@ void CDevilSquareGround::SendScore()
 
 		this->SendRankingInfo((*(Itor)));
 
-		memcpy(this->m_DevilSquareScoreInfoTOP10.Score[0].Name , (*(Itor))->Name, MAX_ACCOUNT_LEN);
+		std::memcpy(this->m_DevilSquareScoreInfoTOP10.Score[0].Name , (*(Itor))->Name, MAX_ACCOUNT_LEN);
 		this->m_DevilSquareScoreInfoTOP10.Score[0].TotalScore = (*(Itor))->m_nEventScore;
 
 		if ( iExp == 0 )
@@ -539,8 +539,8 @@ void CDevilSquareGround::SendRankingInfo(CGameObject &Obj)
 	pMsg.SquareNum = Obj.m_bDevilSquareIndex;
 	pMsg.Class = Obj.Class;
 	pMsg.ServerCode = g_ConfigRead.server.GetGameServerCode();
-	memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN);
-	memcpy(pMsg.GameID, Obj.Name, MAX_ACCOUNT_LEN);
+	std::memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN);
+	std::memcpy(pMsg.GameID, Obj.Name, MAX_ACCOUNT_LEN);
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }

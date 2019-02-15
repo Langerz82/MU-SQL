@@ -270,7 +270,7 @@ void CCrywolf::SetCrywolfMapAttr(int iOccupationState)
 		return;
 	}
 
-	memcpy(MapC[MAP_INDEX_CRYWOLF_FIRSTZONE].m_attrbuf, CrywolfMap->m_attrbuf, 256*256);
+	std::memcpy(MapC[MAP_INDEX_CRYWOLF_FIRSTZONE].m_attrbuf, CrywolfMap->m_attrbuf, 256*256);
 }
 
 void CCrywolf::SetCrywolfCommonNPC(int iOccupationState)
@@ -1023,7 +1023,7 @@ void CCrywolf::NotifyCrywolfHeroList()
 		lpMsgBody[j].iRank = iHeroCount;
 		lpMsgBody[j].btHeroClass = lpHeroObj.Class;
 		lpMsgBody[j].iHeroScore = lpHeroObj.m_iCrywolfMVPScore;
-		memcpy(lpMsgBody[j].szHeroName, lpHeroObj.Name, MAX_ACCOUNT_LEN);
+		std::memcpy(lpMsgBody[j].szHeroName, lpHeroObj.Name, MAX_ACCOUNT_LEN);
 		iHeroCount++;
 
 		if (this->GetOccupationState() != 1)

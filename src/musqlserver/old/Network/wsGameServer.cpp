@@ -89,7 +89,7 @@ BOOL CwsGameServer::AcceptSocket(SOCKET & clientSocket, in_addr & cInAddr)
 	
 	if (cSocket != INVALID_SOCKET)
 	{
-		memcpy(&cInAddr, &cAddr.sin_addr.S_un.S_addr , sizeof(cInAddr));
+		std::memcpy(&cInAddr, &cAddr.sin_addr.S_un.S_addr , sizeof(cInAddr));
 
 		nResult=WSAAsyncSelect(cSocket, this->m_hWnd , this->m_WinClientMsg , FD_READ|FD_WRITE|FD_CLOSE);
 

@@ -148,7 +148,7 @@ void CNotice::GCNoticeSend(CGameObject &Obj, BYTE type, BYTE count, BYTE opacity
 
 	pMsg.speed = speed;
 
-	memcpy(pMsg.message, buff, size);
+	std::memcpy(pMsg.message, buff, size);
 
 	pMsg.message[size] = 0;
 
@@ -184,7 +184,7 @@ void CNotice::GCNoticeSendToAll(BYTE type, BYTE count, BYTE opacity, WORD delay,
 
 	pMsg.speed = speed;
 
-	memcpy(pMsg.message, buff, size);
+	std::memcpy(pMsg.message, buff, size);
 
 	pMsg.message[size] = 0;
 
@@ -214,7 +214,7 @@ void CNotice::NewMessageDevTeam(CGameObject &Obj, char* message, ...) // OK
 
 	pMsg.header.set((BYTE*)&pMsg, 0x00, (sizeof(pMsg) - (sizeof(pMsg.message) - (size + 1))));
 
-	memcpy(pMsg.message, buff, size);
+	std::memcpy(pMsg.message, buff, size);
 
 	pMsg.message[size] = 0;
 
@@ -249,7 +249,7 @@ void CNotice::NewNoticeSend(CGameObject &Obj, BYTE count, BYTE opacity, WORD del
 
 	pMsg.speed = speed;
 
-	memcpy(pMsg.message, buff, size);
+	std::memcpy(pMsg.message, buff, size);
 
 	pMsg.message[size] = 0;
 
@@ -273,7 +273,7 @@ void CNotice::ChatSend(int Index, char* szChat, ...)
 
 	pMsg.header.set((BYTE*)&pMsg, 0x00, (sizeof(pMsg) - (sizeof(pMsg.message) - (size + 1))));
 
-	memcpy(pMsg.message, buff, size);
+	std::memcpy(pMsg.message, buff, size);
 
 	pMsg.message[size] = 0;
 

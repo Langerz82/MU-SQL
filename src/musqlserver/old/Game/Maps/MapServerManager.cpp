@@ -99,7 +99,7 @@ BOOL CMapServerManager::LoadMapData(LPTSTR lpszFileName)
 		short sMAPSVR_GROUP = server.attribute("Group").as_int();
 		int iInitSetVal = server.attribute("Initiation").as_int();
 
-		memcpy(szIpAddr, server.attribute("IP").as_string(), 16);
+		std::memcpy(szIpAddr, server.attribute("IP").as_string(), 16);
 		szIpAddr[15] = 0;
 
 		WORD wPortNum = server.attribute("Port").as_int();
@@ -149,7 +149,7 @@ BOOL CMapServerManager::LoadMapData(LPTSTR lpszFileName)
 		lpMapSvrData->m_btMAPSVR_GROUP = sMAPSVR_GROUP;
 		lpMapSvrData->m_wPORT = wPortNum;
 
-		memcpy(lpMapSvrData->m_cIPADDR, szIpAddr, 16);
+		std::memcpy(lpMapSvrData->m_cIPADDR, szIpAddr, 16);
 		lpMapSvrData->m_cIPADDR[15] = 0;
 
 		this->m_mapSVRCODE_MAP.insert(std::pair<int, _MAPSVR_DATA *>(sSVR_CODE, lpMapSvrData));

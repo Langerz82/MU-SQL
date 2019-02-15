@@ -59,7 +59,7 @@ int CWhisperCash::AddCash(char* id)
 
 		if ( this->WChash[count].Live == 0 )
 		{
-			memcpy(&this->WChash[count].szId[0], id, 10 );
+			std::memcpy(&this->WChash[count].szId[0], id, 10 );
 			this->WChash[count].Live = 1;
 			this->WChash[count].m_Index = result;
 			this->WChash[count].m_Time = GetTickCount();

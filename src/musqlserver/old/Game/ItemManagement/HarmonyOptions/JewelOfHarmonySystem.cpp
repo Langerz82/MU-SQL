@@ -1323,7 +1323,7 @@ BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(CGameObject &Obj)
 
 BOOL CJewelOfHarmonySystem::NpcJewelOfHarmony(CGameObject &Npc, CGameObject &Obj)
 {
-	if ( Obj.m_IfState.use > 0 )
+	if ( Obj.m_IfState->use > 0 )
 		return TRUE;
 
 	PMSG_TALKRESULT pResult;
@@ -1384,9 +1384,9 @@ BOOL CJewelOfHarmonySystem::NpcJewelOfHarmony(CGameObject &Npc, CGameObject &Obj
 			return TRUE;
 		}
 
-		Obj.m_IfState.type = 7;
-		Obj.m_IfState.state = 0;
-		Obj.m_IfState.use = 1;
+		Obj.m_IfState->type = 7;
+		Obj.m_IfState->state = 0;
+		Obj.m_IfState->use = 1;
 		Obj.bIsChaosMixCompleted = false;
 
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pResult, pResult.h.size);

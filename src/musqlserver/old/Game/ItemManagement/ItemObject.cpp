@@ -375,7 +375,7 @@ void CItemObject::Convert(int type, BYTE Option1, BYTE Option2, BYTE Option3, BY
 		this->m_CurrentDurabilityState = 0.0;
 	}
 
-	memcpy(this->m_RequireClass, p->RequireClass, sizeof(this->m_RequireClass));
+	std::memcpy(this->m_RequireClass, p->RequireClass, sizeof(this->m_RequireClass));
 
 	for (i = 0; i < MAX_ITEM_SPECIAL_ATTRIBUTE; i++)
 	{

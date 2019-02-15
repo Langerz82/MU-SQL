@@ -77,7 +77,7 @@ BOOL TUnionInfo::SetUnionMaster(int iGuildNumber, char * szGuildName)
 {
 	this->m_Sync.Lock();
 	this->m_iMasterGuild = iGuildNumber;
-	memcpy(this->m_szMasterGuild, szGuildName, sizeof(this->m_szMasterGuild)-1);
+	std::memcpy(this->m_szMasterGuild, szGuildName, sizeof(this->m_szMasterGuild)-1);
 	this->m_Sync.Unlock();
 
 	return TRUE;

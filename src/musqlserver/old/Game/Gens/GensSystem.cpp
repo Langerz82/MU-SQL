@@ -49,7 +49,7 @@ int GensSystem::GDReqAbusingInfo(CGameObject &Obj)  // done
 		PMSG_REQ_ABUSING_INFO pMsg;		
 		
 		PHeadSubSetB((BYTE*)&pMsg, 0xF8, 0x09, sizeof(pMsg));		
-		memcpy(pMsg.Name, Obj.Name, 10);
+		std::memcpy(pMsg.Name, Obj.Name, 10);
 		pMsg.Name[10] = 0;
 		pMsg.bIndexH = SET_NUMBERH(Obj.m_Index);
 		pMsg.bIndexL = SET_NUMBERL(Obj.m_Index);
@@ -70,7 +70,7 @@ int GensSystem::ReqExDBGensInfo(CGameObject &Obj) // done
 		PMSG_REQ_ABUSING_INFO pMsg;			
 
 		PHeadSubSetB((BYTE*)&pMsg, 0xF8, 0x01, sizeof(pMsg));	
-		memcpy(pMsg.Name, Obj.Name, 10);
+		std::memcpy(pMsg.Name, Obj.Name, 10);
 		pMsg.Name[10] = 0;
 		pMsg.bIndexH = SET_NUMBERH(Obj.m_Index);
 		pMsg.bIndexL = SET_NUMBERL(Obj.m_Index);
@@ -97,8 +97,8 @@ void GensSystem::ReqRegGensMember(CGameObject &Obj, BYTE btInfluence) // done
 		pMsg.AccountID[10] = 0;
 		pMsg.Name[10] = 0;
 
-		memcpy(&pMsg.AccountID[0], Obj.AccountID, 10);
-		memcpy(&pMsg.Name[0], Obj.Name, 10);
+		std::memcpy(&pMsg.AccountID[0], Obj.AccountID, 10);
+		std::memcpy(&pMsg.Name[0], Obj.Name, 10);
 
 		if (Obj.m_PlayerData->lpGuild)
 		{
@@ -161,7 +161,7 @@ int GensSystem::ReqSecedeGensMember(CGameObject &Obj) // done
 			pMsg.wNumberL = SET_NUMBERLW(Obj.m_PlayerData->lpGuild->Number);
 		}
 
-		memcpy(pMsg.Name, Obj.Name, 10);
+		std::memcpy(pMsg.Name, Obj.Name, 10);
 		pMsg.Name[10] = 0;
 
 		if (wsExDbCli.DataSend((char*)&pMsg, sizeof(pMsg))) return true;
@@ -230,7 +230,7 @@ int GensSystem::GDReqSaveContributePoint(CGameObject &Obj)  // done
 
 			PHeadSubSetB((BYTE*)&pMsg, 0xF8, 0x07, sizeof(pMsg));
 			pMsg.Name[10] = 0;
-			memcpy(pMsg.Name, Obj.Name, 10);
+			std::memcpy(pMsg.Name, Obj.Name, 10);
 			pMsg.iContributePoint = this->GetContributePoint(lpObj);
 			pMsg.iGensClass = this->GetGensClass(lpObj);
 
@@ -269,12 +269,12 @@ int GensSystem::DBSaveAbusingKillUserName(CGameObject &Obj) // done
 
 				pMsg.KillCount[i] = Obj.m_PlayerData->m_KillUserCnt[i];
 
-				memcpy(&pMsg.KillName[i * 11], &Obj.m_PlayerData->KillUserName[i * 11], 10); 
+				std::memcpy(&pMsg.KillName[i * 11], &Obj.m_PlayerData->KillUserName[i * 11], 10); 
 			}
 
-			memcpy(pMsg.AccountID, Obj.AccountID, 0x0A);
+			std::memcpy(pMsg.AccountID, Obj.AccountID, 0x0A);
 			
-			memcpy(pMsg.Name, Obj.Name, 0x0A);
+			std::memcpy(pMsg.Name, Obj.Name, 0x0A);
 
 			PHeadSubSetB((BYTE*)&pMsg, 0xF8, 0x08, sizeof(pMsg));
 
@@ -344,13 +344,13 @@ void GensSystem::GensViewportListProtocol(CGameObject &Obj)
 		pGensMsg.iGensRanking = Obj.m_PlayerData->m_GensRanking;
 		pGensMsg.iGensClass = this->GetGensClass(lpObj);
 		pGensMsg.iContributePoint = this->GetContributePoint(lpObj); 
-		memcpy(&GensBuf[GensInfoOfs], &pGensMsg, sizeof(PMSG_GENS_MEMBER_VIEWPORT_INFO));
+		std::memcpy(&GensBuf[GensInfoOfs], &pGensMsg, sizeof(PMSG_GENS_MEMBER_VIEWPORT_INFO));
 	
 		GensInfoOfs += sizeof(PMSG_GENS_MEMBER_VIEWPORT_INFO);
 
 		PHeadSubSetW((BYTE*)&pGensCount, 0xF8, 0x05, GensInfoOfs); 	
 		pGensCount.Count = GensCount;
-		memcpy(&GensBuf, &pGensCount, sizeof(PMSG_SEND_GENS_MEMBER_VIEWPORT));
+		std::memcpy(&GensBuf, &pGensCount, sizeof(PMSG_SEND_GENS_MEMBER_VIEWPORT));
 
 		for (int n = 0; n < MAX_VIEWPORT; n++)
 		{
@@ -721,7 +721,7 @@ void GensSystem::CalcContributePoint(CGameObject &Obj, CGameObject lpTargetObj)
 		{
 			if (iInfluence != iTarInfluence)
 			{
-				memcpy(szName, lpTargetObj.Name, sizeof(lpTargetObj.Name));		
+				std::memcpy(szName, lpTargetObj.Name, sizeof(lpTargetObj.Name));		
 
 				if (this->ChkKillUserName(lpObj, szName) == 0)
 				{
@@ -1305,7 +1305,7 @@ int GensSystem::ReqExDBGensRewardCheck(CGameObject &Obj, int iInfluence) // done
 		PHeadSubSetB((BYTE*)&pMsg, 0xF8, 0x0C, sizeof(pMsg));
 	
 		pMsg.Name[10] = 0;
-		memcpy(pMsg.Name, Obj.Name, MAX_ACCOUNT_LEN);
+		std::memcpy(pMsg.Name, Obj.Name, MAX_ACCOUNT_LEN);
 		pMsg.wIndexH = SET_NUMBERH(Obj.m_Index);
 		pMsg.wIndexL = SET_NUMBERL(Obj.m_Index);
 		pMsg.iInfluence = iInfluence;
@@ -1329,7 +1329,7 @@ int GensSystem::ReqExDBGensRewardComplete(CGameObject &Obj) // done
 		PHeadSubSetB((BYTE*)&pMsg, 0xF8, 0x0E, sizeof(pMsg));
 
 		pMsg.Name[10] = 0;
-		memcpy(pMsg.Name, Obj.Name, 10);
+		std::memcpy(pMsg.Name, Obj.Name, 10);
 		pMsg.wIndexH = SET_NUMBERHW(Obj.m_Index);
 		pMsg.wIndexL = SET_NUMBERLW(Obj.m_Index);
 
@@ -1428,7 +1428,7 @@ int GensSystem::ReqExDBGensMemberCount(CGameObject &Obj) // done
 		PHeadSubSetB((BYTE*)&pMsg, 0xF8, 0x0F, sizeof(pMsg));
 
 		pMsg.Name[10] = 0;
-		memcpy(pMsg.Name, Obj.Name, 10);
+		std::memcpy(pMsg.Name, Obj.Name, 10);
 
 		pMsg.wIndexH = SET_NUMBERHW(Obj.m_Index);
 		pMsg.wIndexL = SET_NUMBERLW(Obj.m_Index);

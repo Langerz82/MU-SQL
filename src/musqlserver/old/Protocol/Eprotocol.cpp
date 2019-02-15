@@ -188,9 +188,9 @@ void EGAns2AnivRegSerial(CGameObject &Obj,PMSG_REQ_2ANIV_SERIAL * lpMsg)
 
 	pMsg.iINDEX = lpMsg->iINDEX;
 	char szName[11] = {0};
-	memcpy(szName, lpMsg->szUID, 10);
+	std::memcpy(szName, lpMsg->szUID, 10);
 	pMsg.iINDEX = lpMsg->iINDEX;
-	memcpy(pMsg.szUID, szName, 10);
+	std::memcpy(pMsg.szUID, szName, 10);
 
 	DataSend(Obj.m_Index,(BYTE*)&pMsg,sizeof(pMsg));
 }
@@ -205,9 +205,9 @@ void EGAnsResetStoneInfo(CGameObject &Obj,PMSG_REQ_RESET_EVENTCHIP * lpMsg)
 
 	pMsg.iINDEX = lpMsg->iINDEX;
 	char szName[11] = {0};
-	memcpy(szName, lpMsg->szUID, 10);
+	std::memcpy(szName, lpMsg->szUID, 10);
 	pMsg.iINDEX = lpMsg->iINDEX;
-	memcpy(pMsg.szUID, szName, 10);
+	std::memcpy(pMsg.szUID, szName, 10);
 	pMsg.szUID[10] = 0;
 
 	DataSend(Obj.m_Index,(BYTE*)&pMsg,sizeof(pMsg));
@@ -283,7 +283,7 @@ void EGAnsLuckyCoinInfo(CGameObject &Obj,PMSG_REQ_LUCKYCOIN * lpMsg)
 	pMsg.h.size = sizeof(pMsg);
 
 	pMsg.iIndex= lpMsg->iIndex;
-	memcpy(pMsg.szUID,lpMsg->szUID, sizeof(pMsg.szUID));
+	std::memcpy(pMsg.szUID,lpMsg->szUID, sizeof(pMsg.szUID));
 	pMsg.szUID[10] = 0;
 
 	DataSend(Obj.m_Index,(BYTE*)&pMsg,sizeof(pMsg));

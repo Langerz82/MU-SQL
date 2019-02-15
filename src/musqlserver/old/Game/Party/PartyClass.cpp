@@ -94,7 +94,7 @@ BOOL PartyClass::RevisionIndexUser(int party_number, BYTE *index, char *szName)
 	}
 
 	char szMemberName[MAX_ACCOUNT_LEN + 1];
-	memcpy(szMemberName, szName, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(szMemberName, szName, MAX_ACCOUNT_LEN + 1);
 
 	for (int i = 0; i < MAX_USER_IN_PARTY; i++)
 	{
@@ -467,15 +467,15 @@ void PartyClass::PartyMemberLifeSend(int party_number)
 				
 				if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 				{
-					memcpy(pList.Name, getGameObject(usern)->m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN+1);
+					std::memcpy(pList.Name, getGameObject(usern)->m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN+1);
 				}
 
 				else
 				{
-					memcpy(pList.Name, getGameObject(usern)->Name, MAX_ACCOUNT_LEN+1);
+					std::memcpy(pList.Name, getGameObject(usern)->Name, MAX_ACCOUNT_LEN+1);
 				}
 
-				memcpy(&sendbuf[lOfs], &pList, sizeof(pList));
+				std::memcpy(&sendbuf[lOfs], &pList, sizeof(pList));
 				lOfs += sizeof(pList);
 			}
 
@@ -489,7 +489,7 @@ void PartyClass::PartyMemberLifeSend(int party_number)
 	}
 
 	pCount.h.size = lOfs;
-	memcpy(sendbuf, &pCount, sizeof(pCount));
+	std::memcpy(sendbuf, &pCount, sizeof(pCount));
 
 	for (int i=0 ; i<MAX_USER_IN_PARTY ; i++ )
 	{

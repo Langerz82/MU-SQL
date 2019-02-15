@@ -142,7 +142,7 @@ void CKanturu::LoadKanturuMapAttr(LPSTR lpszFileName, BYTE btLevel)
 void CKanturu::SetKanturuMapAttr(BYTE btLevel)
 {
 	MapClass & KanturuMap = this->m_KanturuMap[btLevel];
-	memcpy(MapC[MAP_INDEX_KANTURU_BOSS].m_attrbuf, KanturuMap.m_attrbuf, 256*256);
+	std::memcpy(MapC[MAP_INDEX_KANTURU_BOSS].m_attrbuf, KanturuMap.m_attrbuf, 256*256);
 
 }
 

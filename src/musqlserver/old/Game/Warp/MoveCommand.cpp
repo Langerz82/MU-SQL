@@ -244,7 +244,7 @@ BOOL CMoveCommand::CheckEquipmentToMove(CGameObject &Obj, int iTargetMapNumber)
 
 BOOL CMoveCommand::CheckInterfaceToMove(CGameObject &Obj)
 {
-	if ( Obj.m_IfState.use == 1 )
+	if ( Obj.m_IfState->use == 1 )
 	{
 		return FALSE;
 	}

@@ -214,13 +214,13 @@ void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, CGameObject &Ob
 
 	bool bEnablePShopOpen = false;
 
-	if (Obj.m_IfState.use == FALSE)
+	if (Obj.m_IfState->use == FALSE)
 		bEnablePShopOpen = true;
 	else
 	{
-		if (Obj.m_IfState.use == TRUE)
+		if (Obj.m_IfState->use == TRUE)
 		{
-			switch (Obj.m_IfState.type)
+			switch (Obj.m_IfState->type)
 			{
 			case 8:
 				bEnablePShopOpen = true; break;
@@ -228,7 +228,7 @@ void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, CGameObject &Ob
 
 			if (!bEnablePShopOpen)
 			{
-				sLog->outBasic("[PShop] [%s][%s] ERROR : m_IfState.type is Using : %d", Obj.AccountID, Obj.Name, Obj.m_IfState.type);
+				sLog->outBasic("[PShop] [%s][%s] ERROR : m_IfState->type is Using : %d", Obj.AccountID, Obj.Name, Obj.m_IfState->type);
 			}
 		}
 		else
@@ -252,20 +252,20 @@ void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, CGameObject &Ob
 		if (Obj.m_bPShopOpen == false)
 		{
 			Obj.m_bPShopOpen = true;
-			memcpy(Obj.m_szPShopText, lpMsg->szPShopText, sizeof(lpMsg->szPShopText));
+			std::memcpy(Obj.m_szPShopText, lpMsg->szPShopText, sizeof(lpMsg->szPShopText));
 			this->GDAllSavePShopItemValue(&getGameObject(Obj.m_Index));
 		}
 		else
 		{
-			memcpy(Obj.m_szPShopText, lpMsg->szPShopText, sizeof(lpMsg->szPShopText));
+			std::memcpy(Obj.m_szPShopText, lpMsg->szPShopText, sizeof(lpMsg->szPShopText));
 
 			PMSG_ANS_PSHOP_TEXT_CHANGED pMsg;
 
 			PHeadSubSetB((BYTE*)&pMsg, 0x3F, 0x10, sizeof(pMsg));
 			pMsg.NumberH = SET_NUMBERH(Obj.m_Index);
 			pMsg.NumberL = SET_NUMBERL(Obj.m_Index);
-			memcpy(pMsg.btPShopText, lpMsg->szPShopText, sizeof(pMsg.btPShopText));
-			memcpy(pMsg.btName, Obj.Name, sizeof(pMsg.btName));
+			std::memcpy(pMsg.btPShopText, lpMsg->szPShopText, sizeof(pMsg.btPShopText));
+			std::memcpy(pMsg.btName, Obj.Name, sizeof(pMsg.btName));
 
 			gGameProtocol.MsgSendV2(&getGameObject(Obj.m_Index), (BYTE*)&pMsg, pMsg.h.size);
 
@@ -455,7 +455,7 @@ void CPersonalStore::CGPShopReqBuyList(PMSG_REQ_BUYLIST_FROM_PSHOP * lpMsg, int 
 
 	getGameObject(aSourceIndex)->m_bPShopWantDeal = true;
 	getGameObject(aSourceIndex)->m_iPShopDealerIndex = Obj.m_Index;
-	memcpy(getGameObject(aSourceIndex)->m_szPShopDealerName, Obj.Name, MAX_ACCOUNT_LEN);
+	std::memcpy(getGameObject(aSourceIndex)->m_szPShopDealerName, Obj.Name, MAX_ACCOUNT_LEN);
 	this->CGPShopAnsBuyList(aSourceIndex, Obj.m_Index, 1, false);
 
 
@@ -492,7 +492,7 @@ void CPersonalStore::CGPShopAnsBuyList(int aSourceIndex, int aTargetIndex, BYTE 
 		pMsgILC.NumberL = SET_NUMBERL(aTargetIndex);
 		memset(pMsgILC.btName, 0, sizeof(pMsgILC.btName));
 		memset(pMsgILC.szPShopText, 0, sizeof(pMsgILC.szPShopText));
-		memcpy(sendBuf, &pMsgILC, sizeof(pMsgILC));
+		std::memcpy(sendBuf, &pMsgILC, sizeof(pMsgILC));
 
 		IOCP.DataSend(aSourceIndex, sendBuf, sOfs);
 	}
@@ -512,7 +512,7 @@ void CPersonalStore::CGPShopAnsBuyList(int aSourceIndex, int aTargetIndex, BYTE 
 				pMsgIL.BlessValue = lpObjTarget->Inventory1[n].m_wPShopBlessValue;
 				pMsgIL.ChaosValue = lpObjTarget->Inventory1[n].m_wPShopChaosValue;
 				pMsgIL.SoulValue = lpObjTarget->Inventory1[n].m_wPShopSoulValue;
-				memcpy(&sendBuf[sOfs], &pMsgIL, pMsgILSize);
+				std::memcpy(&sendBuf[sOfs], &pMsgIL, pMsgILSize);
 				iCount++;
 				sOfs += pMsgILSize;
 			}
@@ -532,9 +532,9 @@ void CPersonalStore::CGPShopAnsBuyList(int aSourceIndex, int aTargetIndex, BYTE 
 		pMsgILC.Result = btResult;
 		pMsgILC.NumberH = SET_NUMBERH(aTargetIndex);
 		pMsgILC.NumberL = SET_NUMBERL(aTargetIndex);
-		memcpy(pMsgILC.btName, lpObjTarget->Name, sizeof(pMsgILC.btName));
-		memcpy(pMsgILC.szPShopText, lpObjTarget->m_szPShopText, sizeof(pMsgILC.szPShopText));
-		memcpy(sendBuf, &pMsgILC, sizeof(pMsgILC));
+		std::memcpy(pMsgILC.btName, lpObjTarget->Name, sizeof(pMsgILC.btName));
+		std::memcpy(pMsgILC.szPShopText, lpObjTarget->m_szPShopText, sizeof(pMsgILC.szPShopText));
+		std::memcpy(sendBuf, &pMsgILC, sizeof(pMsgILC));
 
 		IOCP.DataSend(aSourceIndex, sendBuf, sOfs);
 
@@ -595,7 +595,7 @@ void CPersonalStore::CGPShopReqBuyItem(BYTE* lpRecv, int aSourceIndex)
 	}
 
 	char szName[MAX_ACCOUNT_LEN + 1] = { 0 };
-	memcpy(szName, lpMsg->btName, sizeof(lpMsg->btName));
+	std::memcpy(szName, lpMsg->btName, sizeof(lpMsg->btName));
 	szName[MAX_ACCOUNT_LEN] = 0;
 	int iITEM_LOG_TYPE;
 	int iITEM_LOG_LEVEL;
@@ -1153,7 +1153,7 @@ void CPersonalStore::CGPShopAnsSoldItem(int aSourceIndex, int aTargetIndex, int 
 
 	PHeadSubSetB((BYTE*)&pMsg, 0x3F, 0x08, sizeof(pMsg));
 	pMsg.btItemPos = iItemPos;
-	memcpy(pMsg.btName, getGameObject(aTargetIndex)->Name, MAX_ACCOUNT_LEN);
+	std::memcpy(pMsg.btName, getGameObject(aTargetIndex)->Name, MAX_ACCOUNT_LEN);
 
 	IOCP.DataSend(aSourceIndex, (BYTE*)&pMsg, pMsg.h.size);
 }
@@ -1242,7 +1242,7 @@ void CPersonalStore::PShop_ViewportListRegenarate(CGameObject &Obj)
 				{
 					lpMsgBody[iVpAddCount].btNumberL = SET_NUMBERL(WORD(tObjIndex));
 					lpMsgBody[iVpAddCount].btNumberH = SET_NUMBERH(WORD(tObjIndex));
-					memcpy(lpMsgBody[iVpAddCount].szPShopText, getGameObject(tObjIndex)->m_szPShopText, sizeof(getGameObject(tObjIndex)->m_szPShopText));
+					std::memcpy(lpMsgBody[iVpAddCount].szPShopText, getGameObject(tObjIndex)->m_szPShopText, sizeof(getGameObject(tObjIndex)->m_szPShopText));
 					iVpAddCount++;
 				}
 			}
@@ -1250,7 +1250,7 @@ void CPersonalStore::PShop_ViewportListRegenarate(CGameObject &Obj)
 			{
 				lpMsgBody[iVpAddCount].btNumberL = SET_NUMBERL(WORD(tObjIndex));
 				lpMsgBody[iVpAddCount].btNumberH = SET_NUMBERH(WORD(tObjIndex));
-				memcpy(lpMsgBody[iVpAddCount].szPShopText, getGameObject(tObjIndex)->m_szPShopText, sizeof(getGameObject(tObjIndex)->m_szPShopText));
+				std::memcpy(lpMsgBody[iVpAddCount].szPShopText, getGameObject(tObjIndex)->m_szPShopText, sizeof(getGameObject(tObjIndex)->m_szPShopText));
 				iVpAddCount++;
 			}
 			else
@@ -1471,8 +1471,8 @@ void CPersonalStore::GDRequestPShopItemValue(CGameObject &Obj, char *szAccountID
 	}
 
 	PMSG_REQ_PSHOPITEMVALUE_INFO pMsg;
-	memcpy(pMsg.AccountId, szAccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.AccountId, szAccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.iUserIndex = Obj.m_Index;
 
 	PHeadSetB((BYTE*)&pMsg, 0xE9, sizeof(pMsg));
@@ -1508,8 +1508,8 @@ void CPersonalStore::GDAllSavePShopItemValue(CGameObject &Obj)
 
 	if (bExistPShopItem == true)
 	{
-		memcpy(pMsg.AccountId, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-		memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+		std::memcpy(pMsg.AccountId, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+		std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 		pMsg.btItemCnt = iItemCnt;
 
 		PHeadSetW((BYTE*)&pMsg, 0xEB, sizeof(pMsg));
@@ -1522,8 +1522,8 @@ void CPersonalStore::GDDelPShopItemValue(CGameObject &Obj, int nPShopItemInvenNu
 {
 	PMSG_DEL_PSHOPITEM pMsg;
 
-	memcpy(pMsg.AccountId, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.AccountId, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.nPShopItemInvenNum = nPShopItemInvenNum;
 
 	PHeadSetB((BYTE*)&pMsg, 0xEC, sizeof(pMsg));
@@ -1534,8 +1534,8 @@ void CPersonalStore::GDMovePShopItem(CGameObject &Obj, int nOldPShopItemInvenNum
 {
 	PMSG_MOVE_PSHOPITEM pMsg;
 
-	memcpy(pMsg.AccountId, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.AccountId, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 
 	pMsg.nOldPShopItemInvenNum = nOldPShopItemInvenNum;
 	pMsg.nNewPShopItemInvenNum = nNewPShopItemInvenNum;
@@ -1612,7 +1612,7 @@ void CPersonalStore::GCPShopItemValueInfo(CGameObject &Obj)
 			PShopItemValueInfo[iItemCnt].sSoulJewelValue = Obj.pInventory[i].m_wPShopSoulValue;
 			PShopItemValueInfo[iItemCnt].sChaosJewelValue = Obj.pInventory[i].m_wPShopChaosValue;
 
-			memcpy(&sendbuf[lOfs], &PShopItemValueInfo[iItemCnt], sizeof(PSHOP_ITEMVALUE_INFO));
+			std::memcpy(&sendbuf[lOfs], &PShopItemValueInfo[iItemCnt], sizeof(PSHOP_ITEMVALUE_INFO));
 			lOfs += sizeof(PSHOP_ITEMVALUE_INFO);
 			iItemCnt++;
 		}
@@ -1624,7 +1624,7 @@ void CPersonalStore::GCPShopItemValueInfo(CGameObject &Obj)
 	pMsg.btItemCnt = iItemCnt;
 
 	PHeadSubSetW((BYTE*)&pMsg, 0xEC, 0x32, lOfs);
-	memcpy(sendbuf, &pMsg, sizeof(pMsg));
+	std::memcpy(sendbuf, &pMsg, sizeof(pMsg));
 
 	IOCP.DataSend(Obj.m_Index, sendbuf, lOfs);
 
@@ -1669,10 +1669,10 @@ void CPersonalStore::GCPShop_AllInfo(CGameObject &Obj, int iLastUserCount)
 						{
 							SearchItemPShop[iAddCnt].btNumberL = LOBYTE(Obj.m_Index);
 							SearchItemPShop[iAddCnt].btNumberH = HIBYTE(Obj.m_Index);
-							memcpy(SearchItemPShop[iAddCnt].szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
-							memcpy(SearchItemPShop[iAddCnt].szPShopText, Obj.m_szPShopText, 37);
+							std::memcpy(SearchItemPShop[iAddCnt].szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+							std::memcpy(SearchItemPShop[iAddCnt].szPShopText, Obj.m_szPShopText, 37);
 
-							memcpy(&sendbuf[lOfs], &SearchItemPShop[iAddCnt], sizeof(PMSG_SEARCH_ITEM_PSHOP));
+							std::memcpy(&sendbuf[lOfs], &SearchItemPShop[iAddCnt], sizeof(PMSG_SEARCH_ITEM_PSHOP));
 							lOfs += sizeof(PMSG_SEARCH_ITEM_PSHOP);
 						}
 
@@ -1686,7 +1686,7 @@ void CPersonalStore::GCPShop_AllInfo(CGameObject &Obj, int iLastUserCount)
 								pMsg.btContinueFlag = TRUE;
 
 								PHeadSubSetW((BYTE*)&pMsg, 0xEC, 0x31, lOfs);
-								memcpy(sendbuf, &pMsg, sizeof(pMsg));
+								std::memcpy(sendbuf, &pMsg, sizeof(pMsg));
 
 								IOCP.DataSend(Obj.m_Index, sendbuf, lOfs);
 								return;
@@ -1711,7 +1711,7 @@ void CPersonalStore::GCPShop_AllInfo(CGameObject &Obj, int iLastUserCount)
 	}
 
 	PHeadSubSetW((BYTE*)&pMsg, 0xEC, 0x31, lOfs);
-	memcpy(sendbuf, &pMsg, sizeof(pMsg));
+	std::memcpy(sendbuf, &pMsg, sizeof(pMsg));
 
 	IOCP.DataSend(Obj.m_Index, sendbuf, lOfs);
 }
@@ -1757,10 +1757,10 @@ void CPersonalStore::GCPShop_SearchItem(CGameObject &Obj, WORD sSearchItem, int 
 							{
 								SearchItemPShop[iAddCnt].btNumberL = LOBYTE(Obj.m_Index);
 								SearchItemPShop[iAddCnt].btNumberH = HIBYTE(Obj.m_Index);
-								memcpy(SearchItemPShop[iAddCnt].szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
-								memcpy(SearchItemPShop[iAddCnt].szPShopText, Obj.m_szPShopText, 37);
+								std::memcpy(SearchItemPShop[iAddCnt].szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+								std::memcpy(SearchItemPShop[iAddCnt].szPShopText, Obj.m_szPShopText, 37);
 
-								memcpy(&sendbuf[lOfs], &SearchItemPShop[iAddCnt], sizeof(PMSG_SEARCH_ITEM_PSHOP));
+								std::memcpy(&sendbuf[lOfs], &SearchItemPShop[iAddCnt], sizeof(PMSG_SEARCH_ITEM_PSHOP));
 								lOfs += sizeof(PMSG_SEARCH_ITEM_PSHOP);
 							}
 
@@ -1774,7 +1774,7 @@ void CPersonalStore::GCPShop_SearchItem(CGameObject &Obj, WORD sSearchItem, int 
 									pMsg.btContinueFlag = TRUE;
 
 									PHeadSubSetW((BYTE*)&pMsg, 0xEC, 0x31, lOfs);
-									memcpy(sendbuf, &pMsg, sizeof(pMsg));
+									std::memcpy(sendbuf, &pMsg, sizeof(pMsg));
 
 									IOCP.DataSend(Obj.m_Index, sendbuf, lOfs);
 									return;
@@ -1800,7 +1800,7 @@ void CPersonalStore::GCPShop_SearchItem(CGameObject &Obj, WORD sSearchItem, int 
 	}
 
 	PHeadSubSetW((BYTE*)&pMsg, 0xEC, 0x31, lOfs);
-	memcpy(sendbuf, &pMsg, sizeof(pMsg));
+	std::memcpy(sendbuf, &pMsg, sizeof(pMsg));
 
 	IOCP.DataSend(Obj.m_Index, sendbuf, lOfs);
 }

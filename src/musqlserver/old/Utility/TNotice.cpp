@@ -17,7 +17,7 @@ void TNotice::MakeNoticeMsg(void * lpNotice, BYTE btType, char * szNoticeMsg)
 {
 	PMSG_NOTICE * pNotice = (PMSG_NOTICE *)lpNotice;
 	pNotice->type  = btType;
-	memcpy(pNotice->Notice,szNoticeMsg,strlen(szNoticeMsg));
+	std::memcpy(pNotice->Notice,szNoticeMsg,strlen(szNoticeMsg));
 	wsprintf(pNotice->Notice, szNoticeMsg);
 	PHeadSetB((BYTE*)pNotice, 0x0D, strlen(pNotice->Notice) + sizeof(PMSG_NOTICE) - sizeof(pNotice->Notice) + 1 );
 }

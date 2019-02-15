@@ -21,7 +21,7 @@ CAttackMagic::CAttackMagic( CGameObject &Obj,  BYTE* pmsg, int len)
 {
 	m_Obj = lpObj;
 	m_Msg = new BYTE[len];
-	memcpy(m_Msg, pmsg, len);
+	std::memcpy(m_Msg, pmsg, len);
 }
 
 CAttackMagic::~CAttackMagic()
@@ -39,7 +39,7 @@ CAttackRange::CAttackRange( CGameObject &Obj, BYTE* pmsg, int len, int type )
 {
 	m_Obj = lpObj;
 	m_Msg = new BYTE[len];
-	memcpy(m_Msg, pmsg, len);
+	std::memcpy(m_Msg, pmsg, len);
 	m_Type = type;
 }
 
@@ -255,7 +255,7 @@ CAttackMsg::CAttackMsg(CGameObject &Obj, BYTE* pmsg, int len, int type )
 
 	m_Msg = new BYTE[len];
 	m_Len = len;
-	memcpy(m_Msg, pmsg, len);
+	std::memcpy(m_Msg, pmsg, len);
 	m_Type = type;
 }
 

@@ -132,7 +132,7 @@ void CRingMonsterHerd::SendEventGiftWinner(CGameObject &Obj, int iGiftKind)
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xBE, 0x10, sizeof(pMsg));
 	pMsg.iINDEX  = iIndex;
-	memcpy(pMsg.szUID, Obj.AccountID, MAX_ACCOUNT_LEN);
+	std::memcpy(pMsg.szUID, Obj.AccountID, MAX_ACCOUNT_LEN);
 	pMsg.szUID[MAX_ACCOUNT_LEN] = 0;	// #error Remove the +1 to avoid problems
 	pMsg.btGiftKind = iGiftKind;
 

@@ -15,8 +15,8 @@ int CMuRSA::EncPacket(CPublicRsaKey* key, BYTE* p, int len, BYTE* outp, int& out
 
 			int newLen = buffLen+3;
 
-			memcpy(outp, p, 3);
-			memcpy(&outp[3], outBuff, buffLen);
+			std::memcpy(outp, p, 3);
+			std::memcpy(&outp[3], outBuff, buffLen);
 			outp[1] = newLen;
 
 			outlen = buffLen+3;
@@ -33,8 +33,8 @@ int CMuRSA::EncPacket(CPublicRsaKey* key, BYTE* p, int len, BYTE* outp, int& out
 	
 			int newLen = buffLen+4;
 
-			memcpy(outp, p, 4);
-			memcpy(&outp[4], outBuff, buffLen);
+			std::memcpy(outp, p, 4);
+			std::memcpy(&outp[4], outBuff, buffLen);
 			BYTE* nlenH = (BYTE*)&outp[1];
 			*nlenH = HIBYTE(newLen);
 			BYTE* nlenL = (BYTE*)&outp[2];
@@ -59,8 +59,8 @@ int CMuRSA::EncPacket(CPublicRsaKey* key, BYTE* p, int len, BYTE* outp, int& out
 		key->EncBuffer(&p[3], len-3, outBuff, buffLen);
 
 		int newLen = buffLen+3;
-		memcpy(outp, p, 3);
-		memcpy(&outp[3], outBuff, buffLen);
+		std::memcpy(outp, p, 3);
+		std::memcpy(&outp[3], outBuff, buffLen);
 
 		*(WORD*)&outp[1] = (WORD)newLen;
 
@@ -86,8 +86,8 @@ int CMuRSA::DecPacket(CPrivateRsaKey* key, BYTE* p, int len, BYTE* outp, int& ou
 
 			int newLen = buffLen+3;
 
-			memcpy(outp, p, 3);
-			memcpy(&outp[3], outBuff, buffLen);
+			std::memcpy(outp, p, 3);
+			std::memcpy(&outp[3], outBuff, buffLen);
 			outp[1] = newLen;
 
 			outlen = buffLen+3;
@@ -107,8 +107,8 @@ int CMuRSA::DecPacket(CPrivateRsaKey* key, BYTE* p, int len, BYTE* outp, int& ou
 
 			int newLen = buffLen+4;
 
-			memcpy(outp, p, 4);
-			memcpy(&outp[4], outBuff, buffLen);
+			std::memcpy(outp, p, 4);
+			std::memcpy(&outp[4], outBuff, buffLen);
 			BYTE* nlenH = (BYTE*)&outp[1];
 			*nlenH = HIBYTE(newLen);
 			BYTE* nlenL = (BYTE*)&outp[2];
@@ -139,8 +139,8 @@ int CMuRSA::DecPacket(CPrivateRsaKey* key, BYTE* p, int len, BYTE* outp, int& ou
 
 		int newLen = buffLen+3;
 
-		memcpy(outp, p, 3);
-		memcpy(&outp[3], outBuff, buffLen);
+		std::memcpy(outp, p, 3);
+		std::memcpy(&outp[3], outBuff, buffLen);
 		*(WORD*)&outp[1] = (WORD)newLen;
 
 		outlen = buffLen+3;

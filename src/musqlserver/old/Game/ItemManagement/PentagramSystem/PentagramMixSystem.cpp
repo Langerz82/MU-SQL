@@ -105,7 +105,7 @@ bool CPentagramMixSystem::LoadMixNeedSourceScript(char* pchFileName)
 
 		RefineOptionData.NeedMoney = combination.attribute("ReqMoney").as_int();
 
-		memcpy(&this->m_RefineOptionData[iValueCount], &RefineOptionData, sizeof(REFINE_OPTION));
+		std::memcpy(&this->m_RefineOptionData[iValueCount], &RefineOptionData, sizeof(REFINE_OPTION));
 		iValueCount++;
 	}
 
@@ -136,7 +136,7 @@ bool CPentagramMixSystem::LoadMixNeedSourceScript(char* pchFileName)
 			RefineSuccessOptionData.Success_AcquisitionItem_Num[i] = result.attribute(szTemp).as_int();
 		}
 
-		memcpy(&this->m_RefineSuccessOptionData[iValueCount], &RefineSuccessOptionData, sizeof(REFINE_SUCCESS_OPTION));
+		std::memcpy(&this->m_RefineSuccessOptionData[iValueCount], &RefineSuccessOptionData, sizeof(REFINE_SUCCESS_OPTION));
 		iValueCount++;
 	}
 
@@ -167,7 +167,7 @@ bool CPentagramMixSystem::LoadMixNeedSourceScript(char* pchFileName)
 
 		LevelUpgradeNeedItemData.NeedMoney = errtel.attribute("ReqMoney").as_int();
 
-		memcpy(&this->m_JewelLevelUpgradeNeedItemData[iValueCount], &LevelUpgradeNeedItemData, sizeof(JEWEL_LEVEL_UPGRADE_NEED_ITEM));
+		std::memcpy(&this->m_JewelLevelUpgradeNeedItemData[iValueCount], &LevelUpgradeNeedItemData, sizeof(JEWEL_LEVEL_UPGRADE_NEED_ITEM));
 		iValueCount++;
 	}
 
@@ -199,7 +199,7 @@ bool CPentagramMixSystem::LoadMixNeedSourceScript(char* pchFileName)
 
 		RankUpgradeNeedItemData.NeedMoney = errtel.attribute("ReqMoney").as_int();
 
-		memcpy(&this->m_JewelRankUpgradeNeedItemData[iValueCount], &RankUpgradeNeedItemData, sizeof(JEWEL_RANK_UPGRADE_NEED_ITEM));
+		std::memcpy(&this->m_JewelRankUpgradeNeedItemData[iValueCount], &RankUpgradeNeedItemData, sizeof(JEWEL_RANK_UPGRADE_NEED_ITEM));
 		iValueCount++;
 	}
 
@@ -222,7 +222,7 @@ bool CPentagramMixSystem::LoadMixNeedSourceScript(char* pchFileName)
 
 		JewelRankUpgradeDetermineRate.RankUpgradeSuccessRate = errtel.attribute("RankUpgradeSuccessRate").as_int();
 
-		memcpy(&this->m_JewelRankUpgradeDetermineRate[iValueCount], &JewelRankUpgradeDetermineRate, sizeof(JEWEL_RANK_UPGRADE_DETERMINE_RATE));
+		std::memcpy(&this->m_JewelRankUpgradeDetermineRate[iValueCount], &JewelRankUpgradeDetermineRate, sizeof(JEWEL_RANK_UPGRADE_DETERMINE_RATE));
 		iValueCount++;
 	}
 
@@ -269,7 +269,7 @@ bool CPentagramMixSystem::LoadJewelOptionScript(char *pchFileName)
 			JewelItemOptionData.LevelUpgradeValue[i] = errtel.attribute(szTemp).as_int();
 		}
 
-		memcpy(&this->m_JewelItemOptionData[iValueCount], &JewelItemOptionData, sizeof(PENTAGRAM_JEWEL_ITEM_OPTION));
+		std::memcpy(&this->m_JewelItemOptionData[iValueCount], &JewelItemOptionData, sizeof(PENTAGRAM_JEWEL_ITEM_OPTION));
 		iValueCount++;
 	}
 

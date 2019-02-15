@@ -157,9 +157,9 @@ void CNameConvert::InputData(int cnt, const char *name, const char *realNameOfUb
 {
 	if (cnt > -1 && cnt < 5)
 	{
-		memcpy(this->m_perCharacterInfo[cnt].szCharacterName, name, Length);
+		std::memcpy(this->m_perCharacterInfo[cnt].szCharacterName, name, Length);
 		this->m_perCharacterInfo[cnt].szCharacterName[Length] = 0;
-		memcpy(this->m_perCharacterInfo[cnt].szCharacterNameOfUBF, realNameOfUbf, Length);
+		std::memcpy(this->m_perCharacterInfo[cnt].szCharacterNameOfUBF, realNameOfUbf, Length);
 		this->m_perCharacterInfo[cnt].szCharacterNameOfUBF[Length] = 0;
 		this->m_perCharacterInfo[cnt].nServerCodeOfHomeWorld = serverCode;
 	}

@@ -1279,8 +1279,8 @@ void CMuunSystem::GDReqLoadMuunInvenItem(CGameObject &obj)
 		return;
 	}
 			
-	memcpy(pMsg.AccountID, obj->AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.Name, obj->Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.AccountID, obj->AccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.Name, obj->Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.Obj.m_Index = obj->m_Index;
 
 	pMsg.h.c = 0xC1;
@@ -1295,7 +1295,7 @@ void CMuunSystem::DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg)
 	CGameObject &Obj = lpMsg->Obj.m_Index;
 	char szId[11];
 	szId[MAX_ACCOUNT_LEN] = 0;
-	memcpy(szId, Obj.AccountID, MAX_ACCOUNT_LEN);
+	std::memcpy(szId, Obj.AccountID, MAX_ACCOUNT_LEN);
 
 	if (ObjectMaxRange(Obj.m_Index) == false)
 	{
@@ -1612,8 +1612,8 @@ std::string hexStr(BYTE *data, int len)
 	}
 
 	SDHP_REQ_DBMUUN_INVEN_SAVE pMsg;
-	memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN+1);
-	memcpy(pMsg.Name, Obj.Name, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN+1);
+	std::memcpy(pMsg.Name, Obj.Name, MAX_ACCOUNT_LEN+1);
 
 	pMsg.h.c = 0xC2;
 	pMsg.h.sizeH = SET_NUMBERH(sizeof(pMsg));
@@ -1749,7 +1749,7 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, CGa
 {
 	int iItemUseType = lpMsg->btItemUseType;
 
-	if (Obj.m_IfState.use == 1)
+	if (Obj.m_IfState->use == 1)
 	{
 		sLog->outBasic("[%s][%s]_If return  %d", Obj.AccountID, Obj.Name, __LINE__);
 		this->GCMuunInventoryUseItemResult(Obj.m_Index, iItemUseType, 1);
@@ -1772,7 +1772,7 @@ void CMuunSystem::CGMuunInventoryUseItemRecv(PMSG_USEITEM_MUUN_INVEN *lpMsg, CGa
 
 	if (Obj.pTransaction == 1)
 	{
-		sLog->outBasic("[%s][%s] CGUseItemRecv() Failed : Transaction == 1, IF_TYPE : %d", Obj.AccountID, Obj.Name, Obj.m_IfState.type);
+		sLog->outBasic("[%s][%s] CGUseItemRecv() Failed : Transaction == 1, IF_TYPE : %d", Obj.AccountID, Obj.Name, Obj.m_IfState->type);
 		this->GCMuunInventoryUseItemResult(Obj.m_Index, iItemUseType, 1);
 
 		return;
@@ -2225,8 +2225,8 @@ int CMuunSystem::AddMuunItemPeriodInfo(CGameObject &Obj)
 			this->m_MuunItemPeriodData[i].dwUserGUID = Obj.DBNumber;
 			this->m_MuunItemPeriodData[i].wUserIndex = Obj.m_Index;
 			this->m_MuunItemPeriodData[i].btUsedDataCount = 0;
-			memcpy(this->m_MuunItemPeriodData[i].chAccountID, Obj.Name, MAX_ACCOUNT_LEN + 1);
-			memcpy(this->m_MuunItemPeriodData[i].chCharacterName, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+			std::memcpy(this->m_MuunItemPeriodData[i].chAccountID, Obj.Name, MAX_ACCOUNT_LEN + 1);
+			std::memcpy(this->m_MuunItemPeriodData[i].chCharacterName, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
 
 			Obj.m_iMuunItmePeriodDatObj.m_Index = i;
 			return i;
@@ -3434,12 +3434,12 @@ void CMuunSystem::CGReqRideSelect(PMSG_MUUN_RIDE_SELECT *lpMsg, CGameObject &Obj
 
 	int lOfs = sizeof(pMsgMuun);
 
-	memcpy(&btMuunInfosendBuf[lOfs], &MuunViewPortInfo, 4);
+	std::memcpy(&btMuunInfosendBuf[lOfs], &MuunViewPortInfo, 4);
 	lOfs += sizeof(MuunRideViewPortInfo);
 
 	pMsgMuun.Count = 1;
 	pMsgMuun.h.set((BYTE*)&pMsgMuun,0x4E,0x14,lOfs);
-	memcpy(btMuunInfosendBuf, &pMsgMuun, sizeof(pMsgMuun));
+	std::memcpy(btMuunInfosendBuf, &pMsgMuun, sizeof(pMsgMuun));
 
 	IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, btMuunInfosendBuf, lOfs);
 

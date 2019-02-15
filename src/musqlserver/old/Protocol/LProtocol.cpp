@@ -108,7 +108,7 @@ void CConServ::GetServerInfo(CGameObject &Obj, USHORT id)
 		if(It->btServerCode == id)
 		{
 			char * IP = It->cIp;
-			memcpy(&pMsg.IP, IP , 16);
+			std::memcpy(&pMsg.IP, IP , 16);
 
 			pMsg.Port = It->wServerPort;
 
@@ -279,10 +279,10 @@ void CConServ::LoadNewsFile(LPSTR szFile)
 						TextB = TokenNumber;
 
 						Token = GetToken();
-						memcpy(szTitle,TokenString,sizeof(szTitle));
+						std::memcpy(szTitle,TokenString,sizeof(szTitle));
 
 						Token = GetToken();
-						memcpy(szText,TokenString,sizeof(szText));
+						std::memcpy(szText,TokenString,sizeof(szText));
 
 						Token = GetToken();
 						Day = TokenNumber;
@@ -325,7 +325,7 @@ void CConServ::SendNews(CGameObject &Obj)
 	pTitle.h.c = 0xC1;
 	pTitle.h.headcode = 0xFA;
 	pTitle.h.subcode = 0x00;
-	memcpy(pTitle.ServerName, Title, sizeof(pTitle.ServerName));
+	std::memcpy(pTitle.ServerName, Title, sizeof(pTitle.ServerName));
 
 	DataSend(Obj.m_Index, (BYTE*)&pTitle, pTitle.h.size, nullptr);
 
@@ -354,8 +354,8 @@ void CConServ::SendNews(CGameObject &Obj)
 		pMsg.textLen = textlen;
 		pMsg.h.sizeH = SET_NUMBERH( sizeof(PMSG_SEND_NEWS)+textlen);
 		pMsg.h.sizeL = SET_NUMBERL( sizeof(PMSG_SEND_NEWS)+textlen);
-		memcpy(buffer, &pMsg, sizeof(PMSG_SEND_NEWS));
-		memcpy(&buffer[sizeof(PMSG_SEND_NEWS)], gObjNews[i].Text, textlen);
+		std::memcpy(buffer, &pMsg, sizeof(PMSG_SEND_NEWS));
+		std::memcpy(&buffer[sizeof(PMSG_SEND_NEWS)], gObjNews[i].Text, textlen);
 
 		DataSend(Obj.m_Index, (BYTE*)buffer, sizeof(PMSG_SEND_NEWS)+textlen, nullptr);
 	}

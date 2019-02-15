@@ -560,9 +560,9 @@ void CCancelItemSale::GCAnsSoldItemList(CGameObject &Obj)
 			pItem.dwItemPrice = Obj.m_PlayerData->m_CancelItemSaleList[i]->dwItemPrice;
 			pItem.iLeftTime = Obj.m_PlayerData->m_CancelItemSaleList[i]->iLeftTime;
 			pItem.btItemNumber = Obj.m_PlayerData->m_CancelItemSaleList[i]->btItemNumber;
-			memcpy(&pItem.btItemInfo, Obj.m_PlayerData->m_CancelItemSaleList[i]->btItemInfo, MAX_ITEM_INFO);
+			std::memcpy(&pItem.btItemInfo, Obj.m_PlayerData->m_CancelItemSaleList[i]->btItemInfo, MAX_ITEM_INFO);
 
-			memcpy(&Buffer[iSize], &pItem, sizeof(pItem));
+			std::memcpy(&Buffer[iSize], &pItem, sizeof(pItem));
 			iSize += sizeof(pItem);
 			iItemCount++;
 		}
@@ -571,7 +571,7 @@ void CCancelItemSale::GCAnsSoldItemList(CGameObject &Obj)
 	PHeadSubSetW((BYTE*)&pMsg, 0x6F, 0x00, iSize);
 	pMsg.btCount = iItemCount;
 	pMsg.btResult = 0;
-	memcpy(&Buffer, &pMsg, sizeof(pMsg));
+	std::memcpy(&Buffer, &pMsg, sizeof(pMsg));
 
 	IOCP.DataSend(Obj.m_Index, Buffer, iSize);
 }
@@ -671,8 +671,8 @@ void CCancelItemSale::GDReqSoldItemList(CGameObject &Obj)
 	PHeadSubSetB((BYTE*)&pMsg, 0x6F, 0x00, sizeof(pMsg));
 
 	pMsg.iIndex = iIndex;
-	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.CurrTime = time(NULL);
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
@@ -755,8 +755,8 @@ void CCancelItemSale::GDReqAddItemToList(CGameObject &Obj, CItemObject Item, DWO
 	SDHP_REQ_SHOP_REBUY_ADD_ITEM pMsg;
 	PHeadSubSetB((BYTE*)&pMsg, 0x6F, 0x01, sizeof(pMsg));
 
-	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.SellDate = time(NULL);
 	pMsg.SellExpireDate = time(NULL) + g_ConfigRead.data.common.CancelItemSaleExpiryTime;
 	pMsg.dwSellPrice = dwSellPrice * g_ConfigRead.data.common.CancelItemSaleMultipler / 100;
@@ -771,8 +771,8 @@ void CCancelItemSale::GDReqGetReBuyItem(CGameObject &Obj, BYTE btItemNumber, DWO
 	PHeadSubSetB((BYTE*)&pMsg, 0x6F, 0x02, sizeof(pMsg));
 
 	pMsg.iIndex = iIndex;
-	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.btItemNumber = btItemNumber;
 	pMsg.dwItemPrice = dwItemPrice;
 
@@ -863,8 +863,8 @@ void CCancelItemSale::GDReqDeleteSoldItem(CGameObject &Obj, BYTE btItemNumber, W
 	SDHP_REQ_SHOP_REBUY_DELETE_ITEM pMsg;
 	PHeadSubSetB((BYTE*)&pMsg, 0x6F, 0x03, sizeof(pMsg));
 
-	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 	pMsg.btItemNumber = btItemNumber;
 	pMsg.wItemCode = wItemCode;
 	pMsg.dwItemPrice = dwItemPrice;

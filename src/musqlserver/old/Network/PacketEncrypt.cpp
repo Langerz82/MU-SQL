@@ -47,14 +47,14 @@ int CPacketEncrypt::Decrypt(BYTE * lpDest, BYTE * lpSource, int iSize)
 				memset(ibuf, 0, iSize);
 				memset(obuf, 0, iSize);
 
-				memcpy(ibuf, lpSource, iSize);
+				std::memcpy(ibuf, lpSource, iSize);
 
 				for (int i = 0; i < outLen; i += this->dec.BLOCKSIZE)
 				{
 					this->dec.ProcessBlock(&ibuf[i], &obuf[i]);
 				}
 
-				memcpy(lpDest, obuf, outLen);
+				std::memcpy(lpDest, obuf, outLen);
 			}
 		}
 
@@ -95,8 +95,8 @@ int CPacketEncrypt::Encrypt(BYTE * lpDest, BYTE * lpSource, int iSize)
 		memset(tbuf, 0, outLen);
 		memset(obuf, 0, outLen);
 
-		memcpy(tbuf, lpSource, iSize);
-		memcpy(&tbuf[iSize], padding, paddingSize);
+		std::memcpy(tbuf, lpSource, iSize);
+		std::memcpy(&tbuf[iSize], padding, paddingSize);
 
 		for (int i = 0; i < outLen; i += this->enc.BLOCKSIZE)
 		{
@@ -104,7 +104,7 @@ int CPacketEncrypt::Encrypt(BYTE * lpDest, BYTE * lpSource, int iSize)
 		}
 
 		obuf[outLen - 1] = paddingSize;
-		memcpy(lpDest, obuf, outLen);
+		std::memcpy(lpDest, obuf, outLen);
 	}
 
 	return outLen;

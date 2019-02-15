@@ -95,7 +95,7 @@
 #	define PUGI__DMC_VOLATILE
 #endif
 
-// Borland C++ bug workaround for not defining ::memcpy depending on header include order (can't always use std::memcpy because some compilers don't have it at all)
+// Borland C++ bug workaround for not defining ::std::memcpy depending on header include order (can't always use std::memcpy because some compilers don't have it at all)
 #if defined(__BORLANDC__) && !defined(__MEM_H_USING_LIST)
 using std::memcpy;
 using std::memmove;
@@ -1195,7 +1195,7 @@ PUGI__NS_BEGIN
 			char_t* buffer = static_cast<char_t*>(xml_memory::allocate((length + 1) * sizeof(char_t)));
 			if (!buffer) return false;
 
-			memcpy(buffer, contents, length * sizeof(char_t));
+			std::memcpy(buffer, contents, length * sizeof(char_t));
 			buffer[length] = 0;
 
 			out_buffer = buffer;
@@ -1464,7 +1464,7 @@ PUGI__NS_BEGIN
 		if (!buffer) return false;
 
 		// second pass: convert latin1 input to utf8
-		memcpy(buffer, data, prefix_length);
+		std::memcpy(buffer, data, prefix_length);
 
 		uint8_t* obegin = reinterpret_cast<uint8_t*>(buffer);
 		uint8_t* oend = utf_decoder<utf8_writer>::decode_latin1_block(postfix, postfix_length, obegin + prefix_length);
@@ -1607,7 +1607,7 @@ PUGI__NS_BEGIN
 		else if (dest && strcpy_insitu_allow(source_length, header & header_mask, dest))
 		{
 			// we can reuse old buffer, so just copy the new data (including zero terminator)
-			memcpy(dest, source, (source_length + 1) * sizeof(char_t));
+			std::memcpy(dest, source, (source_length + 1) * sizeof(char_t));
 			
 			return true;
 		}
@@ -1620,7 +1620,7 @@ PUGI__NS_BEGIN
 			if (!buf) return false;
 
 			// copy the string (including zero terminator)
-			memcpy(buf, source, (source_length + 1) * sizeof(char_t));
+			std::memcpy(buf, source, (source_length + 1) * sizeof(char_t));
 
 			// deallocate old buffer (*after* the above to protect against overlapping memory and/or allocation failures)
 			if (header & header_mask) alloc->deallocate_string(dest);
@@ -3017,7 +3017,7 @@ PUGI__NS_BEGIN
 				}
 			}
 
-			memcpy(buffer + bufsize, data, length * sizeof(char_t));
+			std::memcpy(buffer + bufsize, data, length * sizeof(char_t));
 			bufsize += length;
 		}
 
@@ -3772,7 +3772,7 @@ PUGI__NS_BEGIN
 		for (xml_stream_chunk<T>* chunk = static_cast<xml_stream_chunk<T>*>(chunks.data); chunk; chunk = chunk->next)
 		{
 			assert(write + chunk->size <= buffer + total);
-			memcpy(write, chunk->data, chunk->size);
+			std::memcpy(write, chunk->data, chunk->size);
 			write += chunk->size;
 		}
 
@@ -6167,7 +6167,7 @@ PUGI__NS_BEGIN
 			{
 				// copy old data
 				assert(new_size >= old_size);
-				memcpy(result, ptr, old_size);
+				std::memcpy(result, ptr, old_size);
 
 				// free the previous page if it had no other objects
 				if (only_object)
@@ -6288,7 +6288,7 @@ PUGI__NS_BEGIN
 			char_t* result = static_cast<char_t*>(alloc->allocate((length + 1) * sizeof(char_t)));
 			assert(result);
 
-			memcpy(result, string, length * sizeof(char_t));
+			std::memcpy(result, string, length * sizeof(char_t));
 			result[length] = 0;
 
 			return result;
@@ -6351,7 +6351,7 @@ PUGI__NS_BEGIN
 				if (!_uses_heap) std::memcpy(result, _buffer, target_length * sizeof(char_t));
 
 				// append second string to the new buffer
-				memcpy(result + target_length, o._buffer, source_length * sizeof(char_t));
+				std::memcpy(result + target_length, o._buffer, source_length * sizeof(char_t));
 				result[result_length] = 0;
 
 				// finalize
@@ -6870,7 +6870,7 @@ PUGI__NS_BEGIN
 		}
 
 		// copy string to zero-terminated buffer and perform conversion
-		memcpy(scratch, begin, length * sizeof(char_t));
+		std::memcpy(scratch, begin, length * sizeof(char_t));
 		scratch[length] = 0;
 
 		*out_result = convert_string_to_number(scratch);
@@ -7094,7 +7094,7 @@ PUGI__NS_BEGIN
 
 		T* result = new (memory) T();
 
-		memcpy(result->name, name, (length + 1) * sizeof(char_t));
+		std::memcpy(result->name, name, (length + 1) * sizeof(char_t));
 
 		return result;
 	}
@@ -7164,7 +7164,7 @@ PUGI__NS_BEGIN
 		}
 
 		// copy string to zero-terminated buffer and perform lookup
-		memcpy(scratch, begin, length * sizeof(char_t));
+		std::memcpy(scratch, begin, length * sizeof(char_t));
 		scratch[length] = 0;
 
 		xpath_variable* result = set->get(scratch);
@@ -7293,7 +7293,7 @@ PUGI__NS_BEGIN
 				_eos = data + size_ + count;
 			}
 
-			memcpy(_end, begin_, count * sizeof(xpath_node));
+			std::memcpy(_end, begin_, count * sizeof(xpath_node));
 			_end += count;
 		}
 
@@ -9190,7 +9190,7 @@ PUGI__NS_BEGIN
 				if (!c) throw_error_oom();
 				assert(c); // workaround for clang static analysis
 
-				memcpy(c, value.begin, length * sizeof(char_t));
+				std::memcpy(c, value.begin, length * sizeof(char_t));
 				c[length] = 0;
 
 				return c;
@@ -10125,7 +10125,7 @@ namespace pugi
 			#endif
 			}
 
-			memcpy(storage, begin_, size_ * sizeof(xpath_node));
+			std::memcpy(storage, begin_, size_ * sizeof(xpath_node));
 			
 			// deallocate old buffer
 			if (_begin != &_storage) impl::xml_memory::deallocate(_begin);
@@ -10300,7 +10300,7 @@ namespace pugi
 		char_t* copy = static_cast<char_t*>(impl::xml_memory::allocate(size));
 		if (!copy) return false;
 
-		memcpy(copy, value, size);
+		std::memcpy(copy, value, size);
 
 		// replace old string
 		if (var->value) impl::xml_memory::deallocate(var->value);
@@ -10498,7 +10498,7 @@ namespace pugi
 			size_t size = (full_size < capacity) ? full_size : capacity;
 			assert(size > 0);
 
-			memcpy(buffer, r.c_str(), (size - 1) * sizeof(char_t));
+			std::memcpy(buffer, r.c_str(), (size - 1) * sizeof(char_t));
 			buffer[size - 1] = 0;
 		}
 		

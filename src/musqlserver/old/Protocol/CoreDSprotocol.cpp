@@ -126,10 +126,10 @@ void CDataServerProtocol::JGPGetCharList(CGameObject &Obj, SDHP_GETCHARLIST * aR
 
 	char szAccountID[11];
 	szAccountID[10] = 0;
-	memcpy(szAccountID, aRecv->Id, 10);
+	std::memcpy(szAccountID, aRecv->Id, 10);
 
 	pCount->Number = aRecv->Number;
-	memcpy(pCount->AccountId, szAccountID, MAX_ACCOUNT_LEN);
+	std::memcpy(pCount->AccountId, szAccountID, MAX_ACCOUNT_LEN);
 
 	QueryResult* res = this->m_AccDB->Fetch("SELECT Id FROM AccountCharacter WHERE Id='%s'", szAccountID);
 	if (res == NULL)
@@ -274,7 +274,7 @@ void CDataServerProtocol::JGPGetCharList(CGameObject &Obj, SDHP_GETCHARLIST * aR
 					}
 
 					pCL->Index = i;
-					memcpy(pCL->Name, CharName[i], MAX_ACCOUNT_LEN);
+					std::memcpy(pCL->Name, CharName[i], MAX_ACCOUNT_LEN);
 					iCharCount++;
 					lOfs += sizeof(SDHP_CHARLIST);
 				}
@@ -307,7 +307,7 @@ void CDataServerProtocol::JGCharacterCreateRequest(CGameObject &Obj, SDHP_CREATE
 {
 	SDHP_CREATECHARRESULT pResult = { 0 };
 	PHeadSetB((BYTE*)&pResult, 0x04, sizeof(pResult));
-	memcpy(pResult.AccountId, aRecv->AccountId, 10);
+	std::memcpy(pResult.AccountId, aRecv->AccountId, 10);
 	pResult.ClassSkin = aRecv->ClassSkin;
 	pResult.Number = aRecv->Number;
 	int iIndex = 0;
@@ -316,8 +316,8 @@ void CDataServerProtocol::JGCharacterCreateRequest(CGameObject &Obj, SDHP_CREATE
 	char szName[11] = { 0 };
 	szAccountID[10] = 0;
 	szName[10] = 0;
-	memcpy(szAccountID, aRecv->AccountId, 10);
-	memcpy(szName, aRecv->Name, 10);
+	std::memcpy(szAccountID, aRecv->AccountId, 10);
+	std::memcpy(szName, aRecv->Name, 10);
 
 	if (SpaceSyntexCheck(szName) == FALSE || QuoteSpaceSyntaxCheck(szName) == FALSE || PercentSyntaxCheck(szName) == FALSE)
 	{
@@ -351,7 +351,7 @@ void CDataServerProtocol::JGCharacterCreateRequest(CGameObject &Obj, SDHP_CREATE
 	}
 	else
 	{
-		memcpy(pResult.Name, aRecv->Name, 10);
+		std::memcpy(pResult.Name, aRecv->Name, 10);
 		pResult.Pos = iIndex;
 
 		if ((pResult.ClassSkin >> 4) < 0 || (pResult.ClassSkin >> 4) > MAX_TYPE_PLAYER - 1)
@@ -386,7 +386,7 @@ void CDataServerProtocol::JGCharDelRequest(CGameObject &Obj, SDHP_CHARDELETE * a
 	SDHP_CHARDELETERESULT pResult = { 0 };
 
 	PHeadSetB((BYTE*)&pResult, 0x05, sizeof(pResult));
-	memcpy(pResult.AccountID, aRecv->AccountID, 10);
+	std::memcpy(pResult.AccountID, aRecv->AccountID, 10);
 	pResult.Number = aRecv->Number;
 	pResult.Result = 1;
 
@@ -394,8 +394,8 @@ void CDataServerProtocol::JGCharDelRequest(CGameObject &Obj, SDHP_CHARDELETE * a
 	char szName[11] = { 0 };
 	szAccountID[10] = 0;
 	szName[10] = 0;
-	memcpy(szAccountID, aRecv->AccountID, 10);
-	memcpy(szName, aRecv->Name, 10);
+	std::memcpy(szAccountID, aRecv->AccountID, 10);
+	std::memcpy(szName, aRecv->Name, 10);
 
 	if (lstrlen(aRecv->AccountID) < 1)
 		pResult.Result = 0;
@@ -451,10 +451,10 @@ void CDataServerProtocol::JGGetCharacterInfo(CGameObject &Obj, SDHP_DBCHARINFORE
 	char szName[11];
 	szAccountID[10] = 0;
 	szName[10] = 0;
-	memcpy(szAccountID, aRecv->AccountID, 10);
-	memcpy(szName, aRecv->Name, 10);
-	memcpy(pResult.AccountID, aRecv->AccountID, 10);
-	memcpy(pResult.Name, aRecv->Name, 10);
+	std::memcpy(szAccountID, aRecv->AccountID, 10);
+	std::memcpy(szName, aRecv->Name, 10);
+	std::memcpy(pResult.AccountID, aRecv->AccountID, 10);
+	std::memcpy(pResult.Name, aRecv->Name, 10);
 	pResult.Number = aRecv->Number;
 	pResult.result = 0;
 	char AccountCharacter[5][11];
@@ -563,17 +563,17 @@ void CDataServerProtocol::JGGetCharacterInfo(CGameObject &Obj, SDHP_DBCHARINFORE
 
 	wsprintf(szTemp, "SELECT Inventory from Character where Name='%s'", szName);
 	int ret = this->m_CharDB->GetAsBinary(szTemp, btTemp, sizeof(btTemp));
-	memcpy(pResult.dbInventory, btTemp, sizeof(pResult.dbInventory));
+	std::memcpy(pResult.dbInventory, btTemp, sizeof(pResult.dbInventory));
 	memset(btTemp, 0, sizeof(btTemp));
 
 	wsprintf(szTemp, "SELECT MagicList from Character where Name='%s'", szName);
 	this->m_CharDB->GetAsBinary(szTemp, btTemp, sizeof(btTemp));
-	memcpy(pResult.dbMagicList, btTemp, sizeof(pResult.dbMagicList));
+	std::memcpy(pResult.dbMagicList, btTemp, sizeof(pResult.dbMagicList));
 	memset(btTemp, 0, sizeof(btTemp));
 
 	wsprintf(szTemp, "SELECT Quest from Character where Name='%s'", szName);
 	this->m_CharDB->GetAsBinary(szTemp, btTemp, sizeof(btTemp));
-	memcpy(pResult.dbQuest, btTemp, sizeof(pResult.dbQuest));
+	std::memcpy(pResult.dbQuest, btTemp, sizeof(pResult.dbQuest));
 	memset(btTemp, 0, sizeof(btTemp));
 
 	QueryResult* res = this->m_CharDB->Fetch("SELECT AuthorityMask, DATEDIFF(DAY, GETDATE(), Expiry) AS ExpirationTime FROM T_GMSystem WHERE Name='%s'", szName);
@@ -619,7 +619,7 @@ void CDataServerProtocol::JGGetCharacterInfo(CGameObject &Obj, SDHP_DBCHARINFORE
 
 		if (res != NULL)
 		{
-			memcpy(pSkillData.Name, szName, 10);
+			std::memcpy(pSkillData.Name, szName, 10);
 			pSkillData.GameOption = (BYTE)this->m_OptionDataDB->GetAsInteger(0);
 			pSkillData.QkeyDefine = (BYTE)this->m_OptionDataDB->GetAsInteger(1);
 			pSkillData.WkeyDefine = (BYTE)this->m_OptionDataDB->GetAsInteger(2);
@@ -633,7 +633,7 @@ void CDataServerProtocol::JGGetCharacterInfo(CGameObject &Obj, SDHP_DBCHARINFORE
 			char szTemp[256];
 			wsprintf(szTemp, "SELECT SkillKey from OptionData where Name='%s'", szName);
 			this->m_OptionDataDB->GetAsBinary(szTemp, btTemp, sizeof(btTemp));
-			memcpy(pSkillData.SkillKeyBuffer, btTemp, 20);
+			std::memcpy(pSkillData.SkillKeyBuffer, btTemp, 20);
 		}
 
 		//DataSend(Obj.m_Index, (BYTE*)&pSkillData, sizeof(pSkillData), __FUNCTION__); // TODO
@@ -655,11 +655,11 @@ void CDataServerProtocol::GJSetCharacterInfo(CGameObject &Obj, SDHP_DBCHAR_INFOS
 {
 	char szName[11] = { 0 };
 	szName[10] = 0;
-	memcpy(szName, aRecv->Name, 10);
+	std::memcpy(szName, aRecv->Name, 10);
 
 	char szAccountID[11] = { 0 };
 	szAccountID[10] = 0;
-	memcpy(szAccountID, aRecv->AccountID, 10);
+	std::memcpy(szAccountID, aRecv->AccountID, 10);
 
 	if (g_DSBattleCoreEnable == 1)
 	{
@@ -693,7 +693,7 @@ void CDataServerProtocol::GDUserItemSave(CGameObject &Obj, SDHP_DBCHAR_ITEMSAVE 
 {
 	char szName[11] = { 0 };
 	szName[10] = 0;
-	memcpy(szName, aRecv->Name, 10);
+	std::memcpy(szName, aRecv->Name, 10);
 
 	char szTemp[128];
 	wsprintf(szTemp, "UPDATE Character SET Inventory=? WHERE Name='%s'", szName);
@@ -722,7 +722,7 @@ void CDataServerProtocol::ItemSerialCreateRecv(CGameObject &Obj, SDHP_ITEMCREATE
 	pResult.x = aRecv->x;
 	pResult.y = aRecv->y;
 	pResult.lDuration = aRecv->lDuration;
-	memcpy(&pResult.SocketOption, aRecv->SocketOption, sizeof(pResult.SocketOption));
+	std::memcpy(&pResult.SocketOption, aRecv->SocketOption, sizeof(pResult.SocketOption));
 	pResult.MainAttribute = aRecv->MainAttribute;
 
 	//DataSend(Obj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
@@ -753,7 +753,7 @@ void CDataServerProtocol::PetItemSerialCreateRecv(CGameObject &Obj, SDHP_ITEMCRE
 	pResult.Type = aRecv->Type;
 	pResult.x = aRecv->x;
 	pResult.y = aRecv->y;
-	memcpy(&pResult.SocketOption, aRecv->SocketOption, sizeof(pResult.SocketOption));
+	std::memcpy(&pResult.SocketOption, aRecv->SocketOption, sizeof(pResult.SocketOption));
 	pResult.lDuration = aRecv->lDuration;
 	pResult.MainAttribute = aRecv->MainAttribute;
 
@@ -765,7 +765,7 @@ void CDataServerProtocol::DGRecvPetItemInfo(CGameObject &Obj, SDHP_REQUEST_PETIT
 {
 	char szAccountID[11] = { 0 };
 	szAccountID[10] = 0;
-	memcpy(szAccountID, aRecv->AccountID, 10);
+	std::memcpy(szAccountID, aRecv->AccountID, 10);
 	int lOfs1 = sizeof(SDHP_REQUEST_PETITEM_INFO);
 	int lOfs2 = sizeof(SDHP_RECV_PETITEM_INFO);
 	char cBUFFER[4092] = { 0 };
@@ -844,7 +844,7 @@ void CDataServerProtocol::DGRecvPetItemInfo(CGameObject &Obj, SDHP_REQUEST_PETIT
 	pRecvPetInfoCount->nCount = aRecv->nCount;
 	pRecvPetInfoCount->InvenType = aRecv->InvenType;
 	pRecvPetInfoCount->Number = aRecv->Number;
-	memcpy(pRecvPetInfoCount->AccountID, szAccountID, 11);
+	std::memcpy(pRecvPetInfoCount->AccountID, szAccountID, 11);
 
 	//DataSend(Obj.m_Index, (BYTE*)cBUFFER, sizeof(SDHP_RECV_PETITEM_INFO) + pRecvPetInfoCount->nCount * sizeof(Recv_PetItem_Info), __FUNCTION__);
 	// TODO
@@ -881,7 +881,7 @@ void CDataServerProtocol::DGOptionDataRecv(CGameObject &Obj, SDHP_SKILLKEYDATA *
 {
 	char szName[11] = { 0 };
 	szName[10] = 0;
-	memcpy(szName, aRecv->Name, 11);
+	std::memcpy(szName, aRecv->Name, 11);
 
 	QueryResult* res = this->m_OptionDataDB->Fetch("SELECT Name FROM OptionData WHERE Name='%s'", szName);
 	if (res == NULL)
@@ -913,7 +913,7 @@ void CDataServerProtocol::GDDeleteTempUserInfo(CGameObject &Obj, SDHP_DELETE_TEM
 	pMsg.h.headcode = 0xCE;
 	pMsg.h.size = sizeof(pMsg);
 
-	memcpy(pMsg.CharName, aRecv->CharName, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.CharName, aRecv->CharName, MAX_ACCOUNT_LEN + 1);
 
 	for (int i = 0; i<g_dwMaxServerGroups; i++)
 	{
@@ -1220,7 +1220,7 @@ void CDataServerProtocol::GS_DGAnsGuildMarkRegInfo(CGameObject &Obj, CSP_REQ_GUI
 	pMsg.wMapSvrNum = aRecv->wMapSvrNum;
 
 	char szGuildName[9] = { 0 };
-	memcpy(szGuildName, aRecv->szGuildName, 8);
+	std::memcpy(szGuildName, aRecv->szGuildName, 8);
 
 	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_GetGuildMarkRegInfo %d, '%s'", aRecv->wMapSvrNum, szGuildName) == TRUE)
 	{
@@ -1280,8 +1280,8 @@ void CDataServerProtocol::GS_DGAnsCastleOwnerChange(CGameObject &Obj, CSP_REQ_CA
 
 	char szOwnerGuildName[9];
 	szOwnerGuildName[8] = 0;
-	memcpy(szOwnerGuildName, aRecv->szOwnerGuildName, 0x08);
-	memcpy(pMsg.szOwnerGuildName, aRecv->szOwnerGuildName, 0x08);
+	std::memcpy(szOwnerGuildName, aRecv->szOwnerGuildName, 0x08);
+	std::memcpy(pMsg.szOwnerGuildName, aRecv->szOwnerGuildName, 0x08);
 
 	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ModifyCastleOwnerInfo %d, %d, '%s'", aRecv->wMapSvrNum, aRecv->bIsCastleOccupied, szOwnerGuildName) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 	{
@@ -1307,8 +1307,8 @@ void CDataServerProtocol::GS_DGAnsRegAttackGuild(CGameObject &Obj, CSP_REQ_REGAT
 
 	char szEnemyGuildName[9] = { 0 };
 	szEnemyGuildName[8] = 0;
-	memcpy(szEnemyGuildName, aRecv->szEnemyGuildName, 0x08);
-	memcpy(pMsg.szEnemyGuildName, aRecv->szEnemyGuildName, 0x08);
+	std::memcpy(szEnemyGuildName, aRecv->szEnemyGuildName, 0x08);
+	std::memcpy(pMsg.szEnemyGuildName, aRecv->szEnemyGuildName, 0x08);
 
 	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ReqRegAttackGuild %d, '%s'", aRecv->wMapSvrNum, szEnemyGuildName) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 	{
@@ -1351,7 +1351,7 @@ void CDataServerProtocol::GS_DGAnsMapSvrMsgMultiCast(CGameObject &Obj, CSP_REQ_M
 
 	pMsg.wMapSvrNum = aRecv->wMapSvrNum;
 
-	memcpy(pMsg.szMsgText, aRecv->szMsgText, 0x80);
+	std::memcpy(pMsg.szMsgText, aRecv->szMsgText, 0x80);
 
 	for (int i = 0; i<g_dwMaxServerGroups; i++)
 	{
@@ -1375,10 +1375,10 @@ void CDataServerProtocol::GS_DGAnsGlobalPostMultiCast(CGameObject &Obj, CSP_GLOB
 
 	pMsg.wMapSvrNum = aRecv->wMapSvrNum;
 
-	memcpy(pMsg.szSender, aRecv->szSender, sizeof(pMsg.szSender));
-	memcpy(pMsg.szMessage, aRecv->szMessage, sizeof(pMsg.szMessage));
-	memcpy(pMsg.szServerName, aRecv->szServerName, sizeof(pMsg.szServerName));
-	memcpy(pMsg.btColorRGB, aRecv->btColorRGB, sizeof(pMsg.btColorRGB));
+	std::memcpy(pMsg.szSender, aRecv->szSender, sizeof(pMsg.szSender));
+	std::memcpy(pMsg.szMessage, aRecv->szMessage, sizeof(pMsg.szMessage));
+	std::memcpy(pMsg.szServerName, aRecv->szServerName, sizeof(pMsg.szServerName));
+	std::memcpy(pMsg.btColorRGB, aRecv->btColorRGB, sizeof(pMsg.btColorRGB));
 
 	for (int i = 0; i < g_dwMaxServerGroups; i++)
 	{
@@ -1408,8 +1408,8 @@ void CDataServerProtocol::GS_DGAnsRegGuildMark(CGameObject &Obj, CSP_REQ_GUILDRE
 	char szGuildName[9] = { 0 };
 	szGuildName[8] = 0;
 
-	memcpy(szGuildName, aRecv->szGuildName, 0x08);
-	memcpy(pMsg.szGuildName, aRecv->szGuildName, 0x08);
+	std::memcpy(szGuildName, aRecv->szGuildName, 0x08);
+	std::memcpy(pMsg.szGuildName, aRecv->szGuildName, 0x08);
 
 	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ReqRegGuildMark %d, '%s'", aRecv->wMapSvrNum, szGuildName) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 	{
@@ -1437,8 +1437,8 @@ void CDataServerProtocol::GS_DGAnsGuildMarkReset(CGameObject &Obj, CSP_REQ_GUILD
 	char szGuildName[9] = { 0 };
 	szGuildName[8] = 0;
 
-	memcpy(szGuildName, aRecv->szGuildName, 0x08);
-	memcpy(pMsg.szGuildName, aRecv->szGuildName, 0x08);
+	std::memcpy(szGuildName, aRecv->szGuildName, 0x08);
+	std::memcpy(pMsg.szGuildName, aRecv->szGuildName, 0x08);
 
 	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ModifyGuildMarkReset %d, '%s'", aRecv->wMapSvrNum, szGuildName) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 	{
@@ -1467,8 +1467,8 @@ void CDataServerProtocol::GS_DGAnsGuildSetGiveUp(CGameObject &Obj, CSP_REQ_GUILD
 	char szGuildName[9] = { 0 };
 	szGuildName[8] = 0;
 
-	memcpy(szGuildName, aRecv->szGuildName, 0x08);
-	memcpy(pMsg.szGuildName, aRecv->szGuildName, 0x08);
+	std::memcpy(szGuildName, aRecv->szGuildName, 0x08);
+	std::memcpy(pMsg.szGuildName, aRecv->szGuildName, 0x08);
 
 	if (this->m_CastleDB->ExecQuery("CALL WZ_CS_ModifyGuildGiveUp %d, '%s', %d", aRecv->wMapSvrNum, szGuildName, aRecv->bIsGiveUp) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 	{
@@ -1518,7 +1518,7 @@ void CDataServerProtocol::GS_DGAnsCastleStateSync(CGameObject &Obj, CSP_REQ_CAST
 	pMsg.iTaxRateChaos = aRecv->iTaxRateChaos;
 	pMsg.iTaxRateStore = aRecv->iTaxRateStore;
 
-	memcpy(pMsg.szOwnerGuildName, aRecv->szOwnerGuildName, 0x08);
+	std::memcpy(pMsg.szOwnerGuildName, aRecv->szOwnerGuildName, 0x08);
 
 	for (int i = 0; i<g_dwMaxServerGroups; i++)
 	{
@@ -1756,7 +1756,7 @@ void CDataServerProtocol::GS_DGAnsCsGulidUnionInfo(CGameObject &Obj, CSP_REQ_CSG
 	{
 		char szGuildName[9] = { 0 };
 		szGuildName[8] = 0;
-		memcpy(szGuildName, aRecvBody[i].szGuildName, 8);
+		std::memcpy(szGuildName, aRecvBody[i].szGuildName, 8);
 
 		if (this->m_CastleDB->ExecQuery("CALL WZ_CS_GetCsGuildUnionInfo '%s'", szGuildName) == TRUE && this->m_CastleDB->Fetch() != SQL_NO_DATA)
 		{
@@ -1800,7 +1800,7 @@ void CDataServerProtocol::GS_DGAnsCsSaveTotalGuildInfo(CGameObject &Obj, CSP_REQ
 	{
 		char szGuildName[9] = { 0 };
 		szGuildName[8] = 0;
-		memcpy(szGuildName, lpMsgBody[i].szGuildName, 8);
+		std::memcpy(szGuildName, lpMsgBody[i].szGuildName, 8);
 
 		if (this->m_CastleDB->ExecQuery("CALL WZ_CS_SetSiegeGuildInfo %d, '%s', %d, %d, %d",
 			aRecv->wMapSvrNum, szGuildName, lpMsgBody[i].iCsGuildID, lpMsgBody[i].iGuildInvolved, lpMsgBody[i].iGuildScore) == TRUE)
@@ -2024,7 +2024,7 @@ void CDataServerProtocol::DGAnsPeriodItemExSelect(CGameObject &Obj, PMSG_REQ_PER
 {
 	char szName[11] = { 0 };
 	szName[10] = 0;
-	memcpy(szName, aRecv->chCharacterName, MAX_ACCOUNT_LEN);
+	std::memcpy(szName, aRecv->chCharacterName, MAX_ACCOUNT_LEN);
 
 	int PacketSize = 0;
 
@@ -2131,7 +2131,7 @@ void CDataServerProtocol::ReqInGameShopItemList(CGameObject &Obj, ISHOP_REQ_ITEM
 	lpMsg->Obj.m_Index = aRecv->Obj.m_Index;
 	lpMsg->InvNum = aRecv->InvNum;
 	lpMsg->InvType = aRecv->InvType;
-	memcpy(lpMsg->AccountID, aRecv->AccountID, 11);
+	std::memcpy(lpMsg->AccountID, aRecv->AccountID, 11);
 
 	lpMsg->h.c = 0xC2;
 	lpMsg->h.headcode = 0xD2;
@@ -2161,7 +2161,7 @@ void CDataServerProtocol::ReqInGameShopItemBuy(CGameObject &Obj, ISHOP_ITEM_BUY 
 	ISHOP_ITEM_BUYANS pResult;
 	PHeadSetB((BYTE*)&pResult, 0xD5, sizeof(pResult));
 
-	memcpy(&pResult.AccountID, aRecv->AccountID, 11);
+	std::memcpy(&pResult.AccountID, aRecv->AccountID, 11);
 	pResult.Obj.m_Index = aRecv->Obj.m_Index;
 
 
@@ -2211,7 +2211,7 @@ void CDataServerProtocol::ReqInGameShopItemGift(CGameObject &Obj, ISHOP_ITEM_GIF
 	ISHOP_ITEM_GIFTANS pResult;
 	PHeadSetB((BYTE*)&pResult, 0xD6, sizeof(pResult));
 
-	memcpy(&pResult.AccountID, aRecv->AccountID, 11);
+	std::memcpy(&pResult.AccountID, aRecv->AccountID, 11);
 	pResult.Obj.m_Index = aRecv->Obj.m_Index;
 
 	QueryResult* res = this->m_ItemShopDB->Fetch("SELECT %s AS Result FROM T_InGameShop_Point WHERE AccountID = '%s'", aRecv->CoinType == 0 ? "WCoinC" : aRecv->CoinType == 1 ? "WCoinP" : "GoblinPoint", aRecv->AccountID);
@@ -2286,7 +2286,7 @@ void CDataServerProtocol::ReqInGameShopItemUse(CGameObject &Obj, ISHOP_ITEM_USE 
 
 
 
-	memcpy(pMsg.AccountID, aRecv->AccountID, 11);
+	std::memcpy(pMsg.AccountID, aRecv->AccountID, 11);
 
 	//DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
 }
@@ -2312,7 +2312,7 @@ void CDataServerProtocol::ReqInGameShopPoint(CGameObject &Obj, ISHOP_REQ_POINT *
 	}
 
 	pMsg.Obj.m_Index = aRecv->Obj.m_Index;
-	memcpy(pMsg.AccountID, aRecv->AccountID, 11);
+	std::memcpy(pMsg.AccountID, aRecv->AccountID, 11);
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.headcode = 0xD1;
@@ -2335,7 +2335,7 @@ void CDataServerProtocol::ReqInGameShopPackageBuy(CGameObject &Obj, BYTE* aRecv)
 	ISHOP_ITEM_BUYANS pResult;
 	PHeadSetB((BYTE*)&pResult, 0xD5, sizeof(pResult));
 
-	memcpy(&pResult.AccountID, lpMsg->AccountID, 11);
+	std::memcpy(&pResult.AccountID, lpMsg->AccountID, 11);
 	pResult.Obj.m_Index = lpMsg->Obj.m_Index;
 
 	QueryResult* res = this->m_ItemShopDB->Fetch("SELECT %s AS Result FROM T_InGameShop_Point WHERE AccountID = '%s'", lpMsg->CoinType == 0 ? "WCoinC" : lpMsg->CoinType == 1 ? "WCoinP" : "GoblinPoint", lpMsg->AccountID);
@@ -2384,7 +2384,7 @@ void CDataServerProtocol::ReqInGameShopPackageGift(CGameObject &Obj, BYTE* aRecv
 	ISHOP_ITEM_GIFTANS pResult;
 	PHeadSetB((BYTE*)&pResult, 0xD6, sizeof(pResult));
 
-	memcpy(&pResult.AccountID, lpMsg->AccountID, 11);
+	std::memcpy(&pResult.AccountID, lpMsg->AccountID, 11);
 	pResult.Obj.m_Index = lpMsg->Obj.m_Index;
 
 	QueryResult* res = this->m_ItemShopDB->Fetch("SELECT %s AS Result FROM T_InGameShop_Point WHERE AccountID = '%s'", lpMsg->CoinType == 0 ? "WCoinC" : lpMsg->CoinType == 1 ? "WCoinP" : "GoblinPoint", lpMsg->AccountID);
@@ -2472,7 +2472,7 @@ void CDataServerProtocol::ReqLuckyCoinInfo(CGameObject &Obj, PMSG_REQ_LUCKYCOIN 
 	pMsg.h.size = sizeof(pMsg);
 
 	pMsg.iIndex = lpMsg->iIndex;
-	memcpy(pMsg.szUID, lpMsg->szUID, sizeof(pMsg.szUID));
+	std::memcpy(pMsg.szUID, lpMsg->szUID, sizeof(pMsg.szUID));
 	pMsg.szUID[10] = 0;
 
 	if (QueryResult* res = this->m_EventDB->Fetch("SELECT LuckyCoin FROM T_LuckyCoin WHERE AccountID='%s'", lpMsg->szUID) == FALSE)
@@ -2548,8 +2548,8 @@ void CDataServerProtocol::DevilSqureScore(PMSG_ANS_EVENTUSERSCORE * lpMsg)
 	char szName[11] = { 0 };
 	szAccount[10] = 0;
 	szName[10] = 0;
-	memcpy(szAccount, lpMsg->AccountID, 10);
-	memcpy(szName, lpMsg->GameID, 10);
+	std::memcpy(szAccount, lpMsg->AccountID, 10);
+	std::memcpy(szName, lpMsg->GameID, 10);
 
 	sLog->outBasic("[DEVIL] SERVER:%d-%d, SQUARE:%d, ACCNT:%s, CHAR:%s, CLASS:%d, SCORE:%d",
 		lpMsg->ServerCode / 20 + 1, lpMsg->ServerCode % 20 + 1, lpMsg->SquareNum, szAccount, szName, lpMsg->Class, lpMsg->Score);
@@ -2568,8 +2568,8 @@ void CDataServerProtocol::GDReqBloodCastleEnterCount(CGameObject &Obj, PMSG_REQ_
 	pMsg.h.subcode = 0x02;
 	pMsg.h.size = sizeof(pMsg);
 
-	memcpy(pMsg.AccountID, lpMsg->AccountID, sizeof(pMsg.AccountID));
-	memcpy(pMsg.GameID, lpMsg->GameID, sizeof(pMsg.GameID));
+	std::memcpy(pMsg.AccountID, lpMsg->AccountID, sizeof(pMsg.AccountID));
+	std::memcpy(pMsg.GameID, lpMsg->GameID, sizeof(pMsg.GameID));
 
 	pMsg.ServerCode = lpMsg->ServerCode;
 	pMsg.iObjIndex = lpMsg->iObjIndex;
@@ -2594,8 +2594,8 @@ void CDataServerProtocol::BloodCastleScore_5TH(PMSG_ANS_BLOODCASTLESCORE_5TH * l
 	szAccount[10] = 0;
 	szName[10] = 0;
 
-	memcpy(szAccount, lpMsg->AccountID, 10);
-	memcpy(szName, lpMsg->GameID, 10);
+	std::memcpy(szAccount, lpMsg->AccountID, 10);
+	std::memcpy(szName, lpMsg->GameID, 10);
 
 	sLog->outBasic("[BLOOD] SERVER:%d-%d, BRIDGE:%d, ACCNT:%s, CHAR:%s, CLASS:%d, SCORE:%d, LEFTTIME:%d, ALIVEPARTY:%d",
 		lpMsg->ServerCode / 20 + 1, lpMsg->ServerCode % 20 + 1, lpMsg->BridgeNum, szAccount, szName, lpMsg->Class, lpMsg->Score, lpMsg->iLeftTime, lpMsg->iAlivePartyCount);
@@ -2611,8 +2611,8 @@ void CDataServerProtocol::IllusionTempleScore(PMSG_ANS_ILLUSIONTEMPLE_RANKING * 
 	szAccountID[10] = 0;
 	szName[10] = 0;
 
-	memcpy(szAccountID, lpMsg->AccountID, 10);
-	memcpy(szName, lpMsg->GameID, 10);
+	std::memcpy(szAccountID, lpMsg->AccountID, 10);
+	std::memcpy(szName, lpMsg->GameID, 10);
 
 	sLog->outBasic("[ILLUSION] SERVER:%d-%d, TEMPLE:%d ACCNT:%s, CHAR:%s, CLASS:%d, SCORE:%d, KILLCOUNT:%d, RELICS:%d, EXPERIENCE:%d, ISWINNER:%d",
 		lpMsg->ServerCode / 20 + 1, lpMsg->ServerCode % 20 + 1, lpMsg->TempleNum, szAccountID, szName, lpMsg->Class, lpMsg->TotalScore, lpMsg->KillCount, lpMsg->RelicsGivenCount, lpMsg->Experience, lpMsg->IsWinner);
@@ -2628,8 +2628,8 @@ void CDataServerProtocol::ChaosCastleScore(PMSG_ANS_CHAOSCASTLE_RANKING * lpMsg)
 	szAccountID[10] = 0;
 	szName[10] = 0;
 
-	memcpy(szAccountID, lpMsg->AccountID, 10);
-	memcpy(szName, lpMsg->GameID, 10);
+	std::memcpy(szAccountID, lpMsg->AccountID, 10);
+	std::memcpy(szName, lpMsg->GameID, 10);
 
 	sLog->outBasic("[CHAOS] SERVER:%d-%d, CASTLE:%d, ACCNT:%s CHAR:%s, CLASS:%d, PKILL:%d, MKILL:%d, EXPERIENCE:%d, WINNER:%d",
 		lpMsg->ServerCode / 20 + 1, lpMsg->ServerCode % 20 + 1, lpMsg->Castle, szAccountID, szName, lpMsg->Class, lpMsg->PlayerKill, lpMsg->MonsterKill, lpMsg->Experience, lpMsg->IsWinner);
@@ -2649,7 +2649,7 @@ void CDataServerProtocol::EGAnsEventChipInfo(CGameObject &Obj, PMSG_REQ_VIEW_EC_
 	pMsg.h.size = sizeof(pMsg);
 
 	pMsg.iINDEX = lpMsg->iINDEX;
-	memcpy(pMsg.szUID, lpMsg->szUID, sizeof(pMsg.szUID));
+	std::memcpy(pMsg.szUID, lpMsg->szUID, sizeof(pMsg.szUID));
 	pMsg.szUID[10] = 0;
 
 	if (QueryResult* res = this->m_CharMiscDB->Fetch("SELECT EventChips, Check_Code, MuttoNumber FROM T_MU2003_EVENT WHERE AccountID='%s'", lpMsg->szUID) == FALSE)
@@ -2903,9 +2903,9 @@ void CDataServerProtocol::EGAns2AnivRegSerial(CGameObject &Obj, PMSG_REQ_2ANIV_S
 	pMsg.iINDEX = lpMsg->iINDEX;
 	char szName[11] = { 0 };
 	szName[10] = 0;
-	memcpy(szName, lpMsg->szUID, 10);
+	std::memcpy(szName, lpMsg->szUID, 10);
 	pMsg.iINDEX = lpMsg->iINDEX;
-	memcpy(pMsg.szUID, szName, 11);
+	std::memcpy(pMsg.szUID, szName, 11);
 
 	if (SpaceSyntexCheck(lpMsg->SERIAL1) == FALSE || QuoteSpaceSyntexCheck(lpMsg->SERIAL1) == FALSE || PercentSyntaxCheck(lpMsg->SERIAL1) == FALSE)
 	{
@@ -2959,9 +2959,9 @@ void CDataServerProtocol::EGAnsResetStoneInfo(CGameObject &Obj, PMSG_REQ_RESET_E
 	pMsg.iINDEX = lpMsg->iINDEX;
 	char szName[11] = { 0 };
 	szName[10] = 0;
-	memcpy(szName, lpMsg->szUID, 10);
+	std::memcpy(szName, lpMsg->szUID, 10);
 	pMsg.iINDEX = lpMsg->iINDEX;
-	memcpy(pMsg.szUID, szName, 11);
+	std::memcpy(pMsg.szUID, szName, 11);
 	pMsg.szUID[10] = 0;
 
 	if (this->m_EventDB->ExecQuery("UPDATE T_BLOOD_CASTLE SET Check_Code = 2 WHERE AccountID = '%s'", lpMsg->szUID) == FALSE)
@@ -3093,7 +3093,7 @@ void CDataServerProtocol::EGAnsLuckyCoinInfo(CGameObject &Obj, PMSG_REQ_LUCKYCOI
 	pMsg.h.size = sizeof(pMsg);
 
 	pMsg.iIndex = lpMsg->iIndex;
-	memcpy(pMsg.szUID, lpMsg->szUID, sizeof(pMsg.szUID));
+	std::memcpy(pMsg.szUID, lpMsg->szUID, sizeof(pMsg.szUID));
 	pMsg.szUID[10] = 0;
 
 	if (QueryResult* res = this->m_EventDB->Fetch("SELECT LuckyCoin FROM T_LuckyCoin WHERE AccountID='%s'", lpMsg->szUID) == FALSE)
@@ -3182,7 +3182,7 @@ void CDataServerProtocol::EGReqSantaCheck(CGameObject &Obj, PMSG_REQ_SANTACHECK 
 
 	pMsg.Obj.m_Index = aRecv->Obj.m_Index;
 	pMsg.gGameServerCode = aRecv->gGameServerCode;
-	memcpy(pMsg.AccountID, aRecv->AccountID, 11);
+	std::memcpy(pMsg.AccountID, aRecv->AccountID, 11);
 
 	this->m_EventDB->ExecQuery("CALL SP_SANTA_CHECK '%s'", aRecv->AccountID);
 	this->m_EventDB->Fetch();
@@ -3202,7 +3202,7 @@ void CDataServerProtocol::EGReqSantaGift(CGameObject &Obj, PMSG_REQ_SANTAGIFT * 
 
 	pMsg.Obj.m_Index = aRecv->Obj.m_Index;
 	pMsg.gGameServerCode = aRecv->gGameServerCode;
-	memcpy(pMsg.AccountID, aRecv->AccountID, 11);
+	std::memcpy(pMsg.AccountID, aRecv->AccountID, 11);
 
 	this->m_EventDB->ExecQuery("CALL SP_SANTA_GIFT '%s', %d", aRecv->AccountID, aRecv->gGameServerCode);
 	this->m_EventDB->Fetch();
@@ -3233,7 +3233,7 @@ void CDataServerProtocol::ReqSecLock(CGameObject &Obj, SECLOCK_REQ_SAVE * aRecv)
 {
 	char szAccountID[11];
 	szAccountID[10] = 0;
-	memcpy(szAccountID, aRecv->AccountID, 10);
+	std::memcpy(szAccountID, aRecv->AccountID, 10);
 
 	this->m_AccDB->ExecQuery("UPDATE AccountCharacter SET SecCode=%d WHERE Id='%s'", aRecv->Code, szAccountID);
 
@@ -3333,7 +3333,7 @@ void CDataServerProtocol::GDReqArcaBattleWinGuildInfoInsert(CGameObject &Obj, PM
 		pMsg.m_stABWinGuildInfoDS[i].dwGuild = aRecv->m_stABWinGuildInfoDS[i].dwGuild;
 		pMsg.m_stABWinGuildInfoDS[i].wObeliskGroup = aRecv->m_stABWinGuildInfoDS[i].wObeliskGroup;
 		pMsg.m_stABWinGuildInfoDS[i].wOccupyObelisk = aRecv->m_stABWinGuildInfoDS[i].wOccupyObelisk;
-		memcpy(pMsg.m_stABWinGuildInfoDS[i].szGuildName, aRecv->m_stABWinGuildInfoDS[i].szGuildName, MAX_GUILD_LEN + 1);
+		std::memcpy(pMsg.m_stABWinGuildInfoDS[i].szGuildName, aRecv->m_stABWinGuildInfoDS[i].szGuildName, MAX_GUILD_LEN + 1);
 	}
 
 	pMsg.btGuildCnt = aRecv->btGuildCnt;
@@ -3499,7 +3499,7 @@ void CDataServerProtocol::GDReqArcaBattleJoinMemberUnderReq(CGameObject &Obj, PM
 
 		if (iResult < 0)
 		{
-			memcpy(pMsg.CancelGuildNames[pMsg.btGuildCnt].szGuildNames, szGuildNames[i], MAX_GUILD_LEN + 1);
+			std::memcpy(pMsg.CancelGuildNames[pMsg.btGuildCnt].szGuildNames, szGuildNames[i], MAX_GUILD_LEN + 1);
 			pMsg.btGuildCnt++;
 		}
 
@@ -3778,7 +3778,7 @@ void CDataServerProtocol::GDReqPeriodBuffSelect(CGameObject &Obj, PMSG_REQ_PERIO
 	PMSG_ANS_PERIODBUFF_SELECT pMsg;
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xE4, 0x03, sizeof(pMsg));
-	memcpy(pMsg.szCharacterName, aRecv->szCharacterName, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szCharacterName, aRecv->szCharacterName, MAX_ACCOUNT_LEN + 1);
 	pMsg.btResultCode = 1;
 	pMsg.wUserIndex = aRecv->wUserIndex;
 
@@ -3897,8 +3897,8 @@ void CDataServerProtocol::GDReqQuestExpInfoLoad(CGameObject &Obj, PMSG_REQ_QUEST
 	pMsg.head.sizeH = HIBYTE(PacketSize);
 	pMsg.head.sizeL = LOBYTE(PacketSize);
 
-	memcpy(&Buff, &pMsg, sizeof(pMsg));
-	memcpy(&Buff[sizeof(pMsg)], QuestInfo, sizeof(_QUESTEXP_INFO) * pMsg.btQuestCnt);
+	std::memcpy(&Buff, &pMsg, sizeof(pMsg));
+	std::memcpy(&Buff[sizeof(pMsg)], QuestInfo, sizeof(_QUESTEXP_INFO) * pMsg.btQuestCnt);
 
 	//DataSend(Obj.m_Index, Buff, PacketSize, __FUNCTION__);
 
@@ -4074,12 +4074,12 @@ void CDataServerProtocol::GDReqLuckyItemSelect(CGameObject &Obj, PMSG_REQ_LUCKYI
 	pMsg.btItemCnt = iItemCount;
 	pMsg.wUserIndex = lpMsg->wUserIndex;
 
-	memcpy(&BUFFER[lOfs], LuckyItemInfo, pMsg.btItemCnt * sizeof(PMSG_LUCKYITME_DB_INFO));
+	std::memcpy(&BUFFER[lOfs], LuckyItemInfo, pMsg.btItemCnt * sizeof(PMSG_LUCKYITME_DB_INFO));
 
 	lOfs += (pMsg.btItemCnt * sizeof(PMSG_LUCKYITME_DB_INFO));
 
 	pMsg.head.set((BYTE*)&pMsg, 0xD4, lOfs);
-	memcpy(BUFFER, &pMsg, sizeof(pMsg));
+	std::memcpy(BUFFER, &pMsg, sizeof(pMsg));
 
 	//DataSend(Obj.m_Index, (BYTE*)&BUFFER, lOfs, __FUNCTION__);
 }
@@ -4116,7 +4116,7 @@ void CDataServerProtocol::GDReqGetPentagramJewel(CGameObject &Obj, PMSG_REQ_PENT
 		m_PentagramJewelInfo.btRank5OptionNum = this->m_PentagramDB->GetAsInteger("Rank5");
 		m_PentagramJewelInfo.btRank5Level = this->m_PentagramDB->GetAsInteger("Rank5Level");
 
-		memcpy(&Buffer[dwSize], &m_PentagramJewelInfo, sizeof(PENTAGRAMJEWEL_INFO));
+		std::memcpy(&Buffer[dwSize], &m_PentagramJewelInfo, sizeof(PENTAGRAMJEWEL_INFO));
 		dwSize += sizeof(PENTAGRAMJEWEL_INFO);
 		iCount++;
 	}
@@ -4128,7 +4128,7 @@ void CDataServerProtocol::GDReqGetPentagramJewel(CGameObject &Obj, PMSG_REQ_PENT
 	pMsg.iUserIndex = lpMsg->iUserIndex;
 	PHeadSetW((BYTE*)&pMsg, 0xE0, dwSize);
 
-	memcpy(&Buffer, &pMsg, sizeof(pMsg));
+	std::memcpy(&Buffer, &pMsg, sizeof(pMsg));
 
 	//DataSend(Obj.m_Index, Buffer, dwSize, __FUNCTION__);
 }
@@ -4296,7 +4296,7 @@ void CDataServerProtocol::GDReqLoadMuunInvenItem(CGameObject &Obj, SDHP_REQ_DBMU
 void CDataServerProtocol::GDReqSaveMuunInvenItem(CGameObject &Obj, SDHP_REQ_DBMUUN_INVEN_SAVE * aRecv)
 {
 	char szName[11] = { 0 };
-	memcpy(szName, aRecv->Name, MAX_ACCOUNT_LEN); //
+	std::memcpy(szName, aRecv->Name, MAX_ACCOUNT_LEN); //
 	szName[MAX_ACCOUNT_LEN] = 0; // crash fix
 
 	char szTemp[256];
@@ -4682,8 +4682,8 @@ void CDataServerProtocol::GDReqReBuyItemList(CGameObject &Obj, SDHP_REQ_SHOP_REB
 	lpMsg->h.headcode = 0x6F;
 	lpMsg->h.subcode = 0x00;
 	lpMsg->iIndex = aRecv->iIndex;
-	memcpy(lpMsg->szAccountID, aRecv->szAccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(lpMsg->szName, aRecv->szName, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(lpMsg->szAccountID, aRecv->szAccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(lpMsg->szName, aRecv->szName, MAX_ACCOUNT_LEN + 1);
 
 	//DataSend(Obj.m_Index, BUFFER, PacketSize, __FUNCTION__);
 }
@@ -4776,8 +4776,8 @@ void CDataServerProtocol::GDReqReBuyGetItem(CGameObject &Obj, SDHP_REQ_SHOP_REBU
 
 	PHeadSubSetB((BYTE*)&pMsg, 0x6F, 0x02, sizeof(pMsg));
 	pMsg.iIndex = aRecv->iIndex;
-	memcpy(pMsg.szAccountID, aRecv->szAccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szName, aRecv->szName, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szAccountID, aRecv->szAccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szName, aRecv->szName, MAX_ACCOUNT_LEN + 1);
 	//DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
@@ -4849,8 +4849,8 @@ void CDataServerProtocol::GDReqGremoryCaseItemList(CGameObject &Obj, _stReqGremo
 	lpMsg->h.headcode = 0x4F;
 	lpMsg->h.subcode = 0x00;
 	lpMsg->iIndex = aRecv->iIndex;
-	memcpy(lpMsg->szAccountID, aRecv->szAccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(lpMsg->szName, aRecv->szName, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(lpMsg->szAccountID, aRecv->szAccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(lpMsg->szName, aRecv->szName, MAX_ACCOUNT_LEN + 1);
 
 	//DataSend(Obj.m_Index, BUFFER, PacketSize, __FUNCTION__);
 }
@@ -4904,8 +4904,8 @@ void CDataServerProtocol::GDReqGremoryCaseAddItem(CGameObject &Obj, _stReqAddIte
 
 
 	pMsg.iIndex = aRecv->iIndex;
-	memcpy(pMsg.szAccountID, aRecv->szAccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szName, aRecv->szName, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szAccountID, aRecv->szAccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szName, aRecv->szName, MAX_ACCOUNT_LEN + 1);
 
 	//DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
 }
@@ -4922,8 +4922,8 @@ void CDataServerProtocol::GDReqCheckUseItemGremoryCase(CGameObject &Obj, _stReqC
 
 
 	pMsg.iIndex = aRecv->iIndex;
-	memcpy(pMsg.szAccountID, aRecv->szAccountID, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szName, aRecv->szName, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szAccountID, aRecv->szAccountID, MAX_ACCOUNT_LEN + 1);
+	std::memcpy(pMsg.szName, aRecv->szName, MAX_ACCOUNT_LEN + 1);
 	pMsg.wItemID = aRecv->wItemID;
 	pMsg.dwItemGUID = aRecv->dwItemGUID;
 	pMsg.dwAuthCode = aRecv->dwAuthCode;
@@ -5461,7 +5461,7 @@ void CDataServerProtocol::GDReqDSFGoFinalParty(CGameObject &Obj, PMSG_REQ_DSF_GO
 		pParty.btEnterMonth = this->m_DSFinalDB->GetAsInteger("mMonth");
 		pParty.btEnterDay = this->m_DSFinalDB->GetAsInteger("mDay");
 
-		memcpy(&sendBuf[iSize], &pParty, sizeof(pParty));
+		std::memcpy(&sendBuf[iSize], &pParty, sizeof(pParty));
 		iSize += sizeof(pParty);
 		iCount++;
 	}
@@ -5472,7 +5472,7 @@ void CDataServerProtocol::GDReqDSFGoFinalParty(CGameObject &Obj, PMSG_REQ_DSF_GO
 	pMsg.btDSFType = aRecv->btDSFType;
 	pMsg.btPartyCnt = iCount;
 
-	memcpy(&sendBuf, &pMsg, sizeof(pMsg));
+	std::memcpy(&sendBuf, &pMsg, sizeof(pMsg));
 
 	//DataSend(Obj.m_Index, sendBuf, iSize, __FUNCTION__);
 }
@@ -5513,9 +5513,9 @@ void CDataServerProtocol::GDReqWishperOtherChannel(CGameObject &Obj, PMSG_RECV_C
 	pMsg.h.c = 0xC1;
 	pMsg.h.headcode = 0xC2;
 	pMsg.h.size = sizeof(pMsg);
-	memcpy(pMsg.fromId, aRecv->fromId, sizeof(aRecv->fromId));
-	memcpy(pMsg.id, aRecv->id, sizeof(pMsg.id));
-	memcpy(pMsg.chatmsg, aRecv->chatmsg, sizeof(pMsg.chatmsg));
+	std::memcpy(pMsg.fromId, aRecv->fromId, sizeof(aRecv->fromId));
+	std::memcpy(pMsg.id, aRecv->id, sizeof(pMsg.id));
+	std::memcpy(pMsg.chatmsg, aRecv->chatmsg, sizeof(pMsg.chatmsg));
 	pMsg.wMapSvrNum = aRecv->wMapSvrNum;
 	pMsg.OriginGSIndex = Obj.m_Index;
 	pMsg.OriginPlayerIndex = aRecv->OriginPlayerIndex;
@@ -5575,7 +5575,7 @@ void CDataServerProtocol::GDDisconnectOtherChannel(CGameObject &Obj, PMSG_RECV_D
 	PMSG_RECV_DC_OTHER_CHANNEL pMsg;
 	pMsg.h.set((BYTE*)&pMsg, 0xC3, 0x04, sizeof(pMsg));
 
-	memcpy(pMsg.szName, aRecv->szName, sizeof(pMsg.szName));
+	std::memcpy(pMsg.szName, aRecv->szName, sizeof(pMsg.szName));
 	pMsg.wMapSrvGroup = aRecv->wMapSrvGroup;
 	for (int i = 0; i<g_dwMaxServerGroups; i++)
 	{
@@ -5691,7 +5691,7 @@ void CDataServerProtocol::GDReqEvoMonSaveScore(CGameObject &Obj, PMSG_REQ_SAVE_E
 void CDataServerProtocol::DGMuBotOptionRecv(MUBOT_SETTINGS_REQ_SAVE* lpMsg, CGameObject &Obj)
 {
 	char szName[MAX_IDSTRING + 1];
-	memcpy(szName, lpMsg->szName, MAX_IDSTRING);
+	std::memcpy(szName, lpMsg->szName, MAX_IDSTRING);
 	szName[MAX_IDSTRING] = '\0';
 
 	MuBotSaveOption(szName, lpMsg);
@@ -5721,7 +5721,7 @@ void CDataServerProtocol::GetMuBotData(char* szName, MUBOT_SETTINGS_SEND* lpMsg)
 			BYTE btTemp[sizeof(lpMsg->btDATA)] = { 0 };
 			sprintf(szQuery, "SELECT MuBot FROM OptionData WHERE Name='%s'", szName);
 			this->m_OptionDataDB->ReadBlob(szQuery, btTemp);
-			memcpy(lpMsg->btDATA, btTemp, sizeof(lpMsg->btDATA));
+			std::memcpy(lpMsg->btDATA, btTemp, sizeof(lpMsg->btDATA));
 		}
 	}
 

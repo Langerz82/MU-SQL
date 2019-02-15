@@ -69,7 +69,7 @@ BOOL TMonsterSkillUnit::LoadData(LPSTR lpszFileName)
 		for (pugi::xml_node unit = mainXML.child("Unit"); unit; unit = unit.next_sibling())
 		{
 			char szUnitName[20] = {0};
-			memcpy(szUnitName, unit.attribute("Name").as_string(), sizeof(szUnitName));
+			std::memcpy(szUnitName, unit.attribute("Name").as_string(), sizeof(szUnitName));
 
 			int iUnitNumber = unit.attribute("Number").as_int();
 			int iUnitTargetType = unit.attribute("TargetType").as_int();
@@ -99,7 +99,7 @@ BOOL TMonsterSkillUnit::LoadData(LPSTR lpszFileName)
 			TMonsterSkillUnit::s_MonsterSkillUnitArray[iUnitNumber].m_iUnitScopeType = iUnitScopeType;
 			TMonsterSkillUnit::s_MonsterSkillUnitArray[iUnitNumber].m_iUnitScopeValue = iUnitScopeValue;
 			TMonsterSkillUnit::s_MonsterSkillUnitArray[iUnitNumber].m_iDelay = iDelay;
-			memcpy(TMonsterSkillUnit::s_MonsterSkillUnitArray[iUnitNumber].m_szUnitName, szUnitName, sizeof(TMonsterSkillUnit::s_MonsterSkillUnitArray[iUnitNumber].m_szUnitName));
+			std::memcpy(TMonsterSkillUnit::s_MonsterSkillUnitArray[iUnitNumber].m_szUnitName, szUnitName, sizeof(TMonsterSkillUnit::s_MonsterSkillUnitArray[iUnitNumber].m_szUnitName));
 
 			for(int i = 0; i < MAX_MONSTER_SKILL_ELEMENT_INFO; i++)
 			{

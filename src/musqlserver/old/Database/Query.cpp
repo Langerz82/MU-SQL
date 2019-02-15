@@ -120,7 +120,7 @@ void CQuery::SetAsBinary(LPTSTR lpszStatement, BYTE* lpBinaryBuffer, UINT32 Bina
 
 	while ( Result == SQL_NEED_DATA )
 	{
-	memcpy(cBUFFER, lpBinaryBuffer, BinaryBufferSize);
+	std::memcpy(cBUFFER, lpBinaryBuffer, BinaryBufferSize);
 	Result = SQLPutData(this->m_hStmt, cBUFFER, BinaryBufferSize);
 	Result = SQLParamData(this->m_hStmt, &pToken);
 	lOfs += BinaryBufferSize;
