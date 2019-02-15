@@ -1,6 +1,4 @@
 #include "GOFunctions.h"
-#include "MuDefines.h"
-#include "generalStructs.h"
 #include "GameServer.h"
 #include "Main.h"
 #include "DoppelGanger.h"
@@ -97,6 +95,8 @@
 #include "ArcaBattle.h"
 #include "JewelOfHarmonySystem.h"
 #include "EDSprotocol.h"
+#include "CastleSiege.h"
+#include "MonsterSetBase.h"
 
 
 CItemObject* pTempInventory;
@@ -3931,7 +3931,7 @@ BOOL gObjGameClose(CGameObject &Obj)
 
 	UserChatBlockMng::getInstance()->deleteSlot(Obj.m_Index);
 
-	GJSetCharacterInfo(Obj, Obj.m_Index, 0);
+	GJSetCharacterInfo(Obj, Obj.getTarget(), 0);
 	gObjViewportClose(Obj);
 	sLog->outBasic("(%d)(%s)(%s) Character closed", Obj, Obj.AccountID, Obj.Name);
 
@@ -13084,7 +13084,7 @@ BYTE gObjInventoryMoveItem(CGameObject &Obj, BYTE source, BYTE target, int& durS
 						durTsend = 1;
 					}
 
-					ItemCreate(Obj, 235, Obj.X, Obj.Y, ItemGetNumberMake(14, 28), sitem->m_Level, 0, 0, 0, 0, Obj, 0, 0, 0, 0, 0);
+					ItemCreate(Obj, 235, Obj.X, Obj.Y, ItemGetNumberMake(14, 28), sitem->m_Level, 0, 0, 0, 0, Obj.m_Index, 0, 0, 0, 0, 0);
 				}
 
 				if ((sitem->m_Type == ITEMGET(14, 70) || sitem->m_Type == ITEMGET(14, 71) || sitem->m_Type == ITEMGET(14, 94) || sitem->m_Type == ITEMGET(14, 133)) && titem->m_Durability < 50.0f)
@@ -13128,7 +13128,7 @@ BYTE gObjInventoryMoveItem(CGameObject &Obj, BYTE source, BYTE target, int& durS
 						durTsend = 1;
 					}
 
-					ItemCreate(Obj, 235, Obj.X, Obj.Y, ItemGetNumberMake(12, 145), sitem->m_Level, 0, 0, 0, 0, Obj, 0, 0, 0, 0, sitem->m_BonusSocketOption);
+					ItemCreate(Obj, 235, Obj.X, Obj.Y, ItemGetNumberMake(12, 145), sitem->m_Level, 0, 0, 0, 0, Obj.m_Index, 0, 0, 0, 0, sitem->m_BonusSocketOption);
 				}
 
 				if (titem->m_Type == ITEMGET(13, 145) && max_count <= titem->m_Durability)
@@ -13147,7 +13147,7 @@ BYTE gObjInventoryMoveItem(CGameObject &Obj, BYTE source, BYTE target, int& durS
 						durTsend = 1;
 					}
 
-					ItemCreate(Obj, 235, Obj.X, Obj.Y, ItemGetNumberMake(13, 146), sitem->m_Level, 0, 0, 0, 0, Obj, 0, 0, 0, 0, 0);
+					ItemCreate(Obj, 235, Obj.X, Obj.Y, ItemGetNumberMake(13, 146), sitem->m_Level, 0, 0, 0, 0, Obj.m_Index, 0, 0, 0, 0, 0);
 				}
 
 				if (titem->m_Type == ITEMGET(14, 290) && max_count <= titem->m_Durability)
@@ -13166,7 +13166,7 @@ BYTE gObjInventoryMoveItem(CGameObject &Obj, BYTE source, BYTE target, int& durS
 						durTsend = 1;
 					}
 
-					ItemCreate(Obj, 235, Obj.X, Obj.Y, ItemGetNumberMake(14, 293), sitem->m_Level, 0, 0, 0, 0, Obj, 0, 0, 0, 0, 0);
+					ItemCreate(Obj, 235, Obj.X, Obj.Y, ItemGetNumberMake(14, 293), sitem->m_Level, 0, 0, 0, 0, Obj.m_Index, 0, 0, 0, 0, 0);
 				}
 
 				if (titem->m_Type == ITEMGET(14, 101) && max_count <= titem->m_Durability)
@@ -13185,7 +13185,7 @@ BYTE gObjInventoryMoveItem(CGameObject &Obj, BYTE source, BYTE target, int& durS
 						durTsend = 1;
 					}
 
-					ItemCreate(Obj, 235, Obj.X, Obj.Y, ItemGetNumberMake(14, 102), sitem->m_Level, 0, 0, 0, 0, Obj, 0, 0, 0, 0, 0);
+					ItemCreate(Obj, 235, Obj.X, Obj.Y, ItemGetNumberMake(14, 102), sitem->m_Level, 0, 0, 0, 0, Obj.m_Index, 0, 0, 0, 0, 0);
 				}
 
 				if (sitem->m_Durability > 0)
@@ -14990,8 +14990,8 @@ void gObjTradeOkButton(CGameObject &Obj)
 		Obj.m_PlayerData->Money += target->TradeMoney;
 		target->m_PlayerData->Money += Obj.TradeMoney;
 
-		GJSetCharacterInfo(Obj, Obj.m_Index, 0);
-		GJSetCharacterInfo(*target, target->m_Index, 0);
+		GJSetCharacterInfo(Obj, Obj, 0);
+		GJSetCharacterInfo(*target, *target, 0);
 	}
 	else
 	{
@@ -17990,7 +17990,7 @@ void gObjSecondProc()
 		{
 			if (GetTickCount() - lpObj->AutoSaveTime > 600000)
 			{
-				GJSetCharacterInfo(*lpObj, n, 0);
+				GJSetCharacterInfo(*lpObj, *GetGameObject(n), 0);
 				lpObj->AutoSaveTime = GetTickCount();
 			}
 
@@ -24051,7 +24051,7 @@ void MakeRandomSetItem(CGameObject &Obj)
 
 	Option1 = 1;
 
-	ItemCreate(Obj, Obj.MapNumber, Obj.X, Obj.Y, itemnum, 0, 0, Option1, Option2, Option3, Obj, 0, SetOption, 0, 0, 0);
+	ItemCreate(Obj, Obj.MapNumber, Obj.X, Obj.Y, itemnum, 0, 0, Option1, Option2, Option3, Obj.m_Index, 0, SetOption, 0, 0, 0);
 }
 
 void MakeRandomSetItem(CGameObject &Obj, _stGremoryCaseItem & stItem)
@@ -24172,7 +24172,7 @@ void MakeRewardSetItem(CGameObject &Obj, BYTE cDropX, BYTE cDropY, int iRewardTy
 		cDropY = Obj.Y;
 	}
 
-	ItemCreate(Obj, iMapnumber, cDropX, cDropY, itemnum, 0, 0, Option1, Option2, Option3, Obj, 0, SetOption, 0, 0, 0);
+	ItemCreate(Obj, iMapnumber, cDropX, cDropY, itemnum, 0, 0, Option1, Option2, Option3, Obj.m_Index, 0, SetOption, 0, 0, 0);
 
 	if (iRewardType == 1)
 	{
@@ -27587,7 +27587,7 @@ BOOL gJewelInventoryPut(CGameObject &ObjBuyer, CGameObject &ObjSeller, short sBl
 	{
 		for (int i20S = 0; i20S < s20SoulCount; i20S++)
 		{
-			ItemCreate(ObjSeller.m_Index, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(12, 31), 1, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
+			ItemCreate(ObjSeller, 235, ObjSeller.X, ObjSeller.Y, ITEMGET(12, 31), 1, 0, 0, 0, 0, ObjSeller.m_Index, 0, 0, 0, 0, 0);
 
 			sLog->outBasic("[PShop][Create Jewel Put Seller Inven] - User(ID:%s,Name:%s) Item(Name:%s,Code:%d,level:%d)",
 				ObjSeller.AccountID, ObjSeller.Name, ItemAttribute[ITEMGET(12, 31)].Name, ITEMGET(12, 31), 1);
@@ -28132,7 +28132,7 @@ void gObjDisconnectOffTraders()
 		{
 			if (getGameObject(n)->Type == OBJ_USER && getGameObject(n)->m_bOff && !getGameObject(n)->m_bOffLevel)
 			{
-				GJSetCharacterInfo(*getGameObject(n), n, FALSE);
+				GJSetCharacterInfo(*getGameObject(n), *getGameObject(n), FALSE);
 				getGameObject(n)->m_bOff = false;
 				gObjDel(n);
 				IOCP.CloseClient(n);
@@ -28149,7 +28149,7 @@ void gObjDisconnectOffLevelers()
 		{
 			if (getGameObject(n)->Type == OBJ_USER && getGameObject(n)->m_bOff && getGameObject(n)->m_bOffLevel)
 			{
-				GJSetCharacterInfo(*getGameObject(n), n, FALSE);
+				GJSetCharacterInfo(*getGameObject(n), *getGameObject(n), FALSE);
 				getGameObject(n)->m_bOff = false;
 				gObjDel(n);
 				IOCP.CloseClient(n);

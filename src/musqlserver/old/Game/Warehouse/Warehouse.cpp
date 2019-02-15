@@ -167,7 +167,7 @@ void CWarehouse::GDReqSwitchWarehouse(CGameObject &Obj, PMSG_REQ_SWITCHWARE * aR
 
 	LeaveCriticalSection(&this->m_WareDataCriti);
 
-	DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(Obj.m_PlayerData->ConnectUser.Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
 	sLog->outBasic("[Warehouse][%s] Switch to Warehouse:%d Result:%d", pMsg.szAccountID, pMsg.WarehouseID, pMsg.Result);
 }
 

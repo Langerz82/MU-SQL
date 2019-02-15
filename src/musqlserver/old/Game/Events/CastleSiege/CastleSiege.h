@@ -469,8 +469,6 @@ public:
 	int m_CurrentLordMixLimit;
 }; 
 
-extern CCastleSiege g_CastleSiege;
-
 static int g_iNpcUpDfLevel_CGATE[CS_MAX_UPGRADE][0x3] = {
 	1,	2,	3000000,
 	2,	3,	3000000,

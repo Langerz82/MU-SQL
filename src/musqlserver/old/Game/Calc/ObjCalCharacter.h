@@ -9,6 +9,9 @@
 
 #include "User/CUserData.h"
 #include "ItemObject.h"
+#include "CGameObject.h"
+
+class CGameObject;
 
 class CObjCalCharacter
 {
@@ -27,7 +30,7 @@ public:
 	void SetItemPlusSpecial(CGameObject &Obj, int option, int ivalue);
 	void SetItemApply(CGameObject &Obj);
 	void CalcMLSkillItemOption(CGameObject &Obj);
-	BOOL ValidItem(CGameObject &Obj, CItemObject * lpItem, int pos);
+	BOOL ValidItem(CGameObject &Obj, class CItemObject * lpItem, int pos);
 	void CalcShieldPoint(CGameObject &Obj);
 	void PremiumItemApply(CGameObject &Obj);
 

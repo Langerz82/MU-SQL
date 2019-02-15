@@ -363,7 +363,7 @@ CGameObject CGMMng::GetUserInfo(CGameObject &User, LPSTR UserName)
 	{
 		if (getGameObject(i)->Connected >= PLAYER_PLAYING)
 		{
-			if (getGameObject(i)->Name[0) == *UserName)
+			if (getGameObject(i)->Name[0] == *UserName)
 			{
 				if (strcmp(getGameObject(i)->Name, UserName) == 0)
 				{
@@ -816,13 +816,13 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 					return 0;
 				}
 
-				if ((Obj.m_IfState.use) != 0)
+				if ((Obj.m_IfState->use) != 0)
 				{
-					if (Obj.m_IfState.type == 3)
+					if (Obj.m_IfState->type == 3)
 					{
 						Obj.TargetNpcNumber = -1;
-						Obj.m_IfState.type = 0;
-						Obj.m_IfState.use = 0;
+						Obj.m_IfState->type = 0;
+						Obj.m_IfState->use = 0;
 					}
 				}
 
@@ -2591,9 +2591,9 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 		{
 			if (getGameObject(i)->Connected >= PLAYER_LOGGED)
 			{
-				if (getGameObject(i)->AccountID[0] == pId[0))
+				if (getGameObject(i)->AccountID[0] == pId[0])
 				{
-					if (getGameObject(i)->AccountID[1] == pId[1))
+					if (getGameObject(i)->AccountID[1] == pId[1])
 					{
 						if (!strcmp(getGameObject(i)->AccountID, pId))
 						{
@@ -3589,7 +3589,7 @@ bool CGMMng::CommandClearInventory(CGameObject &Obj)
 
 bool CGMMng::CommandReset(CGameObject &Obj)
 {
-	CLogToFile g_ResetLog("TABLE_RESET", ".\\TABLE_RESET", 1);
+	sLog->outBasic("TABLE_RESET", ".\\TABLE_RESET", 1);
 
 	int point = 0;
 

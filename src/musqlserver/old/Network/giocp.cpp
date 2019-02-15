@@ -4,6 +4,7 @@
 #include "GameServer.h"
 #include "PacketEncrypt.h"
 #include "FloodSystem.h"
+#include "GOFunctions.h"
 
 CIOCP IOCP;
 
@@ -256,7 +257,7 @@ DWORD CIOCP::IocpServerWorker(void * p)
 				sockCtx->dwIOCount++;
 
 				LeaveCriticalSection(&criti);
-				gGameProtocol.SCPJoinResultSend(*lpObj, 1);
+				SCPJoinResultSend(*lpObj, 1);
 			}
 		}
 	}
@@ -541,7 +542,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 
 						sLog->outError("error-L1 : CStreamPacketEngine Adding Error : ip = %s account:%s name:%s HEAD:%x (%s,%d) State:%d",
 							lpObjUser->ConnectUser->IP,
-							lpObjUser->IDNumber, lpObj->Name,
+							lpObjUser->ConnectUser->Index, lpObj->Name,
 							headcode,
 							__FILE__, __LINE__,
 							lpObj->Connected);
@@ -552,13 +553,12 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 					if (PacketStream.ExtractPacket(byDec) != 0)
 					{
 						sLog->outError("error-L1 : CStreamPacketEngine ExtractPacket Error : ip = %s account:%s name:%s HEAD:%x (%s,%d) State:%d",
-							lpObjUser->ConnectUser->IP, lpObjUser->IDNumber, lpObj->Name, headcode, __FILE__, __LINE__, lpObj->Connected);
+							lpObjUser->ConnectUser->IP, lpObjUser->ConnectUser->Index, lpObj->Name, headcode, __FILE__, __LINE__, lpObj->Connected);
 
 						return 0;
 					}
 
-					gGameProtocol.ProtocolCore(headcode, byDec, ret, *lpObj, 1);
-
+					ProtocolCore(headcode, byDec, ret, *lpObj, 1);
 				}
 			}
 
@@ -607,7 +607,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 						return false;
 					}
 
-					gGameProtocol.ProtocolCore(headcode, byDec, ret, *lpObj, 1);
+					ProtocolCore(headcode, byDec, ret, *lpObj, 1);
 				}
 			}
 			else
@@ -633,12 +633,12 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 				if (lpObjUser->PacketsPerSecond >= g_ConfigRead.PacketLimit)
 				{
 					sLog->outError("[ANTI-HACK] Packets Per Second: %d / %d", lpObjUser->PacketsPerSecond, g_ConfigRead.PacketLimit);
-					gGameProtocol.GCSendDisableReconnect(*getGameObject(uIndex));
+					GCSendDisableReconnect(*getGameObject(uIndex));
 					//IOCP.CloseClient(uIndex);
 					return 0;
 				}
 
-				gGameProtocol.ProtocolCore(headcode, byDec, size, *getGameObject(uIndex), 0); // here
+				ProtocolCore(headcode, byDec, size, *getGameObject(uIndex), 0); // here
 			}
 
 			lOfs += size; // wait
@@ -681,7 +681,7 @@ bool CIOCP::DataSend(int aIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 	_PER_SOCKET_CONTEXT * lpPerSocketContext;
 	BYTE * SendBuf;
 	BYTE BUFFER[65535];
-	CGameObject* lpObj = getGameObjectByUser(aIndex);
+	CGameObject* lpObj = getGameObject(aIndex);
 
 
 	EnterCriticalSection(&criti);
@@ -767,7 +767,7 @@ bool CIOCP::DataSend(int aIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 		return false;
 	}
 
-	lpPerSocketContext = lpObj->PerSocketContext;
+	lpPerSocketContext = *lpObj->m_PlayerData->ConnectUser.PerSocketContext;
 
 	if (dwSize > sizeof(lpPerSocketContext->IOContext[0].Buffer))
 	{
@@ -818,27 +818,27 @@ bool CIOCP::DataSend(int aIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 
 	memcpy(&lpIoCtxt->Buffer[lpIoCtxt->nTotalBytes], SendBuf, dwSize);
 	lpIoCtxt->nTotalBytes += dwSize;
-	lpIoCtxt->wsabuf.buf = (char*)&lpIoCtxt->Buffer;
-	lpIoCtxt->wsabuf.len = lpIoCtxt->nTotalBytes;
+	lpIoCtxt->m_wsabuf.buf = (char*)&lpIoCtxt->Buffer;
+	lpIoCtxt->m_wsabuf.len = lpIoCtxt->nTotalBytes;
 	lpIoCtxt->nSentBytes = 0;
 	lpIoCtxt->IOOperation = 1;
 
-	if (WSASend(lpObj->m_socket, &lpIoCtxt->wsabuf, 1, &SendBytes, 0, &lpIoCtxt->Overlapped, NULL) == -1)
+	if (WSASend(lpObj->m_socket, lpIoCtxt->m_wsabuf, 1, &SendBytes, 0, lpIoCtxt->m_Overlapped, NULL) == -1)
 	{
 
 		if (WSAGetLastError() != WSA_IO_PENDING)
 		{
 			lpIoCtxt->nWaitIO = 0;
 
-			if (lpIoCtxt->wsabuf.buf[0] == 0xC1)
+			if (lpIoCtxt->m_wsabuf.buf[0] == 0xC1)
 			{
 				sLog->outBasic("(%d)WSASend(%d) failed with error [%x][%x] %d %s ", __LINE__, aIndex, (BYTE)lpIoCtxt->wsabuf.buf[0],
-					(BYTE)lpIoCtxt->wsabuf.buf[2], WSAGetLastError(), lpObj->m_PlayerData->ConnectUser->IP);
+					(BYTE)lpIoCtxt->m_wsabuf.buf[2], WSAGetLastError(), lpObj->m_PlayerData->ConnectUser->IP);
 			}
-			else if (lpIoCtxt->wsabuf.buf[0] == 0xC2)
+			else if (lpIoCtxt->m_wsabuf.buf[0] == 0xC2)
 			{
 				sLog->outBasic("(%d)WSASend(%d) failed with error [%x][%x] %d %s ", __LINE__, aIndex, (BYTE)lpIoCtxt->wsabuf.buf[0],
-					(BYTE)lpIoCtxt->wsabuf.buf[3], WSAGetLastError(), lpObj->m_PlayerData->ConnectUser->IP);
+					(BYTE)lpIoCtxt->m_wsabuf.buf[3], WSAGetLastError(), lpObj->m_PlayerData->ConnectUser->IP);
 			}
 			CloseClient(aIndex);
 			LeaveCriticalSection(&criti);
@@ -860,11 +860,12 @@ bool CIOCP::DataSend(int aIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 bool CIOCP::IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 {
 	unsigned long SendBytes;
-	CGameObject &Obj;
+	CGameObject* lpObj;
 	_PER_IO_CONTEXT * lpIoCtxt;
 
 	EnterCriticalSection(&criti);
-	aIndex = lpPerSocketContext->nIndex;
+	int aIndex = lpPerSocketContext->nIndex;
+	lpObj = getGameObject(aIndex);
 	lpIoCtxt = &lpPerSocketContext->IOContext[1];
 
 	if (lpIoCtxt->nWaitIO > 0)
@@ -886,16 +887,16 @@ bool CIOCP::IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 		return false;
 	}
 
-	lpIoCtxt->wsabuf.buf = (char*)&lpIoCtxt->Buffer;
-	lpIoCtxt->wsabuf.len = lpIoCtxt->nTotalBytes;
+	lpIoCtxt->m_wsabuf.buf = (char*)&lpIoCtxt->Buffer;
+	lpIoCtxt->m_wsabuf.len = lpIoCtxt->nTotalBytes;
 	lpIoCtxt->nSentBytes = 0;
 	lpIoCtxt->IOOperation = 1;
 
-	if (WSASend(lplpObj->m_socket, &lpIoCtxt->wsabuf, 1, &SendBytes, 0, &lpIoCtxt->Overlapped, NULL) == -1)
+	if (WSASend(lpObj->m_socket, &lpIoCtxt->m_wsabuf, 1, &SendBytes, 0, &lpIoCtxt->m_Overlapped, NULL) == -1)
 	{
 		if (WSAGetLastError() != WSA_IO_PENDING)
 		{
-			sLog->outBasic("WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), lplpObjUser->ConnectUser->IP);
+			sLog->outBasic("WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), lpObjUser->ConnectUser->IP);
 			CloseClient(aIndex);
 			LeaveCriticalSection(&criti);
 			return false;
@@ -915,11 +916,12 @@ bool CIOCP::IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 bool CIOCP::IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 {
 	unsigned long SendBytes;
-	CGameObject &Obj;
+	CGameObject* lpObj;
 	_PER_IO_CONTEXT * lpIoCtxt;
 
 	EnterCriticalSection(&criti);
-	aIndex = lpPerSocketContext->nIndex;
+	int aIndex = lpPerSocketContext->nIndex;
+	lpObj = getGameObject(aIndex);
 	lpIoCtxt = &lpPerSocketContext->IOContext[1];
 
 	if ((lpIoCtxt->nTotalBytes - lpIoCtxt->nSentBytes) < 0)
@@ -928,15 +930,15 @@ bool CIOCP::IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 		return false;
 	}
 
-	lpIoCtxt->wsabuf.buf = (char*)&lpIoCtxt->Buffer[lpIoCtxt->nSentBytes];
-	lpIoCtxt->wsabuf.len = lpIoCtxt->nTotalBytes - lpIoCtxt->nSentBytes;
+	lpIoCtxt->m_wsabuf.buf = (char*)&lpIoCtxt->Buffer[lpIoCtxt->nSentBytes];
+	lpIoCtxt->m_wsabuf.len = lpIoCtxt->nTotalBytes - lpIoCtxt->nSentBytes;
 	lpIoCtxt->IOOperation = 1;
 
-	if (WSASend(lplpObj->m_socket, &lpIoCtxt->wsabuf, 1, &SendBytes, 0, &lpIoCtxt->Overlapped, NULL) == -1)
+	if (WSASend(lpObj->m_socket, lpIoCtxt->m_wsabuf, 1, &SendBytes, 0, lpIoCtxt->m_Overlapped, NULL) == -1)
 	{
 		if (WSAGetLastError() != WSA_IO_PENDING)
 		{
-			sLog->outBasic("WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), lplpObjUser->ConnectUser->IP);
+			sLog->outBasic("WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), lpObjUser->ConnectUser->IP);
 			CloseClient(aIndex);
 			LeaveCriticalSection(&criti);
 			return false;
@@ -963,7 +965,7 @@ bool CIOCP::UpdateCompletionPort(SOCKET sd, int ClientIndex, BOOL bAddToList)
 		return FALSE;
 	}
 
-	getGameObject(ClientIndex)->PerSocketContext->dwIOCount = 0;
+	getGameObject(ClientIndex)->m_PlayerData->ConnectUser->PerSocketContext->dwIOCount = 0;
 	return TRUE;
 }
 
@@ -991,7 +993,7 @@ void CIOCP::CloseClient(_PER_SOCKET_CONTEXT * lpPerSocketContext, int result)
 			getGameObject(index)->m_socket = INVALID_SOCKET;
 		}
 
-		gObjDel(index);
+		gObjDel(*getGameObject(index));
 	}
 }
 
@@ -1040,7 +1042,7 @@ void CIOCP::ResponErrorCloseClient(int index)
 
 	closesocket(getGameObject(index)->m_socket);
 	getGameObject(index)->m_socket = INVALID_SOCKET;
-	gObjDel(index);
+	gObjDel(*getGameObject(index));
 
 	LeaveCriticalSection(&criti);
 }
