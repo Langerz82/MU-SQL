@@ -30,7 +30,7 @@ public:
 	//void __thiscall Init();
 	void Clear();
 	int Set(int aSkill, BYTE aLevel);
-	int Set(BYTE aType, WORD aIndex, BYTE aLevel);
+	int Set(BYTE aType, CGameObject &Obj, BYTE aLevel);
 	int GetDamage();
 	int UpdateMasterSkill(int iSkill, BYTE btLevel);
 	

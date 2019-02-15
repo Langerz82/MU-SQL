@@ -2329,35 +2329,35 @@ void CImperialGuardian::MonsterBaseAct(CGameObject &Obj)
 {
 	CGameObject* lpTargetObj = NULL;
 
-	if ( lpObj.TargetNumber >= 0 )
-		lpTargetObj = getGameObject(lpObj.TargetNumber);
+	if ( Obj.TargetNumber >= 0 )
+		lpTargetObj = getGameObject(Obj.TargetNumber);
 	else
-		lpObj.m_ActState.Emotion = 0;
+		Obj.m_ActState.Emotion = 0;
 
-	if ( lpObj.m_ActState.Emotion == 1 )
+	if ( Obj.m_ActState.Emotion == 1 )
 	{
-		if ( lpObj.m_ActState.EmotionCount > 0 )
+		if ( Obj.m_ActState.EmotionCount > 0 )
 		{
-			lpObj.m_ActState.EmotionCount--;
+			Obj.m_ActState.EmotionCount--;
 		}
 		else
 		{
-			lpObj.m_ActState.Emotion = 0;
+			Obj.m_ActState.Emotion = 0;
 		}
 
-		if ( lpObj.TargetNumber >= 0 && lpObj.PathStartEnd == 0)
+		if ( Obj.TargetNumber >= 0 && Obj.PathStartEnd == 0)
 		{
 			int dis = gObjCalDistance(lpObj, *lpTargetObj);
 			int attackrange;
 
-			if ( lpObj.m_AttackType >= 100 )	// #warning Change this To Level
-				attackrange = lpObj.m_AttackRange+2;
+			if ( Obj.m_AttackType >= 100 )	// #warning Change this To Level
+				attackrange = Obj.m_AttackRange+2;
 			else
-				attackrange = lpObj.m_AttackRange;
+				attackrange = Obj.m_AttackRange;
 
 			if ( dis <= attackrange )
 			{
-				int tuser = lpObj.TargetNumber;
+				int tuser = Obj.TargetNumber;
 
 				if (!ObjectMaxRange(tuser))
 				{
@@ -2373,24 +2373,24 @@ void CImperialGuardian::MonsterBaseAct(CGameObject &Obj)
 					return;
 				}
 
-				if ( MapC[map].CheckWall(lpObj.X, lpObj.Y, getGameObject(tuser)->X, getGameObject(tuser)->Y) == TRUE )
+				if ( MapC[map].CheckWall(Obj.X, Obj.Y, getGameObject(tuser)->X, getGameObject(tuser)->Y) == TRUE )
 				{
 					attr = MapC[map].GetAttr(getGameObject(tuser)->X, getGameObject(tuser)->Y);
 
 					if ( (attr&1) != 1 )
 					{
-						lpObj.m_ActState.Attack = 1;
-						lpObj.m_ActState.EmotionCount = rand()%30;
+						Obj.m_ActState.Attack = 1;
+						Obj.m_ActState.EmotionCount = rand()%30;
 					}
 					else
 					{
-						lpObj.TargetNumber = -1;
-						lpObj.m_ActState.EmotionCount = 30;
-						lpObj.m_ActState.Emotion = 1;
+						Obj.TargetNumber = -1;
+						Obj.m_ActState.EmotionCount = 30;
+						Obj.m_ActState.Emotion = 1;
 					}
 
-					lpObj.Dir = GetPathPacketDirPos(lpTargetObj->X-lpObj.X, lpTargetObj->Y-lpObj.Y);
-					lpObj.NextActionTime = lpObj.m_AttackSpeed;
+					Obj.Dir = GetPathPacketDirPos(lpTargetObj->X-Obj.X, lpTargetObj->Y-Obj.Y);
+					Obj.NextActionTime = Obj.m_AttackSpeed;
 				}
 			}
 			
@@ -2398,23 +2398,23 @@ void CImperialGuardian::MonsterBaseAct(CGameObject &Obj)
 			{
 				if ( gObjMonsterGetTargetPos(lpObj) == TRUE )
 				{
-					if ( MAX_MAP_RANGE(lpObj.MapNumber) == FALSE )
+					if ( MAX_MAP_RANGE(Obj.MapNumber) == FALSE )
 					{
-						sLog->outError( "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", lpObj.MapNumber);
+						sLog->outError( "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", Obj.MapNumber);
 						return;
 					}
 
-					if ( MapC[lpObj.MapNumber].CheckWall(lpObj.X, lpObj.Y, lpObj.MTX, lpObj.MTY) == TRUE )
+					if ( MapC[Obj.MapNumber].CheckWall(Obj.X, Obj.Y, Obj.MTX, Obj.MTY) == TRUE )
 					{
-						lpObj.m_ActState.Move = 1;
-						lpObj.NextActionTime = 400;
-						lpObj.Dir = GetPathPacketDirPos(lpTargetObj->X-lpObj.X, lpTargetObj->Y-lpObj.Y);
+						Obj.m_ActState.Move = 1;
+						Obj.NextActionTime = 400;
+						Obj.Dir = GetPathPacketDirPos(lpTargetObj->X-Obj.X, lpTargetObj->Y-Obj.Y);
 					}
 					else
 					{
 						gObjMonsterMoveAction(lpObj);
-						lpObj.m_ActState.Emotion = 3;
-						lpObj.m_ActState.EmotionCount = 10;
+						Obj.m_ActState.Emotion = 3;
+						Obj.m_ActState.EmotionCount = 10;
 
 					}
 				}
@@ -2426,26 +2426,26 @@ void CImperialGuardian::MonsterBaseAct(CGameObject &Obj)
 
 					if ( lpTargetObj->Connected > PLAYER_LOGGED && gObjGetTargetPos(lpObj, lpTargetObj->X, lpTargetObj->Y, tx, ty) == TRUE )
 					{
-						if ( MAX_MAP_RANGE(lpObj.MapNumber) == FALSE )
+						if ( MAX_MAP_RANGE(Obj.MapNumber) == FALSE )
 						{
-							sLog->outError( "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", lpObj.MapNumber);
+							sLog->outError( "[ERROR] MAX_MAP_RANGE (gObjMonster) == FALSE (%d)", Obj.MapNumber);
 							return;
 						}
 
-							if ( MapC[lpObj.MapNumber].CheckWall(lpObj.X, lpObj.Y, lpObj.MTX, lpObj.MTY) == TRUE )
+							if ( MapC[Obj.MapNumber].CheckWall(Obj.X, Obj.Y, Obj.MTX, Obj.MTY) == TRUE )
 							{
-								lpObj.MTX = tx;
-								lpObj.MTY = ty;
-								lpObj.m_ActState.Move = 1;
-								lpObj.NextActionTime = 400;
-								lpObj.Dir = GetPathPacketDirPos(lpTargetObj->X-lpObj.X, lpTargetObj->Y-lpObj.Y);
+								Obj.MTX = tx;
+								Obj.MTY = ty;
+								Obj.m_ActState.Move = 1;
+								Obj.NextActionTime = 400;
+								Obj.Dir = GetPathPacketDirPos(lpTargetObj->X-Obj.X, lpTargetObj->Y-Obj.Y);
 							}
 
 							else
 							{
 								gObjMonsterMoveAction(lpObj);
-								lpObj.m_ActState.Emotion = 3;
-								lpObj.m_ActState.EmotionCount = 10;
+								Obj.m_ActState.Emotion = 3;
+								Obj.m_ActState.EmotionCount = 10;
 							}
 					}
 				}
@@ -2453,48 +2453,48 @@ void CImperialGuardian::MonsterBaseAct(CGameObject &Obj)
 		}
 	}
 
-	else if ( lpObj.m_ActState.Emotion == 3 )
+	else if ( Obj.m_ActState.Emotion == 3 )
 	{
-		if ( lpObj.m_ActState.EmotionCount > 0 )
+		if ( Obj.m_ActState.EmotionCount > 0 )
 		{
-			lpObj.m_ActState.EmotionCount--;
+			Obj.m_ActState.EmotionCount--;
 		}
 		else
 		{
-			lpObj.m_ActState.Emotion = 0;
+			Obj.m_ActState.Emotion = 0;
 		}
 
-		lpObj.m_ActState.Move = 0;
-		lpObj.m_ActState.Attack = 0;
-		lpObj.NextActionTime = 400;
+		Obj.m_ActState.Move = 0;
+		Obj.m_ActState.Attack = 0;
+		Obj.NextActionTime = 400;
 	}
 
-	else if ( lpObj.m_ActState.Emotion == 0 )
+	else if ( Obj.m_ActState.Emotion == 0 )
 	{
-		if ( lpObj.m_ActState.Attack )
+		if ( Obj.m_ActState.Attack )
 		{
-			lpObj.m_ActState.Attack = 0;
-			lpObj.TargetNumber = -1;
-			lpObj.NextActionTime = 500;
+			Obj.m_ActState.Attack = 0;
+			Obj.TargetNumber = -1;
+			Obj.NextActionTime = 500;
 		}
 
 		int actcode = rand()%2;
 
-		if ( lpObj.m_MoveRange > 0 && !gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STONE) && !gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STUN) && !gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_SLEEP) &&
+		if ( Obj.m_MoveRange > 0 && !gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STONE) && !gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STUN) && !gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_SLEEP) &&
 			!gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_FREEZE_2) && !gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_EARTH_BINDS))
 		{
 			gObjMonsterMoveAction(lpObj);
 		}
 
-		if ( lpObj.m_bIsMonsterAttackFirst == true )
+		if ( Obj.m_bIsMonsterAttackFirst == true )
 		{
-			lpObj.TargetNumber = gObjMonsterSearchEnemy(lpObj, OBJ_USER);
+			Obj.TargetNumber = gObjMonsterSearchEnemy(lpObj, OBJ_USER);
 
-			if ( lpObj.TargetNumber >= 0 )
+			if ( Obj.TargetNumber >= 0 )
 			{
-				lpObj.m_ActState.Emotion = 1;
-				lpObj.m_ActState.EmotionCount = 100;
-				this->SetTargetMoveAllMonster(lpObj.m_nZoneIndex, lpObj.TargetNumber);
+				Obj.m_ActState.Emotion = 1;
+				Obj.m_ActState.EmotionCount = 100;
+				this->SetTargetMoveAllMonster(Obj.m_nZoneIndex, Obj.TargetNumber);
 			}
 		}
 	}

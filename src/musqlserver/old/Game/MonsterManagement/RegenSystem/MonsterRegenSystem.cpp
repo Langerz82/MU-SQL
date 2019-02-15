@@ -260,7 +260,7 @@ void CMonsterRegenSystem::RegenMonster(int nGroupNumber)
 
 								TNotice::MakeNoticeMsg(&pNotice, 0, (char*)this->m_stMonsterGroupInfo[nGroupNumber].m_sSpawnNotice.c_str());
 
-								for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
+								for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 								{
 									if (getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
 									{
@@ -289,7 +289,7 @@ void CMonsterRegenSystem::RegenMonster(int nGroupNumber)
 
 bool CMonsterRegenSystem::SetPosMonster(CGameObject &Obj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY)
 {
-	if (!ObjectMaxRange(aIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return false;
@@ -297,16 +297,16 @@ bool CMonsterRegenSystem::SetPosMonster(CGameObject &Obj, int nMapNumber, int nB
 
 	
 
-	lpObj.m_PosNum = -1;
-	lpObj.MapNumber = nMapNumber;
-	this->GetBoxPosition(nMapNumber, nBeginX, nBeginY, nEndX, nEndY, lpObj.X, lpObj.Y);
-	lpObj.TX = lpObj.X;
-	lpObj.TY = lpObj.Y;
-	lpObj.m_OldX = lpObj.X;
-	lpObj.m_OldY = lpObj.Y;
-	lpObj.Dir = rand() % 8;
-	lpObj.StartX = lpObj.X;
-	lpObj.StartY = lpObj.Y;
+	Obj.m_PosNum = -1;
+	Obj.MapNumber = nMapNumber;
+	this->GetBoxPosition(nMapNumber, nBeginX, nBeginY, nEndX, nEndY, Obj.X, Obj.Y);
+	Obj.TX = Obj.X;
+	Obj.TY = Obj.Y;
+	Obj.m_OldX = Obj.X;
+	Obj.m_OldY = Obj.Y;
+	Obj.Dir = rand() % 8;
+	Obj.StartX = Obj.X;
+	Obj.StartY = Obj.Y;
 
 	return true;
 }

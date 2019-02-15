@@ -324,7 +324,7 @@ void MapClass::SetWeather(BYTE a_weather, BYTE a_variation)
 	{
 		lpObj = &getGameObject(n);
 
-		if (lpObj.Connected > PLAYER_CONNECTED && lpObj.Live != 0 && lpObj.MapNumber == this->thisMapNumber)
+		if (Obj.Connected > PLAYER_CONNECTED && Obj.Live != 0 && Obj.MapNumber == this->thisMapNumber)
 		{
 			gGameProtocol.CGWeatherSend(n, weather);
 		}
@@ -352,7 +352,7 @@ void MapClass::WeatherVariationProcess()
 		{
 			lpObj = &getGameObject(n);
 
-			if (lpObj.Connected > PLAYER_CONNECTED && lpObj.Live != 0 && lpObj.MapNumber == this->thisMapNumber)
+			if (Obj.Connected > PLAYER_CONNECTED && Obj.Live != 0 && Obj.MapNumber == this->thisMapNumber)
 			{
 				gGameProtocol.CGWeatherSend(n, weather);
 			}
@@ -388,7 +388,7 @@ void MapClass::ItemInit()
 
 
 
-int MapClass::MonsterItemDrop(int type, int level, float dur, int x, int y, BYTE Option1, BYTE Option2, BYTE Option3, BYTE NOption, BYTE SOption, CGameObject &Obj, UINT64 number, BYTE ItemEffectEx, BYTE *SocketOption, BYTE SocketBonusOption, DWORD PeriodDuration)
+int MapClass::MonsterItemDrop(int type, int level, float dur, int x, int y, BYTE Option1, BYTE Option2, BYTE Option3, BYTE NOption, BYTE SOption, int lootIndex, UINT64 number, BYTE ItemEffectEx, BYTE *SocketOption, BYTE SocketBonusOption, DWORD PeriodDuration)
 {
 	int count;
 	int counttot = 0;
@@ -405,7 +405,7 @@ int MapClass::MonsterItemDrop(int type, int level, float dur, int x, int y, BYTE
 		if (this->m_CItemObject[count].IsItem() == FALSE)
 		{
 			this->m_CItemObject[count].CreateItem(type, level, x, y, dur, Option1, Option2, Option3, NOption, SOption, number, ItemEffectEx, SocketOption, SocketBonusOption);
-			this->m_CItemObject[count].m_UserIndex = lpObj.m_Index;
+			this->m_CItemObject[count].m_UserIndex = Obj.m_Index;
 			this->m_CItemObject[count].m_PeriodItemDuration = PeriodDuration;
 			this->m_ItemCount++;
 
@@ -460,7 +460,7 @@ BOOL MapClass::ItemDrop(int type, int level, float dur, int x, int y, BYTE Optio
 		if (this->m_CItemObject[count].IsItem() == FALSE)
 		{
 			this->m_CItemObject[count].DropCreateItem(type, level, x, y, dur, Option1, Option2, Option3, NOption, SOption, number, PetLevel, PetExp, ItemEffectEx, SocketOption, SocketBonusOption);
-			this->m_CItemObject[count].m_UserIndex = lpObj.m_Index;
+			this->m_CItemObject[count].m_UserIndex = Obj.m_Index;
 			this->m_CItemObject[count].m_PeriodItemDuration = PeriodDuration;
 			this->m_ItemCount++;
 
@@ -571,7 +571,7 @@ BOOL MapClass::ItemGive(CGameObject &Obj, int item_num, bool bFailNotSend)
 		return FALSE;
 	}
 
-	if (lpObj.MapNumber != this->thisMapNumber)
+	if (Obj.MapNumber != this->thisMapNumber)
 	{
 		return FALSE;
 	}
@@ -591,10 +591,10 @@ BOOL MapClass::ItemGive(CGameObject &Obj, int item_num, bool bFailNotSend)
 		return FALSE;
 	}
 
-	int disx = this->m_CItemObject[item_num].px - lpObj.X;
-	int disy = this->m_CItemObject[item_num].py - lpObj.Y;
+	int disx = this->m_CItemObject[item_num].px - Obj.X;
+	int disy = this->m_CItemObject[item_num].py - Obj.Y;
 
-	if (lpObj.m_bOffLevel == false)
+	if (Obj.m_bOffLevel == false)
 	{
 		if (disx > 2 || disx < -2)
 		{
@@ -615,17 +615,17 @@ BOOL MapClass::ItemGive(CGameObject &Obj, int item_num, bool bFailNotSend)
 		{
 			if (GetTickCount() < this->m_CItemObject[item_num].m_LootTime)
 			{
-				if (aIndex != this->m_CItemObject[item_num].m_UserIndex)
+				if (Obj.m_Index != this->m_CItemObject[item_num].m_UserIndex)
 				{
 					lootresult = 0;
 
 					if (this->m_CItemObject[item_num].m_QuestItem == false)
 					{
-						if (lpObj.PartyNumber >= 0)
+						if (Obj.PartyNumber >= 0)
 						{
-							if (lpObj.PartyNumber == getGameObject(this->m_CItemObject[item_num]->m_UserIndex)->PartyNumber)
+							if (Obj.PartyNumber == getGameObject(this->m_CItemObject[item_num]->m_UserIndex)->PartyNumber)
 							{
-								if (BC_MAP_RANGE(lpObj.MapNumber) != FALSE)
+								if (BC_MAP_RANGE(Obj.MapNumber) != FALSE)
 								{
 									if (this->m_CItemObject[item_num].m_Type == ITEMGET(12, 15) || (this->m_CItemObject[item_num].m_Type == ITEMGET(13, 19) && ((this->m_CItemObject[item_num].m_Level < 0) ? FALSE : (this->m_CItemObject[item_num].m_Level > 2) ? FALSE : TRUE) != FALSE))
 									{
@@ -654,8 +654,8 @@ BOOL MapClass::ItemGive(CGameObject &Obj, int item_num, bool bFailNotSend)
 		{
 			char szTemp[256];
 
-			wsprintf(szTemp, Lang.GetText(0, 60), lpObj.Name);
-			gGameProtocol.GCServerMsgStringSend(szTemp, aIndex, 1);
+			wsprintf(szTemp, Lang.GetText(0, 60), Obj.Name);
+			gGameProtocol.GCServerMsgStringSend(szTemp, Obj.m_Index, 1);
 
 		}
 

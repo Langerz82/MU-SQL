@@ -125,7 +125,7 @@ int TMonsterAIAgro::GetMaxAgroUserIndex(int iMonsterIndex)
 		{
 			CGameObject lpObj = &getGameObject(this->m_Agro[i]->GetUserIndex());
 
-			if ( (lpObj.Authority&2) == 2 )
+			if ( (Obj.Authority&2) == 2 )
 				continue;
 
 			if ( !gObjIsConnected(lpObj) )
@@ -134,7 +134,7 @@ int TMonsterAIAgro::GetMaxAgroUserIndex(int iMonsterIndex)
 				continue;
 			}
 
-			if ( lpObj.Live == FALSE )
+			if ( Obj.Live == FALSE )
 			{
 				this->m_Agro[i].Reset();
 				continue;
@@ -143,7 +143,7 @@ int TMonsterAIAgro::GetMaxAgroUserIndex(int iMonsterIndex)
 			if ( gObjCalDistance(&getGameObject(iMonsterIndex), lpObj) > 7 )
 				continue;
 
-			BYTE btAttr = MapC[lpObj.MapNumber].GetAttr(lpObj.X, lpObj.Y);
+			BYTE btAttr = MapC[Obj.MapNumber].GetAttr(Obj.X, Obj.Y);
 
 			if ( (btAttr&1) != 0 )
 				continue;

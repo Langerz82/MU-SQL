@@ -263,7 +263,7 @@ void MonsterHerd::BeenAttacked(CGameObject &Obj, CGameObject lpTargetObj)
 		return;
 	}
 
-	if ( lpObj.Connected != PLAYER_PLAYING || lpObj.Type != OBJ_MONSTER )
+	if ( Obj.Connected != PLAYER_PLAYING || Obj.Type != OBJ_MONSTER )
 	{
 		return;
 	}
@@ -292,12 +292,12 @@ void MonsterHerd::BeenAttacked(CGameObject &Obj, CGameObject lpTargetObj)
 			continue;
 		}
 
-		if ( getGameObject(lpMHD->m_iIndex)->m_lpMonsterHerd != lpObj.m_lpMonsterHerd )
+		if ( getGameObject(lpMHD->m_iIndex)->m_lpMonsterHerd != Obj.m_lpMonsterHerd )
 		{
 			continue;
 		}
 
-		if ( lpMHD->m_iIndex == lpObj.m_Index )
+		if ( lpMHD->m_iIndex == Obj.m_Index )
 		{
 			continue;
 		}
@@ -331,7 +331,7 @@ void MonsterHerd::OrderAttack(CGameObject &Obj, CGameObject lpTargetObj, int iAt
 		return;
 	}
 
-	if ( lpObj.Connected != PLAYER_PLAYING || lpObj.Type != OBJ_MONSTER )
+	if ( Obj.Connected != PLAYER_PLAYING || Obj.Type != OBJ_MONSTER )
 	{
 		return;
 	}
@@ -365,12 +365,12 @@ void MonsterHerd::OrderAttack(CGameObject &Obj, CGameObject lpTargetObj, int iAt
 			continue;
 		}
 
-		if ( getGameObject(lpMHD->m_iIndex)->m_lpMonsterHerd != lpObj.m_lpMonsterHerd )
+		if ( getGameObject(lpMHD->m_iIndex)->m_lpMonsterHerd != Obj.m_lpMonsterHerd )
 		{
 			continue;
 		}
 
-		if ( lpMHD->m_iIndex == lpObj.m_Index )
+		if ( lpMHD->m_iIndex == Obj.m_Index )
 		{
 			continue;
 		}
@@ -509,7 +509,7 @@ void MonsterHerd::MonsterMoveAction(CGameObject &Obj)
 		return;
 	}
 
-	if ( lpObj.Connected != PLAYER_PLAYING || lpObj.Type != OBJ_MONSTER )
+	if ( Obj.Connected != PLAYER_PLAYING || Obj.Type != OBJ_MONSTER )
 	{
 		return;
 	}
@@ -518,7 +518,7 @@ void MonsterHerd::MonsterMoveAction(CGameObject &Obj)
 	BYTE tpx;
 	BYTE tpy;
 
-	lpObj.NextActionTime = 1000;
+	Obj.NextActionTime = 1000;
 
 	while ( searchc-- != 0 )
 	{
@@ -526,13 +526,13 @@ void MonsterHerd::MonsterMoveAction(CGameObject &Obj)
 
 		if ( ret != FALSE )
 		{
-			lpObj.TargetNumber = -1;
-			lpObj.m_ActState.Attack = 0;
-			lpObj.NextActionTime = 500;
-			lpObj.m_ActState.Emotion = 0;
-			lpObj.MTX = tpx;
-			lpObj.MTY = tpy;
-			lpObj.m_ActState.Move = 1;
+			Obj.TargetNumber = -1;
+			Obj.m_ActState.Attack = 0;
+			Obj.NextActionTime = 500;
+			Obj.m_ActState.Emotion = 0;
+			Obj.MTX = tpx;
+			Obj.MTY = tpy;
+			Obj.m_ActState.Move = 1;
 
 			break;
 		}
@@ -551,34 +551,34 @@ void MonsterHerd::MonsterBaseAct(CGameObject &Obj)
 {
 	CGameObject lpTargetObj = NULL;
 
-	if ( lpObj.TargetNumber >= 0 )
+	if ( Obj.TargetNumber >= 0 )
 	{
-		lpTargetObj = &getGameObject(lpObj.TargetNumber);
+		lpTargetObj = &getGameObject(Obj.TargetNumber);
 	}
 	else
 	{
-		lpObj.m_ActState.Emotion = 0;
+		Obj.m_ActState.Emotion = 0;
 	}
 
-	switch ( lpObj.m_ActState.Emotion )
+	switch ( Obj.m_ActState.Emotion )
 	{
 		case 0:
 			{
-				if ( lpObj.m_ActState.Attack != 0 )
+				if ( Obj.m_ActState.Attack != 0 )
 				{
-					lpObj.m_ActState.Attack = 0;
-					lpObj.TargetNumber = -1;
-					lpObj.NextActionTime = 500;
+					Obj.m_ActState.Attack = 0;
+					Obj.TargetNumber = -1;
+					Obj.NextActionTime = 500;
 				}
 
 				int actcode1 = rand() % 2;
 
 				if ( actcode1 == 0 )
 				{
-					lpObj.m_ActState.Rest = 1;
-					lpObj.NextActionTime = 500;
+					Obj.m_ActState.Rest = 1;
+					Obj.NextActionTime = 500;
 				}
-				else if ( lpObj.m_MoveRange > 0 )
+				else if ( Obj.m_MoveRange > 0 )
 				{
 					if ( gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STONE) == FALSE )
 					{
@@ -586,14 +586,14 @@ void MonsterHerd::MonsterBaseAct(CGameObject &Obj)
 					}
 				}
 
-				if ( lpObj.m_bIsMonsterAttackFirst != false )
+				if ( Obj.m_bIsMonsterAttackFirst != false )
 				{
-					lpObj.TargetNumber = gObjMonsterSearchEnemy(lpObj, OBJ_USER);
+					Obj.TargetNumber = gObjMonsterSearchEnemy(lpObj, OBJ_USER);
 
-					if ( lpObj.TargetNumber >= 0 )
+					if ( Obj.TargetNumber >= 0 )
 					{
-						lpObj.m_ActState.EmotionCount = 30;
-						lpObj.m_ActState.Emotion = 1;
+						Obj.m_ActState.EmotionCount = 30;
+						Obj.m_ActState.Emotion = 1;
 					}
 				}
 			}
@@ -601,32 +601,32 @@ void MonsterHerd::MonsterBaseAct(CGameObject &Obj)
 
 		case 1:
 
-			if ( lpObj.m_ActState.EmotionCount > 0 )
+			if ( Obj.m_ActState.EmotionCount > 0 )
 			{
-				lpObj.m_ActState.EmotionCount --;
+				Obj.m_ActState.EmotionCount --;
 			}
 			else
 			{
-				lpObj.m_ActState.Emotion = 0;
+				Obj.m_ActState.Emotion = 0;
 			}
 
-			if ( lpObj.TargetNumber >= 0 && lpObj.PathStartEnd == 0 )
+			if ( Obj.TargetNumber >= 0 && Obj.PathStartEnd == 0 )
 			{
 				int dis = gObjCalDistance(lpObj, lpTargetObj);
 				int attackRange;
 
-				if ( lpObj.m_AttackType >= 100 )
+				if ( Obj.m_AttackType >= 100 )
 				{
-					attackRange = lpObj.m_AttackRange + 2;
+					attackRange = Obj.m_AttackRange + 2;
 				}
 				else
 				{
-					attackRange = lpObj.m_AttackRange;
+					attackRange = Obj.m_AttackRange;
 				}
 
 				if ( dis <= attackRange )
 				{
-					int tuser = lpObj.TargetNumber;
+					int tuser = Obj.TargetNumber;
 
 					if (!ObjectMaxRange(tuser))
 					{
@@ -641,54 +641,54 @@ void MonsterHerd::MonsterBaseAct(CGameObject &Obj)
 						break;
 					}
 
-					if ( MapC[map].CheckWall(lpObj.X, lpObj.Y, getGameObject(tuser)->X, getGameObject(tuser)->Y) == TRUE )
+					if ( MapC[map].CheckWall(Obj.X, Obj.Y, getGameObject(tuser)->X, getGameObject(tuser)->Y) == TRUE )
 					{
 						BYTE attr = MapC[map].GetAttr(getGameObject(tuser)->X, getGameObject(tuser)->Y);
 
 						if ( (attr&1) != 1 )
 						{
-							lpObj.m_ActState.Attack = 1;
-							lpObj.m_ActState.EmotionCount = (rand()%30+20);
+							Obj.m_ActState.Attack = 1;
+							Obj.m_ActState.EmotionCount = (rand()%30+20);
 						}
 						else
 						{
-							lpObj.TargetNumber = -1;
-							lpObj.m_ActState.EmotionCount = 30;
-							lpObj.m_ActState.Emotion = 1;
+							Obj.TargetNumber = -1;
+							Obj.m_ActState.EmotionCount = 30;
+							Obj.m_ActState.Emotion = 1;
 						}
 
-						lpObj.Dir = GetPathPacketDirPos(lpTargetObj.X-lpObj.X, lpTargetObj.Y-lpObj.Y);
-						lpObj.NextActionTime = lpObj.m_AttackSpeed;
+						Obj.Dir = GetPathPacketDirPos(lpTargetObj.X-Obj.X, lpTargetObj.Y-Obj.Y);
+						Obj.NextActionTime = Obj.m_AttackSpeed;
 					}
 				}
 				else
 				{
 					if ( gObjMonsterGetTargetPos(lpObj) == TRUE )
 					{
-						if ( MAX_MAP_RANGE(lpObj.MapNumber) == FALSE )
+						if ( MAX_MAP_RANGE(Obj.MapNumber) == FALSE )
 						{
-							sLog->outError( "[ERROR] MAX_MAP_RANGE (MonsterHerd) == FALSE (%d)", lpObj.MapNumber);
+							sLog->outError( "[ERROR] MAX_MAP_RANGE (MonsterHerd) == FALSE (%d)", Obj.MapNumber);
 							break;
 						}
 
-						if ( MapC[lpObj.MapNumber].CheckWall(lpObj.X, lpObj.Y, lpObj.MTX, lpObj.MTY) == TRUE )
+						if ( MapC[Obj.MapNumber].CheckWall(Obj.X, Obj.Y, Obj.MTX, Obj.MTY) == TRUE )
 						{
-							lpObj.m_ActState.Move = 1;
-							lpObj.NextActionTime = 400;
-							lpObj.Dir = GetPathPacketDirPos(lpTargetObj.X - lpObj.X, lpTargetObj.Y-lpObj.Y);
+							Obj.m_ActState.Move = 1;
+							Obj.NextActionTime = 400;
+							Obj.Dir = GetPathPacketDirPos(lpTargetObj.X - Obj.X, lpTargetObj.Y-Obj.Y);
 						}
 						else
 						{
 							this->MonsterMoveAction(lpObj);
-							lpObj.m_ActState.Emotion = 3;
-							lpObj.m_ActState.EmotionCount = 10;
+							Obj.m_ActState.Emotion = 3;
+							Obj.m_ActState.EmotionCount = 10;
 						}
 					}
 					else
 					{
 						this->MonsterMoveAction(lpObj);
-						lpObj.m_ActState.Emotion = 3;
-						lpObj.m_ActState.EmotionCount = 10;
+						Obj.m_ActState.Emotion = 3;
+						Obj.m_ActState.EmotionCount = 10;
 					}
 				}
 			}
@@ -697,18 +697,18 @@ void MonsterHerd::MonsterBaseAct(CGameObject &Obj)
 
 		case 3:
 
-			if ( lpObj.m_ActState.EmotionCount > 0 )
+			if ( Obj.m_ActState.EmotionCount > 0 )
 			{
-				lpObj.m_ActState.EmotionCount--;
+				Obj.m_ActState.EmotionCount--;
 			}
 			else
 			{
-				lpObj.m_ActState.Emotion = 0;
+				Obj.m_ActState.Emotion = 0;
 			}
 
-			lpObj.m_ActState.Move = 0;
-			lpObj.m_ActState.Attack = 0;
-			lpObj.NextActionTime = 400;
+			Obj.m_ActState.Move = 0;
+			Obj.m_ActState.Attack = 0;
+			Obj.NextActionTime = 400;
 
 			break;
 	}
@@ -727,36 +727,36 @@ BOOL MonsterHerd::MonsterRegenAction(CGameObject &Obj)
 		return FALSE;
 	}
 
-	if ( lpObj.Connected != PLAYER_PLAYING || lpObj.Type != OBJ_MONSTER )
+	if ( Obj.Connected != PLAYER_PLAYING || Obj.Type != OBJ_MONSTER )
 	{
 		return FALSE;
 	}
 
-	MonsterHerd * lpMH = (MonsterHerd *)lpObj.m_lpMonsterHerd;
+	MonsterHerd * lpMH = (MonsterHerd *)Obj.m_lpMonsterHerd;
 
 	if ( lpMH == NULL )
 	{
 		return FALSE;
 	}
 
-	_MONSTER_HERD_DATA * lpMHD = lpMH->GetMonsterData(lpObj.m_Index);
+	_MONSTER_HERD_DATA * lpMHD = lpMH->GetMonsterData(Obj.m_Index);
 
 	if ( lpMHD == NULL || lpMHD->m_bRegen == FALSE )
 	{
 		return FALSE;
 	}
 
-	lpObj.Life = lpObj.AddLife + lpObj.MaxLife;
-	lpObj.Mana = lpObj.AddMana + lpObj.MaxMana;
-	lpObj.Live = TRUE;
-	lpObj.m_SkillInfo.PoisonType = 0;
-	lpObj.m_SkillInfo.IceType = 0;
-	lpObj.Teleport = 0;
-	lpObj.m_ViewState = 0;
+	Obj.Life = Obj.AddLife + Obj.MaxLife;
+	Obj.Mana = Obj.AddMana + Obj.MaxMana;
+	Obj.Live = TRUE;
+	Obj.m_SkillInfo.PoisonType = 0;
+	Obj.m_SkillInfo.IceType = 0;
+	Obj.Teleport = 0;
+	Obj.m_ViewState = 0;
 
 	for ( int i=0;i<MAX_SELF_DEFENSE;i++)
 	{
-		lpObj.SelfDefenseTime[i] = 0;
+		Obj.SelfDefenseTime[i] = 0;
 	}
 
 	gObjTimeCheckSelfDefense(lpObj);
@@ -765,14 +765,14 @@ BOOL MonsterHerd::MonsterRegenAction(CGameObject &Obj)
 	gObjViewportListProtocolDestroy(lpObj);
 	gObjViewportClose(lpObj);
 
-	lpObj.m_ActState.Attack = 0;
-	lpObj.m_ActState.EmotionCount = 0;
-	lpObj.m_ActState.Escape = 0;
-	lpObj.m_ActState.Move = 0;
-	lpObj.m_ActState.Rest = 0;
-	lpObj.m_ActState.Emotion = 0;
-	lpObj.TargetNumber = -1;
-	lpObj.NextActionTime = 5000;
+	Obj.m_ActState.Attack = 0;
+	Obj.m_ActState.EmotionCount = 0;
+	Obj.m_ActState.Escape = 0;
+	Obj.m_ActState.Move = 0;
+	Obj.m_ActState.Rest = 0;
+	Obj.m_ActState.Emotion = 0;
+	Obj.TargetNumber = -1;
+	Obj.NextActionTime = 5000;
 
 	BYTE cX;
 	BYTE cY;
@@ -790,28 +790,28 @@ BOOL MonsterHerd::MonsterRegenAction(CGameObject &Obj)
 
 	if ( bGetPosition == FALSE )
 	{
-		lpObj.Live = FALSE;
-		lpObj.m_State = 4;
-		lpObj.RegenTime = GetTickCount();
-		lpObj.DieRegen = TRUE;
+		Obj.Live = FALSE;
+		Obj.m_State = 4;
+		Obj.RegenTime = GetTickCount();
+		Obj.DieRegen = TRUE;
 
 		return FALSE;
 	}
 
-	lpObj.X = cX;
-	lpObj.Y = cY;
-	lpObj.MTX = lpObj.X;
-	lpObj.MTY = lpObj.Y;
-	lpObj.TX = lpObj.X;
-	lpObj.TY = lpObj.Y;
-	lpObj.StartX = lpObj.X;
-	lpObj.StartY = lpObj.Y;
+	Obj.X = cX;
+	Obj.Y = cY;
+	Obj.MTX = Obj.X;
+	Obj.MTY = Obj.Y;
+	Obj.TX = Obj.X;
+	Obj.TY = Obj.Y;
+	Obj.StartX = Obj.X;
+	Obj.StartY = Obj.Y;
 
 	gObjMonsterHitDamageInit(lpObj);
-	CreateFrustrum(lpObj.X, lpObj.Y, lpObj.m_Index);
+	CreateFrustrum(Obj.X, Obj.Y, Obj.m_Index);
 
-	lpObj.DieRegen = FALSE;
-	lpObj.m_State = 1;
+	Obj.DieRegen = FALSE;
+	Obj.m_State = 1;
 
 	return TRUE;
 }

@@ -80,35 +80,35 @@ bool CSkillUseTime::CheckSkillTime(CGameObject &Obj, int iSkill)
 		return true;
 	}
 
-	if ( lpObj.Type != OBJ_USER )
+	if ( Obj.Type != OBJ_USER )
 	{
 		return true;
 	}
 
-	ULONGLONG iTimeDiff = GetTickCount64() - lpObj.m_PlayerData->LastSkillUseTick;
+	ULONGLONG iTimeDiff = GetTickCount64() - Obj.m_PlayerData->LastSkillUseTick;
 
 	if ( this->m_bDebugMode )
 	{
-		sLog->outBasic("[DEBUG] UseSkill (%d) Time(%d) MagicSpeed(%d)", iSkill, iTimeDiff, lpObj.m_MagicSpeed);
+		sLog->outBasic("[DEBUG] UseSkill (%d) Time(%d) MagicSpeed(%d)", iSkill, iTimeDiff, Obj.m_MagicSpeed);
 	}
 
 	for(std::vector<SKILL_TIME_INFO>::iterator It = this->m_vtSkillTimeInfo.begin(); It != this->m_vtSkillTimeInfo.end(); It++)
 	{
-		if ( lpObj.m_MagicSpeed >= It->iMinMagicSpeed && lpObj.m_MagicSpeed <= It->iMaxMagicSpeed )
+		if ( Obj.m_MagicSpeed >= It->iMinMagicSpeed && Obj.m_MagicSpeed <= It->iMaxMagicSpeed )
 		{
 			if ( iSkill == It->iSkill )
 			{
 				if ( iTimeDiff < It->iUseTime )
 				{
-					lpObj.m_PlayerData->LastSkillUseCount++;
+					Obj.m_PlayerData->LastSkillUseCount++;
 
 					if ( this->m_iIsDC )
 					{
-						if ( lpObj.m_PlayerData->LastSkillUseCount >= this->m_iNumberOfBadSkillUseDC )
+						if ( Obj.m_PlayerData->LastSkillUseCount >= this->m_iNumberOfBadSkillUseDC )
 						{
-							sLog->outError( "[ANTI-HACK] [%s][%s][%s] Used skill too fast %d times -> Disconnect", lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->ConnectUser->IP, lpObj.m_PlayerData->LastSkillUseCount);
-							gGameProtocol.GCSendDisableReconnect(lpObj.m_Index);
-							//IOCP.CloseClient(lpObj.m_Index);
+							sLog->outError( "[ANTI-HACK] [%s][%s][%s] Used skill too fast %d times -> Disconnect", Obj.AccountID, Obj.Name, Obj.m_PlayerData->ConnectUser->IP, Obj.m_PlayerData->LastSkillUseCount);
+							gGameProtocol.GCSendDisableReconnect(Obj.m_Index);
+							//IOCP.CloseClient(Obj.m_Index);
 						}
 					}
 
@@ -118,9 +118,9 @@ bool CSkillUseTime::CheckSkillTime(CGameObject &Obj, int iSkill)
 		}
 	}
 
-	lpObj.m_PlayerData->LastSkillUseCount = 0;
-	lpObj.m_PlayerData->LastSkillUseNumber = iSkill;
-	lpObj.m_PlayerData->LastSkillUseTick = GetTickCount64();
+	Obj.m_PlayerData->LastSkillUseCount = 0;
+	Obj.m_PlayerData->LastSkillUseNumber = iSkill;
+	Obj.m_PlayerData->LastSkillUseTick = GetTickCount64();
 
 	return true;
 }

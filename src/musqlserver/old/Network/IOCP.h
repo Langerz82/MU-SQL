@@ -8,7 +8,6 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "MuDefines.h"
 #include "CQueue.h"
 
 struct _PER_IO_CONTEXT;
@@ -24,7 +23,7 @@ public:
 	void DestroyGIocp();
 	bool CreateListenSocket();
 	bool RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex);
-	bool DataSend(int aIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt = true);
+	bool DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt = true);
 	bool IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext);
 	bool IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext);
 	bool UpdateCompletionPort(SOCKET sd, int ClientIndex, BOOL bAddToList);
@@ -70,7 +69,7 @@ BOOL CreateListenSocket(DWORD dwServerCountIndex);
 unsigned long __stdcall IocpServerWorker(DWORD pIocpServerParameter);
 unsigned long __stdcall ServerWorkerThread(HANDLE CompletionPortID);
 BOOL RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex);
-BOOL DataSend(int aIndex, BYTE* lpMsg, DWORD dwSize, char* szFunction = nullptr);
+BOOL DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, char* szFunction = nullptr);
 BOOL IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext);
 BOOL IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext);
 BOOL UpdateCompletionPort(SOCKET sd, int ClientIndex, DWORD dwServerTypeCount);

@@ -193,7 +193,7 @@ int GetSkillNumberInex(int type, int Index, int level)
 
 
 
-int CMagicInf::Set(BYTE aType, WORD aIndex, BYTE aLevel)
+int CMagicInf::Set(BYTE aType, WORD Obj.m_Index, BYTE aLevel)
 {
 	if ( this->m_Skill != -1 )
 	{
@@ -202,7 +202,7 @@ int CMagicInf::Set(BYTE aType, WORD aIndex, BYTE aLevel)
 	}
 
 	this->m_Level = aLevel;
-	this->m_Skill = GetSkillNumberInex(aType, aIndex, aLevel);
+	this->m_Skill = GetSkillNumberInex(aType, Obj.m_Index, aLevel);
 	
 	if ( this->m_Skill < 0 )
 	{

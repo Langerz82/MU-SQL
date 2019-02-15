@@ -53,7 +53,7 @@ bool CEventBag::UseBag(CGameObject &Obj, int iMonsterIndex)
 
 	if (rand() % 10000 >= this->m_BagData.dwItemDropRate)
 	{
-		MapC[lpObj.MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, lpObj.X, lpObj.Y);
+		MapC[Obj.MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, Obj.X, Obj.Y);
 
 		return true;
 	}
@@ -61,9 +61,9 @@ bool CEventBag::UseBag(CGameObject &Obj, int iMonsterIndex)
 	if (rand() % 10000 < this->m_BagData.dwGainRuudRate)
 	{
 		int iRuudValue = this->GetValueMinMax(this->m_BagData.dwMinGainRuud, this->m_BagData.dwMaxGainRuud);
-		lpObj.m_PlayerData->Ruud += iRuudValue;
+		Obj.m_PlayerData->Ruud += iRuudValue;
 
-		gGameProtocol.GCSendRuud(aIndex, lpObj.m_PlayerData->Ruud, iRuudValue, true);
+		gGameProtocol.GCSendRuud(Obj.m_Index, Obj.m_PlayerData->Ruud, iRuudValue, true);
 		return true;
 	}
 
@@ -71,7 +71,7 @@ bool CEventBag::UseBag(CGameObject &Obj, int iMonsterIndex)
 	BAG_SECTION_ITEMS m_ItemSection;
 	BAG_SECTION_DROP m_DropSection;
 
-	int iResult = this->GetDropSection(aIndex, m_DropSection);
+	int iResult = this->GetDropSection(Obj.m_Index, m_DropSection);
 
 	if (iResult == FALSE)
 	{
@@ -94,7 +94,7 @@ bool CEventBag::UseBag(CGameObject &Obj, int iMonsterIndex)
 	{
 		if (rand()%10000 < this->m_BagData.dwRandomSetItemDropRate)
 		{
-			MakeRewardSetItem(aIndex, lpMonsterObj.X, lpMonsterObj.Y, 1, lpObj.MapNumber);
+			MakeRewardSetItem(Obj.m_Index, lpMonsterObj.X, lpMonsterObj.Y, 1, Obj.MapNumber);
 			return true;
 		}
 
@@ -103,7 +103,7 @@ bool CEventBag::UseBag(CGameObject &Obj, int iMonsterIndex)
 			return false;
 		}
 
-		bool bResult = gLuaBag.DropCommonBag(aIndex, lpMonsterObj.MapNumber, lpMonsterObj.X, lpMonsterObj.Y, &m_Item);
+		bool bResult = gLuaBag.DropCommonBag(Obj.m_Index, lpMonsterObj.MapNumber, lpMonsterObj.X, lpMonsterObj.Y, &m_Item);
 
 		if (bResult == false)
 		{
@@ -126,7 +126,7 @@ bool CEventBag::UseBag(CGameObject &Obj, int iMonsterIndex)
 	
 		if (rand()%10000 < this->m_BagData.dwRandomSetItemDropRate)
 		{
-			MakeRewardSetItem(aIndex, cDropX, cDropY, 1, lpObj.MapNumber);
+			MakeRewardSetItem(Obj.m_Index, cDropX, cDropY, 1, Obj.MapNumber);
 			continue;
 		}
 
@@ -135,7 +135,7 @@ bool CEventBag::UseBag(CGameObject &Obj, int iMonsterIndex)
 			return false;
 		}
 
-		bool bResult = gLuaBag.DropMonsterBag(aIndex, iMonsterIndex, lpMonsterObj.MapNumber, cDropX, cDropY, &m_Item);
+		bool bResult = gLuaBag.DropMonsterBag(Obj.m_Index, iMonsterIndex, lpMonsterObj.MapNumber, cDropX, cDropY, &m_Item);
 
 		if (bResult == false)
 		{
@@ -153,7 +153,7 @@ bool CEventBag::UseBag_GremoryCase(CGameObject &Obj, int iMonsterIndex, BYTE btS
 
 	if (rand() % 10000 >= this->m_BagData.dwItemDropRate)
 	{
-		MapC[lpObj.MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, lpObj.X, lpObj.Y);
+		MapC[Obj.MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, Obj.X, Obj.Y);
 
 		return true;
 	}
@@ -161,9 +161,9 @@ bool CEventBag::UseBag_GremoryCase(CGameObject &Obj, int iMonsterIndex, BYTE btS
 	if (rand() % 10000 < this->m_BagData.dwGainRuudRate)
 	{
 		int iRuudValue = this->GetValueMinMax(this->m_BagData.dwMinGainRuud, this->m_BagData.dwMaxGainRuud);
-		lpObj.m_PlayerData->Ruud += iRuudValue;
+		Obj.m_PlayerData->Ruud += iRuudValue;
 
-		gGameProtocol.GCSendRuud(aIndex, lpObj.m_PlayerData->Ruud, iRuudValue, true);
+		gGameProtocol.GCSendRuud(Obj.m_Index, Obj.m_PlayerData->Ruud, iRuudValue, true);
 		return true;
 	}
 
@@ -171,7 +171,7 @@ bool CEventBag::UseBag_GremoryCase(CGameObject &Obj, int iMonsterIndex, BYTE btS
 	BAG_SECTION_ITEMS m_ItemSection;
 	BAG_SECTION_DROP m_DropSection;
 
-	int iResult = this->GetDropSection(aIndex, m_DropSection);
+	int iResult = this->GetDropSection(Obj.m_Index, m_DropSection);
 
 	if (iResult == FALSE)
 	{
@@ -195,11 +195,11 @@ bool CEventBag::UseBag_GremoryCase(CGameObject &Obj, int iMonsterIndex, BYTE btS
 		if (rand()%10000 < this->m_BagData.dwRandomSetItemDropRate)
 		{
 			_stGremoryCaseItem stItem;
-			MakeRewardSetItem(aIndex, lpMonsterObj.X, lpMonsterObj.Y, 1, lpObj.MapNumber, stItem);
+			MakeRewardSetItem(Obj.m_Index, lpMonsterObj.X, lpMonsterObj.Y, 1, Obj.MapNumber, stItem);
 
 			stItem.btStorageType = btStorageType;
 			stItem.btRewardSource = btRewardSource;
-			g_GremoryCase.GDReqAddItemToGremoryCase(aIndex, stItem, iExpireDays);
+			g_GremoryCase.GDReqAddItemToGremoryCase(Obj.m_Index, stItem, iExpireDays);
 
 			return true;
 		}
@@ -211,7 +211,7 @@ bool CEventBag::UseBag_GremoryCase(CGameObject &Obj, int iMonsterIndex, BYTE btS
 
 		_stGremoryCaseItem stItem;
 
-		bool bResult = gLuaBag.MakeItemFromBagForGremoryCase(aIndex, &m_Item, stItem);
+		bool bResult = gLuaBag.MakeItemFromBagForGremoryCase(Obj.m_Index, &m_Item, stItem);
 
 		if (bResult == false)
 		{
@@ -220,7 +220,7 @@ bool CEventBag::UseBag_GremoryCase(CGameObject &Obj, int iMonsterIndex, BYTE btS
 
 		stItem.btStorageType = btStorageType;
 		stItem.btRewardSource = btRewardSource;
-		g_GremoryCase.GDReqAddItemToGremoryCase(aIndex, stItem, iExpireDays);
+		g_GremoryCase.GDReqAddItemToGremoryCase(Obj.m_Index, stItem, iExpireDays);
 
 		return true;
 	}
@@ -239,11 +239,11 @@ bool CEventBag::UseBag_GremoryCase(CGameObject &Obj, int iMonsterIndex, BYTE btS
 		if (rand()%10000 < this->m_BagData.dwRandomSetItemDropRate)
 		{
 			_stGremoryCaseItem stItem;
-			MakeRewardSetItem(aIndex, cDropX, cDropY, 1, lpObj.MapNumber, stItem);
+			MakeRewardSetItem(Obj.m_Index, cDropX, cDropY, 1, Obj.MapNumber, stItem);
 
 			stItem.btStorageType = btStorageType;
 			stItem.btRewardSource = btRewardSource;
-			g_GremoryCase.GDReqAddItemToGremoryCase(aIndex, stItem, iExpireDays);
+			g_GremoryCase.GDReqAddItemToGremoryCase(Obj.m_Index, stItem, iExpireDays);
 
 			continue;
 		}
@@ -255,7 +255,7 @@ bool CEventBag::UseBag_GremoryCase(CGameObject &Obj, int iMonsterIndex, BYTE btS
 
 		_stGremoryCaseItem stItem;
 
-		bool bResult = gLuaBag.MakeItemFromBagForGremoryCase(aIndex, &m_Item, stItem);
+		bool bResult = gLuaBag.MakeItemFromBagForGremoryCase(Obj.m_Index, &m_Item, stItem);
 
 		if (bResult == false)
 		{
@@ -264,7 +264,7 @@ bool CEventBag::UseBag_GremoryCase(CGameObject &Obj, int iMonsterIndex, BYTE btS
 
 		stItem.btStorageType = btStorageType;
 		stItem.btRewardSource = btRewardSource;
-		g_GremoryCase.GDReqAddItemToGremoryCase(aIndex, stItem, iExpireDays);
+		g_GremoryCase.GDReqAddItemToGremoryCase(Obj.m_Index, stItem, iExpireDays);
 
 	}
 

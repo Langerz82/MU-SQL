@@ -127,12 +127,12 @@ int CUpgradeCmd::DoUpgrade(CGameObject &Obj)
 		return -1;
 	}
 
-	if (!ObjectMaxRange(aIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return -1;
 	}
 
-	if (lpObj.Type != OBJ_USER)
+	if (Obj.Type != OBJ_USER)
 	{
 		return -1;
 	}
@@ -146,54 +146,54 @@ int CUpgradeCmd::DoUpgrade(CGameObject &Obj)
 			continue;
 		}
 
-		if (lpObj.pInventory[i].IsItem() == false)
+		if (Obj.pInventory[i].IsItem() == false)
 		{
 			continue;
 		}
 
 		for (std::map<int, UPGRADECMD_DATA>::iterator It = this->m_mapUpgradeData.begin(); It != this->m_mapUpgradeData.end(); It++)
 		{
-			if (It->second.m_NeedItem.wItemID != lpObj.pInventory[i].m_Type)
+			if (It->second.m_NeedItem.wItemID != Obj.pInventory[i].m_Type)
 			{
 				continue;
 			}
 
-			if (It->second.m_NeedItem.btItemLevel != lpObj.pInventory[i].m_Level)
+			if (It->second.m_NeedItem.btItemLevel != Obj.pInventory[i].m_Level)
 			{
 				continue;
 			}
 
-			if (It->second.m_NeedItem.btOption != lpObj.pInventory[i].m_Option3)
+			if (It->second.m_NeedItem.btOption != Obj.pInventory[i].m_Option3)
 			{
 				continue;
 			}
 
-			if (It->second.m_NeedItem.btSetOption != lpObj.pInventory[i].m_SetOption)
+			if (It->second.m_NeedItem.btSetOption != Obj.pInventory[i].m_SetOption)
 			{
 				continue;
 			}
 
-			if (It->second.m_NeedItem.btExc != lpObj.pInventory[i].m_NewOption)
+			if (It->second.m_NeedItem.btExc != Obj.pInventory[i].m_NewOption)
 			{
 				continue;
 			}
 
-			if (memcmp(It->second.m_NeedItem.btSocketOption, lpObj.pInventory[i].m_SocketOption, 5) != 0)
+			if (memcmp(It->second.m_NeedItem.btSocketOption, Obj.pInventory[i].m_SocketOption, 5) != 0)
 			{
 				continue;
 			}
 
 			if (CheckInventoryEmptySpace(lpObj, 4, 4) == FALSE)
 			{
-				MsgOutput(aIndex, "You need 4x4 empty space in inventory");
+				MsgOutput(Obj.m_Index, "You need 4x4 empty space in inventory");
 				return 0;
 			}
 
-			CItemObject CopyItem = lpObj.pInventory[i];
+			CItemObject CopyItem = Obj.pInventory[i];
 			CItemObject NewItem;
 
-			gObjInventoryDeleteItem(aIndex, i);
-			gGameProtocol.GCInventoryItemDeleteSend(aIndex, i, 1);
+			gObjInventoryDeleteItem(Obj.m_Index, i);
+			gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, i, 1);
 
 			NewItem.m_Type = It->second.m_GetItem.wItemID;
 			NewItem.m_Level = It->second.m_GetItem.btItemLevel;
@@ -241,7 +241,7 @@ int CUpgradeCmd::DoUpgrade(CGameObject &Obj)
 
 			NewItem.m_Durability = ItemGetDurability(NewItem.m_Type, NewItem.m_Level, NewItem.m_NewOption, NewItem.m_SetOption);
 
-			ItemCreate(aIndex, 235, 0, 0, NewItem.m_Type, NewItem.m_Level, NewItem.m_Durability, NewItem.m_Option1, NewItem.m_Option2, NewItem.m_Option3, aIndex, NewItem.m_NewOption, NewItem.m_SetOption, 0, NewItem.m_SocketOption, 0);
+			ItemCreate(Obj.m_Index, 235, 0, 0, NewItem.m_Type, NewItem.m_Level, NewItem.m_Durability, NewItem.m_Option1, NewItem.m_Option2, NewItem.m_Option3, Obj.m_Index, NewItem.m_NewOption, NewItem.m_SetOption, 0, NewItem.m_SocketOption, 0);
 			return 1;
 		}
 	}

@@ -165,7 +165,7 @@ BOOL TMonsterAIUnit::RunAIUnit(CGameObject &Obj)
 	if ( this->m_lpAutomata == NULL )
 		return FALSE;
 
-	if ( (GetTickCount() - lpObj.m_iLastAutomataRuntime) < lpObj.m_iLastAutomataDelay )
+	if ( (GetTickCount() - Obj.m_iLastAutomataRuntime) < Obj.m_iLastAutomataDelay )
 		return FALSE;
 
 	TMonsterAIState * pAIState = this->m_lpAutomata->RunAutomata(Obj.m_Index);
@@ -173,7 +173,7 @@ BOOL TMonsterAIUnit::RunAIUnit(CGameObject &Obj)
 	if ( pAIState == NULL )
 		return FALSE;
 
-	lpObj.m_iLastAutomataRuntime = GetTickCount();
+	Obj.m_iLastAutomataRuntime = GetTickCount();
 	TMonsterAIElement * pAIElement = *this->m_lppAIClassMap[pAIState->m_iNextState];
 
 	if ( pAIElement == NULL )
@@ -184,7 +184,7 @@ BOOL TMonsterAIUnit::RunAIUnit(CGameObject &Obj)
 	if ( iRetExec == 0 )
 		return FALSE;
 
-	lpObj.m_iCurrentAIState = pAIState->m_iNextState;
+	Obj.m_iCurrentAIState = pAIState->m_iNextState;
 	
 	return TRUE;
 }

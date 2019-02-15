@@ -2029,12 +2029,12 @@ int  CChaosCastle::GetCurrentWinUser(int iChaosCastleIndex)
 			{
 				CGameObject lpObj = &getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex);
 
-				int iUSER_SCORE = lpObj.m_cKillUserCount + lpObj.m_cKillMonsterCount * 2;
+				int iUSER_SCORE = Obj.m_cKillUserCount + Obj.m_cKillMonsterCount * 2;
 
 				if ( iCC_SCORE < iUSER_SCORE )
 				{
 					iCC_SCORE = iUSER_SCORE;
-					iCC_WINNER_INDEX = lpObj.m_Index;
+					iCC_WINNER_INDEX = Obj.m_Index;
 				}
 			}
 		}
@@ -2357,16 +2357,16 @@ BOOL CChaosCastle::ObjSetPosition(CGameObject &Obj, int iX, int iY)
 
 	CGameObject lpObj = Obj;
 
-	if (!MAX_MAP_RANGE(lpObj.MapNumber))
+	if (!MAX_MAP_RANGE(Obj.MapNumber))
 		return FALSE;
 
-	if ( !CC_MAP_RANGE(lpObj.MapNumber))
+	if ( !CC_MAP_RANGE(Obj.MapNumber))
 		return FALSE;
 
-	if ( lpObj.Teleport )
+	if ( Obj.Teleport )
 		return TRUE;
 
-	BYTE btMapAttr = MapC[lpObj.MapNumber].GetAttr(iX, iY);
+	BYTE btMapAttr = MapC[Obj.MapNumber].GetAttr(iX, iY);
 
 	if ( (btMapAttr&2) == 2 || (btMapAttr&4) == 4 )
 		return FALSE;
@@ -2379,16 +2379,16 @@ BOOL CChaosCastle::ObjSetPosition(CGameObject &Obj, int iX, int iY)
 	pMove.X = iX;
 	pMove.Y = iY;
 
-	lpObj.m_Rest = 0;
+	Obj.m_Rest = 0;
 
-	MapC[lpObj.MapNumber].ClearStandAttr(lpObj.m_OldX,lpObj.m_OldY);
-	MapC[lpObj.MapNumber].SetStandAttr(iX,iY);
+	MapC[Obj.MapNumber].ClearStandAttr(Obj.m_OldX,Obj.m_OldY);
+	MapC[Obj.MapNumber].SetStandAttr(iX,iY);
 
-	lpObj.m_OldX = iX;
-	lpObj.m_OldY = iY;
+	Obj.m_OldX = iX;
+	Obj.m_OldY = iY;
 
-	lpObj.X = pMove.X;
-	lpObj.Y = pMove.Y;
+	Obj.X = pMove.X;
+	Obj.Y = pMove.Y;
 
 	PMSG_RECV_POSISTION_SET pMove2;
 	PHeadSetB((BYTE*)&pMove2, 0x10, sizeof(pMove2));
@@ -2396,23 +2396,23 @@ BOOL CChaosCastle::ObjSetPosition(CGameObject &Obj, int iX, int iY)
 	pMove2.NumberL = SET_NUMBERL(Obj.m_Index);
 	pMove2.X = pMove.X;
 	pMove2.Y = pMove.Y;
-	lpObj.TX = pMove.X;
-	lpObj.TY = pMove.Y;
+	Obj.TX = pMove.X;
+	Obj.TY = pMove.Y;
 
-	CreateFrustrum(lpObj.X, lpObj.Y, iIndex);
+	CreateFrustrum(Obj.X, Obj.Y, iIndex);
 
-	if ( lpObj.Type == OBJ_USER )
+	if ( Obj.Type == OBJ_USER )
 	{
 		IOCP.DataSend(Obj.m_Index, (UCHAR *)&pMove2, pMove2.h.size);
 	}
 
 	gGameProtocol.MsgSendV2(Obj, (UCHAR *)&pMove2, pMove2.h.size);
 
-	MapC[lpObj.MapNumber].ClearStandAttr(lpObj.m_OldX, lpObj.m_OldY);
-	MapC[lpObj.MapNumber].SetStandAttr(lpObj.TX, lpObj.TY);
+	MapC[Obj.MapNumber].ClearStandAttr(Obj.m_OldX, Obj.m_OldY);
+	MapC[Obj.MapNumber].SetStandAttr(Obj.TX, Obj.TY);
 
-	lpObj.m_OldX = lpObj.TX;
-	lpObj.m_OldY = lpObj.TY;
+	Obj.m_OldX = Obj.TX;
+	Obj.m_OldY = Obj.TY;
 
 	return TRUE;
 }
@@ -2482,24 +2482,24 @@ BOOL CChaosCastle::BlowObjsFromPoint(CGameObject &Obj, int iMapNumber, int& iX, 
 
 	CGameObject lpObj = Obj;
 
-	if ( lpObj.DieRegen )
+	if ( Obj.DieRegen )
 		return FALSE;
 
-	if ( lpObj.Teleport )
+	if ( Obj.Teleport )
 		return FALSE;
 
-	if ( lpObj.MapNumber != iMapNumber )
+	if ( Obj.MapNumber != iMapNumber )
 		return FALSE;
 
-	int iOBJ_DIST = this->CalDistance(lpObj.X, lpObj.Y, iX, iY);
+	int iOBJ_DIST = this->CalDistance(Obj.X, Obj.Y, iX, iY);
 
 	if ( !CHECK_LIMIT(iOBJ_DIST, 4))
 		return FALSE;
 
 	int iSIGN_X = 1;
 	int iSIGN_Y = 1;
-	int iUX = lpObj.X;
-	int iUY = lpObj.Y;
+	int iUX = Obj.X;
+	int iUY = Obj.Y;
 
 	if ( iUX > iX )
 		iSIGN_X = 1;
@@ -2551,8 +2551,8 @@ BOOL CChaosCastle::BlowObjsFromPoint(CGameObject &Obj, int iMapNumber, int& iX, 
 				iBLOW_X = 0;
 		}
 
-		int iTX = lpObj.X  + iBLOW_X * iSIGN_X;
-		int iTY = lpObj.Y  + iBLOW_Y * iSIGN_Y;
+		int iTX = Obj.X  + iBLOW_X * iSIGN_X;
+		int iTY = Obj.Y  + iBLOW_Y * iSIGN_Y;
 
 		if ( iTX < 0 ) iTX = 0;
 		if ( iTY < 0 ) iTY = 0;
@@ -2563,11 +2563,11 @@ BOOL CChaosCastle::BlowObjsFromPoint(CGameObject &Obj, int iMapNumber, int& iX, 
 		
 		if ( bSuccessBlowOut )
 		{
-			lpObj.m_iChaosCastleBlowTime = GetTickCount();
+			Obj.m_iChaosCastleBlowTime = GetTickCount();
 			iX = iTX;
 			iY = iTY;
 
-			this->GiveUserDamage(lpObj.m_Index, g_iChaosCastle_BlowOutDamage[iOBJ_DIST % 4]);
+			this->GiveUserDamage(Obj.m_Index, g_iChaosCastle_BlowOutDamage[iOBJ_DIST % 4]);
 			break;
 		}
 	}
@@ -3468,17 +3468,17 @@ void CChaosCastle::GDReqSetUBFReward_CCBattle(CGameObject &Obj, BYTE byRewardTyp
 
 	CGameObject lpObj = &getGameObject(iUserIndex);
 
-	if (lpObj.Type != OBJ_USER)
+	if (Obj.Type != OBJ_USER)
 	{
 		return;
 	}
 
 	sLog->outBasic("[UBF][Chaos Castle][GDReqSetUBFReward_CCBattle]ACC:%s , NAME :%s,Real NAME :%s, RewardType:%d",
-		lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->m_RealNameOfUBF, byRewardType);
+		Obj.AccountID, Obj.Name, Obj.m_PlayerData->m_RealNameOfUBF, byRewardType);
 
 	SDHP_REQ_SET_CC_WINNER_INFO_UBF pMsg;
 	
-	memcpy(pMsg.UBFName, lpObj.Name, MAX_ACCOUNT_LEN+1);
+	memcpy(pMsg.UBFName, Obj.Name, MAX_ACCOUNT_LEN+1);
 	pMsg.btRewardType = byRewardType;
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xF9, 0x02, sizeof(pMsg));
@@ -3494,7 +3494,7 @@ void CChaosCastle::SetUBFGetReward(CGameObject &Obj, WORD wItemCode, UINT64 Item
 
 	CGameObject lpObj = &getGameObject(iUserIndex);
 
-	if (lpObj.Type != OBJ_USER)
+	if (Obj.Type != OBJ_USER)
 	{
 		return;
 	}

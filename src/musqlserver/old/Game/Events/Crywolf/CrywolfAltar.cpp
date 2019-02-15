@@ -417,7 +417,7 @@ void CCrywolfAltar::CrywolfAltarAct(CGameObject &Obj)
 
 	if ( lpUserObj.Live != FALSE && lpUserObj.MapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE )
 	{
-		if ( abs(lpObj.Y-lpUserObj.Y) <= 0 && abs(lpObj.X - lpUserObj.X) <= 0 )
+		if ( abs(Obj.Y-lpUserObj.Y) <= 0 && abs(Obj.X - lpUserObj.X) <= 0 )
 		{
 			if ( this->CheckAltarValidContract(Obj.Class) != FALSE )
 			{

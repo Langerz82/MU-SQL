@@ -79,7 +79,7 @@ int CResetTable::GetResetPoint(CGameObject &Obj) // OK
 
 	for (int n = 0; n < this->m_count; n++)
 	{
-		for (int i = 0; i <= lpObj.m_PlayerData->m_iResets; i++)
+		for (int i = 0; i <= Obj.m_PlayerData->m_iResets; i++)
 		{
 			if (i >= this->m_ResetTableInfo[n].MinReset && i <= this->m_ResetTableInfo[n].MaxReset)
 			{

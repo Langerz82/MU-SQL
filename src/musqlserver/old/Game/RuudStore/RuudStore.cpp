@@ -81,16 +81,16 @@ void CRuudStore::LoadFile(char * szFile)
 
 bool CRuudStore::NpcTalk(CGameObject & lpNpc, CGameObject &Obj)
 {
-	if (!gObjIsConnected(lpObj.m_Index))
+	if (!gObjIsConnected(Obj.m_Index))
 		return false;
 
-	if (lpObj.m_IfState.use > 0)
+	if (Obj.m_IfState.use > 0)
 		return false;
 
-	lpObj.TargetNpcNumber = lpNpc->m_Index;
-	lpObj.m_IfState.use = 1;
-	lpObj.m_IfState.type = 3;
-	lpObj.m_ShopTime = 0;
+	Obj.TargetNpcNumber = lpNpc->m_Index;
+	Obj.m_IfState.use = 1;
+	Obj.m_IfState.type = 3;
+	Obj.m_ShopTime = 0;
 
 	PMSG_TALKRESULT pResult;
 
@@ -99,7 +99,7 @@ bool CRuudStore::NpcTalk(CGameObject & lpNpc, CGameObject &Obj)
 	pResult.h.size = sizeof(pResult);
 	pResult.result = 0x35;
 
-	IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pResult, pResult.h.size);
+	IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pResult, pResult.h.size);
 
 	PMSG_SHOPITEMCOUNT pShopItemCount;
 	BYTE SendByte[4096];
@@ -110,7 +110,7 @@ bool CRuudStore::NpcTalk(CGameObject & lpNpc, CGameObject &Obj)
 
 	for (std::map<int, RUUD_MAP_ITEM_DATA>::iterator It = this->m_mapItemList.begin(); It != this->m_mapItemList.end(); It++)
 	{
-		if (It->second.btClass == lpObj.Class)
+		if (It->second.btClass == Obj.Class)
 		{
 			SendByte[lOfs] = It->first;
 			lOfs++;
@@ -127,7 +127,7 @@ bool CRuudStore::NpcTalk(CGameObject & lpNpc, CGameObject &Obj)
 	pShopItemCount.h.sizeL = LOBYTE(lOfs);
 	memcpy(SendByte, &pShopItemCount, sizeof(pShopItemCount));
 
-	IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, SendByte, lOfs);
+	IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, SendByte, lOfs);
 }
 
 void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, CGameObject &Obj)
@@ -155,14 +155,14 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, CGameObject &
 	PMSG_ANS_RUUD_STORE_BUYITEM pMsg;
 	PHeadSubSetB((BYTE*)&pMsg, 0xD0, 0xF0, sizeof(pMsg));
 
-	if (lpObj.CloseType != -1)
+	if (Obj.CloseType != -1)
 	{
 		pMsg.btResult = 0xFF;
 		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 		return;
 	}
 
-	if (lpObj.TargetNpcNumber == -1)
+	if (Obj.TargetNpcNumber == -1)
 	{
 		pMsg.btResult = 0xFF;
 		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
@@ -174,16 +174,16 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, CGameObject &
 		sLog->outBasic("[Fix Inv.Ptr] False Location - %s, %d", __FILE__, __LINE__);
 	}
 
-	if (lpObj.m_ShopTime == 0)
-		lpObj.m_ShopTime = 1;
+	if (Obj.m_ShopTime == 0)
+		Obj.m_ShopTime = 1;
 
-	if (lpObj.m_ShopTime > this->m_iShopTime)
+	if (Obj.m_ShopTime > this->m_iShopTime)
 	{
-		if (lpObj.m_IfState.use != 0 && lpObj.m_IfState.type == 3)
+		if (Obj.m_IfState.use != 0 && Obj.m_IfState.type == 3)
 		{
-			lpObj.TargetNpcNumber = -1;
-			lpObj.m_IfState.use = 0;
-			lpObj.m_IfState.type = 0;
+			Obj.TargetNpcNumber = -1;
+			Obj.m_IfState.use = 0;
+			Obj.m_IfState.type = 0;
 		}
 
 		pMsg.btResult = 0xFE;
@@ -191,9 +191,9 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, CGameObject &
 		return;
 	}
 
-	if (lpObj.m_IfState.use > 0)
+	if (Obj.m_IfState.use > 0)
 	{
-		if (lpObj.m_IfState.type != 3)
+		if (Obj.m_IfState.type != 3)
 		{
 			pMsg.btResult = 0xFF;
 			IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
@@ -210,7 +210,7 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, CGameObject &
 		return;
 	}
 
-	if (lpObj.m_PlayerData->Ruud < It->second.dwRuudPrice)
+	if (Obj.m_PlayerData->Ruud < It->second.dwRuudPrice)
 	{
 		pMsg.btResult = 0xFC;
 		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
@@ -227,9 +227,9 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, CGameObject &
 		return;
 	}
 
-	lpObj.m_PlayerData->Ruud -= It->second.dwRuudPrice;
+	Obj.m_PlayerData->Ruud -= It->second.dwRuudPrice;
 
-	gGameProtocol.GCSendRuud(iIndex, lpObj.m_PlayerData->Ruud, 0, false);
+	gGameProtocol.GCSendRuud(iIndex, Obj.m_PlayerData->Ruud, 0, false);
 
 	if (It->second.Item.m_Type == ITEMGET(5, 41) || It->second.Item.m_Type == ITEMGET(3, 19) || It->second.Item.m_Type == ITEMGET(0, 46) || It->second.Item.m_Type == ITEMGET(5, 43) || It->second.Item.m_Type == ITEMGET(2, 22) || It->second.Item.m_Type == ITEMGET(0, 42) || It->second.Item.m_Type == ITEMGET(4, 28) || It->second.Item.m_Type == ITEMGET(4, 34) || It->second.Item.m_Type == ITEMGET(5, 41) || It->second.Item.m_Type == ITEMGET(0, 44) )
 	{
@@ -257,7 +257,7 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, CGameObject &
 
 	ItemCreate(iIndex, 217, 0, 0, It->second.Item.m_Type, It->second.Item.m_Level, It->second.Item.m_Durability, It->second.Item.m_Option1, It->second.Item.m_Option2, It->second.Item.m_Option3, iIndex,
 		It->second.Item.m_NewOption, It->second.Item.m_SetOption, 0, It->second.Item.m_SocketOption, It->second.Item.m_BonusSocketOption);
-	g_RuudLog.Output("Character:%s ,Type:%d ,Level:%d ,Dur:%d ,Skill:%d ,Luck:%d ,Option:%d ,Exc:%d ,SetOpt:%d ", lpObj.Name, It->second.Item.m_Type, It->second.Item.m_Level, It->second.Item.m_Durability, It->second.Item.m_Option1, lpItemList.btLuck, It->second.Item.m_Option3,It->second.Item.m_NewOption, It->second.Item.m_SetOption);
+	g_RuudLog.Output("Character:%s ,Type:%d ,Level:%d ,Dur:%d ,Skill:%d ,Luck:%d ,Option:%d ,Exc:%d ,SetOpt:%d ", Obj.Name, It->second.Item.m_Type, It->second.Item.m_Level, It->second.Item.m_Durability, It->second.Item.m_Option1, lpItemList.btLuck, It->second.Item.m_Option3,It->second.Item.m_NewOption, It->second.Item.m_SetOption);
 }
 
 void CRuudStore::AddItemToList(int iPos, RUUD_SHOP_ITEM * lpItem)

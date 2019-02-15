@@ -46,7 +46,7 @@ void CCrywolfUtil::SendMapServerGroupMsg(LPSTR lpszMsg, ...)
 
 void CCrywolfUtil::SendAllUserAnyData(BYTE* lpMsg, int iSize)
 {
-	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
+	for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 	{
 		if ( getGameObject(i)->Connected == PLAYER_PLAYING )
 		{
@@ -161,9 +161,9 @@ void CCrywolfUtil::SendCrywolfChattingMsg(int iObjIndex, LPSTR lpszMsg, ...)
 
 	for (int i;i<MaxViewportMonster;i++)
 	{
-		if ( lpObj.VpPlayer2[i].state != FALSE )
+		if ( Obj.VpPlayer2[i].state != FALSE )
 		{
-			int iTargetNumber = lpObj.VpPlayer2[i].number;
+			int iTargetNumber = Obj.VpPlayer2[i].number;
 
 			if ( ObjectMaxRange(iTargetNumber) != FALSE )
 			{

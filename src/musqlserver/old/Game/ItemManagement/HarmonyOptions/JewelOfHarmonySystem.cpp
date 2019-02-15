@@ -343,14 +343,14 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(CGameObject &Obj, int so
 	if ( target < 0 || target > MAIN_INVENTORY_SIZE-1 )
 		return FALSE;
 
-	if ( lpObj.pInventory[source].IsItem() == FALSE )
+	if ( Obj.pInventory[source].IsItem() == FALSE )
 		return FALSE;
 
-	if ( lpObj.pInventory[target].IsItem() == FALSE )
+	if ( Obj.pInventory[target].IsItem() == FALSE )
 		return FALSE;
 
-	CItemObject * pSource = &lpObj.pInventory[source];
-	CItemObject * pTarget = &lpObj.pInventory[target];
+	CItemObject * pSource = &Obj.pInventory[source];
+	CItemObject * pTarget = &Obj.pInventory[target];
 
 	if (!g_LuckyItemManager.IsLuckyItemEquipment(pTarget->m_Type))
 	{
@@ -360,7 +360,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(CGameObject &Obj, int so
 	if ( this->IsStrengthenByJewelOfHarmony(pTarget) == TRUE )
 	{
 		sLog->outBasic("[LuckyItem][Strengthen Item] Already Strengthened [%s][%s]",
-			lpObj.AccountID, lpObj.Name);
+			Obj.AccountID, Obj.Name);
 
 		return FALSE;
 	}
@@ -370,7 +370,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(CGameObject &Obj, int so
 	if ( iItemType == JEWELOFHARMONY_ITEM_TYPE_NULL )
 	{
 		sLog->outBasic("[LuckyItem][Strengthen Item] Strengthen Fail [%s][%s] Name[%s] Type[%d] Serial[%I64d] Invalid ItemType[%d]",
-			lpObj.AccountID, lpObj.Name, pTarget->GetName(), pTarget->m_Type,
+			Obj.AccountID, Obj.Name, pTarget->GetName(), pTarget->m_Type,
 			pTarget->m_Number, iItemType);
 		
 		return FALSE;
@@ -381,7 +381,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(CGameObject &Obj, int so
 	if ( iItemOption == AT_JEWELOFHARMONY_NOT_STRENGTHEN_ITEM )
 	{
 		sLog->outBasic("[LuckyItem][Strengthen Item] Strengthen Fail - NOT OPTION [%s][%s] Name[%s] Type[%d] Serial[%I64d] ItemType[%d]",
-			lpObj.AccountID, lpObj.Name, pTarget->GetName(), pTarget->m_Type,
+			Obj.AccountID, Obj.Name, pTarget->GetName(), pTarget->m_Type,
 			pTarget->m_Number, iItemType);
 		
 		return FALSE;
@@ -393,7 +393,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(CGameObject &Obj, int so
 	if ( iSuccessRate >= this->m_iRateStrengthenSuccess )
 	{
 		sLog->outBasic("[LuckyItem][Strengthen Item] Strengthen Fail [%s][%s] Name[%s] Type[%d] Serial[%I64d]  Rate (%d/%d)",
-			lpObj.AccountID, lpObj.Name, pTarget->GetName(), pTarget->m_Type,
+			Obj.AccountID, Obj.Name, pTarget->GetName(), pTarget->m_Type,
 			pTarget->m_Number, iSuccessRate, this->m_iRateStrengthenSuccess);
 		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,274), lpObj, 1);
 		return TRUE;
@@ -402,7 +402,7 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(CGameObject &Obj, int so
 	this->_MakeOption(pTarget, iItemOption, iItemOptionLevel);
 
 	sLog->outBasic("[LuckyItem][Strengthen Item] Strengthen Success [%s][%s] Name[%s] Type[%d] Serial[%I64d] Rate (%d/%d) Option %d OptionLevel %d",
-		lpObj.AccountID, lpObj.Name, pTarget->GetName(), pTarget->m_Type,
+		Obj.AccountID, Obj.Name, pTarget->GetName(), pTarget->m_Type,
 		pTarget->m_Number, iSuccessRate, this->m_iRateStrengthenSuccess,
 		iItemOption, iItemOptionLevel);
 
@@ -410,16 +410,16 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(CGameObject &Obj, int so
 
 	gObjMakePreviewCharSet(lpObj);
 
-	float levelitemdur = ItemGetDurability(lpObj.pInventory[target].m_Type,
-		lpObj.pInventory[target].m_Level, lpObj.pInventory[target].IsExtItem(),
-		lpObj.pInventory[target].IsSetItem());
+	float levelitemdur = ItemGetDurability(Obj.pInventory[target].m_Type,
+		Obj.pInventory[target].m_Level, Obj.pInventory[target].IsExtItem(),
+		Obj.pInventory[target].IsSetItem());
 
-	lpObj.pInventory[target].m_Durability = levelitemdur * lpObj.pInventory[target].m_Durability / lpObj.pInventory[target].m_BaseDurability;
+	Obj.pInventory[target].m_Durability = levelitemdur * Obj.pInventory[target].m_Durability / Obj.pInventory[target].m_BaseDurability;
 
-	lpObj.pInventory[target].Convert(lpObj.pInventory[target].m_Type,
-		lpObj.pInventory[target].m_Option1, lpObj.pInventory[target].m_Option2,
-		lpObj.pInventory[target].m_Option3, lpObj.pInventory[target].m_NewOption,
-		lpObj.pInventory[target].m_SetOption, lpObj.pInventory[target].m_ItemOptionEx,
+	Obj.pInventory[target].Convert(Obj.pInventory[target].m_Type,
+		Obj.pInventory[target].m_Option1, Obj.pInventory[target].m_Option2,
+		Obj.pInventory[target].m_Option3, Obj.pInventory[target].m_NewOption,
+		Obj.pInventory[target].m_SetOption, Obj.pInventory[target].m_ItemOptionEx,
 		0, -1, 0, CURRENT_DB_VERSION);
 
 	return TRUE;
@@ -439,14 +439,14 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfHarmony(CGameObject &Obj, int
 	if ( target < 0 || target > MAIN_INVENTORY_SIZE-1 )
 		return FALSE;
 
-	if ( lpObj.pInventory[source].IsItem() == FALSE )
+	if ( Obj.pInventory[source].IsItem() == FALSE )
 		return FALSE;
 
-	if ( lpObj.pInventory[target].IsItem() == FALSE )
+	if ( Obj.pInventory[target].IsItem() == FALSE )
 		return FALSE;
 
-	CItemObject * pSource = &lpObj.pInventory[source];
-	CItemObject * pTarget = &lpObj.pInventory[target];
+	CItemObject * pSource = &Obj.pInventory[source];
+	CItemObject * pTarget = &Obj.pInventory[target];
 
 	if ( this->IsStrengthenByJewelOfHarmony(pTarget) == TRUE )
 	{
@@ -495,16 +495,16 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfHarmony(CGameObject &Obj, int
 
 	gObjMakePreviewCharSet(lpObj);
 
-	float levelitemdur = ItemGetDurability(lpObj.pInventory[target].m_Type,
-		lpObj.pInventory[target].m_Level, lpObj.pInventory[target].IsExtItem(),
-		lpObj.pInventory[target].IsSetItem());
+	float levelitemdur = ItemGetDurability(Obj.pInventory[target].m_Type,
+		Obj.pInventory[target].m_Level, Obj.pInventory[target].IsExtItem(),
+		Obj.pInventory[target].IsSetItem());
 
-	lpObj.pInventory[target].m_Durability = levelitemdur * lpObj.pInventory[target].m_Durability / lpObj.pInventory[target].m_BaseDurability;
+	Obj.pInventory[target].m_Durability = levelitemdur * Obj.pInventory[target].m_Durability / Obj.pInventory[target].m_BaseDurability;
 
-	lpObj.pInventory[target].Convert(lpObj.pInventory[target].m_Type,
-		lpObj.pInventory[target].m_Option1, lpObj.pInventory[target].m_Option2,
-		lpObj.pInventory[target].m_Option3, lpObj.pInventory[target].m_NewOption,
-		lpObj.pInventory[target].m_SetOption, lpObj.pInventory[target].m_ItemOptionEx,
+	Obj.pInventory[target].Convert(Obj.pInventory[target].m_Type,
+		Obj.pInventory[target].m_Option1, Obj.pInventory[target].m_Option2,
+		Obj.pInventory[target].m_Option3, Obj.pInventory[target].m_NewOption,
+		Obj.pInventory[target].m_SetOption, Obj.pInventory[target].m_ItemOptionEx,
 		0, -1, 0, CURRENT_DB_VERSION);
 
 	return TRUE;
@@ -576,9 +576,9 @@ BYTE CJewelOfHarmonySystem::MakeCharSetData(CGameObject &Obj)
 {
 	BYTE btResult = 0;
 
-	if ( this->IsActive(&lpObj.pInventory[0]) == TRUE )
+	if ( this->IsActive(&Obj.pInventory[0]) == TRUE )
 	{
-		int iOptionLevel = this->_GetItemOptionLevel(&lpObj.pInventory[0]);
+		int iOptionLevel = this->_GetItemOptionLevel(&Obj.pInventory[0]);
 
 		if ( iOptionLevel > 5 && iOptionLevel < 9 )
 			btResult |= 0x40;
@@ -588,9 +588,9 @@ BYTE CJewelOfHarmonySystem::MakeCharSetData(CGameObject &Obj)
 			btResult |= 0xC0;
 	}
 
-	if ( this->IsActive(&lpObj.pInventory[1]) == TRUE )
+	if ( this->IsActive(&Obj.pInventory[1]) == TRUE )
 	{
-		int iOptionLevel = this->_GetItemOptionLevel(&lpObj.pInventory[1]);
+		int iOptionLevel = this->_GetItemOptionLevel(&Obj.pInventory[1]);
 
 		if ( iOptionLevel > 5 && iOptionLevel < 9 )
 			btResult |= 0x10;
@@ -605,7 +605,7 @@ BYTE CJewelOfHarmonySystem::MakeCharSetData(CGameObject &Obj)
 
 void CJewelOfHarmonySystem::SetApplyStrengthenItem(CGameObject &Obj)
 {
-	JEWELOFHARMONY_ITEM_EFFECT * pItemEffect = &lpObj.m_PlayerData->m_JewelOfHarmonyEffect;
+	JEWELOFHARMONY_ITEM_EFFECT * pItemEffect = &Obj.m_PlayerData->m_JewelOfHarmonyEffect;
 
 	this->InitEffectValue(pItemEffect);
 
@@ -613,38 +613,38 @@ void CJewelOfHarmonySystem::SetApplyStrengthenItem(CGameObject &Obj)
 
 	for ( iItemIndex =0;iItemIndex <INVETORY_WEAR_SIZE ; iItemIndex++)
 	{
-		if ( lpObj.pInventory[iItemIndex].IsItem() != FALSE )
+		if ( Obj.pInventory[iItemIndex].IsItem() != FALSE )
 		{
-			if ( lpObj.pInventory[iItemIndex].m_IsValidItem !=  false )
+			if ( Obj.pInventory[iItemIndex].m_IsValidItem !=  false )
 			{
-				BOOL bResult = this->_CalCItemObjectEffectValue(&lpObj.pInventory[iItemIndex], pItemEffect);
+				BOOL bResult = this->_CalCItemObjectEffectValue(&Obj.pInventory[iItemIndex], pItemEffect);
 			}
 		}
 	}
 
-	lpObj.m_AttackDamageMinLeft += pItemEffect->HJOpAddMinAttackDamage;
-	lpObj.m_AttackDamageMinLeft += pItemEffect->HJOpAddAttackDamage;
-	lpObj.m_AttackDamageMinRight += pItemEffect->HJOpAddMinAttackDamage;
-	lpObj.m_AttackDamageMinRight += pItemEffect->HJOpAddAttackDamage;
+	Obj.m_AttackDamageMinLeft += pItemEffect->HJOpAddMinAttackDamage;
+	Obj.m_AttackDamageMinLeft += pItemEffect->HJOpAddAttackDamage;
+	Obj.m_AttackDamageMinRight += pItemEffect->HJOpAddMinAttackDamage;
+	Obj.m_AttackDamageMinRight += pItemEffect->HJOpAddAttackDamage;
 
-	lpObj.m_AttackDamageMaxLeft += pItemEffect->HJOpAddMaxAttackDamage;
-	lpObj.m_AttackDamageMaxLeft += pItemEffect->HJOpAddAttackDamage;
-	lpObj.m_AttackDamageMaxRight += pItemEffect->HJOpAddMaxAttackDamage;
-	lpObj.m_AttackDamageMaxRight += pItemEffect->HJOpAddAttackDamage;
+	Obj.m_AttackDamageMaxLeft += pItemEffect->HJOpAddMaxAttackDamage;
+	Obj.m_AttackDamageMaxLeft += pItemEffect->HJOpAddAttackDamage;
+	Obj.m_AttackDamageMaxRight += pItemEffect->HJOpAddMaxAttackDamage;
+	Obj.m_AttackDamageMaxRight += pItemEffect->HJOpAddAttackDamage;
 
-	lpObj.m_MagicDamageMin += pItemEffect->HJOpAddMagicPower;
-	lpObj.m_MagicDamageMax += pItemEffect->HJOpAddMagicPower;
+	Obj.m_MagicDamageMin += pItemEffect->HJOpAddMagicPower;
+	Obj.m_MagicDamageMax += pItemEffect->HJOpAddMagicPower;
 
-	lpObj.m_Defense += pItemEffect->HJOpAddDefense * 10 / 20;
+	Obj.m_Defense += pItemEffect->HJOpAddDefense * 10 / 20;
 
-	lpObj.AddBP += pItemEffect->HJOpAddMaxAG;
+	Obj.AddBP += pItemEffect->HJOpAddMaxAG;
 	
-	lpObj.AddLife += pItemEffect->HJOpAddMaxHP;
+	Obj.AddLife += pItemEffect->HJOpAddMaxHP;
 
-	lpObj.DamageDecrease += pItemEffect->HJOpAddDamageDecrease;
+	Obj.DamageDecrease += pItemEffect->HJOpAddDamageDecrease;
 
 #if(CUSTOM_DAMAGES12 == 1)
-	lpObj.S12DamageDecrease += pItemEffect->HJOpAddDamageDecrease;
+	Obj.S12DamageDecrease += pItemEffect->HJOpAddDamageDecrease;
 #endif
 }
 
@@ -867,7 +867,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(CGameObject &Obj, int
 		return TRUE;
 	}
 
-	lpObj.ChaosLock = TRUE;
+	Obj.ChaosLock = TRUE;
 	int iValidItemCount = 0;
 	int iNormalItemCount = 0;
 	int iExtItemCount = 0;
@@ -881,13 +881,13 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(CGameObject &Obj, int
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (lpObj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pChaosBox[n].IsItem() == TRUE)
 		{
-			if (this->IsEnableToMakeSmeltingStoneItem(&lpObj.pChaosBox[n]) == TRUE)
+			if (this->IsEnableToMakeSmeltingStoneItem(&Obj.pChaosBox[n]) == TRUE)
 			{
 				iValidItemCount++;
 
-				if (lpObj.pChaosBox[n].IsExtItem() == TRUE)
+				if (Obj.pChaosBox[n].IsExtItem() == TRUE)
 				{
 					iExtItemCount++;
 				}
@@ -908,16 +908,16 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(CGameObject &Obj, int
 	if (iValidItemCount != iMixCount ||
 		iInvalidItemCount)
 	{
-		IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
-		lpObj.ChaosLock = FALSE;
+		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+		Obj.ChaosLock = FALSE;
 
 		return FALSE;
 	}
 
 	if (iNormalItemCount > 0 && iExtItemCount > 0)
 	{
-		IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
-		lpObj.ChaosLock = FALSE;
+		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+		Obj.ChaosLock = FALSE;
 
 		return FALSE;
 	}
@@ -937,7 +937,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(CGameObject &Obj, int
 	}
 
 	iMakeSmeltingStoneMixPrice = this->m_iZenForMixSmeltingStone * iMixCount;
-	int iChaosTaxMoney = iMakeSmeltingStoneMixPrice * g_CastleSiegeSync.GetTaxRateChaos(lpObj.m_Index) / 100;
+	int iChaosTaxMoney = iMakeSmeltingStoneMixPrice * g_CastleSiegeSync.GetTaxRateChaos(Obj.m_Index) / 100;
 
 	if (iChaosTaxMoney < 0)
 		iChaosTaxMoney = 0;
@@ -947,18 +947,18 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(CGameObject &Obj, int
 	if (iMakeSmeltingStoneMixPrice < 0)
 		iMakeSmeltingStoneMixPrice = 0;
 
-	if (lpObj.m_PlayerData->Money < iMakeSmeltingStoneMixPrice)
+	if (Obj.m_PlayerData->Money < iMakeSmeltingStoneMixPrice)
 	{
 		pMsg.Result = 2;
-		IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
-		lpObj.ChaosLock = FALSE;
+		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+		Obj.ChaosLock = FALSE;
 
 		return FALSE;
 	}
 
-	lpObj.m_PlayerData->Money -= iMakeSmeltingStoneMixPrice;
+	Obj.m_PlayerData->Money -= iMakeSmeltingStoneMixPrice;
 	g_CastleSiegeSync.AddTributeMoney(iChaosTaxMoney);
-	gGameProtocol.GCMoneySend(lpObj, lpObj.m_PlayerData->Money);
+	gGameProtocol.GCMoneySend(lpObj, Obj.m_PlayerData->Money);
 	g_MixSystem.LogChaosItem(lpObj, "JewelOfHarmony][Smelt Item Mix");
 	
 	pMsg.Result = CB_MULTIMIX_RESULT;
@@ -966,8 +966,8 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(CGameObject &Obj, int
 
 	memset(pMsg.ItemInfo, 0x00, sizeof(pMsg.ItemInfo));
 
-	lpObj.ChaosMassMixCurrItem = 0;
-	lpObj.ChaosMassMixSuccessCount = 0;
+	Obj.ChaosMassMixCurrItem = 0;
+	Obj.ChaosMassMixSuccessCount = 0;
 
 	for (int i = 0; i < iMixCount; i++)
 	{
@@ -977,7 +977,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(CGameObject &Obj, int
 			BYTE btMixNumber = 1 << (i % 8);
 			pMsg.ItemInfo[i / 8] |= btMixNumber;
 
-			lpObj.ChaosMassMixSuccessCount++;
+			Obj.ChaosMassMixSuccessCount++;
 
 		}
 
@@ -987,18 +987,18 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(CGameObject &Obj, int
 		}
 	}
 
-	IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+	IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 
-	if (lpObj.ChaosMassMixSuccessCount == 0)
+	if (Obj.ChaosMassMixSuccessCount == 0)
 	{
 		g_MixSystem.ChaosBoxInit(lpObj);
 		gGameProtocol.GCUserChaosBoxSend(lpObj, 0);
 
-		lpObj.ChaosLock = FALSE;
+		Obj.ChaosLock = FALSE;
 		return FALSE;
 	}
 
-	for (int i = 0; i < lpObj.ChaosMassMixSuccessCount; i++)
+	for (int i = 0; i < Obj.ChaosMassMixSuccessCount; i++)
 	{
 		int iItemType;
 
@@ -1010,7 +1010,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(CGameObject &Obj, int
 		ItemCreate(lpObj, 255, 0, 0, iItemType, 0, 1, 0, 0, 0, lpObj, 0, 0, 0, 0, 0);
 	}
 
-	gObjInventoryCommit(lpObj.m_Index);
+	gObjInventoryCommit(Obj.m_Index);
 	return TRUE;
 }
 
@@ -1022,7 +1022,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject &Obj)
 		return TRUE;
 	}
 
-	lpObj.ChaosLock = TRUE;
+	Obj.ChaosLock = TRUE;
 	int iValidItemCount = 0;
 	int iInvalidItemCount = 0;
 	int iMakeSmeltingStoneMixPrice = 0;
@@ -1035,9 +1035,9 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject &Obj)
 
 	for ( int n=0;n<CHAOS_BOX_SIZE;n++)
 	{
-		if ( lpObj.pChaosBox[n].IsItem() == TRUE )
+		if ( Obj.pChaosBox[n].IsItem() == TRUE )
 		{
-			if ( this->IsEnableToMakeSmeltingStoneItem(&lpObj.pChaosBox[n]) == TRUE )
+			if ( this->IsEnableToMakeSmeltingStoneItem(&Obj.pChaosBox[n]) == TRUE )
 			{
 				iValidItemCount++;
 				iItemPos = n;
@@ -1053,8 +1053,8 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject &Obj)
 		 iInvalidItemCount ||
 		 iItemPos == -1 )
 	{
-		IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
-		lpObj.ChaosLock = FALSE;
+		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+		Obj.ChaosLock = FALSE;
 
 		return FALSE;
 	}
@@ -1062,7 +1062,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject &Obj)
 	int JEWEL_OF_HARMONY_MAKE_SMELTINGSTONE_RATE;
 	BOOL bIsItemNormal = TRUE;
 
-	if ( lpObj.pChaosBox[iItemPos].IsExtItem() == TRUE )
+	if ( Obj.pChaosBox[iItemPos].IsExtItem() == TRUE )
 	{
 		bIsItemNormal = FALSE;
 		JEWEL_OF_HARMONY_MAKE_SMELTINGSTONE_RATE = this->m_iRateMixSmeltingStoneExt;
@@ -1074,7 +1074,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject &Obj)
 	}
 
 	iMakeSmeltingStoneMixPrice = this->m_iZenForMixSmeltingStone;
-	int iChaosTaxMoney = iMakeSmeltingStoneMixPrice * g_CastleSiegeSync.GetTaxRateChaos(lpObj.m_Index) / 100;
+	int iChaosTaxMoney = iMakeSmeltingStoneMixPrice * g_CastleSiegeSync.GetTaxRateChaos(Obj.m_Index) / 100;
 
 	if ( iChaosTaxMoney < 0 )
 		iChaosTaxMoney = 0;
@@ -1084,18 +1084,18 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject &Obj)
 	if ( iMakeSmeltingStoneMixPrice < 0 )
 		iMakeSmeltingStoneMixPrice = 0;
 
-	if ( lpObj.m_PlayerData->Money < iMakeSmeltingStoneMixPrice )
+	if ( Obj.m_PlayerData->Money < iMakeSmeltingStoneMixPrice )
 	{
 		pMsg.Result = 2;
-		IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
-		lpObj.ChaosLock = FALSE;
+		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+		Obj.ChaosLock = FALSE;
 
 		return FALSE;
 	}
 
-	lpObj.m_PlayerData->Money -= iMakeSmeltingStoneMixPrice;
+	Obj.m_PlayerData->Money -= iMakeSmeltingStoneMixPrice;
 	g_CastleSiegeSync.AddTributeMoney(iChaosTaxMoney);
-	gGameProtocol.GCMoneySend(lpObj, lpObj.m_PlayerData->Money);
+	gGameProtocol.GCMoneySend(lpObj, Obj.m_PlayerData->Money);
 	
 	int iRate = rand() % 100;
 
@@ -1117,11 +1117,11 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject &Obj)
 	{
 		g_MixSystem.ChaosBoxInit(lpObj);
 		gGameProtocol.GCUserChaosBoxSend(lpObj, 0);
-		IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 
 	}
 
-	lpObj.ChaosLock = FALSE;
+	Obj.ChaosLock = FALSE;
 	return TRUE;
 }
 
@@ -1141,14 +1141,14 @@ BOOL CJewelOfHarmonySystem::SmeltItemBySmeltingStone(CGameObject &Obj, int sourc
 	if ( target < 0 || target > MAIN_INVENTORY_SIZE-1 )
 		return FALSE;
 
-	if ( lpObj.pInventory[source].IsItem() == FALSE )
+	if ( Obj.pInventory[source].IsItem() == FALSE )
 		return FALSE;
 
-	if ( lpObj.pInventory[target].IsItem() == FALSE )
+	if ( Obj.pInventory[target].IsItem() == FALSE )
 		return FALSE;
 
-	CItemObject * pSource = &lpObj.pInventory[source];
-	CItemObject * pTarget = &lpObj.pInventory[target];
+	CItemObject * pSource = &Obj.pInventory[source];
+	CItemObject * pTarget = &Obj.pInventory[target];
 
 	if ( !this->IsStrengthenByJewelOfHarmony(pTarget)  )
 	{
@@ -1248,7 +1248,7 @@ BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(CGameObject &Obj)
 		return TRUE;
 	}
 
-	lpObj.ChaosLock = TRUE;
+	Obj.ChaosLock = TRUE;
 
 	PMSG_CHAOSMIXRESULT pMsg;
 
@@ -1260,20 +1260,20 @@ BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(CGameObject &Obj)
 
 	for ( int n=0;n<CHAOS_BOX_SIZE;n++)
 	{
-		if ( lpObj.pChaosBox[n].IsItem() == TRUE )
+		if ( Obj.pChaosBox[n].IsItem() == TRUE )
 		{
-			if ( this->IsStrengthenByJewelOfHarmony(&lpObj.pChaosBox[n]) == TRUE )
+			if ( this->IsStrengthenByJewelOfHarmony(&Obj.pChaosBox[n]) == TRUE )
 			{
 				iStrengtenItemCount++;
-				pItem = &lpObj.pChaosBox[n];
+				pItem = &Obj.pChaosBox[n];
 			}
 		}
 	}
 
 	if ( iStrengtenItemCount != 1 )
 	{
-		IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
-		lpObj.ChaosLock = FALSE;
+		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+		Obj.ChaosLock = FALSE;
 
 		return FALSE;
 	}
@@ -1284,13 +1284,13 @@ BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(CGameObject &Obj)
 
 	if ( JEWEL_OF_HARMONY_RETORE_NEEDZEN < 0 ) 
 	{
-		IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
-		lpObj.ChaosLock = FALSE;
+		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+		Obj.ChaosLock = FALSE;
 
 		return FALSE;
 	}
 
-	int iChaosTaxMoney = JEWEL_OF_HARMONY_RETORE_NEEDZEN * g_CastleSiegeSync.GetTaxRateChaos(lpObj.m_Index) / 100;
+	int iChaosTaxMoney = JEWEL_OF_HARMONY_RETORE_NEEDZEN * g_CastleSiegeSync.GetTaxRateChaos(Obj.m_Index) / 100;
 
 	if ( iChaosTaxMoney < 0 )
 		iChaosTaxMoney = 0;
@@ -1300,30 +1300,30 @@ BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(CGameObject &Obj)
 	if ( JEWEL_OF_HARMONY_RETORE_NEEDZEN < 0 )
 		JEWEL_OF_HARMONY_RETORE_NEEDZEN = 0;
 
-	if ( lpObj.m_PlayerData->Money < JEWEL_OF_HARMONY_RETORE_NEEDZEN )
+	if ( Obj.m_PlayerData->Money < JEWEL_OF_HARMONY_RETORE_NEEDZEN )
 	{
 		pMsg.Result = 2;
-		IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
-		lpObj.ChaosLock = FALSE;
+		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+		Obj.ChaosLock = FALSE;
 
 		return FALSE;
 	}
 
-	lpObj.m_PlayerData->Money -= JEWEL_OF_HARMONY_RETORE_NEEDZEN;
+	Obj.m_PlayerData->Money -= JEWEL_OF_HARMONY_RETORE_NEEDZEN;
 	g_CastleSiegeSync.AddTributeMoney(iChaosTaxMoney);
-	gGameProtocol.GCMoneySend(lpObj, lpObj.m_PlayerData->Money);
+	gGameProtocol.GCMoneySend(lpObj, Obj.m_PlayerData->Money);
 
 	pItem->m_JewelOfHarmonyOption = 0;
 	gGameProtocol.GCUserChaosBoxSend(lpObj, 0);
 	this->ShowStrengthenOption(pItem);
-	lpObj.ChaosLock = FALSE;
+	Obj.ChaosLock = FALSE;
 
 	return TRUE;
 }
 
 BOOL CJewelOfHarmonySystem::NpcJewelOfHarmony(CGameObject &Npc, CGameObject &Obj)
 {
-	if ( lpObj.m_IfState.use > 0 )
+	if ( Obj.m_IfState.use > 0 )
 		return TRUE;
 
 	PMSG_TALKRESULT pResult;
@@ -1357,7 +1357,7 @@ BOOL CJewelOfHarmonySystem::NpcJewelOfHarmony(CGameObject &Npc, CGameObject &Obj
 
 		if ( this->m_bSystemMixSmeltingStone != TRUE )
 		{
-			gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0,282), lpObj.m_Index);
+			gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0,282), Obj.m_Index);
 			return TRUE;
 		}
 	}
@@ -1367,7 +1367,7 @@ BOOL CJewelOfHarmonySystem::NpcJewelOfHarmony(CGameObject &Npc, CGameObject &Obj
 
 		if ( this->m_bSystemRestoreStrengthen != TRUE )
 		{
-			gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0,283), lpObj.m_Index);
+			gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0,283), Obj.m_Index);
 			return TRUE;
 		}
 	}
@@ -1378,23 +1378,23 @@ BOOL CJewelOfHarmonySystem::NpcJewelOfHarmony(CGameObject &Npc, CGameObject &Obj
 
 	if ( bCanChaosBox == TRUE )
 	{
-		if ( lpObj.m_bPShopOpen == true )
+		if ( Obj.m_bPShopOpen == true )
 		{
 			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,112), lpObj, 1);
 			return TRUE;
 		}
 
-		lpObj.m_IfState.type = 7;
-		lpObj.m_IfState.state = 0;
-		lpObj.m_IfState.use = 1;
-		lpObj.bIsChaosMixCompleted = false;
+		Obj.m_IfState.type = 7;
+		Obj.m_IfState.state = 0;
+		Obj.m_IfState.use = 1;
+		Obj.bIsChaosMixCompleted = false;
 
-		IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pResult, pResult.h.size);
-		gObjInventoryTrans(lpObj.m_Index);
+		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pResult, pResult.h.size);
+		gObjInventoryTrans(Obj.m_Index);
 
 		gObjItemTextSave(lpObj);
 		gObjWarehouseTextSave(lpObj);
-		gGameProtocol.GCAnsCsMapSvrTaxInfo(lpObj.m_Index, 1, g_CastleSiegeSync.GetTaxRateChaos(lpObj.m_Index));
+		gGameProtocol.GCAnsCsMapSvrTaxInfo(Obj.m_Index, 1, g_CastleSiegeSync.GetTaxRateChaos(Obj.m_Index));
 	}
 
 	return TRUE;
@@ -1410,9 +1410,9 @@ BOOL CJewelOfHarmonySystem::IsEnableToTrade(CGameObject &Obj)
 
 	for ( int n=0;n<TRADE_BOX_SIZE;n++)
 	{
-		if ( lpObj.Trade[n].IsItem() == TRUE )
+		if ( Obj.Trade[n].IsItem() == TRUE )
 		{
-			if ( this->IsStrengthenByJewelOfHarmony(&lpObj.Trade[n]) == TRUE )
+			if ( this->IsStrengthenByJewelOfHarmony(&Obj.Trade[n]) == TRUE )
 			{
 				bRet = FALSE;
 			}

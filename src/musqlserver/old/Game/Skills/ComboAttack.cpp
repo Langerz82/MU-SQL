@@ -86,48 +86,48 @@ int CComboAttack::GetSkillPos(int skillnum)
 
 BOOL CComboAttack::CheckCombo(CGameObject &Obj, int skillnum)
 {
-	if ( lpObj.Type != OBJ_USER )
+	if ( Obj.Type != OBJ_USER )
 	{
 		return 0;
 	}
 	
-	if ( lpObj.m_PlayerData->ComboSkillquestClear  != false )
+	if ( Obj.m_PlayerData->ComboSkillquestClear  != false )
 	{
 		int sp = this->GetSkillPos(skillnum);
 
 		if ( sp == 0 )
 		{
-			lpObj.m_PlayerData->comboSkill.ProgressIndex  = 0;
-			lpObj.m_PlayerData->comboSkill.dwTime = GetTickCount() + 3000;
-			lpObj.m_PlayerData->comboSkill.Skill[0]  = skillnum;
+			Obj.m_PlayerData->comboSkill.ProgressIndex  = 0;
+			Obj.m_PlayerData->comboSkill.dwTime = GetTickCount() + 3000;
+			Obj.m_PlayerData->comboSkill.Skill[0]  = skillnum;
 		}
 		else if ( sp == 1 )
 		{
-			if ( lpObj.m_PlayerData->comboSkill.Skill[0]  == 0xFFFF )
+			if ( Obj.m_PlayerData->comboSkill.Skill[0]  == 0xFFFF )
 			{
-				lpObj.m_PlayerData->comboSkill.Init();
+				Obj.m_PlayerData->comboSkill.Init();
 				return 0;
 			}
 
 			int Time =GetTickCount();
 
-			if (lpObj.m_PlayerData->comboSkill.dwTime < GetTickCount() )
+			if (Obj.m_PlayerData->comboSkill.dwTime < GetTickCount() )
 			{
-				lpObj.m_PlayerData->comboSkill.Init();
+				Obj.m_PlayerData->comboSkill.Init();
 				return 0;
 			}
 
-			if ( lpObj.m_PlayerData->comboSkill.ProgressIndex == 0 )
+			if ( Obj.m_PlayerData->comboSkill.ProgressIndex == 0 )
 			{
-				lpObj.m_PlayerData->comboSkill.ProgressIndex = 1;
-				lpObj.m_PlayerData->comboSkill.dwTime = GetTickCount() + 3000;
-				lpObj.m_PlayerData->comboSkill.Skill[1] = skillnum;
+				Obj.m_PlayerData->comboSkill.ProgressIndex = 1;
+				Obj.m_PlayerData->comboSkill.dwTime = GetTickCount() + 3000;
+				Obj.m_PlayerData->comboSkill.Skill[1] = skillnum;
 			}
-			else if ( lpObj.m_PlayerData->comboSkill.Skill[1] != skillnum )
+			else if ( Obj.m_PlayerData->comboSkill.Skill[1] != skillnum )
 			{
-				lpObj.m_PlayerData->comboSkill.Init();
+				Obj.m_PlayerData->comboSkill.Init();
 
-				if((GetTickCount() - lpObj.m_PlayerData->comboSkill.dwTime) < 1000)
+				if((GetTickCount() - Obj.m_PlayerData->comboSkill.dwTime) < 1000)
 				{
 					return 0;
 				}
@@ -136,14 +136,14 @@ BOOL CComboAttack::CheckCombo(CGameObject &Obj, int skillnum)
 			}
 			else
 			{
-				lpObj.m_PlayerData->comboSkill.Init();
+				Obj.m_PlayerData->comboSkill.Init();
 			}
 		}
 		else
 		{
-			lpObj.m_PlayerData->comboSkill.ProgressIndex= -1;
-			lpObj.m_PlayerData->comboSkill.dwTime = 0;
-			lpObj.m_PlayerData->comboSkill.Skill[0] = -1;
+			Obj.m_PlayerData->comboSkill.ProgressIndex= -1;
+			Obj.m_PlayerData->comboSkill.dwTime = 0;
+			Obj.m_PlayerData->comboSkill.Skill[0] = -1;
 		}
 	}
 

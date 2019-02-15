@@ -161,7 +161,7 @@ bool CItemObjectDrop::DropItem(CGameObject &User, CGameObject lpMonster)
 		BYTE btMainAttribute;
 		BYTE btSocketOption[5];
 		DWORD dwDuration = lpItems[i]->dwPeriodDuration;
-		g_Log.AddC(TColor::Yellow, "[K2] DropManager #1");
+		sLog->outBasic("[K2] DropManager #1");
 		if (lpItems[i]->btIsSkill == (BYTE)-1)
 		{
 			btSkill = rand() % 2;
@@ -312,7 +312,7 @@ bool CItemObjectDrop::DropItem(CGameObject &User, CGameObject lpMonster)
 				btSocketOption[i] = 0x00;
 			}
 			btSocketCount = 0;
-			//	g_Log.AddC(TColor::Yellow, "[K2] DropManager #4");
+			//	sLog->outBasic("[K2] DropManager #4");
 		}
 
 		if (g_PentagramSystem.IsPentagramItem(ItemNumber) || g_PentagramSystem.IsPentagramJewel(ItemNumber))
@@ -331,7 +331,7 @@ bool CItemObjectDrop::DropItem(CGameObject &User, CGameObject lpMonster)
 
 			if (g_PentagramSystem.IsPentagramItem(ItemNumber))
 			{
-				//	g_Log.AddC(TColor::Yellow, "[K2] Penta ");
+				//	sLog->outBasic("[K2] Penta ");
 				BYTE btEnableSlot[5];
 				btSocketCount = g_PentagramSystem.GetMakePentagramSlotCountNKind(btEnableSlot, ItemNumber);
 

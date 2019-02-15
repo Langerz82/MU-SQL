@@ -219,7 +219,7 @@ void SCSendAutoUpdateData(STR_CS_USER &lpObj, PMSG_CLIENTVERSION *aRecv)
 		pMsg.h.size = sizeof(pMsg);
 		pMsg.VersionOK = 1;
 
-		IOCP.DataSend(lpObj.Index, (BYTE*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.Index, (BYTE*)&pMsg, pMsg.h.size);
 	}
 
 	else
@@ -252,7 +252,7 @@ void SCSendAutoUpdateData(STR_CS_USER &lpObj, PMSG_CLIENTVERSION *aRecv)
 			}
 		}
 
-		IOCP.DataSend(lpObj.Index, (BYTE*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.Index, (BYTE*)&pMsg, pMsg.h.size);
 	}
 }
 

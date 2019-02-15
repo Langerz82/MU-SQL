@@ -285,13 +285,13 @@ void CDevilSquareGround::SortScore()
 
 void CDevilSquareGround::InsertObj(CGameObject &Obj)
 {
-	if ( lpObj.Authority != 2 )
+	if ( Obj.Authority != 2 )
 	{
-		if ( lpObj.Class >= 0 && lpObj.Class < MAX_TYPE_PLAYER)
+		if ( Obj.Class >= 0 && Obj.Class < MAX_TYPE_PLAYER)
 		{
-			if ( DS_LEVEL_RANGE(lpObj.m_bDevilSquareIndex) != FALSE )
+			if ( DS_LEVEL_RANGE(Obj.m_bDevilSquareIndex) != FALSE )
 			{
-				lpObj.m_nEventScore +=  this->m_BonusScoreTable[lpObj.Class][lpObj.m_bDevilSquareIndex] / 100;
+				Obj.m_nEventScore +=  this->m_BonusScoreTable[Obj.Class][Obj.m_bDevilSquareIndex] / 100;
 				
 			}
 		}
@@ -524,7 +524,7 @@ void CDevilSquareGround::SendScore()
 
 void CDevilSquareGround::SendRankingInfo(CGameObject &Obj)
 {
-	if ( lpObj.m_nEventScore <= 0 )
+	if ( Obj.m_nEventScore <= 0 )
 	{
 		return;
 	}
@@ -535,12 +535,12 @@ void CDevilSquareGround::SendRankingInfo(CGameObject &Obj)
 	pMsg.h.headcode = 0xBD;
 	pMsg.h.subcode = 0x01;
 	pMsg.h.size = sizeof(pMsg);
-	pMsg.Score = lpObj.m_nEventScore;
-	pMsg.SquareNum = lpObj.m_bDevilSquareIndex;
-	pMsg.Class = lpObj.Class;
+	pMsg.Score = Obj.m_nEventScore;
+	pMsg.SquareNum = Obj.m_bDevilSquareIndex;
+	pMsg.Class = Obj.Class;
 	pMsg.ServerCode = g_ConfigRead.server.GetGameServerCode();
-	memcpy(pMsg.AccountID, lpObj.AccountID, MAX_ACCOUNT_LEN);
-	memcpy(pMsg.GameID, lpObj.Name, MAX_ACCOUNT_LEN);
+	memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN);
+	memcpy(pMsg.GameID, Obj.Name, MAX_ACCOUNT_LEN);
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
@@ -553,7 +553,7 @@ BOOL CDevilSquareGround::AddUser(CGameObject &Obj)
 	{
 		if(this->m_iUserIndex[i] == -1)
 		{
-			this->m_iUserIndex[i] = aIndex;
+			this->m_iUserIndex[i] = Obj.m_Index;
 			LeaveCriticalSection(&this->m_criti);
 			return TRUE;
 		}
@@ -570,7 +570,7 @@ BOOL CDevilSquareGround::DelUser(CGameObject &Obj)
 
 	for(int i=0;i<10;i++)
 	{
-		if(this->m_iUserIndex[i] == aIndex)
+		if(this->m_iUserIndex[i] == Obj.m_Index)
 		{
 			this->m_iUserIndex[i] = -1;
 			LeaveCriticalSection(&this->m_criti);

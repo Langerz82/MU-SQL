@@ -11,99 +11,99 @@
 
 void TMonsterSkillElementInfo::CheckSkillElementInfoProc(CGameObject &Obj)
 {
-	if ( lpObj.m_MonsterSkillElementInfo.CheckAttackTime() )
+	if ( Obj.m_MonsterSkillElementInfo.CheckAttackTime() )
 	{
-		if ( lpObj.m_MonsterSkillElementInfo.DecAttackTime() )
+		if ( Obj.m_MonsterSkillElementInfo.DecAttackTime() )
 		{
-			lpObj.m_MonsterSkillElementInfo.ResetAttack();
+			Obj.m_MonsterSkillElementInfo.ResetAttack();
 		}
 	}
 
-	if ( lpObj.m_MonsterSkillElementInfo.CheckDefenseTime() )
+	if ( Obj.m_MonsterSkillElementInfo.CheckDefenseTime() )
 	{
-		if ( lpObj.m_MonsterSkillElementInfo.DecDefenseTime() )
+		if ( Obj.m_MonsterSkillElementInfo.DecDefenseTime() )
 		{
-			lpObj.m_MonsterSkillElementInfo.ResetDefense();
+			Obj.m_MonsterSkillElementInfo.ResetDefense();
 		}
 	}
 	
-	if ( lpObj.m_MonsterSkillElementInfo.CheckAutoAGTime() )
+	if ( Obj.m_MonsterSkillElementInfo.CheckAutoAGTime() )
 	{
-		if ( lpObj.m_MonsterSkillElementInfo.DecAutoAGTime() )
+		if ( Obj.m_MonsterSkillElementInfo.DecAutoAGTime() )
 		{
-			lpObj.m_MonsterSkillElementInfo.ResetAutoAG();
+			Obj.m_MonsterSkillElementInfo.ResetAutoAG();
 		}
 	}
 
-	if ( lpObj.m_MonsterSkillElementInfo.CheckAutoHPTime() )
+	if ( Obj.m_MonsterSkillElementInfo.CheckAutoHPTime() )
 	{
-		if ( lpObj.m_MonsterSkillElementInfo.DecAutoHPTime() )
+		if ( Obj.m_MonsterSkillElementInfo.DecAutoHPTime() )
 		{
-			lpObj.m_MonsterSkillElementInfo.ResetAutoHP();
+			Obj.m_MonsterSkillElementInfo.ResetAutoHP();
 		}
 		else 
 		{
-			if ( lpObj.m_MonsterSkillElementInfo.m_iSkillElementAutoHPCycle == 110 )
-				lpObj.Life += lpObj.m_MonsterSkillElementInfo.m_iSkillElementAutoHP;
+			if ( Obj.m_MonsterSkillElementInfo.m_iSkillElementAutoHPCycle == 110 )
+				Obj.Life += Obj.m_MonsterSkillElementInfo.m_iSkillElementAutoHP;
 			else
-				lpObj.Life += lpObj.Life * lpObj.m_MonsterSkillElementInfo.m_iSkillElementAutoHP / 100.0f;
+				Obj.Life += Obj.Life * Obj.m_MonsterSkillElementInfo.m_iSkillElementAutoHP / 100.0f;
 
-			if ( lpObj.Life <0 )
+			if ( Obj.Life <0 )
 			{
-				lpObj.Life = 0;
-				gGameProtocol.GCReFillSend(lpObj, lpObj.Life, 0xFF, 0, lpObj.iShield);
+				Obj.Life = 0;
+				gGameProtocol.GCReFillSend(lpObj, Obj.Life, 0xFF, 0, Obj.iShield);
 			}
-			else if ( (lpObj.MaxLife + lpObj.AddLife) < lpObj.Life )
+			else if ( (Obj.MaxLife + Obj.AddLife) < Obj.Life )
 			{
-				lpObj.Life = lpObj.MaxLife + lpObj.AddLife;
-				gGameProtocol.GCReFillSend(lpObj, lpObj.Life, 0xFF, 0, lpObj.iShield);
+				Obj.Life = Obj.MaxLife + Obj.AddLife;
+				gGameProtocol.GCReFillSend(lpObj, Obj.Life, 0xFF, 0, Obj.iShield);
 			}
 			else
 			{
-				gGameProtocol.GCReFillSend(lpObj, lpObj.Life, 0xFF, 0, lpObj.iShield);
+				gGameProtocol.GCReFillSend(lpObj, Obj.Life, 0xFF, 0, Obj.iShield);
 			}
 		}
 	}
 
-	if ( lpObj.m_MonsterSkillElementInfo.CheckAutoMPTime() )
+	if ( Obj.m_MonsterSkillElementInfo.CheckAutoMPTime() )
 	{
-		if ( lpObj.m_MonsterSkillElementInfo.DecAutoMPTime() )
+		if ( Obj.m_MonsterSkillElementInfo.DecAutoMPTime() )
 		{
-			lpObj.m_MonsterSkillElementInfo.ResetAutoMP();
+			Obj.m_MonsterSkillElementInfo.ResetAutoMP();
 		}
 	}
 
-	if ( lpObj.m_MonsterSkillElementInfo.CheckImmuneTime() )
+	if ( Obj.m_MonsterSkillElementInfo.CheckImmuneTime() )
 	{
-		if ( lpObj.m_MonsterSkillElementInfo.DecImmuneTime() )
+		if ( Obj.m_MonsterSkillElementInfo.DecImmuneTime() )
 		{
-			lpObj.m_MonsterSkillElementInfo.ResetImmune();
+			Obj.m_MonsterSkillElementInfo.ResetImmune();
 			gObjRemoveBuffEffect(lpObj, BUFFTYPE_MONSTER_MAGIC_IMMUNE);
 			gObjRemoveBuffEffect(lpObj, BUFFTYPE_MONSTER_MELEE_IMMUNE);
 		}
 	}
 
-	if ( lpObj.m_MonsterSkillElementInfo.CheckResistTime() )
+	if ( Obj.m_MonsterSkillElementInfo.CheckResistTime() )
 	{
-		if ( lpObj.m_MonsterSkillElementInfo.DecResistTime() )
+		if ( Obj.m_MonsterSkillElementInfo.DecResistTime() )
 		{
-			lpObj.m_MonsterSkillElementInfo.ResetResist();
+			Obj.m_MonsterSkillElementInfo.ResetResist();
 		}
 	}
 
-	if ( lpObj.m_MonsterSkillElementInfo.CheckModifyStatTime() )
+	if ( Obj.m_MonsterSkillElementInfo.CheckModifyStatTime() )
 	{
-		if ( lpObj.m_MonsterSkillElementInfo.DecModifyStatTime() )
+		if ( Obj.m_MonsterSkillElementInfo.DecModifyStatTime() )
 		{
-			lpObj.m_MonsterSkillElementInfo.ResetModifyStat();
+			Obj.m_MonsterSkillElementInfo.ResetModifyStat();
 		}
 	}
 
-	if (lpObj.m_MonsterSkillElementInfo.CheckImmuneAllTime())
+	if (Obj.m_MonsterSkillElementInfo.CheckImmuneAllTime())
 	{
-		if (lpObj.m_MonsterSkillElementInfo.DecImmuneAllTime())
+		if (Obj.m_MonsterSkillElementInfo.DecImmuneAllTime())
 		{
-			lpObj.m_MonsterSkillElementInfo.ResetImmuneAll();
+			Obj.m_MonsterSkillElementInfo.ResetImmuneAll();
 		}
 	}
 }

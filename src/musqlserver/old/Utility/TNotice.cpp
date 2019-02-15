@@ -63,7 +63,7 @@ void TNotice::SendNoticeToAllUser(void * lpNotice)
 void TNotice::SendNoticeToUser(CGameObject &Obj, void * lpNotice)
 {
 	PMSG_NOTICE * pNotice = (PMSG_NOTICE *)lpNotice;
-	IOCP.DataSend(lpObj.m_Index, (BYTE*)pNotice, pNotice->h.size  );
+	IOCP.DataSend(Obj.m_Index, (BYTE*)pNotice, pNotice->h.size  );
 }
 
 
@@ -90,7 +90,7 @@ void TNotice::GCServerMsgStringSend(LPSTR szMsg, CGameObject &Obj, BYTE type)
 	PMSG_NOTICE pNotice;
 	
 	MakeNoticeMsg(&pNotice, type, szMsg);
-	IOCP.DataSend(lpObj.m_Index, (BYTE*)&pNotice, pNotice.h.size);
+	IOCP.DataSend(Obj.m_Index, (BYTE*)&pNotice, pNotice.h.size);
 }
 
 
@@ -134,7 +134,7 @@ void TNotice::SendToUser(CGameObject &Obj, LPSTR szMsg, ...)
 	vsprintf(this->m_Notice.Notice, (char*)szMsg, pArguments);
 	va_end(pArguments);
 	PHeadSetB((BYTE*)&this->m_Notice, 0x0D, strlen(this->m_Notice.Notice)  + sizeof(PMSG_NOTICE) - sizeof(this->m_Notice.Notice) + 1);
-	IOCP.DataSend(lpObj.m_Index, (BYTE*)&this->m_Notice , this->m_Notice.h.size );
+	IOCP.DataSend(Obj.m_Index, (BYTE*)&this->m_Notice , this->m_Notice.h.size );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

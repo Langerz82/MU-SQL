@@ -36,75 +36,75 @@ void CBuffEffect::SetBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectVal
 {
 	if(lpObj == NULL || EffectType < EFFECTTYPE_NONE)	return;
 
-	if(lpObj.Connected < PLAYER_PLAYING)	return;
+	if(Obj.Connected < PLAYER_PLAYING)	return;
 
 	switch(EffectType)
 	{
 	case EFFECTTYPE_ATTACKSPEED:
-		lpObj.m_AttackSpeed += EffectValue;
-		lpObj.m_MagicSpeed += EffectValue;
+		Obj.m_AttackSpeed += EffectValue;
+		Obj.m_MagicSpeed += EffectValue;
 		break;
 	case EFFECTTYPE_IMPROVE_DEFENSE:
-		lpObj.m_Defense += EffectValue;
-		lpObj.m_MagicDefense += EffectValue;
+		Obj.m_Defense += EffectValue;
+		Obj.m_MagicDefense += EffectValue;
 		break;
 	case EFFECTTYPE_HP:
-		lpObj.AddLife += EffectValue;	
-		gGameProtocol.GCReFillSend(lpObj.m_Index, lpObj.AddLife+lpObj.MaxLife, 0xFE, 0, lpObj.iAddShield+lpObj.iMaxShield);
-		gGameProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
+		Obj.AddLife += EffectValue;	
+		gGameProtocol.GCReFillSend(Obj.m_Index, Obj.AddLife+Obj.MaxLife, 0xFE, 0, Obj.iAddShield+Obj.iMaxShield);
+		gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
 		break;
 	case EFFECTTYPE_MANA:
-		lpObj.AddMana += EffectValue;	
-		gGameProtocol.GCManaSend(lpObj.m_Index, (lpObj.MaxMana + lpObj.AddMana), 0xFE, 0, (lpObj.MaxBP+lpObj.AddBP));
-		gGameProtocol.GCManaSend(lpObj.m_Index, lpObj.Mana, 0xFF, 0, lpObj.BP);
+		Obj.AddMana += EffectValue;	
+		gGameProtocol.GCManaSend(Obj.m_Index, (Obj.MaxMana + Obj.AddMana), 0xFE, 0, (Obj.MaxBP+Obj.AddBP));
+		gGameProtocol.GCManaSend(Obj.m_Index, Obj.Mana, 0xFF, 0, Obj.BP);
 		break;
 	case EFFECTTYPE_STRENGTH:
-		lpObj.AddStrength += EffectValue;
+		Obj.AddStrength += EffectValue;
 		break;
 	case EFFECTTYPE_DEXTERITY:
-		EnterCriticalSection(&lpObj.m_PlayerData->AgiCheckCriti);
-		lpObj.m_PlayerData->AgilityCheckDelay = GetTickCount();
-		lpObj.AddDexterity += EffectValue;
-		LeaveCriticalSection(&lpObj.m_PlayerData->AgiCheckCriti);
+		EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
+		Obj.m_PlayerData->AgilityCheckDelay = GetTickCount();
+		Obj.AddDexterity += EffectValue;
+		LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 		break;
 	case EFFECTTYPE_VITALITY:
-		lpObj.AddVitality += EffectValue;
+		Obj.AddVitality += EffectValue;
 		break;
 	case EFFECTTYPE_ENERGY:
-		lpObj.AddEnergy += EffectValue;
+		Obj.AddEnergy += EffectValue;
 		break;
 	case EFFECTTYPE_LEADERSHIP:
-		lpObj.AddLeadership += EffectValue;
+		Obj.AddLeadership += EffectValue;
 		break;
 	case EFFECTTYPE_MELEEDAMAGE:
-		lpObj.m_AttackDamageMaxLeft += EffectValue;
-		lpObj.m_AttackDamageMinLeft += EffectValue;
-		lpObj.m_AttackDamageMaxRight += EffectValue;
-		lpObj.m_AttackDamageMinRight += EffectValue;
+		Obj.m_AttackDamageMaxLeft += EffectValue;
+		Obj.m_AttackDamageMinLeft += EffectValue;
+		Obj.m_AttackDamageMaxRight += EffectValue;
+		Obj.m_AttackDamageMinRight += EffectValue;
 		break;
 	case EFFECTTYPE_MAGICDAMAGE:
-		lpObj.m_MagicDamageMin += EffectValue;
-		lpObj.m_MagicDamageMax += EffectValue;
+		Obj.m_MagicDamageMin += EffectValue;
+		Obj.m_MagicDamageMax += EffectValue;
 		break;
 	case EFFECTTYPE_IMPROVE_MELEE_DEFENSE:
-		lpObj.m_SkillInfo.SoulBarrierDefence = EffectValue;
+		Obj.m_SkillInfo.SoulBarrierDefence = EffectValue;
 		break;
 	case EFFECTTYPE_IMPROVE_MAGIC_DEFENSE:
-		lpObj.m_MagicDefense += EffectValue;
+		Obj.m_MagicDefense += EffectValue;
 		break;
 	case EFFECTTYPE_DAMAGEREFLECT:
-		lpObj.DamageReflect += EffectValue;
+		Obj.DamageReflect += EffectValue;
 		break;
 	case EFFECTTYPE_REDUCE_ATTACK_RATE:
-		lpObj.m_AttackRating -= EffectValue;
+		Obj.m_AttackRating -= EffectValue;
 		break;
 	case EFFECTTYPE_MELEE_DEFENSE_DOWN_MANA:
-		lpObj.m_SkillInfo.SoulBarrierManaRate = EffectValue;
+		Obj.m_SkillInfo.SoulBarrierManaRate = EffectValue;
 		break;
 	case EFFECTTYPE_BERSERKER_UP:
-		lpObj.AddMana += (int)( (((float)(EffectValue) * (float)(lpObj.MaxMana))) / 100.0f);		
-		gGameProtocol.GCManaSend(lpObj.m_Index, (lpObj.MaxMana + lpObj.AddMana), 0xFE, 0, (lpObj.MaxBP+lpObj.AddBP));
-		gGameProtocol.GCManaSend(lpObj.m_Index, lpObj.Mana, 0xFF, 0, lpObj.BP);
+		Obj.AddMana += (int)( (((float)(EffectValue) * (float)(Obj.MaxMana))) / 100.0f);		
+		gGameProtocol.GCManaSend(Obj.m_Index, (Obj.MaxMana + Obj.AddMana), 0xFE, 0, (Obj.MaxBP+Obj.AddBP));
+		gGameProtocol.GCManaSend(Obj.m_Index, Obj.Mana, 0xFF, 0, Obj.BP);
 		break;
 	case EFFECTTYPE_BERSERKER_DOWN:
 		{
@@ -112,72 +112,72 @@ void CBuffEffect::SetBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectVal
 			float fPer = (((float)(40.0f) - (float)(EffectValue))/100.0f);
 
 			fPer = (fPer > 0.1f)?fPer:0.1f;
-			fAddLife = fPer * lpObj.MaxLife;
+			fAddLife = fPer * Obj.MaxLife;
 
-			lpObj.AddLife -= (int)((float)(fAddLife));
-			lpObj.Life = ( (float)(lpObj.Life) < ( (float)(lpObj.AddLife) + (float)(lpObj.MaxLife) ) )?( (float)(lpObj.Life) ):( ( (float)(lpObj.AddLife) + (float)(lpObj.MaxLife) ) );
+			Obj.AddLife -= (int)((float)(fAddLife));
+			Obj.Life = ( (float)(Obj.Life) < ( (float)(Obj.AddLife) + (float)(Obj.MaxLife) ) )?( (float)(Obj.Life) ):( ( (float)(Obj.AddLife) + (float)(Obj.MaxLife) ) );
 
-			gGameProtocol.GCReFillSend(lpObj.m_Index, lpObj.AddLife+lpObj.MaxLife, 0xFE, 0, lpObj.iAddShield+lpObj.iMaxShield);
-			gGameProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
+			gGameProtocol.GCReFillSend(Obj.m_Index, Obj.AddLife+Obj.MaxLife, 0xFE, 0, Obj.iAddShield+Obj.iMaxShield);
+			gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
 		}
 		break;
 	case EFFECTTYPE_MAGICPOWER_INC:
-		lpObj.m_MagicDamageMin += EffectValue;
+		Obj.m_MagicDamageMin += EffectValue;
 		break;
 	case EFFECTTYPE_MAGICPOWERMAX_INC:
-		lpObj.m_MagicDamageMax += EffectValue;
+		Obj.m_MagicDamageMax += EffectValue;
 		break;
 	case EFFECTTYPE_POWER_UP:
-		lpObj.m_AttackDamageMaxLeft += EffectValue;
-		lpObj.m_AttackDamageMinLeft += EffectValue;
-		lpObj.m_AttackDamageMaxRight += EffectValue;
-		lpObj.m_AttackDamageMinRight += EffectValue;
+		Obj.m_AttackDamageMaxLeft += EffectValue;
+		Obj.m_AttackDamageMinLeft += EffectValue;
+		Obj.m_AttackDamageMaxRight += EffectValue;
+		Obj.m_AttackDamageMinRight += EffectValue;
 
-		lpObj.m_MagicDamageMin += EffectValue;
-		lpObj.m_MagicDamageMax += EffectValue;
+		Obj.m_MagicDamageMin += EffectValue;
+		Obj.m_MagicDamageMax += EffectValue;
 
-		lpObj.m_CurseDamageMin += EffectValue;
-		lpObj.m_CurseDamageMax += EffectValue;
+		Obj.m_CurseDamageMin += EffectValue;
+		Obj.m_CurseDamageMax += EffectValue;
 		break;
 	case EFFECTTYPE_GUARD_UP:
-		lpObj.m_Defense += EffectValue;
+		Obj.m_Defense += EffectValue;
 		break;
 	case EFFECTTYPE_AG_UP:
-		lpObj.AddBP += EffectValue * (lpObj.Level + lpObj.m_PlayerData->MasterLevel);
-		gGameProtocol.GCManaSend(lpObj.m_Index, (WORD)(lpObj.MaxMana + lpObj.AddMana), 0xFE, 0, (WORD)(lpObj.MaxBP+lpObj.AddBP));
-		gGameProtocol.GCManaSend(lpObj.m_Index, (WORD)lpObj.Mana, 0xFF, 0, (WORD)lpObj.BP);
+		Obj.AddBP += EffectValue * (Obj.Level + Obj.m_PlayerData->MasterLevel);
+		gGameProtocol.GCManaSend(Obj.m_Index, (WORD)(Obj.MaxMana + Obj.AddMana), 0xFE, 0, (WORD)(Obj.MaxBP+Obj.AddBP));
+		gGameProtocol.GCManaSend(Obj.m_Index, (WORD)Obj.Mana, 0xFF, 0, (WORD)Obj.BP);
 		break;
 	case EFFECTTYPE_SD_UP:
-		lpObj.iAddShield += EffectValue * (lpObj.Level + lpObj.m_PlayerData->MasterLevel);
-		gGameProtocol.GCReFillSend(lpObj.m_Index, lpObj.AddLife+lpObj.MaxLife, 0xFE, 0, lpObj.iAddShield+lpObj.iMaxShield);
-		gGameProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
+		Obj.iAddShield += EffectValue * (Obj.Level + Obj.m_PlayerData->MasterLevel);
+		gGameProtocol.GCReFillSend(Obj.m_Index, Obj.AddLife+Obj.MaxLife, 0xFE, 0, Obj.iAddShield+Obj.iMaxShield);
+		gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
 		break;
 	case EFFECTTYPE_SD_UP_VALUE:
-		lpObj.iAddShield += EffectValue;
-		gGameProtocol.GCReFillSend(lpObj.m_Index, lpObj.AddLife+lpObj.MaxLife, 0xFE, 0, lpObj.iAddShield+lpObj.iMaxShield);
-		gGameProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
+		Obj.iAddShield += EffectValue;
+		gGameProtocol.GCReFillSend(Obj.m_Index, Obj.AddLife+Obj.MaxLife, 0xFE, 0, Obj.iAddShield+Obj.iMaxShield);
+		gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
 		break;
 	case EFFECTTYPE_AG_UP_VALUE:
-		lpObj.AddBP += EffectValue;
-		gGameProtocol.GCManaSend(lpObj.m_Index, (WORD)(lpObj.MaxMana + lpObj.AddMana), 0xFE, 0, (WORD)(lpObj.MaxBP+lpObj.AddBP));
-		gGameProtocol.GCManaSend(lpObj.m_Index, (WORD)lpObj.Mana, 0xFF, 0, (WORD)lpObj.BP);
+		Obj.AddBP += EffectValue;
+		gGameProtocol.GCManaSend(Obj.m_Index, (WORD)(Obj.MaxMana + Obj.AddMana), 0xFE, 0, (WORD)(Obj.MaxBP+Obj.AddBP));
+		gGameProtocol.GCManaSend(Obj.m_Index, (WORD)Obj.Mana, 0xFF, 0, (WORD)Obj.BP);
 		break;
 	case EFFECTTYPE_IMPROVE_DEFENSE_RATE:
-		lpObj.m_SuccessfulBlocking += EffectValue;
+		Obj.m_SuccessfulBlocking += EffectValue;
 		break;
 	case EFFECTTYPE_DECREASE_DEFENSE_RATE:
-		lpObj.m_SuccessfulBlocking -= EffectValue;
-		if(lpObj.m_SuccessfulBlocking < 0)
-			lpObj.m_SuccessfulBlocking = 0;
+		Obj.m_SuccessfulBlocking -= EffectValue;
+		if(Obj.m_SuccessfulBlocking < 0)
+			Obj.m_SuccessfulBlocking = 0;
 		break;
 	case EFFECTTYPE_BLIND:
-		lpObj.m_bBlind = true;
+		Obj.m_bBlind = true;
 		break;
 	case EFFECTTYPE_WRATH_INC_DAMAGE:
-		lpObj.m_AttackDamageMinLeft += lpObj.m_AttackDamageMinLeft * EffectValue / 100;
-		lpObj.m_AttackDamageMaxLeft += lpObj.m_AttackDamageMaxLeft * EffectValue / 100;
-		lpObj.m_AttackDamageMinRight += lpObj.m_AttackDamageMinRight * EffectValue / 100;
-		lpObj.m_AttackDamageMaxRight += lpObj.m_AttackDamageMaxRight * EffectValue / 100;
+		Obj.m_AttackDamageMinLeft += Obj.m_AttackDamageMinLeft * EffectValue / 100;
+		Obj.m_AttackDamageMaxLeft += Obj.m_AttackDamageMaxLeft * EffectValue / 100;
+		Obj.m_AttackDamageMinRight += Obj.m_AttackDamageMinRight * EffectValue / 100;
+		Obj.m_AttackDamageMaxRight += Obj.m_AttackDamageMaxRight * EffectValue / 100;
 		break;
 	}
 }
@@ -186,83 +186,83 @@ void CBuffEffect::ClearBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectV
 {
 	if(lpObj == NULL || EffectType < EFFECTTYPE_NONE)	return;
 
-	if(lpObj.Connected < PLAYER_PLAYING)	return;
+	if(Obj.Connected < PLAYER_PLAYING)	return;
 
 	switch(EffectType)
 	{
 	case EFFECTTYPE_ATTACKSPEED:
-		lpObj.m_AttackSpeed -= EffectValue;
-		lpObj.m_MagicSpeed -= EffectValue;
+		Obj.m_AttackSpeed -= EffectValue;
+		Obj.m_MagicSpeed -= EffectValue;
 		break;
 	case EFFECTTYPE_IMPROVE_DEFENSE:
-		lpObj.m_Defense -= EffectValue;
-		lpObj.m_MagicDefense -= EffectValue;
+		Obj.m_Defense -= EffectValue;
+		Obj.m_MagicDefense -= EffectValue;
 		break;
 	case EFFECTTYPE_HP:
-		lpObj.AddLife -= EffectValue;
-		if(lpObj.AddLife <= 0.0)
-			lpObj.AddLife = 0.0;
-		gGameProtocol.GCReFillSend(lpObj.m_Index, lpObj.AddLife+lpObj.MaxLife, 0xFE, 0, lpObj.iAddShield+lpObj.iMaxShield);
-		gGameProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
+		Obj.AddLife -= EffectValue;
+		if(Obj.AddLife <= 0.0)
+			Obj.AddLife = 0.0;
+		gGameProtocol.GCReFillSend(Obj.m_Index, Obj.AddLife+Obj.MaxLife, 0xFE, 0, Obj.iAddShield+Obj.iMaxShield);
+		gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
 		break;
 	case EFFECTTYPE_MANA:
-		lpObj.AddMana -= EffectValue;
-		if(lpObj.AddMana <= 0.0)
-			lpObj.AddMana = 0.0;
-		gGameProtocol.GCManaSend(lpObj.m_Index, (WORD)(lpObj.MaxMana + lpObj.AddMana), 0xFE, 0, (WORD)(lpObj.MaxBP+lpObj.AddBP));
-		gGameProtocol.GCManaSend(lpObj.m_Index, (WORD)lpObj.Mana, 0xFF, 0, (WORD)lpObj.BP);
+		Obj.AddMana -= EffectValue;
+		if(Obj.AddMana <= 0.0)
+			Obj.AddMana = 0.0;
+		gGameProtocol.GCManaSend(Obj.m_Index, (WORD)(Obj.MaxMana + Obj.AddMana), 0xFE, 0, (WORD)(Obj.MaxBP+Obj.AddBP));
+		gGameProtocol.GCManaSend(Obj.m_Index, (WORD)Obj.Mana, 0xFF, 0, (WORD)Obj.BP);
 		break;
 	case EFFECTTYPE_STRENGTH:
-		lpObj.AddStrength -= EffectValue;
+		Obj.AddStrength -= EffectValue;
 		break;
 	case EFFECTTYPE_DEXTERITY:
-		EnterCriticalSection(&lpObj.m_PlayerData->AgiCheckCriti);
-		lpObj.m_PlayerData->AgilityCheckDelay = GetTickCount();
-		lpObj.AddDexterity -= EffectValue;
-		LeaveCriticalSection(&lpObj.m_PlayerData->AgiCheckCriti);
+		EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
+		Obj.m_PlayerData->AgilityCheckDelay = GetTickCount();
+		Obj.AddDexterity -= EffectValue;
+		LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 		break;
 	case EFFECTTYPE_VITALITY:
-		lpObj.AddVitality -= EffectValue;
+		Obj.AddVitality -= EffectValue;
 		break;
 	case EFFECTTYPE_ENERGY:
-		lpObj.AddEnergy -= EffectValue;
+		Obj.AddEnergy -= EffectValue;
 		break;
 	case EFFECTTYPE_LEADERSHIP:
-		lpObj.AddLeadership -= EffectValue;
+		Obj.AddLeadership -= EffectValue;
 		break;
 	case EFFECTTYPE_MELEEDAMAGE:
-		lpObj.m_AttackDamageMaxLeft -= EffectValue;
-		lpObj.m_AttackDamageMinLeft -= EffectValue;
-		lpObj.m_AttackDamageMaxRight -= EffectValue;
-		lpObj.m_AttackDamageMinRight -= EffectValue;
+		Obj.m_AttackDamageMaxLeft -= EffectValue;
+		Obj.m_AttackDamageMinLeft -= EffectValue;
+		Obj.m_AttackDamageMaxRight -= EffectValue;
+		Obj.m_AttackDamageMinRight -= EffectValue;
 		break;
 	case EFFECTTYPE_MAGICDAMAGE:
-		lpObj.m_MagicDamageMin -= EffectValue;
-		lpObj.m_MagicDamageMax -= EffectValue;
+		Obj.m_MagicDamageMin -= EffectValue;
+		Obj.m_MagicDamageMax -= EffectValue;
 		break;
 	case EFFECTTYPE_IMPROVE_MELEE_DEFENSE:
-		lpObj.m_SkillInfo.SoulBarrierDefence -= EffectValue;
+		Obj.m_SkillInfo.SoulBarrierDefence -= EffectValue;
 		break;
 	case EFFECTTYPE_IMPROVE_MAGIC_DEFENSE:
-		lpObj.m_MagicDefense -= EffectValue;
+		Obj.m_MagicDefense -= EffectValue;
 		break;
 	case EFFECTTYPE_DAMAGEREFLECT:
-		lpObj.DamageReflect -= EffectValue;
+		Obj.DamageReflect -= EffectValue;
 		break;
 	case EFFECTTYPE_REDUCE_ATTACK_RATE:
-		lpObj.m_AttackRating += EffectValue;
+		Obj.m_AttackRating += EffectValue;
 		break;
 	case EFFECTTYPE_MELEE_DEFENSE_DOWN_MANA:
-		lpObj.m_SkillInfo.SoulBarrierManaRate = 0;
+		Obj.m_SkillInfo.SoulBarrierManaRate = 0;
 		break;
 	case EFFECTTYPE_BERSERKER_UP:
-		lpObj.AddMana -= (int)( (((float)(EffectValue) * (float)(lpObj.MaxMana))) / 100.0f);
-		if(lpObj.AddMana <= 0.0)
-			lpObj.AddMana = 0.0;
-		lpObj.Mana = ( (float)(lpObj.Mana) < ( (float)(lpObj.AddMana) + (float)(lpObj.MaxMana) ) )?( (float)(lpObj.Mana) ):( ( (float)(lpObj.AddMana) + (float)(lpObj.MaxMana) ) );
+		Obj.AddMana -= (int)( (((float)(EffectValue) * (float)(Obj.MaxMana))) / 100.0f);
+		if(Obj.AddMana <= 0.0)
+			Obj.AddMana = 0.0;
+		Obj.Mana = ( (float)(Obj.Mana) < ( (float)(Obj.AddMana) + (float)(Obj.MaxMana) ) )?( (float)(Obj.Mana) ):( ( (float)(Obj.AddMana) + (float)(Obj.MaxMana) ) );
 		
-		gGameProtocol.GCManaSend(lpObj.m_Index, (WORD)(lpObj.MaxMana + lpObj.AddMana), 0xFE, 0, (WORD)(lpObj.MaxBP+lpObj.AddBP));
-		gGameProtocol.GCManaSend(lpObj.m_Index, (WORD)lpObj.Mana, 0xFF, 0, (WORD)lpObj.BP);
+		gGameProtocol.GCManaSend(Obj.m_Index, (WORD)(Obj.MaxMana + Obj.AddMana), 0xFE, 0, (WORD)(Obj.MaxBP+Obj.AddBP));
+		gGameProtocol.GCManaSend(Obj.m_Index, (WORD)Obj.Mana, 0xFF, 0, (WORD)Obj.BP);
 		break;
 	case EFFECTTYPE_BERSERKER_DOWN:
 		{
@@ -270,61 +270,61 @@ void CBuffEffect::ClearBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectV
 			float fPer = (((float)(40.0f) - (float)(EffectValue))/100.0f);
 
 			fPer = (fPer > 0.1f)?fPer:0.1f;
-			fAddLife = fPer * lpObj.MaxLife;
+			fAddLife = fPer * Obj.MaxLife;
 
-			lpObj.AddLife += (int)(fAddLife);
+			Obj.AddLife += (int)(fAddLife);
 
-			gGameProtocol.GCReFillSend(lpObj.m_Index, lpObj.AddLife+lpObj.MaxLife, 0xFE, 0, lpObj.iAddShield+lpObj.iMaxShield);
-			gGameProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
+			gGameProtocol.GCReFillSend(Obj.m_Index, Obj.AddLife+Obj.MaxLife, 0xFE, 0, Obj.iAddShield+Obj.iMaxShield);
+			gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
 		}
 		break;
 	case EFFECTTYPE_MAGICPOWER_INC:
-		lpObj.m_MagicDamageMin -= EffectValue;
+		Obj.m_MagicDamageMin -= EffectValue;
 		break;
 	case EFFECTTYPE_MAGICPOWERMAX_INC:
-		lpObj.m_MagicDamageMax -= EffectValue;
-		lpObj.m_PlayerData->m_MPSkillOpt.iMpsCriticalRateInc = 0.0;
+		Obj.m_MagicDamageMax -= EffectValue;
+		Obj.m_PlayerData->m_MPSkillOpt.iMpsCriticalRateInc = 0.0;
 		break;
 	case EFFECTTYPE_POWER_UP:
-		lpObj.m_AttackDamageMaxLeft -= EffectValue;
-		lpObj.m_AttackDamageMinLeft -= EffectValue;
-		lpObj.m_AttackDamageMaxRight -= EffectValue;
-		lpObj.m_AttackDamageMinRight -= EffectValue;
+		Obj.m_AttackDamageMaxLeft -= EffectValue;
+		Obj.m_AttackDamageMinLeft -= EffectValue;
+		Obj.m_AttackDamageMaxRight -= EffectValue;
+		Obj.m_AttackDamageMinRight -= EffectValue;
 
-		lpObj.m_MagicDamageMin -= EffectValue;
-		lpObj.m_MagicDamageMax -= EffectValue;
+		Obj.m_MagicDamageMin -= EffectValue;
+		Obj.m_MagicDamageMax -= EffectValue;
 
-		lpObj.m_CurseDamageMin -= EffectValue;
-		lpObj.m_CurseDamageMax -= EffectValue;
+		Obj.m_CurseDamageMin -= EffectValue;
+		Obj.m_CurseDamageMax -= EffectValue;
 		break;
 	case EFFECTTYPE_GUARD_UP:
-		lpObj.m_Defense -= EffectValue;
+		Obj.m_Defense -= EffectValue;
 		break;
 	case EFFECTTYPE_AG_UP:
-		lpObj.AddBP -= EffectValue * (lpObj.Level + lpObj.m_PlayerData->MasterLevel);
-		gGameProtocol.GCManaSend(lpObj.m_Index, (WORD)(lpObj.MaxMana + lpObj.AddMana), 0xFE, 0, (WORD)(lpObj.MaxBP+lpObj.AddBP));
-		gGameProtocol.GCManaSend(lpObj.m_Index, (WORD)lpObj.Mana, 0xFF, 0, (WORD)lpObj.BP);
+		Obj.AddBP -= EffectValue * (Obj.Level + Obj.m_PlayerData->MasterLevel);
+		gGameProtocol.GCManaSend(Obj.m_Index, (WORD)(Obj.MaxMana + Obj.AddMana), 0xFE, 0, (WORD)(Obj.MaxBP+Obj.AddBP));
+		gGameProtocol.GCManaSend(Obj.m_Index, (WORD)Obj.Mana, 0xFF, 0, (WORD)Obj.BP);
 		break;
 	case EFFECTTYPE_SD_UP:
-		lpObj.iAddShield -= EffectValue * (lpObj.Level + lpObj.m_PlayerData->MasterLevel);
-		gGameProtocol.GCReFillSend(lpObj.m_Index, lpObj.AddLife+lpObj.MaxLife, 0xFE, 0, lpObj.iAddShield+lpObj.iMaxShield);
-		gGameProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
+		Obj.iAddShield -= EffectValue * (Obj.Level + Obj.m_PlayerData->MasterLevel);
+		gGameProtocol.GCReFillSend(Obj.m_Index, Obj.AddLife+Obj.MaxLife, 0xFE, 0, Obj.iAddShield+Obj.iMaxShield);
+		gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
 		break;
 	case EFFECTTYPE_SD_UP_VALUE:
-		lpObj.iAddShield -= EffectValue;
-		gGameProtocol.GCReFillSend(lpObj.m_Index, lpObj.AddLife+lpObj.MaxLife, 0xFE, 0, lpObj.iAddShield+lpObj.iMaxShield);
-		gGameProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
+		Obj.iAddShield -= EffectValue;
+		gGameProtocol.GCReFillSend(Obj.m_Index, Obj.AddLife+Obj.MaxLife, 0xFE, 0, Obj.iAddShield+Obj.iMaxShield);
+		gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
 		break;
 	case EFFECTTYPE_AG_UP_VALUE:
-		lpObj.AddBP -= EffectValue;
-		gGameProtocol.GCManaSend(lpObj.m_Index, (WORD)(lpObj.MaxMana + lpObj.AddMana), 0xFE, 0, (WORD)(lpObj.MaxBP+lpObj.AddBP));
-		gGameProtocol.GCManaSend(lpObj.m_Index, (WORD)lpObj.Mana, 0xFF, 0, (WORD)lpObj.BP);
+		Obj.AddBP -= EffectValue;
+		gGameProtocol.GCManaSend(Obj.m_Index, (WORD)(Obj.MaxMana + Obj.AddMana), 0xFE, 0, (WORD)(Obj.MaxBP+Obj.AddBP));
+		gGameProtocol.GCManaSend(Obj.m_Index, (WORD)Obj.Mana, 0xFF, 0, (WORD)Obj.BP);
 		break;
 	case EFFECTTYPE_IMPROVE_DEFENSE_RATE:
-		lpObj.m_SuccessfulBlocking -= EffectValue;
+		Obj.m_SuccessfulBlocking -= EffectValue;
 		break;
 	case EFFECTTYPE_DECREASE_DEFENSE_RATE:
-		lpObj.m_SuccessfulBlocking += EffectValue;
+		Obj.m_SuccessfulBlocking += EffectValue;
 		break;
 	case EFFECTTYPE_ELF_BLESS:
 		{
@@ -333,17 +333,17 @@ void CBuffEffect::ClearBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectV
 			pMsg.result = 0x12;
 			pMsg.btStatValue = EffectValue;
 			pMsg.btFruitType = 0x07;
-			IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+			IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 		}
 		break;
 	case EFFECTTYPE_BLIND:
-		lpObj.m_bBlind = false;
+		Obj.m_bBlind = false;
 		break;
 	case EFFECTTYPE_WRATH_INC_DAMAGE:
-		lpObj.m_AttackDamageMinLeft -= lpObj.m_AttackDamageMinLeft * EffectValue / 100;
-		lpObj.m_AttackDamageMaxLeft -= lpObj.m_AttackDamageMaxLeft * EffectValue / 100;
-		lpObj.m_AttackDamageMinRight -= lpObj.m_AttackDamageMinRight * EffectValue / 100;
-		lpObj.m_AttackDamageMaxRight -= lpObj.m_AttackDamageMaxRight * EffectValue / 100;
+		Obj.m_AttackDamageMinLeft -= Obj.m_AttackDamageMinLeft * EffectValue / 100;
+		Obj.m_AttackDamageMaxLeft -= Obj.m_AttackDamageMaxLeft * EffectValue / 100;
+		Obj.m_AttackDamageMinRight -= Obj.m_AttackDamageMinRight * EffectValue / 100;
+		Obj.m_AttackDamageMaxRight -= Obj.m_AttackDamageMaxRight * EffectValue / 100;
 		break;
 	}
 }
@@ -368,41 +368,41 @@ void CBuffEffect::GiveDamageEffect(class CGameObject* lpObj, int Damage)
 	DecreaseHealthPoint = Damage;
 	DecreaseShiledPoint = DecreaseHealthPoint;
 
-	if(lpObj.Live == 0)	return;
+	if(Obj.Live == 0)	return;
 
-	if( lpObj.lpAttackObj != NULL && 
-		lpObj.Type == OBJ_USER && lpObj.m_bOffLevel == FALSE && lpObj.lpAttackObj.Type == OBJ_USER)
+	if( Obj.lpAttackObj != NULL && 
+		Obj.Type == OBJ_USER && Obj.m_bOffLevel == FALSE && Obj.lpAttackObj.Type == OBJ_USER)
 	{
 		DecreaseShiledPoint = 90 * DecreaseHealthPoint / 100;
 		DecreaseHealthPoint -= DecreaseShiledPoint;
 
-		if(lpObj.iShield-DecreaseShiledPoint > 0)
+		if(Obj.iShield-DecreaseShiledPoint > 0)
 		{
-			lpObj.iShield -= DecreaseShiledPoint;
-			lpObj.Life -= DecreaseHealthPoint;
+			Obj.iShield -= DecreaseShiledPoint;
+			Obj.Life -= DecreaseHealthPoint;
 		}
 		else
 		{
-			DecreaseHealthPoint += DecreaseShiledPoint - lpObj.iShield;
-			DecreaseShiledPoint = lpObj.iShield;
-			lpObj.Life -= DecreaseHealthPoint;
-			lpObj.iShield = 0;
+			DecreaseHealthPoint += DecreaseShiledPoint - Obj.iShield;
+			DecreaseShiledPoint = Obj.iShield;
+			Obj.Life -= DecreaseHealthPoint;
+			Obj.iShield = 0;
 		}
 	}
 	else
 	{
 		DecreaseShiledPoint = 0;
-		lpObj.Life -= DecreaseHealthPoint;
+		Obj.Life -= DecreaseHealthPoint;
 	}
 
-	if(lpObj.Life < 0.0f)
+	if(Obj.Life < 0.0f)
 	{
-		lpObj.Life = 0.0f;
+		Obj.Life = 0.0f;
 	}
 
-	if(lpObj.lpAttackObj != NULL)
+	if(Obj.lpAttackObj != NULL)
 	{
-		gObjLifeCheck(lpObj, lpObj.lpAttackObj, DecreaseHealthPoint, 3, 0, 0, 0, DecreaseShiledPoint, 0);
+		gObjLifeCheck(lpObj, Obj.lpAttackObj, DecreaseHealthPoint, 3, 0, 0, 0, DecreaseShiledPoint, 0);
 	}
 }
 
@@ -413,45 +413,45 @@ void CBuffEffect::PoisonEffect(CGameObject &Obj, BYTE PoisonRate)
 
 	if (g_ConfigRead.data.common.IsJoinMu == 1)
 	{
-		gObjUseSkill.m_Lua.Generic_Call("PoisonEffectCalc", "d>i", lpObj.Life, &DecreaseHealthPoint);
+		gObjUseSkill.m_Lua.Generic_Call("PoisonEffectCalc", "d>i", Obj.Life, &DecreaseHealthPoint);
 	}
 	else
 	{
-		DecreaseHealthPoint = (((int)(PoisonRate)* lpObj.Life) / 100);
+		DecreaseHealthPoint = (((int)(PoisonRate)* Obj.Life) / 100);
 	}
 
 	DecreaseShiledPoint = DecreaseHealthPoint;
 
-	if(lpObj.lpAttackObj != NULL && 
-		lpObj.Type == OBJ_USER && lpObj.m_bOffLevel == FALSE && lpObj.lpAttackObj.Type == OBJ_USER)
+	if(Obj.lpAttackObj != NULL && 
+		Obj.Type == OBJ_USER && Obj.m_bOffLevel == FALSE && Obj.lpAttackObj.Type == OBJ_USER)
 	{
-		if(lpObj.iShield-DecreaseShiledPoint > 0)
+		if(Obj.iShield-DecreaseShiledPoint > 0)
 		{
-			lpObj.iShield -= DecreaseShiledPoint;
+			Obj.iShield -= DecreaseShiledPoint;
 			DecreaseHealthPoint = 0;
 		}
 		else
 		{
-			DecreaseHealthPoint = DecreaseShiledPoint - lpObj.iShield;
-			DecreaseShiledPoint = lpObj.iShield;
-			lpObj.Life -= DecreaseHealthPoint;
-			lpObj.iShield = 0;
+			DecreaseHealthPoint = DecreaseShiledPoint - Obj.iShield;
+			DecreaseShiledPoint = Obj.iShield;
+			Obj.Life -= DecreaseHealthPoint;
+			Obj.iShield = 0;
 		}
 	}
 	else
 	{
-		lpObj.Life -= DecreaseHealthPoint;
+		Obj.Life -= DecreaseHealthPoint;
 		DecreaseShiledPoint = 0;
 	}
 	
-	if(lpObj.Life < 0.0f)
+	if(Obj.Life < 0.0f)
 	{
-		lpObj.Life = 0.0f;
+		Obj.Life = 0.0f;
 	}
 
-	if(lpObj.lpAttackObj != NULL)
+	if(Obj.lpAttackObj != NULL)
 	{
-		gObjLifeCheck(lpObj, *lpObj.lpAttackObj, DecreaseHealthPoint, 2, 0, 0, 1, DecreaseShiledPoint, 0);
+		gObjLifeCheck(lpObj, *Obj.lpAttackObj, DecreaseHealthPoint, 2, 0, 0, 1, DecreaseShiledPoint, 0);
 	}
 }
 
@@ -463,41 +463,41 @@ void CBuffEffect::GiveDamageFillHPEffect(CGameObject &Obj, int Damage)
 	DecreaseHealthPoint = Damage;
 	DecreaseShiledPoint = DecreaseHealthPoint;
 
-	if (lpObj.Live == 0)	return;
+	if (Obj.Live == 0)	return;
 
-	if (lpObj.lpAttackObj != NULL &&
-		lpObj.Type == OBJ_USER && lpObj.lpAttackObj.Type == OBJ_USER)
+	if (Obj.lpAttackObj != NULL &&
+		Obj.Type == OBJ_USER && Obj.lpAttackObj.Type == OBJ_USER)
 	{
 		DecreaseShiledPoint = 90 * DecreaseHealthPoint / 100;
 		DecreaseHealthPoint -= DecreaseShiledPoint;
 
-		if (lpObj.iShield - DecreaseShiledPoint > 0)
+		if (Obj.iShield - DecreaseShiledPoint > 0)
 		{
-			lpObj.iShield -= DecreaseShiledPoint;
-			lpObj.Life -= DecreaseHealthPoint;
+			Obj.iShield -= DecreaseShiledPoint;
+			Obj.Life -= DecreaseHealthPoint;
 		}
 		else
 		{
-			DecreaseHealthPoint += DecreaseShiledPoint - lpObj.iShield;
-			DecreaseShiledPoint = lpObj.iShield;
-			lpObj.Life -= DecreaseHealthPoint;
-			lpObj.iShield = 0;
+			DecreaseHealthPoint += DecreaseShiledPoint - Obj.iShield;
+			DecreaseShiledPoint = Obj.iShield;
+			Obj.Life -= DecreaseHealthPoint;
+			Obj.iShield = 0;
 		}
 	}
 	else
 	{
 		DecreaseShiledPoint = 0;
-		lpObj.Life -= DecreaseHealthPoint;
+		Obj.Life -= DecreaseHealthPoint;
 	}
 
-	if (lpObj.Life < 0.0f)
+	if (Obj.Life < 0.0f)
 	{
-		lpObj.Life = 0.0f;
+		Obj.Life = 0.0f;
 	}
 
-	if (lpObj.lpAttackObj != NULL)
+	if (Obj.lpAttackObj != NULL)
 	{
-		gObjLifeCheck(lpObj, *lpObj.lpAttackObj, DecreaseHealthPoint, 3, 0, 0, 0, DecreaseShiledPoint, 0);
+		gObjLifeCheck(lpObj, *Obj.lpAttackObj, DecreaseHealthPoint, 3, 0, 0, 0, DecreaseShiledPoint, 0);
 	}
 
 	if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_BLEEDING) == true)
@@ -509,17 +509,17 @@ void CBuffEffect::GiveDamageFillHPEffect(CGameObject &Obj, int Damage)
 
 		CGameObject lpTarget = &getGameObject(value2);
 
-		if ((lpObj.AddLife + lpObj.MaxLife) >= (lpObj.Life+DecreaseHealthPoint))
+		if ((Obj.AddLife + Obj.MaxLife) >= (Obj.Life+DecreaseHealthPoint))
 		{
-			lpObj.Life += DecreaseHealthPoint;
+			Obj.Life += DecreaseHealthPoint;
 		}
 
 		else
 		{
-			lpObj.Life = lpObj.AddLife + lpObj.MaxLife;
+			Obj.Life = Obj.AddLife + Obj.MaxLife;
 		}
 
-		gGameProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
+		gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
 	}
 }
 
@@ -531,9 +531,9 @@ void CBuffEffect::SetPrevEffect(CGameObject &Obj)
 
 	for(int i = 0; i < MAX_BUFFEFFECT; i++)
 	{
-		if(lpObj.m_BuffEffectList[i].BuffIndex == BUFFTYPE_NONE) continue;
+		if(Obj.m_BuffEffectList[i].BuffIndex == BUFFTYPE_NONE) continue;
 
-		switch(lpObj.m_BuffEffectList[i].EffectType1)
+		switch(Obj.m_BuffEffectList[i].EffectType1)
 		{
 		case EFFECTTYPE_HP:
 		case EFFECTTYPE_MANA:
@@ -548,13 +548,13 @@ void CBuffEffect::SetPrevEffect(CGameObject &Obj)
 		case EFFECTTYPE_SD_UP_VALUE:
 		case EFFECTTYPE_AG_UP_VALUE:
 			BuffCount++;
-			SetBuffEffect(lpObj, lpObj.m_BuffEffectList[i].EffectType1, lpObj.m_BuffEffectList[i].EffectValue1);
+			SetBuffEffect(lpObj, Obj.m_BuffEffectList[i].EffectType1, Obj.m_BuffEffectList[i].EffectValue1);
 			break;
 		default:
 			break;
 		}
 
-		switch(lpObj.m_BuffEffectList[i].EffectType2)
+		switch(Obj.m_BuffEffectList[i].EffectType2)
 		{
 		case EFFECTTYPE_HP:
 		case EFFECTTYPE_MANA:
@@ -569,7 +569,7 @@ void CBuffEffect::SetPrevEffect(CGameObject &Obj)
 		case EFFECTTYPE_SD_UP_VALUE:
 		case EFFECTTYPE_AG_UP_VALUE:
 			BuffCount++;
-			SetBuffEffect(lpObj, lpObj.m_BuffEffectList[i].EffectType2, lpObj.m_BuffEffectList[i].EffectValue2);
+			SetBuffEffect(lpObj, Obj.m_BuffEffectList[i].EffectType2, Obj.m_BuffEffectList[i].EffectValue2);
 			break;
 		default:
 			break;
@@ -585,9 +585,9 @@ void CBuffEffect::SetNextEffect(CGameObject &Obj)
 
 	for(int i = 0; i < MAX_BUFFEFFECT; i++)
 	{
-		if(lpObj.m_BuffEffectList[i].BuffIndex == BUFFTYPE_NONE) continue;
+		if(Obj.m_BuffEffectList[i].BuffIndex == BUFFTYPE_NONE) continue;
 
-		switch(lpObj.m_BuffEffectList[i].EffectType1)
+		switch(Obj.m_BuffEffectList[i].EffectType1)
 		{
 		case EFFECTTYPE_HP:
 		case EFFECTTYPE_MANA:
@@ -604,11 +604,11 @@ void CBuffEffect::SetNextEffect(CGameObject &Obj)
 			break;
 		default:
 			BuffCount++;
-			SetBuffEffect(lpObj, lpObj.m_BuffEffectList[i].EffectType1, lpObj.m_BuffEffectList[i].EffectValue1);
+			SetBuffEffect(lpObj, Obj.m_BuffEffectList[i].EffectType1, Obj.m_BuffEffectList[i].EffectValue1);
 			break;
 		}
 
-		switch(lpObj.m_BuffEffectList[i].EffectType2)
+		switch(Obj.m_BuffEffectList[i].EffectType2)
 		{
 		case EFFECTTYPE_HP:
 		case EFFECTTYPE_MANA:
@@ -625,7 +625,7 @@ void CBuffEffect::SetNextEffect(CGameObject &Obj)
 			break;
 		default:
 			BuffCount++;
-			SetBuffEffect(lpObj, lpObj.m_BuffEffectList[i].EffectType2, lpObj.m_BuffEffectList[i].EffectValue2);
+			SetBuffEffect(lpObj, Obj.m_BuffEffectList[i].EffectType2, Obj.m_BuffEffectList[i].EffectValue2);
 			break;
 		}
 	}
@@ -639,9 +639,9 @@ void CBuffEffect::ClearPrevEffect(CGameObject &Obj)
 
 	for(int i = 0; i < MAX_BUFFEFFECT; i++)
 	{
-		if(lpObj.m_BuffEffectList[i].BuffIndex == BUFFTYPE_NONE) continue;
+		if(Obj.m_BuffEffectList[i].BuffIndex == BUFFTYPE_NONE) continue;
 
-		switch(lpObj.m_BuffEffectList[i].EffectType1)
+		switch(Obj.m_BuffEffectList[i].EffectType1)
 		{
 		case EFFECTTYPE_HP:
 		case EFFECTTYPE_MANA:
@@ -656,13 +656,13 @@ void CBuffEffect::ClearPrevEffect(CGameObject &Obj)
 		case EFFECTTYPE_SD_UP_VALUE:
 		case EFFECTTYPE_AG_UP_VALUE:
 			BuffCount++;
-			ClearBuffEffect(lpObj, lpObj.m_BuffEffectList[i].EffectType1, lpObj.m_BuffEffectList[i].EffectValue1);
+			ClearBuffEffect(lpObj, Obj.m_BuffEffectList[i].EffectType1, Obj.m_BuffEffectList[i].EffectValue1);
 			break;
 		default:
 			break;
 		}
 
-		switch(lpObj.m_BuffEffectList[i].EffectType2)
+		switch(Obj.m_BuffEffectList[i].EffectType2)
 		{
 		case EFFECTTYPE_HP:
 		case EFFECTTYPE_MANA:
@@ -677,7 +677,7 @@ void CBuffEffect::ClearPrevEffect(CGameObject &Obj)
 		case EFFECTTYPE_SD_UP_VALUE:
 		case EFFECTTYPE_AG_UP_VALUE:
 			BuffCount++;
-			ClearBuffEffect(lpObj, lpObj.m_BuffEffectList[i].EffectType2, lpObj.m_BuffEffectList[i].EffectValue2);
+			ClearBuffEffect(lpObj, Obj.m_BuffEffectList[i].EffectType2, Obj.m_BuffEffectList[i].EffectValue2);
 			break;
 		default:
 			break;
@@ -747,13 +747,13 @@ void CBuffEffect::RequestPeriodBuffDelete(CGameObject lpObj, WORD wBuffIndex)
 {
 	PMSG_REQ_PERIODBUFF_DELETE pMsg;
 
-	pMsg.wUserIndex = lpObj.m_Index;
+	pMsg.wUserIndex = Obj.m_Index;
 	pMsg.wBuffIndex = wBuffIndex;
-	memcpy(pMsg.szCharacterName, lpObj.Name, MAX_ACCOUNT_LEN+1);
+	memcpy(pMsg.szCharacterName, Obj.Name, MAX_ACCOUNT_LEN+1);
 	PHeadSubSetB((BYTE*)&pMsg, 0xE4, 2, sizeof(pMsg));
   
 	wsDataCli.DataSend((char*)&pMsg, pMsg.head.size);
-	sLog->outBasic("[PeriodBuff][Delete] Request Delete PeriodBuff. User Id : %s(%d), Name : %s, BuffIndex : %d", lpObj.AccountID, lpObj.DBNumber, lpObj.Name, wBuffIndex);
+	sLog->outBasic("[PeriodBuff][Delete] Request Delete PeriodBuff. User Id : %s(%d), Name : %s, BuffIndex : %d", Obj.AccountID, Obj.DBNumber, Obj.Name, wBuffIndex);
 }
 
 void CBuffEffect::RequestPeriodBuffDelete(char *szName, WORD wBuffIndex)
@@ -785,8 +785,8 @@ void CBuffEffect::RequestPeriodBuffInsert(CGameObject lpObj,PeriodBuffInfo *lpBu
 {
 	PMSG_REQ_PERIODBUFF_INSERT pMsg; 
 
-	pMsg.wUserIndex = lpObj.m_Index;
-	memcpy(pMsg.szCharacterName, lpObj.Name, MAX_ACCOUNT_LEN+1);
+	pMsg.wUserIndex = Obj.m_Index;
+	memcpy(pMsg.szCharacterName, Obj.Name, MAX_ACCOUNT_LEN+1);
 	pMsg.wBuffIndex = lpBuffInfo->wBuffIndex;
 	pMsg.btEffectType1 = lpBuffInfo->btEffectType1;
 	pMsg.btEffectType2 = lpBuffInfo->btEffectType2;
@@ -796,7 +796,7 @@ void CBuffEffect::RequestPeriodBuffInsert(CGameObject lpObj,PeriodBuffInfo *lpBu
 
 	wsDataCli.DataSend((char*)&pMsg, pMsg.head.size);
 	sLog->outBasic("[PeriodBuff][Insert] Request Insert PeriodBuff. User Id : %s(%d), Name : %s, BuffIndex : %d, Duration %d, lExpireDate%d",
-	lpObj.AccountID, lpObj.DBNumber, lpObj.Name, lpBuffInfo->wBuffIndex, lpBuffInfo->lDuration, pMsg.lExpireDate);
+	Obj.AccountID, Obj.DBNumber, Obj.Name, lpBuffInfo->wBuffIndex, lpBuffInfo->lDuration, pMsg.lExpireDate);
 }
 
 struct PMSG_REQ_PERIODBUFF_SELECT
@@ -810,8 +810,8 @@ void CBuffEffect::RequestPeriodBuffSelect(CGameObject &Obj)
 {
 	PMSG_REQ_PERIODBUFF_SELECT pMsg;
 
-	pMsg.wUserIndex = lpObj.m_Index;
-	memcpy(pMsg.szCharacterName, lpObj.Name, MAX_ACCOUNT_LEN+1);
+	pMsg.wUserIndex = Obj.m_Index;
+	memcpy(pMsg.szCharacterName, Obj.Name, MAX_ACCOUNT_LEN+1);
 	PHeadSubSetB((BYTE*)&pMsg, 0xE4, 3, sizeof(pMsg));
 
 	wsDataCli.DataSend((char*)&pMsg, pMsg.head.size);
@@ -826,12 +826,12 @@ void CBuffEffect::DGPeriodItemExSelect(PMSG_ANS_PERIODBUFF_SELECT *lpMsg)
 
 	CGameObject lpObj = &getGameObject(lpMsg->wUserIndex);
 
-	if ( lpObj.Connected < PLAYER_LOGGED )
+	if ( Obj.Connected < PLAYER_LOGGED )
 	{
 		return;
 	}
 
-	if ( lpObj.Type != OBJ_USER )
+	if ( Obj.Type != OBJ_USER )
 	{
 		return;
 	}
@@ -853,13 +853,13 @@ void CBuffEffect::DGPeriodItemExSelect(PMSG_ANS_PERIODBUFF_SELECT *lpMsg)
 	if ( gObjAddPeriodBuffEffect(lpObj, lpPeriBuff, lLeftDate) == FALSE )
 	{
 		sLog->outBasic("[PeriodBuff][Error][Select] Answer Select PeriodBuff. User Id : %s(%d), Name : %s, BuffIndex : %d Type1 : %d Type2 : %d ExpireDate : %d ResultCode : %d",
-			lpObj.AccountID, lpObj.DBNumber, lpObj.Name, lpMsg->wBuffIndex, lpMsg->btEffectType1, lpMsg->btEffectType2, lpMsg->lExpireDate, lpMsg->btResultCode);
+			Obj.AccountID, Obj.DBNumber, Obj.Name, lpMsg->wBuffIndex, lpMsg->btEffectType1, lpMsg->btEffectType2, lpMsg->lExpireDate, lpMsg->btResultCode);
 	}
 
 	else
 	{
 		sLog->outBasic("[PeriodBuff][Select] Answer Select PeriodBuff. User Id : %s(%d), Name : %s, BuffIndex : %d Type1 : %d Type2 : %d ExpireDate : %d ResultCode : %d",
-			lpObj.AccountID, lpObj.DBNumber, lpObj.Name, lpMsg->wBuffIndex, lpMsg->btEffectType1, lpMsg->btEffectType2, lpMsg->lExpireDate, lpMsg->btResultCode);
+			Obj.AccountID, Obj.DBNumber, Obj.Name, lpMsg->wBuffIndex, lpMsg->btEffectType1, lpMsg->btEffectType2, lpMsg->lExpireDate, lpMsg->btResultCode);
 	}
 }
 

@@ -107,7 +107,7 @@ bool CBagManager::IsBag(CGameObject &Obj, int BagType, int iParam1, int iParam2)
 
 	for (std::multimap<int, CBag *>::iterator it = ret.first; it != ret.second; it++)
 	{
-		if (it->second->IsBag(aIndex, iParam1, iParam2) == false)
+		if (it->second->IsBag(Obj.m_Index, iParam1, iParam2) == false)
 		{
 			LeaveCriticalSection(&this->m_criti);
 			return true;
@@ -126,12 +126,12 @@ bool CBagManager::SearchAndUseBag(CGameObject &Obj, int BagType, int iParam1, in
 
 	for (std::multimap<int, CBag *>::iterator it = ret.first; it != ret.second; it++)
 	{
-		if (it->second->CheckCondition(aIndex, iParam1, iParam2) == false)
+		if (it->second->CheckCondition(Obj.m_Index, iParam1, iParam2) == false)
 		{
 			continue;
 		}
 
-		if (it->second->UseBag(aIndex, iParam2) == false)
+		if (it->second->UseBag(Obj.m_Index, iParam2) == false)
 		{
 			LeaveCriticalSection(&this->m_criti);
 			return false;
@@ -141,11 +141,11 @@ bool CBagManager::SearchAndUseBag(CGameObject &Obj, int BagType, int iParam1, in
 		{
 			if (it->second->IsBagUseEffect() >= 0)
 			{
-				it->second->MakeBagEffectUse(aIndex, aIndex);
+				it->second->MakeBagEffectUse(Obj.m_Index, Obj.m_Index);
 			}
 
-			it->second->AddCoin(aIndex);
-			it->second->DropSummonItem(aIndex);
+			it->second->AddCoin(Obj.m_Index);
+			it->second->DropSummonItem(Obj.m_Index);
 			LeaveCriticalSection(&this->m_criti);
 			return true;
 		}
@@ -163,12 +163,12 @@ int CBagManager::GetItemFromBag(CGameObject &Obj, int BagType, int iParam1, int 
 
 	for (std::multimap<int, CBag *>::iterator it = ret.first; it != ret.second; it++)
 	{
-		if (it->second->CheckCondition(aIndex, iParam1, iParam2) == false)
+		if (it->second->CheckCondition(Obj.m_Index, iParam1, iParam2) == false)
 		{
 			continue;
 		}
 
-		int iResult = it->second->GetReadyItemToUse(aIndex, Item, DurationItem);
+		int iResult = it->second->GetReadyItemToUse(Obj.m_Index, Item, DurationItem);
 
 		if (iResult == 0)
 		{
@@ -180,11 +180,11 @@ int CBagManager::GetItemFromBag(CGameObject &Obj, int BagType, int iParam1, int 
 		{
 			if (it->second->IsBagUseEffect() >= 0)
 			{
-				it->second->MakeBagEffectUse(aIndex, aIndex);
+				it->second->MakeBagEffectUse(Obj.m_Index, Obj.m_Index);
 			}
 
-			it->second->AddCoin(aIndex);
-			it->second->DropSummonItem(aIndex);
+			it->second->AddCoin(Obj.m_Index);
+			it->second->DropSummonItem(Obj.m_Index);
 			LeaveCriticalSection(&this->m_criti);
 			return iResult;
 		}
@@ -202,12 +202,12 @@ bool CBagManager::UseBag_GremoryCase(CGameObject &Obj, int BagType, int iParam1,
 
 	for (std::multimap<int, CBag *>::iterator it = ret.first; it != ret.second; it++)
 	{
-		if (it->second->CheckCondition(aIndex, iParam1, iParam2) == false)
+		if (it->second->CheckCondition(Obj.m_Index, iParam1, iParam2) == false)
 		{
 			continue;
 		}
 
-		if (it->second->UseBag_GremoryCase(aIndex, iParam2, btStorageType, btRewardSource, iExpireDays) == false)
+		if (it->second->UseBag_GremoryCase(Obj.m_Index, iParam2, btStorageType, btRewardSource, iExpireDays) == false)
 		{
 			LeaveCriticalSection(&this->m_criti);
 			return false;
@@ -217,10 +217,10 @@ bool CBagManager::UseBag_GremoryCase(CGameObject &Obj, int BagType, int iParam1,
 		{
 			if (it->second->IsBagUseEffect() >= 0)
 			{
-				it->second->MakeBagEffectUse(aIndex, aIndex);
+				it->second->MakeBagEffectUse(Obj.m_Index, Obj.m_Index);
 			}
 
-			it->second->AddCoin(aIndex);
+			it->second->AddCoin(Obj.m_Index);
 
 			LeaveCriticalSection(&this->m_criti);
 			return true;
@@ -239,12 +239,12 @@ void CBagManager::AddCashCoin(CGameObject &Obj, int BagType, int iParam1, int iP
 
 	for (std::multimap<int, CBag *>::iterator it = ret.first; it != ret.second; it++)
 	{
-		if (it->second->CheckCondition(aIndex, iParam1, iParam2) == false)
+		if (it->second->CheckCondition(Obj.m_Index, iParam1, iParam2) == false)
 		{
 			continue;
 		}
 
-		it->second->AddCoin(aIndex);
+		it->second->AddCoin(Obj.m_Index);
 	}
 
 	LeaveCriticalSection(&this->m_criti);

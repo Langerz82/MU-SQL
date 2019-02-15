@@ -251,7 +251,7 @@ BOOL TMonsterAIElement::ApplyElementMove(CGameObject &Obj, int iTargetIndex, TMo
 	CGameObject lpObj = Obj;
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-이동");
 
-	if ( lpObj.PathStartEnd )
+	if ( Obj.PathStartEnd )
 		return FALSE;
 
 	BOOL bFindXY = FALSE;
@@ -262,7 +262,7 @@ BOOL TMonsterAIElement::ApplyElementMove(CGameObject &Obj, int iTargetIndex, TMo
 		bFindXY = MONSTER_UTIL.GetXYToPatrol(lpObj);
 
 	if ( bFindXY )
-		MONSTER_UTIL.FindPathToMoveMonster(lpObj, lpObj.MTX, lpObj.MTY, 5, 1);
+		MONSTER_UTIL.FindPathToMoveMonster(lpObj, Obj.MTX, Obj.MTY, 5, 1);
 
 	return FALSE;
 }
@@ -272,11 +272,11 @@ BOOL TMonsterAIElement::ApplyElementMoveTarget(CGameObject &Obj, int iTargetInde
 	CGameObject lpObj = Obj;
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-타겟이동");
 
-	if ( lpObj.PathStartEnd )
+	if ( Obj.PathStartEnd )
 		return FALSE;
 
-	if ( lpObj.X == this->m_iX &&
-		 lpObj.Y == this->m_iY )
+	if ( Obj.X == this->m_iX &&
+		 Obj.Y == this->m_iY )
 	{
 		this->ApplyElementMove(iIndex, iTargetIndex, pAIState);
 		return FALSE;
@@ -285,9 +285,9 @@ BOOL TMonsterAIElement::ApplyElementMoveTarget(CGameObject &Obj, int iTargetInde
 	BOOL bFindXY = TRUE;
 	int iTargetX = this->m_iX;
 	int iTargetY = this->m_iY;
-	int iTargetDistance = sqrt( static_cast<float>( ((lpObj.X - iTargetX)*(lpObj.X - iTargetX))+ ((lpObj.Y - iTargetY)*(lpObj.Y - iTargetY)) ));
+	int iTargetDistance = sqrt( static_cast<float>( ((Obj.X - iTargetX)*(Obj.X - iTargetX))+ ((Obj.Y - iTargetY)*(Obj.Y - iTargetY)) ));
 	
-	if ( TMonsterAIElement::s_MonsterAIMovePath[lpObj.MapNumber].m_bDataLoad )
+	if ( TMonsterAIElement::s_MonsterAIMovePath[Obj.MapNumber].m_bDataLoad )
 	{
 		if ( iTargetDistance > 10 )
 		{
@@ -299,8 +299,8 @@ BOOL TMonsterAIElement::ApplyElementMoveTarget(CGameObject &Obj, int iTargetInde
 			for ( int i=0;i<MAX_MONSTER_AI_MOVE_PATH;i++)
 			{
 				TMonsterAIMovePathInfo & PathInfo = TMonsterAIElement::s_MonsterAIMovePath[MAP_INDEX_CRYWOLF_FIRSTZONE].m_MovePathInfo[i];
-				float fDistX = lpObj.X - PathInfo.m_iPathX;
-				float fDistY = lpObj.Y - PathInfo.m_iPathY;
+				float fDistX = Obj.X - PathInfo.m_iPathX;
+				float fDistY = Obj.Y - PathInfo.m_iPathY;
 				int iPathSpotDist =  sqrt( (fDistX*fDistX) + (fDistY*fDistY) );
 
 				if ( iPathSpotDist < 20 )
@@ -333,9 +333,9 @@ BOOL TMonsterAIElement::ApplyElementMoveTarget(CGameObject &Obj, int iTargetInde
 	if ( bFindXY )
 	{
 		if ( MONSTER_UTIL.FindPathToMoveMonster(lpObj, iTargetX, iTargetY, 7, FALSE) )
-			lpObj.PathStartEnd = 1;
+			Obj.PathStartEnd = 1;
 		else
-			lpObj.PathStartEnd = 0;
+			Obj.PathStartEnd = 0;
 	}
 
 	return FALSE;
@@ -347,20 +347,20 @@ BOOL TMonsterAIElement::ApplyElementGroupMove(CGameObject &Obj, int iTargetIndex
 	CGameObject lpObj = Obj;
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-그룹이동");
 
-	if ( lpObj.PathStartEnd )
+	if ( Obj.PathStartEnd )
 		return FALSE;
 
 	BOOL bFindXY = FALSE;
 	BOOL bFoundLeader = TRUE;
 	int iLeaderIndex = -1;
-	iLeaderIndex = TMonsterAIGroup::FindGroupLeader(lpObj.m_iGroupNumber);
+	iLeaderIndex = TMonsterAIGroup::FindGroupLeader(Obj.m_iGroupNumber);
 
 	if ( iLeaderIndex == -1 || getGameObject(iLeaderIndex)->Live == FALSE )
 		bFoundLeader = FALSE;
 
 	if ( bFoundLeader && gObjCalDistance(lpObj, &getGameObject(iLeaderIndex)) > 6 )
 	{
-		lpObj.TargetNumber = iLeaderIndex;
+		Obj.TargetNumber = iLeaderIndex;
 		bFindXY = MONSTER_UTIL.GetXYToChase(lpObj);
 	}
 	else if ( pAIState->m_iTransitionType == 2 )
@@ -374,14 +374,14 @@ BOOL TMonsterAIElement::ApplyElementGroupMove(CGameObject &Obj, int iTargetIndex
 
 	if ( bFindXY )
 	{
-		if ( MONSTER_UTIL.FindPathToMoveMonster(lpObj, lpObj.MTX, lpObj.MTY, 5, TRUE) )
+		if ( MONSTER_UTIL.FindPathToMoveMonster(lpObj, Obj.MTX, Obj.MTY, 5, TRUE) )
 		{
 
 		}
 		else
 		{
 			MONSTER_UTIL.GetXYToPatrol(lpObj);
-			MONSTER_UTIL.FindPathToMoveMonster(lpObj, lpObj.MTX, lpObj.MTY, 5, TRUE);
+			MONSTER_UTIL.FindPathToMoveMonster(lpObj, Obj.MTX, Obj.MTY, 5, TRUE);
 		}
 	}
 
@@ -393,10 +393,10 @@ BOOL TMonsterAIElement::ApplyElementAttack(CGameObject &Obj, int iTargetIndex, T
 	CGameObject lpObj = Obj;
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-공격");
 
-	if ( TMonsterSkillManager::CheckMonsterSkill(lpObj.Class) && lpObj.Class != 519 ) // Medic has only BUFF in MONSTERSKILL, so disable check for him
+	if ( TMonsterSkillManager::CheckMonsterSkill(Obj.Class) && Obj.Class != 519 ) // Medic has only BUFF in MONSTERSKILL, so disable check for him
 	{
 		BOOL bEnableAttack = TRUE;
-		int iTargetNumber = lpObj.TargetNumber;
+		int iTargetNumber = Obj.TargetNumber;
 
 		if ( iTargetNumber < 0 )
 			bEnableAttack = FALSE;
@@ -412,41 +412,41 @@ BOOL TMonsterAIElement::ApplyElementAttack(CGameObject &Obj, int iTargetIndex, T
 
 		if ( !bEnableAttack )
 		{
-			lpObj.TargetNumber = -1;
-			lpObj.m_ActState.Emotion = 0;
-			lpObj.m_ActState.Attack = 0;
-			lpObj.m_ActState.Move = 0;
-			lpObj.NextActionTime = 1000;
+			Obj.TargetNumber = -1;
+			Obj.m_ActState.Emotion = 0;
+			Obj.m_ActState.Attack = 0;
+			Obj.m_ActState.Move = 0;
+			Obj.NextActionTime = 1000;
 
 			return FALSE;
 		}
 
 		CGameObject lpTargetObj = &getGameObject(iTargetNumber);
-		lpObj.Dir = GetPathPacketDirPos(lpTargetObj.X - lpObj.X, lpTargetObj.Y - lpObj.Y);
+		Obj.Dir = GetPathPacketDirPos(lpTargetObj.X - Obj.X, lpTargetObj.Y - Obj.Y);
 
 		if ( (rand()%4) == 0 )
 		{
 			PMSG_ATTACK pAttackMsg;
 
 			pAttackMsg.AttackAction = 0x78;
-			pAttackMsg.DirDis = lpObj.Dir;
+			pAttackMsg.DirDis = Obj.Dir;
 			pAttackMsg.NumberH = SET_NUMBERH(iTargetNumber);
 			pAttackMsg.NumberL = SET_NUMBERL(iTargetNumber);
 
-			gGameProtocol.GCActionSend(lpObj, 0x78, lpObj.m_Index, iTargetNumber);
+			gGameProtocol.GCActionSend(lpObj, 0x78, Obj.m_Index, iTargetNumber);
 			gObjAttack(lpObj, &getGameObject(iTargetNumber), 0, 0, 0, 0, 0, 0, 0);
 		}
 		else
 		{
-			TMonsterSkillManager::UseMonsterSkill(lpObj.m_Index, iTargetNumber, 0, -1, NULL);
+			TMonsterSkillManager::UseMonsterSkill(Obj.m_Index, iTargetNumber, 0, -1, NULL);
 		}
 
-		lpObj.m_ActState.Attack = 0;
+		Obj.m_ActState.Attack = 0;
 		return FALSE;
 	}
 	else
 	{
-		int iTargetNumber = lpObj.TargetNumber;
+		int iTargetNumber = Obj.TargetNumber;
 
 		if (!ObjectMaxRange(iTargetNumber))
 		{
@@ -454,17 +454,17 @@ BOOL TMonsterAIElement::ApplyElementAttack(CGameObject &Obj, int iTargetIndex, T
 		}
 
 		CGameObject lpTargetObj = &getGameObject(iTargetNumber);
-		lpObj.Dir = GetPathPacketDirPos(lpTargetObj.X - lpObj.X, lpTargetObj.Y - lpObj.Y);
+		Obj.Dir = GetPathPacketDirPos(lpTargetObj.X - Obj.X, lpTargetObj.Y - Obj.Y);
 
 		PMSG_ATTACK pAttackMsg;
 
 		pAttackMsg.AttackAction = 0x78;
-		pAttackMsg.DirDis = lpObj.Dir;
+		pAttackMsg.DirDis = Obj.Dir;
 		pAttackMsg.NumberH = SET_NUMBERH(iTargetNumber);
 		pAttackMsg.NumberL = SET_NUMBERL(iTargetNumber);
 
-		gGameProtocol.CGAttack((PMSG_ATTACK *)&pAttackMsg, lpObj.m_Index);
-		gGameProtocol.GCActionSend(lpObj, 0x78, lpObj.m_Index, lpTargetObj.m_Index);
+		gGameProtocol.CGAttack((PMSG_ATTACK *)&pAttackMsg, Obj.m_Index);
+		gGameProtocol.GCActionSend(lpObj, 0x78, Obj.m_Index, lpTargetObj.m_Index);
 		gObjAttack(lpObj, &getGameObject(iTargetNumber), 0, 0, 0, 0, 0, 0, 0);
 
 		return FALSE;
@@ -498,10 +498,10 @@ BOOL TMonsterAIElement::ApplyElementAttackArea(CGameObject &Obj, int iTargetInde
 
 		CGameObject lpTargetObj = &getGameObject(i);
 
-		if ( !lpObj.Live )
+		if ( !Obj.Live )
 			continue;
 
-		if ( lpObj.MapNumber != lpTargetObj.MapNumber )
+		if ( Obj.MapNumber != lpTargetObj.MapNumber )
 			continue;
 
 		int iTargetDistance = sqrt( static_cast<float> ( ((lpTargetObj.X - iTargetX)*(lpTargetObj.X - iTargetX)) + ((lpTargetObj.Y - iTargetY)*(lpTargetObj.Y - iTargetY)) ) );
@@ -511,10 +511,10 @@ BOOL TMonsterAIElement::ApplyElementAttackArea(CGameObject &Obj, int iTargetInde
 			PMSG_NOTIFY_REGION_MONSTER_ATTACK pMsg;
 
 			PHeadSubSetB((BYTE*)&pMsg, 0xBD, 0x0C, sizeof(pMsg));
-			pMsg.btObjClassH = SET_NUMBERH(lpObj.Class);
-			pMsg.btObjClassL = SET_NUMBERL(lpObj.Class);
-			pMsg.btSourceX = lpObj.X;
-			pMsg.btSourceY = lpObj.Y;
+			pMsg.btObjClassH = SET_NUMBERH(Obj.Class);
+			pMsg.btObjClassL = SET_NUMBERL(Obj.Class);
+			pMsg.btSourceX = Obj.X;
+			pMsg.btSourceY = Obj.Y;
 			pMsg.btPointX = iTargetX;
 			pMsg.btPointY = iTargetY;
 
@@ -533,7 +533,7 @@ BOOL TMonsterAIElement::ApplyElementAttackArea(CGameObject &Obj, int iTargetInde
 BOOL TMonsterAIElement::ApplyElementAttackPenetration(CGameObject &Obj, int iTargetIndex, TMonsterAIState * pAIState)
 {
 	CGameObject lpObj = Obj;
-	iTargetIndex = lpObj.TargetNumber;
+	iTargetIndex = Obj.TargetNumber;
 
 	if ( iTargetIndex == -1 )
 		return FALSE;
@@ -555,7 +555,7 @@ BOOL TMonsterAIElement::ApplyElementAvoid(CGameObject &Obj, int iTargetIndex, TM
 
 	if ( bFindXY )
 	{
-		MONSTER_UTIL.FindPathToMoveMonster(lpObj, lpObj.MTX, lpObj.MTY, 5, 1);
+		MONSTER_UTIL.FindPathToMoveMonster(lpObj, Obj.MTX, Obj.MTY, 5, 1);
 	}
 
 	return FALSE;
@@ -567,10 +567,10 @@ BOOL TMonsterAIElement::ApplyElementHealSelf(CGameObject &Obj, int iTargetIndex,
 	CGameObject lpObj = Obj;
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-셀프치료");
 
-	lpObj.Life += lpObj.Life * 20.0f / 100.0f;
-	UTIL.SendCrywolfChattingMsg(iIndex, "HP : %d", (int)lpObj.Life);
-	//lpObj.m_ViewSkillState |= 8;
-	//GCStateInfoSend(lpObj, 1, lpObj.m_ViewSkillState);
+	Obj.Life += Obj.Life * 20.0f / 100.0f;
+	UTIL.SendCrywolfChattingMsg(iIndex, "HP : %d", (int)Obj.Life);
+	//Obj.m_ViewSkillState |= 8;
+	//GCStateInfoSend(lpObj, 1, Obj.m_ViewSkillState);
 
 	return FALSE;
 }
@@ -580,7 +580,7 @@ BOOL TMonsterAIElement::ApplyElementHealGroup(CGameObject &Obj, int iTargetIndex
 {
 	CGameObject lpObj = Obj;
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-그룹치료");
-	TMonsterAIGroupMember * pMemb = TMonsterAIGroup::FindGroupMemberToHeal(lpObj.m_Index, lpObj.m_iGroupNumber, lpObj.m_iGroupMemberGuid, 6);
+	TMonsterAIGroupMember * pMemb = TMonsterAIGroup::FindGroupMemberToHeal(Obj.m_Index, Obj.m_iGroupNumber, Obj.m_iGroupMemberGuid, 6);
 
 	if ( pMemb )
 	{
@@ -591,13 +591,13 @@ BOOL TMonsterAIElement::ApplyElementHealGroup(CGameObject &Obj, int iTargetIndex
 
 		TMonsterSkillUnit * lpSkillUnit = NULL;
 
-		if(lpObj.Class == 519)
+		if(Obj.Class == 519)
 		{
 			TMonsterSkillManager::UseMonsterSkill(iIndex, pMemb->m_iObjIndex, 44, -1, NULL);
 		}
 		else
 		{
-			lpSkillUnit = TMonsterSkillManager::FindMonsterSkillUnit(lpObj.m_Index, 21);
+			lpSkillUnit = TMonsterSkillManager::FindMonsterSkillUnit(Obj.m_Index, 21);
 		}
 
 		if ( lpSkillUnit )
@@ -617,7 +617,7 @@ BOOL TMonsterAIElement::ApplyElementSpecialSommon(CGameObject &Obj, int iTargetI
 {
 	CGameObject lpObj = Obj;
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-특수소환");
-	TMonsterAIGroupMember * pMemb = TMonsterAIGroup::FindGroupMemberToSommon(lpObj.m_Index, lpObj.m_iGroupNumber, lpObj.m_iGroupMemberGuid);
+	TMonsterAIGroupMember * pMemb = TMonsterAIGroup::FindGroupMemberToSommon(Obj.m_Index, Obj.m_iGroupNumber, Obj.m_iGroupMemberGuid);
 
 	if ( pMemb )
 	{
@@ -626,7 +626,7 @@ BOOL TMonsterAIElement::ApplyElementSpecialSommon(CGameObject &Obj, int iTargetI
 		if ( lpTargetObj.Live != 0 )
 			return FALSE;
 
-		TMonsterSkillUnit * lpSkillUnit = TMonsterSkillManager::FindMonsterSkillUnit(lpObj.m_Index, 30);
+		TMonsterSkillUnit * lpSkillUnit = TMonsterSkillManager::FindMonsterSkillUnit(Obj.m_Index, 30);
 
 		if ( lpSkillUnit )
 		{
@@ -654,17 +654,17 @@ BOOL TMonsterAIElement::ApplyElementNightmareSummon(CGameObject &Obj, int iTarge
 {
 	CGameObject lpObj = Obj;
 
-	if ( lpObj.TargetNumber == -1 )
-		iTargetIndex = lpObj.m_Index;
+	if ( Obj.TargetNumber == -1 )
+		iTargetIndex = Obj.m_Index;
 
-	iTargetIndex = lpObj.TargetNumber;
+	iTargetIndex = Obj.TargetNumber;
 
 	if (iTargetIndex == -1)
 	{
 		return FALSE;
 	}
 
-	TMonsterSkillUnit * lpSkillUnit = TMonsterSkillManager::FindMonsterSkillUnit(lpObj.m_Index, 30); 
+	TMonsterSkillUnit * lpSkillUnit = TMonsterSkillManager::FindMonsterSkillUnit(Obj.m_Index, 30); 
 
 	if (lpSkillUnit)
 	{
@@ -697,13 +697,13 @@ BOOL TMonsterAIElement::ApplyElementNightmareWarp(CGameObject &Obj, int iTargetI
 	pAttack.TargetNumberH = SET_NUMBERH(Obj.m_Index);
 	pAttack.TargetNumberL = SET_NUMBERL(Obj.m_Index);
 
-	if ( lpObj.Type == OBJ_USER )
+	if ( Obj.Type == OBJ_USER )
 		IOCP.DataSend(Obj.m_Index,(BYTE *)&pAttack,pAttack.h.size);
 
 	gGameProtocol.MsgSendV2(lpObj,(BYTE*)&pAttack,pAttack.h.size);
 
 	gObjTeleportMagicUse(iIndex,x,y);
-	lpObj.TargetNumber = -1;
+	Obj.TargetNumber = -1;
 
 	return FALSE;
 }
@@ -714,10 +714,10 @@ BOOL TMonsterAIElement::ApplyElementSkillAttack(CGameObject &Obj, int iTargetInd
 {
 	CGameObject lpObj = Obj;
 
-	if ( TMonsterSkillManager::CheckMonsterSkill(lpObj.Class) )
+	if ( TMonsterSkillManager::CheckMonsterSkill(Obj.Class) )
 	{
 		BOOL bEnableAttack = TRUE;
-		int iTargetNumber = lpObj.TargetNumber;
+		int iTargetNumber = Obj.TargetNumber;
 
 		if (iTargetNumber < 0 )
 			bEnableAttack = FALSE;
@@ -733,30 +733,30 @@ BOOL TMonsterAIElement::ApplyElementSkillAttack(CGameObject &Obj, int iTargetInd
 
 		if ( !bEnableAttack )
 		{
-			lpObj.TargetNumber = -1;
-			lpObj.m_ActState.Emotion = 0;
-			lpObj.m_ActState.Attack = 0;
-			lpObj.m_ActState.Move = 0;
-			lpObj.NextActionTime = 1000;
+			Obj.TargetNumber = -1;
+			Obj.m_ActState.Emotion = 0;
+			Obj.m_ActState.Attack = 0;
+			Obj.m_ActState.Move = 0;
+			Obj.NextActionTime = 1000;
 
 			return FALSE;
 		}
 
 		CGameObject lpTargetObj = &getGameObject(iTargetNumber);
-		lpObj.Dir = GetPathPacketDirPos(lpTargetObj.X - lpObj.X, lpTargetObj.Y - lpObj.Y);
+		Obj.Dir = GetPathPacketDirPos(lpTargetObj.X - Obj.X, lpTargetObj.Y - Obj.Y);
 		int iRate1 = this->m_iTargetType;
 		int iRate2 = this->m_iX;
 		int iRate3 = this->m_iY;
 		int iRandom = rand() % 100;
 
 		if ( iRandom < iRate1 )
-			TMonsterSkillManager::UseMonsterSkill(lpObj.m_Index, iTargetNumber, 0, -1, NULL);
+			TMonsterSkillManager::UseMonsterSkill(Obj.m_Index, iTargetNumber, 0, -1, NULL);
 		else if ( iRandom < (iRate1+iRate2) )
-			TMonsterSkillManager::UseMonsterSkill(lpObj.m_Index, iTargetNumber, 1, -1, NULL);
+			TMonsterSkillManager::UseMonsterSkill(Obj.m_Index, iTargetNumber, 1, -1, NULL);
 		else if ( iRandom < (iRate1+iRate2+iRate3) )
-			TMonsterSkillManager::UseMonsterSkill(lpObj.m_Index, iTargetNumber, 2, -1, NULL);
+			TMonsterSkillManager::UseMonsterSkill(Obj.m_Index, iTargetNumber, 2, -1, NULL);
 
-		lpObj.m_ActState.Attack = 0;
+		Obj.m_ActState.Attack = 0;
 		return FALSE;
 	}
 

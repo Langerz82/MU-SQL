@@ -183,7 +183,7 @@ BOOL CWeapon::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf * lpMa
 		return FALSE;
 	}
 
-	if ( lpObj.MapNumber != lpTargetObj.MapNumber )
+	if ( Obj.MapNumber != lpTargetObj.MapNumber )
 	{
 		return FALSE;
 	}
@@ -201,7 +201,7 @@ BOOL CWeapon::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf * lpMa
 		return FALSE;
 	}
 
-	lpObj.m_TotalAttackCount++;
+	Obj.m_TotalAttackCount++;
 
 	int MSBFlag = 0;
 
@@ -214,7 +214,7 @@ BOOL CWeapon::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf * lpMa
 		MsgDamage = 0;
 	}
 
-	int iAttackDamage = this->GetAttackDamage(lpObj.Class);
+	int iAttackDamage = this->GetAttackDamage(Obj.Class);
 	int iTargetDefense = lpTargetObj.m_Defense;
 	int iDecreaseDefense = gObjGetTotalValueOfEffect(lpObj, EFFECTTYPE_DECREASE_DEFENSE);
 
@@ -246,7 +246,7 @@ BOOL CWeapon::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf * lpMa
 	}
 #endif
 
-	int iTargetLevel = lpObj.Level / 10;
+	int iTargetLevel = Obj.Level / 10;
 
 	if ( iAttackDamage < iTargetLevel )
 	{
@@ -303,18 +303,18 @@ BOOL CWeapon::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf * lpMa
 
 		int ReduceDamage = 90 - Dino->IsDinorantReduceAttackDamaege();
 
-		lpObj.Life -= 1.0f;
+		Obj.Life -= 1.0f;
 
-		if ( lpObj.Life < 0.0f )
+		if ( Obj.Life < 0.0f )
 		{
-			lpObj.Life = 0;
+			Obj.Life = 0;
 		}
 		else
 		{
 			iAttackDamage = (iAttackDamage * ReduceDamage) / 100;
 		}
 
-		gGameProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
+		gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
 	}	
 	
 
@@ -415,7 +415,7 @@ BOOL CWeapon::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf * lpMa
 		{
 			if ( (rand()%26) == 0 )
 			{
-				gObjAddMsgSendDelay(lpTargetObj, 4, lpObj.m_Index, 100, 0);
+				gObjAddMsgSendDelay(lpTargetObj, 4, Obj.m_Index, 100, 0);
 			}
 		}
 		else if ( (rand()%4) == 0 )
@@ -459,7 +459,7 @@ BOOL CWeapon::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf * lpMa
 		gGameProtocol.GCManaSend(lpTargetObj.m_Index, lpTargetObj.Mana, (BYTE)-1, 0, lpTargetObj.BP);
 	}
 
-	lpObj.m_Rest = 0;
+	Obj.m_Rest = 0;
 
 	if ( iAttackDamage > 0 )
 	{

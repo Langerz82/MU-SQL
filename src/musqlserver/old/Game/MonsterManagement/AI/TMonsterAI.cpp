@@ -40,18 +40,18 @@ void TMonsterAI::MonsterAIProc()
 	{
 		CGameObject lpObj = &getGameObject(n);
 
-		if ( lpObj.m_iCurrentAI == 0 || lpObj.Live == FALSE ||lpObj.Connected != PLAYER_PLAYING )
+		if ( Obj.m_iCurrentAI == 0 || Obj.Live == FALSE ||Obj.Connected != PLAYER_PLAYING )
 		{
-			if ( lpObj.m_iCurrentAI != 0 )
+			if ( Obj.m_iCurrentAI != 0 )
 			{
-				TMonsterAI::MonsterStateMsgProc(lpObj.m_Index);
+				TMonsterAI::MonsterStateMsgProc(Obj.m_Index);
 			}
 			continue;
 		}
 		else
 		{
-			TMonsterAI::UpdateCurrentAIUnit(lpObj.m_Index);
-			TMonsterAI::RunAI(lpObj.m_Index, lpObj.Class);
+			TMonsterAI::UpdateCurrentAIUnit(Obj.m_Index);
+			TMonsterAI::RunAI(Obj.m_Index, Obj.Class);
 		}
 	}
 }
@@ -63,21 +63,21 @@ bool TMonsterAI::RunAI(CGameObject &Obj, int iMonsterClass)
 
 	TMonsterAI::MonsterStateMsgProc(Obj.m_Index);
 
-	if ( lpObj.m_iCurrentAI == 0 )
+	if ( Obj.m_iCurrentAI == 0 )
 		return FALSE;
 
-	TMonsterAIUnit * lpAIUnit = TMonsterAIUnit::FindAIUnit(lpObj.m_iCurrentAI);
+	TMonsterAIUnit * lpAIUnit = TMonsterAIUnit::FindAIUnit(Obj.m_iCurrentAI);
 
 	if ( lpAIUnit == NULL )
 		return FALSE;
 
-	if ( (GetTickCount() - lpObj.m_iLastAIRunTime) < lpAIUnit->m_iDelayTime )
+	if ( (GetTickCount() - Obj.m_iLastAIRunTime) < lpAIUnit->m_iDelayTime )
 		return FALSE;
 
 	if ( lpAIUnit->RunAIUnit(Obj.m_Index) == FALSE )
 		return FALSE;
 
-	lpObj.m_iLastAIRunTime = GetTickCount();
+	Obj.m_iLastAIRunTime = GetTickCount();
 
 	return TRUE;
 }
@@ -118,22 +118,22 @@ void TMonsterAI::ProcessStateMsg(CGameObject &Obj, int iMsgCode, CGameObject &Ob
 			break;
 
 		case 3:
-			if ( lpObj.TargetNumber != -1 )
+			if ( Obj.TargetNumber != -1 )
 			{
-				lpObj.m_Agro->DelAgro(lpObj.TargetNumber);
+				Obj.m_Agro->DelAgro(Obj.TargetNumber);
 			}
 
-			lpObj.TargetNumber = -1;
-			lpObj.LastAttackerID = -1;
-			lpObj.m_ActState.Emotion = 0;
-			lpObj.m_ActState.Attack = 0;
-			lpObj.m_ActState.Move = 0;
-			lpObj.NextActionTime = 1000;
+			Obj.TargetNumber = -1;
+			Obj.LastAttackerID = -1;
+			Obj.m_ActState.Emotion = 0;
+			Obj.m_ActState.Attack = 0;
+			Obj.m_ActState.Move = 0;
+			Obj.NextActionTime = 1000;
 			break;
 
 		case 4:
-			lpObj.m_ActState.Emotion = 3;
-			lpObj.m_ActState.EmotionCount = 1;
+			Obj.m_ActState.Emotion = 3;
+			Obj.m_ActState.EmotionCount = 1;
 			break;
 
 		case 55:
@@ -171,25 +171,25 @@ bool TMonsterAI::UpdateCurrentAIUnit(CGameObject &Obj)
 {
 	CGameObject lpObj = Obj;
 
-	if ( lpObj.Live == FALSE )
+	if ( Obj.Live == FALSE )
 		return FALSE;
 
-	int iOldCurrentAI = lpObj.m_iCurrentAI;
-	int iCurrentAI = TMonsterAIRule::GetCurrentAIUnit(lpObj.Class);
+	int iOldCurrentAI = Obj.m_iCurrentAI;
+	int iCurrentAI = TMonsterAIRule::GetCurrentAIUnit(Obj.Class);
 
 	if ( iCurrentAI == 0 )
 	{
-		if ( lpObj.m_iBasicAI != 0 )
+		if ( Obj.m_iBasicAI != 0 )
 		{
-			iCurrentAI = lpObj.m_iBasicAI;
+			iCurrentAI = Obj.m_iBasicAI;
 		}
 	}
 
-	lpObj.m_iCurrentAI = iCurrentAI;
+	Obj.m_iCurrentAI = iCurrentAI;
 
 	if ( iOldCurrentAI != iCurrentAI )
 	{
-		UTIL.SendCrywolfChattingMsg(lpObj.m_Index, "★AI %s 에서 %s 로 바꾼다!!", TMonsterAIUnit::FindAIUnit(iOldCurrentAI)->m_szUnitName, TMonsterAIUnit::FindAIUnit(iCurrentAI)->m_szUnitName);
+		UTIL.SendCrywolfChattingMsg(Obj.m_Index, "★AI %s 에서 %s 로 바꾼다!!", TMonsterAIUnit::FindAIUnit(iOldCurrentAI)->m_szUnitName, TMonsterAIUnit::FindAIUnit(iCurrentAI)->m_szUnitName);
 	}
 
 	return TRUE;
@@ -215,64 +215,64 @@ void TMonsterAI::MonsterMove(CGameObject &Obj)
 
 	if ( MONSTER_UTIL.CheckMovingCondition(lpObj) == FALSE )
 	{
-		lpObj.PathCur = 0;
-		lpObj.PathCount = 0;
-		lpObj.PathStartEnd = 0;
-		memset(lpObj.PathX, 0, sizeof(lpObj.PathX));
-		memset(lpObj.PathY, 0, sizeof(lpObj.PathY));
-		memset(lpObj.PathDir, 0, sizeof(lpObj.PathDir));
+		Obj.PathCur = 0;
+		Obj.PathCount = 0;
+		Obj.PathStartEnd = 0;
+		memset(Obj.PathX, 0, sizeof(Obj.PathX));
+		memset(Obj.PathY, 0, sizeof(Obj.PathY));
+		memset(Obj.PathDir, 0, sizeof(Obj.PathDir));
 
 		return ;
 	}
 
-	if ( lpObj.PathCount != 0 )
+	if ( Obj.PathCount != 0 )
 	{
 		DWORD dwMoveTime = 0;
 		DWORD dwDelayTime = 0;
 
-		if ( lpObj.DelayLevel != 0 )
+		if ( Obj.DelayLevel != 0 )
 			dwDelayTime = 300;
 		else
 			dwDelayTime = 0;
 
-		lpObj.m_MoveSpeed = 300;
+		Obj.m_MoveSpeed = 300;
 		
-		if ( (lpObj.PathDir[lpObj.PathCur] % 2 ) == 0 )
-			dwMoveTime = (DWORD)((double)(lpObj.m_MoveSpeed + dwDelayTime) * 1.3);
+		if ( (Obj.PathDir[Obj.PathCur] % 2 ) == 0 )
+			dwMoveTime = (DWORD)((double)(Obj.m_MoveSpeed + dwDelayTime) * 1.3);
 		else
-			dwMoveTime = lpObj.m_MoveSpeed + dwDelayTime;
+			dwMoveTime = Obj.m_MoveSpeed + dwDelayTime;
 
-		if ( (GetTickCount() - lpObj.PathTime) > dwMoveTime )
+		if ( (GetTickCount() - Obj.PathTime) > dwMoveTime )
 		{
-			if ( lpObj.PathCur < 15 )
+			if ( Obj.PathCur < 15 )
 			{
-				lpObj.X = lpObj.PathX[lpObj.PathCur];
-				lpObj.Y = lpObj.PathY[lpObj.PathCur];
-				lpObj.Dir = lpObj.PathDir[lpObj.PathCur];
-				lpObj.PathTime = GetTickCount();
-				lpObj.PathCur++;
+				Obj.X = Obj.PathX[Obj.PathCur];
+				Obj.Y = Obj.PathY[Obj.PathCur];
+				Obj.Dir = Obj.PathDir[Obj.PathCur];
+				Obj.PathTime = GetTickCount();
+				Obj.PathCur++;
 
-				if ( lpObj.PathCur >= lpObj.PathCount )
+				if ( Obj.PathCur >= Obj.PathCount )
 				{
-					lpObj.PathCur = 0;
-					lpObj.PathCount = 0;
-					lpObj.PathStartEnd = 0;
+					Obj.PathCur = 0;
+					Obj.PathCount = 0;
+					Obj.PathStartEnd = 0;
 				}
 			}
 
-			CreateFrustrum(lpObj.X, lpObj.Y, iIndex);
+			CreateFrustrum(Obj.X, Obj.Y, iIndex);
 		}
 
 		return;
 
 	}
 
-	lpObj.PathCur = 0;
-	lpObj.PathCount = 0;
-	lpObj.PathStartEnd = 0;
-	memset(lpObj.PathX, 0, sizeof(lpObj.PathX));
-	memset(lpObj.PathY, 0, sizeof(lpObj.PathY));
-	memset(lpObj.PathDir, 0, sizeof(lpObj.PathDir));
+	Obj.PathCur = 0;
+	Obj.PathCount = 0;
+	Obj.PathStartEnd = 0;
+	memset(Obj.PathX, 0, sizeof(Obj.PathX));
+	memset(Obj.PathY, 0, sizeof(Obj.PathY));
+	memset(Obj.PathDir, 0, sizeof(Obj.PathDir));
 }
 
 ////////////////////////////////////////////////////////////////////////////////

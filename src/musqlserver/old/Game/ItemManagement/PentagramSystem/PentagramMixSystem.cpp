@@ -278,44 +278,44 @@ bool CPentagramMixSystem::LoadJewelOptionScript(char *pchFileName)
 
 BOOL CPentagramMixSystem::PentagramMixBoxInit(CGameObject &Obj)
 {
-	if (lpObj.Type != OBJ_USER)
+	if (Obj.Type != OBJ_USER)
 	{
 		return FALSE;
 	}
 
-	if (lpObj.m_PlayerData->pPentagramMixBox != NULL)
+	if (Obj.m_PlayerData->pPentagramMixBox != NULL)
 	{
 		for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 		{
-			lpObj.m_PlayerData->pPentagramMixBox[n].Clear();
+			Obj.m_PlayerData->pPentagramMixBox[n].Clear();
 		}
 
 		for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 		{
-			lpObj.m_PlayerData->pPentagramMixBoxMap[n] = -1;
+			Obj.m_PlayerData->pPentagramMixBoxMap[n] = -1;
 		}
 
 		return TRUE;
 	}
 
-	lpObj.m_PlayerData->pPentagramMixBox = new CItemObject[CHAOS_BOX_SIZE];
+	Obj.m_PlayerData->pPentagramMixBox = new CItemObject[CHAOS_BOX_SIZE];
 
-	if (lpObj.m_PlayerData->pPentagramMixBox == NULL)
+	if (Obj.m_PlayerData->pPentagramMixBox == NULL)
 	{
 		return FALSE;
 	}
 
-	lpObj.m_PlayerData->pPentagramMixBoxMap = new BYTE[CHAOS_BOX_SIZE];
+	Obj.m_PlayerData->pPentagramMixBoxMap = new BYTE[CHAOS_BOX_SIZE];
 
-	if (lpObj.m_PlayerData->pPentagramMixBoxMap == NULL)
+	if (Obj.m_PlayerData->pPentagramMixBoxMap == NULL)
 	{
-		delete[] lpObj.m_PlayerData->pPentagramMixBox;
+		delete[] Obj.m_PlayerData->pPentagramMixBox;
 		return false;
 	}
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		lpObj.m_PlayerData->pPentagramMixBoxMap[n] = -1;
+		Obj.m_PlayerData->pPentagramMixBoxMap[n] = -1;
 	}
 
 	return true;
@@ -330,24 +330,24 @@ BYTE CPentagramMixSystem::PentagramJewelRefine(CGameObject &Obj, int iRefineType
 
 	CGameObject lpObj = Obj;
 
-	if (lpObj.Type != OBJ_USER)
+	if (Obj.Type != OBJ_USER)
 	{
 		return 0;
 	}
 
 	BYTE btReturnValue = 0;
 
-	if (lpObj.m_PlayerData->m_PentagramMixLock == TRUE)
+	if (Obj.m_PlayerData->m_PentagramMixLock == TRUE)
 	{
 		return PENTAGRAM_MIX_ALREADY_OPEN;
 	}
 
-	if (lpObj.m_bPShopOpen == true)
+	if (Obj.m_bPShopOpen == true)
 	{
 		return PENTAGRAM_MIX_PSHOP_OPEN;
 	}
 
-	lpObj.m_PlayerData->m_PentagramMixLock = TRUE;
+	Obj.m_PlayerData->m_PentagramMixLock = TRUE;
 
 	BYTE btMainAttribute = 0xFF;
 	bool bPentagramItem = false;
@@ -364,7 +364,7 @@ BYTE CPentagramMixSystem::PentagramJewelRefine(CGameObject &Obj, int iRefineType
 
 	if (!lpRefineOptionData)
 	{
-		lpObj.m_PlayerData->m_PentagramMixLock = FALSE;
+		Obj.m_PlayerData->m_PentagramMixLock = FALSE;
 
 		return PENTAGRAM_MIX_REFINE_NOTFOUND;
 	}
@@ -378,15 +378,15 @@ BYTE CPentagramMixSystem::PentagramJewelRefine(CGameObject &Obj, int iRefineType
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (lpObj.m_PlayerData->pPentagramMixBox[i].IsItem() == TRUE)
+		if (Obj.m_PlayerData->pPentagramMixBox[i].IsItem() == TRUE)
 		{
 			for (int iCount = 0; iCount < 4; iCount++)
 			{
-				if (lpObj.m_PlayerData->pPentagramMixBox[i].m_Type == ITEMGET(lpRefineOptionData->NeedItem_Type[iCount], lpRefineOptionData->NeedItem_Index[iCount]))
+				if (Obj.m_PlayerData->pPentagramMixBox[i].m_Type == ITEMGET(lpRefineOptionData->NeedItem_Type[iCount], lpRefineOptionData->NeedItem_Index[iCount]))
 				{
 					if (iCount == 0)
 					{
-						btTempMainAttribute = lpObj.m_PlayerData->pPentagramMixBox[i].m_BonusSocketOption & 0x0F;
+						btTempMainAttribute = Obj.m_PlayerData->pPentagramMixBox[i].m_BonusSocketOption & 0x0F;
 
 						if (btMainAttribute == 0xFF)
 						{
@@ -397,7 +397,7 @@ BYTE CPentagramMixSystem::PentagramJewelRefine(CGameObject &Obj, int iRefineType
 						{
 							if (btMainAttribute != btTempMainAttribute)
 							{
-								lpObj.m_PlayerData->m_PentagramMixLock = FALSE;
+								Obj.m_PlayerData->m_PentagramMixLock = FALSE;
 
 								return PENTAGRAM_MIX_ATTRIBUTE_MISMATCH;
 							}
@@ -410,19 +410,19 @@ BYTE CPentagramMixSystem::PentagramJewelRefine(CGameObject &Obj, int iRefineType
 				}
 			}
 
-			if (g_PentagramSystem.IsPentagramItem(lpObj.m_PlayerData->pPentagramMixBox[i].m_Type) == TRUE)
+			if (g_PentagramSystem.IsPentagramItem(Obj.m_PlayerData->pPentagramMixBox[i].m_Type) == TRUE)
 			{
 				bPentagramItem = TRUE;
 				for (int k = 0; k < 5; k++)
 				{
-					btSocketOption[k] = lpObj.m_PlayerData->pPentagramMixBox[i].m_SocketOption[k];
+					btSocketOption[k] = Obj.m_PlayerData->pPentagramMixBox[i].m_SocketOption[k];
 				}
 			}
 
 			if (btIsCorrectItem == TRUE)
 			{
 				BYTE ExOption[MAX_EXOPTION_SIZE];
-				ItemIsBufExOption(ExOption, &lpObj.m_PlayerData->pPentagramMixBox[i]);
+				ItemIsBufExOption(ExOption, &Obj.m_PlayerData->pPentagramMixBox[i]);
 
 				btIsCorrectItem = FALSE;
 			}
@@ -433,7 +433,7 @@ BYTE CPentagramMixSystem::PentagramJewelRefine(CGameObject &Obj, int iRefineType
 	{
 		if (lpRefineOptionData->NeedItem_Num[i] != iSourceItemCount[i])
 		{
-			lpObj.m_PlayerData->m_PentagramMixLock = FALSE;
+			Obj.m_PlayerData->m_PentagramMixLock = FALSE;
 
 			return PENTAGRAM_MIX_ITEMS_COUNT_MISMATCH;
 		}
@@ -448,16 +448,16 @@ BYTE CPentagramMixSystem::PentagramJewelRefine(CGameObject &Obj, int iRefineType
 	if (iPentagramMixNeedMoney < 0)
 		iPentagramMixNeedMoney = 0;
 
-	if (lpObj.m_PlayerData->Money < iPentagramMixNeedMoney)
+	if (Obj.m_PlayerData->Money < iPentagramMixNeedMoney)
 	{
-		lpObj.m_PlayerData->m_PentagramMixLock = FALSE;
+		Obj.m_PlayerData->m_PentagramMixLock = FALSE;
 
 		return PENTAGRAM_MIX_NOT_ENOUGH_ZEN;
 	}
 
-	lpObj.m_PlayerData->Money -= iPentagramMixNeedMoney;
+	Obj.m_PlayerData->Money -= iPentagramMixNeedMoney;
 	g_CastleSiegeSync.AddTributeMoney(iChaosTaxMoney);
-	gGameProtocol.GCMoneySend(iIndex, lpObj.m_PlayerData->Money);
+	gGameProtocol.GCMoneySend(iIndex, Obj.m_PlayerData->Money);
 
 	int iSuccessRate = lpRefineOptionData->RefineSuccessRate;
 	int iResultItemType = 0;
@@ -478,7 +478,7 @@ BYTE CPentagramMixSystem::PentagramJewelRefine(CGameObject &Obj, int iRefineType
 		}
 
 		this->PentagramMixBoxInit(lpObj);
-		lpObj.m_PlayerData->m_PentagramMixLock = FALSE;
+		Obj.m_PlayerData->m_PentagramMixLock = FALSE;
 		btReturnValue = PENTAGRAM_MIX_REFINE_FAILED;
 	}
 
@@ -497,7 +497,7 @@ BYTE CPentagramMixSystem::PentagramJewelRefine(CGameObject &Obj, int iRefineType
 
 		if (lpRefineSuccessOptionData == NULL)
 		{
-			lpObj.m_PlayerData->m_PentagramMixLock = FALSE;
+			Obj.m_PlayerData->m_PentagramMixLock = FALSE;
 
 			return PENTAGRAM_MIX_REFINE_SUCCESS_NOTFOUND;
 		}
@@ -600,7 +600,7 @@ BYTE CPentagramMixSystem::PentagramJewelRefine(CGameObject &Obj, int iRefineType
 		}
 	}
 
-	lpObj.m_PlayerData->m_PentagramMixLock = FALSE;
+	Obj.m_PlayerData->m_PentagramMixLock = FALSE;
 	gObjInventoryCommit(Obj.m_Index);
 
 	return btReturnValue;
@@ -615,24 +615,24 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 
 	CGameObject lpObj = Obj;
 
-	if (lpObj.Type != OBJ_USER)
+	if (Obj.Type != OBJ_USER)
 	{
 		return 0;
 	}
 
 	BYTE btReturnValue = 0;
 
-	if (lpObj.m_PlayerData->m_PentagramMixLock == TRUE)
+	if (Obj.m_PlayerData->m_PentagramMixLock == TRUE)
 	{
 		return PENTAGRAM_MIX_ALREADY_OPEN;
 	}
 
-	if (lpObj.m_bPShopOpen == true)
+	if (Obj.m_bPShopOpen == true)
 	{
 		return PENTAGRAM_MIX_PSHOP_OPEN;
 	}
 
-	lpObj.m_PlayerData->m_PentagramMixLock = TRUE;
+	Obj.m_PlayerData->m_PentagramMixLock = TRUE;
 
 	if (iUpgradeType == 1)
 	{
@@ -654,7 +654,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 
 		for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 		{
-			if (lpObj.m_PlayerData->pPentagramMixBox[i].IsItem() == TRUE)
+			if (Obj.m_PlayerData->pPentagramMixBox[i].IsItem() == TRUE)
 			{
 				for (int n = 0; n < 4; n++)
 				{
@@ -662,18 +662,18 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 					{
 						for (int k = 0; k < 4; k++)
 						{
-							if (lpObj.m_PlayerData->pPentagramMixBox[i].m_Type != ITEMGET(this->m_JewelRankUpgradeNeedItemData[n].NeedSourceItem_Type[0], this->m_JewelRankUpgradeNeedItemData[n].NeedSourceItem_Index[0])
-								&& lpObj.m_PlayerData->pPentagramMixBox[i].m_Type != ITEMGET(this->m_JewelRankUpgradeNeedItemData[n].NeedSourceItem_Type[1], this->m_JewelRankUpgradeNeedItemData[n].NeedSourceItem_Index[1])
-								&& lpObj.m_PlayerData->pPentagramMixBox[i].m_Type != ITEMGET(this->m_JewelRankUpgradeNeedItemData[n].NeedSourceItem_Type[2], this->m_JewelRankUpgradeNeedItemData[n].NeedSourceItem_Index[2]))
+							if (Obj.m_PlayerData->pPentagramMixBox[i].m_Type != ITEMGET(this->m_JewelRankUpgradeNeedItemData[n].NeedSourceItem_Type[0], this->m_JewelRankUpgradeNeedItemData[n].NeedSourceItem_Index[0])
+								&& Obj.m_PlayerData->pPentagramMixBox[i].m_Type != ITEMGET(this->m_JewelRankUpgradeNeedItemData[n].NeedSourceItem_Type[1], this->m_JewelRankUpgradeNeedItemData[n].NeedSourceItem_Index[1])
+								&& Obj.m_PlayerData->pPentagramMixBox[i].m_Type != ITEMGET(this->m_JewelRankUpgradeNeedItemData[n].NeedSourceItem_Type[2], this->m_JewelRankUpgradeNeedItemData[n].NeedSourceItem_Index[2]))
 							{
-								if (lpObj.m_PlayerData->pPentagramMixBox[i].m_Type == ITEMGET(14, 189))
+								if (Obj.m_PlayerData->pPentagramMixBox[i].m_Type == ITEMGET(14, 189))
 								{
 									btPentagramLuckCharm = TRUE;
-									iPentagramLuckCharmDur = lpObj.m_PlayerData->pPentagramMixBox[i].m_Durability;
+									iPentagramLuckCharmDur = Obj.m_PlayerData->pPentagramMixBox[i].m_Durability;
 									bSourceItem = TRUE;
 								}
 
-								else if (lpObj.m_PlayerData->pPentagramMixBox[i].m_Type == ITEMGET(14, 190))
+								else if (Obj.m_PlayerData->pPentagramMixBox[i].m_Type == ITEMGET(14, 190))
 								{
 									btPentagramChaosCharm = TRUE;
 									bSourceItem = TRUE;
@@ -681,38 +681,38 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 
 								else if (iPentagramJewelCount > 1 || iSetItemCount > 1)
 								{
-									lpObj.m_PlayerData->m_PentagramMixLock = FALSE;
+									Obj.m_PlayerData->m_PentagramMixLock = FALSE;
 
 									return PENTAGRAM_MIX_ITEMS_COUNT_MISMATCH;
 								}
 
-								else if (this->CheckLevelCondition(&lpObj.m_PlayerData->pPentagramMixBox[i], 7, 0, 0, 1, 0, 0))
+								else if (this->CheckLevelCondition(&Obj.m_PlayerData->pPentagramMixBox[i], 7, 0, 0, 1, 0, 0))
 								{
 									iSetItemCount++;
-									iSetItemMoney += lpObj.m_PlayerData->pPentagramMixBox[i].m_BuyMoney;
+									iSetItemMoney += Obj.m_PlayerData->pPentagramMixBox[i].m_BuyMoney;
 									bSourceItem = TRUE;
 								}
 
-								else if (g_PentagramSystem.IsPentagramJewel(&lpObj.m_PlayerData->pPentagramMixBox[i]) == TRUE)
+								else if (g_PentagramSystem.IsPentagramJewel(&Obj.m_PlayerData->pPentagramMixBox[i]) == TRUE)
 								{
-									iPentagramJewelID = lpObj.m_PlayerData->pPentagramMixBox[i].m_Type;
-									iPentagramJewelCurRank = (lpObj.m_PlayerData->pPentagramMixBox[i].m_BonusSocketOption & 0xF0) >> 4;
+									iPentagramJewelID = Obj.m_PlayerData->pPentagramMixBox[i].m_Type;
+									iPentagramJewelCurRank = (Obj.m_PlayerData->pPentagramMixBox[i].m_BonusSocketOption & 0xF0) >> 4;
 
 									for (int l = 0; l < 5; l++)
 									{
 										if (iPentagramJewelCurRank == l + 1)
 										{
-											iSourceJewelLevel = (lpObj.m_PlayerData->pPentagramMixBox[i].m_SocketOption[l] & 0xF0) >> 4;
+											iSourceJewelLevel = (Obj.m_PlayerData->pPentagramMixBox[i].m_SocketOption[l] & 0xF0) >> 4;
 										}
 
-										if (lpObj.m_PlayerData->pPentagramMixBox[i].m_SocketOption[l] >= 0xFE)
+										if (Obj.m_PlayerData->pPentagramMixBox[i].m_SocketOption[l] >= 0xFE)
 										{
 											btSocketOption[l] = 0xFF;
 										}
 
 										else
 										{
-											btSocketOption[l] = lpObj.m_PlayerData->pPentagramMixBox[i].m_SocketOption[l];
+											btSocketOption[l] = Obj.m_PlayerData->pPentagramMixBox[i].m_SocketOption[l];
 											iRankCount++;
 										}
 									}
@@ -723,7 +723,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 								break;
 							}
 
-							if (lpObj.m_PlayerData->pPentagramMixBox[i].m_Type == ITEMGET(this->m_JewelRankUpgradeNeedItemData[n].NeedSourceItem_Type[k], this->m_JewelRankUpgradeNeedItemData[n].NeedSourceItem_Index[k]))
+							if (Obj.m_PlayerData->pPentagramMixBox[i].m_Type == ITEMGET(this->m_JewelRankUpgradeNeedItemData[n].NeedSourceItem_Type[k], this->m_JewelRankUpgradeNeedItemData[n].NeedSourceItem_Index[k]))
 							{
 								SourceItemCount[k]++;
 								bSourceItem = TRUE;
@@ -734,7 +734,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 						if (bSourceItem)
 						{
 							BYTE ExOption[MAX_EXOPTION_SIZE];
-							ItemIsBufExOption(ExOption, &lpObj.m_PlayerData->pPentagramMixBox[i]);
+							ItemIsBufExOption(ExOption, &Obj.m_PlayerData->pPentagramMixBox[i]);
 
 							bSourceItem = FALSE;
 						}
@@ -745,7 +745,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 
 		if (iSourceJewelLevel < 7)
 		{
-			lpObj.m_PlayerData->m_PentagramMixLock = FALSE;
+			Obj.m_PlayerData->m_PentagramMixLock = FALSE;
 
 			return PENTAGRAM_MIX_ITEMS_COUNT_MISMATCH;
 		}
@@ -758,7 +758,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 				{
 					if (this->m_JewelRankUpgradeNeedItemData[m].NeedSourceItem_Num[i] != SourceItemCount[i] && (i != 3 || this->m_JewelRankUpgradeNeedItemData[m].NeedSourceItem_Num[3] != iSetItemCount))
 					{
-						lpObj.m_PlayerData->m_PentagramMixLock = FALSE;
+						Obj.m_PlayerData->m_PentagramMixLock = FALSE;
 
 						return PENTAGRAM_MIX_ITEMS_COUNT_MISMATCH;
 					}
@@ -784,16 +784,16 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 		if (iPentagramMixNeedMoney < 0)
 			iPentagramMixNeedMoney = 0;
 
-		if (lpObj.m_PlayerData->Money < iPentagramMixNeedMoney)
+		if (Obj.m_PlayerData->Money < iPentagramMixNeedMoney)
 		{
-			lpObj.m_PlayerData->m_PentagramMixLock = FALSE;
+			Obj.m_PlayerData->m_PentagramMixLock = FALSE;
 
 			return PENTAGRAM_MIX_NOT_ENOUGH_ZEN;
 		}
 
-		lpObj.m_PlayerData->Money -= iPentagramMixNeedMoney;
+		Obj.m_PlayerData->Money -= iPentagramMixNeedMoney;
 		g_CastleSiegeSync.AddTributeMoney(iChaosTaxMoney);
-		gGameProtocol.GCMoneySend(iIndex, lpObj.m_PlayerData->Money);
+		gGameProtocol.GCMoneySend(iIndex, Obj.m_PlayerData->Money);
 
 		int iPentagramMixSuccessRate = 0;
 
@@ -814,11 +814,11 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 		{
 			for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 			{
-				if (lpObj.m_PlayerData->pPentagramMixBox[i].IsItem() == TRUE &&
-					lpObj.m_PlayerData->pPentagramMixBox[i].m_Type == iPentagramJewelID)
+				if (Obj.m_PlayerData->pPentagramMixBox[i].IsItem() == TRUE &&
+					Obj.m_PlayerData->pPentagramMixBox[i].m_Type == iPentagramJewelID)
 				{
 					BYTE ExOption[MAX_EXOPTION_SIZE];
-					ItemIsBufExOption(ExOption, &lpObj.m_PlayerData->pPentagramMixBox[i]);
+					ItemIsBufExOption(ExOption, &Obj.m_PlayerData->pPentagramMixBox[i]);
 
 					break;
 
@@ -834,21 +834,21 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 
 				for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 				{
-					if (lpObj.m_PlayerData->pPentagramMixBox[i].IsItem() == TRUE
-						&& lpObj.m_PlayerData->pPentagramMixBox[i].m_Type == iPentagramJewelID)
+					if (Obj.m_PlayerData->pPentagramMixBox[i].IsItem() == TRUE
+						&& Obj.m_PlayerData->pPentagramMixBox[i].m_Type == iPentagramJewelID)
 					{
-						ItemType = ITEM_GET_TYPE(lpObj.m_PlayerData->pPentagramMixBox[i].m_Type);
-						ItemIndex = ITEM_GET_INDEX(lpObj.m_PlayerData->pPentagramMixBox[i].m_Type);
+						ItemType = ITEM_GET_TYPE(Obj.m_PlayerData->pPentagramMixBox[i].m_Type);
+						ItemIndex = ITEM_GET_INDEX(Obj.m_PlayerData->pPentagramMixBox[i].m_Type);
 						Item.m_SocketOption[iPentagramJewelCurRank - 1] &= 0x0F;
-						Item.m_Level = lpObj.m_PlayerData->pPentagramMixBox[i].m_Level;
+						Item.m_Level = Obj.m_PlayerData->pPentagramMixBox[i].m_Level;
 						iLevel = Item.m_Level;
-						Item.m_Durability = lpObj.m_PlayerData->pPentagramMixBox[i].m_Durability;
-						Item.m_Number = lpObj.m_PlayerData->pPentagramMixBox[i].m_Number;
+						Item.m_Durability = Obj.m_PlayerData->pPentagramMixBox[i].m_Durability;
+						Item.m_Number = Obj.m_PlayerData->pPentagramMixBox[i].m_Number;
 
-						Item.Convert(lpObj.m_PlayerData->pPentagramMixBox[i].m_Type, lpObj.m_PlayerData->pPentagramMixBox[i].m_Option1,
-							lpObj.m_PlayerData->pPentagramMixBox[i].m_Option2, lpObj.m_PlayerData->pPentagramMixBox[i].m_Option3,
-							lpObj.m_PlayerData->pPentagramMixBox[i].m_NewOption, lpObj.m_PlayerData->pPentagramMixBox[i].m_SetOption,
-							0, lpObj.m_PlayerData->pPentagramMixBox[i].m_SocketOption, lpObj.m_PlayerData->pPentagramMixBox[i].m_BonusSocketOption, 0, CURRENT_DB_VERSION);
+						Item.Convert(Obj.m_PlayerData->pPentagramMixBox[i].m_Type, Obj.m_PlayerData->pPentagramMixBox[i].m_Option1,
+							Obj.m_PlayerData->pPentagramMixBox[i].m_Option2, Obj.m_PlayerData->pPentagramMixBox[i].m_Option3,
+							Obj.m_PlayerData->pPentagramMixBox[i].m_NewOption, Obj.m_PlayerData->pPentagramMixBox[i].m_SetOption,
+							0, Obj.m_PlayerData->pPentagramMixBox[i].m_SocketOption, Obj.m_PlayerData->pPentagramMixBox[i].m_BonusSocketOption, 0, CURRENT_DB_VERSION);
 						break;
 					}
 				}
@@ -911,28 +911,28 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 
 			if (bRateFind == false)
 			{
-				lpObj.m_PlayerData->m_PentagramMixLock = FALSE;
+				Obj.m_PlayerData->m_PentagramMixLock = FALSE;
 
 				return PENTAGRAM_MIX_REFINE_NOTFOUND;
 			}
 
 			for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 			{
-				if (lpObj.m_PlayerData->pPentagramMixBox[i].IsItem() == TRUE &&
-					lpObj.m_PlayerData->pPentagramMixBox[i].m_Type == iPentagramJewelID)
+				if (Obj.m_PlayerData->pPentagramMixBox[i].IsItem() == TRUE &&
+					Obj.m_PlayerData->pPentagramMixBox[i].m_Type == iPentagramJewelID)
 				{
-					lpObj.m_PlayerData->pPentagramMixBox[i].m_SocketOption[iSuccessRank - 1] = iRankOptionNum;
-					lpObj.m_PlayerData->pPentagramMixBox[i].m_Level = 0;
-					BYTE btMainAttribute = lpObj.m_PlayerData->pPentagramMixBox[i].m_BonusSocketOption & 0x0F;
-					lpObj.m_PlayerData->pPentagramMixBox[i].m_BonusSocketOption = btMainAttribute | 0x10 * iSuccessRank;
-					Item.m_Level = lpObj.m_PlayerData->pPentagramMixBox[i].m_Level;
-					Item.m_Durability = lpObj.m_PlayerData->pPentagramMixBox[i].m_Durability;
-					Item.m_Number = lpObj.m_PlayerData->pPentagramMixBox[i].m_Number;
+					Obj.m_PlayerData->pPentagramMixBox[i].m_SocketOption[iSuccessRank - 1] = iRankOptionNum;
+					Obj.m_PlayerData->pPentagramMixBox[i].m_Level = 0;
+					BYTE btMainAttribute = Obj.m_PlayerData->pPentagramMixBox[i].m_BonusSocketOption & 0x0F;
+					Obj.m_PlayerData->pPentagramMixBox[i].m_BonusSocketOption = btMainAttribute | 0x10 * iSuccessRank;
+					Item.m_Level = Obj.m_PlayerData->pPentagramMixBox[i].m_Level;
+					Item.m_Durability = Obj.m_PlayerData->pPentagramMixBox[i].m_Durability;
+					Item.m_Number = Obj.m_PlayerData->pPentagramMixBox[i].m_Number;
 
-					Item.Convert(lpObj.m_PlayerData->pPentagramMixBox[i].m_Type, lpObj.m_PlayerData->pPentagramMixBox[i].m_Option1,
-						lpObj.m_PlayerData->pPentagramMixBox[i].m_Option2, lpObj.m_PlayerData->pPentagramMixBox[i].m_Option3,
-						lpObj.m_PlayerData->pPentagramMixBox[i].m_NewOption, lpObj.m_PlayerData->pPentagramMixBox[i].m_SetOption,
-						0, lpObj.m_PlayerData->pPentagramMixBox[i].m_SocketOption, lpObj.m_PlayerData->pPentagramMixBox[i].m_BonusSocketOption, 0, CURRENT_DB_VERSION);
+					Item.Convert(Obj.m_PlayerData->pPentagramMixBox[i].m_Type, Obj.m_PlayerData->pPentagramMixBox[i].m_Option1,
+						Obj.m_PlayerData->pPentagramMixBox[i].m_Option2, Obj.m_PlayerData->pPentagramMixBox[i].m_Option3,
+						Obj.m_PlayerData->pPentagramMixBox[i].m_NewOption, Obj.m_PlayerData->pPentagramMixBox[i].m_SetOption,
+						0, Obj.m_PlayerData->pPentagramMixBox[i].m_SocketOption, Obj.m_PlayerData->pPentagramMixBox[i].m_BonusSocketOption, 0, CURRENT_DB_VERSION);
 					break;
 				}
 			}
@@ -983,23 +983,23 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 
 		for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 		{
-			if (lpObj.m_PlayerData->pPentagramMixBox[i].IsItem() == TRUE)
+			if (Obj.m_PlayerData->pPentagramMixBox[i].IsItem() == TRUE)
 			{
 				for (int j = 0; j < 4; j++)
 				{
-					if (lpObj.m_PlayerData->pPentagramMixBox[i].m_Type != ITEMGET(this->m_JewelLevelUpgradeNeedItemData[iTargetValue - 1].NeedSourceItem_Type[0], this->m_JewelLevelUpgradeNeedItemData[iTargetValue - 1].NeedSourceItem_Index[0])
-						&& lpObj.m_PlayerData->pPentagramMixBox[i].m_Type != ITEMGET(this->m_JewelLevelUpgradeNeedItemData[iTargetValue - 1].NeedSourceItem_Type[1], this->m_JewelLevelUpgradeNeedItemData[iTargetValue - 1].NeedSourceItem_Index[1])
-						&& lpObj.m_PlayerData->pPentagramMixBox[i].m_Type != ITEMGET(this->m_JewelLevelUpgradeNeedItemData[iTargetValue - 1].NeedSourceItem_Type[2], this->m_JewelLevelUpgradeNeedItemData[iTargetValue - 1].NeedSourceItem_Index[2])
-						&& lpObj.m_PlayerData->pPentagramMixBox[i].m_Type != ITEMGET(this->m_JewelLevelUpgradeNeedItemData[iTargetValue - 1].NeedSourceItem_Type[3], this->m_JewelLevelUpgradeNeedItemData[iTargetValue - 1].NeedSourceItem_Index[3]))
+					if (Obj.m_PlayerData->pPentagramMixBox[i].m_Type != ITEMGET(this->m_JewelLevelUpgradeNeedItemData[iTargetValue - 1].NeedSourceItem_Type[0], this->m_JewelLevelUpgradeNeedItemData[iTargetValue - 1].NeedSourceItem_Index[0])
+						&& Obj.m_PlayerData->pPentagramMixBox[i].m_Type != ITEMGET(this->m_JewelLevelUpgradeNeedItemData[iTargetValue - 1].NeedSourceItem_Type[1], this->m_JewelLevelUpgradeNeedItemData[iTargetValue - 1].NeedSourceItem_Index[1])
+						&& Obj.m_PlayerData->pPentagramMixBox[i].m_Type != ITEMGET(this->m_JewelLevelUpgradeNeedItemData[iTargetValue - 1].NeedSourceItem_Type[2], this->m_JewelLevelUpgradeNeedItemData[iTargetValue - 1].NeedSourceItem_Index[2])
+						&& Obj.m_PlayerData->pPentagramMixBox[i].m_Type != ITEMGET(this->m_JewelLevelUpgradeNeedItemData[iTargetValue - 1].NeedSourceItem_Type[3], this->m_JewelLevelUpgradeNeedItemData[iTargetValue - 1].NeedSourceItem_Index[3]))
 					{
-						if (lpObj.m_PlayerData->pPentagramMixBox[i].m_Type == ITEMGET(14, 189))
+						if (Obj.m_PlayerData->pPentagramMixBox[i].m_Type == ITEMGET(14, 189))
 						{
 							bPentagramLuckyCharm = TRUE;
-							iPentagramLuckyCharmRate = lpObj.m_PlayerData->pPentagramMixBox[i].m_Durability;
+							iPentagramLuckyCharmRate = Obj.m_PlayerData->pPentagramMixBox[i].m_Durability;
 							bSourceItem = TRUE;
 						}
 
-						else if (lpObj.m_PlayerData->pPentagramMixBox[i].m_Type == ITEMGET(14, 190))
+						else if (Obj.m_PlayerData->pPentagramMixBox[i].m_Type == ITEMGET(14, 190))
 						{
 							bPentagramChaosCharm = TRUE;
 							bSourceItem = TRUE;
@@ -1007,18 +1007,18 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 
 						else if (iOriginJewelCnt > 1)
 						{
-							lpObj.m_PlayerData->m_PentagramMixLock = FALSE;
+							Obj.m_PlayerData->m_PentagramMixLock = FALSE;
 
 							return PENTAGRAM_MIX_ITEMS_COUNT_MISMATCH;
 						}
 
 						else
 						{
-							iItemTargetLevel = lpObj.m_PlayerData->pPentagramMixBox[i].m_Level;
+							iItemTargetLevel = Obj.m_PlayerData->pPentagramMixBox[i].m_Level;
 							iItemTargetLevel++;
-							iSourceJewelType = lpObj.m_PlayerData->pPentagramMixBox[i].m_Type;
-							iCurRank = (lpObj.m_PlayerData->pPentagramMixBox[i].m_BonusSocketOption & 0xF0) >> 4;
-							iMainAttribute = lpObj.m_PlayerData->pPentagramMixBox[i].m_BonusSocketOption & 0x0F;
+							iSourceJewelType = Obj.m_PlayerData->pPentagramMixBox[i].m_Type;
+							iCurRank = (Obj.m_PlayerData->pPentagramMixBox[i].m_BonusSocketOption & 0xF0) >> 4;
+							iMainAttribute = Obj.m_PlayerData->pPentagramMixBox[i].m_BonusSocketOption & 0x0F;
 							iOriginJewelCnt++;
 							bSourceItem = TRUE;
 						}
@@ -1026,7 +1026,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 						break;
 					}
 
-					if (lpObj.m_PlayerData->pPentagramMixBox[i].m_Type == ITEMGET(this->m_JewelLevelUpgradeNeedItemData[iTargetValue - 1].NeedSourceItem_Type[j], this->m_JewelLevelUpgradeNeedItemData[iTargetValue - 1].NeedSourceItem_Index[j]))
+					if (Obj.m_PlayerData->pPentagramMixBox[i].m_Type == ITEMGET(this->m_JewelLevelUpgradeNeedItemData[iTargetValue - 1].NeedSourceItem_Type[j], this->m_JewelLevelUpgradeNeedItemData[iTargetValue - 1].NeedSourceItem_Index[j]))
 					{
 						iSourceItemCount[j]++;
 						bSourceItem = TRUE;
@@ -1037,7 +1037,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 				if (bSourceItem == TRUE)
 				{
 					BYTE ExOption[MAX_EXOPTION_SIZE];
-					ItemIsBufExOption(ExOption, &lpObj.m_PlayerData->pPentagramMixBox[i]);
+					ItemIsBufExOption(ExOption, &Obj.m_PlayerData->pPentagramMixBox[i]);
 
 					bSourceItem = FALSE;
 				}
@@ -1046,14 +1046,14 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 
 		if (bPentagramChaosCharm == TRUE && bPentagramLuckyCharm == TRUE)
 		{
-			lpObj.m_PlayerData->m_PentagramMixLock = FALSE;
+			Obj.m_PlayerData->m_PentagramMixLock = FALSE;
 
 			return PENTAGRAM_MIX_ITEMS_COUNT_MISMATCH;
 		}
 
 		if (iItemTargetLevel != iTargetValue)
 		{
-			lpObj.m_PlayerData->m_PentagramMixLock = FALSE;
+			Obj.m_PlayerData->m_PentagramMixLock = FALSE;
 
 			return PENTAGRAM_MIX_REFINE_NOTFOUND;
 		}
@@ -1066,7 +1066,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 				{
 					if (this->m_JewelLevelUpgradeNeedItemData[i].NeedSourceItem_Num[j] != iSourceItemCount[j])
 					{
-						lpObj.m_PlayerData->m_PentagramMixLock = FALSE;
+						Obj.m_PlayerData->m_PentagramMixLock = FALSE;
 
 						return PENTAGRAM_MIX_ITEMS_COUNT_MISMATCH;
 					}
@@ -1105,16 +1105,16 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 		if (iPentagramMixNeedMoney < 0)
 			iPentagramMixNeedMoney = 0;
 
-		if (lpObj.m_PlayerData->Money < iPentagramMixNeedMoney)
+		if (Obj.m_PlayerData->Money < iPentagramMixNeedMoney)
 		{
-			lpObj.m_PlayerData->m_PentagramMixLock = FALSE;
+			Obj.m_PlayerData->m_PentagramMixLock = FALSE;
 
 			return PENTAGRAM_MIX_NOT_ENOUGH_ZEN;
 		}
 
-		lpObj.m_PlayerData->Money -= iPentagramMixNeedMoney;
+		Obj.m_PlayerData->Money -= iPentagramMixNeedMoney;
 		g_CastleSiegeSync.AddTributeMoney(iChaosTaxMoney);
-		gGameProtocol.GCMoneySend(iIndex, lpObj.m_PlayerData->Money);
+		gGameProtocol.GCMoneySend(iIndex, Obj.m_PlayerData->Money);
 
 		int iRandRate = rand() % 10000;
 
@@ -1122,10 +1122,10 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 		{
 			for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 			{
-				if (lpObj.m_PlayerData->pPentagramMixBox[i].IsItem() == TRUE && lpObj.m_PlayerData->pPentagramMixBox[i].m_Type == iSourceJewelType)
+				if (Obj.m_PlayerData->pPentagramMixBox[i].IsItem() == TRUE && Obj.m_PlayerData->pPentagramMixBox[i].m_Type == iSourceJewelType)
 				{
 					BYTE ExOption[MAX_EXOPTION_SIZE];
-					ItemIsBufExOption(ExOption, &lpObj.m_PlayerData->pPentagramMixBox[i]);
+					ItemIsBufExOption(ExOption, &Obj.m_PlayerData->pPentagramMixBox[i]);
 
 					break;
 				}
@@ -1140,21 +1140,21 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 
 				for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 				{
-					if (lpObj.m_PlayerData->pPentagramMixBox[i].IsItem() == TRUE
-						&& lpObj.m_PlayerData->pPentagramMixBox[i].m_Type == iSourceJewelType)
+					if (Obj.m_PlayerData->pPentagramMixBox[i].IsItem() == TRUE
+						&& Obj.m_PlayerData->pPentagramMixBox[i].m_Type == iSourceJewelType)
 					{
-						ItemType = ITEM_GET_TYPE(lpObj.m_PlayerData->pPentagramMixBox[i].m_Type);
-						ItemIndex = ITEM_GET_INDEX(lpObj.m_PlayerData->pPentagramMixBox[i].m_Type);
+						ItemType = ITEM_GET_TYPE(Obj.m_PlayerData->pPentagramMixBox[i].m_Type);
+						ItemIndex = ITEM_GET_INDEX(Obj.m_PlayerData->pPentagramMixBox[i].m_Type);
 						Item.m_SocketOption[iCurRank - 1] &= 0x0F;
-						Item.m_Level = lpObj.m_PlayerData->pPentagramMixBox[i].m_Level;
+						Item.m_Level = Obj.m_PlayerData->pPentagramMixBox[i].m_Level;
 						iLevel = Item.m_Level;
-						Item.m_Durability = lpObj.m_PlayerData->pPentagramMixBox[i].m_Durability;
-						Item.m_Number = lpObj.m_PlayerData->pPentagramMixBox[i].m_Number;
+						Item.m_Durability = Obj.m_PlayerData->pPentagramMixBox[i].m_Durability;
+						Item.m_Number = Obj.m_PlayerData->pPentagramMixBox[i].m_Number;
 
-						Item.Convert(lpObj.m_PlayerData->pPentagramMixBox[i].m_Type, lpObj.m_PlayerData->pPentagramMixBox[i].m_Option1,
-							lpObj.m_PlayerData->pPentagramMixBox[i].m_Option2, lpObj.m_PlayerData->pPentagramMixBox[i].m_Option3,
-							lpObj.m_PlayerData->pPentagramMixBox[i].m_NewOption, lpObj.m_PlayerData->pPentagramMixBox[i].m_SetOption,
-							0, lpObj.m_PlayerData->pPentagramMixBox[i].m_SocketOption, lpObj.m_PlayerData->pPentagramMixBox[i].m_BonusSocketOption, 0, CURRENT_DB_VERSION);
+						Item.Convert(Obj.m_PlayerData->pPentagramMixBox[i].m_Type, Obj.m_PlayerData->pPentagramMixBox[i].m_Option1,
+							Obj.m_PlayerData->pPentagramMixBox[i].m_Option2, Obj.m_PlayerData->pPentagramMixBox[i].m_Option3,
+							Obj.m_PlayerData->pPentagramMixBox[i].m_NewOption, Obj.m_PlayerData->pPentagramMixBox[i].m_SetOption,
+							0, Obj.m_PlayerData->pPentagramMixBox[i].m_SocketOption, Obj.m_PlayerData->pPentagramMixBox[i].m_BonusSocketOption, 0, CURRENT_DB_VERSION);
 						break;
 					}
 				}
@@ -1198,21 +1198,21 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 
 			for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 			{
-				if (lpObj.m_PlayerData->pPentagramMixBox[i].IsItem() == TRUE && lpObj.m_PlayerData->pPentagramMixBox[i].m_Type == iSourceJewelType)
+				if (Obj.m_PlayerData->pPentagramMixBox[i].IsItem() == TRUE && Obj.m_PlayerData->pPentagramMixBox[i].m_Type == iSourceJewelType)
 				{
-					BYTE btRankOptionNum = lpObj.m_PlayerData->pPentagramMixBox[i].m_SocketOption[iCurRank - 1] & 0x0F;
-					lpObj.m_PlayerData->pPentagramMixBox[i].m_Level = iItemTargetLevel;
-					lpObj.m_PlayerData->pPentagramMixBox[i].m_SocketOption[iCurRank - 1] = btRankOptionNum | 0x10 * iItemTargetLevel;
-					iItemType = ITEM_GET_TYPE(lpObj.m_PlayerData->pPentagramMixBox[i].m_Type);
-					iItemIndex = ITEM_GET_INDEX(lpObj.m_PlayerData->pPentagramMixBox[i].m_Type);
-					pModifyItem.m_Level = lpObj.m_PlayerData->pPentagramMixBox[i].m_Level;
-					pModifyItem.m_Durability = lpObj.m_PlayerData->pPentagramMixBox[i].m_Durability;
-					pModifyItem.m_Number = lpObj.m_PlayerData->pPentagramMixBox[i].m_Number;
+					BYTE btRankOptionNum = Obj.m_PlayerData->pPentagramMixBox[i].m_SocketOption[iCurRank - 1] & 0x0F;
+					Obj.m_PlayerData->pPentagramMixBox[i].m_Level = iItemTargetLevel;
+					Obj.m_PlayerData->pPentagramMixBox[i].m_SocketOption[iCurRank - 1] = btRankOptionNum | 0x10 * iItemTargetLevel;
+					iItemType = ITEM_GET_TYPE(Obj.m_PlayerData->pPentagramMixBox[i].m_Type);
+					iItemIndex = ITEM_GET_INDEX(Obj.m_PlayerData->pPentagramMixBox[i].m_Type);
+					pModifyItem.m_Level = Obj.m_PlayerData->pPentagramMixBox[i].m_Level;
+					pModifyItem.m_Durability = Obj.m_PlayerData->pPentagramMixBox[i].m_Durability;
+					pModifyItem.m_Number = Obj.m_PlayerData->pPentagramMixBox[i].m_Number;
 
-					pModifyItem.Convert(lpObj.m_PlayerData->pPentagramMixBox[i].m_Type, lpObj.m_PlayerData->pPentagramMixBox[i].m_Option1,
-						lpObj.m_PlayerData->pPentagramMixBox[i].m_Option2, lpObj.m_PlayerData->pPentagramMixBox[i].m_Option3,
-						lpObj.m_PlayerData->pPentagramMixBox[i].m_NewOption, lpObj.m_PlayerData->pPentagramMixBox[i].m_SetOption,
-						0, lpObj.m_PlayerData->pPentagramMixBox[i].m_SocketOption, lpObj.m_PlayerData->pPentagramMixBox[i].m_BonusSocketOption, 0, CURRENT_DB_VERSION);
+					pModifyItem.Convert(Obj.m_PlayerData->pPentagramMixBox[i].m_Type, Obj.m_PlayerData->pPentagramMixBox[i].m_Option1,
+						Obj.m_PlayerData->pPentagramMixBox[i].m_Option2, Obj.m_PlayerData->pPentagramMixBox[i].m_Option3,
+						Obj.m_PlayerData->pPentagramMixBox[i].m_NewOption, Obj.m_PlayerData->pPentagramMixBox[i].m_SetOption,
+						0, Obj.m_PlayerData->pPentagramMixBox[i].m_SocketOption, Obj.m_PlayerData->pPentagramMixBox[i].m_BonusSocketOption, 0, CURRENT_DB_VERSION);
 					break;
 				}
 			}
@@ -1245,7 +1245,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 		}
 	}
 
-	lpObj.m_PlayerData->m_PentagramMixLock = FALSE;
+	Obj.m_PlayerData->m_PentagramMixLock = FALSE;
 	gObjInventoryCommit(Obj.m_Index);
 
 	return btReturnValue;
@@ -1272,12 +1272,12 @@ void CPentagramMixSystem::CGPentagramJewelRefineRecv(PMSG_PENTAGRAM_JEWEL_REFINE
 {
 	
 
-	if (gObjIsConnectedGP(aIndex) == 0)
+	if (gObjIsConnectedGP(Obj.m_Index) == 0)
 	{
 		return;
 	}
 
-	if (lpObj.m_bPShopOpen != 0)
+	if (Obj.m_bPShopOpen != 0)
 	{
 		return;
 	}
@@ -1285,11 +1285,11 @@ void CPentagramMixSystem::CGPentagramJewelRefineRecv(PMSG_PENTAGRAM_JEWEL_REFINE
 	switch (lpMsg->type)
 	{
 	case 1:
-		//this->PentagramJewelMix(aIndex);
+		//this->PentagramJewelMix(Obj.m_Index);
 		sLog->outError( "[PentagramJewelMix] in Progress..");
 	    break;
 	default:
-		sLog->outBasic("[%s][%s] Undefine PentagramJewelMix type detect %d", lpObj.AccountID, lpObj.Name, lpMsg->type);
+		sLog->outBasic("[%s][%s] Undefine PentagramJewelMix type detect %d", Obj.AccountID, Obj.Name, lpMsg->type);
 		break;
 	}
 }
@@ -1313,7 +1313,7 @@ BOOL CPentagramMixSystem::PentagramJewelMix(CGameObject &Obj) // OK
 {
 	
 
-	lpObj.ChaosLock = TRUE;
+	Obj.ChaosLock = TRUE;
 
 	PMSG_CHAOSMIXRESULT pMsg;
 
@@ -1324,32 +1324,32 @@ BOOL CPentagramMixSystem::PentagramJewelMix(CGameObject &Obj) // OK
 	int iMithrilType = -1;
 	int iBlessCount = 0;
 
-	if (lpObj.pInventory->m_Type == ITEMGET(12, 145))
+	if (Obj.pInventory->m_Type == ITEMGET(12, 145))
 	{
-		iMithrilType = lpObj.pInventory->m_BonusSocketOption;
+		iMithrilType = Obj.pInventory->m_BonusSocketOption;
 		iMithrilCount++;
 	}
 	
-	if (lpObj.pInventory->m_Type == ITEMGET(14, 13))
+	if (Obj.pInventory->m_Type == ITEMGET(14, 13))
 	{
 		iBlessCount++;
 	}
 		
 	if (iMithrilCount != 1 || iBlessCount != 1)
 	{
-		IOCP.DataSend(lpObj.m_Index, (UCHAR*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (UCHAR*)&pMsg, pMsg.h.size);
 		return 0;
 	}
 		
 
-	if (lpObj.m_PlayerData->Money <= 100000)
+	if (Obj.m_PlayerData->Money <= 100000)
 	{
-		IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 		return 0; //No Zen
 	}
 
-	lpObj.m_PlayerData->Money -= 100000;
-	gGameProtocol.GCMoneySend(aIndex, lpObj.m_PlayerData->Money);
+	Obj.m_PlayerData->Money -= 100000;
+	gGameProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
 
 	if ((rand() % 100) < 80)
 	{
@@ -1380,25 +1380,25 @@ BOOL CPentagramMixSystem::PentagramJewelMix(CGameObject &Obj) // OK
 		
 		CItemObject NewItem;
 		NewItem.m_Type = type;
-		NewItem.m_SocketOption[0] = lpObj.pInventory->m_SocketOption[0];
-		NewItem.m_SocketOption[1] = lpObj.pInventory->m_SocketOption[1];
-		NewItem.m_SocketOption[2] = lpObj.pInventory->m_SocketOption[2];
-		NewItem.m_SocketOption[3] = lpObj.pInventory->m_SocketOption[3];
-		NewItem.m_SocketOption[4] = lpObj.pInventory->m_SocketOption[4];
-		NewItem.m_BonusSocketOption = lpObj.pInventory->m_BonusSocketOption;
+		NewItem.m_SocketOption[0] = Obj.pInventory->m_SocketOption[0];
+		NewItem.m_SocketOption[1] = Obj.pInventory->m_SocketOption[1];
+		NewItem.m_SocketOption[2] = Obj.pInventory->m_SocketOption[2];
+		NewItem.m_SocketOption[3] = Obj.pInventory->m_SocketOption[3];
+		NewItem.m_SocketOption[4] = Obj.pInventory->m_SocketOption[4];
+		NewItem.m_BonusSocketOption = Obj.pInventory->m_BonusSocketOption;
 		
-		ItemCreate(aIndex, 235, 0, 0, NewItem.m_Type, 0, 0, 0, 0, 0, aIndex, 0, 0, 0, NewItem.m_SocketOption, NewItem.m_BonusSocketOption);
-		gObjInventoryCommit(aIndex);
+		ItemCreate(Obj.m_Index, 235, 0, 0, NewItem.m_Type, 0, 0, 0, 0, 0, Obj.m_Index, 0, 0, 0, NewItem.m_SocketOption, NewItem.m_BonusSocketOption);
+		gObjInventoryCommit(Obj.m_Index);
 
 		sLog->outError("[Elemental System][Elixir Mix] [%s][%s] CBMix Success, Money : %d",
-			lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->Money);
+			Obj.AccountID, Obj.Name, Obj.m_PlayerData->Money);
 	}
 	else
 	{
 		pMsg.Result = 0;
-		IOCP.DataSend(lpObj.m_Index, (UCHAR*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (UCHAR*)&pMsg, pMsg.h.size);
 		sLog->outError( "[Elemental System][Elixir Mix] [%s][%s] CBMix Fail, Money : %d ",
-			lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->Money);
+			Obj.AccountID, Obj.Name, Obj.m_PlayerData->Money);
 	}
 	return 1;
 }

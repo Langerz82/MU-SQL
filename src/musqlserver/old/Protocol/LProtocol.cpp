@@ -36,7 +36,7 @@ void CConServ::ConnectResultSend(CGameObject &Obj)
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.result = 0x01;
 
-	DataSend(lpObj.m_Index,(BYTE*)&pMsg,sizeof(pMsg), nullptr);
+	DataSend(Obj.m_Index,(BYTE*)&pMsg,sizeof(pMsg), nullptr);
 	/*if(!newssent)
 	{
 		newssent = true;
@@ -89,9 +89,9 @@ void CConServ::ServerListSend(CGameObject &Obj)
 	pMsg->h.sizeL	= LOBYTE(PacketSize);
 	pMsg->h.sizeH	= HIBYTE(PacketSize);
 
-	DataSend(lpObj.m_Index, cBUFF, PacketSize, nullptr);
+	DataSend(Obj.m_Index, cBUFF, PacketSize, nullptr);
 
-//	this->SendNews(aIndex);
+//	this->SendNews(Obj.m_Index);
 }
 
 void CConServ::GetServerInfo(CGameObject &Obj, USHORT id)
@@ -112,9 +112,9 @@ void CConServ::GetServerInfo(CGameObject &Obj, USHORT id)
 
 			pMsg.Port = It->wServerPort;
 
-			DataSend(lpObj.m_Index, (BYTE*)&pMsg, sizeof(pMsg), nullptr);
+			DataSend(Obj.m_Index, (BYTE*)&pMsg, sizeof(pMsg), nullptr);
 
-			sLog->outBasic(0, szModule, __FUNCTION__, "INDEX : %d; SERVER SELECTED (%d) (%s:%d)", aIndex, id, pMsg.IP, pMsg.Port);
+			sLog->outBasic(0, szModule, __FUNCTION__, "INDEX : %d; SERVER SELECTED (%d) (%s:%d)", Obj.m_Index, id, pMsg.IP, pMsg.Port);
 			
 			break;
 		}
@@ -125,18 +125,18 @@ void CConServ::GetServerList(CGameObject &Obj)
 {
 	if(g_ConnectedServers.size() > 0)
 	{	
-		this->ServerListSend(aIndex);
-		if(g_Server[aIndex].newsSent == 0)
+		this->ServerListSend(Obj.m_Index);
+		if(g_Server[Obj.m_Index].newsSent == 0)
 		{
-			this->SendNews(aIndex);
-			g_Server[aIndex].newsSent = 1;
+			this->SendNews(Obj.m_Index);
+			g_Server[Obj.m_Index].newsSent = 1;
 		}
 	}
 	else
 	{
-		sLog->outBasic(0, szModule, __FUNCTION__, "INDEX : %d; no active servers", aIndex);
-		CloseClient(aIndex);
-	//	gObjServerDel(aIndex);
+		sLog->outBasic(0, szModule, __FUNCTION__, "INDEX : %d; no active servers", Obj.m_Index);
+		CloseClient(Obj.m_Index);
+	//	gObjServerDel(Obj.m_Index);
 	}	
 }
 void CConServ::LoadServerList(LPSTR szFile)
@@ -162,7 +162,7 @@ void CConServ::LoadServerList(LPSTR szFile)
 
 		if(Token == NUMBER)
 		{
-			aIndex = TokenNumber;
+			Obj.m_Index = TokenNumber;
 
 			while(true)
 			{
@@ -239,7 +239,7 @@ void CConServ::LoadNewsFile(LPSTR szFile)
 				break;
 			 if(Token == NUMBER)
 			 {
-				 aIndex = TokenNumber;
+				 Obj.m_Index = TokenNumber;
 
 				 while(true)
 				 {
@@ -247,7 +247,7 @@ void CConServ::LoadNewsFile(LPSTR szFile)
 					 if(strcmp("end",TokenString) == 0)
 						 break;
 
-					 if(aIndex == 0)
+					 if(Obj.m_Index == 0)
 					 {
 						iIndex = TokenNumber;
 
@@ -304,7 +304,7 @@ void CConServ::LoadNewsFile(LPSTR szFile)
 						gObjNews[iIndex].year = Year;
 						newscount++;
 					 }
-					 else if(aIndex == 1)
+					 else if(Obj.m_Index == 1)
 					 {
 						 std::memcpy(Title, TokenString, sizeof(Title));
 					 }
@@ -327,7 +327,7 @@ void CConServ::SendNews(CGameObject &Obj)
 	pTitle.h.subcode = 0x00;
 	memcpy(pTitle.ServerName, Title, sizeof(pTitle.ServerName));
 
-	DataSend(lpObj.m_Index, (BYTE*)&pTitle, pTitle.h.size, nullptr);
+	DataSend(Obj.m_Index, (BYTE*)&pTitle, pTitle.h.size, nullptr);
 
 	PMSG_SEND_NEWS pMsg = {0};
 
@@ -357,7 +357,7 @@ void CConServ::SendNews(CGameObject &Obj)
 		memcpy(buffer, &pMsg, sizeof(PMSG_SEND_NEWS));
 		memcpy(&buffer[sizeof(PMSG_SEND_NEWS)], gObjNews[i].Text, textlen);
 
-		DataSend(lpObj.m_Index, (BYTE*)buffer, sizeof(PMSG_SEND_NEWS)+textlen, nullptr);
+		DataSend(Obj.m_Index, (BYTE*)buffer, sizeof(PMSG_SEND_NEWS)+textlen, nullptr);
 	}
 	sLog->outBasic(0,szModule,"::SendNews()","News Sent. Amount : %d",newscount);
 }
@@ -373,10 +373,10 @@ void LProtocolCore(CGameObject &Obj, BYTE hCode, BYTE* aRecv, int aLen)
 			switch(aRecv[3])
 			{
 				case CS_SERVER_SELECT:
-					g_ConnectServer.GetServerInfo(aIndex,MAKEWORD(aRecv[4],aRecv[5]));
+					g_ConnectServer.GetServerInfo(Obj.m_Index,MAKEWORD(aRecv[4],aRecv[5]));
 					break;
 				case CS_CLIENT_CONNECT:
-					g_ConnectServer.GetServerList(aIndex);
+					g_ConnectServer.GetServerList(Obj.m_Index);
 					break;
 			}
 		}

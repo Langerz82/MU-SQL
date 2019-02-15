@@ -22,7 +22,7 @@ void CKillCountMng::CheckMonsterKillCount(int monsterid, CGameObject lpObj)
 	{
 		if(this->i_MonsterIds[i] == monsterid)
 		{
-			ReqSaveMonsterCount(lpObj.m_Index,monsterid);
+			ReqSaveMonsterCount(Obj.m_Index,monsterid);
 			break;
 		}
 	}

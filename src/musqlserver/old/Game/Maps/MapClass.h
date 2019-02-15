@@ -56,8 +56,8 @@ public:
 	BYTE CheckWall2(int sx1, int sy1, int sx2, int sy2);
 	void ItemInit();
 	int ItemGive(CGameObject &Obj, int item_num, bool bFailNotSend);
-	int ItemDrop(int type, int level, float dur, int x, int y, BYTE Option1, BYTE Option2, BYTE Option3, BYTE NOption, BYTE SOption, UINT64 number, CGameObject &Obj, int PetLevel, UINT64 PetExp, BYTE ItemEffectEx, BYTE *SocketOption, BYTE SocketBonusOption, DWORD PeriodDuration);
-	int MonsterItemDrop(int type, int level, float dur, int x, int y, BYTE Option1, BYTE Option2, BYTE Option3, BYTE NOption, BYTE SOption, CGameObject &Obj, UINT64 number, BYTE ItemEffectEx, BYTE *SocketOption, BYTE SocketBonusOption, DWORD PeriodDuration);
+	int ItemDrop(int type, int level, float dur, int x, int y, BYTE Option1, BYTE Option2, BYTE Option3, BYTE NOption, BYTE SOption, UINT64 number, int lootIndex, int PetLevel, UINT64 PetExp, BYTE ItemEffectEx, BYTE *SocketOption, BYTE SocketBonusOption, DWORD PeriodDuration);
+	int MonsterItemDrop(int type, int level, float dur, int x, int y, BYTE Option1, BYTE Option2, BYTE Option3, BYTE NOption, BYTE SOption, int lootIndex, UINT64 number, BYTE ItemEffectEx, BYTE *SocketOption, BYTE SocketBonusOption, DWORD PeriodDuration);
 	int MoneyItemDrop(int money, int x, int y);
 	void WeatherVariationProcess();
 	BYTE GetWeather();

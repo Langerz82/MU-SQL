@@ -190,7 +190,7 @@ void TMonsterSkillManager::MonsterSkillProc()
 				CGameObject lpObj = &getGameObject(stInfo.iIndex);
 				CGameObject lpTargetObj = &getGameObject(stInfo.iTargetIndex);
 
-				if ( !lpObj.Live || !lpTargetObj.Live )
+				if ( !Obj.Live || !lpTargetObj.Live )
 				{
 					TMonsterSkillManager::s_MonsterSkillDelayInfoArray[i].RESET();
 					continue;
@@ -213,7 +213,7 @@ void TMonsterSkillManager::MonsterSkillProc()
 TMonsterSkillUnit * TMonsterSkillManager::FindMonsterSkillUnit(CGameObject &Obj, int iMonsterSkillUnitType)
 {
 	CGameObject lpObj = Obj;
-	TMonsterSkillInfo * lpMonsterSkillInfo = &TMonsterSkillManager::s_MonsterSkillInfoArray[lpObj.Class];
+	TMonsterSkillInfo * lpMonsterSkillInfo = &TMonsterSkillManager::s_MonsterSkillInfoArray[Obj.Class];
 
 	if ( lpMonsterSkillInfo->IsValid() == FALSE )
 		return NULL;
@@ -265,7 +265,7 @@ void TMonsterSkillManager::UseMonsterSkill(CGameObject &Obj, int iTargetIndex, i
 
 	CGameObject lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
-	TMonsterSkillInfo * lpMonsterSkillInfo = &TMonsterSkillManager::s_MonsterSkillInfoArray[lpObj.Class];
+	TMonsterSkillInfo * lpMonsterSkillInfo = &TMonsterSkillManager::s_MonsterSkillInfoArray[Obj.Class];
 
 	if ( lpMonsterSkillInfo->IsValid() == FALSE )
 		return;
@@ -287,18 +287,18 @@ void TMonsterSkillManager::UseMonsterSkill(CGameObject &Obj, int iTargetIndex, i
 		return;
 	}
 
-	if ( IMPERIAL_MAP_RANGE(lpObj.MapNumber) == TRUE )
+	if ( IMPERIAL_MAP_RANGE(Obj.MapNumber) == TRUE )
 	{
 		CMagicInf cMagicInf;
 		memset(&cMagicInf, 0x00, sizeof(cMagicInf));
 
-		if ( lpObj.Class == 519 && lpMonsterSkillUnit->m_iUnitNumber == 46 )
+		if ( Obj.Class == 519 && lpMonsterSkillUnit->m_iUnitNumber == 46 )
 		{
-			int nTargetIndex = gGetLowHPMonster(lpObj.m_nZoneIndex, lpObj.m_Index, 6);
+			int nTargetIndex = gGetLowHPMonster(Obj.m_nZoneIndex, Obj.m_Index, 6);
 
 			if ( nTargetIndex == -1 )
 			{
-				gGameProtocol.GCActionSend(lpObj, 120, lpObj.m_Index, lpObj.TargetNumber);
+				gGameProtocol.GCActionSend(lpObj, 120, Obj.m_Index, Obj.TargetNumber);
 				gObjAttack(lpObj, lpTargetObj, 0, 0, 0, 0, 0, 0, 0);
 				return;
 			}
@@ -324,13 +324,13 @@ void TMonsterSkillManager::UseMonsterSkill(CGameObject &Obj, int iTargetIndex, i
 	
 	if ( lpMonsterSkillUnit->m_iUnitScopeType == -1 )
 	{
-		if(lpObj.MapNumber == MAP_INDEX_RAKLION)
+		if(Obj.MapNumber == MAP_INDEX_RAKLION)
 		{
 			gObjAttack(lpObj, lpTargetObj, NULL, NULL, NULL, NULL, NULL, 0, 0);
 		}
-		else if(lpObj.MapNumber == MAP_INDEX_HATCHERY)
+		else if(Obj.MapNumber == MAP_INDEX_HATCHERY)
 		{
-			if(lpObj.Class == 459)
+			if(Obj.Class == 459)
 			{
 				if(lpMonsterSkillUnit->m_iUnitNumber == 40)
 				{
@@ -352,13 +352,13 @@ void TMonsterSkillManager::UseMonsterSkill(CGameObject &Obj, int iTargetIndex, i
 	{
 		int iCount = 0;
 		int iRangeTargetIndex = -1;
-		int iAngle = gObjUseSkill.GetAngle(lpObj.X, lpObj.Y, lpTargetObj.X, lpTargetObj.Y);
+		int iAngle = gObjUseSkill.GetAngle(Obj.X, Obj.Y, lpTargetObj.X, lpTargetObj.Y);
 
 		while ( true )
 		{
-			if ( lpObj.VpPlayer2[iCount].state )
+			if ( Obj.VpPlayer2[iCount].state )
 			{
-				iRangeTargetIndex = lpObj.VpPlayer2[iCount].number;
+				iRangeTargetIndex = Obj.VpPlayer2[iCount].number;
 
 				if ( ObjectMaxRange(iRangeTargetIndex))
 				{
@@ -375,7 +375,7 @@ void TMonsterSkillManager::UseMonsterSkill(CGameObject &Obj, int iTargetIndex, i
 						}
 						else  if ( lpMonsterSkillUnit->m_iUnitScopeType == 1 )
 						{
-							if ( SkillElectricSparkHitBox.HitCheck(iAngle, lpObj.X, lpObj.Y,
+							if ( SkillElectricSparkHitBox.HitCheck(iAngle, Obj.X, Obj.Y,
 								getGameObject(iRangeTargetIndex)->X, getGameObject(iRangeTargetIndex)->Y) )
 							{
 								bTargetOK = TRUE;
@@ -392,13 +392,13 @@ void TMonsterSkillManager::UseMonsterSkill(CGameObject &Obj, int iTargetIndex, i
 
 						if ( bTargetOK )
 						{
-							if(lpObj.MapNumber == MAP_INDEX_RAKLION)
+							if(Obj.MapNumber == MAP_INDEX_RAKLION)
 							{
 								gObjAttack(lpObj, lpTargetObj, NULL, NULL, NULL, NULL, NULL, 0, 0);
 							}
-							else if(lpObj.MapNumber == MAP_INDEX_HATCHERY)
+							else if(Obj.MapNumber == MAP_INDEX_HATCHERY)
 							{
-								if(lpObj.Class == 459)
+								if(Obj.Class == 459)
 								{
 									if(lpMonsterSkillUnit->m_iUnitNumber == 40)
 									{
@@ -414,7 +414,7 @@ void TMonsterSkillManager::UseMonsterSkill(CGameObject &Obj, int iTargetIndex, i
 									gObjAttack(lpObj, lpTargetObj, 0,0,0,0,0,0,0);
 								}
 							}
-							else if(lpObj.Class >= 504 && lpObj.Class <= 521)
+							else if(Obj.Class >= 504 && Obj.Class <= 521)
 							{
 								if ( lpMagic )
 								{

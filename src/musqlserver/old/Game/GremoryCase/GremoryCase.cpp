@@ -22,7 +22,7 @@ void CGremoryCase::CheckStorageExpiredItems()
 {
 	time_t CurrTime = time(NULL);
 
-	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
+	for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 	{
 		if (gObjIsConnected(i) == TRUE)
 		{
@@ -87,7 +87,7 @@ void CGremoryCase::DGAnsStorageItemList(BYTE* lpRecv)
 
 	CGameObject lpObj = Obj;
 
-	if ( lpObj.Type != OBJ_USER )
+	if ( Obj.Type != OBJ_USER )
 	{
 		return;
 	}
@@ -104,22 +104,22 @@ void CGremoryCase::DGAnsStorageItemList(BYTE* lpRecv)
 
 		for (int j = 0; j < MAX_GREMORYCASE_STORAGE_ITEMS; j++)
 		{
-			if ( lpObj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].btRewardInventory == 0)
+			if ( Obj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].btRewardInventory == 0)
 			{
-				lpObj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].Clear();
-				lpObj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].ItemInfo.Clear();
-				lpObj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].btRewardInventory = lpItem->btStorageType;
-				lpObj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].btRewardSource = lpItem->btRewardSource;
-				lpObj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].dwItemGUID = lpItem->btItemGUID;
-				lpObj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].dwAuthCode = lpItem->dwAuthCode;
-				lpObj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].dwReceiveDate = lpItem->iReceiveDate;
-				lpObj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].dwExpireTime = lpItem->iExpireDate;
+				Obj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].Clear();
+				Obj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].ItemInfo.Clear();
+				Obj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].btRewardInventory = lpItem->btStorageType;
+				Obj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].btRewardSource = lpItem->btRewardSource;
+				Obj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].dwItemGUID = lpItem->btItemGUID;
+				Obj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].dwAuthCode = lpItem->dwAuthCode;
+				Obj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].dwReceiveDate = lpItem->iReceiveDate;
+				Obj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].dwExpireTime = lpItem->iExpireDate;
 
-				lpObj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].ItemInfo.m_Type = lpItem->wItemID;
-				lpObj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].ItemInfo.m_Level = lpItem->btItemLevel;
-				lpObj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].ItemInfo.m_Durability = ItemGetDurability(lpItem->wItemID, lpItem->btItemLevel, lpItem->btItemExcOption, lpItem->btItemSetOption);
+				Obj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].ItemInfo.m_Type = lpItem->wItemID;
+				Obj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].ItemInfo.m_Level = lpItem->btItemLevel;
+				Obj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].ItemInfo.m_Durability = ItemGetDurability(lpItem->wItemID, lpItem->btItemLevel, lpItem->btItemExcOption, lpItem->btItemSetOption);
 
-				if (gSocketItemType.CheckSocketItemType((int)&lpObj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].ItemInfo) == true)
+				if (gSocketItemType.CheckSocketItemType((int)&Obj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].ItemInfo) == true)
 				{
 					//BYTE SocketOption[5] = { -1,-1,-1,-1,-1 };
 					//BYTE SocketOption[5] = { -1,-1,-1,-1,-1 };
@@ -156,7 +156,7 @@ void CGremoryCase::DGAnsStorageItemList(BYTE* lpRecv)
 					}
 				}
 
-				else if (g_PentagramSystem.IsPentagramItem(lpObj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].ItemInfo.m_Type) == true)
+				else if (g_PentagramSystem.IsPentagramItem(Obj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].ItemInfo.m_Type) == true)
 				{
 					BYTE SocketOption[5] = { -1,-1,-1,-1,-1 };
 					BYTE btEnableSlot[5];
@@ -200,7 +200,7 @@ void CGremoryCase::DGAnsStorageItemList(BYTE* lpRecv)
 					}
 				}
 
-				else if (g_CMuunSystem.IsStoneofEvolution(lpObj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].ItemInfo.m_Type) == TRUE)
+				else if (g_CMuunSystem.IsStoneofEvolution(Obj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].ItemInfo.m_Type) == TRUE)
 				{
 					int iMuunEvolutionItemID = ITEMGET(lpItem->wMuunEvoItemType, lpItem->btMuunEvoItemIndex);
 				
@@ -218,7 +218,7 @@ void CGremoryCase::DGAnsStorageItemList(BYTE* lpRecv)
 					}
 				}
 
-				lpObj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].ItemInfo.Convert(lpItem->wItemID, lpItem->btItemSkill,
+				Obj.m_PlayerData->m_GremoryCaseData[lpItem->btStorageType-1][j].ItemInfo.Convert(lpItem->wItemID, lpItem->btItemSkill,
 					lpItem->btItemLuck, lpItem->btItemOption, lpItem->btItemExcOption, lpItem->btItemSetOption, 0, SocketOption, SocketOptionIndex, 0, 3);
 
 				if ( lpItem->btStorageType == GC_STORAGE_SERVER )
@@ -236,7 +236,7 @@ void CGremoryCase::DGAnsStorageItemList(BYTE* lpRecv)
 		}
 	}
 
-	lpObj.m_PlayerData->m_bGremoryCaseDBInfo = true;
+	Obj.m_PlayerData->m_bGremoryCaseDBInfo = true;
 	
 	this->GCSendStorageItemList(Obj.m_Index);
 	this->CheckIsInStorageItemAboutToExpire(Obj.m_Index);
@@ -247,12 +247,12 @@ void CGremoryCase::GDReqAddItemToGremoryCase(CGameObject &Obj, _stGremoryCaseIte
 {
 	CGameObject lpObj = Obj;
 
-	if ( lpObj.Type != OBJ_USER ) 
+	if ( Obj.Type != OBJ_USER ) 
 	{
 		return;
 	}
 
-	if ( lpObj.m_PlayerData->m_bGremoryCaseDBInfo == false )
+	if ( Obj.m_PlayerData->m_bGremoryCaseDBInfo == false )
 	{
 		return;
 	}
@@ -302,7 +302,7 @@ void CGremoryCase::DGAnsAddItemToGremoryCase(_stAnsAddItemToGremoryCase * lpMsg)
 
 	CGameObject lpObj = Obj;
 
-	if ( lpObj.Type != OBJ_USER )
+	if ( Obj.Type != OBJ_USER )
 	{
 		return;
 	}
@@ -318,23 +318,23 @@ void CGremoryCase::DGAnsAddItemToGremoryCase(_stAnsAddItemToGremoryCase * lpMsg)
 
 	for (int i = 0; i < MAX_GREMORYCASE_STORAGE_ITEMS; i++)
 	{
-		if (lpObj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].btRewardInventory == 0)
+		if (Obj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].btRewardInventory == 0)
 		{
 			iItemArrayIndex = i;
-			lpObj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].Clear();
-			lpObj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].ItemInfo.Clear();
-			lpObj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].btRewardInventory = lpMsg->m_GremoryCaseItem.btStorageType;
-			lpObj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].btRewardSource = lpMsg->m_GremoryCaseItem.btRewardSource;
-			lpObj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].dwItemGUID = lpMsg->m_GremoryCaseItem.btItemGUID;
-			lpObj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].dwAuthCode = lpMsg->m_GremoryCaseItem.dwAuthCode;
-			lpObj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].dwReceiveDate = lpMsg->m_GremoryCaseItem.iReceiveDate;
-			lpObj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].dwExpireTime = lpMsg->m_GremoryCaseItem.iExpireDate;
+			Obj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].Clear();
+			Obj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].ItemInfo.Clear();
+			Obj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].btRewardInventory = lpMsg->m_GremoryCaseItem.btStorageType;
+			Obj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].btRewardSource = lpMsg->m_GremoryCaseItem.btRewardSource;
+			Obj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].dwItemGUID = lpMsg->m_GremoryCaseItem.btItemGUID;
+			Obj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].dwAuthCode = lpMsg->m_GremoryCaseItem.dwAuthCode;
+			Obj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].dwReceiveDate = lpMsg->m_GremoryCaseItem.iReceiveDate;
+			Obj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].dwExpireTime = lpMsg->m_GremoryCaseItem.iExpireDate;
 
-			lpObj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].ItemInfo.m_Type = lpMsg->m_GremoryCaseItem.wItemID;
-			lpObj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].ItemInfo.m_Level = lpMsg->m_GremoryCaseItem.btItemLevel;
-			lpObj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].ItemInfo.m_Durability = ItemGetDurability(lpMsg->m_GremoryCaseItem.wItemID, lpMsg->m_GremoryCaseItem.btItemLevel, lpMsg->m_GremoryCaseItem.btItemExcOption, lpMsg->m_GremoryCaseItem.btItemSetOption);
+			Obj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].ItemInfo.m_Type = lpMsg->m_GremoryCaseItem.wItemID;
+			Obj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].ItemInfo.m_Level = lpMsg->m_GremoryCaseItem.btItemLevel;
+			Obj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].ItemInfo.m_Durability = ItemGetDurability(lpMsg->m_GremoryCaseItem.wItemID, lpMsg->m_GremoryCaseItem.btItemLevel, lpMsg->m_GremoryCaseItem.btItemExcOption, lpMsg->m_GremoryCaseItem.btItemSetOption);
 
-			if (gSocketItemType.CheckSocketItemType((int)&lpObj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType - 1][i].ItemInfo) == true)
+			if (gSocketItemType.CheckSocketItemType((int)&Obj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType - 1][i].ItemInfo) == true)
 			{
 				BYTE SocketOption[5] = { -1,-1,-1,-1,-1 };
 				int SocketSlotCount = 0;
@@ -370,7 +370,7 @@ void CGremoryCase::DGAnsAddItemToGremoryCase(_stAnsAddItemToGremoryCase * lpMsg)
 				}
 			}
 
-			else if (g_PentagramSystem.IsPentagramItem(lpObj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType - 1][i].ItemInfo.m_Type) == true)
+			else if (g_PentagramSystem.IsPentagramItem(Obj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType - 1][i].ItemInfo.m_Type) == true)
 			{
 				BYTE SocketOption[5] = { -1,-1,-1,-1,-1 };
 				BYTE btEnableSlot[5];
@@ -414,7 +414,7 @@ void CGremoryCase::DGAnsAddItemToGremoryCase(_stAnsAddItemToGremoryCase * lpMsg)
 				}
 			}
 
-			else if (g_CMuunSystem.IsStoneofEvolution(lpObj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].ItemInfo.m_Type) == TRUE)
+			else if (g_CMuunSystem.IsStoneofEvolution(Obj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].ItemInfo.m_Type) == TRUE)
 			{
 				int iMuunEvolutionItemID = ITEMGET(lpMsg->m_GremoryCaseItem.wMuunEvoItemType, lpMsg->m_GremoryCaseItem.btMuunEvoItemIndex);
 				
@@ -432,7 +432,7 @@ void CGremoryCase::DGAnsAddItemToGremoryCase(_stAnsAddItemToGremoryCase * lpMsg)
 				}
 			}
 
-			lpObj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].ItemInfo.Convert(lpMsg->m_GremoryCaseItem.wItemID, lpMsg->m_GremoryCaseItem.btItemSkill,
+			Obj.m_PlayerData->m_GremoryCaseData[lpMsg->m_GremoryCaseItem.btStorageType-1][i].ItemInfo.Convert(lpMsg->m_GremoryCaseItem.wItemID, lpMsg->m_GremoryCaseItem.btItemSkill,
 				lpMsg->m_GremoryCaseItem.btItemLuck, lpMsg->m_GremoryCaseItem.btItemOption, lpMsg->m_GremoryCaseItem.btItemExcOption, lpMsg->m_GremoryCaseItem.btItemSetOption, 0, SocketOption, SocketOptionIndex, 0, 3);
 			break;
 		}
@@ -474,7 +474,7 @@ void CGremoryCase::DGAnsCheckItemUseGremoryCase(_stAnsCheckUseItemGremoryCase * 
 
 	CGameObject lpObj = Obj;
 
-	if ( lpObj.Type != OBJ_USER )
+	if ( Obj.Type != OBJ_USER )
 	{
 		return;
 	}
@@ -482,7 +482,7 @@ void CGremoryCase::DGAnsCheckItemUseGremoryCase(_stAnsCheckUseItemGremoryCase * 
 	PMSG_ADD_GREMORYCASE_ITEM_TO_INVENTORY_ANS pMsg;
 	PHeadSubSetB((BYTE*)&pMsg, 0x4F, 0x02, sizeof(pMsg));
 
-	if ( lpObj.m_PlayerData->m_bGremoryCaseDBInfo == false )
+	if ( Obj.m_PlayerData->m_bGremoryCaseDBInfo == false )
 	{
 		pMsg.btResult = 1;
 		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
@@ -497,11 +497,11 @@ void CGremoryCase::DGAnsCheckItemUseGremoryCase(_stAnsCheckUseItemGremoryCase * 
 	{
 		for (int j = 0; j < MAX_GREMORYCASE_STORAGE_ITEMS; j++)
 		{
-			if ( lpObj.m_PlayerData->m_GremoryCaseData[i][j].btRewardInventory != 0)
+			if ( Obj.m_PlayerData->m_GremoryCaseData[i][j].btRewardInventory != 0)
 			{
-				if ( lpObj.m_PlayerData->m_GremoryCaseData[i][j].ItemInfo.m_Type == lpMsg->wItemID &&
-					lpObj.m_PlayerData->m_GremoryCaseData[i][j].dwItemGUID == lpMsg->dwItemGUID &&
-					lpObj.m_PlayerData->m_GremoryCaseData[i][j].dwAuthCode == lpMsg->dwAuthCode)
+				if ( Obj.m_PlayerData->m_GremoryCaseData[i][j].ItemInfo.m_Type == lpMsg->wItemID &&
+					Obj.m_PlayerData->m_GremoryCaseData[i][j].dwItemGUID == lpMsg->dwItemGUID &&
+					Obj.m_PlayerData->m_GremoryCaseData[i][j].dwAuthCode == lpMsg->dwAuthCode)
 				{
 					iStorageType = i;
 					iItemArrayIndex = j;
@@ -553,7 +553,7 @@ void CGremoryCase::DGAnsCheckItemUseGremoryCase(_stAnsCheckUseItemGremoryCase * 
 		return;
 	}
 
-	if (lpObj.m_IfState.use)
+	if (Obj.m_IfState.use)
 	{
 		pMsg.btResult = 5;
 		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
@@ -563,11 +563,11 @@ void CGremoryCase::DGAnsCheckItemUseGremoryCase(_stAnsCheckUseItemGremoryCase * 
 
 	if (p->ItemKindA == 11)
 	{
-			ItemCreate(iIndex, 226, 0, 0, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Type, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Level,
-			lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Durability, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option1,
-			lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option2, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option3,
-			iIndex, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_NewOption, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_SetOption, 0,
-			lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_SocketOption, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_BonusSocketOption);
+			ItemCreate(iIndex, 226, 0, 0, Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Type, Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Level,
+			Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Durability, Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option1,
+			Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option2, Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option3,
+			iIndex, Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_NewOption, Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_SetOption, 0,
+			Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_SocketOption, Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_BonusSocketOption);
 			
 	}
 
@@ -575,20 +575,20 @@ void CGremoryCase::DGAnsCheckItemUseGremoryCase(_stAnsCheckUseItemGremoryCase * 
 	{
 	BYTE SocketOption[5] = { -1, -1, -1, -1, -1 };
 	
-		ItemCreate(iIndex, 224, 0, 0, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Type, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Level,
-			lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Durability, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option1,
-			lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option2, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option3,
-			iIndex, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_NewOption, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_SetOption, 0,
+		ItemCreate(iIndex, 224, 0, 0, Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Type, Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Level,
+			Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Durability, Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option1,
+			Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option2, Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option3,
+			iIndex, Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_NewOption, Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_SetOption, 0,
 			SocketOption, -1);
 	}
 
 	else
 	{
-		ItemCreate(iIndex, 235, 0, 0, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Type, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Level,
-			lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Durability, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option1,
-			lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option2, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option3,
-			iIndex, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_NewOption, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_SetOption, 0,
-			lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_SocketOption, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_BonusSocketOption);
+		ItemCreate(iIndex, 235, 0, 0, Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Type, Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Level,
+			Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Durability, Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option1,
+			Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option2, Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option3,
+			iIndex, Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_NewOption, Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_SetOption, 0,
+			Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_SocketOption, Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_BonusSocketOption);
 	}
 
 	pMsg.btResult = 0;
@@ -598,7 +598,7 @@ void CGremoryCase::DGAnsCheckItemUseGremoryCase(_stAnsCheckUseItemGremoryCase * 
 	pMsg.dwAuthCode = lpMsg->dwAuthCode;
 
 	this->GDReqDeleteItemFromGremoryCase(iIndex, lpMsg->wItemID, lpMsg->dwItemGUID, lpMsg->dwAuthCode);
-	lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].Clear();
+	Obj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].Clear();
 
 	IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 }
@@ -622,12 +622,12 @@ void CGremoryCase::GCSendStorageItemList(CGameObject &Obj)
 {
 	CGameObject lpObj = Obj;
 
-	if ( lpObj.Type != OBJ_USER ) 
+	if ( Obj.Type != OBJ_USER ) 
 	{
 		return;
 	}
 
-	if ( lpObj.m_PlayerData->m_bGremoryCaseDBInfo == false )
+	if ( Obj.m_PlayerData->m_bGremoryCaseDBInfo == false )
 	{
 		return;
 	}
@@ -642,16 +642,16 @@ void CGremoryCase::GCSendStorageItemList(CGameObject &Obj)
 	{
 		for (int j = 0; j < MAX_GREMORYCASE_STORAGE_ITEMS; j++)
 		{
-			if (lpObj.m_PlayerData->m_GremoryCaseData[i][j].btRewardInventory != 0)
+			if (Obj.m_PlayerData->m_GremoryCaseData[i][j].btRewardInventory != 0)
 			{
 				lpItem = (PMSG_GREMORYCASE_ITEM *)(BUFFER + sizeof(PMSG_RECEIVE_GREMORYCASE_ITEMLIST) + (lpMsg->btCount * sizeof(PMSG_GREMORYCASE_ITEM)));
 
-				lpItem->btRewardInventory = lpObj.m_PlayerData->m_GremoryCaseData[i][j].btRewardInventory;
-				lpItem->btRewardSource = lpObj.m_PlayerData->m_GremoryCaseData[i][j].btRewardSource;
-				lpItem->dwItemGUID = lpObj.m_PlayerData->m_GremoryCaseData[i][j].dwItemGUID;
-				lpItem->dwAuthCode = lpObj.m_PlayerData->m_GremoryCaseData[i][j].dwAuthCode;
-				lpItem->dwExpireTime = lpObj.m_PlayerData->m_GremoryCaseData[i][j].dwExpireTime;		
-				ItemByteConvert(lpItem->btItemInfo, lpObj.m_PlayerData->m_GremoryCaseData[i][j].ItemInfo);
+				lpItem->btRewardInventory = Obj.m_PlayerData->m_GremoryCaseData[i][j].btRewardInventory;
+				lpItem->btRewardSource = Obj.m_PlayerData->m_GremoryCaseData[i][j].btRewardSource;
+				lpItem->dwItemGUID = Obj.m_PlayerData->m_GremoryCaseData[i][j].dwItemGUID;
+				lpItem->dwAuthCode = Obj.m_PlayerData->m_GremoryCaseData[i][j].dwAuthCode;
+				lpItem->dwExpireTime = Obj.m_PlayerData->m_GremoryCaseData[i][j].dwExpireTime;		
+				ItemByteConvert(lpItem->btItemInfo, Obj.m_PlayerData->m_GremoryCaseData[i][j].ItemInfo);
 
 				lpMsg->btCount++;
 			}
@@ -678,7 +678,7 @@ void CGremoryCase::GCSendAddItemToGremoryCase(CGameObject &Obj, BYTE btStorageTy
 
 	CGameObject lpObj = Obj;
 
-	if ( lpObj.Type != OBJ_USER ) 
+	if ( Obj.Type != OBJ_USER ) 
 	{
 		return;
 	}
@@ -686,12 +686,12 @@ void CGremoryCase::GCSendAddItemToGremoryCase(CGameObject &Obj, BYTE btStorageTy
 	PMSG_RECEIVE_GREMORYCASE_ITEM pMsg;
 	PHeadSubSetB((BYTE*)&pMsg, 0x4F, 0x01, sizeof(pMsg));
 
-	pMsg.m_ReceivedItem.btRewardInventory = lpObj.m_PlayerData->m_GremoryCaseData[btStorageType][btItemArrayIndex].btRewardInventory;
-	pMsg.m_ReceivedItem.btRewardSource = lpObj.m_PlayerData->m_GremoryCaseData[btStorageType][btItemArrayIndex].btRewardSource;
-	pMsg.m_ReceivedItem.dwItemGUID = lpObj.m_PlayerData->m_GremoryCaseData[btStorageType][btItemArrayIndex].dwItemGUID;
-	pMsg.m_ReceivedItem.dwAuthCode = lpObj.m_PlayerData->m_GremoryCaseData[btStorageType][btItemArrayIndex].dwAuthCode;
-	pMsg.m_ReceivedItem.dwExpireTime = lpObj.m_PlayerData->m_GremoryCaseData[btStorageType][btItemArrayIndex].dwExpireTime;		
-	ItemByteConvert(pMsg.m_ReceivedItem.btItemInfo, lpObj.m_PlayerData->m_GremoryCaseData[btStorageType][btItemArrayIndex].ItemInfo);
+	pMsg.m_ReceivedItem.btRewardInventory = Obj.m_PlayerData->m_GremoryCaseData[btStorageType][btItemArrayIndex].btRewardInventory;
+	pMsg.m_ReceivedItem.btRewardSource = Obj.m_PlayerData->m_GremoryCaseData[btStorageType][btItemArrayIndex].btRewardSource;
+	pMsg.m_ReceivedItem.dwItemGUID = Obj.m_PlayerData->m_GremoryCaseData[btStorageType][btItemArrayIndex].dwItemGUID;
+	pMsg.m_ReceivedItem.dwAuthCode = Obj.m_PlayerData->m_GremoryCaseData[btStorageType][btItemArrayIndex].dwAuthCode;
+	pMsg.m_ReceivedItem.dwExpireTime = Obj.m_PlayerData->m_GremoryCaseData[btStorageType][btItemArrayIndex].dwExpireTime;		
+	ItemByteConvert(pMsg.m_ReceivedItem.btItemInfo, Obj.m_PlayerData->m_GremoryCaseData[btStorageType][btItemArrayIndex].ItemInfo);
 
 	IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 
@@ -712,7 +712,7 @@ void CGremoryCase::CGReqGetItemFromGremoryCase(PMSG_ADD_GREMORYCASE_ITEM_TO_INVE
 
 	CGameObject lpObj = Obj;
 
-	if ( lpObj.Type != OBJ_USER ) 
+	if ( Obj.Type != OBJ_USER ) 
 	{
 		return;
 	}
@@ -747,7 +747,7 @@ void CGremoryCase::CGReqOpenGremoryCase(CGameObject &Obj)
 
 	CGameObject lpObj = Obj;
 
-	if ( lpObj.Type != OBJ_USER ) 
+	if ( Obj.Type != OBJ_USER ) 
 	{
 		return;
 	}
@@ -755,7 +755,7 @@ void CGremoryCase::CGReqOpenGremoryCase(CGameObject &Obj)
 	PMSG_GREMORYCASE_OPEN_ANS pMsg;
 	PHeadSubSetB((BYTE*)&pMsg, 0x4F, 0x05, sizeof(pMsg));
 
-	if ( lpObj.m_PlayerData->m_bGremoryCaseDBInfo == false )
+	if ( Obj.m_PlayerData->m_bGremoryCaseDBInfo == false )
 	{
 		pMsg.btResult = 1;
 		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
@@ -775,12 +775,12 @@ void CGremoryCase::CheckIsInStorageItemAboutToExpire(CGameObject &Obj)
 {
 	CGameObject lpObj = Obj;
 
-	if ( lpObj.Type != OBJ_USER ) 
+	if ( Obj.Type != OBJ_USER ) 
 	{
 		return;
 	}
 
-	if ( lpObj.m_PlayerData->m_bGremoryCaseDBInfo == false )
+	if ( Obj.m_PlayerData->m_bGremoryCaseDBInfo == false )
 	{
 		return;
 	}
@@ -793,9 +793,9 @@ void CGremoryCase::CheckIsInStorageItemAboutToExpire(CGameObject &Obj)
 	{
 		for (int j = 0; j < MAX_GREMORYCASE_STORAGE_ITEMS; j++)
 		{
-			if (lpObj.m_PlayerData->m_GremoryCaseData[i][j].btRewardInventory != 0)
+			if (Obj.m_PlayerData->m_GremoryCaseData[i][j].btRewardInventory != 0)
 			{
-				if (lpObj.m_PlayerData->m_GremoryCaseData[i][j].dwExpireTime < TimeCheck)
+				if (Obj.m_PlayerData->m_GremoryCaseData[i][j].dwExpireTime < TimeCheck)
 				{
 					bItemFound = true;
 					break;
@@ -820,12 +820,12 @@ void CGremoryCase::CheckIsStorageFull(CGameObject &Obj)
 {
 	CGameObject lpObj = Obj;
 
-	if ( lpObj.Type != OBJ_USER ) 
+	if ( Obj.Type != OBJ_USER ) 
 	{
 		return;
 	}
 
-	if ( lpObj.m_PlayerData->m_bGremoryCaseDBInfo == false )
+	if ( Obj.m_PlayerData->m_bGremoryCaseDBInfo == false )
 	{
 		return;
 	}
@@ -837,14 +837,14 @@ void CGremoryCase::CheckIsStorageFull(CGameObject &Obj)
 	{
 		for (int j = 0; j < MAX_GREMORYCASE_STORAGE_ITEMS; j++)
 		{
-			if (lpObj.m_PlayerData->m_GremoryCaseData[i][j].btRewardInventory != 0)
+			if (Obj.m_PlayerData->m_GremoryCaseData[i][j].btRewardInventory != 0)
 			{
-				if (lpObj.m_PlayerData->m_GremoryCaseData[i][j].btRewardInventory == GC_STORAGE_SERVER)
+				if (Obj.m_PlayerData->m_GremoryCaseData[i][j].btRewardInventory == GC_STORAGE_SERVER)
 				{
 					iServerStorageCount++;
 				}
 
-				else if (lpObj.m_PlayerData->m_GremoryCaseData[i][j].btRewardInventory == GC_STORAGE_CHARACTER)
+				else if (Obj.m_PlayerData->m_GremoryCaseData[i][j].btRewardInventory == GC_STORAGE_CHARACTER)
 				{
 					iCharacterStorageCount++;
 				}

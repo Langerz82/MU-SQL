@@ -27,14 +27,14 @@ void CGuardianStatue::GuardianStatueAct(CGameObject &Obj)
 
 	CGameObject lpObj = Obj;
 
-	if( lpObj.VPCount < 1 )
+	if( Obj.VPCount < 1 )
 		return;
 
 	int tObjNum = -1;
 
 	for( int i = 0; i < MAX_VIEWPORT; i++ )
 	{
-		tObjNum = lpObj.VpPlayer[i].number;
+		tObjNum = Obj.VpPlayer[i].number;
 
 		if( tObjNum >= 0 )
 		{
@@ -44,7 +44,7 @@ void CGuardianStatue::GuardianStatueAct(CGameObject &Obj)
 				{
 					if( getGameObject(tObjNum)->m_btCsJoinSide == 1 )
 					{
-						if( (abs(lpObj.X - getGameObject(tObjNum)->X) <= 3) && (abs(lpObj.Y - getGameObject(tObjNum)->Y) <= 3) )
+						if( (abs(Obj.X - getGameObject(tObjNum)->X) <= 3) && (abs(Obj.Y - getGameObject(tObjNum)->Y) <= 3) )
 						{
 							BOOL bIsMaxLife = FALSE;
 							BOOL bIsMaxMana = FALSE;
@@ -52,7 +52,7 @@ void CGuardianStatue::GuardianStatueAct(CGameObject &Obj)
 
 							if( getGameObject(tObjNum)->Life < (getGameObject(tObjNum)->Life+getGameObject(tObjNum)->AddLife) )
 							{
-								getGameObject(tObjNum)->Life = getGameObject(tObjNum)->Life + ((getGameObject(tObjNum)->AddLife+getGameObject(tObjNum)->MaxLife) * (lpObj.m_btCsNpcRgLevel+1)) / 100;
+								getGameObject(tObjNum)->Life = getGameObject(tObjNum)->Life + ((getGameObject(tObjNum)->AddLife+getGameObject(tObjNum)->MaxLife) * (Obj.m_btCsNpcRgLevel+1)) / 100;
 
 								if( getGameObject(tObjNum)->Life > (getGameObject(tObjNum)->Life+getGameObject(tObjNum)->AddLife) )
 								{
@@ -63,7 +63,7 @@ void CGuardianStatue::GuardianStatueAct(CGameObject &Obj)
 
 							if( getGameObject(tObjNum)->Mana < (getGameObject(tObjNum)->Mana+getGameObject(tObjNum)->AddMana) )
 							{
-								getGameObject(tObjNum)->Mana = getGameObject(tObjNum)->Mana + ((getGameObject(tObjNum)->AddMana+getGameObject(tObjNum)->MaxMana) * (lpObj.m_btCsNpcRgLevel+1)) / 100;
+								getGameObject(tObjNum)->Mana = getGameObject(tObjNum)->Mana + ((getGameObject(tObjNum)->AddMana+getGameObject(tObjNum)->MaxMana) * (Obj.m_btCsNpcRgLevel+1)) / 100;
 
 								if( getGameObject(tObjNum)->Mana > (getGameObject(tObjNum)->Mana+getGameObject(tObjNum)->AddMana) )
 								{
@@ -74,7 +74,7 @@ void CGuardianStatue::GuardianStatueAct(CGameObject &Obj)
 
 							if( getGameObject(tObjNum)->BP < (getGameObject(tObjNum)->BP+getGameObject(tObjNum)->AddBP) )
 							{
-								getGameObject(tObjNum)->BP = getGameObject(tObjNum)->BP + ((getGameObject(tObjNum)->AddBP+getGameObject(tObjNum)->MaxBP) * (lpObj.m_btCsNpcRgLevel+1)) / 100;
+								getGameObject(tObjNum)->BP = getGameObject(tObjNum)->BP + ((getGameObject(tObjNum)->AddBP+getGameObject(tObjNum)->MaxBP) * (Obj.m_btCsNpcRgLevel+1)) / 100;
 
 								if( getGameObject(tObjNum)->BP > (getGameObject(tObjNum)->BP+getGameObject(tObjNum)->AddBP) )
 								{

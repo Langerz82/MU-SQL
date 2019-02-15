@@ -352,7 +352,7 @@ void LuckyItemManager::LuckyItemTicketExchange(CGameObject &Obj)
 	PHeadSetB((BYTE*)&pMsg.h, 0x86, sizeof(PMSG_CHAOSMIXRESULT));
 	pMsg.Result = CB_ERROR;
 	
-	lpObj.ChaosLock = true;
+	Obj.ChaosLock = true;
 	
 	_LUCKY_ITEM_INFO * pLuckyItemInfo				= 0;
 	_ITEM_LEVEL_RATE * pItemLevelRandRate			= 0;
@@ -364,18 +364,18 @@ void LuckyItemManager::LuckyItemTicketExchange(CGameObject &Obj)
 	
 	if( !CheckInventoryEmptySpace(lpObj, iItemHeight, iItemWidth) )
 	{
-		sLog->outBasic("[LuckyItem] - Fail - Not Empty Inventory [%s][%s] CharClass[%d]", lpObj.AccountID, lpObj.Name, lpObj.Class);
+		sLog->outBasic("[LuckyItem] - Fail - Not Empty Inventory [%s][%s] CharClass[%d]", Obj.AccountID, Obj.Name, Obj.Class);
 		pMsg.Result = 0xF1;
-		IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
-		lpObj.ChaosLock = false;
+		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+		Obj.ChaosLock = false;
 		return;
 	}
 	
 	for( int i = 0; i < CHAOS_BOX_SIZE; i++ )
 	{
-		if( lpObj.pChaosBox[i].IsItem() )
+		if( Obj.pChaosBox[i].IsItem() )
 		{
-			pLuckyItemInfo = this->GetCharClassLuckyItemInfo(lpObj.pChaosBox[i].m_Type, lpObj.Class);
+			pLuckyItemInfo = this->GetCharClassLuckyItemInfo(Obj.pChaosBox[i].m_Type, Obj.Class);
 
 			if( pLuckyItemInfo == NULL )
 			{
@@ -392,11 +392,11 @@ void LuckyItemManager::LuckyItemTicketExchange(CGameObject &Obj)
 	
 	if( iValidItemCount != 1 || iInvalidItemCount != 0 || iItemPos == -1 )
 	{
-		sLog->outBasic("[LuckyItem] - Can Not be Exchanged [%s][%s] CharClass[%d] ItemNum[%d] ItemName[%s]", lpObj.AccountID, lpObj.Name, lpObj.Class,
-			lpObj.pChaosBox[iItemPos].m_Type, ItemAttribute[lpObj.pChaosBox[iItemPos].m_Type].Name);
+		sLog->outBasic("[LuckyItem] - Can Not be Exchanged [%s][%s] CharClass[%d] ItemNum[%d] ItemName[%s]", Obj.AccountID, Obj.Name, Obj.Class,
+			Obj.pChaosBox[iItemPos].m_Type, ItemAttribute[Obj.pChaosBox[iItemPos].m_Type].Name);
 		pMsg.Result = 0x20;
-		IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
-		lpObj.ChaosLock = false;
+		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+		Obj.ChaosLock = false;
 		return;
 	}
 	
@@ -414,21 +414,21 @@ void LuckyItemManager::LuckyItemTicketExchange(CGameObject &Obj)
 	int iMaxLv			= 0;
 	int SetOption		= 0;
 	pItemLevelRandRate	= pLuckyItemInfo->ItemLevelRate;
-	pLuckyItemEquipment = this->GetLuckyItemEquipment(pLuckyItemInfo, lpObj.Class);
+	pLuckyItemEquipment = this->GetLuckyItemEquipment(pLuckyItemInfo, Obj.Class);
 	piAddSetOptRate	= pLuckyItemInfo->iAddSetOptRate;
 	
 	if( pLuckyItemEquipment == 0 || pItemLevelRandRate == 0 || piAddSetOptRate == 0)
 	{
-		sLog->outBasic("[LuckyItem] --- Error --- [%s][%s] CharClass[%d] ItemNum[%d] ItemName[%s]", lpObj.AccountID, lpObj.Name, lpObj.Class,
-			lpObj.pChaosBox[iItemPos].m_Type, ItemAttribute[lpObj.pChaosBox[iItemPos].m_Type].Name);
-		IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
-		lpObj.ChaosLock = false;
+		sLog->outBasic("[LuckyItem] --- Error --- [%s][%s] CharClass[%d] ItemNum[%d] ItemName[%s]", Obj.AccountID, Obj.Name, Obj.Class,
+			Obj.pChaosBox[iItemPos].m_Type, ItemAttribute[Obj.pChaosBox[iItemPos].m_Type].Name);
+		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+		Obj.ChaosLock = false;
 		return;
 	}
 	
 	Type		= pLuckyItemEquipment->iItemNum;
 	SetOption	= gSetItemOption.LuckyItemGenSetOption(Type, piAddSetOptRate);
-	level		= this->GambleGetLevel(pItemLevelRandRate, lpObj.m_Index);
+	level		= this->GambleGetLevel(pItemLevelRandRate, Obj.m_Index);
 	
 	if( pLuckyItemEquipment->iSkill )
 	{
@@ -495,7 +495,7 @@ void LuckyItemManager::LuckyItemTicketExchange(CGameObject &Obj)
 	if (g_ConfigRead.data.common.Is28Opt == false)
 		Op3 = 4;
 	
-	ItemCreate(lpObj.m_Index, -1, 0, 0, Type, level, dur, Op1, Op2, Op3, lpObj.m_Index, 0, SetOption, 0, 0, 0);
+	ItemCreate(Obj.m_Index, -1, 0, 0, Type, level, dur, Op1, Op2, Op3, Obj.m_Index, 0, SetOption, 0, 0, 0);
 	
 	int	tmpSetOption = 0;
 	
@@ -511,7 +511,7 @@ void LuckyItemManager::LuckyItemTicketExchange(CGameObject &Obj)
 	char szSetItemName[48] = { 0 };
 	strcpy(szSetItemName, gSetItemOption.GetSetOptionName(Type, tmpSetOption));
 	strcat(szSetItemName, ItemAttribute[pLuckyItemEquipment->iItemNum].Name);
-	gObjInventoryCommit(lpObj.m_Index);
+	gObjInventoryCommit(Obj.m_Index);
 }
 
 BYTE LuckyItemManager::GambleGetLevel(_ITEM_LEVEL_RATE * pItemLevelRandRate, CGameObject &Obj)
@@ -544,14 +544,14 @@ void LuckyItemManager::LuckyItemSmelting(CGameObject &Obj)
 	PHeadSetB((BYTE*)&pMsg, 0x86, sizeof(PMSG_CHAOSMIXRESULT));
 	
 	pMsg.Result			= CB_ERROR;
-	lpObj.ChaosLock	= true;
+	Obj.ChaosLock	= true;
 	int iItemPos		= -1;
 	
 	for( int i = 0; i < CHAOS_BOX_SIZE; i++ )
 	{
-		if( lpObj.pChaosBox[i].IsItem() )
+		if( Obj.pChaosBox[i].IsItem() )
 		{
-			int bLuckyItemEquipment = this->IsLuckyItemEquipment(lpObj.pChaosBox[i].m_Type);
+			int bLuckyItemEquipment = this->IsLuckyItemEquipment(Obj.pChaosBox[i].m_Type);
 			
 			if( !bLuckyItemEquipment )
 			{
@@ -567,8 +567,8 @@ void LuckyItemManager::LuckyItemSmelting(CGameObject &Obj)
 	
 	if( iValidItemCount != 1 || iInvalidItemCount != 0 || iItemPos == -1 )
 	{
-		IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
-		lpObj.ChaosLock = false;
+		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+		Obj.ChaosLock = false;
 		return;
 	}
 	else
@@ -576,8 +576,8 @@ void LuckyItemManager::LuckyItemSmelting(CGameObject &Obj)
 		sLog->outBasic("[LuckyItemSmelting] - Smelting Start");
 		g_MixSystem.LogChaosItem(lpObj, "[LuckyItem] Item Smelting");
 		
-		int bGambleLuckyItemSmelting = this->GambleLuckyItemSmelting(lpObj.pChaosBox[iItemPos].m_Type, (int)lpObj.pChaosBox[iItemPos].m_Durability);
-		this->GDReqLuckyItemDelete(lpObj.pChaosBox[iItemPos].m_Type, lpObj.pChaosBox[iItemPos].m_Number, lpObj.m_Index);
+		int bGambleLuckyItemSmelting = this->GambleLuckyItemSmelting(Obj.pChaosBox[iItemPos].m_Type, (int)Obj.pChaosBox[iItemPos].m_Durability);
+		this->GDReqLuckyItemDelete(Obj.pChaosBox[iItemPos].m_Type, Obj.pChaosBox[iItemPos].m_Number, Obj.m_Index);
 		
 		int iCharType	= 0;
 		int Type		= ITEMGET(14, 160);
@@ -591,24 +591,24 @@ void LuckyItemManager::LuckyItemSmelting(CGameObject &Obj)
 		{
 			g_MixSystem.ChaosBoxInit(lpObj);
 			gGameProtocol.GCUserChaosBoxSend(lpObj, 0);
-			IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+			IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 			
-			sLog->outBasic("[LuckyItem][Smelt Item Mix] Mix Fail [%s][%s] ", lpObj.AccountID, lpObj.Name);
+			sLog->outBasic("[LuckyItem][Smelt Item Mix] Mix Fail [%s][%s] ", Obj.AccountID, Obj.Name);
 			
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,505), lpObj.m_Index, 0x01);
-			lpObj.ChaosLock = false;
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,505), Obj.m_Index, 0x01);
+			Obj.ChaosLock = false;
 			return;
 		}
 		else
 		{
-			ItemCreate(lpObj.m_Index, 0xFF, 0, 0, Type, level, 1, Op1, Op2, Op3, lpObj.m_Index, 0, 0, 0, 0, 0);
+			ItemCreate(Obj.m_Index, 0xFF, 0, 0, Type, level, 1, Op1, Op2, Op3, Obj.m_Index, 0, 0, 0, 0, 0);
 		}
 		
 		sLog->outBasic("[LuckyItem][Smelt Item Mix] Mix Success [%s][%s] ItemName[%s] ItemNum[%d] Level[%d] Dur[%d] skill[%d] luck[%d] option[%d]",
-			lpObj.AccountID, lpObj.Name, ItemAttribute[Type].Name, Type, level, dur, Op1, Op2, Op3);
+			Obj.AccountID, Obj.Name, ItemAttribute[Type].Name, Type, level, dur, Op1, Op2, Op3);
 		
-		gObjInventoryCommit(lpObj.m_Index);
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,504), lpObj.m_Index, 0x01);
+		gObjInventoryCommit(Obj.m_Index);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,504), Obj.m_Index, 0x01);
 		return;
 	}
 }
@@ -670,35 +670,35 @@ int LuckyItemManager::LuckyItemRepaire(CGameObject &Obj, int source, int target)
 		return false;
 	}
 	
-	if( !lpObj.pInventory[source].IsItem() || !lpObj.pInventory[target].IsItem() )
+	if( !Obj.pInventory[source].IsItem() || !Obj.pInventory[target].IsItem() )
 	{
 		return false;
 	}
 	
-	CItemObject * LuckyItemEquipment	= &lpObj.pInventory[target];
+	CItemObject * LuckyItemEquipment	= &Obj.pInventory[target];
 	int	bLuckyItemEquipment		= this->IsLuckyItemEquipment(LuckyItemEquipment->m_Type);
 	
 	if( !bLuckyItemEquipment )
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,506), lpObj.m_Index, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,506), Obj.m_Index, 1);
 		sLog->outBasic("[LuckyItem][RepaireItemUsed] - Fail - Not LuckyItem Equipment [%s][%s] Serial[%I64d]",
-			lpObj.AccountID, lpObj.Name, LuckyItemEquipment->m_serial);
+			Obj.AccountID, Obj.Name, LuckyItemEquipment->m_serial);
 		return false;
 	}
 	
 	if( LuckyItemEquipment->m_Durability == 0.0f )
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,507), lpObj.m_Index, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,507), Obj.m_Index, 1);
 		sLog->outBasic("[LuckyItem][RepaireItemUsed] - Fail - Durability Zero [%s][%s] Serial[%I64d]",
-			lpObj.AccountID, lpObj.Name, LuckyItemEquipment->m_serial);
+			Obj.AccountID, Obj.Name, LuckyItemEquipment->m_serial);
 		return false;
 	}
 	
 	if( ItemAttribute[LuckyItemEquipment->m_Type].Durability < LuckyItemEquipment->m_Durability )
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,508), lpObj.m_Index, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,508), Obj.m_Index, 1);
 		sLog->outBasic("[LuckyItem][RepaireItemUsed] - Fail - Equipment Full Durability [%s][%s] Serial[%I64d]",
-			lpObj.AccountID, lpObj.Name, LuckyItemEquipment->m_serial);
+			Obj.AccountID, Obj.Name, LuckyItemEquipment->m_serial);
 		return false;
 	}
 	
@@ -711,9 +711,9 @@ int LuckyItemManager::LuckyItemRepaire(CGameObject &Obj, int source, int target)
 		LuckyItemEquipment->m_Durability = ItemAttribute[LuckyItemEquipment->m_Type].Durability;
 	}
 	
-	gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,509), lpObj.m_Index, 1);
+	gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,509), Obj.m_Index, 1);
 	sLog->outBasic("[LuckyItem][RepaireItemUsed] - Success - [%s][%s] Serial[%I64d]",
-		lpObj.AccountID, lpObj.Name, LuckyItemEquipment->m_serial);
+		Obj.AccountID, Obj.Name, LuckyItemEquipment->m_serial);
 	
 	return true;
 }
@@ -732,8 +732,8 @@ int LuckyItemManager::GDReqLuckyItemInsert(short wItemCode, UINT64 Serial, short
 	CGameObject lpObj = &getGameObject(iObjIndex);
 	PMSG_REQ_LUCKYITEM_INSERT pMsg;
 	
-	pMsg.dwUserGuid	= lpObj.DBNumber;
-	memcpy(pMsg.szCharName, lpObj.Name, MAX_ACCOUNT_LEN+1);
+	pMsg.dwUserGuid	= Obj.DBNumber;
+	memcpy(pMsg.szCharName, Obj.Name, MAX_ACCOUNT_LEN+1);
 	pMsg.LuckyItemDBInfo.wItemCode			= wItemCode;
 	pMsg.LuckyItemDBInfo.Serial			= Serial;
 	pMsg.LuckyItemDBInfo.wDurabilitySmall	= wDurabilitySmall;
@@ -759,7 +759,7 @@ void LuckyItemManager::GDReqLuckyItemInsert2nd(int iObjIndex)
 	
 	for( int i = 0; i < 5; i++ )
 	{
-		CItemObject pItem = lpObj.pInventory[iItemType[i]];
+		CItemObject pItem = Obj.pInventory[iItemType[i]];
 		
 		if( this->IsLuckyItemEquipment(pItem.m_Type) )
 		{
@@ -771,8 +771,8 @@ void LuckyItemManager::GDReqLuckyItemInsert2nd(int iObjIndex)
 	}
 	
 	pMsg.btItemCnt	= iItemCnt;
-	pMsg.dwUserGuid	= lpObj.DBNumber;
-	memcpy(pMsg.szCharName, lpObj.Name, MAX_ACCOUNT_LEN+1);
+	pMsg.dwUserGuid	= Obj.DBNumber;
+	memcpy(pMsg.szCharName, Obj.Name, MAX_ACCOUNT_LEN+1);
 	
  	PHeadSubSetB((BYTE*)&pMsg, 0xD0, 0x24, sizeof(PMSG_REQ_LUCKYITEM_INSERT_2ND));
  	wsDataCli.DataSend((LPSTR)&pMsg, pMsg.head.size);
@@ -783,8 +783,8 @@ void LuckyItemManager::GDReqLuckyItemDelete(short wItemCode, UINT64 Serial, int 
 	CGameObject lpObj = &getGameObject(iObjIndex);
 	PMSG_REQ_LUCKYITEM_DELETE pMsg;
 	
-	pMsg.wUserIndex = lpObj.m_Index;
-	memcpy(pMsg.szCharName, lpObj.Name, MAX_ACCOUNT_LEN+1);
+	pMsg.wUserIndex = Obj.m_Index;
+	memcpy(pMsg.szCharName, Obj.Name, MAX_ACCOUNT_LEN+1);
 	pMsg.wItemCode	= wItemCode;
 	pMsg.Serial	= Serial;
 	
@@ -792,7 +792,7 @@ void LuckyItemManager::GDReqLuckyItemDelete(short wItemCode, UINT64 Serial, int 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.head.size);
 	
 	sLog->outBasic("[LuckyItem] GDReqLuckyItemDelete [%s][%s] ItemCode[%d] Serial[%I64d]",
-		lpObj.AccountID, lpObj.Name, wItemCode, Serial);
+		Obj.AccountID, Obj.Name, wItemCode, Serial);
 }
 
 void LuckyItemManager::DGAnsLuckyItemList(PMSG_ANS_LUCKYITEM_SELECT * lpRecv)
@@ -849,8 +849,8 @@ void LuckyItemManager::GDReqLuckyItemSelect(CGameObject &Obj)
 {
 	PMSG_REQ_LUCKYITEM_SELECT pMsg;
 	
-	pMsg.wUserIndex = lpObj.m_Index;
-	memcpy(pMsg.chCharacterName, lpObj.Name, MAX_ACCOUNT_LEN+1);
+	pMsg.wUserIndex = Obj.m_Index;
+	memcpy(pMsg.chCharacterName, Obj.Name, MAX_ACCOUNT_LEN+1);
 	
 	PHeadSubSetB((BYTE*)&pMsg, 0xD0, 0x20, sizeof(PMSG_REQ_LUCKYITEM_SELECT));
 	wsDataCli.DataSend((char *)&pMsg, pMsg.head.size);

@@ -94,11 +94,11 @@
 #include "GOEventFunctions.h"
 #include "ArcaBattle.h"
 #include "JewelOfHarmonySystem.h"
-#include "EDSprotocol.h"
 #include "CastleSiege.h"
 #include "MonsterSetBase.h"
 #include "EDSprotocol.h"
-
+#include "Sprotocol.h"
+#include "gameGlobals.h"
 
 CItemObject* pTempInventory;
 BYTE* pTempInventoryMap;
@@ -4422,7 +4422,7 @@ BOOL gObjSetAccountLogin(CGameObject &Obj, char * szId, int aUserNumber, int aDB
 		return 0;
 	}
 
-	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
+	for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 	{
 		if (!strcmpi(szId, getGameObject(i)->AccountID))
 		{
@@ -4884,7 +4884,7 @@ void gObjSetInventory2Pointer(CGameObject &Obj)
 	Obj.pInventoryCount = &Obj.InventoryCount2;
 }
 
-void gObjAddMsgSend(CGameObject &Obj, int aMsgCode, int aIndex, int  SubCode)
+void gObjAddMsgSend(CGameObject &Obj, int aMsgCode, CGameObject &Obj, int  SubCode)
 {
 	for (int n = 0; n < MAX_MONSTER_SEND_MSG; n++)
 	{
@@ -4892,7 +4892,7 @@ void gObjAddMsgSend(CGameObject &Obj, int aMsgCode, int aIndex, int  SubCode)
 		{
 			gSMMsg[Obj.m_Index][n].MsgCode = aMsgCode;
 			gSMMsg[Obj.m_Index][n].MsgTime = GetTickCount64();
-			gSMMsg[Obj.m_Index][n].SendUser = aIndex;
+			gSMMsg[Obj.m_Index][n].SendUser = Obj.m_Index;
 			gSMMsg[Obj.m_Index][n].SubCode = SubCode;
 			return;
 		}
@@ -4904,7 +4904,7 @@ void gObjAddMsgSend(CGameObject &Obj, int aMsgCode, int aIndex, int  SubCode)
 		{
 			gSMMsg[Obj.m_Index][n].MsgCode = aMsgCode;
 			gSMMsg[Obj.m_Index][n].MsgTime = GetTickCount64();
-			gSMMsg[Obj.m_Index][n].SendUser = aIndex;
+			gSMMsg[Obj.m_Index][n].SendUser = Obj.m_Index;
 			gSMMsg[Obj.m_Index][n].SubCode = SubCode;
 
 			return;
@@ -4947,13 +4947,13 @@ void gObjAddMsgSendDelay(CGameObject &Obj, int aMsgCode, CGameObject &ObjTarget,
 
 
 
-void gObjAddMsgSendDelayInSpecificQPos(CGameObject &Obj, int aMsgCode, int aIndex, int delay, int SubCode, int iQPosition)
+void gObjAddMsgSendDelayInSpecificQPos(CGameObject &Obj, int aMsgCode, CGameObject &Obj, int delay, int SubCode, int iQPosition)
 {
 	if (iQPosition >= 0 && iQPosition < MAX_MONSTER_SEND_MSG)
 	{
 		gSMMsg[Obj.m_Index][iQPosition].MsgCode = aMsgCode;
 		gSMMsg[Obj.m_Index][iQPosition].MsgTime = GetTickCount64();
-		gSMMsg[Obj.m_Index][iQPosition].SendUser = aIndex;
+		gSMMsg[Obj.m_Index][iQPosition].SendUser = Obj.m_Index;
 		gSMMsg[Obj.m_Index][iQPosition].SubCode = SubCode;
 	}
 
@@ -4962,7 +4962,7 @@ void gObjAddMsgSendDelayInSpecificQPos(CGameObject &Obj, int aMsgCode, int aInde
 
 
 
-void gObjAddAttackProcMsgSendDelay(CGameObject &Obj, int aMsgCode, int aIndex, int delay, int SubCode, int SubCode2)
+void gObjAddAttackProcMsgSendDelay(CGameObject &Obj, int aMsgCode, CGameObject &Obj, int delay, int SubCode, int SubCode2)
 {
 	for (int n = 0; n < MAX_MONSTER_SEND_ATTACK_MSG; n++)
 	{
@@ -4972,7 +4972,7 @@ void gObjAddAttackProcMsgSendDelay(CGameObject &Obj, int aMsgCode, int aIndex, i
 		{
 			gSMAttackProcMsg[iIndex][n].MsgCode = aMsgCode;
 			gSMAttackProcMsg[iIndex][n].MsgTime = GetTickCount64() + delay;
-			gSMAttackProcMsg[iIndex][n].SendUser = aIndex;
+			gSMAttackProcMsg[iIndex][n].SendUser = Obj.m_Index;
 			gSMAttackProcMsg[iIndex][n].SubCode = SubCode;
 			gSMAttackProcMsg[iIndex][n].SubCode2 = SubCode2;
 
@@ -4989,25 +4989,25 @@ void gObjMsgProc(CGameObject &Obj)
 	if (&Obj == NULL)
 		return;
 
-	int aIndex = Obj.m_Index;
+	CGameObject &Obj = Obj.m_Index;
 
 	for (int n = 0; n < MAX_MONSTER_SEND_MSG; n++)
 	{
-		CGameObject* lpObjTarget = getGameObject(gSMMsg[aIndex][n].SendUser);
-		if (gSMMsg[aIndex][n].MsgCode >= 0)
+		CGameObject* lpObjTarget = getGameObject(gSMMsg[Obj.m_Index][n].SendUser);
+		if (gSMMsg[Obj.m_Index][n].MsgCode >= 0)
 		{
-			if (GetTickCount64() > gSMMsg[aIndex][n].MsgTime)
+			if (GetTickCount64() > gSMMsg[Obj.m_Index][n].MsgTime)
 			{
 				if (Obj.Type == OBJ_MONSTER || Obj.Type == OBJ_NPC)
 				{
-					gObjMonsterStateProc(Obj, gSMMsg[aIndex][n].MsgCode, *lpObjTarget, gSMMsg[aIndex][n].SubCode);
+					gObjMonsterStateProc(Obj, gSMMsg[Obj.m_Index][n].MsgCode, *lpObjTarget, gSMMsg[Obj.m_Index][n].SubCode);
 				}
 				else
 				{
-					gObjStateProc(Obj, gSMMsg[aIndex][n].MsgCode, *lpObjTarget, gSMMsg[aIndex][n].SubCode);
+					gObjStateProc(Obj, gSMMsg[Obj.m_Index][n].MsgCode, *lpObjTarget, gSMMsg[Obj.m_Index][n].SubCode);
 				}
 
-				gSMMsg[aIndex][n].MsgCode = -1;
+				gSMMsg[Obj.m_Index][n].MsgCode = -1;
 			}
 		}
 	}
@@ -5148,7 +5148,7 @@ void gObjStateProc(CGameObject &Obj, int aMsgCode, CGameObject &ObjTarget, int S
 
 
 
-void gObjStateAttackProc(CGameObject &Obj, int aMsgCode, int aIndex, int SubCode, int SubCode2)
+void gObjStateAttackProc(CGameObject &Obj, int aMsgCode, CGameObject &Obj, int SubCode, int SubCode2)
 {
 	switch (aMsgCode)
 	{
@@ -8662,7 +8662,7 @@ void gObjMonsterExpDivision(CGameObject &MonObj, CGameObject &Obj, int AttackDam
 					DWORD dwZenDropMoney = ItemDrop.GetZenAmount(MonObj.MapNumber, MonObj.Level);
 					dwZenDropMoney = exp / 2 + dwZenDropMoney;
 					//(BaseExp / 2 * 1+Zen%
-					//g_Log.AddC(TColor::Yellow, "[K2] 1# dwZenDropMoney %d Exp %d  MonObj.Level %d", dwZenDropMoney, exp, MonObj.Level);
+					//sLog->outBasic("[K2] 1# dwZenDropMoney %d Exp %d  MonObj.Level %d", dwZenDropMoney, exp, MonObj.Level);
 					if (dwZenDropMoney > 0)
 					{
 						MonObj.MonsterMoneyDrop = dwZenDropMoney;
@@ -9227,7 +9227,7 @@ void gObjExpParty(CGameObject &Obj, CGameObject &TargetObj, int AttackDamage, in
 		//{
 		//	UINT64 dwZenDropMoney = ItemDrop.GetZenAmount(lpTargetObj.MapNumber, lpTargetObj.Level);
 		//dwZenDropMoney = exp / 2 + dwZenDropMoney * 2;
-		//g_Log.AddC(TColor::Yellow, "[K2] 2# dwZenDropMoney %d Exp %d", dwZenDropMoney, exp);
+		//sLog->outBasic("[K2] 2# dwZenDropMoney %d Exp %d", dwZenDropMoney, exp);
 		//if (dwZenDropMoney > 0)
 		//	{
 		//		lpTargetObj.MonsterMoneyDrop = dwZenDropMoney;
@@ -9893,7 +9893,7 @@ void gObjLifeCheck(CGameObject &TargetObj, CGameObject& Obj, int AttackDamage, i
 
 						TNotice::MakeNoticeMsg(&pNotice, 0, szMsg);
 
-						for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
+						for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 						{
 							if (getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
 							{
@@ -9918,7 +9918,7 @@ void gObjLifeCheck(CGameObject &TargetObj, CGameObject& Obj, int AttackDamage, i
 
 						TNotice::MakeNoticeMsg(&pNotice, 0, szMsg);
 
-						for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
+						for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 						{
 							if (getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
 							{
@@ -10271,7 +10271,7 @@ void gObjLifeCheck(CGameObject &TargetObj, CGameObject& Obj, int AttackDamage, i
 
 		if (lpCallObj->Type == OBJ_USER)
 		{
-			//g_Log.AddC(TColor::Yellow, "[K2] m_btExpType %d", TargetObj.m_btExpType);
+			//sLog->outBasic("[K2] m_btExpType %d", TargetObj.m_btExpType);
 			//	TargetObj.m_btExpType = 1;
 			if (TargetObj.m_btExpType == 1)
 			{
@@ -15138,7 +15138,7 @@ void gObjAttackDamageCalc(CGameObject &Obj)
 
 void gObjMakePreviewCharSet(CGameObject &Obj)
 {
-	int aIndex = Obj.m_Index;
+	CGameObject &Obj = Obj.m_Index;
 	BYTE index;
 	int itemindex;
 	memset(Obj.CharSet, 0, sizeof(Obj.CharSet));
@@ -28100,7 +28100,7 @@ BOOL NewYearSummonMonster(CGameObject &Obj, int monsterIndex)
 int gObjGetAutoPartyUserCount()
 {
 	int counter = 0;
-	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
+	for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 	{
 		if (getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
 		{
@@ -28114,7 +28114,7 @@ int gObjGetAutoPartyUserCount()
 int gObjGetOffTradeUsercount()
 {
 	int counter = 0;
-	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
+	for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 	{
 		if (getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
 		{

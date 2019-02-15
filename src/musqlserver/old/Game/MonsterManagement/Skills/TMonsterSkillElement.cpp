@@ -450,7 +450,7 @@ BOOL TMonsterSkillElement::ApplyElementDefense(CGameObject &Obj, int iTargetInde
 	lpTargetObj.m_MonsterSkillElementInfo.m_iSkillElementDefenseTime = this->m_iContinuanceTime;
 	lpTargetObj.m_MonsterSkillElementInfo.m_iSkillElementDefense = iIncDecValue;
 
-	if ( IMPERIAL_MAP_RANGE(lpObj.MapNumber) )
+	if ( IMPERIAL_MAP_RANGE(Obj.MapNumber) )
 	{
 		if ( this->m_iIncAndDecType == 12 || this->m_iIncAndDecType == 2 )
 		{
@@ -560,7 +560,7 @@ BOOL TMonsterSkillElement::ApplyElementSummon(CGameObject &Obj, int iTargetIndex
 		 lpTargetObj.Type != OBJ_MONSTER )
 		 return FALSE;
 
-	if (lpObj.Class == 459 && lpObj.Connected == PLAYER_PLAYING && lpObj.MapNumber == MAP_INDEX_HATCHERY && iIndex == iTargetIndex)//Season 4.5 addon
+	if (Obj.Class == 459 && Obj.Connected == PLAYER_PLAYING && Obj.MapNumber == MAP_INDEX_HATCHERY && iIndex == iTargetIndex)//Season 4.5 addon
 	{
 		sLog->outBasic("[TMonsterSkillElement][ApplyElementSummon] Selupan use summon.");
 		return FALSE;
@@ -604,10 +604,10 @@ BOOL TMonsterSkillElement::ApplyElementSummon(CGameObject &Obj, int iTargetIndex
 
 	while ( iCount-- != 0 )
 	{
-		cX = ( rand() % (this->m_iIncAndDecValue+1) ) * (((rand()%2==0)?-1:1)) + lpObj.X;
-		cY = ( rand() % (this->m_iIncAndDecValue+1) ) * (((rand()%2==0)?-1:1)) + lpObj.Y;
+		cX = ( rand() % (this->m_iIncAndDecValue+1) ) * (((rand()%2==0)?-1:1)) + Obj.X;
+		cY = ( rand() % (this->m_iIncAndDecValue+1) ) * (((rand()%2==0)?-1:1)) + Obj.Y;
 
-		BYTE btMapAttr = MapC[lpObj.MapNumber].GetAttr(cX, cY);
+		BYTE btMapAttr = MapC[Obj.MapNumber].GetAttr(cX, cY);
 
 		if ( btMapAttr == 0 )
 		{
@@ -618,10 +618,10 @@ BOOL TMonsterSkillElement::ApplyElementSummon(CGameObject &Obj, int iTargetIndex
 
 	if ( bGetPosition == FALSE )
 	{
-		lpObj.Live = FALSE;
-		lpObj.m_State = 4;
-		lpObj.RegenTime = GetTickCount();
-		lpObj.DieRegen = 1;
+		Obj.Live = FALSE;
+		Obj.m_State = 4;
+		Obj.RegenTime = GetTickCount();
+		Obj.DieRegen = 1;
 
 		return FALSE;
 	}
@@ -651,7 +651,7 @@ BOOL TMonsterSkillElement::ApplyElementPush(CGameObject &Obj, int iTargetIndex)
 	CGameObject lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 
-	if (lpObj.Class == 459 && lpObj.Connected == 3 && lpObj.MapNumber == 58 && iIndex == iTargetIndex)//Season 4.5 addon
+	if (Obj.Class == 459 && Obj.Connected == 3 && Obj.MapNumber == 58 && iIndex == iTargetIndex)//Season 4.5 addon
 	{
 		return FALSE;
 	}
@@ -757,19 +757,19 @@ BOOL TMonsterSkillElement::ApplyElementTeleportSkill(CGameObject &Obj, int iTarg
 	int depth = rand()%4 + 3;
 
 	if ( (rand()%2) == 0 )
-		x = lpObj.X + depth;
+		x = Obj.X + depth;
 	else
-		x = lpObj.X - depth;
+		x = Obj.X - depth;
 
 	if ( (rand()%2) == 0 )
-		y = lpObj.Y + depth;
+		y = Obj.Y + depth;
 	else
-		y = lpObj.Y - depth;
+		y = Obj.Y - depth;
 
 	if ( gObjCheckTeleportArea(iIndex, x, y) == FALSE )
 	{
 		sLog->outError(  "[%s][%s] Try Teleport Not Move Area [%d,%d]",
-			lpObj.AccountID, lpObj.Name,	x, y);
+			Obj.AccountID, Obj.Name,	x, y);
 		
 		return FALSE;
 	}
@@ -785,13 +785,13 @@ BOOL TMonsterSkillElement::ApplyElementTeleportSkill(CGameObject &Obj, int iTarg
 	pAttack.TargetNumberH = SET_NUMBERH(Obj.m_Index);
 	pAttack.TargetNumberL = SET_NUMBERL(Obj.m_Index);
 
-	if ( lpObj.Type == OBJ_USER )
+	if ( Obj.Type == OBJ_USER )
 		IOCP.DataSend(Obj.m_Index, (BYTE*)&pAttack, pAttack.h.size);	
 
 	gGameProtocol.MsgSendV2(lpObj, (BYTE*)&pAttack, pAttack.h.size);
 
 	gObjTeleportMagicUse(iIndex, x, y);
-	lpObj.TargetNumber = -1;
+	Obj.TargetNumber = -1;
 
 	return FALSE;
 }
@@ -850,7 +850,7 @@ BOOL TMonsterSkillElement::ApplyElementNormalAttack(CGameObject &Obj, int iTarge
 	if ( this->m_iNullifiedSkill == -1 )
 		this->m_iNullifiedSkill = 0;
 
-	lpObj.Dir = GetPathPacketDirPos(lpTargetObj.X-lpObj.X, lpTargetObj.Y-lpObj.Y);
+	Obj.Dir = GetPathPacketDirPos(lpTargetObj.X-Obj.X, lpTargetObj.Y-Obj.Y);
 
 	if ( this->m_iIncAndDecType != -1 && this->m_iIncAndDecValue != -1 )
 	{

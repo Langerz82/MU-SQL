@@ -21,13 +21,13 @@ void CGameSecurity::DebugInfo(CGameObject &Obj)
 {
 	ATTACK_SPEED sAttackSpeed;
 	EnterCriticalSection(&lpCritiASData);
-	std::map<int,ATTACK_SPEED>::iterator iter = this->m_ASData.find(aIndex);
+	std::map<int,ATTACK_SPEED>::iterator iter = this->m_ASData.find(Obj.m_Index);
 	
 	if(iter == m_ASData.end())
 	{
 		sAttackSpeed.iPenaltyCount = 0;
 		sAttackSpeed.LastAttackTime = GetTickCount64();
-		this->m_ASData.insert(std::pair<int,ATTACK_SPEED>(aIndex, sAttackSpeed));
+		this->m_ASData.insert(std::pair<int,ATTACK_SPEED>(Obj.m_Index, sAttackSpeed));
 		LeaveCriticalSection(&lpCritiASData);
 		return;
 	}
@@ -39,7 +39,7 @@ void CGameSecurity::DebugInfo(CGameObject &Obj)
 
 		double realAttackSpeed = (double)((double)dwTimeNow - (double)sAttackSpeed.LastAttackTime) / 1000.00;
 
-		sLog->outDebug("[Debug ANTI-HACK][%d][%s][%s] Attack Speed: %d Time Between last attack = %f",aIndex, lpObj.AccountID, lpObj.Name, lpObj.m_AttackSpeed, realAttackSpeed);
+		sLog->outDebug("[Debug ANTI-HACK][%d][%s][%s] Attack Speed: %d Time Between last attack = %f",Obj.m_Index, Obj.AccountID, Obj.Name, Obj.m_AttackSpeed, realAttackSpeed);
 
 		iter->second.LastAttackTime = dwTimeNow;
 

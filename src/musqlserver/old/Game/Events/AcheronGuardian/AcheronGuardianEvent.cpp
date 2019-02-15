@@ -669,7 +669,7 @@ void CAcheronGuardianEvent::RegenMonster(int nGroupNumber, int iGenSeq, int iGen
 
 int CAcheronGuardianEvent::SetPosMonster(CGameObject &Obj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY)
 {
-	if (!ObjectMaxRange(aIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return false;
@@ -677,18 +677,18 @@ int CAcheronGuardianEvent::SetPosMonster(CGameObject &Obj, int nMapNumber, int n
 
 	
 
-	lpObj.m_PosNum = -1;
-	lpObj.MapNumber = nMapNumber;
-	this->GetBoxPosition(nMapNumber, nBeginX, nBeginY, nEndX, nEndY, lpObj.X, lpObj.Y);
-	lpObj.TX = lpObj.X;
-	lpObj.TY = lpObj.Y;
-	lpObj.m_OldX = lpObj.X;
-	lpObj.m_OldY = lpObj.Y;
-	lpObj.Dir = rand() % 8;
-	lpObj.StartX = lpObj.X;
-	lpObj.StartY = lpObj.Y;
-	lpObj.DieRegen = 0;
-	lpObj.MaxRegenTime = 0;
+	Obj.m_PosNum = -1;
+	Obj.MapNumber = nMapNumber;
+	this->GetBoxPosition(nMapNumber, nBeginX, nBeginY, nEndX, nEndY, Obj.X, Obj.Y);
+	Obj.TX = Obj.X;
+	Obj.TY = Obj.Y;
+	Obj.m_OldX = Obj.X;
+	Obj.m_OldY = Obj.Y;
+	Obj.Dir = rand() % 8;
+	Obj.StartX = Obj.X;
+	Obj.StartY = Obj.Y;
+	Obj.DieRegen = 0;
+	Obj.MaxRegenTime = 0;
 
 	return true;
 }
@@ -788,12 +788,12 @@ void CAcheronGuardianEvent::DeleteAcheronEventAllMonster()
 
 void CAcheronGuardianEvent::DestroyObelisk(CGameObject lpObj, BYTE btMapNumber, BYTE cX, BYTE cY, int nMaxHitUser)
 {
-	sLog->outBasic("[AcheronGuardianEvent] Destroyed an Obelisk. [%s][%s]", lpObj.AccountID, lpObj.Name);
+	sLog->outBasic("[AcheronGuardianEvent] Destroyed an Obelisk. [%s][%s]", Obj.AccountID, Obj.Name);
 
-	g_BagManager.SearchAndUseBag(lpObj.m_Index, BAG_EVENT, EVENTBAG_ACHERONGUARDIAN, lpObj.m_Index);
+	g_BagManager.SearchAndUseBag(Obj.m_Index, BAG_EVENT, EVENTBAG_ACHERONGUARDIAN, Obj.m_Index);
 
 	char szTemp[256];
-	sprintf(szTemp, Lang.GetText(0,584), lpObj.Name);
+	sprintf(szTemp, Lang.GetText(0,584), Obj.Name);
 
 	this->SendMapServerGroupMsg(szTemp);
 	this->SendMapServerGroupMsg(Lang.GetText(0,585));
@@ -809,7 +809,7 @@ void CAcheronGuardianEvent::CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER 
 
 	CGameObject* lpObj = getGameObject(iIndex);
 
-	if (lpObj.Type != OBJ_USER)
+	if (Obj.Type != OBJ_USER)
 	{
 		return;
 	}

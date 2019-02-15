@@ -352,9 +352,9 @@ void CKanturuUtil::SendKanturuChattingMsg(CGameObject &Obj, LPSTR lpMsg, ...)
 
 	for (int iCount = 0; iCount < MaxViewportMonster; iCount++)
 	{
-		if ( lpObj.VpPlayer2[iCount].state )
+		if ( Obj.VpPlayer2[iCount].state )
 		{
-			int number = lpObj.VpPlayer2[iCount].number;
+			int number = Obj.VpPlayer2[iCount].number;
 
 			if ( number >= 0 || number < g_ConfigRead.server.GetObjectMax() )
 			{

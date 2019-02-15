@@ -168,33 +168,33 @@ int CKanturuMonsterMng::SetKanturuMonster(int iGroupNumber)
 			{
 				lpObj = &getGameObject(iResult);
 
-				lpObj.m_PosNum = -1;
-				lpObj.X = this->m_SetBaseInfo[iCount].btX;
-				lpObj.Y = this->m_SetBaseInfo[iCount].btY;
-				lpObj.MapNumber = this->m_SetBaseInfo[iCount].btMapNumber;
+				Obj.m_PosNum = -1;
+				Obj.X = this->m_SetBaseInfo[iCount].btX;
+				Obj.Y = this->m_SetBaseInfo[iCount].btY;
+				Obj.MapNumber = this->m_SetBaseInfo[iCount].btMapNumber;
 
-				if ( this->GetPosition(iCount, lpObj.MapNumber, lpObj.X, lpObj.Y) == FALSE )
+				if ( this->GetPosition(iCount, Obj.MapNumber, Obj.X, Obj.Y) == FALSE )
 				{
 					gObjDel(iResult);
 					continue;
 				}
 
-				lpObj.TX = lpObj.X;
-				lpObj.TY = lpObj.Y;
-				lpObj.m_OldX = lpObj.X;
-				lpObj.m_OldY = lpObj.Y;
-				lpObj.StartX = lpObj.X;
-				lpObj.StartY = lpObj.Y;
-				lpObj.m_MoveRange = this->m_SetBaseInfo[iCount].btDistance;
-				lpObj.DieRegen = FALSE;
+				Obj.TX = Obj.X;
+				Obj.TY = Obj.Y;
+				Obj.m_OldX = Obj.X;
+				Obj.m_OldY = Obj.Y;
+				Obj.StartX = Obj.X;
+				Obj.StartY = Obj.Y;
+				Obj.m_MoveRange = this->m_SetBaseInfo[iCount].btDistance;
+				Obj.DieRegen = FALSE;
 
 				if ( this->m_SetBaseInfo[iCount].btDir == 0xFF )
 				{
-					lpObj.Dir = rand()%8;
+					Obj.Dir = rand()%8;
 				}
 				else
 				{
-					lpObj.Dir = this->m_SetBaseInfo[iCount].btDir;
+					Obj.Dir = this->m_SetBaseInfo[iCount].btDir;
 				}
 
 				if ( gObjSetMonster(iResult, this->m_SetBaseInfo[iCount].wType) == FALSE )

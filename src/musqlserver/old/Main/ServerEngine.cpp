@@ -91,20 +91,20 @@ void gObjServerDel(CGameObject &Obj)
 
 	EnterCriticalSection(&scriti);
 
-	if(g_Server[aIndex].m_Type == ST_JOINSERVER)
+	if(g_Server[Obj.m_Index].m_Type == ST_JOINSERVER)
 	{
 		// TODO
-		//m_JSProtocol.DisconnectServer(g_Server[aIndex].m_ServerCode);
+		//m_JSProtocol.DisconnectServer(g_Server[Obj.m_Index].m_ServerCode);
 	}
 
-	g_Server[aIndex].m_Index = -1;
-	g_Server[aIndex].m_ServerCode = -1;
-	g_Server[aIndex].m_Socket = INVALID_SOCKET;
-	g_Server[aIndex].m_ServerIp[0];
-	g_Server[aIndex].m_State = SS_CLOSED;
-	g_Server[aIndex].m_Type = ST_NONE;
-	g_Server[aIndex].m_ProtocolCore = NULL;
-	g_Server[aIndex].m_ConnectPort = -1;
+	g_Server[Obj.m_Index].m_Index = -1;
+	g_Server[Obj.m_Index].m_ServerCode = -1;
+	g_Server[Obj.m_Index].m_Socket = INVALID_SOCKET;
+	g_Server[Obj.m_Index].m_ServerIp[0];
+	g_Server[Obj.m_Index].m_State = SS_CLOSED;
+	g_Server[Obj.m_Index].m_Type = ST_NONE;
+	g_Server[Obj.m_Index].m_ProtocolCore = NULL;
+	g_Server[Obj.m_Index].m_ConnectPort = -1;
 	servercount--;
 
 	LeaveCriticalSection(&scriti);

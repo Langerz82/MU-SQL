@@ -4377,7 +4377,7 @@ void CBloodCastle::CatchQuestItemByUser(int iBridgeIndex, CGameObject &Obj, int 
 bool CBloodCastle::NpcAngelKing(CGameObject &Npc, CGameObject lpObj)
 {
 	int iITEM_LEVEL = 0;
-	int iBLOODCASTLE_INDEX = lpObj.m_cBloodCastleIndex;
+	int iBLOODCASTLE_INDEX = Obj.m_cBloodCastleIndex;
 
 	if (BC_BRIDGE_RANGE(iBLOODCASTLE_INDEX) == FALSE)
 	{
@@ -4397,7 +4397,7 @@ bool CBloodCastle::NpcAngelKing(CGameObject &Npc, CGameObject lpObj)
 		return FALSE;
 	}
 
-	if (lpObj.m_bBloodCastleComplete == true)
+	if (Obj.m_bBloodCastleComplete == true)
 	{
 		gGameProtocol.GCServerCmd(lpObj, 1, 0x2E, 0);
 		return FALSE;
@@ -4427,16 +4427,16 @@ bool CBloodCastle::NpcAngelKing(CGameObject &Npc, CGameObject lpObj)
 		}
 
 		this->SetUserState(lpObj, 2);
-		this->m_BridgeData[iBLOODCASTLE_INDEX].m_iExtraEXP_Win_Quest_Party = lpObj.PartyNumber;
-		this->m_BridgeData[iBLOODCASTLE_INDEX].m_iExtraEXP_Win_Quest_Index = lpObj.m_Index;
-		memcpy(this->m_BridgeData[iBLOODCASTLE_INDEX].m_szWin_Quest_CharName, lpObj.Name, 10);
-		memcpy(this->m_BridgeData[iBLOODCASTLE_INDEX].m_szWin_Quest_AccountID, lpObj.AccountID, 10);
+		this->m_BridgeData[iBLOODCASTLE_INDEX].m_iExtraEXP_Win_Quest_Party = Obj.PartyNumber;
+		this->m_BridgeData[iBLOODCASTLE_INDEX].m_iExtraEXP_Win_Quest_Index = Obj.m_Index;
+		memcpy(this->m_BridgeData[iBLOODCASTLE_INDEX].m_szWin_Quest_CharName, Obj.Name, 10);
+		memcpy(this->m_BridgeData[iBLOODCASTLE_INDEX].m_szWin_Quest_AccountID, Obj.AccountID, 10);
 		this->m_BridgeData[iBLOODCASTLE_INDEX].m_szWin_Quest_CharName[10] = 0;	// Zero String terminated
 		this->m_BridgeData[iBLOODCASTLE_INDEX].m_szWin_Quest_AccountID[10] = 0;	// Zero String Terminated
 
 		if (this->SetBridgeWinner(iBLOODCASTLE_INDEX, lpObj) == TRUE)
 		{
-			lpObj.m_bBloodCastleComplete = true;
+			Obj.m_bBloodCastleComplete = true;
 
 			gGameProtocol.GCServerCmd(lpObj, 1, 0x17, 0);
 		}
@@ -4451,7 +4451,7 @@ bool CBloodCastle::NpcAngelKing(CGameObject &Npc, CGameObject lpObj)
 	{
 		if (this->CheckUserWinnerParty(iBLOODCASTLE_INDEX, lpObj) == TRUE)
 		{
-			lpObj.m_bBloodCastleComplete = true;
+			Obj.m_bBloodCastleComplete = true;
 
 			gGameProtocol.GCServerCmd(lpObj, 1, 0x17, 0);
 

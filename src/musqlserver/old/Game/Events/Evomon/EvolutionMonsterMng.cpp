@@ -120,12 +120,12 @@ bool CEvolutionMonsterMng::UseSummonScroll(CGameObject &Obj)
 		return false;
 	}
 
-	if (ObjectMaxRange(aIndex) == false)
+	if (ObjectMaxRange(Obj.m_Index) == false)
 	{
 		return false;
 	}
 
-	if (!gObjIsConnected(aIndex))
+	if (!gObjIsConnected(Obj.m_Index))
 	{
 		return false;
 	}
@@ -137,12 +137,12 @@ bool CEvolutionMonsterMng::UseSummonScroll(CGameObject &Obj)
 		return false;
 	}
 
-	if (lpObj.CloseType != -1)
+	if (Obj.CloseType != -1)
 	{
 		return false;
 	}
 
-	CEvolutionMonsterInfo * pEvoMonInfo = lpObj.m_PlayerData->m_pCEvoMonInfo;
+	CEvolutionMonsterInfo * pEvoMonInfo = Obj.m_PlayerData->m_pCEvoMonInfo;
 
 	if (!pEvoMonInfo)
 	{
@@ -161,7 +161,7 @@ bool CEvolutionMonsterMng::UseSummonScroll(CGameObject &Obj)
 			pMsg.btY = getGameObject(iEvoMonIndex)->Y;
 			pMsg.iTimeLeft = (getGameObject(iEvoMonIndex)->m_Disappear_Monster + (this->m_iEvoMonTimeLimit * 60 * 1000) - GetTickCount()) / 60 / 1000;
 
-			IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
+			IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 			return false;
 		}
 
@@ -169,12 +169,12 @@ bool CEvolutionMonsterMng::UseSummonScroll(CGameObject &Obj)
 		{
 			pMsg.btResult = 2;
 
-			IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
+			IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 			return false;
 		}
 	}
 
-	int nPartyNumber = lpObj.PartyNumber;
+	int nPartyNumber = Obj.PartyNumber;
 
 	if (nPartyNumber != -1)
 	{
@@ -195,19 +195,19 @@ bool CEvolutionMonsterMng::UseSummonScroll(CGameObject &Obj)
 				{
 					pMsg.btResult = 3;
 
-					IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
+					IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 					return false;
 				}
 			}
 		}
 	}
 
-	if (this->IsEventMap(lpObj.MapNumber, lpObj.X, lpObj.Y) == true)
+	if (this->IsEventMap(Obj.MapNumber, Obj.X, Obj.Y) == true)
 	{
 		
 		pMsg.btResult = 4;
 
-		IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 		return false;
 	}
 
@@ -216,7 +216,7 @@ bool CEvolutionMonsterMng::UseSummonScroll(CGameObject &Obj)
 
 	if (iEvoMon == -1)
 	{
-		MsgOutput(aIndex, "Internal Error - cannot summon EvoMon");
+		MsgOutput(Obj.m_Index, "Internal Error - cannot summon EvoMon");
 		return false;
 	}
 
@@ -226,7 +226,7 @@ bool CEvolutionMonsterMng::UseSummonScroll(CGameObject &Obj)
 	pEvoMonInfo->SetScore(pEvoMonInfo->GetEvoMonLevel());
 
 	pMsg.btResult = 0;
-	IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
+	IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 
 	
 	return true;
@@ -241,7 +241,7 @@ int CEvolutionMonsterMng::SummonEvoMon(CGameObject &Obj)
 		return -1;
 	}
 
-	int nResult = gObjAddMonster(lpObj.MapNumber);
+	int nResult = gObjAddMonster(Obj.MapNumber);
 
 	if (nResult < 0)
 	{
@@ -249,13 +249,13 @@ int CEvolutionMonsterMng::SummonEvoMon(CGameObject &Obj)
 	}
 
 	getGameObject(nResult)->m_Disappear_Monster = GetTickCount();
-	getGameObject(nResult)->m_nEvoMonOwnerIndex = lpObj.m_Index;
+	getGameObject(nResult)->m_nEvoMonOwnerIndex = Obj.m_Index;
 	gObjSetMonster(nResult, lpMonsterAttr->m_Index);
 	getGameObject(nResult)->DieRegen = 0;
 	getGameObject(nResult)->m_PosNum = -1;
-	getGameObject(nResult)->X = lpObj.X;
-	getGameObject(nResult)->Y = lpObj.Y;
-	getGameObject(nResult)->MapNumber = lpObj.MapNumber;
+	getGameObject(nResult)->X = Obj.X;
+	getGameObject(nResult)->Y = Obj.Y;
+	getGameObject(nResult)->MapNumber = Obj.MapNumber;
 	getGameObject(nResult)->TX = getGameObject(nResult)->X;
 	getGameObject(nResult)->TY = getGameObject(nResult)->Y;
 	getGameObject(nResult)->m_OldX = getGameObject(nResult)->X;
@@ -365,7 +365,7 @@ void CEvolutionMonsterMng::EvolutionMonsterDie(CGameObject & lpTargetObj, CGameO
 	if (lpTargetObj.Class == 690)
 	{
 		PMSG_NOTICE pNotice;
-		TNotice::MakeNoticeMsgEx(&pNotice, 0, "%s has killed Special EvoMon", lpObj.Name);
+		TNotice::MakeNoticeMsgEx(&pNotice, 0, "%s has killed Special EvoMon", Obj.Name);
 		TNotice::SendNoticeToAllUser(&pNotice);
 
 		if (gObjCalDistance(lpOwnerObj, lpTargetObj) < 6)
@@ -565,12 +565,12 @@ void CEvolutionMonsterMng::EvoluteMonster(CGameObject &Obj)
 		return;
 	}
 
-	if (lpObj.CloseType != -1)
+	if (Obj.CloseType != -1)
 	{
 		return;
 	}
 
-	CEvolutionMonsterInfo * pEvoMonInfo = lpObj.m_PlayerData->m_pCEvoMonInfo;
+	CEvolutionMonsterInfo * pEvoMonInfo = Obj.m_PlayerData->m_pCEvoMonInfo;
 
 	if (!pEvoMonInfo)
 	{
@@ -622,13 +622,13 @@ void CEvolutionMonsterMng::EvoluteMonster(CGameObject &Obj)
 			nMonsterClass = 690;
 
 			PMSG_NOTICE pNotice;
-			TNotice::MakeNoticeMsgEx(&pNotice, 0, "%s has summoned Special EvoMon", lpObj.Name);
+			TNotice::MakeNoticeMsgEx(&pNotice, 0, "%s has summoned Special EvoMon", Obj.Name);
 			TNotice::SendNoticeToAllUser(&pNotice);
 		}
 	}
 
 	getGameObject(nEvoMonIndex)->m_Disappear_Monster = GetTickCount();
-	getGameObject(nEvoMonIndex)->m_nEvoMonOwnerIndex = lpObj.m_Index;
+	getGameObject(nEvoMonIndex)->m_nEvoMonOwnerIndex = Obj.m_Index;
 	gObjSetMonster(nEvoMonIndex, nMonsterClass);
 	getGameObject(nEvoMonIndex)->Level = pEvoMonInfo->GetEvoMonLevel();
 	this->SetMonsterStats(&getGameObject(nEvoMonIndex), It->second);
@@ -679,19 +679,19 @@ void CEvolutionMonsterMng::EndEvoMon(CGameObject &Obj)
 		return;
 	}
 
-	if (lpObj.CloseType != -1)
+	if (Obj.CloseType != -1)
 	{
 		return;
 	}
 
-	CEvolutionMonsterInfo * pEvoMonInfo = lpObj.m_PlayerData->m_pCEvoMonInfo;
+	CEvolutionMonsterInfo * pEvoMonInfo = Obj.m_PlayerData->m_pCEvoMonInfo;
 
 	if (!pEvoMonInfo)
 	{
 		return;
 	}
 
-	this->GDReqSaveEvoMonScore(lpObj.m_Index, pEvoMonInfo->GetScore(), pEvoMonInfo->GetTotalDamage());
+	this->GDReqSaveEvoMonScore(Obj.m_Index, pEvoMonInfo->GetScore(), pEvoMonInfo->GetTotalDamage());
 	pEvoMonInfo->Clear();
 	pEvoMonInfo->SetState(EVOMON_NOT_ACTIVE);
 
@@ -704,7 +704,7 @@ void CEvolutionMonsterMng::UserQuit(CGameObject &Obj)
 		return;
 	}
 
-	CEvolutionMonsterInfo * pEvoMonInfo = lpObj.m_PlayerData->m_pCEvoMonInfo;
+	CEvolutionMonsterInfo * pEvoMonInfo = Obj.m_PlayerData->m_pCEvoMonInfo;
 
 	if (!pEvoMonInfo)
 	{
@@ -716,7 +716,7 @@ void CEvolutionMonsterMng::UserQuit(CGameObject &Obj)
 	
 	}
 
-	this->GDReqSaveEvoMonScore(lpObj.m_Index, pEvoMonInfo->GetScore(), pEvoMonInfo->GetTotalDamage());
+	this->GDReqSaveEvoMonScore(Obj.m_Index, pEvoMonInfo->GetScore(), pEvoMonInfo->GetTotalDamage());
 	pEvoMonInfo->Clear();
 	pEvoMonInfo->SetState(EVOMON_NOT_ACTIVE);
 }
@@ -727,7 +727,7 @@ void CEvolutionMonsterMng::GCSendUserScore(CGameObject &Obj, int nScore)
 	PHeadSubSetB((BYTE*)&pMsg, 0x3E, 0x11, sizeof(pMsg));
 
 	pMsg.wScore = nScore;
-	IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+	IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 }
 
 void CEvolutionMonsterMng::GCSendEvoMonNotice(CGameObject &Obj)
@@ -738,11 +738,11 @@ void CEvolutionMonsterMng::GCSendEvoMonNotice(CGameObject &Obj)
 	pMsg.btSetType = 0;
 	pMsg.iRankingType = this->IsEvoMonEnable();
 
-	IOCP.DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
+	IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 
 	if (this->IsEvoMonEnable() == true)
 	{
-		gGameProtocol.GCSendEventBanner(aIndex, 2); //[K2]
+		gGameProtocol.GCSendEventBanner(Obj.m_Index, 2); //[K2]
 	}
 }
 
@@ -753,12 +753,12 @@ void CEvolutionMonsterMng::GiveReward(CGameObject &Obj, bool bSpecialEvoMon)
 		return;
 	}
 
-	if (lpObj.CloseType != -1)
+	if (Obj.CloseType != -1)
 	{
 		return;
 	}
 
-	CEvolutionMonsterInfo * pEvoMonInfo = lpObj.m_PlayerData->m_pCEvoMonInfo;
+	CEvolutionMonsterInfo * pEvoMonInfo = Obj.m_PlayerData->m_pCEvoMonInfo;
 
 	if (!pEvoMonInfo)
 	{
@@ -779,7 +779,7 @@ void CEvolutionMonsterMng::GiveReward(CGameObject &Obj, bool bSpecialEvoMon)
 		stItem.btRewardSource = GC_REWARD_GM_REWARD;
 		stItem.wItemID = iItemType;
 
-		g_GremoryCase.GDReqAddItemToGremoryCase(lpObj.m_Index, stItem, 7);
+		g_GremoryCase.GDReqAddItemToGremoryCase(Obj.m_Index, stItem, 7);
 	}
 
 	else
@@ -812,7 +812,7 @@ void CEvolutionMonsterMng::GiveReward(CGameObject &Obj, bool bSpecialEvoMon)
 		stItem.btRewardSource = GC_REWARD_EVOMON;
 		stItem.wItemID = iItemType;
 
-		g_GremoryCase.GDReqAddItemToGremoryCase(lpObj.m_Index, stItem, 7);
+		g_GremoryCase.GDReqAddItemToGremoryCase(Obj.m_Index, stItem, 7);
 	}
 }
 
@@ -938,8 +938,8 @@ void CEvolutionMonsterMng::GDReqEvoMonMaxScore(CGameObject &Obj)
 	PMSG_REQ_EVOMON_MAXSCORE pMsg;
 	PHeadSubSetB((BYTE*)&pMsg, 0x3E, 0x00, sizeof(pMsg));
 
-	pMsg.nUserIndex = aIndex;
-	memcpy(pMsg.szName, lpObj.Name, MAX_ACCOUNT_LEN + 1);
+	pMsg.nUserIndex = Obj.m_Index;
+	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
@@ -971,8 +971,8 @@ void CEvolutionMonsterMng::GDReqSaveEvoMonScore(CGameObject &Obj, int nScore, in
 	PMSG_REQ_SAVE_EVOMON_RESULT pMsg;
 	PHeadSubSetB((BYTE*)&pMsg, 0x3E, 0x01, sizeof(pMsg));
 
-	memcpy(pMsg.szName, lpObj.Name, MAX_ACCOUNT_LEN + 1);
-	pMsg.nUserIndex = aIndex;
+	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
+	pMsg.nUserIndex = Obj.m_Index;
 	pMsg.nScore = nScore;
 	pMsg.nTotalDamage = nTotalDamage;
 

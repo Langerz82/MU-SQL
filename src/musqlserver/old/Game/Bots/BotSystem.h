@@ -140,7 +140,7 @@ class CBotSystem
 	bool LoadBotSpecializationData(CGameObject &Obj, LPSTR szFile, BYTE type);
 	void SetAllBots();
 	int AddBot(_sBOT_SETTINGS pBot); 
-	void BuffPlayer(WORD  wBufferindex,short aIndex);
+	void BuffPlayer(WORD  wBufferindex,CGameObject &Obj);
 	void MakePreviewCharSet(CGameObject &Obj,_sBOT_INVENTORY_WEAR_ITEMS * pInv);
 	BYTE GetBotType(CGameObject &Obj);
 	int GetSkillTime(CGameObject &Obj, WORD wSkillId);

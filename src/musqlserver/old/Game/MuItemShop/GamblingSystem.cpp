@@ -463,7 +463,7 @@ BYTE CGamblingItemBag::GetGamblingSystemItem(CGameObject &Obj, BYTE btMapNumber,
 		byte Socks1[5];
 		//Socks1[0xFF, 0xFF, 0xFF, 255, 255];
 		Socks1[0xFF, 0xFF, 0xFF, 0xFF, 0xFF];
-		::ItemCreate(lpObj.m_Index, btMapNumber, X, Y, iType, iLevel, fDur, iOption1, iOption2, iOption3, lpObj.m_Index, iExOption, 0, 0, 0, 0);
+		::ItemCreate(Obj.m_Index, btMapNumber, X, Y, iType, iLevel, fDur, iOption1, iOption2, iOption3, Obj.m_Index, iExOption, 0, 0, 0, 0);
 	}
 	return 1;
 }

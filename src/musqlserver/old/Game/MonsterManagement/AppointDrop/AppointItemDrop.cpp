@@ -144,8 +144,8 @@ BOOL CAppointItemDrop::AppointItemDrop(CGameObject lpObj, CGameObject lpMonsterO
 			int iType = ItemGetNumberMake(iterDropItem->iType, iterDropItem->iIndex);
 			int iLevel = rand() % (iterDropItem->iMaxLevel + 1 - iterDropItem->iMinLevel);
 			iLevel += iterDropItem->iMinLevel;
-			BYTE iX = lpObj.X;
-			BYTE iY = lpObj.Y;
+			BYTE iX = Obj.X;
+			BYTE iY = Obj.Y;
 			int iDur = ItemGetDurability(iType, iLevel, iterDropItem->iExcelent, 0);
 			int iSkill = iterDropItem->iSkill;
 			int iLuck = iterDropItem->iLuck;
@@ -188,7 +188,7 @@ BOOL CAppointItemDrop::AppointItemDrop(CGameObject lpObj, CGameObject lpMonsterO
 			}
 
 			int iMaxHitUser = gObjMonsterTopHitDamageUser(lpMonsterObj);
-			ItemCreate(lpObj.m_Index, lpObj.MapNumber, iX, iY, iType, iLevel, iDur, iSkill, iLuck, iOption3, iMaxHitUser, byExOption, 0, 0, btSocketOption, 0);
+			ItemCreate(Obj.m_Index, Obj.MapNumber, iX, iY, iType, iLevel, iDur, iSkill, iLuck, iOption3, iMaxHitUser, byExOption, 0, 0, btSocketOption, 0);
 			
 			return TRUE;
 		}

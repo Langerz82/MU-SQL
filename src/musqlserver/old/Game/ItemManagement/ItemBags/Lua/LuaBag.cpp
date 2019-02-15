@@ -123,7 +123,7 @@ bool CLuaBag::DropCommonBag(CGameObject &Obj, BYTE MapNumber, BYTE DropX, BYTE D
 	this->InsertItemMap(m_Item);
 
 	int iResult;
-	this->m_Lua.Generic_Call("CommonBagItemDrop", "iiii>i", aIndex, MapNumber, DropX, DropY, &iResult);
+	this->m_Lua.Generic_Call("CommonBagItemDrop", "iiii>i", Obj.m_Index, MapNumber, DropX, DropY, &iResult);
 
 	return iResult;
 }
@@ -133,7 +133,7 @@ bool CLuaBag::DropMonsterBag(CGameObject &Obj, int iMonsterIndex, BYTE MapNumber
 	this->InsertItemMap(m_Item);
 
 	int iResult;
-	this->m_Lua.Generic_Call("MonsterBagItemDrop", "iiiii>i", iMonsterIndex, MapNumber, DropX, DropY, aIndex, &iResult);
+	this->m_Lua.Generic_Call("MonsterBagItemDrop", "iiiii>i", iMonsterIndex, MapNumber, DropX, DropY, Obj.m_Index, &iResult);
 
 	return iResult;
 }
@@ -143,7 +143,7 @@ bool CLuaBag::DropEventBag(CGameObject &Obj, int iMonsterIndex, BYTE MapNumber, 
 	this->InsertItemMap(m_Item);
 
 	int iResult;
-	this->m_Lua.Generic_Call("EventBagItemDrop", "iiiii>i", iMonsterIndex, MapNumber, DropX, DropY, aIndex, &iResult);
+	this->m_Lua.Generic_Call("EventBagItemDrop", "iiiii>i", iMonsterIndex, MapNumber, DropX, DropY, Obj.m_Index, &iResult);
 
 	return iResult;
 }
@@ -266,7 +266,7 @@ bool CLuaBag::MakeItemFromBag(CGameObject &Obj, BAG_ITEM * m_Item, CItemObject &
 				{
 					if (Item.m_SocketOption[j] == 0xFF)
 					{	//[K2]
-						//g_Log.AddC(TColor::Yellow, "[K2] Socket2 %d  ", iNewExcOption[i]);
+						//sLog->outBasic("[K2] Socket2 %d  ", iNewExcOption[i]);
 						Item.m_SocketOption[j] = iNewExcOption[i];
 						break;
 					}
@@ -376,7 +376,7 @@ bool CLuaBag::MakeItemFromBagForGremoryCase(CGameObject &Obj, BAG_ITEM* m_Item, 
 
 					}
 					//[K2]
-					//g_Log.AddC(TColor::Yellow, "[K2] Socket4 [%d]  ", Item.btItemSocketOption[j]);
+					//sLog->outBasic("[K2] Socket4 [%d]  ", Item.btItemSocketOption[j]);
 
 					//}
 				}

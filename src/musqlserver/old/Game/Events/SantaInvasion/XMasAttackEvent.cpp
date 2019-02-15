@@ -33,11 +33,11 @@ BOOL CXMasMonsterHerd::Start()
 BOOL CXMasMonsterHerd::MonsterHerdItemDrop(CGameObject &Obj)
 {
 	
-	if ( lpObj.Class == 476 )
+	if ( Obj.Class == 476 )
 	{
 		int iIndex = gObjMonsterTopHitDamageUser(lpObj);
 		int itemnumber = ItemGetNumberMake(13, 66);
-		ItemCreate(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, itemnumber, 0, 0, 0, 0, 0, iIndex, 0, 0, 0, 0, 0);
+		ItemCreate(Obj.m_Index, Obj.MapNumber, Obj.X, Obj.Y, itemnumber, 0, 0, 0, 0, 0, iIndex, 0, 0, 0, 0, 0);
 
 		int buff = rand()%3;
 		int count = 0;
@@ -75,18 +75,18 @@ BOOL CXMasMonsterHerd::MonsterHerdItemDrop(CGameObject &Obj)
 
 	}
 	
-	if ( lpObj.Class == 466)
+	if ( Obj.Class == 466)
 	{
 		if ( (rand()%100) < g_XMasAttackEvent.GetSantaItemDropRate() )
 		{
 			int iIndex = gObjMonsterTopHitDamageUser(lpObj);
 			int itemnumber = ItemGetNumberMake(13, 66);	// Wizards XMas
-			ItemCreate(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y,
+			ItemCreate(Obj.m_Index, Obj.MapNumber, Obj.X, Obj.Y,
 				itemnumber, 0, 30, 0, 0, 0, iIndex, 0, 0, 0, 0, 0);
 			return TRUE;
 		}
 
-		MapC[lpObj.MapNumber].MoneyItemDrop(10000, (BYTE)lpObj.X, (BYTE)lpObj.Y);
+		MapC[Obj.MapNumber].MoneyItemDrop(10000, (BYTE)Obj.X, (BYTE)Obj.Y);
 		return TRUE;
 	}
 
@@ -112,7 +112,7 @@ void CXMasMonsterHerd::MonsterAttackAction(CGameObject &Obj, CGameObject lpTarge
 		return;
 	}
 
-	if ( lpObj.Connected < PLAYER_PLAYING || lpObj.Type != OBJ_MONSTER )
+	if ( Obj.Connected < PLAYER_PLAYING || Obj.Type != OBJ_MONSTER )
 	{
 		return;
 	}
@@ -122,7 +122,7 @@ void CXMasMonsterHerd::MonsterAttackAction(CGameObject &Obj, CGameObject lpTarge
 		return;
 	}
 
-	if ( lpObj.Class == 135 )
+	if ( Obj.Class == 135 )
 	{
 		this->OrderAttack(lpObj, lpTargetObj, 90 );
 	}

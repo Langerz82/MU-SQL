@@ -36,8 +36,8 @@ int CLifeStone::CreateLifeStone(CGameObject &Obj)
 {
 	CGameObject lpObj = Obj;
 	int iMonsterIndex = -1;
-	BYTE cX = lpObj.X;
-	BYTE cY = lpObj.Y;
+	BYTE cX = Obj.X;
+	BYTE cY = Obj.Y;
 
 	if ( g_CastleSiegeSync.GetCastleState() != 7 )
 	{
@@ -45,16 +45,16 @@ int CLifeStone::CreateLifeStone(CGameObject &Obj)
 		return FALSE;
 	}
 
-	if ( lpObj.m_PlayerData->GuildStatus != 0x80 )
+	if ( Obj.m_PlayerData->GuildStatus != 0x80 )
 		return FALSE;
 
-	if ( lpObj.m_btCsJoinSide < 2 )
+	if ( Obj.m_btCsJoinSide < 2 )
 	{
 		MsgOutput(iIndex, Lang.GetText(0,176));
 		return FALSE;
 	}
 
-	if ( lpObj.m_PlayerData->lpGuild->lpLifeStone  )
+	if ( Obj.m_PlayerData->lpGuild->lpLifeStone  )
 	{
 		MsgOutput(iIndex, Lang.GetText(0,177));
 		return FALSE;
@@ -66,7 +66,7 @@ int CLifeStone::CreateLifeStone(CGameObject &Obj)
 		return FALSE;
 	}
 
-	BYTE btMapAttr = MapC[lpObj.MapNumber].GetAttr(cX, cY);
+	BYTE btMapAttr = MapC[Obj.MapNumber].GetAttr(cX, cY);
 
 	if ( Obj.MapNumber != MAP_INDEX_CASTLESIEGE )
 	{
@@ -74,7 +74,7 @@ int CLifeStone::CreateLifeStone(CGameObject &Obj)
 		return FALSE;
 	}
 
-	iMonsterIndex = gObjAddMonster(lpObj.MapNumber);
+	iMonsterIndex = gObjAddMonster(Obj.MapNumber);
 
 	if ( iMonsterIndex >= 0 )
 	{
@@ -103,7 +103,7 @@ int CLifeStone::CreateLifeStone(CGameObject &Obj)
 		getGameObject(iMonsterIndex)->m_OldY = cY;
 		getGameObject(iMonsterIndex)->StartX = cX;
 		getGameObject(iMonsterIndex)->StartY = cY;
-		getGameObject(iMonsterIndex)->MapNumber = lpObj.MapNumber;
+		getGameObject(iMonsterIndex)->MapNumber = Obj.MapNumber;
 		getGameObject(iMonsterIndex)->m_MoveRange = 0;
 		getGameObject(iMonsterIndex)->Level = MAttr->m_Level;
 		getGameObject(iMonsterIndex)->Type = OBJ_MONSTER;
@@ -113,17 +113,17 @@ int CLifeStone::CreateLifeStone(CGameObject &Obj)
 		getGameObject(iMonsterIndex)->m_Attribute = 0;
 		getGameObject(iMonsterIndex)->DieRegen = 0;
 		getGameObject(iMonsterIndex)->m_btCsNpcType = OBJ_NPC;
-		getGameObject(iMonsterIndex)->m_btCsJoinSide = lpObj.m_btCsJoinSide;
-		getGameObject(iMonsterIndex)->m_PlayerData->lpGuild = lpObj.m_PlayerData->lpGuild;
+		getGameObject(iMonsterIndex)->m_btCsJoinSide = Obj.m_btCsJoinSide;
+		getGameObject(iMonsterIndex)->m_PlayerData->lpGuild = Obj.m_PlayerData->lpGuild;
 		getGameObject(iMonsterIndex)->m_btCreationState = 0;
-		lpObj.m_PlayerData->lpGuild->lpLifeStone = &getGameObject(iMonsterIndex);
+		Obj.m_PlayerData->lpGuild->lpLifeStone = &getGameObject(iMonsterIndex);
 
 		MsgOutput(iIndex, Lang.GetText(0,180));
 
 		sLog->outBasic("[CastleSiege] LifeStone is created - [%s] [%s][%s] (Map:%d)(X:%d, Y:%d)",
-			lpObj.m_PlayerData->lpGuild->Name, lpObj.AccountID, lpObj.Name, lpObj.MapNumber, cX, cY);
+			Obj.m_PlayerData->lpGuild->Name, Obj.AccountID, Obj.Name, Obj.MapNumber, cX, cY);
 
-		lpObj.m_btLifeStoneCount++;
+		Obj.m_btLifeStoneCount++;
 
 	}
 	else
@@ -189,37 +189,37 @@ void CLifeStone::LifeStoneAct(CGameObject &Obj)
 
 	CGameObject lpObj = Obj;
 
-	lpObj.m_iCreatedActivationTime++;
-	BYTE btCreationState = lpObj.m_btCreationState;
+	Obj.m_iCreatedActivationTime++;
+	BYTE btCreationState = Obj.m_btCreationState;
 
-	if ( lpObj.m_iCreatedActivationTime < 60 )
-		lpObj.m_btCreationState = lpObj.m_iCreatedActivationTime / 12;
+	if ( Obj.m_iCreatedActivationTime < 60 )
+		Obj.m_btCreationState = Obj.m_iCreatedActivationTime / 12;
 	else
-		lpObj.m_btCreationState = 5;
+		Obj.m_btCreationState = 5;
 
-	if ( btCreationState != lpObj.m_btCreationState )
+	if ( btCreationState != Obj.m_btCreationState )
 		gGameProtocol.GCSendObjectCreationState(Obj.m_Index);
 
-	if ( lpObj.m_btCreationState < 5 )
+	if ( Obj.m_btCreationState < 5 )
 		return;
 
-	if ( lpObj.VPCount < 1 ) 
+	if ( Obj.VPCount < 1 ) 
 		return;
 
 	int tObjNum = -1;
 
 	for (int i=0;i<MAX_VIEWPORT;i++)
 	{
-		tObjNum = lpObj.VpPlayer[i].number;
+		tObjNum = Obj.VpPlayer[i].number;
 
 		if ( tObjNum >= 0 )
 		{
 			if ( getGameObject(tObjNum)->Type == OBJ_USER && getGameObject(tObjNum)->Live )
 			{
-				if ( getGameObject(tObjNum)->m_btCsJoinSide == lpObj.m_btCsJoinSide )
+				if ( getGameObject(tObjNum)->m_btCsJoinSide == Obj.m_btCsJoinSide )
 				{
-					if ( abs(lpObj.Y - getGameObject(tObjNum)->Y) <= 3 &&
-						 abs(lpObj.X - getGameObject(tObjNum)->X) <= 3 )
+					if ( abs(Obj.Y - getGameObject(tObjNum)->Y) <= 3 &&
+						 abs(Obj.X - getGameObject(tObjNum)->X) <= 3 )
 					{
 						BOOL bLifeChange = FALSE;
 						BOOL bManaChange = FALSE;

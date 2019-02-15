@@ -511,49 +511,49 @@ void CLoginServerProtocol::ProtocolCore(CGameObject &Obj, BYTE HeadCode, BYTE* a
 	switch (HeadCode)
 	{
 	case 0x00:
-		m_JSProtocol.JoinServerLogin(aIndex, (SDHP_SERVERINFO *)aRecv);
+		m_JSProtocol.JoinServerLogin(Obj.m_Index, (SDHP_SERVERINFO *)aRecv);
 		break;
 	case 0x01:
-		m_JSProtocol.JGPAccountRequest(aIndex, (SDHP_IDPASS *)aRecv);
+		m_JSProtocol.JGPAccountRequest(Obj.m_Index, (SDHP_IDPASS *)aRecv);
 		break;
 	case 0x02:
-		m_JSProtocol.GJPAccountFail(aIndex, (SDHP_JOINFAIL *)aRecv);
+		m_JSProtocol.GJPAccountFail(Obj.m_Index, (SDHP_JOINFAIL *)aRecv);
 		break;
 	case 0x04:
-		m_JSProtocol.GJPAccountBlock(aIndex, (SDHP_COMMAND_BLOCK *)aRecv);
+		m_JSProtocol.GJPAccountBlock(Obj.m_Index, (SDHP_COMMAND_BLOCK *)aRecv);
 		break;
 	case 0x05:
-		m_JSProtocol.GJPUserClose(aIndex, (SDHP_USERCLOSE_ID *)aRecv);
+		m_JSProtocol.GJPUserClose(Obj.m_Index, (SDHP_USERCLOSE_ID *)aRecv);
 		break;
 	case 0x06:
-		m_JSProtocol.GCJoinBillCheckSend(aIndex, (SDHP_BILLSEARCH *)aRecv);
+		m_JSProtocol.GCJoinBillCheckSend(Obj.m_Index, (SDHP_BILLSEARCH *)aRecv);
 		break;
 	case 0x30:
-		m_JSProtocol.LoveHeartEventRecv(aIndex, (SDHP_LOVEHEARTEVENT *)aRecv);
+		m_JSProtocol.LoveHeartEventRecv(Obj.m_Index, (SDHP_LOVEHEARTEVENT *)aRecv);
 		break;
 	case 0x31:
-		m_JSProtocol.LoveHeartCreateSend(aIndex, (SDHP_LOVEHEARTCREATE *)aRecv);
+		m_JSProtocol.LoveHeartCreateSend(Obj.m_Index, (SDHP_LOVEHEARTCREATE *)aRecv);
 		break;
 	case 0x7A:
-		m_JSProtocol.GJReqMapSvrMove(aIndex, (PMSG_REQ_MAPSVRMOVE *)aRecv);
+		m_JSProtocol.GJReqMapSvrMove(Obj.m_Index, (PMSG_REQ_MAPSVRMOVE *)aRecv);
 		break;
 	case 0x7B:
-		m_JSProtocol.GJReqMapSvrAuth(aIndex, (PMSG_REQ_MAPSVRAUTH *)aRecv);
+		m_JSProtocol.GJReqMapSvrAuth(Obj.m_Index, (PMSG_REQ_MAPSVRAUTH *)aRecv);
 		break;
 	case 0x7C:
-		m_JSProtocol.GJNotifyMaxUserCount(aIndex, (PMSG_NOTIFY_MAXUSER *)aRecv);
+		m_JSProtocol.GJNotifyMaxUserCount(Obj.m_Index, (PMSG_NOTIFY_MAXUSER *)aRecv);
 		break;
 	case 0x80:
-		m_JSProtocol.GJReqSetOffTrade(aIndex, (PMSG_SET_OFFTRADE *)aRecv);
+		m_JSProtocol.GJReqSetOffTrade(Obj.m_Index, (PMSG_SET_OFFTRADE *)aRecv);
 		break;
 	case 0xD3:
-		m_JSProtocol.GJReqVipAdd(aIndex, (ISHOP_VIP_BUY *)aRecv);
+		m_JSProtocol.GJReqVipAdd(Obj.m_Index, (ISHOP_VIP_BUY *)aRecv);
 		break;
 	case 0xFF:
-		m_JSProtocol.DisconnectServer(aIndex);
+		m_JSProtocol.DisconnectServer(Obj.m_Index);
 		break;
 	case 0xFE:
-		m_JSProtocol.WJKillUser(aIndex, (SDHP_USERCLOSE_ID*)aRecv);
+		m_JSProtocol.WJKillUser(Obj.m_Index, (SDHP_USERCLOSE_ID*)aRecv);
 		break;
 		/*case 0xA0:
 		DisconnectSpecificUser	// No Reference in GS via packet 0x09
@@ -580,19 +580,19 @@ void CLoginServerProtocol::JoinServerLogin(CGameObject &Obj, SDHP_SERVERINFO * l
 	PHeadSetB((BYTE*)&pResult, 0x00, sizeof(pResult));
 	pResult.Result = 1;
 
-	if (this->m_ServerData.MuLoginAddServer(aIndex, lpMsg->ServerName, lpMsg->ServerCode, lpMsg->Port, lpMsg->ServerVIP, lpMsg->MaxHWIDUseCount) == TRUE)
+	if (this->m_ServerData.MuLoginAddServer(Obj.m_Index, lpMsg->ServerName, lpMsg->ServerCode, lpMsg->Port, lpMsg->ServerVIP, lpMsg->MaxHWIDUseCount) == TRUE)
 	{
 		sLog->outBasic("[Join Server] GameServer connected %s PORT : %d CODE : %d VIP : %d HWIDCount : %d",
 			lpMsg->ServerName, lpMsg->Port, lpMsg->ServerCode, lpMsg->ServerVIP, lpMsg->MaxHWIDUseCount);
 
-		g_Server[aIndex].m_ServerCode = lpMsg->ServerCode;
+		g_Server[Obj.m_Index].m_ServerCode = lpMsg->ServerCode;
 	}
 	else
 	{
 		pResult.Result = 0;
 	}
 
-	DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
+	DataSend(Obj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 }
 
 void CLoginServerProtocol::JGPAccountRequest(CGameObject &Obj, SDHP_IDPASS * aRecv)
@@ -618,7 +618,7 @@ void CLoginServerProtocol::JGPAccountRequest(CGameObject &Obj, SDHP_IDPASS * aRe
 		SQLSyntexCheck(szPass) == FALSE)
 	{
 		pResult.result = 2;
-		DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
+		DataSend(Obj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -626,7 +626,7 @@ void CLoginServerProtocol::JGPAccountRequest(CGameObject &Obj, SDHP_IDPASS * aRe
 		SpaceSyntexCheck(szPass) == FALSE)
 	{
 		pResult.result = 2;
-		DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
+		DataSend(Obj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -634,7 +634,7 @@ void CLoginServerProtocol::JGPAccountRequest(CGameObject &Obj, SDHP_IDPASS * aRe
 		QuoteSpaceSyntaxCheck(szPass) == FALSE)
 	{
 		pResult.result = 2;
-		DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
+		DataSend(Obj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -642,7 +642,7 @@ void CLoginServerProtocol::JGPAccountRequest(CGameObject &Obj, SDHP_IDPASS * aRe
 		PercentSyntaxCheck(szPass) == FALSE)
 	{
 		pResult.result = 2;
-		DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
+		DataSend(Obj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -750,7 +750,7 @@ void CLoginServerProtocol::JGPAccountRequest(CGameObject &Obj, SDHP_IDPASS * aRe
 
 				this->m_AccountDB.Close();
 
-				if (bErrorFlag == FALSE && this->m_ServerData.GetVIPLevel(this->m_ServerData.MuLoginFindServer(g_Server[aIndex].m_ServerCode)) != 0)
+				if (bErrorFlag == FALSE && this->m_ServerData.GetVIPLevel(this->m_ServerData.MuLoginFindServer(g_Server[Obj.m_Index].m_ServerCode)) != 0)
 				{
 					this->m_AccountDB.ExecQuery("EXEC VIPSystem_CheckAccount '%s'", szAccountID);
 					this->m_AccountDB.Fetch();
@@ -766,7 +766,7 @@ void CLoginServerProtocol::JGPAccountRequest(CGameObject &Obj, SDHP_IDPASS * aRe
 						sLog->outBasic("[MeMuOnline] Account is not a VIP - ID : %s", szAccountID);
 					}
 
-					else if (Type < this->m_ServerData.GetVIPLevel(this->m_ServerData.MuLoginFindServer(g_Server[aIndex].m_ServerCode)))
+					else if (Type < this->m_ServerData.GetVIPLevel(this->m_ServerData.MuLoginFindServer(g_Server[Obj.m_Index].m_ServerCode)))
 					{
 						pResult.result = 64;
 						bErrorFlag = TRUE;
@@ -823,23 +823,23 @@ void CLoginServerProtocol::JGPAccountRequest(CGameObject &Obj, SDHP_IDPASS * aRe
 			if (this->m_UserData.CheckAccountID(szAccountID) == TRUE && this->m_UserData.CheckMoveTimeOut(szAccountID) == FALSE)
 			{
 				sLog->outBasic("[MeMuOnline] Account already connected ID : %s", szAccountID);
-				JGOtherJoin(aIndex, szAccountID);
+				JGOtherJoin(Obj.m_Index, szAccountID);
 				pResult.result = 3;
 				bErrorFlag = TRUE;
 			}
 
-			if (this->m_UserData.CheckHWIDLimit_Local(g_Server[aIndex].m_ServerCode, aRecv->HWID, this->m_ServerData.GetHWIDUseCount(this->m_ServerData.MuLoginFindServer(g_Server[aIndex].m_ServerCode))) == FALSE)
+			if (this->m_UserData.CheckHWIDLimit_Local(g_Server[Obj.m_Index].m_ServerCode, aRecv->HWID, this->m_ServerData.GetHWIDUseCount(this->m_ServerData.MuLoginFindServer(g_Server[Obj.m_Index].m_ServerCode))) == FALSE)
 			{
-				sLog->outBasic("[MeMuOnline] Machine ID Limit Reached (Local) (%d) ServerCode (%d) : Account:%s HWID:%s", this->m_ServerData.GetHWIDUseCount(this->m_ServerData.MuLoginFindServer(g_Server[aIndex].m_ServerCode)), g_Server[aIndex].m_ServerCode, szAccountID, aRecv->HWID);
-				JGOtherJoin(aIndex, szAccountID);
+				sLog->outBasic("[MeMuOnline] Machine ID Limit Reached (Local) (%d) ServerCode (%d) : Account:%s HWID:%s", this->m_ServerData.GetHWIDUseCount(this->m_ServerData.MuLoginFindServer(g_Server[Obj.m_Index].m_ServerCode)), g_Server[Obj.m_Index].m_ServerCode, szAccountID, aRecv->HWID);
+				JGOtherJoin(Obj.m_Index, szAccountID);
 				pResult.result = 4;
 				bErrorFlag = TRUE;
 			}
 
-			if (this->m_UserData.CheckHWIDLimit_Group(g_MapServerManager.GetMapSvrGroup(g_Server[aIndex].m_ServerCode), aRecv->HWID) == FALSE)
+			if (this->m_UserData.CheckHWIDLimit_Group(g_MapServerManager.GetMapSvrGroup(g_Server[Obj.m_Index].m_ServerCode), aRecv->HWID) == FALSE)
 			{
-				sLog->outBasic("[MeMuOnline] Machine ID Limit Reached (Group) (%d) MapSvrGroup (%d) : Account:%s HWID:%s", g_MachineIDConnectionLimitPerGroup, g_MapServerManager.GetMapSvrGroup(g_Server[aIndex].m_ServerCode), szAccountID, aRecv->HWID);
-				JGOtherJoin(aIndex, szAccountID);
+				sLog->outBasic("[MeMuOnline] Machine ID Limit Reached (Group) (%d) MapSvrGroup (%d) : Account:%s HWID:%s", g_MachineIDConnectionLimitPerGroup, g_MapServerManager.GetMapSvrGroup(g_Server[Obj.m_Index].m_ServerCode), szAccountID, aRecv->HWID);
+				JGOtherJoin(Obj.m_Index, szAccountID);
 				pResult.result = 4;
 				bErrorFlag = TRUE;
 			}
@@ -847,7 +847,7 @@ void CLoginServerProtocol::JGPAccountRequest(CGameObject &Obj, SDHP_IDPASS * aRe
 
 		if (bErrorFlag == FALSE)
 		{
-			BOOL bResult = this->m_UserData.MuLoginAddUser(g_Server[aIndex].m_ServerCode, g_MapServerManager.GetMapSvrGroup(g_Server[aIndex].m_ServerCode), szAccountID, aRecv->Number, aRecv->IpAddress, aRecv->HWID);
+			BOOL bResult = this->m_UserData.MuLoginAddUser(g_Server[Obj.m_Index].m_ServerCode, g_MapServerManager.GetMapSvrGroup(g_Server[Obj.m_Index].m_ServerCode), szAccountID, aRecv->Number, aRecv->IpAddress, aRecv->HWID);
 
 			if (bResult == FALSE)
 			{
@@ -861,16 +861,16 @@ void CLoginServerProtocol::JGPAccountRequest(CGameObject &Obj, SDHP_IDPASS * aRe
 
 			else
 			{
-				InsertDataMuLog(this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[aIndex].m_ServerCode)), szAccountID, aRecv->IpAddress, "Connect", aRecv->HWID);
+				InsertDataMuLog(this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[Obj.m_Index].m_ServerCode)), szAccountID, aRecv->IpAddress, "Connect", aRecv->HWID);
 				this->m_AccountDB.ExecQuery("EXEC WZ_CONNECT_MEMB '%s','%s','%s'",
-					szAccountID, this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[aIndex].m_ServerCode)), szIp);
+					szAccountID, this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[Obj.m_Index].m_ServerCode)), szIp);
 			}
 		}
 	}
 
 	LeaveCriticalSection(&userCheck);
 
-	DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
+	DataSend(Obj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 }
 
 void CLoginServerProtocol::GJPAccountFail(CGameObject &Obj, SDHP_JOINFAIL * aRecv)
@@ -878,7 +878,7 @@ void CLoginServerProtocol::GJPAccountFail(CGameObject &Obj, SDHP_JOINFAIL * aRec
 	char szAccountID[11] = { 0 };
 	memcpy(szAccountID, aRecv->Id, 10);
 	int UserIndex = this->m_UserData.MuLoginFindUser(szAccountID);
-	this->InsertDataMuLog(this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[aIndex].m_ServerCode)), szAccountID, this->m_UserData.GetIpAddr(UserIndex), "Login Fail", "N/A");
+	this->InsertDataMuLog(this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[Obj.m_Index].m_ServerCode)), szAccountID, this->m_UserData.GetIpAddr(UserIndex), "Login Fail", "N/A");
 	this->m_UserData.MuLoginDeleteUser(szAccountID);
 	this->m_AccountDB.ExecQuery("EXEC WZ_DISCONNECT_MEMB '%s'", szAccountID);
 }
@@ -896,7 +896,7 @@ void CLoginServerProtocol::GJPUserClose(CGameObject &Obj, SDHP_USERCLOSE_ID * aR
 {
 	char szAccountID[11] = { 0 };
 	memcpy(szAccountID, aRecv->szId, 10);
-	this->InsertDataMuLog(this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[aIndex].m_ServerCode)), szAccountID, this->m_UserData.GetIpAddr(this->m_UserData.MuLoginFindUser(szAccountID)), "Disconnect", "N/A");
+	this->InsertDataMuLog(this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[Obj.m_Index].m_ServerCode)), szAccountID, this->m_UserData.GetIpAddr(this->m_UserData.MuLoginFindUser(szAccountID)), "Disconnect", "N/A");
 	this->m_UserData.MuLoginDeleteUser(szAccountID);
 	this->m_AccountDB.ExecQuery("EXEC WZ_DISCONNECT_MEMB '%s'", szAccountID);
 }
@@ -914,14 +914,14 @@ void CLoginServerProtocol::GCUserKillSend(int MuLoginIndex, bool IsForceDC)
 
 	CGameObject &Obj = this->m_ServerData.GetServerIndex(this->m_ServerData.MuLoginFindServer(this->m_UserData.GetServerCode(MuLoginIndex)));
 
-	if (aIndex < 0 || aIndex > g_dwMaxServerGroups)
+	if (Obj.m_Index < 0 || Obj.m_Index > g_dwMaxServerGroups)
 	{
 		return;
 	}
 
 	pMsg.ForceDisconnect = IsForceDC;
 
-	DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
 
 }
 
@@ -991,7 +991,7 @@ void CLoginServerProtocol::GCJoinBillCheckSend(CGameObject &Obj, SDHP_BILLSEARCH
 	pResult.Number = aRecv->Number;
 	memcpy(pResult.Id, szAccountID, 10);
 
-	DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
+	DataSend(Obj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 }
 
 void CLoginServerProtocol::JGOtherJoin(CGameObject &Obj, LPTSTR szAccountID)
@@ -1001,7 +1001,7 @@ void CLoginServerProtocol::JGOtherJoin(CGameObject &Obj, LPTSTR szAccountID)
 	PHeadSetB((BYTE*)&pMsg.h, 0x08, sizeof(pMsg));
 	memcpy(pMsg.AccountID, szAccountID, 10);
 
-	DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 
@@ -1045,7 +1045,7 @@ void CLoginServerProtocol::LoveHeartEventRecv(CGameObject &Obj, SDHP_LOVEHEARTEV
 	this->m_AccountDB.ExecQuery("UPDATE LoveHeartCount SET heart_count= %d where Number=0", dwHeartCount);
 
 	this->m_AccountDB.ExecQuery("INSERT INTO LoveHeartAll ( Number, Id, Server, Name ) Values (%d, '%s','%s','%s')",
-		dwHeartCount, szAccountID, this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[aIndex].m_ServerCode)), szName);
+		dwHeartCount, szAccountID, this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[Obj.m_Index].m_ServerCode)), szName);
 
 	int iIndex = this->m_UserData.MuLoginFindUser(szAccountID);
 
@@ -1054,16 +1054,16 @@ void CLoginServerProtocol::LoveHeartEventRecv(CGameObject &Obj, SDHP_LOVEHEARTEV
 		if ((rand() % 217000) == iIndex)	// if Wins
 		{
 			this->m_AccountDB.ExecQuery("INSERT INTO LoveHeart ( Number, Id, Server, Name ) Values (%d, '%s','%s','%s')",
-				dwHeartCount, szAccountID, this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[aIndex].m_ServerCode)), szName);
+				dwHeartCount, szAccountID, this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[Obj.m_Index].m_ServerCode)), szName);
 			pResult.Result = 1;
 
 			sLog->outError("[MeMuOnlineDB] [LOVE HEART] Event Winner : %s:%s - Server : %s",
-				szAccountID, szName, this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[aIndex].m_ServerCode)));
+				szAccountID, szName, this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[Obj.m_Index].m_ServerCode)));
 		}
 	}
 
 	pResult.Number = dwHeartCount;
-	DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
+	DataSend(Obj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 }
 
 void CLoginServerProtocol::LoveHeartCreateSend(CGameObject &Obj, SDHP_LOVEHEARTCREATE * aRecv)
@@ -1164,7 +1164,7 @@ void CLoginServerProtocol::GJReqMapSvrMove(CGameObject &Obj, PMSG_REQ_MAPSVRMOVE
 
 	pResult.iResult = fResult;
 
-	DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
+	DataSend(Obj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 }
 
 void CLoginServerProtocol::GJReqMapSvrAuth(CGameObject &Obj, PMSG_REQ_MAPSVRAUTH * aRecv)
@@ -1290,7 +1290,7 @@ void CLoginServerProtocol::GJReqMapSvrAuth(CGameObject &Obj, PMSG_REQ_MAPSVRAUTH
 
 	pResult.iResult = fResult;
 
-	DataSend(lpObj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
+	DataSend(Obj.m_Index, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 
 	sLog->outBasic("[JoinServer] GJReqMapSvrAuth() -> User(%s) Character(%s) fResult(%d)",
 		pResult.szAccountID, pResult.szCharName, pResult.iResult);
@@ -1332,7 +1332,7 @@ void CLoginServerProtocol::WJKillUser(CGameObject &Obj, SDHP_USERCLOSE_ID* aRecv
 	char szAccountID[11] = { 0 };
 	memcpy(szAccountID, aRecv->szId, 10);
 	this->DisconnectPlayer(szAccountID);
-	//this->InsertDataMuLog(this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[aIndex].m_ServerCode)), szAccountID, this->m_UserData.GetIpAddr(this->m_UserData.MuLoginFindUser(szAccountID)), "Disconnect");
+	//this->InsertDataMuLog(this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[Obj.m_Index].m_ServerCode)), szAccountID, this->m_UserData.GetIpAddr(this->m_UserData.MuLoginFindUser(szAccountID)), "Disconnect");
 	//this->m_UserData.MuLoginDeleteUser(szAccountID);
 	this->m_AccountDB.ExecQuery("EXEC WZ_DISCONNECT_MEMB '%s'", szAccountID);
 }
@@ -1374,7 +1374,7 @@ void CLoginServerProtocol::CheckVIPTimeProc()
 								sLog->outBasic("[VIP] Account expired - ID : %s", this->m_UserData.m_MuLoginUserData[i].m_AccoundID);
 							}
 
-							else if (Type < this->m_ServerData.GetVIPLevel(this->m_ServerData.MuLoginFindServer(g_Server[aIndex].m_ServerCode)))
+							else if (Type < this->m_ServerData.GetVIPLevel(this->m_ServerData.MuLoginFindServer(g_Server[Obj.m_Index].m_ServerCode)))
 							{
 								this->GCUserKillSend(i, false);
 								sLog->outBasic("[VIP] Account expired - ID : %s", this->m_UserData.m_MuLoginUserData[i].m_AccoundID);

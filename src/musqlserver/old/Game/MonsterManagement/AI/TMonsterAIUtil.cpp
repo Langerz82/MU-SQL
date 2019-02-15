@@ -68,19 +68,19 @@ void TMonsterAIUtil::SendMonsterV2Msg(CGameObject &Obj, BYTE* lpMsg, int size)
 {
 	for ( int i=0;i<MaxViewportMonster;i++)
 	{
-		if ( lpObj.VpPlayer2[i].type == OBJ_USER )
+		if ( Obj.VpPlayer2[i].type == OBJ_USER )
 		{
-			if ( lpObj.VpPlayer2[i].state != FALSE )
+			if ( Obj.VpPlayer2[i].state != FALSE )
 			{
-				if ( lpObj.Connected > PLAYER_CONNECTED && lpObj.Live != FALSE)
+				if ( Obj.Connected > PLAYER_CONNECTED && Obj.Live != FALSE)
 				{
-					IOCP.DataSend(lpObj.VpPlayer2[i].number, lpMsg, size);
+					IOCP.DataSend(Obj.VpPlayer2[i].number, lpMsg, size);
 				}
 				else
 				{
-					lpObj.VpPlayer2[i].number = -1;
-					lpObj.VpPlayer2[i].state = FALSE;
-					lpObj.VPCount2--;
+					Obj.VpPlayer2[i].number = -1;
+					Obj.VpPlayer2[i].state = FALSE;
+					Obj.VPCount2--;
 				}
 			}
 		}
@@ -93,20 +93,20 @@ BOOL TMonsterAIUtil::FindPathToMoveMonster(CGameObject &Obj, int iTargetX, int i
 	if ( TMonsterAIUtil::CheckMovingCondition(lpObj)==FALSE)
 		return FALSE;
 
-	if ( MAX_MAP_RANGE(lpObj.MapNumber)==FALSE)
+	if ( MAX_MAP_RANGE(Obj.MapNumber)==FALSE)
 		return FALSE;
 
 	PATH_t Path;
 	BOOL bPathFound = FALSE;
 
 	if ( bPreventOverMoving == 1 )
-		bPathFound = MapC[lpObj.MapNumber].PathFinding2(lpObj.X, lpObj.Y, iTargetX, iTargetY, &Path);
+		bPathFound = MapC[Obj.MapNumber].PathFinding2(Obj.X, Obj.Y, iTargetX, iTargetY, &Path);
 	else
-		bPathFound = MapC[lpObj.MapNumber].PathFinding4(lpObj.X, lpObj.Y, iTargetX, iTargetY, &Path);
+		bPathFound = MapC[Obj.MapNumber].PathFinding4(Obj.X, Obj.Y, iTargetX, iTargetY, &Path);
 
 	if (bPathFound )
 	{
-		lpObj.m_LastMoveTime = GetTickCount();
+		Obj.m_LastMoveTime = GetTickCount();
 
 		int iTargetX;
 		int iTargetY;
@@ -116,44 +116,44 @@ BOOL TMonsterAIUtil::FindPathToMoveMonster(CGameObject &Obj, int iTargetX, int i
 		int iResultY;
 		BYTE btTargetDir = 0;
 
-		iStartX = lpObj.X;
-		iStartY = lpObj.Y;
-		iResultX = lpObj.X;
-		iResultY = lpObj.Y;
-		lpObj.PathCount = Path.PathNum;
-		lpObj.PathCur = 1;
-		lpObj.PathStartEnd = 1;
+		iStartX = Obj.X;
+		iStartY = Obj.Y;
+		iResultX = Obj.X;
+		iResultY = Obj.Y;
+		Obj.PathCount = Path.PathNum;
+		Obj.PathCur = 1;
+		Obj.PathStartEnd = 1;
 
-		if ( lpObj.PathCount > iMaxPathCount )
-			lpObj.PathCount = iMaxPathCount;
+		if ( Obj.PathCount > iMaxPathCount )
+			Obj.PathCount = iMaxPathCount;
 
-		lpObj.PathX[0] = lpObj.X;
-		lpObj.PathY[0] = lpObj.Y;
-		lpObj.PathDir[0] = lpObj.Dir;
+		Obj.PathX[0] = Obj.X;
+		Obj.PathY[0] = Obj.Y;
+		Obj.PathDir[0] = Obj.Dir;
 
-		for(int n=1;n<lpObj.PathCount;n++)
+		for(int n=1;n<Obj.PathCount;n++)
 		{
 			iTargetX = Path.PathX[n];
 			iTargetY = Path.PathY[n];
 			btTargetDir = GetPathPacketDirPos(iTargetX-iStartX, iTargetY-iStartY);
-			lpObj.PathX[n] = iTargetX;
-			lpObj.PathY[n] = iTargetY;
-			lpObj.PathDir[n] = btTargetDir;
+			Obj.PathX[n] = iTargetX;
+			Obj.PathY[n] = iTargetY;
+			Obj.PathDir[n] = btTargetDir;
 			iResultX += RoadPathTable[btTargetDir*2];
 			iResultY += RoadPathTable[btTargetDir*2+1];
 		}
 
-		lpObj.MTX = iResultX;
-		lpObj.MTY = iResultY;
-		lpObj.TX = iResultX;
-		lpObj.TY = iResultY;
+		Obj.MTX = iResultX;
+		Obj.MTY = iResultY;
+		Obj.TX = iResultX;
+		Obj.TY = iResultY;
 
-		if ( lpObj.PathCount > 0 )
+		if ( Obj.PathCount > 0 )
 		{
-			MapC[lpObj.MapNumber].ClearStandAttr(iStartX, iStartY);
-			MapC[lpObj.MapNumber].SetStandAttr(iResultX, iResultY);
-			lpObj.m_OldX = iStartX;
-			lpObj.m_OldY = iStartY;
+			MapC[Obj.MapNumber].ClearStandAttr(iStartX, iStartY);
+			MapC[Obj.MapNumber].SetStandAttr(iResultX, iResultY);
+			Obj.m_OldX = iStartX;
+			Obj.m_OldY = iStartY;
 		}
 	}
 
@@ -170,16 +170,16 @@ BOOL TMonsterAIUtil::FindPathToMoveMonster(CGameObject &Obj, int iTargetX, int i
 
 BOOL TMonsterAIUtil::CheckMovingCondition(CGameObject &Obj)
 {
-	if ( !lpObj.Live )
+	if ( !Obj.Live )
 		return FALSE;
 
-	if ( lpObj.RegenOk > 0 )
+	if ( Obj.RegenOk > 0 )
 		return FALSE;
 
-	if ( lpObj.Teleport )
+	if ( Obj.Teleport )
 		return FALSE;
 
-	if ( lpObj.m_State != 2 )
+	if ( Obj.m_State != 2 )
 		return FALSE;
 
 	if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STONE) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STUN) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_SLEEP)
@@ -199,9 +199,9 @@ BOOL TMonsterAIUtil::CheckMoveRange(CGameObject &Obj, int iTargetX, int iTargetY
 
 BOOL TMonsterAIUtil::GetXYToPatrol(CGameObject &Obj)
 {
-	int maxmoverange = lpObj.m_MoveRange*2+1;
+	int maxmoverange = Obj.m_MoveRange*2+1;
 	int searchc=10;
-	lpObj.NextActionTime = 1000;
+	Obj.NextActionTime = 1000;
 	BYTE tpx;
 	BYTE tpy;
 
@@ -209,20 +209,20 @@ BOOL TMonsterAIUtil::GetXYToPatrol(CGameObject &Obj)
 	{
 		__try
 		{
-			tpx = (lpObj.X - lpObj.m_MoveRange) + (rand()%maxmoverange);
-			tpy = (lpObj.Y - lpObj.m_MoveRange) + (rand()%maxmoverange);
+			tpx = (Obj.X - Obj.m_MoveRange) + (rand()%maxmoverange);
+			tpy = (Obj.Y - Obj.m_MoveRange) + (rand()%maxmoverange);
 		}
 		__except(maxmoverange=1, 1)
 		{
 
 		}
 
-		BYTE attr = MapC[lpObj.MapNumber].GetAttr(tpx, tpy);
+		BYTE attr = MapC[Obj.MapNumber].GetAttr(tpx, tpy);
 
 		if ( (attr&1)!=1 && (attr&2)!=2 && (attr&4)!=4 && (attr&8)!= 8 )
 		{
-			lpObj.MTX = tpx;
-			lpObj.MTY = tpy;
+			Obj.MTX = tpx;
+			Obj.MTY = tpy;
 			return TRUE;
 		}
 	}
@@ -245,7 +245,7 @@ BOOL TMonsterAIUtil::GetXYToEascape(CGameObject &Obj)
 	BOOL result = 0;
 	CGameObject lpTargetObj;
 
-	int iTargetIndex = lpObj.TargetNumber;
+	int iTargetIndex = Obj.TargetNumber;
 
 	if ( ObjectMaxRange(iTargetIndex) == FALSE )
 	{
@@ -257,44 +257,44 @@ BOOL TMonsterAIUtil::GetXYToEascape(CGameObject &Obj)
 	mtx = tpx;
 	tpy = lpTargetObj.Y;
 	mty = tpy;
-	tx = lpObj.X;
-	ty = lpObj.Y;
-	int dis = lpObj.m_AttackRange / sqrt(2.0);
+	tx = Obj.X;
+	ty = Obj.Y;
+	int dis = Obj.m_AttackRange / sqrt(2.0);
 
-	if ( lpObj.X < mtx )
+	if ( Obj.X < mtx )
 	{
 		tx -= dis;
 	}
 
-	if ( lpObj.X > mtx )
+	if ( Obj.X > mtx )
 	{
 		tx += dis;
 	}
 
-	if ( lpObj.Y < mty )
+	if ( Obj.Y < mty )
 	{
 		ty -= dis;
 	}
 
-	if ( lpObj.Y > mty )
+	if ( Obj.Y > mty )
 	{
 		ty += dis;
 	}
 
-	searchp = GetPathPacketDirPos( (lpObj.X - tx), (lpObj.Y - ty) ) * 2;
+	searchp = GetPathPacketDirPos( (Obj.X - tx), (Obj.Y - ty) ) * 2;
 
-	if ( MapC[lpObj.MapNumber].GetStandAttr(tx, ty) == 0 )
+	if ( MapC[Obj.MapNumber].GetStandAttr(tx, ty) == 0 )
 	{
 		while ( searchcount-- )
 		{
-			mtx = lpObj.X + RoadPathTable[searchp];
-			mty = lpObj.Y + RoadPathTable[1+searchp];
-			attr = MapC[lpObj.MapNumber].GetAttr(mtx, mty);
+			mtx = Obj.X + RoadPathTable[searchp];
+			mty = Obj.Y + RoadPathTable[1+searchp];
+			attr = MapC[Obj.MapNumber].GetAttr(mtx, mty);
 			
 			if ( (attr&1) != 1 && (attr&2) != 2 && (attr&4) != 4 && (attr&8) != 8  )
 			{
-				lpObj.MTX = mtx;
-				lpObj.MTY = mty;
+				Obj.MTX = mtx;
+				Obj.MTY = mty;
 				return TRUE;
 			}
 
@@ -309,12 +309,12 @@ BOOL TMonsterAIUtil::GetXYToEascape(CGameObject &Obj)
 		return FALSE;
 	}
 
-	attr = MapC[lpObj.MapNumber].GetAttr(tx, ty);
+	attr = MapC[Obj.MapNumber].GetAttr(tx, ty);
 
 	if ( (attr&1) != 1 && (attr&2) != 2 && (attr&4) != 4 && (attr&8) != 8  )
 	{
-		lpObj.MTX = tx;
-		lpObj.MTY = ty;
+		Obj.MTX = tx;
+		Obj.MTY = ty;
 		return TRUE;
 	}
 
@@ -336,7 +336,7 @@ BOOL TMonsterAIUtil::GetXYToChase(CGameObject &Obj)
 	BOOL result = 0;
 	CGameObject lpTargetObj;
 
-	int iTargetIndex = lpObj.TargetNumber;
+	int iTargetIndex = Obj.TargetNumber;
 
 	if ( ObjectMaxRange(iTargetIndex) == FALSE )
 	{
@@ -348,42 +348,42 @@ BOOL TMonsterAIUtil::GetXYToChase(CGameObject &Obj)
 	mtx = tpx;
 	tpy = lpTargetObj.Y;
 	mty = tpy;
-	int dis = lpObj.m_AttackRange / sqrt(2.0);
+	int dis = Obj.m_AttackRange / sqrt(2.0);
 
-	if ( lpObj.X < mtx )
+	if ( Obj.X < mtx )
 	{
 		tpx -= dis;
 	}
 
-	if ( lpObj.X > mtx )
+	if ( Obj.X > mtx )
 	{
 		tpx += dis;
 	}
 
-	if ( lpObj.Y < mty )
+	if ( Obj.Y < mty )
 	{
 		tpy -= dis;
 	}
 
-	if ( lpObj.Y > mty )
+	if ( Obj.Y > mty )
 	{
 		tpy += dis;
 	}
 
 	searchp = GetPathPacketDirPos( (lpTargetObj.X - tpx), (lpTargetObj.Y - tpy) ) * 2;
 
-	if ( MapC[lpObj.MapNumber].GetStandAttr(tpx, tpy) == 0 )
+	if ( MapC[Obj.MapNumber].GetStandAttr(tpx, tpy) == 0 )
 	{
 		while ( searchcount-- )
 		{
 			mtx = lpTargetObj.X + RoadPathTable[searchp];
 			mty = lpTargetObj.Y + RoadPathTable[1+searchp];
-			attr = MapC[lpObj.MapNumber].GetAttr(mtx, mty);
+			attr = MapC[Obj.MapNumber].GetAttr(mtx, mty);
 			
 			if ( (attr&1) != 1 && (attr&2) != 2 && (attr&4) != 4 && (attr&8) != 8  )
 			{
-				lpObj.MTX = mtx;
-				lpObj.MTY = mty;
+				Obj.MTX = mtx;
+				Obj.MTY = mty;
 				return TRUE;
 			}
 
@@ -398,12 +398,12 @@ BOOL TMonsterAIUtil::GetXYToChase(CGameObject &Obj)
 		return FALSE;
 	}
 
-	attr = MapC[lpObj.MapNumber].GetAttr(tpx, tpy);
+	attr = MapC[Obj.MapNumber].GetAttr(tpx, tpy);
 
 	if ( (attr&1) != 1 && (attr&2) != 2 && (attr&4) != 4 && (attr&8) != 8  )
 	{
-		lpObj.MTX = tpx;
-		lpObj.MTY = tpy;
+		Obj.MTX = tpx;
+		Obj.MTY = tpy;
 		return TRUE;
 	}
 
@@ -422,13 +422,13 @@ BOOL TMonsterAIUtil::SendMonsterMoveMsg(CGameObject &Obj)
 	PHeadSetB((BYTE*)&pMove, 0xD4, sizeof(pMove));
 #endif
 
-	pMove.NumberH = SET_NUMBERH(lpObj.m_Index);
-	pMove.NumberL = SET_NUMBERL(lpObj.m_Index);
-	pMove.X = lpObj.MTX;
-	pMove.Y = lpObj.MTY;
-	pMove.Path = lpObj.Dir << 4;
+	pMove.NumberH = SET_NUMBERH(Obj.m_Index);
+	pMove.NumberL = SET_NUMBERL(Obj.m_Index);
+	pMove.X = Obj.MTX;
+	pMove.Y = Obj.MTY;
+	pMove.Path = Obj.Dir << 4;
 
-	if ( lpObj.Class == 541 )
+	if ( Obj.Class == 541 )
 	{
 		sLog->outBasic("CHUJ!");
 		return FALSE;
@@ -460,9 +460,9 @@ void TMonsterAIUtil::SendChattingMsg(int iObjIndex, char* lpszMsg, ...)
 
 	for(int i=0;i<MaxViewportMonster;i++)
 	{
-		if ( lpObj.VpPlayer2[i].state )
+		if ( Obj.VpPlayer2[i].state )
 		{
-			int tObjNum = lpObj.VpPlayer2[i].number;
+			int tObjNum = Obj.VpPlayer2[i].number;
 
 			if ( ObjectMaxRange(tObjNum) )
 			{

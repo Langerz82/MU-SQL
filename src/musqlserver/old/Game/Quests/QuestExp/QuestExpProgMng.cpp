@@ -980,17 +980,17 @@ void QuestExpProgMng::ChkMonsterKillPartyPlay(DWORD dwQuestInfoIndexID, int iAsk
 	int iEpisode = GetQuestEpisodeFromInfoIndexId(dwQuestInfoIndexID);
 	int iQS = GetQuestSwitchFromInfoIndexId(dwQuestInfoIndexID);
 
-	if (lpObj.m_PlayerData->m_UserQuestInfo[iEpisode].GetEpisode() != iEpisode)
+	if (Obj.m_PlayerData->m_UserQuestInfo[iEpisode].GetEpisode() != iEpisode)
 	{
 		return;
 	}
 
-	if (lpObj.m_PlayerData->m_UserQuestInfo[iEpisode].GetQuestSwitch() != iQS)
+	if (Obj.m_PlayerData->m_UserQuestInfo[iEpisode].GetQuestSwitch() != iQS)
 	{
 		return;
 	}
 
-	UserQuestAskInfo* pUserQuestAskInfo = &lpObj.m_PlayerData->m_UserQuestInfo[iEpisode].m_UserQuestAskInfo[iAskIndex];
+	UserQuestAskInfo* pUserQuestAskInfo = &Obj.m_PlayerData->m_UserQuestInfo[iEpisode].m_UserQuestAskInfo[iAskIndex];
 
 	if (pUserQuestAskInfo->GetQuestType() != QUESTEXP_ASK_MONSTER)
 	{
@@ -1009,7 +1009,7 @@ void QuestExpProgMng::ChkMonsterKillPartyPlay(DWORD dwQuestInfoIndexID, int iAsk
 		pUserQuestAskInfo->SetValue(pUserQuestAskInfo->GetValue() + 1);
 
 		//sLog->outBasic("[QuestExp] Party Play Ask Kill Monster [%s][%s] Ep[%d] QS[%d] MonName[%s] AskKillCnt[%d] KillCnt[%d] ",
-		//	lpObj.AccountID, lpObj.Name, iEpisode, iQS, lpMonsterObj.Name, pUserQuestAskInfo->GetValue(), pQuestMonsterKill->GetMonsterKillCnt());
+		//	Obj.AccountID, Obj.Name, iEpisode, iQS, lpMonsterObj.Name, pUserQuestAskInfo->GetValue(), pQuestMonsterKill->GetMonsterKillCnt());
 	}
 
 	if (pQuestMonsterKill->GetMonsterKillCnt() <= pUserQuestAskInfo->GetValue())
@@ -1023,14 +1023,14 @@ void QuestExpProgMng::ChkMonsterKillPartyPlay(DWORD dwQuestInfoIndexID, int iAsk
 
 void QuestExpProgMng::ChkUserQuestTypeMonsterKill(CGameObject lpObj, CGameObject lpMonsterObj)
 {
-	if (lpObj.PartyNumber == -1)
+	if (Obj.PartyNumber == -1)
 	{
 		ChkUserQuestType(QUESTEXP_ASK_MONSTER, lpObj, lpMonsterObj, 0);
 		return;
 	}
 
-	int iPartyNumber = lpObj.PartyNumber;
-	int iKillerObjIndex = lpObj.m_Index;
+	int iPartyNumber = Obj.PartyNumber;
+	int iKillerObjIndex = Obj.m_Index;
 
 	for (int iPartyUserCount = 0; iPartyUserCount < MAX_USER_IN_PARTY; ++iPartyUserCount)
 	{
@@ -1041,7 +1041,7 @@ void QuestExpProgMng::ChkUserQuestTypeMonsterKill(CGameObject lpObj, CGameObject
 
 			if (getGameObject(iPartyUserIndex)->Connected >= PLAYER_PLAYING || !lpPartyObj.Live)
 			{
-				if (lpObj.MapNumber == lpPartyObj.MapNumber)
+				if (Obj.MapNumber == lpPartyObj.MapNumber)
 				{
 					if (gObjCalDistance(lpObj, lpPartyObj) <= 9)
 					{
@@ -1062,12 +1062,12 @@ void QuestExpProgMng::ChkUserQuestType(int iQuestType, CGameObject lpObj, CGameO
 
 	for (int i = 0; i < MAX_QUESTEXP_USER_INFO; i++)
 	{
-		if (lpObj.m_PlayerData->m_UserQuestInfo[i].GetEpisode() == 0)
+		if (Obj.m_PlayerData->m_UserQuestInfo[i].GetEpisode() == 0)
 		{
 			continue;
 		}
 
-		UserQuestInfo* pUserQuestInfo = &lpObj.m_PlayerData->m_UserQuestInfo[i];
+		UserQuestInfo* pUserQuestInfo = &Obj.m_PlayerData->m_UserQuestInfo[i];
 		int iAskCnt = pUserQuestInfo->GetAskCnt();
 
 		for (int j = 0; j < iAskCnt; j++)
@@ -1100,16 +1100,16 @@ void QuestExpProgMng::ChkUserQuestType(int iQuestType, CGameObject lpObj, CGameO
 				{
 					pUserQuestAskInfo->SetValue(pUserQuestAskInfo->GetValue() + 1);
 
-					if (!pQuestMonsterKill->IsPartyPlay() || lpObj.PartyNumber == -1)
+					if (!pQuestMonsterKill->IsPartyPlay() || Obj.PartyNumber == -1)
 					{
 						//sLog->outBasic("[QuestExp] Ask Kill Monster [%s][%s] Ep[%d] QS[%d] MonName[%s] AskKillCnt[%d] KillCnt[%d] ",
-						//	lpObj.AccountID, lpObj.Name, iEpisode, iQS, lpMonsterObj.Name, pQuestMonsterKill->GetMonsterKillCnt(), pUserQuestAskInfo->GetValue());
+						//	Obj.AccountID, Obj.Name, iEpisode, iQS, lpMonsterObj.Name, pQuestMonsterKill->GetMonsterKillCnt(), pUserQuestAskInfo->GetValue());
 					}
 
 					else
 					{
 						//sLog->outBasic("[QuestExp] Party Play Ask Kill Monster [%s][%s] Ep[%d] QS[%d] MonName[%s] AskKillCnt[%d] KillCnt[%d] MonsterKiller[%s][%s]",
-						//	lpObj.AccountID, lpObj.Name, iEpisode, iQS, lpMonsterObj.Name, pQuestMonsterKill->GetMonsterKillCnt(), pUserQuestAskInfo->GetValue(),
+						//	Obj.AccountID, Obj.Name, iEpisode, iQS, lpMonsterObj.Name, pQuestMonsterKill->GetMonsterKillCnt(), pUserQuestAskInfo->GetValue(),
 						//	getGameObject(iKillerObjIndex)->AccountID, getGameObject(iKillerObjIndex)->Name);
 					}
 				}
@@ -1151,26 +1151,26 @@ void QuestExpProgMng::ChkUserQuestType(int iQuestType, CGameObject lpObj, CGameO
 				}
 			}
 
-			this->SendQuestAskInfoUpdate(iEpisode, iQS, iQuestType, pUserQuestAskInfo->GetValue(), lpObj.m_Index);
+			this->SendQuestAskInfoUpdate(iEpisode, iQS, iQuestType, pUserQuestAskInfo->GetValue(), Obj.m_Index);
 		}
 	}
 }
 
 void QuestExpProgMng::ChkUserQuestTypeEventMap(int iQuestType, CGameObject &Obj, int iMapLevel, int iValue)
 {
-	if (lpObj.Type != OBJ_USER)
+	if (Obj.Type != OBJ_USER)
 	{
 		return;
 	}
 
 	for (int i = 0; i < MAX_QUESTEXP_USER_INFO; i++)
 	{
-		if (lpObj.m_PlayerData->m_UserQuestInfo[i].GetEpisode() == 0)
+		if (Obj.m_PlayerData->m_UserQuestInfo[i].GetEpisode() == 0)
 		{
 			continue;
 		}
 
-		UserQuestInfo* pUserQuestInfo = &lpObj.m_PlayerData->m_UserQuestInfo[i];
+		UserQuestInfo* pUserQuestInfo = &Obj.m_PlayerData->m_UserQuestInfo[i];
 		int iAskCnt = pUserQuestInfo->GetAskCnt();
 
 		for (int j = 0; j < iAskCnt; j++)
@@ -1204,7 +1204,7 @@ void QuestExpProgMng::ChkUserQuestTypeEventMap(int iQuestType, CGameObject &Obj,
 						pUserQuestAskInfo->SetValue(pUserQuestAskInfo->GetValue() + 1);
 
 						//sLog->outBasic("[QuestExp] Ask Kill User [%s][%s] Ep[%d] QS[%d] RequestType[0x08%X] MapLevel[%d] AskKillCnt[%d] KillCnt[%d]",
-						//	lpObj.AccountID, lpObj.Name, iEpisode, iQS, iQuestType, iMapLevel, pQuestEventMapKillPoint->GetQuestEventMapKillCnt(), pUserQuestAskInfo->GetValue());
+						//	Obj.AccountID, Obj.Name, iEpisode, iQS, iQuestType, iMapLevel, pQuestEventMapKillPoint->GetQuestEventMapKillCnt(), pUserQuestAskInfo->GetValue());
 					}
 				}
 
@@ -1233,7 +1233,7 @@ void QuestExpProgMng::ChkUserQuestTypeEventMap(int iQuestType, CGameObject &Obj,
 						pUserQuestAskInfo->SetValue(1);
 
 						//sLog->outBasic("[QuestExp] Ask Event Map Clear - Complete - [%s][%s] Ep[%d] QS[%d] QuestType[0x%08X]",
-						//	lpObj.AccountID, lpObj.Name, iEpisode, iQS, iQuestType);
+						//	Obj.AccountID, Obj.Name, iEpisode, iQS, iQuestType);
 					}
 				}
 			}
@@ -1252,7 +1252,7 @@ void QuestExpProgMng::ChkUserQuestTypeEventMap(int iQuestType, CGameObject &Obj,
 						pUserQuestAskInfo->SetValue(iValue + pUserQuestAskInfo->GetValue());
 
 						//sLog->outBasic("[QuestExp] Ask Devil Point [%s][%s] Ep[%d] QS[%d] RequestType[0x%08X] MapLevel[%d] AskDevilPoint[%d] CurDevilPoint[%d]",
-						//	lpObj.AccountID, lpObj.Name, iEpisode, iQS, iQuestType, iMapLevel, pQuestEventMapDevilPoint->GetQuestEventMapDevilPoint(), pUserQuestAskInfo->GetValue());
+						//	Obj.AccountID, Obj.Name, iEpisode, iQS, iQuestType, iMapLevel, pQuestEventMapDevilPoint->GetQuestEventMapDevilPoint(), pUserQuestAskInfo->GetValue());
 					}
 				}
 
@@ -1277,7 +1277,7 @@ void QuestExpProgMng::ChkUserQuestTypeEventMap(int iQuestType, CGameObject &Obj,
 						pUserQuestAskInfo->SetValue(pUserQuestAskInfo->GetValue() + 1);
 
 						//sLog->outBasic("[QuestExp] Ask PVP [%s][%s] Ep[%d] QS[%d] RequestType[0x08%X] MapNum[%d] AskKillCnt[%d] KillCnt[%d]",
-						//	lpObj.AccountID, lpObj.Name, iEpisode, iQS, iQuestType, iMapLevel, iDevilPoint->GetQuestPVP_Point(), pUserQuestAskInfo->GetValue());
+						//	Obj.AccountID, Obj.Name, iEpisode, iQS, iQuestType, iMapLevel, iDevilPoint->GetQuestPVP_Point(), pUserQuestAskInfo->GetValue());
 					}
 				}
 
@@ -1293,7 +1293,7 @@ void QuestExpProgMng::ChkUserQuestTypeEventMap(int iQuestType, CGameObject &Obj,
 
 			}
 
-			this->SendQuestAskInfoUpdate(iEpisode, iQS, iQuestType, pUserQuestAskInfo->GetValue(), lpObj.m_Index);
+			this->SendQuestAskInfoUpdate(iEpisode, iQS, iQuestType, pUserQuestAskInfo->GetValue(), Obj.m_Index);
 		}
 	}
 }
@@ -1548,8 +1548,8 @@ void QuestExpProgMng::QuestMonsterItemDrop(DWORD dwQuestInfoIndexID, CGameObject
 
 	for (int i = 0; i < MAX_QUESTEXP_USER_INFO; i++)
 	{
-		int iEpisode = lpObj.m_PlayerData->m_UserQuestInfo[i].GetEpisode();
-		int iQS = lpObj.m_PlayerData->m_UserQuestInfo[i].GetQuestSwitch();
+		int iEpisode = Obj.m_PlayerData->m_UserQuestInfo[i].GetEpisode();
+		int iQS = Obj.m_PlayerData->m_UserQuestInfo[i].GetQuestSwitch();
 
 		if (iEpisode == 0)
 			continue;
@@ -1572,8 +1572,8 @@ void QuestExpProgMng::QuestMonsterItemDrop(DWORD dwQuestInfoIndexID, CGameObject
 			int iItemNum = pQuestDropItemInfo->GetItemNum();
 			int iItemLevel = pQuestDropItemInfo->GetItemLevel();
 
-			ItemCreate(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, iItemNum, iItemLevel, 0, 0, 0, 0, iMaxHitUserIndex, 0, 0, 0, 0, 0);
-			//sLog->outBasic("[QuestExp] Monster Kill Quest Item Drop - MonsterName[%s]: [%s][%s] ItemNum[%d]", lpMonsterObj.Name, lpObj.AccountID, lpObj.Name, iItemNum);
+			ItemCreate(Obj.m_Index, Obj.MapNumber, Obj.X, Obj.Y, iItemNum, iItemLevel, 0, 0, 0, 0, iMaxHitUserIndex, 0, 0, 0, 0, 0);
+			//sLog->outBasic("[QuestExp] Monster Kill Quest Item Drop - MonsterName[%s]: [%s][%s] ItemNum[%d]", lpMonsterObj.Name, Obj.AccountID, Obj.Name, iItemNum);
 		}
 	}
 }
@@ -1626,8 +1626,8 @@ bool QuestExpProgMng::IsQuestDropItem(CGameObject &Obj, WORD nType, WORD nLevel)
 
 	for (int i = 0; i < MAX_QUESTEXP_USER_INFO; ++i)
 	{
-		int iEpisode = lpObj.m_PlayerData->m_UserQuestInfo[i].GetEpisode();
-		int iQS = lpObj.m_PlayerData->m_UserQuestInfo[i].GetQuestSwitch();
+		int iEpisode = Obj.m_PlayerData->m_UserQuestInfo[i].GetEpisode();
+		int iQS = Obj.m_PlayerData->m_UserQuestInfo[i].GetQuestSwitch();
 
 		if (iEpisode == 0)
 			continue;
@@ -1640,7 +1640,7 @@ bool QuestExpProgMng::IsQuestDropItem(CGameObject &Obj, WORD nType, WORD nLevel)
 		if (!pQuestDropItemInfo)
 			continue;
 
-		UserQuestAskInfo* pUserQuestAskInfo = &lpObj.m_PlayerData->m_UserQuestInfo[i].m_UserQuestAskInfo[pQuestDropItemInfo->GetAskIndex() - 1];
+		UserQuestAskInfo* pUserQuestAskInfo = &Obj.m_PlayerData->m_UserQuestInfo[i].m_UserQuestAskInfo[pQuestDropItemInfo->GetAskIndex() - 1];
 
 		if (pQuestDropItemInfo->GetItemNum() == nType)
 		{
@@ -1666,24 +1666,24 @@ void QuestExpProgMng::SetQuestTimeLimit(int iObjIndex, DWORD dwQuestIndexID, int
 
 	for (int i = 0; i < MAX_QUESTEXP_USER_INFO; i++)
 	{
-		int iEpisode = lpObj.m_PlayerData->m_UserQuestInfo[i].GetEpisode();
-		int iQS = lpObj.m_PlayerData->m_UserQuestInfo[i].GetQuestSwitch();
+		int iEpisode = Obj.m_PlayerData->m_UserQuestInfo[i].GetEpisode();
+		int iQS = Obj.m_PlayerData->m_UserQuestInfo[i].GetQuestSwitch();
 		DWORD dwQuestInfoIndexID = GetQuestInfoIndexId(iEpisode, iQS);
 
 		if (iEpisode && iQS && dwQuestInfoIndexID == dwQuestInfoIndexID)
 		{
-			lpObj.m_PlayerData->m_UserQuestInfo[i].SetStartDate(GetCurrentDate());
-			lpObj.m_PlayerData->m_UserQuestInfo[i].SetEndDate(GetExpireDate(iDuration));
-			lpObj.m_PlayerData->m_UserQuestInfo[i].SetQuestProgState(QUESTEXP_PROG_STATE_TIME_LIMIT);
+			Obj.m_PlayerData->m_UserQuestInfo[i].SetStartDate(GetCurrentDate());
+			Obj.m_PlayerData->m_UserQuestInfo[i].SetEndDate(GetExpireDate(iDuration));
+			Obj.m_PlayerData->m_UserQuestInfo[i].SetQuestProgState(QUESTEXP_PROG_STATE_TIME_LIMIT);
 
 			SYSTEMTIME tStartTime;
 			SYSTEMTIME tEndTime;
 
-			UnixTimeToSystemTime(lpObj.m_PlayerData->m_UserQuestInfo[i].GetStartDate(), &tStartTime);
-			UnixTimeToSystemTime(lpObj.m_PlayerData->m_UserQuestInfo[i].GetEndDate(), &tEndTime);
+			UnixTimeToSystemTime(Obj.m_PlayerData->m_UserQuestInfo[i].GetStartDate(), &tStartTime);
+			UnixTimeToSystemTime(Obj.m_PlayerData->m_UserQuestInfo[i].GetEndDate(), &tEndTime);
 
 			//sLog->outBasic("[QuestExp] SetQuestTimeLimit [%s][%s] Ep[%d] QS[%d] StartDate : %d-%.2d-%.2d %.2d:%.2d:%.2d EndDate : %d-%.2d-%.2d %.2d:%.2d:%.2d",
-			//	lpObj.AccountID, lpObj.Name, iEpisode, iQS,tStartTime.wYear, tStartTime.wMonth, tStartTime.wDay, tStartTime.wHour, tStartTime.wMinute, tStartTime.wSecond,
+			//	Obj.AccountID, Obj.Name, iEpisode, iQS,tStartTime.wYear, tStartTime.wMonth, tStartTime.wDay, tStartTime.wHour, tStartTime.wMinute, tStartTime.wSecond,
 			//	tEndTime.wYear, tEndTime.wMonth, tEndTime.wDay, tEndTime.wHour, tEndTime.wMinute, tEndTime.wSecond);
 
 			return;

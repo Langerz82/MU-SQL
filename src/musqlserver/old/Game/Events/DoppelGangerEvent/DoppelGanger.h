@@ -3,6 +3,7 @@
 #ifndef DOPPELGANGER_H
 #define DOPPELGANGER_H
 
+#include "StdAfx.h"
 #include "MonsterAttr.h"
 #include "MonsterHerd.h"
 #include "User/CUserData.h"
@@ -73,13 +74,12 @@ struct _DOPPELGANGER_USERINFO
 {
 	_DOPPELGANGER_USERINFO()
 	{
-		this->m_nIndex = -1;
 		this->m_nLevel = 0;
 	}
 
 	BOOL IsUser()
 	{
-		if ( ObjectMaxRange(this->m_nIndex) )
+		if ( this->m_Obj->Type == OBJ_USER)
 		{
 			return TRUE;
 		}
@@ -87,8 +87,8 @@ struct _DOPPELGANGER_USERINFO
 		return FALSE;
 	}
 
-	int		m_nIndex;
 	int		m_nLevel;
+	CGameObject* m_Obj;
 };
 
 struct PMSG_DOPPELGANGER_ENTER_RESULT
@@ -369,7 +369,7 @@ private:
 	int								m_nFirstMonsterIndex;
 	BYTE							m_btFirstIndex;
 	CRITICAL_SECTION				m_CSMonsterHerd;
-	_DOPPELGANGER_USERINFO		m_UserData[MAX_DOPPELGANGER_USER_INFO];
+	_DOPPELGANGER_USERINFO		    m_UserData[MAX_DOPPELGANGER_USER_INFO];
 	CDoppelGangerMonsterHerd		m_MonsterHerd[MAX_DOPPELGANGER_MONSTER_INFO];
 	int								m_nHerdCnt;
 	int								m_nBossRegenOrder;

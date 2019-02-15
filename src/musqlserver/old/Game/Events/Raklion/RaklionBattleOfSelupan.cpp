@@ -203,7 +203,7 @@ void CRaklionBattleOfSelupan::SetState_DIE()
 	if (ObjectMaxRange(iWinner) == true)
 	{
 		CGameObject lpObj = &getGameObject(iWinner);
-		g_RaklionUtil.SendMsgAllUser(Lang.GetText(0,307), lpObj.Name);
+		g_RaklionUtil.SendMsgAllUser(Lang.GetText(0,307), Obj.Name);
 	}
 
 	time_t t;
@@ -310,7 +310,7 @@ void CRaklionBattleOfSelupan::ActionOfSelupan(int iAction)
 
 	CGameObject lpObj = &getGameObject(iSelupanIndex);
 
-	if( lpObj.Teleport || lpObj.m_ActState.Move )	return;
+	if( Obj.Teleport || Obj.m_ActState.Move )	return;
 	if( iAction < 0 || iAction >= 9 )	return;
 
 	switch ( iAction )
@@ -356,19 +356,19 @@ void CRaklionBattleOfSelupan::SetBattleOfSelupanStateAuto()
 	
 	lpObj = &getGameObject(iSelupanObjIndex);
 	
-	if( lpObj.DieRegen )	return;
+	if( Obj.DieRegen )	return;
 
-	iSelupanMAXLife = lpObj.AddLife + lpObj.MaxLife;
+	iSelupanMAXLife = Obj.AddLife + Obj.MaxLife;
 	if(iSelupanMAXLife <= 0)
 	{
-		sLog->outError( "[RAKLION] SelupanMAXLife error : Index(%d), MaxLife(%d)", lpObj.m_Index, lpObj.MaxLife);
+		sLog->outError( "[RAKLION] SelupanMAXLife error : Index(%d), MaxLife(%d)", Obj.m_Index, Obj.MaxLife);
 		return;
 	}	
 
 	iSelupanLifePercent = m_RaklionSelupan.GetSelupanHP() * 100 / iSelupanMAXLife;
 	if( iSelupanLifePercent < 0 )
 	{
-		sLog->outError( "[RAKLION] SelupanLifePercent error : Index(%d), MaxLife(%d)", lpObj.m_Index, iSelupanLifePercent);
+		sLog->outError( "[RAKLION] SelupanLifePercent error : Index(%d), MaxLife(%d)", Obj.m_Index, iSelupanLifePercent);
 		return;
 	}
 	

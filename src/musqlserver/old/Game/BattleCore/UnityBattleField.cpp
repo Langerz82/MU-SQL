@@ -2,12 +2,11 @@
 // UnityBattleField.cpp
 #include "StdAfx.h"
 #include "UnityBattleField.h"
-#include "Logging/Log.h"
 #include "GameMain.h"
-//
+#include "GOFunctions.h"
 #include "util.h"
 #include "PersonalStore.h"
-#include "configread.h"
+
 
 CUnityBattleField g_UnityBattleField;
 
@@ -31,7 +30,7 @@ void CUnityBattleField::LoadData(char *FileName)
 
 void CUnityBattleField::SendUBFNotice(CGameObject &Obj)
 {
-	if (!ObjectMaxRange(aIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return;
 	}
@@ -43,13 +42,13 @@ void CUnityBattleField::SendUBFNotice(CGameObject &Obj)
 
 	if (this->EventBannerOff == 1)
 	{
-		GCSendEventBanner(aIndex, 3);
+		GCSendEventBanner(Obj.m_Index, 3);
 	}
 }
 
 void CUnityBattleField::GDReqJoinUnityBattleField(CGameObject &Obj)
 {
-	if (!ObjectMaxRange(aIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return;
 	}
@@ -82,7 +81,7 @@ void CUnityBattleField::GDReqJoinUnityBattleField(CGameObject &Obj)
 
 	if (Obj.m_IfState.use && Obj.m_IfState.type == 1)
 	{
-		GCServerMsgStringSend(Lang.GetText(0, 634), aIndex, 1);
+		GCServerMsgStringSend(Lang.GetText(0, 634), Obj.m_Index, 1);
 		sLog->outBasic("[UBF][GDReqJoinUnityBattleField][%s][%s][%s][ServerCode:%d] Trading can't be to Join UnityBattleField.",
 			Obj.AccountID, Obj.m_PlayerData->m_RealNameOfUBF, Obj.Name, Obj.m_PlayerData->m_nServerCodeOfHomeWorld);
 
@@ -91,7 +90,7 @@ void CUnityBattleField::GDReqJoinUnityBattleField(CGameObject &Obj)
 
 	if (Obj.m_bPShopOpen == true)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 633), aIndex, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 633), Obj.m_Index, 1);
 		sLog->outBasic("[UBF][GDReqJoinUnityBattleField][%s][%s][%s][ServerCode:%d] Opened PShop can't be to Join UnityBattleField.",
 			Obj.AccountID, Obj.m_PlayerData->m_RealNameOfUBF, Obj.Name, Obj.m_PlayerData->m_nServerCodeOfHomeWorld);
 
@@ -122,7 +121,7 @@ void CUnityBattleField::GDReqJoinUnityBattleField(CGameObject &Obj)
 
 void CUnityBattleField::DGAnsJoinUnityBattleField(CGameObject &Obj, BYTE Result, WORD LeftSecond)
 {
-	if (!ObjectMaxRange(aIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return;
 	}
@@ -146,24 +145,24 @@ void CUnityBattleField::DGAnsJoinUnityBattleField(CGameObject &Obj, BYTE Result,
 
 	if (Result != 1 && Result != 0)
 	{
-		GCServerMsgStringSend(Lang.GetText(0, 632), aIndex, 1);
+		GCServerMsgStringSend(Lang.GetText(0, 632), Obj.m_Index, 1);
 		return;
 	}
 
-	GCServerMsgStringSend(Lang.GetText(0, 631), aIndex, 1);
+	GCServerMsgStringSend(Lang.GetText(0, 631), Obj.m_Index, 1);
 	Obj.m_PlayerData->m_JoinUnityBattle = true;
 
 	if (Obj.m_bPShopOpen == true)
 	{
-		g_PersonalStore.CGPShopReqClose(aIndex);
+		g_PersonalStore.CGPShopReqClose(Obj.m_Index);
 	}
 
-	this->GDReqCopyCharacterInfo(aIndex, 0);
+	this->GDReqCopyCharacterInfo(Obj.m_Index, 0);
 }
 
 void CUnityBattleField::GDReqCopyCharacterInfo(CGameObject &Obj, BYTE CharacterSlot)
 {
-	if (!ObjectMaxRange(aIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return;
 	}
@@ -185,7 +184,7 @@ void CUnityBattleField::GDReqCopyCharacterInfo(CGameObject &Obj, BYTE CharacterS
 	PMSG_UBF_ACCOUNT_USER_COPY pMsg;
 	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
 	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
-	pMsg.iUserIndex = aIndex;
+	pMsg.iUserIndex = Obj.m_Index;
 	pMsg.ServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.btPromotionCode = this->m_bUBFCharacterPromotion;
 
@@ -200,7 +199,7 @@ void CUnityBattleField::GDReqCopyCharacterInfo(CGameObject &Obj, BYTE CharacterS
 
 void CUnityBattleField::DGAnsCopyCharacterInfo(CGameObject &Obj, BYTE result, BYTE subResult)
 {
-	if (!ObjectMaxRange(aIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return;
 	}
@@ -214,13 +213,13 @@ void CUnityBattleField::DGAnsCopyCharacterInfo(CGameObject &Obj, BYTE result, BY
 
 	if (result != TRUE)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 630), aIndex, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 630), Obj.m_Index, 1);
 		sLog->outBasic("[UBF][DGAnsCopyCharcterInfo][%s][%s] Character Move(Copy Fail) Result: %d (2,3:Fail), ErrCode: %d (2:No UserInfo / 3: No CharSlot)",
 			Obj.AccountID, Obj.Name, result, subResult);
 		return;
 	}
 
-	gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 629), aIndex, 1);
+	gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 629), Obj.m_Index, 1);
 	sLog->outBasic("[UBF][DGAnsCopyCharcterInfo][%s][%s] Character Move(Copy) Result: %d (1:Succes) ",
 		Obj.AccountID, Obj.Name, result);
 
@@ -235,7 +234,7 @@ void CUnityBattleField::DGAnsCopyCharacterInfo(CGameObject &Obj, BYTE result, BY
 
 void CUnityBattleField::GDReqCheckJoinedUnityBattleField(CGameObject &Obj, int IsUnityBattleFieldServer, BYTE ObServerMode)
 {
-	if (!ObjectMaxRange(aIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return;
 	}
@@ -251,7 +250,7 @@ void CUnityBattleField::GDReqCheckJoinedUnityBattleField(CGameObject &Obj, int I
 	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
 	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 
-	pMsg.iUserIndex = aIndex;
+	pMsg.iUserIndex = Obj.m_Index;
 	pMsg.iServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.IsUnityBattleFieldServer = g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE ? TRUE : FALSE;
 	pMsg.btObserverMode = ObServerMode;
@@ -261,7 +260,7 @@ void CUnityBattleField::GDReqCheckJoinedUnityBattleField(CGameObject &Obj, int I
 }
 void CUnityBattleField::DGAnsCheckJoinedUnityBattleField(CGameObject &Obj, BYTE btRegisterState)
 {
-	if (!ObjectMaxRange(aIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return;
 	}
@@ -298,9 +297,9 @@ void CUnityBattleField::GDObserverLogoutManager()
 {
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		CGameObject lpObj = &getGameObject(n);
+		CGameObject* lpObj = getGameObject(n);
 
-		if (gObjIsConnected(n) == TRUE && Obj.Type == OBJ_USER)
+		if (gObjIsConnected(*lpObj) == TRUE && lpObj->Type == OBJ_USER)
 		{
 			this->GDReqCheckJoinedUnityBattleField(n, g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE ? TRUE : FALSE, TRUE);
 		}
@@ -309,7 +308,7 @@ void CUnityBattleField::GDObserverLogoutManager()
 
 void CUnityBattleField::GDReqCancelUnityBattleField(CGameObject &Obj, BYTE btCancelType)
 {
-	if (!ObjectMaxRange(aIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return;
 	}
@@ -324,14 +323,14 @@ void CUnityBattleField::GDReqCancelUnityBattleField(CGameObject &Obj, BYTE btCan
 	if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 	{
 		sLog->outBasic("[UBF][GDReqCancelUnityBattleField][%s][%s] In UBF, Can not be canceled", Obj.AccountID, Obj.Name);
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 628), aIndex, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 628), Obj.m_Index, 1);
 		return;
 	}
 
 	PMSG_UBF_REQ_CANCEL_REGISTER_USER pMsg;
 	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
 	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
-	pMsg.iUserIndex = aIndex;
+	pMsg.iUserIndex = Obj.m_Index;
 	pMsg.ServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.btCanceled = btCancelType;
 
@@ -344,7 +343,7 @@ void CUnityBattleField::GDReqCancelUnityBattleField(CGameObject &Obj, BYTE btCan
 
 void CUnityBattleField::GDReqCancelUnityBattleField(CGameObject &Obj, BYTE btCancelType, const char *name)
 {
-	if (!ObjectMaxRange(aIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return;
 	}
@@ -359,14 +358,14 @@ void CUnityBattleField::GDReqCancelUnityBattleField(CGameObject &Obj, BYTE btCan
 	if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 	{
 		sLog->outBasic("[UBF][GDReqCancelUnityBattleField][%s][%s] In UBF, Can not be canceled", Obj.AccountID, Obj.Name);
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 628), aIndex, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 628), Obj.m_Index, 1);
 		return;
 	}
 
 	PMSG_UBF_REQ_CANCEL_REGISTER_USER pMsg;
 	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
 	memcpy(pMsg.szName, name, MAX_ACCOUNT_LEN + 1);
-	pMsg.iUserIndex = aIndex;
+	pMsg.iUserIndex = Obj.m_Index;
 	pMsg.ServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.btCanceled = btCancelType;
 
@@ -379,7 +378,7 @@ void CUnityBattleField::GDReqCancelUnityBattleField(CGameObject &Obj, BYTE btCan
 
 void CUnityBattleField::DGAnsCancelUnityBattleField(CGameObject &Obj, BYTE aCanceledResult, BYTE deletedResult)
 {
-	if (!ObjectMaxRange(aIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return;
 	}
@@ -393,7 +392,7 @@ void CUnityBattleField::DGAnsCancelUnityBattleField(CGameObject &Obj, BYTE aCanc
 
 	if (aCanceledResult == TRUE)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 627), aIndex, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 627), Obj.m_Index, 1);
 		Obj.m_PlayerData->m_JoinUnityBattle = false;
 	}
 
@@ -409,7 +408,7 @@ void CUnityBattleField::DGAnsCancelUnityBattleField(CGameObject &Obj, BYTE aCanc
 
 void CUnityBattleField::GDReqGetRealNameAndServerCode(CGameObject &Obj)
 {
-	if (!ObjectMaxRange(aIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return;
 	}
@@ -427,7 +426,7 @@ void CUnityBattleField::GDReqGetRealNameAndServerCode(CGameObject &Obj)
 	}
 
 	PMSG_REQ_GET_UBF_REAL_NAME pMsg;
-	pMsg.iUserIndex = aIndex;
+	pMsg.iUserIndex = Obj.m_Index;
 	memcpy(pMsg.szUBFName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xF3, 0x08, sizeof(pMsg));
@@ -441,7 +440,7 @@ void CUnityBattleField::DGAnsGetRealNameAndServerCode(CGameObject &Obj, int nSer
 
 void CUnityBattleField::GDReqUBFGetReward(CGameObject &Obj, BYTE btBattleKind)
 {
-	if (!ObjectMaxRange(aIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return;
 	}
@@ -453,7 +452,7 @@ void CUnityBattleField::GDReqUBFGetReward(CGameObject &Obj, BYTE btBattleKind)
 		return;
 	}
 
-	if (gObjIsConnected(aIndex) == FALSE)
+	if (gObjIsConnected(Obj.m_Index) == FALSE)
 	{
 		return;
 	}
@@ -464,7 +463,7 @@ void CUnityBattleField::GDReqUBFGetReward(CGameObject &Obj, BYTE btBattleKind)
 	}
 
 	PMSG_REQ_UBF_GET_REWARD pMsg;
-	pMsg.iUserIndex = aIndex;
+	pMsg.iUserIndex = Obj.m_Index;
 	pMsg.iServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	pMsg.btBattleKind = btBattleKind;
 	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
@@ -474,12 +473,12 @@ void CUnityBattleField::GDReqUBFGetReward(CGameObject &Obj, BYTE btBattleKind)
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 
 	sLog->outBasic("[UBF][GDReqUBFGetReward][%d][%s][%s] UnityBattleFiled is asking WinnerItem",
-		aIndex, Obj.AccountID, Obj.Name);
+		Obj.m_Index, Obj.AccountID, Obj.Name);
 }
 
 void CUnityBattleField::GDReqSetReceivedWinnerItem(CGameObject &Obj, BYTE btBattleKind)
 {
-	if (!ObjectMaxRange(aIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return;
 	}
@@ -491,13 +490,13 @@ void CUnityBattleField::GDReqSetReceivedWinnerItem(CGameObject &Obj, BYTE btBatt
 		return;
 	}
 
-	if (gObjIsConnected(aIndex) == FALSE)
+	if (gObjIsConnected(Obj.m_Index) == FALSE)
 	{
 		return;
 	}
 
 	PMSG_REQ_UBF_SET_RECEIVED_REWARD pMsg;
-	pMsg.iUserIndex = aIndex;
+	pMsg.iUserIndex = Obj.m_Index;
 	pMsg.iServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 	memcpy(pMsg.szAccountID, Obj.AccountID, MAX_ACCOUNT_LEN + 1);
 	memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
@@ -508,12 +507,12 @@ void CUnityBattleField::GDReqSetReceivedWinnerItem(CGameObject &Obj, BYTE btBatt
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 
 	sLog->outBasic("[UBF][GDReqSetReceivedWinnerItem] Index:%d ID:%s Name:%s RequestSetReceived WinnerItem ",
-		aIndex, Obj.AccountID, Obj.Name);
+		Obj.m_Index, Obj.AccountID, Obj.Name);
 }
 
 void CUnityBattleField::DGAnsSetReceivedWinnerItem(CGameObject &Obj, BYTE btReturn)
 {
-	if (!ObjectMaxRange(aIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return;
 	}
@@ -525,7 +524,7 @@ void CUnityBattleField::DGAnsSetReceivedWinnerItem(CGameObject &Obj, BYTE btRetu
 		return;
 	}
 
-	if (gObjIsConnected(aIndex) == FALSE)
+	if (gObjIsConnected(Obj.m_Index) == FALSE)
 	{
 		return;
 	}
@@ -533,13 +532,13 @@ void CUnityBattleField::DGAnsSetReceivedWinnerItem(CGameObject &Obj, BYTE btRetu
 	if (btReturn == TRUE)
 	{
 		sLog->outBasic("[UBF][DGAnsSetReceivedWinnerItem] Index:%d ID:%s Name:%s Received WinnerItem Success",
-			aIndex, Obj.AccountID, Obj.Name);
+			Obj.m_Index, Obj.AccountID, Obj.Name);
 	}
 
 	else
 	{
 		sLog->outBasic("[UBF][DGAnsSetReceivedWinnerItem] Index:%d ID:%s Name:%s WinnerItem Failed to complete the process ErrCode :%d",
-			aIndex, Obj.AccountID, Obj.Name, btReturn);
+			Obj.m_Index, Obj.AccountID, Obj.Name, btReturn);
 	}
 }
 

@@ -26,7 +26,7 @@ int CSkillSpecialize::CalcStatBonus(CGameObject lpObj, int iSkill)
 		return 0;
 	}
 
-	if (lpObj.Type != OBJ_USER)
+	if (Obj.Type != OBJ_USER)
 	{
 		return 0;
 	}
@@ -34,12 +34,12 @@ int CSkillSpecialize::CalcStatBonus(CGameObject lpObj, int iSkill)
 	int iSkillBonus = 0;
 
 	this->m_Lua.Generic_Call("SkillSpec_GetBonusValue", "iiiiii>i",
-		(int)lpObj.Class, 
+		(int)Obj.Class, 
 		iSkill, 
-		int(lpObj.m_PlayerData->Strength + lpObj.AddStrength),
-		int(lpObj.m_PlayerData->Dexterity + lpObj.AddDexterity),
-		int(lpObj.m_PlayerData->Vitality + lpObj.AddVitality),
-		int(lpObj.m_PlayerData->Energy + lpObj.AddEnergy),
+		int(Obj.m_PlayerData->Strength + Obj.AddStrength),
+		int(Obj.m_PlayerData->Dexterity + Obj.AddDexterity),
+		int(Obj.m_PlayerData->Vitality + Obj.AddVitality),
+		int(Obj.m_PlayerData->Energy + Obj.AddEnergy),
 		&iSkillBonus);
 
 	return iSkillBonus;

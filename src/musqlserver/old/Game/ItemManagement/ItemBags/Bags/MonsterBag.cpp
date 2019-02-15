@@ -48,7 +48,7 @@ bool CMonsterBag::IsBag(CGameObject &Obj, int MonsterClass, int iParam2)
 
 bool CMonsterBag::UseBag(CGameObject &Obj, int iMonsterIndex)
 {
-	if (lpObj.Type != OBJ_USER)
+	if (Obj.Type != OBJ_USER)
 	{
 		return false;
 	}
@@ -58,7 +58,7 @@ bool CMonsterBag::UseBag(CGameObject &Obj, int iMonsterIndex)
 
 	if (rand() % 10000 >= this->m_BagData.dwItemDropRate)
 	{
-		MapC[lpObj.MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, lpObj.X, lpObj.Y);
+		MapC[Obj.MapNumber].MoneyItemDrop(this->m_BagData.dwDropMoney, Obj.X, Obj.Y);
 
 		return true;
 	}
@@ -66,9 +66,9 @@ bool CMonsterBag::UseBag(CGameObject &Obj, int iMonsterIndex)
 	if (rand() % 10000 < this->m_BagData.dwGainRuudRate)
 	{
 		int iRuudValue = this->GetValueMinMax(this->m_BagData.dwMinGainRuud, this->m_BagData.dwMaxGainRuud);
-		lpObj.m_PlayerData->Ruud += iRuudValue;
+		Obj.m_PlayerData->Ruud += iRuudValue;
 
-		gGameProtocol.GCSendRuud(aIndex, lpObj.m_PlayerData->Ruud, iRuudValue, true);
+		gGameProtocol.GCSendRuud(Obj.m_Index, Obj.m_PlayerData->Ruud, iRuudValue, true);
 		return true;
 	}
 
@@ -76,7 +76,7 @@ bool CMonsterBag::UseBag(CGameObject &Obj, int iMonsterIndex)
 	BAG_SECTION_ITEMS m_ItemSection;
 	BAG_SECTION_DROP m_DropSection;
 
-	int iResult = this->GetDropSection(aIndex, m_DropSection);
+	int iResult = this->GetDropSection(Obj.m_Index, m_DropSection);
 
 	if (iResult == FALSE)
 	{
@@ -99,7 +99,7 @@ bool CMonsterBag::UseBag(CGameObject &Obj, int iMonsterIndex)
 	{
 		if (rand()%10000 < this->m_BagData.dwRandomSetItemDropRate)
 		{
-			MakeRewardSetItem(aIndex, lpMonsterObj.X, lpMonsterObj.Y, 1, lpObj.MapNumber);
+			MakeRewardSetItem(Obj.m_Index, lpMonsterObj.X, lpMonsterObj.Y, 1, Obj.MapNumber);
 			return true;
 		}
 
@@ -108,7 +108,7 @@ bool CMonsterBag::UseBag(CGameObject &Obj, int iMonsterIndex)
 			return false;
 		}
 
-		bool bResult = gLuaBag.DropCommonBag(aIndex, lpMonsterObj.MapNumber, lpMonsterObj.X, lpMonsterObj.Y, &m_Item);
+		bool bResult = gLuaBag.DropCommonBag(Obj.m_Index, lpMonsterObj.MapNumber, lpMonsterObj.X, lpMonsterObj.Y, &m_Item);
 
 		if (bResult == false)
 		{
@@ -131,7 +131,7 @@ bool CMonsterBag::UseBag(CGameObject &Obj, int iMonsterIndex)
 
 		if (rand()%10000 < this->m_BagData.dwRandomSetItemDropRate)
 		{
-			MakeRewardSetItem(aIndex, cDropX, cDropY, 1, lpObj.MapNumber);
+			MakeRewardSetItem(Obj.m_Index, cDropX, cDropY, 1, Obj.MapNumber);
 			continue;
 		}	
 
@@ -140,7 +140,7 @@ bool CMonsterBag::UseBag(CGameObject &Obj, int iMonsterIndex)
 			return false;
 		}
 
-		bool bResult = gLuaBag.DropMonsterBag(aIndex, iMonsterIndex, lpMonsterObj.MapNumber, cDropX, cDropY, &m_Item);
+		bool bResult = gLuaBag.DropMonsterBag(Obj.m_Index, iMonsterIndex, lpMonsterObj.MapNumber, cDropX, cDropY, &m_Item);
 
 		if (bResult == false)
 		{

@@ -1179,7 +1179,7 @@ int QuestExpUserMng::CheckOutOfInventory(CGameObject &Obj, int sy, int height)
 {
     int nEndOfItemY = sy + height - 1;
 
-	if( sy >= 4 * lpObj.m_PlayerData->m_InventoryExpansion + 8 )
+	if( sy >= 4 * Obj.m_PlayerData->m_InventoryExpansion + 8 )
         return -1;
 
     if( sy < 0 )

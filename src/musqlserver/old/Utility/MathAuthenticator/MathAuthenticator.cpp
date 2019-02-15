@@ -29,7 +29,7 @@ void MathAuthenticator::Update()
 	DWORD elapsed = GetTickCount() - this->m_dwTick;
 	this->m_dwTick = GetTickCount();
 
-	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
+	for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 	{
 		if (getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER && getGameObject(i)->m_PlayerData->ISBOT == false)
 		{

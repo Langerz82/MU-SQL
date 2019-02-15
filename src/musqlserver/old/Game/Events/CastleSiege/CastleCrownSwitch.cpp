@@ -53,8 +53,8 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(CGameObject &Obj)
 	if ( lpUserObj.MapNumber == MAP_INDEX_CASTLESIEGE &&
 		 lpUserObj.m_btCsJoinSide >= 2 )
 	{
-		if ( abs(lpObj.Y - lpUserObj.Y) <= 3 &&
-			 abs(lpObj.X - lpUserObj.X) <= 3 )
+		if ( abs(Obj.Y - lpUserObj.Y) <= 3 &&
+			 abs(Obj.X - lpUserObj.X) <= 3 )
 		{
 			int iCrownIndex1 = g_CastleSiege.GetCrownSwitchUserIndex(217);
 			int iCrownIndex2 = g_CastleSiege.GetCrownSwitchUserIndex(218);
@@ -73,7 +73,7 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(CGameObject &Obj)
 		}
 		else
 		{
-			gGameProtocol.GCAnsCsAccessSwitchState(lpUserObj.m_Index, lpObj.m_Index, -1, 0);
+			gGameProtocol.GCAnsCsAccessSwitchState(lpUserObj.m_Index, Obj.m_Index, -1, 0);
 			g_CastleSiege.ResetCrownSwitchUserIndex(Obj.Class);
 
 			if ( g_CastleSiege.GetRegCrownAvailable() == 1 )
@@ -83,12 +83,12 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(CGameObject &Obj)
 			}
 
 			sLog->outBasic("[CastleSiege] [%s][%s] Push Castle Crown Switch Canceled (GUILD:%s) - CS X:%d/Y:%d",
-				lpUserObj.AccountID, lpUserObj.Name, lpUserObj.m_PlayerData->GuildName, lpObj.X, lpObj.Y);
+				lpUserObj.AccountID, lpUserObj.Name, lpUserObj.m_PlayerData->GuildName, Obj.X, Obj.Y);
 		}
 	}
 	else
 	{
-		gGameProtocol.GCAnsCsAccessSwitchState(lpUserObj.m_Index, lpObj.m_Index, -1, 0);
+		gGameProtocol.GCAnsCsAccessSwitchState(lpUserObj.m_Index, Obj.m_Index, -1, 0);
 
 		g_CastleSiege.ResetCrownSwitchUserIndex(Obj.Class);
 

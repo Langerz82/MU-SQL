@@ -31,9 +31,9 @@ BOOL CMercenary::CreateMercenary(CGameObject &Obj, int iMercenaryTypeIndex, BYTE
 	BYTE cX = cTX;
 	BYTE cY = cTY;
 
-	BYTE btMapAttr = MapC[lpObj.MapNumber].GetAttr(cX, cY);
+	BYTE btMapAttr = MapC[Obj.MapNumber].GetAttr(cX, cY);
 
-	if ( lpObj.MapNumber != MAP_INDEX_CASTLESIEGE )
+	if ( Obj.MapNumber != MAP_INDEX_CASTLESIEGE )
 	{
 		::MsgOutput(iIndex, Lang.GetText(0,170));
 
@@ -51,7 +51,7 @@ BOOL CMercenary::CreateMercenary(CGameObject &Obj, int iMercenaryTypeIndex, BYTE
 
 		if (iMercenaryTypeIndex == 286 || iMercenaryTypeIndex == 287)
 		{
-			if (lpObj.m_btCsJoinSide != 1)
+			if (Obj.m_btCsJoinSide != 1)
 			{
 				::MsgOutput(iIndex, Lang.GetText(0,171));
 
@@ -59,7 +59,7 @@ BOOL CMercenary::CreateMercenary(CGameObject &Obj, int iMercenaryTypeIndex, BYTE
 			}
 		}
 
-		if (lpObj.m_PlayerData->GuildStatus != 0x80 && lpObj.m_PlayerData->GuildStatus != 0x40)
+		if (Obj.m_PlayerData->GuildStatus != 0x80 && Obj.m_PlayerData->GuildStatus != 0x40)
 		{
 			::MsgOutput(iIndex, Lang.GetText(0,172));
 
@@ -73,7 +73,7 @@ BOOL CMercenary::CreateMercenary(CGameObject &Obj, int iMercenaryTypeIndex, BYTE
 			return FALSE;
 		}
 
-		iMonsterIndex = gObjAddMonster(lpObj.MapNumber);
+		iMonsterIndex = gObjAddMonster(Obj.MapNumber);
 
 		if (iMonsterIndex >= 0)
 		{
@@ -101,7 +101,7 @@ BOOL CMercenary::CreateMercenary(CGameObject &Obj, int iMercenaryTypeIndex, BYTE
 			getGameObject(iMonsterIndex)->m_OldY = cY;
 			getGameObject(iMonsterIndex)->StartX = cX;
 			getGameObject(iMonsterIndex)->StartY = cY;
-			getGameObject(iMonsterIndex)->MapNumber = lpObj.MapNumber;
+			getGameObject(iMonsterIndex)->MapNumber = Obj.MapNumber;
 			getGameObject(iMonsterIndex)->m_MoveRange = 0;
 			getGameObject(iMonsterIndex)->Level = MAttr->m_Level;
 			getGameObject(iMonsterIndex)->Type = OBJ_MONSTER;
@@ -117,17 +117,17 @@ BOOL CMercenary::CreateMercenary(CGameObject &Obj, int iMercenaryTypeIndex, BYTE
 
 			this->m_iMercenaryCount++;
 
-			if (lpObj.m_PlayerData->lpGuild)
+			if (Obj.m_PlayerData->lpGuild)
 			{
 				sLog->outBasic("[CastleSiege] Mercenary is summoned [%d] - [%d][%d] [%s][%s][%d] - (Guild : %s)",
 					iMonsterIndex, iMercenaryTypeIndex, this->m_iMercenaryCount,
-					lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->GuildStatus, lpObj.m_PlayerData->lpGuild->Name);
+					Obj.AccountID, Obj.Name, Obj.m_PlayerData->GuildStatus, Obj.m_PlayerData->lpGuild->Name);
 			}
 			else
 			{
 				sLog->outBasic("[CastleSiege] Mercenary is summoned [%d] - [%d][%d] [%s][%s][%d]",
 					iMonsterIndex, iMercenaryTypeIndex, this->m_iMercenaryCount,
-					lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->GuildStatus);
+					Obj.AccountID, Obj.Name, Obj.m_PlayerData->GuildStatus);
 			}
 		}
 		else
@@ -167,16 +167,16 @@ BOOL CMercenary::SearchEnemy(CGameObject &Obj)
 		int iTargetNumber = -1;
 		int iAttackRange = 0;
 
-		lpObj.TargetNumber = -1;
+		Obj.TargetNumber = -1;
 
-		if (lpObj.Class == 286)
+		if (Obj.Class == 286)
 			iAttackRange = 5;
-		else if (lpObj.Class == 287)
+		else if (Obj.Class == 287)
 			iAttackRange = 3;
 
 		for (int i = 0; i < MAX_VIEWPORT; i++)
 		{
-			iTargetNumber = lpObj.VpPlayer2[i].number;
+			iTargetNumber = Obj.VpPlayer2[i].number;
 			if (iTargetNumber >= 0)
 			{
 				if (getGameObject(iTargetNumber)->Type == OBJ_USER)
@@ -185,35 +185,35 @@ BOOL CMercenary::SearchEnemy(CGameObject &Obj)
 					{
 						if (getGameObject(iTargetNumber)->Teleport == 0)
 						{
-							if (getGameObject(iTargetNumber)->m_btCsJoinSide == lpObj.m_btCsJoinSide)
+							if (getGameObject(iTargetNumber)->m_btCsJoinSide == Obj.m_btCsJoinSide)
 								continue;
 
-							int x = lpObj.X - getGameObject(iTargetNumber)->X;
-							int y = lpObj.Y - getGameObject(iTargetNumber)->Y;
+							int x = Obj.X - getGameObject(iTargetNumber)->X;
+							int y = Obj.Y - getGameObject(iTargetNumber)->Y;
 							int iDis = sqrt(static_cast<float>(x*x + y*y));
-							lpObj.VpPlayer2[i].dis = iDis;
+							Obj.VpPlayer2[i].dis = iDis;
 
-							if (lpObj.Dir == 1)
+							if (Obj.Dir == 1)
 							{
 								if (abs(x) <= 2)
 								{
-									int cY = lpObj.Y - iAttackRange;
-									if (cY <= getGameObject(iTargetNumber)->Y && lpObj.Y >= getGameObject(iTargetNumber)->Y)
+									int cY = Obj.Y - iAttackRange;
+									if (cY <= getGameObject(iTargetNumber)->Y && Obj.Y >= getGameObject(iTargetNumber)->Y)
 									{
-										lpObj.TargetNumber = iTargetNumber;
+										Obj.TargetNumber = iTargetNumber;
 										return TRUE;
 									}
 								}
 							}
 
-							if (lpObj.Dir == 3)
+							if (Obj.Dir == 3)
 							{
 								if (abs(y) <= 2)
 								{
-									int cX = lpObj.X - iAttackRange;
-									if (cX <= getGameObject(iTargetNumber)->X && lpObj.X >= getGameObject(iTargetNumber)->X)
+									int cX = Obj.X - iAttackRange;
+									if (cX <= getGameObject(iTargetNumber)->X && Obj.X >= getGameObject(iTargetNumber)->X)
 									{
-										lpObj.TargetNumber = iTargetNumber;
+										Obj.TargetNumber = iTargetNumber;
 										return TRUE;
 									}
 								}
@@ -236,19 +236,19 @@ void CMercenary::MercenaryAct(CGameObject &Obj)
 
 	CGameObject lpObj = Obj;
 
-	if ( lpObj.VPCount2 < 1 )
+	if ( Obj.VPCount2 < 1 )
 	{
 		return;
 	}
 
-	if ( this->SearchEnemy(lpObj) != 0 && lpObj.TargetNumber >= 0)
+	if ( this->SearchEnemy(lpObj) != 0 && Obj.TargetNumber >= 0)
 	{
-		lpObj.m_ActState.Attack = 1;
-		lpObj.NextActionTime = lpObj.m_AttackSpeed;
+		Obj.m_ActState.Attack = 1;
+		Obj.NextActionTime = Obj.m_AttackSpeed;
 	}
 	else
 	{
-		lpObj.NextActionTime = lpObj.m_MoveSpeed;
+		Obj.NextActionTime = Obj.m_MoveSpeed;
 	}
 }
 

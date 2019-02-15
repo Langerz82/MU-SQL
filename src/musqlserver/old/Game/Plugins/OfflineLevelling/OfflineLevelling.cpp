@@ -147,38 +147,38 @@ BOOL COfflineLevelling::LoadFile(LPCSTR szFile)
 int COfflineLevelling::FindUser(CGameObject &Obj)
 {
 	EnterCriticalSection(&m_OfflevelCriti);
-	std::map<int,OFF_LEVEL_PLAYERS>::iterator iter = m_OffPlayerData.find(aIndex);
+	std::map<int,OFF_LEVEL_PLAYERS>::iterator iter = m_OffPlayerData.find(Obj.m_Index);
 	
 	if(iter == m_OffPlayerData.end())
 	{
-		//..sLog->outError("User %d not found LINE: %d",aIndex,__LINE__);
+		//..sLog->outError("User %d not found LINE: %d",Obj.m_Index,__LINE__);
 		LeaveCriticalSection(&m_OfflevelCriti);
 		return -1;
 	}
 
 	LeaveCriticalSection(&m_OfflevelCriti);
-	return aIndex;
+	return Obj.m_Index;
 }
 
 BOOL COfflineLevelling::AddUser(CGameObject &Obj, WORD wSkillId)
 {
 	EnterCriticalSection(&m_OfflevelCriti);
 
-	std::map<int,OFF_LEVEL_PLAYERS>::iterator iter = m_OffPlayerData.find(aIndex);
+	std::map<int,OFF_LEVEL_PLAYERS>::iterator iter = m_OffPlayerData.find(Obj.m_Index);
 
 	if(iter != m_OffPlayerData.end())
 	{
-		sLog->outBasic("[OfflineLevelling] User Already exist %d",aIndex);
+		sLog->outBasic("[OfflineLevelling] User Already exist %d",Obj.m_Index);
 		LeaveCriticalSection(&m_OfflevelCriti);
 		return false;
 	}
 	OFF_LEVEL_PLAYERS obj;
-	obj.aIndex = aIndex;
+	obj.Obj.m_Index = Obj.m_Index;
 	obj.wSkillNumber = wSkillId;
 	obj.dwOffTime = GetTickCount();
-	m_OffPlayerData.insert(std::pair<int, OFF_LEVEL_PLAYERS>(aIndex,obj));
+	m_OffPlayerData.insert(std::pair<int, OFF_LEVEL_PLAYERS>(Obj.m_Index,obj));
 
-	sLog->outBasic("[OfflineLevelling] Add user %d Skill Id %d",aIndex, wSkillId);
+	sLog->outBasic("[OfflineLevelling] Add user %d Skill Id %d",Obj.m_Index, wSkillId);
 
 	LeaveCriticalSection(&m_OfflevelCriti);
 	return true;
@@ -188,16 +188,16 @@ BOOL COfflineLevelling::DeleteUser(CGameObject &Obj)
 {
 	EnterCriticalSection(&m_OfflevelCriti);
 
-	std::map<int,OFF_LEVEL_PLAYERS>::iterator iter = m_OffPlayerData.find(aIndex);
+	std::map<int,OFF_LEVEL_PLAYERS>::iterator iter = m_OffPlayerData.find(Obj.m_Index);
 
 	if(iter == m_OffPlayerData.end())
 	{
-		sLog->outBasic("[OfflineLevelling] User does not exist %d",aIndex);
+		sLog->outBasic("[OfflineLevelling] User does not exist %d",Obj.m_Index);
 		return false;
 	}
 
 	m_OffPlayerData.erase(iter);
-	sLog->outBasic("[OfflineLevelling] User %d removed from Offlevelling system",aIndex);
+	sLog->outBasic("[OfflineLevelling] User %d removed from Offlevelling system",Obj.m_Index);
 	LeaveCriticalSection(&m_OfflevelCriti);
 	return true;
 }
@@ -357,21 +357,21 @@ bool COfflineLevelling::ChargePlayer(CGameObject &Obj)
 	if(lpObj == NULL)
 		return false;
 
-	if(lpObj.Type != OBJ_USER)
+	if(Obj.Type != OBJ_USER)
 		return false;
-	if(this->m_PerMapAttr[lpObj.MapNumber].CoinType == -1)
+	if(this->m_PerMapAttr[Obj.MapNumber].CoinType == -1)
 	{
 		switch (this->m_General.CoinType)
 		{
 			case 0:
 			{
-				if (lpObj.m_PlayerData->Money < this->m_General.CoinValue)
+				if (Obj.m_PlayerData->Money < this->m_General.CoinValue)
 				{
 					return false;
 				}
 				else
 				{
-					lpObj.m_PlayerData->Money -= this->m_General.CoinValue;
+					Obj.m_PlayerData->Money -= this->m_General.CoinValue;
 					return true;
 				}
 			}
@@ -379,14 +379,14 @@ bool COfflineLevelling::ChargePlayer(CGameObject &Obj)
 
 			case 1:
 			{
-				if (lpObj.m_PlayerData->m_WCoinC < this->m_General.CoinValue)
+				if (Obj.m_PlayerData->m_WCoinC < this->m_General.CoinValue)
 				{
 					return false;
 				}
 				else
 				{
-						lpObj.m_PlayerData->m_WCoinC -= this->m_General.CoinValue;
-						GDReqInGameShopPointAdd(lpObj.m_Index, 0, 0.00 - this->m_General.CoinValue);
+						Obj.m_PlayerData->m_WCoinC -= this->m_General.CoinValue;
+						GDReqInGameShopPointAdd(Obj.m_Index, 0, 0.00 - this->m_General.CoinValue);
 						return true;
 				}
 			}
@@ -394,14 +394,14 @@ bool COfflineLevelling::ChargePlayer(CGameObject &Obj)
 
 			case 2:
 			{
-				if (lpObj.m_PlayerData->m_WCoinP < this->m_General.CoinValue )
+				if (Obj.m_PlayerData->m_WCoinP < this->m_General.CoinValue )
 				{
 					return false;
 				}
 				else
 				{
-						lpObj.m_PlayerData->m_WCoinP -= this->m_General.CoinValue;
-						GDReqInGameShopPointAdd(lpObj.m_Index, 1, 0.00 - this->m_General.CoinValue);
+						Obj.m_PlayerData->m_WCoinP -= this->m_General.CoinValue;
+						GDReqInGameShopPointAdd(Obj.m_Index, 1, 0.00 - this->m_General.CoinValue);
 						return true;
 				}
 			}
@@ -409,14 +409,14 @@ bool COfflineLevelling::ChargePlayer(CGameObject &Obj)
 
 			case 3:
 			{
-				if (lpObj.m_PlayerData->m_GoblinPoint < this->m_General.CoinValue)
+				if (Obj.m_PlayerData->m_GoblinPoint < this->m_General.CoinValue)
 				{
 					return false;
 				}
 				else
 				{
-					lpObj.m_PlayerData->m_GoblinPoint -= this->m_General.CoinValue;
-					GDReqInGameShopPointAdd(lpObj.m_Index, 2, 0.00 - this->m_General.CoinValue);
+					Obj.m_PlayerData->m_GoblinPoint -= this->m_General.CoinValue;
+					GDReqInGameShopPointAdd(Obj.m_Index, 2, 0.00 - this->m_General.CoinValue);
 					return true;
 				}
 			}
@@ -425,17 +425,17 @@ bool COfflineLevelling::ChargePlayer(CGameObject &Obj)
 	}
 	else
 	{
-		switch (this->m_PerMapAttr[lpObj.MapNumber].CoinType)
+		switch (this->m_PerMapAttr[Obj.MapNumber].CoinType)
 		{
 			case 0:
 			{
-				if (lpObj.m_PlayerData->Money < this->m_PerMapAttr[lpObj.MapNumber].CoinValue)
+				if (Obj.m_PlayerData->Money < this->m_PerMapAttr[Obj.MapNumber].CoinValue)
 				{
 					return false;
 				}
 				else
 				{
-					lpObj.m_PlayerData->Money -= this->m_PerMapAttr[lpObj.MapNumber].CoinValue;
+					Obj.m_PlayerData->Money -= this->m_PerMapAttr[Obj.MapNumber].CoinValue;
 					return true;
 				}
 			}
@@ -443,14 +443,14 @@ bool COfflineLevelling::ChargePlayer(CGameObject &Obj)
 
 			case 1:
 			{
-				if (lpObj.m_PlayerData->m_WCoinC < this->m_PerMapAttr[lpObj.MapNumber].CoinValue)
+				if (Obj.m_PlayerData->m_WCoinC < this->m_PerMapAttr[Obj.MapNumber].CoinValue)
 				{
 					return false;
 				}
 				else
 				{
-						lpObj.m_PlayerData->m_WCoinC -= this->m_PerMapAttr[lpObj.MapNumber].CoinValue;
-						GDReqInGameShopPointAdd(lpObj.m_Index, 0, 0.00 - this->m_PerMapAttr[lpObj.MapNumber].CoinValue);
+						Obj.m_PlayerData->m_WCoinC -= this->m_PerMapAttr[Obj.MapNumber].CoinValue;
+						GDReqInGameShopPointAdd(Obj.m_Index, 0, 0.00 - this->m_PerMapAttr[Obj.MapNumber].CoinValue);
 						return true;
 				}
 			}
@@ -458,14 +458,14 @@ bool COfflineLevelling::ChargePlayer(CGameObject &Obj)
 
 			case 2:
 			{
-				if (lpObj.m_PlayerData->m_WCoinP < this->m_PerMapAttr[lpObj.MapNumber].CoinValue )
+				if (Obj.m_PlayerData->m_WCoinP < this->m_PerMapAttr[Obj.MapNumber].CoinValue )
 				{
 					return false;
 				}
 				else
 				{
-						lpObj.m_PlayerData->m_WCoinP -= this->m_PerMapAttr[lpObj.MapNumber].CoinValue;
-						GDReqInGameShopPointAdd(lpObj.m_Index, 1, 0.00 - this->m_PerMapAttr[lpObj.MapNumber].CoinValue);
+						Obj.m_PlayerData->m_WCoinP -= this->m_PerMapAttr[Obj.MapNumber].CoinValue;
+						GDReqInGameShopPointAdd(Obj.m_Index, 1, 0.00 - this->m_PerMapAttr[Obj.MapNumber].CoinValue);
 						return true;
 				}
 			}
@@ -473,14 +473,14 @@ bool COfflineLevelling::ChargePlayer(CGameObject &Obj)
 
 			case 3:
 			{
-				if (lpObj.m_PlayerData->m_GoblinPoint < this->m_PerMapAttr[lpObj.MapNumber].CoinValue)
+				if (Obj.m_PlayerData->m_GoblinPoint < this->m_PerMapAttr[Obj.MapNumber].CoinValue)
 				{
 					return false;
 				}
 				else
 				{
-					lpObj.m_PlayerData->m_GoblinPoint -= this->m_PerMapAttr[lpObj.MapNumber].CoinValue;
-					GDReqInGameShopPointAdd(lpObj.m_Index, 2, 0.00 - this->m_PerMapAttr[lpObj.MapNumber].CoinValue);
+					Obj.m_PlayerData->m_GoblinPoint -= this->m_PerMapAttr[Obj.MapNumber].CoinValue;
+					GDReqInGameShopPointAdd(Obj.m_Index, 2, 0.00 - this->m_PerMapAttr[Obj.MapNumber].CoinValue);
 					return true;
 				}
 			}
@@ -501,18 +501,18 @@ void COfflineLevelling::Run()
 	EnterCriticalSection(&this->m_OfflevelCriti);
 	for(std::map<int, OFF_LEVEL_PLAYERS>::iterator iter = m_OffPlayerData.begin(); iter != m_OffPlayerData.end(); iter++)
 	{
-		lpObj = &getGameObject(iter->second.aIndex);
+		lpObj = &getGameObject(iter->second.Obj.m_Index);
 		if(!lpObj){
-			this->DeleteUser(iter->second.aIndex);
+			this->DeleteUser(iter->second.Obj.m_Index);
 			continue;
 		}
-		if(!lpObj.m_bOffLevel){
-			this->DeleteUser(lpObj.m_Index);
+		if(!Obj.m_bOffLevel){
+			this->DeleteUser(Obj.m_Index);
 			continue;
 		}
 
-		if(!lpObj.m_bOff){
-			this->DeleteUser(lpObj.m_Index);
+		if(!Obj.m_bOff){
+			this->DeleteUser(Obj.m_Index);
 			continue;
 		}
 
@@ -520,10 +520,10 @@ void COfflineLevelling::Run()
 		{
 			iter->second.dwOffTime = GetTickCount();
 
-			if(!this->ChargePlayer(lpObj.m_Index))
+			if(!this->ChargePlayer(Obj.m_Index))
 			{
-				lpObj.m_bOff = false;
-				lpObj.m_bOffLevel = false;
+				Obj.m_bOff = false;
+				Obj.m_bOffLevel = false;
 			}
 		}
 	}
@@ -562,8 +562,8 @@ BOOL COfflineLevelling::SkillDistanceCheck(CGameObject &Obj, int aTargetIndex, i
 	
 	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 
-	if ( abs(lpObj.X - lpTargetObj.X) > iSkillDistance ||
-		 abs(lpObj.Y - lpTargetObj.Y) > iSkillDistance )
+	if ( abs(Obj.X - lpTargetObj.X) > iSkillDistance ||
+		 abs(Obj.Y - lpTargetObj.Y) > iSkillDistance )
 	{
 		return FALSE;
 	}
@@ -591,37 +591,37 @@ bool COfflineLevelling::CheckUseTime(CGameObject &Obj)
 	if(!lpObj)
 		return false;
 
-	if(this->m_General.MaxDuration == 0 && lpObj.m_PlayerData->VipType == 0 )
+	if(this->m_General.MaxDuration == 0 && Obj.m_PlayerData->VipType == 0 )
 	{
 		return false;
 	}
-	else if (this->m_General.MaxVipDuration == 0 && lpObj.m_PlayerData->VipType != 0)
+	else if (this->m_General.MaxVipDuration == 0 && Obj.m_PlayerData->VipType != 0)
 	{
 		return false;
 	}
 
 	DWORD64 currentTick = GetTickCount64();
 
-	DWORD64 useTime = (currentTick - lpObj.m_dwOffLevelTime);
+	DWORD64 useTime = (currentTick - Obj.m_dwOffLevelTime);
 
-	if(lpObj.m_PlayerData->VipType == 0)
+	if(Obj.m_PlayerData->VipType == 0)
 	{
 		if(useTime > (this->m_General.MaxDuration * 1000 * 3600))
 		{
-			lpObj.m_bOff = false;
-			lpObj.m_bOffLevel = false;
-			this->DeleteUser(lpObj.m_Index);
-			sLog->outBasic("[OffLevel][%d][%s][%s] Exceed max use time [Hours:%d] [Vip:%d]",aIndex,lpObj.AccountID,lpObj.Name,(useTime * 1000 *3600), lpObj.m_PlayerData->VipType);
+			Obj.m_bOff = false;
+			Obj.m_bOffLevel = false;
+			this->DeleteUser(Obj.m_Index);
+			sLog->outBasic("[OffLevel][%d][%s][%s] Exceed max use time [Hours:%d] [Vip:%d]",Obj.m_Index,Obj.AccountID,Obj.Name,(useTime * 1000 *3600), Obj.m_PlayerData->VipType);
 		}
 	}
 	else
 	{
 		if(useTime > (this->m_General.MaxVipDuration * 1000 * 3600))
 		{
-			lpObj.m_bOff = false;
-			lpObj.m_bOffLevel = false;
-			this->DeleteUser(lpObj.m_Index);
-			sLog->outBasic("[OffLevel][%d][%s][%s] Exceed max use time [Hours:%d] [Vip:%d]",aIndex,lpObj.AccountID,lpObj.Name,(useTime * 1000 *3600), lpObj.m_PlayerData->VipType);
+			Obj.m_bOff = false;
+			Obj.m_bOffLevel = false;
+			this->DeleteUser(Obj.m_Index);
+			sLog->outBasic("[OffLevel][%d][%s][%s] Exceed max use time [Hours:%d] [Vip:%d]",Obj.m_Index,Obj.AccountID,Obj.Name,(useTime * 1000 *3600), Obj.m_PlayerData->VipType);
 		}
 	}
 
@@ -670,7 +670,7 @@ void COfflineLevelling::CheckAndPickUpItem(CGameObject &Obj, CMapItem* cMapItem,
 		PMSG_ITEMGETREQUEST pItemGetReq;
 		pItemGetReq.NumberH = SET_NUMBERH(tObjNum);
 		pItemGetReq.NumberL = SET_NUMBERL(tObjNum);
-		gGameProtocol.CGItemGetRequest(&pItemGetReq,aIndex, pItemGetReq.NumberH, pItemGetReq.NumberL);
+		gGameProtocol.CGItemGetRequest(&pItemGetReq,Obj.m_Index, pItemGetReq.NumberH, pItemGetReq.NumberL);
 	}
 }
 
@@ -680,100 +680,100 @@ void COfflineLevelling::CheckRepairItems(CGameObject &Obj)
 
 	for(int i=0;i<INVETORY_WEAR_SIZE;i++)
 	{
-		if(lpObj.pInventory[i].IsItem())
+		if(Obj.pInventory[i].IsItem())
 		{
-			if(lpObj.pInventory[i].m_Durability < lpObj.pInventory[i].m_BaseDurability)
+			if(Obj.pInventory[i].m_Durability < Obj.pInventory[i].m_BaseDurability)
 			{
-				if ( IsCashItem(lpObj.pInventory[i].m_Type) == TRUE )
+				if ( IsCashItem(Obj.pInventory[i].m_Type) == TRUE )
 					continue;
 
-				if (IsPremiumItem(lpObj.pInventory[i].m_Type) == TRUE)
+				if (IsPremiumItem(Obj.pInventory[i].m_Type) == TRUE)
 					continue;
 
-				if ( lpObj.pInventory[i].IsPeriodItem() == TRUE )
+				if ( Obj.pInventory[i].IsPeriodItem() == TRUE )
 					continue;
 
-				if ( lpObj.pInventory[i].IsPeriodItemExpire() == TRUE )
+				if ( Obj.pInventory[i].IsPeriodItemExpire() == TRUE )
 					continue;
 
-				if (g_LuckyItemManager.IsLuckyItemEquipment(lpObj.pInventory[i].m_Type))	//season 6.1 add-on
+				if (g_LuckyItemManager.IsLuckyItemEquipment(Obj.pInventory[i].m_Type))	//season 6.1 add-on
 					continue;
 
-				if ( lpObj.pInventory[i].m_Type == ITEMGET(13,20) && (lpObj.pInventory[i].m_Level == 0 ||lpObj.pInventory[i].m_Level == 1 ))
+				if ( Obj.pInventory[i].m_Type == ITEMGET(13,20) && (Obj.pInventory[i].m_Level == 0 ||Obj.pInventory[i].m_Level == 1 ))
 					continue;
 
-				if ( lpObj.pInventory[i].m_Type == ITEMGET(13,20) && lpObj.pInventory[i].m_Level == 2 )
+				if ( Obj.pInventory[i].m_Type == ITEMGET(13,20) && Obj.pInventory[i].m_Level == 2 )
 					continue;
 
-				if ( lpObj.pInventory[i].m_Type == ITEMGET(13,4) || lpObj.pInventory[i].m_Type == ITEMGET(13,5) )
+				if ( Obj.pInventory[i].m_Type == ITEMGET(13,4) || Obj.pInventory[i].m_Type == ITEMGET(13,5) )
 					continue;
 				
-				if ( lpObj.pInventory[i].m_Type == ITEMGET(13,37) )
+				if ( Obj.pInventory[i].m_Type == ITEMGET(13,37) )
 					continue;
 
-				if ( lpObj.pInventory[i].m_Type == ITEMGET(13,38) )
+				if ( Obj.pInventory[i].m_Type == ITEMGET(13,38) )
 					continue;
 
-				if ( lpObj.pInventory[i].m_Type == ITEMGET(13,40) )
+				if ( Obj.pInventory[i].m_Type == ITEMGET(13,40) )
 					continue;
 
-				if ( lpObj.pInventory[i].m_Type == ITEMGET(13,41) )
+				if ( Obj.pInventory[i].m_Type == ITEMGET(13,41) )
 					continue;
 
-				if ( lpObj.pInventory[i].m_Type == ITEMGET(13,42) )
+				if ( Obj.pInventory[i].m_Type == ITEMGET(13,42) )
 					continue;
 
-				if ( lpObj.pInventory[i].m_Type == ITEMGET(13,51) )
+				if ( Obj.pInventory[i].m_Type == ITEMGET(13,51) )
 					continue;
 
-				if ( lpObj.pInventory[i].m_Type == ITEMGET(13,64) )
+				if ( Obj.pInventory[i].m_Type == ITEMGET(13,64) )
 					continue;
 
-				if ( lpObj.pInventory[i].m_Type == ITEMGET(13,65) )
+				if ( Obj.pInventory[i].m_Type == ITEMGET(13,65) )
 					continue;
 
-				if ( lpObj.pInventory[i].m_Type == ITEMGET(13,67) )
+				if ( Obj.pInventory[i].m_Type == ITEMGET(13,67) )
 					continue;
 
-				if ( lpObj.pInventory[i].m_Type == ITEMGET(13,70) )
+				if ( Obj.pInventory[i].m_Type == ITEMGET(13,70) )
 					continue;
 
-				if ( lpObj.pInventory[i].m_Type == ITEMGET(13,76) )
+				if ( Obj.pInventory[i].m_Type == ITEMGET(13,76) )
 					continue;
 
-				if ( lpObj.pInventory[i].m_Type == ITEMGET(13,77) )
+				if ( Obj.pInventory[i].m_Type == ITEMGET(13,77) )
 					continue;
 
-				if ( lpObj.pInventory[i].m_Type == ITEMGET(13,78) )
+				if ( Obj.pInventory[i].m_Type == ITEMGET(13,78) )
 					continue;
 
-				if ( lpObj.pInventory[i].m_Type == ITEMGET(13,166) )
+				if ( Obj.pInventory[i].m_Type == ITEMGET(13,166) )
 					continue;
 
-				if ( lpObj.pInventory[i].m_Type == ITEMGET(13,80) )
+				if ( Obj.pInventory[i].m_Type == ITEMGET(13,80) )
 					continue;
 
-				if ( lpObj.pInventory[i].m_Type == ITEMGET(13,106) )
+				if ( Obj.pInventory[i].m_Type == ITEMGET(13,106) )
 					continue;
 
-				if ( lpObj.pInventory[i].m_Type == ITEMGET(13,123) )
+				if ( Obj.pInventory[i].m_Type == ITEMGET(13,123) )
 					continue;
 
-				if ( lpObj.pInventory[i].m_Type == ITEMGET(13,39) )
+				if ( Obj.pInventory[i].m_Type == ITEMGET(13,39) )
 					continue;
 
-				if ( lpObj.pInventory[i].m_Type == ITEMGET(12,26) &&
-					(lpObj.pInventory[i].m_Level == 1 ||
-						lpObj.pInventory[i].m_Level == 2 || 
-						lpObj.pInventory[i].m_Level == 3 || 
-						lpObj.pInventory[i].m_Level == 4 || 
-						lpObj.pInventory[i].m_Level == 5 ))
+				if ( Obj.pInventory[i].m_Type == ITEMGET(12,26) &&
+					(Obj.pInventory[i].m_Level == 1 ||
+						Obj.pInventory[i].m_Level == 2 || 
+						Obj.pInventory[i].m_Level == 3 || 
+						Obj.pInventory[i].m_Level == 4 || 
+						Obj.pInventory[i].m_Level == 5 ))
 						continue;
 
-				if (!IsRepairItem(lpObj.pInventory[i].m_Type))
+				if (!IsRepairItem(Obj.pInventory[i].m_Type))
 					continue;
 
-				gGameProtocol.ItemDurRepaire(lpObj,&lpObj.pInventory[i],i,1);
+				gGameProtocol.ItemDurRepaire(lpObj,&Obj.pInventory[i],i,1);
 			}
 		}
 	}

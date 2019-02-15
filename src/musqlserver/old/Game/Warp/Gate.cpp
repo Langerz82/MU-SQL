@@ -171,7 +171,7 @@ BOOL CGate::IsInGate(CGameObject &Obj, int GateNumber)
 
 	int minlevel = this->m_MinLevel[GateNumber];
 
-	if ( GateNumber != 273 && (lpObj.Class == CLASS_DARKLORD || lpObj.Class == CLASS_MAGUMSA || lpObj.Class == CLASS_RAGEFIGHTER || lpObj.Class == CLASS_GROWLANCER))
+	if ( GateNumber != 273 && (Obj.Class == CLASS_DARKLORD || Obj.Class == CLASS_MAGUMSA || Obj.Class == CLASS_RAGEFIGHTER || Obj.Class == CLASS_GROWLANCER))
 	{
 		if (minlevel > 0 )
 		{
@@ -179,17 +179,17 @@ BOOL CGate::IsInGate(CGameObject &Obj, int GateNumber)
 		}
 	}
 
-	if (lpObj.Level + lpObj.m_PlayerData->MasterLevel < minlevel)
+	if (Obj.Level + Obj.m_PlayerData->MasterLevel < minlevel)
 	{
 		return FALSE;
 	}
 
-	if ( lpObj.MapNumber != this->m_MapNumber[GateNumber] )
+	if ( Obj.MapNumber != this->m_MapNumber[GateNumber] )
 	{
 		return FALSE;
 	}
 
-	if ( lpObj.X < this->m_Sx[GateNumber]-5 || lpObj.X > this->m_Ex[GateNumber]+5 || lpObj.Y < this->m_Sy[GateNumber]-5 || lpObj.Y > this->m_Ey[GateNumber]+5 )
+	if ( Obj.X < this->m_Sx[GateNumber]-5 || Obj.X > this->m_Ex[GateNumber]+5 || Obj.Y < this->m_Sy[GateNumber]-5 || Obj.Y > this->m_Ey[GateNumber]+5 )
 	{
 		return FALSE;
 	}
@@ -208,7 +208,7 @@ BOOL CGate::CheckGateLevel(CGameObject &Obj, int GateNumber)
 
 	int minlevel = this->m_MinLevel[GateNumber];
 
-	if (GateNumber != 273 && (lpObj.Class == CLASS_DARKLORD || lpObj.Class == CLASS_MAGUMSA || lpObj.Class == CLASS_RAGEFIGHTER || lpObj.Class == CLASS_GROWLANCER))
+	if (GateNumber != 273 && (Obj.Class == CLASS_DARKLORD || Obj.Class == CLASS_MAGUMSA || Obj.Class == CLASS_RAGEFIGHTER || Obj.Class == CLASS_GROWLANCER))
 	{
 		if (minlevel > 0)
 		{
@@ -216,7 +216,7 @@ BOOL CGate::CheckGateLevel(CGameObject &Obj, int GateNumber)
 		}
 	}
 
-	if (lpObj.Level + lpObj.m_PlayerData->MasterLevel < minlevel)
+	if (Obj.Level + Obj.m_PlayerData->MasterLevel < minlevel)
 	{
 		return false;
 	}

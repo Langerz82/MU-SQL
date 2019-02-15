@@ -84,18 +84,18 @@ int CChangeCmd::DoChange(CGameObject &Obj) // -1 - system off, 0 - no change mad
 		return -1;
 	}
 
-	if (!ObjectMaxRange(aIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		return -1;
 	}
 
-	if (lpObj.Type != OBJ_USER)
+	if (Obj.Type != OBJ_USER)
 	{
 		return -1;
 	}
 
 	
-	lpObj.ChaosLock = TRUE; // Lock Inventory
+	Obj.ChaosLock = TRUE; // Lock Inventory
 
 	int iItemChangeCnt = 0;
 
@@ -106,12 +106,12 @@ int CChangeCmd::DoChange(CGameObject &Obj) // -1 - system off, 0 - no change mad
 			continue;
 		}
 
-		if (lpObj.pInventory[i].IsItem() == false)
+		if (Obj.pInventory[i].IsItem() == false)
 		{
 			continue;
 		}
 
-		std::map<int, CHANGE_ITEM_DATA>::iterator It = this->m_mapChangeData.find(lpObj.pInventory[i].m_Type);
+		std::map<int, CHANGE_ITEM_DATA>::iterator It = this->m_mapChangeData.find(Obj.pInventory[i].m_Type);
 
 		if (It == this->m_mapChangeData.end())
 		{
@@ -120,31 +120,31 @@ int CChangeCmd::DoChange(CGameObject &Obj) // -1 - system off, 0 - no change mad
 
 		if (It->second.CoinType == 0)
 		{
-			if (lpObj.m_PlayerData->Money + It->second.CoinValue > MAX_ZEN)
+			if (Obj.m_PlayerData->Money + It->second.CoinValue > MAX_ZEN)
 			{
-				MsgOutput(aIndex, Lang.GetText(0,637));
-				lpObj.ChaosLock = FALSE;
+				MsgOutput(Obj.m_Index, Lang.GetText(0,637));
+				Obj.ChaosLock = FALSE;
 				return iItemChangeCnt;
 			}
 
-			lpObj.m_PlayerData->Money += It->second.CoinValue;
-			gGameProtocol.GCMoneySend(aIndex, lpObj.m_PlayerData->Money);
+			Obj.m_PlayerData->Money += It->second.CoinValue;
+			gGameProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
 		}
 
 		else
 		{
-			GDReqInGameShopPointAdd(aIndex, It->second.CoinType - 1, It->second.CoinValue);
+			GDReqInGameShopPointAdd(Obj.m_Index, It->second.CoinType - 1, It->second.CoinValue);
 		}
 
-		MsgOutput(aIndex, Lang.GetText(0, 638), lpObj.pInventory[i].GetName(), It->second.CoinValue, szCoinNames[It->second.CoinType]);
+		MsgOutput(Obj.m_Index, Lang.GetText(0, 638), Obj.pInventory[i].GetName(), It->second.CoinValue, szCoinNames[It->second.CoinType]);
 
-		gObjInventoryDeleteItem(aIndex, i);
-		gGameProtocol.GCInventoryItemDeleteSend(aIndex, i, 1);
+		gObjInventoryDeleteItem(Obj.m_Index, i);
+		gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, i, 1);
 
 		iItemChangeCnt++;
 	}
 
-	lpObj.ChaosLock = FALSE;
+	Obj.ChaosLock = FALSE;
 	return iItemChangeCnt;
 }
 

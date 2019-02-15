@@ -138,42 +138,42 @@ int CMoveCommand::GetMoveLevel(int mapnumber, int x, int y, int Class)
 
 BOOL CMoveCommand::CheckMainToMove(CGameObject &Obj)
 {
-	if ( BC_MAP_RANGE(lpObj.MapNumber) != FALSE )
+	if ( BC_MAP_RANGE(Obj.MapNumber) != FALSE )
 	{
 		return FALSE;
 	}
 
-	if ( CC_MAP_RANGE(lpObj.MapNumber) != FALSE )
+	if ( CC_MAP_RANGE(Obj.MapNumber) != FALSE )
 	{
 		return FALSE;
 	}
 
-	if (lpObj.MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
+	if (Obj.MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 	{
 		return FALSE;
 	}
 
-	if ( KALIMA_MAP_RANGE(lpObj.MapNumber) != FALSE )
+	if ( KALIMA_MAP_RANGE(Obj.MapNumber) != FALSE )
 	{
 		return FALSE;
 	}
 
-	if ( DS_MAP_RANGE(lpObj.MapNumber) != FALSE )
+	if ( DS_MAP_RANGE(Obj.MapNumber) != FALSE )
 	{
 		return FALSE;
 	}
 
 	if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
 	{
-		if (lpObj.MapNumber == MAP_INDEX_KANTURU_BOSS)
+		if (Obj.MapNumber == MAP_INDEX_KANTURU_BOSS)
 		{
 			return FALSE;
 		}
 	}
 
-	if ( IT_MAP_RANGE(lpObj.MapNumber) != FALSE )
+	if ( IT_MAP_RANGE(Obj.MapNumber) != FALSE )
 	{
-		if (g_IT_Event.CheckRelics(lpObj.m_Index) != FALSE)
+		if (g_IT_Event.CheckRelics(Obj.m_Index) != FALSE)
 		{
 			return FALSE;
 		}
@@ -186,14 +186,14 @@ BOOL CMoveCommand::CheckEquipmentToMove(CGameObject &Obj, int iTargetMapNumber)
 {
 	if ( iTargetMapNumber == MAP_INDEX_ATHLANSE )
 	{
-		if ( lpObj.m_btInvenPetPos != 0 && lpObj.m_wInvenPet != (WORD)-1 )
+		if ( Obj.m_btInvenPetPos != 0 && Obj.m_wInvenPet != (WORD)-1 )
 		{
-			if ( lpObj.pInventory[lpObj.m_btInvenPetPos].m_Type == ITEMGET(13,2) )
+			if ( Obj.pInventory[Obj.m_btInvenPetPos].m_Type == ITEMGET(13,2) )
 			{
 				return FALSE;
 			}
 
-			if ( lpObj.pInventory[lpObj.m_btInvenPetPos].m_Type == ITEMGET(13,3) )
+			if ( Obj.pInventory[Obj.m_btInvenPetPos].m_Type == ITEMGET(13,3) )
 			{
 				return FALSE;
 			}
@@ -202,40 +202,40 @@ BOOL CMoveCommand::CheckEquipmentToMove(CGameObject &Obj, int iTargetMapNumber)
 
 	if ( iTargetMapNumber == MAP_INDEX_ICARUS )
 	{
-		if ( (lpObj.pInventory[lpObj.m_btInvenPetPos].m_Type != ITEMGET(13,3) &&
-			 lpObj.pInventory[7].m_Type != ITEMGET(13,30) &&
-			 lpObj.pInventory[lpObj.m_btInvenPetPos].m_Type != ITEMGET(13,37) &&
-			 lpObj.pInventory[7].m_Type != ITEMGET(12,36) &&//Season 4.5 addon
-			 lpObj.pInventory[7].m_Type != ITEMGET(12,37) &&//Season 4.5 addon
-			 lpObj.pInventory[7].m_Type != ITEMGET(12,38) &&//Season 4.5 addon
-			 lpObj.pInventory[7].m_Type != ITEMGET(12,39) &&//Season 4.5 addon
-			 lpObj.pInventory[7].m_Type != ITEMGET(12,40) &&//Season 4.5 addon
-			 lpObj.pInventory[7].m_Type != ITEMGET(12,41) &&//Season 4.5 addon
-			 lpObj.pInventory[7].m_Type != ITEMGET(12,42) &&//Season 4.5 addon
-			 lpObj.pInventory[7].m_Type != ITEMGET(12,43) &&//Season 4.5 addon
-			 lpObj.pInventory[7].m_Type != ITEMGET(12,49) &&//Seaason 6.1 addon
-			 lpObj.pInventory[7].m_Type != ITEMGET(12,50) &&
-			 lpObj.pInventory[lpObj.m_btInvenPetPos].m_Type != ITEMGET(13,4) &&//Season 4.5 addon
-			lpObj.pInventory[lpObj.m_btInvenPetPos].m_Type != ITEMGET(13,5) &&//Season 4.5 addon
-			 !(lpObj.pInventory[7].m_Type >= ITEMGET(12,262) && lpObj.pInventory[7].m_Type <= ITEMGET(12,265)) &&
-			 lpObj.pInventory[7].m_Type != ITEMGET(12,266) && // Season 8
-			 lpObj.pInventory[7].m_Type != ITEMGET(12,267) && // Season 8
-			 lpObj.pInventory[7].m_Type != ITEMGET(12,268) && // season 9
-			lpObj.pInventory[7].m_Type != ITEMGET(12, 269) && // season 10
-			lpObj.pInventory[7].m_Type != ITEMGET(12, 270) && // season 10
-			 !(lpObj.pInventory[7].m_Type >= ITEMGET(12,130) && lpObj.pInventory[7].m_Type <= ITEMGET(12,135)) &&
-			 (lpObj.pInventory[7].m_Type < ITEMGET(12,0) || lpObj.pInventory[7].m_Type > ITEMGET(12,6)) ) ||
-			 lpObj.pInventory[lpObj.m_btInvenPetPos].m_Type == ITEMGET(13,2) ||
-			 lpObj.pInventory[11].m_Type == ITEMGET(13,10) ||
-			 lpObj.pInventory[10].m_Type == ITEMGET(13,10))
+		if ( (Obj.pInventory[Obj.m_btInvenPetPos].m_Type != ITEMGET(13,3) &&
+			 Obj.pInventory[7].m_Type != ITEMGET(13,30) &&
+			 Obj.pInventory[Obj.m_btInvenPetPos].m_Type != ITEMGET(13,37) &&
+			 Obj.pInventory[7].m_Type != ITEMGET(12,36) &&//Season 4.5 addon
+			 Obj.pInventory[7].m_Type != ITEMGET(12,37) &&//Season 4.5 addon
+			 Obj.pInventory[7].m_Type != ITEMGET(12,38) &&//Season 4.5 addon
+			 Obj.pInventory[7].m_Type != ITEMGET(12,39) &&//Season 4.5 addon
+			 Obj.pInventory[7].m_Type != ITEMGET(12,40) &&//Season 4.5 addon
+			 Obj.pInventory[7].m_Type != ITEMGET(12,41) &&//Season 4.5 addon
+			 Obj.pInventory[7].m_Type != ITEMGET(12,42) &&//Season 4.5 addon
+			 Obj.pInventory[7].m_Type != ITEMGET(12,43) &&//Season 4.5 addon
+			 Obj.pInventory[7].m_Type != ITEMGET(12,49) &&//Seaason 6.1 addon
+			 Obj.pInventory[7].m_Type != ITEMGET(12,50) &&
+			 Obj.pInventory[Obj.m_btInvenPetPos].m_Type != ITEMGET(13,4) &&//Season 4.5 addon
+			Obj.pInventory[Obj.m_btInvenPetPos].m_Type != ITEMGET(13,5) &&//Season 4.5 addon
+			 !(Obj.pInventory[7].m_Type >= ITEMGET(12,262) && Obj.pInventory[7].m_Type <= ITEMGET(12,265)) &&
+			 Obj.pInventory[7].m_Type != ITEMGET(12,266) && // Season 8
+			 Obj.pInventory[7].m_Type != ITEMGET(12,267) && // Season 8
+			 Obj.pInventory[7].m_Type != ITEMGET(12,268) && // season 9
+			Obj.pInventory[7].m_Type != ITEMGET(12, 269) && // season 10
+			Obj.pInventory[7].m_Type != ITEMGET(12, 270) && // season 10
+			 !(Obj.pInventory[7].m_Type >= ITEMGET(12,130) && Obj.pInventory[7].m_Type <= ITEMGET(12,135)) &&
+			 (Obj.pInventory[7].m_Type < ITEMGET(12,0) || Obj.pInventory[7].m_Type > ITEMGET(12,6)) ) ||
+			 Obj.pInventory[Obj.m_btInvenPetPos].m_Type == ITEMGET(13,2) ||
+			 Obj.pInventory[11].m_Type == ITEMGET(13,10) ||
+			 Obj.pInventory[10].m_Type == ITEMGET(13,10))
 		{
 			return FALSE;
 		}
 
-		if ( lpObj.m_RecallMon >= 0 )
+		if ( Obj.m_RecallMon >= 0 )
 		{
-			gGameProtocol.GCRecallMonLife(lpObj.m_Index, 60, 0);
-			gObjMonsterCallKill(lpObj.m_Index);
+			gGameProtocol.GCRecallMonLife(Obj.m_Index, 60, 0);
+			gObjMonsterCallKill(Obj.m_Index);
 		}
 	}
 
@@ -244,12 +244,12 @@ BOOL CMoveCommand::CheckEquipmentToMove(CGameObject &Obj, int iTargetMapNumber)
 
 BOOL CMoveCommand::CheckInterfaceToMove(CGameObject &Obj)
 {
-	if ( lpObj.m_IfState.use == 1 )
+	if ( Obj.m_IfState.use == 1 )
 	{
 		return FALSE;
 	}
 
-	if ( lpObj.m_bPShopOpen == true )
+	if ( Obj.m_bPShopOpen == true )
 	{
 		return FALSE;
 	}
@@ -333,7 +333,7 @@ BOOL CMoveCommand::Move(CGameObject &Obj, int iMapIndex)
 
 	if (index == -1)
 	{
-		sLog->outBasic("[MapMove Failed] Invalid Map Index (%s/%s) (Index : %d)", lpObj.AccountID, lpObj.Name, iMapIndex);
+		sLog->outBasic("[MapMove Failed] Invalid Map Index (%s/%s) (Index : %d)", Obj.AccountID, Obj.Name, iMapIndex);
 		return FALSE;
 	}
 
@@ -341,31 +341,31 @@ BOOL CMoveCommand::Move(CGameObject &Obj, int iMapIndex)
 
 	if ( g_GensSystem.IsMoveMapBattleZone(nMoveIndex) )
 	{
-		if (g_MaxStatsInfo.GetClass.IsNonPvP[lpObj.MapNumber])
+		if (g_MaxStatsInfo.GetClass.IsNonPvP[Obj.MapNumber])
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,305), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,305), Obj.m_Index, 1);
 			return FALSE;
 		}
 
 		if ( !g_GensSystem.IsUserBattleZoneEnable(lpObj) )
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,499), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,499), Obj.m_Index, 1);
 			return FALSE;
 		}
 
-		if ( IMPERIAL_MAP_RANGE(lpObj.MapNumber) != FALSE )
+		if ( IMPERIAL_MAP_RANGE(Obj.MapNumber) != FALSE )
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,499), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,499), Obj.m_Index, 1);
 			return FALSE;
 		}
 
-		if ( IT_MAP_RANGE(lpObj.MapNumber) != FALSE )
+		if ( IT_MAP_RANGE(Obj.MapNumber) != FALSE )
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,499), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,499), Obj.m_Index, 1);
 			return FALSE;
 		}
 
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,500), lpObj.m_Index, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,500), Obj.m_Index, 1);
 		g_GensSystem.MoveInBattleZonePartySplit(lpObj);
 	}
 	//sLog->outBasic("#4 TEST %d", g_CastleSiegeSync.GetCastleState());
@@ -376,13 +376,13 @@ BOOL CMoveCommand::Move(CGameObject &Obj, int iMapIndex)
 			//return FALSE;
 		}
 
-		if ( g_CastleSiegeSync.CheckCastleOwnerMember(lpObj.m_Index) == FALSE && g_CastleSiegeSync.CheckCastleOwnerUnionMember(lpObj.m_Index) == FALSE)
+		if ( g_CastleSiegeSync.CheckCastleOwnerMember(Obj.m_Index) == FALSE && g_CastleSiegeSync.CheckCastleOwnerUnionMember(Obj.m_Index) == FALSE)
 		{
 			//return FALSE;
 		}
 	}
 	//sLog->outBasic("#5 TEST");
-	if(IT_MAP_RANGE(lpObj.MapNumber) != FALSE) //season 3.0 add-on
+	if(IT_MAP_RANGE(Obj.MapNumber) != FALSE) //season 3.0 add-on
 	{
 		if(nMoveIndex == 11 || nMoveIndex == 12 || nMoveIndex == 13 || nMoveIndex == 23)
 		{
@@ -403,7 +403,7 @@ BOOL CMoveCommand::Move(CGameObject &Obj, int iMapIndex)
 	
 	if(g_ConfigRead.data.common.joinmuDisableWarpLevelBenefits == false)
 	{
-		if ( lpObj.Class == CLASS_DARKLORD || lpObj.Class == CLASS_MAGUMSA || lpObj.Class == CLASS_RAGEFIGHTER || lpObj.Class == CLASS_GROWLANCER)
+		if ( Obj.Class == CLASS_DARKLORD || Obj.Class == CLASS_MAGUMSA || Obj.Class == CLASS_RAGEFIGHTER || Obj.Class == CLASS_GROWLANCER)
 		{
 			if ( NeedLevel > 0 )
 			{
@@ -418,20 +418,20 @@ BOOL CMoveCommand::Move(CGameObject &Obj, int iMapIndex)
 	{
 		if (g_ConfigRead.UseMLforWarp == 1)
 		{
-			if (NeedLevel <= lpObj.Level + lpObj.m_PlayerData->MasterLevel)
+			if (NeedLevel <= Obj.Level + Obj.m_PlayerData->MasterLevel)
 			{
-				if ((lpObj.m_PlayerData->Money - NeedZen) >= 0)
+				if ((Obj.m_PlayerData->Money - NeedZen) >= 0)
 				{
-					if (gObjMoveGate(lpObj.m_Index, GateNumber) != FALSE)
+					if (gObjMoveGate(Obj.m_Index, GateNumber) != FALSE)
 					{
-						lpObj.m_bPShopRedrawAbs = true;
-						lpObj.m_PlayerData->Money -= NeedZen;
+						Obj.m_bPShopRedrawAbs = true;
+						Obj.m_PlayerData->Money -= NeedZen;
 
-						gGameProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
+						gGameProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
 
-						if (lpObj.MapNumber == MAP_INDEX_HATCHERY)//Season 4.5 addon
+						if (Obj.MapNumber == MAP_INDEX_HATCHERY)//Season 4.5 addon
 						{
-							g_RaklionBattleUserMng.DeleteUserData(lpObj.m_Index);
+							g_RaklionBattleUserMng.DeleteUserData(Obj.m_Index);
 						}
 
 						return TRUE;
@@ -439,32 +439,32 @@ BOOL CMoveCommand::Move(CGameObject &Obj, int iMapIndex)
 				}
 				else
 				{
-					gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 37), lpObj.m_Index, 1);
+					gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 37), Obj.m_Index, 1);
 				}
 			}
 			else
 			{
 				char szTemp[256];
 				wsprintf(szTemp, Lang.GetText(0, 30), NeedLevel);
-				gGameProtocol.GCServerMsgStringSend(szTemp, lpObj.m_Index, 1);
+				gGameProtocol.GCServerMsgStringSend(szTemp, Obj.m_Index, 1);
 			}
 		}
 		else
 		{
-			if (NeedLevel <= lpObj.Level)
+			if (NeedLevel <= Obj.Level)
 			{
-				if ((lpObj.m_PlayerData->Money - NeedZen) >= 0)
+				if ((Obj.m_PlayerData->Money - NeedZen) >= 0)
 				{
-					if (gObjMoveGate(lpObj.m_Index, GateNumber) != FALSE)
+					if (gObjMoveGate(Obj.m_Index, GateNumber) != FALSE)
 					{
-						lpObj.m_bPShopRedrawAbs = true;
-						lpObj.m_PlayerData->Money -= NeedZen;
+						Obj.m_bPShopRedrawAbs = true;
+						Obj.m_PlayerData->Money -= NeedZen;
 
-						gGameProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
+						gGameProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
 
-						if (lpObj.MapNumber == MAP_INDEX_HATCHERY)//Season 4.5 addon
+						if (Obj.MapNumber == MAP_INDEX_HATCHERY)//Season 4.5 addon
 						{
-							g_RaklionBattleUserMng.DeleteUserData(lpObj.m_Index);
+							g_RaklionBattleUserMng.DeleteUserData(Obj.m_Index);
 						}
 
 						return TRUE;
@@ -472,14 +472,14 @@ BOOL CMoveCommand::Move(CGameObject &Obj, int iMapIndex)
 				}
 				else
 				{
-					gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 37), lpObj.m_Index, 1);
+					gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 37), Obj.m_Index, 1);
 				}
 			}
 			else
 			{
 				char szTemp[256];
 				wsprintf(szTemp, Lang.GetText(0, 30), NeedLevel);
-				gGameProtocol.GCServerMsgStringSend(szTemp, lpObj.m_Index, 1);
+				gGameProtocol.GCServerMsgStringSend(szTemp, Obj.m_Index, 1);
 			}
 		}
 	}
@@ -498,7 +498,7 @@ BOOL CMoveCommand::Move(CGameObject &Obj, LPSTR mapname)
 
 	if (index == -1)
 	{
-		sLog->outBasic("[MapMove Failed] Invalid Map Index (%s/%s) (Index : %d)", lpObj.AccountID, lpObj.Name, mapname);
+		sLog->outBasic("[MapMove Failed] Invalid Map Index (%s/%s) (Index : %d)", Obj.AccountID, Obj.Name, mapname);
 		return FALSE;
 	}
 
@@ -506,31 +506,31 @@ BOOL CMoveCommand::Move(CGameObject &Obj, LPSTR mapname)
 
 	if (g_GensSystem.IsMoveMapBattleZone(nMoveIndex))
 	{
-		if (g_MaxStatsInfo.GetClass.IsNonPvP[lpObj.MapNumber])
+		if (g_MaxStatsInfo.GetClass.IsNonPvP[Obj.MapNumber])
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 305), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 305), Obj.m_Index, 1);
 			return FALSE;
 		}
 
 		if (!g_GensSystem.IsUserBattleZoneEnable(lpObj))
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 499), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 499), Obj.m_Index, 1);
 			return FALSE;
 		}
 
-		if (IMPERIAL_MAP_RANGE(lpObj.MapNumber) != FALSE)
+		if (IMPERIAL_MAP_RANGE(Obj.MapNumber) != FALSE)
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 499), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 499), Obj.m_Index, 1);
 			return FALSE;
 		}
 
-		if (IT_MAP_RANGE(lpObj.MapNumber) != FALSE)
+		if (IT_MAP_RANGE(Obj.MapNumber) != FALSE)
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 499), lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 499), Obj.m_Index, 1);
 			return FALSE;
 		}
 
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 500), lpObj.m_Index, 1);
+		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 500), Obj.m_Index, 1);
 		g_GensSystem.MoveInBattleZonePartySplit(lpObj);
 	}
 	//sLog->outBasic("#4 TEST %d", g_CastleSiegeSync.GetCastleState());
@@ -541,13 +541,13 @@ BOOL CMoveCommand::Move(CGameObject &Obj, LPSTR mapname)
 			//return FALSE;
 		}
 
-		if (g_CastleSiegeSync.CheckCastleOwnerMember(lpObj.m_Index) == FALSE && g_CastleSiegeSync.CheckCastleOwnerUnionMember(lpObj.m_Index) == FALSE)
+		if (g_CastleSiegeSync.CheckCastleOwnerMember(Obj.m_Index) == FALSE && g_CastleSiegeSync.CheckCastleOwnerUnionMember(Obj.m_Index) == FALSE)
 		{
 			//return FALSE;
 		}
 	}
 	//sLog->outBasic("#5 TEST");
-	if (IT_MAP_RANGE(lpObj.MapNumber) != FALSE) //season 3.0 add-on
+	if (IT_MAP_RANGE(Obj.MapNumber) != FALSE) //season 3.0 add-on
 	{
 		if (nMoveIndex == 11 || nMoveIndex == 12 || nMoveIndex == 13 || nMoveIndex == 23)
 		{
@@ -568,7 +568,7 @@ BOOL CMoveCommand::Move(CGameObject &Obj, LPSTR mapname)
 
 	if (g_ConfigRead.data.common.joinmuDisableWarpLevelBenefits == false)
 	{
-		if (lpObj.Class == CLASS_DARKLORD || lpObj.Class == CLASS_MAGUMSA || lpObj.Class == CLASS_RAGEFIGHTER || lpObj.Class == CLASS_GROWLANCER)
+		if (Obj.Class == CLASS_DARKLORD || Obj.Class == CLASS_MAGUMSA || Obj.Class == CLASS_RAGEFIGHTER || Obj.Class == CLASS_GROWLANCER)
 		{
 			if (NeedLevel > 0)
 			{
@@ -583,20 +583,20 @@ BOOL CMoveCommand::Move(CGameObject &Obj, LPSTR mapname)
 	{
 		if (g_ConfigRead.UseMLforWarp == 1)
 		{
-			if (NeedLevel <= lpObj.Level + lpObj.m_PlayerData->MasterLevel)
+			if (NeedLevel <= Obj.Level + Obj.m_PlayerData->MasterLevel)
 			{
-				if ((lpObj.m_PlayerData->Money - NeedZen) >= 0)
+				if ((Obj.m_PlayerData->Money - NeedZen) >= 0)
 				{
-					if (gObjMoveGate(lpObj.m_Index, GateNumber) != FALSE)
+					if (gObjMoveGate(Obj.m_Index, GateNumber) != FALSE)
 					{
-						lpObj.m_bPShopRedrawAbs = true;
-						lpObj.m_PlayerData->Money -= NeedZen;
+						Obj.m_bPShopRedrawAbs = true;
+						Obj.m_PlayerData->Money -= NeedZen;
 
-						gGameProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
+						gGameProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
 
-						if (lpObj.MapNumber == MAP_INDEX_HATCHERY)//Season 4.5 addon
+						if (Obj.MapNumber == MAP_INDEX_HATCHERY)//Season 4.5 addon
 						{
-							g_RaklionBattleUserMng.DeleteUserData(lpObj.m_Index);
+							g_RaklionBattleUserMng.DeleteUserData(Obj.m_Index);
 						}
 
 						return TRUE;
@@ -604,25 +604,25 @@ BOOL CMoveCommand::Move(CGameObject &Obj, LPSTR mapname)
 				}
 				else
 				{
-					gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 37), lpObj.m_Index, 1);
+					gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 37), Obj.m_Index, 1);
 				}
 			}
 			else
 			{
-				if (NeedLevel <= lpObj.Level)
+				if (NeedLevel <= Obj.Level)
 				{
-					if ((lpObj.m_PlayerData->Money - NeedZen) >= 0)
+					if ((Obj.m_PlayerData->Money - NeedZen) >= 0)
 					{
-						if (gObjMoveGate(lpObj.m_Index, GateNumber) != FALSE)
+						if (gObjMoveGate(Obj.m_Index, GateNumber) != FALSE)
 						{
-							lpObj.m_bPShopRedrawAbs = true;
-							lpObj.m_PlayerData->Money -= NeedZen;
+							Obj.m_bPShopRedrawAbs = true;
+							Obj.m_PlayerData->Money -= NeedZen;
 
-							gGameProtocol.GCMoneySend(lpObj.m_Index, lpObj.m_PlayerData->Money);
+							gGameProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
 
-							if (lpObj.MapNumber == MAP_INDEX_HATCHERY)//Season 4.5 addon
+							if (Obj.MapNumber == MAP_INDEX_HATCHERY)//Season 4.5 addon
 							{
-								g_RaklionBattleUserMng.DeleteUserData(lpObj.m_Index);
+								g_RaklionBattleUserMng.DeleteUserData(Obj.m_Index);
 							}
 
 							return TRUE;
@@ -630,7 +630,7 @@ BOOL CMoveCommand::Move(CGameObject &Obj, LPSTR mapname)
 					}
 					else
 					{
-						gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 37), lpObj.m_Index, 1);
+						gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 37), Obj.m_Index, 1);
 					}
 				}
 			}
@@ -639,7 +639,7 @@ BOOL CMoveCommand::Move(CGameObject &Obj, LPSTR mapname)
 		{
 			char szTemp[256];
 			wsprintf(szTemp, Lang.GetText(0, 30), NeedLevel);
-			gGameProtocol.GCServerMsgStringSend(szTemp, lpObj.m_Index, 1);
+			gGameProtocol.GCServerMsgStringSend(szTemp, Obj.m_Index, 1);
 		}
 	}
 
@@ -649,11 +649,11 @@ BOOL CMoveCommand::Move(CGameObject &Obj, LPSTR mapname)
 
 int GetKalimaGateLevel(CGameObject &Obj)
 {
-	if ( lpObj.Class == CLASS_MAGUMSA || lpObj.Class == CLASS_DARKLORD || lpObj.Class == CLASS_RAGEFIGHTER )
+	if ( Obj.Class == CLASS_MAGUMSA || Obj.Class == CLASS_DARKLORD || Obj.Class == CLASS_RAGEFIGHTER )
 	{
 		for ( int i=0;i<KALIMA_FLOORS;i++)
 		{
-			if ( lpObj.Level >= g_sttKALIMAGATE_LEVEL[i].iLOWER_BOUND_MAGUMSA && lpObj.Level <= g_sttKALIMAGATE_LEVEL[i].iUPPER_BOUND_MAGUMSA )
+			if ( Obj.Level >= g_sttKALIMAGATE_LEVEL[i].iLOWER_BOUND_MAGUMSA && Obj.Level <= g_sttKALIMAGATE_LEVEL[i].iUPPER_BOUND_MAGUMSA )
 			{
 				return i;
 			}
@@ -663,7 +663,7 @@ int GetKalimaGateLevel(CGameObject &Obj)
 	{
 		for ( int i=0;i<KALIMA_FLOORS;i++)
 		{
-			if ( lpObj.Level >= g_sttKALIMAGATE_LEVEL[i].iLOWER_BOUND && lpObj.Level <= g_sttKALIMAGATE_LEVEL[i].iUPPER_BOUND )
+			if ( Obj.Level >= g_sttKALIMAGATE_LEVEL[i].iLOWER_BOUND && Obj.Level <= g_sttKALIMAGATE_LEVEL[i].iUPPER_BOUND )
 			{
 				return i;
 			}
@@ -689,7 +689,7 @@ BOOL CMoveCommand::MoveFree2Kalima(CGameObject &Obj)
 
 	int iGateNumber = iIdx + 88;
 
-	return gObjMoveGate(lpObj.m_Index, iGateNumber);
+	return gObjMoveGate(Obj.m_Index, iGateNumber);
 }
 
 LPMOVE_COMMAND_DATA CMoveCommand::GetMoveCommandData(int nMapIndex)

@@ -63,7 +63,7 @@ void CStatSpecialize::ClearUserOption(CGameObject &Obj)
 {
 	for (int i = 0; i < MAX_USER_STAT_OPTIONS; i++)
 	{
-		lpObj.m_PlayerData->m_StatSpecOption[i].Clear();
+		Obj.m_PlayerData->m_StatSpecOption[i].Clear();
 	}
 }
 
@@ -76,8 +76,8 @@ void CStatSpecialize::CalcStatOption(CGameObject &Obj, int StatOptionID)
 
 	double Percent = 0.0;
 	this->m_Lua.Generic_Call("StatSpec_GetPercent", "iiiiiii>d", 
-		(int)lpObj.Class, StatOptionID, (int)lpObj.m_PlayerData->Strength, (int)lpObj.m_PlayerData->Dexterity,
-		(int)lpObj.m_PlayerData->Vitality, (int)lpObj.m_PlayerData->Energy, (int)lpObj.Leadership, &Percent);
+		(int)Obj.Class, StatOptionID, (int)Obj.m_PlayerData->Strength, (int)Obj.m_PlayerData->Dexterity,
+		(int)Obj.m_PlayerData->Vitality, (int)Obj.m_PlayerData->Energy, (int)Obj.Leadership, &Percent);
 
 	if (Percent == 0.0)
 	{
@@ -96,90 +96,90 @@ void CStatSpecialize::SetStatOption(CGameObject &Obj, int StatOptionID, double S
 		return;
 	}
 
-	lpObj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionID = StatOptionID;
+	Obj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionID = StatOptionID;
 
 	switch ( StatOptionID )
 	{
 		case STAT_OPTION_INC_ATTACK_POWER:
 			{
-				int iEffectValueMin = lpObj.m_AttackDamageMinLeft * StatOptionPercent / 100.0;
-				int iEffectValueMax = lpObj.m_AttackDamageMaxLeft * StatOptionPercent / 100.0;
-				lpObj.m_AttackDamageMinLeft += iEffectValueMin;
-				lpObj.m_AttackDamageMinRight += iEffectValueMin;
-				lpObj.m_AttackDamageMaxLeft += iEffectValueMax;
-				lpObj.m_AttackDamageMaxRight += iEffectValueMax;
-				lpObj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMin = iEffectValueMin;
-				lpObj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMax = iEffectValueMax;
+				int iEffectValueMin = Obj.m_AttackDamageMinLeft * StatOptionPercent / 100.0;
+				int iEffectValueMax = Obj.m_AttackDamageMaxLeft * StatOptionPercent / 100.0;
+				Obj.m_AttackDamageMinLeft += iEffectValueMin;
+				Obj.m_AttackDamageMinRight += iEffectValueMin;
+				Obj.m_AttackDamageMaxLeft += iEffectValueMax;
+				Obj.m_AttackDamageMaxRight += iEffectValueMax;
+				Obj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMin = iEffectValueMin;
+				Obj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMax = iEffectValueMax;
 			}
 			break;
 
 		case STAT_OPTION_INC_ATTACK_RATE:
 			{
-				int iEffectValue = lpObj.m_PlayerData->m_AttackRatePvM * StatOptionPercent / 100.0;
-				lpObj.m_PlayerData->m_AttackRatePvM += iEffectValue;
-				lpObj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMin = iEffectValue;
+				int iEffectValue = Obj.m_PlayerData->m_AttackRatePvM * StatOptionPercent / 100.0;
+				Obj.m_PlayerData->m_AttackRatePvM += iEffectValue;
+				Obj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMin = iEffectValue;
 			}
 			break;
 
 		case STAT_OPTION_INC_ATTACK_RATE_PVP:
 			{
-				int iEffectValue = lpObj.m_PlayerData->m_AttackRatePvP * StatOptionPercent / 100.0;
-				lpObj.m_PlayerData->m_AttackRatePvP += iEffectValue;
-				lpObj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMin = iEffectValue;
+				int iEffectValue = Obj.m_PlayerData->m_AttackRatePvP * StatOptionPercent / 100.0;
+				Obj.m_PlayerData->m_AttackRatePvP += iEffectValue;
+				Obj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMin = iEffectValue;
 			}
 			break;
 
 		case STAT_OPTION_INC_DEFENSE:
 			{
-				int iEffectValue = lpObj.m_Defense * StatOptionPercent / 100.0;
-				lpObj.m_Defense += iEffectValue;
-				lpObj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMin = iEffectValue;
+				int iEffectValue = Obj.m_Defense * StatOptionPercent / 100.0;
+				Obj.m_Defense += iEffectValue;
+				Obj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMin = iEffectValue;
 			}
 			break;
 
 		case STAT_OPTION_INC_ATTACK_SPEED:
 			{
-				int iEffectValue = lpObj.m_AttackSpeed * StatOptionPercent / 100.0;
-				lpObj.m_AttackSpeed += iEffectValue;
-				lpObj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMin = iEffectValue;
+				int iEffectValue = Obj.m_AttackSpeed * StatOptionPercent / 100.0;
+				Obj.m_AttackSpeed += iEffectValue;
+				Obj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMin = iEffectValue;
 			}
 			break;
 
 		case STAT_OPTION_INC_DEFENSE_RATE:
 			{
-				int iEffectValue = lpObj.m_SuccessfulBlocking * StatOptionPercent / 100.0;
-				lpObj.m_SuccessfulBlocking += iEffectValue;
-				lpObj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMin = iEffectValue;
+				int iEffectValue = Obj.m_SuccessfulBlocking * StatOptionPercent / 100.0;
+				Obj.m_SuccessfulBlocking += iEffectValue;
+				Obj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMin = iEffectValue;
 			}
 			break;
 
 		case STAT_OPTION_INC_DEFENSE_RATE_PVP:
 			{
-				int iEffectValue = lpObj.m_PlayerData->m_DefenseRatePvP * StatOptionPercent / 100.0;
-				lpObj.m_PlayerData->m_DefenseRatePvP += iEffectValue;
-				lpObj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMin = iEffectValue;
+				int iEffectValue = Obj.m_PlayerData->m_DefenseRatePvP * StatOptionPercent / 100.0;
+				Obj.m_PlayerData->m_DefenseRatePvP += iEffectValue;
+				Obj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMin = iEffectValue;
 			}
 			break;
 
 		case STAT_OPTION_INC_MAGIC_DAMAGE:
 			{
-				int iEffectValueMin = lpObj.m_MagicDamageMin * StatOptionPercent / 100.0;
-				int iEffectValueMax = lpObj.m_MagicDamageMax * StatOptionPercent / 100.0;
-				lpObj.m_MagicDamageMin += iEffectValueMin;
-				lpObj.m_MagicDamageMax += iEffectValueMax;
-				lpObj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMin = iEffectValueMin;
-				lpObj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMax = iEffectValueMax;
+				int iEffectValueMin = Obj.m_MagicDamageMin * StatOptionPercent / 100.0;
+				int iEffectValueMax = Obj.m_MagicDamageMax * StatOptionPercent / 100.0;
+				Obj.m_MagicDamageMin += iEffectValueMin;
+				Obj.m_MagicDamageMax += iEffectValueMax;
+				Obj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMin = iEffectValueMin;
+				Obj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMax = iEffectValueMax;
 			}
 			break;
 
 		case STAT_OPTION_INC_CURSE_DAMAGE:
 			{
-				int iEffectValueMin = lpObj.m_CurseDamageMin * StatOptionPercent / 100.0;
-				int iEffectValueMax = lpObj.m_CurseDamageMax * StatOptionPercent / 100.0;
-				lpObj.m_CurseDamageMin += iEffectValueMin;
-				lpObj.m_CurseDamageMax += iEffectValueMax;
-				lpObj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMin = iEffectValueMin;
-				lpObj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMax = iEffectValueMax;
+				int iEffectValueMin = Obj.m_CurseDamageMin * StatOptionPercent / 100.0;
+				int iEffectValueMax = Obj.m_CurseDamageMax * StatOptionPercent / 100.0;
+				Obj.m_CurseDamageMin += iEffectValueMin;
+				Obj.m_CurseDamageMax += iEffectValueMax;
+				Obj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMin = iEffectValueMin;
+				Obj.m_PlayerData->m_StatSpecOption[ArrayIndex].StatOptionValMax = iEffectValueMax;
 			}
 			break;
 	}
@@ -191,7 +191,7 @@ int CStatSpecialize::GetUserArrayIndex(CGameObject &Obj)
 
 	for (int i = 0; i < MAX_USER_STAT_OPTIONS; i++)
 	{
-		if (lpObj.m_PlayerData->m_StatSpecOption[i].StatOptionID == 0)
+		if (Obj.m_PlayerData->m_StatSpecOption[i].StatOptionID == 0)
 		{
 			ArrayIndex = i;
 			break;
@@ -209,16 +209,16 @@ void CStatSpecialize::SendOptionList(CGameObject &Obj)
 
 	 for (int i = 0; i < MAX_USER_STAT_OPTIONS; i++)
 	 {
-		 if(lpObj.m_PlayerData->m_StatSpecOption[i].StatOptionID != 0)
+		 if(Obj.m_PlayerData->m_StatSpecOption[i].StatOptionID != 0)
 		 {
-			 pMsg.m_StatOption[OptionCount].StatOptionID = lpObj.m_PlayerData->m_StatSpecOption[i].StatOptionID;
-			 pMsg.m_StatOption[OptionCount].StatOptionValMin = lpObj.m_PlayerData->m_StatSpecOption[i].StatOptionValMin;
-			 pMsg.m_StatOption[OptionCount].StatOptionValMax = lpObj.m_PlayerData->m_StatSpecOption[i].StatOptionValMax;
+			 pMsg.m_StatOption[OptionCount].StatOptionID = Obj.m_PlayerData->m_StatSpecOption[i].StatOptionID;
+			 pMsg.m_StatOption[OptionCount].StatOptionValMin = Obj.m_PlayerData->m_StatSpecOption[i].StatOptionValMin;
+			 pMsg.m_StatOption[OptionCount].StatOptionValMax = Obj.m_PlayerData->m_StatSpecOption[i].StatOptionValMax;
 			 OptionCount++;
 		 }
 	 }
 
-	 IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+	 IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

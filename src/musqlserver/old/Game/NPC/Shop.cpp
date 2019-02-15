@@ -342,7 +342,7 @@ void CShopMng::LoadShopList(char* filename)
 
 SHOP_DATA * CShopMng::GetShop(CGameObject &Obj, CGameObject &Npc)
 {
-	if (lpObj.Type != OBJ_USER)
+	if (Obj.Type != OBJ_USER)
 	{
 		return NULL;
 	}
@@ -367,18 +367,18 @@ SHOP_DATA * CShopMng::GetShop(CGameObject &Obj, CGameObject &Npc)
 		return NULL;
 	}
 
-	if (lpObj.m_PlayerData->VipType < ItShopData->btReqVipLevel && ItShopData->btOnlyForGameMaster == FALSE)
+	if (Obj.m_PlayerData->VipType < ItShopData->btReqVipLevel && ItShopData->btOnlyForGameMaster == FALSE)
 	{
-		if (lpObj.m_PlayerData->VipType == 0)
+		if (Obj.m_PlayerData->VipType == 0)
 		{
-			gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 579), lpObj.m_Index);
+			gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 579), Obj.m_Index);
 		}
 
 		else
 		{
 			char szMsg[256];
-			sprintf(szMsg, Lang.GetText(0, 605), g_VipSystem.GetVipName(lpObj.m_PlayerData->VipType), g_VipSystem.GetVipName(ItShopData->btReqVipLevel));
-			gGameProtocol.ChatTargetSend(lpNpc, szMsg, lpObj.m_Index);
+			sprintf(szMsg, Lang.GetText(0, 605), g_VipSystem.GetVipName(Obj.m_PlayerData->VipType), g_VipSystem.GetVipName(ItShopData->btReqVipLevel));
+			gGameProtocol.ChatTargetSend(lpNpc, szMsg, Obj.m_Index);
 		}
 
 		return NULL;
@@ -386,9 +386,9 @@ SHOP_DATA * CShopMng::GetShop(CGameObject &Obj, CGameObject &Npc)
 
 	if (ItShopData->btOnlyForGameMaster == TRUE)
 	{
-		if ((lpObj.Authority & 0x20) != 0x20 || (lpObj.GameMaster & GM_USE_GMSHOP) != GM_USE_GMSHOP)
+		if ((Obj.Authority & 0x20) != 0x20 || (Obj.GameMaster & GM_USE_GMSHOP) != GM_USE_GMSHOP)
 		{
-			gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 580), lpObj.m_Index);
+			gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 580), Obj.m_Index);
 			return NULL;
 		}
 	}
@@ -396,27 +396,27 @@ SHOP_DATA * CShopMng::GetShop(CGameObject &Obj, CGameObject &Npc)
 	if (ItShopData->m_ShopData.ItemCount < 1)
 	{
 		if ((rand() % 2) != 0)
-			gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 51), lpObj.m_Index);
+			gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 51), Obj.m_Index);
 		else
-			gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 52), lpObj.m_Index);
+			gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 52), Obj.m_Index);
 
 		return NULL;
 	}
 
-	if (g_ConfigRead.pk.bPkPenaltyDisable == FALSE && g_GensSystem.IsMapBattleZone(lpObj.MapNumber) == FALSE && g_ConfigRead.pk.bPkCanUseShops == false)
+	if (g_ConfigRead.pk.bPkPenaltyDisable == FALSE && g_GensSystem.IsMapBattleZone(Obj.MapNumber) == FALSE && g_ConfigRead.pk.bPkCanUseShops == false)
 	{
 		BOOL bPlayerKiller = FALSE; //season 2.5 add-on
 
-		if (lpObj.PartyNumber >= 0) //season 2.5 add-on
+		if (Obj.PartyNumber >= 0) //season 2.5 add-on
 		{
-			if ((gParty.GetPKPartyPenalty(lpObj.PartyNumber)) > 4)
+			if ((gParty.GetPKPartyPenalty(Obj.PartyNumber)) > 4)
 			{
 				bPlayerKiller = TRUE;
 			}
 		}
 		else
 		{
-			if (lpObj.m_PK_Level > 4)
+			if (Obj.m_PK_Level > 4)
 			{
 				bPlayerKiller = TRUE;
 			}
@@ -425,9 +425,9 @@ SHOP_DATA * CShopMng::GetShop(CGameObject &Obj, CGameObject &Npc)
 		if (bPlayerKiller == TRUE) //season 2.5 changed
 		{
 			if ((rand() % 2) != 0)
-				gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 53), lpObj.m_Index);
+				gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 53), Obj.m_Index);
 			else
-				gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 54), lpObj.m_Index);
+				gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 54), Obj.m_Index);
 
 			return NULL;
 		}

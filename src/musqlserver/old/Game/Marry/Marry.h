@@ -54,13 +54,13 @@ private:
 
 inline bool isFemale(CGameObject &Obj)
 {
-	return (lpObj.Class == CLASS_ELF || lpObj.Class == CLASS_SUMMONER || lpObj.Class == CLASS_GROWLANCER) ? true : false;
+	return (Obj.Class == CLASS_ELF || Obj.Class == CLASS_SUMMONER || Obj.Class == CLASS_GROWLANCER) ? true : false;
 }
 
 inline bool isMale(CGameObject &Obj)
 {
-	return (lpObj.Class == CLASS_WIZARD || lpObj.Class == CLASS_KNIGHT || lpObj.Class == CLASS_MAGUMSA ||
-			lpObj.Class == CLASS_DARKLORD || lpObj.Class == CLASS_RAGEFIGHTER) ? true : false; 
+	return (Obj.Class == CLASS_WIZARD || Obj.Class == CLASS_KNIGHT || Obj.Class == CLASS_MAGUMSA ||
+			Obj.Class == CLASS_DARKLORD || Obj.Class == CLASS_RAGEFIGHTER) ? true : false; 
 }
 extern CMarry Marry;
 

@@ -928,23 +928,23 @@ bool PartyClass::SetLeader(int OldLeader, int NewLeader)
 	CGameObject lpObj = &getGameObject(OldLeader);
 	CGameObject lpTargetObj = &getGameObject(NewLeader);
 	// ----
-	int PartyNumber = lpObj.PartyNumber;
+	int PartyNumber = Obj.PartyNumber;
 	// ----
 	if (!this->IsParty(PartyNumber))
 	{
-		gGameProtocol.GCServerMsgStringSend("Your character is not in party", lpObj.m_Index, 1);
+		gGameProtocol.GCServerMsgStringSend("Your character is not in party", Obj.m_Index, 1);
 		return false;
 	}
 	// ----
-	if (lpObj.PartyNumber != lpTargetObj.PartyNumber)
+	if (Obj.PartyNumber != lpTargetObj.PartyNumber)
 	{
-		gGameProtocol.GCServerMsgStringSend("Target is not party member", lpObj.m_Index, 1);
+		gGameProtocol.GCServerMsgStringSend("Target is not party member", Obj.m_Index, 1);
 		return false;
 	}
 	// ----
-	if (!this->Isleader(PartyNumber, lpObj.m_Index, lpObj.DBNumber))
+	if (!this->Isleader(PartyNumber, Obj.m_Index, Obj.DBNumber))
 	{
-		gGameProtocol.GCServerMsgStringSend("Your character is not party leader", lpObj.m_Index, 1);
+		gGameProtocol.GCServerMsgStringSend("Your character is not party leader", Obj.m_Index, 1);
 		return false;
 	}
 	// ----
@@ -954,9 +954,9 @@ bool PartyClass::SetLeader(int OldLeader, int NewLeader)
 	this->m_PartyS[PartyNumber].DbNumber[0] = this->m_PartyS[PartyNumber].DbNumber[TempIndex];
 	this->m_PartyS[PartyNumber].m_UserPKLevel[0] = this->m_PartyS[PartyNumber].m_PKPartyLevel[&TempIndex];
 	// ----
-	this->m_PartyS[PartyNumber].Number[TempIndex] = lpObj.m_Index;
-	this->m_PartyS[PartyNumber].DbNumber[TempIndex] = lpObj.DBNumber;
-	this->m_PartyS[PartyNumber].m_PKPartyLevel[&TempIndex] = lpObj.m_PK_Level;
+	this->m_PartyS[PartyNumber].Number[TempIndex] = Obj.m_Index;
+	this->m_PartyS[PartyNumber].DbNumber[TempIndex] = Obj.DBNumber;
+	this->m_PartyS[PartyNumber].m_PKPartyLevel[&TempIndex] = Obj.m_PK_Level;
 	// ----
 	char Text[100] = { 0 };
 	sprintf(Text, "New party leader: %s", lpTargetObj.Name);

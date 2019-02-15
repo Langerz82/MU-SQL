@@ -308,13 +308,13 @@ void CCrywolf::SetCrywolfAllCommonMonsterState2(int iMonsterState, int iMode)
 
 		if ( iMode == 0 )
 		{
-			//lpObj.m_ViewSkillState &= ~iMonsterState;
-			//GCStateInfoSend(lpObj, 0, lpObj.m_ViewSkillState);
+			//Obj.m_ViewSkillState &= ~iMonsterState;
+			//GCStateInfoSend(lpObj, 0, Obj.m_ViewSkillState);
 		}
 		else if ( iMode == 1 )
 		{
-			//lpObj.m_ViewSkillState |= iMonsterState;
-			//GCStateInfoSend(lpObj, 1, lpObj.m_ViewSkillState);
+			//Obj.m_ViewSkillState |= iMonsterState;
+			//GCStateInfoSend(lpObj, 1, Obj.m_ViewSkillState);
 		}
 	}
 }
@@ -586,9 +586,9 @@ void CCrywolf::SetState_START()
 
 		for ( int i=0;i<MaxViewportMonster;i++)
 		{
-			if ( lpObj.VpPlayer2[i].state )
+			if ( Obj.VpPlayer2[i].state )
 			{
-				int number = lpObj.VpPlayer2[i].number;
+				int number = Obj.VpPlayer2[i].number;
 
 				if ( ObjectMaxRange(number) != FALSE )
 				{
@@ -953,7 +953,7 @@ void CCrywolf::NotifyCrywolfPersonalRank()
 	PHeadSubSetB((BYTE*)&pMsg, 0xBD, 0x07, sizeof(pMsg));
 	pMsg.btRank = 0;
 
-	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
+	for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 	{
 		if (getGameObject(i)->Connected == PLAYER_PLAYING &&
 			getGameObject(i)->Type == OBJ_USER &&
@@ -1004,7 +1004,7 @@ void CCrywolf::NotifyCrywolfHeroList()
 	PMSG_ANS_CRYWOLF_HERO_LIST_INFO * lpMsgBody = (PMSG_ANS_CRYWOLF_HERO_LIST_INFO *)(cBUFFER + 5);
 	std::set<CGameObject,CCrywolfScoreSort> HeroSet;
 	
-	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
+	for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 	{
 		if (getGameObject(i)->Connected == PLAYER_PLAYING &&
 			getGameObject(i)->Type == OBJ_USER &&

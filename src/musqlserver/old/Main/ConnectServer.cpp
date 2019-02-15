@@ -68,7 +68,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_IGCCS));
 
 	g_Log.LogInit(TRUE, 256);
-	g_Log.AddC(TColor::Red, "Initializing...");
+	sLog->outError("Initializing...");
 	UserInit();
 	IOCP.GiocpInit();
 

@@ -24,23 +24,23 @@ BOOL CRingMonsterHerd::Start()
 BOOL CRingMonsterHerd::MonsterHerdItemDrop(CGameObject &Obj)
 {
 	
-	if ( lpObj.Class == 135 )
+	if ( Obj.Class == 135 )
 	{
 		int iIndex = gObjMonsterTopHitDamageUser(lpObj);
 
 		if ( iIndex == -1 )
 		{
 			int itemnumber = ItemGetNumberMake(14, 13);
-			ItemCreate(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y,
+			ItemCreate(Obj.m_Index, Obj.MapNumber, Obj.X, Obj.Y,
 				itemnumber, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0);
 			return TRUE;
 		}
 
 		int itemnumber = ItemGetNumberMake(14, 13);
-		ItemCreate(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y,
+		ItemCreate(Obj.m_Index, Obj.MapNumber, Obj.X, Obj.Y,
 			itemnumber, 0, 0, 0, 0, 0, iIndex, 0, 0, 0, 0, 0);
 		char szTemp[256];
-		wsprintf(szTemp, Lang.GetText(0,101), Obj.Name, Lang.GetMap(0, lpObj.MapNumber));	// #error Apply Deathway fix here
+		wsprintf(szTemp, Lang.GetText(0,101), Obj.Name, Lang.GetMap(0, Obj.MapNumber));	// #error Apply Deathway fix here
 		gGameProtocol.AllSendServerMsg( szTemp ); 
 		sLog->outBasic("[Ring Event] White Wizard Killed by [%s][%s], MapNumber:%d",
 			Obj.AccountID, Obj.Name, Obj.MapNumber);
@@ -49,18 +49,18 @@ BOOL CRingMonsterHerd::MonsterHerdItemDrop(CGameObject &Obj)
 
 	}
 	
-	if ( lpObj.Class == 136 || lpObj.Class == 137)
+	if ( Obj.Class == 136 || Obj.Class == 137)
 	{
 		if ( (rand()%100) < 30 )
 		{
 			int iIndex = gObjMonsterTopHitDamageUser(lpObj);
 			int itemnumber = ItemGetNumberMake(13, 20);	// Wizards Ring
-			ItemCreate(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y,
+			ItemCreate(Obj.m_Index, Obj.MapNumber, Obj.X, Obj.Y,
 				itemnumber, 0, 30, 0, 0, 0, iIndex, 0, 0, 0, 0, 0);
 			return TRUE;
 		}
 
-		MapC[lpObj.MapNumber].MoneyItemDrop(10000, (BYTE)lpObj.X, (BYTE)lpObj.Y);
+		MapC[Obj.MapNumber].MoneyItemDrop(10000, (BYTE)Obj.X, (BYTE)Obj.Y);
 		return TRUE;
 	}
 
@@ -86,7 +86,7 @@ void CRingMonsterHerd::MonsterAttackAction(CGameObject &Obj, CGameObject lpTarge
 		return;
 	}
 
-	if ( lpObj.Connected != PLAYER_PLAYING || lpObj.Type != OBJ_MONSTER )
+	if ( Obj.Connected != PLAYER_PLAYING || Obj.Type != OBJ_MONSTER )
 	{
 		return;
 	}
@@ -96,7 +96,7 @@ void CRingMonsterHerd::MonsterAttackAction(CGameObject &Obj, CGameObject lpTarge
 		return;
 	}
 
-	if ( lpObj.Class == 135 )
+	if ( Obj.Class == 135 )
 	{
 		this->OrderAttack(lpObj, lpTargetObj, 90 );
 	}

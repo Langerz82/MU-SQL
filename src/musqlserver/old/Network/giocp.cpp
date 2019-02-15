@@ -675,18 +675,18 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 	return true;
 }
 
-bool CIOCP::DataSend(int aIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
+bool CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 {
 	unsigned long SendBytes;
 	_PER_SOCKET_CONTEXT * lpPerSocketContext;
 	BYTE * SendBuf;
 	BYTE BUFFER[65535];
-	CGameObject* lpObj = getGameObject(aIndex);
+	CGameObject* lpObj = getGameObject(Obj.m_Index);
 
 
 	EnterCriticalSection(&criti);
 
-	if (ObjectMaxRange(aIndex) == FALSE)
+	if (ObjectMaxRange(Obj.m_Index) == FALSE)
 	{
 		sLog->outBasic("error-L2 : Index(%d) %x %x %x ", dwSize, lpMsg[0], lpMsg[1], lpMsg[2]);
 		LeaveCriticalSection(&criti);
@@ -772,7 +772,7 @@ bool CIOCP::DataSend(int aIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 	if (dwSize > sizeof(lpPerSocketContext->IOContext[0].Buffer))
 	{
 		sLog->outBasic("Error : Max msg(%d) %s %d", dwSize, __FILE__, __LINE__);
-		CloseClient(aIndex);
+		CloseClient(Obj.m_Index);
 		LeaveCriticalSection(&criti);
 		return false;
 	}
@@ -785,9 +785,9 @@ bool CIOCP::DataSend(int aIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 	{
 		if ((lpIoCtxt->nSecondOfs + dwSize) > MAX_IO_BUFFER_SIZE - 1)
 		{
-			sLog->outBasic("(%d)error-L2 MAX BUFFER OVER %d %d %d [%s][%s]", aIndex, lpIoCtxt->nTotalBytes, lpIoCtxt->nSecondOfs, dwSize, lpObj->AccountID, lpObj->Name);
+			sLog->outBasic("(%d)error-L2 MAX BUFFER OVER %d %d %d [%s][%s]", Obj.m_Index, lpIoCtxt->nTotalBytes, lpIoCtxt->nSecondOfs, dwSize, lpObj->AccountID, lpObj->Name);
 			lpIoCtxt->nWaitIO = 0;
-			CloseClient(aIndex);
+			CloseClient(Obj.m_Index);
 			LeaveCriticalSection(&criti);
 			return true;
 		}
@@ -809,9 +809,9 @@ bool CIOCP::DataSend(int aIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 
 	if ((lpIoCtxt->nTotalBytes + dwSize) > MAX_IO_BUFFER_SIZE - 1)
 	{
-		sLog->outBasic("(%d)error-L2 MAX BUFFER OVER %d %d [%s][%s]", aIndex, lpIoCtxt->nTotalBytes, dwSize, lpObj->AccountID, lpObj->Name);
+		sLog->outBasic("(%d)error-L2 MAX BUFFER OVER %d %d [%s][%s]", Obj.m_Index, lpIoCtxt->nTotalBytes, dwSize, lpObj->AccountID, lpObj->Name);
 		lpIoCtxt->nWaitIO = 0;
-		CloseClient(aIndex);
+		CloseClient(Obj.m_Index);
 		LeaveCriticalSection(&criti);
 		return false;
 	}
@@ -832,15 +832,15 @@ bool CIOCP::DataSend(int aIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 
 			if (lpIoCtxt->m_wsabuf.buf[0] == 0xC1)
 			{
-				sLog->outBasic("(%d)WSASend(%d) failed with error [%x][%x] %d %s ", __LINE__, aIndex, (BYTE)lpIoCtxt->wsabuf.buf[0],
+				sLog->outBasic("(%d)WSASend(%d) failed with error [%x][%x] %d %s ", __LINE__, Obj.m_Index, (BYTE)lpIoCtxt->wsabuf.buf[0],
 					(BYTE)lpIoCtxt->m_wsabuf.buf[2], WSAGetLastError(), lpObj->m_PlayerData->ConnectUser->IP);
 			}
 			else if (lpIoCtxt->m_wsabuf.buf[0] == 0xC2)
 			{
-				sLog->outBasic("(%d)WSASend(%d) failed with error [%x][%x] %d %s ", __LINE__, aIndex, (BYTE)lpIoCtxt->wsabuf.buf[0],
+				sLog->outBasic("(%d)WSASend(%d) failed with error [%x][%x] %d %s ", __LINE__, Obj.m_Index, (BYTE)lpIoCtxt->wsabuf.buf[0],
 					(BYTE)lpIoCtxt->m_wsabuf.buf[3], WSAGetLastError(), lpObj->m_PlayerData->ConnectUser->IP);
 			}
-			CloseClient(aIndex);
+			CloseClient(Obj.m_Index);
 			LeaveCriticalSection(&criti);
 			return false;
 		}
@@ -864,8 +864,8 @@ bool CIOCP::IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 	_PER_IO_CONTEXT * lpIoCtxt;
 
 	EnterCriticalSection(&criti);
-	int aIndex = lpPerSocketContext->nIndex;
-	lpObj = getGameObject(aIndex);
+	CGameObject &Obj = lpPerSocketContext->nIndex;
+	lpObj = getGameObject(Obj.m_Index);
 	lpIoCtxt = &lpPerSocketContext->IOContext[1];
 
 	if (lpIoCtxt->nWaitIO > 0)
@@ -897,7 +897,7 @@ bool CIOCP::IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 		if (WSAGetLastError() != WSA_IO_PENDING)
 		{
 			sLog->outBasic("WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), lpObjUser->ConnectUser->IP);
-			CloseClient(aIndex);
+			CloseClient(Obj.m_Index);
 			LeaveCriticalSection(&criti);
 			return false;
 		}
@@ -920,8 +920,8 @@ bool CIOCP::IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 	_PER_IO_CONTEXT * lpIoCtxt;
 
 	EnterCriticalSection(&criti);
-	int aIndex = lpPerSocketContext->nIndex;
-	lpObj = getGameObject(aIndex);
+	CGameObject &Obj = lpPerSocketContext->nIndex;
+	lpObj = getGameObject(Obj.m_Index);
 	lpIoCtxt = &lpPerSocketContext->IOContext[1];
 
 	if ((lpIoCtxt->nTotalBytes - lpIoCtxt->nSentBytes) < 0)
@@ -939,7 +939,7 @@ bool CIOCP::IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 		if (WSAGetLastError() != WSA_IO_PENDING)
 		{
 			sLog->outBasic("WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), lpObj->m_PlayerData->ConnectUser->IP);
-			CloseClient(aIndex);
+			CloseClient(Obj.m_Index);
 			LeaveCriticalSection(&criti);
 			return false;
 		}

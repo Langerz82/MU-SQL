@@ -34,8 +34,8 @@ public:
 	void gObjInventoryItemSet_PShop(CGameObject &Obj, int itempos, BYTE set_byte);
 	void gObjInventoryItemBoxSet_PShop(CGameObject &Obj, int itempos, int xl, int yl, BYTE set_byte);
 
-	void PShop_ViewportListRegenarate(short aIndex);
-	bool PShop_CheckInventoryEmpty(short aIndex);
+	void PShop_ViewportListRegenarate(CGameObject &Obj);
+	bool PShop_CheckInventoryEmpty(CGameObject &Obj);
 
 	// Season 8
 	void CGReqSearchItemInPShop(PMSG_REQ_SEARCH_ITEM_PSHOP *lpMsg, CGameObject &Obj);
@@ -50,10 +50,10 @@ public:
 
 	void GCPShopItemValueInfo(CGameObject &Obj);
 
-	void GCPShop_AllInfo(short aIndex, int iLastUserCount);
-	void GCPShop_SearchItem(short aIndex, WORD sSearchItem, int iLastUserCount);
+	void GCPShop_AllInfo(CGameObject &Obj, int iLastUserCount);
+	void GCPShop_SearchItem(CGameObject &Obj, WORD sSearchItem, int iLastUserCount);
 
-	bool PShop_CheckExistItemInInventory(short aIndex, WORD sItemType);
+	bool PShop_CheckExistItemInInventory(CGameObject &Obj, WORD sItemType);
 };
 
 extern CPersonalStore g_PersonalStore;

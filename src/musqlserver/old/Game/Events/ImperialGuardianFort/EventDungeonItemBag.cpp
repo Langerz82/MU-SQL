@@ -210,8 +210,8 @@ BOOL CEventDungeonItemBag::DropEventItem(int nIndex, int nMaxUserLevel)
 	{
 		for (int n=0; n < nDropItemCount; n++ )
 		{
-			int x = lpObj.X;
-			int y = lpObj.Y;
+			int x = Obj.X;
+			int y = Obj.Y;
 			DWORD nRand = GetLargeRand() % 1000000;
 			bool bDropItem = false;
 			bool bSetItem = false;
@@ -251,13 +251,13 @@ BOOL CEventDungeonItemBag::DropEventItem(int nIndex, int nMaxUserLevel)
 		}
 	}
 
-	int x = lpObj.X;
-	int y = lpObj.Y;
+	int x = Obj.X;
+	int y = Obj.Y;
 	int nDropZen = this->GetDropZen(nMaxUserLevel);
 
 	if ( nDropZen > 0 )
 	{
-		MapC[lpObj.MapNumber].MoneyItemDrop(nDropZen, x, y);
+		MapC[Obj.MapNumber].MoneyItemDrop(nDropZen, x, y);
 	}
 
 	return TRUE;
@@ -355,18 +355,18 @@ BOOL CEventDungeonItemBag::CreateNormalItem(int nIndex, int nMaxUserLevel, CEven
 		nLevel = 0;
 	}
 
-	BYTE btDropX = lpObj.X;
-	BYTE btDropY = lpObj.Y;
+	BYTE btDropX = Obj.X;
+	BYTE btDropY = Obj.Y;
 
-	if( !gObjGetRandomItemDropLocation(lpObj.MapNumber, btDropX, btDropY, 2, 2, 10) )
+	if( !gObjGetRandomItemDropLocation(Obj.MapNumber, btDropX, btDropY, 2, 2, 10) )
 	{
-		btDropX = lpObj.X;
-		btDropY = lpObj.Y;
+		btDropX = Obj.X;
+		btDropY = Obj.Y;
 	}
 
-	ItemCreate(nIndex, lpObj.MapNumber, btDropX, btDropY, nType, nLevel, 0, Option1, Option2, Option3, nIndex, ExOption, 0, 0, 0, 0);
+	ItemCreate(nIndex, Obj.MapNumber, btDropX, btDropY, nType, nLevel, 0, Option1, Option2, Option3, nIndex, ExOption, 0, 0, 0, 0);
 	sLog->outBasic("[IMPERIALGUARDIAN] Drop Item : (%d)(%d/%d) Item:(%s)%d Level:%d op1:%d op2:%d op3:%d ExOp:%d",
-		lpObj.MapNumber, btDropX, btDropY, ItemAttribute[nType].Name, nType, nLevel, Option1, Option2, Option3, ExOption);
+		Obj.MapNumber, btDropX, btDropY, ItemAttribute[nType].Name, nType, nLevel, Option1, Option2, Option3, ExOption);
 
 	return TRUE;
 }
@@ -411,13 +411,13 @@ int CEventDungeonItemBag::CreateSetItem(int nIndex, CEventItemBagAttr BagObject)
 			Option3 = 3;
 	}
 
-	BYTE btDropX = lpObj.X;
-	BYTE btDropY = lpObj.Y;
+	BYTE btDropX = Obj.X;
+	BYTE btDropY = Obj.Y;
 
 	if ( !gObjGetRandomItemDropLocation(btMapNumber, btDropX, btDropY, 2, 2, 10) )
 	{
-		btDropX = lpObj.X;
-		btDropY = lpObj.Y;
+		btDropX = Obj.X;
+		btDropY = Obj.Y;
 	}
 
 	int tmpSetOption = 0;
@@ -435,7 +435,7 @@ int CEventDungeonItemBag::CreateSetItem(int nIndex, CEventItemBagAttr BagObject)
 
 	ItemCreate(nIndex, btMapNumber, btDropX, btDropY, nType, 0, 0, TRUE, Option2, Option3, nIndex, 0, SetOption, 0, 0, 0);
 	sLog->outBasic("[IMPERIALGUARDIAN] Drop Set Item [%s][%s] : (%d)(%d/%d) Itemnum:[%d] skill:[%d] luck:[%d] option:[%d] SetOption:[%d], SetName:[%s]",
-		lpObj.AccountID, lpObj.Name, btMapNumber, btDropX, btDropY, nType, TRUE, Option2, Option3, SetOption, gSetItemOption.GetSetOptionName(tmpSetOption));
+		Obj.AccountID, Obj.Name, btMapNumber, btDropX, btDropY, nType, TRUE, Option2, Option3, SetOption, gSetItemOption.GetSetOptionName(tmpSetOption));
 
 	return TRUE;
 }

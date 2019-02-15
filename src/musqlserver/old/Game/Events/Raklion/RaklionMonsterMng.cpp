@@ -131,38 +131,38 @@ int CRaklionMonsterMng::SetPosition(int iMonsterIndex, int iTableNum)
 
 	CGameObject lpObj = &getGameObject(iMonsterIndex);
 
-	lpObj.m_PosNum = iTableNum;
-	lpObj.X = this->m_SetBaseInfo[iTableNum].btX;
-	lpObj.Y = this->m_SetBaseInfo[iTableNum].btY;
-	lpObj.MapNumber = this->m_SetBaseInfo[iTableNum].btMapNumber;
-	lpObj.TX = lpObj.X;
-	lpObj.TY = lpObj.Y;
-	lpObj.m_OldX = lpObj.X;
-	lpObj.m_OldY = lpObj.Y;
-	lpObj.Dir = this->m_SetBaseInfo[iTableNum].btDir;
-	lpObj.StartX = lpObj.X;
-	lpObj.StartY = lpObj.Y;
+	Obj.m_PosNum = iTableNum;
+	Obj.X = this->m_SetBaseInfo[iTableNum].btX;
+	Obj.Y = this->m_SetBaseInfo[iTableNum].btY;
+	Obj.MapNumber = this->m_SetBaseInfo[iTableNum].btMapNumber;
+	Obj.TX = Obj.X;
+	Obj.TY = Obj.Y;
+	Obj.m_OldX = Obj.X;
+	Obj.m_OldY = Obj.Y;
+	Obj.Dir = this->m_SetBaseInfo[iTableNum].btDir;
+	Obj.StartX = Obj.X;
+	Obj.StartY = Obj.Y;
 
-	if (this->GetPosition(iTableNum, lpObj.MapNumber, lpObj.X, lpObj.Y) == FALSE)
+	if (this->GetPosition(iTableNum, Obj.MapNumber, Obj.X, Obj.Y) == FALSE)
 	{
 		sLog->outBasic("Error location Raklion Monster Error (%d) (%d)", iMonsterIndex, iTableNum);
 		return FALSE;
 	}
 
-	lpObj.TX = lpObj.X;
-	lpObj.TY = lpObj.Y;
-	lpObj.m_OldX = lpObj.X;
-	lpObj.m_OldY = lpObj.Y;
-	lpObj.Dir = this->m_SetBaseInfo[iTableNum].btDir;
-	lpObj.StartX = lpObj.X;
-	lpObj.StartY = lpObj.Y;
+	Obj.TX = Obj.X;
+	Obj.TY = Obj.Y;
+	Obj.m_OldX = Obj.X;
+	Obj.m_OldY = Obj.Y;
+	Obj.Dir = this->m_SetBaseInfo[iTableNum].btDir;
+	Obj.StartX = Obj.X;
+	Obj.StartY = Obj.Y;
 
-	if (lpObj.Dir == (BYTE)-1)
+	if (Obj.Dir == (BYTE)-1)
 	{
-		lpObj.Dir = rand() % 8;
+		Obj.Dir = rand() % 8;
 	}
 
-	lpObj.m_iPentagramMainAttribute = 0;
+	Obj.m_iPentagramMainAttribute = 0;
 
 	return TRUE;
 }

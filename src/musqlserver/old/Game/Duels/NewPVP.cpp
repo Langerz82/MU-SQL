@@ -511,11 +511,11 @@ int CNewPVP::Leave(CGameObject &Obj)
 	if(nId < 0 || nId >= DUEL_CHANNEL_MAX){	sLog->outBasic("%s\t%s\t%s\t%s\t%d","nId>=0 && nId<DUEL_CHANNEL_MAX","ENEWPVP::E_INVALID_CHANNELID","NULL",__FILE__, __LINE__); return ENEWPVP::E_INVALID_CHANNELID; }
 	if( !IS_START(m_DuelChannel[nId].nStatus ) && m_DuelChannel[nId].nStatus != DC_RESERVEDEND ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","IS_START(m_DuelChannel[nId].nStatus)||m_DuelChannel[nId].nStatus==DC_RESERVEDEND", "ENEWPVP::E_INVALID_STATUS","NULL",__FILE__, __LINE__); return ENEWPVP::E_INVALID_STATUS; }	
 
-	CGameObjectECTSTRUCT lpTargetObj = NULL;
+	CGameObject* lpTargetObj = NULL;
 
 	obj.m_iDuelUserReserved = -1;
 
-	if( IsDuel(obj) )	lpTargetObj = (CGameObjectECTSTRUCT)&getGameObject(obj.m_iDuelUser);
+	if( IsDuel(obj) )	lpTargetObj = (CGameObject*)&getGameObject(obj.m_iDuelUser);
 
 	if(lpTargetObj == NULL){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","lpTargetObj","ENEWPVP::E_INVALID_INDEX","NULL", __FILE__, __LINE__); return ENEWPVP::E_INVALID_INDEX; }
 
@@ -897,10 +897,10 @@ int CNewPVP::JoinChannel(int nId,CGameObject &Obj)
     {
 		sLog->outBasic("[NewPVP] ChannelId[%d] Count[%d][%d]", nId, Msg.nCount, m_ObserverCount[nId]);
 		
-		g_Log.AddC(TColor::Yellow, "[NewPVP] [Debug] %s(%d):",obj.Name,Msg.nCount);
+		sLog->outBasic("[NewPVP] [Debug] %s(%d):",obj.Name,Msg.nCount);
 		for(int n = 0; n < Msg.nCount; n++)
 		{
-			g_Log.AddC(TColor::Yellow, "[NewPVP] [Debug] %s,",Msg.user[n].szName);
+			sLog->outBasic("[NewPVP] [Debug] %s,",Msg.user[n].szName);
 		}
 	}
 
@@ -985,31 +985,31 @@ void CNewPVP::LeaveChannelObserver(int nId)
 		ObserverInfo & info = iter->second;		
 		if(info.nId == nId)
 		{
-			CGameObject &Obj = (CGameObjectECTSTRUCT)&getGameObject(info.nIndex);
+			CGameObject &Obj = (CGameObject*)&getGameObject(info.nIndex);
 
-			if( IsPKFieldMap(lpObj.MapNumber) )
+			if( IsPKFieldMap(Obj.MapNumber) )
 			{
-				if (lpObj.Level < gGateC.GetLevel(294))
+				if (Obj.Level < gGateC.GetLevel(294))
 				{
-					if (lpObj.Class == CLASS_ELF)
+					if (Obj.Class == CLASS_ELF)
 					{
-						MoveGate(lpObj.m_Index, 27);
+						MoveGate(Obj.m_Index, 27);
 					}
 
-					else if(lpObj.Class == CLASS_SUMMONER)
+					else if(Obj.Class == CLASS_SUMMONER)
 					{
-						MoveGate(lpObj.m_Index, 267);
+						MoveGate(Obj.m_Index, 267);
 					}
 
 					else
 					{
-						MoveGate(lpObj.m_Index, 17);
+						MoveGate(Obj.m_Index, 17);
 					}
 				}
 
 				else
 				{
-					MoveGate(lpObj.m_Index, 294);
+					MoveGate(Obj.m_Index, 294);
 				}
 			}
 			
@@ -1267,15 +1267,15 @@ BOOL CNewPVP::CheckPKPenalty(CGameObject &Obj)
 {
 	if( !g_ConfigRead.pk.bPkPenaltyDisable )
 	{
-		if( lpObj.PartyNumber >= 0 )
+		if( Obj.PartyNumber >= 0 )
 		{
-			if( gParty.GetPKPartyPenalty( lpObj.PartyNumber) >= 6 )
+			if( gParty.GetPKPartyPenalty( Obj.PartyNumber) >= 6 )
 			{
 				return TRUE;
 			}
 		}
 
-		else if( lpObj.m_PK_Level >= 6 )
+		else if( Obj.m_PK_Level >= 6 )
 		{
 			 return TRUE;
 		}
@@ -1288,7 +1288,7 @@ BOOL CNewPVP::IsSelfDefense(CGameObject &Obj)
 	BOOL bRetVal = FALSE;
 	for ( int i = 0; i < MAX_SELF_DEFENSE; i++ )
 	{
-		if( lpObj.SelfDefense[i] >= 0 )
+		if( Obj.SelfDefense[i] >= 0 )
 		{
 			bRetVal = TRUE;
 			break;
@@ -1299,22 +1299,22 @@ BOOL CNewPVP::IsSelfDefense(CGameObject &Obj)
 
 BOOL CNewPVP::IsGuildWar(CGameObject &Obj)
 {
-	if( lpObj.m_PlayerData->lpGuild && 
-		lpObj.m_PlayerData->lpGuild->WarState == 1)
+	if( Obj.m_PlayerData->lpGuild && 
+		Obj.m_PlayerData->lpGuild->WarState == 1)
 	{
 		return TRUE;
 	}
 	return FALSE;
 }
 
-BOOL CNewPVP::DropItem(CGameObject &Obj, CGameObjectECTSTRUCT lpMonsterObj)
+BOOL CNewPVP::DropItem(CGameObject &Obj, CGameObject* lpMonsterObj)
 {
-	if( !IsVulcanusMap(lpObj.MapNumber) ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","IsVulcanusMap(lpObj.MapNumber)","FALSE","NULL",__FILE__,  __LINE__); return FALSE; }
+	if( !IsVulcanusMap(Obj.MapNumber) ){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","IsVulcanusMap(Obj.MapNumber)","FALSE","NULL",__FILE__,  __LINE__); return FALSE; }
 	if( m_bNewPVP != TRUE){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","m_bNewPVP==TRUE","FALSE","NULL", __FILE__,  __LINE__); return FALSE; }
 	if( !gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_GLORYOFGLADIATOR) )	return FALSE;
 	if( !gObjGetTotalValueOfEffect(lpObj, EFFECTTYPE_VULCANUS_ITEMDROPRATE) )	return FALSE;
 
-	if (g_BagManager.SearchAndUseBag(lpObj.m_Index, BAG_EVENT, EVENTBAG_NEWPVP, lpMonsterObj.m_Index) == false)
+	if (g_BagManager.SearchAndUseBag(Obj.m_Index, BAG_EVENT, EVENTBAG_NEWPVP, lpMonsterObj.m_Index) == false)
 	{
 		return FALSE;
 	}

@@ -39,14 +39,14 @@ int CBuffEffectSlot::SetEffect(CGameObject &Obj, int iBuffIndex, BYTE btEffectTy
 {
 	LPBUFF_EFFECT_DATE lpBuffData = NULL;
 	LPBUFF_EFFECT_DATE lpPrevBuffData = NULL;
-	//g_Log.AddC(TColor::Yellow, "[K2] EFFECT VALUE %d VALUE %d btEffectType1 %d btEffectType2 %d", iEffectValue1, iEffectValue2, btEffectType1, btEffectType2);
+	//sLog->outBasic("[K2] EFFECT VALUE %d VALUE %d btEffectType1 %d btEffectType2 %d", iEffectValue1, iEffectValue2, btEffectType1, btEffectType2);
 	int BuffCount = 0;
 	int DebuffCount = 0;
 	int iRemovedBuffIndex = 0;
 
 	if(lpObj == NULL)	return -1;
 
-	if(lpObj.Connected < PLAYER_PLAYING)	return -1;
+	if(Obj.Connected < PLAYER_PLAYING)	return -1;
 
 	if(g_BuffScript.CheckVaildBuffEffect(iBuffIndex) == false)	return -1;
 
@@ -57,15 +57,15 @@ int CBuffEffectSlot::SetEffect(CGameObject &Obj, int iBuffIndex, BYTE btEffectTy
 	int i;
 	for( i = 0; i < MAX_BUFFEFFECT; i++)
 	{
-		if( lpObj.m_BuffEffectList[i].BuffIndex != BUFFTYPE_NONE )
+		if( Obj.m_BuffEffectList[i].BuffIndex != BUFFTYPE_NONE )
 		{
-			lpPrevBuffData = g_BuffScript.GetBuffData(lpObj.m_BuffEffectList[i].BuffIndex);
+			lpPrevBuffData = g_BuffScript.GetBuffData(Obj.m_BuffEffectList[i].BuffIndex);
 
 			if(lpPrevBuffData == NULL) continue;
 
 			if(lpPrevBuffData->BuffEffectType == lpBuffData->BuffEffectType)
 			{
-				RemoveEffect(lpObj, lpObj.m_BuffEffectList[i].BuffIndex);
+				RemoveEffect(lpObj, Obj.m_BuffEffectList[i].BuffIndex);
 				iRemovedBuffIndex = lpPrevBuffData->BuffIndex;
 			}
 
@@ -78,22 +78,22 @@ int CBuffEffectSlot::SetEffect(CGameObject &Obj, int iBuffIndex, BYTE btEffectTy
 				DebuffCount++;
 			}
 
-			if(i > lpObj.m_BuffEffectCount) break;
+			if(i > Obj.m_BuffEffectCount) break;
 		}
 	}
 
 	for( i = 0; i < MAX_BUFFEFFECT; i++)
 	{
-		if(lpObj.m_BuffEffectList[i].BuffIndex == BUFFTYPE_NONE)
+		if(Obj.m_BuffEffectList[i].BuffIndex == BUFFTYPE_NONE)
 		{
-			lpObj.m_BuffEffectList[i].BuffIndex = iBuffIndex;
-			lpObj.m_BuffEffectList[i].EffectCategory = lpBuffData->BuffEffectType;
-			lpObj.m_BuffEffectList[i].EffectType1 = btEffectType1;
-			lpObj.m_BuffEffectList[i].EffectType2 = btEffectType2;
-			lpObj.m_BuffEffectList[i].EffectValue1 = iEffectValue1;
-			lpObj.m_BuffEffectList[i].EffectValue2 = iEffectValue2;
-			lpObj.m_BuffEffectList[i].EffectDuration = iDuration;
-			lpObj.m_BuffEffectList[i].EffectSetTime = GetTickCount64();
+			Obj.m_BuffEffectList[i].BuffIndex = iBuffIndex;
+			Obj.m_BuffEffectList[i].EffectCategory = lpBuffData->BuffEffectType;
+			Obj.m_BuffEffectList[i].EffectType1 = btEffectType1;
+			Obj.m_BuffEffectList[i].EffectType2 = btEffectType2;
+			Obj.m_BuffEffectList[i].EffectValue1 = iEffectValue1;
+			Obj.m_BuffEffectList[i].EffectValue2 = iEffectValue2;
+			Obj.m_BuffEffectList[i].EffectDuration = iDuration;
+			Obj.m_BuffEffectList[i].EffectSetTime = GetTickCount64();
 
 			g_BuffEffect.SetBuffEffect(lpObj,btEffectType1,iEffectValue1); //first
 			g_BuffEffect.SetBuffEffect(lpObj,btEffectType2,iEffectValue2); //second
@@ -110,7 +110,7 @@ bool CBuffEffectSlot::RemoveEffect(CGameObject &Obj, int iBuffIndex)
 
 	if(lpObj == NULL)	return false;
 	
-	if(lpObj.Connected < PLAYER_PLAYING)	return false;
+	if(Obj.Connected < PLAYER_PLAYING)	return false;
 
 	if(g_BuffScript.CheckVaildBuffEffect(iBuffIndex) == false)	return false;
 
@@ -118,18 +118,18 @@ bool CBuffEffectSlot::RemoveEffect(CGameObject &Obj, int iBuffIndex)
 	{
 		if(bIsRemoveEffect == true)
 		{
-			if( (lpObj.m_BuffEffectList[i].BuffIndex != BUFFTYPE_NONE) && (i > 0) )
+			if( (Obj.m_BuffEffectList[i].BuffIndex != BUFFTYPE_NONE) && (i > 0) )
 			{
-				memcpy(&lpObj.m_BuffEffectList[i-1],&lpObj.m_BuffEffectList[i],sizeof(lpObj.m_BuffEffectList[i])); //Change the Buff Slot to the removed one...
-				memset(&lpObj.m_BuffEffectList[i],0,sizeof(lpObj.m_BuffEffectList[i]));
+				memcpy(&Obj.m_BuffEffectList[i-1],&Obj.m_BuffEffectList[i],sizeof(Obj.m_BuffEffectList[i])); //Change the Buff Slot to the removed one...
+				memset(&Obj.m_BuffEffectList[i],0,sizeof(Obj.m_BuffEffectList[i]));
 			}
 		}
 		
-		if(lpObj.m_BuffEffectList[i].BuffIndex == iBuffIndex ) //Will Clear the Effect
+		if(Obj.m_BuffEffectList[i].BuffIndex == iBuffIndex ) //Will Clear the Effect
 		{
-			g_BuffEffect.ClearBuffEffect(lpObj,lpObj.m_BuffEffectList[i].EffectType1,lpObj.m_BuffEffectList[i].EffectValue1);
-			g_BuffEffect.ClearBuffEffect(lpObj,lpObj.m_BuffEffectList[i].EffectType2,lpObj.m_BuffEffectList[i].EffectValue2);
-			memset(&lpObj.m_BuffEffectList[i],0,sizeof(lpObj.m_BuffEffectList[i]));
+			g_BuffEffect.ClearBuffEffect(lpObj,Obj.m_BuffEffectList[i].EffectType1,Obj.m_BuffEffectList[i].EffectValue1);
+			g_BuffEffect.ClearBuffEffect(lpObj,Obj.m_BuffEffectList[i].EffectType2,Obj.m_BuffEffectList[i].EffectValue2);
+			memset(&Obj.m_BuffEffectList[i],0,sizeof(Obj.m_BuffEffectList[i]));
 			bIsRemoveEffect = true;
 		}
 	}
@@ -143,7 +143,7 @@ bool CBuffEffectSlot::CheckUsedEffect(CGameObject &Obj, int iBuffIndex)
 
 	for(int i = 0; i < MAX_BUFFEFFECT; i++)
 	{
-		if(lpObj.m_BuffEffectList[i].BuffIndex == iBuffIndex)	return true;
+		if(Obj.m_BuffEffectList[i].BuffIndex == iBuffIndex)	return true;
 	}
 
 	return false;
@@ -155,9 +155,9 @@ void CBuffEffectSlot::RemoveBuffVariable(CGameObject &Obj, int iBuffIndex)
 	{
 	case BUFFTYPE_FREEZE: //56	28	255	255	Ice	1	1	1	Diminui velocidade de mobilidade
 		{
-			lpObj.DelayActionTime = 0;
-			lpObj.DelayLevel = 0;
-			lpObj.m_SkillInfo.IceType = 0;
+			Obj.DelayActionTime = 0;
+			Obj.DelayLevel = 0;
+			Obj.m_SkillInfo.IceType = 0;
 		}
 		break;
 	}
@@ -171,15 +171,15 @@ int CBuffEffectSlot::ClearEffect(CGameObject &Obj, enum eBuffClearType ClearType
 
 	for(int i = 0; i < MAX_BUFFEFFECT; i++)
 	{
-		if( CheckUsedEffect(lpObj,lpObj.m_BuffEffectList[i].BuffIndex) == true )
+		if( CheckUsedEffect(lpObj,Obj.m_BuffEffectList[i].BuffIndex) == true )
 		{
-			lpBuffData = g_BuffScript.GetBuffData(lpObj.m_BuffEffectList[i].BuffIndex); //Get Buff Info
+			lpBuffData = g_BuffScript.GetBuffData(Obj.m_BuffEffectList[i].BuffIndex); //Get Buff Info
 
 			if(lpBuffData == NULL)	continue;
 
 			if(lpBuffData->ClearType == ClearType)
 			{
-				if( RemoveEffect(lpObj,lpObj.m_BuffEffectList[i].BuffIndex) == true)
+				if( RemoveEffect(lpObj,Obj.m_BuffEffectList[i].BuffIndex) == true)
 				{
 					iRemoveEffectCount++;
 					i--;
@@ -188,7 +188,7 @@ int CBuffEffectSlot::ClearEffect(CGameObject &Obj, enum eBuffClearType ClearType
 
 			if(ClearType == CLEAR_TYPE_LOGOUT)
 			{
-				if( RemoveEffect(lpObj,lpObj.m_BuffEffectList[i].BuffIndex) == true)
+				if( RemoveEffect(lpObj,Obj.m_BuffEffectList[i].BuffIndex) == true)
 				{
 					iRemoveEffectCount++;
 					i--;
@@ -197,7 +197,7 @@ int CBuffEffectSlot::ClearEffect(CGameObject &Obj, enum eBuffClearType ClearType
 
 			if(ClearType == CLEAR_TYPE_DIEREGEN)
 			{
-				if( RemoveEffect(lpObj,lpObj.m_BuffEffectList[i].BuffIndex) == true)
+				if( RemoveEffect(lpObj,Obj.m_BuffEffectList[i].BuffIndex) == true)
 				{
 					iRemoveEffectCount++;
 					i--;
@@ -240,39 +240,39 @@ void gObjCheckBuffEffectList(CGameObject &Obj)
 {
 	if(lpObj == NULL)	return;
 
-	if(lpObj.m_Index < 0 || lpObj.m_Index > g_ConfigRead.server.GetObjectMax())	return;
+	if(Obj.m_Index < 0 || Obj.m_Index > g_ConfigRead.server.GetObjectMax())	return;
 
-	if( (lpObj.Type == OBJ_USER && lpObj.Connected >= PLAYER_PLAYING) || lpObj.Type == OBJ_MONSTER) //Connected Users or Monsters General
+	if( (Obj.Type == OBJ_USER && Obj.Connected >= PLAYER_PLAYING) || Obj.Type == OBJ_MONSTER) //Connected Users or Monsters General
 	{
 		for(int i = 0; i < MAX_BUFFEFFECT; i++)
 		{
-			if(lpObj.m_BuffEffectList[i].EffectDuration == -10)	continue;
-			if(lpObj.m_BuffEffectList[i].BuffIndex == BUFFTYPE_NONE)	continue;
+			if(Obj.m_BuffEffectList[i].EffectDuration == -10)	continue;
+			if(Obj.m_BuffEffectList[i].BuffIndex == BUFFTYPE_NONE)	continue;
 
-			switch(lpObj.m_BuffEffectList[i].BuffIndex)
+			switch(Obj.m_BuffEffectList[i].BuffIndex)
 			{
 			case BUFFTYPE_POISON: //55	27	255	255	Poison	1	1	1	Poisoned status of condition
 				{
-					if((lpObj.m_BuffEffectList[i].EffectDuration % 3) == 0) //Rand type??
+					if((Obj.m_BuffEffectList[i].EffectDuration % 3) == 0) //Rand type??
 					{
-						g_BuffEffect.SetActiveBuffEffect(lpObj, lpObj.m_BuffEffectList[i].EffectType1, lpObj.m_BuffEffectList[i].EffectValue1);
-						g_BuffEffect.SetActiveBuffEffect(lpObj, lpObj.m_BuffEffectList[i].EffectType2, lpObj.m_BuffEffectList[i].EffectValue2);
+						g_BuffEffect.SetActiveBuffEffect(lpObj, Obj.m_BuffEffectList[i].EffectType1, Obj.m_BuffEffectList[i].EffectValue1);
+						g_BuffEffect.SetActiveBuffEffect(lpObj, Obj.m_BuffEffectList[i].EffectType2, Obj.m_BuffEffectList[i].EffectValue2);
 					}
 				}
 				break;
 			default:
 				{
-					g_BuffEffect.SetActiveBuffEffect(lpObj, lpObj.m_BuffEffectList[i].EffectType1, lpObj.m_BuffEffectList[i].EffectValue1);
-					g_BuffEffect.SetActiveBuffEffect(lpObj, lpObj.m_BuffEffectList[i].EffectType2, lpObj.m_BuffEffectList[i].EffectValue2);
+					g_BuffEffect.SetActiveBuffEffect(lpObj, Obj.m_BuffEffectList[i].EffectType1, Obj.m_BuffEffectList[i].EffectValue1);
+					g_BuffEffect.SetActiveBuffEffect(lpObj, Obj.m_BuffEffectList[i].EffectType2, Obj.m_BuffEffectList[i].EffectValue2);
 				}
 				break;
 			}
 			
-			lpObj.m_BuffEffectList[i].EffectDuration--;
+			Obj.m_BuffEffectList[i].EffectDuration--;
 
-			if(lpObj.m_BuffEffectList[i].EffectDuration <= 0)
+			if(Obj.m_BuffEffectList[i].EffectDuration <= 0)
 			{
-				gObjRemoveBuffEffect(lpObj, lpObj.m_BuffEffectList[i].BuffIndex);
+				gObjRemoveBuffEffect(lpObj, Obj.m_BuffEffectList[i].BuffIndex);
 			}
 		}
 	}
@@ -282,9 +282,9 @@ bool gObjAddBuffEffect(CGameObject &Obj, int iBuffIndex)
 {
 	if(lpObj == NULL)	return false;
 
-	if(lpObj.m_Index < 0 || lpObj.m_Index > g_ConfigRead.server.GetObjectMax()) return false;
+	if(Obj.m_Index < 0 || Obj.m_Index > g_ConfigRead.server.GetObjectMax()) return false;
 
-	if(lpObj.m_bOffLevel == true && g_OffLevel.m_General.Immortal == 1) return false;
+	if(Obj.m_bOffLevel == true && g_OffLevel.m_General.Immortal == 1) return false;
 
 	int iItemCode = 0;
 	LPITEMEFFECT lpItemEffectInfo = NULL;
@@ -310,7 +310,7 @@ bool gObjAddBuffEffect(CGameObject &Obj, int iBuffIndex)
 		{
 			GCUseBuffEffect(lpObj, iRemoveBuffIndex, BUFFSTATE_BUFF_NEW, lpItemEffectInfo->wOptionType, 0, 0, 0);
 		}
-		else lpObj.m_BuffEffectCount++;
+		else Obj.m_BuffEffectCount++;
 		GCUseBuffEffect(lpObj, iBuffIndex, BUFFSTATE_BUFF_DELETE, lpItemEffectInfo->wOptionType, lpItemEffectInfo->wEffectType1, lpItemEffectInfo->iEffectValidTime, lpItemEffectInfo->iEffectValue1);
 		return true;
 	}
@@ -322,9 +322,9 @@ bool gObjAddBuffEffect(CGameObject &Obj, int iBuffIndex, BYTE EffectType1, int E
 {
 	if(lpObj == NULL)	return false;
 
-	if(lpObj.m_Index < 0 || lpObj.m_Index > g_ConfigRead.server.GetObjectMax()) return false;
+	if(Obj.m_Index < 0 || Obj.m_Index > g_ConfigRead.server.GetObjectMax()) return false;
 
-	if(lpObj.m_bOffLevel == true && g_OffLevel.m_General.Immortal == 1) return false;
+	if(Obj.m_bOffLevel == true && g_OffLevel.m_General.Immortal == 1) return false;
 
 	LPBUFF_EFFECT_DATE lpBuffData = NULL;
 
@@ -340,7 +340,7 @@ bool gObjAddBuffEffect(CGameObject &Obj, int iBuffIndex, BYTE EffectType1, int E
 		{
 			GCUseBuffEffect(lpObj, iRemoveBuffIndex, BUFFSTATE_BUFF_NEW, lpBuffData->BuffEffectType, 0, 0, 0);
 		}
-		else lpObj.m_BuffEffectCount++;
+		else Obj.m_BuffEffectCount++;
 		GCUseBuffEffect(lpObj, iBuffIndex, BUFFSTATE_BUFF_DELETE, lpBuffData->BuffEffectType, EffectType1, Duration, EffectValue1);
 		return true;
 	}
@@ -352,9 +352,9 @@ bool gObjAddBuffEffect(CGameObject &Obj, int iBuffIndex, int Duration)
 {
 	if(lpObj == NULL)	return false;
 
-	if(lpObj.m_Index < 0 || lpObj.m_Index > g_ConfigRead.server.GetObjectMax()) return false;
+	if(Obj.m_Index < 0 || Obj.m_Index > g_ConfigRead.server.GetObjectMax()) return false;
 
-	if(lpObj.m_bOffLevel == true && g_OffLevel.m_General.Immortal == 1) return false;
+	if(Obj.m_bOffLevel == true && g_OffLevel.m_General.Immortal == 1) return false;
 
 	int iItemCode = 0;
 	LPITEMEFFECT lpItemEffectInfo = NULL;
@@ -381,7 +381,7 @@ bool gObjAddBuffEffect(CGameObject &Obj, int iBuffIndex, int Duration)
 			GCUseBuffEffect(lpObj, iRemoveBuffIndex, BUFFSTATE_BUFF_NEW, lpItemEffectInfo->wOptionType, 0, 0, 0);
 		}
 
-		else lpObj.m_BuffEffectCount++;
+		else Obj.m_BuffEffectCount++;
 		GCUseBuffEffect(lpObj, iBuffIndex, BUFFSTATE_BUFF_DELETE, lpItemEffectInfo->wOptionType, lpItemEffectInfo->wEffectType1, Duration, lpItemEffectInfo->iEffectValue1);
 
 		return true;
@@ -394,7 +394,7 @@ bool gObjAddPeriodBuffEffect(CGameObject lpObj,PeriodBuffEffectInfo *lpPeriBuff,
 {
 	if(lpObj == NULL)	return false;
 
-	if(lpObj.m_Index < 0 || lpObj.m_Index > g_ConfigRead.server.GetObjectMax()) return false;
+	if(Obj.m_Index < 0 || Obj.m_Index > g_ConfigRead.server.GetObjectMax()) return false;
 
 	LPBUFF_EFFECT_DATE lpBuffData = NULL;
 
@@ -413,9 +413,9 @@ bool gObjAddPeriodBuffEffect(CGameObject lpObj,PeriodBuffEffectInfo *lpPeriBuff,
 			GCUseBuffEffect(lpObj, iRemoveBuffIndex, BUFFSTATE_BUFF_NEW, lpBuffData->BuffEffectType, 0, 0, 0);
 		}
 
-		else lpObj.m_BuffEffectCount++;
+		else Obj.m_BuffEffectCount++;
 
-		gObjCalCharacter.CalcCharacter(lpObj.m_Index);
+		gObjCalCharacter.CalcCharacter(Obj.m_Index);
 		GCUseBuffEffect(lpObj, lpPeriBuff->wBuffIndex, BUFFSTATE_BUFF_DELETE, lpBuffData->BuffEffectType, lpPeriBuff->btEffectType1, dwDuration, lpPeriBuff->wEffectValue1);
 		return true;
 	}
@@ -427,7 +427,7 @@ bool gObjAddBuffEffectForInGameShop(CGameObject &Obj, WORD wItemCode, int Durati
 {
 	if(lpObj == NULL) return false;
 
-	if(lpObj.m_Index < 0 || lpObj.m_Index > g_ConfigRead.server.GetObjectMax()) return false;
+	if(Obj.m_Index < 0 || Obj.m_Index > g_ConfigRead.server.GetObjectMax()) return false;
 
 	if(Duration <= 0) return false;
 
@@ -456,8 +456,8 @@ bool gObjAddBuffEffectForInGameShop(CGameObject &Obj, WORD wItemCode, int Durati
 
 	else
 	{
-		lpObj.m_BuffEffectCount++;
-		gObjCalCharacter.CalcCharacter(lpObj.m_Index);
+		Obj.m_BuffEffectCount++;
+		gObjCalCharacter.CalcCharacter(Obj.m_Index);
 	}
 
 	GCUseBuffEffect(lpObj, lpBuffData->BuffIndex, BUFFSTATE_BUFF_DELETE, lpItemEffectInfo->wOptionType, lpItemEffectInfo->wEffectType1, Duration, lpItemEffectInfo->iEffectValue1);
@@ -468,7 +468,7 @@ bool gObjRemoveBuffEffect(CGameObject &Obj, int iBuffIndex)
 {
 	if(lpObj == NULL)	return false;
 
-	if(lpObj.m_Index < 0 || lpObj.m_Index > g_ConfigRead.server.GetObjectMax())	return false;
+	if(Obj.m_Index < 0 || Obj.m_Index > g_ConfigRead.server.GetObjectMax())	return false;
 
 	LPBUFF_EFFECT_DATE lpBuffData = NULL;
 
@@ -479,14 +479,14 @@ bool gObjRemoveBuffEffect(CGameObject &Obj, int iBuffIndex)
 	if(g_BuffEffectSlot.RemoveEffect(lpObj, iBuffIndex) == true)
 	{
 		g_BuffEffectSlot.RemoveBuffVariable(lpObj, iBuffIndex);
-		lpObj.m_BuffEffectCount--;
+		Obj.m_BuffEffectCount--;
 		GCUseBuffEffect(lpObj, iBuffIndex, BUFFSTATE_BUFF_ADD, 0, lpBuffData->BuffEffectType, 0, 0);
 		
 		if ( iBuffIndex == BUFFTYPE_MONK_INCREASE_HEALTH || iBuffIndex == BUFFTYPE_MONK_INCREASE_HEALTH_STR || iBuffIndex == BUFFTYPE_BLESS ||
 			iBuffIndex == BUFFTYPE_ACHERON_FIRE || iBuffIndex == BUFFTYPE_ACHERON_FROST || iBuffIndex == BUFFTYPE_ACHERON_TORNADO ||
 			iBuffIndex == BUFFTYPE_ACHERON_BIND || iBuffIndex == BUFFTYPE_ACHERON_DARKNESS )
 		{
-			gObjCalCharacter.CalcCharacter(lpObj.m_Index);
+			gObjCalCharacter.CalcCharacter(Obj.m_Index);
 		}
 
 		return true;
@@ -499,7 +499,7 @@ bool gObjClearBuffEffect(CGameObject &Obj, enum eBuffClearType ClearType)
 {
 	if(lpObj == NULL)	return false;
 
-	if(lpObj.m_Index < 0 || lpObj.m_Index > g_ConfigRead.server.GetObjectMax())	return false;
+	if(Obj.m_Index < 0 || Obj.m_Index > g_ConfigRead.server.GetObjectMax())	return false;
 
 	int iRemoveBuffEffectCount = 0;
 	int iBuffIndex = 0;
@@ -510,14 +510,14 @@ bool gObjClearBuffEffect(CGameObject &Obj, enum eBuffClearType ClearType)
 		{
 			for(iBuffIndex = 0; iBuffIndex < MAX_BUFFEFFECT; iBuffIndex++)
 			{
-				switch(lpObj.m_BuffEffectList[iBuffIndex].BuffIndex)
+				switch(Obj.m_BuffEffectList[iBuffIndex].BuffIndex)
 				{
 				case BUFFTYPE_CASTLE_DEFENSE_MARK:
 				case BUFFTYPE_CASTLE_ATTACK_MARK:
 				case BUFFTYPE_CASTLE_ATTACK_MARK_2:
 				case BUFFTYPE_CASTLE_ATTACK_MARK_3:
 					{
-						if(gObjRemoveBuffEffect(lpObj, lpObj.m_BuffEffectList[iBuffIndex].BuffIndex) == true)
+						if(gObjRemoveBuffEffect(lpObj, Obj.m_BuffEffectList[iBuffIndex].BuffIndex) == true)
 						{
 							iRemoveBuffEffectCount++;
 							iBuffIndex--;
@@ -537,14 +537,14 @@ bool gObjClearBuffEffect(CGameObject &Obj, enum eBuffClearType ClearType)
 		{
 			for(iBuffIndex = 0; iBuffIndex < MAX_BUFFEFFECT; iBuffIndex++)
 			{
-				switch(lpObj.m_BuffEffectList[iBuffIndex].BuffIndex)
+				switch(Obj.m_BuffEffectList[iBuffIndex].BuffIndex)
 				{
 				case BUFFTYPE_PCBANG_POINT_MARK1:
 				case BUFFTYPE_PCBANG_POINT_MARK2:
 				case BUFFTYPE_PCBANG_POINT_MARK3:
 				case BUFFTYPE_PCBANG_POINT_MARK4:
 					{
-						if(gObjRemoveBuffEffect(lpObj, lpObj.m_BuffEffectList[iBuffIndex].BuffIndex) == true)
+						if(gObjRemoveBuffEffect(lpObj, Obj.m_BuffEffectList[iBuffIndex].BuffIndex) == true)
 						{
 							iRemoveBuffEffectCount++;
 							iBuffIndex--;
@@ -564,7 +564,7 @@ bool gObjClearBuffEffect(CGameObject &Obj, enum eBuffClearType ClearType)
 		{
 			for(iBuffIndex = 0; iBuffIndex < MAX_BUFFEFFECT; iBuffIndex++)
 			{
-				switch(lpObj.m_BuffEffectList[iBuffIndex].BuffIndex)
+				switch(Obj.m_BuffEffectList[iBuffIndex].BuffIndex)
 				{
 				case BUFFTYPE_PCBANG_POINT_MARK1:
 				case BUFFTYPE_PCBANG_POINT_MARK2:
@@ -645,7 +645,7 @@ bool gObjClearBuffEffect(CGameObject &Obj, enum eBuffClearType ClearType)
 					break;
 				default:
 					{
-						if(gObjRemoveBuffEffect(lpObj, lpObj.m_BuffEffectList[iBuffIndex].BuffIndex) == true)
+						if(gObjRemoveBuffEffect(lpObj, Obj.m_BuffEffectList[iBuffIndex].BuffIndex) == true)
 						{
 							iRemoveBuffEffectCount++;
 							iBuffIndex--;
@@ -660,13 +660,13 @@ bool gObjClearBuffEffect(CGameObject &Obj, enum eBuffClearType ClearType)
 		{
 			for(iBuffIndex = 0; iBuffIndex < MAX_BUFFEFFECT; iBuffIndex++)
 			{
-				if(gObjRemoveBuffEffect(lpObj, lpObj.m_BuffEffectList[iBuffIndex].BuffIndex) == true)
+				if(gObjRemoveBuffEffect(lpObj, Obj.m_BuffEffectList[iBuffIndex].BuffIndex) == true)
 				{
 					iRemoveBuffEffectCount++;
 					iBuffIndex--;
 				}
 			}
-			lpObj.m_BuffEffectCount = 0;
+			Obj.m_BuffEffectCount = 0;
 		}
 		break;
 	default:
@@ -674,7 +674,7 @@ bool gObjClearBuffEffect(CGameObject &Obj, enum eBuffClearType ClearType)
 		break;
 	}
 
-	if(lpObj.m_BuffEffectCount < 0 || lpObj.m_BuffEffectCount > MAX_BUFFEFFECT)	lpObj.m_BuffEffectCount = 0;
+	if(Obj.m_BuffEffectCount < 0 || Obj.m_BuffEffectCount > MAX_BUFFEFFECT)	Obj.m_BuffEffectCount = 0;
 	gObjSendBuffList(lpObj);
 	return true;
 }
@@ -683,7 +683,7 @@ bool gObjCheckUsedBuffEffect(CGameObject &Obj, int iBuffIndex)
 {
 	if(lpObj == NULL)	return false;
 
-	if(lpObj.m_Index < 0 || lpObj.m_Index > g_ConfigRead.server.GetObjectMax())	return false;
+	if(Obj.m_Index < 0 || Obj.m_Index > g_ConfigRead.server.GetObjectMax())	return false;
 
 	return g_BuffEffectSlot.CheckUsedEffect(lpObj, iBuffIndex);
 }
@@ -693,24 +693,24 @@ void gObjRemoveOneDebuffEffect(CGameObject &Obj)
 	ULONGLONG iTime = 0;
 	int iIndex = -1;
 
-	for(int i = 0; i < MAX_BUFFEFFECT && i <= lpObj.m_BuffEffectCount; i++)
+	for(int i = 0; i < MAX_BUFFEFFECT && i <= Obj.m_BuffEffectCount; i++)
 	{
-		LPBUFF_EFFECT_DATE lpBuffData = g_BuffScript.GetBuffData(lpObj.m_BuffEffectList[i].BuffIndex);
+		LPBUFF_EFFECT_DATE lpBuffData = g_BuffScript.GetBuffData(Obj.m_BuffEffectList[i].BuffIndex);
 
 		if ( lpBuffData && lpBuffData->BuffType == BUFFEFFECT_TYPE_NEGATIVE )
 		{
 			if ( iTime )
 			{
-				if ( iTime > lpObj.m_BuffEffectList[i].EffectSetTime )
+				if ( iTime > Obj.m_BuffEffectList[i].EffectSetTime )
 				{
-					iTime = lpObj.m_BuffEffectList[i].EffectSetTime;
+					iTime = Obj.m_BuffEffectList[i].EffectSetTime;
 					iIndex = i;
 				}
 			}
 
 			else
 			{
-				iTime = lpObj.m_BuffEffectList[i].EffectSetTime;
+				iTime = Obj.m_BuffEffectList[i].EffectSetTime;
 				iIndex = i;
 			}
 		}
@@ -718,7 +718,7 @@ void gObjRemoveOneDebuffEffect(CGameObject &Obj)
 
 	if ( iTime )
 	{
-		gObjRemoveBuffEffect(lpObj, lpObj.m_BuffEffectList[iIndex].BuffIndex);
+		gObjRemoveBuffEffect(lpObj, Obj.m_BuffEffectList[iIndex].BuffIndex);
 	}
 }
 
@@ -726,17 +726,17 @@ bool gObjChangeBuffValidTime(CGameObject &Obj, int iBuffIndex, int iTime)
 {
 	if(lpObj == NULL)	return false;
 
-	if(lpObj.Connected < PLAYER_PLAYING)	return false;
+	if(Obj.Connected < PLAYER_PLAYING)	return false;
 
 	for(int i = 0; i < MAX_BUFFEFFECT; i++)
 	{
-		if(i > lpObj.m_BuffEffectCount)	return false;
+		if(i > Obj.m_BuffEffectCount)	return false;
 
-		if(lpObj.m_BuffEffectList[i].BuffIndex == iBuffIndex)
+		if(Obj.m_BuffEffectList[i].BuffIndex == iBuffIndex)
 		{
-			lpObj.m_BuffEffectList[i].EffectDuration += iTime;
+			Obj.m_BuffEffectList[i].EffectDuration += iTime;
 
-			if(lpObj.m_BuffEffectList[i].EffectDuration < 0)	gObjRemoveBuffEffect(lpObj, iBuffIndex);
+			if(Obj.m_BuffEffectList[i].EffectDuration < 0)	gObjRemoveBuffEffect(lpObj, iBuffIndex);
 			return true;
 		}
 	}
@@ -750,10 +750,10 @@ void gObjSetActiveEffectAtTick(CGameObject &Obj)
 
 	for(int i = 0; i < MAX_BUFFEFFECT; i++)
 	{
-		if(lpObj.m_BuffEffectList[i].BuffIndex != BUFFTYPE_NONE)
+		if(Obj.m_BuffEffectList[i].BuffIndex != BUFFTYPE_NONE)
 		{
-			g_BuffEffect.SetActiveBuffEffect(lpObj, lpObj.m_BuffEffectList[i].EffectType1, lpObj.m_BuffEffectList[i].EffectValue1);
-			g_BuffEffect.SetActiveBuffEffect(lpObj, lpObj.m_BuffEffectList[i].EffectType2, lpObj.m_BuffEffectList[i].EffectValue2);
+			g_BuffEffect.SetActiveBuffEffect(lpObj, Obj.m_BuffEffectList[i].EffectType1, Obj.m_BuffEffectList[i].EffectValue1);
+			g_BuffEffect.SetActiveBuffEffect(lpObj, Obj.m_BuffEffectList[i].EffectType2, Obj.m_BuffEffectList[i].EffectValue2);
 		}
 	}
 }
@@ -762,25 +762,25 @@ int gObjMakeViewportState(CGameObject &Obj, BYTE *lpBuffer)
 {
 	if(lpObj == NULL)	return -1;
 
-	if(lpObj.Connected < PLAYER_PLAYING)	return -1;
+	if(Obj.Connected < PLAYER_PLAYING)	return -1;
 
 	int iBuffCount = 0;
 
 	for(int i = 0; i < MAX_BUFFEFFECT; i++)
 	{
-		if( iBuffCount >= MAX_BUFFEFFECT || iBuffCount >= lpObj.m_BuffEffectCount)
+		if( iBuffCount >= MAX_BUFFEFFECT || iBuffCount >= Obj.m_BuffEffectCount)
 		{
 			break;
 		}
 
-		if(lpObj.m_BuffEffectList[i].BuffIndex == BUFFTYPE_NONE)	continue;
+		if(Obj.m_BuffEffectList[i].BuffIndex == BUFFTYPE_NONE)	continue;
 
-		switch(lpObj.m_BuffEffectList[i].BuffIndex)
+		switch(Obj.m_BuffEffectList[i].BuffIndex)
 		{
 		case BUFFTYPE_NONE:
 			break;
 		default:
-			lpBuffer[iBuffCount] = lpObj.m_BuffEffectList[i].BuffIndex;
+			lpBuffer[iBuffCount] = Obj.m_BuffEffectList[i].BuffIndex;
 			iBuffCount++;
 			break;
 		}
@@ -793,14 +793,14 @@ bool gObjCheckPowerfulEffect(CGameObject &Obj, int iBuffIndex, int EffectValue1,
 {
 	if(lpObj == NULL)	return false;
 
-	if(lpObj.Connected < PLAYER_PLAYING)	return false;
+	if(Obj.Connected < PLAYER_PLAYING)	return false;
 
 	for(int i = 0; i < MAX_BUFFEFFECT; i++)
 	{
-		if(lpObj.m_BuffEffectList[i].BuffIndex == iBuffIndex)
+		if(Obj.m_BuffEffectList[i].BuffIndex == iBuffIndex)
 		{
-			if(lpObj.m_BuffEffectList[i].EffectValue1 > EffectValue1)	return true;
-			if(lpObj.m_BuffEffectList[i].EffectValue2 > EffectValue2)	return true;
+			if(Obj.m_BuffEffectList[i].EffectValue1 > EffectValue1)	return true;
+			if(Obj.m_BuffEffectList[i].EffectValue2 > EffectValue2)	return true;
 		}
 	}
 
@@ -811,22 +811,22 @@ int gObjGetTotalValueOfEffect(CGameObject &Obj, int EffectType)
 {
 	if(lpObj == NULL)	return 0;
 
-	if(lpObj.Connected < PLAYER_PLAYING)	return 0;
+	if(Obj.Connected < PLAYER_PLAYING)	return 0;
 
 	int iTotalValue = 0;
 
 	for(int i = 0; i < MAX_BUFFEFFECT; i++)
 	{
-		if(lpObj.m_BuffEffectList[i].BuffIndex == BUFFTYPE_NONE)	continue;
+		if(Obj.m_BuffEffectList[i].BuffIndex == BUFFTYPE_NONE)	continue;
 
-		if(lpObj.m_BuffEffectList[i].EffectType1 == EffectType)
+		if(Obj.m_BuffEffectList[i].EffectType1 == EffectType)
 		{
-			iTotalValue += lpObj.m_BuffEffectList[i].EffectValue1;
+			iTotalValue += Obj.m_BuffEffectList[i].EffectValue1;
 		}
 
-		if(lpObj.m_BuffEffectList[i].EffectType2 == EffectType)
+		if(Obj.m_BuffEffectList[i].EffectType2 == EffectType)
 		{
-			iTotalValue += lpObj.m_BuffEffectList[i].EffectValue2;
+			iTotalValue += Obj.m_BuffEffectList[i].EffectValue2;
 		}
 	}
 
@@ -837,17 +837,17 @@ bool gObjGetValueOfBuffIndex(CGameObject &Obj, int iBuffIndex, int *EffectValue1
 {
 	if(lpObj == NULL)	return false;
 
-	if(lpObj.Connected < PLAYER_PLAYING)	return false;
+	if(Obj.Connected < PLAYER_PLAYING)	return false;
 
 	for(int i = 0; i < MAX_BUFFEFFECT; i++)
 	{
-		if(lpObj.m_BuffEffectList[i].BuffIndex == iBuffIndex)
+		if(Obj.m_BuffEffectList[i].BuffIndex == iBuffIndex)
 		{
-			*EffectValue1 = lpObj.m_BuffEffectList[i].EffectValue1;
+			*EffectValue1 = Obj.m_BuffEffectList[i].EffectValue1;
 
 			if(EffectValue2 != 0)
 			{
-				*EffectValue2 = lpObj.m_BuffEffectList[i].EffectValue2;
+				*EffectValue2 = Obj.m_BuffEffectList[i].EffectValue2;
 			}
 
 			return true;
@@ -874,12 +874,12 @@ void GCUseBuffEffect(CGameObject &Obj, BYTE BuffEffectIndex, BYTE EffectUseOptio
 		 BuffEffectIndex == BUFFTYPE_USE_MOUNT_DLHORSE || BuffEffectIndex == BUFFTYPE_USE_MOUNT_FENRIR
 		|| BuffEffectIndex == BUFFTYPE_USE_MOUNT_DLSPIRIT)
 	{
-		ItemByteConvert(pMsg.ItemInfo, lpObj.pInventory[lpObj.m_btInvenPetPos]);
+		ItemByteConvert(pMsg.ItemInfo, Obj.pInventory[Obj.m_btInvenPetPos]);
 	}
 
-	if ( lpObj.Type == OBJ_USER )
+	if ( Obj.Type == OBJ_USER )
 	{
-		IOCP.DataSend(lpObj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 	}
 
 	if(EffectUseOption == 0) {
@@ -887,38 +887,38 @@ void GCUseBuffEffect(CGameObject &Obj, BYTE BuffEffectIndex, BYTE EffectUseOptio
 	}
 	else gGameProtocol.GCStateInfoSend(lpObj, 0, BuffEffectIndex);
 
-	gGameProtocol.GCSendAttackSpeed(lpObj.m_Index);
-	gGameProtocol.GCDisplayBuffeffectPartyMember(lpObj.m_Index);
+	gGameProtocol.GCSendAttackSpeed(Obj.m_Index);
+	gGameProtocol.GCDisplayBuffeffectPartyMember(Obj.m_Index);
 }
 
 void gObjSendBuffList(CGameObject &Obj)
 {
 	if(lpObj == NULL)	return;
 
-	if(lpObj.Type != OBJ_USER)	return;
+	if(Obj.Type != OBJ_USER)	return;
 
-	if(lpObj.m_BuffEffectCount <= 0)	return;
+	if(Obj.m_BuffEffectCount <= 0)	return;
 
 	for(int i = 0; i < MAX_BUFFEFFECT; i++)
 	{
-		if(lpObj.m_BuffEffectList[i].BuffIndex != BUFFTYPE_NONE)
+		if(Obj.m_BuffEffectList[i].BuffIndex != BUFFTYPE_NONE)
 		{
-			gGameProtocol.GCStateInfoSend(lpObj, 1, lpObj.m_BuffEffectList[i].BuffIndex);
+			gGameProtocol.GCStateInfoSend(lpObj, 1, Obj.m_BuffEffectList[i].BuffIndex);
 		}
 	}
 }
 
-BOOL gObjAddBuffEffectWideArea(CGameObjectECTSTRUCT lpTargetObj, int nDistance, int& nAffectedCount, int iBuffIndex, BYTE EffectType1, int EffectValue1, BYTE EffectType2, int EffectValue2, int Duration)
+BOOL gObjAddBuffEffectWideArea(CGameObject* lpTargetObj, int nDistance, int& nAffectedCount, int iBuffIndex, BYTE EffectType1, int EffectValue1, BYTE EffectType2, int EffectValue2, int Duration)
 {
 	if(lpTargetObj == NULL)	return FALSE;
 
 	for(int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
-		CGameObject &Obj = (CGameObjectECTSTRUCT)&getGameObject(i);
+		CGameObject &Obj = (CGameObject*)&getGameObject(i);
 
-		if(lpObj.Type == OBJ_USER && gObjIsConnected(i) != FALSE)
+		if(Obj.Type == OBJ_USER && gObjIsConnected(i) != FALSE)
 		{
-			if(lpObj.MapNumber == lpTargetObj.MapNumber)
+			if(Obj.MapNumber == lpTargetObj.MapNumber)
 			{
 				if(gObjCalDistance(lpTargetObj, lpObj) < nDistance)
 				{
@@ -1045,7 +1045,7 @@ void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefa
 	UINT64 iRetExp = iExp;
 	int nAddExp = 100;
 
-	if (lpObj.pInventory[8].IsItem() == TRUE && lpObj.pInventory[8].m_Type == ITEMGET(13, 80) && lpObj.pInventory[8].m_Durability > 0.0)
+	if (Obj.pInventory[8].IsItem() == TRUE && Obj.pInventory[8].m_Type == ITEMGET(13, 80) && Obj.pInventory[8].m_Durability > 0.0)
 	{
 		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCS_MARK3) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCBANG_POINT_MARK3))
 		{
@@ -1058,8 +1058,8 @@ void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefa
 		}
 	}
 
-	if ((lpObj.pInventory[11].m_Type == ITEMGET(13,77) && lpObj.pInventory[11].m_Durability > 0.0) ||
-		(lpObj.pInventory[10].m_Type == ITEMGET(13,77) && lpObj.pInventory[10].m_Durability > 0.0))
+	if ((Obj.pInventory[11].m_Type == ITEMGET(13,77) && Obj.pInventory[11].m_Durability > 0.0) ||
+		(Obj.pInventory[10].m_Type == ITEMGET(13,77) && Obj.pInventory[10].m_Durability > 0.0))
 	{
 		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCS_MARK3) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCBANG_POINT_MARK3))
 		{
@@ -1072,8 +1072,8 @@ void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefa
 		}
 	}
 
-	if ((lpObj.pInventory[11].m_Type == ITEMGET(13,78) && lpObj.pInventory[11].m_Durability > 0.0) ||
-		(lpObj.pInventory[10].m_Type == ITEMGET(13,78) && lpObj.pInventory[10].m_Durability > 0.0))
+	if ((Obj.pInventory[11].m_Type == ITEMGET(13,78) && Obj.pInventory[11].m_Durability > 0.0) ||
+		(Obj.pInventory[10].m_Type == ITEMGET(13,78) && Obj.pInventory[10].m_Durability > 0.0))
 	{
 		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCS_MARK3) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCBANG_POINT_MARK3))
 		{
@@ -1091,7 +1091,7 @@ void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefa
 		nAddExp += 15;
 	}
 
-	if (g_GensSystem.IsMapBattleZone(lpObj.MapNumber) == TRUE)
+	if (g_GensSystem.IsMapBattleZone(Obj.MapNumber) == TRUE)
 	{
 		nAddExp += g_GensSystem.GetBattleZoneExpBonus(lpObj);
 	}
@@ -1195,7 +1195,7 @@ void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefa
 			iEffectExp = 0;
 		}
 
-		else if (g_NewPVP.IsVulcanusMap(lpObj.MapNumber) == TRUE)
+		else if (g_NewPVP.IsVulcanusMap(Obj.MapNumber) == TRUE)
 		{
 			iEffectExp = 20;
 		}
@@ -1203,7 +1203,7 @@ void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefa
 		nAddExp += iEffectExp;
 	}
 
-	if (lpObj.pInventory[8].IsItem() == TRUE && lpObj.pInventory[8].m_Type == ITEMGET(13, 123) && lpObj.pInventory[8].m_Durability > 0.0)
+	if (Obj.pInventory[8].IsItem() == TRUE && Obj.pInventory[8].m_Type == ITEMGET(13, 123) && Obj.pInventory[8].m_Durability > 0.0)
 	{
 		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCS_MARK3) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCBANG_POINT_MARK3))
 		{
@@ -1216,8 +1216,8 @@ void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefa
 		}
 	}
 
-	if ((lpObj.pInventory[11].m_Type == ITEMGET(13, 166) && lpObj.pInventory[11].m_Durability > 0.0) ||
-		(lpObj.pInventory[10].m_Type == ITEMGET(13, 166) && lpObj.pInventory[10].m_Durability > 0.0))
+	if ((Obj.pInventory[11].m_Type == ITEMGET(13, 166) && Obj.pInventory[11].m_Durability > 0.0) ||
+		(Obj.pInventory[10].m_Type == ITEMGET(13, 166) && Obj.pInventory[10].m_Durability > 0.0))
 	{
 		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCS_MARK3) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCBANG_POINT_MARK3))
 		{
@@ -1230,24 +1230,24 @@ void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefa
 		}
 	}
 
-	if (((lpObj.pInventory[8].IsItem() == TRUE && lpObj.pInventory[8].m_Type == ITEMGET(13, 123) && lpObj.pInventory[8].m_Durability > 0.0) ||
-		(lpObj.pInventory[8].IsItem() == TRUE && lpObj.pInventory[8].m_Type == ITEMGET(13, 80) && lpObj.pInventory[8].m_Durability > 0.0)) &&
-		((lpObj.pInventory[11].m_Type == ITEMGET(13,122) && lpObj.pInventory[11].m_Durability > 0.0) ||
-		(lpObj.pInventory[10].m_Type == ITEMGET(13,122) && lpObj.pInventory[10].m_Durability > 0.0) ||
-		(lpObj.pInventory[11].m_Type == ITEMGET(13,76) && lpObj.pInventory[11].m_Durability > 0.0) ||
-		(lpObj.pInventory[10].m_Type == ITEMGET(13,76) && lpObj.pInventory[10].m_Durability > 0.0) ||
-		(lpObj.pInventory[11].m_Type == ITEMGET(13,163) && lpObj.pInventory[11].m_Durability > 0.0) ||
-		(lpObj.pInventory[10].m_Type == ITEMGET(13,163) && lpObj.pInventory[10].m_Durability > 0.0) ||
-		(lpObj.pInventory[11].m_Type == ITEMGET(13,164) && lpObj.pInventory[11].m_Durability > 0.0) ||
-		(lpObj.pInventory[10].m_Type == ITEMGET(13,164) && lpObj.pInventory[10].m_Durability > 0.0) ||
-		(lpObj.pInventory[11].m_Type == ITEMGET(13,165) && lpObj.pInventory[11].m_Durability > 0.0) ||
-		(lpObj.pInventory[10].m_Type == ITEMGET(13,165) && lpObj.pInventory[10].m_Durability > 0.0) ||
-		(lpObj.pInventory[11].m_Type == ITEMGET(13,77) && lpObj.pInventory[11].m_Durability > 0.0) ||
-		(lpObj.pInventory[10].m_Type == ITEMGET(13,77) && lpObj.pInventory[10].m_Durability > 0.0) ||
-		(lpObj.pInventory[11].m_Type == ITEMGET(13,78) && lpObj.pInventory[11].m_Durability > 0.0) ||
-		(lpObj.pInventory[10].m_Type == ITEMGET(13,78) && lpObj.pInventory[10].m_Durability > 0.0) ||
-		(lpObj.pInventory[11].m_Type == ITEMGET(13,166) && lpObj.pInventory[11].m_Durability > 0.0) ||
-		(lpObj.pInventory[10].m_Type == ITEMGET(13,166) && lpObj.pInventory[10].m_Durability > 0.0)))
+	if (((Obj.pInventory[8].IsItem() == TRUE && Obj.pInventory[8].m_Type == ITEMGET(13, 123) && Obj.pInventory[8].m_Durability > 0.0) ||
+		(Obj.pInventory[8].IsItem() == TRUE && Obj.pInventory[8].m_Type == ITEMGET(13, 80) && Obj.pInventory[8].m_Durability > 0.0)) &&
+		((Obj.pInventory[11].m_Type == ITEMGET(13,122) && Obj.pInventory[11].m_Durability > 0.0) ||
+		(Obj.pInventory[10].m_Type == ITEMGET(13,122) && Obj.pInventory[10].m_Durability > 0.0) ||
+		(Obj.pInventory[11].m_Type == ITEMGET(13,76) && Obj.pInventory[11].m_Durability > 0.0) ||
+		(Obj.pInventory[10].m_Type == ITEMGET(13,76) && Obj.pInventory[10].m_Durability > 0.0) ||
+		(Obj.pInventory[11].m_Type == ITEMGET(13,163) && Obj.pInventory[11].m_Durability > 0.0) ||
+		(Obj.pInventory[10].m_Type == ITEMGET(13,163) && Obj.pInventory[10].m_Durability > 0.0) ||
+		(Obj.pInventory[11].m_Type == ITEMGET(13,164) && Obj.pInventory[11].m_Durability > 0.0) ||
+		(Obj.pInventory[10].m_Type == ITEMGET(13,164) && Obj.pInventory[10].m_Durability > 0.0) ||
+		(Obj.pInventory[11].m_Type == ITEMGET(13,165) && Obj.pInventory[11].m_Durability > 0.0) ||
+		(Obj.pInventory[10].m_Type == ITEMGET(13,165) && Obj.pInventory[10].m_Durability > 0.0) ||
+		(Obj.pInventory[11].m_Type == ITEMGET(13,77) && Obj.pInventory[11].m_Durability > 0.0) ||
+		(Obj.pInventory[10].m_Type == ITEMGET(13,77) && Obj.pInventory[10].m_Durability > 0.0) ||
+		(Obj.pInventory[11].m_Type == ITEMGET(13,78) && Obj.pInventory[11].m_Durability > 0.0) ||
+		(Obj.pInventory[10].m_Type == ITEMGET(13,78) && Obj.pInventory[10].m_Durability > 0.0) ||
+		(Obj.pInventory[11].m_Type == ITEMGET(13,166) && Obj.pInventory[11].m_Durability > 0.0) ||
+		(Obj.pInventory[10].m_Type == ITEMGET(13,166) && Obj.pInventory[10].m_Durability > 0.0)))
 	{
 		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCS_MARK3) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCBANG_POINT_MARK3))
 		{
@@ -1265,10 +1265,10 @@ void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefa
 
 			else
 			{
-				if ((lpObj.pInventory[11].m_Type == ITEMGET(13,77) && lpObj.pInventory[11].m_Durability > 0.0) ||
-					(lpObj.pInventory[10].m_Type == ITEMGET(13,77) && lpObj.pInventory[10].m_Durability > 0.0) ||
-					(lpObj.pInventory[11].m_Type == ITEMGET(13,78) && lpObj.pInventory[10].m_Durability > 0.0) ||
-					(lpObj.pInventory[10].m_Type == ITEMGET(13,78) && lpObj.pInventory[10].m_Durability > 0.0))
+				if ((Obj.pInventory[11].m_Type == ITEMGET(13,77) && Obj.pInventory[11].m_Durability > 0.0) ||
+					(Obj.pInventory[10].m_Type == ITEMGET(13,77) && Obj.pInventory[10].m_Durability > 0.0) ||
+					(Obj.pInventory[11].m_Type == ITEMGET(13,78) && Obj.pInventory[10].m_Durability > 0.0) ||
+					(Obj.pInventory[10].m_Type == ITEMGET(13,78) && Obj.pInventory[10].m_Durability > 0.0))
 				{
 					iEffectExp = 65;
 				}
@@ -1289,19 +1289,19 @@ void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefa
 		int iEffectValue = 0;
 		gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_PARTYITEM_EXP, &iEffectValue, 0);
 
-		if (lpObj.PartyNumber >= 0)
+		if (Obj.PartyNumber >= 0)
 		{
 			for (int i = 0; i < MAX_USER_IN_PARTY; i++)
 			{
-				if (!ObjectMaxRange(gParty.m_PartyS[lpObj.PartyNumber].Number[i]))
+				if (!ObjectMaxRange(gParty.m_PartyS[Obj.PartyNumber].Number[i]))
 					continue;
 
-				CGameObject lpPartyObj = &getGameObject(gParty.m_PartyS[lpObj.PartyNumber]->Number[i]);
+				CGameObject lpPartyObj = &getGameObject(gParty.m_PartyS[Obj.PartyNumber]->Number[i]);
 				int iPartyDis = gObjCalDistance(lpObj, lpPartyObj);
 
-				if (lpObj.m_Index != lpPartyObj.m_Index)
+				if (Obj.m_Index != lpPartyObj.m_Index)
 				{
-					if (lpObj.MapNumber == lpPartyObj.MapNumber)
+					if (Obj.MapNumber == lpPartyObj.MapNumber)
 					{
 						if (iPartyDis < 10)
 						{
@@ -1317,8 +1317,8 @@ void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefa
 
 	int iPremiumExp = GetPremiumExp(nAddExp);
 
-	if (lpObj.m_btInvenPetPos != 0 && lpObj.pInventory[lpObj.m_btInvenPetPos].IsItem() == TRUE && 
-		lpObj.pInventory[lpObj.m_btInvenPetPos].m_Type == ITEMGET(13, 37) && lpObj.pInventory[lpObj.m_btInvenPetPos].m_Durability > 0.0)
+	if (Obj.m_btInvenPetPos != 0 && Obj.pInventory[Obj.m_btInvenPetPos].IsItem() == TRUE && 
+		Obj.pInventory[Obj.m_btInvenPetPos].m_Type == ITEMGET(13, 37) && Obj.pInventory[Obj.m_btInvenPetPos].m_Durability > 0.0)
 	{
 		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCS_MARK3) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCBANG_POINT_MARK3))
 		{
@@ -1327,14 +1327,14 @@ void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefa
 
 		else if (!bRewardExp)
 		{
-			if (lpObj.pInventory[lpObj.m_btInvenPetPos].IsFenrirAddExp() > 0)
+			if (Obj.pInventory[Obj.m_btInvenPetPos].IsFenrirAddExp() > 0)
 			{
-				nAddExp += lpObj.pInventory[lpObj.m_btInvenPetPos].IsFenrirAddExp();
+				nAddExp += Obj.pInventory[Obj.m_btInvenPetPos].IsFenrirAddExp();
 			}
 		}
 	}
 
-	if (CC_MAP_RANGE(lpObj.MapNumber) == TRUE)
+	if (CC_MAP_RANGE(Obj.MapNumber) == TRUE)
 	{
 		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCS_MARK3) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCBANG_POINT_MARK3))
 		{
@@ -1343,7 +1343,7 @@ void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefa
 
 		else if (!bRewardExp)
 		{
-			nAddExp += g_ChaosCastle.GetExperienceBonus(lpObj.m_cChaosCastleIndex);
+			nAddExp += g_ChaosCastle.GetExperienceBonus(Obj.m_cChaosCastleIndex);
 		}
 	}
 

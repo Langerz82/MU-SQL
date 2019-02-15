@@ -618,7 +618,7 @@ bool CIOCP::DataSend(int uIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 
 bool CIOCP::IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 {
-	// TODO - aIndex.
+	// TODO - Obj.m_Index.
 	unsigned long SendBytes;
 	_PER_IO_CONTEXT * lpIoCtxt;
 	

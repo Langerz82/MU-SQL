@@ -63,7 +63,7 @@ int CImperialGuardianRewardExp::GetRewardExp(int nUserIndex)
 
 	int nSize = this->m_vtRewardExpInfo.size();
 	CGameObject lpObj = &getGameObject(nUserIndex);
-	int nUserLevel = lpObj.Level + lpObj.m_PlayerData->MasterLevel;
+	int nUserLevel = Obj.Level + Obj.m_PlayerData->MasterLevel;
 
 	for ( int i=0;i<nSize;i++ )
 	{

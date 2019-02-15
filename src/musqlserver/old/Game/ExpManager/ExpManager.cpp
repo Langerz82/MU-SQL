@@ -135,7 +135,7 @@ float CExpManager::GetExpMultiplier(int iLevel, int iReset, bool bIsMasterLevel)
 
 	if (this->m_bDebugMode == true)
 	{
-		g_Log.AddC(TColor::Yellow, "[EXP DEBUG] Level:%d Reset:%d ML:%d ExpResult:%f (CalcType:%d)", iLevel, iReset, bIsMasterLevel, fExp, this->m_iExpCalcType);
+		sLog->outBasic("[EXP DEBUG] Level:%d Reset:%d ML:%d ExpResult:%f (CalcType:%d)", iLevel, iReset, bIsMasterLevel, fExp, this->m_iExpCalcType);
 	}
 
 	return fExp;

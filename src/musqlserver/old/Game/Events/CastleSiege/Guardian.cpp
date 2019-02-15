@@ -35,23 +35,23 @@ void CGuardian::GuardianAct(CGameObject &Obj)
 
 		CGameObject lpObj = Obj;
 
-		if (lpObj.VPCount < 1)
+		if (Obj.VPCount < 1)
 			return;
 
 		int tObjNum = -1;
 
 		for (int i = 0; i<MAX_VIEWPORT; i++)
 		{
-			tObjNum = lpObj.VpPlayer[i].number;
+			tObjNum = Obj.VpPlayer[i].number;
 
 			if (tObjNum >= 0)
 			{
 				if (getGameObject(tObjNum)->Type == OBJ_USER && getGameObject(tObjNum)->Live)
 				{
-					if (getGameObject(tObjNum)->m_btCsJoinSide == lpObj.m_btCsJoinSide)
+					if (getGameObject(tObjNum)->m_btCsJoinSide == Obj.m_btCsJoinSide)
 					{
-						if (abs(lpObj.Y - getGameObject(tObjNum)->Y) <= 3 &&
-							abs(lpObj.X - getGameObject(tObjNum)->X) <= 3)
+						if (abs(Obj.Y - getGameObject(tObjNum)->Y) <= 3 &&
+							abs(Obj.X - getGameObject(tObjNum)->X) <= 3)
 						{
 							getGameObject(tObjNum)->Life += 100.0f;
 							getGameObject(tObjNum)->Mana += 100.0f;

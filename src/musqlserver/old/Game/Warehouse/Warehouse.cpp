@@ -183,7 +183,7 @@ void CWarehouse::DGGetWarehouseList(CGameObject &Obj, SDHP_GETWAREHOUSEDB * aRec
 
 	PHeadSetW((BYTE*)&pResult, 0x08, sizeof(pResult));
 	memcpy(pResult.AccountID, szAccountID, 11);
-	pResult.aIndex = aRecv->aIndex;
+	pResult.Obj.m_Index = aRecv->Obj.m_Index;
 
 	if (this->GetWarehouseOpenState(szAccountID) == true)
 	{
@@ -204,7 +204,7 @@ void CWarehouse::DGGetWarehouseList(CGameObject &Obj, SDHP_GETWAREHOUSEDB * aRec
 
 		SDHP_GETWAREHOUSEDB_RESULT pMsg;
 		PHeadSetB((BYTE*)&pMsg, 0x10, sizeof(pMsg));
-		pMsg.aIndex = aRecv->aIndex;
+		pMsg.Obj.m_Index = aRecv->Obj.m_Index;
 		memcpy(pMsg.AccountID, szAccountID, 11);
 
 		LeaveCriticalSection(&this->m_WareDataCriti);
@@ -314,7 +314,7 @@ void CWarehouse::GDSetWarehouseList(CGameObject &Obj, SDHP_GETWAREHOUSEDB_SAVE *
 
 	pMsg.Result = TRUE;
 	pMsg.CloseWindow = aRecv->CloseWindow;
-	pMsg.iIndex = aRecv->aIndex;
+	pMsg.iIndex = aRecv->Obj.m_Index;
 
 	LeaveCriticalSection(&this->m_WareDataCriti);
 	DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);

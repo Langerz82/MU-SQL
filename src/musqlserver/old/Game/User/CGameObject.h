@@ -182,7 +182,7 @@ public:
 	int m_DetectedHackKickCount;	// 200
 	int m_SpeedHackPenalty;	// 204
 	BYTE m_AttackSpeedHackDetectedCount;	// 208
-	//unsigned long m_PacketCheckTime;	// 20C
+	unsigned long m_PacketCheckTime;	// 20C
 	BYTE m_ShopTime;	// 210
 	unsigned long m_TotalAttackTime;	// 214
 	int m_TotalAttackCount;	// 218
@@ -522,7 +522,7 @@ public:
 	bool bMuunInventoryLoad;
 	DWORD dwCheckMuunItemTime;
 	BOOL bSubEquip;
-	int m_iMuunItmePeriodDataIndex;
+	int m_iMuunItmePeriodDatObjIndex;
 	WHISPER_STRUCT* m_Whispering;
 	BYTE m_btExpType;
 	int m_nEvoMonOwnerIndex;

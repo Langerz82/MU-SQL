@@ -392,14 +392,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					break;
 				case ID_OPTIONS_RESETERROR:
 					g_ServerInfoDisplayer.ResetSQLError();
-					g_Log.AddC(TColor::Yellow, "Error Status Display cleared");
+					sLog->outBasic("Error Status Display cleared");
 					break;
 				case ID_GENS_REFRESHRANKING:
 					m_EXDSProtocol.GensManualRefreshRanking(0);
 					break;
 				case ID_GENS_RELOADLEAVEDELAY:
 					 g_GensLeaveAfterDays = GetPrivateProfileInt("GensSystem", "GensReJoinDaysLimit", 7, ".\\DataServer.ini");
-					 g_Log.AddC(TColor::Yellow, "Gens rejoin day limit  reloaded");
+					 sLog->outBasic("Gens rejoin day limit  reloaded");
 					 break;
 				//case ID_OPTIONS_PLAYERLIST:
 					//ghPlayerWnd = CreateDialog(hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, ManagePlayer);
@@ -407,7 +407,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				//	break;
 				case ID_OPTIONS_RELOADHWIDLIMIT:
 					g_MachineIDConnectionLimitPerGroup = GetPrivateProfileInt("SETTINGS", "MachineIDConnectionLimitPerGroup", 3, ".\\DataServer.ini");
-					g_Log.AddC(TColor::Yellow, "Current Global Connections Limit (HWiD) per ServerGroup: %d", g_MachineIDConnectionLimitPerGroup);
+					sLog->outBasic("Current Global Connections Limit (HWiD) per ServerGroup: %d", g_MachineIDConnectionLimitPerGroup);
 					break;
 				case IDM_EXIT:
 				   DestroyWindow(hWnd);

@@ -197,7 +197,7 @@ bool DropEx::IsBlockItem(int ItemID)
 
 bool DropEx::DropItem(CGameObject &Obj, CGameObject lpTargetObj)
 {
-	switch (lpObj.Class)
+	switch (Obj.Class)
 	{
 	case 78:	//-> Golden Goblin
 	case 53:	//-> Golden Titan
@@ -224,9 +224,9 @@ bool DropEx::DropItem(CGameObject &Obj, CGameObject lpTargetObj)
 	{
 		DROPEX_DATA & Drop = this->m_Data[i];
 		// ----
-		if (lpObj.Level >= Drop.MonsterMinLevel && lpObj.Level <= Drop.MonsterMaxLevel)
+		if (Obj.Level >= Drop.MonsterMinLevel && Obj.Level <= Drop.MonsterMaxLevel)
 		{
-			if (lpObj.MapNumber == Drop.MonsterMap || Drop.MonsterMap == -1)
+			if (Obj.MapNumber == Drop.MonsterMap || Drop.MonsterMap == -1)
 			{
 				if (rand() % 10000 < Drop.ItemDropRate)
 				{
@@ -289,7 +289,7 @@ bool DropEx::DropItem(CGameObject &Obj, CGameObject lpTargetObj)
 						}
 					}
 
-					ItemCreate(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, ITEMGET(Drop.ItemType, Drop.ItemIndex), iLevel, Drop.ItemDur, iOption, iLuck, iSkill, gObjMonsterTopHitDamageUser(lpObj), iExlOpt, iAnc, 0, 0, 0);
+					ItemCreate(Obj.m_Index, Obj.MapNumber, Obj.X, Obj.Y, ITEMGET(Drop.ItemType, Drop.ItemIndex), iLevel, Drop.ItemDur, iOption, iLuck, iSkill, gObjMonsterTopHitDamageUser(lpObj), iExlOpt, iAnc, 0, 0, 0);
 #else
 					// ----
 					if (Drop.ItemLuck == 1)
@@ -316,7 +316,7 @@ bool DropEx::DropItem(CGameObject &Obj, CGameObject lpTargetObj)
 						}
 					}
 
-					ItemCreate(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, ITEMGET(Drop.ItemType, Drop.ItemIndex), iLevel, Drop.ItemDur, iOption, iLuck, iSkill, gObjMonsterTopHitDamageUser(lpObj), Drop.ItemExcellent, 0, 0, 0, 0);
+					ItemCreate(Obj.m_Index, Obj.MapNumber, Obj.X, Obj.Y, ITEMGET(Drop.ItemType, Drop.ItemIndex), iLevel, Drop.ItemDur, iOption, iLuck, iSkill, gObjMonsterTopHitDamageUser(lpObj), Drop.ItemExcellent, 0, 0, 0, 0);
 #endif
 
 					return true;

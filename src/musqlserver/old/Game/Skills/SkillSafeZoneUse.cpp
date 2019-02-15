@@ -70,7 +70,7 @@ bool CSkillSafeZoneUse::CanUseSkill(CGameObject &Obj, CMagicInf * lpMagic)
 		{
 			for (std::vector<SKILL_SAFEZONE_USE_AREA>::iterator It2 = It->m_vtArea.begin(); It2 != It->m_vtArea.end(); It2++)
 			{
-				if (It2->btMapNumber == lpObj.MapNumber && lpObj.X >= It2->StartX && lpObj.X <= It2->EndX && lpObj.Y >= It2->StartY && lpObj.Y <= It2->EndY)
+				if (It2->btMapNumber == Obj.MapNumber && Obj.X >= It2->StartX && Obj.X <= It2->EndX && Obj.Y >= It2->StartY && Obj.Y <= It2->EndY)
 				{
 					return true;
 				}

@@ -263,7 +263,7 @@ BOOL CGuildClass::ConnectUser(GUILD_INFO_STRUCT &lpNode, char* guild_name, char*
 		{
 			if ( strcmp(lpNode->Names[n], player_name) == 0 )
 			{
-				lpNode->Index[n] = aIndex;
+				lpNode->Index[n] = Obj.m_Index;
 				lpNode->pServer[n] = pServer;
 
 				if ( n == 0 )	// Case if is GuildMaster
@@ -278,7 +278,7 @@ BOOL CGuildClass::ConnectUser(GUILD_INFO_STRUCT &lpNode, char* guild_name, char*
 		}
 	}
 	
-	this->AddMember(lpNode, player_name, aIndex, pServer, -1);
+	this->AddMember(lpNode, player_name, Obj.m_Index, pServer, -1);
 	return false;
 }
 
@@ -307,10 +307,10 @@ GUILD_INFO_STRUCT* CGuildClass::AddMember(char* guild_name, char* player_name, C
 			{
 				if ( strcmp(pNode->Names[i], player_name) == 0 )
 				{
-					if ( aIndex != -1 )
+					if ( Obj.m_Index != -1 )
 					{
 						pNode->Use[i] = TRUE;
-						pNode->Index[i] = aIndex;
+						pNode->Index[i] = Obj.m_Index;
 						pNode->pServer[i] = pServer;
 						pNode->GuildStatus[i] = G_MASTER;
 					}
@@ -336,9 +336,9 @@ GUILD_INFO_STRUCT* CGuildClass::AddMember(char* guild_name, char* player_name, C
 	pNode->pServer[blank] = pServer;
 	pNode->GuildStatus[blank] = iGuildStatus;
 
-	if ( aIndex != -1 )
+	if ( Obj.m_Index != -1 )
 	{
-		pNode->Index[blank] = aIndex;
+		pNode->Index[blank] = Obj.m_Index;
 		pNode->Count++;
 	}
 
@@ -375,10 +375,10 @@ GUILD_INFO_STRUCT* CGuildClass::AddMember(GUILD_INFO_STRUCT* pNode, char* player
 			{
 				if ( strcmp(pNode->Names[i], player_name) == 0 )
 				{
-					if ( aIndex != -1 )
+					if ( Obj.m_Index != -1 )
 					{
 						pNode->Use[i] = TRUE;
-						pNode->Index[i] = aIndex;
+						pNode->Index[i] = Obj.m_Index;
 						pNode->pServer[i] = pServer;
 					}
 
@@ -402,9 +402,9 @@ GUILD_INFO_STRUCT* CGuildClass::AddMember(GUILD_INFO_STRUCT* pNode, char* player
 	pNode->Use[blank] = TRUE;
 	pNode->pServer[blank] = pServer;
 
-	if ( aIndex != -1 )
+	if ( Obj.m_Index != -1 )
 	{
-		pNode->Index[blank] = aIndex;
+		pNode->Index[blank] = Obj.m_Index;
 		pNode->Count++;
 	}
 
@@ -493,10 +493,10 @@ BOOL CGuildClass::SetGuildMemberStatus(char* szGuildName, char* szMemberName, in
 		
 		CGameObject lpObj = &getGameObject(pNode->Index[iKey]);
 
-		if ( strcmp(lpObj.Name, szMemberName) == 0 )
+		if ( strcmp(Obj.Name, szMemberName) == 0 )
 		{
-			lpObj.m_PlayerData->GuildStatus = iGuildStatus;
-			gGameProtocol.GCGuildViewportNowPaint(lpObj.m_Index, lpObj.m_PlayerData->GuildName, 0, 0);
+			Obj.m_PlayerData->GuildStatus = iGuildStatus;
+			gGameProtocol.GCGuildViewportNowPaint(Obj.m_Index, Obj.m_PlayerData->GuildName, 0, 0);
 		}
 
 	}
@@ -549,7 +549,7 @@ BOOL CGuildClass::SetGuildType(char* szGuildName, int iGuildType)
 				}
 
 				CGameObject lpObj = &getGameObject(pNode->Index[n]);
-				gGameProtocol.GCGuildViewportNowPaint(lpObj.m_Index, lpObj.m_PlayerData->GuildName, 0, 0);
+				gGameProtocol.GCGuildViewportNowPaint(Obj.m_Index, Obj.m_PlayerData->GuildName, 0, 0);
 			}
 		}
 	}

@@ -192,7 +192,7 @@ void CEventMonSetBase::RegenMonster(CGameObject &Obj)
 	if (Iter->second->lpSpotData->m_DoSpawn == FALSE)
 	{
 		sLog->outBasic("[Event Spawn] End of Regen Time -> Delete Monster (%d)(%d) (%d)(%d)(%d)",
-			iIndex, lpObj.Class, lpObj.MapNumber, lpObj.X, lpObj.Y);
+			iIndex, Obj.Class, Obj.MapNumber, Obj.X, Obj.Y);
 
 		gObjDel(Obj.m_Index);
 		this->m_mapMonsterData.erase(Iter);
@@ -201,24 +201,24 @@ void CEventMonSetBase::RegenMonster(CGameObject &Obj)
 
 	if (this->GetBoxPosition(Iter->second->lpSpotData->m_MapNumber, Iter->second->lpSpotData->m_X,
 		Iter->second->lpSpotData->m_Y, Iter->second->lpSpotData->m_W, Iter->second->lpSpotData->m_H,
-		lpObj.X, lpObj.Y) == FALSE)
+		Obj.X, Obj.Y) == FALSE)
 	{
 		sLog->outBasic("[Event Spawn] Failed to find empty space on map -> Delete Monster (%d)(%d) (%d)(%d)(%d)",
-			iIndex, lpObj.Class, lpObj.MapNumber, lpObj.X, lpObj.Y);
+			iIndex, Obj.Class, Obj.MapNumber, Obj.X, Obj.Y);
 
 		gObjDel(Obj.m_Index);
 		this->m_mapMonsterData.erase(Iter);
 		return;
 	}
 
-	lpObj.MTX = lpObj.X;
-	lpObj.MTY = lpObj.Y;
-	lpObj.TX = lpObj.X;
-	lpObj.TY = lpObj.Y;
-	lpObj.StartX = lpObj.X;
-	lpObj.StartY = lpObj.Y;
+	Obj.MTX = Obj.X;
+	Obj.MTY = Obj.Y;
+	Obj.TX = Obj.X;
+	Obj.TY = Obj.Y;
+	Obj.StartX = Obj.X;
+	Obj.StartY = Obj.Y;
 
-	//sLog->outBasic("[Event Spawn] Regen Monster (%d)(%d) (%d)(%d)(%d)",iIndex, lpObj.Class, lpObj.MapNumber, lpObj.X, lpObj.Y);
+	//sLog->outBasic("[Event Spawn] Regen Monster (%d)(%d) (%d)(%d)(%d)",iIndex, Obj.Class, Obj.MapNumber, Obj.X, Obj.Y);
 }
 
 void CEventMonSetBase::DeleteAllMonsters()
@@ -235,7 +235,7 @@ void CEventMonSetBase::DeleteAllMonsters()
 
 int CEventMonSetBase::SetPosMonster(CGameObject &Obj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY, int nDir)
 {
-	if (!ObjectMaxRange(aIndex))
+	if (!ObjectMaxRange(Obj.m_Index))
 	{
 		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
 		return false;
@@ -243,23 +243,23 @@ int CEventMonSetBase::SetPosMonster(CGameObject &Obj, int nMapNumber, int nBegin
 
 	
 
-	lpObj.m_PosNum = -1;
-	lpObj.MapNumber = nMapNumber;
-	this->GetBoxPosition(nMapNumber, nBeginX, nBeginY, nEndX, nEndY, lpObj.X, lpObj.Y);
-	lpObj.TX = lpObj.X;
-	lpObj.TY = lpObj.Y;
-	lpObj.m_OldX = lpObj.X;
-	lpObj.m_OldY = lpObj.Y;
+	Obj.m_PosNum = -1;
+	Obj.MapNumber = nMapNumber;
+	this->GetBoxPosition(nMapNumber, nBeginX, nBeginY, nEndX, nEndY, Obj.X, Obj.Y);
+	Obj.TX = Obj.X;
+	Obj.TY = Obj.Y;
+	Obj.m_OldX = Obj.X;
+	Obj.m_OldY = Obj.Y;
 
 	if (nDir == -1)
-		lpObj.Dir = rand() % 8;
+		Obj.Dir = rand() % 8;
 	else
-		lpObj.Dir = nDir;
+		Obj.Dir = nDir;
 
-	lpObj.StartX = lpObj.X;
-	lpObj.StartY = lpObj.Y;
-	lpObj.DieRegen = 0;
-	lpObj.MaxRegenTime = 0;
+	Obj.StartX = Obj.X;
+	Obj.StartY = Obj.Y;
+	Obj.DieRegen = 0;
+	Obj.MaxRegenTime = 0;
 
 	return true;
 }

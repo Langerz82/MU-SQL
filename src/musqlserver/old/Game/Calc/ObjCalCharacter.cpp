@@ -264,7 +264,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 		if (this->ValidItem(Obj. &Obj.pInventory[236], 236))
 		{
 			Obj.pInventory[236].m_IsValidItem = true;
-			g_PentagramSystem.CalcPentagramItem(aIndex, &Obj.pInventory[236]);
+			g_PentagramSystem.CalcPentagramItem(Obj.m_Index, &Obj.pInventory[236]);
 		}
 
 		else
@@ -275,7 +275,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 
 	else
 	{
-		g_PentagramSystem.ClearPentagramItem(aIndex);
+		g_PentagramSystem.ClearPentagramItem(Obj.m_Index);
 	}
 
 	Strength = Obj.m_PlayerData->Strength + Obj.AddStrength;
@@ -1769,8 +1769,8 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 	pAddStats.cmdadd = Obj.AddLeadership;
 	IOCP.DataSend(Obj.m_Index, (BYTE*)&pAddStats, pAddStats.h.size); */
 
-	gGameProtocol.GCPlayerStatsPanelNew(aIndex);
-	gGameProtocol.GCPlayerStatsPanelRates(aIndex);
+	gGameProtocol.GCPlayerStatsPanelNew(Obj.m_Index);
+	gGameProtocol.GCPlayerStatsPanelRates(Obj.m_Index);
 
 	for (int n = 0; n < INVENTORY_SIZE; n++)
 	{
@@ -1785,56 +1785,56 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 
 void CObjCalCharacter::CalcSetItemStat(CGameObject &Obj)
 {
-	if (lpObj.Type != OBJ_USER)
+	if (Obj.Type != OBJ_USER)
 	{
 		return;
 	}
 
 	for (int i = 0; i < INVETORY_WEAR_SIZE; i++)
 	{
-		//if (lpObj.pInventory[i].IsSetItem() && lpObj.pInventory[i].m_IsValidItem && lpObj.pInventory[i].m_Durability != 0.0f && IsBloodAngelItem(lpObj.pInventory[i].m_Type))
+		//if (Obj.pInventory[i].IsSetItem() && Obj.pInventory[i].m_IsValidItem && Obj.pInventory[i].m_Durability != 0.0f && IsBloodAngelItem(Obj.pInventory[i].m_Type))
 		//{
-			//if (lpObj.pInventory[i].m_SetAddStat)
-		//	sLog->outBasic("lpObj.pInventory[i].m_SetAddStat %d lpObj.pInventory[i].m_SetOption %d", lpObj.pInventory[i].m_SetAddStat, lpObj.pInventory[i].m_SetOption);
+			//if (Obj.pInventory[i].m_SetAddStat)
+		//	sLog->outBasic("Obj.pInventory[i].m_SetAddStat %d Obj.pInventory[i].m_SetOption %d", Obj.pInventory[i].m_SetAddStat, Obj.pInventory[i].m_SetOption);
 		//}
-		if (lpObj.pInventory[i].IsSetItem() && lpObj.pInventory[i].m_IsValidItem && lpObj.pInventory[i].m_Durability != 0.0f && IsBloodAngelItem(lpObj.pInventory[i].m_Type))
+		if (Obj.pInventory[i].IsSetItem() && Obj.pInventory[i].m_IsValidItem && Obj.pInventory[i].m_Durability != 0.0f && IsBloodAngelItem(Obj.pInventory[i].m_Type))
 		{
-			int AddStatType = lpObj.pInventory[i].GetAddStatType();
+			int AddStatType = Obj.pInventory[i].GetAddStatType();
 
 			switch (AddStatType)
 			{
 			case 1:
-				lpObj.pInventory[i].SetItemPlusSpecialStat(&lpObj.AddStrength, 196);
+				Obj.pInventory[i].SetItemPlusSpecialStat(&Obj.AddStrength, 196);
 				break;
 			case 2:
-				EnterCriticalSection(&lpObj.m_PlayerData->AgiCheckCriti);
-				lpObj.m_PlayerData->AgilityCheckDelay = GetTickCount();
-				lpObj.pInventory[i].SetItemPlusSpecialStat(&lpObj.AddDexterity, 197);
-				LeaveCriticalSection(&lpObj.m_PlayerData->AgiCheckCriti);
+				EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
+				Obj.m_PlayerData->AgilityCheckDelay = GetTickCount();
+				Obj.pInventory[i].SetItemPlusSpecialStat(&Obj.AddDexterity, 197);
+				LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 				break;
 			case 3:
-				lpObj.pInventory[i].SetItemPlusSpecialStat(&lpObj.AddEnergy, 198);
+				Obj.pInventory[i].SetItemPlusSpecialStat(&Obj.AddEnergy, 198);
 				break;
 			case 4:
-				lpObj.pInventory[i].SetItemPlusSpecialStat(&lpObj.AddVitality, 199);
+				Obj.pInventory[i].SetItemPlusSpecialStat(&Obj.AddVitality, 199);
 				break;
 			case 5:
-				lpObj.pInventory[i].SetItemPlusSpecialStat(&lpObj.AddLeadership, 200);
+				Obj.pInventory[i].SetItemPlusSpecialStat(&Obj.AddLeadership, 200);
 				break;
 			case 6:
-				lpObj.pInventory[i].SetItemPlusSpecialStat(&lpObj.AddStrength, 201);
+				Obj.pInventory[i].SetItemPlusSpecialStat(&Obj.AddStrength, 201);
 
-				EnterCriticalSection(&lpObj.m_PlayerData->AgiCheckCriti);
-				lpObj.m_PlayerData->AgilityCheckDelay = GetTickCount();
-				lpObj.pInventory[i].SetItemPlusSpecialStat(&lpObj.AddDexterity, 201);
-				LeaveCriticalSection(&lpObj.m_PlayerData->AgiCheckCriti);
+				EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
+				Obj.m_PlayerData->AgilityCheckDelay = GetTickCount();
+				Obj.pInventory[i].SetItemPlusSpecialStat(&Obj.AddDexterity, 201);
+				LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 
-				lpObj.pInventory[i].SetItemPlusSpecialStat(&lpObj.AddEnergy, 201);
-				lpObj.pInventory[i].SetItemPlusSpecialStat(&lpObj.AddVitality, 201);
+				Obj.pInventory[i].SetItemPlusSpecialStat(&Obj.AddEnergy, 201);
+				Obj.pInventory[i].SetItemPlusSpecialStat(&Obj.AddVitality, 201);
 
-				if (lpObj.Class == CLASS_DARKLORD)
+				if (Obj.Class == CLASS_DARKLORD)
 				{
-					lpObj.pInventory[i].SetItemPlusSpecialStat(&lpObj.AddLeadership, 201);
+					Obj.pInventory[i].SetItemPlusSpecialStat(&Obj.AddLeadership, 201);
 				}
 				break;
 			}
@@ -1854,18 +1854,18 @@ void CObjCalCharacter::GetSetItemOption(CGameObject &Obj, BYTE* pSetOptionTable,
 	for (int i = 0; i < INVETORY_WEAR_SIZE; i++)
 	{
 		//1.01.00 fix
-		if (lpObj.pInventory[i].m_Durability <= 0.0)
+		if (Obj.pInventory[i].m_Durability <= 0.0)
 		{
 			continue;
 		}
 
-		int iSetItemType = lpObj.pInventory[i].IsSetItem();
+		int iSetItemType = Obj.pInventory[i].IsSetItem();
 
 		if (iSetItemType)
 		{
-			if (lpObj.pInventory[i].m_IsValidItem)
+			if (Obj.pInventory[i].m_IsValidItem)
 			{
-				int iSetItemOption = gSetItemOption.GetOptionTableIndex(lpObj.pInventory[i].m_Type, iSetItemType);
+				int iSetItemOption = gSetItemOption.GetOptionTableIndex(Obj.pInventory[i].m_Type, iSetItemType);
 
 				if (iSetItemOption != -1)
 				{
@@ -1877,7 +1877,7 @@ void CObjCalCharacter::GetSetItemOption(CGameObject &Obj, BYTE* pSetOptionTable,
 					{
 						if (RightSetOptionIndex == iSetItemOption)
 						{
-							if (lpObj.pInventory[0].GetWeaponType() == lpObj.pInventory[1].GetWeaponType() && lpObj.pInventory[0].IsSetItem())
+							if (Obj.pInventory[0].GetWeaponType() == Obj.pInventory[1].GetWeaponType() && Obj.pInventory[0].IsSetItem())
 							{
 								continue;
 							}
@@ -1890,7 +1890,7 @@ void CObjCalCharacter::GetSetItemOption(CGameObject &Obj, BYTE* pSetOptionTable,
 					}
 					else if (i == 11)
 					{
-						if (lpObj.pInventory[10].m_Type == lpObj.pInventory[11].m_Type && lpObj.pInventory[10].IsSetItem())
+						if (Obj.pInventory[10].m_Type == Obj.pInventory[11].m_Type && Obj.pInventory[10].IsSetItem())
 						{
 							continue;
 						}
@@ -1948,12 +1948,12 @@ void CObjCalCharacter::CalcSetItemOption(CGameObject &Obj)
 
 		if (OptionTableCount >= 2)
 		{
-			gSetItemOption.IsRequireClass(OptionTableIndex, lpObj.Class, lpObj.m_PlayerData->ChangeUP);
+			gSetItemOption.IsRequireClass(OptionTableIndex, Obj.Class, Obj.m_PlayerData->ChangeUP);
 
 			for (int tablecnt = 0; tablecnt < (OptionTableCount - 1); tablecnt++)
 			{
 				if (gSetItemOption.GetSetOption(OptionTableIndex, tablecnt,
-					op1, op2, opvalue1, opvalue2, lpObj.Class, lpObj.m_PlayerData->ChangeUP))
+					op1, op2, opvalue1, opvalue2, Obj.Class, Obj.m_PlayerData->ChangeUP))
 				{
 					this->SetItemStatPlusSpecial(lpObj, op1, opvalue1);
 					this->SetItemStatPlusSpecial(lpObj, op2, opvalue2);
@@ -1962,12 +1962,12 @@ void CObjCalCharacter::CalcSetItemOption(CGameObject &Obj)
 
 			if (gSetItemOption.GetMaxSetOptionCount(OptionTableIndex) < OptionTableCount)
 			{
-				lpObj.m_PlayerData->IsFullSetItem = true;
+				Obj.m_PlayerData->IsFullSetItem = true;
 
 				gSetItemOption.GetGetFullSetOption(OptionTableIndex,
 					op1, op2, op3, op4, op5,
 					opvalue1, opvalue2, opvalue3, opvalue4, opvalue5,
-					lpObj.Class, lpObj.m_PlayerData->ChangeUP);
+					Obj.Class, Obj.m_PlayerData->ChangeUP);
 
 				this->SetItemStatPlusSpecial(lpObj, op1, opvalue1);
 				this->SetItemStatPlusSpecial(lpObj, op2, opvalue2);
@@ -1988,7 +1988,7 @@ void CObjCalCharacter::CalcSetItemOption(CGameObject &Obj)
 			for (int tablecnt = 0; tablecnt < (OptionTableCount - 1); tablecnt++)
 			{
 				if (gSetItemOption.GetSetOption(OptionTableIndex, tablecnt,
-					op1, op2, opvalue1, opvalue2, lpObj.Class, lpObj.m_PlayerData->ChangeUP))
+					op1, op2, opvalue1, opvalue2, Obj.Class, Obj.m_PlayerData->ChangeUP))
 				{
 					this->SetItemPlusSpecial(lpObj, op1, opvalue1);
 					this->SetItemPlusSpecial(lpObj, op2, opvalue2);
@@ -1997,12 +1997,12 @@ void CObjCalCharacter::CalcSetItemOption(CGameObject &Obj)
 
 			if (gSetItemOption.GetMaxSetOptionCount(OptionTableIndex) < OptionTableCount)
 			{
-				lpObj.m_PlayerData->IsFullSetItem = true;
+				Obj.m_PlayerData->IsFullSetItem = true;
 
 				gSetItemOption.GetGetFullSetOption(OptionTableIndex,
 					op1, op2, op3, op4, op5,
 					opvalue1, opvalue2, opvalue3, opvalue4, opvalue5,
-					lpObj.Class, lpObj.m_PlayerData->ChangeUP);
+					Obj.Class, Obj.m_PlayerData->ChangeUP);
 
 				this->SetItemPlusSpecial(lpObj, op1, opvalue1);
 				this->SetItemPlusSpecial(lpObj, op2, opvalue2);
@@ -2018,7 +2018,7 @@ void CObjCalCharacter::CalcSetItemOption(CGameObject &Obj)
 
 void CObjCalCharacter::SetItemStatPlusSpecial(CGameObject &Obj, int option, int ivalue)
 {
-	if (lpObj.Type != OBJ_USER)
+	if (Obj.Type != OBJ_USER)
 		return;
 
 	if (option == -1)
@@ -2027,35 +2027,35 @@ void CObjCalCharacter::SetItemStatPlusSpecial(CGameObject &Obj, int option, int 
 	switch (option)
 	{
 	case AT_SET_OPTION_IMPROVE_STRENGTH:
-		lpObj.AddStrength += ivalue;
+		Obj.AddStrength += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_DEXTERITY:
-		EnterCriticalSection(&lpObj.m_PlayerData->AgiCheckCriti);
-		lpObj.m_PlayerData->AgilityCheckDelay = GetTickCount();
-		lpObj.AddDexterity += ivalue;
-		LeaveCriticalSection(&lpObj.m_PlayerData->AgiCheckCriti);
+		EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
+		Obj.m_PlayerData->AgilityCheckDelay = GetTickCount();
+		Obj.AddDexterity += ivalue;
+		LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 		break;
 	case AT_SET_OPTION_IMPROVE_ENERGY:
-		lpObj.AddEnergy += ivalue;
+		Obj.AddEnergy += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_VITALITY:
-		lpObj.AddVitality += ivalue;
+		Obj.AddVitality += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_LEADERSHIP:
-		lpObj.AddLeadership += ivalue;
+		Obj.AddLeadership += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_ALL_STATS:
-		lpObj.AddStrength += ivalue;
-		EnterCriticalSection(&lpObj.m_PlayerData->AgiCheckCriti);
-		lpObj.m_PlayerData->AgilityCheckDelay = GetTickCount();
-		lpObj.AddDexterity += ivalue;
-		LeaveCriticalSection(&lpObj.m_PlayerData->AgiCheckCriti);
-		lpObj.AddEnergy += ivalue;
-		lpObj.AddVitality += ivalue;
+		Obj.AddStrength += ivalue;
+		EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
+		Obj.m_PlayerData->AgilityCheckDelay = GetTickCount();
+		Obj.AddDexterity += ivalue;
+		LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
+		Obj.AddEnergy += ivalue;
+		Obj.AddVitality += ivalue;
 
-		if (lpObj.Class == CLASS_DARKLORD)
+		if (Obj.Class == CLASS_DARKLORD)
 		{
-			lpObj.AddLeadership += ivalue;
+			Obj.AddLeadership += ivalue;
 		}
 		break;
 	}
@@ -2074,96 +2074,96 @@ void CObjCalCharacter::SetItemPlusSpecial(CGameObject &Obj, int option, int ival
 	switch (option)
 	{
 	case AT_SET_OPTION_DOUBLE_DAMAGE:
-		lpObj.m_PlayerData->SetOpDoubleDamage += ivalue;
+		Obj.m_PlayerData->SetOpDoubleDamage += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_SHIELD_DEFENCE:
-		lpObj.m_PlayerData->SetOpImproveSheldDefence += ivalue;
+		Obj.m_PlayerData->SetOpImproveSheldDefence += ivalue;
 		break;
 	case AT_SET_OPTION_TWO_HAND_SWORD_IMPROVE_DAMAGE:
-		lpObj.m_PlayerData->SetOpTwoHandSwordImproveDamage += ivalue;
+		Obj.m_PlayerData->SetOpTwoHandSwordImproveDamage += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_MINATTACKDAMAGE:
-		lpObj.m_PlayerData->SetOpAddMinAttackDamage += ivalue;
+		Obj.m_PlayerData->SetOpAddMinAttackDamage += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_MAXATTACKDAMAGE:
-		lpObj.m_PlayerData->SetOpAddMaxAttackDamage += ivalue;
+		Obj.m_PlayerData->SetOpAddMaxAttackDamage += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_MAGICDAMAGE:
-		lpObj.m_PlayerData->SetOpAddMagicPower += ivalue;
+		Obj.m_PlayerData->SetOpAddMagicPower += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_DAMAGE:
-		lpObj.m_PlayerData->SetOpAddDamage += ivalue;
+		Obj.m_PlayerData->SetOpAddDamage += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_ATTACKRATE:
-		lpObj.m_PlayerData->SetOpImproveSuccessAttackRate += ivalue;
+		Obj.m_PlayerData->SetOpImproveSuccessAttackRate += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_DEFENCE:
-		lpObj.m_PlayerData->SetOpAddDefence += ivalue;
+		Obj.m_PlayerData->SetOpAddDefence += ivalue;
 		break;
 	case AT_SET_OPTION_DEFENCE_IGNORE:
-		lpObj.m_PlayerData->SetOpIgnoreDefense += ivalue;
+		Obj.m_PlayerData->SetOpIgnoreDefense += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_MAXLIFE:
-		lpObj.AddLife += ivalue;
+		Obj.AddLife += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_MAXMANA:
-		lpObj.AddMana += ivalue;
+		Obj.AddMana += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_MAXAG:
-		lpObj.AddBP += ivalue;
+		Obj.AddBP += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_AG_VALUE:
-		lpObj.m_PlayerData->SetOpIncAGValue += ivalue;
+		Obj.m_PlayerData->SetOpIncAGValue += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_CRITICALDAMAGE:
-		lpObj.m_PlayerData->SetOpAddCriticalDamage += ivalue;
+		Obj.m_PlayerData->SetOpAddCriticalDamage += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_CRITICALDAMAGE_SUCCESS:
-		lpObj.m_PlayerData->SetOpAddCriticalDamageSuccessRate += ivalue;
+		Obj.m_PlayerData->SetOpAddCriticalDamageSuccessRate += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_EX_DAMAGE:
-		lpObj.m_PlayerData->SetOpAddExDamage += ivalue;
+		Obj.m_PlayerData->SetOpAddExDamage += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_EX_DAMAGE_SUCCESS:
-		lpObj.m_PlayerData->SetOpAddExDamageSuccessRate += ivalue;
+		Obj.m_PlayerData->SetOpAddExDamageSuccessRate += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_SKILLDAMAGE:
-		lpObj.m_PlayerData->SetOpAddSkillAttack += ivalue;
+		Obj.m_PlayerData->SetOpAddSkillAttack += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_BASE_DEFENSE:
-		lpObj.m_BaseDefense += ivalue;
+		Obj.m_BaseDefense += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_TOTAL_ATTACKDAMAGE:
-		lpObj.m_PlayerData->SetOpAddMinAttackDamage += ivalue;
-		lpObj.m_PlayerData->SetOpAddMaxAttackDamage += ivalue;
+		Obj.m_PlayerData->SetOpAddMinAttackDamage += ivalue;
+		Obj.m_PlayerData->SetOpAddMaxAttackDamage += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_TOTAL_MAGICDAMAGE:
-		lpObj.m_PlayerData->SetOpAddMinMagicDamage += ivalue;
-		lpObj.m_PlayerData->SetOpAddMaxMagicDamage += ivalue;
+		Obj.m_PlayerData->SetOpAddMinMagicDamage += ivalue;
+		Obj.m_PlayerData->SetOpAddMaxMagicDamage += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_MAGICDAMAGE_WITH_ENERGY:
-		lpObj.m_PlayerData->SetOpAddMagicPower += (lpObj.m_PlayerData->Energy + lpObj.AddEnergy) / ivalue;
+		Obj.m_PlayerData->SetOpAddMagicPower += (Obj.m_PlayerData->Energy + Obj.AddEnergy) / ivalue;
 		break;
 	case AT_SET_OPTION_FIRE_MASTERY:
-		lpObj.m_AddResistance[R_FIRE] += ivalue;
+		Obj.m_AddResistance[R_FIRE] += ivalue;
 		break;
 	case AT_SET_OPTION_ICE_MASTERY:
-		lpObj.m_AddResistance[R_ICE] += ivalue;
+		Obj.m_AddResistance[R_ICE] += ivalue;
 		break;
 	case AT_SET_OPTION_THUNDER_MASTERY:
-		lpObj.m_AddResistance[R_LIGHTNING] += ivalue;
+		Obj.m_AddResistance[R_LIGHTNING] += ivalue;
 		break;
 	case AT_SET_OPTION_POSION_MASTERY:
-		lpObj.m_AddResistance[R_POISON] += ivalue;
+		Obj.m_AddResistance[R_POISON] += ivalue;
 		break;
 	case AT_SET_OPTION_WATER_MASTERY:
-		lpObj.m_AddResistance[R_WATER] += ivalue;
+		Obj.m_AddResistance[R_WATER] += ivalue;
 		break;
 	case AT_SET_OPTION_WIND_MASTERY:
-		lpObj.m_AddResistance[R_WIND] += ivalue;
+		Obj.m_AddResistance[R_WIND] += ivalue;
 		break;
 	case AT_SET_OPTION_EARTH_MASTERY:
-		lpObj.m_AddResistance[R_EARTH] += ivalue;
+		Obj.m_AddResistance[R_EARTH] += ivalue;
 		break;
 	}
 }
@@ -2172,372 +2172,372 @@ void CObjCalCharacter::SetItemPlusSpecial(CGameObject &Obj, int option, int ival
 
 void CObjCalCharacter::SetItemApply(CGameObject &Obj)
 {
-	lpObj.m_AttackDamageMinLeft += lpObj.m_PlayerData->SetOpAddAttackDamage;
-	lpObj.m_AttackDamageMaxLeft += lpObj.m_PlayerData->SetOpAddAttackDamage;
-	lpObj.m_AttackDamageMinRight += lpObj.m_PlayerData->SetOpAddAttackDamage;
-	lpObj.m_AttackDamageMaxRight += lpObj.m_PlayerData->SetOpAddAttackDamage;
+	Obj.m_AttackDamageMinLeft += Obj.m_PlayerData->SetOpAddAttackDamage;
+	Obj.m_AttackDamageMaxLeft += Obj.m_PlayerData->SetOpAddAttackDamage;
+	Obj.m_AttackDamageMinRight += Obj.m_PlayerData->SetOpAddAttackDamage;
+	Obj.m_AttackDamageMaxRight += Obj.m_PlayerData->SetOpAddAttackDamage;
 
-	lpObj.m_AttackDamageMinLeft += lpObj.m_PlayerData->SetOpAddMinAttackDamage;
-	lpObj.m_AttackDamageMinRight += lpObj.m_PlayerData->SetOpAddMinAttackDamage;
+	Obj.m_AttackDamageMinLeft += Obj.m_PlayerData->SetOpAddMinAttackDamage;
+	Obj.m_AttackDamageMinRight += Obj.m_PlayerData->SetOpAddMinAttackDamage;
 
-	lpObj.m_AttackDamageMaxLeft += lpObj.m_PlayerData->SetOpAddMaxAttackDamage;
-	lpObj.m_AttackDamageMaxRight += lpObj.m_PlayerData->SetOpAddMaxAttackDamage;
+	Obj.m_AttackDamageMaxLeft += Obj.m_PlayerData->SetOpAddMaxAttackDamage;
+	Obj.m_AttackDamageMaxRight += Obj.m_PlayerData->SetOpAddMaxAttackDamage;
 
-	lpObj.m_MagicDamageMin += lpObj.m_MagicDamageMin * lpObj.m_PlayerData->SetOpAddMagicPower / 100;
-	lpObj.m_MagicDamageMax += lpObj.m_MagicDamageMax * lpObj.m_PlayerData->SetOpAddMagicPower / 100;
+	Obj.m_MagicDamageMin += Obj.m_MagicDamageMin * Obj.m_PlayerData->SetOpAddMagicPower / 100;
+	Obj.m_MagicDamageMax += Obj.m_MagicDamageMax * Obj.m_PlayerData->SetOpAddMagicPower / 100;
 
-	lpObj.m_MagicDamageMin += lpObj.m_PlayerData->SetOpAddMinMagicDamage;
-	lpObj.m_MagicDamageMax += lpObj.m_PlayerData->SetOpAddMaxMagicDamage;
+	Obj.m_MagicDamageMin += Obj.m_PlayerData->SetOpAddMinMagicDamage;
+	Obj.m_MagicDamageMax += Obj.m_PlayerData->SetOpAddMaxMagicDamage;
 
-	lpObj.AddLife += INT(lpObj.AddVitality * DCInfo.DefClass[lpObj.Class].VitalityToLife);
-	lpObj.AddMana += INT(lpObj.AddEnergy * DCInfo.DefClass[lpObj.Class].EnergyToMana);
+	Obj.AddLife += INT(Obj.AddVitality * DCInfo.DefClass[Obj.Class].VitalityToLife);
+	Obj.AddMana += INT(Obj.AddEnergy * DCInfo.DefClass[Obj.Class].EnergyToMana);
 
-	lpObj.m_CriticalDamage += lpObj.m_PlayerData->SetOpAddCriticalDamageSuccessRate;
-	lpObj.m_ExcelentDamage += lpObj.m_PlayerData->SetOpAddExDamageSuccessRate;
-	if (lpObj.pInventory[10].IsSetItem())
+	Obj.m_CriticalDamage += Obj.m_PlayerData->SetOpAddCriticalDamageSuccessRate;
+	Obj.m_ExcelentDamage += Obj.m_PlayerData->SetOpAddExDamageSuccessRate;
+	if (Obj.pInventory[10].IsSetItem())
 	{
-		lpObj.pInventory[10].PlusSpecialSetRing((BYTE*)lpObj.m_AddResistance);
+		Obj.pInventory[10].PlusSpecialSetRing((BYTE*)Obj.m_AddResistance);
 	}
 
-	if (lpObj.pInventory[11].IsSetItem())
+	if (Obj.pInventory[11].IsSetItem())
 	{
-		lpObj.pInventory[11].PlusSpecialSetRing((BYTE*)lpObj.m_AddResistance);
+		Obj.pInventory[11].PlusSpecialSetRing((BYTE*)Obj.m_AddResistance);
 	}
 
-	if (lpObj.pInventory[9].IsSetItem())
+	if (Obj.pInventory[9].IsSetItem())
 	{
-		lpObj.pInventory[9].PlusSpecialSetRing((BYTE*)lpObj.m_AddResistance);
+		Obj.pInventory[9].PlusSpecialSetRing((BYTE*)Obj.m_AddResistance);
 	}
 
-	if (lpObj.m_PlayerData->SetOpTwoHandSwordImproveDamage)
+	if (Obj.m_PlayerData->SetOpTwoHandSwordImproveDamage)
 	{
-		if (!lpObj.pInventory[1].IsItem() && !lpObj.pInventory[0].IsItem())
+		if (!Obj.pInventory[1].IsItem() && !Obj.pInventory[0].IsItem())
 		{
-			lpObj.m_PlayerData->SetOpTwoHandSwordImproveDamage = 0;
+			Obj.m_PlayerData->SetOpTwoHandSwordImproveDamage = 0;
 		}
 
-		if (lpObj.pInventory[1].IsItem() && lpObj.pInventory[1].m_TwoHand == FALSE)
+		if (Obj.pInventory[1].IsItem() && Obj.pInventory[1].m_TwoHand == FALSE)
 		{
-			lpObj.m_PlayerData->SetOpTwoHandSwordImproveDamage = 0;
+			Obj.m_PlayerData->SetOpTwoHandSwordImproveDamage = 0;
 		}
 
-		if (lpObj.pInventory[0].IsItem() && lpObj.pInventory[0].m_TwoHand == FALSE)
+		if (Obj.pInventory[0].IsItem() && Obj.pInventory[0].m_TwoHand == FALSE)
 		{
-			lpObj.m_PlayerData->SetOpTwoHandSwordImproveDamage = 0;
+			Obj.m_PlayerData->SetOpTwoHandSwordImproveDamage = 0;
 		}
 	}
 
-	if ((lpObj.MaxLife + lpObj.AddLife) < lpObj.Life)
+	if ((Obj.MaxLife + Obj.AddLife) < Obj.Life)
 	{
-		lpObj.Life = lpObj.MaxLife + lpObj.AddLife;
-		gGameProtocol.GCReFillSend(lpObj.m_Index, lpObj.Life, 0xFF, 0, lpObj.iShield);
+		Obj.Life = Obj.MaxLife + Obj.AddLife;
+		gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
 	}
 
 	gObjSetBP(lpObj);
 
-	if ((lpObj.MaxMana + lpObj.AddMana) < lpObj.Mana)
+	if ((Obj.MaxMana + Obj.AddMana) < Obj.Mana)
 	{
-		lpObj.Mana = lpObj.MaxMana + lpObj.AddMana;
-		gGameProtocol.GCManaSend(lpObj.m_Index, lpObj.Mana, 0xFF, 0, lpObj.BP);
+		Obj.Mana = Obj.MaxMana + Obj.AddMana;
+		gGameProtocol.GCManaSend(Obj.m_Index, Obj.Mana, 0xFF, 0, Obj.BP);
 	}
 
-	lpObj.m_Defense += lpObj.m_PlayerData->SetOpAddDefence * 10 / 20;
-	lpObj.m_Defense += lpObj.m_Defense * lpObj.m_PlayerData->SetOpAddDefenceRate / 100;
+	Obj.m_Defense += Obj.m_PlayerData->SetOpAddDefence * 10 / 20;
+	Obj.m_Defense += Obj.m_Defense * Obj.m_PlayerData->SetOpAddDefenceRate / 100;
 
-	if (lpObj.pInventory[1].m_Type >= ITEMGET(6, 0) && lpObj.pInventory[1].m_Type < ITEMGET(7, 0))
+	if (Obj.pInventory[1].m_Type >= ITEMGET(6, 0) && Obj.pInventory[1].m_Type < ITEMGET(7, 0))
 	{
-		lpObj.m_Defense += lpObj.m_Defense * lpObj.m_PlayerData->SetOpImproveSheldDefence / 100;
+		Obj.m_Defense += Obj.m_Defense * Obj.m_PlayerData->SetOpImproveSheldDefence / 100;
 	}
 }
 
 void CObjCalCharacter::CalcMLSkillItemOption(CGameObject &Obj)
 {
-	if (lpObj.Type != OBJ_USER)
+	if (Obj.Type != OBJ_USER)
 		return;
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandSwordAddDamage > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandSwordAddDamage > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() != ITEM_TWOHAND_SWORD && lpObj.pInventory[1].GetDetailItemType() != ITEM_TWOHAND_SWORD)
+		if (Obj.pInventory[0].GetDetailItemType() != ITEM_TWOHAND_SWORD && Obj.pInventory[1].GetDetailItemType() != ITEM_TWOHAND_SWORD)
 		{
-			lpObj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandSwordAddDamage = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandSwordAddDamage = 0.0;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsPvPAttack > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsPvPAttack > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() != ITEM_TWOHAND_SWORD && lpObj.pInventory[1].GetDetailItemType() != ITEM_TWOHAND_SWORD)
+		if (Obj.pInventory[0].GetDetailItemType() != ITEM_TWOHAND_SWORD && Obj.pInventory[1].GetDetailItemType() != ITEM_TWOHAND_SWORD)
 		{
-			lpObj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsPvPAttack = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsPvPAttack = 0.0;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsMagicPower > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsMagicPower > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() == ITEM_TWOHAND_STAFF || lpObj.pInventory[1].GetDetailItemType() == ITEM_TWOHAND_STAFF)
+		if (Obj.pInventory[0].GetDetailItemType() == ITEM_TWOHAND_STAFF || Obj.pInventory[1].GetDetailItemType() == ITEM_TWOHAND_STAFF)
 		{
-			lpObj.m_MagicDamageMin += lpObj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsMagicPower;
-			lpObj.m_MagicDamageMax += lpObj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsMagicPower;
+			Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsMagicPower;
+			Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsMagicPower;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsStaffMagicPower > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsStaffMagicPower > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() == ITEM_ONEHAND_STAFF || lpObj.pInventory[1].GetDetailItemType() == ITEM_ONEHAND_STAFF)
+		if (Obj.pInventory[0].GetDetailItemType() == ITEM_ONEHAND_STAFF || Obj.pInventory[1].GetDetailItemType() == ITEM_ONEHAND_STAFF)
 		{
-			lpObj.m_MagicDamageMin += lpObj.m_PlayerData->m_MPSkillOpt.iMpsStaffMagicPower;
-			lpObj.m_MagicDamageMax += lpObj.m_PlayerData->m_MPSkillOpt.iMpsStaffMagicPower;
+			Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt.iMpsStaffMagicPower;
+			Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt.iMpsStaffMagicPower;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddMagicPowerStick > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMagicPowerStick > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() == ITEM_SUMMONER_STAFF || lpObj.pInventory[1].GetDetailItemType() == ITEM_SUMMONER_STAFF)
+		if (Obj.pInventory[0].GetDetailItemType() == ITEM_SUMMONER_STAFF || Obj.pInventory[1].GetDetailItemType() == ITEM_SUMMONER_STAFF)
 		{
-			lpObj.m_MagicDamageMin += lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddMagicPowerStick;
-			lpObj.m_MagicDamageMax += lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddMagicPowerStick;
+			Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMagicPowerStick;
+			Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMagicPowerStick;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsIncShield > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncShield > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() == ITEM_SHIELD || lpObj.pInventory[1].GetDetailItemType() == ITEM_SHIELD)
+		if (Obj.pInventory[0].GetDetailItemType() == ITEM_SHIELD || Obj.pInventory[1].GetDetailItemType() == ITEM_SHIELD)
 		{
-			lpObj.m_Defense += lpObj.m_PlayerData->m_MPSkillOpt.iMpsIncShield;
+			Obj.m_Defense += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncShield;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsElfAddShield > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsElfAddShield > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() == ITEM_SHIELD || lpObj.pInventory[1].GetDetailItemType() == ITEM_SHIELD)
+		if (Obj.pInventory[0].GetDetailItemType() == ITEM_SHIELD || Obj.pInventory[1].GetDetailItemType() == ITEM_SHIELD)
 		{
-			lpObj.m_Defense += lpObj.m_PlayerData->m_MPSkillOpt.iMpsElfAddShield;
+			Obj.m_Defense += Obj.m_PlayerData->m_MPSkillOpt.iMpsElfAddShield;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddShieldDefense > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddShieldDefense > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() == ITEM_SHIELD || lpObj.pInventory[1].GetDetailItemType() == ITEM_SHIELD)
+		if (Obj.pInventory[0].GetDetailItemType() == ITEM_SHIELD || Obj.pInventory[1].GetDetailItemType() == ITEM_SHIELD)
 		{
-			lpObj.m_Defense += lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddShieldDefense;
+			Obj.m_Defense += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddShieldDefense;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsStaffAttackSpeed > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsStaffAttackSpeed > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() == ITEM_ONEHAND_STAFF || lpObj.pInventory[1].GetDetailItemType() == ITEM_ONEHAND_STAFF)
+		if (Obj.pInventory[0].GetDetailItemType() == ITEM_ONEHAND_STAFF || Obj.pInventory[1].GetDetailItemType() == ITEM_ONEHAND_STAFF)
 		{
-			lpObj.m_AttackSpeed += lpObj.m_PlayerData->m_MPSkillOpt.iMpsStaffAttackSpeed;
-			lpObj.m_MagicSpeed += lpObj.m_PlayerData->m_MPSkillOpt.iMpsStaffAttackSpeed;
+			Obj.m_AttackSpeed += Obj.m_PlayerData->m_MPSkillOpt.iMpsStaffAttackSpeed;
+			Obj.m_MagicSpeed += Obj.m_PlayerData->m_MPSkillOpt.iMpsStaffAttackSpeed;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddAttackSpeedMagicBook > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddAttackSpeedMagicBook > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() == ITEM_SUMMONER_BOOK || lpObj.pInventory[1].GetDetailItemType() == ITEM_SUMMONER_BOOK)
+		if (Obj.pInventory[0].GetDetailItemType() == ITEM_SUMMONER_BOOK || Obj.pInventory[1].GetDetailItemType() == ITEM_SUMMONER_BOOK)
 		{
-			lpObj.m_AttackSpeed += lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddAttackSpeedMagicBook;
-			lpObj.m_MagicSpeed += lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddAttackSpeedMagicBook;
+			Obj.m_AttackSpeed += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddAttackSpeedMagicBook;
+			Obj.m_MagicSpeed += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddAttackSpeedMagicBook;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddCurseMagicBook > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddCurseMagicBook > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() == ITEM_SUMMONER_BOOK || lpObj.pInventory[1].GetDetailItemType() == ITEM_SUMMONER_BOOK)
+		if (Obj.pInventory[0].GetDetailItemType() == ITEM_SUMMONER_BOOK || Obj.pInventory[1].GetDetailItemType() == ITEM_SUMMONER_BOOK)
 		{
-			lpObj.m_CurseDamageMin += lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddCurseMagicBook;
-			lpObj.m_CurseDamageMax += lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddCurseMagicBook;
+			Obj.m_CurseDamageMin += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddCurseMagicBook;
+			Obj.m_CurseDamageMax += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddCurseMagicBook;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsStaffManAttack > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsStaffManAttack > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() != ITEM_TWOHAND_STAFF && lpObj.pInventory[1].GetDetailItemType() != ITEM_TWOHAND_STAFF)
+		if (Obj.pInventory[0].GetDetailItemType() != ITEM_TWOHAND_STAFF && Obj.pInventory[1].GetDetailItemType() != ITEM_TWOHAND_STAFF)
 		{
-			lpObj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsStaffManAttack = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsStaffManAttack = 0.0;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsBowManAttack > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsBowManAttack > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() != ITEM_CROSSBOW)
+		if (Obj.pInventory[0].GetDetailItemType() != ITEM_CROSSBOW)
 		{
-			lpObj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsBowManAttack = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsBowManAttack = 0.0;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddManAttackStick > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddManAttackStick > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() != ITEM_SUMMONER_STAFF && lpObj.pInventory[1].GetDetailItemType() != ITEM_SUMMONER_STAFF)
+		if (Obj.pInventory[0].GetDetailItemType() != ITEM_SUMMONER_STAFF && Obj.pInventory[1].GetDetailItemType() != ITEM_SUMMONER_STAFF)
 		{
-			lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddManAttackStick = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt.iMpsAddManAttackStick = 0.0;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsIncCeptorManAttack > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncCeptorManAttack > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() != ITEM_DARKLORD_SCEPTER && lpObj.pInventory[1].GetDetailItemType() != ITEM_DARKLORD_SCEPTER)
+		if (Obj.pInventory[0].GetDetailItemType() != ITEM_DARKLORD_SCEPTER && Obj.pInventory[1].GetDetailItemType() != ITEM_DARKLORD_SCEPTER)
 		{
-			lpObj.m_PlayerData->m_MPSkillOpt.iMpsIncCeptorManAttack = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt.iMpsIncCeptorManAttack = 0.0;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsShieldBlockRate > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsShieldBlockRate > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() != ITEM_SHIELD && lpObj.pInventory[1].GetDetailItemType() != ITEM_SHIELD)
+		if (Obj.pInventory[0].GetDetailItemType() != ITEM_SHIELD && Obj.pInventory[1].GetDetailItemType() != ITEM_SHIELD)
 		{
-			lpObj.m_PlayerData->m_MPSkillOpt.iMpsShieldBlockRate = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt.iMpsShieldBlockRate = 0.0;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsElfShieldBlockRate > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsElfShieldBlockRate > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() != ITEM_SHIELD && lpObj.pInventory[1].GetDetailItemType() != ITEM_SHIELD)
+		if (Obj.pInventory[0].GetDetailItemType() != ITEM_SHIELD && Obj.pInventory[1].GetDetailItemType() != ITEM_SHIELD)
 		{
-			lpObj.m_PlayerData->m_MPSkillOpt.iMpsElfShieldBlockRate = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt.iMpsElfShieldBlockRate = 0.0;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddShieldBlockingRage > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddShieldBlockingRage > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() != ITEM_SHIELD && lpObj.pInventory[1].GetDetailItemType() != ITEM_SHIELD)
+		if (Obj.pInventory[0].GetDetailItemType() != ITEM_SHIELD && Obj.pInventory[1].GetDetailItemType() != ITEM_SHIELD)
 		{
-			lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddShieldBlockingRage = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt.iMpsAddShieldBlockingRage = 0.0;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddAttackSpeed > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddAttackSpeed > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() == ITEM_ONEHAND_SWORD && lpObj.pInventory[1].GetDetailItemType() != ITEM_ONEHAND_SWORD)
+		if (Obj.pInventory[0].GetDetailItemType() == ITEM_ONEHAND_SWORD && Obj.pInventory[1].GetDetailItemType() != ITEM_ONEHAND_SWORD)
 		{
-			lpObj.m_AttackSpeed += lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddAttackSpeed;
-			lpObj.m_MagicSpeed += lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddAttackSpeed;
+			Obj.m_AttackSpeed += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddAttackSpeed;
+			Obj.m_MagicSpeed += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddAttackSpeed;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsSwordAddDamage > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsSwordAddDamage > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() != ITEM_ONEHAND_SWORD && lpObj.pInventory[1].GetDetailItemType() != ITEM_ONEHAND_SWORD)
+		if (Obj.pInventory[0].GetDetailItemType() != ITEM_ONEHAND_SWORD && Obj.pInventory[1].GetDetailItemType() != ITEM_ONEHAND_SWORD)
 		{
-			lpObj.m_PlayerData->m_MPSkillOpt.iMpsSwordAddDamage = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt.iMpsSwordAddDamage = 0.0;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsMaceStrength > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsMaceStrength > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() != ITEM_MACE && lpObj.pInventory[1].GetDetailItemType() != ITEM_MACE)
+		if (Obj.pInventory[0].GetDetailItemType() != ITEM_MACE && Obj.pInventory[1].GetDetailItemType() != ITEM_MACE)
 		{
-			lpObj.m_PlayerData->m_MPSkillOpt.iMpsMaceStrength = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt.iMpsMaceStrength = 0.0;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddSturn > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddSturn > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() != ITEM_MACE && lpObj.pInventory[1].GetDetailItemType() != ITEM_MACE)
+		if (Obj.pInventory[0].GetDetailItemType() != ITEM_MACE && Obj.pInventory[1].GetDetailItemType() != ITEM_MACE)
 		{
-			lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddSturn = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt.iMpsAddSturn = 0.0;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsSpearAddDamage > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsSpearAddDamage > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() != ITEM_SPEAR && lpObj.pInventory[1].GetDetailItemType() != ITEM_SPEAR)
+		if (Obj.pInventory[0].GetDetailItemType() != ITEM_SPEAR && Obj.pInventory[1].GetDetailItemType() != ITEM_SPEAR)
 		{
-			lpObj.m_PlayerData->m_MPSkillOpt.iMpsSpearAddDamage = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt.iMpsSpearAddDamage = 0.0;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddDoubleDamage > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddDoubleDamage > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() != ITEM_SPEAR && lpObj.pInventory[1].GetDetailItemType() != ITEM_SPEAR)
+		if (Obj.pInventory[0].GetDetailItemType() != ITEM_SPEAR && Obj.pInventory[1].GetDetailItemType() != ITEM_SPEAR)
 		{
-			lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddDoubleDamage = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt.iMpsAddDoubleDamage = 0.0;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsBowAddDamage > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsBowAddDamage > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() != ITEM_BOW)
+		if (Obj.pInventory[0].GetDetailItemType() != ITEM_BOW)
 		{
-			lpObj.m_PlayerData->m_MPSkillOpt.iMpsBowAddDamage = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt.iMpsBowAddDamage = 0.0;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddCeptorDamage > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddCeptorDamage > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() != ITEM_DARKLORD_SCEPTER && lpObj.pInventory[1].GetDetailItemType() != ITEM_DARKLORD_SCEPTER)
+		if (Obj.pInventory[0].GetDetailItemType() != ITEM_DARKLORD_SCEPTER && Obj.pInventory[1].GetDetailItemType() != ITEM_DARKLORD_SCEPTER)
 		{
-			lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddCeptorDamage = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt.iMpsAddCeptorDamage = 0.0;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddPetAttack > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddPetAttack > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() != ITEM_DARKLORD_SCEPTER && lpObj.pInventory[1].GetDetailItemType() != ITEM_DARKLORD_SCEPTER)
+		if (Obj.pInventory[0].GetDetailItemType() != ITEM_DARKLORD_SCEPTER && Obj.pInventory[1].GetDetailItemType() != ITEM_DARKLORD_SCEPTER)
 		{
-			lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddPetAttack = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt.iMpsAddPetAttack = 0.0;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddControlAttack > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddControlAttack > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() != ITEM_DARKLORD_SCEPTER && lpObj.pInventory[1].GetDetailItemType() != ITEM_DARKLORD_SCEPTER)
+		if (Obj.pInventory[0].GetDetailItemType() != ITEM_DARKLORD_SCEPTER && Obj.pInventory[1].GetDetailItemType() != ITEM_DARKLORD_SCEPTER)
 		{
-			lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddControlAttack = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt.iMpsAddControlAttack = 0.0;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsBowAddAttackSpeed > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsBowAddAttackSpeed > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() == ITEM_BOW)
+		if (Obj.pInventory[0].GetDetailItemType() == ITEM_BOW)
 		{
-			lpObj.m_AttackSpeed += lpObj.m_PlayerData->m_MPSkillOpt.iMpsBowAddAttackSpeed;
-			lpObj.m_MagicSpeed += lpObj.m_PlayerData->m_MPSkillOpt.iMpsBowAddAttackSpeed;
+			Obj.m_AttackSpeed += Obj.m_PlayerData->m_MPSkillOpt.iMpsBowAddAttackSpeed;
+			Obj.m_MagicSpeed += Obj.m_PlayerData->m_MPSkillOpt.iMpsBowAddAttackSpeed;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsBowAddDamage > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsBowAddDamage > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() != ITEM_CROSSBOW)
+		if (Obj.pInventory[0].GetDetailItemType() != ITEM_CROSSBOW)
 		{
-			lpObj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsBowAddDamage = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsBowAddDamage = 0.0;
 		}
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsIncDarkHorseDefense > 0.0 && lpObj.pInventory[lpObj.m_btInvenPetPos].m_Type == ITEMGET(13, 4))
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDarkHorseDefense > 0.0 && Obj.pInventory[Obj.m_btInvenPetPos].m_Type == ITEMGET(13, 4))
 	{
-		lpObj.m_Defense += lpObj.m_PlayerData->m_MPSkillOpt.iMpsIncDarkHorseDefense;
+		Obj.m_Defense += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDarkHorseDefense;
 	}
 
-	if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsMonkWeaponDamage > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsMonkWeaponDamage > 0.0)
 	{
-		if (lpObj.pInventory[0].GetDetailItemType() != ITEM_RAGEFIGHTER_WEAPON && lpObj.pInventory[1].GetDetailItemType() != ITEM_RAGEFIGHTER_WEAPON)
+		if (Obj.pInventory[0].GetDetailItemType() != ITEM_RAGEFIGHTER_WEAPON && Obj.pInventory[1].GetDetailItemType() != ITEM_RAGEFIGHTER_WEAPON)
 		{
-			lpObj.m_PlayerData->m_MPSkillOpt.iMpsMonkWeaponDamage = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt.iMpsMonkWeaponDamage = 0.0;
 		}
 	}
 
-	if (lpObj.pInventory[7].IsItem() == TRUE && lpObj.pInventory[7].m_IsValidItem == true)
+	if (Obj.pInventory[7].IsItem() == TRUE && Obj.pInventory[7].m_IsValidItem == true)
 	{
-		if (lpObj.Class == CLASS_WIZARD || lpObj.Class == CLASS_SUMMONER || lpObj.Class == CLASS_MAGUMSA)
+		if (Obj.Class == CLASS_WIZARD || Obj.Class == CLASS_SUMMONER || Obj.Class == CLASS_MAGUMSA)
 		{
-			lpObj.m_MagicDamageMin += lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage;
-			lpObj.m_MagicDamageMax += lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage;
+			Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage;
+			Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage;
 		}
 
-		if (lpObj.Class == CLASS_SUMMONER)
+		if (Obj.Class == CLASS_SUMMONER)
 		{
-			lpObj.m_CurseDamageMin += lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage;
-			lpObj.m_CurseDamageMax += lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage;
+			Obj.m_CurseDamageMin += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage;
+			Obj.m_CurseDamageMax += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage;
 		}
 	}
 
-	if (lpObj.Class == CLASS_KNIGHT || lpObj.Class == CLASS_ELF || lpObj.Class == CLASS_MAGUMSA || lpObj.Class == CLASS_DARKLORD || lpObj.Class == CLASS_RAGEFIGHTER || lpObj.Class == CLASS_GROWLANCER)
+	if (Obj.Class == CLASS_KNIGHT || Obj.Class == CLASS_ELF || Obj.Class == CLASS_MAGUMSA || Obj.Class == CLASS_DARKLORD || Obj.Class == CLASS_RAGEFIGHTER || Obj.Class == CLASS_GROWLANCER)
 	{
-		if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage > 0.0)
 		{
-			if (lpObj.pInventory[7].IsItem() == FALSE || lpObj.pInventory[7].m_IsValidItem == false)
+			if (Obj.pInventory[7].IsItem() == FALSE || Obj.pInventory[7].m_IsValidItem == false)
 			{
-				lpObj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage = 0.0;
+				Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage = 0.0;
 			}
 		}
 	}
@@ -2554,7 +2554,7 @@ BOOL CObjCalCharacter::ValidItem(CGameObject &Obj, CItemObject * lpItem, int pos
 
 	if (p->RequireStrength != 0)
 	{
-		if ((lpObj.m_PlayerData->Strength + lpObj.AddStrength) < (lpItem->m_RequireStrength - lpItem->m_HJOpStrength))
+		if ((Obj.m_PlayerData->Strength + Obj.AddStrength) < (lpItem->m_RequireStrength - lpItem->m_HJOpStrength))
 		{
 			return FALSE;
 		}
@@ -2562,7 +2562,7 @@ BOOL CObjCalCharacter::ValidItem(CGameObject &Obj, CItemObject * lpItem, int pos
 
 	if (p->RequireDexterity != 0)//
 	{
-		if ((lpObj.m_PlayerData->Dexterity + lpObj.AddDexterity) < (lpItem->m_RequireDexterity - lpItem->m_HJOpDexterity))
+		if ((Obj.m_PlayerData->Dexterity + Obj.AddDexterity) < (lpItem->m_RequireDexterity - lpItem->m_HJOpDexterity))
 		{
 			return FALSE;
 		}
@@ -2570,7 +2570,7 @@ BOOL CObjCalCharacter::ValidItem(CGameObject &Obj, CItemObject * lpItem, int pos
 
 	if (p->RequireEnergy != 0)
 	{
-		if ((lpObj.m_PlayerData->Energy + lpObj.AddEnergy) < lpItem->m_RequireEnergy)
+		if ((Obj.m_PlayerData->Energy + Obj.AddEnergy) < lpItem->m_RequireEnergy)
 		{
 			return FALSE;
 		}
@@ -2578,7 +2578,7 @@ BOOL CObjCalCharacter::ValidItem(CGameObject &Obj, CItemObject * lpItem, int pos
 
 	if (p->RequireLevel != 0)
 	{
-		if ((lpObj.Level) < lpItem->m_RequireLevel)
+		if ((Obj.Level) < lpItem->m_RequireLevel)
 		{
 			return FALSE;
 		}
@@ -2588,7 +2588,7 @@ BOOL CObjCalCharacter::ValidItem(CGameObject &Obj, CItemObject * lpItem, int pos
 	{
 		if (p->RequireVitality)
 		{
-			if ((lpObj.m_PlayerData->Vitality + lpObj.AddVitality) < lpItem->m_RequireVitality)
+			if ((Obj.m_PlayerData->Vitality + Obj.AddVitality) < lpItem->m_RequireVitality)
 			{
 				return FALSE;
 			}
@@ -2596,7 +2596,7 @@ BOOL CObjCalCharacter::ValidItem(CGameObject &Obj, CItemObject * lpItem, int pos
 
 		if (p->RequireLeadership)
 		{
-			if ((lpObj.Leadership + lpObj.AddLeadership) < lpItem->m_RequireLeaderShip)
+			if ((Obj.Leadership + Obj.AddLeadership) < lpItem->m_RequireLeaderShip)
 			{
 				return FALSE;
 			}
@@ -2610,84 +2610,84 @@ BOOL CObjCalCharacter::ValidItem(CGameObject &Obj, CItemObject * lpItem, int pos
 void CObjCalCharacter::CalcShieldPoint(CGameObject &Obj)
 {
 	int iMaxShieldPoint = 0;
-	int iExpressionA = (lpObj.m_PlayerData->Strength + lpObj.AddStrength) + (lpObj.m_PlayerData->Dexterity + lpObj.AddDexterity) + (lpObj.m_PlayerData->Vitality + lpObj.AddVitality) + (lpObj.m_PlayerData->Energy + lpObj.AddEnergy);
+	int iExpressionA = (Obj.m_PlayerData->Strength + Obj.AddStrength) + (Obj.m_PlayerData->Dexterity + Obj.AddDexterity) + (Obj.m_PlayerData->Vitality + Obj.AddVitality) + (Obj.m_PlayerData->Energy + Obj.AddEnergy);
 
-	if (lpObj.Class == CLASS_DARKLORD)
+	if (Obj.Class == CLASS_DARKLORD)
 	{
-		iExpressionA += lpObj.Leadership + lpObj.AddLeadership;
+		iExpressionA += Obj.Leadership + Obj.AddLeadership;
 	}
 
 	if (g_ConfigRead.g_iShieldGageConstB == 0)
 		g_ConfigRead.g_iShieldGageConstB = 30;
 
-	int Level = lpObj.Level + lpObj.m_PlayerData->MasterLevel;
+	int Level = Obj.Level + Obj.m_PlayerData->MasterLevel;
 
 	int iExpressionB = (Level * Level) / g_ConfigRead.g_iShieldGageConstB;
 
 	if (g_ConfigRead.g_iShieldGageConstA == 0)
 		g_ConfigRead.g_iShieldGageConstA = 12;
 
-	iMaxShieldPoint = (iExpressionA * g_ConfigRead.g_iShieldGageConstA) / 10 + iExpressionB + lpObj.m_Defense;
-	lpObj.iMaxShield = iMaxShieldPoint;
+	iMaxShieldPoint = (iExpressionA * g_ConfigRead.g_iShieldGageConstA) / 10 + iExpressionB + Obj.m_Defense;
+	Obj.iMaxShield = iMaxShieldPoint;
 }
 
 void CObjCalCharacter::PremiumItemApply(CGameObject &Obj)
 {
 	for (int i = 9; i < 12; ++i)
 	{
-		if (lpObj.pInventory[i].m_Durability <= 0.0 || lpObj.pInventory[i].IsPeriodItemExpire() == TRUE)
+		if (Obj.pInventory[i].m_Durability <= 0.0 || Obj.pInventory[i].IsPeriodItemExpire() == TRUE)
 			continue;
 
-		switch (lpObj.pInventory[i].m_Type)
+		switch (Obj.pInventory[i].m_Type)
 		{
 		case ITEMGET(13, 109):
-			lpObj.AutoHPRecovery += 3;
-			lpObj.AddMana += (short)(lpObj.MaxMana * 4 / 100.0f);
+			Obj.AutoHPRecovery += 3;
+			Obj.AddMana += (short)(Obj.MaxMana * 4 / 100.0f);
 			break;
 		case ITEMGET(13, 110):
-			lpObj.AutoHPRecovery += 3;
-			lpObj.AddLife += (short)(lpObj.MaxLife * 4 / 100.0f);
+			Obj.AutoHPRecovery += 3;
+			Obj.AddLife += (short)(Obj.MaxLife * 4 / 100.0f);
 			break;
 		case ITEMGET(13, 111):
-			lpObj.AutoHPRecovery += 3;
-			lpObj.MonsterDieGetMoney += 30;
+			Obj.AutoHPRecovery += 3;
+			Obj.MonsterDieGetMoney += 30;
 			break;
 		case ITEMGET(13, 112):
-			lpObj.AutoHPRecovery += 3;
-			lpObj.DamageDecrease += 4;
+			Obj.AutoHPRecovery += 3;
+			Obj.DamageDecrease += 4;
 			break;
 		case ITEMGET(13, 113):
-			lpObj.AutoHPRecovery += 3;
-			lpObj.m_ExcelentDamage += 10;
+			Obj.AutoHPRecovery += 3;
+			Obj.m_ExcelentDamage += 10;
 			break;
 		case ITEMGET(13, 114):
-			lpObj.AutoHPRecovery += 3;
-			lpObj.m_AttackSpeed += 7;
-			lpObj.m_MagicSpeed += 7;
+			Obj.AutoHPRecovery += 3;
+			Obj.m_AttackSpeed += 7;
+			Obj.m_MagicSpeed += 7;
 			break;
 		case ITEMGET(13, 115):
-			lpObj.AutoHPRecovery += 3;
-			lpObj.MonsterDieGetMana += 1;
+			Obj.AutoHPRecovery += 3;
+			Obj.MonsterDieGetMana += 1;
 			break;
 		case ITEMGET(13, 128):
-			lpObj.m_CriticalDamage += 10;
+			Obj.m_CriticalDamage += 10;
 			break;
 		case ITEMGET(13, 129):
-			lpObj.m_ExcelentDamage += 10;
+			Obj.m_ExcelentDamage += 10;
 			break;
 		case ITEMGET(13, 130):
-			lpObj.AddLife += 50;
+			Obj.AddLife += 50;
 			break;
 		case ITEMGET(13, 131):
-			lpObj.AddMana += 50;
+			Obj.AddMana += 50;
 			break;
 		case ITEMGET(13, 132):
-			lpObj.AddLife += 100;
-			lpObj.iAddShield += 500;
+			Obj.AddLife += 100;
+			Obj.iAddShield += 500;
 			break;
 		case ITEMGET(13, 133):
-			lpObj.AddMana += 100;
-			lpObj.AddBP += 500;
+			Obj.AddMana += 100;
+			Obj.AddBP += 500;
 			break;
 		case ITEMGET(13, 134):
 			break;

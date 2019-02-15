@@ -3475,7 +3475,7 @@ void CCastleSiege::SendCsGateStateViewPort(int iGateIndex, BYTE btOperate)
 
 	CGameObject lpObj = &getGameObject(iGateIndex);
 
-	if( lpObj.VPCount2 < 1 )
+	if( Obj.VPCount2 < 1 )
 	{
 		return;
 	}
@@ -3484,7 +3484,7 @@ void CCastleSiege::SendCsGateStateViewPort(int iGateIndex, BYTE btOperate)
 
 	for( int i = 0; i < MAX_VIEWPORT; i++ )
 	{
-		tObjNum = lpObj.VpPlayer2[i].number;
+		tObjNum = Obj.VpPlayer2[i].number;
 
 		if( tObjNum >= 0 )
 		{
@@ -5594,7 +5594,7 @@ void CCastleSiege::NotifyCrownState(BYTE btState)
 		gObjRemoveBuffEffect(&getGameObject(m_iCrownIndex), BUFFTYPE_CASTLE_CROWN_STATE);
 	}
 
-	if( lpObj.VPCount2 < 1 )
+	if( Obj.VPCount2 < 1 )
 	{
 		return;
 	}
@@ -5608,7 +5608,7 @@ void CCastleSiege::NotifyCrownState(BYTE btState)
 
 	for( int i = 0; i < MAX_VIEWPORT; i++ )
 	{
-		tObjNum = lpObj.VpPlayer2[i].number;
+		tObjNum = Obj.VpPlayer2[i].number;
 
 		if( tObjNum >= 0 )
 		{
@@ -5638,7 +5638,7 @@ void CCastleSiege::NotifyCrownSwitchInfo(int iCrownSwitchIndex)
 
 	CGameObject lpObj = &getGameObject(iCrownSwitchIndex);
 
-	if( lpObj.VPCount2 < 1 )
+	if( Obj.VPCount2 < 1 )
 	{
 		return;
 	}
@@ -5655,7 +5655,7 @@ void CCastleSiege::NotifyCrownSwitchInfo(int iCrownSwitchIndex)
 	memset(&pMsg.szGuildName, 0, MAX_GUILD_LEN);
 	memset(&pMsg.szUserName, 0, MAX_ACCOUNT_LEN);
 
-	int iCrownSwitchUserIndex = g_CastleSiege.GetCrownSwitchUserIndex(lpObj.Class); // wtf!
+	int iCrownSwitchUserIndex = g_CastleSiege.GetCrownSwitchUserIndex(Obj.Class); // wtf!
 
 	if( gObjIsConnected(iCrownSwitchUserIndex) )
 	{
@@ -5684,7 +5684,7 @@ void CCastleSiege::NotifyCrownSwitchInfo(int iCrownSwitchIndex)
 
 	for( int i = 0; i < MAX_VIEWPORT; i++ )
 	{
-		tObjNum = lpObj.VpPlayer2[i].number;
+		tObjNum = Obj.VpPlayer2[i].number;
 
 		if( tObjNum >= 0 )
 		{
