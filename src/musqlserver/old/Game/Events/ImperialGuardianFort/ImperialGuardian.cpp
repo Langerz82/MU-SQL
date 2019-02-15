@@ -1496,7 +1496,7 @@ bool CImperialGuardian::GCNotifyAllZoneClear(int nZoneIndex)
 
 		this->GCSendDataToUser(nUserIndex[i], (char*)&pMsg, pMsg.h.size);
 
-		g_CashShop.AddCoin(&getGameObject(nUserIndex[i]), EVENT_DG);
+		g_CashShop.AddCoin(getGameObject(nUserIndex[i]), EVENT_DG);
 
 		char szText[256];
 		memset(szText, 0x00, sizeof(szText));
@@ -1966,7 +1966,7 @@ void CImperialGuardian::RollBackUserPos(int nUserNumber)
 		gGameProtocol.GCTeleportSend(*getGameObject(nUserNumber), -1, getGameObject(nUserNumber)->MapNumber, getGameObject(nUserNumber)->X, getGameObject(nUserNumber)->Y, getGameObject(nUserNumber)->Dir);
 		
 		if ( getGameObject(nUserNumber)->m_Change >= 0 )
-			gObjViewportListProtocolCreate(&getGameObject(nUserNumber));
+			gObjViewportListProtocolCreate(getGameObject(nUserNumber));
 
 		getGameObject(nUserNumber)->RegenOk = TRUE;
 	}

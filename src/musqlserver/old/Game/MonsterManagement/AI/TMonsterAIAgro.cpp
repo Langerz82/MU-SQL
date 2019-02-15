@@ -123,7 +123,7 @@ int TMonsterAIAgro::GetMaxAgroUserIndex(int iMonsterIndex)
 	{
 		if ( this->m_Agro[i].GetUserIndex() != -1 )
 		{
-			CGameObject lpObj = &getGameObject(this->m_Agro[i]->GetUserIndex());
+			CGameObject lpObj = getGameObject(this->m_Agro[i]->GetUserIndex());
 
 			if ( (Obj.Authority&2) == 2 )
 				continue;
@@ -140,7 +140,7 @@ int TMonsterAIAgro::GetMaxAgroUserIndex(int iMonsterIndex)
 				continue;
 			}
 
-			if ( gObjCalDistance(&getGameObject(iMonsterIndex), lpObj) > 7 )
+			if ( gObjCalDistance(getGameObject(iMonsterIndex), lpObj) > 7 )
 				continue;
 
 			BYTE btAttr = MapC[Obj.MapNumber].GetAttr(Obj.X, Obj.Y);

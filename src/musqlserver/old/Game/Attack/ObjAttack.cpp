@@ -452,7 +452,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 	{
 		if (Obj.m_RecallMon >= 0)
 		{
-			lpCallObj = &getGameObject(Obj.m_RecallMon);
+			lpCallObj = getGameObject(Obj.m_RecallMon);
 		}
 	}
 
@@ -462,7 +462,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 	{
 		if (lpTargetObj.m_RecallMon >= 0)
 		{
-			lpCallTargetObj = &getGameObject(lpTargetObj.m_RecallMon);
+			lpCallTargetObj = getGameObject(lpTargetObj.m_RecallMon);
 		}
 	}
 
@@ -2773,7 +2773,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 
 								for (int iBuffIndex = 0; iBuffIndex < lpTargetObj.m_BuffEffectCount; iBuffIndex++)
 								{
-									if (lpTargetObj.pntBuffEffectList[iBuffIndex].BuffIndex == BUFFTYPE_CHARM_PROTECTITEM)
+									if (lpTargetObj.pntBuffEffectList[iBuffIndex]->BuffIndex == BUFFTYPE_CHARM_PROTECTITEM)
 									{
 										iDurEquipment = lpEquipment->m_Durability;
 										break;
@@ -2898,7 +2898,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 	{
 		if (lpTargetObj.m_RecallMon >= 0)
 		{
-			lpCallObj = &getGameObject(lpTargetObj.m_RecallMon);
+			lpCallObj = getGameObject(lpTargetObj.m_RecallMon);
 		}
 	}
 
@@ -3022,7 +3022,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 
 							for (int iBuffIndex = 0; iBuffIndex < lpTargetObj.m_BuffEffectCount; iBuffIndex++)
 							{
-								if (lpTargetObj.pntBuffEffectList[iBuffIndex].BuffIndex == BUFFTYPE_CHARM_PROTECTITEM)
+								if (lpTargetObj.pntBuffEffectList[iBuffIndex]->BuffIndex == BUFFTYPE_CHARM_PROTECTITEM)
 								{
 									iDurEquipment = lpEquipment->m_Durability;
 									break;

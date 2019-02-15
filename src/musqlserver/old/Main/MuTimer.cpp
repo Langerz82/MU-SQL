@@ -215,7 +215,7 @@ VOID WINAPI TimerProcQueue(LPVOID lpParameter, BOOL TimerOrWaitFired)
 				{
 					if (gObjIsConnected(i))
 					{
-						g_GensSystem.AbusingInfoReset(&getGameObject(i));
+						g_GensSystem.AbusingInfoReset(getGameObject(i));
 					}
 				}
 			}

@@ -93,10 +93,10 @@ void CKanturuMaya::KanturuMayaAct_Hands()
 
 				if (getGameObject(iCount)->MapNumber == MAP_INDEX_KANTURU_BOSS)	// #warning unuseful if
 				{
-					CGameObject lpMayaHandObj = &getGameObject(this->m_iMayaObjIndex);
+					CGameObject lpMayaHandObj = getGameObject(this->m_iMayaObjIndex);
 					getGameObject(iCount)->Life = 0;
 
-					gObjLifeCheck(&getGameObject(iCount), lpMayaHandObj, getGameObject(iCount)->Life,
+					gObjLifeCheck(getGameObject(iCount), lpMayaHandObj, getGameObject(iCount)->Life,
 						0, 0, 0, 0, 0, 0);
 
 				}

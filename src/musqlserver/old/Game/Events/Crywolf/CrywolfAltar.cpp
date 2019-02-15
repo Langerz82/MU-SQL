@@ -154,7 +154,7 @@ void CCrywolfAltar::SetAltarValidContract(int iAltarObjIndex, int iClass)
 
 		AltarInfo->SetAltarState(1);
 
-		gObjAddBuffEffect(&getGameObject(iAltarObjIndex), 23, 0, 0, 0, 0, -10);
+		gObjAddBuffEffect(getGameObject(iAltarObjIndex), 23, 0, 0, 0, 0, -10);
 	}
 }
 
@@ -207,7 +207,7 @@ BOOL CCrywolfAltar::SetAltarUserIndex(int iAltarObjIndex, int iClass, CGameObjec
 	AltarInfo->m_dwValidContractTime = dwCurrentTime + 5000;	// It Get Active after 5 Seconds
 	AltarInfo->m_dwLastValidContractTime = dwCurrentTime;
 	AltarInfo->m_iContractCount++;
-	gObjAddBuffEffect(&getGameObject(iAltarObjIndex), 24, 0, 0, 0, 0, -10);
+	gObjAddBuffEffect(getGameObject(iAltarObjIndex), 24, 0, 0, 0, 0, -10);
 
 	UTIL.SendCrywolfUserAnyMsg(2, Lang.GetText(0,249), getGameObject(AltarInfo->m_iUserIndex)->Name, iAltarNumber);
 
@@ -238,11 +238,11 @@ void CCrywolfAltar::ResetAltarUserIndex(int iAltarObjIndex, int iClass)
 	if ( AltarInfo->m_iContractCount >= MAX_ALTAR_CONTRACTS )
 	{
 		AltarInfo->SetAltarState(3);
-		gObjAddBuffEffect(&getGameObject(iAltarObjIndex), 22, 0, 0, 0, 0, -10);
+		gObjAddBuffEffect(getGameObject(iAltarObjIndex), 22, 0, 0, 0, 0, -10);
 	}
 	else
 	{
-		gObjAddBuffEffect(&getGameObject(iAltarObjIndex), 21, 0, 0, 0, 0, -10);
+		gObjAddBuffEffect(getGameObject(iAltarObjIndex), 21, 0, 0, 0, 0, -10);
 		AltarInfo->SetAltarState(0);
 	}
 
@@ -295,7 +295,7 @@ void CCrywolfAltar::ResetAltar(int iClass)
 	if ( AltarInfo->m_iAltarIndex == -1 )
 		return;
 
-	gObjClearBuffEffect(&getGameObject(AltarInfo->m_iAltarIndex), CLEAR_TYPE_LOGOUT);
+	gObjClearBuffEffect(getGameObject(AltarInfo->m_iAltarIndex), CLEAR_TYPE_LOGOUT);
 	AltarInfo->Reset();
 }
 
@@ -318,7 +318,7 @@ void CCrywolfAltar::SetAltarViewState(int iClass, int iAltarState)
 	if ( AltarInfo->m_iAltarIndex == -1 )
 		return;
 
-	gObjAddBuffEffect(&getGameObject(AltarInfo->m_iAltarIndex), 21, 0, 0, 0, 0, -10);
+	gObjAddBuffEffect(getGameObject(AltarInfo->m_iAltarIndex), 21, 0, 0, 0, 0, -10);
 }
 
 int CCrywolfAltar::GetContractedAltarCount()
@@ -353,7 +353,7 @@ int CCrywolfAltar::GetPriestHPSum()
 		if ( !gObjIsConnected(AltarInfo->m_iUserIndex))
 			continue;
 
-		CGameObject lpUserObj = &getGameObject(AltarInfo->m_iUserIndex);
+		CGameObject lpUserObj = getGameObject(AltarInfo->m_iUserIndex);
 		iPriestHPSum += lpUserObj.Life;
 		iPriestHPSum += lpUserObj.AddLife;
 	}
@@ -375,7 +375,7 @@ int CCrywolfAltar::GetPriestMaxHPSum()
 		if ( !gObjIsConnected(AltarInfo->m_iUserIndex))
 			continue;
 
-		CGameObject lpUserObj = &getGameObject(AltarInfo->m_iUserIndex);
+		CGameObject lpUserObj = getGameObject(AltarInfo->m_iUserIndex);
 		iPriestHPSum += lpUserObj.AddLife + lpUserObj.MaxLife;
 		int iOption = 0;
 		gObjGetValueOfBuffIndex(lpUserObj, BUFFTYPE_HP_INC, &iOption, 0);
@@ -406,14 +406,14 @@ void CCrywolfAltar::CrywolfAltarAct(CGameObject &Obj)
 		return;
 	}
 
-	if ( gObjIsConnected(&getGameObject(iUserIndex)) == FALSE )
+	if ( gObjIsConnected(getGameObject(iUserIndex)) == FALSE )
 	{
 		this->ResetAltarUserIndex(iIndex, Obj.Class);
 		return;
 	}
 
 	CGameObject* lpObj = Obj;
-	CGameObject lpUserObj = &getGameObject(iUserIndex);
+	CGameObject lpUserObj = getGameObject(iUserIndex);
 
 	if ( lpUserObj.Live != FALSE && lpUserObj.MapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE )
 	{

@@ -54,7 +54,7 @@ bool CMonsterBag::UseBag(CGameObject &Obj, int iMonsterIndex)
 	}
 
 	
-	CGameObject lpMonsterObj = &getGameObject(iMonsterIndex);
+	CGameObject lpMonsterObj = getGameObject(iMonsterIndex);
 
 	if (rand() % 10000 >= this->m_BagData.dwItemDropRate)
 	{

@@ -1194,7 +1194,7 @@ void CDevilSquare::gObjExpParty(CGameObject &Obj, CGameObject lpTargetObj, int A
 
 		if (number >= 0)
 		{
-			lpPartyObj = &getGameObject(number);
+			lpPartyObj = getGameObject(number);
 
 			if (lpPartyObj.Level > toplevel)
 			{
@@ -1216,15 +1216,15 @@ void CDevilSquare::gObjExpParty(CGameObject &Obj, CGameObject lpTargetObj, int A
 
 		if (number >= 0)
 		{
-			lpPartyObj = &getGameObject(number);
+			lpPartyObj = getGameObject(number);
 
 			if (lpTargetObj.MapNumber == lpPartyObj.MapNumber)
 			{
-				dis[n] = gObjCalDistance(lpTargetObj, &getGameObject(number));
+				dis[n] = gObjCalDistance(lpTargetObj, getGameObject(number));
 
 				if (dis[n] < 10)
 				{
-					lpPartyObj = &getGameObject(number);
+					lpPartyObj = getGameObject(number);
 
 					if (toplevel >= (lpPartyObj.Level + 200)) // #formula
 					{
@@ -1299,7 +1299,7 @@ void CDevilSquare::gObjExpParty(CGameObject &Obj, CGameObject lpTargetObj, int A
 
 		if (number >= 0)
 		{
-			lpPartyObj = &getGameObject(number);
+			lpPartyObj = getGameObject(number);
 
 			if (lpTargetObj.MapNumber == lpPartyObj.MapNumber)
 			{
@@ -1421,7 +1421,7 @@ void CDevilSquare::gObjMonsterScoreDivision(CGameObject &MonObj, CGameObject lpO
 
 	if (LastHitObjNum != -1)
 	{
-		lpTargetObj = &getGameObject(LastHitObjNum);
+		lpTargetObj = getGameObject(LastHitObjNum);
 		int lc5 = lpMonObj.sHD[HitIndex].HitDamage / lpMonObj.MaxLife * lpMonObj.Level;
 		lc5 *= lpTargetObj.m_bDevilSquareIndex + 1;
 		lpTargetObj.m_nEventScore += lc5;
@@ -1458,7 +1458,7 @@ void CDevilSquare::CalcScore()
 			{
 				if (DS_LEVEL_RANGE(getGameObject(n)->m_bDevilSquareIndex) != FALSE)
 				{
-					this->m_DevilSquareGround[getGameObject(n)->m_bDevilSquareIndex]->InsertObj(&getGameObject(n));
+					this->m_DevilSquareGround[getGameObject(n)->m_bDevilSquareIndex]->InsertObj(getGameObject(n));
 				}
 			}
 		}

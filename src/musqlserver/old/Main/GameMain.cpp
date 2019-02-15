@@ -767,8 +767,8 @@ void GameMonsterAllCloseAndReLoad()
 			if ( getGameObject(n)->m_iCurrentAI )
 			{
 				getGameObject(n)->Live = FALSE;
-				gObjViewportListProtocolDestroy(&getGameObject(n));
-				gObjViewportClose(&getGameObject(n));
+				gObjViewportListProtocolDestroy(getGameObject(n));
+				gObjViewportClose(getGameObject(n));
 			}
 			
 			gObjDel(n);

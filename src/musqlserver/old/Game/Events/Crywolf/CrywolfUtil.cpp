@@ -193,9 +193,9 @@ int CCrywolfUtil::CrywolfMVPLevelUp(CGameObject &Obj, int iAddExp)
 		getGameObject(iUserIndex)->Level, getGameObject(iUserIndex)->m_PlayerData->Experience,
 		iAddExp);
 
-	if ( g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&getGameObject(iUserIndex)) == true )
+	if ( g_MasterLevelSkillTreeSystem.IsMasterLevelUser(getGameObject(iUserIndex)) == true )
 	{
-		return g_MasterLevelSkillTreeSystem.MasterLevelUp(&getGameObject(iUserIndex), iAddExp, 0, "Crywolf");
+		return g_MasterLevelSkillTreeSystem.MasterLevelUp(getGameObject(iUserIndex), iAddExp, 0, "Crywolf");
 	}
 
 	sLog->outBasic("[Crywolf] Experience : [%s][%s](%d) Experience: %d + %d",
@@ -249,7 +249,7 @@ int CCrywolfUtil::CrywolfMVPLevelUp(CGameObject &Obj, int iAddExp)
 		getGameObject(iUserIndex)->MaxMana += DCInfo.DefClass[getGameObject(iUserIndex)->Class)->LevelMana;
 		getGameObject(iUserIndex)->Life = getGameObject(iUserIndex)->MaxLife;
 		getGameObject(iUserIndex)->Mana = getGameObject(iUserIndex)->MaxMana;
-		gObjNextExpCal(&getGameObject(iUserIndex));
+		gObjNextExpCal(getGameObject(iUserIndex));
 		gObjSetBP(iUserIndex);
 		gGameProtocol.GCLevelUpMsgSend(getGameObject(iUserIndex)->m_Index, 1);
 		gObjCalcMaxLifePower(getGameObject(iUserIndex)->m_Index);

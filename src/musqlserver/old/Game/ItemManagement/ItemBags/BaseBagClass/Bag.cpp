@@ -373,7 +373,7 @@ void CBag::MakeBagEffectUse(CGameObject &Obj, int iMonsterIndex)
 			break;
 	}
 
-	gGameProtocol.MsgSendV2(&getGameObject(Obj.m_Index), (BYTE*)&ServerCmd, ServerCmd.h.size);
+	gGameProtocol.MsgSendV2(getGameObject(Obj.m_Index), (BYTE*)&ServerCmd, ServerCmd.h.size);
 	IOCP.DataSend(Obj.m_Index, (BYTE*)&ServerCmd, ServerCmd.h.size);
 }
 

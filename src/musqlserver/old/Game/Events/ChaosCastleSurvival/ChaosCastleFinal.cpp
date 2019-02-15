@@ -1149,7 +1149,7 @@ int ChaosCastleFinal::GetCurrentCCFWinUser(int *nPoint)
 			&& getGameObject(this->m_stCCFData.m_UserData[i]->m_nIndex)->MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL
 			&& !this->m_stCCFData.m_UserData[i].m_nUserState)
 		{
-			CGameObject lpObj = &getGameObject(this->m_stCCFData.m_UserData[i]->m_nIndex);
+			CGameObject lpObj = getGameObject(this->m_stCCFData.m_UserData[i]->m_nIndex);
 			int iCCF_TEMP_SCORE = Obj.m_byKillMobCount + 2 * Obj.m_byKillUserCount;
 
 			if (iCCF_SCORE >= iCCF_TEMP_SCORE)
@@ -1635,7 +1635,7 @@ void ChaosCastleFinal::CheckUserInDieTile()
 						getGameObject(this->m_stCCFData.m_UserData[i]->m_nIndex)->DieRegen = 1;
 						getGameObject(this->m_stCCFData.m_UserData[i]->m_nIndex)->PathCount = 0;
 
-						gGameProtocol.GCDiePlayerSend(&getGameObject(this->m_stCCFData.m_UserData[i]->m_nIndex),
+						gGameProtocol.GCDiePlayerSend(getGameObject(this->m_stCCFData.m_UserData[i]->m_nIndex),
 							this->m_stCCFData.m_UserData[i].m_nIndex, 0, 0);
 
 						sLog->outBasic("[Chaos Castle Survival] [%s][%s] User Dead In Chaos Castle : Fall from Castle (X:%d, Y:%d)",
@@ -1670,7 +1670,7 @@ void ChaosCastleFinal::ProcessFallUser()
 				getGameObject(iFALL_INDEX)->DieRegen = 1;
 				getGameObject(iFALL_INDEX)->PathCount = 0;
 
-				gGameProtocol.GCDiePlayerSend(&getGameObject(iFALL_INDEX), getGameObject(iFALL_INDEX)->m_Index, 0, 0);
+				gGameProtocol.GCDiePlayerSend(getGameObject(iFALL_INDEX), getGameObject(iFALL_INDEX)->m_Index, 0, 0);
 			}
 		}
 	}
@@ -2394,7 +2394,7 @@ void ChaosCastleFinal::GiveUserDamage(CGameObject &Obj, int iDamage)
 		getGameObject(iUserIndex)->DieRegen = 1;
 		getGameObject(iUserIndex)->PathCount = 0;
 
-		gGameProtocol.GCDiePlayerSend(&getGameObject(iUserIndex), getGameObject(iUserIndex)->m_Index, 0, 0);
+		gGameProtocol.GCDiePlayerSend(getGameObject(iUserIndex), getGameObject(iUserIndex)->m_Index, 0, 0);
 	}
 }
 
@@ -2446,7 +2446,7 @@ int ChaosCastleFinal::CalcSendRewardEXP(CGameObject &Obj, int iEXP, int iKILLCOU
 	if (!gObjIsConnected(iUserIndex))
 		return 0;
 
-	if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&getGameObject(iUserIndex)) == false)
+	if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(getGameObject(iUserIndex)) == false)
 	{
 		if (iCAL_EXP > getGameObject(iUserIndex)->m_PlayerData->Experience + getGameObject(iUserIndex)->m_PlayerData->NextExp)
 		{
@@ -2469,7 +2469,7 @@ int ChaosCastleFinal::CalcSendRewardEXP(CGameObject &Obj, int iEXP, int iKILLCOU
 		{
 			if (iCAL_EXP > 0)
 			{
-				CheckItemOptForGetExpExRenewal(&getGameObject(iUserIndex), NULL, iCAL_EXP, 0, true);
+				CheckItemOptForGetExpExRenewal(getGameObject(iUserIndex), NULL, iCAL_EXP, 0, true);
 
 				iCAL_EXP = this->LevelUp(iUserIndex, iCAL_EXP);
 			}
@@ -2508,9 +2508,9 @@ BOOL ChaosCastleFinal::LevelUp(CGameObject &Obj, int iAddExp)
 		return 0;
 	}
 
-	if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&getGameObject(iUserIndex)))
+	if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(getGameObject(iUserIndex)))
 	{
-		g_MasterLevelSkillTreeSystem.MasterLevelUp(&getGameObject(iUserIndex), iAddExp, 0, "Chaos Castle Survival");
+		g_MasterLevelSkillTreeSystem.MasterLevelUp(getGameObject(iUserIndex), iAddExp, 0, "Chaos Castle Survival");
 		return 0;
 	}
 
@@ -2563,7 +2563,7 @@ BOOL ChaosCastleFinal::LevelUp(CGameObject &Obj, int iAddExp)
 		getGameObject(iUserIndex)->MaxMana += DCInfo.DefClass[getGameObject(iUserIndex)->Class)->LevelMana;
 		getGameObject(iUserIndex)->Life = getGameObject(iUserIndex)->MaxLife;
 		getGameObject(iUserIndex)->Mana = getGameObject(iUserIndex)->MaxMana;
-		gObjNextExpCal(&getGameObject(iUserIndex));
+		gObjNextExpCal(getGameObject(iUserIndex));
 		gObjSetBP(iUserIndex);
 		gGameProtocol.GCLevelUpMsgSend(getGameObject(iUserIndex)->m_Index, 1);
 		gObjCalcMaxLifePower(getGameObject(iUserIndex)->m_Index);
@@ -3154,7 +3154,7 @@ void ChaosCastleFinal::SendAllMemberOfCCF(int index)
 	{
 		if (this->m_stCCFData.m_UserData[i].m_nIndex != -1 && getGameObject(this->m_stCCFData.m_UserData[i]->m_nIndex)->Connected > PLAYER_LOGGED)
 		{
-			CGameObject lpObj = &getGameObject(this->m_stCCFData.m_UserData[i]->m_nIndex);
+			CGameObject lpObj = getGameObject(this->m_stCCFData.m_UserData[i]->m_nIndex);
 
 			if (lpObj)
 			{
@@ -3277,7 +3277,7 @@ void ChaosCastleFinal::GDReqSetCCFReward_UBF(CGameObject &Obj, BYTE btCCFType, B
 		return;
 	}
 
-	CGameObject lpObj = &getGameObject(iUserIndex);
+	CGameObject lpObj = getGameObject(iUserIndex);
 
 	if (Obj.Type != OBJ_USER)
 	{
@@ -3338,7 +3338,7 @@ void ChaosCastleFinal::SetUBFGetReward(CGameObject &Obj, WORD wItemCode, UINT64 
 		return;
 	}
 
-	CGameObject lpObj = &getGameObject(iUserIndex);
+	CGameObject lpObj = getGameObject(iUserIndex);
 
 	if (Obj.Type != OBJ_USER)
 	{

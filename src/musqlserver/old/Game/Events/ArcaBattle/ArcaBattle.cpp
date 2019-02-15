@@ -410,7 +410,7 @@ void CArcaBattle::AddArcaBattleWinGuildInfo(_stABWinGuildInfoDS *pABWinGuildInfo
 			{
 				if ( gObjIsConnected(lpGuild->Index[nGuildCnt]) == TRUE )
 				{
-					this->WinGuildMemberAddBuff(&getGameObject(lpGuild->Index[nGuildCnt]], this->m_stABWinGuildInfo[i)->wOccupyObelisk);
+					this->WinGuildMemberAddBuff(getGameObject(lpGuild->Index[nGuildCnt]], this->m_stABWinGuildInfo[i)->wOccupyObelisk);
 				}
 			}	
 		}
@@ -897,7 +897,7 @@ void CArcaBattle::ProcStatePaty()
 	{
 		for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 		{
-			CGameObject lpObj = &getGameObject(i);
+			CGameObject lpObj = getGameObject(i);
 
 			if (gObjIsConnected(lpObj) && Obj.Type == OBJ_USER)
 			{
@@ -965,7 +965,7 @@ void CArcaBattle::ProcStatePlaying()
 		{
 			for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 			{
-				CGameObject lpObj = &getGameObject(i);
+				CGameObject lpObj = getGameObject(i);
 
 				if (gObjIsConnected(lpObj) && Obj.Type == OBJ_USER)
 				{
@@ -1334,7 +1334,7 @@ void CArcaBattle::SendObeliskState()
 
 		if (this->m_stObeliskState[i].m_iMonIndex >= 0)
 		{
-			CGameObject lpObj = &getGameObject(iObeliskIndex);
+			CGameObject lpObj = getGameObject(iObeliskIndex);
 			pMsg.btObeliskState = Obj.Life > 0.0;
 			pMsg.btObeliskAttribute = (BYTE)this->m_stObeliskInfo[i].m_iAttrKind;
 			pMsg.btAuraState = 2;
@@ -1565,7 +1565,7 @@ void CArcaBattle::ChkAuraUserHover()
 
 	for ( int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++ )
 	{
-		CGameObject lpObj = &getGameObject(n);
+		CGameObject lpObj = getGameObject(n);
 
 		if ( gObjIsConnected(n) == TRUE && Obj.Type == OBJ_USER )
 		{
@@ -1748,7 +1748,7 @@ void CArcaBattle::ChkAuraUserHover()
 			if (this->m_stObeliskState[i].m_stAuraState[nAura].m_iIndex == -1)
 				continue;
 
-			CGameObject lpObj = &getGameObject(this->m_stObeliskState[i]->m_stAuraState[nAura]->m_iIndex);
+			CGameObject lpObj = getGameObject(this->m_stObeliskState[i]->m_stAuraState[nAura]->m_iIndex);
 
 			for ( int k = 0; k < MAX_VIEWPORT; ++k )
 			{
@@ -1885,7 +1885,7 @@ void CArcaBattle::SendArcaBattleStateAll(int iState)
 
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		CGameObject lpObj = &getGameObject(n);
+		CGameObject lpObj = getGameObject(n);
 
 		if (gObjIsConnected(n) == TRUE && Obj.Type == OBJ_USER)
 		{
@@ -2109,7 +2109,7 @@ void CArcaBattle::SendPlayResult()
   
 	for ( int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++ )
 	{
-		lpObj = &getGameObject(n);
+		lpObj = getGameObject(n);
 
 		if ( gObjIsConnected(n) == TRUE && Obj.Type == OBJ_USER )
 		{
@@ -2145,7 +2145,7 @@ void CArcaBattle::SendPlayResult()
 				iRewardExp = 0;
 			}
 
-			if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&getGameObject(n)))
+			if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(getGameObject(n)))
 			{
 				getGameObject(n)->m_PlayerData->MasterExperience += iRewardExp;
 			}
@@ -2155,7 +2155,7 @@ void CArcaBattle::SendPlayResult()
 				getGameObject(n)->m_PlayerData->Experience += iRewardExp;
 			}
 				
-			if (gObjLevelUp(&getGameObject(n), iRewardExp, 0, "Arca Battle") == true)
+			if (gObjLevelUp(getGameObject(n), iRewardExp, 0, "Arca Battle") == true)
 			{
 				gGameProtocol.GCKillPlayerMasterExpSend(n, -1, iRewardExp, 0, 0);
 			}
@@ -3798,7 +3798,7 @@ void CArcaBattle::GCArcaBattleUserInfo(CGameObject &Obj)
 	}
 
 	BYTE BUFFER[8192];
-	CGameObject lpObj = &getGameObject(iUserIndex);
+	CGameObject lpObj = getGameObject(iUserIndex);
 
 	_stPMSG_AB_JOIN_USER_COUNT pMsg;
 	_stABCurJoinGuildUserInfo stABCurJoinGuildUser;
@@ -3825,7 +3825,7 @@ void CArcaBattle::GCArcaBattleUserInfo(CGameObject &Obj)
 			{
 				int iGuildMembIndex = lpGuild->Index[j];
 
-				CGameObject lpGuildObj = &getGameObject(iGuildMembIndex);
+				CGameObject lpGuildObj = getGameObject(iGuildMembIndex);
 
 				if (lpGuild->GuildStatus[j] == GUILD_MASTER)
 				{
@@ -3957,7 +3957,7 @@ void CArcaBattle::GCArcaBattleCurrentStatus(int iObeliskIndex, int iAttrKind, BY
 	{
 		for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 		{
-			CGameObject lpObj = &getGameObject(i);
+			CGameObject lpObj = getGameObject(i);
 
 			if (gObjIsConnected(lpObj) && Obj.Type == OBJ_USER)
 			{
@@ -3987,7 +3987,7 @@ void CArcaBattle::GCArcaBattleSendNotiMsg(BYTE btNoticeType, int iNoticeValue, c
 	{
 		for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 		{
-			CGameObject lpObj = &getGameObject(i);
+			CGameObject lpObj = getGameObject(i);
 
 			if (gObjIsConnected(lpObj) && Obj.Type == OBJ_USER)
 			{
@@ -4015,7 +4015,7 @@ void CArcaBattle::GCArcaBattleSendNotiMsg(BYTE btNoticeType, int iNoticeValue, c
 				continue;
 			}
 
-			CGameObject lpObj = &getGameObject(iGuildUserIndex);
+			CGameObject lpObj = getGameObject(iGuildUserIndex);
 
 			if (gObjIsConnected(lpObj) && Obj.Type == OBJ_USER)
 			{

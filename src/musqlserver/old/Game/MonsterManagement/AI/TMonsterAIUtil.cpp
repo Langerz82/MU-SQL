@@ -252,7 +252,7 @@ BOOL TMonsterAIUtil::GetXYToEascape(CGameObject &Obj)
 		return FALSE;
 	}
 
-	lpTargetObj = &getGameObject(iTargetIndex);
+	lpTargetObj = getGameObject(iTargetIndex);
 	tpx = lpTargetObj.X;
 	mtx = tpx;
 	tpy = lpTargetObj.Y;
@@ -343,7 +343,7 @@ BOOL TMonsterAIUtil::GetXYToChase(CGameObject &Obj)
 		return FALSE;
 	}
 
-	lpTargetObj = &getGameObject(iTargetIndex);
+	lpTargetObj = getGameObject(iTargetIndex);
 	tpx = lpTargetObj.X;
 	mtx = tpx;
 	tpy = lpTargetObj.Y;
@@ -447,7 +447,7 @@ void TMonsterAIUtil::SendChattingMsg(int iObjIndex, char* lpszMsg, ...)
 	if ( !ObjectMaxRange(iObjIndex))
 		return;
 
-	CGameObject lpObj = &getGameObject(iObjIndex);
+	CGameObject lpObj = getGameObject(iObjIndex);
 	char szBuffer[512] = "";
 	va_list pArguments;
 

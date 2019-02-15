@@ -75,7 +75,7 @@ int gObjSetAccountLogin(CGameObject &Obj, char* szId, int aUserNumber, int aDBNu
 int gObjGetUserNumber(CGameObject &Obj);
 int gObjGetNumber(CGameObject &Obj, int& UN, int& DBN);
 LPSTR gObjGetAccountId(CGameObject &Obj);
-int gObjGetIndex(char* szId);
+//int gObjGetIndex(char* szId);
 int gObjUserIdConnectCheck(char* szId, int index);
 BYTE GetPathPacketDirPos(int px, int py);
 int gObjCalDistance(CGameObject &Obj1, CGameObject &Obj2);
@@ -449,7 +449,7 @@ extern int gObjSetAccountLogin(CGameObject &Obj, char* szId, int aUserNumber, in
 extern int gObjGetUserNumber(CGameObject &Obj);
 extern int gObjGetNumber(CGameObject &Obj, int& UN, int& DBN);
 extern LPSTR gObjGetAccountId(CGameObject &Obj);
-extern int gObjGetIndex(char* szId);
+//extern int gObjGetIndex(char* szId);
 extern int gObjUserIdConnectCheck(char* szId, int index);
 extern BYTE GetPathPacketDirPos(int px, int py);
 extern int gObjCalDistance(CGameObject &Obj1, CGameObject &Obj2);

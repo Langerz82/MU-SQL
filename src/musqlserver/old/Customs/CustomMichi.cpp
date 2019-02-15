@@ -136,7 +136,7 @@ void CConfigMichi::UseHealingPotion(CItemObject * CItemObject, int pos, CGameObj
 		Obj.FillLifeCount = 3;
 	}
 
-	if (!gObjSearchItemMinus(&getGameObject(Obj.m_Index), pos, 1))
+	if (!gObjSearchItemMinus(getGameObject(Obj.m_Index), pos, 1))
 	{
 		gObjInventoryItemSet(lpObj, pos, -1);
 		Obj.pntInventory[pos]->Clear();

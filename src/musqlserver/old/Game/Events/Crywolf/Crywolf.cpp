@@ -280,19 +280,19 @@ void CCrywolf::SetCrywolfCommonNPC(int iOccupationState)
 		if ( !gObjIsConnected(this->m_ObjCommonNPC.m_iObjIndex[i]) )
 			break;
 
-		CGameObject lpObj = &getGameObject(this->m_ObjCommonNPC.m_iObjIndex[i]);
+		CGameObject lpObj = getGameObject(this->m_ObjCommonNPC.m_iObjIndex[i]);
 
 		if ( iOccupationState == 2 )
 		{
-			gObjAddBuffEffect(&getGameObject(this->m_ObjCommonNPC.m_iObjIndex[i]), 27, 0, 0, 0, 0, -10);
+			gObjAddBuffEffect(getGameObject(this->m_ObjCommonNPC.m_iObjIndex[i]), 27, 0, 0, 0, 0, -10);
 		}
 		else if ( iOccupationState == 0 )
 		{
-			gObjRemoveBuffEffect(&getGameObject(this->m_ObjCommonNPC.m_iObjIndex[i]), 27);
+			gObjRemoveBuffEffect(getGameObject(this->m_ObjCommonNPC.m_iObjIndex[i]), 27);
 		}
 		else if ( iOccupationState == 1 )
 		{
-			gObjAddBuffEffect(&getGameObject(this->m_ObjCommonNPC.m_iObjIndex[i]), 27, 0, 0, 0, 0, -10);
+			gObjAddBuffEffect(getGameObject(this->m_ObjCommonNPC.m_iObjIndex[i]), 27, 0, 0, 0, 0, -10);
 		}
 	}
 }
@@ -304,7 +304,7 @@ void CCrywolf::SetCrywolfAllCommonMonsterState2(int iMonsterState, int iMode)
 		if ( !gObjIsConnected(this->m_ObjCommonMonster.m_iObjIndex[i]) )
 			break;
 
-		CGameObject lpObj = &getGameObject(this->m_ObjCommonMonster.m_iObjIndex[i]);
+		CGameObject lpObj = getGameObject(this->m_ObjCommonMonster.m_iObjIndex[i]);
 
 		if ( iMode == 0 )
 		{
@@ -582,7 +582,7 @@ void CCrywolf::SetState_START()
 		if ( getGameObject(iLeaderIndex)->Class != 340 )
 			continue;
 
-		CGameObject lpObj = &getGameObject(iLeaderIndex);
+		CGameObject lpObj = getGameObject(iLeaderIndex);
 
 		for ( int i=0;i<MaxViewportMonster;i++)
 		{
@@ -594,7 +594,7 @@ void CCrywolf::SetState_START()
 				{
 					if ( getGameObject(number)->Type == OBJ_USER )
 					{
-						gObjBackSpring2(&getGameObject(number), lpObj, 3);
+						gObjBackSpring2(getGameObject(number), lpObj, 3);
 					}
 				}
 			}
@@ -1012,7 +1012,7 @@ void CCrywolf::NotifyCrywolfHeroList()
 			getGameObject(i)->Type == OBJ_USER &&
 			getGameObject(i)->MapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE)
 		{
-			HeroSet.insert(&getGameObject(i));
+			HeroSet.insert(getGameObject(i));
 		}
 	}
 
@@ -1126,8 +1126,8 @@ void CCrywolf::ApplyCrywolfDBInfo(int iCrywolfState, int iOccupationState)
 
 void CCrywolf::CrywolfMonsterDieProc(int iMonIndex, int iKillerIndex)
 {
-	CGameObject lpMonObj = &getGameObject(iMonIndex);
-	CGameObject lpKillerObj = &getGameObject(iKillerIndex);
+	CGameObject lpMonObj = getGameObject(iMonIndex);
+	CGameObject lpKillerObj = getGameObject(iKillerIndex);
 	BOOL bExistKiller = gObjIsConnected(iKillerIndex);
 
 	if ( g_Crywolf.GetCrywolfState() == CRYWOLF_STATE_START )
@@ -1186,7 +1186,7 @@ void CCrywolf::MakeRewardForAltarElf(int iAltarUserIndex)
 						 0, 0, 0, 0, 0);
 
 	
-	g_CashShop.AddCoin(&getGameObject(iAltarUserIndex), EVENT_CS);
+	g_CashShop.AddCoin(getGameObject(iAltarUserIndex), EVENT_CS);
 }
 
 
@@ -1204,7 +1204,7 @@ void CCrywolf::MakeRewardForHeroListTop5(CGameObject &Obj)
 						 iUserIndex,
 						 0, 0, 0, 0, 0);
 
-	g_CashShop.AddCoin(&getGameObject(iUserIndex), EVENT_CS);
+	g_CashShop.AddCoin(getGameObject(iUserIndex), EVENT_CS);
 }
 
 
@@ -1319,7 +1319,7 @@ void CCrywolf::GiveRewardExp(CGameObject &Obj, int iRewardExp)
 			}
 		}
 
-		if( g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&getGameObject(iUserIndex)) == FALSE) //season3 add-on
+		if( g_MasterLevelSkillTreeSystem.IsMasterLevelUser(getGameObject(iUserIndex)) == FALSE) //season3 add-on
 		{
 			gGameProtocol.GCKillPlayerExpSend(iUserIndex, -1, iRewardExp, 0, 0);
 			//gGameProtocol.(iUserIndex, (WORD)-1, iRewardExp, 0, 0);

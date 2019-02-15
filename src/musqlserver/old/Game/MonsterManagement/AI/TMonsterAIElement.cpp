@@ -358,7 +358,7 @@ BOOL TMonsterAIElement::ApplyElementGroupMove(CGameObject &Obj, int iTargetIndex
 	if ( iLeaderIndex == -1 || getGameObject(iLeaderIndex)->Live == FALSE )
 		bFoundLeader = FALSE;
 
-	if ( bFoundLeader && gObjCalDistance(lpObj, &getGameObject(iLeaderIndex)) > 6 )
+	if ( bFoundLeader && gObjCalDistance(lpObj, getGameObject(iLeaderIndex)) > 6 )
 	{
 		Obj.TargetNumber = iLeaderIndex;
 		bFindXY = MONSTER_UTIL.GetXYToChase(lpObj);
@@ -421,7 +421,7 @@ BOOL TMonsterAIElement::ApplyElementAttack(CGameObject &Obj, int iTargetIndex, T
 			return FALSE;
 		}
 
-		CGameObject lpTargetObj = &getGameObject(iTargetNumber);
+		CGameObject lpTargetObj = getGameObject(iTargetNumber);
 		Obj.Dir = GetPathPacketDirPos(lpTargetObj.X - Obj.X, lpTargetObj.Y - Obj.Y);
 
 		if ( (rand()%4) == 0 )
@@ -434,7 +434,7 @@ BOOL TMonsterAIElement::ApplyElementAttack(CGameObject &Obj, int iTargetIndex, T
 			pAttackMsg.NumberL = SET_NUMBERL(iTargetNumber);
 
 			gGameProtocol.GCActionSend(lpObj, 0x78, Obj.m_Index, iTargetNumber);
-			gObjAttack(lpObj, &getGameObject(iTargetNumber), 0, 0, 0, 0, 0, 0, 0);
+			gObjAttack(lpObj, getGameObject(iTargetNumber), 0, 0, 0, 0, 0, 0, 0);
 		}
 		else
 		{
@@ -453,7 +453,7 @@ BOOL TMonsterAIElement::ApplyElementAttack(CGameObject &Obj, int iTargetIndex, T
 			return FALSE;
 		}
 
-		CGameObject lpTargetObj = &getGameObject(iTargetNumber);
+		CGameObject lpTargetObj = getGameObject(iTargetNumber);
 		Obj.Dir = GetPathPacketDirPos(lpTargetObj.X - Obj.X, lpTargetObj.Y - Obj.Y);
 
 		PMSG_ATTACK pAttackMsg;
@@ -465,7 +465,7 @@ BOOL TMonsterAIElement::ApplyElementAttack(CGameObject &Obj, int iTargetIndex, T
 
 		gGameProtocol.CGAttack((PMSG_ATTACK *)&pAttackMsg, Obj.m_Index);
 		gGameProtocol.GCActionSend(lpObj, 0x78, Obj.m_Index, lpTargetObj.m_Index);
-		gObjAttack(lpObj, &getGameObject(iTargetNumber), 0, 0, 0, 0, 0, 0, 0);
+		gObjAttack(lpObj, getGameObject(iTargetNumber), 0, 0, 0, 0, 0, 0, 0);
 
 		return FALSE;
 	}
@@ -496,7 +496,7 @@ BOOL TMonsterAIElement::ApplyElementAttackArea(CGameObject &Obj, int iTargetInde
 		if ( !gObjIsConnected(i))
 			continue;
 
-		CGameObject lpTargetObj = &getGameObject(i);
+		CGameObject *lpTargetObj = getGameObject(i);
 
 		if ( !Obj.Live )
 			continue;
@@ -584,7 +584,7 @@ BOOL TMonsterAIElement::ApplyElementHealGroup(CGameObject &Obj, int iTargetIndex
 
 	if ( pMemb )
 	{
-		CGameObject lpTargetObj = &getGameObject(pMemb->m_iObjIndex);
+		CGameObject lpTargetObj = getGameObject(pMemb->m_iObjIndex);
 
 		if ( lpTargetObj.Live == 0 )
 			return FALSE;
@@ -621,7 +621,7 @@ BOOL TMonsterAIElement::ApplyElementSpecialSommon(CGameObject &Obj, int iTargetI
 
 	if ( pMemb )
 	{
-		CGameObject lpTargetObj = &getGameObject(pMemb->m_iObjIndex);
+		CGameObject lpTargetObj = getGameObject(pMemb->m_iObjIndex);
 
 		if ( lpTargetObj.Live != 0 )
 			return FALSE;
@@ -668,7 +668,7 @@ BOOL TMonsterAIElement::ApplyElementNightmareSummon(CGameObject &Obj, int iTarge
 
 	if (lpSkillUnit)
 	{
-		gGameProtocol.GCUseMonsterSkillSend(Obj, &getGameObject(iTargetIndex), lpSkillUnit->m_iUnitNumber);
+		gGameProtocol.GCUseMonsterSkillSend(Obj, getGameObject(iTargetIndex), lpSkillUnit->m_iUnitNumber);
 
 		if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
 		{
@@ -742,7 +742,7 @@ BOOL TMonsterAIElement::ApplyElementSkillAttack(CGameObject &Obj, int iTargetInd
 			return FALSE;
 		}
 
-		CGameObject lpTargetObj = &getGameObject(iTargetNumber);
+		CGameObject lpTargetObj = getGameObject(iTargetNumber);
 		Obj.Dir = GetPathPacketDirPos(lpTargetObj.X - Obj.X, lpTargetObj.Y - Obj.Y);
 		int iRate1 = this->m_iTargetType;
 		int iRate2 = this->m_iX;

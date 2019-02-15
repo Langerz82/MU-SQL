@@ -367,7 +367,7 @@ CGameObject CGMMng::GetUserInfo(CGameObject &User, LPSTR UserName)
 			{
 				if (strcmp(getGameObject(i)->Name, UserName) == 0)
 				{
-					return &getGameObject(i);
+					return getGameObject(i);
 				}
 			}
 		}
@@ -1122,7 +1122,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 
 	case 201:	//110:
 	{
-		gObjBillRequest(&getGameObject(Obj.m_Index));
+		gObjBillRequest(getGameObject(Obj.m_Index));
 	}
 	break;
 	// Commands by [IGC] drakelv
@@ -1893,7 +1893,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 		if (uindex == -1)
 			return 0;
 
-		if (this->CheckTraceMarryCondition(&getGameObject(Obj.m_Index), &getGameObject(uindex)) == FALSE)
+		if (this->CheckTraceMarryCondition(getGameObject(Obj.m_Index), getGameObject(uindex)) == FALSE)
 		{
 			return 0;
 		}
@@ -2044,7 +2044,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 				{
 					if (Obj.VpPlayer[n].number >= 0)
 					{
-						CGameObject lpTarget = &getGameObject(Obj.VpPlayer[n]->number);
+						CGameObject lpTarget = getGameObject(Obj.VpPlayer[n]->number);
 
 						if (lpTarget->Class == 275)
 						{
@@ -2087,7 +2087,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 				{
 					if (Obj.VpPlayer[n].number >= 0)
 					{
-						CGameObject lpTarget = &getGameObject(Obj.VpPlayer[n]->number);
+						CGameObject lpTarget = getGameObject(Obj.VpPlayer[n]->number);
 
 						if (lpTarget->Class == 275)
 						{
@@ -2795,7 +2795,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 		if (Obj.m_bPShopOpen)
 		{
 			Obj.m_bOff = true;
-			GJReqSetOffTrade(&getGameObject(Obj.m_Index));
+			GJReqSetOffTrade(getGameObject(Obj.m_Index));
 			MsgOutput(Obj.m_Index, Lang.GetText(0, 480));
 			BYTE p[4] = { 0xC1, 0x04, 0xFA, 0x0D };
 			IOCP.DataSend(Obj.m_Index, p, sizeof(p));
@@ -3078,7 +3078,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 						Obj.m_bPShopOpen = true;
 						Obj.m_dwOffLevelTime = GetTickCount64();
 						sprintf(Obj.m_szPShopText, Lang.GetText(0, 610));
-						GJReqSetOffTrade(&getGameObject(Obj.m_Index));
+						GJReqSetOffTrade(getGameObject(Obj.m_Index));
 						MsgOutput(Obj.m_Index, Lang.GetText(0, 480));
 
 						BYTE p[4] = { 0xC1, 0x04, 0xFA, 0x0D };
@@ -3366,7 +3366,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 						Obj.m_bOff = true;
 						Obj.m_bPShopOpen = true;
 						sprintf(Obj.m_szPShopText, Lang.GetText(0, 610));
-						GJReqSetOffTrade(&getGameObject(Obj.m_Index));
+						GJReqSetOffTrade(getGameObject(Obj.m_Index));
 						MsgOutput(Obj.m_Index, Lang.GetText(0, 480));
 						return 1;
 					}
@@ -3578,7 +3578,7 @@ bool CGMMng::CommandClearInventory(CGameObject &Obj)
 	// ----
 	for (int i = INVETORY_WEAR_SIZE; i < MAIN_INVENTORY_SIZE; i++)
 	{
-		if (lpTarget->pntInventory[i].IsItem())
+		if (lpTarget->pntInventory[i]->IsItem())
 		{
 			gObjInventoryDeleteItem(lpTarget->m_Index, i);
 		}

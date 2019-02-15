@@ -11,6 +11,7 @@
 #include "TMonsterSkillElementInfo.h"
 #include "TMonsterAIAgro.h"
 #include "TDurMagicKeyChecker.h"
+#include "CUserData.h"
 
 #include <vector>
 #include <map>
@@ -39,9 +40,10 @@ struct VIEWPORT_STRUCT;
 struct WHISPER_STRUCT;
 struct SKILL_INFO;
 struct MUUN_EFFECT_LIST;
+struct STR_CONNECT_USER;
 
-
-extern std::map<int, CGameObject*> gGameObjects;
+std::map<int, CGameObject*> gGameObjects;
+std::map<int, CGameObject*> gGameUserObjects;
 
 // Functions forward declared.
 CGameObject* getGameObject(int index);
@@ -305,7 +307,7 @@ public:
 	CItemObject** pntWarehouse; // CE4
 	char WarehouseID;
 	DWORD WarehouseTick;
-	LPBYTE pWarehouseMap; // CE8
+	LPBYTE WarehouseMap; // CE8
 	char WarehouseCount;	// CEC
 	short WarehousePW; // CEE
 	BYTE WarehouseLock;	// CF0
@@ -631,8 +633,26 @@ extern PWMSG_COUNT pItemCount;
 extern PMSG_ITEMVIEWPORTCREATE pItemViewportCreate;
 extern PMSG_VIEWPORTDESTROY pItemViewportDestroy;
 
-extern CGameObject* getGameObject(int index) { return gGameObjects.find(index)->second; }
-extern void insertGameObject(CGameObject* Obj) { gGameObjects.insert(std::pair<int, CGameObject*>(Obj->m_Index, Obj)); }
-extern void eraseGameObject(CGameObject* Obj) { gGameObjects.erase(Obj->m_Index); }
+extern CGameObject* getGameObject(int index)
+{
+	return (CGameObject*) gGameObjects.find(index)->second;
+}
+
+extern void insertGameObject(class CGameObject* Obj)
+{
+	int userIndex = Obj->m_PlayerData->ConnectUser->Index;
+	gGameObjects.insert(std::pair<int, CGameObject*>(Obj->m_Index, Obj));
+	gGameUserObjects.insert(std::pair<int, CGameObject*>(userIndex, Obj));
+}
+
+extern void eraseGameObject(CGameObject* Obj) {
+	gGameObjects.erase(Obj->m_Index);
+	gGameUserObjects.erase(Obj->m_PlayerData->ConnectUser->Index);
+}
+
+extern CGameObject* getGameObjectFromUser(int index) 
+{
+	return (CGameObject*)gGameUserObjects.find(index)->second;
+}
 
 #endif

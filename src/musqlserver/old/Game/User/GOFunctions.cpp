@@ -1,4 +1,5 @@
 #include "GOFunctions.h"
+#include "CGameObject.h"
 #include "GameServer.h"
 #include "PrecompiledHeader/gameGlobals.h"
 #include "DoppelGanger.h"
@@ -440,7 +441,7 @@ void MonsterAndMsgProc()
 				{
 					if (GetTickCount64() > gSMAttackProcMsg[n][i].MsgTime)
 					{
-						gObjStateAttackProc(*lpObj, gSMAttackProcMsg[n][i].MsgCode, gSMAttackProcMsg[n][i].SendUser,
+						gObjStateAttackProc(*lpObj, gSMAttackProcMsg[n][i].MsgCode, *getGameObject(gSMAttackProcMsg[n][i].SendUser),
 							gSMAttackProcMsg[n][i].SubCode, gSMAttackProcMsg[n][i].SubCode2);
 						gSMAttackProcMsg[n][i].MsgCode = -1;
 					}
@@ -669,7 +670,7 @@ int gObjInit()
 				gameObject->pntTrade = new CItemObject*[TRADE_BOX_SIZE];
 				gameObject->TradeMap = new BYTE[TRADE_BOX_MAP_SIZE];
 				gameObject->pntWarehouse = new CItemObject*[WAREHOUSE_SIZE];
-				gameObject->pWarehouseMap = new BYTE[WAREHOUSE_SIZE];
+				gameObject->WarehouseMap = new BYTE[WAREHOUSE_SIZE];
 				gameObject->pntChaosBox = new CItemObject*[CHAOS_BOX_SIZE];
 				gameObject->ChaosBoxMap = new BYTE[CHAOS_BOX_MAP_SIZE];
 			}
@@ -750,16 +751,16 @@ void gObjEnd()
 			delete[] getGameObject(n)->pntTrade;
 			delete[] getGameObject(n)->TradeMap;
 			delete[] getGameObject(n)->pntWarehouse;
-			delete[] getGameObject(n)->pWarehouseMap;
+			delete[] getGameObject(n)->WarehouseMap;
 			delete[] getGameObject(n)->pntMuunInventory1;
 			delete[] getGameObject(n)->pntMuunInventory2;
-			delete[] getGameObject(n)->pntEventInventory1[;
-			delete[] getGameObject(n)->pntEventInventory2[;
+			delete[] getGameObject(n)->pntEventInventory1;
+			delete[] getGameObject(n)->pntEventInventory2;
 			delete[] getGameObject(n)->EventInventoryMap1;
 			delete[] getGameObject(n)->EventInventoryMap2;
 		}
 
-		DeleteCriticalSection(&getGameObject(n)->m_critPShopTrade);
+		DeleteCriticalSection(getGameObject(n)->m_critPShopTrade);
 	}
 }
 
@@ -1109,7 +1110,7 @@ void gObjCharZeroSet(CGameObject &Obj)
 
 	if (Obj.Type == OBJ_USER && (Obj.m_PlayerData->ISBOT == false && Obj.m_PlayerData->bt_BotType != 1))
 	{
-		memset(Obj.pntWarehouseMap, (BYTE)-1, WAREHOUSE_SIZE);
+		memset(Obj.WarehouseMap, (BYTE)-1, WAREHOUSE_SIZE);
 		memset(Obj.TradeMap, (BYTE)-1, TRADE_BOX_SIZE);
 		memset(Obj.ChaosBoxMap, (BYTE)-1, CHAOS_BOX_MAP_SIZE);
 	}
@@ -4482,31 +4483,6 @@ char* gObjGetAccountId(CGameObject &Obj)
 	}
 	return 0;
 }
-
-
-
-
-
-int gObjGetIndex(char* szId)
-{
-	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
-	{
-		if (getGameObject(n)->Connected >= PLAYER_PLAYING)
-		{
-			if (getGameObject(n)->Name[0] == *szId)
-			{
-				if (strcmp(&getGameObject(n)->Name[0], szId) == 0)
-				{
-					return n;
-				}
-			}
-		}
-	}
-	return -1;
-}
-
-
-
 
 
 BOOL gObjUserIdConnectCheck(char* szId, int index)
@@ -9772,7 +9748,7 @@ void gObjLifeCheck(CGameObject &TargetObj, CGameObject& Obj, int AttackDamage, i
 		}
 		if (lpCallObj->Type == OBJ_MONSTER)
 		{
-			gObjAddMsgSend(*lpCallObj, 3, TargetObj.m_Index, 0);
+			gObjAddMsgSend(*lpCallObj, 3, TargetObj, 0);
 			CreateFrustrum(lpCallObj->X, lpCallObj->Y, *lpCallObj);
 			TargetObj.KillerType = 1;
 		}
@@ -9812,11 +9788,11 @@ void gObjLifeCheck(CGameObject &TargetObj, CGameObject& Obj, int AttackDamage, i
 					|| TargetObj.Class == 498 || TargetObj.Class == 499 || TargetObj.Class == 500 || TargetObj.Class == 501
 					|| TargetObj.Class == 502)
 				{
-					gObjAddMsgSendDelayInSpecificQPos(TargetObj, 1, lpCallObj->m_Index, 800, 0, 0);
+					gObjAddMsgSendDelayInSpecificQPos(TargetObj, 1, *lpCallObj, 800, 0, 0);
 				}
 				else
 				{
-					gObjAddMsgSendDelay(TargetObj, 1, lpCallObj->m_Index, 800, 0);
+					gObjAddMsgSendDelay(TargetObj, 1, *lpCallObj, 800, 0);
 				}
 
 				g_Crywolf.CrywolfMonsterDieProc(TargetObj.m_Index, lpCallObj->m_Index);
@@ -9835,7 +9811,7 @@ void gObjLifeCheck(CGameObject &TargetObj, CGameObject& Obj, int AttackDamage, i
 					|| TargetObj.Class == 629 || TargetObj.Class == 630 || TargetObj.Class == 631 || TargetObj.Class == 459
 					|| TargetObj.Class == 673) // Boss monsters, fixed for bug which boss sometimes doesn't drop item if he is killed by one hit
 				{
-					gObjAddMsgSendDelayInSpecificQPos(TargetObj, 1, lpCallObj->m_Index, 800, 0, 0);
+					gObjAddMsgSendDelayInSpecificQPos(TargetObj, 1, *lpCallObj, 800, 0, 0);
 
 					if (g_ConfigRead.data.common.BossKillMessage == true)
 					{
@@ -9857,7 +9833,7 @@ void gObjLifeCheck(CGameObject &TargetObj, CGameObject& Obj, int AttackDamage, i
 				}
 				else
 				{
-					gObjAddMsgSendDelay(TargetObj, 1, lpCallObj->m_Index, 800, 0);
+					gObjAddMsgSendDelay(TargetObj, 1, *lpCallObj, 800, 0);
 				}
 			}
 
@@ -10057,7 +10033,7 @@ void gObjLifeCheck(CGameObject &TargetObj, CGameObject& Obj, int AttackDamage, i
 
 			if (lpCallObj->Type == OBJ_USER)
 			{
-				gObjAddMsgSendDelay(*lpCallObj, 3, TargetObj.m_Index, 2000, 0);
+				gObjAddMsgSendDelay(*lpCallObj, 3, TargetObj, 2000, 0);
 			}
 		}
 		else if (TargetObj.Type == OBJ_USER)
@@ -11754,7 +11730,7 @@ BYTE gObjWerehouseRectCheck(CGameObject &Obj, int sx, int sy, int width, int hei
 
 			if (WarehouseExtentCheck(xx, yy, 8, MAX_WAREHOUSE_H))
 			{
-				if (*(BYTE*)(Obj.pWarehouseMap + (sy + y) * 8 + (sx + x)) != 255)
+				if (*(BYTE*)(Obj.WarehouseMap + (sy + y) * 8 + (sx + x)) != 255)
 				{
 					blank += 1;
 					return -1;
@@ -11853,7 +11829,7 @@ void gObjWarehouseItemBoxSet(CGameObject &Obj, int itempos, int xl, int yl, BYTE
 
 			if (WarehouseExtentCheck(xx, yy, 8, MAX_WAREHOUSE_H))
 			{
-				*(BYTE*)(Obj.pWarehouseMap + (itemposy + y) * 8 + (itemposx + x)) = set_byte;
+				*(BYTE*)(Obj.WarehouseMap + (itemposy + y) * 8 + (itemposx + x)) = set_byte;
 			}
 			else
 			{
@@ -12058,15 +12034,15 @@ BYTE gObjWarehouseInsertItemPos(CGameObject &Obj, CItemObject &item, int pos, in
 
 	if (source >= 0)
 	{
-		std::memcpy(TempMap, Obj.pWarehouseMap, WAREHOUSE_SIZE);
+		std::memcpy(TempMap, Obj.WarehouseMap, WAREHOUSE_SIZE);
 		gObjWarehouseItemBoxSet(Obj, source, iwidth, iheight, 255);
 	}
 
-	if (*(BYTE*)(Obj.pWarehouseMap + h * 8 + w) != 255)
+	if (*(BYTE*)(Obj.WarehouseMap + h * 8 + w) != 255)
 	{
 		if (source >= 0)
 		{
-			std::memcpy(Obj.pWarehouseMap, TempMap, WAREHOUSE_SIZE);
+			std::memcpy(Obj.WarehouseMap, TempMap, WAREHOUSE_SIZE);
 		}
 		return -1;
 	}
@@ -12077,7 +12053,7 @@ BYTE gObjWarehouseInsertItemPos(CGameObject &Obj, CItemObject &item, int pos, in
 	{
 		if (source >= 0)
 		{
-			std::memcpy(Obj.pWarehouseMap, TempMap, WAREHOUSE_SIZE);
+			std::memcpy(Obj.WarehouseMap, TempMap, WAREHOUSE_SIZE);
 		}
 		return -1;
 	}
@@ -21217,7 +21193,7 @@ int  gObjMagicAdd(CGameObject &Obj, WORD Type, WORD Index, BYTE Level, WORD & Sk
 	{
 		if (Obj.Magic[n].IsMagic() == 0)
 		{
-			skill = Obj.Magic[n]->Set(Type, Index, Level);
+			skill = Obj.Magic[n].Set(Index, Level);
 			if (skill < 0)
 			{
 				return -1;
@@ -22032,7 +22008,12 @@ BOOL gObjGuildWarProc(GUILD_INFO_STRUCT * lpGuild1, GUILD_INFO_STRUCT * lpGuild2
 }
 
 
-
+BOOL gObjGuildIsLeader(CGameObject &Obj, CGameObject &TargetObj)
+{
+	if (strcmp(Obj.Name, TargetObj.m_PlayerData->lpGuild->Users[0]->Name) == 0)
+		return TRUE;
+	return FALSE;
+}
 
 BOOL gObjGuildWarCheck(CGameObject &Obj, CGameObject &TargetObj)
 {
@@ -22043,8 +22024,7 @@ BOOL gObjGuildWarCheck(CGameObject &Obj, CGameObject &TargetObj)
 		return false;
 	}
 
-	// TODO
-	if (strcmp(TargetObj.Name, TargetObj.m_PlayerData->lpGuild->Names[0]) == 0)
+	if (gObjGuildIsLeader(Obj, TargetObj))
 	{
 		score = 2;
 	}
@@ -22058,13 +22038,13 @@ BOOL gObjGuildWarCheck(CGameObject &Obj, CGameObject &TargetObj)
 		{
 			gObjGuildWarEndSend(lpGuild, lpTargetGuild, 1, 0);
 			gBattleGroundEnable(lpGuild->BattleGroundIndex, 0);
-			gObjGuildWarEnd(lpGuild, lpTargetGuild);
+			gObjGuildWarEnd(*lpGuild, *lpTargetGuild);
 			cManager.BattleInfoSend(GetBattleTeamName(0, 0), 255, GetBattleTeamName(0, 1), 255);
 		}
 		else
 		{
 			gObjGuildWarEndSend(Obj, 1, 0);
-			gObjAddMsgSendDelay(Obj, 4, Obj.m_Index, 2000, 0);
+			gObjAddMsgSendDelay(Obj, 4, Obj, 2000, 0);
 		}
 	}
 	return true;
@@ -22095,7 +22075,7 @@ BOOL gObjGuildWarMasterClose(CGameObject &Obj)
 		gBattleGroundEnable(Obj.m_PlayerData->lpGuild->BattleGroundIndex, 0);
 		cManager.BattleInfoSend(GetBattleTeamName(0, 0), 255, GetBattleTeamName(0, 1), 255);
 	}
-	gObjGuildWarEnd(Obj.m_PlayerData->lpGuild, Obj.m_PlayerData->lpGuild->lpTargetGuildNode);
+	gObjGuildWarEnd(*Obj.m_PlayerData->lpGuild, *Obj.m_PlayerData->lpGuild->lpTargetGuildNode);
 	return true;
 }
 
@@ -28844,7 +28824,7 @@ void Check_SameSerialItem(CGameObject &Obj, BYTE bCase, bool & bCheckFail)
 bool gObjChaosBoxPutItemTest(CGameObject &Obj, CItemObject Item, BYTE btCount)
 {
 	BYTE TempInventoryMap[INVENTORY_MAP_SIZE];
-	BYTE TempntEventInventoryMap[EVENT_INVENTORY_MAP_SIZE];
+	BYTE TempEventInventoryMap[EVENT_INVENTORY_MAP_SIZE];
 
 	int result = 1;
 

@@ -167,7 +167,7 @@ void CWarehouse::GDReqSwitchWarehouse(CGameObject &Obj, PMSG_REQ_SWITCHWARE * aR
 
 	LeaveCriticalSection(&this->m_WareDataCriti);
 
-	DataSend(Obj.m_PlayerData->ConnectUser.Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
 	sLog->outBasic("[Warehouse][%s] Switch to Warehouse:%d Result:%d", pMsg.szAccountID, pMsg.WarehouseID, pMsg.Result);
 }
 
@@ -183,7 +183,7 @@ void CWarehouse::DGGetWarehouseList(CGameObject &Obj, SDHP_GETWAREHOUSEDB * aRec
 
 	PHeadSetW((BYTE*)&pResult, 0x08, sizeof(pResult));
 	std::memcpy(pResult.AccountID, szAccountID, 11);
-	pResult.Obj.m_Index = aRecv->Obj.m_Index;
+	pResult.aIndex = aRecv->aIndex;
 
 	if (this->GetWarehouseOpenState(szAccountID) == true)
 	{
@@ -204,7 +204,7 @@ void CWarehouse::DGGetWarehouseList(CGameObject &Obj, SDHP_GETWAREHOUSEDB * aRec
 
 		SDHP_GETWAREHOUSEDB_RESULT pMsg;
 		PHeadSetB((BYTE*)&pMsg, 0x10, sizeof(pMsg));
-		pMsg.Obj.m_Index = aRecv->Obj.m_Index;
+		pMsg.aIndex = aRecv->aIndex;
 		std::memcpy(pMsg.AccountID, szAccountID, 11);
 
 		LeaveCriticalSection(&this->m_WareDataCriti);
@@ -314,7 +314,7 @@ void CWarehouse::GDSetWarehouseList(CGameObject &Obj, SDHP_GETWAREHOUSEDB_SAVE *
 
 	pMsg.Result = TRUE;
 	pMsg.CloseWindow = aRecv->CloseWindow;
-	pMsg.iIndex = aRecv->Obj.m_Index;
+	pMsg.iIndex = aRecv->aIndex;
 
 	LeaveCriticalSection(&this->m_WareDataCriti);
 	DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);

@@ -1326,7 +1326,7 @@ int CPentagramSystem::AttributeMonsterItemDrop(CGameObject &Obj)
 		return false;
 	}
 
-	CGameObject lpUser = &getGameObject(MaxHitUser);
+	CGameObject lpUser = getGameObject(MaxHitUser);
 
 	bool bFindServer = false;
 	int iMainAttribute = -1;
@@ -3063,7 +3063,7 @@ bool CPentagramSystem::GCTransPentagramJewelViewInfo(CGameObject &Obj, CItemObje
 	}
 
 	int TargetIndex = Obj.TargetNumber;
-	CGameObject lpTargetObj = &getGameObject(TargetIndex);
+	CGameObject lpTargetObj = getGameObject(TargetIndex);
 
 	if (lpTargetObj.Type != OBJ_USER)
 	{
@@ -3146,7 +3146,7 @@ bool CPentagramSystem::GCPShopPentagramJewelViewInfo(CGameObject &Obj, int aSour
 		return false;
 	}
 
-	CGameObject lpTargetObj = &getGameObject(aSourceIndex);
+	CGameObject lpTargetObj = getGameObject(aSourceIndex);
 
 	if (lpTargetObj.Type != OBJ_USER)
 	{
@@ -3230,7 +3230,7 @@ BOOL CPentagramSystem::IsEnableTransPentagramJewelInfo(CGameObject &Obj, int tar
 	BYTE iTargetDBJewelIndex = 0xFF;
 
 	
-	CGameObject lpTargetObj = &getGameObject(targetIndex);
+	CGameObject lpTargetObj = getGameObject(targetIndex);
 
 	for (int n = 0; n < TRADE_BOX_SIZE; n++)
 	{

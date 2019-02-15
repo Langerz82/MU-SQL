@@ -515,7 +515,7 @@ int CNewPVP::Leave(CGameObject &Obj)
 
 	obj.m_iDuelUserReserved = -1;
 
-	if( IsDuel(obj) )	lpTargetObj = (CGameObject*)&getGameObject(obj.m_iDuelUser);
+	if( IsDuel(obj) )	lpTargetObj = (CGameObject*)getGameObject(obj.m_iDuelUser);
 
 	if(lpTargetObj == NULL){ sLog->outBasic("%s\t%s\t%s\t%s\t%d","lpTargetObj","ENEWPVP::E_INVALID_INDEX","NULL", __FILE__, __LINE__); return ENEWPVP::E_INVALID_INDEX; }
 
@@ -644,7 +644,7 @@ BOOL CNewPVP::MoveGate(int nIndex, int nGateNum)
 	if( nMapNumber < 0)	return FALSE;
 
 	gObjTeleport(nIndex, btMapNum, sX, sY);
-	gObjViewportListProtocolCreate(&getGameObject(nIndex));
+	gObjViewportListProtocolCreate(getGameObject(nIndex));
 	return TRUE;
 }
 
@@ -985,7 +985,7 @@ void CNewPVP::LeaveChannelObserver(int nId)
 		ObserverInfo & info = iter->second;		
 		if(info.nId == nId)
 		{
-			CGameObject &Obj = (CGameObject*)&getGameObject(info.nIndex);
+			CGameObject &Obj = (CGameObject*)getGameObject(info.nIndex);
 
 			if( IsPKFieldMap(Obj.MapNumber) )
 			{

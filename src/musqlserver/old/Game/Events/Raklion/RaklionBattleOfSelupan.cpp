@@ -193,7 +193,7 @@ void CRaklionBattleOfSelupan::SetState_DIE()
 	DeleteSummonMonster();
 
 	int iSelupanIndex = GetSelupanObjIndex();
-	int iWinner = gObjMonsterTopHitDamageUser(&getGameObject(iSelupanIndex));
+	int iWinner = gObjMonsterTopHitDamageUser(getGameObject(iSelupanIndex));
 
 	if (iWinner == -1)
 	{
@@ -202,7 +202,7 @@ void CRaklionBattleOfSelupan::SetState_DIE()
 
 	if (ObjectMaxRange(iWinner) == true)
 	{
-		CGameObject lpObj = &getGameObject(iWinner);
+		CGameObject lpObj = getGameObject(iWinner);
 		g_RaklionUtil.SendMsgAllUser(Lang.GetText(0,307), Obj.Name);
 	}
 
@@ -308,7 +308,7 @@ void CRaklionBattleOfSelupan::ActionOfSelupan(int iAction)
 {
 	int iSelupanIndex = m_RaklionSelupan.GetSelupanObjIndex();
 
-	CGameObject lpObj = &getGameObject(iSelupanIndex);
+	CGameObject lpObj = getGameObject(iSelupanIndex);
 
 	if( Obj.Teleport || Obj.m_ActState.Move )	return;
 	if( iAction < 0 || iAction >= 9 )	return;
@@ -354,7 +354,7 @@ void CRaklionBattleOfSelupan::SetBattleOfSelupanStateAuto()
 		return;
 	}
 	
-	lpObj = &getGameObject(iSelupanObjIndex);
+	lpObj = getGameObject(iSelupanObjIndex);
 	
 	if( Obj.DieRegen )	return;
 

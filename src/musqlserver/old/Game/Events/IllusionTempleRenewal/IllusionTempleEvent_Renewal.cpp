@@ -510,7 +510,7 @@ BOOL CIllusionTempleEvent_Renewal::CheckRelics(int nIndex)
 		return FALSE;
 	}
 
-	if (nIndex == this->m_cITR_Proc[getGameObject(nIndex)->MapNumber - 45]->GetRelicsUserIndex(&getGameObject(nIndex)))
+	if (nIndex == this->m_cITR_Proc[getGameObject(nIndex)->MapNumber - 45]->GetRelicsUserIndex(getGameObject(nIndex)))
 	{
 		return TRUE;
 	}

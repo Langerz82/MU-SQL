@@ -507,7 +507,7 @@ void CBuffEffect::GiveDamageFillHPEffect(CGameObject &Obj, int Damage)
 
 		if (ObjectMaxRange(value2) == false)	return;
 
-		CGameObject lpTarget = &getGameObject(value2);
+		CGameObject lpTarget = getGameObject(value2);
 
 		if ((Obj.AddLife + Obj.MaxLife) >= (Obj.Life+DecreaseHealthPoint))
 		{
@@ -531,9 +531,9 @@ void CBuffEffect::SetPrevEffect(CGameObject &Obj)
 
 	for(int i = 0; i < MAX_BUFFEFFECT; i++)
 	{
-		if(Obj.pntBuffEffectList[i].BuffIndex == BUFFTYPE_NONE) continue;
+		if(Obj.pntBuffEffectList[i]->BuffIndex == BUFFTYPE_NONE) continue;
 
-		switch(Obj.pntBuffEffectList[i].EffectType1)
+		switch(Obj.pntBuffEffectList[i]->EffectType1)
 		{
 		case EFFECTTYPE_HP:
 		case EFFECTTYPE_MANA:
@@ -548,13 +548,13 @@ void CBuffEffect::SetPrevEffect(CGameObject &Obj)
 		case EFFECTTYPE_SD_UP_VALUE:
 		case EFFECTTYPE_AG_UP_VALUE:
 			BuffCount++;
-			SetBuffEffect(lpObj, Obj.pntBuffEffectList[i].EffectType1, Obj.pntBuffEffectList[i].EffectValue1);
+			SetBuffEffect(lpObj, Obj.pntBuffEffectList[i]->EffectType1, Obj.pntBuffEffectList[i]->EffectValue1);
 			break;
 		default:
 			break;
 		}
 
-		switch(Obj.pntBuffEffectList[i].EffectType2)
+		switch(Obj.pntBuffEffectList[i]->EffectType2)
 		{
 		case EFFECTTYPE_HP:
 		case EFFECTTYPE_MANA:
@@ -569,7 +569,7 @@ void CBuffEffect::SetPrevEffect(CGameObject &Obj)
 		case EFFECTTYPE_SD_UP_VALUE:
 		case EFFECTTYPE_AG_UP_VALUE:
 			BuffCount++;
-			SetBuffEffect(lpObj, Obj.pntBuffEffectList[i].EffectType2, Obj.pntBuffEffectList[i].EffectValue2);
+			SetBuffEffect(lpObj, Obj.pntBuffEffectList[i]->EffectType2, Obj.pntBuffEffectList[i]->EffectValue2);
 			break;
 		default:
 			break;
@@ -585,9 +585,9 @@ void CBuffEffect::SetNextEffect(CGameObject &Obj)
 
 	for(int i = 0; i < MAX_BUFFEFFECT; i++)
 	{
-		if(Obj.pntBuffEffectList[i].BuffIndex == BUFFTYPE_NONE) continue;
+		if(Obj.pntBuffEffectList[i]->BuffIndex == BUFFTYPE_NONE) continue;
 
-		switch(Obj.pntBuffEffectList[i].EffectType1)
+		switch(Obj.pntBuffEffectList[i]->EffectType1)
 		{
 		case EFFECTTYPE_HP:
 		case EFFECTTYPE_MANA:
@@ -604,11 +604,11 @@ void CBuffEffect::SetNextEffect(CGameObject &Obj)
 			break;
 		default:
 			BuffCount++;
-			SetBuffEffect(lpObj, Obj.pntBuffEffectList[i].EffectType1, Obj.pntBuffEffectList[i].EffectValue1);
+			SetBuffEffect(lpObj, Obj.pntBuffEffectList[i]->EffectType1, Obj.pntBuffEffectList[i]->EffectValue1);
 			break;
 		}
 
-		switch(Obj.pntBuffEffectList[i].EffectType2)
+		switch(Obj.pntBuffEffectList[i]->EffectType2)
 		{
 		case EFFECTTYPE_HP:
 		case EFFECTTYPE_MANA:
@@ -625,7 +625,7 @@ void CBuffEffect::SetNextEffect(CGameObject &Obj)
 			break;
 		default:
 			BuffCount++;
-			SetBuffEffect(lpObj, Obj.pntBuffEffectList[i].EffectType2, Obj.pntBuffEffectList[i].EffectValue2);
+			SetBuffEffect(lpObj, Obj.pntBuffEffectList[i]->EffectType2, Obj.pntBuffEffectList[i]->EffectValue2);
 			break;
 		}
 	}
@@ -639,9 +639,9 @@ void CBuffEffect::ClearPrevEffect(CGameObject &Obj)
 
 	for(int i = 0; i < MAX_BUFFEFFECT; i++)
 	{
-		if(Obj.pntBuffEffectList[i].BuffIndex == BUFFTYPE_NONE) continue;
+		if(Obj.pntBuffEffectList[i]->BuffIndex == BUFFTYPE_NONE) continue;
 
-		switch(Obj.pntBuffEffectList[i].EffectType1)
+		switch(Obj.pntBuffEffectList[i]->EffectType1)
 		{
 		case EFFECTTYPE_HP:
 		case EFFECTTYPE_MANA:
@@ -656,13 +656,13 @@ void CBuffEffect::ClearPrevEffect(CGameObject &Obj)
 		case EFFECTTYPE_SD_UP_VALUE:
 		case EFFECTTYPE_AG_UP_VALUE:
 			BuffCount++;
-			ClearBuffEffect(lpObj, Obj.pntBuffEffectList[i].EffectType1, Obj.pntBuffEffectList[i].EffectValue1);
+			ClearBuffEffect(lpObj, Obj.pntBuffEffectList[i]->EffectType1, Obj.pntBuffEffectList[i]->EffectValue1);
 			break;
 		default:
 			break;
 		}
 
-		switch(Obj.pntBuffEffectList[i].EffectType2)
+		switch(Obj.pntBuffEffectList[i]->EffectType2)
 		{
 		case EFFECTTYPE_HP:
 		case EFFECTTYPE_MANA:
@@ -677,7 +677,7 @@ void CBuffEffect::ClearPrevEffect(CGameObject &Obj)
 		case EFFECTTYPE_SD_UP_VALUE:
 		case EFFECTTYPE_AG_UP_VALUE:
 			BuffCount++;
-			ClearBuffEffect(lpObj, Obj.pntBuffEffectList[i].EffectType2, Obj.pntBuffEffectList[i].EffectValue2);
+			ClearBuffEffect(lpObj, Obj.pntBuffEffectList[i]->EffectType2, Obj.pntBuffEffectList[i]->EffectValue2);
 			break;
 		default:
 			break;
@@ -824,7 +824,7 @@ void CBuffEffect::DGPeriodItemExSelect(PMSG_ANS_PERIODBUFF_SELECT *lpMsg)
 		return;
 	}
 
-	CGameObject lpObj = &getGameObject(lpMsg->wUserIndex);
+	CGameObject lpObj = getGameObject(lpMsg->wUserIndex);
 
 	if ( Obj.Connected < PLAYER_LOGGED )
 	{

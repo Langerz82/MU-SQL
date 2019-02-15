@@ -938,11 +938,6 @@ void GameProtocol::GCServerMsgStringSendEx(CGameObject &Obj, BYTE type, LPSTR sz
 
 void GameProtocol::GCServerMsgStringSendGuild(GUILD_INFO_STRUCT &lpNode, LPSTR szMsg, BYTE type)
 {
-	if (lpNode == NULL)
-	{
-		return;
-	}
-
 	for (int n = 0; n < MAX_USER_GUILD; n++)
 	{
 		if (lpNode.Use[n] > 0 && lpNode.Index[n] >= 0)
@@ -1115,11 +1110,6 @@ void GameProtocol::SCPJoinResultSend(CGameObject &Obj, BYTE result)
 
 void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, CGameObject &Obj)
 {
-	if (Obj < g_ConfigRead.server.GetObjectStartUserIndex() || Obj > g_ConfigRead.server.GetObjectMax())
-	{
-		return;
-	}
-
 	char serial[17];
 	char id[11];
 	char hwid[25];
@@ -1299,11 +1289,6 @@ void GameProtocol::GCJoinSocketResult(BYTE result, SOCKET Socket)
 
 void GameProtocol::CGClientCloseMsg(PMSG_CLIENTCLOSE * lpMsg, CGameObject &Obj)
 {
-	if (Obj < 0 || Obj > g_ConfigRead.server.GetObjectMax() - 1)
-	{
-		return;
-	}
-
 	switch (lpMsg->Flag)
 	{
 	case 0:	// Close Game
@@ -1367,11 +1352,6 @@ void GameProtocol::CGPCharacterCreate(PMSG_CHARCREATE * lpMsg, CGameObject &Obj)
 	if (!PacketCheckTime(Obj))
 	{
 		JGCharacterCreateFailSend(Obj, lpMsg->Name);
-		return;
-	}
-
-	if (Obj < g_ConfigRead.server.GetObjectStartUserIndex() || Obj > g_ConfigRead.server.GetObjectMax())
-	{
 		return;
 	}
 
@@ -20089,8 +20069,8 @@ void GameProtocol::GCDisplayBuffeffectPartyMember(CGameObject &Obj)
 
 	for (int nBuffCnt = 0; nBuffCnt < pMsg.btBuffCount; nBuffCnt++)
 	{
-		pMsg.stBuffList[nBuffCnt].btBuffIndex = Obj.pntBuffEffectList[nBuffCnt].BuffIndex;
-		pMsg.stBuffList[nBuffCnt].nBuffDuration = Obj.pntBuffEffectList[nBuffCnt].EffectDuration;
+		pMsg.stBuffList[nBuffCnt].btBuffIndex = Obj.pntBuffEffectList[nBuffCnt]->BuffIndex;
+		pMsg.stBuffList[nBuffCnt].nBuffDuration = Obj.pntBuffEffectList[nBuffCnt]->EffectDuration;
 	}
 
 	for (int i = 0; i < MAX_USER_IN_PARTY; i++)
@@ -25705,7 +25685,7 @@ void DGGetWarehouseList(SDHP_GETWAREHOUSEDB_SAVE * lpMsg)
 	BYTE OptionData;
 	CItemObject &item;
 
-	std::memset(lpObj->pWarehouseMap, (BYTE)-1, WAREHOUSE_SIZE);
+	std::memset(lpObj->WarehouseMap, (BYTE)-1, WAREHOUSE_SIZE);
 	lpObj->WarehouseMoney = lpMsg->Money;
 	lpObj->WarehousePW = lpMsg->pw;
 

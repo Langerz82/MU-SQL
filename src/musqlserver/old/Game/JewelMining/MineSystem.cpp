@@ -426,7 +426,7 @@ void CMineSystem::RewardMineTwinkle(PMSG_REQ_MINETWINKLE_REWARD *lpMsg, CGameObj
 				ServerCmd.CmdType = 0;
 				ServerCmd.X = Obj.X;
 				ServerCmd.Y = Obj.Y;
-				gGameProtocol.MsgSendV2(&getGameObject(Obj.m_Index), (BYTE*)&ServerCmd, sizeof(ServerCmd));
+				gGameProtocol.MsgSendV2(getGameObject(Obj.m_Index), (BYTE*)&ServerCmd, sizeof(ServerCmd));
 				IOCP.DataSend(Obj.m_Index, (BYTE*)&ServerCmd, sizeof(ServerCmd));
 			}
 
@@ -478,7 +478,7 @@ void CMineSystem::FailMineTwinkle(PMSG_ANS_MINETWINKLE_END_ANIMATION *lpMsg, CGa
 
 	if (getGameObject(lpMsg->wTwinkleIndex]->Life == 0.0 && getGameObject(lpMsg->wTwinkleIndex)->MapNumber == lpMsg->byMapNumber)
 	{
-		gObjLifeCheck(&getGameObject(lpMsg->wTwinkleIndex], &getGameObject(Obj.m_Index), 0, 1, 0, 0, 0, 0, 0);
+		gObjLifeCheck(getGameObject(lpMsg->wTwinkleIndex], getGameObject(Obj.m_Index), 0, 1, 0, 0, 0, 0, 0);
 	}
 }
 
@@ -718,7 +718,7 @@ void CMineSystem::ResetTwinkleInfo(CGameObject &Obj, WORD wTwinkleIndex, bool bF
 
 	if (!bFailMining)
 	{
-		gObjLifeCheck(&getGameObject(wTwinkleIndex), &getGameObject(Obj.m_Index), 0, 1, 0, 0, 0, 0, 0);
+		gObjLifeCheck(getGameObject(wTwinkleIndex), getGameObject(Obj.m_Index), 0, 1, 0, 0, 0, 0, 0);
 	}
 
 	Obj.m_PlayerData->m_bIsMining = false;

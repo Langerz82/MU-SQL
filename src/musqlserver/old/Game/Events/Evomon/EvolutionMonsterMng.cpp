@@ -313,7 +313,7 @@ void CEvolutionMonsterMng::EvolutionMonsterDie(CGameObject & lpTargetObj, CGameO
 		return;
 	}
 
-	CGameObject lpOwnerObj = &getGameObject(nEvoMonOwnerIndex);
+	CGameObject lpOwnerObj = getGameObject(nEvoMonOwnerIndex);
 
 	if (lpOwnerObj.Type != OBJ_USER)
 	{
@@ -385,7 +385,7 @@ void CEvolutionMonsterMng::EvolutionMonsterDie(CGameObject & lpTargetObj, CGameO
 
 					if (nPartyIndex != -1)
 					{
-						CGameObject lpPartyObj = &getGameObject(nPartyIndex);
+						CGameObject lpPartyObj = getGameObject(nPartyIndex);
 						this->GiveReward(lpPartyObj, true);
 					}
 				}
@@ -462,7 +462,7 @@ void CEvolutionMonsterMng::FieldProcess(CGameObject & lpFieldObj)
 		return;
 	}
 
-	CGameObject lpOwnerObj = &getGameObject(nEvoMonOwnerIndex);
+	CGameObject lpOwnerObj = getGameObject(nEvoMonOwnerIndex);
 
 	if (lpOwnerObj.Type != OBJ_USER)
 	{
@@ -534,7 +534,7 @@ void CEvolutionMonsterMng::EndTimeProcess(CGameObject & lpMonsterObj)
 		return;
 	}
 
-	CGameObject lpOwnerObj = &getGameObject(nEvoMonOwnerIndex);
+	CGameObject lpOwnerObj = getGameObject(nEvoMonOwnerIndex);
 
 	if (lpOwnerObj.Type != OBJ_USER)
 	{
@@ -631,7 +631,7 @@ void CEvolutionMonsterMng::EvoluteMonster(CGameObject &Obj)
 	getGameObject(nEvoMonIndex)->m_nEvoMonOwnerIndex = Obj.m_Index;
 	gObjSetMonster(nEvoMonIndex, nMonsterClass);
 	getGameObject(nEvoMonIndex)->Level = pEvoMonInfo->GetEvoMonLevel();
-	this->SetMonsterStats(&getGameObject(nEvoMonIndex), It->second);
+	this->SetMonsterStats(getGameObject(nEvoMonIndex), It->second);
 	getGameObject(nEvoMonIndex)->DieRegen = 0;
 	getGameObject(nEvoMonIndex)->m_PosNum = -1;
 	getGameObject(nEvoMonIndex)->X = getGameObject(nFieldIndex)->X;

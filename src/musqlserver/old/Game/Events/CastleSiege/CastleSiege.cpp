@@ -2241,7 +2241,7 @@ void CCastleSiege::ClearDbNPC()
 				if( getGameObject(n)->Class == 277 )
 				{
 					this->SetGateBlockState(getGameObject(n)->X, getGameObject(n)->Y, 1);
-					gObjAddBuffEffect(&getGameObject(n), BUFFTYPE_CASTLE_DOOR_STATE, 0, 0, 0, 0, -10);
+					gObjAddBuffEffect(getGameObject(n), BUFFTYPE_CASTLE_DOOR_STATE, 0, 0, 0, 0, -10);
 				}
 				gObjDel(n);
 			}
@@ -2400,7 +2400,7 @@ void CCastleSiege::CreateDbNPC()
 				if(pNpcData.m_iNPC_NUM == 277)
 				{
 					this->SetGateBlockState(pNpcData.m_iNPC_SX,pNpcData.m_iNPC_SY,1);
-					gObjAddBuffEffect(&getGameObject(iNPC_INDEX), BUFFTYPE_CASTLE_DOOR_STATE, 0, 0, 0, 0, -10);
+					gObjAddBuffEffect(getGameObject(iNPC_INDEX), BUFFTYPE_CASTLE_DOOR_STATE, 0, 0, 0, 0, -10);
 
 					getGameObject(iNPC_INDEX)->m_btCsGateOpen = 1;
 					BOOL bCreateLever = FALSE;
@@ -2697,7 +2697,7 @@ int CCastleSiege::AddDbNPC(int iNpcType, int iNpcIndex)
 				if( NpcData.m_iNPC_NUM == 277 )
 				{
 					this->SetGateBlockState(NpcData.m_iNPC_SX, NpcData.m_iNPC_SY, 1);
-					gObjAddBuffEffect(&getGameObject(iObjIndex), BUFFTYPE_CASTLE_DOOR_STATE, 0, 0, 0, 0, -10);
+					gObjAddBuffEffect(getGameObject(iObjIndex), BUFFTYPE_CASTLE_DOOR_STATE, 0, 0, 0, 0, -10);
 
 					getGameObject(iObjIndex)->m_btCsGateOpen = 1;
 						
@@ -2813,7 +2813,7 @@ BOOL CCastleSiege::DelNPC(CGameObject &Obj, int iNpcType, int iMonsterExistVal, 
 					if( pNpcData->m_iNPC_NUM == 277 )
 					{
 						this->SetGateBlockState(pNpcData->m_iNPC_SX, pNpcData->m_iNPC_SY, 1);
-						gObjAddBuffEffect(&getGameObject(pNpcData->m_iNPC_OBJINDEX), BUFFTYPE_CASTLE_DOOR_STATE, 0, 0, 0, 0, -10);
+						gObjAddBuffEffect(getGameObject(pNpcData->m_iNPC_OBJINDEX), BUFFTYPE_CASTLE_DOOR_STATE, 0, 0, 0, 0, -10);
 						sLog->outBasic("[CastleSiege][ State:%d ] Delete Castle Gate ( CLS:%d, IDX:%d, X:%d. Y:%d )", this->m_iCastleSiegeState, pNpcData->m_iNPC_NUM, pNpcData->m_iNPC_INDEX, pNpcData->m_iNPC_SX, pNpcData->m_iNPC_SY);
 					}
 
@@ -3473,7 +3473,7 @@ void CCastleSiege::SendCsGateStateViewPort(int iGateIndex, BYTE btOperate)
 		return;
 	}
 
-	CGameObject lpObj = &getGameObject(iGateIndex);
+	CGameObject lpObj = getGameObject(iGateIndex);
 
 	if( Obj.VPCount2 < 1 )
 	{
@@ -3623,7 +3623,7 @@ void CCastleSiege::CheckCsDbNpcAlive()
 					{
 						case 277:
 							this->SetGateBlockState(NpcData.m_iNPC_SX, NpcData.m_iNPC_SY, 1);
-							gObjAddBuffEffect(&getGameObject(NpcData.m_iNPC_OBJINDEX), BUFFTYPE_CASTLE_DOOR_STATE, 0, 0, 0, 0, -10);
+							gObjAddBuffEffect(getGameObject(NpcData.m_iNPC_OBJINDEX), BUFFTYPE_CASTLE_DOOR_STATE, 0, 0, 0, 0, -10);
 							sLog->outBasic("[CastleSiege] Castle Gate is Broken (CLS:%d, IDX:%d, X:%d, Y:%d)", NpcData.m_iNPC_NUM, NpcData.m_iNPC_INDEX, NpcData.m_iNPC_SX, NpcData.m_iNPC_SY);
 							break;
 						case 283:
@@ -4408,7 +4408,7 @@ int CCastleSiege::OperateGate(int iObjIndex, int iMonsterExistVal, int bOpenType
 			if( getGameObject(iObjNumber)->m_btCsNpcType != 0 && iMonsterExistVal == NpcData.m_iCsNpcExistVal )
 			{
 				this->SetGateBlockState(NpcData.m_iNPC_SX, NpcData.m_iNPC_SY, bOpenType);
-				gObjAddBuffEffect(&getGameObject(iObjNumber), BUFFTYPE_CASTLE_DOOR_STATE, 0, 0, 0, 0, -10);
+				gObjAddBuffEffect(getGameObject(iObjNumber), BUFFTYPE_CASTLE_DOOR_STATE, 0, 0, 0, 0, -10);
 				getGameObject(iObjNumber)->m_btCsGateOpen = bOpenType;
 				bRETVAL = TRUE;
 			}
@@ -4444,11 +4444,11 @@ int CCastleSiege::OperateGate(int iNpcIndex, int bOpenType)
 					
 					if(bOpenType == 0)//Season 4.5 addon
 					{
-						gObjRemoveBuffEffect(&getGameObject(iObjNumber), BUFFTYPE_CASTLE_DOOR_STATE);
+						gObjRemoveBuffEffect(getGameObject(iObjNumber), BUFFTYPE_CASTLE_DOOR_STATE);
 					}
 					else
 					{
-						gObjAddBuffEffect(&getGameObject(iObjNumber), BUFFTYPE_CASTLE_DOOR_STATE, 0, 0, 0, 0, -10);
+						gObjAddBuffEffect(getGameObject(iObjNumber), BUFFTYPE_CASTLE_DOOR_STATE, 0, 0, 0, 0, -10);
 					}
 					
 					getGameObject(iObjNumber)->m_btCsGateOpen = bOpenType;
@@ -5134,12 +5134,12 @@ void CCastleSiege::ReSpawnAllUser()
 			getGameObject(iUSER)->PathCount = 0;
 			getGameObject(iUSER)->Teleport = 0;
 
-			gObjClearViewport(&getGameObject(iUSER));
-			gGameProtocol.GCTeleportSend(&getGameObject(iUSER), -1, MAP_INDEX_CASTLESIEGE, getGameObject(iUSER)->X, getGameObject(iUSER)->Y, getGameObject(iUSER)->Dir);
+			gObjClearViewport(getGameObject(iUSER));
+			gGameProtocol.GCTeleportSend(getGameObject(iUSER), -1, MAP_INDEX_CASTLESIEGE, getGameObject(iUSER)->X, getGameObject(iUSER)->Y, getGameObject(iUSER)->Dir);
 
 			if( getGameObject(iUSER)->m_Change >= 0 )
 			{
-				gObjViewportListProtocolCreate(&getGameObject(iUSER));
+				gObjViewportListProtocolCreate(getGameObject(iUSER));
 			}
 			getGameObject(iUSER)->RegenMapNumber = MAP_INDEX_CASTLESIEGE;
 			getGameObject(iUSER)->RegenMapX = iTX;
@@ -5208,13 +5208,13 @@ void CCastleSiege::ReSpawnEnemyUser(int bRefreshOwnerUser)
 					break;
 				}
 
-				gObjClearViewport(&getGameObject(iUSER));
+				gObjClearViewport(getGameObject(iUSER));
 
-				gGameProtocol.GCTeleportSend(&getGameObject(iUSER),-1,getGameObject(iUSER)->MapNumber,getGameObject(iUSER)->X,getGameObject(iUSER)->Y,getGameObject(iUSER)->Dir); //season 2.5 changed
+				gGameProtocol.GCTeleportSend(getGameObject(iUSER),-1,getGameObject(iUSER)->MapNumber,getGameObject(iUSER)->X,getGameObject(iUSER)->Y,getGameObject(iUSER)->Dir); //season 2.5 changed
 
 				if(getGameObject(iUSER)->m_Change >= 0)
 				{
-					gObjViewportListProtocolCreate(&getGameObject(iUSER));
+					gObjViewportListProtocolCreate(getGameObject(iUSER));
 				}
 
 				getGameObject(iUSER)->RegenOk = TRUE;
@@ -5268,12 +5268,12 @@ void CCastleSiege::ReSpawnEnemyUser(int bRefreshOwnerUser)
 			getGameObject(iUSER)->PathCount = 0;
 			getGameObject(iUSER)->Teleport = 0;
 
-			gObjClearViewport(&getGameObject(iUSER));
-			gGameProtocol.GCTeleportSend(&getGameObject(iUSER),-1,MAP_INDEX_CASTLESIEGE,getGameObject(iUSER)->X,getGameObject(iUSER)->Y,getGameObject(iUSER)->Dir);
+			gObjClearViewport(getGameObject(iUSER));
+			gGameProtocol.GCTeleportSend(getGameObject(iUSER),-1,MAP_INDEX_CASTLESIEGE,getGameObject(iUSER)->X,getGameObject(iUSER)->Y,getGameObject(iUSER)->Dir);
 
 			if(getGameObject(iUSER)->m_Change >= 0)
 			{
-				gObjViewportListProtocolCreate(&getGameObject(iUSER));
+				gObjViewportListProtocolCreate(getGameObject(iUSER));
 			}
 
 			getGameObject(iUSER)->RegenMapNumber = MAP_INDEX_CASTLESIEGE;
@@ -5360,12 +5360,12 @@ void CCastleSiege::SetAllCastleGateState(BOOL bOpenType)
 			{
 			case 0:
 				SetGateBlockState(pNpcData.m_iNPC_SX,pNpcData.m_iNPC_SY,0);
-				gObjRemoveBuffEffect(&getGameObject(pNpcData.m_iNPC_OBJINDEX), BUFFTYPE_CASTLE_DOOR_STATE);
+				gObjRemoveBuffEffect(getGameObject(pNpcData.m_iNPC_OBJINDEX), BUFFTYPE_CASTLE_DOOR_STATE);
 				getGameObject(pNpcData.m_iNPC_OBJINDEX)->m_btCsGateOpen = 0;
 				break;
 			case 1:
 				SetGateBlockState(pNpcData.m_iNPC_SX,pNpcData.m_iNPC_SY,1);
-				gObjAddBuffEffect(&getGameObject(pNpcData.m_iNPC_OBJINDEX), BUFFTYPE_CASTLE_DOOR_STATE, 0, 0, 0, 0, -10);
+				gObjAddBuffEffect(getGameObject(pNpcData.m_iNPC_OBJINDEX), BUFFTYPE_CASTLE_DOOR_STATE, 0, 0, 0, 0, -10);
 				getGameObject(pNpcData.m_iNPC_OBJINDEX)->m_btCsGateOpen = 1;
 				break;
 			}
@@ -5583,15 +5583,15 @@ void CCastleSiege::NotifyCrownState(BYTE btState)
 		return;
 	}
 
-	CGameObject lpObj = &getGameObject(m_iCrownIndex);
+	CGameObject lpObj = getGameObject(m_iCrownIndex);
 
 	if(btState == 0)//Season 4.5 addon
 	{
-		gObjAddBuffEffect(&getGameObject(m_iCrownIndex), BUFFTYPE_CASTLE_CROWN_STATE, 0, 0, 0, 0, -10);
+		gObjAddBuffEffect(getGameObject(m_iCrownIndex), BUFFTYPE_CASTLE_CROWN_STATE, 0, 0, 0, 0, -10);
 	}
 	else
 	{
-		gObjRemoveBuffEffect(&getGameObject(m_iCrownIndex), BUFFTYPE_CASTLE_CROWN_STATE);
+		gObjRemoveBuffEffect(getGameObject(m_iCrownIndex), BUFFTYPE_CASTLE_CROWN_STATE);
 	}
 
 	if( Obj.VPCount2 < 1 )
@@ -5636,7 +5636,7 @@ void CCastleSiege::NotifyCrownSwitchInfo(int iCrownSwitchIndex)
 		return;
 	}
 
-	CGameObject lpObj = &getGameObject(iCrownSwitchIndex);
+	CGameObject lpObj = getGameObject(iCrownSwitchIndex);
 
 	if( Obj.VPCount2 < 1 )
 	{
@@ -5659,7 +5659,7 @@ void CCastleSiege::NotifyCrownSwitchInfo(int iCrownSwitchIndex)
 
 	if( gObjIsConnected(iCrownSwitchUserIndex) )
 	{
-		CGameObject lpSwitchObj = &getGameObject(iCrownSwitchUserIndex);
+		CGameObject lpSwitchObj = getGameObject(iCrownSwitchUserIndex);
 		char szMasterGuildName[MAX_GUILD_LEN];
 
 		pMsg.btSwitchState = TRUE;

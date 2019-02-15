@@ -322,7 +322,7 @@ void MapClass::SetWeather(BYTE a_weather, BYTE a_variation)
 
 	for (n = g_ConfigRead.server.GetObjectStartUserIndex(); n<g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		lpObj = &getGameObject(n);
+		lpObj = getGameObject(n);
 
 		if (Obj.Connected > PLAYER_CONNECTED && Obj.Live != 0 && Obj.MapNumber == this->thisMapNumber)
 		{
@@ -350,7 +350,7 @@ void MapClass::WeatherVariationProcess()
 
 		for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n<g_ConfigRead.server.GetObjectMax(); n++)
 		{
-			lpObj = &getGameObject(n);
+			lpObj = getGameObject(n);
 
 			if (Obj.Connected > PLAYER_CONNECTED && Obj.Live != 0 && Obj.MapNumber == this->thisMapNumber)
 			{

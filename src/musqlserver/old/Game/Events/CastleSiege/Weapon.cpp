@@ -501,7 +501,7 @@ void CWeapon::WeaponAttackProc()
 				continue;
 			}
 
-			CGameObject lpTargetObj = &getGameObject(this->m_WeaponDamagedTargetInfo[i]->m_iTargetObjIndex);
+			CGameObject lpTargetObj = getGameObject(this->m_WeaponDamagedTargetInfo[i]->m_iTargetObjIndex);
 			CGameObject lpWeaponObj = & getGameObject(this->m_WeaponDamagedTargetInfo[i]->m_iWeaponObjIndex);
 
 			if ( gObjIsConnected(lpTargetObj) == FALSE )

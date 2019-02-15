@@ -97,7 +97,7 @@ void ChristmasFireCrackDrop(CGameObject &Obj) //season 4.5 add-on
 #pragma warning ( disable : 4101 )
 void EGRecvEventChipInfo(PMSG_ANS_VIEW_EC_MN * aRecv)
 {
-	CGameObject lpObj = &getGameObject(aRecv->iINDEX);
+	CGameObject lpObj = getGameObject(aRecv->iINDEX);
 
 	PMSG_EVENTCHIPINFO eventchipeventinfo;
 	char msg[255];
@@ -122,7 +122,7 @@ void EGResultRegEventChip(PMSG_ANS_REGISTER_EVENTCHIP * aRecv)
 	CGameObject &Obj;
 
 	PHeadSetB((BYTE*)&Result, 0x95, sizeof(Result));
-	lpObj = &getGameObject(aRecv->iINDEX);
+	lpObj = getGameObject(aRecv->iINDEX);
 	Obj.m_Index = aRecv->iINDEX;
 
 	if ( aRecv->bSUCCESS == FALSE )
@@ -157,7 +157,7 @@ void EGRecvRegMutoNum( PMSG_ANS_REGISTER_MUTONUM* aRecv)
 	CGameObject &Obj;
 	
 
-	lpObj = &getGameObject(aRecv->iINDEX);
+	lpObj = getGameObject(aRecv->iINDEX);
 	Obj.m_Index = aRecv->iINDEX;
 
 	PMSG_GETMUTONUMBER_RESULT Result;
@@ -199,7 +199,7 @@ void EGRecvChangeRena( PMSG_ANS_RESET_EVENTCHIP* aRecv)
 	CGameObject &Obj;
 
 	PHeadSetB((BYTE*)&Result, 0x95, sizeof(Result));
-	lpObj = &getGameObject(aRecv->iINDEX);
+	lpObj = getGameObject(aRecv->iINDEX);
 	Obj.m_Index = aRecv->iINDEX;
 
 	if ( aRecv->bSUCCESS != FALSE )
@@ -229,7 +229,7 @@ CGameObject pEventObj;
 
 void EGRecvStoneInfo( PMSG_ANS_VIEW_STONES* aRecv)
 {
-	CGameObject lpObj = &getGameObject(aRecv->iINDEX);
+	CGameObject lpObj = getGameObject(aRecv->iINDEX);
 
 	PMSG_EVENTCHIPINFO Result;
 	
@@ -260,7 +260,7 @@ void EGRecvRegStone( PMSG_ANS_REGISTER_STONES* aRecv)
 	
 
 	PHeadSetB((BYTE*)&Result, 0x95, sizeof(Result));
-	lpObj = &getGameObject(aRecv->iINDEX);
+	lpObj = getGameObject(aRecv->iINDEX);
 	Obj.m_Index = aRecv->iINDEX;
 
 	if ( aRecv->bSUCCESS != FALSE )
@@ -300,7 +300,7 @@ void EGRecvChangeStones( PMSG_ANS_RESET_EVENTCHIP* aRecv)
 	
 
 	PHeadSetB((BYTE*)&Result, 0x95, sizeof(Result));
-	lpObj = &getGameObject(aRecv->iINDEX);
+	lpObj = getGameObject(aRecv->iINDEX);
 	Obj.m_Index = aRecv->iINDEX;
 
 	if ( aRecv->bSUCCESS != FALSE )
@@ -379,7 +379,7 @@ void EGRecv2AnvRegSerial( PMSG_ANS_2ANIV_SERIAL* aRecv)
 			ServerCmd.X = getGameObject(aRecv->iINDEX)->X;
 			ServerCmd.Y = getGameObject(aRecv->iINDEX)->Y;
 
-			gGameProtocol.MsgSendV2(&getGameObject(aRecv->iINDEX), (BYTE*)&ServerCmd, sizeof(ServerCmd));
+			gGameProtocol.MsgSendV2(getGameObject(aRecv->iINDEX), (BYTE*)&ServerCmd, sizeof(ServerCmd));
 			IOCP.DataSend(aRecv->iINDEX, (BYTE*)&ServerCmd, sizeof(ServerCmd));
 		}
 
@@ -1213,7 +1213,7 @@ void EGAnsRegHTOfflineGift( PMSG_ANS_REG_HT_OFFLINE_GIFT* lpMsg)
 	{
 		if ( gObjIsConnected(lpMsg->iINDEX))
 		{
-			CGameObject lpObj = &getGameObject(lpMsg->iINDEX);
+			CGameObject lpObj = getGameObject(lpMsg->iINDEX);
 
 			MapC[Obj.MapNumber].MoneyItemDrop(1000000, Obj.X, Obj.Y);
 		}
@@ -1249,7 +1249,7 @@ void EGAnsRegLuckyCoin(PMSG_ANS_REG_LUCKYCOIN * lpMsg)
 	PMSG_ANS_LUCKYCOIN_REGISTER pMsg = {0};
 	PHeadSubSetB((BYTE*)&pMsg, 0xBF, 0x0C, sizeof(pMsg));
 
-	CGameObject lpObj = &getGameObject(lpMsg->iIndex);
+	CGameObject lpObj = getGameObject(lpMsg->iIndex);
 
 	pMsg.btResult = lpMsg->Result;
 	
@@ -1287,7 +1287,7 @@ void EGAnsLuckyCoinInfo(PMSG_ANS_LUCKYCOIN *lpMsg)
 
 	PMSG_ANS_LUCKYCOININFO pMsg;
 	PHeadSubSetB((BYTE*)&pMsg, 0xBF, 0x0B, sizeof(pMsg));
-	CGameObject lpObj = &getGameObject(lpMsg->iIndex);
+	CGameObject lpObj = getGameObject(lpMsg->iIndex);
 
 	pMsg.iLuckyCoin = lpMsg->LuckyCoins;
 	Obj.LuckyCoinCount = lpMsg->LuckyCoins;
@@ -1301,7 +1301,7 @@ void EGAnsSantaCheck(PMSG_ANS_SANTACHECK *lpMsg)
 	if(!lpMsg)
 		return;
 
-	CGameObject lpObj = &getGameObject(lpMsg->Obj.m_Index);
+	CGameObject lpObj = getGameObject(lpMsg->Obj.m_Index);
 
 	switch ( lpMsg->Result )
 	{
@@ -1342,7 +1342,7 @@ void EGAnsSantaGift(PMSG_ANS_SANTAGIFT *lpMsg)
 	if(!lpMsg)
 		return;
 
-	CGameObject lpObj = &getGameObject(lpMsg->Obj.m_Index);
+	CGameObject lpObj = getGameObject(lpMsg->Obj.m_Index);
 
 	switch ( lpMsg->Result )
 	{

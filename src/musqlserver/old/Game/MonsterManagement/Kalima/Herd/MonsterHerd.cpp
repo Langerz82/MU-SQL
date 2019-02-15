@@ -548,7 +548,7 @@ void MonsterHerd::MonsterBaseAct(CGameObject &Obj)
 
 	if ( Obj.TargetNumber >= 0 )
 	{
-		lpTargetObj = &getGameObject(Obj.TargetNumber);
+		lpTargetObj = getGameObject(Obj.TargetNumber);
 	}
 	else
 	{

@@ -67,7 +67,7 @@ void CCannonTower::CannonTowerAct(CGameObject &Obj) // 0x00560940  1.00.19
 				{
 					if (getGameObject(tObjNum)->m_btCsJoinSide)
 					{
-						if (gObjCalDistance(lpObj, &getGameObject(tObjNum)) < 7)
+						if (gObjCalDistance(lpObj, getGameObject(tObjNum)) < 7)
 						{
 							pAttack.NumberH = SET_NUMBERH(tObjNum);
 							pAttack.NumberL = SET_NUMBERL(tObjNum);

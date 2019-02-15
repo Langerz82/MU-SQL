@@ -650,7 +650,7 @@ BOOL CIllusionTempleLeagueEvent::CheckRelics(int nIndex)
 		return FALSE;
 	}
 
-	if (nIndex == this->m_cIllusionTempleLeagueProc[getGameObject(nIndex)->MapNumber - 98]->GetRelicsUserIndex(&getGameObject(nIndex)))
+	if (nIndex == this->m_cIllusionTempleLeagueProc[getGameObject(nIndex)->MapNumber - 98]->GetRelicsUserIndex(getGameObject(nIndex)))
 	{
 		return TRUE;
 	}
@@ -1233,7 +1233,7 @@ void CIllusionTempleLeagueEvent::ResetITL_FlagAll()
 {
 	for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 	{
-		CGameObject lpObj = &getGameObject(i);
+		CGameObject lpObj = getGameObject(i);
 
 		if (gObjIsConnected(i) == TRUE && Obj.Type == OBJ_USER)
 		{
@@ -1489,7 +1489,7 @@ void CIllusionTempleLeagueEvent::Update_ITL_RewardFlag(char *Name)
 
 BYTE CIllusionTempleLeagueEvent::Check_ITLRewardList(int nUserIndex)
 {
-	CGameObject lpObj = &getGameObject(nUserIndex);
+	CGameObject lpObj = getGameObject(nUserIndex);
 
 	if (gObjIsConnected(nUserIndex) == TRUE && Obj.Type == OBJ_USER)
 	{

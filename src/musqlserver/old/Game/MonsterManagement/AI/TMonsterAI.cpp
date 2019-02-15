@@ -38,7 +38,7 @@ void TMonsterAI::MonsterAIProc()
 
 	for ( int n=0;n<g_ConfigRead.server.GetObjectMaxMonster();n++)
 	{
-		CGameObject lpObj = &getGameObject(n);
+		CGameObject lpObj = getGameObject(n);
 
 		if ( Obj.m_iCurrentAI == 0 || Obj.Live == FALSE ||Obj.Connected != PLAYER_PLAYING )
 		{

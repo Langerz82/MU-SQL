@@ -27,7 +27,7 @@ void OffLevelThread()
 				continue;
 			if(g_OffLevel.FindUser(i) != -1)
 			{
-				g_OffLevel.FindAndAttack(&getGameObject(i));
+				g_OffLevel.FindAndAttack(getGameObject(i));
 				g_OffLevel.CheckUseTime(i);
 				if(g_OffLevel.m_General.AutoRepairItems == 1)
 				{
@@ -231,7 +231,7 @@ void COfflineLevelling::FindAndAttack(CGameObject &user)
 							continue;
 						}
 
-						tObj = &getGameObject(tObjNum);
+						tObj = getGameObject(tObjNum);
 
 						if(!tObj)
 							continue;
@@ -261,7 +261,7 @@ void COfflineLevelling::FindAndAttack(CGameObject &user)
 							continue;
 						}
 
-						tObj = &getGameObject(tObjNum);
+						tObj = getGameObject(tObjNum);
 
 						if(!tObj)
 							continue;
@@ -314,7 +314,7 @@ void COfflineLevelling::FindAndAttack(CGameObject &user)
 							continue;
 						}
 
-						tObj = &getGameObject(tObjNum);
+						tObj = getGameObject(tObjNum);
 
 						if(!tObj)
 							continue;
@@ -501,7 +501,7 @@ void COfflineLevelling::Run()
 	EnterCriticalSection(&this->m_OfflevelCriti);
 	for(std::map<int, OFF_LEVEL_PLAYERS>::iterator iter = m_OffPlayerData.begin(); iter != m_OffPlayerData.end(); iter++)
 	{
-		lpObj = &getGameObject(iter->second.Obj.m_Index);
+		lpObj = getGameObject(iter->second.Obj.m_Index);
 		if(!lpObj){
 			this->DeleteUser(iter->second.Obj.m_Index);
 			continue;
@@ -560,7 +560,7 @@ BOOL COfflineLevelling::SkillDistanceCheck(CGameObject &Obj, int aTargetIndex, i
 
 	iSkillDistance += 1;
 	
-	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
+	CGameObject lpTargetObj = getGameObject(aTargetIndex);
 
 	if ( abs(Obj.X - lpTargetObj.X) > iSkillDistance ||
 		 abs(Obj.Y - lpTargetObj.Y) > iSkillDistance )

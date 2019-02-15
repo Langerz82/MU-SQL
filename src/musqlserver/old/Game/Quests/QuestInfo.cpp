@@ -620,7 +620,7 @@ BOOL CQuestInfo::MonsterItemDrop(CGameObject &Obj)
 		return false;
 	}
 
-	CGameObject lpTarget = &getGameObject(MaxHitUser);
+	CGameObject lpTarget = getGameObject(MaxHitUser);
 	int questcount = this->GetQeustCount();
 	int foundquest = 0;
 	LPQUEST_INFO lpQuestInfo;
@@ -719,7 +719,7 @@ BOOL CQuestInfo::MonsterItemDropParty(CGameObject &Obj, CGameObject lpTargetObj)
 
 		if(Obj.m_Index >= 0 && Obj.MapNumber == lpTargetObj.MapNumber)
 		{
-			CGameObject lpPartyObj = &getGameObject(Obj.m_Index);
+			CGameObject lpPartyObj = getGameObject(Obj.m_Index);
 
 			for ( int j=0;j<MAX_QUEST_INFO;j++)
 			{
@@ -791,7 +791,7 @@ BOOL CQuestInfo::AddMonsterKillCount(CGameObject &Obj)
 		return false;
 	}
 
-	CGameObject lpTarget = &getGameObject(MaxHitUser);
+	CGameObject lpTarget = getGameObject(MaxHitUser);
 	int questcount = this->GetQeustCount();
 	int foundquest = 0;
 	LPQUEST_INFO lpQuestInfo;
@@ -818,7 +818,7 @@ BOOL CQuestInfo::AddMonsterKillCount(CGameObject &Obj)
 
 			if(Obj.m_Index >= 0 && Obj.MapNumber == lpTarget->MapNumber)
 			{
-				CGameObject lpPartyObj = &getGameObject(Obj.m_Index);
+				CGameObject lpPartyObj = getGameObject(Obj.m_Index);
 
 				if(lpPartyObj.Type != OBJ_USER)
 				{
@@ -1419,7 +1419,7 @@ void CQuestInfo::CheckQuestMapEnterOnWerwolf(CGameObject &Obj)
 		return;
 	}
 
-	CGameObject lpNpc = &getGameObject(Obj.TargetNpcNumber);
+	CGameObject lpNpc = getGameObject(Obj.TargetNpcNumber);
 
 	if (lpNpc->Class != 407)
 	{
@@ -1463,7 +1463,7 @@ void CQuestInfo::CheckQuestMapEnterOnWerwolf(CGameObject &Obj)
 			
 			if (iPartyUserIndex >= 0 && iPartyUserIndex != iIndex)
 			{
-				CGameObject lpPartyObj = &getGameObject(iPartyUserIndex);
+				CGameObject lpPartyObj = getGameObject(iPartyUserIndex);
 
 				if ( lpPartyObj.Level >= 350 && 
 					Obj.MapNumber == lpPartyObj.MapNumber && 
@@ -1518,7 +1518,7 @@ void CQuestInfo::CheckQuestMapEnterOnGateKeeper(CGameObject &Obj)
 		return;
 	}
 
-	CGameObject lpNpc = &getGameObject(Obj.TargetNpcNumber);
+	CGameObject lpNpc = getGameObject(Obj.TargetNpcNumber);
 
 	if (lpNpc->Class != 408)
 	{
@@ -1556,7 +1556,7 @@ void CQuestInfo::CheckQuestMapEnterOnGateKeeper(CGameObject &Obj)
 			
 			if (iPartyUserIndex >= 0 && iPartyUserIndex != iIndex)
 			{
-				CGameObject lpPartyObj = &getGameObject(iPartyUserIndex);
+				CGameObject lpPartyObj = getGameObject(iPartyUserIndex);
 
 				if ( lpPartyObj.Level >= 350 && 
 					Obj.MapNumber == lpPartyObj.MapNumber && 

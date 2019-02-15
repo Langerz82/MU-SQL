@@ -166,7 +166,7 @@ int CKanturuMonsterMng::SetKanturuMonster(int iGroupNumber)
 			}
 			else
 			{
-				lpObj = &getGameObject(iResult);
+				lpObj = getGameObject(iResult);
 
 				Obj.m_PosNum = -1;
 				Obj.X = this->m_SetBaseInfo[iCount].btX;

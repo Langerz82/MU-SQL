@@ -396,7 +396,7 @@ void CIllusionTempleLeagueProcess::Proc_ITLState_None(int nCurTime)
 							g_SendNPCInfo.SendITLNpcCoordinate(this->m_UserData[i].m_nIndex, this->m_nTempleNumber + 98);
 							gObjMoveGate(this->m_UserData[i].m_nIndex, this->m_nTempleNumber + 448);
 							getGameObject(this->m_UserData[i]->m_nIndex)->m_Change = 405;
-							gObjViewportListProtocolCreate(&getGameObject(this->m_UserData[i]->m_nIndex));
+							gObjViewportListProtocolCreate(getGameObject(this->m_UserData[i]->m_nIndex));
 							this->m_nIllusionUserCount++;
 						}
 
@@ -405,7 +405,7 @@ void CIllusionTempleLeagueProcess::Proc_ITLState_None(int nCurTime)
 							g_SendNPCInfo.SendITLNpcCoordinate(this->m_UserData[i].m_nIndex, this->m_nTempleNumber + 98);
 							gObjMoveGate(this->m_UserData[i].m_nIndex, this->m_nTempleNumber + 446);
 							getGameObject(this->m_UserData[i]->m_nIndex)->m_Change = 404;
-							gObjViewportListProtocolCreate(&getGameObject(this->m_UserData[i]->m_nIndex));
+							gObjViewportListProtocolCreate(getGameObject(this->m_UserData[i]->m_nIndex));
 							this->m_nAlliedUserCount++;
 						}
 					}
@@ -748,7 +748,7 @@ void CIllusionTempleLeagueProcess::Set_ITLState_None()
 
 			gObjMoveGate(this->m_UserData[i].m_nIndex, 333);
 			getGameObject(this->m_UserData[i]->m_nIndex)->m_Change = -1;
-			gObjViewportListProtocolCreate(&getGameObject(this->m_UserData[i]->m_nIndex));
+			gObjViewportListProtocolCreate(getGameObject(this->m_UserData[i]->m_nIndex));
 
 		}
 	}
@@ -835,15 +835,15 @@ void CIllusionTempleLeagueProcess::Set_ITLState_End()
 			if (this->m_UserData[i].m_dwSkillProdectionTime != 0)
 			{
 				this->m_UserData[i].m_dwSkillProdectionTime = 0;
-				gObjRemoveBuffEffect(&getGameObject(this->m_UserData[i]->m_nIndex), BUFFTYPE_TEMPLE_PROTECTION);
-				this->Send_ITL_SkillEnd(&getGameObject(this->m_UserData[i]->m_nIndex), 618);
+				gObjRemoveBuffEffect(getGameObject(this->m_UserData[i]->m_nIndex), BUFFTYPE_TEMPLE_PROTECTION);
+				this->Send_ITL_SkillEnd(getGameObject(this->m_UserData[i]->m_nIndex), 618);
 			}
 
 			if (this->m_UserData[i].m_dwSkillRestraintTime != 0)
 			{
 				this->m_UserData[i].m_dwSkillRestraintTime = 0;
-				gObjRemoveBuffEffect(&getGameObject(this->m_UserData[i]->m_nIndex), BUFFTYPE_RESTRICTION);
-				this->Send_ITL_SkillEnd(&getGameObject(this->m_UserData[i]->m_nIndex), 619);
+				gObjRemoveBuffEffect(getGameObject(this->m_UserData[i]->m_nIndex), BUFFTYPE_RESTRICTION);
+				this->Send_ITL_SkillEnd(getGameObject(this->m_UserData[i]->m_nIndex), 619);
 			}
 		}
 	}
@@ -940,14 +940,14 @@ BOOL CIllusionTempleLeagueProcess::LeaveUserIllusionTempleLeague(CGameObject &Ob
 	{
 		if (this->m_UserData[Obj.m_nITLIndex].m_dwSkillProdectionTime != 0)
 		{
-			gObjRemoveBuffEffect(&getGameObject(Obj.m_Index), BUFFTYPE_TEMPLE_PROTECTION);
-			this->Send_ITL_SkillEnd(&getGameObject(Obj.m_Index), 618);
+			gObjRemoveBuffEffect(getGameObject(Obj.m_Index), BUFFTYPE_TEMPLE_PROTECTION);
+			this->Send_ITL_SkillEnd(getGameObject(Obj.m_Index), 618);
 		}
 
 		if (this->m_UserData[Obj.m_nITLIndex].m_dwSkillRestraintTime != 0)
 		{
-			gObjRemoveBuffEffect(&getGameObject(Obj.m_Index), BUFFTYPE_RESTRICTION);
-			this->Send_ITL_SkillEnd(&getGameObject(Obj.m_Index), 619);
+			gObjRemoveBuffEffect(getGameObject(Obj.m_Index), BUFFTYPE_RESTRICTION);
+			this->Send_ITL_SkillEnd(getGameObject(Obj.m_Index), 619);
 		}
 
 		EnterCriticalSection(&this->m_critUserData);
@@ -973,7 +973,7 @@ BOOL CIllusionTempleLeagueProcess::LeaveUserIllusionTempleLeague(CGameObject &Ob
 	}
 
 	Obj.m_Change = -1;
-	gObjViewportListProtocolCreate(&getGameObject(Obj.m_Index));
+	gObjViewportListProtocolCreate(getGameObject(Obj.m_Index));
 	Obj.m_nITLRelicsTick = 0;
 	Obj.m_byStoneState = 99;
 	Obj.m_wITLNpcType = 0;
@@ -1213,7 +1213,7 @@ void CIllusionTempleLeagueProcess::DeleteAllRelicsItem()
 	{
 		if (this->m_UserData[i].m_nRelicsInvenPos > 0)
 		{
-			CGameObject lpObj = &getGameObject(this->m_UserData[i]->m_nIndex);
+			CGameObject lpObj = getGameObject(this->m_UserData[i]->m_nIndex);
 
 			if (lpObj)
 			{
@@ -1951,7 +1951,7 @@ void CIllusionTempleLeagueProcess::FirstRegen_OccupiedStone()
 {
 	for (int i = 0; i < 10; i++)
 	{
-		CGameObject lpObj = &getGameObject(this->m_Occupied_StoneStatus[i]->m_nIndex);
+		CGameObject lpObj = getGameObject(this->m_Occupied_StoneStatus[i]->m_nIndex);
 
 		if (lpObj)
 		{
@@ -1968,7 +1968,7 @@ void CIllusionTempleLeagueProcess::FirstRegen_OccupiedStone()
 
 void CIllusionTempleLeagueProcess::FirstRegen_CursedStone()
 {
-	CGameObject lpObj = &getGameObject(this->m_Cursed_StoneStatus.m_nIndex);
+	CGameObject lpObj = getGameObject(this->m_Cursed_StoneStatus.m_nIndex);
 
 	if (lpObj)
 	{
@@ -1999,7 +1999,7 @@ void CIllusionTempleLeagueProcess::RegenCursedStoneStatus(BYTE btRound)
 	if ((rand() % 100) > (100 - 10 * byOccupiedStoneCnt))
 	{
 		this->m_Cursed_StoneStatus.m_byStatus = -1;
-		lpObj = &getGameObject(this->m_Cursed_StoneStatus.m_nIndex);
+		lpObj = getGameObject(this->m_Cursed_StoneStatus.m_nIndex);
 		Obj.m_PosNum = this->m_Cursed_StoneStatus.m_wPosNum;
 		Obj.DieRegen = 2;
 		Obj.Live = 1;
@@ -2008,7 +2008,7 @@ void CIllusionTempleLeagueProcess::RegenCursedStoneStatus(BYTE btRound)
 	else
 	{
 		this->m_Cursed_StoneStatus.m_byStatus = 0;
-		lpObj = &getGameObject(this->m_Cursed_StoneStatus.m_nIndex);
+		lpObj = getGameObject(this->m_Cursed_StoneStatus.m_nIndex);
 		Obj.m_PosNum = this->m_Cursed_StoneStatus.m_wPosNum;
 		Obj.Live = 1;
 		Obj.DieRegen = 0;
@@ -2109,7 +2109,7 @@ void CIllusionTempleLeagueProcess::RegenOccupiedStoneStatus()
 	{
 		if (this->m_Occupied_StoneStatus[i].m_nIndex != -1)
 		{
-			CGameObject lpObj = &getGameObject(this->m_Occupied_StoneStatus[i]->m_nIndex);
+			CGameObject lpObj = getGameObject(this->m_Occupied_StoneStatus[i]->m_nIndex);
 
 			Obj.m_PosNum = this->m_Occupied_StoneStatus[i].m_wPosNum;
 			Obj.Live = TRUE;
@@ -2305,8 +2305,8 @@ void CIllusionTempleLeagueProcess::ITL_UseSkill(int nIndex, WORD wSkillNumber, i
 		return;
 	}
 
-	CGameObject lpObj = &getGameObject(nIndex);
-	CGameObject lpTargetObj = &getGameObject(nTargetIndex);
+	CGameObject lpObj = getGameObject(nIndex);
+	CGameObject lpTargetObj = getGameObject(nTargetIndex);
 
 	if (this->GetIllusionTempleLeagueState() != 2)
 	{
@@ -2590,7 +2590,7 @@ void CIllusionTempleLeagueProcess::SendUseSkillResult(int nIndex, int nTargetInd
 
 	if (btResult == TRUE)
 	{
-		gGameProtocol.MsgSendV2(&getGameObject(nIndex), (BYTE*)&pResult, pResult.h.size);
+		gGameProtocol.MsgSendV2(getGameObject(nIndex), (BYTE*)&pResult, pResult.h.size);
 	}
 
 	sLog->outBasic("[ ITL ] SendUseSkillResult Success:[%d], Index:[%d], Target:[%d], Skill:[%d] ",
@@ -3312,7 +3312,7 @@ BOOL CIllusionTempleLeagueProcess::ReEnterUserIllusionTempleLeague(CGameObject &
 		}
 	}
 
-	gObjViewportListProtocolCreate(&getGameObject(Obj.m_Index));
+	gObjViewportListProtocolCreate(getGameObject(Obj.m_Index));
 	return bResult;
 }
 

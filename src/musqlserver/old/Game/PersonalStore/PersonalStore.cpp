@@ -81,7 +81,7 @@ void CPersonalStore::CGPShopReqSetItemPrice(PMSG_REQ_PSHOP_SETITEMPRICE * lpMsg,
 		return;
 	}
 
-	if (gObjInventorySearchSerialNumber(&getGameObject(Obj.m_Index), sitem->GetNumber()) == FALSE)
+	if (gObjInventorySearchSerialNumber(getGameObject(Obj.m_Index), sitem->GetNumber()) == FALSE)
 	{
 		gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFD, 1, Obj.iShield);
 		return;
@@ -253,7 +253,7 @@ void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, CGameObject &Ob
 		{
 			Obj.m_bPShopOpen = true;
 			std::memcpy(Obj.m_szPShopText, lpMsg->szPShopText, sizeof(lpMsg->szPShopText));
-			this->GDAllSavePShopItemValue(&getGameObject(Obj.m_Index));
+			this->GDAllSavePShopItemValue(getGameObject(Obj.m_Index));
 		}
 		else
 		{
@@ -267,7 +267,7 @@ void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, CGameObject &Ob
 			std::memcpy(pMsg.btPShopText, lpMsg->szPShopText, sizeof(pMsg.btPShopText));
 			std::memcpy(pMsg.btName, Obj.Name, sizeof(pMsg.btName));
 
-			gGameProtocol.MsgSendV2(&getGameObject(Obj.m_Index), (BYTE*)&pMsg, pMsg.h.size);
+			gGameProtocol.MsgSendV2(getGameObject(Obj.m_Index), (BYTE*)&pMsg, pMsg.h.size);
 
 		}
 	}
@@ -334,7 +334,7 @@ void CPersonalStore::CGPShopAnsClose(CGameObject &Obj, BYTE btResult)
 	IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, sizeof(pMsg));
 
 	if (btResult == 1)
-		gGameProtocol.MsgSendV2(&getGameObject(Obj.m_Index), (BYTE*)&pMsg, pMsg.h.size);
+		gGameProtocol.MsgSendV2(getGameObject(Obj.m_Index), (BYTE*)&pMsg, pMsg.h.size);
 }
 
 
@@ -353,7 +353,7 @@ void CPersonalStore::CGPShopReqBuyList(PMSG_REQ_BUYLIST_FROM_PSHOP * lpMsg, int 
 		return;
 	}
 
-	CGameObject lpObj = &getGameObject(MAKE_NUMBERW(lpMsg->NumberH, lpMsg->NumberL));
+	CGameObject lpObj = getGameObject(MAKE_NUMBERW(lpMsg->NumberH, lpMsg->NumberL));
 
 
 	if (Obj.m_bOffLevel == true)
@@ -474,7 +474,7 @@ void CPersonalStore::CGPShopAnsBuyList(int aSourceIndex, int aTargetIndex, BYTE 
 
 	if (btResult != 1)
 	{
-		CGameObject lpObj = &getGameObject(aSourceIndex);
+		CGameObject lpObj = getGameObject(aSourceIndex);
 
 		pMsgILC.h.c = 0xC2;
 		pMsgILC.h.headcode = 0x3F;
@@ -498,8 +498,8 @@ void CPersonalStore::CGPShopAnsBuyList(int aSourceIndex, int aTargetIndex, BYTE 
 	}
 	else
 	{
-		CGameObject lpObjSource = &getGameObject(aSourceIndex);
-		CGameObject lpObjTarget = &getGameObject(aTargetIndex);
+		CGameObject lpObjSource = getGameObject(aSourceIndex);
+		CGameObject lpObjTarget = getGameObject(aTargetIndex);
 		int iCount = 0;
 
 		for (int n = PSHOP_START_RANGE; n < PSHOP_END_RANGE; n++)
@@ -508,10 +508,10 @@ void CPersonalStore::CGPShopAnsBuyList(int aSourceIndex, int aTargetIndex, BYTE 
 			{
 				pMsgIL.Pos = n;
 				ItemByteConvert(pMsgIL.ItemInfo, lpObjTarget->pntInventory1[n]);
-				pMsgIL.PShopItemValue = lpObjTarget->pntInventory1[n].m_iPShopValue;
-				pMsgIL.BlessValue = lpObjTarget->pntInventory1[n].m_wPShopBlessValue;
-				pMsgIL.ChaosValue = lpObjTarget->pntInventory1[n].m_wPShopChaosValue;
-				pMsgIL.SoulValue = lpObjTarget->pntInventory1[n].m_wPShopSoulValue;
+				pMsgIL.PShopItemValue = lpObjTarget->pntInventory1[n]->m_iPShopValue;
+				pMsgIL.BlessValue = lpObjTarget->pntInventory1[n]->m_wPShopBlessValue;
+				pMsgIL.ChaosValue = lpObjTarget->pntInventory1[n]->m_wPShopChaosValue;
+				pMsgIL.SoulValue = lpObjTarget->pntInventory1[n]->m_wPShopSoulValue;
 				std::memcpy(&sendBuf[sOfs], &pMsgIL, pMsgILSize);
 				iCount++;
 				sOfs += pMsgILSize;
@@ -556,7 +556,7 @@ void CPersonalStore::CGPShopReqBuyItem(BYTE* lpRecv, int aSourceIndex)
 		return;
 	}
 
-	CGameObject lpObj = &getGameObject(MAKE_NUMBERW(lpMsg->NumberH, lpMsg->NumberL));
+	CGameObject lpObj = getGameObject(MAKE_NUMBERW(lpMsg->NumberH, lpMsg->NumberL));
 
 	if (Obj.Type != OBJ_USER)
 	{
@@ -654,7 +654,7 @@ void CPersonalStore::CGPShopReqBuyItem(BYTE* lpRecv, int aSourceIndex)
 			return;
 		}
 
-		if (::gObjInventorySearchSerialNumber(&getGameObject(aSourceIndex), Obj.pntInventory1[lpMsg->btItemPos)->GetNumber()) == FALSE)
+		if (::gObjInventorySearchSerialNumber(getGameObject(aSourceIndex), Obj.pntInventory1[lpMsg->btItemPos)->GetNumber()) == FALSE)
 		{
 			gGameProtocol.GCReFillSend(aSourceIndex, getGameObject(aSourceIndex)->Life, 0xFD, 1, getGameObject(aSourceIndex)->iShield);
 			return;
@@ -1083,10 +1083,10 @@ void CPersonalStore::CGPShopReqBuyItem(BYTE* lpRecv, int aSourceIndex)
 
 				if (Obj.m_PlayerData->ISBOT == false)
 				{
-					g_CashShop.GCCashPoint(&getGameObject(Obj.m_Index));
+					g_CashShop.GCCashPoint(getGameObject(Obj.m_Index));
 				}
 
-				g_CashShop.GCCashPoint(&getGameObject(aSourceIndex));
+				g_CashShop.GCCashPoint(getGameObject(aSourceIndex));
 
 				g_PersonalStore.CGPShopAnsBuyItem(aSourceIndex, Obj.m_Index, btNewItemPos, 1);
 
@@ -1448,7 +1448,7 @@ void CPersonalStore::CGReqPShopLog(PMSG_REQ_PSHOP_LOG *lpMsg, CGameObject &Obj)
 	}
 
 	
-	CGameObject lpTargetObj = &getGameObject(lpMsg->iTargetIndex);
+	CGameObject lpTargetObj = getGameObject(lpMsg->iTargetIndex);
 
 	if (lpMsg->btLogKind == 0)
 	{
@@ -1559,7 +1559,7 @@ void CPersonalStore::GDAnsPShopItemValue(PMSG_ANS_PSHOPITEMVALUE_INFO *lpMsg)
 		return;
 	}
 
-	CGameObject lpObj = &getGameObject(iObjIndex);
+	CGameObject lpObj = getGameObject(iObjIndex);
 
 	for (int i = 0; i < iItemCnt; i++)
 	{
@@ -1653,7 +1653,7 @@ void CPersonalStore::GCPShop_AllInfo(CGameObject &Obj, int iLastUserCount)
 
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		CGameObject lpObj = &getGameObject(n);
+		CGameObject lpObj = getGameObject(n);
 
 		if (getGameObject(n)->Connected == PLAYER_PLAYING && Obj.Type == OBJ_USER &&
 			(Obj.MapNumber == MAP_INDEX_RORENCIA || Obj.MapNumber == MAP_INDEX_DEVIAS || Obj.MapNumber == MAP_INDEX_NORIA ||
@@ -1739,7 +1739,7 @@ void CPersonalStore::GCPShop_SearchItem(CGameObject &Obj, WORD sSearchItem, int 
 
 	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 	{
-		CGameObject lpObj = &getGameObject(n);
+		CGameObject lpObj = getGameObject(n);
 
 		if (getGameObject(n)->Connected == PLAYER_PLAYING && Obj.Type == OBJ_USER &&
 			(Obj.MapNumber == MAP_INDEX_RORENCIA || Obj.MapNumber == MAP_INDEX_DEVIAS || Obj.MapNumber == MAP_INDEX_NORIA ||

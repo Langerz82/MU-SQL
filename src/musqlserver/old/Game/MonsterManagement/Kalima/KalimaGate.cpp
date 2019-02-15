@@ -230,7 +230,7 @@ void CKalimaGate::KalimaGateAct(CGameObject &Obj)
 	}
 
 	lpObj = Obj;
-	lpObjCallOwner = &getGameObject(Obj.m_RecallMon);
+	lpObjCallOwner = getGameObject(Obj.m_RecallMon);
 
 	if ( getGameObject(Obj.m_RecallMon)->DieRegen > 0 )
 	{
@@ -423,7 +423,7 @@ BOOL CKalimaGate::DeleteKalimaGate(CGameObject &Obj, CGameObject &ObjOwner)
 
 	__try
 	{
-		gGameProtocol.GCDiePlayerSend( &getGameObject(iKalimaGateIndex), iKalimaGateIndex, 0 , 0);
+		gGameProtocol.GCDiePlayerSend( getGameObject(iKalimaGateIndex), iKalimaGateIndex, 0 , 0);
 		getGameObject(iCallOwnerIndex)->m_cKalimaGateExist = FALSE;
 		getGameObject(iCallOwnerIndex)->m_iKalimaGateIndex = -1;
 		gObjDel(iKalimaGateIndex);
@@ -597,7 +597,7 @@ void CKalimaGate::KalimaGateAct2(CGameObject &Obj)
 	}
 
 	lpObj = Obj;
-	lpObjCallOwner = &getGameObject(Obj.m_RecallMon);
+	lpObjCallOwner = getGameObject(Obj.m_RecallMon);
 
 	if ( Obj.m_cKalimaGateEnterCount >= MAX_KALIMA_ENTER )
 	{

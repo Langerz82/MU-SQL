@@ -122,7 +122,7 @@ int QuestExpLuaBind::IsMasterLevel(lua_State *L)
 	int iObjIndex = luaL_checkinteger(L, 2);
 	lua_settop(L, -2);
 
-	if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&getGameObject(iObjIndex)))
+	if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(getGameObject(iObjIndex)))
 	{
 		lua_pushnumber(L, 1);
 	}
@@ -137,7 +137,7 @@ int QuestExpLuaBind::IsMasterLevel(lua_State *L)
 int QuestExpLuaBind::GetGensInfluence(lua_State *L)
 {
 	int iObjIndex = luaL_checkinteger(L, 2);
-	int iGensInfluence = g_GensSystem.GetGensInfluence(&getGameObject(iObjIndex));
+	int iGensInfluence = g_GensSystem.GetGensInfluence(getGameObject(iObjIndex));
 	lua_settop(L, -2);
 
 	lua_pushnumber(L, iGensInfluence);

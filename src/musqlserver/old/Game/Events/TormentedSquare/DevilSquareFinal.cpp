@@ -1616,7 +1616,7 @@ BOOL CDevilSquareFinal::Leave_DSF(CGameObject &Obj)
 	this->m_nUserCount--;
 	LeaveCriticalSection(&this->m_critUserData);
 
-	gObjViewportListProtocolCreate(&getGameObject(Obj.m_Index));
+	gObjViewportListProtocolCreate(getGameObject(Obj.m_Index));
 	return TRUE;
 }
 
@@ -2888,7 +2888,7 @@ void CDevilSquareFinal::EndUserMove()
 			Obj.m_nDSFIndex = -1;
 			gObjMoveGate(Obj.m_Index, 333);
 			Obj.m_Change = -1;
-			gObjViewportListProtocolCreate(&getGameObject(Obj.m_Index));
+			gObjViewportListProtocolCreate(getGameObject(Obj.m_Index));
 		}
 	}
 }
@@ -2930,7 +2930,7 @@ void CDevilSquareFinal::SetUBFGetReward(CGameObject &Obj, WORD wItemCode, UINT64
 		return;
 	}
 
-	CGameObject lpObj = &getGameObject(iUserIndex);
+	CGameObject lpObj = getGameObject(iUserIndex);
 
 	if (Obj.Type != OBJ_USER)
 	{
@@ -2955,7 +2955,7 @@ void CDevilSquareFinal::GDReqSetDSFReward_UBF(CGameObject &Obj, BYTE btDSFType, 
 		return;
 	}
 
-	CGameObject lpObj = &getGameObject(iUserIndex);
+	CGameObject lpObj = getGameObject(iUserIndex);
 
 	if (Obj.Type != OBJ_USER)
 	{

@@ -506,7 +506,7 @@ void CRaklion::RegenBossEgg()
 		{
 			gObjSetMonster(getGameObject(iCount)->m_Index, getGameObject(iCount)->Class);
 
-			if (gObjMonsterRegen(&getGameObject(iCount)) == TRUE)
+			if (gObjMonsterRegen(getGameObject(iCount)) == TRUE)
 			{
 				getGameObject(iCount)->Live = TRUE;
 				getGameObject(iCount)->DieRegen = FALSE;
@@ -528,8 +528,8 @@ void CRaklion::DeleteBossEgg()
 				gObjDel(iCount);
 				getGameObject(iCount)->Live = 0;
 				getGameObject(iCount)->m_State = 0;
-				gObjViewportListProtocolDestroy(&getGameObject(iCount));
-				gObjViewportClose(&getGameObject(iCount));
+				gObjViewportListProtocolDestroy(getGameObject(iCount));
+				gObjViewportClose(getGameObject(iCount));
 				BossEggDieDecrease();
 			}
 		}

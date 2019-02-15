@@ -16,7 +16,7 @@ void CGReqQuestSwitch(PMSG_REQ_QUESTEXP *pMsg, CGameObject &Obj)
     if( !ObjectMaxRange(Obj.m_Index) )
         return;
 
-    CGameObject* lpObj = &getGameObject(Obj.m_Index);
+    CGameObject* lpObj = getGameObject(Obj.m_Index);
 
     if( !gObjIsConnected(Obj.m_Index) )
         return;
@@ -58,7 +58,7 @@ void CGReqQuestProgress(PMSG_REQ_QUESTEXP *pMsg, CGameObject &Obj)
     if( !ObjectMaxRange(Obj.m_Index) )
         return;
 
-    CGameObject* lpObj = &getGameObject(Obj.m_Index);
+    CGameObject* lpObj = getGameObject(Obj.m_Index);
 
     if( !gObjIsConnected(Obj.m_Index) )
         return;
@@ -88,7 +88,7 @@ void CGReqQuestComplete(PMSG_REQ_QUESTEXP_COMPLETE *pMsg, CGameObject &Obj)
     if( !ObjectMaxRange(Obj.m_Index) )
         return;
 
-    CGameObject* lpObj = &getGameObject(Obj.m_Index);
+    CGameObject* lpObj = getGameObject(Obj.m_Index);
 
     if( !gObjIsConnected(Obj.m_Index) )
         return;
@@ -199,7 +199,7 @@ void CGReqQuestExp(PMSG_REQ_NPC_QUESTEXP *pMsg, CGameObject &Obj)
 	if (!ObjectMaxRange(Obj.m_Index))
         return;
 
-    CGameObject* lpObj = &getGameObject(Obj.m_Index);
+    CGameObject* lpObj = getGameObject(Obj.m_Index);
 
     if( !gObjIsConnected(Obj.m_Index) )
         return;

@@ -131,7 +131,7 @@ void CLastManStanding::SpawnRegNPC()
 		return;
 	}
 
-	CGameObject lpNpc = &getGameObject(this->iRegNpcIndex);
+	CGameObject lpNpc = getGameObject(this->iRegNpcIndex);
 	lpNpc->Live = TRUE;
 	lpNpc->Dir = this->m_Cfg.iRegNPCDir;
 	lpNpc->X = this->m_Cfg.iRegNPCX;

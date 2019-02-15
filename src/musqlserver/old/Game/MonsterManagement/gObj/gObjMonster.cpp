@@ -886,7 +886,7 @@ BOOL gObjMonsterGetTargetPos(CGameObject &Obj)
 		return FALSE;
 	}
 
-	lpTargetObj = &getGameObject(tObjNum);
+	lpTargetObj = getGameObject(tObjNum);
 
 	if ( lpTargetObj.Teleport != 0 )
 	{
@@ -1121,7 +1121,7 @@ int gObjCallMonsterSetEnemy(CGameObject &Obj, int Target)
 		return -1;
 	}
 
-	CGameObject lpCallObj = &getGameObject(Obj.m_RecallMon);
+	CGameObject lpCallObj = getGameObject(Obj.m_RecallMon);
 
 	if ( lpCallObj.TargetNumber >= 0 )
 	{
@@ -1339,7 +1339,7 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 				{
 					int map = ObjSource.MapNumber;
 					BYTE attr;
-					int dis = gObjCalDistance(ObjSource, &getGameObject(Obj.m_Index));
+					int dis = gObjCalDistance(ObjSource, getGameObject(Obj.m_Index));
 					int range;
 
 					if ( ObjSource.m_AttackType >= 100 )
@@ -1421,7 +1421,7 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 					{
 						if ( ObjSource.m_lpMonsterHerd )
 						{
-							ObjSource.m_lpMonsterHerd->BeenAttacked (ObjSource, &getGameObject(Obj.m_Index));
+							ObjSource.m_lpMonsterHerd->BeenAttacked (ObjSource, getGameObject(Obj.m_Index));
 						}
 					}
 				}
@@ -1435,7 +1435,7 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 					{
 						int EnemyMap = getGameObject(IndexEnemy)->MapNumber;
 
-						int enemydis = gObjCalDistance(ObjSource, &getGameObject(Obj.m_Index));
+						int enemydis = gObjCalDistance(ObjSource, getGameObject(Obj.m_Index));
 						int range;
 
 						if ( ObjSource.m_AttackType >= 100 )
@@ -1511,8 +1511,8 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 
 			if (ObjSource.Type == OBJ_USER)
 			{
-				g_QuestExpProgMng.ChkUserQuestTypeMonsterKill(&getGameObject(Obj.m_Index), ObjSource);
-				g_QuestExpProgMng.QuestMonsterItemDrop(0, &getGameObject(Obj.m_Index), ObjSource);
+				g_QuestExpProgMng.ChkUserQuestTypeMonsterKill(getGameObject(Obj.m_Index), ObjSource);
+				g_QuestExpProgMng.QuestMonsterItemDrop(0, getGameObject(Obj.m_Index), ObjSource);
 			}
 
 			if ( ObjSource.Class == 673 )
@@ -1530,7 +1530,7 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 			
 			}
 
-			gObjMonsterDieGiveItem(ObjSource, &getGameObject(Obj.m_Index) );
+			gObjMonsterDieGiveItem(ObjSource, getGameObject(Obj.m_Index) );
 			ObjSource.NextActionTime = 500;
 
 			if ( ObjSource.m_RecallMon >= 0 )
@@ -1558,7 +1558,7 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 				{
 					if ( ObjSource.Class != 131 ||  ((  (ObjSource.Class-132)<0)?FALSE:((ObjSource.Class-132)>2)?FALSE:TRUE)==FALSE )
 					{
-						gObjBackSpring(ObjSource, &getGameObject(Obj.m_Index));
+						gObjBackSpring(ObjSource, getGameObject(Obj.m_Index));
 					}
 				}
 			}
@@ -1586,7 +1586,7 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 		case 6:
 			if ( ObjSource.Live != FALSE )
 			{
-				gObjBackSpring2(ObjSource, &getGameObject(Obj.m_Index), 2);
+				gObjBackSpring2(ObjSource, getGameObject(Obj.m_Index), 2);
 			}
 
 			break;
@@ -1594,17 +1594,17 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 		case 7:
 			if ( ObjSource.Live != FALSE )
 			{
-				gObjBackSpring2(ObjSource, &getGameObject(Obj.m_Index), 3);
+				gObjBackSpring2(ObjSource, getGameObject(Obj.m_Index), 3);
 			}
 			break;
 
 		case 55:
-			gObjAttack(ObjSource, &getGameObject(Obj.m_Index), NULL, FALSE, 0, 0, FALSE, 0, 0);
+			gObjAttack(ObjSource, getGameObject(Obj.m_Index), NULL, FALSE, 0, 0, FALSE, 0, 0);
 			break;
 
 		case 56:
 			{
-				CGameObject lpTargetObj = &getGameObject(Obj.m_Index);
+				CGameObject lpTargetObj = getGameObject(Obj.m_Index);
 
 				if ( gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_POISON) == FALSE )
 				{
@@ -1619,7 +1619,7 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 
 		case 57:
 			{
-				CGameObject lpTargetObj = &getGameObject(Obj.m_Index);
+				CGameObject lpTargetObj = getGameObject(Obj.m_Index);
 				gObjBackSpring2(lpTargetObj, ObjSource, aMsgSubCode);
 			}
 			break;
@@ -1629,7 +1629,7 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 				if ( ObjSource.Class == 533 )
 				{
 					CMagicInf* lpMagic = gObjGetMagicSearch(ObjSource, aMsgSubCode);
-					gObjAttack(ObjSource, &getGameObject(Obj.m_Index), lpMagic, 0, 1, 0, 0, 0, 0);
+					gObjAttack(ObjSource, getGameObject(Obj.m_Index), lpMagic, 0, 1, 0, 0, 0, 0);
 				}
 
 				else
@@ -1637,7 +1637,7 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 					if ( ObjSource.Live == TRUE )
 					{
 						CMagicInf* lpMagic = gObjGetMagicSearch(ObjSource, aMsgSubCode);
-						gObjAttack(ObjSource, &getGameObject(Obj.m_Index), lpMagic, 0, 1, 0, 0, 0, 0);
+						gObjAttack(ObjSource, getGameObject(Obj.m_Index), lpMagic, 0, 1, 0, 0, 0, 0);
 					}
 				}
 			}
@@ -1646,7 +1646,7 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 		case 62:
 			{
 				int nDamage = 20 * ObjSource.MaxLife / 100;
-				gObjAttack(ObjSource, &getGameObject(Obj.m_Index), 0, 0, 0, nDamage, 0, 0, 0);
+				gObjAttack(ObjSource, getGameObject(Obj.m_Index), 0, 0, 0, nDamage, 0, 0, 0);
 			}
 			break;
 	}
@@ -1802,7 +1802,7 @@ void gObjMonsterProcess(CGameObject &Obj)
 			CGameObject lpCallMonObj;
 			BOOL Success = FALSE;
 
-			lpCallMonObj = &getGameObject(Obj.m_RecallMon);
+			lpCallMonObj = getGameObject(Obj.m_RecallMon);
 
 			if ( Obj.MapNumber != lpCallMonObj.MapNumber )
 			{
@@ -1877,7 +1877,7 @@ void gObjMonsterProcess(CGameObject &Obj)
 				pAttackMsg.NumberL = iTargetNumber &0xFF;
 
 				gGameProtocol.GCActionSend(lpObj, 120, Obj.m_Index, iTargetNumber);
-				gObjAttack(lpObj, &getGameObject(iTargetNumber), NULL, FALSE, 0, 0, FALSE, 0, 0);
+				gObjAttack(lpObj, getGameObject(iTargetNumber), NULL, FALSE, 0, 0, FALSE, 0, 0);
 			}
 
 			else if (Obj.Class == 681 && g_EvoMonMng.IsEvolutedEvoMon(Obj.m_Index) == false)
@@ -1890,7 +1890,7 @@ void gObjMonsterProcess(CGameObject &Obj)
 				pAttackMsg.NumberL = iTargetNumber & 0xFF;
 
 				gGameProtocol.GCActionSend(lpObj, 120, Obj.m_Index, iTargetNumber);
-				gObjAttack(lpObj, &getGameObject(iTargetNumber), NULL, FALSE, 0, 0, FALSE, 0, 0);
+				gObjAttack(lpObj, getGameObject(iTargetNumber), NULL, FALSE, 0, 0, FALSE, 0, 0);
 			}
 
 			else
@@ -1949,7 +1949,7 @@ void gObjMonsterProcess(CGameObject &Obj)
 								{
 									if (Obj.m_lpMonsterHerd != NULL )
 									{
-										Obj.m_lpMonsterHerd->MonsterAttackAction(lpObj, &getGameObject(iTargetNumber));
+										Obj.m_lpMonsterHerd->MonsterAttackAction(lpObj, getGameObject(iTargetNumber));
 									}
 								}
 							}
@@ -1983,7 +1983,7 @@ void gObjMonsterProcess(CGameObject &Obj)
 						}
 						else if ( getGameObject(iTargetNumber)->Teleport == 0 )
 						{
-							gObjMonsterAttack(lpObj, &getGameObject(iTargetNumber));
+							gObjMonsterAttack(lpObj, getGameObject(iTargetNumber));
 
 							if ( Obj.Type == OBJ_MONSTER )
 							{
@@ -1991,7 +1991,7 @@ void gObjMonsterProcess(CGameObject &Obj)
 								{
 									if (Obj.m_lpMonsterHerd != NULL )
 									{
-										Obj.m_lpMonsterHerd->MonsterAttackAction(lpObj, &getGameObject(iTargetNumber));
+										Obj.m_lpMonsterHerd->MonsterAttackAction(lpObj, getGameObject(iTargetNumber));
 									}
 								}
 							}
@@ -2066,7 +2066,7 @@ void gObjMonsterMagicAttack(CGameObject &Obj, int iMonsterClass)
 						ASBOfs+= sizeof(pAttack);
 						pCount.Count++;
 					}
-					else if ( Obj.Class == 275 || gObjCalDistance(lpObj, &getGameObject(tObjNum)) < 6 )
+					else if ( Obj.Class == 275 || gObjCalDistance(lpObj, getGameObject(tObjNum)) < 6 )
 					{
 						pAttack.NumberH = SET_NUMBERH(tObjNum);
 						pAttack.NumberL = SET_NUMBERL(tObjNum);
@@ -2130,7 +2130,7 @@ void gObjMonsterBeattackRecv(BYTE * lpRecv, CGameObject &Obj)
 	int lOfs = sizeof(PMSG_BEATTACK_COUNT);
 	int tNumber;
 	WORD MagicNumber = MAKE_NUMBERW(lpCount->MagicNumberH, lpCount->MagicNumberL);
-	CMagicInf * lpMagic = gObjGetMagic(&getGameObject(Obj.m_Index), MagicNumber);
+	CMagicInf * lpMagic = gObjGetMagic(getGameObject(Obj.m_Index), MagicNumber);
 
 	if ( lpMagic == NULL )
 	{
@@ -2153,7 +2153,7 @@ void gObjMonsterBeattackRecv(BYTE * lpRecv, CGameObject &Obj)
 	{
 		lpMsg = (PMSG_BEATTACK *)&lpRecv[lOfs];
 		tNumber = MAKE_NUMBERW(lpMsg->NumberH, lpMsg->NumberL);
-		gObjAttack(&getGameObject(Obj.m_Index), &getGameObject(tNumber), lpMagic, 1, 1, 0 ,0, 0, 0);
+		gObjAttack(getGameObject(Obj.m_Index), getGameObject(tNumber), lpMagic, 1, 1, 0 ,0, 0, 0);
 		lOfs+= sizeof(PMSG_BEATTACK);
 	}
 }
@@ -2581,7 +2581,7 @@ void gObjMonsterBaseAct(CGameObject &Obj)
 	CGameObject lpTargetObj = NULL;
 
 	if ( Obj.TargetNumber >= 0 )
-		lpTargetObj = &getGameObject(Obj.TargetNumber);
+		lpTargetObj = getGameObject(Obj.TargetNumber);
 	else
 		Obj.m_ActState.Emotion = 0;
 
@@ -2629,7 +2629,7 @@ void gObjMonsterBaseAct(CGameObject &Obj)
 						{
 							if ( getGameObject(Obj.m_RecallMon)->Connected > PLAYER_LOGGED )
 							{
-								CGameObject lpRecallObj = &getGameObject(Obj.m_RecallMon);
+								CGameObject lpRecallObj = getGameObject(Obj.m_RecallMon);
 
 								if ( lpRecallObj.m_Rest == FALSE )
 								{
@@ -2760,7 +2760,7 @@ void gObjMonsterBaseAct(CGameObject &Obj)
 						{
 							if (Obj.m_RecallMon != -1 && ObjectMaxRange(iTargetNumber) == true)
 							{
-								if (g_ArcaBattle.IsEnableAttackObelisk(&getGameObject(Obj.m_RecallMon], getGameObject(iTargetNumber)->Class) == FALSE)
+								if (g_ArcaBattle.IsEnableAttackObelisk(getGameObject(Obj.m_RecallMon], getGameObject(iTargetNumber)->Class) == FALSE)
 								{
 									Obj.TargetNumber = -1;
 								}
@@ -2821,7 +2821,7 @@ void gObjMonsterBaseAct(CGameObject &Obj)
 							Obj.MapNumber == getGameObject(Obj.LastAttackerID)->MapNumber )
 						{
 							Obj.TargetNumber = Obj.LastAttackerID;
-							lpTargetObj = &getGameObject(Obj.LastAttackerID);
+							lpTargetObj = getGameObject(Obj.LastAttackerID);
 						}
 					}
 				}
@@ -3290,7 +3290,7 @@ void gObjRefillMonsterHP(CGameObject &MonsterObj, int iRefillHPSec)
 		{
 			if(gObjIsConnected(lpMonsterObj.LastAttackerID))
 			{
-				lpObj = &getGameObject(lpMonsterObj.LastAttackerID);
+				lpObj = getGameObject(lpMonsterObj.LastAttackerID);
 			}
 		}
 
@@ -3339,7 +3339,7 @@ int gObjMonsterSelectSkillForMedusa(CGameObject &Obj)
 
 		if ( ObjectMaxRange(iTargetNumber) )
 		{
-			if ( gObjCalDistance(&getGameObject(iTargetNumber), &getGameObject(nObjNum)) <= 3 )
+			if ( gObjCalDistance(getGameObject(iTargetNumber), getGameObject(nObjNum)) <= 3 )
 			{
 				if (iTargetNumber != nObjNum )
 					nSplashTargetCnt++;
@@ -3470,7 +3470,7 @@ void gObjMonsterDieGiveItem(CGameObject &Obj, CGameObject lpTargetObj)
 		}
 
 		sLog->outBasic("[AcheronGuardianEvent] BossName: %s, CharacterName: %s", Obj.Name, getGameObject(nMaxHitUser)->Name);
-		g_AcheronGuardianEvent.DestroyObelisk(&getGameObject(nMaxHitUser), Obj.MapNumber, Obj.X, Obj.Y, nMaxHitUser);
+		g_AcheronGuardianEvent.DestroyObelisk(getGameObject(nMaxHitUser), Obj.MapNumber, Obj.X, Obj.Y, nMaxHitUser);
 		return;
 	}
 
@@ -5283,7 +5283,7 @@ void KillLordSilvesterRecallMon(int nLordSilvesterIndex, int nRecallMonIndex)
 		return;
 	}
 
-	CGameObject lpObj = &getGameObject(nLordSilvesterIndex);
+	CGameObject lpObj = getGameObject(nLordSilvesterIndex);
 
 	if (Obj.Type != OBJ_MONSTER)
 	{
@@ -5426,10 +5426,10 @@ void CQeustNpcTeleport::Run(CGameObject &Obj)
 		pMsg.TargetNumberH = SET_NUMBERH(Obj.m_Index);
 		pMsg.TargetNumberL = SET_NUMBERL(Obj.m_Index);
 
-		gGameProtocol.MsgSendV2(&getGameObject(Obj.m_Index), (UCHAR*)&pMsg, pMsg.h.size);
+		gGameProtocol.MsgSendV2(getGameObject(Obj.m_Index), (UCHAR*)&pMsg, pMsg.h.size);
 
-		gObjViewportListProtocolDestroy(&getGameObject(Obj.m_Index));
-		gObjClearViewport(&getGameObject(Obj.m_Index));
+		gObjViewportListProtocolDestroy(getGameObject(Obj.m_Index));
+		gObjClearViewport(getGameObject(Obj.m_Index));
 
 		int tableindex;
 

@@ -116,7 +116,7 @@ int CLifeStone::CreateLifeStone(CGameObject &Obj)
 		getGameObject(iMonsterIndex)->m_btCsJoinSide = Obj.m_btCsJoinSide;
 		getGameObject(iMonsterIndex)->m_PlayerData->lpGuild = Obj.m_PlayerData->lpGuild;
 		getGameObject(iMonsterIndex)->m_btCreationState = 0;
-		Obj.m_PlayerData->lpGuild->lpLifeStone = &getGameObject(iMonsterIndex);
+		Obj.m_PlayerData->lpGuild->lpLifeStone = getGameObject(iMonsterIndex);
 
 		MsgOutput(iIndex, Lang.GetText(0,180));
 

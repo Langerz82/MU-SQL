@@ -719,7 +719,7 @@ void QuestExpProgMng::ChkUserQuestTypeBuff(QuestBuff* pQuestBuff, UserQuestAskIn
 {
 	int iBuffIndex = pQuestBuff->GetQuestBuffIndex();
 
-	if (::gObjCheckUsedBuffEffect(&getGameObject(iObjIndex), iBuffIndex))
+	if (::gObjCheckUsedBuffEffect(getGameObject(iObjIndex), iBuffIndex))
 	{
 		pUserQuestAskInfo->SetValue(1);
 		pUserQuestAskInfo->SetComplete(true);
@@ -849,14 +849,14 @@ void QuestExpProgMng::DeleteInventoryItem(QuestGetItem* pQuestGetItem, int iObjI
 			}
 
 			BYTE NewOption[MAX_EXOPTION_SIZE] = { 0 };
-			ItemIsBufExOption(NewOption, &getGameObject(iObjIndex)->pntInventory[x));
+			ItemIsBufExOption(NewOption, getGameObject(iObjIndex)->pntInventory[x));
 
 			/*sLog->outBasic("[QuestExp] DeleteInvenItem [%s][%s] Delete Item Info - Item:[%s,%d,%d,%d,%d] serial:[%I64d][%d] Ex:[%d,%d,%d,%d,%d,%d,%d] Set[%d] 380:[%d] HO:[%d,%d] SC[%d,%d,%d,%d,%d] BonusOption[%d]",
 				getGameObject(iObjIndex)->AccountID, getGameObject(iObjIndex)->Name, getGameObject(iObjIndex)->pntInventory[x]->GetName(), getGameObject(iObjIndex)->pntInventory[x)->m_Level, getGameObject(iObjIndex)->pntInventory[x)->m_Option1,
 				getGameObject(iObjIndex)->pntInventory[x]->m_Option2, getGameObject(iObjIndex)->pntInventory[x]->m_Option3, getGameObject(iObjIndex)->pntInventory[x)->m_Number, (int)getGameObject(iObjIndex)->pntInventory[x)->m_Durability,
 				NewOption[0], NewOption[1], NewOption[2], NewOption[3], NewOption[4], NewOption[5], NewOption[6], getGameObject(iObjIndex)->pntInventory[x)->m_SetOption,
-				getGameObject(iObjIndex)->pntInventory[x]->m_ItemOptionEx >> 7, g_kJewelOfHarmonySystem.GetItemStrengthenOption(&getGameObject(iObjIndex)->pntInventory[x)),
-				g_kJewelOfHarmonySystem.GetItemOptionLevel(&getGameObject(iObjIndex)->pntInventory[x]), getGameObject(iObjIndex)->pntInventory[x)->m_SocketOption[0),
+				getGameObject(iObjIndex)->pntInventory[x]->m_ItemOptionEx >> 7, g_kJewelOfHarmonySystem.GetItemStrengthenOption(getGameObject(iObjIndex)->pntInventory[x)),
+				g_kJewelOfHarmonySystem.GetItemOptionLevel(getGameObject(iObjIndex)->pntInventory[x]), getGameObject(iObjIndex)->pntInventory[x)->m_SocketOption[0),
 				getGameObject(iObjIndex)->pntInventory[x]->m_SocketOption[1], getGameObject(iObjIndex)->pntInventory[x]->m_SocketOption[2], getGameObject(iObjIndex)->pntInventory[x)->m_SocketOption[3),
 				getGameObject(iObjIndex)->pntInventory[x]->m_SocketOption[4], getGameObject(iObjIndex)->pntInventory[x)->m_BonusSocketOption);*/
 
@@ -868,7 +868,7 @@ void QuestExpProgMng::DeleteInventoryItem(QuestGetItem* pQuestGetItem, int iObjI
 		}
 		else
 		{
-			if (gObjSearchItemMinus(&getGameObject(iObjIndex), x, 1))
+			if (gObjSearchItemMinus(getGameObject(iObjIndex), x, 1))
 			{
 				x--;
 			}
@@ -876,14 +876,14 @@ void QuestExpProgMng::DeleteInventoryItem(QuestGetItem* pQuestGetItem, int iObjI
 			else
 			{
 				BYTE NewOption[MAX_EXOPTION_SIZE] = { 0 };
-				ItemIsBufExOption(NewOption, &getGameObject(iObjIndex)->pntInventory[x));
+				ItemIsBufExOption(NewOption, getGameObject(iObjIndex)->pntInventory[x));
 
 				//sLog->outBasic("[QuestExp] DeleteInvenItem [%s][%s] Delete Item Info - Item:[%s,%d,%d,%d,%d] serial:[%I64d][%d] Ex:[%d,%d,%d,%d,%d,%d,%d] Set[%d] 380:[%d] HO:[%d,%d] SC[%d,%d,%d,%d,%d] BonusOption[%d]",
 				//	getGameObject(iObjIndex)->AccountID, getGameObject(iObjIndex)->Name, getGameObject(iObjIndex)->pntInventory[x]->GetName(), getGameObject(iObjIndex)->pntInventory[x)->m_Level, getGameObject(iObjIndex)->pntInventory[x)->m_Option1,
 				//	getGameObject(iObjIndex)->pntInventory[x]->m_Option2, getGameObject(iObjIndex)->pntInventory[x]->m_Option3, getGameObject(iObjIndex)->pntInventory[x)->m_Number, (int)getGameObject(iObjIndex)->pntInventory[x)->m_Durability,
 				//	NewOption[0], NewOption[1], NewOption[2], NewOption[3], NewOption[4], NewOption[5], NewOption[6], getGameObject(iObjIndex)->pntInventory[x)->m_SetOption,
-				//	getGameObject(iObjIndex)->pntInventory[x]->m_ItemOptionEx >> 7, g_kJewelOfHarmonySystem.GetItemStrengthenOption(&getGameObject(iObjIndex)->pntInventory[x)),
-				//	g_kJewelOfHarmonySystem.GetItemOptionLevel(&getGameObject(iObjIndex)->pntInventory[x]), getGameObject(iObjIndex)->pntInventory[x)->m_SocketOption[0),
+				//	getGameObject(iObjIndex)->pntInventory[x]->m_ItemOptionEx >> 7, g_kJewelOfHarmonySystem.GetItemStrengthenOption(getGameObject(iObjIndex)->pntInventory[x)),
+				//	g_kJewelOfHarmonySystem.GetItemOptionLevel(getGameObject(iObjIndex)->pntInventory[x]), getGameObject(iObjIndex)->pntInventory[x)->m_SocketOption[0),
 				//	getGameObject(iObjIndex)->pntInventory[x]->m_SocketOption[1], getGameObject(iObjIndex)->pntInventory[x]->m_SocketOption[2], getGameObject(iObjIndex)->pntInventory[x)->m_SocketOption[3),
 				//	getGameObject(iObjIndex)->pntInventory[x]->m_SocketOption[4], getGameObject(iObjIndex)->pntInventory[x)->m_BonusSocketOption);
 
@@ -1037,7 +1037,7 @@ void QuestExpProgMng::ChkUserQuestTypeMonsterKill(CGameObject lpObj, CGameObject
 		int iPartyUserIndex = gParty.m_PartyS[iPartyNumber].Number[iPartyUserCount];
 		if (iPartyUserIndex >= 0)
 		{
-			CGameObject* lpPartyObj = &getGameObject(iPartyUserIndex);
+			CGameObject* lpPartyObj = getGameObject(iPartyUserIndex);
 
 			if (getGameObject(iPartyUserIndex)->Connected >= PLAYER_PLAYING || !lpPartyObj.Live)
 			{
@@ -1662,7 +1662,7 @@ bool QuestExpProgMng::IsQuestDropItem(CGameObject &Obj, WORD nType, WORD nLevel)
 
 void QuestExpProgMng::SetQuestTimeLimit(int iObjIndex, DWORD dwQuestIndexID, int iDuration)
 {
-	CGameObject* lpObj = &getGameObject(iObjIndex);
+	CGameObject* lpObj = getGameObject(iObjIndex);
 
 	for (int i = 0; i < MAX_QUESTEXP_USER_INFO; i++)
 	{

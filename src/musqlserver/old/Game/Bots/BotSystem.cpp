@@ -102,11 +102,11 @@ bool CBotSystem::LoadBotSpecializationData(CGameObject &Obj, LPSTR szFile, BYTE 
 				pugi::xml_node BuffList = doc.child("BuffList");
 				for( pugi::xml_node buffs = BuffList.child("Buff"); buffs; buffs = buffs.next_sibling())
 				{
-					Obj.pntBotBuffs[iBuffCounter].wBuffId = buffs.attribute("Id").as_int();
-					Obj.pntBotBuffs[iBuffCounter].wDuration = buffs.attribute("Duration").as_int();
-					Obj.pntBotBuffs[iBuffCounter].iEffect = buffs.attribute("EffectValue").as_int();
-					Obj.pntBotBuffs[iBuffCounter].wEffectType = buffs.attribute("EffectType").as_int();
-					//gObjMagicAdd(lpObj,Obj.pntBotBuffs[iBuffCounter].wBuffId ,0);
+					Obj.pntBotBuffs[iBuffCounter]->wBuffId = buffs.attribute("Id").as_int();
+					Obj.pntBotBuffs[iBuffCounter]->wDuration = buffs.attribute("Duration").as_int();
+					Obj.pntBotBuffs[iBuffCounter]->iEffect = buffs.attribute("EffectValue").as_int();
+					Obj.pntBotBuffs[iBuffCounter]->wEffectType = buffs.attribute("EffectType").as_int();
+					//gObjMagicAdd(lpObj,Obj.pntBotBuffs[iBuffCounter]->wBuffId ,0);
 					iBuffCounter++;
 					
 				}
@@ -237,8 +237,8 @@ void CBotSystem::SetAllBots()
 int CBotSystem::AddBot(_sBOT_SETTINGS pBot)
 {
 //--- declare
-	CGameObject &Obj = gObjAddMonster(pBot.btMap);
-	CGameObject lpBotObj = &getGameObject(Obj.m_Index);
+	CGameObject* lpObj = gObjAddMonster(pBot.btMap);
+	CGameObject* lpBotObj = getGameObject(Obj.m_Index);
 //--- valide
 	if(Obj.m_Index == -1)
 	{
@@ -608,17 +608,17 @@ void CBotSystem::BuffPlayer(WORD  wBufferindex,CGameObject &Obj)
 	if(Obj.Type != OBJ_USER)
 		return;
 	_sBOT_SETTINGS *lpBot = &this->m_BotData[wBufferindex];
-	CGameObject gBotObj = &getGameObject(lpBot->Obj.m_Index);
+	CGameObject gBotObj = getGameObject(lpBot->Obj.m_Index);
 	if(Obj.m_PlayerData->Money < lpBot->iCoinValue)
 	{
-		gGameProtocol.ChatTargetSend(&getGameObject(lpBot->Obj.m_Index), Lang.GetText(0,364),Obj.m_Index);
+		gGameProtocol.ChatTargetSend(getGameObject(lpBot->Obj.m_Index), Lang.GetText(0,364),Obj.m_Index);
 		MsgOutput(Obj.m_Index, Lang.GetText(0,365), lpBot->iCoinValue);
 		return;
 	}
 
 	if(Obj.m_PlayerData->VipType == 0 && lpBot->btVipType > 0)
 	{
-		gGameProtocol.ChatTargetSend(&getGameObject(lpBot->Obj.m_Index), Lang.GetText(0,366), Obj.m_Index);
+		gGameProtocol.ChatTargetSend(getGameObject(lpBot->Obj.m_Index), Lang.GetText(0,366), Obj.m_Index);
 		return;
 	}
 
@@ -627,15 +627,15 @@ void CBotSystem::BuffPlayer(WORD  wBufferindex,CGameObject &Obj)
 		char szTemp[256];
 		sprintf(szTemp, Lang.GetText(0,636), g_VipSystem.GetVipName(lpBot->btVipType));
 
-		gGameProtocol.ChatTargetSend(&getGameObject(lpBot->Obj.m_Index), szTemp, Obj.m_Index);
+		gGameProtocol.ChatTargetSend(getGameObject(lpBot->Obj.m_Index), szTemp, Obj.m_Index);
 		return;
 	}
 
 	for(int i=0;i<MAX_BUFFS_PER_BOT;i++)
 	{
-		if(gBotObj.pntBotBuffs[i].wBuffId > 0)
+		if(gBotObj.pntBotBuffs[i]->wBuffId > 0)
 		{
-			/*CMagicInf * lpMagic = gObjGetMagicSearch(gBotObj,gBotObj.pntBotBuffs[i].wBuffId);
+			/*CMagicInf * lpMagic = gObjGetMagicSearch(gBotObj,gBotObj.pntBotBuffs[i]->wBuffId);
 
 			if(lpMagic != 0)
 			{
@@ -643,7 +643,7 @@ void CBotSystem::BuffPlayer(WORD  wBufferindex,CGameObject &Obj)
 				Obj.BuffId = i;
 				gObjUseSkill.RunningSkill(lpBot->Obj.m_Index,Obj.m_Index,lpMagic,0);
 			}*/
-			gObjAddBuffEffect(&getGameObject(Obj.m_Index), gBotObj.pntBotBuffs[i]->wBuffId, gBotObj.pntBotBuffs[i]->wEffectType, gBotObj.pntBotBuffs[i]->iEffect, 0, 0, gBotObj.pntBotBuffs[i)->wDuration);
+			gObjAddBuffEffect(getGameObject(Obj.m_Index), gBotObj.pntBotBuffs[i]->wBuffId, gBotObj.pntBotBuffs[i]->wEffectType, gBotObj.pntBotBuffs[i]->iEffect, 0, 0, gBotObj.pntBotBuffs[i)->wDuration);
 		}
 	}
 	gGameProtocol.ChatTargetSend(gBotObj, Lang.GetText(0,367), Obj.m_Index);
@@ -667,9 +667,9 @@ int CBotSystem::GetSkillTime(CGameObject &Obj, WORD wSkill)
 
 	for(int i=0;i<MAX_BUFFS_PER_BOT;i++)
 	{
-		if(Obj.pntBotBuffs[i].wBuffId == wSkill)
+		if(Obj.pntBotBuffs[i]->wBuffId == wSkill)
 		{
-			return Obj.pntBotBuffs[i].wDuration;
+			return Obj.pntBotBuffs[i]->wDuration;
 		}
 	}
 	return 0;
@@ -677,7 +677,7 @@ int CBotSystem::GetSkillTime(CGameObject &Obj, WORD wSkill)
 sBOT_REWARD_STRUCT CBotSystem::ConfirmMixSuccess(CGameObject &Obj, int botIndex)
 {
 	
-	CGameObject lpBotObj = &getGameObject(botIndex);
+	CGameObject lpBotObj = getGameObject(botIndex);
 	sBOT_REWARD_STRUCT m_MixResult;
 	int iMixNeedCount = 0;
 	int foundItems = 0;
@@ -731,7 +731,7 @@ bool CBotSystem::AlchemistVerifyItem(s_BOT_CRAFTING_ITEM_STRUCT lpReqItem, CItem
 bool CBotSystem::CheckAlchemist(CGameObject &Obj, int botIndex)
 {
 	
-	CGameObject lpBotObj = &getGameObject(botIndex);
+	CGameObject lpBotObj = getGameObject(botIndex);
 
 	CItemObject rewardItem;
 	int iMixNeedCount = 0;
@@ -860,7 +860,7 @@ bool CBotSystem::StoreAddItems(int botIndex)
 	CGameObject &Obj = this->m_BotData[botIndex].Obj.m_Index;
 	for(int i=0;i<this->m_BotData[botIndex].m_Shop.iItemCount;i++)
 	{
-		BYTE blank = this->PShopCheckSpace(&getGameObject(Obj.m_Index),this->m_BotData[botIndex]->m_Shop.pItems[i]->wItemId,&Obj.pInventoryMap[PSHOP_START_RANGE));
+		BYTE blank = this->PShopCheckSpace(getGameObject(Obj.m_Index),this->m_BotData[botIndex]->m_Shop.pItems[i]->wItemId,&Obj.pInventoryMap[PSHOP_START_RANGE));
 		
 		if(blank != 255)
 		{

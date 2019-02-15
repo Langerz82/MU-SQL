@@ -298,7 +298,7 @@ void GensSystem::BattleZoneChatMsgSend(CGameObject &Obj, BYTE* Msg, int size)
 
 		for (int n = 0; n < MAX_VIEWPORT; ++n)
 		{
-			if (Obj.VpPlayer[n].type == OBJ_USER && Obj.VpPlayer[n].state != 0 && (this->GetGensInfluence(&getGameObject(Obj.VpPlayer[n]->number]) == iTarInfluence || CheckAuthorityCondition(98, lpObj) || CheckAuthorityCondition(98, &getGameObject(Obj.VpPlayer[n)->number)) || this->CanGensSeeOppositeChat() == TRUE))
+			if (Obj.VpPlayer[n].type == OBJ_USER && Obj.VpPlayer[n].state != 0 && (this->GetGensInfluence(getGameObject(Obj.VpPlayer[n]->number]) == iTarInfluence || CheckAuthorityCondition(98, lpObj) || CheckAuthorityCondition(98, getGameObject(Obj.VpPlayer[n)->number)) || this->CanGensSeeOppositeChat() == TRUE))
 			{				
 				IOCP.DataSend(Obj.VpPlayer[n].number, Msg, size);
 			}

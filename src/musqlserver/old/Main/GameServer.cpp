@@ -808,7 +808,7 @@ LRESULT CALLBACK GSDisconnect(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 							{
 								if (getGameObject(i)->m_bOff == true)
 								{
-									GJSetCharacterInfo(&getGameObject(i), i, FALSE);
+									GJSetCharacterInfo(getGameObject(i), i, FALSE);
 									getGameObject(i)->m_bOff = false;
 									gObjDel(i);
 								}
@@ -847,7 +847,7 @@ LRESULT CALLBACK GSDisconnect(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 							{
 								if (getGameObject(i)->m_bOff == true)
 								{
-									GJSetCharacterInfo(&getGameObject(i), i, FALSE);
+									GJSetCharacterInfo(getGameObject(i), i, FALSE);
 									getGameObject(i)->m_bOff = false;
 									gObjDel(i);
 								}

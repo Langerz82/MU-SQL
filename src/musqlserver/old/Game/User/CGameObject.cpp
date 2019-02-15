@@ -50,9 +50,7 @@ int gItemLoop2;
 
 int MaxViewportMonster = 20;
 
-CViewportGuild ViewGuildMng;	// line : 130
-std::map<int, CGameObject*> gGameObjects;
-
+// CViewportGuild ViewGuildMng;	// line : 130
 
 int gObjMonCount;
 int gObjCallMonCount;

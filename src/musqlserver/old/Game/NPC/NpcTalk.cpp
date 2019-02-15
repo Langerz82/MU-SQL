@@ -1990,7 +1990,7 @@ bool Npc_Dialog(CGameObject &Npc, CGameObject lpObj) //-> Complete
 
 bool NpcShadowPhantom(int iObjIndex) //-> Complete
 {
-	CGameObject lpObj = &getGameObject(iObjIndex);
+	CGameObject lpObj = getGameObject(iObjIndex);
 
 	if (!gObjIsConnected(Obj.m_Index))
 	{

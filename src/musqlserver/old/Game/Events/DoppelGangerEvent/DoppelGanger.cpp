@@ -211,7 +211,7 @@ void CDoppelGangerMonsterHerd::MonsterBaseAct(CGameObject &Obj)
 
 	if (Obj.TargetNumber >= 0)
 	{
-		lpTargetObj = &getGameObject(Obj.TargetNumber);
+		lpTargetObj = getGameObject(Obj.TargetNumber);
 	}
 	else
 	{
@@ -779,7 +779,7 @@ void CDoppelGanger::SetDoppelgangerStateEnd()
 		{
 			if (this->m_UserData[Cnt].IsUser() == TRUE && getGameObject(this->m_UserData[Cnt]->m_nIndex)->Connected > PLAYER_LOGGED)
 			{
-				g_CashShop.AddCoin(&getGameObject(this->m_UserData[Cnt]->m_nIndex), EVENT_RAKLION);
+				g_CashShop.AddCoin(getGameObject(this->m_UserData[Cnt]->m_nIndex), EVENT_RAKLION);
 				this->AddLastTreasureBox(getGameObject(this->m_UserData[Cnt]->m_nIndex]->X, getGameObject(this->m_UserData[Cnt)->m_nIndex)->Y);
 				break;
 			}
@@ -2019,8 +2019,8 @@ void CDoppelGanger::AngerKillerAttack(CGameObject &Obj)
 			if (getGameObject(this->m_UserData[Cnt]->m_nIndex]->X >= iMIN_X && getGameObject(this->m_UserData[Cnt)->m_nIndex)->X <= iMAX_X &&
 				getGameObject(this->m_UserData[Cnt]->m_nIndex]->Y >= iMIN_Y && getGameObject(this->m_UserData[Cnt)->m_nIndex)->Y <= iMAX_Y)
 			{
-				gObjAttack(lpObj, &getGameObject(this->m_UserData[Cnt]->m_nIndex), 0, 0, 0, 0, 0, 0, 0);
-				gObjBackSpring(&getGameObject(this->m_UserData[Cnt]->m_nIndex), lpObj);
+				gObjAttack(lpObj, getGameObject(this->m_UserData[Cnt]->m_nIndex), 0, 0, 0, 0, 0, 0, 0);
+				gObjBackSpring(getGameObject(this->m_UserData[Cnt]->m_nIndex), lpObj);
 			}
 		}
 	}
@@ -2119,7 +2119,7 @@ void CDoppelGanger::MoveDoppelgangerMonsterProc()
 
 	for (int i = 0; i < g_ConfigRead.server.GetObjectMaxMonster(); i++)
 	{
-		CGameObject lpObj = &getGameObject(i);
+		CGameObject lpObj = getGameObject(i);
 
 		if (Obj.Connected == PLAYER_PLAYING && Obj.m_State == 2 && Obj.Type == OBJ_MONSTER)
 		{
@@ -2534,7 +2534,7 @@ void CDoppelGanger::SendMapTileInfoAll(BYTE btMapSetType)
 	{
 		if (this->m_UserData[Cnt].IsUser() == TRUE && getGameObject(this->m_UserData[Cnt]->m_nIndex)->Connected > PLAYER_LOGGED)
 		{
-			this->SendMapTileInfo(&getGameObject(this->m_UserData[Cnt]->m_nIndex), btMapSetType);
+			this->SendMapTileInfo(getGameObject(this->m_UserData[Cnt]->m_nIndex), btMapSetType);
 		}
 	}
 }

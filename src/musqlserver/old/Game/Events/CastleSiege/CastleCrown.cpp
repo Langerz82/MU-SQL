@@ -43,7 +43,7 @@ void CCastleCrown::CastleCrownAct(CGameObject &Obj)
 	}
 
 	CGameObject* lpObj = Obj;
-	CGameObject lpUserObj = &getGameObject(g_CastleSiege.GetCrownUserIndex());
+	CGameObject lpUserObj = getGameObject(g_CastleSiege.GetCrownUserIndex());
 
 	if ( lpUserObj.MapNumber == MAP_INDEX_CASTLESIEGE &&
 		 lpUserObj.m_btCsJoinSide >= 2 &&

@@ -876,7 +876,7 @@ int PartyClass::GetExpBonus(CGameObject &User, CGameObject lpMonster, int PartyN
 			continue;
 		}
 		// ----
-		CGameObject lpPartyUser = &getGameObject(UserIndex);
+		CGameObject lpPartyUser = getGameObject(UserIndex);
 		// ----
 		if (!lpPartyUser)
 		{
@@ -925,8 +925,8 @@ bool PartyClass::SetLeader(int OldLeader, int NewLeader)
 	if (!ObjectMaxRange(NewLeader))
 		return false;
 
-	CGameObject lpObj = &getGameObject(OldLeader);
-	CGameObject lpTargetObj = &getGameObject(NewLeader);
+	CGameObject lpObj = getGameObject(OldLeader);
+	CGameObject lpTargetObj = getGameObject(NewLeader);
 	// ----
 	int PartyNumber = Obj.PartyNumber;
 	// ----

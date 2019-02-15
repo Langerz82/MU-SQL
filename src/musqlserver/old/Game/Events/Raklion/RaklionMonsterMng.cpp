@@ -129,7 +129,7 @@ int CRaklionMonsterMng::SetPosition(int iMonsterIndex, int iTableNum)
 		return FALSE;
 	}
 
-	CGameObject lpObj = &getGameObject(iMonsterIndex);
+	CGameObject lpObj = getGameObject(iMonsterIndex);
 
 	Obj.m_PosNum = iTableNum;
 	Obj.X = this->m_SetBaseInfo[iTableNum].btX;

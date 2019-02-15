@@ -270,7 +270,7 @@ TMonsterAIGroupMember * TMonsterAIGroup::FindGroupMemberToHeal(int iObjIndex, in
 	{
 		if ( TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iGroupNumber == iGroupNumber )
 		{
-			CGameObject lpTargetObj = &getGameObject(TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i]->m_iObjIndex);
+			CGameObject lpTargetObj = getGameObject(TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i]->m_iObjIndex);
 
 			if ( lpTargetObj == NULL )
 				continue;
@@ -278,7 +278,7 @@ TMonsterAIGroupMember * TMonsterAIGroup::FindGroupMemberToHeal(int iObjIndex, in
 			if ( lpTargetObj.Live == false )
 				continue;
 
-			if ( gObjCalDistance(&getGameObject(iObjIndex), lpTargetObj) > iDistance )
+			if ( gObjCalDistance(getGameObject(iObjIndex), lpTargetObj) > iDistance )
 				continue;
 
 			int iMaxLife = lpTargetObj.MaxLife + 1.0f;
@@ -316,7 +316,7 @@ TMonsterAIGroupMember * TMonsterAIGroup::FindGroupMemberToSommon(int iObjIndex, 
 	{
 		if ( TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i].m_iGroupNumber == iGroupNumber )
 		{
-			CGameObject lpTargetObj = &getGameObject(TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i]->m_iObjIndex);
+			CGameObject lpTargetObj = getGameObject(TMonsterAIGroup::s_MonsterAIGroupMemberArray[iGroupNumber][i]->m_iObjIndex);
 
 			if ( lpTargetObj.m_Index == iObjIndex )
 				continue;
@@ -372,8 +372,8 @@ void TMonsterAIGroup::Init(int iGroupNumber)
 			getGameObject(iResult)->MapNumber = Memb.m_iMapNumber;
 			getGameObject(iResult)->Live = TRUE;
 
-			gObjViewportListProtocolDestroy(&getGameObject(iResult));
-			gObjViewportClose(&getGameObject(iResult));
+			gObjViewportListProtocolDestroy(getGameObject(iResult));
+			gObjViewportClose(getGameObject(iResult));
 
 			BYTE cX;
 			BYTE cY;

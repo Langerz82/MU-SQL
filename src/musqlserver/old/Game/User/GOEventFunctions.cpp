@@ -325,7 +325,7 @@ BYTE gObjEventInvenItemOverlap(CGameObject &Obj, int *durSsend, int *durTsend, B
 }
 BYTE gObjEventInvenMove(CGameObject &Obj, int *durSsend, int *durTsend, BYTE source, BYTE target)
 {
-	BYTE TempntEventInventoryMap[32];
+	BYTE TempEventInventoryMap[32];
 
 	if (source > EVENT_INVENTORY_SIZE - 1)
 	{
@@ -827,13 +827,13 @@ BOOL gObjEventInventorySearchSerialNum(CGameObject &Obj, UINT64 serial)
 
 void gObjSetEventInventory1Pointer(CGameObject &Obj)
 {
-	Obj.pntEventInventory = Obj.pntEventInventory1[;
+	Obj.pntEventInventory = Obj.pntEventInventory1;
 	Obj.EventInventoryMap = Obj.EventInventoryMap1;
 }
 
 void gObjSetEventInventory2Pointer(CGameObject &Obj)
 {
-	Obj.pntEventInventory = Obj.pntEventInventory2[;
+	Obj.pntEventInventory = Obj.pntEventInventory2;
 	Obj.EventInventoryMap = Obj.EventInventoryMap2;
 }
 
