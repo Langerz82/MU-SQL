@@ -938,7 +938,7 @@ bool CIOCP::IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 	{
 		if (WSAGetLastError() != WSA_IO_PENDING)
 		{
-			sLog->outBasic("WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), lpObjUser->ConnectUser->IP);
+			sLog->outBasic("WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), lpObj->m_PlayerData->ConnectUser->IP);
 			CloseClient(aIndex);
 			LeaveCriticalSection(&criti);
 			return false;

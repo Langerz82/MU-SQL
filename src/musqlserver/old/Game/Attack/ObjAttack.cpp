@@ -307,13 +307,13 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 
 			if (bCheckAttackIsMagicType == TRUE)
 			{
-				gGameProtocol.GCMagicAttackNumberSend(lpObj, skill, lpTargetObj.m_Index, 0);
+				GCMagicAttackNumberSend(lpObj, skill, lpTargetObj.m_Index, 0);
 				return TRUE;
 			}
 
 			if (lpTargetObj.Class == 673)
 			{
-				gGameProtocol.GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
+				GCDamageSend(lpObj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
 				return TRUE;
 			}
 		}

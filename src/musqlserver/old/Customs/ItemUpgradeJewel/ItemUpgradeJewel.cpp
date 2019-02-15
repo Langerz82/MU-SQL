@@ -105,7 +105,7 @@ void ItemUpgradeJewels::ProcInsert(CGameObject &User, int JewelPos, int TargetPo
 
 	if (lpJewel == NULL)
 	{
-		gGameProtocol.GCReFillSend(lpUser, (WORD)lpUser.Life, 0xFD, 1, lpUser.iShield);
+		GCReFillSend(lpUser, (WORD)lpUser.Life, 0xFD, 1, lpUser.iShield);
 		return;
 	}
 
@@ -113,12 +113,12 @@ void ItemUpgradeJewels::ProcInsert(CGameObject &User, int JewelPos, int TargetPo
 	{
 		gObjInventoryItemSet(lpUser, JewelPos, -1);
 		lpUser.pInventory[JewelPos].Clear();
-		gGameProtocol.GCInventoryItemOneSend(lpUser, TargetPos);
-		gGameProtocol.GCInventoryItemDeleteSend(lpUser, JewelPos, 1);
+		GCInventoryItemOneSend(lpUser, TargetPos);
+		GCInventoryItemDeleteSend(lpUser, JewelPos, 1);
 	}
 	else
 	{
-		gGameProtocol.GCReFillSend(lpUser, (WORD)lpUser.Life, 0xFD, 1, lpUser.iShield);
+		GCReFillSend(lpUser, (WORD)lpUser.Life, 0xFD, 1, lpUser.iShield);
 	}
 }
 
@@ -444,11 +444,11 @@ bool ItemUpgradeJewels::ProcUpgrade(CGameObject &User, int JewelPos, int TargetP
 		if (rand() % 10000 < Rate)
 		{
 			g_kJewelOfHarmonySystem._MakeOption(ItemTarget, iItemOption, iItemOptionLevel);
-			gGameProtocol.GCServerMsgStringSend("Adding Jewel Of Harmony Succes!", lpUser.m_Index, 1);
+			GCServerMsgStringSend("Adding Jewel Of Harmony Succes!", lpUser.m_Index, 1);
 		}
 		else
 		{
-			gGameProtocol.GCServerMsgStringSend("Adding Jewel Of Harmony Failed", lpUser.m_Index, 1);
+			GCServerMsgStringSend("Adding Jewel Of Harmony Failed", lpUser.m_Index, 1);
 		}
 	}
 

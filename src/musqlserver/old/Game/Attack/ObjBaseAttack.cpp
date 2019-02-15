@@ -85,12 +85,12 @@ BOOL CObjBaseAttack::DecreaseArrow(CGameObject &Obj)
 					return FALSE;
 				}
 				Right->m_Durability -= 1.0f;
-				gGameProtocol.GCItemObjectDurSend(lpObj.m_Index, 1, Right->m_Durability, 0);
+				GCItemObjectDurSend(lpObj.m_Index, 1, Right->m_Durability, 0);
 
 				if ( Right->m_Durability < 1.0f )
 				{
 					lpObj.pInventory[1].Clear();
-					gGameProtocol.GCInventoryItemDeleteSend(lpObj.m_Index, 1, 0);
+					GCInventoryItemDeleteSend(lpObj.m_Index, 1, 0);
 				}
 			}
 			else if (Right->m_Type == ITEMGET(4, 32) || Right->m_Type == ITEMGET(4, 33) || Right->m_Type == ITEMGET(4, 34) || Right->m_Type == ITEMGET(4, 35))
@@ -102,7 +102,7 @@ BOOL CObjBaseAttack::DecreaseArrow(CGameObject &Obj)
 
 				Right->m_Durability -= 0.0f;
 
-				gGameProtocol.GCItemObjectDurSend(lpObj.m_Index, 1, Right->m_Durability, 0);
+				GCItemObjectDurSend(lpObj.m_Index, 1, Right->m_Durability, 0);
 			}
 			else
 			{

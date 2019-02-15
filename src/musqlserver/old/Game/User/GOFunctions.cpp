@@ -1,6 +1,6 @@
 #include "GOFunctions.h"
 #include "GameServer.h"
-#include "Main.h"
+#include "PrecompiledHeader/gameGlobals.h"
 #include "DoppelGanger.h"
 #include "MapServerManager.h"
 #include "gObjMonster.h"
@@ -97,6 +97,7 @@
 #include "EDSprotocol.h"
 #include "CastleSiege.h"
 #include "MonsterSetBase.h"
+#include "EDSprotocol.h"
 
 
 CItemObject* pTempInventory;
