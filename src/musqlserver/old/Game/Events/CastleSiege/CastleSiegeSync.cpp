@@ -209,15 +209,15 @@ int CCastleSiegeSync::CheckOverlapCsMarks(CGameObject &Obj)
 {
 	for ( int x=INVENTORY_BAG_START;x<MAIN_INVENTORY_SIZE;x++)
 	{
-		if ( Obj.pInventory[x]->IsItem() == TRUE )
+		if ( Obj.pntInventory[x]->IsItem() == TRUE )
 		{
-			if ( Obj.pInventory[x]->m_Type == ITEMGET(14,21) )
+			if ( Obj.pntInventory[x]->m_Type == ITEMGET(14,21) )
 			{
-				if ( Obj.pInventory[x]->m_Level == 3 )
+				if ( Obj.pntInventory[x]->m_Level == 3 )
 				{
-					int op = Obj.pInventory[x]->m_Durability;
+					int op = Obj.pntInventory[x]->m_Durability;
 
-					if (op >= 0 && op < IsOverlapItem(Obj.pInventory[x]->m_Type))
+					if (op >= 0 && op < IsOverlapItem(Obj.pntInventory[x]->m_Type))
 					{
 						return x;
 					}

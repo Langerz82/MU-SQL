@@ -146,39 +146,39 @@ int CUpgradeCmd::DoUpgrade(CGameObject &Obj)
 			continue;
 		}
 
-		if (Obj.pInventory[i]->IsItem() == false)
+		if (Obj.pntInventory[i]->IsItem() == false)
 		{
 			continue;
 		}
 
 		for (std::map<int, UPGRADECMD_DATA>::iterator It = this->m_mapUpgradeData.begin(); It != this->m_mapUpgradeData.end(); It++)
 		{
-			if (It->second.m_NeedItem.wItemID != Obj.pInventory[i]->m_Type)
+			if (It->second.m_NeedItem.wItemID != Obj.pntInventory[i]->m_Type)
 			{
 				continue;
 			}
 
-			if (It->second.m_NeedItem.btItemLevel != Obj.pInventory[i]->m_Level)
+			if (It->second.m_NeedItem.btItemLevel != Obj.pntInventory[i]->m_Level)
 			{
 				continue;
 			}
 
-			if (It->second.m_NeedItem.btOption != Obj.pInventory[i]->m_Option3)
+			if (It->second.m_NeedItem.btOption != Obj.pntInventory[i]->m_Option3)
 			{
 				continue;
 			}
 
-			if (It->second.m_NeedItem.btSetOption != Obj.pInventory[i]->m_SetOption)
+			if (It->second.m_NeedItem.btSetOption != Obj.pntInventory[i]->m_SetOption)
 			{
 				continue;
 			}
 
-			if (It->second.m_NeedItem.btExc != Obj.pInventory[i]->m_NewOption)
+			if (It->second.m_NeedItem.btExc != Obj.pntInventory[i]->m_NewOption)
 			{
 				continue;
 			}
 
-			if (memcmp(It->second.m_NeedItem.btSocketOption, Obj.pInventory[i]->m_SocketOption, 5) != 0)
+			if (memcmp(It->second.m_NeedItem.btSocketOption, Obj.pntInventory[i]->m_SocketOption, 5) != 0)
 			{
 				continue;
 			}
@@ -189,7 +189,7 @@ int CUpgradeCmd::DoUpgrade(CGameObject &Obj)
 				return 0;
 			}
 
-			CItemObject CopyItem = Obj.pInventory[i];
+			CItemObject CopyItem = Obj.pntInventory[i];
 			CItemObject NewItem;
 
 			gObjInventoryDeleteItem(Obj.m_Index, i);

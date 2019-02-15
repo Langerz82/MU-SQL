@@ -24,6 +24,7 @@ void CGremoryCase::CheckStorageExpiredItems()
 
 	for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 	{
+		CGameObject* lpObj = ObjEntry.second;
 		if (gObjIsConnected(i) == TRUE)
 		{
 			if (getGameObject(i)->Type == OBJ_USER)

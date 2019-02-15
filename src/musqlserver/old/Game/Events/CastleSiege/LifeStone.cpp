@@ -137,10 +137,7 @@ int CLifeStone::CreateLifeStone(CGameObject &Obj)
 
 int CLifeStone::DeleteLifeStone(CGameObject &Obj)
 {
-	if ( iIndex < 0 || iIndex > g_ConfigRead.server.GetObjectMax()-1 )
-		return FALSE;
-
-	CGameObject lpLifeStone = Obj;
+	CGameObject* lpLifeStone = &Obj;
 
 	if ( lpLifeStone->m_PlayerData->lpGuild )
 	{
@@ -154,10 +151,10 @@ int CLifeStone::DeleteLifeStone(CGameObject &Obj)
 
 int CLifeStone::SetReSpawnUserXY(CGameObject &Obj)
 {
-	if ( !gObjIsConnected(iUserIndex) )
+	if ( !gObjIsConnected(Obj) )
 		return FALSE;
 
-	CGameObject lpUser = &getGameObject(iUserIndex);
+	CGameObject* lpUser = &Obj;
 
 	if ( lpUser->MapNumber != MAP_INDEX_CASTLESIEGE )
 		return FALSE;
@@ -170,7 +167,7 @@ int CLifeStone::SetReSpawnUserXY(CGameObject &Obj)
 	if ( lpUser->m_PlayerData->lpGuild->lpLifeStone == NULL )
 		return FALSE;
 
-	CGameObject lpLifeStone = lpUser->m_PlayerData->lpGuild->lpLifeStone;
+	CGameObject* lpLifeStone = lpUser->m_PlayerData->lpGuild->lpLifeStone;
 
 	if ( lpLifeStone->m_btCreationState != 5 )
 		return FALSE;

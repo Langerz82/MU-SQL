@@ -955,6 +955,7 @@ void CCrywolf::NotifyCrywolfPersonalRank()
 
 	for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 	{
+		CGameObject* lpObj = ObjEntry.second;
 		if (getGameObject(i)->Connected == PLAYER_PLAYING &&
 			getGameObject(i)->Type == OBJ_USER &&
 			getGameObject(i)->MapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE)
@@ -1006,6 +1007,7 @@ void CCrywolf::NotifyCrywolfHeroList()
 	
 	for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 	{
+		CGameObject* lpObj = ObjEntry.second;
 		if (getGameObject(i)->Connected == PLAYER_PLAYING &&
 			getGameObject(i)->Type == OBJ_USER &&
 			getGameObject(i)->MapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE)

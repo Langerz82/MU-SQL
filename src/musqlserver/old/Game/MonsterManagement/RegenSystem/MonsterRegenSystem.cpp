@@ -262,6 +262,7 @@ void CMonsterRegenSystem::RegenMonster(int nGroupNumber)
 
 								for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 								{
+									CGameObject* lpObj = ObjEntry.second;
 									if (getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
 									{
 										IOCP.DataSend(i, (BYTE*)&pNotice, pNotice.h.size);

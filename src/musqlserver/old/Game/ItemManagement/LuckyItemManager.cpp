@@ -373,9 +373,9 @@ void LuckyItemManager::LuckyItemTicketExchange(CGameObject &Obj)
 	
 	for( int i = 0; i < CHAOS_BOX_SIZE; i++ )
 	{
-		if( Obj.pChaosBox[i].IsItem() )
+		if( Obj.pntChaosBox[i].IsItem() )
 		{
-			pLuckyItemInfo = this->GetCharClassLuckyItemInfo(Obj.pChaosBox[i].m_Type, Obj.Class);
+			pLuckyItemInfo = this->GetCharClassLuckyItemInfo(Obj.pntChaosBox[i].m_Type, Obj.Class);
 
 			if( pLuckyItemInfo == NULL )
 			{
@@ -393,7 +393,7 @@ void LuckyItemManager::LuckyItemTicketExchange(CGameObject &Obj)
 	if( iValidItemCount != 1 || iInvalidItemCount != 0 || iItemPos == -1 )
 	{
 		sLog->outBasic("[LuckyItem] - Can Not be Exchanged [%s][%s] CharClass[%d] ItemNum[%d] ItemName[%s]", Obj.AccountID, Obj.Name, Obj.Class,
-			Obj.pChaosBox[iItemPos].m_Type, ItemAttribute[Obj.pChaosBox[iItemPos].m_Type].Name);
+			Obj.pntChaosBox[iItemPos].m_Type, ItemAttribute[Obj.pntChaosBox[iItemPos].m_Type].Name);
 		pMsg.Result = 0x20;
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 		Obj.ChaosLock = false;
@@ -420,7 +420,7 @@ void LuckyItemManager::LuckyItemTicketExchange(CGameObject &Obj)
 	if( pLuckyItemEquipment == 0 || pItemLevelRandRate == 0 || piAddSetOptRate == 0)
 	{
 		sLog->outBasic("[LuckyItem] --- Error --- [%s][%s] CharClass[%d] ItemNum[%d] ItemName[%s]", Obj.AccountID, Obj.Name, Obj.Class,
-			Obj.pChaosBox[iItemPos].m_Type, ItemAttribute[Obj.pChaosBox[iItemPos].m_Type].Name);
+			Obj.pntChaosBox[iItemPos].m_Type, ItemAttribute[Obj.pntChaosBox[iItemPos].m_Type].Name);
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 		Obj.ChaosLock = false;
 		return;
@@ -549,9 +549,9 @@ void LuckyItemManager::LuckyItemSmelting(CGameObject &Obj)
 	
 	for( int i = 0; i < CHAOS_BOX_SIZE; i++ )
 	{
-		if( Obj.pChaosBox[i].IsItem() )
+		if( Obj.pntChaosBox[i].IsItem() )
 		{
-			int bLuckyItemEquipment = this->IsLuckyItemEquipment(Obj.pChaosBox[i].m_Type);
+			int bLuckyItemEquipment = this->IsLuckyItemEquipment(Obj.pntChaosBox[i].m_Type);
 			
 			if( !bLuckyItemEquipment )
 			{
@@ -576,8 +576,8 @@ void LuckyItemManager::LuckyItemSmelting(CGameObject &Obj)
 		sLog->outBasic("[LuckyItemSmelting] - Smelting Start");
 		g_MixSystem.LogChaosItem(lpObj, "[LuckyItem] Item Smelting");
 		
-		int bGambleLuckyItemSmelting = this->GambleLuckyItemSmelting(Obj.pChaosBox[iItemPos].m_Type, (int)Obj.pChaosBox[iItemPos].m_Durability);
-		this->GDReqLuckyItemDelete(Obj.pChaosBox[iItemPos].m_Type, Obj.pChaosBox[iItemPos].m_Number, Obj.m_Index);
+		int bGambleLuckyItemSmelting = this->GambleLuckyItemSmelting(Obj.pntChaosBox[iItemPos].m_Type, (int)Obj.pntChaosBox[iItemPos].m_Durability);
+		this->GDReqLuckyItemDelete(Obj.pntChaosBox[iItemPos].m_Type, Obj.pntChaosBox[iItemPos].m_Number, Obj.m_Index);
 		
 		int iCharType	= 0;
 		int Type		= ITEMGET(14, 160);
@@ -670,12 +670,12 @@ int LuckyItemManager::LuckyItemRepaire(CGameObject &Obj, int source, int target)
 		return false;
 	}
 	
-	if( !Obj.pInventory[source]->IsItem() || !Obj.pInventory[target]->IsItem() )
+	if( !Obj.pntInventory[source]->IsItem() || !Obj.pntInventory[target]->IsItem() )
 	{
 		return false;
 	}
 	
-	CItemObject * LuckyItemEquipment	= &Obj.pInventory[target];
+	CItemObject * LuckyItemEquipment	= &Obj.pntInventory[target];
 	int	bLuckyItemEquipment		= this->IsLuckyItemEquipment(LuckyItemEquipment->m_Type);
 	
 	if( !bLuckyItemEquipment )
@@ -759,7 +759,7 @@ void LuckyItemManager::GDReqLuckyItemInsert2nd(int iObjIndex)
 	
 	for( int i = 0; i < 5; i++ )
 	{
-		CItemObject pItem = Obj.pInventory[iItemType[i]];
+		CItemObject pItem = Obj.pntInventory[iItemType[i]];
 		
 		if( this->IsLuckyItemEquipment(pItem.m_Type) )
 		{
@@ -817,9 +817,9 @@ void LuckyItemManager::DGAnsLuckyItemList(PMSG_ANS_LUCKYITEM_SELECT * lpRecv)
 	
 	for( int iInven = 0; iInven < MAIN_INVENTORY_SIZE; iInven++ )
 	{
-		if( getGameObject(iObjIndex)->pInventory[iInven)->IsItem() )
+		if( getGameObject(iObjIndex)->pntInventory[iInven)->IsItem() )
 		{
-			CItemObject * pItem = &getGameObject(iObjIndex)->pInventory[iInven);
+			CItemObject * pItem = &getGameObject(iObjIndex)->pntInventory[iInven);
 
 			for( int i = 0; i < iItemCnt; i++ )
 			{

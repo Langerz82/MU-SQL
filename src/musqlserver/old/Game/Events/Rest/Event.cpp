@@ -1255,12 +1255,12 @@ void EGAnsRegLuckyCoin(PMSG_ANS_REG_LUCKYCOIN * lpMsg)
 	
 	if(pMsg.btResult == 1)
 	{
-		if(Obj.pInventory[lpMsg->Pos]->IsItem() == TRUE && Obj.pInventory[lpMsg->Pos]->m_Type == ITEMGET(14,100))
+		if(Obj.pntInventory[lpMsg->Pos]->IsItem() == TRUE && Obj.pntInventory[lpMsg->Pos]->m_Type == ITEMGET(14,100))
 		{
-			if(Obj.pInventory[lpMsg->Pos]->m_Durability > 1.0)
+			if(Obj.pntInventory[lpMsg->Pos]->m_Durability > 1.0)
 			{
-				Obj.pInventory[lpMsg->Pos]->m_Durability -= 1.0f;
-				gGameProtocol.GCItemObjectDurSend2(Obj.m_Index, lpMsg->Pos, Obj.pInventory[lpMsg->Pos]->m_Durability, 0);
+				Obj.pntInventory[lpMsg->Pos]->m_Durability -= 1.0f;
+				gGameProtocol.GCItemObjectDurSend2(Obj.m_Index, lpMsg->Pos, Obj.pntInventory[lpMsg->Pos]->m_Durability, 0);
 			}
 			else
 			{

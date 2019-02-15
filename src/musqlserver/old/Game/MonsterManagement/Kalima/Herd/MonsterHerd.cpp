@@ -220,12 +220,7 @@ void MonsterHerd::Stop()
 
 _MONSTER_HERD_DATA * MonsterHerd::GetMonsterData(CGameObject &Obj)
 {
-	if ( ObjectMaxRange(Obj.m_Index) == FALSE )
-	{
-		return NULL;
-	}
-
-	CGameObject lpOBJ = Obj;
+	CGameObject* lpOBJ = &Obj;
 
 	if ( lpOBJ->Connected != PLAYER_PLAYING || lpOBJ->Type != OBJ_MONSTER )
 	{

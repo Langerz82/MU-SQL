@@ -216,8 +216,8 @@ void UserDieItemDrop::Drop(CGameObject &User, CGameObject &Killer)
 				}
 			}
 			// ----
-			if (lpUser.pInventory[Slot].IsItem()
-				&& !g_kJewelOfHarmonySystem.IsStrengthenByJewelOfHarmony(&lpUser.pInventory[Slot]))
+			if (lpUser.pntInventory[Slot].IsItem()
+				&& !g_kJewelOfHarmonySystem.IsStrengthenByJewelOfHarmony(&lpUser.pntInventory[Slot]))
 			{
 				PMSG_ITEMTHROW lpMsg;
 				lpMsg.Ipos = Slot;

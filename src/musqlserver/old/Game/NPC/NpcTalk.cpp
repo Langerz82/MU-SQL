@@ -529,7 +529,7 @@ BOOL NpcTalk(CGameObject &Npc, CGameObject lpObj)
 					}
 					for (short i = 0; i < MAIN_INVENTORY_SIZE; ++i)
 					{
-						if (Obj.pInventory[i]->m_Type > 0 && Obj.pInventory[i]->m_Type == ITEMGET(g_LastManStanding.m_Cfg.iReqItemCat, g_LastManStanding.m_Cfg.iReqItemIdx))
+						if (Obj.pntInventory[i]->m_Type > 0 && Obj.pntInventory[i]->m_Type == ITEMGET(g_LastManStanding.m_Cfg.iReqItemCat, g_LastManStanding.m_Cfg.iReqItemIdx))
 						{
 							if (removedCount < g_LastManStanding.m_Cfg.iReqItemCount)
 							{

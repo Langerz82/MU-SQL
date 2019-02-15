@@ -188,30 +188,30 @@ int QuestExpLuaBind::GetInvenItemFind(lua_State *L)
 
 	for (int x = 0; x < INVENTORY_SIZE; x++)
 	{
-		if (!getGameObject(iObjIndex)->pInventory[x)->IsItem())
+		if (!getGameObject(iObjIndex)->pntInventory[x)->IsItem())
 		{
 			continue;
 		}
 
-		if (getGameObject(iObjIndex)->pInventory[x)->m_Type != ITEMGET(iItemType, iItemIndex))
+		if (getGameObject(iObjIndex)->pntInventory[x)->m_Type != ITEMGET(iItemType, iItemIndex))
 		{
 			continue;
 		}
 
-		if (getGameObject(iObjIndex)->pInventory[x)->m_Level != iItemLevel)
+		if (getGameObject(iObjIndex)->pntInventory[x)->m_Level != iItemLevel)
 		{
 			continue;
 		}
 
-		if ((getGameObject(iObjIndex)->pInventory[x)->m_Type < ITEMGET(14, 0)
-			|| getGameObject(iObjIndex)->pInventory[x)->m_Type > ITEMGET(14, 8))
-			&& (getGameObject(iObjIndex)->pInventory[x)->m_Type < ITEMGET(14, 35)
-				|| getGameObject(iObjIndex)->pInventory[x)->m_Type > ITEMGET(14, 40))
-			&& g_QuestExpManager.IsQuestItemAtt(getGameObject(iObjIndex)->pInventory[x)->m_Type, QUESTEXP_ITEM_OVERLAP) != true)
+		if ((getGameObject(iObjIndex)->pntInventory[x)->m_Type < ITEMGET(14, 0)
+			|| getGameObject(iObjIndex)->pntInventory[x)->m_Type > ITEMGET(14, 8))
+			&& (getGameObject(iObjIndex)->pntInventory[x)->m_Type < ITEMGET(14, 35)
+				|| getGameObject(iObjIndex)->pntInventory[x)->m_Type > ITEMGET(14, 40))
+			&& g_QuestExpManager.IsQuestItemAtt(getGameObject(iObjIndex)->pntInventory[x)->m_Type, QUESTEXP_ITEM_OVERLAP) != true)
 		{
-			if (getGameObject(iObjIndex)->pInventory[x]->m_Option1 == iItemSkill && getGameObject(iObjIndex)->pInventory[x]->m_Option3 == iItemOpt && getGameObject(iObjIndex)->pInventory[x)->m_NewOption == iItemExOpt)
+			if (getGameObject(iObjIndex)->pntInventory[x]->m_Option1 == iItemSkill && getGameObject(iObjIndex)->pntInventory[x]->m_Option3 == iItemOpt && getGameObject(iObjIndex)->pntInventory[x)->m_NewOption == iItemExOpt)
 			{
-				if (getGameObject(iObjIndex)->pInventory[x]->m_Option2 == 0 && getGameObject(iObjIndex)->pInventory[x)->m_SetOption == 0)
+				if (getGameObject(iObjIndex)->pntInventory[x]->m_Option2 == 0 && getGameObject(iObjIndex)->pntInventory[x)->m_SetOption == 0)
 				{
 					iItemCnt++;
 				}
@@ -219,7 +219,7 @@ int QuestExpLuaBind::GetInvenItemFind(lua_State *L)
 		}
 		else
 		{
-			iDur += getGameObject(iObjIndex)->pInventory[x)->m_Durability;
+			iDur += getGameObject(iObjIndex)->pntInventory[x)->m_Durability;
 		}
 	}
 

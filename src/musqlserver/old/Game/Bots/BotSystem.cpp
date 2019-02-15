@@ -304,7 +304,7 @@ int CBotSystem::AddBot(_sBOT_SETTINGS pBot)
 		lpBotObj.Inventory1 = new CItemObject[INVENTORY_SIZE];
 		for(int n=0;n<INVENTORY_SIZE;n++)
 		{
-			lpBotObj.Inventory1[n].Clear();
+			lpBotObj.pntInventory1[n].Clear();
 		}
 		memset(&lpBotObj.pInventoryMap[0], (BYTE)-1,INVENTORY_SIZE);	//
 	}
@@ -785,7 +785,7 @@ int CBotSystem::AlchemistTradeItemCount(CGameObject &Obj)
 
 	for(int n = 0; n < TRADE_BOX_SIZE; n++)
 	{
-		if(Obj.Trade[n].IsItem() == 1)
+		if(Obj.pntTrade[n].IsItem() == 1)
 		{
 			Count++;
 		}
@@ -879,7 +879,7 @@ bool CBotSystem::StoreAddItems(int botIndex)
 			item.m_SocketOption[4] = this->m_BotData[botIndex].m_Shop.pItems[i].btSocket[4];
 			item.m_iPShopValue = this->m_BotData[botIndex].m_Shop.pItems[i].iValue;
 			item.Convert(this->m_BotData[botIndex].m_Shop.pItems[i].wItemId,item.m_Option1,item.m_Option2,item.m_Option3,0,item.m_SetOption,item.m_NewOption,item.m_SocketOption,0,0,3);
-			Obj.Inventory1[blank+PSHOP_START_RANGE-INVETORY_WEAR_SIZE] = item;
+			Obj.pntInventory1[blank+PSHOP_START_RANGE-INVETORY_WEAR_SIZE] = item;
 			
 		}
 		else
@@ -975,15 +975,15 @@ int gObjGetItemCountInTradeWindow(CGameObject &Obj, WORD itemtype, int itemlevel
 
 	for(int n = 0; n < TRADE_BOX_SIZE; n++)
 	{
-		if(Obj.Trade[n].IsItem() == 1 &&  Obj.Trade[n].m_Type == itemtype && Obj.Trade[n].m_Level == itemlevel  )
+		if(Obj.pntTrade[n].IsItem() == 1 &&  Obj.pntTrade[n].m_Type == itemtype && Obj.pntTrade[n].m_Level == itemlevel  )
 		{
-			if(Obj.Trade[n].m_NewOption == btExc)
+			if(Obj.pntTrade[n].m_NewOption == btExc)
 			{
-				if(Obj.Trade[n].m_Option1 == btSkill)
+				if(Obj.pntTrade[n].m_Option1 == btSkill)
 				{
-					if(Obj.Trade[n].m_Option2 == btLuck)
+					if(Obj.pntTrade[n].m_Option2 == btLuck)
 					{
-						if(Obj.Trade[n].m_Option3 == btOpt)
+						if(Obj.pntTrade[n].m_Option3 == btOpt)
 						{
 							Count++;
 						}

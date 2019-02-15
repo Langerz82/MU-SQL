@@ -44,7 +44,7 @@ private:
 
 	DevilSquareMonsterInfo m_DevilSquareMonsterInfo[MAX_ST_DEVILSQUARE_MONSTER];	// 4
 	DevilSquareBossMonsterInfo m_DevilSquareBossMonsterInfo[MAX_ST_DEVILSQUARE_MONSTER];	// F4
-	std::vector<CGameObject> m_DevilSquareRankList;	// 2D4
+	std::vector<CGameObject*> m_DevilSquareRankList;	// 2D4
 	PMSG_DEVILSQUARERESULT m_DevilSquareScoreInfoTOP10;	// 2E4
 	int m_iIndex;	// 3F4
 	int m_Bonus[4][2];	// 3F8

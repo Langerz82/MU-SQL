@@ -398,10 +398,10 @@ void CMuRummyMng::CGReqMuRummyStart(PMSG_REQ_MURUMMY_INFO *lpMsg, CGameObject &O
 
 		for (int x = 0; x < EVENT_INVENTORY_SIZE; x++)
 		{
-			if (Obj.pEventInventory[x].IsItem() == TRUE && Obj.pEventInventory[x].m_Type == ITEMGET(14, 216))
+			if (Obj.pntEventInventory[x].IsItem() == TRUE && Obj.pntEventInventory[x].m_Type == ITEMGET(14, 216))
 			{
 				//sLog->outBasic("[%s][%s][Mu Rummy] Event Start", Obj.AccountID, Obj.Name);
-				//sLog->outBasic("[%s][%s][Mu Rummy] Event Card register success (%I64d)", Obj.AccountID, Obj.Name, Obj.pEventInventory[x].m_Number);
+				//sLog->outBasic("[%s][%s][Mu Rummy] Event Card register success (%I64d)", Obj.AccountID, Obj.Name, Obj.pntEventInventory[x].m_Number);
 				gObjEventInventoryDeleteItem(Obj.m_Index, x);
 				gGameProtocol.GCEventInventoryItemDeleteSend(Obj.m_Index, x, 1);
 				bItem = true;

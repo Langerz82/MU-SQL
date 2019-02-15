@@ -274,18 +274,18 @@ BOOL CJewelMixSystem::MixJewel( int iIndex, int iJewelType, int iMixType)
 
 	for ( int x= INVETORY_WEAR_SIZE ; x< MAIN_INVENTORY_SIZE; x++)
 	{
-		if ( Obj.pInventory[x]->IsItem() == TRUE )
+		if ( Obj.pntInventory[x]->IsItem() == TRUE )
 		{
-			if ( Obj.pInventory[x]->m_Type == iItemType )
+			if ( Obj.pntInventory[x]->m_Type == iItemType )
 			{
 				sLog->outBasic("[JewelMix] [%s][%s] Mix - Delete Jewel, Type:%d, Level:%d, Serial:%I64d",
 					Obj.AccountID, Obj.Name,
-					Obj.pInventory[x]->m_Type,
-					Obj.pInventory[x]->m_Level,
-					Obj.pInventory[x]->m_Number);
+					Obj.pntInventory[x]->m_Type,
+					Obj.pntInventory[x]->m_Level,
+					Obj.pntInventory[x]->m_Number);
 
 				gObjInventoryItemSet(iIndex, x, 0xFF);
-				Obj.pInventory[x]->Clear();
+				Obj.pntInventory[x]->Clear();
 				iDelJewelCount++;
 
 				if ( iJewelCount <= iDelJewelCount )
@@ -386,18 +386,18 @@ BOOL CJewelMixSystem::UnMixJewel(CGameObject &Obj, int iJewelType, int iJewelLev
 	int iInventoryItemType;
 	int iInventoryItemLevel;
 
-	if ( Obj.pInventory[iInventoryPos]->IsItem() == TRUE )
+	if ( Obj.pntInventory[iInventoryPos]->IsItem() == TRUE )
 	{
-		if ( Obj.pInventory[iInventoryPos]->m_Level == iJewelLevel )
+		if ( Obj.pntInventory[iInventoryPos]->m_Level == iJewelLevel )
 		{
-			iInventoryItemType = Obj.pInventory[iInventoryPos]->m_Type;
-			iInventoryItemLevel = Obj.pInventory[iInventoryPos]->m_Level;
+			iInventoryItemType = Obj.pntInventory[iInventoryPos]->m_Type;
+			iInventoryItemLevel = Obj.pntInventory[iInventoryPos]->m_Level;
 		}
 		else
 		{
 			sLog->outBasic("[JewelMix] [%s][%s] iJewelLevel is different from request : %d / %d",
 				Obj.AccountID, Obj.Name,
-				Obj.pInventory[iInventoryPos]->m_Level, iJewelLevel);
+				Obj.pntInventory[iInventoryPos]->m_Level, iJewelLevel);
 
 			Obj.ChaosLock = FALSE;
 			gGameProtocol.GCAnsJewelUnMix(iIndex, 3);
@@ -466,9 +466,9 @@ BOOL CJewelMixSystem::UnMixJewel(CGameObject &Obj, int iJewelType, int iJewelLev
 
 	sLog->outBasic("[JewelMix] [%s][%s] UnMix - Delete Jewel, Type:%d, Level:%d, Serial:%I64d",
 		Obj.AccountID, Obj.Name,
-		Obj.pInventory[iInventoryPos]->m_Type,
-		Obj.pInventory[iInventoryPos]->m_Level,
-		Obj.pInventory[iInventoryPos]->m_Number);
+		Obj.pntInventory[iInventoryPos]->m_Type,
+		Obj.pntInventory[iInventoryPos]->m_Level,
+		Obj.pntInventory[iInventoryPos]->m_Number);
 
 	gObjInventoryItemSet(iIndex, iInventoryPos, 0xFF);
 	gObjInventoryDeleteItem(iIndex, iInventoryPos);

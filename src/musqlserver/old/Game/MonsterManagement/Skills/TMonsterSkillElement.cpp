@@ -503,7 +503,7 @@ BOOL TMonsterSkillElement::ApplyElementDurability(CGameObject &Obj, int iTargetI
 		return FALSE;
 
 	int iEquipmentPos = rand()%6+2;	// Armors
-	CItemObject * lpEquipment = &lpTargetObj.pInventory[iEquipmentPos];
+	CItemObject * lpEquipment = &lpTargetObj.pntInventory[iEquipmentPos];
 
 	if ( lpEquipment == NULL || lpEquipment->IsItem() == FALSE )
 		return FALSE;
@@ -854,9 +854,9 @@ BOOL TMonsterSkillElement::ApplyElementNormalAttack(CGameObject &Obj, int iTarge
 
 	if ( this->m_iIncAndDecType != -1 && this->m_iIncAndDecValue != -1 )
 	{
-		if ( lpTargetObj.pInventory[9]->m_Type != ITEMGET(this->m_iIncAndDecType, this->m_iIncAndDecValue)  &&
-			 lpTargetObj.pInventory[10]->m_Type != ITEMGET(this->m_iIncAndDecType, this->m_iIncAndDecValue) &&
-			 lpTargetObj.pInventory[11]->m_Type != ITEMGET(this->m_iIncAndDecType, this->m_iIncAndDecValue) )
+		if ( lpTargetObj.pntInventory[9]->m_Type != ITEMGET(this->m_iIncAndDecType, this->m_iIncAndDecValue)  &&
+			 lpTargetObj.pntInventory[10]->m_Type != ITEMGET(this->m_iIncAndDecType, this->m_iIncAndDecValue) &&
+			 lpTargetObj.pntInventory[11]->m_Type != ITEMGET(this->m_iIncAndDecType, this->m_iIncAndDecValue) )
 		{
 			lpTargetObj.Life = 0;
 			gObjLifeCheck(lpTargetObj, lpObj, 100, 0, 0, 0, 0 ,0, 0);
@@ -913,9 +913,9 @@ BOOL TMonsterSkillElement::ApplyElementPercentDamageNormalAttack(CGameObject &Ob
 
 	if ( this->m_iIncAndDecType != -1 && this->m_iIncAndDecValue != -1 )
 	{
-		if ( lpTargetObj.pInventory[9]->m_Type != ITEMGET(this->m_iIncAndDecType, this->m_iIncAndDecValue)  &&
-			 lpTargetObj.pInventory[10]->m_Type != ITEMGET(this->m_iIncAndDecType, this->m_iIncAndDecValue) &&
-			 lpTargetObj.pInventory[11]->m_Type != ITEMGET(this->m_iIncAndDecType, this->m_iIncAndDecValue) )
+		if ( lpTargetObj.pntInventory[9]->m_Type != ITEMGET(this->m_iIncAndDecType, this->m_iIncAndDecValue)  &&
+			 lpTargetObj.pntInventory[10]->m_Type != ITEMGET(this->m_iIncAndDecType, this->m_iIncAndDecValue) &&
+			 lpTargetObj.pntInventory[11]->m_Type != ITEMGET(this->m_iIncAndDecType, this->m_iIncAndDecValue) )
 		{
 			lpTargetObj.Life = 0;
 			gObjLifeCheck(lpTargetObj, lpObj, 100, 0, 0, 0, 0 ,0, 0);

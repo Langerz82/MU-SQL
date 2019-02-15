@@ -336,15 +336,15 @@ int CKalimaGate::CheckOverlapKundunMark(CGameObject &Obj, BYTE btLevel)
 {
 	for ( int x = 0;x<MAIN_INVENTORY_SIZE;x++ )
 	{
-		if ( Obj.pInventory[x]->IsItem() == TRUE )
+		if ( Obj.pntInventory[x]->IsItem() == TRUE )
 		{
-			if ( Obj.pInventory[x]->m_Type == ITEMGET(14, 29) )
+			if ( Obj.pntInventory[x]->m_Type == ITEMGET(14, 29) )
 			{
-				if ( Obj.pInventory[x]->m_Level == btLevel )
+				if ( Obj.pntInventory[x]->m_Level == btLevel )
 				{
-					int iITEM_DUR = Obj.pInventory[x]->m_Durability;
+					int iITEM_DUR = Obj.pntInventory[x]->m_Durability;
 
-					if (iITEM_DUR >= 0 && iITEM_DUR <= IsOverlapItem(Obj.pInventory[x]->m_Type))
+					if (iITEM_DUR >= 0 && iITEM_DUR <= IsOverlapItem(Obj.pntInventory[x]->m_Type))
 					{
 						return x;
 					}
@@ -423,13 +423,6 @@ BOOL CKalimaGate::DeleteKalimaGate(CGameObject &Obj, CGameObject &ObjOwner)
 
 	__try
 	{
-		if ( !ObjectMaxRange(iKalimaGateIndex ) || !ObjectMaxRange(iCallOwnerIndex ))
-		{
-			sLog->outBasic("[Kalima] DeleteKalimaGate() - out of Index (iKalimaGateIndex:%d, iCallOwnerIndex:%d)",
-				iKalimaGateIndex, iCallOwnerIndex);
-			return 0;
-		}
-
 		gGameProtocol.GCDiePlayerSend( &getGameObject(iKalimaGateIndex), iKalimaGateIndex, 0 , 0);
 		getGameObject(iCallOwnerIndex)->m_cKalimaGateExist = FALSE;
 		getGameObject(iCallOwnerIndex)->m_iKalimaGateIndex = -1;
@@ -448,13 +441,6 @@ BOOL CKalimaGate::DeleteKalimaGate(CGameObject &Obj, CGameObject &ObjOwner)
 
 BOOL CKalimaGate::DeleteKalimaGate(CGameObject &Obj)
 {
-	if ( ObjectMaxRange(iCallOwnerIndex ) == FALSE )
-	{	
-		sLog->outBasic("[Kalima] DeleteKalimaGate() - out of Index (iCallOwnerIndex:%d)",
-			iCallOwnerIndex);
-		return false;
-	}
-
 	int iKalimaGateIndex = getGameObject(iCallOwnerIndex)->m_iKalimaGateIndex;
 
 	if (  ObjectMaxRange (iKalimaGateIndex ) == FALSE )

@@ -636,7 +636,7 @@ void CIllusionTempleLeagueProcess::Proc_ITLState_End(int nCurTime)
 
 					if (this->m_UserData[i].m_nRelicsInvenPos > 0)
 					{
-						if (getGameObject(this->m_UserData[i]->m_nIndex]->pInventory[this->m_UserData[i]->m_nRelicsInvenPos)->m_Type == ITEMGET(14, 223))
+						if (getGameObject(this->m_UserData[i]->m_nIndex]->pntInventory[this->m_UserData[i]->m_nRelicsInvenPos)->m_Type == ITEMGET(14, 223))
 						{
 							gObjInventoryDeleteItem(this->m_UserData[i].m_nIndex, this->m_UserData[i].m_nRelicsInvenPos);
 							gGameProtocol.GCInventoryItemDeleteSend(this->m_UserData[i].m_nIndex, this->m_UserData[i].m_nRelicsInvenPos, 0);
@@ -878,7 +878,7 @@ BOOL CIllusionTempleLeagueProcess::EnterUserIllusionTempleLeague(CGameObject &Ob
 
 	int nItemPos = this->SearchRelicsItem(Obj.m_Index);
 
-	if (nItemPos >= 0 && Obj.pInventory[nItemPos]->m_Type == ITEMGET(14, 223))
+	if (nItemPos >= 0 && Obj.pntInventory[nItemPos]->m_Type == ITEMGET(14, 223))
 	{
 		gObjInventoryDeleteItem(Obj.m_Index, nItemPos);
 		gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, nItemPos, 0);
@@ -1197,8 +1197,8 @@ int CIllusionTempleLeagueProcess::SearchRelicsItem(CGameObject &Obj)
 
 	for (int x = 0; x < INVENTORY_SIZE; x++)
 	{
-		if (Obj.pInventory[x]->IsItem() == TRUE &&
-			Obj.pInventory[x]->m_Type == ITEMGET(14, 223))
+		if (Obj.pntInventory[x]->IsItem() == TRUE &&
+			Obj.pntInventory[x]->m_Type == ITEMGET(14, 223))
 		{
 			return x;
 		}
@@ -1217,12 +1217,12 @@ void CIllusionTempleLeagueProcess::DeleteAllRelicsItem()
 
 			if (lpObj)
 			{
-				if (Obj.pInventory[this->m_UserData[i]->m_nRelicsInvenPos]->m_Type == ITEMGET(14, 223))
+				if (Obj.pntInventory[this->m_UserData[i]->m_nRelicsInvenPos]->m_Type == ITEMGET(14, 223))
 				{
 					this->SendRelicsUserInfo(lpObj, 1);
 
 					sLog->outBasic("[ ITL ] (%d) (%s)(%s) to Delete All Relics Item [Serial:%I64d]",
-						this->m_nTempleNumber + 1, Obj.AccountID, Obj.Name, Obj.pInventory[this->m_UserData[i]->m_nRelicsInvenPos]->m_Number);
+						this->m_nTempleNumber + 1, Obj.AccountID, Obj.Name, Obj.pntInventory[this->m_UserData[i]->m_nRelicsInvenPos]->m_Number);
 
 					gObjInventoryDeleteItem(this->m_UserData[i].m_nIndex, this->m_UserData[i].m_nRelicsInvenPos);
 					gGameProtocol.GCInventoryItemDeleteSend(this->m_UserData[i].m_nIndex, this->m_UserData[i].m_nRelicsInvenPos, 0);
@@ -1264,7 +1264,7 @@ void CIllusionTempleLeagueProcess::DropRelicsItem(CGameObject &Obj, BYTE byAct)
 
 	int iItemPos = this->m_UserData[nITL_USER_ARRAY].m_nRelicsInvenPos;
 
-	if (Obj.pInventory[iItemPos]->m_Type != ITEMGET(14, 223))
+	if (Obj.pntInventory[iItemPos]->m_Type != ITEMGET(14, 223))
 	{
 		return;
 	}
@@ -1278,29 +1278,29 @@ void CIllusionTempleLeagueProcess::DropRelicsItem(CGameObject &Obj, BYTE byAct)
 	pResult.Ipos = iItemPos;
 
 	int map_num = Obj.MapNumber;
-	int type = Obj.pInventory[iItemPos]->m_Type;
-	int level = Obj.pInventory[iItemPos]->m_Level;
-	float dur = Obj.pInventory[iItemPos]->m_Durability;
-	BOOL ret = Obj.pInventory[iItemPos]->IsItem();
-	BYTE Option1 = Obj.pInventory[iItemPos]->m_Option1;
-	BYTE Option2 = Obj.pInventory[iItemPos]->m_Option2;
-	BYTE Option3 = Obj.pInventory[iItemPos]->m_Option3;
-	BYTE NOption = Obj.pInventory[iItemPos]->m_NewOption;
-	UINT64 s_num = Obj.pInventory[iItemPos]->m_Number;
-	BYTE ItemExOption = g_kJewelOfHarmonySystem.GetItemStrengthenOption(&Obj.pInventory[iItemPos]);
-	BYTE ItemExLevel = g_kJewelOfHarmonySystem.GetItemOptionLevel(&Obj.pInventory[iItemPos]);
+	int type = Obj.pntInventory[iItemPos]->m_Type;
+	int level = Obj.pntInventory[iItemPos]->m_Level;
+	float dur = Obj.pntInventory[iItemPos]->m_Durability;
+	BOOL ret = Obj.pntInventory[iItemPos]->IsItem();
+	BYTE Option1 = Obj.pntInventory[iItemPos]->m_Option1;
+	BYTE Option2 = Obj.pntInventory[iItemPos]->m_Option2;
+	BYTE Option3 = Obj.pntInventory[iItemPos]->m_Option3;
+	BYTE NOption = Obj.pntInventory[iItemPos]->m_NewOption;
+	UINT64 s_num = Obj.pntInventory[iItemPos]->m_Number;
+	BYTE ItemExOption = g_kJewelOfHarmonySystem.GetItemStrengthenOption(&Obj.pntInventory[iItemPos]);
+	BYTE ItemExLevel = g_kJewelOfHarmonySystem.GetItemOptionLevel(&Obj.pntInventory[iItemPos]);
 
 	BYTE NewOption[8];
 
-	::ItemIsBufExOption(NewOption, &Obj.pInventory[iItemPos]);
+	::ItemIsBufExOption(NewOption, &Obj.pntInventory[iItemPos]);
 
-	int PetLevel = Obj.pInventory[iItemPos]->m_PetItem_Level;
+	int PetLevel = Obj.pntInventory[iItemPos]->m_PetItem_Level;
 
-	UINT64 PetExp = Obj.pInventory[iItemPos]->m_PetItem_Exp;
-	BYTE SOption = Obj.pInventory[iItemPos]->m_SetOption;
+	UINT64 PetExp = Obj.pntInventory[iItemPos]->m_PetItem_Exp;
+	BYTE SOption = Obj.pntInventory[iItemPos]->m_SetOption;
 
-	BYTE ItemEffectEx = Obj.pInventory[iItemPos]->m_ItemOptionEx;
-	int item_number = Obj.pInventory[iItemPos]->m_Number;
+	BYTE ItemEffectEx = Obj.pntInventory[iItemPos]->m_ItemOptionEx;
+	int item_number = Obj.pntInventory[iItemPos]->m_Number;
 
 	char szItemName[50] = "Relics Item";
 
@@ -1324,7 +1324,7 @@ void CIllusionTempleLeagueProcess::DropRelicsItem(CGameObject &Obj, BYTE byAct)
 
 	if (MapC[map_num].ItemDrop(type, level, dur, X, Y, Option1, Option2, Option3, NOption, SOption, item_number, aAntiLootIndex, PetLevel, PetExp, ItemEffectEx, NULL, 0xFF, 0) == TRUE)
 	{
-		sLog->outBasic("[ ITL ] (%d) (%s)(%s) to Drop Relics Item [Serial:%I64d]", this->m_nTempleNumber + 1, Obj.AccountID, Obj.Name, Obj.pInventory[iItemPos]->m_Number);
+		sLog->outBasic("[ ITL ] (%d) (%s)(%s) to Drop Relics Item [Serial:%I64d]", this->m_nTempleNumber + 1, Obj.AccountID, Obj.Name, Obj.pntInventory[iItemPos]->m_Number);
 
 		gObjInventoryDeleteItem(iIndex, iItemPos);
 		pResult.Result = TRUE;
@@ -1776,7 +1776,7 @@ void CIllusionTempleLeagueProcess::Check_RegisterRelics(CGameObject &Npc, CGameO
 	int nITL_USER_ARRAY = this->FindITLUser(Obj.m_Index);
 
 	if (this->m_UserData[nITL_USER_ARRAY].m_nRelicsInvenPos <= 0 ||
-		Obj.pInventory[this->m_UserData[nITL_USER_ARRAY]->m_nRelicsInvenPos]->m_Type != ITEMGET(14, 223))
+		Obj.pntInventory[this->m_UserData[nITL_USER_ARRAY]->m_nRelicsInvenPos]->m_Type != ITEMGET(14, 223))
 	{
 		this->SendRelicsError(lpNpc, Obj.m_Index, 12, -1);
 		return;
@@ -1855,7 +1855,7 @@ void CIllusionTempleLeagueProcess::RegisterRelics(CGameObject &Npc, CGameObject 
 	}
 
 	if (this->m_UserData[nRegisterRelicsUserArray].m_nRelicsInvenPos > 0 &&
-		Obj.pInventory[this->m_UserData[nRegisterRelicsUserArray]->m_nRelicsInvenPos]->m_Type == ITEMGET(14, 223))
+		Obj.pntInventory[this->m_UserData[nRegisterRelicsUserArray]->m_nRelicsInvenPos]->m_Type == ITEMGET(14, 223))
 	{
 		bool bFail = false;
 
@@ -1904,11 +1904,11 @@ void CIllusionTempleLeagueProcess::RegisterRelics(CGameObject &Npc, CGameObject 
 
 							if (this->m_UserData[nRegisterRelicsUserArray].m_nRelicsInvenPos > 0)
 							{
-								if (Obj.pInventory[this->m_UserData[nRegisterRelicsUserArray]->m_nRelicsInvenPos]->m_Type == ITEMGET(14, 223))
+								if (Obj.pntInventory[this->m_UserData[nRegisterRelicsUserArray]->m_nRelicsInvenPos]->m_Type == ITEMGET(14, 223))
 								{
 									this->SendRelicsUserInfo(lpObj, 1);
 									sLog->outBasic("[ ITL ][RegisterRelics] (%d) (%s)(%s) to Delete Relics Item [Serial:%I64d]",
-										this->m_nTempleNumber + 1, Obj.AccountID, Obj.Name, Obj.pInventory[this->m_UserData[nRegisterRelicsUserArray]->m_nRelicsInvenPos]->m_Number);
+										this->m_nTempleNumber + 1, Obj.AccountID, Obj.Name, Obj.pntInventory[this->m_UserData[nRegisterRelicsUserArray]->m_nRelicsInvenPos]->m_Number);
 
 									gObjInventoryDeleteItem(Obj.m_Index, this->m_UserData[nRegisterRelicsUserArray].m_nRelicsInvenPos);
 									gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, this->m_UserData[nRegisterRelicsUserArray].m_nRelicsInvenPos, 0);
@@ -3263,7 +3263,7 @@ BOOL CIllusionTempleLeagueProcess::ReEnterUserIllusionTempleLeague(CGameObject &
 
 	int nItemPos = this->SearchRelicsItem(Obj.m_Index);
 
-	if (nItemPos >= 0 && Obj.pInventory[nItemPos]->m_Type == ITEMGET(14, 223))
+	if (nItemPos >= 0 && Obj.pntInventory[nItemPos]->m_Type == ITEMGET(14, 223))
 	{
 		gObjInventoryDeleteItem(Obj.m_Index, nItemPos);
 		gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, nItemPos, 0);

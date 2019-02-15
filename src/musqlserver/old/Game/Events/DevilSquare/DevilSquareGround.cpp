@@ -15,11 +15,11 @@
 // GS-N 0.99.60T - 0x00457190 
 // GS-N	1.00.18	JPN	0x004667C0	-	Completed
 
-bool DevilSquareScoreSort(CGameObject &const & lhs,CGameObject const & rhs)
+bool DevilSquareScoreSort(CGameObject &lhs,CGameObject &rhs)
 {
-	if ( lhs->m_nEventScore == rhs->m_nEventScore )
+	if ( lhs.m_nEventScore == rhs.m_nEventScore )
 	{
-		if ( lhs->Level < rhs->Level)
+		if ( lhs.Level < rhs.Level)
 		{
 			return true;
 		}
@@ -27,7 +27,7 @@ bool DevilSquareScoreSort(CGameObject &const & lhs,CGameObject const & rhs)
 		return false;
 	}
 
-	if ( lhs->m_nEventScore > rhs->m_nEventScore)
+	if ( lhs.m_nEventScore > rhs.m_nEventScore)
 	{
 		return true;
 	}
@@ -315,8 +315,8 @@ void CDevilSquareGround::SendScore()
 	std::vector<CGameObject >::iterator Itor;
 	for ( Itor = this->m_DevilSquareRankList.begin() ; Itor != this->m_DevilSquareRankList.end() ; Itor++ )
 	{
-		std::memcpy(this->m_DevilSquareScoreInfoTOP10.Score[count].Name , (*(Itor))->Name, MAX_ACCOUNT_LEN);
-		this->m_DevilSquareScoreInfoTOP10.Score[count].TotalScore = (*(Itor))->m_nEventScore;
+		std::memcpy(this->m_DevilSquareScoreInfoTOP10.Score[count].Name , Itor->Name, MAX_ACCOUNT_LEN);
+		this->m_DevilSquareScoreInfoTOP10.Score[count].TotalScore = Itor->m_nEventScore;
 
 		if ( iUserCount <= 6 )
 		{
@@ -377,6 +377,8 @@ void CDevilSquareGround::SendScore()
 
 	for ( ; Itor != this->m_DevilSquareRankList.end(); Itor++ )
 	{
+		// CGameObject* lpObj = (CGameObject*) Itor; // TODO
+
 		if ( iUserCount <= 6 )
 		{
 			if ( count < 3 )

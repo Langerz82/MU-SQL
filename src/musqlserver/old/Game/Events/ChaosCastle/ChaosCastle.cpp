@@ -2112,11 +2112,11 @@ int  CChaosCastle::CheckEnterItem(CGameObject &Obj)
 
 	for ( int x=0;x<MAIN_INVENTORY_SIZE;x++)
 	{
-		if ( Obj.pInventory[x]->IsItem() == TRUE )
+		if ( Obj.pntInventory[x]->IsItem() == TRUE )
 		{
-			if ( Obj.pInventory[x]->m_Type == ITEMGET(13,29) )
+			if ( Obj.pntInventory[x]->m_Type == ITEMGET(13,29) )
 			{
-				iITEM_LEVEL = Obj.pInventory[x]->m_Level;
+				iITEM_LEVEL = Obj.pntInventory[x]->m_Level;
 
 				if ( CHECK_LIMIT(iITEM_LEVEL, MAX_CHAOSCASTLE_LEVEL+2) == FALSE )	// #error Change 2 to 1
 				{
@@ -3031,139 +3031,139 @@ BOOL CChaosCastle::CheckWearingMOPH(CGameObject &Obj)
 		return FALSE;
 	}
 
-	if ( getGameObject(iUserIndex)->pInventory[10)->IsItem()  )
+	if ( getGameObject(iUserIndex)->pntInventory[10)->IsItem()  )
 	{
-		if ( getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,10) ) // Tranformation Ring
+		if ( getGameObject(iUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,10) ) // Tranformation Ring
 		{
 			return TRUE;
 		}
 
-		if ( getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,39) ) 
+		if ( getGameObject(iUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,39) ) 
 		{
 			return TRUE;
 		}
 
-		if ( getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,40) ) 
+		if ( getGameObject(iUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,40) ) 
 		{
 			return TRUE;
 		}
 
-		if ( getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,41) ) 
+		if ( getGameObject(iUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,41) ) 
 		{
 			return TRUE;
 		}
 
-		if ( getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,42) ) 
+		if ( getGameObject(iUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,42) ) 
 		{
 			return TRUE;
 		}
 
-		if ( getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,68) ) 
+		if ( getGameObject(iUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,68) ) 
 		{
 			return TRUE;
 		}
 
-		if ( getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,76) ) 
+		if ( getGameObject(iUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,76) ) 
 		{
 			return TRUE;
 		}
 
-		if ( getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,77) ) 
+		if ( getGameObject(iUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,77) ) 
 		{
 			return TRUE;
 		}
 
-		if ( getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,78) ) 
+		if ( getGameObject(iUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,78) ) 
 		{
 			return TRUE;
 		}
 
-		if ( getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,122) ) 
+		if ( getGameObject(iUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,122) ) 
 		{
 			return TRUE;
 		}
-		if (getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13, 163))
+		if (getGameObject(iUserIndex)->pntInventory[10)->m_Type == ITEMGET(13, 163))
 		{
 			return TRUE;
 		}
-		if (getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13, 164))
+		if (getGameObject(iUserIndex)->pntInventory[10)->m_Type == ITEMGET(13, 164))
 		{
 			return TRUE;
 		}
-		if (getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13, 165))
+		if (getGameObject(iUserIndex)->pntInventory[10)->m_Type == ITEMGET(13, 165))
 		{
 			return TRUE;
 		}
-		if (getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13, 166))
+		if (getGameObject(iUserIndex)->pntInventory[10)->m_Type == ITEMGET(13, 166))
 		{
 			return TRUE;
 		}
 	}
 
-	if ( getGameObject(iUserIndex)->pInventory[11)->IsItem() )
+	if ( getGameObject(iUserIndex)->pntInventory[11)->IsItem() )
 	{
-		if ( getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,10) ) // Tranformation Ring
+		if ( getGameObject(iUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,10) ) // Tranformation Ring
 		{
 			return TRUE;
 		}
 
-		if ( getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,39) ) 
+		if ( getGameObject(iUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,39) ) 
 		{
 			return TRUE;
 		}
 
-		if ( getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,40) ) 
+		if ( getGameObject(iUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,40) ) 
 		{
 			return TRUE;
 		}
 
-		if ( getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,41) ) 
+		if ( getGameObject(iUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,41) ) 
 		{
 			return TRUE;
 		}
 
-		if ( getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,42) ) 
+		if ( getGameObject(iUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,42) ) 
 		{
 			return TRUE;
 		}
 
-		if ( getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,68) ) 
+		if ( getGameObject(iUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,68) ) 
 		{
 			return TRUE;
 		}
 
-		if ( getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,76) ) 
+		if ( getGameObject(iUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,76) ) 
 		{
 			return TRUE;
 		}
 
-		if ( getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,77) ) 
+		if ( getGameObject(iUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,77) ) 
 		{
 			return TRUE;
 		}
 
-		if ( getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,78) ) 
+		if ( getGameObject(iUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,78) ) 
 		{
 			return TRUE;
 		}
 
-		if ( getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,122) ) 
+		if ( getGameObject(iUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,122) ) 
 		{
 			return TRUE;
 		}
-		if (getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13, 163))
+		if (getGameObject(iUserIndex)->pntInventory[11)->m_Type == ITEMGET(13, 163))
 		{
 			return TRUE;
 		}
-		if (getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13, 164))
+		if (getGameObject(iUserIndex)->pntInventory[11)->m_Type == ITEMGET(13, 164))
 		{
 			return TRUE;
 		}
-		if (getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13, 165))
+		if (getGameObject(iUserIndex)->pntInventory[11)->m_Type == ITEMGET(13, 165))
 		{
 			return TRUE;
 		}
-		if (getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13, 166))
+		if (getGameObject(iUserIndex)->pntInventory[11)->m_Type == ITEMGET(13, 166))
 		{
 			return TRUE;
 		}

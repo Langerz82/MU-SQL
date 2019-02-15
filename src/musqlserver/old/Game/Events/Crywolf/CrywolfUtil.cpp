@@ -48,6 +48,7 @@ void CCrywolfUtil::SendAllUserAnyData(BYTE* lpMsg, int iSize)
 {
 	for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 	{
+		CGameObject* lpObj = ObjEntry.second;
 		if ( getGameObject(i)->Connected == PLAYER_PLAYING )
 		{
 			if ( getGameObject(i)->Type == OBJ_USER )

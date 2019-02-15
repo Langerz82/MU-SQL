@@ -1163,27 +1163,27 @@ BOOL CDarkSpirit::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf * l
 	{
 		int idamage = AttackDamage * 2 / 100;
 
-		Obj.pInventory[Obj.m_btInvenPetPos]->m_DurabilitySmall += idamage - (idamage * Obj.m_PlayerData->m_MPSkillOpt.iMpsPetDurDownSpeed / 100);
+		Obj.pntInventory[Obj.m_btInvenPetPos]->m_DurabilitySmall += idamage - (idamage * Obj.m_PlayerData->m_MPSkillOpt.iMpsPetDurDownSpeed / 100);
 		int DurabilityVal = 65000;
 
-		if (Obj.pInventory[Obj.m_btInvenPetPos]->m_DurabilitySmall >= DurabilityVal)
+		if (Obj.pntInventory[Obj.m_btInvenPetPos]->m_DurabilitySmall >= DurabilityVal)
 		{
-			Obj.pInventory[Obj.m_btInvenPetPos]->m_DurabilitySmall = 0;
-			Obj.pInventory[Obj.m_btInvenPetPos]->m_Durability -= 1.0f;
+			Obj.pntInventory[Obj.m_btInvenPetPos]->m_DurabilitySmall = 0;
+			Obj.pntInventory[Obj.m_btInvenPetPos]->m_Durability -= 1.0f;
 
-			if (Obj.pInventory[Obj.m_btInvenPetPos]->m_Durability < 1.0f)
+			if (Obj.pntInventory[Obj.m_btInvenPetPos]->m_Durability < 1.0f)
 			{
-				Obj.pInventory[Obj.m_btInvenPetPos]->m_Durability = 0;
-				UINT64 iPetExp = Obj.pInventory[Obj.m_btInvenPetPos]->m_PetItem_Exp;
+				Obj.pntInventory[Obj.m_btInvenPetPos]->m_Durability = 0;
+				UINT64 iPetExp = Obj.pntInventory[Obj.m_btInvenPetPos]->m_PetItem_Exp;
 
-				if (Obj.pInventory[Obj.m_btInvenPetPos]->DecPetItemExp(10))
+				if (Obj.pntInventory[Obj.m_btInvenPetPos]->DecPetItemExp(10))
 				{
-					this->Set(Obj.m_Index, &Obj.pInventory[Obj.m_btInvenPetPos]);
+					this->Set(Obj.m_Index, &Obj.pntInventory[Obj.m_btInvenPetPos]);
 					this->SendLevelmsg(Obj.m_Index, Obj.m_btInvenPetPos, 0, 0xFF);
 				}
 			}
 
-			gGameProtocol.GCItemObjectDurSend(Obj.m_Index, Obj.m_btInvenPetPos, Obj.pInventory[Obj.m_btInvenPetPos]->m_Durability, 0);
+			gGameProtocol.GCItemObjectDurSend(Obj.m_Index, Obj.m_btInvenPetPos, Obj.pntInventory[Obj.m_btInvenPetPos]->m_Durability, 0);
 		}
 	}
 
@@ -1198,7 +1198,7 @@ BOOL CDarkSpirit::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf * l
 
 	if ( gObjWingSprite(lpTargetObj) == TRUE )
 	{
-		CItemObject * Wing = &lpTargetObj.pInventory[7];
+		CItemObject * Wing = &lpTargetObj.pntInventory[7];
 
 		if ( AttackDamage > 1 && Wing->m_Type != ITEMGET(13, 30) )
 		{
@@ -1220,7 +1220,7 @@ BOOL CDarkSpirit::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf * l
 
 	if ( gObjDenorantSprite(lpTargetObj ) )
 	{
-		CItemObject * Dinorant = &lpTargetObj.pInventory[8];
+		CItemObject * Dinorant = &lpTargetObj.pntInventory[8];
 		int dinorantdecdamage = 90 - Dinorant->IsDinorantReduceAttackDamaege();
 		Obj.Life -= 1.0f;
 
@@ -1238,7 +1238,7 @@ BOOL CDarkSpirit::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf * l
 
 	if ( gObjDarkHorse(lpTargetObj ) )
 	{
-		CItemObject * Darkhorse = &lpTargetObj.pInventory[8];
+		CItemObject * Darkhorse = &lpTargetObj.pntInventory[8];
 		int decdamage = 100 - ((Darkhorse->m_PetItem_Level + 30) / 2 );
 
 		lpTargetObj.Life -= 1.0f;
@@ -1532,7 +1532,7 @@ BOOL CDarkSpirit::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf * l
 
 	if (lpTargetObj.Type == OBJ_USER)
 	{
-		if (lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos]->IsItem() == TRUE && lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos]->m_Type == ITEMGET(13,37))
+		if (lpTargetObj.pntInventory[lpTargetObj.m_btInvenPetPos]->IsItem() == TRUE && lpTargetObj.pntInventory[lpTargetObj.m_btInvenPetPos]->m_Type == ITEMGET(13,37))
 		{
 			if (g_ConfigRead.data.common.DisableMSBEffect[MSB_DISABLE_CHARACTER_FENRIR] == true)
 			{
@@ -1667,10 +1667,10 @@ int  CDarkSpirit::GetAttackDamage(CGameObject &Obj, int targetDefense, int criti
 		}
 	}
 
-	if (GetItemKindA(Obj.pInventory[0]->m_Type) == ITEM_KIND_A_WEAPON && GetItemKindB(Obj.pInventory[0]->m_Type) == ITEM_KIND_B_SCEPTER)
+	if (GetItemKindA(Obj.pntInventory[0]->m_Type) == ITEM_KIND_A_WEAPON && GetItemKindB(Obj.pntInventory[0]->m_Type) == ITEM_KIND_B_SCEPTER)
 	{
-		int damage = Obj.pInventory[0]->m_Magic / 2;
-		damage -= damage * Obj.pInventory[0]->m_CurrentDurabilityState;
+		int damage = Obj.pntInventory[0]->m_Magic / 2;
+		damage -= damage * Obj.pntInventory[0]->m_CurrentDurabilityState;
 		damage = AttackDamage * damage / 100;
 		AttackDamage += damage;
 	}
@@ -1923,19 +1923,19 @@ void __cdecl CDarkSpirit::SendLevelmsg(CGameObject &Obj, int nPos, int PetType, 
 	pMsg.PetType = PetType;
 	pMsg.InvenType = InvenType;
 	pMsg.nPos = nPos;
-	pMsg.Level = Obj.pInventory[nPos]->m_PetItem_Level;
+	pMsg.Level = Obj.pntInventory[nPos]->m_PetItem_Level;
 
 	if (PetType == 1)
 	{
-		pMsg.Exp = Obj.pInventory[nPos]->m_PetItem_Exp - gPetItemExp.m_DarkHorseExpTable[pMsg.Level];
+		pMsg.Exp = Obj.pntInventory[nPos]->m_PetItem_Exp - gPetItemExp.m_DarkHorseExpTable[pMsg.Level];
 	}
 
 	else
 	{
-		pMsg.Exp = Obj.pInventory[nPos]->m_PetItem_Exp - gPetItemExp.m_DarkSpiritExpTable[pMsg.Level];
+		pMsg.Exp = Obj.pntInventory[nPos]->m_PetItem_Exp - gPetItemExp.m_DarkSpiritExpTable[pMsg.Level];
 	}
 
-	pMsg.Dur = Obj.pInventory[nPos]->m_Durability;
+	pMsg.Dur = Obj.pntInventory[nPos]->m_Durability;
 
 	IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 }

@@ -277,7 +277,7 @@ BOOL CWeapon::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf * lpMa
 
 	if ( gObjWingSprite(lpTargetObj) == TRUE )
 	{
-		CItemObject * Wing = &lpTargetObj.pInventory[7];
+		CItemObject * Wing = &lpTargetObj.pntInventory[7];
 
 		if ( iAttackDamage > 1 && Wing->m_Type != ITEMGET(13, 30) )
 		{
@@ -299,7 +299,7 @@ BOOL CWeapon::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf * lpMa
 
 	if ( gObjDenorantSprite(lpTargetObj) != FALSE )
 	{
-		CItemObject * Dino = &lpTargetObj.pInventory[8];
+		CItemObject * Dino = &lpTargetObj.pntInventory[8];
 
 		int ReduceDamage = 90 - Dino->IsDinorantReduceAttackDamaege();
 
@@ -320,7 +320,7 @@ BOOL CWeapon::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf * lpMa
 
 	if ( gObjDarkHorse(lpTargetObj) != FALSE )
 	{
-		CItemObject * DarkHorse = &lpTargetObj.pInventory[8];
+		CItemObject * DarkHorse = &lpTargetObj.pntInventory[8];
 
 		int DHPercent = 100-(DarkHorse->m_PetItem_Level+30)/2;
 
@@ -429,7 +429,7 @@ BOOL CWeapon::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf * lpMa
 
 	if (lpTargetObj.Type == OBJ_USER)
 	{
-		if (lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos]->IsItem() == TRUE && lpTargetObj.pInventory[lpTargetObj.m_btInvenPetPos]->m_Type == ITEMGET(13,37))
+		if (lpTargetObj.pntInventory[lpTargetObj.m_btInvenPetPos]->IsItem() == TRUE && lpTargetObj.pntInventory[lpTargetObj.m_btInvenPetPos]->m_Type == ITEMGET(13,37))
 		{
 			if (g_ConfigRead.data.common.DisableMSBEffect[MSB_DISABLE_CHARACTER_FENRIR] == true)
 			{

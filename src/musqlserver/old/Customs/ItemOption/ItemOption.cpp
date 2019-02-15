@@ -158,9 +158,9 @@ void CItemObjectOption::CalCItemObjectCommonOption(CGameObject &Obj, bool flag) 
 {
 	for (int n = 0; n < INVETORY_WEAR_SIZE; n++)
 	{
-		if (Obj.pInventory[n]->IsItem() != 0 && Obj.pInventory[n]->m_IsValidItem != 0 && Obj.pInventory[n]->m_Durability != 0)
+		if (Obj.pntInventory[n]->IsItem() != 0 && Obj.pntInventory[n]->m_IsValidItem != 0 && Obj.pntInventory[n]->m_Durability != 0)
 		{
-			this->InsertOption(lpObj, &Obj.pInventory[n], flag);
+			this->InsertOption(lpObj, &Obj.pntInventory[n], flag);
 		}
 	}
 }
@@ -320,7 +320,7 @@ void CItemObjectOption::InsertOption(CGameObject &Obj, CItemObject* lpItem, bool
 			Obj.m_PlayerData->MasterExperience += value;
 			break;
 		case ITEM_OPTION_ADD_COMBO_EXPERIENCE_RATE:
-			if (Obj.pInventory[8]->IsItem() != 0 && (Obj.pInventory[8]->m_Type == ITEMGET(13, 80) || Obj.pInventory[8]->m_Type== ITEMGET(13, 123)))
+			if (Obj.pntInventory[8]->IsItem() != 0 && (Obj.pntInventory[8]->m_Type == ITEMGET(13, 80) || Obj.pntInventory[8]->m_Type== ITEMGET(13, 123)))
 			{
 				Obj.m_PlayerData->Experience += value;
 				Obj.m_PlayerData->MasterExperience += value;

@@ -1099,11 +1099,11 @@ BOOL CObjUseSkill::RunningSkill(CGameObject &Obj, int aTargetIndex, CMagicInf * 
 	switch (MagicNumber)
 	{
 	case AT_SKILL_BLOCKING:
-		if (Obj.pInventory[1]->IsItem() == 1)
+		if (Obj.pntInventory[1]->IsItem() == 1)
 		{
-			if (Obj.pInventory[1]->m_Type >= ITEMGET(6, 4) && Obj.pInventory[1]->m_Type < ITEMGET(7, 0))
+			if (Obj.pntInventory[1]->m_Type >= ITEMGET(6, 4) && Obj.pntInventory[1]->m_Type < ITEMGET(7, 0))
 			{
-				if (Obj.pInventory[1]->m_Option1 != 0)
+				if (Obj.pntInventory[1]->m_Option1 != 0)
 				{
 					Obj.m_SkillTime = GetTickCount() + 4000;
 					gGameProtocol.GCActionSend(lpObj, 18, Obj.m_Index, aTargetIndex);
@@ -1582,27 +1582,27 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		return false;
 	}
 
-	if (Obj.pInventory[10]->IsItem() == 1 && Obj.pInventory[10]->m_Type == ITEMGET(13, 10))
+	if (Obj.pntInventory[10]->IsItem() == 1 && Obj.pntInventory[10]->m_Type == ITEMGET(13, 10))
 	{
-		if (Obj.pInventory[10]->m_Durability < 1.0f)
+		if (Obj.pntInventory[10]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
 		else
 		{
-			skill_level = Obj.pInventory[10]->m_Level;
+			skill_level = Obj.pntInventory[10]->m_Level;
 		}
 	}
 
-	if (Obj.pInventory[11]->IsItem() == 1 && skill_level == -1 && Obj.pInventory[11]->m_Type == ITEMGET(13, 10))
+	if (Obj.pntInventory[11]->IsItem() == 1 && skill_level == -1 && Obj.pntInventory[11]->m_Type == ITEMGET(13, 10))
 	{
-		if (Obj.pInventory[11]->m_Durability < 1.0f)
+		if (Obj.pntInventory[11]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
 		else
 		{
-			skill_level = Obj.pInventory[11]->m_Level;
+			skill_level = Obj.pntInventory[11]->m_Level;
 		}
 	}
 
@@ -1611,9 +1611,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		return false;
 	}
 
-	if (Obj.pInventory[10]->IsItem() == 1 && Obj.pInventory[10]->m_Type == ITEMGET(13, 39))
+	if (Obj.pntInventory[10]->IsItem() == 1 && Obj.pntInventory[10]->m_Type == ITEMGET(13, 39))
 	{
-		if (Obj.pInventory[10]->m_Durability < 1.0f)
+		if (Obj.pntInventory[10]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1623,9 +1623,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[11]->IsItem() == 1 && skill_level == -1 && Obj.pInventory[11]->m_Type == ITEMGET(13, 39))
+	if (Obj.pntInventory[11]->IsItem() == 1 && skill_level == -1 && Obj.pntInventory[11]->m_Type == ITEMGET(13, 39))
 	{
-		if (Obj.pInventory[11]->m_Durability < 1.0f)
+		if (Obj.pntInventory[11]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1635,9 +1635,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[10]->IsItem() == 1 && Obj.pInventory[10]->m_Type == ITEMGET(13, 40))
+	if (Obj.pntInventory[10]->IsItem() == 1 && Obj.pntInventory[10]->m_Type == ITEMGET(13, 40))
 	{
-		if (Obj.pInventory[10]->m_Durability < 1.0f)
+		if (Obj.pntInventory[10]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1647,9 +1647,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[11]->IsItem() == 1 && skill_level == -1 && Obj.pInventory[11]->m_Type == ITEMGET(13, 40))
+	if (Obj.pntInventory[11]->IsItem() == 1 && skill_level == -1 && Obj.pntInventory[11]->m_Type == ITEMGET(13, 40))
 	{
-		if (Obj.pInventory[11]->m_Durability < 1.0f)
+		if (Obj.pntInventory[11]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1659,9 +1659,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[10]->IsItem() == 1 && Obj.pInventory[10]->m_Type == ITEMGET(13, 41))
+	if (Obj.pntInventory[10]->IsItem() == 1 && Obj.pntInventory[10]->m_Type == ITEMGET(13, 41))
 	{
-		if (Obj.pInventory[10]->m_Durability < 1.0f)
+		if (Obj.pntInventory[10]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1671,9 +1671,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[11]->IsItem() == 1 && skill_level == -1 && Obj.pInventory[11]->m_Type == ITEMGET(13, 41))
+	if (Obj.pntInventory[11]->IsItem() == 1 && skill_level == -1 && Obj.pntInventory[11]->m_Type == ITEMGET(13, 41))
 	{
-		if (Obj.pInventory[11]->m_Durability < 1.0f)
+		if (Obj.pntInventory[11]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1683,9 +1683,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[10]->IsItem() == 1 && Obj.pInventory[10]->m_Type == ITEMGET(13, 42))
+	if (Obj.pntInventory[10]->IsItem() == 1 && Obj.pntInventory[10]->m_Type == ITEMGET(13, 42))
 	{
-		if (Obj.pInventory[10]->m_Durability < 1.0f)
+		if (Obj.pntInventory[10]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1695,9 +1695,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[11]->IsItem() == 1 && skill_level == -1 && Obj.pInventory[11]->m_Type == ITEMGET(13, 42))
+	if (Obj.pntInventory[11]->IsItem() == 1 && skill_level == -1 && Obj.pntInventory[11]->m_Type == ITEMGET(13, 42))
 	{
-		if (Obj.pInventory[11]->m_Durability < 1.0f)
+		if (Obj.pntInventory[11]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1707,9 +1707,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[10]->IsItem() == 1 && Obj.pInventory[10]->m_Type == ITEMGET(13, 68))
+	if (Obj.pntInventory[10]->IsItem() == 1 && Obj.pntInventory[10]->m_Type == ITEMGET(13, 68))
 	{
-		if (Obj.pInventory[10]->m_Durability < 1.0f)
+		if (Obj.pntInventory[10]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1719,9 +1719,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[11]->IsItem() == 1 && Obj.pInventory[11]->m_Type == ITEMGET(13, 68))
+	if (Obj.pntInventory[11]->IsItem() == 1 && Obj.pntInventory[11]->m_Type == ITEMGET(13, 68))
 	{
-		if (Obj.pInventory[11]->m_Durability < 1.0f)
+		if (Obj.pntInventory[11]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1731,9 +1731,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[10]->IsItem() == 1 && Obj.pInventory[10]->m_Type == ITEMGET(13, 76))
+	if (Obj.pntInventory[10]->IsItem() == 1 && Obj.pntInventory[10]->m_Type == ITEMGET(13, 76))
 	{
-		if (Obj.pInventory[10]->m_Durability < 1.0f)
+		if (Obj.pntInventory[10]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1743,9 +1743,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[11]->IsItem() == 1 && Obj.pInventory[11]->m_Type == ITEMGET(13, 76))
+	if (Obj.pntInventory[11]->IsItem() == 1 && Obj.pntInventory[11]->m_Type == ITEMGET(13, 76))
 	{
-		if (Obj.pInventory[11]->m_Durability < 1.0f)
+		if (Obj.pntInventory[11]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1755,9 +1755,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[10]->IsItem() == 1 && Obj.pInventory[10]->m_Type == ITEMGET(13, 77))
+	if (Obj.pntInventory[10]->IsItem() == 1 && Obj.pntInventory[10]->m_Type == ITEMGET(13, 77))
 	{
-		if (Obj.pInventory[10]->m_Durability < 1.0f)
+		if (Obj.pntInventory[10]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1767,9 +1767,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[11]->IsItem() == 1 && Obj.pInventory[11]->m_Type == ITEMGET(13, 77))
+	if (Obj.pntInventory[11]->IsItem() == 1 && Obj.pntInventory[11]->m_Type == ITEMGET(13, 77))
 	{
-		if (Obj.pInventory[11]->m_Durability < 1.0f)
+		if (Obj.pntInventory[11]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1779,9 +1779,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[10]->IsItem() == 1 && Obj.pInventory[10]->m_Type == ITEMGET(13, 78))
+	if (Obj.pntInventory[10]->IsItem() == 1 && Obj.pntInventory[10]->m_Type == ITEMGET(13, 78))
 	{
-		if (Obj.pInventory[10]->m_Durability < 1.0f)
+		if (Obj.pntInventory[10]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1791,9 +1791,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[11]->IsItem() == 1 && Obj.pInventory[11]->m_Type == ITEMGET(13, 78))
+	if (Obj.pntInventory[11]->IsItem() == 1 && Obj.pntInventory[11]->m_Type == ITEMGET(13, 78))
 	{
-		if (Obj.pInventory[11]->m_Durability < 1.0f)
+		if (Obj.pntInventory[11]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1803,9 +1803,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[10]->IsItem() == 1 && Obj.pInventory[10]->m_Type == ITEMGET(13, 122))
+	if (Obj.pntInventory[10]->IsItem() == 1 && Obj.pntInventory[10]->m_Type == ITEMGET(13, 122))
 	{
-		if (Obj.pInventory[10]->m_Durability < 1.0f)
+		if (Obj.pntInventory[10]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1815,9 +1815,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[11]->IsItem() == 1 && Obj.pInventory[11]->m_Type == ITEMGET(13, 122))
+	if (Obj.pntInventory[11]->IsItem() == 1 && Obj.pntInventory[11]->m_Type == ITEMGET(13, 122))
 	{
-		if (Obj.pInventory[11]->m_Durability < 1.0f)
+		if (Obj.pntInventory[11]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1826,9 +1826,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 			skill_level = 548;
 		}
 	}
-	if (Obj.pInventory[10]->IsItem() == 1 && Obj.pInventory[10]->m_Type == ITEMGET(13, 163))
+	if (Obj.pntInventory[10]->IsItem() == 1 && Obj.pntInventory[10]->m_Type == ITEMGET(13, 163))
 	{
-		if (Obj.pInventory[10]->m_Durability < 1.0f)
+		if (Obj.pntInventory[10]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1838,9 +1838,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[11]->IsItem() == 1 && Obj.pInventory[11]->m_Type == ITEMGET(13, 163))
+	if (Obj.pntInventory[11]->IsItem() == 1 && Obj.pntInventory[11]->m_Type == ITEMGET(13, 163))
 	{
-		if (Obj.pInventory[11]->m_Durability < 1.0f)
+		if (Obj.pntInventory[11]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1849,9 +1849,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 			skill_level = 625;
 		}
 	}
-	if (Obj.pInventory[10]->IsItem() == 1 && Obj.pInventory[10]->m_Type == ITEMGET(13, 164))
+	if (Obj.pntInventory[10]->IsItem() == 1 && Obj.pntInventory[10]->m_Type == ITEMGET(13, 164))
 	{
-		if (Obj.pInventory[10]->m_Durability < 1.0f)
+		if (Obj.pntInventory[10]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1861,9 +1861,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[11]->IsItem() == 1 && Obj.pInventory[11]->m_Type == ITEMGET(13, 164))
+	if (Obj.pntInventory[11]->IsItem() == 1 && Obj.pntInventory[11]->m_Type == ITEMGET(13, 164))
 	{
-		if (Obj.pInventory[11]->m_Durability < 1.0f)
+		if (Obj.pntInventory[11]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1873,9 +1873,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[10]->IsItem() == 1 && Obj.pInventory[10]->m_Type == ITEMGET(13, 165))
+	if (Obj.pntInventory[10]->IsItem() == 1 && Obj.pntInventory[10]->m_Type == ITEMGET(13, 165))
 	{
-		if (Obj.pInventory[10]->m_Durability < 1.0f)
+		if (Obj.pntInventory[10]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1885,9 +1885,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[11]->IsItem() == 1 && Obj.pInventory[11]->m_Type == ITEMGET(13, 165))
+	if (Obj.pntInventory[11]->IsItem() == 1 && Obj.pntInventory[11]->m_Type == ITEMGET(13, 165))
 	{
-		if (Obj.pInventory[11]->m_Durability < 1.0f)
+		if (Obj.pntInventory[11]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1897,9 +1897,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[11]->IsItem() == 1 && Obj.pInventory[11]->m_Type == ITEMGET(13, 166))
+	if (Obj.pntInventory[11]->IsItem() == 1 && Obj.pntInventory[11]->m_Type == ITEMGET(13, 166))
 	{
-		if (Obj.pInventory[11]->m_Durability < 1.0f)
+		if (Obj.pntInventory[11]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1909,9 +1909,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[10]->IsItem() == 1 && Obj.pInventory[10]->m_Type == ITEMGET(13, 268))
+	if (Obj.pntInventory[10]->IsItem() == 1 && Obj.pntInventory[10]->m_Type == ITEMGET(13, 268))
 	{
-		if (Obj.pInventory[10]->m_Durability < 1.0f)
+		if (Obj.pntInventory[10]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -1921,9 +1921,9 @@ BOOL CObjUseSkill::SkillChangeUse(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.pInventory[11]->IsItem() == 1 && Obj.pInventory[11]->m_Type == ITEMGET(13, 268))
+	if (Obj.pntInventory[11]->IsItem() == 1 && Obj.pntInventory[11]->m_Type == ITEMGET(13, 268))
 	{
-		if (Obj.pInventory[11]->m_Durability < 1.0f)
+		if (Obj.pntInventory[11]->m_Durability < 1.0f)
 		{
 			skill_level = -1;
 		}
@@ -4778,8 +4778,8 @@ int CObjUseSkill::GetAddUseMana(CGameObject &Obj, CMagicInf * lpMagic)
 		{
 			int iArrowLevel = 0;
 
-			CItemObject * Right = &Obj.pInventory[0];
-			CItemObject * Left = &Obj.pInventory[1];
+			CItemObject * Right = &Obj.pntInventory[0];
+			CItemObject * Left = &Obj.pntInventory[1];
 
 			if (Right->m_Type >= ITEMGET(4, 8) && Right->m_Type <= ITEMGET(4, 14)
 				|| Right->m_Type == ITEMGET(4, 16)

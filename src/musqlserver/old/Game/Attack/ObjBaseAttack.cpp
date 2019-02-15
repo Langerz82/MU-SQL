@@ -46,8 +46,8 @@ BOOL CObjBaseAttack::DecreaseArrow(CGameObject &Obj)
 {
 	if ( Obj.Class == CLASS_ELF && Obj.Type == OBJ_USER && g_ConfigRead.data.common.joinmuIsDecreaseAllow == true )
 	{
-		CItemObject * Left = &Obj.pInventory[0];
-		CItemObject * Right  = &Obj.pInventory[1];
+		CItemObject * Left = &Obj.pntInventory[0];
+		CItemObject * Right  = &Obj.pntInventory[1];
 
 		/*(if ( (Right->m_Type >= ITEMGET(4,8) && Right->m_Type <= ITEMGET(4,14)) ||
 			  Right->m_Type == ITEMGET(4,16) || Right->m_Type == ITEMGET(4,18) ||
@@ -67,7 +67,7 @@ BOOL CObjBaseAttack::DecreaseArrow(CGameObject &Obj)
 
 				if ( Left->m_Durability < 1.0f )
 				{
-					Obj.pInventory[1]->Clear();
+					Obj.pntInventory[1]->Clear();
 					gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, 1, 0);
 				}
 			}
@@ -89,7 +89,7 @@ BOOL CObjBaseAttack::DecreaseArrow(CGameObject &Obj)
 
 				if ( Right->m_Durability < 1.0f )
 				{
-					Obj.pInventory[1]->Clear();
+					Obj.pntInventory[1]->Clear();
 					GCInventoryItemDeleteSend(Obj.m_Index, 1, 0);
 				}
 			}
@@ -912,7 +912,7 @@ int  CObjBaseAttack::GetTargetDefense(CGameObject &Obj, CGameObject lpTargetObj,
 
 	float percentdamage = 0;
 
-	if ( Obj.pInventory[7]->IsItem() != FALSE )
+	if ( Obj.pntInventory[7]->IsItem() != FALSE )
 	{
 		percentdamage += Obj.m_PlayerData->m_WingExcOption.iWingOpIgnoreEnemyDefense;
 	}

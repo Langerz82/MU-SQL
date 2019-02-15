@@ -343,14 +343,14 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(CGameObject &Obj, int so
 	if ( target < 0 || target > MAIN_INVENTORY_SIZE-1 )
 		return FALSE;
 
-	if ( Obj.pInventory[source]->IsItem() == FALSE )
+	if ( Obj.pntInventory[source]->IsItem() == FALSE )
 		return FALSE;
 
-	if ( Obj.pInventory[target]->IsItem() == FALSE )
+	if ( Obj.pntInventory[target]->IsItem() == FALSE )
 		return FALSE;
 
-	CItemObject * pSource = &Obj.pInventory[source];
-	CItemObject * pTarget = &Obj.pInventory[target];
+	CItemObject * pSource = &Obj.pntInventory[source];
+	CItemObject * pTarget = &Obj.pntInventory[target];
 
 	if (!g_LuckyItemManager.IsLuckyItemEquipment(pTarget->m_Type))
 	{
@@ -410,16 +410,16 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(CGameObject &Obj, int so
 
 	gObjMakePreviewCharSet(lpObj);
 
-	float levelitemdur = ItemGetDurability(Obj.pInventory[target]->m_Type,
-		Obj.pInventory[target]->m_Level, Obj.pInventory[target]->IsExtItem(),
-		Obj.pInventory[target]->IsSetItem());
+	float levelitemdur = ItemGetDurability(Obj.pntInventory[target]->m_Type,
+		Obj.pntInventory[target]->m_Level, Obj.pntInventory[target]->IsExtItem(),
+		Obj.pntInventory[target]->IsSetItem());
 
-	Obj.pInventory[target]->m_Durability = levelitemdur * Obj.pInventory[target]->m_Durability / Obj.pInventory[target]->m_BaseDurability;
+	Obj.pntInventory[target]->m_Durability = levelitemdur * Obj.pntInventory[target]->m_Durability / Obj.pntInventory[target]->m_BaseDurability;
 
-	Obj.pInventory[target]->Convert(Obj.pInventory[target]->m_Type,
-		Obj.pInventory[target]->m_Option1, Obj.pInventory[target]->m_Option2,
-		Obj.pInventory[target]->m_Option3, Obj.pInventory[target]->m_NewOption,
-		Obj.pInventory[target]->m_SetOption, Obj.pInventory[target]->m_ItemOptionEx,
+	Obj.pntInventory[target]->Convert(Obj.pntInventory[target]->m_Type,
+		Obj.pntInventory[target]->m_Option1, Obj.pntInventory[target]->m_Option2,
+		Obj.pntInventory[target]->m_Option3, Obj.pntInventory[target]->m_NewOption,
+		Obj.pntInventory[target]->m_SetOption, Obj.pntInventory[target]->m_ItemOptionEx,
 		0, -1, 0, CURRENT_DB_VERSION);
 
 	return TRUE;
@@ -439,14 +439,14 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfHarmony(CGameObject &Obj, int
 	if ( target < 0 || target > MAIN_INVENTORY_SIZE-1 )
 		return FALSE;
 
-	if ( Obj.pInventory[source]->IsItem() == FALSE )
+	if ( Obj.pntInventory[source]->IsItem() == FALSE )
 		return FALSE;
 
-	if ( Obj.pInventory[target]->IsItem() == FALSE )
+	if ( Obj.pntInventory[target]->IsItem() == FALSE )
 		return FALSE;
 
-	CItemObject * pSource = &Obj.pInventory[source];
-	CItemObject * pTarget = &Obj.pInventory[target];
+	CItemObject * pSource = &Obj.pntInventory[source];
+	CItemObject * pTarget = &Obj.pntInventory[target];
 
 	if ( this->IsStrengthenByJewelOfHarmony(pTarget) == TRUE )
 	{
@@ -495,16 +495,16 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfHarmony(CGameObject &Obj, int
 
 	gObjMakePreviewCharSet(lpObj);
 
-	float levelitemdur = ItemGetDurability(Obj.pInventory[target]->m_Type,
-		Obj.pInventory[target]->m_Level, Obj.pInventory[target]->IsExtItem(),
-		Obj.pInventory[target]->IsSetItem());
+	float levelitemdur = ItemGetDurability(Obj.pntInventory[target]->m_Type,
+		Obj.pntInventory[target]->m_Level, Obj.pntInventory[target]->IsExtItem(),
+		Obj.pntInventory[target]->IsSetItem());
 
-	Obj.pInventory[target]->m_Durability = levelitemdur * Obj.pInventory[target]->m_Durability / Obj.pInventory[target]->m_BaseDurability;
+	Obj.pntInventory[target]->m_Durability = levelitemdur * Obj.pntInventory[target]->m_Durability / Obj.pntInventory[target]->m_BaseDurability;
 
-	Obj.pInventory[target]->Convert(Obj.pInventory[target]->m_Type,
-		Obj.pInventory[target]->m_Option1, Obj.pInventory[target]->m_Option2,
-		Obj.pInventory[target]->m_Option3, Obj.pInventory[target]->m_NewOption,
-		Obj.pInventory[target]->m_SetOption, Obj.pInventory[target]->m_ItemOptionEx,
+	Obj.pntInventory[target]->Convert(Obj.pntInventory[target]->m_Type,
+		Obj.pntInventory[target]->m_Option1, Obj.pntInventory[target]->m_Option2,
+		Obj.pntInventory[target]->m_Option3, Obj.pntInventory[target]->m_NewOption,
+		Obj.pntInventory[target]->m_SetOption, Obj.pntInventory[target]->m_ItemOptionEx,
 		0, -1, 0, CURRENT_DB_VERSION);
 
 	return TRUE;
@@ -576,9 +576,9 @@ BYTE CJewelOfHarmonySystem::MakeCharSetData(CGameObject &Obj)
 {
 	BYTE btResult = 0;
 
-	if ( this->IsActive(&Obj.pInventory[0]) == TRUE )
+	if ( this->IsActive(&Obj.pntInventory[0]) == TRUE )
 	{
-		int iOptionLevel = this->_GetItemOptionLevel(&Obj.pInventory[0]);
+		int iOptionLevel = this->_GetItemOptionLevel(&Obj.pntInventory[0]);
 
 		if ( iOptionLevel > 5 && iOptionLevel < 9 )
 			btResult |= 0x40;
@@ -588,9 +588,9 @@ BYTE CJewelOfHarmonySystem::MakeCharSetData(CGameObject &Obj)
 			btResult |= 0xC0;
 	}
 
-	if ( this->IsActive(&Obj.pInventory[1]) == TRUE )
+	if ( this->IsActive(&Obj.pntInventory[1]) == TRUE )
 	{
-		int iOptionLevel = this->_GetItemOptionLevel(&Obj.pInventory[1]);
+		int iOptionLevel = this->_GetItemOptionLevel(&Obj.pntInventory[1]);
 
 		if ( iOptionLevel > 5 && iOptionLevel < 9 )
 			btResult |= 0x10;
@@ -613,11 +613,11 @@ void CJewelOfHarmonySystem::SetApplyStrengthenItem(CGameObject &Obj)
 
 	for ( iItemIndex =0;iItemIndex <INVETORY_WEAR_SIZE ; iItemIndex++)
 	{
-		if ( Obj.pInventory[iItemIndex]->IsItem() != FALSE )
+		if ( Obj.pntInventory[iItemIndex]->IsItem() != FALSE )
 		{
-			if ( Obj.pInventory[iItemIndex]->m_IsValidItem !=  false )
+			if ( Obj.pntInventory[iItemIndex]->m_IsValidItem !=  false )
 			{
-				BOOL bResult = this->_CalCItemObjectEffectValue(&Obj.pInventory[iItemIndex], pItemEffect);
+				BOOL bResult = this->_CalCItemObjectEffectValue(&Obj.pntInventory[iItemIndex], pItemEffect);
 			}
 		}
 	}
@@ -881,13 +881,13 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(CGameObject &Obj, int
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (this->IsEnableToMakeSmeltingStoneItem(&Obj.pChaosBox[n]) == TRUE)
+			if (this->IsEnableToMakeSmeltingStoneItem(&Obj.pntChaosBox[n]) == TRUE)
 			{
 				iValidItemCount++;
 
-				if (Obj.pChaosBox[n].IsExtItem() == TRUE)
+				if (Obj.pntChaosBox[n].IsExtItem() == TRUE)
 				{
 					iExtItemCount++;
 				}
@@ -1035,9 +1035,9 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject &Obj)
 
 	for ( int n=0;n<CHAOS_BOX_SIZE;n++)
 	{
-		if ( Obj.pChaosBox[n].IsItem() == TRUE )
+		if ( Obj.pntChaosBox[n].IsItem() == TRUE )
 		{
-			if ( this->IsEnableToMakeSmeltingStoneItem(&Obj.pChaosBox[n]) == TRUE )
+			if ( this->IsEnableToMakeSmeltingStoneItem(&Obj.pntChaosBox[n]) == TRUE )
 			{
 				iValidItemCount++;
 				iItemPos = n;
@@ -1062,7 +1062,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject &Obj)
 	int JEWEL_OF_HARMONY_MAKE_SMELTINGSTONE_RATE;
 	BOOL bIsItemNormal = TRUE;
 
-	if ( Obj.pChaosBox[iItemPos].IsExtItem() == TRUE )
+	if ( Obj.pntChaosBox[iItemPos].IsExtItem() == TRUE )
 	{
 		bIsItemNormal = FALSE;
 		JEWEL_OF_HARMONY_MAKE_SMELTINGSTONE_RATE = this->m_iRateMixSmeltingStoneExt;
@@ -1141,14 +1141,14 @@ BOOL CJewelOfHarmonySystem::SmeltItemBySmeltingStone(CGameObject &Obj, int sourc
 	if ( target < 0 || target > MAIN_INVENTORY_SIZE-1 )
 		return FALSE;
 
-	if ( Obj.pInventory[source]->IsItem() == FALSE )
+	if ( Obj.pntInventory[source]->IsItem() == FALSE )
 		return FALSE;
 
-	if ( Obj.pInventory[target]->IsItem() == FALSE )
+	if ( Obj.pntInventory[target]->IsItem() == FALSE )
 		return FALSE;
 
-	CItemObject * pSource = &Obj.pInventory[source];
-	CItemObject * pTarget = &Obj.pInventory[target];
+	CItemObject * pSource = &Obj.pntInventory[source];
+	CItemObject * pTarget = &Obj.pntInventory[target];
 
 	if ( !this->IsStrengthenByJewelOfHarmony(pTarget)  )
 	{
@@ -1260,12 +1260,12 @@ BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(CGameObject &Obj)
 
 	for ( int n=0;n<CHAOS_BOX_SIZE;n++)
 	{
-		if ( Obj.pChaosBox[n].IsItem() == TRUE )
+		if ( Obj.pntChaosBox[n].IsItem() == TRUE )
 		{
-			if ( this->IsStrengthenByJewelOfHarmony(&Obj.pChaosBox[n]) == TRUE )
+			if ( this->IsStrengthenByJewelOfHarmony(&Obj.pntChaosBox[n]) == TRUE )
 			{
 				iStrengtenItemCount++;
-				pItem = &Obj.pChaosBox[n];
+				pItem = &Obj.pntChaosBox[n];
 			}
 		}
 	}
@@ -1410,9 +1410,9 @@ BOOL CJewelOfHarmonySystem::IsEnableToTrade(CGameObject &Obj)
 
 	for ( int n=0;n<TRADE_BOX_SIZE;n++)
 	{
-		if ( Obj.Trade[n].IsItem() == TRUE )
+		if ( Obj.pntTrade[n].IsItem() == TRUE )
 		{
-			if ( this->IsStrengthenByJewelOfHarmony(&Obj.Trade[n]) == TRUE )
+			if ( this->IsStrengthenByJewelOfHarmony(&Obj.pntTrade[n]) == TRUE )
 			{
 				bRet = FALSE;
 			}

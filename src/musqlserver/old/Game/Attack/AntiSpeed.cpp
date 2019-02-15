@@ -97,7 +97,7 @@ void CAttackQueue::ProcessQueue()
 	if(m_Obj.Class == CLASS_WIZARD)	// DW
 		HitPerSec = m_MagicDelay;
 	else{
-		if(m_Obj.pInventory[0]->IsItem() || m_Obj.pInventory[1]->IsItem())
+		if(m_Obj.pntInventory[0]->IsItem() || m_Obj.pntInventory[1]->IsItem())
 			HitPerSec = m_SwordDelay;
 		else
 			HitPerSec = m_HandDelay;

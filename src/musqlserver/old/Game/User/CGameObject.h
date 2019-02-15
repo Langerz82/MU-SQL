@@ -206,7 +206,7 @@ public:
 	char m_cKalimaGateExist; // 24C
 	int m_iKalimaGateIndex; // 250
 	char m_cKalimaGateEnterCount;	// 254
-	CGameObject * lpAttackObj;	// 258
+	CGameObject* lpAttackObj;	// 258
 	short m_SkillNumber;	// 25C
 	DWORD m_SkillTime;	// 260
 	bool m_bAttackerKilled;	// 264
@@ -288,21 +288,21 @@ public:
 	short sHDCount;	// CA0
 	STR_INTERFACE_STATE* m_IfState;	// CA4
 	DWORD m_InterfaceTime;	// CA8
-	CItemObject** pInventory; // CAC
+	CItemObject** pntInventory; // CAC
 	LPBYTE  pInventoryMap; // CB0
 	char * pInventoryCount;	// CB4
 	char pTransaction;	// CB8
-	CItemObject** Inventory1;	//CBC
+	CItemObject** pntInventory1;	//CBC
 	LPBYTE*  InventoryMap1;	// CC0
 	char InventoryCount1;	// CC4
-	CItemObject** Inventory2;	// CC8
+	CItemObject** pntInventory2;	// CC8
 	LPBYTE* InventoryMap2;	// CCC
 	char InventoryCount2;	// CD0
-	CItemObject** Trade; // CD4
+	CItemObject** pntTrade; // CD4
 	LPBYTE TradeMap;	// unkCD8
 	int TradeMoney;	// CDC
 	bool TradeOk;	// CE0
-	CItemObject** pWarehouse; // CE4
+	CItemObject** pntWarehouse; // CE4
 	char WarehouseID;
 	DWORD WarehouseTick;
 	LPBYTE pWarehouseMap; // CE8
@@ -311,8 +311,8 @@ public:
 	BYTE WarehouseLock;	// CF0
 	BYTE WarehouseUnfailLock;	// CF1
 	int WarehouseMoney;	// CF4
-	CItemObject** pChaosBox;	// CFC
-	LPBYTE pChaosBoxMap;	// D00
+	CItemObject** pntChaosBox;	// CFC
+	LPBYTE ChaosBoxMap;	// D00
 	int ChaosMoney;	// D04
 	int ChaosSuccessRate;	// D08
 	BYTE ChaosMassMixCurrItem;
@@ -508,16 +508,16 @@ public:
 	WORD m_wMuunRideItem;
 	BYTE m_btInvenPetPos;
 	WORD m_wInvenPet;
-	CItemObject** pMuunInventory;
-	CItemObject** pMuunInventory1;
-	CItemObject** pMuunInventory2;
-	CItemObject** pEventInventory;
-	CItemObject** pEventInventory1;
-	CItemObject** pEventInventory2;
-	BYTE** pEventInventoryMap;
-	BYTE** pEventInventoryMap1;
-	BYTE** pEventInventoryMap2;
-	MUUN_EFFECT_LIST** m_MuunEffectList;
+	CItemObject** pntMuunInventory;
+	CItemObject** pntMuunInventory1;
+	CItemObject** pntMuunInventory2;
+	CItemObject** pntEventInventory;
+	CItemObject** pntEventInventory1;
+	CItemObject** pntEventInventory2;
+	LPBYTE* EventInventoryMap;
+	LPBYTE* EventInventoryMap1;
+	LPBYTE* EventInventoryMap2;
+	MUUN_EFFECT_LIST** pntMuunEffectList;
 	bool EventInventoryLoad;
 	bool bMuunInventoryLoad;
 	DWORD dwCheckMuunItemTime;

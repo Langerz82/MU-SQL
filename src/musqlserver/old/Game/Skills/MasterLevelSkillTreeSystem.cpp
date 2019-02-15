@@ -6704,12 +6704,12 @@ BOOL CMasterLevelSkillTreeSystem::CheckUsableWeaponSkill(CGameObject &Obj, int n
 		return TRUE;
 	}
 
-	if (Obj.pInventory[1]->IsItem() == TRUE && Obj.pInventory[1]->m_Special[0] == BrandOfSkill)
+	if (Obj.pntInventory[1]->IsItem() == TRUE && Obj.pntInventory[1]->m_Special[0] == BrandOfSkill)
 	{
 		return TRUE;
 	}
 
-	if (Obj.pInventory[0]->IsItem() == TRUE && Obj.pInventory[0]->m_Special[0] == BrandOfSkill)
+	if (Obj.pntInventory[0]->IsItem() == TRUE && Obj.pntInventory[0]->m_Special[0] == BrandOfSkill)
 	{
 		return TRUE;
 	}
@@ -7928,8 +7928,8 @@ BYTE CMasterLevelSkillTreeSystem::ResetMasterSkill(CGameObject &Obj, int nTreeTy
 
 					else
 					{
-						CItemObject * lpLeftItem = &Obj.pInventory[1];
-						CItemObject * lpRightItem = &Obj.pInventory[0];
+						CItemObject * lpLeftItem = &Obj.pntInventory[1];
+						CItemObject * lpRightItem = &Obj.pntInventory[0];
 
 						if (lpLeftItem->m_Special[0] == iBrandOfSkill)
 						{

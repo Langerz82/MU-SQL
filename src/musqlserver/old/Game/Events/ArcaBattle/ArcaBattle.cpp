@@ -424,13 +424,13 @@ void CArcaBattle::AddArcaBattleWinGuildInfo(_stABWinGuildInfoDS *pABWinGuildInfo
 
 int CArcaBattle::IsArcaBattleWinGuild(CGameObject &obj)
 {
-	if (obj->m_PlayerData->lpGuild )
+	if (obj.m_PlayerData->lpGuild )
 	{
 		for ( int i = 0; i < 5; ++i )
 		{
-			if(strcmp(obj->m_PlayerData->lpGuild->Name, this->m_stABWinGuildInfo[i].szGuildName) == 0)
+			if(strcmp(obj.m_PlayerData->lpGuild->Name, this->m_stABWinGuildInfo[i].szGuildName) == 0)
 			{
-				if (obj->m_PlayerData->lpGuild->Number == this->m_stABWinGuildInfo[i].dwGuild )
+				if (obj.m_PlayerData->lpGuild->Number == this->m_stABWinGuildInfo[i].dwGuild )
 					return TRUE;
 			}
 		}
@@ -483,7 +483,7 @@ void CArcaBattle::SendArcaBattleOccupyZone(CGameObject &obj, int gt)
 			if ( ( gt == 418 && this->m_stABWinGuildInfo[i].wObeliskGroup == 1 ) || ( gt == 422 && this->m_stABWinGuildInfo[i].wObeliskGroup == 2 ) || (gt == 435 && this->m_stABWinGuildInfo[i].wObeliskGroup == 3 ))
 			{
 				std::memcpy(pMsg.szGuildName, this->m_stABWinGuildInfo[i].szGuildName, MAX_GUILD_LEN+1);
-				IOCP.DataSend(obj->m_Index, (BYTE*)&pMsg, sizeof(pMsg));
+				IOCP.DataSend(obj.m_Index, (BYTE*)&pMsg, sizeof(pMsg));
 				return;
 			}
 		}
@@ -3039,11 +3039,11 @@ void CArcaBattle::CGReqMarkRegButtonClick(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == TRUE)
+		if (Obj.pntChaosBox[i].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[i].m_Type == ITEMGET(14,21) && Obj.pChaosBox[i].m_Level == 3)
+			if (Obj.pntChaosBox[i].m_Type == ITEMGET(14,21) && Obj.pntChaosBox[i].m_Level == 3)
 			{
-				iItemCnt += Obj.pChaosBox[i].m_Durability;
+				iItemCnt += Obj.pntChaosBox[i].m_Durability;
 				iValidItemCount++;
 				iItemPos = i;
 			}
@@ -3059,7 +3059,7 @@ void CArcaBattle::CGReqMarkRegButtonClick(CGameObject &Obj)
 	if (iValidItemCount < 1 || iInvalidItemCount != 0 || iItemPos == -1)
 	{
 		sLog->outBasic("[ArcaBattle][Mark] - Can Not be Reg Mark [%s][%s] CharClass[%d] ItemNum[%d] ItemName[%s]",
-			Obj.AccountID, Obj.Name, Obj.Class, Obj.pChaosBox[iItemPos].m_Type, ItemAttribute[Obj.pChaosBox[iItemPos].m_Type].Name);
+			Obj.AccountID, Obj.Name, Obj.Class, Obj.pntChaosBox[iItemPos].m_Type, ItemAttribute[Obj.pntChaosBox[iItemPos].m_Type].Name);
 
 		pMsg.Result = CB_ARCA_MARK_REG_ERROR;
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
@@ -3713,11 +3713,11 @@ void CArcaBattle::BootyExchange(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == TRUE)
+		if (Obj.pntChaosBox[i].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 147))
+			if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 147))
 			{
-				iItemCnt += Obj.pChaosBox[i].m_Durability;
+				iItemCnt += Obj.pntChaosBox[i].m_Durability;
 				iValidItemCount++;
 				iItemPos = i;
 			}
@@ -3733,7 +3733,7 @@ void CArcaBattle::BootyExchange(CGameObject &Obj)
 	if (iValidItemCount < 1 || iInvalidItemCount != 0 || iItemPos == -1)
 	{
 		sLog->outBasic("[ArcaBattle][BootyExchange] - Can Not be Exchanged [%s][%s] CharClass[%d] ItemNum[%d] ItemName[%s]",
-			Obj.AccountID, Obj.Name, Obj.Class, Obj.pChaosBox[iItemPos].m_Type, ItemAttribute[Obj.pChaosBox[iItemPos].m_Type].Name);
+			Obj.AccountID, Obj.Name, Obj.Class, Obj.pntChaosBox[iItemPos].m_Type, ItemAttribute[Obj.pntChaosBox[iItemPos].m_Type].Name);
 		pMsg.Result = CB_ERROR;
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 

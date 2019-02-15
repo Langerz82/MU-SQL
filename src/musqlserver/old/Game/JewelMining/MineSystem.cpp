@@ -271,10 +271,10 @@ void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, CGameObject &Obj)
 		std::map<int, _ST_MINESYSTEM_TWINKLE>::iterator it = this->m_mapTwinkle.find(lpMsg->wTwinkleIndex);
 		std::map<int, _ST_MINESYSTEM_MINE_SUCCESS_INFO>::iterator itMineSuccessInfo = this->m_mapMineSuccessInfo.find(lpMsg->wTwinkleType);
 
-		if (Obj.pInventory[0]->m_Durability >= itMineSuccessInfo->second.iDurabilityDecrement)
+		if (Obj.pntInventory[0]->m_Durability >= itMineSuccessInfo->second.iDurabilityDecrement)
 		{
-			Obj.pInventory[0]->m_Durability -= itMineSuccessInfo->second.iDurabilityDecrement;
-			gGameProtocol.GCItemObjectDurSend(Obj.m_Index, 0, Obj.pInventory[0]->m_Durability, 0);
+			Obj.pntInventory[0]->m_Durability -= itMineSuccessInfo->second.iDurabilityDecrement;
+			gGameProtocol.GCItemObjectDurSend(Obj.m_Index, 0, Obj.pntInventory[0]->m_Durability, 0);
 
 			if (this->SuccessOrFailure(it->second.wTwinkleType, it->second.iCurrentStage))
 			{
@@ -692,7 +692,7 @@ BOOL CMineSystem::IsTwinkle(WORD wClass)
 
 BOOL CMineSystem::IsEquipPickax(CGameObject &Obj)
 {
-	return Obj.pInventory[0]->m_Type == ITEMGET(0, 41);
+	return Obj.pntInventory[0]->m_Type == ITEMGET(0, 41);
 }
 
 BOOL CMineSystem::IsPickax(WORD wItemType)
@@ -771,9 +771,9 @@ BOOL CMineSystem::CheckValidationMineState(CGameObject &Obj, WORD wTwinkleIndex,
 			return FALSE;
 		}
 
-		if (Obj.pInventory[10]->IsItem() == TRUE)
+		if (Obj.pntInventory[10]->IsItem() == TRUE)
 		{
-			LPITEM_ATTRIBUTE p = &ItemAttribute[Obj.pInventory[10]->m_Type];
+			LPITEM_ATTRIBUTE p = &ItemAttribute[Obj.pntInventory[10]->m_Type];
 
 			if (p->ItemKindB == 33)
 			{
@@ -785,9 +785,9 @@ BOOL CMineSystem::CheckValidationMineState(CGameObject &Obj, WORD wTwinkleIndex,
 			}
 		}
 
-		if (Obj.pInventory[11]->IsItem() == TRUE)
+		if (Obj.pntInventory[11]->IsItem() == TRUE)
 		{
-			LPITEM_ATTRIBUTE p = &ItemAttribute[Obj.pInventory[11]->m_Type];
+			LPITEM_ATTRIBUTE p = &ItemAttribute[Obj.pntInventory[11]->m_Type];
 
 			if (p->ItemKindB == 33)
 			{

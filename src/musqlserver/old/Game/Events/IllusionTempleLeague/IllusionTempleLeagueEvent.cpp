@@ -528,71 +528,71 @@ BOOL CIllusionTempleLeagueEvent::CheckWearingMOPH(int nUserIndex)
 	if (!gObjIsConnected(nUserIndex))
 		return 0;
 
-	if (getGameObject(nUserIndex)->pInventory[10)->IsItem() == TRUE)
+	if (getGameObject(nUserIndex)->pntInventory[10)->IsItem() == TRUE)
 	{
-		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,10))
+		if (getGameObject(nUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,10))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,39))
+		if (getGameObject(nUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,39))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,40))
+		if (getGameObject(nUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,40))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,41))
+		if (getGameObject(nUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,41))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,68))
+		if (getGameObject(nUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,68))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,76))
+		if (getGameObject(nUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,76))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,77))
+		if (getGameObject(nUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,77))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,78))
+		if (getGameObject(nUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,78))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,122))
+		if (getGameObject(nUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,122))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,163))
+		if (getGameObject(nUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,163))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,164))
+		if (getGameObject(nUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,164))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,166))
+		if (getGameObject(nUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,166))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,169))
+		if (getGameObject(nUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,169))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,170))
+		if (getGameObject(nUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,170))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,268))
+		if (getGameObject(nUserIndex)->pntInventory[10)->m_Type == ITEMGET(13,268))
 			return TRUE;
 	}
 
-	if (getGameObject(nUserIndex)->pInventory[11)->IsItem() == TRUE)
+	if (getGameObject(nUserIndex)->pntInventory[11)->IsItem() == TRUE)
 	{
-		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,10))
+		if (getGameObject(nUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,10))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,39))
+		if (getGameObject(nUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,39))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,40))
+		if (getGameObject(nUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,40))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,41))
+		if (getGameObject(nUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,41))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,68))
+		if (getGameObject(nUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,68))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,76))
+		if (getGameObject(nUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,76))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,77))
+		if (getGameObject(nUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,77))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,78))
+		if (getGameObject(nUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,78))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,122))
+		if (getGameObject(nUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,122))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,163))
+		if (getGameObject(nUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,163))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,164))
+		if (getGameObject(nUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,164))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,166))
+		if (getGameObject(nUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,166))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,169))
+		if (getGameObject(nUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,169))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,170))
+		if (getGameObject(nUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,170))
 			return TRUE;
-		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,268))
+		if (getGameObject(nUserIndex)->pntInventory[11)->m_Type == ITEMGET(13,268))
 			return TRUE;
 	}
 

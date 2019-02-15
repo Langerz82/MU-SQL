@@ -107,14 +107,14 @@ bool CMixSystem::GetElementalTalismanOfLuckRate(CGameObject &Obj, int* rate) // 
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == 0)
+		if (Obj.pntChaosBox[n].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 189)) // Elemental Talisman of Luck
+		if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 189)) // Elemental Talisman of Luck
 		{
-			count += (int)Obj.pChaosBox[n].m_Durability;
+			count += (int)Obj.pntChaosBox[n].m_Durability;
 		}
 	}
 
@@ -129,14 +129,14 @@ bool CMixSystem::GetTalismanOfLuckRate(CGameObject &Obj, int* rate) // OK
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == 0)
+		if (Obj.pntChaosBox[n].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 53)) // Talisman of Luck
+		if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 53)) // Talisman of Luck
 		{
-			count += (int)Obj.pChaosBox[n].m_Durability;
+			count += (int)Obj.pntChaosBox[n].m_Durability;
 		}
 	}
 
@@ -158,7 +158,7 @@ BOOL CMixSystem::ChaosBoxInit(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		Obj.pChaosBox[n].Clear();
+		Obj.pntChaosBox[n].Clear();
 	}
 
 	memset(Obj.pChaosBoxMap, (BYTE)-1, CHAOS_BOX_MAP_SIZE);
@@ -176,22 +176,22 @@ BOOL CMixSystem::ChaosBoxItemDown(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15) || Obj.pChaosBox[n].m_Type == ITEMGET(14, 13) || Obj.pChaosBox[n].m_Type == ITEMGET(14, 14) ||
-			Obj.pChaosBox[n].m_Type == ITEMGET(13, 83) || Obj.pChaosBox[n].m_Type == ITEMGET(13, 84) || Obj.pChaosBox[n].m_Type == ITEMGET(13, 85) ||
-			Obj.pChaosBox[n].m_Type == ITEMGET(13, 86) || Obj.pChaosBox[n].m_Type == ITEMGET(13, 87) || Obj.pChaosBox[n].m_Type == ITEMGET(13, 88) ||
-			Obj.pChaosBox[n].m_Type == ITEMGET(13, 89) || Obj.pChaosBox[n].m_Type == ITEMGET(13, 90) || Obj.pChaosBox[n].m_Type == ITEMGET(13, 91) ||
-			Obj.pChaosBox[n].m_Type == ITEMGET(13, 92) || Obj.pChaosBox[n].m_Type == ITEMGET(14, 53) || Obj.pChaosBox[n].m_Type == ITEMGET(14, 103) ||
-			Obj.pChaosBox[n].m_Type == ITEMGET(14, 103) || Obj.pChaosBox[n].m_Type == ITEMGET(14, 104) || Obj.pChaosBox[n].m_Type == ITEMGET(14, 105) ||
-			Obj.pChaosBox[n].m_Type == ITEMGET(14, 106) || Obj.pChaosBox[n].m_Type == ITEMGET(14, 107) || Obj.pChaosBox[n].m_Type == ITEMGET(14, 108))
+		if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15) || Obj.pntChaosBox[n].m_Type == ITEMGET(14, 13) || Obj.pntChaosBox[n].m_Type == ITEMGET(14, 14) ||
+			Obj.pntChaosBox[n].m_Type == ITEMGET(13, 83) || Obj.pntChaosBox[n].m_Type == ITEMGET(13, 84) || Obj.pntChaosBox[n].m_Type == ITEMGET(13, 85) ||
+			Obj.pntChaosBox[n].m_Type == ITEMGET(13, 86) || Obj.pntChaosBox[n].m_Type == ITEMGET(13, 87) || Obj.pntChaosBox[n].m_Type == ITEMGET(13, 88) ||
+			Obj.pntChaosBox[n].m_Type == ITEMGET(13, 89) || Obj.pntChaosBox[n].m_Type == ITEMGET(13, 90) || Obj.pntChaosBox[n].m_Type == ITEMGET(13, 91) ||
+			Obj.pntChaosBox[n].m_Type == ITEMGET(13, 92) || Obj.pntChaosBox[n].m_Type == ITEMGET(14, 53) || Obj.pntChaosBox[n].m_Type == ITEMGET(14, 103) ||
+			Obj.pntChaosBox[n].m_Type == ITEMGET(14, 103) || Obj.pntChaosBox[n].m_Type == ITEMGET(14, 104) || Obj.pntChaosBox[n].m_Type == ITEMGET(14, 105) ||
+			Obj.pntChaosBox[n].m_Type == ITEMGET(14, 106) || Obj.pntChaosBox[n].m_Type == ITEMGET(14, 107) || Obj.pntChaosBox[n].m_Type == ITEMGET(14, 108))
 		{
-			Obj.pChaosBox[n].Clear();
+			Obj.pntChaosBox[n].Clear();
 		}
 		else
 		{
-			if (Obj.pChaosBox[n].IsItem() == FALSE)
+			if (Obj.pntChaosBox[n].IsItem() == FALSE)
 				continue;
 
-			int op = Obj.pChaosBox[n].m_Option1;
+			int op = Obj.pntChaosBox[n].m_Option1;
 
 			if (op > 0)
 			{
@@ -201,8 +201,8 @@ BOOL CMixSystem::ChaosBoxItemDown(CGameObject &Obj)
 				}
 			}
 
-			Obj.pChaosBox[n].m_Option1 = op;
-			op = Obj.pChaosBox[n].m_Option3;
+			Obj.pntChaosBox[n].m_Option1 = op;
+			op = Obj.pntChaosBox[n].m_Option3;
 
 			if (op > 0)
 			{
@@ -212,19 +212,19 @@ BOOL CMixSystem::ChaosBoxItemDown(CGameObject &Obj)
 				}
 			}
 
-			Obj.pChaosBox[n].m_Option3 = op;
+			Obj.pntChaosBox[n].m_Option3 = op;
 
-			if (Obj.pChaosBox[n].m_Level > 0)
+			if (Obj.pntChaosBox[n].m_Level > 0)
 			{
-				Obj.pChaosBox[n].m_Level = rand() % Obj.pChaosBox[n].m_Level;
+				Obj.pntChaosBox[n].m_Level = rand() % Obj.pntChaosBox[n].m_Level;
 			}
 
-			float dur = ItemGetDurability(Obj.pChaosBox[n].m_Type, Obj.pChaosBox[n].m_Level, Obj.pChaosBox[n].IsExtItem(), Obj.pChaosBox[n].IsSetItem());
+			float dur = ItemGetDurability(Obj.pntChaosBox[n].m_Type, Obj.pntChaosBox[n].m_Level, Obj.pntChaosBox[n].IsExtItem(), Obj.pntChaosBox[n].IsSetItem());
 
-			Obj.pChaosBox[n].m_Durability = dur * Obj.pChaosBox[n].m_Durability / Obj.pChaosBox[n].m_BaseDurability;
-			Obj.pChaosBox[n].Convert(Obj.pChaosBox[n].m_Type, Obj.pChaosBox[n].m_Option1,
-				Obj.pChaosBox[n].m_Option2, Obj.pChaosBox[n].m_Option3, Obj.pChaosBox[n].m_NewOption,
-				Obj.pChaosBox[n].m_SetOption, Obj.pChaosBox[n].m_ItemOptionEx, 0, -1, 0, CURRENT_DB_VERSION);
+			Obj.pntChaosBox[n].m_Durability = dur * Obj.pntChaosBox[n].m_Durability / Obj.pntChaosBox[n].m_BaseDurability;
+			Obj.pntChaosBox[n].Convert(Obj.pntChaosBox[n].m_Type, Obj.pntChaosBox[n].m_Option1,
+				Obj.pntChaosBox[n].m_Option2, Obj.pntChaosBox[n].m_Option3, Obj.pntChaosBox[n].m_NewOption,
+				Obj.pntChaosBox[n].m_SetOption, Obj.pntChaosBox[n].m_ItemOptionEx, 0, -1, 0, CURRENT_DB_VERSION);
 		}
 	}
 
@@ -255,61 +255,61 @@ int CMixSystem::ChaosBoxMix(CGameObject &Obj, int & Result2, int & WingNum)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			Obj.pChaosBox[n].OldValue();
+			Obj.pntChaosBox[n].OldValue();
 			add = 0;
 			nv = 0;
 
-			if (g_LuckyItemManager.IsLuckyItemEquipment(Obj.pChaosBox[n].m_Type))	//1.01.00
+			if (g_LuckyItemManager.IsLuckyItemEquipment(Obj.pntChaosBox[n].m_Type))	//1.01.00
 			{
 				return false;
 			}
 
-			if (Obj.pChaosBox[n].m_Level >= MIN_CHAOS_ITEM_LEVEL && (Obj.pChaosBox[n].m_Option3 * 4) >= MIN_CHAOS_ITEM_LEVEL)
+			if (Obj.pntChaosBox[n].m_Level >= MIN_CHAOS_ITEM_LEVEL && (Obj.pntChaosBox[n].m_Option3 * 4) >= MIN_CHAOS_ITEM_LEVEL)
 			{
-				nv = Obj.pChaosBox[n].m_OldBuyMoney;
-				value += Obj.pChaosBox[n].m_OldBuyMoney;
+				nv = Obj.pntChaosBox[n].m_OldBuyMoney;
+				value += Obj.pntChaosBox[n].m_OldBuyMoney;
 				add = 1;
 
-				if (Obj.pChaosBox[n].m_Type == ITEMGET(2, 6) || Obj.pChaosBox[n].m_Type == ITEMGET(4, 6) || Obj.pChaosBox[n].m_Type == ITEMGET(5, 7))	// Chaos Items
+				if (Obj.pntChaosBox[n].m_Type == ITEMGET(2, 6) || Obj.pntChaosBox[n].m_Type == ITEMGET(4, 6) || Obj.pntChaosBox[n].m_Type == ITEMGET(5, 7))	// Chaos Items
 				{
 					Result2 = 1;
 				}
 			}
 
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15))
 			{
-				value += Obj.pChaosBox[n].m_OldBuyMoney;
-				nv = Obj.pChaosBox[n].m_OldBuyMoney;
+				value += Obj.pntChaosBox[n].m_OldBuyMoney;
+				nv = Obj.pntChaosBox[n].m_OldBuyMoney;
 				ChaosDiamond++;
 				add = 1;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 13) || Obj.pChaosBox[n].m_Type == ITEMGET(14, 14))	// Jewel of Bless, Jewel of Soul
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 13) || Obj.pntChaosBox[n].m_Type == ITEMGET(14, 14))	// Jewel of Bless, Jewel of Soul
 			{
-				value += Obj.pChaosBox[n].m_OldBuyMoney;
-				nv = Obj.pChaosBox[n].m_OldBuyMoney;
+				value += Obj.pntChaosBox[n].m_OldBuyMoney;
+				nv = Obj.pntChaosBox[n].m_OldBuyMoney;
 				add = 1;
 			}
 
 			//season4.5 add-on
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(13, 83) ||
-				Obj.pChaosBox[n].m_Type == ITEMGET(13, 84) ||
-				Obj.pChaosBox[n].m_Type == ITEMGET(13, 85) ||
-				Obj.pChaosBox[n].m_Type == ITEMGET(13, 86) ||
-				Obj.pChaosBox[n].m_Type == ITEMGET(13, 87))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(13, 83) ||
+				Obj.pntChaosBox[n].m_Type == ITEMGET(13, 84) ||
+				Obj.pntChaosBox[n].m_Type == ITEMGET(13, 85) ||
+				Obj.pntChaosBox[n].m_Type == ITEMGET(13, 86) ||
+				Obj.pntChaosBox[n].m_Type == ITEMGET(13, 87))
 			{
-				WingCharmItemNum = Obj.pChaosBox[n].m_Type;
+				WingCharmItemNum = Obj.pntChaosBox[n].m_Type;
 			}
 
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(13, 14)) //updated 1.01.00
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(13, 14)) //updated 1.01.00
 			{
 				return false;
 			}
 
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
 			{
-				iCharmOfLuckCount += Obj.pChaosBox[n].m_Durability;
+				iCharmOfLuckCount += Obj.pntChaosBox[n].m_Durability;
 			}
 
 			if (add != 0)
@@ -317,7 +317,7 @@ int CMixSystem::ChaosBoxMix(CGameObject &Obj, int & Result2, int & WingNum)
 				ChaosItems++;
 			}
 
-			ItemIsBufExOption(ExOption, &Obj.pChaosBox[n]);
+			ItemIsBufExOption(ExOption, &Obj.pntChaosBox[n]);
 		}
 	}
 
@@ -561,22 +561,22 @@ int CMixSystem::CheckDevilSquareItem(CGameObject &Obj, int & eventitemcount, int
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15))	// Chaos
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15))	// Chaos
 			{
 				bChaoseGem = TRUE;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 17))	// Eye
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 17))	// Eye
 			{
 				eventitemcount += 1;
 				bEyeOfDevil = TRUE;
 
-				if (level != Obj.pChaosBox[n].m_Level)
+				if (level != Obj.pntChaosBox[n].m_Level)
 				{
 					if (level == -1)
 					{
-						level = Obj.pChaosBox[n].m_Level;
+						level = Obj.pntChaosBox[n].m_Level;
 					}
 					else
 					{
@@ -584,16 +584,16 @@ int CMixSystem::CheckDevilSquareItem(CGameObject &Obj, int & eventitemcount, int
 					}
 				}
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 18))	// Key
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 18))	// Key
 			{
 				eventitemcount += 1;
 				bKeyOfDevil = TRUE;
 
-				if (level != Obj.pChaosBox[n].m_Level)
+				if (level != Obj.pntChaosBox[n].m_Level)
 				{
 					if (level == -1)
 					{
-						level = Obj.pChaosBox[n].m_Level;
+						level = Obj.pntChaosBox[n].m_Level;
 					}
 					else
 					{
@@ -601,9 +601,9 @@ int CMixSystem::CheckDevilSquareItem(CGameObject &Obj, int & eventitemcount, int
 					}
 				}
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
 			{
-				iCharmOfLuckCount += Obj.pChaosBox[n].m_Durability;
+				iCharmOfLuckCount += Obj.pntChaosBox[n].m_Durability;
 
 				if (iCharmOfLuckCount > 10)
 				{
@@ -656,9 +656,9 @@ void CMixSystem::LogDQChaosItem(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			::ItemIsBufExOption(ExOption, &Obj.pChaosBox[n]);
+			::ItemIsBufExOption(ExOption, &Obj.pntChaosBox[n]);
 
 		}
 	}
@@ -809,9 +809,9 @@ void CMixSystem::LogChaosItem(CGameObject &Obj, LPSTR sLogType)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			::ItemIsBufExOption(ExOption, &Obj.pChaosBox[n]);
+			::ItemIsBufExOption(ExOption, &Obj.pntChaosBox[n]);
 
 		}
 	}
@@ -840,62 +840,62 @@ BOOL CMixSystem::PlusItemLevelChaosMix(CGameObject &Obj, int mixType)
 
 	for (int n = 0; n<CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15))
 			{
 				ChaosGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 13))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 13))
 			{
 				BlessGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 14))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 14))
 			{
 				SoulGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
 			{
-				iCharmOfLuckCount += Obj.pChaosBox[n].m_Durability;
+				iCharmOfLuckCount += Obj.pntChaosBox[n].m_Durability;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 96))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 96))
 			{
 				iCharmOfAssembly++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 189)) // Elemental Charm of Luck
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 189)) // Elemental Charm of Luck
 			{
 				iElementalCharmOfLuckCount += 10; // Always 10%
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 190))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 190))
 			{
 				iElementalCharmOfAssembly++;
 			}
-			else if (Obj.pChaosBox[n].m_Level == 9)
+			else if (Obj.pntChaosBox[n].m_Level == 9)
 			{
 				Plus9ItemCount++;
 				PlusItemPos = n;
 			}
-			else if (Obj.pChaosBox[n].m_Level == 10)
+			else if (Obj.pntChaosBox[n].m_Level == 10)
 			{
 				Plus10ItemCount++;
 				PlusItemPos = n;
 			}
-			else if (Obj.pChaosBox[n].m_Level == 11)
+			else if (Obj.pntChaosBox[n].m_Level == 11)
 			{
 				Plus11ItemCount++;
 				PlusItemPos = n;
 			}
-			else if (Obj.pChaosBox[n].m_Level == 12)
+			else if (Obj.pntChaosBox[n].m_Level == 12)
 			{
 				Plus12ItemCount++;
 				PlusItemPos = n;
 			}
-			else if (Obj.pChaosBox[n].m_Level == 13)
+			else if (Obj.pntChaosBox[n].m_Level == 13)
 			{
 				Plus13ItemCount++;
 				PlusItemPos = n;
 			}
-			else if (Obj.pChaosBox[n].m_Level == 14)
+			else if (Obj.pntChaosBox[n].m_Level == 14)
 			{
 				Plus14ItemCount++;
 				PlusItemPos = n;
@@ -943,7 +943,7 @@ BOOL CMixSystem::PlusItemLevelChaosMix(CGameObject &Obj, int mixType)
 		return 0;
 	}
 
-	if (g_PentagramSystem.IsPentagramItem(Obj.pChaosBox[PlusItemPos].m_Type) == true)
+	if (g_PentagramSystem.IsPentagramItem(Obj.pntChaosBox[PlusItemPos].m_Type) == true)
 	{
 		if (iCharmOfLuckCount != 0 || iCharmOfAssembly != 0)
 		{
@@ -1089,7 +1089,7 @@ BOOL CMixSystem::PlusItemLevelChaosMix(CGameObject &Obj, int mixType)
 	{
 		Obj.ChaosSuccessRate = g_VipSystem.GetPlusItemMixRate(lpObj, mixType);
 
-		if (Obj.pChaosBox[PlusItemPos].m_Option2 != FALSE)	// if Have Luck
+		if (Obj.pntChaosBox[PlusItemPos].m_Option2 != FALSE)	// if Have Luck
 		{
 			Obj.ChaosSuccessRate += g_VipSystem.GetPlusItemAddLuckRate(lpObj);
 		}
@@ -1097,32 +1097,32 @@ BOOL CMixSystem::PlusItemLevelChaosMix(CGameObject &Obj, int mixType)
 
 	else
 	{
-		if (Obj.pChaosBox[PlusItemPos].m_Level == 9)
+		if (Obj.pntChaosBox[PlusItemPos].m_Level == 9)
 		{
 			Obj.ChaosSuccessRate = g_ConfigRead.mix.PlusItemLevel10Rate;
 		}
-		else if (Obj.pChaosBox[PlusItemPos].m_Level == 10)
+		else if (Obj.pntChaosBox[PlusItemPos].m_Level == 10)
 		{
 			Obj.ChaosSuccessRate = g_ConfigRead.mix.PlusItemLevel11Rate;
 		}
-		else if (Obj.pChaosBox[PlusItemPos].m_Level == 11)
+		else if (Obj.pntChaosBox[PlusItemPos].m_Level == 11)
 		{
 			Obj.ChaosSuccessRate = g_ConfigRead.mix.PlusItemLevel12Rate;
 		}
-		else if (Obj.pChaosBox[PlusItemPos].m_Level == 12)
+		else if (Obj.pntChaosBox[PlusItemPos].m_Level == 12)
 		{
 			Obj.ChaosSuccessRate = g_ConfigRead.mix.PlusItemLevel12Rate;
 		}
-		else if (Obj.pChaosBox[PlusItemPos].m_Level == 13)
+		else if (Obj.pntChaosBox[PlusItemPos].m_Level == 13)
 		{
 			Obj.ChaosSuccessRate = g_ConfigRead.mix.PlusItemLevel12Rate;
 		}
-		else if (Obj.pChaosBox[PlusItemPos].m_Level == 14)
+		else if (Obj.pntChaosBox[PlusItemPos].m_Level == 14)
 		{
 			Obj.ChaosSuccessRate = g_ConfigRead.mix.PlusItemLevel12Rate;
 		}
 
-		if (Obj.pChaosBox[PlusItemPos].m_Option2 != FALSE)	// if Have Luck
+		if (Obj.pntChaosBox[PlusItemPos].m_Option2 != FALSE)	// if Have Luck
 		{
 			Obj.ChaosSuccessRate += g_ConfigRead.mix.PlusItemAddLuckRate;
 		}
@@ -1136,39 +1136,39 @@ BOOL CMixSystem::PlusItemLevelChaosMix(CGameObject &Obj, int mixType)
 		Obj.ChaosSuccessRate = 100;
 	}
 
-	btItemLuckValue = Obj.pChaosBox[PlusItemPos].m_Option2;
+	btItemLuckValue = Obj.pntChaosBox[PlusItemPos].m_Option2;
 
 	int Result = rand() % 100;
 
 	if (Result < Obj.ChaosSuccessRate)
 	{
-		Obj.pChaosBox[PlusItemPos].m_Level++;
+		Obj.pntChaosBox[PlusItemPos].m_Level++;
 		pMsg.Result = CB_SUCCESS;
 
 		CItemObject Item;
 
-		Item.Convert(Obj.pChaosBox[PlusItemPos].m_Type, Obj.pChaosBox[PlusItemPos].m_Option1, Obj.pChaosBox[PlusItemPos].m_Option2, Obj.pChaosBox[PlusItemPos].m_Option3,
-			Obj.pChaosBox[PlusItemPos].m_NewOption, Obj.pChaosBox[PlusItemPos].m_SetOption, Obj.pChaosBox[PlusItemPos].m_ItemOptionEx, Obj.pChaosBox[PlusItemPos].m_SocketOption
-		, Obj.pChaosBox[PlusItemPos].m_BonusSocketOption, 0, 3);
+		Item.Convert(Obj.pntChaosBox[PlusItemPos].m_Type, Obj.pntChaosBox[PlusItemPos].m_Option1, Obj.pntChaosBox[PlusItemPos].m_Option2, Obj.pntChaosBox[PlusItemPos].m_Option3,
+			Obj.pntChaosBox[PlusItemPos].m_NewOption, Obj.pntChaosBox[PlusItemPos].m_SetOption, Obj.pntChaosBox[PlusItemPos].m_ItemOptionEx, Obj.pntChaosBox[PlusItemPos].m_SocketOption
+		, Obj.pntChaosBox[PlusItemPos].m_BonusSocketOption, 0, 3);
 
-		float Dur = ItemGetDurability(Obj.pChaosBox[PlusItemPos].m_Type, Obj.pChaosBox[PlusItemPos].m_Level,
-			Obj.pChaosBox[PlusItemPos].IsExtItem(), Obj.pChaosBox[PlusItemPos].IsSetItem());
+		float Dur = ItemGetDurability(Obj.pntChaosBox[PlusItemPos].m_Type, Obj.pntChaosBox[PlusItemPos].m_Level,
+			Obj.pntChaosBox[PlusItemPos].IsExtItem(), Obj.pntChaosBox[PlusItemPos].IsSetItem());
 
-		Item.m_Type = Obj.pChaosBox[PlusItemPos].m_Type;
-		Item.m_Level = Obj.pChaosBox[PlusItemPos].m_Level;
-		Item.m_Durability = Dur * Obj.pChaosBox[PlusItemPos].m_Durability / Obj.pChaosBox[PlusItemPos].m_BaseDurability;
-		Item.m_Option1 = Obj.pChaosBox[PlusItemPos].m_Option1;
-		Item.m_Option2 = Obj.pChaosBox[PlusItemPos].m_Option2;
-		Item.m_Option3 = Obj.pChaosBox[PlusItemPos].m_Option3;
-		Item.m_NewOption = Obj.pChaosBox[PlusItemPos].m_NewOption;
-		Item.m_ItemOptionEx = Obj.pChaosBox[PlusItemPos].m_ItemOptionEx;
-		Item.m_JewelOfHarmonyOption = Obj.pChaosBox[PlusItemPos].m_JewelOfHarmonyOption;
-		Item.m_SocketOption[0] = Obj.pChaosBox[PlusItemPos].m_SocketOption[0];
-		Item.m_SocketOption[1] = Obj.pChaosBox[PlusItemPos].m_SocketOption[1];
-		Item.m_SocketOption[2] = Obj.pChaosBox[PlusItemPos].m_SocketOption[2];
-		Item.m_SocketOption[3] = Obj.pChaosBox[PlusItemPos].m_SocketOption[3];
-		Item.m_SocketOption[4] = Obj.pChaosBox[PlusItemPos].m_SocketOption[4];
-		Item.m_BonusSocketOption = Obj.pChaosBox[PlusItemPos].m_BonusSocketOption;
+		Item.m_Type = Obj.pntChaosBox[PlusItemPos].m_Type;
+		Item.m_Level = Obj.pntChaosBox[PlusItemPos].m_Level;
+		Item.m_Durability = Dur * Obj.pntChaosBox[PlusItemPos].m_Durability / Obj.pntChaosBox[PlusItemPos].m_BaseDurability;
+		Item.m_Option1 = Obj.pntChaosBox[PlusItemPos].m_Option1;
+		Item.m_Option2 = Obj.pntChaosBox[PlusItemPos].m_Option2;
+		Item.m_Option3 = Obj.pntChaosBox[PlusItemPos].m_Option3;
+		Item.m_NewOption = Obj.pntChaosBox[PlusItemPos].m_NewOption;
+		Item.m_ItemOptionEx = Obj.pntChaosBox[PlusItemPos].m_ItemOptionEx;
+		Item.m_JewelOfHarmonyOption = Obj.pntChaosBox[PlusItemPos].m_JewelOfHarmonyOption;
+		Item.m_SocketOption[0] = Obj.pntChaosBox[PlusItemPos].m_SocketOption[0];
+		Item.m_SocketOption[1] = Obj.pntChaosBox[PlusItemPos].m_SocketOption[1];
+		Item.m_SocketOption[2] = Obj.pntChaosBox[PlusItemPos].m_SocketOption[2];
+		Item.m_SocketOption[3] = Obj.pntChaosBox[PlusItemPos].m_SocketOption[3];
+		Item.m_SocketOption[4] = Obj.pntChaosBox[PlusItemPos].m_SocketOption[4];
+		Item.m_BonusSocketOption = Obj.pntChaosBox[PlusItemPos].m_BonusSocketOption;
 
 		ItemByteConvert(pMsg.ItemInfo, Item);
 		ChaosBoxInit(lpObj);
@@ -1184,19 +1184,19 @@ BOOL CMixSystem::PlusItemLevelChaosMix(CGameObject &Obj, int mixType)
 	}
 	else if (iCharmOfAssembly == 0 && iElementalCharmOfAssembly == 0)
 	{
-		if (g_PentagramSystem.IsPentagramItem(&Obj.pChaosBox[PlusItemPos]) == true)
+		if (g_PentagramSystem.IsPentagramItem(&Obj.pntChaosBox[PlusItemPos]) == true)
 		{
-			g_PentagramSystem.DelPentagramJewelInfo(Obj.m_Index, &Obj.pChaosBox[PlusItemPos]);
+			g_PentagramSystem.DelPentagramJewelInfo(Obj.m_Index, &Obj.pntChaosBox[PlusItemPos]);
 		}
 
-		int FailLevel = Obj.pChaosBox[PlusItemPos].m_Level + 1;
+		int FailLevel = Obj.pntChaosBox[PlusItemPos].m_Level + 1;
 		ChaosBoxInit(lpObj);
 		gGameProtocol.GCUserChaosBoxSend(lpObj, 0);
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE *)&pMsg, pMsg.h.size);
 	}
 	else
 	{
-		int FailLevel = Obj.pChaosBox[PlusItemPos].m_Level + 1;
+		int FailLevel = Obj.pntChaosBox[PlusItemPos].m_Level + 1;
 		this->ChaosMixCharmItemUsed(lpObj);
 		gGameProtocol.GCUserChaosBoxSend(lpObj, 0);
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE *)&pMsg, pMsg.h.size);
@@ -1218,32 +1218,32 @@ void CMixSystem::PlusItemLevelMixTest(CGameObject &Obj, int type) // OK
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == 0)
+		if (Obj.pntChaosBox[n].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15))
+		if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15))
 		{
 			ChaosCount++;
 		}
-		else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 13))
+		else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 13))
 		{
 			BlessCount++;
 		}
-		else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 14))
+		else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 14))
 		{
 			SoulCount++;
 		}
-		else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 96))
+		else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 96))
 		{
 			ChaosAmulet++;
 		}
-		else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 190))
+		else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 190))
 		{
 			ElementalChaosAmulet++;
 		}
-		else if (Obj.pChaosBox[n].m_Level == (9 + type))
+		else if (Obj.pntChaosBox[n].m_Level == (9 + type))
 		{
 			ItemCount++;
 			ItemSlot = n;
@@ -1266,7 +1266,7 @@ void CMixSystem::PlusItemLevelMixTest(CGameObject &Obj, int type) // OK
 	{
 		Obj.ChaosSuccessRate = g_VipSystem.GetPlusItemMixRate(lpObj, type);
 
-		if (Obj.pChaosBox[ItemSlot].m_Option2 != FALSE)	// if Have Luck
+		if (Obj.pntChaosBox[ItemSlot].m_Option2 != FALSE)	// if Have Luck
 		{
 			Obj.ChaosSuccessRate += g_VipSystem.GetPlusItemAddLuckRate(lpObj);
 		}
@@ -1295,7 +1295,7 @@ void CMixSystem::PlusItemLevelMixTest(CGameObject &Obj, int type) // OK
 			break;
 		}
 
-		if (Obj.pChaosBox[ItemSlot].m_Option2 != FALSE)	// if Have Luck
+		if (Obj.pntChaosBox[ItemSlot].m_Option2 != FALSE)	// if Have Luck
 		{
 			Obj.ChaosSuccessRate += g_ConfigRead.mix.PlusItemAddLuckRate;
 		}
@@ -1328,28 +1328,28 @@ void CMixSystem::PlusItemLevelMixTest(CGameObject &Obj, int type) // OK
 	{
 		pMsg.Result = CB_SUCCESS;
 
-		CItemObject &item = Obj.pChaosBox[ItemSlot];
+		CItemObject &item = Obj.pntChaosBox[ItemSlot];
 
 		item.m_Level++;
 
 		item.m_Durability = (float)ItemGetDurability(item.m_Type, item.m_Level, item.IsExtItem(), item.IsSetItem());
 
-		item.m_Durability = (item.m_Durability*Obj.pChaosBox[ItemSlot].m_Durability) / item.m_BaseDurability;
+		item.m_Durability = (item.m_Durability*Obj.pntChaosBox[ItemSlot].m_Durability) / item.m_BaseDurability;
 
 		this->ChaosBoxInit(lpObj);
 
 		BYTE SocketOption[5];
 		BYTE SocketIndex;
-		g_SocketOptionSystem.GetSocketOption(&Obj.pChaosBox[ItemSlot], SocketOption, SocketIndex);
+		g_SocketOptionSystem.GetSocketOption(&Obj.pntChaosBox[ItemSlot], SocketOption, SocketIndex);
 
-		if (g_PentagramSystem.IsPentagramItem(&Obj.pChaosBox[ItemSlot]))
+		if (g_PentagramSystem.IsPentagramItem(&Obj.pntChaosBox[ItemSlot]))
 		{
 			for (int i = 0; i < 5; i++)
 			{
-				SocketOption[i] = Obj.pChaosBox[ItemSlot].m_SocketOption[i];
+				SocketOption[i] = Obj.pntChaosBox[ItemSlot].m_SocketOption[i];
 			}
 
-			SocketIndex = Obj.pChaosBox[ItemSlot].m_BonusSocketOption;
+			SocketIndex = Obj.pntChaosBox[ItemSlot].m_BonusSocketOption;
 		}
 
 		::gObjChaosBoxInsertItemPos(Obj.m_Index, item, 0, -1);
@@ -1370,12 +1370,12 @@ void CMixSystem::PlusItemLevelMixTest(CGameObject &Obj, int type) // OK
 
 		if (ChaosAmulet == 0 && ElementalChaosAmulet == 0)
 		{
-			if (g_PentagramSystem.IsPentagramItem(&Obj.pChaosBox[ItemSlot]) == true)
+			if (g_PentagramSystem.IsPentagramItem(&Obj.pntChaosBox[ItemSlot]) == true)
 			{
-				g_PentagramSystem.DelPentagramJewelInfo(Obj.m_Index, &Obj.pChaosBox[ItemSlot]);
+				g_PentagramSystem.DelPentagramJewelInfo(Obj.m_Index, &Obj.pntChaosBox[ItemSlot]);
 			}
 
-			int FailLevel = Obj.pChaosBox[ItemSlot].m_Level + 1;
+			int FailLevel = Obj.pntChaosBox[ItemSlot].m_Level + 1;
 
 			ChaosBoxInit(lpObj);
 
@@ -1398,15 +1398,15 @@ void CMixSystem::ChaosMixCharmItemUsed(CGameObject &Obj)
 {
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			Obj.pChaosBox[n].m_Level = 0;
+			Obj.pntChaosBox[n].m_Level = 0;
 
-			int iItemCode = Obj.pChaosBox[n].m_Type;
+			int iItemCode = Obj.pntChaosBox[n].m_Type;
 
 			if (this->IsDeleteItem(iItemCode) == TRUE)
 			{
-				Obj.pChaosBox[n].Clear();
+				Obj.pntChaosBox[n].Clear();
 				Obj.pChaosBoxMap[n] = -1;
 			}
 		}
@@ -1439,19 +1439,19 @@ BOOL CMixSystem::PegasiaChaosMix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(13, 2) && Obj.pChaosBox[n].m_Durability == 255.0f)	// Uniria
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(13, 2) && Obj.pntChaosBox[n].m_Durability == 255.0f)	// Uniria
 			{
 				UniriaCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15)) // Chaos Gem
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15)) // Chaos Gem
 			{
 				ChoasGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
 			{
-				iCharmOfLuckCount += Obj.pChaosBox[n].m_Durability;
+				iCharmOfLuckCount += Obj.pntChaosBox[n].m_Durability;
 			}
 		}
 	}
@@ -1550,19 +1550,19 @@ BOOL CMixSystem::CircleChaosMix(CGameObject &Obj)	// Fruits
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 22))	// Jewel of Creation
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 22))	// Jewel of Creation
 			{
 				CreatureGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15)) // Chaos Gem
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15)) // Chaos Gem
 			{
 				ChoasGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
 			{
-				iCharmOfLuckCount += Obj.pChaosBox[n].m_Durability;
+				iCharmOfLuckCount += Obj.pntChaosBox[n].m_Durability;
 			}
 		}
 	}
@@ -1686,27 +1686,27 @@ BOOL CMixSystem::WingChaosMix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if ((Obj.pChaosBox[n].m_Type >= ITEMGET(12, 3) && Obj.pChaosBox[n].m_Type <= ITEMGET(12, 6)) || Obj.pChaosBox[n].m_Type == ITEMGET(13, 30))
+			if ((Obj.pntChaosBox[n].m_Type >= ITEMGET(12, 3) && Obj.pntChaosBox[n].m_Type <= ITEMGET(12, 6)) || Obj.pntChaosBox[n].m_Type == ITEMGET(13, 30))
 			{
 				Obj.ChaosLock = FALSE;
 
 				return FALSE;
 			}
-			if ((Obj.pChaosBox[n].m_Type >= ITEMGET(12, 0) && Obj.pChaosBox[n].m_Type <= ITEMGET(12, 2)) || Obj.pChaosBox[n].m_Type == ITEMGET(12, 41))
+			if ((Obj.pntChaosBox[n].m_Type >= ITEMGET(12, 0) && Obj.pntChaosBox[n].m_Type <= ITEMGET(12, 2)) || Obj.pntChaosBox[n].m_Type == ITEMGET(12, 41))
 			{
 				WingCount++;
 				WingIndex = n;
-				iWingChaosMoney = Obj.pChaosBox[n].m_BuyMoney;
+				iWingChaosMoney = Obj.pntChaosBox[n].m_BuyMoney;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15)) // Chaos
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15)) // Chaos
 			{
 				ChoasGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(13, 14)) // Feather
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(13, 14)) // Feather
 			{
-				if (Obj.pChaosBox[n].m_Level == 0) // Feather
+				if (Obj.pntChaosBox[n].m_Level == 0) // Feather
 				{
 					LokesFeathersCount++;
 				}
@@ -1715,24 +1715,24 @@ BOOL CMixSystem::WingChaosMix(CGameObject &Obj)
 					iSleeveOfLord++;
 				}
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
 			{
-				iCharmOfLuckCount += Obj.pChaosBox[n].m_Durability;
+				iCharmOfLuckCount += Obj.pntChaosBox[n].m_Durability;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(13, 88) || //season4.5 add-on
-				Obj.pChaosBox[n].m_Type == ITEMGET(13, 89) ||
-				Obj.pChaosBox[n].m_Type == ITEMGET(13, 90) ||
-				Obj.pChaosBox[n].m_Type == ITEMGET(13, 91) ||
-				Obj.pChaosBox[n].m_Type == ITEMGET(13, 92))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(13, 88) || //season4.5 add-on
+				Obj.pntChaosBox[n].m_Type == ITEMGET(13, 89) ||
+				Obj.pntChaosBox[n].m_Type == ITEMGET(13, 90) ||
+				Obj.pntChaosBox[n].m_Type == ITEMGET(13, 91) ||
+				Obj.pntChaosBox[n].m_Type == ITEMGET(13, 92))
 			{
-				WingCharmItemNum = Obj.pChaosBox[n].m_Type;
+				WingCharmItemNum = Obj.pntChaosBox[n].m_Type;
 			}
 
-			else if (Obj.pChaosBox[n].IsExtItem() != FALSE)
+			else if (Obj.pntChaosBox[n].IsExtItem() != FALSE)
 			{
-				if (Obj.pChaosBox[n].m_Level >= 4)
+				if (Obj.pntChaosBox[n].m_Level >= 4)
 				{
-					iChaosMoney += Obj.pChaosBox[n].m_BuyMoney;
+					iChaosMoney += Obj.pntChaosBox[n].m_BuyMoney;
 				}
 			}
 		}
@@ -1808,7 +1808,7 @@ BOOL CMixSystem::WingChaosMix(CGameObject &Obj)
 		return TRUE;
 	}
 
-	CItemObject * pWing = &Obj.pChaosBox[WingIndex];
+	CItemObject * pWing = &Obj.pntChaosBox[WingIndex];
 	Obj.ChaosSuccessRate = (DWORD)((DWORD)iWingChaosMoney / (DWORD)4000000);
 	Obj.ChaosSuccessRate += iChaosMoney / 40000;
 
@@ -2010,7 +2010,7 @@ BOOL CMixSystem::WingChaosMix(CGameObject &Obj)
 	{
 		for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 		{
-			Obj.pChaosBox[n].Clear();
+			Obj.pntChaosBox[n].Clear();
 		}
 
 		gGameProtocol.GCUserChaosBoxSend(lpObj, 0);
@@ -2034,26 +2034,26 @@ BOOL CMixSystem::IllusionTempleItemChaosMix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15)) // Chaos
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15)) // Chaos
 			{
 				ChoasGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(13, 49)) // Old Scroll
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(13, 49)) // Old Scroll
 			{
 				OldScrollCount++;
-				OldScrollLevel = Obj.pChaosBox[n].m_Level;
+				OldScrollLevel = Obj.pntChaosBox[n].m_Level;
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(13, 50)) // Covenant
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(13, 50)) // Covenant
 			{
 				CovenantCount++;
-				CovenantLevel = Obj.pChaosBox[n].m_Level;
+				CovenantLevel = Obj.pntChaosBox[n].m_Level;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
 			{
-				iCharmOfLuckCount += Obj.pChaosBox[n].m_Durability;
+				iCharmOfLuckCount += Obj.pntChaosBox[n].m_Durability;
 			}
 
 		}
@@ -2211,7 +2211,7 @@ BOOL CMixSystem::IllusionTempleItemChaosMix(CGameObject &Obj)
 	{
 		for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 		{
-			Obj.pChaosBox[n].Clear();
+			Obj.pntChaosBox[n].Clear();
 		}
 
 		gGameProtocol.GCUserChaosBoxSend(lpObj, 0);
@@ -2302,31 +2302,31 @@ BOOL CMixSystem::FeatherOfCondorMix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == 0)
+		if (Obj.pntChaosBox[n].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15))
+		if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15))
 		{
 			ChaosCount++;
 		}
-		else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 22))
+		else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 22))
 		{
 			CreationCount++;
 		}
-		else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 31) && Obj.pChaosBox[n].m_Level == 0)
+		else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 31) && Obj.pntChaosBox[n].m_Level == 0)
 		{
 			SoulPack10++;
 		}
-		else if (((Obj.pChaosBox[n].m_Type >= ITEMGET(12, 3) && Obj.pChaosBox[n].m_Type <= ITEMGET(12, 6)) || Obj.pChaosBox[n].m_Type == ITEMGET(12, 42) || Obj.pChaosBox[n].m_Type == ITEMGET(12, 49) || Obj.pChaosBox[n].m_Type == ITEMGET(13, 30) || Obj.pChaosBox[n].m_Type == ITEMGET(12, 269)) && (Obj.pChaosBox[n].m_Level >= 9 && Obj.pChaosBox[n].m_Option3 >= 1))
+		else if (((Obj.pntChaosBox[n].m_Type >= ITEMGET(12, 3) && Obj.pntChaosBox[n].m_Type <= ITEMGET(12, 6)) || Obj.pntChaosBox[n].m_Type == ITEMGET(12, 42) || Obj.pntChaosBox[n].m_Type == ITEMGET(12, 49) || Obj.pntChaosBox[n].m_Type == ITEMGET(13, 30) || Obj.pntChaosBox[n].m_Type == ITEMGET(12, 269)) && (Obj.pntChaosBox[n].m_Level >= 9 && Obj.pntChaosBox[n].m_Option3 >= 1))
 		{
 			WingCount++;
 		}
-		else if (Obj.pChaosBox[n].IsSetItem() != 0 && Obj.pChaosBox[n].m_Level >= 7 && Obj.pChaosBox[n].m_Option3 >= 1)
+		else if (Obj.pntChaosBox[n].IsSetItem() != 0 && Obj.pntChaosBox[n].m_Level >= 7 && Obj.pntChaosBox[n].m_Option3 >= 1)
 		{
 			ItemCount++;
-			ItemMoney += Obj.pChaosBox[n].m_BuyMoney;
+			ItemMoney += Obj.pntChaosBox[n].m_BuyMoney;
 		}
 	}
 
@@ -2404,44 +2404,44 @@ BOOL CMixSystem::AdvancedWingMix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if ((Obj.pChaosBox[n].m_Type >= ITEMGET(12, 0) && Obj.pChaosBox[n].m_Type <= ITEMGET(12, 6)) || Obj.pChaosBox[n].m_Type == ITEMGET(13, 30))
+			if ((Obj.pntChaosBox[n].m_Type >= ITEMGET(12, 0) && Obj.pntChaosBox[n].m_Type <= ITEMGET(12, 6)) || Obj.pntChaosBox[n].m_Type == ITEMGET(13, 30))
 			{
 				Obj.ChaosLock = FALSE;
 
 				return FALSE;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15)) // Chaos
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15)) // Chaos
 			{
 				ChoasGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 31)) // Bundle of Soul
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 31)) // Bundle of Soul
 			{
 				BundleOfSoulCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 30)) // Bundle of Bless
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 30)) // Bundle of Bless
 			{
 				BundleOfBlessCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 137)) // Jewel of Creation Bundle
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 137)) // Jewel of Creation Bundle
 			{
 				BundleOfCreationCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 140)) // Harmony Bundle
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 140)) // Harmony Bundle
 			{
 				BundleOfHarmonyCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 53)) // Charm Of Luck
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 53)) // Charm Of Luck
 			{
-				iCharmOfLuckCount += Obj.pChaosBox[n].m_Durability;
+				iCharmOfLuckCount += Obj.pntChaosBox[n].m_Durability;
 			}
-			/*	else if ( Obj.pChaosBox[n].IsExtItem() != FALSE) //Exc Item
+			/*	else if ( Obj.pntChaosBox[n].IsExtItem() != FALSE) //Exc Item
 			{
-			if ( Obj.pChaosBox[n].m_Level >= 9 && Obj.pChaosBox[n].m_Option3 >= 1 )
+			if ( Obj.pntChaosBox[n].m_Level >= 9 && Obj.pntChaosBox[n].m_Option3 >= 1 )
 			{
 			ExCItemObjectCount++;
-			iChaosMoney += Obj.pChaosBox[n].m_BuyMoney;
+			iChaosMoney += Obj.pntChaosBox[n].m_BuyMoney;
 			}
 			}*/
 		}
@@ -2629,41 +2629,41 @@ BOOL CMixSystem::ThirdWingLevel2ChaosMix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == this->CHAOS_GEM_ITEMINDEX) // Chaos
+			if (Obj.pntChaosBox[n].m_Type == this->CHAOS_GEM_ITEMINDEX) // Chaos
 			{
 				ChoasGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == this->SOUL_GEM_BULDLE_ITEMINDEX) // Bundle of Soul
+			else if (Obj.pntChaosBox[n].m_Type == this->SOUL_GEM_BULDLE_ITEMINDEX) // Bundle of Soul
 			{
 				BundleOfSoulCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == this->BLESS_GEM_BUNDLE_ITEMINDEX) // Bundle of Bless
+			else if (Obj.pntChaosBox[n].m_Type == this->BLESS_GEM_BUNDLE_ITEMINDEX) // Bundle of Bless
 			{
 				BundleOfBlessCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == this->CREATURE_GEM_ITEMINDEX) // Jewel of Creation
+			else if (Obj.pntChaosBox[n].m_Type == this->CREATURE_GEM_ITEMINDEX) // Jewel of Creation
 			{
 				JewelOfCreationCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == this->CONDOR_FLAME_ITEMINDEX) // Condor Flame
+			else if (Obj.pntChaosBox[n].m_Type == this->CONDOR_FLAME_ITEMINDEX) // Condor Flame
 			{
 				CondorFlameCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == this->CONDOR_FEATHER_ITEMINDEX) // Condor Feather
+			else if (Obj.pntChaosBox[n].m_Type == this->CONDOR_FEATHER_ITEMINDEX) // Condor Feather
 			{
 				CondorFeatherCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 53)) // Charm Of Luck
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 53)) // Charm Of Luck
 			{
-				iCharmOfLuckCount += Obj.pChaosBox[n].m_Durability;
+				iCharmOfLuckCount += Obj.pntChaosBox[n].m_Durability;
 			}
 
-			else if (this->CheckLevelCondition(&Obj.pChaosBox[n], 7, 0, 0, 1, 0, 1) != FALSE)
+			else if (this->CheckLevelCondition(&Obj.pntChaosBox[n], 7, 0, 0, 1, 0, 1) != FALSE)
 			{
 				ExCItemObjectCount++;
-				iChaosMoney += Obj.pChaosBox[n].m_BuyMoney;
+				iChaosMoney += Obj.pntChaosBox[n].m_BuyMoney;
 			}
 		}
 	}
@@ -2893,23 +2893,23 @@ void CMixSystem::ThirdWingMixFail(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++) //loc2
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Check2ndWingItem(Obj.pChaosBox[n].m_Type) != FALSE)
+			if (Check2ndWingItem(Obj.pntChaosBox[n].m_Type) != FALSE)
 			{
-				ThirdWingMixFailItemPanalty(&Obj.pChaosBox[n]);
+				ThirdWingMixFailItemPanalty(&Obj.pntChaosBox[n]);
 			}
-			else if (CheckLevelCondition(&Obj.pChaosBox[n], 0, 0, 0, 0, 1, 0) != FALSE)
+			else if (CheckLevelCondition(&Obj.pntChaosBox[n], 0, 0, 0, 0, 1, 0) != FALSE)
 			{
-				ThirdWingMixFailItemPanalty(&Obj.pChaosBox[n]);
+				ThirdWingMixFailItemPanalty(&Obj.pntChaosBox[n]);
 			}
-			else if (CheckLevelCondition(&Obj.pChaosBox[n], 0, 0, 0, 0, 0, 1) != FALSE)
+			else if (CheckLevelCondition(&Obj.pntChaosBox[n], 0, 0, 0, 0, 0, 1) != FALSE)
 			{
-				ThirdWingMixFailItemPanalty(&Obj.pChaosBox[n]);
+				ThirdWingMixFailItemPanalty(&Obj.pntChaosBox[n]);
 			}
 			else
 			{
-				Obj.pChaosBox[n].Clear();
+				Obj.pntChaosBox[n].Clear();
 			}
 		}
 	}
@@ -3106,58 +3106,58 @@ void CMixSystem::SetItemChaosMix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 13))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 13))
 			{
 				BlessGemCount++;
 
 				if (BlessGemCount > 3)
 				{
-					iChaosMoney += Obj.pChaosBox[n].m_BuyMoney;
+					iChaosMoney += Obj.pntChaosBox[n].m_BuyMoney;
 				}
 			}
 
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 14))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 14))
 			{
 				SoulGemCount++;
 
 				if (SoulGemCount > 3)
 				{
-					iChaosMoney += Obj.pChaosBox[n].m_BuyMoney;
+					iChaosMoney += Obj.pntChaosBox[n].m_BuyMoney;
 				}
 			}
 
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 16))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 16))
 			{
-				iChaosMoney += Obj.pChaosBox[n].m_BuyMoney;
+				iChaosMoney += Obj.pntChaosBox[n].m_BuyMoney;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15))
 			{
 				ChoasGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Level >= 6 && Obj.pChaosBox[n].IsExtItem() != FALSE)
+			else if (Obj.pntChaosBox[n].m_Level >= 6 && Obj.pntChaosBox[n].IsExtItem() != FALSE)
 			{
-				if (Obj.pChaosBox[n].IsSetItem() != FALSE)
+				if (Obj.pntChaosBox[n].IsSetItem() != FALSE)
 				{
 					MixItemCount++;
 					MixSetItemIndex = n;
-					iMixItemChaosMoney += Obj.pChaosBox[n].m_BuyMoney;
+					iMixItemChaosMoney += Obj.pntChaosBox[n].m_BuyMoney;
 				}
 			}
-			else if (((Obj.pChaosBox[n].m_Type >= ITEMGET(13, 8) && Obj.pChaosBox[n].m_Type < ITEMGET(13, 14)) || (Obj.pChaosBox[n].m_Type >= ITEMGET(13, 20) && Obj.pChaosBox[n].m_Type < ITEMGET(13, 28))) && (Obj.pChaosBox[n].m_Option3 >= 2 && Obj.pChaosBox[n].m_Level >= 3))
+			else if (((Obj.pntChaosBox[n].m_Type >= ITEMGET(13, 8) && Obj.pntChaosBox[n].m_Type < ITEMGET(13, 14)) || (Obj.pntChaosBox[n].m_Type >= ITEMGET(13, 20) && Obj.pntChaosBox[n].m_Type < ITEMGET(13, 28))) && (Obj.pntChaosBox[n].m_Option3 >= 2 && Obj.pntChaosBox[n].m_Level >= 3))
 			{
-				if (Obj.pChaosBox[n].IsSetItem() != FALSE)
+				if (Obj.pntChaosBox[n].IsSetItem() != FALSE)
 				{
 					MixItemCount++;
 					MixSetItemIndex = n;
-					iMixItemChaosMoney += Obj.pChaosBox[n].m_BuyMoney;
+					iMixItemChaosMoney += Obj.pntChaosBox[n].m_BuyMoney;
 				}
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 27)) // Ancien Metal, Apply Deathway Fix here
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 27)) // Ancien Metal, Apply Deathway Fix here
 			{
 				MetalOfAncientCount++;
-				iMetalOfAncientItemLevel = Obj.pChaosBox[n].m_Level;
+				iMetalOfAncientItemLevel = Obj.pntChaosBox[n].m_Level;
 			}
 			else
 			{
@@ -3174,7 +3174,7 @@ void CMixSystem::SetItemChaosMix(CGameObject &Obj)
 		return;
 	}
 
-	if (gSetItemOption.CheckMixContition(Obj.pChaosBox[MixSetItemIndex].m_Type, iMetalOfAncientItemLevel) == FALSE)
+	if (gSetItemOption.CheckMixContition(Obj.pntChaosBox[MixSetItemIndex].m_Type, iMetalOfAncientItemLevel) == FALSE)
 	{
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 		Obj.ChaosLock = FALSE;
@@ -3201,7 +3201,7 @@ void CMixSystem::SetItemChaosMix(CGameObject &Obj)
 		return;
 	}
 
-	int setoption = gSetItemOption.MakeSetOption(Obj.pChaosBox[MixSetItemIndex].m_Type, iMetalOfAncientItemLevel);
+	int setoption = gSetItemOption.MakeSetOption(Obj.pntChaosBox[MixSetItemIndex].m_Type, iMetalOfAncientItemLevel);
 
 	if (setoption == 0)
 	{
@@ -3217,32 +3217,32 @@ void CMixSystem::SetItemChaosMix(CGameObject &Obj)
 
 	if ((rand() % 100) < Obj.ChaosSuccessRate)
 	{
-		Obj.pChaosBox[MixSetItemIndex].m_SetOption = setoption;
+		Obj.pntChaosBox[MixSetItemIndex].m_SetOption = setoption;
 
 		if ((rand() % 100) < 80)
 		{
-			Obj.pChaosBox[MixSetItemIndex].m_SetOption |= 4;
+			Obj.pntChaosBox[MixSetItemIndex].m_SetOption |= 4;
 		}
 		else
 		{
-			Obj.pChaosBox[MixSetItemIndex].m_SetOption |= 8;
+			Obj.pntChaosBox[MixSetItemIndex].m_SetOption |= 8;
 		}
 
 		pMsg.Result = CB_SUCCESS;
 		CItemObject Item;
 
-		float Dur = ItemGetDurability(Obj.pChaosBox[MixSetItemIndex].m_Type, Obj.pChaosBox[MixSetItemIndex].m_Level,
-			Obj.pChaosBox[MixSetItemIndex].IsExtItem(), gSetItemOption.IsSetItem(Obj.pChaosBox[MixSetItemIndex].m_Type));
+		float Dur = ItemGetDurability(Obj.pntChaosBox[MixSetItemIndex].m_Type, Obj.pntChaosBox[MixSetItemIndex].m_Level,
+			Obj.pntChaosBox[MixSetItemIndex].IsExtItem(), gSetItemOption.IsSetItem(Obj.pntChaosBox[MixSetItemIndex].m_Type));
 
-		Item.m_Level = Obj.pChaosBox[MixSetItemIndex].m_Level;
-		Item.m_Durability = Dur * Obj.pChaosBox[MixSetItemIndex].m_Durability / Obj.pChaosBox[MixSetItemIndex].m_BaseDurability;
-		Item.m_JewelOfHarmonyOption = Obj.pChaosBox[MixSetItemIndex].m_JewelOfHarmonyOption;
+		Item.m_Level = Obj.pntChaosBox[MixSetItemIndex].m_Level;
+		Item.m_Durability = Dur * Obj.pntChaosBox[MixSetItemIndex].m_Durability / Obj.pntChaosBox[MixSetItemIndex].m_BaseDurability;
+		Item.m_JewelOfHarmonyOption = Obj.pntChaosBox[MixSetItemIndex].m_JewelOfHarmonyOption;
 
-		Item.Convert(Obj.pChaosBox[MixSetItemIndex].m_Type, Obj.pChaosBox[MixSetItemIndex].m_Option1, Obj.pChaosBox[MixSetItemIndex].m_Option2,
-			Obj.pChaosBox[MixSetItemIndex].m_Option3, Obj.pChaosBox[MixSetItemIndex].m_NewOption,
-			Obj.pChaosBox[MixSetItemIndex].m_SetOption, Obj.pChaosBox[MixSetItemIndex].m_ItemOptionEx, Obj.pChaosBox[MixSetItemIndex].m_SocketOption, Obj.pChaosBox[MixSetItemIndex].m_BonusSocketOption, 0, CURRENT_DB_VERSION);
+		Item.Convert(Obj.pntChaosBox[MixSetItemIndex].m_Type, Obj.pntChaosBox[MixSetItemIndex].m_Option1, Obj.pntChaosBox[MixSetItemIndex].m_Option2,
+			Obj.pntChaosBox[MixSetItemIndex].m_Option3, Obj.pntChaosBox[MixSetItemIndex].m_NewOption,
+			Obj.pntChaosBox[MixSetItemIndex].m_SetOption, Obj.pntChaosBox[MixSetItemIndex].m_ItemOptionEx, Obj.pntChaosBox[MixSetItemIndex].m_SocketOption, Obj.pntChaosBox[MixSetItemIndex].m_BonusSocketOption, 0, CURRENT_DB_VERSION);
 
-		Item.m_Number = Obj.pChaosBox[MixSetItemIndex].m_Number;
+		Item.m_Number = Obj.pntChaosBox[MixSetItemIndex].m_Number;
 
 		ItemByteConvert(pMsg.ItemInfo, Item);
 		ChaosBoxInit(lpObj);
@@ -3283,31 +3283,31 @@ void CMixSystem::DarkHorseChaosMix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 13))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 13))
 			{
 				BlessGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 14))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 14))
 			{
 				SoulGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 22))	// Creation
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 22))	// Creation
 			{
 				CreatureGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15))	// SUPE CHOAS HAHAHA
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15))	// SUPE CHOAS HAHAHA
 			{
 				ChoasGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(13, 31) && Obj.pChaosBox[n].m_Level == 0)	// Spirit
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(13, 31) && Obj.pntChaosBox[n].m_Level == 0)	// Spirit
 			{
 				SoulOfDarkHorse++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
 			{
-				iCharmOfLuckCount += Obj.pChaosBox[n].m_Durability;
+				iCharmOfLuckCount += Obj.pntChaosBox[n].m_Durability;
 			}
 			else
 			{
@@ -3449,31 +3449,31 @@ void CMixSystem::DarkSpiritChaosMix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 13))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 13))
 			{
 				BlessGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 14))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 14))
 			{
 				SoulGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 22))	// Creation
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 22))	// Creation
 			{
 				CreatureGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15))	// SUPE CHOAS HAHAHA
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15))	// SUPE CHOAS HAHAHA
 			{
 				ChoasGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(13, 31) && Obj.pChaosBox[n].m_Level == 1)	// Spirit
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(13, 31) && Obj.pntChaosBox[n].m_Level == 1)	// Spirit
 			{
 				SoulOfSpirit++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
 			{
-				iCharmOfLuckCount += Obj.pChaosBox[n].m_Durability;
+				iCharmOfLuckCount += Obj.pntChaosBox[n].m_Durability;
 			}
 			else
 			{
@@ -3609,9 +3609,9 @@ void CMixSystem::BlessPotionChaosMix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 13))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 13))
 			{
 				iBlessGemCount++;
 			}
@@ -3703,9 +3703,9 @@ void CMixSystem::SoulPotionChaosMix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 14))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 14))
 			{
 				iSoulGemCount++;
 			}
@@ -3802,21 +3802,21 @@ void CMixSystem::LifeStoneChaosMix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 13))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 13))
 			{
 				iBlessGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 14))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 14))
 			{
 				iSoulGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 31))	// Guardian Jewel
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 31))	// Guardian Jewel
 			{
 				iProtectionGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15))	// Habla pe super CHOAS
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15))	// Habla pe super CHOAS
 			{
 				iChoasGemCount++;
 			}
@@ -3942,17 +3942,17 @@ void CMixSystem::CastleSpecialItemMix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 30))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 30))
 			{
-				iBlessGemMixCount += Obj.pChaosBox[n].m_Level + 1;
+				iBlessGemMixCount += Obj.pntChaosBox[n].m_Level + 1;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 31))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 31))
 			{
-				iSoulGemMixCount += Obj.pChaosBox[n].m_Level + 1;
+				iSoulGemMixCount += Obj.pntChaosBox[n].m_Level + 1;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 31))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 31))
 			{
 				iDefendGemCount++;
 			}
@@ -4046,11 +4046,11 @@ void CMixSystem::HiddenTreasureBoxItemMix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 26))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 26))
 			{
-				switch (Obj.pChaosBox[n].m_Level)
+				switch (Obj.pntChaosBox[n].m_Level)
 				{
 				case 1:
 					iRedCrystal++;
@@ -4185,23 +4185,23 @@ void CMixSystem::Fenrir_01Level_Mix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(13, 32))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(13, 32))
 			{
-				iStuffCount_01 += Obj.pChaosBox[n].m_Durability;
+				iStuffCount_01 += Obj.pntChaosBox[n].m_Durability;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(13, 33))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(13, 33))
 			{
-				iStuffCount_02 += Obj.pChaosBox[n].m_Durability;
+				iStuffCount_02 += Obj.pntChaosBox[n].m_Durability;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15))
 			{
 				iChaosGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
 			{
-				iCharmOfLuckCount += Obj.pChaosBox[n].m_Durability;
+				iCharmOfLuckCount += Obj.pntChaosBox[n].m_Durability;
 			}
 			else
 			{
@@ -4307,23 +4307,23 @@ void CMixSystem::Fenrir_02Level_Mix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(13, 34))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(13, 34))
 			{
-				iStuffCount_01 += Obj.pChaosBox[n].m_Durability;
+				iStuffCount_01 += Obj.pntChaosBox[n].m_Durability;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(13, 35))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(13, 35))
 			{
 				iStuffCount_02++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15))
 			{
 				iChaosGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
 			{
-				iCharmOfLuckCount += Obj.pChaosBox[n].m_Durability;
+				iCharmOfLuckCount += Obj.pntChaosBox[n].m_Durability;
 			}
 			else
 			{
@@ -4431,23 +4431,23 @@ void CMixSystem::Fenrir_03Level_Mix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(13, 36))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(13, 36))
 			{
 				iStuffCount_01++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 16))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 16))
 			{
 				iLifeGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15))
 			{
 				iChaosGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
 			{
-				iCharmOfLuckCount += Obj.pChaosBox[n].m_Durability;
+				iCharmOfLuckCount += Obj.pntChaosBox[n].m_Durability;
 			}
 			else
 			{
@@ -4560,39 +4560,39 @@ void CMixSystem::Fenrir_04Upgrade_Mix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(13, 37) && Obj.pChaosBox[n].IsPeriodItem() == FALSE)
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(13, 37) && Obj.pntChaosBox[n].IsPeriodItem() == FALSE)
 			{
 				iStuffCount_01++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 16))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 16))
 			{
 				iLifeGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15))
 			{
 				iChaosGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type >= ITEMGET(0, 0) &&
-				Obj.pChaosBox[n].m_Type < ITEMGET(6, 0) &&
-				Obj.pChaosBox[n].m_Level >= 4 &&
-				Obj.pChaosBox[n].m_Option3 >= 1)
+			else if (Obj.pntChaosBox[n].m_Type >= ITEMGET(0, 0) &&
+				Obj.pntChaosBox[n].m_Type < ITEMGET(6, 0) &&
+				Obj.pntChaosBox[n].m_Level >= 4 &&
+				Obj.pntChaosBox[n].m_Option3 >= 1)
 			{
 				iAttackStuffCount++;
-				iAttackStuffPrice += Obj.pChaosBox[n].m_BuyMoney;
+				iAttackStuffPrice += Obj.pntChaosBox[n].m_BuyMoney;
 			}
-			else if (Obj.pChaosBox[n].m_Type >= ITEMGET(6, 0) &&
-				Obj.pChaosBox[n].m_Type < ITEMGET(12, 0) &&
-				Obj.pChaosBox[n].m_Level >= 4 &&
-				Obj.pChaosBox[n].m_Option3 >= 1)
+			else if (Obj.pntChaosBox[n].m_Type >= ITEMGET(6, 0) &&
+				Obj.pntChaosBox[n].m_Type < ITEMGET(12, 0) &&
+				Obj.pntChaosBox[n].m_Level >= 4 &&
+				Obj.pntChaosBox[n].m_Option3 >= 1)
 			{
 				iDefendStuffCount++;
-				iDefendStuffPrice += Obj.pChaosBox[n].m_BuyMoney;
+				iDefendStuffPrice += Obj.pntChaosBox[n].m_BuyMoney;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
 			{
-				iCharmOfLuckCount += Obj.pChaosBox[n].m_Durability;
+				iCharmOfLuckCount += Obj.pntChaosBox[n].m_Durability;
 			}
 			else
 			{
@@ -4748,15 +4748,15 @@ void CMixSystem::ShieldPotionLv1_Mix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 3))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 3))
 			{
-				iHealthPotionCount += Obj.pChaosBox[n].m_Durability;
+				iHealthPotionCount += Obj.pntChaosBox[n].m_Durability;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
 			{
-				iCharmOfLuckCount += Obj.pChaosBox[n].m_Durability;
+				iCharmOfLuckCount += Obj.pntChaosBox[n].m_Durability;
 			}
 			else
 			{
@@ -4857,15 +4857,15 @@ void CMixSystem::ShieldPotionLv2_Mix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 38))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 38))
 			{
-				iHealthPotionCount += Obj.pChaosBox[n].m_Durability;
+				iHealthPotionCount += Obj.pntChaosBox[n].m_Durability;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
 			{
-				iCharmOfLuckCount += Obj.pChaosBox[n].m_Durability;
+				iCharmOfLuckCount += Obj.pntChaosBox[n].m_Durability;
 			}
 			else
 			{
@@ -4964,15 +4964,15 @@ void CMixSystem::ShieldPotionLv3_Mix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 39))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 39))
 			{
-				iHealthPotionCount += Obj.pChaosBox[n].m_Durability;
+				iHealthPotionCount += Obj.pntChaosBox[n].m_Durability;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 53))	// Charm Of Luck
 			{
-				iCharmOfLuckCount += Obj.pChaosBox[n].m_Durability;
+				iCharmOfLuckCount += Obj.pntChaosBox[n].m_Durability;
 			}
 			else
 			{
@@ -5073,27 +5073,27 @@ void CMixSystem::LotteryItemMix(CGameObject &Obj, int type)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == 0)
+		if (Obj.pntChaosBox[n].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 54))
+		if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 54))
 		{
 			type = 1;
 			ChaosCardCount++;
 		}
-		else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 92))
+		else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 92))
 		{
 			type = 2;
 			ChaosCardGoldCount++;
 		}
-		else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 93))
+		else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 93))
 		{
 			type = 3;
 			ChaosCardRareCount++;
 		}
-		else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 95))
+		else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 95))
 		{
 			type = 4;
 			ChaosCardMiniCount++;
@@ -5195,11 +5195,11 @@ BOOL CMixSystem::SeedExtractMixS12(CGameObject &Obj, BYTE AncientPos, BYTE ExePo
 	int isWind = 0;
 	int isEarth = 0;
 	BOOL cont = false;
-	lpAncientItem = &Obj.pInventory[AncientPos];
-	lpExeItem = &Obj.pInventory[ExePos];
-	lpJohItem = &Obj.pInventory[JOHPos];
-	lpJoCItemObject = &Obj.pInventory[JOCPos];
-	lpChaosItem = &Obj.pInventory[ChaosPos];
+	lpAncientItem = &Obj.pntInventory[AncientPos];
+	lpExeItem = &Obj.pntInventory[ExePos];
+	lpJohItem = &Obj.pntInventory[JOHPos];
+	lpJoCItemObject = &Obj.pntInventory[JOCPos];
+	lpChaosItem = &Obj.pntInventory[ChaosPos];
 
 	PMSG_SEEDRESULT pMsg;
 	PHeadSetB((BYTE*)&pMsg.h, 0x78, sizeof(PMSG_SEEDRESULT));
@@ -5261,23 +5261,23 @@ BOOL CMixSystem::SeedExtractMixS12(CGameObject &Obj, BYTE AncientPos, BYTE ExePo
 	if (lpSeedData != NULL)
 	{
 		::gObjInventoryItemSet(Obj.m_Index, AncientPos, -1);
-		::Obj.pInventory[AncientPos]->Clear();
+		::Obj.pntInventory[AncientPos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, AncientPos, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, ExePos, -1);
-		::Obj.pInventory[ExePos]->Clear();
+		::Obj.pntInventory[ExePos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ExePos, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JOHPos, -1);
-		::Obj.pInventory[JOHPos]->Clear();
+		::Obj.pntInventory[JOHPos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JOHPos, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JOCPos, -1);
-		::Obj.pInventory[JOCPos]->Clear();
+		::Obj.pntInventory[JOCPos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JOCPos, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, ChaosPos, -1);
-		::Obj.pInventory[ChaosPos]->Clear();
+		::Obj.pntInventory[ChaosPos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ChaosPos, 1);
 
 		ItemCreate(Obj.m_Index, 235, 0, 0, lpSeedData->m_ItemCode, lpSeedData->m_ItemLevel, 0, 0, 0, 0, Obj.m_Index, 0, 0, 0, 0, 0);
@@ -5315,31 +5315,31 @@ void CMixSystem::SeedExtractMix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].IsExtItem() == TRUE && Obj.pChaosBox[n].m_Level >= 4)
+			if (Obj.pntChaosBox[n].IsExtItem() == TRUE && Obj.pntChaosBox[n].m_Level >= 4)
 			{
 				iExCItemObjectCount++;
-				iChaosMoney += Obj.pChaosBox[n].m_BuyMoney;
+				iChaosMoney += Obj.pntChaosBox[n].m_BuyMoney;
 				iExCItemObjectNum = n;
 			}
-			else if (Obj.pChaosBox[n].IsSetItem() != FALSE && Obj.pChaosBox[n].m_Level >= 4)
+			else if (Obj.pntChaosBox[n].IsSetItem() != FALSE && Obj.pntChaosBox[n].m_Level >= 4)
 			{
 				iSetItemCount++;
-				iChaosMoney += Obj.pChaosBox[n].m_BuyMoney;
+				iChaosMoney += Obj.pntChaosBox[n].m_BuyMoney;
 				iSetItemNum = n;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 42))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 42))
 			{
 				iHarmonyCount++;
 				iHarmonyItemNum = n;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15))
 			{
 				iChoasGemCount++;
 				iChoasGemItemNum = n;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 22))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 22))
 			{
 				iCreationGemCount++;
 				iCreationItemNum = n;
@@ -5398,11 +5398,11 @@ void CMixSystem::SeedExtractMix(CGameObject &Obj)
 
 	if (rand() % 100 > iSeedExtractRate)
 	{
-		Obj.pChaosBox[iSetItemNum].m_Level -= rand() % 3;
-		Obj.pChaosBox[iExCItemObjectNum].m_Level -= rand() % 3;
-		Obj.pChaosBox[iHarmonyItemNum].Clear();
-		Obj.pChaosBox[iChoasGemItemNum].Clear();
-		Obj.pChaosBox[iCreationItemNum].Clear();
+		Obj.pntChaosBox[iSetItemNum].m_Level -= rand() % 3;
+		Obj.pntChaosBox[iExCItemObjectNum].m_Level -= rand() % 3;
+		Obj.pntChaosBox[iHarmonyItemNum].Clear();
+		Obj.pntChaosBox[iChoasGemItemNum].Clear();
+		Obj.pntChaosBox[iCreationItemNum].Clear();
 		gGameProtocol.GCUserChaosBoxSend(lpObj, 0);
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 		Obj.ChaosLock = FALSE;
@@ -5424,11 +5424,11 @@ void CMixSystem::SeedExtractMix(CGameObject &Obj)
 	}
 	else
 	{
-		Obj.pChaosBox[iSetItemNum].m_Level -= rand() % 3;
-		Obj.pChaosBox[iExCItemObjectNum].m_Level -= rand() % 3;
-		Obj.pChaosBox[iHarmonyItemNum].Clear();
-		Obj.pChaosBox[iChoasGemItemNum].Clear();
-		Obj.pChaosBox[iCreationItemNum].Clear();
+		Obj.pntChaosBox[iSetItemNum].m_Level -= rand() % 3;
+		Obj.pntChaosBox[iExCItemObjectNum].m_Level -= rand() % 3;
+		Obj.pntChaosBox[iHarmonyItemNum].Clear();
+		Obj.pntChaosBox[iChoasGemItemNum].Clear();
+		Obj.pntChaosBox[iCreationItemNum].Clear();
 		gGameProtocol.GCUserChaosBoxSend(lpObj, 0);
 		sLog->outBasic("[%s][%s] Seed Extract Mix Failed - SeedData is NULL", Obj.AccountID, Obj.Name);
 		Obj.ChaosLock = FALSE;
@@ -5444,9 +5444,9 @@ BOOL CMixSystem::SeedSphereEnhance(CGameObject &Obj, BYTE Sphere1, BYTE Sphere2,
 	int Item = 0;
 	int ReqZen = 0;
 	int ReqRune = 0;
-	lpSphere1 = &Obj.pInventory[Sphere1];
-	lpSphere2 = &Obj.pInventory[Sphere2];
-	lpRune = &Obj.pInventory[Rune];
+	lpSphere1 = &Obj.pntInventory[Sphere1];
+	lpSphere2 = &Obj.pntInventory[Sphere2];
+	lpRune = &Obj.pntInventory[Rune];
 	CopyMemory(&lpNewSphere, &lpSphere1, sizeof(lpSphere1));
 
 	lpNewSphere.m_Type = lpSphere1->m_Type + 6;
@@ -5512,7 +5512,7 @@ BOOL CMixSystem::SeedSphereEnhance(CGameObject &Obj, BYTE Sphere1, BYTE Sphere2,
 	if (!gObjSearchItemMinus(&getGameObject(Obj.m_Index), Rune, ReqRune))
 	{
 		::gObjInventoryItemSet(Obj.m_Index, Rune, -1);
-		::Obj.pInventory[Rune]->Clear();
+		::Obj.pntInventory[Rune]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, Rune, 1);
 	}
 
@@ -5542,10 +5542,10 @@ BOOL CMixSystem::SeedSphereEnhance(CGameObject &Obj, BYTE Sphere1, BYTE Sphere2,
 
 		gObjInventoryCommit(Obj.m_Index);
 		::gObjInventoryItemSet(Obj.m_Index, Sphere1, -1);
-		::Obj.pInventory[Sphere1]->Clear();
+		::Obj.pntInventory[Sphere1]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, Sphere1, 1);
 		::gObjInventoryItemSet(Obj.m_Index, Sphere2, -1);
-		::Obj.pInventory[Sphere2]->Clear();
+		::Obj.pntInventory[Sphere2]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, Sphere2, 1);
 		return TRUE;
 	}
@@ -5555,7 +5555,7 @@ BOOL CMixSystem::SeedSphereEnhance(CGameObject &Obj, BYTE Sphere1, BYTE Sphere2,
 		gGameProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
 		gObjInventoryCommit(Obj.m_Index);
 		::gObjInventoryItemSet(Obj.m_Index, Sphere2, -1);
-		::Obj.pInventory[Sphere2]->Clear();
+		::Obj.pntInventory[Sphere2]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, Sphere2, 1);
 		return FALSE;
 	}
@@ -5580,20 +5580,20 @@ void CMixSystem::SeedSphereRemoveMixS12(CGameObject &Obj, BYTE ItemPos, BYTE Slo
 	int Item = 0;
 	int ReqZen = 0;
 	int ReqRune = 0;
-	lpSocketItem = &Obj.pInventory[ItemPos];
-	lpJog = &Obj.pInventory[JogPos];
+	lpSocketItem = &Obj.pntInventory[ItemPos];
+	lpJog = &Obj.pntInventory[JogPos];
 
-	lpJoh1 = &Obj.pInventory[JohPos1];
-	lpJoh2 = &Obj.pInventory[JohPos2];
-	lpJoh3 = &Obj.pInventory[JohPos3];
-	lpJoh4 = &Obj.pInventory[JohPos4];
-	lpJoh5 = &Obj.pInventory[JohPos5];
+	lpJoh1 = &Obj.pntInventory[JohPos1];
+	lpJoh2 = &Obj.pntInventory[JohPos2];
+	lpJoh3 = &Obj.pntInventory[JohPos3];
+	lpJoh4 = &Obj.pntInventory[JohPos4];
+	lpJoh5 = &Obj.pntInventory[JohPos5];
 
-	lpChaos1 = &Obj.pInventory[ChaosPos1];
-	lpChaos2 = &Obj.pInventory[ChaosPos2];
-	lpChaos3 = &Obj.pInventory[ChaosPos3];
-	lpChaos4 = &Obj.pInventory[ChaosPos4];
-	lpChaos5 = &Obj.pInventory[ChaosPos5];
+	lpChaos1 = &Obj.pntInventory[ChaosPos1];
+	lpChaos2 = &Obj.pntInventory[ChaosPos2];
+	lpChaos3 = &Obj.pntInventory[ChaosPos3];
+	lpChaos4 = &Obj.pntInventory[ChaosPos4];
+	lpChaos5 = &Obj.pntInventory[ChaosPos5];
 
 	PMSG_SEEDRESULT pMsg;
 	PHeadSetB((BYTE*)&pMsg.h, 0x78, sizeof(PMSG_SEEDRESULT));
@@ -5737,43 +5737,43 @@ void CMixSystem::SeedSphereRemoveMixS12(CGameObject &Obj, BYTE ItemPos, BYTE Slo
 		lpSocketItem->m_SocketOption, lpSocketItem->m_BonusSocketOption, 0, 3);
 
 	::gObjInventoryItemSet(Obj.m_Index, ItemPos, -1);
-	::Obj.pInventory[ItemPos]->Clear();
+	::Obj.pntInventory[ItemPos]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ItemPos, 1);
 
 	::gObjInventoryItemSet(Obj.m_Index, JogPos, -1);
-	::Obj.pInventory[JogPos]->Clear();
+	::Obj.pntInventory[JogPos]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JogPos, 1);
 
 	::gObjInventoryItemSet(Obj.m_Index, JohPos1, -1);
-	::Obj.pInventory[JohPos1]->Clear();
+	::Obj.pntInventory[JohPos1]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JohPos1, 1);
 	::gObjInventoryItemSet(Obj.m_Index, JohPos2, -1);
-	::Obj.pInventory[JohPos2]->Clear();
+	::Obj.pntInventory[JohPos2]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JohPos2, 1);
 	::gObjInventoryItemSet(Obj.m_Index, JohPos3, -1);
-	::Obj.pInventory[JohPos3]->Clear();
+	::Obj.pntInventory[JohPos3]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JohPos3, 1);
 	::gObjInventoryItemSet(Obj.m_Index, JohPos4, -1);
-	::Obj.pInventory[JohPos4]->Clear();
+	::Obj.pntInventory[JohPos4]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JohPos4, 1);
 	::gObjInventoryItemSet(Obj.m_Index, JohPos5, -1);
-	::Obj.pInventory[JohPos5]->Clear();
+	::Obj.pntInventory[JohPos5]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JohPos5, 1);
 
 	::gObjInventoryItemSet(Obj.m_Index, ChaosPos1, -1);
-	::Obj.pInventory[ChaosPos1]->Clear();
+	::Obj.pntInventory[ChaosPos1]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ChaosPos1, 1);
 	::gObjInventoryItemSet(Obj.m_Index, ChaosPos2, -1);
-	::Obj.pInventory[ChaosPos2]->Clear();
+	::Obj.pntInventory[ChaosPos2]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ChaosPos2, 1);
 	::gObjInventoryItemSet(Obj.m_Index, ChaosPos3, -1);
-	::Obj.pInventory[ChaosPos3]->Clear();
+	::Obj.pntInventory[ChaosPos3]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ChaosPos3, 1);
 	::gObjInventoryItemSet(Obj.m_Index, ChaosPos4, -1);
-	::Obj.pInventory[ChaosPos4]->Clear();
+	::Obj.pntInventory[ChaosPos4]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ChaosPos4, 1);
 	::gObjInventoryItemSet(Obj.m_Index, ChaosPos5, -1);
-	::Obj.pInventory[ChaosPos5]->Clear();
+	::Obj.pntInventory[ChaosPos5]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ChaosPos5, 1);
 	ItemCreate(Obj.m_Index, 235, 0, 0, NewItem.m_Type, NewItem.m_Level, 0, NewItem.m_Option1, NewItem.m_Option2, NewItem.m_Option3, Obj.m_Index, NewItem.m_NewOption, 0, 0, NewItem.m_SocketOption, NewItem.m_BonusSocketOption);
 	pMsg.Result1 = 1;
@@ -5808,21 +5808,21 @@ BOOL CMixSystem::SocketItemUpgradeMixS12(CGameObject &Obj, BYTE ItemPos, BYTE So
 	int HelmType = 0;
 	int SocketUpgNote = 0;
 
-	IsItem = &Obj.pInventory[ItemPos];
-	lpUpgradeNoteItem = &Obj.pInventory[SocketUpgradeNotePos];
-	JewelOfBless1 = &Obj.pInventory[JoBlessPos1];
-	JewelOfBless2 = &Obj.pInventory[JoBlessPos2];
-	JewelOfBless3 = &Obj.pInventory[JoBlessPos3];
-	JewelOfBless4 = &Obj.pInventory[JoBlessPos4];
-	JewelOfBless5 = &Obj.pInventory[JoBlessPos5];
+	IsItem = &Obj.pntInventory[ItemPos];
+	lpUpgradeNoteItem = &Obj.pntInventory[SocketUpgradeNotePos];
+	JewelOfBless1 = &Obj.pntInventory[JoBlessPos1];
+	JewelOfBless2 = &Obj.pntInventory[JoBlessPos2];
+	JewelOfBless3 = &Obj.pntInventory[JoBlessPos3];
+	JewelOfBless4 = &Obj.pntInventory[JoBlessPos4];
+	JewelOfBless5 = &Obj.pntInventory[JoBlessPos5];
 
-	JewelOfSoul1 = &Obj.pInventory[JoSoulPos1];
-	JewelOfSoul2 = &Obj.pInventory[JoSoulPos2];
-	JewelOfSoul3 = &Obj.pInventory[JoSoulPos3];
-	JewelOfSoul4 = &Obj.pInventory[JoSoulPos4];
-	JewelOfSoul5 = &Obj.pInventory[JoSoulPos5];
+	JewelOfSoul1 = &Obj.pntInventory[JoSoulPos1];
+	JewelOfSoul2 = &Obj.pntInventory[JoSoulPos2];
+	JewelOfSoul3 = &Obj.pntInventory[JoSoulPos3];
+	JewelOfSoul4 = &Obj.pntInventory[JoSoulPos4];
+	JewelOfSoul5 = &Obj.pntInventory[JoSoulPos5];
 
-	lpChaosItem = &Obj.pInventory[JoChaosPos];
+	lpChaosItem = &Obj.pntInventory[JoChaosPos];
 
 	PMSG_SEEDRESULT pMsg;
 	PHeadSetB((BYTE*)&pMsg.h, 0x78, sizeof(PMSG_SEEDRESULT));
@@ -6142,55 +6142,55 @@ BOOL CMixSystem::SocketItemUpgradeMixS12(CGameObject &Obj, BYTE ItemPos, BYTE So
 		//NewItem.Convert(NewItemType, IsItem->m_Option1, IsItem->m_Option2, IsItem->m_Option3, 0, 0, 0, IsItem->m_SocketOption, IsItem->m_BonusSocketOption, 0, 3);
 
 		::gObjInventoryItemSet(Obj.m_Index, ItemPos, -1);
-		::Obj.pInventory[ItemPos]->Clear();
+		::Obj.pntInventory[ItemPos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ItemPos, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, SocketUpgradeNotePos, -1);
-		::Obj.pInventory[SocketUpgradeNotePos]->Clear();
+		::Obj.pntInventory[SocketUpgradeNotePos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, SocketUpgradeNotePos, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoBlessPos1, -1);
-		::Obj.pInventory[JoBlessPos1]->Clear();
+		::Obj.pntInventory[JoBlessPos1]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoBlessPos1, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoBlessPos2, -1);
-		::Obj.pInventory[JoBlessPos2]->Clear();
+		::Obj.pntInventory[JoBlessPos2]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoBlessPos2, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoBlessPos3, -1);
-		::Obj.pInventory[JoBlessPos3]->Clear();
+		::Obj.pntInventory[JoBlessPos3]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoBlessPos3, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoBlessPos4, -1);
-		::Obj.pInventory[JoBlessPos4]->Clear();
+		::Obj.pntInventory[JoBlessPos4]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoBlessPos4, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoBlessPos5, -1);
-		::Obj.pInventory[JoBlessPos5]->Clear();
+		::Obj.pntInventory[JoBlessPos5]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoBlessPos5, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoSoulPos1, -1);
-		::Obj.pInventory[JoSoulPos1]->Clear();
+		::Obj.pntInventory[JoSoulPos1]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoSoulPos1, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoSoulPos2, -1);
-		::Obj.pInventory[JoSoulPos2]->Clear();
+		::Obj.pntInventory[JoSoulPos2]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoSoulPos2, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoSoulPos3, -1);
-		::Obj.pInventory[JoSoulPos3]->Clear();
+		::Obj.pntInventory[JoSoulPos3]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoSoulPos3, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoSoulPos4, -1);
-		::Obj.pInventory[JoSoulPos4]->Clear();
+		::Obj.pntInventory[JoSoulPos4]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoSoulPos4, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoSoulPos5, -1);
-		::Obj.pInventory[JoSoulPos5]->Clear();
+		::Obj.pntInventory[JoSoulPos5]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoSoulPos5, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoChaosPos, -1);
-		::Obj.pInventory[JoChaosPos]->Clear();
+		::Obj.pntInventory[JoChaosPos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoChaosPos, 1);
 
 		ItemCreate(Obj.m_Index, 235, 0, 0, NewItem.m_Type, 0, 0, NewItem.m_Option1, NewItem.m_Option2, NewItem.m_Option3, Obj.m_Index, 0, 0, 0, NewItem.m_SocketOption, NewItem.m_BonusSocketOption);
@@ -6205,51 +6205,51 @@ BOOL CMixSystem::SocketItemUpgradeMixS12(CGameObject &Obj, BYTE ItemPos, BYTE So
 	else
 	{
 		::gObjInventoryItemSet(Obj.m_Index, SocketUpgradeNotePos, -1);
-		::Obj.pInventory[SocketUpgradeNotePos]->Clear();
+		::Obj.pntInventory[SocketUpgradeNotePos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, SocketUpgradeNotePos, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoBlessPos1, -1);
-		::Obj.pInventory[JoBlessPos1]->Clear();
+		::Obj.pntInventory[JoBlessPos1]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoBlessPos1, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoBlessPos2, -1);
-		::Obj.pInventory[JoBlessPos2]->Clear();
+		::Obj.pntInventory[JoBlessPos2]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoBlessPos2, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoBlessPos3, -1);
-		::Obj.pInventory[JoBlessPos3]->Clear();
+		::Obj.pntInventory[JoBlessPos3]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoBlessPos3, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoBlessPos4, -1);
-		::Obj.pInventory[JoBlessPos4]->Clear();
+		::Obj.pntInventory[JoBlessPos4]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoBlessPos4, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoBlessPos5, -1);
-		::Obj.pInventory[JoBlessPos5]->Clear();
+		::Obj.pntInventory[JoBlessPos5]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoBlessPos5, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoSoulPos1, -1);
-		::Obj.pInventory[JoSoulPos1]->Clear();
+		::Obj.pntInventory[JoSoulPos1]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoSoulPos1, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoSoulPos2, -1);
-		::Obj.pInventory[JoSoulPos2]->Clear();
+		::Obj.pntInventory[JoSoulPos2]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoSoulPos2, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoSoulPos3, -1);
-		::Obj.pInventory[JoSoulPos3]->Clear();
+		::Obj.pntInventory[JoSoulPos3]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoSoulPos3, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoSoulPos4, -1);
-		::Obj.pInventory[JoSoulPos4]->Clear();
+		::Obj.pntInventory[JoSoulPos4]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoSoulPos4, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoSoulPos5, -1);
-		::Obj.pInventory[JoSoulPos5]->Clear();
+		::Obj.pntInventory[JoSoulPos5]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoSoulPos5, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoChaosPos, -1);
-		::Obj.pInventory[JoChaosPos]->Clear();
+		::Obj.pntInventory[JoChaosPos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoChaosPos, 1);
 
 		pMsg.Result1 = 0;
@@ -6278,10 +6278,10 @@ void CMixSystem::SeedSphereCompositeMixS12(CGameObject &Obj, BYTE SeedPos, BYTE 
 	int isWind = 0;
 	int isEarth = 0;
 
-	lpSeedItem = &Obj.pInventory[SeedPos];
-	lpSphereItem = &Obj.pInventory[SpherePos];
-	lpJoCItemObject = &Obj.pInventory[JocPos];
-	lpChaosItem = &Obj.pInventory[ChaosPos];
+	lpSeedItem = &Obj.pntInventory[SeedPos];
+	lpSphereItem = &Obj.pntInventory[SpherePos];
+	lpJoCItemObject = &Obj.pntInventory[JocPos];
+	lpChaosItem = &Obj.pntInventory[ChaosPos];
 	PMSG_SEEDRESULT pMsg;
 	PHeadSetB((BYTE*)&pMsg.h, 0x78, sizeof(PMSG_SEEDRESULT));
 	pMsg.Result = 0x01;
@@ -6354,19 +6354,19 @@ void CMixSystem::SeedSphereCompositeMixS12(CGameObject &Obj, BYTE SeedPos, BYTE 
 		pMsg.Result1 = 1;
 		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 		::gObjInventoryItemSet(Obj.m_Index, SeedPos, -1);
-		::Obj.pInventory[SeedPos]->Clear();
+		::Obj.pntInventory[SeedPos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, SeedPos, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, SpherePos, -1);
-		::Obj.pInventory[SpherePos]->Clear();
+		::Obj.pntInventory[SpherePos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, SpherePos, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JocPos, -1);
-		::Obj.pInventory[JocPos]->Clear();
+		::Obj.pntInventory[JocPos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JocPos, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, ChaosPos, -1);
-		::Obj.pInventory[ChaosPos]->Clear();
+		::Obj.pntInventory[ChaosPos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ChaosPos, 1);
 		ItemCreate(Obj.m_Index, 235, 0, 0, SeedSphereItem.m_ItemCode, SeedSphereItem.m_ItemLevel, 0, 0, 0, 0, Obj.m_Index, 0, 0, 0, 0, 0);
 		gObjInventoryCommit(Obj.m_Index);
@@ -6403,59 +6403,59 @@ void CMixSystem::SeedSphereCompositeMix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++) //loc21
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (g_SocketOptionSystem.IsSeedItem(Obj.pChaosBox[n].m_Type) == 1)
+			if (g_SocketOptionSystem.IsSeedItem(Obj.pntChaosBox[n].m_Type) == 1)
 			{
 				iSeedItemCount++;
-				iChaosMoney += Obj.pChaosBox[n].m_BuyMoney;
-				lpSeedItem = &Obj.pChaosBox[n];
+				iChaosMoney += Obj.pntChaosBox[n].m_BuyMoney;
+				lpSeedItem = &Obj.pntChaosBox[n];
 			}
 
-			else if (g_SocketOptionSystem.IsSphereItem(Obj.pChaosBox[n].m_Type) == 1)
+			else if (g_SocketOptionSystem.IsSphereItem(Obj.pntChaosBox[n].m_Type) == 1)
 			{
 				iSphereItemCount++;
-				iChaosMoney += Obj.pChaosBox[n].m_BuyMoney;
-				lpSphereItem = &Obj.pChaosBox[n];
+				iChaosMoney += Obj.pntChaosBox[n].m_BuyMoney;
+				lpSphereItem = &Obj.pntChaosBox[n];
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15))
 			{
 				iChoasGemCount++;
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 22))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 22))
 			{
 				iCreationGemCount++;
 			}
 
-			else if (Obj.pChaosBox[n].m_Type >= ITEMGET(12, 112) && Obj.pChaosBox[n].m_Type <= ITEMGET(12, 117))
+			else if (Obj.pntChaosBox[n].m_Type >= ITEMGET(12, 112) && Obj.pntChaosBox[n].m_Type <= ITEMGET(12, 117))
 			{
 				iSeedSpear3rdCount++;
-				lpSeedItem = &Obj.pChaosBox[n];
+				lpSeedItem = &Obj.pntChaosBox[n];
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 245))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 245))
 			{
 				iTetraGoldCount++;
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 246))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 246))
 			{
 				iTetraSilverCount++;
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 247))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 247))
 			{
 				iTetraBronzeCount++;
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 141) && Obj.pChaosBox[n].m_Level == 0)
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 141) && Obj.pntChaosBox[n].m_Level == 0)
 			{
 				iChaosJewel10BunchCount++;
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 137) && Obj.pChaosBox[n].m_Level == 0)
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 137) && Obj.pntChaosBox[n].m_Level == 0)
 			{
 				iCreationJewel10BunchCount++;
 			}
@@ -6620,10 +6620,10 @@ void CMixSystem::SetSeedSphereMixS12(CGameObject &Obj, BYTE ItemPos, BYTE Slot, 
 	int iChaosTaxMoney = 0;
 	int iMixMoney = 0;
 
-	pSocketItem = &Obj.pInventory[ItemPos];
-	pSeedSpearItem = &Obj.pInventory[SeedPos];
-	lpJoCItemObject = &Obj.pInventory[JocPos];
-	lpChaosItem = &Obj.pInventory[ChaosPos];
+	pSocketItem = &Obj.pntInventory[ItemPos];
+	pSeedSpearItem = &Obj.pntInventory[SeedPos];
+	lpJoCItemObject = &Obj.pntInventory[JocPos];
+	lpChaosItem = &Obj.pntInventory[ChaosPos];
 	PMSG_SEEDRESULT pMsg;
 	PHeadSetB((BYTE*)&pMsg.h, 0x78, sizeof(PMSG_SEEDRESULT));
 	pMsg.Result = 0x01;
@@ -6715,19 +6715,19 @@ void CMixSystem::SetSeedSphereMixS12(CGameObject &Obj, BYTE ItemPos, BYTE Slot, 
 		pSocketItem->m_SetOption, pSocketItem->m_ItemOptionEx, pSocketItem->m_SocketOption, pSocketItem->m_BonusSocketOption, 0, CURRENT_DB_VERSION);
 
 	::gObjInventoryItemSet(Obj.m_Index, ItemPos, -1);
-	::Obj.pInventory[ItemPos]->Clear();
+	::Obj.pntInventory[ItemPos]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ItemPos, 1);
 
 	::gObjInventoryItemSet(Obj.m_Index, SeedPos, -1);
-	::Obj.pInventory[SeedPos]->Clear();
+	::Obj.pntInventory[SeedPos]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, SeedPos, 1);
 
 	::gObjInventoryItemSet(Obj.m_Index, JocPos, -1);
-	::Obj.pInventory[JocPos]->Clear();
+	::Obj.pntInventory[JocPos]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JocPos, 1);
 
 	::gObjInventoryItemSet(Obj.m_Index, ChaosPos, -1);
-	::Obj.pInventory[ChaosPos]->Clear();
+	::Obj.pntInventory[ChaosPos]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ChaosPos, 1);
 	pMsg.Result1 = 1;
 	IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
@@ -6767,26 +6767,26 @@ void CMixSystem::SetSeedSphereMix(CGameObject &Obj, BYTE btPos)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++) //loc21
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (gSocketItemType.CheckSocketItemType(Obj.pChaosBox[n].m_Type) == TRUE)
+			if (gSocketItemType.CheckSocketItemType(Obj.pntChaosBox[n].m_Type) == TRUE)
 			{
-				if (Obj.pChaosBox[n].m_SocketOption[btPos] == 0xFE) //Slot with NO OPTION
+				if (Obj.pntChaosBox[n].m_SocketOption[btPos] == 0xFE) //Slot with NO OPTION
 				{
 					iSocketItemCount++; //
-					pSocketItem = &Obj.pChaosBox[n];
+					pSocketItem = &Obj.pntChaosBox[n];
 				}
 			}
-			else if (g_SocketOptionSystem.IsSeedSphereItem(Obj.pChaosBox[n].m_Type) == TRUE)
+			else if (g_SocketOptionSystem.IsSeedSphereItem(Obj.pntChaosBox[n].m_Type) == TRUE)
 			{
 				iSeedSpearItemCount++;
-				pSeedSpearItem = &Obj.pChaosBox[n];
+				pSeedSpearItem = &Obj.pntChaosBox[n];
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15))
 			{
 				iChoasGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 22))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 22))
 			{
 				iCreationGemCount++;
 			}
@@ -6936,19 +6936,19 @@ void CMixSystem::SeedSphereRemoveMix(CGameObject &Obj, BYTE btPos)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++) //loc21
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (gSocketItemType.CheckSocketItemType(Obj.pChaosBox[n].m_Type) == 1)
+			if (gSocketItemType.CheckSocketItemType(Obj.pntChaosBox[n].m_Type) == 1)
 			{
-				if (Obj.pChaosBox[n].m_SocketOption[btPos] != 0xFE && Obj.pChaosBox[n].m_SocketOption[btPos] != 0xFF) //Slot with OPTION
+				if (Obj.pntChaosBox[n].m_SocketOption[btPos] != 0xFE && Obj.pntChaosBox[n].m_SocketOption[btPos] != 0xFF) //Slot with OPTION
 				{
 					iSocketItemCount++; //
 					iSocketItemPosition = n;
-					lpSocketItem = &Obj.pChaosBox[n];
+					lpSocketItem = &Obj.pntChaosBox[n];
 				}
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15))
 			{
 				if (iChaosJewelCount >= 0 && iChaosJewelCount < 5)
 				{
@@ -6958,13 +6958,13 @@ void CMixSystem::SeedSphereRemoveMix(CGameObject &Obj, BYTE btPos)
 				iChaosJewelCount++;
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 31))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 31))
 			{
 				iGemOfDefendPosition = n;
 				iGemOfDefendCount++;
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 42))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 42))
 			{
 				if (iJewelOfHarmonyCount >= 0 && iJewelOfHarmonyCount < 5)
 				{
@@ -7022,7 +7022,7 @@ void CMixSystem::SeedSphereRemoveMix(CGameObject &Obj, BYTE btPos)
 		return;
 	}
 
-	BYTE btSocketOption = Obj.pChaosBox[iSocketItemPosition].m_SocketOption[btPos];
+	BYTE btSocketOption = Obj.pntChaosBox[iSocketItemPosition].m_SocketOption[btPos];
 	BYTE btSeedIndex = btSocketOption % 50;
 	BOOL bEmptyPlace = CheckInventoryEmptySpace(lpObj, 1, 1);
 
@@ -7052,7 +7052,7 @@ void CMixSystem::SeedSphereRemoveMix(CGameObject &Obj, BYTE btPos)
 
 	if (rand() % 100 < 80)
 	{
-		g_SocketOptionSystem.ClearSocketSlot(&Obj.pChaosBox[iSocketItemPosition], btPos);
+		g_SocketOptionSystem.ClearSocketSlot(&Obj.pntChaosBox[iSocketItemPosition], btPos);
 		pMsg.Result = CB_SUCCESS;
 
 		ItemCreate(Obj.m_Index, 219, 0, 0, lpSeedData->m_ItemCode, lpSeedData->m_ItemLevel, 1, 0, 0, 0, Obj.m_Index, 0, 0, 0, 0, 0);
@@ -7104,19 +7104,19 @@ void CMixSystem::SecromiconMix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; ++n)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 103))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 103))
 				first++;
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 104))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 104))
 				second++;
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 105))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 105))
 				third++;
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 106))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 106))
 				fourth++;
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 107))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 107))
 				fifth++;
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 108))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 108))
 				sixth++;
 			else
 				invalid++;
@@ -7169,15 +7169,15 @@ void CMixSystem::PremiumBoxMix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; ++n)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 112))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 112))
 				SilverKey++;
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 113))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 113))
 				GoldKey++;
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 121))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 121))
 				SealedGold++;
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 122))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 122))
 				SealedSilver++;
 			else
 				Invalid++;
@@ -7236,12 +7236,12 @@ void CMixSystem::CherryBlossomMix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == FALSE)
+		if (Obj.pntChaosBox[n].IsItem() == FALSE)
 			continue;
 
 		if (pTmp.m_Item == FALSE)
 		{
-			pTmp.m_Item = Obj.pChaosBox[n].m_Type;
+			pTmp.m_Item = Obj.pntChaosBox[n].m_Type;
 
 			if (pTmp.m_Item == ITEMGET(14, 88))
 			{
@@ -7264,9 +7264,9 @@ void CMixSystem::CherryBlossomMix(CGameObject &Obj)
 			pTmp.bOk = TRUE;
 		}
 
-		if (pTmp.m_Item == Obj.pChaosBox[n].m_Type)
+		if (pTmp.m_Item == Obj.pntChaosBox[n].m_Type)
 		{
-			pTmp.Dur += (int)Obj.pChaosBox[n].m_Durability;
+			pTmp.Dur += (int)Obj.pntChaosBox[n].m_Durability;
 		}
 		else
 		{
@@ -7350,26 +7350,26 @@ Obj.ChaosLock = TRUE;
 
 for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 {
-if (Obj.pChaosBox[n].IsItem() == TRUE)
+if (Obj.pntChaosBox[n].IsItem() == TRUE)
 {
-if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 88))
+if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 88))
 {
 iWhiteCherryBlossom++;
-iWhiteCherryBlossomDur += Obj.pChaosBox[n].m_Durability;
+iWhiteCherryBlossomDur += Obj.pntChaosBox[n].m_Durability;
 iMixType = 0;
 }
 
-else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 89))
+else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 89))
 {
 iRedCherryBlossom++;
-iRedCherryBlossomDur += Obj.pChaosBox[n].m_Durability;
+iRedCherryBlossomDur += Obj.pntChaosBox[n].m_Durability;
 iMixType = 1;
 }
 
-else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 90))
+else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 90))
 {
 iGoldCherryBlossom++;
-iGoldCherryBlossomDur += Obj.pChaosBox[n].m_Durability;
+iGoldCherryBlossomDur += Obj.pntChaosBox[n].m_Durability;
 iMixType = 2;
 }
 
@@ -7509,134 +7509,134 @@ void CMixSystem::ItemRefineMix(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 191))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 191))
 			{
 				SoniCItemObject++;
 				ItemType = ITEMGET(0, 29);
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 192))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 192))
 			{
 				CycloneItem++;
 				ItemType = ITEMGET(0, 36);
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 193))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 193))
 			{
 				BlastItem++;
 				ItemType = ITEMGET(0, 37);
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 194))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 194))
 			{
 				MagmaItem++;
 				ItemType = ITEMGET(3, 12);
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 195))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 195))
 			{
 				HornItem++;
 				ItemType = ITEMGET(2, 20);
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 196))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 196))
 			{
 				AngeliCItemObject++;
 				ItemType = ITEMGET(4, 25);
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 197))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 197))
 			{
 				DevilItem++;
 				ItemType = ITEMGET(4, 26);
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 198))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 198))
 			{
 				MiracleItem++;
 				ItemType = ITEMGET(5, 35);
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 199))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 199))
 			{
 				SpiteItem++;
 				ItemType = ITEMGET(5, 37);
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 200))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 200))
 			{
 				AsuraItem++;
 				ItemType = ITEMGET(0, 30);
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 202))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 202))
 			{
 				SummonItem++;
 				ItemType = ITEMGET(5, 32);
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 201))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 201))
 			{
 				ThunderboltItem++;
 				ItemType = ITEMGET(2, 19);
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 180))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 180))
 			{
 				IceWalkerItem++;
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 181))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 181))
 			{
 				MammothItem++;
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 182))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 182))
 			{
 				GiantItem++;
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 183))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 183))
 			{
 				CoolutinItem++;
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 184))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 184))
 			{
 				IronKnightItem++;
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 185))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 185))
 			{
 				DarkMammothItem++;
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 186))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 186))
 			{
 				DarkGiantItem++;
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 187))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 187))
 			{
 				DarkCoolutinItem++;
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 188))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 188))
 			{
 				DarkIronKnightItem++;
 			}
 
-			else if (gSocketItemType.CheckSocketItemType((int)&Obj.pChaosBox[n]) && Obj.pChaosBox[n].m_Level >= 7 && Obj.pChaosBox[n].m_Option3 >= 1)
+			else if (gSocketItemType.CheckSocketItemType((int)&Obj.pntChaosBox[n]) && Obj.pntChaosBox[n].m_Level >= 7 && Obj.pntChaosBox[n].m_Option3 >= 1)
 			{
 				SocketItem++;
-				SocketValue += Obj.pChaosBox[n].m_BuyMoney;
+				SocketValue += Obj.pntChaosBox[n].m_BuyMoney;
 			}
 
 			else
 			{
-				if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 53))
+				if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 53))
 				{
 					iCharmOfLuckCount += 10;
 				}
@@ -7841,17 +7841,17 @@ void CMixSystem::MonsterWingMix(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == TRUE)
+		if (Obj.pntChaosBox[i].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[i].m_Type == ITEMGET(12, 3) || Obj.pChaosBox[i].m_Type == ITEMGET(12, 4) ||
-				Obj.pChaosBox[i].m_Type == ITEMGET(12, 5) || Obj.pChaosBox[i].m_Type == ITEMGET(12, 6) ||
-				Obj.pChaosBox[i].m_Type == ITEMGET(13, 30) || Obj.pChaosBox[i].m_Type == ITEMGET(12, 42) ||
-				Obj.pChaosBox[i].m_Type == ITEMGET(12, 49))
+			if (Obj.pntChaosBox[i].m_Type == ITEMGET(12, 3) || Obj.pntChaosBox[i].m_Type == ITEMGET(12, 4) ||
+				Obj.pntChaosBox[i].m_Type == ITEMGET(12, 5) || Obj.pntChaosBox[i].m_Type == ITEMGET(12, 6) ||
+				Obj.pntChaosBox[i].m_Type == ITEMGET(13, 30) || Obj.pntChaosBox[i].m_Type == ITEMGET(12, 42) ||
+				Obj.pntChaosBox[i].m_Type == ITEMGET(12, 49))
 			{
 				WingCount++;
-				ChaosMoney = Obj.pChaosBox[i].m_BuyMoney;
+				ChaosMoney = Obj.pntChaosBox[i].m_BuyMoney;
 
-				if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 30) || Obj.pChaosBox[i].m_Type == ITEMGET(12, 269) || Obj.pChaosBox[i].m_Type == ITEMGET(12, 49))
+				if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 30) || Obj.pntChaosBox[i].m_Type == ITEMGET(12, 269) || Obj.pntChaosBox[i].m_Type == ITEMGET(12, 49))
 				{
 					IsItemCape = TRUE;
 				}
@@ -7859,7 +7859,7 @@ void CMixSystem::MonsterWingMix(CGameObject &Obj)
 
 			else
 			{
-				switch (Obj.pChaosBox[i].m_Type)
+				switch (Obj.pntChaosBox[i].m_Type)
 				{
 				case ITEMGET(12, 15):
 					ChaosCount++;
@@ -7880,7 +7880,7 @@ void CMixSystem::MonsterWingMix(CGameObject &Obj)
 					DeathBeamMaterialCount++;
 					break;
 				case ITEMGET(14, 53):
-					LuckyHarmAddRate = Obj.pChaosBox[i].m_Durability;
+					LuckyHarmAddRate = Obj.pntChaosBox[i].m_Durability;
 					break;
 				default:
 					InvalidItemCount++;
@@ -8075,7 +8075,7 @@ void CMixSystem::MonsterWingMix(CGameObject &Obj)
 	{
 		for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 		{
-			Obj.pChaosBox[i].Clear();
+			Obj.pntChaosBox[i].Clear();
 		}
 
 		gGameProtocol.GCUserChaosBoxSend(lpObj, 0);
@@ -8102,22 +8102,22 @@ void CMixSystem::SummonsMix(CGameObject &Obj, int type)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == 0)
+		if (Obj.pntChaosBox[n].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 210))
+		if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 210))
 		{
 			type = 1;
 			SummonScroll1Count++;
 		}
-		else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 211))
+		else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 211))
 		{
 			type = 2;
 			SummonScroll2Count++;
 		}
-		else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 212))
+		else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 212))
 		{
 			type = 3;
 			SummonScroll3Count++;
@@ -8206,29 +8206,29 @@ void CMixSystem::CCFRewardMix(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == TRUE)
+		if (Obj.pntChaosBox[i].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[i].m_Type == ITEMGET(12, 15))
+			if (Obj.pntChaosBox[i].m_Type == ITEMGET(12, 15))
 			{
 				ChaosItemCount++;
 			}
 
-			else if (Obj.pChaosBox[i].m_Type == ITEMGET(12, 136))
+			else if (Obj.pntChaosBox[i].m_Type == ITEMGET(12, 136))
 			{
 				JewelOfLife10BundleCount++;
 			}
 
-			else if (Obj.pChaosBox[i].m_Type == ITEMGET(12, 30))
+			else if (Obj.pntChaosBox[i].m_Type == ITEMGET(12, 30))
 			{
 				JewelOfBless10BundleCount++;
 			}
 
-			else if (Obj.pChaosBox[i].m_Type == ITEMGET(12, 31))
+			else if (Obj.pntChaosBox[i].m_Type == ITEMGET(12, 31))
 			{
 				JewelOfSoul10BundleCount++;
 			}
 
-			else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 276))
+			else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 276))
 			{
 				BadgeItemCount++;
 			}
@@ -8363,29 +8363,29 @@ void CMixSystem::DSFRewardMix(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == TRUE)
+		if (Obj.pntChaosBox[i].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[i].m_Type == ITEMGET(12, 15))
+			if (Obj.pntChaosBox[i].m_Type == ITEMGET(12, 15))
 			{
 				ChaosItemCount++;
 			}
 
-			else if (Obj.pChaosBox[i].m_Type == ITEMGET(12, 136))
+			else if (Obj.pntChaosBox[i].m_Type == ITEMGET(12, 136))
 			{
 				JewelOfLife10BundleCount++;
 			}
 
-			else if (Obj.pChaosBox[i].m_Type == ITEMGET(12, 30))
+			else if (Obj.pntChaosBox[i].m_Type == ITEMGET(12, 30))
 			{
 				JewelOfBless10BundleCount++;
 			}
 
-			else if (Obj.pChaosBox[i].m_Type == ITEMGET(12, 31))
+			else if (Obj.pntChaosBox[i].m_Type == ITEMGET(12, 31))
 			{
 				JewelOfSoul10BundleCount++;
 			}
 
-			else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 277))
+			else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 277))
 			{
 				BadgeItemCount++;
 			}
@@ -8506,11 +8506,11 @@ void CMixSystem::AncientSoulItemMix(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == TRUE)
+		if (Obj.pntChaosBox[i].IsItem() == TRUE)
 		{
-			if (this->CheckHeroSoulItem(Obj.pChaosBox[i].m_Type) != FALSE)
+			if (this->CheckHeroSoulItem(Obj.pntChaosBox[i].m_Type) != FALSE)
 			{
-				if (this->CheckLevelCondition(&Obj.pChaosBox[i], 11, 0, 0, 0, 1, 0) != FALSE)
+				if (this->CheckLevelCondition(&Obj.pntChaosBox[i], 11, 0, 0, 0, 1, 0) != FALSE)
 				{
 					SetItemCount++;
 				}
@@ -8583,12 +8583,12 @@ void CMixSystem::BloodAngelUnSealMix(CGameObject &Obj, int iMixType)
 			HeroMIX = false;
 			break;
 		}
-		else if (Obj.pChaosBox[i].IsItem() == TRUE)
+		else if (Obj.pntChaosBox[i].IsItem() == TRUE)
 		{
-			if (GetItemKindA(Obj.pChaosBox[i].m_Type) == ITEM_KIND_A_ARMOR &&
-				Obj.pChaosBox[i].IsSetItem() == TRUE &&
-				g_LuckyItemManager.IsLuckyItemEquipment(Obj.pChaosBox[i].m_Type) == FALSE &&
-				IsBloodAngelItem(Obj.pChaosBox[i].m_Type) == FALSE)
+			if (GetItemKindA(Obj.pntChaosBox[i].m_Type) == ITEM_KIND_A_ARMOR &&
+				Obj.pntChaosBox[i].IsSetItem() == TRUE &&
+				g_LuckyItemManager.IsLuckyItemEquipment(Obj.pntChaosBox[i].m_Type) == FALSE &&
+				IsBloodAngelItem(Obj.pntChaosBox[i].m_Type) == FALSE)
 			{
 				SetItemCount++;
 				HeroMIX = true;
@@ -8633,14 +8633,14 @@ void CMixSystem::BloodAngelUnSealMix(CGameObject &Obj, int iMixType)
 	{
 		for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 		{
-			if (Obj.pChaosBox[i].IsItem() == TRUE)
+			if (Obj.pntChaosBox[i].IsItem() == TRUE)
 			{
-				if (Obj.pChaosBox[i].m_Type == iNeedItemType)
+				if (Obj.pntChaosBox[i].m_Type == iNeedItemType)
 				{
 					SealedItemCount++;
 				}
 
-				else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+				else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 				{
 					AncientHeroSoulCount++;
 				}
@@ -8709,12 +8709,12 @@ void CMixSystem::BloodAngelUnSealMix2(CGameObject &Obj, int iMixType)
 			HeroMIX = false;
 			break;
 		}
-		else if (Obj.pChaosBox[i].IsItem() == TRUE)
+		else if (Obj.pntChaosBox[i].IsItem() == TRUE)
 		{
-			if (GetItemKindA(Obj.pChaosBox[i].m_Type) == ITEM_KIND_A_ARMOR &&
-				Obj.pChaosBox[i].IsSetItem() == TRUE &&
-				g_LuckyItemManager.IsLuckyItemEquipment(Obj.pChaosBox[i].m_Type) == FALSE &&
-				IsBloodAngelItem(Obj.pChaosBox[i].m_Type) == FALSE)
+			if (GetItemKindA(Obj.pntChaosBox[i].m_Type) == ITEM_KIND_A_ARMOR &&
+				Obj.pntChaosBox[i].IsSetItem() == TRUE &&
+				g_LuckyItemManager.IsLuckyItemEquipment(Obj.pntChaosBox[i].m_Type) == FALSE &&
+				IsBloodAngelItem(Obj.pntChaosBox[i].m_Type) == FALSE)
 			{
 				SetItemCount++;
 				HeroMIX = true;
@@ -8758,14 +8758,14 @@ void CMixSystem::BloodAngelUnSealMix2(CGameObject &Obj, int iMixType)
 	{
 		for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 		{
-			if (Obj.pChaosBox[i].IsItem() == TRUE)
+			if (Obj.pntChaosBox[i].IsItem() == TRUE)
 			{
-				if (Obj.pChaosBox[i].m_Type == iNeedItemType)
+				if (Obj.pntChaosBox[i].m_Type == iNeedItemType)
 				{
 					SealedItemCount++;
 				}
 
-				else if (Obj.pChaosBox[i].m_Type == ITEMGET(14, 399))
+				else if (Obj.pntChaosBox[i].m_Type == ITEMGET(14, 399))
 				{
 					AncientHeroSoulCount++;
 				}
@@ -8835,34 +8835,34 @@ void CMixSystem::DarkAngelMix(CGameObject &Obj, int iMixType)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == TRUE)
+		if (Obj.pntChaosBox[i].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[i].m_Type == this->CHAOS_GEM_ITEMINDEX) // Chaos
+			if (Obj.pntChaosBox[i].m_Type == this->CHAOS_GEM_ITEMINDEX) // Chaos
 			{
 				ChoasGemCount++;
 			}
-			else if (Obj.pChaosBox[i].m_Type == this->SOUL_GEM_BULDLE_ITEMINDEX) // Bundle of Soul
+			else if (Obj.pntChaosBox[i].m_Type == this->SOUL_GEM_BULDLE_ITEMINDEX) // Bundle of Soul
 			{
 				BundleOfSoulCount++;
 			}
-			else if (Obj.pChaosBox[i].m_Type == this->BLESS_GEM_BUNDLE_ITEMINDEX) // Bundle of Bless
+			else if (Obj.pntChaosBox[i].m_Type == this->BLESS_GEM_BUNDLE_ITEMINDEX) // Bundle of Bless
 			{
 				BundleOfBlessCount++;
 			}
-			else if (Obj.pChaosBox[i].m_Type == this->CREATURE_GEM_ITEMINDEX) // Jewel of Creation
+			else if (Obj.pntChaosBox[i].m_Type == this->CREATURE_GEM_ITEMINDEX) // Jewel of Creation
 			{
 				JewelOfCreationCount++;
 			}
-			else if (Obj.pChaosBox[i].m_Type == ITEMGET(14, 341)) //Stone Shard
+			else if (Obj.pntChaosBox[i].m_Type == ITEMGET(14, 341)) //Stone Shard
 			{
 				StoneShardCount++;
 			}
-			else if (this->CheckLevelCondition(&Obj.pChaosBox[i], 11, 0, 0, 0, 1, 0) != FALSE)
+			else if (this->CheckLevelCondition(&Obj.pntChaosBox[i], 11, 0, 0, 0, 1, 0) != FALSE)
 			{
-				//sLog->outBasic("[CheckLevelCondition %d", Obj.pChaosBox[i].m_Type);
-				m_type = Obj.pChaosBox[i].m_Type;
+				//sLog->outBasic("[CheckLevelCondition %d", Obj.pntChaosBox[i].m_Type);
+				m_type = Obj.pntChaosBox[i].m_Type;
 				AncientBACount++;
-				//iChaosMoney += Obj.pChaosBox[n].m_BuyMoney;
+				//iChaosMoney += Obj.pntChaosBox[n].m_BuyMoney;
 			}
 			else
 			{
@@ -8927,34 +8927,34 @@ void CMixSystem::DarkAngelNextMix(CGameObject &Obj, int iMixType)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == TRUE)
+		if (Obj.pntChaosBox[i].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[i].m_Type == this->CHAOS_GEM_ITEMINDEX) // Chaos
+			if (Obj.pntChaosBox[i].m_Type == this->CHAOS_GEM_ITEMINDEX) // Chaos
 			{
 				ChoasGemCount++;
 			}
-			else if (Obj.pChaosBox[i].m_Type == this->SOUL_GEM_BULDLE_ITEMINDEX) // Bundle of Soul
+			else if (Obj.pntChaosBox[i].m_Type == this->SOUL_GEM_BULDLE_ITEMINDEX) // Bundle of Soul
 			{
 				BundleOfSoulCount++;
 			}
-			else if (Obj.pChaosBox[i].m_Type == this->BLESS_GEM_BUNDLE_ITEMINDEX) // Bundle of Bless
+			else if (Obj.pntChaosBox[i].m_Type == this->BLESS_GEM_BUNDLE_ITEMINDEX) // Bundle of Bless
 			{
 				BundleOfBlessCount++;
 			}
-			else if (Obj.pChaosBox[i].m_Type == this->CREATURE_GEM_ITEMINDEX) // Jewel of Creation
+			else if (Obj.pntChaosBox[i].m_Type == this->CREATURE_GEM_ITEMINDEX) // Jewel of Creation
 			{
 				JewelOfCreationCount++;
 			}
-			else if (Obj.pChaosBox[i].m_Type == ITEMGET(14, 389)) //Stone Shard
+			else if (Obj.pntChaosBox[i].m_Type == ITEMGET(14, 389)) //Stone Shard
 			{
 				StoneShardCount++;
 			}
-			else if (this->CheckLevelCondition(&Obj.pChaosBox[i], 11, 0, 0, 0, 1, 0) != FALSE)
+			else if (this->CheckLevelCondition(&Obj.pntChaosBox[i], 11, 0, 0, 0, 1, 0) != FALSE)
 			{
-				//sLog->outBasic("[CheckLevelCondition %d", Obj.pChaosBox[i].m_Type);
-				m_type = Obj.pChaosBox[i].m_Type;
+				//sLog->outBasic("[CheckLevelCondition %d", Obj.pntChaosBox[i].m_Type);
+				m_type = Obj.pntChaosBox[i].m_Type;
 				AncientBACount++;
-				//iChaosMoney += Obj.pChaosBox[n].m_BuyMoney;
+				//iChaosMoney += Obj.pntChaosBox[n].m_BuyMoney;
 			}
 			else
 			{
@@ -9026,33 +9026,33 @@ void CMixSystem::ArchangelHammerMix(CGameObject &Obj)
 	BYTE btNewOption = 0;
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == TRUE)
+		if (Obj.pntChaosBox[i].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[i].m_Type == this->CHAOS_GEM_ITEMINDEX) // Chaos
+			if (Obj.pntChaosBox[i].m_Type == this->CHAOS_GEM_ITEMINDEX) // Chaos
 			{
 				ChoasGemCount++;
 			}
-			else if (Obj.pChaosBox[i].m_Type == this->SOUL_GEM_BULDLE_ITEMINDEX) // Bundle of Soul
+			else if (Obj.pntChaosBox[i].m_Type == this->SOUL_GEM_BULDLE_ITEMINDEX) // Bundle of Soul
 			{
 				BundleOfSoulCount++;
 			}
-			else if (Obj.pChaosBox[i].m_Type == this->BLESS_GEM_BUNDLE_ITEMINDEX) // Bundle of Bless
+			else if (Obj.pntChaosBox[i].m_Type == this->BLESS_GEM_BUNDLE_ITEMINDEX) // Bundle of Bless
 			{
 				BundleOfBlessCount++;
 			}
-			else if (Obj.pChaosBox[i].m_Type == this->CREATURE_GEM_ITEMINDEX) // Jewel of Creation
+			else if (Obj.pntChaosBox[i].m_Type == this->CREATURE_GEM_ITEMINDEX) // Jewel of Creation
 			{
 				JewelOfCreationCount++;
 			}
-			else if (Obj.pChaosBox[i].m_Type == this->GUARDIAN_GEM_ITEMINDEX) //Jewel of Guardian
+			else if (Obj.pntChaosBox[i].m_Type == this->GUARDIAN_GEM_ITEMINDEX) //Jewel of Guardian
 			{
 				JewelOfGuardianCount++;
 			}
 
-			else if ((int)Obj.pChaosBox[i].m_Durability == 10 && Obj.pChaosBox[i].m_Type == ITEMGET(14, 342))
+			else if ((int)Obj.pntChaosBox[i].m_Durability == 10 && Obj.pntChaosBox[i].m_Type == ITEMGET(14, 342))
 			{
 
-				m_type = Obj.pChaosBox[i].m_Type;
+				m_type = Obj.pntChaosBox[i].m_Type;
 				m_typenew = m_type + 1;
 				SteelCount++;
 			}
@@ -9119,84 +9119,84 @@ void CMixSystem::BlessedAAMix(CGameObject &Obj)
 	BYTE btNewOption = 0;
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == TRUE)
+		if (Obj.pntChaosBox[i].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[i].m_Type == this->CHAOS_GEM_ITEMINDEX) // Chaos
+			if (Obj.pntChaosBox[i].m_Type == this->CHAOS_GEM_ITEMINDEX) // Chaos
 			{
 				ChoasGemCount++;
 			}
-			else if (Obj.pChaosBox[i].m_Type == this->SOUL_GEM_BULDLE_ITEMINDEX) // Bundle of Soul
+			else if (Obj.pntChaosBox[i].m_Type == this->SOUL_GEM_BULDLE_ITEMINDEX) // Bundle of Soul
 			{
 				BundleOfSoulCount++;
 			}
-			else if (Obj.pChaosBox[i].m_Type == this->BLESS_GEM_BUNDLE_ITEMINDEX) // Bundle of Bless
+			else if (Obj.pntChaosBox[i].m_Type == this->BLESS_GEM_BUNDLE_ITEMINDEX) // Bundle of Bless
 			{
 				BundleOfBlessCount++;
 			}
-			else if (Obj.pChaosBox[i].m_Type == ITEMGET(14, 343))
+			else if (Obj.pntChaosBox[i].m_Type == ITEMGET(14, 343))
 			{
 				HammerCount++;
 			}
-			else if (Obj.pChaosBox[i].m_Type == ITEMGET(14, 343))
+			else if (Obj.pntChaosBox[i].m_Type == ITEMGET(14, 343))
 			{
 
-				m_type = Obj.pChaosBox[i].m_Type;
+				m_type = Obj.pntChaosBox[i].m_Type;
 				m_typenew = m_type + 1;
 				HammerCount++;
 			}
-			switch (Obj.pChaosBox[i].m_Type)
+			switch (Obj.pntChaosBox[i].m_Type)
 			{
 			case ITEMGET(0, 19): //SWORD
 			{
-				m_type = Obj.pChaosBox[i].m_Type;
-				if (this->CheckLevelCondition(&Obj.pChaosBox[i], 15, 0, 0, 1, 0, 0) != FALSE)
+				m_type = Obj.pntChaosBox[i].m_Type;
+				if (this->CheckLevelCondition(&Obj.pntChaosBox[i], 15, 0, 0, 1, 0, 0) != FALSE)
 				{
 					m_typenew = m_type + 32;
-					btNewOption = Obj.pChaosBox[i].m_NewOption;
+					btNewOption = Obj.pntChaosBox[i].m_NewOption;
 					AACount++;
 				}
 				break;
 			}
 			case ITEMGET(2, 13): //Scepter
 			{
-				m_type = Obj.pChaosBox[i].m_Type;
-				if (this->CheckLevelCondition(&Obj.pChaosBox[i], 15, 0, 0, 1, 0, 0) != FALSE)
+				m_type = Obj.pntChaosBox[i].m_Type;
+				if (this->CheckLevelCondition(&Obj.pntChaosBox[i], 15, 0, 0, 1, 0, 0) != FALSE)
 				{
 					m_typenew = m_type + 12;
-					btNewOption = Obj.pChaosBox[i].m_NewOption;
+					btNewOption = Obj.pntChaosBox[i].m_NewOption;
 					AACount++;
 				}
 				break;
 			}
 			case ITEMGET(4, 18): //Bow
 			{
-				m_type = Obj.pChaosBox[i].m_Type;
-				if (this->CheckLevelCondition(&Obj.pChaosBox[i], 15, 0, 0, 1, 0, 0) != FALSE)
+				m_type = Obj.pntChaosBox[i].m_Type;
+				if (this->CheckLevelCondition(&Obj.pntChaosBox[i], 15, 0, 0, 1, 0, 0) != FALSE)
 				{
 					m_typenew = m_type + 12;
-					btNewOption = Obj.pChaosBox[i].m_NewOption;
+					btNewOption = Obj.pntChaosBox[i].m_NewOption;
 					AACount++;
 				}
 				break;
 			}
 			case ITEMGET(5, 10): //Staff
 			{
-				m_type = Obj.pChaosBox[i].m_Type;
-				if (this->CheckLevelCondition(&Obj.pChaosBox[i], 15, 0, 0, 1, 0, 0) != FALSE)
+				m_type = Obj.pntChaosBox[i].m_Type;
+				if (this->CheckLevelCondition(&Obj.pntChaosBox[i], 15, 0, 0, 1, 0, 0) != FALSE)
 				{
 					m_typenew = m_type + 39;
-					btNewOption = Obj.pChaosBox[i].m_NewOption;
+					btNewOption = Obj.pntChaosBox[i].m_NewOption;
 					AACount++;
 				}
 				break;
 			}
 			case ITEMGET(5, 36): //Stick
 			{
-				m_type = Obj.pChaosBox[i].m_Type;
-				if (this->CheckLevelCondition(&Obj.pChaosBox[i], 15, 0, 0, 1, 0, 0) != FALSE)
+				m_type = Obj.pntChaosBox[i].m_Type;
+				if (this->CheckLevelCondition(&Obj.pntChaosBox[i], 15, 0, 0, 1, 0, 0) != FALSE)
 				{
 					m_typenew = m_type + 14;
-					btNewOption = Obj.pChaosBox[i].m_NewOption;
+					btNewOption = Obj.pntChaosBox[i].m_NewOption;
 					AACount++;
 				}
 				break;
@@ -9272,34 +9272,34 @@ void CMixSystem::DarkAngelWeaponMix(CGameObject &Obj, int iMixType)
 	BYTE btNewOption = 0;
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == TRUE)
+		if (Obj.pntChaosBox[i].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[i].m_Type == this->CHAOS_GEM_ITEMINDEX) // Chaos
+			if (Obj.pntChaosBox[i].m_Type == this->CHAOS_GEM_ITEMINDEX) // Chaos
 			{
 				ChoasGemCount++;
 			}
-			else if (Obj.pChaosBox[i].m_Type == this->SOUL_GEM_BULDLE_ITEMINDEX) // Bundle of Soul
+			else if (Obj.pntChaosBox[i].m_Type == this->SOUL_GEM_BULDLE_ITEMINDEX) // Bundle of Soul
 			{
 				BundleOfSoulCount++;
 			}
-			else if (Obj.pChaosBox[i].m_Type == this->BLESS_GEM_BUNDLE_ITEMINDEX) // Bundle of Bless
+			else if (Obj.pntChaosBox[i].m_Type == this->BLESS_GEM_BUNDLE_ITEMINDEX) // Bundle of Bless
 			{
 				BundleOfBlessCount++;
 			}
-			else if (Obj.pChaosBox[i].m_Type == this->CREATURE_GEM_ITEMINDEX) // Jewel of Creation
+			else if (Obj.pntChaosBox[i].m_Type == this->CREATURE_GEM_ITEMINDEX) // Jewel of Creation
 			{
 				JewelOfCreationCount++;
 			}
-			else if (Obj.pChaosBox[i].m_Type == ITEMGET(14, 386)) //Stone Shard
+			else if (Obj.pntChaosBox[i].m_Type == ITEMGET(14, 386)) //Stone Shard
 			{
 				StoneShardCount++;
 			}
 
-			else if (this->CheckLevelCondition(&Obj.pChaosBox[i], 11, 0, 0, 1, 0, 1) != FALSE)
+			else if (this->CheckLevelCondition(&Obj.pntChaosBox[i], 11, 0, 0, 1, 0, 1) != FALSE)
 			{
-				sLog->outBasic("[CheckLevelCondition %d %d", Obj.pChaosBox[i].m_Option3, Obj.pChaosBox[i].m_NewOption);
+				sLog->outBasic("[CheckLevelCondition %d %d", Obj.pntChaosBox[i].m_Option3, Obj.pntChaosBox[i].m_NewOption);
 
-				m_type = Obj.pChaosBox[i].m_Type;
+				m_type = Obj.pntChaosBox[i].m_Type;
 				if (m_type == ITEMGET(5, 41)) //Staff ok 0xCE
 					m_typenew = m_type + 10;
 				if (m_type == ITEMGET(5, 43)) //Stick ok 0xCF
@@ -9321,13 +9321,13 @@ void CMixSystem::DarkAngelWeaponMix(CGameObject &Obj, int iMixType)
 				if (m_type == ITEMGET(4, 34)) //Bloodangel Quiver 0x40
 					m_typenew = m_type + 1;
 				//sLog->outBasic("[ CheckLevelCondition %d", m_typenew);
-				btNewOption = Obj.pChaosBox[i].m_NewOption;
+				btNewOption = Obj.pntChaosBox[i].m_NewOption;
 				AncientBACount++;
-				//iChaosMoney += Obj.pChaosBox[n].m_BuyMoney;
+				//iChaosMoney += Obj.pntChaosBox[n].m_BuyMoney;
 			}
 			else
 			{
-				sLog->outBasic("[CheckLevelCondition %d %d", Obj.pChaosBox[i].m_Option3, Obj.pChaosBox[i].m_NewOption);
+				sLog->outBasic("[CheckLevelCondition %d %d", Obj.pntChaosBox[i].m_Option3, Obj.pntChaosBox[i].m_NewOption);
 				InvalidItemCount++;
 			}
 		}
@@ -9439,9 +9439,9 @@ void CMixSystem::BlessPotionChaosMix_Multi(CGameObject &Obj, int iMixCount)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 13))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 13))
 			{
 				iBlessGemCount++;
 			}
@@ -9578,9 +9578,9 @@ void CMixSystem::SoulPotionChaosMix_Multi(CGameObject &Obj, int iMixCount)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 14))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 14))
 			{
 				iSoulGemCount++;
 			}
@@ -9712,13 +9712,13 @@ void CMixSystem::CircleChaosMix_Multi(CGameObject &Obj, int iMixCount)	// Fruits
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 22))	// Jewel of Creation
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 22))	// Jewel of Creation
 			{
 				CreatureGemCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15)) // Chaos Gem
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15)) // Chaos Gem
 			{
 				ChoasGemCount++;
 			}
@@ -9863,13 +9863,13 @@ void CMixSystem::PegasiaChaosMix_Multi(CGameObject &Obj, int iMixCount)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(13, 2) && Obj.pChaosBox[n].m_Durability == 255.0f)	// Uniria
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(13, 2) && Obj.pntChaosBox[n].m_Durability == 255.0f)	// Uniria
 			{
 				UniriaCount++;
 			}
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15)) // Chaos Gem
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15)) // Chaos Gem
 			{
 				ChoasGemCount++;
 			}
@@ -10006,22 +10006,22 @@ void CMixSystem::BloodCastleItemChaosMix_Multi(CGameObject &Obj, int iMixCount)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i]->IsItem() == TRUE)
+		if (Obj.pntChaosBox[i]->IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[i]->m_Type == ITEMGET(12, 15)) // Chaos
+			if (Obj.pntChaosBox[i]->m_Type == ITEMGET(12, 15)) // Chaos
 			{
 				bIsChaosGemExist++;
 			}
-			else if (Obj.pChaosBox[i]->m_Type == ITEMGET(13, 16)) //Scroll of Archangel
+			else if (Obj.pntChaosBox[i]->m_Type == ITEMGET(13, 16)) //Scroll of Archangel
 			{
-				int iSCROLL_LEVEL = Obj.pChaosBox[i]->m_Level;
+				int iSCROLL_LEVEL = Obj.pntChaosBox[i]->m_Level;
 				iEventItemCount++;
 				bIsAngelKingPaperExist++;
 				iAngelKingPaperLevel = iSCROLL_LEVEL;
 			}
-			else if (Obj.pChaosBox[i]->m_Type == ITEMGET(13, 17)) //Blood Bone
+			else if (Obj.pntChaosBox[i]->m_Type == ITEMGET(13, 17)) //Blood Bone
 			{
-				int iBLOOD_BONE_LEVEL = Obj.pChaosBox[i]->m_Level;
+				int iBLOOD_BONE_LEVEL = Obj.pntChaosBox[i]->m_Level;
 				iEventItemCount++;
 				bIsBloodBoneExist++;
 				iBloodBoneLevel = iBLOOD_BONE_LEVEL;
@@ -10241,23 +10241,23 @@ void CMixSystem::DevilSquareItemChaosMix_Multi(CGameObject &Obj, int iMixCount)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15))	// Chaos
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15))	// Chaos
 			{
 				bChaoseGem++;
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 17))	// Eye
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 17))	// Eye
 			{
 				eventitemcount++;
 				bEyeOfDevil++;
 
-				if (level != Obj.pChaosBox[n].m_Level)
+				if (level != Obj.pntChaosBox[n].m_Level)
 				{
 					if (level == -1)
 					{
-						level = Obj.pChaosBox[n].m_Level;
+						level = Obj.pntChaosBox[n].m_Level;
 					}
 					else
 					{
@@ -10266,16 +10266,16 @@ void CMixSystem::DevilSquareItemChaosMix_Multi(CGameObject &Obj, int iMixCount)
 				}
 			}
 
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 18))	// Key
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 18))	// Key
 			{
 				eventitemcount++;
 				bKeyOfDevil++;
 
-				if (level != Obj.pChaosBox[n].m_Level)
+				if (level != Obj.pntChaosBox[n].m_Level)
 				{
 					if (level == -1)
 					{
-						level = Obj.pChaosBox[n].m_Level;
+						level = Obj.pntChaosBox[n].m_Level;
 					}
 					else
 					{
@@ -10489,11 +10489,11 @@ void CMixSystem::ShieldPotionLv1_Mix_Multi(CGameObject &Obj, int iMixCount)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 3))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 3))
 			{
-				iHealthPotionCount += Obj.pChaosBox[n].m_Durability;
+				iHealthPotionCount += Obj.pntChaosBox[n].m_Durability;
 			}
 
 			else
@@ -10607,11 +10607,11 @@ void CMixSystem::ShieldPotionLv2_Mix_Multi(CGameObject &Obj, int iMixCount)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 38))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 38))
 			{
-				iHealthPotionCount += Obj.pChaosBox[n].m_Durability;
+				iHealthPotionCount += Obj.pntChaosBox[n].m_Durability;
 			}
 
 			else
@@ -10725,11 +10725,11 @@ void CMixSystem::ShieldPotionLv3_Mix_Multi(CGameObject &Obj, int iMixCount)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 39))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 39))
 			{
-				iHealthPotionCount += Obj.pChaosBox[n].m_Durability;
+				iHealthPotionCount += Obj.pntChaosBox[n].m_Durability;
 			}
 
 			else
@@ -10841,15 +10841,15 @@ void CMixSystem::PremiumBoxMix_Multi(CGameObject &Obj, int iMixCount)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; ++n)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 112))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 112))
 				SilverKey++;
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 113))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 113))
 				GoldKey++;
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 121))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 121))
 				SealedGold++;
-			else if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 122))
+			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 122))
 				SealedSilver++;
 			else
 				Invalid++;
@@ -10955,12 +10955,12 @@ void CMixSystem::JewelOfHarmonyItemPurityMix(CGameObject &Obj) // OK
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == 0)
+		if (Obj.pntChaosBox[n].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 41))
+		if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 41))
 		{
 			GemStoneCount++;
 		}
@@ -11057,9 +11057,9 @@ void CMixSystem::PurityJewelOfHarmony_MultiMix(CGameObject &Obj, int iMixCount)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n].IsItem() == TRUE)
 		{
-			if (Obj.pChaosBox[n].m_Type == ITEMGET(14, 41))
+			if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 41))
 			{
 				iJewelOfHarmonyItemCount++;
 			}
@@ -11171,24 +11171,24 @@ void CMixSystem::BloodCastleMix(CGameObject &Obj) // OK
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pChaosBox[n].IsItem() == 0)
+		if (Obj.pntChaosBox[n].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[n].m_Type == ITEMGET(12, 15))
+		if (Obj.pntChaosBox[n].m_Type == ITEMGET(12, 15))
 		{
 			ChaosCount++;
 		}
-		else if (Obj.pChaosBox[n].m_Type == ITEMGET(13, 16))
+		else if (Obj.pntChaosBox[n].m_Type == ITEMGET(13, 16))
 		{
 			ScrollCount++;
-			ScrollLevel = Obj.pChaosBox[n].m_Level;
+			ScrollLevel = Obj.pntChaosBox[n].m_Level;
 		}
-		else if (Obj.pChaosBox[n].m_Type == ITEMGET(13, 17))
+		else if (Obj.pntChaosBox[n].m_Type == ITEMGET(13, 17))
 		{
 			BoneCount++;
-			BoneLevel = Obj.pChaosBox[n].m_Level;
+			BoneLevel = Obj.pntChaosBox[n].m_Level;
 		}
 	}
 
@@ -11288,16 +11288,16 @@ BOOL CMixSystem::bloodangelmix78(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 351))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 351))
 		{
 			SealedItemCount++;
 		}
@@ -11353,16 +11353,16 @@ BOOL CMixSystem::bloodangelmix79(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 352))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 352))
 		{
 			SealedItemCount++;
 		}
@@ -11418,16 +11418,16 @@ BOOL CMixSystem::bloodangelmix80(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 353))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 353))
 		{
 			SealedItemCount++;
 		}
@@ -11483,16 +11483,16 @@ BOOL CMixSystem::bloodangelmix81(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 354))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 354))
 		{
 			SealedItemCount++;
 		}
@@ -11550,16 +11550,16 @@ BOOL CMixSystem::bloodangelmix86(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 359))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 359))
 		{
 			SealedItemCount++;
 		}
@@ -11615,16 +11615,16 @@ BOOL CMixSystem::bloodangelmix87(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 360))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 360))
 		{
 			SealedItemCount++;
 		}
@@ -11680,16 +11680,16 @@ BOOL CMixSystem::bloodangelmix88(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 361))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 361))
 		{
 			SealedItemCount++;
 		}
@@ -11745,16 +11745,16 @@ BOOL CMixSystem::bloodangelmix89(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 362))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 362))
 		{
 			SealedItemCount++;
 		}
@@ -11813,16 +11813,16 @@ BOOL CMixSystem::bloodangelmix90(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 363))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 363))
 		{
 			SealedItemCount++;
 		}
@@ -11879,16 +11879,16 @@ BOOL CMixSystem::bloodangelmix91(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 364))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 364))
 		{
 			SealedItemCount++;
 		}
@@ -11945,16 +11945,16 @@ BOOL CMixSystem::bloodangelmix92(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 365))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 365))
 		{
 			SealedItemCount++;
 		}
@@ -12011,16 +12011,16 @@ BOOL CMixSystem::bloodangelmix93(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 366))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 366))
 		{
 			SealedItemCount++;
 		}
@@ -12079,16 +12079,16 @@ BOOL CMixSystem::bloodangelmix98(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 371))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 371))
 		{
 			SealedItemCount++;
 		}
@@ -12145,16 +12145,16 @@ BOOL CMixSystem::bloodangelmix99(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 372))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 372))
 		{
 			SealedItemCount++;
 		}
@@ -12211,16 +12211,16 @@ BOOL CMixSystem::bloodangelmix100(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 373))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 373))
 		{
 			SealedItemCount++;
 		}
@@ -12277,16 +12277,16 @@ BOOL CMixSystem::bloodangelmix101(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 374))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 374))
 		{
 			SealedItemCount++;
 		}
@@ -12345,16 +12345,16 @@ BOOL CMixSystem::bloodangelmix106(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 379))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 379))
 		{
 			SealedItemCount++;
 		}
@@ -12411,16 +12411,16 @@ BOOL CMixSystem::bloodangelmix107(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 380))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 380))
 		{
 			SealedItemCount++;
 		}
@@ -12477,16 +12477,16 @@ BOOL CMixSystem::bloodangelmix108(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 381))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 381))
 		{
 			SealedItemCount++;
 		}
@@ -12543,16 +12543,16 @@ BOOL CMixSystem::bloodangelmix109(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 382))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 382))
 		{
 			SealedItemCount++;
 		}
@@ -12611,16 +12611,16 @@ BOOL CMixSystem::bloodangelmix114(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 387))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 387))
 		{
 			SealedItemCount++;
 		}
@@ -12677,16 +12677,16 @@ BOOL CMixSystem::bloodangelmix115(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 388))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 388))
 		{
 			SealedItemCount++;
 		}
@@ -12743,16 +12743,16 @@ BOOL CMixSystem::bloodangelmix116(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 389))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 389))
 		{
 			SealedItemCount++;
 		}
@@ -12809,16 +12809,16 @@ BOOL CMixSystem::bloodangelmix117(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 390))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 390))
 		{
 			SealedItemCount++;
 		}
@@ -12877,16 +12877,16 @@ BOOL CMixSystem::bloodangelmix118(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 391))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 391))
 		{
 			SealedItemCount++;
 		}
@@ -12943,16 +12943,16 @@ BOOL CMixSystem::bloodangelmix119(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 392))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 392))
 		{
 			SealedItemCount++;
 		}
@@ -13009,16 +13009,16 @@ BOOL CMixSystem::bloodangelmix120(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 393))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 393))
 		{
 			SealedItemCount++;
 		}
@@ -13075,16 +13075,16 @@ BOOL CMixSystem::bloodangelmix121(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 394))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 394))
 		{
 			SealedItemCount++;
 		}
@@ -13143,16 +13143,16 @@ BOOL CMixSystem::bloodangelmix126(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 399))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 399))
 		{
 			SealedItemCount++;
 		}
@@ -13209,16 +13209,16 @@ BOOL CMixSystem::bloodangelmix127(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 400))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 400))
 		{
 			SealedItemCount++;
 		}
@@ -13275,16 +13275,16 @@ BOOL CMixSystem::bloodangelmix128(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 401))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 401))
 		{
 			SealedItemCount++;
 		}
@@ -13341,16 +13341,16 @@ BOOL CMixSystem::bloodangelmix129(CGameObject &Obj)
 
 	for (int i = 0; i < CHAOS_BOX_SIZE; i++)
 	{
-		if (Obj.pChaosBox[i].IsItem() == 0)
+		if (Obj.pntChaosBox[i].IsItem() == 0)
 		{
 			continue;
 		}
 
-		if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 407))
+		if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 407))
 		{
 			AncientHerosoul++;
 		}
-		else if (Obj.pChaosBox[i].m_Type == ITEMGET(13, 402))
+		else if (Obj.pntChaosBox[i].m_Type == ITEMGET(13, 402))
 		{
 			SealedItemCount++;
 		}

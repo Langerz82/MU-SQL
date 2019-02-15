@@ -289,7 +289,7 @@ bool DropEx::DropItem(CGameObject &Obj, CGameObject lpTargetObj)
 						}
 					}
 
-					ItemCreate(Obj.m_Index, Obj.MapNumber, Obj.X, Obj.Y, ITEMGET(Drop.ItemType, Drop.ItemIndex), iLevel, Drop.ItemDur, iOption, iLuck, iSkill, gObjMonsterTopHitDamageUser(lpObj), iExlOpt, iAnc, 0, 0, 0);
+					ItemCreate(Obj, Obj.MapNumber, Obj.X, Obj.Y, ITEMGET(Drop.ItemType, Drop.ItemIndex), iLevel, Drop.ItemDur, iOption, iLuck, iSkill, lpObj->m_Index, iExlOpt, iAnc, 0, 0, 0);
 #else
 					// ----
 					if (Drop.ItemLuck == 1)

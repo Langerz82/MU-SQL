@@ -96,7 +96,7 @@ void ItemUpgradeJewels::ProcInsert(CGameObject &User, int JewelPos, int TargetPo
 	for (int i = 0; i < this->m_UpradeInfo.size(); i++)
 	{
 		if (ITEMGET(this->m_UpradeInfo[i].ItemType,
-			this->m_UpradeInfo[i].ItemIndex) == lpUser.pInventory[JewelPos].m_Type)
+			this->m_UpradeInfo[i].ItemIndex) == lpUser.pntInventory[JewelPos].m_Type)
 		{
 			lpJewel = &this->m_UpradeInfo[i];
 			break;
@@ -112,7 +112,7 @@ void ItemUpgradeJewels::ProcInsert(CGameObject &User, int JewelPos, int TargetPo
 	if (this->ProcUpgrade(lpUser, JewelPos, TargetPos, lpJewel))
 	{
 		gObjInventoryItemSet(lpUser, JewelPos, -1);
-		lpUser.pInventory[JewelPos].Clear();
+		lpUser.pntInventory[JewelPos].Clear();
 		GCInventoryItemOneSend(lpUser, TargetPos);
 		GCInventoryItemDeleteSend(lpUser, JewelPos, 1);
 	}
@@ -134,14 +134,14 @@ bool ItemUpgradeJewels::ProcUpgrade(CGameObject &User, int JewelPos, int TargetP
 		return false;
 	}
 
-	if (!lpUser.pInventory[JewelPos].IsItem()
-		|| !lpUser.pInventory[TargetPos].IsItem())
+	if (!lpUser.pntInventory[JewelPos].IsItem()
+		|| !lpUser.pntInventory[TargetPos].IsItem())
 	{
 		return false;
 	}
 
-	int JewelCode = lpUser.pInventory[JewelPos].m_Type;
-	int TargetCode = lpUser.pInventory[TargetPos].m_Type;
+	int JewelCode = lpUser.pntInventory[JewelPos].m_Type;
+	int TargetCode = lpUser.pntInventory[TargetPos].m_Type;
 
 	if (JewelCode == ITEMGET(14, 13) && TargetCode == ITEMGET(0, 41))
 	{
@@ -157,7 +157,7 @@ bool ItemUpgradeJewels::ProcUpgrade(CGameObject &User, int JewelPos, int TargetP
 
 	if (JewelCode == ITEMGET(14, 13) && TargetCode == ITEMGET(13, 37))
 	{
-		CItemObject* ItemFenrir = &lpUser.pInventory[TargetPos];
+		CItemObject* ItemFenrir = &lpUser.pntInventory[TargetPos];
 
 		if (ItemFenrir->m_Durability >= 255)
 		{
@@ -187,7 +187,7 @@ bool ItemUpgradeJewels::ProcUpgrade(CGameObject &User, int JewelPos, int TargetP
 		return true;
 	}
 
-	CItemObject* ItemTarget = &lpUser.pInventory[TargetPos];
+	CItemObject* ItemTarget = &lpUser.pntInventory[TargetPos];
 
 	if (g_LuckyItemManager.IsLuckyItemEquipment(ItemTarget->m_Type) == TRUE)
 	{
@@ -454,14 +454,14 @@ bool ItemUpgradeJewels::ProcUpgrade(CGameObject &User, int JewelPos, int TargetP
 
 	gObjMakePreviewCharSet(lpUser);
 
-	float levelitemdur = (float)ItemGetDurability(lpUser.pInventory[TargetPos].m_Type,
-		lpUser.pInventory[TargetPos].m_Level,lpUser.pInventory[TargetPos].IsExtItem(),lpUser.pInventory[TargetPos].IsSetItem());
+	float levelitemdur = (float)ItemGetDurability(lpUser.pntInventory[TargetPos].m_Type,
+		lpUser.pntInventory[TargetPos].m_Level,lpUser.pntInventory[TargetPos].IsExtItem(),lpUser.pntInventory[TargetPos].IsSetItem());
 
-	lpUser.pInventory[TargetPos].m_Durability = levelitemdur * lpUser.pInventory[TargetPos].m_Durability / lpUser.pInventory[TargetPos].m_BaseDurability;
+	lpUser.pntInventory[TargetPos].m_Durability = levelitemdur * lpUser.pntInventory[TargetPos].m_Durability / lpUser.pntInventory[TargetPos].m_BaseDurability;
 
-	lpUser.pInventory[TargetPos].Convert(lpUser.pInventory[TargetPos].m_Type,lpUser.pInventory[TargetPos].m_Option1,
-		lpUser.pInventory[TargetPos].m_Option2,lpUser.pInventory[TargetPos].m_Option3,lpUser.pInventory[TargetPos].m_NewOption,
-		lpUser.pInventory[TargetPos].m_SetOption,lpUser.pInventory[TargetPos].m_ItemOptionEx, 0, -1, 0,CURRENT_DB_VERSION);
+	lpUser.pntInventory[TargetPos].Convert(lpUser.pntInventory[TargetPos].m_Type,lpUser.pntInventory[TargetPos].m_Option1,
+		lpUser.pntInventory[TargetPos].m_Option2,lpUser.pntInventory[TargetPos].m_Option3,lpUser.pntInventory[TargetPos].m_NewOption,
+		lpUser.pntInventory[TargetPos].m_SetOption,lpUser.pntInventory[TargetPos].m_ItemOptionEx, 0, -1, 0,CURRENT_DB_VERSION);
 
 	return true;
 }

@@ -321,7 +321,7 @@ void CItemObject::Convert(int type, BYTE Option1, BYTE Option2, BYTE Option3, BY
 	{
 		//	sLog->outBasic("[K2][3] %d",
 		//		this->m_SocketOption[i]);
-		//SocketOption[i] = Obj.pChaosBox[PlusItemPos].m_SocketOption[i]; //[K2]
+		//SocketOption[i] = Obj.pntChaosBox[PlusItemPos].m_SocketOption[i]; //[K2]
 
 	}
 

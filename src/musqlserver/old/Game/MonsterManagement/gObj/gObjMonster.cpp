@@ -3887,9 +3887,9 @@ void gObjMonsterDieGiveItem(CGameObject &Obj, CGameObject lpTargetObj)
 	ItemDropPer += ItemDropPer * (gObjGetTotalValueOfEffect(lpTargetObj, EFFECTTYPE_ITEMDROPRATE) / 100.0f); // 7 - ADD_OPTION_DROP_RATE
 	ItemDropPer += g_MapAttr.GetItemDropBonus(lpTargetObj.MapNumber);
 
-	if(lpTargetObj.pInventory[10]->m_Type == ITEMGET(13,134))
+	if(lpTargetObj.pntInventory[10]->m_Type == ITEMGET(13,134))
 		ItemDropPer += 20;
-	if(lpTargetObj.pInventory[11]->m_Type == ITEMGET(13,134))
+	if(lpTargetObj.pntInventory[11]->m_Type == ITEMGET(13,134))
 		ItemDropPer += 20;
 
 	if ( ExtDropPer == TRUE )

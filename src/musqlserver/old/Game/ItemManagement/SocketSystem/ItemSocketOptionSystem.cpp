@@ -889,11 +889,11 @@ int CItemObjectSocketOptionSystem::ApplySeedSphereEffect(CGameObject &Obj)
 
 	for (int iEquip = 0; iEquip < INVETORY_WEAR_SIZE; iEquip++)
 	{
-		if (!IsEnableSocketItem(&Obj.pInventory[iEquip]))	continue;
+		if (!IsEnableSocketItem(&Obj.pntInventory[iEquip]))	continue;
 
 		for (int i = 0; i < 5; i++)
 		{
-			SeedSphereIndex = Obj.pInventory[iEquip]->m_SocketOption[i];
+			SeedSphereIndex = Obj.pntInventory[iEquip]->m_SocketOption[i];
 
 			if (SeedSphereIndex == 0xFF ||
 				SeedSphereIndex == 0xFE)
@@ -921,9 +921,9 @@ void CItemObjectSocketOptionSystem::ApplyBonusOptionEffect(CGameObject &Obj)
 
 	for (int iEquip = 0; iEquip < INVETORY_WEAR_SIZE; iEquip++)
 	{
-		if (!IsEnableSocketItem(&Obj.pInventory[iEquip]))	continue;
+		if (!IsEnableSocketItem(&Obj.pntInventory[iEquip]))	continue;
 
-		btBonusSocketIndex = Obj.pInventory[iEquip]->m_BonusSocketOption;
+		btBonusSocketIndex = Obj.pntInventory[iEquip]->m_BonusSocketOption;
 
 		if (btBonusSocketIndex == 0xFF ||
 			btBonusSocketIndex == 0xFE)

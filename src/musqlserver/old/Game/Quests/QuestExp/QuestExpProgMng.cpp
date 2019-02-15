@@ -799,7 +799,7 @@ void QuestExpProgMng::DeleteInventoryItem(QuestGetItem* pQuestGetItem, int iObjI
 
 	for (int x = 0; x < INVENTORY_SIZE; ++x)
 	{
-		if (!getGameObject(iObjIndex)->pInventory[x)->IsItem())
+		if (!getGameObject(iObjIndex)->pntInventory[x)->IsItem())
 		{
 			continue;
 		}
@@ -807,61 +807,61 @@ void QuestExpProgMng::DeleteInventoryItem(QuestGetItem* pQuestGetItem, int iObjI
 		if (iItemCnt <= 0)
 			return;
 
-		if (getGameObject(iObjIndex)->pInventory[x)->m_Type != iItemNum)
+		if (getGameObject(iObjIndex)->pntInventory[x)->m_Type != iItemNum)
 		{
 			continue;
 		}
 
-		if (getGameObject(iObjIndex)->pInventory[x)->m_Level != iItemLevel)
+		if (getGameObject(iObjIndex)->pntInventory[x)->m_Level != iItemLevel)
 		{
 			continue;
 		}
 
-		if ((getGameObject(iObjIndex)->pInventory[x)->m_Type < ITEMGET(14, 0)
-			|| getGameObject(iObjIndex)->pInventory[x)->m_Type > ITEMGET(14, 8))
-			&& (getGameObject(iObjIndex)->pInventory[x)->m_Type < ITEMGET(14, 35)
-				|| getGameObject(iObjIndex)->pInventory[x)->m_Type > ITEMGET(14, 40))
-			&& g_QuestExpManager.IsQuestItemAtt(getGameObject(iObjIndex)->pInventory[x)->m_Type, QUESTEXP_ITEM_OVERLAP) != true)
+		if ((getGameObject(iObjIndex)->pntInventory[x)->m_Type < ITEMGET(14, 0)
+			|| getGameObject(iObjIndex)->pntInventory[x)->m_Type > ITEMGET(14, 8))
+			&& (getGameObject(iObjIndex)->pntInventory[x)->m_Type < ITEMGET(14, 35)
+				|| getGameObject(iObjIndex)->pntInventory[x)->m_Type > ITEMGET(14, 40))
+			&& g_QuestExpManager.IsQuestItemAtt(getGameObject(iObjIndex)->pntInventory[x)->m_Type, QUESTEXP_ITEM_OVERLAP) != true)
 		{
-			if (getGameObject(iObjIndex)->pInventory[x)->m_Option1 != iItemSkill)
+			if (getGameObject(iObjIndex)->pntInventory[x)->m_Option1 != iItemSkill)
 			{
 				continue;
 			}
 
-			if (getGameObject(iObjIndex)->pInventory[x)->m_Option3 != iItemOpt)
+			if (getGameObject(iObjIndex)->pntInventory[x)->m_Option3 != iItemOpt)
 			{
 				continue;
 			}
 
-			if (getGameObject(iObjIndex)->pInventory[x)->m_NewOption != iItemExOpt)
+			if (getGameObject(iObjIndex)->pntInventory[x)->m_NewOption != iItemExOpt)
 			{
 				continue;
 			}
 
-			if (getGameObject(iObjIndex)->pInventory[x)->m_Option2 != 0)
+			if (getGameObject(iObjIndex)->pntInventory[x)->m_Option2 != 0)
 			{
 				continue;
 			}
 
-			if (getGameObject(iObjIndex)->pInventory[x)->m_SetOption != 0)
+			if (getGameObject(iObjIndex)->pntInventory[x)->m_SetOption != 0)
 			{
 				continue;
 			}
 
 			BYTE NewOption[MAX_EXOPTION_SIZE] = { 0 };
-			ItemIsBufExOption(NewOption, &getGameObject(iObjIndex)->pInventory[x));
+			ItemIsBufExOption(NewOption, &getGameObject(iObjIndex)->pntInventory[x));
 
 			/*sLog->outBasic("[QuestExp] DeleteInvenItem [%s][%s] Delete Item Info - Item:[%s,%d,%d,%d,%d] serial:[%I64d][%d] Ex:[%d,%d,%d,%d,%d,%d,%d] Set[%d] 380:[%d] HO:[%d,%d] SC[%d,%d,%d,%d,%d] BonusOption[%d]",
-				getGameObject(iObjIndex)->AccountID, getGameObject(iObjIndex)->Name, getGameObject(iObjIndex)->pInventory[x]->GetName(), getGameObject(iObjIndex)->pInventory[x)->m_Level, getGameObject(iObjIndex)->pInventory[x)->m_Option1,
-				getGameObject(iObjIndex)->pInventory[x]->m_Option2, getGameObject(iObjIndex)->pInventory[x]->m_Option3, getGameObject(iObjIndex)->pInventory[x)->m_Number, (int)getGameObject(iObjIndex)->pInventory[x)->m_Durability,
-				NewOption[0], NewOption[1], NewOption[2], NewOption[3], NewOption[4], NewOption[5], NewOption[6], getGameObject(iObjIndex)->pInventory[x)->m_SetOption,
-				getGameObject(iObjIndex)->pInventory[x]->m_ItemOptionEx >> 7, g_kJewelOfHarmonySystem.GetItemStrengthenOption(&getGameObject(iObjIndex)->pInventory[x)),
-				g_kJewelOfHarmonySystem.GetItemOptionLevel(&getGameObject(iObjIndex)->pInventory[x]), getGameObject(iObjIndex)->pInventory[x)->m_SocketOption[0),
-				getGameObject(iObjIndex)->pInventory[x]->m_SocketOption[1], getGameObject(iObjIndex)->pInventory[x]->m_SocketOption[2], getGameObject(iObjIndex)->pInventory[x)->m_SocketOption[3),
-				getGameObject(iObjIndex)->pInventory[x]->m_SocketOption[4], getGameObject(iObjIndex)->pInventory[x)->m_BonusSocketOption);*/
+				getGameObject(iObjIndex)->AccountID, getGameObject(iObjIndex)->Name, getGameObject(iObjIndex)->pntInventory[x]->GetName(), getGameObject(iObjIndex)->pntInventory[x)->m_Level, getGameObject(iObjIndex)->pntInventory[x)->m_Option1,
+				getGameObject(iObjIndex)->pntInventory[x]->m_Option2, getGameObject(iObjIndex)->pntInventory[x]->m_Option3, getGameObject(iObjIndex)->pntInventory[x)->m_Number, (int)getGameObject(iObjIndex)->pntInventory[x)->m_Durability,
+				NewOption[0], NewOption[1], NewOption[2], NewOption[3], NewOption[4], NewOption[5], NewOption[6], getGameObject(iObjIndex)->pntInventory[x)->m_SetOption,
+				getGameObject(iObjIndex)->pntInventory[x]->m_ItemOptionEx >> 7, g_kJewelOfHarmonySystem.GetItemStrengthenOption(&getGameObject(iObjIndex)->pntInventory[x)),
+				g_kJewelOfHarmonySystem.GetItemOptionLevel(&getGameObject(iObjIndex)->pntInventory[x]), getGameObject(iObjIndex)->pntInventory[x)->m_SocketOption[0),
+				getGameObject(iObjIndex)->pntInventory[x]->m_SocketOption[1], getGameObject(iObjIndex)->pntInventory[x]->m_SocketOption[2], getGameObject(iObjIndex)->pntInventory[x)->m_SocketOption[3),
+				getGameObject(iObjIndex)->pntInventory[x]->m_SocketOption[4], getGameObject(iObjIndex)->pntInventory[x)->m_BonusSocketOption);*/
 
 			gObjInventoryItemSet(iObjIndex, x, -1);
-			getGameObject(iObjIndex)->pInventory[x)->Clear();
+			getGameObject(iObjIndex)->pntInventory[x)->Clear();
 			gGameProtocol.GCInventoryItemDeleteSend(iObjIndex, x, 1);
 
 			iItemCnt--;
@@ -876,19 +876,19 @@ void QuestExpProgMng::DeleteInventoryItem(QuestGetItem* pQuestGetItem, int iObjI
 			else
 			{
 				BYTE NewOption[MAX_EXOPTION_SIZE] = { 0 };
-				ItemIsBufExOption(NewOption, &getGameObject(iObjIndex)->pInventory[x));
+				ItemIsBufExOption(NewOption, &getGameObject(iObjIndex)->pntInventory[x));
 
 				//sLog->outBasic("[QuestExp] DeleteInvenItem [%s][%s] Delete Item Info - Item:[%s,%d,%d,%d,%d] serial:[%I64d][%d] Ex:[%d,%d,%d,%d,%d,%d,%d] Set[%d] 380:[%d] HO:[%d,%d] SC[%d,%d,%d,%d,%d] BonusOption[%d]",
-				//	getGameObject(iObjIndex)->AccountID, getGameObject(iObjIndex)->Name, getGameObject(iObjIndex)->pInventory[x]->GetName(), getGameObject(iObjIndex)->pInventory[x)->m_Level, getGameObject(iObjIndex)->pInventory[x)->m_Option1,
-				//	getGameObject(iObjIndex)->pInventory[x]->m_Option2, getGameObject(iObjIndex)->pInventory[x]->m_Option3, getGameObject(iObjIndex)->pInventory[x)->m_Number, (int)getGameObject(iObjIndex)->pInventory[x)->m_Durability,
-				//	NewOption[0], NewOption[1], NewOption[2], NewOption[3], NewOption[4], NewOption[5], NewOption[6], getGameObject(iObjIndex)->pInventory[x)->m_SetOption,
-				//	getGameObject(iObjIndex)->pInventory[x]->m_ItemOptionEx >> 7, g_kJewelOfHarmonySystem.GetItemStrengthenOption(&getGameObject(iObjIndex)->pInventory[x)),
-				//	g_kJewelOfHarmonySystem.GetItemOptionLevel(&getGameObject(iObjIndex)->pInventory[x]), getGameObject(iObjIndex)->pInventory[x)->m_SocketOption[0),
-				//	getGameObject(iObjIndex)->pInventory[x]->m_SocketOption[1], getGameObject(iObjIndex)->pInventory[x]->m_SocketOption[2], getGameObject(iObjIndex)->pInventory[x)->m_SocketOption[3),
-				//	getGameObject(iObjIndex)->pInventory[x]->m_SocketOption[4], getGameObject(iObjIndex)->pInventory[x)->m_BonusSocketOption);
+				//	getGameObject(iObjIndex)->AccountID, getGameObject(iObjIndex)->Name, getGameObject(iObjIndex)->pntInventory[x]->GetName(), getGameObject(iObjIndex)->pntInventory[x)->m_Level, getGameObject(iObjIndex)->pntInventory[x)->m_Option1,
+				//	getGameObject(iObjIndex)->pntInventory[x]->m_Option2, getGameObject(iObjIndex)->pntInventory[x]->m_Option3, getGameObject(iObjIndex)->pntInventory[x)->m_Number, (int)getGameObject(iObjIndex)->pntInventory[x)->m_Durability,
+				//	NewOption[0], NewOption[1], NewOption[2], NewOption[3], NewOption[4], NewOption[5], NewOption[6], getGameObject(iObjIndex)->pntInventory[x)->m_SetOption,
+				//	getGameObject(iObjIndex)->pntInventory[x]->m_ItemOptionEx >> 7, g_kJewelOfHarmonySystem.GetItemStrengthenOption(&getGameObject(iObjIndex)->pntInventory[x)),
+				//	g_kJewelOfHarmonySystem.GetItemOptionLevel(&getGameObject(iObjIndex)->pntInventory[x]), getGameObject(iObjIndex)->pntInventory[x)->m_SocketOption[0),
+				//	getGameObject(iObjIndex)->pntInventory[x]->m_SocketOption[1], getGameObject(iObjIndex)->pntInventory[x]->m_SocketOption[2], getGameObject(iObjIndex)->pntInventory[x)->m_SocketOption[3),
+				//	getGameObject(iObjIndex)->pntInventory[x]->m_SocketOption[4], getGameObject(iObjIndex)->pntInventory[x)->m_BonusSocketOption);
 
 				gObjInventoryItemSet(iObjIndex, x, -1);
-				getGameObject(iObjIndex)->pInventory[x)->Clear();
+				getGameObject(iObjIndex)->pntInventory[x)->Clear();
 				gGameProtocol.GCInventoryItemDeleteSend(iObjIndex, x, 1);
 			}
 
@@ -909,34 +909,34 @@ void QuestExpProgMng::ChkUserQuestTypeItem(QuestGetItem* pQuestGetItem, UserQues
 
 	for (int x = 0; x < INVENTORY_SIZE; ++x)
 	{
-		if (!getGameObject(iObjIndex)->pInventory[x)->IsItem())
+		if (!getGameObject(iObjIndex)->pntInventory[x)->IsItem())
 		{
 			continue;
 		}
 
-		if (getGameObject(iObjIndex)->pInventory[x)->m_Type != iItemNum)
+		if (getGameObject(iObjIndex)->pntInventory[x)->m_Type != iItemNum)
 		{
 			continue;
 		}
 
-		if (getGameObject(iObjIndex)->pInventory[x)->m_Level != iItemLevel)
+		if (getGameObject(iObjIndex)->pntInventory[x)->m_Level != iItemLevel)
 		{
 			continue;
 		}
 
-		if ((getGameObject(iObjIndex)->pInventory[x]->m_Type < ITEMGET(14, 0) || getGameObject(iObjIndex)->pInventory[x)->m_Type > ITEMGET(14, 8))
-			&& (getGameObject(iObjIndex)->pInventory[x]->m_Type < ITEMGET(14, 35) || getGameObject(iObjIndex)->pInventory[x)->m_Type > ITEMGET(14, 40))
-			&& g_QuestExpManager.IsQuestItemAtt(getGameObject(iObjIndex)->pInventory[x)->m_Type, QUESTEXP_ITEM_OVERLAP) != true)
+		if ((getGameObject(iObjIndex)->pntInventory[x]->m_Type < ITEMGET(14, 0) || getGameObject(iObjIndex)->pntInventory[x)->m_Type > ITEMGET(14, 8))
+			&& (getGameObject(iObjIndex)->pntInventory[x]->m_Type < ITEMGET(14, 35) || getGameObject(iObjIndex)->pntInventory[x)->m_Type > ITEMGET(14, 40))
+			&& g_QuestExpManager.IsQuestItemAtt(getGameObject(iObjIndex)->pntInventory[x)->m_Type, QUESTEXP_ITEM_OVERLAP) != true)
 		{
-			if (getGameObject(iObjIndex)->pInventory[x)->m_Option1 == iItemSkill)
+			if (getGameObject(iObjIndex)->pntInventory[x)->m_Option1 == iItemSkill)
 			{
-				if (getGameObject(iObjIndex)->pInventory[x)->m_Option3 == iItemOpt)
+				if (getGameObject(iObjIndex)->pntInventory[x)->m_Option3 == iItemOpt)
 				{
-					if (getGameObject(iObjIndex)->pInventory[x)->m_NewOption == iItemExOpt)
+					if (getGameObject(iObjIndex)->pntInventory[x)->m_NewOption == iItemExOpt)
 					{
-						if (!getGameObject(iObjIndex)->pInventory[x)->m_Option2)
+						if (!getGameObject(iObjIndex)->pntInventory[x)->m_Option2)
 						{
-							if (!getGameObject(iObjIndex)->pInventory[x)->m_SetOption)
+							if (!getGameObject(iObjIndex)->pntInventory[x)->m_SetOption)
 								iItemCnt++;
 						}
 					}
@@ -945,7 +945,7 @@ void QuestExpProgMng::ChkUserQuestTypeItem(QuestGetItem* pQuestGetItem, UserQues
 		}
 		else
 		{
-			iItemDur += getGameObject(iObjIndex)->pInventory[x)->m_Durability;
+			iItemDur += getGameObject(iObjIndex)->pntInventory[x)->m_Durability;
 		}
 	}
 

@@ -105,7 +105,7 @@ struct COMMANDS_DATA
 
 	char CrewCMD[20];
 
-	char offTrade[20];
+	char offpntTrade[20];
 	char dcFriend[20];
 	char setparty[20];
 

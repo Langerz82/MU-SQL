@@ -3669,9 +3669,9 @@ int CCastleSiege::DelGemOfDefend(CGameObject &Obj, int iNeedGemOfDefend)
 
 	for( int x = 0; x < INVENTORY_SIZE; x++ )
 	{
-		if( Obj.pInventory[x]->IsItem() == TRUE )
+		if( Obj.pntInventory[x]->IsItem() == TRUE )
 		{
-			if( Obj.pInventory[x]->m_Type == ITEMGET(14,31) )
+			if( Obj.pntInventory[x]->m_Type == ITEMGET(14,31) )
 			{
 				iGemOfDefendCount++;
 			}
@@ -3687,11 +3687,11 @@ int CCastleSiege::DelGemOfDefend(CGameObject &Obj, int iNeedGemOfDefend)
 
 	for( int x = 0; x < INVENTORY_SIZE; x++ )
 	{
-		if( Obj.pInventory[x]->IsItem() == TRUE )
+		if( Obj.pntInventory[x]->IsItem() == TRUE )
 		{
-			if( Obj.pInventory[x]->m_Type == ITEMGET(14,31) )
+			if( Obj.pntInventory[x]->m_Type == ITEMGET(14,31) )
 			{
-				sLog->outBasic("[CastleSiege] [%s][%s] Deleting Gem of Defend (GUILD:%s) - Serial:%u", Obj.AccountID, Obj.Name, Obj.m_PlayerData->GuildName, Obj.pInventory[x]->m_Number);
+				sLog->outBasic("[CastleSiege] [%s][%s] Deleting Gem of Defend (GUILD:%s) - Serial:%u", Obj.AccountID, Obj.Name, Obj.m_PlayerData->GuildName, Obj.pntInventory[x]->m_Number);
 
 				gObjInventoryItemSet(iIndex, x, 0xff);
 				gObjInventoryDeleteItem(iIndex, x);
@@ -4816,11 +4816,11 @@ int CCastleSiege::CheckOverlapCsMarks(CGameObject &Obj)
 {
 	for( int x = INVETORY_WEAR_SIZE; x < MAIN_INVENTORY_SIZE; x++ )
 	{
-		if( Obj.pInventory[x]->IsItem() == TRUE )
+		if( Obj.pntInventory[x]->IsItem() == TRUE )
 		{
-			if( (Obj.pInventory[x]->m_Type == ITEMGET(14,21)) && (Obj.pInventory[x]->m_Level == 3) )
+			if( (Obj.pntInventory[x]->m_Type == ITEMGET(14,21)) && (Obj.pntInventory[x]->m_Level == 3) )
 			{
-				int dur = Obj.pInventory[x]->m_Durability;
+				int dur = Obj.pntInventory[x]->m_Durability;
 
 				if( ITEM_DUR_RANGE(dur) )
 				{
