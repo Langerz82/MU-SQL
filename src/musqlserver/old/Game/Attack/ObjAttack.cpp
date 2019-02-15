@@ -2773,7 +2773,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 
 								for (int iBuffIndex = 0; iBuffIndex < lpTargetObj.m_BuffEffectCount; iBuffIndex++)
 								{
-									if (lpTargetObj.m_BuffEffectList[iBuffIndex].BuffIndex == BUFFTYPE_CHARM_PROTECTITEM)
+									if (lpTargetObj.pntBuffEffectList[iBuffIndex].BuffIndex == BUFFTYPE_CHARM_PROTECTITEM)
 									{
 										iDurEquipment = lpEquipment->m_Durability;
 										break;
@@ -3022,7 +3022,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 
 							for (int iBuffIndex = 0; iBuffIndex < lpTargetObj.m_BuffEffectCount; iBuffIndex++)
 							{
-								if (lpTargetObj.m_BuffEffectList[iBuffIndex].BuffIndex == BUFFTYPE_CHARM_PROTECTITEM)
+								if (lpTargetObj.pntBuffEffectList[iBuffIndex].BuffIndex == BUFFTYPE_CHARM_PROTECTITEM)
 								{
 									iDurEquipment = lpEquipment->m_Durability;
 									break;

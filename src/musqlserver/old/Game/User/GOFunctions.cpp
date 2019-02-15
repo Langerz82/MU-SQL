@@ -1109,9 +1109,9 @@ void gObjCharZeroSet(CGameObject &Obj)
 
 	if (Obj.Type == OBJ_USER && (Obj.m_PlayerData->ISBOT == false && Obj.m_PlayerData->bt_BotType != 1))
 	{
-		memset(Obj.pWarehouseMap, (BYTE)-1, WAREHOUSE_SIZE);
+		memset(Obj.pntWarehouseMap, (BYTE)-1, WAREHOUSE_SIZE);
 		memset(Obj.TradeMap, (BYTE)-1, TRADE_BOX_SIZE);
-		memset(Obj.pChaosBoxMap, (BYTE)-1, CHAOS_BOX_MAP_SIZE);
+		memset(Obj.ChaosBoxMap, (BYTE)-1, CHAOS_BOX_MAP_SIZE);
 	}
 
 	for (int i = 0; i < MAX_MAGIC; i++)
@@ -1197,8 +1197,8 @@ void gObjCharZeroSet(CGameObject &Obj)
 
 		for (int i = 0; i < MUUN_INVENTORY_SIZE; i++)
 		{
-			Obj.pMuunpntInventory1[i]->Clear();
-			Obj.pMuunpntInventory2[i]->Clear();
+			Obj.pntMuunInventory1[i]->Clear();
+			Obj.pntMuunInventory2[i]->Clear();
 		}
 
 		for (int i = 0; i < 2; i++)
@@ -1312,7 +1312,7 @@ void gObjCharZeroSet(CGameObject &Obj)
 	Obj.m_byITR_StoneState = 99;
 	Obj.m_dwDCTimer = 0;
 	Obj.m_dwOffLevelTime = 0;
-	memset(&Obj.m_BotBuffs, 0, sizeof(Obj.m_BotBuffs));
+	memset(&Obj.pntBotBuffs, 0, sizeof(Obj.pntBotBuffs));
 	Obj.m_nPhaseLordSilvester = 0;
 	Obj.m_btOpenWarehouse = FALSE;
 	Obj.m_Whispering->iWhisperSent = false;
@@ -3932,7 +3932,7 @@ BOOL gObjGameClose(CGameObject &Obj)
 
 	UserChatBlockMng::getInstance()->deleteSlot(Obj.m_Index);
 
-	GJSetCharacterInfo(Obj, Obj.getTarget(), 0);
+	GJSetCharacterInfo(Obj, 0);
 	gObjViewportClose(Obj);
 	sLog->outBasic("(%d)(%s)(%s) Character closed", Obj, Obj.AccountID, Obj.Name);
 
@@ -5359,7 +5359,7 @@ BOOL gObjBackSpring(CGameObject &Obj, CGameObject &TargetObj)
 	int EffectID = -1;
 	for (int i = 0; i < MAX_BUFFEFFECT; i++) //season4 add-on
 	{
-		EffectID = Obj.m_BuffEffectList[i]->BuffIndex;
+		EffectID = Obj.pntBuffEffectList[i]->BuffIndex;
 
 		if (EffectID == BUFFTYPE_STONE ||
 			EffectID == BUFFTYPE_STUN ||
@@ -5596,7 +5596,7 @@ BOOL gObjBackSpring2(CGameObject &Obj, CGameObject lpTargetObj, int count)
 
 	for (int i = 0; i < MAX_BUFFEFFECT; i++) //season4 add-on
 	{
-		EffectID = Obj.m_BuffEffectList[i]->BuffIndex;
+		EffectID = Obj.pntBuffEffectList[i]->BuffIndex;
 
 		if (EffectID == BUFFTYPE_STONE ||
 			EffectID == BUFFTYPE_STUN ||
@@ -6014,7 +6014,7 @@ void gObjPlayerKiller(CGameObject &Obj, CGameObject &TargetObj, int MSBDamage)
 		return;
 	}
 
-	ReqSavePlayerKiller(Obj, TargetObj);
+	ReqSavePlayerKiller(Obj.m_Index, TargetObj.m_Index);
 
 	if (TargetObj.Type == OBJ_USER)
 	{
@@ -9892,9 +9892,9 @@ void gObjLifeCheck(CGameObject &TargetObj, CGameObject& Obj, int AttackDamage, i
 						for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 						{
 							CGameObject* lpObj = ObjEntry.second;
-							if (getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
+							if (lpObj->Connected == PLAYER_PLAYING && lpObj->Type == OBJ_USER)
 							{
-								IOCP.DataSend(i, (BYTE*)&pNotice, pNotice.h.size);
+								IOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (BYTE*)&pNotice, pNotice.h.size);
 							}
 						}
 					}
@@ -9918,9 +9918,9 @@ void gObjLifeCheck(CGameObject &TargetObj, CGameObject& Obj, int AttackDamage, i
 						for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 						{
 							CGameObject* lpObj = ObjEntry.second;
-							if (getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
+							if (lpObj->Connected == PLAYER_PLAYING && lpObj->Type == OBJ_USER)
 							{
-								IOCP.DataSend(i, (BYTE*)&pNotice, pNotice.h.size);
+								IOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (BYTE*)&pNotice, pNotice.h.size);
 							}
 						}
 					}
@@ -11909,7 +11909,7 @@ void gObjChaosItemBoxSet(CGameObject &Obj, int itempos, int xl, int yl, BYTE set
 
 			if (ExtentCheck(xx, yy, 8, 4) == 1)
 			{
-				*(BYTE*)(Obj.pChaosBoxMap + (itemposy + y) * 8 + (itemposx + x)) = set_byte;
+				*(BYTE*)(Obj.ChaosBoxMap + (itemposy + y) * 8 + (itemposx + x)) = set_byte;
 			}
 			else
 			{
@@ -11989,26 +11989,26 @@ BYTE gObjChaosBoxInsertItemPos(CGameObject &Obj, CItemObject &item, int pos, int
 
 	if (source >= 0)
 	{
-		std::memcpy(TempMap, Obj.pChaosBoxMap, CHAOS_BOX_MAP_SIZE);
+		std::memcpy(TempMap, Obj.ChaosBoxMap, CHAOS_BOX_MAP_SIZE);
 		gObjChaosItemBoxSet(Obj, source, iwidth, iheight, 255);
 	}
 
-	if (*(BYTE*)(Obj.pChaosBoxMap + h * 8 + w) != 255)
+	if (*(BYTE*)(Obj.ChaosBoxMap + h * 8 + w) != 255)
 	{
 		if (source >= 0)
 		{
-			std::memcpy(Obj.pChaosBoxMap, TempMap, CHAOS_BOX_MAP_SIZE);
+			std::memcpy(Obj.ChaosBoxMap, TempMap, CHAOS_BOX_MAP_SIZE);
 		}
 		return -1;
 	}
 
-	blank = gObjMapRectCheck(Obj.pChaosBoxMap, w, h, 8, 4, iwidth, iheight);
+	blank = gObjMapRectCheck(Obj.ChaosBoxMap, w, h, 8, 4, iwidth, iheight);
 
 	if (blank == 255)
 	{
 		if (source >= 0)
 		{
-			std::memcpy(Obj.pChaosBoxMap, TempMap, CHAOS_BOX_MAP_SIZE);
+			std::memcpy(Obj.ChaosBoxMap, TempMap, CHAOS_BOX_MAP_SIZE);
 		}
 		return -1;
 	}
@@ -14989,8 +14989,8 @@ void gObjTradeOkButton(CGameObject &Obj)
 		Obj.m_PlayerData->Money += target->TradeMoney;
 		target->m_PlayerData->Money += Obj.TradeMoney;
 
-		GJSetCharacterInfo(Obj, Obj, 0);
-		GJSetCharacterInfo(*target, *target, 0);
+		GJSetCharacterInfo(Obj, 0);
+		GJSetCharacterInfo(*target, 0);
 	}
 	else
 	{
@@ -21217,7 +21217,7 @@ int  gObjMagicAdd(CGameObject &Obj, WORD Type, WORD Index, BYTE Level, WORD & Sk
 	{
 		if (Obj.Magic[n].IsMagic() == 0)
 		{
-			skill = Obj.Magic[n].Set(Type, Index, Level);
+			skill = Obj.Magic[n]->Set(Type, Index, Level);
 			if (skill < 0)
 			{
 				return -1;
@@ -26507,12 +26507,12 @@ bool gObjFixMuunInventoryPointer(CGameObject &Obj)
 		return false;
 	}
 
-	if (Obj.pMuunInventory == Obj.pMuunInventory1)
+	if (Obj.pntMuunInventory == Obj.pntMuunInventory1)
 	{
 		return true;
 	}
 
-	if (Obj.pMuunInventory == Obj.pMuunInventory2)
+	if (Obj.pntMuunInventory == Obj.pntMuunInventory2)
 	{
 		if (Obj.pTransaction == 1)
 		{
@@ -26524,7 +26524,7 @@ bool gObjFixMuunInventoryPointer(CGameObject &Obj)
 
 		for (int n = 0; n < MUUN_INVENTORY_SIZE; n++)
 		{
-			Obj.pMuunpntInventory2[n]->Clear();
+			Obj.pntMuunInventory2[n]->Clear();
 		}
 	}
 
@@ -26539,12 +26539,12 @@ bool gObjFixMuunInventoryPointer(CGameObject &Obj)
 
 void gObjSetMuunInventory1Pointer(CGameObject &Obj)
 {
-	Obj.pMuunInventory = Obj.pMuunInventory1;
+	Obj.pntMuunInventory = Obj.pntMuunInventory1;
 }
 
 void gObjSetMuunInventory2Pointer(CGameObject &Obj)
 {
-	Obj.pMuunInventory = Obj.pMuunInventory2;
+	Obj.pntMuunInventory = Obj.pntMuunInventory2;
 }
 
 BYTE gObjChkMuunInventoryEmpty(CGameObject &Obj)
@@ -28100,9 +28100,9 @@ int gObjGetAutoPartyUserCount()
 	for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 	{
 		CGameObject* lpObj = ObjEntry.second;
-		if (getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
+		if (lpObj->Connected == PLAYER_PLAYING && lpObj->Type == OBJ_USER)
 		{
-			if (getGameObject(i)->m_PlayerData->bActiveSetParty)
+			if (lpObj->m_PlayerData->bActiveSetParty)
 				counter++;
 		}
 	}
@@ -28115,9 +28115,9 @@ int gObjGetOffTradeUsercount()
 	for each (std::pair<int,CGameObject*> ObjEntry in gGameObjects)
 	{
 		CGameObject* lpObj = ObjEntry.second;
-		if (getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
+		if (lpObj->Connected == PLAYER_PLAYING && lpObj->Type == OBJ_USER)
 		{
-			if (getGameObject(i)->m_bOff && !getGameObject(i)->m_bOffLevel)
+			if (lpObj->m_bOff && !lpObj->m_bOffLevel)
 				counter++;
 		}
 	}
@@ -28132,7 +28132,7 @@ void gObjDisconnectOffTraders()
 		{
 			if (getGameObject(n)->Type == OBJ_USER && getGameObject(n)->m_bOff && !getGameObject(n)->m_bOffLevel)
 			{
-				GJSetCharacterInfo(*getGameObject(n), *getGameObject(n), FALSE);
+				GJSetCharacterInfo(*getGameObject(n), FALSE);
 				getGameObject(n)->m_bOff = false;
 				gObjDel(n);
 				IOCP.CloseClient(n);
@@ -28149,7 +28149,7 @@ void gObjDisconnectOffLevelers()
 		{
 			if (getGameObject(n)->Type == OBJ_USER && getGameObject(n)->m_bOff && getGameObject(n)->m_bOffLevel)
 			{
-				GJSetCharacterInfo(*getGameObject(n), *getGameObject(n), FALSE);
+				GJSetCharacterInfo(*getGameObject(n), FALSE);
 				getGameObject(n)->m_bOff = false;
 				gObjDel(n);
 				IOCP.CloseClient(n);
@@ -28897,9 +28897,9 @@ BYTE gObjChaosBoxInsertItemTemp(CGameObject &Obj, CItemObject * Item)
 	{
 		for (w = 0; w < 8; w++)
 		{
-			if (*(BYTE*)(Obj.pChaosBoxMap + h * 8 + w) == 255)
+			if (*(BYTE*)(Obj.ChaosBoxMap + h * 8 + w) == 255)
 			{
-				blank = gObjMapRectCheck(Obj.pChaosBoxMap, w, h, 8, 4, iwidth, iheight);
+				blank = gObjMapRectCheck(Obj.ChaosBoxMap, w, h, 8, 4, iwidth, iheight);
 
 				if (blank != 255)
 				{

@@ -102,11 +102,11 @@ bool CBotSystem::LoadBotSpecializationData(CGameObject &Obj, LPSTR szFile, BYTE 
 				pugi::xml_node BuffList = doc.child("BuffList");
 				for( pugi::xml_node buffs = BuffList.child("Buff"); buffs; buffs = buffs.next_sibling())
 				{
-					Obj.m_BotBuffs[iBuffCounter].wBuffId = buffs.attribute("Id").as_int();
-					Obj.m_BotBuffs[iBuffCounter].wDuration = buffs.attribute("Duration").as_int();
-					Obj.m_BotBuffs[iBuffCounter].iEffect = buffs.attribute("EffectValue").as_int();
-					Obj.m_BotBuffs[iBuffCounter].wEffectType = buffs.attribute("EffectType").as_int();
-					//gObjMagicAdd(lpObj,Obj.m_BotBuffs[iBuffCounter].wBuffId ,0);
+					Obj.pntBotBuffs[iBuffCounter].wBuffId = buffs.attribute("Id").as_int();
+					Obj.pntBotBuffs[iBuffCounter].wDuration = buffs.attribute("Duration").as_int();
+					Obj.pntBotBuffs[iBuffCounter].iEffect = buffs.attribute("EffectValue").as_int();
+					Obj.pntBotBuffs[iBuffCounter].wEffectType = buffs.attribute("EffectType").as_int();
+					//gObjMagicAdd(lpObj,Obj.pntBotBuffs[iBuffCounter].wBuffId ,0);
 					iBuffCounter++;
 					
 				}
@@ -304,7 +304,7 @@ int CBotSystem::AddBot(_sBOT_SETTINGS pBot)
 		lpBotObj.Inventory1 = new CItemObject[INVENTORY_SIZE];
 		for(int n=0;n<INVENTORY_SIZE;n++)
 		{
-			lpBotObj.pntInventory1[n].Clear();
+			lpBotObj.pntInventory1[n]->Clear();
 		}
 		memset(&lpBotObj.pInventoryMap[0], (BYTE)-1,INVENTORY_SIZE);	//
 	}
@@ -633,9 +633,9 @@ void CBotSystem::BuffPlayer(WORD  wBufferindex,CGameObject &Obj)
 
 	for(int i=0;i<MAX_BUFFS_PER_BOT;i++)
 	{
-		if(gBotObj.m_BotBuffs[i].wBuffId > 0)
+		if(gBotObj.pntBotBuffs[i].wBuffId > 0)
 		{
-			/*CMagicInf * lpMagic = gObjGetMagicSearch(gBotObj,gBotObj.m_BotBuffs[i].wBuffId);
+			/*CMagicInf * lpMagic = gObjGetMagicSearch(gBotObj,gBotObj.pntBotBuffs[i].wBuffId);
 
 			if(lpMagic != 0)
 			{
@@ -643,7 +643,7 @@ void CBotSystem::BuffPlayer(WORD  wBufferindex,CGameObject &Obj)
 				Obj.BuffId = i;
 				gObjUseSkill.RunningSkill(lpBot->Obj.m_Index,Obj.m_Index,lpMagic,0);
 			}*/
-			gObjAddBuffEffect(&getGameObject(Obj.m_Index), gBotObj.m_BotBuffs[i]->wBuffId, gBotObj.m_BotBuffs[i]->wEffectType, gBotObj.m_BotBuffs[i]->iEffect, 0, 0, gBotObj.m_BotBuffs[i)->wDuration);
+			gObjAddBuffEffect(&getGameObject(Obj.m_Index), gBotObj.pntBotBuffs[i]->wBuffId, gBotObj.pntBotBuffs[i]->wEffectType, gBotObj.pntBotBuffs[i]->iEffect, 0, 0, gBotObj.pntBotBuffs[i)->wDuration);
 		}
 	}
 	gGameProtocol.ChatTargetSend(gBotObj, Lang.GetText(0,367), Obj.m_Index);
@@ -667,9 +667,9 @@ int CBotSystem::GetSkillTime(CGameObject &Obj, WORD wSkill)
 
 	for(int i=0;i<MAX_BUFFS_PER_BOT;i++)
 	{
-		if(Obj.m_BotBuffs[i].wBuffId == wSkill)
+		if(Obj.pntBotBuffs[i].wBuffId == wSkill)
 		{
-			return Obj.m_BotBuffs[i].wDuration;
+			return Obj.pntBotBuffs[i].wDuration;
 		}
 	}
 	return 0;
@@ -785,7 +785,7 @@ int CBotSystem::AlchemistTradeItemCount(CGameObject &Obj)
 
 	for(int n = 0; n < TRADE_BOX_SIZE; n++)
 	{
-		if(Obj.pntTrade[n].IsItem() == 1)
+		if(Obj.pntTrade[n]->IsItem() == 1)
 		{
 			Count++;
 		}
@@ -975,15 +975,15 @@ int gObjGetItemCountInTradeWindow(CGameObject &Obj, WORD itemtype, int itemlevel
 
 	for(int n = 0; n < TRADE_BOX_SIZE; n++)
 	{
-		if(Obj.pntTrade[n].IsItem() == 1 &&  Obj.pntTrade[n].m_Type == itemtype && Obj.pntTrade[n].m_Level == itemlevel  )
+		if(Obj.pntTrade[n]->IsItem() == 1 &&  Obj.pntTrade[n]->m_Type == itemtype && Obj.pntTrade[n]->m_Level == itemlevel  )
 		{
-			if(Obj.pntTrade[n].m_NewOption == btExc)
+			if(Obj.pntTrade[n]->m_NewOption == btExc)
 			{
-				if(Obj.pntTrade[n].m_Option1 == btSkill)
+				if(Obj.pntTrade[n]->m_Option1 == btSkill)
 				{
-					if(Obj.pntTrade[n].m_Option2 == btLuck)
+					if(Obj.pntTrade[n]->m_Option2 == btLuck)
 					{
-						if(Obj.pntTrade[n].m_Option3 == btOpt)
+						if(Obj.pntTrade[n]->m_Option3 == btOpt)
 						{
 							Count++;
 						}

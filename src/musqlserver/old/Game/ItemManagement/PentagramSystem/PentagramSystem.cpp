@@ -3212,9 +3212,9 @@ BOOL CPentagramSystem::IsEnableToTradePentagramItem(CGameObject &Obj)
 {
 	for (int i = 0; i < TRADE_BOX_SIZE; i++)
 	{
-		if (Obj.pntTrade[i].IsItem() == TRUE && this->IsPentagramItem(&Obj.pntTrade[i]) == true)
+		if (Obj.pntTrade[i]->IsItem() == TRUE && this->IsPentagramItem(&Obj.pntTrade[i]) == true)
 		{
-			if (Obj.pntTrade[i].m_Durability < 1.0)
+			if (Obj.pntTrade[i]->m_Durability < 1.0)
 			{
 				return FALSE;
 			}
@@ -3234,11 +3234,11 @@ BOOL CPentagramSystem::IsEnableTransPentagramJewelInfo(CGameObject &Obj, int tar
 
 	for (int n = 0; n < TRADE_BOX_SIZE; n++)
 	{
-		if (Obj.pntTrade[n].IsItem() == TRUE && this->IsPentagramItem(&Obj.pntTrade[n]) == true)
+		if (Obj.pntTrade[n]->IsItem() == TRUE && this->IsPentagramItem(&Obj.pntTrade[n]) == true)
 		{
 			for (int i = 0; i < 5; i++)
 			{
-				if (Obj.pntTrade[n].m_SocketOption[i] < 0xFE)
+				if (Obj.pntTrade[n]->m_SocketOption[i] < 0xFE)
 				{
 					for (int index = 0; index < 254; index++)
 					{
@@ -3273,11 +3273,11 @@ BOOL CPentagramSystem::IsEnableTransPentagramJewelInfo(CGameObject &Obj, int tar
 			}
 		}
 
-		if (lpTargetObj.pntTrade[n].IsItem() == TRUE && this->IsPentagramItem(&lpTargetObj.pntTrade[n]) == true)
+		if (lpTargetObj.pntTrade[n]->IsItem() == TRUE && this->IsPentagramItem(&lpTargetObj.pntTrade[n]) == true)
 		{
 			for (int i = 0; i < 5; i++)
 			{
-				if (lpTargetObj.pntTrade[n].m_SocketOption[i] < 0xFE)
+				if (lpTargetObj.pntTrade[n]->m_SocketOption[i] < 0xFE)
 				{
 					for (int index = 0; index < 254; index++)
 					{

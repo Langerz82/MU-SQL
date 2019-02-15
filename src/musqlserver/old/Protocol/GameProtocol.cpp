@@ -4271,15 +4271,15 @@ void GameProtocol::CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, CGameObje
 
 		if (DurSSend)
 		{
-			this->GCEventItemDurSend(Obj, source, (int)Obj.pntEventInventory[source].m_Durability);
+			this->GCEventItemDurSend(Obj, source, (int)Obj.pntEventInventory[source]->m_Durability);
 		}
 
 		if (DurTSend)
 		{
-			this->GCEventItemDurSend(Obj, target, (int)Obj.pntEventInventory[target].m_Durability);
+			this->GCEventItemDurSend(Obj, target, (int)Obj.pntEventInventory[target]->m_Durability);
 		}
 
-		if (Obj.pntEventInventory[target].m_Durability == 0.0)
+		if (Obj.pntEventInventory[target]->m_Durability == 0.0)
 		{
 			GCEventInventoryItemDeleteSend(Obj, target, TRUE);
 		}
@@ -8765,7 +8765,7 @@ void GameProtocol::GCUserChaosBoxSend(CGameObject &Obj, int iChaosBoxType)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pntChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n]->IsItem() == TRUE)
 		{
 			SendByte[lOfs] = n;
 			lOfs++;
@@ -8830,34 +8830,34 @@ void GameProtocol::CGChaosBoxItemMixButtonClick(PMSG_CHAOSMIX* aRecv, CGameObjec
 
 		for (int n = 0; n < CHAOS_BOX_SIZE; n++) //loc8
 		{
-			if (Obj.pntChaosBox[n].IsItem() == TRUE)
+			if (Obj.pntChaosBox[n]->IsItem() == TRUE)
 			{
-				if (Obj.pntChaosBox[n].m_Level == 9)
+				if (Obj.pntChaosBox[n]->m_Level == 9)
 				{
 					pos = n;
 					validitemcount++;
 				}
-				else if (Obj.pntChaosBox[n].m_Level == 10)
+				else if (Obj.pntChaosBox[n]->m_Level == 10)
 				{
 					pos = n;
 					validitemcount++;
 				}
-				else if (Obj.pntChaosBox[n].m_Level == 11)
+				else if (Obj.pntChaosBox[n]->m_Level == 11)
 				{
 					pos = n;
 					validitemcount++;
 				}
-				else if (Obj.pntChaosBox[n].m_Level == 12)
+				else if (Obj.pntChaosBox[n]->m_Level == 12)
 				{
 					pos = n;
 					validitemcount++;
 				}
-				else if (Obj.pntChaosBox[n].m_Level == 13) //new
+				else if (Obj.pntChaosBox[n]->m_Level == 13) //new
 				{
 					pos = n;
 					validitemcount++;
 				}
-				else if (Obj.pntChaosBox[n].m_Level == 14)
+				else if (Obj.pntChaosBox[n]->m_Level == 14)
 				{
 					pos = n;
 					validitemcount++;
@@ -18204,11 +18204,11 @@ void GameProtocol::GCChaosMachinePriceSend(CGameObject &Obj)
 	pMsg.Type = 1;
 	for (short i = 0; i < CHAOS_BOX_SIZE; ++i)
 	{
-		if (Obj.pntChaosBox[i].IsItem())
+		if (Obj.pntChaosBox[i]->IsItem())
 		{
-			Obj.pntChaosBox[i].Value();
-			pList.BuyPrice = Obj.pntChaosBox[i].m_BuyMoney;
-			pList.SellPrice = Obj.pntChaosBox[i].m_SellMoney;
+			Obj.pntChaosBox[i]->Value();
+			pList.BuyPrice = Obj.pntChaosBox[i]->m_BuyMoney;
+			pList.SellPrice = Obj.pntChaosBox[i]->m_SellMoney;
 			pList.Pos = i;
 			std::memcpy(&SendData[lOfs], &pList, sizeof(pList));
 			lOfs += sizeof(pList);
@@ -20089,8 +20089,8 @@ void GameProtocol::GCDisplayBuffeffectPartyMember(CGameObject &Obj)
 
 	for (int nBuffCnt = 0; nBuffCnt < pMsg.btBuffCount; nBuffCnt++)
 	{
-		pMsg.stBuffList[nBuffCnt].btBuffIndex = Obj.m_BuffEffectList[nBuffCnt].BuffIndex;
-		pMsg.stBuffList[nBuffCnt].nBuffDuration = Obj.m_BuffEffectList[nBuffCnt].EffectDuration;
+		pMsg.stBuffList[nBuffCnt].btBuffIndex = Obj.pntBuffEffectList[nBuffCnt].BuffIndex;
+		pMsg.stBuffList[nBuffCnt].nBuffDuration = Obj.pntBuffEffectList[nBuffCnt].EffectDuration;
 	}
 
 	for (int i = 0; i < MAX_USER_IN_PARTY; i++)
@@ -20774,7 +20774,7 @@ void GameProtocol::GCMuunEquipmentChange(CGameObject &Obj, int pos)
 	pChange.NumberL = SET_NUMBERL(Obj.m_Index);
 	ItemByteConvert(pChange.ItemInfo, Obj.pntMuunInventory[pos]);
 	pChange.ItemInfo[1] = 16 * pos;
-	pChange.ItemInfo[1] = Obj.pntMuunInventory[pos].m_Level & 0xF | 16 * pos;
+	pChange.ItemInfo[1] = Obj.pntMuunInventory[pos]->m_Level & 0xF | 16 * pos;
 	this->MsgSendV2(lpObj, (BYTE*)&pChange, (unsigned __int8)pChange.h.size);
 }
 
@@ -20792,7 +20792,7 @@ void GameProtocol::GCMuunInventoryItemOneSend(CGameObject &Obj, int pos)
 {
 	PMSG_MUUN_INVEN_ITEM_MOD pMsg;
 
-	if (Obj.pntMuunInventory[pos].IsItem())
+	if (Obj.pntMuunInventory[pos]->IsItem())
 	{
 		PHeadSubSetB((BYTE*)&pMsg, 0x4E, 0x05, sizeof(pMsg));
 		pMsg.Pos = pos;
@@ -21337,8 +21337,8 @@ void GameProtocol::CGEventItemGetRequest(PMSG_EVENTITEM_GETREQUEST *lpMsg, CGame
 			{
 				iInventoryIndex = -1;
 
-				if (Obj.pntEventInventory[iLoop].m_Type == ITEMGET(14, 278) &&
-					Obj.pntEventInventory[iLoop].m_Durability < 25.0)
+				if (Obj.pntEventInventory[iLoop]->m_Type == ITEMGET(14, 278) &&
+					Obj.pntEventInventory[iLoop]->m_Durability < 25.0)
 				{
 					iInventoryIndex = iLoop;
 				}
@@ -21357,18 +21357,18 @@ void GameProtocol::CGEventItemGetRequest(PMSG_EVENTITEM_GETREQUEST *lpMsg, CGame
 					pResult.result = -3;
 					IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pResult, pResult.h.size);
 
-					Obj.pntEventInventory[iInventoryIndex].m_Durability += lpItem->m_Durability;
+					Obj.pntEventInventory[iInventoryIndex]->m_Durability += lpItem->m_Durability;
 
-					if (Obj.pntEventInventory[iInventoryIndex].m_Durability < 25.0)
+					if (Obj.pntEventInventory[iInventoryIndex]->m_Durability < 25.0)
 					{
-						this->GCEventItemDurSend(Obj, iInventoryIndex, Obj.pntEventInventory[iInventoryIndex].m_Durability);
+						this->GCEventItemDurSend(Obj, iInventoryIndex, Obj.pntEventInventory[iInventoryIndex]->m_Durability);
 						return;
 					}
 
-					int iDurGap = Obj.pntEventInventory[iInventoryIndex].m_Durability - 25.0;
+					int iDurGap = Obj.pntEventInventory[iInventoryIndex]->m_Durability - 25.0;
 					BYTE btRet = gObjEventInventoryInsertItemTemp(&Obj, lpItem);
 					gObjEventInventoryItemSet(Obj, iInventoryIndex, -1);
-					Obj.pntEventInventory[iInventoryIndex].Clear();
+					Obj.pntEventInventory[iInventoryIndex]->Clear();
 					this->GCEventInventoryItemDeleteSend(Obj, iInventoryIndex, 1);
 
 					ItemCreate(Obj, 226, Obj.X, Obj.Y, ITEMGET(14, 244), lpItem->m_Level, 0, 0, 0, 0, Obj, 0, 0, 0, 0, 0);
@@ -21400,8 +21400,8 @@ void GameProtocol::CGEventItemGetRequest(PMSG_EVENTITEM_GETREQUEST *lpMsg, CGame
 			{
 				iInventoryIndex = -1;
 
-				if (Obj.pntEventInventory[iLoop].m_Type == ITEMGET(14, 215) &&
-					Obj.pntEventInventory[iLoop].m_Durability < 24.0)
+				if (Obj.pntEventInventory[iLoop]->m_Type == ITEMGET(14, 215) &&
+					Obj.pntEventInventory[iLoop]->m_Durability < 24.0)
 				{
 					iInventoryIndex = iLoop;
 				}
@@ -21420,18 +21420,18 @@ void GameProtocol::CGEventItemGetRequest(PMSG_EVENTITEM_GETREQUEST *lpMsg, CGame
 					pResult.result = -3;
 					IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pResult, pResult.h.size);
 
-					Obj.pntEventInventory[iInventoryIndex].m_Durability += lpItem->m_Durability;
+					Obj.pntEventInventory[iInventoryIndex]->m_Durability += lpItem->m_Durability;
 
-					if (Obj.pntEventInventory[iInventoryIndex].m_Durability < 24.0)
+					if (Obj.pntEventInventory[iInventoryIndex]->m_Durability < 24.0)
 					{
-						this->GCEventItemDurSend(Obj, iInventoryIndex, Obj.pntEventInventory[iInventoryIndex].m_Durability);
+						this->GCEventItemDurSend(Obj, iInventoryIndex, Obj.pntEventInventory[iInventoryIndex]->m_Durability);
 						return;
 					}
 
-					int iDurGap = Obj.pntEventInventory[iInventoryIndex].m_Durability - 24.0;
+					int iDurGap = Obj.pntEventInventory[iInventoryIndex]->m_Durability - 24.0;
 					BYTE btRet = gObjEventInventoryInsertItemTemp(&Obj, lpItem);
 					gObjEventInventoryItemSet(Obj, iInventoryIndex, -1);
-					Obj.pntEventInventory[iInventoryIndex].Clear();
+					Obj.pntEventInventory[iInventoryIndex]->Clear();
 					this->GCEventInventoryItemDeleteSend(Obj, iInventoryIndex, 1);
 
 					ItemCreate(Obj, 226, Obj.X, Obj.Y, ITEMGET(14, 216), lpItem->m_Level, 0, 0, 0, 0, Obj, 0, 0, 0, 0, 0);
@@ -21738,9 +21738,9 @@ void GameProtocol::GCEventInventoryItemListSend(CGameObject &Obj)
 
 	for (int n = 0; n < EVENT_INVENTORY_SIZE; n++)
 	{
-		if (Obj.pntEventInventory[n].IsItem() == TRUE)
+		if (Obj.pntEventInventory[n]->IsItem() == TRUE)
 		{
-			if (Obj.pntEventInventory[n].m_bItemExist == false)
+			if (Obj.pntEventInventory[n]->m_bItemExist == false)
 			{
 				continue;
 			}
@@ -21777,7 +21777,7 @@ void GameProtocol::GCEventItemDurSend(CGameObject &Obj, BYTE pos, BYTE dur)
 
 void GameProtocol::GCEventInvenItemOneSend(CGameObject &Obj, int pos)
 {
-	if (!Obj.pntEventInventory[pos].IsItem())
+	if (!Obj.pntEventInventory[pos]->IsItem())
 		return;
 
 	PMSG_EVENT_INVEN_ITEM_MOD pMsg;
@@ -27673,13 +27673,13 @@ void gObjRequestPetItemInfo(CGameObject &Obj, int inventype)
 	{
 		for (int n = 0; n < WAREHOUSE_SIZE; n++)
 		{
-			if (lpObj->pntWarehouse[n].IsItem())
+			if (lpObj->pntWarehouse[n]->IsItem())
 			{
-				if (lpObj->pntWarehouse[n].m_Type == ITEMGET(13, 4) || lpObj->pntWarehouse[n].m_Type == ITEMGET(13, 5))
+				if (lpObj->pntWarehouse[n]->m_Type == ITEMGET(13, 4) || lpObj->pntWarehouse[n]->m_Type == ITEMGET(13, 5))
 				{
 					founditemcount++;
 					petIteminfo.nPos = n;
-					petIteminfo.nSerial = lpObj->pntWarehouse[n].m_Number;
+					petIteminfo.nSerial = lpObj->pntWarehouse[n]->m_Number;
 					std::memcpy(&pbuffer[lofs], &petIteminfo, sizeof(petIteminfo));
 					lofs += sizeof(petIteminfo);
 				}
@@ -31706,11 +31706,11 @@ void GDReqCopyPetItemInfo(CGameObject &Obj)
 
 	for (int i = 0; i < INVENTORY_SIZE; i++)
 	{
-		if (lpObj->pntInventory[i].IsItem() == TRUE &&
-			(lpObj->pntInventory[i].m_Type == ITEMGET(13, 4) || lpObj->pntInventory[i].m_Type == ITEMGET(13, 5)))
+		if (lpObj->pntInventory[i]->IsItem() == TRUE &&
+			(lpObj->pntInventory[i]->m_Type == ITEMGET(13, 4) || lpObj->pntInventory[i]->m_Type == ITEMGET(13, 5)))
 		{
 			pPetItem.btItemPos = i;
-			pPetItem.i64ItemSerial = lpObj->pntInventory[i].m_Number;
+			pPetItem.i64ItemSerial = lpObj->pntInventory[i]->m_Number;
 
 			std::memcpy(&Buffer[lOfs], &pPetItem, sizeof(pPetItem));
 			lOfs += sizeof(pPetItem);

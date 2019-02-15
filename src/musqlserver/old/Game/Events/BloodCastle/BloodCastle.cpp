@@ -1291,29 +1291,29 @@ int  CBloodCastle::CheckChoasMixItem(CGameObject &Obj)
 
 	for ( int i=0;i<CHAOS_BOX_SIZE;i++)
 	{
-		if ( Obj.pntChaosBox[i].IsItem() == TRUE )
+		if ( Obj.pntChaosBox[i]->IsItem() == TRUE )
 		{
-			if ( Obj.pntChaosBox[i].m_Type == ITEMGET(12,15) ) // Chaos
+			if ( Obj.pntChaosBox[i]->m_Type == ITEMGET(12,15) ) // Chaos
 			{
 				bIsChaosGemExist = TRUE;
 			}
-			else if ( Obj.pntChaosBox[i].m_Type == ITEMGET(13,16) ) //Scroll of Archangel
+			else if ( Obj.pntChaosBox[i]->m_Type == ITEMGET(13,16) ) //Scroll of Archangel
 			{
-				int iSCROLL_LEVEL = Obj.pntChaosBox[i].m_Level;
+				int iSCROLL_LEVEL = Obj.pntChaosBox[i]->m_Level;
 				iEventItemCount++;
 				bIsAngelKingPaperExist = TRUE;
 				iAngelKingPaperLevel = iSCROLL_LEVEL;
 			}
-			else if ( Obj.pntChaosBox[i].m_Type == ITEMGET(13,17) ) //Blood Bone
+			else if ( Obj.pntChaosBox[i]->m_Type == ITEMGET(13,17) ) //Blood Bone
 			{
-				int iBLOOD_BONE_LEVEL = Obj.pntChaosBox[i].m_Level;
+				int iBLOOD_BONE_LEVEL = Obj.pntChaosBox[i]->m_Level;
 				iEventItemCount++;
 				bIsBloodBoneExist = TRUE;
 				iBloodBoneLevel = iBLOOD_BONE_LEVEL;
 			}
-			else if ( Obj.pntChaosBox[i].m_Type == ITEMGET(14,53) ) //Charm
+			else if ( Obj.pntChaosBox[i]->m_Type == ITEMGET(14,53) ) //Charm
 			{
-				iCharmOfLuckCount += Obj.pntChaosBox[i].m_Durability;
+				iCharmOfLuckCount += Obj.pntChaosBox[i]->m_Durability;
 			}
 			else
 			{
@@ -3476,17 +3476,17 @@ int  CBloodCastle::GetWhoGotUltimateWeapon(int iBridgeIndex)
 
 		for ( int x=0;x<INVENTORY_SIZE;x++)
 		{
-			if ( lpObj->pntInventory[x].IsItem() == TRUE )
+			if ( lpObj->pntInventory[x]->IsItem() == TRUE )
 			{
-				if ( lpObj->pntInventory[x].m_Type == ITEMGET(13,19) )
+				if ( lpObj->pntInventory[x]->m_Type == ITEMGET(13,19) )
 				{
-					int iLEVEL = lpObj->pntInventory[x].m_Level;
+					int iLEVEL = lpObj->pntInventory[x]->m_Level;
 
 					if ( BC_WEAPON_LEVEL_RANGE(iLEVEL) != FALSE )
 					{
 						if ( this->m_BridgeData[iBridgeIndex].m_nBC_QUESTITEM_SERIAL != -1 )
 						{
-							if ( this->m_BridgeData[iBridgeIndex].m_nBC_QUESTITEM_SERIAL == lpObj->pntInventory[x].m_Number )
+							if ( this->m_BridgeData[iBridgeIndex].m_nBC_QUESTITEM_SERIAL == lpObj->pntInventory[x]->m_Number )
 							{
 								iBridgeUserIndex = lpObj->m_Index;
 								break;

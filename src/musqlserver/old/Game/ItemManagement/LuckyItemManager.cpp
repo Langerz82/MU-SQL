@@ -373,9 +373,9 @@ void LuckyItemManager::LuckyItemTicketExchange(CGameObject &Obj)
 	
 	for( int i = 0; i < CHAOS_BOX_SIZE; i++ )
 	{
-		if( Obj.pntChaosBox[i].IsItem() )
+		if( Obj.pntChaosBox[i]->IsItem() )
 		{
-			pLuckyItemInfo = this->GetCharClassLuckyItemInfo(Obj.pntChaosBox[i].m_Type, Obj.Class);
+			pLuckyItemInfo = this->GetCharClassLuckyItemInfo(Obj.pntChaosBox[i]->m_Type, Obj.Class);
 
 			if( pLuckyItemInfo == NULL )
 			{
@@ -393,7 +393,7 @@ void LuckyItemManager::LuckyItemTicketExchange(CGameObject &Obj)
 	if( iValidItemCount != 1 || iInvalidItemCount != 0 || iItemPos == -1 )
 	{
 		sLog->outBasic("[LuckyItem] - Can Not be Exchanged [%s][%s] CharClass[%d] ItemNum[%d] ItemName[%s]", Obj.AccountID, Obj.Name, Obj.Class,
-			Obj.pntChaosBox[iItemPos].m_Type, ItemAttribute[Obj.pntChaosBox[iItemPos].m_Type].Name);
+			Obj.pntChaosBox[iItemPos]->m_Type, ItemAttribute[Obj.pntChaosBox[iItemPos]->m_Type].Name);
 		pMsg.Result = 0x20;
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 		Obj.ChaosLock = false;
@@ -420,7 +420,7 @@ void LuckyItemManager::LuckyItemTicketExchange(CGameObject &Obj)
 	if( pLuckyItemEquipment == 0 || pItemLevelRandRate == 0 || piAddSetOptRate == 0)
 	{
 		sLog->outBasic("[LuckyItem] --- Error --- [%s][%s] CharClass[%d] ItemNum[%d] ItemName[%s]", Obj.AccountID, Obj.Name, Obj.Class,
-			Obj.pntChaosBox[iItemPos].m_Type, ItemAttribute[Obj.pntChaosBox[iItemPos].m_Type].Name);
+			Obj.pntChaosBox[iItemPos]->m_Type, ItemAttribute[Obj.pntChaosBox[iItemPos]->m_Type].Name);
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 		Obj.ChaosLock = false;
 		return;
@@ -549,9 +549,9 @@ void LuckyItemManager::LuckyItemSmelting(CGameObject &Obj)
 	
 	for( int i = 0; i < CHAOS_BOX_SIZE; i++ )
 	{
-		if( Obj.pntChaosBox[i].IsItem() )
+		if( Obj.pntChaosBox[i]->IsItem() )
 		{
-			int bLuckyItemEquipment = this->IsLuckyItemEquipment(Obj.pntChaosBox[i].m_Type);
+			int bLuckyItemEquipment = this->IsLuckyItemEquipment(Obj.pntChaosBox[i]->m_Type);
 			
 			if( !bLuckyItemEquipment )
 			{
@@ -576,8 +576,8 @@ void LuckyItemManager::LuckyItemSmelting(CGameObject &Obj)
 		sLog->outBasic("[LuckyItemSmelting] - Smelting Start");
 		g_MixSystem.LogChaosItem(lpObj, "[LuckyItem] Item Smelting");
 		
-		int bGambleLuckyItemSmelting = this->GambleLuckyItemSmelting(Obj.pntChaosBox[iItemPos].m_Type, (int)Obj.pntChaosBox[iItemPos].m_Durability);
-		this->GDReqLuckyItemDelete(Obj.pntChaosBox[iItemPos].m_Type, Obj.pntChaosBox[iItemPos].m_Number, Obj.m_Index);
+		int bGambleLuckyItemSmelting = this->GambleLuckyItemSmelting(Obj.pntChaosBox[iItemPos]->m_Type, (int)Obj.pntChaosBox[iItemPos]->m_Durability);
+		this->GDReqLuckyItemDelete(Obj.pntChaosBox[iItemPos]->m_Type, Obj.pntChaosBox[iItemPos]->m_Number, Obj.m_Index);
 		
 		int iCharType	= 0;
 		int Type		= ITEMGET(14, 160);

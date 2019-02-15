@@ -87,14 +87,14 @@ BOOL g_EnergyCheckOff = 1; // THIS VARIABLE HAS SOME STRANGE THINGS ONT ITS UBIC
 
 CGameObject::CGameObject()
 {
-	this->m_BotBuffs = new BOT_BUFF_LIST*[10];
-	this->m_MuunEffectList = new MUUN_EFFECT_LIST*[MAX_MUUN_EFFECT_LIST];
-	this->m_BuffEffectList = new STR_EFFECTLIST*[MAX_BUFFEFFECT];
+	this->pntBotBuffs = new BOT_BUFF_LIST*[10];
+	this->pntMuunEffectList = new MUUN_EFFECT_LIST*[MAX_MUUN_EFFECT_LIST];
+	this->pntBuffEffectList = new STR_EFFECTLIST*[MAX_BUFFEFFECT];
 }
 
 CGameObject::~CGameObject()
 {
-	delete[] this->m_BotBuffs;
-	delete[] this->m_MuunEffectList;
-	delete[] this->m_BuffEffectList;
+	delete[] this->pntBotBuffs;
+	delete[] this->pntMuunEffectList;
+	delete[] this->pntBuffEffectList;
 }

@@ -504,7 +504,7 @@ void CPersonalStore::CGPShopAnsBuyList(int aSourceIndex, int aTargetIndex, BYTE 
 
 		for (int n = PSHOP_START_RANGE; n < PSHOP_END_RANGE; n++)
 		{
-			if (lpObjTarget->pntInventory1[n].IsItem() == TRUE)
+			if (lpObjTarget->pntInventory1[n]->IsItem() == TRUE)
 			{
 				pMsgIL.Pos = n;
 				ItemByteConvert(pMsgIL.ItemInfo, lpObjTarget->pntInventory1[n]);
@@ -1342,7 +1342,7 @@ bool CPersonalStore::PShop_CheckInventoryEmpty(CGameObject &Obj)
 
 	for (int i = PSHOP_START_RANGE; i < PSHOP_END_RANGE; i++)
 	{
-		if (Obj.pntInventory1[i].IsItem() == 1)
+		if (Obj.pntInventory1[i]->IsItem() == 1)
 		{
 			return false;
 		}
@@ -1363,7 +1363,7 @@ void CPersonalStore::gObjInventoryItemSet_PShop(CGameObject &Obj, int itempos, B
 		return;
 	}
 
-	if (Obj.pntInventory1[itempos].GetSize((int&)width, (int &)height) == 0)
+	if (Obj.pntInventory1[itempos]->GetSize((int&)width, (int &)height) == 0)
 	{
 		sLog->outBasic("error: Item does not exist %s %d", __FILE__, __LINE__);
 		return;
@@ -1819,7 +1819,7 @@ bool CPersonalStore::PShop_CheckExistItemInInventory(CGameObject &Obj, WORD sIte
 
 	for (int i = PSHOP_START_RANGE; i < PSHOP_END_RANGE; i++)
 	{
-		if (Obj.pntInventory1[i].m_Type == sItemType)
+		if (Obj.pntInventory1[i]->m_Type == sItemType)
 		{
 			return true;
 		}

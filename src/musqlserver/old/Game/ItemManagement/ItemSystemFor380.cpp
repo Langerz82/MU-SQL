@@ -275,29 +275,29 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(CGameObject &Obj)
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pntChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n]->IsItem() == TRUE)
 		{
 			if (this->Is380Item(&Obj.pntChaosBox[n]) == TRUE &&
 				this->Is380OptionItem(&Obj.pntChaosBox[n]) == FALSE &&
-				Obj.pntChaosBox[n].m_Level > 3 &&
-				(Obj.pntChaosBox[n].m_Option3 << 2) > 3)
+				Obj.pntChaosBox[n]->m_Level > 3 &&
+				(Obj.pntChaosBox[n]->m_Option3 << 2) > 3)
 			{
 				iValidItemCount++;
 				pTargetItem = &Obj.pntChaosBox[n];
 			}
-			else if (g_kJewelOfHarmonySystem.IsJewelOfHarmonyPurity(Obj.pntChaosBox[n].m_Type) == TRUE)
+			else if (g_kJewelOfHarmonySystem.IsJewelOfHarmonyPurity(Obj.pntChaosBox[n]->m_Type) == TRUE)
 			{
 				iJewelOfHarmony++;
 				iPosOfJewelOfHarmony = n;
 			}
-			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 31))
+			else if (Obj.pntChaosBox[n]->m_Type == ITEMGET(14, 31))
 			{
 				iJewelOfSuho++;
 				iPosOfJewelOfSuho = n;
 			}
-			else if (Obj.pntChaosBox[n].m_Type == ITEMGET(14, 53))
+			else if (Obj.pntChaosBox[n]->m_Type == ITEMGET(14, 53))
 			{
-				iCharmOfLuckCount += Obj.pntChaosBox[n].m_Durability;
+				iCharmOfLuckCount += Obj.pntChaosBox[n]->m_Durability;
 			}
 			else
 			{
@@ -366,7 +366,7 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(CGameObject &Obj)
 	{
 		if (&Obj.pntChaosBox[i] != pTargetItem)
 		{
-			Obj.pntChaosBox[i].Clear();
+			Obj.pntChaosBox[i]->Clear();
 			Obj.pChaosBoxMap[i] = -1;
 		}
 	}

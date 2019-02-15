@@ -881,13 +881,13 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(CGameObject &Obj, int
 
 	for (int n = 0; n < CHAOS_BOX_SIZE; n++)
 	{
-		if (Obj.pntChaosBox[n].IsItem() == TRUE)
+		if (Obj.pntChaosBox[n]->IsItem() == TRUE)
 		{
 			if (this->IsEnableToMakeSmeltingStoneItem(&Obj.pntChaosBox[n]) == TRUE)
 			{
 				iValidItemCount++;
 
-				if (Obj.pntChaosBox[n].IsExtItem() == TRUE)
+				if (Obj.pntChaosBox[n]->IsExtItem() == TRUE)
 				{
 					iExtItemCount++;
 				}
@@ -1035,7 +1035,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject &Obj)
 
 	for ( int n=0;n<CHAOS_BOX_SIZE;n++)
 	{
-		if ( Obj.pntChaosBox[n].IsItem() == TRUE )
+		if ( Obj.pntChaosBox[n]->IsItem() == TRUE )
 		{
 			if ( this->IsEnableToMakeSmeltingStoneItem(&Obj.pntChaosBox[n]) == TRUE )
 			{
@@ -1062,7 +1062,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject &Obj)
 	int JEWEL_OF_HARMONY_MAKE_SMELTINGSTONE_RATE;
 	BOOL bIsItemNormal = TRUE;
 
-	if ( Obj.pntChaosBox[iItemPos].IsExtItem() == TRUE )
+	if ( Obj.pntChaosBox[iItemPos]->IsExtItem() == TRUE )
 	{
 		bIsItemNormal = FALSE;
 		JEWEL_OF_HARMONY_MAKE_SMELTINGSTONE_RATE = this->m_iRateMixSmeltingStoneExt;
@@ -1260,7 +1260,7 @@ BOOL CJewelOfHarmonySystem::RestoreStrengthenItem(CGameObject &Obj)
 
 	for ( int n=0;n<CHAOS_BOX_SIZE;n++)
 	{
-		if ( Obj.pntChaosBox[n].IsItem() == TRUE )
+		if ( Obj.pntChaosBox[n]->IsItem() == TRUE )
 		{
 			if ( this->IsStrengthenByJewelOfHarmony(&Obj.pntChaosBox[n]) == TRUE )
 			{
@@ -1410,7 +1410,7 @@ BOOL CJewelOfHarmonySystem::IsEnableToTrade(CGameObject &Obj)
 
 	for ( int n=0;n<TRADE_BOX_SIZE;n++)
 	{
-		if ( Obj.pntTrade[n].IsItem() == TRUE )
+		if ( Obj.pntTrade[n]->IsItem() == TRUE )
 		{
 			if ( this->IsStrengthenByJewelOfHarmony(&Obj.pntTrade[n]) == TRUE )
 			{

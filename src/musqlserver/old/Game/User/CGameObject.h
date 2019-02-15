@@ -172,7 +172,7 @@ public:
 	BYTE m_Rest;	// 1E1
 	BYTE		m_ViewState;
 	BYTE		m_BuffEffectCount;
-	STR_EFFECTLIST** m_BuffEffectList;
+	STR_EFFECTLIST** pntBuffEffectList;
 	DWORD m_LastMoveTime;	// 1E8
 	DWORD m_LastAttackTime;	// 1EC
 	BYTE m_FriendServerOnline;	// 1F0
@@ -452,7 +452,7 @@ public:
 	bool m_bOffLevel;
 	DWORD64 m_dwOffLevelTime;
 	CUserData* m_PlayerData;
-	BOT_BUFF_LIST** m_BotBuffs;
+	BOT_BUFF_LIST** pntBotBuffs;
 	UINT64 MonsterMoneyDrop;
 	BYTE m_btOpenWarehouse;
 	WORD m_wMineCount;

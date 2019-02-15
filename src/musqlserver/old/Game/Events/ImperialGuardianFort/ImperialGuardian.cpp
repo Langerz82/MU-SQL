@@ -928,15 +928,15 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 
 				if ( !this->m_nCheatMode && !nDestZoneIndex && nEnterItemPos >= 0 )
 				{
-					if ( lpObj->pntInventory[nEnterItemPos].m_Type != ITEMGET(14,102) &&
-						lpObj->pntInventory[nEnterItemPos].m_Type != ITEMGET(14,109) )
+					if ( lpObj->pntInventory[nEnterItemPos]->m_Type != ITEMGET(14,102) &&
+						lpObj->pntInventory[nEnterItemPos]->m_Type != ITEMGET(14,109) )
 					{
-						if ( lpObj->pntInventory[nEnterItemPos].m_Type == ITEMGET(13,126) ||
-							lpObj->pntInventory[nEnterItemPos].m_Type == ITEMGET(13,127) )
+						if ( lpObj->pntInventory[nEnterItemPos]->m_Type == ITEMGET(13,126) ||
+							lpObj->pntInventory[nEnterItemPos]->m_Type == ITEMGET(13,127) )
 						{
-							lpObj->pntInventory[nEnterItemPos].m_Durability -= 1.0;
+							lpObj->pntInventory[nEnterItemPos]->m_Durability -= 1.0;
 
-							if ( lpObj->pntInventory[nEnterItemPos].m_Durability > 0.0 )
+							if ( lpObj->pntInventory[nEnterItemPos]->m_Durability > 0.0 )
 							{
 								gGameProtocol.GCItemObjectDurSend2(*getGameObject(nUserIndex), nEnterItemPos, lpObj->pntInventory[nEnterItemPos).m_Durability, 0);
 							}
@@ -1994,7 +1994,7 @@ int CImperialGuardian::CheckGaionOrderPaper(int nIndex)
 
 	for ( int i=INVETORY_WEAR_SIZE;i<INVENTORY_SIZE;i++ )
 	{
-		if ( lpObj->pntInventory[i].IsItem() == TRUE && lpObj->pntInventory[i].m_Type == ITEMGET(14,102) )
+		if ( lpObj->pntInventory[i]->IsItem() == TRUE && lpObj->pntInventory[i]->m_Type == ITEMGET(14,102) )
 		{
 			return i;
 		}
@@ -2002,7 +2002,7 @@ int CImperialGuardian::CheckGaionOrderPaper(int nIndex)
 
 	for ( int i=INVETORY_WEAR_SIZE;i<INVENTORY_SIZE;i++ )
 	{
-		if ( lpObj->pntInventory[i].m_Type == ITEMGET(13,126) && lpObj->pntInventory[i].m_Durability > 0.0 )
+		if ( lpObj->pntInventory[i]->m_Type == ITEMGET(13,126) && lpObj->pntInventory[i]->m_Durability > 0.0 )
 		{
 			return i;
 		}
@@ -2033,7 +2033,7 @@ int CImperialGuardian::CheckFullSecromicon(int nIndex)
 
 	for ( int i=INVETORY_WEAR_SIZE;i<INVENTORY_SIZE;i++ )
 	{
-		if ( lpObj->pntInventory[i].IsItem() == TRUE && lpObj->pntInventory[i].m_Type == ITEMGET(14,109) )
+		if ( lpObj->pntInventory[i]->IsItem() == TRUE && lpObj->pntInventory[i]->m_Type == ITEMGET(14,109) )
 		{
 			return i;
 		}
@@ -2041,7 +2041,7 @@ int CImperialGuardian::CheckFullSecromicon(int nIndex)
 
 	for ( int i=INVETORY_WEAR_SIZE;i<INVENTORY_SIZE;i++ )
 	{
-		if ( lpObj->pntInventory[i].m_Type == ITEMGET(13,127) && lpObj->pntInventory[i].m_Durability > 0.0 )
+		if ( lpObj->pntInventory[i]->m_Type == ITEMGET(13,127) && lpObj->pntInventory[i]->m_Durability > 0.0 )
 		{
 			return i;
 		}
