@@ -26,6 +26,8 @@
 #include "UnityBattleField.h"
 #include "ViewportGuild.h"
 
+#include <map>
+
 //Y
 //|-------
 //||6|5|4|
@@ -54,8 +56,8 @@ int MaxViewportMonster = 20;
 
 int gObjMonCount;
 int gObjCallMonCount;
-MessageStateMachine ** gSMMsg;
-ExMessageStateMachine ** gSMAttackProcMsg;
+std::map<int, MessageStateMachine*> gSMMsg;
+std::map<int, ExMessageStateMachine*> gSMAttackProcMsg;
 BILL_CLASS * m_ObjBill;	// line : 193
 CRaklionUtil RAKLION_UTIL;
 

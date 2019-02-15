@@ -113,7 +113,7 @@ struct COMMON_CONFIG
 	BYTE PersonalShopMoneyType;
 	bool SavePrivateChat;
 	BYTE MaxGuildMember;
-	bool BlockTradeFFFFFFFFItems;
+	bool BlockTradeItems;
 	bool AncHarmonyLimit;	
 	bool TradeBlock;
 	bool EnableSellAllItems;

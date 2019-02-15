@@ -616,46 +616,6 @@ void GameMainInit(HWND hWnd)
 	//GameMonsterAllCloseAndReLoad();
 }
 
-int GetWarehouseUsedHowMuch(int UserLevel, BOOL IsLock)
-{
-	if (g_ConfigRead.data.common.FreeWarehouse == true)
-	{
-		return 0;
-	}
-
-	int rZen=0;
-	rZen = (UserLevel * UserLevel)* 0.1 * 0.4;
-
-	if (bCanWarehouseLock == TRUE)
-	{
-		if ( IsLock != 0)
-		{
-			rZen = rZen + ( UserLevel * 2 );
-		}
-	}
-	if ( rZen < 1 )
-	{
-		rZen=1;
-	}
-
-	if ( rZen >= 1000 )
-	{
-		rZen = (rZen/100)*100;
-	}
-	
-	else if ( rZen >= 100 )
-	{
-		rZen = (rZen/10)*10;
-	}
-	
-	if ( rZen == 0 )
-	{
-		rZen=1;
-	}
-	
-	return rZen;
-}
-
 void GameMonsterAllAdd()
 {
 	int result;

@@ -60,9 +60,6 @@ private:
 	CharacterNameOfUBF* m_perCharacterInfo;
 };
 
-extern ExMessageStateMachine ** gSMAttackProcMsg;
-extern MessageStateMachine ** gSMMsg;
-
 
 class CUserData
 {

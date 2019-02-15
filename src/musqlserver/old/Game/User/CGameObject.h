@@ -6,6 +6,7 @@
 #endif // _MSC_VER > 1000
 
 #include "PrecompiledHeader/StdAfx.h"
+#include "Logging/Log.h"
 #include "generalStructs.h"
 #include "TSkillElement.h"
 #include "TMonsterSkillElementInfo.h"
@@ -612,8 +613,8 @@ extern int gItemLoop2;
 //extern int gObjCount
 extern int gObjMonCount;
 extern int gObjCallMonCount;
-extern MessageStateMachine ** gSMMsg;
-extern ExMessageStateMachine ** gSMAttackProcMsg;
+extern std::map<int, MessageStateMachine*> gSMMsg;
+extern std::map<int, ExMessageStateMachine*> gSMAttackProcMsg;
 extern BILL_CLASS * m_ObjBill;	// line : 193
 extern CRaklionUtil RAKLION_UTIL;
 
@@ -635,7 +636,14 @@ extern PMSG_VIEWPORTDESTROY pItemViewportDestroy;
 
 extern CGameObject* getGameObject(int index)
 {
-	return (CGameObject*) gGameObjects.find(index)->second;
+	std::map<int, CGameObject*>::iterator pGO = gGameObjects.find(index);
+	if (pGO == gGameObjects.end())
+	{
+		sLog->outError("GameObject does not exist. %s %d\n%s", __FILE__, __LINE__);
+		return nullptr;
+	}
+	else
+		return pGO->second;
 }
 
 extern void insertGameObject(class CGameObject* Obj)
@@ -648,11 +656,19 @@ extern void insertGameObject(class CGameObject* Obj)
 extern void eraseGameObject(CGameObject* Obj) {
 	gGameObjects.erase(Obj->m_Index);
 	gGameUserObjects.erase(Obj->m_PlayerData->ConnectUser->Index);
+	delete Obj;
 }
 
 extern CGameObject* getGameObjectFromUser(int index) 
 {
-	return (CGameObject*)gGameUserObjects.find(index)->second;
+	std::map<int, CGameObject*>::iterator pGO = gGameObjects.find(index);
+	if (pGO == gGameObjects.end())
+	{
+		sLog->outError("GameObject does not exist. %s %d\n%s", __FILE__, __LINE__);
+		return nullptr;
+	}
+	else
+		return pGO->second;
 }
 
 #endif
