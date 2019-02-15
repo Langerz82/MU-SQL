@@ -149,7 +149,7 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, CGameObject &
 		return;
 	}
 
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	int Option2 = 0;
 
 	PMSG_ANS_RUUD_STORE_BUYITEM pMsg;

@@ -34,7 +34,7 @@ CLifeStone::~CLifeStone()
 
 int CLifeStone::CreateLifeStone(CGameObject &Obj)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	int iMonsterIndex = -1;
 	BYTE cX = Obj.X;
 	BYTE cY = Obj.Y;
@@ -187,7 +187,7 @@ void CLifeStone::LifeStoneAct(CGameObject &Obj)
 	if ( !gObjIsConnected(Obj.m_Index))
 		return;
 
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	Obj.m_iCreatedActivationTime++;
 	BYTE btCreationState = Obj.m_btCreationState;

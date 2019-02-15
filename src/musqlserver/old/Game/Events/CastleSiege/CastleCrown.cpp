@@ -42,7 +42,7 @@ void CCastleCrown::CastleCrownAct(CGameObject &Obj)
 		return;
 	}
 
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpUserObj = &getGameObject(g_CastleSiege.GetCrownUserIndex());
 
 	if ( lpUserObj.MapNumber == MAP_INDEX_CASTLESIEGE &&

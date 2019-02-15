@@ -60,7 +60,7 @@ void CKanturuMonsterMng::ResetRegenMonsterObjData()
 
 void CKanturuMonsterMng::MonsterDie(CGameObject &Obj)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	for ( int iCount=0;iCount<this->m_KanturuMonster.GetCount();iCount++)
 	{

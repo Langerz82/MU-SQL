@@ -4309,7 +4309,7 @@ void CCastleSiege::NotifySelfCsJoinSide(CGameObject &Obj)
 		btCsJoinSide = 0;
 	}
 
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	switch(btCsJoinSide) //season3 all changed
 	{

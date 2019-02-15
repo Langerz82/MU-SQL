@@ -187,7 +187,7 @@ void CEventMonSetBase::RegenMonster(CGameObject &Obj)
 	}
 
 	std::map<int, boost::shared_ptr<EVENT_MONSTER_DATA>>::iterator Iter = this->m_mapMonsterData.find(Obj.m_Index);
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if (Iter->second->lpSpotData->m_DoSpawn == FALSE)
 	{

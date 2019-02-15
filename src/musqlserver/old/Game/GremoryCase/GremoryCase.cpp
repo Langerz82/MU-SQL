@@ -85,7 +85,7 @@ void CGremoryCase::DGAnsStorageItemList(BYTE* lpRecv)
 		return;
 	}
 
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if ( Obj.Type != OBJ_USER )
 	{
@@ -245,7 +245,7 @@ void CGremoryCase::DGAnsStorageItemList(BYTE* lpRecv)
 
 void CGremoryCase::GDReqAddItemToGremoryCase(CGameObject &Obj, _stGremoryCaseItem stItem, int iDaysToExpire)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if ( Obj.Type != OBJ_USER ) 
 	{
@@ -300,7 +300,7 @@ void CGremoryCase::DGAnsAddItemToGremoryCase(_stAnsAddItemToGremoryCase * lpMsg)
 		return;
 	}
 
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if ( Obj.Type != OBJ_USER )
 	{
@@ -472,7 +472,7 @@ void CGremoryCase::DGAnsCheckItemUseGremoryCase(_stAnsCheckUseItemGremoryCase * 
 		return;
 	}
 
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if ( Obj.Type != OBJ_USER )
 	{
@@ -620,7 +620,7 @@ void CGremoryCase::GDReqDeleteItemFromGremoryCase(CGameObject &Obj, WORD wItemID
 
 void CGremoryCase::GCSendStorageItemList(CGameObject &Obj)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if ( Obj.Type != OBJ_USER ) 
 	{
@@ -676,7 +676,7 @@ void CGremoryCase::GCSendAddItemToGremoryCase(CGameObject &Obj, BYTE btStorageTy
 		return;
 	}
 
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if ( Obj.Type != OBJ_USER ) 
 	{
@@ -710,7 +710,7 @@ void CGremoryCase::CGReqGetItemFromGremoryCase(PMSG_ADD_GREMORYCASE_ITEM_TO_INVE
 		return;
 	}
 
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if ( Obj.Type != OBJ_USER ) 
 	{
@@ -745,7 +745,7 @@ void CGremoryCase::CGReqOpenGremoryCase(CGameObject &Obj)
 		return;
 	}
 
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if ( Obj.Type != OBJ_USER ) 
 	{
@@ -773,7 +773,7 @@ void CGremoryCase::CGReqOpenGremoryCase(CGameObject &Obj)
 
 void CGremoryCase::CheckIsInStorageItemAboutToExpire(CGameObject &Obj)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if ( Obj.Type != OBJ_USER ) 
 	{
@@ -818,7 +818,7 @@ void CGremoryCase::CheckIsInStorageItemAboutToExpire(CGameObject &Obj)
 
 void CGremoryCase::CheckIsStorageFull(CGameObject &Obj)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if ( Obj.Type != OBJ_USER ) 
 	{

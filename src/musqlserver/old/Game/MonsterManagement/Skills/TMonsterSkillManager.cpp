@@ -212,7 +212,7 @@ void TMonsterSkillManager::MonsterSkillProc()
 
 TMonsterSkillUnit * TMonsterSkillManager::FindMonsterSkillUnit(CGameObject &Obj, int iMonsterSkillUnitType)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	TMonsterSkillInfo * lpMonsterSkillInfo = &TMonsterSkillManager::s_MonsterSkillInfoArray[Obj.Class];
 
 	if ( lpMonsterSkillInfo->IsValid() == FALSE )
@@ -263,7 +263,7 @@ void TMonsterSkillManager::UseMonsterSkill(CGameObject &Obj, int iTargetIndex, i
 	/* sLog->outBasic("[TMonsterSkillManager] [%s] Used skill at INDEX:%d (UNITTYPE:%d UNIT:%d)",
 		Obj.Name, iTargetIndex, iMonsterSkillUnitType, iMonsterSkillUnit); */
 
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 	TMonsterSkillInfo * lpMonsterSkillInfo = &TMonsterSkillManager::s_MonsterSkillInfoArray[Obj.Class];
 

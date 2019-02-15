@@ -25,7 +25,7 @@ void CGuardianStatue::GuardianStatueAct(CGameObject &Obj)
 	if( ::gObjIsConnected(Obj.m_Index) == FALSE )
 		return;
 
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if( Obj.VPCount < 1 )
 		return;

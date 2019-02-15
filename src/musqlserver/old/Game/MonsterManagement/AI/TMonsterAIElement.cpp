@@ -165,7 +165,7 @@ TMonsterAIElement * TMonsterAIElement::FindAIElement(int iElementNumber)
 
 BOOL TMonsterAIElement::ForceAIElement(CGameObject &Obj, int iTargetIndex, TMonsterAIState *pAIState)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if ( (rand()%100) > this->m_iSuccessRate )
 		return FALSE;
@@ -248,7 +248,7 @@ BOOL TMonsterAIElement::ApplyElementCommon(CGameObject &Obj, int iTargetIndex, T
 
 BOOL TMonsterAIElement::ApplyElementMove(CGameObject &Obj, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-이동");
 
 	if ( Obj.PathStartEnd )
@@ -269,7 +269,7 @@ BOOL TMonsterAIElement::ApplyElementMove(CGameObject &Obj, int iTargetIndex, TMo
 
 BOOL TMonsterAIElement::ApplyElementMoveTarget(CGameObject &Obj, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-타겟이동");
 
 	if ( Obj.PathStartEnd )
@@ -344,7 +344,7 @@ BOOL TMonsterAIElement::ApplyElementMoveTarget(CGameObject &Obj, int iTargetInde
 
 BOOL TMonsterAIElement::ApplyElementGroupMove(CGameObject &Obj, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-그룹이동");
 
 	if ( Obj.PathStartEnd )
@@ -390,7 +390,7 @@ BOOL TMonsterAIElement::ApplyElementGroupMove(CGameObject &Obj, int iTargetIndex
 
 BOOL TMonsterAIElement::ApplyElementAttack(CGameObject &Obj, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-공격");
 
 	if ( TMonsterSkillManager::CheckMonsterSkill(Obj.Class) && Obj.Class != 519 ) // Medic has only BUFF in MONSTERSKILL, so disable check for him
@@ -485,7 +485,7 @@ struct PMSG_NOTIFY_REGION_MONSTER_ATTACK
 
 BOOL TMonsterAIElement::ApplyElementAttackArea(CGameObject &Obj, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-영역공격");
 
 	int iTargetX = this->m_iX + (rand()%5) * ((rand()%2==0)?1:-1 ) ;
@@ -532,7 +532,7 @@ BOOL TMonsterAIElement::ApplyElementAttackArea(CGameObject &Obj, int iTargetInde
 
 BOOL TMonsterAIElement::ApplyElementAttackPenetration(CGameObject &Obj, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	iTargetIndex = Obj.TargetNumber;
 
 	if ( iTargetIndex == -1 )
@@ -548,7 +548,7 @@ BOOL TMonsterAIElement::ApplyElementAttackPenetration(CGameObject &Obj, int iTar
 
 BOOL TMonsterAIElement::ApplyElementAvoid(CGameObject &Obj, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-회피");
 
 	BOOL bFindXY = MONSTER_UTIL.GetXYToEascape(lpObj);
@@ -564,7 +564,7 @@ BOOL TMonsterAIElement::ApplyElementAvoid(CGameObject &Obj, int iTargetIndex, TM
 
 BOOL TMonsterAIElement::ApplyElementHealSelf(CGameObject &Obj, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-셀프치료");
 
 	Obj.Life += Obj.Life * 20.0f / 100.0f;
@@ -578,7 +578,7 @@ BOOL TMonsterAIElement::ApplyElementHealSelf(CGameObject &Obj, int iTargetIndex,
 
 BOOL TMonsterAIElement::ApplyElementHealGroup(CGameObject &Obj, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-그룹치료");
 	TMonsterAIGroupMember * pMemb = TMonsterAIGroup::FindGroupMemberToHeal(Obj.m_Index, Obj.m_iGroupNumber, Obj.m_iGroupMemberGuid, 6);
 
@@ -615,7 +615,7 @@ BOOL TMonsterAIElement::ApplyElementHealGroup(CGameObject &Obj, int iTargetIndex
 
 BOOL TMonsterAIElement::ApplyElementSpecialSommon(CGameObject &Obj, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-특수소환");
 	TMonsterAIGroupMember * pMemb = TMonsterAIGroup::FindGroupMemberToSommon(Obj.m_Index, Obj.m_iGroupNumber, Obj.m_iGroupMemberGuid);
 
@@ -639,7 +639,7 @@ BOOL TMonsterAIElement::ApplyElementSpecialSommon(CGameObject &Obj, int iTargetI
 
 BOOL TMonsterAIElement::ApplyElementSpecialImmune(CGameObject &Obj, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	
 	this->m_iX = 10;
 	this->m_iY = 10;
@@ -652,7 +652,7 @@ BOOL TMonsterAIElement::ApplyElementSpecialImmune(CGameObject &Obj, int iTargetI
 
 BOOL TMonsterAIElement::ApplyElementNightmareSummon(CGameObject &Obj, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if ( Obj.TargetNumber == -1 )
 		iTargetIndex = Obj.m_Index;
@@ -681,7 +681,7 @@ BOOL TMonsterAIElement::ApplyElementNightmareSummon(CGameObject &Obj, int iTarge
 
 BOOL TMonsterAIElement::ApplyElementNightmareWarp(CGameObject &Obj, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	BYTE x = this->m_iX;
 	BYTE y = this->m_iY;
@@ -712,7 +712,7 @@ BOOL TMonsterAIElement::ApplyElementNightmareWarp(CGameObject &Obj, int iTargetI
 
 BOOL TMonsterAIElement::ApplyElementSkillAttack(CGameObject &Obj, int iTargetIndex, TMonsterAIState * pAIState)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if ( TMonsterSkillManager::CheckMonsterSkill(Obj.Class) )
 	{

@@ -2940,7 +2940,7 @@ bool CArcaBattle::CGReqMarkReg(CGameObject &Obj)
 		return false;
 	}
 
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	GUILD_INFO_STRUCT * lpGuildInfo = Obj.m_PlayerData->lpGuild;
 
 	if (!lpGuildInfo)
@@ -3106,7 +3106,7 @@ void CArcaBattle::GCAnsMarkRank(CGameObject &Obj, BYTE btRank, DWORD dwMarkCnt, 
 		return;
 	}
 
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if (!gObjIsConnected(Obj.m_Index))
 	{
@@ -3189,7 +3189,7 @@ void CArcaBattle::DGAnsMarkCnt(PMSG_ANS_ARCA_BATTLE_MARK_CNT_DS *lpMsg)
 		return;
 	}
 
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if (!gObjIsConnected(Obj.m_Index))
 	{

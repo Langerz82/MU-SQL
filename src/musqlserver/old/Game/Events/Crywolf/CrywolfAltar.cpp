@@ -412,7 +412,7 @@ void CCrywolfAltar::CrywolfAltarAct(CGameObject &Obj)
 		return;
 	}
 
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpUserObj = &getGameObject(iUserIndex);
 
 	if ( lpUserObj.Live != FALSE && lpUserObj.MapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE )

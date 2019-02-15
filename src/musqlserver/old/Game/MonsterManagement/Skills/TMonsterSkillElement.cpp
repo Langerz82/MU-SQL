@@ -233,7 +233,7 @@ void TMonsterSkillElement::ForceSkillElement(CGameObject &Obj, int iTargetIndex)
 
 BOOL TMonsterSkillElement::ApplyElementStun(CGameObject &Obj, int iTargetIndex)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 
 	if(this->m_iContinuanceTime > 0)
@@ -248,7 +248,7 @@ BOOL TMonsterSkillElement::ApplyElementStun(CGameObject &Obj, int iTargetIndex)
 
 BOOL TMonsterSkillElement::ApplyElementMove(CGameObject &Obj, int iTargetIndex)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 
 	return FALSE;
@@ -258,7 +258,7 @@ BOOL TMonsterSkillElement::ApplyElementMove(CGameObject &Obj, int iTargetIndex)
 
 BOOL TMonsterSkillElement::ApplyElementHP(CGameObject &Obj, int iTargetIndex)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 	int iIncDecValue = 0;
 
@@ -326,7 +326,7 @@ BOOL TMonsterSkillElement::ApplyElementHP(CGameObject &Obj, int iTargetIndex)
 
 BOOL TMonsterSkillElement::ApplyElementMP(CGameObject &Obj, int iTargetIndex)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 	int iIncDecValue = 0;
 
@@ -374,7 +374,7 @@ BOOL TMonsterSkillElement::ApplyElementMP(CGameObject &Obj, int iTargetIndex)
 
 BOOL TMonsterSkillElement::ApplyElementAG(CGameObject &Obj, int iTargetIndex)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 	int iIncDecValue = 0;
 
@@ -424,7 +424,7 @@ BOOL TMonsterSkillElement::ApplyElementAG(CGameObject &Obj, int iTargetIndex)
 
 BOOL TMonsterSkillElement::ApplyElementDefense(CGameObject &Obj, int iTargetIndex)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 	int iIncDecValue = 0;
 
@@ -464,7 +464,7 @@ BOOL TMonsterSkillElement::ApplyElementDefense(CGameObject &Obj, int iTargetInde
 
 BOOL TMonsterSkillElement::ApplyElementAttack(CGameObject &Obj, int iTargetIndex)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 	int iIncDecValue = 0;
 
@@ -496,7 +496,7 @@ BOOL TMonsterSkillElement::ApplyElementAttack(CGameObject &Obj, int iTargetIndex
 
 BOOL TMonsterSkillElement::ApplyElementDurability(CGameObject &Obj, int iTargetIndex)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 
 	if ( lpTargetObj.Type != OBJ_USER )
@@ -553,7 +553,7 @@ BOOL TMonsterSkillElement::ApplyElementDurability(CGameObject &Obj, int iTargetI
 
 BOOL TMonsterSkillElement::ApplyElementSummon(CGameObject &Obj, int iTargetIndex)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 
 	if ( lpTargetObj.Connected < PLAYER_PLAYING ||
@@ -648,7 +648,7 @@ BOOL TMonsterSkillElement::ApplyElementSummon(CGameObject &Obj, int iTargetIndex
 
 BOOL TMonsterSkillElement::ApplyElementPush(CGameObject &Obj, int iTargetIndex)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 
 	if (Obj.Class == 459 && Obj.Connected == 3 && Obj.MapNumber == 58 && iIndex == iTargetIndex)//Season 4.5 addon
@@ -677,7 +677,7 @@ BOOL TMonsterSkillElement::ApplyElementPush(CGameObject &Obj, int iTargetIndex)
 
 BOOL TMonsterSkillElement::ApplyElementStatEnergy(CGameObject &Obj, int iTargetIndex)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 
 	return FALSE;
@@ -685,7 +685,7 @@ BOOL TMonsterSkillElement::ApplyElementStatEnergy(CGameObject &Obj, int iTargetI
 
 BOOL TMonsterSkillElement::ApplyElementStatStrength(CGameObject &Obj, int iTargetIndex)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 
 	return FALSE;
@@ -693,7 +693,7 @@ BOOL TMonsterSkillElement::ApplyElementStatStrength(CGameObject &Obj, int iTarge
 
 BOOL TMonsterSkillElement::ApplyElementStatDexiterity(CGameObject &Obj, int iTargetIndex)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 
 	return FALSE;
@@ -701,7 +701,7 @@ BOOL TMonsterSkillElement::ApplyElementStatDexiterity(CGameObject &Obj, int iTar
 
 BOOL TMonsterSkillElement::ApplyElementStatVitality(CGameObject &Obj, int iTargetIndex)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 
 	return FALSE;
@@ -709,7 +709,7 @@ BOOL TMonsterSkillElement::ApplyElementStatVitality(CGameObject &Obj, int iTarge
 
 BOOL TMonsterSkillElement::ApplyElementRemoveSkill(CGameObject &Obj, int iTargetIndex)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 
 	gObjUseSkill.RemoveSpecificSkillState(lpTargetObj, this->m_iNullifiedSkill);
@@ -719,7 +719,7 @@ BOOL TMonsterSkillElement::ApplyElementRemoveSkill(CGameObject &Obj, int iTarget
 
 BOOL TMonsterSkillElement::ApplyElementResistSkill(CGameObject &Obj, int iTargetIndex)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 
 	lpTargetObj.m_MonsterSkillElementInfo.m_iSkillElementResistNumber = this->m_iNullifiedSkill;
@@ -730,7 +730,7 @@ BOOL TMonsterSkillElement::ApplyElementResistSkill(CGameObject &Obj, int iTarget
 
 BOOL TMonsterSkillElement::ApplyElementImmuneSkill(CGameObject &Obj, int iTargetIndex)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 
 	lpTargetObj.m_MonsterSkillElementInfo.m_iSkillElementImmuneNumber = this->m_iNullifiedSkill;
@@ -744,7 +744,7 @@ BOOL TMonsterSkillElement::ApplyElementTeleportSkill(CGameObject &Obj, int iTarg
 	if ( !ObjectMaxRange(Obj.m_Index))
 		return FALSE;
 
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STONE) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STUN) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_SLEEP) ||
 		gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_FREEZE_2) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_EARTH_BINDS))
@@ -798,7 +798,7 @@ BOOL TMonsterSkillElement::ApplyElementTeleportSkill(CGameObject &Obj, int iTarg
 
 BOOL TMonsterSkillElement::ApplyElementDoubleHP(CGameObject &Obj, int iTargetIndex)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 
 	if ( lpTargetObj.Connected < PLAYER_PLAYING )
@@ -813,7 +813,7 @@ BOOL TMonsterSkillElement::ApplyElementDoubleHP(CGameObject &Obj, int iTargetInd
 
 BOOL TMonsterSkillElement::ApplyElementPoison(CGameObject &Obj, int iTargetIndex)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 
 	if ( lpTargetObj.Connected < PLAYER_PLAYING )
@@ -841,7 +841,7 @@ BOOL TMonsterSkillElement::ApplyElementPoison(CGameObject &Obj, int iTargetIndex
 
 BOOL TMonsterSkillElement::ApplyElementNormalAttack(CGameObject &Obj, int iTargetIndex)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 
 	if ( lpTargetObj.Connected < PLAYER_PLAYING )
@@ -878,7 +878,7 @@ BOOL TMonsterSkillElement::ApplyElementNormalAttack(CGameObject &Obj, int iTarge
 
 BOOL TMonsterSkillElement::ApplyElementImmuneAllSkill(CGameObject &Obj, int iTargetIndex)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 
 	lpTargetObj.m_MonsterSkillElementInfo.m_iSkillElementImmuneAllTime = this->m_iContinuanceTime;
@@ -902,7 +902,7 @@ BOOL TMonsterSkillElement::ApplyElementImmuneAllSkill(CGameObject &Obj, int iTar
 
 BOOL TMonsterSkillElement::ApplyElementPercentDamageNormalAttack(CGameObject &Obj, int iTargetIndex)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	CGameObject lpTargetObj = &getGameObject(iTargetIndex);
 
 	if ( lpTargetObj.Connected < PLAYER_PLAYING )

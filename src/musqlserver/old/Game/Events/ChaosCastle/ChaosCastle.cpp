@@ -2355,7 +2355,7 @@ BOOL CChaosCastle::ObjSetPosition(CGameObject &Obj, int iX, int iY)
 	if ( !ObjectMaxRange(Obj.m_Index))
 		return TRUE;
 
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if (!MAX_MAP_RANGE(Obj.MapNumber))
 		return FALSE;
@@ -2480,7 +2480,7 @@ BOOL CChaosCastle::BlowObjsFromPoint(CGameObject &Obj, int iMapNumber, int& iX, 
 	if ( !CHECK_LIMIT(iX, 256) || !CHECK_LIMIT(iY, 256))
 		return FALSE;
 
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if ( Obj.DieRegen )
 		return FALSE;

@@ -1105,7 +1105,7 @@ void CIllusionTempleProcess_Renewal::DropRelicsItem(CGameObject &Obj, BYTE byAct
 		return;
 	}
 
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	int nITR_USER_ARRAY = this->FindITRUser(Obj.m_Index);
 
 	if (nITR_USER_ARRAY == -1)

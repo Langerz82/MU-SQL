@@ -328,7 +328,7 @@ BYTE CPentagramMixSystem::PentagramJewelRefine(CGameObject &Obj, int iRefineType
 		return 0;
 	}
 
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if (Obj.Type != OBJ_USER)
 	{
@@ -613,7 +613,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 		return 0;
 	}
 
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if (Obj.Type != OBJ_USER)
 	{

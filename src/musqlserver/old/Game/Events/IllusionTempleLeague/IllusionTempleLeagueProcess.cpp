@@ -1254,7 +1254,7 @@ void CIllusionTempleLeagueProcess::DropRelicsItem(CGameObject &Obj, BYTE byAct)
 		return;
 	}
 
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 	int nITL_USER_ARRAY = this->FindITLUser(Obj.m_Index);
 
 	if (nITL_USER_ARRAY == -1)

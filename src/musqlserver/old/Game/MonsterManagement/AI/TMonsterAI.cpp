@@ -59,7 +59,7 @@ void TMonsterAI::MonsterAIProc()
 
 bool TMonsterAI::RunAI(CGameObject &Obj, int iMonsterClass)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	TMonsterAI::MonsterStateMsgProc(Obj.m_Index);
 
@@ -85,7 +85,7 @@ bool TMonsterAI::RunAI(CGameObject &Obj, int iMonsterClass)
 
 void TMonsterAI::MonsterStateMsgProc(CGameObject &Obj)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	for ( int i=0;i<MAX_MONSTER_SEND_MSG;i++)
 	{
@@ -169,7 +169,7 @@ void TMonsterAI::ProcessStateMsg(CGameObject &Obj, int iMsgCode, CGameObject &Ob
 
 bool TMonsterAI::UpdateCurrentAIUnit(CGameObject &Obj)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if ( Obj.Live == FALSE )
 		return FALSE;
@@ -211,7 +211,7 @@ void TMonsterAI::MonsterMoveProc()
 
 void TMonsterAI::MonsterMove(CGameObject &Obj)
 {
-	CGameObject lpObj = Obj;
+	CGameObject* lpObj = Obj;
 
 	if ( MONSTER_UTIL.CheckMovingCondition(lpObj) == FALSE )
 	{

@@ -33,7 +33,7 @@ void CGuardian::GuardianAct(CGameObject &Obj)
 		if (!gObjIsConnected(Obj.m_Index))
 			return;
 
-		CGameObject lpObj = Obj;
+		CGameObject* lpObj = Obj;
 
 		if (Obj.VPCount < 1)
 			return;
