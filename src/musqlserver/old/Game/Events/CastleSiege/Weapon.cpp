@@ -283,14 +283,14 @@ BOOL CWeapon::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf * lpMa
 		{
 			double WingDamageBlock;
 
-			if (lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamageBlock <= 0.0)
+			if (lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamageBlock <= 0.0)
 			{
 				WingDamageBlock = 0.0;
 			}
 
 			else
 			{
-				WingDamageBlock = lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamageBlock;
+				WingDamageBlock = lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamageBlock;
 			}
 
 			g_ConfigRead.m_ItemCalcLua.Generic_Call("Wings_CalcAbsorb", "iiid>i", iAttackDamage, Wing->m_Type, Wing->m_Level, WingDamageBlock, &iAttackDamage);

@@ -282,7 +282,7 @@ int CBotSystem::AddBot(_sBOT_SETTINGS pBot)
 	lpBotObj.m_PlayerData->Dexterity = pBot.wDexterity;
 	lpBotObj.m_PlayerData->Strength = pBot.wStrength;
 	lpBotObj.m_PlayerData->Vitality = pBot.wVitality;
-	lpBotObj.m_PlayerData->m_MPSkillOpt.Clear();
+	lpBotObj.m_PlayerData->m_MPSkillOpt->Clear();
 	lpBotObj.Leadership = 0;
 	lpBotObj.m_AttackSpeed = 30;
 	lpBotObj.m_PlayerData->m_bSecurityCheck = true;

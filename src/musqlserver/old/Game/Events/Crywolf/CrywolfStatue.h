@@ -61,7 +61,7 @@ public:
 
 	void CrywolfStatueAct(CGameObject &Obj);
 	int GetStatueViewState(int iPriestNumber);
-	void SetStatueViewState(CGameObject lpObj, int iPriestNumber);
+	void SetStatueViewState(CGameObject &Obj, int iPriestNumber);
 
 public:
 

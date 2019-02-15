@@ -283,7 +283,7 @@ void CBuffEffect::ClearBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectV
 		break;
 	case EFFECTTYPE_MAGICPOWERMAX_INC:
 		Obj.m_MagicDamageMax -= EffectValue;
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsCriticalRateInc = 0.0;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsCriticalRateInc = 0.0;
 		break;
 	case EFFECTTYPE_POWER_UP:
 		Obj.m_AttackDamageMaxLeft -= EffectValue;

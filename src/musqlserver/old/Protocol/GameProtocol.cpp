@@ -1071,13 +1071,13 @@ void GameProtocol::CGChatWhisperRecv(PMSG_CHATDATA_WHISPER* lpMsg, CGameObject &
 
 			if (OwnInfluence == TarInfluence || CheckAuthorityCondition(98, Obj) || CheckAuthorityCondition(98, *getGameObject(index)))
 			{
-				IOCP.DataSend(Obj, (UCHAR*)&pWhisper, pWhisper.h.size);
+				IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (UCHAR*)&pWhisper, pWhisper.h.size);
 			}
 		}
 
 		else
 		{
-			IOCP.DataSend(Obj, (UCHAR*)&pWhisper, pWhisper.h.size);
+			IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (UCHAR*)&pWhisper, pWhisper.h.size);
 		}
 	}
 }
@@ -1255,7 +1255,7 @@ void GameProtocol::GCJoinBillCheckSend(LPSTR AccountId, CGameObject &Obj)
 
 	PHeadSetB((BYTE*)&pMsg, 0x06, sizeof(pMsg));
 	std::memcpy(pMsg.Id, AccountId, sizeof(pMsg.Id));
-	pMsg.Number = Obj;
+	pMsg.Number = Obj.m_Index;
 
 	wsJServerCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
@@ -1471,7 +1471,7 @@ void GameProtocol::CGPCharacterCreate(PMSG_CHARCREATE * lpMsg, CGameObject &Obj)
 	std::memset(&sCreate, 0, sizeof(sCreate));
 	PHeadSetB((BYTE*)&sCreate, 0x04, sizeof(sCreate));
 	sCreate.ClassSkin = lpMsg->ClassSkin;
-	sCreate.Number = Obj;
+	sCreate.Number = Obj.m_Index;
 	std::memcpy(sCreate.AccountId, Obj.AccountID, MAX_ACCOUNT_LEN);
 	std::memcpy(sCreate.Name, lpMsg->Name, MAX_ACCOUNT_LEN);
 	char szTemp[11];
@@ -1662,16 +1662,13 @@ void GameProtocol::CGPCharacterMapJoinRequest(PMSG_CHARMAPJOIN * lpMsg, CGameObj
 
 	std::memcpy(pCRequest.Name, _name, MAX_ACCOUNT_LEN);
 	std::strcpy(pCRequest.AccountID, Obj.AccountID);
-	pCRequest.Number = Obj;
+	pCRequest.Number = Obj.m_Index;
 
 	wsDataCli.DataSend((char*)&pCRequest, pCRequest.h.size);
 }
 
 void GameProtocol::GCLevelUpMsgSend(CGameObject &Obj, int iSendEffect)
 {
-	if (!ObjectMaxRange(Obj))
-		return;
-
 	short AddPoint = 0;
 	short MaxAddPoint = 0;
 	short MinusPoint = 0;
@@ -2183,7 +2180,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &Ob
 			{
 				if (g_ConfigRead.server.GetServerType() == SERVER_NORMAL)
 				{
-					if (g_IT_Event.CheckRelics(Obj) == TRUE)
+					if (g_IT_Event.CheckRelics(Obj.m_Index) == TRUE)
 					{
 						pResult.result = -1;
 						pResult.h.size -= sizeof(pResult.Data);
@@ -2381,7 +2378,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &Ob
 
 			if (lpItem->m_Type == ITEMGET(13, 33))
 			{
-				int pos = gObjOverlapItemUsingDur(*getGameObject(lpItem->m_Number), map_num, item_num, Obj, IsOverlapItem(lpItem->m_Type), ITEMGET(13, 33), 0);
+				int pos = gObjOverlapItemUsingDur(*lpItem, map_num, item_num, Obj, IsOverlapItem(lpItem->m_Type), ITEMGET(13, 33), 0);
 
 				if (MAIN_INVENTORY_RANGE(pos) != FALSE)
 				{
@@ -3075,10 +3072,10 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &Ob
 
 						if (lpItem->m_PeriodItemDuration > 0)
 						{
-							g_PeriodItemEx.SetPeriodItemInfo(&Obj, lpItem->m_Type, lpItem->m_Number, lpItem->m_PeriodItemDuration);
+							g_PeriodItemEx.SetPeriodItemInfo(Obj, lpItem->m_Type, lpItem->m_Number, lpItem->m_PeriodItemDuration);
 
 							this->GCInventoryItemOneSend(Obj, pos);
-							g_PeriodItemEx.SendPeriodItemInfoOnce(Obj, *Obj.pntInventory[pos]);
+							g_PeriodItemEx.SendPeriodItemInfoOnce(Obj, Obj.pntInventory[pos]);
 						}
 					}
 				}
@@ -3234,7 +3231,7 @@ bool GameProtocol::CGItemDropRequest(PMSG_ITEMTHROW * lpMsg, CGameObject &Obj, B
 			}
 		}
 	}
-	if (g_kJewelOfHarmonySystem.IsStrengthenByJewelOfHarmony(*Obj.pntInventory[lpMsg->Ipos]) == TRUE)
+	if (g_kJewelOfHarmonySystem.IsStrengthenByJewelOfHarmony(Obj.pntInventory[lpMsg->Ipos]) == TRUE)
 	{
 		pResult.Result = false;
 		this->GCServerMsgStringSend(Lang.GetText(0, 272), Obj, 1);
@@ -3586,7 +3583,7 @@ bool GameProtocol::CGItemDropRequest(PMSG_ITEMTHROW * lpMsg, CGameObject &Obj, B
 				if (Obj.Level >= 40)
 				{
 					::gObjInventoryDeleteItem(Obj, lpMsg->Ipos);
-					g_BagManager.SearchAndUseBag(Obj, BAG_EVENT, EVENTBAG_WARRIORRING_1, Obj);
+					g_BagManager.SearchAndUseBag(Obj, BAG_EVENT, EVENTBAG_WARRIORRING_1, Obj.m_Index);
 				}
 				else
 				{
@@ -3606,7 +3603,7 @@ bool GameProtocol::CGItemDropRequest(PMSG_ITEMTHROW * lpMsg, CGameObject &Obj, B
 				if (Obj.Level >= 80)
 				{
 					::gObjInventoryDeleteItem(Obj, lpMsg->Ipos);
-					g_BagManager.SearchAndUseBag(Obj, BAG_EVENT, EVENTBAG_WARRIORRING_2, Obj);
+					g_BagManager.SearchAndUseBag(Obj, BAG_EVENT, EVENTBAG_WARRIORRING_2, Obj.m_Index);
 				}
 				else
 				{
@@ -3694,22 +3691,22 @@ bool GameProtocol::CGItemDropRequest(PMSG_ITEMTHROW * lpMsg, CGameObject &Obj, B
 				switch (type)
 				{
 				case ITEMGET(14, 236):
-					g_BagManager.SearchAndUseBag(Obj, BAG_EVENT, EVENTBAG_ITR_1, Obj);
+					g_BagManager.SearchAndUseBag(Obj, BAG_EVENT, EVENTBAG_ITR_1, Obj.m_Index);
 					break;
 				case ITEMGET(14, 237):
-					g_BagManager.SearchAndUseBag(Obj, BAG_EVENT, EVENTBAG_ITR_2, Obj);
+					g_BagManager.SearchAndUseBag(Obj, BAG_EVENT, EVENTBAG_ITR_2, Obj.m_Index);
 					break;
 				case ITEMGET(14, 238):
-					g_BagManager.SearchAndUseBag(Obj, BAG_EVENT, EVENTBAG_ITR_3, Obj);
+					g_BagManager.SearchAndUseBag(Obj, BAG_EVENT, EVENTBAG_ITR_3, Obj.m_Index);
 					break;
 				case ITEMGET(14, 239):
-					g_BagManager.SearchAndUseBag(Obj, BAG_EVENT, EVENTBAG_ITR_4, Obj);
+					g_BagManager.SearchAndUseBag(Obj, BAG_EVENT, EVENTBAG_ITR_4, Obj.m_Index);
 					break;
 				case ITEMGET(14, 240):
-					g_BagManager.SearchAndUseBag(Obj, BAG_EVENT, EVENTBAG_ITR_5, Obj);
+					g_BagManager.SearchAndUseBag(Obj, BAG_EVENT, EVENTBAG_ITR_5, Obj.m_Index);
 					break;
 				case ITEMGET(14, 241):
-					g_BagManager.SearchAndUseBag(Obj, BAG_EVENT, EVENTBAG_ITR_6, Obj);
+					g_BagManager.SearchAndUseBag(Obj, BAG_EVENT, EVENTBAG_ITR_6, Obj.m_Index);
 					break;
 				}
 
@@ -4758,14 +4755,14 @@ void GameProtocol::CGBuyRequestRecv(PMSG_BUYREQUEST * lpMsg, CGameObject &Obj)
 		return;
 	}
 
-	if (lpShopData->m_ShopData.m_item[lpMsg->Pos].IsItem() == TRUE)
+	if (lpShopData->m_ShopData.m_item[lpMsg->Pos]->IsItem() == TRUE)
 	{
-		int iStoreTaxMoney = lpShopData->m_ShopData.m_item[lpMsg->Pos]->m_BuyMoney + (int)((__int64)lpShopData->m_ShopData.m_item[lpMsg->Pos].m_BuyMoney * (__int64)g_CastleSiegeSync.GetTaxRateStore(Obj) / (__int64)100);
+		int iStoreTaxMoney = lpShopData->m_ShopData.m_item[lpMsg->Pos]->m_BuyMoney + (int)((__int64)lpShopData->m_ShopData.m_item[lpMsg->Pos]->m_BuyMoney * (__int64)g_CastleSiegeSync.GetTaxRateStore(Obj) / (__int64)100);
 
 		if (iStoreTaxMoney < 0)
 			iStoreTaxMoney = 0;
 
-		int iStoreTaxMoney2 = (int)((__int64)lpShopData->m_ShopData.m_item[lpMsg->Pos].m_BuyMoney * (__int64)g_CastleSiegeSync.GetTaxRateStore(Obj) / (__int64)100);
+		int iStoreTaxMoney2 = (int)((__int64)lpShopData->m_ShopData.m_item[lpMsg->Pos]->m_BuyMoney * (__int64)g_CastleSiegeSync.GetTaxRateStore(Obj) / (__int64)100);
 
 		if (iStoreTaxMoney2 < 0)
 			iStoreTaxMoney2 = 0;
@@ -4919,18 +4916,26 @@ void GameProtocol::CGBuyRequestRecv(PMSG_BUYREQUEST * lpMsg, CGameObject &Obj)
 						return;
 					}
 
-					int buymoney = lpShopData->m_ShopData.m_item[lpMsg->Pos].m_BuyMoney;
+					int buymoney = lpShopData->m_ShopData.m_item[lpMsg->Pos]->m_BuyMoney;
 					Obj.m_PlayerData->Money -= iStoreTaxMoney;
 					g_CastleSiegeSync.AddTributeMoney(iStoreTaxMoney2);
 					if (Obj.m_PlayerData->Money < 0) Obj.m_PlayerData->Money = 0;
 					GCMoneySend(Obj, Obj.m_PlayerData->Money);
 					int iTaxRate = g_CastleSiegeSync.GetTaxRateStore(Obj);
 
-					ItemCreate(Obj, 222, 0, 0, lpShopData->m_ShopData.m_item[lpMsg->Pos].m_Type, lpShopData->m_ShopData.m_item[lpMsg->Pos].m_Level,
-						lpShopData->m_ShopData.m_item[lpMsg->Pos].m_Durability, lpShopData->m_ShopData.m_item[lpMsg->Pos].m_Option1,
-						lpShopData->m_ShopData.m_item[lpMsg->Pos].m_Option2, lpShopData->m_ShopData.m_item[lpMsg->Pos].m_Option3,
-						Obj, lpShopData->m_ShopData.m_item[lpMsg->Pos].m_NewOption, lpShopData->m_ShopData.m_item[lpMsg->Pos].m_SetOption,
-						0, lpShopData->m_ShopData.m_item[lpMsg->Pos].m_SocketOption, lpShopData->m_ShopData.m_item[lpMsg->Pos].m_BonusSocketOption);
+					ItemCreate(Obj, 222, 0, 0, 
+						lpShopData->m_ShopData.m_item[lpMsg->Pos]->m_Type,
+						lpShopData->m_ShopData.m_item[lpMsg->Pos]->m_Level,
+						lpShopData->m_ShopData.m_item[lpMsg->Pos]->m_Durability,
+						lpShopData->m_ShopData.m_item[lpMsg->Pos]->m_Option1,
+						lpShopData->m_ShopData.m_item[lpMsg->Pos]->m_Option2,
+						lpShopData->m_ShopData.m_item[lpMsg->Pos]->m_Option3,
+						Obj.m_Index, 
+						lpShopData->m_ShopData.m_item[lpMsg->Pos]->m_NewOption,
+						lpShopData->m_ShopData.m_item[lpMsg->Pos]->m_SetOption,
+						0, 
+						lpShopData->m_ShopData.m_item[lpMsg->Pos]->m_SocketOption, 
+						lpShopData->m_ShopData.m_item[lpMsg->Pos]->m_BonusSocketOption);
 
 				}
 			}
@@ -11171,7 +11176,7 @@ void GameProtocol::CGTargetTeleportRecv(PMSG_TARGET_TELEPORT * lpMsg, CGameObjec
 		return;
 
 	if (gObjCheckUsedBuffEffect(&Obj, BUFFTYPE_STONE) || gObjCheckUsedBuffEffect(&Obj, BUFFTYPE_STUN) || gObjCheckUsedBuffEffect(&Obj, BUFFTYPE_SLEEP) ||
-		gObjCheckUsedBuffEffect(&Obj, BUFFTYPE_FREEZE_2) || gObjCheckUsedBuffEffect(&Obj, BUFFTYPE_EARTH_BINDS))
+		gObjCheckUsedBuffEffect(&Obj, BUFFTYPE_FREEZE_2) || gObjCheckUsedBuffEffect(Obj, BUFFTYPE_EARTH_BINDS))
 		return;
 
 	CMagicInf * lpMagic;
@@ -11216,7 +11221,7 @@ void GameProtocol::CGTargetTeleportRecv(PMSG_TARGET_TELEPORT * lpMsg, CGameObjec
 	pAttack.SourceNumberL = SET_NUMBERL(Obj.m_Index);
 	pAttack.TargetNumberH = SET_NUMBERH(iTargetIndex);	// #error? parameters inverse?
 	pAttack.TargetNumberL = SET_NUMBERL(iTargetIndex);	// #error? parameters inverse?
-	lpMagic = gObjGetMagicSearch(&Obj, AT_SKILL_TARGET_TELEPORT);
+	lpMagic = gObjGetMagicSearch(Obj, AT_SKILL_TARGET_TELEPORT);
 
 	if (lpMagic)
 	{
@@ -11224,14 +11229,14 @@ void GameProtocol::CGTargetTeleportRecv(PMSG_TARGET_TELEPORT * lpMsg, CGameObjec
 
 		if (usemana >= 0)
 		{
-			int usebp = gObjMagicBPUse(&Obj, lpMagic);
+			int usebp = gObjMagicBPUse(Obj, lpMagic);
 
 			if (usebp >= 0)
 			{
 				if (Obj.Type == OBJ_USER)
 					IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pAttack, pAttack.h.size);
 
-				MsgSendV2(&Obj, (BYTE*)&pAttack, pAttack.h.size);
+				MsgSendV2(Obj, (BYTE*)&pAttack, pAttack.h.size);
 				gObjTeleportMagicUse(*getGameObject(iTargetIndex), x, y);
 				Obj.Mana = usemana;
 				Obj.BP = usebp;
@@ -11737,13 +11742,13 @@ void GameProtocol::CGBeattackRecv(BYTE* lpRecv, CGameObject &Obj, int magic_send
 			else if (g_MasterLevelSkillTreeSystem.GetBaseMasterLevelSkill(lpMagic->m_Skill) == AT_MSKILL_MG_FIRESLASH1)
 			{
 				g_MasterLevelSkillTreeSystem.MLS_MaGumSkillDefenseDown(Obj, tNumber);
-				gObjAttack(&Obj, *getGameObject(tNumber), lpMagic, TRUE, 1, 0, FALSE, 0, 0);
+				gObjAttack(Obj, *getGameObject(tNumber), lpMagic, TRUE, 1, 0, FALSE, 0, 0);
 			}
 
 			else if (g_MasterLevelSkillTreeSystem.GetBaseMasterLevelSkill(lpMagic->m_Skill) == AT_MSKILL_MG_FIRESLASH2)
 			{
 				g_MasterLevelSkillTreeSystem.MLS_SkillMasteryDefenseDown(Obj, tNumber, lpMagic);
-				gObjAttack(&Obj, *getGameObject(tNumber), lpMagic, TRUE, 1, 0, FALSE, 0, 0);
+				gObjAttack(Obj, *getGameObject(tNumber), lpMagic, TRUE, 1, 0, FALSE, 0, 0);
 			}
 
 			else if (lpMagic->m_Skill == AT_MSKILL_DL_FIRESCREAM1 || lpMagic->m_Skill == AT_MSKILL_DL_FIRESCREAM2)
@@ -11756,11 +11761,11 @@ void GameProtocol::CGBeattackRecv(BYTE* lpRecv, CGameObject &Obj, int magic_send
 			}
 			else if (magic_send)
 			{
-				gObjAttack(&Obj, *getGameObject(tNumber), lpMagic, TRUE, 1, 0, FALSE, 0, 0);
+				gObjAttack(Obj, *getGameObject(tNumber), lpMagic, TRUE, 1, 0, FALSE, 0, 0);
 			}
 			else
 			{
-				gObjAttack(&Obj, *getGameObject(tNumber), lpMagic, FALSE, 1, 0, FALSE, 0, 0);
+				gObjAttack(Obj, *getGameObject(tNumber), lpMagic, FALSE, 1, 0, FALSE, 0, 0);
 			}
 
 		}
@@ -11936,7 +11941,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 		}
 
 		// Check the item Serial
-		if (gObjInventorySearchSerialNumber(&Obj,
+		if (gObjInventorySearchSerialNumber(Obj,
 			lpItem->GetNumber()) == FALSE)
 		{
 			GCReFillSend(Obj, Obj.Life, 0xFD, 1, Obj.iShield);
@@ -12074,7 +12079,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 
 			GCSendEffectInfo(Obj, 3);
 
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -12114,7 +12119,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 
 			GCSendEffectInfo(Obj, 3);
 
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -12158,7 +12163,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 
 			GCSendEffectInfo(Obj, 3);
 
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -12202,7 +12207,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 
 			GCSendEffectInfo(Obj, 3);
 
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -12216,32 +12221,32 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 		}
 		else if (lpItem->m_Type == ITEMGET(14, 8)) // Antidote
 		{
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
 				GCInventoryItemDeleteSend(Obj, pos, 1);
 			}
 
-			if (gObjCheckUsedBuffEffect(&Obj, BUFFTYPE_POISON) == TRUE)
+			if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_POISON) == TRUE)
 			{
-				gObjRemoveBuffEffect(&Obj, BUFFTYPE_POISON);
+				gObjRemoveBuffEffect(Obj, BUFFTYPE_POISON);
 				Obj.lpAttackObj = 0;
-				GCMagicCancelSend(&Obj, 1);
+				GCMagicCancelSend(Obj, 1);
 			}
 
-			if (gObjCheckUsedBuffEffect(&Obj, BUFFTYPE_FREEZE) == TRUE)
+			if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_FREEZE) == TRUE)
 			{
-				gObjRemoveBuffEffect(&Obj, BUFFTYPE_FREEZE);
+				gObjRemoveBuffEffect(Obj, BUFFTYPE_FREEZE);
 				Obj.DelayActionTime = 0;
 				Obj.DelayLevel = 0;
 				Obj.lpAttackObj = 0;
-				GCMagicCancelSend(&Obj, 7);
+				GCMagicCancelSend(Obj, 7);
 			}
 		}
 		else if (lpItem->m_Type == ITEMGET(14, 46))
 		{
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -12252,29 +12257,29 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 		}
 		else if (lpItem->m_Type == ITEMGET(14, 47))
 		{
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
 				GCInventoryItemDeleteSend(Obj, pos, 1);
 			}
 
-			gObjAddBuffEffect(&Obj, BUFFTYPE_HALLOWEEN_ANGER);
+			gObjAddBuffEffect(Obj, BUFFTYPE_HALLOWEEN_ANGER);
 		}
 		else if (lpItem->m_Type == ITEMGET(14, 48))
 		{
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
 				GCInventoryItemDeleteSend(Obj, pos, 1);
 			}
 
-			gObjAddBuffEffect(&Obj, BUFFTYPE_HALLOWEEN_CRY);
+			gObjAddBuffEffect(Obj, BUFFTYPE_HALLOWEEN_CRY);
 		}
 		else if (lpItem->m_Type == ITEMGET(14, 49))
 		{
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -12285,7 +12290,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 		}
 		else if (lpItem->m_Type == ITEMGET(14, 50))
 		{
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -12296,7 +12301,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 		}
 		else if (lpItem->m_Type == ITEMGET(14, 85))
 		{
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -12307,7 +12312,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 		}
 		else if (lpItem->m_Type == ITEMGET(14, 86))
 		{
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -12318,7 +12323,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 		}
 		else if (lpItem->m_Type == ITEMGET(14, 87))
 		{
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -12329,7 +12334,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 		}
 		else if (lpItem->m_Type == ITEMGET(13, 81))
 		{
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -12387,7 +12392,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 		}
 		else if (g_kJewelOfHarmonySystem.IsJewelOfHarmonySmeltingItems(lpItem->m_Type) == TRUE)
 		{
-			if (g_kJewelOfHarmonySystem.SmeltItemBySmeltingStone(&Obj, lpMsg->inventoryPos, lpMsg->invenrotyTarget) == TRUE)
+			if (g_kJewelOfHarmonySystem.SmeltItemBySmeltingStone(Obj, lpMsg->inventoryPos, lpMsg->invenrotyTarget) == TRUE)
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -12401,7 +12406,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 		}
 		else if (lpItem->m_Type == ITEMGET(12, 30))
 		{
-			if (UseBundleOfBlessJewel(&Obj, lpMsg->inventoryPos, lpMsg->invenrotyTarget) == TRUE)
+			if (UseBundleOfBlessJewel(Obj, lpMsg->inventoryPos, lpMsg->invenrotyTarget) == TRUE)
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -12413,7 +12418,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 #if( ENABLETEST_ITEMUPGRADEJEWELS == 1 )
 		else if (g_ItemUpgradeJewels.IsJewel(lpItem->m_Type))
 		{
-			g_ItemUpgradeJewels.ProcInsert(&Obj, lpMsg->inventoryPos, lpMsg->invenrotyTarget);
+			g_ItemUpgradeJewels.ProcInsert(Obj, lpMsg->inventoryPos, lpMsg->invenrotyTarget);
 		}
 #else
 		else if (g_kJewelOfHarmonySystem.IsJewelOfHarmonyPurity(lpItem->m_Type) == TRUE && gSocketItemType.CheckSocketItemType(&Obj.pntInventory[lpMsg->invenrotyTarget]) == FALSE) //season4 add-on)
@@ -12467,7 +12472,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 #endif
 		else if (lpItem->m_Type == ITEMGET(14, 160))	//1.01.00 update
 		{
-			if (g_LuckyItemManager.LuckyItemRepaire(&Obj, lpMsg->inventoryPos, lpMsg->invenrotyTarget))
+			if (g_LuckyItemManager.LuckyItemRepaire(Obj, lpMsg->inventoryPos, lpMsg->invenrotyTarget))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -12482,7 +12487,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 
 		else if (lpItem->m_Type == ITEMGET(14, 161))	//1.01.00 update
 		{
-			if (g_kJewelOfHarmonySystem.StrengthenItemByJewelOfRise(&Obj, lpMsg->inventoryPos, lpMsg->invenrotyTarget))
+			if (g_kJewelOfHarmonySystem.StrengthenItemByJewelOfRise(Obj, lpMsg->inventoryPos, lpMsg->invenrotyTarget))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -12512,7 +12517,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 
 		else if (lpItem->m_Type == ITEMGET(14, 224))
 		{
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -12525,7 +12530,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 
 		else if (lpItem->m_Type == ITEMGET(14, 263))
 		{
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -12538,7 +12543,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 
 		else if (lpItem->m_Type == ITEMGET(14, 264))
 		{
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -12583,7 +12588,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 
 			if (lpItem->m_Type == ITEMGET(15, 18))	// Scroll of HellBurst
 			{
-				if (g_QuestInfo.GetQuestState(&Obj, 2) != 2)
+				if (g_QuestInfo.GetQuestState(Obj, 2) != 2)
 				{
 					GCReFillSend(Obj, Obj.Life, 0xFD, 1, Obj.iShield);
 					return;
@@ -12819,7 +12824,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 
 			gObjTeleport(Obj, MAP_INDEX_SANTAVILLAGE, 220, 20);
 
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -12940,7 +12945,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 			gObjInventoryItemSet(Obj, pos, -1);
 			Obj.pntInventory[pos]->Clear();
 			GCInventoryItemDeleteSend(Obj, pos, 1);
-			gObjUseDrink(&Obj, level);
+			gObjUseDrink(Obj, level);
 		}
 		else if (lpItem->m_Type == ITEMGET(14, 20)) // Remedy of Love
 		{
@@ -12949,7 +12954,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
 				GCInventoryItemDeleteSend(Obj, pos, 1);
-				gObjUseDrink(&Obj, 2);
+				gObjUseDrink(Obj, 2);
 			}
 		}
 		else if (lpItem->m_Type == ITEMGET(13, 15)) // Fruits
@@ -12967,7 +12972,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 		{
 			if (Obj.SaveMapNumber != -1)
 			{
-				bool bMove = gMoveCommand.CheckEquipmentToMove(&Obj, Obj.SaveMapNumber);
+				bool bMove = gMoveCommand.CheckEquipmentToMove(Obj, Obj.SaveMapNumber);
 
 				if (bMove == true && MapNumberCheck(Obj.SaveMapNumber))
 				{
@@ -12981,7 +12986,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 			}
 			else
 			{
-				if (gObjSearchItemMinus(&Obj, pos, 1))
+				if (gObjSearchItemMinus(Obj, pos, 1))
 				{
 					Obj.SaveMapNumber = Obj.MapNumber;
 					Obj.SaveX = Obj.X;
@@ -12999,7 +13004,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 		{
 			if (Obj.DieMapNumber != -1)
 			{
-				bool bMove = gMoveCommand.CheckEquipmentToMove(&Obj, Obj.DieMapNumber);
+				bool bMove = gMoveCommand.CheckEquipmentToMove(Obj, Obj.DieMapNumber);
 
 				bool bGens = g_GensSystem.IsMapBattleZone(Obj.MapNumber);
 
@@ -13071,7 +13076,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 		}
 		else if (lpItem->m_Type == ITEMGET(14, 133))
 		{
-			gObjUseRecoveryPotion(&Obj, pos, (double)0.65);
+			gObjUseRecoveryPotion(Obj, pos, (double)0.65);
 		}
 		else if (lpItem->m_Type == ITEMGET(14, 78)) // CSHOP Arcanum For?a
 		{
@@ -13083,8 +13088,8 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 				return;
 			}
 
-			g_PeriodItemEx.SetPeriodItemInfo(&Obj, lpItem->m_Type, 0, lpEffect->iEffectValidTime);
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			g_PeriodItemEx.SetPeriodItemInfo(Obj, lpItem->m_Type, 0, lpEffect->iEffectValidTime);
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -13101,8 +13106,8 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 				return;
 			}
 
-			g_PeriodItemEx.SetPeriodItemInfo(&Obj, lpItem->m_Type, 0, lpEffect->iEffectValidTime);
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			g_PeriodItemEx.SetPeriodItemInfo(Obj, lpItem->m_Type, 0, lpEffect->iEffectValidTime);
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -13119,8 +13124,8 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 				return;
 			}
 
-			g_PeriodItemEx.SetPeriodItemInfo(&Obj, lpItem->m_Type, 0, lpEffect->iEffectValidTime);
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			g_PeriodItemEx.SetPeriodItemInfo(Obj, lpItem->m_Type, 0, lpEffect->iEffectValidTime);
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -13137,8 +13142,8 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 				return;
 			}
 
-			g_PeriodItemEx.SetPeriodItemInfo(&Obj, lpItem->m_Type, 0, lpEffect->iEffectValidTime);
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			g_PeriodItemEx.SetPeriodItemInfo(Obj, lpItem->m_Type, 0, lpEffect->iEffectValidTime);
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -13155,8 +13160,8 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 				return;
 			}
 
-			g_PeriodItemEx.SetPeriodItemInfo(&Obj, lpItem->m_Type, 0, lpEffect->iEffectValidTime);
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			g_PeriodItemEx.SetPeriodItemInfo(Obj, lpItem->m_Type, 0, lpEffect->iEffectValidTime);
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -13184,7 +13189,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 
 			GCPkLevelSend(Obj, Obj.m_PK_Level);
 
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -13194,7 +13199,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 		}
 		else if (lpItem->m_Type == ITEMGET(14, 7))	// Siege Potion
 		{
-			if (!gObjSearchItemMinus(&Obj, pos, 1))
+			if (!gObjSearchItemMinus(Obj, pos, 1))
 			{
 				gObjInventoryItemSet(Obj, pos, -1);
 				Obj.pntInventory[pos]->Clear();
@@ -13244,7 +13249,7 @@ void GameProtocol::CGUseItemRecv(PMSG_USEITEM* lpMsg, CGameObject &Obj)
 
 				if (bKalimaGateCreateResult == TRUE)
 				{
-					if (!gObjSearchItemMinus(&Obj, pos, 1))
+					if (!gObjSearchItemMinus(Obj, pos, 1))
 					{
 						gObjInventoryItemSet(Obj, pos, -1);
 						Obj.pntInventory[pos]->Clear();
@@ -15038,8 +15043,8 @@ void GameProtocol::CGRequestPetItemInfo(CGameObject &Obj, PMSG_SEND_PET_ITEMINFO
 
 		if (Obj.pntChaosBox[pMsg.nPos].IsItem())
 		{
-			pMsg.Level = Obj.pntChaosBox[pMsg.nPos].m_PetItem_Level;
-			pMsg.Exp = Obj.pntChaosBox[pMsg.nPos].m_PetItem_Exp - gPetItemExp.m_DarkSpiritExpTable[pMsg.Level];
+			pMsg.Level = Obj.pntChaosBox[pMsg.nPos]->m_PetItem_Level;
+			pMsg.Exp = Obj.pntChaosBox[pMsg.nPos]->m_PetItem_Exp - gPetItemExp.m_DarkSpiritExpTable[pMsg.Level];
 			pMsg.Dur = (BYTE)Obj.pntInventory[pMsg.nPos]->m_Durability;
 
 			IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, sizeof(pMsg));
@@ -18879,7 +18884,7 @@ void GameProtocol::CGReqUseTransformationRing(PMSG_REQ_USETRANSFORMATIONRING * l
 	pMove.Y = Obj.Y;
 
 	PMoveProc(&pMove, Obj);
-	gObjViewportListProtocolCreate(&Obj);
+	gObjViewportListProtocolCreate(Obj);
 }
 
 void GameProtocol::GCSendAttackSpeed(CGameObject &Obj)
@@ -20840,7 +20845,7 @@ void GameProtocol::CGMuunItemGetRequest(PMSG_MUUNITEM_GETREQUEST *lpMsg, CGameOb
 			return;
 		}
 
-		pResult.result = gObjChkMuunInventoryEmpty(&Obj);
+		pResult.result = gObjChkMuunInventoryEmpty(Obj);
 
 		if (pResult.result == 255)
 		{
@@ -21496,13 +21501,13 @@ bool GameProtocol::CGEventItemDropRequest(PMSG_EVENTITEM_THROW *lpMsg, CGameObje
 	if (lpMsg->Ipos < 0 || lpMsg->Ipos > MAIN_INVENTORY_SIZE - 1)
 		pResult.Result = false;
 
-	if (!gObjCanItemTouch(lpObj, 0))
+	if (!gObjCanItemTouch(Obj, 0))
 		pResult.Result = false;
 
 	if (!IsDumpItem(Obj.pntEventInventory[lpMsg->Ipos].m_Type))
 		pResult.Result = false;
 
-	LPITEM_ATTRIBUTE pItemAttribute = GetItemAttr(Obj.pntEventInventory[lpMsg->Ipos].m_Type);
+	LPITEM_ATTRIBUTE pItemAttribute = GetItemAttr(Obj.pntEventInventory[lpMsg->Ipos]->m_Type);
 
 	if (!pItemAttribute)
 	{
@@ -21517,20 +21522,20 @@ bool GameProtocol::CGEventItemDropRequest(PMSG_EVENTITEM_THROW *lpMsg, CGameObje
 		::ItemIsBufExOption(NewOption, Obj.pntEventInventory[lpMsg->Ipos]);
 
 		int map = Obj.MapNumber;
-		int type = Obj.pntEventInventory[lpMsg->Ipos].m_Type;
-		int level = Obj.pntEventInventory[lpMsg->Ipos].m_Level;
-		float dur = Obj.pntEventInventory[lpMsg->Ipos].m_Durability;
-		BOOL bIsItem = Obj.pntEventInventory[lpMsg->Ipos].IsItem();
-		BYTE Option1 = Obj.pntEventInventory[lpMsg->Ipos].m_Option1;
-		BYTE Option2 = Obj.pntEventInventory[lpMsg->Ipos].m_Option2;
-		BYTE Option3 = Obj.pntEventInventory[lpMsg->Ipos].m_Option3;
-		BYTE NOption = Obj.pntEventInventory[lpMsg->Ipos].m_NewOption;
-		UINT64 serial = Obj.pntEventInventory[lpMsg->Ipos].m_Number;
-		int PetLevel = Obj.pntEventInventory[lpMsg->Ipos].m_PetItem_Level;
-		UINT64 PetExp = Obj.pntEventInventory[lpMsg->Ipos].m_PetItem_Exp;
-		BYTE SOption = Obj.pntEventInventory[lpMsg->Ipos].m_SetOption;
-		BYTE btItemEffectEx = Obj.pntEventInventory[lpMsg->Ipos].m_ItemOptionEx;
-		UINT64 serial2 = Obj.pntEventInventory[lpMsg->Ipos].m_Number;
+		int type = Obj.pntEventInventory[lpMsg->Ipos]->m_Type;
+		int level = Obj.pntEventInventory[lpMsg->Ipos]->m_Level;
+		float dur = Obj.pntEventInventory[lpMsg->Ipos]->m_Durability;
+		BOOL bIsItem = Obj.pntEventInventory[lpMsg->Ipos]->IsItem();
+		BYTE Option1 = Obj.pntEventInventory[lpMsg->Ipos]->m_Option1;
+		BYTE Option2 = Obj.pntEventInventory[lpMsg->Ipos]->m_Option2;
+		BYTE Option3 = Obj.pntEventInventory[lpMsg->Ipos]->m_Option3;
+		BYTE NOption = Obj.pntEventInventory[lpMsg->Ipos]->m_NewOption;
+		UINT64 serial = Obj.pntEventInventory[lpMsg->Ipos]->m_Number;
+		int PetLevel = Obj.pntEventInventory[lpMsg->Ipos]->m_PetItem_Level;
+		UINT64 PetExp = Obj.pntEventInventory[lpMsg->Ipos]->m_PetItem_Exp;
+		BYTE SOption = Obj.pntEventInventory[lpMsg->Ipos]->m_SetOption;
+		BYTE btItemEffectEx = Obj.pntEventInventory[lpMsg->Ipos]->m_ItemOptionEx;
+		UINT64 serial2 = Obj.pntEventInventory[lpMsg->Ipos]->m_Number;
 		char szItemName[50] = "Item";
 		BYTE JOHOption = g_kJewelOfHarmonySystem.GetItemStrengthenOption(Obj.pntEventInventory[lpMsg->Ipos]);
 		BYTE JOHOptionLevel = g_kJewelOfHarmonySystem.GetItemOptionLevel(Obj.pntEventInventory[lpMsg->Ipos]);
@@ -21542,7 +21547,7 @@ bool GameProtocol::CGEventItemDropRequest(PMSG_EVENTITEM_THROW *lpMsg, CGameObje
 
 		for (int iOption = 0; iOption < 5; iOption++)
 		{
-			SocketOption[iOption] = Obj.pntEventInventory[lpMsg->Ipos].m_SocketOption[iOption];
+			SocketOption[iOption] = Obj.pntEventInventory[lpMsg->Ipos]->m_SocketOption[iOption];
 		}
 
 		if (gObjCheckSerial0ItemList(Obj.pntEventInventory[lpMsg->Ipos]) != FALSE)
@@ -21883,7 +21888,7 @@ void GameProtocol::CG_Req_Enter_ITR(PMSG_REQ_ENTER_ITR *lpMsg, CGameObject &Obj)
 
 void GameProtocol::CG_ReqAcceptEnterITR(PMSG_REQ_ACCEPTENTER_ITR *lpMsg, CGameObject &Obj)
 {
-	if (!gObjIsConnected(lpObj))
+	if (!gObjIsConnected(Obj))
 	{
 		return;
 	}
@@ -22347,7 +22352,7 @@ void GameProtocol::CGReqDSFEnter(CGameObject &Obj)
 
 		for (int i = 0; i < 2; i++)
 		{
-			BOOL bError = gParty.GetIndexUser(Obj.PartyNumber, i, getGameObject(useridx), dbnumber);
+			BOOL bError = gParty.GetIndexUser(Obj.PartyNumber, i, useridx, dbnumber);
 
 			if (bError == FALSE)
 			{
@@ -22381,7 +22386,7 @@ void GameProtocol::CGReqDSFEnter(CGameObject &Obj)
 
 		for (int i = 0; i < 2; i++)
 		{
-			BOOL bError = gParty.GetIndexUser(Obj.PartyNumber, i, getGameObject(useridx), dbnumber);
+			BOOL bError = gParty.GetIndexUser(Obj.PartyNumber, i, *getGameObject(useridx), dbnumber);
 
 			if (bError == FALSE)
 			{
@@ -22445,7 +22450,7 @@ void GameProtocol::CGReqDSFEnter(CGameObject &Obj)
 
 		for (int i = 0; i < 2; i++)
 		{
-			BOOL bError = gParty.GetIndexUser(Obj.PartyNumber, i, getGameObject(useridx), dbnumber);
+			BOOL bError = gParty.GetIndexUser(Obj.PartyNumber, i, *getGameObject(useridx), dbnumber);
 
 			if (bError == FALSE)
 			{
@@ -23308,7 +23313,7 @@ void GameProtocol::GCPlayerStatsPanelNew(CGameObject &Obj)
 	pStatsInfo.eneadd = Obj.AddEnergy;
 	pStatsInfo.cmd = Obj.Leadership;
 	pStatsInfo.cmdadd = Obj.AddLeadership;
-	pStatsInfo.mPrec = Obj.m_PlayerData->m_MPSkillOpt.iMpsAutoRecoverMana + Obj.m_PlayerData->m_WingExcOption.iWingOpRecoveryMana + Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddRefillMP + Obj.m_PlayerData->m_btRefillMPSocketOption;
+	pStatsInfo.mPrec = Obj.m_PlayerData->m_MPSkillOpt->iMpsAutoRecoverMana + Obj.m_PlayerData->m_WingExcOption->iWingOpRecoveryMana + Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddRefillMP + Obj.m_PlayerData->m_btRefillMPSocketOption;
 
 	IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pStatsInfo, sizeof(pStatsInfo));
 }
@@ -23373,7 +23378,7 @@ void GameProtocol::GCPlayerStatsPanelRates(CGameObject &Obj)
 
 	PMSG_STATS_RESULT pMsg;
 	PHeadSubSetB((BYTE*)&pMsg, 0xEC, 0x29, sizeof(pMsg));
-	pMsg.CriticalDMGInc = Obj.m_PlayerData->m_MPSkillOpt->iMpsIncCriticalDamageRate + Obj.m_PlayerData->SetOpAddCriticalDamageSuccessRate + Obj.m_PlayerData->SetOpAddCriticalDamage + Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddCriticalDamage; // crit dmg inc
+	pMsg.CriticalDMGInc = Obj.m_PlayerData->m_MPSkillOpt->iMpsIncCriticalDamageRate + Obj.m_PlayerData->SetOpAddCriticalDamageSuccessRate + Obj.m_PlayerData->SetOpAddCriticalDamage + Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddCriticalDamage; // crit dmg inc
 	pMsg.unk1 = Obj.m_PlayerData->m_MPSkillOpt->iMpsAddPhysicDamage + Obj.m_PlayerData->m_MPSkillOpt->iMpsElfAddPhysicDamage + Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSkillAttack + Obj.m_PlayerData->SetOpAddSkillAttack; // skill attack dmg inc
 	pMsg.str = Obj.m_PlayerData->Strength;
 	pMsg.stradd = Obj.AddStrength;
@@ -23390,7 +23395,7 @@ void GameProtocol::GCPlayerStatsPanelRates(CGameObject &Obj)
 	pMsg.SDRation = Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSDRate; // sd(%) when attack
 	pMsg.SDBypass = Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddIgnoreSDRate; // sd % when attack
 	pMsg.unk4 = Obj.m_PlayerData->m_MPSkillOpt->iMpsIncIgnoreEnemyBlock + Obj.m_PlayerData->SetOpIgnoreDefense + Obj.m_PlayerData->m_WingExcOption->iWingOpIgnoreEnemyDefense; // def ign rate
-	pMsg.unk5 = Obj.AutoHPRecovery + Obj.m_PlayerData->m_MPSkillOpt->iMpsAutoRecoverLife + Obj.m_PlayerData->m_btRefillHPSocketOption + Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddRefillHP + Obj.m_PlayerData->m_WingExcOption.iWingOpRecoveryHP; // hp rec rate
+	pMsg.unk5 = Obj.AutoHPRecovery + Obj.m_PlayerData->m_MPSkillOpt->iMpsAutoRecoverLife + Obj.m_PlayerData->m_btRefillHPSocketOption + Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddRefillHP + Obj.m_PlayerData->m_WingExcOption->iWingOpRecoveryHP; // hp rec rate
 	pMsg.ZenObincRate = 12;
 	pMsg.unk7 = Obj.m_PlayerData->m_MPSkillOpt->iMpsAddSturn; // stun rate
 	pMsg.unk8 = Obj.m_PlayerData->m_Resistance_Stun; // stun res rate
@@ -23400,25 +23405,25 @@ void GameProtocol::GCPlayerStatsPanelRates(CGameObject &Obj)
 	pMsg.unk12 = Obj.m_PlayerData->m_MPSkillOpt->iMpsMonsterDieGetMana;; // mob attack mp rec 
 	pMsg.unk13 = Obj.m_PlayerData->m_MPSkillOpt->iMpsMonsterDieGetSD; // mob attack sd rec
 	pMsg.unk14 = Obj.m_PlayerData->m_MPSkillOpt->iMpsSDSpeed; // sd rec rate
-	pMsg.unk15 = Obj.m_PlayerData->m_MPSkillOpt.iMpsRecoverManaRate; // res all mp rate
-	pMsg.unk16 = Obj.m_PlayerData->m_MPSkillOpt.iMpsRecoverHPRate; // res all hp rate
-	pMsg.unk17 = Obj.m_PlayerData->m_MPSkillOpt.iMpsRecoverSDRate; // res all sd rate
+	pMsg.unk15 = Obj.m_PlayerData->m_MPSkillOpt->iMpsRecoverManaRate; // res all mp rate
+	pMsg.unk16 = Obj.m_PlayerData->m_MPSkillOpt->iMpsRecoverHPRate; // res all hp rate
+	pMsg.unk17 = Obj.m_PlayerData->m_MPSkillOpt->iMpsRecoverSDRate; // res all sd rate
 	pMsg.unk18 = Obj.m_PlayerData->m_MPSkillOpt->iMpsAutoRecoverAG + Obj.m_PlayerData->SetOpIncAGValue; // ag rec rate
 	pMsg.unk19 = 0; // dmg absorb rate
-	pMsg.unk20 = Obj.m_PlayerData->m_MPSkillOpt->iMpsShieldBlockRate + Obj.m_PlayerData->m_MPSkillOpt.iMpsElfShieldBlockRate + Obj.m_PlayerData->m_MPSkillOpt.iMpsAddShieldBlockingRage; // shield block rate
+	pMsg.unk20 = Obj.m_PlayerData->m_MPSkillOpt->iMpsShieldBlockRate + Obj.m_PlayerData->m_MPSkillOpt->iMpsElfShieldBlockRate + Obj.m_PlayerData->m_MPSkillOpt->iMpsAddShieldBlockingRage; // shield block rate
 	pMsg.unk21 = 0; // weapon block rate
 	pMsg.unk22 = 0; // hp absorb
-	pMsg.unk23 = Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpDecreaseSDRate; // sd absorb
-	pMsg.unk24 = Obj.m_PlayerData->m_MPSkillOpt.iMpsReturnEnemyAttack + Obj.m_PlayerData->m_WingExcOption.iWingOpReturnEnemyDamage; // return dmg rate
+	pMsg.unk23 = Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpDecreaseSDRate; // sd absorb
+	pMsg.unk24 = Obj.m_PlayerData->m_MPSkillOpt->iMpsReturnEnemyAttack + Obj.m_PlayerData->m_WingExcOption->iWingOpReturnEnemyDamage; // return dmg rate
 	pMsg.IncreaseDamageRate = 0; // dmg inc rate
 	pMsg.unk26 = Obj.m_SkillInfo.SoulBarrierManaRate; // MP use redc rate
 	pMsg.CritDMGRate = Obj.m_CriticalDamage + Obj.m_PlayerData->SetOpAddCriticalDamage; // Critical Dmg Rate
 	pMsg.ExcDMGRate = Obj.m_ExcelentDamage + Obj.m_PlayerData->SetOpAddExDamageSuccessRate; // Excellent Dmg Rate
-	pMsg.DoubleDmgRate = Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDoubleDamageRate + Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDarkSpiritDoubleDamageRate + Obj.m_PlayerData->m_MPSkillOpt.iMpsAddDoubleDamage + Obj.m_PlayerData->SetOpDoubleDamage + Obj.m_PlayerData->m_MPSkillOpt.iMpsMonkDoubleDamage + Obj.m_PlayerData->m_WingExcOption.iWingOpAddDoubleDamage; // 
+	pMsg.DoubleDmgRate = Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDoubleDamageRate + Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDarkSpiritDoubleDamageRate + Obj.m_PlayerData->m_MPSkillOpt->iMpsAddDoubleDamage + Obj.m_PlayerData->SetOpDoubleDamage + Obj.m_PlayerData->m_MPSkillOpt->iMpsMonkDoubleDamage + Obj.m_PlayerData->m_WingExcOption->iWingOpAddDoubleDamage; // 
 #if(CUSTOM_DAMAGES12 == 1)
-	pMsg.unk28 = Obj.DamageDecrease + Obj.S12DamageDecrease + Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddDamageDecrease; // Obj.DamageMinus
+	pMsg.unk28 = Obj.DamageDecrease + Obj.S12DamageDecrease + Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddDamageDecrease; // Obj.DamageMinus
 #else	
-	pMsg.unk28 = Obj.DamageDecrease + Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddDamageDecrease; // Obj.DamageMinus
+	pMsg.unk28 = Obj.DamageDecrease + Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddDamageDecrease; // Obj.DamageMinus
 #endif
 	pMsg.unk29 = Obj.m_PlayerData->m_btAGReduceRate; // ag usage rec rate
 	pMsg.unk30 = Obj.DamageReflect + Obj.m_PlayerData->SetOpReflectionDamage; // damage reflect

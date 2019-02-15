@@ -176,7 +176,7 @@ void CMasterLevelSkillTreeSystem::InitPassiveSkillData(CGameObject &Obj)
 		return;
 	}
 
-	Obj.m_PlayerData->m_MPSkillOpt.Clear();
+	Obj.m_PlayerData->m_MPSkillOpt->Clear();
 }
 
 void CMasterLevelSkillTreeSystem::CalcPassiveSkillData(CGameObject &Obj, int iMLSkill, int iSkillLevel)
@@ -201,346 +201,346 @@ void CMasterLevelSkillTreeSystem::CalcPassiveSkillData(CGameObject &Obj, int iML
 	switch (this->GetBaseMasterLevelSkill(iMLSkill))
 	{
 	case 325:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAttackSuccessRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAttackSuccessRate = iSkillValue;
 		break;
 	case 347:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncreasePvPAttackRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncreasePvPAttackRate = iSkillValue;
 		break;
 	case 301:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncreasePvPDefenseRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncreasePvPDefenseRate = iSkillValue;
 		break;
 	case 300:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 = iSkillValue;
-		Obj.m_PlayerData->m_MPSkillOpt.btMpsDownDur1Level = iSkillLevel;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsDurabilityReduction1 = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->btMpsDownDur1Level = iSkillLevel;
 		break;
 	case 305:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction2 = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsDurabilityReduction2 = iSkillValue;
 		break;
 	case 312:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction3 = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsDurabilityReduction3 = iSkillValue;
 		break;
 	case 304:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsResistancePoison = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsResistancePoison = iSkillValue;
 		break;
 	case 308:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsResistanceThunder = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsResistanceThunder = iSkillValue;
 		break;
 	case 311:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsResistanceIce = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsResistanceIce = iSkillValue;
 		break;
 	case 307:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAutoRecoverLife = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAutoRecoverLife = iSkillValue;
 		break;
 	case 313:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDefenseSuccessRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDefenseSuccessRate = iSkillValue;
 		break;
 	case 309:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsDefence = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsDefence = iSkillValue;
 		break;
 	case 334:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsMaxHP = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxHP = iSkillValue;
 		break;
 	case 338:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsMaxMana = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxMana = iSkillValue;
 		break;
 	case 341:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsMaxBP = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxBP = iSkillValue;
 		break;
 	case 362:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsMonsterDieGetMana = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsMonsterDieGetMana = iSkillValue;
 		break;
 	case 359:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsMonsterDieGetLife = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsMonsterDieGetLife = iSkillValue;
 		break;
 	case 358:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsMonsterDieGetSD = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsMonsterDieGetSD = iSkillValue;
 		break;
 	case 303:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAutoRecoverMana = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAutoRecoverMana = iSkillValue;
 		break;
 	case 310:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAutoRecoverAG = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAutoRecoverAG = iSkillValue;
 		break;
 	case 302:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsMaxSD = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxSD = iSkillValue;
 		break;
 	case 306:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsSDSpeed = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsSDSpeed = iSkillValue;
 		break;
 	case 364:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsMaxAttackDamage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxAttackDamage = iSkillValue;
 		break;
 	case 361:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsMinAttackDamage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsMinAttackDamage = iSkillValue;
 		break;
 	case 357:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsDecreaseMana = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsDecreaseMana = iSkillValue;
 		break;
 	case 407:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsMaxMagicDamage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxMagicDamage = iSkillValue;
 		break;
 	case 405:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsMinMagicDamage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsMinMagicDamage = iSkillValue;
 		break;
 	case 535:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsPetDurDownSpeed = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsPetDurDownSpeed = iSkillValue;
 		break;
 	case 335:
 	case 485:
 	case 513:
 	case 557:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddPhysicDamage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddPhysicDamage = iSkillValue;
 		break;
 	case 348:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandSwordAddDamage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandSwordAddDamage = iSkillValue;
 		break;
 	case 349:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsSwordAddDamage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsSwordAddDamage = iSkillValue;
 		break;
 	case AT_MSKILL_MACE_STRENGTHENER:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsMaceStrength = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsMaceStrength = iSkillValue;
 		break;
 	case 351:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsSpearAddDamage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsSpearAddDamage = iSkillValue;
 		break;
 	case 352:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsPvPAttack = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsPvPAttack = iSkillValue;
 		break;
 	case 353:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddAttackSpeed = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddAttackSpeed = iSkillValue;
 		break;
 	case 354:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddSturn = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddSturn = iSkillValue;
 		break;
 	case 355:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddDoubleDamage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddDoubleDamage = iSkillValue;
 		break;
 	case 386:
 	case 488:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMagicDamage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddMagicDamage = iSkillValue;
 		break;
 	case 397:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsStaffMagicPower = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsStaffMagicPower = iSkillValue;
 		break;
 	case 398:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsMagicPower = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsMagicPower = iSkillValue;
 		break;
 	case 399:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncShield = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncShield = iSkillValue;
 		break;
 	case 400:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsStaffAttackSpeed = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsStaffAttackSpeed = iSkillValue;
 		break;
 	case 401:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsStaffManAttack = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsStaffManAttack = iSkillValue;
 		break;
 	case 402:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsShieldBlockRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsShieldBlockRate = iSkillValue;
 		break;
 	case 435:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsBowAddDamage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsBowAddDamage = iSkillValue;
 		break;
 	case 438:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsBowAddAttackSpeed = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsBowAddAttackSpeed = iSkillValue;
 		break;
 	case 436:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsBowAddDamage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsBowAddDamage = iSkillValue;
 		break;
 	case 439:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsBowManAttack = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsBowManAttack = iSkillValue;
 		break;
 	case 421:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsElfAddPhysicDamage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsElfAddPhysicDamage = iSkillValue;
 		break;
 	case 415:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsCallMonHp = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsCallMonHp = iSkillValue;
 		break;
 	case 419:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsCallMonDefense = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsCallMonDefense = iSkillValue;
 		break;
 	case 428:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsCallMonAttack = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsCallMonAttack = iSkillValue;
 		break;
 	case 442:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMinAttack = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddMinAttack = iSkillValue;
 		break;
 	case 443:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMaxAttack = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddMaxAttack = iSkillValue;
 		break;
 	case 448:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDamageFireProper = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDamageFireProper = iSkillValue;
 		break;
 	case 449:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDamageWindProper = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDamageWindProper = iSkillValue;
 		break;
 	case 450:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDamageThunderProper = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDamageThunderProper = iSkillValue;
 		break;
 	case 451:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDotDamage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDotDamage = iSkillValue;
 		break;
 	case 452:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddSturn2 = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddSturn2 = iSkillValue;
 		break;
 	case 453:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddSpring = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddSpring = iSkillValue;
 		break;
 	case 457:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncMagicPower = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncMagicPower = iSkillValue;
 		break;
 	case 465:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMagicPowerStick = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddMagicPowerStick = iSkillValue;
 		break;
 	case 466:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddCurseMagicBook = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddCurseMagicBook = iSkillValue;
 		break;
 	case 467:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddManAttackStick = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddManAttackStick = iSkillValue;
 		break;
 	case 468:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddAttackSpeedMagicBook = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddAttackSpeedMagicBook = iSkillValue;
 		break;
 	case 471:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncMinMagicDamage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncMinMagicDamage = iSkillValue;
 		break;
 	case 526:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddDarkSpiritDamage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddDarkSpiritDamage = iSkillValue;
 		break;
 	case 530:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddCriticalDamageRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddCriticalDamageRate = iSkillValue;
 		break;
 	case 534:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddExcellentDamageRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddExcellentDamageRate = iSkillValue;
 		break;
 	case 527:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddCeptorDamage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddCeptorDamage = iSkillValue;
 		break;
 	case 531:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncCeptorManAttack = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncCeptorManAttack = iSkillValue;
 		break;
 	case 528:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddShieldDefense = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddShieldDefense = iSkillValue;
 		break;
 	case 532:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddShieldBlockingRage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddShieldBlockingRage = iSkillValue;
 		break;
 	case 529:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddPetAttack = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddPetAttack = iSkillValue;
 		break;
 	case 533:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddControlAttack = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddControlAttack = iSkillValue;
 		break;
 	case 556:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddBlockingRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddBlockingRate = iSkillValue;
 		break;
 	case 568:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsMonkWeaponDamage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsMonkWeaponDamage = iSkillValue;
 		break;
 	case 571:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsMonkDoubleDamage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsMonkDoubleDamage = iSkillValue;
 		break;
 	case 574:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsMonkAddVitalToDefense = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsMonkAddVitalToDefense = iSkillValue;
 		break;
 	case 599:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAttackSuccessRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAttackSuccessRate = iSkillValue;
 		break;
 	case 603:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncreasePvPAttackRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncreasePvPAttackRate = iSkillValue;
 		break;
 	case 579:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncreasePvPDefenseRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncreasePvPDefenseRate = iSkillValue;
 		break;
 	case 578:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 = iSkillValue;
-		Obj.m_PlayerData->m_MPSkillOpt.btMpsDownDur1Level = iSkillLevel;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsDurabilityReduction1 = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->btMpsDownDur1Level = iSkillLevel;
 		break;
 	case 583:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction2 = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsDurabilityReduction2 = iSkillValue;
 		break;
 	case 590:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction3 = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsDurabilityReduction3 = iSkillValue;
 		break;
 	case 582:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsResistancePoison = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsResistancePoison = iSkillValue;
 		break;
 	case 586:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsResistanceThunder = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsResistanceThunder = iSkillValue;
 		break;
 	case 589:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsResistanceIce = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsResistanceIce = iSkillValue;
 		break;
 	case 585:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAutoRecoverLife = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAutoRecoverLife = iSkillValue;
 		break;
 	case 591:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDefenseSuccessRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDefenseSuccessRate = iSkillValue;
 		break;
 	case 587:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsDefence = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsDefence = iSkillValue;
 		break;
 	case 600:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsMaxHP = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxHP = iSkillValue;
 		break;
 	case 601:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsMaxMana = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxMana = iSkillValue;
 		break;
 	case 602:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsMaxBP = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxBP = iSkillValue;
 		break;
 	case 608:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsMonsterDieGetMana = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsMonsterDieGetMana = iSkillValue;
 		break;
 	case 606:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsMonsterDieGetLife = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsMonsterDieGetLife = iSkillValue;
 		break;
 	case 605:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsMonsterDieGetSD = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsMonsterDieGetSD = iSkillValue;
 		break;
 	case 581:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAutoRecoverMana = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAutoRecoverMana = iSkillValue;
 		break;
 	case 588:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAutoRecoverAG = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAutoRecoverAG = iSkillValue;
 		break;
 	case 580:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsMaxSD = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxSD = iSkillValue;
 		break;
 	case 584:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsSDSpeed = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsSDSpeed = iSkillValue;
 		break;
 	case 609:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMaxAttack = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddMaxAttack = iSkillValue;
 		break;
 	case 607:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMinAttack = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddMinAttack = iSkillValue;
 		break;
 	case 604:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsDecreaseMana = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsDecreaseMana = iSkillValue;
 		break;
 	case 314:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsImmuneRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsImmuneRate = iSkillValue;
 		break;
 	case 315:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncSetItemDefense = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncSetItemDefense = iSkillValue;
 		break;
 	case 316:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsReturnEnemyAttack = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsReturnEnemyAttack = iSkillValue;
 		break;
 	case 317:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncEnergyStat = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncEnergyStat = iSkillValue;
 		break;
 	case 318:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncVitalStat = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncVitalStat = iSkillValue;
 		break;
 	case 319:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDexStat = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDexStat = iSkillValue;
 		break;
 	case 320:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncPowerStat = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncPowerStat = iSkillValue;
 		break;
 	case 506:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncLeadershipStat = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncLeadershipStat = iSkillValue;
 		break;
 	case 321:
 	case 374:
@@ -550,7 +550,7 @@ void CMasterLevelSkillTreeSystem::CalcPassiveSkillData(CGameObject &Obj, int iML
 	case 504:
 	case 548:
 	case 684:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamageBlock = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamageBlock = iSkillValue;
 		break;
 	case 627:
 	case 638:
@@ -570,7 +570,7 @@ void CMasterLevelSkillTreeSystem::CalcPassiveSkillData(CGameObject &Obj, int iML
 	case 673:
 	case 680:
 	case 716:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncSteelArmor = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncSteelArmor = iSkillValue;
 		break;
 	case 322:
 	case 375:
@@ -580,7 +580,7 @@ void CMasterLevelSkillTreeSystem::CalcPassiveSkillData(CGameObject &Obj, int iML
 	case 505:
 	case 549:
 	case 685:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDefense = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDefense = iSkillValue;
 		break;
 	case 324:
 	case 377:
@@ -589,97 +589,97 @@ void CMasterLevelSkillTreeSystem::CalcPassiveSkillData(CGameObject &Obj, int iML
 	case 478:
 	case 507:
 	case 550:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamage = iSkillValue;
 		break;
 	case 360:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsMasManaRate_Wizard = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsMasManaRate_Wizard = iSkillValue;
 		break;
 	case 363:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsAutoRecoverAG = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsAutoRecoverAG = iSkillValue;
 		break;
 	case 366:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncCriticalDamageRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncCriticalDamageRate = iSkillValue;
 		break;
 	case 367:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsRecoverManaRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsRecoverManaRate = iSkillValue;
 		break;
 	case 368:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsRecoverHPRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsRecoverHPRate = iSkillValue;
 		break;
 	case 369:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncExcellentDamageRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncExcellentDamageRate = iSkillValue;
 		break;
 	case 370:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDoubleDamageRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDoubleDamageRate = iSkillValue;
 		break;
 	case 371:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncIgnoreEnemyBlock = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncIgnoreEnemyBlock = iSkillValue;
 		break;
 	case 372:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsRecoverSDRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsRecoverSDRate = iSkillValue;
 		break;
 	case 373:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncTripleDamageRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncTripleDamageRate = iSkillValue;
 		break;
 	case 345:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsComboDamage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsComboDamage = iSkillValue;
 		break;
 	case 473:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncMaxMagicDamage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncMaxMagicDamage = iSkillValue;
 		break;
 	case 536:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDarkSpiritAttackSpeed = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDarkSpiritAttackSpeed = iSkillValue;
 		break;
 	case 538:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDoubleDamageRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDoubleDamageRate = iSkillValue;
 		break;
 	case 539:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsDarkSpiritIgnoreEnemyDefense = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsDarkSpiritIgnoreEnemyDefense = iSkillValue;
 		break;
 	case 592:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsImmuneRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsImmuneRate = iSkillValue;
 		break;
 	case 593:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncSetItemDefense = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncSetItemDefense = iSkillValue;
 		break;
 	case 594:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsReturnEnemyAttack = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsReturnEnemyAttack = iSkillValue;
 		break;
 	case 595:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncEnergyStat = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncEnergyStat = iSkillValue;
 		break;
 	case 596:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncVitalStat = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncVitalStat = iSkillValue;
 		break;
 	case 597:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDexStat = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDexStat = iSkillValue;
 		break;
 	case 598:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncPowerStat = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncPowerStat = iSkillValue;
 		break;
 	case 610:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncCriticalDamageRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncCriticalDamageRate = iSkillValue;
 		break;
 	case 611:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsRecoverManaRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsRecoverManaRate = iSkillValue;
 		break;
 	case 612:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsRecoverHPRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsRecoverHPRate = iSkillValue;
 		break;
 	case 613:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncExcellentDamageRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncExcellentDamageRate = iSkillValue;
 		break;
 	case 614:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDoubleDamageRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDoubleDamageRate = iSkillValue;
 		break;
 	case 615:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncIgnoreEnemyBlock = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncIgnoreEnemyBlock = iSkillValue;
 		break;
 	case 616:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsRecoverSDRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsRecoverSDRate = iSkillValue;
 		break;
 	case 617:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncTripleDamageRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncTripleDamageRate = iSkillValue;
 		break;
 	case 623:
 	case 634:
@@ -689,10 +689,10 @@ void CMasterLevelSkillTreeSystem::CalcPassiveSkillData(CGameObject &Obj, int iML
 	case 670:
 	case AT_MSKILL_RF_677:
 	case AT_MSKILL_GL_713:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsShieldBlockRate = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsShieldBlockRate = iSkillValue;
 		break;
 	case AT_MSKILL_GL_712:
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsRageDamage = iSkillValue;
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsRageDamage = iSkillValue;
 		break;
 	default:
 		break;
@@ -2195,7 +2195,7 @@ void CMasterLevelSkillTreeSystem::MLS_MasteryKnightSkillAddLife(CGameObject &Obj
 
 	if (partynum == -1)
 	{
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncMaxBP = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncMaxBP = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
 		gObjAddBuffEffect(lpObj, BUFFTYPE_HP_INC_STR, EFFECTTYPE_HP, (Obj.MaxLife * faddLifepower / 100.0), EFFECTTYPE_MANA, (Obj.MaxMana * faddManapower / 100.0), iLifeTime);
 		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 	}
@@ -2258,7 +2258,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillSkillfulMagicPower(CGameObject &Obj, 
 		return;
 	}
 
-	Obj.m_PlayerData->m_MPSkillOpt.iMpsCriticalRateInc = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
+	Obj.m_PlayerData->m_MPSkillOpt->iMpsCriticalRateInc = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
 	gObjAddBuffEffect(lpObj, BUFFTYPE_MAGIC_POWER_INC_MAS, EFFECTTYPE_MAGICPOWER_INC, ((Obj.m_PlayerData->Energy + Obj.AddEnergy) / 9.0 * 0.20),
 		EFFECTTYPE_MAGICPOWERMAX_INC, (Obj.m_MagicDamageMax / 100.0 * this->GetBrandOfMasterSkillValue(lpObj, lpMagic->m_Skill, 1)), 1800);
 
@@ -2534,7 +2534,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenBerserker(CGameObject &Obj,
 	if (Obj.Type == OBJ_USER)
 	{
 		this->m_Lua.Generic_Call("SummonerBerserker_Level1", "i>iii", Obj.m_PlayerData->Energy + Obj.AddEnergy, &iEffectUPValue, &iEffectDownValue, &iDuration);
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncPercentBerserker1 = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncPercentBerserker1 = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
 	}
 
 	else
@@ -2565,8 +2565,8 @@ void CMasterLevelSkillTreeSystem::MLS_SkillSkillfulBerserker(CGameObject &Obj, C
 	if (Obj.Type == OBJ_USER)
 	{
 		this->m_Lua.Generic_Call("SummonerBerserker_Level2", "i>iii", Obj.m_PlayerData->Energy + Obj.AddEnergy, &iEffectUPValue, &iEffectDownValue, &iDuration);
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncPercentBerserker1 = this->GetBrandOfMasterSkillValue(lpObj, lpMagic->m_Skill, 1);
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncPercentBerserker2 = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncPercentBerserker1 = this->GetBrandOfMasterSkillValue(lpObj, lpMagic->m_Skill, 1);
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncPercentBerserker2 = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
 	}
 
 	else
@@ -2596,9 +2596,9 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMasteryBerserker(CGameObject &Obj, CM
 	if (Obj.Type == OBJ_USER)
 	{
 		this->m_Lua.Generic_Call("SummonerBerserker_Level3", "i>iii", Obj.m_PlayerData->Energy + Obj.AddEnergy, &iEffectUPValue, &iEffectDownValue, &iDuration);
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncPercentBerserker1 = this->GetBrandOfMasterSkillValue(lpObj, lpMagic->m_Skill, 2);
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncPercentBerserker2 = this->GetBrandOfMasterSkillValue(lpObj, lpMagic->m_Skill, 1);
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncValueBerserker3 = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncPercentBerserker1 = this->GetBrandOfMasterSkillValue(lpObj, lpMagic->m_Skill, 2);
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncPercentBerserker2 = this->GetBrandOfMasterSkillValue(lpObj, lpMagic->m_Skill, 1);
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncValueBerserker3 = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
 	}
 
 	else
@@ -4592,21 +4592,21 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMonsterCall(CGameObject &Obj, int Mon
 		Obj.m_RecallMon = result;
 		getGameObject(result)->m_MoveRange = 15;
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsCallMonHp > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsCallMonHp > 0.0)
 		{
-			getGameObject(result)->Life += getGameObject(result)->Life * Obj.m_PlayerData->m_MPSkillOpt.iMpsCallMonHp / 100.0;
-			getGameObject(result)->MaxLife += getGameObject(result)->MaxLife * Obj.m_PlayerData->m_MPSkillOpt.iMpsCallMonHp / 100.0;
+			getGameObject(result)->Life += getGameObject(result)->Life * Obj.m_PlayerData->m_MPSkillOpt->iMpsCallMonHp / 100.0;
+			getGameObject(result)->MaxLife += getGameObject(result)->MaxLife * Obj.m_PlayerData->m_MPSkillOpt->iMpsCallMonHp / 100.0;
 		}
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsCallMonDefense > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsCallMonDefense > 0.0)
 		{
-			getGameObject(result)->m_Defense += getGameObject(result)->m_Defense * Obj.m_PlayerData->m_MPSkillOpt.iMpsCallMonDefense / 100.0;
+			getGameObject(result)->m_Defense += getGameObject(result)->m_Defense * Obj.m_PlayerData->m_MPSkillOpt->iMpsCallMonDefense / 100.0;
 		}
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsCallMonAttack > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsCallMonAttack > 0.0)
 		{
-			getGameObject(result)->m_AttackDamageMin += getGameObject(result)->m_AttackDamageMin * Obj.m_PlayerData->m_MPSkillOpt.iMpsCallMonAttack / 100.0;
-			getGameObject(result)->m_AttackDamageMax += getGameObject(result)->m_AttackDamageMax * Obj.m_PlayerData->m_MPSkillOpt.iMpsCallMonAttack / 100.0;
+			getGameObject(result)->m_AttackDamageMin += getGameObject(result)->m_AttackDamageMin * Obj.m_PlayerData->m_MPSkillOpt->iMpsCallMonAttack / 100.0;
+			getGameObject(result)->m_AttackDamageMax += getGameObject(result)->m_AttackDamageMax * Obj.m_PlayerData->m_MPSkillOpt->iMpsCallMonAttack / 100.0;
 		}
 
 		gGameProtocol.GCRecallMonLife(getGameObject(result)->m_RecallMon, getGameObject(result)->MaxLife, getGameObject(result)->Life);
@@ -5045,7 +5045,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenBloodHowling(CGameObject &O
 	}
 
 	gObjAddBuffEffect(lpTargetObj, BUFFTYPE_BLOOD_HOWL_STR, 0, 0, 0, 0, MagicDamageC.GetSkillKeepTime(lpMagic->m_Skill));
-	lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsIncDamageBloodHowling = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
+	lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsIncDamageBloodHowling = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
 	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 }
 
@@ -5919,7 +5919,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMasteryWizardMagicDefense(CGameObject
 	fDefenseValue += this->GetBrandOfMasterSkillValue(lpObj, lpMagic->m_Skill, 2);
 	fSkillValidTime += this->GetBrandOfMasterSkillValue(lpObj, lpMagic->m_Skill, 1);
 
-	lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsMasManaRate_Wizard = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
+	lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsMasManaRate_Wizard = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
 
 	gObjAddBuffEffect(lpTargetObj, BUFFTYPE_MELEE_DEFENSE_INC_STR, EFFECTTYPE_IMPROVE_MELEE_DEFENSE, fDefenseValue, EFFECTTYPE_MELEE_DEFENSE_DOWN_MANA, g_SkillAdditionInfo.GetSoulBarrierManaRate_Level(lpMagic->m_Skill), fSkillValidTime);
 	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
@@ -6395,7 +6395,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMasteryAddCriticalDamage2(CGameObject
 
 	if (partynum == -1)
 	{
-		Obj.m_PlayerData->m_MPSkillOpt.iMpsIncExcellentDamageRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
+		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncExcellentDamageRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
 		gObjAddBuffEffect(lpObj, BUFFTYPE_CRITICAL_DMG_INC_MAS, EFFECTTYPE_CRITICAL_DMG, addcriticaldamagevalue, EFFECTTYPE_CRITICALDAMAGE, fRate, SkillTime);
 		MsgOutput(Obj.m_Index, Lang.GetText(0, 134), SkillTime);
 		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
@@ -6408,7 +6408,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMasteryAddCriticalDamage2(CGameObject
 			if (ApplyPartyIndex[n] != -1)
 			{
 				lpPartyObj = getGameObject(ApplyPartyIndex[n]);
-				lpPartyObj.m_PlayerData->m_MPSkillOpt.iMpsIncExcellentDamageRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
+				lpPartyObj.m_PlayerData->m_MPSkillOpt->iMpsIncExcellentDamageRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
 				gObjAddBuffEffect(lpPartyObj, BUFFTYPE_CRITICAL_DMG_INC_MAS, EFFECTTYPE_CRITICAL_DMG, addcriticaldamagevalue, EFFECTTYPE_CRITICALDAMAGE, fRate, SkillTime);
 				MsgOutput(ApplyPartyIndex[n], Lang.GetText(0, 134), SkillTime);
 				gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, lpPartyObj.m_Index, TRUE);
@@ -7361,7 +7361,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 348)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandSwordAddDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandSwordAddDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				break;
 			}
 		}
@@ -7370,7 +7370,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 352)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsPvPAttack = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsPvPAttack = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				return;
 			}
 		}
@@ -7382,7 +7382,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 349)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsSwordAddDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsSwordAddDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				break;
 			}
 		}
@@ -7391,7 +7391,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 353)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsAddAttackSpeed = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsAddAttackSpeed = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				return;
 			}
 		}
@@ -7403,7 +7403,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == AT_MSKILL_MACE_STRENGTHENER)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsMaceStrength = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsMaceStrength = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				break;
 			}
 		}
@@ -7412,7 +7412,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 354)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsAddSturn = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsAddSturn = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				return;
 			}
 		}
@@ -7424,7 +7424,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 351)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsSpearAddDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsSpearAddDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				break;
 			}
 		}
@@ -7433,7 +7433,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 355)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsAddDoubleDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsAddDoubleDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				return;
 			}
 		}
@@ -7445,7 +7445,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 397)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsStaffMagicPower = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsStaffMagicPower = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				break;
 			}
 		}
@@ -7454,7 +7454,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 400)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsStaffAttackSpeed = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsStaffAttackSpeed = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				return;
 			}
 		}
@@ -7466,7 +7466,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 398)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsMagicPower = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsMagicPower = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				break;
 			}
 		}
@@ -7475,7 +7475,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 401)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsStaffManAttack = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsStaffManAttack = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				return;
 			}
 		}
@@ -7489,19 +7489,19 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 			{
 				if (Obj.Magic[iCount].m_Skill == 399)
 				{
-					Obj.m_PlayerData->m_MPSkillOpt.iMpsIncShield = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+					Obj.m_PlayerData->m_MPSkillOpt->iMpsIncShield = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 					break;
 				}
 
 				if (Obj.Magic[iCount].m_Skill == 437)
 				{
-					Obj.m_PlayerData->m_MPSkillOpt.iMpsElfAddShield = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+					Obj.m_PlayerData->m_MPSkillOpt->iMpsElfAddShield = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 					break;
 				}
 
 				if (Obj.Magic[iCount].m_Skill == 528)
 				{
-					Obj.m_PlayerData->m_MPSkillOpt.iMpsAddShieldDefense = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+					Obj.m_PlayerData->m_MPSkillOpt->iMpsAddShieldDefense = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 					break;
 				}
 			}
@@ -7513,61 +7513,61 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 			{
 				if (Obj.Magic[iCount].m_Skill == 402)
 				{
-					Obj.m_PlayerData->m_MPSkillOpt.iMpsShieldBlockRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+					Obj.m_PlayerData->m_MPSkillOpt->iMpsShieldBlockRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 					return;
 				}
 
 				if (Obj.Magic[iCount].m_Skill == 440)
 				{
-					Obj.m_PlayerData->m_MPSkillOpt.iMpsElfShieldBlockRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+					Obj.m_PlayerData->m_MPSkillOpt->iMpsElfShieldBlockRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 					return;
 				}
 
 				if (Obj.Magic[iCount].m_Skill == 532)
 				{
-					Obj.m_PlayerData->m_MPSkillOpt.iMpsAddShieldBlockingRage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+					Obj.m_PlayerData->m_MPSkillOpt->iMpsAddShieldBlockingRage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 					return;
 				}
 
 				if (Obj.Magic[iCount].m_Skill == 623)
 				{
-					Obj.m_PlayerData->m_MPSkillOpt.iMpsShieldBlockRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+					Obj.m_PlayerData->m_MPSkillOpt->iMpsShieldBlockRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 					return;
 				}
 
 				if (Obj.Magic[iCount].m_Skill == 634)
 				{
-					Obj.m_PlayerData->m_MPSkillOpt.iMpsShieldBlockRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+					Obj.m_PlayerData->m_MPSkillOpt->iMpsShieldBlockRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 					return;
 				}
 
 				if (Obj.Magic[iCount].m_Skill == 643)
 				{
-					Obj.m_PlayerData->m_MPSkillOpt.iMpsShieldBlockRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+					Obj.m_PlayerData->m_MPSkillOpt->iMpsShieldBlockRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 					return;
 				}
 
 				if (Obj.Magic[iCount].m_Skill == 653)
 				{
-					Obj.m_PlayerData->m_MPSkillOpt.iMpsShieldBlockRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+					Obj.m_PlayerData->m_MPSkillOpt->iMpsShieldBlockRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 					return;
 				}
 
 				if (Obj.Magic[iCount].m_Skill == 663)
 				{
-					Obj.m_PlayerData->m_MPSkillOpt.iMpsShieldBlockRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+					Obj.m_PlayerData->m_MPSkillOpt->iMpsShieldBlockRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 					return;
 				}
 
 				if (Obj.Magic[iCount].m_Skill == 677)
 				{
-					Obj.m_PlayerData->m_MPSkillOpt.iMpsShieldBlockRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+					Obj.m_PlayerData->m_MPSkillOpt->iMpsShieldBlockRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 					return;
 				}
 
 				if (Obj.Magic[iCount].m_Skill == 713)
 				{
-					Obj.m_PlayerData->m_MPSkillOpt.iMpsShieldBlockRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+					Obj.m_PlayerData->m_MPSkillOpt->iMpsShieldBlockRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 					return;
 				}
 			}
@@ -7580,7 +7580,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 435)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsBowAddDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsBowAddDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				break;
 			}
 		}
@@ -7589,7 +7589,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 438)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsBowAddAttackSpeed = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsBowAddAttackSpeed = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				return;
 			}
 		}
@@ -7601,7 +7601,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 436)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsBowAddDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsBowAddDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				break;
 			}
 		}
@@ -7610,7 +7610,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 439)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsBowManAttack = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsBowManAttack = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				return;
 			}
 		}
@@ -7622,7 +7622,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 465)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMagicPowerStick = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsAddMagicPowerStick = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				break;
 			}
 		}
@@ -7631,7 +7631,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 467)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsAddManAttackStick = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsAddManAttackStick = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				return;
 			}
 		}
@@ -7643,7 +7643,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 466)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsAddCurseMagicBook = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsAddCurseMagicBook = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				break;
 			}
 		}
@@ -7652,7 +7652,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 468)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsAddAttackSpeedMagicBook = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsAddAttackSpeedMagicBook = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				return;
 			}
 		}
@@ -7664,7 +7664,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 527)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsAddCeptorDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsAddCeptorDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				break;
 			}
 		}
@@ -7673,7 +7673,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 529)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsAddPetAttack = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsAddPetAttack = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				break;
 			}
 		}
@@ -7682,7 +7682,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 531)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsIncCeptorManAttack = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsIncCeptorManAttack = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				break;
 			}
 		}
@@ -7691,7 +7691,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 533)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsAddControlAttack = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsAddControlAttack = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				return;
 			}
 		}
@@ -7703,7 +7703,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 568)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsMonkWeaponDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsMonkWeaponDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				break;
 			}
 		}
@@ -7712,7 +7712,7 @@ void CMasterLevelSkillTreeSystem::SetItemMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 571)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsMonkDoubleDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsMonkDoubleDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				return;
 			}
 		}
@@ -7731,7 +7731,7 @@ void CMasterLevelSkillTreeSystem::SetPetItemMLPassiveSkill(CGameObject &Obj, int
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 510)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDarkHorseDefense = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDarkHorseDefense = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				return;
 			}
 		}
@@ -7748,7 +7748,7 @@ void CMasterLevelSkillTreeSystem::SetWingMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 324)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				return;
 			}
 		}
@@ -7760,7 +7760,7 @@ void CMasterLevelSkillTreeSystem::SetWingMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 377)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				return;
 			}
 		}
@@ -7772,7 +7772,7 @@ void CMasterLevelSkillTreeSystem::SetWingMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 412)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				return;
 			}
 		}
@@ -7784,7 +7784,7 @@ void CMasterLevelSkillTreeSystem::SetWingMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 478)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				return;
 			}
 		}
@@ -7796,7 +7796,7 @@ void CMasterLevelSkillTreeSystem::SetWingMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 507)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				return;
 			}
 		}
@@ -7808,7 +7808,7 @@ void CMasterLevelSkillTreeSystem::SetWingMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 447)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				return;
 			}
 		}
@@ -7820,7 +7820,7 @@ void CMasterLevelSkillTreeSystem::SetWingMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 550)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				return;
 			}
 		}
@@ -7832,7 +7832,7 @@ void CMasterLevelSkillTreeSystem::SetWingMLPassiveSkill(CGameObject &Obj, int iT
 		{
 			if (Obj.Magic[iCount].IsMagic() == TRUE && Obj.Magic[iCount].m_Skill == 686)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamage = this->GetMasterSkillValue(MagicDamageC.SkillGet(Obj.Magic[iCount].m_Skill), Obj.Magic[iCount].m_Level);
 				return;
 			}
 		}

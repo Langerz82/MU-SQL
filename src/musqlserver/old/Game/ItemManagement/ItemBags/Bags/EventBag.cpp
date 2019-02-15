@@ -195,11 +195,11 @@ bool CEventBag::UseBag_GremoryCase(CGameObject &Obj, int iMonsterIndex, BYTE btS
 		if (rand()%10000 < this->m_BagData.dwRandomSetItemDropRate)
 		{
 			_stGremoryCaseItem stItem;
-			MakeRewardSetItem(Obj.m_Index, lpMonsterObj.X, lpMonsterObj.Y, 1, Obj.MapNumber, stItem);
+			MakeRewardSetItem(Obj, lpMonsterObj.X, lpMonsterObj.Y, 1, Obj.MapNumber, stItem);
 
 			stItem.btStorageType = btStorageType;
 			stItem.btRewardSource = btRewardSource;
-			g_GremoryCase.GDReqAddItemToGremoryCase(Obj.m_Index, stItem, iExpireDays);
+			g_GremoryCase.GDReqAddItemToGremoryCase(Obj, stItem, iExpireDays);
 
 			return true;
 		}
@@ -211,7 +211,7 @@ bool CEventBag::UseBag_GremoryCase(CGameObject &Obj, int iMonsterIndex, BYTE btS
 
 		_stGremoryCaseItem stItem;
 
-		bool bResult = gLuaBag.MakeItemFromBagForGremoryCase(Obj.m_Index, &m_Item, stItem);
+		bool bResult = gLuaBag.MakeItemFromBagForGremoryCase(Obj, &m_Item, stItem);
 
 		if (bResult == false)
 		{
@@ -220,7 +220,7 @@ bool CEventBag::UseBag_GremoryCase(CGameObject &Obj, int iMonsterIndex, BYTE btS
 
 		stItem.btStorageType = btStorageType;
 		stItem.btRewardSource = btRewardSource;
-		g_GremoryCase.GDReqAddItemToGremoryCase(Obj.m_Index, stItem, iExpireDays);
+		g_GremoryCase.GDReqAddItemToGremoryCase(Obj, stItem, iExpireDays);
 
 		return true;
 	}
@@ -230,7 +230,7 @@ bool CEventBag::UseBag_GremoryCase(CGameObject &Obj, int iMonsterIndex, BYTE btS
 		BYTE cDropX = lpMonsterObj.X;
 		BYTE cDropY = lpMonsterObj.Y;
 
-		if (!gObjGetRandomItemDropLocation(lpMonsterObj.MapNumber, cDropX, cDropY, 4, 4, 10))
+		if (!gObjGetRandomItemDropLocation(*getGameObject(lpMonsterObj.MapNumber), cDropX, cDropY, 4, 4, 10))
 		{
 			cDropX = lpMonsterObj.X;
 			cDropY = lpMonsterObj.Y;
@@ -239,11 +239,11 @@ bool CEventBag::UseBag_GremoryCase(CGameObject &Obj, int iMonsterIndex, BYTE btS
 		if (rand()%10000 < this->m_BagData.dwRandomSetItemDropRate)
 		{
 			_stGremoryCaseItem stItem;
-			MakeRewardSetItem(Obj.m_Index, cDropX, cDropY, 1, Obj.MapNumber, stItem);
+			MakeRewardSetItem(Obj, cDropX, cDropY, 1, Obj.MapNumber, stItem);
 
 			stItem.btStorageType = btStorageType;
 			stItem.btRewardSource = btRewardSource;
-			g_GremoryCase.GDReqAddItemToGremoryCase(Obj.m_Index, stItem, iExpireDays);
+			g_GremoryCase.GDReqAddItemToGremoryCase(Obj, stItem, iExpireDays);
 
 			continue;
 		}
@@ -264,7 +264,7 @@ bool CEventBag::UseBag_GremoryCase(CGameObject &Obj, int iMonsterIndex, BYTE btS
 
 		stItem.btStorageType = btStorageType;
 		stItem.btRewardSource = btRewardSource;
-		g_GremoryCase.GDReqAddItemToGremoryCase(Obj.m_Index, stItem, iExpireDays);
+		g_GremoryCase.GDReqAddItemToGremoryCase(Obj, stItem, iExpireDays);
 
 	}
 

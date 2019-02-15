@@ -468,14 +468,14 @@ bool CMuunAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf *l
 		{
 			double WingDamageBlock;
 
-			if (lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamageBlock <= 0.0)
+			if (lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamageBlock <= 0.0)
 			{
 				WingDamageBlock = 0.0;
 			}
 
 			else
 			{
-				WingDamageBlock = lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamageBlock;
+				WingDamageBlock = lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamageBlock;
 			}
 
 			g_ConfigRead.m_ItemCalcLua.Generic_Call("Wings_CalcAbsorb", "iiid>i", AttackDamage, Wing->m_Type, Wing->m_Level, WingDamageBlock, &AttackDamage);
@@ -904,8 +904,8 @@ int CMuunAttack::GetShieldDamage(CGameObject &Obj, CGameObject lpTargetObj, int 
 	int iReduceLifeForEffect = 0; 
 	bool bReduceShieldGage = 0;
 	int iDamageDevideToSDRate = g_ConfigRead.g_iDamageDevideToSDRate;
-	iDamageDevideToSDRate -= Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpDecreaseSDRate;
-	iDamageDevideToSDRate += lpTargetObj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSDRate;
+	iDamageDevideToSDRate -= Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpDecreaseSDRate;
+	iDamageDevideToSDRate += lpTargetObj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSDRate;
 
 	if ( iDamageDevideToSDRate < 0 )
 		iDamageDevideToSDRate = 0;
@@ -913,10 +913,10 @@ int CMuunAttack::GetShieldDamage(CGameObject &Obj, CGameObject lpTargetObj, int 
 	if ( iDamageDevideToSDRate > 100 )
 		iDamageDevideToSDRate = 100;
 
-	if ( Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddIgnoreSDRate > 0 )
+	if ( Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddIgnoreSDRate > 0 )
 	{
 		int iRand = rand() % 100;
-		int iIgnoreSDRate = Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddIgnoreSDRate - lpTargetObj.m_PlayerData->m_Resistance_SD;
+		int iIgnoreSDRate = Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddIgnoreSDRate - lpTargetObj.m_PlayerData->m_Resistance_SD;
 
 		if (iRand < iIgnoreSDRate)
 		{
@@ -924,7 +924,7 @@ int CMuunAttack::GetShieldDamage(CGameObject &Obj, CGameObject lpTargetObj, int 
 		}
 	}
 
-	if ( (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER) && ( Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpDecreaseSDRate || lpTargetObj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSDRate || Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddIgnoreSDRate ) )
+	if ( (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER) && ( Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpDecreaseSDRate || lpTargetObj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSDRate || Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddIgnoreSDRate ) )
 	{
 	
 	}

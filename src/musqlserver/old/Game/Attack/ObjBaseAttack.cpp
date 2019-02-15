@@ -322,7 +322,7 @@ BOOL CObjBaseAttack::ResistanceCheck(CGameObject &Obj, CGameObject lpTargetObj, 
 
 	if (lpTargetObj.Type == OBJ_USER)
 	{
-		if (lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsImmuneRate > 0.0 && lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsImmuneRate >= (rand() % 100) && !gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_INVISIBLE2))
+		if (lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsImmuneRate > 0.0 && lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsImmuneRate >= (rand() % 100) && !gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_INVISIBLE2))
 		{
 			gGameProtocol.GCMagicAttackNumberSend(lpTargetObj, 323, lpTargetObj.m_Index, 1);
 			gObjAddBuffEffect(lpTargetObj, BUFFTYPE_INVISIBLE2, 0, 0, 0, 0, 5);
@@ -555,7 +555,7 @@ BOOL CObjBaseAttack::MissCheck(CGameObject &Obj, CGameObject lpTargetObj, int sk
 
 		if (Obj.Type == OBJ_USER)
 		{
-			iAttackRate += Obj.m_PlayerData->m_MPSkillOpt.iMpsAttackSuccessRate;
+			iAttackRate += Obj.m_PlayerData->m_MPSkillOpt->iMpsAttackSuccessRate;
 		}
 
 		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_BLIND_2) == true)
@@ -761,14 +761,14 @@ BOOL CObjBaseAttack::MissCheckPvP(CGameObject &Obj , CGameObject lpTargetObj, in
 
 	if ( iAttackRate <= 0.0f || iDefenseRate <= 0.0f || AttackLevel <= 0 || lpTargetObj == 0 ) return FALSE;
 
-	iAttackRate += Obj.m_PlayerData->m_ItemOptionExFor380.OpAddAttackSuccessRatePVP;
-	iDefenseRate += lpTargetObj.m_PlayerData->m_ItemOptionExFor380.OpAddDefenseSuccessRatePvP;
+	iAttackRate += Obj.m_PlayerData->m_ItemOptionExFor380->OpAddAttackSuccessRatePVP;
+	iDefenseRate += lpTargetObj.m_PlayerData->m_ItemOptionExFor380->OpAddDefenseSuccessRatePvP;
 
-	iAttackRate += Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddAttackSuccessRatePVP;
-	iDefenseRate += lpTargetObj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddDefenseSuccessRatePvP;
+	iAttackRate += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddAttackSuccessRatePVP;
+	iDefenseRate += lpTargetObj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddDefenseSuccessRatePvP;
 
-	iAttackRate += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncreasePvPAttackRate;
-	iDefenseRate += lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsIncreasePvPDefenseRate;
+	iAttackRate += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncreasePvPAttackRate;
+	iDefenseRate += lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsIncreasePvPDefenseRate;
 	
 	float iExpressionA = ( iAttackRate * 10000.0f ) / ( iAttackRate + iDefenseRate );	// #formula
 	float iExpressionB = ( AttackLevel * 10000 ) / ( AttackLevel + DefenseLevel );	// #formula
@@ -881,7 +881,7 @@ int  CObjBaseAttack::GetTargetDefense(CGameObject &Obj, CGameObject lpTargetObj,
 
 	if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
 	{
-		targetdefense += lpTargetObj.m_PlayerData->m_ItemOptionExFor380.OpAddDefense / 2;
+		targetdefense += lpTargetObj.m_PlayerData->m_ItemOptionExFor380->OpAddDefense / 2;
 	}
 
 	int decdef = gObjGetTotalValueOfEffect(lpTargetObj, EFFECTTYPE_DECREASE_DEFENSE);
@@ -914,7 +914,7 @@ int  CObjBaseAttack::GetTargetDefense(CGameObject &Obj, CGameObject lpTargetObj,
 
 	if ( Obj.pntInventory[7]->IsItem() != FALSE )
 	{
-		percentdamage += Obj.m_PlayerData->m_WingExcOption.iWingOpIgnoreEnemyDefense;
+		percentdamage += Obj.m_PlayerData->m_WingExcOption->iWingOpIgnoreEnemyDefense;
 	}
 
 	if ( gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_MONK_IGNORE_ENEMY_DEFENSE))
@@ -939,14 +939,14 @@ int  CObjBaseAttack::GetTargetDefense(CGameObject &Obj, CGameObject lpTargetObj,
 	{
 		percentdamage += Obj.m_PlayerData->SetOpIgnoreDefense;
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIgnoreEnemyDefence > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIgnoreEnemyDefence > 0.0)
 		{
-			percentdamage += Obj.m_PlayerData->m_MPSkillOpt.iMpsIgnoreEnemyDefence;
+			percentdamage += Obj.m_PlayerData->m_MPSkillOpt->iMpsIgnoreEnemyDefence;
 		}
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncIgnoreEnemyBlock > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncIgnoreEnemyBlock > 0.0)
 		{
-			percentdamage += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncIgnoreEnemyBlock;
+			percentdamage += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncIgnoreEnemyBlock;
 		}
 	}
 

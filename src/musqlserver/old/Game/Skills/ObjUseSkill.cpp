@@ -529,7 +529,7 @@ int  CObjUseSkill::GetUseMana(CGameObject &Obj, CMagicInf * lpMagic)
 		DecreaseMana += this->GetAddUseMana(lpObj, lpMagic);
 	}
 
-	DecreaseMana -= DecreaseMana * Obj.m_PlayerData->m_MPSkillOpt.iMpsDecreaseMana / 100.0;
+	DecreaseMana -= DecreaseMana * Obj.m_PlayerData->m_MPSkillOpt->iMpsDecreaseMana / 100.0;
 	
 	if (DecreaseMana < 1.0)
 		DecreaseMana = 1.0;
@@ -2126,21 +2126,21 @@ int CObjUseSkill::SkillMonsterCall(CGameObject &Obj, int MonsterType, int x, int
 		Obj.m_RecallMon = result;
 		getGameObject(result)->m_MoveRange = 15;
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsCallMonHp > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsCallMonHp > 0.0)
 		{
-			getGameObject(result)->Life += getGameObject(result)->Life * Obj.m_PlayerData->m_MPSkillOpt.iMpsCallMonHp / 100.0;
-			getGameObject(result)->MaxLife += getGameObject(result)->MaxLife * Obj.m_PlayerData->m_MPSkillOpt.iMpsCallMonHp / 100.0;
+			getGameObject(result)->Life += getGameObject(result)->Life * Obj.m_PlayerData->m_MPSkillOpt->iMpsCallMonHp / 100.0;
+			getGameObject(result)->MaxLife += getGameObject(result)->MaxLife * Obj.m_PlayerData->m_MPSkillOpt->iMpsCallMonHp / 100.0;
 		}
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsCallMonDefense > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsCallMonDefense > 0.0)
 		{
-			getGameObject(result)->m_Defense += getGameObject(result)->m_Defense * Obj.m_PlayerData->m_MPSkillOpt.iMpsCallMonDefense / 100.0;
+			getGameObject(result)->m_Defense += getGameObject(result)->m_Defense * Obj.m_PlayerData->m_MPSkillOpt->iMpsCallMonDefense / 100.0;
 		}
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsCallMonAttack > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsCallMonAttack > 0.0)
 		{
-			getGameObject(result)->m_AttackDamageMin += getGameObject(result)->m_AttackDamageMin * Obj.m_PlayerData->m_MPSkillOpt.iMpsCallMonAttack / 100.0;
-			getGameObject(result)->m_AttackDamageMax += getGameObject(result)->m_AttackDamageMax * Obj.m_PlayerData->m_MPSkillOpt.iMpsCallMonAttack / 100.0;
+			getGameObject(result)->m_AttackDamageMin += getGameObject(result)->m_AttackDamageMin * Obj.m_PlayerData->m_MPSkillOpt->iMpsCallMonAttack / 100.0;
+			getGameObject(result)->m_AttackDamageMax += getGameObject(result)->m_AttackDamageMax * Obj.m_PlayerData->m_MPSkillOpt->iMpsCallMonAttack / 100.0;
 		}
 
 		gGameProtocol.GCRecallMonLife(getGameObject(result)->m_RecallMon, getGameObject(result)->MaxLife, getGameObject(result)->Life);

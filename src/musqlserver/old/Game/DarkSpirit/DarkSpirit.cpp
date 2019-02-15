@@ -19,6 +19,7 @@
 #include "NewPVP.h"
 #include "ArcaBattle.h"
 #include "EvolutionMonsterMng.h"
+#include "GOFunctions.h"
 
 // GS-N 0.99.60T 0x004AA110
 //	GS-N	1.00.18	JPN	0x004C7E00	-	Completed
@@ -117,9 +118,9 @@ void CDarkSpirit::Run()
 
 	int nAttackSpeed = this->m_AttackSpeed;
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDarkSpiritAttackSpeed > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDarkSpiritAttackSpeed > 0.0)
 	{
-		nAttackSpeed += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDarkSpiritAttackSpeed;
+		nAttackSpeed += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDarkSpiritAttackSpeed;
 	}
 
 	this->m_dwLastAttackTime = ( GetTickCount() + 1500 ) - ( nAttackSpeed * 10 );
@@ -186,9 +187,9 @@ void CDarkSpirit::ModeAttackRandom()
 	BOOL EnableAttack;
 	int iDamageType = 0;
 	int iActionType = 0;
-	int iCriticalDamage = this->m_CriticalDamage + Obj.m_PlayerData->m_MPSkillOpt.iMpsAddCriticalDamageRate;
-	int iExcellentDamage = this->m_ExcellentDamage + Obj.m_PlayerData->m_MPSkillOpt.iMpsAddExcellentDamageRate;
-	int iDoubleDamage = this->m_DoubleDamage + Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDarkSpiritDoubleDamageRate;
+	int iCriticalDamage = this->m_CriticalDamage + Obj.m_PlayerData->m_MPSkillOpt->iMpsAddCriticalDamageRate;
+	int iExcellentDamage = this->m_ExcellentDamage + Obj.m_PlayerData->m_MPSkillOpt->iMpsAddExcellentDamageRate;
+	int iDoubleDamage = this->m_DoubleDamage + Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDarkSpiritDoubleDamageRate;
 
 	LeaveCriticalSection(&this->m_SpiritCriti);
 
@@ -294,12 +295,12 @@ void CDarkSpirit::ModeAttackRandom()
 		if ( iDamageType != 0 )
 		{
 			int target = FindObj[rand()%FindObjCount];
-			this->SendAttackMsg( lpObj, target, iDamageType, iActionType);
+			this->SendAttackMsg(*lpObj, target, iDamageType, iActionType);
 		}
 		else
 		{
 			int target = FindObj[rand()%FindObjCount];
-			this->RangeAttack( lpObj, target);
+			this->RangeAttack(*lpObj, target);
 		}
 	}
 }
@@ -326,9 +327,9 @@ void CDarkSpirit::ModeAttackWithMaster()
 	CGameObject lpObj = getGameObject(this->m_iMasterIndex);
 	CGameObject lpTargetObj = getGameObject(this->m_iTargetIndex);
 
-	int iCriticalDamage = this->m_CriticalDamage + Obj.m_PlayerData->m_MPSkillOpt.iMpsAddCriticalDamageRate;
-	int iExcellentDamage = this->m_ExcellentDamage + Obj.m_PlayerData->m_MPSkillOpt.iMpsAddExcellentDamageRate;
-	int iDoubleDamage = this->m_DoubleDamage + Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDarkSpiritDoubleDamageRate;
+	int iCriticalDamage = this->m_CriticalDamage + Obj.m_PlayerData->m_MPSkillOpt->iMpsAddCriticalDamageRate;
+	int iExcellentDamage = this->m_ExcellentDamage + Obj.m_PlayerData->m_MPSkillOpt->iMpsAddExcellentDamageRate;
+	int iDoubleDamage = this->m_DoubleDamage + Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDarkSpiritDoubleDamageRate;
 	int dis;
 
 	LeaveCriticalSection(&this->m_SpiritCriti);
@@ -364,17 +365,17 @@ void CDarkSpirit::ModeAttackWithMaster()
 
 				if ( iDamageType != FALSE )
 				{
-					this->SendAttackMsg(Obj.m_Index, lpTargetObj.m_Index, iDamageType, iActionType);
+					this->SendAttackMsg(Obj, *lpTargetObj, iDamageType, iActionType);
 				}
 				else
 				{
-					this->RangeAttack(Obj.m_Index, lpTargetObj.m_Index);
+					this->RangeAttack(Obj, *lpTargetObj);
 				}
 			}
 		}
 		else
 		{
-			this->ReSetTarget(lpTargetObj.m_Index);
+			this->ReSetTarget(*lpTargetObj);
 		}
 	}
 }
@@ -414,16 +415,16 @@ void CDarkSpirit::ModeAttakTarget()
 	{
 		if ( lpTargetObj.Life > 0.0f )
 		{
-			dis = gObjCalDistance(lpObj, lpTargetObj);
+			dis = gObjCalDistance(Obj, *lpTargetObj);
 
 			if ( dis < RAVEN_ATTACK_DISTANCE )
 			{
-				this->SendAttackMsg(Obj.m_Index, lpTargetObj.m_Index, 1, 1);
+				this->SendAttackMsg(Obj, *lpTargetObj, 1, 1);
 			}
 		}
 		else
 		{
-			this->ReSetTarget(lpTargetObj.m_Index);
+			this->ReSetTarget(*lpTargetObj);
 		}
 	}
 }
@@ -451,8 +452,8 @@ void CDarkSpirit::RangeAttack(CGameObject &Obj, int aTargetIndex)
 	int attackcheck;
 	int EnableAttack;
 	int HitCount = 0;
-
-	this->SendAttackMsg(Obj.m_Index, aTargetIndex, 0, 0);
+	CGameObject* lpObjTarget = getGameObject(aTargetIndex);
+	this->SendAttackMsg(Obj, *lpObjTarget, 0, 0);
 
 	while ( true )
 	{
@@ -486,7 +487,7 @@ void CDarkSpirit::RangeAttack(CGameObject &Obj, int aTargetIndex)
 						}
 					}
 
-					if ( gObjTargetGuildWarCheck(lpObj, getGameObject(lc10)) == TRUE )
+					if ( gObjTargetGuildWarCheck(Obj, getGameObject(lc10)) == TRUE )
 					{
 						EnableAttack = TRUE;
 					}
@@ -517,9 +518,9 @@ void CDarkSpirit::RangeAttack(CGameObject &Obj, int aTargetIndex)
 
 					if ( attackcheck != FALSE )
 					{
-						if ( gObjCalDistance(getGameObject(aTargetIndex), getGameObject(tObjNum)) < RAVEN_ATTACK_DISTANCE-3 )
+						if ( gObjCalDistance(*lpObjTarget, getGameObject(tObjNum)) < RAVEN_ATTACK_DISTANCE-3 )
 						{
-							this->SendAttackMsg(Obj.m_Index, tObjNum, 2, 0);
+							this->SendAttackMsg(Obj, *getGameObject(tObjNum), 2, 0);
 							HitCount++;
 
 							if ( HitCount > 3 )
@@ -789,7 +790,7 @@ void CDarkSpirit::Set(CGameObject &Obj, CItemObject * pPetItem)
 		&this->m_AttackDamageMin, &this->m_AttackDamageMax, &this->m_CriticalDamage, &this->m_ExcellentDamage,
 		&this->m_DoubleDamage, &this->m_IgnoreEnemy, &this->m_AttackSpeed, &this->m_SuccessAttackRate);
 
-	this->m_AttackSpeed += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddDarkSpiritDamage;
+	this->m_AttackSpeed += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddDarkSpiritDamage;
 	this->m_ExcellentDamage = 0;
 	this->m_iMasterIndex = Obj.m_Index;
 	this->m_pPetItem = pPetItem;
@@ -1096,9 +1097,9 @@ BOOL CDarkSpirit::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf * l
 
 	if (Obj.Type == OBJ_USER)
 	{
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsDarkSpiritIgnoreEnemyDefense > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsDarkSpiritIgnoreEnemyDefense > 0.0)
 		{
-			fIgnoreEnemy += Obj.m_PlayerData->m_MPSkillOpt.iMpsDarkSpiritIgnoreEnemyDefense;
+			fIgnoreEnemy += Obj.m_PlayerData->m_MPSkillOpt->iMpsDarkSpiritIgnoreEnemyDefense;
 		}
 	}
 
@@ -1163,7 +1164,7 @@ BOOL CDarkSpirit::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf * l
 	{
 		int idamage = AttackDamage * 2 / 100;
 
-		Obj.pntInventory[Obj.m_btInvenPetPos]->m_DurabilitySmall += idamage - (idamage * Obj.m_PlayerData->m_MPSkillOpt.iMpsPetDurDownSpeed / 100);
+		Obj.pntInventory[Obj.m_btInvenPetPos]->m_DurabilitySmall += idamage - (idamage * Obj.m_PlayerData->m_MPSkillOpt->iMpsPetDurDownSpeed / 100);
 		int DurabilityVal = 65000;
 
 		if (Obj.pntInventory[Obj.m_btInvenPetPos]->m_DurabilitySmall >= DurabilityVal)
@@ -1204,14 +1205,14 @@ BOOL CDarkSpirit::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf * l
 		{
 			double WingDamageBlock;
 
-			if (lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamageBlock <= 0.0)
+			if (lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamageBlock <= 0.0)
 			{
 				WingDamageBlock = 0.0;
 			}
 
 			else
 			{
-				WingDamageBlock = lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamageBlock;
+				WingDamageBlock = lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamageBlock;
 			}
 
 			g_ConfigRead.m_ItemCalcLua.Generic_Call("Wings_CalcAbsorb", "iiid>i", AttackDamage, Wing->m_Type, Wing->m_Level, WingDamageBlock, &AttackDamage);
@@ -1675,14 +1676,14 @@ int  CDarkSpirit::GetAttackDamage(CGameObject &Obj, int targetDefense, int criti
 		AttackDamage += damage;
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddDarkSpiritDamage > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddDarkSpiritDamage > 0.0)
 	{
-		AttackDamage += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddDarkSpiritDamage;
+		AttackDamage += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddDarkSpiritDamage;
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddPetAttack > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddPetAttack > 0.0)
 	{
-		AttackDamage += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddPetAttack;
+		AttackDamage += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddPetAttack;
 	}
 
 	AttackDamage = AttackDamage * g_ConfigRead.calc.DarkRavenDamageMultiplier / 100.0f;
@@ -1723,9 +1724,9 @@ BOOL CDarkSpirit::MissCheck(CGameObject &Obj, CGameObject &TargetObj, int skill,
 
 	if (Obj.Type == OBJ_USER)
 	{
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAttackSuccessRate > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAttackSuccessRate > 0.0)
 		{
-			SuccessAttackRate += Obj.m_PlayerData->m_MPSkillOpt.iMpsAttackSuccessRate;
+			SuccessAttackRate += Obj.m_PlayerData->m_MPSkillOpt->iMpsAttackSuccessRate;
 		}
 
 	}
@@ -1845,14 +1846,14 @@ BOOL CDarkSpirit::MissCheckPvP(CGameObject &Obj, CGameObject &TargetObj, int ski
 	if ( iAttackRate <= 0.0f || iDefenseRate <= 0.0f || AttackLevel <= 0 || DefenseLevel <= 0 )
 		return FALSE;
 
-	iAttackRate += Obj.m_PlayerData->m_ItemOptionExFor380.OpAddAttackSuccessRatePVP;
-	iDefenseRate += lpTargetObj.m_PlayerData->m_ItemOptionExFor380.OpAddDefenseSuccessRatePvP;
+	iAttackRate += Obj.m_PlayerData->m_ItemOptionExFor380->OpAddAttackSuccessRatePVP;
+	iDefenseRate += lpTargetObj.m_PlayerData->m_ItemOptionExFor380->OpAddDefenseSuccessRatePvP;
 
-	iAttackRate += Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddAttackSuccessRatePVP;
-	iDefenseRate += lpTargetObj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddDefenseSuccessRatePvP;
+	iAttackRate += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddAttackSuccessRatePVP;
+	iDefenseRate += lpTargetObj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddDefenseSuccessRatePvP;
 
-	iAttackRate += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncreasePvPAttackRate;
-	iDefenseRate += lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsIncreasePvPDefenseRate;
+	iAttackRate += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncreasePvPAttackRate;
+	iDefenseRate += lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsIncreasePvPDefenseRate;
 
 	float iExpressionA = ( iAttackRate * 10000.0f ) / ( iAttackRate + iDefenseRate );	// #formula
 	float iExpressionB = ( AttackLevel * 10000 ) / ( AttackLevel + DefenseLevel );	// #formula
@@ -1962,8 +1963,8 @@ int CDarkSpirit::GetShieldDamage(CGameObject &Obj, CGameObject &TargetObj, int i
 	int iReduceLifeForEffect = 0; 
 	bool bReduceShieldGage = 0;
 	int iDamageDevideToSDRate = g_ConfigRead.g_iDamageDevideToSDRate;
-	iDamageDevideToSDRate -= Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpDecreaseSDRate;
-	iDamageDevideToSDRate += lpTargetObj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSDRate;
+	iDamageDevideToSDRate -= Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpDecreaseSDRate;
+	iDamageDevideToSDRate += lpTargetObj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSDRate;
 
 	if ( iDamageDevideToSDRate < 0 )
 		iDamageDevideToSDRate = 0;
@@ -1971,10 +1972,10 @@ int CDarkSpirit::GetShieldDamage(CGameObject &Obj, CGameObject &TargetObj, int i
 	if ( iDamageDevideToSDRate > 100 )
 		iDamageDevideToSDRate = 100;
 
-	if ( Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddIgnoreSDRate > 0 )
+	if ( Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddIgnoreSDRate > 0 )
 	{
 		int iRand = rand() % 100;
-		int iIgnoreSDRate = Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddIgnoreSDRate - lpTargetObj.m_PlayerData->m_Resistance_SD;
+		int iIgnoreSDRate = Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddIgnoreSDRate - lpTargetObj.m_PlayerData->m_Resistance_SD;
 
 		if (iRand < iIgnoreSDRate)
 		{
@@ -1982,7 +1983,7 @@ int CDarkSpirit::GetShieldDamage(CGameObject &Obj, CGameObject &TargetObj, int i
 		}
 	}
 
-	if ( (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER) && ( Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpDecreaseSDRate || lpTargetObj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSDRate || Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddIgnoreSDRate ) )
+	if ( (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER) && ( Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpDecreaseSDRate || lpTargetObj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSDRate || Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddIgnoreSDRate ) )
 	{
 	
 	}

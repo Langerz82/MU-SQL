@@ -203,13 +203,13 @@ void CItemObjectOption::InsertOption(CGameObject &Obj, CItemObject* lpItem, bool
 			Obj.m_MagicDamageMax += value;
 			break;
 		case ITEM_OPTION_ADD_DEFENSE_SUCCESS_RATE:
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsAddBlockingRate += value;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsAddBlockingRate += value;
 			break;
 		case ITEM_OPTION_ADD_DEFENSE:
 			Obj.m_Defense += value;
 			break;
 		case ITEM_OPTION_ADD_CRITICAL_DAMAGE_RATE:
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsIncCriticalDamageRate += value;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsIncCriticalDamageRate += value;
 			break;
 		case ITEM_OPTION_ADD_HP_RECOVERY_RATE:
 			Obj.AutoHPRecovery += value;
@@ -218,7 +218,7 @@ void CItemObjectOption::InsertOption(CGameObject &Obj, CItemObject* lpItem, bool
 			Obj.MonsterDieGetMoney += value;
 			break;
 		case ITEM_OPTION_MUL_DEFENSE_SUCCESS_RATE:
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsAddBlockingRate += (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddBlockingRate*value) / 100;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsAddBlockingRate += (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddBlockingRate*value) / 100;
 			break;
 		case ITEM_OPTION_ADD_DAMAGE_REFLECT:
 			Obj.DamageReflect += value;
@@ -233,7 +233,7 @@ void CItemObjectOption::InsertOption(CGameObject &Obj, CItemObject* lpItem, bool
 			Obj.AddLife += (int)((Obj.MaxLife*value) / 100);
 			break;
 		case ITEM_OPTION_ADD_EXCELLENT_DAMAGE_RATE:
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsIncExcellentDamageRate += value;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsIncExcellentDamageRate += value;
 			break;
 		case ITEM_OPTION_ADD_PHYSI_DAMAGE_BY_LEVEL:
 			Obj.m_AttackDamageMinRight += ((Obj.Level + Obj.m_PlayerData->MasterLevel) / value);
@@ -260,10 +260,10 @@ void CItemObjectOption::InsertOption(CGameObject &Obj, CItemObject* lpItem, bool
 			Obj.m_MagicSpeed += value;
 			break;
 		case ITEM_OPTION_ADD_HUNT_HP:
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsMonsterDieGetLife += value;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsMonsterDieGetLife += value;
 			break;
 		case ITEM_OPTION_ADD_HUNT_MP:
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsMonsterDieGetMana += value;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsMonsterDieGetMana += value;
 			break;
 		case ITEM_OPTION_ADD_WING_HP:
 			Obj.AddLife += 50 + (value*lpItem->m_Level);
@@ -272,7 +272,7 @@ void CItemObjectOption::InsertOption(CGameObject &Obj, CItemObject* lpItem, bool
 			Obj.AddMana += 50 + (value*lpItem->m_Level);
 			break;
 		case ITEM_OPTION_ADD_IGNORE_DEFENSE_RATE:
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsIncIgnoreEnemyBlock += value;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsIncIgnoreEnemyBlock += value;
 			break;
 		case ITEM_OPTION_ADD_BP:
 			Obj.AddBP += value;
@@ -290,13 +290,13 @@ void CItemObjectOption::InsertOption(CGameObject &Obj, CItemObject* lpItem, bool
 		case ITEM_OPTION_ADD_FENRIR3:
 			break;
 		case ITEM_OPTION_ADD_FULL_DAMAGE_REFLECT_RATE:
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsReturnEnemyAttack += value;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsReturnEnemyAttack += value;
 			break;
 		case ITEM_OPTION_ADD_DEFENSIVE_FULL_HP_RESTORE_RATE:
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsRecoverHPRate += value;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsRecoverHPRate += value;
 			break;
 		case ITEM_OPTION_ADD_DEFENSIVE_FULL_MP_RESTORE_RATE:
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsRecoverManaRate += value;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsRecoverManaRate += value;
 			break;
 		case ITEM_OPTION_ADD_DINORANT1:
 			break;

@@ -1134,23 +1134,23 @@ void CItemObjectOptionTypeMng::_SetEffect_Rate(CGameObject lpObj, BYTE OptionEff
 		break;
 	case 4:
 		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &Obj.pntInventory[btItemPos]);
-		Obj.m_PlayerData->m_WingExcOption.iWingOpIgnoreEnemyDefense = iEffectValue;
+		Obj.m_PlayerData->m_WingExcOption->iWingOpIgnoreEnemyDefense = iEffectValue;
 		break;
 	case 5:
 		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &Obj.pntInventory[btItemPos]);
-		Obj.m_PlayerData->m_WingExcOption.iWingOpRecoveryHP = iEffectValue;
+		Obj.m_PlayerData->m_WingExcOption->iWingOpRecoveryHP = iEffectValue;
 		break;
 	case 6:
 		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &Obj.pntInventory[btItemPos]);
-		Obj.m_PlayerData->m_WingExcOption.iWingOpRecoveryMana = iEffectValue;
+		Obj.m_PlayerData->m_WingExcOption->iWingOpRecoveryMana = iEffectValue;
 		break;
 	case 7:
 		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &Obj.pntInventory[btItemPos]);
-		Obj.m_PlayerData->m_WingExcOption.iWingOpReturnEnemyDamage = iEffectValue;
+		Obj.m_PlayerData->m_WingExcOption->iWingOpReturnEnemyDamage = iEffectValue;
 		break;
 	case 8:
 		iEffectValue = this->_CalcEffectValue(lpObj, 1, iOperator, iBaseValue, iFormulaID, &Obj.pntInventory[btItemPos]);
-		Obj.m_PlayerData->m_WingExcOption.iWingOpAddDoubleDamage = iEffectValue;
+		Obj.m_PlayerData->m_WingExcOption->iWingOpAddDoubleDamage = iEffectValue;
 		break;
 	}
 }

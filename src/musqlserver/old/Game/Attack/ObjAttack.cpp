@@ -365,7 +365,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 
 	if (Obj.Type == OBJ_USER && Obj.m_PlayerData->ISBOT == false)
 	{
-		if (!gObjIsConnected(lpObj))
+		if (!gObjIsConnected(Obj))
 		{
 			return FALSE;
 		}
@@ -377,13 +377,13 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 			magicsend = 1;
 		}
 
-		gDarkSpirit[Obj.m_Index - g_ConfigRead.server.GetObjectStartUserIndex()].SetTarget(lpTargetObj.m_Index);
-		g_CMuunSystem.SetTarget(lpObj, lpTargetObj.m_Index);
+		gDarkSpirit[Obj.m_Index - g_ConfigRead.server.GetObjectStartUserIndex()]->SetTarget(lpTargetObj.m_Index);
+		g_CMuunSystem.SetTarget(bj, *lpTargetObj);
 	}
 
 	if (lpTargetObj.Type == OBJ_USER)
 	{
-		if (!gObjIsConnected(lpTargetObj))
+		if (!gObjIsConnected(*lpTargetObj))
 		{
 			return FALSE;
 		}
@@ -400,7 +400,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 		}
 	}
 
-	if (!gObjAttackQ(lpTargetObj) && Obj.m_bOffLevel == false)
+	if (!gObjAttackQ(*lpTargetObj) && Obj.m_bOffLevel == false)
 		return FALSE;
 
 	if (g_ConfigRead.EnableAttackBlockInSafeZone == TRUE)
@@ -734,7 +734,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 		{
 			float fDefense = Dexterity / 3;
 			float fValue = (float)gObjGetTotalValueOfEffect(lpTargetObj, 32);
-			float fPercent = (40 - (fValue + lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsIncPercentBerserker1)) / 100;
+			float fPercent = (40 - (fValue + lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsIncPercentBerserker1)) / 100;
 			fPercent = (0.1f > fPercent) ? 0.1f : fPercent;
 
 			targetdefense -= fDefense * fPercent;
@@ -756,7 +756,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 
 		if (lpTargetObj.Type == OBJ_USER && lpTargetObj.pntInventory[7]->IsItem() == TRUE && lpTargetObj.pntInventory[7]->m_IsValidItem == true)
 		{
-			targetdefense += lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDefense;
+			targetdefense += lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDefense;
 		}
 
 		iTargetDefense = iOriginTargetDefense;
@@ -879,7 +879,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 				iOption = 0;
 				gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_CRITICAL_DMG_INC_MAS, &iOption, 0);
 				AttackDamage += iOption;
-				AttackDamage += Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddCriticalDamage;
+				AttackDamage += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddCriticalDamage;
 				AttackDamage -= targetdefense;
 			}
 			else if (MsgDamage == 2)	// Excellent
@@ -1146,14 +1146,14 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 			{
 				double WingDamageBlock;
 
-				if (lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamageBlock <= 0.0)
+				if (lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamageBlock <= 0.0)
 				{
 					WingDamageBlock = 0.0;
 				}
 
 				else
 				{
-					WingDamageBlock = lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamageBlock;
+					WingDamageBlock = lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamageBlock;
 				}
 
 				g_ConfigRead.m_ItemCalcLua.Generic_Call("Wings_CalcAbsorb", "iiid>i", AttackDamage, Wing->m_Type, Wing->m_Level, WingDamageBlock, &AttackDamage);
@@ -1163,15 +1163,15 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 			{
 				float fHPRecoveryRate = 0.0;
 
-				if (lpTargetObj.m_PlayerData->m_WingExcOption.iWingOpRecoveryHP != 0)
+				if (lpTargetObj.m_PlayerData->m_WingExcOption->iWingOpRecoveryHP != 0)
 				{
 					bHaveWingOption_FullHP = TRUE;
-					fHPRecoveryRate = lpTargetObj.m_PlayerData->m_WingExcOption.iWingOpRecoveryHP;
+					fHPRecoveryRate = lpTargetObj.m_PlayerData->m_WingExcOption->iWingOpRecoveryHP;
 				}
 
-				if (lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsRecoverHPRate > 0.0)
+				if (lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsRecoverHPRate > 0.0)
 				{
-					fHPRecoveryRate += lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsRecoverHPRate;
+					fHPRecoveryRate += lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsRecoverHPRate;
 				}
 
 				if (rand() % 100 < fHPRecoveryRate)
@@ -1181,15 +1181,15 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 
 				float fManaRecoveryRate = 0.0;
 
-				if (lpTargetObj.m_PlayerData->m_WingExcOption.iWingOpRecoveryMana != 0)
+				if (lpTargetObj.m_PlayerData->m_WingExcOption->iWingOpRecoveryMana != 0)
 				{
 					bHaveWingOption_FullMana = TRUE;
-					fManaRecoveryRate = lpTargetObj.m_PlayerData->m_WingExcOption.iWingOpRecoveryMana;
+					fManaRecoveryRate = lpTargetObj.m_PlayerData->m_WingExcOption->iWingOpRecoveryMana;
 				}
 
-				if (lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsRecoverManaRate > 0.0)
+				if (lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsRecoverManaRate > 0.0)
 				{
-					fManaRecoveryRate += lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsRecoverManaRate;
+					fManaRecoveryRate += lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsRecoverManaRate;
 				}
 
 				if (rand() % 100 < fManaRecoveryRate)
@@ -1205,9 +1205,9 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 			{
 				float fHPRecoveryRate = 0.0;
 
-				if (lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsRecoverHPRate > 0.0)
+				if (lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsRecoverHPRate > 0.0)
 				{
-					fHPRecoveryRate += lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsRecoverHPRate;
+					fHPRecoveryRate += lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsRecoverHPRate;
 				}
 
 				if (rand() % 100 < fHPRecoveryRate)
@@ -1220,9 +1220,9 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 			{
 				float fManaRecoveryRate = 0.0;
 
-				if (lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsRecoverManaRate > 0.0)
+				if (lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsRecoverManaRate > 0.0)
 				{
-					fManaRecoveryRate += lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsRecoverManaRate;
+					fManaRecoveryRate += lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsRecoverManaRate;
 				}
 
 				if (rand() % 100 < fManaRecoveryRate)
@@ -1231,9 +1231,9 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 				}
 			}
 
-			if (Obj.Type == OBJ_USER && Obj.m_PlayerData->m_MPSkillOpt.iMpsRecoverSDRate > 0.0)
+			if (Obj.Type == OBJ_USER && Obj.m_PlayerData->m_MPSkillOpt->iMpsRecoverSDRate > 0.0)
 			{
-				if (rand() % 100 < Obj.m_PlayerData->m_MPSkillOpt.iMpsRecoverSDRate)
+				if (rand() % 100 < Obj.m_PlayerData->m_MPSkillOpt->iMpsRecoverSDRate)
 				{
 					gObjAddMsgSendDelay(lpObj, 15, lpTargetObj.m_Index, 100, 0);
 				}
@@ -1519,7 +1519,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 			{
 				lpTargetObj.lpAttackObj = lpObj;
 				int DOT = 0, Time = 0;
-				gObjUseSkill.m_Lua.Generic_Call("ExplosionDotDamage", "ii>ii", AttackDamage, Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDotDamage, &DOT, &Time);
+				gObjUseSkill.m_Lua.Generic_Call("ExplosionDotDamage", "ii>ii", AttackDamage, Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDotDamage, &DOT, &Time);
 				gObjAddBuffEffect(lpTargetObj, BUFFTYPE_FIREDOT, EFFECTTYPE_GIVE_DMG_TICK, DOT, 0, 0, Time);
 			}
 			break;
@@ -2436,19 +2436,19 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 			{
 				if (MagicDamageC.GetSkillAttr(skill) == R_FIRE)
 				{
-					if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDamageFireProper > 0.0f)
+					if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDamageFireProper > 0.0f)
 					{
-						AttackDamage += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDamageFireProper;
+						AttackDamage += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDamageFireProper;
 					}
 				}
 				else if (MagicDamageC.GetSkillAttr(skill) == R_WIND)
 				{
-					if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDamageWindProper > 0.0f)
+					if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDamageWindProper > 0.0f)
 					{
-						AttackDamage += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDamageWindProper;
+						AttackDamage += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDamageWindProper;
 					}
 
-					if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddSturn2 > 0.0f)
+					if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddSturn2 > 0.0f)
 					{
 						if (g_ConfigRead.EnableStunEffect == 1)
 						{
@@ -2461,7 +2461,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 								iAccessoryEffect = lpTargetObj.m_PlayerData->m_Resistance_Stun;
 							}
 
-							if (fPercent < Obj.m_PlayerData->m_MPSkillOpt.iMpsAddSturn2 - iAccessoryEffect)
+							if (fPercent < Obj.m_PlayerData->m_MPSkillOpt->iMpsAddSturn2 - iAccessoryEffect)
 							{
 								gObjAddBuffEffect(lpTargetObj, BUFFTYPE_STUN, 0, 0, 0, 0, StunTime);
 								gObjSetPosition(lpTargetObj.m_Index, lpTargetObj.X, lpTargetObj.Y);
@@ -2471,16 +2471,16 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 				}
 				else if (MagicDamageC.GetSkillAttr(skill) == R_LIGHTNING)
 				{
-					if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDamageThunderProper > 0.0f)
+					if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDamageThunderProper > 0.0f)
 					{
-						AttackDamage += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDamageThunderProper;
+						AttackDamage += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDamageThunderProper;
 					}
 
-					if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddSpring > 0.0f)
+					if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddSpring > 0.0f)
 					{
 						float fPercent = rand() % 100;
 
-						if (fPercent < Obj.m_PlayerData->m_MPSkillOpt.iMpsAddSpring)
+						if (fPercent < Obj.m_PlayerData->m_MPSkillOpt->iMpsAddSpring)
 						{
 							gObjBackSpring2(lpTargetObj, lpObj, 2);
 						}
@@ -2569,7 +2569,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 			}
 			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
 			{
-				AttackDamage += Obj.m_PlayerData->m_ItemOptionExFor380.OpAddDamage;
+				AttackDamage += Obj.m_PlayerData->m_ItemOptionExFor380->OpAddDamage;
 			}
 
 			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
@@ -2761,9 +2761,9 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 							{
 								int iDurDecValue = 50;
 
-								if (lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 > 0.0)
+								if (lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsDurabilityReduction1 > 0.0)
 								{
-									iDurDecValue = lpTargetObj.m_PlayerData->m_MPSkillOpt.btMpsDownDur1Level + 50;
+									iDurDecValue = lpTargetObj.m_PlayerData->m_MPSkillOpt->btMpsDownDur1Level + 50;
 								}
 
 								if (iDurDecValue < 0)
@@ -2818,16 +2818,16 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 
 			if (!byReflect && Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
 			{
-				if (Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsPvPAttack > 0.0)
-					AttackDamage += Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsPvPAttack;
-				if (Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsStaffManAttack > 0.0)
-					AttackDamage += Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsStaffManAttack;
-				if (Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsBowManAttack > 0.0)
-					AttackDamage += Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsBowManAttack;
-				if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddManAttackStick > 0.0)
-					AttackDamage += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddManAttackStick;
-				if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncCeptorManAttack > 0.0)
-					AttackDamage += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncCeptorManAttack;
+				if (Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsPvPAttack > 0.0)
+					AttackDamage += Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsPvPAttack;
+				if (Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsStaffManAttack > 0.0)
+					AttackDamage += Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsStaffManAttack;
+				if (Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsBowManAttack > 0.0)
+					AttackDamage += Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsBowManAttack;
+				if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddManAttackStick > 0.0)
+					AttackDamage += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddManAttackStick;
+				if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncCeptorManAttack > 0.0)
+					AttackDamage += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncCeptorManAttack;
 			}
 
 			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
@@ -3008,9 +3008,9 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 						{
 							float iDurDecValue = 0;
 
-							if (lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsDurabilityReduction1 > 0.0)
+							if (lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsDurabilityReduction1 > 0.0)
 							{
-								iDurDecValue += lpTargetObj.m_PlayerData->m_MPSkillOpt.btMpsDownDur1Level / 5.0;
+								iDurDecValue += lpTargetObj.m_PlayerData->m_MPSkillOpt->btMpsDownDur1Level / 5.0;
 							}
 
 							if (iDurDecValue <= 0.0)
@@ -3213,9 +3213,9 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 			gObjAddMsgSendDelay(lpTargetObj, 10, Obj.m_Index, 10, AttackDamage);
 		}
 
-		if (lpTargetObj.Type == OBJ_USER && lpTargetObj.m_PlayerData->m_WingExcOption.iWingOpReturnEnemyDamage != 0)
+		if (lpTargetObj.Type == OBJ_USER && lpTargetObj.m_PlayerData->m_WingExcOption->iWingOpReturnEnemyDamage != 0)
 		{
-			if (rand() % 100 < lpTargetObj.m_PlayerData->m_WingExcOption.iWingOpReturnEnemyDamage)
+			if (rand() % 100 < lpTargetObj.m_PlayerData->m_WingExcOption->iWingOpReturnEnemyDamage)
 			{
 				if (Obj.Type == OBJ_MONSTER)
 				{
@@ -3232,7 +3232,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 		{
 			float fRevengeRate = 0.0;
 
-			fRevengeRate = lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsReturnEnemyAttack;
+			fRevengeRate = lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsReturnEnemyAttack;
 			
 			if (fRevengeRate > 0.0 && rand() % 100 <= fRevengeRate)
 			{
@@ -3255,8 +3255,8 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 			int iComboDamage = 0;
 			gObjUseSkill.m_Lua.Generic_Call("ComboSkillDamage", "iiii>i", Strength, Dexterity, Vitality, Energy, &iComboDamage);
 
-			if (Obj.m_PlayerData->m_MPSkillOpt.iMpsComboDamage > 0.0)
-				iComboDamage += iComboDamage * Obj.m_PlayerData->m_MPSkillOpt.iMpsComboDamage / 100.0;
+			if (Obj.m_PlayerData->m_MPSkillOpt->iMpsComboDamage > 0.0)
+				iComboDamage += iComboDamage * Obj.m_PlayerData->m_MPSkillOpt->iMpsComboDamage / 100.0;
 
 			AttackDamage += iComboDamage;
 
@@ -3308,8 +3308,8 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 
 			g_MasterLevelSkillTreeSystem.m_Lua.Generic_Call("BloodHowl_Level2", "d>iii", lpTargetObj.Life, &SkillEffect, &SkillSuccessRate, &SkillTime);
 
-			SkillSuccessRate += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDamageBloodHowling;
-			SkillEffect += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDamageBloodHowling;
+			SkillSuccessRate += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDamageBloodHowling;
+			SkillEffect += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDamageBloodHowling;
 
 			if (rand() % 100 < SkillSuccessRate)
 			{
@@ -3335,7 +3335,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 		{
 			float fRate = 0.0;
 
-			fRate = Obj.m_PlayerData->SetOpDoubleDamage + Obj.m_PlayerData->m_MPSkillOpt.iMpsAddDoubleDamage + Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDoubleDamageRate;
+			fRate = Obj.m_PlayerData->SetOpDoubleDamage + Obj.m_PlayerData->m_MPSkillOpt->iMpsAddDoubleDamage + Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDoubleDamageRate;
 			
 			if (gObjWingSprite(lpObj) == TRUE)
 			{
@@ -3420,7 +3420,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 
 			float fTripleRate = 0.0;
 
-			fTripleRate = Obj.m_PlayerData->m_MPSkillOpt.iMpsIncTripleDamageRate;
+			fTripleRate = Obj.m_PlayerData->m_MPSkillOpt->iMpsIncTripleDamageRate;
 
 			if (fTripleRate > 0.0 && !(MsgDamage & 0x40) && !(MsgDamage & 1) && (rand() % 100) < fTripleRate)
 			{
@@ -3601,7 +3601,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 
 	if (Right->GetDetailItemType() == ITEM_MACE || Left->GetDetailItemType() == ITEM_MACE)
 	{
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddSturn > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddSturn > 0.0)
 		{
 			if (gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_IRON_DEFENSE) == false && gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_IRON_DEFENSE_STR) == false)
 			{
@@ -3616,7 +3616,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 						iAccessoryEffect = lpTargetObj.m_PlayerData->m_Resistance_Stun;
 					}
 
-					if (fPercent < Obj.m_PlayerData->m_MPSkillOpt.iMpsAddSturn - iAccessoryEffect)
+					if (fPercent < Obj.m_PlayerData->m_MPSkillOpt->iMpsAddSturn - iAccessoryEffect)
 					{
 						gObjAddBuffEffect(lpTargetObj, BUFFTYPE_STUN, 0, 0, 0, 0, StunTime);
 						gObjSetPosition(lpTargetObj.m_Index, lpTargetObj.X, lpTargetObj.Y);
@@ -3721,17 +3721,17 @@ BOOL CObjAttack::PentagramAttack(CGameObject &Obj, CGameObject lpTargetObj, CMag
 	{
 		if (Obj.Type == OBJ_USER)
 		{
-			if (Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_1RankSlowMoveSkillRate > 0)
+			if (Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_1RankSlowMoveSkillRate > 0)
 			{
-				if (rand() % 100 < Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_1RankSlowMoveSkillRate)
+				if (rand() % 100 < Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_1RankSlowMoveSkillRate)
 				{
 					gObjAddBuffEffect(lpTargetObj, BUFFTYPE_CONFUSION, EFFECTTYPE_REDUCE_MOVE_SPEED, 0, 0, 0, 20);
 				}
 			}
 
-			if (Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_5RankHalfValueSkillRate > 0)
+			if (Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_5RankHalfValueSkillRate > 0)
 			{
-				if (rand() % 100 < Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_5RankHalfValueSkillRate)
+				if (rand() % 100 < Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_5RankHalfValueSkillRate)
 				{
 					int iDuration = 0;
 
@@ -3861,10 +3861,10 @@ BOOL CObjAttack::GetBuffTypePhysicalIncrease(CGameObject &Obj, int *iAttackBerse
 	*iAttackBerserkerMin = iValue * *iAttackBerserkerMin / 100;
 	*iAttackBerserkerMax = iValue * *iAttackBerserkerMax / 100;
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncValueBerserker3 > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncValueBerserker3 > 0.0)
 	{
-		*iAttackBerserkerMin += *iAttackBerserkerMin * Obj.m_PlayerData->m_MPSkillOpt.iMpsIncValueBerserker3 / 100.0;
-		*iAttackBerserkerMax += *iAttackBerserkerMax * Obj.m_PlayerData->m_MPSkillOpt.iMpsIncValueBerserker3 / 100.0;
+		*iAttackBerserkerMin += *iAttackBerserkerMin * Obj.m_PlayerData->m_MPSkillOpt->iMpsIncValueBerserker3 / 100.0;
+		*iAttackBerserkerMax += *iAttackBerserkerMax * Obj.m_PlayerData->m_MPSkillOpt->iMpsIncValueBerserker3 / 100.0;
 	}
 
 	return TRUE;
@@ -4029,10 +4029,10 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject lpTargetObj, int 
 				SkillLeftMinDamage += (BYTE)Obj.m_AddResistance[SkillAttr];
 			}
 
-			SkillRightMaxDamage += Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSkillAttack;
-			SkillRightMinDamage += Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSkillAttack;
-			SkillLeftMaxDamage += Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSkillAttack;
-			SkillLeftMinDamage += Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSkillAttack;
+			SkillRightMaxDamage += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSkillAttack;
+			SkillRightMinDamage += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSkillAttack;
+			SkillLeftMaxDamage += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSkillAttack;
+			SkillLeftMinDamage += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSkillAttack;
 
 			if (lpMagic->m_Skill == 65 || lpMagic->m_Skill == 519)
 			{
@@ -4090,21 +4090,21 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject lpTargetObj, int 
 		int nCritical = Obj.m_CriticalDamage;
 		int nExcellent = Obj.m_ExcelentDamage;
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncCriticalDamageRate > 0.0)
-				nCritical = (nCritical + Obj.m_PlayerData->m_MPSkillOpt.iMpsIncCriticalDamageRate);
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncExcellentDamageRate > 0.0)
-				nExcellent = (nExcellent + Obj.m_PlayerData->m_MPSkillOpt.iMpsIncExcellentDamageRate);
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncCriticalDamageRate > 0.0)
+				nCritical = (nCritical + Obj.m_PlayerData->m_MPSkillOpt->iMpsIncCriticalDamageRate);
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncExcellentDamageRate > 0.0)
+				nExcellent = (nExcellent + Obj.m_PlayerData->m_MPSkillOpt->iMpsIncExcellentDamageRate);
 
 		int nRageDmg = Obj.m_PlayerData->RageDMG;
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsRageDamage > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsRageDamage > 0.0)
 		{
-			nRageDmg = (nRageDmg + Obj.m_PlayerData->m_MPSkillOpt.iMpsRageDamage);
+			nRageDmg = (nRageDmg + Obj.m_PlayerData->m_MPSkillOpt->iMpsRageDamage);
 		}
 
-		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_CRITICAL_DMG_INC_MAS) == true && Obj.m_PlayerData->m_MPSkillOpt.iMpsIncExcellentDamageRate_Darklord > 0.0)
+		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_CRITICAL_DMG_INC_MAS) == true && Obj.m_PlayerData->m_MPSkillOpt->iMpsIncExcellentDamageRate_Darklord > 0.0)
 		{
-			nExcellent += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncExcellentDamageRate_Darklord;
+			nExcellent += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncExcellentDamageRate_Darklord;
 		}
 
 		if (lpTargetObj.Type == OBJ_USER)
@@ -4179,8 +4179,8 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject lpTargetObj, int 
 			Obj.m_AttackDamageRight += Obj.m_PlayerData->SetOpAddCriticalDamage;
 			Obj.m_AttackDamageLeft += Obj.m_PlayerData->SetOpAddCriticalDamage;
 
-			Obj.m_AttackDamageRight += Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddCriticalDamage;
-			Obj.m_AttackDamageLeft += Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddCriticalDamage;
+			Obj.m_AttackDamageRight += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddCriticalDamage;
+			Obj.m_AttackDamageLeft += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddCriticalDamage;
 
 			int iOption = 0;
 			gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_CRITICAL_DMG_INC, &iOption, 0);
@@ -4223,14 +4223,14 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject lpTargetObj, int 
 	{
 		ad = Obj.m_AttackDamageRight - targetDefense;
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsBowAddDamage > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsBowAddDamage > 0.0)
 		{
-			ad += Obj.m_PlayerData->m_MPSkillOpt.iMpsBowAddDamage;
+			ad += Obj.m_PlayerData->m_MPSkillOpt->iMpsBowAddDamage;
 		}
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsBowAddDamage > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsBowAddDamage > 0.0)
 		{
-			ad += Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsBowAddDamage;
+			ad += Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsBowAddDamage;
 		}
 	}
 
@@ -4238,9 +4238,9 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject lpTargetObj, int 
 	{
 		ad = Obj.m_AttackDamageRight - targetDefense;
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandSwordAddDamage > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandSwordAddDamage > 0.0)
 		{
-			ad += Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandSwordAddDamage;
+			ad += Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandSwordAddDamage;
 		}
 	}
 
@@ -4315,41 +4315,41 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject lpTargetObj, int 
 		{
 		case ITEM_ONEHAND_SWORD:
 		{
-			if (Obj.m_PlayerData->m_MPSkillOpt.iMpsSwordAddDamage > 0.0)
+			if (Obj.m_PlayerData->m_MPSkillOpt->iMpsSwordAddDamage > 0.0)
 			{
-				nAddAttackDamageLeft += Obj.m_PlayerData->m_MPSkillOpt.iMpsSwordAddDamage;
+				nAddAttackDamageLeft += Obj.m_PlayerData->m_MPSkillOpt->iMpsSwordAddDamage;
 			}
 		}
 		break;
 		case ITEM_MACE:
 		{
-			if (Obj.m_PlayerData->m_MPSkillOpt.iMpsMaceStrength > 0.0)
+			if (Obj.m_PlayerData->m_MPSkillOpt->iMpsMaceStrength > 0.0)
 			{
-				nAddAttackDamageLeft += Obj.m_PlayerData->m_MPSkillOpt.iMpsMaceStrength;
+				nAddAttackDamageLeft += Obj.m_PlayerData->m_MPSkillOpt->iMpsMaceStrength;
 			}
 		}
 		break;
 		case ITEM_SPEAR:
 		{
-			if (Obj.m_PlayerData->m_MPSkillOpt.iMpsSpearAddDamage > 0.0)
+			if (Obj.m_PlayerData->m_MPSkillOpt->iMpsSpearAddDamage > 0.0)
 			{
-				nAddAttackDamageLeft += Obj.m_PlayerData->m_MPSkillOpt.iMpsSpearAddDamage;
+				nAddAttackDamageLeft += Obj.m_PlayerData->m_MPSkillOpt->iMpsSpearAddDamage;
 			}
 		}
 		break;
 		case ITEM_DARKLORD_SCEPTER:
 		{
-			if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddCeptorDamage > 0.0)
+			if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddCeptorDamage > 0.0)
 			{
-				nAddAttackDamageLeft += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddCeptorDamage;
+				nAddAttackDamageLeft += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddCeptorDamage;
 			}
 		}
 		break;
 		case ITEM_RAGEFIGHTER_WEAPON:
 		{
-			if (Obj.m_PlayerData->m_MPSkillOpt.iMpsMonkWeaponDamage > 0.0)
+			if (Obj.m_PlayerData->m_MPSkillOpt->iMpsMonkWeaponDamage > 0.0)
 			{
-				nAddAttackDamageLeft += Obj.m_PlayerData->m_MPSkillOpt.iMpsMonkWeaponDamage;
+				nAddAttackDamageLeft += Obj.m_PlayerData->m_MPSkillOpt->iMpsMonkWeaponDamage;
 			}
 		}
 		break;
@@ -4359,41 +4359,41 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject lpTargetObj, int 
 		{
 		case ITEM_ONEHAND_SWORD:
 		{
-			if (Obj.m_PlayerData->m_MPSkillOpt.iMpsSwordAddDamage > 0.0)
+			if (Obj.m_PlayerData->m_MPSkillOpt->iMpsSwordAddDamage > 0.0)
 			{
-				nAddAttackDamageRight += Obj.m_PlayerData->m_MPSkillOpt.iMpsSwordAddDamage;
+				nAddAttackDamageRight += Obj.m_PlayerData->m_MPSkillOpt->iMpsSwordAddDamage;
 			}
 		}
 		break;
 		case ITEM_MACE:
 		{
-			if (Obj.m_PlayerData->m_MPSkillOpt.iMpsMaceStrength > 0.0)
+			if (Obj.m_PlayerData->m_MPSkillOpt->iMpsMaceStrength > 0.0)
 			{
-				nAddAttackDamageRight += Obj.m_PlayerData->m_MPSkillOpt.iMpsMaceStrength;
+				nAddAttackDamageRight += Obj.m_PlayerData->m_MPSkillOpt->iMpsMaceStrength;
 			}
 		}
 		break;
 		case ITEM_SPEAR:
 		{
-			if (Obj.m_PlayerData->m_MPSkillOpt.iMpsSpearAddDamage > 0.0)
+			if (Obj.m_PlayerData->m_MPSkillOpt->iMpsSpearAddDamage > 0.0)
 			{
-				nAddAttackDamageRight += Obj.m_PlayerData->m_MPSkillOpt.iMpsSpearAddDamage;
+				nAddAttackDamageRight += Obj.m_PlayerData->m_MPSkillOpt->iMpsSpearAddDamage;
 			}
 		}
 		break;
 		case ITEM_DARKLORD_SCEPTER:
 		{
-			if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddCeptorDamage > 0.0)
+			if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddCeptorDamage > 0.0)
 			{
-				nAddAttackDamageRight += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddCeptorDamage;
+				nAddAttackDamageRight += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddCeptorDamage;
 			}
 		}
 		break;
 		case ITEM_RAGEFIGHTER_WEAPON:
 		{
-			if (Obj.m_PlayerData->m_MPSkillOpt.iMpsMonkWeaponDamage > 0.0)
+			if (Obj.m_PlayerData->m_MPSkillOpt->iMpsMonkWeaponDamage > 0.0)
 			{
-				nAddAttackDamageRight += Obj.m_PlayerData->m_MPSkillOpt.iMpsMonkWeaponDamage;
+				nAddAttackDamageRight += Obj.m_PlayerData->m_MPSkillOpt->iMpsMonkWeaponDamage;
 			}
 		}
 		break;
@@ -4416,25 +4416,25 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject lpTargetObj, int 
 			|| Obj.Class == CLASS_DARKLORD
 			|| Obj.Class == CLASS_RAGEFIGHTER)
 		{
-			if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddPhysicDamage > 0.0)
+			if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddPhysicDamage > 0.0)
 			{
-				ad += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddPhysicDamage;
+				ad += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddPhysicDamage;
 			}
 		}
 
 		if (Obj.Class == CLASS_ELF)
 		{
-			if (Obj.m_PlayerData->m_MPSkillOpt.iMpsElfAddPhysicDamage > 0.0)
+			if (Obj.m_PlayerData->m_MPSkillOpt->iMpsElfAddPhysicDamage > 0.0)
 			{
-				ad += Obj.m_PlayerData->m_MPSkillOpt.iMpsElfAddPhysicDamage;
+				ad += Obj.m_PlayerData->m_MPSkillOpt->iMpsElfAddPhysicDamage;
 			}
 		}
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddControlAttack > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddControlAttack > 0.0)
 		{
 			if (Obj.pntInventory[0]->GetDetailItemType() == ITEM_DARKLORD_SCEPTER || Obj.pntInventory[1]->GetDetailItemType() == ITEM_DARKLORD_SCEPTER)
 			{
-				int nAddAttack = (Obj.AddLeadership + Obj.Leadership) / Obj.m_PlayerData->m_MPSkillOpt.iMpsAddControlAttack;
+				int nAddAttack = (Obj.AddLeadership + Obj.Leadership) / Obj.m_PlayerData->m_MPSkillOpt->iMpsAddControlAttack;
 				ad += nAddAttack;
 			}
 		}
@@ -4443,7 +4443,7 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject lpTargetObj, int 
 		{
 			if (Obj.Class == CLASS_KNIGHT || Obj.Class == CLASS_ELF || Obj.Class == CLASS_MAGUMSA || Obj.Class == CLASS_DARKLORD || Obj.Class == CLASS_RAGEFIGHTER)
 			{
-				ad += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage;
+				ad += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamage;
 			}
 		}
 	}
@@ -4493,14 +4493,14 @@ int CObjAttack::GetAttackDamageSummoner(CGameObject &Obj, CGameObject lpTargetOb
 		{
 			int iValue = gObjGetTotalValueOfEffect(lpObj, 31);
 
-			if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncPercentBerserker1 > 0.0)
+			if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncPercentBerserker1 > 0.0)
 			{
-				iValue += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncPercentBerserker1;
+				iValue += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncPercentBerserker1;
 			}
 
-			if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncValueBerserker3 > 0.0)
+			if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncValueBerserker3 > 0.0)
 			{
-				iValue += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncValueBerserker3;
+				iValue += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncValueBerserker3;
 			}
 
 			gObjUseSkill.m_Lua.Generic_Call("SummonerBerserkerCurseDamage", "ii>dd", (Obj.m_PlayerData->Energy + Obj.AddEnergy), iValue, &fCurseDamageMin, &fCurseDamageMax);
@@ -4516,20 +4516,20 @@ int CObjAttack::GetAttackDamageSummoner(CGameObject &Obj, CGameObject lpTargetOb
 			damagemax += fDamage;
 		}
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncMagicPower > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncMagicPower > 0.0)
 		{
-			damagemin += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncMagicPower;
-			damagemax += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncMagicPower;
+			damagemin += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncMagicPower;
+			damagemax += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncMagicPower;
 		}
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncMinMagicDamage > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncMinMagicDamage > 0.0)
 		{
-			damagemin += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncMinMagicDamage;
+			damagemin += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncMinMagicDamage;
 		}
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncMaxMagicDamage > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncMaxMagicDamage > 0.0)
 		{
-			damagemax += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncMaxMagicDamage;
+			damagemax += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncMaxMagicDamage;
 		}
 
 		if (Obj.pntInventory[1]->IsItem() && (Obj.pntInventory[1]->m_Type >= ITEMGET(5, 0) && Obj.pntInventory[1]->m_Type < ITEMGET(6, 0)) && Obj.pntInventory[1]->m_IsValidItem)
@@ -4558,28 +4558,28 @@ int CObjAttack::GetAttackDamageSummoner(CGameObject &Obj, CGameObject lpTargetOb
 		{
 			int iValue = gObjGetTotalValueOfEffect(lpObj, 31);
 
-			if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncPercentBerserker2 > 0.0)
+			if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncPercentBerserker2 > 0.0)
 			{
-				iValue += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncPercentBerserker2;
+				iValue += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncPercentBerserker2;
 			}
 
 			gObjUseSkill.m_Lua.Generic_Call("SummonerBerserkerMagicDamage", "ii>dd", (Obj.m_PlayerData->Energy + Obj.AddEnergy), iValue, &fMagicDamageMin, &fMagicDamageMax);
 		}
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncMagicPower > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncMagicPower > 0.0)
 		{
-			fMagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncMagicPower;
-			fMagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncMagicPower;
+			fMagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncMagicPower;
+			fMagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncMagicPower;
 		}
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncMinMagicDamage > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncMinMagicDamage > 0.0)
 		{
-			fMagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncMinMagicDamage;
+			fMagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncMinMagicDamage;
 		}
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncMaxMagicDamage > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncMaxMagicDamage > 0.0)
 		{
-			fMagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncMaxMagicDamage;
+			fMagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncMaxMagicDamage;
 		}
 
 		damagemin = (int)((float)(lpMagic->m_DamageMin + Obj.m_MagicDamageMin) + fMagicDamageMin + g_SkillSpec.CalcStatBonus(lpObj, lpMagic->m_Skill));
@@ -4625,8 +4625,8 @@ int CObjAttack::GetAttackDamageSummoner(CGameObject &Obj, CGameObject lpTargetOb
 		}
 	}
 
-	damagemin += Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSkillAttack;
-	damagemax += Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSkillAttack;
+	damagemin += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSkillAttack;
+	damagemax += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSkillAttack;
 
 	if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_ARCA_FIRETOWER))
 	{
@@ -4699,19 +4699,19 @@ int CObjAttack::GetAttackDamageSummoner(CGameObject &Obj, CGameObject lpTargetOb
 
 	if (Obj.Type == OBJ_USER)
 	{
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncCriticalDamageRate > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncCriticalDamageRate > 0.0)
 		{
-			nCritical += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncCriticalDamageRate;
+			nCritical += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncCriticalDamageRate;
 		}
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncExcellentDamageRate > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncExcellentDamageRate > 0.0)
 		{
-			nExcellent += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncExcellentDamageRate;
+			nExcellent += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncExcellentDamageRate;
 		}
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncExcellentDamageRate_Darklord > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncExcellentDamageRate_Darklord > 0.0)
 		{
-			nExcellent += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncExcellentDamageRate_Darklord;
+			nExcellent += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncExcellentDamageRate_Darklord;
 		}
 	}
 
@@ -4745,7 +4745,7 @@ int CObjAttack::GetAttackDamageSummoner(CGameObject &Obj, CGameObject lpTargetOb
 	{
 		ad = damagemax - targetDefense;
 		ad += Obj.m_PlayerData->SetOpAddCriticalDamage;
-		ad += Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddCriticalDamage;
+		ad += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddCriticalDamage;
 		int iOption = 0;
 		gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_CRITICAL_DMG_INC, &iOption, 0);
 		ad += iOption;
@@ -4894,8 +4894,8 @@ int  CObjAttack::GetAttackDamageWizard(CGameObject &Obj, CGameObject lpTargetObj
 				}
 			}
 
-			damagemin += Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSkillAttack;
-			damagemax += Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSkillAttack;
+			damagemin += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSkillAttack;
+			damagemax += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSkillAttack;
 		}
 	}
 
@@ -5000,8 +5000,8 @@ int  CObjAttack::GetAttackDamageWizard(CGameObject &Obj, CGameObject lpTargetObj
 				damagemax += nMuunItemValue;
 			}
 
-			damagemin += Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSkillAttack;
-			damagemax += Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSkillAttack;
+			damagemin += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSkillAttack;
+			damagemax += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSkillAttack;
 		}
 	}
 
@@ -5093,8 +5093,8 @@ int  CObjAttack::GetAttackDamageWizard(CGameObject &Obj, CGameObject lpTargetObj
 			}
 		}
 
-		damagemin += Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSkillAttack;
-		damagemax += Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSkillAttack;
+		damagemin += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSkillAttack;
+		damagemax += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSkillAttack;
 	}
 
 	CItemObject * Right = &Obj.pntInventory[0];
@@ -5139,17 +5139,17 @@ int  CObjAttack::GetAttackDamageWizard(CGameObject &Obj, CGameObject lpTargetObj
 	{
 		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_MAGIC_POWER_INC_MAS) == true)
 		{
-			nCritical += Obj.m_PlayerData->m_MPSkillOpt.iMpsCriticalRateInc;
+			nCritical += Obj.m_PlayerData->m_MPSkillOpt->iMpsCriticalRateInc;
 		}
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncCriticalDamageRate > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncCriticalDamageRate > 0.0)
 		{
-			nCritical += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncCriticalDamageRate;
+			nCritical += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncCriticalDamageRate;
 		}
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncExcellentDamageRate > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncExcellentDamageRate > 0.0)
 		{
-			nExcellent += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncExcellentDamageRate;
+			nExcellent += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncExcellentDamageRate;
 		}
 	}
 
@@ -5183,7 +5183,7 @@ int  CObjAttack::GetAttackDamageWizard(CGameObject &Obj, CGameObject lpTargetObj
 	{
 		ad = damagemax - targetDefense;
 		ad += Obj.m_PlayerData->SetOpAddCriticalDamage;
-		ad += Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddCriticalDamage;
+		ad += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddCriticalDamage;
 		int iOption = 0;
 		gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_CRITICAL_DMG_INC, &iOption, 0);
 		ad += iOption;
@@ -5322,8 +5322,8 @@ int CObjAttack::GetShieldDamage(CGameObject &Obj, CGameObject lpTargetObj, int i
 	int iReduceLifeForEffect = 0;
 	bool bReduceShieldGage = 0;
 	int iDamageDevideToSDRate = g_ConfigRead.g_iDamageDevideToSDRate;
-	iDamageDevideToSDRate -= Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpDecreaseSDRate;
-	iDamageDevideToSDRate += lpTargetObj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSDRate;
+	iDamageDevideToSDRate -= Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpDecreaseSDRate;
+	iDamageDevideToSDRate += lpTargetObj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSDRate;
 
 	if (iDamageDevideToSDRate < 0)
 		iDamageDevideToSDRate = 0;
@@ -5331,10 +5331,10 @@ int CObjAttack::GetShieldDamage(CGameObject &Obj, CGameObject lpTargetObj, int i
 	if (iDamageDevideToSDRate > 100)
 		iDamageDevideToSDRate = 100;
 
-	if (Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddIgnoreSDRate > 0)
+	if (Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddIgnoreSDRate > 0)
 	{
 		int iRand = rand() % 100;
-		int iIgnoreSDRate = Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddIgnoreSDRate - lpTargetObj.m_PlayerData->m_Resistance_SD;
+		int iIgnoreSDRate = Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddIgnoreSDRate - lpTargetObj.m_PlayerData->m_Resistance_SD;
 
 		if (iRand < iIgnoreSDRate)
 		{
@@ -5342,9 +5342,9 @@ int CObjAttack::GetShieldDamage(CGameObject &Obj, CGameObject lpTargetObj, int i
 		}
 	}
 
-	if ((Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER) && (Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpDecreaseSDRate ||
-		lpTargetObj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSDRate ||
-		Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddIgnoreSDRate))
+	if ((Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER) && (Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpDecreaseSDRate ||
+		lpTargetObj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSDRate ||
+		Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddIgnoreSDRate))
 	{
 	
 	}
@@ -5407,10 +5407,10 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 
 	if (Obj.Type == OBJ_USER)
 	{
-		Strength = Obj.m_PlayerData->Strength + Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_2RankAddStrength;
-		Dexterity = Obj.m_PlayerData->Dexterity + Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_2RankAddDexterity;
-		Vitality = Obj.m_PlayerData->Vitality + Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_2RankAddVitality;
-		Energy = Obj.m_PlayerData->Energy + Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_2RankAddEnergy;
+		Strength = Obj.m_PlayerData->Strength + Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_2RankAddStrength;
+		Dexterity = Obj.m_PlayerData->Dexterity + Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_2RankAddDexterity;
+		Vitality = Obj.m_PlayerData->Vitality + Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_2RankAddVitality;
+		Energy = Obj.m_PlayerData->Energy + Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_2RankAddEnergy;
 	}
 
 	switch (AttackerAttribute)
@@ -5445,19 +5445,19 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 
 		int iExcelDamageRate = 0;
 
-		if (Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_4RankOptionNum == 1)
+		if (Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_4RankOptionNum == 1)
 		{
 			if (lpTargetObj.Type == OBJ_USER)
 			{
-				iExcelDamageRate = Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_4RankAddExllentDamageRate;
+				iExcelDamageRate = Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_4RankAddExllentDamageRate;
 			}
 		}
 
-		else if (Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_4RankOptionNum == 2)
+		else if (Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_4RankOptionNum == 2)
 		{
 			if (lpTargetObj.Type == OBJ_MONSTER)
 			{
-				iExcelDamageRate = Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_4RankAddExllentDamageRate;
+				iExcelDamageRate = Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_4RankAddExllentDamageRate;
 			}
 		}
 
@@ -5470,23 +5470,23 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 		{
 			int iCriDamageRate = 0;
 
-			if (Obj.m_PlayerData->m_PentagramOptions.m_iRuby_5RankOptionNum == 1)
+			if (Obj.m_PlayerData->m_PentagramOptions->m_iRuby_5RankOptionNum == 1)
 			{
 				if (lpTargetObj.Type == OBJ_USER)
 				{
-					iCriDamageRate = Obj.m_PlayerData->m_PentagramOptions.m_iRuby_5RankCriticalDamageRate;
+					iCriDamageRate = Obj.m_PlayerData->m_PentagramOptions->m_iRuby_5RankCriticalDamageRate;
 				}
 			}
 
-			else if (Obj.m_PlayerData->m_PentagramOptions.m_iRuby_5RankOptionNum == 2)
+			else if (Obj.m_PlayerData->m_PentagramOptions->m_iRuby_5RankOptionNum == 2)
 			{
 				if (lpTargetObj.Type == OBJ_MONSTER)
 				{
-					iCriDamageRate = Obj.m_PlayerData->m_PentagramOptions.m_iRuby_5RankCriticalDamageRate;
+					iCriDamageRate = Obj.m_PlayerData->m_PentagramOptions->m_iRuby_5RankCriticalDamageRate;
 				}
 			}
 
-			if (Obj.m_PlayerData->m_PentagramOptions.m_isAddCriPentaDamage == true)
+			if (Obj.m_PlayerData->m_PentagramOptions->m_isAddCriPentaDamage == true)
 			{
 				iCriDamageRate += 1000;
 			}
@@ -5497,7 +5497,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 		}
 
-		if (Obj.m_PlayerData->m_PentagramOptions.m_isAddPentaAttack == true)
+		if (Obj.m_PlayerData->m_PentagramOptions->m_isAddPentaAttack == true)
 		{
 			PentagramMinDamage += PentagramMinDamage * 0.1;
 			PentagramMaxDamage += PentagramMaxDamage * 0.1;
@@ -5571,82 +5571,82 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 
 	if (Obj.Type == OBJ_USER)
 	{
-		AddDamage = Obj.m_PlayerData->m_PentagramOptions.m_iRuby_1RankAddDamage;
+		AddDamage = Obj.m_PlayerData->m_PentagramOptions->m_iRuby_1RankAddDamage;
 
-		if (Obj.m_PlayerData->m_PentagramOptions.m_iRuby_3RankOptionNum == 1 && lpTargetObj.Type == OBJ_USER)
+		if (Obj.m_PlayerData->m_PentagramOptions->m_iRuby_3RankOptionNum == 1 && lpTargetObj.Type == OBJ_USER)
 		{
-			AddDamage += Obj.m_PlayerData->m_PentagramOptions.m_iRuby_3RankAddDamage;
+			AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iRuby_3RankAddDamage;
 		}
 
-		else if (Obj.m_PlayerData->m_PentagramOptions.m_iRuby_3RankOptionNum == 2 && lpTargetObj.Type == OBJ_MONSTER)
+		else if (Obj.m_PlayerData->m_PentagramOptions->m_iRuby_3RankOptionNum == 2 && lpTargetObj.Type == OBJ_MONSTER)
 		{
-			AddDamage += Obj.m_PlayerData->m_PentagramOptions.m_iRuby_3RankAddDamage;
+			AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iRuby_3RankAddDamage;
 		}
 
-		if (Obj.m_PlayerData->m_PentagramOptions.m_iRuby_4RankOptionNum == 1)
+		if (Obj.m_PlayerData->m_PentagramOptions->m_iRuby_4RankOptionNum == 1)
 		{
 			if (lpTargetObj.Type == OBJ_MONSTER)
 			{
-				AddDamage += Obj.m_PlayerData->m_PentagramOptions.m_iRuby_4RankAddDamage;
+				AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iRuby_4RankAddDamage;
 			}
 
 			else if (lpTargetObj.Class == CLASS_WIZARD || lpTargetObj.Class == CLASS_ELF || lpTargetObj.Class == CLASS_MAGUMSA || lpTargetObj.Class == CLASS_SUMMONER)
 			{
-				AddDamage += Obj.m_PlayerData->m_PentagramOptions.m_iRuby_4RankAddDamage;
+				AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iRuby_4RankAddDamage;
 			}
 		}
 
-		else if (Obj.m_PlayerData->m_PentagramOptions.m_iRuby_4RankOptionNum == 2)
+		else if (Obj.m_PlayerData->m_PentagramOptions->m_iRuby_4RankOptionNum == 2)
 		{
 			if (lpTargetObj.Type == OBJ_MONSTER)
 			{
-				AddDamage += Obj.m_PlayerData->m_PentagramOptions.m_iRuby_4RankAddDamage;
+				AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iRuby_4RankAddDamage;
 			}
 
 			else if (lpTargetObj.Class == CLASS_KNIGHT || lpTargetObj.Class == CLASS_DARKLORD || lpTargetObj.Class == CLASS_RAGEFIGHTER)
 			{
-				AddDamage += Obj.m_PlayerData->m_PentagramOptions.m_iRuby_4RankAddDamage;
+				AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iRuby_4RankAddDamage;
 			}
 		}
 
-		if (Obj.m_PlayerData->m_PentagramOptions.m_iEme_3RankOptionNum == 1 && lpTargetObj.Type == OBJ_USER)
+		if (Obj.m_PlayerData->m_PentagramOptions->m_iEme_3RankOptionNum == 1 && lpTargetObj.Type == OBJ_USER)
 		{
-			AddDamage += Obj.m_PlayerData->m_PentagramOptions.m_iEme_3RankAddDamage;
+			AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iEme_3RankAddDamage;
 		}
 
-		else if (Obj.m_PlayerData->m_PentagramOptions.m_iEme_3RankOptionNum == 2 && lpTargetObj.Type == OBJ_MONSTER)
+		else if (Obj.m_PlayerData->m_PentagramOptions->m_iEme_3RankOptionNum == 2 && lpTargetObj.Type == OBJ_MONSTER)
 		{
-			AddDamage += Obj.m_PlayerData->m_PentagramOptions.m_iEme_3RankAddDamage;
+			AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iEme_3RankAddDamage;
 		}
 
-		if (Obj.m_PlayerData->m_PentagramOptions.m_iEme_4RankOptionNum == 1)
+		if (Obj.m_PlayerData->m_PentagramOptions->m_iEme_4RankOptionNum == 1)
 		{
 			if (lpTargetObj.Type == OBJ_MONSTER)
 			{
-				AddDamage += Obj.m_PlayerData->m_PentagramOptions.m_iEme_4RankAddDamage;
+				AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iEme_4RankAddDamage;
 			}
 
 			else if (lpTargetObj.Class == CLASS_WIZARD || lpTargetObj.Class == CLASS_ELF || lpTargetObj.Class == CLASS_MAGUMSA || lpTargetObj.Class == CLASS_SUMMONER)
 			{
-				AddDamage += Obj.m_PlayerData->m_PentagramOptions.m_iEme_4RankAddDamage;
+				AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iEme_4RankAddDamage;
 			}
 		}
 
-		else if (Obj.m_PlayerData->m_PentagramOptions.m_iEme_4RankOptionNum == 2)
+		else if (Obj.m_PlayerData->m_PentagramOptions->m_iEme_4RankOptionNum == 2)
 		{
 			if (lpTargetObj.Type == OBJ_MONSTER)
 			{
-				AddDamage += Obj.m_PlayerData->m_PentagramOptions.m_iEme_4RankAddDamage;
+				AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iEme_4RankAddDamage;
 			}
 
 			else if (lpTargetObj.Class == CLASS_KNIGHT || lpTargetObj.Class == CLASS_DARKLORD || lpTargetObj.Class == CLASS_RAGEFIGHTER)
 			{
-				AddDamage += Obj.m_PlayerData->m_PentagramOptions.m_iEme_4RankAddDamage;
+				AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iEme_4RankAddDamage;
 			}
 		}
 	}
 
-	if (Obj.Type == OBJ_USER && Obj.m_PlayerData->m_PentagramOptions.m_isChangePentaAttack == true)
+	if (Obj.Type == OBJ_USER && Obj.m_PlayerData->m_PentagramOptions->m_isChangePentaAttack == true)
 	{
 		AddDamage += iAttackDamage * 0.01;
 	}
@@ -5655,14 +5655,14 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 
 	if (Obj.Type == OBJ_USER)
 	{
-		if (Obj.m_PlayerData->m_PentagramOptions.m_iEme_5RankOptionNum == 1 && lpTargetObj.Type == OBJ_USER)
+		if (Obj.m_PlayerData->m_PentagramOptions->m_iEme_5RankOptionNum == 1 && lpTargetObj.Type == OBJ_USER)
 		{
-			TotalDamage += TotalDamage * Obj.m_PlayerData->m_PentagramOptions.m_iEme_5RankAddDamageRate / 100;
+			TotalDamage += TotalDamage * Obj.m_PlayerData->m_PentagramOptions->m_iEme_5RankAddDamageRate / 100;
 		}
 
-		else if (Obj.m_PlayerData->m_PentagramOptions.m_iEme_5RankOptionNum == 2 && lpTargetObj.Type == OBJ_MONSTER)
+		else if (Obj.m_PlayerData->m_PentagramOptions->m_iEme_5RankOptionNum == 2 && lpTargetObj.Type == OBJ_MONSTER)
 		{
-			TotalDamage += TotalDamage * Obj.m_PlayerData->m_PentagramOptions.m_iEme_5RankAddDamageRate / 100;
+			TotalDamage += TotalDamage * Obj.m_PlayerData->m_PentagramOptions->m_iEme_5RankAddDamageRate / 100;
 		}
 	}
 
@@ -5701,7 +5701,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			PentagramDefense = lpTargetObj.pntInventory[236]->m_Defense;
 		}
 
-		if (lpTargetObj.m_PlayerData->m_PentagramOptions.m_isAddPentaDefense == true)
+		if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_isAddPentaDefense == true)
 		{
 			PentagramDefense += PentagramDefense * 0.1;
 		}
@@ -5725,81 +5725,81 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 
 	if (lpTargetObj.Type == OBJ_USER && g_PentagramSystem.IsPentagramItem(&lpTargetObj.pntInventory[236]) == true)
 	{
-		AddDefense = lpTargetObj.m_PlayerData->m_PentagramOptions.m_iSapph_1RankAddDefense;
+		AddDefense = lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_1RankAddDefense;
 
-		if (lpTargetObj.m_PlayerData->m_PentagramOptions.m_iSapph_3RankOptionNum == 1 && Obj.Type == OBJ_USER)
+		if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_3RankOptionNum == 1 && Obj.Type == OBJ_USER)
 		{
-			AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions.m_iSapph_3RankAddDefense;
+			AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_3RankAddDefense;
 		}
 
-		else if (lpTargetObj.m_PlayerData->m_PentagramOptions.m_iSapph_3RankOptionNum == 2 && Obj.Type == OBJ_MONSTER)
+		else if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_3RankOptionNum == 2 && Obj.Type == OBJ_MONSTER)
 		{
-			AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions.m_iSapph_3RankAddDefense;
+			AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_3RankAddDefense;
 		}
 
-		if (lpTargetObj.m_PlayerData->m_PentagramOptions.m_iSapph_4RankOptionNum == 1)
+		if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_4RankOptionNum == 1)
 		{
 			if (Obj.Type == OBJ_MONSTER)
 			{
-				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions.m_iSapph_4RankAddDefense;
+				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_4RankAddDefense;
 			}
 
 			else if (Obj.Class == CLASS_WIZARD || Obj.Class == CLASS_ELF || Obj.Class == CLASS_MAGUMSA || Obj.Class == CLASS_SUMMONER)
 			{
-				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions.m_iSapph_4RankAddDefense;
+				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_4RankAddDefense;
 			}
 		}
 
-		else if (lpTargetObj.m_PlayerData->m_PentagramOptions.m_iSapph_4RankOptionNum == 2)
+		else if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_4RankOptionNum == 2)
 		{
 			if (Obj.Type == OBJ_MONSTER)
 			{
-				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions.m_iSapph_4RankAddDefense;
+				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_4RankAddDefense;
 			}
 
 			else if (Obj.Class == CLASS_KNIGHT || Obj.Class == CLASS_DARKLORD || Obj.Class == CLASS_RAGEFIGHTER)
 			{
-				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions.m_iSapph_4RankAddDefense;
+				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_4RankAddDefense;
 			}
 		}
 
-		if (lpTargetObj.m_PlayerData->m_PentagramOptions.m_iTopa_3RankOptionNum == 1 && Obj.Type == OBJ_USER)
+		if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_3RankOptionNum == 1 && Obj.Type == OBJ_USER)
 		{
-			AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions.m_iTopa_3RankAddDefense;
+			AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_3RankAddDefense;
 		}
 
-		else if (lpTargetObj.m_PlayerData->m_PentagramOptions.m_iTopa_3RankOptionNum == 2 && Obj.Type == OBJ_MONSTER)
+		else if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_3RankOptionNum == 2 && Obj.Type == OBJ_MONSTER)
 		{
-			AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions.m_iTopa_3RankAddDefense;
+			AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_3RankAddDefense;
 		}
 
-		if (lpTargetObj.m_PlayerData->m_PentagramOptions.m_iTopa_4RankOptionNum == 1)
+		if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_4RankOptionNum == 1)
 		{
 			if (Obj.Type == OBJ_MONSTER)
 			{
-				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions.m_iTopa_4RankAddDefense;
+				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_4RankAddDefense;
 			}
 
 			else if (Obj.Class == CLASS_WIZARD || Obj.Class == CLASS_ELF || lpTargetObj.Class == CLASS_MAGUMSA || Obj.Class == CLASS_SUMMONER)
 			{
-				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions.m_iTopa_4RankAddDefense;
+				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_4RankAddDefense;
 			}
 		}
 
-		else if (lpTargetObj.m_PlayerData->m_PentagramOptions.m_iTopa_4RankOptionNum == 2)
+		else if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_4RankOptionNum == 2)
 		{
 			if (Obj.Type == OBJ_MONSTER)
 			{
-				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions.m_iTopa_4RankAddDefense;
+				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_4RankAddDefense;
 			}
 
 			else if (Obj.Class == CLASS_KNIGHT || Obj.Class == CLASS_DARKLORD || Obj.Class == CLASS_RAGEFIGHTER)
 			{
-				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions.m_iTopa_4RankAddDefense;
+				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_4RankAddDefense;
 			}
 		}
 
-		if (lpTargetObj.m_PlayerData->m_PentagramOptions.m_isChangePentaDefense == true)
+		if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_isChangePentaDefense == true)
 		{
 			AddDefense += (2 * iTargetDefense) * 0.05;
 		}
@@ -5837,14 +5837,14 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 
 	if (lpTargetObj.Type == OBJ_USER)
 	{
-		if (lpTargetObj.m_PlayerData->m_PentagramOptions.m_iTopa_5RankOptionNum == 1 && Obj.Type == OBJ_USER)
+		if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_5RankOptionNum == 1 && Obj.Type == OBJ_USER)
 		{
-			TotalDamage -= lpTargetObj.m_PlayerData->m_PentagramOptions.m_iTopa_5RankDamageAbsorbRate * TotalDamage / 100;
+			TotalDamage -= lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_5RankDamageAbsorbRate * TotalDamage / 100;
 		}
 
-		else if (lpTargetObj.m_PlayerData->m_PentagramOptions.m_iTopa_5RankOptionNum == 2 && Obj.Type == OBJ_MONSTER)
+		else if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_5RankOptionNum == 2 && Obj.Type == OBJ_MONSTER)
 		{
-			TotalDamage -= lpTargetObj.m_PlayerData->m_PentagramOptions.m_iTopa_5RankDamageAbsorbRate * TotalDamage / 100;
+			TotalDamage -= lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_5RankDamageAbsorbRate * TotalDamage / 100;
 		}
 	}
 
@@ -6222,51 +6222,51 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 
 	if (Obj.Type == OBJ_USER)
 	{
-		switch (Obj.m_PlayerData->m_PentagramOptions.m_iRuby_2RankOptionNum)
+		switch (Obj.m_PlayerData->m_PentagramOptions->m_iRuby_2RankOptionNum)
 		{
 		case 1:
 			if (DefenserAttribute == EL_FIRE)
-				AttackRelationShip += Obj.m_PlayerData->m_PentagramOptions.m_iRuby_2RankAddAttackRelationshipRate;
+				AttackRelationShip += Obj.m_PlayerData->m_PentagramOptions->m_iRuby_2RankAddAttackRelationshipRate;
 			break;
 		case 2:
 			if (DefenserAttribute == EL_WATER)
-				AttackRelationShip += Obj.m_PlayerData->m_PentagramOptions.m_iRuby_2RankAddAttackRelationshipRate;
+				AttackRelationShip += Obj.m_PlayerData->m_PentagramOptions->m_iRuby_2RankAddAttackRelationshipRate;
 			break;
 		case 3:
 			if (DefenserAttribute == EL_EARTH)
-				AttackRelationShip += Obj.m_PlayerData->m_PentagramOptions.m_iRuby_2RankAddAttackRelationshipRate;
+				AttackRelationShip += Obj.m_PlayerData->m_PentagramOptions->m_iRuby_2RankAddAttackRelationshipRate;
 			break;
 		case 4:
 			if (DefenserAttribute == EL_WIND)
-				AttackRelationShip += Obj.m_PlayerData->m_PentagramOptions.m_iRuby_2RankAddAttackRelationshipRate;
+				AttackRelationShip += Obj.m_PlayerData->m_PentagramOptions->m_iRuby_2RankAddAttackRelationshipRate;
 			break;
 		case 5:
 			if (DefenserAttribute == EL_DARKNESS)
-				AttackRelationShip += Obj.m_PlayerData->m_PentagramOptions.m_iRuby_2RankAddAttackRelationshipRate;
+				AttackRelationShip += Obj.m_PlayerData->m_PentagramOptions->m_iRuby_2RankAddAttackRelationshipRate;
 			break;
 		}
 
-		switch (Obj.m_PlayerData->m_PentagramOptions.m_iEme_2RankOptionNum)
+		switch (Obj.m_PlayerData->m_PentagramOptions->m_iEme_2RankOptionNum)
 		{
 		case 1:
 			if (DefenserAttribute == EL_FIRE)
-				AttackRelationShip += Obj.m_PlayerData->m_PentagramOptions.m_iEme_2RankAddAttackRelationshipRate;
+				AttackRelationShip += Obj.m_PlayerData->m_PentagramOptions->m_iEme_2RankAddAttackRelationshipRate;
 			break;
 		case 2:
 			if (DefenserAttribute == EL_WATER)
-				AttackRelationShip += Obj.m_PlayerData->m_PentagramOptions.m_iEme_2RankAddAttackRelationshipRate;
+				AttackRelationShip += Obj.m_PlayerData->m_PentagramOptions->m_iEme_2RankAddAttackRelationshipRate;
 			break;
 		case 3:
 			if (DefenserAttribute == EL_EARTH)
-				AttackRelationShip += Obj.m_PlayerData->m_PentagramOptions.m_iEme_2RankAddAttackRelationshipRate;
+				AttackRelationShip += Obj.m_PlayerData->m_PentagramOptions->m_iEme_2RankAddAttackRelationshipRate;
 			break;
 		case 4:
 			if (DefenserAttribute == EL_WIND)
-				AttackRelationShip += Obj.m_PlayerData->m_PentagramOptions.m_iEme_2RankAddAttackRelationshipRate;
+				AttackRelationShip += Obj.m_PlayerData->m_PentagramOptions->m_iEme_2RankAddAttackRelationshipRate;
 			break;
 		case 5:
 			if (DefenserAttribute == EL_DARKNESS)
-				AttackRelationShip += Obj.m_PlayerData->m_PentagramOptions.m_iEme_2RankAddAttackRelationshipRate;
+				AttackRelationShip += Obj.m_PlayerData->m_PentagramOptions->m_iEme_2RankAddAttackRelationshipRate;
 			break;
 		}
 	}
@@ -6430,51 +6430,51 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 
 	if (lpTargetObj.Type == OBJ_USER && Obj.Type == OBJ_USER)
 	{
-		switch (lpTargetObj.m_PlayerData->m_PentagramOptions.m_iSapph_2RankOptionNum)
+		switch (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_2RankOptionNum)
 		{
 		case 1:
 			if (AttackerAttribute == EL_FIRE)
-				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions.m_iSapph_2RankAddDefenseRelationshipRate;
+				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_2RankAddDefenseRelationshipRate;
 			break;
 		case 2:
 			if (AttackerAttribute == EL_WATER)
-				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions.m_iSapph_2RankAddDefenseRelationshipRate;
+				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_2RankAddDefenseRelationshipRate;
 			break;
 		case 3:
 			if (AttackerAttribute == EL_EARTH)
-				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions.m_iSapph_2RankAddDefenseRelationshipRate;
+				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_2RankAddDefenseRelationshipRate;
 			break;
 		case 4:
 			if (AttackerAttribute == EL_WIND)
-				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions.m_iSapph_2RankAddDefenseRelationshipRate;
+				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_2RankAddDefenseRelationshipRate;
 			break;
 		case 5:
 			if (AttackerAttribute == EL_DARKNESS)
-				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions.m_iSapph_2RankAddDefenseRelationshipRate;
+				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_2RankAddDefenseRelationshipRate;
 			break;
 		}
 
-		switch (lpTargetObj.m_PlayerData->m_PentagramOptions.m_iTopa_2RankOptionNum)
+		switch (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_2RankOptionNum)
 		{
 		case 1:
 			if (AttackerAttribute == EL_FIRE)
-				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions.m_iTopa_2RankAddDefenseRelationshipRate;
+				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_2RankAddDefenseRelationshipRate;
 			break;
 		case 2:
 			if (AttackerAttribute == EL_WATER)
-				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions.m_iTopa_2RankAddDefenseRelationshipRate;
+				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_2RankAddDefenseRelationshipRate;
 			break;
 		case 3:
 			if (AttackerAttribute == EL_EARTH)
-				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions.m_iTopa_2RankAddDefenseRelationshipRate;
+				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_2RankAddDefenseRelationshipRate;
 			break;
 		case 4:
 			if (AttackerAttribute == EL_WIND)
-				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions.m_iTopa_2RankAddDefenseRelationshipRate;
+				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_2RankAddDefenseRelationshipRate;
 			break;
 		case 5:
 			if (AttackerAttribute == EL_DARKNESS)
-				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions.m_iTopa_2RankAddDefenseRelationshipRate;
+				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_2RankAddDefenseRelationshipRate;
 			break;
 		}
 	}
@@ -6510,14 +6510,14 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 
 		if (lpTargetObj.Type == OBJ_USER)
 		{
-			if (lpTargetObj.m_PlayerData->m_PentagramOptions.m_iSapph_5RankOptionNum == 1 && Obj.Type == OBJ_USER)
+			if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_5RankOptionNum == 1 && Obj.Type == OBJ_USER)
 			{
-				TotalDamageWithRelationShip -= lpTargetObj.m_PlayerData->m_PentagramOptions.m_iSapph_5RankMinusTargetDamageRate * TotalDamageWithRelationShip / 100;
+				TotalDamageWithRelationShip -= lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_5RankMinusTargetDamageRate * TotalDamageWithRelationShip / 100;
 			}
 
-			else if (lpTargetObj.m_PlayerData->m_PentagramOptions.m_iSapph_5RankOptionNum == 2 && Obj.Type == OBJ_MONSTER)
+			else if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_5RankOptionNum == 2 && Obj.Type == OBJ_MONSTER)
 			{
-				TotalDamageWithRelationShip -= lpTargetObj.m_PlayerData->m_PentagramOptions.m_iSapph_5RankMinusTargetDamageRate * TotalDamageWithRelationShip / 100;
+				TotalDamageWithRelationShip -= lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_5RankMinusTargetDamageRate * TotalDamageWithRelationShip / 100;
 			}
 		}
 	}
@@ -6548,7 +6548,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 		}
 	}
 
-	if (lpTargetObj.Type == OBJ_USER && lpTargetObj.m_PlayerData->m_PentagramOptions.m_isAddResistByStrongRelationShip == true && (rand() % 100) < 5)
+	if (lpTargetObj.Type == OBJ_USER && lpTargetObj.m_PlayerData->m_PentagramOptions->m_isAddResistByStrongRelationShip == true && (rand() % 100) < 5)
 	{
 		switch (AttackerAttribute)
 		{
@@ -6575,13 +6575,13 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 		}
 	}
 
-	if (lpTargetObj.Type == OBJ_USER && lpTargetObj.m_PlayerData->m_PentagramOptions.m_isAddResistByPentaAttack == true && (rand() % 100) < 5)
+	if (lpTargetObj.Type == OBJ_USER && lpTargetObj.m_PlayerData->m_PentagramOptions->m_isAddResistByPentaAttack == true && (rand() % 100) < 5)
 		return 0;
 
 	if (Obj.Type == OBJ_USER)
 	{
 		AttackSuccessRate = (3 * (Obj.AddDexterity + Obj.m_PlayerData->Dexterity) / 2) + (5 * (Obj.Level + Obj.m_PlayerData->MasterLevel)) + ((Obj.AddStrength + Obj.m_PlayerData->Strength) / 4);
-		AttackSuccessRate += AttackSuccessRate * Obj.m_PlayerData->m_PentagramOptions.m_iEme_1RankAddAttackRate;
+		AttackSuccessRate += AttackSuccessRate * Obj.m_PlayerData->m_PentagramOptions->m_iEme_1RankAddAttackRate;
 	}
 
 	else
@@ -6610,7 +6610,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			break;
 		}
 
-		DefenseSuccessRate += DefenseSuccessRate * lpTargetObj.m_PlayerData->m_PentagramOptions.m_iTopa_1RankAddDefenseSuccessRate / 100;
+		DefenseSuccessRate += DefenseSuccessRate * lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_1RankAddDefenseSuccessRate / 100;
 	}
 
 	else

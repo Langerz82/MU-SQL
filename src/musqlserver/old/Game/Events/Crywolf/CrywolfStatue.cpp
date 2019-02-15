@@ -59,19 +59,19 @@ void CCrywolfStatue::SetStatueViewState(CGameObject &Obj, int iPriestNumber)
 	switch ( iPriestNumber )
 	{
 		case 0:
-			gObjAddBuffEffect(lpObj, BUFFTYPE_CRYWOLF_STATUE_LV1, 0, 0, 0, 0, -10);
+			gObjAddBuffEffect(Obj, BUFFTYPE_CRYWOLF_STATUE_LV1, 0, 0, 0, 0, -10);
 			break;
 		case 1:
-			gObjAddBuffEffect(lpObj, BUFFTYPE_CRYWOLF_STATUE_LV2, 0, 0, 0, 0, -10);
+			gObjAddBuffEffect(Obj, BUFFTYPE_CRYWOLF_STATUE_LV2, 0, 0, 0, 0, -10);
 			break;
 		case 2:
-			gObjAddBuffEffect(lpObj, BUFFTYPE_CRYWOLF_STATUE_LV3, 0, 0, 0, 0, -10);
+			gObjAddBuffEffect(Obj, BUFFTYPE_CRYWOLF_STATUE_LV3, 0, 0, 0, 0, -10);
 			break;
 		case 3:
-			gObjAddBuffEffect(lpObj, BUFFTYPE_CRYWOLF_STATUE_LV4, 0, 0, 0, 0, -10);
+			gObjAddBuffEffect(Obj, BUFFTYPE_CRYWOLF_STATUE_LV4, 0, 0, 0, 0, -10);
 			break;
 		case 4:
-			gObjAddBuffEffect(lpObj, BUFFTYPE_CRYWOLF_STATUE_LV5, 0, 0, 0, 0, -10);
+			gObjAddBuffEffect(Obj, BUFFTYPE_CRYWOLF_STATUE_LV5, 0, 0, 0, 0, -10);
 			break;
 	}
 }
@@ -79,13 +79,12 @@ void CCrywolfStatue::SetStatueViewState(CGameObject &Obj, int iPriestNumber)
 
 void CCrywolfStatue::CrywolfStatueAct(CGameObject &Obj)
 {
-	if ( !gObjIsConnected(Obj.m_Index))
+	if ( !gObjIsConnected(Obj))
 		return;
 
 	if ( Obj.Type != OBJ_NPC || CHECK_CLASS(204, Obj.Class) == FALSE )
 		return;
 
-	CGameObject* lpObj = Obj;
 	int iContractedAlterCount = g_CrywolfNPC_Altar.GetContractedAltarCount();
 	int iPriestHPSum = g_CrywolfNPC_Altar.GetPriestHPSum();
 	int iPriestMaxHPSum = g_CrywolfNPC_Altar.GetPriestMaxHPSum();
@@ -99,7 +98,7 @@ void CCrywolfStatue::CrywolfStatueAct(CGameObject &Obj)
 			this->m_Shield.m_iShieldHP = 0;
 			this->m_Shield.m_iShieldMaxHP = 0;
 			this->m_Shield.m_iPriestNumber = iContractedAlterCount;
-			this->SetStatueViewState(lpObj, iContractedAlterCount);
+			this->SetStatueViewState(Obj, iContractedAlterCount);
 		}
 		else if ( this->m_Shield.m_iPriestNumber != iContractedAlterCount )
 		{
@@ -108,7 +107,7 @@ void CCrywolfStatue::CrywolfStatueAct(CGameObject &Obj)
 			this->m_Shield.m_iShieldMaxHP = iPriestMaxHPSum;
 			this->m_Shield.m_iPriestNumber = iContractedAlterCount;
 			UTIL.SendCrywolfUserAnyMsg(2, Lang.GetText(0,254), iContractedAlterCount, iPriestHPSum);
-			this->SetStatueViewState(lpObj, iContractedAlterCount);
+			this->SetStatueViewState(Obj, iContractedAlterCount);
 		}
 
 		return;
@@ -116,12 +115,12 @@ void CCrywolfStatue::CrywolfStatueAct(CGameObject &Obj)
 	else if ( this->m_Shield.m_iShieldState == 0 )
 	{
 		UTIL.SendCrywolfUserAnyMsg(2, Lang.GetText(0,255));
-		this->SetStatueViewState(lpObj, iContractedAlterCount);
+		this->SetStatueViewState(Obj, iContractedAlterCount);
 	}
 	else if ( this->m_Shield.m_iPriestNumber != iContractedAlterCount )
 	{
 		UTIL.SendCrywolfUserAnyMsg(2, Lang.GetText(0,254), iContractedAlterCount, iPriestHPSum);
-		this->SetStatueViewState(lpObj, iContractedAlterCount);
+		this->SetStatueViewState(Obj, iContractedAlterCount);
 	}
 
 	this->m_Shield.m_iShieldState = 1;

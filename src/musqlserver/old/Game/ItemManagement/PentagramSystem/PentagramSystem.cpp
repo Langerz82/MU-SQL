@@ -668,7 +668,7 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 								if (g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex >= 0 && g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 10 &&
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex == 250 && btRank1OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									Obj.m_PlayerData->m_PentagramOptions.m_iRuby_1RankAddDamage = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank1Level];
+									Obj.m_PlayerData->m_PentagramOptions->m_iRuby_1RankAddDamage = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank1Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iRuby_CurRank++;
@@ -685,8 +685,8 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 20 &&
 									btRank2OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									Obj.m_PlayerData->m_PentagramOptions.m_iRuby_2RankOptionNum = btRank2OptionNum;
-									Obj.m_PlayerData->m_PentagramOptions.m_iRuby_2RankAddAttackRelationshipRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
+									Obj.m_PlayerData->m_PentagramOptions->m_iRuby_2RankOptionNum = btRank2OptionNum;
+									Obj.m_PlayerData->m_PentagramOptions->m_iRuby_2RankAddAttackRelationshipRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iRuby_CurRank++;
@@ -703,8 +703,8 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 30 &&
 									btRank3OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									Obj.m_PlayerData->m_PentagramOptions.m_iRuby_3RankOptionNum = btRank3OptionNum;
-									Obj.m_PlayerData->m_PentagramOptions.m_iRuby_3RankAddDamage = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
+									Obj.m_PlayerData->m_PentagramOptions->m_iRuby_3RankOptionNum = btRank3OptionNum;
+									Obj.m_PlayerData->m_PentagramOptions->m_iRuby_3RankAddDamage = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iRuby_CurRank++;
@@ -721,8 +721,8 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 40 &&
 									btRank4OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									Obj.m_PlayerData->m_PentagramOptions.m_iRuby_4RankOptionNum = btRank4OptionNum;
-									Obj.m_PlayerData->m_PentagramOptions.m_iRuby_4RankAddDamage = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank4Level];
+									Obj.m_PlayerData->m_PentagramOptions->m_iRuby_4RankOptionNum = btRank4OptionNum;
+									Obj.m_PlayerData->m_PentagramOptions->m_iRuby_4RankAddDamage = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank4Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iRuby_CurRank++;
@@ -739,8 +739,8 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 50 &&
 									btRank5OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									Obj.m_PlayerData->m_PentagramOptions.m_iRuby_5RankOptionNum = btRank5OptionNum;
-									Obj.m_PlayerData->m_PentagramOptions.m_iRuby_5RankCriticalDamageRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank5Level];
+									Obj.m_PlayerData->m_PentagramOptions->m_iRuby_5RankOptionNum = btRank5OptionNum;
+									Obj.m_PlayerData->m_PentagramOptions->m_iRuby_5RankCriticalDamageRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank5Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iRuby_CurRank++;
@@ -757,7 +757,7 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 								if (g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex >= 50 && g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 60 &&
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex == 251 && btRank1OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									Obj.m_PlayerData->m_PentagramOptions.m_iSapph_1RankAddDefense = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank1Level];
+									Obj.m_PlayerData->m_PentagramOptions->m_iSapph_1RankAddDefense = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank1Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iSapph_CurRank++;
@@ -774,8 +774,8 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 70 &&
 									btRank2OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									Obj.m_PlayerData->m_PentagramOptions.m_iSapph_2RankOptionNum = btRank2OptionNum;
-									Obj.m_PlayerData->m_PentagramOptions.m_iSapph_2RankAddDefenseRelationshipRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
+									Obj.m_PlayerData->m_PentagramOptions->m_iSapph_2RankOptionNum = btRank2OptionNum;
+									Obj.m_PlayerData->m_PentagramOptions->m_iSapph_2RankAddDefenseRelationshipRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iSapph_CurRank++;
@@ -792,8 +792,8 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 80 &&
 									btRank3OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									Obj.m_PlayerData->m_PentagramOptions.m_iSapph_3RankOptionNum = btRank3OptionNum;
-									Obj.m_PlayerData->m_PentagramOptions.m_iSapph_3RankAddDefense = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
+									Obj.m_PlayerData->m_PentagramOptions->m_iSapph_3RankOptionNum = btRank3OptionNum;
+									Obj.m_PlayerData->m_PentagramOptions->m_iSapph_3RankAddDefense = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iSapph_CurRank++;
@@ -810,8 +810,8 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 90 &&
 									btRank4OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									Obj.m_PlayerData->m_PentagramOptions.m_iSapph_4RankOptionNum = btRank4OptionNum;
-									Obj.m_PlayerData->m_PentagramOptions.m_iSapph_4RankAddDefense = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank4Level];
+									Obj.m_PlayerData->m_PentagramOptions->m_iSapph_4RankOptionNum = btRank4OptionNum;
+									Obj.m_PlayerData->m_PentagramOptions->m_iSapph_4RankAddDefense = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank4Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iSapph_CurRank++;
@@ -828,8 +828,8 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 100 &&
 									btRank5OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									Obj.m_PlayerData->m_PentagramOptions.m_iSapph_5RankOptionNum = btRank5OptionNum;
-									Obj.m_PlayerData->m_PentagramOptions.m_iSapph_5RankMinusTargetDamageRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank5Level];
+									Obj.m_PlayerData->m_PentagramOptions->m_iSapph_5RankOptionNum = btRank5OptionNum;
+									Obj.m_PlayerData->m_PentagramOptions->m_iSapph_5RankMinusTargetDamageRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank5Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iSapph_CurRank++;
@@ -846,7 +846,7 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 								if (g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex >= 100 &&	g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 110 &&
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex == 252 && btRank1OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									Obj.m_PlayerData->m_PentagramOptions.m_iEme_1RankAddAttackRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank1Level];
+									Obj.m_PlayerData->m_PentagramOptions->m_iEme_1RankAddAttackRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank1Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iEme_CurRank++;
@@ -863,8 +863,8 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 120 &&
 									btRank2OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									Obj.m_PlayerData->m_PentagramOptions.m_iEme_2RankOptionNum = btRank2OptionNum;
-									Obj.m_PlayerData->m_PentagramOptions.m_iEme_2RankAddAttackRelationshipRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
+									Obj.m_PlayerData->m_PentagramOptions->m_iEme_2RankOptionNum = btRank2OptionNum;
+									Obj.m_PlayerData->m_PentagramOptions->m_iEme_2RankAddAttackRelationshipRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iEme_CurRank++;
@@ -881,8 +881,8 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 130 &&
 									btRank3OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									Obj.m_PlayerData->m_PentagramOptions.m_iEme_3RankOptionNum = btRank3OptionNum;
-									Obj.m_PlayerData->m_PentagramOptions.m_iEme_3RankAddDamage = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
+									Obj.m_PlayerData->m_PentagramOptions->m_iEme_3RankOptionNum = btRank3OptionNum;
+									Obj.m_PlayerData->m_PentagramOptions->m_iEme_3RankAddDamage = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iEme_CurRank++;
@@ -899,8 +899,8 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 140 &&
 									btRank4OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									Obj.m_PlayerData->m_PentagramOptions.m_iEme_4RankOptionNum = btRank4OptionNum;
-									Obj.m_PlayerData->m_PentagramOptions.m_iEme_4RankAddDamage = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank4Level];
+									Obj.m_PlayerData->m_PentagramOptions->m_iEme_4RankOptionNum = btRank4OptionNum;
+									Obj.m_PlayerData->m_PentagramOptions->m_iEme_4RankAddDamage = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank4Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iEme_CurRank++;
@@ -917,8 +917,8 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 150 &&
 									btRank5OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									Obj.m_PlayerData->m_PentagramOptions.m_iEme_5RankOptionNum = btRank5OptionNum;
-									Obj.m_PlayerData->m_PentagramOptions.m_iEme_5RankAddDamageRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank5Level];
+									Obj.m_PlayerData->m_PentagramOptions->m_iEme_5RankOptionNum = btRank5OptionNum;
+									Obj.m_PlayerData->m_PentagramOptions->m_iEme_5RankAddDamageRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank5Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iEme_CurRank++;
@@ -935,8 +935,8 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 								if (g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex >= 150 &&	g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 160 &&
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex == 253 && btRank1OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									Obj.m_PlayerData->m_PentagramOptions.m_iTopa_1RankOptionNum = btRank1OptionNum;
-									Obj.m_PlayerData->m_PentagramOptions.m_iTopa_1RankAddDefenseSuccessRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank1Level];
+									Obj.m_PlayerData->m_PentagramOptions->m_iTopa_1RankOptionNum = btRank1OptionNum;
+									Obj.m_PlayerData->m_PentagramOptions->m_iTopa_1RankAddDefenseSuccessRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank1Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iTopa_CurRank++;
@@ -953,8 +953,8 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 170 &&
 									btRank2OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									Obj.m_PlayerData->m_PentagramOptions.m_iTopa_2RankOptionNum = btRank2OptionNum;
-									Obj.m_PlayerData->m_PentagramOptions.m_iTopa_2RankAddDefenseRelationshipRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
+									Obj.m_PlayerData->m_PentagramOptions->m_iTopa_2RankOptionNum = btRank2OptionNum;
+									Obj.m_PlayerData->m_PentagramOptions->m_iTopa_2RankAddDefenseRelationshipRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iTopa_CurRank++;
@@ -971,8 +971,8 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 180 &&
 									btRank3OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									Obj.m_PlayerData->m_PentagramOptions.m_iTopa_3RankOptionNum = btRank3OptionNum;
-									Obj.m_PlayerData->m_PentagramOptions.m_iTopa_3RankAddDefense = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
+									Obj.m_PlayerData->m_PentagramOptions->m_iTopa_3RankOptionNum = btRank3OptionNum;
+									Obj.m_PlayerData->m_PentagramOptions->m_iTopa_3RankAddDefense = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iTopa_CurRank++;
@@ -989,8 +989,8 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 190 &&
 									btRank4OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									Obj.m_PlayerData->m_PentagramOptions.m_iTopa_4RankOptionNum = btRank4OptionNum;
-									Obj.m_PlayerData->m_PentagramOptions.m_iTopa_4RankAddDefense = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank4Level];
+									Obj.m_PlayerData->m_PentagramOptions->m_iTopa_4RankOptionNum = btRank4OptionNum;
+									Obj.m_PlayerData->m_PentagramOptions->m_iTopa_4RankAddDefense = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank4Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iTopa_CurRank++;
@@ -1007,8 +1007,8 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 200 &&
 									btRank5OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									Obj.m_PlayerData->m_PentagramOptions.m_iTopa_5RankOptionNum = btRank5OptionNum;
-									Obj.m_PlayerData->m_PentagramOptions.m_iTopa_5RankDamageAbsorbRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank5Level];
+									Obj.m_PlayerData->m_PentagramOptions->m_iTopa_5RankOptionNum = btRank5OptionNum;
+									Obj.m_PlayerData->m_PentagramOptions->m_iTopa_5RankDamageAbsorbRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank5Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iTopa_CurRank++;
@@ -1025,7 +1025,7 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 								if (g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex >= 200 && g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 210 &&
 									btRank1OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_1RankSlowMoveSkillRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank1Level];
+									Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_1RankSlowMoveSkillRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank1Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iOnyx_CurRank++;
@@ -1045,22 +1045,22 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 									switch (btRank2OptionNum)
 									{
 									case 1:
-										Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_2RankAddStrength = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
+										Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_2RankAddStrength = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
 										Obj.AddStrength += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
 										break;
 									case 2:
 										EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 										Obj.m_PlayerData->AgilityCheckDelay = GetTickCount();
-										Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_2RankAddDexterity = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
+										Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_2RankAddDexterity = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
 										Obj.AddDexterity += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
 										LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 										break;
 									case 3:
-										Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_2RankAddEnergy = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
+										Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_2RankAddEnergy = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
 										Obj.AddEnergy += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
 										break;
 									case 4:
-										Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_2RankAddVitality = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
+										Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_2RankAddVitality = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
 										Obj.AddVitality += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank2Level];
 										break;
 									}
@@ -1084,19 +1084,19 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 									switch (btRank3OptionNum)
 									{
 									case 1:
-										Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_3RankAddMaxLife = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
+										Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_3RankAddMaxLife = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
 										Obj.AddLife += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
 										break;
 									case 2:
-										Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_3RankAddMaxMana = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
+										Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_3RankAddMaxMana = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
 										Obj.AddMana += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
 										break;
 									case 3:
-										Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_3RankAddMaxAG = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
+										Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_3RankAddMaxAG = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
 										Obj.AddBP += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
 										break;
 									case 4:
-										Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_3RankAddMaxSD = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
+										Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_3RankAddMaxSD = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
 										Obj.iAddShield += g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank3Level];
 										break;
 									}
@@ -1117,8 +1117,8 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 240 &&
 									btRank4OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_4RankOptionNum = btRank4OptionNum;
-									Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_4RankAddExllentDamageRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank4Level];
+									Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_4RankOptionNum = btRank4OptionNum;
+									Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_4RankAddExllentDamageRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank4Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iOnyx_CurRank++;
@@ -1135,7 +1135,7 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 									g_PentagramMixSystem.m_JewelItemOptionData[k].JewelIndex < 250 &&
 									btRank5OptionNum == g_PentagramMixSystem.m_JewelItemOptionData[k].RankOptionNum)
 								{
-									Obj.m_PlayerData->m_PentagramOptions.m_iOnyx_5RankHalfValueSkillRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank5Level];
+									Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_5RankHalfValueSkillRate = g_PentagramMixSystem.m_JewelItemOptionData[k].LevelValue[btRank5Level];
 									iRON[iRONCount] = g_PentagramMixSystem.m_JewelItemOptionData[k].RON;
 									iRONCount++;
 									iOnyx_CurRank++;
@@ -1270,25 +1270,25 @@ void CPentagramSystem::CalcPentagramItem(CGameObject &Obj, CItemObject* lpItemDa
 							switch (this->m_PentagramItemOptionEnableNeed[iOptionCount].OptionNum)
 							{
 							case 1:
-								Obj.m_PlayerData->m_PentagramOptions.m_isAddPentaAttack = true;
+								Obj.m_PlayerData->m_PentagramOptions->m_isAddPentaAttack = true;
 								break;
 							case 2:
-								Obj.m_PlayerData->m_PentagramOptions.m_isAddPentaDefense = true;
+								Obj.m_PlayerData->m_PentagramOptions->m_isAddPentaDefense = true;
 								break;
 							case 3:
-								Obj.m_PlayerData->m_PentagramOptions.m_isAddCriPentaDamage = true;
+								Obj.m_PlayerData->m_PentagramOptions->m_isAddCriPentaDamage = true;
 								break;
 							case 4:
-								Obj.m_PlayerData->m_PentagramOptions.m_isChangePentaDefense = true;
+								Obj.m_PlayerData->m_PentagramOptions->m_isChangePentaDefense = true;
 								break;
 							case 5:
-								Obj.m_PlayerData->m_PentagramOptions.m_isChangePentaAttack = true;
+								Obj.m_PlayerData->m_PentagramOptions->m_isChangePentaAttack = true;
 								break;
 							case 6:
-								Obj.m_PlayerData->m_PentagramOptions.m_isAddResistByStrongRelationShip = true;
+								Obj.m_PlayerData->m_PentagramOptions->m_isAddResistByStrongRelationShip = true;
 								break;
 							case 7:
-								Obj.m_PlayerData->m_PentagramOptions.m_isAddResistByPentaAttack = true;
+								Obj.m_PlayerData->m_PentagramOptions->m_isAddResistByPentaAttack = true;
 								break;
 							}
 						}

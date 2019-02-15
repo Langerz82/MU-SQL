@@ -154,7 +154,7 @@ void CGamblingItemBag::LoadItem(char *script_file)
 		for (pugi::xml_node item = section.child("Item"); item; item = item.next_sibling())
 		{
 			BagObject[m_iBagObjectCount].m_type = item.attribute("Cat").as_int();	
-			BagObject[m_iBagObjectCount].m_index = item.attribute("Index").as_int();
+			BagObject[m_iBagObjectCount].m_Index = item.attribute("Index").as_int();
 			BagObject[m_iBagObjectCount].m_minLevel = item.attribute("MinLevel").as_int();
 			BagObject[m_iBagObjectCount].m_maxLevel = item.attribute("MaxLevel").as_int();
 			BagObject[m_iBagObjectCount].m_isskill = item.attribute("Skill").as_int();
@@ -381,7 +381,7 @@ BYTE CGamblingItemBag::GetGamblingSystemItem(CGameObject &Obj, BYTE btMapNumber,
 
 			iLevel = GetLevel(iDropItemNum);
 
-			iType = ItemGetNumberMake(BagObject[iDropItemNum].m_type, BagObject[iDropItemNum].m_index);
+			iType = ItemGetNumberMake(BagObject[iDropItemNum].m_type, BagObject[iDropItemNum].m_Index);
 
 			if (iType == -1)	return 0;
 

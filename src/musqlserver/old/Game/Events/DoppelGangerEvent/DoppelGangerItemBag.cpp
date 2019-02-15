@@ -110,7 +110,7 @@ void CDoppelGangerItemBag::LoadDoppelgangerItemBag(LPSTR lpFile)
 			CItemObjectBagAttrEx tmpItemBagAttr;
 
 			tmpItemBagAttr.m_type		= item.attribute("Cat").as_int();
-			tmpItemBagAttr.m_index		= item.attribute("Index").as_int();
+			tmpItemBagAttr.m_Index		= item.attribute("Index").as_int();
 			tmpItemBagAttr.m_minLevel	= item.attribute("MinLevel").as_int();
 			tmpItemBagAttr.m_maxLevel	= item.attribute("MaxLevel").as_int();
 			tmpItemBagAttr.m_isskill	= item.attribute("Skill").as_int();
@@ -203,7 +203,7 @@ BOOL CDoppelGangerItemBag::DoppelgangerItemDrop(CGameObject lpObj, int nItemBagI
 			iLevel = GetLargeRand() % (pItemBagAttr->m_maxLevel - pItemBagAttr->m_minLevel + 1) + pItemBagAttr->m_minLevel;
 		}
 
-		int iType = ItemGetNumberMake(pItemBagAttr->m_type, pItemBagAttr->m_index);
+		int iType = ItemGetNumberMake(pItemBagAttr->m_type, pItemBagAttr->m_Index);
 
 		if ( iType == -1 )
 		{

@@ -53,19 +53,19 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 	int Vitality = 0;
 	int Energy = 0;
 	int Leadership = 0;
-	CItemObject * Right = &Obj.pntInventory[0];
-	CItemObject * Left = &Obj.pntInventory[1];
-	CItemObject * Helmet = &Obj.pntInventory[2];
-	CItemObject * Armor = &Obj.pntInventory[3];
-	CItemObject * Pants = &Obj.pntInventory[4];
-	CItemObject * Gloves = &Obj.pntInventory[5];
-	CItemObject * Boots = &Obj.pntInventory[6];
-	CItemObject * Amulet = &Obj.pntInventory[9];
-	CItemObject * Helper = &Obj.pntInventory[8];
-	CItemObject * Wing = &Obj.pntInventory[7];
-	CItemObject * RightRing = &Obj.pntInventory[10];
-	CItemObject * LeftRing = &Obj.pntInventory[11];
-	CItemObject * Pentagram = &Obj.pntInventory[236];
+	CItemObject* Right = Obj.pntInventory[0];
+	CItemObject* Left = Obj.pntInventory[1];
+	CItemObject* Helmet = Obj.pntInventory[2];
+	CItemObject* Armor = Obj.pntInventory[3];
+	CItemObject* Pants = Obj.pntInventory[4];
+	CItemObject* Gloves = Obj.pntInventory[5];
+	CItemObject* Boots = Obj.pntInventory[6];
+	CItemObject* Amulet = Obj.pntInventory[9];
+	CItemObject* Helper = Obj.pntInventory[8];
+	CItemObject* Wing = Obj.pntInventory[7];
+	CItemObject* RightRing = Obj.pntInventory[10];
+	CItemObject* LeftRing = Obj.pntInventory[11];
+	CItemObject* Pentagram = Obj.pntInventory[236];
 
 	Obj.HaveWeaponInHand = 1;
 
@@ -153,15 +153,15 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 		Obj.m_PlayerData->SetOpDecreaseAG = 0;
 		Obj.m_PlayerData->SetOpImproveItemDropRate = 0;
 		Obj.m_PlayerData->IsFullSetItem = false;
-		Obj.m_PlayerData->m_WingExcOption.Clear();
+		Obj.m_PlayerData->m_WingExcOption->Clear();
 		Obj.m_BaseDefense = 0;
 		memset(Obj.m_AddResistance, 0, sizeof(Obj.m_AddResistance));
 		memset(&Obj.m_PlayerData->m_PentagramOptions, 0, sizeof(Obj.m_PlayerData->m_PentagramOptions));
 		bIsChangeItem = 0;
-		g_StatSpec.ClearUserOption(Obj.;
-		g_BuffEffect.SetPrevEffect(Obj.;
-		this->CalcSetItemStat(Obj.;
-		this->CalcSetItemOption(Obj.;
+		g_StatSpec.ClearUserOption(Obj);
+		g_BuffEffect.SetPrevEffect(Obj);
+		this->CalcSetItemStat(Obj);
+		this->CalcSetItemOption(Obj);
 		g_MasterLevelSkillTreeSystem.SetItemMLPassiveSkill(Obj. Right->GetDetailItemType());
 		g_MasterLevelSkillTreeSystem.SetItemMLPassiveSkill(Obj. Left->GetDetailItemType());
 		g_MasterLevelSkillTreeSystem.SetWingMLPassiveSkill(Obj. Wing->m_Type);
@@ -181,37 +181,37 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 			Obj.AddVitality += iOption;
 		}
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncEnergyStat > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncEnergyStat > 0.0)
 		{
-			Obj.AddEnergy += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncEnergyStat;
+			Obj.AddEnergy += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncEnergyStat;
 		}
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncVitalStat > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncVitalStat > 0.0)
 		{
-			Obj.AddVitality += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncVitalStat;
+			Obj.AddVitality += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncVitalStat;
 		}
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDexStat > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDexStat > 0.0)
 		{
 			EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 			Obj.m_PlayerData->AgilityCheckDelay = GetTickCount();
-			Obj.AddDexterity += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDexStat;
+			Obj.AddDexterity += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDexStat;
 			LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 		}
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncPowerStat > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncPowerStat > 0.0)
 		{
-			Obj.AddStrength += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncPowerStat;
+			Obj.AddStrength += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncPowerStat;
 		}
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncLeadershipStat > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncLeadershipStat > 0.0)
 		{
-			Obj.AddLeadership += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncLeadershipStat;
+			Obj.AddLeadership += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncLeadershipStat;
 		}
 
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncSteelArmor > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncSteelArmor > 0.0)
 		{
-			Obj.m_BaseDefense += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncSteelArmor;
+			Obj.m_BaseDefense += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncSteelArmor;
 		}
 
 		if (gObjCheckUsedBuffEffect(Obj. BUFFTYPE_BLESS) == TRUE)
@@ -447,26 +447,26 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 
 	if (Obj.Class == CLASS_ELF)
 	{
-		Obj.m_AttackDamageMinRight += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMinAttack;
-		Obj.m_AttackDamageMaxRight += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMaxAttack;
-		Obj.m_AttackDamageMinLeft += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMinAttack;
-		Obj.m_AttackDamageMaxLeft += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMaxAttack;
+		Obj.m_AttackDamageMinRight += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddMinAttack;
+		Obj.m_AttackDamageMaxRight += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddMaxAttack;
+		Obj.m_AttackDamageMinLeft += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddMinAttack;
+		Obj.m_AttackDamageMaxLeft += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddMaxAttack;
 	}
 
 	else if (Obj.Class == CLASS_RAGEFIGHTER)
 	{
-		Obj.m_AttackDamageMinRight += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMinAttack;
-		Obj.m_AttackDamageMaxRight += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMaxAttack;
-		Obj.m_AttackDamageMinLeft += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMinAttack;
-		Obj.m_AttackDamageMaxLeft += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMaxAttack;
+		Obj.m_AttackDamageMinRight += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddMinAttack;
+		Obj.m_AttackDamageMaxRight += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddMaxAttack;
+		Obj.m_AttackDamageMinLeft += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddMinAttack;
+		Obj.m_AttackDamageMaxLeft += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddMaxAttack;
 	}
 
 	else if (Obj.Class == CLASS_KNIGHT || Obj.Class == CLASS_MAGUMSA || Obj.Class == CLASS_DARKLORD)
 	{
-		Obj.m_AttackDamageMinRight += Obj.m_PlayerData->m_MPSkillOpt.iMpsMinAttackDamage;
-		Obj.m_AttackDamageMaxRight += Obj.m_PlayerData->m_MPSkillOpt.iMpsMaxAttackDamage;
-		Obj.m_AttackDamageMinLeft += Obj.m_PlayerData->m_MPSkillOpt.iMpsMinAttackDamage;
-		Obj.m_AttackDamageMaxLeft += Obj.m_PlayerData->m_MPSkillOpt.iMpsMaxAttackDamage;
+		Obj.m_AttackDamageMinRight += Obj.m_PlayerData->m_MPSkillOpt->iMpsMinAttackDamage;
+		Obj.m_AttackDamageMaxRight += Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxAttackDamage;
+		Obj.m_AttackDamageMinLeft += Obj.m_PlayerData->m_MPSkillOpt->iMpsMinAttackDamage;
+		Obj.m_AttackDamageMaxLeft += Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxAttackDamage;
 	}
 
 	Obj.pntInventory[7]->PlusSpecial(&Obj.m_AttackDamageMinRight, 80);
@@ -590,26 +590,26 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 
 	if (Obj.Class == CLASS_SUMMONER)
 	{
-		Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt.iMpsMinMagicDamage;
-		Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt.iMpsMaxMagicDamage;
+		Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt->iMpsMinMagicDamage;
+		Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxMagicDamage;
 	}
 
 	if (Obj.Class == CLASS_MAGUMSA)
 	{
-		Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt.iMpsMinAttackMagicDamage;
-		Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt.iMpsMaxAttackMagicDamage;
-		Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt.iMpsMinMagicDamage;
-		Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt.iMpsMaxMagicDamage;
-		Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMagicDamage;
-		Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMagicDamage;
+		Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt->iMpsMinAttackMagicDamage;
+		Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxAttackMagicDamage;
+		Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt->iMpsMinMagicDamage;
+		Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxMagicDamage;
+		Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddMagicDamage;
+		Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddMagicDamage;
 	}
 
 	if (Obj.Class == CLASS_WIZARD)
 	{
-		Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt.iMpsMinMagicDamage;
-		Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt.iMpsMaxMagicDamage;
-		Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMagicDamage;
-		Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMagicDamage;
+		Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt->iMpsMinMagicDamage;
+		Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxMagicDamage;
+		Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddMagicDamage;
+		Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddMagicDamage;
 	}
 
 	Obj.pntInventory[7]->PlusSpecial(&Obj.m_MagicDamageMin, 81);
@@ -1062,16 +1062,16 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDefenseSuccessRate > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDefenseSuccessRate > 0.0)
 	{
-		Obj.m_SuccessfulBlocking += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDefenseSuccessRate;
+		Obj.m_SuccessfulBlocking += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDefenseSuccessRate;
 	}
 
-	Obj.m_SuccessfulBlocking += Obj.m_PlayerData->m_MPSkillOpt.iMpsShieldBlock;
-	Obj.m_SuccessfulBlocking += Obj.m_PlayerData->m_MPSkillOpt.iMpsShieldBlockRate;
-	Obj.m_SuccessfulBlocking += Obj.m_PlayerData->m_MPSkillOpt.iMpsElfShieldBlockRate;
-	Obj.m_SuccessfulBlocking += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddShieldBlockingRage;
-	Obj.m_SuccessfulBlocking += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddBlockingRate;
+	Obj.m_SuccessfulBlocking += Obj.m_PlayerData->m_MPSkillOpt->iMpsShieldBlock;
+	Obj.m_SuccessfulBlocking += Obj.m_PlayerData->m_MPSkillOpt->iMpsShieldBlockRate;
+	Obj.m_SuccessfulBlocking += Obj.m_PlayerData->m_MPSkillOpt->iMpsElfShieldBlockRate;
+	Obj.m_SuccessfulBlocking += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddShieldBlockingRage;
+	Obj.m_SuccessfulBlocking += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddBlockingRate;
 
 	if (g_ConfigRead.UseCalcDefense == TRUE)
 	{
@@ -1166,11 +1166,11 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 
 	float fValue = Obj.m_Defense;
 
-	fValue += Obj.m_PlayerData->m_MPSkillOpt.iMpsDefence;
+	fValue += Obj.m_PlayerData->m_MPSkillOpt->iMpsDefence;
 	
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsMonkAddVitalToDefense > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsMonkAddVitalToDefense > 0.0)
 	{
-		fValue += Vitality / Obj.m_PlayerData->m_MPSkillOpt.iMpsMonkAddVitalToDefense;
+		fValue += Vitality / Obj.m_PlayerData->m_MPSkillOpt->iMpsMonkAddVitalToDefense;
 	}
 
 	BOOL nFullSet = TRUE;
@@ -1215,7 +1215,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 
 	if (nFullSet == TRUE)
 	{
-		fValue += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncSetItemDefense;
+		fValue += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncSetItemDefense;
 	}
 
 	Obj.m_Defense = fValue;
@@ -1462,9 +1462,9 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 	Obj.m_Resistance[5] = GET_MAX_RESISTANCE(rItem[0]->m_Resistance[5], rItem[1]->m_Resistance[5], rItem[2]->m_Resistance[5]);
 	Obj.m_Resistance[6] = GET_MAX_RESISTANCE(rItem[0]->m_Resistance[6], rItem[1]->m_Resistance[6], rItem[2]->m_Resistance[6]);
 
-	Obj.m_Resistance[R_POISON] += Obj.m_PlayerData->m_MPSkillOpt.iMpsResistancePoison;
-	Obj.m_Resistance[R_LIGHTNING] += Obj.m_PlayerData->m_MPSkillOpt.iMpsResistanceThunder;
-	Obj.m_Resistance[R_ICE] += Obj.m_PlayerData->m_MPSkillOpt.iMpsResistanceIce;
+	Obj.m_Resistance[R_POISON] += Obj.m_PlayerData->m_MPSkillOpt->iMpsResistancePoison;
+	Obj.m_Resistance[R_LIGHTNING] += Obj.m_PlayerData->m_MPSkillOpt->iMpsResistanceThunder;
+	Obj.m_Resistance[R_ICE] += Obj.m_PlayerData->m_MPSkillOpt->iMpsResistanceIce;
 	
 	Obj.m_PlayerData->m_Resistance_Stun = 0;
 	Obj.m_PlayerData->m_Resistance_Double = 0;
@@ -1576,21 +1576,21 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 	g_SocketOptionSystem.SetApplySocketEffect(Obj.;
 	gObjInventoryEquipment(Obj.;
 
-	Obj.AddLife += Obj.m_PlayerData->m_MPSkillOpt.iMpsMaxHP;
-	Obj.AddBP += Obj.m_PlayerData->m_MPSkillOpt.iMpsMaxBP;
-	Obj.iAddShield += Obj.m_PlayerData->m_MPSkillOpt.iMpsMaxSD;
-	Obj.AddMana += Obj.m_PlayerData->m_MPSkillOpt.iMpsMaxMana;
+	Obj.AddLife += Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxHP;
+	Obj.AddBP += Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxBP;
+	Obj.iAddShield += Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxSD;
+	Obj.AddMana += Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxMana;
 	
-	Obj.AddMana += Obj.MaxMana * Obj.m_PlayerData->m_MPSkillOpt.iMpsMaxManaRate / 100.0;
+	Obj.AddMana += Obj.MaxMana * Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxManaRate / 100.0;
 
 	if (gObjCheckUsedBuffEffect(Obj. BUFFTYPE_HP_INC_MAS) == true)
 	{
-		Obj.AddBP += Obj.MaxBP * Obj.m_PlayerData->m_MPSkillOpt.iMpsIncMaxBP / 100.0;
+		Obj.AddBP += Obj.MaxBP * Obj.m_PlayerData->m_MPSkillOpt->iMpsIncMaxBP / 100.0;
 	}
 
 	if (gObjCheckUsedBuffEffect(Obj. BUFFTYPE_MELEE_DEFENSE_INC_STR) == true)
 	{
-		Obj.AddMana += Obj.MaxMana * Obj.m_PlayerData->m_MPSkillOpt.iMpsMasManaRate_Wizard / 100.0;
+		Obj.AddMana += Obj.MaxMana * Obj.m_PlayerData->m_MPSkillOpt->iMpsMasManaRate_Wizard / 100.0;
 	}
 
 	g_ItemOptionTypeMng.CalcExcOptionEffect(Obj.;
@@ -1602,14 +1602,14 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 	if (gObjCheckUsedBuffEffect(Obj. BUFFTYPE_BERSERKER_PRO) == TRUE)
 	{
 
-		Obj.m_AttackDamageMinLeft += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncValueBerserker3;
-		Obj.m_AttackDamageMaxLeft += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncValueBerserker3;
-		Obj.m_AttackDamageMinRight += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncValueBerserker3;
-		Obj.m_AttackDamageMaxRight += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncValueBerserker3;
-		Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncValueBerserker3;
-		Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncValueBerserker3;
-		Obj.m_CurseDamageMin += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncValueBerserker3;
-		Obj.m_CurseDamageMax += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncValueBerserker3;
+		Obj.m_AttackDamageMinLeft += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncValueBerserker3;
+		Obj.m_AttackDamageMaxLeft += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncValueBerserker3;
+		Obj.m_AttackDamageMinRight += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncValueBerserker3;
+		Obj.m_AttackDamageMaxRight += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncValueBerserker3;
+		Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncValueBerserker3;
+		Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncValueBerserker3;
+		Obj.m_CurseDamageMin += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncValueBerserker3;
+		Obj.m_CurseDamageMax += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncValueBerserker3;
 	}
 	
 	if (Right->m_Type >= ITEMGET(4, 0) && Right->m_Type < ITEMGET(5, 0) && Right->m_Part == 0)
@@ -2255,264 +2255,264 @@ void CObjCalCharacter::CalcMLSkillItemOption(CGameObject &Obj)
 	if (Obj.Type != OBJ_USER)
 		return;
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandSwordAddDamage > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandSwordAddDamage > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() != ITEM_TWOHAND_SWORD && Obj.pntInventory[1]->GetDetailItemType() != ITEM_TWOHAND_SWORD)
 		{
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandSwordAddDamage = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandSwordAddDamage = 0.0;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsPvPAttack > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsPvPAttack > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() != ITEM_TWOHAND_SWORD && Obj.pntInventory[1]->GetDetailItemType() != ITEM_TWOHAND_SWORD)
 		{
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsPvPAttack = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsPvPAttack = 0.0;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsMagicPower > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsMagicPower > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() == ITEM_TWOHAND_STAFF || Obj.pntInventory[1]->GetDetailItemType() == ITEM_TWOHAND_STAFF)
 		{
-			Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsMagicPower;
-			Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsMagicPower;
+			Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsMagicPower;
+			Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsMagicPower;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsStaffMagicPower > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsStaffMagicPower > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() == ITEM_ONEHAND_STAFF || Obj.pntInventory[1]->GetDetailItemType() == ITEM_ONEHAND_STAFF)
 		{
-			Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt.iMpsStaffMagicPower;
-			Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt.iMpsStaffMagicPower;
+			Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt->iMpsStaffMagicPower;
+			Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt->iMpsStaffMagicPower;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMagicPowerStick > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddMagicPowerStick > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() == ITEM_SUMMONER_STAFF || Obj.pntInventory[1]->GetDetailItemType() == ITEM_SUMMONER_STAFF)
 		{
-			Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMagicPowerStick;
-			Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddMagicPowerStick;
+			Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddMagicPowerStick;
+			Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddMagicPowerStick;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncShield > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncShield > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() == ITEM_SHIELD || Obj.pntInventory[1]->GetDetailItemType() == ITEM_SHIELD)
 		{
-			Obj.m_Defense += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncShield;
+			Obj.m_Defense += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncShield;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsElfAddShield > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsElfAddShield > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() == ITEM_SHIELD || Obj.pntInventory[1]->GetDetailItemType() == ITEM_SHIELD)
 		{
-			Obj.m_Defense += Obj.m_PlayerData->m_MPSkillOpt.iMpsElfAddShield;
+			Obj.m_Defense += Obj.m_PlayerData->m_MPSkillOpt->iMpsElfAddShield;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddShieldDefense > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddShieldDefense > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() == ITEM_SHIELD || Obj.pntInventory[1]->GetDetailItemType() == ITEM_SHIELD)
 		{
-			Obj.m_Defense += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddShieldDefense;
+			Obj.m_Defense += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddShieldDefense;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsStaffAttackSpeed > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsStaffAttackSpeed > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() == ITEM_ONEHAND_STAFF || Obj.pntInventory[1]->GetDetailItemType() == ITEM_ONEHAND_STAFF)
 		{
-			Obj.m_AttackSpeed += Obj.m_PlayerData->m_MPSkillOpt.iMpsStaffAttackSpeed;
-			Obj.m_MagicSpeed += Obj.m_PlayerData->m_MPSkillOpt.iMpsStaffAttackSpeed;
+			Obj.m_AttackSpeed += Obj.m_PlayerData->m_MPSkillOpt->iMpsStaffAttackSpeed;
+			Obj.m_MagicSpeed += Obj.m_PlayerData->m_MPSkillOpt->iMpsStaffAttackSpeed;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddAttackSpeedMagicBook > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddAttackSpeedMagicBook > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() == ITEM_SUMMONER_BOOK || Obj.pntInventory[1]->GetDetailItemType() == ITEM_SUMMONER_BOOK)
 		{
-			Obj.m_AttackSpeed += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddAttackSpeedMagicBook;
-			Obj.m_MagicSpeed += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddAttackSpeedMagicBook;
+			Obj.m_AttackSpeed += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddAttackSpeedMagicBook;
+			Obj.m_MagicSpeed += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddAttackSpeedMagicBook;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddCurseMagicBook > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddCurseMagicBook > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() == ITEM_SUMMONER_BOOK || Obj.pntInventory[1]->GetDetailItemType() == ITEM_SUMMONER_BOOK)
 		{
-			Obj.m_CurseDamageMin += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddCurseMagicBook;
-			Obj.m_CurseDamageMax += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddCurseMagicBook;
+			Obj.m_CurseDamageMin += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddCurseMagicBook;
+			Obj.m_CurseDamageMax += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddCurseMagicBook;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsStaffManAttack > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsStaffManAttack > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() != ITEM_TWOHAND_STAFF && Obj.pntInventory[1]->GetDetailItemType() != ITEM_TWOHAND_STAFF)
 		{
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsStaffManAttack = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsStaffManAttack = 0.0;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsBowManAttack > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsBowManAttack > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() != ITEM_CROSSBOW)
 		{
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsBowManAttack = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsBowManAttack = 0.0;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddManAttackStick > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddManAttackStick > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() != ITEM_SUMMONER_STAFF && Obj.pntInventory[1]->GetDetailItemType() != ITEM_SUMMONER_STAFF)
 		{
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsAddManAttackStick = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsAddManAttackStick = 0.0;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncCeptorManAttack > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncCeptorManAttack > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() != ITEM_DARKLORD_SCEPTER && Obj.pntInventory[1]->GetDetailItemType() != ITEM_DARKLORD_SCEPTER)
 		{
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsIncCeptorManAttack = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsIncCeptorManAttack = 0.0;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsShieldBlockRate > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsShieldBlockRate > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() != ITEM_SHIELD && Obj.pntInventory[1]->GetDetailItemType() != ITEM_SHIELD)
 		{
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsShieldBlockRate = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsShieldBlockRate = 0.0;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsElfShieldBlockRate > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsElfShieldBlockRate > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() != ITEM_SHIELD && Obj.pntInventory[1]->GetDetailItemType() != ITEM_SHIELD)
 		{
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsElfShieldBlockRate = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsElfShieldBlockRate = 0.0;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddShieldBlockingRage > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddShieldBlockingRage > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() != ITEM_SHIELD && Obj.pntInventory[1]->GetDetailItemType() != ITEM_SHIELD)
 		{
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsAddShieldBlockingRage = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsAddShieldBlockingRage = 0.0;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddAttackSpeed > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddAttackSpeed > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() == ITEM_ONEHAND_SWORD && Obj.pntInventory[1]->GetDetailItemType() != ITEM_ONEHAND_SWORD)
 		{
-			Obj.m_AttackSpeed += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddAttackSpeed;
-			Obj.m_MagicSpeed += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddAttackSpeed;
+			Obj.m_AttackSpeed += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddAttackSpeed;
+			Obj.m_MagicSpeed += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddAttackSpeed;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsSwordAddDamage > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsSwordAddDamage > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() != ITEM_ONEHAND_SWORD && Obj.pntInventory[1]->GetDetailItemType() != ITEM_ONEHAND_SWORD)
 		{
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsSwordAddDamage = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsSwordAddDamage = 0.0;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsMaceStrength > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsMaceStrength > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() != ITEM_MACE && Obj.pntInventory[1]->GetDetailItemType() != ITEM_MACE)
 		{
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsMaceStrength = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsMaceStrength = 0.0;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddSturn > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddSturn > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() != ITEM_MACE && Obj.pntInventory[1]->GetDetailItemType() != ITEM_MACE)
 		{
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsAddSturn = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsAddSturn = 0.0;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsSpearAddDamage > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsSpearAddDamage > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() != ITEM_SPEAR && Obj.pntInventory[1]->GetDetailItemType() != ITEM_SPEAR)
 		{
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsSpearAddDamage = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsSpearAddDamage = 0.0;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddDoubleDamage > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddDoubleDamage > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() != ITEM_SPEAR && Obj.pntInventory[1]->GetDetailItemType() != ITEM_SPEAR)
 		{
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsAddDoubleDamage = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsAddDoubleDamage = 0.0;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsBowAddDamage > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsBowAddDamage > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() != ITEM_BOW)
 		{
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsBowAddDamage = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsBowAddDamage = 0.0;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddCeptorDamage > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddCeptorDamage > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() != ITEM_DARKLORD_SCEPTER && Obj.pntInventory[1]->GetDetailItemType() != ITEM_DARKLORD_SCEPTER)
 		{
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsAddCeptorDamage = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsAddCeptorDamage = 0.0;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddPetAttack > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddPetAttack > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() != ITEM_DARKLORD_SCEPTER && Obj.pntInventory[1]->GetDetailItemType() != ITEM_DARKLORD_SCEPTER)
 		{
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsAddPetAttack = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsAddPetAttack = 0.0;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddControlAttack > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddControlAttack > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() != ITEM_DARKLORD_SCEPTER && Obj.pntInventory[1]->GetDetailItemType() != ITEM_DARKLORD_SCEPTER)
 		{
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsAddControlAttack = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsAddControlAttack = 0.0;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsBowAddAttackSpeed > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsBowAddAttackSpeed > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() == ITEM_BOW)
 		{
-			Obj.m_AttackSpeed += Obj.m_PlayerData->m_MPSkillOpt.iMpsBowAddAttackSpeed;
-			Obj.m_MagicSpeed += Obj.m_PlayerData->m_MPSkillOpt.iMpsBowAddAttackSpeed;
+			Obj.m_AttackSpeed += Obj.m_PlayerData->m_MPSkillOpt->iMpsBowAddAttackSpeed;
+			Obj.m_MagicSpeed += Obj.m_PlayerData->m_MPSkillOpt->iMpsBowAddAttackSpeed;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsBowAddDamage > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsBowAddDamage > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() != ITEM_CROSSBOW)
 		{
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsTwoHandsBowAddDamage = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsTwoHandsBowAddDamage = 0.0;
 		}
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDarkHorseDefense > 0.0 && Obj.pntInventory[Obj.m_btInvenPetPos]->m_Type == ITEMGET(13, 4))
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDarkHorseDefense > 0.0 && Obj.pntInventory[Obj.m_btInvenPetPos]->m_Type == ITEMGET(13, 4))
 	{
-		Obj.m_Defense += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncDarkHorseDefense;
+		Obj.m_Defense += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDarkHorseDefense;
 	}
 
-	if (Obj.m_PlayerData->m_MPSkillOpt.iMpsMonkWeaponDamage > 0.0)
+	if (Obj.m_PlayerData->m_MPSkillOpt->iMpsMonkWeaponDamage > 0.0)
 	{
 		if (Obj.pntInventory[0]->GetDetailItemType() != ITEM_RAGEFIGHTER_WEAPON && Obj.pntInventory[1]->GetDetailItemType() != ITEM_RAGEFIGHTER_WEAPON)
 		{
-			Obj.m_PlayerData->m_MPSkillOpt.iMpsMonkWeaponDamage = 0.0;
+			Obj.m_PlayerData->m_MPSkillOpt->iMpsMonkWeaponDamage = 0.0;
 		}
 	}
 
@@ -2520,24 +2520,24 @@ void CObjCalCharacter::CalcMLSkillItemOption(CGameObject &Obj)
 	{
 		if (Obj.Class == CLASS_WIZARD || Obj.Class == CLASS_SUMMONER || Obj.Class == CLASS_MAGUMSA)
 		{
-			Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage;
-			Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage;
+			Obj.m_MagicDamageMin += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamage;
+			Obj.m_MagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamage;
 		}
 
 		if (Obj.Class == CLASS_SUMMONER)
 		{
-			Obj.m_CurseDamageMin += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage;
-			Obj.m_CurseDamageMax += Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage;
+			Obj.m_CurseDamageMin += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamage;
+			Obj.m_CurseDamageMax += Obj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamage;
 		}
 	}
 
 	if (Obj.Class == CLASS_KNIGHT || Obj.Class == CLASS_ELF || Obj.Class == CLASS_MAGUMSA || Obj.Class == CLASS_DARKLORD || Obj.Class == CLASS_RAGEFIGHTER || Obj.Class == CLASS_GROWLANCER)
 	{
-		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage > 0.0)
+		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamage > 0.0)
 		{
 			if (Obj.pntInventory[7]->IsItem() == FALSE || Obj.pntInventory[7]->m_IsValidItem == false)
 			{
-				Obj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDamage = 0.0;
+				Obj.m_PlayerData->m_MPSkillOpt->iMpsAddWingDamage = 0.0;
 			}
 		}
 	}

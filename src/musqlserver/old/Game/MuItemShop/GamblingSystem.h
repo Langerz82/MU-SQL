@@ -19,7 +19,7 @@ public:
 	CItemObjectBagAttrEx()	// line : 26
 	{
 		this->m_type = 0;
-		this->m_index = 0;
+		this->m_Index = 0;
 		this->m_minLevel = 0;
 		this->m_maxLevel = 0;
 		this->m_isskill = 0;
@@ -29,7 +29,7 @@ public:
 	}	// line : 36
 
 	BYTE m_type;	// 0
-	BYTE m_index;	// 1
+	BYTE m_Index;	// 1
 	BYTE m_minLevel;	// 2
 	BYTE m_maxLevel;	// 3
 	BYTE m_isskill;	// 4

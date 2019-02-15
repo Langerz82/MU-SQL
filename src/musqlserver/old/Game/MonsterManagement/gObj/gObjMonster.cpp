@@ -4145,9 +4145,9 @@ void gObjMonsterDieGiveItem(CGameObject &Obj, CGameObject lpTargetObj)
 
 		if (lpTargetObj.Type == OBJ_USER)
 		{
-			if (lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsPlusZen > 0.0)
+			if (lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsPlusZen > 0.0)
 			{
-				money += money * lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsPlusZen / 100.0;
+				money += money * lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsPlusZen / 100.0;
 			}
 		}
 
