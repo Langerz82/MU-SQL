@@ -115,7 +115,7 @@ BOOL PartyClass::RevisionIndexUser(int party_number, BYTE *index, char *szName)
 	return FALSE;
 }
 
-BOOL PartyClass::GetIndexUser(int party_number, int index, int& usernumber,  int& dbnumber)
+BOOL PartyClass::GetIndexUser(int party_number, int index, int& userIndex,  int& dbnumber)
 {
 	if ( this->IsParty(party_number) == FALSE )
 	{

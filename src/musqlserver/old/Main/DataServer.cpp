@@ -627,7 +627,7 @@ void PrintLicenseInfo()
 	WLRegGetLicenseInfo(User, Server, NULL);
 	int Days = WLRegDateDaysLeft();
 
-	g_Log.AddC(TColor::Orange, "License Information:");
+	sLog->outBasic("License Information:");
 	sLog->outBasic("Customer: Trong.LIVE - Dao Van Trong");
 	/*
 	sLog->outBasic("Customer: %s Server: %s", User, Server);

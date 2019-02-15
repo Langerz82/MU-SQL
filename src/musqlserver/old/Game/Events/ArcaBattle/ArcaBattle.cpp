@@ -699,7 +699,7 @@ int CArcaBattle::DBDataRequest()
 	else
 	{
 		this->m_i64_DbDataLoadTickCount = GetTickCount64();
-		g_Log.AddC(TColor::Blue, "[ArcaBattle] CArcaBattle::DBDataRequest() - REQUEST DATA FIRST");
+		sLog->outBasic("[ArcaBattle] CArcaBattle::DBDataRequest() - REQUEST DATA FIRST");
 	}
 
 	return 1;
@@ -725,7 +725,7 @@ void CArcaBattle::ProcStateClosed()
 				this->m_i64_AB_REMAIN_MSEC = 60000 * this->m_iAB_MasterRegMin;
 				this->m_iAB_NOTIFY_COUNT = this->m_i64_AB_REMAIN_MSEC / 60000;
 
-				g_Log.AddC(TColor::Blue, "[ArcaBattle] [State Change] -> STATE: MASTER_REG");
+				sLog->outBasic("[ArcaBattle] [State Change] -> STATE: MASTER_REG");
 
 				this->GDReqAllGuildMarkCnt();
 				this->SetState(3);
@@ -762,7 +762,7 @@ void CArcaBattle::ProcStateMasterReg()
 						sprintf(szMsg, Lang.GetText(0,326), this->m_iAB_NOTIFY_COUNT + 1);
 						this->SendMapServerGroupMsg(szMsg);
 
-						g_Log.AddC(TColor::Blue, "[ArcaBattle] [State Notify] STATE: MASTER_REG (Left Time:%d)", this->m_iAB_NOTIFY_COUNT + 1);
+						sLog->outBasic("[ArcaBattle] [State Notify] STATE: MASTER_REG (Left Time:%d)", this->m_iAB_NOTIFY_COUNT + 1);
 					}
 				}
 				else
@@ -771,7 +771,7 @@ void CArcaBattle::ProcStateMasterReg()
 					sprintf(szMsg, Lang.GetText(0,327), this->m_iAB_NOTIFY_COUNT + 1);
 					this->SendMapServerGroupMsg(szMsg);
 
-					g_Log.AddC(TColor::Blue, "[ArcaBattle] [State Notify] STATE: MASTER_REG (Left Time:%d)", this->m_iAB_NOTIFY_COUNT + 1);
+					sLog->outBasic("[ArcaBattle] [State Notify] STATE: MASTER_REG (Left Time:%d)", this->m_iAB_NOTIFY_COUNT + 1);
 				}
 			}
 		}
@@ -785,7 +785,7 @@ void CArcaBattle::ProcStateMasterReg()
 		this->SetState(4);
 		this->GDReqArcaBattleProcMultiCast(4);
 
-		g_Log.AddC(TColor::Blue, "[ArcaBattle] [State Change] -> STATE: MEMBER_REG");
+		sLog->outBasic("[ArcaBattle] [State Change] -> STATE: MEMBER_REG");
 	}
 }
 
@@ -828,7 +828,7 @@ void CArcaBattle::ProcStateReg()
 		this->SetState(5);
 		this->GDReqArcaBattleProcMultiCast(5);
 
-		g_Log.AddC(TColor::Blue, "[ArcaBattle] [State Change] -> STATE: READY");
+		sLog->outBasic("[ArcaBattle] [State Change] -> STATE: READY");
 	}
 }
 
@@ -862,7 +862,7 @@ void CArcaBattle::ProcStateReady()
 		this->SetState(6);
 		this->GDReqArcaBattleProcMultiCast(6);
 
-		g_Log.AddC(TColor::Blue, "[ArcaBattle] [State Change] -> STATE: PARTY");
+		sLog->outBasic("[ArcaBattle] [State Change] -> STATE: PARTY");
 	}
 }
 
@@ -919,7 +919,7 @@ void CArcaBattle::ProcStatePaty()
 		this->SetObelisk();
 		this->GDReqArcaBattleAllJoinUser();
 		this->m_i64_AB_10TICK_COUNT = GetTickCount64();
-		g_Log.AddC(TColor::Blue, "[ArcaBattle] [State Change] -> STATE: PLAYING");
+		sLog->outBasic("[ArcaBattle] [State Change] -> STATE: PLAYING");
 	}
 }
 
@@ -985,7 +985,7 @@ void CArcaBattle::ProcStatePlaying()
 			this->GDReqArcaBattleProcMultiCast(8);
 			this->NotifyArcaBattle(4);
 			this->DeleteArcaBattleAllMonster();
-			g_Log.AddC(TColor::Blue, "[ArcaBattle] [State Change] -> STATE: RESULT");
+			sLog->outBasic("[ArcaBattle] [State Change] -> STATE: RESULT");
 		}
 	}
 }
@@ -1051,7 +1051,7 @@ void CArcaBattle::ProcStateResult()
 				this->m_stObeliskState[iCnt].Clear();
 			}
 
-			g_Log.AddC(TColor::Blue, "[ArcaBattle] [State Change] -> STATE: CHANNEL_CLOSE");
+			sLog->outBasic("[ArcaBattle] [State Change] -> STATE: CHANNEL_CLOSE");
 		}
 	}
 }
@@ -1116,7 +1116,7 @@ void CArcaBattle::ProcStateChannelClose()
 
 			this->SetState(1);
 			this->GDReqArcaBattleProcMultiCast(1);
-			g_Log.AddC(TColor::Blue, "[ArcaBattle] [State Change] -> STATE: CHECK_SYNC");
+			sLog->outBasic("[ArcaBattle] [State Change] -> STATE: CHECK_SYNC");
 		}
 	}
 }

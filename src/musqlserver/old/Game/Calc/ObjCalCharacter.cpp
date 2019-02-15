@@ -1774,11 +1774,11 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 
 	for (int n = 0; n < INVENTORY_SIZE; n++)
 	{
-		if (Obj.pInventory[n].IsPeriodItemExpire() == 1)
+		if (Obj.pInventory[n]->IsPeriodItemExpire() == 1)
 		{
-			Obj.pInventory[n].SetPeriodItemExpire();
-			g_PeriodItemEx.RemovePeriodItemDataByForce(Obj. Obj.pInventory[n].m_Type, Obj.pInventory[n].m_Number);
-			Obj.pInventory[n].Clear();
+			Obj.pInventory[n]->SetPeriodItemExpire();
+			g_PeriodItemEx.RemovePeriodItemDataByForce(Obj. Obj.pInventory[n]->m_Type, Obj.pInventory[n]->m_Number);
+			Obj.pInventory[n]->Clear();
 		}
 	}
 }

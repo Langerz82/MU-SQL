@@ -426,25 +426,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 #if (ENABLE_CUSTOM_PVPBALANCE == 1)
 				case ID_RELOADMAINDATA_PVPBALANCE:
 					g_PvPBalance.Load();
-					g_Log.AddC(TColor::Aquamarine, "[PvPBalance] Load Complete");
+					sLog->outBasic("[PvPBalance] Load Complete");
 					break; 
 #endif
 				case ID_RELOADMAINDATA_FLOODSYSTEM1:
 #if FILE_FLOOD_SYSTEMSWITCH
 					AntiFlood.Init();
-					g_Log.AddC(TColor::Aquamarine, "[FloodSystem] Load Complete");
+					sLog->outBasic("[FloodSystem] Load Complete");
 #else
-					g_Log.AddC(TColor::Aquamarine, "[FloodSystem] Disable");
+					sLog->outBasic("[FloodSystem] Disable");
 #endif
 					break;
 				case ID_RELOADMAINDATA_USERDIEITEMDROP:
 					g_UserDieItemDrop.Load();
-					g_Log.AddC(TColor::Aquamarine, "[UserDieItemDrop] Load Complete");
+					sLog->outBasic("[UserDieItemDrop] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_CUSTEVENTDROP:
 					gCustomEventDrop.Init();
 					gCustomEventDrop.Load(g_ConfigRead.GetPath(FILE_CUSTOM_EVENTDROP));
-					g_Log.AddC(TColor::Aquamarine, "[CustomEventDrop] Load Complete");
+					sLog->outBasic("[CustomEventDrop] Load Complete");
 					break;
 				case ID_EVENTS_RELOADLASTMANSTANDING:
 					g_LastManStanding.LoadConfig(g_ConfigRead.GetPath("\\Events\\IGC_LastManStanding.xml"));
@@ -470,63 +470,63 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					break;
 				case ID_RELOADMAINDATA_SKILL_LUA:
 					gObjUseSkill.m_Lua.DoFile(g_ConfigRead.GetPath("\\Scripts\\Skills\\SkillRuudCalc.lua"));
-					g_Log.AddC(TColor::Aquamarine, "[SkillRuudCalc] Load Complete");
+					sLog->outBasic("[SkillRuudCalc] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_SKILL_LUA1:
 					gObjUseSkill.m_Lua.DoFile(g_ConfigRead.GetPath("\\Scripts\\Skills\\RegularSkillCalc.lua"));
-					g_Log.AddC(TColor::Aquamarine, "[RegularSkillCalc] Load Complete");
+					sLog->outBasic("[RegularSkillCalc] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_SKILL_LUA2:
 					g_MasterLevelSkillTreeSystem.m_Lua.DoFile(g_ConfigRead.GetPath("\\Scripts\\Skills\\MasterSkillPoint.lua"));
-					g_Log.AddC(TColor::Aquamarine, "[MasterSkillPoint] Load Complete");
+					sLog->outBasic("[MasterSkillPoint] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_SKILL_LUA3:
 					g_MasterLevelSkillTreeSystem.m_Lua.DoFile(g_ConfigRead.GetPath("\\Scripts\\Skills\\MasterSkillCalc.lua"));
-					g_Log.AddC(TColor::Aquamarine, "[MasterSkillCalc] Load Complete");
+					sLog->outBasic("[MasterSkillCalc] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_SKILL_LUA4:
 					gObjCalCharacter.m_Lua.DoFile(g_ConfigRead.GetPath("\\Scripts\\Character\\CalcCharacter.lua"));
-					g_Log.AddC(TColor::Aquamarine, "[CalcCharacter] Load Complete");
+					sLog->outBasic("[CalcCharacter] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_SKILL_LUA5:
 					g_StatSpec.m_Lua.DoFile(g_ConfigRead.GetPath("\\Scripts\\Specialization\\StatSpec.lua"));
-					g_Log.AddC(TColor::Aquamarine, "[StatSpec] Load Complete");
+					sLog->outBasic("[StatSpec] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_AUTOPOTHACK:
 					g_Michi.LoadPotionHack();
-					g_Log.AddC(TColor::Aquamarine, "[AutoPotionHack] Load Complete");
+					sLog->outBasic("[AutoPotionHack] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_NEWEVENTBAG:
 					g_EventItemBagManager.Load();
-					g_Log.AddC(TColor::Aquamarine, "[GoldenInvasion] Load Complete");
+					sLog->outBasic("[GoldenInvasion] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_IGCMONMNG:
 					g_DropEx.ReadData(g_ConfigRead.GetPath("Custom\\ItemDropRate.ini"));
-					g_Log.AddC(TColor::Aquamarine, "[ItemDropRate] Load Complete");
+					sLog->outBasic("[ItemDropRate] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_ITEMVALUE:
 					gItemValue.Load(g_ConfigRead.GetPath(FILE_CUSTOM_ITEMVAL));
-					g_Log.AddC(TColor::Aquamarine, "[IGC_ItemValue] Load Complete");
+					sLog->outBasic("[IGC_ItemValue] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_ITEMOPTRATE:
 					gItemOptionRate.Load(g_ConfigRead.GetPath(FILE_CUSTOM_ITEMOPTION));
-					g_Log.AddC(TColor::Aquamarine, "[IGC_ItemOptionRate] Load Complete");
+					sLog->outBasic("[IGC_ItemOptionRate] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_ADDMOBSTATS:
 					gCMAttr.Load(g_ConfigRead.GetPath(FILE_CUSTOM_MONSTERSTATINFO));
-					g_Log.AddC(TColor::Aquamarine, "[IGC_AddMonsterStats] Load Complete");
+					sLog->outBasic("[IGC_AddMonsterStats] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_MUHELPERBOT:
 					g_ConfigRead.ReadMuHelperSettings();
-					g_Log.AddC(TColor::Aquamarine, "[IGC_MuHelper] Load Complete");
+					sLog->outBasic("[IGC_MuHelper] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_SHIELDGAGESYS:
 					g_ConfigRead.ReadShieldGageSettings();
-					g_Log.AddC(TColor::Aquamarine, "[IGC_ShieldGageSystem] Load Complete");
+					sLog->outBasic("[IGC_ShieldGageSystem] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_ANTIHACKS:
 					g_ConfigRead.LoadAntiHackConfig();
-					g_Log.AddC(TColor::Aquamarine, "[IGC_AntiHack] Load Complete");
+					sLog->outBasic("[IGC_AntiHack] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_PLAYERINFO:
 					g_MaxStatsInfo.Read(g_ConfigRead.GetPath(FILE_CUSTOM_MAXSTATS));
@@ -563,11 +563,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					break;
 				case ID_RELOADMAINDATA_PARTYBONUS:
 					gParty.ReadBonusInfo(g_ConfigRead.GetPath(FILE_PARTYBONUS));
-					g_Log.AddC(TColor::Aquamarine, "[IGC_PartyBonus] Load Complete");
+					sLog->outBasic("[IGC_PartyBonus] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_ITEMDROPBLOCK:
 					g_DropEx.ReadBlockData(g_ConfigRead.GetPath("Custom\\ItemDropBlocked.ini"));
-					g_Log.AddC(TColor::Aquamarine, "[ItemDropBlocked] Load Complete");
+					sLog->outBasic("[ItemDropBlocked] Load Complete");
 					break;
 				case ID_RELOADMAINDATA_SKILLS:
 					MagicDamageC.LogSkillList(g_ConfigRead.GetPath("\\Skills\\IGC_SkillList.xml"));
@@ -634,7 +634,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				case ID_RELOADMISCDATA_BOTS:
 					GameMonsterAllCloseAndReLoad();
 					//g_BotSystem.Init();
-					//g_Log.AddC(TColor::Blue,  "[GameServer] Please reload Monsters");
+					//sLog->outBasic( "[GameServer] Please reload Monsters");
 					break;
 				case ID_DATA_ALLDATARELOAD:
 					ReadCommonServerInfo();
@@ -813,7 +813,7 @@ LRESULT CALLBACK GSDisconnect(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 									gObjDel(i);
 								}
 
-								g_Log.AddC(TColor::Blue,  "[GameServer] Account(%s) disconnected",szAccount);
+								sLog->outBasic( "[GameServer] Account(%s) disconnected",szAccount);
 
 								if(IsDlgButtonChecked(hDlg, IDC_DCBAN) == TRUE)
 								{
@@ -852,7 +852,7 @@ LRESULT CALLBACK GSDisconnect(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 									gObjDel(i);
 								}
 
-								g_Log.AddC(TColor::Blue,  "[GameServer] Character(%s) disconnected",szAccount);
+								sLog->outBasic( "[GameServer] Character(%s) disconnected",szAccount);
 
 								if(IsDlgButtonChecked(hDlg, IDC_DCBAN) == TRUE)
 								{

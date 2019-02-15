@@ -158,7 +158,7 @@ void CItemObjectOption::CalCItemObjectCommonOption(CGameObject &Obj, bool flag) 
 {
 	for (int n = 0; n < INVETORY_WEAR_SIZE; n++)
 	{
-		if (Obj.pInventory[n].IsItem() != 0 && Obj.pInventory[n].m_IsValidItem != 0 && Obj.pInventory[n].m_Durability != 0)
+		if (Obj.pInventory[n]->IsItem() != 0 && Obj.pInventory[n]->m_IsValidItem != 0 && Obj.pInventory[n]->m_Durability != 0)
 		{
 			this->InsertOption(lpObj, &Obj.pInventory[n], flag);
 		}

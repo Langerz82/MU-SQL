@@ -3635,7 +3635,7 @@ bool CGMMng::CommandReset(CGameObject &Obj)
 	{
 		for (int n = 0; n < INVETORY_WEAR_SIZE; n++)
 		{
-			if (Obj.pInventory[n].IsItem() != 0)
+			if (Obj.pInventory[n]->IsItem() != 0)
 			{
 				pNotice.SendToUser(Obj.m_Index, g_ConfigRead.ResetMsg[4]);
 				return false;

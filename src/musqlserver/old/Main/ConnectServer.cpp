@@ -72,7 +72,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	UserInit();
 	IOCP.GiocpInit();
 
-	g_Log.Add("Connect Server version: %s Compiled at: %s %s", CONNECTSERVER_VERSION, __DATE__, __TIME__);
+	sLog->outBasic("Connect Server version: %s Compiled at: %s %s", CONNECTSERVER_VERSION, __DATE__, __TIME__);
 
 	SetTimer(hWnd, WM_LOG_PAINT, 1000, NULL);
 	SetTimer(hWnd, WM_LOG_DATE_CHANGE, 300, NULL);
@@ -90,7 +90,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	GetPrivateProfileString("AutoUpdate", "FTPPasswd", "mu0nline", g_FTPPassword, 20, ".\\ConnectServer.ini");
 
 	g_FTPPort = GetPrivateProfileInt("AutoUpdate", "FTPPort", 21, ".\\ConnectServer.ini");
-	//g_Log.Add("Current Auto Update Version: %s", g_ClientVersion);
+	//sLog->outBasic("Current Auto Update Version: %s", g_ClientVersion);
 
 	m_ServerData.LoadServerFile("IGC_ServerList.xml");
 	m_ServerData.LoadNewsFile("News.dat");
@@ -216,7 +216,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		case ID_RELOAD_NEWS:
 			m_ServerData.LoadNewsFile("News.dat");
-			g_Log.Add("%s file reloaded", "News.dat");
+			sLog->outBasic("%s file reloaded", "News.dat");
 			break;
 		case ID_RELOAD_AUTOUPDATE:
 			GetPrivateProfileStringA("AutoUpdate", "Version", "1.06.06", g_ClientVersion, 9, ".\\ConnectServer.ini");
@@ -225,13 +225,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			GetPrivateProfileStringA("AutoUpdate", "FTPLogin", "mu0nline", g_FTPLogin, 20, ".\\ConnectServer.ini");
 			GetPrivateProfileStringA("AutoUpdate", "FTPPasswd", "mu0nline", g_FTPPassword, 20, ".\\ConnectServer.ini");
 			g_FTPPort = GetPrivateProfileIntA("AutoUpdate", "FTPPort", 21, ".\\ConnectServer.ini");
-			//g_Log.Add("Current Auto Update Version: %s", g_ClientVersion);
+			//sLog->outBasic("Current Auto Update Version: %s", g_ClientVersion);
 			break;
 		case ID_RELOAD_ANTIFLOODOPTIONS:
 				g_MaxConnectionsPerIP = GetPrivateProfileInt("Config", "MaxConnectionsPerIP", 5, ".\\ConnectServer.ini");
-				g_Log.Add("Max Connections Per IP - %d", g_MaxConnectionsPerIP);
+				sLog->outBasic("Max Connections Per IP - %d", g_MaxConnectionsPerIP);
 				g_MaxPacketPerSec = GetPrivateProfileInt("Config", "MaxPacketsPerSecond", 50, ".\\ConnectServer.ini");
-				g_Log.Add("Max Packet Per Second - %d", g_MaxPacketPerSec);
+				sLog->outBasic("Max Packet Per Second - %d", g_MaxPacketPerSec);
 			break;
 
 		default:

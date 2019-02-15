@@ -84,7 +84,7 @@ public:
 	int GetCount(int party_number);
 	int GetMemberIndex(int index, int number);
 	int RevisionIndexUser(int party_number, BYTE *index, char *szName);
-	int GetIndexUser(int party_number, int index, CGameObject &Obj,  int& dbnumber);
+	int GetIndexUser(int party_number, int index, int &userIndex,  int& dbnumber);
 	int GetPartyCount(int party_number);
 	int GetIndex(int party_number, CGameObject &Obj, int dbnumber);
 	BOOL SetLevel(int party_number, int level);

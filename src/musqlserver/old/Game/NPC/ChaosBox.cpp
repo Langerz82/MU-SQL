@@ -11012,7 +11012,7 @@ void CMixSystem::JewelOfHarmonyItemPurityMix(CGameObject &Obj) // OK
 		ItemCreate(Obj.m_Index, 0xFF, 0, 0, ITEMGET(14, 42), 0, 1, 0, 0, 0, Obj.m_Index, 0, 0, 0, 0, 0);
 		gObjInventoryCommit(Obj.m_Index);
 
-		g_Log.AddC(TColor::Aqua, "[JewelOfHarmonyItemPurityMix][Success][%s][%s] - (ChaosSuccessRate: %d, ChaosMoney: %d)", Obj.AccountID, Obj.Name, Obj.ChaosSuccessRate, Obj.ChaosMoney);
+		sLog->outBasic("[JewelOfHarmonyItemPurityMix][Success][%s][%s] - (ChaosSuccessRate: %d, ChaosMoney: %d)", Obj.AccountID, Obj.Name, Obj.ChaosSuccessRate, Obj.ChaosMoney);
 	}
 	else
 	{
@@ -11022,7 +11022,7 @@ void CMixSystem::JewelOfHarmonyItemPurityMix(CGameObject &Obj) // OK
 
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 
-		g_Log.AddC(TColor::Aqua, "[JewelOfHarmonyItemPurityMix][Failure][%s][%s] - (ChaosSuccessRate: %d, ChaosMoney: %d)", Obj.AccountID, Obj.Name, Obj.ChaosSuccessRate, Obj.ChaosMoney);
+		sLog->outBasic("[JewelOfHarmonyItemPurityMix][Failure][%s][%s] - (ChaosSuccessRate: %d, ChaosMoney: %d)", Obj.AccountID, Obj.Name, Obj.ChaosSuccessRate, Obj.ChaosMoney);
 
 	}
 	// Chaos Lock was Disabled

@@ -2013,7 +2013,7 @@ void ReloadEvent(MU_EVENT_RELOAD eEvent)
 
 			else
 			{
-				g_Log.AddC(TColor::Blue, "Function not supported");
+				sLog->outBasic("Function not supported");
 			}
 			break;
 		case 5:
@@ -2024,7 +2024,7 @@ void ReloadEvent(MU_EVENT_RELOAD eEvent)
 
 			else
 			{
-				g_Log.AddC(TColor::Blue, "Function not supported");
+				sLog->outBasic("Function not supported");
 			}
 
 			g_CastleDeepEvent.Init();
@@ -2037,7 +2037,7 @@ void ReloadEvent(MU_EVENT_RELOAD eEvent)
 
 			else
 			{
-				g_Log.AddC(TColor::Blue, "Function not supported");
+				sLog->outBasic("Function not supported");
 			}
 
 			g_Crywolf.Init();
@@ -2053,7 +2053,7 @@ void ReloadEvent(MU_EVENT_RELOAD eEvent)
 
 			else
 			{
-				g_Log.AddC(TColor::Blue, "Function not supported");
+				sLog->outBasic("Function not supported");
 			}
 			break;
 		case 8:
@@ -2065,7 +2065,7 @@ void ReloadEvent(MU_EVENT_RELOAD eEvent)
 			}
 			else
 			{
-				g_Log.AddC(TColor::Blue, "Function not supported");
+				sLog->outBasic("Function not supported");
 			}
 			break;
 		case 9:

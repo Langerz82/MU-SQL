@@ -39,13 +39,13 @@ void CLanguage::Init()
 		{
 			if(this->LoadLanguage(m_Lang) == false)
 			{
-				g_Log.AddC(TColor::DarkOrange, "[Language] Load %s language failed", m_Lang.FileName);
+				sLog->outBasic("[Language] Load %s language failed", m_Lang.FileName);
 				continue;
 			}
 
 			else
 			{
-				g_Log.AddC(TColor::DarkOrange, "[Language] Load %s language definition", m_Lang.FileName);
+				sLog->outBasic("[Language] Load %s language definition", m_Lang.FileName);
 			}
 		}
 

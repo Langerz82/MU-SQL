@@ -1084,20 +1084,20 @@ void CCastleSiege::Run() //Identical
 		if( iLeftSiegeDate >= 0 )
 		{
 			SYSTEMTIME tmLeftDate = this->GetCastleLeftSiegeDate();
-			g_Log.AddC(TColor::Blue,  "LEFT : SEC(%d), SIEGE-DAY(%04d-%02d-%02d %02d:%02d:%02d)", iLeftSiegeDate, tmLeftDate.wYear, tmLeftDate.wMonth, tmLeftDate.wDay, tmLeftDate.wHour, tmLeftDate.wMinute, tmLeftDate.wSecond);
+			sLog->outBasic( "LEFT : SEC(%d), SIEGE-DAY(%04d-%02d-%02d %02d:%02d:%02d)", iLeftSiegeDate, tmLeftDate.wYear, tmLeftDate.wMonth, tmLeftDate.wDay, tmLeftDate.wHour, tmLeftDate.wMinute, tmLeftDate.wSecond);
 		}
 		else
 		{
 			switch( iLeftSiegeDate )
 			{
 			case CASTLESIEGE_LEFTTIME_ONSIGE:
-				g_Log.AddC(TColor::Blue,  "[CastleSiege] LEFT-TIME : CASTLESIEGE_LEFTTIME_ONSIGE");
+				sLog->outBasic( "[CastleSiege] LEFT-TIME : CASTLESIEGE_LEFTTIME_ONSIGE");
 				break;
 			case CASTLESIEGE_LEFTTIME_ENDSIEGE:
-				g_Log.AddC(TColor::Blue,  "[CastleSiege] LEFT-TIME : CASTLESIEGE_LEFTTIME_ENDSIEGE");
+				sLog->outBasic( "[CastleSiege] LEFT-TIME : CASTLESIEGE_LEFTTIME_ENDSIEGE");
 				break;
 			case CASTLESIEGE_LEFTTIME_NOTRUNNING:
-				g_Log.AddC(TColor::Blue,  "[CastleSiege] LEFT-TIME : CASTLESIEGE_LEFTTIME_NOTRUNNING");
+				sLog->outBasic( "[CastleSiege] LEFT-TIME : CASTLESIEGE_LEFTTIME_NOTRUNNING");
 				break;
 			}
 		}

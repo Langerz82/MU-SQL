@@ -159,7 +159,7 @@ void CMonsterRegenSystem::LoadScript(char* lpFileName)
 		}
 	}
 
-	//g_Log.AddC(TColor::DarkOrange, "[%s]::FileLoad -> Success!", lpFileName);
+	//sLog->outBasic("[%s]::FileLoad -> Success!", lpFileName);
 	this->m_bLoadScript = true;
 }
 
