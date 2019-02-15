@@ -139,7 +139,7 @@ void CConfigMichi::UseHealingPotion(CItemObject * CItemObject, int pos, CGameObj
 	if (!gObjSearchItemMinus(&getGameObject(Obj.m_Index), pos, 1))
 	{
 		gObjInventoryItemSet(lpObj, pos, -1);
-		Obj.pInventory[pos].Clear();
+		Obj.pInventory[pos]->Clear();
 		gGameProtocol.GCInventoryItemDeleteSend(lpObj, pos, 1);
 	}
 }

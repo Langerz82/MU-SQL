@@ -1492,15 +1492,15 @@ void CPersonalStore::GDAllSavePShopItemValue(CGameObject &Obj)
 
 	for (int i = PSHOP_START_RANGE; i < PSHOP_END_RANGE; i++)
 	{
-		if (Obj.pInventory[i].IsItem() == TRUE)
+		if (Obj.pInventory[i]->IsItem() == TRUE)
 		{
 			bExistPShopItem = true;
 			pMsg.PShopItemValueInfo[iItemCnt].nPShopItemInvenNum = i;
-			pMsg.PShopItemValueInfo[iItemCnt].ItemSerial = Obj.pInventory[i].m_Number;
-			pMsg.PShopItemValueInfo[iItemCnt].nMoney = Obj.pInventory[i].m_iPShopValue;
-			pMsg.PShopItemValueInfo[iItemCnt].sBlessJewelValue = Obj.pInventory[i].m_wPShopBlessValue;
-			pMsg.PShopItemValueInfo[iItemCnt].sSoulJewelValue = Obj.pInventory[i].m_wPShopSoulValue;
-			pMsg.PShopItemValueInfo[iItemCnt].sChaosJewelValue = Obj.pInventory[i].m_wPShopChaosValue;
+			pMsg.PShopItemValueInfo[iItemCnt].ItemSerial = Obj.pInventory[i]->m_Number;
+			pMsg.PShopItemValueInfo[iItemCnt].nMoney = Obj.pInventory[i]->m_iPShopValue;
+			pMsg.PShopItemValueInfo[iItemCnt].sBlessJewelValue = Obj.pInventory[i]->m_wPShopBlessValue;
+			pMsg.PShopItemValueInfo[iItemCnt].sSoulJewelValue = Obj.pInventory[i]->m_wPShopSoulValue;
+			pMsg.PShopItemValueInfo[iItemCnt].sChaosJewelValue = Obj.pInventory[i]->m_wPShopChaosValue;
 
 			iItemCnt++;
 		}
@@ -1603,14 +1603,14 @@ void CPersonalStore::GCPShopItemValueInfo(CGameObject &Obj)
 
 	for (int i = PSHOP_START_RANGE; i < PSHOP_END_RANGE; i++)
 	{
-		if (Obj.pInventory[i].IsItem() == TRUE)
+		if (Obj.pInventory[i]->IsItem() == TRUE)
 		{
 			PShopItemValueInfo[iItemCnt].nPShopItemInvenNum = i;
 			PShopItemValueInfo[iItemCnt].Empty = 0;
-			PShopItemValueInfo[iItemCnt].nMoney = Obj.pInventory[i].m_iPShopValue;
-			PShopItemValueInfo[iItemCnt].sBlessJewelValue = Obj.pInventory[i].m_wPShopBlessValue;
-			PShopItemValueInfo[iItemCnt].sSoulJewelValue = Obj.pInventory[i].m_wPShopSoulValue;
-			PShopItemValueInfo[iItemCnt].sChaosJewelValue = Obj.pInventory[i].m_wPShopChaosValue;
+			PShopItemValueInfo[iItemCnt].nMoney = Obj.pInventory[i]->m_iPShopValue;
+			PShopItemValueInfo[iItemCnt].sBlessJewelValue = Obj.pInventory[i]->m_wPShopBlessValue;
+			PShopItemValueInfo[iItemCnt].sSoulJewelValue = Obj.pInventory[i]->m_wPShopSoulValue;
+			PShopItemValueInfo[iItemCnt].sChaosJewelValue = Obj.pInventory[i]->m_wPShopChaosValue;
 
 			std::memcpy(&sendbuf[lOfs], &PShopItemValueInfo[iItemCnt], sizeof(PSHOP_ITEMVALUE_INFO));
 			lOfs += sizeof(PSHOP_ITEMVALUE_INFO);

@@ -1032,18 +1032,18 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(CGameObject &Obj, BYTE btItemPos)
 
 	btItemPos += 12;
 
-	if (Obj.pInventory[btItemPos].IsItem() == TRUE)
+	if (Obj.pInventory[btItemPos]->IsItem() == TRUE)
 	{
-		if (Obj.pInventory[btItemPos].m_Type != ITEMGET(14, 111) &&
-			Obj.pInventory[btItemPos].m_Type != ITEMGET(13, 125))
+		if (Obj.pInventory[btItemPos]->m_Type != ITEMGET(14, 111) &&
+			Obj.pInventory[btItemPos]->m_Type != ITEMGET(13, 125))
 		{
 			pResult.btResult = 1;
 			IOCP.DataSend(Obj.m_Index, (BYTE*)&pResult, pResult.h.size);
 			return FALSE;
 		}
 
-		if (Obj.pInventory[btItemPos].m_Type == ITEMGET(13, 125) &&
-			Obj.pInventory[btItemPos].m_Durability < 1.0)
+		if (Obj.pInventory[btItemPos]->m_Type == ITEMGET(13, 125) &&
+			Obj.pInventory[btItemPos]->m_Durability < 1.0)
 		{
 			pResult.btResult = 1;
 			IOCP.DataSend(Obj.m_Index, (BYTE*)&pResult, pResult.h.size);
@@ -1057,17 +1057,17 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(CGameObject &Obj, BYTE btItemPos)
 			return FALSE;
 		}
 
-		if (Obj.pInventory[btItemPos].m_Type == ITEMGET(14, 111))
+		if (Obj.pInventory[btItemPos]->m_Type == ITEMGET(14, 111))
 		{
 			gObjInventoryDeleteItem(Obj.m_Index, btItemPos);
 			gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, btItemPos, 0);
 		}
 
-		else if (Obj.pInventory[btItemPos].m_Type == ITEMGET(13, 125))
+		else if (Obj.pInventory[btItemPos]->m_Type == ITEMGET(13, 125))
 		{
-			Obj.pInventory[btItemPos].m_Durability -= 1.0f;
+			Obj.pInventory[btItemPos]->m_Durability -= 1.0f;
 
-			if (Obj.pInventory[btItemPos].m_Durability < 1.0)
+			if (Obj.pInventory[btItemPos]->m_Durability < 1.0)
 			{
 				gObjInventoryDeleteItem(Obj.m_Index, btItemPos);
 				gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, btItemPos, 0);
@@ -1075,7 +1075,7 @@ BOOL CDoppelGanger::EnterDoppelgangerEvent(CGameObject &Obj, BYTE btItemPos)
 
 			else
 			{
-				gGameProtocol.GCItemObjectDurSend2(Obj.m_Index, btItemPos, Obj.pInventory[btItemPos].m_Durability, 0);
+				gGameProtocol.GCItemObjectDurSend2(Obj.m_Index, btItemPos, Obj.pInventory[btItemPos]->m_Durability, 0);
 			}
 		}
 

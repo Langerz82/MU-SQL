@@ -163,9 +163,9 @@ int CPeriodItemEx::AddPeriodItemData(CGameObject &Obj, WORD ItemType, UINT64 Ser
 			
 			else
 			{
-				if ( Obj.pInventory[itempos].IsPeriodItem() == FALSE )
+				if ( Obj.pInventory[itempos]->IsPeriodItem() == FALSE )
 				{
-					Obj.pInventory[itempos].SetPeriodItem();
+					Obj.pInventory[itempos]->SetPeriodItem();
 				}
 
 				return i;
@@ -206,7 +206,7 @@ int CPeriodItemEx::AddPeriodItemData(CGameObject &Obj, WORD ItemType, UINT64 Ser
 
 			if ( itempos != -1 )
 			{
-				Obj.pInventory[itempos].SetPeriodItem();
+				Obj.pInventory[itempos]->SetPeriodItem();
 			}
 
 			return i;
@@ -440,7 +440,7 @@ BOOL CPeriodItemEx::SetPeriodItemInfo(CGameObject &Obj, WORD wItemCode, UINT64 S
 
 	ITEM_DATA m_ItemData;
 
-	VM_TIGER_LONDON_START
+	//VM_TIGER_LONDON_START
 
 	if ( Serial != 0 )
 	{
@@ -451,12 +451,12 @@ BOOL CPeriodItemEx::SetPeriodItemInfo(CGameObject &Obj, WORD wItemCode, UINT64 S
 			return FALSE;
 		}
 
-		Obj.pInventory[pos].SetPeriodItem();
+		Obj.pInventory[pos]->SetPeriodItem();
 		this->AddPeriodItemData(lpObj, wItemCode, Serial, dwDuration);
 		m_ItemData.Clear();
 		m_ItemData.wItemCode = wItemCode;
 		m_ItemData.btItemType = PERIODITEM_NORMAL;
-		m_ItemData.Serial = Obj.pInventory[pos].GetNumber();		
+		m_ItemData.Serial = Obj.pInventory[pos]->GetNumber();		
 		m_ItemData.btEffectCategory = 0;
 		m_ItemData.btEffectType1 = 0;
 		m_ItemData.btEffectType2 = 0;
@@ -492,7 +492,7 @@ BOOL CPeriodItemEx::SetPeriodItemInfo(CGameObject &Obj, WORD wItemCode, UINT64 S
 		m_ItemData.lItemExpireDate = this->GetExpireDate(dwDuration);
 	}
 
-	VM_TIGER_LONDON_END
+	//VM_TIGER_LONDON_END
 
 	this->RequestPeriodItemInsert(lpObj, &m_ItemData, dwDuration);
 	return TRUE;
@@ -520,12 +520,12 @@ BOOL CPeriodItemEx::SetDisableItemToExpire(CGameObject &Obj, int pos)
 		return FALSE;
 	}
 
-	if ( Obj.pInventory[pos].IsPeriodItem() == FALSE )
+	if ( Obj.pInventory[pos]->IsPeriodItem() == FALSE )
 	{
 		return FALSE;
 	}
 
-	Obj.pInventory[pos].SetPeriodItemExpire();
+	Obj.pInventory[pos]->SetPeriodItemExpire();
 	GCItemObjectListSend(Obj.m_Index);
 	this->OnRequestPeriodItemList(lpObj);
 
@@ -548,17 +548,17 @@ void CPeriodItemEx::SetExpireNotMatchedData(CGameObject &Obj)
 
 	for (int i=0;i<INVENTORY_SIZE;i++)
 	{
-		if ( Obj.pInventory[i].IsItem() == TRUE &&
-			Obj.pInventory[i].IsPeriodItem() == TRUE &&
-			Obj.pInventory[i].IsPeriodItemExpire() == FALSE )
+		if ( Obj.pInventory[i]->IsItem() == TRUE &&
+			Obj.pInventory[i]->IsPeriodItem() == TRUE &&
+			Obj.pInventory[i]->IsPeriodItemExpire() == FALSE )
 		{
 			BOOL bItemFound = FALSE;
 
 			for (int j=0;j<30;j++)
 			{
 				if ( this->m_PeriodData[Obj.m_PlayerData->m_iPeriodItemEffectIndex].m_ItemInfo[j].btUsedInfo == TRUE &&
-					this->m_PeriodData[Obj.m_PlayerData->m_iPeriodItemEffectIndex].m_ItemInfo[j].wItemCode == Obj.pInventory[i].m_Type &&
-					this->m_PeriodData[Obj.m_PlayerData->m_iPeriodItemEffectIndex].m_ItemInfo[j].Serial == Obj.pInventory[i].m_Number )
+					this->m_PeriodData[Obj.m_PlayerData->m_iPeriodItemEffectIndex].m_ItemInfo[j].wItemCode == Obj.pInventory[i]->m_Type &&
+					this->m_PeriodData[Obj.m_PlayerData->m_iPeriodItemEffectIndex].m_ItemInfo[j].Serial == Obj.pInventory[i]->m_Number )
 				{
 					bItemFound = TRUE;
 				}
@@ -566,7 +566,7 @@ void CPeriodItemEx::SetExpireNotMatchedData(CGameObject &Obj)
 
 			if ( bItemFound == FALSE )
 			{
-				Obj.pInventory[i].SetPeriodItemExpire();
+				Obj.pInventory[i]->SetPeriodItemExpire();
 				ItemCount++;
 			}
 		}
@@ -821,11 +821,11 @@ int CPeriodItemEx::GetItemFromInventory(CGameObject &Obj, WORD wItemCode, UINT64
 
 	for ( int i=0;i<INVENTORY_SIZE;i++ )
 	{
-		if (Obj.pInventory[i].IsItem())
+		if (Obj.pInventory[i]->IsItem())
 		{
-			if (Obj.pInventory[i].m_Type == wItemCode)
+			if (Obj.pInventory[i]->m_Type == wItemCode)
 			{
-				if (Obj.pInventory[i].GetNumber() == Serial)
+				if (Obj.pInventory[i]->GetNumber() == Serial)
 				{
 					pos = i;
 					break;

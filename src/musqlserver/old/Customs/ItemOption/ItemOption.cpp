@@ -320,7 +320,7 @@ void CItemObjectOption::InsertOption(CGameObject &Obj, CItemObject* lpItem, bool
 			Obj.m_PlayerData->MasterExperience += value;
 			break;
 		case ITEM_OPTION_ADD_COMBO_EXPERIENCE_RATE:
-			if (Obj.pInventory[8].IsItem() != 0 && (Obj.pInventory[8].m_Type == ITEMGET(13, 80) || Obj.pInventory[8].m_Type== ITEMGET(13, 123)))
+			if (Obj.pInventory[8]->IsItem() != 0 && (Obj.pInventory[8]->m_Type == ITEMGET(13, 80) || Obj.pInventory[8]->m_Type== ITEMGET(13, 123)))
 			{
 				Obj.m_PlayerData->Experience += value;
 				Obj.m_PlayerData->MasterExperience += value;

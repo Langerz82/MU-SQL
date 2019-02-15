@@ -2443,7 +2443,7 @@ void CPentagramSystem::DBANS_GetPentagramJewel(BYTE* lpRecv)
 			Obj.m_PlayerData->m_PentagramJewelInfo_Inven[i].btRank5Level = lpPentagramInfo->btRank5Level;
 		}
 
-		if (Obj.pInventory[236].IsItem() == TRUE)
+		if (Obj.pInventory[236]->IsItem() == TRUE)
 		{
 			this->CalcPentagramItem(Obj.m_Index, &Obj.pInventory[236]);
 			gGameProtocol.GCReFillSend(Obj.m_Index, Obj.MaxLife + Obj.AddLife, 0xFE, 0, Obj.iAddShield + Obj.iMaxShield);
@@ -2611,7 +2611,7 @@ void CPentagramSystem::DBREQ_SetPentagramJewel(CGameObject &Obj, int iJewelPos)
 
 		for (int i = 0; i < WAREHOUSE_SIZE; i++)
 		{
-			if (Obj.pWarehouse[i].IsItem() == TRUE &&
+			if (Obj.pWarehouse[i]->IsItem() == TRUE &&
 				this->IsPentagramItem(&Obj.pWarehouse[i]))
 			{
 				BYTE ExOption[MAX_EXOPTION_SIZE];
@@ -2619,11 +2619,11 @@ void CPentagramSystem::DBREQ_SetPentagramJewel(CGameObject &Obj, int iJewelPos)
 
 				for (int j = 0; j < 5; j++)
 				{
-					if (Obj.pWarehouse[i].m_SocketOption[j] < 0xFE)
+					if (Obj.pWarehouse[i]->m_SocketOption[j] < 0xFE)
 					{
 						for (int k = 0; k < 254; k++)
 						{
-							if (Obj.m_PlayerData->m_PentagramJewelInfo_Warehouse[k].btJewelIndex == Obj.pWarehouse[i].m_SocketOption[j])
+							if (Obj.m_PlayerData->m_PentagramJewelInfo_Warehouse[k].btJewelIndex == Obj.pWarehouse[i]->m_SocketOption[j])
 							{
 
 							}
@@ -2666,7 +2666,7 @@ void CPentagramSystem::DBREQ_SetPentagramJewel(CGameObject &Obj, int iJewelPos)
 
 		for (int i = 0; i < INVENTORY_SIZE; i++)
 		{
-			if (Obj.pInventory[i].IsItem() == TRUE &&
+			if (Obj.pInventory[i]->IsItem() == TRUE &&
 				this->IsPentagramItem(&Obj.pInventory[i]))
 			{
 				BYTE ExOption[MAX_EXOPTION_SIZE];
@@ -2674,11 +2674,11 @@ void CPentagramSystem::DBREQ_SetPentagramJewel(CGameObject &Obj, int iJewelPos)
 
 				for (int j = 0; j < 5; j++)
 				{
-					if (Obj.pInventory[i].m_SocketOption[j] < 0xFE)
+					if (Obj.pInventory[i]->m_SocketOption[j] < 0xFE)
 					{
 						for (int k = 0; k < 254; k++)
 						{
-							if (Obj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btJewelIndex == Obj.pInventory[i].m_SocketOption[j])
+							if (Obj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btJewelIndex == Obj.pInventory[i]->m_SocketOption[j])
 							{
 
 							}
@@ -2792,7 +2792,7 @@ BOOL CPentagramSystem::PentagramJewel_IN(CGameObject &Obj, int iPentagramItemPos
 
 	BYTE iDbJewelIndex = 0xFF;
 
-	if (Obj.pInventory[iPentagramItemPos].IsItem() == FALSE || Obj.pInventory[iJewelItemPos].IsItem() == FALSE)
+	if (Obj.pInventory[iPentagramItemPos]->IsItem() == FALSE || Obj.pInventory[iJewelItemPos]->IsItem() == FALSE)
 	{
 		sLog->outBasic("[PentagramJewel_IN] PentagramItem Is Not Exist [%s][%s]",
 			Obj.AccountID, Obj.Name);
@@ -2809,9 +2809,9 @@ BOOL CPentagramSystem::PentagramJewel_IN(CGameObject &Obj, int iPentagramItemPos
 		return FALSE;
 	}
 
-	BYTE btItemType = ITEM_GET_TYPE(Obj.pInventory[iJewelItemPos].m_Type);
-	WORD wItemIndex = ITEM_GET_INDEX(Obj.pInventory[iJewelItemPos].m_Type);
-	BYTE btMainAttribute = Obj.pInventory[iJewelItemPos].m_BonusSocketOption;
+	BYTE btItemType = ITEM_GET_TYPE(Obj.pInventory[iJewelItemPos]->m_Type);
+	WORD wItemIndex = ITEM_GET_INDEX(Obj.pInventory[iJewelItemPos]->m_Type);
+	BYTE btMainAttribute = Obj.pInventory[iJewelItemPos]->m_BonusSocketOption;
 	BYTE iJewelKind = 0xFF;
 
 	if (wItemIndex < 231)
@@ -2844,7 +2844,7 @@ BOOL CPentagramSystem::PentagramJewel_IN(CGameObject &Obj, int iPentagramItemPos
 		return FALSE;
 	}
 
-	if (Obj.pInventory[iPentagramItemPos].m_SocketOption[iJewelKind] != 0xFE)
+	if (Obj.pInventory[iPentagramItemPos]->m_SocketOption[iJewelKind] != 0xFE)
 	{
 		sLog->outBasic("[PentagramJewel_IN] PentagramItem Socket is Not Empty [%s][%s]",Obj.AccountID, Obj.Name);
 		return FALSE;
@@ -2874,21 +2874,21 @@ BOOL CPentagramSystem::PentagramJewel_IN(CGameObject &Obj, int iPentagramItemPos
 		return FALSE;
 	}
 
-	Obj.pInventory[iPentagramItemPos].m_SocketOption[iJewelKind] = iDbJewelIndex;
+	Obj.pInventory[iPentagramItemPos]->m_SocketOption[iJewelKind] = iDbJewelIndex;
 
 	BYTE btJewelPos = 0;
 	BYTE btJewelIndex = iDbJewelIndex;
-	BYTE btJewelLevel = Obj.pInventory[iJewelItemPos].m_Level;
-	BYTE btRank1OptionNum = Obj.pInventory[iJewelItemPos].m_SocketOption[0] & 0x0F;
-	BYTE btRank1Level = (Obj.pInventory[iJewelItemPos].m_SocketOption[0] & 0xF0) >> 4;
-	BYTE btRank2OptionNum = Obj.pInventory[iJewelItemPos].m_SocketOption[1] & 0x0F;
-	BYTE btRank2Level = (Obj.pInventory[iJewelItemPos].m_SocketOption[1] & 0xF0) >> 4;
-	BYTE btRank3OptionNum = Obj.pInventory[iJewelItemPos].m_SocketOption[2] & 0x0F;
-	BYTE btRank3Level = (Obj.pInventory[iJewelItemPos].m_SocketOption[2] & 0xF0) >> 4;
-	BYTE btRank4OptionNum = Obj.pInventory[iJewelItemPos].m_SocketOption[3] & 0x0F;
-	BYTE btRank4Level = (Obj.pInventory[iJewelItemPos].m_SocketOption[3] & 0xF0) >> 4;
-	BYTE btRank5OptionNum = Obj.pInventory[iJewelItemPos].m_SocketOption[4] & 0x0F;
-	BYTE btRank5Level = (Obj.pInventory[iJewelItemPos].m_SocketOption[4] & 0xF0) >> 4;
+	BYTE btJewelLevel = Obj.pInventory[iJewelItemPos]->m_Level;
+	BYTE btRank1OptionNum = Obj.pInventory[iJewelItemPos]->m_SocketOption[0] & 0x0F;
+	BYTE btRank1Level = (Obj.pInventory[iJewelItemPos]->m_SocketOption[0] & 0xF0) >> 4;
+	BYTE btRank2OptionNum = Obj.pInventory[iJewelItemPos]->m_SocketOption[1] & 0x0F;
+	BYTE btRank2Level = (Obj.pInventory[iJewelItemPos]->m_SocketOption[1] & 0xF0) >> 4;
+	BYTE btRank3OptionNum = Obj.pInventory[iJewelItemPos]->m_SocketOption[2] & 0x0F;
+	BYTE btRank3Level = (Obj.pInventory[iJewelItemPos]->m_SocketOption[2] & 0xF0) >> 4;
+	BYTE btRank4OptionNum = Obj.pInventory[iJewelItemPos]->m_SocketOption[3] & 0x0F;
+	BYTE btRank4Level = (Obj.pInventory[iJewelItemPos]->m_SocketOption[3] & 0xF0) >> 4;
+	BYTE btRank5OptionNum = Obj.pInventory[iJewelItemPos]->m_SocketOption[4] & 0x0F;
+	BYTE btRank5Level = (Obj.pInventory[iJewelItemPos]->m_SocketOption[4] & 0xF0) >> 4;
 
 	for (int j = 0; j < 254; j++)
 	{
@@ -2944,7 +2944,7 @@ BOOL CPentagramSystem::PentagramJewel_OUT(CGameObject &Obj, int iPentagramItemPo
 		return FALSE;
 	}
 
-	if (Obj.pInventory[iPentagramItemPos].IsItem() == FALSE)
+	if (Obj.pInventory[iPentagramItemPos]->IsItem() == FALSE)
 	{
 		return FALSE;
 	}
@@ -2959,7 +2959,7 @@ BOOL CPentagramSystem::PentagramJewel_OUT(CGameObject &Obj, int iPentagramItemPo
 		return FALSE;
 	}
 
-	BYTE iJewelDBIndex = Obj.pInventory[iPentagramItemPos].m_SocketOption[btSocketIndex];
+	BYTE iJewelDBIndex = Obj.pInventory[iPentagramItemPos]->m_SocketOption[btSocketIndex];
 
 	if (iJewelDBIndex >= 0xFE)
 	{
@@ -3035,7 +3035,7 @@ BOOL CPentagramSystem::PentagramJewel_OUT(CGameObject &Obj, int iPentagramItemPo
 					Obj.AccountID, Obj.Name, iJewelDBIndex, iItemType, iItemIndex);
 			}
 
-			Obj.pInventory[iPentagramItemPos].m_SocketOption[btSocketIndex] = 0xFE;
+			Obj.pInventory[iPentagramItemPos]->m_SocketOption[btSocketIndex] = 0xFE;
 			this->DelPentagramJewelInfo(Obj.m_Index, 0, iJewelDBIndex);
 			gGameProtocol.GCInventoryItemOneSend(Obj.m_Index, iPentagramItemPos);
 			return iReturnValue;
@@ -3155,15 +3155,15 @@ bool CPentagramSystem::GCPShopPentagramJewelViewInfo(CGameObject &Obj, int aSour
 
 	for (int i = MAIN_INVENTORY_SIZE; i < INVENTORY_SIZE; i++)
 	{
-		if (Obj.pInventory[i].IsItem() == TRUE && this->IsPentagramItem(&Obj.pInventory[i]) == true)
+		if (Obj.pInventory[i]->IsItem() == TRUE && this->IsPentagramItem(&Obj.pInventory[i]) == true)
 		{
 			for (int j = 0; j < 5; j++)
 			{
-				if (Obj.pInventory[i].m_SocketOption[j] < 0xFE)
+				if (Obj.pInventory[i]->m_SocketOption[j] < 0xFE)
 				{
 					for (int k = 0; k < 254; k++)
 					{
-						if (Obj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btJewelIndex == Obj.pInventory[i].m_SocketOption[j])
+						if (Obj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btJewelIndex == Obj.pInventory[i]->m_SocketOption[j])
 						{
 							m_PentagramJewelInfo.btJewelPos = 3;
 							m_PentagramJewelInfo.btJewelIndex = Obj.m_PlayerData->m_PentagramJewelInfo_Inven[k].btJewelIndex;
@@ -3322,11 +3322,11 @@ int CPentagramSystem::CheckOverlapMythrilPiece(CGameObject &Obj, int iItemType, 
 
 	for (int x = 0; x < MAIN_INVENTORY_SIZE; x++)
 	{
-		if (Obj.pInventory[x].IsItem() == TRUE &&
-			Obj.pInventory[x].m_Type == iItemType &&
-			(Obj.pInventory[x].m_BonusSocketOption & 0x0F) == iMainAttribute)
+		if (Obj.pInventory[x]->IsItem() == TRUE &&
+			Obj.pInventory[x]->m_Type == iItemType &&
+			(Obj.pInventory[x]->m_BonusSocketOption & 0x0F) == iMainAttribute)
 		{
-			int iITEM_DUR = Obj.pInventory[x].m_Durability;
+			int iITEM_DUR = Obj.pInventory[x]->m_Durability;
 
 			if (iITEM_DUR >= 0 && iITEM_DUR <= IsOverlapItem(iItemType))
 			{
@@ -3350,27 +3350,27 @@ BOOL CPentagramSystem::AddTradeCount(CGameObject lpObj, int source, int target)
 		return FALSE;
 	}
 
-	if (Obj.pInventory[source].IsItem() == FALSE)
+	if (Obj.pInventory[source]->IsItem() == FALSE)
 	{
 		return FALSE;
 	}
 
-	if (Obj.pInventory[target].IsItem() == FALSE)
+	if (Obj.pInventory[target]->IsItem() == FALSE)
 	{
 		return FALSE;
 	}
 
-	if (this->IsPentagramItem(Obj.pInventory[target].m_Type) == FALSE)
+	if (this->IsPentagramItem(Obj.pInventory[target]->m_Type) == FALSE)
 	{
 		return FALSE;
 	}
 
-	if (Obj.pInventory[target].m_Durability >= 255.0)
+	if (Obj.pInventory[target]->m_Durability >= 255.0)
 	{
 		return FALSE;
 	}
 
-	Obj.pInventory[target].m_Durability += 1.0;
+	Obj.pInventory[target]->m_Durability += 1.0;
 
 	return TRUE;
 }

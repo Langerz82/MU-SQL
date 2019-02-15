@@ -1113,9 +1113,9 @@ bool CBloodCastle::CheckEnterFreeTicket(CGameObject &Obj)
 
 	for (int x=0;x<MAIN_INVENTORY_SIZE;x++)
 	{
-		if ( Obj.pInventory[x].IsItem() == TRUE )
+		if ( Obj.pInventory[x]->IsItem() == TRUE )
 		{
-			if ( Obj.pInventory[x].m_Type == ITEMGET(13,47) )
+			if ( Obj.pInventory[x]->m_Type == ITEMGET(13,47) )
 			{
 				return true;
 			}
@@ -1409,11 +1409,11 @@ int  CBloodCastle::CheckEnterItem(CGameObject &Obj)
 
 	for ( int x=0;x<MAIN_INVENTORY_SIZE;x++)
 	{
-		if ( Obj.pInventory[x].IsItem() == TRUE )
+		if ( Obj.pInventory[x]->IsItem() == TRUE )
 		{
-			if ( Obj.pInventory[x].m_Type == ITEMGET(13,18) ) // Invisibility Cloak
+			if ( Obj.pInventory[x]->m_Type == ITEMGET(13,18) ) // Invisibility Cloak
 			{
-				iITEM_LEVEL = Obj.pInventory[x].m_Level;
+				iITEM_LEVEL = Obj.pInventory[x]->m_Level;
 
 				if ( CHECK_LIMIT(iITEM_LEVEL, MAX_CLOACK_LEVEL) == FALSE )
 				{
@@ -1427,7 +1427,7 @@ int  CBloodCastle::CheckEnterItem(CGameObject &Obj)
 				}
 			}
 			
-			if ( Obj.pInventory[x].m_Type == ITEMGET(13,47) ) // 
+			if ( Obj.pInventory[x]->m_Type == ITEMGET(13,47) ) // 
 			{
 				iITEM_LEVEL = 10;
 			}
@@ -1466,13 +1466,13 @@ int  CBloodCastle::CheckQuestItem(CGameObject &Obj)
 
 	for ( int x=0;x<INVENTORY_SIZE;x++)
 	{
-		if ( Obj.pInventory[x].IsItem() == TRUE )
+		if ( Obj.pInventory[x]->IsItem() == TRUE )
 		{
-			if ( Obj.pInventory[x].m_Type == ITEMGET(13,19) ) // Absolute Weapon of Archangel QUEST ITEM
+			if ( Obj.pInventory[x]->m_Type == ITEMGET(13,19) ) // Absolute Weapon of Archangel QUEST ITEM
 			{
-				if ( Obj.pInventory[x].m_Number	== this->m_BridgeData[iBridgeIndex].m_nBC_QUESTITEM_SERIAL )
+				if ( Obj.pInventory[x]->m_Number	== this->m_BridgeData[iBridgeIndex].m_nBC_QUESTITEM_SERIAL )
 				{
-					iITEM_LEVEL = Obj.pInventory[x].m_Level;
+					iITEM_LEVEL = Obj.pInventory[x]->m_Level;
 
 					if ( iITEM_LEVEL < 0 || iITEM_LEVEL > 2 )
 					{
@@ -2618,11 +2618,11 @@ void CBloodCastle::SearchUserDeleteQuestItem(CGameObject &Obj)
 
 	for ( int x=0;x<INVENTORY_SIZE;x++)
 	{
-		if (Obj.pInventory[x].IsItem() == TRUE )
+		if (Obj.pInventory[x]->IsItem() == TRUE )
 		{
-			if (Obj.pInventory[x].m_Type == ITEMGET(13,19) )
+			if (Obj.pInventory[x]->m_Type == ITEMGET(13,19) )
 			{
-				int iLEVEL = Obj.pInventory[x].m_Level;
+				int iLEVEL = Obj.pInventory[x]->m_Level;
 
 				if ( BC_WEAPON_LEVEL_RANGE(iLEVEL) != FALSE )
 				{
@@ -2648,11 +2648,11 @@ void CBloodCastle::SearchUserDropQuestItem(CGameObject &Obj)
 
 	for ( int x=0;x<INVENTORY_SIZE;x++)
 	{
-		if ( Obj.pInventory[x].IsItem() == TRUE )
+		if ( Obj.pInventory[x]->IsItem() == TRUE )
 		{
-			if ( Obj.pInventory[x].m_Type == ITEMGET(13,19) )
+			if ( Obj.pInventory[x]->m_Type == ITEMGET(13,19) )
 			{
-				int iLEVEL = Obj.pInventory[x].m_Level;
+				int iLEVEL = Obj.pInventory[x]->m_Level;
 
 				if ( BC_WEAPON_LEVEL_RANGE(iLEVEL) != FALSE )
 				{
@@ -2671,7 +2671,7 @@ void CBloodCastle::SearchUserDropQuestItem(CGameObject &Obj)
 
 						if ( this->m_BridgeData[iBC_INDEX].m_nBC_QUESTITEM_SERIAL != -1 )
 						{
-							if ( this->m_BridgeData[iBC_INDEX].m_nBC_QUESTITEM_SERIAL == Obj.pInventory[x].m_Number )
+							if ( this->m_BridgeData[iBC_INDEX].m_nBC_QUESTITEM_SERIAL == Obj.pInventory[x]->m_Number )
 							{
 								this->m_BridgeData[iBC_INDEX].m_iBC_QUEST_ITEM_USER_INDEX = -1;
 							}
@@ -3552,25 +3552,25 @@ BOOL CBloodCastle::DropItemDirectly(int iBridgeIndex, CGameObject &Obj, int iIte
 	pResult.Result = TRUE;
 	pResult.Ipos = iItemPos;
 	int map_num = Obj.MapNumber;
-	int type = Obj.pInventory[iItemPos].m_Type;
-	int level = Obj.pInventory[iItemPos].m_Level;
-	float dur = Obj.pInventory[iItemPos].m_Durability;
-	BOOL ret = Obj.pInventory[iItemPos].IsItem();
-	BYTE Option1 = Obj.pInventory[iItemPos].m_Option1;
-	BYTE Option2 = Obj.pInventory[iItemPos].m_Option2;
-	BYTE Option3 = Obj.pInventory[iItemPos].m_Option3;
-	BYTE NOption = Obj.pInventory[iItemPos].m_NewOption;
-	UINT64 s_num = Obj.pInventory[iItemPos].m_Number;
+	int type = Obj.pInventory[iItemPos]->m_Type;
+	int level = Obj.pInventory[iItemPos]->m_Level;
+	float dur = Obj.pInventory[iItemPos]->m_Durability;
+	BOOL ret = Obj.pInventory[iItemPos]->IsItem();
+	BYTE Option1 = Obj.pInventory[iItemPos]->m_Option1;
+	BYTE Option2 = Obj.pInventory[iItemPos]->m_Option2;
+	BYTE Option3 = Obj.pInventory[iItemPos]->m_Option3;
+	BYTE NOption = Obj.pInventory[iItemPos]->m_NewOption;
+	UINT64 s_num = Obj.pInventory[iItemPos]->m_Number;
 	BYTE ItemExOption = g_kJewelOfHarmonySystem.GetItemStrengthenOption(&Obj.pInventory[iItemPos]);
 	BYTE ItemExLevel = g_kJewelOfHarmonySystem.GetItemOptionLevel(&Obj.pInventory[iItemPos]);
 
 	BYTE NewOption[MAX_EXOPTION_SIZE];
 	::ItemIsBufExOption(NewOption, &Obj.pInventory[iItemPos]);
-	int PetLevel = Obj.pInventory[iItemPos].m_PetItem_Level;
-	UINT64 PetExp = Obj.pInventory[iItemPos].m_PetItem_Exp;
-	BYTE SOption = Obj.pInventory[iItemPos].m_SetOption;
-	BYTE ItemEffectEx = Obj.pInventory[iItemPos].m_ItemOptionEx;
-	UINT64 item_number = Obj.pInventory[iItemPos].m_Number;
+	int PetLevel = Obj.pInventory[iItemPos]->m_PetItem_Level;
+	UINT64 PetExp = Obj.pInventory[iItemPos]->m_PetItem_Exp;
+	BYTE SOption = Obj.pInventory[iItemPos]->m_SetOption;
+	BYTE ItemEffectEx = Obj.pInventory[iItemPos]->m_ItemOptionEx;
+	UINT64 item_number = Obj.pInventory[iItemPos]->m_Number;
 	char szItemName[50] = "Item";
 	int aAntiLootIndex = -1;
 
@@ -3643,9 +3643,9 @@ bool CBloodCastle::CheckUserHaveUlimateWeapon(CGameObject &Obj)
 
 	for ( int x=0;x<INVENTORY_SIZE;x++)
 	{
-		if ( Obj.pInventory[x].IsItem() == TRUE )
+		if ( Obj.pInventory[x]->IsItem() == TRUE )
 		{
-			if ( Obj.pInventory[x].m_Type == ITEMGET(0,19) || Obj.pInventory[x].m_Type == ITEMGET(5,10) || Obj.pInventory[x].m_Type == ITEMGET(4,18) )
+			if ( Obj.pInventory[x]->m_Type == ITEMGET(0,19) || Obj.pInventory[x]->m_Type == ITEMGET(5,10) || Obj.pInventory[x]->m_Type == ITEMGET(4,18) )
 			{
 				bRetVal = true;
 				break;

@@ -490,7 +490,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 		lpTargetObj.m_iDuelTickCount = GetTickCount();
 	}
 
-	if (Obj.pInventory[0].m_Type == ITEMGET(2, 5) && Obj.pInventory[0].m_IsValidItem != false)	// Crystal Sword
+	if (Obj.pInventory[0]->m_Type == ITEMGET(2, 5) && Obj.pInventory[0]->m_IsValidItem != false)	// Crystal Sword
 	{
 		if ((rand() % 20) == 0)
 		{
@@ -499,7 +499,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 			magicsend = 1;
 		}
 	}
-	else if (Obj.pInventory[1].m_Type == ITEMGET(2, 5) && Obj.pInventory[1].m_IsValidItem != false)	// Crystal Sword
+	else if (Obj.pInventory[1]->m_Type == ITEMGET(2, 5) && Obj.pInventory[1]->m_IsValidItem != false)	// Crystal Sword
 	{
 		if ((rand() % 20) == 0)
 		{
@@ -754,7 +754,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 			iOriginTargetDefense -= iOriginTargetDefense * iCurseValue / 100;
 		}
 
-		if (lpTargetObj.Type == OBJ_USER && lpTargetObj.pInventory[7].IsItem() == TRUE && lpTargetObj.pInventory[7].m_IsValidItem == true)
+		if (lpTargetObj.Type == OBJ_USER && lpTargetObj.pInventory[7]->IsItem() == TRUE && lpTargetObj.pInventory[7]->m_IsValidItem == true)
 		{
 			targetdefense += lpTargetObj.m_PlayerData->m_MPSkillOpt.iMpsAddWingDefense;
 		}
@@ -2432,7 +2432,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 			}
 			}
 
-			if (Obj.pInventory[1].GetDetailItemType() == ITEM_SUMMONER_BOOK &&	Obj.pInventory[1].m_Special[0] == skill)
+			if (Obj.pInventory[1]->GetDetailItemType() == ITEM_SUMMONER_BOOK &&	Obj.pInventory[1]->m_Special[0] == skill)
 			{
 				if (MagicDamageC.GetSkillAttr(skill) == R_FIRE)
 				{
@@ -3339,7 +3339,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lp
 			
 			if (gObjWingSprite(lpObj) == TRUE)
 			{
-				if (Obj.pInventory[7].m_Type == ITEMGET(12, 267))
+				if (Obj.pInventory[7]->m_Type == ITEMGET(12, 267))
 				{
 					fRate += 4.0;
 				}
@@ -3684,7 +3684,7 @@ BOOL CObjAttack::PentagramAttack(CGameObject &Obj, CGameObject lpTargetObj, CMag
 
 	if ((Obj.Type == OBJ_USER && lpMagic) || Obj.Type == OBJ_MONSTER)
 	{
-		if (Obj.Type == OBJ_USER && g_PentagramSystem.IsPentagramItem(Obj.pInventory[236].m_Type) && Obj.pInventory[236].m_IsValidItem)
+		if (Obj.Type == OBJ_USER && g_PentagramSystem.IsPentagramItem(Obj.pInventory[236]->m_Type) && Obj.pInventory[236]->m_IsValidItem)
 		{
 			bPentagramEquip = true;
 			PentagramAttackDamage = this->GetElementalDamage(lpObj, lpTargetObj, &PentagramDamageType1, &PentagramDamageType2, AttackDamage, iTargetDefense);
@@ -4432,14 +4432,14 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject lpTargetObj, int 
 
 		if (Obj.m_PlayerData->m_MPSkillOpt.iMpsAddControlAttack > 0.0)
 		{
-			if (Obj.pInventory[0].GetDetailItemType() == ITEM_DARKLORD_SCEPTER || Obj.pInventory[1].GetDetailItemType() == ITEM_DARKLORD_SCEPTER)
+			if (Obj.pInventory[0]->GetDetailItemType() == ITEM_DARKLORD_SCEPTER || Obj.pInventory[1]->GetDetailItemType() == ITEM_DARKLORD_SCEPTER)
 			{
 				int nAddAttack = (Obj.AddLeadership + Obj.Leadership) / Obj.m_PlayerData->m_MPSkillOpt.iMpsAddControlAttack;
 				ad += nAddAttack;
 			}
 		}
 
-		if (Obj.pInventory[7].IsItem() == TRUE && Obj.pInventory[7].m_IsValidItem == true)
+		if (Obj.pInventory[7]->IsItem() == TRUE && Obj.pInventory[7]->m_IsValidItem == true)
 		{
 			if (Obj.Class == CLASS_KNIGHT || Obj.Class == CLASS_ELF || Obj.Class == CLASS_MAGUMSA || Obj.Class == CLASS_DARKLORD || Obj.Class == CLASS_RAGEFIGHTER)
 			{
@@ -4532,10 +4532,10 @@ int CObjAttack::GetAttackDamageSummoner(CGameObject &Obj, CGameObject lpTargetOb
 			damagemax += Obj.m_PlayerData->m_MPSkillOpt.iMpsIncMaxMagicDamage;
 		}
 
-		if (Obj.pInventory[1].IsItem() && (Obj.pInventory[1].m_Type >= ITEMGET(5, 0) && Obj.pInventory[1].m_Type < ITEMGET(6, 0)) && Obj.pInventory[1].m_IsValidItem)
+		if (Obj.pInventory[1]->IsItem() && (Obj.pInventory[1]->m_Type >= ITEMGET(5, 0) && Obj.pInventory[1]->m_Type < ITEMGET(6, 0)) && Obj.pInventory[1]->m_IsValidItem)
 		{
-			int damage = Obj.pInventory[1].m_CurseSpell / 2 + Obj.pInventory[1].m_Level * 2;	// #formula
-			damage -= (WORD)(Obj.pInventory[1].m_CurrentDurabilityState * damage);	// #formula
+			int damage = Obj.pInventory[1]->m_CurseSpell / 2 + Obj.pInventory[1]->m_Level * 2;	// #formula
+			damage -= (WORD)(Obj.pInventory[1]->m_CurrentDurabilityState * damage);	// #formula
 
 			damagemin += damagemin * damage / 100;	// #formula
 			damagemax += damagemax * damage / 100;	// #formula
@@ -4592,10 +4592,10 @@ int CObjAttack::GetAttackDamageSummoner(CGameObject &Obj, CGameObject lpTargetOb
 			damagemax += fDamage;
 		}
 
-		if (Obj.pInventory[0].IsItem() && (Obj.pInventory[0].m_Type >= ITEMGET(5, 0) && Obj.pInventory[0].m_Type < ITEMGET(6, 0)) && Obj.pInventory[0].m_IsValidItem)
+		if (Obj.pInventory[0]->IsItem() && (Obj.pInventory[0]->m_Type >= ITEMGET(5, 0) && Obj.pInventory[0]->m_Type < ITEMGET(6, 0)) && Obj.pInventory[0]->m_IsValidItem)
 		{
-			int damage = Obj.pInventory[0].m_Magic / 2 + Obj.pInventory[0].m_Level * 2;	// #formula
-			damage -= (WORD)(Obj.pInventory[0].m_CurrentDurabilityState * damage);	// #formula
+			int damage = Obj.pInventory[0]->m_Magic / 2 + Obj.pInventory[0]->m_Level * 2;	// #formula
+			damage -= (WORD)(Obj.pInventory[0]->m_CurrentDurabilityState * damage);	// #formula
 
 			damagemin += damagemin * damage / 100;	// #formula
 			damagemax += damagemax * damage / 100;	// #formula
@@ -4613,7 +4613,7 @@ int CObjAttack::GetAttackDamageSummoner(CGameObject &Obj, CGameObject lpTargetOb
 
 	if (SkillAttr != -1)
 	{
-		if ((Obj.Authority & 0x20) != 0x20 || (Obj.pInventory[10].m_Type != ITEMGET(13, 42) && Obj.pInventory[11].m_Type != ITEMGET(13, 42)))
+		if ((Obj.Authority & 0x20) != 0x20 || (Obj.pInventory[10]->m_Type != ITEMGET(13, 42) && Obj.pInventory[11]->m_Type != ITEMGET(13, 42)))
 		{
 			damagemin += (BYTE)Obj.m_AddResistance[SkillAttr];
 			damagemax += (BYTE)Obj.m_AddResistance[SkillAttr];
@@ -4882,7 +4882,7 @@ int  CObjAttack::GetAttackDamageWizard(CGameObject &Obj, CGameObject lpTargetObj
 
 			if (SkillAttr != -1)
 			{
-				if ((Obj.Authority & 0x20) != 0x20 || (Obj.pInventory[10].m_Type != ITEMGET(13, 42) && Obj.pInventory[11].m_Type != ITEMGET(13, 42)))
+				if ((Obj.Authority & 0x20) != 0x20 || (Obj.pInventory[10]->m_Type != ITEMGET(13, 42) && Obj.pInventory[11]->m_Type != ITEMGET(13, 42)))
 				{
 					damagemin += (BYTE)Obj.m_AddResistance[SkillAttr];
 					damagemax += (BYTE)Obj.m_AddResistance[SkillAttr];
@@ -4933,7 +4933,7 @@ int  CObjAttack::GetAttackDamageWizard(CGameObject &Obj, CGameObject lpTargetObj
 
 			if (SkillAttr != -1)
 			{
-				if ((Obj.Authority & 0x20) != 0x20 || (Obj.pInventory[10].m_Type != ITEMGET(13, 42) && Obj.pInventory[11].m_Type != ITEMGET(13, 42)))
+				if ((Obj.Authority & 0x20) != 0x20 || (Obj.pInventory[10]->m_Type != ITEMGET(13, 42) && Obj.pInventory[11]->m_Type != ITEMGET(13, 42)))
 				{
 					damagemin += (BYTE)Obj.m_AddResistance[SkillAttr];
 					damagemax += (BYTE)Obj.m_AddResistance[SkillAttr];
@@ -5081,7 +5081,7 @@ int  CObjAttack::GetAttackDamageWizard(CGameObject &Obj, CGameObject lpTargetObj
 
 		if (SkillAttr != -1)
 		{
-			if ((Obj.Authority & 0x20) != 0x20 || (Obj.pInventory[10].m_Type != ITEMGET(13, 42) && Obj.pInventory[11].m_Type != ITEMGET(13, 42)))
+			if ((Obj.Authority & 0x20) != 0x20 || (Obj.pInventory[10]->m_Type != ITEMGET(13, 42) && Obj.pInventory[11]->m_Type != ITEMGET(13, 42)))
 			{
 				damagemin += (BYTE)Obj.m_AddResistance[SkillAttr];
 				damagemax += (BYTE)Obj.m_AddResistance[SkillAttr];
@@ -5439,8 +5439,8 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 	{
 		if (g_PentagramSystem.IsPentagramItem(&Obj.pInventory[236]) == true)
 		{
-			PentagramMinDamage = Obj.pInventory[236].m_DamageMin;
-			PentagramMaxDamage = Obj.pInventory[236].m_DamageMax;
+			PentagramMinDamage = Obj.pInventory[236]->m_DamageMin;
+			PentagramMaxDamage = Obj.pInventory[236]->m_DamageMax;
 		}
 
 		int iExcelDamageRate = 0;
@@ -5698,7 +5698,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 	{
 		if (g_PentagramSystem.IsPentagramItem(&lpTargetObj.pInventory[236]) == true)
 		{
-			PentagramDefense = lpTargetObj.pInventory[236].m_Defense;
+			PentagramDefense = lpTargetObj.pInventory[236]->m_Defense;
 		}
 
 		if (lpTargetObj.m_PlayerData->m_PentagramOptions.m_isAddPentaDefense == true)

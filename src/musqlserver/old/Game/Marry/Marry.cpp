@@ -437,9 +437,9 @@ void CMarry::DeleteRequiredItem(CGameObject &Obj, int iSide)
 		{
 			for(int i=0;i<MAIN_INVENTORY_SIZE;i++)
 			{
-				if(Obj.pInventory[i].IsItem())
+				if(Obj.pInventory[i]->IsItem())
 				{
-					if (Obj.pInventory[i].m_Type == It->m_wItemID)
+					if (Obj.pInventory[i]->m_Type == It->m_wItemID)
 					{
 						gObjInventoryDeleteItem(Obj.m_Index, i);
 						gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, i, 1);
@@ -465,9 +465,9 @@ void CMarry::DeleteDivorceItem(CGameObject &Obj)
 		{
 			for (int i = 0; i<MAIN_INVENTORY_SIZE; i++)
 			{
-				if (Obj.pInventory[i].IsItem())
+				if (Obj.pInventory[i]->IsItem())
 				{
-					if (Obj.pInventory[i].m_Type == It->m_wItemID)
+					if (Obj.pInventory[i]->m_Type == It->m_wItemID)
 					{
 						gObjInventoryDeleteItem(Obj.m_Index, i);
 						gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, i, 1);

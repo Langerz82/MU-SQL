@@ -2882,15 +2882,15 @@ void gObjWarehouseTextSave(CGameObject &Obj)
 			if (Obj.pWarehouse[n]->m_serial != 0)
 			{
 				ItemIsBufExOption(NewOption, Obj.pWarehouse[n]);
-				/*CharSaveLog->Output("[%s][%s] SW [%d,%s,%d,%d,%d,%d]serial:[%I64d] dur:[%d] Ex:[%d,%d,%d,%d,%d,%d,%d] Set:[%d] 380:[%d] HO:[%d,%d] E:[%d]", Obj.AccountID, Obj.Name, n, Obj.pWarehouse[n].GetName(),
-					Obj.pWarehouse[n].m_Level, Obj.pWarehouse[n].m_Option1,
-					Obj.pWarehouse[n].m_Option2, Obj.pWarehouse[n].m_Option3,
-					Obj.pWarehouse[n].m_Number, (BYTE)Obj.pWarehouse[n].m_Durability,
+				/*CharSaveLog->Output("[%s][%s] SW [%d,%s,%d,%d,%d,%d]serial:[%I64d] dur:[%d] Ex:[%d,%d,%d,%d,%d,%d,%d] Set:[%d] 380:[%d] HO:[%d,%d] E:[%d]", Obj.AccountID, Obj.Name, n, Obj.pWarehouse[n]->GetName(),
+					Obj.pWarehouse[n]->m_Level, Obj.pWarehouse[n]->m_Option1,
+					Obj.pWarehouse[n]->m_Option2, Obj.pWarehouse[n]->m_Option3,
+					Obj.pWarehouse[n]->m_Number, (BYTE)Obj.pWarehouse[n]->m_Durability,
 					NewOption[0], NewOption[1], NewOption[2], NewOption[3], NewOption[4], NewOption[5], NewOption[6],
-					Obj.pWarehouse[n].m_SetOption, Obj.pWarehouse[n].m_ItemOptionEx >> 7,
+					Obj.pWarehouse[n]->m_SetOption, Obj.pWarehouse[n]->m_ItemOptionEx >> 7,
 					g_kJewelOfHarmonySystem.GetItemStrengthenOption(&Obj.pWarehouse[n]),
 					g_kJewelOfHarmonySystem.GetItemOptionLevel(&Obj.pWarehouse[n]),
-					Obj.pWarehouse[n].m_BonusSocketOption);*/
+					Obj.pWarehouse[n]->m_BonusSocketOption);*/
 			}
 		}
 	}
@@ -18018,7 +18018,7 @@ void gObjSecondProc()
 				if (g_ConfigRead.antihack.AntiHackBreachDisconnectUser == true)
 				{
 				gGameProtocol.GCSendDisableReconnect(Obj);
-				//IOCP.CloseClient(Obj);
+				//IOCP.CloseClient(Obj.m_PlayerData->ConnectUser->Index);
 				}*/
 			}
 
@@ -18033,7 +18033,7 @@ void gObjSecondProc()
 					if (g_ConfigRead.antihack.AntiHackBreachDisconnectUser == true)
 					{
 						gGameProtocol.GCSendDisableReconnect(*lpObj);
-						//IOCP.CloseClient(Obj);
+						//IOCP.CloseClient(Obj.m_PlayerData->ConnectUser->Index);
 					}
 				}
 			}
@@ -18056,7 +18056,7 @@ void gObjSecondProc()
 				{
 					if (g_ConfigRead.antihack.EnabledAgiCheck == true)
 					{
-						//IOCP.CloseClient(Obj);
+						//IOCP.CloseClient(Obj.m_PlayerData->ConnectUser->Index);
 					}
 
 					else

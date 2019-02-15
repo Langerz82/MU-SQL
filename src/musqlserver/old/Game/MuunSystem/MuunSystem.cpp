@@ -2041,7 +2041,7 @@ bool CMuunSystem::MuunItemLifeGem(CGameObject lpObj, int source, int target)
 		return false;
 	}
 
-	if (Obj.pInventory[source].IsItem() == FALSE)
+	if (Obj.pInventory[source]->IsItem() == FALSE)
 	{
 		return false;
 	}
@@ -2056,7 +2056,7 @@ bool CMuunSystem::MuunItemLifeGem(CGameObject lpObj, int source, int target)
 		return false;
 	}
 	
-	if (Obj.pInventory[source].m_Type != ITEMGET(14, 16))
+	if (Obj.pInventory[source]->m_Type != ITEMGET(14, 16))
 	{
 		return false;
 	}
@@ -2069,7 +2069,7 @@ bool CMuunSystem::MuunItemLifeGem(CGameObject lpObj, int source, int target)
 	int nBeforeDur = Obj.pMuunInventory[target].m_Durability;
 	Obj.pMuunInventory[target].m_Durability = 255.0;
 
-	LPITEM_ATTRIBUTE pItemAttribute = GetItemAttr(Obj.pInventory[source].m_Type);
+	LPITEM_ATTRIBUTE pItemAttribute = GetItemAttr(Obj.pInventory[source]->m_Type);
 							
 	if (pItemAttribute)
 	{
@@ -2168,7 +2168,7 @@ bool CMuunSystem::MuunItemEnergyGenerator(CGameObject &Obj, int source, int targ
 		{
 			sLog->outBasic("[MuunSystem][EnergyGenerator] [%s][%s] [Mix Success] Source: [%s] Pos[%d] Rank[%d] Level[%d] Serial[%I64d] - Target: [%s] Pos[%d] Serial[%I64d] Dur[%d/%d/%d]",
 				Obj.AccountID, Obj.Name, pSItemAttribute->Name, source, Obj.pMuunInventory[source].m_Durability, Obj.pMuunInventory[source].m_Level, Obj.pMuunInventory[source].m_Number,
-				pTItemAttribute->Name, target, Obj.pInventory[target].m_Number, Obj.pMuunInventory[target].m_Durability, nEnergy, nMuunDurability);
+				pTItemAttribute->Name, target, Obj.pInventory[target]->m_Number, Obj.pMuunInventory[target].m_Durability, nEnergy, nMuunDurability);
 		}
 
 		Obj.pMuunInventory[target].m_Durability = nMuunDurability;
@@ -2184,7 +2184,7 @@ bool CMuunSystem::MuunItemEnergyGenerator(CGameObject &Obj, int source, int targ
 		{
 			sLog->outBasic("[MuunSystem][EnergyGenerator] [%s][%s] [Create Success] Source: [%s] Pos[%d] Rank[%d] Level[%d] Serial[%I64d] - Target: [%s] Pos[%d] Serial[%I64d] Dur[%d/%d/%d]",
 				Obj.AccountID, Obj.Name, pSItemAttribute->Name, source, Obj.pMuunInventory[source].m_Durability, Obj.pMuunInventory[source].m_Level, Obj.pMuunInventory[source].m_Number,
-				pTItemAttribute->Name, target, Obj.pInventory[target].m_Number, Obj.pMuunInventory[target].m_Durability, nEnergy, nMuunDurability);
+				pTItemAttribute->Name, target, Obj.pInventory[target]->m_Number, Obj.pMuunInventory[target].m_Durability, nEnergy, nMuunDurability);
 		}
 
 		int iType = ITEMGET(13,240);
@@ -3226,21 +3226,21 @@ bool CMuunSystem::ChkAndDelItemMuunExchange(CGameObject &Obj, int iSelect)
 				break;
 			}
 
-			if (Obj.pInventory[nItemPos].IsItem() == TRUE &&
-				Obj.pInventory[nItemPos].m_Type == nNeedItemNum)
+			if (Obj.pInventory[nItemPos]->IsItem() == TRUE &&
+				Obj.pInventory[nItemPos]->m_Type == nNeedItemNum)
 			{
 				BYTE NewOption[MAX_EXOPTION_SIZE];
 				ItemIsBufExOption(NewOption, &Obj.pMuunInventory[nItemPos]);
 
 				sLog->outBasic("[MuunSystem][MuunExchange] Delete Inven Item [%s][%s] Delete Item Info - Item:[%s,%d,%d,%d,%d] serial:[%I64d][%d] Ex:[%d,%d,%d,%d,%d,%d,%d] Set[%d] 380:[%d] HO:[%d,%d] SC[%d,%d,%d,%d,%d] BonusOption[%d]",
-					Obj.AccountID, Obj.Name, Obj.pInventory[nItemPos].GetName(), Obj.pInventory[nItemPos].m_Level, Obj.pInventory[nItemPos].m_Option1, Obj.pInventory[nItemPos].m_Option2, Obj.pInventory[nItemPos].m_Option3,
-					Obj.pInventory[nItemPos].m_Number, (int)Obj.pInventory[nItemPos].m_Durability, NewOption[0], NewOption[1], NewOption[2], NewOption[3], NewOption[4], NewOption[5], NewOption[6], Obj.pInventory[nItemPos].m_SetOption,
-					Obj.pInventory[nItemPos].m_ItemOptionEx >> 7, g_kJewelOfHarmonySystem.GetItemStrengthenOption(&Obj.pInventory[nItemPos]), g_kJewelOfHarmonySystem.GetItemOptionLevel(&Obj.pInventory[nItemPos]),
-					Obj.pInventory[nItemPos].m_SocketOption[0], Obj.pInventory[nItemPos].m_SocketOption[1], Obj.pInventory[nItemPos].m_SocketOption[2], Obj.pInventory[nItemPos].m_SocketOption[3], Obj.pInventory[nItemPos].m_SocketOption[4],
-					Obj.pInventory[nItemPos].m_BonusSocketOption);
+					Obj.AccountID, Obj.Name, Obj.pInventory[nItemPos]->GetName(), Obj.pInventory[nItemPos]->m_Level, Obj.pInventory[nItemPos]->m_Option1, Obj.pInventory[nItemPos]->m_Option2, Obj.pInventory[nItemPos]->m_Option3,
+					Obj.pInventory[nItemPos]->m_Number, (int)Obj.pInventory[nItemPos]->m_Durability, NewOption[0], NewOption[1], NewOption[2], NewOption[3], NewOption[4], NewOption[5], NewOption[6], Obj.pInventory[nItemPos]->m_SetOption,
+					Obj.pInventory[nItemPos]->m_ItemOptionEx >> 7, g_kJewelOfHarmonySystem.GetItemStrengthenOption(&Obj.pInventory[nItemPos]), g_kJewelOfHarmonySystem.GetItemOptionLevel(&Obj.pInventory[nItemPos]),
+					Obj.pInventory[nItemPos]->m_SocketOption[0], Obj.pInventory[nItemPos]->m_SocketOption[1], Obj.pInventory[nItemPos]->m_SocketOption[2], Obj.pInventory[nItemPos]->m_SocketOption[3], Obj.pInventory[nItemPos]->m_SocketOption[4],
+					Obj.pInventory[nItemPos]->m_BonusSocketOption);
 
 				gObjInventoryItemSet(Obj.m_Index, nItemPos, -1);
-				Obj.pInventory[nItemPos].Clear();
+				Obj.pInventory[nItemPos]->Clear();
 				gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, nItemPos, 1);
 			}
 		}
@@ -3304,7 +3304,7 @@ bool CMuunSystem::ChkMuunExchangeInvenNeedItem(CGameObject &Obj, int iSelect, in
 	{
 		for (int nInven = INVETORY_WEAR_SIZE; nInven < MAIN_INVENTORY_SIZE; nInven++ )
 		{
-			if (Obj.pInventory[nInven].IsItem() == TRUE && this->ChkMuunExchangeInvenNeedItem(nItemCnt, nInven, nNeedItemCnt, Obj.pInventory[nInven].m_Type, nNeedItemNum, ItemPos) == TRUE)
+			if (Obj.pInventory[nInven]->IsItem() == TRUE && this->ChkMuunExchangeInvenNeedItem(nItemCnt, nInven, nNeedItemCnt, Obj.pInventory[nInven]->m_Type, nNeedItemNum, ItemPos) == TRUE)
 			{
 				return TRUE;
 			}

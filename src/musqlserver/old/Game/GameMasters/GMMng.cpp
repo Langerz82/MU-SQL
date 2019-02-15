@@ -2374,7 +2374,7 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 		{
 			for (int i = 0; i < 12; i++)
 			{
-				if (Obj.pInventory[i].IsItem() == true)
+				if (Obj.pInventory[i]->IsItem() == true)
 				{
 					MsgOutput(Obj.m_Index, Lang.GetText(0, 461));
 					return 0;
@@ -2520,15 +2520,15 @@ int CGMMng::ManagementProc(CGameObject &Obj, char* szCmd, CGameObject &ObjTarget
 	case 418:
 		for (int i = 0; i < INVENTORY_SIZE; ++i)
 		{
-			if (Obj.pInventory[i].IsItem() == TRUE)
+			if (Obj.pInventory[i]->IsItem() == TRUE)
 			{
 				if (g_PentagramSystem.IsPentagramItem(&Obj.pInventory[i]) == true)
 				{
 					for (int j = 0; j < 5; j++)
 					{
-						if (Obj.pInventory[i].m_SocketOption[j] < 0xFE)
+						if (Obj.pInventory[i]->m_SocketOption[j] < 0xFE)
 						{
-							g_PentagramSystem.DelPentagramJewelInfo(Obj.m_Index, 0, Obj.pInventory[i].m_SocketOption[j]);
+							g_PentagramSystem.DelPentagramJewelInfo(Obj.m_Index, 0, Obj.pInventory[i]->m_SocketOption[j]);
 						}
 					}
 
@@ -3872,22 +3872,22 @@ BOOL CGMMng::CheckTraceMarryCondition(CGameObject &Obj, CGameObject lpTargetObj)
 	if (lpTargetObj.MapNumber == MAP_INDEX_ICARUS)
 	{
 		if ((Obj.pInventory[Obj.m_btInvenPetPos].m_Type != ITEMGET(13, 3) &&
-			Obj.pInventory[7].m_Type != ITEMGET(13, 30) &&
+			Obj.pInventory[7]->m_Type != ITEMGET(13, 30) &&
 			Obj.pInventory[Obj.m_btInvenPetPos].m_Type != ITEMGET(13, 37) &&
-			Obj.pInventory[7].m_Type != ITEMGET(12, 36) &&//Season 4.5 addon
-			Obj.pInventory[7].m_Type != ITEMGET(12, 37) &&//Season 4.5 addon
-			Obj.pInventory[7].m_Type != ITEMGET(12, 38) &&//Season 4.5 addon
-			Obj.pInventory[7].m_Type != ITEMGET(12, 39) &&//Season 4.5 addon
-			Obj.pInventory[7].m_Type != ITEMGET(12, 40) &&//Season 4.5 addon
-			Obj.pInventory[7].m_Type != ITEMGET(12, 41) &&//Season 4.5 addon
-			Obj.pInventory[7].m_Type != ITEMGET(12, 42) &&//Season 4.5 addon
-			Obj.pInventory[7].m_Type != ITEMGET(12, 43) &&//Season 4.5 addon
+			Obj.pInventory[7]->m_Type != ITEMGET(12, 36) &&//Season 4.5 addon
+			Obj.pInventory[7]->m_Type != ITEMGET(12, 37) &&//Season 4.5 addon
+			Obj.pInventory[7]->m_Type != ITEMGET(12, 38) &&//Season 4.5 addon
+			Obj.pInventory[7]->m_Type != ITEMGET(12, 39) &&//Season 4.5 addon
+			Obj.pInventory[7]->m_Type != ITEMGET(12, 40) &&//Season 4.5 addon
+			Obj.pInventory[7]->m_Type != ITEMGET(12, 41) &&//Season 4.5 addon
+			Obj.pInventory[7]->m_Type != ITEMGET(12, 42) &&//Season 4.5 addon
+			Obj.pInventory[7]->m_Type != ITEMGET(12, 43) &&//Season 4.5 addon
 			Obj.pInventory[Obj.m_btInvenPetPos].m_Type != ITEMGET(13, 4) &&//Season 4.5 addon
-			!(Obj.pInventory[7].m_Type >= ITEMGET(12, 262) && Obj.pInventory[7].m_Type <= ITEMGET(12, 265)) &&
-			!(Obj.pInventory[7].m_Type >= ITEMGET(12, 130) && Obj.pInventory[7].m_Type <= ITEMGET(12, 135)) &&
-			(Obj.pInventory[7].m_Type < ITEMGET(12, 0) || Obj.pInventory[7].m_Type > ITEMGET(12, 6))) ||
+			!(Obj.pInventory[7]->m_Type >= ITEMGET(12, 262) && Obj.pInventory[7]->m_Type <= ITEMGET(12, 265)) &&
+			!(Obj.pInventory[7]->m_Type >= ITEMGET(12, 130) && Obj.pInventory[7]->m_Type <= ITEMGET(12, 135)) &&
+			(Obj.pInventory[7]->m_Type < ITEMGET(12, 0) || Obj.pInventory[7]->m_Type > ITEMGET(12, 6))) ||
 			Obj.pInventory[Obj.m_btInvenPetPos].m_Type == ITEMGET(13, 2) ||
-			Obj.pInventory[11].m_Type == ITEMGET(13, 10) || Obj.pInventory[10].m_Type == ITEMGET(13, 10))
+			Obj.pInventory[11]->m_Type == ITEMGET(13, 10) || Obj.pInventory[10]->m_Type == ITEMGET(13, 10))
 		{
 			return FALSE;
 		}

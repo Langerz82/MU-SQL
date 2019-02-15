@@ -670,7 +670,7 @@ int LuckyItemManager::LuckyItemRepaire(CGameObject &Obj, int source, int target)
 		return false;
 	}
 	
-	if( !Obj.pInventory[source].IsItem() || !Obj.pInventory[target].IsItem() )
+	if( !Obj.pInventory[source]->IsItem() || !Obj.pInventory[target]->IsItem() )
 	{
 		return false;
 	}

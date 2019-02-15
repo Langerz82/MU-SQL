@@ -343,10 +343,10 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(CGameObject &Obj, int so
 	if ( target < 0 || target > MAIN_INVENTORY_SIZE-1 )
 		return FALSE;
 
-	if ( Obj.pInventory[source].IsItem() == FALSE )
+	if ( Obj.pInventory[source]->IsItem() == FALSE )
 		return FALSE;
 
-	if ( Obj.pInventory[target].IsItem() == FALSE )
+	if ( Obj.pInventory[target]->IsItem() == FALSE )
 		return FALSE;
 
 	CItemObject * pSource = &Obj.pInventory[source];
@@ -410,16 +410,16 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfRise(CGameObject &Obj, int so
 
 	gObjMakePreviewCharSet(lpObj);
 
-	float levelitemdur = ItemGetDurability(Obj.pInventory[target].m_Type,
-		Obj.pInventory[target].m_Level, Obj.pInventory[target].IsExtItem(),
-		Obj.pInventory[target].IsSetItem());
+	float levelitemdur = ItemGetDurability(Obj.pInventory[target]->m_Type,
+		Obj.pInventory[target]->m_Level, Obj.pInventory[target]->IsExtItem(),
+		Obj.pInventory[target]->IsSetItem());
 
-	Obj.pInventory[target].m_Durability = levelitemdur * Obj.pInventory[target].m_Durability / Obj.pInventory[target].m_BaseDurability;
+	Obj.pInventory[target]->m_Durability = levelitemdur * Obj.pInventory[target]->m_Durability / Obj.pInventory[target]->m_BaseDurability;
 
-	Obj.pInventory[target].Convert(Obj.pInventory[target].m_Type,
-		Obj.pInventory[target].m_Option1, Obj.pInventory[target].m_Option2,
-		Obj.pInventory[target].m_Option3, Obj.pInventory[target].m_NewOption,
-		Obj.pInventory[target].m_SetOption, Obj.pInventory[target].m_ItemOptionEx,
+	Obj.pInventory[target]->Convert(Obj.pInventory[target]->m_Type,
+		Obj.pInventory[target]->m_Option1, Obj.pInventory[target]->m_Option2,
+		Obj.pInventory[target]->m_Option3, Obj.pInventory[target]->m_NewOption,
+		Obj.pInventory[target]->m_SetOption, Obj.pInventory[target]->m_ItemOptionEx,
 		0, -1, 0, CURRENT_DB_VERSION);
 
 	return TRUE;
@@ -439,10 +439,10 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfHarmony(CGameObject &Obj, int
 	if ( target < 0 || target > MAIN_INVENTORY_SIZE-1 )
 		return FALSE;
 
-	if ( Obj.pInventory[source].IsItem() == FALSE )
+	if ( Obj.pInventory[source]->IsItem() == FALSE )
 		return FALSE;
 
-	if ( Obj.pInventory[target].IsItem() == FALSE )
+	if ( Obj.pInventory[target]->IsItem() == FALSE )
 		return FALSE;
 
 	CItemObject * pSource = &Obj.pInventory[source];
@@ -495,16 +495,16 @@ BOOL CJewelOfHarmonySystem::StrengthenItemByJewelOfHarmony(CGameObject &Obj, int
 
 	gObjMakePreviewCharSet(lpObj);
 
-	float levelitemdur = ItemGetDurability(Obj.pInventory[target].m_Type,
-		Obj.pInventory[target].m_Level, Obj.pInventory[target].IsExtItem(),
-		Obj.pInventory[target].IsSetItem());
+	float levelitemdur = ItemGetDurability(Obj.pInventory[target]->m_Type,
+		Obj.pInventory[target]->m_Level, Obj.pInventory[target]->IsExtItem(),
+		Obj.pInventory[target]->IsSetItem());
 
-	Obj.pInventory[target].m_Durability = levelitemdur * Obj.pInventory[target].m_Durability / Obj.pInventory[target].m_BaseDurability;
+	Obj.pInventory[target]->m_Durability = levelitemdur * Obj.pInventory[target]->m_Durability / Obj.pInventory[target]->m_BaseDurability;
 
-	Obj.pInventory[target].Convert(Obj.pInventory[target].m_Type,
-		Obj.pInventory[target].m_Option1, Obj.pInventory[target].m_Option2,
-		Obj.pInventory[target].m_Option3, Obj.pInventory[target].m_NewOption,
-		Obj.pInventory[target].m_SetOption, Obj.pInventory[target].m_ItemOptionEx,
+	Obj.pInventory[target]->Convert(Obj.pInventory[target]->m_Type,
+		Obj.pInventory[target]->m_Option1, Obj.pInventory[target]->m_Option2,
+		Obj.pInventory[target]->m_Option3, Obj.pInventory[target]->m_NewOption,
+		Obj.pInventory[target]->m_SetOption, Obj.pInventory[target]->m_ItemOptionEx,
 		0, -1, 0, CURRENT_DB_VERSION);
 
 	return TRUE;
@@ -613,9 +613,9 @@ void CJewelOfHarmonySystem::SetApplyStrengthenItem(CGameObject &Obj)
 
 	for ( iItemIndex =0;iItemIndex <INVETORY_WEAR_SIZE ; iItemIndex++)
 	{
-		if ( Obj.pInventory[iItemIndex].IsItem() != FALSE )
+		if ( Obj.pInventory[iItemIndex]->IsItem() != FALSE )
 		{
-			if ( Obj.pInventory[iItemIndex].m_IsValidItem !=  false )
+			if ( Obj.pInventory[iItemIndex]->m_IsValidItem !=  false )
 			{
 				BOOL bResult = this->_CalCItemObjectEffectValue(&Obj.pInventory[iItemIndex], pItemEffect);
 			}
@@ -1141,10 +1141,10 @@ BOOL CJewelOfHarmonySystem::SmeltItemBySmeltingStone(CGameObject &Obj, int sourc
 	if ( target < 0 || target > MAIN_INVENTORY_SIZE-1 )
 		return FALSE;
 
-	if ( Obj.pInventory[source].IsItem() == FALSE )
+	if ( Obj.pInventory[source]->IsItem() == FALSE )
 		return FALSE;
 
-	if ( Obj.pInventory[target].IsItem() == FALSE )
+	if ( Obj.pInventory[target]->IsItem() == FALSE )
 		return FALSE;
 
 	CItemObject * pSource = &Obj.pInventory[source];

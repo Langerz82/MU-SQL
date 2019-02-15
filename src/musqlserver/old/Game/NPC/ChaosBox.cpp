@@ -5261,23 +5261,23 @@ BOOL CMixSystem::SeedExtractMixS12(CGameObject &Obj, BYTE AncientPos, BYTE ExePo
 	if (lpSeedData != NULL)
 	{
 		::gObjInventoryItemSet(Obj.m_Index, AncientPos, -1);
-		::Obj.pInventory[AncientPos].Clear();
+		::Obj.pInventory[AncientPos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, AncientPos, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, ExePos, -1);
-		::Obj.pInventory[ExePos].Clear();
+		::Obj.pInventory[ExePos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ExePos, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JOHPos, -1);
-		::Obj.pInventory[JOHPos].Clear();
+		::Obj.pInventory[JOHPos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JOHPos, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JOCPos, -1);
-		::Obj.pInventory[JOCPos].Clear();
+		::Obj.pInventory[JOCPos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JOCPos, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, ChaosPos, -1);
-		::Obj.pInventory[ChaosPos].Clear();
+		::Obj.pInventory[ChaosPos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ChaosPos, 1);
 
 		ItemCreate(Obj.m_Index, 235, 0, 0, lpSeedData->m_ItemCode, lpSeedData->m_ItemLevel, 0, 0, 0, 0, Obj.m_Index, 0, 0, 0, 0, 0);
@@ -5512,7 +5512,7 @@ BOOL CMixSystem::SeedSphereEnhance(CGameObject &Obj, BYTE Sphere1, BYTE Sphere2,
 	if (!gObjSearchItemMinus(&getGameObject(Obj.m_Index), Rune, ReqRune))
 	{
 		::gObjInventoryItemSet(Obj.m_Index, Rune, -1);
-		::Obj.pInventory[Rune].Clear();
+		::Obj.pInventory[Rune]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, Rune, 1);
 	}
 
@@ -5542,10 +5542,10 @@ BOOL CMixSystem::SeedSphereEnhance(CGameObject &Obj, BYTE Sphere1, BYTE Sphere2,
 
 		gObjInventoryCommit(Obj.m_Index);
 		::gObjInventoryItemSet(Obj.m_Index, Sphere1, -1);
-		::Obj.pInventory[Sphere1].Clear();
+		::Obj.pInventory[Sphere1]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, Sphere1, 1);
 		::gObjInventoryItemSet(Obj.m_Index, Sphere2, -1);
-		::Obj.pInventory[Sphere2].Clear();
+		::Obj.pInventory[Sphere2]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, Sphere2, 1);
 		return TRUE;
 	}
@@ -5555,7 +5555,7 @@ BOOL CMixSystem::SeedSphereEnhance(CGameObject &Obj, BYTE Sphere1, BYTE Sphere2,
 		gGameProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
 		gObjInventoryCommit(Obj.m_Index);
 		::gObjInventoryItemSet(Obj.m_Index, Sphere2, -1);
-		::Obj.pInventory[Sphere2].Clear();
+		::Obj.pInventory[Sphere2]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, Sphere2, 1);
 		return FALSE;
 	}
@@ -5737,43 +5737,43 @@ void CMixSystem::SeedSphereRemoveMixS12(CGameObject &Obj, BYTE ItemPos, BYTE Slo
 		lpSocketItem->m_SocketOption, lpSocketItem->m_BonusSocketOption, 0, 3);
 
 	::gObjInventoryItemSet(Obj.m_Index, ItemPos, -1);
-	::Obj.pInventory[ItemPos].Clear();
+	::Obj.pInventory[ItemPos]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ItemPos, 1);
 
 	::gObjInventoryItemSet(Obj.m_Index, JogPos, -1);
-	::Obj.pInventory[JogPos].Clear();
+	::Obj.pInventory[JogPos]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JogPos, 1);
 
 	::gObjInventoryItemSet(Obj.m_Index, JohPos1, -1);
-	::Obj.pInventory[JohPos1].Clear();
+	::Obj.pInventory[JohPos1]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JohPos1, 1);
 	::gObjInventoryItemSet(Obj.m_Index, JohPos2, -1);
-	::Obj.pInventory[JohPos2].Clear();
+	::Obj.pInventory[JohPos2]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JohPos2, 1);
 	::gObjInventoryItemSet(Obj.m_Index, JohPos3, -1);
-	::Obj.pInventory[JohPos3].Clear();
+	::Obj.pInventory[JohPos3]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JohPos3, 1);
 	::gObjInventoryItemSet(Obj.m_Index, JohPos4, -1);
-	::Obj.pInventory[JohPos4].Clear();
+	::Obj.pInventory[JohPos4]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JohPos4, 1);
 	::gObjInventoryItemSet(Obj.m_Index, JohPos5, -1);
-	::Obj.pInventory[JohPos5].Clear();
+	::Obj.pInventory[JohPos5]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JohPos5, 1);
 
 	::gObjInventoryItemSet(Obj.m_Index, ChaosPos1, -1);
-	::Obj.pInventory[ChaosPos1].Clear();
+	::Obj.pInventory[ChaosPos1]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ChaosPos1, 1);
 	::gObjInventoryItemSet(Obj.m_Index, ChaosPos2, -1);
-	::Obj.pInventory[ChaosPos2].Clear();
+	::Obj.pInventory[ChaosPos2]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ChaosPos2, 1);
 	::gObjInventoryItemSet(Obj.m_Index, ChaosPos3, -1);
-	::Obj.pInventory[ChaosPos3].Clear();
+	::Obj.pInventory[ChaosPos3]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ChaosPos3, 1);
 	::gObjInventoryItemSet(Obj.m_Index, ChaosPos4, -1);
-	::Obj.pInventory[ChaosPos4].Clear();
+	::Obj.pInventory[ChaosPos4]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ChaosPos4, 1);
 	::gObjInventoryItemSet(Obj.m_Index, ChaosPos5, -1);
-	::Obj.pInventory[ChaosPos5].Clear();
+	::Obj.pInventory[ChaosPos5]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ChaosPos5, 1);
 	ItemCreate(Obj.m_Index, 235, 0, 0, NewItem.m_Type, NewItem.m_Level, 0, NewItem.m_Option1, NewItem.m_Option2, NewItem.m_Option3, Obj.m_Index, NewItem.m_NewOption, 0, 0, NewItem.m_SocketOption, NewItem.m_BonusSocketOption);
 	pMsg.Result1 = 1;
@@ -6142,55 +6142,55 @@ BOOL CMixSystem::SocketItemUpgradeMixS12(CGameObject &Obj, BYTE ItemPos, BYTE So
 		//NewItem.Convert(NewItemType, IsItem->m_Option1, IsItem->m_Option2, IsItem->m_Option3, 0, 0, 0, IsItem->m_SocketOption, IsItem->m_BonusSocketOption, 0, 3);
 
 		::gObjInventoryItemSet(Obj.m_Index, ItemPos, -1);
-		::Obj.pInventory[ItemPos].Clear();
+		::Obj.pInventory[ItemPos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ItemPos, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, SocketUpgradeNotePos, -1);
-		::Obj.pInventory[SocketUpgradeNotePos].Clear();
+		::Obj.pInventory[SocketUpgradeNotePos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, SocketUpgradeNotePos, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoBlessPos1, -1);
-		::Obj.pInventory[JoBlessPos1].Clear();
+		::Obj.pInventory[JoBlessPos1]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoBlessPos1, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoBlessPos2, -1);
-		::Obj.pInventory[JoBlessPos2].Clear();
+		::Obj.pInventory[JoBlessPos2]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoBlessPos2, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoBlessPos3, -1);
-		::Obj.pInventory[JoBlessPos3].Clear();
+		::Obj.pInventory[JoBlessPos3]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoBlessPos3, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoBlessPos4, -1);
-		::Obj.pInventory[JoBlessPos4].Clear();
+		::Obj.pInventory[JoBlessPos4]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoBlessPos4, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoBlessPos5, -1);
-		::Obj.pInventory[JoBlessPos5].Clear();
+		::Obj.pInventory[JoBlessPos5]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoBlessPos5, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoSoulPos1, -1);
-		::Obj.pInventory[JoSoulPos1].Clear();
+		::Obj.pInventory[JoSoulPos1]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoSoulPos1, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoSoulPos2, -1);
-		::Obj.pInventory[JoSoulPos2].Clear();
+		::Obj.pInventory[JoSoulPos2]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoSoulPos2, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoSoulPos3, -1);
-		::Obj.pInventory[JoSoulPos3].Clear();
+		::Obj.pInventory[JoSoulPos3]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoSoulPos3, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoSoulPos4, -1);
-		::Obj.pInventory[JoSoulPos4].Clear();
+		::Obj.pInventory[JoSoulPos4]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoSoulPos4, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoSoulPos5, -1);
-		::Obj.pInventory[JoSoulPos5].Clear();
+		::Obj.pInventory[JoSoulPos5]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoSoulPos5, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoChaosPos, -1);
-		::Obj.pInventory[JoChaosPos].Clear();
+		::Obj.pInventory[JoChaosPos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoChaosPos, 1);
 
 		ItemCreate(Obj.m_Index, 235, 0, 0, NewItem.m_Type, 0, 0, NewItem.m_Option1, NewItem.m_Option2, NewItem.m_Option3, Obj.m_Index, 0, 0, 0, NewItem.m_SocketOption, NewItem.m_BonusSocketOption);
@@ -6205,51 +6205,51 @@ BOOL CMixSystem::SocketItemUpgradeMixS12(CGameObject &Obj, BYTE ItemPos, BYTE So
 	else
 	{
 		::gObjInventoryItemSet(Obj.m_Index, SocketUpgradeNotePos, -1);
-		::Obj.pInventory[SocketUpgradeNotePos].Clear();
+		::Obj.pInventory[SocketUpgradeNotePos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, SocketUpgradeNotePos, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoBlessPos1, -1);
-		::Obj.pInventory[JoBlessPos1].Clear();
+		::Obj.pInventory[JoBlessPos1]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoBlessPos1, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoBlessPos2, -1);
-		::Obj.pInventory[JoBlessPos2].Clear();
+		::Obj.pInventory[JoBlessPos2]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoBlessPos2, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoBlessPos3, -1);
-		::Obj.pInventory[JoBlessPos3].Clear();
+		::Obj.pInventory[JoBlessPos3]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoBlessPos3, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoBlessPos4, -1);
-		::Obj.pInventory[JoBlessPos4].Clear();
+		::Obj.pInventory[JoBlessPos4]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoBlessPos4, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoBlessPos5, -1);
-		::Obj.pInventory[JoBlessPos5].Clear();
+		::Obj.pInventory[JoBlessPos5]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoBlessPos5, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoSoulPos1, -1);
-		::Obj.pInventory[JoSoulPos1].Clear();
+		::Obj.pInventory[JoSoulPos1]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoSoulPos1, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoSoulPos2, -1);
-		::Obj.pInventory[JoSoulPos2].Clear();
+		::Obj.pInventory[JoSoulPos2]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoSoulPos2, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoSoulPos3, -1);
-		::Obj.pInventory[JoSoulPos3].Clear();
+		::Obj.pInventory[JoSoulPos3]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoSoulPos3, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoSoulPos4, -1);
-		::Obj.pInventory[JoSoulPos4].Clear();
+		::Obj.pInventory[JoSoulPos4]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoSoulPos4, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoSoulPos5, -1);
-		::Obj.pInventory[JoSoulPos5].Clear();
+		::Obj.pInventory[JoSoulPos5]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoSoulPos5, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JoChaosPos, -1);
-		::Obj.pInventory[JoChaosPos].Clear();
+		::Obj.pInventory[JoChaosPos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JoChaosPos, 1);
 
 		pMsg.Result1 = 0;
@@ -6354,19 +6354,19 @@ void CMixSystem::SeedSphereCompositeMixS12(CGameObject &Obj, BYTE SeedPos, BYTE 
 		pMsg.Result1 = 1;
 		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 		::gObjInventoryItemSet(Obj.m_Index, SeedPos, -1);
-		::Obj.pInventory[SeedPos].Clear();
+		::Obj.pInventory[SeedPos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, SeedPos, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, SpherePos, -1);
-		::Obj.pInventory[SpherePos].Clear();
+		::Obj.pInventory[SpherePos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, SpherePos, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, JocPos, -1);
-		::Obj.pInventory[JocPos].Clear();
+		::Obj.pInventory[JocPos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JocPos, 1);
 
 		::gObjInventoryItemSet(Obj.m_Index, ChaosPos, -1);
-		::Obj.pInventory[ChaosPos].Clear();
+		::Obj.pInventory[ChaosPos]->Clear();
 		::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ChaosPos, 1);
 		ItemCreate(Obj.m_Index, 235, 0, 0, SeedSphereItem.m_ItemCode, SeedSphereItem.m_ItemLevel, 0, 0, 0, 0, Obj.m_Index, 0, 0, 0, 0, 0);
 		gObjInventoryCommit(Obj.m_Index);
@@ -6715,19 +6715,19 @@ void CMixSystem::SetSeedSphereMixS12(CGameObject &Obj, BYTE ItemPos, BYTE Slot, 
 		pSocketItem->m_SetOption, pSocketItem->m_ItemOptionEx, pSocketItem->m_SocketOption, pSocketItem->m_BonusSocketOption, 0, CURRENT_DB_VERSION);
 
 	::gObjInventoryItemSet(Obj.m_Index, ItemPos, -1);
-	::Obj.pInventory[ItemPos].Clear();
+	::Obj.pInventory[ItemPos]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ItemPos, 1);
 
 	::gObjInventoryItemSet(Obj.m_Index, SeedPos, -1);
-	::Obj.pInventory[SeedPos].Clear();
+	::Obj.pInventory[SeedPos]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, SeedPos, 1);
 
 	::gObjInventoryItemSet(Obj.m_Index, JocPos, -1);
-	::Obj.pInventory[JocPos].Clear();
+	::Obj.pInventory[JocPos]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, JocPos, 1);
 
 	::gObjInventoryItemSet(Obj.m_Index, ChaosPos, -1);
-	::Obj.pInventory[ChaosPos].Clear();
+	::Obj.pInventory[ChaosPos]->Clear();
 	::gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, ChaosPos, 1);
 	pMsg.Result1 = 1;
 	IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);

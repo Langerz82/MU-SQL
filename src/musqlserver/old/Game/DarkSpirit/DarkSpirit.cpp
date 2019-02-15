@@ -1667,10 +1667,10 @@ int  CDarkSpirit::GetAttackDamage(CGameObject &Obj, int targetDefense, int criti
 		}
 	}
 
-	if (GetItemKindA(Obj.pInventory[0].m_Type) == ITEM_KIND_A_WEAPON && GetItemKindB(Obj.pInventory[0].m_Type) == ITEM_KIND_B_SCEPTER)
+	if (GetItemKindA(Obj.pInventory[0]->m_Type) == ITEM_KIND_A_WEAPON && GetItemKindB(Obj.pInventory[0]->m_Type) == ITEM_KIND_B_SCEPTER)
 	{
-		int damage = Obj.pInventory[0].m_Magic / 2;
-		damage -= damage * Obj.pInventory[0].m_CurrentDurabilityState;
+		int damage = Obj.pInventory[0]->m_Magic / 2;
+		damage -= damage * Obj.pInventory[0]->m_CurrentDurabilityState;
 		damage = AttackDamage * damage / 100;
 		AttackDamage += damage;
 	}
@@ -1923,19 +1923,19 @@ void __cdecl CDarkSpirit::SendLevelmsg(CGameObject &Obj, int nPos, int PetType, 
 	pMsg.PetType = PetType;
 	pMsg.InvenType = InvenType;
 	pMsg.nPos = nPos;
-	pMsg.Level = Obj.pInventory[nPos].m_PetItem_Level;
+	pMsg.Level = Obj.pInventory[nPos]->m_PetItem_Level;
 
 	if (PetType == 1)
 	{
-		pMsg.Exp = Obj.pInventory[nPos].m_PetItem_Exp - gPetItemExp.m_DarkHorseExpTable[pMsg.Level];
+		pMsg.Exp = Obj.pInventory[nPos]->m_PetItem_Exp - gPetItemExp.m_DarkHorseExpTable[pMsg.Level];
 	}
 
 	else
 	{
-		pMsg.Exp = Obj.pInventory[nPos].m_PetItem_Exp - gPetItemExp.m_DarkSpiritExpTable[pMsg.Level];
+		pMsg.Exp = Obj.pInventory[nPos]->m_PetItem_Exp - gPetItemExp.m_DarkSpiritExpTable[pMsg.Level];
 	}
 
-	pMsg.Dur = Obj.pInventory[nPos].m_Durability;
+	pMsg.Dur = Obj.pInventory[nPos]->m_Durability;
 
 	IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 }

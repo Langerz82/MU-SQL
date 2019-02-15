@@ -878,7 +878,7 @@ BOOL CIllusionTempleLeagueProcess::EnterUserIllusionTempleLeague(CGameObject &Ob
 
 	int nItemPos = this->SearchRelicsItem(Obj.m_Index);
 
-	if (nItemPos >= 0 && Obj.pInventory[nItemPos].m_Type == ITEMGET(14, 223))
+	if (nItemPos >= 0 && Obj.pInventory[nItemPos]->m_Type == ITEMGET(14, 223))
 	{
 		gObjInventoryDeleteItem(Obj.m_Index, nItemPos);
 		gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, nItemPos, 0);
@@ -1264,7 +1264,7 @@ void CIllusionTempleLeagueProcess::DropRelicsItem(CGameObject &Obj, BYTE byAct)
 
 	int iItemPos = this->m_UserData[nITL_USER_ARRAY].m_nRelicsInvenPos;
 
-	if (Obj.pInventory[iItemPos].m_Type != ITEMGET(14, 223))
+	if (Obj.pInventory[iItemPos]->m_Type != ITEMGET(14, 223))
 	{
 		return;
 	}
@@ -1324,7 +1324,7 @@ void CIllusionTempleLeagueProcess::DropRelicsItem(CGameObject &Obj, BYTE byAct)
 
 	if (MapC[map_num].ItemDrop(type, level, dur, X, Y, Option1, Option2, Option3, NOption, SOption, item_number, aAntiLootIndex, PetLevel, PetExp, ItemEffectEx, NULL, 0xFF, 0) == TRUE)
 	{
-		sLog->outBasic("[ ITL ] (%d) (%s)(%s) to Drop Relics Item [Serial:%I64d]", this->m_nTempleNumber + 1, Obj.AccountID, Obj.Name, Obj.pInventory[iItemPos].m_Number);
+		sLog->outBasic("[ ITL ] (%d) (%s)(%s) to Drop Relics Item [Serial:%I64d]", this->m_nTempleNumber + 1, Obj.AccountID, Obj.Name, Obj.pInventory[iItemPos]->m_Number);
 
 		gObjInventoryDeleteItem(iIndex, iItemPos);
 		pResult.Result = TRUE;
@@ -3263,7 +3263,7 @@ BOOL CIllusionTempleLeagueProcess::ReEnterUserIllusionTempleLeague(CGameObject &
 
 	int nItemPos = this->SearchRelicsItem(Obj.m_Index);
 
-	if (nItemPos >= 0 && Obj.pInventory[nItemPos].m_Type == ITEMGET(14, 223))
+	if (nItemPos >= 0 && Obj.pInventory[nItemPos]->m_Type == ITEMGET(14, 223))
 	{
 		gObjInventoryDeleteItem(Obj.m_Index, nItemPos);
 		gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, nItemPos, 0);

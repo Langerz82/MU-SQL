@@ -680,97 +680,97 @@ void COfflineLevelling::CheckRepairItems(CGameObject &Obj)
 
 	for(int i=0;i<INVETORY_WEAR_SIZE;i++)
 	{
-		if(Obj.pInventory[i].IsItem())
+		if(Obj.pInventory[i]->IsItem())
 		{
-			if(Obj.pInventory[i].m_Durability < Obj.pInventory[i].m_BaseDurability)
+			if(Obj.pInventory[i]->m_Durability < Obj.pInventory[i]->m_BaseDurability)
 			{
-				if ( IsCashItem(Obj.pInventory[i].m_Type) == TRUE )
+				if ( IsCashItem(Obj.pInventory[i]->m_Type) == TRUE )
 					continue;
 
-				if (IsPremiumItem(Obj.pInventory[i].m_Type) == TRUE)
+				if (IsPremiumItem(Obj.pInventory[i]->m_Type) == TRUE)
 					continue;
 
-				if ( Obj.pInventory[i].IsPeriodItem() == TRUE )
+				if ( Obj.pInventory[i]->IsPeriodItem() == TRUE )
 					continue;
 
-				if ( Obj.pInventory[i].IsPeriodItemExpire() == TRUE )
+				if ( Obj.pInventory[i]->IsPeriodItemExpire() == TRUE )
 					continue;
 
-				if (g_LuckyItemManager.IsLuckyItemEquipment(Obj.pInventory[i].m_Type))	//season 6.1 add-on
+				if (g_LuckyItemManager.IsLuckyItemEquipment(Obj.pInventory[i]->m_Type))	//season 6.1 add-on
 					continue;
 
-				if ( Obj.pInventory[i].m_Type == ITEMGET(13,20) && (Obj.pInventory[i].m_Level == 0 ||Obj.pInventory[i].m_Level == 1 ))
+				if ( Obj.pInventory[i]->m_Type == ITEMGET(13,20) && (Obj.pInventory[i]->m_Level == 0 ||Obj.pInventory[i]->m_Level == 1 ))
 					continue;
 
-				if ( Obj.pInventory[i].m_Type == ITEMGET(13,20) && Obj.pInventory[i].m_Level == 2 )
+				if ( Obj.pInventory[i]->m_Type == ITEMGET(13,20) && Obj.pInventory[i]->m_Level == 2 )
 					continue;
 
-				if ( Obj.pInventory[i].m_Type == ITEMGET(13,4) || Obj.pInventory[i].m_Type == ITEMGET(13,5) )
+				if ( Obj.pInventory[i]->m_Type == ITEMGET(13,4) || Obj.pInventory[i]->m_Type == ITEMGET(13,5) )
 					continue;
 				
-				if ( Obj.pInventory[i].m_Type == ITEMGET(13,37) )
+				if ( Obj.pInventory[i]->m_Type == ITEMGET(13,37) )
 					continue;
 
-				if ( Obj.pInventory[i].m_Type == ITEMGET(13,38) )
+				if ( Obj.pInventory[i]->m_Type == ITEMGET(13,38) )
 					continue;
 
-				if ( Obj.pInventory[i].m_Type == ITEMGET(13,40) )
+				if ( Obj.pInventory[i]->m_Type == ITEMGET(13,40) )
 					continue;
 
-				if ( Obj.pInventory[i].m_Type == ITEMGET(13,41) )
+				if ( Obj.pInventory[i]->m_Type == ITEMGET(13,41) )
 					continue;
 
-				if ( Obj.pInventory[i].m_Type == ITEMGET(13,42) )
+				if ( Obj.pInventory[i]->m_Type == ITEMGET(13,42) )
 					continue;
 
-				if ( Obj.pInventory[i].m_Type == ITEMGET(13,51) )
+				if ( Obj.pInventory[i]->m_Type == ITEMGET(13,51) )
 					continue;
 
-				if ( Obj.pInventory[i].m_Type == ITEMGET(13,64) )
+				if ( Obj.pInventory[i]->m_Type == ITEMGET(13,64) )
 					continue;
 
-				if ( Obj.pInventory[i].m_Type == ITEMGET(13,65) )
+				if ( Obj.pInventory[i]->m_Type == ITEMGET(13,65) )
 					continue;
 
-				if ( Obj.pInventory[i].m_Type == ITEMGET(13,67) )
+				if ( Obj.pInventory[i]->m_Type == ITEMGET(13,67) )
 					continue;
 
-				if ( Obj.pInventory[i].m_Type == ITEMGET(13,70) )
+				if ( Obj.pInventory[i]->m_Type == ITEMGET(13,70) )
 					continue;
 
-				if ( Obj.pInventory[i].m_Type == ITEMGET(13,76) )
+				if ( Obj.pInventory[i]->m_Type == ITEMGET(13,76) )
 					continue;
 
-				if ( Obj.pInventory[i].m_Type == ITEMGET(13,77) )
+				if ( Obj.pInventory[i]->m_Type == ITEMGET(13,77) )
 					continue;
 
-				if ( Obj.pInventory[i].m_Type == ITEMGET(13,78) )
+				if ( Obj.pInventory[i]->m_Type == ITEMGET(13,78) )
 					continue;
 
-				if ( Obj.pInventory[i].m_Type == ITEMGET(13,166) )
+				if ( Obj.pInventory[i]->m_Type == ITEMGET(13,166) )
 					continue;
 
-				if ( Obj.pInventory[i].m_Type == ITEMGET(13,80) )
+				if ( Obj.pInventory[i]->m_Type == ITEMGET(13,80) )
 					continue;
 
-				if ( Obj.pInventory[i].m_Type == ITEMGET(13,106) )
+				if ( Obj.pInventory[i]->m_Type == ITEMGET(13,106) )
 					continue;
 
-				if ( Obj.pInventory[i].m_Type == ITEMGET(13,123) )
+				if ( Obj.pInventory[i]->m_Type == ITEMGET(13,123) )
 					continue;
 
-				if ( Obj.pInventory[i].m_Type == ITEMGET(13,39) )
+				if ( Obj.pInventory[i]->m_Type == ITEMGET(13,39) )
 					continue;
 
-				if ( Obj.pInventory[i].m_Type == ITEMGET(12,26) &&
-					(Obj.pInventory[i].m_Level == 1 ||
-						Obj.pInventory[i].m_Level == 2 || 
-						Obj.pInventory[i].m_Level == 3 || 
-						Obj.pInventory[i].m_Level == 4 || 
-						Obj.pInventory[i].m_Level == 5 ))
+				if ( Obj.pInventory[i]->m_Type == ITEMGET(12,26) &&
+					(Obj.pInventory[i]->m_Level == 1 ||
+						Obj.pInventory[i]->m_Level == 2 || 
+						Obj.pInventory[i]->m_Level == 3 || 
+						Obj.pInventory[i]->m_Level == 4 || 
+						Obj.pInventory[i]->m_Level == 5 ))
 						continue;
 
-				if (!IsRepairItem(Obj.pInventory[i].m_Type))
+				if (!IsRepairItem(Obj.pInventory[i]->m_Type))
 					continue;
 
 				gGameProtocol.ItemDurRepaire(lpObj,&Obj.pInventory[i],i,1);

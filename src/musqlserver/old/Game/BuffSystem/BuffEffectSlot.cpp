@@ -1045,7 +1045,7 @@ void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefa
 	UINT64 iRetExp = iExp;
 	int nAddExp = 100;
 
-	if (Obj.pInventory[8].IsItem() == TRUE && Obj.pInventory[8].m_Type == ITEMGET(13, 80) && Obj.pInventory[8].m_Durability > 0.0)
+	if (Obj.pInventory[8]->IsItem() == TRUE && Obj.pInventory[8]->m_Type == ITEMGET(13, 80) && Obj.pInventory[8]->m_Durability > 0.0)
 	{
 		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCS_MARK3) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCBANG_POINT_MARK3))
 		{
@@ -1058,8 +1058,8 @@ void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefa
 		}
 	}
 
-	if ((Obj.pInventory[11].m_Type == ITEMGET(13,77) && Obj.pInventory[11].m_Durability > 0.0) ||
-		(Obj.pInventory[10].m_Type == ITEMGET(13,77) && Obj.pInventory[10].m_Durability > 0.0))
+	if ((Obj.pInventory[11]->m_Type == ITEMGET(13,77) && Obj.pInventory[11]->m_Durability > 0.0) ||
+		(Obj.pInventory[10]->m_Type == ITEMGET(13,77) && Obj.pInventory[10]->m_Durability > 0.0))
 	{
 		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCS_MARK3) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCBANG_POINT_MARK3))
 		{
@@ -1072,8 +1072,8 @@ void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefa
 		}
 	}
 
-	if ((Obj.pInventory[11].m_Type == ITEMGET(13,78) && Obj.pInventory[11].m_Durability > 0.0) ||
-		(Obj.pInventory[10].m_Type == ITEMGET(13,78) && Obj.pInventory[10].m_Durability > 0.0))
+	if ((Obj.pInventory[11]->m_Type == ITEMGET(13,78) && Obj.pInventory[11]->m_Durability > 0.0) ||
+		(Obj.pInventory[10]->m_Type == ITEMGET(13,78) && Obj.pInventory[10]->m_Durability > 0.0))
 	{
 		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCS_MARK3) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCBANG_POINT_MARK3))
 		{
@@ -1203,7 +1203,7 @@ void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefa
 		nAddExp += iEffectExp;
 	}
 
-	if (Obj.pInventory[8].IsItem() == TRUE && Obj.pInventory[8].m_Type == ITEMGET(13, 123) && Obj.pInventory[8].m_Durability > 0.0)
+	if (Obj.pInventory[8]->IsItem() == TRUE && Obj.pInventory[8]->m_Type == ITEMGET(13, 123) && Obj.pInventory[8]->m_Durability > 0.0)
 	{
 		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCS_MARK3) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCBANG_POINT_MARK3))
 		{
@@ -1216,8 +1216,8 @@ void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefa
 		}
 	}
 
-	if ((Obj.pInventory[11].m_Type == ITEMGET(13, 166) && Obj.pInventory[11].m_Durability > 0.0) ||
-		(Obj.pInventory[10].m_Type == ITEMGET(13, 166) && Obj.pInventory[10].m_Durability > 0.0))
+	if ((Obj.pInventory[11]->m_Type == ITEMGET(13, 166) && Obj.pInventory[11]->m_Durability > 0.0) ||
+		(Obj.pInventory[10]->m_Type == ITEMGET(13, 166) && Obj.pInventory[10]->m_Durability > 0.0))
 	{
 		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCS_MARK3) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCBANG_POINT_MARK3))
 		{
@@ -1230,24 +1230,24 @@ void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefa
 		}
 	}
 
-	if (((Obj.pInventory[8].IsItem() == TRUE && Obj.pInventory[8].m_Type == ITEMGET(13, 123) && Obj.pInventory[8].m_Durability > 0.0) ||
-		(Obj.pInventory[8].IsItem() == TRUE && Obj.pInventory[8].m_Type == ITEMGET(13, 80) && Obj.pInventory[8].m_Durability > 0.0)) &&
-		((Obj.pInventory[11].m_Type == ITEMGET(13,122) && Obj.pInventory[11].m_Durability > 0.0) ||
-		(Obj.pInventory[10].m_Type == ITEMGET(13,122) && Obj.pInventory[10].m_Durability > 0.0) ||
-		(Obj.pInventory[11].m_Type == ITEMGET(13,76) && Obj.pInventory[11].m_Durability > 0.0) ||
-		(Obj.pInventory[10].m_Type == ITEMGET(13,76) && Obj.pInventory[10].m_Durability > 0.0) ||
-		(Obj.pInventory[11].m_Type == ITEMGET(13,163) && Obj.pInventory[11].m_Durability > 0.0) ||
-		(Obj.pInventory[10].m_Type == ITEMGET(13,163) && Obj.pInventory[10].m_Durability > 0.0) ||
-		(Obj.pInventory[11].m_Type == ITEMGET(13,164) && Obj.pInventory[11].m_Durability > 0.0) ||
-		(Obj.pInventory[10].m_Type == ITEMGET(13,164) && Obj.pInventory[10].m_Durability > 0.0) ||
-		(Obj.pInventory[11].m_Type == ITEMGET(13,165) && Obj.pInventory[11].m_Durability > 0.0) ||
-		(Obj.pInventory[10].m_Type == ITEMGET(13,165) && Obj.pInventory[10].m_Durability > 0.0) ||
-		(Obj.pInventory[11].m_Type == ITEMGET(13,77) && Obj.pInventory[11].m_Durability > 0.0) ||
-		(Obj.pInventory[10].m_Type == ITEMGET(13,77) && Obj.pInventory[10].m_Durability > 0.0) ||
-		(Obj.pInventory[11].m_Type == ITEMGET(13,78) && Obj.pInventory[11].m_Durability > 0.0) ||
-		(Obj.pInventory[10].m_Type == ITEMGET(13,78) && Obj.pInventory[10].m_Durability > 0.0) ||
-		(Obj.pInventory[11].m_Type == ITEMGET(13,166) && Obj.pInventory[11].m_Durability > 0.0) ||
-		(Obj.pInventory[10].m_Type == ITEMGET(13,166) && Obj.pInventory[10].m_Durability > 0.0)))
+	if (((Obj.pInventory[8]->IsItem() == TRUE && Obj.pInventory[8]->m_Type == ITEMGET(13, 123) && Obj.pInventory[8]->m_Durability > 0.0) ||
+		(Obj.pInventory[8]->IsItem() == TRUE && Obj.pInventory[8]->m_Type == ITEMGET(13, 80) && Obj.pInventory[8]->m_Durability > 0.0)) &&
+		((Obj.pInventory[11]->m_Type == ITEMGET(13,122) && Obj.pInventory[11]->m_Durability > 0.0) ||
+		(Obj.pInventory[10]->m_Type == ITEMGET(13,122) && Obj.pInventory[10]->m_Durability > 0.0) ||
+		(Obj.pInventory[11]->m_Type == ITEMGET(13,76) && Obj.pInventory[11]->m_Durability > 0.0) ||
+		(Obj.pInventory[10]->m_Type == ITEMGET(13,76) && Obj.pInventory[10]->m_Durability > 0.0) ||
+		(Obj.pInventory[11]->m_Type == ITEMGET(13,163) && Obj.pInventory[11]->m_Durability > 0.0) ||
+		(Obj.pInventory[10]->m_Type == ITEMGET(13,163) && Obj.pInventory[10]->m_Durability > 0.0) ||
+		(Obj.pInventory[11]->m_Type == ITEMGET(13,164) && Obj.pInventory[11]->m_Durability > 0.0) ||
+		(Obj.pInventory[10]->m_Type == ITEMGET(13,164) && Obj.pInventory[10]->m_Durability > 0.0) ||
+		(Obj.pInventory[11]->m_Type == ITEMGET(13,165) && Obj.pInventory[11]->m_Durability > 0.0) ||
+		(Obj.pInventory[10]->m_Type == ITEMGET(13,165) && Obj.pInventory[10]->m_Durability > 0.0) ||
+		(Obj.pInventory[11]->m_Type == ITEMGET(13,77) && Obj.pInventory[11]->m_Durability > 0.0) ||
+		(Obj.pInventory[10]->m_Type == ITEMGET(13,77) && Obj.pInventory[10]->m_Durability > 0.0) ||
+		(Obj.pInventory[11]->m_Type == ITEMGET(13,78) && Obj.pInventory[11]->m_Durability > 0.0) ||
+		(Obj.pInventory[10]->m_Type == ITEMGET(13,78) && Obj.pInventory[10]->m_Durability > 0.0) ||
+		(Obj.pInventory[11]->m_Type == ITEMGET(13,166) && Obj.pInventory[11]->m_Durability > 0.0) ||
+		(Obj.pInventory[10]->m_Type == ITEMGET(13,166) && Obj.pInventory[10]->m_Durability > 0.0)))
 	{
 		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCS_MARK3) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_PCBANG_POINT_MARK3))
 		{
@@ -1265,10 +1265,10 @@ void CheckItemOptForGetExpExRenewal(CGameObject &Obj, UINT64 &iExp, UINT64 iDefa
 
 			else
 			{
-				if ((Obj.pInventory[11].m_Type == ITEMGET(13,77) && Obj.pInventory[11].m_Durability > 0.0) ||
-					(Obj.pInventory[10].m_Type == ITEMGET(13,77) && Obj.pInventory[10].m_Durability > 0.0) ||
-					(Obj.pInventory[11].m_Type == ITEMGET(13,78) && Obj.pInventory[10].m_Durability > 0.0) ||
-					(Obj.pInventory[10].m_Type == ITEMGET(13,78) && Obj.pInventory[10].m_Durability > 0.0))
+				if ((Obj.pInventory[11]->m_Type == ITEMGET(13,77) && Obj.pInventory[11]->m_Durability > 0.0) ||
+					(Obj.pInventory[10]->m_Type == ITEMGET(13,77) && Obj.pInventory[10]->m_Durability > 0.0) ||
+					(Obj.pInventory[11]->m_Type == ITEMGET(13,78) && Obj.pInventory[10]->m_Durability > 0.0) ||
+					(Obj.pInventory[10]->m_Type == ITEMGET(13,78) && Obj.pInventory[10]->m_Durability > 0.0))
 				{
 					iEffectExp = 65;
 				}

@@ -67,7 +67,7 @@ BOOL CObjBaseAttack::DecreaseArrow(CGameObject &Obj)
 
 				if ( Left->m_Durability < 1.0f )
 				{
-					Obj.pInventory[1].Clear();
+					Obj.pInventory[1]->Clear();
 					gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, 1, 0);
 				}
 			}
@@ -89,7 +89,7 @@ BOOL CObjBaseAttack::DecreaseArrow(CGameObject &Obj)
 
 				if ( Right->m_Durability < 1.0f )
 				{
-					Obj.pInventory[1].Clear();
+					Obj.pInventory[1]->Clear();
 					GCInventoryItemDeleteSend(Obj.m_Index, 1, 0);
 				}
 			}
@@ -912,7 +912,7 @@ int  CObjBaseAttack::GetTargetDefense(CGameObject &Obj, CGameObject lpTargetObj,
 
 	float percentdamage = 0;
 
-	if ( Obj.pInventory[7].IsItem() != FALSE )
+	if ( Obj.pInventory[7]->IsItem() != FALSE )
 	{
 		percentdamage += Obj.m_PlayerData->m_WingExcOption.iWingOpIgnoreEnemyDefense;
 	}

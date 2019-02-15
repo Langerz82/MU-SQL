@@ -884,27 +884,27 @@ void CItemObjectOptionTypeMng::CalcExcOptionEffect(CGameObject &Obj)
 {
 	for (int i = 0; i < INVETORY_WEAR_SIZE; i++)
 	{
-		if (Obj.pInventory[i].IsItem() == FALSE)
+		if (Obj.pInventory[i]->IsItem() == FALSE)
 		{
 			continue;
 		}
 
-		if (Obj.pInventory[i].m_Durability == 0.0f)
+		if (Obj.pInventory[i]->m_Durability == 0.0f)
 		{
 			continue;
 		}
 
-		if (Obj.pInventory[i].m_IsValidItem == false)
+		if (Obj.pInventory[i]->m_IsValidItem == false)
 		{
 			continue;
 		}
 
-		if (Obj.pInventory[i].IsExtItem() == FALSE)
+		if (Obj.pInventory[i]->IsExtItem() == FALSE)
 		{
 			continue;
 		}
 
-		LPITEM_ATTRIBUTE lpAttr = GetItemAttr(Obj.pInventory[i].m_Type);
+		LPITEM_ATTRIBUTE lpAttr = GetItemAttr(Obj.pInventory[i]->m_Type);
 
 		if (lpAttr == NULL)
 		{
@@ -927,7 +927,7 @@ void CItemObjectOptionTypeMng::CalcExcOptionEffect(CGameObject &Obj)
 					{
 						for (int k = 0; k < 5; k++)
 						{
-							if (Obj.pInventory[i].m_SocketOption[k] == this->m_CommonExtOptionType[j].OptionNumber)
+							if (Obj.pInventory[i]->m_SocketOption[k] == this->m_CommonExtOptionType[j].OptionNumber)
 							{
 								bOptionExist = true;
 								break;
@@ -936,7 +936,7 @@ void CItemObjectOptionTypeMng::CalcExcOptionEffect(CGameObject &Obj)
 					}
 					else
 					{
-						if ((Obj.pInventory[i].m_NewOption & (1 << (5 - this->m_CommonExtOptionType[j].OptionNumber))) == (1 << (5 - this->m_CommonExtOptionType[j].OptionNumber)))
+						if ((Obj.pInventory[i]->m_NewOption & (1 << (5 - this->m_CommonExtOptionType[j].OptionNumber))) == (1 << (5 - this->m_CommonExtOptionType[j].OptionNumber)))
 						{
 							bOptionExist = true;
 						}
@@ -968,27 +968,27 @@ COMMON_EXT_OPTION_TYPE * CItemObjectOptionTypeMng::GetCommonExcOption(int ExcOpt
 
 void CItemObjectOptionTypeMng::CalcWingOptionEffect(CGameObject &Obj)
 {
-	if (Obj.pInventory[7].IsItem() == FALSE)
+	if (Obj.pInventory[7]->IsItem() == FALSE)
 	{
 		return;
 	}
 
-	if (Obj.pInventory[7].m_Durability == 0.0f)
+	if (Obj.pInventory[7]->m_Durability == 0.0f)
 	{
 		return;
 	}
 
-	if (Obj.pInventory[7].m_IsValidItem == false)
+	if (Obj.pInventory[7]->m_IsValidItem == false)
 	{
 		return;
 	}
 
-	if (Obj.pInventory[7].IsExtItem() == FALSE)
+	if (Obj.pInventory[7]->IsExtItem() == FALSE)
 	{
 		return;
 	}
 
-	LPITEM_ATTRIBUTE lpAttr = GetItemAttr(Obj.pInventory[7].m_Type);
+	LPITEM_ATTRIBUTE lpAttr = GetItemAttr(Obj.pInventory[7]->m_Type);
 
 	if (lpAttr == NULL)
 	{
@@ -1010,7 +1010,7 @@ void CItemObjectOptionTypeMng::CalcWingOptionEffect(CGameObject &Obj)
 				{
 					for (int k = 0; k < 5; k++)
 					{
-						if (Obj.pInventory[7].m_SocketOption[k] == this->m_WingExtOptionType[i].OptionNumber)
+						if (Obj.pInventory[7]->m_SocketOption[k] == this->m_WingExtOptionType[i].OptionNumber)
 						{
 							bOptionExist = true;
 							break;
@@ -1020,7 +1020,7 @@ void CItemObjectOptionTypeMng::CalcWingOptionEffect(CGameObject &Obj)
 
 				else
 				{
-					if ((Obj.pInventory[7].m_NewOption & (1 << (5 - this->m_WingExtOptionType[i].OptionNumber))) == (1 << (5 - this->m_WingExtOptionType[i].OptionNumber)))
+					if ((Obj.pInventory[7]->m_NewOption & (1 << (5 - this->m_WingExtOptionType[i].OptionNumber))) == (1 << (5 - this->m_WingExtOptionType[i].OptionNumber)))
 					{
 						bOptionExist = true;
 					}
@@ -1164,9 +1164,9 @@ void CItemObjectOptionTypeMng::_SetEffect_Attack(CGameObject lpObj, BYTE OptionE
 	case 0:
 		break;
 	case 1:
-		if ((Obj.pInventory[btItemPos].m_Type >= ITEMGET(5, 0) && Obj.pInventory[btItemPos].m_Type < ITEMGET(6, 0)) ||
-			Obj.pInventory[btItemPos].m_Type == ITEMGET(13, 12) || Obj.pInventory[btItemPos].m_Type == ITEMGET(13, 25) ||
-			Obj.pInventory[btItemPos].m_Type == ITEMGET(13, 27))
+		if ((Obj.pInventory[btItemPos]->m_Type >= ITEMGET(5, 0) && Obj.pInventory[btItemPos]->m_Type < ITEMGET(6, 0)) ||
+			Obj.pInventory[btItemPos]->m_Type == ITEMGET(13, 12) || Obj.pInventory[btItemPos]->m_Type == ITEMGET(13, 25) ||
+			Obj.pInventory[btItemPos]->m_Type == ITEMGET(13, 27))
 		{
 			iEffectValue = this->_CalcEffectValue(lpObj, Obj.m_MagicDamageMax, iOperator, iBaseValue, iFormulaID, &Obj.pInventory[btItemPos]);
 			Obj.m_MagicDamageMax += iEffectValue;

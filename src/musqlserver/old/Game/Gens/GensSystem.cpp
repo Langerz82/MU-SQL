@@ -590,9 +590,9 @@ void GensSystem::PkPenaltyDropInvenItem(CGameObject &Obj)
 		{
 			for (int x = INVETORY_WEAR_SIZE; x < MAIN_INVENTORY_SIZE; x++)
 			{
-				if (Obj.pInventory[x].IsItem() == TRUE &&
-					g_PentagramSystem.IsPentagramItem(Obj.pInventory[x].m_Type) == FALSE &&
-					g_PentagramSystem.IsPentagramJewel(Obj.pInventory[x].m_Type) == FALSE)
+				if (Obj.pInventory[x]->IsItem() == TRUE &&
+					g_PentagramSystem.IsPentagramItem(Obj.pInventory[x]->m_Type) == FALSE &&
+					g_PentagramSystem.IsPentagramJewel(Obj.pInventory[x]->m_Type) == FALSE)
 				{
 					PMSG_ITEMTHROW pDropItem;
 

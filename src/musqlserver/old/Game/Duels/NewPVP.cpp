@@ -16,7 +16,7 @@
 #include "MineSystem.h"
 #include "MuunSystem.h"
 
-extern PartyClass		gParty;
+extern PartyClass gParty;
 
 CNewPVP g_NewPVP;
 

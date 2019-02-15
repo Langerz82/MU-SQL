@@ -6704,12 +6704,12 @@ BOOL CMasterLevelSkillTreeSystem::CheckUsableWeaponSkill(CGameObject &Obj, int n
 		return TRUE;
 	}
 
-	if (Obj.pInventory[1].IsItem() == TRUE && Obj.pInventory[1].m_Special[0] == BrandOfSkill)
+	if (Obj.pInventory[1]->IsItem() == TRUE && Obj.pInventory[1]->m_Special[0] == BrandOfSkill)
 	{
 		return TRUE;
 	}
 
-	if (Obj.pInventory[0].IsItem() == TRUE && Obj.pInventory[0].m_Special[0] == BrandOfSkill)
+	if (Obj.pInventory[0]->IsItem() == TRUE && Obj.pInventory[0]->m_Special[0] == BrandOfSkill)
 	{
 		return TRUE;
 	}
