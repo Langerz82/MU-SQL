@@ -79,12 +79,12 @@ public:
 	int Create(CGameObject &Obj, int dbnumber, int level);
 	BOOL Destroy(int party_number);
 	int Add(int party_number, CGameObject &Obj, int dbnumber,  int level);
-	void Delete(int party_number, int index);
-	int Delete(int party_number, CGameObject &Obj, int dbnumber);
+
+	int Delete(int party_number, CGameObject &Obj, int dbnumber = -1);
 	int GetCount(int party_number);
 	int GetMemberIndex(int index, int number);
 	int RevisionIndexUser(int party_number, BYTE *index, char *szName);
-	int GetIndexUser(int party_number, int index, int &userIndex,  int& dbnumber);
+	int GetIndexUser(int party_number, int index, int& userIndex,  int& dbnumber);
 	int GetPartyCount(int party_number);
 	int GetIndex(int party_number, CGameObject &Obj, int dbnumber);
 	BOOL SetLevel(int party_number, int level);
@@ -92,7 +92,7 @@ public:
 	BOOL Isleader(int party_number, CGameObject &Obj, int dbnumber);
 	void Paint(int party_number);
 	void PartyMemberLifeSend(int party_number);
-	void PartyMemberLifeSendS8E3(int party_number);
+	//void PartyMemberLifeSendS8E3(int party_number);
 	char GetPKPartyPenalty(int party_number);
 	void UpdatePKUserInfo(int party_number, CGameObject &Obj, int dbnumber, char userPKLevel);
 	void UpdatePKPartyPanalty(int party_number);
@@ -112,7 +112,7 @@ public:
 	char GetLorenMarketUserCount(int partynumber);
 
 	void ReadBonusInfo(LPSTR File);
-	int GetExpBonus(CGameObject &User, CGameObject lpMonster, int PartyNumber);
+	int GetExpBonus(CGameObject &Obj, CGameObject &ObjTarget, int PartyNumber);
 	bool SetLeader(int OldLeader, int NewLeader);
 
 public:

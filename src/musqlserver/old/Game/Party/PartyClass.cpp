@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "PartyClass.h"
 #include "Logging/Log.h"
-#include "Protocol.h"
+#include "GameProtocol.h"
 #include "util.h"
 #include "configread.h"
 #include "GameMain.h"
@@ -77,12 +77,6 @@ int PartyClass::GetMemberIndex(int index, int number) // OK
 	{
 		return -1;
 	}
-
-	if (number < 0 || number >= MAX_USER_IN_PARTY)
-	{
-		return -1;
-	}
-
 	return this->m_PartyS[index].Number[number];
 }
 
@@ -127,7 +121,7 @@ BOOL PartyClass::GetIndexUser(int party_number, int index, int& userIndex,  int&
 		return FALSE;
 	}
 
-	usernumber = this->m_PartyS[party_number].Number[index];
+	userIndex = this->m_PartyS[party_number].Number[index];
 	dbnumber = this->m_PartyS[party_number].DbNumber[index];
 
 	return TRUE;
@@ -342,41 +336,24 @@ int PartyClass::Delete(int party_number, CGameObject &Obj, int dbnumber)	// Kick
 		return -1;
 	}
 
-	for ( int i = 0 ; i<MAX_USER_IN_PARTY ; i++ )
+	if (dbnumber > -1)
 	{
-		if ( (this->m_PartyS[party_number].Number[i] == usernumber) && (this->m_PartyS[party_number].DbNumber[i] == dbnumber) )
+		for (int i = 0; i < MAX_USER_IN_PARTY; i++)
 		{
-			this->m_PartyS[party_number].Number[i] = -1;
-			this->m_PartyS[party_number].DbNumber[i] = -1;
-			this->m_PartyS[party_number].Count--;
-			this->m_PartyS[party_number].m_UserPKLevel[i] = 3;
-			return i;
+			if ((this->m_PartyS[party_number].Number[i] == Obj.m_Index) && (this->m_PartyS[party_number].DbNumber[i] == dbnumber))
+			{
+				this->m_PartyS[party_number].Number[i] = -1;
+				this->m_PartyS[party_number].DbNumber[i] = -1;
+				this->m_PartyS[party_number].Count--;
+				this->m_PartyS[party_number].m_UserPKLevel[i] = 3;
+				return i;
+			}
 		}
 	}
 
 	return -1;
 }
 
-void PartyClass::Delete(int party_number, int index)	// Kick a User Again
-{
-	if ( this->IsParty(party_number) == FALSE )
-	{
-		return;
-	}
-
-	if ( index < 0 || index > MAX_USER_IN_PARTY -1 )
-	{
-		return;
-	}
-
-	if ( this->m_PartyS[party_number].Number[index] >= 0 )
-	{
-		this->m_PartyS[party_number].Number[index] = -1;
-		this->m_PartyS[party_number].DbNumber[index] = -1;
-		this->m_PartyS[party_number].Count--;
-		this->m_PartyS[party_number].m_UserPKLevel[index] = 3;
-	}
-}
 
 int PartyClass::GetPartyCount(int party_number)
 {
@@ -803,7 +780,7 @@ char PartyClass::GetLorenMarketUserCount(int partynumber)
 			continue;
 		}
 
-		if (getGameObject(this->m_PartyS[partynumber]->Number[i])->MapNumber == MAP_INDEX_LORENMARKET)
+		if (getGameObject(this->m_PartyS[partynumber].Number[i])->MapNumber == MAP_INDEX_LORENMARKET)
 		{
 			bReturn++;
 		}
@@ -855,12 +832,8 @@ void PartyClass::ReadBonusInfo(LPSTR File) //FILE_PARTYBONUS
 	}
 }
 
-int PartyClass::GetExpBonus(CGameObject &User, CGameObject lpMonster, int PartyNumber)
+int PartyClass::GetExpBonus(CGameObject &User, CGameObject &Monster, int PartyNumber)
 {
-	if (!lpUser)
-	{
-		return 0;
-	}
 	// ----
 	int NearbyCount = 0;
 	int NearbyBonus = 0;
@@ -870,31 +843,24 @@ int PartyClass::GetExpBonus(CGameObject &User, CGameObject lpMonster, int PartyN
 	for (int i = 0; i < MAX_USER_IN_PARTY; i++)
 	{
 		int UserIndex = gParty.m_PartyS[PartyNumber].Number[i];
-		// ----
-		if (UserIndex < 0)
+
+		if (!User)
 		{
 			continue;
 		}
 		// ----
-		CGameObject lpPartyUser = getGameObject(UserIndex);
-		// ----
-		if (!lpPartyUser)
+		if (Monster.MapNumber != User.MapNumber)
 		{
 			continue;
 		}
 		// ----
-		if (lpMonster->MapNumber != lpPartyUser->MapNumber)
-		{
-			continue;
-		}
-		// ----
-		if (gObjCalDistance(lpMonster, lpPartyUser) >= 10)
+		if (gObjCalDistance(Monster, User) >= 10)
 		{
 			continue;
 		}
 		// ----
 		NearbyCount++;
-		ClassTable[lpPartyUser->Class] = 1;
+		ClassTable[User.Class] = 1;
 	}
 	// ----
 	for (int j = 0; j < this->m_BonusInfo.m_NearbyBonus.size(); j++)

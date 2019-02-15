@@ -14036,7 +14036,7 @@ void GameProtocol::GCUseRenaChangeZenRecv(PMSG_EXCHANGE_EVENTCHIP* lpMsg, CGameO
 	else
 		PHeadSubSetB((BYTE*)&pMsg, 0xBE, 0x04, sizeof(pMsg));
 
-	pMsg.iINDEX = Obj;
+	pMsg.iINDEX = Obj.m_Index;
 	std::strcpy(pMsg.szUID, Obj.AccountID);
 
 	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
@@ -17436,11 +17436,6 @@ void GameProtocol::WereWolfQuarrelCheck(CGameObject &Obj)
 
 void GameProtocol::GateKeeperCheck(CGameObject &Obj)
 {
-	if (ObjectMaxRange(Obj) == FALSE)
-	{
-		return;
-	}
-
 	if (Obj.Type != OBJ_USER || Obj.Connected <= PLAYER_LOGGED)
 	{
 		return;
@@ -17574,7 +17569,7 @@ void GameProtocol::CGReqLuckyCoinRegister(PMSG_REQ_LUCKYCOIN_REGISTER *aRecv, CG
 		PHeadSubSetB((BYTE*)&pMsg, 0xBE, 0x18, sizeof(pMsg));
 
 		pMsg.btPos = btPos;
-		pMsg.iIndex = Obj;
+		pMsg.iIndex = Obj.m_Index;
 		std::memcpy(pMsg.szAccountID, Obj.AccountID, 10);
 
 		wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
@@ -18791,13 +18786,6 @@ void GameProtocol::GCSendAttackSpeed(CGameObject &Obj)
 
 void GameProtocol::CGReqArcaBattleGuildMasterJoin(PMSG_REQ_ARCA_BATTLE_JOIN *lpMsg, CGameObject &Obj)
 {
-	if (ObjectMaxRange(Obj) == false)
-	{
-		return;
-	}
-
-	
-
 	if (gObjIsConnected(Obj) == false)
 	{
 		return;
@@ -20471,11 +20459,6 @@ void GameProtocol::CG_CCF_UI_OnOff(PMSG_CCF_UI_ONOFF *lpMsg, int nUserIndex)
 
 void GameProtocol::CGReq_CCF_Ranking(PMSG_REQ_CCF_RANKING *lpMsg, CGameObject &Obj)
 {
-	if (ObjectMaxRange(Obj) == false)
-	{
-		return;
-	}
-
 	if (g_ConfigRead.server.GetServerType() != SERVER_BATTLECORE)
 	{
 		return;
@@ -21633,11 +21616,6 @@ void GameProtocol::CGReq_ITL_Relics(PMSG_REQ_ITL_RELATE_RELICS *lpMsg, CGameObje
 
 void GameProtocol::CG_Req_Enter_ITR(PMSG_REQ_ENTER_ITR *lpMsg, CGameObject &Obj)
 {
-	if (!ObjectMaxRange(Obj))
-	{
-		return;
-	}
-
 	_ITL_AnswerEnter pResult;
 	PHeadSubSetB((BYTE*)&pResult, 0xBF, 0x70, sizeof(pResult));
 	std::memset(pResult.Name, 0x00, sizeof(pResult.Name));
