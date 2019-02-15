@@ -169,7 +169,7 @@ void CRaklionUtil::SendMsgRaklionMapUser(char *lpszMsg, ...)
 	{
 		if( getGameObject(iCount)->Connected == PLAYER_PLAYING &&
 			getGameObject(iCount)->Type == OBJ_USER &&
-			(getGameObject(iCount]->MapNumber == MAP_INDEX_RAKLION || getGameObject(iCount)->MapNumber == MAP_INDEX_HATCHERY) )
+			(getGameObject(iCount)->MapNumber == MAP_INDEX_RAKLION || getGameObject(iCount)->MapNumber == MAP_INDEX_HATCHERY) )
 		{
 			TNotice::SendNoticeToUser(iCount, &pNotice);
 		}
@@ -182,7 +182,7 @@ void CRaklionUtil::SendDataRaklionMapUser(BYTE *lpMsg, int iSize)
 	{
 		if( getGameObject(iCount)->Connected == PLAYER_PLAYING &&
 			 getGameObject(iCount)->Type == OBJ_USER &&
-			 (getGameObject(iCount]->MapNumber == MAP_INDEX_RAKLION || getGameObject(iCount)->MapNumber == MAP_INDEX_HATCHERY) )
+			 (getGameObject(iCount)->MapNumber == MAP_INDEX_RAKLION || getGameObject(iCount)->MapNumber == MAP_INDEX_HATCHERY) )
 		{
 			IOCP.DataSend(iCount, lpMsg, iSize);
 		}

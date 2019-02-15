@@ -364,7 +364,7 @@ BOOL CEventDungeonItemBag::CreateNormalItem(int nIndex, int nMaxUserLevel, CEven
 		btDropY = lpObj.Y;
 	}
 
-	GameProtocol.ItemSerialCreateSend(nIndex, lpObj.MapNumber, btDropX, btDropY, nType, nLevel, 0, Option1, Option2, Option3, nIndex, ExOption, 0, 0, 0, 0);
+	ItemCreate(nIndex, lpObj.MapNumber, btDropX, btDropY, nType, nLevel, 0, Option1, Option2, Option3, nIndex, ExOption, 0, 0, 0, 0);
 	sLog->outBasic("[IMPERIALGUARDIAN] Drop Item : (%d)(%d/%d) Item:(%s)%d Level:%d op1:%d op2:%d op3:%d ExOp:%d",
 		lpObj.MapNumber, btDropX, btDropY, ItemAttribute[nType].Name, nType, nLevel, Option1, Option2, Option3, ExOption);
 
@@ -433,7 +433,7 @@ int CEventDungeonItemBag::CreateSetItem(int nIndex, CEventItemBagAttr BagObject)
 			tmpSetOption = 2;
 	}
 
-	GameProtocol.ItemSerialCreateSend(nIndex, btMapNumber, btDropX, btDropY, nType, 0, 0, TRUE, Option2, Option3, nIndex, 0, SetOption, 0, 0, 0);
+	ItemCreate(nIndex, btMapNumber, btDropX, btDropY, nType, 0, 0, TRUE, Option2, Option3, nIndex, 0, SetOption, 0, 0, 0);
 	sLog->outBasic("[IMPERIALGUARDIAN] Drop Set Item [%s][%s] : (%d)(%d/%d) Itemnum:[%d] skill:[%d] luck:[%d] option:[%d] SetOption:[%d], SetName:[%s]",
 		lpObj.AccountID, lpObj.Name, btMapNumber, btDropX, btDropY, nType, TRUE, Option2, Option3, SetOption, gSetItemOption.GetSetOptionName(tmpSetOption));
 

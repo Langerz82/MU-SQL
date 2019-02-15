@@ -441,7 +441,7 @@ int  CDevilSquare::GetUserLevelToEnter(CGameObject &Obj, WORD& wMoveGate)
 
 	for (int i = 0; i<MAX_DEVILSQUARE_GROUND; i++)
 	{
-		if (getGameObject(iUserIndex]->Level + getGameObject(iUserIndex]->m_PlayerData->MasterLevel >= g_sttDEVILSQUARE_LEVEL[i]->NormalCharacterMinLevel  && getGameObject(iUserIndex)->Level + getGameObject(iUserIndex)->m_PlayerData->MasterLevel <= g_sttDEVILSQUARE_LEVEL[i)->NormalCharacterMaxLevel)
+		if (getGameObject(iUserIndex)->Level + getGameObject(iUserIndex)->m_PlayerData->MasterLevel >= g_sttDEVILSQUARE_LEVEL[i]->NormalCharacterMinLevel  && getGameObject(iUserIndex)->Level + getGameObject(iUserIndex)->m_PlayerData->MasterLevel <= g_sttDEVILSQUARE_LEVEL[i)->NormalCharacterMaxLevel)
 		{
 			iENTER_LEVEL = i;
 			wMoveGate = g_sttDEVILSQUARE_LEVEL[i].MoveGate;
@@ -563,7 +563,7 @@ void CDevilSquare::ProcClose()
 
 				for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i<g_ConfigRead.server.GetObjectMax(); i++)
 				{
-					if (getGameObject(i]->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
+					if (getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
 					{
 						if (BC_MAP_RANGE(getGameObject(i)->MapNumber) == FALSE)
 						{
@@ -586,7 +586,7 @@ void CDevilSquare::ProcClose()
 
 				for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i<g_ConfigRead.server.GetObjectMax(); i++)
 				{
-					if (getGameObject(i]->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
+					if (getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
 					{
 						if (BC_MAP_RANGE(getGameObject(i)->MapNumber) == FALSE)
 						{
@@ -639,7 +639,7 @@ void CDevilSquare::ProcClose()
 
 				for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i<g_ConfigRead.server.GetObjectMax(); i++)
 				{
-					if (getGameObject(i]->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
+					if (getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
 					{
 						if (BC_MAP_RANGE(getGameObject(i)->MapNumber) == FALSE)
 						{
@@ -689,7 +689,7 @@ void CDevilSquare::ProcOpen()
 
 				for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i<g_ConfigRead.server.GetObjectMax(); i++)
 				{
-					if (getGameObject(i]->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
+					if (getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
 					{
 						if (BC_MAP_RANGE(getGameObject(i)->MapNumber) == FALSE)
 						{
@@ -735,7 +735,7 @@ void CDevilSquare::ProcOpen()
 
 				for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i<g_ConfigRead.server.GetObjectMax(); i++)
 				{
-					if (getGameObject(i]->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
+					if (getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
 					{
 						if (BC_MAP_RANGE(getGameObject(i)->MapNumber) == FALSE)
 						{
@@ -860,19 +860,19 @@ void CDevilSquare::SetMonster()
 					if (result >= 0)
 					{
 						getGameObject(result)->m_PosNum = j;
-						getGameObject(result]->X = this->m_DSMP[i][j)->m_X;
-						getGameObject(result]->Y = this->m_DSMP[i][j)->m_Y;
-						getGameObject(result]->MapNumber = this->m_DSMP[i][j)->m_MapNumber;
+						getGameObject(result)->X = this->m_DSMP[i][j)->m_X;
+						getGameObject(result)->Y = this->m_DSMP[i][j)->m_Y;
+						getGameObject(result)->MapNumber = this->m_DSMP[i][j)->m_MapNumber;
 
-						this->GetPosition(j, i, this->m_DSMP[i][j].m_MapNumber, getGameObject(result]->X, getGameObject(result)->Y);
+						this->GetPosition(j, i, this->m_DSMP[i][j].m_MapNumber, getGameObject(result)->X, getGameObject(result)->Y);
 
-						getGameObject(result]->TX = getGameObject(result)->X;
-						getGameObject(result]->TY = getGameObject(result)->Y;
-						getGameObject(result]->m_OldX = getGameObject(result)->X;
-						getGameObject(result]->m_OldY = getGameObject(result)->Y;
-						getGameObject(result]->Dir = this->m_DSMP[i][j)->m_Dir;
-						getGameObject(result]->StartX = getGameObject(result)->X;
-						getGameObject(result]->StartY = getGameObject(result)->Y;
+						getGameObject(result)->TX = getGameObject(result)->X;
+						getGameObject(result)->TY = getGameObject(result)->Y;
+						getGameObject(result)->m_OldX = getGameObject(result)->X;
+						getGameObject(result)->m_OldY = getGameObject(result)->Y;
+						getGameObject(result)->Dir = this->m_DSMP[i][j)->m_Dir;
+						getGameObject(result)->StartX = getGameObject(result)->X;
+						getGameObject(result)->StartY = getGameObject(result)->Y;
 						gObjSetMonster(result, wMonIndex);
 						getGameObject(result)->MaxRegenTime = 1000;	// Rgeneration in 1 second
 						getGameObject(result)->m_bDevilSquareIndex = i;
@@ -1458,7 +1458,7 @@ void CDevilSquare::CalcScore()
 			{
 				if (DS_LEVEL_RANGE(getGameObject(n)->m_bDevilSquareIndex) != FALSE)
 				{
-					this->m_DevilSquareGround[getGameObject(n]->m_bDevilSquareIndex]->InsertObj(&getGameObject(n));
+					this->m_DevilSquareGround[getGameObject(n)->m_bDevilSquareIndex]->InsertObj(&getGameObject(n));
 				}
 			}
 		}
@@ -1498,7 +1498,7 @@ void CDevilSquare::CheckInvalidUser()
 				if (this->m_eState == DevilSquare_CLOSE)
 				{
 					sLog->outError( "[DevilSquare] [%s][%s] Found user in DevilSquare [State:Close]",
-						getGameObject(n]->AccountID, getGameObject(n)->Name);
+						getGameObject(n)->AccountID, getGameObject(n)->Name);
 					gObjUserKill(getGameObject(n)->m_Index);
 				}
 			}

@@ -705,7 +705,7 @@ void CBloodCastle::ProcState_Closed(int iBridgeIndex)
 
 					for (int i= g_ConfigRead.server.GetObjectStartUserIndex();i<g_ConfigRead.server.GetObjectMax();i++)
 					{
-						if ( getGameObject(i]->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
+						if ( getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
 						{
 							if ( BC_MAP_RANGE(getGameObject(i)->MapNumber) == FALSE )
 							{
@@ -933,7 +933,7 @@ void CBloodCastle::SetState_None(int iBridgeIndex)
 	{
 		int iMapNumber = this->GetBridgeMapNumber(iBridgeIndex); //season3 add-on
 
-		if (getGameObject(n]->MapNumber == iMapNumber && getGameObject(n)->Connected == PLAYER_PLAYING) //season3 changed
+		if (getGameObject(n)->MapNumber == iMapNumber && getGameObject(n)->Connected == PLAYER_PLAYING) //season3 changed
 		{
 			gObjMoveGate(*getGameObject(n), 22);
 		}
@@ -961,7 +961,7 @@ void CBloodCastle::SetState_Closed(int iBridgeIndex)
 	{
 		int iMapNumber = this->GetBridgeMapNumber(iBridgeIndex); //season3 add-on
 
-		if (getGameObject(n]->MapNumber == iMapNumber && getGameObject(n)->Connected > PLAYER_LOGGED) //season3 changed
+		if (getGameObject(n)->MapNumber == iMapNumber && getGameObject(n)->Connected > PLAYER_LOGGED) //season3 changed
 		{
 			this->SearchUserDeleteQuestItem(*getGameObject(n));
 			gObjMoveGate(*getGameObject(n), 22);
@@ -1022,7 +1022,7 @@ void CBloodCastle::SetState_Playing(int iBridgeIndex)
 
 	for (int n = 0; n < gGameObjects.size(); n++)
 	{
-		if (getGameObject(n]->MapNumber == this->GetBridgeMapNumber(iBridgeIndex) && getGameObject(n)->Connected > PLAYER_LOGGED) //season3 changed
+		if (getGameObject(n)->MapNumber == this->GetBridgeMapNumber(iBridgeIndex) && getGameObject(n)->Connected > PLAYER_LOGGED) //season3 changed
 		{
 			this->SearchUserDeleteQuestItem(*getGameObject(n));
 		}
@@ -1205,7 +1205,7 @@ bool CBloodCastle::BloodCastleChaosMix(CGameObject &Obj, int iLEVEL)
 	if ( (rand()%100) < iMIX_SUCCESS_RATE )
 	{
 		int item_num = ITEMGET(13,18);
-		GameProtocol.ItemSerialCreateSend(Obj, -1, 0, 0, item_num, iLEVEL, 255, 0, 0, 0, -1, 0, 0, 0, 0, 0); // TODO
+		ItemCreate(Obj, -1, 0, 0, item_num, iLEVEL, 255, 0, 0, 0, -1, 0, 0, 0, 0, 0); // TODO
 	}
 	else
 	{
@@ -3404,7 +3404,7 @@ bool CBloodCastle::CheckAngelKingExist(int iBridgeIndex)
 
 	for ( int i=0;i<g_ConfigRead.server.GetObjectStartUserIndex();i++)
 	{
-		if ( getGameObject(i]->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_NPC )
+		if ( getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_NPC )
 		{
 			if ( getGameObject(i)->Class == 232 )
 			{
@@ -3748,7 +3748,7 @@ bool CBloodCastle::CheckPartyExist(CGameObject &Obj)
 
 		if ( gObjIsConnected(iUserIndex))
 		{
-			if ( BC_MAP_RANGE(getGameObject(iUserIndex]->MapNumber) && BC_BRIDGE_RANGE(getGameObject(iUserIndex)->m_cBloodCastleIndex) )
+			if ( BC_MAP_RANGE(getGameObject(iUserIndex)->MapNumber) && BC_BRIDGE_RANGE(getGameObject(iUserIndex)->m_cBloodCastleIndex) )
 			{
 				if ( getGameObject(iUserIndex)->Live == 1 )
 				{
@@ -3785,7 +3785,7 @@ bool CBloodCastle::CheckWinnerPartyComplete(int iBridgeIndex)
 
 		if ( gObjIsConnected(iUserIndex))
 		{
-			if ( BC_MAP_RANGE(getGameObject(iUserIndex]->MapNumber) && BC_BRIDGE_RANGE(getGameObject(iUserIndex)->m_cBloodCastleIndex) )
+			if ( BC_MAP_RANGE(getGameObject(iUserIndex)->MapNumber) && BC_BRIDGE_RANGE(getGameObject(iUserIndex)->m_cBloodCastleIndex) )
 			{
 				if ( getGameObject(iUserIndex)->Live == 1 )
 				{
@@ -3846,7 +3846,7 @@ int CBloodCastle::GetWinnerPartyCompleteCount(int iBridgeIndex)
 
 		if ( gObjIsConnected(iUserIndex))
 		{
-			if ( BC_MAP_RANGE(getGameObject(iUserIndex]->MapNumber) && BC_BRIDGE_RANGE(getGameObject(iUserIndex)->m_cBloodCastleIndex) )
+			if ( BC_MAP_RANGE(getGameObject(iUserIndex)->MapNumber) && BC_BRIDGE_RANGE(getGameObject(iUserIndex)->m_cBloodCastleIndex) )
 			{
 				if ( getGameObject(iUserIndex)->Live == 1 )
 				{
@@ -4568,7 +4568,7 @@ void CBloodCastle::DestroyCastleDoor(int iBridgeIndex, CGameObject lpDoorObj)
 		this->m_BridgeData[iBridgeIndex].m_szKill_Door_CharName[10] = 0;
 		this->m_BridgeData[iBridgeIndex].m_szKill_Door_AccountID[10] = 0;
 
-		g_QuestExpProgMng.ChkUserQuestTypeEventMap(QUESTEXP_ASK_BLOODCASTLE_DOOR_KILL, *getGameObject(TopHitUser], this->GetBridgeIndex(getGameObject(TopHitUser)->MapNumber), 1);
+		g_QuestExpProgMng.ChkUserQuestTypeEventMap(QUESTEXP_ASK_BLOODCASTLE_DOOR_KILL, *getGameObject(TopHitUser), this->GetBridgeIndex(getGameObject(TopHitUser)->MapNumber), 1);
 
 	}
 	else
@@ -4680,7 +4680,7 @@ void CBloodCastle::DestroySaintStatue(int iBridgeIndex, CGameObject lpStatueObj)
 		break;
 	}
 
-	GameProtocol.ItemSerialCreateSend(lpStatueObj, iMapNumber, lpStatueObj.X, lpStatueObj.Y, type, level, 0, 0, 0, 0, TopHitUser, 0, 0, 0, 0, 0);
+	ItemCreate(lpStatueObj, iMapNumber, lpStatueObj.X, lpStatueObj.Y, type, level, 0, 0, 0, 0, TopHitUser, 0, 0, 0, 0, 0);
 
 	this->m_BridgeData[iBridgeIndex].m_btBC_QUEST_ITEM_NUMBER = level;
 

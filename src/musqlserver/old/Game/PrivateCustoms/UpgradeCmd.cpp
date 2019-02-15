@@ -241,7 +241,7 @@ int CUpgradeCmd::DoUpgrade(CGameObject &Obj)
 
 			NewItem.m_Durability = ItemGetDurability(NewItem.m_Type, NewItem.m_Level, NewItem.m_NewOption, NewItem.m_SetOption);
 
-			GameProtocol.ItemSerialCreateSend(aIndex, 235, 0, 0, NewItem.m_Type, NewItem.m_Level, NewItem.m_Durability, NewItem.m_Option1, NewItem.m_Option2, NewItem.m_Option3, aIndex, NewItem.m_NewOption, NewItem.m_SetOption, 0, NewItem.m_SocketOption, 0);
+			ItemCreate(aIndex, 235, 0, 0, NewItem.m_Type, NewItem.m_Level, NewItem.m_Durability, NewItem.m_Option1, NewItem.m_Option2, NewItem.m_Option3, aIndex, NewItem.m_NewOption, NewItem.m_SetOption, 0, NewItem.m_SocketOption, 0);
 			return 1;
 		}
 	}

@@ -253,7 +253,6 @@ int CNameConvert::IsDuplicationOfName()
 
 CUserData::CUserData()
 {
-	this->IDNumber;
 	InitializeCriticalSection(&this->m_MasterSkillCriti);
 	InitializeCriticalSection(&this->m_DarkSideRFCriti);
 	InitializeCriticalSection(&this->AgiCheckCriti);

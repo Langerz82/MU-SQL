@@ -208,7 +208,7 @@ void CWarehouse::DGGetWarehouseList(CGameObject &Obj, SDHP_GETWAREHOUSEDB * aRec
 		memcpy(pMsg.AccountID, szAccountID, 11);
 
 		LeaveCriticalSection(&this->m_WareDataCriti);
-		DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
+		DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
 		return;
 	}
 
@@ -260,7 +260,7 @@ void CWarehouse::DGGetWarehouseList(CGameObject &Obj, SDHP_GETWAREHOUSEDB * aRec
 	}
 
 	LeaveCriticalSection(&this->m_WareDataCriti);
-	DataSend(lpObj.m_Index, (BYTE*)&pResult, sizeof(pResult), __FUNCTION__);
+	DataSend(Obj.m_Index, (BYTE*)&pResult, sizeof(pResult), __FUNCTION__);
 }
 
 void CWarehouse::GDSetWarehouseList(CGameObject &Obj, SDHP_GETWAREHOUSEDB_SAVE * aRecv)
@@ -317,7 +317,7 @@ void CWarehouse::GDSetWarehouseList(CGameObject &Obj, SDHP_GETWAREHOUSEDB_SAVE *
 	pMsg.iIndex = aRecv->aIndex;
 
 	LeaveCriticalSection(&this->m_WareDataCriti);
-	DataSend(lpObj.m_Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
+	DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 void CWarehouse::GDSetWarehouseMoney(CGameObject &Obj, SDHP_WAREHOUSEMONEY_SAVE * aRecv)

@@ -210,7 +210,7 @@ void CRaklion::Run()
 					getGameObject(iCount)->Type == OBJ_USER )
 				{
 					iRaklionUserCount++;
-					sLog->outBasic("[RAKLION][IsInRaklionEvent] %d/%d/%d %dth User : %s (%s)", pCurrentTime->tm_year+1900, pCurrentTime->tm_mon+1, pCurrentTime->tm_mday, iRaklionUserCount, getGameObject(iCount]->Name, getGameObject(iCount)->AccountID);
+					sLog->outBasic("[RAKLION][IsInRaklionEvent] %d/%d/%d %dth User : %s (%s)", pCurrentTime->tm_year+1900, pCurrentTime->tm_mon+1, pCurrentTime->tm_mday, iRaklionUserCount, getGameObject(iCount)->Name, getGameObject(iCount)->AccountID);
 				}
 			}
 		}
@@ -502,9 +502,9 @@ void CRaklion::RegenBossEgg()
 {
 	for (int iCount = 0; iCount < g_ConfigRead.server.GetObjectMaxMonster(); iCount++)
 	{
-		if (getGameObject(iCount]->Class == 460 || getGameObject(iCount)->Class == 461 || getGameObject(iCount)->Class == 462)
+		if (getGameObject(iCount)->Class == 460 || getGameObject(iCount)->Class == 461 || getGameObject(iCount)->Class == 462)
 		{
-			gObjSetMonster(getGameObject(iCount]->m_Index, getGameObject(iCount)->Class);
+			gObjSetMonster(getGameObject(iCount)->m_Index, getGameObject(iCount)->Class);
 
 			if (gObjMonsterRegen(&getGameObject(iCount)) == TRUE)
 			{
@@ -521,7 +521,7 @@ void CRaklion::DeleteBossEgg()
 {
 	for(int iCount=0; iCount<g_ConfigRead.server.GetObjectMaxMonster(); iCount++)
 	{
-		if (getGameObject(iCount]->Class == 460 || getGameObject(iCount)->Class == 461 || getGameObject(iCount)->Class == 462 )
+		if (getGameObject(iCount)->Class == 460 || getGameObject(iCount)->Class == 461 || getGameObject(iCount)->Class == 462 )
 		{
 			if (getGameObject(iCount)->Connected == PLAYER_PLAYING)
 			{
@@ -547,10 +547,10 @@ void CRaklion::CheckUserOnRaklionBossMap()
 		{
 			if (g_RaklionBattleUserMng.IsBattleUser(iCount))	continue;
 
-			if (getGameObject(iCount]->RegenOk == 0 && getGameObject(iCount)->m_State == 2 && getGameObject(iCount)->Live == 1)
+			if (getGameObject(iCount)->RegenOk == 0 && getGameObject(iCount)->m_State == 2 && getGameObject(iCount)->Live == 1)
 			{
 				gObjMoveGate(iCount, 286);
-				sLog->outError( "[ RAKLION ][ Invalid User ] Invalid Raklion Boss Map User[%s][%s]", getGameObject(iCount]->AccountID, getGameObject(iCount)->Name);
+				sLog->outError( "[ RAKLION ][ Invalid User ] Invalid Raklion Boss Map User[%s][%s]", getGameObject(iCount)->AccountID, getGameObject(iCount)->Name);
 			}
 		}
 	}
@@ -562,12 +562,12 @@ int CRaklion::CheckEnterRaklion(CGameObject &Obj)
 
 	if( GetRaklionState() == RAKLION_STATE_CLOSE_DOOR )
 	{
-		sLog->outBasic("[ RAKLION ][ Entrance Fail ] [%s][%s] State(%d)", getGameObject(iUserIndex]->AccountID, getGameObject(iUserIndex)->Name, GetRaklionState());
+		sLog->outBasic("[ RAKLION ][ Entrance Fail ] [%s][%s] State(%d)", getGameObject(iUserIndex)->AccountID, getGameObject(iUserIndex)->Name, GetRaklionState());
 		return 3;
 	}
 	if( getGameObject(iUserIndex)->MapNumber != MAP_INDEX_HATCHERY ) 
 	{
-		sLog->outBasic("[ RAKLION ][ Entrance Fail ] Invalid Map Number(%d) [%s][%s] State(%d)", getGameObject(iUserIndex]->MapNumber, getGameObject(iUserIndex)->AccountID, getGameObject(iUserIndex)->Name, GetRaklionState());
+		sLog->outBasic("[ RAKLION ][ Entrance Fail ] Invalid Map Number(%d) [%s][%s] State(%d)", getGameObject(iUserIndex)->MapNumber, getGameObject(iUserIndex)->AccountID, getGameObject(iUserIndex)->Name, GetRaklionState());
 		return 4;
 	}
 	return 0;

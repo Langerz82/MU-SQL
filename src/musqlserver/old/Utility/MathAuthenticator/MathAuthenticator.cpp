@@ -31,7 +31,7 @@ void MathAuthenticator::Update()
 
 	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
-		if (getGameObject(i]->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER && getGameObject(i)->m_PlayerData->ISBOT == false)
+		if (getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER && getGameObject(i)->m_PlayerData->ISBOT == false)
 		{
 			getGameObject(i)->m_PlayerData->MathAuthenElapsed += elapsed;
 

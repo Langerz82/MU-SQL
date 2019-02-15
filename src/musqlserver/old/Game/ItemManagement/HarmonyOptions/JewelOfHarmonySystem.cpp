@@ -1007,7 +1007,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem_MultiMix(CGameObject &Obj, int
 		else
 			iItemType = this->JEWEL_OF_HARMONY_SMELT_EXT_ITEMINDEX;
 
-		GameProtocol.ItemSerialCreateSend(lpObj, 255, 0, 0, iItemType, 0, 1, 0, 0, 0, lpObj, 0, 0, 0, 0, 0);
+		ItemCreate(lpObj, 255, 0, 0, iItemType, 0, 1, 0, 0, 0, lpObj, 0, 0, 0, 0, 0);
 	}
 
 	gObjInventoryCommit(lpObj.m_Index);
@@ -1108,7 +1108,7 @@ BOOL CJewelOfHarmonySystem::MakeSmeltingStoneItem(CGameObject &Obj)
 		else
 			iItemType = this->JEWEL_OF_HARMONY_SMELT_EXT_ITEMINDEX;
 
-		GameProtocol.ItemSerialCreateSend(lpObj, 255, 0, 0, iItemType, 0,
+		ItemCreate(lpObj, 255, 0, 0, iItemType, 0,
 							1, 0, 0, 0, lpObj, 0, 0, 0, 0, 0);
 		gObjInventoryCommit(lpObj);
 

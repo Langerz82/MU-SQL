@@ -124,4 +124,6 @@ public:
 
 BOOL MapNumberCheck(int map);
 
+extern class MapClass MapC[MAX_NUMBER_MAP];
+
 #endif

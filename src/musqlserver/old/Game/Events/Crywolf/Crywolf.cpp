@@ -913,7 +913,7 @@ void CCrywolf::NotifyCrywolfBossMonsterInfo()
 				pMsg.btMonster2++;
 				break;
 			case 349:
-				pMsg.iMonster1HP = (getGameObject(i]->Life * 100.0f) / (getGameObject(i)->MaxLife + 1.0f);
+				pMsg.iMonster1HP = (getGameObject(i)->Life * 100.0f) / (getGameObject(i)->MaxLife + 1.0f);
 				break;
 		}
 	}
@@ -1048,7 +1048,7 @@ void CCrywolf::OperateGmCommand(CGameObject &Obj, int iCommand)
 	if ( !gObjIsConnectedGP(iUserIndex))
 		return;
 
-	if ( (getGameObject(iUserIndex]->Authority & 0x02) != 0x02 && (getGameObject(iUserIndex)->Authority & 0x20) != 0x20 )
+	if ( (getGameObject(iUserIndex)->Authority & 0x02) != 0x02 && (getGameObject(iUserIndex)->Authority & 0x20) != 0x20 )
 		return;
 
 	if( (getGameObject(iUserIndex)->GameMaster & GM_EVENT_MODIFY) != GM_EVENT_MODIFY )
@@ -1174,7 +1174,7 @@ void CCrywolf::MakeRewardForAltarElf(int iAltarUserIndex)
 {
 	int iItemNumber = ITEMGET(14,13);
 
-	GameProtocol.ItemSerialCreateSend(getGameObject(iAltarUserIndex)->m_Index,
+	ItemCreate(getGameObject(iAltarUserIndex)->m_Index,
 						 getGameObject(iAltarUserIndex)->MapNumber,
 						 getGameObject(iAltarUserIndex)->X,
 						 getGameObject(iAltarUserIndex)->Y,
@@ -1193,7 +1193,7 @@ void CCrywolf::MakeRewardForHeroListTop5(CGameObject &Obj)
 {
 	int iItemNumber = ITEMGET(14,13);
 
-	GameProtocol.ItemSerialCreateSend(getGameObject(iUserIndex)->m_Index,
+	ItemCreate(getGameObject(iUserIndex)->m_Index,
 						 getGameObject(iUserIndex)->MapNumber,
 						 getGameObject(iUserIndex)->X,
 						 getGameObject(iUserIndex)->Y,
@@ -1273,7 +1273,7 @@ int CCrywolf::CalcGettingRank(CGameObject &Obj)
 
 	for ( int i=0;i<=4;i++)
 	{
-		if ( getGameObject(iUserIndex]->m_iCrywolfMVPScore < this->m_iMVPRankScoreTable[i) )
+		if ( getGameObject(iUserIndex)->m_iCrywolfMVPScore < this->m_iMVPRankScoreTable[i) )
 			break;
 
 		iRank = i;

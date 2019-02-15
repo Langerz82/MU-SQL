@@ -521,6 +521,8 @@ static int g_iCastleWallStepAxisY[3] = {
 	113, 160, 203
 };
 
+extern CCastleSiege g_CastleSiege;
+
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////

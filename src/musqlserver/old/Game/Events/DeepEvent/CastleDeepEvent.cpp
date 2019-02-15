@@ -487,13 +487,13 @@ void CCastleDeepEvent::AddMonster(int iAssultType,int iGroup)
 					getGameObject(result)->X = cSX;
 					getGameObject(result)->Y = cSY;
 					getGameObject(result)->MapNumber = MAP_INDEX_CASTLESIEGE;
-					getGameObject(result]->TX = getGameObject(result)->X;
-					getGameObject(result]->TY = getGameObject(result)->Y;
-					getGameObject(result]->m_OldX = getGameObject(result)->X;
-					getGameObject(result]->m_OldY = getGameObject(result)->Y;
+					getGameObject(result)->TX = getGameObject(result)->X;
+					getGameObject(result)->TY = getGameObject(result)->Y;
+					getGameObject(result)->m_OldX = getGameObject(result)->X;
+					getGameObject(result)->m_OldY = getGameObject(result)->Y;
 					getGameObject(result)->Dir = 1;
-					getGameObject(result]->StartX = getGameObject(result)->X;
-					getGameObject(result]->StartY = getGameObject(result)->Y;
+					getGameObject(result)->StartX = getGameObject(result)->X;
+					getGameObject(result)->StartY = getGameObject(result)->Y;
 
 					gObjSetMonster(result, stMonsterInfo->m_iMonsterType);
 

@@ -196,19 +196,19 @@ void CDevilSquareGround::RegenBossMonster(int currtime)
 					gMSetBase.GetBoxPosition(getGameObject(iMonIndex)->MapNumber,
 						this->m_DevilSquareBossMonsterInfo[i].X, this->m_DevilSquareBossMonsterInfo[i].Y,
 						this->m_DevilSquareBossMonsterInfo[i].TX, this->m_DevilSquareBossMonsterInfo[i].TY,
-						getGameObject(iMonIndex]->X, getGameObject(iMonIndex)->Y);
+						getGameObject(iMonIndex)->X, getGameObject(iMonIndex)->Y);
 					int map = getGameObject(iMonIndex)->MapNumber;
 					int x = getGameObject(iMonIndex)->X;
 					int y = getGameObject(iMonIndex)->Y;
 
 					//sLog->outBasic("[DevilSquare] Boss %d %d %d create ", map, x, y);
 
-					getGameObject(iMonIndex]->TX = getGameObject(iMonIndex)->X;
-					getGameObject(iMonIndex]->TY = getGameObject(iMonIndex)->Y;
-					getGameObject(iMonIndex]->MTX = getGameObject(iMonIndex)->X;
-					getGameObject(iMonIndex]->MTY = getGameObject(iMonIndex)->Y;
-					getGameObject(iMonIndex]->StartX = getGameObject(iMonIndex)->X;
-					getGameObject(iMonIndex]->StartY = getGameObject(iMonIndex)->Y;
+					getGameObject(iMonIndex)->TX = getGameObject(iMonIndex)->X;
+					getGameObject(iMonIndex)->TY = getGameObject(iMonIndex)->Y;
+					getGameObject(iMonIndex)->MTX = getGameObject(iMonIndex)->X;
+					getGameObject(iMonIndex)->MTY = getGameObject(iMonIndex)->Y;
+					getGameObject(iMonIndex)->StartX = getGameObject(iMonIndex)->X;
+					getGameObject(iMonIndex)->StartY = getGameObject(iMonIndex)->Y;
 					getGameObject(iMonIndex)->m_bDevilSquareIndex = this->m_iIndex;
 					getGameObject(iMonIndex)->DieRegen = FALSE;
 					getGameObject(iMonIndex)->m_PosNum = -1;

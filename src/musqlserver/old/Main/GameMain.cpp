@@ -446,7 +446,7 @@ BOOL gJoominCheck(char* szJN, int iLimitAge) // Good
 
 void GameMainInit(HWND hWnd)
 {
-	ItemSerialCreateSend = ItemCreate;
+	ItemCreate = ItemCreate;
 	srand(time(nullptr));
 
 	g_ConfigRead.ReadServerInfo(true);
@@ -685,7 +685,7 @@ void GameMonsterAllAdd()
 				{
 					if (getGameObject(result)->Type == OBJ_NPC)
 					{
-						if (getGameObject(result]->Class == 406 || getGameObject(result)->Class == 407)
+						if (getGameObject(result)->Class == 406 || getGameObject(result)->Class == 407)
 						{
 
 						}
@@ -754,7 +754,7 @@ void GameMonsterAllCloseAndReLoad()
 {
 	for ( int n=0;n<g_ConfigRead.server.GetObjectMaxMonster();n++)
 	{
-		if ( getGameObject(n]->Type == OBJ_MONSTER || getGameObject(n)->Type == OBJ_NPC )
+		if ( getGameObject(n)->Type == OBJ_MONSTER || getGameObject(n)->Type == OBJ_NPC )
 		{
 			if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE)
 			{
@@ -774,7 +774,7 @@ void GameMonsterAllCloseAndReLoad()
 			gObjDel(n);
 		}
 
-		if ( getGameObject(n]->Type == OBJ_USER && getGameObject(n)->m_PlayerData->ISBOT == true )
+		if ( getGameObject(n)->Type == OBJ_USER && getGameObject(n)->m_PlayerData->ISBOT == true )
 		{
 			getGameObject(n)->Type = OBJ_EMPTY;
 			delete getGameObject(n)->m_PlayerData;

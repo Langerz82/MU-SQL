@@ -279,7 +279,7 @@ BYTE gObjEventInvenItemOverlap(CGameObject &Obj, int *durSsend, int *durTsend, B
 				*durTsend = TRUE;
 			}
 
-			//GameProtocol.ItemSerialCreateSend(Obj, 226, Obj.X, Obj.Y, ITEMGET(14, 216), sitem->m_Level, 0, 0, 0, 0, Obj.m_Index, 0, 0, 0, 0, 0);
+			//ItemCreate(Obj, 226, Obj.X, Obj.Y, ITEMGET(14, 216), sitem->m_Level, 0, 0, 0, 0, Obj.m_Index, 0, 0, 0, 0, 0);
 			// TODO - Add to DB.
 
 		}
@@ -302,7 +302,7 @@ BYTE gObjEventInvenItemOverlap(CGameObject &Obj, int *durSsend, int *durTsend, B
 				*durTsend = TRUE;
 			}
 
-			GameProtocol.ItemSerialCreateSend(Obj, 226, Obj.X, Obj.Y, ITEMGET(14, 244), sitem->m_Level, 0, 0, 0, 0, Obj.m_Index, 0, 0, 0, 0, 0);
+			ItemCreate(Obj, 226, Obj.X, Obj.Y, ITEMGET(14, 244), sitem->m_Level, 0, 0, 0, 0, Obj.m_Index, 0, 0, 0, 0, 0);
 			// TODO Add DB.
 		}
 

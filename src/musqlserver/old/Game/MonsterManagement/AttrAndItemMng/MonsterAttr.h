@@ -39,6 +39,8 @@ public:
 	std::map<int, CUSTOM_MONSTER_ATTR*> m_MonsterData;
 }; extern CCustomMonsterAttr gCMAttr;
 
+extern CMonsterAttr gMAttr;
+
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////

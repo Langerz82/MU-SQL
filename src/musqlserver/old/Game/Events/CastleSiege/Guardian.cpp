@@ -46,7 +46,7 @@ void CGuardian::GuardianAct(CGameObject &Obj)
 
 			if (tObjNum >= 0)
 			{
-				if (getGameObject(tObjNum]->Type == OBJ_USER && getGameObject(tObjNum)->Live)
+				if (getGameObject(tObjNum)->Type == OBJ_USER && getGameObject(tObjNum)->Live)
 				{
 					if (getGameObject(tObjNum)->m_btCsJoinSide == lpObj.m_btCsJoinSide)
 					{
@@ -57,17 +57,17 @@ void CGuardian::GuardianAct(CGameObject &Obj)
 							getGameObject(tObjNum)->Mana += 100.0f;
 							getGameObject(tObjNum)->BP += 100;
 
-							if (getGameObject(tObjNum]->Life > getGameObject(tObjNum)->MaxLife)
-								getGameObject(tObjNum]->Life = getGameObject(tObjNum)->MaxLife;
+							if (getGameObject(tObjNum)->Life > getGameObject(tObjNum)->MaxLife)
+								getGameObject(tObjNum)->Life = getGameObject(tObjNum)->MaxLife;
 
-							if (getGameObject(tObjNum]->Mana > getGameObject(tObjNum)->MaxMana)
-								getGameObject(tObjNum]->Mana = getGameObject(tObjNum)->MaxMana;
+							if (getGameObject(tObjNum)->Mana > getGameObject(tObjNum)->MaxMana)
+								getGameObject(tObjNum)->Mana = getGameObject(tObjNum)->MaxMana;
 
-							if (getGameObject(tObjNum]->BP > getGameObject(tObjNum)->MaxBP)
-								getGameObject(tObjNum]->BP = getGameObject(tObjNum)->MaxBP;
+							if (getGameObject(tObjNum)->BP > getGameObject(tObjNum)->MaxBP)
+								getGameObject(tObjNum)->BP = getGameObject(tObjNum)->MaxBP;
 
-							gGameProtocol.GCReFillSend(tObjNum, getGameObject(tObjNum]->Life, 0xFF, 1, getGameObject(tObjNum)->iShield);
-							gGameProtocol.GCManaSend(tObjNum, getGameObject(tObjNum]->Mana, 0xFF, 0, getGameObject(tObjNum)->BP);
+							gGameProtocol.GCReFillSend(tObjNum, getGameObject(tObjNum)->Life, 0xFF, 1, getGameObject(tObjNum)->iShield);
+							gGameProtocol.GCManaSend(tObjNum, getGameObject(tObjNum)->Mana, 0xFF, 0, getGameObject(tObjNum)->BP);
 						}
 					}
 				}

@@ -205,7 +205,7 @@ void CMarry::Propose(CGameObject &Obj, int uIndex)
 	gGameProtocol.GCServerMsgStringSend(msg, uIndex, 1);
 	gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,381), aIndex, 1);
 
-	sLog->outBasic("[Marry][%s][%s] Request to marry with [%s][%s]", lpObj.AccountID, lpObj.Name, getGameObject(uIndex]->AccountID, getGameObject(uIndex)->Name);
+	sLog->outBasic("[Marry][%s][%s] Request to marry with [%s][%s]", lpObj.AccountID, lpObj.Name, getGameObject(uIndex)->AccountID, getGameObject(uIndex)->Name);
 }
 
 bool CMarry::Accept(CGameObject &Obj)
@@ -237,7 +237,7 @@ bool CMarry::Accept(CGameObject &Obj)
 		return false;
 	}
 
-	if (getGameObject(uIndex]->m_PlayerData->Money < getGameObject(uIndex)->m_PlayerData->Money - this->m_iMarryNeedMoney || lpObj.m_PlayerData->Money < lpObj.m_PlayerData->Money - this->m_iMarryNeedMoney)
+	if (getGameObject(uIndex)->m_PlayerData->Money < getGameObject(uIndex)->m_PlayerData->Money - this->m_iMarryNeedMoney || lpObj.m_PlayerData->Money < lpObj.m_PlayerData->Money - this->m_iMarryNeedMoney)
 	{
 		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,385), aIndex, 1);
 		return false;
@@ -300,7 +300,7 @@ bool CMarry::Accept(CGameObject &Obj)
 	wsprintf(info, Lang.GetText(0,389), getGameObject(uIndex)->Name, lpObj.Name);
 	gGameProtocol.AllSendServerMsg(info);
 
-	sLog->outBasic("[Marry] New Marriage: %s [%d]  %s [%d]", getGameObject(uIndex]->Name, lpObj.Married, lpObj.Name, getGameObject(uIndex)->Married);
+	sLog->outBasic("[Marry] New Marriage: %s [%d]  %s [%d]", getGameObject(uIndex)->Name, lpObj.Married, lpObj.Name, getGameObject(uIndex)->Married);
 	return true;
 }
 
@@ -345,7 +345,7 @@ void CMarry::Divorce(CGameObject &Obj)
 
 bool CMarry::CheckPosition(CGameObject &Obj, int uIndex)
 {
-	int aX = lpObj.X, aY = lpObj.Y, aM = lpObj.MapNumber, uX = getGameObject(uIndex]->X, uY = getGameObject(uIndex)->Y, uM = getGameObject(uIndex)->MapNumber;
+	int aX = lpObj.X, aY = lpObj.Y, aM = lpObj.MapNumber, uX = getGameObject(uIndex)->X, uY = getGameObject(uIndex)->Y, uM = getGameObject(uIndex)->MapNumber;
 
 	if((aX >= this->m_btMarryStartX && aX <= this->m_btMarryEndX) && (aY >= this->m_btMarryStartY && aY <= this->m_btMarryEndY) && (uX >= this->m_btMarryStartX && uX <= this->m_btMarryEndX) && (uY >= this->m_btMarryStartY && uY <= this->m_btMarryEndY))
 	{
@@ -413,7 +413,7 @@ void CMarry::GiveGiftItem(CGameObject &Obj, int iSide)
 
 		for (int i = 0; i < It->m_iItemCount; i++)
 		{
-			GameProtocol.ItemSerialCreateSend(aIndex, 235, 0, 0, It->m_wItemID, 0, 0, 0, 0, 0, aIndex, 0, 0, 0, 0, 0);
+			ItemCreate(aIndex, 235, 0, 0, It->m_wItemID, 0, 0, 0, 0, 0, aIndex, 0, 0, 0, 0, 0);
 		}
 	}
 

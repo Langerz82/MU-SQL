@@ -401,7 +401,7 @@ BOOL TMonsterAIElement::ApplyElementAttack(CGameObject &Obj, int iTargetIndex, T
 		if ( iTargetNumber < 0 )
 			bEnableAttack = FALSE;
 
-		else if ( !getGameObject(iTargetNumber]->Live || getGameObject(iTargetNumber)->Teleport )
+		else if ( !getGameObject(iTargetNumber)->Live || getGameObject(iTargetNumber)->Teleport )
 			bEnableAttack = FALSE;
 
 		else if ( getGameObject(iTargetNumber)->Connected <= PLAYER_LOGGED ||
@@ -722,7 +722,7 @@ BOOL TMonsterAIElement::ApplyElementSkillAttack(CGameObject &Obj, int iTargetInd
 		if (iTargetNumber < 0 )
 			bEnableAttack = FALSE;
 
-		else if ( !getGameObject(iTargetNumber]->Live || getGameObject(iTargetNumber)->Teleport )
+		else if ( !getGameObject(iTargetNumber)->Live || getGameObject(iTargetNumber)->Teleport )
 			bEnableAttack = FALSE;
 
 		else if ( getGameObject(iTargetNumber)->Connected <= PLAYER_LOGGED ||

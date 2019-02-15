@@ -347,7 +347,7 @@ void CCustomEventDrop::ProcState_START(CUSTOM_EVENT_DROP_INFO* lpInfo) // OK
 					Y = lpInfo->RuleInfo.Y;
 				}
 
-				GameProtocol.ItemSerialCreateSend(this->GetDummyUserIndex(), lpInfo->RuleInfo.Map, X, Y, it->ItemIndex, it->ItemLevel, it->Durability, Option1, Option2, Option3, -1, ExcOption, SetOption, 0, 0, 0);
+				ItemCreate(this->GetDummyUserIndex(), lpInfo->RuleInfo.Map, X, Y, it->ItemIndex, it->ItemLevel, it->Durability, Option1, Option2, Option3, -1, ExcOption, SetOption, 0, 0, 0);
 			}
 		}
 	}

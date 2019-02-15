@@ -198,7 +198,7 @@ BOOL CMercenary::SearchEnemy(CGameObject &Obj)
 								if (abs(x) <= 2)
 								{
 									int cY = lpObj.Y - iAttackRange;
-									if (cY <= getGameObject(iTargetNumber]->Y && lpObj.Y >= getGameObject(iTargetNumber)->Y)
+									if (cY <= getGameObject(iTargetNumber)->Y && lpObj.Y >= getGameObject(iTargetNumber)->Y)
 									{
 										lpObj.TargetNumber = iTargetNumber;
 										return TRUE;
@@ -211,7 +211,7 @@ BOOL CMercenary::SearchEnemy(CGameObject &Obj)
 								if (abs(y) <= 2)
 								{
 									int cX = lpObj.X - iAttackRange;
-									if (cX <= getGameObject(iTargetNumber]->X && lpObj.X >= getGameObject(iTargetNumber)->X)
+									if (cX <= getGameObject(iTargetNumber)->X && lpObj.X >= getGameObject(iTargetNumber)->X)
 									{
 										lpObj.TargetNumber = iTargetNumber;
 										return TRUE;

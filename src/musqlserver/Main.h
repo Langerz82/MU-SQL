@@ -61,14 +61,4 @@ extern TCHAR g_logsDir[64];
 extern TCHAR g_logsEntryCount[2];
 extern std::string g_logsEntry[10]; // up to 10 logs
 
-
-
-
-
-
-
-
-
-extern MapClass MapC[MAX_NUMBER_MAP];
-
 #endif // !defined(AFX_EMAIN_H__A7C14824_5DD7_49C9_BDFB_C8D813D08CB9__INCLUDED_)

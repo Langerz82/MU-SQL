@@ -425,7 +425,7 @@ void CBag::DropSummonItem(CGameObject &Obj)
 			return;
 		}
 
-		GameProtocol.ItemSerialCreateSend(aIndex, lpObj.MapNumber, lpObj.X, lpObj.Y, iType, 0, -1, 0, 0, 0, aIndex, 0, 0, 0, 0, 0);
+		ItemCreate(aIndex, lpObj.MapNumber, lpObj.X, lpObj.Y, iType, 0, -1, 0, 0, 0, aIndex, 0, 0, 0, 0, 0);
 	}
 }
 

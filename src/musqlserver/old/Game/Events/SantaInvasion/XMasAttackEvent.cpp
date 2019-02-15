@@ -37,7 +37,7 @@ BOOL CXMasMonsterHerd::MonsterHerdItemDrop(CGameObject &Obj)
 	{
 		int iIndex = gObjMonsterTopHitDamageUser(lpObj);
 		int itemnumber = ItemGetNumberMake(13, 66);
-		GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, itemnumber, 0, 0, 0, 0, 0, iIndex, 0, 0, 0, 0, 0);
+		ItemCreate(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, itemnumber, 0, 0, 0, 0, 0, iIndex, 0, 0, 0, 0, 0);
 
 		int buff = rand()%3;
 		int count = 0;
@@ -81,7 +81,7 @@ BOOL CXMasMonsterHerd::MonsterHerdItemDrop(CGameObject &Obj)
 		{
 			int iIndex = gObjMonsterTopHitDamageUser(lpObj);
 			int itemnumber = ItemGetNumberMake(13, 66);	// Wizards XMas
-			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y,
+			ItemCreate(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y,
 				itemnumber, 0, 30, 0, 0, 0, iIndex, 0, 0, 0, 0, 0);
 			return TRUE;
 		}
@@ -590,7 +590,7 @@ void CXMasAttackEvent::ProcState_Playing()
 				{
 					if ( getGameObject(n)->m_bIsInMonsterHerd )
 					{
-						if ( getGameObject(n]->Live && getGameObject(n)->MapNumber == g_XMasEventMapNum[i) )
+						if ( getGameObject(n)->Live && getGameObject(n)->MapNumber == g_XMasEventMapNum[i) )
 						{
 							bLive = TRUE;
 						}

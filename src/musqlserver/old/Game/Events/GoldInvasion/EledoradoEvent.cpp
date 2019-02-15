@@ -134,20 +134,20 @@ void CEledoradoEvent::RegenGoldGoblen()
 
 		getGameObject(result)->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result]->X, getGameObject(result)->Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result)->X, getGameObject(result)->Y) == 0)
 		{
 
 		}
 
 		getGameObject(result)->m_PosNum = -1;
-		getGameObject(result]->TX = getGameObject(result)->X;
-		getGameObject(result]->TY = getGameObject(result)->Y;
-		getGameObject(result]->MTX = getGameObject(result)->X;
-		getGameObject(result]->MTY = getGameObject(result)->Y;
-		getGameObject(result]->m_OldX = getGameObject(result)->X;
-		getGameObject(result]->m_OldY = getGameObject(result)->Y;
-		getGameObject(result]->StartX = getGameObject(result)->X;
-		getGameObject(result]->StartY = getGameObject(result)->Y;
+		getGameObject(result)->TX = getGameObject(result)->X;
+		getGameObject(result)->TY = getGameObject(result)->Y;
+		getGameObject(result)->MTX = getGameObject(result)->X;
+		getGameObject(result)->MTY = getGameObject(result)->Y;
+		getGameObject(result)->m_OldX = getGameObject(result)->X;
+		getGameObject(result)->m_OldY = getGameObject(result)->Y;
+		getGameObject(result)->StartX = getGameObject(result)->X;
+		getGameObject(result)->StartY = getGameObject(result)->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
@@ -210,7 +210,7 @@ void CEledoradoEvent::RegenTitan()
 
 		getGameObject(result)->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result]->X, getGameObject(result)->Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result)->X, getGameObject(result)->Y) == 0)
 		{
 
 		}
@@ -220,14 +220,14 @@ void CEledoradoEvent::RegenTitan()
 		this->m_BossTitanMapY = getGameObject(result)->Y;
 
 		getGameObject(result)->m_PosNum = -1;
-		getGameObject(result]->TX = getGameObject(result)->X;
-		getGameObject(result]->TY = getGameObject(result)->Y;
-		getGameObject(result]->MTX = getGameObject(result)->X;
-		getGameObject(result]->MTY = getGameObject(result)->Y;
-		getGameObject(result]->m_OldX = getGameObject(result)->X;
-		getGameObject(result]->m_OldY = getGameObject(result)->Y;
-		getGameObject(result]->StartX = getGameObject(result)->X;
-		getGameObject(result]->StartY = getGameObject(result)->Y;
+		getGameObject(result)->TX = getGameObject(result)->X;
+		getGameObject(result)->TY = getGameObject(result)->Y;
+		getGameObject(result)->MTX = getGameObject(result)->X;
+		getGameObject(result)->MTY = getGameObject(result)->Y;
+		getGameObject(result)->m_OldX = getGameObject(result)->X;
+		getGameObject(result)->m_OldY = getGameObject(result)->Y;
+		getGameObject(result)->StartX = getGameObject(result)->X;
+		getGameObject(result)->StartY = getGameObject(result)->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
@@ -272,17 +272,17 @@ void CEledoradoEvent::RegenTitan()
 
 		getGameObject(result)->MapNumber = MapNumber;
 
-		this->GetBoxPosition(MapNumber, this->m_BossTitanMapX - 4, this->m_BossTitanMapY - 4, this->m_BossTitanMapX + 4, this->m_BossTitanMapY + 4, getGameObject(result]->X, getGameObject(result)->Y);
+		this->GetBoxPosition(MapNumber, this->m_BossTitanMapX - 4, this->m_BossTitanMapY - 4, this->m_BossTitanMapX + 4, this->m_BossTitanMapY + 4, getGameObject(result)->X, getGameObject(result)->Y);
 
 		getGameObject(result)->m_PosNum = -1;
-		getGameObject(result]->TX = getGameObject(result)->X;
-		getGameObject(result]->TY = getGameObject(result)->Y;
-		getGameObject(result]->MTX = getGameObject(result)->X;
-		getGameObject(result]->MTY = getGameObject(result)->Y;
-		getGameObject(result]->m_OldX = getGameObject(result)->X;
-		getGameObject(result]->m_OldY = getGameObject(result)->Y;
-		getGameObject(result]->StartX = getGameObject(result)->X;
-		getGameObject(result]->StartY = getGameObject(result)->Y;
+		getGameObject(result)->TX = getGameObject(result)->X;
+		getGameObject(result)->TY = getGameObject(result)->Y;
+		getGameObject(result)->MTX = getGameObject(result)->X;
+		getGameObject(result)->MTY = getGameObject(result)->Y;
+		getGameObject(result)->m_OldX = getGameObject(result)->X;
+		getGameObject(result)->m_OldY = getGameObject(result)->Y;
+		getGameObject(result)->StartX = getGameObject(result)->X;
+		getGameObject(result)->StartY = getGameObject(result)->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
@@ -355,20 +355,20 @@ void CEledoradoEvent::RegenGoldDercon()
 
 		getGameObject(result)->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result]->X, getGameObject(result)->Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result)->X, getGameObject(result)->Y) == 0)
 		{
 
 		}
 
 		getGameObject(result)->m_PosNum = -1;
-		getGameObject(result]->TX = getGameObject(result)->X;
-		getGameObject(result]->TY = getGameObject(result)->Y;
-		getGameObject(result]->MTX = getGameObject(result)->X;
-		getGameObject(result]->MTY = getGameObject(result)->Y;
-		getGameObject(result]->m_OldX = getGameObject(result)->X;
-		getGameObject(result]->m_OldY = getGameObject(result)->Y;
-		getGameObject(result]->StartX = getGameObject(result)->X;
-		getGameObject(result]->StartY = getGameObject(result)->Y;
+		getGameObject(result)->TX = getGameObject(result)->X;
+		getGameObject(result)->TY = getGameObject(result)->Y;
+		getGameObject(result)->MTX = getGameObject(result)->X;
+		getGameObject(result)->MTY = getGameObject(result)->Y;
+		getGameObject(result)->m_OldX = getGameObject(result)->X;
+		getGameObject(result)->m_OldY = getGameObject(result)->Y;
+		getGameObject(result)->StartX = getGameObject(result)->X;
+		getGameObject(result)->StartY = getGameObject(result)->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
@@ -446,7 +446,7 @@ void CEledoradoEvent::RegenDevilLizardKing()
 
 		getGameObject(result)->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result]->X, getGameObject(result)->Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result)->X, getGameObject(result)->Y) == 0)
 		{
 
 		}
@@ -456,14 +456,14 @@ void CEledoradoEvent::RegenDevilLizardKing()
 		this->m_BossDevilLizardKingMapY = getGameObject(result)->Y;
 
 		getGameObject(result)->m_PosNum = -1;
-		getGameObject(result]->TX = getGameObject(result)->X;
-		getGameObject(result]->TY = getGameObject(result)->Y;
-		getGameObject(result]->MTX = getGameObject(result)->X;
-		getGameObject(result]->MTY = getGameObject(result)->Y;
-		getGameObject(result]->m_OldX = getGameObject(result)->X;
-		getGameObject(result]->m_OldY = getGameObject(result)->Y;
-		getGameObject(result]->StartX = getGameObject(result)->X;
-		getGameObject(result]->StartY = getGameObject(result)->Y;
+		getGameObject(result)->TX = getGameObject(result)->X;
+		getGameObject(result)->TY = getGameObject(result)->Y;
+		getGameObject(result)->MTX = getGameObject(result)->X;
+		getGameObject(result)->MTY = getGameObject(result)->Y;
+		getGameObject(result)->m_OldX = getGameObject(result)->X;
+		getGameObject(result)->m_OldY = getGameObject(result)->Y;
+		getGameObject(result)->StartX = getGameObject(result)->X;
+		getGameObject(result)->StartY = getGameObject(result)->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
@@ -509,17 +509,17 @@ void CEledoradoEvent::RegenDevilLizardKing()
 		getGameObject(result)->MapNumber = MapNumber;
 
 		this->GetBoxPosition(MapNumber, this->m_BossDevilLizardKingMapX - 4, this->m_BossDevilLizardKingMapY - 4,
-			this->m_BossDevilLizardKingMapX + 4, this->m_BossDevilLizardKingMapY + 4, getGameObject(result]->X, getGameObject(result)->Y);
+			this->m_BossDevilLizardKingMapX + 4, this->m_BossDevilLizardKingMapY + 4, getGameObject(result)->X, getGameObject(result)->Y);
 
 		getGameObject(result)->m_PosNum = -1;
-		getGameObject(result]->TX = getGameObject(result)->X;
-		getGameObject(result]->TY = getGameObject(result)->Y;
-		getGameObject(result]->MTX = getGameObject(result)->X;
-		getGameObject(result]->MTY = getGameObject(result)->Y;
-		getGameObject(result]->m_OldX = getGameObject(result)->X;
-		getGameObject(result]->m_OldY = getGameObject(result)->Y;
-		getGameObject(result]->StartX = getGameObject(result)->X;
-		getGameObject(result]->StartY = getGameObject(result)->Y;
+		getGameObject(result)->TX = getGameObject(result)->X;
+		getGameObject(result)->TY = getGameObject(result)->Y;
+		getGameObject(result)->MTX = getGameObject(result)->X;
+		getGameObject(result)->MTY = getGameObject(result)->Y;
+		getGameObject(result)->m_OldX = getGameObject(result)->X;
+		getGameObject(result)->m_OldY = getGameObject(result)->Y;
+		getGameObject(result)->StartX = getGameObject(result)->X;
+		getGameObject(result)->StartY = getGameObject(result)->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
@@ -580,7 +580,7 @@ void CEledoradoEvent::RegenKantur()
 
 		getGameObject(result)->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result]->X, getGameObject(result)->Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result)->X, getGameObject(result)->Y) == 0)
 		{
 
 		}
@@ -590,14 +590,14 @@ void CEledoradoEvent::RegenKantur()
 		this->m_BossKanturMapY = getGameObject(result)->Y;
 
 		getGameObject(result)->m_PosNum = -1;
-		getGameObject(result]->TX = getGameObject(result)->X;
-		getGameObject(result]->TY = getGameObject(result)->Y;
-		getGameObject(result]->MTX = getGameObject(result)->X;
-		getGameObject(result]->MTY = getGameObject(result)->Y;
-		getGameObject(result]->m_OldX = getGameObject(result)->X;
-		getGameObject(result]->m_OldY = getGameObject(result)->Y;
-		getGameObject(result]->StartX = getGameObject(result)->X;
-		getGameObject(result]->StartY = getGameObject(result)->Y;
+		getGameObject(result)->TX = getGameObject(result)->X;
+		getGameObject(result)->TY = getGameObject(result)->Y;
+		getGameObject(result)->MTX = getGameObject(result)->X;
+		getGameObject(result)->MTY = getGameObject(result)->Y;
+		getGameObject(result)->m_OldX = getGameObject(result)->X;
+		getGameObject(result)->m_OldY = getGameObject(result)->Y;
+		getGameObject(result)->StartX = getGameObject(result)->X;
+		getGameObject(result)->StartY = getGameObject(result)->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
@@ -643,17 +643,17 @@ void CEledoradoEvent::RegenKantur()
 		getGameObject(result)->MapNumber = MapNumber;
 
 		this->GetBoxPosition(MapNumber, this->m_BossKanturMapX - 10, m_BossKanturMapY - 10,
-			this->m_BossKanturMapX + 10, m_BossKanturMapY + 10, getGameObject(result]->X, getGameObject(result)->Y);
+			this->m_BossKanturMapX + 10, m_BossKanturMapY + 10, getGameObject(result)->X, getGameObject(result)->Y);
 
 		getGameObject(result)->m_PosNum = -1;
-		getGameObject(result]->TX = getGameObject(result)->X;
-		getGameObject(result]->TY = getGameObject(result)->Y;
-		getGameObject(result]->MTX = getGameObject(result)->X;
-		getGameObject(result]->MTY = getGameObject(result)->Y;
-		getGameObject(result]->m_OldX = getGameObject(result)->X;
-		getGameObject(result]->m_OldY = getGameObject(result)->Y;
-		getGameObject(result]->StartX = getGameObject(result)->X;
-		getGameObject(result]->StartY = getGameObject(result)->Y;
+		getGameObject(result)->TX = getGameObject(result)->X;
+		getGameObject(result)->TY = getGameObject(result)->Y;
+		getGameObject(result)->MTX = getGameObject(result)->X;
+		getGameObject(result)->MTY = getGameObject(result)->Y;
+		getGameObject(result)->m_OldX = getGameObject(result)->X;
+		getGameObject(result)->m_OldY = getGameObject(result)->Y;
+		getGameObject(result)->StartX = getGameObject(result)->X;
+		getGameObject(result)->StartY = getGameObject(result)->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
@@ -783,20 +783,20 @@ void CEledoradoEvent::RegenRabbit()
 
 		getGameObject(result)->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result]->X, getGameObject(result)->Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result)->X, getGameObject(result)->Y) == 0)
 		{
 
 		}
 
 		getGameObject(result)->m_PosNum = -1;
-		getGameObject(result]->TX = getGameObject(result)->X;
-		getGameObject(result]->TY = getGameObject(result)->Y;
-		getGameObject(result]->MTX = getGameObject(result)->X;
-		getGameObject(result]->MTY = getGameObject(result)->Y;
-		getGameObject(result]->m_OldX = getGameObject(result)->X;
-		getGameObject(result]->m_OldY = getGameObject(result)->Y;
-		getGameObject(result]->StartX = getGameObject(result)->X;
-		getGameObject(result]->StartY = getGameObject(result)->Y;
+		getGameObject(result)->TX = getGameObject(result)->X;
+		getGameObject(result)->TY = getGameObject(result)->Y;
+		getGameObject(result)->MTX = getGameObject(result)->X;
+		getGameObject(result)->MTY = getGameObject(result)->Y;
+		getGameObject(result)->m_OldX = getGameObject(result)->X;
+		getGameObject(result)->m_OldY = getGameObject(result)->Y;
+		getGameObject(result)->StartX = getGameObject(result)->X;
+		getGameObject(result)->StartY = getGameObject(result)->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
@@ -858,20 +858,20 @@ void CEledoradoEvent::RegenDarkKnight()
 
 		getGameObject(result)->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result]->X, getGameObject(result)->Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result)->X, getGameObject(result)->Y) == 0)
 		{
 
 		}
 
 		getGameObject(result)->m_PosNum = -1;
-		getGameObject(result]->TX = getGameObject(result)->X;
-		getGameObject(result]->TY = getGameObject(result)->Y;
-		getGameObject(result]->MTX = getGameObject(result)->X;
-		getGameObject(result]->MTY = getGameObject(result)->Y;
-		getGameObject(result]->m_OldX = getGameObject(result)->X;
-		getGameObject(result]->m_OldY = getGameObject(result)->Y;
-		getGameObject(result]->StartX = getGameObject(result)->X;
-		getGameObject(result]->StartY = getGameObject(result)->Y;
+		getGameObject(result)->TX = getGameObject(result)->X;
+		getGameObject(result)->TY = getGameObject(result)->Y;
+		getGameObject(result)->MTX = getGameObject(result)->X;
+		getGameObject(result)->MTY = getGameObject(result)->Y;
+		getGameObject(result)->m_OldX = getGameObject(result)->X;
+		getGameObject(result)->m_OldY = getGameObject(result)->Y;
+		getGameObject(result)->StartX = getGameObject(result)->X;
+		getGameObject(result)->StartY = getGameObject(result)->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
@@ -933,20 +933,20 @@ void CEledoradoEvent::RegenDevil()
 
 		getGameObject(result)->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result]->X, getGameObject(result)->Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result)->X, getGameObject(result)->Y) == 0)
 		{
 
 		}
 
 		getGameObject(result)->m_PosNum = -1;
-		getGameObject(result]->TX = getGameObject(result)->X;
-		getGameObject(result]->TY = getGameObject(result)->Y;
-		getGameObject(result]->MTX = getGameObject(result)->X;
-		getGameObject(result]->MTY = getGameObject(result)->Y;
-		getGameObject(result]->m_OldX = getGameObject(result)->X;
-		getGameObject(result]->m_OldY = getGameObject(result)->Y;
-		getGameObject(result]->StartX = getGameObject(result)->X;
-		getGameObject(result]->StartY = getGameObject(result)->Y;
+		getGameObject(result)->TX = getGameObject(result)->X;
+		getGameObject(result)->TY = getGameObject(result)->Y;
+		getGameObject(result)->MTX = getGameObject(result)->X;
+		getGameObject(result)->MTY = getGameObject(result)->Y;
+		getGameObject(result)->m_OldX = getGameObject(result)->X;
+		getGameObject(result)->m_OldY = getGameObject(result)->Y;
+		getGameObject(result)->StartX = getGameObject(result)->X;
+		getGameObject(result)->StartY = getGameObject(result)->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
@@ -1008,20 +1008,20 @@ void CEledoradoEvent::RegenDarkKnightAida()
 
 		getGameObject(result)->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result]->X, getGameObject(result)->Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result)->X, getGameObject(result)->Y) == 0)
 		{
 
 		}
 
 		getGameObject(result)->m_PosNum = -1;
-		getGameObject(result]->TX = getGameObject(result)->X;
-		getGameObject(result]->TY = getGameObject(result)->Y;
-		getGameObject(result]->MTX = getGameObject(result)->X;
-		getGameObject(result]->MTY = getGameObject(result)->Y;
-		getGameObject(result]->m_OldX = getGameObject(result)->X;
-		getGameObject(result]->m_OldY = getGameObject(result)->Y;
-		getGameObject(result]->StartX = getGameObject(result)->X;
-		getGameObject(result]->StartY = getGameObject(result)->Y;
+		getGameObject(result)->TX = getGameObject(result)->X;
+		getGameObject(result)->TY = getGameObject(result)->Y;
+		getGameObject(result)->MTX = getGameObject(result)->X;
+		getGameObject(result)->MTY = getGameObject(result)->Y;
+		getGameObject(result)->m_OldX = getGameObject(result)->X;
+		getGameObject(result)->m_OldY = getGameObject(result)->Y;
+		getGameObject(result)->StartX = getGameObject(result)->X;
+		getGameObject(result)->StartY = getGameObject(result)->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
@@ -1083,20 +1083,20 @@ void CEledoradoEvent::RegenCrust()
 
 		getGameObject(result)->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result]->X, getGameObject(result)->Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result)->X, getGameObject(result)->Y) == 0)
 		{
 
 		}
 
 		getGameObject(result)->m_PosNum = -1;
-		getGameObject(result]->TX = getGameObject(result)->X;
-		getGameObject(result]->TY = getGameObject(result)->Y;
-		getGameObject(result]->MTX = getGameObject(result)->X;
-		getGameObject(result]->MTY = getGameObject(result)->Y;
-		getGameObject(result]->m_OldX = getGameObject(result)->X;
-		getGameObject(result]->m_OldY = getGameObject(result)->Y;
-		getGameObject(result]->StartX = getGameObject(result)->X;
-		getGameObject(result]->StartY = getGameObject(result)->Y;
+		getGameObject(result)->TX = getGameObject(result)->X;
+		getGameObject(result)->TY = getGameObject(result)->Y;
+		getGameObject(result)->MTX = getGameObject(result)->X;
+		getGameObject(result)->MTY = getGameObject(result)->Y;
+		getGameObject(result)->m_OldX = getGameObject(result)->X;
+		getGameObject(result)->m_OldY = getGameObject(result)->Y;
+		getGameObject(result)->StartX = getGameObject(result)->X;
+		getGameObject(result)->StartY = getGameObject(result)->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
@@ -1158,20 +1158,20 @@ void CEledoradoEvent::RegenSatiros()
 
 		getGameObject(result)->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result]->X, getGameObject(result)->Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result)->X, getGameObject(result)->Y) == 0)
 		{
 
 		}
 
 		getGameObject(result)->m_PosNum = -1;
-		getGameObject(result]->TX = getGameObject(result)->X;
-		getGameObject(result]->TY = getGameObject(result)->Y;
-		getGameObject(result]->MTX = getGameObject(result)->X;
-		getGameObject(result]->MTY = getGameObject(result)->Y;
-		getGameObject(result]->m_OldX = getGameObject(result)->X;
-		getGameObject(result]->m_OldY = getGameObject(result)->Y;
-		getGameObject(result]->StartX = getGameObject(result)->X;
-		getGameObject(result]->StartY = getGameObject(result)->Y;
+		getGameObject(result)->TX = getGameObject(result)->X;
+		getGameObject(result)->TY = getGameObject(result)->Y;
+		getGameObject(result)->MTX = getGameObject(result)->X;
+		getGameObject(result)->MTY = getGameObject(result)->Y;
+		getGameObject(result)->m_OldX = getGameObject(result)->X;
+		getGameObject(result)->m_OldY = getGameObject(result)->Y;
+		getGameObject(result)->StartX = getGameObject(result)->X;
+		getGameObject(result)->StartY = getGameObject(result)->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
@@ -1233,20 +1233,20 @@ void CEledoradoEvent::RegenTwinTail()
 
 		getGameObject(result)->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result]->X, getGameObject(result)->Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result)->X, getGameObject(result)->Y) == 0)
 		{
 
 		}
 
 		getGameObject(result)->m_PosNum = -1;
-		getGameObject(result]->TX = getGameObject(result)->X;
-		getGameObject(result]->TY = getGameObject(result)->Y;
-		getGameObject(result]->MTX = getGameObject(result)->X;
-		getGameObject(result]->MTY = getGameObject(result)->Y;
-		getGameObject(result]->m_OldX = getGameObject(result)->X;
-		getGameObject(result]->m_OldY = getGameObject(result)->Y;
-		getGameObject(result]->StartX = getGameObject(result)->X;
-		getGameObject(result]->StartY = getGameObject(result)->Y;
+		getGameObject(result)->TX = getGameObject(result)->X;
+		getGameObject(result)->TY = getGameObject(result)->Y;
+		getGameObject(result)->MTX = getGameObject(result)->X;
+		getGameObject(result)->MTY = getGameObject(result)->Y;
+		getGameObject(result)->m_OldX = getGameObject(result)->X;
+		getGameObject(result)->m_OldY = getGameObject(result)->Y;
+		getGameObject(result)->StartX = getGameObject(result)->X;
+		getGameObject(result)->StartY = getGameObject(result)->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
@@ -1308,20 +1308,20 @@ void CEledoradoEvent::RegenIronKnight()
 
 		getGameObject(result)->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result]->X, getGameObject(result)->Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result)->X, getGameObject(result)->Y) == 0)
 		{
 
 		}
 
 		getGameObject(result)->m_PosNum = -1;
-		getGameObject(result]->TX = getGameObject(result)->X;
-		getGameObject(result]->TY = getGameObject(result)->Y;
-		getGameObject(result]->MTX = getGameObject(result)->X;
-		getGameObject(result]->MTY = getGameObject(result)->Y;
-		getGameObject(result]->m_OldX = getGameObject(result)->X;
-		getGameObject(result]->m_OldY = getGameObject(result)->Y;
-		getGameObject(result]->StartX = getGameObject(result)->X;
-		getGameObject(result]->StartY = getGameObject(result)->Y;
+		getGameObject(result)->TX = getGameObject(result)->X;
+		getGameObject(result)->TY = getGameObject(result)->Y;
+		getGameObject(result)->MTX = getGameObject(result)->X;
+		getGameObject(result)->MTY = getGameObject(result)->Y;
+		getGameObject(result)->m_OldX = getGameObject(result)->X;
+		getGameObject(result)->m_OldY = getGameObject(result)->Y;
+		getGameObject(result)->StartX = getGameObject(result)->X;
+		getGameObject(result)->StartY = getGameObject(result)->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
@@ -1383,20 +1383,20 @@ void CEledoradoEvent::RegenNeipin()
 
 		getGameObject(result)->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result]->X, getGameObject(result)->Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result)->X, getGameObject(result)->Y) == 0)
 		{
 
 		}
 
 		getGameObject(result)->m_PosNum = -1;
-		getGameObject(result]->TX = getGameObject(result)->X;
-		getGameObject(result]->TY = getGameObject(result)->Y;
-		getGameObject(result]->MTX = getGameObject(result)->X;
-		getGameObject(result]->MTY = getGameObject(result)->Y;
-		getGameObject(result]->m_OldX = getGameObject(result)->X;
-		getGameObject(result]->m_OldY = getGameObject(result)->Y;
-		getGameObject(result]->StartX = getGameObject(result)->X;
-		getGameObject(result]->StartY = getGameObject(result)->Y;
+		getGameObject(result)->TX = getGameObject(result)->X;
+		getGameObject(result)->TY = getGameObject(result)->Y;
+		getGameObject(result)->MTX = getGameObject(result)->X;
+		getGameObject(result)->MTY = getGameObject(result)->Y;
+		getGameObject(result)->m_OldX = getGameObject(result)->X;
+		getGameObject(result)->m_OldY = getGameObject(result)->Y;
+		getGameObject(result)->StartX = getGameObject(result)->X;
+		getGameObject(result)->StartY = getGameObject(result)->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
@@ -1458,20 +1458,20 @@ void CEledoradoEvent::RegenGreatDragon()
 
 		getGameObject(result)->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result]->X, getGameObject(result)->Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result)->X, getGameObject(result)->Y) == 0)
 		{
 
 		}
 
 		getGameObject(result)->m_PosNum = -1;
-		getGameObject(result]->TX = getGameObject(result)->X;
-		getGameObject(result]->TY = getGameObject(result)->Y;
-		getGameObject(result]->MTX = getGameObject(result)->X;
-		getGameObject(result]->MTY = getGameObject(result)->Y;
-		getGameObject(result]->m_OldX = getGameObject(result)->X;
-		getGameObject(result]->m_OldY = getGameObject(result)->Y;
-		getGameObject(result]->StartX = getGameObject(result)->X;
-		getGameObject(result]->StartY = getGameObject(result)->Y;
+		getGameObject(result)->TX = getGameObject(result)->X;
+		getGameObject(result)->TY = getGameObject(result)->Y;
+		getGameObject(result)->MTX = getGameObject(result)->X;
+		getGameObject(result)->MTY = getGameObject(result)->Y;
+		getGameObject(result)->m_OldX = getGameObject(result)->X;
+		getGameObject(result)->m_OldY = getGameObject(result)->Y;
+		getGameObject(result)->StartX = getGameObject(result)->X;
+		getGameObject(result)->StartY = getGameObject(result)->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{

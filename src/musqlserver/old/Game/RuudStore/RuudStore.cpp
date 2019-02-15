@@ -255,7 +255,7 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, CGameObject &
 		It->second.Item.m_Durability = 5;
 	}
 
-	GameProtocol.ItemSerialCreateSend(iIndex, 217, 0, 0, It->second.Item.m_Type, It->second.Item.m_Level, It->second.Item.m_Durability, It->second.Item.m_Option1, It->second.Item.m_Option2, It->second.Item.m_Option3, iIndex,
+	ItemCreate(iIndex, 217, 0, 0, It->second.Item.m_Type, It->second.Item.m_Level, It->second.Item.m_Durability, It->second.Item.m_Option1, It->second.Item.m_Option2, It->second.Item.m_Option3, iIndex,
 		It->second.Item.m_NewOption, It->second.Item.m_SetOption, 0, It->second.Item.m_SocketOption, It->second.Item.m_BonusSocketOption);
 	g_RuudLog.Output("Character:%s ,Type:%d ,Level:%d ,Dur:%d ,Skill:%d ,Luck:%d ,Option:%d ,Exc:%d ,SetOpt:%d ", lpObj.Name, It->second.Item.m_Type, It->second.Item.m_Level, It->second.Item.m_Durability, It->second.Item.m_Option1, lpItemList.btLuck, It->second.Item.m_Option3,It->second.Item.m_NewOption, It->second.Item.m_SetOption);
 }

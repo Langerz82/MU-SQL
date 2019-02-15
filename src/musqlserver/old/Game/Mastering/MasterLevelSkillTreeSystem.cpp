@@ -1370,7 +1370,7 @@ BOOL CMasterLevelSkillTreeSystem::RunningSkill_MLS(CGameObject lpObj, int aTarge
 		return 1;
 	case 560:
 	case 561:
-		this->MLS_SkillStrengthenDragonRoar(lpObj.m_Index, lpMagic, getGameObject(aTargetIndex]->X, getGameObject(aTargetIndex)->Y, aTargetIndex, 3, TRUE, 0);
+		this->MLS_SkillStrengthenDragonRoar(lpObj.m_Index, lpMagic, getGameObject(aTargetIndex)->X, getGameObject(aTargetIndex)->Y, aTargetIndex, 3, TRUE, 0);
 		return 1;
 	case 569:
 		this->MLS_SkillStrengthenBlockRate(lpObj.m_Index, lpMagic);
@@ -1635,7 +1635,7 @@ void CMasterLevelSkillTreeSystem::MLS_Wheel(CGameObject &Obj, CMagicInf *lpMagic
 				{
 					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+					if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
 						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
@@ -1645,7 +1645,7 @@ void CMasterLevelSkillTreeSystem::MLS_Wheel(CGameObject &Obj, CMagicInf *lpMagic
 						EnableAttack = TRUE;
 					}
 
-					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -1793,7 +1793,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenDesruction(CGameObject &Obj
 					{
 						int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-						if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+						if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 						{
 							CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 						}
@@ -1803,7 +1803,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenDesruction(CGameObject &Obj
 							EnableAttack = TRUE;
 						}
 
-						if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+						if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 						{
 							EnableAttack = TRUE;
 						}
@@ -2376,7 +2376,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenExPoison(CGameObject &Obj, 
 				{
 					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+					if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
 						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
@@ -2386,7 +2386,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenExPoison(CGameObject &Obj, 
 						EnableAttack = TRUE;
 					}
 
-					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -2394,7 +2394,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenExPoison(CGameObject &Obj, 
 
 				if (EnableAttack == TRUE)
 				{
-					if (this->MLS_CalDistance(x, y, getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y) < 4)
+					if (this->MLS_CalDistance(x, y, getGameObject(tObjNum)->X, getGameObject(tObjNum)->Y) < 4)
 					{
 						gObjAddAttackProcMsgSendDelay(lpObj, 50, tObjNum, rand() % 500, lpMagic->m_Skill, 0);
 					}
@@ -2860,7 +2860,7 @@ void CMasterLevelSkillTreeSystem::MLS_DarkHorseAttack(CGameObject &Obj, int aTar
 				{
 					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+					if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
 						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
@@ -2870,7 +2870,7 @@ void CMasterLevelSkillTreeSystem::MLS_DarkHorseAttack(CGameObject &Obj, int aTar
 						EnableAttack = TRUE;
 					}
 
-					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -2933,7 +2933,7 @@ void CMasterLevelSkillTreeSystem::MLS_FireBurst(CGameObject &Obj, int aTargetInd
 				{
 					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+					if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
 						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
@@ -2943,7 +2943,7 @@ void CMasterLevelSkillTreeSystem::MLS_FireBurst(CGameObject &Obj, int aTargetInd
 						EnableAttack = TRUE;
 					}
 
-					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -2980,7 +2980,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenSpear(CGameObject &Obj, int
 	}
 
 	int DuelIndex = lpObj.m_iDuelUser;
-	int iangle = this->MLS_GetAngle(lpObj.X, lpObj.Y, getGameObject(aTargetIndex]->X, getGameObject(aTargetIndex)->Y);
+	int iangle = this->MLS_GetAngle(lpObj.X, lpObj.Y, getGameObject(aTargetIndex)->X, getGameObject(aTargetIndex)->Y);
 	int tObjNum;
 	BOOL EnableAttack;
 
@@ -3013,7 +3013,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenSpear(CGameObject &Obj, int
 				{
 					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+					if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
 						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
@@ -3023,7 +3023,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenSpear(CGameObject &Obj, int
 						EnableAttack = TRUE;
 					}
 
-					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -3031,7 +3031,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenSpear(CGameObject &Obj, int
 
 				if (EnableAttack == TRUE)
 				{
-					if (SkillSpearHitBox.HitCheck(iangle, lpObj.X, lpObj.Y, getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y) == TRUE)
+					if (SkillSpearHitBox.HitCheck(iangle, lpObj.X, lpObj.Y, getGameObject(tObjNum)->X, getGameObject(tObjNum)->Y) == TRUE)
 					{
 						gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 0, 1, 0, 0, 0, 0);
 					}
@@ -3089,7 +3089,7 @@ void CMasterLevelSkillTreeSystem::MLS_SuddenIce(CGameObject &Obj, CMagicInf *lpM
 				{
 					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+					if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
 						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
@@ -3099,7 +3099,7 @@ void CMasterLevelSkillTreeSystem::MLS_SuddenIce(CGameObject &Obj, CMagicInf *lpM
 						EnableAttack = TRUE;
 					}
 
-					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -3107,7 +3107,7 @@ void CMasterLevelSkillTreeSystem::MLS_SuddenIce(CGameObject &Obj, CMagicInf *lpM
 
 				if (EnableAttack == TRUE)
 				{
-					if (this->MLS_CalDistance(x, y, getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y) < 4)
+					if (this->MLS_CalDistance(x, y, getGameObject(tObjNum)->X, getGameObject(tObjNum)->Y) < 4)
 					{
 						gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 1, 1, 0, 0, 0, 0);
 					}
@@ -3186,7 +3186,7 @@ void CMasterLevelSkillTreeSystem::MLS_KnightBlow(CGameObject &Obj, int aTargetIn
 {
 	
 
-	float fangle = this->MLS_GetAngle(lpObj.X, lpObj.Y, getGameObject(aTargetIndex]->X, getGameObject(aTargetIndex)->Y);
+	float fangle = this->MLS_GetAngle(lpObj.X, lpObj.Y, getGameObject(aTargetIndex)->X, getGameObject(aTargetIndex)->Y);
 
 	float fDistance = MagicDamageC.GetSkillDistance(lpMagic->m_Skill) + 1.0;
 	this->MLS_SkillFrustrum(aIndex, fangle, 1.5, fDistance);
@@ -3228,7 +3228,7 @@ void CMasterLevelSkillTreeSystem::MLS_KnightBlow(CGameObject &Obj, int aTargetIn
 				{
 					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+					if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
 						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
@@ -3238,7 +3238,7 @@ void CMasterLevelSkillTreeSystem::MLS_KnightBlow(CGameObject &Obj, int aTargetIn
 						EnableAttack = TRUE;
 					}
 
-					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -3263,7 +3263,7 @@ void CMasterLevelSkillTreeSystem::MLS_KnightBlow(CGameObject &Obj, int aTargetIn
 
 					if (attackcheck == TRUE)
 					{
-						if (SkillTestFrustrum(getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y, aIndex))
+						if (SkillTestFrustrum(getGameObject(tObjNum)->X, getGameObject(tObjNum)->Y, aIndex))
 						{
 							gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 0, TRUE, 0, isCombo, 0, 0);
 						}
@@ -3322,7 +3322,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillBlowOfFury(CGameObject &Obj, CMagicIn
 				{
 					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+					if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
 						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
@@ -3332,7 +3332,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillBlowOfFury(CGameObject &Obj, CMagicIn
 						EnableAttack = TRUE;
 					}
 
-					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -3701,7 +3701,7 @@ void CMasterLevelSkillTreeSystem::MLS_PowerSlash(CGameObject &Obj, CMagicInf* lp
 				{
 					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+					if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
 						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
@@ -3711,7 +3711,7 @@ void CMasterLevelSkillTreeSystem::MLS_PowerSlash(CGameObject &Obj, CMagicInf* lp
 						EnableAttack = TRUE;
 					}
 
-					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -3719,7 +3719,7 @@ void CMasterLevelSkillTreeSystem::MLS_PowerSlash(CGameObject &Obj, CMagicInf* lp
 
 				if (EnableAttack == TRUE)
 				{
-					if (SkillTestFrustrum(getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y, aIndex) == TRUE)
+					if (SkillTestFrustrum(getGameObject(tObjNum)->X, getGameObject(tObjNum)->Y, aIndex) == TRUE)
 					{
 						if (gObjCalDistance(lpObj, &getGameObject(tObjNum)) <= iSkillDis)
 						{
@@ -3844,7 +3844,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMonkBarrageJustOneTarget(CGameObject 
 		}
 	}
 
-	else if (getGameObject(nTargetObjNum]->Type == OBJ_MONSTER && getGameObject(nTargetObjNum)->m_RecallMon >= 0)
+	else if (getGameObject(nTargetObjNum)->Type == OBJ_MONSTER && getGameObject(nTargetObjNum)->m_RecallMon >= 0)
 	{
 		int CallMonIndex = getGameObject(getGameObject(nTargetObjNum)->m_RecallMon)->m_Index;
 
@@ -3853,7 +3853,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMonkBarrageJustOneTarget(CGameObject 
 			EnableAttack = TRUE;
 		}
 
-		if (getGameObject(nTargetObjNum]->Class >= 678 && getGameObject(nTargetObjNum)->Class <= 680)
+		if (getGameObject(nTargetObjNum)->Class >= 678 && getGameObject(nTargetObjNum)->Class <= 680)
 		{
 			EnableAttack = TRUE;
 		}
@@ -4001,7 +4001,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenDragonRoar(CGameObject &Obj
 					{
 						int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-						if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+						if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 						{
 							CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 						}
@@ -4011,7 +4011,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenDragonRoar(CGameObject &Obj
 							EnableAttack = TRUE;
 						}
 
-						if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+						if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 						{
 							EnableAttack = TRUE;
 						}
@@ -4360,7 +4360,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillBloodStorm(CGameObject &Obj, CMagicIn
 					{
 						int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-						if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+						if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 						{
 							CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 						}
@@ -4370,7 +4370,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillBloodStorm(CGameObject &Obj, CMagicIn
 							EnableAttack = TRUE;
 						}
 
-						if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+						if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 						{
 							EnableAttack = TRUE;
 						}
@@ -4438,7 +4438,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillEarthPrison(CGameObject &Obj, int aTa
 			{
 				EnableAttack = FALSE;
 
-				if (getGameObject(tObjNum]->Class >= 100 && getGameObject(tObjNum)->Class <= 110)
+				if (getGameObject(tObjNum)->Class >= 100 && getGameObject(tObjNum)->Class <= 110)
 				{
 					EnableAttack = FALSE;
 				}
@@ -4467,7 +4467,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillEarthPrison(CGameObject &Obj, int aTa
 				{
 					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+					if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
 						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
@@ -4477,7 +4477,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillEarthPrison(CGameObject &Obj, int aTa
 						EnableAttack = TRUE;
 					}
 
-					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -4594,22 +4594,22 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMonsterCall(CGameObject &Obj, int Mon
 
 		if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonHp > 0.0)
 		{
-			getGameObject(result]->Life += getGameObject(result)->Life * lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonHp / 100.0;
-			getGameObject(result]->MaxLife += getGameObject(result)->MaxLife * lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonHp / 100.0;
+			getGameObject(result)->Life += getGameObject(result)->Life * lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonHp / 100.0;
+			getGameObject(result)->MaxLife += getGameObject(result)->MaxLife * lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonHp / 100.0;
 		}
 
 		if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonDefense > 0.0)
 		{
-			getGameObject(result]->m_Defense += getGameObject(result)->m_Defense * lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonDefense / 100.0;
+			getGameObject(result)->m_Defense += getGameObject(result)->m_Defense * lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonDefense / 100.0;
 		}
 
 		if (lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonAttack > 0.0)
 		{
-			getGameObject(result]->m_AttackDamageMin += getGameObject(result)->m_AttackDamageMin * lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonAttack / 100.0;
-			getGameObject(result]->m_AttackDamageMax += getGameObject(result)->m_AttackDamageMax * lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonAttack / 100.0;
+			getGameObject(result)->m_AttackDamageMin += getGameObject(result)->m_AttackDamageMin * lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonAttack / 100.0;
+			getGameObject(result)->m_AttackDamageMax += getGameObject(result)->m_AttackDamageMax * lpObj.m_PlayerData->m_MPSkillOpt.iMpsCallMonAttack / 100.0;
 		}
 
-		gGameProtocol.GCRecallMonLife(getGameObject(result]->m_RecallMon, getGameObject(result)->MaxLife, getGameObject(result)->Life);
+		gGameProtocol.GCRecallMonLife(getGameObject(result)->m_RecallMon, getGameObject(result)->MaxLife, getGameObject(result)->Life);
 	}
 }
 
@@ -5054,7 +5054,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillfulKnightBlow(CGameObject &Obj, int a
 	
 	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 
-	float fangle = this->MLS_GetAngle(lpObj.X, lpObj.Y, getGameObject(aTargetIndex]->X, getGameObject(aTargetIndex)->Y);
+	float fangle = this->MLS_GetAngle(lpObj.X, lpObj.Y, getGameObject(aTargetIndex)->X, getGameObject(aTargetIndex)->Y);
 
 	float fDistance = MagicDamageC.GetSkillDistance(lpMagic->m_Skill) + 1.0;
 	this->MLS_SkillFrustrum(aIndex, fangle, 1.5, fDistance);
@@ -5097,7 +5097,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillfulKnightBlow(CGameObject &Obj, int a
 				{
 					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+					if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
 						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
@@ -5107,7 +5107,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillfulKnightBlow(CGameObject &Obj, int a
 						EnableAttack = TRUE;
 					}
 
-					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -5142,7 +5142,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillfulKnightBlow(CGameObject &Obj, int a
 
 					if (attackcheck == TRUE)
 					{
-						if (SkillTestFrustrum(getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y, aIndex))
+						if (SkillTestFrustrum(getGameObject(tObjNum)->X, getGameObject(tObjNum)->Y, aIndex))
 						{
 							getGameObject(tObjNum)->lpAttackObj = lpObj;
 							gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 0, 1, 0, isCombo, 0, 0);
@@ -5180,7 +5180,7 @@ void CMasterLevelSkillTreeSystem::MLS_MasteryKnightBlow(CGameObject &Obj, int aT
 	
 	CGameObject lpTargetObj = &getGameObject(aTargetIndex);
 
-	float fangle = this->MLS_GetAngle(lpObj.X, lpObj.Y, getGameObject(aTargetIndex]->X, getGameObject(aTargetIndex)->Y);
+	float fangle = this->MLS_GetAngle(lpObj.X, lpObj.Y, getGameObject(aTargetIndex)->X, getGameObject(aTargetIndex)->Y);
 
 	float fDistance = MagicDamageC.GetSkillDistance(lpMagic->m_Skill) + 1.0;
 	this->MLS_SkillFrustrum(aIndex, fangle, 1.5, fDistance);
@@ -5241,7 +5241,7 @@ void CMasterLevelSkillTreeSystem::MLS_MasteryKnightBlow(CGameObject &Obj, int aT
 				{
 					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+					if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
 						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
@@ -5251,7 +5251,7 @@ void CMasterLevelSkillTreeSystem::MLS_MasteryKnightBlow(CGameObject &Obj, int aT
 						EnableAttack = TRUE;
 					}
 
-					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -5286,7 +5286,7 @@ void CMasterLevelSkillTreeSystem::MLS_MasteryKnightBlow(CGameObject &Obj, int aT
 
 					if (attackcheck == TRUE)
 					{
-						if (SkillTestFrustrum(getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y, aIndex))
+						if (SkillTestFrustrum(getGameObject(tObjNum)->X, getGameObject(tObjNum)->Y, aIndex))
 						{
 							getGameObject(tObjNum)->lpAttackObj = lpObj;
 							gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 0, 1, 0, isCombo, 0, 0);
@@ -5313,7 +5313,7 @@ void CMasterLevelSkillTreeSystem::MLS_MasteryKnightBlow(CGameObject &Obj, int aT
 								if (iStunEffect >= (rand() % 100))
 								{
 									gObjAddBuffEffect(&getGameObject(tObjNum), BUFFTYPE_STUN, 0, 0, 0, 0, iStunTime);
-									gObjSetPosition(tObjNum, getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y);
+									gObjSetPosition(tObjNum, getGameObject(tObjNum)->X, getGameObject(tObjNum)->Y);
 								}
 							}
 						}
@@ -5376,7 +5376,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillSkillfulDesruction(CGameObject lpObj,
 					{
 						int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-						if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+						if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 						{
 							CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 						}
@@ -5386,7 +5386,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillSkillfulDesruction(CGameObject lpObj,
 							EnableAttack = TRUE;
 						}
 
-						if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+						if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 						{
 							EnableAttack = TRUE;
 						}
@@ -5430,7 +5430,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillSkillfulDesruction(CGameObject lpObj,
 										getGameObject(tObjNum)->PathCount = 0;
 										getGameObject(tObjNum)->PathStartEnd = 0;
 
-										gObjSetPosition(tObjNum, getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y);
+										gObjSetPosition(tObjNum, getGameObject(tObjNum)->X, getGameObject(tObjNum)->Y);
 									}
 								}
 							}
@@ -5490,7 +5490,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMasteryDesruction(CGameObject lpObj, 
 					{
 						int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-						if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+						if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 						{
 							CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 						}
@@ -5500,7 +5500,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMasteryDesruction(CGameObject lpObj, 
 							EnableAttack = TRUE;
 						}
 
-						if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+						if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 						{
 							EnableAttack = TRUE;
 						}
@@ -5544,7 +5544,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMasteryDesruction(CGameObject lpObj, 
 										getGameObject(tObjNum)->PathCount = 0;
 										getGameObject(tObjNum)->PathStartEnd = 0;
 
-										gObjSetPosition(tObjNum, getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y);
+										gObjSetPosition(tObjNum, getGameObject(tObjNum)->X, getGameObject(tObjNum)->Y);
 									}
 								}
 
@@ -5608,7 +5608,7 @@ void CMasterLevelSkillTreeSystem::MLS_MasterySuddenIce(CGameObject &Obj, CMagicI
 				{
 					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+					if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
 						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
@@ -5618,7 +5618,7 @@ void CMasterLevelSkillTreeSystem::MLS_MasterySuddenIce(CGameObject &Obj, CMagicI
 						EnableAttack = TRUE;
 					}
 
-					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -5626,7 +5626,7 @@ void CMasterLevelSkillTreeSystem::MLS_MasterySuddenIce(CGameObject &Obj, CMagicI
 
 				if (EnableAttack == TRUE)
 				{
-					if (this->MLS_CalDistance(x, y, getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y) < 4)
+					if (this->MLS_CalDistance(x, y, getGameObject(tObjNum)->X, getGameObject(tObjNum)->Y) < 4)
 					{
 						gObjAttack(lpObj, &getGameObject(tObjNum), lpMagic, 1, 1, 0, 0, 0, 0);
 
@@ -5640,7 +5640,7 @@ void CMasterLevelSkillTreeSystem::MLS_MasterySuddenIce(CGameObject &Obj, CMagicI
 								getGameObject(tObjNum)->PathCount = 0;
 								getGameObject(tObjNum)->PathStartEnd = 0;
 
-								gObjSetPosition(tObjNum, getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y);
+								gObjSetPosition(tObjNum, getGameObject(tObjNum)->X, getGameObject(tObjNum)->Y);
 							}
 						}
 					}
@@ -5732,7 +5732,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenMultiShot(CGameObject &Obj,
 				{
 					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+					if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
 						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
@@ -5742,7 +5742,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenMultiShot(CGameObject &Obj,
 						EnableAttack = TRUE;
 					}
 
-					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -5753,8 +5753,8 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenMultiShot(CGameObject &Obj,
 					int nResult[5];
 					for (int i = 0; i < 5; i++)
 					{
-						nResult[i] = (((int)vSkillLineX[i] - lpObj.X) * (getGameObject(tObjNum]->Y - lpObj.Y)) - (((int)vSkillLineY[i] - lpObj.Y) * (getGameObject(tObjNum)->X - lpObj.X));
-						if (SkillTestFrustrum(getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y, aIndex))
+						nResult[i] = (((int)vSkillLineX[i] - lpObj.X) * (getGameObject(tObjNum)->Y - lpObj.Y)) - (((int)vSkillLineY[i] - lpObj.Y) * (getGameObject(tObjNum)->X - lpObj.X));
+						if (SkillTestFrustrum(getGameObject(tObjNum)->X, getGameObject(tObjNum)->Y, aIndex))
 						{
 							if (nResult[i] > -5 && nResult[i] < 5)
 							{
@@ -5824,7 +5824,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillHellBust(CGameObject &Obj, int aTarge
 				{
 					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+					if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
 						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
@@ -5834,7 +5834,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillHellBust(CGameObject &Obj, int aTarge
 						EnableAttack = 1;
 					}
 
-					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -5975,7 +5975,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenWeakness(CGameObject &Obj, 
 				{
 					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+					if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
 						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
@@ -5985,7 +5985,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenWeakness(CGameObject &Obj, 
 						EnableAttack = TRUE;
 					}
 
-					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -6062,7 +6062,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenEnervation(CGameObject &Obj
 				{
 					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+					if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
 						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
@@ -6072,7 +6072,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenEnervation(CGameObject &Obj
 						EnableAttack = TRUE;
 					}
 
-					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -6173,7 +6173,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenFlameStrike(CGameObject &Ob
 				{
 					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+					if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
 						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
@@ -6183,7 +6183,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenFlameStrike(CGameObject &Ob
 						EnableAttack = TRUE;
 					}
 
-					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -6191,7 +6191,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenFlameStrike(CGameObject &Ob
 
 				if (EnableAttack == TRUE)
 				{
-					if (SkillTestFrustrum(getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y, aIndex) &&
+					if (SkillTestFrustrum(getGameObject(tObjNum)->X, getGameObject(tObjNum)->Y, aIndex) &&
 						gObjCalDistance(lpObj, &getGameObject(tObjNum)) <= MagicDamageC.GetSkillDistance(lpMagic->m_Skill))
 					{
 						bAttack = FALSE;
@@ -6264,7 +6264,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillGiganticStorm(CGameObject &Obj, CMagi
 					{
 						int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-						if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+						if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 						{
 							CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 						}
@@ -6274,7 +6274,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillGiganticStorm(CGameObject &Obj, CMagi
 							EnableAttack = TRUE;
 						}
 
-						if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+						if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 						{
 							EnableAttack = TRUE;
 						}
@@ -6487,7 +6487,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenElectricSpark(CGameObject &
 				{
 					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+					if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
 						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
@@ -6497,14 +6497,14 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenElectricSpark(CGameObject &
 						EnableAttack = 1;
 					}
 
-					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
 				}
 				if (EnableAttack != 0)
 				{
-					if (SkillElectricSparkHitBox.HitCheck(iangle, lpObj.X, lpObj.Y, getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y))
+					if (SkillElectricSparkHitBox.HitCheck(iangle, lpObj.X, lpObj.Y, getGameObject(tObjNum)->X, getGameObject(tObjNum)->Y))
 					{
 						delaytime = 500;
 						Hit = 1;
@@ -6570,7 +6570,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenchaoticDesair(CGameObject &
 				{
 					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+					if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
 						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
@@ -6580,7 +6580,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenchaoticDesair(CGameObject &
 						EnableAttack = TRUE;
 					}
 
-					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -6588,7 +6588,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenchaoticDesair(CGameObject &
 
 				if (EnableAttack)
 				{
-					if (SkillTestFrustrum(getGameObject(tObjNum]->X, getGameObject(tObjNum)->Y, aIndex))
+					if (SkillTestFrustrum(getGameObject(tObjNum)->X, getGameObject(tObjNum)->Y, aIndex))
 					{
 						bAttack = FALSE;
 
@@ -6763,7 +6763,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillSleep(CGameObject &Obj, int aTargetIn
 				{
 					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+					if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
 						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
@@ -6773,7 +6773,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillSleep(CGameObject &Obj, int aTargetIn
 						bEnableAttack = TRUE;
 					}
 
-					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						bEnableAttack = TRUE;
 					}
@@ -6837,7 +6837,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillChainLightning(CGameObject &Obj, int 
 			{
 				EnableAttack = FALSE;
 
-				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum]->m_RecallMon < 0 && ((getGameObject(tObjNum]->Class < 100 || getGameObject(tObjNum)->Class > 110) || getGameObject(tObjNum)->Class != 689))
+				if (lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0 && ((getGameObject(tObjNum)->Class < 100 || getGameObject(tObjNum)->Class > 110) || getGameObject(tObjNum)->Class != 689))
 				{
 					EnableAttack = TRUE;
 				}
@@ -6851,7 +6851,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillChainLightning(CGameObject &Obj, int 
 				{
 					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+					if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
 						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
@@ -6861,7 +6861,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillChainLightning(CGameObject &Obj, int 
 						EnableAttack = TRUE;
 					}
 
-					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -6869,15 +6869,15 @@ void CMasterLevelSkillTreeSystem::MLS_SkillChainLightning(CGameObject &Obj, int 
 
 				if (EnableAttack)
 				{
-					if (getGameObject(tObjNum]->X >= lpTargetObj.X - 1 && getGameObject(tObjNum)->X <= lpTargetObj.X + 1 &&
-						getGameObject(tObjNum]->Y >= lpTargetObj.Y - 1 && getGameObject(tObjNum)->Y <= lpTargetObj.Y + 1 &&
+					if (getGameObject(tObjNum)->X >= lpTargetObj.X - 1 && getGameObject(tObjNum)->X <= lpTargetObj.X + 1 &&
+						getGameObject(tObjNum)->Y >= lpTargetObj.Y - 1 && getGameObject(tObjNum)->Y <= lpTargetObj.Y + 1 &&
 						getGameObject(tObjNum)->Type == OBJ_MONSTER)
 					{
 						nChainTarget[1] = tObjNum;
 						if (nChainTarget[2] != -1)	break;
 					}
-					else if (getGameObject(tObjNum]->X >= lpTargetObj.X - 2 && getGameObject(tObjNum)->X <= lpTargetObj.X + 2 &&
-						getGameObject(tObjNum]->Y >= lpTargetObj.Y - 2 && getGameObject(tObjNum)->Y <= lpTargetObj.Y + 2 &&
+					else if (getGameObject(tObjNum)->X >= lpTargetObj.X - 2 && getGameObject(tObjNum)->X <= lpTargetObj.X + 2 &&
+						getGameObject(tObjNum)->Y >= lpTargetObj.Y - 2 && getGameObject(tObjNum)->Y <= lpTargetObj.Y + 2 &&
 						getGameObject(tObjNum)->Type == OBJ_MONSTER)
 					{
 						nChainTarget[2] = tObjNum;
@@ -6953,7 +6953,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillLightningShock(CGameObject &Obj, int 
 
 		int index = lpObj.VpPlayer2[n].number;
 
-		if (getGameObject(index]->Type == OBJ_MONSTER && getGameObject(index)->m_RecallMon < 0)
+		if (getGameObject(index)->Type == OBJ_MONSTER && getGameObject(index)->m_RecallMon < 0)
 		{
 			EnableAttack = TRUE;
 		}
@@ -7000,7 +7000,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillLightningShock(CGameObject &Obj, int 
 			EnableAttack = TRUE;
 		}
 
-		if (getGameObject(index]->Class >= 678 && getGameObject(index)->Class <= 680)
+		if (getGameObject(index)->Class >= 678 && getGameObject(index)->Class <= 680)
 		{
 			EnableAttack = TRUE;
 		}
@@ -7050,7 +7050,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillDrainLife(CGameObject &Obj, int aTarg
 				{
 					int CallMonIndex = getGameObject(tObjNum)->m_Index;
 
-					if (getGameObject(tObjNum]->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
+					if (getGameObject(tObjNum)->Type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon >= 0)
 					{
 						CallMonIndex = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index;
 					}
@@ -7060,7 +7060,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillDrainLife(CGameObject &Obj, int aTarg
 						EnableAttack = 1;
 					}
 
-					if (getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if (getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}

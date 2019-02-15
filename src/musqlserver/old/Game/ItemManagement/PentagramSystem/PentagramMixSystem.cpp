@@ -591,7 +591,7 @@ BYTE CPentagramMixSystem::PentagramJewelRefine(CGameObject &Obj, int iRefineType
 
 				for (int j = 0; j < iResultItemNum; j++)
 				{
-					GameProtocol.ItemSerialCreateSend(iIndex, 230, 0, 0, iResultItemType, 0, iItemDurability, 0, 0, 0, 0, 0, 0, 0, SocketOption, btBonusSocketOption);
+					ItemCreate(iIndex, 230, 0, 0, iResultItemType, 0, iItemDurability, 0, 0, 0, 0, 0, 0, 0, SocketOption, btBonusSocketOption);
 					btReturnValue = TRUE;
 				}
 
@@ -1387,7 +1387,7 @@ BOOL CPentagramMixSystem::PentagramJewelMix(CGameObject &Obj) // OK
 		NewItem.m_SocketOption[4] = lpObj.pInventory->m_SocketOption[4];
 		NewItem.m_BonusSocketOption = lpObj.pInventory->m_BonusSocketOption;
 		
-		GameProtocol.ItemSerialCreateSend(aIndex, 235, 0, 0, NewItem.m_Type, 0, 0, 0, 0, 0, aIndex, 0, 0, 0, NewItem.m_SocketOption, NewItem.m_BonusSocketOption);
+		ItemCreate(aIndex, 235, 0, 0, NewItem.m_Type, 0, 0, 0, 0, 0, aIndex, 0, 0, 0, NewItem.m_SocketOption, NewItem.m_BonusSocketOption);
 		gObjInventoryCommit(aIndex);
 
 		sLog->outError("[Elemental System][Elixir Mix] [%s][%s] CBMix Success, Money : %d",

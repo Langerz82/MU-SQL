@@ -31,9 +31,9 @@ BOOL TMonsterAIUtil::FindMonViewportObj(int iObjIndex, int iTargetObjIndex)
 
 	for ( int i=0;i<MaxViewportMonster;i++)
 	{
-		if ( getGameObject(iObjIndex]->VpPlayer[i)->state != FALSE )
+		if ( getGameObject(iObjIndex)->VpPlayer[i)->state != FALSE )
 		{
-			if ( iTargetObjIndex == getGameObject(iObjIndex]->VpPlayer[i)->number )
+			if ( iTargetObjIndex == getGameObject(iObjIndex)->VpPlayer[i)->number )
 			{
 				return TRUE;
 			}
@@ -50,9 +50,9 @@ BOOL TMonsterAIUtil::FindMonViewportObj2(int iObjIndex, int iTargetObjIndex)
 
 	for ( int i=0;i<MaxViewportMonster;i++)
 	{
-		if ( getGameObject(iObjIndex]->VpPlayer2[i)->state != FALSE )
+		if ( getGameObject(iObjIndex)->VpPlayer2[i)->state != FALSE )
 		{
-			if ( iTargetObjIndex == getGameObject(iObjIndex]->VpPlayer2[i)->number )
+			if ( iTargetObjIndex == getGameObject(iObjIndex)->VpPlayer2[i)->number )
 			{
 				return TRUE;
 			}

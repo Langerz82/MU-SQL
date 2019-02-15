@@ -376,7 +376,7 @@ void TMonsterSkillManager::UseMonsterSkill(CGameObject &Obj, int iTargetIndex, i
 						else  if ( lpMonsterSkillUnit->m_iUnitScopeType == 1 )
 						{
 							if ( SkillElectricSparkHitBox.HitCheck(iAngle, lpObj.X, lpObj.Y,
-								getGameObject(iRangeTargetIndex]->X, getGameObject(iRangeTargetIndex)->Y) )
+								getGameObject(iRangeTargetIndex)->X, getGameObject(iRangeTargetIndex)->Y) )
 							{
 								bTargetOK = TRUE;
 							}

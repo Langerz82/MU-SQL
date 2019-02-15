@@ -240,17 +240,17 @@ void CMonsterRegenSystem::RegenMonster(int nGroupNumber)
 					{
 						if (this->m_stMonsterPosition[nGroupNumber].m_stMonsterIndexInfo[k].m_nOverrideDefaultSettings == TRUE)
 						{
-							getGameObject(nResult]->m_AttackDamageMin = this->m_stMonsterPosition[nGroupNumber]->m_stMonsterIndexInfo[k)->m_nDamageMin;
-							getGameObject(nResult]->m_AttackDamageMax = this->m_stMonsterPosition[nGroupNumber]->m_stMonsterIndexInfo[k)->m_nDamageMax;
-							getGameObject(nResult]->m_Defense = this->m_stMonsterPosition[nGroupNumber]->m_stMonsterIndexInfo[k)->m_nDefense;
-							getGameObject(nResult]->Life = this->m_stMonsterPosition[nGroupNumber]->m_stMonsterIndexInfo[k)->m_nHP;
-							getGameObject(nResult]->m_AttackRating = this->m_stMonsterPosition[nGroupNumber]->m_stMonsterIndexInfo[k)->m_nAttackRate;
-							getGameObject(nResult]->m_SuccessfulBlocking = this->m_stMonsterPosition[nGroupNumber]->m_stMonsterIndexInfo[k)->m_nDefenseRate;
+							getGameObject(nResult)->m_AttackDamageMin = this->m_stMonsterPosition[nGroupNumber]->m_stMonsterIndexInfo[k)->m_nDamageMin;
+							getGameObject(nResult)->m_AttackDamageMax = this->m_stMonsterPosition[nGroupNumber]->m_stMonsterIndexInfo[k)->m_nDamageMax;
+							getGameObject(nResult)->m_Defense = this->m_stMonsterPosition[nGroupNumber]->m_stMonsterIndexInfo[k)->m_nDefense;
+							getGameObject(nResult)->Life = this->m_stMonsterPosition[nGroupNumber]->m_stMonsterIndexInfo[k)->m_nHP;
+							getGameObject(nResult)->m_AttackRating = this->m_stMonsterPosition[nGroupNumber]->m_stMonsterIndexInfo[k)->m_nAttackRate;
+							getGameObject(nResult)->m_SuccessfulBlocking = this->m_stMonsterPosition[nGroupNumber]->m_stMonsterIndexInfo[k)->m_nDefenseRate;
 						}
 
 						nMonsterArrayIndex++;
 						this->m_stMonsterGroupInfo[nGroupNumber].m_nLiveCount++;
-						if (getGameObject(nResult]->Class == this->m_stMonsterGroupInfo[nGroupNumber)->m_nBossMonsterClass)
+						if (getGameObject(nResult)->Class == this->m_stMonsterGroupInfo[nGroupNumber)->m_nBossMonsterClass)
 						{
 							this->m_stMonsterGroupInfo[nGroupNumber].m_nBossMonsterIndex = nResult;
 
@@ -262,7 +262,7 @@ void CMonsterRegenSystem::RegenMonster(int nGroupNumber)
 
 								for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 								{
-									if (getGameObject(i]->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
+									if (getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
 									{
 										IOCP.DataSend(i, (BYTE*)&pNotice, pNotice.h.size);
 									}

@@ -165,7 +165,7 @@ int PartyClass::Create(CGameObject &Obj, int dbnumber, int level)
 			this->m_PartyS[n].Number[0] = usernumber;
 			this->m_PartyS[n].DbNumber[0] = dbnumber;
 
-			if (getGameObject(usernumber]->m_PlayerData->m_bUsePartyMatching && getGameObject(usernumber)->m_PlayerData->m_bPartyMatchingLeader)
+			if (getGameObject(usernumber)->m_PlayerData->m_bUsePartyMatching && getGameObject(usernumber)->m_PlayerData->m_bPartyMatchingLeader)
 			{
 				this->m_PartyS[n].bUsePartyMatching = true;
 				this->m_PartyS[n].nMatchingPartyCount = getGameObject(usernumber)->m_PlayerData->m_nPartyMatchingMemberCount;
@@ -462,8 +462,8 @@ void PartyClass::PartyMemberLifeSend(int party_number)
 
 			if ( gObjIsConnected(usern) != PLAYER_EMPTY )
 			{
-				pList.Life = ((getGameObject(usern]->Life) * 100.0f / (getGameObject(usern)->MaxLife+getGameObject(usern)->AddLife));
-				pList.Mana = ((getGameObject(usern]->Mana) * 100.0f / (getGameObject(usern)->MaxMana+getGameObject(usern)->AddMana));
+				pList.Life = ((getGameObject(usern)->Life) * 100.0f / (getGameObject(usern)->MaxLife+getGameObject(usern)->AddLife));
+				pList.Mana = ((getGameObject(usern)->Mana) * 100.0f / (getGameObject(usern)->MaxMana+getGameObject(usern)->AddMana));
 				
 				if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 				{

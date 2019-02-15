@@ -84,7 +84,7 @@ int cAntiFlood::GetIPCount(char * IP)
 	{
 		if (getGameObject(n)->Connected >= PLAYER_CONNECTED)
 		{
-			if (strcmp(&getGameObject(n]->m_PlayerData->ConnectUser->IP[0), IP) == 0)
+			if (strcmp(&getGameObject(n)->m_PlayerData->ConnectUser->IP[0), IP) == 0)
 			{
 				Count++;
 			}
@@ -99,7 +99,7 @@ void cAntiFlood::AutoClose(char * IP)
 	{
 		if (getGameObject(n)->Connected >= PLAYER_CONNECTED)
 		{
-			if (strcmp(&getGameObject(n]->m_PlayerData->ConnectUser->IP[0), IP) == 0)
+			if (strcmp(&getGameObject(n)->m_PlayerData->ConnectUser->IP[0), IP) == 0)
 			{
 				if (this->IsDebugEnabled == 1)
 				{

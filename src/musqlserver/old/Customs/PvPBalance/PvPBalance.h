@@ -1,4 +1,4 @@
-#include _MU_PVPBALANCE_H_
+#ifndef _MU_PVPBALANCE_H_
 #define _MU_PVPBALANCE_H_
 
 #pragma once

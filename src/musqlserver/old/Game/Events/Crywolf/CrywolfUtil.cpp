@@ -188,8 +188,8 @@ int CCrywolfUtil::CrywolfMVPLevelUp(CGameObject &Obj, int iAddExp)
 	int iLEFT_EXP = 0;
 
 	sLog->outBasic("[ Crywolf ][MVP Exp.] : [%s][%s](%d) %u %d",
-		getGameObject(iUserIndex]->AccountID, getGameObject(iUserIndex)->Name,
-		getGameObject(iUserIndex]->Level, getGameObject(iUserIndex)->m_PlayerData->Experience,
+		getGameObject(iUserIndex)->AccountID, getGameObject(iUserIndex)->Name,
+		getGameObject(iUserIndex)->Level, getGameObject(iUserIndex)->m_PlayerData->Experience,
 		iAddExp);
 
 	if ( g_MasterLevelSkillTreeSystem.IsMasterLevelUser(&getGameObject(iUserIndex)) == true )
@@ -198,8 +198,8 @@ int CCrywolfUtil::CrywolfMVPLevelUp(CGameObject &Obj, int iAddExp)
 	}
 
 	sLog->outBasic("[Crywolf] Experience : [%s][%s](%d) Experience: %d + %d",
-		getGameObject(iUserIndex]->AccountID, getGameObject(iUserIndex)->Name,
-		getGameObject(iUserIndex]->Level, getGameObject(iUserIndex)->m_PlayerData->Experience, iAddExp);
+		getGameObject(iUserIndex)->AccountID, getGameObject(iUserIndex)->Name,
+		getGameObject(iUserIndex)->Level, getGameObject(iUserIndex)->m_PlayerData->Experience, iAddExp);
 
 	gObjSetExpPetItem(iUserIndex, iAddExp);
 
@@ -209,19 +209,19 @@ int CCrywolfUtil::CrywolfMVPLevelUp(CGameObject &Obj, int iAddExp)
 		return 0;
 	}
 
-	if ( (getGameObject(iUserIndex]->m_PlayerData->Experience + iAddExp) < getGameObject(iUserIndex)->m_PlayerData->NextExp )
+	if ( (getGameObject(iUserIndex)->m_PlayerData->Experience + iAddExp) < getGameObject(iUserIndex)->m_PlayerData->NextExp )
 	{
 		getGameObject(iUserIndex)->m_PlayerData->Experience += iAddExp;
 	}
 	else
 	{
-		iLEFT_EXP = getGameObject(iUserIndex]->m_PlayerData->Experience + iAddExp - getGameObject(iUserIndex)->m_PlayerData->NextExp;
-		getGameObject(iUserIndex]->m_PlayerData->Experience = getGameObject(iUserIndex)->m_PlayerData->NextExp;
+		iLEFT_EXP = getGameObject(iUserIndex)->m_PlayerData->Experience + iAddExp - getGameObject(iUserIndex)->m_PlayerData->NextExp;
+		getGameObject(iUserIndex)->m_PlayerData->Experience = getGameObject(iUserIndex)->m_PlayerData->NextExp;
 		getGameObject(iUserIndex)->Level++;
 
 		if ( g_ConfigRead.data.reset.iBlockLevelUpPointAfterResets == -1 || getGameObject(iUserIndex)->m_PlayerData->m_iResets < g_ConfigRead.data.reset.iBlockLevelUpPointAfterResets )
 		{
-			if (getGameObject(iUserIndex]->Class == CLASS_DARKLORD || getGameObject(iUserIndex]->Class == CLASS_MAGUMSA || getGameObject(iUserIndex)->Class == CLASS_RAGEFIGHTER || getGameObject(iUserIndex)->Class == CLASS_GROWLANCER)
+			if (getGameObject(iUserIndex)->Class == CLASS_DARKLORD || getGameObject(iUserIndex)->Class == CLASS_MAGUMSA || getGameObject(iUserIndex)->Class == CLASS_RAGEFIGHTER || getGameObject(iUserIndex)->Class == CLASS_GROWLANCER)
 			{
 				getGameObject(iUserIndex)->m_PlayerData->LevelUpPoint += g_MaxStatsInfo.GetClass.LevelUpPointMGDL;
 			}
@@ -236,7 +236,7 @@ int CCrywolfUtil::CrywolfMVPLevelUp(CGameObject &Obj, int iAddExp)
 				getGameObject(iUserIndex)->m_PlayerData->LevelUpPoint++;
 
 				//sLog->outBasic("[ Crywolf ][MVP Exp.] [%s][%s] LevelUp PlusStatQuest Clear AddStat %d",
-				//	getGameObject(iUserIndex]->AccountID, getGameObject(iUserIndex)->Name,getGameObject(iUserIndex)->m_PlayerData->LevelUpPoint);
+				//	getGameObject(iUserIndex)->AccountID, getGameObject(iUserIndex)->Name,getGameObject(iUserIndex)->m_PlayerData->LevelUpPoint);
 			}
 
 			if ( getGameObject(iUserIndex)->m_PlayerData->PlusStatQuestClear != false )
@@ -244,17 +244,17 @@ int CCrywolfUtil::CrywolfMVPLevelUp(CGameObject &Obj, int iAddExp)
 			}
 		}
 
-		getGameObject(iUserIndex]->MaxLife += DCInfo.DefClass[getGameObject(iUserIndex)->Class)->LevelLife;
-		getGameObject(iUserIndex]->MaxMana += DCInfo.DefClass[getGameObject(iUserIndex)->Class)->LevelMana;
-		getGameObject(iUserIndex]->Life = getGameObject(iUserIndex)->MaxLife;
-		getGameObject(iUserIndex]->Mana = getGameObject(iUserIndex)->MaxMana;
+		getGameObject(iUserIndex)->MaxLife += DCInfo.DefClass[getGameObject(iUserIndex)->Class)->LevelLife;
+		getGameObject(iUserIndex)->MaxMana += DCInfo.DefClass[getGameObject(iUserIndex)->Class)->LevelMana;
+		getGameObject(iUserIndex)->Life = getGameObject(iUserIndex)->MaxLife;
+		getGameObject(iUserIndex)->Mana = getGameObject(iUserIndex)->MaxMana;
 		gObjNextExpCal(&getGameObject(iUserIndex));
 		gObjSetBP(iUserIndex);
 		gGameProtocol.GCLevelUpMsgSend(getGameObject(iUserIndex)->m_Index, 1);
 		gObjCalcMaxLifePower(getGameObject(iUserIndex)->m_Index);
 
 		sLog->outBasic("Level Up [%s][%s][%d]", getGameObject(iUserIndex)->AccountID,
-			getGameObject(iUserIndex]->Name, getGameObject(iUserIndex)->Level);
+			getGameObject(iUserIndex)->Name, getGameObject(iUserIndex)->Level);
 	}
 
 	return iLEFT_EXP;

@@ -5,15 +5,12 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "MuDefines.h"
-#include "custTypedef.h"
-#include "MuEnums.h"
-#include "classdef.h"
+#include "StdAfx.h"
 #include "GensSystemProtocol.h"
 
-#include "CGameObject.h"
-#include "CUserData.h"
-#include "ItemObject.h"
+//#include "CGameObject.h"
+//#include "CUserData.h"
+//#include "ItemObject.h"
 
 #include "ServerEngine.h"
 #include "MuunInfo.h"
@@ -2422,7 +2419,7 @@ struct STR_STRINGCOMPARE
 typedef std::map<std::string, STR_GUILD_MEMBER*, STR_STRINGCOMPARE> MAP_GUILD_MEMBER;
 typedef std::map<std::string, GUILD_INFO_STRUCT &, STR_STRINGCOMPARE> MAP_GUILD_INFO;
 typedef std::map<int, STR_UNION_MEMBER_DATA*> MAP_MEMBER_DATA;
-
+typedef std::map<std::string, FRIEND_MASTER, STR_STRINGCOMPARE> MAP_FRIEND_MANAGER;
 
 
 struct STR_ITEM_LEVEL_RATE
@@ -3975,29 +3972,29 @@ struct _KALIMAGATE_LEVEL
 	0x28, 0x82, // DK, DW, Elf
 	0x14, 0x6E, // MG, DL
 
-				// Kalima 2
-				0x83, 0xB4, // DK, DW, Elf
-				0x6F, 0xA0, // MG, DL
+	// Kalima 2
+	0x83, 0xB4, // DK, DW, Elf
+	0x6F, 0xA0, // MG, DL
 
-							// Kalima 3
-							0xB5, 0xE6, // DK, DW, Elf
-							0xA1, 0xD2, // MG, DL
+	// Kalima 3
+	0xB5, 0xE6, // DK, DW, Elf
+	0xA1, 0xD2, // MG, DL
 
-										// Kalima 4
-										0xE7, 0x118, // DK, DW, Elf
-										0xD3, 0x104, // MG, DL
+	// Kalima 4
+	0xE7, 0x118, // DK, DW, Elf
+	0xD3, 0x104, // MG, DL
 
-													 // Kalima 5
-													 0x119, 0x14A, // DK, DW, Elf
-													 0x105, 0x136, // MG, DL
+	// Kalima 5
+	0x119, 0x14A, // DK, DW, Elf
+	0x105, 0x136, // MG, DL
 
-																   // Kalima 6
-																   0x14B, 0x15D, // DK, DW, Elf
-																   0x137, 0x15D, // MG, DL
+	// Kalima 6
+	0x14B, 0x15D, // DK, DW, Elf
+	0x137, 0x15D, // MG, DL
 
-																				 // Kalima 7
-																				 0x15E, 400, // DK, DW, Elf
-																				 0x15E, 400 // MG, DL
+	// Kalima 7
+	0x15E, 400, // DK, DW, Elf
+	0x15E, 400 // MG, DL
 };
 
 

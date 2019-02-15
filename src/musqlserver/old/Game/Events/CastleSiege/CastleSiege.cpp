@@ -2236,11 +2236,11 @@ void CCastleSiege::ClearDbNPC()
 	{
 		if( getGameObject(n)->MapNumber == MAP_INDEX_CASTLESIEGE )
 		{
-			if( getGameObject(n]->Class == 277 || getGameObject(n)->Class == 283 || getGameObject(n)->Class == 219 )
+			if( getGameObject(n)->Class == 277 || getGameObject(n)->Class == 283 || getGameObject(n)->Class == 219 )
 			{
 				if( getGameObject(n)->Class == 277 )
 				{
-					this->SetGateBlockState(getGameObject(n]->X, getGameObject(n)->Y, 1);
+					this->SetGateBlockState(getGameObject(n)->X, getGameObject(n)->Y, 1);
 					gObjAddBuffEffect(&getGameObject(n), BUFFTYPE_CASTLE_DOOR_STATE, 0, 0, 0, 0, -10);
 				}
 				gObjDel(n);
@@ -2253,14 +2253,14 @@ void CCastleSiege::ClearNonDbNPC()
 {
 	for(int n = 0; n < g_ConfigRead.server.GetObjectMaxMonster(); n++)
 	{
-		if(gObjIsConnected(n) && getGameObject(n]->MapNumber == MAP_INDEX_CASTLESIEGE	&& getGameObject(n)->m_btCsNpcType != NULL && getGameObject(n)->m_btCsNpcType != 1)
+		if(gObjIsConnected(n) && getGameObject(n)->MapNumber == MAP_INDEX_CASTLESIEGE	&& getGameObject(n)->m_btCsNpcType != NULL && getGameObject(n)->m_btCsNpcType != 1)
 		{
 			if(getGameObject(n)->Class == 278)
 			{
 				g_CsNPC_LifeStone.DeleteLifeStone(n);
 			}
 
-			if(getGameObject(n]->Class == 287 || getGameObject(n)->Class == 286)
+			if(getGameObject(n)->Class == 287 || getGameObject(n)->Class == 286)
 			{
 				g_CsNPC_Mercenary.DeleteMercenary(n);
 			}
@@ -2283,7 +2283,7 @@ void CCastleSiege::ClearNonDbNPC_MidWin()
 		{
 			if( getGameObject(n)->MapNumber == MAP_INDEX_CASTLESIEGE )
 			{
-				if( getGameObject(n]->m_btCsNpcType && getGameObject(n)->m_btCsNpcType != 1 )
+				if( getGameObject(n)->m_btCsNpcType && getGameObject(n)->m_btCsNpcType != 1 )
 				{
 					if( getGameObject(n)->Class == 278 )
 					{
@@ -2333,13 +2333,13 @@ void CCastleSiege::CreateDbNPC()
 				getGameObject(iNPC_INDEX)->X = pNpcData.m_iNPC_SX;
 				getGameObject(iNPC_INDEX)->Y = pNpcData.m_iNPC_SY;
 				getGameObject(iNPC_INDEX)->MapNumber = MAP_INDEX_CASTLESIEGE;
-				getGameObject(iNPC_INDEX]->TX = getGameObject(iNPC_INDEX)->X;
-				getGameObject(iNPC_INDEX]->TY = getGameObject(iNPC_INDEX)->Y;
-				getGameObject(iNPC_INDEX]->m_OldX = getGameObject(iNPC_INDEX)->X;
-				getGameObject(iNPC_INDEX]->m_OldY = getGameObject(iNPC_INDEX)->Y;
+				getGameObject(iNPC_INDEX)->TX = getGameObject(iNPC_INDEX)->X;
+				getGameObject(iNPC_INDEX)->TY = getGameObject(iNPC_INDEX)->Y;
+				getGameObject(iNPC_INDEX)->m_OldX = getGameObject(iNPC_INDEX)->X;
+				getGameObject(iNPC_INDEX)->m_OldY = getGameObject(iNPC_INDEX)->Y;
 				getGameObject(iNPC_INDEX)->Dir = pNpcData.m_iNPC_DIR;
-				getGameObject(iNPC_INDEX]->StartX = getGameObject(iNPC_INDEX)->X;
-				getGameObject(iNPC_INDEX]->StartY = getGameObject(iNPC_INDEX)->Y;
+				getGameObject(iNPC_INDEX)->StartX = getGameObject(iNPC_INDEX)->X;
+				getGameObject(iNPC_INDEX)->StartY = getGameObject(iNPC_INDEX)->Y;
 				getGameObject(iNPC_INDEX)->DieRegen = 0;
 				getGameObject(iNPC_INDEX)->MaxRegenTime = 0;
 				getGameObject(iNPC_INDEX)->Life = pNpcData.m_iNPC_HP;
@@ -2373,13 +2373,13 @@ void CCastleSiege::CreateDbNPC()
 				switch(pNpcData.m_iNPC_NUM)
 				{
 				case 277:
-					getGameObject(iNPC_INDEX]->m_Defense = g_iNpcDefense_CGATE[iNPC_DF_LEVEL);
-					getGameObject(iNPC_INDEX]->m_MagicDefense = g_iNpcDefense_CGATE[iNPC_DF_LEVEL);
+					getGameObject(iNPC_INDEX)->m_Defense = g_iNpcDefense_CGATE[iNPC_DF_LEVEL);
+					getGameObject(iNPC_INDEX)->m_MagicDefense = g_iNpcDefense_CGATE[iNPC_DF_LEVEL);
 					getGameObject(iNPC_INDEX)->m_btCsNpcDfLevel = iNPC_DF_LEVEL;
 					break;
 				case 283:
-					getGameObject(iNPC_INDEX]->m_Defense = g_iNpcDefense_CSTATUE[iNPC_DF_LEVEL);
-					getGameObject(iNPC_INDEX]->m_MagicDefense = g_iNpcDefense_CSTATUE[iNPC_DF_LEVEL);
+					getGameObject(iNPC_INDEX)->m_Defense = g_iNpcDefense_CSTATUE[iNPC_DF_LEVEL);
+					getGameObject(iNPC_INDEX)->m_MagicDefense = g_iNpcDefense_CSTATUE[iNPC_DF_LEVEL);
 					getGameObject(iNPC_INDEX)->m_btCsNpcDfLevel = iNPC_DF_LEVEL;
 					getGameObject(iNPC_INDEX)->m_btCsNpcRgLevel = iNPC_RG_LEVEL;
 					break;
@@ -2482,13 +2482,13 @@ void CCastleSiege::CreateNonDbNPC(BOOL bDelFirst)
 				getGameObject(iNPC_INDEX)->X = pNpcData.m_iNPC_SX;
 				getGameObject(iNPC_INDEX)->Y = pNpcData.m_iNPC_SY;
 				getGameObject(iNPC_INDEX)->MapNumber = MAP_INDEX_CASTLESIEGE;
-				getGameObject(iNPC_INDEX]->TX = getGameObject(iNPC_INDEX)->X;
-				getGameObject(iNPC_INDEX]->TY = getGameObject(iNPC_INDEX)->Y;
-				getGameObject(iNPC_INDEX]->m_OldX = getGameObject(iNPC_INDEX)->X;
-				getGameObject(iNPC_INDEX]->m_OldY = getGameObject(iNPC_INDEX)->Y;
+				getGameObject(iNPC_INDEX)->TX = getGameObject(iNPC_INDEX)->X;
+				getGameObject(iNPC_INDEX)->TY = getGameObject(iNPC_INDEX)->Y;
+				getGameObject(iNPC_INDEX)->m_OldX = getGameObject(iNPC_INDEX)->X;
+				getGameObject(iNPC_INDEX)->m_OldY = getGameObject(iNPC_INDEX)->Y;
 				getGameObject(iNPC_INDEX)->Dir = pNpcData.m_iNPC_DIR;
-				getGameObject(iNPC_INDEX]->StartX = getGameObject(iNPC_INDEX)->X;
-				getGameObject(iNPC_INDEX]->StartY = getGameObject(iNPC_INDEX)->Y;
+				getGameObject(iNPC_INDEX)->StartX = getGameObject(iNPC_INDEX)->X;
+				getGameObject(iNPC_INDEX)->StartY = getGameObject(iNPC_INDEX)->Y;
 				getGameObject(iNPC_INDEX)->DieRegen = 0;
 				getGameObject(iNPC_INDEX)->MaxRegenTime = 0;
 				getGameObject(iNPC_INDEX)->Life = pNpcData.m_iNPC_HP;
@@ -2626,13 +2626,13 @@ int CCastleSiege::AddDbNPC(int iNpcType, int iNpcIndex)
 				getGameObject(iObjIndex)->X = NpcData.m_iNPC_SX;
 				getGameObject(iObjIndex)->Y = NpcData.m_iNPC_SY;
 				getGameObject(iObjIndex)->MapNumber = MAP_INDEX_CASTLESIEGE;
-				getGameObject(iObjIndex]->TX = getGameObject(iObjIndex)->X;
-				getGameObject(iObjIndex]->TY = getGameObject(iObjIndex)->Y;
-				getGameObject(iObjIndex]->m_OldX = getGameObject(iObjIndex)->X;
-				getGameObject(iObjIndex]->m_OldY = getGameObject(iObjIndex)->Y;
+				getGameObject(iObjIndex)->TX = getGameObject(iObjIndex)->X;
+				getGameObject(iObjIndex)->TY = getGameObject(iObjIndex)->Y;
+				getGameObject(iObjIndex)->m_OldX = getGameObject(iObjIndex)->X;
+				getGameObject(iObjIndex)->m_OldY = getGameObject(iObjIndex)->Y;
 				getGameObject(iObjIndex)->Dir = NpcData.m_iNPC_DIR;
-				getGameObject(iObjIndex]->StartX = getGameObject(iObjIndex)->X;
-				getGameObject(iObjIndex]->StartY = getGameObject(iObjIndex)->Y;
+				getGameObject(iObjIndex)->StartX = getGameObject(iObjIndex)->X;
+				getGameObject(iObjIndex)->StartY = getGameObject(iObjIndex)->Y;
 				getGameObject(iObjIndex)->DieRegen = 0;
 				getGameObject(iObjIndex)->MaxRegenTime = 0;
 					
@@ -2669,13 +2669,13 @@ int CCastleSiege::AddDbNPC(int iNpcType, int iNpcIndex)
 				{
 				case 277:
 					{
-						getGameObject(iObjIndex]->m_Defense = g_iNpcDefense_CGATE[iBaseDFLevel);
+						getGameObject(iObjIndex)->m_Defense = g_iNpcDefense_CGATE[iBaseDFLevel);
 						getGameObject(iObjIndex)->m_btCsNpcDfLevel = iBaseDFLevel;
 					}
 					break;
 				case 283:
 					{
-						getGameObject(iObjIndex]->m_Defense = g_iNpcDefense_CSTATUE[iBaseDFLevel);
+						getGameObject(iObjIndex)->m_Defense = g_iNpcDefense_CSTATUE[iBaseDFLevel);
 						getGameObject(iObjIndex)->m_btCsNpcDfLevel = iBaseDFLevel;
 						getGameObject(iObjIndex)->m_btCsNpcRgLevel = iBaseRGLevel;
 					}
@@ -2864,9 +2864,9 @@ BOOL CCastleSiege::RepairDbNPC(int iNpcType, int iNpcIndex, int iNpcHP, int iNpc
 
 			int iObjIndex = NpcData.m_iNPC_OBJINDEX;
 
-			if(gObjIsConnected(iObjIndex) != FALSE && getGameObject(iObjIndex]->m_btCsNpcType != 0 && getGameObject(iObjIndex]->Class == iNpcType && getGameObject(iObjIndex)->m_iCsNpcExistVal == NpcData.m_iCsNpcExistVal && getGameObject(iObjIndex)->m_iCsNpcExistVal != 0 )
+			if(gObjIsConnected(iObjIndex) != FALSE && getGameObject(iObjIndex)->m_btCsNpcType != 0 && getGameObject(iObjIndex)->Class == iNpcType && getGameObject(iObjIndex)->m_iCsNpcExistVal == NpcData.m_iCsNpcExistVal && getGameObject(iObjIndex)->m_iCsNpcExistVal != 0 )
 			{
-				getGameObject(iObjIndex]->Life = getGameObject(iObjIndex)->MaxLife;
+				getGameObject(iObjIndex)->Life = getGameObject(iObjIndex)->MaxLife;
 				bEXIST = TRUE;
 			}
 			break;
@@ -3144,14 +3144,14 @@ int CCastleSiege::UpgradeDbNPC_DFLEVEL(int iNpcType, int iNpcIndex, int iNpcDfLe
 		{
 			int iObjIndex = NpcData.m_iNPC_OBJINDEX;
 
-			if( gObjIsConnected(iObjIndex) && getGameObject(iObjIndex]->m_btCsNpcType != 0 &&	getGameObject(iObjIndex)->m_iCsNpcExistVal == NpcData.m_iCsNpcExistVal && getGameObject(iObjIndex)->m_iCsNpcExistVal != 0 )
+			if( gObjIsConnected(iObjIndex) && getGameObject(iObjIndex)->m_btCsNpcType != 0 &&	getGameObject(iObjIndex)->m_iCsNpcExistVal == NpcData.m_iCsNpcExistVal && getGameObject(iObjIndex)->m_iCsNpcExistVal != 0 )
 			{
 				it->m_iNPC_DF_LEVEL = iNpcDfLevel;
 				
 				bEXIST = TRUE;
 	
-				getGameObject(iObjIndex]->m_Defense = g_iNpcDefense_CGATE[iNpcDfLevel);
-				getGameObject(iObjIndex]->m_MagicDefense = g_iNpcDefense_CGATE[iNpcDfLevel);
+				getGameObject(iObjIndex)->m_Defense = g_iNpcDefense_CGATE[iNpcDfLevel);
+				getGameObject(iObjIndex)->m_MagicDefense = g_iNpcDefense_CGATE[iNpcDfLevel);
 				getGameObject(iObjIndex)->m_btCsNpcDfLevel = iNpcDfLevel;
 			}
 			break;
@@ -3180,7 +3180,7 @@ int CCastleSiege::UpgradeDbNPC_RGLEVEL(int iNpcType, int iNpcIndex, int iNpcRgLe
 		{
 			int iObjIndex = NpcData.m_iNPC_OBJINDEX;
 
-			if( gObjIsConnected(iObjIndex) && getGameObject(iObjIndex]->m_btCsNpcType != 0 &&	getGameObject(iObjIndex)->m_iCsNpcExistVal == NpcData.m_iCsNpcExistVal && getGameObject(iObjIndex)->m_iCsNpcExistVal != 0 )
+			if( gObjIsConnected(iObjIndex) && getGameObject(iObjIndex)->m_btCsNpcType != 0 &&	getGameObject(iObjIndex)->m_iCsNpcExistVal == NpcData.m_iCsNpcExistVal && getGameObject(iObjIndex)->m_iCsNpcExistVal != 0 )
 			{
 				it->m_iNPC_RG_LEVEL = iNpcRgLevel;
 				bEXIST = TRUE;
@@ -3212,7 +3212,7 @@ int CCastleSiege::UpgradeDbNPC_MAXHP(int iNpcType, int iNpcIndex, int iNpcMaxHP)
 		{
 			int iObjIndex = NpcData.m_iNPC_OBJINDEX;
 
-			if( gObjIsConnected(iObjIndex) && getGameObject(iObjIndex]->m_btCsNpcType != 0 &&	getGameObject(iObjIndex)->m_iCsNpcExistVal == NpcData.m_iCsNpcExistVal && getGameObject(iObjIndex)->m_iCsNpcExistVal != 0 )
+			if( gObjIsConnected(iObjIndex) && getGameObject(iObjIndex)->m_btCsNpcType != 0 &&	getGameObject(iObjIndex)->m_iCsNpcExistVal == NpcData.m_iCsNpcExistVal && getGameObject(iObjIndex)->m_iCsNpcExistVal != 0 )
 			{
 				it->m_iNPC_MAXHP = iNpcMaxHP;
 				it->m_iNPC_HP = iNpcMaxHP;
@@ -3324,7 +3324,7 @@ void CCastleSiege::SendNpcStateList(CGameObject &Obj, int iNpcType)
 
 			if( gObjIsConnected(iObjIndex) )
 			{
-				if( getGameObject(iObjIndex]->Class == iNpcType && getGameObject(iObjIndex]->Live == 1 && getGameObject(iObjIndex]->Life > 0 && getGameObject(iObjIndex)->m_btCsNpcType != 0 && getGameObject(iObjIndex)->m_iCsNpcExistVal == NpcData.m_iCsNpcExistVal && getGameObject(iObjIndex)->m_iCsNpcExistVal != 0 ) //HermeX Fix
+				if( getGameObject(iObjIndex)->Class == iNpcType && getGameObject(iObjIndex)->Live == 1 && getGameObject(iObjIndex)->Life > 0 && getGameObject(iObjIndex)->m_btCsNpcType != 0 && getGameObject(iObjIndex)->m_iCsNpcExistVal == NpcData.m_iCsNpcExistVal && getGameObject(iObjIndex)->m_iCsNpcExistVal != 0 ) //HermeX Fix
 				{
 					iLife = getGameObject(iObjIndex)->Life;
 					iMaxLife = getGameObject(iObjIndex)->MaxLife;
@@ -3386,7 +3386,7 @@ int CCastleSiege::GetNpcData(int iNpcType, int iNpcIndex, _CS_NPC_DATA & pRetNpc
 		{
 			int iObjIndex = NpcData.m_iNPC_OBJINDEX;
 
-			if( gObjIsConnected(iObjIndex) && getGameObject(iObjIndex]->m_btCsNpcType != 0 && getGameObject(iObjIndex)->m_iCsNpcExistVal == NpcData.m_iCsNpcExistVal && getGameObject(iObjIndex)->m_iCsNpcExistVal != 0 )
+			if( gObjIsConnected(iObjIndex) && getGameObject(iObjIndex)->m_btCsNpcType != 0 && getGameObject(iObjIndex)->m_iCsNpcExistVal == NpcData.m_iCsNpcExistVal && getGameObject(iObjIndex)->m_iCsNpcExistVal != 0 )
 			{
 				pRetNpcData = NpcData;
 				bEXIST = TRUE;
@@ -3414,7 +3414,7 @@ void CCastleSiege::AdjustDbNpcLevel()
 		{
 			int iNPC_INDEX = pNpcData.m_iNPC_OBJINDEX;
 
-			if(gObjIsConnected(iNPC_INDEX) && getGameObject(iNPC_INDEX]->Class == pNpcData.m_iNPC_NUM	&& getGameObject(iNPC_INDEX]->m_btCsNpcType != FALSE && getGameObject(iNPC_INDEX)->m_iCsNpcExistVal == pNpcData.m_iCsNpcExistVal && getGameObject(iNPC_INDEX)->m_iCsNpcExistVal != NULL)
+			if(gObjIsConnected(iNPC_INDEX) && getGameObject(iNPC_INDEX)->Class == pNpcData.m_iNPC_NUM	&& getGameObject(iNPC_INDEX)->m_btCsNpcType != FALSE && getGameObject(iNPC_INDEX)->m_iCsNpcExistVal == pNpcData.m_iCsNpcExistVal && getGameObject(iNPC_INDEX)->m_iCsNpcExistVal != NULL)
 			{
 				switch(getGameObject(iNPC_INDEX)->Class)
 				{
@@ -3433,7 +3433,7 @@ void CCastleSiege::AdjustDbNpcLevel()
 						}
 
 						getGameObject(iNPC_INDEX)->m_btCsNpcDfLevel = iDF_LEVEL;
-						getGameObject(iNPC_INDEX]->m_Defense = g_iNpcDefense_CGATE[iDF_LEVEL);
+						getGameObject(iNPC_INDEX)->m_Defense = g_iNpcDefense_CGATE[iDF_LEVEL);
 					}
 					break;
 				case 283:
@@ -3451,7 +3451,7 @@ void CCastleSiege::AdjustDbNpcLevel()
 						}
 
 						getGameObject(iNPC_INDEX)->m_btCsNpcDfLevel = iDF_LEVEL;
-						getGameObject(iNPC_INDEX]->m_Defense = g_iNpcDefense_CSTATUE[iDF_LEVEL);
+						getGameObject(iNPC_INDEX)->m_Defense = g_iNpcDefense_CSTATUE[iDF_LEVEL);
 						getGameObject(iNPC_INDEX)->m_btCsNpcRgLevel = pNpcData.m_iNPC_RG_LEVEL;
 					}
 					break;
@@ -3548,13 +3548,13 @@ int CCastleSiege::CreateCsGateLever(int iX, int iY)
 		getGameObject(iNPC_INDEX)->X = iX;
 		getGameObject(iNPC_INDEX)->Y = iY;
 		getGameObject(iNPC_INDEX)->MapNumber = MAP_INDEX_CASTLESIEGE;
-		getGameObject(iNPC_INDEX]->TX = getGameObject(iNPC_INDEX)->X;
-		getGameObject(iNPC_INDEX]->TY = getGameObject(iNPC_INDEX)->Y;
-		getGameObject(iNPC_INDEX]->m_OldX = getGameObject(iNPC_INDEX)->X;
-		getGameObject(iNPC_INDEX]->m_OldY = getGameObject(iNPC_INDEX)->Y;
+		getGameObject(iNPC_INDEX)->TX = getGameObject(iNPC_INDEX)->X;
+		getGameObject(iNPC_INDEX)->TY = getGameObject(iNPC_INDEX)->Y;
+		getGameObject(iNPC_INDEX)->m_OldX = getGameObject(iNPC_INDEX)->X;
+		getGameObject(iNPC_INDEX)->m_OldY = getGameObject(iNPC_INDEX)->Y;
 		getGameObject(iNPC_INDEX)->Dir = 1;
-		getGameObject(iNPC_INDEX]->StartX = getGameObject(iNPC_INDEX)->X;
-		getGameObject(iNPC_INDEX]->StartY = getGameObject(iNPC_INDEX)->Y;
+		getGameObject(iNPC_INDEX)->StartX = getGameObject(iNPC_INDEX)->X;
+		getGameObject(iNPC_INDEX)->StartY = getGameObject(iNPC_INDEX)->Y;
 		getGameObject(iNPC_INDEX)->DieRegen = 0;
 		getGameObject(iNPC_INDEX)->MaxRegenTime = 0;
 		getGameObject(iNPC_INDEX)->Life = 10000.0f;
@@ -4438,7 +4438,7 @@ int CCastleSiege::OperateGate(int iNpcIndex, int bOpenType)
 		{
 			int iObjNumber = NpcData.m_iNPC_OBJINDEX;
 
-			if( gObjIsConnected(iObjNumber) && getGameObject(iObjNumber]->m_btCsNpcType != 0 && getGameObject(iObjNumber)->m_iCsNpcExistVal == NpcData.m_iCsNpcExistVal && getGameObject(iObjNumber)->m_iCsNpcExistVal != 0 )
+			if( gObjIsConnected(iObjNumber) && getGameObject(iObjNumber)->m_btCsNpcType != 0 && getGameObject(iObjNumber)->m_iCsNpcExistVal == NpcData.m_iCsNpcExistVal && getGameObject(iObjNumber)->m_iCsNpcExistVal != 0 )
 			{
 					this->SetGateBlockState(NpcData.m_iNPC_SX, NpcData.m_iNPC_SY, bOpenType);
 					
@@ -4552,7 +4552,7 @@ BOOL CCastleSiege::CheckGuardianStatueExist()
 	{
 		if( getGameObject(iIDX)->Class == 283 )
 		{
-			if( getGameObject(iIDX]->Connected > PLAYER_LOGGED && getGameObject(iIDX)->Live == 1 )
+			if( getGameObject(iIDX)->Connected > PLAYER_LOGGED && getGameObject(iIDX)->Live == 1 )
 			{
 				if( getGameObject(iIDX)->MapNumber == MAP_INDEX_CASTLESIEGE )
 				{
@@ -4909,13 +4909,13 @@ void CCastleSiege::CheckReviveNonDbNPC()
 				getGameObject(iNPC_INDEX)->X = pNpcData.m_iNPC_SX;
 				getGameObject(iNPC_INDEX)->Y = pNpcData.m_iNPC_SY;
 				getGameObject(iNPC_INDEX)->MapNumber = MAP_INDEX_CASTLESIEGE;
-				getGameObject(iNPC_INDEX]->TX = getGameObject(iNPC_INDEX)->X;
-				getGameObject(iNPC_INDEX]->TY = getGameObject(iNPC_INDEX)->Y;
-				getGameObject(iNPC_INDEX]->m_OldX = getGameObject(iNPC_INDEX)->X;
-				getGameObject(iNPC_INDEX]->m_OldY = getGameObject(iNPC_INDEX)->Y;
+				getGameObject(iNPC_INDEX)->TX = getGameObject(iNPC_INDEX)->X;
+				getGameObject(iNPC_INDEX)->TY = getGameObject(iNPC_INDEX)->Y;
+				getGameObject(iNPC_INDEX)->m_OldX = getGameObject(iNPC_INDEX)->X;
+				getGameObject(iNPC_INDEX)->m_OldY = getGameObject(iNPC_INDEX)->Y;
 				getGameObject(iNPC_INDEX)->Dir = pNpcData.m_iNPC_DIR;
-				getGameObject(iNPC_INDEX]->StartX = getGameObject(iNPC_INDEX)->X;
-				getGameObject(iNPC_INDEX]->StartY = getGameObject(iNPC_INDEX)->Y;
+				getGameObject(iNPC_INDEX)->StartX = getGameObject(iNPC_INDEX)->X;
+				getGameObject(iNPC_INDEX)->StartY = getGameObject(iNPC_INDEX)->Y;
 				getGameObject(iNPC_INDEX)->DieRegen = 0;
 				getGameObject(iNPC_INDEX)->MaxRegenTime = 0;
 				getGameObject(iNPC_INDEX)->Life = pNpcData.m_iNPC_HP;
@@ -4973,13 +4973,13 @@ void CCastleSiege::CheckReviveGuardianStatue()
 				getGameObject(iNPC_INDEX)->X = pNpcData.m_iNPC_SX;
 				getGameObject(iNPC_INDEX)->Y = pNpcData.m_iNPC_SY;
 				getGameObject(iNPC_INDEX)->MapNumber = MAP_INDEX_CASTLESIEGE;
-				getGameObject(iNPC_INDEX]->TX = getGameObject(iNPC_INDEX)->X;
-				getGameObject(iNPC_INDEX]->TY = getGameObject(iNPC_INDEX)->Y;
-				getGameObject(iNPC_INDEX]->m_OldX = getGameObject(iNPC_INDEX)->X;
-				getGameObject(iNPC_INDEX]->m_OldY = getGameObject(iNPC_INDEX)->Y;
+				getGameObject(iNPC_INDEX)->TX = getGameObject(iNPC_INDEX)->X;
+				getGameObject(iNPC_INDEX)->TY = getGameObject(iNPC_INDEX)->Y;
+				getGameObject(iNPC_INDEX)->m_OldX = getGameObject(iNPC_INDEX)->X;
+				getGameObject(iNPC_INDEX)->m_OldY = getGameObject(iNPC_INDEX)->Y;
 				getGameObject(iNPC_INDEX)->Dir = pNpcData.m_iNPC_DIR;
-				getGameObject(iNPC_INDEX]->StartX = getGameObject(iNPC_INDEX)->X;
-				getGameObject(iNPC_INDEX]->StartY = getGameObject(iNPC_INDEX)->Y;
+				getGameObject(iNPC_INDEX)->StartX = getGameObject(iNPC_INDEX)->X;
+				getGameObject(iNPC_INDEX)->StartY = getGameObject(iNPC_INDEX)->Y;
 				getGameObject(iNPC_INDEX)->DieRegen = 0;
 				getGameObject(iNPC_INDEX)->MaxRegenTime = 0;
 				getGameObject(iNPC_INDEX)->Life = pNpcData.m_iNPC_HP;
@@ -5010,7 +5010,7 @@ void CCastleSiege::CheckReviveGuardianStatue()
 					iNPC_RG_LEVEL = CS_MAX_UPGRADE;
 				}
 
-				getGameObject(iNPC_INDEX]->m_Defense = g_iNpcDefense_CSTATUE[iNPC_DF_LEVEL);
+				getGameObject(iNPC_INDEX)->m_Defense = g_iNpcDefense_CSTATUE[iNPC_DF_LEVEL);
 				getGameObject(iNPC_INDEX)->m_btCsNpcDfLevel = iNPC_DF_LEVEL;
 				getGameObject(iNPC_INDEX)->m_btCsNpcRgLevel = iNPC_RG_LEVEL;
 
@@ -5135,7 +5135,7 @@ void CCastleSiege::ReSpawnAllUser()
 			getGameObject(iUSER)->Teleport = 0;
 
 			gObjClearViewport(&getGameObject(iUSER));
-			gGameProtocol.GCTeleportSend(&getGameObject(iUSER], -1, MAP_INDEX_CASTLESIEGE, getGameObject(iUSER]->X, getGameObject(iUSER)->Y, getGameObject(iUSER)->Dir);
+			gGameProtocol.GCTeleportSend(&getGameObject(iUSER), -1, MAP_INDEX_CASTLESIEGE, getGameObject(iUSER)->X, getGameObject(iUSER)->Y, getGameObject(iUSER)->Dir);
 
 			if( getGameObject(iUSER)->m_Change >= 0 )
 			{
@@ -5162,7 +5162,7 @@ void CCastleSiege::ReSpawnEnemyUser(int bRefreshOwnerUser)
 			continue;
 		}
 
-		if(getGameObject(iUSER]->MapNumber != MAP_INDEX_CASTLESIEGE && getGameObject(iUSER)->MapNumber != MAP_INDEX_CASTLEHUNTZONE)
+		if(getGameObject(iUSER)->MapNumber != MAP_INDEX_CASTLESIEGE && getGameObject(iUSER)->MapNumber != MAP_INDEX_CASTLEHUNTZONE)
 		{
 			continue;
 		}
@@ -5186,9 +5186,9 @@ void CCastleSiege::ReSpawnEnemyUser(int bRefreshOwnerUser)
 		case 1:
 			if(bRefreshOwnerUser != FALSE)
 			{
-				getGameObject(iUSER]->RegenMapNumber = getGameObject(iUSER)->MapNumber;
-				getGameObject(iUSER]->RegenMapX = getGameObject(iUSER)->X;
-				getGameObject(iUSER]->RegenMapY = getGameObject(iUSER)->Y;
+				getGameObject(iUSER)->RegenMapNumber = getGameObject(iUSER)->MapNumber;
+				getGameObject(iUSER)->RegenMapX = getGameObject(iUSER)->X;
+				getGameObject(iUSER)->RegenMapY = getGameObject(iUSER)->Y;
 
 				if(getGameObject(iUSER)->MapNumber == MAP_INDEX_CASTLEHUNTZONE) //season 2.5 add-on
 				{
@@ -5210,7 +5210,7 @@ void CCastleSiege::ReSpawnEnemyUser(int bRefreshOwnerUser)
 
 				gObjClearViewport(&getGameObject(iUSER));
 
-				gGameProtocol.GCTeleportSend(&getGameObject(iUSER],-1,getGameObject(iUSER]->MapNumber,getGameObject(iUSER)->X,getGameObject(iUSER)->Y,getGameObject(iUSER)->Dir); //season 2.5 changed
+				gGameProtocol.GCTeleportSend(&getGameObject(iUSER),-1,getGameObject(iUSER)->MapNumber,getGameObject(iUSER)->X,getGameObject(iUSER)->Y,getGameObject(iUSER)->Dir); //season 2.5 changed
 
 				if(getGameObject(iUSER)->m_Change >= 0)
 				{
@@ -5269,7 +5269,7 @@ void CCastleSiege::ReSpawnEnemyUser(int bRefreshOwnerUser)
 			getGameObject(iUSER)->Teleport = 0;
 
 			gObjClearViewport(&getGameObject(iUSER));
-			gGameProtocol.GCTeleportSend(&getGameObject(iUSER],-1,MAP_INDEX_CASTLESIEGE,getGameObject(iUSER]->X,getGameObject(iUSER)->Y,getGameObject(iUSER)->Dir);
+			gGameProtocol.GCTeleportSend(&getGameObject(iUSER),-1,MAP_INDEX_CASTLESIEGE,getGameObject(iUSER)->X,getGameObject(iUSER)->Y,getGameObject(iUSER)->Dir);
 
 			if(getGameObject(iUSER)->m_Change >= 0)
 			{
@@ -5296,7 +5296,7 @@ void CCastleSiege::NotifyAllUserCsStartState(BYTE btStartState)
 
 	for(int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
-		if(getGameObject(i]->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
+		if(getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
 		{
 			IOCP.DataSend(i,(BYTE*)&pMsg,pMsg.h.size);
 		}
@@ -5316,7 +5316,7 @@ void CCastleSiege::NotifyAllUserCsProgState(BYTE btProgState, char* lpszGuildNam
 
 	for( int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++ )
 	{
-		if( (getGameObject(i]->Connected == PLAYER_PLAYING) && (getGameObject(i)->Type == OBJ_USER) )
+		if( (getGameObject(i)->Connected == PLAYER_PLAYING) && (getGameObject(i)->Type == OBJ_USER) )
 		{
 			if( getGameObject(i)->MapNumber == MAP_INDEX_CASTLESIEGE )
 			{
@@ -5527,7 +5527,7 @@ void CCastleSiege::OperateMiniMapWork()
 				continue;
 			}
 		
-			if( getGameObject(iIDX]->m_PlayerData->GuildStatus == GUILD_MASTER && strcmp(getGameObject(iIDX)->m_PlayerData->GuildName, "") != 0 && strcmp(getGameObject(iIDX)->m_PlayerData->GuildName, it3->second.m_szGuildName) == 0)
+			if( getGameObject(iIDX)->m_PlayerData->GuildStatus == GUILD_MASTER && strcmp(getGameObject(iIDX)->m_PlayerData->GuildName, "") != 0 && strcmp(getGameObject(iIDX)->m_PlayerData->GuildName, it3->second.m_szGuildName) == 0)
 			{
 				it3->second.m_iGuildMasterIndex = iIDX;
 				continue;
@@ -5612,7 +5612,7 @@ void CCastleSiege::NotifyCrownState(BYTE btState)
 
 		if( tObjNum >= 0 )
 		{
-			if( getGameObject(tObjNum]->Type == OBJ_USER && getGameObject(tObjNum)->Live )
+			if( getGameObject(tObjNum)->Type == OBJ_USER && getGameObject(tObjNum)->Live )
 			{
 				IOCP.DataSend(tObjNum, (BYTE*)&pMsg, pMsg.h.size);
 			}
@@ -5630,7 +5630,7 @@ void CCastleSiege::NotifyCrownSwitchInfo(int iCrownSwitchIndex)
 		return;
 	}
 
-	if( (getGameObject(iCrownSwitchIndex]->Class != 217) && (getGameObject(iCrownSwitchIndex)->Class != 218) )
+	if( (getGameObject(iCrownSwitchIndex)->Class != 217) && (getGameObject(iCrownSwitchIndex)->Class != 218) )
 	{
 		sLog->outError(  "[CastleSiege] CCastleSiege::NotifyCrownSwitchInfo() - iCrownSwitchIndex is Invalid");
 		return;
@@ -5688,7 +5688,7 @@ void CCastleSiege::NotifyCrownSwitchInfo(int iCrownSwitchIndex)
 
 		if( tObjNum >= 0 )
 		{
-			if( getGameObject(tObjNum]->Type == OBJ_USER && getGameObject(tObjNum)->Live )
+			if( getGameObject(tObjNum)->Type == OBJ_USER && getGameObject(tObjNum)->Live )
 			{
 				IOCP.DataSend(tObjNum, (BYTE*)&pMsg, pMsg.h.size);
 			}
@@ -5705,7 +5705,7 @@ void CCastleSiege::SendAllUserAnyData(BYTE* lpMsg, int iSize)
 {
 	for( int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++ )
 	{
-		if( (getGameObject(i]->Connected == PLAYER_PLAYING) && (getGameObject(i)->Type == OBJ_USER) )
+		if( (getGameObject(i)->Connected == PLAYER_PLAYING) && (getGameObject(i)->Type == OBJ_USER) )
 		{
 			IOCP.DataSend(i, lpMsg, iSize);
 		}
@@ -5734,7 +5734,7 @@ void CCastleSiege::SendAllUserAnyMsg(char * lpszMsg, int iType)
 				TNotice::MakeNoticeMsg(&pNotice, 0, lpszMsg);
 				for(int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++ )
 				{
-					if( (getGameObject(i]->Connected == PLAYER_PLAYING) && (getGameObject(i)->Type == OBJ_USER) )
+					if( (getGameObject(i)->Connected == PLAYER_PLAYING) && (getGameObject(i)->Type == OBJ_USER) )
 					{
 						IOCP.DataSend(i, (BYTE*)&pNotice, pNotice.h.size);
 					}
@@ -5751,7 +5751,7 @@ void CCastleSiege::SendCsUserAnyData(BYTE* lpMsg, int iSize)
 {
 	for( int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++ )
 	{
-		if( (getGameObject(i]->Connected == PLAYER_PLAYING) && (getGameObject(i)->Type == OBJ_USER) )
+		if( (getGameObject(i)->Connected == PLAYER_PLAYING) && (getGameObject(i)->Type == OBJ_USER) )
 		{
 			if( getGameObject(i)->MapNumber == MAP_INDEX_CASTLESIEGE )
 			{
@@ -5774,7 +5774,7 @@ void CCastleSiege::SendCsUserAnyMsg(char* lpszMsg)
 
 	for( int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++ )
 	{
-		if( (getGameObject(i]->Connected == PLAYER_PLAYING) && (getGameObject(i)->Type == OBJ_USER) )
+		if( (getGameObject(i)->Connected == PLAYER_PLAYING) && (getGameObject(i)->Type == OBJ_USER) )
 		{
 			if( getGameObject(i)->MapNumber == MAP_INDEX_CASTLESIEGE )
 			{

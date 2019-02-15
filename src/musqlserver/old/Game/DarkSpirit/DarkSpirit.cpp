@@ -220,7 +220,7 @@ void CDarkSpirit::ModeAttackRandom()
 			{
 				EnableAttack = FALSE;
 				
-				if ( getGameObject(tObjNum]->Life > 0.0f && (getGameObject(tObjNum)->Class < 100 || getGameObject(tObjNum)->Class  > 110 ) )
+				if ( getGameObject(tObjNum)->Life > 0.0f && (getGameObject(tObjNum)->Class < 100 || getGameObject(tObjNum)->Class  > 110 ) )
 				{
 					if ( lpObj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
 					{
@@ -249,12 +249,12 @@ void CDarkSpirit::ModeAttackRandom()
 							EnableAttack = TRUE;
 						}
 
-						if ( getGameObject(tObjNum]->Type == OBJ_USER && g_GensSystem.IsMapBattleZone(lpObj.MapNumber) == TRUE && g_GensSystem.IsPkEnable(lpObj, &getGameObject(lc85)) == TRUE )
+						if ( getGameObject(tObjNum)->Type == OBJ_USER && g_GensSystem.IsMapBattleZone(lpObj.MapNumber) == TRUE && g_GensSystem.IsPkEnable(lpObj, &getGameObject(lc85)) == TRUE )
 						{
 							EnableAttack = TRUE;
 						}
 
-						if(getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+						if(getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 						{
 							EnableAttack = TRUE;
 						}
@@ -491,12 +491,12 @@ void CDarkSpirit::RangeAttack(CGameObject &Obj, int aTargetIndex)
 						EnableAttack = TRUE;
 					}
 
-					if ( getGameObject(tObjNum]->Type == OBJ_USER && g_GensSystem.IsMapBattleZone(lpObj.MapNumber) == TRUE && g_GensSystem.IsPkEnable(lpObj, &getGameObject(tObjNum)) == TRUE )
+					if ( getGameObject(tObjNum)->Type == OBJ_USER && g_GensSystem.IsMapBattleZone(lpObj.MapNumber) == TRUE && g_GensSystem.IsPkEnable(lpObj, &getGameObject(tObjNum)) == TRUE )
 					{
 						EnableAttack = TRUE;
 					}
 
-					if(getGameObject(tObjNum]->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+					if(getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
 					{
 						EnableAttack = TRUE;
 					}
@@ -517,7 +517,7 @@ void CDarkSpirit::RangeAttack(CGameObject &Obj, int aTargetIndex)
 
 					if ( attackcheck != FALSE )
 					{
-						if ( gObjCalDistance(&getGameObject(aTargetIndex], &getGameObject(tObjNum)) < RAVEN_ATTACK_DISTANCE-3 )
+						if ( gObjCalDistance(&getGameObject(aTargetIndex), &getGameObject(tObjNum)) < RAVEN_ATTACK_DISTANCE-3 )
 						{
 							this->SendAttackMsg(lpObj.m_Index, tObjNum, 2, 0);
 							HitCount++;

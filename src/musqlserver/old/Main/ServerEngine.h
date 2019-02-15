@@ -8,8 +8,6 @@
 #include "StdAfx.h"
 #include "IOCP.h"
 
-class CGameObject;
-
 typedef void (*WsProtocolCore)(int, BYTE, LPBYTE, int);
 
 #ifndef MAX_SERVER_TYPE
@@ -22,7 +20,7 @@ struct IPList;
 void gObjServerInit();
 int gObjServerAddSearch();
 int gObjServerAdd(SOCKET Socket, char * Ip, int ServerIndex, eSERVER_TYPE eServerType);
-void gObjServerDel(CGameObject &Obj);
+void gObjServerDel(int uIndex);
 void LoadAllowableIpList(LPSTR filename);
 
 void gObjConnectStatSyncThread();

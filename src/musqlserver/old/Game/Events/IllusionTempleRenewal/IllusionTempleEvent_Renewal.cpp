@@ -388,71 +388,71 @@ BOOL CIllusionTempleEvent_Renewal::CheckWearingMOPH(int nUserIndex)
 	if (!gObjIsConnected(nUserIndex))
 		return FALSE;
 
-	if (getGameObject(nUserIndex]->pInventory[10)->IsItem() == TRUE)
+	if (getGameObject(nUserIndex)->pInventory[10)->IsItem() == TRUE)
 	{
-		if (getGameObject(nUserIndex]->pInventory[10)->m_Type == ITEMGET(13,10))
+		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,10))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[10)->m_Type == ITEMGET(13,39))
+		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,39))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[10)->m_Type == ITEMGET(13,40))
+		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,40))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[10)->m_Type == ITEMGET(13,41))
+		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,41))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[10)->m_Type == ITEMGET(13,68))
+		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,68))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[10)->m_Type == ITEMGET(13,76))
+		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,76))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[10)->m_Type == ITEMGET(13,77))
+		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,77))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[10)->m_Type == ITEMGET(13,78))
+		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,78))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[10)->m_Type == ITEMGET(13,122))
+		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,122))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[10)->m_Type == ITEMGET(13,163))
+		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,163))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[10)->m_Type == ITEMGET(13,164))
+		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,164))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[10)->m_Type == ITEMGET(13,166))
+		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,166))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[10)->m_Type == ITEMGET(13,169))
+		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,169))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[10)->m_Type == ITEMGET(13,170))
+		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,170))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[10)->m_Type == ITEMGET(13,268))
+		if (getGameObject(nUserIndex)->pInventory[10)->m_Type == ITEMGET(13,268))
 			return TRUE;
 	}
 
-	if (getGameObject(nUserIndex]->pInventory[11)->IsItem() == TRUE)
+	if (getGameObject(nUserIndex)->pInventory[11)->IsItem() == TRUE)
 	{
-		if (getGameObject(nUserIndex]->pInventory[11)->m_Type == ITEMGET(13,10))
+		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,10))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[11)->m_Type == ITEMGET(13,39))
+		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,39))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[11)->m_Type == ITEMGET(13,40))
+		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,40))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[11)->m_Type == ITEMGET(13,41))
+		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,41))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[11)->m_Type == ITEMGET(13,68))
+		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,68))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[11)->m_Type == ITEMGET(13,76))
+		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,76))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[11)->m_Type == ITEMGET(13,77))
+		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,77))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[11)->m_Type == ITEMGET(13,78))
+		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,78))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[11)->m_Type == ITEMGET(13,122))
+		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,122))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[11)->m_Type == ITEMGET(13,163))
+		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,163))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[11)->m_Type == ITEMGET(13,164))
+		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,164))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[11)->m_Type == ITEMGET(13,166))
+		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,166))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[11)->m_Type == ITEMGET(13,169))
+		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,169))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[11)->m_Type == ITEMGET(13,170))
+		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,170))
 			return TRUE;
-		if (getGameObject(nUserIndex]->pInventory[11)->m_Type == ITEMGET(13,268))
+		if (getGameObject(nUserIndex)->pInventory[11)->m_Type == ITEMGET(13,268))
 			return TRUE;
 	}
 	
@@ -505,12 +505,12 @@ BOOL CIllusionTempleEvent_Renewal::CheckRelics(int nIndex)
 		return FALSE;
 	}
 
-	if (this->m_cITR_Proc[getGameObject(nIndex]->MapNumber - 45)->GetIllusionTempleState() != 2)
+	if (this->m_cITR_Proc[getGameObject(nIndex)->MapNumber - 45)->GetIllusionTempleState() != 2)
 	{
 		return FALSE;
 	}
 
-	if (nIndex == this->m_cITR_Proc[getGameObject(nIndex]->MapNumber - 45]->GetRelicsUserIndex(&getGameObject(nIndex)))
+	if (nIndex == this->m_cITR_Proc[getGameObject(nIndex)->MapNumber - 45]->GetRelicsUserIndex(&getGameObject(nIndex)))
 	{
 		return TRUE;
 	}
@@ -525,7 +525,7 @@ void CIllusionTempleEvent_Renewal::ReqEventReward(int nIndex)
 		return;
 	}
 
-	this->m_cITR_Proc[getGameObject(nIndex]->MapNumber - 45)->DropITR_RewardBox(nIndex);
+	this->m_cITR_Proc[getGameObject(nIndex)->MapNumber - 45)->DropITR_RewardBox(nIndex);
 }
 
 int CIllusionTempleEvent_Renewal::GetRemainTime()
@@ -596,9 +596,9 @@ int CIllusionTempleEvent_Renewal::CheckEnterLevel(int nIndex)
 					{
 						if (getGameObject(nIndex)->Level >= 400)
 						{
-							if (getGameObject(nIndex]->Level != 400 || getGameObject(nIndex)->m_PlayerData->ChangeUP == 2)
+							if (getGameObject(nIndex)->Level != 400 || getGameObject(nIndex)->m_PlayerData->ChangeUP == 2)
 							{
-								if (getGameObject(nIndex]->Level == 400 && getGameObject(nIndex)->m_PlayerData->ChangeUP)
+								if (getGameObject(nIndex)->Level == 400 && getGameObject(nIndex)->m_PlayerData->ChangeUP)
 									nIllusionTempleNumber = 5;
 								else
 									nIllusionTempleNumber = -1;

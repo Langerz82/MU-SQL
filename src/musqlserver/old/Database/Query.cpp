@@ -164,7 +164,7 @@ void CQuery::GetAsString(LPTSTR ColName, LPTSTR pOutBuffer, int size)
 	}
 }*/
 
-void CQuery::GetAsString(CGameObject &Obj, LPTSTR pOutBuffer, int size)
+void CQuery::GetAsString(int index, LPTSTR pOutBuffer, int size)
 {
 	if (iIndex == -1)
 	{
@@ -194,7 +194,7 @@ void CQuery::GetAsString(CGameObject &Obj, LPTSTR pOutBuffer, int size)
 	return -1;
 }*/
 
-DWORD CQuery::GetAsInteger(CGameObject &Obj)
+DWORD CQuery::GetAsInteger(int index)
 {
 	if (iIndex == -1)
 	{
@@ -216,7 +216,7 @@ DWORD CQuery::GetAsInteger(CGameObject &Obj)
 	return -1LL;
 }*/
 
-INT64 CQuery::GetAsInteger64(CGameObject &Obj)
+INT64 CQuery::GetAsInteger64(int index)
 {
 	if (iIndex == -1)
 	{
@@ -237,7 +237,7 @@ INT64 CQuery::GetAsInteger64(CGameObject &Obj)
 	return -1;
 }*/
 
-float CQuery::GetAsFloat(CGameObject &Obj)
+float CQuery::GetAsFloat(int index)
 {
 	if (iIndex == -1)
 	{

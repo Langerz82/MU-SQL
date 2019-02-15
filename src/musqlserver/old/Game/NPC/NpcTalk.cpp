@@ -1467,10 +1467,10 @@ BOOL NpcCastleCrown(CGameObject &Npc, CGameObject lpObj) //GS-CS Decompiled 100%
 			return TRUE;
 		}
 
-		if (lpObj.m_btCsJoinSide != getGameObject(iSwitchIndex1]->m_btCsJoinSide || lpObj.m_btCsJoinSide != getGameObject(iSwitchIndex2)->m_btCsJoinSide)
+		if (lpObj.m_btCsJoinSide != getGameObject(iSwitchIndex1)->m_btCsJoinSide || lpObj.m_btCsJoinSide != getGameObject(iSwitchIndex2)->m_btCsJoinSide)
 		{
 			gGameProtocol.GCAnsCsAccessCrownState(lpObj.m_Index, 4);
-			sLog->outBasic("[CastleSiege] [%s][%s] Failed to Register Castle Crown (GUILD:%s) (S1:%s/%s)(S2:%s/%s)", lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->GuildName, getGameObject(iSwitchIndex1]->Name, getGameObject(iSwitchIndex1]->m_PlayerData->GuildName, getGameObject(iSwitchIndex2)->Name, getGameObject(iSwitchIndex2)->m_PlayerData->GuildName);
+			sLog->outBasic("[CastleSiege] [%s][%s] Failed to Register Castle Crown (GUILD:%s) (S1:%s/%s)(S2:%s/%s)", lpObj.AccountID, lpObj.Name, lpObj.m_PlayerData->GuildName, getGameObject(iSwitchIndex1)->Name, getGameObject(iSwitchIndex1)->m_PlayerData->GuildName, getGameObject(iSwitchIndex2)->Name, getGameObject(iSwitchIndex2)->m_PlayerData->GuildName);
 			return TRUE;
 		}
 		else

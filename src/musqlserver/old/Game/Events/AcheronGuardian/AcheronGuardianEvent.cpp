@@ -365,7 +365,7 @@ void CAcheronGuardianEvent::ProcStateChannelClose()
 
 			for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 			{
-				if (getGameObject(n]->Connected == PLAYER_PLAYING && getGameObject(n)->Type == OBJ_USER)
+				if (getGameObject(n)->Connected == PLAYER_PLAYING && getGameObject(n)->Type == OBJ_USER)
 				{
 					IOCP.DataSend(n, (BYTE*)&pMsg, pMsg.h.size);
 				}
@@ -378,7 +378,7 @@ void CAcheronGuardianEvent::ProcStateChannelClose()
 		{
 			for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
 			{
-				if (getGameObject(n]->Connected == PLAYER_PLAYING && getGameObject(n)->Type == OBJ_USER)
+				if (getGameObject(n)->Connected == PLAYER_PLAYING && getGameObject(n)->Type == OBJ_USER)
 				{
 					gObjMoveGate(n, 27);
 				}
@@ -484,16 +484,16 @@ void CAcheronGuardianEvent::GenObelisk(int iGroupNum)
 		gObjSetMonster(result, this->m_stObeliskInfo[iGroupNum].m_iMonsterNum);
 
 		this->m_stObeliskInfo[iGroupNum].m_iMonIndex = result;
-		getGameObject(result]->Class = this->m_stObeliskInfo[iGroupNum)->m_iMonsterNum;
-		getGameObject(result]->MapNumber = this->m_stObeliskInfo[iGroupNum)->m_iMapIndex;
-		getGameObject(result]->X = this->m_stObeliskInfo[iGroupNum)->m_iPosX;
-		getGameObject(result]->Y = this->m_stObeliskInfo[iGroupNum)->m_iPosY;
-		getGameObject(result]->TX = this->m_stObeliskInfo[iGroupNum)->m_iPosX;
-		getGameObject(result]->TY = this->m_stObeliskInfo[iGroupNum)->m_iPosY;
-		getGameObject(result]->m_OldX = this->m_stObeliskInfo[iGroupNum)->m_iPosX;
-		getGameObject(result]->m_OldY = this->m_stObeliskInfo[iGroupNum)->m_iPosY;
-		getGameObject(result]->StartX = this->m_stObeliskInfo[iGroupNum)->m_iPosX;
-		getGameObject(result]->StartY = this->m_stObeliskInfo[iGroupNum)->m_iPosY;
+		getGameObject(result)->Class = this->m_stObeliskInfo[iGroupNum)->m_iMonsterNum;
+		getGameObject(result)->MapNumber = this->m_stObeliskInfo[iGroupNum)->m_iMapIndex;
+		getGameObject(result)->X = this->m_stObeliskInfo[iGroupNum)->m_iPosX;
+		getGameObject(result)->Y = this->m_stObeliskInfo[iGroupNum)->m_iPosY;
+		getGameObject(result)->TX = this->m_stObeliskInfo[iGroupNum)->m_iPosX;
+		getGameObject(result)->TY = this->m_stObeliskInfo[iGroupNum)->m_iPosY;
+		getGameObject(result)->m_OldX = this->m_stObeliskInfo[iGroupNum)->m_iPosX;
+		getGameObject(result)->m_OldY = this->m_stObeliskInfo[iGroupNum)->m_iPosY;
+		getGameObject(result)->StartX = this->m_stObeliskInfo[iGroupNum)->m_iPosX;
+		getGameObject(result)->StartY = this->m_stObeliskInfo[iGroupNum)->m_iPosY;
 		getGameObject(result)->Dir = 1;
 		getGameObject(result)->Live = TRUE;
 		getGameObject(result)->DieRegen = 0;
@@ -659,7 +659,7 @@ void CAcheronGuardianEvent::RegenMonster(int nGroupNumber, int iGenSeq, int iGen
 
 		nMonsterArrayIndex++;
 		sLog->outBasic("[AcheronGuardianEvent][MonsterGroupRegen] Group: %d, MonsterIndex: %d, MapNumber: %d, X: %d, Y: %d",
-			nGroupNumber, nMonsterIndex, nMapNumber, getGameObject(nResult]->X, getGameObject(nResult)->Y);
+			nGroupNumber, nMonsterIndex, nMapNumber, getGameObject(nResult)->X, getGameObject(nResult)->Y);
 	}
 
 	this->m_stMonsterGroupInfo[nGroupNumber].m_nGenTotCnt = nMonsterArrayIndex;

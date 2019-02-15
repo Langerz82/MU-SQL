@@ -675,7 +675,7 @@ BOOL CQuestInfo::MonsterItemDrop(CGameObject &Obj)
 								y = lpObj.Y;
 								level = lpSubInfo->ItemLevel;
 								type = ItemGetNumberMake(lpSubInfo->NeedType, lpSubInfo->NeedSubType);
-								GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur, Option1,
+								ItemCreate(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur, Option1,
 									Option2, Option3, lpTarget->m_Index, 0, 0, 0, 0, 0);
 								//sLog->outBasic("[Quest] Quest Item Drop [%s]: [%s][%s] (%s) (%d,%d)", lpObj.Name,
 								//	lpTarget->AccountID, lpTarget->Name, lpQuestInfo->Name, lpSubInfo->NeedType,	lpSubInfo->NeedSubType);
@@ -757,7 +757,7 @@ BOOL CQuestInfo::MonsterItemDropParty(CGameObject &Obj, CGameObject lpTargetObj)
 										y = lpObj.Y;
 										level = lpSubInfo->ItemLevel;
 										type = ItemGetNumberMake(lpSubInfo->NeedType, lpSubInfo->NeedSubType);
-										GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur, Option1,
+										ItemCreate(lpObj.m_Index, lpObj.MapNumber, x, y, type, level, dur, Option1,
 											Option2, Option3, aIndex, 0, 0, 0, 0, 0);
 										//sLog->outBasic("[Quest] Quest Item Drop(Party) [%s]: [%s][%s] (%s) (%d,%d)", lpObj.Name,
 										//	lpPartyObj.AccountID, lpPartyObj.Name, lpQuestInfo->Name, lpSubInfo->NeedType,lpSubInfo->NeedSubType);

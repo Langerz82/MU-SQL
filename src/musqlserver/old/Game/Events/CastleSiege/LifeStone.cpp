@@ -214,7 +214,7 @@ void CLifeStone::LifeStoneAct(CGameObject &Obj)
 
 		if ( tObjNum >= 0 )
 		{
-			if ( getGameObject(tObjNum]->Type == OBJ_USER && getGameObject(tObjNum)->Live )
+			if ( getGameObject(tObjNum)->Type == OBJ_USER && getGameObject(tObjNum)->Live )
 			{
 				if ( getGameObject(tObjNum)->m_btCsJoinSide == lpObj.m_btCsJoinSide )
 				{
@@ -229,41 +229,41 @@ void CLifeStone::LifeStoneAct(CGameObject &Obj)
 						getGameObject(tObjNum)->Mana += 100.0f;
 						getGameObject(tObjNum)->BP += 100;*/
 
-						if ( getGameObject(tObjNum]->Life < (getGameObject(tObjNum)->MaxLife + getGameObject(tObjNum)->AddLife))
+						if ( getGameObject(tObjNum)->Life < (getGameObject(tObjNum)->MaxLife + getGameObject(tObjNum)->AddLife))
 						{
-							getGameObject(tObjNum]->Life += ( getGameObject(tObjNum)->MaxLife + getGameObject(tObjNum)->AddLife ) / 100.0f;
+							getGameObject(tObjNum)->Life += ( getGameObject(tObjNum)->MaxLife + getGameObject(tObjNum)->AddLife ) / 100.0f;
 
-							if ( getGameObject(tObjNum]->Life > (getGameObject(tObjNum)->MaxLife + getGameObject(tObjNum)->AddLife))
-								getGameObject(tObjNum]->Life = getGameObject(tObjNum)->MaxLife + getGameObject(tObjNum)->AddLife;
+							if ( getGameObject(tObjNum)->Life > (getGameObject(tObjNum)->MaxLife + getGameObject(tObjNum)->AddLife))
+								getGameObject(tObjNum)->Life = getGameObject(tObjNum)->MaxLife + getGameObject(tObjNum)->AddLife;
 
 							bLifeChange = TRUE;
 						}
 
-						if ( getGameObject(tObjNum]->Mana < (getGameObject(tObjNum)->MaxMana + getGameObject(tObjNum)->AddMana))
+						if ( getGameObject(tObjNum)->Mana < (getGameObject(tObjNum)->MaxMana + getGameObject(tObjNum)->AddMana))
 						{
-							getGameObject(tObjNum]->Mana += ( getGameObject(tObjNum)->MaxMana + getGameObject(tObjNum)->AddMana ) / 100.0f;
+							getGameObject(tObjNum)->Mana += ( getGameObject(tObjNum)->MaxMana + getGameObject(tObjNum)->AddMana ) / 100.0f;
 
-							if ( getGameObject(tObjNum]->Mana > (getGameObject(tObjNum)->MaxMana + getGameObject(tObjNum)->AddMana))
-								getGameObject(tObjNum]->Mana = getGameObject(tObjNum)->MaxMana + getGameObject(tObjNum)->AddMana;
+							if ( getGameObject(tObjNum)->Mana > (getGameObject(tObjNum)->MaxMana + getGameObject(tObjNum)->AddMana))
+								getGameObject(tObjNum)->Mana = getGameObject(tObjNum)->MaxMana + getGameObject(tObjNum)->AddMana;
 
 							bManaChange = TRUE;
 						}
 
-						if ( getGameObject(tObjNum]->BP < (getGameObject(tObjNum)->MaxBP + getGameObject(tObjNum)->AddBP))
+						if ( getGameObject(tObjNum)->BP < (getGameObject(tObjNum)->MaxBP + getGameObject(tObjNum)->AddBP))
 						{
-							getGameObject(tObjNum]->BP += ( getGameObject(tObjNum)->MaxBP + getGameObject(tObjNum)->AddBP ) / 100;
+							getGameObject(tObjNum)->BP += ( getGameObject(tObjNum)->MaxBP + getGameObject(tObjNum)->AddBP ) / 100;
 
-							if ( getGameObject(tObjNum]->BP > (getGameObject(tObjNum)->MaxBP + getGameObject(tObjNum)->AddBP))
-								getGameObject(tObjNum]->BP = getGameObject(tObjNum)->MaxBP + getGameObject(tObjNum)->AddBP;
+							if ( getGameObject(tObjNum)->BP > (getGameObject(tObjNum)->MaxBP + getGameObject(tObjNum)->AddBP))
+								getGameObject(tObjNum)->BP = getGameObject(tObjNum)->MaxBP + getGameObject(tObjNum)->AddBP;
 
 							bBpChange = TRUE;
 						}
 
 						if (bLifeChange )
-							gGameProtocol.GCReFillSend(tObjNum, getGameObject(tObjNum]->Life, 0xFF, 1, getGameObject(tObjNum)->iShield);
+							gGameProtocol.GCReFillSend(tObjNum, getGameObject(tObjNum)->Life, 0xFF, 1, getGameObject(tObjNum)->iShield);
 
 						if (bManaChange ||bBpChange ) 
-							gGameProtocol.GCManaSend(tObjNum, getGameObject(tObjNum]->Mana, 0xFF, 0, getGameObject(tObjNum)->BP);
+							gGameProtocol.GCManaSend(tObjNum, getGameObject(tObjNum)->Mana, 0xFF, 0, getGameObject(tObjNum)->BP);
 					}
 				}
 			}

@@ -289,7 +289,7 @@ bool DropEx::DropItem(CGameObject &Obj, CGameObject lpTargetObj)
 						}
 					}
 
-					GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, ITEMGET(Drop.ItemType, Drop.ItemIndex), iLevel, Drop.ItemDur, iOption, iLuck, iSkill, gObjMonsterTopHitDamageUser(lpObj), iExlOpt, iAnc, 0, 0, 0);
+					ItemCreate(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, ITEMGET(Drop.ItemType, Drop.ItemIndex), iLevel, Drop.ItemDur, iOption, iLuck, iSkill, gObjMonsterTopHitDamageUser(lpObj), iExlOpt, iAnc, 0, 0, 0);
 #else
 					// ----
 					if (Drop.ItemLuck == 1)
@@ -316,7 +316,7 @@ bool DropEx::DropItem(CGameObject &Obj, CGameObject lpTargetObj)
 						}
 					}
 
-					GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, ITEMGET(Drop.ItemType, Drop.ItemIndex), iLevel, Drop.ItemDur, iOption, iLuck, iSkill, gObjMonsterTopHitDamageUser(lpObj), Drop.ItemExcellent, 0, 0, 0, 0);
+					ItemCreate(lpObj.m_Index, lpObj.MapNumber, lpObj.X, lpObj.Y, ITEMGET(Drop.ItemType, Drop.ItemIndex), iLevel, Drop.ItemDur, iOption, iLuck, iSkill, gObjMonsterTopHitDamageUser(lpObj), Drop.ItemExcellent, 0, 0, 0, 0);
 #endif
 
 					return true;

@@ -368,177 +368,177 @@ BOOL CDevilSquareFinal::CheckWearingMOPH(CGameObject &Obj)
 		return FALSE;
 	}
 
-	if (getGameObject(iUserIndex]->pInventory[10)->IsItem() == TRUE)
+	if (getGameObject(iUserIndex)->pInventory[10)->IsItem() == TRUE)
 	{
-		if (getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,10))
+		if (getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,10))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,39))
+		if (getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,39))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,40))
+		if (getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,40))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,41))
+		if (getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,41))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,68))
+		if (getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,68))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,76))
+		if (getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,76))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,77))
+		if (getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,77))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,78))
+		if (getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,78))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,122))
+		if (getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,122))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,163))
+		if (getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,163))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,164))
+		if (getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,164))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,165))
+		if (getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,165))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,166))
+		if (getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,166))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,122))
+		if (getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,122))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,166))
+		if (getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,166))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,169))
+		if (getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,169))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[10)->m_Type == ITEMGET(13,170))
+		if (getGameObject(iUserIndex)->pInventory[10)->m_Type == ITEMGET(13,170))
 		{
 			return TRUE;
 		}
 	}
 
-	if (getGameObject(iUserIndex]->pInventory[11)->IsItem() == TRUE)
+	if (getGameObject(iUserIndex)->pInventory[11)->IsItem() == TRUE)
 	{
-		if (getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,10))
+		if (getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,10))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,39))
+		if (getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,39))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,40))
+		if (getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,40))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,41))
+		if (getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,41))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,68))
+		if (getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,68))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,76))
+		if (getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,76))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,77))
+		if (getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,77))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,78))
+		if (getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,78))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,122))
+		if (getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,122))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,163))
+		if (getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,163))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,164))
+		if (getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,164))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,165))
+		if (getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,165))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,166))
+		if (getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,166))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,122))
+		if (getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,122))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,166))
+		if (getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,166))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,169))
+		if (getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,169))
 		{
 			return TRUE;
 		}
 
-		if (getGameObject(iUserIndex]->pInventory[11)->m_Type == ITEMGET(13,170))
+		if (getGameObject(iUserIndex)->pInventory[11)->m_Type == ITEMGET(13,170))
 		{
 			return TRUE;
 		}
@@ -1060,9 +1060,9 @@ void CDevilSquareFinal::SendAllUserAnyMsg(BYTE* lpMsg, int iSize)
 {
 	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
 	{
-		if (getGameObject(i]->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
+		if (getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
 		{
-			if (!DG_MAP_RANGE(getGameObject(i]->MapNumber) && getGameObject(i)->MapNumber != MAP_INDEX_CHAOSCASTLE_SURVIVAL)
+			if (!DG_MAP_RANGE(getGameObject(i)->MapNumber) && getGameObject(i)->MapNumber != MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 			{
 				IOCP.DataSend(i, lpMsg, iSize);
 			}
@@ -1330,7 +1330,7 @@ char CDevilSquareFinal::SetParty(BYTE btSlotOrder, BYTE btDSFType, int nPartyIdx
 	memcpy(this->m_PartyDataSave[btSlotOrder].szRequestUserRealName, getGameObject(nUserIndex)->m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN+1);
 	this->m_PartyDataSave[btSlotOrder].nRequestUserServerCode = getGameObject(nUserIndex)->m_PlayerData->m_nServerCodeOfHomeWorld;
 	this->m_PartyDataSave[btSlotOrder].nRequestUserClass = getGameObject(nUserIndex)->Class;
-	this->m_PartyDataSave[btSlotOrder].nRequestUserLevel = getGameObject(nUserIndex]->m_PlayerData->MasterLevel + getGameObject(nUserIndex)->Level;
+	this->m_PartyDataSave[btSlotOrder].nRequestUserLevel = getGameObject(nUserIndex)->m_PlayerData->MasterLevel + getGameObject(nUserIndex)->Level;
 
 	int useridx;
 	int dbnumber = 0;
@@ -1350,7 +1350,7 @@ char CDevilSquareFinal::SetParty(BYTE btSlotOrder, BYTE btDSFType, int nPartyIdx
 			memcpy(this->m_PartyDataSave[btSlotOrder].sz2ndPartyUserRealName, getGameObject(useridx)->m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN+1);
 			this->m_PartyDataSave[btSlotOrder].n2ndPartyUserServerCode = getGameObject(useridx)->m_PlayerData->m_nServerCodeOfHomeWorld;
 			this->m_PartyDataSave[btSlotOrder].n2ndPartyUserClass = getGameObject(useridx)->Class;
-			this->m_PartyDataSave[btSlotOrder].n2ndPartyUserLevel = getGameObject(useridx]->m_PlayerData->MasterLevel + getGameObject(useridx)->Level;
+			this->m_PartyDataSave[btSlotOrder].n2ndPartyUserLevel = getGameObject(useridx)->m_PlayerData->MasterLevel + getGameObject(useridx)->Level;
 		}
 	}
 
@@ -2637,16 +2637,16 @@ int CDevilSquareFinal::SetMonster()
 			if (result >= 0)
 			{
 				getGameObject(result)->m_PosNum = n;
-				getGameObject(result]->X = this->m_DSFMonsterRegenInfo[n)->RegenX;
-				getGameObject(result]->Y = this->m_DSFMonsterRegenInfo[n)->RegenY;
-				getGameObject(result]->MapNumber = this->m_DSFMonsterRegenInfo[n)->MonsterMapNum;
-				getGameObject(result]->TX = getGameObject(result)->X;
-				getGameObject(result]->TY = getGameObject(result)->Y;
-				getGameObject(result]->m_OldX = getGameObject(result)->X;
-				getGameObject(result]->m_OldY = getGameObject(result)->Y;
-				getGameObject(result]->Dir = this->m_DSFMonsterRegenInfo[n)->MonsterDir;
-				getGameObject(result]->StartX = getGameObject(result)->X;
-				getGameObject(result]->StartY = getGameObject(result)->Y;
+				getGameObject(result)->X = this->m_DSFMonsterRegenInfo[n)->RegenX;
+				getGameObject(result)->Y = this->m_DSFMonsterRegenInfo[n)->RegenY;
+				getGameObject(result)->MapNumber = this->m_DSFMonsterRegenInfo[n)->MonsterMapNum;
+				getGameObject(result)->TX = getGameObject(result)->X;
+				getGameObject(result)->TY = getGameObject(result)->Y;
+				getGameObject(result)->m_OldX = getGameObject(result)->X;
+				getGameObject(result)->m_OldY = getGameObject(result)->Y;
+				getGameObject(result)->Dir = this->m_DSFMonsterRegenInfo[n)->MonsterDir;
+				getGameObject(result)->StartX = getGameObject(result)->X;
+				getGameObject(result)->StartY = getGameObject(result)->Y;
 				gObjSetMonster(result, nMonsterType);
 				getGameObject(result)->MaxRegenTime = 500;
 				getGameObject(result)->Dir = rand()%8;
@@ -2700,16 +2700,16 @@ int CDevilSquareFinal::SetMonster()
 			if (result >= 0)
 			{
 				getGameObject(result)->m_PosNum = l;
-				getGameObject(result]->X = this->m_DSFMonsterRegenInfo[l)->RegenX;
-				getGameObject(result]->Y = this->m_DSFMonsterRegenInfo[l)->RegenY;
-				getGameObject(result]->MapNumber = this->m_DSFMonsterRegenInfo[l)->MonsterMapNum;
-				getGameObject(result]->TX = getGameObject(result)->X;
-				getGameObject(result]->TY = getGameObject(result)->Y;
-				getGameObject(result]->m_OldX = getGameObject(result)->X;
-				getGameObject(result]->m_OldY = getGameObject(result)->Y;
-				getGameObject(result]->Dir = this->m_DSFMonsterRegenInfo[l)->MonsterDir;
-				getGameObject(result]->StartX = getGameObject(result)->X;
-				getGameObject(result]->StartY = getGameObject(result)->Y;
+				getGameObject(result)->X = this->m_DSFMonsterRegenInfo[l)->RegenX;
+				getGameObject(result)->Y = this->m_DSFMonsterRegenInfo[l)->RegenY;
+				getGameObject(result)->MapNumber = this->m_DSFMonsterRegenInfo[l)->MonsterMapNum;
+				getGameObject(result)->TX = getGameObject(result)->X;
+				getGameObject(result)->TY = getGameObject(result)->Y;
+				getGameObject(result)->m_OldX = getGameObject(result)->X;
+				getGameObject(result)->m_OldY = getGameObject(result)->Y;
+				getGameObject(result)->Dir = this->m_DSFMonsterRegenInfo[l)->MonsterDir;
+				getGameObject(result)->StartX = getGameObject(result)->X;
+				getGameObject(result)->StartY = getGameObject(result)->Y;
 				getGameObject(result)->m_Disappear_Monster = GetTickCount();
 				getGameObject(result)->MaxRegenTime = 5000;
 				gObjSetMonster(result, nEventMonsterType);
@@ -2788,7 +2788,7 @@ BYTE CDevilSquareFinal::GetUserTeam(CGameObject &Obj)
 		return -1;
 	}
 
-	if (this->m_UserData[getGameObject(nIndex]->m_nDSFIndex)->m_nIndex != nIndex)
+	if (this->m_UserData[getGameObject(nIndex)->m_nDSFIndex)->m_nIndex != nIndex)
 	{
 		return -1;
 	}
@@ -2798,7 +2798,7 @@ BYTE CDevilSquareFinal::GetUserTeam(CGameObject &Obj)
 		return -1;
 	}
 
-	return this->m_UserData[getGameObject(nIndex]->m_nDSFIndex)->m_btTeam;
+	return this->m_UserData[getGameObject(nIndex)->m_nDSFIndex)->m_btTeam;
 }
 
 int CDevilSquareFinal::MonsterKillPoint(int nMonsterType)
@@ -2919,7 +2919,7 @@ void CDevilSquareFinal::DSFDropReward(CGameObject & lpUser, CGameObject &Monster
 
 	if (rand()%10000 < this->m_DSFUnitInfo.MonsterRewardRate[this->m_nDSF_TYPE-1])
 	{
-		GameProtocol.ItemSerialCreateSend(lpUser->m_Index, lpUser->MapNumber, lpUser->X, lpUser->Y, wItemCode, 0, 0, 0, 0, 0, lpUser->m_Index, 0, 0, 0, 0, 0);
+		ItemCreate(lpUser->m_Index, lpUser->MapNumber, lpUser->X, lpUser->Y, wItemCode, 0, 0, 0, 0, 0, lpUser->m_Index, 0, 0, 0, 0, 0);
 	}
 }
 

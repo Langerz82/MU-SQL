@@ -13,7 +13,7 @@ using namespace std;
 
 
 #include "StdAfx.h"
-#include "ProtocolStructs.h"
+//#include "ProtocolStructs.h"
 #include "Fprotocol.h"
 #include "GuildClass.h"
 
@@ -243,8 +243,8 @@ private:
 	void MakeRanking();
 	void ReloadCurrentMonth();
 
-	std::map<string, GENS_USER, strCmp> m_mapGensRankDuprian;
-	std::map<string, GENS_USER, strCmp> m_mapGensRankVanert;
+	std::map<string, GENS_USER, STR_STRINGCOMPARE> m_mapGensRankDuprian;
+	std::map<string, GENS_USER, STR_STRINGCOMPARE> m_mapGensRankVanert;
 
 	STR_GENS_RANKING_DATA m_GensRankingData[14];
 
@@ -347,7 +347,7 @@ private:
 	BOOL UpdateGuildMemberStatus(char *szGuild, char *szName, BYTE btStatus);
 	BOOL UpdateGuildType(char *szGuild, BYTE btType);
 
-	void SendGuildMemberInfo(CGameObject &Obj, char *szName, CGameObject &Obj);
+	void SendGuildMemberInfo(CGameObject &Obj, char *szName, CGameObject &ObjTarget);
 	BOOL GetGuildMemberInfo(char *szName, OUT char *szGuild, OUT int& riLevel, OUT int& riStatus);
 
 	BOOL IsCSGuild(char *szGuild);

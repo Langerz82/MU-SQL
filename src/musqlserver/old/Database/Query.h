@@ -40,7 +40,7 @@ public:
 	int GetAsBinary(LPSTR lpszStatement, LPBYTE OUT lpszReturnBuffer, int size);
 	void SetAsBinary(LPTSTR lpszStatement, LPBYTE lpBinaryBuffer, UINT32 BinaryBufferSize);
 
-	//int GetResult(CGameObject &Obj);
+	//int GetResult(int index);
 	
 	//void GetAsString(LPTSTR ColName, LPTSTR pOutBuffer, int size);
 	//DWORD GetAsInteger(LPTSTR ColName);
@@ -48,10 +48,10 @@ public:
 	//float GetAsFloat(LPTSTR ColName);
 
 	//int FindIndex(LPTSTR ColName);
-	void GetAsString(CGameObject &Obj, LPTSTR pOutBuffer, int size);
-	DWORD GetAsInteger(CGameObject &Obj);
-	INT64 GetAsInteger64(CGameObject &Obj);
-	float GetAsFloat(CGameObject &Obj);
+	void GetAsString(int index, LPTSTR pOutBuffer, int size);
+	DWORD GetAsInteger(int index);
+	INT64 GetAsInteger64(int index);
+	float GetAsFloat(int index);
 
 	//void Close();
 	//void Diagnosis(bool &bReconnect);

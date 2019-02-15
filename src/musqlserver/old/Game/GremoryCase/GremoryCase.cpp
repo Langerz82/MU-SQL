@@ -34,14 +34,14 @@ void CGremoryCase::CheckStorageExpiredItems()
 					{
 						for (int k = 0; k < MAX_GREMORYCASE_STORAGE_ITEMS; k++)
 						{
-							if (getGameObject(i]->m_PlayerData->m_GremoryCaseData[j][k)->btRewardInventory != 0)
+							if (getGameObject(i)->m_PlayerData->m_GremoryCaseData[j][k)->btRewardInventory != 0)
 							{
-								if (getGameObject(i]->m_PlayerData->m_GremoryCaseData[j][k)->dwExpireTime < CurrTime)
+								if (getGameObject(i)->m_PlayerData->m_GremoryCaseData[j][k)->dwExpireTime < CurrTime)
 								{
-									this->GDReqDeleteItemFromGremoryCase(i, getGameObject(i]->m_PlayerData->m_GremoryCaseData[j][k]->ItemInfo.m_Type, getGameObject(i]->m_PlayerData->m_GremoryCaseData[j][k]->dwItemGUID, getGameObject(i)->m_PlayerData->m_GremoryCaseData[j)[k)->dwAuthCode);
+									this->GDReqDeleteItemFromGremoryCase(i, getGameObject(i)->m_PlayerData->m_GremoryCaseData[j][k]->ItemInfo.m_Type, getGameObject(i)->m_PlayerData->m_GremoryCaseData[j][k]->dwItemGUID, getGameObject(i)->m_PlayerData->m_GremoryCaseData[j)[k)->dwAuthCode);
 									this->GCSendDeleteItemFromGremoryCase(i, j, k);
 
-									getGameObject(i]->m_PlayerData->m_GremoryCaseData[j][k)->Clear();
+									getGameObject(i)->m_PlayerData->m_GremoryCaseData[j][k)->Clear();
 
 								}
 							}
@@ -563,7 +563,7 @@ void CGremoryCase::DGAnsCheckItemUseGremoryCase(_stAnsCheckUseItemGremoryCase * 
 
 	if (p->ItemKindA == 11)
 	{
-			GameProtocol.ItemSerialCreateSend(iIndex, 226, 0, 0, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Type, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Level,
+			ItemCreate(iIndex, 226, 0, 0, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Type, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Level,
 			lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Durability, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option1,
 			lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option2, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option3,
 			iIndex, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_NewOption, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_SetOption, 0,
@@ -575,7 +575,7 @@ void CGremoryCase::DGAnsCheckItemUseGremoryCase(_stAnsCheckUseItemGremoryCase * 
 	{
 	BYTE SocketOption[5] = { -1, -1, -1, -1, -1 };
 	
-		GameProtocol.ItemSerialCreateSend(iIndex, 224, 0, 0, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Type, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Level,
+		ItemCreate(iIndex, 224, 0, 0, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Type, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Level,
 			lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Durability, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option1,
 			lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option2, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option3,
 			iIndex, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_NewOption, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_SetOption, 0,
@@ -584,7 +584,7 @@ void CGremoryCase::DGAnsCheckItemUseGremoryCase(_stAnsCheckUseItemGremoryCase * 
 
 	else
 	{
-		GameProtocol.ItemSerialCreateSend(iIndex, 235, 0, 0, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Type, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Level,
+		ItemCreate(iIndex, 235, 0, 0, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Type, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Level,
 			lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Durability, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option1,
 			lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option2, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_Option3,
 			iIndex, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_NewOption, lpObj.m_PlayerData->m_GremoryCaseData[iStorageType][iItemArrayIndex].ItemInfo.m_SetOption, 0,

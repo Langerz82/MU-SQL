@@ -4,8 +4,7 @@
 #ifndef ACHERONGUARDIANEVENT_H
 #define ACHEROUNGARDIANEVENT_H
 
-#include "prodef.h"
-#include "CUserData.h"
+#include "StdAfx.h"
 
 struct AE_OBELISK_INFO
 {

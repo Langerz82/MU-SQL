@@ -291,7 +291,7 @@ void CRaklionSelupan::InitSelupanIndex()
 {
 	for (int iCount = 0; iCount < g_ConfigRead.server.GetObjectMaxMonster(); iCount++)
 	{
-		if (getGameObject(iCount]->Connected == PLAYER_PLAYING && getGameObject(iCount)->Class == 459)
+		if (getGameObject(iCount)->Connected == PLAYER_PLAYING && getGameObject(iCount)->Class == 459)
 		{
 			this->m_iSelupanObjIndex = iCount;
 		}

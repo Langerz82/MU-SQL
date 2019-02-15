@@ -61,7 +61,7 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(CGameObject &Obj)
 
 			if (gObjIsConnected(iCrownIndex1) && gObjIsConnected(iCrownIndex2) )
 			{
-				if ( getGameObject(iCrownIndex1]->m_btCsJoinSide == getGameObject(iCrownIndex2)->m_btCsJoinSide )
+				if ( getGameObject(iCrownIndex1)->m_btCsJoinSide == getGameObject(iCrownIndex2)->m_btCsJoinSide )
 				{
 					if ( g_CastleSiege.GetRegCrownAvailable() == 0 )
 					{

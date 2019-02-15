@@ -596,13 +596,13 @@ void CMineSystem::SetTwinklesInfo()
 		getGameObject(result)->X = It->second.byX;
 		getGameObject(result)->Y = It->second.byY;
 		getGameObject(result)->MapNumber = It->second.byMapNumber;
-		getGameObject(result]->TX = getGameObject(result)->X;
-		getGameObject(result]->TY = getGameObject(result)->Y;
-		getGameObject(result]->m_OldX = getGameObject(result)->X;
-		getGameObject(result]->m_OldY = getGameObject(result)->Y;
+		getGameObject(result)->TX = getGameObject(result)->X;
+		getGameObject(result)->TY = getGameObject(result)->Y;
+		getGameObject(result)->m_OldX = getGameObject(result)->X;
+		getGameObject(result)->m_OldY = getGameObject(result)->Y;
 		getGameObject(result)->Dir = It->second.byDir;
-		getGameObject(result]->StartX = getGameObject(result)->X;
-		getGameObject(result]->StartY = getGameObject(result)->Y;
+		getGameObject(result)->StartX = getGameObject(result)->X;
+		getGameObject(result)->StartY = getGameObject(result)->Y;
 
 		if (getGameObject(result)->Dir == (BYTE)-1)
 		{
@@ -718,7 +718,7 @@ void CMineSystem::ResetTwinkleInfo(CGameObject &Obj, WORD wTwinkleIndex, bool bF
 
 	if (!bFailMining)
 	{
-		gObjLifeCheck(&getGameObject(wTwinkleIndex], &getGameObject(aIndex), 0, 1, 0, 0, 0, 0, 0);
+		gObjLifeCheck(&getGameObject(wTwinkleIndex), &getGameObject(aIndex), 0, 1, 0, 0, 0, 0, 0);
 	}
 
 	lpObj.m_PlayerData->m_bIsMining = false;
@@ -1044,7 +1044,7 @@ BOOL CMineSystem::GiveRewardItem(CGameObject &Obj, WORD wTwinkleType, int iStage
 
 				for (int i = 0; i < itDropItem->iNumber; i++)
 				{
-					GameProtocol.ItemSerialCreateSend(aIndex, 223, 0, 0, ITEMGET(itDropItem->iItemType, itDropItem->iItemIndex), itDropItem->iLevel, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0);
+					ItemCreate(aIndex, 223, 0, 0, ITEMGET(itDropItem->iItemType, itDropItem->iItemIndex), itDropItem->iLevel, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0);
 					sLog->outBasic("[MineSystem][GiveRewardItem][%s][%s][Item Type:%d][Index:%d][Level:%d]",
 						lpObj.AccountID, lpObj.Name, itDropItem->iItemType, itDropItem->iItemIndex, itDropItem->iLevel);
 				}

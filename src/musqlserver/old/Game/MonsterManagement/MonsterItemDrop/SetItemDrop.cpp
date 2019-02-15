@@ -281,7 +281,7 @@ bool CSetItemDrop::DropItem(CGameObject &Monster, CGameObject lpUser)
 		btItemLevel = this->GetItemLevel(lpDropItem->MinLevel, lpDropItem->MaxLevel);
 		btItemDurability = ItemGetDurability(iItemType, btItemLevel, btExc, iSetItemOption);
 
-		GameProtocol.ItemSerialCreateSend(lpMonster->m_Index, lpMonster->MapNumber, lpMonster->X, lpMonster->Y, iItemType, btItemLevel, 0, btSkill, btLuck, btOption, lpUser->m_Index, btExc, iSetItemOption, 0, btNewExcOption, 0);
+		ItemCreate(lpMonster->m_Index, lpMonster->MapNumber, lpMonster->X, lpMonster->Y, iItemType, btItemLevel, 0, btSkill, btLuck, btOption, lpUser->m_Index, btExc, iSetItemOption, 0, btNewExcOption, 0);
 	}
 
 	return true;

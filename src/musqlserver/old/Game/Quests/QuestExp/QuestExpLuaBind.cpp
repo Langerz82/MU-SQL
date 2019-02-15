@@ -167,7 +167,7 @@ int QuestExpLuaBind::ChkProgQuest(lua_State *L)
 int QuestExpLuaBind::GetUserLv(lua_State *L)
 {
 	int iObjIndex = luaL_checkinteger(L, 2);
-	int iUserLv = getGameObject(iObjIndex]->Level + getGameObject(iObjIndex)->m_PlayerData->MasterLevel;
+	int iUserLv = getGameObject(iObjIndex)->Level + getGameObject(iObjIndex)->m_PlayerData->MasterLevel;
 	lua_settop(L, -2);
 
 	lua_pushnumber(L, iUserLv);
@@ -188,30 +188,30 @@ int QuestExpLuaBind::GetInvenItemFind(lua_State *L)
 
 	for (int x = 0; x < INVENTORY_SIZE; x++)
 	{
-		if (!getGameObject(iObjIndex]->pInventory[x)->IsItem())
+		if (!getGameObject(iObjIndex)->pInventory[x)->IsItem())
 		{
 			continue;
 		}
 
-		if (getGameObject(iObjIndex]->pInventory[x)->m_Type != ITEMGET(iItemType, iItemIndex))
+		if (getGameObject(iObjIndex)->pInventory[x)->m_Type != ITEMGET(iItemType, iItemIndex))
 		{
 			continue;
 		}
 
-		if (getGameObject(iObjIndex]->pInventory[x)->m_Level != iItemLevel)
+		if (getGameObject(iObjIndex)->pInventory[x)->m_Level != iItemLevel)
 		{
 			continue;
 		}
 
-		if ((getGameObject(iObjIndex]->pInventory[x)->m_Type < ITEMGET(14, 0)
-			|| getGameObject(iObjIndex]->pInventory[x)->m_Type > ITEMGET(14, 8))
-			&& (getGameObject(iObjIndex]->pInventory[x)->m_Type < ITEMGET(14, 35)
-				|| getGameObject(iObjIndex]->pInventory[x)->m_Type > ITEMGET(14, 40))
-			&& g_QuestExpManager.IsQuestItemAtt(getGameObject(iObjIndex]->pInventory[x)->m_Type, QUESTEXP_ITEM_OVERLAP) != true)
+		if ((getGameObject(iObjIndex)->pInventory[x)->m_Type < ITEMGET(14, 0)
+			|| getGameObject(iObjIndex)->pInventory[x)->m_Type > ITEMGET(14, 8))
+			&& (getGameObject(iObjIndex)->pInventory[x)->m_Type < ITEMGET(14, 35)
+				|| getGameObject(iObjIndex)->pInventory[x)->m_Type > ITEMGET(14, 40))
+			&& g_QuestExpManager.IsQuestItemAtt(getGameObject(iObjIndex)->pInventory[x)->m_Type, QUESTEXP_ITEM_OVERLAP) != true)
 		{
-			if (getGameObject(iObjIndex]->pInventory[x]->m_Option1 == iItemSkill && getGameObject(iObjIndex]->pInventory[x]->m_Option3 == iItemOpt && getGameObject(iObjIndex)->pInventory[x)->m_NewOption == iItemExOpt)
+			if (getGameObject(iObjIndex)->pInventory[x]->m_Option1 == iItemSkill && getGameObject(iObjIndex)->pInventory[x]->m_Option3 == iItemOpt && getGameObject(iObjIndex)->pInventory[x)->m_NewOption == iItemExOpt)
 			{
-				if (getGameObject(iObjIndex]->pInventory[x]->m_Option2 == 0 && getGameObject(iObjIndex)->pInventory[x)->m_SetOption == 0)
+				if (getGameObject(iObjIndex)->pInventory[x]->m_Option2 == 0 && getGameObject(iObjIndex)->pInventory[x)->m_SetOption == 0)
 				{
 					iItemCnt++;
 				}
@@ -219,7 +219,7 @@ int QuestExpLuaBind::GetInvenItemFind(lua_State *L)
 		}
 		else
 		{
-			iDur += getGameObject(iObjIndex]->pInventory[x)->m_Durability;
+			iDur += getGameObject(iObjIndex)->pInventory[x)->m_Durability;
 		}
 	}
 
@@ -772,7 +772,7 @@ int QuestExpLuaBind::GetQuestSwitch(lua_State *L)
 
 	if (iQuestSwitch == -1)
 	{
-		sLog->outBasic("[QuestExp] - Error - LuaGetQuestSwitch [%s][%s] Episode[%d]", getGameObject(iObjIndex]->AccountID, getGameObject(iObjIndex)->Name, iEpisode);
+		sLog->outBasic("[QuestExp] - Error - LuaGetQuestSwitch [%s][%s] Episode[%d]", getGameObject(iObjIndex)->AccountID, getGameObject(iObjIndex)->Name, iEpisode);
 		return 0;
 	}
 
@@ -1120,13 +1120,13 @@ int QuestExpLuaBind::SendQuestConfirmBtn(lua_State *L)
     DWORD dwQuestInfoIndexID = GetQuestInfoIndexId(iEpisode, iQS);
     g_QuestExpProgMng.GCANSQuestCompleteBtnClick(iObjIndex, dwQuestInfoIndexID, 1);
 
-    if( getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode)->GetAskCnt() > 0 )
+    if( getGameObject(iObjIndex)->m_PlayerData->m_UserQuestInfo[iEpisode)->GetAskCnt() > 0 )
     {
-		getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode)->SetAskCnt(0);
+		getGameObject(iObjIndex)->m_PlayerData->m_UserQuestInfo[iEpisode)->SetAskCnt(0);
 
 		for (int i = 0; i < MAX_QUESTEXP_USER_INFO; i++)
 		{
-			getGameObject(iObjIndex]->m_PlayerData->m_UserQuestInfo[iEpisode]->m_UserQuestAskInfo[i)->Clear();
+			getGameObject(iObjIndex)->m_PlayerData->m_UserQuestInfo[iEpisode]->m_UserQuestAskInfo[i)->Clear();
 		}
     }
 

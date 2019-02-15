@@ -1010,7 +1010,7 @@ void CIOCP::CloseClient(int index) // go to game
 
 	EnterCriticalSection(&criti);
 
-	if (getGameObject(index]->m_socket != INVALID_SOCKET && getGameObject(index)->m_bOff == false)
+	if (getGameObject(index)->m_socket != INVALID_SOCKET && getGameObject(index)->m_bOff == false)
 	{
 		closesocket(getGameObject(index)->m_socket);
 		getGameObject(index)->m_socket = INVALID_SOCKET;

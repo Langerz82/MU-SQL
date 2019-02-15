@@ -348,9 +348,9 @@ void CDoppelGangerMonsterHerd::MonsterBaseAct(CGameObject &Obj)
 					break;
 				}
 
-				if (MapC[map].CheckWall(lpObj.X, lpObj.Y, getGameObject(tuser]->X, getGameObject(tuser)->Y) == TRUE)
+				if (MapC[map].CheckWall(lpObj.X, lpObj.Y, getGameObject(tuser)->X, getGameObject(tuser)->Y) == TRUE)
 				{
-					BYTE attr = MapC[map].GetAttr(getGameObject(tuser]->X, getGameObject(tuser)->Y);
+					BYTE attr = MapC[map].GetAttr(getGameObject(tuser)->X, getGameObject(tuser)->Y);
 
 					if ((attr & 1) != 1)
 					{

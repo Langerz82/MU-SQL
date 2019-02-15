@@ -1,7 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MuunInfo.h
-#ifndef MUUNINFO_H
-#define MUUNINFO_H
+#ifndef MU_MUUNINFO_H
+#define MU_MUUNINFO_H
+
+#include "StdAfx.h"
 #include "MuunOpt.h"
 
 class CMuunInfo : public CMuunOpt
@@ -10,7 +12,7 @@ public:
 	CMuunInfo();
 	~CMuunInfo();
 
-	void SetIndex(CGameObject &Obj);
+	void SetIndex(int index);
 	int GetIndex();
 
 	void SetItemNum(int iItemNum);
@@ -59,8 +61,4 @@ private:
 	int m_iDelayTime;
 };
 #endif
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
 

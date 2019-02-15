@@ -36,7 +36,7 @@ void LuaExport::AddTable(lua_State * Lua)
 	lua_register(Lua, "gParty_GetPKPartyPenalty", this->LuagParty_GetPKPartyPenalty);
 	lua_register(Lua, "gObjGuildMasterCapacityTest", this->LuagObjGuildMasterCapacityTest);
 	lua_register(Lua, "gObjMonsterTopHitDamageUser", this->LuagObjMonsterTopHitDamageUser);
-	lua_register(Lua, "CreateItem", this->LuaItemSerialCreateSend);
+	lua_register(Lua, "CreateItem", this->LuaItemCreate);
 	lua_register(Lua, "MakeRandomSetItem", this->LuaMakeRandomSetItem);
 	lua_register(Lua, "GetBagItemLevel", this->LuaGetBagItemLevel);
 	lua_register(Lua, "AddItemBag", this->LuaAddItemBag);

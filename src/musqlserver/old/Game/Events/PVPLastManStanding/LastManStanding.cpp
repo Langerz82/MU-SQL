@@ -482,7 +482,7 @@ void CLastManStanding::AllPlayerMsgSend( char* chatmsg)
 
 	for ( int n = g_ConfigRead.server.GetObjectStartUserIndex() ; n < g_ConfigRead.server.GetObjectMax() ; n++)
 	{
-		if ( getGameObject(n]->Connected == PLAYER_PLAYING && getGameObject(n)->m_PlayerData->RegisterdLMS == 1 )
+		if ( getGameObject(n)->Connected == PLAYER_PLAYING && getGameObject(n)->m_PlayerData->RegisterdLMS == 1 )
 		{
 			if ( getGameObject(n)->Type == OBJ_USER )
 			{

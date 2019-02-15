@@ -195,7 +195,7 @@ BOOL CCrywolfAltar::SetAltarUserIndex(int iAltarObjIndex, int iClass, CGameObjec
 		return FALSE;
 	}
 
-	if ( abs(getGameObject(iAltarObjIndex]->Y - getGameObject(iUserIndex]->Y) > 0 || abs(getGameObject(iAltarObjIndex)->X - getGameObject(iUserIndex)->X) > 0 )
+	if ( abs(getGameObject(iAltarObjIndex)->Y - getGameObject(iUserIndex)->Y) > 0 || abs(getGameObject(iAltarObjIndex)->X - getGameObject(iUserIndex)->X) > 0 )
 	{
 		MsgOutput(iUserIndex, Lang.GetText(0,248), iAltarNumber);
 		return FALSE;

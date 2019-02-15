@@ -416,12 +416,12 @@ void TMonsterAIGroup::Init(int iGroupNumber)
 
 			getGameObject(iResult)->X = cX;
 			getGameObject(iResult)->Y = cY;
-			getGameObject(iResult]->MTX = getGameObject(iResult)->X;
-			getGameObject(iResult]->MTY = getGameObject(iResult)->Y;
-			getGameObject(iResult]->TX = getGameObject(iResult)->X;
-			getGameObject(iResult]->TY = getGameObject(iResult)->Y;
-			getGameObject(iResult]->StartX = getGameObject(iResult)->X;
-			getGameObject(iResult]->StartY = getGameObject(iResult)->Y;
+			getGameObject(iResult)->MTX = getGameObject(iResult)->X;
+			getGameObject(iResult)->MTY = getGameObject(iResult)->Y;
+			getGameObject(iResult)->TX = getGameObject(iResult)->X;
+			getGameObject(iResult)->TY = getGameObject(iResult)->Y;
+			getGameObject(iResult)->StartX = getGameObject(iResult)->X;
+			getGameObject(iResult)->StartY = getGameObject(iResult)->Y;
 
 			gObjSetMonster(iResult, Memb.m_iClass);
 
@@ -446,8 +446,8 @@ void TMonsterAIGroup::Init(int iGroupNumber)
 			}
 
 			sLog->outBasic("[ AI SetMonster ] %s(Index:%d ObjIndex:%d) Map:%d-[%d][%d]",
-				getGameObject(iResult]->Name, getGameObject(iResult)->Class, iResult, getGameObject(iResult)->MapNumber,
-				getGameObject(iResult]->X, getGameObject(iResult)->Y);
+				getGameObject(iResult)->Name, getGameObject(iResult)->Class, iResult, getGameObject(iResult)->MapNumber,
+				getGameObject(iResult)->X, getGameObject(iResult)->Y);
 		}
 	}
 }

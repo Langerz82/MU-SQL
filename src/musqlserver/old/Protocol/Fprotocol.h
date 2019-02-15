@@ -10,7 +10,7 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "ProtocolStructs.h"
+//#include "ProtocolStructs.h"
 
 using namespace std;
 
@@ -97,7 +97,7 @@ public:
 
 private:
 
-	std::map<string, FRIEND_MASTER, strCmp> m_MapFriendManager;
+	MAP_FRIEND_MANAGER m_MapFriendManager;
 	int m_iMaxFriends;
 
 };

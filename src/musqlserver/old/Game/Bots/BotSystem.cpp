@@ -643,7 +643,7 @@ void CBotSystem::BuffPlayer(WORD  wBufferindex,short aIndex)
 				lpObj.BuffId = i;
 				gObjUseSkill.RunningSkill(lpBot->aIndex,aIndex,lpMagic,0);
 			}*/
-			gObjAddBuffEffect(&getGameObject(aIndex], gBotObj.m_BotBuffs[i]->wBuffId, gBotObj.m_BotBuffs[i]->wEffectType, gBotObj.m_BotBuffs[i]->iEffect, 0, 0, gBotObj.m_BotBuffs[i)->wDuration);
+			gObjAddBuffEffect(&getGameObject(aIndex), gBotObj.m_BotBuffs[i]->wBuffId, gBotObj.m_BotBuffs[i]->wEffectType, gBotObj.m_BotBuffs[i]->iEffect, 0, 0, gBotObj.m_BotBuffs[i)->wDuration);
 		}
 	}
 	gGameProtocol.ChatTargetSend(gBotObj, Lang.GetText(0,367), aIndex);
@@ -817,7 +817,7 @@ void CBotSystem::AlchemistTradeOk(CGameObject &Obj, int botIndex)
 		}
 		for(int i=0;i<reward.iCount;i++)
 		{
-			GameProtocol.ItemSerialCreateSend(lpObj, 235, lpObj.X, lpObj.Y, reward.m_Reward.m_Type, reward.m_Reward.m_Level, 0, reward.m_Reward.m_Option1,reward.m_Reward.m_Option2, reward.m_Reward.m_Option3, aIndex, reward.m_Reward.m_NewOption, reward.m_Reward.m_SetOption, 0, 0, 0);
+			ItemCreate(lpObj, 235, lpObj.X, lpObj.Y, reward.m_Reward.m_Type, reward.m_Reward.m_Level, 0, reward.m_Reward.m_Option1,reward.m_Reward.m_Option2, reward.m_Reward.m_Option3, aIndex, reward.m_Reward.m_NewOption, reward.m_Reward.m_SetOption, 0, 0, 0);
 		}
 		gObjInventoryCommit(lpObj);
 		gObjMakePreviewCharSet(lpObj);
@@ -860,7 +860,7 @@ bool CBotSystem::StoreAddItems(int botIndex)
 	CGameObject &Obj = this->m_BotData[botIndex].aIndex;
 	for(int i=0;i<this->m_BotData[botIndex].m_Shop.iItemCount;i++)
 	{
-		BYTE blank = this->PShopCheckSpace(&getGameObject(aIndex],this->m_BotData[botIndex]->m_Shop.pItems[i]->wItemId,&lpObj.pInventoryMap[PSHOP_START_RANGE));
+		BYTE blank = this->PShopCheckSpace(&getGameObject(aIndex),this->m_BotData[botIndex]->m_Shop.pItems[i]->wItemId,&lpObj.pInventoryMap[PSHOP_START_RANGE));
 		
 		if(blank != 255)
 		{

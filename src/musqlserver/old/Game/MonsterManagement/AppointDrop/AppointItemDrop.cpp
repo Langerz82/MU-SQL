@@ -188,7 +188,7 @@ BOOL CAppointItemDrop::AppointItemDrop(CGameObject lpObj, CGameObject lpMonsterO
 			}
 
 			int iMaxHitUser = gObjMonsterTopHitDamageUser(lpMonsterObj);
-			GameProtocol.ItemSerialCreateSend(lpObj.m_Index, lpObj.MapNumber, iX, iY, iType, iLevel, iDur, iSkill, iLuck, iOption3, iMaxHitUser, byExOption, 0, 0, btSocketOption, 0);
+			ItemCreate(lpObj.m_Index, lpObj.MapNumber, iX, iY, iType, iLevel, iDur, iSkill, iLuck, iOption3, iMaxHitUser, byExOption, 0, 0, btSocketOption, 0);
 			
 			return TRUE;
 		}
