@@ -667,9 +667,9 @@ void GameProtocol::PChatProc(PMSG_CHATDATA * lpChat, CGameObject &Obj)
 	{
 		if (Obj.m_PlayerData->m_GensInfluence == DUPRIAN_INFLUENCE || Obj.m_PlayerData->m_GensInfluence == VANERT_INFLUENCE)
 		{
-			for (n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
+			for each (std::pair<int, CGameObject*> ObjEntry in gGameObjects)
 			{
-				if (gObjIsConnected(n) && getGameObject(n)->m_PlayerData->m_GensInfluence == Obj.m_PlayerData->m_GensInfluence)
+				if (gObjIsConnected(*ObjEntry.second) && ObjEntry.second->m_PlayerData->m_GensInfluence == Obj.m_PlayerData->m_GensInfluence)
 				{
 					IOCP.DataSend(n, (BYTE*)lpChat, lpChat->h.size);
 				}
@@ -802,7 +802,7 @@ void GameProtocol::PChatProc(PMSG_CHATDATA * lpChat, CGameObject &Obj)
 	}
 	else
 	{
-		if ((Obj.Authority & 0x20) == 0x20 && gObjCheckUsedBuffEffect(&Obj, BUFFTYPE_INVISABLE) == TRUE)
+		if ((Obj.Authority & 0x20) == 0x20 && gObjCheckUsedBuffEffect(Obj, BUFFTYPE_INVISABLE) == TRUE)
 		{
 			return;
 		}
@@ -1055,7 +1055,7 @@ void GameProtocol::CGChatWhisperRecv(PMSG_CHATDATA_WHISPER* lpMsg, CGameObject &
 		{
 			if (!strcmp(pWhisper.chatmsg, getGameObject(index)->m_PlayerData->PartyPassword))
 			{
-				gObjAutoPartySet(*getGameObject(index), &Obj);
+				gObjAutoPartySet(*getGameObject(index), Obj);
 			}
 		}
 	}
@@ -2366,7 +2366,7 @@ void GameProtocol::CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, CGameObject &Ob
 		{
 			if (lpItem->m_Type == ITEMGET(13, 32))
 			{
-				int pos = gObjOverlapItemUsingDur(*getGameObject(lpItem->m_Number), map_num, item_num, Obj, IsOverlapItem(lpItem->m_Type), ITEMGET(13, 32), 0);
+				int pos = gObjOverlapItemUsingDur(*lpItem, map_num, item_num, Obj, IsOverlapItem(lpItem->m_Type), ITEMGET(13, 32), 0);
 
 				if (MAIN_INVENTORY_RANGE(pos) != FALSE)
 				{
@@ -4440,7 +4440,7 @@ void GameProtocol::CGTalkRequestRecv(PMSG_TALKREQUEST * lpMsg, CGameObject &Obj)
 	{
 		if ((rand() % 6) == 0)
 		{
-			ChatTargetSend(*getGameObject(DealerNumber), Lang.GetText(0, 55), Obj);
+			ChatTargetSend(*getGameObject(DealerNumber), Lang.GetText(0, 55), Obj.m_Index);
 		}
 	}
 
@@ -5385,10 +5385,6 @@ void GameProtocol::ItemDurRepaire(CGameObject &Obj, /*CGameObject &Obj, */CItemO
 
 void GameProtocol::CGModifyRequestItem(PMSG_ITEMDURREPAIR * lpMsg, CGameObject &Obj)
 {
-	if (!ObjectMaxRange(Obj))
-		return;
-
-	
 	PMSG_ITEMDURREPAIR_RESULT pResult;
 
 	PHeadSetB((BYTE*)&pResult, 0x34, sizeof(pResult));
@@ -8766,12 +8762,6 @@ void GameProtocol::GCUserChaosBoxSend(CGameObject &Obj, int iChaosBoxType)
 
 void GameProtocol::CGChaosBoxItemMixButtonClick(PMSG_CHAOSMIX* aRecv, CGameObject &Obj)
 {
-
-	if (ObjectMaxRange(Obj) == false)
-	{
-		return;
-	}
-
 	if (!gObjIsConnectedGP(Obj))
 	{
 		return;
@@ -9830,13 +9820,6 @@ void GameProtocol::RecvPositionSetProc(PMSG_POSISTION_SET * lpMove, CGameObject 
 {
 	short n;
 
-	if (ObjectMaxRange(Obj) == FALSE)
-	{
-		return;
-	}
-
-	
-
 	if (this->PacketCheckTime(Obj) == FALSE)
 	{
 		return;
@@ -10565,11 +10548,6 @@ void GameProtocol::CGRageAttack(PMSG_RAGEATTACK_REQ* lpRecv, CGameObject &Obj)
 
 void GameProtocol::CGRageAttackRange(PMSG_RAGE_ATTACK_RANGE *lpMsg, CGameObject &Obj)
 {
-	if (ObjectMaxRange(Obj) == FALSE)
-	{
-		return;
-	}
-
 	if (Obj.Type != OBJ_USER)
 	{
 		return;
@@ -10815,9 +10793,6 @@ void GameProtocol::GCStateInfoSend(CGameObject &Obj, BYTE state, int BuffViewpor
 
 void GameProtocol::CGTeleportRecv(PMSG_TELEPORT* lpMsg, CGameObject &Obj)
 {
-	if (!ObjectMaxRange(Obj))
-		return;
-
 	if (gObjCheckUsedBuffEffect(&Obj, BUFFTYPE_STUN) == TRUE || gObjCheckUsedBuffEffect(&Obj, BUFFTYPE_SLEEP) == TRUE
 		|| gObjCheckUsedBuffEffect(&Obj, BUFFTYPE_FREEZE_2) || gObjCheckUsedBuffEffect(&Obj, BUFFTYPE_EARTH_BINDS))
 	{
@@ -11089,11 +11064,6 @@ struct PMSG_RESULT_MOVEDEVILSQUARE
 
 void GameProtocol::CGReqMapMove(PMSG_REQ_MAPMOVE *lpMsg, CGameObject &Obj)
 {
-	if (!ObjectMaxRange(Obj))
-		return;
-
-	
-
 	PMSG_ANS_MAPMOVE pMsg;
 	PHeadSubSetB((BYTE*)&pMsg, 0x8E, 0x03, sizeof(pMsg));
 
@@ -13958,7 +13928,7 @@ void GameProtocol::GCRegEventChipRecv(PMSG_REGEVENTCHIP* lpMsg, CGameObject &Obj
 			PMSG_REQ_REGISTER_EVENTCHIP pMsg;
 
 			PHeadSubSetB((BYTE*)&pMsg, 0xBE, 0x02, sizeof(pMsg));
-			pMsg.iINDEX = Obj;
+			pMsg.iINDEX = Obj.m_Index;
 			pMsg.Pos = Pos;
 			std::strcpy(pMsg.szUID, Obj.AccountID);
 
@@ -14047,7 +14017,7 @@ void GameProtocol::GCGetMutoNumRecv(PMSG_GETMUTONUMBER* lpMsg, CGameObject &Obj)
 	PMSG_REQ_REGISTER_MUTONUM pMsg;
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xBE, 0x03, sizeof(pMsg));
-	pMsg.iINDEX = Obj;
+	pMsg.iINDEX = Obj.m_Index;
 	std::strcpy(pMsg.szUID, Obj.AccountID);
 
 	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
@@ -14282,11 +14252,6 @@ void GameProtocol::CGCloseWindow(CGameObject &Obj)
 
 void GameProtocol::CGRequestEnterBloodCastle(PMSG_REQ_MOVEBLOODCASTLE* lpMsg, CGameObject &Obj)
 {
-	if (!ObjectMaxRange(Obj))
-	{
-		return;
-	}
-
 	//BYTE btBridgeNumber = lpMsg->iBridgeNumber;
 	//BYTE btInvisibleCourtItemPos = lpMsg->iItemPos;
 	BYTE btInvisibleCourtItemPos;
@@ -14761,7 +14726,7 @@ void GameProtocol::CGRequestLottoRegister(PMSG_REQ_2ANV_LOTTO_EVENT* lpMsg, CGam
 		return;
 
 	Obj.UseEventServer = TRUE;
-	pMsg.iINDEX = Obj;
+	pMsg.iINDEX = Obj.m_Index;
 	pMsg.iMEMB_GUID = Obj.DBNumber;
 	std::memcpy(pMsg.szUID, Obj.AccountID, MAX_ACCOUNT_LEN);
 	pMsg.szUID[MAX_ACCOUNT_LEN] = 0;
@@ -14949,11 +14914,6 @@ void GameProtocol::CGRequestPetItemCommand(PMSG_REQUEST_PET_ITEM_COMMAND * lpMsg
 		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
-
-	if (!ObjectMaxRange(Obj))
-		return;
-
-	
 
 	if (lpMsg->PetType)
 		return;
@@ -15327,14 +15287,14 @@ void GameProtocol::CGRelationShipReqJoinBreakOff(PMSG_RELATIONSHIP_JOIN_BREAKOFF
 	}
 
 	int iTargetUserIndex = MAKE_NUMBERW(aRecv->btTargetUserIndexH, aRecv->btTargetUserIndexL);
-
-	if (!ObjectMaxRange(Obj) || !ObjectMaxRange(iTargetUserIndex))
+	if (!ObjectMaxRange(iTargetUserIndex))
 		return;
+	CGameObject* lpObjTarget = getGameObject(iTargetUserIndex);
 
 	if (!PacketCheckTime(Obj))
 		return;
 
-	if (gObjIsConnectedGP(iTargetUserIndex) == FALSE)
+	if (gObjIsConnectedGP(*lpObjTarget) == FALSE)
 	{
 		GCResultSend(Obj, 0x51, 3);
 		return;
@@ -15349,25 +15309,25 @@ void GameProtocol::CGRelationShipReqJoinBreakOff(PMSG_RELATIONSHIP_JOIN_BREAKOFF
 		return;
 	}
 
-	if (g_NewPVP.IsDuel(Obj) || g_NewPVP.IsDuel(*getGameObject(iTargetUserIndex)))
+	if (g_NewPVP.IsDuel(Obj) || g_NewPVP.IsDuel(*lpObjTarget))
 	{
 		this->GCServerMsgStringSend(Lang.GetText(0, 320), Obj, 1);
 		return;
 	}
 
-	if (g_NewPVP.IsObserver(Obj) || g_NewPVP.IsObserver(*getGameObject(iTargetUserIndex)))
+	if (g_NewPVP.IsObserver(Obj) || g_NewPVP.IsObserver(*lpObjTarget))
 	{
 		this->GCServerMsgStringSend(Lang.GetText(0, 321), Obj, 1);
 		return;
 	}
 
-	if (!Obj.m_PlayerData->lpGuild || !getGameObject(iTargetUserIndex)->m_PlayerData->lpGuild)
+	if (!Obj.m_PlayerData->lpGuild || !lpObjTarget->m_PlayerData->lpGuild)
 	{
 		GCResultSend(Obj, 0x51, 5);
 		return;
 	}
 
-	if (Obj.m_PlayerData->GuildStatus != G_MASTER && getGameObject(iTargetUserIndex)->m_PlayerData->GuildStatus != G_MASTER)
+	if (Obj.m_PlayerData->GuildStatus != G_MASTER && lpObjTarget->m_PlayerData->GuildStatus != G_MASTER)
 	{
 		GCResultSend(Obj, 0x51, 4);
 		return;
@@ -15379,7 +15339,7 @@ void GameProtocol::CGRelationShipReqJoinBreakOff(PMSG_RELATIONSHIP_JOIN_BREAKOFF
 		return;
 	}
 
-	if (getGameObject(iTargetUserIndex)->m_IfState->use > 0)
+	if (lpObjTarget->m_IfState->use > 0)
 	{
 		GCResultSend(Obj, 0x51, 6);
 		return;
@@ -15394,10 +15354,7 @@ void GameProtocol::CGRelationShipReqJoinBreakOff(PMSG_RELATIONSHIP_JOIN_BREAKOFF
 	ErrMsg.btTargetUserIndexH = aRecv->btTargetUserIndexH;
 	ErrMsg.btTargetUserIndexL = aRecv->btTargetUserIndexL;
 
-	
-	CGameObject lpTargetObj = *getGameObject(iTargetUserIndex);
-
-	if (Obj.m_PlayerData->GuildStatus != G_MASTER || lpTargetObj.m_PlayerData->GuildStatus != G_MASTER)
+	if (Obj.m_PlayerData->GuildStatus != G_MASTER || lpTargetObj->m_PlayerData->GuildStatus != G_MASTER)
 	{
 		ErrMsg.btResult = GUILD_ANS_NOTEXIST_PERMISSION;
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&ErrMsg, ErrMsg.h.size);
@@ -15406,7 +15363,7 @@ void GameProtocol::CGRelationShipReqJoinBreakOff(PMSG_RELATIONSHIP_JOIN_BREAKOFF
 
 	GUILD_INFO_STRUCT * lpGuildInfo = Obj.m_PlayerData->lpGuild;
 	GUILD_INFO_STRUCT * lpTargetGuildInfo = getGameObject(iTargetUserIndex)->m_PlayerData->lpGuild;
-	BYTE btRelationShip = gObjGetRelationShip(lpObj, lpTargetObj);
+	BYTE btRelationShip = gObjGetRelationShip(Obj, *lpTargetObj);
 
 	if (aRecv->btRequestType == 1)
 	{
@@ -15460,8 +15417,8 @@ void GameProtocol::CGRelationShipReqJoinBreakOff(PMSG_RELATIONSHIP_JOIN_BREAKOFF
 				return;
 			}
 
-			int UnionMasterInfluence = g_GensSystem.GetGensInfluence(lpTargetObj);
-			int GuildMasterInfluence = g_GensSystem.GetGensInfluence(lpObj);
+			int UnionMasterInfluence = g_GensSystem.GetGensInfluence(*lpTargetObj);
+			int GuildMasterInfluence = g_GensSystem.GetGensInfluence(Obj);
 
 			if (UnionMasterInfluence == NONE_INFLUENCE)
 			{
@@ -15950,11 +15907,6 @@ void GameProtocol::GCAnsRegCastleSiege(CGameObject &Obj, int iResult, LPSTR lpsz
 		return;
 	}
 
-	if (ObjectMaxRange(Obj) == FALSE)
-	{
-		return;
-	}
-
 	pMsgResult.h.set((BYTE*)&pMsgResult, 0xB2, 0x01, sizeof(pMsgResult));
 	pMsgResult.btResult = iResult;
 	std::memcpy(&pMsgResult.szGuildName, lpszGuildName, sizeof(pMsgResult.szGuildName));
@@ -16047,11 +15999,6 @@ void GameProtocol::GCAnsGuildRegInfo(CGameObject &Obj, int iResult, CSP_ANS_GUIL
 	PMSG_ANS_GUILDREGINFO pMsgResult;
 
 	if (lpMsgResult == NULL)
-	{
-		return;
-	}
-
-	if (ObjectMaxRange(Obj) == FALSE)
 	{
 		return;
 	}
@@ -17312,13 +17259,6 @@ void GameProtocol::CGReqGuildMarkOfCastleOwner(PMSG_REQ_GUILDMARK_OF_CASTLEOWNER
 
 void GameProtocol::CGReqCastleHuntZoneEntrance(PMSG_REQ_MOVE_TO_CASTLE_HUNTZONE * aRecv, CGameObject &Obj)
 {
-	if (!ObjectMaxRange(Obj))
-	{
-		return;
-	}
-
-	
-
 	PMSG_ANS_MOVE_TO_CASTLE_HUNTZONE pMsg = { 0 };
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xB9, 0x05, sizeof(pMsg));
@@ -17482,19 +17422,15 @@ void GameProtocol::CGReqAlatrContract(PMSG_REQ_CRYWOLF_ALTAR_CONTRACT* lpMsg, CG
 {
 	int iAltarIndex = MAKE_NUMBERW(lpMsg->btObjIndexH, lpMsg->btObjIndexL);
 
-	if (!ObjectMaxRange(Obj))
-		return;
-
 	if (!ObjectMaxRange(iAltarIndex))
 		return;
 
-	
 	CGameObject lpAltarObj = *getGameObject(iAltarIndex);
 
 	if (!CRYWOLF_ALTAR_CLASS_RANGE(lpAltarObj.Class))
 		return;
 
-	if (!gObjIsConnected(lpObj))
+	if (!gObjIsConnected(Obj))
 		return;
 
 	PMSG_ANS_CRYWOLF_ALTAR_CONTRACT pMsg = { 0 };
@@ -17510,14 +17446,14 @@ void GameProtocol::CGReqAlatrContract(PMSG_REQ_CRYWOLF_ALTAR_CONTRACT* lpMsg, CG
 		Obj.Class == CLASS_ELF &&
 		Obj.Level >= MIN_ELF_LEVEL_ALTAR)
 	{
-		if (g_CrywolfNPC_Altar.SetAltarUserIndex(iAltarIndex, lpAltarObj.Class, iIndex) != FALSE)
+		if (g_CrywolfNPC_Altar.SetAltarUserIndex(iAltarIndex, lpAltarObj.Class, Obj) != FALSE)
 		{
 			pMsg.btResult = 1;
 		}
 	}
 	else
 	{
-		MsgOutput(iIndex, Lang.GetText(0, 256), (int)MIN_ELF_LEVEL_ALTAR);
+		MsgOutput(Obj, Lang.GetText(0, 256), (int)MIN_ELF_LEVEL_ALTAR);
 	}
 
 	IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, sizeof(pMsg));
@@ -23437,8 +23373,8 @@ void GameProtocol::GCPlayerStatsPanelRates(CGameObject &Obj)
 
 	PMSG_STATS_RESULT pMsg;
 	PHeadSubSetB((BYTE*)&pMsg, 0xEC, 0x29, sizeof(pMsg));
-	pMsg.CriticalDMGInc = Obj.m_PlayerData->m_MPSkillOpt.iMpsIncCriticalDamageRate + Obj.m_PlayerData->SetOpAddCriticalDamageSuccessRate + Obj.m_PlayerData->SetOpAddCriticalDamage + Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddCriticalDamage; // crit dmg inc
-	pMsg.unk1 = Obj.m_PlayerData->m_MPSkillOpt.iMpsAddPhysicDamage + Obj.m_PlayerData->m_MPSkillOpt.iMpsElfAddPhysicDamage + Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSkillAttack + Obj.m_PlayerData->SetOpAddSkillAttack; // skill attack dmg inc
+	pMsg.CriticalDMGInc = Obj.m_PlayerData->m_MPSkillOpt->iMpsIncCriticalDamageRate + Obj.m_PlayerData->SetOpAddCriticalDamageSuccessRate + Obj.m_PlayerData->SetOpAddCriticalDamage + Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddCriticalDamage; // crit dmg inc
+	pMsg.unk1 = Obj.m_PlayerData->m_MPSkillOpt->iMpsAddPhysicDamage + Obj.m_PlayerData->m_MPSkillOpt->iMpsElfAddPhysicDamage + Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSkillAttack + Obj.m_PlayerData->SetOpAddSkillAttack; // skill attack dmg inc
 	pMsg.str = Obj.m_PlayerData->Strength;
 	pMsg.stradd = Obj.AddStrength;
 	pMsg.agi = Obj.m_PlayerData->Dexterity;
@@ -23451,25 +23387,25 @@ void GameProtocol::GCPlayerStatsPanelRates(CGameObject &Obj)
 	pMsg.cmdadd = Obj.AddLeadership;
 	pMsg.ExcellentDMGInc = 27; // 
 	pMsg.ExcellentDMGInc2 = 37; // 
-	pMsg.SDRation = Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddSDRate; // sd(%) when attack
-	pMsg.SDBypass = Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddIgnoreSDRate; // sd % when attack
-	pMsg.unk4 = Obj.m_PlayerData->m_MPSkillOpt.iMpsIncIgnoreEnemyBlock + Obj.m_PlayerData->SetOpIgnoreDefense + Obj.m_PlayerData->m_WingExcOption.iWingOpIgnoreEnemyDefense; // def ign rate
-	pMsg.unk5 = Obj.AutoHPRecovery + Obj.m_PlayerData->m_MPSkillOpt.iMpsAutoRecoverLife + Obj.m_PlayerData->m_btRefillHPSocketOption + Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpAddRefillHP + Obj.m_PlayerData->m_WingExcOption.iWingOpRecoveryHP; // hp rec rate
+	pMsg.SDRation = Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSDRate; // sd(%) when attack
+	pMsg.SDBypass = Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddIgnoreSDRate; // sd % when attack
+	pMsg.unk4 = Obj.m_PlayerData->m_MPSkillOpt->iMpsIncIgnoreEnemyBlock + Obj.m_PlayerData->SetOpIgnoreDefense + Obj.m_PlayerData->m_WingExcOption->iWingOpIgnoreEnemyDefense; // def ign rate
+	pMsg.unk5 = Obj.AutoHPRecovery + Obj.m_PlayerData->m_MPSkillOpt->iMpsAutoRecoverLife + Obj.m_PlayerData->m_btRefillHPSocketOption + Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddRefillHP + Obj.m_PlayerData->m_WingExcOption.iWingOpRecoveryHP; // hp rec rate
 	pMsg.ZenObincRate = 12;
-	pMsg.unk7 = Obj.m_PlayerData->m_MPSkillOpt.iMpsAddSturn; // stun rate
+	pMsg.unk7 = Obj.m_PlayerData->m_MPSkillOpt->iMpsAddSturn; // stun rate
 	pMsg.unk8 = Obj.m_PlayerData->m_Resistance_Stun; // stun res rate
 	pMsg.unk9 = 45678;
 	pMsg.unk10 = 0; // shield anbsorb
-	pMsg.unk11 = Obj.m_PlayerData->m_MPSkillOpt.iMpsMonsterDieGetLife; // mob attack hp rec
-	pMsg.unk12 = Obj.m_PlayerData->m_MPSkillOpt.iMpsMonsterDieGetMana;; // mob attack mp rec 
-	pMsg.unk13 = Obj.m_PlayerData->m_MPSkillOpt.iMpsMonsterDieGetSD; // mob attack sd rec
-	pMsg.unk14 = Obj.m_PlayerData->m_MPSkillOpt.iMpsSDSpeed; // sd rec rate
+	pMsg.unk11 = Obj.m_PlayerData->m_MPSkillOpt->iMpsMonsterDieGetLife; // mob attack hp rec
+	pMsg.unk12 = Obj.m_PlayerData->m_MPSkillOpt->iMpsMonsterDieGetMana;; // mob attack mp rec 
+	pMsg.unk13 = Obj.m_PlayerData->m_MPSkillOpt->iMpsMonsterDieGetSD; // mob attack sd rec
+	pMsg.unk14 = Obj.m_PlayerData->m_MPSkillOpt->iMpsSDSpeed; // sd rec rate
 	pMsg.unk15 = Obj.m_PlayerData->m_MPSkillOpt.iMpsRecoverManaRate; // res all mp rate
 	pMsg.unk16 = Obj.m_PlayerData->m_MPSkillOpt.iMpsRecoverHPRate; // res all hp rate
 	pMsg.unk17 = Obj.m_PlayerData->m_MPSkillOpt.iMpsRecoverSDRate; // res all sd rate
-	pMsg.unk18 = Obj.m_PlayerData->m_MPSkillOpt.iMpsAutoRecoverAG + Obj.m_PlayerData->SetOpIncAGValue; // ag rec rate
+	pMsg.unk18 = Obj.m_PlayerData->m_MPSkillOpt->iMpsAutoRecoverAG + Obj.m_PlayerData->SetOpIncAGValue; // ag rec rate
 	pMsg.unk19 = 0; // dmg absorb rate
-	pMsg.unk20 = Obj.m_PlayerData->m_MPSkillOpt.iMpsShieldBlockRate + Obj.m_PlayerData->m_MPSkillOpt.iMpsElfShieldBlockRate + Obj.m_PlayerData->m_MPSkillOpt.iMpsAddShieldBlockingRage; // shield block rate
+	pMsg.unk20 = Obj.m_PlayerData->m_MPSkillOpt->iMpsShieldBlockRate + Obj.m_PlayerData->m_MPSkillOpt.iMpsElfShieldBlockRate + Obj.m_PlayerData->m_MPSkillOpt.iMpsAddShieldBlockingRage; // shield block rate
 	pMsg.unk21 = 0; // weapon block rate
 	pMsg.unk22 = 0; // hp absorb
 	pMsg.unk23 = Obj.m_PlayerData->m_JewelOfHarmonyEffect.HJOpDecreaseSDRate; // sd absorb
