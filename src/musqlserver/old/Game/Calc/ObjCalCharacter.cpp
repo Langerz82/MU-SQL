@@ -18,6 +18,7 @@
 #include "util.h"
 #include "ItemOption.h"
 #include "PeriodItemEx.h"
+#include "BuffEffectSlot.h"
 
 // GS-N 0.99.60T 0x004A4740
 //	GS-N	1.00.18	JPN	0x004C2650	-	Completed
@@ -214,10 +215,10 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 			Obj.m_BaseDefense += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncSteelArmor;
 		}
 
-		if (gObjCheckUsedBuffEffect(Obj. BUFFTYPE_BLESS) == TRUE)
+		if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_BLESS) == TRUE)
 		{
 			int iOption;
-			gObjGetValueOfBuffIndex(Obj. BUFFTYPE_BLESS, &iOption, 0);
+			gObjGetValueOfBuffIndex(Obj, BUFFTYPE_BLESS, &iOption, 0);
 
 			EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 			Obj.m_PlayerData->AgilityCheckDelay = GetTickCount();

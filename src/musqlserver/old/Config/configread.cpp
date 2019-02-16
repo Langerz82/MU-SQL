@@ -318,7 +318,7 @@ void CConfigread::ReadConfig()
 	this->data.common.AutoPartySet = ReadCommon.ReadInt("General", "AutoParty", 0);
 	this->data.common.bReconnectSystem = ReadCommon.ReadInt("General", "ReconnectSystem", 0);
 	this->data.common.ThirdQuestCounter = ReadCommon.ReadInt("General", "ThirdQuestMonsterCountMsg", 0);
-	this->data.common.BlockTradeFFFFFFFFItems = ReadCommon.ReadInt("General", "CanTradeFFFFFFFFSerialItem", 1);
+	this->data.common.BlockTradeItems = ReadCommon.ReadInt("General", "CanTradeFFFFFFFFSerialItem", 1);
 	this->data.common.PKEnterEventAllow = ReadCommon.ReadInt("General", "CanEnterEventWithPK", 0);
 	this->data.common.Item380DropMap = ReadCommon.ReadInt("General", "DropMap380Items", -1);
 	this->data.common.Is28Opt = ReadCommon.ReadInt("General", "Is28Option", 1);

@@ -383,9 +383,9 @@ void MonsterAndMsgProc()
 	int n;
 	int a_index;
 
-	for (n = 0; n < g_ConfigRead.server.GetObjectMax(); n++)
+	for each (std::pair<int, CGameObject*> ObjEntry in gGameObjects)
 	{
-		lpObj = getGameObject(n);
+		CGameObject* lpObj = ObjEntry.second;
 
 		if (lpObj->Connected == PLAYER_PLAYING)
 		{
@@ -429,9 +429,9 @@ void MonsterAndMsgProc()
 		}
 	}
 
-	for (n = 0; n < g_ConfigRead.server.GetObjectMax(); n++)
+	for each (std::pair<int, CGameObject*> ObjEntry in gGameObjects)
 	{
-		lpObj = getGameObject(n);
+		CGameObject* lpObj = ObjEntry.second;
 
 		if (lpObj->Connected == PLAYER_PLAYING)
 		{
@@ -458,9 +458,9 @@ void MoveMonsterProc()
 	int DelayTime;
 	CGameObject* lpObj;
 
-	for (int n = 0; n < g_ConfigRead.server.GetObjectMax(); n++)
+	for each (std::pair<int, CGameObject*> ObjEntry in gGameObjects)
 	{
-		lpObj = getGameObject(n);
+		CGameObject* lpObj = ObjEntry.second;
 
 		if (lpObj->m_iCurrentAI != 0)
 		{
@@ -590,6 +590,72 @@ void MoveMonsterProc()
 	}
 }
 
+
+int gObjInitGameObject(CGameObject* gameObject)
+{
+	gameObject->Type = (BYTE)OBJ_EMPTY;
+	gameObject->m_socket = INVALID_SOCKET;
+	gameObject->PathTime = GetTickCount();
+	gameObject->m_RecallMon = -1;
+	gameObject->m_lpMagicBack = new CMagicInf[MAGIC_SIZE];
+	gameObject->Magic = new CMagicInf[MAGIC_SIZE];
+	gameObject->VpPlayer = new VIEWPORT_STRUCT[MAX_VIEWPORT];
+	gameObject->VpPlayer2 = new VIEWPORT_PLAYER_STRUCT[MAX_VIEWPORT];
+	//gameObject->DurMagicKeyChecker = new TDurMagicKeyChecker();
+	gameObject->sHD = new HITDAMAGE_STRUCT[MAX_ST_HIT_DAMAGE];
+	//gameObject->m_Agro = new TMonsterAIAgro();
+	gameObject->MapNumber = MAP_INDEX_RORENCIA;
+
+	if (gameObject->m_Index >= g_ConfigRead.server.GetObjectStartUserIndex())
+	{
+		gameObject->m_PlayerData = new CUserData();
+		gameObject->pntInventory1 = new CItemObject*[INVENTORY_SIZE];
+		gameObject->pntInventory2 = new CItemObject*[INVENTORY_SIZE];
+		gameObject->InventoryMap1 = new LPBYTE[INVENTORY_MAP_SIZE];
+		gameObject->InventoryMap2 = new LPBYTE[INVENTORY_MAP_SIZE];
+		gameObject->pntMuunInventory1 = new CItemObject*[MUUN_INVENTORY_SIZE];
+		gameObject->pntMuunInventory2 = new CItemObject*[MUUN_INVENTORY_SIZE];
+		gameObject->pntEventInventory1 = new CItemObject*[EVENT_INVENTORY_SIZE];
+		gameObject->pntEventInventory2 = new CItemObject*[EVENT_INVENTORY_SIZE];
+		gameObject->EventInventoryMap1 = new LPBYTE[EVENT_INVENTORY_MAP_SIZE];
+		gameObject->EventInventoryMap2 = new LPBYTE[EVENT_INVENTORY_MAP_SIZE];
+	}
+
+	else
+	{
+		gameObject->pntInventory1 = &pTempInventory;
+		gameObject->pntInventory2 = &pTempInventory;
+		gameObject->pntMuunInventory1 = &pTempInventory;
+		gameObject->pntMuunInventory2 = &pTempInventory;
+		gameObject->pntEventInventory1 = &pTempInventory;
+		gameObject->pntEventInventory2 = &pTempInventory;
+		gameObject->InventoryMap1 = &pTempInventoryMap;
+		gameObject->InventoryMap2 = &pTempInventoryMap;
+		gameObject->EventInventoryMap1 = &pTempInventoryMap;
+		gameObject->EventInventoryMap2 = &pTempInventoryMap;
+	}
+
+	if (gameObject->m_Index >= g_ConfigRead.server.GetObjectStartUserIndex())
+	{
+		gameObject->pntTrade = new CItemObject*[TRADE_BOX_SIZE];
+		gameObject->TradeMap = new BYTE[TRADE_BOX_MAP_SIZE];
+		gameObject->pntWarehouse = new CItemObject*[WAREHOUSE_SIZE];
+		gameObject->WarehouseMap = new BYTE[WAREHOUSE_SIZE];
+		gameObject->pntChaosBox = new CItemObject*[CHAOS_BOX_SIZE];
+		gameObject->ChaosBoxMap = new BYTE[CHAOS_BOX_MAP_SIZE];
+	}
+
+	gameObject->WarehouseCount = 0;
+	gameObject->m_bGMSummon = false;
+	gameObject->m_btOpenWarehouse = FALSE;
+
+	if (gameObject->m_Index >= g_ConfigRead.server.GetObjectStartUserIndex())
+	{
+		gameObject->m_PlayerData->ConnectUser->PerSocketContext = new _PER_SOCKET_CONTEXT;
+	}
+}
+
+
 int gObjInit()
 {
 	try
@@ -612,77 +678,20 @@ int gObjInit()
 		//gSMMsg = new MessageStateMachine*[g_ConfigRead.server.GetObjectMax()];
 		//gSMAttackProcMsg = new ExMessageStateMachine*[g_ConfigRead.server.GetObjectMax()];
 
-		for (int n = 0; n < g_ConfigRead.server.GetObjectMax(); n++)
+		for each (std::pair<int, CGameObject*> ObjEntry in gGameObjects)
 		{
-			gSMMsg[n] = new MessageStateMachine[MAX_MONSTER_SEND_MSG];
-			gSMAttackProcMsg[n] = new ExMessageStateMachine[MAX_MONSTER_SEND_ATTACK_MSG];
+			CGameObject* lpObj = ObjEntry.second;
+
+			gSMMsg[lpObj->m_Index] = new MessageStateMachine[MAX_MONSTER_SEND_MSG];
+			gSMAttackProcMsg[lpObj->m_Index] = new ExMessageStateMachine[MAX_MONSTER_SEND_ATTACK_MSG];
 		}
 
 		CItemObject* pTempInventory = new CItemObject[INVENTORY_SIZE];
 		LPBYTE pTempInventoryMap = new BYTE[INVENTORY_MAP_SIZE];
 
-		for (int n = 0; n < g_ConfigRead.server.GetObjectMax(); n++)
+		for each (std::pair<int, CGameObject*> ObjEntry in gGameObjects)
 		{
-			gameObject->Type = (BYTE)OBJ_EMPTY;
-			gameObject->m_socket = INVALID_SOCKET;
-			gameObject->PathTime = GetTickCount();
-			gameObject->m_RecallMon = -1;
-			gameObject->m_lpMagicBack = new CMagicInf[MAGIC_SIZE];
-			gameObject->Magic = new CMagicInf[MAGIC_SIZE];
-			gameObject->VpPlayer = new VIEWPORT_STRUCT[MAX_VIEWPORT];
-			gameObject->VpPlayer2 = new VIEWPORT_PLAYER_STRUCT[MAX_VIEWPORT];
-			//gameObject->DurMagicKeyChecker = new TDurMagicKeyChecker();
-			gameObject->sHD = new HITDAMAGE_STRUCT[MAX_ST_HIT_DAMAGE];
-			//gameObject->m_Agro = new TMonsterAIAgro();
-			gameObject->MapNumber = MAP_INDEX_RORENCIA;
-
-			if (n >= g_ConfigRead.server.GetObjectStartUserIndex())
-			{
-				gameObject->m_PlayerData = new CUserData();
-				gameObject->pntInventory1 = new CItemObject*[INVENTORY_SIZE];
-				gameObject->pntInventory2 = new CItemObject*[INVENTORY_SIZE];
-				gameObject->InventoryMap1 = new LPBYTE[INVENTORY_MAP_SIZE];
-				gameObject->InventoryMap2 = new LPBYTE[INVENTORY_MAP_SIZE];
-				gameObject->pntMuunInventory1 = new CItemObject*[MUUN_INVENTORY_SIZE];
-				gameObject->pntMuunInventory2 = new CItemObject*[MUUN_INVENTORY_SIZE];
-				gameObject->pntEventInventory1 = new CItemObject*[EVENT_INVENTORY_SIZE];
-				gameObject->pntEventInventory2 = new CItemObject*[EVENT_INVENTORY_SIZE];
-				gameObject->EventInventoryMap1 = new LPBYTE[EVENT_INVENTORY_MAP_SIZE];
-				gameObject->EventInventoryMap2 = new LPBYTE[EVENT_INVENTORY_MAP_SIZE];
-			}
-
-			else
-			{
-				gameObject->pntInventory1 = &pTempInventory;
-				gameObject->pntInventory2 = &pTempInventory;
-				gameObject->pntMuunInventory1 = &pTempInventory;
-				gameObject->pntMuunInventory2 = &pTempInventory;
-				gameObject->pntEventInventory1 = &pTempInventory;
-				gameObject->pntEventInventory2 = &pTempInventory;
-				gameObject->InventoryMap1 = &pTempInventoryMap;
-				gameObject->InventoryMap2 = &pTempInventoryMap;
-				gameObject->EventInventoryMap1 = &pTempInventoryMap;
-				gameObject->EventInventoryMap2 = &pTempInventoryMap;
-			}
-
-			if (n >= g_ConfigRead.server.GetObjectStartUserIndex())
-			{
-				gameObject->pntTrade = new CItemObject*[TRADE_BOX_SIZE];
-				gameObject->TradeMap = new BYTE[TRADE_BOX_MAP_SIZE];
-				gameObject->pntWarehouse = new CItemObject*[WAREHOUSE_SIZE];
-				gameObject->WarehouseMap = new BYTE[WAREHOUSE_SIZE];
-				gameObject->pntChaosBox = new CItemObject*[CHAOS_BOX_SIZE];
-				gameObject->ChaosBoxMap = new BYTE[CHAOS_BOX_MAP_SIZE];
-			}
-
-			gameObject->WarehouseCount = 0;
-			gameObject->m_bGMSummon = false;
-			gameObject->m_btOpenWarehouse = FALSE;
-
-			if (n >= g_ConfigRead.server.GetObjectStartUserIndex())
-			{
-				gameObject->m_PlayerData->ConnectUser->PerSocketContext = new _PER_SOCKET_CONTEXT;
-			}
+			gObjInitGameObject(ObjEntry.second);
 
 			InitializeCriticalSection(&gameObject->m_critPShopTrade);
 		}
@@ -5094,7 +5103,7 @@ void gObjStateAttackProc(CGameObject &Obj, int aMsgCode, CGameObject &ObjTarget,
 			if (!lpMagic)
 				return;
 
-			gObjAttack(Obj, *lpObjTarget, lpMagic, 0, 1, 0, SubCode2, 0, 0);
+			gObjAttack(Obj, ObjTarget, lpMagic, 0, 1, 0, SubCode2, 0, 0);
 
 			if (lpMagic->m_Skill == AT_SKILL_SUICIDE)
 			{
@@ -5112,7 +5121,7 @@ void gObjStateAttackProc(CGameObject &Obj, int aMsgCode, CGameObject &ObjTarget,
 
 			if (lpMagic != NULL)
 			{
-				gObjAttack(Obj, *lpObjTarget, lpMagic, 1, 1, 0, 0, 0, 0);
+				gObjAttack(Obj, ObjTarget, lpMagic, 1, 1, 0, 0, 0, 0);
 			}
 		}
 		break;
@@ -5129,7 +5138,7 @@ void gObjStateAttackProc(CGameObject &Obj, int aMsgCode, CGameObject &ObjTarget,
 
 			if (lpMagic != NULL)
 			{
-				gObjAttack(Obj, *lpObjTarget, lpMagic, 1, 1, 0, SubCode2, 0, 0);
+				gObjAttack(Obj, ObjTarget, lpMagic, 1, 1, 0, SubCode2, 0, 0);
 			}
 		}
 		break;
@@ -5546,7 +5555,7 @@ BOOL gObjBackSpring2(CGameObject &Obj, CGameObject &TargetObj, int count)
 		}
 	}
 
-	tdir = GetPathPacketDirPos(Obj.X - lpTargetObj.X, Obj.Y - lpTargetObj.Y) * 2;
+	tdir = GetPathPacketDirPos(Obj.X - TargetObj.X, Obj.Y - TargetObj.Y) * 2;
 
 	int x = Obj.X;
 	int y = Obj.Y;
@@ -8138,17 +8147,17 @@ void gObjPenaltyDurDown(CGameObject &Obj, CGameObject &TargetObj)	// Functio n N
 	switch (Obj.Class)
 	{
 	case 0:
-		decdur = Obj.Level - (lpTargetObj.Level * 38) / 20;
+		decdur = Obj.Level - (TargetObj.Level * 38) / 20;
 		break;
 	case 1:
-		decdur = Obj.Level - (lpTargetObj.Level * 37) / 20;
+		decdur = Obj.Level - (TargetObj.Level * 37) / 20;
 		break;
 	case 2:
-		decdur = Obj.Level - (lpTargetObj.Level * 36) / 20;
+		decdur = Obj.Level - (TargetObj.Level * 36) / 20;
 		break;
 	case 3:
 	case 4:
-		decdur = Obj.Level - (lpTargetObj.Level * 37) / 20;
+		decdur = Obj.Level - (TargetObj.Level * 37) / 20;
 		break;
 	default: break;
 	}
@@ -8274,7 +8283,7 @@ void gObjWeaponDurDown(CGameObject &Obj, CGameObject &TargetObj, int type)
 	int iOption1, idefense = 0;
 	if (type == 0)
 	{
-		itargetdefence = lpTargetObj.m_Defense;
+		itargetdefence = TargetObj.m_Defense;
 
 		if ((Obj.Class == 1 || Obj.Class == 3 || Obj.Class == 4)
 			&& (Right->m_Type >= 0 && Right->m_Type < ITEMGET(4, 0)
@@ -8350,13 +8359,13 @@ void gObjWeaponDurDown(CGameObject &Obj, CGameObject &TargetObj, int type)
 		return;
 	}
 
-	if (lpTargetObj.Type == OBJ_MONSTER || lpTargetObj.Type == OBJ_NPC)
+	if (TargetObj.Type == OBJ_MONSTER || TargetObj.Type == OBJ_NPC)
 	{
-		itargetdefence = lpTargetObj.m_MagicDefense;
+		itargetdefence = TargetObj.m_MagicDefense;
 	}
 	else
 	{
-		itargetdefence = lpTargetObj.m_Defense;
+		itargetdefence = TargetObj.m_Defense;
 	}
 
 	if (Right->m_Type >= ITEMGET(5, 0) && Right->m_Type < ITEMGET(6, 0))
@@ -8392,7 +8401,7 @@ void gObjArmorRandomDurDown(CGameObject &Obj, CGameObject &AttackObj)
 	}
 
 	CItemObject * DurItem = Obj.pntInventory[item_num[item_pos]];
-	int damagemin = lpAttackObj.m_AttackDamageMin;
+	int damagemin = AttackObj.m_AttackDamageMin;
 	int ret;
 
 	if (item_pos < 2)
@@ -17575,9 +17584,9 @@ void gObjSecondProc()
 
 	CGameObject* lpObj;
 
-	for (int n = 0; n < g_ConfigRead.server.GetObjectMax(); n++)
+	for each (std::pair<int, CGameObject*> ObjEntry in gGameObjects)
 	{
-		lpObj = getGameObject(n);
+		CGameObject* lpObj = ObjEntry.second;
 
 		if (lpObj->Connected > PLAYER_LOGGED)
 		{
@@ -20135,7 +20144,7 @@ BOOL gObjMoveGate(CGameObject &Obj, int gt)
 
 					if (index >= 0)
 					{
-						gParty.Delete(nPartyNumber, index);
+						gParty.Delete(nPartyNumber, Obj.m_Index);
 
 						getGameObject(index)->PartyNumber = -1;
 						getGameObject(index)->PartyTargetUser = -1;
@@ -20165,7 +20174,7 @@ BOOL gObjMoveGate(CGameObject &Obj, int gt)
 
 				if (userindex >= 0)
 				{
-					gParty.Delete(party_number, index);
+					gParty.Delete(party_number, Obj.m_Index);
 					getGameObject(userindex)->PartyNumber = -1;
 					getGameObject(userindex)->PartyTargetUser = -1;
 

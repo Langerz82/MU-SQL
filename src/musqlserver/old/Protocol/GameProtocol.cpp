@@ -3505,11 +3505,11 @@ bool GameProtocol::CGItemDropRequest(PMSG_ITEMTHROW * lpMsg, CGameObject &Obj, B
 					}
 				}
 
-				ItemCreate(Obj, Obj.MapNumber, Obj.X, Obj.Y, ITEMGET(12, 215), 0, 0, 0, 0, 0, Obj, 0, 0, 0, SocketOption, SocketBonus);
-				ItemCreate(Obj, Obj.MapNumber, Obj.X, Obj.Y, ITEMGET(12, 222), 0, 0, 0, 0, 0, Obj, 0, 0, 0, btSocketOption, SocketBonus);
-				ItemCreate(Obj, Obj.MapNumber, Obj.X, Obj.Y, ITEMGET(12, 232), 0, 0, 0, 0, 0, Obj, 0, 0, 0, btSocketOption, SocketBonus);
-				ItemCreate(Obj, Obj.MapNumber, Obj.X, Obj.Y, ITEMGET(12, 242), 0, 0, 0, 0, 0, Obj, 0, 0, 0, btSocketOption, SocketBonus);
-				ItemCreate(Obj, Obj.MapNumber, Obj.X, Obj.Y, ITEMGET(12, 252), 0, 0, 0, 0, 0, Obj, 0, 0, 0, btSocketOption, SocketBonus);
+				ItemCreate(Obj, Obj.MapNumber, Obj.X, Obj.Y, ITEMGET(12, 215), 0, 0, 0, 0, 0, Obj.m_Index, 0, 0, 0, SocketOption, SocketBonus);
+				ItemCreate(Obj, Obj.MapNumber, Obj.X, Obj.Y, ITEMGET(12, 222), 0, 0, 0, 0, 0, Obj.m_Index, 0, 0, 0, btSocketOption, SocketBonus);
+				ItemCreate(Obj, Obj.MapNumber, Obj.X, Obj.Y, ITEMGET(12, 232), 0, 0, 0, 0, 0, Obj.m_Index, 0, 0, 0, btSocketOption, SocketBonus);
+				ItemCreate(Obj, Obj.MapNumber, Obj.X, Obj.Y, ITEMGET(12, 242), 0, 0, 0, 0, 0, Obj.m_Index, 0, 0, 0, btSocketOption, SocketBonus);
+				ItemCreate(Obj, Obj.MapNumber, Obj.X, Obj.Y, ITEMGET(12, 252), 0, 0, 0, 0, 0, Obj.m_Index, 0, 0, 0, btSocketOption, SocketBonus);
 			}
 
 			else if (type == ITEMGET(12, 26))
@@ -3772,7 +3772,7 @@ bool GameProtocol::CGItemDropRequest(PMSG_ITEMTHROW * lpMsg, CGameObject &Obj, B
 			PHeadSetB((BYTE*)&pChange, 0x25, sizeof(pChange));
 			pChange.NumberH = SET_NUMBERH(Obj.m_Index);
 			pChange.NumberL = SET_NUMBERL(Obj.m_Index);
-			ItemByteConvert(pChange.ItemInfo, Obj.pntInventory[lpMsg->Ipos]);
+			ItemByteConvert(pChange.ItemInfo, *Obj.pntInventory[lpMsg->Ipos]);
 			pChange.ItemInfo[I_OPTION] = lpMsg->Ipos << 4;
 			pChange.ItemInfo[I_OPTION] |= LevelSmallConvert(Obj, lpMsg->Ipos) & 0x0F;
 			pChange.Element = Obj.m_iPentagramMainAttribute;
@@ -4321,7 +4321,7 @@ void GameProtocol::GCEquipmentChange(CGameObject &Obj, int pos)
 	PHeadSetB((BYTE*)&pChange, 0x25, sizeof(PMSG_USEREQUIPMENTCHANGED));
 	pChange.NumberH = SET_NUMBERH(Obj.m_Index);
 	pChange.NumberL = SET_NUMBERL(Obj.m_Index);
-	ItemByteConvert(pChange.ItemInfo, Obj.pntInventory[pos]);
+	ItemByteConvert(pChange.ItemInfo, *Obj.pntInventory[pos]);
 	pChange.ItemInfo[I_OPTION] = pos << 4;
 	pChange.ItemInfo[I_OPTION] |= LevelSmallConvert(Obj, pos) & MAX_ITEM_LEVEL;
 	pChange.Element = Obj.m_iPentagramMainAttribute;
@@ -4634,7 +4634,7 @@ void GameProtocol::GCUserWarehouseSend(CGameObject &Obj)
 		{
 			SendByte[lOfs] = n;
 			lOfs++;
-			ItemByteConvert(&SendByte[lOfs], Obj.pntWarehouse[n]);
+			ItemByteConvert(&SendByte[lOfs], *Obj.pntWarehouse[n]);
 			lOfs += MAX_ITEM_INFO;
 			pMsg.count++;
 		}
@@ -4849,7 +4849,7 @@ void GameProtocol::CGBuyRequestRecv(PMSG_BUYREQUEST * lpMsg, CGameObject &Obj)
 					lpShopData->m_ShopData.m_item[lpMsg->Pos]->m_Type >= ITEMGET(13, 480) && // Pets Muun
 					lpShopData->m_ShopData.m_item[lpMsg->Pos]->m_Type <= ITEMGET(13, 503)) // Pets Muun
 				{
-					BYTE btRet = gObjMuunInventoryInsertItem(Obj, lpShopData->m_ShopData.m_item[lpMsg->Pos]);
+					BYTE btRet = gObjMuunInventoryInsertItem(Obj, *lpShopData->m_ShopData.m_item[lpMsg->Pos]);
 
 					if (btRet == 0xFF)
 					{
@@ -4858,8 +4858,8 @@ void GameProtocol::CGBuyRequestRecv(PMSG_BUYREQUEST * lpMsg, CGameObject &Obj)
 						return;
 					}
 
-					ItemByteConvert(pResult.ItemInfo, lpShopData->m_ShopData.m_item[lpMsg->Pos]);
-					int buymoney = lpShopData->m_ShopData.m_item[lpMsg->Pos].m_BuyMoney;
+					ItemByteConvert(pResult.ItemInfo, *lpShopData->m_ShopData.m_item[lpMsg->Pos]);
+					int buymoney = lpShopData->m_ShopData.m_item[lpMsg->Pos]->m_BuyMoney;
 					Obj.m_PlayerData->Money -= iStoreTaxMoney;
 					g_CastleSiegeSync.AddTributeMoney(iStoreTaxMoney2);
 					if (Obj.m_PlayerData->Money < 0) Obj.m_PlayerData->Money = 0;
@@ -4873,9 +4873,9 @@ void GameProtocol::CGBuyRequestRecv(PMSG_BUYREQUEST * lpMsg, CGameObject &Obj)
 					return;
 				}
 
-				if (lpShopData->m_ShopData.m_item[lpMsg->Pos].m_serial == 0)
+				if (lpShopData->m_ShopData.m_item[lpMsg->Pos]->m_serial == 0)
 				{
-					LPITEM_ATTRIBUTE p = GetItemAttr(lpShopData->m_ShopData.m_item[lpMsg->Pos].m_Type);
+					LPITEM_ATTRIBUTE p = GetItemAttr(lpShopData->m_ShopData.m_item[lpMsg->Pos]->m_Type);
 
 					if (!p)
 					{
@@ -4884,7 +4884,7 @@ void GameProtocol::CGBuyRequestRecv(PMSG_BUYREQUEST * lpMsg, CGameObject &Obj)
 						return;
 					}
 
-					pResult.Result = gObjShopBuyInventoryInsertItem(Obj, lpShopData->m_ShopData.m_item[lpMsg->Pos]);
+					pResult.Result = gObjShopBuyInventoryInsertItem(Obj, *lpShopData->m_ShopData.m_item[lpMsg->Pos]);
 
 					if (pResult.Result != 0xFF)
 					{

@@ -389,5 +389,6 @@ extern void gObjMuBotPayForUse(CGameObject &Obj);
 extern void gObjMuBotProc(CGameObject &Obj);
 extern int GetWarehouseUsedHowMuch(int UserLevel, BOOL IsLock);
 extern int ViewportAdd2(CGameObject &Obj, CGameObject &ObjTarget, int aType);
+extern int gObjInitGameObject();
 
 #endif

@@ -216,14 +216,15 @@ void CDarkSpirit::ModeAttackRandom()
 		if ( Obj.VpPlayer2[count].state != 0 )
 		{
 			tObjNum = Obj.VpPlayer2[count].number;
+			CGameObject* objVP2 = getGameObject(tObjNum);
 
 			if ( tObjNum >= 0 )
 			{
 				EnableAttack = FALSE;
 				
-				if ( getGameObject(tObjNum)->Life > 0.0f && (getGameObject(tObjNum)->Class < 100 || getGameObject(tObjNum)->Class  > 110 ) )
+				if ( objVP2->Life > 0.0f && (objVP2->Class < 100 || objVP2->Class  > 110 ) )
 				{
-					if ( Obj.VpPlayer2[count].type == OBJ_MONSTER && getGameObject(tObjNum)->m_RecallMon < 0)
+					if ( Obj.VpPlayer2[count].type == OBJ_MONSTER && objVP2->m_RecallMon < 0)
 					{
 						EnableAttack = TRUE;
 					}
@@ -235,42 +236,43 @@ void CDarkSpirit::ModeAttackRandom()
 
 					else
 					{
-						int lc85 = getGameObject(tObjNum)->m_Index;
-						
-						if ( getGameObject(tObjNum)->Type == OBJ_MONSTER )
+						int lc85 = objVP2->m_Index;
+						CGameObject* lpObjLc85 = getGameObject(lc85);
+
+						if ( objVP2->Type == OBJ_MONSTER )
 						{
-							if ( getGameObject(tObjNum)->m_RecallMon >= 0 )
+							if ( objVP2->m_RecallMon >= 0 )
 							{
-								lc85 = getGameObject(getGameObject(tObjNum)->m_RecallMon)->m_Index; 
+								lc85 = getGameObject(objVP2->m_RecallMon)->m_Index; 
 							}
 						}
 
-						if ( gObjTargetGuildWarCheck(lpObj, getGameObject(lc85)) == TRUE )
+						if ( gObjTargetGuildWarCheck(lpObj, lpObjLc85) == TRUE )
 						{
 							EnableAttack = TRUE;
 						}
 
-						if ( getGameObject(tObjNum)->Type == OBJ_USER && g_GensSystem.IsMapBattleZone(Obj.MapNumber) == TRUE && g_GensSystem.IsPkEnable(lpObj, getGameObject(lc85)) == TRUE )
+						if ( objVP2->Type == OBJ_USER && g_GensSystem.IsMapBattleZone(Obj.MapNumber) == TRUE && g_GensSystem.IsPkEnable(lpObj, lpObjLc85) == TRUE )
 						{
 							EnableAttack = TRUE;
 						}
 
-						if(getGameObject(tObjNum)->Class >= 678 && getGameObject(tObjNum)->Class <= 680)
+						if(objVP2->Class >= 678 && objVP2->Class <= 680)
 						{
 							EnableAttack = TRUE;
 						}
 
-						if ( IMPERIAL_MAP_RANGE(getGameObject(tObjNum)->MapNumber) == TRUE )
+						if ( IMPERIAL_MAP_RANGE(objVP2->MapNumber) == TRUE )
 						{
-							EnableAttack = g_ImperialGuardian.IsAttackAbleMonster(tObjNum);
+							EnableAttack = g_ImperialGuardian.IsAttackAbleMonster(*objVP2);
 						}
 					}
 
 					if ( EnableAttack != FALSE )
 					{
-						if ( Obj.MapNumber == getGameObject(tObjNum)->MapNumber )
+						if ( Obj.MapNumber == objVP2->MapNumber )
 						{
-							dis = gObjCalDistance(lpObj, getGameObject(tObjNum));
+							dis = gObjCalDistance(lpObj, *objVP2);
 							
 							if ( dis < RAVEN_ATTACK_DISTANCE-2 )
 							{

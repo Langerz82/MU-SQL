@@ -20,14 +20,14 @@ public:
 
 	void Init();
 
-	BOOL Attack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lpMagic,  int magicsend, BYTE MSBFlag, int AttackDamage, BOOL bCombo, BYTE RFAttack, BYTE byReflect, BYTE byPentagramAttack);
-	BOOL PentagramAttack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lpMagic, BYTE MSBFlag, int MsgDamage, int AttackDamage, int iTargetDefense);
-	int GetAttackDamage(CGameObject &Obj, CGameObject lpTargetObj, int targetDefense, int& effect, CMagicInf* lpMagic);
-	int GetAttackDamageWizard(CGameObject &Obj, CGameObject lpTargetObj, int targetDefense, CMagicInf* lpMagic, int& effect);
-	int GetAttackDamageSummoner(CGameObject &Obj, CGameObject lpTargetObj, int targetDefense, CMagicInf* lpMagic, int& effect);
-	int GetShieldDamage(CGameObject &Obj, CGameObject lpTargetObj, int iAttackDamage);
+	BOOL Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpMagic,  int magicsend, BYTE MSBFlag, int AttackDamage, BOOL bCombo, BYTE RFAttack, BYTE byReflect, BYTE byPentagramAttack);
+	BOOL PentagramAttack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpMagic, BYTE MSBFlag, int MsgDamage, int AttackDamage, int iTargetDefense);
+	int GetAttackDamage(CGameObject &Obj, CGameObject &TargetObj, int targetDefense, int& effect, CMagicInf* lpMagic);
+	int GetAttackDamageWizard(CGameObject &Obj, CGameObject &TargetObj, int targetDefense, CMagicInf* lpMagic, int& effect);
+	int GetAttackDamageSummoner(CGameObject &Obj, CGameObject &TargetObj, int targetDefense, CMagicInf* lpMagic, int& effect);
+	int GetShieldDamage(CGameObject &Obj, CGameObject &TargetObj, int iAttackDamage);
 	int GetBuffTypePhysicalIncrease(CGameObject &Obj, int *iAttackBerserkerMin, int *iAttackBerserkerMax, int nBuffType);
-	int GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, char* DamageType1, char* DamageType2, int iAttackDamage, int iTargetDefense);
+	int GetElementalDamage(CGameObject &Obj, CGameObject &TargetObj, char* DamageType1, char* DamageType2, int iAttackDamage, int iTargetDefense);
 
 private:
 	MULua m_Lua;
