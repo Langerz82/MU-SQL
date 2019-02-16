@@ -1,0 +1,26 @@
+////////////////////////////////////////////////////////////////////////////////
+// ScriptLuaMem.h
+#pragma once
+class CScriptLuaMem
+{
+public:
+
+	CScriptLuaMem();
+	virtual		~CScriptLuaMem();
+
+	bool		LoadScript(LPSTR pchFileName);
+
+	char*		GetScript();
+	bool		IsScriptLoaded();
+
+private:
+	bool		bScriptLoaded;
+	char*		chScriptData;
+};
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
+////////////////////////////////////////////////////////////////////////////////
+
