@@ -9,6 +9,16 @@
 
 #include "StdAfx.h"
 #include "CQueue.h"
+#include "BufferedSocket/BufferedSocket.h"
+
+#include <ace/Get_Opt.h>
+#include <ace/Dev_Poll_Reactor.h>
+#include <ace/TP_Reactor.h>
+#include <ace/ACE.h>
+#include <ace/Acceptor.h>
+#include <ace/SOCK_Acceptor.h>
+
+class BufferedSocket;
 
 struct _PER_IO_CONTEXT;
 struct _PER_SOCKET_CONTEXT;
@@ -21,7 +31,7 @@ public:
 	void GiocpDelete();
 	bool CreateGIocp(int server_port);
 	void DestroyGIocp();
-	bool CreateListenSocket();
+	bool CreateListenSocket(uint16 uiPort, LPTSTR ipAddress);
 	bool RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex);
 	bool DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt = true);
 	bool IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext);
@@ -42,6 +52,8 @@ private:
 	DWORD g_dwThreadCount;
 	HANDLE g_CompletionPort;
 	SOCKET g_Listen;
+	ACE_Acceptor<BufferedSocket, ACE_SOCK_Acceptor> g_buffSocket;
+
 
 	static void IocpServerWorkerEP(void *pThis)
 	{

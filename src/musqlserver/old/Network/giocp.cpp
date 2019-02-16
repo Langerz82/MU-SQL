@@ -5,12 +5,21 @@
 #include "PacketEncrypt.h"
 #include "FloodSystem.h"
 #include "GOFunctions.h"
+#include "Logging/Log.h"
+
 
 CIOCP IOCP;
 
 void CIOCP::GiocpInit()
 {
 	ExSendBuf = new BYTE[MAX_EXSENDBUF_SIZE];
+
+#if defined (ACE_HAS_EVENT_POLL) || defined (ACE_HAS_DEV_POLL)
+	ACE_Reactor::instance(new ACE_Reactor(new ACE_Dev_Poll_Reactor(ACE::max_handles(), 1), 1), true);
+#else
+	ACE_Reactor::instance(new ACE_Reactor(new ACE_TP_Reactor(), true), true);
+#endif
+
 }
 
 void CIOCP::GiocpDelete()
@@ -58,46 +67,23 @@ void CIOCP::DestroyGIocp()
 
 }
 
-bool CIOCP::CreateListenSocket()
+
+bool CIOCP::CreateListenSocket(uint16 uiPort, LPTSTR ipAddress)
 {
 	sockaddr_in InternetAddr;
 	int nRet;
 
-	g_Listen = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_IP, NULL, 0, WSA_FLAG_OVERLAPPED);
+	ACE_INET_Addr bind_addr(uiPort, ipAddress);
 
-	if (g_Listen == -1)
+	if (g_buffSocket.open(bind_addr, ACE_Reactor::instance(), ACE_NONBLOCK) == -1)
 	{
-		sLog->outBasic("WSASocket() failed with error %d", WSAGetLastError());
+		sLog->outError("MuSQL Game Server can not bind to %s:%d", ipAddress, uiPort);
 		return 0;
 	}
-	else
-	{
-		InternetAddr.sin_family = AF_INET;
-		InternetAddr.sin_addr.S_un.S_addr = htonl(0);
-		InternetAddr.sin_port = htons(g_ServerPort);
-		nRet = ::bind(g_Listen, (sockaddr*)&InternetAddr, 16);
 
-		if (nRet == -1)
-		{
-			sLog->outError("Bind error - server cannot be launched twice. Please terminate game server and restart.");
-			SendMessage(ghWnd, WM_CLOSE, 0, 0);	// Kill aplication
-			return 0;
-		}
-		else
-		{
-			nRet = listen(g_Listen, 5);
-			if (nRet == -1)
-			{
-				sLog->outBasic("listen() failed with error %d", WSAGetLastError());
-				return 0;
-			}
-			else
-			{
-				return 1;
-			}
-		}
-	}
+	g_buffSocket.
 }
+
 
 DWORD CIOCP::IocpServerWorker(void * p)
 {
@@ -163,8 +149,9 @@ DWORD CIOCP::IocpServerWorker(void * p)
 		{
 			while (true)
 			{
-				Accept = WSAAccept(g_Listen, (sockaddr*)&cAddr, &cAddrlen, NULL, 0);
 
+				//Accept = WSAAccept(g_Listen, (sockaddr*)&cAddr, &cAddrlen, NULL, 0);
+				/*
 				if (Accept == -1)
 				{
 					EnterCriticalSection(&criti);
@@ -172,7 +159,7 @@ DWORD CIOCP::IocpServerWorker(void * p)
 					LeaveCriticalSection(&criti);
 					continue;
 				}
-
+				*/
 				EnterCriticalSection(&criti);
 				std::memcpy(&cInAddr, &cAddr.sin_addr, sizeof(cInAddr));
 
@@ -777,7 +764,7 @@ bool CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 	{
 		if ((lpIoCtxt->nSecondOfs + dwSize) > MAX_IO_BUFFER_SIZE - 1)
 		{
-			sLog->outBasic("(%d)error-L2 MAX BUFFER OVER %d %d %d [%s][%s]", Obj.m_Index, lpIoCtxt->nTotalBytes, lpIoCtxt->nSecondOfs, dwSize, lpObj->AccountID, lpObj->Name);
+			sLog->outBasic("(%d)error-L2 MAX BUFFER OVER %d %d %d [%s][%s]", lpObj->m_Index, lpIoCtxt->nTotalBytes, lpIoCtxt->nSecondOfs, dwSize, lpObj->AccountID, lpObj->Name);
 			lpIoCtxt->nWaitIO = 0;
 			CloseClient(lpObj->m_PlayerData->ConnectUser->Index);
 			LeaveCriticalSection(&criti);
@@ -801,7 +788,7 @@ bool CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 
 	if ((lpIoCtxt->nTotalBytes + dwSize) > MAX_IO_BUFFER_SIZE - 1)
 	{
-		sLog->outBasic("(%d)error-L2 MAX BUFFER OVER %d %d [%s][%s]", Obj.m_Index, lpIoCtxt->nTotalBytes, dwSize, lpObj->AccountID, lpObj->Name);
+		sLog->outBasic("(%d)error-L2 MAX BUFFER OVER %d %d [%s][%s]", lpObj->m_Index, lpIoCtxt->nTotalBytes, dwSize, lpObj->AccountID, lpObj->Name);
 		lpIoCtxt->nWaitIO = 0;
 		CloseClient(lpObj->m_PlayerData->ConnectUser->Index);
 		LeaveCriticalSection(&criti);
@@ -824,15 +811,15 @@ bool CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 
 			if (lpIoCtxt->m_wsabuf.buf[0] == 0xC1)
 			{
-				sLog->outBasic("(%d)WSASend(%d) failed with error [%x][%x] %d %s ", __LINE__, Obj.m_Index, (BYTE)lpIoCtxt->wsabuf.buf[0],
+				sLog->outBasic("(%d)WSASend(%d) failed with error [%x][%x] %d %s ", __LINE__, lpObj->m_Index, (BYTE)lpIoCtxt->m_wsabuf.buf[0],
 					(BYTE)lpIoCtxt->m_wsabuf.buf[2], WSAGetLastError(), lpObj->m_PlayerData->ConnectUser->IP);
 			}
 			else if (lpIoCtxt->m_wsabuf.buf[0] == 0xC2)
 			{
-				sLog->outBasic("(%d)WSASend(%d) failed with error [%x][%x] %d %s ", __LINE__, Obj.m_Index, (BYTE)lpIoCtxt->wsabuf.buf[0],
+				sLog->outBasic("(%d)WSASend(%d) failed with error [%x][%x] %d %s ", __LINE__, lpObj->m_Index, (BYTE)lpIoCtxt->m_wsabuf.buf[0],
 					(BYTE)lpIoCtxt->m_wsabuf.buf[3], WSAGetLastError(), lpObj->m_PlayerData->ConnectUser->IP);
 			}
-			CloseClient(Obj.m_Index);
+			CloseClient(lpObj->m_PlayerData->ConnectUser->Index);
 			LeaveCriticalSection(&criti);
 			return false;
 		}

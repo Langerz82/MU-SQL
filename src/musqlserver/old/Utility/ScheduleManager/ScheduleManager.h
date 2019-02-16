@@ -26,3 +26,5 @@ private:
 	pt::ptime m_StartTime;
 	std::vector<pt::ptime> m_ScheduleTimeInfo;
 };
+
+#endif

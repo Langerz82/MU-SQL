@@ -53,6 +53,9 @@ source_group("Threading" FILES ${SRC_GRP_THREAD})
 file(GLOB SRC_GRP_UTIL Utilities/*.cpp Utilities/*.h)
 source_group("Utilities" FILES ${SRC_GRP_UTIL})
 
+file(GLOB SRC_GRP_SOCKETBUFFER SocketBuffer/*.cpp SocketBuffer/*.h)
+source_group("SocketBuffer" FILES ${SRC_GRP_SOCKETBUFFER})
+
 set(LIBRARY_SRCS
     ${SRC_GRP_AUTH}
     ${SRC_GRP_COMMON}
@@ -66,7 +69,9 @@ set(LIBRARY_SRCS
     ${SRC_GRP_LOG}
     ${SRC_GRP_THREAD}
     ${SRC_GRP_UTIL}
+	${SRC_GRP_SOCKETBUFFER}
 	${CMAKE_SOURCE_DIR}/dep/fmt
+	
     revision.h
 )
 
@@ -87,7 +92,6 @@ include_directories(
     ${ACE_INCLUDE_DIR}
     ${OPENSSL_INCLUDE_DIR}
 	${Boost_INCLUDE_DIRS}
-
 )
 
 if(POSTGRESQL)
