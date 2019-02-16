@@ -204,7 +204,7 @@ void SCSendNews(STR_CS_USER &Obj)
 	}
 }
 
-void SCSendAutoUpdateData(STR_CS_USER &lpObj, PMSG_CLIENTVERSION *aRecv)
+void SCSendAutoUpdateData(STR_CS_USER &refCSUser, PMSG_CLIENTVERSION *aRecv)
 {
 	unsigned int MainVersion, HeadVersion, SubVersion;
 
@@ -219,7 +219,7 @@ void SCSendAutoUpdateData(STR_CS_USER &lpObj, PMSG_CLIENTVERSION *aRecv)
 		pMsg.h.size = sizeof(pMsg);
 		pMsg.VersionOK = 1;
 
-		IOCP.DataSend(Obj.Index, (BYTE*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(refCSUser.Index, (BYTE*)&pMsg, pMsg.h.size);
 	}
 
 	else
@@ -252,7 +252,7 @@ void SCSendAutoUpdateData(STR_CS_USER &lpObj, PMSG_CLIENTVERSION *aRecv)
 			}
 		}
 
-		IOCP.DataSend(Obj.Index, (BYTE*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(refCSUser.Index, (BYTE*)&pMsg, pMsg.h.size);
 	}
 }
 

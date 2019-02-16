@@ -431,11 +431,14 @@ void CCustomEventDrop::CheckSync(CUSTOM_EVENT_DROP_INFO* lpInfo) // OK
 	lpInfo->TargetTime = (int)ScheduleTime.GetTime();
 }
 
+/*
 LONG CCustomEventDrop::GetDummyUserIndex() // OK
 {
-	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
+	for each (std::pair<int, CGameObject*> ObjEntry in gGameObjects)
 	{
-		if (gObjIsConnectedGP(n) != 0)
+		CGameObject* lpObj = ObjEntry.second;
+
+		if (gObjIsConnectedGP(*lpObj) != 0)
 		{
 			return n;
 		}
@@ -443,6 +446,7 @@ LONG CCustomEventDrop::GetDummyUserIndex() // OK
 
 	return g_ConfigRead.server.GetObjectStartUserIndex();
 }
+*/
 
 bool::CCustomEventDrop::GetRandomItemDropLocation(int map, int* ox, int* oy, int tx, int ty, int count) // OK
 {

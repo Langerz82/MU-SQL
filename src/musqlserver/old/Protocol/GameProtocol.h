@@ -828,7 +828,7 @@ public:
 
 	void gObjRequestPetItemInfo(CGameObject &Obj, int inventype);
 	void gObjPetItemInfoDB(CGameObject &Obj, int inventype, CItemObject &ObjItem);
-	void gObjPetItemInfoSend(CGameObject &Obj, CItemObject &ObjItem, int inventype)
+	void gObjPetItemInfoSend(CGameObject &Obj, CItemObject &ObjItem, int inventype);
 
 
 	// From SProtocol.

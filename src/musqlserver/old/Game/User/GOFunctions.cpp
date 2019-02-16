@@ -1243,7 +1243,7 @@ void gObjCharZeroSet(CGameObject &Obj)
 
 		else
 		{
-			pCEvoMonInfo.Init();
+			pCEvoMonInfo->Init();
 		}
 
 		Obj.m_wMuunItem = -1;
@@ -1338,9 +1338,9 @@ int gObjGetSocket(SOCKET socket)
 	{
 		CGameObject* lpObj = ObjEntry.second;
 
-		if (getGameObject(n)->Connected != PLAYER_EMPTY)
+		if (lpObj->Connected != PLAYER_EMPTY)
 		{
-			if (getGameObject(n)->m_socket == socket)
+			if (lpObj->m_socket == socket)
 			{
 				return n;
 			}

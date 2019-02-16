@@ -17468,7 +17468,7 @@ void GameProtocol::CGReqIllusionTempleUseSkill(PMSG_REQ_USEILLUSIONTEMPLESKILL *
 void GameProtocol::GCIllusionTempleSendReward(CGameObject &Obj)
 {
 
-	g_IT_Event.ReqEventReward(Obj);
+	g_IT_Event.ReqEventReward(Obj.m_Index);
 }
 
 void GameProtocol::GCMasterLevelUpMsgSend(CGameObject &Obj)
@@ -17921,11 +17921,6 @@ void GameProtocol::GCElementalDamageSend(CGameObject &Obj, int TargetIndex, int 
 
 void GameProtocol::CGReqEnterAcheron(CGameObject &Obj)
 {
-	if (!ObjectMaxRange(Obj))
-	{
-		return;
-	}
-
 	if (Obj.Type != OBJ_USER)
 	{
 		return;
@@ -20037,11 +20032,6 @@ void GameProtocol::CGReqCCF_DayTime(CGameObject &Obj)
 
 void GameProtocol::CGReqCCF_EnterCheck(CGameObject &Obj)
 {
-	if (ObjectMaxRange(Obj) == false)
-	{
-		return;
-	}
-
 	if (Obj.Type != OBJ_USER || Obj.Connected <= PLAYER_LOGGED || g_ConfigRead.server.GetServerType() != SERVER_BATTLECORE)
 	{
 		return;
@@ -21674,7 +21664,7 @@ void GameProtocol::CG_Req_Enter_ITR(PMSG_REQ_ENTER_ITR *lpMsg, CGameObject &Obj)
 	}
 
 	BYTE bySlotNum = -1;
-	int nEnterIllusionIndex = g_IT_Event.CheckEnterLevel(Obj);
+	int nEnterIllusionIndex = g_IT_Event.CheckEnterLevel(Obj.m_Index);
 	BYTE byMapNumber = g_IT_Event.Find_EmptySlot(Obj.PartyNumber, bySlotNum, nEnterIllusionIndex);
 
 	if (byMapNumber > 6)
@@ -21964,11 +21954,6 @@ void GameProtocol::GCSendDisableReconnectSystem(CGameObject &Obj)
 }
 void GameProtocol::CGReqUBFMyCharacterInfo(PMSG_REQ_UBF_INFO *lpMsg, CGameObject &Obj)
 {
-	if (!ObjectMaxRange(Obj))
-	{
-		return;
-	}
-
 	if (Obj.Type != OBJ_USER)
 	{
 		return;
@@ -21976,7 +21961,7 @@ void GameProtocol::CGReqUBFMyCharacterInfo(PMSG_REQ_UBF_INFO *lpMsg, CGameObject
 
 	if (lpMsg->btUBFKind == 0)
 	{
-		g_UnityBattleField.GDReqCheckJoinedUnityBattleField(iIndex, g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE, 0);
+		g_UnityBattleField.GDReqCheckJoinedUnityBattleField(Obj.m_Index, g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE, 0);
 	}
 }
 
@@ -22000,11 +21985,6 @@ void GameProtocol::CGReqUBFJoin(PMSG_REQ_UBF_JOIN *lpMsg, CGameObject &Obj)
 
 void GameProtocol::CGReqUBFCancel(PMSG_REQ_UBF_CANCEL *lpMsg, CGameObject &Obj)
 {
-	if (!ObjectMaxRange(Obj))
-	{
-		return;
-	}
-
 	if (Obj.Type != OBJ_USER)
 	{
 		return;
@@ -22036,11 +22016,6 @@ void GameProtocol::CGReqUBFGetRealName(PMSG_REQ_UBF_REAL_NAME *lpMsg, CGameObjec
 
 void GameProtocol::CGReqUBFGetReward(PMSG_REQ_GET_REWARD *lpMsg, CGameObject &Obj)
 {
-	if (!ObjectMaxRange(Obj))
-	{
-		return;
-	}
-
 	if (Obj.Type != OBJ_USER)
 	{
 		return;
@@ -22081,11 +22056,6 @@ void GameProtocol::CGReqDSFSchedule(CGameObject &Obj)
 
 void GameProtocol::CGReqDSFEnter(CGameObject &Obj)
 {
-	if (!ObjectMaxRange(Obj))
-	{
-		return;
-	}
-
 	if (Obj.Type != OBJ_USER)
 	{
 		return;
@@ -22603,7 +22573,7 @@ void GameProtocol::CGReqAcceptEnterDSF(PMSG_REQ_DSF_ACCEPTENTER *lpMsg, CGameObj
 			{
 				pMsg.btError = 0;
 				std::memcpy(pMsg.Name, lpObjPartyUser->Name, sizeof(pMsg.Name));
-				IOCP.DataSend(*lpObjPartyUser, (BYTE*)&pMsg, pMsg.h.size);
+				IOCP.DataSend(lpObjPartyUser->m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 
 				lpObjPartyUser->MapNumber = MAP_INDEX_DEVILSQUARE_FINAL;
 				gObjMoveGate(*lpObjPartyUser, 474);
@@ -22727,11 +22697,6 @@ void GameProtocol::CGReqDSFGoFinalParty(PMSG_REQ_DSF_GO_FINAL_PARTY_INFO *lpMsg,
 
 void GameProtocol::CGReqDSFGetReward(PMSG_REQ_DSF_GET_REWARD *lpMsg, CGameObject &Obj)
 {
-	if (!ObjectMaxRange(Obj))
-	{
-		return;
-	}
-
 	if (Obj.Type != OBJ_USER)
 	{
 		return;
@@ -22825,11 +22790,6 @@ void GameProtocol::GCSendRuud(CGameObject &Obj, int iRuud, int iObtainedRuud, bo
 
 void GameProtocol::CGReqUseBoxInInventory(CGameObject &Obj, PMSG_REQ_USE_BOX * aRecv)
 {
-	if (!ObjectMaxRange(Obj))
-	{
-		return;
-	}
-
 	if (Obj.Type != OBJ_USER)
 	{
 		return;
@@ -22886,31 +22846,31 @@ void GameProtocol::CGReqUseBoxInInventory(CGameObject &Obj, PMSG_REQ_USE_BOX * a
 	switch (iBoxType)
 	{
 	case ITEMGET(14, 282):
-		iResult = g_BagManager.GetItemFromBag(Obj, BAG_EVENT, EVENTBAG_MASTERYBOX_MINOR, Obj, Item, Duration);
+		iResult = g_BagManager.GetItemFromBag(Obj, BAG_EVENT, EVENTBAG_MASTERYBOX_MINOR, Obj.m_Index, Item, Duration);
 		break;
 	case ITEMGET(14, 283):
-		iResult = g_BagManager.GetItemFromBag(Obj, BAG_EVENT, EVENTBAG_MASTERYBOX_STANDARD, Obj, Item, Duration);
+		iResult = g_BagManager.GetItemFromBag(Obj, BAG_EVENT, EVENTBAG_MASTERYBOX_STANDARD, Obj.m_Index, Item, Duration);
 		break;
 	case ITEMGET(14, 284):
-		iResult = g_BagManager.GetItemFromBag(Obj, BAG_EVENT, EVENTBAG_MASTERYBOX_GREATER, Obj, Item, Duration);
+		iResult = g_BagManager.GetItemFromBag(Obj, BAG_EVENT, EVENTBAG_MASTERYBOX_GREATER, Obj.m_Index, Item, Duration);
 		break;
 	case ITEMGET(14, 287):
-		iResult = g_BagManager.GetItemFromBag(Obj, BAG_EVENT, EVENTBAG_MASTERYCHEST_2000, Obj, Item, Duration);
+		iResult = g_BagManager.GetItemFromBag(Obj, BAG_EVENT, EVENTBAG_MASTERYCHEST_2000, Obj.m_Index, Item, Duration);
 		break;
 	case ITEMGET(14, 288):
-		iResult = g_BagManager.GetItemFromBag(Obj, BAG_EVENT, EVENTBAG_MASTERYCHEST_1000, Obj, Item, Duration);
+		iResult = g_BagManager.GetItemFromBag(Obj, BAG_EVENT, EVENTBAG_MASTERYCHEST_1000, Obj.m_Index, Item, Duration);
 		break;
 	case ITEMGET(14, 289):
-		iResult = g_BagManager.GetItemFromBag(Obj, BAG_EVENT, EVENTBAG_MASTERYCHEST_500, Obj, Item, Duration);
+		iResult = g_BagManager.GetItemFromBag(Obj, BAG_EVENT, EVENTBAG_MASTERYCHEST_500, Obj.m_Index, Item, Duration);
 		break;
 	case ITEMGET(14, 336):
-		iResult = g_BagManager.GetItemFromBag(Obj, BAG_EVENT, EVENTBAG_MASTERYCHEST_100, Obj, Item, Duration);
+		iResult = g_BagManager.GetItemFromBag(Obj, BAG_EVENT, EVENTBAG_MASTERYCHEST_100, Obj.m_Index, Item, Duration);
 		break;
 	case ITEMGET(14, 293):
-		iResult = g_BagManager.GetItemFromBag(Obj, BAG_EVENT, EVENTBAG_ELEMENTALCAPSULE_NORMAL, Obj, Item, Duration);
+		iResult = g_BagManager.GetItemFromBag(Obj, BAG_EVENT, EVENTBAG_ELEMENTALCAPSULE_NORMAL, Obj.m_Index, Item, Duration);
 		break;
 	case ITEMGET(14, 384):
-		iResult = g_BagManager.GetItemFromBag(Obj, BAG_EVENT, EVENTBAG_RUNECAPSULE, Obj, Item, Duration);
+		iResult = g_BagManager.GetItemFromBag(Obj, BAG_EVENT, EVENTBAG_RUNECAPSULE, Obj.m_Index, Item, Duration);
 		break;/*
 	case ITEMGET(14, 367):
 		iResult = g_BagManager.GetItemFromBag(Obj, BAG_EVENT, EVENTBAG_ROOMY_CARD_LOWER, Obj, Item, Duration);
@@ -22937,7 +22897,7 @@ void GameProtocol::CGReqUseBoxInInventory(CGameObject &Obj, PMSG_REQ_USE_BOX * a
 		iResult = g_BagManager.GetItemFromBag(Obj, BAG_EVENT, EVENTBAG_ROOMY_CARD_HIGHER, Obj, Item, Duration);
 		break;*/
 	case ITEMGET(13, 350):
-		iResult = g_BagManager.GetItemFromBag(Obj, BAG_EVENT, EVENTBAG_MUUNEGG, Obj, Item, Duration);
+		iResult = g_BagManager.GetItemFromBag(Obj, BAG_EVENT, EVENTBAG_MUUNEGG, Obj.m_Index, Item, Duration);
 		break;		
 	default:
 		iResult = 0;
@@ -27639,7 +27599,7 @@ void GS_GDReqOwnerGuildMaster(int iMapSvrGroup, CGameObject &Obj)
 
 	pMsg.h.set((BYTE*)&pMsg, 0x80, 0x01, sizeof(CSP_REQ_OWNERGUILDMASTER));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = Obj;
+	pMsg.iIndex = Obj.m_Index;
 
 	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
@@ -27676,16 +27636,11 @@ void GS_GDReqCastleNpcBuy(int iMapSvrGroup, CGameObject &Obj, int iNpcNumber, in
 		return;
 	}
 
-	if (ObjectMaxRange(Obj) == FALSE)
-	{
-		return;
-	}
-
 	CSP_REQ_NPCBUY pMsg;
 
 	pMsg.h.set((BYTE*)&pMsg, 0x80, 0x03, sizeof(CSP_REQ_NPCBUY));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = Obj;
+	pMsg.iIndex = Obj.m_Index;
 	pMsg.iNpcNumber = iNpcNumber;
 	pMsg.iNpcIndex = iNpcIndex;
 	pMsg.iNpcDfLevel = iNpcDfLevel;
@@ -27725,16 +27680,11 @@ void GS_GDReqCastleNpcRepair(int iMapSvrGroup, CGameObject &Obj, int iNpcNumber,
 		return;
 	}
 
-	if (ObjectMaxRange(Obj) == FALSE)
-	{
-		return;
-	}
-
 	CSP_REQ_NPCREPAIR pMsg;
 
 	pMsg.h.set((BYTE*)&pMsg, 0x80, 0x04, sizeof(CSP_REQ_NPCREPAIR));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = Obj;
+	pMsg.iIndex = Obj.m_Index;
 	pMsg.iNpcNumber = iNpcNumber;
 	pMsg.iNpcIndex = iNpcIndex;
 	pMsg.iRepairCost = iRepairCost;
@@ -27768,16 +27718,11 @@ void GS_GDReqCastleNpcUpgrade(int iMapSvrGroup, CGameObject &Obj, int iNpcNumber
 		return;
 	}
 
-	if (ObjectMaxRange(Obj) == FALSE)
-	{
-		return;
-	}
-
 	CSP_REQ_NPCUPGRADE pMsg;
 
 	pMsg.h.set((BYTE*)&pMsg, 0x80, 0x05, sizeof(CSP_REQ_NPCUPGRADE));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = Obj;
+	pMsg.iIndex = Obj.m_Index;
 	pMsg.iNpcNumber = iNpcNumber;
 	pMsg.iNpcIndex = iNpcIndex;
 	pMsg.iNpcUpType = iNpcUpType;
@@ -27808,16 +27753,11 @@ void GS_GDReqTaxInfo(int iMapSvrGroup, CGameObject &Obj)
 		return;
 	}
 
-	if (ObjectMaxRange(Obj) == FALSE)
-	{
-		return;
-	}
-
 	CSP_REQ_TAXINFO pMsg;
 
 	pMsg.h.set((BYTE*)&pMsg, 0x80, 0x06, sizeof(CSP_REQ_TAXINFO));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = Obj;
+	pMsg.iIndex = Obj.m_Index;
 
 	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
@@ -27846,16 +27786,11 @@ void GS_GDReqTaxRateChange(int iMapSvrGroup, CGameObject &Obj, int iTaxType, int
 		return;
 	}
 
-	if (ObjectMaxRange(Obj) == FALSE)
-	{
-		return;
-	}
-
 	CSP_REQ_TAXRATECHANGE pMsg;
 
 	pMsg.h.set((BYTE*)&pMsg, 0x80, 0x07, sizeof(CSP_REQ_TAXRATECHANGE));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = Obj;
+	pMsg.iIndex = Obj.m_Index;
 	pMsg.iTaxRate = iTaxRate;
 	pMsg.iTaxKind = iTaxType;
 
@@ -27884,16 +27819,11 @@ void GS_GDReqCastleMoneyChange(int iMapSvrGroup, CGameObject &Obj, int iMoneyCha
 		return;
 	}
 
-	if (ObjectMaxRange(Obj) == FALSE)
-	{
-		return;
-	}
-
 	CSP_REQ_MONEYCHANGE pMsg;
 
 	pMsg.h.set((BYTE*)&pMsg, 0x80, 0x08, sizeof(CSP_REQ_MONEYCHANGE));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = Obj;
+	pMsg.iIndex = Obj.m_Index;
 	pMsg.iMoneyChanged = iMoneyChange;
 
 	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
@@ -27930,7 +27860,7 @@ void GS_GDReqSiegeDateChange(int iMapSvrGroup, CGameObject &Obj, WORD wStartYear
 
 	pMsg.h.set((BYTE*)&pMsg, 0x80, 0x09, sizeof(CSP_REQ_SDEDCHANGE));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = Obj;
+	pMsg.iIndex = Obj.m_Index;
 	pMsg.wStartYear = wStartYear;
 	pMsg.btStartMonth = btStartMonth;
 	pMsg.btStartDay = btStartDay;
@@ -27963,17 +27893,12 @@ void GS_GDReqGuildMarkRegInfo(int iMapSvrGroup, CGameObject &Obj)
 		return;
 	}
 
-	if (ObjectMaxRange(Obj) == FALSE)
-	{
-		return;
-	}
-
 	CSP_REQ_GUILDREGINFO pMsg;
 
 	pMsg.h.set((BYTE*)&pMsg, 0x80, 0x0A, sizeof(CSP_REQ_GUILDREGINFO));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = Obj;
-	std::memcpy(pMsg.szGuildName, lpObj->m_PlayerData->GuildName, 8);
+	pMsg.iIndex = Obj.m_Index;
+	std::memcpy(pMsg.szGuildName, Obj.m_PlayerData->GuildName, 8);
 
 	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
@@ -28076,7 +28001,7 @@ void GS_GDReqRegAttackGuild(int iMapSvrGroup, CGameObject &Obj)
 
 	pMsg.h.set((BYTE*)&pMsg, 0x80, 0x0D, sizeof(CSP_REQ_REGATTACKGUILD));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = Obj;
+	pMsg.iIndex = Obj.m_Index;
 	std::memcpy(pMsg.szEnemyGuildName, lpObj->m_PlayerData->GuildName, 8);
 
 	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
@@ -28163,11 +28088,6 @@ void GS_GDReqGlobalPostMultiCast(int iMapSvrGroup, CGameObject &Obj, char * szMe
 		return;
 	}
 
-	if (!ObjectMaxRange(Obj))
-	{
-		return;
-	}
-
 	if (szMessage == NULL)
 	{
 		return;
@@ -28220,9 +28140,9 @@ void GS_GDReqRegGuildMark(int iMapSvrGroup, CGameObject &Obj, int iItemPos)
 
 	pMsg.h.set((BYTE*)&pMsg, 0x80, 0x10, sizeof(CSP_REQ_GUILDREGMARK));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = Obj;
+	pMsg.iIndex = Obj.m_Index;
 	pMsg.iItemPos = iItemPos;
-	std::memcpy(&pMsg.szGuildName, lpObj->m_PlayerData->GuildName, sizeof(pMsg.szGuildName));
+	std::memcpy(&pMsg.szGuildName, Obj.m_PlayerData->GuildName, sizeof(pMsg.szGuildName));
 
 	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
@@ -28263,7 +28183,7 @@ void GS_GDReqGuildMarkReset(int iMapSvrGroup, CGameObject &Obj, char* lpszGuildN
 
 	pMsg.h.set((BYTE*)&pMsg, 0x80, 0x11, sizeof(CSP_REQ_GUILDRESETMARK));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = Obj;
+	pMsg.iIndex = Obj.m_Index;
 	std::memcpy(pMsg.szGuildName, lpszGuildName, 8);
 
 	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
@@ -28292,18 +28212,13 @@ void GS_GDReqGuildSetGiveUp(int iMapSvrGroup, CGameObject &Obj, BOOL bIsGiveUp)
 		return;
 	}
 
-	if (ObjectMaxRange(Obj) == FALSE)
-	{
-		return;
-	}
-
 	CSP_REQ_GUILDSETGIVEUP pMsg;
 
 	pMsg.h.set((BYTE*)&pMsg, 0x80, 0x12, sizeof(CSP_REQ_GUILDSETGIVEUP));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = Obj;
+	pMsg.iIndex = Obj.m_Index;
 	pMsg.bIsGiveUp = bIsGiveUp;
-	std::memcpy(pMsg.szGuildName, lpObj->m_PlayerData->GuildName, 8);
+	std::memcpy(pMsg.szGuildName, Obj.m_PlayerData->GuildName, 8);
 
 	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
@@ -28550,7 +28465,7 @@ void GS_GDReqCastleNpcInfo(int iMapSvrGroup, CGameObject &Obj)
 
 	pMsg.h.set((BYTE*)&pMsg, 0x82, sizeof(CSP_REQ_NPCDATA));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = Obj;
+	pMsg.iIndex = Obj.m_Index;
 
 	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
@@ -28579,7 +28494,7 @@ void GS_GDReqAllGuildMarkRegInfo(int iMapSvrGroup, CGameObject &Obj)
 
 	pMsg.h.set((BYTE*)&pMsg, 0x83, sizeof(CSP_REQ_ALLGUILDREGINFO));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = Obj;
+	pMsg.iIndex = Obj.m_Index;
 
 	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
@@ -31092,7 +31007,7 @@ void GDReqSwitchWare(CGameObject &Obj, int WareID)
 	PMSG_REQ_SWITCHWARE pMsg;
 	PHeadSetB((BYTE*)&pMsg, 0x03, sizeof(pMsg));
 
-	pMsg.iIndex = Obj;
+	pMsg.iIndex = Obj.m_Index;
 	std::memcpy(pMsg.szAccountID, lpObj->AccountID, MAX_ACCOUNT_LEN + 1);
 	pMsg.WarehouseID = WareID;
 
