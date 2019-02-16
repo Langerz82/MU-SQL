@@ -6,6 +6,9 @@
 
 #include <map>
 
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+
 
 std::map<int, STR_CS_USER*> gUsers;
 // Functions forward declared.
@@ -15,7 +18,7 @@ void eraseUser(STR_CS_USER* Obj);
 
 
 void UserInit();
-short UserAdd(SOCKET s, char* IP);
+short UserAdd(char* SocketKey, char* IP);
 short UserDelete(int index);
 bool UserSet(int index, unsigned int Port, int type, char* Name);
 void UserRun();

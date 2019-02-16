@@ -9,7 +9,7 @@
 
 #include "StdAfx.h"
 #include "CQueue.h"
-#include "BufferedSocket/BufferedSocket.h"
+#include "SocketBuffer/BufferedSocket.h"
 
 #include <ace/Get_Opt.h>
 #include <ace/Dev_Poll_Reactor.h>
@@ -23,7 +23,7 @@ class BufferedSocket;
 struct _PER_IO_CONTEXT;
 struct _PER_SOCKET_CONTEXT;
 
-class CIOCP
+class CIOCP: public BufferedSocket
 {
 public:
 
@@ -36,10 +36,25 @@ public:
 	bool DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt = true);
 	bool IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext);
 	bool IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext);
-	bool UpdateCompletionPort(SOCKET sd, int ClientIndex, BOOL bAddToList);
+	bool CreateIoCompletionPort(int ClientIndex);
 	void CloseClient(_PER_SOCKET_CONTEXT * lpPerSocketContext, int result);
 	void CloseClient(int index);
 	void ResponErrorCloseClient(int index);
+
+	void OnAccept() override;
+	void OnRead() override;
+
+	int getUserDataIndex(const char* socketKey)
+	{
+		std::map<char*, int>::iterator pUO = g_UserIDMap.find(socketKey);
+		if (pUO == g_UserIDMap.end())
+		{
+			sLog->outError("UserObject does not exist. %s %d\n%s", __FILE__, __LINE__);
+			return -1;
+		}
+		else
+			return pUO->second;
+	};
 
 private:
 
@@ -53,7 +68,7 @@ private:
 	HANDLE g_CompletionPort;
 	SOCKET g_Listen;
 	ACE_Acceptor<BufferedSocket, ACE_SOCK_Acceptor> g_buffSocket;
-
+	std::map<char*, int> g_UserIDMap;
 
 	static void IocpServerWorkerEP(void *pThis)
 	{
@@ -84,10 +99,11 @@ BOOL RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex);
 BOOL DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, char* szFunction = nullptr);
 BOOL IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext);
 BOOL IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext);
-BOOL UpdateCompletionPort(SOCKET sd, int ClientIndex, DWORD dwServerTypeCount);
+bool UpdateCompletionPort(char* sockKey, int ClientIndex, BOOL bAddToList);
 void CloseClient(_PER_SOCKET_CONTEXT * lpPerSocketContext, int result);
 void CloseClient(int index);
 void ResponErrorCloseClient(int index);
+
 
 /*
 extern CQueue m_DSQueue1;

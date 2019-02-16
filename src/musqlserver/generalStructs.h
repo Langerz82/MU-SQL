@@ -3030,7 +3030,7 @@ struct STR_CS_USER
 	char IP[20];
 	unsigned int Port;
 	BYTE Type;
-	SOCKET socket;
+	HANDLE handle;
 	_PER_SOCKET_CONTEXT* PerSocketContext;
 	bool News;
 	int PacketCount;
@@ -3046,7 +3046,6 @@ typedef struct tagIocpServerParameter
 
 struct _PER_SOCKET_CONTEXT
 {
-	SOCKET m_socket;	// 0
 	int nIndex;	// 4
 	_PER_IO_CONTEXT IOContext[2];	// 8
 	int dwIOCount;	// 5E28

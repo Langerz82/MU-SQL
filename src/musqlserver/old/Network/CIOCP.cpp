@@ -5,7 +5,14 @@
 
 void CIOCP::GiocpInit()
 {
-	ExSendBuf=new BYTE[MAX_EXSENDBUF_SIZE];
+	ExSendBuf = new BYTE[MAX_EXSENDBUF_SIZE];
+
+#if defined (ACE_HAS_EVENT_POLL) || defined (ACE_HAS_DEV_POLL)
+	ACE_Reactor::instance(new ACE_Reactor(new ACE_Dev_Poll_Reactor(ACE::max_handles(), 1), 1), true);
+#else
+	ACE_Reactor::instance(new ACE_Reactor(new ACE_TP_Reactor(), true), true);
+#endif
+
 }
 
 void CIOCP::GiocpDelete()
@@ -15,384 +22,167 @@ void CIOCP::GiocpDelete()
 
 bool CIOCP::CreateGIocp(int server_port)
 {
-	unsigned long ThreadID;
-	
-	g_ServerPort=server_port;
+	g_ServerPort = server_port;
 
 	InitializeCriticalSection(&criti);
-
-	g_IocpThreadHandle=CreateThread( NULL, 0, (LPTHREAD_START_ROUTINE)IocpServerWorkerEP, this, 0, &ThreadID);
-
-	if ( g_IocpThreadHandle == 0 )
-	{
-		sLog->outError("CreateThread() failed with error %d", GetLastError());
-		return 0;
-	}
-	else
-	{
-		return 1;
-	}	
 }
 
 void CIOCP::DestroyGIocp()
 {
 	closesocket(g_Listen);
 
-	for (DWORD dwCPU=0; dwCPU < g_dwThreadCount;dwCPU++ )
+	for (DWORD dwCPU = 0; dwCPU < g_dwThreadCount; dwCPU++)
 	{
-		TerminateThread( g_ThreadHandles[dwCPU] , 0);
+		TerminateThread(g_ThreadHandles[dwCPU], 0);
 	}
 
 	TerminateThread(g_IocpThreadHandle, 0);
 
-	if ( g_CompletionPort != NULL )
+	if (g_CompletionPort != NULL)
 	{
 		CloseHandle(g_CompletionPort);
-		g_CompletionPort=NULL;
-	} 
-	
+		g_CompletionPort = NULL;
+	}
+
 }
 
-bool CIOCP::CreateListenSocket()
+
+bool CIOCP::CreateListenSocket(uint16 uiPort, LPTSTR ipAddress)
 {
 	sockaddr_in InternetAddr;
 	int nRet;
 
-	g_Listen=WSASocket(AF_INET, SOCK_STREAM, IPPROTO_IP, NULL, 0, WSA_FLAG_OVERLAPPED);
+	ACE_INET_Addr bind_addr(uiPort, ipAddress);
 
-	if ( g_Listen == -1 )
+	if (g_buffSocket.open(bind_addr, ACE_Reactor::instance(), ACE_NONBLOCK) == -1)
 	{
-		sLog->outError("WSASocket() failed with error %d", WSAGetLastError() );
+		sLog->outError("MuSQL Game Server can not bind to %s:%d", ipAddress, uiPort);
 		return 0;
 	}
-	else
-	{
-		InternetAddr.sin_family=AF_INET;
-		InternetAddr.sin_addr.S_un.S_addr=htonl(0);
-		InternetAddr.sin_port=htons(g_ServerPort);
-		nRet=bind(g_Listen, (sockaddr*)&InternetAddr, 16);
-		
-		if ( nRet == -1 )
-		{
-			sLog->outError("BIND ERROR - Port in use already");
-			return 0 ;
-		}
-		else
-		{
-			nRet=listen(g_Listen, 5);
-			if (nRet == -1)
-			{
-				sLog->outError("listen() failed with error %d", WSAGetLastError());
-				return 0;
-			}
-			else
-			{
-				return 1;
-			}
-		}
-	} 
 }
 
-DWORD CIOCP::IocpServerWorker(void * p)
+void CIOCP::OnAccept()
 {
-	SYSTEM_INFO SystemInfo;
-	DWORD ThreadID;
-	SOCKET Accept;
-	int nRet;
-	int ClientIndex;
-	sockaddr_in cAddr;
-	in_addr cInAddr;
-	int cAddrlen;
+	boost::uuids::uuid socketKey(boost::uuids::random_generator());
+
+	char ipAddress[20], charSockKey[32];
+	int lenIP = strlen(this->get_remote_address().c_str());
+	std::memcpy(ipAddress, this->get_remote_address().c_str(), sizeof(lenIP));
+	std::memcpy(charSockKey, socketKey, sizeof(32));
+	int ClientIndex = UserAdd(charSockKey, ipAddress);
+
 	_PER_SOCKET_CONTEXT * lpPerSocketContext;
 	int RecvBytes;
 	unsigned long Flags;
-	
-	
 
-	cAddrlen=16;
-	lpPerSocketContext=0;
-	Flags=0;
-
-	GetSystemInfo(&SystemInfo);
-
-	g_dwThreadCount = SystemInfo.dwNumberOfProcessors * 2;
-
-	if ( g_dwThreadCount >= MAX_IO_THREAD_HANDLES )
+#if FILE_FLOOD_SYSTEMSWITCH
+	if (AntiFlood.Enabled == 1)
 	{
-		g_dwThreadCount = MAX_IO_THREAD_HANDLES;
-		sLog->outMessage("general", LOG_LEVEL_INFO, "[NOTICE]: IOCP Thread Handles set to 16");
-	}
-
-	__try
-	{
-
-		g_CompletionPort=CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, 0);
-
-		if ( g_CompletionPort == NULL )
+		if (AntiFlood.Check(inet_ntoa(cInAddr)) == false)
 		{
-			sLog->outError("CreateIoCompletionPort failed with error: %d", GetLastError());
-			__leave;
-		}
-
-		for (int n = 0; n<g_dwThreadCount; n++)
-		{
-			HANDLE hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ServerWorkerThreadEP, this, 0, &ThreadID);
-
-			if ( hThread == 0 )
-			{
-				sLog->outError("CreateThread() failed with error %d", GetLastError() );
-				__leave;
-			}
-
-			g_ThreadHandles[n] = hThread;
-
-			CloseHandle(hThread);
-		}
-
-		if ( CreateListenSocket() == 0 )
-		{
-
-		}
-		else
-		{
-			while ( true )
-			{
-				Accept = WSAAccept(g_Listen, (sockaddr*)&cAddr, &cAddrlen, NULL, 0 );
-
-				if ( Accept == -1 )
-				{
-					EnterCriticalSection(&criti);
-					sLog->outError("WSAAccept() failed with error %d", WSAGetLastError() );
-					LeaveCriticalSection(&criti);
-					continue;
-				}
-
-				EnterCriticalSection(&criti);
-				std::memcpy(&cInAddr, &cAddr.sin_addr  , sizeof(cInAddr) );
-
-				ClientIndex = UserAdd(Accept, inet_ntoa(cInAddr) );
-				if ( ClientIndex == -1 )
-				{
-					sLog->outError("error-L2: ClientIndex = -1");
-					closesocket(Accept);
-					LeaveCriticalSection(&criti);
-					continue;
-				}
-
-				if (UpdateCompletionPort(Accept, ClientIndex, 1) == 0 )
-				{
-					sLog->outError("error-L1: %d %d CreateIoCompletionPort failed with error %d", Accept, ClientIndex, GetLastError() );
-					closesocket(Accept);
-					LeaveCriticalSection(&criti);
-					continue;
-				}
-
-				STR_CS_USER* lpUser = getUser(ClientIndex);
-				memset(&lpUser->PerSocketContext->IOContext[0].m_Overlapped, 0, sizeof(WSAOVERLAPPED));
-				memset(&lpUser->PerSocketContext->IOContext[1].m_Overlapped, 0, sizeof(WSAOVERLAPPED));
-
-				lpUser->PerSocketContext->IOContext[0].m_wsabuf.buf = (char*)&lpUser->PerSocketContext->IOContext[0].Buffer;
-				lpUser->PerSocketContext->IOContext[0].m_wsabuf.len = MAX_IO_BUFFER_SIZE;
-				lpUser->PerSocketContext->IOContext[0].nTotalBytes = 0;
-				lpUser->PerSocketContext->IOContext[0].nSentBytes = 0;
-				lpUser->PerSocketContext->IOContext[0].nWaitIO = 0;
-				lpUser->PerSocketContext->IOContext[0].nSecondOfs = 0;
-				lpUser->PerSocketContext->IOContext[0].IOOperation = 0;
-				lpUser->PerSocketContext->IOContext[1].m_wsabuf.buf = (char*)lpUser->PerSocketContext->IOContext[0].Buffer;
-				lpUser->PerSocketContext->IOContext[1].m_wsabuf.len = MAX_IO_BUFFER_SIZE;
-				lpUser->PerSocketContext->IOContext[1].nTotalBytes = 0;
-				lpUser->PerSocketContext->IOContext[1].nSentBytes = 0;
-				lpUser->PerSocketContext->IOContext[1].nWaitIO = 0;
-				lpUser->PerSocketContext->IOContext[1].nSecondOfs = 0;
-				lpUser->PerSocketContext->IOContext[1].IOOperation = 1;
-				lpUser->PerSocketContext->m_socket = Accept;
-				lpUser->PerSocketContext->nIndex = ClientIndex;
-
-				// TODO - Use Linux Equivalent
-				//nRet = WSARecv(Accept, &lpUser->PerSocketContext->IOContext[0].wsabuf , 1, (unsigned long*)&RecvBytes, &Flags, 
-				//		&lpUser->PerSocketContext->IOContext[0].Overlapped, NULL);
-
-				if ( nRet == -1 )
-				{
-					if ( WSAGetLastError() != WSA_IO_PENDING )
-					{
-						sLog->outError("error-L1: WSARecv() failed with error %d", WSAGetLastError() );
-						lpUser->PerSocketContext->IOContext[0].nWaitIO = 4;
-						CloseClient(lpUser->PerSocketContext, 0);
-						LeaveCriticalSection(&criti);
-						continue;
-					}
-				}
-
-				lpUser->PerSocketContext->IOContext[0].nWaitIO  = 1;
-				lpUser->PerSocketContext->dwIOCount++;
-
-				LeaveCriticalSection(&criti);
-				SCConnectResultSend(lpUser->Index, 1);
-			}
+			closesocket(Accept);
+			LeaveCriticalSection(&criti);
+			return;
 		}
 	}
-	__finally
-	{
-		
-		if ( g_CompletionPort != NULL )
-		{
-			for ( int i = 0 ; i < g_dwThreadCount ; i++ )
-			{
-				PostQueuedCompletionStatus( g_CompletionPort , 0, 0, 0);
-			}
-		}
+#endif
 
-		if ( g_CompletionPort != NULL )
-		{
-			CloseHandle(g_CompletionPort);
-			g_CompletionPort = NULL;
-		}
-		if ( g_Listen != INVALID_SOCKET )
-		{
-			closesocket( g_Listen);
-			g_Listen = INVALID_SOCKET;
-		}
-	}
+	this->peer().set_handle((ACE_HANDLE)charSockKey);
+	gUsers[ClientIndex]->PerSocketContext->dwIOCount = 0;
 
-	return 1;
-		
+	CGameObject* lpObj = getGameObject(ClientIndex);
+	_PER_SOCKET_CONTEXT* sockCtx = lpObj->m_PlayerData->ConnectUser->PerSocketContext;
+
+	memset(&sockCtx->IOContext[0].m_Overlapped, 0, sizeof(WSAOVERLAPPED));
+	memset(&sockCtx->IOContext[1].m_Overlapped, 0, sizeof(WSAOVERLAPPED));
+
+	sockCtx->IOContext[0].m_wsabuf.buf = (char*)&sockCtx->IOContext[0].Buffer;
+	sockCtx->IOContext[0].m_wsabuf.len = MAX_IO_BUFFER_SIZE;
+	sockCtx->IOContext[0].nTotalBytes = 0;
+	sockCtx->IOContext[0].nSentBytes = 0;
+	sockCtx->IOContext[0].nWaitIO = 0;
+	sockCtx->IOContext[0].nSecondOfs = 0;
+	sockCtx->IOContext[0].IOOperation = 0;
+	sockCtx->IOContext[1].m_wsabuf.buf = (char*)sockCtx->IOContext[1].Buffer;
+	sockCtx->IOContext[1].m_wsabuf.len = MAX_IO_BUFFER_SIZE;
+	sockCtx->IOContext[1].nTotalBytes = 0;
+	sockCtx->IOContext[1].nSentBytes = 0;
+	sockCtx->IOContext[1].nWaitIO = 0;
+	sockCtx->IOContext[1].nSecondOfs = 0;
+	sockCtx->IOContext[1].IOOperation = 1;
+	sockCtx->nIndex = ClientIndex;
+
+	sockCtx->IOContext[0].nWaitIO = 1;
+	sockCtx->dwIOCount++;
+
+	CreateIoCompletionPort(ClientIndex);
+
+	g_UserIDMap.insert(std::pair<char*, int>(charSockKey, ClientIndex));
+
+	LeaveCriticalSection(&criti);
+	//SCPJoinResultSend(*lpObj, 1);
 }
 
-DWORD CIOCP::ServerWorkerThread()
+void CIOCP::OnRead()
 {
-	HANDLE CompletionPort;
+	//HANDLE CompletionPort;
 	DWORD dwIoSize;
 	unsigned long RecvBytes;
 	unsigned long Flags;
-	DWORD dwSendNumBytes;
-	BOOL bSuccess;
+	DWORD dwSendNumBytes = 0;
+	BOOL bSuccess = FALSE;
 	int nRet;
 #ifdef _WIN64
 	ULONGLONG ClientIndex;
 #else
 	ULONG ClientIndex;
 #endif
-	_PER_SOCKET_CONTEXT * lpPerSocketContext;
-	LPOVERLAPPED lpOverlapped;
-	_PER_IO_CONTEXT * lpIOContext;
-	
-	
+	_PER_SOCKET_CONTEXT * lpPerSocketContext = 0;
+	LPOVERLAPPED lpOverlapped = 0;
+	_PER_IO_CONTEXT * lpIOContext = 0;
 
-	CompletionPort=this->g_CompletionPort;
-	dwSendNumBytes=0;
-	bSuccess=0;
-	lpPerSocketContext=0;
-	lpOverlapped=0;
-	lpIOContext=0;
-	
-	while ( true )
+	int userIndex = getUserDataIndex((const char*)get_handle());
+	CUserData* lpUser = gUserObjects[userIndex];
+
+	EnterCriticalSection(&criti);
+
+	lpPerSocketContext = lpUser->ConnectUser->PerSocketContext;
+	lpPerSocketContext->dwIOCount--;
+
+	RecvBytes = 0;
+	lpIOContext->nSentBytes += dwIoSize;
+
+	lpIOContext->nWaitIO = 0;
+	Flags = 0;
+
+	lpIOContext->nSentBytes = recv_len();
+
+	memset(&lpIOContext->m_Overlapped, 0, sizeof(WSAOVERLAPPED));
+
+	lpIOContext->IOOperation = 0;
+	if (this->peer.get_handle() != ACE_INVALID_HANDLE)
 	{
-		bSuccess=GetQueuedCompletionStatus( CompletionPort, &dwIoSize, &ClientIndex, &lpOverlapped, -1); // WAIT_FOREVER
-
-		if (bSuccess == 0)
+		try
 		{
-			if (lpOverlapped != 0)
-			{
-				int aError = GetLastError();
-				if ( (aError != ERROR_NETNAME_DELETED) && (aError != ERROR_CONNECTION_ABORTED) && (aError != ERROR_OPERATION_ABORTED) && (aError != ERROR_SEM_TIMEOUT) && (aError != ERROR_HOST_UNREACHABLE) )
-				{
-					EnterCriticalSection(&criti);
-					sLog->outError("Error Thread: GetQueueCompletionStatus( %d )", GetLastError());
-					LeaveCriticalSection(&criti);
-					return 0;
-				}
-			}
+			lpIOContext->m_wsabuf.len = recv_len();
+			recv(lpIOContext->m_wsabuf.buf, recv_len());
+			this->RecvDataParse(lpIOContext, userIndex);
 		}
-
-		EnterCriticalSection(&criti);
-
-		/*if (ClientIndex < 0 || ClientIndex >= MAX_USER)
+		catch (const std::exception &e)
 		{
-			LeaveCriticalSection(&criti);
-			continue;
-		}*/
-		STR_CS_USER* lpUser = getUser(ClientIndex);
-		lpPerSocketContext=lpUser->PerSocketContext;
-		lpPerSocketContext->dwIOCount --;
-				
-		if ( dwIoSize == 0 )
-		{
-			CloseClient(lpPerSocketContext, 0);
-			LeaveCriticalSection(&criti);
-			continue;
+			char text[1000];
+			sprintf(text, "Exception %s was detected", e.what());
+			sLog->outError(text);
 		}
-
-		lpIOContext = (_PER_IO_CONTEXT *)lpOverlapped;
-
-		if ( lpIOContext == 0 )
-		{
-			continue;
-		}
-
-		if ( lpIOContext->IOOperation == 1 )
-		{
-			lpIOContext->nSentBytes += dwIoSize;
-
-			if ( lpIOContext->nSentBytes >= lpIOContext->nTotalBytes )
-			{
-				lpIOContext->nWaitIO = 0;
-						
-				if ( lpIOContext->nSecondOfs > 0)
-				{
-					IoSendSecond(lpPerSocketContext);
-				}
-			}
-			else
-			{
-				IoMoreSend(lpPerSocketContext);
-			}
-			
-		}
-		else if ( lpIOContext->IOOperation == 0 )
-		{
-			RecvBytes = 0;
-			lpIOContext->nSentBytes += dwIoSize;
-
-			if ( RecvDataParse(lpIOContext, lpPerSocketContext->nIndex ) == 0 )
-			{
-				sLog->outError("error-L1: Socket Header error %d, %d", WSAGetLastError(), lpPerSocketContext->nIndex);
-				CloseClient(lpPerSocketContext, 0);
-				LeaveCriticalSection(&criti);
-				continue;
-			}
-
-			lpIOContext->nWaitIO = 0;
-			Flags = 0;
-			memset(&lpIOContext->m_Overlapped, 0, sizeof (WSAOVERLAPPED));
-			lpIOContext->m_wsabuf.len = MAX_IO_BUFFER_SIZE - lpIOContext->nSentBytes;
-			lpIOContext->m_wsabuf.buf = (char*)&lpIOContext->Buffer[lpIOContext->nSentBytes];
-			lpIOContext->IOOperation = 0;
-
-			// TODO - Linux equivalent.
-			//nRet = WSARecv(lpPerSocketContext->m_socket, &lpIOContext->m_wsabuf, 1, &RecvBytes, &Flags,
-			//			&lpIOContext->Overlapped, NULL);
-
-			if ( nRet == -1 )
-			{
-				if ( WSAGetLastError() != WSA_IO_PENDING)
-				{
-					sLog->outError("WSARecv() failed with error %d", WSAGetLastError() );
-					CloseClient(lpPerSocketContext, 0);
-					LeaveCriticalSection(&criti);
-					continue;
-				}
-			}
-
-			lpPerSocketContext->dwIOCount ++;
-			lpIOContext->nWaitIO = 1;
-		}
-		LeaveCriticalSection(&criti);
-		
-
 	}
+	else
+	{
+		LeaveCriticalSection(&criti);
+	}
+	lpPerSocketContext->dwIOCount++;
+	lpIOContext->nWaitIO = 1;
 
-	return 1;
+	LeaveCriticalSection(&criti);
 }
 
 bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)	

@@ -27,13 +27,8 @@
 */
 
 #include "Common.h"
-//#include "Database/DatabaseEnv.h"
-//#include "Config/Config.h"
 #include "Logging/Log.h"
-//#include "Realm/RealmList.h"
 #include "GameSocket.h"
-//#include "AuthCodes.h"
-//#include "Patch/PatchHandler.h"
 
 //#include <openssl/md5.h>
 //#include "Util.h" -- for commented utf8ToUpperOnlyLatin
@@ -49,65 +44,6 @@
 #pragma pack(push,1)
 #endif
 
-typedef struct AUTH_LOGON_CHALLENGE_C
-{
-    uint8   cmd;
-    uint8   error;
-    uint16  size;
-    uint8   gamename[4];
-    uint8   version1;
-    uint8   version2;
-    uint8   version3;
-    uint16  build;
-    uint8   platform[4];
-    uint8   os[4];
-    uint8   country[4];
-    uint32  timezone_bias;
-    uint32  ip;
-    uint8   I_len;
-    uint8   I[1];
-} sAuthLogonChallenge_C;
-
-
-typedef struct AUTH_LOGON_PROOF_C
-{
-    uint8   cmd;
-    uint8   A[32];
-    uint8   M1[20];
-    uint8   crc_hash[20];
-    uint8   number_of_keys;
-    uint8   securityFlags;                                  // 0x00-0x04
-} sAuthLogonProof_C;
-
-typedef struct AUTH_LOGON_PROOF_S
-{
-    uint8   cmd;
-    uint8   error;
-    uint8   M2[20];
-    uint32  accountFlags;                                   // see enum AccountFlags
-    uint32  surveyId;                                       // SurveyId
-    uint16  unkFlags;                                       // some flags (AccountMsgAvailable = 0x01)
-} sAuthLogonProof_S;
-
-typedef struct AUTH_LOGON_PROOF_S_BUILD_6005
-{
-    uint8   cmd;
-    uint8   error;
-    uint8   M2[20];
-    // uint32  unk1;
-    uint32  unk2;
-    // uint16  unk3;
-} sAuthLogonProof_S_BUILD_6005;
-
-typedef struct AUTH_RECONNECT_PROOF_C
-{
-    uint8   cmd;
-    uint8   R1[16];
-    uint8   R2[20];
-    uint8   R3[20];
-    uint8   number_of_keys;
-} sAuthReconnectProof_C;
-
 // GCC have alternative #pragma pack() syntax and old gcc version not support pack(pop), also any gcc version not support it at some paltform
 #if defined( __GNUC__ )
 #pragma pack()
@@ -117,7 +53,7 @@ typedef struct AUTH_RECONNECT_PROOF_C
 
 
 /// Constructor - set the N and g values for SRP6
-GameSocket::GameSocket() : _status(STATUS_CHALLENGE), _accountSecurityLevel(SEC_PLAYER), _build(0)
+GameSocket::GameSocket() : _status(STATUS_CHALLENGE), _build(0)
 {
 
 }
@@ -131,7 +67,7 @@ GameSocket::~GameSocket()
 /// Accept the connection and set the s random value for SRP6
 void GameSocket::OnAccept()
 {
-    BASIC_LOG("Accepting connection from '%s'", get_remote_address().c_str());
+    sLog->outBasic("Accepting connection from '%s'", get_remote_address().c_str());
 }
 
 /// Read the packet from the client

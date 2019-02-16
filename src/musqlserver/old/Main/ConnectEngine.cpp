@@ -28,7 +28,7 @@ int iReturnIpCount(char *IP)
 
 }
 
-short UserAdd(SOCKET s, char *IP)
+short UserAdd(char* SocketKey, char* IP)
 {
 	int count = SCount;
 	int totalcount = 0;
@@ -46,7 +46,7 @@ short UserAdd(SOCKET s, char *IP)
 			STR_CS_USER* connUser = new STR_CS_USER();
 			connUser->ConnectionState = 1;
 			strcpy(connUser->IP, IP);
-			connUser->socket = s;
+			connUser->SocketKey = socketKey;
 			connUser->News = false;
 			connUser->PacketCount = 0;
 			connUser->i64PacketTime = GetTickCount64();
