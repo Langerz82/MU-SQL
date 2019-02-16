@@ -827,7 +827,8 @@ public:
 	void CGRecvHitHackValues(CGameObject &Obj, PMSG_SEND_HITHACK_INFO * lpMsg);
 
 	void gObjRequestPetItemInfo(CGameObject &Obj, int inventype);
-	std::vector<Recv_PetItem_Info> gObjRequestPetItemInfoDS(CGameObject &Obj, int inventype, std::vector<int> serials);
+	void gObjPetItemInfoDB(CGameObject &Obj, int inventype, CItemObject &ObjItem);
+	void gObjPetItemInfoSend(CGameObject &Obj, CItemObject &ObjItem, int inventype)
 
 
 	// From SProtocol.

@@ -47,7 +47,7 @@ public:
 	int m_iUnitScopeValue;	// 24
 	int m_iDelay;	// 28
 	int m_iElementsCount;	// 2C
-	TMonsterSkillElement* m_lpElementsSlot[MAX_MONSTER_SKILL_ELEMENT_INFO];	// 30
+	TMonsterSkillElement** m_lpElementsSlot[MAX_MONSTER_SKILL_ELEMENT_INFO];	// 30
 
 	static BOOL s_bDataLoad;
 	static TMonsterSkillUnit s_MonsterSkillUnitArray[MAX_MONSTER_SKILL_UNIT_ARRAY];

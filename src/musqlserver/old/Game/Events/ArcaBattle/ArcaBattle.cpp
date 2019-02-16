@@ -4101,7 +4101,7 @@ bool CArcaBattle::LoadScriptArcaBattle(char *lpszFileName)
 
 	pugi::xml_node mainXML = file.child("ArcaBattleEvent");
 
-	this->m_bDoEvent = g_ConfigRead.server.GetStateFromEventTable(g_ConfigRead.server.GetServerType(), EV_TABLE_ARCA) == true ? main.attribute("Enable").as_int() : false;
+	this->m_bDoEvent = g_ConfigRead.server.GetStateFromEventTable(g_ConfigRead.server.GetServerType(), EV_TABLE_ARCA) == true ? mainXML.attribute("Enable").as_int() : false;
 	this->m_iJoinGuildMemberCnt = mainXML.attribute("MinGuildMember").as_int();
 	
 	this->m_iAB_MasterRegMin = mainXML.attribute("MasterRegTime").as_int();

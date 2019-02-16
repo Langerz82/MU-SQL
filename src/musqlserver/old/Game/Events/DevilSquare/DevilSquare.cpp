@@ -134,10 +134,10 @@ void CDevilSquare::Load(char * filename)
 	}
 
 	this->SetEventEnable(bEnable);
-	this->SetMaxUserInSquare(main.attribute("MaxPlayerPerRoom").as_int());
-	this->SetEyeDropRate(main.attribute("DevilsEyeDropRate").as_int());
-	this->SetKeyDropRate(main.attribute("DevilsKeyDropRate").as_int());
-	this->SetMaxEnterCount(main.attribute("MaxEnterCount").as_int(4));
+	this->SetMaxUserInSquare(mainXML.attribute("MaxPlayerPerRoom").as_int());
+	this->SetEyeDropRate(mainXML.attribute("DevilsEyeDropRate").as_int());
+	this->SetKeyDropRate(mainXML.attribute("DevilsKeyDropRate").as_int());
+	this->SetMaxEnterCount(mainXML.attribute("MaxEnterCount").as_int(4));
 
 	pugi::xml_node time = mainXML.child("Time");
 

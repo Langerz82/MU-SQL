@@ -317,7 +317,6 @@ extern void gObjSaveChaosBoxItemList(CGameObject &Obj);
 extern void gObjQuestMonsterManagement(CGameObject &Obj, CGameObject &TargetObj);
 extern BYTE gObjOnlyInventory1RectCheck(CGameObject &Obj, int sx, int sy, int width, int height);
 extern BYTE gObjOnlyInventory2RectCheck(CGameObject &Obj, int sx, int sy, int width, int height);
-extern void gObjReqMapSvrAuth(CGameObject &Obj);
 extern BOOL gObjGetRandomFreeArea(int iMapNumber, BYTE &cX, BYTE &cY, int iSX, int iSY, int iDX, int iDY, int iLoopCount);
 extern void gObjDeleteBokBlessEtc(CGameObject &Obj);
 extern BOOL gObjItemLevelDown(CGameObject &Obj, int source, int target);

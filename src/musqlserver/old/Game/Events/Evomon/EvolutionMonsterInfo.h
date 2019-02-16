@@ -1,7 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 // EvolutionMonsterInfo.h
-#ifndef EVOMON_INFO_H
-#define EVOMON_INFO_H
+#ifndef MU_EVOMON_INFO_H
+#define MU_EVOMON_INFO_H
+
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
 
 enum EVOMON_USER_STATE
 {
@@ -12,7 +16,8 @@ enum EVOMON_USER_STATE
 	EVOMON_AWAKE_FAILED = 3
 };
 
-#pragma once
+class CEvolutionMonsterInfo;
+
 class CEvolutionMonsterInfo
 {
 public:

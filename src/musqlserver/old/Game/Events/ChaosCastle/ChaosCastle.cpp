@@ -175,7 +175,7 @@ void CChaosCastle::Load(LPSTR filename)
 
 	pugi::xml_node mainXML = file.child("ChaosCastle");
 
-	this->m_bCC_EVENT_ENABLE = g_ConfigRead.server.GetStateFromEventTable(g_ConfigRead.server.GetServerType(), EV_TABLE_CC) == true ? main.attribute("Enable").as_int() : false;
+	this->m_bCC_EVENT_ENABLE = g_ConfigRead.server.GetStateFromEventTable(g_ConfigRead.server.GetServerType(), EV_TABLE_CC) == true ? mainXML.attribute("Enable").as_int() : false;
 	this->m_iCC_MIN_USER_START = mainXML.attribute("MinPlayer").as_int();
 	this->m_iCC_MAX_ENTER_COUNT = mainXML.attribute("MaxEnterCount").as_int(4);
 

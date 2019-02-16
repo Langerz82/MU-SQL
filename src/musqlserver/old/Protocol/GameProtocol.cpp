@@ -90,6 +90,7 @@
 #include "CustomMichi.h"
 #include "NewPVP.h"
 #include "GOEventFunctions.h"
+#include "SProtocol.h"
 
 #include <string>
 
@@ -15215,7 +15216,7 @@ void GameProtocol::CGGuildAssignType(PMSG_GUILD_ASSIGN_TYPE_REQ * aRecv, CGameOb
 
 	PMSG_GUILD_ASSIGN_TYPE_RESULT pMsg = { 0 };
 
-	pMsg.h.set((BYTE*)&pMsg, 0xE2, sizeof(pMsg));
+	pMsg.h.set((BYTE*)&pMsg, 0xE2, 0x00, sizeof(pMsg));
 	pMsg.btGuildType = aRecv->btGuildType;
 
 	if (Obj.m_PlayerData->GuildNumber <= 0 || Obj.m_PlayerData->lpGuild == NULL)
@@ -21931,7 +21932,7 @@ void GameProtocol::GCSendDisableReconnect(CGameObject &Obj)
 {
 	PMSG_DISABLE_RECONNECT pMsg;
 
-	pMsg.h.set((BYTE*)&pMsg, 0xFA, sizeof(pMsg));
+	pMsg.h.set((BYTE*)&pMsg, 0xFA, 0x00, sizeof(pMsg));
 	pMsg.subcode = 0xA5;
 
 	for (int i = 0; i < 100; i++)
@@ -21948,7 +21949,7 @@ void GameProtocol::GCSendDisableReconnectSystem(CGameObject &Obj)
 {
 	PMSG_DISABLE_RECONNECT pMsg;
 
-	pMsg.h.set((BYTE*)&pMsg, 0xFA, sizeof(pMsg));
+	pMsg.h.set((BYTE*)&pMsg, 0xFA, 0x00, sizeof(pMsg));
 	pMsg.subcode = 0xA7;
 
 	for (int i = 0; i < 100; i++)
@@ -23368,90 +23369,82 @@ void GameProtocol::CGRequestStartMuBot(PMSG_MUBOT_REQ_START* lpMsg, CGameObject 
 	IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 }
 
-std::vector<Recv_PetItem_Info> GameProtocol::gObjRequestPetItemInfoDS(CGameObject &Obj, int inventype, std::vector<int> serials)
+void GameProtocol::gObjPetItemInfoDB(CGameObject &Obj, int inventype, CItemObject &ObjItem)
 {
 	int serverCode = g_ConfigRead.server.GetGameServerCode() / 20;
-	int founditemcount = 0;
 	int serverType = g_ConfigRead.server.GetServerType(); // stub server type.
 
-	std::vector<Recv_PetItem_Info> tData;
 	if (serverType == 0) // normal GS
 	{
-		for (int i = 0; i < serials.size(); i++)
+		QueryResult* res = this->m_PetDB->Fetch("SELECT Pet_Level, Pet_Exp FROM T_PetItem_Info WHERE ItemSerial=%I64d",
+			ObjItem.m_Number);
+
+		if (res == NULL)
 		{
-			Recv_PetItem_Info pRecvPetInfo;
+			this->m_PetDB->ExecQuery("INSERT INTO T_PetItem_Info (ItemSerial, Pet_Level, Pet_Exp) VALUES (%I64d, %d, %I64d)",
+				ObjItem.m_Number, 1, 0);
 
-			QueryResult* res = this->m_PetDB->Fetch("SELECT Pet_Level, Pet_Exp FROM T_PetItem_Info WHERE ItemSerial=%I64d",
-				serials[i]);
-
-			if (res == NULL)
-			{
-				this->m_PetDB->ExecQuery("INSERT INTO T_PetItem_Info (ItemSerial, Pet_Level, Pet_Exp) VALUES (%I64d, %d, %I64d)",
-					serials[i], 1, 0);
-
-				pRecvPetInfo.Level = 1;
-				pRecvPetInfo.Exp = 0;
-				pRecvPetInfo.nPos = i;
-				pRecvPetInfo.nSerial = serials[i];
-
-			}
-			else
-			{
-				pRecvPetInfo.Level = this->m_PetDB->GetAsInteger(0);
-				pRecvPetInfo.Exp = this->m_PetDB->GetAsInteger64(1);
-				pRecvPetInfo.nPos = i;
-				pRecvPetInfo.nSerial = serials[i];
-			}
-			tData.push_back(pRecvPetInfo);
+			ObjItem.m_PetItem_Level = 1;
+			ObjItem.m_PetItem_Exp = 0;
+		}
+		else
+		{
+			ObjItem.m_PetItem_Level = this->m_PetDB->GetAsInteger(0);
+			ObjItem.m_PetItem_Exp = this->m_PetDB->GetAsInteger64(1);
 		}
 	}
 	else // battlecore GS
 	{
-		for (int i = 0; i < serials.size(); i++)
+		QueryResult* res = this->m_PetDB->Fetch("CALL IGC_BattleCore_LoadPetItemInfo (%I64d, %d);",
+			ObjItem.m_Number, serverCode);
+
+		if (res == NULL)
 		{
-			Recv_PetItem_Info pRecvPetInfo;
+			this->m_PetDB->ExecQuery("CALL IGC_BattleCore_SavePetItemInfo (%I64d, %d, %d, %I64d);",
+				ObjItem.m_Number, serverCode, 1, 0);
 
-			QueryResult* res = this->m_PetDB->Fetch("CALL IGC_BattleCore_LoadPetItemInfo (%I64d, %d);",
-				serials[i], serverCode);
+			ObjItem.m_PetItem_Level = 1;
+			ObjItem.m_PetItem_Exp = 0;
 
-			if (res == NULL)
-			{
-				this->m_PetDB->ExecQuery("CALL IGC_BattleCore_SavePetItemInfo (%I64d, %d, %d, %I64d);",
-					serials[i], serverCode, i, 0);
-
-				pRecvPetInfo.Level = 1;
-				pRecvPetInfo.Exp = 0;
-				pRecvPetInfo.nPos = i;
-				pRecvPetInfo.nSerial = serials[i];
-			}
-			else
-			{
-				pRecvPetInfo.Level = this->m_PetDB->GetAsInteger(0);
-				pRecvPetInfo.Exp = this->m_PetDB->GetAsInteger64(1);
-				pRecvPetInfo.nPos = this->m_PetDB->GetAsInteger64(2);
-				pRecvPetInfo.nSerial = this->m_PetDB->GetAsInteger64(3);
-			}
-			tData.push_back(pRecvPetInfo);
+		}
+		else
+		{
+			ObjItem.m_PetItem_Level = this->m_PetDB->GetAsInteger(0);
+			ObjItem.m_PetItem_Exp = this->m_PetDB->GetAsInteger64(1);
 		}
 	}
-	return tData;
+}
+
+
+void GameProtocol::gObjPetItemInfoSend(CGameObject &Obj, CItemObject &ObjItem, int inventype)
+{
+	PMSG_SEND_PET_ITEMINFO pMsg;
+	pMsg.h.set((BYTE*)&pMsg, 0xA9, 0x00, sizeof(pMsg));
+	pMsg.InvenType = inventype;
+	pMsg.PetType = g_ConfigRead.server.GetServerType();
+
+	pMsg.Level = ObjItem.m_PetItem_Level;
+	pMsg.Exp = ObjItem.m_PetItem_Exp - gPetItemExp.m_DarkSpiritExpTable[pMsg.Level];
+	pMsg.Dur = (BYTE)ObjItem.m_Durability;
+
+	IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, sizeof(pMsg));
 }
 
 
 void GameProtocol::gObjRequestPetItemInfo(CGameObject &Obj, int inventype)
 {
-	std::vector<int> serials;
 	int founditemcount = 0;
 	if (inventype == 0)
 	{
 		for (int n = 0; n < INVENTORY_SIZE; n++)
 		{
-			if (Obj.pntInventory[n]->IsItem())
+			CItemObject* lpItem = Obj.pntInventory[n];
+			if (lpItem->IsItem())
 			{
-				if (Obj.pntInventory[n]->m_Type == ITEMGET(13, 4) || Obj.pntInventory[n]->m_Type == ITEMGET(13, 5))
+				if (lpItem->m_Type == ITEMGET(13, 4) || lpItem->m_Type == ITEMGET(13, 5))
 				{
-					founditemcount++;
-					serials.push_back(Obj.pntInventory[n]->m_Number);
+					gObjPetItemInfoDB(Obj, inventype, *lpItem);
+					gObjPetItemInfoSend(Obj, *lpItem, inventype);
 				}
 			}
 		}
@@ -23460,66 +23453,19 @@ void GameProtocol::gObjRequestPetItemInfo(CGameObject &Obj, int inventype)
 	{
 		for (int n = 0; n < WAREHOUSE_SIZE; n++)
 		{
-			if (Obj.pntWarehouse[n]->IsItem())
+			CItemObject* lpItem = Obj.pntWarehouse[n];
+			if (lpItem->IsItem())
 			{
-				if (Obj.pntWarehouse[n]->m_Type == ITEMGET(13, 4) || Obj.pntWarehouse[n]->m_Type == ITEMGET(13, 5))
+				if (lpItem->m_Type == ITEMGET(13, 4) || lpItem->m_Type == ITEMGET(13, 5))
 				{
-					founditemcount++;
-					serials.push_back(Obj.pntWarehouse[n]->m_Number);
+					gObjPetItemInfoDB(Obj, inventype, *lpItem);
+					gObjPetItemInfoSend(Obj, *lpItem, inventype);
 				}
 			}
-		}
-	}
-
-	std::vector<Recv_PetItem_Info> data = gObjRequestPetItemInfoDS(lpObj, inventype, serials);
-
-	PMSG_SEND_PET_ITEMINFO pMsg;
-	pMsg.h.set((BYTE*)&pMsg, 0xA9, sizeof(pMsg));
-	pMsg.InvenType = inventype;
-	pMsg.PetType = g_ConfigRead.server.GetServerType();
-
-	if (inventype == 0)
-	{
-		BOOL ReCalc = 0;
-
-		for (int n = 0; n < data.size(); n++)
-		{
-			if (data[n].nPos < INVETORY_WEAR_SIZE)
-			{
-				ReCalc = 1;
-			}
-
-			if (Obj.pntInventory[data[n]->nPos]->IsItem())
-			{
-				if (Obj.pntInventory[data[n]->nPos]->m_Number == data[n]->nSerial)
-				{
-					Obj.pntInventory[data[n]->nPos]->SetPetItemInfo(data[n]->Level, data[n]->Exp);
-				}
-			}
-			this->CGRequestPetItemInfo(lpObj, pMsg);
-		}
-
-		if (ReCalc != FALSE)
-		{
-			gObjCalCharacter.CalcCharacter(lpObj);
-		}
-	}
-	else if (inventype == 1)
-	{
-		for (int n = 0; n < data.size(); n++)
-		{
-
-			if (Obj.pntWarehouse[data[n]->nPos]->IsItem())
-			{
-				if (Obj.pntWarehouse[data[n]->nPos]->m_Number == data[n]->nSerial)
-				{
-					Obj.pntWarehouse[data[n]->nPos]->SetPetItemInfo(data[n]->Level, data[n]->Exp);
-				}
-			}
-			this->CGRequestPetItemInfo(lpObj, pMsg);
 		}
 	}
 }
+
 
 void GameProtocol::GJPUserClose(LPSTR szAccountID)
 {
@@ -26247,7 +26193,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 				GSProtocol.GCAnsLuckyCoinTrade(lpObj, 1);
 			}
 
-			GJSetCharacterInfo(*lpObj, Obj, FALSE);
+			GJSetCharacterInfo(Obj, FALSE);
 		}
 	}
 
@@ -27326,7 +27272,7 @@ void DGOptionDataRecv(SDHP_SKILLKEYDATA_SEND * lpMsg)
 		return;
 	}
 
-	::GSProtocol.GCSkillKeySend(Obj, lpMsg->SkillKeyBuffer, lpMsg->GameOption, lpMsg->QkeyDefine, lpMsg->WkeyDefine, lpMsg->EkeyDefine, lpMsg->ChatWindow, lpMsg->RkeyDefine, lpMsg->QWERLevelDefine);
+	GCSkillKeySend(Obj, lpMsg->SkillKeyBuffer, lpMsg->GameOption, lpMsg->QkeyDefine, lpMsg->WkeyDefine, lpMsg->EkeyDefine, lpMsg->ChatWindow, lpMsg->RkeyDefine, lpMsg->QWERLevelDefine);
 	lpObj->m_PlayerData->m_EnableUseChangeSkin = lpMsg->EnableTransformMode;
 	gObjViewportListProtocolCreate(&gObj[Obj]);
 }

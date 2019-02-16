@@ -127,7 +127,7 @@ int CCastleDeepEvent::Load(char * lpszFileName)
 	this->m_bHasData = FALSE;
 
 	pugi::xml_node mainXML = file.child("LorenDeepEvent");
-	this->m_bDoEvent = g_ConfigRead.server.GetStateFromEventTable(g_ConfigRead.server.GetServerType(), EV_TABLE_DEEP) == true ? main.attribute("Enable").as_int() : false;
+	this->m_bDoEvent = g_ConfigRead.server.GetStateFromEventTable(g_ConfigRead.server.GetServerType(), EV_TABLE_DEEP) == true ? mainXML.attribute("Enable").as_int() : false;
 
 	pugi::xml_node schedule = mainXML.child("Schedule");
 

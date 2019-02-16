@@ -262,12 +262,11 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 
 	if (Obj.pntInventory[236]->IsItem() == TRUE)
 	{
-		if (this->ValidItem(Obj. &Obj.pntInventory[236], 236))
+		if (this->ValidItem(Obj, Obj.pntInventory[236], 236))
 		{
 			Obj.pntInventory[236]->m_IsValidItem = true;
-			g_PentagramSystem.CalcPentagramItem(Obj.m_Index, &Obj.pntInventory[236]);
+			g_PentagramSystem.CalcPentagramItem(Obj, Obj.pntInventory[236]);
 		}
-
 		else
 		{
 			Obj.pntInventory[236]->m_IsValidItem = false;

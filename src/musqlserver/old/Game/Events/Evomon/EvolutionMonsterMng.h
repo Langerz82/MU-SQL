@@ -3,7 +3,11 @@
 #ifndef EVOMON_MNG_H
 #define EVOMON_MNG_H
 
+
+#include "StdAfx.h"
 #include "User/CUserData.h"
+#include "EvolutionMonsterInfo.h"
+
 
 #define EVOMON_MONSTER_INDEX 681
 #define EVOMON_SPECIAL_MONSTER_INDEX 690

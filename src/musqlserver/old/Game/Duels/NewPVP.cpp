@@ -290,7 +290,7 @@ void CNewPVP::SetStatus(int nStatus, int nId, OBJECTSTRUCT &requester, OBJECTSTR
 	}
 }
 
-void CNewPVP::SetDuelStatus(OBJECTSTRUCT &requester, OBJECTSTRUCT &responsor, int nStatus)
+void CNewPVP::SetDuelStatus(CGameObject &requester, CGameObject &responsor, int nStatus)
 {
 	switch(nStatus)
 	{

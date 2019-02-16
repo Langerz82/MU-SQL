@@ -151,7 +151,7 @@ static SMDToken GetToken()
 	}
 
 	return NAME;
-}
+};
 
 #endif
 

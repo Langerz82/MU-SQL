@@ -1,14 +1,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Shop.cpp
-//#include "StdAfx.h"
+#include "StdAfx.h"
 #include "Shop.h"
-#include "Main.h"
+#include "gameGlobals.h"
 #include "ItemSocketOptionSystem.h"
 #include "PentagramSystem.h"
 #include "GensSystem.h"
 #include "GameProtocol.h"
-//#include "Crywolf.h"
-//#include "util.h"
+#include "Crywolf.h"
 #include "VipSys.h"
 #include "SocketItemType.h"
 

@@ -1334,8 +1334,10 @@ void gObjCharZeroSet(CGameObject &Obj)
 
 int gObjGetSocket(SOCKET socket)
 {
-	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
+	for each (std::pair<int, CGameObject*> ObjEntry in gGameObjects)
 	{
+		CGameObject* lpObj = ObjEntry.second;
+
 		if (getGameObject(n)->Connected != PLAYER_EMPTY)
 		{
 			if (getGameObject(n)->m_socket == socket)
@@ -1351,8 +1353,10 @@ int gObjGetHWIDUseCount(LPSTR HWID)
 {
 	int count = 0;
 
-	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
+	for each (std::pair<int, CGameObject*> ObjEntry in gGameObjects)
 	{
+		CGameObject* lpObj = ObjEntry.second;
+
 		if (getGameObject(n)->Connected != PLAYER_EMPTY)
 		{
 			if (strcmp(getGameObject(n)->m_PlayerData->HWID, HWID) == 0)
@@ -3554,8 +3558,10 @@ void gObjAllLogOut()
 
 void gObjAllDisconnect()
 {
-	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
+	for each (std::pair<int, CGameObject*> ObjEntry in gGameObjects)
 	{
+		CGameObject* lpObj = ObjEntry.second;
+
 		if (getGameObject(n)->Connected > PLAYER_EMPTY)
 		{
 			if (getGameObject(n)->Type == OBJ_USER)
@@ -15717,8 +15723,9 @@ void gObjViewportPaint(HWND hWnd)
 			}
 		}
 
-		for (int n = 0; n < g_ConfigRead.server.GetObjectMaxItem(); n++)
+		for each (std::pair<int, CGameObject*> ObjEntry in gGameObjects)
 		{
+			CGameObject* lpObj = ObjEntry.second;
 			if (MapC[gCurPaintMapNumber].m_CItemObject[n].IsItem())
 			{
 				rect.left = iStartX + MapC[gCurPaintMapNumber].m_CItemObject[n].py*iWidth*iMagnifying;
@@ -15997,9 +16004,9 @@ inline void gObjViewportListCreate(CGameObject &Obj)
 #if (MP==1)
 #pragma omp parallel for
 #endif
-		for (int n = 0; n < g_ConfigRead.server.GetObjectMax(); n++)
+		for each (std::pair<int, CGameObject*> ObjEntry in gGameObjects)
 		{
-			lpTempObj = getGameObject(n);
+			CGameObject* lpTempObj = ObjEntry.second;
 
 			if (lpTempObj->Connected == PLAYER_PLAYING && Obj.m_Index != n)
 			{
@@ -16612,9 +16619,9 @@ void gObjSetState()
 	int n;
 	CGameObject* lpObj;
 
-	for (int n = 0; n < g_ConfigRead.server.GetObjectMax(); n++)
+	for each (std::pair<int, CGameObject*> ObjEntry in gGameObjects)
 	{
-		lpObj = getGameObject(n);
+		CGameObject* lpObj = ObjEntry.second;
 
 		if (lpObj->Connected > PLAYER_LOGGED)
 		{
@@ -20144,7 +20151,7 @@ BOOL gObjMoveGate(CGameObject &Obj, int gt)
 
 					if (index >= 0)
 					{
-						gParty.Delete(nPartyNumber, Obj.m_Index);
+						gParty.Delete(nPartyNumber, Obj);
 
 						getGameObject(index)->PartyNumber = -1;
 						getGameObject(index)->PartyTargetUser = -1;
@@ -20174,7 +20181,7 @@ BOOL gObjMoveGate(CGameObject &Obj, int gt)
 
 				if (userindex >= 0)
 				{
-					gParty.Delete(party_number, Obj.m_Index);
+					gParty.Delete(party_number, Obj);
 					getGameObject(userindex)->PartyNumber = -1;
 					getGameObject(userindex)->PartyTargetUser = -1;
 
@@ -24836,9 +24843,9 @@ void gObjNotifyUseWeaponV1(CGameObject &OwnerObj, CGameObject &WeaponObj, int iT
 	PMSG_WEAPON_OWNER_VIEWPORT_NOTIFY_COUNT * lpMsg = (PMSG_WEAPON_OWNER_VIEWPORT_NOTIFY_COUNT *)&cBUFFER_V1;
 	PMSG_WEAPON_OWNER_VIEWPORT_NOTIFY * lpMsgBody = (PMSG_WEAPON_OWNER_VIEWPORT_NOTIFY *)&cBUFFER_V1[sizeof(PMSG_WEAPON_OWNER_VIEWPORT_NOTIFY_COUNT)];
 
-	for (int n = 0; n < g_ConfigRead.server.GetObjectMax(); n++)
+	for each (std::pair<int, CGameObject*> ObjEntry in gGameObjects)
 	{
-		CGameObject* lpTargetObj = getGameObject(n);
+		CGameObject* lpTargetObj = ObjEntry.second;
 
 		if (gObjIsConnected(*lpTargetObj) == 0)
 		{
@@ -25582,29 +25589,6 @@ int gObjCalcHPPercent(double Life, double MaxLife)
 bool CheckAuthorityCondition(int AuthorityCode, CGameObject &Obj) //0043F3E0 identical season4.5 add-on
 {
 	return ((Obj.Authority&AuthorityCode) == Obj.Authority) ? true : false;
-}
-
-void gObjReqMapSvrAuth(CGameObject &Obj)
-{
-	if (Obj.Connected != PLAYER_CONNECTED)
-	{
-		sLog->outBasic("%s is not connected", Obj.AccountID);
-		IOCP.CloseClient(Obj.m_PlayerData->ConnectUser->Index);
-		return;
-	}
-
-	GJReqMapSvrAuth(Obj, Obj.AccountID, Obj.m_MapServerAuthInfo->szCharName,
-		Obj.m_MapServerAuthInfo->iJA1, Obj.m_MapServerAuthInfo->iJA2,
-		Obj.m_MapServerAuthInfo->iJA3, Obj.m_MapServerAuthInfo->iJA4);
-
-	sLog->outBasic("[MapServerMng] Map Server Join Send : [%s][%s](%d)",
-		Obj.AccountID, Obj.m_MapServerAuthInfo->szCharName, Obj.m_Index);
-
-	memset(Obj.m_MapServerAuthInfo->szCharName, 0x00, MAX_ACCOUNT_LEN + 2);
-	Obj.m_MapServerAuthInfo->iJA1 = 0;
-	Obj.m_MapServerAuthInfo->iJA2 = 0;
-	Obj.m_MapServerAuthInfo->iJA3 = 0;
-	Obj.m_MapServerAuthInfo->iJA4 = 0;
 }
 
 int gGetPartyMaxLevel(int nPartyNumber)

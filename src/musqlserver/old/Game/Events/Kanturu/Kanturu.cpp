@@ -71,8 +71,8 @@ BOOL CKanturu::LoadData(LPSTR lpszFileName)
 
 		pugi::xml_node mainXML = file.child("KanturuEvent");
 
-		this->SetKanturuEnable(g_ConfigRead.server.GetStateFromEventTable(g_ConfigRead.server.GetServerType(), EV_TABLE_KANTURU) == true ? main.attribute("Enable").as_bool() : false);
-		this->SetEnableCheckMoonStone(main.attribute("MoonStoneCheck").as_bool());
+		this->SetKanturuEnable(g_ConfigRead.server.GetStateFromEventTable(g_ConfigRead.server.GetServerType(), EV_TABLE_KANTURU) == true ? mainXML.attribute("Enable").as_bool() : false);
+		this->SetEnableCheckMoonStone(mainXML.attribute("MoonStoneCheck").as_bool());
 
 		pugi::xml_node item_drop = mainXML.child("Item");
 
@@ -648,8 +648,3 @@ void CKanturu::SetKanturuTimeAttackEventInfo()
 	this->m_iKanturuBattleCounter++;
 
 }
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

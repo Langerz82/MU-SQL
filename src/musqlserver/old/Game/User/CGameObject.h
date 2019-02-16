@@ -13,6 +13,7 @@
 #include "TMonsterAIAgro.h"
 #include "TDurMagicKeyChecker.h"
 #include "CUserData.h"
+#include "EvolutionMonsterInfo.h"
 
 #include <vector>
 #include <map>
@@ -589,10 +590,6 @@ public:
 	int GetCertify() { return this->cCertifyType; }	// line : 255
 };
 
-
-//typedef CGameObject (*CGameObject);
-
-
 extern CViewportGuild ViewGuildMng;
 
 extern int ChangeCount;
@@ -644,20 +641,20 @@ extern CGameObject* getGameObject(int index)
 	}
 	else
 		return pGO->second;
-}
+};
 
 extern void insertGameObject(class CGameObject* Obj)
 {
 	int userIndex = Obj->m_PlayerData->ConnectUser->Index;
 	gGameObjects.insert(std::pair<int, CGameObject*>(Obj->m_Index, Obj));
 	gGameUserObjects.insert(std::pair<int, CGameObject*>(userIndex, Obj));
-}
+};
 
 extern void eraseGameObject(CGameObject* Obj) {
 	gGameObjects.erase(Obj->m_Index);
 	gGameUserObjects.erase(Obj->m_PlayerData->ConnectUser->Index);
 	delete Obj;
-}
+};
 
 extern CGameObject* getGameObjectFromUser(int index) 
 {
@@ -669,6 +666,6 @@ extern CGameObject* getGameObjectFromUser(int index)
 	}
 	else
 		return pGO->second;
-}
+};
 
 #endif
