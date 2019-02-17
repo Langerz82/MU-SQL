@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 // protocol.cpp
-
+#include "StdAfx.h"
 #include "ConnectProtocol.h"
 #include "IOCP.h"
 #include "ServerData.h"
@@ -290,7 +290,7 @@ int CLoginServerData::MuLoginFindServer(WORD ServerCode)
 	return -1;
 }
 
-BOOL CLoginServerData::MuLoginAddServer(int ServerIndex, LPTSTR ServerName, WORD ServerCode, WORD Port, BYTE ServerVIP, WORD MaxHWIDUseCount)
+BOOL CLoginServerData::MuLoginAddServer(int ServerIndex, LPSTR ServerName, WORD ServerCode, WORD Port, BYTE ServerVIP, WORD MaxHWIDUseCount)
 {
 	if (MuLoginFindServer(ServerCode) != -1)
 	{
@@ -681,7 +681,7 @@ CLoginServerProtocol::~CLoginServerProtocol()
 	DeleteCriticalSection(&this->userCheck);
 }
 
-void CLoginServerProtocol::InsertDataMuLog(LPTSTR ServerName, LPTSTR Id, LPTSTR Ip, LPTSTR State, LPTSTR HWID)
+void CLoginServerProtocol::InsertDataMuLog(LPSTR ServerName, LPSTR Id, LPSTR Ip, LPSTR State, LPSTR HWID)
 {
 	this->m_LogDB.ExecQuery("INSERT INTO ConnectionHistory (AccountID, ServerName, IP, `Date`, `State`, HWID) Values('%s','%s','%s', GETDATE(), '%s', '%s')",
 		Id, ServerName, Ip, State, HWID);
@@ -705,7 +705,7 @@ BOOL CLoginServerProtocol::Init()
 }
 
 
-void CLoginServerProtocol::ProtocolCore(int userIndex, BYTE HeadCode, BYTE* aRecv, int iSize)
+void CLoginServerProtocol::ProtocolCore(int userIndex, BYTE HeadCode, LPBYTE aRecv, int iSize)
 {
 #if (TRACE_PACKET == 1 )
 	LogAddHeadHex("JOIN_SERVER", aRecv, iSize);
@@ -738,10 +738,10 @@ void CLoginServerProtocol::ProtocolCore(int userIndex, BYTE HeadCode, BYTE* aRec
 		m_JSProtocol.LoveHeartCreateSend(userIndex, (SDHP_LOVEHEARTCREATE *)aRecv);
 		break;
 	case 0x7A:
-		m_JSProtocol.GJReqMapSvrMove(userIndex, (PMSG_REQ_MAPSVRMOVE *)aRecv);
+		//m_JSProtocol.GJReqMapSvrMove(userIndex, (PMSG_REQ_MAPSVRMOVE *)aRecv);
 		break;
 	case 0x7B:
-		m_JSProtocol.GJReqMapSvrAuth(userIndex, (PMSG_REQ_MAPSVRAUTH *)aRecv);
+		//m_JSProtocol.GJReqMapSvrAuth(userIndex, (PMSG_REQ_MAPSVRAUTH *)aRecv);
 		break;
 	case 0x7C:
 		m_JSProtocol.GJNotifyMaxUserCount(userIndex, (PMSG_NOTIFY_MAXUSER *)aRecv);
@@ -1186,7 +1186,7 @@ void CLoginServerProtocol::GCJoinBillCheckSend(int userIndex, SDHP_BILLSEARCH * 
 	DataSend(userIndex, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 }
 
-void CLoginServerProtocol::JGOtherJoin(int userIndex, LPTSTR szAccountID)
+void CLoginServerProtocol::JGOtherJoin(int userIndex, LPSTR szAccountID)
 {
 	SDHP_OTHERJOINMSG pMsg;
 
@@ -1254,7 +1254,7 @@ void CLoginServerProtocol::LoveHeartEventRecv(int userIndex, SDHP_LOVEHEARTEVENT
 	DataSend(userIndex, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 }
 
-void CLoginServerProtocol::LoveHeartCreateSend(int userIndex, SDHP_LOVEHEARTCREATE * aRecv)
+void CLoginServerProtocol::LoveHeartCreateSend(int sIndex, SDHP_LOVEHEARTCREATE * aRecv)
 {
 	this->m_AccountDB.ExecQuery("UPDATE LoveHeartCount SET heart_count=heart_count+1  where Number=1");
 }
@@ -1390,7 +1390,7 @@ void CLoginServerProtocol::GJReqMapSvrAuth(int userIndex, PMSG_REQ_MAPSVRAUTH * 
 }
 */
 
-void CLoginServerProtocol::GJNotifyMaxUserCount(int userIndex, PMSG_NOTIFY_MAXUSER * aRecv)
+void CLoginServerProtocol::GJNotifyMaxUserCount(int sIndex, PMSG_NOTIFY_MAXUSER * aRecv)
 {
 	int iIndex = this->m_ServerData.MuLoginFindServer(aRecv->iSvrCode);
 
@@ -1400,7 +1400,7 @@ void CLoginServerProtocol::GJNotifyMaxUserCount(int userIndex, PMSG_NOTIFY_MAXUS
 	}
 }
 
-BOOL CLoginServerProtocol::DisconnectPlayer(LPTSTR szAccountID)
+BOOL CLoginServerProtocol::DisconnectPlayer(LPSTR szAccountID)
 {
 	int userIndex = this->m_UserData.MuLoginFindUser(szAccountID);
 
@@ -1421,7 +1421,7 @@ void CLoginServerProtocol::DisconnectServer(WORD ServerCode)
 	this->m_UserData.MuLoginDeleteUser(ServerCode, /*g_MapServerManager.GetMapSvrGroup(ServerCode)*/ 0);
 }
 
-void CLoginServerProtocol::WJKillUser(int userIndex, SDHP_USERCLOSE_ID* aRecv)
+void CLoginServerProtocol::WJKillUser(int sIndex, SDHP_USERCLOSE_ID* aRecv)
 {
 	char szAccountID[11] = { 0 };
 	std::memcpy(szAccountID, aRecv->szId, 10);
@@ -1485,7 +1485,7 @@ void CLoginServerProtocol::CheckVIPTimeProc()
 	}
 }
 
-void CLoginServerProtocol::GJReqSetOffTrade(int userIndex, PMSG_SET_OFFTRADE * aRecv)
+void CLoginServerProtocol::GJReqSetOffTrade(int sIndex, PMSG_SET_OFFTRADE * aRecv)
 {
 	int userIndex = this->m_UserData.MuLoginFindUser(aRecv->szAccountID);
 
@@ -1498,7 +1498,7 @@ void CLoginServerProtocol::GJReqSetOffTrade(int userIndex, PMSG_SET_OFFTRADE * a
 	sLog->outBasic("[JoinServer] (%s)(%s) Set OffTrade State: %d", aRecv->szAccountID, aRecv->szName, aRecv->m_bState);
 }
 
-void CLoginServerProtocol::GJReqVipAdd(int userIndex, ISHOP_VIP_BUY *aRecv)
+void CLoginServerProtocol::GJReqVipAdd(int sIndex, ISHOP_VIP_BUY *aRecv)
 {
 	this->m_AccountDB.ExecQuery("EXEC IGC_VipAdd '%s', %d, %d", aRecv->AccountID, aRecv->Days, aRecv->Type);
 }

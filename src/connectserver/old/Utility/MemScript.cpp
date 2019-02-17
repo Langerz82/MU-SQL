@@ -1,7 +1,7 @@
 // MemScript.cpp: implementation of the CMemScript class cross-platform.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "StdAfx.h"
 #include "MemScript.h"
 #include <string>
 #include "Utilities/Timer.h"

@@ -1,13 +1,7 @@
-#ifndef LPROTOCOL_H
-#define LPROTOCOL_H
+#ifndef _MU_LPROTOCOL_H
+#define _MU_LPROTOCOL_H
 
 #include "StdAfx.h"
-
-enum 
-{
-	CS_SERVER_SELECT	= 0x03,
-	CS_CLIENT_CONNECT	= 0x06
-};
 
 class CConServ
 {
@@ -24,10 +18,14 @@ public:
 	void LoadServerList(LPSTR szFile);
 	CONNECT_OBJECT cObj[1000];
 
-}; extern CConServ g_ConnectServer;
+}; 
+
+extern CConServ g_ConnectServer;
+
 void LProtocolCore(int userIndex, BYTE hCode, LPBYTE aRecv, int aLen);
 void AddServer(PMSG_SERVERINFO * pMsg);
 void LSProtocolCore(BYTE hCode, LPBYTE aRecv, int aLen);
 //extern WzUdp g_CSSocket;
+
 #endif
 

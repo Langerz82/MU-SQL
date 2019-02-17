@@ -13,7 +13,7 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "iniReader/IniReader.h"
+//#include "iniReader/IniReader.h"
 //#include "configread.h"
 
 #define TRUE 1

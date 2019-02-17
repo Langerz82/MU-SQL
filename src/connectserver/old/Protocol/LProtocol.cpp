@@ -1,16 +1,16 @@
 ////////////////////////////////////////////////////////////////////////////////
 // LProtocol.cpp
-#include <vector>
+#include "StdAfx.h"
 #include "LProtocol.h"
 #include "IOCP.h"
-#include "Sprotocol.h"
+#include "ConnectProtocol.h"
 #include "ServerEngine.h"
 #include "readscript.h" // Cant find maybe a windows file?
 #include "prodef.h"
 
 using namespace std; 
 
-#define szModule "LProtocol"
+//#define szModule "LProtocol"
 CConServ g_ConnectServer;
 //P_ADD_NEWS gObjNews[MAX_NEWS]; 
 std::vector<ServerList> g_CServerList;
@@ -36,7 +36,7 @@ void CConServ::ConnectResultSend(int userIndex)
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.result = 0x01;
 
-	DataSend(userIndex,(BYTE*)&pMsg,sizeof(pMsg), nullptr);
+	IOCP.DataSend(userIndex,(BYTE*)&pMsg,sizeof(pMsg), false);
 	/*if(!newssent)
 	{
 		newssent = true;
@@ -89,7 +89,7 @@ void CConServ::ServerListSend(int userIndex)
 	pMsg->h.sizeL	= LOBYTE(PacketSize);
 	pMsg->h.sizeH	= HIBYTE(PacketSize);
 
-	DataSend(userIndex, cBUFF, PacketSize, nullptr);
+	IOCP.DataSend(userIndex, cBUFF, PacketSize, false);
 
 //	this->SendNews(userIndex);
 }
@@ -112,9 +112,9 @@ void CConServ::GetServerInfo(int userIndex, USHORT id)
 
 			pMsg.Port = It->wServerPort;
 
-			DataSend(userIndex, (BYTE*)&pMsg, sizeof(pMsg), nullptr);
+			IOCP.DataSend(userIndex, (BYTE*)&pMsg, sizeof(pMsg), false);
 
-			sLog->outBasic(0, szModule, __FUNCTION__, "INDEX : %d; SERVER SELECTED (%d) (%s:%d)", userIndex, id, pMsg.IP, pMsg.Port);
+			sLog->outBasic("INDEX : %d; SERVER SELECTED (%d) (%s:%d)", userIndex, id, pMsg.IP, pMsg.Port);
 			
 			break;
 		}
@@ -134,8 +134,8 @@ void CConServ::GetServerList(int userIndex)
 	}
 	else
 	{
-		sLog->outBasic(0, szModule, __FUNCTION__, "INDEX : %d; no active servers", userIndex);
-		CloseClient(userIndex);
+		sLog->outBasic("INDEX : %d; no active servers", userIndex);
+		IOCP.CloseClient(userIndex);
 	//	gObjServerDel(userIndex);
 	}	
 }
@@ -143,7 +143,7 @@ void CConServ::LoadServerList(LPSTR szFile)
 {
 	if ( (SMDFile = fopen(szFile, "r")) == NULL )
 	{
-		MessageBoxA(0,"CConServer::LoadServerList() error","CRITICAL ERROR",MB_OK|MB_TOPMOST);
+		sLog->outError("CConServer::LoadServerList() error");
 		ExitProcess(1);
 		return;
 	}
@@ -184,7 +184,7 @@ void CConServ::LoadServerList(LPSTR szFile)
 			}
 		}
 	}
-	sLog->outBasic(0, szModule, __FUNCTION__, "Loaded %d servers", g_CServerList.size());
+	sLog->outBasic("Loaded %d servers", g_CServerList.size());
 }
 int newscount = 0;
 void CConServ::LoadNewsFile(LPSTR szFile)
@@ -423,8 +423,3 @@ void AddServer(PMSG_SERVERINFO * pMsg)
 		It->second.TickCount = GetTickCount();
 	}
 }
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

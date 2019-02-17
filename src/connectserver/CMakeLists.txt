@@ -59,9 +59,16 @@ include_directories(
 
 add_executable(${EXECUTABLE_NAME} ${EXECUTABLE_SRCS})
 
+link_directories(
+	${Boost_LIBRARY_DIRS}
+	${CMAKE_SOURCE_DIR}/../muServerDeps
+)
+
 target_link_libraries(${EXECUTABLE_NAME}
     shared
     framework
+	fmt
+	ace
     ${OPENSSL_LIBRARIES}
 )
 

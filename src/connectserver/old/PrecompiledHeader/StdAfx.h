@@ -33,6 +33,7 @@
 #include <cstdlib>
 #include <map>
 #include <string>
+#include <utility>
 
 //#include <vld.h>
 // Local Header Files
@@ -43,8 +44,8 @@
 #include "GensSystemProtocol.h"
 
 #include "Lang.h"
-#include "iniReader\IniReader.h"
-
+//#include "iniReader\IniReader.h"
+#include "Logging/Log.h"
 #include "generalStructs.h"
 
 #include "util.h"
@@ -97,6 +98,9 @@
 #include <boost/thread.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/multiprecision/cpp_int.hpp>
+#include "boost/uuid/uuid.hpp"
+#include "boost/uuid/uuid_generators.hpp"
+#include "boost/uuid/random_generator.hpp"
 
 //#pragma comment(lib, "pugixml.lib")
 //#pragma comment(lib, "cryptlib.lib")

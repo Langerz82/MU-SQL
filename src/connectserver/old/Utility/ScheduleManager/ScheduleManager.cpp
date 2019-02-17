@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "ScheduleManager.h"
 
 // Hopefully this works ok since allot of code was deleted!!

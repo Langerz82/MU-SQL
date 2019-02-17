@@ -8,6 +8,9 @@
 #include "StdAfx.h"
 #include "resource.h"
 #include "ServerEngine.h"
+#include "Database/Database/DatabaseEnv.h"
+
+extern DatabaseWorkerPool<ConnectDatabaseConnection> ConnectDatabase;
 
 #define SET_NUMBERH(x) ( (BYTE)((DWORD)(x)>>(DWORD)8) )
 #define SET_NUMBERL(x) ( (BYTE)((DWORD)(x) & 0xFF) )
@@ -47,6 +50,8 @@ extern TCHAR szWANIP[150];
 extern TCHAR g_logsDir[64];
 extern TCHAR g_logsEntryCount[2];
 extern std::string g_logsEntry[10]; // up to 10 logs
+
+extern BOOL gDisconnectHackUser;
 
 
 #endif // !defined(AFX_EMAIN_H__A7C14824_5DD7_49C9_BDFB_C8D813D08CB9__INCLUDED_)

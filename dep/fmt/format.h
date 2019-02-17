@@ -28,6 +28,10 @@
 #ifndef FMT_FORMAT_H_
 #define FMT_FORMAT_H_
 
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
 #define FMT_INCLUDE
 #include <cassert>
 #include <clocale>

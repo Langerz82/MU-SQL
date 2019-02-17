@@ -31,7 +31,7 @@ public:
 	void GiocpDelete();
 	bool CreateGIocp(int server_port);
 	void DestroyGIocp();
-	bool CreateListenSocket(uint16 uiPort, LPTSTR ipAddress);
+	bool CreateListenSocket(UINT16 uiPort, LPTSTR ipAddress);
 	bool RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex);
 	bool DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt = true);
 	bool IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext);
@@ -43,7 +43,7 @@ public:
 	void OnAccept() override;
 	void OnRead() override;
 
-	int getUserDataIndex(const char* socketKey)
+	inline int getUserDataIndex(const char* socketKey)
 	{
 		std::map<const char*, int>::iterator pUO = g_UserIDMap.find(socketKey);
 		if (pUO == g_UserIDMap.end())

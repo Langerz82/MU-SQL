@@ -1,7 +1,11 @@
-﻿#include "IOCP.h"
+﻿#include "StdAfx.h"
+#include "IOCP.h"
 #include "ConnectEngine.h"
 #include "ConnectProtocol.h"
 #include "Main.h"
+#include "generalStructs.h"
+
+CIOCP IOCP;
 
 void CIOCP::GiocpInit()
 {
@@ -25,6 +29,7 @@ bool CIOCP::CreateGIocp(int server_port)
 	g_ServerPort = server_port;
 
 	InitializeCriticalSection(&criti);
+	return true;
 }
 
 void CIOCP::DestroyGIocp()
@@ -47,7 +52,7 @@ void CIOCP::DestroyGIocp()
 }
 
 
-bool CIOCP::CreateListenSocket(uint16 uiPort, LPTSTR ipAddress)
+bool CIOCP::CreateListenSocket(UINT16 uiPort, LPTSTR ipAddress)
 {
 	sockaddr_in InternetAddr;
 	int nRet;
@@ -63,7 +68,8 @@ bool CIOCP::CreateListenSocket(uint16 uiPort, LPTSTR ipAddress)
 
 void CIOCP::OnAccept()
 {
-	boost::uuids::uuid socketKey(boost::uuids::random_generator());
+	//boost::uuids::uuid socketKey(boost::uuids::random_generator());
+	boost::uuids::uuid socketKey();
 
 	char ipAddress[20], charSockKey[32];
 	int lenIP = strlen(this->get_remote_address().c_str());
@@ -190,7 +196,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 	int size;
 	BYTE headcode;
 	BYTE xcode;
-	STR_CS_USER* lpUser = getUser(uIndex);
+	STR_CS_USER* lpUser = getCSUser(uIndex);
 
 	if ( lpIOContext->nSentBytes < 3 )
 	{
@@ -559,7 +565,7 @@ void CIOCP::CloseClient(int index)
 
 void CIOCP::ResponErrorCloseClient(int index)
 {
-	STR_CS_USER* lpCSUser = getUser(index);
+	STR_CS_USER* lpCSUser = getCSUser(index);
 
 	if (lpCSUser->ConnectionState == 0 )
 	{

@@ -5,6 +5,7 @@
 //
 // https://github.com/benhoyt/inih
 
+#include "StdAfx.h"
 #include <algorithm>
 #include <cctype>
 #include <cstdlib>

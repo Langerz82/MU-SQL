@@ -203,6 +203,10 @@ include_directories(
 
 add_executable(${EXECUTABLE_NAME} ${EXECUTABLE_SRCS})
 
+link_directories(
+	${Boost_LIBRARY_DIRS}
+)
+
 target_link_libraries(${EXECUTABLE_NAME}
     shared
     framework
@@ -217,7 +221,7 @@ else()
 endif()
 
 include_directories(${Boost_INCLUDE_DIRS})
-target_link_libraries(${EXECUTABLE_NAME} ${BOOST_LIBRARY})
+target_link_libraries(${EXECUTABLE_NAME} ${Boost_LIBRARIES})
 
 include_directories(${MYSQL_INCLUDE_DIR})
 target_link_libraries(${EXECUTABLE_NAME} ${MYSQL_LIBRARY})

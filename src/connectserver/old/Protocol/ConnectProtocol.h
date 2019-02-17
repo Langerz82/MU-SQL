@@ -8,6 +8,7 @@
 #include "Main.h"
 #include "ConnectEngine.h"
 #include "Query.h"
+#include "generalStructs.h"
 
 #define MAX_LOGIN_USER	(45000)
 #define MAX_LOGIN_SERVER (10)
@@ -20,7 +21,6 @@ enum PASSWORD_ENCRYPT_TYPES
 	PWENC_SHA2 = 3
 };
 
-extern void MuLoginDeleteMapMove(char * szAccountID);
 // EventControl
 //-----------------------------
 #define DRAGON_EVENT		0
@@ -71,7 +71,7 @@ public:
 
 	void MuLoginDeleteServer(WORD ServerCode);
 	int MuLoginFindServer(WORD ServerCode);
-	int MuLoginAddServer(int ServerIndex, LPSTR ServerName, WORD ServerCode, WORD Port, BYTE ServerVIP, WORD MaxHWIDUseCount);
+	BOOL MuLoginAddServer(int ServerIndex, LPSTR ServerName, WORD ServerCode, WORD Port, BYTE ServerVIP, WORD MaxHWIDUseCount);
 
 	int GetVIPLevel(int Index)
 	{
@@ -247,8 +247,8 @@ private:
 	void GCJoinBillCheckSend(int userIndex, SDHP_BILLSEARCH * aRecv);
 	void LoveHeartEventRecv(int userIndex, SDHP_LOVEHEARTEVENT * aRecv);
 	void LoveHeartCreateSend(int userIndex, SDHP_LOVEHEARTCREATE * aRecv);
-	void GJReqMapSvrMove(int userIndex, PMSG_REQ_MAPSVRMOVE * aRecv);
-	void GJReqMapSvrAuth(int userIndex, PMSG_REQ_MAPSVRAUTH * aRecv);
+	//void GJReqMapSvrMove(int userIndex, PMSG_REQ_MAPSVRMOVE * aRecv);
+	//void GJReqMapSvrAuth(int userIndex, PMSG_REQ_MAPSVRAUTH * aRecv);
 	void GJNotifyMaxUserCount(int userIndex, PMSG_NOTIFY_MAXUSER * aRecv);
 	void GJReqSetOffTrade(int userIndex, PMSG_SET_OFFTRADE * aRecv);
 	void WJKillUser(int userIndex, SDHP_USERCLOSE_ID * aRecv);

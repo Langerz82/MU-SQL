@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "WZScriptEncode.h"
 #include <iostream>
 

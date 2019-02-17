@@ -1,7 +1,16 @@
 ////////////////////////////////////////////////////////////////////////////////
 // AntiSwear.h
+#ifndef _MU_ANTISWEAR_H_
+#define _MU_ANTISWEAR_H_
+
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
+#include "StdAfx.h"
 #include <vector>
 #include <string>
+
 
 class CAntiSwear
 {
@@ -17,7 +26,5 @@ public:
 
 extern CAntiSwear SwearFilter;
 
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
+#endif
 

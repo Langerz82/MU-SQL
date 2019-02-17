@@ -1,12 +1,12 @@
-
+#include "StdAfx.h"
 #include "Query.h"
-#include "DelayHandler.h"
-#include "database/Database/PreparedStatement.h"
+//#include "DelayHandler.h"
+#include "database/Database/DatabaseEnv.h"
 #include "database/Database/MySQLConnection.h"
 
 #define szModule "CQuery"
 
-CQuery::CQuery(DatabaseWorkerPool<MySQLConnection>* db): m_Database(db)
+CQuery::CQuery(DatabaseWorkerPool<ConnectDatabaseConnection>* db): m_Database(db)
 {
 }
 
@@ -47,7 +47,7 @@ QueryResult* CQuery::Fetch(TCHAR* lpszStatement, ...)
 	va_end(pArguments);
 
 	if (this->m_Result != NULL)
-		this->m_Result == NULL;
+		this->m_Result = NULL;
 
 	this->m_Result = &m_Database->Query(szStatement);
 
@@ -62,13 +62,13 @@ QueryResult* CQuery::Fetch(TCHAR* lpszStatement, ...)
 
 int CQuery::Fetch()
 {
-	if ((**this->m_Result).GetRowCount == 0) 
+	if ((*this->m_Result)->GetRowCount() == 0) 
 		return 0;
 	return 1;
 }
 
-int CQuery::GetAsBinary(LPSTR lpszStatement, BYTE* OUT lpszReturnBuffer, int size)
-{
+//int CQuery::GetAsBinary(LPSTR lpszStatement, BYTE* OUT lpszReturnBuffer, int size)
+//{
 	// TODO
 	/*
 	QueryResult* res = Fetch(lpszStatement);
@@ -81,11 +81,11 @@ int CQuery::GetAsBinary(LPSTR lpszStatement, BYTE* OUT lpszReturnBuffer, int siz
 	}
 	return sizeof(lpszReturnBuffer);
 	*/
-	return 0; // stub
-}
+	//return 0; // stub
+//}
 
-void CQuery::SetAsBinary(LPTSTR lpszStatement, BYTE* lpBinaryBuffer, UINT32 BinaryBufferSize)
-{
+//void CQuery::SetAsBinary(LPTSTR lpszStatement, BYTE* lpBinaryBuffer, UINT32 BinaryBufferSize)
+//{
 	// TODO.
 /* // Old Implementation.
 	CQuery::m_LogToFile.Output(lpszStatement);
@@ -119,7 +119,7 @@ void CQuery::SetAsBinary(LPTSTR lpszStatement, BYTE* lpBinaryBuffer, UINT32 Bina
 	this->Close();
 */
 	// New Implementation.
-}
+//}
 
 
 /*int CQuery::FindIndex(LPTSTR ColName)

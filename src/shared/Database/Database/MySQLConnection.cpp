@@ -18,7 +18,6 @@
 #include "MySQLConnection.h"
 #include "Common/Common.h"
 #include "DatabaseWorker.h"
-#include "Logging/Log.h"
 #include "PreparedStatement.h"
 #include "QueryResult.h"
 #include "Transaction.h"

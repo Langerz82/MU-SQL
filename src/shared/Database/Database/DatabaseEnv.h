@@ -19,7 +19,19 @@
 #ifndef DATABASEENV_H
 #define DATABASEENV_H
 
-//#include "Platform/Define.h"
+
+#include "Platform/Define.h"
+
+enum DatabaseStatements : uint32
+{
+	/*  Naming standard for defines:
+	{DB}_{SEL/INS/UPD/DEL/REP}_{Summary of data changed}
+	When updating more than one field, consider looking at the calling function
+	name for a suiting suffix.
+	*/
+	MAX_CONNECTDATABASE_STATEMENTS
+};
+
 #include "DatabaseWorkerPool.h"
 
 #include "Field.h"
@@ -27,5 +39,7 @@
 #include "QueryCallback.h"
 #include "QueryResult.h"
 #include "Transaction.h"
+
+#include "Implementation/CSDatabase.h"
 
 #endif

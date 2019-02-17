@@ -18,7 +18,11 @@
 #ifndef _MYSQLCONNECTION_H
 #define _MYSQLCONNECTION_H
 
-//#include "Platform/Define.h"
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
+#include "Platform/Define.h"
 #include "DatabaseEnvFwd.h"
 #include <map>
 #include <memory>
@@ -51,7 +55,7 @@ struct  MySQLConnectionInfo
     std::string port_or_socket;
 };
 
-class  MySQLConnection
+class _MU_DATABASE_API_ MySQLConnection
 {
     template <class T> friend class DatabaseWorkerPool;
     friend class PingOperation;

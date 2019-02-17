@@ -11,6 +11,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "StdAfx.h"
+
 enum WZSMDToken {
   T_NAME = 0x0,
   T_NUMBER = 0x1,

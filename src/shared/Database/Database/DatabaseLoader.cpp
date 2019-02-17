@@ -23,8 +23,6 @@ DatabaseLoader::DatabaseLoader(std::string const& logger, uint32 const defaultUp
 template <class T>
 DatabaseLoader& DatabaseLoader::AddDatabase(DatabaseWorkerPool<T>& pool, std::string const& name)
 {
-    bool const updatesEnabledForThis = DBUpdater<T>::IsEnabled(_updateFlags);
-
     return *this;
 }
 
@@ -79,3 +77,6 @@ bool DatabaseLoader::Process(std::queue<Predicate>& queue)
     }
     return true;
 }
+
+template _MU_DATABASE_API_
+DatabaseLoader& DatabaseLoader::AddDatabase<ConnectDatabaseConnection>(DatabaseWorkerPool<ConnectDatabaseConnection>&, std::string const&);

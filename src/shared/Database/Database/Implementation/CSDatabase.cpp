@@ -1,6 +1,5 @@
 #include "CSDatabase.h"
-#include "database/Database/PreparedStatement.h"
-
+#include "Database\Database\DatabaseEnv.h"
 
 //DatabaseWorkerPool<ConnectDatabaseConnection> ConnectDatabase;
 
@@ -9,7 +8,7 @@ void ConnectDatabaseConnection::DoPrepareStatements()
     if (!m_reconnecting)
         m_stmts.resize(MAX_CONNECTDATABASE_STATEMENTS);
 
-    //PrepareStatement(CONNECT_UPD_, "", CONNECTION_ASYNCH);
+    PrepareStatement(0, "blah", CONNECTION_ASYNC);
 }
 
 ConnectDatabaseConnection::ConnectDatabaseConnection(MySQLConnectionInfo& connInfo) : MySQLConnection(connInfo)

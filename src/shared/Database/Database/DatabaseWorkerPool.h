@@ -189,12 +189,12 @@ class DatabaseWorkerPool
             Other
         */
 
-        typedef typename T::Statements PreparedStatementIndex;
-
+        typedef typename T::Statements PreparedStatementIndex; // TODO - Figure out why error
+	
         //! Automanaged (internally) pointer to a prepared statement object for usage in upper level code.
         //! Pointer is deleted in this->DirectExecute(PreparedStatement*), this->Query(PreparedStatement*) or PreparedStatementTask::~PreparedStatementTask.
         //! This object is not tied to the prepared statement on the MySQL context yet until execution.
-        PreparedStatement* GetPreparedStatement(PreparedStatementIndex index);
+        PreparedStatement* GetPreparedStatement(PreparedStatementIndex index); // TODO
 
         //! Apply escape string'ing for current collation. (utf8)
         void EscapeString(std::string& str);

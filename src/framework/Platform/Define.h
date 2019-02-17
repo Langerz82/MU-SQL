@@ -37,6 +37,15 @@
 #define MUSQL_LITTLEENDIAN 0
 #define MUSQL_BIGENDIAN    1
 
+#  define MU_API_EXPORT
+#  define MU_API_IMPORT
+
+#ifdef MU_API_EXPORT_DATABASE
+#  define _MU_DATABASE_API_ MU_API_EXPORT
+#else
+#  define _MU_DATABASE_API_ MU_API_IMPORT
+#endif
+
 #if !defined(MUSQL_ENDIAN)
 #  if defined (ACE_BIG_ENDIAN)
 #    define MUSQL_ENDIAN MUSQL_BIGENDIAN

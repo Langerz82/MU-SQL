@@ -10,21 +10,22 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "Common\Common.h"
+#include "Common/Common.h"
 #include "database/Database/DatabaseEnv.h"
-#include "database/Database/MySQLConnection.h"
-#include "database/Database/Field.h"
-#include "Database/CSDatabase.h"
-//#include "Database/GSDatabase.h"
+#include "database/Database/DatabaseWorkerPool.h"
+#include "Main.h"
+#include "database/Database/Implementation/CSDatabase.h"
+#include "database/Database/QueryResult.h"
 
-class Field;
-class MySQLConnection;
+//class ConnectDatabaseConnection;
+//class MySQLConnection;
+
 
 class CQuery  
 {
 public:
 	CQuery() {};
-	CQuery(DatabaseWorkerPool<MySQLConnection>* db);
+	CQuery(DatabaseWorkerPool<ConnectDatabaseConnection>* db);
 	//CQuery(DatabaseWorkerPool<GameDatabaseConnection>* db);
 	virtual ~CQuery();
 
@@ -37,8 +38,8 @@ public:
 	int Fetch();
 	//bool HasFields();
 
-	int GetAsBinary(LPSTR lpszStatement, LPBYTE OUT lpszReturnBuffer, int size);
-	void SetAsBinary(LPTSTR lpszStatement, LPBYTE lpBinaryBuffer, UINT32 BinaryBufferSize);
+	//int GetAsBinary(LPSTR lpszStatement, LPBYTE OUT lpszReturnBuffer, int size);
+	//void SetAsBinary(LPTSTR lpszStatement, LPBYTE lpBinaryBuffer, UINT32 BinaryBufferSize);
 
 	//int GetResult(int index);
 	
@@ -56,15 +57,11 @@ public:
 	//void Close();
 	//void Diagnosis(bool &bReconnect);
 
-	DatabaseWorkerPool<MySQLConnection>* m_Database;
+	DatabaseWorkerPool<ConnectDatabaseConnection>* m_Database;
+	//void* m_Database;
 	QueryResult* m_Result;
 
 };
 
-#endif // !defined(AFX_QUERY_H__8A3116E5_E735_4FF9_A61D_5566130C3610__INCLUDED_)
-
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
+#endif
 

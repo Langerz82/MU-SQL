@@ -2871,6 +2871,7 @@ struct IPList
 	char m_IP[16];
 };
 
+struct STR_CS_USER;
 struct STR_CS_USER
 {
 	STR_CS_USER() {}
@@ -3739,45 +3740,6 @@ struct PMSG_ANS_PSHOP_VIEWPORT_NOTIFY
 {
 	struct PWMSG_HEAD2 h;
 	BYTE btCount;
-};
-
-
-struct _KALIMAGATE_LEVEL
-{
-	int iLOWER_BOUND;	// 0
-	int iUPPER_BOUND;	// 4
-	int iLOWER_BOUND_MAGUMSA;	// 8
-	int iUPPER_BOUND_MAGUMSA;	// C
-
-} g_sttKALIMAGATE_LEVEL[KALIMA_FLOORS] =
-{
-	// Kalima 1
-	0x28, 0x82, // DK, DW, Elf
-	0x14, 0x6E, // MG, DL
-
-	// Kalima 2
-	0x83, 0xB4, // DK, DW, Elf
-	0x6F, 0xA0, // MG, DL
-
-	// Kalima 3
-	0xB5, 0xE6, // DK, DW, Elf
-	0xA1, 0xD2, // MG, DL
-
-	// Kalima 4
-	0xE7, 0x118, // DK, DW, Elf
-	0xD3, 0x104, // MG, DL
-
-	// Kalima 5
-	0x119, 0x14A, // DK, DW, Elf
-	0x105, 0x136, // MG, DL
-
-	// Kalima 6
-	0x14B, 0x15D, // DK, DW, Elf
-	0x137, 0x15D, // MG, DL
-
-	// Kalima 7
-	0x15E, 400, // DK, DW, Elf
-	0x15E, 400 // MG, DL
 };
 
 
@@ -6011,23 +5973,6 @@ struct FHP_WAITFRIENDLIST_COUNT {
 	short Number;
 	char Name[10];
 	char FriendName[10];
-};
-
-struct FRIEND_MASTER {
-	int m_iGUID;
-	int m_iMemoTotal;
-	int m_iNumber;
-	BYTE m_btState;
-	int m_iServer;
-	std::vector < NAME > m_vecFriends;
-	FRIEND_MASTER() {
-		m_iGUID = -1;
-		m_iMemoTotal = 0;
-		m_iNumber = -1;
-		m_btState = -1;
-		m_iServer = -1;
-		m_vecFriends.clear();
-	}
 };
 
 struct GENS_USER {

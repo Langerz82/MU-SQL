@@ -5,16 +5,18 @@
 /// @{
 /// \file
 
+#include "StdAfx.h"
 #include "Main.h"
 #include "database/Logging/AppenderDB.h"
 #include "Asio/IoContext.h"
-#include "CSDatabase.h"
+
 
 #include "IOCP.h"
 
 #include "database/Database/DatabaseEnv.h"
 #include "database/Database/DatabaseLoader.h"
 #include "database/Database/MySQLThreading.h"
+#include "database/Database/Implementation/CSDatabase.h"
 
 #include "Config/Config.h"
 
@@ -54,10 +56,11 @@ int m_ServiceStatus = -1;
 #include "PosixDaemon.h"
 #endif
 
+
 WORD g_ConnectServerPort;
 WORD g_ConnectServerUDP;
-DWORD g_MaxConnectionsPerIP;
-DWORD g_MaxPacketPerSec;
+DWORD g_MaxConnectionsPerIP = 1000;
+DWORD g_MaxPacketPerSec = 16;
 uint16 g_UDPPort;
 WORD g_FTPPort;
 char g_HostURL[100];
@@ -66,6 +69,8 @@ char g_FTPPassword[20];
 char g_VersionFile[20];
 char g_ClientVersion[9];
 char g_WhiteListIP[16];
+BOOL gDisconnectHackUser = FALSE;
+DWORD g_MachineIDConnectionLimitPerGroup = 10;
 
 // GLobals thats whats up.
 TCHAR szWANIP[150];
@@ -91,15 +96,14 @@ TCHAR g_logsDir[64];
 TCHAR g_logsEntryCount[2];
 std::string g_logsEntry[10]; // up to 10 logs
 
-int g_MaxPacketPerSec = 1000;
-int g_MaxConnectionsPerIP = 16;
-
 void UnhookSignals();
 void HookSignals();
 
 bool stopEvent = false;                                     ///< Setting it to true stops the server
 
 typedef BYTE BYTE;
+
+DatabaseWorkerPool<ConnectDatabaseConnection> ConnectDatabase;
 
 bool initDB()
 {

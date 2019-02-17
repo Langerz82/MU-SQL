@@ -1,12 +1,9 @@
 // ServerEngine.cpp: implementation of the CServerEngine class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "StdAfx.h"
 #include "ServerEngine.h"
 #include "Main.h"
-//#include "Sprotocol.h"
-//#include "CoreDSprotocol.h"
-//#include "EDSprotocol.h"
 #include "pugixml.hpp"
 
 #define szModule "Main"
@@ -31,7 +28,7 @@ void gObjServerInit()
 	for(int i=0;i<g_dwMaxServerGroups;i++)
 	{
 		g_Server[i].m_Index = -1;
-		g_Server[i].m_Socket = INVALID_SOCKET;
+		g_Server[i].m_Socket = nullptr;
 		g_Server[i].m_State = SS_CLOSED;
 		g_Server[i].m_Type = ST_NONE;
 		//g_Server[i].m_ProtocolCore = NULL;
@@ -64,7 +61,7 @@ int gObjServerAddSearch()
 	return -1;
 }
 
-int gObjServerAdd(SOCKET Socket, char * Ip, int ServerIndex, eSERVER_TYPE eServerType)
+int gObjServerAdd(ACE_SOCK_Stream* Socket, char * Ip, int ServerIndex, eSERVER_TYPE eServerType)
 {
 	g_Server[ServerIndex].m_Index = ServerIndex;
 	std::memcpy(g_Server[ServerIndex].m_ServerIp, Ip, 16);
@@ -90,7 +87,7 @@ int gObjServerAdd(SOCKET Socket, char * Ip, int ServerIndex, eSERVER_TYPE eServe
 void gObjServerDel(int userIndex)
 {
 
-	EnterCriticalSection(&scriti);
+	//EnterCriticalSection(&scriti);
 
 	if(g_Server[userIndex].m_Type == ST_JOINSERVER)
 	{
@@ -108,7 +105,7 @@ void gObjServerDel(int userIndex)
 	g_Server[userIndex].m_ConnectPort = -1;
 	servercount--;
 
-	LeaveCriticalSection(&scriti);
+	//LeaveCriticalSection(&scriti);
 }
 
 void LoadAllowableIpList(LPSTR filename)

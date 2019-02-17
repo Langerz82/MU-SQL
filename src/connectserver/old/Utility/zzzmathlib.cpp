@@ -16,6 +16,7 @@
 #pragma warning( disable : 4237 )
 #pragma warning( disable : 4305 )
 
+#include "StdAfx.h"
 #include "ZzzMathLib.h"
 #include <math.h>
 

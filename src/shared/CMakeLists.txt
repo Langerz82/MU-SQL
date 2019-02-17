@@ -33,6 +33,9 @@ source_group("Database" FILES ${SRC_GRP_DATABASE})
 
 file(GLOB SRC_GRP_DATABASE_DATABASE Database/Database/*.cpp Database/Database/*.h)
 source_group("Database\\Database" FILES ${SRC_GRP_DATABASE_DATABASE})
+file(GLOB SRC_GRP_DATABASE_DATABASE_IMPL Database/Database/Implementation/*.cpp Database/Database/Implementation/*.h)
+source_group("Database\\Database\\Implementation" FILES ${SRC_GRP_DATABASE_DATABASE_IMPL})
+
 file(GLOB SRC_GRP_DATABASE_LOGGING Database/Logging/*.cpp Database/Logging/*.h)
 source_group("Database\\Logging" FILES ${SRC_GRP_DATABASE_LOGGING})
 file(GLOB SRC_GRP_DATABASE_PCH Database/PrecompiledHeaders/*.cpp Database/PrecompiledHeaders/*.h)
@@ -62,6 +65,7 @@ set(LIBRARY_SRCS
     ${SRC_GRP_CONFIG}
     ${SRC_GRP_DATABASE}
 	${SRC_GRP_DATABASE_DATABASE}
+	${SRC_GRP_DATABASE_DATABASE_IMPL}
 	${SRC_GRP_DATABASE_LOGGING}
 	${SRC_GRP_DATABASE_PCH}
     ${SRC_GRP_DATASTORE}
@@ -102,7 +106,7 @@ endif()
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/SystemConfig.h.in" "${CMAKE_CURRENT_BINARY_DIR}/SystemConfig.h")
 
-add_library(${LIBRARY_NAME} STATIC ${LIBRARY_SRCS})
+add_library(${LIBRARY_NAME} ${LIBRARY_SRCS})
 
 target_link_libraries(${LIBRARY_NAME} ${Boost_LIBRARIES})
 

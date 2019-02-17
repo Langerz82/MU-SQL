@@ -1,9 +1,10 @@
-
+#include "StdAfx.h"
 #include "ConnectEngine.h"
 #include "Logging/Log.h"
 #include "Main.h"
 
 std::vector<STR_CS_USER*> gConnUsers;
+std::map<int, STR_CS_USER*> gCSUsers;
 
 int SCount=0;
 
@@ -51,7 +52,7 @@ STR_CS_USER* UserAdd(char* SocketKey, char* IP)
 			connUser->PacketCount = 0;
 			connUser->i64PacketTime = GetTickCount64();
 			connUser->Index = count;
-			insertUser(connUser);
+			insertCSUser(connUser);
 			SCount++;
 			sLog->outBasic("Connection Accept: %s", IP);
 			return connUser;
@@ -83,7 +84,7 @@ short UserDelete(int index)
 	}
 	sLog->outBasic("Disconnected: %s (%d)", gConnUsers[index]->IP, index);
 
-	eraseUser(index);
+	eraseCSUser(index);
 	SCount--;
 
 	return 1;

@@ -1,2 +1,2 @@
-#include "PrecompiledHeader/StdAfx.h"
+#include "StdAfx.h"
 #include "generalStructs.h"
