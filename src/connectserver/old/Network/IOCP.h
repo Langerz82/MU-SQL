@@ -36,7 +36,6 @@ public:
 	bool DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt = true);
 	bool IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext);
 	bool IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext);
-	bool CreateIoCompletionPort(int ClientIndex);
 	void CloseClient(_PER_SOCKET_CONTEXT * lpPerSocketContext, int result);
 	void CloseClient(int index);
 	void ResponErrorCloseClient(int index);
@@ -99,7 +98,8 @@ BOOL RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex);
 BOOL DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, char* szFunction = nullptr);
 BOOL IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext);
 BOOL IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext);
-bool UpdateCompletionPort(char* sockKey, int ClientIndex, BOOL bAddToList);
+//bool UpdateCompletionPort(char* sockKey, int ClientIndex, BOOL bAddToList);
+
 void CloseClient(_PER_SOCKET_CONTEXT * lpPerSocketContext, int result);
 void CloseClient(int index);
 void ResponErrorCloseClient(int index);

@@ -4,7 +4,9 @@
 #include "StdAfx.h"
 #include "Database/Database/MySQLConnection.h"
 #include "Database/Database/DatabaseLoader.h"
+#include "database/Database/MySQLConnection.h"
 
+class MySQLConnection;
 class ConnectDatabaseConnection;
 
 enum ConnectDatabaseStatements : uint32
@@ -15,10 +17,10 @@ enum ConnectDatabaseStatements : uint32
         name for a suiting suffix.
     */
 
-    CONNECT_UPD_EX1,
-    CONNECT_UPD_EX2,
     MAX_CONNECTDATABASE_STATEMENTS
 };
+
+DatabaseWorkerPool<class ConnectDatabaseConnection> ConnectDatabase;
 
 class ConnectDatabaseConnection : public MySQLConnection
 {

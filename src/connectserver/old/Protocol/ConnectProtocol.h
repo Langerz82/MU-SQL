@@ -5,10 +5,9 @@
 
 #include "IOCP.h"
 #include "ServerData.h"
-#include "ConnectServer.h"
+#include "Main.h"
 #include "ConnectEngine.h"
 
-class CUserData;
 
 void CSProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, STR_CS_USER &Obj, bool Encrypt, int serial);
 void UDPProtocolCore(BYTE hCode, LPBYTE aRecv, int aLen);

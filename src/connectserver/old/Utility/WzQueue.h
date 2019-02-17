@@ -11,9 +11,9 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "stdafx.h"
+#include "StdAfx.h"
 
-typedef  _ST_LISTNODE
+typedef struct _ST_LISTNODE
 {
 	_ST_LISTNODE * lpNodePre;	// 0
 	_ST_LISTNODE * lpNodeNext;	// 4
@@ -24,7 +24,7 @@ typedef  _ST_LISTNODE
 	BYTE Headcode; // 18
 	UINT uIndex; // 1C
 
-}LISTNODE, * LPLISTNODE;
+} LISTNODE, * LPLISTNODE;
 
 
 class WZQueue

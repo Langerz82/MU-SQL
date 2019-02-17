@@ -11,9 +11,9 @@
 
 #include <string>
 #include <map>
+#include <ace/SOCK_Stream.h>
 
-
-class CUserData;
+class ACE_SOCK_Stream;
 
 // Fwd Declaration.
 
@@ -2853,15 +2853,17 @@ struct STR_STAT_BONUS
 struct STR_SERVER_ENGINE
 {
 	int m_Index;
-	SOCKET m_Socket;
+	ACE_SOCK_Stream m_Socket;
 	eSERVER_STATE m_State;
 	eSERVER_TYPE m_Type;
 	char m_ServerIp[16];
 	struct _PER_SOCKET_CONTEXT * PerSocketContext;
-	WsProtocolCore m_ProtocolCore;
+	//WsProtocolCore m_ProtocolCore;
 	WORD m_ServerCode;
 	WORD m_ServerGroup;
 	WORD m_ConnectPort;
+	BOOL newsSent;
+
 };
 
 struct IPList
@@ -2882,6 +2884,8 @@ struct STR_CS_USER
 	bool News;
 	int PacketCount;
 	ULONGLONG i64PacketTime;
+	char SocketKey[32];
+	class ACE_SOCK_Stream* Socket;
 };
 
 typedef struct tagIocpServerParameter

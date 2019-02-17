@@ -34,17 +34,18 @@ void gObjServerInit()
 		g_Server[i].m_Socket = INVALID_SOCKET;
 		g_Server[i].m_State = SS_CLOSED;
 		g_Server[i].m_Type = ST_NONE;
-		g_Server[i].m_ProtocolCore = NULL;
+		//g_Server[i].m_ProtocolCore = NULL;
 		g_Server[i].PerSocketContext = new _PER_SOCKET_CONTEXT;
 		g_Server[i].m_ServerCode = -1;
 	}
 
 	servercount = 0;
+	/*
 	if(g_iConnectStatSyncEnable == TRUE)
 	{
 		DWORD ThreadId;
 		CreateThread(nullptr, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(gObjConnectStatSyncThread), nullptr, 0, &ThreadId);
-	}
+	}*/
 }
 
 int gObjServerAddSearch()
@@ -74,7 +75,7 @@ int gObjServerAdd(SOCKET Socket, char * Ip, int ServerIndex, eSERVER_TYPE eServe
 	switch ( g_Server[ServerIndex].m_Type )
 	{
 		case ST_JOINSERVER:
-			g_Server[ServerIndex].m_ProtocolCore = CConnectServerProtocol::ProtocolCore;
+			//g_Server[ServerIndex].m_ProtocolCore = CConnectServerProtocol::ProtocolCore;
 			break;
 	}
 	
@@ -86,25 +87,25 @@ int gObjServerAdd(SOCKET Socket, char * Ip, int ServerIndex, eSERVER_TYPE eServe
 }
 
 
-void gObjServerDel(CGameObject &Obj)
+void gObjServerDel(int userIndex)
 {
 
 	EnterCriticalSection(&scriti);
 
-	if(g_Server[Obj.m_Index].m_Type == ST_JOINSERVER)
+	if(g_Server[userIndex].m_Type == ST_JOINSERVER)
 	{
 		// TODO
-		//m_JSProtocol.DisconnectServer(g_Server[Obj.m_Index].m_ServerCode);
+		//m_JSProtocol.DisconnectServer(g_Server[userIndex].m_ServerCode);
 	}
 
-	g_Server[Obj.m_Index].m_Index = -1;
-	g_Server[Obj.m_Index].m_ServerCode = -1;
-	g_Server[Obj.m_Index].m_Socket = INVALID_SOCKET;
-	g_Server[Obj.m_Index].m_ServerIp[0];
-	g_Server[Obj.m_Index].m_State = SS_CLOSED;
-	g_Server[Obj.m_Index].m_Type = ST_NONE;
-	g_Server[Obj.m_Index].m_ProtocolCore = NULL;
-	g_Server[Obj.m_Index].m_ConnectPort = -1;
+	g_Server[userIndex].m_Index = -1;
+	g_Server[userIndex].m_ServerCode = -1;
+	g_Server[userIndex].m_Socket = nullptr;
+	g_Server[userIndex].m_ServerIp[0];
+	g_Server[userIndex].m_State = SS_CLOSED;
+	g_Server[userIndex].m_Type = ST_NONE;
+	//g_Server[userIndex].m_ProtocolCore = NULL;
+	g_Server[userIndex].m_ConnectPort = -1;
 	servercount--;
 
 	LeaveCriticalSection(&scriti);
@@ -139,7 +140,7 @@ void LoadAllowableIpList(LPSTR filename)
 
 void gObjConnectStatSyncProc()
 {
-	LPSTR szAccount;
+	/*LPSTR szAccount;
 	for(int i=0;i<m_JSProtocol.m_UserData.m_MuLoginUserDataCount;i++)
 	{
 		szAccount = m_JSProtocol.m_UserData.GetAccountID(i);
@@ -148,7 +149,7 @@ void gObjConnectStatSyncProc()
 			m_JSProtocol.DisconnectPlayer(m_JSProtocol.m_UserData.GetAccountID(i));
 			sLog->outBasic("[%s] Force Disconnect ConnectStat = 0 but Player is Online");
 		}
-	}
+	}*/
 }
 
 void gObjConnectStatSyncThread()

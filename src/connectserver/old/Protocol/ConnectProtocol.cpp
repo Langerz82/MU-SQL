@@ -4,7 +4,7 @@
 #include "ConnectProtocol.h"
 #include "IOCP.h"
 #include "ServerData.h"
-#include "ConnectServer.h"
+#include "Main.h"
 
 void UDPInit()
 {
@@ -206,6 +206,8 @@ void SCSendNews(STR_CS_USER &Obj)
 
 void SCSendAutoUpdateData(STR_CS_USER &refCSUser, PMSG_CLIENTVERSION *aRecv)
 {
+	/*
+	// TODO
 	unsigned int MainVersion, HeadVersion, SubVersion;
 
 	sscanf_s(g_ClientVersion, "%u.%u.%u", &MainVersion, &HeadVersion, &SubVersion);
@@ -254,5 +256,6 @@ void SCSendAutoUpdateData(STR_CS_USER &refCSUser, PMSG_CLIENTVERSION *aRecv)
 
 		IOCP.DataSend(refCSUser.Index, (BYTE*)&pMsg, pMsg.h.size);
 	}
+	*/
 }
 

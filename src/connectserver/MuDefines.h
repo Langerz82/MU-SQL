@@ -6,6 +6,29 @@
 #endif // _MSC_VER > 1000
 
 
+#define CONNECTSERVER_VERSION "12.1"
+
+// Resourse.h
+#define IDC_MYICON                      2
+#define IDD_IGCCS_DIALOG                102
+#define IDS_APP_TITLE                   103
+#define IDD_ABOUTBOX                    103
+#define IDM_ABOUT                       104
+#define IDD_DIALOGBAR                   104
+#define IDM_EXIT                        105
+#define IDI_IGCCS                       107
+#define IDI_SMALL                       108
+#define IDC_IGCCS                       109
+#define IDR_MAINFRAME                   128
+#define IDC_EDIT1                       1002
+#define ID_RELOAD_SERVERS               32771
+#define ID_RELOAD_NEWS                  32772
+#define ID_RELOAD_AUTOUPDATE            32773
+#define WM_AUTH_CLIENT_MSG_PROC         32774
+#define ID_RELOAD_ANTIFLOODOPTIONS      32775
+#define IDC_STATIC                      -1
+
+
 // CQueue
 #define MAX_BUFF_SIZE		100000
 #define MAX_NODE		50000

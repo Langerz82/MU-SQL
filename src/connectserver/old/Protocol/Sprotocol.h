@@ -9,10 +9,9 @@
 #include "StdAfx.h"
 #include "WzUdp.h"
 #include "Database/Query.h"
-#include "MapServerManager.h"
 
 #define MAX_LOGIN_USER	(45000)
-#define MAX_LOGIN_SERVER (MAX_MAP_GROUPS*MAX_MAP_SUBGROUPS+1)
+#define MAX_LOGIN_SERVER (10)
 
 enum PASSWORD_ENCRYPT_TYPES
 {
@@ -215,7 +214,7 @@ public:
 		this->m_MuLoginUserData[Index].m_ServerCode = ServerCode;
 	}
 
-	void SetUserIndex(int Index, CGameObject &Obj)
+	void SetUserIndex(int Index, int userIndex)
 	{
 		this->m_MuLoginUserData[Index].iIndex = Index;
 	}
@@ -232,29 +231,29 @@ public:
 	CLoginServerProtocol();
 	~CLoginServerProtocol();
 	BOOL Init();
-	static void ProtocolCore(CGameObject &Obj, BYTE HeadCode, LPBYTE aRecv, int iSize);
+	static void ProtocolCore(int userIndex, BYTE HeadCode, LPBYTE aRecv, int iSize);
 	BOOL DisconnectPlayer(LPSTR szAccountID);
 	void DisconnectServer(WORD ServerCode);
 	void CheckVIPTimeProc();
 
 private:
 
-	void JoinServerLogin(CGameObject &Obj, SDHP_SERVERINFO * lpMsg);
-	void JGPAccountRequest(CGameObject &Obj, SDHP_IDPASS * aRecv);
-	void GJPAccountFail(CGameObject &Obj, SDHP_JOINFAIL * aRecv);
-	void GJPAccountBlock(CGameObject &Obj, SDHP_COMMAND_BLOCK * aRecv);
-	void GJPUserClose(CGameObject &Obj, SDHP_USERCLOSE_ID * aRecv );
-	void JGOtherJoin(CGameObject &Obj, LPSTR szAccountID);
+	void JoinServerLogin(int userIndex, SDHP_SERVERINFO * lpMsg);
+	void JGPAccountRequest(int userIndex, SDHP_IDPASS * aRecv);
+	void GJPAccountFail(int userIndex, SDHP_JOINFAIL * aRecv);
+	void GJPAccountBlock(int userIndex, SDHP_COMMAND_BLOCK * aRecv);
+	void GJPUserClose(int userIndex, SDHP_USERCLOSE_ID * aRecv );
+	void JGOtherJoin(int userIndex, LPSTR szAccountID);
 	void GCUserKillSend(int MuLoginIndex, bool IsForceDC);
-	void GCJoinBillCheckSend(CGameObject &Obj, SDHP_BILLSEARCH * aRecv);
-	void LoveHeartEventRecv(CGameObject &Obj, SDHP_LOVEHEARTEVENT * aRecv);
-	void LoveHeartCreateSend(CGameObject &Obj, SDHP_LOVEHEARTCREATE * aRecv);
-	void GJReqMapSvrMove(CGameObject &Obj, PMSG_REQ_MAPSVRMOVE * aRecv);
-	void GJReqMapSvrAuth(CGameObject &Obj, PMSG_REQ_MAPSVRAUTH * aRecv);
-	void GJNotifyMaxUserCount(CGameObject &Obj, PMSG_NOTIFY_MAXUSER * aRecv);
-	void GJReqSetOffTrade(CGameObject &Obj, PMSG_SET_OFFTRADE * aRecv);
-	void WJKillUser(CGameObject &Obj,SDHP_USERCLOSE_ID * aRecv);
-	void GJReqVipAdd(CGameObject &Obj, ISHOP_VIP_BUY *aRecv);
+	void GCJoinBillCheckSend(int userIndex, SDHP_BILLSEARCH * aRecv);
+	void LoveHeartEventRecv(int userIndex, SDHP_LOVEHEARTEVENT * aRecv);
+	void LoveHeartCreateSend(int userIndex, SDHP_LOVEHEARTCREATE * aRecv);
+	void GJReqMapSvrMove(int userIndex, PMSG_REQ_MAPSVRMOVE * aRecv);
+	void GJReqMapSvrAuth(int userIndex, PMSG_REQ_MAPSVRAUTH * aRecv);
+	void GJNotifyMaxUserCount(int userIndex, PMSG_NOTIFY_MAXUSER * aRecv);
+	void GJReqSetOffTrade(int userIndex, PMSG_SET_OFFTRADE * aRecv);
+	void WJKillUser(int userIndex,SDHP_USERCLOSE_ID * aRecv);
+	void GJReqVipAdd(int userIndex, ISHOP_VIP_BUY *aRecv);
 	static unsigned long __stdcall ConnectServerThread(LPVOID);
 	void InsertDataMuLog(LPSTR ServerName, LPSTR Id, LPSTR Ip, LPSTR State, LPSTR HWID);
 

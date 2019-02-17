@@ -1,7 +1,7 @@
 ﻿#include "IOCP.h"
 #include "ConnectEngine.h"
 #include "ConnectProtocol.h"
-#include "ConnectServer.h"
+#include "Main.h"
 
 void CIOCP::GiocpInit()
 {
@@ -69,7 +69,8 @@ void CIOCP::OnAccept()
 	int lenIP = strlen(this->get_remote_address().c_str());
 	std::memcpy(ipAddress, this->get_remote_address().c_str(), sizeof(lenIP));
 	std::memcpy(charSockKey, socketKey, sizeof(32));
-	int ClientIndex = UserAdd(charSockKey, ipAddress);
+	STR_CS_USER* ObjCSUser = UserAdd(charSockKey, ipAddress);
+	ObjCSUser->Socket = &this->peer();
 
 	_PER_SOCKET_CONTEXT * lpPerSocketContext;
 	int RecvBytes;
@@ -88,10 +89,9 @@ void CIOCP::OnAccept()
 #endif
 
 	this->peer().set_handle((ACE_HANDLE)charSockKey);
-	gUsers[ClientIndex]->PerSocketContext->dwIOCount = 0;
+	ObjCSUser->PerSocketContext->dwIOCount = 0;
 
-	CGameObject* lpObj = getGameObject(ClientIndex);
-	_PER_SOCKET_CONTEXT* sockCtx = lpObj->m_PlayerData->ConnectUser->PerSocketContext;
+	_PER_SOCKET_CONTEXT* sockCtx = ObjCSUser->PerSocketContext;
 
 	memset(&sockCtx->IOContext[0].m_Overlapped, 0, sizeof(WSAOVERLAPPED));
 	memset(&sockCtx->IOContext[1].m_Overlapped, 0, sizeof(WSAOVERLAPPED));
@@ -110,14 +110,12 @@ void CIOCP::OnAccept()
 	sockCtx->IOContext[1].nWaitIO = 0;
 	sockCtx->IOContext[1].nSecondOfs = 0;
 	sockCtx->IOContext[1].IOOperation = 1;
-	sockCtx->nIndex = ClientIndex;
+	sockCtx->nIndex = ObjCSUser->Index;
 
 	sockCtx->IOContext[0].nWaitIO = 1;
 	sockCtx->dwIOCount++;
 
-	CreateIoCompletionPort(ClientIndex);
-
-	g_UserIDMap.insert(std::pair<char*, int>(charSockKey, ClientIndex));
+	g_UserIDMap.insert(std::pair<char*, int>(charSockKey, ObjCSUser->Index));
 
 	LeaveCriticalSection(&criti);
 	//SCPJoinResultSend(*lpObj, 1);
@@ -142,11 +140,11 @@ void CIOCP::OnRead()
 	_PER_IO_CONTEXT * lpIOContext = 0;
 
 	int userIndex = getUserDataIndex((const char*)get_handle());
-	CUserData* lpUser = gUserObjects[userIndex];
+	STR_CS_USER* lpUser = getCSUser(userIndex);
 
 	EnterCriticalSection(&criti);
 
-	lpPerSocketContext = lpUser->ConnectUser->PerSocketContext;
+	lpPerSocketContext = lpUser->PerSocketContext;
 	lpPerSocketContext->dwIOCount--;
 
 	RecvBytes = 0;
@@ -160,7 +158,7 @@ void CIOCP::OnRead()
 	memset(&lpIOContext->m_Overlapped, 0, sizeof(WSAOVERLAPPED));
 
 	lpIOContext->IOOperation = 0;
-	if (this->peer.get_handle() != ACE_INVALID_HANDLE)
+	if (this->peer().get_handle() != ACE_INVALID_HANDLE)
 	{
 		try
 		{
@@ -247,7 +245,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 		{
 			lpUser->PacketCount++;
 
-			if (lpUser->PacketCount >= g_MaxPacketPerSec && strcmp(lpUser->IP, g_WhiteListIP))
+			if (lpUser->PacketCount >= g_MaxPacketPerSec /*&& strcmp(lpUser->IP, g_WhiteListIP)*/)
 			{
 				sLog->outError("[ANTI-FLOOD] Packets Per Second: %d / %d, IP: %d", lpUser->PacketCount, g_MaxPacketPerSec, lpUser->IP);
 				this->CloseClient(uIndex);
@@ -296,7 +294,7 @@ bool CIOCP::DataSend(int uIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 	_PER_SOCKET_CONTEXT * lpPerSocketContext;
 	BYTE * SendBuf;
 	BYTE BUFFER[65535];
-	STR_CS_USER* lpUser = getUser(uIndex);
+	STR_CS_USER* lpCSUser = getCSUser(uIndex);
 
 	EnterCriticalSection(&criti);
 
@@ -309,13 +307,13 @@ bool CIOCP::DataSend(int uIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 
 	SendBuf = lpMsg;
 
-	if (lpUser->ConnectionState == 0  )
+	if (lpCSUser->ConnectionState == 0  )
 	{
 		LeaveCriticalSection(&criti);
 		return false;
 	}
 
-	lpPerSocketContext = lpUser->PerSocketContext;
+	lpPerSocketContext = lpCSUser->PerSocketContext;
 
 	if ( dwSize > sizeof(lpPerSocketContext->IOContext[0].Buffer))
 	{
@@ -371,8 +369,10 @@ bool CIOCP::DataSend(int uIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 	lpIoCtxt->nSentBytes = 0;
 	lpIoCtxt->IOOperation = 1;
 	
+	ACE_SOCK_Stream* socket = lpCSUser->Socket;
+	socket->send(lpIoCtxt->m_wsabuf.buf, lpIoCtxt->m_wsabuf.len);
 
-	if ( WSASend( lpUser->socket, lpIoCtxt->m_wsabuf , 1, &SendBytes, 0, lpIoCtxt->m_Overlapped, NULL) == -1 ) // TODO - Linux Equivalent
+	/*if ( WSASend( lpUser->socket, lpIoCtxt->m_wsabuf , 1, &SendBytes, 0, lpIoCtxt->m_Overlapped, NULL) == -1 ) // TODO - Linux Equivalent
 	{
 
 		if ( WSAGetLastError() != WSA_IO_PENDING )	
@@ -397,9 +397,9 @@ bool CIOCP::DataSend(int uIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 	else
 	{
 		lpPerSocketContext->dwIOCount ++;
-	}
+	}*/
 	
-	
+	lpPerSocketContext->dwIOCount ++;
 	lpIoCtxt->nWaitIO = 1;
 	LeaveCriticalSection(&criti);
 	return true;
@@ -408,14 +408,14 @@ bool CIOCP::DataSend(int uIndex, BYTE* lpMsg, DWORD dwSize, bool Encrypt)
 
 bool CIOCP::IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 {
-	// TODO - Obj.m_Index.
+	// TODO - userIndex.
 	unsigned long SendBytes;
 	_PER_IO_CONTEXT * lpIoCtxt;
 	
 
 	EnterCriticalSection(&criti);
 	int uIndex = lpPerSocketContext->nIndex;
-	STR_CS_USER* lpUser = getUser(uIndex);
+	STR_CS_USER* lpCSUser = getCSUser(uIndex);
 
 	lpIoCtxt = &lpPerSocketContext->IOContext[1];
 
@@ -443,7 +443,9 @@ bool CIOCP::IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 	lpIoCtxt->nSentBytes = 0;
 	lpIoCtxt->IOOperation = 1;
 
-	if ( WSASend(lpUser->socket, lpIoCtxt->m_wsabuf, 1, &SendBytes, 0, lpIoCtxt->m_Overlapped, NULL) == -1 ) // TODO Linux Equivalent.
+	ACE_SOCK_Stream* socket = lpCSUser->Socket;
+	socket->send(lpIoCtxt->m_wsabuf.buf, lpIoCtxt->m_wsabuf.len);
+	/*
 	{
 		if ( WSAGetLastError() != WSA_IO_PENDING )
 		{
@@ -452,11 +454,11 @@ bool CIOCP::IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 			LeaveCriticalSection(&criti);
 			return false;
 		}
-	}
-	else
-	{
-		lpPerSocketContext->dwIOCount ++;
-	}
+	}*/
+	//else
+	//{
+	lpPerSocketContext->dwIOCount++;
+	//}
 	
 	lpIoCtxt->nWaitIO = 1;
 	LeaveCriticalSection(&criti);
@@ -471,7 +473,7 @@ bool CIOCP::IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 
 	EnterCriticalSection(&criti);
 	int uIndex = lpPerSocketContext->nIndex;
-	STR_CS_USER* lpUser = getUser(uIndex);
+	STR_CS_USER* lpCSUser = getCSUser(uIndex);
 	lpIoCtxt = &lpPerSocketContext->IOContext[1];
 
 	if ( (lpIoCtxt->nTotalBytes - lpIoCtxt->nSentBytes) < 0 )
@@ -484,6 +486,9 @@ bool CIOCP::IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 	lpIoCtxt->m_wsabuf.len = lpIoCtxt->nTotalBytes - lpIoCtxt->nSentBytes;
 	lpIoCtxt->IOOperation = 1;
 
+	ACE_SOCK_Stream* socket = lpCSUser->Socket;
+	socket->send(lpIoCtxt->m_wsabuf.buf, lpIoCtxt->m_wsabuf.len);
+	/*
 	if ( WSASend(lpUser->socket, lpIoCtxt->m_wsabuf, 1, &SendBytes, 0, lpIoCtxt->m_Overlapped, NULL) == -1 )
 	{
 		if ( WSAGetLastError() != WSA_IO_PENDING )
@@ -498,14 +503,14 @@ bool CIOCP::IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext)
 	{
 		lpPerSocketContext->dwIOCount ++;
 	}
-	
+	*/
 	
 	lpIoCtxt->nWaitIO = 1;
 	LeaveCriticalSection(&criti);
 	return true;
 }
 
-bool CIOCP::UpdateCompletionPort(SOCKET sd, int ClientIndex, BOOL bAddToList)
+/*bool CIOCP::UpdateCompletionPort(SOCKET sd, int ClientIndex, BOOL bAddToList)
 {
 	_PER_SOCKET_CONTEXT * lpPerSocketContext = NULL;
 	STR_CS_USER* lpUser = getUser(ClientIndex);
@@ -520,36 +525,26 @@ bool CIOCP::UpdateCompletionPort(SOCKET sd, int ClientIndex, BOOL bAddToList)
 
 	lpUser->PerSocketContext->dwIOCount = 0;
 	return TRUE;
-}
+}*/
 
 void CIOCP::CloseClient(_PER_SOCKET_CONTEXT * lpPerSocketContext, int result)
 {
 	int index = -1;
 	index = lpPerSocketContext->nIndex ;
-	STR_CS_USER* lpUser;
-	if ( index >= 0 && index < 1000 )
+	STR_CS_USER* lpCSUser;
+	for each (auto user in gCSUsers)
 	{
-		lpUser = getUser(index);
-		if (lpUser->socket != INVALID_SOCKET )
-		{
-			if (closesocket(lpUser->socket) == -1 )
-			{
-				if ( WSAGetLastError() != WSAENOTSOCK )
-				{
-					return;
-				}
-			}
-			lpUser->socket = INVALID_SOCKET;
-		}
+		lpCSUser = getCSUser(index);
+		user.second->Socket->close();
 		UserDelete(index);
 	}
 }
 
 void CIOCP::CloseClient(int index)
 {
-	STR_CS_USER* lpUser = getUser(index);
+	STR_CS_USER* lpCSUser = getCSUser(index);
 
-	if (lpUser->ConnectionState == 0 )
+	if (lpCSUser->ConnectionState == 0 )
 	{
 		sLog->outError("error-L1 : CloseClient connect error");
 		return;
@@ -557,32 +552,24 @@ void CIOCP::CloseClient(int index)
 
 	EnterCriticalSection(&criti);
 
-	if (lpUser->socket != INVALID_SOCKET )
-	{
-		closesocket(lpUser->socket );
-		lpUser->socket = INVALID_SOCKET;
-	}
-	else
-	{
-		closesocket(lpUser->socket );
-	}
+	lpCSUser->Socket->close();
 
 	LeaveCriticalSection(&criti);
 }
 
 void CIOCP::ResponErrorCloseClient(int index)
 {
-	STR_CS_USER* lpUser = getUser(index);
+	STR_CS_USER* lpCSUser = getUser(index);
 
-	if (lpUser->ConnectionState == 0 )
+	if (lpCSUser->ConnectionState == 0 )
 	{
 		sLog->outError("error-L1 : CloseClient connect error");
 		return;
 	}
 
 	EnterCriticalSection(&criti);
-	closesocket(lpUser->socket);
-	lpUser->socket = INVALID_SOCKET;
-	UserDelete(index);
+	closesocket(lpCSUser->Index);
+	lpCSUser->Socket = nullptr;
+	UserDelete(lpCSUser->Index);
 	LeaveCriticalSection(&criti);
 }

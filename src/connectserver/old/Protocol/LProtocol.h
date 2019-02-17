@@ -2,7 +2,6 @@
 #define LPROTOCOL_H
 
 #include "StdAfx.h"
-#include "ProtocolStructs.h"
 
 enum 
 {
@@ -16,17 +15,17 @@ public:
 	CConServ();
 	~CConServ();
 
-	void ConnectResultSend(CGameObject &Obj);
-	void ServerListSend(CGameObject &Obj);
-	void GetServerList(CGameObject &Obj);
-	void GetServerInfo(CGameObject &Obj, USHORT ServerId);
+	void ConnectResultSend(int userIndex);
+	void ServerListSend(int userIndex);
+	void GetServerList(int userIndex);
+	void GetServerInfo(int userIndex, USHORT ServerId);
 	void LoadNewsFile(LPSTR szFile);
-	void SendNews(CGameObject &Obj);
+	void SendNews(int userIndex);
 	void LoadServerList(LPSTR szFile);
 	CONNECT_OBJECT cObj[1000];
 
 }; extern CConServ g_ConnectServer;
-void LProtocolCore(CGameObject &Obj, BYTE hCode, LPBYTE aRecv, int aLen);
+void LProtocolCore(int userIndex, BYTE hCode, LPBYTE aRecv, int aLen);
 void AddServer(PMSG_SERVERINFO * pMsg);
 void LSProtocolCore(BYTE hCode, LPBYTE aRecv, int aLen);
 //extern WzUdp g_CSSocket;

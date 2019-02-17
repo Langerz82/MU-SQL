@@ -25,7 +25,6 @@ class CQuery
 public:
 
 	CQuery(DatabaseWorkerPool<MySQLConnection>* db);
-	CQuery(DatabaseWorkerPool<ConnectDatabaseConnection>* db);
 	//CQuery(DatabaseWorkerPool<GameDatabaseConnection>* db);
 	virtual ~CQuery();
 
@@ -35,7 +34,7 @@ public:
 	BOOL ExecQuery(TCHAR* lpszStatement, ...);
 	BOOL Execute(TCHAR* lpszStatement);
 	QueryResult* Fetch(TCHAR* lpszStatement, ...);
-	bool HasFields();
+	//bool HasFields();
 
 	int GetAsBinary(LPSTR lpszStatement, LPBYTE OUT lpszReturnBuffer, int size);
 	void SetAsBinary(LPTSTR lpszStatement, LPBYTE lpBinaryBuffer, UINT32 BinaryBufferSize);
@@ -48,17 +47,16 @@ public:
 	//float GetAsFloat(LPTSTR ColName);
 
 	//int FindIndex(LPTSTR ColName);
-	void GetAsString(int index, LPTSTR pOutBuffer, int size);
-	DWORD GetAsInteger(int index);
-	INT64 GetAsInteger64(int index);
-	float GetAsFloat(int index);
+	void GetAsString(int iIndex, LPTSTR pOutBuffer, int size);
+	DWORD GetAsInteger(int iIndex);
+	INT64 GetAsInteger64(int iIndex);
+	float GetAsFloat(int iIndex);
 
 	//void Close();
 	//void Diagnosis(bool &bReconnect);
 
 	DatabaseWorkerPool<MySQLConnection>* m_Database;
 	QueryResult* m_Result;
-	Field* m_Fields;
 
 };
 

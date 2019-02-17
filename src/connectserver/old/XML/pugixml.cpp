@@ -15,6 +15,7 @@
 #ifndef SOURCE_PUGIXML_CPP
 #define SOURCE_PUGIXML_CPP
 
+#include "StdAfx.h"
 #include "pugixml.hpp"
 
 #include <stdlib.h>
@@ -5798,19 +5799,19 @@ namespace pugi
 namespace std
 {
 	// Workarounds for (non-standard) iterator category detection for older versions (MSVC7/IC8 and earlier)
-	PUGI__FN std::bidirectional_iterator _Iter_cat(const pugi::xml_node_iterator&)
+	PUGI__FN std::bidirectional_iterator_tag _Iter_cat(const pugi::xml_node_iterator&)
 	{
-		return std::bidirectional_iterator();
+		return std::bidirectional_iterator_tag();
 	}
 
-	PUGI__FN std::bidirectional_iterator _Iter_cat(const pugi::xml_attribute_iterator&)
+	PUGI__FN std::bidirectional_iterator_tag _Iter_cat(const pugi::xml_attribute_iterator&)
 	{
-		return std::bidirectional_iterator();
+		return std::bidirectional_iterator_tag();
 	}
 
-	PUGI__FN std::bidirectional_iterator _Iter_cat(const pugi::xml_named_node_iterator&)
+	PUGI__FN std::bidirectional_iterator_tag _Iter_cat(const pugi::xml_named_node_iterator&)
 	{
-		return std::bidirectional_iterator();
+		return std::bidirectional_iterator_tag();
 	}
 }
 #endif

@@ -12,7 +12,7 @@ using namespace std;
 
 #define szModule "LProtocol"
 CConServ g_ConnectServer;
-P_ADD_NEWS gObjNews[MAX_NEWS]; 
+//P_ADD_NEWS gObjNews[MAX_NEWS]; 
 std::vector<ServerList> g_CServerList;
 std::map<int, ServerInfo> g_ConnectedServers;
 
@@ -28,7 +28,7 @@ CConServ::~CConServ()
 
 }
 
-void CConServ::ConnectResultSend(CGameObject &Obj)
+void CConServ::ConnectResultSend(int userIndex)
 {
 	PMSG_HELLO pMsg = {0};
 	pMsg.h.c = 0xC1;
@@ -36,7 +36,7 @@ void CConServ::ConnectResultSend(CGameObject &Obj)
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.result = 0x01;
 
-	DataSend(Obj.m_Index,(BYTE*)&pMsg,sizeof(pMsg), nullptr);
+	DataSend(userIndex,(BYTE*)&pMsg,sizeof(pMsg), nullptr);
 	/*if(!newssent)
 	{
 		newssent = true;
@@ -45,7 +45,7 @@ void CConServ::ConnectResultSend(CGameObject &Obj)
 	
 }
 
-void CConServ::ServerListSend(CGameObject &Obj)
+void CConServ::ServerListSend(int userIndex)
 {
 	PMSG_SERVERSLIST_COUNT * pMsg;///(0xC2, 0xF4, 0x06);
 	PMSG_SERVERLIST_SERVER * pServer;
@@ -69,8 +69,8 @@ void CConServ::ServerListSend(CGameObject &Obj)
 
 		pServer = (PMSG_SERVERLIST_SERVER *)(cBUFF + sizeof(PMSG_SERVERSLIST_COUNT) + (Count*sizeof(PMSG_SERVERLIST_SERVER)));
 		
-		pServer->ServerCode	= It2->btServerCode;
-		pServer->Percent	= It->second.Percent;
+		pServer->wServerCode	= It2->btServerCode;
+		pServer->btPercent	= It->second.Percent;
 
 		Count++;
 	}
@@ -89,12 +89,12 @@ void CConServ::ServerListSend(CGameObject &Obj)
 	pMsg->h.sizeL	= LOBYTE(PacketSize);
 	pMsg->h.sizeH	= HIBYTE(PacketSize);
 
-	DataSend(Obj.m_Index, cBUFF, PacketSize, nullptr);
+	DataSend(userIndex, cBUFF, PacketSize, nullptr);
 
-//	this->SendNews(Obj.m_Index);
+//	this->SendNews(userIndex);
 }
 
-void CConServ::GetServerInfo(CGameObject &Obj, USHORT id)
+void CConServ::GetServerInfo(int userIndex, USHORT id)
 {
 	GS_CONNECT_INFO pMsg	= {0};
 
@@ -112,31 +112,31 @@ void CConServ::GetServerInfo(CGameObject &Obj, USHORT id)
 
 			pMsg.Port = It->wServerPort;
 
-			DataSend(Obj.m_Index, (BYTE*)&pMsg, sizeof(pMsg), nullptr);
+			DataSend(userIndex, (BYTE*)&pMsg, sizeof(pMsg), nullptr);
 
-			sLog->outBasic(0, szModule, __FUNCTION__, "INDEX : %d; SERVER SELECTED (%d) (%s:%d)", Obj.m_Index, id, pMsg.IP, pMsg.Port);
+			sLog->outBasic(0, szModule, __FUNCTION__, "INDEX : %d; SERVER SELECTED (%d) (%s:%d)", userIndex, id, pMsg.IP, pMsg.Port);
 			
 			break;
 		}
 	}
 }
 
-void CConServ::GetServerList(CGameObject &Obj)
+void CConServ::GetServerList(int userIndex)
 {
 	if(g_ConnectedServers.size() > 0)
 	{	
-		this->ServerListSend(Obj.m_Index);
-		if(g_Server[Obj.m_Index].newsSent == 0)
+		this->ServerListSend(userIndex);
+		if(g_Server[userIndex].newsSent == 0)
 		{
-			this->SendNews(Obj.m_Index);
-			g_Server[Obj.m_Index].newsSent = 1;
+			this->SendNews(userIndex);
+			g_Server[userIndex].newsSent = 1;
 		}
 	}
 	else
 	{
-		sLog->outBasic(0, szModule, __FUNCTION__, "INDEX : %d; no active servers", Obj.m_Index);
-		CloseClient(Obj.m_Index);
-	//	gObjServerDel(Obj.m_Index);
+		sLog->outBasic(0, szModule, __FUNCTION__, "INDEX : %d; no active servers", userIndex);
+		CloseClient(userIndex);
+	//	gObjServerDel(userIndex);
 	}	
 }
 void CConServ::LoadServerList(LPSTR szFile)
@@ -149,7 +149,7 @@ void CConServ::LoadServerList(LPSTR szFile)
 	}
 
 	SMDToken Token;
-	CGameObject &Obj;
+	int userIndex;
 	ServerList m_Server;
 	g_CServerList.clear();
 	g_ConnectedServers.clear();
@@ -162,7 +162,7 @@ void CConServ::LoadServerList(LPSTR szFile)
 
 		if(Token == NUMBER)
 		{
-			Obj.m_Index = TokenNumber;
+			userIndex = TokenNumber;
 
 			while(true)
 			{
@@ -189,6 +189,8 @@ void CConServ::LoadServerList(LPSTR szFile)
 int newscount = 0;
 void CConServ::LoadNewsFile(LPSTR szFile)
 {
+	/*
+	// TODO
 	for(int i = 0; i < 10; i++ )
 	{
 		//gObjNews[i].dateColor = 0;
@@ -208,7 +210,7 @@ void CConServ::LoadNewsFile(LPSTR szFile)
 			return;
 		 }
 		SMDToken Token;
-		CGameObject &Obj = 0;
+		int userIndex = 0;
 		int iIndex = 0;
 		// Date RGB
 		BYTE dateR = 0;
@@ -239,7 +241,7 @@ void CConServ::LoadNewsFile(LPSTR szFile)
 				break;
 			 if(Token == NUMBER)
 			 {
-				 Obj.m_Index = TokenNumber;
+				 userIndex = TokenNumber;
 
 				 while(true)
 				 {
@@ -247,7 +249,7 @@ void CConServ::LoadNewsFile(LPSTR szFile)
 					 if(strcmp("end",TokenString) == 0)
 						 break;
 
-					 if(Obj.m_Index == 0)
+					 if(userIndex == 0)
 					 {
 						iIndex = TokenNumber;
 
@@ -304,7 +306,7 @@ void CConServ::LoadNewsFile(LPSTR szFile)
 						gObjNews[iIndex].year = Year;
 						newscount++;
 					 }
-					 else if(Obj.m_Index == 1)
+					 else if(userIndex == 1)
 					 {
 						 std::memcpy(Title, TokenString, sizeof(Title));
 					 }
@@ -314,20 +316,19 @@ void CConServ::LoadNewsFile(LPSTR szFile)
 
 		 fclose(SMDFile);
 		 sLog->outBasic(0,szModule,"::LoadNewsFile()"," File Loaded successfuly");
-
-
+	*/
 }
 
-void CConServ::SendNews(CGameObject &Obj)
+void CConServ::SendNews(int userIndex)
 {
-
+	/*
 	PMSG_SEND_TITLE pTitle;
 	pTitle.h.c = 0xC1;
 	pTitle.h.headcode = 0xFA;
 	pTitle.h.subcode = 0x00;
 	std::memcpy(pTitle.ServerName, Title, sizeof(pTitle.ServerName));
 
-	DataSend(Obj.m_Index, (BYTE*)&pTitle, pTitle.h.size, nullptr);
+	DataSend(userIndex, (BYTE*)&pTitle, pTitle.h.size, nullptr);
 
 	PMSG_SEND_NEWS pMsg = {0};
 
@@ -357,14 +358,15 @@ void CConServ::SendNews(CGameObject &Obj)
 		std::memcpy(buffer, &pMsg, sizeof(PMSG_SEND_NEWS));
 		std::memcpy(&buffer[sizeof(PMSG_SEND_NEWS)], gObjNews[i].Text, textlen);
 
-		DataSend(Obj.m_Index, (BYTE*)buffer, sizeof(PMSG_SEND_NEWS)+textlen, nullptr);
+		DataSend(userIndex, (BYTE*)buffer, sizeof(PMSG_SEND_NEWS)+textlen, nullptr);
 	}
 	sLog->outBasic(0,szModule,"::SendNews()","News Sent. Amount : %d",newscount);
+	*/
 }
 
 
 
-void LProtocolCore(CGameObject &Obj, BYTE hCode, BYTE* aRecv, int aLen)
+void LProtocolCore(int userIndex, BYTE hCode, LPBYTE aRecv, int aLen)
 {
 	switch (hCode)
 	{
@@ -373,10 +375,10 @@ void LProtocolCore(CGameObject &Obj, BYTE hCode, BYTE* aRecv, int aLen)
 			switch(aRecv[3])
 			{
 				case CS_SERVER_SELECT:
-					g_ConnectServer.GetServerInfo(Obj.m_Index,MAKEWORD(aRecv[4],aRecv[5]));
+					g_ConnectServer.GetServerInfo(userIndex,MAKEWORD(aRecv[4],aRecv[5]));
 					break;
 				case CS_CLIENT_CONNECT:
-					g_ConnectServer.GetServerList(Obj.m_Index);
+					g_ConnectServer.GetServerList(userIndex);
 					break;
 			}
 		}
@@ -384,7 +386,7 @@ void LProtocolCore(CGameObject &Obj, BYTE hCode, BYTE* aRecv, int aLen)
 	}
 }
 
-void LSProtocolCore(BYTE hCode, BYTE* aRecv, int aLen)
+void LSProtocolCore(BYTE hCode, LPBYTE aRecv, int aLen)
 {
 	switch ( hCode )
 	{

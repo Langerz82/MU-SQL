@@ -2,8 +2,6 @@
 // AntiSwear.cpp
 #include "StdAfx.h"
 #include "AntiSwear.h"
-#include "Logging/Log.h"
-#include "../pugixml.hpp"
 
 CAntiSwear SwearFilter;
 
@@ -31,7 +29,7 @@ bool CAntiSwear::LoadFile(const char* File)
 	pugi::xml_node mainXML_section = file.child("ProhibitedWords");
 	std::string Swear;
 
-	for (pugi::xml_node word = main_section.child("Restrict"); word; word = word.next_sibling())
+	for (pugi::xml_node word = mainXML_section.child("Restrict"); word; word = word.next_sibling())
 	{
 		Swear = word.attribute("Word").as_string();
 		this->m_SwearWords.push_back(Swear);

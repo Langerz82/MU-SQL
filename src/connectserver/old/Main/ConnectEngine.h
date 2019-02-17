@@ -10,22 +10,22 @@
 #include <boost/uuid/uuid_generators.hpp>
 
 
-std::map<int, STR_CS_USER*> gUsers;
+extern std::map<int, STR_CS_USER*> gCSUsers;
 // Functions forward declared.
 STR_CS_USER* getUser(int index);
 void insertUser(STR_CS_USER* Obj);
-void eraseUser(STR_CS_USER* Obj);
+void eraseUser(int index);
 
 
 void UserInit();
-short UserAdd(char* SocketKey, char* IP);
+STR_CS_USER* UserAdd(char* SocketKey, char* IP);
 short UserDelete(int index);
 bool UserSet(int index, unsigned int Port, int type, char* Name);
 void UserRun();
 
-extern STR_CS_USER* getUser(int index) { return gUsers.find(index)->second; }
-extern void insertUser(STR_CS_USER* Obj) { gUsers.insert(std::pair<int, STR_CS_USER*>(Obj->Index, Obj)); }
-extern void eraseUser(int index) { gUsers.erase(index); }
+extern STR_CS_USER* getCSUser(int index) { return gCSUsers.find(index)->second; }
+extern void insertUser(STR_CS_USER* Obj) { gCSUsers.insert(std::pair<int, STR_CS_USER*>(Obj->Index, Obj)); }
+extern void eraseUser(int index) { gCSUsers.erase(index); }
 
 #endif
 

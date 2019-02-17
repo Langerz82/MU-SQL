@@ -2,9 +2,6 @@
 // Lang.cpp
 #include "StdAfx.h"
 #include "Lang.h"
-#include "Logging/Log.h"
-#include "GameMain.h"
-#include "configread.h"
 
 CLanguage Lang;
 
@@ -12,7 +9,7 @@ void CLanguage::Init()
 {
 	this->m_LangData.Init();
 
-	char * szFile = g_ConfigRead.GetPath("IGC_LangBase.xml"); 
+	char * szFile = ".\\IGCData\\Langs\\IGC_LangBase.xml"; 
 
 	pugi::xml_document file;
 	pugi::xml_parse_result res = file.load_file(szFile);

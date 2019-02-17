@@ -14,7 +14,7 @@
 
 #include "StdAfx.h"
 #include "iniReader/IniReader.h"
-#include "configread.h"
+//#include "configread.h"
 
 #define TRUE 1
 #define FALSE 0
@@ -93,14 +93,6 @@ private:
 	char Name[MAX_ACCOUNT_LEN+1];	// 0
 
 };
-
-inline bool ObjectMaxRange(int Index)
-{
-	if (Index < 0 || Index > g_ConfigRead.server.GetObjectMax() - 1)
-		return false;
-
-	return true;
-}
 
 #endif
 

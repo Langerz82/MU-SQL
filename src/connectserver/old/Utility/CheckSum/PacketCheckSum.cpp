@@ -2,9 +2,8 @@
 // PacketCheckSum.cpp
 #include "StdAfx.h"
 #include "PacketCheckSum.h"
-#include "Logging/Log.h"
-#include "configread.h"
-#include "GameMain.h"
+//#include "configread.h"
+#include "Main.h"
 // GS-N 0.99.60T 0x00452B80
 // GS-N	1.00.18	JPN	0x00461F60	-	Completed
 
@@ -43,75 +42,75 @@ void CPacketCheckSum::Init()
 
 
 
-void CPacketCheckSum::Check(CGameObject &Obj)
+void CPacketCheckSum::Check(int userIndex)
 {
-	if ( Obj.m_Index < 0 || Obj.m_Index > g_ConfigRead.server.GetObjectMax()-1)
+	if ( userIndex < 0 || userIndex > g_ConfigRead.server.GetObjectMax()-1)
 	{
 		return;
 	}
 
 	for ( int i=0 ; i<MAX_PACKET_CHECKSUM_FUNCTION_INDEX ; i++)
 	{
-		if ( this->PaketChecksum[Obj.m_Index].Check[i] == 0 )
+		if ( this->PaketChecksum[userIndex].Check[i] == 0 )
 		{
 			char szPacketError[256];
 
 			sLog->outBasic("PacketCheckSum Error [%d][%s][%s] %d",
-				Obj.m_Index, Obj.AccountID, Obj.Name, i);
+				userIndex, Obj.AccountID, Obj.Name, i);
 			
 			wsprintf(szPacketError, "PacketCheckSum Error %d", i);
 
-			this->ClearCheckSum(Obj.m_Index);
+			this->ClearCheckSum(userIndex);
 
 			if ( gDisconnectHackUser != FALSE )
 			{
-				gObjCloseSet(Obj.m_Index, 0);
+				gObjCloseSet(userIndex, 0);
 			}
 
 			return;
 		}
 	}
 
-	sLog->outBasic("Check PacketCheckSum [%d][%s][%s]", Obj.m_Index, Obj.AccountID, Obj.Name);
-	this->ClearCheckSum(Obj.m_Index);
+	sLog->outBasic("Check PacketCheckSum [%d][%s][%s]", userIndex, Obj.AccountID, Obj.Name);
+	this->ClearCheckSum(userIndex);
 }
 
 
-void CPacketCheckSum::ClearCheckSum(CGameObject &Obj)
+void CPacketCheckSum::ClearCheckSum(int userIndex)
 {
-	memset(&this->PaketChecksum[Obj.m_Index], 0, sizeof(PAKETCHECKSUM) );
+	memset(&this->PaketChecksum[userIndex], 0, sizeof(PAKETCHECKSUM) );
 }
 
 
-BOOL CPacketCheckSum::Add(CGameObject &Obj, int funcindex, DWORD checksum)
+BOOL CPacketCheckSum::Add(int userIndex, int funcindex, DWORD checksum)
 {
-	if ( Obj.m_Index < 0 || Obj.m_Index > g_ConfigRead.server.GetObjectMax()-1)
+	if ( userIndex < 0 || userIndex > g_ConfigRead.server.GetObjectMax()-1)
 	{
 		return FALSE;
 	}
 
 	if ( this->m_ChecksumTableAllClearState == 0 )
 	{
-		this->PaketChecksum[Obj.m_Index].Check[funcindex] = checksum;
+		this->PaketChecksum[userIndex].Check[funcindex] = checksum;
 		return TRUE;
 	}
 	
 	if ( this->m_ChecksumTable[funcindex] == checksum )
 	{
-		this->PaketChecksum[Obj.m_Index].Check[funcindex] = checksum;
+		this->PaketChecksum[userIndex].Check[funcindex] = checksum;
 	}
 	else
 	{
 		char szPacketError[256];
 
-		sLog->outBasic("PacketCheckSum : Compare Fail : [%d][%s][%s] (%d,%d)", Obj.m_Index,
+		sLog->outBasic("PacketCheckSum : Compare Fail : [%d][%s][%s] (%d,%d)", userIndex,
 			Obj.AccountID, Obj.Name, funcindex, checksum);
 
 		wsprintf(szPacketError, "PacketCheckSum : Compare Fail : (%d,%d)", funcindex, checksum);
 
 		if ( gDisconnectHackUser != FALSE )
 		{
-			gObjCloseSet(Obj.m_Index, 0);
+			gObjCloseSet(userIndex, 0);
 		}
 	}
 
@@ -120,15 +119,15 @@ BOOL CPacketCheckSum::Add(CGameObject &Obj, int funcindex, DWORD checksum)
 
 
 
-void CPacketCheckSum::AddCheckSum(CGameObject &Obj, int funcindex, DWORD checksum)
+void CPacketCheckSum::AddCheckSum(int userIndex, int funcindex, DWORD checksum)
 {
 	if ( funcindex < 0 || funcindex >= MAX_PACKET_CHECKSUM_FUNCTION_INDEX )
 	{
-		sLog->outBasic("PacketCheckSum : Invalid FuncIndex : %d, %d", Obj.m_Index, funcindex);
+		sLog->outBasic("PacketCheckSum : Invalid FuncIndex : %d, %d", userIndex, funcindex);
 		return;
 	}
 
-	this->Add(Obj.m_Index, funcindex, checksum);
+	this->Add(userIndex, funcindex, checksum);
 
 	if ( this->m_ChecksumTableAllClearState != 0 )
 	{

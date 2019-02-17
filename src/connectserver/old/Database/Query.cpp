@@ -9,9 +9,7 @@
 CQuery::CQuery(DatabaseWorkerPool<MySQLConnection>* db): m_Database(db)
 {
 }
-CQuery::CQuery(DatabaseWorkerPool<ConnectDatabaseConnection>* db) : m_Database(db)
-{
-}
+
 /*CQuery::CQuery(DatabaseWorkerPool<GameDatabaseConnection>* db) : m_Database(db)
 {
 }*/
@@ -34,16 +32,8 @@ BOOL CQuery::ExecQuery(TCHAR* lpszStatement, ...)
 
 BOOL CQuery::Execute(TCHAR* lpszStatement)
 {
-	while (true)
-	{
-		m_Database->Execute(lpszStatement);
+	m_Database->Execute(lpszStatement);
 
-		if (false) // stub TODO
-		{
-			sLog->outError("[SQL Error] Error executing: %s", lpszStatement);
-			return FALSE;
-		}
-	}
 	return TRUE;
 }
 
@@ -56,34 +46,24 @@ QueryResult* CQuery::Fetch(TCHAR* lpszStatement, ...)
 	vsprintf(szStatement, lpszStatement, pArguments);
 	va_end(pArguments);
 
-	if (m_Result != NULL)
-		m_Result == NULL;
-	if (m_Fields != NULL)
-		delete m_Fields;
+	if (this->m_Result != NULL)
+		this->m_Result == NULL;
 
-	while (true)
+	this->m_Result = &m_Database->Query(szStatement);
+
+	if (this->m_Result == NULL)
 	{
-		m_Database->Query(szStatement);
-
-		if (false) // stub TODO
-		{
-			sLog->outError("[SQL Error] Error querying: %s", lpszStatement);
-			m_Fields = NULL;
-			return NULL;
-		}
+		sLog->outError("[SQL Error] Error querying: %s", lpszStatement);
+		return NULL;
 	}
-	Field* m_Fields = new Field();
-	m_Fields = NULL; // TODO
-	return m_Result;
-}
 
-bool CQuery::HasFields()
-{
-	return (m_Fields != NULL);
+	return this->m_Result;
 }
 
 int CQuery::GetAsBinary(LPSTR lpszStatement, BYTE* OUT lpszReturnBuffer, int size)
 {
+	// TODO
+	/*
 	QueryResult* res = Fetch(lpszStatement);
 	Field* field = NULL; // TODO stub
 	std::vector<BYTE> vec = field[0].GetBinary();
@@ -93,6 +73,8 @@ int CQuery::GetAsBinary(LPSTR lpszStatement, BYTE* OUT lpszReturnBuffer, int siz
 		lpszReturnBuffer[i++] = *it;
 	}
 	return sizeof(lpszReturnBuffer);
+	*/
+	return 0; // stub
 }
 
 void CQuery::SetAsBinary(LPTSTR lpszStatement, BYTE* lpBinaryBuffer, UINT32 BinaryBufferSize)
@@ -164,21 +146,20 @@ void CQuery::GetAsString(LPTSTR ColName, LPTSTR pOutBuffer, int size)
 	}
 }*/
 
-void CQuery::GetAsString(int index, LPTSTR pOutBuffer, int size)
+void CQuery::GetAsString(int iIndex, LPTSTR pOutBuffer, int size)
 {
 	if (iIndex == -1)
 	{
 		pOutBuffer[0] = 0;
 	}
 
-	LPTSTR str = this->m_Fields->GetCString[iIndex];
-	if (str == NULL)
+	if ((**this->m_Result)[iIndex].GetCString() == NULL)
 	{
 		pOutBuffer[0] = 0;
 	}
 	else
 	{
-		strncpy(pOutBuffer, this->m_Fields->GetCString[iIndex], size);
+		strncpy(pOutBuffer, (**this->m_Result)[iIndex].GetCString(), size);
 	}
 }
 
@@ -188,20 +169,20 @@ void CQuery::GetAsString(int index, LPTSTR pOutBuffer, int size)
 
 	if (iIndex != -1)
 	{
-		return this->GetAsInteger(Obj.m_Index);
+		return this->GetAsInteger(userIndex);
 	}
 
 	return -1;
 }*/
 
-DWORD CQuery::GetAsInteger(int index)
+DWORD CQuery::GetAsInteger(int iIndex)
 {
 	if (iIndex == -1)
 	{
 		return -1;
 	}
 
-	return this->m_Fields->GetInt32[iIndex];
+	return (**this->m_Result)[iIndex].GetInt32();
 }
 
 /*INT64 CQuery::GetAsInteger64(LPTSTR ColName)
@@ -210,19 +191,19 @@ DWORD CQuery::GetAsInteger(int index)
 
 	if (iIndex != -1)
 	{
-		return this->GetAsInteger64(Obj.m_Index);
+		return this->GetAsInteger64(userIndex);
 	}
 
 	return -1LL;
 }*/
 
-INT64 CQuery::GetAsInteger64(int index)
+INT64 CQuery::GetAsInteger64(int iIndex)
 {
 	if (iIndex == -1)
 	{
 		return -1LL;
 	}
-	return this->m_Fields->GetInt64[iIndex];
+	return (**this->m_Result)[iIndex].GetInt64();
 }
 
 /*float CQuery::GetAsFloat(LPTSTR ColName)
@@ -231,19 +212,19 @@ INT64 CQuery::GetAsInteger64(int index)
 
 	if (iIndex != -1)
 	{
-		return this->GetAsFloat(Obj.m_Index);
+		return this->GetAsFloat(userIndex);
 	}
 
 	return -1;
 }*/
 
-float CQuery::GetAsFloat(int index)
+float CQuery::GetAsFloat(int iIndex)
 {
 	if (iIndex == -1)
 	{
 		return -1;
 	}
-	return this->m_Fields->GetFloat[iIndex];
+	return (**this->m_Result)[iIndex].GetFloat();
 }
 
 /*

@@ -8,7 +8,7 @@
 #include "StdAfx.h"
 #include "IOCP.h"
 
-typedef void (*WsProtocolCore)(int, BYTE, LPBYTE, int);
+//typedef void (*WsProtocolCore)(int, BYTE, LPBYTE, int);
 
 #ifndef MAX_SERVER_TYPE
 #define MAX_SERVER_TYPE (ST_EXDATASERVER+1)

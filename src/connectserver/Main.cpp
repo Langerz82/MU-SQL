@@ -92,6 +92,9 @@ TCHAR g_logsDir[64];
 TCHAR g_logsEntryCount[2];
 std::string g_logsEntry[10]; // up to 10 logs
 
+int g_MaxPacketPerSec = 1000;
+int g_MaxConnectionsPerIP = 16;
+
 void UnhookSignals();
 void HookSignals();
 

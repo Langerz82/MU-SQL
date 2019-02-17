@@ -44,7 +44,6 @@
 
 #include "Lang.h"
 #include "iniReader\IniReader.h"
-#include "configread.h"
 
 #include "generalStructs.h"
 

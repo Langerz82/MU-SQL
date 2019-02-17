@@ -1,7 +1,7 @@
 
 #include "ConnectEngine.h"
 #include "Logging/Log.h"
-#include "ConnectServer.h"
+#include "Main.h"
 
 std::vector<STR_CS_USER*> gConnUsers;
 
@@ -28,17 +28,17 @@ int iReturnIpCount(char *IP)
 
 }
 
-short UserAdd(char* SocketKey, char* IP)
+STR_CS_USER* UserAdd(char* SocketKey, char* IP)
 {
 	int count = SCount;
 	int totalcount = 0;
 
 	while (true)
 	{
-		if (iReturnIpCount(IP) > g_MaxConnectionsPerIP && strcmpi(IP, g_WhiteListIP) != 0)
+		if (iReturnIpCount(IP) > g_MaxConnectionsPerIP /*&& strcmpi(IP, g_WhiteListIP) != 0*/)
 		{
 			sLog->outError("IP: [%s] Reached Maximum Allowed Connections", IP);
-			return -1;
+			return nullptr;
 		}
 
 		if (count < MAX_USER)
@@ -46,7 +46,7 @@ short UserAdd(char* SocketKey, char* IP)
 			STR_CS_USER* connUser = new STR_CS_USER();
 			connUser->ConnectionState = 1;
 			strcpy(connUser->IP, IP);
-			connUser->SocketKey = socketKey;
+			std::memcpy(connUser->SocketKey, SocketKey, 32);
 			connUser->News = false;
 			connUser->PacketCount = 0;
 			connUser->i64PacketTime = GetTickCount64();
@@ -54,7 +54,7 @@ short UserAdd(char* SocketKey, char* IP)
 			insertUser(connUser);
 			SCount++;
 			sLog->outBasic("Connection Accept: %s", IP);
-			return (short)connUser->Index;
+			return connUser;
 		}
 
 		count++;
@@ -72,7 +72,7 @@ short UserAdd(char* SocketKey, char* IP)
 		}
 	}
 
-	return -1;
+	return nullptr;
 }
 
 short UserDelete(int index)

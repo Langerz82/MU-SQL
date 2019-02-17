@@ -11,7 +11,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "User/CUserData.h"
+#include "StdAfx.h"
 
 #define MAX_MULTICHECKSUM	10
 
@@ -26,7 +26,7 @@ public:
 
 	void Init();
 	void SetFilePath(char* filepath);
-	int CompareCheckSum(CGameObject &Obj, DWORD TableNum, DWORD Key);
+	int CompareCheckSum(int userIndex, DWORD TableNum, DWORD Key);
 
 private:
 

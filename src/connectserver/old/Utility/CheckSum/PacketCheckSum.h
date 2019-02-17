@@ -24,10 +24,10 @@ public:
 	virtual ~CPacketCheckSum();
 
 	void Init();
-	void Check(CGameObject &Obj);
-	void ClearCheckSum(CGameObject &Obj);
-	int Add(CGameObject &Obj, int funcindex, DWORD checksum);
-	void AddCheckSum(CGameObject &Obj, int funcindex, DWORD checksum);
+	void Check(int userIndex);
+	void ClearCheckSum(int userIndex);
+	int Add(int userIndex, int funcindex, DWORD checksum);
+	void AddCheckSum(int userIndex, int funcindex, DWORD checksum);
 	void SetClearChecksumFunc(int funcindex);
 
 private:
