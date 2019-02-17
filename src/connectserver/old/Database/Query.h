@@ -10,24 +10,21 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "Common/Common.h"
-#include "database/Database/DatabaseEnv.h"
-#include "database/Database/DatabaseWorkerPool.h"
 #include "Main.h"
-#include "database/Database/Implementation/CSDatabase.h"
+#include "database/Database/DatabaseEnv.h"
 #include "database/Database/QueryResult.h"
 
 //class ConnectDatabaseConnection;
 //class MySQLConnection;
 
-
 class CQuery  
 {
 public:
-	CQuery() {};
-	CQuery(DatabaseWorkerPool<ConnectDatabaseConnection>* db);
+	CQuery():m_Database(gConnectDatabase) {};
+	//CQuery(DatabaseWorkerPool<ConnectDatabaseConnection> &db): m_Database(db) {};
+	//void Open(DatabaseWorkerPool<ConnectDatabaseConnection> &db);
 	//CQuery(DatabaseWorkerPool<GameDatabaseConnection>* db);
-	virtual ~CQuery();
+	~CQuery();
 
 	//BOOL ReConnect();
 	//void Disconnect();
@@ -39,17 +36,17 @@ public:
 	//bool HasFields();
 
 	//int GetAsBinary(LPSTR lpszStatement, LPBYTE OUT lpszReturnBuffer, int size);
-	//void SetAsBinary(LPTSTR lpszStatement, LPBYTE lpBinaryBuffer, UINT32 BinaryBufferSize);
+	//void SetAsBinary(LPSTR lpszStatement, LPBYTE lpBinaryBuffer, UINT32 BinaryBufferSize);
 
 	//int GetResult(int index);
 	
-	//void GetAsString(LPTSTR ColName, LPTSTR pOutBuffer, int size);
-	//DWORD GetAsInteger(LPTSTR ColName);
-	//INT64 GetAsInteger64(LPTSTR ColName);
-	//float GetAsFloat(LPTSTR ColName);
+	//void GetAsString(LPSTR ColName, LPSTR pOutBuffer, int size);
+	//DWORD GetAsInteger(LPSTR ColName);
+	//INT64 GetAsInteger64(LPSTR ColName);
+	//float GetAsFloat(LPSTR ColName);
 
-	//int FindIndex(LPTSTR ColName);
-	void GetAsString(int iIndex, LPTSTR pOutBuffer, int size);
+	//int FindIndex(LPSTR ColName);
+	void GetAsString(int iIndex, LPSTR pOutBuffer, int size);
 	DWORD GetAsInteger(int iIndex);
 	INT64 GetAsInteger64(int iIndex);
 	float GetAsFloat(int iIndex);
@@ -57,9 +54,9 @@ public:
 	//void Close();
 	//void Diagnosis(bool &bReconnect);
 
-	DatabaseWorkerPool<ConnectDatabaseConnection>* m_Database;
+	DatabaseWorkerPool<ConnectDatabaseConnection> &m_Database;
 	//void* m_Database;
-	QueryResult* m_Result;
+	QueryResult m_Result;
 
 };
 

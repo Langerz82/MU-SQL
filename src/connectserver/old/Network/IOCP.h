@@ -29,9 +29,8 @@ public:
 
 	void GiocpInit();
 	void GiocpDelete();
-	bool CreateGIocp(int server_port);
 	void DestroyGIocp();
-	bool CreateListenSocket(UINT16 uiPort, LPTSTR ipAddress);
+	bool CreateListenSocket(UINT16 uiPort, LPSTR ipAddress);
 	bool RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex);
 	bool DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt = true);
 	bool IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext);

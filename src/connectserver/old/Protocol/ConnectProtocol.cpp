@@ -6,6 +6,9 @@
 #include "ServerData.h"
 #include "Main.h"
 #include "Utility/util.h"
+#include "generalStructs.h"
+#include "Query.h"
+#include "Database/Database/DatabaseEnv.h"
 
 CLoginServerProtocol m_JSProtocol;
 
@@ -366,7 +369,7 @@ void CLoginUserData::Init()
 	}
 }
 
-DWORD CLoginUserData::MakeAccountKey(LPTSTR lpszAccountID)
+DWORD CLoginUserData::MakeAccountKey(LPSTR lpszAccountID)
 {
 	int len = (int)strlen(lpszAccountID);
 
@@ -551,7 +554,7 @@ BOOL CLoginUserData::CheckMoveTimeOut(char * szAccountID)
 	return FALSE;
 }
 
-int CLoginUserData::CheckAccountID(LPTSTR szAccountID)
+int CLoginUserData::CheckAccountID(LPSTR szAccountID)
 {
 	for (int i = 0; i<MAX_LOGIN_USER; i++)
 	{
@@ -569,7 +572,7 @@ int CLoginUserData::CheckAccountID(LPTSTR szAccountID)
 	return FALSE;
 }
 
-bool CLoginUserData::CheckHWIDLimit_Group(WORD ServerGroup, LPTSTR szHWID)
+bool CLoginUserData::CheckHWIDLimit_Group(WORD ServerGroup, LPSTR szHWID)
 {
 	DWORD HWIDCount = 0;
 
@@ -595,7 +598,7 @@ bool CLoginUserData::CheckHWIDLimit_Group(WORD ServerGroup, LPTSTR szHWID)
 	return TRUE;
 }
 
-bool CLoginUserData::CheckHWIDLimit_Local(WORD ServerCode, LPTSTR szHWID, DWORD HWIDMaxUse)
+bool CLoginUserData::CheckHWIDLimit_Local(WORD ServerCode, LPSTR szHWID, DWORD HWIDMaxUse)
 {
 	DWORD HWIDCount = 0;
 
@@ -621,7 +624,7 @@ bool CLoginUserData::CheckHWIDLimit_Local(WORD ServerCode, LPTSTR szHWID, DWORD 
 	return TRUE;
 }
 
-int CLoginUserData::SetVIPData(LPTSTR szAccountID, int VIPType, LPTSTR szDate, int Minutes)
+int CLoginUserData::SetVIPData(LPSTR szAccountID, int VIPType, LPSTR szDate, int Minutes)
 {
 	int UserIndex = this->MuLoginFindUser(szAccountID);
 
@@ -670,7 +673,8 @@ int CLoginUserData::SetVIPData(LPTSTR szAccountID, int VIPType, LPTSTR szDate, i
 	return FALSE;
 }
 
-CLoginServerProtocol::CLoginServerProtocol()
+
+CLoginServerProtocol::CLoginServerProtocol(): m_AccountDB(), m_LogDB(), m_VIPDB()
 {
 	InitializeCriticalSection(&this->userCheck);
 	memset(this->m_Salt, 0x00, sizeof(this->m_Salt));
@@ -795,7 +799,7 @@ void CLoginServerProtocol::JoinServerLogin(int userIndex, SDHP_SERVERINFO * lpMs
 		pResult.Result = 0;
 	}
 
-	DataSend(userIndex, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
+	IOCP.DataSend(userIndex, (BYTE*)&pResult, pResult.h.size, false);
 }
 
 void CLoginServerProtocol::JGPAccountRequest(int userIndex, SDHP_IDPASS * aRecv)
@@ -821,7 +825,7 @@ void CLoginServerProtocol::JGPAccountRequest(int userIndex, SDHP_IDPASS * aRecv)
 		SQLSyntexCheck(szPass) == FALSE)
 	{
 		pResult.result = 2;
-		DataSend(userIndex, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
+		IOCP.DataSend(userIndex, (BYTE*)&pResult, pResult.h.size, false);
 		return;
 	}
 
@@ -829,7 +833,7 @@ void CLoginServerProtocol::JGPAccountRequest(int userIndex, SDHP_IDPASS * aRecv)
 		SpaceSyntexCheck(szPass) == FALSE)
 	{
 		pResult.result = 2;
-		DataSend(userIndex, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
+		IOCP.DataSend(userIndex, (BYTE*)&pResult, pResult.h.size, false);
 		return;
 	}
 
@@ -837,7 +841,7 @@ void CLoginServerProtocol::JGPAccountRequest(int userIndex, SDHP_IDPASS * aRecv)
 		QuoteSpaceSyntaxCheck(szPass) == FALSE)
 	{
 		pResult.result = 2;
-		DataSend(userIndex, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
+		IOCP.DataSend(userIndex, (BYTE*)&pResult, pResult.h.size, false);
 		return;
 	}
 
@@ -845,7 +849,7 @@ void CLoginServerProtocol::JGPAccountRequest(int userIndex, SDHP_IDPASS * aRecv)
 		PercentSyntaxCheck(szPass) == FALSE)
 	{
 		pResult.result = 2;
-		DataSend(userIndex, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
+		IOCP.DataSend(userIndex, (BYTE*)&pResult, pResult.h.size, false);
 		return;
 	}
 
@@ -1064,7 +1068,7 @@ void CLoginServerProtocol::JGPAccountRequest(int userIndex, SDHP_IDPASS * aRecv)
 
 	LeaveCriticalSection(&userCheck);
 
-	DataSend(userIndex, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
+IOCP.DataSend(userIndex, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 }
 
 void CLoginServerProtocol::GJPAccountFail(int userIndex, SDHP_JOINFAIL * aRecv)
@@ -1115,7 +1119,7 @@ void CLoginServerProtocol::GCUserKillSend(int MuLoginIndex, bool IsForceDC)
 
 	pMsg.ForceDisconnect = IsForceDC;
 
-	DataSend(userIndex, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
+IOCP.DataSend(userIndex, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
 
 }
 
@@ -1183,7 +1187,7 @@ void CLoginServerProtocol::GCJoinBillCheckSend(int userIndex, SDHP_BILLSEARCH * 
 	pResult.Number = aRecv->Number;
 	std::memcpy(pResult.Id, szAccountID, 10);
 
-	DataSend(userIndex, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
+IOCP.DataSend(userIndex, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 }
 
 void CLoginServerProtocol::JGOtherJoin(int userIndex, LPSTR szAccountID)
@@ -1193,7 +1197,7 @@ void CLoginServerProtocol::JGOtherJoin(int userIndex, LPSTR szAccountID)
 	PHeadSetB((BYTE*)&pMsg.h, 0x08, sizeof(pMsg));
 	std::memcpy(pMsg.AccountID, szAccountID, 10);
 
-	DataSend(userIndex, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
+IOCP.DataSend(userIndex, (BYTE*)&pMsg, pMsg.h.size, __FUNCTION__);
 }
 
 
@@ -1251,7 +1255,7 @@ void CLoginServerProtocol::LoveHeartEventRecv(int userIndex, SDHP_LOVEHEARTEVENT
 	}
 
 	pResult.Number = dwHeartCount;
-	DataSend(userIndex, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
+IOCP.DataSend(userIndex, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 }
 
 void CLoginServerProtocol::LoveHeartCreateSend(int sIndex, SDHP_LOVEHEARTCREATE * aRecv)
@@ -1383,7 +1387,7 @@ void CLoginServerProtocol::GJReqMapSvrAuth(int userIndex, PMSG_REQ_MAPSVRAUTH * 
 
 	pResult.iResult = fResult;
 
-	DataSend(userIndex, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
+IOCP.DataSend(userIndex, (BYTE*)&pResult, pResult.h.size, __FUNCTION__);
 
 	sLog->outBasic("[JoinServer] GJReqMapSvrAuth() -> User(%s) Character(%s) fResult(%d)",
 		pResult.szAccountID, pResult.szCharName, pResult.iResult);

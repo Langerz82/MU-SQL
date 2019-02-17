@@ -16,7 +16,6 @@
 #include "database/Database/DatabaseEnv.h"
 #include "database/Database/DatabaseLoader.h"
 #include "database/Database/MySQLThreading.h"
-#include "database/Database/Implementation/CSDatabase.h"
 
 #include "Config/Config.h"
 
@@ -103,15 +102,16 @@ bool stopEvent = false;                                     ///< Setting it to t
 
 typedef BYTE BYTE;
 
-DatabaseWorkerPool<ConnectDatabaseConnection> ConnectDatabase;
+//DatabaseWorkerPool<ConnectDatabaseConnection> gConnectDatabase;
 
 bool initDB()
 {
+	
 	MySQL::Library_Init();
 
 	DatabaseLoader loader("server.connectserver", DatabaseLoader::DATABASE_NONE);
 	loader.ConnectInfo(g_ServerAddress, g_DBPort, g_UserID, g_Password, g_MuOnlineDB);
-	loader.AddDatabase(ConnectDatabase, "Connect");
+	loader.AddDatabase(gConnectDatabase, "Connect");
 
 	if (!loader.Load())
 		return false;
@@ -122,8 +122,8 @@ bool initDB()
 
 /// Close the connection to the database
 void StopDB()
-{
-	ConnectDatabase.Close();
+{	
+	//gConnectDatabase.Close();
 	MySQL::Library_End();
 }
 
@@ -134,7 +134,7 @@ void KeepDatabaseAliveHandler(std::weak_ptr<boost::asio::deadline_timer> dbPingT
 		if (std::shared_ptr<boost::asio::deadline_timer> dbPingTimer = dbPingTimerRef.lock())
 		{
 			sLog->outBasic("Ping MySQL to keep connection alive");
-			ConnectDatabase.KeepAlive();
+			//ConnectDatabase.KeepAlive();
 
 			dbPingTimer->expires_from_now(boost::posix_time::minutes(dbPingInterval));
 			dbPingTimer->async_wait(std::bind(&KeepDatabaseAliveHandler, dbPingTimerRef, dbPingInterval, std::placeholders::_1));
@@ -185,7 +185,7 @@ void LoadLogConfig()
 	GetPrivateProfileString("Logger", "LogEntries", "2", g_logsEntryCount, sizeof(g_logsEntryCount), ".\\DataServer.ini");
 	int entryCount = atoi(g_logsEntryCount);
 	std::vector<std::string> vecLogEntries;
-	LPTSTR tempChars[10][128];
+	LPSTR tempChars[10][128];
 	for (int i = 0; i < entryCount; ++i)
 	{
 		GetPrivateProfileString("Logger", "LogEntry", "", tempChars[i][0], sizeof(tempChars[i][0]), ".\\DataServer.ini");
@@ -400,7 +400,8 @@ extern int main(int argc, char** argv)
 
 	gObjServerInit();
 	//IniteDataServer();
-	IocpServerStart();
+	IOCP.GiocpInit();
+	IOCP.CreateListenSocket(g_JoinServerListPort, g_ServerAddress);
 
 ////OLD CODE END
 

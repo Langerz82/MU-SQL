@@ -328,7 +328,7 @@ void CConServ::SendNews(int userIndex)
 	pTitle.h.subcode = 0x00;
 	std::memcpy(pTitle.ServerName, Title, sizeof(pTitle.ServerName));
 
-	DataSend(userIndex, (BYTE*)&pTitle, pTitle.h.size, nullptr);
+IOCP.DataSend(userIndex, (BYTE*)&pTitle, pTitle.h.size, nullptr);
 
 	PMSG_SEND_NEWS pMsg = {0};
 
@@ -358,7 +358,7 @@ void CConServ::SendNews(int userIndex)
 		std::memcpy(buffer, &pMsg, sizeof(PMSG_SEND_NEWS));
 		std::memcpy(&buffer[sizeof(PMSG_SEND_NEWS)], gObjNews[i].Text, textlen);
 
-		DataSend(userIndex, (BYTE*)buffer, sizeof(PMSG_SEND_NEWS)+textlen, nullptr);
+	IOCP.DataSend(userIndex, (BYTE*)buffer, sizeof(PMSG_SEND_NEWS)+textlen, nullptr);
 	}
 	sLog->outBasic(0,szModule,"::SendNews()","News Sent. Amount : %d",newscount);
 	*/

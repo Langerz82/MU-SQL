@@ -10,7 +10,9 @@
 #include "ServerEngine.h"
 #include "Database/Database/DatabaseEnv.h"
 
-extern DatabaseWorkerPool<ConnectDatabaseConnection> ConnectDatabase;
+class ConnectDatabaseConnection;
+
+extern DatabaseWorkerPool<ConnectDatabaseConnection> gConnectDatabase;
 
 #define SET_NUMBERH(x) ( (BYTE)((DWORD)(x)>>(DWORD)8) )
 #define SET_NUMBERL(x) ( (BYTE)((DWORD)(x) & 0xFF) )

@@ -226,7 +226,6 @@ private:
 class CLoginServerProtocol
 {
 public:
-
 	CLoginServerProtocol();
 	~CLoginServerProtocol();
 	BOOL Init();

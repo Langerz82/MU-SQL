@@ -19,20 +19,15 @@
 #ifndef DATABASEENV_H
 #define DATABASEENV_H
 
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
 
 #include "Platform/Define.h"
 
-enum DatabaseStatements : uint32
-{
-	/*  Naming standard for defines:
-	{DB}_{SEL/INS/UPD/DEL/REP}_{Summary of data changed}
-	When updating more than one field, consider looking at the calling function
-	name for a suiting suffix.
-	*/
-	MAX_CONNECTDATABASE_STATEMENTS
-};
-
 #include "DatabaseWorkerPool.h"
+
+#include "Database/Database/Implementation/MUDatabase.h"
 
 #include "Field.h"
 #include "PreparedStatement.h"
@@ -40,6 +35,8 @@ enum DatabaseStatements : uint32
 #include "QueryResult.h"
 #include "Transaction.h"
 
-#include "Implementation/CSDatabase.h"
+
+
+_MU_DATABASE_API_ extern DatabaseWorkerPool<MUDatabase> gConnectDatabase;
 
 #endif

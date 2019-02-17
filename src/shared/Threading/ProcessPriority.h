@@ -15,8 +15,15 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "DatabaseEnv.h"
-#include "DatabaseWorkerPool.h"
-#include "Implementation/MUDatabase.h"
+#ifndef _PROCESSPRIO_H
+#define _PROCESSPRIO_H
 
-DatabaseWorkerPool<MUDatabase> gConnectDatabase;
+#include "Platform/Define.h"
+#include <string>
+
+#define CONFIG_PROCESSOR_AFFINITY "UseProcessors"
+#define CONFIG_HIGH_PRIORITY "ProcessPriority"
+
+void SetProcessPriority(std::string const& logChannel, uint32 affinity, bool highPriority);
+
+#endif

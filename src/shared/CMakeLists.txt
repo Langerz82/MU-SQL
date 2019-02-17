@@ -59,6 +59,9 @@ source_group("Utilities" FILES ${SRC_GRP_UTIL})
 file(GLOB SRC_GRP_SOCKETBUFFER SocketBuffer/*.cpp SocketBuffer/*.h)
 source_group("SocketBuffer" FILES ${SRC_GRP_SOCKETBUFFER})
 
+file(GLOB SRC_GRP_DEBUGGING Debugging/*.cpp Debugging/*.h)
+source_group("Debugging" FILES ${SRC_GRP_DEBUGGING})
+
 set(LIBRARY_SRCS
     ${SRC_GRP_AUTH}
     ${SRC_GRP_COMMON}
@@ -74,8 +77,10 @@ set(LIBRARY_SRCS
     ${SRC_GRP_THREAD}
     ${SRC_GRP_UTIL}
 	${SRC_GRP_SOCKETBUFFER}
-	${CMAKE_SOURCE_DIR}/dep/fmt
+	${SRC_GRP_DEBUGGING}
 	
+	${CMAKE_SOURCE_DIR}/dep/fmt
+
     revision.h
 )
 

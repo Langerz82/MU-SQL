@@ -16,20 +16,12 @@ void CIOCP::GiocpInit()
 #else
 	ACE_Reactor::instance(new ACE_Reactor(new ACE_TP_Reactor(), true), true);
 #endif
-
+	InitializeCriticalSection(&criti);
 }
 
 void CIOCP::GiocpDelete()
 {
 	delete[] ExSendBuf;
-}
-
-bool CIOCP::CreateGIocp(int server_port)
-{
-	g_ServerPort = server_port;
-
-	InitializeCriticalSection(&criti);
-	return true;
 }
 
 void CIOCP::DestroyGIocp()
@@ -52,7 +44,7 @@ void CIOCP::DestroyGIocp()
 }
 
 
-bool CIOCP::CreateListenSocket(UINT16 uiPort, LPTSTR ipAddress)
+bool CIOCP::CreateListenSocket(UINT16 uiPort, LPSTR ipAddress)
 {
 	sockaddr_in InternetAddr;
 	int nRet;

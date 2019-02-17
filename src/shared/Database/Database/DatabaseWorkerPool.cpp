@@ -18,16 +18,18 @@
 #include "DatabaseWorkerPool.h"
 #include "AdhocStatement.h"
 #include "Common/Common.h"
-#include "Errors.h"
+#include "Debugging/Errors.h"
+#include "Database/Database/Implementation/MUDatabase.h"
 #include "Logging/Log.h"
 #include "PreparedStatement.h"
-#include "MySQLConnection.h"
+#include "Threading/ProducerConsumerQueue.h"
 #include "QueryCallback.h"
 #include "QueryHolder.h"
 #include "QueryResult.h"
 #include "SQLOperation.h"
 #include "Transaction.h"
-#include "Implementation/CSDatabase.h"
+#include "MySQLConnection.h"
+
 
 #ifdef _WIN32 // hack for broken mysql.h not including the correct winsock header for SOCKET definition, fixed in 5.7
 #include <winsock2.h>
@@ -71,7 +73,7 @@ template <class T>
 void DatabaseWorkerPool<T>::SetConnectionInfo(std::string const& infoString,
     uint8 const asyncThreads, uint8 const synchThreads)
 {
-    _connectionInfo = make_unique<MySQLConnectionInfo>(infoString);
+    _connectionInfo = std::make_unique<MySQLConnectionInfo>(infoString);
 
     _async_threads = asyncThreads;
     _synch_threads = synchThreads;
@@ -342,9 +344,9 @@ uint32 DatabaseWorkerPool<T>::OpenConnections(InternalIndex type, uint8 numConne
             switch (type)
             {
             case IDX_ASYNC:
-                return make_unique<T>(_queue.get(), *_connectionInfo);
+                return std::make_unique<T>(_queue.get(), *_connectionInfo);
             case IDX_SYNCH:
-                return make_unique<T>(*_connectionInfo);
+                return std::make_unique<T>(*_connectionInfo);
             default:
                 ABORT();
             }
@@ -468,5 +470,4 @@ void DatabaseWorkerPool<T>::ExecuteOrAppend(SQLTransaction& trans, PreparedState
         trans->Append(stmt);
 }
 
-//template class  DatabaseWorkerPool<ConnectDatabaseConnection>;
-
+template class  DatabaseWorkerPool<MUDatabase>;

@@ -79,4 +79,4 @@ bool DatabaseLoader::Process(std::queue<Predicate>& queue)
 }
 
 template _MU_DATABASE_API_
-DatabaseLoader& DatabaseLoader::AddDatabase<ConnectDatabaseConnection>(DatabaseWorkerPool<ConnectDatabaseConnection>&, std::string const&);
+DatabaseLoader& DatabaseLoader::AddDatabase<MUDatabase>(DatabaseWorkerPool<MUDatabase>&, std::string const&);

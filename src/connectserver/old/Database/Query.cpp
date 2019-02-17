@@ -1,17 +1,13 @@
 #include "StdAfx.h"
 #include "Query.h"
 //#include "DelayHandler.h"
-#include "database/Database/DatabaseEnv.h"
-#include "database/Database/MySQLConnection.h"
+#include "Database/Database/DatabaseEnv.h"
+#include "Database/Database/MySQLConnection.h"
+#include "Database/Database/Field.h"
 
-#define szModule "CQuery"
-
-CQuery::CQuery(DatabaseWorkerPool<ConnectDatabaseConnection>* db): m_Database(db)
+/*void CQuery::Open(DatabaseWorkerPool<ConnectDatabaseConnection> &db)
 {
-}
-
-/*CQuery::CQuery(DatabaseWorkerPool<GameDatabaseConnection>* db) : m_Database(db)
-{
+	this->m_Database = db;
 }*/
 
 CQuery::~CQuery()
@@ -32,7 +28,7 @@ BOOL CQuery::ExecQuery(TCHAR* lpszStatement, ...)
 
 BOOL CQuery::Execute(TCHAR* lpszStatement)
 {
-	m_Database->Execute(lpszStatement);
+	this->m_Database.Execute(lpszStatement);
 
 	return TRUE;
 }
@@ -46,23 +42,20 @@ QueryResult* CQuery::Fetch(TCHAR* lpszStatement, ...)
 	vsprintf(szStatement, lpszStatement, pArguments);
 	va_end(pArguments);
 
-	if (this->m_Result != NULL)
-		this->m_Result = NULL;
+	this->m_Result = this->m_Database.Query(szStatement);
 
-	this->m_Result = &m_Database->Query(szStatement);
-
-	if (this->m_Result == NULL)
+	if (!this->m_Result)
 	{
 		sLog->outError("[SQL Error] Error querying: %s", lpszStatement);
-		return NULL;
+		return nullptr;
 	}
 
-	return this->m_Result;
+	return &this->m_Result;
 }
 
 int CQuery::Fetch()
 {
-	if ((*this->m_Result)->GetRowCount() == 0) 
+	if (this->m_Result->GetRowCount() == 0) 
 		return 0;
 	return 1;
 }
@@ -84,7 +77,7 @@ int CQuery::Fetch()
 	//return 0; // stub
 //}
 
-//void CQuery::SetAsBinary(LPTSTR lpszStatement, BYTE* lpBinaryBuffer, UINT32 BinaryBufferSize)
+//void CQuery::SetAsBinary(LPSTR lpszStatement, BYTE* lpBinaryBuffer, UINT32 BinaryBufferSize)
 //{
 	// TODO.
 /* // Old Implementation.
@@ -122,7 +115,7 @@ int CQuery::Fetch()
 //}
 
 
-/*int CQuery::FindIndex(LPTSTR ColName)
+/*int CQuery::FindIndex(LPSTR ColName)
 {
 	for (short i = 0; i<this->m_ColCount; i++)
 	{
@@ -138,7 +131,7 @@ int CQuery::Fetch()
 	return -1;
 }
 
-void CQuery::GetAsString(LPTSTR ColName, LPTSTR pOutBuffer, int size)
+void CQuery::GetAsString(LPSTR ColName, LPSTR pOutBuffer, int size)
 {
 	int iIndex = this->FindIndex(ColName);
 
@@ -153,24 +146,24 @@ void CQuery::GetAsString(LPTSTR ColName, LPTSTR pOutBuffer, int size)
 	}
 }*/
 
-void CQuery::GetAsString(int iIndex, LPTSTR pOutBuffer, int size)
+void CQuery::GetAsString(int iIndex, LPSTR pOutBuffer, int size)
 {
 	if (iIndex == -1)
 	{
 		pOutBuffer[0] = 0;
 	}
 
-	if ((**this->m_Result)[iIndex].GetCString() == NULL)
+	if ((*this->m_Result)[iIndex].GetCString() == NULL)
 	{
 		pOutBuffer[0] = 0;
 	}
 	else
 	{
-		strncpy(pOutBuffer, (**this->m_Result)[iIndex].GetCString(), size);
+		strncpy(pOutBuffer, (*this->m_Result)[iIndex].GetCString(), size);
 	}
 }
 
-/*DWORD CQuery::GetAsInteger(LPTSTR ColName)
+/*DWORD CQuery::GetAsInteger(LPSTR ColName)
 {
 	int iIndex = this->FindIndex(ColName);
 
@@ -189,10 +182,10 @@ DWORD CQuery::GetAsInteger(int iIndex)
 		return -1;
 	}
 
-	return (**this->m_Result)[iIndex].GetInt32();
+	return (*this->m_Result)[iIndex].GetInt32();
 }
 
-/*INT64 CQuery::GetAsInteger64(LPTSTR ColName)
+/*INT64 CQuery::GetAsInteger64(LPSTR ColName)
 {
 	int iIndex = this->FindIndex(ColName);
 
@@ -210,10 +203,10 @@ INT64 CQuery::GetAsInteger64(int iIndex)
 	{
 		return -1LL;
 	}
-	return (**this->m_Result)[iIndex].GetInt64();
+	return (*this->m_Result)[iIndex].GetInt64();
 }
 
-/*float CQuery::GetAsFloat(LPTSTR ColName)
+/*float CQuery::GetAsFloat(LPSTR ColName)
 {
 	int iIndex = this->FindIndex(ColName);
 
@@ -231,7 +224,7 @@ float CQuery::GetAsFloat(int iIndex)
 	{
 		return -1;
 	}
-	return (**this->m_Result)[iIndex].GetFloat();
+	return (*this->m_Result)[iIndex].GetFloat();
 }
 
 /*
