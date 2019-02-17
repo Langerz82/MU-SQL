@@ -23,7 +23,7 @@ class MySQLConnection;
 class CQuery  
 {
 public:
-
+	CQuery() {};
 	CQuery(DatabaseWorkerPool<MySQLConnection>* db);
 	//CQuery(DatabaseWorkerPool<GameDatabaseConnection>* db);
 	virtual ~CQuery();
@@ -34,6 +34,7 @@ public:
 	BOOL ExecQuery(TCHAR* lpszStatement, ...);
 	BOOL Execute(TCHAR* lpszStatement);
 	QueryResult* Fetch(TCHAR* lpszStatement, ...);
+	int Fetch();
 	//bool HasFields();
 
 	int GetAsBinary(LPSTR lpszStatement, LPBYTE OUT lpszReturnBuffer, int size);

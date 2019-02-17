@@ -54,27 +54,26 @@ int m_ServiceStatus = -1;
 #include "PosixDaemon.h"
 #endif
 
+WORD g_ConnectServerPort;
+WORD g_ConnectServerUDP;
+DWORD g_MaxConnectionsPerIP;
+DWORD g_MaxPacketPerSec;
+uint16 g_UDPPort;
+WORD g_FTPPort;
+char g_HostURL[100];
+char g_FTPLogin[20];
+char g_FTPPassword[20];
+char g_VersionFile[20];
+char g_ClientVersion[9];
+char g_WhiteListIP[16];
 
 // GLobals thats whats up.
 TCHAR szWANIP[150];
 int g_dwMaxServerGroups = GetPrivateProfileInt("SETTINGS", "MAX_SERVER", 10, ".\\DataServer.ini") * MAX_SERVER_TYPE;
 WORD g_JoinServerListPort = GetPrivateProfileInt("SETTINGS", "JoinServerPort", 55970, ".\\DataServer.ini");
-WORD g_DataServerListPort = GetPrivateProfileInt("SETTINGS", "DataServerPort", 55960, ".\\DataServer.ini");
-WORD g_ExDataServerListPort = GetPrivateProfileInt("SETTINGS", "ExDataServerPort", 55906, ".\\DataServer.ini");
 BOOL g_PwEncrypt = GetPrivateProfileInt("SQL", "PasswordEncryptType", 1, ".\\DataServer.ini");
 BOOL g_DSMode = GetPrivateProfileInt("SETTINGS", "DataServerOnlyMode", 0, ".\\DataServer.ini");
 BOOL g_UseJoinServer = GetPrivateProfileInt("SETTINGS", "UseJoinServer", 1, ".\\DataServer.ini");
-BOOL g_UseDataServer = GetPrivateProfileInt("SETTINGS", "UseDataServer", 1, ".\\DataServer.ini");
-BOOL g_UseExDataServer = GetPrivateProfileInt("SETTINGS", "UseExDataServer", 1, ".\\DataServer.ini");
-DWORD g_GensRankingUpdateTime = 2;
-DWORD g_GensLeaveAfterDays = GetPrivateProfileInt("GensSystem", "GensReJoinDaysLimit", 7, ".\\DataServer.ini");
-DWORD g_MachineIDConnectionLimitPerGroup = GetPrivateProfileInt("SETTINGS", "MachineIDConnectionLimitPerGroup", 3, ".\\DataServer.ini");
-WORD g_MagumsaCreateMinLevel = GetPrivateProfileInt("SETTINGS", "MagicGladiatorCreateMinLevel", 220, ".\\DataServer.ini");
-WORD g_DarkLordCreateMinLevel = GetPrivateProfileInt("SETTINGS", "DarkLordCreateMinLevel", 250, ".\\DataServer.ini");
-WORD g_GrowLancerCreateMinLevel = GetPrivateProfileInt("SETTINGS", "GrowLancerCreateMinLevel", 200, ".\\DataServer.ini");
-int g_iShowAllQueriesInDS = GetPrivateProfileInt("SETTINGS", "DisplayAllQueries", 1, ".\\DataServer.ini");
-int g_iConnectStatSyncEnable = GetPrivateProfileInt("SETTINGS", "MembStatSync", 0, ".\\DataServer.ini");;
-int g_DSBattleCoreEnable = GetPrivateProfileInt("SETTINGS", "DSBattleCore", 0, ".\\DataServer.ini");;
 
 TCHAR g_ServerAddress[64];
 TCHAR g_DBPort[8];

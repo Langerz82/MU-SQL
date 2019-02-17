@@ -60,6 +60,13 @@ QueryResult* CQuery::Fetch(TCHAR* lpszStatement, ...)
 	return this->m_Result;
 }
 
+int CQuery::Fetch()
+{
+	if ((**this->m_Result).GetRowCount == 0) 
+		return 0;
+	return 1;
+}
+
 int CQuery::GetAsBinary(LPSTR lpszStatement, BYTE* OUT lpszReturnBuffer, int size)
 {
 	// TODO
