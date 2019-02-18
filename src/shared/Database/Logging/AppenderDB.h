@@ -25,7 +25,7 @@ class  AppenderDB: public Appender
     public:
         typedef std::integral_constant<AppenderType, APPENDER_DB>::type TypeIndex;
 
-        AppenderDB(uint8 id, std::string const& name, LogLevel level, AppenderFlags flags, std::vector<char const*> extraArgs);
+        AppenderDB(uint8 id, std::string const& name, LogLevel level, AppenderFlags flags, std::vector<std::string> extraArgs);
         ~AppenderDB();
 
         void setRealmId(uint32 realmId) override;

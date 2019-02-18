@@ -47,7 +47,7 @@ void CIOCP::DestroyGIocp()
 }
 
 
-bool CIOCP::CreateListenSocket(UINT16 uiPort, LPSTR ipAddress)
+bool CIOCP::CreateListenSocket(WORD uiPort, LPSTR ipAddress)
 {
 	sockaddr_in InternetAddr;
 	int nRet;
@@ -61,7 +61,7 @@ bool CIOCP::CreateListenSocket(UINT16 uiPort, LPSTR ipAddress)
 	}
 }
 
-void CIOCP::OnAccept()
+void CIOCP::OnAccept(void)
 {
 	boost::uuids::basic_random_generator<boost::mt19937> gen;
 	boost::uuids::uuid socketUUID = gen();
@@ -124,7 +124,7 @@ void CIOCP::OnAccept()
 	//SCPJoinResultSend(*lpObj, 1);
 }
 
-void CIOCP::OnRead()
+void CIOCP::OnRead(void)
 {
 	//HANDLE CompletionPort;
 	DWORD dwIoSize;
@@ -184,6 +184,11 @@ void CIOCP::OnRead()
 	lpIOContext->nWaitIO = 1;
 
 	LeaveCriticalSection(&criti);
+}
+
+void CIOCP::OnClose(void)
+{
+	sLog->outBasic("OnClose - called.");
 }
 
 bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)	

@@ -12,7 +12,7 @@ class  AppenderFile : public Appender
     public:
         typedef std::integral_constant<AppenderType, APPENDER_FILE>::type TypeIndex;
 
-        AppenderFile(uint8 id, std::string const& name, LogLevel level, AppenderFlags flags, std::vector<char const*> extraArgs);
+        AppenderFile(uint8 id, std::string const& name, LogLevel level, AppenderFlags flags, std::vector<std::string> extraArgs);
         ~AppenderFile();
         FILE* OpenFile(std::string const& name, std::string const& mode, bool backup);
         AppenderType getType() const override { return TypeIndex::value; }

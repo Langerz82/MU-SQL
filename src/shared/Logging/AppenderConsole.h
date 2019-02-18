@@ -46,7 +46,7 @@ class  AppenderConsole : public Appender
     public:
         typedef std::integral_constant<AppenderType, APPENDER_CONSOLE>::type TypeIndex;
 
-        AppenderConsole(uint8 _id, std::string const& name, LogLevel level, AppenderFlags flags, std::vector<char const*> extraArgs);
+        AppenderConsole(uint8 _id, std::string const& name, LogLevel level, AppenderFlags flags, std::vector<std::string> extraArgs);
         void InitColors(const std::string& init_str);
         AppenderType getType() const override { return TypeIndex::value; }
 

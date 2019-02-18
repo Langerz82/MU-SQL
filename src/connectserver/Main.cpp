@@ -74,11 +74,11 @@ DWORD g_MachineIDConnectionLimitPerGroup = 10;
 
 // GLobals thats whats up.
 TCHAR szWANIP[150];
-int g_dwMaxServerGroups = GetPrivateProfileInt("SETTINGS", "MAX_SERVER", 10, ".\\DataServer.ini") * MAX_SERVER_TYPE;
-WORD g_JoinServerListPort = GetPrivateProfileInt("SETTINGS", "JoinServerPort", 55970, ".\\DataServer.ini");
-BOOL g_PwEncrypt = GetPrivateProfileInt("SQL", "PasswordEncryptType", 1, ".\\DataServer.ini");
-BOOL g_DSMode = GetPrivateProfileInt("SETTINGS", "DataServerOnlyMode", 0, ".\\DataServer.ini");
-BOOL g_UseJoinServer = GetPrivateProfileInt("SETTINGS", "UseJoinServer", 1, ".\\DataServer.ini");
+int g_dwMaxServerGroups = GetPrivateProfileInt("SETTINGS", "MAX_SERVER", 10, ".\\ConnectServer.ini") * MAX_SERVER_TYPE;
+WORD g_JoinServerListPort = GetPrivateProfileInt("Config", "TCP_PORT", 44405, ".\\ConnectServer.ini");
+BOOL g_PwEncrypt = GetPrivateProfileInt("SQL", "PasswordEncryptType", 0, ".\\ConnectServer.ini");
+BOOL g_DSMode = GetPrivateProfileInt("SETTINGS", "DataServerOnlyMode", 0, ".\\ConnectServer.ini");
+BOOL g_UseJoinServer = GetPrivateProfileInt("SETTINGS", "UseJoinServer", 1, ".\\ConnectServer.ini");
 
 TCHAR g_ServerAddress[64];
 TCHAR g_DBPort[8];
@@ -169,20 +169,20 @@ void usage(const char* prog)
 
 bool InitDataServer()
 {
-	GetPrivateProfileString("SQL", "ServerAddress", "127.0.0.1", g_ServerAddress, sizeof(g_ServerAddress), ".\\DataServer.ini");
-	GetPrivateProfileString("SQL", "Port", "3306", g_DBPort, sizeof(g_DBPort), ".\\DataServer.ini");
-	GetPrivateProfileString("SQL", "User", "sa", g_UserID, sizeof(g_UserID), ".\\DataServer.ini");
-	GetPrivateProfileString("SQL", "Pass", "sa", g_Password, sizeof(g_Password), ".\\DataServer.ini");
-	GetPrivateProfileString("SQL", "MuOnlineDB", "MuOnline", g_MuOnlineDB, sizeof(g_MuOnlineDB), ".\\DataServer.ini");
-	//GetPrivateProfileString("SQL", "MeMuOnlineDB", "MuOnline", g_MeMuOnlineDB, sizeof(g_MeMuOnlineDB), ".\\DataServer.ini");
-	//GetPrivateProfileString("SQL", "EventDB", "MuEvent", g_EventServerDB, sizeof(g_EventServerDB), ".\\DataServer.ini");
-	//GetPrivateProfileString("SQL", "RankingDB", "MuRanking", g_RankingServerDB, sizeof(g_RankingServerDB), ".\\DataServer.ini");
+	GetPrivateProfileString("SQL", "ServerAddress", "127.0.0.1", g_ServerAddress, sizeof(g_ServerAddress), ".\\ConnectServer.ini");
+	GetPrivateProfileString("SQL", "Port", "3306", g_DBPort, sizeof(g_DBPort), ".\\ConnectServer.ini");
+	GetPrivateProfileString("SQL", "User", "sa", g_UserID, sizeof(g_UserID), ".\\ConnectServer.ini");
+	GetPrivateProfileString("SQL", "Pass", "sa", g_Password, sizeof(g_Password), ".\\ConnectServer.ini");
+	GetPrivateProfileString("SQL", "MuOnlineDB", "MuOnline", g_MuOnlineDB, sizeof(g_MuOnlineDB), ".\\ConnectServer.ini");
+	//GetPrivateProfileString("SQL", "MeMuOnlineDB", "MuOnline", g_MeMuOnlineDB, sizeof(g_MeMuOnlineDB), ".\\ConnectServer.ini");
+	//GetPrivateProfileString("SQL", "EventDB", "MuEvent", g_EventServerDB, sizeof(g_EventServerDB), ".\\ConnectServer.ini");
+	//GetPrivateProfileString("SQL", "RankingDB", "MuRanking", g_RankingServerDB, sizeof(g_RankingServerDB), ".\\ConnectServer.ini");
 	return true;
 }
 
 void LoadLogConfig()
 {
-	GetPrivateProfileString("Logger", "LogDirectory", "logs", g_logsDir, sizeof(g_logsDir), ".\\DataServer.ini");
+	GetPrivateProfileString("Logger", "LogDirectory", "logs", g_logsDir, sizeof(g_logsDir), ".\\ConnectServer.ini");
 	
 	std::vector<std::string> vecLogEntries;
 	std::vector<std::string> vecLogEntryNames;
@@ -192,7 +192,7 @@ void LoadLogConfig()
 		TCHAR tempChars[128];
 		std::string temp = "";
 		std::string logEntry = StringFormat("LogEntry%d", i++);
-		GetPrivateProfileString("Logger", logEntry.c_str(), "", tempChars, sizeof(tempChars), ".\\DataServer.ini");
+		GetPrivateProfileString("Logger", logEntry.c_str(), "", tempChars, sizeof(tempChars), ".\\ConnectServer.ini");
 		//std::cout << tempChars << std::endl;
 		temp.assign(tempChars, sizeof(tempChars));
 		if (strcmp(temp.c_str(), "") == 0)
@@ -208,7 +208,7 @@ void LoadLogConfig()
 		TCHAR tempChars[128];
 		std::string temp = "";
 		std::string appendEntry = StringFormat("AppendEntry%d", i++);
-		GetPrivateProfileString("Appender", appendEntry.c_str(), "", tempChars, sizeof(tempChars), ".\\DataServer.ini");
+		GetPrivateProfileString("Appender", appendEntry.c_str(), "", tempChars, sizeof(tempChars), ".\\ConnectServer.ini");
 		//std::cout << tempChars << std::endl;
 		temp.assign(tempChars, sizeof(tempChars));
 		if (strcmp(temp.c_str(), "") == 0)
@@ -304,7 +304,10 @@ extern int main(int argc, char** argv)
 
 	// Initialize the database connection
 	if (!initDB())
+	{
+		sLog->outError("ERROR: Cannot connect to DB.");
 		return 1;
+	}
 
 	std::shared_ptr<void> dbHandle(nullptr, [](void*) { StopDB(); });
 
@@ -417,8 +420,8 @@ extern int main(int argc, char** argv)
 
 	//GetPrivateProfileString(
 	LoadAllowableIpList("./AllowedIPList.ini");
-	GetPrivateProfileString("SETTINGS", "MapServerInfoPath", "..\\Data\\MapServerInfo.ini", g_MapSvrFilePath, sizeof(g_MapSvrFilePath), ".\\DataServer.ini");
-	GetPrivateProfileString("SETTINGS", "WanIP", "127.0.0.1", szWANIP, 150, ".\\DataServer.ini");
+	GetPrivateProfileString("SETTINGS", "MapServerInfoPath", "..\\Data\\MapServerInfo.ini", g_MapSvrFilePath, sizeof(g_MapSvrFilePath), ".\\ConnectServer.ini");
+	GetPrivateProfileString("SETTINGS", "WanIP", "127.0.0.1", szWANIP, 150, ".\\ConnectServer.ini");
 	//std::memcpy(szWANIP, ValidateAndResolveIP(szWANIP), 15); // temp
 	//g_MapServerManager.LoadMapData(g_MapSvrFilePath);
 	//SendMessage(ghWnd, WM_TIMER, WM_LOG_PAINT, NULL);
@@ -426,7 +429,7 @@ extern int main(int argc, char** argv)
 	gObjServerInit();
 	//IniteDataServer();
 	IOCP.GiocpInit();
-	IOCP.CreateListenSocket(g_JoinServerListPort, g_ServerAddress);
+	IOCP.CreateListenSocket(g_JoinServerListPort, szWANIP);
 
 ////OLD CODE END
 
@@ -444,7 +447,7 @@ extern int main(int argc, char** argv)
     while (!stopEvent)
     {
         // dont move this outside the loop, the reactor will modify it
-        ACE_Time_Value interval(0, 100000);
+        ACE_Time_Value interval(0, 10000);
 
         if (ACE_Reactor::instance()->run_reactor_event_loop(interval) == -1)
             { break; }

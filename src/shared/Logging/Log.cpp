@@ -32,7 +32,7 @@
 #include <sstream>
 
 
-Log::Log() : AppenderId(0), lowestLogLevel(LOG_LEVEL_FATAL), _ioContext(nullptr), _strand(nullptr), m_loggerOptions(""), m_appendOptions("")
+Log::Log() : AppenderId(0), lowestLogLevel(LOG_LEVEL_FATAL), _ioContext(nullptr), _strand(nullptr)
 {
     m_logsTimestamp = "_" + GetTimestampStr();
     RegisterAppender<AppenderConsole>();
@@ -53,13 +53,13 @@ uint8 Log::NextAppenderId()
 Appender* Log::GetAppenderByName(std::string const& name)
 {
     auto it = appenders.begin();
-    while (it != appenders.end() && it->second && it->second->getName() != name)
+    while (it != appenders.end() && it->second && strcmp(it->second->getName().c_str(),name.c_str()) != 0)
         ++it;
 
     return it == appenders.end() ? nullptr : it->second.get();
 }
 
-void Log::CreateAppenderFromConfig(std::string const& appenderName, std::string const& options)
+void Log::CreateAppenderFromConfig(std::string const appenderName, std::string const& options)
 {
     if (appenderName.empty())
         return;
@@ -67,16 +67,9 @@ void Log::CreateAppenderFromConfig(std::string const& appenderName, std::string 
     // Format = type, level, flags, optional1, optional2
     // if type = File. optional1 = file and option2 = mode
     // if type = Console. optional1 = Color
-    //std::string options = sConfigMgr->GetStringDefault(appenderName, "");
-
     Tokens strTokens = StrSplit(options, ",");
-	std::vector<const char*> tokens;
-	for each (std::string token in strTokens)
-		tokens.push_back(token.c_str());
-    auto iter = tokens.begin();
-
-    size_t size = tokens.size();
-    std::string name = appenderName.substr(9);
+    size_t size = strTokens.size();
+    std::string name = appenderName;
 
     if (size < 2)
     {
@@ -85,8 +78,8 @@ void Log::CreateAppenderFromConfig(std::string const& appenderName, std::string 
     }
 
     AppenderFlags flags = APPENDER_FLAGS_NONE;
-    AppenderType type = AppenderType(atoi(*iter++));
-    LogLevel level = LogLevel(atoi(*iter++));
+    AppenderType type = AppenderType(atoi(strTokens[0].c_str()));
+    LogLevel level = LogLevel(atoi(strTokens[1].c_str()));
 
     if (level > LOG_LEVEL_FATAL)
     {
@@ -95,7 +88,7 @@ void Log::CreateAppenderFromConfig(std::string const& appenderName, std::string 
     }
 
     if (size > 2)
-        flags = AppenderFlags(atoi(*iter++));
+        flags = AppenderFlags(atoi(strTokens[2].c_str()));
 
     auto factoryFunction = appenderFactory.find(type);
     if (factoryFunction == appenderFactory.end())
@@ -107,7 +100,7 @@ void Log::CreateAppenderFromConfig(std::string const& appenderName, std::string 
     try
     {
 		
-        Appender* appender = factoryFunction->second(NextAppenderId(), name, level, flags, std::vector<const char*>(iter, tokens.end()));
+        Appender* appender = factoryFunction->second(NextAppenderId(), name, level, flags, std::vector<std::string>(&strTokens[3], &strTokens[size-1]));
         appenders[appender->getId()].reset(appender);
     }
     catch (InvalidAppenderArgsException const& iaae)
@@ -116,7 +109,7 @@ void Log::CreateAppenderFromConfig(std::string const& appenderName, std::string 
     }
 }
 
-void Log::CreateLoggerFromConfig(std::string const& appenderName, std::string const& options)
+void Log::CreateLoggerFromConfig(std::string const appenderName, std::string const& options)
 {
     if (appenderName.empty())
         return;
@@ -124,7 +117,7 @@ void Log::CreateLoggerFromConfig(std::string const& appenderName, std::string co
     LogLevel level = LOG_LEVEL_DISABLED;
     uint8 type = uint8(-1);
 
-    std::string name = appenderName.substr(7);
+    std::string name = appenderName;
 
     if (options.empty())
     {
@@ -135,18 +128,22 @@ void Log::CreateLoggerFromConfig(std::string const& appenderName, std::string co
     Tokens tokens = StrSplit(options, ",");
 	Tokens::const_iterator iter = tokens.begin();
 
-    if (tokens.size() != 2)
+    if (tokens.size() != 3)
     {
         fprintf(stderr, "Log::CreateLoggerFromConfig: Wrong config option Logger.%s=%s\n", name.c_str(), options.c_str());
         return;
     }
 
-    std::unique_ptr<Logger>& logger = loggers[name];
+	const char* logCategory = (*iter++).c_str();
+
+    std::unique_ptr<Logger>& logger = loggers[logCategory];
     if (logger)
     {
         fprintf(stderr, "Error while configuring Logger %s. Already defined\n", name.c_str());
         return;
     }
+
+	
 
     level = LogLevel(atoi((*iter++).c_str()));
     if (level > LOG_LEVEL_FATAL)
@@ -158,19 +155,21 @@ void Log::CreateLoggerFromConfig(std::string const& appenderName, std::string co
     if (level < lowestLogLevel)
         lowestLogLevel = level;
 
-    logger = std::make_unique<Logger>(name, level);
+    logger = std::make_unique<Logger>(logCategory, level);
     //fprintf(stdout, "Log::CreateLoggerFromConfig: Created Logger %s, Level %u\n", name.c_str(), level);
 
-    std::istringstream ss(*iter);
+	//logger->setLogLevel(level);
+    
+	
+	std::istringstream ss(*iter);
     std::string str;
-
     ss >> str;
     while (ss)
     {
         if (Appender* appender = GetAppenderByName(str))
         {
             logger->addAppender(appender->getId(), appender);
-            //fprintf(stdout, "Log::CreateLoggerFromConfig: Added Appender %s to Logger %s\n", appender->getName().c_str(), name.c_str());
+            fprintf(stdout, "Log::CreateLoggerFromConfig: Added Appender %s to Logger %s\n", appender->getName().c_str(), name.c_str());
         }
         else
             fprintf(stderr, "Error while configuring Appender %s in Logger %s. Appender does not exist", str.c_str(), name.c_str());
@@ -180,12 +179,18 @@ void Log::CreateLoggerFromConfig(std::string const& appenderName, std::string co
 
 void Log::ReadAppendersFromConfig(std::vector<std::string> names, std::vector<std::string> keys)
 {
+	if (names.size() == 0)
+		return;
+
 	for (int i = 0; i < names.size(); ++i)
         CreateAppenderFromConfig(names[i], keys[i]);
 }
 
 void Log::ReadLoggersFromConfig(std::vector<std::string> names, std::vector<std::string> keys)
 {
+	if (names.size() == 0)
+		return;
+
 	for (int i = 0; i < names.size(); ++i)
         CreateLoggerFromConfig(names[i], keys[i]);
 

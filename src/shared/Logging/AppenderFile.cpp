@@ -20,7 +20,7 @@
 #include "LogMessage.h"
 #include <algorithm>
 
-AppenderFile::AppenderFile(uint8 id, std::string const& name, LogLevel level, AppenderFlags flags, std::vector<char const*> extraArgs) :
+AppenderFile::AppenderFile(uint8 id, std::string const& name, LogLevel level, AppenderFlags flags, std::vector<std::string> extraArgs) :
     Appender(id, name, level, flags),
     logfile(nullptr),
     _logDir(sLog->GetLogsDir()),
@@ -34,7 +34,7 @@ AppenderFile::AppenderFile(uint8 id, std::string const& name, LogLevel level, Ap
 
     char const* mode = "a";
     if (extraArgs.size() > 1)
-        mode = extraArgs[1];
+        mode = extraArgs[1].c_str();
 
     if (flags & APPENDER_FLAGS_USE_TIMESTAMP)
     {
@@ -46,7 +46,7 @@ AppenderFile::AppenderFile(uint8 id, std::string const& name, LogLevel level, Ap
     }
 
     if (extraArgs.size() > 2)
-        _maxFileSize = atoi(extraArgs[2]);
+        _maxFileSize = atoi(extraArgs[2].c_str());
 
     _dynamicName = std::string::npos != _fileName.find("%s");
     _backup = (flags & APPENDER_FLAGS_MAKE_FILE_BACKUP) != 0;

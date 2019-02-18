@@ -27,12 +27,12 @@ struct LogMessage;
 
 #define LOGGER_ROOT "root"
 
-typedef Appender*(*AppenderCreatorFn)(uint8 id, std::string const& name, LogLevel level, AppenderFlags flags, std::vector<char const*>&& extraArgs);
+typedef Appender*(*AppenderCreatorFn)(uint8 id, std::string const& name, LogLevel level, AppenderFlags flags, std::vector<std::string>& extraArgs);
 
 template <class AppenderImpl>
-Appender* CreateAppender(uint8 id, std::string const& name, LogLevel level, AppenderFlags flags, std::vector<char const*>&& extraArgs)
+Appender* CreateAppender(uint8 id, std::string const& name, LogLevel level, AppenderFlags flags, std::vector<std::string>& extraArgs)
 {
-    return new AppenderImpl(id, name, level, flags, std::forward<std::vector<char const*>>(extraArgs));
+    return new AppenderImpl(id, name, level, flags, std::forward<std::vector<std::string>>(extraArgs));
 }
 
 class  Log
@@ -104,8 +104,8 @@ class  Log
         Logger const* GetLoggerByType(std::string const& type) const;
         Appender* GetAppenderByName(std::string const& name);
         uint8 NextAppenderId();
-        void CreateAppenderFromConfig(std::string const& names, std::string const& options);
-        void CreateLoggerFromConfig(std::string const& names, std::string const& options);
+        void CreateAppenderFromConfig(std::string const names, std::string const& options);
+        void CreateLoggerFromConfig(std::string const names, std::string const& options);
 		void ReadAppendersFromConfig(std::vector<std::string> names, std::vector<std::string> keys);
 		void ReadLoggersFromConfig(std::vector<std::string> names, std::vector<std::string> keys);
         void RegisterAppender(uint8 index, AppenderCreatorFn appenderCreateFn);
@@ -120,8 +120,6 @@ class  Log
 
         std::string m_logsDir;
         std::string m_logsTimestamp;
-		std::string m_loggerOptions;
-		std::string m_appendOptions;
 
         Asio::IoContext* _ioContext;
         Asio::Strand* _strand;

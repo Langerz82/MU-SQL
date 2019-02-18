@@ -24,7 +24,7 @@
   #include <Windows.h>
 #endif
 
-AppenderConsole::AppenderConsole(uint8 id, std::string const& name, LogLevel level, AppenderFlags flags, std::vector<char const*> extraArgs)
+AppenderConsole::AppenderConsole(uint8 id, std::string const& name, LogLevel level, AppenderFlags flags, std::vector<std::string> extraArgs)
     : Appender(id, name, level, flags), _colored(false)
 {
     for (uint8 i = 0; i < NUM_ENABLED_LOG_LEVELS; ++i)

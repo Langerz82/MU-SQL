@@ -30,7 +30,7 @@ public:
 	void GiocpInit();
 	void GiocpDelete();
 	void DestroyGIocp();
-	bool CreateListenSocket(UINT16 uiPort, LPSTR ipAddress);
+	bool CreateListenSocket(WORD uiPort, LPSTR ipAddress);
 	bool RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex);
 	bool DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt = true);
 	bool IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext);
@@ -39,8 +39,9 @@ public:
 	void CloseClient(int index);
 	void ResponErrorCloseClient(int index);
 
-	void OnAccept() override;
-	void OnRead() override;
+	void OnAccept(void) override;
+	void OnRead(void) override;
+	void OnClose(void) override;
 
 	inline int getUserDataIndex(const char* socketKey)
 	{
