@@ -7,6 +7,7 @@
 
 #include "StdAfx.h"
 #include "Main.h"
+#include "Logging/Log.h"
 #include "database/Logging/AppenderDB.h"
 #include "Asio/IoContext.h"
 
@@ -182,17 +183,41 @@ bool InitDataServer()
 void LoadLogConfig()
 {
 	GetPrivateProfileString("Logger", "LogDirectory", "logs", g_logsDir, sizeof(g_logsDir), ".\\DataServer.ini");
-	GetPrivateProfileString("Logger", "LogEntries", "2", g_logsEntryCount, sizeof(g_logsEntryCount), ".\\DataServer.ini");
-	int entryCount = atoi(g_logsEntryCount);
+	
 	std::vector<std::string> vecLogEntries;
-	LPSTR tempChars[10][128];
-	for (int i = 0; i < entryCount; ++i)
+	std::vector<std::string> vecLogEntryNames;
+	int i = 0;
+	while (true)
 	{
-		GetPrivateProfileString("Logger", "LogEntry", "", tempChars[i][0], sizeof(tempChars[i][0]), ".\\DataServer.ini");
-		vecLogEntries.push_back(tempChars[i][0]);
+		TCHAR tempChars[128];
+		std::string temp = "";
+		std::string logEntry = StringFormat("LogEntry%d", i++);
+		GetPrivateProfileString("Logger", logEntry.c_str(), "", tempChars, sizeof(tempChars), ".\\DataServer.ini");
+		//std::cout << tempChars << std::endl;
+		temp.assign(tempChars, sizeof(tempChars));
+		if (strcmp(temp.c_str(), "") == 0)
+			break;
+		vecLogEntries.push_back(temp);
+		vecLogEntryNames.push_back(logEntry);
+	}
+	std::vector<std::string> vecAppendEntries;
+	std::vector<std::string> vecAppendEntryNames;
+	i = 0;
+	while (true)
+	{
+		TCHAR tempChars[128];
+		std::string temp = "";
+		std::string appendEntry = StringFormat("AppendEntry%d", i++);
+		GetPrivateProfileString("Appender", appendEntry.c_str(), "", tempChars, sizeof(tempChars), ".\\DataServer.ini");
+		//std::cout << tempChars << std::endl;
+		temp.assign(tempChars, sizeof(tempChars));
+		if (strcmp(temp.c_str(), "") == 0)
+			break;
+		vecAppendEntries.push_back(temp);
+		vecAppendEntryNames.push_back(appendEntry);
 	}
 	sLog->RegisterAppender<AppenderDB>();
-	sLog->Initialize(nullptr, g_logsDir, vecLogEntries);
+	sLog->Initialize(nullptr, ".", vecLogEntries, vecAppendEntries, vecLogEntryNames, vecAppendEntryNames);
 }
 
 /// Launch the realm server
@@ -201,7 +226,7 @@ extern int main(int argc, char** argv)
 	LoadLogConfig();
 
     ///- Command line parsing
-    char const* options = ":s:";
+    char* options = ":s:";
 
     ACE_Get_Opt cmd_opts(argc, argv, options);
     cmd_opts.long_option("version", 'v');

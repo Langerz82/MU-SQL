@@ -48,11 +48,12 @@ class  Log
         Log& operator=(Log&&) = delete;
 
     public:
-        static Log* instance();
+		//static Log* Create();
+		static Log* Instance();
+		//static Log* sInstance;
 
-		void Initialize(Asio::IoContext* ioContext, std::string const& logsDir, std::vector<std::string> options);
+		void Initialize(Asio::IoContext* ioContext, std::string const& logsDir, std::vector<std::string> logOptions, std::vector<std::string> appendOptions, std::vector<std::string> logNames, std::vector<std::string> appendNames);
         void SetSynchronous();  // Not threadsafe - should only be called from main() after all threads are joined
-		void LoadFromConfig(std::string logsDir);
         void Close();
         bool ShouldLog(std::string const& type, LogLevel level) const;
         bool SetLogLevel(std::string const& name, char const* level, bool isLogger = true);
@@ -103,10 +104,10 @@ class  Log
         Logger const* GetLoggerByType(std::string const& type) const;
         Appender* GetAppenderByName(std::string const& name);
         uint8 NextAppenderId();
-        void CreateAppenderFromConfig(std::string const& name, std::string const& options);
-        void CreateLoggerFromConfig(std::string const& name, std::string const& options);
-		void ReadAppendersFromConfig(std::vector<std::string> keys);
-		void ReadLoggersFromConfig(std::vector<std::string> keys);
+        void CreateAppenderFromConfig(std::string const& names, std::string const& options);
+        void CreateLoggerFromConfig(std::string const& names, std::string const& options);
+		void ReadAppendersFromConfig(std::vector<std::string> names, std::vector<std::string> keys);
+		void ReadLoggersFromConfig(std::vector<std::string> names, std::vector<std::string> keys);
         void RegisterAppender(uint8 index, AppenderCreatorFn appenderCreateFn);
         void outMessage(std::string const& filter, LogLevel level, std::string&& message);
         void outCommand(std::string&& message, std::string&& param1);
@@ -119,13 +120,14 @@ class  Log
 
         std::string m_logsDir;
         std::string m_logsTimestamp;
-		std::string const& m_options;
+		std::string m_loggerOptions;
+		std::string m_appendOptions;
 
         Asio::IoContext* _ioContext;
         Asio::Strand* _strand;
 };
 
-#define sLog Log::instance()
+#define sLog Log::Instance()
 
 #define LOG_EXCEPTION_FREE(filterType__, level__, ...) \
     { \

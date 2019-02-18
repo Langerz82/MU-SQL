@@ -31,7 +31,8 @@
 #include <chrono>
 #include <sstream>
 
-Log::Log() : AppenderId(0), lowestLogLevel(LOG_LEVEL_FATAL), _ioContext(nullptr), _strand(nullptr), m_options(nullptr)
+
+Log::Log() : AppenderId(0), lowestLogLevel(LOG_LEVEL_FATAL), _ioContext(nullptr), _strand(nullptr), m_loggerOptions(""), m_appendOptions("")
 {
     m_logsTimestamp = "_" + GetTimestampStr();
     RegisterAppender<AppenderConsole>();
@@ -177,19 +178,19 @@ void Log::CreateLoggerFromConfig(std::string const& appenderName, std::string co
     }
 }
 
-void Log::ReadAppendersFromConfig(std::vector<std::string> keys)
+void Log::ReadAppendersFromConfig(std::vector<std::string> names, std::vector<std::string> keys)
 {
-    for (std::string const& appenderName : keys)
-        CreateAppenderFromConfig(appenderName, m_options);
+	for (int i = 0; i < names.size(); ++i)
+        CreateAppenderFromConfig(names[i], keys[i]);
 }
 
-void Log::ReadLoggersFromConfig(std::vector<std::string> keys)
+void Log::ReadLoggersFromConfig(std::vector<std::string> names, std::vector<std::string> keys)
 {
-    for (std::string const& loggerName : keys)
-        CreateLoggerFromConfig(loggerName,m_options);
+	for (int i = 0; i < names.size(); ++i)
+        CreateLoggerFromConfig(names[i], keys[i]);
 
     // Bad config configuration, creating default config
-    if (loggers.find(LOGGER_ROOT) == loggers.end())
+    /*if (loggers.find(LOGGER_ROOT) == loggers.end())
     {
         fprintf(stderr, "Wrong Loggers configuration. Review your Logger config section.\n"
                         "Creating default loggers [root (Error), server (Info)] to console\n");
@@ -206,7 +207,7 @@ void Log::ReadLoggersFromConfig(std::vector<std::string> keys)
         Logger* serverLogger = new Logger("server", LOG_LEVEL_INFO);
         serverLogger->addAppender(appender->getId(), appender);
         loggers["server"].reset(serverLogger);
-    }
+    }*/
 }
 
 void Log::RegisterAppender(uint8 index, AppenderCreatorFn appenderCreateFn)
@@ -347,13 +348,15 @@ bool Log::ShouldLog(std::string const& type, LogLevel level) const
     return logLevel != LOG_LEVEL_DISABLED && logLevel <= level;
 }
 
-Log* Log::instance()
+
+Log* Log::Instance()
 {
-    static Log instance;
-    return &instance;
+	static Log sInstance;
+	return &sInstance;
 }
 
-void Log::Initialize(Asio::IoContext* ioContext, std::string const& logsDir, std::vector<std::string> options)
+
+void Log::Initialize(Asio::IoContext* ioContext, std::string const& logsDir, std::vector<std::string> logOptions, std::vector<std::string> appendOptions, std::vector<std::string> logNames, std::vector<std::string> appendNames)
 {
     if (ioContext)
     {
@@ -361,10 +364,8 @@ void Log::Initialize(Asio::IoContext* ioContext, std::string const& logsDir, std
         _strand = new Asio::Strand(*ioContext);
     }
 
-    LoadFromConfig(logsDir);
-
-	ReadAppendersFromConfig(options);
-	ReadLoggersFromConfig(options);
+	ReadAppendersFromConfig(appendNames, appendOptions);
+	ReadLoggersFromConfig(logNames, logOptions);
 }
 
 void Log::SetSynchronous()
@@ -374,14 +375,3 @@ void Log::SetSynchronous()
     _ioContext = nullptr;
 }
 
-void Log::LoadFromConfig(std::string logsDir)
-{
-    Close();
-
-    lowestLogLevel = LOG_LEVEL_FATAL;
-    AppenderId = 0;
-    m_logsDir = logsDir;
-    if (!m_logsDir.empty())
-        if ((m_logsDir.at(m_logsDir.length() - 1) != '/') && (m_logsDir.at(m_logsDir.length() - 1) != '\\'))
-            m_logsDir.push_back('/');
-}
