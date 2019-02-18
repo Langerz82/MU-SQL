@@ -205,11 +205,15 @@ add_executable(${EXECUTABLE_NAME} ${EXECUTABLE_SRCS})
 
 link_directories(
 	${Boost_LIBRARY_DIRS}
+	${CMAKE_SOURCE_DIR}/../muServerDeps
+	${CMAKE_SOURCE_DIR}/../muServerDeps/v140_x64_MT
+	${BOOST_ROOT}/lib64-msvc-14.0
 )
 
 target_link_libraries(${EXECUTABLE_NAME}
     shared
     framework
+	fmt
     ${OPENSSL_LIBRARIES}
 )
 

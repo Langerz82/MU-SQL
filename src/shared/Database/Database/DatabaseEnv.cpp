@@ -19,4 +19,4 @@
 #include "DatabaseWorkerPool.h"
 #include "Implementation/MUDatabase.h"
 
-DatabaseWorkerPool<MUDatabase> gConnectDatabase;
+DatabaseWorkerPool<MUDatabase> gMUDatabase;

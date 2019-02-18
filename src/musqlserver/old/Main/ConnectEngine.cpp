@@ -28,7 +28,7 @@ int iReturnIpCount(char *IP)
 
 }
 
-short UserAdd(char* SocketKey, char* IP)
+short UserAdd(std::string SocketKey, char* IP)
 {
 	int count = SCount;
 	int totalcount = 0;

@@ -98,12 +98,15 @@
 #include <boost/thread.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/multiprecision/cpp_int.hpp>
-#include "boost/uuid/uuid.hpp"
-#include "boost/uuid/uuid_generators.hpp"
-#include "boost/uuid/random_generator.hpp"
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_serialize.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/random_generator.hpp>
 
-//#pragma comment(lib, "pugixml.lib")
-//#pragma comment(lib, "cryptlib.lib")
+
+#pragma comment(lib, "shared.lib")
+#pragma comment(lib, "pugixml.lib")
+#pragma comment(lib, "cryptlib.lib")
 //#pragma comment(lib, "muparser.lib")
 //#pragma comment(lib, "lua52.lib")
 

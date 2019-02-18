@@ -2885,7 +2885,7 @@ struct STR_CS_USER
 	bool News;
 	int PacketCount;
 	ULONGLONG i64PacketTime;
-	char SocketKey[32];
+	const char* SocketKey;
 	class ACE_SOCK_Stream* Socket;
 };
 

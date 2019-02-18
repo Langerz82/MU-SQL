@@ -12,7 +12,7 @@
 extern std::map<int, STR_CS_USER*> gCSUsers;
 
 void UserInit();
-STR_CS_USER* UserAdd(char* SocketKey, char* IP);
+STR_CS_USER* UserAdd(const char* socketKey, char* IP);
 short UserDelete(int index);
 bool UserSet(int index, unsigned int Port, int type, char* Name);
 void UserRun();

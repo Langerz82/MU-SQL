@@ -29,7 +29,7 @@ int iReturnIpCount(char *IP)
 
 }
 
-STR_CS_USER* UserAdd(char* SocketKey, char* IP)
+STR_CS_USER* UserAdd(const char* SocketKey, char* IP)
 {
 	int count = SCount;
 	int totalcount = 0;
@@ -47,7 +47,7 @@ STR_CS_USER* UserAdd(char* SocketKey, char* IP)
 			STR_CS_USER* connUser = new STR_CS_USER();
 			connUser->ConnectionState = 1;
 			strcpy(connUser->IP, IP);
-			std::memcpy(connUser->SocketKey, SocketKey, 32);
+			connUser->SocketKey = SocketKey;
 			connUser->News = false;
 			connUser->PacketCount = 0;
 			connUser->i64PacketTime = GetTickCount64();

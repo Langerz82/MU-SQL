@@ -5,6 +5,9 @@
 #include "Main.h"
 #include "generalStructs.h"
 
+#include <boost/lexical_cast.hpp>
+#include <boost/uuid/uuid_io.hpp>
+
 CIOCP IOCP;
 
 void CIOCP::GiocpInit()
@@ -60,14 +63,16 @@ bool CIOCP::CreateListenSocket(UINT16 uiPort, LPSTR ipAddress)
 
 void CIOCP::OnAccept()
 {
-	//boost::uuids::uuid socketKey(boost::uuids::random_generator());
-	boost::uuids::uuid socketKey();
+	boost::uuids::basic_random_generator<boost::mt19937> gen;
+	boost::uuids::uuid socketUUID = gen();
 
-	char ipAddress[20], charSockKey[32];
+	char ipAddress[20];
 	int lenIP = strlen(this->get_remote_address().c_str());
 	std::memcpy(ipAddress, this->get_remote_address().c_str(), sizeof(lenIP));
-	std::memcpy(charSockKey, socketKey, sizeof(32));
-	STR_CS_USER* ObjCSUser = UserAdd(charSockKey, ipAddress);
+	const std::string sTemp = to_string(socketUUID);
+	const char* sockKey = sTemp.c_str();
+	STR_CS_USER* ObjCSUser = UserAdd(sockKey, ipAddress);
+	//STR_CS_USER* ObjCSUser = nullptr;
 	ObjCSUser->Socket = &this->peer();
 
 	_PER_SOCKET_CONTEXT * lpPerSocketContext;
@@ -86,7 +91,7 @@ void CIOCP::OnAccept()
 	}
 #endif
 
-	this->peer().set_handle((ACE_HANDLE)charSockKey);
+	this->peer().set_handle((ACE_HANDLE)sockKey);
 	ObjCSUser->PerSocketContext->dwIOCount = 0;
 
 	_PER_SOCKET_CONTEXT* sockCtx = ObjCSUser->PerSocketContext;
@@ -113,7 +118,7 @@ void CIOCP::OnAccept()
 	sockCtx->IOContext[0].nWaitIO = 1;
 	sockCtx->dwIOCount++;
 
-	g_UserIDMap.insert(std::pair<char*, int>(charSockKey, ObjCSUser->Index));
+	g_UserIDMap.insert(std::pair<const char*, int>(sockKey, ObjCSUser->Index));
 
 	LeaveCriticalSection(&criti);
 	//SCPJoinResultSend(*lpObj, 1);
@@ -137,7 +142,7 @@ void CIOCP::OnRead()
 	LPOVERLAPPED lpOverlapped = 0;
 	_PER_IO_CONTEXT * lpIOContext = 0;
 
-	int userIndex = getUserDataIndex((const char*)get_handle());
+	int userIndex = getUserDataIndex((const char*) get_handle());
 	STR_CS_USER* lpUser = getCSUser(userIndex);
 
 	EnterCriticalSection(&criti);

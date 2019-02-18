@@ -55,14 +55,18 @@ include_directories(
 	${CMAKE_SOURCE_DIR}/src/connectserver
 	${CMAKE_SOURCE_DIR}/src/connectserver/old
 	${MU_INCLUDE_DIRS}
+	${Boost_INCLUDE_DIRS}
+	${MYSQL_INCLUDE_DIR}
 )
-
-add_executable(${EXECUTABLE_NAME} ${EXECUTABLE_SRCS})
 
 link_directories(
 	${Boost_LIBRARY_DIRS}
 	${CMAKE_SOURCE_DIR}/../muServerDeps
+	${CMAKE_SOURCE_DIR}/../muServerDeps/v140_x64_MT
+	${Boost_INCLUDE_DIRS}/lib64-msvc-14.0
 )
+
+add_executable(${EXECUTABLE_NAME} ${EXECUTABLE_SRCS})
 
 target_link_libraries(${EXECUTABLE_NAME}
     shared
@@ -70,7 +74,10 @@ target_link_libraries(${EXECUTABLE_NAME}
 	fmt
 	ace
     ${OPENSSL_LIBRARIES}
+	${Boost_LIBRARIES}
+	${MYSQL_LIBRARY}
 )
+
 
 if(NOT ACE_USE_EXTERNAL)
     add_dependencies(${EXECUTABLE_NAME} ace)
@@ -79,11 +86,11 @@ else()
     target_link_libraries(${EXECUTABLE_NAME} ACE)
 endif()
 
-include_directories(${Boost_INCLUDE_DIRS})
-target_link_libraries(${EXECUTABLE_NAME} ${BOOST_LIBRARY})
+#include_directories(${Boost_INCLUDE_DIRS})
+#target_link_libraries(${EXECUTABLE_NAME} ${BOOST_LIBRARY})
 
-include_directories(${MYSQL_INCLUDE_DIR})
-target_link_libraries(${EXECUTABLE_NAME} ${MYSQL_LIBRARY})
+#include_directories(${MYSQL_INCLUDE_DIR})
+#target_link_libraries(${EXECUTABLE_NAME} ${MYSQL_LIBRARY})
 
 
 if(UNIX)
