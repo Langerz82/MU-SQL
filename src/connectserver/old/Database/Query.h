@@ -11,7 +11,7 @@
 
 #include "StdAfx.h"
 #include "Main.h"
-#include "database/Database/DatabaseEnv.h"
+//#include "database/Database/DatabaseEnv.h"
 #include "database/Database/QueryResult.h"
 
 //class ConnectDatabaseConnection;
@@ -20,7 +20,7 @@
 class CQuery  
 {
 public:
-	CQuery():m_Database(gConnectDatabase) {};
+	CQuery():m_Database(gMUDatabase) {};
 	//CQuery(DatabaseWorkerPool<ConnectDatabaseConnection> &db): m_Database(db) {};
 	//void Open(DatabaseWorkerPool<ConnectDatabaseConnection> &db);
 	//CQuery(DatabaseWorkerPool<GameDatabaseConnection>* db);
@@ -54,7 +54,7 @@ public:
 	//void Close();
 	//void Diagnosis(bool &bReconnect);
 
-	DatabaseWorkerPool<ConnectDatabaseConnection> &m_Database;
+	DatabaseWorkerPool<MUDatabase> &m_Database;
 	//void* m_Database;
 	QueryResult m_Result;
 

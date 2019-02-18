@@ -66,8 +66,6 @@ namespace
     }
 }
 
-namespace Trinity
-{
 
 void Assert(char const* file, int line, char const* function, std::string debugInfo, char const* message)
 {
@@ -136,8 +134,6 @@ void AbortHandler(int sigval)
     fflush(stderr);
     Crash(formattedMessage.c_str());
 }
-
-} // namespace Trinity
 
 std::string GetDebugInfo()
 {

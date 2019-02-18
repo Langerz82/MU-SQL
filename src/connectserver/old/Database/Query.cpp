@@ -1,8 +1,6 @@
 #include "StdAfx.h"
 #include "Query.h"
 //#include "DelayHandler.h"
-#include "Database/Database/DatabaseEnv.h"
-#include "Database/Database/MySQLConnection.h"
 #include "Database/Database/Field.h"
 
 /*void CQuery::Open(DatabaseWorkerPool<ConnectDatabaseConnection> &db)

@@ -22,7 +22,7 @@
 #include "WheatyExceptionReport.h"
 
 #include "Common/Common.h"
-#include "Errors.h"
+#include "Debugging/Errors.h"
 //#include "GitRevision.h"
 #include <algorithm>
 

@@ -37,6 +37,6 @@
 
 
 
-_MU_DATABASE_API_ extern DatabaseWorkerPool<MUDatabase> gConnectDatabase;
+extern DatabaseWorkerPool<MUDatabase> gMUDatabase;
 
 #endif

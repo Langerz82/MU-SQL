@@ -8,7 +8,7 @@
 #include "Utility/util.h"
 #include "generalStructs.h"
 #include "Query.h"
-#include "Database/Database/DatabaseEnv.h"
+//#include "Database/Database/DatabaseEnv.h"
 
 CLoginServerProtocol m_JSProtocol;
 

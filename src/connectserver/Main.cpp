@@ -13,7 +13,7 @@
 
 #include "IOCP.h"
 
-#include "database/Database/DatabaseEnv.h"
+//#include "database/Database/DatabaseEnv.h"
 #include "database/Database/DatabaseLoader.h"
 #include "database/Database/MySQLThreading.h"
 
@@ -111,7 +111,7 @@ bool initDB()
 
 	DatabaseLoader loader("server.connectserver", DatabaseLoader::DATABASE_NONE);
 	loader.ConnectInfo(g_ServerAddress, g_DBPort, g_UserID, g_Password, g_MuOnlineDB);
-	loader.AddDatabase(gConnectDatabase, "Connect");
+	loader.AddDatabase(gMUDatabase, "Connect");
 
 	if (!loader.Load())
 		return false;
@@ -123,7 +123,7 @@ bool initDB()
 /// Close the connection to the database
 void StopDB()
 {	
-	//gConnectDatabase.Close();
+	//gMUDatabase.Close();
 	MySQL::Library_End();
 }
 
