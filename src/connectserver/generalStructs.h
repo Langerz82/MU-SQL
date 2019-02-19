@@ -235,13 +235,13 @@ struct MU_WSABUF {
 
 struct _PER_IO_CONTEXT
 {
-	MU_WSAOVERLAPPED m_Overlapped; // 0
-	MU_WSABUF m_wsabuf;
-	unsigned char Buffer[MAX_IO_BUFFER_SIZE]; // 1C
-	unsigned char BufferSecond[MAX_IO_BUFFER_SIZE]; // 178C
+	//MU_WSAOVERLAPPED m_Overlapped; // 0
+	//MU_WSABUF m_wsabuf;
+	BYTE Buffer[MAX_IO_BUFFER_SIZE]; // 1C
+	//BYTE BufferOut[MAX_IO_BUFFER_SIZE]; // 178C
 	int nSecondOfs; // 2EFC
 	int nTotalBytes;	// 2F00
-	int nSentBytes; // 2F04
+	int nbBytes; // 2F04
 	int IOOperation; // 2F08
 	int nWaitIO; // 2F0C
 

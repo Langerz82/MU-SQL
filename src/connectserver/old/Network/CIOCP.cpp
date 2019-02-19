@@ -165,14 +165,14 @@ void  CIOCP::CreateUserData(ACE_HANDLE handle)
 
 	_PER_SOCKET_CONTEXT* sockCtx = ObjCSUser->PerSocketContext;
 
-	memset(&sockCtx->IOContext[0].m_Overlapped, 0, sizeof(WSAOVERLAPPED));
-	memset(&sockCtx->IOContext[1].m_Overlapped, 0, sizeof(WSAOVERLAPPED));
+	//memset(&sockCtx->IOContext[0].m_Overlapped, 0, sizeof(WSAOVERLAPPED));
+	//memset(&sockCtx->IOContext[1].m_Overlapped, 0, sizeof(WSAOVERLAPPED));
 
-	sockCtx->IOContext[0].m_wsabuf.buf = (char*)&sockCtx->IOContext[0].Buffer;
-	sockCtx->IOContext[0].m_wsabuf.len = MAX_IO_BUFFER_SIZE;
+	//sockCtx->IOContext[0].m_wsabuf.buf = (char*)&sockCtx->IOContext[0].Buffer;
+	//sockCtx->IOContext[0].m_wsabuf.len = MAX_IO_BUFFER_SIZE;
 	sockCtx->IOContext[0].IOOperation = 0;
-	sockCtx->IOContext[1].m_wsabuf.buf = (char*)sockCtx->IOContext[1].Buffer;
-	sockCtx->IOContext[1].m_wsabuf.len = MAX_IO_BUFFER_SIZE;
+	//sockCtx->IOContext[1].m_wsabuf.buf = (char*)sockCtx->IOContext[1].Buffer;
+	//sockCtx->IOContext[1].m_wsabuf.len = MAX_IO_BUFFER_SIZE;
 	sockCtx->IOContext[1].IOOperation = 1;
 	sockCtx->nIndex = ObjCSUser->Index;
 
@@ -259,9 +259,9 @@ int CIOCP::OnRead(ACE_HANDLE handle)
 		return -1;
 	}
 	RecvBytes = n;
-	lpIOContext->nSentBytes = n;
-	lpIOContext->m_wsabuf.len = n;
-	std::memcpy(&lpIOContext->m_wsabuf.buf, this->input_buffer_.base(), sizeof(n));
+	lpIOContext->nbBytes = n;
+	lpIOContext->nTotalBytes += n;
+	std::memcpy(&lpIOContext->Buffer, this->input_buffer_.base(), sizeof(n));
 	
 	RecvDataParse(lpIOContext, lpUser->Index);
 
@@ -323,16 +323,19 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 
 	EnterCriticalSection(&criti);
 
-	if ( lpIOContext->nSentBytes < 3 )
+	if ( lpIOContext->nbBytes < 3 )
 	{
 		return true;
 	}
 
 	lOfs=0;
-	size=0;
+	size = lpIOContext->nbBytes;
 	xcode=0;
-	recvbuf = lpIOContext->Buffer;
+	recvbuf = (BYTE*) lpIOContext->Buffer;
 	
+	if (size == 0)
+		return true;
+
 	while ( true )
 	{
 		if ( recvbuf[lOfs] == 0xC1 ||
@@ -359,8 +362,8 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 
 		else
 		{
-			sLog->outError("error-L1: Header error (%s %d)lOfs:%d, size:%d", __FILE__, __LINE__, lOfs, lpIOContext->nSentBytes);
-			lpIOContext->nSentBytes = 0;
+			sLog->outError("error-L1: Header error (%s %d)lOfs:%d, size:%d", __FILE__, __LINE__, lOfs, lpIOContext->nbBytes);
+			lpIOContext->nbBytes = 0;
 			return false;
 		}
 
@@ -372,7 +375,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 			return false;
 		}
 
-		if ( size <= lpIOContext->nSentBytes )
+		if ( size <= lpIOContext->nbBytes )
 		{
 			lpUser->PacketCount++;
 
@@ -386,25 +389,25 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 			CSProtocolCore(headcode, &recvbuf[lOfs], size, lpUser->Index, 0, 0);
 
 			lOfs += size;
-			lpIOContext->nSentBytes  -= size;
+			lpIOContext->nbBytes -= size;
 
-			if ( lpIOContext->nSentBytes <= 0 )
+			if ( lpIOContext->nbBytes <= 0 )
 			{
 				break;
 			}
 		}
 		else if ( lOfs > 0 )
 		{
-			if ( lpIOContext->nSentBytes < 1 )
+			if ( lpIOContext->nbBytes < 1 )
 			{
 				sLog->outError("error-L1: recvbuflen 1 %s %d", __FILE__, __LINE__);
 				break;
 			}
 
-			if ( lpIOContext->nSentBytes < MAX_IO_BUFFER_SIZE ) 
+			if ( lpIOContext->nbBytes < MAX_IO_BUFFER_SIZE ) 
 			{
-				std::memcpy(recvbuf, &recvbuf[lOfs], lpIOContext->nSentBytes);
-				sLog->outError("Message copy %d", lpIOContext->nSentBytes);
+				std::memcpy(recvbuf, &recvbuf[lOfs], lpIOContext->nbBytes);
+				sLog->outError("Message copy %d", lpIOContext->nbBytes);
 			}
 			break;
 		
@@ -422,15 +425,11 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 
 bool CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 {
-	unsigned long SendBytes;
 	_PER_SOCKET_CONTEXT * lpPerSocketContext;
-	//LPBYTE SendBuf;
-	//BYTE BUFFER[65535];
 
 	EnterCriticalSection(&criti);
 
 	STR_CS_USER* lpCSUser = getCSUser(uIndex);
-	//std::memcpy(SendBuf, lpMsg, dwSize);
 
 	if (lpCSUser->ConnectionState == 0  )
 	{
@@ -440,145 +439,22 @@ bool CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 
 	lpPerSocketContext = lpCSUser->PerSocketContext;
 
-	/*if ( dwSize > sizeof(lpPerSocketContext->IOContext[0].Buffer))
-	{
-		sLog->outError("Error: Max msg(%d) %s %d", dwSize, __FILE__, __LINE__);
-		CloseClient(uIndex);
-		LeaveCriticalSection(&criti);
-		return false;
-	}*/
-
 	_PER_IO_CONTEXT  * lpIoCtxt;
 
 	lpIoCtxt = &lpPerSocketContext->IOContext[1];
 
-	/*
-	if ( lpIoCtxt->nWaitIO > 0 )
-	{
-		if ( ( lpIoCtxt->nSecondOfs + dwSize ) > MAX_IO_BUFFER_SIZE-1 )
-		{
-			sLog->outError("(%d)error-L2: MAX BUFFER OVER %d %d %d", uIndex, lpIoCtxt->nTotalBytes, lpIoCtxt->nSecondOfs, dwSize);
-			lpIoCtxt->nWaitIO = 0;
-			CloseClient(uIndex);
-			LeaveCriticalSection(&criti);
-			return true;
-		}
-
-		std::memcpy( &lpIoCtxt->BufferSecond[lpIoCtxt->nSecondOfs], lpMsg, dwSize);
-		lpIoCtxt->nSecondOfs += dwSize;
-		LeaveCriticalSection(&criti);
-		return true;
-	}
-
-	lpIoCtxt->nTotalBytes = 0;
-	
-	if ( lpIoCtxt->nSecondOfs > 0 )
-	{
-		std::memcpy(lpIoCtxt->Buffer, lpIoCtxt->BufferSecond, lpIoCtxt->nSecondOfs);
-		lpIoCtxt->nTotalBytes = lpIoCtxt->nSecondOfs;
-		lpIoCtxt->nSecondOfs = 0;
-	}
-
-	if ( (lpIoCtxt->nTotalBytes+dwSize) > MAX_IO_BUFFER_SIZE-1 )
-	{
-		sLog->outError("(%d)error-L2: MAX BUFFER OVER %d %d", uIndex, lpIoCtxt->nTotalBytes, dwSize);
-		lpIoCtxt->nWaitIO = 0;
-		CloseClient(uIndex);
-		LeaveCriticalSection(&criti);
-		return false;
-	}*/
-
-	//std::memcpy( &lpIoCtxt->Buffer[lpIoCtxt->nTotalBytes], lpMsg, dwSize);
+	std::memcpy(lpIoCtxt->Buffer, lpMsg, dwSize);
 	lpIoCtxt->nTotalBytes += dwSize;
-	//lpIoCtxt->m_wsabuf.buf = lpMsg;
-	//lpIoCtxt->m_wsabuf.len = dwSize;
-	lpIoCtxt->nSentBytes = 0;
+	lpIoCtxt->nbBytes = dwSize;
 	lpIoCtxt->IOOperation = 1;
 	
-	lpCSUser->Socket->send(lpMsg, dwSize);
+	lpCSUser->Socket->send(lpIoCtxt->Buffer, lpIoCtxt->nbBytes);
 	
 	lpPerSocketContext->dwIOCount ++;
 	lpIoCtxt->nWaitIO = 1;
 	LeaveCriticalSection(&criti);
 	return true;
 }
-
-
-bool CIOCP::IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext)
-{
-	// TODO - userIndex.
-	unsigned long SendBytes;
-	_PER_IO_CONTEXT * lpIoCtxt;
-	
-
-	EnterCriticalSection(&criti);
-	int uIndex = lpPerSocketContext->nIndex;
-	STR_CS_USER* lpCSUser = getCSUser(uIndex);
-
-	lpIoCtxt = &lpPerSocketContext->IOContext[1];
-
-	if ( lpIoCtxt->nWaitIO > 0 )
-	{
-		LeaveCriticalSection(&criti);
-		return false;
-	}
-
-	lpIoCtxt->nTotalBytes = 0;
-	if ( lpIoCtxt->nSecondOfs > 0 )
-	{
-		std::memcpy(lpIoCtxt->Buffer, lpIoCtxt->BufferSecond, lpIoCtxt->nSecondOfs);
-		lpIoCtxt->nTotalBytes = lpIoCtxt->nSecondOfs;
-		lpIoCtxt->nSecondOfs = 0;
-	}
-	else
-	{
-		LeaveCriticalSection(&criti);
-		return false;
-	}
-
-	lpIoCtxt->m_wsabuf.buf = (char*)&lpIoCtxt->Buffer;
-	lpIoCtxt->m_wsabuf.len = lpIoCtxt->nTotalBytes;
-	lpIoCtxt->nSentBytes = 0;
-	lpIoCtxt->IOOperation = 1;
-
-	ACE_SOCK_Stream* socket = lpCSUser->Socket;
-	socket->send(lpIoCtxt->m_wsabuf.buf, lpIoCtxt->m_wsabuf.len);
-
-	lpPerSocketContext->dwIOCount++;
-	
-	lpIoCtxt->nWaitIO = 1;
-	LeaveCriticalSection(&criti);
-	
-	return true;
-}
-
-bool CIOCP::IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext)
-{
-	unsigned long SendBytes;
-	_PER_IO_CONTEXT * lpIoCtxt;
-
-	EnterCriticalSection(&criti);
-	int uIndex = lpPerSocketContext->nIndex;
-	STR_CS_USER* lpCSUser = getCSUser(uIndex);
-	lpIoCtxt = &lpPerSocketContext->IOContext[1];
-
-	if ( (lpIoCtxt->nTotalBytes - lpIoCtxt->nSentBytes) < 0 )
-	{
-		LeaveCriticalSection(&criti);
-		return false;
-	}
-
-	lpIoCtxt->m_wsabuf.buf = (char*)&lpIoCtxt->Buffer[lpIoCtxt->nSentBytes];
-	lpIoCtxt->m_wsabuf.len = lpIoCtxt->nTotalBytes - lpIoCtxt->nSentBytes;
-	lpIoCtxt->IOOperation = 1;
-
-	this->peer().send(lpIoCtxt->m_wsabuf.buf, lpIoCtxt->m_wsabuf.len);
-	
-	lpIoCtxt->nWaitIO = 1;
-	LeaveCriticalSection(&criti);
-	return true;
-}
-
 
 void CIOCP::CloseClient(_PER_SOCKET_CONTEXT * lpPerSocketContext, int result)
 {
