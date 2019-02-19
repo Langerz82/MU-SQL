@@ -2,7 +2,7 @@
 set(EXECUTABLE_NAME gameserver)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
-file(GLOB_RECURSE _source_list *.cpp* *.h* *.hpp*)
+file(GLOB_RECURSE _source_list *.c* *.h*)
 foreach(_source IN ITEMS ${_source_list})
     get_filename_component(_source_path "${_source}" PATH)
     string(REPLACE "${CMAKE_SOURCE_DIR}/src/gameserver" "" _group_path "${_source_path}")

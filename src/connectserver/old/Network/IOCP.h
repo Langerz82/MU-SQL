@@ -8,7 +8,7 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "CQueue.h"
+//#include "CQueue.h"
 #include "SocketBuffer/BufferedSocket.h"
 #include "generalStructs.h"
 

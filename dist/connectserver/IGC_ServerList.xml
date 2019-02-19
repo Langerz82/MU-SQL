@@ -17,8 +17,8 @@
 -->
 
 <ServerList>
-	<Server Code="0"  IP="mu.trong.live" Port="56900" Visible="1" Name="Regular" />
-	<Server Code="13" IP="mu.trong.live" Port="56913" Visible="0" Name="Arca" />
-	<Server Code="14" IP="mu.trong.live" Port="56914" Visible="0" Name="Siege" />
-	<Server Code="480" IP="mu.trong.live" Port="56120" Visible="1" Name="BattleCore" />
+	<Server Code="0"  IP="127.0.0.1" Port="44406" Visible="1" Name="Regular" />
+	<Server Code="13" IP="127.0.0.1" Port="44407" Visible="0" Name="Arca" />
+	<Server Code="14" IP="127.0.0.1" Port="44408" Visible="0" Name="Siege" />
+	<Server Code="480" IP="127.0.0.1" Port="44409" Visible="1" Name="BattleCore" />
 </ServerList>

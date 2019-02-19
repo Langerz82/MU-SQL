@@ -7,7 +7,6 @@
 #include "ServerData.h"
 #include "Main.h"
 #include "ConnectEngine.h"
-#include "Query.h"
 #include "generalStructs.h"
 
 #define MAX_LOGIN_USER	(45000)

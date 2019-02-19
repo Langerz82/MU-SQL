@@ -7,8 +7,6 @@
 #include "Main.h"
 #include "Utility/util.h"
 #include "generalStructs.h"
-#include "Query.h"
-//#include "Database/Database/DatabaseEnv.h"
 
 
 void CSProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, int uIndex, bool Encrypt, int serial)

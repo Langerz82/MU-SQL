@@ -8,15 +8,10 @@
 #include "StdAfx.h"
 #include "Main.h"
 #include "Logging/Log.h"
-#include "database/Logging/AppenderDB.h"
 #include "Asio/IoContext.h"
 
 #include "IOCP.h"
 #include "ServerData.h"
-
-//#include "database/Database/DatabaseEnv.h"
-#include "database/Database/DatabaseLoader.h"
-#include "database/Database/MySQLThreading.h"
 
 #include "Config/Config.h"
 
@@ -77,18 +72,8 @@ DWORD g_MachineIDConnectionLimitPerGroup = 10;
 TCHAR szWANIP[150];
 int g_dwMaxServerGroups = GetPrivateProfileInt("SETTINGS", "MAX_SERVER", 10, ".\\ConnectServer.ini") * MAX_SERVER_TYPE;
 
-BOOL g_PwEncrypt = GetPrivateProfileInt("SQL", "PasswordEncryptType", 0, ".\\ConnectServer.ini");
 BOOL g_DSMode = GetPrivateProfileInt("SETTINGS", "DataServerOnlyMode", 0, ".\\ConnectServer.ini");
 BOOL g_UseJoinServer = GetPrivateProfileInt("SETTINGS", "UseJoinServer", 1, ".\\ConnectServer.ini");
-
-TCHAR g_ServerAddress[64];
-TCHAR g_DBPort[8];
-TCHAR g_UserID[64];
-TCHAR g_Password[64];
-TCHAR g_MuOnlineDB[64];
-//TCHAR g_MeMuOnlineDNS[64];
-TCHAR g_EventServerDB[64];
-TCHAR g_RankingServerDB[64];
 
 TCHAR g_AWHostPass[32];
 TCHAR g_MapSvrFilePath[96];
@@ -104,45 +89,6 @@ bool stopEvent = false;                                     ///< Setting it to t
 
 typedef BYTE BYTE;
 
-//DatabaseWorkerPool<ConnectDatabaseConnection> gConnectDatabase;
-
-bool initDB()
-{
-	
-	MySQL::Library_Init();
-
-	DatabaseLoader loader("server.connectserver", DatabaseLoader::DATABASE_NONE);
-	loader.ConnectInfo(g_ServerAddress, g_DBPort, g_UserID, g_Password, g_MuOnlineDB);
-	loader.AddDatabase(gMUDatabase, "Connect");
-
-	if (!loader.Load())
-		return false;
-
-	sLog->outBasic("Started auth database connection pool.");
-	return true;
-}
-
-/// Close the connection to the database
-void StopDB()
-{	
-	//gMUDatabase.Close();
-	MySQL::Library_End();
-}
-
-void KeepDatabaseAliveHandler(std::weak_ptr<boost::asio::deadline_timer> dbPingTimerRef, int32 dbPingInterval, boost::system::error_code const& error)
-{
-	if (!error)
-	{
-		if (std::shared_ptr<boost::asio::deadline_timer> dbPingTimer = dbPingTimerRef.lock())
-		{
-			sLog->outBasic("Ping MySQL to keep connection alive");
-			//ConnectDatabase.KeepAlive();
-
-			dbPingTimer->expires_from_now(boost::posix_time::minutes(dbPingInterval));
-			dbPingTimer->async_wait(std::bind(&KeepDatabaseAliveHandler, dbPingTimerRef, dbPingInterval, std::placeholders::_1));
-		}
-	}
-}
 
 void SignalHandler(std::weak_ptr<Asio::IoContext> ioContextRef, boost::system::error_code const& error, int /*signalNumber*/)
 {
@@ -170,14 +116,6 @@ void usage(const char* prog)
 
 bool InitDataServer()
 {
-	GetPrivateProfileString("SQL", "ServerAddress", "127.0.0.1", g_ServerAddress, sizeof(g_ServerAddress), ".\\ConnectServer.ini");
-	GetPrivateProfileString("SQL", "Port", "3306", g_DBPort, sizeof(g_DBPort), ".\\ConnectServer.ini");
-	GetPrivateProfileString("SQL", "User", "sa", g_UserID, sizeof(g_UserID), ".\\ConnectServer.ini");
-	GetPrivateProfileString("SQL", "Pass", "sa", g_Password, sizeof(g_Password), ".\\ConnectServer.ini");
-	GetPrivateProfileString("SQL", "MuOnlineDB", "MuOnline", g_MuOnlineDB, sizeof(g_MuOnlineDB), ".\\ConnectServer.ini");
-	//GetPrivateProfileString("SQL", "MeMuOnlineDB", "MuOnline", g_MeMuOnlineDB, sizeof(g_MeMuOnlineDB), ".\\ConnectServer.ini");
-	//GetPrivateProfileString("SQL", "EventDB", "MuEvent", g_EventServerDB, sizeof(g_EventServerDB), ".\\ConnectServer.ini");
-	//GetPrivateProfileString("SQL", "RankingDB", "MuRanking", g_RankingServerDB, sizeof(g_RankingServerDB), ".\\ConnectServer.ini");
 	return true;
 }
 
@@ -217,7 +155,6 @@ void LoadLogConfig()
 		vecAppendEntries.push_back(temp);
 		vecAppendEntryNames.push_back(appendEntry);
 	}
-	sLog->RegisterAppender<AppenderDB>();
 	sLog->Initialize(nullptr, ".", vecLogEntries, vecAppendEntries, vecLogEntryNames, vecAppendEntryNames);
 }
 
@@ -303,15 +240,6 @@ extern int main(int argc, char** argv)
     }
 #endif
 
-	// Initialize the database connection
-	if (!initDB())
-	{
-		sLog->outError("ERROR: Cannot connect to DB.");
-		return 1;
-	}
-
-	std::shared_ptr<void> dbHandle(nullptr, [](void*) { StopDB(); });
-
 	std::shared_ptr<Asio::IoContext> ioContext = std::make_shared<Asio::IoContext>();
 
 	// Set signal handlers
@@ -320,12 +248,6 @@ extern int main(int argc, char** argv)
 	signals.add(SIGBREAK);
 #endif
 	signals.async_wait(std::bind(&SignalHandler, std::weak_ptr<Asio::IoContext>(ioContext), std::placeholders::_1, std::placeholders::_2));
-
-	// Enabled a timed callback for handling the database keep alive ping
-	int32 dbPingInterval = 30;
-	std::shared_ptr<boost::asio::deadline_timer> dbPingTimer = std::make_shared<boost::asio::deadline_timer>(*ioContext);
-	dbPingTimer->expires_from_now(boost::posix_time::minutes(dbPingInterval));
-	dbPingTimer->async_wait(std::bind(&KeepDatabaseAliveHandler, std::weak_ptr<boost::asio::deadline_timer>(dbPingTimer), dbPingInterval, std::placeholders::_1));
 
     sLog->outBasic("%s [realm-daemon]", REVISION_NR);
     sLog->outBasic("<Ctrl-C> to stop.\n");
