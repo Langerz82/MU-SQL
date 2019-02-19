@@ -137,7 +137,7 @@ BOOL WZQueue::AddToQueue(BYTE*  const pObject , UINT nSize, BYTE headcode, INT u
 		{
 			std::memcpy(p, pObject, nSize);
 
-			pNewNode->pHeapMemory = p;
+			pNewNode->pObject = (BYTE*) p;
 			pNewNode->nSize = nSize;
 			pNewNode->Headcode = headcode;
 			pNewNode->uIndex = uindex;
@@ -187,7 +187,7 @@ LPLISTNODE WZQueue::AddToQueueList(BYTE*  pObject, UINT nSize, BYTE headcode, IN
 		{
 			std::memcpy(p, pObject, nSize);
 
-			pNewNode->pHeapMemory = p;
+			pNewNode->pObject = (BYTE*) p;
 			pNewNode->nSize = nSize;
 			pNewNode->Headcode = headcode;
 			pNewNode->uIndex = uindex;
@@ -224,13 +224,13 @@ BOOL WZQueue::GetFromQueue(BYTE* pObject, UINT * pSize, BYTE * headcode, INT * u
 	{
 		EnterCriticalSection(&this->m_CriticalSection);
 
-		std::memcpy(pObject, pNode->pHeapMemory , pNode->nSize);
+		std::memcpy(pObject, pNode->pObject , pNode->nSize);
 
 		*pSize = pNode->nSize;
 		*headcode = pNode->Headcode;
 		*uindex = pNode->uIndex;
 
-		HeapFree(GetProcessHeap(), 0, pNode->pHeapMemory);
+		HeapFree(GetProcessHeap(), 0, pNode->pObject);
 		HeapFree(GetProcessHeap(), 0, pNode);
 
 		LeaveCriticalSection(&this->m_CriticalSection);
@@ -289,7 +289,7 @@ LPLISTNODE WZQueue::GetCurData(BYTE* pObject, UINT* pSize, BYTE * headcode, INT 
 			return NULL;
 		}
 
-		std::memcpy(pObject, this->m_pCur->pHeapMemory , this->m_pCur->nSize); 
+		std::memcpy(pObject, this->m_pCur->pObject , this->m_pCur->nSize); 
 
 		*pSize = this->m_pCur->nSize;
 		*headcode = this->m_pCur->Headcode;
@@ -314,7 +314,7 @@ BOOL WZQueue::Pop(LPLISTNODE pCur, BYTE* pObject, int nOfs, int * nSize, int * s
 
 			if ( (pCur->nSize-nOfs) != 0 )
 			{
-				std::memcpy(pObject, &pCur->pHeapMemory[pCur->iBytesSended ], pCur->nSize - pCur->iBytesSended );
+				std::memcpy(pObject, &pCur->pObject[pCur->iBytesSended ], pCur->nSize - pCur->iBytesSended );
 				*nSize = pCur->nSize - pCur->iBytesSended ;
 				*sendbytes = pCur->iBytesSended ;
 				bRet=TRUE;
@@ -400,7 +400,7 @@ void WZQueue::DeleteNode(LPLISTNODE pCur)
 			}
 		}
 
-		HeapFree( GetProcessHeap(), 0, pNode->pHeapMemory  );
+		HeapFree( GetProcessHeap(), 0, pNode->pObject  );
 		HeapFree( GetProcessHeap(), 0, pNode);
 
 		if ( pPre == NULL && pNext == NULL )

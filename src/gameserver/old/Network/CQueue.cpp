@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CQueue.h"
+#include "generalStructs.h"
 
 CQueue::CQueue(unsigned int nMaxNode)
 {
@@ -106,10 +107,10 @@ BOOL CQueue::AddToQueue(const BYTE* pObject, unsigned int nSize, BYTE headcode, 
 
 			pNewNode->pObject	= pMsg;
 			pNewNode->nSize		= nSize;
-			pNewNode->headcode	= headcode;
-			pNewNode->uindex	= uindex;
-			pNewNode->bSending	= 0;
-			pNewNode->nOfs		= 0;
+			pNewNode->Headcode	= headcode;
+			pNewNode->uIndex	= uindex;
+			pNewNode->bIsDataSending	= 0;
+			pNewNode->iBytesSended		= 0;
 			pNewNode->iSessionId = iSessionId; //new
 			if( AddTail(pNewNode) ) bRet = TRUE;
 		}
@@ -148,10 +149,10 @@ _LISTNODE* CQueue::AddToQueueList(const BYTE* pObject, unsigned int nSize, BYTE 
 
 			pNewNode->pObject	= pMsg;
 			pNewNode->nSize		= nSize;
-			pNewNode->headcode	= headcode;
-			pNewNode->uindex	= uindex;
-			pNewNode->bSending	= 0;
-			pNewNode->nOfs		= 0;
+			pNewNode->Headcode = headcode;
+			pNewNode->uIndex = uindex;
+			pNewNode->bIsDataSending = 0;
+			pNewNode->iBytesSended = 0;
 			if( AddTail(pNewNode) ) bRet = TRUE;
 		}
 		else
@@ -179,8 +180,8 @@ BOOL CQueue::GetFromQueue(BYTE* pObject, unsigned int * pSize, BYTE * headcode, 
 		
 		std::memcpy(pObject, pNode->pObject, pNode->nSize);
 		*pSize = pNode->nSize;
-		*headcode =pNode->headcode;
-		*uindex = pNode->uindex;
+		*headcode = pNode->Headcode;
+		*uindex = pNode->uIndex;
 		*iSessionId = pNode->iSessionId; //new
 		
 		HeapFree(GetProcessHeap(), 0, pNode->pObject);
@@ -237,12 +238,12 @@ _LISTNODE* CQueue::GetCurData(BYTE* pObject, unsigned int * pSize, BYTE * headco
 {
 	if( m_pCur )
 	{		
-		if( m_pCur->bSending == 1 ) return FALSE;
+		if( m_pCur->bIsDataSending == 1 ) return FALSE;
 
 		std::memcpy(pObject, m_pCur->pObject, m_pCur->nSize);
 		*pSize = m_pCur->nSize;
-		*headcode =m_pCur->headcode;
-		*uindex = m_pCur->uindex;
+		*headcode =m_pCur->Headcode;
+		*uindex = m_pCur->uIndex;
 		return m_pCur;
 	}
 	return NULL;
@@ -257,12 +258,12 @@ BOOL CQueue::Pop(_LISTNODE* pCur, BYTE *pObject, int nOfs, int *nSize, int *sent
 		__try
 		{
 			EnterCriticalSection(&m_CriticalSection);
-			pCur->nOfs += nOfs;
+			pCur->iBytesSended += nOfs;
 			if( pCur->nSize-nOfs )
 			{
-				std::memcpy(pObject, pCur->pObject+pCur->nOfs, pCur->nSize-pCur->nOfs);
-				*nSize = pCur->nSize-pCur->nOfs;
-				*sentbytes = pCur->nOfs;
+				std::memcpy(pObject, pCur->pObject+pCur->iBytesSended, pCur->nSize-pCur->iBytesSended);
+				*nSize = pCur->nSize-pCur->iBytesSended;
+				*sentbytes = pCur->iBytesSended;
 				bRet = TRUE;
 				__leave;
 			}
@@ -280,7 +281,7 @@ void CQueue::SetCurDataSending(_LISTNODE* pNode)
 	if( pNode )
 	{
 		EnterCriticalSection(&m_CriticalSection);
-		pNode->bSending = 1;
+		pNode->bIsDataSending = 1;
 		LeaveCriticalSection(&m_CriticalSection);
 	}
 }

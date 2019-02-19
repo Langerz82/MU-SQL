@@ -1,7 +1,7 @@
 ﻿#include "StdAfx.h"
 #include "IOCP.h"
 #include "ConnectEngine.h"
-#include "ConnectProtocol.h"
+#include "LoginProtocol.h"
 #include "Main.h"
 #include "generalStructs.h"
 
@@ -193,7 +193,6 @@ void  CIOCP::CreateUserData(ACE_HANDLE handle)
 	CLoginServerProtocol::ProtocolCore(ObjCSUser->Index, 0x00, (LPBYTE) &serverInfo, sizeof(SDHP_SERVERINFO));*/
 
 	// Send Server List.
-	SCConnectResultSend(*ObjCSUser, 1);
 
 	PostQueuedCompletionStatus(g_CompletionPort, 0, 0, 0);
 
@@ -386,7 +385,8 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 				return false;
 			}
 
-			CSProtocolCore(headcode, &recvbuf[lOfs], size, lpUser->Index, 0, 0);
+			//CSProtocolCore(headcode, &recvbuf[lOfs], size, lpUser->Index, 0, 0);
+			m_JSProtocol.ProtocolCore(lpUser->Index, headcode, &recvbuf[lOfs], size);
 
 			lOfs += size;
 			lpIOContext->nbBytes -= size;

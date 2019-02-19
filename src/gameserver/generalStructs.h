@@ -336,6 +336,21 @@ struct ST_LISTNODE
 	PER_IO_CONTEXT_L	IoCtxt; //re-enabled old one :)
 };
 
+typedef struct _LISTNODE
+{
+	_LISTNODE * lpNodePre;	// 0
+	_LISTNODE * lpNodeNext;	// 4
+	BYTE *		pObject; // 8
+	UINT nSize; // C
+	BOOL bIsDataSending; // 10
+	int iBytesSended;	// 14
+	BYTE Headcode; // 18
+	UINT uIndex; // 1C
+	_LISTNODE * pUpLink;
+	_LISTNODE * pDownLink;
+	int		iSessionId; //new
+} LISTNODE, *LPLISTNODE;
+
 struct SDHP_IDPASS {
 	PBMSG_HEAD2 h;
 	char Id[10];

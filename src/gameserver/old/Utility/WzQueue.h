@@ -13,20 +13,6 @@
 
 #include "StdAfx.h"
 
-typedef struct _LISTNODE
-{
-	_LISTNODE * lpNodePre;	// 0
-	_LISTNODE * lpNodeNext;	// 4
-	char* pHeapMemory; // 8
-	UINT nSize; // C
-	BOOL bIsDataSending; // 10
-	int iBytesSended;	// 14
-	BYTE Headcode; // 18
-	UINT uIndex; // 1C
-
-} LISTNODE, * LPLISTNODE;
-
-
 class WZQueue
 {
 public:

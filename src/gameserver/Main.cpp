@@ -75,11 +75,11 @@ DWORD g_MachineIDConnectionLimitPerGroup = 10;
 
 // GLobals thats whats up.
 TCHAR szWANIP[150];
-int g_dwMaxServerGroups = GetPrivateProfileInt("SETTINGS", "MAX_SERVER", 10, ".\\ConnectServer.ini") * MAX_SERVER_TYPE;
+int g_dwMaxServerGroups = GetPrivateProfileInt("SETTINGS", "MAX_SERVER", 10, ".\\GameServer.ini") * MAX_SERVER_TYPE;
 
-BOOL g_PwEncrypt = GetPrivateProfileInt("SQL", "PasswordEncryptType", 0, ".\\ConnectServer.ini");
-BOOL g_DSMode = GetPrivateProfileInt("SETTINGS", "DataServerOnlyMode", 0, ".\\ConnectServer.ini");
-BOOL g_UseJoinServer = GetPrivateProfileInt("SETTINGS", "UseJoinServer", 1, ".\\ConnectServer.ini");
+BOOL g_PwEncrypt = GetPrivateProfileInt("SQL", "PasswordEncryptType", 0, ".\\GameServer.ini");
+BOOL g_DSMode = GetPrivateProfileInt("SETTINGS", "DataServerOnlyMode", 0, ".\\GameServer.ini");
+BOOL g_UseJoinServer = GetPrivateProfileInt("SETTINGS", "UseJoinServer", 1, ".\\GameServer.ini");
 
 TCHAR g_ServerAddress[64];
 TCHAR g_DBPort[8];
@@ -170,20 +170,20 @@ void usage(const char* prog)
 
 bool InitDataServer()
 {
-	GetPrivateProfileString("SQL", "ServerAddress", "127.0.0.1", g_ServerAddress, sizeof(g_ServerAddress), ".\\ConnectServer.ini");
-	GetPrivateProfileString("SQL", "Port", "3306", g_DBPort, sizeof(g_DBPort), ".\\ConnectServer.ini");
-	GetPrivateProfileString("SQL", "User", "sa", g_UserID, sizeof(g_UserID), ".\\ConnectServer.ini");
-	GetPrivateProfileString("SQL", "Pass", "sa", g_Password, sizeof(g_Password), ".\\ConnectServer.ini");
-	GetPrivateProfileString("SQL", "MuOnlineDB", "MuOnline", g_MuOnlineDB, sizeof(g_MuOnlineDB), ".\\ConnectServer.ini");
-	//GetPrivateProfileString("SQL", "MeMuOnlineDB", "MuOnline", g_MeMuOnlineDB, sizeof(g_MeMuOnlineDB), ".\\ConnectServer.ini");
-	//GetPrivateProfileString("SQL", "EventDB", "MuEvent", g_EventServerDB, sizeof(g_EventServerDB), ".\\ConnectServer.ini");
-	//GetPrivateProfileString("SQL", "RankingDB", "MuRanking", g_RankingServerDB, sizeof(g_RankingServerDB), ".\\ConnectServer.ini");
+	GetPrivateProfileString("SQL", "ServerAddress", "127.0.0.1", g_ServerAddress, sizeof(g_ServerAddress), ".\\GameServer.ini");
+	GetPrivateProfileString("SQL", "Port", "3306", g_DBPort, sizeof(g_DBPort), ".\\GameServer.ini");
+	GetPrivateProfileString("SQL", "User", "sa", g_UserID, sizeof(g_UserID), ".\\GameServer.ini");
+	GetPrivateProfileString("SQL", "Pass", "sa", g_Password, sizeof(g_Password), ".\\GameServer.ini");
+	GetPrivateProfileString("SQL", "MuOnlineDB", "mu_data", g_MuOnlineDB, sizeof(g_MuOnlineDB), ".\\GameServer.ini");
+	//GetPrivateProfileString("SQL", "MeMuOnlineDB", "MuOnline", g_MeMuOnlineDB, sizeof(g_MeMuOnlineDB), ".\\GameServer.ini");
+	//GetPrivateProfileString("SQL", "EventDB", "MuEvent", g_EventServerDB, sizeof(g_EventServerDB), ".\\GameServer.ini");
+	//GetPrivateProfileString("SQL", "RankingDB", "MuRanking", g_RankingServerDB, sizeof(g_RankingServerDB), ".\\GameServer.ini");
 	return true;
 }
 
 void LoadLogConfig()
 {
-	GetPrivateProfileString("Logger", "LogDirectory", "logs", g_logsDir, sizeof(g_logsDir), ".\\ConnectServer.ini");
+	GetPrivateProfileString("Logger", "LogDirectory", "logs", g_logsDir, sizeof(g_logsDir), ".\\GameServer.ini");
 	
 	std::vector<std::string> vecLogEntries;
 	std::vector<std::string> vecLogEntryNames;
@@ -193,7 +193,7 @@ void LoadLogConfig()
 		TCHAR tempChars[128];
 		std::string temp = "";
 		std::string logEntry = StringFormat("LogEntry%d", i++);
-		GetPrivateProfileString("Logger", logEntry.c_str(), "", tempChars, sizeof(tempChars), ".\\ConnectServer.ini");
+		GetPrivateProfileString("Logger", logEntry.c_str(), "", tempChars, sizeof(tempChars), ".\\GameServer.ini");
 		//std::cout << tempChars << std::endl;
 		temp.assign(tempChars, sizeof(tempChars));
 		if (strcmp(temp.c_str(), "") == 0)
@@ -209,7 +209,7 @@ void LoadLogConfig()
 		TCHAR tempChars[128];
 		std::string temp = "";
 		std::string appendEntry = StringFormat("AppendEntry%d", i++);
-		GetPrivateProfileString("Appender", appendEntry.c_str(), "", tempChars, sizeof(tempChars), ".\\ConnectServer.ini");
+		GetPrivateProfileString("Appender", appendEntry.c_str(), "", tempChars, sizeof(tempChars), ".\\GameServer.ini");
 		//std::cout << tempChars << std::endl;
 		temp.assign(tempChars, sizeof(tempChars));
 		if (strcmp(temp.c_str(), "") == 0)
@@ -425,9 +425,9 @@ extern int main(int argc, char** argv)
 
 	//GetPrivateProfileString(
 	LoadAllowableIpList("./AllowedIPList.ini");
-	GetPrivateProfileString("SETTINGS", "MapServerInfoPath", "..\\Data\\MapServerInfo.ini", g_MapSvrFilePath, sizeof(g_MapSvrFilePath), ".\\ConnectServer.ini");
-	WORD g_JoinServerListPort = GetPrivateProfileInt("SETTINGS", "TCP_PORT", 44405, ".\\ConnectServer.ini");
-	GetPrivateProfileString("SETTINGS", "WanIP", "127.0.0.1", szWANIP, 150, ".\\ConnectServer.ini");
+	GetPrivateProfileString("SETTINGS", "MapServerInfoPath", "..\\Data\\MapServerInfo.ini", g_MapSvrFilePath, sizeof(g_MapSvrFilePath), ".\\GameServer.ini");
+	WORD g_JoinServerListPort = GetPrivateProfileInt("SETTINGS", "TCP_PORT", 44405, ".\\GameServer.ini");
+	GetPrivateProfileString("SETTINGS", "WanIP", "127.0.0.1", szWANIP, 150, ".\\GameServer.ini");
 	//std::memcpy(szWANIP, ValidateAndResolveIP(szWANIP), 15); // temp
 	//g_MapServerManager.LoadMapData(g_MapSvrFilePath);
 	//SendMessage(ghWnd, WM_TIMER, WM_LOG_PAINT, NULL);
