@@ -383,7 +383,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 				return false;
 			}
 
-			CSProtocolCore(headcode, &recvbuf[lOfs], size, *lpUser, 0, 0);
+			CSProtocolCore(headcode, &recvbuf[lOfs], size, lpUser->Index, 0, 0);
 
 			lOfs += size;
 			lpIOContext->nSentBytes  -= size;

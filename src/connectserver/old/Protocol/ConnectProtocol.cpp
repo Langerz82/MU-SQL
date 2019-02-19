@@ -12,42 +12,42 @@
 
 CLoginServerProtocol m_JSProtocol;
 
-
-void CSProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, STR_CS_USER &Obj, bool Encrypt, int serial)
+void CSProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, int uIndex, bool Encrypt, int serial)
 {
 
-	switch ( protoNum )
+	switch (protoNum)
 	{
-		case 0xF4:
-			{
-				switch(aRecv[3])
-				{
-					case CS_CLIENT_CONNECT:
-						SCSendServerList(Obj);
-						break;
-					case CS_SERVER_SELECT:
-						SCSendServerInfo(Obj, (PMSG_SERVER_SELECT *)aRecv);
-						break;
-				}
-			}
+	case 0xF4:
+	{
+		switch (aRecv[3])
+		{
+		case CS_CLIENT_CONNECT:
+			SCSendServerList(uIndex);
 			break;
+		case CS_SERVER_SELECT:
+			SCSendServerInfo(uIndex, (PMSG_SERVER_SELECT *)aRecv);
+			break;
+		}
+	}
+	break;
 
-		case 0x05:
-			SCSendAutoUpdateData(Obj, (PMSG_CLIENTVERSION *)aRecv);
-			break;
+	case 0x05:
+		SCSendAutoUpdateData(uIndex, (PMSG_CLIENTVERSION *)aRecv);
+		break;
 	}
 }
 
-void SCSendServerList(STR_CS_USER &Obj)
+
+void SCSendServerList(int uIndex)
 {
 	PMSG_SERVERSLIST_COUNT * pMsg;///(0xC2, 0xF4, 0x06);
 	PMSG_SERVERLIST_SERVER * pServer;
 	BYTE cBUFF[65535];
-
-	if(Obj.News == 0)
+	STR_CS_USER* lpObj = getCSUser(uIndex);
+	if(lpObj->News == 0)
 	{
-		SCSendNews(Obj);
-		Obj.News = 1;
+		SCSendNews(*lpObj);
+		lpObj->News = 1;
 	}
 
 	int Count = 0;
@@ -69,8 +69,8 @@ void SCSendServerList(STR_CS_USER &Obj)
 
 	if(Count == 0)
 	{
-		sLog->outError("[Server] No active Game Servers found - disconnect: (Index: [%d])", Obj.Index);
-		IOCP.CloseClient(Obj.Index);
+		sLog->outError("[Server] No active Game Servers found - disconnect: (Index: [%d])", lpObj->Index);
+		IOCP.CloseClient(lpObj->Index);
 		return;
 	}
 
@@ -88,12 +88,12 @@ void SCSendServerList(STR_CS_USER &Obj)
 	pMsg->h.sizeL	= LOBYTE(PacketSize);
 	pMsg->h.sizeH	= HIBYTE(PacketSize);
 
-	IOCP.DataSend(Obj.Index, cBUFF, PacketSize);
+	IOCP.DataSend(lpObj->Index, cBUFF, PacketSize);
 
-	sLog->outBasic("[Server] Sent Server List COUNT: [%d] (Index: [%d])", Count, Obj.Index);
+	sLog->outBasic("[Server] Sent Server List COUNT: [%d] (Index: [%d])", Count, lpObj->Index);
 }
 
-void SCSendServerInfo(STR_CS_USER &Obj, PMSG_SERVER_SELECT * aRecv)
+void SCSendServerInfo(int uIndex, PMSG_SERVER_SELECT * aRecv)
 {
 	PMSG_CONNECT_INFO pMsg;
 
@@ -109,7 +109,7 @@ void SCSendServerInfo(STR_CS_USER &Obj, PMSG_SERVER_SELECT * aRecv)
 			pMsg.Port = m_ServerData.m_Servers[i].Port;
 			std::memcpy(&pMsg.IP, m_ServerData.m_Servers[i].IP, sizeof(pMsg.IP));
 
-			IOCP.DataSend(Obj.Index, (BYTE*)&pMsg, pMsg.h.size);
+			IOCP.DataSend(uIndex, (BYTE*)&pMsg, pMsg.h.size);
 
 			sLog->outBasic("[Server] Connecting to Server: %s (IP: [%s] PORT: [%d]) (Players: [%d] / Max: [%d])",
 				m_ServerData.m_Servers[i].Name, m_ServerData.m_Servers[i].IP, m_ServerData.m_Servers[i].Port,
@@ -177,7 +177,7 @@ void SCSendNews(STR_CS_USER &Obj)
 	}
 }
 
-void SCSendAutoUpdateData(STR_CS_USER &refCSUser, PMSG_CLIENTVERSION *aRecv)
+void SCSendAutoUpdateData(int uIndex, PMSG_CLIENTVERSION *aRecv)
 {
 
 	// TODO
@@ -194,7 +194,7 @@ void SCSendAutoUpdateData(STR_CS_USER &refCSUser, PMSG_CLIENTVERSION *aRecv)
 		pMsg.h.size = sizeof(pMsg);
 		pMsg.VersionOK = 1;
 
-		IOCP.DataSend(refCSUser.Index, (BYTE*)&pMsg, pMsg.h.size);
+		IOCP.DataSend(uIndex, (BYTE*)&pMsg, pMsg.h.size);
 	//}
 	/*
 	else

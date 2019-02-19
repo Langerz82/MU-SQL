@@ -271,13 +271,13 @@ public:
 extern CLoginServerProtocol m_JSProtocol;
 
 
-void CSProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, STR_CS_USER &Obj, bool Encrypt, int serial);
+void CSProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, int uIndex, bool Encrypt, int serial);
 void UDPProtocolCore(BYTE hCode, LPBYTE aRecv, int aLen);
 void UDPSetServerInfo(PMSG_SERVERINFO * aRecv);
-void SCSendServerList(STR_CS_USER &Obj);
-void SCSendServerInfo(STR_CS_USER &Obj, PMSG_SERVER_SELECT * aRecv);
+void SCSendServerList(int uIndex);
+void SCSendServerInfo(int uIndex, PMSG_SERVER_SELECT * aRecv);
 void SCConnectResultSend(STR_CS_USER &Obj, BYTE btResult);
 void SCSendNews(STR_CS_USER &Obj);
-void SCSendAutoUpdateData(STR_CS_USER &Obj, PMSG_CLIENTVERSION * aRecv);
+void SCSendAutoUpdateData(int uIndex, PMSG_CLIENTVERSION * aRecv);
 
 #endif
