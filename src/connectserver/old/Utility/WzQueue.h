@@ -13,10 +13,10 @@
 
 #include "StdAfx.h"
 
-typedef struct _ST_LISTNODE
+typedef struct _LISTNODE
 {
-	_ST_LISTNODE * lpNodePre;	// 0
-	_ST_LISTNODE * lpNodeNext;	// 4
+	_LISTNODE * lpNodePre;	// 0
+	_LISTNODE * lpNodeNext;	// 4
 	char* pHeapMemory; // 8
 	UINT nSize; // C
 	BOOL bIsDataSending; // 10

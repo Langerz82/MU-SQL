@@ -9862,8 +9862,7 @@ struct PMSG_RESULT_MOVEBLOODCASTLE {
 };
 
 struct PMSG_RESULT {
-	PBMSG_HEAD2 h;
-	BYTE subcode;
+	PBMSG_HEAD h;
 	BYTE result;
 };
 

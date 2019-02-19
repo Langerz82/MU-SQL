@@ -2,8 +2,16 @@
 // ServerData.cpp
 #include "StdAfx.h"
 #include "ServerData.h"
+#include "boost/filesystem/operations.hpp"
+#include "boost/filesystem/fstream.hpp"
+#include <iostream>
+#include "readscript.h"
+
+namespace fs = boost::filesystem;
+
 
 CServerData m_ServerData;
+
 
 CServerData::CServerData(void)
 {
@@ -55,11 +63,10 @@ void CServerData::LoadServerFile(LPSTR lpszFile)
 					
 void CServerData::LoadNewsFile(LPSTR lpszFile)
 {
-	// TODO
-	/*
-	SMDFile = fopen(lpszFile, "r");
+	fs::path p{ lpszFile };
+	fs::ifstream SMDFile{ p };
 
-	if(SMDFile == NULL)
+	if (!SMDFile.is_open())
 	{
 		sLog->outError("%s load fail", lpszFile);
 		return;
@@ -90,7 +97,7 @@ void CServerData::LoadNewsFile(LPSTR lpszFile)
 
 	while(true)
 	{
-		Token = GetToken();
+		Token = GetToken(&SMDFile);
 
 		if(Token == END)
 		{
@@ -105,52 +112,52 @@ void CServerData::LoadNewsFile(LPSTR lpszFile)
 			{
 				while(true)
 				{
-					Token = GetToken();
+					Token = GetToken(&SMDFile);
 					if(strcmp(TokenString, "end") == 0)
 						break;
 
 					Index = TokenNumber;
 
-					Token = GetToken();
+					Token = GetToken(&SMDFile);
 					dateR = TokenNumber;
 
-					Token = GetToken();
+					Token = GetToken(&SMDFile);
 					dateG = TokenNumber;
 
-					Token = GetToken();
+					Token = GetToken(&SMDFile);
 					dateB = TokenNumber;
 					
-					Token = GetToken();
+					Token = GetToken(&SMDFile);
 					TitleR = TokenNumber;
 
-					Token = GetToken();
+					Token = GetToken(&SMDFile);
 					TitleG = TokenNumber;
 
-					Token = GetToken();
+					Token = GetToken(&SMDFile);
 					TitleB = TokenNumber;
 
-					Token = GetToken();
+					Token = GetToken(&SMDFile);
 					TextR = TokenNumber;
 
-					Token = GetToken();
+					Token = GetToken(&SMDFile);
 					TextG = TokenNumber;
 
-					Token = GetToken();
+					Token = GetToken(&SMDFile);
 					TextB = TokenNumber;
 
-					Token = GetToken();
+					Token = GetToken(&SMDFile);
 					strcpy(szTitle,TokenString);
 
-					Token = GetToken();
+					Token = GetToken(&SMDFile);
 					strcpy(szText,TokenString);
 
-					Token = GetToken();
+					Token = GetToken(&SMDFile);
 					Day = TokenNumber;
 
-					Token = GetToken();
+					Token = GetToken(&SMDFile);
 					Month = TokenNumber;
 
-					Token = GetToken();
+					Token = GetToken(&SMDFile);
 					Year = TokenNumber;
 
 					this->m_News[Index].dateColor = RGB(dateR,dateG,dateB);
@@ -168,12 +175,11 @@ void CServerData::LoadNewsFile(LPSTR lpszFile)
 			}
 			else if(Type == 1)
 			{
-				Token = GetToken();
+				Token = GetToken(&SMDFile);
 				strcpy(this->szTitle, TokenString);
 			}
 		}
 	}
-	*/
 }
 
 void CServerData::Run()

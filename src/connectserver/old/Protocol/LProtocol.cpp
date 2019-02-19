@@ -141,10 +141,12 @@ void CConServ::GetServerList(int userIndex)
 }
 void CConServ::LoadServerList(LPSTR szFile)
 {
-	if ( (SMDFile = fopen(szFile, "r")) == NULL )
+	fs::path p{ szFile };
+	fs::ifstream SMDFile{ p };
+
+	if (!SMDFile.is_open())
 	{
-		sLog->outError("CConServer::LoadServerList() error");
-		ExitProcess(1);
+		sLog->outError("%s load fail", szFile);
 		return;
 	}
 
@@ -155,7 +157,7 @@ void CConServ::LoadServerList(LPSTR szFile)
 	g_ConnectedServers.clear();
 	while(true)
 	{
-		Token = GetToken();
+		Token = GetToken(&SMDFile);
 
 		if(Token == END)
 			break;
@@ -166,17 +168,17 @@ void CConServ::LoadServerList(LPSTR szFile)
 
 			while(true)
 			{
-				Token = GetToken();
+				Token = GetToken(&SMDFile);
 
 				if(strcmp("end",TokenString) == 0)
 					break;
 
 				m_Server.btServerCode = TokenNumber;
 
-				Token = GetToken();
+				Token = GetToken(&SMDFile);
 				strcpy(m_Server.cIp,TokenString);
 
-				Token = GetToken();
+				Token = GetToken(&SMDFile);
 
 				m_Server.wServerPort = TokenNumber;
 

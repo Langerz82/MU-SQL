@@ -17,9 +17,9 @@ int iReturnIpCount(char *IP)
 {
 	int count = 0;
 
-	for (int i = 0; i < MAX_USER; i++)
+	for each (auto user in gConnUsers)
 	{
-		if (!strcmp(IP, gConnUsers[i]->IP))
+		if (!strcmp(IP, user->IP))
 		{
 			count++;
 		}
@@ -52,6 +52,9 @@ STR_CS_USER* UserAdd(const char* SocketKey, char* IP)
 			connUser->PacketCount = 0;
 			connUser->i64PacketTime = GetTickCount64();
 			connUser->Index = count;
+			connUser->PerSocketContext = new _PER_SOCKET_CONTEXT();
+			connUser->PerSocketContext->IOContext[0];
+			connUser->PerSocketContext->IOContext[1];
 			insertCSUser(connUser);
 			SCount++;
 			sLog->outBasic("Connection Accept: %s", IP);

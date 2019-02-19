@@ -3,6 +3,13 @@
 #ifndef	_READ_SCRIPT_H_
 #define	_READ_SCRIPT_H_
 
+#include "boost/filesystem/operations.hpp"
+#include "boost/filesystem/fstream.hpp"
+#include <iostream>
+
+namespace fs = boost::filesystem;
+
+
 static enum SMDToken 
 {
 	NAME, 
@@ -16,12 +23,11 @@ static enum SMDToken
 	SMD_ERROR
 };
 
-static FILE     *SMDFile;
 static float    TokenNumber;
 static char     TokenString[100];
 static SMDToken CurrentToken;
 
-static SMDToken GetToken()
+static SMDToken GetToken(fs::ifstream* SMDFile)
 {
 	char ch;
 	char* p;
@@ -31,7 +37,7 @@ static SMDToken GetToken()
 
 	do
 	{
-		if ((ch = (char)fgetc(SMDFile)) == -1)
+		if ((ch = (char) SMDFile->get()) == -1)
 		{
 			return END;	// End of FILE (EOF)
 		}
@@ -39,11 +45,11 @@ static SMDToken GetToken()
 		{	
 			if (ch=='/')		// this is /
 			{
-				if((ch=(char)fgetc(SMDFile)) == '/')
+				if((ch=(char)SMDFile->get()) == '/')
 				{
 					while ((ch != '\n') && (ch != '\r\n') && (ch != -1))	// End of Line (EOL)
 					{
-						ch = (char)fgetc(SMDFile);
+						ch = (char)SMDFile->get();
 					}
 	
 					if (ch == -1)
@@ -94,10 +100,10 @@ static SMDToken GetToken()
 	case '7':	//7
 	case '8':	//8
 	case '9':	//9
-		ungetc(ch, SMDFile);
+		SMDFile->unget();
 		p = TempString;
 		
-		while (((ch=getc(SMDFile)) != -1) && ((ch == 0x2E) || (isdigit(ch) != 0) || (ch == 0x2D)))  // 2e '.'  2D '-'
+		while (((ch= SMDFile->get()) != -1) && ((ch == 0x2E) || (isdigit(ch) != 0) || (ch == 0x2D)))  // 2e '.'  2D '-'
 		{
 			*p = ch;	// Construct a String
 			p++;
@@ -110,14 +116,14 @@ static SMDToken GetToken()
 	case '\"':	// "	String Case
 		p=&TokenString[0];
 		
-		while (((ch=getc(SMDFile)) != -1 ) && (ch != 0x22))	// nice
+		while (((ch= SMDFile->get()) != -1 ) && (ch != 0x22))	// nice
 		{
 			*p = ch;
 			p++;
 		}
 		if (ch != 0x22 )
 		{
-			ungetc(ch, SMDFile);
+			SMDFile->unget();
 		}
 		*p = 0;
 		return CurrentToken = NAME;
@@ -130,14 +136,14 @@ static SMDToken GetToken()
 			*p=ch;
 			p++;
 
-			while ( ((ch=getc(SMDFile)) != -1) && ( (ch == 0x2E) || (ch == 0x5F) || (isalnum(ch) != 0) ) )
+			while ( ((ch= SMDFile->get()) != -1) && ( (ch == 0x2E) || (ch == 0x5F) || (isalnum(ch) != 0) ) )
 			{
 				*p=ch;
 				p++;
 				
 			}
 
-			ungetc(ch, SMDFile);
+			SMDFile->unget();
 			*p=0;
 			CurrentToken=NAME;
 			return CurrentToken;

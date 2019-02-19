@@ -11,8 +11,8 @@
 #include "database/Logging/AppenderDB.h"
 #include "Asio/IoContext.h"
 
-
 #include "IOCP.h"
+#include "ServerData.h"
 
 //#include "database/Database/DatabaseEnv.h"
 #include "database/Database/DatabaseLoader.h"
@@ -36,6 +36,7 @@
 #include <ace/ACE.h>
 #include <ace/Acceptor.h>
 #include <ace/SOCK_Acceptor.h>
+#include <ace/Reactor.h>
 
 #include <boost/asio/signal_set.hpp>
 #include <boost/program_options.hpp>
@@ -75,7 +76,7 @@ DWORD g_MachineIDConnectionLimitPerGroup = 10;
 // GLobals thats whats up.
 TCHAR szWANIP[150];
 int g_dwMaxServerGroups = GetPrivateProfileInt("SETTINGS", "MAX_SERVER", 10, ".\\ConnectServer.ini") * MAX_SERVER_TYPE;
-WORD g_JoinServerListPort = GetPrivateProfileInt("Config", "TCP_PORT", 44405, ".\\ConnectServer.ini");
+
 BOOL g_PwEncrypt = GetPrivateProfileInt("SQL", "PasswordEncryptType", 0, ".\\ConnectServer.ini");
 BOOL g_DSMode = GetPrivateProfileInt("SETTINGS", "DataServerOnlyMode", 0, ".\\ConnectServer.ini");
 BOOL g_UseJoinServer = GetPrivateProfileInt("SETTINGS", "UseJoinServer", 1, ".\\ConnectServer.ini");
@@ -409,6 +410,10 @@ extern int main(int argc, char** argv)
 	//EventsDatabase.AllowAsyncTransactions();
 	//RankingDatabase.AllowAsyncTransactions();
 
+
+	m_ServerData.LoadServerFile("IGC_ServerList.xml");
+	m_ServerData.LoadNewsFile("News.dat");
+
 ////OLD CODE
 // TODO: Place code here.
 
@@ -421,6 +426,7 @@ extern int main(int argc, char** argv)
 	//GetPrivateProfileString(
 	LoadAllowableIpList("./AllowedIPList.ini");
 	GetPrivateProfileString("SETTINGS", "MapServerInfoPath", "..\\Data\\MapServerInfo.ini", g_MapSvrFilePath, sizeof(g_MapSvrFilePath), ".\\ConnectServer.ini");
+	WORD g_JoinServerListPort = GetPrivateProfileInt("SETTINGS", "TCP_PORT", 44405, ".\\ConnectServer.ini");
 	GetPrivateProfileString("SETTINGS", "WanIP", "127.0.0.1", szWANIP, 150, ".\\ConnectServer.ini");
 	//std::memcpy(szWANIP, ValidateAndResolveIP(szWANIP), 15); // temp
 	//g_MapServerManager.LoadMapData(g_MapSvrFilePath);
@@ -429,8 +435,9 @@ extern int main(int argc, char** argv)
 	gObjServerInit();
 	//IniteDataServer();
 	IOCP.GiocpInit();
+	sLog->outBasic("CreateListenSocket - Started.");
 	IOCP.CreateListenSocket(g_JoinServerListPort, szWANIP);
-
+	sLog->outBasic("CreateListenSocket - Finished.");
 ////OLD CODE END
 
     // maximum counter for next ping
@@ -438,23 +445,29 @@ extern int main(int argc, char** argv)
     uint32 loopCounter = 0;
 
 	// TODO - Make sure working from TC
-	ioContext->run();
-
-#ifndef WIN32
-    detachDaemon();
-#endif
+	sLog->outBasic("ioContext->run()");
+	//ioContext->run();
+	sLog->outBasic("ioContext->run() - finished");
+//#ifndef WIN32
+//    detachDaemon();
+//#endif
+	sLog->outBasic("Entering loop.");
     ///- Wait for termination signal
-    while (!stopEvent)
+    while (true)
     {
         // dont move this outside the loop, the reactor will modify it
-        ACE_Time_Value interval(0, 10000);
+        
 
-        if (ACE_Reactor::instance()->run_reactor_event_loop(interval) == -1)
-            { break; }
+        //if (ACE_Reactor::instance()->run_reactor_event_loop(interval) == -1)
+        //    { break; }
 
+		CIOCP::ProcessEvents();
+
+		sLog->outBasic("Server Farting.");
+		
 #ifdef WIN32
-        if (m_ServiceStatus == 0) { stopEvent = true; }
-        while (m_ServiceStatus == 2) { Sleep(1000); }
+        //if (m_ServiceStatus == 0) { stopEvent = true; }
+        //while (m_ServiceStatus == 2) { Sleep(1000); }
 #endif
     }
 

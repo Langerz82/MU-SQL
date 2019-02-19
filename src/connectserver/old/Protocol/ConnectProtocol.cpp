@@ -38,31 +38,6 @@ void CSProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, STR_CS_USER &Obj, bool
 	}
 }
 
-void UDPProtocolCore(BYTE hCode, LPBYTE aRecv, int aLen)
-{
-	switch ( hCode )
-	{
-		case 0x01:
-			UDPSetServerInfo((PMSG_SERVERINFO *)aRecv);
-			break;
-	}
-}
-
-void UDPSetServerInfo(PMSG_SERVERINFO * aRecv)
-{
-	for(int i=0;i<100;i++)
-	{
-		if(m_ServerData.m_Servers[i].Code == aRecv->ServerCode)
-		{
-			m_ServerData.m_Servers[i].MaxUserCount = aRecv->MaxUserCount;
-			m_ServerData.m_Servers[i].Percent = aRecv->Percent;
-			m_ServerData.m_Servers[i].PlayType = aRecv->PlayType;
-			m_ServerData.m_Servers[i].UserCount = aRecv->UserCount;
-			m_ServerData.m_Servers[i].TickCount = GetTickCount();
-		}
-	}
-}
-
 void SCSendServerList(STR_CS_USER &Obj)
 {
 	PMSG_SERVERSLIST_COUNT * pMsg;///(0xC2, 0xF4, 0x06);
@@ -82,7 +57,7 @@ void SCSendServerList(STR_CS_USER &Obj)
 		pServer = (PMSG_SERVERLIST_SERVER *)(cBUFF + sizeof(PMSG_SERVERSLIST_COUNT) + (Count*sizeof(PMSG_SERVERLIST_SERVER)));
 
 		if(m_ServerData.m_Servers[i].Visible == true &&
-			m_ServerData.m_Servers[i].Port != 0 && m_ServerData.m_Servers[i].TickCount != 0)
+			m_ServerData.m_Servers[i].Port != 0 /*&& m_ServerData.m_Servers[i].TickCount != 0*/)
 		{
 			pServer->wServerCode = m_ServerData.m_Servers[i].Code;
 			pServer->btPercent = m_ServerData.m_Servers[i].Percent;
@@ -162,7 +137,7 @@ void SCSendNews(STR_CS_USER &Obj)
 	PMSG_SEND_TITLE pTitle;
 	pTitle.h.c = 0xC1;
 	pTitle.h.headcode = 0xFA;
-	pTitle.h.subcode = 0x00;
+	//pTitle.h.subcode = 0x00;
 	std::memcpy(pTitle.ServerName, m_ServerData.szTitle, sizeof(pTitle.ServerName));
 
 	IOCP.DataSend(Obj.Index, (BYTE*)&pTitle, pTitle.h.size);
@@ -204,14 +179,14 @@ void SCSendNews(STR_CS_USER &Obj)
 
 void SCSendAutoUpdateData(STR_CS_USER &refCSUser, PMSG_CLIENTVERSION *aRecv)
 {
-	/*
+
 	// TODO
 	unsigned int MainVersion, HeadVersion, SubVersion;
 
 	sscanf_s(g_ClientVersion, "%u.%u.%u", &MainVersion, &HeadVersion, &SubVersion);
 
-	if(aRecv->ClientMainVersion == MainVersion && aRecv->ClientHeadVersion == HeadVersion && aRecv->ClientSubVersion == SubVersion)
-	{
+	//if(aRecv->ClientMainVersion == MainVersion && aRecv->ClientHeadVersion == HeadVersion && aRecv->ClientSubVersion == SubVersion)
+	//{
 		PMSG_VERSIONOK pMsg;
 		
 		pMsg.h.c = 0xC1;
@@ -220,8 +195,8 @@ void SCSendAutoUpdateData(STR_CS_USER &refCSUser, PMSG_CLIENTVERSION *aRecv)
 		pMsg.VersionOK = 1;
 
 		IOCP.DataSend(refCSUser.Index, (BYTE*)&pMsg, pMsg.h.size);
-	}
-
+	//}
+	/*
 	else
 	{
 		PMSG_AUTOUPDATE pMsg;
@@ -253,8 +228,8 @@ void SCSendAutoUpdateData(STR_CS_USER &refCSUser, PMSG_CLIENTVERSION *aRecv)
 		}
 
 		IOCP.DataSend(refCSUser.Index, (BYTE*)&pMsg, pMsg.h.size);
-	}
-	*/
+	}*/
+
 }
 
 CLoginServerData::CLoginServerData()
@@ -799,7 +774,7 @@ void CLoginServerProtocol::JoinServerLogin(int userIndex, SDHP_SERVERINFO * lpMs
 		pResult.Result = 0;
 	}
 
-	IOCP.DataSend(userIndex, (BYTE*)&pResult, pResult.h.size, false);
+	//IOCP.DataSend(userIndex, (BYTE*)&pResult, pResult.h.size, false); TODO - Send to game Server.
 }
 
 void CLoginServerProtocol::JGPAccountRequest(int userIndex, SDHP_IDPASS * aRecv)

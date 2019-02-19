@@ -28,7 +28,7 @@ void gObjServerInit()
 	for(int i=0;i<g_dwMaxServerGroups;i++)
 	{
 		g_Server[i].m_Index = -1;
-		g_Server[i].m_Socket = nullptr;
+		//g_Server[i].m_Socket = nullptr;
 		g_Server[i].m_State = SS_CLOSED;
 		g_Server[i].m_Type = ST_NONE;
 		//g_Server[i].m_ProtocolCore = NULL;
@@ -67,7 +67,7 @@ int gObjServerAdd(ACE_SOCK_Stream* Socket, char * Ip, int ServerIndex, eSERVER_T
 	std::memcpy(g_Server[ServerIndex].m_ServerIp, Ip, 16);
 	g_Server[ServerIndex].m_State = SS_CONNECTED;
 	g_Server[ServerIndex].m_Type = eServerType;
-	g_Server[ServerIndex].m_Socket = Socket;
+	//g_Server[ServerIndex].m_Socket = Socket;
 
 	switch ( g_Server[ServerIndex].m_Type )
 	{
@@ -97,7 +97,7 @@ void gObjServerDel(int userIndex)
 
 	g_Server[userIndex].m_Index = -1;
 	g_Server[userIndex].m_ServerCode = -1;
-	g_Server[userIndex].m_Socket = nullptr;
+	//g_Server[userIndex].m_Socket = nullptr;
 	g_Server[userIndex].m_ServerIp[0];
 	g_Server[userIndex].m_State = SS_CLOSED;
 	g_Server[userIndex].m_Type = ST_NONE;
