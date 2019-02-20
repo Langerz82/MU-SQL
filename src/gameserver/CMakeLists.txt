@@ -1,6 +1,6 @@
-
 set(EXECUTABLE_NAME gameserver)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -std=c++14")
 
 file(GLOB_RECURSE _source_list *.c* *.h*)
 foreach(_source IN ITEMS ${_source_list})

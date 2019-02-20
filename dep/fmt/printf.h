@@ -18,10 +18,29 @@
 
 #include "ostream.h"
 
-#if WIN32
-    #undef min
-    #undef max
+#define NOMINMAX 
+
+/*#if WIN32
+	#undef min(a,b)
+	#undef max(a,b)
+	
+	#define int_max()    (std::numeric_limits<int>::max())
+	#define int_min()     (std::numeric_limits<int>::min())
+	
+	#define max(a,b)            a > b ? a : b
+	#define min(a,b)            a < b ? a : b
+#else
+	#define int_max()   (std::numeric_limits<int>::max())
+	#define int_min()    (std::numeric_limits<int>::min())
 #endif
+*/
+
+//#ifdef max
+//#undef max
+//#endif
+//#ifdef min
+//#undef min
+//#endif
 
 namespace fmt {
 namespace internal {
@@ -32,7 +51,7 @@ template <bool IsSigned>
 struct IntChecker {
   template <typename T>
   static bool fits_in_int(T value) {
-    unsigned max = (std::numeric_limits<int>::max());
+    unsigned int max = INT_MAX;
     return value <= max;
   }
   static bool fits_in_int(bool) { return true; }
@@ -42,8 +61,8 @@ template <>
 struct IntChecker<true> {
   template <typename T>
   static bool fits_in_int(T value) {
-    return value >= (int) (std::numeric_limits<int>::min()) &&
-           value <= (int) (std::numeric_limits<int>::max());
+    return value >= (int) INT_MIN &&
+           value <= (int) INT_MAX;
   }
   static bool fits_in_int(int) { return true; }
 };
@@ -199,8 +218,8 @@ class WidthHandler : public ArgVisitor<WidthHandler, unsigned> {
       spec_.align_ = ALIGN_LEFT;
       width = 0 - width;
     }
-    unsigned int_max = (std::numeric_limits<int>::max());
-    if (width > int_max)
+    //unsigned int int_max = (std::numeric_limits<int>::max());
+    if (width > INT_MAX)
       FMT_THROW(FormatError("number is too big"));
     return static_cast<unsigned>(width);
   }
@@ -327,7 +346,7 @@ class PrintfFormatter : private internal::FormatterBase {
   // to the maximum unsigned value, the next argument.
   internal::Arg get_arg(
       const Char *s,
-      unsigned arg_index = (std::numeric_limits<unsigned>::max)());
+      unsigned int arg_index = (std::numeric_limits<unsigned>::max)());
 
   // Parses argument index, flags and width and returns the argument index.
   unsigned parse_header(const Char *&s, FormatSpec &spec);
@@ -375,10 +394,10 @@ void PrintfFormatter<Char, AF>::parse_flags(FormatSpec &spec, const Char *&s) {
 
 template <typename Char, typename AF>
 internal::Arg PrintfFormatter<Char, AF>::get_arg(const Char *s,
-                                                 unsigned arg_index) {
+                                                 unsigned int arg_index) {
   (void)s;
   const char *error = FMT_NULL;
-  internal::Arg arg = (arg_index == std::numeric_limits<unsigned>::max()) ?
+  internal::Arg arg = (arg_index == INT_MAX) ?
     next_arg(error) : FormatterBase::get_arg(arg_index - 1, error);
   if (error)
     FMT_THROW(FormatError(!*s ? "invalid format string" : error));
@@ -388,7 +407,7 @@ internal::Arg PrintfFormatter<Char, AF>::get_arg(const Char *s,
 template <typename Char, typename AF>
 unsigned PrintfFormatter<Char, AF>::parse_header(
   const Char *&s, FormatSpec &spec) {
-  unsigned arg_index = std::numeric_limits<unsigned>::max();
+  unsigned int arg_index = INT_MAX;
   Char c = *s;
   if (c >= '0' && c <= '9') {
     // Parse an argument index (if followed by '$') or a width possibly
@@ -607,17 +626,5 @@ FMT_VARIADIC(int, fprintf, std::ostream &, CStringRef)
 #ifdef FMT_HEADER_ONLY
 # include "printf.cc"
 #endif
-
-#ifndef NOMINMAX
-
-#ifndef max
-#define max(a,b)            (((a) > (b)) ? (a) : (b))
-#endif
-
-#ifndef min
-#define min(a,b)            (((a) < (b)) ? (a) : (b))
-#endif
-
-#endif  /* NOMINMAX */
 
 #endif  // FMT_PRINTF_H_

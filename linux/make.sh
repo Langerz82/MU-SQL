@@ -34,7 +34,7 @@ P_SOAP="0"
 P_DEBUG="0"
 P_STD_MALLOC="1"
 P_ACE_EXTERNAL="1"
-CMAKE_CMD="cmake"
+CMAKE_CMD="cmake -j6 "
 
 function UseCmake3()
 {

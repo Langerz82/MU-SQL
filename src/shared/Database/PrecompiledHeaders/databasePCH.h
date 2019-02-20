@@ -16,7 +16,7 @@
  */
 
 //#include "Platform/Define.h"
-#include "Errors.h"
+#include "Debugging/Errors.h"
 #include "Field.h"
 #include "Log.h"
 #include "MySQLConnection.h"

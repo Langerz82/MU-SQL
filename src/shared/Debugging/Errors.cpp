@@ -16,7 +16,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Errors.h"
+#include "Debugging/Errors.h"
 #include "Utilities/StringFormat.h"
 #include <cstdio>
 #include <cstdlib>

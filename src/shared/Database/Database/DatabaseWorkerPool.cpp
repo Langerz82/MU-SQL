@@ -30,6 +30,7 @@
 #include "Transaction.h"
 #include "MySQLConnection.h"
 
+#include <memory>
 
 #ifdef _WIN32 // hack for broken mysql.h not including the correct winsock header for SOCKET definition, fixed in 5.7
 #include <winsock2.h>
@@ -39,6 +40,8 @@
 
 #define MIN_MYSQL_SERVER_VERSION 50100u
 #define MIN_MYSQL_CLIENT_VERSION 50100u
+
+using namespace std;
 
 class MySQLConnection;
 

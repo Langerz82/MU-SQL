@@ -17,7 +17,7 @@
  */
 
 #include "QueryResult.h"
-#include "Errors.h"
+#include "Debugging/Errors.h"
 #include "Field.h"
 #include "Logging/Log.h"
 #ifdef _WIN32 // hack for broken mysql.h not including the correct winsock header for SOCKET definition, fixed in 5.7

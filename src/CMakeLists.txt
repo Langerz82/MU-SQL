@@ -19,6 +19,8 @@
 
 # Needs to link against mangos_world.lib
 
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -std=c++14")
+
 if(WIN32)
     if(BUILD_MUSQLSERVER)
         link_directories("${CMAKE_BINARY_DIR}/src/musqlserver/${CMAKE_CFG_INTDIR}")

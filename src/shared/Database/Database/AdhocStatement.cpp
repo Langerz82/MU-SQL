@@ -18,7 +18,7 @@
 #include "AdhocStatement.h"
 #include "QueryResult.h"
 #include "MySQLConnection.h"
-#include "Errors.h"
+#include "Debugging/Errors.h"
 #include <cstdlib>
 #include <cstring>
 

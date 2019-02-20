@@ -7,7 +7,7 @@
 #include "CannonTower.h"
 #include "User/CUserData.h"
 
-//#include "..\include\readscript.h"
+//#include "readscript.h"
 #include "util.h"
 
 //////////////////////////////////////////////////////////////////////

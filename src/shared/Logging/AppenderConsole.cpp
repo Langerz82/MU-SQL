@@ -65,7 +65,8 @@ void AppenderConsole::InitColors(std::string const& str)
 
 void AppenderConsole::SetColor(bool stdout_stream, ColorTypes color)
 {
-#if TRINITY_PLATFORM == TRINITY_PLATFORM_WINDOWS
+	
+#if WIN32
     static WORD WinColorFG[MaxColors] =
     {
         0,                                                  // BLACK

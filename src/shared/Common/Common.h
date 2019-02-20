@@ -48,6 +48,8 @@
 #endif                                                      // __SHOW_STUPID_WARNINGS__
 #endif                                                      // __GNUC__
 
+#include "Linux/LinuxCommon.h"
+
 //#include "Utilities/UnorderedMapSet.h"
 #include "Utilities/Timer.h"
 
@@ -63,7 +65,10 @@
 #ifndef MUMYSQL_LOG_H
 	#include "Logging/Log.h"
 #endif
+
+#ifdef _WIN32
 #include "ref/WinUtil.h"
+#endif
 
 #if defined(__sun__)
 #include <ieeefp.h> // finite() on Solaris
@@ -174,8 +179,10 @@ inline float finiteAlways(float f) { return finite(f) ? f : 0.0f; }
 #define PAIR32_HIPART(x)   (uint16)((uint32(x) >> 16) & 0x0000FFFF)
 #define PAIR32_LOPART(x)   (uint16)(uint32(x)         & 0x0000FFFF)
 
-typedef unsigned char BYTE;
-typedef unsigned long DWORD;
+#ifdef _WIN32
+    typedef unsigned char BYTE;
+    typedef unsigned long DWORD;
+#endif
 
 /**
  * @brief

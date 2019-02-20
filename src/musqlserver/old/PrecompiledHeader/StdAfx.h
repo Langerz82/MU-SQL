@@ -43,7 +43,7 @@
 #include "GensSystemProtocol.h"
 
 #include "Lang.h"
-#include "Config\iniReader\IniReader.h"
+#include "Config/iniReader/IniReader.h"
 #include "configread.h"
 
 #include "generalStructs.h"

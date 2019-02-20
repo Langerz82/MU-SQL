@@ -21,7 +21,7 @@
 #include "AppenderFile.h"
 #include "Common/Common.h"
 #include "Config/Config.h"
-#include "Errors.h"
+#include "Debugging/Errors.h"
 #include "Logger.h"
 #include "LogMessage.h"
 #include "LogOperation.h"
@@ -68,7 +68,7 @@ void Log::CreateAppenderFromConfig(std::string const appenderName, std::string c
     // if type = File. optional1 = file and option2 = mode
     // if type = Console. optional1 = Color
     Tokens strTokens = StrSplit(options, ",");
-    size_t size = strTokens.size();
+    const size_t size = strTokens.size();
     std::string name = appenderName;
 
     if (size < 2)
@@ -100,7 +100,7 @@ void Log::CreateAppenderFromConfig(std::string const appenderName, std::string c
     try
     {
 		
-        Appender* appender = factoryFunction->second(NextAppenderId(), name, level, flags, std::vector<std::string>(&strTokens[3], &strTokens[size-1]));
+        Appender* appender = factoryFunction->second(NextAppenderId(), name, level, flags, std::vector<std::string>(strTokens.begin()+3, &strTokens.end()));
         appenders[appender->getId()].reset(appender);
     }
     catch (InvalidAppenderArgsException const& iaae)

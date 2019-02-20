@@ -21,7 +21,7 @@
 //#include "Platform/Define.h"
 #include "DatabaseEnvFwd.h"
 #include "SQLOperation.h"
-#include "Utilities\StringFormat.h"
+#include "Utilities/StringFormat.h"
 #include <mutex>
 #include <vector>
 
@@ -43,7 +43,7 @@ class  Transaction
         template<typename Format, typename... Args>
         void PAppend(Format&& sql, Args&&... args)
         {
-            Append(Trinity::StringFormat(std::forward<Format>(sql), std::forward<Args>(args)...).c_str());
+            Append(StringFormat(std::forward<Format>(sql), std::forward<Args>(args)...).c_str());
         }
 
         std::size_t GetSize() const { return m_queries.size(); }

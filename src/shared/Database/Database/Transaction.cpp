@@ -19,7 +19,7 @@
 #include "Transaction.h"
 #include "MySQLConnection.h"
 #include "PreparedStatement.h"
-#include "Utilities\Timer.h"
+#include "Utilities/Timer.h"
 #include <mysqld_error.h>
 #include <sstream>
 #include <thread>

@@ -3,7 +3,7 @@
 //#include "Config.h"
 #include "DatabaseEnv.h"
 //#include "DBUpdater.h"
-#include "Logging\Log.h"
+#include "Logging/Log.h"
 
 #include <mysqld_error.h>
 
@@ -13,9 +13,9 @@ DatabaseLoader::DatabaseLoader(std::string const& logger, uint32 const defaultUp
 {
 }
 
- BOOL DatabaseLoader::ConnectInfo(LPTSTR lpszServer, LPSTR lpszPort, LPTSTR lpszUser, LPTSTR lpszPassword, LPTSTR lpszDatabase)
+ bool DatabaseLoader::ConnectInfo(LPTSTR lpszServer, LPSTR lpszPort, LPTSTR lpszUser, LPTSTR lpszPassword, LPTSTR lpszDatabase)
  {
-	 wsprintf(_connConfig, "%s;%s;%s;%s;s", lpszServer, lpszPort,
+	 sprintf(_connConfig, "%s;%s;%s;%s;s", lpszServer, lpszPort,
 		 lpszUser, lpszPassword, lpszDatabase);
 	 return 1;
  }
