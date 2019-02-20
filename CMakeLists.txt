@@ -44,7 +44,6 @@ else()
 endif()
 option(DEBUG                "Debug mode (strict compile, all warnings)"     OFF)
 option(ACE_USE_EXTERNAL     "Use external ACE"                              OFF)
-option(POSTGRESQL           "Use PostgreSQL instead of MySQL"               OFF)
 option(BUILD_MUSQLSERVER        "Build the data server"                     ON)
 option(SOAP                 "Enable remote access via SOAP"                 OFF)
 # Hidden option to enable/disable PCH. DEV ONLY!

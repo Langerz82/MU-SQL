@@ -22,7 +22,7 @@ void CIOCP::GiocpInit()
 {
 	ExSendBuf = new BYTE[MAX_EXSENDBUF_SIZE];
 
-	
+
 #if defined (ACE_HAS_EVENT_POLL) || defined (ACE_HAS_DEV_POLL)
 	//CIOCP::g_Reactor = new ACE_Reactor(new ACE_Dev_Poll_Reactor(ACE::max_handles(), 1);
 	ACE_Reactor::instance(new ACE_Reactor(new ACE_Dev_Poll_Reactor(ACE::max_handles(), 1), 1), true);
@@ -30,10 +30,9 @@ void CIOCP::GiocpInit()
 	//CIOCP::g_Reactor = new ACE_Reactor(new ACE_TP_Reactor(), true);
 	ACE_Reactor::instance(new ACE_Reactor(new ACE_TP_Reactor(), true), true);
 #endif
-	
+
 	//ACE_Reactor::instance()->initialized();
 
-	InitializeCriticalSection(&criti);
 }
 
 void CIOCP::ProcessEvents() {
@@ -66,7 +65,7 @@ void CIOCP::DestroyGIocp()
 bool CIOCP::CreateListenSocket(WORD uiPort, LPSTR ipAddress)
 {
 	ACE_INET_Addr bind_addr(uiPort, ipAddress);
-	
+
 	//g_Reactor.initialized();
 
 	if (g_HostSocket.open(bind_addr, ACE_Reactor::instance(), ACE_NONBLOCK) == -1)
@@ -75,7 +74,7 @@ bool CIOCP::CreateListenSocket(WORD uiPort, LPSTR ipAddress)
 		return 0;
 	}
 	//g_HostSocket.acceptor().open(bind_addr);
-	
+
 	return 1;
 }
 
@@ -129,7 +128,7 @@ int CIOCP::OnClose()
 
 void  CIOCP::CreateUserData(ACE_HANDLE handle)
 {
-	EnterCriticalSection(&criti);
+	criti.lock()
 
 	boost::uuids::basic_random_generator<boost::mt19937> gen;
 	boost::uuids::uuid socketUUID = gen();
@@ -154,7 +153,7 @@ void  CIOCP::CreateUserData(ACE_HANDLE handle)
 		if (AntiFlood.Check(inet_ntoa(cInAddr)) == false)
 		{
 			closesocket(Accept);
-			LeaveCriticalSection(&criti);
+			criti.unlock();
 			return;
 		}
 	}
@@ -179,7 +178,7 @@ void  CIOCP::CreateUserData(ACE_HANDLE handle)
 	sockCtx->IOContext[0].nWaitIO = 1;
 	sockCtx->dwIOCount++;
 
-	
+
 	g_UserIDMap.insert(std::pair<ACE_HANDLE, STR_CS_USER*>(
 		this->peer().get_handle(), ObjCSUser));
 
@@ -197,7 +196,7 @@ void  CIOCP::CreateUserData(ACE_HANDLE handle)
 
 	PostQueuedCompletionStatus(g_CompletionPort, 0, 0, 0);
 
-	LeaveCriticalSection(&criti);
+	criti.unlock();
 
 	//SCSendServerList(*ObjCSUser);
 }
@@ -223,7 +222,7 @@ int CIOCP::OnRead(ACE_HANDLE handle)
 	LPOVERLAPPED lpOverlapped = 0;
 	_PER_IO_CONTEXT * lpIOContext = nullptr;
 
-	EnterCriticalSection(&criti);
+	criti.lock()
 
 	STR_CS_USER* lpUser = this->getUserData(this->peer().get_handle());
 	if (lpUser == nullptr)
@@ -235,7 +234,7 @@ int CIOCP::OnRead(ACE_HANDLE handle)
 	lpPerSocketContext = lpUser->PerSocketContext;
 	if (lpPerSocketContext == nullptr)
 		return 0;
-	
+
 	lpIOContext = lpUser->PerSocketContext->IOContext;
 	if (lpIOContext == nullptr)
 		return 0;
@@ -262,7 +261,7 @@ int CIOCP::OnRead(ACE_HANDLE handle)
 	lpIOContext->nbBytes = n;
 	lpIOContext->nTotalBytes += n;
 	std::memcpy(&lpIOContext->Buffer, this->input_buffer_.base(), sizeof(n));
-	
+
 	RecvDataParse(lpIOContext, lpUser->Index);
 
 	lpIOContext->IOOperation = 0;
@@ -272,7 +271,7 @@ int CIOCP::OnRead(ACE_HANDLE handle)
 	{
 		try
 		{
-			lpIOContext->m_wsabuf.len = RecvBytes;			
+			lpIOContext->m_wsabuf.len = RecvBytes;
 			this->peer().recv(lpIOContext->m_wsabuf.buf, RecvBytes);
 
 			this->RecvDataParse(lpIOContext, userIndex);
@@ -286,13 +285,13 @@ int CIOCP::OnRead(ACE_HANDLE handle)
 	}
 	else
 	{
-		LeaveCriticalSection(&criti);
+		criti.unlock();
 	}*/
 
 	lpPerSocketContext->dwIOCount++;
 	lpIOContext->nWaitIO = 1;
 
-	LeaveCriticalSection(&criti);
+	criti.unlock();
 
 	return 1;
 }
@@ -312,7 +311,7 @@ int CIOCP::handle_output(ACE_HANDLE handle)
 }
 
 
-bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)	
+bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 {
 	BYTE* recvbuf;
 	int lOfs;
@@ -321,7 +320,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 	BYTE xcode;
 	STR_CS_USER* lpUser = getCSUser(uIndex);
 
-	EnterCriticalSection(&criti);
+	criti.lock()
 
 	if ( lpIOContext->nbBytes < 3 )
 	{
@@ -332,7 +331,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 	size = lpIOContext->nbBytes;
 	xcode=0;
 	recvbuf = (BYTE*) lpIOContext->Buffer;
-	
+
 	if (size == 0)
 		return true;
 
@@ -404,22 +403,22 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 				break;
 			}
 
-			if ( lpIOContext->nbBytes < MAX_IO_BUFFER_SIZE ) 
+			if ( lpIOContext->nbBytes < MAX_IO_BUFFER_SIZE )
 			{
 				std::memcpy(recvbuf, &recvbuf[lOfs], lpIOContext->nbBytes);
 				sLog->outError("Message copy %d", lpIOContext->nbBytes);
 			}
 			break;
-		
+
 		}
 		else
 		{
 			break;
 		}
-		
+
 	}
 
-	LeaveCriticalSection(&criti);
+	criti.unlock();
 	return true;
 }
 
@@ -427,13 +426,13 @@ bool CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 {
 	_PER_SOCKET_CONTEXT * lpPerSocketContext;
 
-	EnterCriticalSection(&criti);
+	criti.lock()
 
 	STR_CS_USER* lpCSUser = getCSUser(uIndex);
 
 	if (lpCSUser->ConnectionState == 0  )
 	{
-		LeaveCriticalSection(&criti);
+		criti.unlock();
 		return false;
 	}
 
@@ -447,12 +446,12 @@ bool CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 	lpIoCtxt->nTotalBytes += dwSize;
 	lpIoCtxt->nbBytes = dwSize;
 	lpIoCtxt->IOOperation = 1;
-	
+
 	lpCSUser->Socket->send(lpIoCtxt->Buffer, lpIoCtxt->nbBytes);
-	
+
 	lpPerSocketContext->dwIOCount ++;
 	lpIoCtxt->nWaitIO = 1;
-	LeaveCriticalSection(&criti);
+	criti.unlock();
 	return true;
 }
 
@@ -479,11 +478,11 @@ void CIOCP::CloseClient(int index)
 		return;
 	}
 
-	EnterCriticalSection(&criti);
+	criti.lock()
 
 	lpCSUser->Socket->close();
 
-	LeaveCriticalSection(&criti);
+	criti.unlock();
 }
 
 void CIOCP::ResponErrorCloseClient(int index)
@@ -496,9 +495,9 @@ void CIOCP::ResponErrorCloseClient(int index)
 		return;
 	}
 
-	EnterCriticalSection(&criti);
+	criti.lock()
 	closesocket(lpCSUser->Index);
 	lpCSUser->Socket = nullptr;
 	UserDelete(lpCSUser->Index);
-	LeaveCriticalSection(&criti);
+	criti.unlock();
 }

@@ -52,13 +52,13 @@ void PHeadSetBE(LPBYTE lpBuf, BYTE head,int size);
 void PHeadSubSetBE(LPBYTE lpBuf, BYTE head,BYTE sub, int size);
 void PHeadSetWE(LPBYTE lpBuf, BYTE head, int size);
 void PHeadSubSetWE(LPBYTE lpBuf, BYTE head, BYTE sub, int size);
-void SystemTimeToUnixTime(SYSTEMTIME *systemTime, time_t *unixTime);
-void UnixTimeToFileTime(time_t t, LPFILETIME pft);
-void UnixTimeToSystemTime(time_t t, LPSYSTEMTIME pst);
+//void SystemTimeToUnixTime(SYSTEMTIME *systemTime, time_t *unixTime);
+//void UnixTimeToFileTime(time_t t, LPFILETIME pft);
+//void UnixTimeToSystemTime(time_t t, LPSYSTEMTIME pst);
 int fsize(char* file);
 DWORD CalcFileSize(char * szFilePath);
 
-static inline double round(double val)
+double round(double val)
 {
     return floor(val + 0.5);
 }

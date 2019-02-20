@@ -71,21 +71,21 @@ void SetProcessPriority(std::string const& logChannel, uint32 affinity, bool hig
                 CPU_SET(i, &mask);
 
         if (sched_setaffinity(0, sizeof(mask), &mask))
-            TC_LOG_ERROR(logChannel, "Can't set used processors (hex): %x, error: %s", affinity, strerror(errno));
+            MUSQL_LOG_ERROR(logChannel, "Can't set used processors (hex): %x, error: %s", affinity, strerror(errno));
         else
         {
             CPU_ZERO(&mask);
             sched_getaffinity(0, sizeof(mask), &mask);
-            TC_LOG_INFO(logChannel, "Using processors (bitmask, hex): %lx", *(__cpu_mask*)(&mask));
+            MUSQL_LOG_INFO(logChannel, "Using processors (bitmask, hex): %lx", *(__cpu_mask*)(&mask));
         }
     }
 
     if (highPriority)
     {
         if (setpriority(PRIO_PROCESS, 0, PROCESS_HIGH_PRIORITY))
-            TC_LOG_ERROR(logChannel, "Can't set process priority class, error: %s", strerror(errno));
+            MUSQL_LOG_ERROR(logChannel, "Can't set process priority class, error: %s", strerror(errno));
         else
-            TC_LOG_INFO(logChannel, "Process priority class set to %i", getpriority(PRIO_PROCESS, 0));
+            MUSQL_LOG_INFO(logChannel, "Process priority class set to %i", getpriority(PRIO_PROCESS, 0));
     }
 
 #else

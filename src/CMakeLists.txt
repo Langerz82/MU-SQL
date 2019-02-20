@@ -32,7 +32,6 @@ add_subdirectory(framework)
 add_subdirectory(shared)
 
 if(BUILD_MUSQLSERVER)
-    add_subdirectory(musqlserver)
 	add_subdirectory(connectserver)
 	add_subdirectory(gameserver)
 endif()

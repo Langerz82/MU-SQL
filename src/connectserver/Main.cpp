@@ -9,7 +9,7 @@
 #include "Main.h"
 #include "Logging/Log.h"
 #include "Asio/IoContext.h"
-
+#include "Config/iniReader/INIReaderImp.cpp"
 #include "IOCP.h"
 #include "ServerData.h"
 
@@ -35,6 +35,9 @@
 
 #include <boost/asio/signal_set.hpp>
 #include <boost/program_options.hpp>
+#include <boost/filesystem.hpp>
+
+namespace fs = boost::filesystem;
 
 #ifdef WIN32
 #include "ServiceWin32.h"
@@ -52,6 +55,7 @@ int m_ServiceStatus = -1;
 #include "PosixDaemon.h"
 #endif
 
+INIReaderImp ini(".\\ConnectServer.ini");
 
 WORD g_ConnectServerPort;
 WORD g_ConnectServerUDP;
@@ -59,27 +63,27 @@ DWORD g_MaxConnectionsPerIP = 1000;
 DWORD g_MaxPacketPerSec = 16;
 uint16 g_UDPPort;
 WORD g_FTPPort;
-char g_HostURL[100];
-char g_FTPLogin[20];
-char g_FTPPassword[20];
-char g_VersionFile[20];
-char g_ClientVersion[9];
-char g_WhiteListIP[16];
+std::string g_HostURL;
+std::string g_FTPLogin;
+std::string g_FTPPassword;
+std::string g_VersionFile;
+std::string g_ClientVersion;
+std::string g_WhiteListIP;
 BOOL gDisconnectHackUser = FALSE;
 DWORD g_MachineIDConnectionLimitPerGroup = 10;
 
 // GLobals thats whats up.
-TCHAR szWANIP[150];
-int g_dwMaxServerGroups = GetPrivateProfileInt("SETTINGS", "MAX_SERVER", 10, ".\\ConnectServer.ini") * MAX_SERVER_TYPE;
+std::string szWANIP;
+int g_dwMaxServerGroups = ini.GetInteger("SETTINGS", "MAX_SERVER", 10) * MAX_SERVER_TYPE;
 
-BOOL g_DSMode = GetPrivateProfileInt("SETTINGS", "DataServerOnlyMode", 0, ".\\ConnectServer.ini");
-BOOL g_UseJoinServer = GetPrivateProfileInt("SETTINGS", "UseJoinServer", 1, ".\\ConnectServer.ini");
+BOOL g_DSMode = ini.GetInteger("SETTINGS", "DataServerOnlyMode", 0);
+BOOL g_UseJoinServer = ini.GetInteger("SETTINGS", "UseJoinServer", 1);
 
-TCHAR g_AWHostPass[32];
-TCHAR g_MapSvrFilePath[96];
+std::string g_AWHostPass;
+std::string g_MapSvrFilePath;
 
-TCHAR g_logsDir[64];
-TCHAR g_logsEntryCount[2];
+std::string g_logsDir;
+std::string g_logsEntryCount;
 std::string g_logsEntry[10]; // up to 10 logs
 
 void UnhookSignals();
@@ -88,6 +92,7 @@ void HookSignals();
 bool stopEvent = false;                                     ///< Setting it to true stops the server
 
 typedef BYTE BYTE;
+
 
 
 void SignalHandler(std::weak_ptr<Asio::IoContext> ioContextRef, boost::system::error_code const& error, int /*signalNumber*/)
@@ -121,8 +126,10 @@ bool InitDataServer()
 
 void LoadLogConfig()
 {
-	GetPrivateProfileString("Logger", "LogDirectory", "logs", g_logsDir, sizeof(g_logsDir), ".\\ConnectServer.ini");
-	
+
+
+	g_logsDir = ini.GetString("Logger", "LogDirectory", "logs").c_str());
+
 	std::vector<std::string> vecLogEntries;
 	std::vector<std::string> vecLogEntryNames;
 	int i = 0;
@@ -131,7 +138,7 @@ void LoadLogConfig()
 		TCHAR tempChars[128];
 		std::string temp = "";
 		std::string logEntry = StringFormat("LogEntry%d", i++);
-		GetPrivateProfileString("Logger", logEntry.c_str(), "", tempChars, sizeof(tempChars), ".\\ConnectServer.ini");
+		tempChars = ini.GetString("Logger", logEntry.c_str(), "").c_str();
 		//std::cout << tempChars << std::endl;
 		temp.assign(tempChars, sizeof(tempChars));
 		if (strcmp(temp.c_str(), "") == 0)
@@ -147,7 +154,7 @@ void LoadLogConfig()
 		TCHAR tempChars[128];
 		std::string temp = "";
 		std::string appendEntry = StringFormat("AppendEntry%d", i++);
-		GetPrivateProfileString("Appender", appendEntry.c_str(), "", tempChars, sizeof(tempChars), ".\\ConnectServer.ini");
+		tempChars = ini.GetString("Appender", appendEntry.c_str(), "").c_str();
 		//std::cout << tempChars << std::endl;
 		temp.assign(tempChars, sizeof(tempChars));
 		if (strcmp(temp.c_str(), "") == 0)
@@ -339,17 +346,21 @@ extern int main(int argc, char** argv)
 ////OLD CODE
 // TODO: Place code here.
 
-	_set_printf_count_output(TRUE);
-	CreateDirectory("LOG", NULL);
+	//_set_printf_count_output(TRUE);
+    const char* path = _filePath.c_str();
+    fs::path dir(path);
+    if(fs::create_directory("LOG"))
+    {
+        std::cerr<< "Directory Created: "<<_filePath<<std::endl;
+    }
 
 	sLog->outBasic( "Initializing...");
-	
+
 
 	//GetPrivateProfileString(
 	LoadAllowableIpList("./AllowedIPList.ini");
-	GetPrivateProfileString("SETTINGS", "MapServerInfoPath", "..\\Data\\MapServerInfo.ini", g_MapSvrFilePath, sizeof(g_MapSvrFilePath), ".\\ConnectServer.ini");
-	WORD g_JoinServerListPort = GetPrivateProfileInt("SETTINGS", "TCP_PORT", 44405, ".\\ConnectServer.ini");
-	GetPrivateProfileString("SETTINGS", "WanIP", "127.0.0.1", szWANIP, 150, ".\\ConnectServer.ini");
+	WORD g_JoinServerListPort = ini.getInt("SETTINGS", "TCP_PORT", 44405);
+	szWANIP = ini.getString("SETTINGS", "WanIP", "127.0.0.1");
 	//std::memcpy(szWANIP, ValidateAndResolveIP(szWANIP), 15); // temp
 	//g_MapServerManager.LoadMapData(g_MapSvrFilePath);
 	//SendMessage(ghWnd, WM_TIMER, WM_LOG_PAINT, NULL);
@@ -378,7 +389,7 @@ extern int main(int argc, char** argv)
     while (true)
     {
         // dont move this outside the loop, the reactor will modify it
-        
+
 
         //if (ACE_Reactor::instance()->run_reactor_event_loop(interval) == -1)
         //    { break; }
@@ -386,7 +397,7 @@ extern int main(int argc, char** argv)
 		CIOCP::ProcessEvents();
 
 		sLog->outBasic("Server Farting.");
-		
+
 #ifdef WIN32
         //if (m_ServiceStatus == 0) { stopEvent = true; }
         //while (m_ServiceStatus == 2) { Sleep(1000); }

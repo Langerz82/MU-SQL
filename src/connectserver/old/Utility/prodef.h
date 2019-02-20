@@ -11,7 +11,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "custTypedef.h"
+#include "Common/custTypedef.h"
 
 // PACKET HEAD DEFINITIONS
 
@@ -67,7 +67,7 @@ typedef struct _PHEADB	// Packet Head Byte Normal / Extended [C1:C3]
 	BYTE uSize;
 	BYTE uHead;
 
-} PHEADB, PHEADBE, *LPHEADB, *LPHEADBE; 
+} PHEADB, PHEADBE, *LPHEADB, *LPHEADBE;
 
 typedef struct _PHEADSUBB	// Packet Sub Head Byte [C1:C3]
 {
@@ -226,7 +226,7 @@ struct PMSG_DEFRESULT
 	BYTE result;	// 3
 };
 
-/* * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * *
  *	Mu JoinServer Login
  *	Direction : GameServer -> JoinServer
  *				GameServer -> DataServer

@@ -30,7 +30,7 @@
 #include "Utilities/StringFormat.h"
 #include <chrono>
 #include <sstream>
-
+#include <algorithm>
 
 Log::Log() : AppenderId(0), lowestLogLevel(LOG_LEVEL_FATAL), _ioContext(nullptr), _strand(nullptr)
 {
@@ -99,8 +99,11 @@ void Log::CreateAppenderFromConfig(std::string const appenderName, std::string c
 
     try
     {
-		
-        Appender* appender = factoryFunction->second(NextAppenderId(), name, level, flags, std::vector<std::string>(strTokens.begin()+3, &strTokens.end()));
+		std::vector<std::string> subNames;
+		for (int i=3; i < size; ++i)
+			subNames.push_back(strTokens[i]);
+
+        Appender* appender = factoryFunction->second(NextAppenderId(), name, level, flags, subNames);
         appenders[appender->getId()].reset(appender);
     }
     catch (InvalidAppenderArgsException const& iaae)

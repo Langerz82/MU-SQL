@@ -41,9 +41,9 @@
     RaiseException(EXCEPTION_ASSERTION_FAILURE, 0, 2, execeptionArgs);
 #else
 // should be easily accessible in gdb
-extern "C" TC_COMMON_API char const* TrinityAssertionFailedMessage = nullptr;
+extern "C"  char const* MuSQLAssertionFailedMessage = nullptr;
 #define Crash(message) \
-    TrinityAssertionFailedMessage = strdup(message); \
+    MuSQLAssertionFailedMessage = strdup(message); \
     *((volatile int*)nullptr) = 0; \
     exit(1);
 #endif

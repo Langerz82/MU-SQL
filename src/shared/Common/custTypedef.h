@@ -9,17 +9,29 @@ typedef unsigned short USHORT, WORD;
 typedef const WCHAR* LPCWSTR;
 typedef unsigned long ULONG;
 typedef void* HANDLE;
-typedef unsigned long long UINT64;
+typedef unsigned long long UINT64, ULONGLONG;
 typedef char* LPSTR;
+typedef char CHAR;
 
 typedef long long LONGLONG;
 
 
 typedef unsigned long long SOCKET;
 
-#ifdef _WIN32
-typedef unsigned long DWORD;
+typedef unsigned int DWORD;
+
+
+
+#ifdef WIN32
+
 typedef long long time_t;
+
+
+#else
+
+typedef unsigned int COLORREF;
+typedef char TCHAR;
+
 
 #endif
 
