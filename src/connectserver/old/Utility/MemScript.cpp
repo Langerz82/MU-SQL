@@ -29,7 +29,7 @@ CMemScript::~CMemScript() // OK
 
 bool CMemScript::SetBuffer(char* path) // OK
 {
-	strcpy_s(this->m_path,path);
+	std::strcpy(this->m_path,path);
 
 	FILE* file = fopen(path, "r");
 
@@ -136,7 +136,7 @@ char CMemScript::CheckComment(char ch) // OK
 
 eTokenResult CMemScript::GetToken() // OK
 {
-	if((GetTickCount()-this->m_tick) > 1000)
+	if((WorldTimer::getMSTime()-this->m_tick) > 1000)
 	{
 		this->SetLastError(4);
 		throw 1;
@@ -255,22 +255,22 @@ void CMemScript::SetLastError(int error) // OK
 	switch(error)
 	{
 		case 0:
-			wsprintf(this->m_LastError,MEM_SCRIPT_ERROR_CODE0,this->m_path);
+			sprintf(this->m_LastError,MEM_SCRIPT_ERROR_CODE0,this->m_path);
 			break;
 		case 1:
-			wsprintf(this->m_LastError,MEM_SCRIPT_ERROR_CODE1,this->m_path);
+			sprintf(this->m_LastError,MEM_SCRIPT_ERROR_CODE1,this->m_path);
 			break;
 		case 2:
-			wsprintf(this->m_LastError,MEM_SCRIPT_ERROR_CODE2,this->m_path);
+			sprintf(this->m_LastError,MEM_SCRIPT_ERROR_CODE2,this->m_path);
 			break;
 		case 3:
-			wsprintf(this->m_LastError,MEM_SCRIPT_ERROR_CODE3,this->m_path);
+			sprintf(this->m_LastError,MEM_SCRIPT_ERROR_CODE3,this->m_path);
 			break;
 		case 4:
-			wsprintf(this->m_LastError,MEM_SCRIPT_ERROR_CODE4,this->m_path);
+			sprintf(this->m_LastError,MEM_SCRIPT_ERROR_CODE4,this->m_path);
 			break;
 		default:
-			wsprintf(this->m_LastError,MEM_SCRIPT_ERROR_CODEX,this->m_path,error);
+			sprintf(this->m_LastError,MEM_SCRIPT_ERROR_CODEX,this->m_path,error);
 			break;
 	}
 }

@@ -9,7 +9,7 @@ void CLanguage::Init()
 {
 	this->m_LangData.Init();
 
-	char * szFile = ".\\IGCData\\Langs\\IGC_LangBase.xml"; 
+	char * szFile = ".\\IGCData\\Langs\\IGC_LangBase.xml";
 
 	pugi::xml_document file;
 	pugi::xml_parse_result res = file.load_file(szFile);
@@ -17,7 +17,7 @@ void CLanguage::Init()
 	if (res.status != pugi::status_ok)
 	{
 		sLog->outError("Error - %s file load failed! (%s)", szFile, res.description());
-		ExitProcess(0);
+		return;
 	}
 
 	pugi::xml_node mainXML = file.child("LanguageSystem");
@@ -26,12 +26,12 @@ void CLanguage::Init()
 	for (pugi::xml_node lang = mainXML.child("Lang"); lang; lang = lang.next_sibling())
 	{
 		Language m_Lang;
-		
+
 		m_Lang.LangID = lang.attribute("ID").as_int();
 		m_Lang.Enable = lang.attribute("Enable").as_bool();
 		m_Lang.Codepage = lang.attribute("Codepage").as_int();
 		strcpy(m_Lang.FileName, lang.attribute("FileName").as_string());
-		
+
 		if (m_Lang.Enable == true)
 		{
 			if(this->LoadLanguage(m_Lang) == false)

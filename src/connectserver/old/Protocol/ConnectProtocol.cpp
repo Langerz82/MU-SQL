@@ -98,7 +98,7 @@ void SCSendServerInfo(int uIndex, PMSG_SERVER_SELECT * aRecv)
 	pMsg.h.headcode = 0xF4;
 	pMsg.SubHead = 0x03;
 	pMsg.h.size = sizeof(pMsg);
-	
+
 	for(int i=0;i<100;i++)
 	{
 		if(m_ServerData.m_Servers[i].Code == aRecv->ServerCode)
@@ -144,7 +144,7 @@ void SCSendNews(STR_CS_USER &Obj)
 	pMsg.h.c = 0xC2;
 	pMsg.h.headcode = 0xFA;
 	pMsg.h.subcode = 0x01;
-	
+
 	BYTE buffer[7000];
 
 	for(int i=0;i<10;i++)
@@ -162,7 +162,7 @@ void SCSendNews(STR_CS_USER &Obj)
 		pMsg.titleColor = m_ServerData.m_News[i].titleColor;
 		pMsg.textColor = m_ServerData.m_News[i].textColor;
 
-		
+
 		int textlen = strlen(m_ServerData.m_News[i].Text);
 		pMsg.textLen = textlen;
 		pMsg.h.sizeH = SET_NUMBERH( sizeof(PMSG_SEND_NEWS)+textlen);
@@ -180,12 +180,12 @@ void SCSendAutoUpdateData(int uIndex, PMSG_CLIENTVERSION *aRecv)
 	// TODO
 	unsigned int MainVersion, HeadVersion, SubVersion;
 
-	sscanf_s(g_ClientVersion, "%u.%u.%u", &MainVersion, &HeadVersion, &SubVersion);
+	//sscanf_s(g_ClientVersion, "%u.%u.%u", &MainVersion, &HeadVersion, &SubVersion);
 
 	//if(aRecv->ClientMainVersion == MainVersion && aRecv->ClientHeadVersion == HeadVersion && aRecv->ClientSubVersion == SubVersion)
 	//{
 		PMSG_VERSIONOK pMsg;
-		
+
 		pMsg.h.c = 0xC1;
 		pMsg.h.headcode = 0x02;
 		pMsg.h.size = sizeof(pMsg);

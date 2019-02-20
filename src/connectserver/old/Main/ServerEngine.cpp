@@ -15,7 +15,7 @@ int servercount = 0;
 
 void gObjServerInit()
 {
-	g_Server = new STR_SERVER_ENGINE[g_dwMaxServerGroups]; 
+	g_Server = new STR_SERVER_ENGINE[g_dwMaxServerGroups];
 
 	if ( g_Server == NULL )
 	{
@@ -75,7 +75,7 @@ int gObjServerAdd(ACE_SOCK_Stream* Socket, char * Ip, int ServerIndex, eSERVER_T
 			//g_Server[ServerIndex].m_ProtocolCore = CConnectServerProtocol::ProtocolCore;
 			break;
 	}
-	
+
 	sLog->outBasic("[Server Engine] Connect : Index : %d - IP : %s - ServerType : %d",
 		ServerIndex, Ip, eServerType);
 
@@ -154,7 +154,11 @@ void gObjConnectStatSyncThread()
 	while(true)
 	{
 		gObjConnectStatSyncProc();
+#ifdef WIN32
 		Sleep(2000);
+#else
+		usleep(2000*1000);
+#endif
 	}
 }
 

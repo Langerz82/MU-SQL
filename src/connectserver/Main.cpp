@@ -126,19 +126,17 @@ bool InitDataServer()
 
 void LoadLogConfig()
 {
-
-
-	g_logsDir = ini.GetString("Logger", "LogDirectory", "logs").c_str());
+	g_logsDir = ini.GetString("Logger", "LogDirectory", "logs");
 
 	std::vector<std::string> vecLogEntries;
 	std::vector<std::string> vecLogEntryNames;
 	int i = 0;
 	while (true)
 	{
-		TCHAR tempChars[128];
+		std::string tempChars;
 		std::string temp = "";
 		std::string logEntry = StringFormat("LogEntry%d", i++);
-		tempChars = ini.GetString("Logger", logEntry.c_str(), "").c_str();
+		tempChars = ini.GetString("Logger", logEntry.c_str(), "");
 		//std::cout << tempChars << std::endl;
 		temp.assign(tempChars, sizeof(tempChars));
 		if (strcmp(temp.c_str(), "") == 0)
@@ -146,15 +144,16 @@ void LoadLogConfig()
 		vecLogEntries.push_back(temp);
 		vecLogEntryNames.push_back(logEntry);
 	}
+
 	std::vector<std::string> vecAppendEntries;
 	std::vector<std::string> vecAppendEntryNames;
 	i = 0;
 	while (true)
 	{
-		TCHAR tempChars[128];
+		std::string tempChars;
 		std::string temp = "";
 		std::string appendEntry = StringFormat("AppendEntry%d", i++);
-		tempChars = ini.GetString("Appender", appendEntry.c_str(), "").c_str();
+		tempChars = ini.GetString("Appender", appendEntry.c_str(), "");
 		//std::cout << tempChars << std::endl;
 		temp.assign(tempChars, sizeof(tempChars));
 		if (strcmp(temp.c_str(), "") == 0)
@@ -347,11 +346,11 @@ extern int main(int argc, char** argv)
 // TODO: Place code here.
 
 	//_set_printf_count_output(TRUE);
-    const char* path = _filePath.c_str();
-    fs::path dir(path);
+    //const char* path = _filePath.c_str();
+    //fs::path dir(path);
     if(fs::create_directory("LOG"))
     {
-        std::cerr<< "Directory Created: "<<_filePath<<std::endl;
+        sLog->outBasic("Directory LOG Created.");
     }
 
 	sLog->outBasic( "Initializing...");
@@ -359,8 +358,8 @@ extern int main(int argc, char** argv)
 
 	//GetPrivateProfileString(
 	LoadAllowableIpList("./AllowedIPList.ini");
-	WORD g_JoinServerListPort = ini.getInt("SETTINGS", "TCP_PORT", 44405);
-	szWANIP = ini.getString("SETTINGS", "WanIP", "127.0.0.1");
+	WORD g_JoinServerListPort = ini.GetInteger("SETTINGS", "TCP_PORT", 44405);
+	szWANIP = ini.GetString("SETTINGS", "WanIP", "127.0.0.1");
 	//std::memcpy(szWANIP, ValidateAndResolveIP(szWANIP), 15); // temp
 	//g_MapServerManager.LoadMapData(g_MapSvrFilePath);
 	//SendMessage(ghWnd, WM_TIMER, WM_LOG_PAINT, NULL);
@@ -369,7 +368,7 @@ extern int main(int argc, char** argv)
 	//IniteDataServer();
 	IOCP.GiocpInit();
 	sLog->outBasic("CreateListenSocket - Started.");
-	IOCP.CreateListenSocket(g_JoinServerListPort, szWANIP);
+	IOCP.CreateListenSocket(g_JoinServerListPort, (char*) szWANIP.c_str());
 	sLog->outBasic("CreateListenSocket - Finished.");
 ////OLD CODE END
 

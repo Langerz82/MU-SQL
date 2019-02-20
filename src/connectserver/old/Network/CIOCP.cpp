@@ -51,13 +51,13 @@ void CIOCP::GiocpDelete()
 
 void CIOCP::DestroyGIocp()
 {
-	closesocket(g_Listen);
+	//closesocket(g_Listen);
 
-	if (g_CompletionPort != NULL)
+	/*if (g_CompletionPort != NULL)
 	{
 		CloseHandle(g_CompletionPort);
 		g_CompletionPort = NULL;
-	}
+	}*/
 
 }
 
@@ -128,7 +128,7 @@ int CIOCP::OnClose()
 
 void  CIOCP::CreateUserData(ACE_HANDLE handle)
 {
-	criti.lock()
+	criti.lock();
 
 	boost::uuids::basic_random_generator<boost::mt19937> gen;
 	boost::uuids::uuid socketUUID = gen();
@@ -194,7 +194,7 @@ void  CIOCP::CreateUserData(ACE_HANDLE handle)
 	// Send Server List.
 	SCConnectResultSend(*ObjCSUser, 1);
 
-	PostQueuedCompletionStatus(g_CompletionPort, 0, 0, 0);
+	//PostQueuedCompletionStatus(g_CompletionPort, 0, 0, 0);
 
 	criti.unlock();
 
@@ -219,10 +219,10 @@ int CIOCP::OnRead(ACE_HANDLE handle)
 	ULONG ClientIndex;
 #endif
 	_PER_SOCKET_CONTEXT * lpPerSocketContext = nullptr;
-	LPOVERLAPPED lpOverlapped = 0;
+	//LPOVERLAPPED lpOverlapped = 0;
 	_PER_IO_CONTEXT * lpIOContext = nullptr;
 
-	criti.lock()
+	criti.lock();
 
 	STR_CS_USER* lpUser = this->getUserData(this->peer().get_handle());
 	if (lpUser == nullptr)
@@ -320,7 +320,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 	BYTE xcode;
 	STR_CS_USER* lpUser = getCSUser(uIndex);
 
-	criti.lock()
+	criti.lock();
 
 	if ( lpIOContext->nbBytes < 3 )
 	{
@@ -426,7 +426,7 @@ bool CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 {
 	_PER_SOCKET_CONTEXT * lpPerSocketContext;
 
-	criti.lock()
+	criti.lock();
 
 	STR_CS_USER* lpCSUser = getCSUser(uIndex);
 
@@ -457,14 +457,10 @@ bool CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 
 void CIOCP::CloseClient(_PER_SOCKET_CONTEXT * lpPerSocketContext, int result)
 {
-	int index = -1;
-	index = lpPerSocketContext->nIndex ;
-	STR_CS_USER* lpCSUser;
-	for each (auto user in gCSUsers)
+	for (std::pair<int,STR_CS_USER*> user : gCSUsers)
 	{
-		lpCSUser = getCSUser(index);
 		user.second->Socket->close();
-		UserDelete(index);
+		UserDelete(user.second->Index);
 	}
 }
 
@@ -478,7 +474,7 @@ void CIOCP::CloseClient(int index)
 		return;
 	}
 
-	criti.lock()
+	criti.lock();
 
 	lpCSUser->Socket->close();
 
@@ -495,8 +491,8 @@ void CIOCP::ResponErrorCloseClient(int index)
 		return;
 	}
 
-	criti.lock()
-	closesocket(lpCSUser->Index);
+	criti.lock();
+	//closesocket(lpCSUser->Index);
 	lpCSUser->Socket = nullptr;
 	UserDelete(lpCSUser->Index);
 	criti.unlock();

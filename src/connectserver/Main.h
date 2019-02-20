@@ -25,32 +25,26 @@ extern DWORD g_MaxConnectionsPerIP;
 extern DWORD g_MaxPacketPerSec;
 extern uint16 g_UDPPort;
 extern WORD g_FTPPort;
-extern char g_HostURL[100];
-extern char g_FTPLogin[20];
-extern char g_FTPPassword[20];
-extern char g_VersionFile[20];
-extern char g_ClientVersion[9];
-extern char FTPLauncher[200];
-extern char HashLauncher[200];
-extern char g_WhiteListIP[16];
+extern std::string g_HostURL;
+extern std::string g_FTPLogin;
+extern std::string g_FTPPassword;
+extern std::string g_VersionFile;
+extern std::string g_ClientVersion;
+extern std::string FTPLauncher;
+extern std::string HashLauncher;
+extern std::string g_WhiteListIP;
 
 extern int g_dwMaxServerGroups;
 extern WORD g_JoinServerListPort;
-extern TCHAR g_ServerAddress[64];
-extern TCHAR g_DBPort[8];
-extern TCHAR g_UserID[64];
-extern TCHAR g_Password[64];
-extern TCHAR g_MuOnlineDB[64];
-
 
 extern BOOL g_PwEncrypt;
 extern BOOL g_UseJoinServer;
 extern DWORD g_MachineIDConnectionLimitPerGroup;
 
-extern TCHAR szWANIP[150];
+extern std::string szWANIP;
 
-extern TCHAR g_logsDir[64];
-extern TCHAR g_logsEntryCount[2];
+extern std::string g_logsDir;
+extern std::string g_logsEntryCount;
 extern std::string g_logsEntry[10]; // up to 10 logs
 
 extern BOOL gDisconnectHackUser;

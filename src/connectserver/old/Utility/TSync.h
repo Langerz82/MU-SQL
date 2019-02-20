@@ -23,7 +23,7 @@ public:
 
 private:
 
-	CRITICAL_SECTION m_cs;	// 0
+	std::mutex m_cs;	// 0
 	LONG m_nLock;	// 18
 };
 
