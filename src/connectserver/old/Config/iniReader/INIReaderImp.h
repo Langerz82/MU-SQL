@@ -8,6 +8,10 @@
 #ifndef __INIReaderImp_H__
 #define __INIReaderImp_H__
 
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
 #include <map>
 #include <string>
 
@@ -16,7 +20,7 @@
 class INIReaderImp
 {
 public:
-	
+
 	INIReaderImp() {};
 
     // Construct INIReader and parse given filename. See ini.h for more info
@@ -30,7 +34,7 @@ public:
     // Get a string value from INI file, returning default_value if not found.
     std::string Get(const std::string& section, const std::string& name,
                     const std::string& default_value) const;
-    
+
     // Get a string value from INI file, returning default_value if not found,
     // empty, or contains only whitespace.
     std::string GetString(const std::string& section, const std::string& name,

@@ -9,6 +9,7 @@
 //#include "custTypedef.h"
 #include "util.h"
 #include <string>
+#include <fstream>
 
 static BYTE bBuxCode[3]={0xFC, 0xCF, 0xAB};	// Xox Key for some interesthing things :)
 
@@ -55,7 +56,7 @@ BOOL SQLSyntexCheckConvert(char* SQLString)
 	int tOfs=0;
 	int sOfs=0;
 
-	
+
 
 	if (SQLString==0)
 	{
@@ -80,7 +81,7 @@ BOOL SQLSyntexCheckConvert(char* SQLString)
 			temp2++;
 
 			strcat(tempSQL, "''");
-			
+
 		}
 		else
 		{
@@ -89,7 +90,7 @@ BOOL SQLSyntexCheckConvert(char* SQLString)
 		}
 	}
 
-	
+
 	strcpy(SQLString, tempSQL);		// Strange unseless jump here
 	return TRUE;
 }
@@ -97,7 +98,7 @@ BOOL SQLSyntexCheckConvert(char* SQLString)
 BOOL SpaceSyntexCheck(char* string)
 {
 	char* temp;
-	
+
 	temp = strchr(string, 32);
 	if (temp ==0 )
 	{
@@ -122,7 +123,7 @@ BOOL StrHangulCheck(char* str)
 
 	while ((count--) != 0)
 	{
-	
+
 		code1=str[i];
 		i++;
 
@@ -162,8 +163,8 @@ BOOL StrHangulCheck(char* str)
 			}
 		}
 	}
-	
-	
+
+
 	strcpy(str, szTemp);
 	return TRUE;
 }
@@ -201,7 +202,7 @@ BOOL QuoteSpaceSyntaxCheck(char* string)
 void FileSaveString(char* filename, char* string)
 {
 	FILE* fp;
-	
+
 	fp=fopen(filename, "at");
 
 	if (fp==0)
@@ -228,7 +229,7 @@ void ProcessClientHWID(char* input, char* output)
 BOOL IsFile(char* filename)
 {
 	FILE *fp;
-	
+
 	fp=fopen(filename,"rb");
 	if (fp==0)
 	{
@@ -245,14 +246,14 @@ void GetTodayString(char* szDate)
 {
 	tm* today;
 	time_t ltime;
-	
+
 
 	time(&ltime);
 	today=localtime(&ltime);
 
 	today->tm_year = today->tm_year +1900;
 
-	wsprintf(szDate, "%02d%02d%02d", today->tm_year , today->tm_mon +1 , today->tm_mday );
+	sprintf(szDate, "%02d%02d%02d", today->tm_year , today->tm_mon +1 , today->tm_mday );
 }
 
 void PHeadSetB(BYTE* lpBuf, BYTE head, int size)
@@ -261,7 +262,7 @@ void PHeadSetB(BYTE* lpBuf, BYTE head, int size)
 	lpBuf[1] =size;
 	lpBuf[2] =head;
 }
-	
+
 
 void PHeadSubSetB(BYTE* lpBuf, BYTE head, BYTE sub, int size)
 {
@@ -271,7 +272,7 @@ void PHeadSubSetB(BYTE* lpBuf, BYTE head, BYTE sub, int size)
 	lpBuf[3] =sub;
 }
 
-void PHeadSetW(BYTE* lpBuf, BYTE head,  int size) 
+void PHeadSetW(BYTE* lpBuf, BYTE head,  int size)
 {
 	lpBuf[0] = 0xC2;	// Packets Header
 	lpBuf[1]= SET_NUMBERH(size);
@@ -320,7 +321,7 @@ void PHeadSubSetWE(BYTE* lpBuf, BYTE head, BYTE sub, int size)
 	lpBuf[4] = sub;
 }
 
-void UnixTimeToFileTime(time_t t, LPFILETIME pft)
+/*void UnixTimeToFileTime(time_t t, LPFILETIME pft)
 {
 	// Note that LONGLONG is a 64-bit value
 	LONGLONG ll;
@@ -328,9 +329,9 @@ void UnixTimeToFileTime(time_t t, LPFILETIME pft)
 	ll = Int32x32To64(t, 10000000) + 116444736000000000;
 	pft->dwLowDateTime = (DWORD)ll;
 	pft->dwHighDateTime = ll >> 32;
-}
+}*/
 
-void SystemTimeToUnixTime(SYSTEMTIME *systemTime, time_t *unixTime)
+/*void SystemTimeToUnixTime(SYSTEMTIME *systemTime, time_t *unixTime)
 {
 	LARGE_INTEGER jan1970FT = { 0 };
 	jan1970FT.QuadPart = 116444736000000000I64; // january 1st 1970
@@ -341,15 +342,15 @@ void SystemTimeToUnixTime(SYSTEMTIME *systemTime, time_t *unixTime)
 	unsigned __int64 utcDosTime = (utcFT.QuadPart - jan1970FT.QuadPart) / 10000000;
 
 	*unixTime = (time_t)utcDosTime;
-}
+}*/
 
-void UnixTimeToSystemTime(time_t t, LPSYSTEMTIME pst)
+/*void UnixTimeToSystemTime(time_t t, LPSYSTEMTIME pst)
 {
 	FILETIME ft;
 
 	UnixTimeToFileTime(t, &ft);
 	FileTimeToSystemTime(&ft, pst);
-}
+}*/
 
 int fsize(char* file)
 {
@@ -371,22 +372,17 @@ int fsize(char* file)
 	return -1; //error
 }
 
+std::ifstream::pos_type filesize(const char* filename)
+{
+    std::ifstream in(filename, std::ifstream::ate | std::ifstream::binary);
+    return in.tellg();
+}
+
 DWORD CalcFileSize(char * szFilePath)
 {
-	DWORD dwLength = 0;
-	HANDLE hFile = NULL;
-
-	hFile = CreateFile(szFilePath, 0, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
-
-	if (hFile != INVALID_HANDLE_VALUE)
-	{
-		dwLength = GetFileSize(hFile, 0);
-
-		CloseHandle(hFile);
-	}
-
-	return dwLength;
+    return (DWORD) filesize(szFilePath);
 }
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //

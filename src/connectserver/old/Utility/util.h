@@ -58,10 +58,10 @@ void PHeadSubSetWE(LPBYTE lpBuf, BYTE head, BYTE sub, int size);
 int fsize(char* file);
 DWORD CalcFileSize(char * szFilePath);
 
-double round(double val)
+/*double round(double val)
 {
     return floor(val + 0.5);
-}
+}*/
 
 class char_ID
 {
