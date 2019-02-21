@@ -76,13 +76,20 @@ target_link_libraries(${EXECUTABLE_NAME}
 	${OPENSSL_LIBRARIES}
 	${Boost_LIBRARIES}
 	${MYSQL_LIBRARY}
-	boost_filesystem	
-	boost_system
-	pthread
 )
 
-#include_directories(${Boost_INCLUDE_DIRS})
-#target_link_libraries(${EXECUTABLE_NAME} ${BOOST_LIBRARY})
+if (WIN32)
+	include_directories(${Boost_INCLUDE_DIRS})
+	target_link_libraries(${EXECUTABLE_NAME} ${BOOST_LIBRARY})
+endif()
+
+if (UNIX)
+target_link_libraries(${EXECUTABLE_NAME}
+	boost_system
+	boost_filesystem
+	pthread
+)
+endif()
 
 #include_directories(${MYSQL_INCLUDE_DIR})
 #target_link_libraries(${EXECUTABLE_NAME} ${MYSQL_LIBRARY})
@@ -108,8 +115,15 @@ endif()
 
 set_target_properties(${EXECUTABLE_NAME} PROPERTIES LINK_FLAGS "${EXECUTABLE_LINK_FLAGS}")
 
+if (WIN32)
+set_target_properties(${EXECUTABLE_NAME} PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${BIN_DIR}")
+endif()
+
 install(TARGETS ${EXECUTABLE_NAME} DESTINATION "${BIN_DIR}")
 
 if(WIN32 AND MSVC)
     install(FILES $<TARGET_PDB_FILE:${EXECUTABLE_NAME}> DESTINATION ${BIN_DIR} OPTIONAL)
 endif()
+
+
+

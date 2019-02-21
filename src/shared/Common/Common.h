@@ -276,9 +276,11 @@ inline char* mangos_strdup(const char* source)
 #define countof(array) (sizeof(array) / sizeof((array)[0]))
 #endif
 
+#ifndef WIN32
 #define LOWORD(l) ((WORD)(l))
 #define HIWORD(l) ((WORD)(((DWORD)(l) >> 16) & 0xFFFF))
 #define LOBYTE(w) ((BYTE)(w))
 #define HIBYTE(w) ((BYTE)(((WORD)(w) >> 8) & 0xFF))
+#endif
 
 #endif

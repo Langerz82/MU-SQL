@@ -19,20 +19,21 @@ typedef long long LONGLONG;
 
 typedef unsigned long long SOCKET;
 
-typedef unsigned int DWORD, UINT;
+
+typedef unsigned int UINT;
 
 
 
 #ifdef WIN32
 
 typedef long long time_t;
-
+typedef unsigned long DWORD;
 
 #else
 
 typedef unsigned int COLORREF;
 typedef char TCHAR;
-
+typedef unsigned int DWORD;
 
 #endif
 

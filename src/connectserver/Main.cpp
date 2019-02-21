@@ -36,9 +36,10 @@ namespace fs = boost::filesystem;
 
 #ifdef WIN32
 #include "ServiceWin32.h"
-std::string serviceName = "muSqlServer";
-std::string serviceLongName = "muOnline MySQL Server service";
-std::string serviceDescription = "Massive Network Game Object Server";
+char serviceName[20] = "muSqlServer";
+char serviceLongName[100] = "muOnline MySQL Server service";
+char serviceDescription[255] = "Massive Network Game Object Server";
+
 /*
  * -1 - not in service mode
  *  0 - stopped

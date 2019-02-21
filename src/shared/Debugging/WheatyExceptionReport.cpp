@@ -140,10 +140,10 @@ PEXCEPTION_POINTERS pExceptionInfo)
 
     SYSTEMTIME systime;
     GetLocalTime(&systime);
-    sprintf(m_szDumpFileName, "%s\\%s_%s_[%u-%u_%u-%u-%u].dmp",
+    sprintf(m_szDumpFileName, "%s\\%d_%s_[%u-%u_%u-%u-%u].dmp",
         crash_folder_path, 0, pos, systime.wDay, systime.wMonth, systime.wHour, systime.wMinute, systime.wSecond);
 
-    sprintf(m_szLogFileName, "%s\\%s_%s_[%u-%u_%u-%u-%u].txt",
+    sprintf(m_szLogFileName, "%s\\%d_%s_[%u-%u_%u-%u-%u].txt",
         crash_folder_path, 0, pos, systime.wDay, systime.wMonth, systime.wHour, systime.wMinute, systime.wSecond);
 
     m_hDumpFile = CreateFile(m_szDumpFileName,
@@ -432,14 +432,14 @@ void WheatyExceptionReport::PrintSystemInfo()
     ::GlobalMemoryStatus(&MemoryStatus);
     TCHAR sString[1024];
     Log(_T("//=====================================================\r\n"));
-    if (_GetProcessorName(sString, _countof(sString)))
+    if (_GetProcessorName(sString, countof(sString)))
         Log(_T("*** Hardware ***\r\nProcessor: %s\r\nNumber Of Processors: %d\r\nPhysical Memory: %d KB (Available: %d KB)\r\nCommit Charge Limit: %d KB\r\n"),
             sString, SystemInfo.dwNumberOfProcessors, MemoryStatus.dwTotalPhys/0x400, MemoryStatus.dwAvailPhys/0x400, MemoryStatus.dwTotalPageFile/0x400);
     else
         Log(_T("*** Hardware ***\r\nProcessor: <unknown>\r\nNumber Of Processors: %d\r\nPhysical Memory: %d KB (Available: %d KB)\r\nCommit Charge Limit: %d KB\r\n"),
             SystemInfo.dwNumberOfProcessors, MemoryStatus.dwTotalPhys/0x400, MemoryStatus.dwAvailPhys/0x400, MemoryStatus.dwTotalPageFile/0x400);
 
-    if (_GetWindowsVersion(sString, _countof(sString)))
+    if (_GetWindowsVersion(sString, countof(sString)))
         Log(_T("\r\n*** Operation System ***\r\n%s\r\n"), sString);
     else
         Log(_T("\r\n*** Operation System:\r\n<unknown>\r\n"));

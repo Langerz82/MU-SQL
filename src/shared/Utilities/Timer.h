@@ -6,6 +6,14 @@
 #include <algorithm>
 #include <ace/OS_NS_sys_time.h>
 
+#ifndef max
+#define max(a,b) (((a) > (b)) ? (a) : (b))
+#endif
+#ifndef min
+#define min(a,b) (((a) < (b)) ? (a) : (b))
+#endif
+
+
 /**
  * @brief
  *
@@ -35,7 +43,7 @@ class WorldTimer
                 const uint32 diff_1 = (uint32(0xFFFFFFFF) - oldMSTime) + newMSTime;
                 const uint32 diff_2 = oldMSTime - newMSTime;
 
-                return std::min(diff_1, diff_2);
+                return min(diff_1, diff_2);
             }
 
             return newMSTime - oldMSTime;

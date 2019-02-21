@@ -2,6 +2,7 @@
 #include "Logger.h"
 #include "Appender.h"
 #include "LogMessage.h"
+#include <iostream>
 
 Logger::Logger(std::string const& _name, LogLevel _level): name(_name), level(_level) { }
 
@@ -32,7 +33,11 @@ void Logger::setLogLevel(LogLevel _level)
 
 void Logger::write(LogMessage* message) const
 {
-	//if (this == nullptr) return;
+	if (this == nullptr)
+	{
+		std::cout << "Logger needs configuration settings." << std::endl;
+		return;
+	}
 
     if (!level || level > message->level || message->text.empty())
     {

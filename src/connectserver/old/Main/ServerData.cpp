@@ -13,11 +13,12 @@ namespace fs = boost::filesystem;
 
 CServerData m_ServerData;
 
-
+#ifndef WIN32
 static int RGB(int r, int g, int b)
 {
-    return (r << 16) + (g << 8) + b;
+	return (r << 16) + (g << 8) + b;
 }
+#endif
 
 CServerData::CServerData(void)
 {
