@@ -44,9 +44,14 @@ else()
 endif()
 option(DEBUG                "Debug mode (strict compile, all warnings)"     OFF)
 option(ACE_USE_EXTERNAL     "Use external ACE"                              OFF)
-option(BUILD_CONNECTSERVER        "Build the Connect server"                     ON)
-option(BUILD_GAMESERVER        "Build the Game server"                     ON)
-option(SOAP                 "Enable remote access via SOAP"                 OFF)
+
+if(WIN32)
+option(BUILD_SHARED    "Build the Shared Library"        ON)
+option(BUILD_CONNECTSERVER        "Build the Connect server"        ON)
+option(BUILD_GAMESERVER        "Build the Game server"                    OFF)
+endif()
+
+option(SOAP                 "Enable remote access via SOAP"                     OFF)
 # Hidden option to enable/disable PCH. DEV ONLY!
 set(PCH ON)
 
@@ -60,7 +65,9 @@ message(
     CONF_DIR                Path to the configs, can be absolute or relative.
     DEBUG                   Debug mode (strict compile, all warnings)
     ACE_USE_EXTERNAL        Use external ACE
-    BUILD_MUSQLSERVER       Build the data server
+    BUILD_SHARED       Build the Shared Library
+	BUILD_CONNECTSERVER       Build the Connect server
+	BUILD_GAMESERVER       Build the Game server
     SOAP                    Enable remote access via SOAP
   To set an option simply type -D<OPTION>=<VALUE> after 'cmake <srcs>'.
   Also, you can specify the generator with -G. see 'cmake --help' for more details
@@ -139,3 +146,4 @@ endif()
 
 # Add source path
 add_subdirectory(src)
+

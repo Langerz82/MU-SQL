@@ -273,18 +273,79 @@ function GetBuildOptions()
 
 }
 
+
+# Function to build MuMySQLServer
+function BuildShared()
+{
+  # Last chance to cancel building
+  $DLGAPP --backtitle "MuMySQLServer Linux Build Configuration" --title "Proceed to build Shared Library" \
+    --yesno "Are you sure you want to build Shared Liibrary?" 8 60
+
+  # Check the user's answer
+  if [ $? -ne 0 ]; then
+    Log "Cancelled by user. Shared Library has been cloned but not built." 1
+    exit 0
+  fi
+
+  set INSTPATH=$INSTPATH/shared
+
+  # See if the build directory exists and clean up if possible
+  if [ -d "$INSTPATH" ]; then
+    # See if a makefile exists and clean up
+    if [ -f $INSTPATH/Makefile ]; then
+      Log "Cleaning the old build..." 1
+      cd "$INSTPATH"
+      make clean
+    fi
+  fi
+
+  # Attempt to create the build directory if it doesn't exist
+  if [ ! -d "$INSTPATH" ]; then
+    mkdir "$INSTPATH"
+
+    # See if creation was successful
+    if [ $? -ne 0 ]; then
+      Log "Error: Failed to create the build directory!" 1
+      exit 1
+    fi
+  fi
+
+CMAKE_SOURCE_PATH=$SRCPATH/src/shared
+CMAKE_BUILD_PATH=$INSTPATH
+
+  # Attempt to configure and build MuMySQLServer
+  Log "Building Shared Library..." 0
+  cd "$INSTPATH"
+  # make sure we are using the cmake3
+  UseCmake3
+  $CMAKE_CMD $SRCPATH -DBUILD_SHARED=ON -DBUILD_CONNECTSERVER=OFF -DBUILD_GAMESERVER=OFF -DDEBUG=$P_DEBUG -DUSE_STD_MALLOC=$P_STD_MALLOC -DACE_USE_EXTERNAL=$P_ACE_EXTERNAL -DBUILD_TOOLS=$P_TOOLS -DSOAP=$P_SOAP -DCMAKE_INSTALL_PREFIX="$INSTPATH"
+  make
+
+  # Check for an error
+  if [ $? -ne 0 ]; then
+    Log "There was an error building Shared Library!" 1
+    exit 1
+  fi
+
+  # Log success
+  Log "Shared Library has been built!" 0
+}
+
+
 # Function to build MuMySQLServer
 function BuildConnectServer()
 {
   # Last chance to cancel building
-  $DLGAPP --backtitle "MuMySQLServer Linux Build Configuration" --title "Proceed to build MuMySQLServer" \
-    --yesno "Are you sure you want to build MuMySQLServer?" 8 60
+  $DLGAPP --backtitle "MuMySQLServer Linux Build Configuration" --title "Proceed to build Connect Server" \
+    --yesno "Are you sure you want to build Connect Server?" 8 60
 
   # Check the user's answer
   if [ $? -ne 0 ]; then
-    Log "Cancelled by user. MuMySQLServer has been cloned but not built." 1
+    Log "Cancelled by user. Connect Server has been cloned but not built." 1
     exit 0
   fi
+
+  set INSTPATH=$INSTPATH/connectserver
 
   # See if the build directory exists and clean up if possible
   if [ -d "$INSTPATH" ]; then
@@ -308,39 +369,40 @@ function BuildConnectServer()
   fi
 
 CMAKE_SOURCE_PATH=$SRCPATH/src/connectserver
-CMAKE_BUILD_PATH=$INSTPATH/connectserver
-set -x PROJECT_BUILD_CONNECTSERVER=1
+CMAKE_BUILD_PATH=$INSTPATH
 
   # Attempt to configure and build MuMySQLServer
-  Log "Building MuMySQLServer..." 0
+  Log "Building Connect Server..." 0
   cd "$INSTPATH"
   # make sure we are using the cmake3
   UseCmake3
-  $CMAKE_CMD $SRCPATH -DPROJECT_BUILD_CONNECTSERVER -DDEBUG=$P_DEBUG -DUSE_STD_MALLOC=$P_STD_MALLOC -DACE_USE_EXTERNAL=$P_ACE_EXTERNAL -DBUILD_TOOLS=$P_TOOLS -DSOAP=$P_SOAP -DCMAKE_INSTALL_PREFIX="$INSTPATH"
+  $CMAKE_CMD $SRCPATH -DBUILD_SHARED=OFF -DBUILD_CONNECTSERVER=ON -DBUILD_GAMESERVER=OFF -DDEBUG=$P_DEBUG -DUSE_STD_MALLOC=$P_STD_MALLOC -DACE_USE_EXTERNAL=$P_ACE_EXTERNAL -DBUILD_TOOLS=$P_TOOLS -DSOAP=$P_SOAP -DCMAKE_INSTALL_PREFIX="$INSTPATH"
   make
 
   # Check for an error
   if [ $? -ne 0 ]; then
-    Log "There was an error building MuMySQLServer!" 1
+    Log "There was an error building Connect Server!" 1
     exit 1
   fi
 
   # Log success
-  Log "MuMySQLServer has been built!" 0
+  Log "Connect Server has been built!" 0
 }
 
 # Function to build MuMySQLServer
 function BuildGameServer()
 {
   # Last chance to cancel building
-  $DLGAPP --backtitle "MuMySQLServer Linux Build Configuration" --title "Proceed to build MuMySQLServer" \
-    --yesno "Are you sure you want to build MuMySQLServer?" 8 60
+  $DLGAPP --backtitle "MuMySQLServer Linux Build Configuration" --title "Proceed to build Game Server" \
+    --yesno "Are you sure you want to build Game Server?" 8 60
 
   # Check the user's answer
   if [ $? -ne 0 ]; then
-    Log "Cancelled by user. MuMySQLServer has been cloned but not built." 1
+    Log "Cancelled by user. Game Server has been cloned but not built." 1
     exit 0
   fi
+
+  set INSTPATH=$INSTPATH/gameserver
 
   # See if the build directory exists and clean up if possible
   if [ -d "$INSTPATH" ]; then
@@ -364,25 +426,24 @@ function BuildGameServer()
   fi
 
 CMAKE_SOURCE_PATH=$SRCPATH/src/gameserver
-CMAKE_BUILD_PATH=$INSTPATH/gameserver
-set -x PROJECT_BUILD_GAMESERVER=1
+CMAKE_BUILD_PATH=$INSTPATH
 
   # Attempt to configure and build MuMySQLServer
-  Log "Building MuMySQLServer..." 0
+  Log "Building Game Server..." 0
   cd "$INSTPATH"
   # make sure we are using the cmake3
   UseCmake3
-  $CMAKE_CMD $SRCPATH -DPROJECT_BUILD_GAMESERVER -DDEBUG=$P_DEBUG -DUSE_STD_MALLOC=$P_STD_MALLOC -DACE_USE_EXTERNAL=$P_ACE_EXTERNAL -DBUILD_TOOLS=$P_TOOLS -DSOAP=$P_SOAP -DCMAKE_INSTALL_PREFIX="$INSTPATH"
+  $CMAKE_CMD -DBUILD_SHARED -DBUILD_GAMESERVER=ON -DBUILD_CONNECTSERVER=OFF $SRCPATH -DDEBUG=$P_DEBUG -DUSE_STD_MALLOC=$P_STD_MALLOC -DACE_USE_EXTERNAL=$P_ACE_EXTERNAL -DBUILD_TOOLS=$P_TOOLS -DSOAP=$P_SOAP -DCMAKE_INSTALL_PREFIX="$INSTPATH"
   make
 
   # Check for an error
   if [ $? -ne 0 ]; then
-    Log "There was an error building MuMySQLServer!" 1
+    Log "There was an error building Game Server!" 1
     exit 1
   fi
 
   # Log success
-  Log "MuMySQLServer has been built!" 0
+  Log "Game Server has been built!" 0
 }
 
 
@@ -421,8 +482,9 @@ TASKS=$($DLGAPP --backtitle "MuMySQLServer Linux Build Configuration" \
   --title "Select Tasks" \
   --checklist "Please select the tasks to perform" 0 70 8 \
   1 "Install Prerequisites" Off \
-  2 "Build ConnectServer" On \
-  3 "Build GameServer" Off \
+  2 "Build Shared Library" Off \
+  3 "Build ConnectServer" Off \
+  4 "Build GameServer" Off \
   8 "Create Code::Blocks Project File" Off \
   3>&2 2>&1 1>&3)
 
@@ -445,11 +507,17 @@ fi
 # Clone repos?
 if [[ $TASKS == *2* ]]; then
   GetBuildOptions
-  BuildConnectServer
+  BuildShared
 fi
 
 # Clone repos?
 if [[ $TASKS == *3* ]]; then
+  GetBuildOptions
+  BuildConnectServer
+fi
+
+# Clone repos?
+if [[ $TASKS == *4* ]]; then
   GetBuildOptions
   BuildGameServer
 fi

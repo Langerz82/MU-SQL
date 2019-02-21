@@ -21,25 +21,25 @@
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -std=c++14")
 
-if(WIN32)
-    if(BUILD_MUSQLSERVER)
-        link_directories("${CMAKE_BINARY_DIR}/src/musqlserver/${CMAKE_CFG_INTDIR}")
-        include_directories(${CMAKE_SOURCE_DIR}/dep/include)
-    endif()
-endif()
 
 add_subdirectory(framework)
-add_subdirectory(shared)
+
+if(BUILD_SHARED)
+	message("BUILDING SHARED")
+	add_subdirectory(shared)
+endif()
 
 if(BUILD_CONNECTSERVER)
+	message("BUILDING CONNECT SERVER")
 	add_subdirectory(connectserver)
 endif()
 
 if(BUILD_GAMESERVER)
+message("BUILDING GAME SERVER")
 	add_subdirectory(gameserver)
 endif()
 
-if (BUILD_MUSQLSERVER)
+if (BUILD_GAMESERVER)
 if(WIN32 AND MSVC)
   get_filename_component(MYSQL_LIB_DIR ${MYSQL_LIBRARY} DIRECTORY)
   get_filename_component(MYSQL_LIB_DLL ${MYSQL_LIBRARY} NAME)

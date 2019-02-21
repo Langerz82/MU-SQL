@@ -33,11 +33,6 @@ set(FMT_SOURCES
 
 add_library(${LIBRARY_NAME} ${FMT_SOURCES})
 
- target_include_directories(${LIBRARY_NAME}
-	PUBLIC
-		${SRC_GRP_FMT}
- )
-
 target_compile_definitions(${LIBRARY_NAME}
   PUBLIC
     -DFMT_USE_OVERRIDE
