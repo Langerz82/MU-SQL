@@ -69,22 +69,18 @@ link_directories(
 add_executable(${EXECUTABLE_NAME} ${EXECUTABLE_SRCS})
 
 target_link_libraries(${EXECUTABLE_NAME}
-    shared
-    framework
+	shared
+    	framework
 	fmt
-	ace
-    ${OPENSSL_LIBRARIES}
+	ACE
+	ACE_INet
+	${OPENSSL_LIBRARIES}
 	${Boost_LIBRARIES}
 	${MYSQL_LIBRARY}
+	boost_filesystem	
+	boost_system
+	pthread
 )
-
-
-if(NOT ACE_USE_EXTERNAL)
-    add_dependencies(${EXECUTABLE_NAME} ace)
-    target_link_libraries(${EXECUTABLE_NAME} ace)
-else()
-    target_link_libraries(${EXECUTABLE_NAME} ACE)
-endif()
 
 #include_directories(${Boost_INCLUDE_DIRS})
 #target_link_libraries(${EXECUTABLE_NAME} ${BOOST_LIBRARY})

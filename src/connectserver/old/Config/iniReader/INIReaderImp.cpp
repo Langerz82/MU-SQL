@@ -11,12 +11,15 @@
 #include <cstdlib>
 #include "INIReaderImp.h"
 #include "ini.h"
+#include <iostream>
 
 using std::string;
 
 INIReaderImp::INIReaderImp(const string& filename)
 {
     _error = ini_parse(filename.c_str(), ValueHandler, this);
+    if (_error != 0)
+        std::cout << StringFormat("INI File %s cannot be parsed. Error Code: %d ", filename.c_str(), _error) << std::endl;
 }
 
 int INIReaderImp::ParseError() const

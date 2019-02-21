@@ -54,7 +54,7 @@ int m_ServiceStatus = -1;
 #include "PosixDaemon.h"
 #endif
 
-INIReaderImp ini(".\\ConnectServer.ini");
+INIReaderImp ini("ConnectServer.ini");
 
 WORD g_ConnectServerPort;
 WORD g_ConnectServerUDP;
@@ -125,7 +125,8 @@ bool InitDataServer()
 
 void LoadLogConfig()
 {
-	g_logsDir = ini.GetString("Logger", "LogDirectory", "logs");
+	 std::cout << ini.GetString("Logger", "LogDirectory", "logs").c_str() << std::endl;
+	 g_logsDir = "";
 
 	std::vector<std::string> vecLogEntries;
 	std::vector<std::string> vecLogEntryNames;

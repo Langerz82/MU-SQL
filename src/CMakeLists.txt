@@ -31,8 +31,11 @@ endif()
 add_subdirectory(framework)
 add_subdirectory(shared)
 
-if(BUILD_MUSQLSERVER)
+if(BUILD_CONNECTSERVER)
 	add_subdirectory(connectserver)
+endif()
+
+if(BUILD_GAMESERVER)
 	add_subdirectory(gameserver)
 endif()
 
