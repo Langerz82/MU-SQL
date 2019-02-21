@@ -34,7 +34,7 @@ P_SOAP="0"
 P_DEBUG="0"
 P_STD_MALLOC="1"
 P_ACE_EXTERNAL="1"
-CMAKE_CMD="cmake -j6 "
+CMAKE_CMD="cmake -j 6 "
 
 function UseCmake3()
 {
@@ -407,7 +407,7 @@ function CreateCBProject
   cd $INSTPATH
   # make sure we are using the cmake3
   UseCmake3
-  $CMAKE_CMD -DBUILD_SHARED=ON -DBUILD_GAMESERVER=ON -DBUILD_CONNECTSERVER=ON  .. -G "CodeBlocks - Unix Makefiles"
+  $CMAKE_CMD -DBUILD_SHARED=ON -DBUILD_GAMESERVER=ON -DBUILD_CONNECTSERVER=ON -DACE_USE_EXTERNAL=ON  .. -G "CodeBlocks - Unix Makefiles"
 }
 
 

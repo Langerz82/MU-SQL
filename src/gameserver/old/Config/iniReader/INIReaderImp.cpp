@@ -16,7 +16,15 @@ using std::string;
 
 INIReaderImp::INIReaderImp(const string& filename)
 {
-    _error = ini_parse(filename.c_str(), ValueHandler, this);
+    configuration config;
+
+    if (ini_parse(filename, handler, &config) < 0) {
+        printf("Can't load '%s'\n", filename);
+        return 1;
+    }
+    printf("Config loaded from '%s': version=%d, name=%s, email=%s\n",
+        filename, config.version, config.name, config.email);
+    return 0;
 }
 
 int INIReaderImp::ParseError() const

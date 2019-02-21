@@ -55,7 +55,7 @@
 #include "GensSystemProtocol.h"
 
 #include "Lang.h"
-#include "Config/iniReader/INIReaderImp.h"
+#include "Common/Common.h"
 #include "Logging/Log.h"
 #include "generalStructs.h"
 

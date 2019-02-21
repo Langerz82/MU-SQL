@@ -1,6 +1,5 @@
 set(EXECUTABLE_NAME connectserver)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -std=c++14")
 
 file(GLOB_RECURSE _source_list *.c* *.h*)
 foreach(_source IN ITEMS ${_source_list})
@@ -71,10 +70,9 @@ add_executable(${EXECUTABLE_NAME} ${EXECUTABLE_SRCS})
 
 target_link_libraries(${EXECUTABLE_NAME}
 	shared
-    	framework
+    framework
 	fmt
 	ACE
-	ACE_INet
 	${OPENSSL_LIBRARIES}
 	${Boost_LIBRARIES}
 	${MYSQL_LIBRARY}

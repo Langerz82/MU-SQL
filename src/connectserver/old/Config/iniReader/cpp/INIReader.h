@@ -5,27 +5,20 @@
 //
 // https://github.com/benhoyt/inih
 
-#ifndef __INIReaderImp_H__
-#define __INIReaderImp_H__
-
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
+#ifndef __INIREADER_H__
+#define __INIREADER_H__
 
 #include <map>
 #include <string>
 
 // Read an INI file into easy-to-access name/value pairs. (Note that I've gone
 // for simplicity here rather than speed, but it should be pretty decent.)
-class INIReaderImp
+class INIReader
 {
 public:
-
-	INIReaderImp() {};
-
     // Construct INIReader and parse given filename. See ini.h for more info
     // about the parsing.
-    explicit INIReaderImp(const std::string& filename);
+    explicit INIReader(const std::string& filename);
 
     // Return the result of ini_parse(), i.e., 0 on success, line number of
     // first error on parse error, or -1 on file open error.
@@ -34,7 +27,7 @@ public:
     // Get a string value from INI file, returning default_value if not found.
     std::string Get(const std::string& section, const std::string& name,
                     const std::string& default_value) const;
-
+    
     // Get a string value from INI file, returning default_value if not found,
     // empty, or contains only whitespace.
     std::string GetString(const std::string& section, const std::string& name,
@@ -65,4 +58,4 @@ private:
                             const char* value);
 };
 
-#endif  // __INIReaderImp_H__
+#endif  // __INIREADER_H__

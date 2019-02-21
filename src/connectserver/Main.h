@@ -8,10 +8,6 @@
 #include "StdAfx.h"
 #include "resource.h"
 #include "ServerEngine.h"
-#include "Database/Database/DatabaseEnv.h"
-
-class ConnectDatabaseConnection;
-class MUDatabase;
 
 
 #define SET_NUMBERH(x) ( (BYTE)((DWORD)(x)>>(DWORD)8) )
@@ -20,10 +16,8 @@ class MUDatabase;
 #define SET_NUMBERLW(x) ( (WORD)((DWORD)(x) & 0xFFFF) )
 
 extern WORD g_ConnectServerPort;
-extern WORD g_ConnectServerUDP;
 extern DWORD g_MaxConnectionsPerIP;
 extern DWORD g_MaxPacketPerSec;
-extern uint16 g_UDPPort;
 extern WORD g_FTPPort;
 extern std::string g_HostURL;
 extern std::string g_FTPLogin;
@@ -34,8 +28,8 @@ extern std::string FTPLauncher;
 extern std::string HashLauncher;
 extern std::string g_WhiteListIP;
 
+extern int g_JoinServerListPort;
 extern int g_dwMaxServerGroups;
-extern WORD g_JoinServerListPort;
 
 extern BOOL g_PwEncrypt;
 extern BOOL g_UseJoinServer;

@@ -18,7 +18,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 set(LIBRARY_NAME shared)
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -std=c++17")
+
 
 file(GLOB SRC_GRP_AUTH Auth/*.cpp Auth/*.h)
 source_group("Auth" FILES ${SRC_GRP_AUTH})

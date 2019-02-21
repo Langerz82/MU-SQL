@@ -5,42 +5,38 @@
 //
 // https://github.com/benhoyt/inih
 
-#include "StdAfx.h"
 #include <algorithm>
 #include <cctype>
 #include <cstdlib>
-#include "INIReaderImp.h"
-#include "ini.h"
-#include <iostream>
+#include "../ini.h"
+#include "INIReader.h"
 
 using std::string;
 
-INIReaderImp::INIReaderImp(const string& filename)
+INIReader::INIReader(const string& filename)
 {
     _error = ini_parse(filename.c_str(), ValueHandler, this);
-    if (_error != 0)
-        std::cout << StringFormat("INI File %s cannot be parsed. Error Code: %d ", filename.c_str(), _error) << std::endl;
 }
 
-int INIReaderImp::ParseError() const
+int INIReader::ParseError() const
 {
     return _error;
 }
 
-string INIReaderImp::Get(const string& section, const string& name, const string& default_value) const
+string INIReader::Get(const string& section, const string& name, const string& default_value) const
 {
     string key = MakeKey(section, name);
     // Use _values.find() here instead of _values.at() to support pre C++11 compilers
     return _values.count(key) ? _values.find(key)->second : default_value;
 }
 
-string INIReaderImp::GetString(const string& section, const string& name, const string& default_value) const
+string INIReader::GetString(const string& section, const string& name, const string& default_value) const
 {
     const string str = Get(section, name, "");
     return str.empty() ? default_value : str;
 }
 
-long INIReaderImp::GetInteger(const string& section, const string& name, long default_value) const
+long INIReader::GetInteger(const string& section, const string& name, long default_value) const
 {
     string valstr = Get(section, name, "");
     const char* value = valstr.c_str();
@@ -50,7 +46,7 @@ long INIReaderImp::GetInteger(const string& section, const string& name, long de
     return end > value ? n : default_value;
 }
 
-double INIReaderImp::GetReal(const string& section, const string& name, double default_value) const
+double INIReader::GetReal(const string& section, const string& name, double default_value) const
 {
     string valstr = Get(section, name, "");
     const char* value = valstr.c_str();
@@ -59,7 +55,7 @@ double INIReaderImp::GetReal(const string& section, const string& name, double d
     return end > value ? n : default_value;
 }
 
-bool INIReaderImp::GetBoolean(const string& section, const string& name, bool default_value) const
+bool INIReader::GetBoolean(const string& section, const string& name, bool default_value) const
 {
     string valstr = Get(section, name, "");
     // Convert to lower case to make string comparisons case-insensitive
@@ -72,13 +68,13 @@ bool INIReaderImp::GetBoolean(const string& section, const string& name, bool de
         return default_value;
 }
 
-bool INIReaderImp::HasValue(const std::string& section, const std::string& name) const
+bool INIReader::HasValue(const std::string& section, const std::string& name) const
 {
     string key = MakeKey(section, name);
     return _values.count(key);
 }
 
-string INIReaderImp::MakeKey(const string& section, const string& name)
+string INIReader::MakeKey(const string& section, const string& name)
 {
     string key = section + "=" + name;
     // Convert to lower case to make section/name lookups case-insensitive
@@ -86,17 +82,13 @@ string INIReaderImp::MakeKey(const string& section, const string& name)
     return key;
 }
 
-
-int INIReaderImp::ValueHandler(void* user, const char* section, const char* name,
+int INIReader::ValueHandler(void* user, const char* section, const char* name,
                             const char* value)
 {
-	/*
-	// TODO Make it work cunt.
     INIReader* reader = static_cast<INIReader*>(user);
     string key = MakeKey(section, name);
     if (reader->_values[key].size() > 0)
         reader->_values[key] += "\n";
     reader->_values[key] += value;
-	*/
     return 1;
 }

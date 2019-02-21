@@ -1,7 +1,4 @@
-
-// TODO - Make sure program signalling works.
-
-/// \addtogroup realmd Realm Daemon
+/// \addtogroup Connect Server Daemon
 /// @{
 /// \file
 
@@ -12,9 +9,8 @@
 #include "IOCP.h"
 #include "ServerData.h"
 
-#include "Config/Config.h"
+#include "Config/iniReader/cpp/INIReader.h"
 
-//#include "SystemConfig.h"
 #include "revision.h"
 #include "Util.h"
 
@@ -40,9 +36,9 @@ namespace fs = boost::filesystem;
 
 #ifdef WIN32
 #include "ServiceWin32.h"
-char serviceName[] = "muSqlServer";
-char serviceLongName[] = "muOnline MySQL Server service";
-char serviceDescription[] = "Massive Network Game Object Server";
+std::string serviceName = "muSqlServer";
+std::string serviceLongName = "muOnline MySQL Server service";
+std::string serviceDescription = "Massive Network Game Object Server";
 /*
  * -1 - not in service mode
  *  0 - stopped
@@ -54,13 +50,12 @@ int m_ServiceStatus = -1;
 #include "PosixDaemon.h"
 #endif
 
-INIReaderImp ini("ConnectServer.ini");
+INIReader* iniReader;
 
+int g_JoinServerListPort;
 WORD g_ConnectServerPort;
-WORD g_ConnectServerUDP;
 DWORD g_MaxConnectionsPerIP = 1000;
 DWORD g_MaxPacketPerSec = 16;
-uint16 g_UDPPort;
 WORD g_FTPPort;
 std::string g_HostURL;
 std::string g_FTPLogin;
@@ -73,10 +68,10 @@ DWORD g_MachineIDConnectionLimitPerGroup = 10;
 
 // GLobals thats whats up.
 std::string szWANIP;
-int g_dwMaxServerGroups = ini.GetInteger("SETTINGS", "MAX_SERVER", 10) * MAX_SERVER_TYPE;
+int g_dwMaxServerGroups;
 
-BOOL g_DSMode = ini.GetInteger("SETTINGS", "DataServerOnlyMode", 0);
-BOOL g_UseJoinServer = ini.GetInteger("SETTINGS", "UseJoinServer", 1);
+BOOL g_DSMode;
+BOOL g_UseJoinServer;
 
 std::string g_AWHostPass;
 std::string g_MapSvrFilePath;
@@ -123,10 +118,9 @@ bool InitDataServer()
 	return true;
 }
 
-void LoadLogConfig()
+void LoadLog()
 {
-	 std::cout << ini.GetString("Logger", "LogDirectory", "logs").c_str() << std::endl;
-	 g_logsDir = "";
+    g_logsDir = iniReader->GetString("Logger", "LogDirectory", "logs");
 
 	std::vector<std::string> vecLogEntries;
 	std::vector<std::string> vecLogEntryNames;
@@ -136,12 +130,10 @@ void LoadLogConfig()
 		std::string tempChars;
 		std::string temp = "";
 		std::string logEntry = StringFormat("LogEntry%d", i++);
-		tempChars = ini.GetString("Logger", logEntry.c_str(), "");
-		//std::cout << tempChars << std::endl;
-		temp.assign(tempChars, sizeof(tempChars));
-		if (strcmp(temp.c_str(), "") == 0)
+		tempChars = iniReader->GetString("Logger", logEntry, "");
+		if (tempChars == "")
 			break;
-		vecLogEntries.push_back(temp);
+		vecLogEntries.push_back(tempChars);
 		vecLogEntryNames.push_back(logEntry);
 	}
 
@@ -153,21 +145,40 @@ void LoadLogConfig()
 		std::string tempChars;
 		std::string temp = "";
 		std::string appendEntry = StringFormat("AppendEntry%d", i++);
-		tempChars = ini.GetString("Appender", appendEntry.c_str(), "");
-		//std::cout << tempChars << std::endl;
-		temp.assign(tempChars, sizeof(tempChars));
-		if (strcmp(temp.c_str(), "") == 0)
+		tempChars = iniReader->GetString("Appender", appendEntry, "");
+		if (tempChars == "")
 			break;
-		vecAppendEntries.push_back(temp);
+		vecAppendEntries.push_back(tempChars);
 		vecAppendEntryNames.push_back(appendEntry);
 	}
 	sLog->Initialize(nullptr, ".", vecLogEntries, vecAppendEntries, vecLogEntryNames, vecAppendEntryNames);
 }
 
+void LoadConfig()
+{
+    std::string filename = "ConnectServer.ini";
+    iniReader = new INIReader(filename);
+    if (iniReader->ParseError() < 0) {
+        std::cout << StringFormat("Can't load '%s', Error code: %d\n", filename, iniReader->ParseError());
+        return;
+    }
+    std::cout << StringFormat("Config loaded from '%s': version=", filename)
+              << iniReader->GetInteger("protocol", "version", -1) << ", name="
+              << iniReader->Get("user", "name", "UNKNOWN") << ", email="
+              << iniReader->Get("user", "email", "UNKNOWN") << ", pi="
+              << iniReader->GetReal("user", "pi", -1) << ", active="
+              << iniReader->GetBoolean("user", "active", true) << "\n";
+
+    g_dwMaxServerGroups = iniReader->GetInteger("SETTINGS", "MAX_SERVER", 10) * MAX_SERVER_TYPE;
+    g_DSMode = iniReader->GetInteger("SETTINGS", "DataServerOnlyMode", 0);
+    g_UseJoinServer = iniReader->GetInteger("SETTINGS", "UseJoinServer", 1);
+}
+
 /// Launch the realm server
 extern int main(int argc, char** argv)
 {
-	LoadLogConfig();
+	LoadConfig();
+	LoadLog();
 
     ///- Command line parsing
     char* options = ":s:";
@@ -267,12 +278,6 @@ extern int main(int argc, char** argv)
 
     sLog->outBasic("Using ACE: %s", ACE_VERSION);
 
-#if defined (ACE_HAS_EVENT_POLL) || defined (ACE_HAS_DEV_POLL)
-    ACE_Reactor::instance(new ACE_Reactor(new ACE_Dev_Poll_Reactor(ACE::max_handles(), 1), 1), true);
-#else
-    ACE_Reactor::instance(new ACE_Reactor(new ACE_TP_Reactor(), true), true);
-#endif
-
     sLog->outBasic("Max allowed open files is %d", ACE::max_handles());
 
     /// MuSQLServer PID file creation
@@ -333,21 +338,9 @@ extern int main(int argc, char** argv)
     }
 #endif
 
-    // server has started up successfully => enable async DB requests
-    //DataDatabase.AllowAsyncTransactions();
-	//EventsDatabase.AllowAsyncTransactions();
-	//RankingDatabase.AllowAsyncTransactions();
-
-
 	m_ServerData.LoadServerFile("IGC_ServerList.xml");
 	m_ServerData.LoadNewsFile("News.dat");
 
-////OLD CODE
-// TODO: Place code here.
-
-	//_set_printf_count_output(TRUE);
-    //const char* path = _filePath.c_str();
-    //fs::path dir(path);
     if(fs::create_directory("LOG"))
     {
         sLog->outBasic("Directory LOG Created.");
@@ -355,51 +348,31 @@ extern int main(int argc, char** argv)
 
 	sLog->outBasic( "Initializing...");
 
-
-	//GetPrivateProfileString(
 	LoadAllowableIpList("./AllowedIPList.ini");
-	WORD g_JoinServerListPort = ini.GetInteger("SETTINGS", "TCP_PORT", 44405);
-	szWANIP = ini.GetString("SETTINGS", "WanIP", "127.0.0.1");
-	//std::memcpy(szWANIP, ValidateAndResolveIP(szWANIP), 15); // temp
-	//g_MapServerManager.LoadMapData(g_MapSvrFilePath);
-	//SendMessage(ghWnd, WM_TIMER, WM_LOG_PAINT, NULL);
+	g_JoinServerListPort = iniReader->GetInteger("SETTINGS", "TCP_PORT", 44405);
+	szWANIP = iniReader->GetString("SETTINGS", "WanIP", "127.0.0.1");
 
 	gObjServerInit();
-	//IniteDataServer();
 	IOCP.GiocpInit();
-	sLog->outBasic("CreateListenSocket - Started.");
+	sLog->outBasic("CreatingListenSocket.");
 	IOCP.CreateListenSocket(g_JoinServerListPort, (char*) szWANIP.c_str());
-	sLog->outBasic("CreateListenSocket - Finished.");
-////OLD CODE END
-
-    // maximum counter for next ping
-    //uint32 numLoops = (10 * (MINUTE * 1000000 / 100000));
-    uint32 loopCounter = 0;
 
 	// TODO - Make sure working from TC
-	sLog->outBasic("ioContext->run()");
+	//sLog->outBasic("ioContext->run()");
 	//ioContext->run();
-	sLog->outBasic("ioContext->run() - finished");
-//#ifndef WIN32
-//    detachDaemon();
-//#endif
+
+#ifndef WIN32
+    detachDaemon();
+#endif
 	sLog->outBasic("Entering loop.");
     ///- Wait for termination signal
     while (true)
     {
-        // dont move this outside the loop, the reactor will modify it
-
-
-        //if (ACE_Reactor::instance()->run_reactor_event_loop(interval) == -1)
-        //    { break; }
 
 		CIOCP::ProcessEvents();
-
-		sLog->outBasic("Server Farting.");
-
 #ifdef WIN32
-        //if (m_ServiceStatus == 0) { stopEvent = true; }
-        //while (m_ServiceStatus == 2) { Sleep(1000); }
+        if (m_ServiceStatus == 0) { stopEvent = true; }
+        while (m_ServiceStatus == 2) { Sleep(1000); }
 #endif
     }
 
@@ -410,6 +383,7 @@ extern int main(int argc, char** argv)
 
 	signals.cancel();
 
+    delete iniReader;
     return 0;
 }
 

@@ -36,12 +36,10 @@ void CIOCP::GiocpInit()
 }
 
 void CIOCP::ProcessEvents() {
-	//g_Reactor->handle_events();
+
 	ACE_Time_Value interval(0, 1000000);
 
 	ACE_Reactor::instance()->handle_events(interval);
-	//ACE_Reactor::instance()->run_reactor_event_loop(interval);
-	sLog->outBasic("Pooing too.");
 }
 
 void CIOCP::GiocpDelete()
@@ -51,14 +49,6 @@ void CIOCP::GiocpDelete()
 
 void CIOCP::DestroyGIocp()
 {
-	//closesocket(g_Listen);
-
-	/*if (g_CompletionPort != NULL)
-	{
-		CloseHandle(g_CompletionPort);
-		g_CompletionPort = NULL;
-	}*/
-
 }
 
 
@@ -66,14 +56,11 @@ bool CIOCP::CreateListenSocket(WORD uiPort, LPSTR ipAddress)
 {
 	ACE_INET_Addr bind_addr(uiPort, ipAddress);
 
-	//g_Reactor.initialized();
-
 	if (g_HostSocket.open(bind_addr, ACE_Reactor::instance(), ACE_NONBLOCK) == -1)
 	{
 		sLog->outError("MuSQL Game Server can not bind to %s:%d", ipAddress, uiPort);
 		return 0;
 	}
-	//g_HostSocket.acceptor().open(bind_addr);
 
 	return 1;
 }
