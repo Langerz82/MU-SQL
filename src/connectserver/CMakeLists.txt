@@ -64,6 +64,7 @@ link_directories(
 	${CMAKE_SOURCE_DIR}/../muServerDeps
 	${CMAKE_SOURCE_DIR}/../muServerDeps/v140_x64_MT
 	${Boost_INCLUDE_DIRS}/lib64-msvc-14.0
+	${CMAKE_SOURCE_DIR}/build/src/shared
 )
 
 add_executable(${EXECUTABLE_NAME} ${EXECUTABLE_SRCS})

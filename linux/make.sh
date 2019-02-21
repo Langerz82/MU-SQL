@@ -128,25 +128,6 @@ function GetPaths()
       Log "Source path creation cancelled. No modifications have been made to your system." 1
       exit 0
     fi
-  else
-    # Check for old sources
-    if [ -d "$INSTPATH" ]; then
-      # Ask to remove the old sources
-      $DLGAPP --backtitle "MuMySQLServer Linux Build Configuration" --title "Path already exists" \
-        --yesno "Would you like to remove the old sources? (Answer yes if you are cloning MuMySQLServer)" 9 60
-
-      # Remove the old sources if requested
-      if [ $? -eq 0 ]; then
-        Log "Removing old sources from: $SRCPATH/../build" 1
-        rm -rf $SRCPATH/../build
-
-        # Check for removal failure
-        if [ $? -ne 0 ]; then
-          Log "Error: Failed to remove old sources!" 1
-          exit 1
-        fi
-      fi
-    fi
   fi
 
   # Set the installation path
@@ -181,39 +162,6 @@ function GetPaths()
     else
       Log "Install path creation cancelled. Only the source path has been created."
       exit 0
-    fi
-  else
-    # Check for an old installation
-    if [ -d "$INSTPATH/bin" ] || [ -d "$INSTPATH/lib" ] || [ -d "$INSTPATH/include" ]; then
-
-      # Ask to remove the old installation
-      $DLGAPP --backtitle "MuMySQLServer Linux Build Configuration" --title "Path already exists" \
-        --yesno "Would you like to uninstall the current version of MuMySQLServer first?" 0 0
-
-      # Check the user's response
-      if [ $? -eq 0 ]; then
-        Log "Removing old MuMySQLServer installation..." 1
-
-        # Clean up the binaries
-        if [ -d "$INSTPATH/bin" ]; then
-          rm -rf $INSTPATH/bin
-        fi
-
-        # Clean up the old includes
-        if [ -d "$INSTPATH/include" ]; then
-          rm -rf $INSTPATH/include
-        fi
-
-        # Clean up the library files
-        if [ -d "$INSTPATH/lib" ]; then
-          rm -rf $INSTPATH/lib
-        fi
-
-        # Clean up the old logs
-        if [ -d "$INSTPATH/logs" ]; then
-          rm -rf $INSTPATH/logs/*
-        fi
-      fi
     fi
   fi
 
@@ -287,7 +235,7 @@ function BuildShared()
     exit 0
   fi
 
-  set INSTPATH=$INSTPATH/shared
+  INSTPATH=$INSTPATH/shared
 
   # See if the build directory exists and clean up if possible
   if [ -d "$INSTPATH" ]; then
@@ -345,7 +293,7 @@ function BuildConnectServer()
     exit 0
   fi
 
-  set INSTPATH=$INSTPATH/connectserver
+  INSTPATH=$INSTPATH/connectserver
 
   # See if the build directory exists and clean up if possible
   if [ -d "$INSTPATH" ]; then
@@ -402,7 +350,7 @@ function BuildGameServer()
     exit 0
   fi
 
-  set INSTPATH=$INSTPATH/gameserver
+  INSTPATH=$INSTPATH/gameserver
 
   # See if the build directory exists and clean up if possible
   if [ -d "$INSTPATH" ]; then
@@ -433,7 +381,7 @@ CMAKE_BUILD_PATH=$INSTPATH
   cd "$INSTPATH"
   # make sure we are using the cmake3
   UseCmake3
-  $CMAKE_CMD -DBUILD_SHARED -DBUILD_GAMESERVER=ON -DBUILD_CONNECTSERVER=OFF $SRCPATH -DDEBUG=$P_DEBUG -DUSE_STD_MALLOC=$P_STD_MALLOC -DACE_USE_EXTERNAL=$P_ACE_EXTERNAL -DBUILD_TOOLS=$P_TOOLS -DSOAP=$P_SOAP -DCMAKE_INSTALL_PREFIX="$INSTPATH"
+  $CMAKE_CMD -DBUILD_SHARED=OFF -DBUILD_GAMESERVER=ON -DBUILD_CONNECTSERVER=OFF $SRCPATH -DDEBUG=$P_DEBUG -DUSE_STD_MALLOC=$P_STD_MALLOC -DACE_USE_EXTERNAL=$P_ACE_EXTERNAL -DBUILD_TOOLS=$P_TOOLS -DSOAP=$P_SOAP -DCMAKE_INSTALL_PREFIX="$INSTPATH"
   make
 
   # Check for an error
@@ -459,7 +407,7 @@ function CreateCBProject
   cd $INSTPATH
   # make sure we are using the cmake3
   UseCmake3
-  $CMAKE_CMD .. -G "CodeBlocks - Unix Makefiles"
+  $CMAKE_CMD -DBUILD_SHARED=ON -DBUILD_GAMESERVER=ON -DBUILD_CONNECTSERVER=ON  .. -G "CodeBlocks - Unix Makefiles"
 }
 
 
