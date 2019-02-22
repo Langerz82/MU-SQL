@@ -25,7 +25,7 @@ if(WIN32)
         VERSION_MINOR 21
         VERSION_PATH ${BUILD_COUNTER}
         VERSION_REVISION ${BUILD_REVISION}
-        COMPANY_NAME "getmangos.eu"
+        COMPANY_NAME ""
         # Do not alter, remove or prevent COMPANY_COPYRIGHT from displaying
         COMPANY_COPYRIGHT
         FILE_DESCRIPTION "Mu MySQL Connect Server Daemon"
@@ -115,11 +115,19 @@ endif()
 
 set_target_properties(${EXECUTABLE_NAME} PROPERTIES LINK_FLAGS "${EXECUTABLE_LINK_FLAGS}")
 
+
 if (WIN32)
 set_target_properties(${EXECUTABLE_NAME} PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${BIN_DIR}")
 endif()
 
 install(TARGETS ${EXECUTABLE_NAME} DESTINATION "${BIN_DIR}")
+
+set_target_properties(${EXECUTABLE_NAME}
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${BIN_DIR}/connectserver"
+    LIBRARY_OUTPUT_DIRECTORY "${BIN_DIR}/connectserver"
+    RUNTIME_OUTPUT_DIRECTORY "${BIN_DIR}/connectserver"
+)
 
 if(WIN32 AND MSVC)
     install(FILES $<TARGET_PDB_FILE:${EXECUTABLE_NAME}> DESTINATION ${BIN_DIR} OPTIONAL)

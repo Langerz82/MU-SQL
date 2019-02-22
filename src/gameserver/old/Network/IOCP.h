@@ -8,7 +8,7 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "CQueue.h"
+//#include "CQueue.h"
 #include "SocketBuffer/BufferedSocket.h"
 #include "generalStructs.h"
 
@@ -66,7 +66,7 @@ public:
 		ACE_Reactor_Mask = ACE_Event_Handler::ALL_EVENTS_MASK);
 
 	void CreateUserData(ACE_HANDLE handle);
-	
+
 	const std::string& get_remote_address(void) const
 	{
 		return this->remote_address_;
@@ -79,17 +79,18 @@ private:
 
 	BYTE* ExSendBuf;
 	int g_ServerPort;
-	HANDLE g_IocpThreadHandle;
-	HANDLE g_ThreadHandles[MAX_IO_THREAD_HANDLES];
-	CRITICAL_SECTION criti;
-	enum SOCKET_FLAG;
+	//HANDLE g_IocpThreadHandle;
+	//HANDLE g_ThreadHandles[MAX_IO_THREAD_HANDLES];
+	//CRITICAL_SECTION criti;
+	std::mutex criti;
+	//enum SOCKET_FLAG;
 	DWORD g_dwThreadCount;
-	HANDLE g_CompletionPort;
-	SOCKET g_Listen;
+	//HANDLE g_CompletionPort;
+	//SOCKET g_Listen;
 	ACE_Acceptor<CIOCP, ACE_SOCK_Acceptor> g_HostSocket;
-	
+
 	std::map<ACE_HANDLE, STR_CS_USER*> g_UserIDMap;
-	
+
 	std::string remote_address_;
 	ACE_Message_Block input_buffer_;
 
@@ -110,8 +111,6 @@ private:
 	DWORD ServerWorkerThread();
 
 };
-
-extern CRITICAL_SECTION scriti;
 
 /*
 BOOL IocpServerStart();

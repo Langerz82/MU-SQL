@@ -4,6 +4,9 @@
 #include "LoginProtocol.h"
 #include "Main.h"
 #include "generalStructs.h"
+#include "PacketEngineServer.h"
+#include "PacketEncrypt.h"
+#include "LoginProtocol.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/uuid/uuid_io.hpp>
@@ -16,13 +19,15 @@
 
 CIOCP IOCP;
 
+class _PER_SOCKET_CONTEXT;
+
 //ACE_Reactor* g_Reactor = new ACE_Reactor();
 
 void CIOCP::GiocpInit()
 {
 	ExSendBuf = new BYTE[MAX_EXSENDBUF_SIZE];
 
-	
+
 #if defined (ACE_HAS_EVENT_POLL) || defined (ACE_HAS_DEV_POLL)
 	//CIOCP::g_Reactor = new ACE_Reactor(new ACE_Dev_Poll_Reactor(ACE::max_handles(), 1);
 	ACE_Reactor::instance(new ACE_Reactor(new ACE_Dev_Poll_Reactor(ACE::max_handles(), 1), 1), true);
@@ -30,19 +35,14 @@ void CIOCP::GiocpInit()
 	//CIOCP::g_Reactor = new ACE_Reactor(new ACE_TP_Reactor(), true);
 	ACE_Reactor::instance(new ACE_Reactor(new ACE_TP_Reactor(), true), true);
 #endif
-	
-	//ACE_Reactor::instance()->initialized();
-
-	InitializeCriticalSection(&criti);
+	ACE_Reactor::instance()->initialized();
 }
 
 void CIOCP::ProcessEvents() {
-	//g_Reactor->handle_events();
+
 	ACE_Time_Value interval(0, 1000000);
 
 	ACE_Reactor::instance()->handle_events(interval);
-	//ACE_Reactor::instance()->run_reactor_event_loop(interval);
-	sLog->outBasic("Pooing too.");
 }
 
 void CIOCP::GiocpDelete()
@@ -52,30 +52,19 @@ void CIOCP::GiocpDelete()
 
 void CIOCP::DestroyGIocp()
 {
-	closesocket(g_Listen);
-
-	if (g_CompletionPort != NULL)
-	{
-		CloseHandle(g_CompletionPort);
-		g_CompletionPort = NULL;
-	}
-
 }
 
 
 bool CIOCP::CreateListenSocket(WORD uiPort, LPSTR ipAddress)
 {
 	ACE_INET_Addr bind_addr(uiPort, ipAddress);
-	
-	//g_Reactor.initialized();
 
 	if (g_HostSocket.open(bind_addr, ACE_Reactor::instance(), ACE_NONBLOCK) == -1)
 	{
 		sLog->outError("MuSQL Game Server can not bind to %s:%d", ipAddress, uiPort);
 		return 0;
 	}
-	//g_HostSocket.acceptor().open(bind_addr);
-	
+
 	return 1;
 }
 
@@ -129,7 +118,7 @@ int CIOCP::OnClose()
 
 void  CIOCP::CreateUserData(ACE_HANDLE handle)
 {
-	EnterCriticalSection(&criti);
+	criti.lock();
 
 	boost::uuids::basic_random_generator<boost::mt19937> gen;
 	boost::uuids::uuid socketUUID = gen();
@@ -154,7 +143,7 @@ void  CIOCP::CreateUserData(ACE_HANDLE handle)
 		if (AntiFlood.Check(inet_ntoa(cInAddr)) == false)
 		{
 			closesocket(Accept);
-			LeaveCriticalSection(&criti);
+			criti.unlock();
 			return;
 		}
 	}
@@ -179,7 +168,7 @@ void  CIOCP::CreateUserData(ACE_HANDLE handle)
 	sockCtx->IOContext[0].nWaitIO = 1;
 	sockCtx->dwIOCount++;
 
-	
+
 	g_UserIDMap.insert(std::pair<ACE_HANDLE, STR_CS_USER*>(
 		this->peer().get_handle(), ObjCSUser));
 
@@ -193,10 +182,11 @@ void  CIOCP::CreateUserData(ACE_HANDLE handle)
 	CLoginServerProtocol::ProtocolCore(ObjCSUser->Index, 0x00, (LPBYTE) &serverInfo, sizeof(SDHP_SERVERINFO));*/
 
 	// Send Server List.
+	//SCConnectResultSend(*ObjCSUser, 1);
 
-	PostQueuedCompletionStatus(g_CompletionPort, 0, 0, 0);
+	//PostQueuedCompletionStatus(g_CompletionPort, 0, 0, 0);
 
-	LeaveCriticalSection(&criti);
+	criti.unlock();
 
 	//SCSendServerList(*ObjCSUser);
 }
@@ -219,10 +209,10 @@ int CIOCP::OnRead(ACE_HANDLE handle)
 	ULONG ClientIndex;
 #endif
 	_PER_SOCKET_CONTEXT * lpPerSocketContext = nullptr;
-	LPOVERLAPPED lpOverlapped = 0;
+	//LPOVERLAPPED lpOverlapped = 0;
 	_PER_IO_CONTEXT * lpIOContext = nullptr;
 
-	EnterCriticalSection(&criti);
+	criti.lock();
 
 	STR_CS_USER* lpUser = this->getUserData(this->peer().get_handle());
 	if (lpUser == nullptr)
@@ -234,7 +224,7 @@ int CIOCP::OnRead(ACE_HANDLE handle)
 	lpPerSocketContext = lpUser->PerSocketContext;
 	if (lpPerSocketContext == nullptr)
 		return 0;
-	
+
 	lpIOContext = lpUser->PerSocketContext->IOContext;
 	if (lpIOContext == nullptr)
 		return 0;
@@ -261,7 +251,7 @@ int CIOCP::OnRead(ACE_HANDLE handle)
 	lpIOContext->nbBytes = n;
 	lpIOContext->nTotalBytes += n;
 	std::memcpy(&lpIOContext->Buffer, this->input_buffer_.base(), sizeof(n));
-	
+
 	RecvDataParse(lpIOContext, lpUser->Index);
 
 	lpIOContext->IOOperation = 0;
@@ -271,7 +261,7 @@ int CIOCP::OnRead(ACE_HANDLE handle)
 	{
 		try
 		{
-			lpIOContext->m_wsabuf.len = RecvBytes;			
+			lpIOContext->m_wsabuf.len = RecvBytes;
 			this->peer().recv(lpIOContext->m_wsabuf.buf, RecvBytes);
 
 			this->RecvDataParse(lpIOContext, userIndex);
@@ -285,13 +275,13 @@ int CIOCP::OnRead(ACE_HANDLE handle)
 	}
 	else
 	{
-		LeaveCriticalSection(&criti);
+		criti.unlock();
 	}*/
 
 	lpPerSocketContext->dwIOCount++;
 	lpIOContext->nWaitIO = 1;
 
-	LeaveCriticalSection(&criti);
+	criti.unlock();
 
 	return 1;
 }
@@ -311,7 +301,7 @@ int CIOCP::handle_output(ACE_HANDLE handle)
 }
 
 
-bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)	
+bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 {
 	BYTE* recvbuf;
 	int lOfs;
@@ -320,120 +310,239 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 	BYTE xcode;
 	STR_CS_USER* lpUser = getCSUser(uIndex);
 
-	EnterCriticalSection(&criti);
-
-	if ( lpIOContext->nbBytes < 3 )
+	if (lpIOContext->nbBytes < 3)
 	{
 		return true;
 	}
 
-	lOfs=0;
-	size = lpIOContext->nbBytes;
-	xcode=0;
-	recvbuf = (BYTE*) lpIOContext->Buffer;
-	
-	if (size == 0)
-		return true;
+	lOfs = 0;
+	size = 0;
+	xcode = 0;
+	recvbuf = lpIOContext->Buffer;
 
-	while ( true )
+	int recvsize = lpIOContext->nbBytes;
+
+	BYTE byDec[9216];
+
+	while (true)
 	{
-		if ( recvbuf[lOfs] == 0xC1 ||
-			 recvbuf[lOfs] == 0xC3 )
+		if (recvbuf[lOfs] == 0xC1 ||
+			recvbuf[lOfs] == 0xC3)
 		{
-			BYTE * pBuf;
-
-			pBuf = &recvbuf[lOfs];
-			size = pBuf[1];
-			headcode = pBuf[2];
+			PBMSG_HEAD* lphead = (PBMSG_HEAD*)(recvbuf + lOfs);
+			size = lphead->size;
+			headcode = lphead->headcode;
 			xcode = recvbuf[lOfs];
 		}
-		else if ( recvbuf[lOfs] == 0xC2 ||
-			      recvbuf[lOfs] == 0xC4 )
+		else if (recvbuf[lOfs] == 0xC2 ||
+			recvbuf[lOfs] == 0xC4)
 		{
-			BYTE * pBuf;
-
-			pBuf = &recvbuf[lOfs];
-			size = pBuf[1] * 256;
-			size |= pBuf[2];
-			headcode = pBuf[3];
+			PWMSG_HEAD* lphead = (PWMSG_HEAD*)(recvbuf + lOfs);
+			size = ((WORD)(lphead->sizeH) << 8);
+			size |= (WORD)(lphead->sizeL);
+			headcode = lphead->headcode;
 			xcode = recvbuf[lOfs];
 		}
 
 		else
 		{
-			sLog->outError("error-L1: Header error (%s %d)lOfs:%d, size:%d", __FILE__, __LINE__, lOfs, lpIOContext->nbBytes);
+			sLog->outBasic("error-L1 : Header error (%s %d)lOfs:%d, size:%d",
+				__FILE__, __LINE__,
+				lOfs,
+				lpIOContext->nbBytes);
+
 			lpIOContext->nbBytes = 0;
-			return false;
+			return FALSE;
 		}
 
-		if ( size <= 0 )
+		if (size <= 0)
 		{
-			sLog->outError("error-L1: size %d",
+			sLog->outBasic("error-L1 : size %d",
 				size);
 
 			return false;
 		}
 
-		if ( size <= lpIOContext->nbBytes )
+		if (size <= lpIOContext->nbBytes)
 		{
-			lpUser->PacketCount++;
-
-			if (lpUser->PacketCount >= g_MaxPacketPerSec /*&& strcmp(lpUser->IP, g_WhiteListIP)*/)
+			if (xcode == 0xC3)
 			{
-				sLog->outError("[ANTI-FLOOD] Packets Per Second: %d / %d, IP: %d", lpUser->PacketCount, g_MaxPacketPerSec, lpUser->IP);
-				this->CloseClient(uIndex);
-				return false;
+				int ret = g_PacketEncrypt.Decrypt(&byDec[2], &recvbuf[lOfs + 2], size - 2);
+
+				if (ret < 0)
+				{
+					sLog->outError("[%s][Packet-Decrypt BYTE] Error: ret < 0 %x/%x/%x)", lpUser->IP, recvbuf[lOfs], recvbuf[lOfs + 1], recvbuf[lOfs + 2]);
+				}
+
+				else
+				{
+					BYTE* pDecBuf = byDec;
+
+					headcode = pDecBuf[2];
+					byDec[0] = 0xC1;
+					byDec[1] = ret + 2;
+					lpUser->PacketCount++;
+
+					if (lpUser->PacketCount >= g_MaxPacketPerSec)
+					{
+						sLog->outError("[ANTI-HACK] Packets Per Second: %d / %d", lpUser->PacketCount, g_MaxPacketPerSec);
+						IOCP.CloseClient(uIndex);
+						return 0;
+					}
+
+					CStreamPacketEngine_Server PacketStream;
+					PacketStream.Clear();
+
+					if (PacketStream.AddData(byDec, ret + 2) == 0)
+					{
+
+						sLog->outError("error-L1 : CStreamPacketEngine Adding Error : ip = %s index:%s HEAD:%x (%s,%d)",
+							lpUser->IP,
+							lpUser->Index,
+							headcode,
+							__FILE__, __LINE__);
+
+						return 0;
+					}
+
+					if (PacketStream.ExtractPacket(byDec) != 0)
+					{
+						sLog->outError("error-L2 : CStreamPacketEngine Adding Error : ip = %s index:%s HEAD:%x (%s,%d)",
+							lpUser->IP,
+							lpUser->Index,
+							headcode,
+							__FILE__, __LINE__);
+						return 0;
+					}
+
+					m_JSProtocol.LoginProtocolCore(uIndex, headcode, byDec, ret);
+				}
 			}
 
-			//CSProtocolCore(headcode, &recvbuf[lOfs], size, lpUser->Index, 0, 0);
-			m_JSProtocol.ProtocolCore(lpUser->Index, headcode, &recvbuf[lOfs], size);
+			else if (xcode == 0xC4)
+			{
+				int ret = g_PacketEncrypt.Decrypt(&byDec[3], &recvbuf[lOfs + 3], size - 3);
 
-			lOfs += size;
+				if (ret < 0)
+				{
+					sLog->outError("[Packet-Decrypt WORD] Error: ret < 0 %x/%x/%x)", recvbuf[lOfs], recvbuf[lOfs + 1], recvbuf[lOfs + 2]);
+				}
+
+				else
+				{
+					BYTE* pDecBuf = byDec;
+
+					headcode = pDecBuf[3];
+					byDec[0] = 0xC2;
+					WORD size = (ret & 0xFFFF) + 3;
+					byDec[1] = SET_NUMBERH(size);
+					byDec[2] = SET_NUMBERL(size);
+
+					lpUser->PacketCount++;
+					if (lpUser->PacketCount >= g_MaxPacketPerSec)
+					{
+						sLog->outError("[ANTI-HACK] Packets Per Second: %d / %d", lpUser->PacketCount, g_MaxPacketPerSec);
+						//gGameProtocol.GCSendDisableReconnect(uIndex);
+						IOCP.CloseClient(uIndex);
+						return 0;
+					}
+
+					CStreamPacketEngine_Server PacketStream;
+
+					PacketStream.Clear();
+					if (PacketStream.AddData(byDec, ret + 3) == 0)
+					{
+						sLog->outError("error-L1 : CStreamPacketEngine Adding Error : ip = %s account:%s HEAD:%x (%s,%d)",
+							lpUser->IP, lpUser->Index, headcode, __FILE__, __LINE__);
+						return false;
+					}
+
+					if (PacketStream.ExtractPacket(byDec) != 0)
+					{
+						sLog->outError("error-L1 : CStreamPacketEngine ExtractPacket Error : ip = %s account:%s HEAD:%x (%s,%d)",
+							lpUser->IP, lpUser->Index, headcode, __FILE__, __LINE__);
+						return false;
+					}
+
+					//GameProtocolCore(headcode, byDec, ret, uIndex, 1);
+				}
+			}
+			else
+			{
+				CStreamPacketEngine_Server ps;
+				ps.Clear();
+
+				if (ps.AddData(&recvbuf[lOfs], size) == 0)
+				{
+					sLog->outError("error-L1 : CStreamPacketEngine Adding Error : ip = %s account:%s HEAD:%x (%s,%d)",
+						lpUser->IP, lpUser->Index, headcode, __FILE__, __LINE__);
+					return 0;
+				}
+
+				if (ps.ExtractPacket(byDec) != 0)
+				{
+					sLog->outError("error-L1 : CStreamPacketEngine ExtractPacket Error : ip = %s account:%s HEAD:%x (%s,%d)",
+						lpUser->IP, lpUser->Index, headcode, __FILE__, __LINE__);
+					return 0;
+				}
+
+				lpUser->PacketCount++;
+				if (lpUser->PacketCount >= g_MaxPacketPerSec)
+				{
+					sLog->outError("[ANTI-HACK] Packets Per Second: %d / %d", lpUser->PacketCount, g_MaxPacketPerSec);
+					//GCSendDisableReconnect(uIndex);
+					return 0;
+				}
+
+				//GameProtocolCore(headcode, byDec, size, uIndex, 0); // here
+			}
+
+			lOfs += size; // wait
 			lpIOContext->nbBytes -= size;
 
-			if ( lpIOContext->nbBytes <= 0 )
+			if (lpIOContext->nbBytes <= 0)
 			{
 				break;
 			}
 		}
-		else if ( lOfs > 0 )
+		else if (lOfs > 0)
 		{
-			if ( lpIOContext->nbBytes < 1 )
+			if (lpIOContext->nbBytes < 1)
 			{
-				sLog->outError("error-L1: recvbuflen 1 %s %d", __FILE__, __LINE__);
+				sLog->outBasic("error-L1 : recvbuflen 1 %s %d", __FILE__, __LINE__);
 				break;
 			}
 
-			if ( lpIOContext->nbBytes < MAX_IO_BUFFER_SIZE ) 
+			if (lpIOContext->nbBytes < MAX_IO_BUFFER_SIZE)
 			{
 				std::memcpy(recvbuf, &recvbuf[lOfs], lpIOContext->nbBytes);
-				sLog->outError("Message copy %d", lpIOContext->nbBytes);
+				sLog->outBasic("Message copy %d", lpIOContext->nbBytes);
 			}
 			break;
-		
+
 		}
 		else
 		{
 			break;
 		}
-		
+
 	}
 
-	LeaveCriticalSection(&criti);
 	return true;
 }
+
 
 bool CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 {
 	_PER_SOCKET_CONTEXT * lpPerSocketContext;
 
-	EnterCriticalSection(&criti);
+	criti.lock();
 
 	STR_CS_USER* lpCSUser = getCSUser(uIndex);
 
 	if (lpCSUser->ConnectionState == 0  )
 	{
-		LeaveCriticalSection(&criti);
+		criti.unlock();
 		return false;
 	}
 
@@ -447,25 +556,21 @@ bool CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 	lpIoCtxt->nTotalBytes += dwSize;
 	lpIoCtxt->nbBytes = dwSize;
 	lpIoCtxt->IOOperation = 1;
-	
+
 	lpCSUser->Socket->send(lpIoCtxt->Buffer, lpIoCtxt->nbBytes);
-	
+
 	lpPerSocketContext->dwIOCount ++;
 	lpIoCtxt->nWaitIO = 1;
-	LeaveCriticalSection(&criti);
+	criti.unlock();
 	return true;
 }
 
 void CIOCP::CloseClient(_PER_SOCKET_CONTEXT * lpPerSocketContext, int result)
 {
-	int index = -1;
-	index = lpPerSocketContext->nIndex ;
-	STR_CS_USER* lpCSUser;
-	for each (auto user in gCSUsers)
+	for (std::pair<int,STR_CS_USER*> user : gCSUsers)
 	{
-		lpCSUser = getCSUser(index);
 		user.second->Socket->close();
-		UserDelete(index);
+		UserDelete(user.second->Index);
 	}
 }
 
@@ -479,11 +584,11 @@ void CIOCP::CloseClient(int index)
 		return;
 	}
 
-	EnterCriticalSection(&criti);
+	criti.lock();
 
 	lpCSUser->Socket->close();
 
-	LeaveCriticalSection(&criti);
+	criti.unlock();
 }
 
 void CIOCP::ResponErrorCloseClient(int index)
@@ -496,9 +601,9 @@ void CIOCP::ResponErrorCloseClient(int index)
 		return;
 	}
 
-	EnterCriticalSection(&criti);
-	closesocket(lpCSUser->Index);
+	criti.lock();
+	//closesocket(lpCSUser->Index);
 	lpCSUser->Socket = nullptr;
 	UserDelete(lpCSUser->Index);
-	LeaveCriticalSection(&criti);
+	criti.unlock();
 }

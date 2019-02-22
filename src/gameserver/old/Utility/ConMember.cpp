@@ -10,13 +10,14 @@
 #include "ConMember.h"
 #include "Logging/Log.h"
 #include "pugixml.hpp"
+#include "Utilities/Timer.h"
 
 CConMember ConMember;
 
 
 CConMember::CConMember()
 {
-	this->m_dwTickCount = GetTickCount();
+	this->m_dwTickCount = WorldTimer::getMSTime();
 	return;
 }
 
@@ -38,7 +39,7 @@ BOOL CConMember::IsMember(char * AccountID )
 	}
 
 	std::map<std::string, int>::iterator it = this->m_szAccount.find( (std::string) AccountID );
-	
+
 	if ( it != this->m_szAccount.end() )
 	{
 		return TRUE;
@@ -73,9 +74,9 @@ void CConMember::Load(char* filename)
 
 void CConMember::Run()
 {
-	if ( GetTickCount() - this->m_dwTickCount >= 300000 )
+	if ( WorldTimer::getMSTime() - this->m_dwTickCount >= 300000 )
 	{
-		this->m_dwTickCount = GetTickCount();
+		this->m_dwTickCount = WorldTimer::getMSTime();
 		this->Load("IGC_ConnectMember.xml");
 	}
 }

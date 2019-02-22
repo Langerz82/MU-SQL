@@ -7,7 +7,7 @@
 
 #include "StdAfx.h"
 #include "GensSystemProtocol.h"
-#include "ServerEngine.h"
+//#include "ServerEngine.h"
 
 #include <string>
 #include <map>
@@ -16,7 +16,7 @@
 class ACE_SOCK_Stream;
 
 struct PER_IO_CONTEXT_L;
-
+struct _PER_SOCKET_CONTEXT;
 
 /* * * * * * * * * * * * * * * * * * * * *
 *	Mu JoinServer Login
@@ -155,7 +155,7 @@ struct STR_CS_USER
 	unsigned int Port;
 	BYTE Type;
 	HANDLE handle;
-	_PER_SOCKET_CONTEXT* PerSocketContext;
+	struct _PER_SOCKET_CONTEXT* PerSocketContext;
 	bool News;
 	int PacketCount;
 	ULONGLONG i64PacketTime;
@@ -335,21 +335,6 @@ struct ST_LISTNODE
 	int					iSessionId; //new
 	PER_IO_CONTEXT_L	IoCtxt; //re-enabled old one :)
 };
-
-typedef struct _LISTNODE
-{
-	_LISTNODE * lpNodePre;	// 0
-	_LISTNODE * lpNodeNext;	// 4
-	BYTE *		pObject; // 8
-	UINT nSize; // C
-	BOOL bIsDataSending; // 10
-	int iBytesSended;	// 14
-	BYTE Headcode; // 18
-	UINT uIndex; // 1C
-	_LISTNODE * pUpLink;
-	_LISTNODE * pDownLink;
-	int		iSessionId; //new
-} LISTNODE, *LPLISTNODE;
 
 struct SDHP_IDPASS {
 	PBMSG_HEAD2 h;

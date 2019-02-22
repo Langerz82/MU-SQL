@@ -51,8 +51,8 @@ include_directories(
 	${CMAKE_SOURCE_DIR}/../muServerDeps/_Include
 	${CMAKE_SOURCE_DIR}/dep
 	${CMAKE_SOURCE_DIR}/src
-	${CMAKE_SOURCE_DIR}/src/connectserver
-	${CMAKE_SOURCE_DIR}/src/connectserver/old
+	${CMAKE_SOURCE_DIR}/src/gameserver
+	${CMAKE_SOURCE_DIR}/src/gameserver/old
 	${MU_INCLUDE_DIRS}
 	${Boost_INCLUDE_DIRS}
 	${MYSQL_INCLUDE_DIR}
@@ -69,22 +69,30 @@ link_directories(
 add_executable(${EXECUTABLE_NAME} ${EXECUTABLE_SRCS})
 
 target_link_libraries(${EXECUTABLE_NAME}
-    shared
+	shared
     framework
 	fmt
-	ace
-    ${OPENSSL_LIBRARIES}
+	ACE
+	${OPENSSL_LIBRARIES}
 	${Boost_LIBRARIES}
 	${MYSQL_LIBRARY}
 )
 
-
-if(NOT ACE_USE_EXTERNAL)
-    add_dependencies(${EXECUTABLE_NAME} ace)
-    target_link_libraries(${EXECUTABLE_NAME} ace)
-else()
-    target_link_libraries(${EXECUTABLE_NAME} ACE)
+if (WIN32)
+	include_directories(${Boost_INCLUDE_DIRS})
+	target_link_libraries(${EXECUTABLE_NAME} ${BOOST_LIBRARY})
 endif()
+
+if (UNIX)
+target_link_libraries(${EXECUTABLE_NAME}
+	boost_system
+	boost_filesystem
+	pthread
+)
+endif()
+
+include_directories(${MYSQL_INCLUDE_DIR})
+target_link_libraries(${EXECUTABLE_NAME} ${MYSQL_LIBRARY})
 
 
 if(UNIX)
@@ -107,12 +115,23 @@ endif()
 
 set_target_properties(${EXECUTABLE_NAME} PROPERTIES LINK_FLAGS "${EXECUTABLE_LINK_FLAGS}")
 
+
 if (WIN32)
 set_target_properties(${EXECUTABLE_NAME} PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${BIN_DIR}")
 endif()
 
 install(TARGETS ${EXECUTABLE_NAME} DESTINATION "${BIN_DIR}")
 
+set_target_properties(${EXECUTABLE_NAME}
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${BIN_DIR}/gameserver"
+    LIBRARY_OUTPUT_DIRECTORY "${BIN_DIR}/gameserver"
+    RUNTIME_OUTPUT_DIRECTORY "${BIN_DIR}/gameserver"
+)
+
 if(WIN32 AND MSVC)
     install(FILES $<TARGET_PDB_FILE:${EXECUTABLE_NAME}> DESTINATION ${BIN_DIR} OPTIONAL)
 endif()
+
+
+

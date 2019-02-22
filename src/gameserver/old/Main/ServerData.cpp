@@ -2,16 +2,23 @@
 // ServerData.cpp
 #include "StdAfx.h"
 #include "ServerData.h"
-#include "boost/filesystem/operations.hpp"
-#include "boost/filesystem/fstream.hpp"
+#include <boost/filesystem/operations.hpp>
+#include <boost/filesystem/fstream.hpp>
 #include <iostream>
-#include "readscript.h"
+#include "Utility/ReadScript.h"
+#include "Utilities/Timer.h"
 
 namespace fs = boost::filesystem;
 
 
 CServerData m_ServerData;
 
+#ifndef WIN32
+static int RGB(int r, int g, int b)
+{
+	return (r << 16) + (g << 8) + b;
+}
+#endif
 
 CServerData::CServerData(void)
 {
@@ -52,7 +59,7 @@ void CServerData::LoadServerFile(LPSTR lpszFile)
 			this->m_Servers[count].Code, this->m_Servers[count].Name, this->m_Servers[count].IP, this->m_Servers[count].Port, this->m_Servers[count].Visible, count);
 
 		count++;
-		
+
 
 		if(count >= 100)
 		{
@@ -60,7 +67,7 @@ void CServerData::LoadServerFile(LPSTR lpszFile)
 		}
 	}
 }
-					
+
 void CServerData::LoadNewsFile(LPSTR lpszFile)
 {
 	fs::path p{ lpszFile };
@@ -126,7 +133,7 @@ void CServerData::LoadNewsFile(LPSTR lpszFile)
 
 					Token = GetToken(&SMDFile);
 					dateB = TokenNumber;
-					
+
 					Token = GetToken(&SMDFile);
 					TitleR = TokenNumber;
 
@@ -186,7 +193,7 @@ void CServerData::Run()
 {
 	for(int i=0;i<100;i++)
 	{
-		if(GetTickCount() - this->m_Servers[i].TickCount >= 5000 && this->m_Servers[i].TickCount != 0)
+		if(WorldTimer::getMSTime() - this->m_Servers[i].TickCount >= 5000 && this->m_Servers[i].TickCount != 0)
 		{
 			this->m_Servers[i].TickCount = 0;
 			this->m_Servers[i].MaxUserCount = 0;
@@ -195,7 +202,6 @@ void CServerData::Run()
 		}
 	}
 }
-
 
 
 

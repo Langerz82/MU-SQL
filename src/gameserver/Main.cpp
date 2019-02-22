@@ -1,26 +1,20 @@
-
-// TODO - Make sure program signalling works.
-
-/// \addtogroup realmd Realm Daemon
+/// \addtogroup Connect Server Daemon
 /// @{
 /// \file
+
 
 #include "StdAfx.h"
 #include "Main.h"
 #include "Logging/Log.h"
-#include "database/Logging/AppenderDB.h"
 #include "Asio/IoContext.h"
-
 #include "IOCP.h"
 #include "ServerData.h"
 
-//#include "database/Database/DatabaseEnv.h"
 #include "database/Database/DatabaseLoader.h"
 #include "database/Database/MySQLThreading.h"
 
-#include "Config/Config.h"
+#include "Config/iniReader/cpp/INIReader.h"
 
-#include "SystemConfig.h"
 #include "revision.h"
 #include "Util.h"
 
@@ -40,12 +34,16 @@
 
 #include <boost/asio/signal_set.hpp>
 #include <boost/program_options.hpp>
+#include <boost/filesystem.hpp>
+
+namespace fs = boost::filesystem;
 
 #ifdef WIN32
 #include "ServiceWin32.h"
-char serviceName[] = "muSqlServer";
-char serviceLongName[] = "muOnline MySQL Server service";
-char serviceDescription[] = "Massive Network Game Object Server";
+char serviceName[20] = "Mu Game Server";
+char serviceLongName[100] = "muOnline MySQL Server service";
+char serviceDescription[255] = "Massive Network Game Object Server";
+
 /*
  * -1 - not in service mode
  *  0 - stopped
@@ -57,45 +55,42 @@ int m_ServiceStatus = -1;
 #include "PosixDaemon.h"
 #endif
 
+INIReader* iniReader;
 
 WORD g_ConnectServerPort;
-WORD g_ConnectServerUDP;
 DWORD g_MaxConnectionsPerIP = 1000;
 DWORD g_MaxPacketPerSec = 16;
-uint16 g_UDPPort;
 WORD g_FTPPort;
-char g_HostURL[100];
-char g_FTPLogin[20];
-char g_FTPPassword[20];
-char g_VersionFile[20];
-char g_ClientVersion[9];
-char g_WhiteListIP[16];
+std::string g_HostURL;
+std::string g_FTPLogin;
+std::string g_FTPPassword;
+std::string g_VersionFile;
+std::string g_ClientVersion;
+std::string g_WhiteListIP;
 BOOL gDisconnectHackUser = FALSE;
 DWORD g_MachineIDConnectionLimitPerGroup = 10;
+WORD g_ServerCode;
+WORD g_GameServerListPort;
 
 // GLobals thats whats up.
-TCHAR szWANIP[150];
-int g_dwMaxServerGroups = GetPrivateProfileInt("SETTINGS", "MAX_SERVER", 10, ".\\GameServer.ini") * MAX_SERVER_TYPE;
+std::string szWANIP;
+int g_dwMaxServerGroups;
 
-BOOL g_PwEncrypt = GetPrivateProfileInt("SQL", "PasswordEncryptType", 0, ".\\GameServer.ini");
-BOOL g_DSMode = GetPrivateProfileInt("SETTINGS", "DataServerOnlyMode", 0, ".\\GameServer.ini");
-BOOL g_UseJoinServer = GetPrivateProfileInt("SETTINGS", "UseJoinServer", 1, ".\\GameServer.ini");
+BOOL g_PwEncrypt;
+BOOL g_DSMode;
 
-TCHAR g_ServerAddress[64];
-TCHAR g_DBPort[8];
-TCHAR g_UserID[64];
-TCHAR g_Password[64];
-TCHAR g_MuOnlineDB[64];
-//TCHAR g_MeMuOnlineDNS[64];
-TCHAR g_EventServerDB[64];
-TCHAR g_RankingServerDB[64];
+std::string g_AWHostPass;
+std::string g_MapSvrFilePath;
 
-TCHAR g_AWHostPass[32];
-TCHAR g_MapSvrFilePath[96];
-
-TCHAR g_logsDir[64];
-TCHAR g_logsEntryCount[2];
+std::string g_logsDir;
+std::string g_logsEntryCount;
 std::string g_logsEntry[10]; // up to 10 logs
+
+std::string g_ServerAddress;
+std::string g_DBPort;
+std::string g_UserID;
+std::string g_Password;
+std::string g_MuOnlineDB;
 
 void UnhookSignals();
 void HookSignals();
@@ -104,7 +99,7 @@ bool stopEvent = false;                                     ///< Setting it to t
 
 typedef BYTE BYTE;
 
-//DatabaseWorkerPool<ConnectDatabaseConnection> gConnectDatabase;
+
 
 bool initDB()
 {
@@ -112,7 +107,9 @@ bool initDB()
 	MySQL::Library_Init();
 
 	DatabaseLoader loader("server.connectserver", DatabaseLoader::DATABASE_NONE);
-	loader.ConnectInfo(g_ServerAddress, g_DBPort, g_UserID, g_Password, g_MuOnlineDB);
+	loader.ConnectInfo((char*) g_ServerAddress.c_str(), (char*)g_DBPort.c_str(),
+		(char*)g_UserID.c_str(), (char*)g_Password.c_str(), (char*)g_MuOnlineDB.c_str());
+
 	loader.AddDatabase(gMUDatabase, "Connect");
 
 	if (!loader.Load())
@@ -144,6 +141,7 @@ void KeepDatabaseAliveHandler(std::weak_ptr<boost::asio::deadline_timer> dbPingT
 	}
 }
 
+
 void SignalHandler(std::weak_ptr<Asio::IoContext> ioContextRef, boost::system::error_code const& error, int /*signalNumber*/)
 {
 	if (!error)
@@ -168,63 +166,79 @@ void usage(const char* prog)
                    , prog);
 }
 
+
 bool InitDataServer()
 {
-	GetPrivateProfileString("SQL", "ServerAddress", "127.0.0.1", g_ServerAddress, sizeof(g_ServerAddress), ".\\GameServer.ini");
-	GetPrivateProfileString("SQL", "Port", "3306", g_DBPort, sizeof(g_DBPort), ".\\GameServer.ini");
-	GetPrivateProfileString("SQL", "User", "sa", g_UserID, sizeof(g_UserID), ".\\GameServer.ini");
-	GetPrivateProfileString("SQL", "Pass", "sa", g_Password, sizeof(g_Password), ".\\GameServer.ini");
-	GetPrivateProfileString("SQL", "MuOnlineDB", "mu_data", g_MuOnlineDB, sizeof(g_MuOnlineDB), ".\\GameServer.ini");
-	//GetPrivateProfileString("SQL", "MeMuOnlineDB", "MuOnline", g_MeMuOnlineDB, sizeof(g_MeMuOnlineDB), ".\\GameServer.ini");
-	//GetPrivateProfileString("SQL", "EventDB", "MuEvent", g_EventServerDB, sizeof(g_EventServerDB), ".\\GameServer.ini");
-	//GetPrivateProfileString("SQL", "RankingDB", "MuRanking", g_RankingServerDB, sizeof(g_RankingServerDB), ".\\GameServer.ini");
+	g_ServerAddress = iniReader->GetString("SQL", "ServerAddress", "127.0.0.1");
+	g_DBPort = iniReader->GetString("SQL", "Port", "3306");
+	g_UserID = iniReader->GetString("SQL", "User", "sa");
+	g_Password = iniReader->GetString("SQL", "Pass", "sa");
+	g_MuOnlineDB = iniReader->GetString("SQL", "MuOnlineDB", "mu_data");
 	return true;
 }
 
-void LoadLogConfig()
+void LoadLog()
 {
-	GetPrivateProfileString("Logger", "LogDirectory", "logs", g_logsDir, sizeof(g_logsDir), ".\\GameServer.ini");
-	
+    g_logsDir = iniReader->GetString("Logger", "LogDirectory", "logs");
+
 	std::vector<std::string> vecLogEntries;
 	std::vector<std::string> vecLogEntryNames;
 	int i = 0;
 	while (true)
 	{
-		TCHAR tempChars[128];
+		std::string tempChars;
 		std::string temp = "";
 		std::string logEntry = StringFormat("LogEntry%d", i++);
-		GetPrivateProfileString("Logger", logEntry.c_str(), "", tempChars, sizeof(tempChars), ".\\GameServer.ini");
-		//std::cout << tempChars << std::endl;
-		temp.assign(tempChars, sizeof(tempChars));
-		if (strcmp(temp.c_str(), "") == 0)
+		tempChars = iniReader->GetString("Logger", logEntry, "");
+		if (tempChars == "")
 			break;
-		vecLogEntries.push_back(temp);
+		vecLogEntries.push_back(tempChars);
 		vecLogEntryNames.push_back(logEntry);
 	}
+
 	std::vector<std::string> vecAppendEntries;
 	std::vector<std::string> vecAppendEntryNames;
 	i = 0;
 	while (true)
 	{
-		TCHAR tempChars[128];
+		std::string tempChars;
 		std::string temp = "";
 		std::string appendEntry = StringFormat("AppendEntry%d", i++);
-		GetPrivateProfileString("Appender", appendEntry.c_str(), "", tempChars, sizeof(tempChars), ".\\GameServer.ini");
-		//std::cout << tempChars << std::endl;
-		temp.assign(tempChars, sizeof(tempChars));
-		if (strcmp(temp.c_str(), "") == 0)
+		tempChars = iniReader->GetString("Appender", appendEntry, "");
+		if (tempChars == "")
 			break;
-		vecAppendEntries.push_back(temp);
+		vecAppendEntries.push_back(tempChars);
 		vecAppendEntryNames.push_back(appendEntry);
 	}
-	sLog->RegisterAppender<AppenderDB>();
 	sLog->Initialize(nullptr, ".", vecLogEntries, vecAppendEntries, vecLogEntryNames, vecAppendEntryNames);
+}
+
+void LoadConfig()
+{
+    std::string filename = "GameServer.ini";
+    iniReader = new INIReader(filename);
+    if (iniReader->ParseError() < 0) {
+        std::cout << StringFormat("Can't load '%s', Error code: %d\n", filename, iniReader->ParseError());
+        return;
+    }
+    std::cout << StringFormat("Config loaded from '%s': version=", filename)
+              << iniReader->GetInteger("protocol", "version", -1) << ", name="
+              << iniReader->Get("user", "name", "UNKNOWN") << ", email="
+              << iniReader->Get("user", "email", "UNKNOWN") << ", pi="
+              << iniReader->GetReal("user", "pi", -1) << ", active="
+              << iniReader->GetBoolean("user", "active", true) << "\n";
+
+    g_DSMode = iniReader->GetInteger("SETTINGS", "DataServerOnlyMode", 0);
+	g_GameServerListPort = iniReader->GetInteger("SETTINGS", "TCP_PORT", 44407);
+	szWANIP = iniReader->GetString("SETTINGS", "WanIP", "127.0.0.1");
+	g_ServerCode = iniReader->GetInteger("SETTINGS", "ServerCode", 0);
 }
 
 /// Launch the realm server
 extern int main(int argc, char** argv)
 {
-	LoadLogConfig();
+	LoadConfig();
+	LoadLog();
 
     ///- Command line parsing
     char* options = ":s:";
@@ -309,9 +323,9 @@ extern int main(int argc, char** argv)
 		sLog->outError("ERROR: Cannot connect to DB.");
 		return 1;
 	}
-
 	std::shared_ptr<void> dbHandle(nullptr, [](void*) { StopDB(); });
 
+	
 	std::shared_ptr<Asio::IoContext> ioContext = std::make_shared<Asio::IoContext>();
 
 	// Set signal handlers
@@ -327,6 +341,7 @@ extern int main(int argc, char** argv)
 	dbPingTimer->expires_from_now(boost::posix_time::minutes(dbPingInterval));
 	dbPingTimer->async_wait(std::bind(&KeepDatabaseAliveHandler, std::weak_ptr<boost::asio::deadline_timer>(dbPingTimer), dbPingInterval, std::placeholders::_1));
 
+	
     sLog->outBasic("%s [realm-daemon]", REVISION_NR);
     sLog->outBasic("<Ctrl-C> to stop.\n");
 
@@ -338,12 +353,6 @@ extern int main(int argc, char** argv)
     }
 
     sLog->outBasic("Using ACE: %s", ACE_VERSION);
-
-#if defined (ACE_HAS_EVENT_POLL) || defined (ACE_HAS_DEV_POLL)
-    ACE_Reactor::instance(new ACE_Reactor(new ACE_Dev_Poll_Reactor(ACE::max_handles(), 1), 1), true);
-#else
-    ACE_Reactor::instance(new ACE_Reactor(new ACE_TP_Reactor(), true), true);
-#endif
 
     sLog->outBasic("Max allowed open files is %d", ACE::max_handles());
 
@@ -405,69 +414,42 @@ extern int main(int argc, char** argv)
     }
 #endif
 
-    // server has started up successfully => enable async DB requests
-    //DataDatabase.AllowAsyncTransactions();
-	//EventsDatabase.AllowAsyncTransactions();
-	//RankingDatabase.AllowAsyncTransactions();
-
-
 	m_ServerData.LoadServerFile("IGC_ServerList.xml");
 	m_ServerData.LoadNewsFile("News.dat");
 
-////OLD CODE
-// TODO: Place code here.
-
-	_set_printf_count_output(TRUE);
-	CreateDirectory("LOG", NULL);
+    if(fs::create_directory("LOG"))
+    {
+        sLog->outBasic("Directory LOG Created.");
+    }
 
 	sLog->outBasic( "Initializing...");
-	
 
-	//GetPrivateProfileString(
-	LoadAllowableIpList("./AllowedIPList.ini");
-	GetPrivateProfileString("SETTINGS", "MapServerInfoPath", "..\\Data\\MapServerInfo.ini", g_MapSvrFilePath, sizeof(g_MapSvrFilePath), ".\\GameServer.ini");
-	WORD g_JoinServerListPort = GetPrivateProfileInt("SETTINGS", "TCP_PORT", 44405, ".\\GameServer.ini");
-	GetPrivateProfileString("SETTINGS", "WanIP", "127.0.0.1", szWANIP, 150, ".\\GameServer.ini");
-	//std::memcpy(szWANIP, ValidateAndResolveIP(szWANIP), 15); // temp
+	//LoadAllowableIpList("./AllowedIPList.ini");
+
 	//g_MapServerManager.LoadMapData(g_MapSvrFilePath);
-	//SendMessage(ghWnd, WM_TIMER, WM_LOG_PAINT, NULL);
 
-	gObjServerInit();
-	//IniteDataServer();
+
+	//gObjServerInit();
 	IOCP.GiocpInit();
-	sLog->outBasic("CreateListenSocket - Started.");
-	IOCP.CreateListenSocket(g_JoinServerListPort, szWANIP);
-	sLog->outBasic("CreateListenSocket - Finished.");
-////OLD CODE END
-
-    // maximum counter for next ping
-    //uint32 numLoops = (10 * (MINUTE * 1000000 / 100000));
-    uint32 loopCounter = 0;
+	sLog->outBasic("CreatingListenSocket - address: %s, port: %d.", szWANIP, g_GameServerListPort);
+	IOCP.CreateListenSocket(g_GameServerListPort, (char*) szWANIP.c_str());
 
 	// TODO - Make sure working from TC
-	sLog->outBasic("ioContext->run()");
+	//sLog->outBasic("ioContext->run()");
 	//ioContext->run();
-	sLog->outBasic("ioContext->run() - finished");
-//#ifndef WIN32
-//    detachDaemon();
-//#endif
+
+#ifndef WIN32
+    detachDaemon();
+#endif
 	sLog->outBasic("Entering loop.");
     ///- Wait for termination signal
     while (true)
     {
-        // dont move this outside the loop, the reactor will modify it
-        
-
-        //if (ACE_Reactor::instance()->run_reactor_event_loop(interval) == -1)
-        //    { break; }
 
 		CIOCP::ProcessEvents();
-
-		sLog->outBasic("Server Farting.");
-		
 #ifdef WIN32
-        //if (m_ServiceStatus == 0) { stopEvent = true; }
-        //while (m_ServiceStatus == 2) { Sleep(1000); }
+        if (m_ServiceStatus == 0) { stopEvent = true; }
+        while (m_ServiceStatus == 2) { Sleep(1000); }
 #endif
     }
 
@@ -478,6 +460,7 @@ extern int main(int argc, char** argv)
 
 	signals.cancel();
 
+    delete iniReader;
     return 0;
 }
 

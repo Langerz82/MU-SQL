@@ -1,9 +1,10 @@
-#if !defined(AFX_EMAIN_H__A7C14824_5DD7_49C9_BDFB_C8D813D08CB9__INCLUDED_)
-#define AFX_EMAIN_H__A7C14824_5DD7_49C9_BDFB_C8D813D08CB9__INCLUDED_
+#ifndef _MU_MAIN_CS_H_
+#define _MU_MAIN_CS_H_
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
+
 
 #include "StdAfx.h"
 #include "resource.h"
@@ -44,4 +45,5 @@ extern std::string g_logsEntry[10]; // up to 10 logs
 extern BOOL gDisconnectHackUser;
 
 
-#endif // !defined(AFX_EMAIN_H__A7C14824_5DD7_49C9_BDFB_C8D813D08CB9__INCLUDED_)
+#endif
+

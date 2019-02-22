@@ -17,7 +17,7 @@ int iReturnIpCount(char *IP)
 {
 	int count = 0;
 
-	for each (auto user in gConnUsers)
+	for (STR_CS_USER* user : gConnUsers)
 	{
 		if (!strcmp(IP, user->IP))
 		{
@@ -50,7 +50,7 @@ STR_CS_USER* UserAdd(const char* SocketKey, char* IP)
 			connUser->SocketKey = SocketKey;
 			connUser->News = false;
 			connUser->PacketCount = 0;
-			connUser->i64PacketTime = GetTickCount64();
+			connUser->i64PacketTime = WorldTimer::getMSTime();
 			connUser->Index = count;
 			connUser->PerSocketContext = new _PER_SOCKET_CONTEXT();
 			connUser->PerSocketContext->IOContext[0];
@@ -118,10 +118,10 @@ void UserRun()
 	{
 		if (gConnUsers[i]->ConnectionState != 0)
 		{
-			if (GetTickCount64() - gConnUsers[i]->ConnectionState >= 1000)
+			if (WorldTimer::getMSTime() - gConnUsers[i]->ConnectionState >= 1000)
 			{
 				gConnUsers[i]->PacketCount = 0;
-				gConnUsers[i]->i64PacketTime = GetTickCount64();
+				gConnUsers[i]->i64PacketTime = WorldTimer::getMSTime();
 			}
 		}
 	}

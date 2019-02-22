@@ -36,7 +36,7 @@ class  DatabaseLoader
 public:
     DatabaseLoader(std::string const& logger, uint32 const defaultUpdateMask);
 
-	bool ConnectInfo(LPTSTR lpszServer, LPSTR lpszPort, LPTSTR lpszUser, LPTSTR lpszPassword, LPTSTR lpszDatabase);
+	bool ConnectInfo(LPSTR lpszServer, LPSTR lpszPort, LPSTR lpszUser, LPSTR lpszPassword, LPSTR lpszDatabase);
 
     // Register a database to the loader (lazy implemented)
     template <class T>

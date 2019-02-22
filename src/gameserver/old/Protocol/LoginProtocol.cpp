@@ -428,7 +428,7 @@ int CLoginUserData::SetVIPData(LPSTR szAccountID, int VIPType, LPSTR szDate, int
 }
 
 
-CLoginServerProtocol::CLoginServerProtocol(): m_AccountDB(), m_LogDB(), m_VIPDB()
+CLoginServerProtocol::CLoginServerProtocol()
 {
 	InitializeCriticalSection(&this->userCheck);
 	memset(this->m_Salt, 0x00, sizeof(this->m_Salt));
@@ -447,10 +447,6 @@ void CLoginServerProtocol::InsertDataMuLog(LPSTR ServerName, LPSTR Id, LPSTR Ip,
 
 BOOL CLoginServerProtocol::Init()
 {
-	if (!g_UseJoinServer /*|| g_DSMode != FALSE*/)
-	{
-		return FALSE;
-	}
 
 	GetPrivateProfileString("SQL", "PasswordEncryptSalt", "1234567890", m_Salt, 30, ".\\DataServer.ini");
 
@@ -463,12 +459,8 @@ BOOL CLoginServerProtocol::Init()
 }
 
 
-void CLoginServerProtocol::ProtocolCore(int userIndex, BYTE HeadCode, LPBYTE aRecv, int iSize)
+void CLoginServerProtocol::LoginProtocolCore(int userIndex, BYTE HeadCode, LPBYTE aRecv, int iSize)
 {
-#if (TRACE_PACKET == 1 )
-	LogAddHeadHex("JOIN_SERVER", aRecv, iSize);
-#endif
-
 	switch (HeadCode)
 	{
 	case 0x00:
@@ -546,7 +538,7 @@ void CLoginServerProtocol::JoinServerLogin(int userIndex, SDHP_SERVERINFO * lpMs
 		sLog->outBasic("[Join Server] GameServer connected %s PORT : %d CODE : %d VIP : %d HWIDCount : %d",
 			lpMsg->ServerName, lpMsg->Port, lpMsg->ServerCode, lpMsg->ServerVIP, lpMsg->MaxHWIDUseCount);
 
-		g_Server[userIndex].m_ServerCode = lpMsg->ServerCode;
+		//g_ServerCode = lpMsg->ServerCode;
 	}
 	else
 	{
@@ -705,7 +697,7 @@ void CLoginServerProtocol::JGPAccountRequest(int userIndex, SDHP_IDPASS * aRecv)
 						}
 					//}
 				}
-				if (bErrorFlag == FALSE && this->m_ServerData.GetVIPLevel(this->m_ServerData.MuLoginFindServer(g_Server[userIndex].m_ServerCode)) != 0)
+				if (bErrorFlag == FALSE && this->m_ServerData.GetVIPLevel(this->m_ServerData.MuLoginFindServer(g_ServerCode)) != 0)
 				{
 					QueryResult* res = this->m_AccountDB.Fetch("EXEC VIPSystem_CheckAccount '%s'", szAccountID);
 
@@ -719,7 +711,7 @@ void CLoginServerProtocol::JGPAccountRequest(int userIndex, SDHP_IDPASS * aRecv)
 						sLog->outBasic("[MeMuOnline] Account is not a VIP - ID : %s", szAccountID);
 					}
 
-					else if (Type < this->m_ServerData.GetVIPLevel(this->m_ServerData.MuLoginFindServer(g_Server[userIndex].m_ServerCode)))
+					else if (Type < this->m_ServerData.GetVIPLevel(this->m_ServerData.MuLoginFindServer(g_ServerCode)))
 					{
 						pResult.result = 64;
 						bErrorFlag = TRUE;
@@ -778,9 +770,9 @@ void CLoginServerProtocol::JGPAccountRequest(int userIndex, SDHP_IDPASS * aRecv)
 				bErrorFlag = TRUE;
 			}
 
-			if (this->m_UserData.CheckHWIDLimit_Local(g_Server[userIndex].m_ServerCode, aRecv->HWID, this->m_ServerData.GetHWIDUseCount(this->m_ServerData.MuLoginFindServer(g_Server[userIndex].m_ServerCode))) == FALSE)
+			if (this->m_UserData.CheckHWIDLimit_Local(g_ServerCode, aRecv->HWID, this->m_ServerData.GetHWIDUseCount(this->m_ServerData.MuLoginFindServer(g_ServerCode))) == FALSE)
 			{
-				sLog->outBasic("[MeMuOnline] Machine ID Limit Reached (Local) (%d) ServerCode (%d) : Account:%s HWID:%s", this->m_ServerData.GetHWIDUseCount(this->m_ServerData.MuLoginFindServer(g_Server[userIndex].m_ServerCode)), g_Server[userIndex].m_ServerCode, szAccountID, aRecv->HWID);
+				sLog->outBasic("[MeMuOnline] Machine ID Limit Reached (Local) (%d) ServerCode (%d) : Account:%s HWID:%s", this->m_ServerData.GetHWIDUseCount(this->m_ServerData.MuLoginFindServer(g_ServerCode)), g_ServerCode, szAccountID, aRecv->HWID);
 				JGOtherJoin(userIndex, szAccountID);
 				pResult.result = 4;
 				bErrorFlag = TRUE;
@@ -788,9 +780,9 @@ void CLoginServerProtocol::JGPAccountRequest(int userIndex, SDHP_IDPASS * aRecv)
 
 			/*
 			// TODO
-			if (this->m_UserData.CheckHWIDLimit_Group(g_MapServerManager.GetMapSvrGroup(g_Server[userIndex].m_ServerCode), aRecv->HWID) == FALSE)
+			if (this->m_UserData.CheckHWIDLimit_Group(g_MapServerManager.GetMapSvrGroup(g_ServerCode), aRecv->HWID) == FALSE)
 			{
-				sLog->outBasic("[MeMuOnline] Machine ID Limit Reached (Group) (%d) MapSvrGroup (%d) : Account:%s HWID:%s", g_MachineIDConnectionLimitPerGroup, g_MapServerManager.GetMapSvrGroup(g_Server[userIndex].m_ServerCode), szAccountID, aRecv->HWID);
+				sLog->outBasic("[MeMuOnline] Machine ID Limit Reached (Group) (%d) MapSvrGroup (%d) : Account:%s HWID:%s", g_MachineIDConnectionLimitPerGroup, g_MapServerManager.GetMapSvrGroup(g_ServerCode), szAccountID, aRecv->HWID);
 				JGOtherJoin(userIndex, szAccountID);
 				pResult.result = 4;
 				bErrorFlag = TRUE;
@@ -799,7 +791,7 @@ void CLoginServerProtocol::JGPAccountRequest(int userIndex, SDHP_IDPASS * aRecv)
 
 		if (bErrorFlag == FALSE)
 		{
-			BOOL bResult = this->m_UserData.MuLoginAddUser(g_Server[userIndex].m_ServerCode, /*g_MapServerManager.GetMapSvrGroup(g_Server[userIndex].m_ServerCode)*/ 0, szAccountID, aRecv->Number, aRecv->IpAddress, aRecv->HWID);
+			BOOL bResult = this->m_UserData.MuLoginAddUser(g_ServerCode, /*g_MapServerManager.GetMapSvrGroup(g_ServerCode)*/ 0, szAccountID, aRecv->Number, aRecv->IpAddress, aRecv->HWID);
 
 			if (bResult == FALSE)
 			{
@@ -813,9 +805,9 @@ void CLoginServerProtocol::JGPAccountRequest(int userIndex, SDHP_IDPASS * aRecv)
 
 			else
 			{
-				InsertDataMuLog(this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[userIndex].m_ServerCode)), szAccountID, aRecv->IpAddress, "Connect", aRecv->HWID);
+				InsertDataMuLog(this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_ServerCode)), szAccountID, aRecv->IpAddress, "Connect", aRecv->HWID);
 				this->m_AccountDB.ExecQuery("EXEC WZ_CONNECT_MEMB '%s','%s','%s'",
-					szAccountID, this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[userIndex].m_ServerCode)), szIp);
+					szAccountID, this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_ServerCode)), szIp);
 			}
 		}
 	}
@@ -830,7 +822,7 @@ void CLoginServerProtocol::GJPAccountFail(int userIndex, SDHP_JOINFAIL * aRecv)
 	char szAccountID[11] = { 0 };
 	std::memcpy(szAccountID, aRecv->Id, 10);
 	int UserIndex = this->m_UserData.MuLoginFindUser(szAccountID);
-	this->InsertDataMuLog(this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[userIndex].m_ServerCode)), szAccountID, this->m_UserData.GetIpAddr(UserIndex), "Login Fail", "N/A");
+	this->InsertDataMuLog(this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_ServerCode)), szAccountID, this->m_UserData.GetIpAddr(UserIndex), "Login Fail", "N/A");
 	this->m_UserData.MuLoginDeleteUser(szAccountID);
 	this->m_AccountDB.ExecQuery("EXEC WZ_DISCONNECT_MEMB '%s'", szAccountID);
 }
@@ -848,7 +840,7 @@ void CLoginServerProtocol::GJPUserClose(int userIndex, SDHP_USERCLOSE_ID * aRecv
 {
 	char szAccountID[11] = { 0 };
 	std::memcpy(szAccountID, aRecv->szId, 10);
-	this->InsertDataMuLog(this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[userIndex].m_ServerCode)), szAccountID, this->m_UserData.GetIpAddr(this->m_UserData.MuLoginFindUser(szAccountID)), "Disconnect", "N/A");
+	this->InsertDataMuLog(this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_ServerCode)), szAccountID, this->m_UserData.GetIpAddr(this->m_UserData.MuLoginFindUser(szAccountID)), "Disconnect", "N/A");
 	this->m_UserData.MuLoginDeleteUser(szAccountID);
 	this->m_AccountDB.ExecQuery("EXEC WZ_DISCONNECT_MEMB '%s'", szAccountID);
 }
@@ -865,11 +857,6 @@ void CLoginServerProtocol::GCUserKillSend(int MuLoginIndex, bool IsForceDC)
 	pMsg.Number = this->m_UserData.GetUserIndex(MuLoginIndex);
 
 	int userIndex = this->m_ServerData.GetServerIndex(this->m_ServerData.MuLoginFindServer(this->m_UserData.GetServerCode(MuLoginIndex)));
-
-	if (userIndex < 0 || userIndex > g_dwMaxServerGroups)
-	{
-		return;
-	}
 
 	pMsg.ForceDisconnect = IsForceDC;
 
@@ -991,7 +978,7 @@ void CLoginServerProtocol::LoveHeartEventRecv(int userIndex, SDHP_LOVEHEARTEVENT
 	this->m_AccountDB.ExecQuery("UPDATE LoveHeartCount SET heart_count= %d where Number=0", dwHeartCount);
 
 	this->m_AccountDB.ExecQuery("INSERT INTO LoveHeartAll ( Number, Id, Server, Name ) Values (%d, '%s','%s','%s')",
-		dwHeartCount, szAccountID, this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[userIndex].m_ServerCode)), szName);
+		dwHeartCount, szAccountID, this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_ServerCode)), szName);
 
 	int iIndex = this->m_UserData.MuLoginFindUser(szAccountID);
 
@@ -1000,11 +987,11 @@ void CLoginServerProtocol::LoveHeartEventRecv(int userIndex, SDHP_LOVEHEARTEVENT
 		if ((rand() % 217000) == iIndex)	// if Wins
 		{
 			this->m_AccountDB.ExecQuery("INSERT INTO LoveHeart ( Number, Id, Server, Name ) Values (%d, '%s','%s','%s')",
-				dwHeartCount, szAccountID, this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[userIndex].m_ServerCode)), szName);
+				dwHeartCount, szAccountID, this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_ServerCode)), szName);
 			pResult.Result = 1;
 
 			sLog->outError("[MeMuOnlineDB] [LOVE HEART] Event Winner : %s:%s - Server : %s",
-				szAccountID, szName, this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_Server[userIndex].m_ServerCode)));
+				szAccountID, szName, this->m_ServerData.GetServerName(this->m_ServerData.MuLoginFindServer(g_ServerCode)));
 		}
 	}
 
@@ -1223,7 +1210,7 @@ void CLoginServerProtocol::CheckVIPTimeProc()
 								sLog->outBasic("[VIP] Account expired - ID : %s", this->m_UserData.m_MuLoginUserData[i].m_AccoundID);
 							}
 
-							else if (Type < this->m_ServerData.GetVIPLevel(this->m_ServerData.MuLoginFindServer(g_Server[userIndex].m_ServerCode)))
+							else if (Type < this->m_ServerData.GetVIPLevel(this->m_ServerData.MuLoginFindServer(g_ServerCode)))
 							{
 								this->GCUserKillSend(i, false);
 								sLog->outBasic("[VIP] Account expired - ID : %s", this->m_UserData.m_MuLoginUserData[i].m_AccoundID);
@@ -1258,5 +1245,5 @@ void CLoginServerProtocol::GJReqSetOffTrade(int sIndex, PMSG_SET_OFFTRADE * aRec
 
 void CLoginServerProtocol::GJReqVipAdd(int sIndex, ISHOP_VIP_BUY *aRecv)
 {
-	this->m_AccountDB.ExecQuery("EXEC IGC_VipAdd '%s', %d, %d", aRecv->AccountID, aRecv->Days, aRecv->Type);
+	this->m_AccountDB.ExecQuery("CALL IGC_VipAdd('%s', %d, %d);", aRecv->AccountID, aRecv->Days, aRecv->Type);
 }

@@ -2,7 +2,7 @@
 // Decompiled by Deathway
 // Date : 2007-03-09
 // ------------------------------
-// MultiCheckSum.cpp 
+// MultiCheckSum.cpp
 // GS-N 0.99.60T 0x00523EC7 Status : Completed :)
 //	GS-N	1.00.18	JPN	0x00595CA0	-	Completed
 
@@ -45,11 +45,11 @@ int CMultiCheckSum::LoadFile()
 	{
 		if (i == 0)
 		{
-			wsprintf(filenames, "%s\\CheckSum.dat", this->m_sFilePath);
+			sprintf(filenames, "%s\\CheckSum.dat", this->m_sFilePath);
 		}
 		else
 		{
-			wsprintf(filenames, "%s\\CheckSum%d.dat", this->m_sFilePath, i);
+			sprintf(filenames, "%s\\CheckSum%d.dat", this->m_sFilePath, i);
 		}
 		if (this->LoadFile(filenames, i)  != 0)
 		{
@@ -63,7 +63,7 @@ int CMultiCheckSum::LoadFile()
 BOOL CMultiCheckSum::LoadFile(char* filename, int index)
 {
 	FILE* fp;
-	
+
 	fp=fopen(filename, "rb");
 
 	if (fp == 0)
@@ -75,7 +75,7 @@ BOOL CMultiCheckSum::LoadFile(char* filename, int index)
 	fclose(fp);
 	return TRUE;
 }
-	
+
 int CMultiCheckSum::CompareCheckSum(int userIndex, DWORD TableNum, DWORD Key)
 {
 	int i;
@@ -84,7 +84,7 @@ int CMultiCheckSum::CompareCheckSum(int userIndex, DWORD TableNum, DWORD Key)
 	{
 		if(this->m_dwLoaded[i] != 0 )
 		{
-			if ( ( this->m_dwgCheckSum[i][TableNum] ) == Key)	
+			if ( ( this->m_dwgCheckSum[i][TableNum] ) == Key)
 			{
 				sLog->outBasic("CheckSum%d-Exe Compare Success [%s]", i, userIndex);
 				return 1;

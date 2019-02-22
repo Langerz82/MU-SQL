@@ -11,6 +11,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+
 //#define VLD_FORCE_ENABLE		// Visual Leak Detector
 #define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
 #define NOMINMAX

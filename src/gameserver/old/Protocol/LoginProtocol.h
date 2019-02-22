@@ -229,7 +229,7 @@ public:
 	CLoginServerProtocol();
 	~CLoginServerProtocol();
 	BOOL Init();
-	static void ProtocolCore(int userIndex, BYTE HeadCode, LPBYTE aRecv, int iSize);
+	static void LoginProtocolCore(int userIndex, BYTE HeadCode, LPBYTE aRecv, int iSize);
 	BOOL DisconnectPlayer(LPSTR szAccountID);
 	void DisconnectServer(WORD ServerCode);
 	void CheckVIPTimeProc();

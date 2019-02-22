@@ -355,7 +355,7 @@ extern int main(int argc, char** argv)
 
 	gObjServerInit();
 	IOCP.GiocpInit();
-	sLog->outBasic("CreatingListenSocket.");
+	sLog->outBasic("CreatingListenSocket - address: %s, port: %d.", szWANIP, g_JoinServerListPort);
 	IOCP.CreateListenSocket(g_JoinServerListPort, (char*) szWANIP.c_str());
 
 	// TODO - Make sure working from TC

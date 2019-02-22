@@ -30,9 +30,7 @@ void CIOCP::GiocpInit()
 	//CIOCP::g_Reactor = new ACE_Reactor(new ACE_TP_Reactor(), true);
 	ACE_Reactor::instance(new ACE_Reactor(new ACE_TP_Reactor(), true), true);
 #endif
-
-	//ACE_Reactor::instance()->initialized();
-
+	ACE_Reactor::instance()->initialized();
 }
 
 void CIOCP::ProcessEvents() {
@@ -307,7 +305,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 	BYTE xcode;
 	STR_CS_USER* lpUser = getCSUser(uIndex);
 
-	criti.lock();
+	//criti.lock();
 
 	if ( lpIOContext->nbBytes < 3 )
 	{
@@ -405,7 +403,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 
 	}
 
-	criti.unlock();
+	//criti.unlock();
 	return true;
 }
 

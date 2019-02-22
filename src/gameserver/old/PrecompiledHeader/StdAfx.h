@@ -11,40 +11,52 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+
 //#define VLD_FORCE_ENABLE		// Visual Leak Detector
 #define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
 #define NOMINMAX
-#include <new.h>
+
 #include <vector>
 #include <set>
 #include <stack>
 #include <cmath>
-#include <math.h>
+#include <mutex>
 #include <iostream>
 #include <fstream>
 #include <random>
-#include <tchar.h>
-#include <strsafe.h>
+
+
 #include <time.h>
-//#include <Rpc.h>
+
 #include <regex>
-//#include <atltime.h>
+
 #include "strtk.hpp"
 #include <cstdlib>
 #include <map>
 #include <string>
 #include <utility>
 
+#ifdef WIN32
+
+#include <new.h>
+#include <math.h>
+#include <tchar.h>
+#include <strsafe.h>
+
+
+#endif
+
+
 //#include <vld.h>
 // Local Header Files
 #include "MuDefines.h"
 #include "MuEnums.h"
-#include "custTypedef.h"
+#include "Common/custTypedef.h"
 
 #include "GensSystemProtocol.h"
 
 #include "Lang.h"
-//#include "iniReader/IniReader.h"
+#include "Common/Common.h"
 #include "Logging/Log.h"
 #include "generalStructs.h"
 
@@ -77,20 +89,20 @@
 #include "cryptopp/integer.h"
 
 // RSA
-#include "mpir/mpir.h"
-#include "mpir/gmp.h"
-#include "RSA/RNG.h"
-#include "RSA/SRSA.h"
-#include "RSA/MuRSA.h"
+//#include "mpir/mpir.h"
+//#include "mpir/gmp.h"
+//#include "RSA/RNG.h"
+//#include "RSA/SRSA.h"
+//#include "RSA/MuRSA.h"
 
 // XML
 #include "pugixml.hpp"
 
 // LUA
-#include "Lua/lua.hpp"
+//#include "Lua/lua.hpp"
 
 // muParser
-#include "muparser/muParser.h"
+// #include "muparser/muParser.h"
 
 // Boost
 #include <boost/random.hpp>

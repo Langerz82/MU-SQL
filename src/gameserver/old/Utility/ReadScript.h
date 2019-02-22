@@ -10,11 +10,11 @@
 namespace fs = boost::filesystem;
 
 
-static enum SMDToken 
+enum SMDToken
 {
-	NAME, 
-	NUMBER, 
-	END, 
+	NAME,
+	NUMBER,
+	END,
 	COMMAND = '#',
 	LP = '{',
 	RP = '}',
@@ -42,7 +42,7 @@ static SMDToken GetToken(fs::ifstream* SMDFile)
 			return END;	// End of FILE (EOF)
 		}
 		else
-		{	
+		{
 			if (ch=='/')		// this is /
 			{
 				if((ch=(char)SMDFile->get()) == '/')
@@ -51,7 +51,7 @@ static SMDToken GetToken(fs::ifstream* SMDFile)
 					{
 						ch = (char)SMDFile->get();
 					}
-	
+
 					if (ch == -1)
 					{
 						return END;	// End of FILE
@@ -62,23 +62,23 @@ static SMDToken GetToken(fs::ifstream* SMDFile)
 	}
 	while (isspace(ch) != 0);
 
-	
+
 	switch(ch)
 	{
 
 	case 0x23:	// #
 		return CurrentToken=COMMAND;
 		break;
-	
+
 	case 0x3B:	// ;
 		return CurrentToken=SEMICOLON;
 		break;
-	
+
 	case 0x2C:	// ,
 
 		return CurrentToken=COMMA;
 		break;
-	
+
 	case 0x7B:	// {
 		return CurrentToken = LP;
 		break;
@@ -94,7 +94,7 @@ static SMDToken GetToken(fs::ifstream* SMDFile)
 	case '1':	//1
 	case '2':	//2
 	case '3':	//3
-	case '4':	//4		
+	case '4':	//4
 	case '5':	//5
 	case '6':	//6
 	case '7':	//7
@@ -102,12 +102,12 @@ static SMDToken GetToken(fs::ifstream* SMDFile)
 	case '9':	//9
 		SMDFile->unget();
 		p = TempString;
-		
+
 		while (((ch= SMDFile->get()) != -1) && ((ch == 0x2E) || (isdigit(ch) != 0) || (ch == 0x2D)))  // 2e '.'  2D '-'
 		{
 			*p = ch;	// Construct a String
 			p++;
-		}		
+		}
 		*p = 0;
 		TokenNumber = atof( TempString);	// Select the first Byte as Main ID
 		return CurrentToken  = NUMBER ;
@@ -115,7 +115,7 @@ static SMDToken GetToken(fs::ifstream* SMDFile)
 
 	case '\"':	// "	String Case
 		p=&TokenString[0];
-		
+
 		while (((ch= SMDFile->get()) != -1 ) && (ch != 0x22))	// nice
 		{
 			*p = ch;
@@ -140,7 +140,7 @@ static SMDToken GetToken(fs::ifstream* SMDFile)
 			{
 				*p=ch;
 				p++;
-				
+
 			}
 
 			SMDFile->unget();

@@ -3,9 +3,9 @@
 /***
 *
 *	Copyright (c) 1998, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
+*
+*	This product contains software technology licensed from Id
+*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
 *	All Rights Reserved.
 *
 ****/
@@ -17,7 +17,7 @@
 #pragma warning( disable : 4305 )
 
 #include "StdAfx.h"
-#include "ZzzMathLib.h"
+#include "zzzmathlib.h"
 #include <math.h>
 
 vec3_t vec3_origin = {0,0,0};
@@ -26,7 +26,7 @@ float VectorLength(vec3_t v)
 {
 	int		i;
 	float	length;
-	
+
 	length = 0;
 	for (i=0 ; i< 3 ; i++)
 		length += v[i]*v[i];
@@ -36,7 +36,7 @@ float VectorLength(vec3_t v)
 }
 
 //004D3C20 - identical
-float GetSquare(float value)//calls 2x 
+float GetSquare(float value)//calls 2x
 {
 	return sqrt(value);
 }
@@ -44,11 +44,11 @@ float GetSquare(float value)//calls 2x
 int VectorCompare (vec3_t v1, vec3_t v2)
 {
 	int		i;
-	
+
 	for (i=0 ; i<3 ; i++)
 		if (fabs(v1[i]-v2[i]) > EQUAL_EPSILON)
 			return false;
-			
+
 	return true;
 }
 
@@ -118,9 +118,9 @@ i=1;
 	length = GetSquare (length);
 	if (length == 0)
 		return 0;
-		
+
 	for (i=0 ; i< 3 ; i++)
-		v[i] /= length;	
+		v[i] /= length;
 
 	return length;
 }
@@ -157,7 +157,7 @@ void AngleMatrix (const vec3_t angles, float (*matrix)[4] )
 {
 	float		angle;
 	float		sr, sp, sy, cr, cp, cy;
-	
+
 	angle = angles[2] * (Q_PI*2 / 360);
 	sy = (float)sin(angle);
 	cy = (float)cos(angle);
@@ -187,7 +187,7 @@ void AngleIMatrix (const vec3_t angles, float matrix[3][4] )
 {
 	float		angle;
 	float		sr, sp, sy, cr, cp, cy;
-	
+
 	angle = angles[2] * (Q_PI*2 / 360);
 	sy = (float)sin(angle);
 	cy = (float)cos(angle);
