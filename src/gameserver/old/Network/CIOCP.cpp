@@ -161,8 +161,8 @@ int CIOCP::OnRead(ACE_HANDLE handle, int len)
 	lpIOContext->nTotalBytes += len;
 	
 	//recv((char*)lpIOContext->Buffer, len);
-	ACE_OS::memcpy(lpIOContext->Buffer, (unsigned char*) this->input_buffer_.rd_ptr(), len);
-	lpIOContext->Buffer[len] = '\\0';
+	ACE_OS::memcpy(&lpIOContext->Buffer[0], (unsigned char*) this->input_buffer_.rd_ptr(), len);
+	//lpIOContext->Buffer[len*8] = '\\0';
 
 	if (lpUser->ServerPhase == 1)
 		RecvDataParse1(lpIOContext, lpUser->Index);
@@ -330,7 +330,7 @@ bool CIOCP::RecvDataParse2(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 
 	int recvsize = lpIOContext->nbBytes;
 
-	unsigned char byDec[9216];
+	unsigned char byDec[9216] = { 0 };
 
 	while (true)
 	{
@@ -375,7 +375,7 @@ bool CIOCP::RecvDataParse2(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 		{
 			if (xcode == 0xC3)
 			{
-				int ret = g_PacketEncrypt.Decrypt(&byDec[2], (BYTE*) &recvbuf[lOfs + 2], size - 2);
+				int ret = g_PacketEncrypt.Decrypt(&byDec[2], &recvbuf[lOfs + 2], size - 2);
 
 				if (ret < 0)
 				{
@@ -384,9 +384,9 @@ bool CIOCP::RecvDataParse2(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 
 				else
 				{
-					unsigned char* pDecBuf = byDec;
+					//BYTE* pDecBuf = byDec;
 
-					headcode = pDecBuf[2];
+					headcode = byDec[2];
 					byDec[0] = 0xC1;
 					byDec[1] = ret + 2;
 					lpUser->PacketCount++;
@@ -425,7 +425,7 @@ bool CIOCP::RecvDataParse2(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 						return 0;
 					}
 
-					//GSProtocol.ProtocolCore(headcode, byDec, ret, uIndex, 1);
+					GSProtocol.ProtocolCore(headcode, byDec, ret, uIndex, 1);
 
 				}
 			}

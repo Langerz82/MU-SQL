@@ -4,8 +4,8 @@
 #define PACKETENCRYPT_H
 
 #include "StdAfx.h"
-//#include "rijndael.h"
-//#include "rsa.h"
+#include <cryptopp/rijndael.h>
+#include <cryptopp/rsa.h>
 
 class CPacketEncrypt
 {
