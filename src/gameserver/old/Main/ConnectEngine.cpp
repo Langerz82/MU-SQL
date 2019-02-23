@@ -55,6 +55,7 @@ STR_CS_USER* UserAdd(const char* SocketKey, char* IP)
 			connUser->PerSocketContext = new _PER_SOCKET_CONTEXT();
 			connUser->PerSocketContext->IOContext[0];
 			connUser->PerSocketContext->IOContext[1];
+			connUser->ServerPhase = 2;
 			insertCSUser(connUser);
 			SCount++;
 			sLog->outBasic("Connection Accept: %s", IP);

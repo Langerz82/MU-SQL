@@ -161,6 +161,39 @@ struct STR_CS_USER
 	ULONGLONG i64PacketTime;
 	const char* SocketKey;
 	class ACE_SOCK_Stream* Socket;
+	BYTE ServerPhase;
+
+	// Merged from GameObject/UserData.
+	DWORD CheckTick;	// 3C
+	DWORD CheckTick2;	// 44
+	BYTE CheckTickCount;	// 48
+	DWORD ConnectCheckTime;	// 38
+	BYTE CheckSpeedHack;	// 40
+	int Connected;	// 4
+	char LoginMsgSnd;	// 8
+	char LoginMsgCount;	// 9
+	char CloseCount;	// A
+	char CloseType;	// B
+	DWORD AgiCheckTime;
+	char  AccountID[11];	// 68
+	char HWID[100];
+	BYTE  m_cAccountItemBlock; // 1D0
+	BYTE VipType;
+	char VipEffect;
+	DWORD AntiHackCheckTime;
+	DWORD64 dwLastHitHackTick;
+	bool m_bMapSvrMoveQuit;	// 1518
+	bool m_bMapSvrMoveReq;	// 1519
+	bool m_bMapSvrMoveReq_2;
+	DWORD m_dwMapSvrQuitTick;	// 151C
+	short m_sPrevMapSvrCode;	// 1520
+	short m_sDestMapNumber;	// 1522
+	BYTE m_btDestX;	// 1524
+	BYTE m_btDestY;	// 1525
+	BYTE m_ClientHackLogCount;	// F43
+	bool m_bOff;
+	bool EnableCharacterCreate;
+
 };
 
 struct SERVER_INFO
@@ -785,6 +818,138 @@ struct PMSG_HELLO {
 	PBMSG_HEAD h;
 	UCHAR result;
 };
+
+struct PMSG_JOINRESULT
+{
+	PBMSG_HEAD h;	// C1:F1
+	BYTE scode;	// 3
+	BYTE result;	// 4
+	BYTE NumberH;	// 5
+	BYTE NumberL;	// 6
+	BYTE CliVersion[5];	// 7
+};
+
+struct PMSG_CLIENTTIME
+{
+	PBMSG_HEAD h;
+	WORD TimeH;
+	WORD TimeL;
+	WORD AttackSpeed;	// 8
+	WORD Agility;
+	WORD MagicSpeed;	// A
+	char Version[10];
+	DWORD ServerSeason;
+};
+
+struct PMSG_IDPASS
+{
+	PBMSG_HEAD h;
+	BYTE subcode;	// 3
+	char Id[10];	// 4
+	char Pass[20];	// E
+	char HWID[100]; // NEW
+	DWORD TickCount;	// 18
+	BYTE CliVersion[5];	// 1C
+	BYTE CliSerial[16];	// 21  
+	DWORD ServerSeason;
+};
+
+struct PMSG_CLIENTCLOSE
+{
+	PBMSG_HEAD h;
+	BYTE SubCode;	// 3
+	BYTE Flag;	// 4
+};
+
+struct PMSG_CLIENTMSG
+{
+	PBMSG_HEAD h;
+	BYTE SubCode;	// 3
+	BYTE Flag;	// 4
+	BYTE subFlag;	// 5
+};
+
+struct STR_USER_CHARACTERS
+{
+	WORD Level;
+	BYTE Class;
+	BYTE CtlCode;
+	BYTE Resets;
+};
+
+struct SDHP_CHARLISTCOUNT
+{
+	PWMSG_HEAD h;
+	short Number;	// 4
+	BYTE Count;	// 6
+	int DbNumber;	// 8
+	int SecurityCode;
+	BYTE EnableCharacterCreate;
+	char AccountId[11];	// D
+	BYTE MoveCnt;	// 18
+	BYTE WhExpansion;
+};
+
+struct PMSG_CHARLISTCOUNT
+{
+	PBMSG_HEAD h;	// C1:F3:00
+	BYTE subcode;	// 3
+	BYTE MaxClass;	// 4
+	BYTE MoveCnt;	// 5
+	BYTE Count;	// 6
+	BYTE CharacterSlotCount;
+	BYTE WhExpansion;
+};
+struct SDHP_CHARLIST
+{
+	BYTE Index;	// 0
+	char Name[11];	// 1
+	char UnityBFRealName[11];
+	WORD ServerCodeOfHomeWorld;
+	WORD Level;	// C
+	BYTE Class;	// E
+	BYTE CtlCode;	// F
+	BYTE dbInventory[48];	// 10
+	BYTE btGuildStatus;	// 41
+	WORD Resets;
+	BYTE PK_Level;
+};
+
+struct PMSG_CHARLIST
+{
+	BYTE Index;	// 0
+	char Name[10];	// 1
+	WORD Level;	// C
+	BYTE CtlCode;	// E
+	BYTE CharSet[CHAR_SET_SIZE];	// F
+	BYTE btGuildStatus;	// 21
+};
+
+struct PMSG_CHARLIST_S9
+{
+	BYTE Index;	// 0
+	char Name[10];	// 1
+	WORD Level;	// C
+	BYTE CtlCode;	// E
+	BYTE CharSet[CHAR_SET_SIZE];	// F
+	BYTE btGuildStatus;	// 21
+	BYTE btPkLevel;
+};
+
+struct PMSG_CHARLIST_ENABLE_CREATION
+{
+	PBMSG_HEAD2 h; // C1:DE:00
+	BYTE EnableClass;// 4
+};
+
+struct PMSG_RESET_INFO_CHARLIST
+{
+	PBMSG_HEAD2 h;
+	WORD Reset[5];
+};
+
+
+
 
 
 #endif

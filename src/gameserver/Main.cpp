@@ -92,6 +92,8 @@ std::string g_UserID;
 std::string g_Password;
 std::string g_MuOnlineDB;
 
+char szClientVersion[8] = "118260";
+
 void UnhookSignals();
 void HookSignals();
 
@@ -430,9 +432,9 @@ extern int main(int argc, char** argv)
 
 
 	//gObjServerInit();
-	IOCP.GiocpInit();
+	GIOCP.GiocpInit();
 	sLog->outBasic("CreatingListenSocket - address: %s, port: %d.", szWANIP, g_GameServerListPort);
-	IOCP.CreateListenSocket(g_GameServerListPort, (char*) szWANIP.c_str());
+	GIOCP.CreateListenSocket(g_GameServerListPort, (char*) szWANIP.c_str());
 
 	// TODO - Make sure working from TC
 	//sLog->outBasic("ioContext->run()");

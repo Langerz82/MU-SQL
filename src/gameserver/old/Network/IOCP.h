@@ -29,21 +29,20 @@ class CIOCP: public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH>
 public:
 	typedef ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH> Base;
 
-	CIOCP() : input_buffer_(4096) {};
-	~CIOCP() {};
+	CIOCP();
+	~CIOCP();
 	void GiocpInit();
 	void GiocpDelete();
 	void DestroyGIocp();
 	bool CreateListenSocket(WORD uiPort, LPSTR ipAddress);
-	bool RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex);
+	bool RecvDataParse1(_PER_IO_CONTEXT * lpIOContext, int uIndex);
+	bool RecvDataParse2(_PER_IO_CONTEXT * lpIOContext, int uIndex);
 	bool DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt = true);
-	bool IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext);
-	bool IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext);
 	void CloseClient(_PER_SOCKET_CONTEXT * lpPerSocketContext, int result);
 	void CloseClient(int index);
 	void ResponErrorCloseClient(int index);
 
-	STR_CS_USER* getUserData(ACE_HANDLE handle)
+	STR_CS_USER* getCSByHandle(ACE_HANDLE handle)
 	{
 		std::map<ACE_HANDLE, STR_CS_USER*>::iterator pUO = g_UserIDMap.find(handle);
 		if (pUO == g_UserIDMap.end())
@@ -56,14 +55,22 @@ public:
 	};
 
 	int OnAccept(ACE_HANDLE handle);
-	int OnRead(ACE_HANDLE handle);
-	int OnClose();
+	int OnRead(ACE_HANDLE handle, int len);
+	int OnClose(ACE_HANDLE h);
+	void CloseClients(_PER_SOCKET_CONTEXT * lpPerSocketContext, int result);
 
 	virtual int handle_input(ACE_HANDLE = ACE_INVALID_HANDLE) override;
 	virtual int handle_output(ACE_HANDLE = ACE_INVALID_HANDLE) override;
 	virtual int open(void*) override;
 	virtual int handle_close(ACE_HANDLE = ACE_INVALID_HANDLE,
 		ACE_Reactor_Mask = ACE_Event_Handler::ALL_EVENTS_MASK);
+	
+	bool send(BYTE* buf, size_t len);
+	size_t recv_len(void) const;
+	bool recv_soft(char* buf, size_t len);
+	bool recv(char* buf, size_t len);
+	void recv_skip(size_t len);
+	void close_connection(void);
 
 	void CreateUserData(ACE_HANDLE handle);
 
@@ -79,56 +86,19 @@ private:
 
 	BYTE* ExSendBuf;
 	int g_ServerPort;
-	//HANDLE g_IocpThreadHandle;
-	//HANDLE g_ThreadHandles[MAX_IO_THREAD_HANDLES];
-	//CRITICAL_SECTION criti;
 	std::mutex criti;
-	//enum SOCKET_FLAG;
 	DWORD g_dwThreadCount;
-	//HANDLE g_CompletionPort;
-	//SOCKET g_Listen;
 	ACE_Acceptor<CIOCP, ACE_SOCK_Acceptor> g_HostSocket;
-
 	std::map<ACE_HANDLE, STR_CS_USER*> g_UserIDMap;
 
 	std::string remote_address_;
 	ACE_Message_Block input_buffer_;
+	ssize_t noblk_send(ACE_Message_Block& message_block);
 
 
-	static void IocpServerWorkerEP(void *pThis)
-	{
-		CIOCP *pt = (CIOCP*)pThis;
-		pt->IocpServerWorker(pThis);
-	}
-
-	static void ServerWorkerThreadEP(void *pThis)
-	{
-		CIOCP *pt = (CIOCP*)pThis;
-		pt->ServerWorkerThread();
-	}
-
-	DWORD IocpServerWorker(void * p);
-	DWORD ServerWorkerThread();
 
 };
 
-/*
-BOOL IocpServerStart();
-BOOL CreateGIocp(int server_port, eSERVER_TYPE eServerType);
-void DestroyGIocp();
-BOOL CreateListenSocket(DWORD dwServerCountIndex);
-unsigned long __stdcall IocpServerWorker(DWORD pIocpServerParameter);
-unsigned long __stdcall ServerWorkerThread(HANDLE CompletionPortID);
-BOOL RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex);
-BOOL DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, char* szFunction = nullptr);
-BOOL IoSendSecond(_PER_SOCKET_CONTEXT * lpPerSocketContext);
-BOOL IoMoreSend(_PER_SOCKET_CONTEXT * lpPerSocketContext);
-//bool UpdateCompletionPort(char* sockKey, int ClientIndex, BOOL bAddToList);
-
-void CloseClient(_PER_SOCKET_CONTEXT * lpPerSocketContext, int result);
-void CloseClient(int index);
-void ResponErrorCloseClient(int index);
-*/
 
 
 /*
@@ -141,7 +111,7 @@ extern CQueue m_JSQueue;
 extern CQueue m_EXDSQueue;
 */
 
-extern CIOCP IOCP;
+extern CIOCP GIOCP;
 
 #endif
 

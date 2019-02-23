@@ -1,11 +1,16 @@
-#ifndef _MU_PACKETENGINESERVER_H
-#define _MU_PACKETENGINESERVER_H
+////////////////////////////////////////////////////////////////////////////////
+// spe.h
+#ifndef MU_SPE_H
+#define MU_SPE_H
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "StdAfx.h"
+//#include "TLog.h"
+#include "prodef.h"
+
+// GS-N 0.99.60T - 0x00474A10 - Completed 
 
 
 class CStreamPacketEngine_Server
@@ -34,13 +39,13 @@ protected:
 
 	bool XorData(int iStart, int iEnd, int iDir)	// Good
 	{
-		if ( iStart < iEnd  )
+		if (iStart < iEnd)
 		{
 			sLog->outError("CStreamPacketEngine XorData Error %d,%d", iStart, iEnd);
 			return false;
 		}
 
-		BYTE byXorFilter[32];
+		unsigned char byXorFilter[32];
 
 		byXorFilter[0] = 0xAB;
 		byXorFilter[1] = 0x11;
@@ -75,25 +80,25 @@ protected:
 		byXorFilter[30] = 0x4E;
 		byXorFilter[31] = 0x4D;
 
-		for ( int i = iStart ; i != iEnd ; i+=iDir )
+		for (int i = iStart; i != iEnd; i += iDir)
 		{
-			this->m_byBuffer[i] ^= this->m_byBuffer[i-1] ^ byXorFilter[ i%32 ];
+			this->m_byBuffer[i] ^= this->m_byBuffer[i - 1] ^ byXorFilter[i % 32];
 		}
 		return true;
 	}
 
 public:
 
-	BOOL AddData(void* pSrc, WORD wSize )	// Good 
+	BOOL AddData(void* pSrc, WORD wSize)	// Good 
 	{
-		if ( ((this->m_wSize + wSize) >=  2048) ||  (wSize == 0) )
+		if (((this->m_wSize + wSize) >= 2048) || (wSize == 0))
 		{
 			sLog->outError("CStreamPacketEngine Adding Buffer Size Error %d", this->m_wSize + wSize);
 			int iSize = 2048;
 			return FALSE;
 		}
 
-		std::memcpy((void*)&this->m_byBuffer[this->m_wSize], pSrc, wSize);
+		memcpy((void*)&this->m_byBuffer[this->m_wSize], pSrc, wSize);
 		this->m_wSize += wSize;
 		return TRUE;
 	}
@@ -105,26 +110,26 @@ public:
 
 		BYTE byTemp[2048];
 
-		
 
-		switch ( this->m_byBuffer[0] )
+
+		switch (this->m_byBuffer[0])
 		{
-			case 0xC1:
-			case 0xC3:
-				wSize = this->m_byBuffer[1];
-				break;
+		case 0xC1:
+		case 0xC3:
+			wSize = this->m_byBuffer[1];
+			break;
 
-			case 0xC2:
-			case 0xC4:
-				wSize = this->m_byBuffer[1] * 256 + this->m_byBuffer[2];
-				break;
+		case 0xC2:
+		case 0xC4:
+			wSize = this->m_byBuffer[1] * 256 + this->m_byBuffer[2];
+			break;
 
-			default:
-				return true;
-				break;
+		default:
+			return true;
+			break;
 		}
 
-		if ( this->m_wSize < wSize )
+		if (this->m_wSize < wSize)
 		{
 			return 2;
 		}
@@ -166,27 +171,27 @@ public:
 
 		//this->Correct();
 
-		if(this->m_byBuffer[0] == 0xC1 || this->m_byBuffer[0] == 0xC3)
+		if (this->m_byBuffer[0] == 0xC1 || this->m_byBuffer[0] == 0xC3)
 		{
-			if(!this->XorData(wSize-1, 2, -1))
+			if (!this->XorData(wSize - 1, 2, -1))
 			{
 				return true;
 			}
 
 		}
-		else if(this->m_byBuffer[0] == 0xC2 || this->m_byBuffer[0] == 0xC4)
+		else if (this->m_byBuffer[0] == 0xC2 || this->m_byBuffer[0] == 0xC4)
 		{
-			if(!this->XorData(wSize-1, 3, -1))
+			if (!this->XorData(wSize - 1, 3, -1))
 			{
 				return true;
 			}
 		}
 #endif EMU_NOCRYPT
 
-		std::memcpy(pTar, this->m_byBuffer, wSize);
-		this->m_wSize-=wSize;
-		std::memcpy(byTemp, &this->m_byBuffer[wSize], this->m_wSize);
-		std::memcpy(this->m_byBuffer, byTemp, this->m_wSize);
+		memcpy(pTar, this->m_byBuffer, wSize);
+		this->m_wSize -= wSize;
+		memcpy(byTemp, &this->m_byBuffer[wSize], this->m_wSize);
+		memcpy(this->m_byBuffer, byTemp, this->m_wSize);
 		return FALSE;
 	}
 
@@ -216,15 +221,14 @@ public:
 		}
 
 		//this->m_twister.Correct(headCode, data, length);
-	}	
+	}
 
 private:
 
 	WORD m_wSize;	// 4
 	BYTE m_byBuffer[2048];	// 6
 	//PacketTwistRunner m_twister; // 1.01.04 GS
-	
+
 };
 
 #endif
-

@@ -45,5 +45,6 @@ extern std::string g_logsEntry[10]; // up to 10 logs
 
 extern BOOL gDisconnectHackUser;
 
+extern char szClientVersion[8];
 
 #endif

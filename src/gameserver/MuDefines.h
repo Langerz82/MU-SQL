@@ -634,5 +634,10 @@
 #define MAX_GMCOMMAND_LEN 20
 #define MAX_GAME_MASTER 5
 
+#define VIP_EFFECT_NONE -1
+#define VIP_EFFECT_DAY 0
+#define VIP_EFFECT_NIGHT 1
+
+#define MAX_VIP_EFFECTS 2
 
 #endif

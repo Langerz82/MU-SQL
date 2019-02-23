@@ -213,16 +213,23 @@ int CIOCP::OnRead(ACE_HANDLE handle)
 	if (lpUser == nullptr)
 	{
 		sLog->outError("Could not retrieve the User Object.");
+		criti.unlock();
 		return errno == EWOULDBLOCK ? 0 : -1;
 	}
 
 	lpPerSocketContext = lpUser->PerSocketContext;
 	if (lpPerSocketContext == nullptr)
+	{
+		criti.unlock();
 		return 0;
+	}
 
 	lpIOContext = lpUser->PerSocketContext->IOContext;
 	if (lpIOContext == nullptr)
+	{
+		criti.unlock();
 		return 0;
+	}
 
 	lpPerSocketContext->dwIOCount--;
 
@@ -234,12 +241,12 @@ int CIOCP::OnRead(ACE_HANDLE handle)
 
 	if (n < 0)
 	{
-		// blocking signal or error
+		criti.unlock();
 		return errno == EWOULDBLOCK ? 0 : -1;
 	}
 	else if (n == 0)
 	{
-		// EOF
+		criti.unlock();
 		return -1;
 	}
 	RecvBytes = n;
@@ -305,7 +312,6 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 	BYTE xcode;
 	STR_CS_USER* lpUser = getCSUser(uIndex);
 
-	//criti.lock();
 
 	if ( lpIOContext->nbBytes < 3 )
 	{
@@ -318,7 +324,9 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 	recvbuf = (BYTE*) lpIOContext->Buffer;
 
 	if (size == 0)
+	{
 		return true;
+	}
 
 	while ( true )
 	{
@@ -355,7 +363,6 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 		{
 			sLog->outError("error-L1: size %d",
 				size);
-
 			return false;
 		}
 
@@ -366,6 +373,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 			if (lpUser->PacketCount >= g_MaxPacketPerSec /*&& strcmp(lpUser->IP, g_WhiteListIP)*/)
 			{
 				sLog->outError("[ANTI-FLOOD] Packets Per Second: %d / %d, IP: %d", lpUser->PacketCount, g_MaxPacketPerSec, lpUser->IP);
+				criti.unlock();
 				this->CloseClient(uIndex);
 				return false;
 			}
@@ -451,15 +459,17 @@ void CIOCP::CloseClient(_PER_SOCKET_CONTEXT * lpPerSocketContext, int result)
 
 void CIOCP::CloseClient(int index)
 {
+	criti.lock();
 	STR_CS_USER* lpCSUser = getCSUser(index);
 
 	if (lpCSUser->ConnectionState == 0 )
 	{
 		sLog->outError("error-L1 : CloseClient connect error");
+		criti.unlock();
 		return;
 	}
 
-	criti.lock();
+	
 
 	lpCSUser->Socket->close();
 
@@ -468,15 +478,17 @@ void CIOCP::CloseClient(int index)
 
 void CIOCP::ResponErrorCloseClient(int index)
 {
+	criti.lock();
 	STR_CS_USER* lpCSUser = getCSUser(index);
 
 	if (lpCSUser->ConnectionState == 0 )
 	{
 		sLog->outError("error-L1 : CloseClient connect error");
+		criti.unlock();
 		return;
 	}
 
-	criti.lock();
+	
 	//closesocket(lpCSUser->Index);
 	lpCSUser->Socket = nullptr;
 	UserDelete(lpCSUser->Index);
