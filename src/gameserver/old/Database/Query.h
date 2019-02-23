@@ -35,7 +35,7 @@ public:
 	int Fetch();
 	//bool HasFields();
 
-	//int GetAsBinary(LPSTR lpszStatement, LPBYTE OUT lpszReturnBuffer, int size);
+	int GetAsBinary(LPSTR lpszStatement, LPBYTE OUT lpszReturnBuffer, int size);
 	//void SetAsBinary(LPSTR lpszStatement, LPBYTE lpBinaryBuffer, UINT32 BinaryBufferSize);
 
 	//int GetResult(int index);

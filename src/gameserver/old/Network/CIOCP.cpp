@@ -160,14 +160,17 @@ int CIOCP::OnRead(ACE_HANDLE handle, int len)
 	lpIOContext->nbBytes = len;
 	lpIOContext->nTotalBytes += len;
 	
-	recv_soft((char*)lpIOContext->Buffer, len);
+	//recv((char*)lpIOContext->Buffer, len);
+	ACE_OS::memcpy(lpIOContext->Buffer, (unsigned char*) this->input_buffer_.rd_ptr(), len);
 	lpIOContext->Buffer[len] = '\\0';
-	//ACE_OS::memcpy(&lpIOContext->Buffer[0], this->input_buffer_.rd_ptr(), len);
 
 	if (lpUser->ServerPhase == 1)
 		RecvDataParse1(lpIOContext, lpUser->Index);
 	else
 		RecvDataParse2(lpIOContext, lpUser->Index);
+
+	for (int i = 0; i <= len; ++i)
+		lpIOContext->Buffer[i] = '\\0';
 
 	lpIOContext->IOOperation = 0;
 
@@ -181,7 +184,7 @@ int CIOCP::OnRead(ACE_HANDLE handle, int len)
 
 bool CIOCP::RecvDataParse1(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 {
-	unsigned char* recvbuf;
+	BYTE* recvbuf;
 	int lOfs;
 	int size;
 	BYTE headcode;
@@ -308,7 +311,7 @@ bool CIOCP::RecvDataParse1(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 
 bool CIOCP::RecvDataParse2(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 {
-	unsigned char* recvbuf;
+	BYTE* recvbuf;
 	int lOfs;
 	int size;
 	BYTE headcode;
@@ -372,7 +375,7 @@ bool CIOCP::RecvDataParse2(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 		{
 			if (xcode == 0xC3)
 			{
-				int ret = g_PacketEncrypt.Decrypt(&byDec[2], &recvbuf[lOfs + 2], size - 2);
+				int ret = g_PacketEncrypt.Decrypt(&byDec[2], (BYTE*) &recvbuf[lOfs + 2], size - 2);
 
 				if (ret < 0)
 				{
@@ -567,7 +570,7 @@ bool CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 	lpIoCtxt->IOOperation = 1;
 
 	this->set_handle(lpCSUser->Socket->get_handle());
-	this->send(lpIoCtxt->Buffer, lpIoCtxt->nbBytes);
+	this->send((BYTE*) lpIoCtxt->Buffer, lpIoCtxt->nbBytes);
 
 	lpPerSocketContext->dwIOCount ++;
 	lpIoCtxt->nWaitIO = 1;
@@ -843,6 +846,7 @@ int CIOCP::handle_input(ACE_HANDLE handle)
 
 	// move data in the buffer to the beginning of the buffer
 	this->input_buffer_.crunch();
+	//this->input_buffer_.reset();
 
 	// return 1 in case there might be more data to read from OS
 	return n == space ? 1 : 0;

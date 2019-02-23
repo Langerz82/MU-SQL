@@ -79,8 +79,6 @@ public:
 		return this->remote_address_;
 	};
 
-	//static ACE_Reactor* g_Reactor;
-
 	static void ProcessEvents();
 private:
 
@@ -94,28 +92,9 @@ private:
 	std::string remote_address_;
 	ACE_Message_Block input_buffer_;
 	ssize_t noblk_send(ACE_Message_Block& message_block);
-
-
-
 };
 
-
-
-/*
-extern CQueue m_DSQueue1;
-extern CQueue m_DSQueue2;
-extern CQueue m_DSQueue3;
-extern CQueue m_DSQueue4;
-extern CQueue m_DSQueue5;
-extern CQueue m_JSQueue;
-extern CQueue m_EXDSQueue;
-*/
 
 extern CIOCP GIOCP;
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

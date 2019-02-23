@@ -5,7 +5,9 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#define SQL_NO_DATA = 0
+#define INVENTORY_BINARY_SIZE 7584
+
+#define SQL_NO_DATA 0
 
 #define CONNECTSERVER_VERSION "12.1"
 

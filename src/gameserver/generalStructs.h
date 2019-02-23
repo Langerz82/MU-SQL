@@ -871,10 +871,13 @@ struct PMSG_CLIENTMSG
 
 struct STR_USER_CHARACTERS
 {
+	CHAR Name[11];
 	WORD Level;
 	BYTE Class;
 	BYTE CtlCode;
 	BYTE Resets;
+	BYTE Inventory[INVENTORY_BINARY_SIZE];
+	BYTE dbInventory[48];
 };
 
 struct SDHP_CHARLISTCOUNT
@@ -946,6 +949,18 @@ struct PMSG_RESET_INFO_CHARLIST
 {
 	PBMSG_HEAD2 h;
 	WORD Reset[5];
+};
+
+struct PMSG_NOTICE
+{
+	PBMSG_HEAD h;
+	BYTE type;	// 3
+	BYTE btCount;	// 4
+	WORD wDelay;	// 6	
+	int dwColor;	// 8
+	BYTE btSpeed;	// C
+	char Notice[256];	// D
+
 };
 
 

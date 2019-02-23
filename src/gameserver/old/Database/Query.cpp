@@ -58,22 +58,17 @@ int CQuery::Fetch()
 	return 1;
 }
 
-//int CQuery::GetAsBinary(LPSTR lpszStatement, BYTE* OUT lpszReturnBuffer, int size)
-//{
-	// TODO
-	/*
+int CQuery::GetAsBinary(LPSTR lpszStatement, BYTE* OUT lpszReturnBuffer, int size)
+{
 	QueryResult* res = Fetch(lpszStatement);
-	Field* field = NULL; // TODO stub
-	std::vector<BYTE> vec = field[0].GetBinary();
+	std::vector<BYTE> bytes = (*this->m_Result)[0].GetBinary();
 	int i = 0;
-	for (std::vector<BYTE>::const_iterator it = vec.begin(); it != vec.end(); ++it)
+	for (std::vector<BYTE>::const_iterator it = bytes.begin(); it != bytes.end(); ++it)
 	{
 		lpszReturnBuffer[i++] = *it;
 	}
 	return sizeof(lpszReturnBuffer);
-	*/
-	//return 0; // stub
-//}
+}
 
 //void CQuery::SetAsBinary(LPSTR lpszStatement, BYTE* lpBinaryBuffer, UINT32 BinaryBufferSize)
 //{

@@ -15,7 +15,7 @@
 #include "PrecompiledHeader/StdAfx.h"
 #include "CUserData.h"
 
-#include "AcheronGuardianEvent.h"
+/*#include "AcheronGuardianEvent.h"
 #include "AntiSpeed.h"
 #include "Authorization.h"
 #include "BattleSoccer.h"
@@ -130,9 +130,9 @@
 #include "util.h"
 #include "VipSys.h"
 #include "Weapon.h"
-#include "zzzmathlib.h"
+#include "zzzmathlib.h"*/
 
-
+std::map<int, CUserData*> gUserObjects;
 
 
 CNameConvert::CNameConvert()
@@ -256,16 +256,16 @@ CUserData::CUserData()
 	InitializeCriticalSection(&this->m_MasterSkillCriti);
 	InitializeCriticalSection(&this->m_DarkSideRFCriti);
 	InitializeCriticalSection(&this->AgiCheckCriti);
-	this->m_pCMuRummyInfo = new CMuRummyInfo;
-	this->m_pCEvoMonInfo = new CEvolutionMonsterInfo;
-	this->pPentagramMixBox = new CItemObject*[CHAOS_BOX_SIZE];
+	//this->m_pCMuRummyInfo = new CMuRummyInfo;
+	//this->m_pCEvoMonInfo = new CEvolutionMonsterInfo;
+	//this->pPentagramMixBox = new CItemObject*[CHAOS_BOX_SIZE];
 	this->pPentagramMixBoxMap = new BYTE*[CHAOS_BOX_MAP_SIZE];
-	this->m_SeedOptionList = new SOCKET_OPTION_LIST[35];
-	this->m_BonusOptionList = new SOCKET_OPTION_LIST[7];
-	this->m_SetOptionList = new SOCKET_OPTION_LIST[2];
-	this->m_CancelItemSaleList = new STR_USER_SHOP_REBUY_ITEM*[MAX_CANCEL_ITEMS_SALE];
-	this->m_GremoryCaseData = new GREMORYCASE_ITEM_DATA*[MAX_GREMORYCASE_STORAGE_TYPES * MAX_GREMORYCASE_STORAGE_ITEMS];
-	this->m_StatSpecOption = new STAT_USER_OPTION[12];
+	//this->m_SeedOptionList = new SOCKET_OPTION_LIST[35];
+	//this->m_BonusOptionList = new SOCKET_OPTION_LIST[7];
+	//this->m_SetOptionList = new SOCKET_OPTION_LIST[2];
+	//this->m_CancelItemSaleList = new STR_USER_SHOP_REBUY_ITEM*[MAX_CANCEL_ITEMS_SALE];
+	//this->m_GremoryCaseData = new GREMORYCASE_ITEM_DATA*[MAX_GREMORYCASE_STORAGE_TYPES * MAX_GREMORYCASE_STORAGE_ITEMS];
+	//this->m_StatSpecOption = new STAT_USER_OPTION[12];
 
 	this->Init();
 }
@@ -276,7 +276,7 @@ CUserData::~CUserData()
 	DeleteCriticalSection(&this->m_DarkSideRFCriti);
 	DeleteCriticalSection(&this->AgiCheckCriti);
 
-	if (this->m_pCMuRummyInfo != NULL)
+	/*if (this->m_pCMuRummyInfo != NULL)
 	{
 		delete this->m_pCMuRummyInfo;
 		this->m_pCMuRummyInfo = NULL;
@@ -286,13 +286,13 @@ CUserData::~CUserData()
 	{
 		delete this->m_pCEvoMonInfo;
 		this->m_pCEvoMonInfo = NULL;
-	}
+	}*/
 
-	if (this->pPentagramMixBox != NULL)
+	/*if (this->pPentagramMixBox != NULL)
 	{
 		delete[] this->pPentagramMixBox;
 		this->pPentagramMixBox = NULL;
-	}
+	}*/
 
 	if (this->pPentagramMixBoxMap != NULL)
 	{
@@ -300,12 +300,12 @@ CUserData::~CUserData()
 		this->pPentagramMixBoxMap = NULL;
 	}
 
-	delete[] this->m_SeedOptionList;
+	/*delete[] this->m_SeedOptionList;
 	delete[] this->m_BonusOptionList;
 	delete[] this->m_SetOptionList;
 	delete[] this->m_CancelItemSaleList;
 	delete[] this->m_GremoryCaseData;
-	delete[] this->m_StatSpecOption;
+	delete[] this->m_StatSpecOption;*/
 }
 
 void CUserData::Init(bool VipReset)
@@ -314,21 +314,21 @@ void CUserData::Init(bool VipReset)
 	memset(this->GuildName, 0, sizeof(this->GuildName));
 	this->GuildNumber = 0;
 	this->iGuildUnionTimeStamp = 0;
-	this->lpGuild = NULL;
+	//this->lpGuild = NULL;
 	this->GuildStatus = -1;
 	this->SantaCount = 0;
 	this->RegisterdLMS = 0;
 	this->RegisteredLMSRoom = -1;
 	this->MoveGate = -1;
-	g_kJewelOfHarmonySystem.InitEffectValue(this->m_JewelOfHarmonyEffect);
-	g_kItemSystemFor380.InitEffectValue(this->m_ItemOptionExFor380);
+	//g_kJewelOfHarmonySystem.InitEffectValue(this->m_JewelOfHarmonyEffect);
+	//g_kItemSystemFor380.InitEffectValue(this->m_ItemOptionExFor380);
 	this->m_iResets = 0;
 
 	this->LastAuthTime = 0;
-	if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
+	/*if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
 	{
 		this->m_bKanturuEntranceByNPC = FALSE;
-	}
+	}*/
 
 	this->SetOpAddMaxAttackDamage = 0;
 	this->SetOpAddMinAttackDamage = 0;
@@ -400,19 +400,19 @@ void CUserData::Init(bool VipReset)
 
 	for (int i = 0; i < 254; i++)
 	{
-		this->m_PentagramJewelInfo_Inven[i].Clear();
+		//this->m_PentagramJewelInfo_Inven[i].Clear();
 	}
 
 	for (int i = 0; i < 254; i++)
 	{
-		this->m_PentagramJewelInfo_Warehouse[i].Clear();
+		//this->m_PentagramJewelInfo_Warehouse[i].Clear();
 	}
 
 	this->m_bUserQuestInfoSent = FALSE;
 
 	for (int i = 0; i < MAX_QUESTEXP_USER_INFO; i++)
 	{
-		this->m_UserQuestInfo[i].Clear();
+		//this->m_UserQuestInfo[i].Clear();
 	}
 
 	this->PotionTime = 0;
@@ -440,13 +440,13 @@ void CUserData::Init(bool VipReset)
 	this->m_Resistance_Critical = 0;
 	this->m_Resistance_Excellent = 0;
 	this->m_EnableUseChangeSkin = 0;
-	this->AntiHackCheckTime = GetTickCount();
+	//this->AntiHackCheckTime = GetTickCount();
 	this->m_dwMapMoveKeyValue = 0;
 	this->m_bIsCancelItemSale = false;
 	this->m_bGremoryCaseDBInfo = false;
 	this->m_JoinUnityBattle = false;
 	this->m_nServerCodeOfHomeWorld = -1;
-	this->SkillDelay.Init();
+	//this->SkillDelay.Init();
 	this->m_dwGensHitTeleportDelay = 0;
 	this->bActiveSetParty = false;
 	this->dwOpenWareCnt = 0;
@@ -461,32 +461,118 @@ void CUserData::Init(bool VipReset)
 	memset(this->dwLastHitHackValue1, 0, sizeof(this->dwLastHitHackValue1));
 	memset(this->dwLastHitHackValue2, 0, sizeof(this->dwLastHitHackValue2));
 
-	this->dwLastHitHackTick = GetTickCount64();
+	//this->dwLastHitHackTick = GetTickCount64();
 
 	memset(this->PartyPassword, 0x00, sizeof(this->PartyPassword));
 
 	for (int i = 0; i < MAX_CANCEL_ITEMS_SALE; i++)
 	{
-		this->m_CancelItemSaleList[i]->Clear();
+		//this->m_CancelItemSaleList[i]->Clear();
 	}
 
 	for (int i = 0; i < MAX_GREMORYCASE_STORAGE_TYPES; i++)
 	{
 		for (int j = 0; j < MAX_GREMORYCASE_STORAGE_ITEMS; j++)
 		{
-			this->m_GremoryCaseData[i * MAX_GREMORYCASE_STORAGE_TYPES + j]->Clear();
+			//this->m_GremoryCaseData[i * MAX_GREMORYCASE_STORAGE_TYPES + j]->Clear();
 		}
 	}
 
 	if (VipReset == true)
 	{
-		this->VipType = 0;
-		this->VipEffect = VIP_EFFECT_NONE;
+		//this->VipType = 0;
+		//this->VipEffect = VIP_EFFECT_NONE;
 	}
 
 	this->MovingDistance = 0;
 	this->MovingIgnore = 0;
 	this->RageDMG = 0;
 
-	this->m_AttackQueue = new CAttackQueue(this);
+	//this->m_AttackQueue = new CAttackQueue(this);
 }
+
+BYTE LevelSmallConvert(int aIndex, int inventoryindex)
+{
+/*	int level = gObj[aIndex].pInventory[inventoryindex].m_Level;
+
+	if (level == 15)
+	{
+		return 7;
+	}
+
+	if (level >= 12 && level <= 14)
+	{
+		return 6;
+	}
+
+	if (level == 11)
+	{
+		return 5;
+	}
+
+	if (level >= 9 && level <= 10)
+	{
+		return 4;
+	}
+
+	if (level >= 7 && level <= 8)
+	{
+		return 3;
+	}
+
+	if (level >= 5 && level <= 6)
+	{
+		return 2;
+	}
+
+	if (level >= 3 && level <= 4)
+	{
+		return 1;
+	}
+*/
+	return 0;
+}
+
+
+
+
+BYTE LevelSmallConvert(int level)
+{
+	if (level == 15)
+	{
+		return 7;
+	}
+
+	if (level >= 12 && level <= 14)
+	{
+		return 6;
+	}
+
+	if (level == 11)
+	{
+		return 5;
+	}
+
+	if (level >= 9 && level <= 10)
+	{
+		return 4;
+	}
+
+	if (level >= 7 && level <= 8)
+	{
+		return 3;
+	}
+
+	if (level >= 5 && level <= 6)
+	{
+		return 2;
+	}
+
+	if (level >= 3 && level <= 4)
+	{
+		return 1;
+	}
+
+	return 0;
+}
+

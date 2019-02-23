@@ -47,4 +47,8 @@ extern BOOL gDisconnectHackUser;
 
 extern char szClientVersion[8];
 
+extern WORD g_MagumsaCreateMinLevel;
+extern WORD g_DarkLordCreateMinLevel;
+extern WORD g_GrowLancerCreateMinLevel;
+
 #endif

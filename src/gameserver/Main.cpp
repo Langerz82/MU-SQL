@@ -71,6 +71,9 @@ BOOL gDisconnectHackUser = FALSE;
 DWORD g_MachineIDConnectionLimitPerGroup = 10;
 WORD g_ServerCode;
 WORD g_GameServerListPort;
+WORD g_MagumsaCreateMinLevel;
+WORD g_DarkLordCreateMinLevel;
+WORD g_GrowLancerCreateMinLevel;
 
 // GLobals thats whats up.
 std::string szWANIP;
@@ -234,6 +237,11 @@ void LoadConfig()
 	g_GameServerListPort = iniReader->GetInteger("SETTINGS", "TCP_PORT", 44407);
 	szWANIP = iniReader->GetString("SETTINGS", "WanIP", "127.0.0.1");
 	g_ServerCode = iniReader->GetInteger("SETTINGS", "ServerCode", 0);
+
+	g_MagumsaCreateMinLevel = iniReader->GetInteger("SETTINGS", "MagicGladiatorCreateMinLevel", 220);
+	g_DarkLordCreateMinLevel = iniReader->GetInteger("SETTINGS", "DarkLordCreateMinLevel", 250);
+	g_GrowLancerCreateMinLevel = iniReader->GetInteger("SETTINGS", "GrowLancerCreateMinLevel", 200);
+
 }
 
 /// Launch the realm server

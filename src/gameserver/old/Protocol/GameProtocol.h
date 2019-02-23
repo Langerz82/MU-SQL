@@ -39,17 +39,19 @@ public:
 	void ChatTargetSend(LPOBJ lpObj, char* szChat, int senduser);
 	void PChatProc(PMSG_CHATDATA* lpChat, short aIndex);
 	void CGChatRecv(PMSG_CHATDATA_NUMBER* lpMsg, int aIndex);
-	void GCServerMsgSend(unsigned char msg, int aIndex);
+	void GCServerMsgSend(unsigned char msg, int aIndex);*/
 	void GCServerMsgStringSend(char* szMsg, int aIndex, BYTE type);
 	void GCServerMsgStringSendEx(int aIndex, BYTE type, LPSTR szMsg, ...);
 	void GCServerMsgStringSendAll(LPSTR  szMsg, BYTE type);
 	void GCServerMsgStringSendAllEx(BYTE type, LPSTR szMsg, ...);
-	void GCServerMsgStringSendGuild(_GUILD_INFO_STRUCT* lpNode, char* szMsg, unsigned char type);
+	/*void GCServerMsgStringSendGuild(_GUILD_INFO_STRUCT* lpNode, char* szMsg, unsigned char type);
 	void GCEventStateSend(int aIndex, unsigned char state, unsigned char event);
 	void GCMapEventStateSend(int map, unsigned char state, unsigned char event);
 	void CGChatWhisperRecv(PMSG_CHATDATA_WHISPER* lpMsg, int aIndex);*/
 	void SCPJoinResultSend(int aIndex, BYTE result);
 	void CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex);
+	void CSPJoinIdPassRequest2(PMSG_IDPASS* lpMsg, int aIndex);
+	void JGPGetCharList(BYTE* lpRecv, int aIndex);
 	//void GCJoinBillCheckSend(char* AccountId, int aIndex);
 	void GCJoinResult(BYTE result, int aIndex);
 	//void GCJoinSocketResult(unsigned char result, SOCKET Socket);
