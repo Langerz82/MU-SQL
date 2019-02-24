@@ -176,6 +176,7 @@ struct STR_CS_USER
 	char CloseType;	// B
 	DWORD AgiCheckTime;
 	char  AccountID[11];	// 68
+	char  Password[20];	// 68
 	char HWID[100];
 	BYTE  m_cAccountItemBlock; // 1D0
 	BYTE VipType;
@@ -841,6 +842,7 @@ struct PMSG_CLIENTTIME
 	DWORD ServerSeason;
 };
 
+#pragma pack (1)
 struct PMSG_IDPASS
 {
 	PBMSG_HEAD h;
@@ -848,11 +850,12 @@ struct PMSG_IDPASS
 	char Id[10];	// 4
 	char Pass[20];	// E
 	char HWID[100]; // NEW
-	DWORD TickCount;	// 18
+	unsigned long TickCount;	// 18
 	BYTE CliVersion[5];	// 1C
 	BYTE CliSerial[16];	// 21  
 	DWORD ServerSeason;
 };
+#pragma pack ()
 
 struct PMSG_CLIENTCLOSE
 {

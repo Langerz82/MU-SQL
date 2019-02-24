@@ -44,7 +44,7 @@ QueryResult* CQuery::Fetch(TCHAR* lpszStatement, ...)
 
 	if (!this->m_Result)
 	{
-		sLog->outError("[SQL Error] Error querying: %s", lpszStatement);
+		sLog->outError("[SQL Error] Error querying: %s", szStatement);
 		return nullptr;
 	}
 

@@ -27,13 +27,12 @@ typedef unsigned int UINT;
 #ifdef WIN32
 
 typedef long long time_t;
-typedef unsigned long DWORD;
 
 #else
 
 typedef unsigned int COLORREF;
 typedef char TCHAR;
-typedef unsigned int DWORD;
+typedef unsigned long DWORD;
 
 #endif
 

@@ -93,7 +93,8 @@ void  CIOCP::CreateUserData(ACE_HANDLE handle)
 	ObjCSUser->PerSocketContext->dwIOCount = 0;
 
 	_PER_SOCKET_CONTEXT* sockCtx = ObjCSUser->PerSocketContext;
-
+	sockCtx->IOContext[0].Buffer[0] = { 0 };
+	sockCtx->IOContext[1].Buffer[0] = { 0 };
 	sockCtx->IOContext[0].IOOperation = 0;
 	sockCtx->IOContext[1].IOOperation = 1;
 	sockCtx->nIndex = ObjCSUser->Index;
@@ -156,21 +157,24 @@ int CIOCP::OnRead(ACE_HANDLE handle, int len)
 	lpIOContext->nWaitIO = 0;
 
 	//unsigned long RecvBytes = 0; // = this->input_buffer_.space();
+
 	
+	recv_soft((char*)lpIOContext->Buffer, len);
+	//lpIOContext->Buffer[0] = '\\0';
+	//ACE_OS::memcpy(&lpIOContext->Buffer[0], (unsigned char*) this->input_buffer_.rd_ptr(), len);
+	//len--;
 	lpIOContext->nbBytes = len;
 	lpIOContext->nTotalBytes += len;
-	
-	//recv((char*)lpIOContext->Buffer, len);
-	ACE_OS::memcpy(&lpIOContext->Buffer[0], (unsigned char*) this->input_buffer_.rd_ptr(), len);
-	//lpIOContext->Buffer[len*8] = '\\0';
+
+	//lpIOContext->Buffer[len] = '\\0';
 
 	if (lpUser->ServerPhase == 1)
 		RecvDataParse1(lpIOContext, lpUser->Index);
 	else
 		RecvDataParse2(lpIOContext, lpUser->Index);
 
-	for (int i = 0; i <= len; ++i)
-		lpIOContext->Buffer[i] = '\\0';
+	//for (int i = 0; i <= len+1; ++i)
+	//	lpIOContext->Buffer[i] = '\\0';
 
 	lpIOContext->IOOperation = 0;
 
@@ -314,8 +318,8 @@ bool CIOCP::RecvDataParse2(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 	BYTE* recvbuf;
 	int lOfs;
 	int size;
-	BYTE headcode;
-	BYTE xcode;
+	unsigned char headcode;
+	unsigned char xcode;
 	STR_CS_USER* lpUser = this->getCSByHandle(this->peer().get_handle());
 
 	if (lpIOContext->nbBytes < 3)
@@ -384,9 +388,9 @@ bool CIOCP::RecvDataParse2(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 
 				else
 				{
-					//BYTE* pDecBuf = byDec;
+					unsigned char* pDecBuf = byDec;
 
-					headcode = byDec[2];
+					headcode = pDecBuf[2];
 					byDec[0] = 0xC1;
 					byDec[1] = ret + 2;
 					lpUser->PacketCount++;
@@ -425,7 +429,7 @@ bool CIOCP::RecvDataParse2(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 						return 0;
 					}
 
-					GSProtocol.ProtocolCore(headcode, byDec, ret, uIndex, 1);
+					GSProtocol.ProtocolCore(headcode, &byDec[0], ret, uIndex, 1);
 
 				}
 			}

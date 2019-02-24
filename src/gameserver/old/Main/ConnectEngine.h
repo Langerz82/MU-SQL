@@ -18,7 +18,12 @@ bool UserSet(int index, unsigned int Port, int type, char* Name);
 void UserRun();
 
 inline STR_CS_USER* getCSUser(int index) { return gCSUsers.find(index)->second; }
-inline void insertCSUser(STR_CS_USER* Obj) { gCSUsers.insert(std::pair<int, STR_CS_USER*>(Obj->Index, Obj)); }
+inline int insertCSUser(STR_CS_USER* Obj) 
+{ 
+	gCSUsers.insert(std::pair<int, STR_CS_USER*>(12000 - Obj->Index, Obj));
+	return 12000 - Obj->Index;
+}
+
 inline void eraseCSUser(int index) { gCSUsers.erase(index); }
 
 #endif

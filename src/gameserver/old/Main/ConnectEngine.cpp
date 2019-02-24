@@ -51,12 +51,13 @@ STR_CS_USER* UserAdd(const char* SocketKey, char* IP)
 			connUser->News = false;
 			connUser->PacketCount = 0;
 			connUser->i64PacketTime = WorldTimer::getMSTime();
-			connUser->Index = count;
 			connUser->PerSocketContext = new _PER_SOCKET_CONTEXT();
 			connUser->PerSocketContext->IOContext[0];
 			connUser->PerSocketContext->IOContext[1];
 			connUser->ServerPhase = 2;
-			insertCSUser(connUser);
+			connUser->Index = count;
+			connUser->Index = insertCSUser(connUser);
+			connUser->Connected = PLAYER_CONNECTED;
 			SCount++;
 			sLog->outBasic("Connection Accept: %s", IP);
 			return connUser;

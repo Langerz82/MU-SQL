@@ -5,7 +5,7 @@
 #include "generalStructs.h"
 #include "ConnectEngine.h"
 #include "Utility/util.h"
-#include "Game/User/CUserData.h"
+
 #include "TNotice.h"
 
 GameProtocol GSProtocol;
@@ -140,6 +140,10 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 	char serial[17];
 	char id[11];
 	char hwid[25];
+	char tAccountID[10];
+	char tPass[20];
+	char tHWID[100];
+
 	STR_CS_USER* lpUser = getCSUser(aIndex);
 
 	if (lpMsg->CliVersion[0] != szClientVersion[0] ||
@@ -158,10 +162,13 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 	//	sLog->outError("[IP: %s][aIndex: %d] connecting with DLL for different Game Season, review and correct (if required) %d", lpUser->IP, aIndex, lpMsg->ServerSeason);
 	//}
 
-#ifdef EMU_NOCRYPT
-	BuxConvert(lpMsg->Id, MAX_ACCOUNT_LEN);
-	BuxConvert(lpMsg->Pass, 20);
-#endif
+//#ifdef EMU_NOCRYPT
+	BuxConvert(lpUser->AccountID, MAX_ACCOUNT_LEN);
+	BuxConvert(lpUser->Password, 20);
+//#endif
+	std::strcpy(tAccountID, lpUser->AccountID);
+	std::strcpy(tPass, lpUser->Password);
+	
 
 	id[10] = 0;
 	memcpy(id, lpMsg->Id, sizeof(lpMsg->Id));
@@ -177,6 +184,7 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 
 	serial[16] = 0;
 	memcpy(serial, lpMsg->CliSerial, sizeof(lpMsg->CliSerial));
+	std::strcpy(lpUser->HWID, serial);
 
 	/*if (strcmp(serial, szGameServerExeSerial) != 0)
 	{
@@ -224,20 +232,6 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 		return;
 	}
 
-	if (lpUser->LoginMsgSnd != FALSE)
-	{
-		if (lpUser->LoginMsgSnd == TRUE)
-		{
-
-		}
-		else
-		{
-
-		}
-
-		return;
-	}
-
 	//SDHP_IDPASS spMsg;
 	//PHeadSetB((LPBYTE)&spMsg, 0x01, sizeof(spMsg));
 	//spMsg.Number = aIndex;
@@ -246,34 +240,30 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 	//memcpy(spMsg.HWID, hwid, sizeof(hwid));
 	//strcpy(spMsg.IpAddress, lpUser->IP);
 
-	char* szAccountID = lpMsg->Id;
-	char* szPass = lpMsg->Pass;
-	char* szHWID = lpMsg->HWID;
-
 
 
 	//wsJServerCli.DataSend((char*)&spMsg, spMsg.h.size);
 	// Prevent SQLInjection
-	if (SQLSyntexCheck(szAccountID) == FALSE ||
-		SQLSyntexCheck(szPass) == FALSE)
+	if (SQLSyntexCheck(tAccountID) == FALSE ||
+		SQLSyntexCheck(tPass) == FALSE)
 	{
 		return;
 	}
 
-	if (SpaceSyntexCheck(szAccountID) == FALSE ||
-		SpaceSyntexCheck(szPass) == FALSE)
+	if (SpaceSyntexCheck(tAccountID) == FALSE ||
+		SpaceSyntexCheck(tPass) == FALSE)
 	{
 		return;
 	}
 
-	if (QuoteSpaceSyntaxCheck(szAccountID) == FALSE ||
-		QuoteSpaceSyntaxCheck(szPass) == FALSE)
+	if (QuoteSpaceSyntaxCheck(tAccountID) == FALSE ||
+		QuoteSpaceSyntaxCheck(tPass) == FALSE)
 	{
 		return;
 	}
 
-	if (PercentSyntaxCheck(szAccountID) == FALSE ||
-		PercentSyntaxCheck(szPass) == FALSE)
+	if (PercentSyntaxCheck(tAccountID) == FALSE ||
+		PercentSyntaxCheck(tPass) == FALSE)
 	{
 		return;
 	}
@@ -283,18 +273,18 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 	int pResult = 0;
 	//EnterCriticalSection(&this->userCheck);
 
-	if (SpaceSyntexCheck(szAccountID) == TRUE)
+	if (SpaceSyntexCheck(tAccountID) == TRUE)
 	{
 		// Add User to List
 		if (bErrorFlag == FALSE)
 		{
-			QueryResult* res = this->m_AccDB.Fetch("SELECT memb_guid, bloc_code, memb__pwd FROM MEMB_INFO WHERE memb___id='%s'", szAccountID);
+			QueryResult* res = this->m_AccDB.Fetch("SELECT memb_guid, bloc_code, memb__pwd FROM MEMB_INFO WHERE memb___id='%s'", tAccountID);
 			if (res != nullptr)
 			{
 				if ((*res)->GetRowCount() == 0)
 				{
 					bErrorFlag = TRUE;
-					sLog->outError("[MeMuOnline] Account doesn't exist - ID : %s", szAccountID);
+					sLog->outError("[MeMuOnline] Account doesn't exist - ID : %s", tAccountID);
 				}
 				if (bErrorFlag == FALSE)
 				{
@@ -362,13 +352,13 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 					}
 					else*/
 					{
-						TCHAR szPassword[21] = { 0 };
-						this->m_AccDB.GetAsString(2, szPassword, sizeof(szPassword) - 1);
+						TCHAR tPassword2[21] = { 0 };
+						this->m_AccDB.GetAsString(2, tPassword2, sizeof(tPassword2) - 1);
 
-						if (lstrcmp(szPass, szPassword))
+						if (lstrcmp(tPass, tPassword2))
 						{
 							bErrorFlag = TRUE;
-							sLog->outError("[MeMuOnline] Wrong Password - ID : %s", szAccountID);
+							sLog->outError("[MeMuOnline] Wrong Password - ID : %s", tAccountID);
 						}
 					}
 				}
@@ -493,6 +483,8 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 	//LeaveCriticalSection(&userCheck);
 
 	//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+	
+
 	CSPJoinIdPassRequest2(lpMsg, aIndex);
 
 }
@@ -505,19 +497,15 @@ void GameProtocol::CSPJoinIdPassRequest2(PMSG_IDPASS* lpMsg, int aIndex)
 	CUserData* lpUser = new CUserData();
 	lpUser->Init();
 	lpUser->ConnectUser = lpUserCS;
-	gUserObjects.emplace(std::pair<int, CUserData*>(aIndex, lpUser));
+	insertUserObject(lpUser);
 
-	lpUserCS->CheckTick = lpMsg->TickCount;
-	lpUserCS->CheckTick2 = GetTickCount();
+	lpUserCS->CheckTick = WorldTimer::getMSTime();
+	lpUserCS->CheckTick2 = WorldTimer::getMSTime();
 	lpUserCS->ConnectCheckTime = WorldTimer::getMSTime();
 	lpUserCS->CheckSpeedHack = true;
-	lpUserCS->ConnectCheckTime = WorldTimer::getMSTime();
 	lpUserCS->AgiCheckTime = WorldTimer::getMSTime();
 	lpUserCS->LoginMsgSnd = 1;
 	lpUserCS->LoginMsgCount++;
-	lpUserCS->AccountID[MAX_ACCOUNT_LEN] = 0;
-	memcpy(lpUserCS->AccountID, lpMsg->Id, MAX_ACCOUNT_LEN);
-	memcpy(lpUserCS->HWID, lpMsg->HWID, sizeof(lpMsg->HWID));
 	lpUserCS->m_cAccountItemBlock = 0;
 	lpUserCS->VipType = 0;
 	lpUserCS->VipEffect = VIP_EFFECT_NONE;
@@ -525,10 +513,10 @@ void GameProtocol::CSPJoinIdPassRequest2(PMSG_IDPASS* lpMsg, int aIndex)
 	lpUserCS->dwLastHitHackTick = WorldTimer::getMSTime();
 
 
-	QueryResult* result = this->m_AccDB.Fetch("SELECT Id FROM AccountCharacter WHERE Id='%s'", lpUserCS->AccountID);
-	if ((*result)->GetRowCount() == 0)
+	QueryResult* result = this->m_AccDB.Fetch("SELECT `Id` FROM AccountCharacter WHERE `Id`='%s'", lpUserCS->AccountID);
+	if (!result || (*result)->GetRowCount() == 0)
 	{
-		this->m_AccDB.ExecQuery("INSERT INTO AccountCharacter (Id) VALUES ('%s')", lpUserCS->AccountID);
+		this->m_AccDB.ExecQuery("INSERT INTO AccountCharacter (`Id`) VALUES ('%s')", lpUserCS->AccountID);
 		return;
 	}
 
@@ -548,11 +536,11 @@ void GameProtocol::CSPJoinIdPassRequest2(PMSG_IDPASS* lpMsg, int aIndex)
 	sLog->outBasic("[%s] - characters: [%s][%s][%s][%s][%s]", lpUserCS->AccountID, lpUser->Characters[0].Name,
 		lpUser->Characters[1].Name, lpUser->Characters[2].Name, lpUser->Characters[3].Name, lpUser->Characters[4].Name);
 
-	QueryResult* result3 = this->m_AccDB.Fetch("SELECT WarehouseExpansion, Summoner, RageFighter, SecCode, SlotCount FROM AccountCharacter WHERE Id='%s'", lpUserCS->AccountID);
+	QueryResult* result3 = this->m_AccDB.Fetch("SELECT WarehouseExpansion, Summoner, RageFighter, SecCode FROM AccountCharacter WHERE Id='%s'", lpUserCS->AccountID);
 
 	lpUser->m_WarehouseExpansion = this->m_AccDB.GetAsInteger(0);
 	lpUser->m_iSecurityCode = this->m_AccDB.GetAsInteger(3);
-	lpUser->CharacterSlotCount = this->m_AccDB.GetAsInteger(4);
+	//lpUser->CharacterSlotCount = this->m_AccDB.GetAsInteger(4);
 
 	BOOL Summoner = this->m_AccDB.GetAsInteger(1);
 	BOOL RF = this->m_AccDB.GetAsInteger(2);
@@ -568,17 +556,17 @@ void GameProtocol::CSPJoinIdPassRequest2(PMSG_IDPASS* lpMsg, int aIndex)
 
 	for (int i = 0; i<5; i++)
 	{
-		if (lpUser->Characters[i].Name[0] != 0)
+		char* charName = lpUser->Characters[i].Name;
+		if (charName != 0)
 		{
-			if (lstrlen(lpUser->Characters[i].Name) >= 4)
+			if (lstrlen(charName) >= 4)
 			{
 
-				QueryResult* result4 = this->m_AccDB.Fetch("SELECT `Name`,cLevel,`Class`,Inventory,CtlCode, `RESETS` FROM `character` WHERE AccountID = '%s'", CharName[i]);
-				if ((*result4)->GetRowCount() == 1)
+				QueryResult* result4 = this->m_AccDB.Fetch("SELECT `Name`,cLevel,`Class`,CtlCode, `RESETS` FROM `character` WHERE `Name` = '%s'", charName);
+				if (result4 && (*result4)->GetRowCount() == 1)
 				{
 					char szTemp[200];
 
-					this->m_AccDB.Fetch();
 					lpUser->Characters[i].Level = (WORD)this->m_AccDB.GetAsInteger(1);
 					lpUser->Characters[i].Class = (BYTE)this->m_AccDB.GetAsInteger(2);
 					lpUser->Characters[i].CtlCode = (BYTE)this->m_AccDB.GetAsInteger(3);
@@ -595,7 +583,7 @@ void GameProtocol::CSPJoinIdPassRequest2(PMSG_IDPASS* lpMsg, int aIndex)
 					
 
 					BYTE btInvetory[INVENTORY_BINARY_SIZE];
-					wsprintf(szTemp, "SELECT Inventory FROM Character WHERE Name='%s'", lpUser->Characters[i].Name);
+					wsprintf(szTemp, "SELECT Inventory FROM `character` WHERE `Name` = '%s'", charName);
 					int ret = this->m_AccDB.GetAsBinary(szTemp, lpUser->Characters[i].Inventory, sizeof(lpUser->Characters[i].Inventory));
 
 					int dbsize = 32;
@@ -698,7 +686,7 @@ void GameProtocol::CSPJoinIdPassRequest2(PMSG_IDPASS* lpMsg, int aIndex)
 void GameProtocol::JGPGetCharList(BYTE* lpRecv, int aIndex)
 {
 	STR_CS_USER* lpUserCS = getCSUser(aIndex);
-	CUserData* lpUser = new CUserData();
+	CUserData* lpUser = getUserObject(aIndex);
 
 	//SDHP_CHARLISTCOUNT * lpCount = (SDHP_CHARLISTCOUNT *)lpRecv;
 	//SDHP_CHARLIST * lpCL;
@@ -737,7 +725,7 @@ void GameProtocol::JGPGetCharList(BYTE* lpRecv, int aIndex)
 	if (lpUser->m_iSecurityCode != 0)
 	{
 		lpUser->m_bSecurityCheck = false;
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 534), aIndex, 0);
+		//GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 534), aIndex, 0); // TODO
 	}
 	else
 	{
@@ -747,7 +735,7 @@ void GameProtocol::JGPGetCharList(BYTE* lpRecv, int aIndex)
 	pCLCount.MaxClass = 0x1F;//lpCount->EnableCharacterCreate;
 	pCLCount.MoveCnt = 0;
 	pCLCount.WhExpansion = lpUser->m_WarehouseExpansion;
-	pCLCount.CharacterSlotCount = 5;
+	pCLCount.CharacterSlotCount = lpUser->CharacterSlotCount;
 
 
 	PMSG_CHARLIST_ENABLE_CREATION pMsgC;
@@ -760,11 +748,11 @@ void GameProtocol::JGPGetCharList(BYTE* lpRecv, int aIndex)
 	memset(sendbuf, 0, sizeof(sendbuf));
 	lOfs += sizeof(PMSG_CHARLISTCOUNT);
 
-	if (pCLCount.Count > 0)
+	if (lpUser->CharacterSlotCount > 0)
 	{
 		lpUser->m_NameConvertOfUBF.InitData(); // UBF Name Conversion
 
-		for (int n = 0; n < pCLCount.Count; n++)
+		for (int n = 0; n < lpUser->CharacterSlotCount; n++)
 		{
 			memset(&pCList, 0, sizeof(pCList));
 			//lpCL = (SDHP_CHARLIST *)&lpRecv[lsOfs];

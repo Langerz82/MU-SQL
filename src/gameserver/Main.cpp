@@ -108,7 +108,12 @@ typedef BYTE BYTE;
 
 bool initDB()
 {
-	
+	g_ServerAddress = iniReader->GetString("SQL", "ServerAddress", "127.0.0.1");
+	g_DBPort = iniReader->GetString("SQL", "Port", "3306");
+	g_UserID = iniReader->GetString("SQL", "User", "sa");
+	g_Password = iniReader->GetString("SQL", "Pass", "sa123");
+	g_MuOnlineDB = iniReader->GetString("SQL", "MuOnlineDB", "mu_data");
+
 	MySQL::Library_Init();
 
 	DatabaseLoader loader("server.connectserver", DatabaseLoader::DATABASE_NONE);
@@ -120,6 +125,7 @@ bool initDB()
 	if (!loader.Load())
 		return false;
 
+	
 	sLog->outBasic("Started auth database connection pool.");
 	return true;
 }
@@ -169,17 +175,6 @@ void usage(const char* prog)
                    "    -s stop                  stop daemon\n\r"
 #endif
                    , prog);
-}
-
-
-bool InitDataServer()
-{
-	g_ServerAddress = iniReader->GetString("SQL", "ServerAddress", "127.0.0.1");
-	g_DBPort = iniReader->GetString("SQL", "Port", "3306");
-	g_UserID = iniReader->GetString("SQL", "User", "sa");
-	g_Password = iniReader->GetString("SQL", "Pass", "sa");
-	g_MuOnlineDB = iniReader->GetString("SQL", "MuOnlineDB", "mu_data");
-	return true;
 }
 
 void LoadLog()

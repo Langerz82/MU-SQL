@@ -23,6 +23,30 @@ DatabaseLoader::DatabaseLoader(std::string const& logger, uint32 const defaultUp
 template <class T>
 DatabaseLoader& DatabaseLoader::AddDatabase(DatabaseWorkerPool<T>& pool, std::string const& name)
 {
+	bool const updatesEnabledForThis = false;
+
+	_open.push([this, name, updatesEnabledForThis, &pool]() -> bool
+	{
+		pool.SetConnectionInfo(_connConfig, 1, 1);
+		if (uint32 error = pool.Open())
+		{
+			// If the error wasn't handled quit
+			if (error)
+			{
+				sLog->outError("\nDatabasePool %s NOT opened. There were errors opening the MySQL connections. Check your SQLDriverLogFile "
+					"for specific errors.", name.c_str());
+
+				return false;
+			}
+		}
+		// Add the close operation
+		_close.push([&pool]
+		{
+			pool.Close();
+		});
+		return true;
+	});
+
     return *this;
 }
 

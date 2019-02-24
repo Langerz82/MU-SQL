@@ -135,6 +135,30 @@
 std::map<int, CUserData*> gUserObjects;
 
 
+CUserData* getUserObject(int index)
+{
+	std::map<int, CUserData*>::iterator pGO = gUserObjects.find(index);
+	if (pGO == gUserObjects.end())
+	{
+		sLog->outError("GameObject does not exist. %s %d\n%s", __FILE__, __LINE__);
+		return nullptr;
+	}
+	else
+		return pGO->second;
+}
+
+void insertUserObject(CUserData* Obj)
+{
+	int userIndex = Obj->ConnectUser->Index;
+	gUserObjects.insert(std::pair<int, CUserData*>(userIndex, Obj));
+}
+
+void eraseUserObject(CUserData* Obj) {
+	gUserObjects.erase(Obj->ConnectUser->Index);
+	delete Obj;
+}
+
+
 CNameConvert::CNameConvert()
 {
 	this->m_perCharacterInfo = new CharacterNameOfUBF[5];

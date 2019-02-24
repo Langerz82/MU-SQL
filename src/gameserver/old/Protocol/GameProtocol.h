@@ -12,6 +12,7 @@
 //#include "user.h"
 //#include "MapClass.h"
 #include "GensSystemProtocol.h"
+#include "Game/User/CUserData.h"
 //#include "Shop.h"
 #include "Query.h"
 

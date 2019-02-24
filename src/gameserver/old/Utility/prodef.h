@@ -203,7 +203,7 @@ struct PWMSG_DEFAULT
 
 struct PMSG_DEFAULT2
 {
-	PBMSG_HEAD2 h;
+	PBMSG_HEAD h;
 	BYTE subcode;
 };
 

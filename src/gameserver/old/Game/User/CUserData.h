@@ -295,9 +295,10 @@ public:
 	struct STR_USER_CHARACTERS Characters[5];
 };
 
-extern CUserData* gGetUserData;
-
 unsigned char LevelSmallConvert(int level);
 unsigned char LevelSmallConvert(int aIndex, int inventoryindex);
 
+extern CUserData* getUserObject(int index);
+extern void insertUserObject(CUserData* Obj);
+extern void eraseUserObject(CUserData* Obj);
 #endif
