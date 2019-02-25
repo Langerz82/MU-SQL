@@ -985,6 +985,120 @@ struct PMSG_SET_CHAT_COLOR
 };
 
 
+struct PMSG_CHARCREATE
+{
+	PBMSG_HEAD h;
+	BYTE subcode;	// 3
+	char Name[10];	// 4
+	BYTE ClassSkin;	// E
+};
+
+
+struct PMSG_CHARDELETE
+{
+	PBMSG_HEAD h;
+	BYTE subcode;	// 3
+	char Name[10];	// 4
+	char LastJoominNumber[20];	// E
+};
+
+/* * * * * * * * * * * * * * * * * * * * *
+*	Mu Get Char List Result Packet
+*	Direction : GameServer -> Client
+*  Code     : 0xC1
+*	HeadCode : 0xF3
+*	SubCode  : 0x01
+*/
+struct PMSG_CHARCREATERESULT
+{
+	PBMSG_HEAD h;	// C1:F3:01
+	BYTE subcode;	// 3
+	unsigned char Result;	// 4
+	unsigned char Name[10];	// 5
+	BYTE pos;	// F
+	WORD Level;	// 10
+	BYTE Class;	// 12
+	BYTE Equipment[24];	// 13
+};
+
+
+struct PMSG_DISABLE_RECONNECT // can use 1 for both
+{
+	PBMSG_HEAD h;
+	BYTE subcode;
+	BYTE Trash[100];
+};
+
+
+struct GUILD_INFO_STRUCT
+{
+	int Number;	//0
+	char Name[9];	//4
+	BYTE Mark[32];	//D
+	BYTE Count;	//2D
+	BYTE TotalCount;	//2E
+	//std::vector<CGameObject*> Users; // TODO
+	//char Names[MAX_USER_GUILD][11];	//2F
+	short Index[MAX_USER_GUILD];	//3A0
+	BYTE Use[MAX_USER_GUILD];	//440
+	char pServer[MAX_USER_GUILD];	//490
+	char TargetGuildName[9];	//4E0
+	short TargetIndex[MAX_USER_GUILD];	//4EA
+	GUILD_INFO_STRUCT *lpTargetGuildNode;	//58C
+	BYTE WarDeclareState;	//590
+	BYTE WarState;	//591
+	BYTE WarType;	//592
+	BYTE BattleGroundIndex;	//593
+	BYTE BattleTeamCode;	//594
+	BYTE PlayScore;	//595
+	int TotalScore;	//598
+	char Notice[60];	//59c
+	int GuildStatus[MAX_USER_GUILD];	//5D8
+	BYTE btGuildType;	//718
+	int iGuildUnion;	//71C
+	int iGuildRival;	//720
+	int iTimeStamp;	//724
+	char szGuildRivalName[9];	//728
+	GUILD_INFO_STRUCT *back;	//734
+	GUILD_INFO_STRUCT *next;	//738
+	//CGameObject* lpLifeStone;
+	int btLifeStoneCount;
+
+	// #error Deathay Fix here
+	GUILD_INFO_STRUCT() {
+		return;
+	};
+	int  GetGuildUnion() { return this->iGuildUnion; };
+	int  GetGuildRival() { return this->iGuildRival; };
+
+	void SetGuildUnion(int iGuildNumber)	// line : 102
+	{
+		this->iGuildUnion = iGuildNumber;
+		this->SetTimeStamp();
+	};	// line : 105
+
+	void SetGuildRival(int iGuildNumber)	// line : 108
+	{
+		this->iGuildRival = iGuildNumber;
+		this->SetTimeStamp();
+	};	// line : 111
+
+	void SetTimeStamp()	// line : 117
+	{
+		this->iTimeStamp++;
+	};	// line : 119
+
+	int GetTimeStamp()	// line : 122
+	{
+		return this->iTimeStamp;
+	};	// line : 124
+
+	BOOL CheckTimeStamp(int iTime)	// line : 127
+	{
+		return (iTime == this->iTimeStamp) ? TRUE : FALSE;
+	}	// line : 129
+};
+
 
 
 #pragma pack ()

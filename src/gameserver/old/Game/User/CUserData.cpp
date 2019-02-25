@@ -140,7 +140,7 @@ CUserData* getUserObject(int index)
 	std::map<int, CUserData*>::iterator pGO = gUserObjects.find(index);
 	if (pGO == gUserObjects.end())
 	{
-		sLog->outError("GameObject does not exist. %s %d\n%s", __FILE__, __LINE__);
+		sLog->outError("GameObject does not exist. %s %d\n", __FILE__, __LINE__);
 		return nullptr;
 	}
 	else
@@ -330,6 +330,10 @@ CUserData::~CUserData()
 	delete[] this->m_CancelItemSaleList;
 	delete[] this->m_GremoryCaseData;
 	delete[] this->m_StatSpecOption;*/
+
+	if (this->ConnectUser)
+		delete this->ConnectUser;
+
 }
 
 void CUserData::Init(bool VipReset)
@@ -338,7 +342,7 @@ void CUserData::Init(bool VipReset)
 	memset(this->GuildName, 0, sizeof(this->GuildName));
 	this->GuildNumber = 0;
 	this->iGuildUnionTimeStamp = 0;
-	//this->lpGuild = NULL;
+	this->lpGuild = NULL;
 	this->GuildStatus = -1;
 	this->SantaCount = 0;
 	this->RegisterdLMS = 0;
@@ -512,6 +516,8 @@ void CUserData::Init(bool VipReset)
 	this->MovingIgnore = 0;
 	this->RageDMG = 0;
 
+	this->bEnableDelCharacter = TRUE;
+
 	//this->m_AttackQueue = new CAttackQueue(this);
 }
 
@@ -600,3 +606,23 @@ BYTE LevelSmallConvert(int level)
 	return 0;
 }
 
+BOOL gObjIsAccontConnect(int aIndex, char* accountid)
+{
+	CUserData* lpUser = getUserObject(aIndex);
+
+	if (lpUser->ConnectUser->Connected < PLAYER_CONNECTED)
+	{
+		return 0;
+	}
+
+	if (strlen((const char *) lpUser->ConnectUser->AccountID) < 1)
+	{
+		return 0;
+	}
+
+	if (strcmp(accountid, lpUser->ConnectUser->AccountID) != 0)
+	{
+		return 0;
+	}
+	return 1;
+}

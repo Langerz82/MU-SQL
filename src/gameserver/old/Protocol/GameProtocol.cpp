@@ -5,6 +5,8 @@
 #include "generalStructs.h"
 #include "ConnectEngine.h"
 #include "Utility/util.h"
+#include "Game/Filters/AntiSwear.h"
+#include "Game/Filters/ProhibitedSymbols.h"
 
 #include "TNotice.h"
 
@@ -98,6 +100,24 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 			}
 		}
 		break;
+		case 0xF3:
+		{
+			PMSG_DEFAULT2 * lpDef = (PMSG_DEFAULT2 *)aRecv;
+
+			switch (lpDef->subcode)
+			{
+			case 0x00:
+				//DataServerGetCharListRequest(aIndex);
+				break;
+			case 0x01:
+				this->CGPCharacterCreate((PMSG_CHARCREATE *)aRecv, aIndex);
+				break;
+			case 0x02:
+				this->CGPCharDel((PMSG_CHARDELETE *)aRecv, aIndex);
+				break;
+			}
+		}
+		break;
 		}
 	}
 }
@@ -137,13 +157,15 @@ void GameProtocol::CGLiveClient(PMSG_CLIENTTIME * lpClientTime, short aIndex)
 
 void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 {
+	criti.lock();
+
 	char serial[17];
 	char hwid[25];
 	char* tAccountID;
 	char* tPass;
 	char* tHWID;
 
-	STR_CS_USER* lpUser = getCSUser(aIndex);
+	STR_CS_USER* lpUserCS = getCSUser(aIndex);
 
 	if (lpMsg->CliVersion[0] != szClientVersion[0] ||
 		lpMsg->CliVersion[1] != szClientVersion[1] ||
@@ -153,12 +175,13 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 	{
 		GCJoinResult(JS_BAD_CLIENT_VERSION, aIndex);
 		GIOCP.CloseClient(aIndex);
+		criti.unlock();
 		return;
 	}
 
 	//if (lpMsg->ServerSeason != g_AuthSys.GetSeason())
 	//{
-	//	sLog->outError("[IP: %s][aIndex: %d] connecting with DLL for different Game Season, review and correct (if required) %d", lpUser->IP, aIndex, lpMsg->ServerSeason);
+	//	sLog->outError("[IP: %s][aIndex: %d] connecting with DLL for different Game Season, review and correct (if required) %d", lpUserCS->IP, aIndex, lpMsg->ServerSeason);
 	//}
 	tAccountID = lpMsg->Id;
 	tPass = lpMsg->Pass;
@@ -174,6 +197,7 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 	{
 		this->GCJoinResult(JS_BAD_CLIENT_VERSION, aIndex);
 		GIOCP.CloseClient(aIndex);
+		criti.unlock();
 		return;
 	}
 
@@ -191,6 +215,7 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 	if (tHWID == NULL)
 	{
 		GIOCP.CloseClient(aIndex);
+		criti.unlock();
 		return;
 	}
 
@@ -221,9 +246,10 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 	return;
 	}*/
 
-	if (lpUser->Connected != PLAYER_CONNECTED)
+	if (lpUserCS->Connected != PLAYER_CONNECTED)
 	{
 		GIOCP.CloseClient(aIndex);
+		criti.unlock();
 		return;
 	}
 
@@ -233,7 +259,7 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 	//memcpy(spMsg.Id, lpMsg->Id, sizeof(spMsg.Id));
 	//memcpy(spMsg.Pass, lpMsg->Pass, sizeof(spMsg.Pass));
 	//memcpy(spMsg.HWID, hwid, sizeof(hwid));
-	//strcpy(spMsg.IpAddress, lpUser->IP);
+	//strcpy(spMsg.IpAddress, lpUserCS->IP);
 
 
 
@@ -242,24 +268,28 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 	if (SQLSyntexCheck(tAccountID) == FALSE ||
 		SQLSyntexCheck(tPass) == FALSE)
 	{
+		criti.unlock();
 		return;
 	}
 
 	if (SpaceSyntexCheck(tAccountID) == FALSE ||
 		SpaceSyntexCheck(tPass) == FALSE)
 	{
+		criti.unlock();
 		return;
 	}
 
 	if (QuoteSpaceSyntaxCheck(tAccountID) == FALSE ||
 		QuoteSpaceSyntaxCheck(tPass) == FALSE)
 	{
+		criti.unlock();
 		return;
 	}
 
 	if (PercentSyntaxCheck(tAccountID) == FALSE ||
 		PercentSyntaxCheck(tPass) == FALSE)
 	{
+		criti.unlock();
 		return;
 	}
 
@@ -354,6 +384,9 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 						{
 							bErrorFlag = TRUE;
 							sLog->outError("[MeMuOnline] Wrong Password - ID : %s", tAccountID);
+							GSProtocol.GCJoinResult(0, aIndex);
+							criti.unlock();
+							return;
 						}
 					}
 				}
@@ -479,19 +512,11 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 
 	GSProtocol.GCJoinResult(1, aIndex);
 
-	std::strcpy(lpUser->AccountID,lpMsg->Id);
-	std::strcpy(lpUser->Password,lpMsg->Pass);
-	std::strcpy(lpUser->HWID,lpMsg->HWID);
-
-	CSPJoinIdPassRequest2(lpMsg, aIndex);
-
-}
+	std::strcpy(lpUserCS->AccountID,lpMsg->Id);
+	std::strcpy(lpUserCS->Password,lpMsg->Pass);
+	std::strcpy(lpUserCS->HWID,lpMsg->HWID);
 
 
-
-void GameProtocol::CSPJoinIdPassRequest2(PMSG_IDPASS* lpMsg, int aIndex)
-{
-	STR_CS_USER* lpUserCS = getCSUser(aIndex);
 	CUserData* lpUser = new CUserData();
 	lpUser->Init();
 	lpUser->ConnectUser = lpUserCS;
@@ -515,6 +540,7 @@ void GameProtocol::CSPJoinIdPassRequest2(PMSG_IDPASS* lpMsg, int aIndex)
 	if (!result || (*result)->GetRowCount() == 0)
 	{
 		this->m_AccDB.ExecQuery("INSERT INTO AccountCharacter (`Id`) VALUES ('%s')", lpUserCS->AccountID);
+		criti.unlock();
 		return;
 	}
 
@@ -654,20 +680,20 @@ void GameProtocol::CSPJoinIdPassRequest2(PMSG_IDPASS* lpMsg, int aIndex)
 		}
 	}
 	lpUser->CharacterSlotCount = iCharCount;
-	/*if (g_MagumsaCreateMinLevel == 0 && (pCount->EnableCharacterCreate & 4) != 4)
+	if (g_MagumsaCreateMinLevel == 0 && (lpUserCS->EnableCharacterCreate & 4) != 4)
 	{
-	pCount->EnableCharacterCreate |= 4;
+		lpUserCS->EnableCharacterCreate |= 4;
 	}
 
-	if (g_DarkLordCreateMinLevel == 0 && (pCount->EnableCharacterCreate & 2) != 2)
+	if (g_DarkLordCreateMinLevel == 0 && (lpUserCS->EnableCharacterCreate & 2) != 2)
 	{
-	pCount->EnableCharacterCreate |= 2;
+		lpUserCS->EnableCharacterCreate |= 2;
 	}
 
-	if (g_GrowLancerCreateMinLevel == 0 && (pCount->EnableCharacterCreate & 0x10) != 0x10)
+	if (g_GrowLancerCreateMinLevel == 0 && (lpUserCS->EnableCharacterCreate & 0x10) != 0x10)
 	{
-	pCount->EnableCharacterCreate |= 0x10;
-	}*/
+		lpUserCS->EnableCharacterCreate |= 0x10;
+	}
 
 	sLog->outBasic("Connect Account: %s / MachineID: %s", lpUserCS->AccountID, lpMsg->HWID);
 	lpUserCS->m_bMapSvrMoveReq = false;
@@ -677,14 +703,7 @@ void GameProtocol::CSPJoinIdPassRequest2(PMSG_IDPASS* lpMsg, int aIndex)
 	//lpUser->m_btDestX = 0;
 	//lpUser->m_btDestY = 0;
 
-	JGPGetCharList(aIndex);
-}
-
-
-void GameProtocol::JGPGetCharList(int aIndex)
-{
-	STR_CS_USER* lpUserCS = getCSUser(aIndex);
-	CUserData* lpUser = getUserObject(aIndex);
+	lpUserCS->Connected = PLAYER_LOGGED;
 
 	//SDHP_CHARLISTCOUNT * lpCount = (SDHP_CHARLISTCOUNT *)lpRecv;
 	//SDHP_CHARLIST * lpCL;
@@ -1113,6 +1132,9 @@ void GameProtocol::JGPGetCharList(int aIndex)
 			lOfs += sizeof(pCList);
 		}
 	}
+
+	mSleep(100); // Add Delay for switch to character screen.
+
 	pCLCount.h.size = lOfs;
 	memcpy(sendbuf, &pCLCount, sizeof(PMSG_CHARLISTCOUNT));
 	GIOCP.DataSend(aIndex, (LPBYTE)&pRMsg, sizeof(pRMsg));
@@ -1132,6 +1154,8 @@ void GameProtocol::JGPGetCharList(int aIndex)
 
 	BYTE DisableCheat[4] = { 0xC1, 0x04, 0xF3, 0xFA }; //Disable Cheat
 	GIOCP.DataSend(aIndex, DisableCheat, sizeof(DisableCheat));
+
+	criti.unlock();
 }
 
 
@@ -1270,6 +1294,399 @@ void GameProtocol::GCSetCharColors(int aIndex)
 
 	GIOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
+
+void GameProtocol::CGPCharacterCreate(PMSG_CHARCREATE * lpMsg, int aIndex)
+{
+	criti.lock();
+	/*if (!PacketCheckTime(aIndex))
+	{
+		JGCharacterCreateFailSend(aIndex, lpMsg->Name);
+		return;
+	}*/
+
+	CUserData* lpUser = getUserObject(aIndex);
+
+
+	if (lpUser->ConnectUser->Connected < PLAYER_LOGGED)
+	{
+		GIOCP.CloseClient(aIndex);
+		return;
+	}
+
+	if (lpUser->ConnectUser->Connected == PLAYER_PLAYING)
+	{
+		//this->GCSendDisableReconnect(aIndex);
+		GIOCP.CloseClient(aIndex);
+
+		return;
+	}
+
+	/*if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
+	{
+		this->GCServerMsgStringSend(Lang.GetText(0, 620), aIndex, 1);
+		JGCharacterCreateFailSend(aIndex, lpMsg->Name);
+		return;
+	}*/
+
+	if (lpUser->m_bSecurityCheck == false)
+	{
+		GCServerMsgStringSend(Lang.GetText(0, 512), aIndex, 1);
+		JGCharacterCreateFailSend(aIndex, lpMsg->Name);
+		return;
+	}
+
+	if (!gCreateCharacter)
+	{
+		GCServerMsgStringSend(Lang.GetText(0, 513), aIndex, 1);
+		JGCharacterCreateFailSend(aIndex, lpMsg->Name);
+		return;
+	}
+
+	if (lpMsg->ClassSkin == 0x00 || lpMsg->ClassSkin == 0x10 || lpMsg->ClassSkin == 0x20 || lpMsg->ClassSkin == 0x30 || lpMsg->ClassSkin == 0x40 || lpMsg->ClassSkin == 0x50 || lpMsg->ClassSkin == 0x60 || lpMsg->ClassSkin == 0x70)
+	{
+
+	}
+	else
+	{
+		JGCharacterCreateFailSend(aIndex, lpMsg->Name);
+		return;
+	}
+
+	if (lpMsg->ClassSkin == 0x30) // MG
+	{
+		if ((lpUser->ConnectUser->EnableCharacterCreate & 4) != 4)
+		{
+			JGCharacterCreateFailSend(aIndex, lpMsg->Name);
+			return;
+		}
+	}
+
+	if (lpMsg->ClassSkin == 0x40) // DL
+	{
+		if ((lpUser->ConnectUser->EnableCharacterCreate & 2) != 2)
+		{
+			JGCharacterCreateFailSend(aIndex, lpMsg->Name);
+			return;
+		}
+	}
+
+	if (lpMsg->ClassSkin == 0x50)
+	{
+		if ((lpUser->ConnectUser->EnableCharacterCreate & 1) != 1)
+		{
+			JGCharacterCreateFailSend(aIndex, lpMsg->Name);
+			return;
+		}
+	}
+
+	if (lpMsg->ClassSkin == 0x60)
+	{
+		if ((lpUser->ConnectUser->EnableCharacterCreate & 8) != 8)
+		{
+			JGCharacterCreateFailSend(aIndex, lpMsg->Name);
+			return;
+		}
+	}
+
+	if (lpMsg->ClassSkin == 0x70)
+	{
+		if ((lpUser->ConnectUser->EnableCharacterCreate & 0x10) != 0x10)
+		{
+			JGCharacterCreateFailSend(aIndex, lpMsg->Name);
+			return;
+		}
+	}
+
+	if (strlen(lpMsg->Name) >= MAX_ACCOUNT_LEN)
+	{
+		JGCharacterCreateFailSend(aIndex, lpMsg->Name);
+		return;
+	}
+
+	char szName[11];
+	szName[10] = 0;
+	memcpy(szName, lpMsg->Name, MAX_ACCOUNT_LEN);
+	if (!g_prohibitedSymbols.Validate(szName, strlen(szName), TYPE_NAME))
+	{
+		JGCharacterCreateFailSend(aIndex, lpMsg->Name);
+		return;
+	}
+
+	if (SwearFilter.CompareText(lpMsg->Name))
+	{
+		JGCharacterCreateFailSend(aIndex, lpMsg->Name);
+		return;
+	}
+
+	if (strstr(lpMsg->Name, "[A]") != 0)
+	{
+		JGCharacterCreateFailSend(aIndex, lpMsg->Name);
+		return;
+	}
+
+	//SDHP_CREATECHAR sCreate; // Following Extracted From DataServer.
+
+	if (SpaceSyntexCheck(szName) == FALSE || QuoteSpaceSyntaxCheck(szName) == FALSE || PercentSyntaxCheck(szName) == FALSE)
+	{
+		//pResult.Result = 0;
+		//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
+		JGCharacterCreateFailSend(aIndex, lpMsg->Name);
+		return;
+	}
+
+	int iIndex;
+	for (iIndex = 0; iIndex<5; iIndex++)
+	{
+		if (lpUser->Characters[iIndex].Name[0] == 0)
+			break;
+	}
+
+	if (iIndex == 5)
+	{
+		JGCharacterCreateFailSend(aIndex, lpMsg->Name);
+		sLog->outBasic("[%s] cannot create character - no empty slot", lpUser->ConnectUser->AccountID);
+		criti.unlock();
+		return;
+	}
+	else
+	{
+		//memcpy(pResult.Name, aRecv->Name, 10);
+		//pResult.Pos = iIndex;
+
+		if ((lpMsg->ClassSkin >> 4) < 0 || (lpMsg->ClassSkin >> 4) > MAX_TYPE_PLAYER - 1)
+		{
+			JGCharacterCreateFailSend(aIndex, lpMsg->Name);
+			sLog->outBasic("[%s] error - wrong type of character", lpUser->ConnectUser->AccountID);
+		}
+
+		{
+			this->m_AccDB.ExecQuery("CALL WZ_CreateCharacter('%s', '%s', '%d')", lpUser->ConnectUser->AccountID, szName, lpMsg->ClassSkin);
+			/*if (!qr1)
+			{
+				criti.unlock();
+				return;
+			}
+			while ((*qr1)->NextRow());*/
+		}
+		this->m_AccDB.ExecQuery("UPDATE AccountCharacter SET GameID%d='%s' WHERE `Id`='%s'",
+			iIndex + 1, szName, lpUser->ConnectUser->AccountID);
+		{
+			QueryResult* qr2 = this->m_AccDB.Fetch("SELECT `cLevel`, `Class`, `RESETS` FROM `character` WHERE `Name`='%s'", szName);
+			if (qr2 && (*qr2)->GetRowCount() == 1)
+			{
+				lpUser->Characters[iIndex].Level = this->m_AccDB.GetAsInteger(0);
+				lpUser->Characters[iIndex].Class = this->m_AccDB.GetAsInteger(1);
+				lpUser->Characters[iIndex].Resets = this->m_AccDB.GetAsInteger(2);
+			}
+			sLog->outBasic("[%s] created character -> [%s]", lpUser->ConnectUser->AccountID, szName);
+		}
+	}
+
+	// END Extracted DS.
+
+	memcpy(lpUser->Characters[iIndex].Name, lpMsg->Name, MAX_ACCOUNT_LEN);
+
+	// Extracted From JGCharacterCreateRequest()
+
+	PMSG_CHARCREATERESULT pResult;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+
+	//szAccountID[MAX_ACCOUNT_LEN] = 0;
+	//memcpy(szAccountID, lpMsg->AccountId, sizeof(lpMsg->AccountId));
+
+	if (gObjIsAccontConnect(aIndex, lpUser->ConnectUser->AccountID) == FALSE)
+	{
+		sLog->outError("Request to create character doesn't match the user %s", lpUser->ConnectUser->AccountID);
+		GIOCP.CloseClient(aIndex);
+		return;
+	}
+
+	pResult.h.c = 0xC1;
+	pResult.h.size = sizeof(PMSG_CHARCREATERESULT);
+	pResult.h.headcode = 0xF3;
+	pResult.subcode = 0x01;
+	pResult.Result = 1;
+	pResult.pos = iIndex;
+
+	pResult.Class = CS_GET_CLASS_SX(lpMsg->ClassSkin);
+	int changeup = CS_GET_CHANGEUP_SX(lpMsg->ClassSkin);
+
+	if (changeup == 1)
+	{
+		pResult.Class |= CS_SET_CHANGEUP_SX;
+	}
+
+	if (changeup == 2)
+	{
+		pResult.Class |= CS_SET_CHANGEUP_SX;
+		pResult.Class |= CS_SET_CHANGEUP2_SX;
+	}
+
+	pResult.Level = lpUser->Characters[iIndex].Level;
+	memcpy(pResult.Name, lpMsg->Name, sizeof(pResult.Name));
+
+	/*if (pResult.Result == 1) // TODO - Beginner no equipment?
+	{
+		memcpy(pResult.Equipment, lpMsg->, sizeof(pResult.Equipment));
+	}*/
+
+	GIOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+
+	criti.unlock();
+	// END Extraction.
+}
+
+
+void GameProtocol::CGPCharDel(PMSG_CHARDELETE * lpMsg, int aIndex)
+{
+	CUserData* lpUser = getUserObject(aIndex);
+
+	//if (!PacketCheckTime(aIndex))
+	//	return;
+
+	if (lpUser->ConnectUser->Connected < PLAYER_LOGGED)
+	{
+		GIOCP.CloseClient(aIndex);
+		return;
+	}
+
+	if (lpUser->ConnectUser->Connected == PLAYER_PLAYING)
+	{
+		this->GCSendDisableReconnect(aIndex);
+		//IOCP.CloseClient(aIndex);
+		return;
+	}
+
+	if (lpUser->bEnableDelCharacter == FALSE)
+	{
+		this->GCSendDisableReconnect(aIndex);
+		//	IOCP.CloseClient(aIndex);
+		return;
+	}
+
+	if (lpUser->GuildNumber > 0 && lpUser->lpGuild != NULL)
+	{
+		this->GCSendDisableReconnect(aIndex);
+		//IOCP.CloseClient(aIndex);
+		return;
+	}
+
+	//SDHP_CHARDELETE pCDel;
+	PMSG_RESULT pResult;
+
+	PHeadSubSetB((LPBYTE)&pResult, 0xF3, 0x02, sizeof(pResult));
+	pResult.result = 0;
+
+	if (lpUser->ConnectUser->m_cAccountItemBlock)
+	{
+		pResult.result = 3;
+		GIOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+		return;
+	}
+
+	// TODO
+	/*if (!g_ConfigRead.data.common.GuildDestroy)
+	{
+		pResult.result = 0;
+		IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+		return;
+	}
+
+	if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
+	{
+		pResult.result = 0;
+		IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+		return;
+	}*/
+
+	if (lpUser->m_bSecurityCheck == false)
+	{
+		this->GCServerMsgStringSend(Lang.GetText(0, 513), aIndex, 1);
+		pResult.result = 3;
+		GIOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+		return;
+	}
+
+	char szJoomin[21];
+	char szTemp[20];
+	char szTemp2[20];
+	bool Go = false;
+	memset(szJoomin, 0, sizeof(szJoomin));
+	memcpy(szJoomin, lpMsg->LastJoominNumber, sizeof(lpMsg->LastJoominNumber));
+
+	/*if (gObjPasswordCheck(aIndex, szJoomin) == FALSE)
+	{
+		pResult.result = 2;
+		GIOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+		return;
+	}*/
+
+	//PHeadSetB((LPBYTE)&pCDel, 0x05, sizeof(pCDel));
+	//pCDel.Number = aIndex;
+	//memcpy(pCDel.AccountID, gObj[aIndex].AccountID, sizeof(pCDel.AccountID));
+	//memcpy(pCDel.Name, lpMsg->Name, sizeof(lpMsg->Name));
+	//pCDel.Guild = 0;
+
+	/*if (lpUser->GuildNumber > 0 && lpUser->lpGuild != NULL)
+	{
+		if (!strcmp(gObj[aIndex].Name, lpUser->lpGuild->Names[0]))
+		{
+			pCDel.Guild = 1;	// Master
+		}
+		else
+		{
+			pCDel.Guild = 2;	// Member
+		}
+
+		memcpy(pCDel.GuildName, gObj[aIndex].m_PlayerData->lpGuild->Name, MAX_GUILD_LEN);
+	}*/
+
+	//g_UnityBattleField.GDReqCancelUnityBattleField(aIndex, 2, lpMsg->Name);
+
+	//szTemp[10] = 0;
+	//szTemp2[10] = 0;
+	//memcpy(szTemp, pCDel.Name, MAX_ACCOUNT_LEN);
+	//memcpy(szTemp2, pCDel.AccountID, MAX_ACCOUNT_LEN);
+
+	//wsDataCli.DataSend((PCHAR)&pCDel, pCDel.h.size);
+	//gObj[aIndex].Level = 0; // ? TODO
+}
+
+void GameProtocol::JGCharacterCreateFailSend(int aIndex, char* id)
+{
+	PMSG_CHARCREATERESULT  pResult;
+
+	pResult.h.c = 0xC1;
+	pResult.h.size = sizeof(PMSG_CHARCREATERESULT);
+	pResult.h.headcode = 0xF3;
+	pResult.subcode = 0x01;
+	pResult.Result = false;
+	pResult.pos = 0;
+	memcpy(pResult.Name, id, sizeof(pResult.Name));
+
+	GIOCP.DataSend(aIndex, (UCHAR*)&pResult, pResult.h.size);
+}
+
+void GameProtocol::GCSendDisableReconnect(int aIndex)
+{
+	CUserData* lpUser = getUserObject(aIndex);
+
+	PMSG_DISABLE_RECONNECT pMsg;
+
+	pMsg.h.set((LPBYTE)&pMsg, 0xFA, sizeof(pMsg));
+	pMsg.subcode = 0xA5;
+
+	for (int i = 0; i < 100; i++)
+	{
+		pMsg.Trash[i] = rand() % 0xFF;
+	}
+
+	lpUser->m_dwDCTimer = WorldTimer::getMSTime();
+
+	GIOCP.DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+
+}
+
 
 
 

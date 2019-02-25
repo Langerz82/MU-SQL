@@ -26,8 +26,12 @@ BOOL CQuery::ExecQuery(TCHAR* lpszStatement, ...)
 
 BOOL CQuery::Execute(TCHAR* lpszStatement)
 {
-	this->m_Database.Execute(lpszStatement);
-
+	this->m_Database.DirectExecute(lpszStatement);
+	/*if (this->m_Result && this->m_Result->GetRowCount() > 0)
+	{
+		while (this->m_Result->NextRow())
+			this->m_Result->Fetch();
+	}*/
 	return TRUE;
 }
 
@@ -58,7 +62,7 @@ int CQuery::Fetch()
 	return 1;
 }
 
-int CQuery::GetAsBinary(LPSTR lpszStatement, BYTE* OUT lpszReturnBuffer, int size)
+int CQuery::GetAsBinary(LPSTR lpszStatement, LPBYTE lpszReturnBuffer, int size)
 {
 	QueryResult* res = Fetch(lpszStatement);
 	std::vector<BYTE> bytes = (*this->m_Result)[0].GetBinary();

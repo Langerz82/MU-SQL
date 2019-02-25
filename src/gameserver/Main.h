@@ -10,6 +10,8 @@
 #include "resource.h"
 //#include "ServerEngine.h"
 #include "Database/Database/DatabaseEnv.h"
+#include "Game/Filters/AntiSwear.h"
+#include "Game/Filters/ProhibitedSymbols.h"
 
 class ConnectDatabaseConnection;
 class MUDatabase;
@@ -50,5 +52,8 @@ extern char szClientVersion[8];
 extern WORD g_MagumsaCreateMinLevel;
 extern WORD g_DarkLordCreateMinLevel;
 extern WORD g_GrowLancerCreateMinLevel;
+
+extern int  gCharacterDeleteMinLevel;
+extern BOOL gCreateCharacter;
 
 #endif

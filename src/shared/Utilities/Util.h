@@ -32,6 +32,22 @@
 #include <string>
 #include <vector>
 
+#ifdef WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif
+
+static void mSleep(int sleepMs)
+{
+#ifndef WIN32
+	usleep(sleepMs * 1000);   // usleep takes sleep time in us (1 millionth of a second)
+#else
+	Sleep(sleepMs);
+#endif
+}
+
+
 struct tm* localtime_r(time_t const* time, struct tm *result);
 
 

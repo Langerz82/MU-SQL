@@ -97,6 +97,10 @@ std::string g_MuOnlineDB;
 
 char szClientVersion[8] = "118260";
 
+int  gCharacterDeleteMinLevel = 40;
+BOOL gCreateCharacter = 1;
+
+
 void UnhookSignals();
 void HookSignals();
 
@@ -236,6 +240,9 @@ void LoadConfig()
 	g_MagumsaCreateMinLevel = iniReader->GetInteger("SETTINGS", "MagicGladiatorCreateMinLevel", 220);
 	g_DarkLordCreateMinLevel = iniReader->GetInteger("SETTINGS", "DarkLordCreateMinLevel", 250);
 	g_GrowLancerCreateMinLevel = iniReader->GetInteger("SETTINGS", "GrowLancerCreateMinLevel", 200);
+
+	SwearFilter.LoadFile("./IGCData/IGC_ProhibitedWords.xml");
+	g_prohibitedSymbols.LoadSymbolFile("./IGCData/IGC_ProhibitedSymbols.xml");
 
 }
 
@@ -418,9 +425,6 @@ extern int main(int argc, char** argv)
         }
     }
 #endif
-
-	m_ServerData.LoadServerFile("IGC_ServerList.xml");
-	m_ServerData.LoadNewsFile("News.dat");
 
     if(fs::create_directory("LOG"))
     {

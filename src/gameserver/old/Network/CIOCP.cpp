@@ -8,6 +8,7 @@
 #include "PacketEngineServer.h"
 #include "PacketEncrypt.h"
 #include "LoginProtocol.h"
+#include "Utilities/Util.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/uuid/uuid_io.hpp>
@@ -39,7 +40,7 @@ void CIOCP::GiocpInit()
 
 void CIOCP::ProcessEvents() {
 
-	ACE_Time_Value interval(0, 10000000);
+	ACE_Time_Value interval(0, 100000);
 
 	ACE_Reactor::instance()->handle_events(interval);
 }
@@ -48,7 +49,7 @@ bool CIOCP::CreateListenSocket(WORD uiPort, LPSTR ipAddress)
 {
 	ACE_INET_Addr bind_addr(uiPort, ipAddress);
 
-	if (g_HostSocket.open(bind_addr, ACE_Reactor::instance(), ACE_NONBLOCK) == -1)
+	if (g_HostSocket.open(bind_addr, ACE_Reactor::instance()) == -1)
 	{
 		sLog->outError("MuSQL Game Server can not bind to %s:%d", ipAddress, uiPort);
 		return 0;
@@ -159,9 +160,9 @@ int CIOCP::OnRead(ACE_HANDLE handle, int len)
 	//unsigned long RecvBytes = 0; // = this->input_buffer_.space();
 
 	
-	//recv((char*)lpIOContext->Buffer, len);
+	recv((char*)lpIOContext->Buffer, len);
 	//lpIOContext->Buffer[0] = '\\0';
-	ACE_OS::memcpy(lpIOContext->Buffer, (unsigned char*) this->input_buffer_.rd_ptr(), len);
+	//ACE_OS::memcpy(lpIOContext->Buffer, (unsigned char*) this->input_buffer_.rd_ptr(), len);
 	//len--;
 	lpIOContext->nbBytes = len;
 	lpIOContext->nTotalBytes += len;
@@ -615,6 +616,12 @@ bool CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 	lpIoCtxt->nbBytes = dwSize;
 	lpIoCtxt->IOOperation = 1;
 
+	if (!lpCSUser->Socket)
+	{
+		lpIoCtxt->nWaitIO = 1;
+		criti.unlock();
+		return false;
+	}
 	this->set_handle(lpCSUser->Socket->get_handle());
 	this->send((BYTE*) lpIoCtxt->Buffer, lpIoCtxt->nbBytes);
 
@@ -634,14 +641,12 @@ void CIOCP::CloseClients(_PER_SOCKET_CONTEXT * lpPerSocketContext, int result)
 
 void CIOCP::CloseClient(int aIndex)
 {
-	this->OnClose(getCSUser(aIndex));
-}
+	this->OnClose(getUserObject(aIndex)->ConnectUser->handle);
+} 
 
 int CIOCP::OnClose(ACE_HANDLE h)
 {
 	STR_CS_USER* lpCSUser = getCSByHandle(h);
-
-	criti.lock();
 
 	if (lpCSUser->ConnectionState == 0 )
 	{
@@ -653,9 +658,12 @@ int CIOCP::OnClose(ACE_HANDLE h)
 	lpCSUser->Socket->close();
 	lpCSUser->Socket = nullptr;
 
-	UserDelete(lpCSUser->Index);
+	CUserData* lpUser = getUserObject(lpCSUser->Index);
+	if (lpUser != nullptr)
+		eraseUserObject(lpUser);
+	else
+		delete lpCSUser;
 
-	criti.unlock();
 	return 0;
 }
 
@@ -738,8 +746,10 @@ ssize_t CIOCP::noblk_send(ACE_Message_Block& message_block)
 		return -1;
 	}
 
+	const ACE_Time_Value waitTime(0, 500000);
 	// Try to send the message directly.
-	ssize_t n = this->peer().send(message_block.rd_ptr(), len);
+	ssize_t n = this->peer().send(message_block.rd_ptr(), len, 0, &waitTime);
+
 
 	if (n < 0)
 	{
@@ -903,7 +913,6 @@ int CIOCP::handle_close(ACE_HANDLE h, ACE_Reactor_Mask /*m*/)
 	this->OnClose(h);
 
 	Base::handle_close();
-
 	return 0;
 }
 

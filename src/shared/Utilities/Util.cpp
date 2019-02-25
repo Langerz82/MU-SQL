@@ -16,6 +16,8 @@ struct tm* localtime_r(time_t const* time, struct tm *result)
 }
 #endif
 
+
+
 static ACE_Time_Value g_SystemTickTime = ACE_OS::gettimeofday();
 
 uint32 WorldTimer::m_iTime = 0;

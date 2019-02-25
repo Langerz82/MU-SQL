@@ -59,9 +59,9 @@ public:
 	void CGClientCloseMsg(PMSG_CLIENTCLOSE* lpMsg, int aIndex);
 	void GCCloseMsgSend(int aIndex, unsigned char result);
 	void CGClientMsg(PMSG_CLIENTMSG* lpMsg, int aIndex);
-	/*void CGPCharacterCreate(PMSG_CHARCREATE* lpMsg, int aIndex);
+	void CGPCharacterCreate(PMSG_CHARCREATE* lpMsg, int aIndex);
 	void CGPCharDel(PMSG_CHARDELETE* lpMsg, int aIndex);
-	void CGPCharacterMapJoinRequest(PMSG_CHARMAPJOIN* lpMsg, int aIndex);
+	/*void CGPCharacterMapJoinRequest(PMSG_CHARMAPJOIN* lpMsg, int aIndex);
 	void GCLevelUpMsgSend(int aIndex, int iSendEffect);
 	void CGLevelUpPointAdd(PMSG_LVPOINTADD* lpMsg, int aIndex);
 	void GCInventoryItemOneSend(int aIndex, int pos);
@@ -392,11 +392,11 @@ public:
 	void CGReqDoUsePopupType(int aIndex);
 	void GCSendEventBanner(int aIndex, int iBannerType);
 
-	void GCSendRareItemPriceInfo(int aIndex);
+	void GCSendRareItemPriceInfo(int aIndex);*/
 	void GCSendDisableReconnect(int aIndex);
 	bool PacketCheckTime(int aIndex);
 	void GCSendDisableReconnectSystem(int aIndex);
-	void GCAlterPShopVault(int aIndex, BYTE type);*/
+	//void GCAlterPShopVault(int aIndex, BYTE type);
 	void GCSetCharColors(int aIndex);
 
 	/*void GCSendRuud(int aIndex, int iRuud, int iObtainedRuud, bool bIsObtainedRuud);
@@ -414,6 +414,10 @@ public:
 	void GCSendMuBotSettings(int aIndex, BYTE* lpData);
 
 	void CGRecvHitHackValues(int aIndex, PMSG_SEND_HITHACK_INFO * lpMsg);*/
+
+	void JGCharacterCreateFailSend(int aIndex, char* id);
+
+
 	bool First = true;
 
 	CQuery m_CharDB;
@@ -447,6 +451,7 @@ public:
 
 private:
 	bool DataEncryptCheck(int aIndex, BYTE protoNum, BOOL Encrypt);
+	std::mutex criti;
 };
 
 extern GameProtocol GSProtocol;

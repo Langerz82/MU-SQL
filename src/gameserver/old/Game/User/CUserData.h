@@ -105,7 +105,7 @@ public:
 	WORD Energy;	// BE
 	BYTE  DbClass;	// 9E
 	BYTE  ChangeUP; // 9F
-	//GUILD_INFO_STRUCT *lpGuild;	// 2D4
+	GUILD_INFO_STRUCT *lpGuild;	// 2D4
 	char GuildName[11]; // 2D8
 	int GuildStatus;	// 2E4
 	int iGuildUnionTimeStamp;	// 2E8
@@ -292,6 +292,9 @@ public:
 	//CAttackQueue* m_AttackQueue;
 	char  Name[5][11];
 	BYTE CharacterSlotCount;
+	BOOL bEnableDelCharacter;
+	DWORD m_dwDCTimer;
+
 	struct STR_USER_CHARACTERS Characters[5];
 };
 
@@ -301,4 +304,7 @@ unsigned char LevelSmallConvert(int aIndex, int inventoryindex);
 extern CUserData* getUserObject(int index);
 extern void insertUserObject(CUserData* Obj);
 extern void eraseUserObject(CUserData* Obj);
+
+extern BOOL gObjIsAccontConnect(int aIndex, char* accountid);
+
 #endif
