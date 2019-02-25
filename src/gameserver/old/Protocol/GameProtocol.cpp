@@ -612,7 +612,7 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 
 					int dbsize = 32;
 
-					//memset(pCL->dbInventory, -1, sizeof(pCL->dbInventory));
+					memset(lpUser->Characters[i].dbInventory, -1, sizeof(lpUser->Characters[i].dbInventory));
 					
 					// Not sure needed.
 					for (int j = 0; j<12; j++)
@@ -708,12 +708,11 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 	//SDHP_CHARLISTCOUNT * lpCount = (SDHP_CHARLISTCOUNT *)lpRecv;
 	//SDHP_CHARLIST * lpCL;
 	//char szId[MAX_ACCOUNT_LEN + 1];
-	BYTE sendbuf[256];
-	int lOfs = 0;
-	int lsOfs = sizeof(SDHP_CHARLISTCOUNT);
+	BYTE sendbuf[1024];
+	//int lOfs = sizeof(PMSG_CHARLIST_S9) * 5 + sizeof(PMSG_CHARLISTCOUNT);
 	BYTE index;
 	PMSG_CHARLISTCOUNT pCLCount;	// Packet Char List Count
-	PMSG_CHARLIST_S9 pCList;
+	PMSG_CHARLIST_S9 pCList[5];
 	WORD TempInventory[12];
 
 	PMSG_RESET_INFO_CHARLIST pRMsg = { -1 };
@@ -763,24 +762,26 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 	GIOCP.DataSend(aIndex, (UCHAR *)&pMsgC, sizeof(PMSG_CHARLIST_ENABLE_CREATION));
 
 	memset(sendbuf, 0, sizeof(sendbuf));
-	lOfs += sizeof(PMSG_CHARLISTCOUNT);
+	
+	memset(pCList, 0, sizeof(PMSG_CHARLIST_S9)*5);
 
 	if (lpUser->CharacterSlotCount > 0)
 	{
 		lpUser->m_NameConvertOfUBF.InitData(); // UBF Name Conversion
 
-		for (int n = 0; n < 5; n++)
+		for (int n = 0; n < lpUser->CharacterSlotCount; n++)
 		{
-			memset(&pCList, 0, sizeof(pCList));
+			//memset(&pCList[n], 0, sizeof(PMSG_CHARLIST_S9));
+
 			//lpCL = (SDHP_CHARLIST *)&lpRecv[lsOfs];
 			pRMsg.Reset[n] = lpUser->Characters[n].Resets;
-			pCList.Index = n;
-			pCList.Level = lpUser->Characters[n].Level;
-			pCList.CtlCode = lpUser->Characters[n].CtlCode;
-			//pCList.btGuildStatus = lpUser->Characters[n].btGuildStatus;
+			pCList[n].Index = n;
+			pCList[n].Level = lpUser->Characters[n].Level;
+			pCList[n].CtlCode = lpUser->Characters[n].CtlCode;
+			//pCList[n].btGuildStatus = lpUser->Characters[n].btGuildStatus;
 
 			if (lpUserCS->m_cAccountItemBlock != 0)
-				pCList.CtlCode |= 0x10;	// Set Block Item
+				; // pCList[n].CtlCode |= 0x10;	// Set Block Item
 
 			/*if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 			{
@@ -794,30 +795,30 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 				g_Log.Add("[UBF][ConvertInputData][%d][%s][KeyName: %s][RealName: %s] ServerCode: %d",
 					aIndex, lpUser.AccountID, tmpKeyName.c_str(), tmpRealName.c_str(), lpCL->ServerCodeOfHomeWorld);
 
-				memcpy(pCList.Name, lpCL->UnityBFRealName, MAX_ACCOUNT_LEN);
+				memcpy(pCList[n].Name, lpCL->UnityBFRealName, MAX_ACCOUNT_LEN);
 			}*/
 
 			//else
 			//{
-				memcpy(pCList.Name, lpUser->Characters[n].Name, MAX_ACCOUNT_LEN);
+				memcpy(pCList[n].Name, lpUser->Characters[n].Name, MAX_ACCOUNT_LEN);
 			//}
 
-			pCList.CharSet[CS_CLASS] = CS_GET_CLASS_SX(lpUser->Characters[n].Class);
+			pCList[n].CharSet[CS_CLASS] = CS_GET_CLASS_SX(lpUser->Characters[n].Class);
 			int changeup = CS_GET_CHANGEUP_SX(lpUser->Characters[n].Class);
 
 			if (changeup == 1)
 			{
-				pCList.CharSet[CS_CLASS] |= CS_SET_CHANGEUP_SX;
+				pCList[n].CharSet[CS_CLASS] |= CS_SET_CHANGEUP_SX;
 			}
 
 			if (changeup == 2)
 			{
-				pCList.CharSet[CS_CLASS] |= CS_SET_CHANGEUP_SX;
-				pCList.CharSet[CS_CLASS] |= CS_SET_CHANGEUP2_SX; // wrong order
+				pCList[n].CharSet[CS_CLASS] |= CS_SET_CHANGEUP_SX;
+				pCList[n].CharSet[CS_CLASS] |= CS_SET_CHANGEUP2_SX; // wrong order
 			}
 
-			pCList.CharSet[9] = 0;
-			//memcpy(lpUser.Name1[n], pCList.Name, MAX_ACCOUNT_LEN);
+			pCList[n].CharSet[9] = 0;
+			//memcpy(lpUser.Name1[n], pCList[n].Name, MAX_ACCOUNT_LEN);
 
 			if (lpUser->Characters[n].dbInventory[0] == (BYTE)-1 && (lpUser->Characters[n].dbInventory[2] & 0x80) == 0x80 && (lpUser->Characters[n].dbInventory[3] & 0xF0) == 0xF0)
 			{
@@ -900,31 +901,31 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 				TempInventory[8] = ((lpUser->Characters[n].dbInventory[32] + (lpUser->Characters[n].dbInventory[34] & 0x80) * 2) + (lpUser->Characters[n].dbInventory[35] & 0xF0) * 32) % MAX_SUBTYPE_ITEMS;
 			}
 
-			pCList.CharSet[12] |= DBI_GET_TYPE(TempInventory[0]);
-			pCList.CharSet[1] = TempInventory[0] % 256;
+			pCList[n].CharSet[12] |= DBI_GET_TYPE(TempInventory[0]);
+			pCList[n].CharSet[1] = TempInventory[0] % 256;
 
-			pCList.CharSet[13] |= DBI_GET_TYPE(TempInventory[1]);
-			pCList.CharSet[2] = TempInventory[1] % 256;
+			pCList[n].CharSet[13] |= DBI_GET_TYPE(TempInventory[1]);
+			pCList[n].CharSet[2] = TempInventory[1] % 256;
 
-			pCList.CharSet[13] |= (int)(TempInventory[2] & 0x1E0) >> 5;
-			pCList.CharSet[9] |= (int)(TempInventory[2] & 0x10) << 3;
-			pCList.CharSet[3] |= (int)(TempInventory[2] & 0x0F) << 4;
+			pCList[n].CharSet[13] |= (int)(TempInventory[2] & 0x1E0) >> 5;
+			pCList[n].CharSet[9] |= (int)(TempInventory[2] & 0x10) << 3;
+			pCList[n].CharSet[3] |= (int)(TempInventory[2] & 0x0F) << 4;
 
-			pCList.CharSet[14] |= (int)(TempInventory[3] & 0x1E0) >> 1;
-			pCList.CharSet[9] |= (int)(TempInventory[3] & 0x10) << 2;
-			pCList.CharSet[3] |= (int)(TempInventory[3] & 0x0F);
+			pCList[n].CharSet[14] |= (int)(TempInventory[3] & 0x1E0) >> 1;
+			pCList[n].CharSet[9] |= (int)(TempInventory[3] & 0x10) << 2;
+			pCList[n].CharSet[3] |= (int)(TempInventory[3] & 0x0F);
 
-			pCList.CharSet[14] |= (int)(TempInventory[4] & 0x1E0) >> 5;
-			pCList.CharSet[9] |= (int)(TempInventory[4] & 0x10) << 1;
-			pCList.CharSet[4] |= (int)(TempInventory[4] & 0x0F) << 4;
+			pCList[n].CharSet[14] |= (int)(TempInventory[4] & 0x1E0) >> 5;
+			pCList[n].CharSet[9] |= (int)(TempInventory[4] & 0x10) << 1;
+			pCList[n].CharSet[4] |= (int)(TempInventory[4] & 0x0F) << 4;
 
-			pCList.CharSet[15] |= (int)(TempInventory[5] & 0x1E0) >> 1;
-			pCList.CharSet[9] |= (int)(TempInventory[5] & 0x10);
-			pCList.CharSet[4] |= (int)(TempInventory[5] & 0x0F);
+			pCList[n].CharSet[15] |= (int)(TempInventory[5] & 0x1E0) >> 1;
+			pCList[n].CharSet[9] |= (int)(TempInventory[5] & 0x10);
+			pCList[n].CharSet[4] |= (int)(TempInventory[5] & 0x0F);
 
-			pCList.CharSet[15] |= (int)(TempInventory[6] & 0x1E0) >> 5;
-			pCList.CharSet[9] |= (int)(TempInventory[6] & 0x10) >> 1;
-			pCList.CharSet[5] |= (int)(TempInventory[6] & 0x0F) << 4;
+			pCList[n].CharSet[15] |= (int)(TempInventory[6] & 0x1E0) >> 5;
+			pCList[n].CharSet[9] |= (int)(TempInventory[6] & 0x10) >> 1;
+			pCList[n].CharSet[5] |= (int)(TempInventory[6] & 0x0F) << 4;
 
 			index = 0;
 
@@ -944,7 +945,7 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 				index |= 0x03;
 			}
 
-			pCList.CharSet[5] |= index;
+			pCList[n].CharSet[5] |= index;
 
 			int levelindex = 0;
 
@@ -983,162 +984,165 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 				levelindex |= (int)LevelSmallConvert(DBI_GET_LEVEL(lpUser->Characters[n].dbInventory[25])) << 18;
 			}
 
-			pCList.CharSet[6] = ((int)levelindex >> 0x10) & 0xFF;
-			pCList.CharSet[7] = ((int)levelindex >> 0x08) & 0xFF;
-			pCList.CharSet[8] = ((int)levelindex) & 0xFF;
+			pCList[n].CharSet[6] = ((int)levelindex >> 0x10) & 0xFF;
+			pCList[n].CharSet[7] = ((int)levelindex >> 0x08) & 0xFF;
+			pCList[n].CharSet[8] = ((int)levelindex) & 0xFF;
 
-			pCList.CharSet[10] = 0;
+			pCList[n].CharSet[10] = 0;
 
 			if ((TempInventory[8] & 0x03) != 0 && TempInventory[8] != 0x1FF)
 			{
-				pCList.CharSet[10] |= 0x01;
+				pCList[n].CharSet[10] |= 0x01;
 			}
 
-			pCList.CharSet[11] = 0;
+			pCList[n].CharSet[11] = 0;
 
 			if ((TempInventory[8] & 0x04) != 0 && TempInventory[8] != 0x1FF)
 			{
-				pCList.CharSet[12] |= 0x01;
+				pCList[n].CharSet[12] |= 0x01;
 			}
 
 			if ((TempInventory[8] & 0x05) != 0 && TempInventory[8] != 0x1FF)
 			{
-				pCList.CharSet[12] |= 0x01;
+				pCList[n].CharSet[12] |= 0x01;
 			}
 
-			pCList.CharSet[16] = 0;
-			pCList.CharSet[17] = 0;
+			pCList[n].CharSet[16] = 0;
+			pCList[n].CharSet[17] = 0;
 
 			if (TempInventory[8] == 0x25 && TempInventory[8] != 0x1FF)
 			{
-				pCList.CharSet[10] &= 0xFE;
-				pCList.CharSet[12] &= 0xFE;
-				pCList.CharSet[12] |= 0x04;
+				pCList[n].CharSet[10] &= 0xFE;
+				pCList[n].CharSet[12] &= 0xFE;
+				pCList[n].CharSet[12] |= 0x04;
 				BYTE btExcellentOption = lpUser->Characters[n].dbInventory[34] & 0x3F;
 
 				if ((btExcellentOption & 1) == 1)
 				{
-					pCList.CharSet[16] |= 0x01;
+					pCList[n].CharSet[16] |= 0x01;
 				}
 
 				if ((btExcellentOption & 2) == 2)
 				{
-					pCList.CharSet[16] |= 0x02;
+					pCList[n].CharSet[16] |= 0x02;
 				}
 
 				if ((btExcellentOption & 4) == 4) //Golden Fenrir
 				{
-					pCList.CharSet[17] |= 0x01;
+					pCList[n].CharSet[17] |= 0x01;
 				}
 			}
 
 			if (TempInventory[7] >= 0 && TempInventory[7] <= 6)
 			{
-				pCList.CharSet[16] |= (0x04 * (TempInventory[7] + 1));
+				pCList[n].CharSet[16] |= (0x04 * (TempInventory[7] + 1));
 			}
 
 			else if (TempInventory[7] >= 36 && TempInventory[7] <= 43)
 			{
-				pCList.CharSet[9] |= 0x01;
-				pCList.CharSet[16] |= (0x04 * (TempInventory[7] - 36));
+				pCList[n].CharSet[9] |= 0x01;
+				pCList[n].CharSet[16] |= (0x04 * (TempInventory[7] - 36));
 			}
 
 			else if ((TempInventory[7] >= 49 && TempInventory[7] <= 50) || (TempInventory[7] >= 130 && TempInventory[7] <= 135))
 			{
-				pCList.CharSet[9] |= 0x02;
+				pCList[n].CharSet[9] |= 0x02;
 
 				if (TempInventory[7] == 49 || TempInventory[7] == 50)
 				{
-					pCList.CharSet[16] |= (0x04 * (TempInventory[7] - 49));
+					pCList[n].CharSet[16] |= (0x04 * (TempInventory[7] - 49));
 				}
 
 				else if (TempInventory[7] >= 130 && TempInventory[7] <= 135)
 				{
-					pCList.CharSet[16] |= (0x04 * (0x02 + (TempInventory[7] - 130)));
+					pCList[n].CharSet[16] |= (0x04 * (0x02 + (TempInventory[7] - 130)));
 				}
 			}
 
 			else if (TempInventory[7] >= 262 && TempInventory[7] <= 269)
 			{
-				pCList.CharSet[9] |= 0x03;
+				pCList[n].CharSet[9] |= 0x03;
 
 				if (TempInventory[7] >= 262 && TempInventory[7] <= 265)
 				{
-					pCList.CharSet[16] |= (0x04 * (TempInventory[7] - 262));
+					pCList[n].CharSet[16] |= (0x04 * (TempInventory[7] - 262));
 				}
 
 				if (TempInventory[7] == 266 || TempInventory[7] == 268)
 				{
-					pCList.CharSet[16] |= 0x10;
+					pCList[n].CharSet[16] |= 0x10;
 				}
 
 				if (TempInventory[7] == 267)
 				{
-					pCList.CharSet[16] |= 0x14;
+					pCList[n].CharSet[16] |= 0x14;
 				}
 
 				if (TempInventory[7] == 269)
 				{
-					pCList.CharSet[16] |= 0x1C;
+					pCList[n].CharSet[16] |= 0x1C;
 				}
 			}
 
 			else if (TempInventory[7] == 30)
 			{
-				pCList.CharSet[9] |= 0x03;
-				pCList.CharSet[16] |= 0x18;
+				pCList[n].CharSet[9] |= 0x03;
+				pCList[n].CharSet[16] |= 0x18;
 			}
 
 			else if (TempInventory[7] == 270)
 			{
-				pCList.CharSet[9] |= 0x04;
+				pCList[n].CharSet[9] |= 0x04;
 			}
 
 			else if (TempInventory[7] == 278)
 			{
-				pCList.CharSet[9] |= 0x04;
-				pCList.CharSet[16] |= 0x04;
+				pCList[n].CharSet[9] |= 0x04;
+				pCList[n].CharSet[16] |= 0x04;
 			}
 
 			int itemindex = TempInventory[8];
 			switch (itemindex)
 			{
 			case 64:
-				pCList.CharSet[16] |= 0x20;
+				pCList[n].CharSet[16] |= 0x20;
 				break;
 			case 65:
-				pCList.CharSet[16] |= 0x40;
+				pCList[n].CharSet[16] |= 0x40;
 				break;
 			case 67:
-				//pCList.CharSet[5] &= 0xFC;
-				pCList.CharSet[10] |= 0x01;
-				pCList.CharSet[16] |= 0x80;
+				//pCList[n].CharSet[5] &= 0xFC;
+				pCList[n].CharSet[10] |= 0x01;
+				pCList[n].CharSet[16] |= 0x80;
 				break;
 			case 80:
-				pCList.CharSet[16] |= 0xE0;
+				pCList[n].CharSet[16] |= 0xE0;
 				break;
 			case 106:
-				pCList.CharSet[16] |= 0xA0;
+				pCList[n].CharSet[16] |= 0xA0;
 				break;
 			case 123:
-				pCList.CharSet[16] |= 0x60;
-				//pCList.CharSet[5] -= 0x03;
+				pCList[n].CharSet[16] |= 0x60;
+				//pCList[n].CharSet[5] -= 0x03;
 				break;
 			default:
 				break;
 			}
-			memcpy(&sendbuf[lOfs], &pCList, sizeof(pCList));
-			lsOfs += sizeof(SDHP_CHARLIST);
-			lOfs += sizeof(pCList);
+			//memcpy(&sendbuf[sizeof(PMSG_CHARLIST_S9)*n], &pCList[n], sizeof(PMSG_CHARLIST_S9));
+			//lsOfs += sizeof(SDHP_CHARLIST);
+			//lOfs += sizeof(pCList[n]);
+			memcpy(&sendbuf[sizeof(PMSG_CHARLISTCOUNT) + sizeof(PMSG_CHARLIST_S9) * n],
+				&pCList[n], sizeof(PMSG_CHARLIST_S9));
 		}
 	}
 
 	mSleep(100); // Add Delay for switch to character screen.
 
-	pCLCount.h.size = lOfs;
+	pCLCount.h.size = sizeof(PMSG_CHARLIST_S9) * lpUser->CharacterSlotCount;
 	memcpy(sendbuf, &pCLCount, sizeof(PMSG_CHARLISTCOUNT));
+	
 	GIOCP.DataSend(aIndex, (LPBYTE)&pRMsg, sizeof(pRMsg));
-	GIOCP.DataSend(aIndex, sendbuf, lOfs);
+	GIOCP.DataSend(aIndex, sendbuf, sizeof(PMSG_CHARLIST_S9) * lpUser->CharacterSlotCount + sizeof(PMSG_CHARLISTCOUNT));
 
 	/*if (gObjUseSkill.m_SkillData.EnableSiegeOnAllMaps)
 	{
