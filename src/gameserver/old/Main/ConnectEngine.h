@@ -7,7 +7,7 @@
 
 #include "StdAfx.h"
 #include "IOCP.h"
-
+#include "Game/User/CUserData.h"
 
 extern std::map<int, STR_CS_USER*> gCSUsers;
 

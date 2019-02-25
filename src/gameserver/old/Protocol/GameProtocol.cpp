@@ -138,11 +138,10 @@ void GameProtocol::CGLiveClient(PMSG_CLIENTTIME * lpClientTime, short aIndex)
 void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 {
 	char serial[17];
-	char id[11];
 	char hwid[25];
-	char tAccountID[10];
-	char tPass[20];
-	char tHWID[100];
+	char* tAccountID;
+	char* tPass;
+	char* tHWID;
 
 	STR_CS_USER* lpUser = getCSUser(aIndex);
 
@@ -161,21 +160,17 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 	//{
 	//	sLog->outError("[IP: %s][aIndex: %d] connecting with DLL for different Game Season, review and correct (if required) %d", lpUser->IP, aIndex, lpMsg->ServerSeason);
 	//}
+	tAccountID = lpMsg->Id;
+	tPass = lpMsg->Pass;
 
 //#ifdef EMU_NOCRYPT
-	BuxConvert(lpUser->AccountID, MAX_ACCOUNT_LEN);
-	BuxConvert(lpUser->Password, 20);
+	BuxConvert(tAccountID, MAX_ACCOUNT_LEN);
+	BuxConvert(tPass, 20);
 //#endif
-	std::strcpy(tAccountID, lpUser->AccountID);
-	std::strcpy(tPass, lpUser->Password);
 	
-
-	id[10] = 0;
-	memcpy(id, lpMsg->Id, sizeof(lpMsg->Id));
-	BuxConvert(id, MAX_ACCOUNT_LEN);
 	ProcessClientHWID(lpMsg->HWID, hwid);
 
-	if (PercentSyntaxCheck(id) == FALSE)
+	if (PercentSyntaxCheck(tAccountID) == FALSE)
 	{
 		this->GCJoinResult(JS_BAD_CLIENT_VERSION, aIndex);
 		GIOCP.CloseClient(aIndex);
@@ -184,7 +179,7 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 
 	serial[16] = 0;
 	memcpy(serial, lpMsg->CliSerial, sizeof(lpMsg->CliSerial));
-	std::strcpy(lpUser->HWID, serial);
+	tHWID = serial;
 
 	/*if (strcmp(serial, szGameServerExeSerial) != 0)
 	{
@@ -193,7 +188,7 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 	return;
 	}*/
 
-	if (lpMsg->HWID == NULL)
+	if (tHWID == NULL)
 	{
 		GIOCP.CloseClient(aIndex);
 		return;
@@ -270,7 +265,7 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 
 	BOOL bErrorFlag = FALSE;
 	int BlocCode = 0;
-	int pResult = 0;
+	int tResult = 0;
 	//EnterCriticalSection(&this->userCheck);
 
 	if (SpaceSyntexCheck(tAccountID) == TRUE)
@@ -411,16 +406,16 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 			bErrorFlag = TRUE;
 
 			if (BlocCode == 0x46)
-				pResult = 15;
+				tResult = 15;
 			else if (BlocCode == 0x41)
-				pResult = 14;
+				tResult = 14;
 			else if (BlocCode == 0x49)
-				pResult = 17;
+				tResult = 17;
 			else
-				pResult = 5;
+				tResult = 5;
 		}
 
-		/*if (bErrorFlag == FALSE && pResult != 0)
+		/*if (bErrorFlag == FALSE && tResult != 0)
 		{
 			int Index = this->m_UserData.MuLoginFindUser(szAccountID);
 
@@ -482,8 +477,11 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 
 	//LeaveCriticalSection(&userCheck);
 
-	//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
-	
+	GSProtocol.GCJoinResult(1, aIndex);
+
+	std::strcpy(lpUser->AccountID,lpMsg->Id);
+	std::strcpy(lpUser->Password,lpMsg->Pass);
+	std::strcpy(lpUser->HWID,lpMsg->HWID);
 
 	CSPJoinIdPassRequest2(lpMsg, aIndex);
 
@@ -679,11 +677,11 @@ void GameProtocol::CSPJoinIdPassRequest2(PMSG_IDPASS* lpMsg, int aIndex)
 	//lpUser->m_btDestX = 0;
 	//lpUser->m_btDestY = 0;
 
-	JGPGetCharList((BYTE*) lpMsg, aIndex);
+	JGPGetCharList(aIndex);
 }
 
 
-void GameProtocol::JGPGetCharList(BYTE* lpRecv, int aIndex)
+void GameProtocol::JGPGetCharList(int aIndex)
 {
 	STR_CS_USER* lpUserCS = getCSUser(aIndex);
 	CUserData* lpUser = getUserObject(aIndex);
@@ -752,7 +750,7 @@ void GameProtocol::JGPGetCharList(BYTE* lpRecv, int aIndex)
 	{
 		lpUser->m_NameConvertOfUBF.InitData(); // UBF Name Conversion
 
-		for (int n = 0; n < lpUser->CharacterSlotCount; n++)
+		for (int n = 0; n < 5; n++)
 		{
 			memset(&pCList, 0, sizeof(pCList));
 			//lpCL = (SDHP_CHARLIST *)&lpRecv[lsOfs];
@@ -1127,7 +1125,7 @@ void GameProtocol::JGPGetCharList(BYTE* lpRecv, int aIndex)
 	}*/
 
 	//g_GensSystem.SendBattleZoneData(&lpUser);
-	//GSProtocol.GCSetCharColors(aIndex);
+	GSProtocol.GCSetCharColors(aIndex);
 
 	BYTE EnableDMG[4] = { 0xC1, 0x04, 0xFA, 0xA9 }; //DMG over 65k
 	GIOCP.DataSend(aIndex, EnableDMG, sizeof(EnableDMG));
@@ -1143,7 +1141,7 @@ void GameProtocol::GCJoinResult(BYTE result, int aIndex)
 
 	PHeadSubSetB((LPBYTE)&pResult, 0xF1, 0x01, sizeof(pResult));
 	pResult.result = result;
-	GIOCP.DataSend(aIndex, (UCHAR*)&pResult, pResult.h.size);
+	GIOCP.DataSend(aIndex, (UCHAR*)&pResult, pResult.h.size, false);
 }
 
 
@@ -1245,6 +1243,33 @@ void GameProtocol::GCServerMsgStringSendEx(int aIndex, BYTE type, LPSTR szMsg, .
 	this->GCServerMsgStringSend(szBuffer, aIndex, type);
 }
 
+void GameProtocol::GCSetCharColors(int aIndex)
+{
+	PMSG_SET_CHAT_COLOR pMsg;
+	PHeadSubSetB((LPBYTE)&pMsg, 0xFA, 0x12, sizeof(pMsg));
+	/*
+	memcpy(pMsg.btInfoMsg, g_ConfigRead.data.chatcolor.btInfoMsg, sizeof(pMsg.btInfoMsg));
+	memcpy(pMsg.btErrorMsg, g_ConfigRead.data.chatcolor.btErrorMsg, sizeof(pMsg.btErrorMsg));
+	memcpy(pMsg.btChatMsg, g_ConfigRead.data.chatcolor.btChatMsg, sizeof(pMsg.btChatMsg));
+	memcpy(pMsg.btWhisperMsg, g_ConfigRead.data.chatcolor.btWhisperMsg, sizeof(pMsg.btWhisperMsg));
+	memcpy(pMsg.btPartyMsg, g_ConfigRead.data.chatcolor.btPartyMsg, sizeof(pMsg.btPartyMsg));
+	memcpy(pMsg.btGuildMsg, g_ConfigRead.data.chatcolor.btGuildMsg, sizeof(pMsg.btGuildMsg));
+	memcpy(pMsg.btAllianceMsg, g_ConfigRead.data.chatcolor.btAllianceMsg, sizeof(pMsg.btAllianceMsg));
+	memcpy(pMsg.btGensMsg, g_ConfigRead.data.chatcolor.btGensMsg, sizeof(pMsg.btGensMsg));
+	memcpy(pMsg.btGMChatMsg, g_ConfigRead.data.chatcolor.btGMChatMsg, sizeof(pMsg.btGMChatMsg));
+	*/
+	memcpy(pMsg.btInfoMsg, "1", sizeof(pMsg.btInfoMsg));
+	memcpy(pMsg.btErrorMsg, "1", sizeof(pMsg.btErrorMsg));
+	memcpy(pMsg.btChatMsg, "1", sizeof(pMsg.btChatMsg));
+	memcpy(pMsg.btWhisperMsg, "1", sizeof(pMsg.btWhisperMsg));
+	memcpy(pMsg.btPartyMsg, "1", sizeof(pMsg.btPartyMsg));
+	memcpy(pMsg.btGuildMsg, "1", sizeof(pMsg.btGuildMsg));
+	memcpy(pMsg.btAllianceMsg, "1", sizeof(pMsg.btAllianceMsg));
+	memcpy(pMsg.btGensMsg, "1", sizeof(pMsg.btGensMsg));
+	memcpy(pMsg.btGMChatMsg, "1", sizeof(pMsg.btGMChatMsg));
+
+	GIOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+}
 
 
 

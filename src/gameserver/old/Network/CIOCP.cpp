@@ -39,7 +39,7 @@ void CIOCP::GiocpInit()
 
 void CIOCP::ProcessEvents() {
 
-	ACE_Time_Value interval(0, 1000000);
+	ACE_Time_Value interval(0, 10000000);
 
 	ACE_Reactor::instance()->handle_events(interval);
 }
@@ -159,9 +159,9 @@ int CIOCP::OnRead(ACE_HANDLE handle, int len)
 	//unsigned long RecvBytes = 0; // = this->input_buffer_.space();
 
 	
-	recv_soft((char*)lpIOContext->Buffer, len);
+	//recv((char*)lpIOContext->Buffer, len);
 	//lpIOContext->Buffer[0] = '\\0';
-	//ACE_OS::memcpy(&lpIOContext->Buffer[0], (unsigned char*) this->input_buffer_.rd_ptr(), len);
+	ACE_OS::memcpy(lpIOContext->Buffer, (unsigned char*) this->input_buffer_.rd_ptr(), len);
 	//len--;
 	lpIOContext->nbBytes = len;
 	lpIOContext->nTotalBytes += len;
@@ -180,6 +180,9 @@ int CIOCP::OnRead(ACE_HANDLE handle, int len)
 
 	lpPerSocketContext->dwIOCount++;
 	lpIOContext->nWaitIO = 1;
+
+	//this->input_buffer_.crunch();
+
 	criti.unlock();
 
 	return 1;
@@ -430,7 +433,7 @@ bool CIOCP::RecvDataParse2(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 					}
 
 					GSProtocol.ProtocolCore(headcode, &byDec[0], ret, uIndex, 1);
-
+					break;
 				}
 			}
 			/*
@@ -564,11 +567,50 @@ bool CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 
 	lpPerSocketContext = lpCSUser->PerSocketContext;
 
-	_PER_IO_CONTEXT  * lpIoCtxt;
+	_PER_IO_CONTEXT  * lpIoCtxt = &lpPerSocketContext->IOContext[1];
 
-	lpIoCtxt = &lpPerSocketContext->IOContext[1];
+
+#ifdef EMU_NOCRYPT
+	if (lpMsg[0] == 0xC3)
+		lpMsg[0] = 0xC1;
+	if (lpMsg[0] == 0xC4)
+		lpMsg[0] = 0xC2;
+#endif
+
+#ifdef C3C4_DISABLECRYPT
+	if (lpMsg[0] == 0xC3)
+		lpMsg[0] = 0xC1;
+	if (lpMsg[0] == 0xC4)
+		lpMsg[0] = 0xC2;
+#endif
+
+	/*if (lpMsg[0] == 0xC3 || lpMsg[0] == 0xC4)
+	{
+		int ret;
+		BYTE btsize;
+
+		if (lpMsg[0] == 0xC3)
+		{
+			btsize = lpMsg[1];
+			ret = g_PacketEncrypt.Encrypt(&lpIoCtxt->Buffer[2], &lpMsg[1], dwSize - 1);
+			lpIoCtxt->Buffer[0] = 0xC3;
+			lpIoCtxt->Buffer[1] = ret + 2;
+			dwSize = ret + 2;
+			lpMsg[1] = btsize;
+		}
+		else
+		{
+			btsize = lpMsg[2];
+			ret = g_PacketEncrypt.Encrypt(&lpIoCtxt->Buffer[3], &lpMsg[2], dwSize - 2);
+			lpIoCtxt->Buffer[0] = 0xC4;
+			lpIoCtxt->Buffer[1] = SET_NUMBERH(ret + 3);
+			lpIoCtxt->Buffer[2] = SET_NUMBERL(ret + 3);
+			dwSize = ret + 3;
+		}
+	}*/
 
 	std::memcpy(lpIoCtxt->Buffer, lpMsg, dwSize);
+
 	lpIoCtxt->nTotalBytes += dwSize;
 	lpIoCtxt->nbBytes = dwSize;
 	lpIoCtxt->IOOperation = 1;

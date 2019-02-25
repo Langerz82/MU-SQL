@@ -61,6 +61,7 @@ struct PWMSG_HEAD2;
 
 
 // PRIMITIVE HEADS
+#pragma pack(1)
 typedef struct _PHEADB	// Packet Head Byte Normal / Extended [C1:C3]
 {
 	BYTE uPacketType;
@@ -272,6 +273,7 @@ struct SDHP_RESULT
 	unsigned long ItemCount;
 };
 
+#pragma pack()
 
 #endif
 

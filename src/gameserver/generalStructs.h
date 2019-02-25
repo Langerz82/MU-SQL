@@ -18,6 +18,9 @@ class ACE_SOCK_Stream;
 struct PER_IO_CONTEXT_L;
 struct _PER_SOCKET_CONTEXT;
 
+
+#pragma pack (1)
+
 /* * * * * * * * * * * * * * * * * * * * *
 *	Mu JoinServer Login
 *	Direction : GameServer -> JoinServer
@@ -83,8 +86,9 @@ struct PMSG_SEND_TITLE
 
 struct PMSG_RESULT
 {
-	PBMSG_HEAD		h;
-	UCHAR			result;
+	PBMSG_HEAD h;
+	unsigned char subcode;	// 3
+	unsigned char result;	// 4
 };
 
 struct PMSG_SERVERINFO
@@ -842,7 +846,7 @@ struct PMSG_CLIENTTIME
 	DWORD ServerSeason;
 };
 
-#pragma pack (1)
+
 struct PMSG_IDPASS
 {
 	PBMSG_HEAD h;
@@ -855,7 +859,7 @@ struct PMSG_IDPASS
 	BYTE CliSerial[16];	// 21  
 	DWORD ServerSeason;
 };
-#pragma pack ()
+
 
 struct PMSG_CLIENTCLOSE
 {
@@ -966,8 +970,23 @@ struct PMSG_NOTICE
 
 };
 
+struct PMSG_SET_CHAT_COLOR
+{
+	PBMSG_HEAD2 h;
+	BYTE btInfoMsg[3];
+	BYTE btErrorMsg[3];
+	BYTE btChatMsg[3];
+	BYTE btWhisperMsg[3];
+	BYTE btPartyMsg[3];
+	BYTE btGuildMsg[3];
+	BYTE btGensMsg[3];
+	BYTE btAllianceMsg[3];
+	BYTE btGMChatMsg[3];
+};
 
 
 
+
+#pragma pack ()
 
 #endif

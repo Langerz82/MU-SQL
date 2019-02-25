@@ -52,7 +52,7 @@ public:
 	void SCPJoinResultSend(int aIndex, BYTE result);
 	void CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex);
 	void CSPJoinIdPassRequest2(PMSG_IDPASS* lpMsg, int aIndex);
-	void JGPGetCharList(BYTE* lpRecv, int aIndex);
+	void JGPGetCharList(int aIndex);
 	//void GCJoinBillCheckSend(char* AccountId, int aIndex);
 	void GCJoinResult(BYTE result, int aIndex);
 	//void GCJoinSocketResult(unsigned char result, SOCKET Socket);
@@ -396,10 +396,10 @@ public:
 	void GCSendDisableReconnect(int aIndex);
 	bool PacketCheckTime(int aIndex);
 	void GCSendDisableReconnectSystem(int aIndex);
-	void GCAlterPShopVault(int aIndex, BYTE type);
+	void GCAlterPShopVault(int aIndex, BYTE type);*/
 	void GCSetCharColors(int aIndex);
 
-	void GCSendRuud(int aIndex, int iRuud, int iObtainedRuud, bool bIsObtainedRuud);
+	/*void GCSendRuud(int aIndex, int iRuud, int iObtainedRuud, bool bIsObtainedRuud);
 	void CGReqUseBoxInInventory(int aIndex, PMSG_REQ_USE_BOX * aRecv);
 
 	void CGEventEntryNotice(int EventType, BYTE state); // event entry notify

@@ -83,13 +83,14 @@ STR_CS_USER* UserAdd(const char* SocketKey, char* IP)
 
 short UserDelete(int index)
 {
-	if (gConnUsers[index]->ConnectionState < 1)
+	CUserData* lpUser = getUserObject(index);
+	if (lpUser->ConnectUser->ConnectionState < 1)
 	{
 		return -1;
 	}
-	sLog->outBasic("Disconnected: %s (%d)", gConnUsers[index]->IP, index);
+	sLog->outBasic("Disconnected: %s (%d)", lpUser->ConnectUser->IP, index);
 
-	eraseCSUser(index);
+	eraseUserObject(lpUser);
 	SCount--;
 
 	return 1;
