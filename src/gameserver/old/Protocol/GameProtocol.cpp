@@ -186,11 +186,11 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 	tAccountID = lpMsg->Id;
 	tPass = lpMsg->Pass;
 
-//#ifdef EMU_NOCRYPT
+	//#ifdef EMU_NOCRYPT
 	BuxConvert(tAccountID, MAX_ACCOUNT_LEN);
 	BuxConvert(tPass, 20);
-//#endif
-	
+	//#endif
+
 	ProcessClientHWID(lpMsg->HWID, hwid);
 
 	if (PercentSyntaxCheck(tAccountID) == FALSE)
@@ -512,9 +512,9 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 
 	GSProtocol.GCJoinResult(1, aIndex);
 
-	std::strcpy(lpUserCS->AccountID,lpMsg->Id);
-	std::strcpy(lpUserCS->Password,lpMsg->Pass);
-	std::strcpy(lpUserCS->HWID,lpMsg->HWID);
+	std::strcpy(lpUserCS->AccountID, lpMsg->Id);
+	std::strcpy(lpUserCS->Password, lpMsg->Pass);
+	std::strcpy(lpUserCS->HWID, lpMsg->HWID);
 
 
 	CUserData* lpUser = new CUserData();
@@ -578,7 +578,7 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 
 	int iCharCount = 0;
 
-	for (int i = 0; i<5; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		char* charName = lpUser->Characters[i].Name;
 		if (charName != 0)
@@ -604,18 +604,18 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 
 					if (lpUser->Characters[i].Level >= g_GrowLancerCreateMinLevel && (lpUserCS->EnableCharacterCreate & 0x10) != 0x10)
 						lpUserCS->EnableCharacterCreate |= 0x10;
-					
+
 
 					BYTE btInvetory[INVENTORY_BINARY_SIZE];
 					wsprintf(szTemp, "SELECT Inventory FROM `character` WHERE `Name` = '%s'", charName);
-					int ret = this->m_AccDB.GetAsBinary(szTemp, lpUser->Characters[i].Inventory, sizeof(lpUser->Characters[i].Inventory));
+					int ret = this->m_AccDB.GetAsBinary(szTemp, lpUser->Characters[i].Inventory, 48);
 
 					int dbsize = 32;
 
-					memset(lpUser->Characters[i].dbInventory, -1, sizeof(lpUser->Characters[i].dbInventory));
-					
+					memset(lpUser->Characters[i].dbInventory, -1, 48);
+
 					// Not sure needed.
-					for (int j = 0; j<12; j++)
+					for (int j = 0; j < 12; j++)
 					{
 						if (lpUser->Characters[i].Inventory[0 + j * dbsize] == 0xFF && (lpUser->Characters[i].Inventory[7 + j * dbsize] & 0x80) == 0x80 && (lpUser->Characters[i].Inventory[10 + j * dbsize] & 0xF0) == 0xF0)
 						{
@@ -705,14 +705,19 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 
 	lpUserCS->Connected = PLAYER_LOGGED;
 
-	//SDHP_CHARLISTCOUNT * lpCount = (SDHP_CHARLISTCOUNT *)lpRecv;
-	//SDHP_CHARLIST * lpCL;
-	//char szId[MAX_ACCOUNT_LEN + 1];
-	BYTE sendbuf[1024];
-	//int lOfs = sizeof(PMSG_CHARLIST_S9) * 5 + sizeof(PMSG_CHARLISTCOUNT);
+	JGPGetCharList(lpUser);
+}
+
+void GameProtocol::JGPGetCharList(CUserData* lpUser)
+{
+	SDHP_CHARLIST lpCL[5] = { 0 };
+	char szId[MAX_ACCOUNT_LEN + 1];
+	BYTE sendbuf[256] = { 0 };
+	int lOfs = sizeof(PMSG_CHARLISTCOUNT);
+	int aIndex = lpUser->ConnectUser->Index;
 	BYTE index;
 	PMSG_CHARLISTCOUNT pCLCount;	// Packet Char List Count
-	PMSG_CHARLIST_S9 pCList[5];
+	PMSG_CHARLIST_S9 pCList[5] = { 0 };
 	WORD TempInventory[12];
 
 	PMSG_RESET_INFO_CHARLIST pRMsg = { -1 };
@@ -725,86 +730,94 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 	pCLCount.h.headcode = 0xF3;
 	pCLCount.subcode = 0x00;//K2
 	pCLCount.Count = lpUser->CharacterSlotCount;
-	
-	//szId[MAX_ACCOUNT_LEN] = 0;
-	//memcpy(szId, lpCount->AccountId, MAX_ACCOUNT_LEN);
 
-	/*if (::gObjIsAccontConnect(aIndex, szId) == FALSE)
+
+	// NO NEED BELOW
+	/*szId[MAX_ACCOUNT_LEN] = 0;
+	memcpy(szId, lpUser->ConnectUser->AccountID, MAX_ACCOUNT_LEN);
+
+	if (::gObjIsAccontConnect(aIndex, szId) == FALSE)
 	{
-		g_Log.AddC(TColor::Red, "Requested character list doesn't match the user (%s)%s", gObj[aIndex].AccountID, szId);
-		IOCP.CloseClient(aIndex);
-
+		sLog->outError("Requested character list doesn't match the user (%s)%s", lpUser->ConnectUser->AccountID, szId);
+		GIOCP.CloseClient(aIndex);
 		return;
 	}*/
 
+	//gObj[aIndex].EnableCharacterCreate = lpCount->EnableCharacterCreate;
+	//gObj[aIndex].m_PlayerData->m_WarehouseExpansion = lpCount->WhExpansion;
+	//gObj[aIndex].m_PlayerData->m_iSecurityCode = lpCount->SecurityCode;
 
 	if (lpUser->m_iSecurityCode != 0)
 	{
 		lpUser->m_bSecurityCheck = false;
-		//GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 534), aIndex, 0); // TODO
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 534), aIndex, 0);
 	}
+
 	else
 	{
 		lpUser->m_bSecurityCheck = true;
 	}
 
 	pCLCount.MaxClass = 0x1F;//lpCount->EnableCharacterCreate;
-	pCLCount.MoveCnt = 0;
+	pCLCount.MoveCnt = 0; // TODO
 	pCLCount.WhExpansion = lpUser->m_WarehouseExpansion;
-	pCLCount.CharacterSlotCount = lpUser->CharacterSlotCount;
-
-
+	pCLCount.CharacterSlotCount = 5;
 	PMSG_CHARLIST_ENABLE_CREATION pMsgC;
 	PHeadSubSetB((LPBYTE)&pMsgC, 0xDE, 0x00, sizeof(pMsgC));
 
-	pMsgC.EnableClass = lpUserCS->EnableCharacterCreate;
+	pMsgC.EnableClass = lpUser->ConnectUser->EnableCharacterCreate;
 
 	GIOCP.DataSend(aIndex, (UCHAR *)&pMsgC, sizeof(PMSG_CHARLIST_ENABLE_CREATION));
 
 	memset(sendbuf, 0, sizeof(sendbuf));
-	
-	memset(pCList, 0, sizeof(PMSG_CHARLIST_S9)*5);
 
-	if (lpUser->CharacterSlotCount > 0)
+	if (pCLCount.Count > 0)
 	{
 		lpUser->m_NameConvertOfUBF.InitData(); // UBF Name Conversion
 
-		for (int n = 0; n < lpUser->CharacterSlotCount; n++)
+		for (int n = 0; n < 5; n++)
 		{
-			//memset(&pCList[n], 0, sizeof(PMSG_CHARLIST_S9));
-
+			//memset(&pCList[n], 0, sizeof(pCList[n]));
 			//lpCL = (SDHP_CHARLIST *)&lpRecv[lsOfs];
-			pRMsg.Reset[n] = lpUser->Characters[n].Resets;
-			pCList[n].Index = n;
-			pCList[n].Level = lpUser->Characters[n].Level;
+			//lpCL = new SDHP_CHARLIST();
+			pCList[n].btGuildStatus = lpUser->GuildStatus;
+			lpCL[n].Class = lpUser->Characters[n].Class;
 			pCList[n].CtlCode = lpUser->Characters[n].CtlCode;
-			//pCList[n].btGuildStatus = lpUser->Characters[n].btGuildStatus;
+			pCList[n].Index = n + 1;
+			pCList[n].Level = lpUser->Characters[n].Level;
+			std::strcpy(pCList[n].Name,lpUser->Characters[n].Name);
+			lpCL[n].PK_Level = 0; // TODO
+			lpCL[n].Resets = lpUser->Characters[n].Resets;
+			lpCL[n].ServerCodeOfHomeWorld = 0; // TODO
+			std::strcpy(lpCL[n].UnityBFRealName,lpUser->Characters[n].Name);
+			std::memcpy(&lpCL[n].dbInventory[0],&lpUser->Characters[n].dbInventory[0],48);
+			pRMsg.Reset[n] = lpCL[n].Resets;
 
-			if (lpUserCS->m_cAccountItemBlock != 0)
-				; // pCList[n].CtlCode |= 0x10;	// Set Block Item
+			if (lpUser->ConnectUser->m_cAccountItemBlock != 0)
+				pCList[n].CtlCode |= 0x10;	// Set Block Item
 
 			/*if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 			{
 				std::string tmpKeyName;
 				std::string tmpRealName;
 
-				tmpKeyName.insert(0, lpCL->Name, MAX_ACCOUNT_LEN);
-				tmpRealName.insert(0, lpCL->UnityBFRealName, MAX_ACCOUNT_LEN);
+				tmpKeyName.insert(0, lpCL[n].Name, MAX_ACCOUNT_LEN);
+				tmpRealName.insert(0, lpCL[n].UnityBFRealName, MAX_ACCOUNT_LEN);
 
-				lpUser->m_NameConvertOfUBF.InputData(n, tmpKeyName.c_str(), tmpRealName.c_str(), lpCL->ServerCodeOfHomeWorld, MAX_ACCOUNT_LEN);
+				gObj[aIndex].m_PlayerData->m_NameConvertOfUBF.InputData(n, tmpKeyName.c_str(), tmpRealName.c_str(), lpCL[n].ServerCodeOfHomeWorld, MAX_ACCOUNT_LEN);
 				g_Log.Add("[UBF][ConvertInputData][%d][%s][KeyName: %s][RealName: %s] ServerCode: %d",
-					aIndex, lpUser.AccountID, tmpKeyName.c_str(), tmpRealName.c_str(), lpCL->ServerCodeOfHomeWorld);
+					aIndex, gObj[aIndex].AccountID, tmpKeyName.c_str(), tmpRealName.c_str(), lpCL[n].ServerCodeOfHomeWorld);
 
-				memcpy(pCList[n].Name, lpCL->UnityBFRealName, MAX_ACCOUNT_LEN);
+				memcpy(pCList[n].Name, lpCL[n].UnityBFRealName, MAX_ACCOUNT_LEN);
+			}
+
+			else
+			{
+				memcpy(pCList[n].Name, lpCL[n].Name, MAX_ACCOUNT_LEN);
 			}*/
 
-			//else
-			//{
-				memcpy(pCList[n].Name, lpUser->Characters[n].Name, MAX_ACCOUNT_LEN);
-			//}
-
-			pCList[n].CharSet[CS_CLASS] = CS_GET_CLASS_SX(lpUser->Characters[n].Class);
-			int changeup = CS_GET_CHANGEUP_SX(lpUser->Characters[n].Class);
+			pCList[n].CharSet[CS_CLASS] = CS_GET_CLASS_SX(lpCL[n].Class);
+			int changeup = CS_GET_CHANGEUP_SX(lpCL[n].Class);
 
 			if (changeup == 1)
 			{
@@ -818,87 +831,86 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 			}
 
 			pCList[n].CharSet[9] = 0;
-			//memcpy(lpUser.Name1[n], pCList[n].Name, MAX_ACCOUNT_LEN);
 
-			if (lpUser->Characters[n].dbInventory[0] == (BYTE)-1 && (lpUser->Characters[n].dbInventory[2] & 0x80) == 0x80 && (lpUser->Characters[n].dbInventory[3] & 0xF0) == 0xF0)
+			if (lpCL[n].dbInventory[0] == (BYTE)-1 && (lpCL[n].dbInventory[2] & 0x80) == 0x80 && (lpCL[n].dbInventory[3] & 0xF0) == 0xF0)
 			{
 				TempInventory[0] = -1;
 			}
 			else
 			{
-				TempInventory[0] = (lpUser->Characters[n].dbInventory[0] + (lpUser->Characters[n].dbInventory[2] & 0x80) * 2) + (lpUser->Characters[n].dbInventory[3] & 0xF0) * 32;
+				TempInventory[0] = (lpCL[n].dbInventory[0] + (lpCL[n].dbInventory[2] & 0x80) * 2) + (lpCL[n].dbInventory[3] & 0xF0) * 32;
 			}
 
-			if (lpUser->Characters[n].dbInventory[4] == (BYTE)-1 && (lpUser->Characters[n].dbInventory[6] & 0x80) == 0x80 && (lpUser->Characters[n].dbInventory[7] & 0xF0) == 0xF0)
+			if (lpCL[n].dbInventory[4] == (BYTE)-1 && (lpCL[n].dbInventory[6] & 0x80) == 0x80 && (lpCL[n].dbInventory[7] & 0xF0) == 0xF0)
 			{
 				TempInventory[1] = -1;
 			}
 			else
 			{
-				TempInventory[1] = (lpUser->Characters[n].dbInventory[4] + (lpUser->Characters[n].dbInventory[6] & 0x80) * 2) + (lpUser->Characters[n].dbInventory[7] & 0xF0) * 32;
+				TempInventory[1] = (lpCL[n].dbInventory[4] + (lpCL[n].dbInventory[6] & 0x80) * 2) + (lpCL[n].dbInventory[7] & 0xF0) * 32;
 			}
 
-			if (lpUser->Characters[n].dbInventory[8] == (BYTE)-1 && (lpUser->Characters[n].dbInventory[10] & 0x80) == 0x80 && (lpUser->Characters[n].dbInventory[11] & 0xF0) == 0xF0)
+			if (lpCL[n].dbInventory[8] == (BYTE)-1 && (lpCL[n].dbInventory[10] & 0x80) == 0x80 && (lpCL[n].dbInventory[11] & 0xF0) == 0xF0)
 			{
 				TempInventory[2] = 0x1FF;
 			}
 			else
 			{
-				TempInventory[2] = ((lpUser->Characters[n].dbInventory[8] + (lpUser->Characters[n].dbInventory[10] & 0x80) * 2) + (lpUser->Characters[n].dbInventory[11] & 0xF0) * 32) % MAX_SUBTYPE_ITEMS;
+				TempInventory[2] = ((lpCL[n].dbInventory[8] + (lpCL[n].dbInventory[10] & 0x80) * 2) + (lpCL[n].dbInventory[11] & 0xF0) * 32) % MAX_SUBTYPE_ITEMS;
 			}
 
-			if (lpUser->Characters[n].dbInventory[12] == (BYTE)-1 && (lpUser->Characters[n].dbInventory[14] & 0x80) == 0x80 && (lpUser->Characters[n].dbInventory[15] & 0xF0) == 0xF0)
+			if (lpCL[n].dbInventory[12] == (BYTE)-1 && (lpCL[n].dbInventory[14] & 0x80) == 0x80 && (lpCL[n].dbInventory[15] & 0xF0) == 0xF0)
 			{
 				TempInventory[3] = 0x1FF;
 			}
 			else
 			{
-				TempInventory[3] = ((lpUser->Characters[n].dbInventory[12] + (lpUser->Characters[n].dbInventory[14] & 0x80) * 2) + (lpUser->Characters[n].dbInventory[15] & 0xF0) * 32) % MAX_SUBTYPE_ITEMS;
+				TempInventory[3] = ((lpCL[n].dbInventory[12] + (lpCL[n].dbInventory[14] & 0x80) * 2) + (lpCL[n].dbInventory[15] & 0xF0) * 32) % MAX_SUBTYPE_ITEMS;
 			}
 
-			if (lpUser->Characters[n].dbInventory[16] == (BYTE)-1 && (lpUser->Characters[n].dbInventory[18] & 0x80) == 0x80 && (lpUser->Characters[n].dbInventory[19] & 0xF0) == 0xF0)
+			if (lpCL[n].dbInventory[16] == (BYTE)-1 && (lpCL[n].dbInventory[18] & 0x80) == 0x80 && (lpCL[n].dbInventory[19] & 0xF0) == 0xF0)
 			{
 				TempInventory[4] = 0x1FF;
 			}
 			else
 			{
-				TempInventory[4] = ((lpUser->Characters[n].dbInventory[16] + (lpUser->Characters[n].dbInventory[18] & 0x80) * 2) + (lpUser->Characters[n].dbInventory[19] & 0xF0) * 32) % MAX_SUBTYPE_ITEMS;
+				TempInventory[4] = ((lpCL[n].dbInventory[16] + (lpCL[n].dbInventory[18] & 0x80) * 2) + (lpCL[n].dbInventory[19] & 0xF0) * 32) % MAX_SUBTYPE_ITEMS;
 			}
 
-			if (lpUser->Characters[n].dbInventory[20] == (BYTE)-1 && (lpUser->Characters[n].dbInventory[22] & 0x80) == 0x80 && (lpUser->Characters[n].dbInventory[23] & 0xF0) == 0xF0)
+			if (lpCL[n].dbInventory[20] == (BYTE)-1 && (lpCL[n].dbInventory[22] & 0x80) == 0x80 && (lpCL[n].dbInventory[23] & 0xF0) == 0xF0)
 			{
 				TempInventory[5] = 0x1FF;
 			}
 			else
 			{
-				TempInventory[5] = ((lpUser->Characters[n].dbInventory[20] + (lpUser->Characters[n].dbInventory[22] & 0x80) * 2) + (lpUser->Characters[n].dbInventory[23] & 0xF0) * 32) % MAX_SUBTYPE_ITEMS;
+				TempInventory[5] = ((lpCL[n].dbInventory[20] + (lpCL[n].dbInventory[22] & 0x80) * 2) + (lpCL[n].dbInventory[23] & 0xF0) * 32) % MAX_SUBTYPE_ITEMS;
 			}
 
-			if (lpUser->Characters[n].dbInventory[24] == (BYTE)-1 && (lpUser->Characters[n].dbInventory[26] & 0x80) == 0x80 && (lpUser->Characters[n].dbInventory[27] & 0xF0) == 0xF0)
+			if (lpCL[n].dbInventory[24] == (BYTE)-1 && (lpCL[n].dbInventory[26] & 0x80) == 0x80 && (lpCL[n].dbInventory[27] & 0xF0) == 0xF0)
 			{
 				TempInventory[6] = 0x1FF;
 			}
 			else
 			{
-				TempInventory[6] = ((lpUser->Characters[n].dbInventory[24] + (lpUser->Characters[n].dbInventory[26] & 0x80) * 2) + (lpUser->Characters[n].dbInventory[27] & 0xF0) * 32) % MAX_SUBTYPE_ITEMS;
+				TempInventory[6] = ((lpCL[n].dbInventory[24] + (lpCL[n].dbInventory[26] & 0x80) * 2) + (lpCL[n].dbInventory[27] & 0xF0) * 32) % MAX_SUBTYPE_ITEMS;
 			}
 
-			if (lpUser->Characters[n].dbInventory[28] == (BYTE)-1 && (lpUser->Characters[n].dbInventory[30] & 0x80) == 0x80 && (lpUser->Characters[n].dbInventory[31] & 0xF0) == 0xF0)
+			if (lpCL[n].dbInventory[28] == (BYTE)-1 && (lpCL[n].dbInventory[30] & 0x80) == 0x80 && (lpCL[n].dbInventory[31] & 0xF0) == 0xF0)
 			{
 				TempInventory[7] = 0x1FF;
 			}
 			else
 			{
-				TempInventory[7] = ((lpUser->Characters[n].dbInventory[28] + (lpUser->Characters[n].dbInventory[30] & 0x80) * 2) + (lpUser->Characters[n].dbInventory[31] & 0xF0) * 32) % MAX_SUBTYPE_ITEMS;
+				TempInventory[7] = ((lpCL[n].dbInventory[28] + (lpCL[n].dbInventory[30] & 0x80) * 2) + (lpCL[n].dbInventory[31] & 0xF0) * 32) % MAX_SUBTYPE_ITEMS;
 			}
 
-			if (lpUser->Characters[n].dbInventory[32] == (BYTE)-1 && (lpUser->Characters[n].dbInventory[34] & 0x80) == 0x80 && (lpUser->Characters[n].dbInventory[35] & 0xF0) == 0xF0)
+			if (lpCL[n].dbInventory[32] == (BYTE)-1 && (lpCL[n].dbInventory[34] & 0x80) == 0x80 && (lpCL[n].dbInventory[35] & 0xF0) == 0xF0)
 			{
 				TempInventory[8] = 0x1FF;
 			}
 			else
 			{
-				TempInventory[8] = ((lpUser->Characters[n].dbInventory[32] + (lpUser->Characters[n].dbInventory[34] & 0x80) * 2) + (lpUser->Characters[n].dbInventory[35] & 0xF0) * 32) % MAX_SUBTYPE_ITEMS;
+				TempInventory[8] = ((lpCL[n].dbInventory[32] + (lpCL[n].dbInventory[34] & 0x80) * 2) + (lpCL[n].dbInventory[35] & 0xF0) * 32) % MAX_SUBTYPE_ITEMS;
 			}
 
 			pCList[n].CharSet[12] |= DBI_GET_TYPE(TempInventory[0]);
@@ -951,37 +963,37 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 
 			if (TempInventory[0] != (WORD)-1)
 			{
-				levelindex = LevelSmallConvert(DBI_GET_LEVEL(lpUser->Characters[n].dbInventory[1]));
+				levelindex = LevelSmallConvert(DBI_GET_LEVEL(lpCL[n].dbInventory[1]));
 			}
 
 			if (TempInventory[1] != (WORD)-1)
 			{
-				levelindex |= (int)LevelSmallConvert(DBI_GET_LEVEL(lpUser->Characters[n].dbInventory[5])) << 3;
+				levelindex |= (int)LevelSmallConvert(DBI_GET_LEVEL(lpCL[n].dbInventory[5])) << 3;
 			}
 
 			if (TempInventory[2] < 0x1FF)
 			{
-				levelindex |= (int)LevelSmallConvert(DBI_GET_LEVEL(lpUser->Characters[n].dbInventory[9])) << 6;
+				levelindex |= (int)LevelSmallConvert(DBI_GET_LEVEL(lpCL[n].dbInventory[9])) << 6;
 			}
 
 			if (TempInventory[3] < 0x1FF)
 			{
-				levelindex |= (int)LevelSmallConvert(DBI_GET_LEVEL(lpUser->Characters[n].dbInventory[13])) << 9;
+				levelindex |= (int)LevelSmallConvert(DBI_GET_LEVEL(lpCL[n].dbInventory[13])) << 9;
 			}
 
 			if (TempInventory[4] < 0x1FF)
 			{
-				levelindex |= (int)LevelSmallConvert(DBI_GET_LEVEL(lpUser->Characters[n].dbInventory[17])) << 12;
+				levelindex |= (int)LevelSmallConvert(DBI_GET_LEVEL(lpCL[n].dbInventory[17])) << 12;
 			}
 
 			if (TempInventory[5] < 0x1FF)
 			{
-				levelindex |= (int)LevelSmallConvert(DBI_GET_LEVEL(lpUser->Characters[n].dbInventory[21])) << 15;
+				levelindex |= (int)LevelSmallConvert(DBI_GET_LEVEL(lpCL[n].dbInventory[21])) << 15;
 			}
 
 			if (TempInventory[6] < 0x1FF)
 			{
-				levelindex |= (int)LevelSmallConvert(DBI_GET_LEVEL(lpUser->Characters[n].dbInventory[25])) << 18;
+				levelindex |= (int)LevelSmallConvert(DBI_GET_LEVEL(lpCL[n].dbInventory[25])) << 18;
 			}
 
 			pCList[n].CharSet[6] = ((int)levelindex >> 0x10) & 0xFF;
@@ -1015,7 +1027,7 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 				pCList[n].CharSet[10] &= 0xFE;
 				pCList[n].CharSet[12] &= 0xFE;
 				pCList[n].CharSet[12] |= 0x04;
-				BYTE btExcellentOption = lpUser->Characters[n].dbInventory[34] & 0x3F;
+				BYTE btExcellentOption = lpCL[n].dbInventory[34] & 0x3F;
 
 				if ((btExcellentOption & 1) == 1)
 				{
@@ -1128,29 +1140,27 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 			default:
 				break;
 			}
-			//memcpy(&sendbuf[sizeof(PMSG_CHARLIST_S9)*n], &pCList[n], sizeof(PMSG_CHARLIST_S9));
+			//sLog->outBasic("Buff Sizes sizeof(SDHP_CHARLIST)=%d, sizeof(PMSG_CHARLIST_S9)=%d", sizeof(SDHP_CHARLIST), sizeof(PMSG_CHARLIST_S9));
+			sLog->outBasic("Buff Sizes lsOfs=0, lofs=%d", lOfs);
+			memcpy(&sendbuf[lOfs], &pCList[n], sizeof(PMSG_CHARLIST_S9));
 			//lsOfs += sizeof(SDHP_CHARLIST);
-			//lOfs += sizeof(pCList[n]);
-			memcpy(&sendbuf[sizeof(PMSG_CHARLISTCOUNT) + sizeof(PMSG_CHARLIST_S9) * n],
-				&pCList[n], sizeof(PMSG_CHARLIST_S9));
+			lOfs += sizeof(PMSG_CHARLIST_S9);
 		}
 	}
+	mSleep(100);
 
-	mSleep(100); // Add Delay for switch to character screen.
-
-	pCLCount.h.size = sizeof(PMSG_CHARLIST_S9) * lpUser->CharacterSlotCount;
-	memcpy(sendbuf, &pCLCount, sizeof(PMSG_CHARLISTCOUNT));
-	
+	pCLCount.h.size = lOfs;
 	GIOCP.DataSend(aIndex, (LPBYTE)&pRMsg, sizeof(pRMsg));
-	GIOCP.DataSend(aIndex, sendbuf, sizeof(PMSG_CHARLIST_S9) * lpUser->CharacterSlotCount + sizeof(PMSG_CHARLISTCOUNT));
+	memcpy(sendbuf, &pCLCount, sizeof(PMSG_CHARLISTCOUNT));
+	GIOCP.DataSend(aIndex, sendbuf, lOfs);
 
 	/*if (gObjUseSkill.m_SkillData.EnableSiegeOnAllMaps)
 	{
 		BYTE EnableSiege[4] = { 0xC1, 0x04, 0xFA, 0xA0 };
 		IOCP.DataSend(aIndex, EnableSiege, sizeof(EnableSiege));
-	}*/
+	}
 
-	//g_GensSystem.SendBattleZoneData(&lpUser);
+	g_GensSystem.SendBattleZoneData(&gObj[aIndex]);*/
 	GSProtocol.GCSetCharColors(aIndex);
 
 	BYTE EnableDMG[4] = { 0xC1, 0x04, 0xFA, 0xA9 }; //DMG over 65k
@@ -1159,7 +1169,6 @@ void GameProtocol::CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 	BYTE DisableCheat[4] = { 0xC1, 0x04, 0xF3, 0xFA }; //Disable Cheat
 	GIOCP.DataSend(aIndex, DisableCheat, sizeof(DisableCheat));
 
-	criti.unlock();
 }
 
 

@@ -276,7 +276,7 @@ struct _PER_IO_CONTEXT
 	//MU_WSAOVERLAPPED m_Overlapped; // 0
 	//MU_WSABUF m_wsabuf;
 	BYTE Buffer[MAX_IO_BUFFER_SIZE]; // 1C
-	//BYTE BufferOut[MAX_IO_BUFFER_SIZE]; // 178C
+	BYTE Buffer2[MAX_IO_BUFFER_SIZE]; // 178C
 	int nSecondOfs; // 2EFC
 	int nTotalBytes;	// 2F00
 	int nbBytes; // 2F04

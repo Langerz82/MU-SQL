@@ -56,7 +56,7 @@ INIReader* iniReader;
 int g_JoinServerListPort;
 WORD g_ConnectServerPort;
 DWORD g_MaxConnectionsPerIP = 1000;
-DWORD g_MaxPacketPerSec = 16;
+DWORD g_MaxPacketPerSec = 512;
 WORD g_FTPPort;
 std::string g_HostURL;
 std::string g_FTPLogin;

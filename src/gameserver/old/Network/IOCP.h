@@ -8,8 +8,6 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-//#include "CQueue.h"
-#include "SocketBuffer/BufferedSocket.h"
 #include "generalStructs.h"
 
 #include <ace/Get_Opt.h>
@@ -32,15 +30,12 @@ public:
 	CIOCP();
 	~CIOCP();
 	void GiocpInit();
-	void GiocpDelete();
-	void DestroyGIocp();
 	bool CreateListenSocket(WORD uiPort, LPSTR ipAddress);
 	bool RecvDataParse1(_PER_IO_CONTEXT * lpIOContext, int uIndex);
 	bool RecvDataParse2(_PER_IO_CONTEXT * lpIOContext, int uIndex);
 	bool DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt = true);
-	void CloseClient(_PER_SOCKET_CONTEXT * lpPerSocketContext, int result);
+	void CloseClients();
 	void CloseClient(int index);
-	void ResponErrorCloseClient(int index);
 
 	STR_CS_USER* getCSByHandle(ACE_HANDLE handle)
 	{

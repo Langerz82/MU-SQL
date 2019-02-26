@@ -416,7 +416,7 @@ public:
 	void CGRecvHitHackValues(int aIndex, PMSG_SEND_HITHACK_INFO * lpMsg);*/
 
 	void JGCharacterCreateFailSend(int aIndex, char* id);
-
+	void JGPGetCharList(CUserData* lpUser);
 
 	bool First = true;
 

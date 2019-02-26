@@ -62,17 +62,14 @@ void  CIOCP::CreateUserData(ACE_HANDLE handle)
 {
 	criti.lock();
 
-	boost::uuids::basic_random_generator<boost::mt19937> gen;
-	boost::uuids::uuid socketUUID = gen();
+	//boost::uuids::basic_random_generator<boost::mt19937> gen;
+	//boost::uuids::uuid socketUUID = gen();
 
-	const std::string sTemp = to_string(socketUUID);
-	const char* sockKey = sTemp.c_str();
+	//const std::string sTemp = to_string(socketUUID);
+	//const char* sockKey = sTemp.c_str();
+	const char* sockKey = nullptr; // not used anymore.
 
-	char ipAddress[20];
-	int lenIP = strlen(this->get_remote_address().c_str());
-	std::memcpy(ipAddress, this->get_remote_address().c_str(), sizeof(lenIP));
-
-	STR_CS_USER* ObjCSUser = UserAdd(sockKey, ipAddress);
+	STR_CS_USER* ObjCSUser = UserAdd(sockKey, (char*)this->get_remote_address().c_str());
 	ObjCSUser->Socket = &this->peer();
 
 	_PER_SOCKET_CONTEXT * lpPerSocketContext;
@@ -95,7 +92,9 @@ void  CIOCP::CreateUserData(ACE_HANDLE handle)
 
 	_PER_SOCKET_CONTEXT* sockCtx = ObjCSUser->PerSocketContext;
 	sockCtx->IOContext[0].Buffer[0] = { 0 };
+	sockCtx->IOContext[0].Buffer2[0] = { 0 };
 	sockCtx->IOContext[1].Buffer[0] = { 0 };
+	sockCtx->IOContext[1].Buffer2[0] = { 0 };
 	sockCtx->IOContext[0].IOOperation = 0;
 	sockCtx->IOContext[1].IOOperation = 1;
 	sockCtx->nIndex = ObjCSUser->Index;
@@ -107,9 +106,8 @@ void  CIOCP::CreateUserData(ACE_HANDLE handle)
 	g_UserIDMap.insert(std::pair<ACE_HANDLE, STR_CS_USER*>(
 		this->peer().get_handle(), ObjCSUser));
 
-	GSProtocol.SCPJoinResultSend(ObjCSUser->Index, 1);
-
 	criti.unlock();
+	GSProtocol.SCPJoinResultSend(ObjCSUser->Index, 1);
 }
 
 int CIOCP::OnAccept(ACE_HANDLE handle)
@@ -554,22 +552,36 @@ bool CIOCP::RecvDataParse2(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 
 bool CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 {
-	_PER_SOCKET_CONTEXT * lpPerSocketContext;
-
 	criti.lock();
 
 	STR_CS_USER* lpCSUser = getCSUser(uIndex);
 
-	if (lpCSUser->ConnectionState == 0  )
+	unsigned long SendBytes;
+	_PER_SOCKET_CONTEXT * lpPerSocketContext;
+	unsigned char * SendBuf;
+	//BYTE BUFFER[65535];
+
+	/*if (gStalkProtocol)
 	{
+		if (gStalkProtocolId[0] == gObj[aIndex].AccountID[0])
+		{
+			if (gStalkProtocolId[1] == gObj[aIndex].AccountID[1])
+			{
+				if (!strcmp(gStalkProtocolId, gObj[aIndex].AccountID))
+				{
+					g_Log.AddHeadHex("DATA SEND", lpMsg, dwSize);
+				}
+			}
+		}
+	}*/
+
+	if (lpMsg[0] != 0xC1 && lpMsg[0] != 0xC2 &&
+		lpMsg[0] != 0xC3 && lpMsg[0] != 0xC4)
+	{
+		sLog->outError("[ERROR] Trying to send packet without HEADER (%s)", lpCSUser->AccountID);
 		criti.unlock();
-		return false;
+		return FALSE;
 	}
-
-	lpPerSocketContext = lpCSUser->PerSocketContext;
-
-	_PER_IO_CONTEXT  * lpIoCtxt = &lpPerSocketContext->IOContext[1];
-
 
 #ifdef EMU_NOCRYPT
 	if (lpMsg[0] == 0xC3)
@@ -585,7 +597,7 @@ bool CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 		lpMsg[0] = 0xC2;
 #endif
 
-	/*if (lpMsg[0] == 0xC3 || lpMsg[0] == 0xC4)
+	if (lpMsg[0] == 0xC3 || lpMsg[0] == 0xC4)
 	{
 		int ret;
 		BYTE btsize;
@@ -593,45 +605,114 @@ bool CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 		if (lpMsg[0] == 0xC3)
 		{
 			btsize = lpMsg[1];
-			ret = g_PacketEncrypt.Encrypt(&lpIoCtxt->Buffer[2], &lpMsg[1], dwSize - 1);
-			lpIoCtxt->Buffer[0] = 0xC3;
-			lpIoCtxt->Buffer[1] = ret + 2;
+			ret = g_PacketEncrypt.Encrypt(&ExSendBuf[2], &lpMsg[1], dwSize - 1);
+			ExSendBuf[0] = 0xC3;
+			ExSendBuf[1] = ret + 2;
+			SendBuf = ExSendBuf;
 			dwSize = ret + 2;
 			lpMsg[1] = btsize;
 		}
 		else
 		{
 			btsize = lpMsg[2];
-			ret = g_PacketEncrypt.Encrypt(&lpIoCtxt->Buffer[3], &lpMsg[2], dwSize - 2);
-			lpIoCtxt->Buffer[0] = 0xC4;
-			lpIoCtxt->Buffer[1] = SET_NUMBERH(ret + 3);
-			lpIoCtxt->Buffer[2] = SET_NUMBERL(ret + 3);
+			ret = g_PacketEncrypt.Encrypt(&ExSendBuf[3], &lpMsg[2], dwSize - 2);
+			ExSendBuf[0] = 0xC4;
+			ExSendBuf[1] = SET_NUMBERH(ret + 3);
+			ExSendBuf[2] = SET_NUMBERL(ret + 3);
+			SendBuf = ExSendBuf;
 			dwSize = ret + 3;
 		}
-	}*/
+	}
 
-	std::memcpy(lpIoCtxt->Buffer, lpMsg, dwSize);
-
-	lpIoCtxt->nTotalBytes += dwSize;
-	lpIoCtxt->nbBytes = dwSize;
-	lpIoCtxt->IOOperation = 1;
-
-	if (!lpCSUser->Socket)
+	else
 	{
-		lpIoCtxt->nWaitIO = 1;
+		SendBuf = lpMsg;
+	}
+
+	if (lpCSUser->Connected < PLAYER_CONNECTED)
+	{
+		CloseClient(uIndex);
 		criti.unlock();
 		return false;
 	}
-	this->set_handle(lpCSUser->Socket->get_handle());
-	this->send((BYTE*) lpIoCtxt->Buffer, lpIoCtxt->nbBytes);
 
-	lpPerSocketContext->dwIOCount ++;
+	lpPerSocketContext = lpCSUser->PerSocketContext;
+
+	if (dwSize > sizeof(lpPerSocketContext->IOContext[0].Buffer))
+	{
+		sLog->outError("Error : Max msg(%d) %s %d", dwSize, __FILE__, __LINE__);
+		CloseClient(uIndex);
+		criti.unlock();
+		return false;
+	}
+
+	_PER_IO_CONTEXT  * lpIoCtxt;
+
+	lpIoCtxt = &lpPerSocketContext->IOContext[1];
+
+	if (lpIoCtxt->nWaitIO > 0)
+	{
+		if ((lpIoCtxt->nSecondOfs + dwSize) > MAX_IO_BUFFER_SIZE - 1)
+		{
+			sLog->outError("(%d)error-L2 MAX BUFFER OVER %d %d %d [%s]", uIndex, lpIoCtxt->nTotalBytes, lpIoCtxt->nSecondOfs, dwSize, lpCSUser->AccountID);
+			lpIoCtxt->nWaitIO = 0;
+			CloseClient(uIndex);
+			criti.unlock();
+			return true;
+		}
+
+		memcpy(&lpIoCtxt->Buffer2[lpIoCtxt->nSecondOfs], SendBuf, dwSize);
+		lpIoCtxt->nSecondOfs += dwSize;
+		criti.unlock();
+		return true;
+	}
+
+	lpIoCtxt->nTotalBytes = 0;
+
+	if (lpIoCtxt->nSecondOfs > 0)
+	{
+		memcpy(lpIoCtxt->Buffer, lpIoCtxt->Buffer2, lpIoCtxt->nSecondOfs);
+		lpIoCtxt->nTotalBytes = lpIoCtxt->nSecondOfs;
+		lpIoCtxt->nSecondOfs = 0;
+	}
+
+	if ((lpIoCtxt->nTotalBytes + dwSize) > MAX_IO_BUFFER_SIZE - 1)
+	{
+		sLog->outError("(%d)error-L2 MAX BUFFER OVER %d %d [%s]", uIndex, lpIoCtxt->nTotalBytes, dwSize, lpCSUser->AccountID);
+		lpIoCtxt->nWaitIO = 0;
+		CloseClient(uIndex);
+		criti.unlock();
+		return false;
+	}
+
+	memcpy(&lpIoCtxt->Buffer[lpIoCtxt->nTotalBytes], SendBuf, dwSize);
+	lpIoCtxt->nTotalBytes += dwSize;
+	lpIoCtxt->nbBytes = 0;
+	lpIoCtxt->IOOperation = 1;
+
+	ACE_OS::last_error(0);
+	this->set_handle(lpCSUser->Socket->get_handle());
+	this->send((BYTE*)lpIoCtxt->Buffer, dwSize);
+
+	if (ACE_OS::last_error() == 0)
+	{
+		lpIoCtxt->nWaitIO = 0;
+		sLog->outError("(%d)error-L2 SEND ERROR %d %d [%s]", uIndex, lpIoCtxt->nTotalBytes, dwSize, lpCSUser->AccountID);
+		CloseClient(uIndex);
+		criti.unlock();
+		return false;
+	}
+	else
+	{
+		lpPerSocketContext->dwIOCount++;
+	}
+
 	lpIoCtxt->nWaitIO = 1;
 	criti.unlock();
 	return true;
 }
 
-void CIOCP::CloseClients(_PER_SOCKET_CONTEXT * lpPerSocketContext, int result)
+void CIOCP::CloseClients()
 {
 	for (std::pair<ACE_HANDLE,STR_CS_USER*> user : g_UserIDMap)
 	{
