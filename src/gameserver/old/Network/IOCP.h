@@ -33,26 +33,25 @@ public:
 	bool CreateListenSocket(WORD uiPort, LPSTR ipAddress);
 	bool RecvDataParse1(_PER_IO_CONTEXT * lpIOContext, int uIndex);
 	bool RecvDataParse2(_PER_IO_CONTEXT * lpIOContext, int uIndex);
-	bool DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt = true);
+	DWORD DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt = false);
 	void CloseClients();
 	void CloseClient(int index);
 
-	STR_CS_USER* getCSByHandle(ACE_HANDLE handle)
+	/*static STR_CS_USER* getCSByHandle(ACE_HANDLE handle)
 	{
-		std::map<ACE_HANDLE, STR_CS_USER*>::iterator pUO = g_UserIDMap.find(handle);
-		if (pUO == g_UserIDMap.end())
+		std::map<ACE_HANDLE, STR_CS_USER*>::iterator pUO = CIOCP::g_UserIDMap.find(handle);
+		if (pUO == CIOCP::g_UserIDMap.end())
 		{
 			sLog->outBasic("UserObject does not exist. %s %d\n", __FILE__, __LINE__);
 			return nullptr;
 		}
 		else
 			return pUO->second;
-	};
+	};*/
 
 	int OnAccept(ACE_HANDLE handle);
 	int OnRead(ACE_HANDLE handle, int len);
 	int OnClose(ACE_HANDLE h);
-	void CloseClients(_PER_SOCKET_CONTEXT * lpPerSocketContext, int result);
 
 	virtual int handle_input(ACE_HANDLE = ACE_INVALID_HANDLE) override;
 	virtual int handle_output(ACE_HANDLE = ACE_INVALID_HANDLE) override;
@@ -74,16 +73,29 @@ public:
 		return this->remote_address_;
 	};
 
-	static void ProcessEvents();
-private:
+	void ProcessEvents();
 
+	static STR_CS_USER* getUserCS(ACE_HANDLE index)
+	{
+		std::map<ACE_HANDLE, STR_CS_USER*>::iterator pGO = g_UserIDMap.find(index);
+		if (pGO == g_UserIDMap.end())
+		{
+			sLog->outError("UserCSData does not exist. %s %d\n", __FILE__, __LINE__);
+			return nullptr;
+		}
+		else
+			return pGO->second;
+	}
+
+	
+private:
+	static std::map<ACE_HANDLE, STR_CS_USER*> g_UserIDMap;
 	BYTE* ExSendBuf;
 	int g_ServerPort;
 	std::mutex criti;
 	DWORD g_dwThreadCount;
 	ACE_Acceptor<CIOCP, ACE_SOCK_Acceptor> g_HostSocket;
-	std::map<ACE_HANDLE, STR_CS_USER*> g_UserIDMap;
-
+	
 	std::string remote_address_;
 	ACE_Message_Block input_buffer_;
 	ssize_t noblk_send(ACE_Message_Block& message_block);

@@ -455,7 +455,9 @@ extern int main(int argc, char** argv)
     while (true)
     {
 
-		CIOCP::ProcessEvents();
+		GIOCP.ProcessEvents();
+		mSleep(50);
+
 #ifdef WIN32
         if (m_ServiceStatus == 0) { stopEvent = true; }
         while (m_ServiceStatus == 2) { Sleep(1000); }
