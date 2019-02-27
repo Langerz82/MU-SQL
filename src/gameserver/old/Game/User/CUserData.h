@@ -306,5 +306,7 @@ extern void insertUserObject(CUserData* Obj);
 extern void eraseUserObject(CUserData* Obj);
 
 extern BOOL gObjIsAccontConnect(int aIndex, char* accountid);
+extern BOOL gObjPasswordCheck(STR_CS_USER* csUser, char* szInPassword);
+
 
 #endif

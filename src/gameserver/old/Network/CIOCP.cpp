@@ -581,7 +581,7 @@ DWORD CIOCP::BuffSend(STR_CS_USER* lpCSUser)
 {
 	_PER_IO_CONTEXT* lpIoCtxt = &lpCSUser->PerSocketContext->IOContext[1];
 
-	if (lpIoCtxt->nSecondOfs == 0)
+	if (lpIoCtxt == nullptr || lpIoCtxt->nSecondOfs == 0)
 		return 0;
 
 	memcpy(lpIoCtxt->Buffer, lpIoCtxt->Buffer2, lpIoCtxt->nSecondOfs);

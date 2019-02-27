@@ -36,6 +36,7 @@ class ProducerConsumerQueue;
 class DatabaseWorker;
 class MySQLPreparedStatement;
 class SQLOperation;
+class SQLException;
 
 enum ConnectionFlags
 {
@@ -53,6 +54,17 @@ struct  MySQLConnectionInfo
     std::string database;
     std::string host;
     std::string port_or_socket;
+};
+
+class SQLException
+{
+public:
+	SQLException(uint32 plErrno, std::string pstmt, std::string pmysql_error) :
+		lErrno(plErrno), stmt(pstmt), mysql_error(pmysql_error) {};
+
+	uint32 lErrno;
+	std::string stmt;
+	std::string mysql_error;
 };
 
 class _MU_DATABASE_API_ MySQLConnection

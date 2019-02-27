@@ -322,6 +322,15 @@ bool MySQLConnection::_Query(const char *sql, MYSQL_RES **pResult, MYSQL_FIELD *
         if (mysql_query(m_Mysql, sql))
         {
             uint32 lErrno = mysql_errno(m_Mysql);
+
+			// Added Auto Freeing of results on 2014.
+			if (lErrno == 2014)
+			{
+				mysql_free_result(*pResult);
+				std::this_thread::sleep_for(std::chrono::seconds(10));
+				return _Query(sql, pResult, pFields, pRowCount, pFieldCount);
+			}
+
             MUSQL_LOG_INFO("sql.sql", "SQL: %s", sql);
             sLog->outBasic("[%u] %s", lErrno, mysql_error(m_Mysql));
 

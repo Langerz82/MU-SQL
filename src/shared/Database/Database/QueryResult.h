@@ -36,13 +36,15 @@ class  ResultSet
         Field* Fetch() const { return _currentRow; }
         Field const& operator[](std::size_t index) const;
 
+		void CleanUp();
+
     protected:
         uint64 _rowCount;
         Field* _currentRow;
         uint32 _fieldCount;
 
     private:
-        void CleanUp();
+       
         MYSQL_RES* _result;
         MYSQL_FIELD* _fields;
 

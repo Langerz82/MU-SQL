@@ -626,3 +626,15 @@ BOOL gObjIsAccontConnect(int aIndex, char* accountid)
 	}
 	return 1;
 }
+
+BOOL gObjPasswordCheck(STR_CS_USER* csUser, char* szInPassword)
+{
+	if (strcmp(csUser->Password, szInPassword) == 0)
+	{
+		return TRUE;
+	}
+	else
+	{
+		return FALSE;
+	}
+}

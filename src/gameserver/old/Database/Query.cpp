@@ -44,10 +44,21 @@ QueryResult* CQuery::Fetch(TCHAR* lpszStatement, ...)
 	vsprintf(szStatement, lpszStatement, pArguments);
 	va_end(pArguments);
 
-	this->m_Result = this->m_Database.Query(szStatement);
+	if (this->m_Result != nullptr)
+		(*this->m_Result).CleanUp();
+
+	try {
+		this->m_Result = this->m_Database.Query(szStatement);
+	}
+	catch (SQLException e)
+	{
+		sLog->outError("[SQL Error] Error querying: %d %s %s", e.lErrno, e.stmt, e.mysql_error);
+		return nullptr;
+	}
 
 	if (!this->m_Result)
 	{
+		//this->m_Database.Close();
 		sLog->outError("[SQL Error] Error querying: %s", szStatement);
 		return nullptr;
 	}

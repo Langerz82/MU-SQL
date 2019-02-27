@@ -1533,6 +1533,8 @@ void IntroProtocol::CGPCharacterCreate(PMSG_CHARCREATE * lpMsg, STR_CS_USER* csU
 
 void IntroProtocol::CGPCharDel(PMSG_CHARDELETE * lpMsg, STR_CS_USER* csUser)
 {
+	criti.lock();
+
 	CUserData* lpUser = getUserObject(csUser->Index);
 
 	//if (!PacketCheckTime(aIndex))
@@ -1541,6 +1543,7 @@ void IntroProtocol::CGPCharDel(PMSG_CHARDELETE * lpMsg, STR_CS_USER* csUser)
 	if (lpUser->ConnectUser->Connected < PLAYER_LOGGED)
 	{
 		GIOCP.CloseClient(csUser->Index);
+		criti.unlock();
 		return;
 	}
 
@@ -1548,6 +1551,7 @@ void IntroProtocol::CGPCharDel(PMSG_CHARDELETE * lpMsg, STR_CS_USER* csUser)
 	{
 		this->GCSendDisableReconnect(csUser->Index);
 		GIOCP.CloseClient(csUser->Index);
+		criti.unlock();
 		return;
 	}
 
@@ -1555,6 +1559,7 @@ void IntroProtocol::CGPCharDel(PMSG_CHARDELETE * lpMsg, STR_CS_USER* csUser)
 	{
 		this->GCSendDisableReconnect(csUser->Index);
 		GIOCP.CloseClient(csUser->Index);
+		criti.unlock();
 		return;
 	}
 
@@ -1562,6 +1567,7 @@ void IntroProtocol::CGPCharDel(PMSG_CHARDELETE * lpMsg, STR_CS_USER* csUser)
 	{
 		this->GCSendDisableReconnect(csUser->Index);
 		GIOCP.CloseClient(csUser->Index);
+		criti.unlock();
 		return;
 	}
 
@@ -1575,6 +1581,7 @@ void IntroProtocol::CGPCharDel(PMSG_CHARDELETE * lpMsg, STR_CS_USER* csUser)
 	{
 		pResult.result = 3;
 		GIOCP.DataSend(csUser->Index, (LPBYTE)&pResult, pResult.h.size);
+		criti.unlock();
 		return;
 	}
 
@@ -1598,6 +1605,7 @@ void IntroProtocol::CGPCharDel(PMSG_CHARDELETE * lpMsg, STR_CS_USER* csUser)
 		this->GCServerMsgStringSend(Lang.GetText(0, 513), csUser, 1);
 		pResult.result = 3;
 		GIOCP.DataSend(csUser->Index, (LPBYTE)&pResult, pResult.h.size);
+		criti.unlock();
 		return;
 	}
 
@@ -1608,10 +1616,11 @@ void IntroProtocol::CGPCharDel(PMSG_CHARDELETE * lpMsg, STR_CS_USER* csUser)
 	memset(szJoomin, 0, sizeof(szJoomin));
 	memcpy(szJoomin, lpMsg->LastJoominNumber, sizeof(lpMsg->LastJoominNumber));
 
-	if (gObjPasswordCheck(aIndex, szJoomin) == FALSE)
+	if (gObjPasswordCheck(csUser, szJoomin) == FALSE)
 	{
 		pResult.result = 2;
-		GIOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+		GIOCP.DataSend(csUser->Index, (LPBYTE)&pResult, pResult.h.size);
+		criti.unlock();
 		return;
 	}
 
@@ -1644,6 +1653,92 @@ void IntroProtocol::CGPCharDel(PMSG_CHARDELETE * lpMsg, STR_CS_USER* csUser)
 
 	//wsDataCli.DataSend((PCHAR)&pCDel, pCDel.h.size);
 	//gObj[aIndex].Level = 0; // ? TODO
+
+	int Result = 0;
+	int iQueryResult = FALSE;
+	{
+		QueryResult* res = this->m_AccDB.Fetch("CALL IGC_DeleteCharacter('%s')", lpMsg->Name);
+		if (res)
+		{
+			iQueryResult = this->m_AccDB.GetAsInteger(0);
+		}
+		//(*res)->Fetch();
+		//while ((*res)->NextRow()) { ; }
+	}
+
+	if (iQueryResult == TRUE)
+	{
+		QueryResult* res2 = this->m_AccDB.Fetch("SELECT GameID1,GameID2,GameID3,GameID4,GameID5 FROM AccountCharacter WHERE `Id`='%s'", csUser->AccountID);
+		if (res2 && (*res2)->GetRowCount() == 1)
+		{
+			TCHAR CharName[5][11] = { 0 };
+			memset(CharName, 0x00, sizeof(CharName));
+			this->m_AccDB.GetAsString(0, CharName[0], sizeof(CharName[0]) - 1);
+			this->m_AccDB.GetAsString(1, CharName[1], sizeof(CharName[0]) - 1);
+			this->m_AccDB.GetAsString(2, CharName[2], sizeof(CharName[0]) - 1);
+			this->m_AccDB.GetAsString(3, CharName[3], sizeof(CharName[0]) - 1);
+			this->m_AccDB.GetAsString(4, CharName[4], sizeof(CharName[0]) - 1);
+			int iIndex;
+				
+			for (iIndex = 0; iIndex < 5; iIndex++)
+			{
+				if (lstrcmp(CharName[iIndex], lpMsg->Name) == 0)
+				{
+					break;
+				}
+			}
+			this->m_AccDB.ExecQuery("UPDATE AccountCharacter SET GameID%d=NULL WHERE `Id`='%s'", iIndex + 1, csUser->AccountID);
+				
+			std::memcpy(&lpUser->Characters[iIndex], 0, sizeof(STR_USER_CHARACTERS));
+			/// This re-shuffles the Characters to match the DB Order.
+			// Not really needed.
+			/*STR_USER_CHARACTERS tUserChars[5] = { 0 };
+			for (iIndex = 0; iIndex < 5; iIndex++)
+			{
+				for (int jIndex = 0; jIndex < 5; jIndex++)
+				{
+					if (strcmp(CharName[iIndex], lpUser->Characters[jIndex].Name) == 0)
+					{
+						std::memcpy(&tUserChars[iIndex], &lpUser->Characters[jIndex], sizeof(STR_USER_CHARACTERS));
+					}
+				}
+			}
+			std::memcpy(&lpUser->Characters[0], &tUserChars[0], sizeof(STR_USER_CHARACTERS) * 5);*/
+			sLog->outBasic("[%s] deleted character -> [%s]", csUser->AccountID, lpMsg->Name);
+			Result = 1;
+		}
+	}
+
+	if (Result == 0)
+	{
+		criti.unlock();
+		return;
+	}
+
+	PMSG_RESULT pResult2;
+	
+	/*char szAccountId[MAX_ACCOUNT_LEN + 1];
+	int aIndex = lpMsg->Number;
+	szAccountId[MAX_ACCOUNT_LEN] = 0;
+	memcpy(szAccountId, lpMsg->AccountID, sizeof(lpMsg->AccountID));
+
+	if (::gObjIsAccontConnect(aIndex, szAccountId) == FALSE)
+	{
+		g_Log.AddC(TColor::Red, "Request to delete character doesn't match the user %s", szAccountId);
+		IOCP.CloseClient(aIndex);
+
+		return;
+	}*/
+
+	pResult2.h.c = 0xC1;
+	pResult2.h.size = sizeof(PMSG_RESULT);
+	pResult2.h.headcode = 0xF3;
+	pResult2.subcode = 0x02;
+	pResult2.result = Result;
+
+	GIOCP.DataSend(csUser->Index, (UCHAR*)&pResult2, pResult2.h.size);
+
+	criti.unlock();
 }
 
 void IntroProtocol::JGCharacterCreateFailSend(int aIndex, char* id)
