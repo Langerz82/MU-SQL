@@ -456,7 +456,7 @@ extern int main(int argc, char** argv)
     {
 
 		GIOCP.ProcessEvents();
-		mSleep(50);
+		mSleep(100);
 
 #ifdef WIN32
         if (m_ServiceStatus == 0) { stopEvent = true; }

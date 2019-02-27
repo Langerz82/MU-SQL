@@ -13,11 +13,14 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
+#include <ace/ACE.h>
 #include <ace/Dev_Poll_Reactor.h>
 #include <ace/TP_Reactor.h>
 #include <ace/OS_NS_string.h>
 #include <ace/INET_Addr.h>
 #include <ace/SString.h>
+
+#include <map>
 
 #ifndef MSG_NOSIGNAL
 #define MSG_NOSIGNAL 0
@@ -25,7 +28,7 @@
 
 CIOCP GIOCP;
 
-std::map<ACE_HANDLE, STR_CS_USER*> g_UserIDMap;
+std::map<ACE_HANDLE, STR_CS_USER*> CIOCP::UserCSMap;
 
 class _PER_SOCKET_CONTEXT;
 
@@ -42,16 +45,25 @@ void CIOCP::GiocpInit()
 
 void CIOCP::ProcessEvents() {
 
-	ACE_Time_Value interval(0, 100000);
+	ACE_Time_Value interval(0, 1000000);
 	
-	for (std::pair<ACE_HANDLE, STR_CS_USER*> user : CIOCP::g_UserIDMap)
+	for (std::pair<ACE_HANDLE, STR_CS_USER*> user : CIOCP::UserCSMap)
 	{
 		STR_CS_USER* lpCSUser = user.second;
-		_PER_SOCKET_CONTEXT * lpPerSocketContext = lpCSUser->PerSocketContext;
-		lpPerSocketContext->IOContext[0].nWaitIO = 0;
-		lpPerSocketContext->IOContext[1].nWaitIO = 0;
-		handle_output(user.first);
+		if (lpCSUser != nullptr)
+		{
+			BuffSend(user.second);
+			/*_PER_SOCKET_CONTEXT * lpPerSocketContext = lpCSUser->PerSocketContext;
+			if (lpPerSocketContext != nullptr)
+			{
+				lpPerSocketContext->IOContext[0].nWaitIO = 0;
+				lpPerSocketContext->IOContext[1].nWaitIO = 0;
+			}*/
+			//handle_output(user.first);			
+		}
 	}
+
+	//handle_output(g_HostSocket.acceptor().get_handle());
 	
 	ACE_Reactor::instance()->handle_events(interval);
 }
@@ -82,6 +94,7 @@ void  CIOCP::CreateUserData(ACE_HANDLE handle)
 
 	STR_CS_USER* ObjCSUser = UserAdd(sockKey, (char*)this->get_remote_address().c_str());
 	ObjCSUser->Socket = &this->peer();
+	ObjCSUser->handle = this->peer().get_handle();
 
 	_PER_SOCKET_CONTEXT * lpPerSocketContext;
 	int RecvBytes;
@@ -113,8 +126,7 @@ void  CIOCP::CreateUserData(ACE_HANDLE handle)
 	sockCtx->IOContext[0].nWaitIO = 1;
 	sockCtx->dwIOCount++;
 
-	CIOCP::g_UserIDMap.insert(std::pair<ACE_HANDLE, STR_CS_USER*>(
-		this->peer().get_handle(), ObjCSUser));
+	CIOCP::insertUserCS(ObjCSUser);
 
 	criti.unlock();
 
@@ -140,7 +152,7 @@ int CIOCP::OnRead(ACE_HANDLE handle, int len)
 
 	criti.lock();
 
-	STR_CS_USER* lpUser = CIOCP::getUserCS(this->peer().get_handle());
+	STR_CS_USER* lpUser = CIOCP::getUserCS(handle);
 	if (lpUser == nullptr)
 	{
 		sLog->outError("Could not retrieve the User Object.");
@@ -179,9 +191,9 @@ int CIOCP::OnRead(ACE_HANDLE handle, int len)
 	//lpIOContext->Buffer[len] = '\\0';
 
 	if (lpUser->ServerPhase == 1)
-		RecvDataParse1(lpIOContext, lpUser->Index);
+		RecvDataParse1(lpIOContext, lpUser);
 	else
-		RecvDataParse2(lpIOContext, lpUser->Index);
+		RecvDataParse2(lpIOContext, lpUser);
 
 	//for (int i = 0; i <= len+1; ++i)
 	//	lpIOContext->Buffer[i] = '\\0';
@@ -199,14 +211,13 @@ int CIOCP::OnRead(ACE_HANDLE handle, int len)
 }
 
 
-bool CIOCP::RecvDataParse1(_PER_IO_CONTEXT * lpIOContext, int uIndex)
+bool CIOCP::RecvDataParse1(_PER_IO_CONTEXT * lpIOContext, STR_CS_USER* lpUser)
 {
 	BYTE* recvbuf;
 	int lOfs;
 	int size;
 	BYTE headcode;
 	BYTE xcode;
-	STR_CS_USER* lpUser = CIOCP::getUserCS(this->peer().get_handle());
 
 	// Check If Recv Data has More thatn 3 BYTES
 	if (lpIOContext->nbBytes < 3)
@@ -281,7 +292,7 @@ bool CIOCP::RecvDataParse1(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 
 			if (lpUser->ServerPhase == 1)
 			{
-				m_JSProtocol.LoginProtocolCore(uIndex, headcode, (LPBYTE)(recvbuf + lOfs), size);
+				m_JSProtocol.LoginProtocolCore(lpUser->Index, headcode, (LPBYTE)(recvbuf + lOfs), size);
 			}
 
 			/*else if (g_Server[uIndex].m_Type == ST_EXDATASERVER)
@@ -326,14 +337,13 @@ bool CIOCP::RecvDataParse1(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 }
 
 
-bool CIOCP::RecvDataParse2(_PER_IO_CONTEXT * lpIOContext, int uIndex)
+bool CIOCP::RecvDataParse2(_PER_IO_CONTEXT * lpIOContext, STR_CS_USER* lpUser)
 {
 	BYTE* recvbuf;
 	int lOfs;
 	int size;
 	unsigned char headcode;
 	unsigned char xcode;
-	STR_CS_USER* lpUser = CIOCP::getUserCS(this->peer().get_handle());
 
 	if (lpIOContext->nbBytes < 3)
 	{
@@ -442,7 +452,7 @@ bool CIOCP::RecvDataParse2(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 						return 0;
 					}
 
-					GSProtocol.ProtocolCore(headcode, &byDec[0], ret, uIndex, 1);
+					GSProtocol.ProtocolCore(headcode, &byDec[0], ret, lpUser->Index, 1);
 					break;
 				}
 			}
@@ -560,6 +570,37 @@ bool CIOCP::RecvDataParse2(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 	return true;
 }
 
+DWORD CIOCP::BuffSend(STR_CS_USER* lpCSUser)
+{
+	_PER_IO_CONTEXT* lpIoCtxt = &lpCSUser->PerSocketContext->IOContext[1];
+
+	if (lpIoCtxt->nSecondOfs == 0)
+		return 0;
+
+	memcpy(lpIoCtxt->Buffer, lpIoCtxt->Buffer2, lpIoCtxt->nSecondOfs);
+	lpIoCtxt->nTotalBytes = lpIoCtxt->nSecondOfs;
+
+	if ((lpIoCtxt->nTotalBytes) > MAX_IO_BUFFER_SIZE - 1)
+	{
+		sLog->outError("(%d)error-L2 MAX BUFFER OVER %d [%s]", lpCSUser->Index, lpIoCtxt->nTotalBytes, lpCSUser->AccountID);
+		lpIoCtxt->nWaitIO = 0;
+		CloseClient(lpCSUser->Index);
+		criti.unlock();
+		return -1;
+	}
+
+	lpIoCtxt->nbBytes = 0;
+	lpIoCtxt->IOOperation = 1;
+
+	this->send(lpCSUser->handle, lpIoCtxt->Buffer, lpIoCtxt->nTotalBytes);
+
+	lpCSUser->PerSocketContext->dwIOCount++;
+	lpIoCtxt->nWaitIO = 1;
+	lpIoCtxt->nTotalBytes = 0;
+	lpIoCtxt->nSecondOfs = 0;
+
+	return lpIoCtxt->nTotalBytes;
+}
 
 DWORD CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 {
@@ -634,7 +675,6 @@ DWORD CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 			dwSize = ret + 3;
 		}
 	}
-
 	else
 	{
 		SendBuf = lpMsg;
@@ -657,81 +697,25 @@ DWORD CIOCP::DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
 		return -1;
 	}
 
-	_PER_IO_CONTEXT  * lpIoCtxt;
+	_PER_IO_CONTEXT* lpIoCtxt = &lpPerSocketContext->IOContext[1];
 
-	lpIoCtxt = &lpPerSocketContext->IOContext[1];
-
-	if (lpIoCtxt->nWaitIO > 0)
+	if ((lpIoCtxt->nSecondOfs + dwSize) > MAX_IO_BUFFER_SIZE - 1)
 	{
-		if ((lpIoCtxt->nSecondOfs + dwSize) > MAX_IO_BUFFER_SIZE - 1)
-		{
-			sLog->outError("(%d)error-L2 MAX BUFFER OVER %d %d %d [%s]", uIndex, lpIoCtxt->nTotalBytes, lpIoCtxt->nSecondOfs, dwSize, lpCSUser->AccountID);
-			lpIoCtxt->nWaitIO = 0;
-			CloseClient(uIndex);
-			criti.unlock();
-			return -1;
-		}
-
-		memcpy(&lpIoCtxt->Buffer2[lpIoCtxt->nSecondOfs], SendBuf, dwSize);
-		//memcpy(this->input_buffer_.rd_ptr(), &lpIoCtxt->Buffer2[lpIoCtxt->nSecondOfs], dwSize);
-		lpIoCtxt->nSecondOfs += dwSize;
-		criti.unlock();
-		return 0;
-	}
-
-	lpIoCtxt->nTotalBytes = 0;
-
-	if (lpIoCtxt->nSecondOfs > 0)
-	{
-		memcpy(lpIoCtxt->Buffer, lpIoCtxt->Buffer2, lpIoCtxt->nSecondOfs);
-		lpIoCtxt->nTotalBytes = lpIoCtxt->nSecondOfs;
-		lpIoCtxt->nSecondOfs = 0;
-	}
-
-	if ((lpIoCtxt->nTotalBytes + dwSize) > MAX_IO_BUFFER_SIZE - 1)
-	{
-		sLog->outError("(%d)error-L2 MAX BUFFER OVER %d %d [%s]", uIndex, lpIoCtxt->nTotalBytes, dwSize, lpCSUser->AccountID);
+		sLog->outError("(%d)error-L2 MAX BUFFER OVER %d %d %d [%s]", uIndex, lpIoCtxt->nTotalBytes, lpIoCtxt->nSecondOfs, dwSize, lpCSUser->AccountID);
 		lpIoCtxt->nWaitIO = 0;
 		CloseClient(uIndex);
 		criti.unlock();
 		return -1;
 	}
 
-	memcpy(&lpIoCtxt->Buffer[lpIoCtxt->nTotalBytes], SendBuf, dwSize);
-	lpIoCtxt->nTotalBytes += dwSize;
-	lpIoCtxt->nbBytes = 0;
-	lpIoCtxt->IOOperation = 1;
-
-	//ACE_OS::last_error(0);
-	memcpy(this->input_buffer_.rd_ptr(), SendBuf, dwSize);
-	//this->peer().set_handle(lpCSUser->Socket->get_handle());
-	//this->send((BYTE*)lpIoCtxt->Buffer, dwSize);
-
-	/*if (ACE_OS::last_error() != 0)
-	{
-		lpIoCtxt->nWaitIO = 0;
-		sLog->outError("(%d)error-L2 SEND ERROR %d %d [%s]", uIndex, lpIoCtxt->nTotalBytes, dwSize, lpCSUser->AccountID);
-		CloseClient(uIndex);
-		criti.unlock();
-		return -1;
-	}
-	else
-	{
-		lpPerSocketContext->dwIOCount++;
-	}*/
-
-	lpPerSocketContext->dwIOCount++;
-	lpIoCtxt->nWaitIO = 1;
+	memcpy(&lpIoCtxt->Buffer2[lpIoCtxt->nSecondOfs], SendBuf, dwSize);
+	lpIoCtxt->nSecondOfs += dwSize;
 	criti.unlock();
 	return dwSize;
 }
 
 void CIOCP::CloseClients()
 {
-	for (std::pair<ACE_HANDLE,STR_CS_USER*> user : CIOCP::g_UserIDMap)
-	{
-		this->OnClose(user.first);
-	}
 }
 
 void CIOCP::CloseClient(int aIndex)
@@ -754,11 +738,15 @@ int CIOCP::OnClose(ACE_HANDLE h)
 	lpCSUser->Socket = nullptr;
 
 	CUserData* lpUser = getUserObject(lpCSUser->Index);
+	CIOCP::eraseUserCS(lpCSUser);
 	if (lpUser != nullptr)
+	{
 		eraseUserObject(lpUser);
+	}
 	else
+	{
 		delete lpCSUser;
-
+	}
 	return 0;
 }
 
@@ -832,18 +820,20 @@ void CIOCP::recv_skip(size_t len)
 	this->input_buffer_.rd_ptr(len);
 }
 
-ssize_t CIOCP::noblk_send(ACE_Message_Block& message_block)
+ssize_t CIOCP::noblk_send(ACE_HANDLE handle, ACE_Message_Block& message_block)
 {
-	DWORD n = message_block.length();
+	DWORD len = message_block.length();
 
-	if (n == 0)
+	if (len == 0)
 	{
 		return -1;
 	}
 
 	const ACE_Time_Value waitTime(0, 500000);
 	// Try to send the message directly.
-	n = this->peer().send(message_block.rd_ptr(), n, 0, &waitTime);
+	//ACE_HANDLE handle = this->g_HostSocket.acceptor().get_handle();
+	STR_CS_USER* lpCSUser = CIOCP::getUserCS(handle);
+	ssize_t n = lpCSUser->Socket->send(message_block.rd_ptr(), len, 0, &waitTime);
 	//STR_CS_USER* lpCSUser = getUserCS(this->peer().get_handle());
 	//lpCSUser->PerSocketContext->IOContext[1].nWaitIO = 0;
 	//n = this->DataSend(lpCSUser->Index, (BYTE*) message_block.rd_ptr(), n, false);
@@ -871,7 +861,49 @@ ssize_t CIOCP::noblk_send(ACE_Message_Block& message_block)
 	return n;
 }
 
-bool CIOCP::send(BYTE* buf, size_t len)
+bool CIOCP::buff(ACE_HANDLE handle, BYTE* buf, size_t len)
+{
+	if (buf == NULL || len == 0)
+	{
+		return true;
+	}
+
+	ACE_Data_Block db(
+		len,
+		ACE_Message_Block::MB_DATA,
+		(const char*)buf,
+		0,
+		0,
+		ACE_Message_Block::DONT_DELETE,
+		0);
+
+	ACE_Message_Block message_block(
+		&db,
+		ACE_Message_Block::DONT_DELETE,
+		0);
+
+	message_block.wr_ptr(len);
+
+	// enqueue the message, note: clone is needed cause we cant enqueue stuff on the stack
+	ACE_Message_Block* mb = message_block.clone();
+
+	if (this->msg_queue()->enqueue_tail(mb, (ACE_Time_Value*)&ACE_Time_Value::zero) == -1)
+	{
+		mb->release();
+		return false;
+	}
+
+	// tell reactor to call handle_output() when we can send more data
+	if (this->reactor()->schedule_wakeup(this, ACE_Event_Handler::WRITE_MASK) == -1)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+
+bool CIOCP::send(ACE_HANDLE handle, BYTE* buf, size_t len)
 {
 	if (buf == NULL || len == 0)
 	{
@@ -897,7 +929,7 @@ bool CIOCP::send(BYTE* buf, size_t len)
 	if (this->msg_queue()->is_empty())
 	{
 		// Try to send it directly.
-		ssize_t n = this->noblk_send(message_block);
+		ssize_t n = this->noblk_send(handle, message_block);
 
 		if (n < 0)
 		{
@@ -948,7 +980,7 @@ int CIOCP::handle_output(ACE_HANDLE handle)
 		return -1;
 	}
 
-	ssize_t n = this->noblk_send(*mb);
+	ssize_t n = this->noblk_send(handle, *mb);
 
 	if (n < 0)
 	{

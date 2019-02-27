@@ -16,6 +16,8 @@
 #include <ace/SOCK_Acceptor.h>
 #include <ace/Reactor.h>
 
+#include <map>
+
 class BufferedSocket;
 
 struct _PER_IO_CONTEXT;
@@ -31,8 +33,9 @@ public:
 	~CIOCP();
 	void GiocpInit();
 	bool CreateListenSocket(WORD uiPort, LPSTR ipAddress);
-	bool RecvDataParse1(_PER_IO_CONTEXT * lpIOContext, int uIndex);
-	bool RecvDataParse2(_PER_IO_CONTEXT * lpIOContext, int uIndex);
+	bool RecvDataParse1(_PER_IO_CONTEXT* lpIOContext, STR_CS_USER* lpUser);
+	bool RecvDataParse2(_PER_IO_CONTEXT* lpIOContext, STR_CS_USER* lpUser);
+	DWORD BuffSend(STR_CS_USER* lpCSUser);
 	DWORD DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt = false);
 	void CloseClients();
 	void CloseClient(int index);
@@ -59,7 +62,8 @@ public:
 	virtual int handle_close(ACE_HANDLE = ACE_INVALID_HANDLE,
 		ACE_Reactor_Mask = ACE_Event_Handler::ALL_EVENTS_MASK);
 	
-	bool send(BYTE* buf, size_t len);
+	bool buff(ACE_HANDLE handle, BYTE* buf, size_t len);
+	bool send(ACE_HANDLE handle, BYTE* buf, size_t len);
 	size_t recv_len(void) const;
 	bool recv_soft(char* buf, size_t len);
 	bool recv(char* buf, size_t len);
@@ -77,8 +81,8 @@ public:
 
 	static STR_CS_USER* getUserCS(ACE_HANDLE index)
 	{
-		std::map<ACE_HANDLE, STR_CS_USER*>::iterator pGO = g_UserIDMap.find(index);
-		if (pGO == g_UserIDMap.end())
+		std::map<ACE_HANDLE, STR_CS_USER*>::iterator pGO = UserCSMap.find((ACE_HANDLE) index);
+		if (pGO == UserCSMap.end())
 		{
 			sLog->outError("UserCSData does not exist. %s %d\n", __FILE__, __LINE__);
 			return nullptr;
@@ -87,9 +91,21 @@ public:
 			return pGO->second;
 	}
 
-	
+	static void insertUserCS(STR_CS_USER* Obj)
+	{
+		UserCSMap.insert(std::pair<ACE_HANDLE, STR_CS_USER*>((ACE_HANDLE) Obj->handle, Obj));
+	}
+
+	static void eraseUserCS(STR_CS_USER* Obj)
+	{
+		UserCSMap.erase((ACE_HANDLE) Obj->handle);
+		delete Obj;
+	}
+
+	static std::map<ACE_HANDLE, STR_CS_USER*> UserCSMap;
+
 private:
-	static std::map<ACE_HANDLE, STR_CS_USER*> g_UserIDMap;
+	//STR_CS_USER * CSUser;
 	BYTE* ExSendBuf;
 	int g_ServerPort;
 	std::mutex criti;
@@ -98,9 +114,8 @@ private:
 	
 	std::string remote_address_;
 	ACE_Message_Block input_buffer_;
-	ssize_t noblk_send(ACE_Message_Block& message_block);
+	ssize_t noblk_send(ACE_HANDLE handle, ACE_Message_Block& message_block);
 };
-
 
 extern CIOCP GIOCP;
 

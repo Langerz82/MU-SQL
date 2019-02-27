@@ -768,6 +768,7 @@ void GameProtocol::JGPGetCharList(CUserData* lpUser)
 	pMsgC.EnableClass = lpUser->ConnectUser->EnableCharacterCreate;
 
 	GIOCP.DataSend(aIndex, (UCHAR *)&pMsgC, sizeof(PMSG_CHARLIST_ENABLE_CREATION));
+	GIOCP.BuffSend(lpUser->ConnectUser);
 
 	memset(sendbuf, 0, sizeof(sendbuf));
 
@@ -1147,7 +1148,7 @@ void GameProtocol::JGPGetCharList(CUserData* lpUser)
 			lOfs += sizeof(PMSG_CHARLIST_S9);
 		}
 	}
-	mSleep(100);
+	//mSleep(100);
 
 	pCLCount.h.size = lOfs;
 	GIOCP.DataSend(aIndex, (LPBYTE)&pRMsg, sizeof(pRMsg));

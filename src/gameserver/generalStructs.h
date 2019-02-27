@@ -158,7 +158,7 @@ struct STR_CS_USER
 	char IP[20];
 	unsigned int Port;
 	BYTE Type;
-	HANDLE handle;
+	ACE_HANDLE handle;
 	struct _PER_SOCKET_CONTEXT* PerSocketContext;
 	bool News;
 	int PacketCount;
