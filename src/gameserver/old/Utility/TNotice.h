@@ -5,7 +5,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "GameProtocol.h"
+#include "StdAfx.h"
 
 struct PMSG_NOTICE;
 

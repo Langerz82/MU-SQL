@@ -2,12 +2,11 @@
 #include "IOCP.h"
 #include "ConnectEngine.h"
 #include "LoginProtocol.h"
-#include "GameProtocol.h"
+#include "IntroProtocol.h"
 #include "Main.h"
 #include "generalStructs.h"
 #include "PacketEngineServer.h"
 #include "PacketEncrypt.h"
-#include "LoginProtocol.h"
 #include "Utilities/Util.h"
 
 #include <boost/lexical_cast.hpp>
@@ -128,9 +127,9 @@ void  CIOCP::CreateUserData(ACE_HANDLE handle)
 
 	CIOCP::insertUserCS(ObjCSUser);
 
-	criti.unlock();
+	IProtocol.SCPJoinResultSend(ObjCSUser->Index, 1);
 
-	GSProtocol.SCPJoinResultSend(ObjCSUser->Index, 1);
+	criti.unlock();
 }
 
 int CIOCP::OnAccept(ACE_HANDLE handle)
@@ -452,7 +451,7 @@ bool CIOCP::RecvDataParse2(_PER_IO_CONTEXT * lpIOContext, STR_CS_USER* lpUser)
 						return 0;
 					}
 
-					GSProtocol.ProtocolCore(headcode, &byDec[0], ret, lpUser->Index, 1);
+					IProtocol.ProtocolCore(headcode, &byDec[0], ret, lpUser, 1);
 					break;
 				}
 			}
@@ -568,6 +567,14 @@ bool CIOCP::RecvDataParse2(_PER_IO_CONTEXT * lpIOContext, STR_CS_USER* lpUser)
 	}
 
 	return true;
+}
+
+
+DWORD CIOCP::DataSendForce(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt)
+{
+	STR_CS_USER* lpCSUser = getCSUser(uIndex);
+	this->DataSend(uIndex, lpMsg, dwSize, Encrypt);
+	return this->BuffSend(lpCSUser);
 }
 
 DWORD CIOCP::BuffSend(STR_CS_USER* lpCSUser)
@@ -738,14 +745,14 @@ int CIOCP::OnClose(ACE_HANDLE h)
 	lpCSUser->Socket = nullptr;
 
 	CUserData* lpUser = getUserObject(lpCSUser->Index);
-	CIOCP::eraseUserCS(lpCSUser);
+	
 	if (lpUser != nullptr)
 	{
 		eraseUserObject(lpUser);
 	}
 	else
 	{
-		delete lpCSUser;
+		CIOCP::eraseUserCS(lpCSUser);
 	}
 	return 0;
 }

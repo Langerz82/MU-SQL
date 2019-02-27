@@ -37,6 +37,7 @@ public:
 	bool RecvDataParse2(_PER_IO_CONTEXT* lpIOContext, STR_CS_USER* lpUser);
 	DWORD BuffSend(STR_CS_USER* lpCSUser);
 	DWORD DataSend(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt = false);
+	DWORD DataSendForce(int uIndex, LPBYTE lpMsg, DWORD dwSize, bool Encrypt = false);
 	void CloseClients();
 	void CloseClient(int index);
 

@@ -928,7 +928,7 @@ struct SDHP_CHARLIST
 struct PMSG_CHARLIST
 {
 	BYTE Index;	// 0
-	char Name[10];	// 1
+	char Name[11];	// 1
 	WORD Level;	// C
 	BYTE CtlCode;	// E
 	BYTE CharSet[CHAR_SET_SIZE];	// F
@@ -938,12 +938,13 @@ struct PMSG_CHARLIST
 struct PMSG_CHARLIST_S9
 {
 	BYTE Index;	// 0
-	char Name[10];	// 1
+	char Name[11];	// 1
 	WORD Level;	// C
 	BYTE CtlCode;	// E
 	BYTE CharSet[CHAR_SET_SIZE];	// F
 	BYTE btGuildStatus;	// 21
 	BYTE btPkLevel;
+	BYTE unk1;
 };
 
 struct PMSG_CHARLIST_ENABLE_CREATION
