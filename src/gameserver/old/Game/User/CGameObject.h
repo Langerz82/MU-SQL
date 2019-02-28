@@ -279,8 +279,8 @@ public:
 	char m_AddResistance[MAX_RESISTENCE_TYPE];	// 389
 	int FrustrumX[MAX_ARRAY_FRUSTRUM];	// 390
 	int FrustrumY[MAX_ARRAY_FRUSTRUM]; // 3A4
-	VIEWPORT_STRUCT* VpPlayer;	// 3B0
-	VIEWPORT_PLAYER_STRUCT * VpPlayer2;	// 734
+	VIEWPORT_STRUCT** VpPlayer;	// 3B0
+	VIEWPORT_PLAYER_STRUCT** VpPlayer2;	// 734
 	int VPCount; // AB8
 	int VPCount2;	// ABC
 	HITDAMAGE_STRUCT* sHD;	// AC0
