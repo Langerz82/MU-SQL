@@ -3735,11 +3735,11 @@ public:
 	void RecvPositionSetProc(PMSG_POSISTION_SET* lpMove, CGameObject* lpObj);
 	void CGAttack(PMSG_ATTACK* lpMsg, CGameObject* lpObj);
 	void GCDamageSendPoison(CGameObject* lpObj, int damage, int iShieldDamage);
-	void GCDamageSend(CGameObject* lpObj, int TargetIndex, int AttackDamage, int MSBFlag, int MSBDamage, int iShieldDamage);
-	void GCKillPlayerExpSend(CGameObject* lpObj, int TargetIndex, int exp, int AttackDamage, int MSBFlag);
-	void GCKillPlayerMasterExpSend(CGameObject* lpObj, int TargetIndex, int exp, int AttackDamage, BOOL MSBFlag);
-	void GCDiePlayerSend(CGameObject* lpObj, int TargetIndex, BYTE skill, int KillerIndex);
-	void GCActionSend(CGameObject* lpObj, BYTE ActionNumber, CGameObject* lpObj2, int aTargetIndex);
+	void GCDamageSend(CGameObject* lpObj, CGameObject* lpTargetObj, int AttackDamage, int MSBFlag, int MSBDamage, int iShieldDamage);
+	void GCKillPlayerExpSend(CGameObject* lpObj, CGameObject* lpTargetObj, int exp, int AttackDamage, int MSBFlag);
+	void GCKillPlayerMasterExpSend(CGameObject* lpObj, CGameObject* lpTargetObj, int exp, int AttackDamage, BOOL MSBFlag);
+	void GCDiePlayerSend(CGameObject* lpObj, CGameObject* lpTargetObj, BYTE skill, int KillerIndex);
+	void GCActionSend(CGameObject* lpObj, BYTE ActionNumber, CGameObject* lpObjTarget, int aTargetIndex);
 	void CGActionRecv(PMSG_ACTION* lpMsg, CGameObject* lpObj);
 	void CGMagicAttack(LPBYTE lpRecv, CGameObject* lpObj);
 	void CGRageAttack(LPBYTE lpRecv, CGameObject* lpObj);
@@ -3754,7 +3754,7 @@ public:
 	void GCUseMonsterSkillSend(CGameObject* lpObj, CGameObject* lpTargetObj, int iSkillNumber);
 	void GCStateInfoSend(CGameObject* lpObj, unsigned char state, int BuffViewport);
 	void CGTeleportRecv(PMSG_TELEPORT* lpMsg, CGameObject* lpObj);
-	void CGReqMapMove(PMSG_REQ_MAPMOVE *lpMsg, int iIndex);
+	void CGReqMapMove(PMSG_REQ_MAPMOVE *lpMsg, CGameObject* lpObj);
 	void GCSendMapMoveCheckSum(CGameObject* lpObj);
 	void CGTargetTeleportRecv(PMSG_TARGET_TELEPORT* lpMsg, CGameObject* lpObj);
 	void GCTeleportSend(CGameObject* lpObj, unsigned short MoveNumber, BYTE MapNumber, BYTE MapX, BYTE MapY, BYTE Dir);
@@ -3788,8 +3788,8 @@ public:
 	//void GCSendQuestPrize(CGameObject* lpObj, unsigned char Type, unsigned char Count);
 	
 	void CGCloseWindow(CGameObject* lpObj);
-	void CGRequestEnterBloodCastle(PMSG_REQ_MOVEBLOODCASTLE* lpMsg, int iIndex);
-	void CGRequestEnterChaosCastle(PMSG_REQ_MOVECHAOSCASTLE* lpMsg, int iIndex);
+	void CGRequestEnterBloodCastle(PMSG_REQ_MOVEBLOODCASTLE* lpMsg, CGameObject* lpObj);
+	void CGRequestEnterChaosCastle(PMSG_REQ_MOVECHAOSCASTLE* lpMsg, CGameObject* lpObj);
 	void CGRequestRepositionUserInChaosCastle(PMSG_REQ_REPOSUSER_IN_CC* lpMsg, CGameObject* lpObj);
 	void CGRequestEventEnterCount(PMSG_REQ_CL_ENTERCOUNT* lpMsg, CGameObject* lpObj);
 	void CGRequestLottoRegister(PMSG_REQ_2ANV_LOTTO_EVENT* lpMsg, CGameObject* lpObj);

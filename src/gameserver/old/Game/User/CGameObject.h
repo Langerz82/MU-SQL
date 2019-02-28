@@ -34,9 +34,6 @@ struct BOT_BUFF_LIST;
 struct HITDAMAGE_STRUCT;
 struct JEWELOFHARMONY_ITEM_EFFECT;
 struct MOVE_MAPSERVER_AUTHINFO;
-struct STR_ACTION_STATE;
-struct STR_EFFECTLIST;
-struct STR_INTERFACE_STATE;
 struct VIEWPORT_PLAYER_STRUCT;
 struct VIEWPORT_STRUCT;
 struct WHISPER_STRUCT;
@@ -379,7 +376,7 @@ public:
 	class MonsterHerd* m_lpMonsterHerd;	// F4C
 	int fSkillFrustrumX[MAX_ARRAY_FRUSTRUM];	// F84
 	int fSkillFrustrumY[MAX_ARRAY_FRUSTRUM];	// F94
-	class TDurMagicKeyChecker DurMagicKeyChecker;	// FD8
+	class TDurMagicKeyChecker* DurMagicKeyChecker;	// FD8
 	bool bIsChaosMixCompleted;	// 110E
 	bool SkillLongSpearChange;	// 110F
 	int iObjectSecTimer;	// 1514

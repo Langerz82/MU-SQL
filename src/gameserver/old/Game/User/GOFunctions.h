@@ -217,7 +217,7 @@ extern void gObjViewportListProtocolDestroy(CGameObject &Obj);
 extern void gObjViewportListProtocolCreate(CGameObject &Obj);
 extern void gObjViewportListProtocol(CGameObject &Obj);
 extern void gObjTeleportMagicUse(CGameObject &Obj, BYTE x, BYTE y);
-extern int gObjMoveGate(CGameObject &Obj, int gt);
+extern BOOL gObjMoveGate(CGameObject &Obj, int gt);
 extern void gObjTeleport(CGameObject &Obj, int map, int x, int y);
 extern void gObjMoveDataLoadingOK(CGameObject &Obj);
 extern class CMagicInf* gObjGetMagic(CGameObject &Obj, int mIndex);
@@ -312,7 +312,7 @@ extern int gObjCheckOverlapEventItemUsingDur(CGameObject &Obj, int iMaxOverlappe
 extern int gObjOverlapEventItemUsingDur(CItemObject* lpItem, int iMapNumber, int iItemNumber, CGameObject &Obj, int iMaxOverlapped, int iItemType, int iItemLevel);
 extern int gObjCheckSerial0ItemList(CItemObject* lpItem);
 extern int gObjCheckInventorySerial0Item(CGameObject &Obj);
-extern BOOL gCheckSkillDistance(CGameObject &Obj, int aTargetIndex, int iSkillNum);
+extern BOOL gCheckSkillDistance(CGameObject &Obj, CGameObject* ObjTarget, int iSkillNum);
 extern void gObjSaveChaosBoxItemList(CGameObject &Obj);
 extern void gObjQuestMonsterManagement(CGameObject &Obj, CGameObject &TargetObj);
 extern BYTE gObjOnlyInventory1RectCheck(CGameObject &Obj, int sx, int sy, int width, int height);

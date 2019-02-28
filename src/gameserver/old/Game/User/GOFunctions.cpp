@@ -25480,7 +25480,7 @@ int gObjCheckInventorySerial0Item(CGameObject &Obj)
 
 
 
-BOOL gCheckSkillDistance(CGameObject &Obj, int aTargetIndex, int iSkillNum)
+BOOL gCheckSkillDistance(CGameObject &Obj, CGameObject* ObjTarget, int iSkillNum)
 {
 	if (g_ConfigRead.SkillDistanceCheck == 0)
 		return TRUE;
