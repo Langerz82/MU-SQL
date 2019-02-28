@@ -2,7 +2,7 @@
 // TNotice.cpp
 #include "StdAfx.h"
 #include "TNotice.h"
-//#include "User/CUserData.h"
+#include "Game/User/CUserData.h"
 #include "IOCP.h"
 #include "util.h"
 //#include "GameMain.h"
@@ -44,21 +44,18 @@ void TNotice::SetNoticeProperty(void * lpNotice, BYTE btType, DWORD dwColor, BYT
 	pNotice->btSpeed = btSpeed;
 }
 
-/*void TNotice::SendNoticeToAllUser(void * lpNotice)
+void TNotice::SendNoticeToAllUser(void * lpNotice)
 {
 	PMSG_NOTICE * pNotice = (PMSG_NOTICE *)lpNotice;
 
-	for ( int n = g_ConfigRead.server.GetObjectStartUserIndex() ; n < g_ConfigRead.server.GetObjectMax() ; n++)
+	for each (std::pair<int, CUserData*> user in gUserObjects)
 	{
-		if ( getGameObject(n)->Connected == PLAYER_PLAYING )
+		if ( user.second->ConnectUser->Connected == PLAYER_PLAYING )
 		{
-			if ( getGameObject(n)->Type  == OBJ_USER )
-			{
-				IOCP.DataSend(n, (BYTE*)pNotice  , pNotice->h.size  );
-			}
+			GIOCP.DataSend(user.first, (BYTE*)pNotice, pNotice->h.size);
 		}
 	}
-}*/
+}
 
 void TNotice::SendNoticeToUser(int aIndex, void * lpNotice)
 {
@@ -67,23 +64,21 @@ void TNotice::SendNoticeToUser(int aIndex, void * lpNotice)
 }
 
 
-/*void TNotice::AllSendServerMsg(LPSTR chatmsg)
+void TNotice::AllSendServerMsg(LPSTR chatmsg)
 {
 	PMSG_NOTICE pNotice;
 	
 	MakeNoticeMsg((TNotice *)&pNotice, 0,  chatmsg);
 
-	for ( int n = g_ConfigRead.server.GetObjectStartUserIndex() ; n < g_ConfigRead.server.GetObjectMax() ; n++)
+	for each (std::pair<int, CUserData*> user in gUserObjects)
 	{
-		if ( getGameObject(n)->Connected == PLAYER_PLAYING )
+		if (user.second->ConnectUser->Connected == PLAYER_PLAYING )
 		{
-			if ( getGameObject(n)->Type  == OBJ_USER )
-			{
-				IOCP.DataSend(n, (BYTE*)&pNotice , pNotice.h.size );
-			}
+			GIOCP.DataSend(user.first, (BYTE*)&pNotice , pNotice.h.size );
+
 		}
 	}
-}*/
+}
 
 void TNotice::GCServerMsgStringSend(LPSTR szMsg, int aIndex, BYTE type)
 {

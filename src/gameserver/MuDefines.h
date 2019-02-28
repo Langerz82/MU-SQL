@@ -5,6 +5,11 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+
+
+#define MAX_USER_IN_PARTY 5
+#define MAX_PARTY_DISTANCE_EFFECT	10
+
 #define INVENTORY_BINARY_SIZE 7584
 
 #define SQL_NO_DATA 0

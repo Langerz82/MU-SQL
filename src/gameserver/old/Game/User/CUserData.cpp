@@ -606,10 +606,8 @@ BYTE LevelSmallConvert(int level)
 	return 0;
 }
 
-BOOL gObjIsAccontConnect(int aIndex, char* accountid)
+BOOL gObjIsAccontConnect(CUserData* lpUser, char* accountid)
 {
-	CUserData* lpUser = getUserObject(aIndex);
-
 	if (lpUser->ConnectUser->Connected < PLAYER_CONNECTED)
 	{
 		return 0;

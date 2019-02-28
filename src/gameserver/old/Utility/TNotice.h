@@ -18,9 +18,9 @@ public:
 	static void MakeNoticeMsg(void * lpNotice, BYTE btType, LPSTR szNoticeMsg);
 	static void MakeNoticeMsgEx(void * lpNotice, BYTE btType, LPSTR szNoticeMsg, ...);
 	static void SetNoticeProperty(void * lpNotice, BYTE btType, DWORD dwColor, BYTE btCount, WORD wDelay, BYTE btSpeed);
-	//static void SendNoticeToAllUser(void * lpNotice);
+	static void SendNoticeToAllUser(void * lpNotice);
 	static void SendNoticeToUser(int aIndex, void * lpNotice);
-	//static void AllSendServerMsg(LPSTR chatmsg);
+	static void AllSendServerMsg(LPSTR chatmsg);
 	static void GCServerMsgStringSend(LPSTR szMsg, int aIndex, BYTE type);
 
 	TNotice(BYTE btType);
