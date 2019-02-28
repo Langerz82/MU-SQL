@@ -11,12 +11,12 @@
 
 #include "StdAfx.h"
 #include "prodef.h"
-//#include "GuildClass.h"
-#include "Game/User/CUserData.h"
-#include "Game/User/CGameObject.h"
+#include "GuildClass.h"
+#include "CUserData.h"
+#include "CGameObject.h"
 #include "MapClass.h"
 #include "GensSystemProtocol.h"
-//#include "Shop.h"
+#include "Shop.h"
 
 struct PWMSG_COUNT 
 {

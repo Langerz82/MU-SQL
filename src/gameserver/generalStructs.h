@@ -1102,6 +1102,615 @@ struct GUILD_INFO_STRUCT
 
 
 
+// EXTRACTED FROM USER.H 
+
+typedef union _PATHTABLE
+{
+	short sPathTable[16];
+	char cPathTable[32];
+} PATHTABLE, *LPPATHTABLE;
+
+typedef struct ActionState
+{
+	unsigned long Rest : 1;	// 0
+	unsigned long Attack : 1;	// 1
+	unsigned long Move : 1;	// 2
+	unsigned long Escape : 1;	// 3
+	unsigned long Emotion : 4;	// 4
+	unsigned long EmotionCount : 8;	// 8
+
+} ACTION_STATE, *LPACTION_STATE;
+
+typedef struct InterfaceState
+{
+	DWORD use : 2;
+	DWORD state : 4;
+	DWORD type : 10;
+
+} INTERFACE_STATE, *LPINTERFACE_STATE;
+
+extern short RoadPathTable[MAX_ROAD_PATH_TABLE];
+extern BOOL g_EnergyCheckOff;
+
+struct HITDAMAGE_STRUCT
+{
+	short number;	// 0
+	int HitDamage;	// 4
+	ULONGLONG LastHitTime;	// 8
+};
+
+struct VIEWPORT_STRUCT
+{
+	char state;	// 0
+	short number;	// 2
+	unsigned char type;	// 4
+	short index;	// 6
+	int dis;	// 8
+};
+
+struct VIEWPORT_PLAYER_STRUCT
+{
+	char state;	// 0
+	short number;	// 2
+	unsigned char type;	// 4
+	short index;	// 6
+	int dis;	// 8
+
+};
+
+struct MessageStateMachine
+{
+	int MsgCode;	// 0
+	int SendUser;	// 4
+	ULONGLONG MsgTime;	// 8
+	int SubCode;	// C
+
+	MessageStateMachine()
+	{
+		this->MsgCode = -1;
+	}
+
+};
+
+struct ExMessageStateMachine
+{
+	int MsgCode;	// 0
+	int SendUser;	// 4
+	ULONGLONG MsgTime;	// 8
+	int SubCode;	// C
+	int SubCode2;	// 10
+
+	ExMessageStateMachine()
+	{
+		this->MsgCode = -1;
+	}
+};
+
+struct WHISPER_STRUCT
+{
+	bool iWhisperSent;
+	WORD wResponseCount;
+};
+struct SKILL_INFO
+{
+	void Clear()
+	{
+		this->GhostPhantomX = 0;
+		this->GhostPhantomY = 0;
+		this->RemedyOfLoveEffect = 0;
+		this->RemedyOfLoveTime = 0;
+		this->LordSummonTime = 0;
+		this->LordSummonMapNumber = 0;
+		this->LordSummonX = 0;
+		this->LordSummonY = 0;
+		this->SoulBarrierDefence = 0;
+		this->SoulBarrierManaRate = 0;
+		this->PoisonType = 0;
+		this->IceType = 0;
+		this->fInfinityArrowIncRate = 0.0;
+		this->fCircleShieldRate = 0.0;
+	}
+
+	BYTE	GhostPhantomX;
+	BYTE	GhostPhantomY;
+	short	RemedyOfLoveEffect;
+	short	RemedyOfLoveTime;
+	WORD	LordSummonTime;
+	BYTE	LordSummonMapNumber;
+	BYTE	LordSummonX;
+	BYTE	LordSummonY;
+	int		SoulBarrierDefence;
+	int		SoulBarrierManaRate;
+	BYTE	PoisonType;
+	BYTE	IceType;
+	float	fInfinityArrowIncRate;
+	float	fCircleShieldRate;
+};
+
+struct _MASTERLEVEL_PASSIVE_SKILL_OPTION
+{
+	_MASTERLEVEL_PASSIVE_SKILL_OPTION()
+	{
+		this->Clear();
+	}
+
+	void Clear()
+	{
+		iMpsAttackSuccessRate = 0.0;
+		iMpsIncDefenseSuccessRate = 0.0;
+		iMpsIncreasePvPAttackRate = 0.0;
+		iMpsIncreasePvPDefenseRate = 0.0;
+		iMpsDurabilityReduction1 = 0.0;
+		btMpsDownDur1Level = 0.0;
+		iMpsDurabilityReduction2 = 0.0;
+		iMpsDurabilityReduction3 = 0.0;
+		iMpsResistancePoison = 0.0;
+		iMpsResistanceThunder = 0.0;
+		iMpsResistanceIce = 0.0;
+		iMpsAutoRecoverLife = 0.0;
+		iMpsAutoRecoverMana = 0.0;
+		iMpsAutoRecoverAG = 0.0;
+		iMpsAddPhysicDamage = 0.0;
+		iMpsAddDamage = 0.0;
+		iMpsTwoHandSwordAddDamage = 0.0;
+		iMpsSwordAddDamage = 0.0;
+		iMpsMaceStrength = 0.0;
+		iMpsSpearAddDamage = 0.0;
+		iMpsTwoHandsPvPAttack = 0.0;
+		iMpsAddAttackSpeed = 0.0;
+		iMpsIgnoreEnemyDefence = 0.0;
+		iMpsAddDoubleDamage = 0.0;
+		iMpsAddSturn = 0.0;
+		iMpsMaxManaRate = 0.0;
+		iMpsAddMagicDamage = 0.0;
+		iMpsTwoHandsMagicPower = 0.0;
+		iMpsStaffMagicPower = 0.0;
+		iMpsIncShield = 0.0;
+		iMpsStaffAttackSpeed = 0.0;
+		iMpsTwoHandsStaffManAttack = 0.0;
+		iMpsShieldBlockRate = 0.0;
+		iMpsBowAddDamage = 0.0;
+		iMpsBowAddAttackSpeed = 0.0;
+		iMpsTwoHandsBowAddDamage = 0.0;
+		iMpsTwoHandsBowManAttack = 0.0;
+		iMpsElfAddShield = 0.0;
+		iMpsElfShieldBlockRate = 0.0;
+		iMpsElfAddPhysicDamage = 0.0;
+		iMpsCallMonHp = 0.0;
+		iMpsCallMonDefense = 0.0;
+		iMpsCallMonAttack = 0.0;
+		iMpsIncMagicPower = 0.0;
+		iMpsIncDamageFireProper = 0.0;
+		iMpsIncDamageWindProper = 0.0;
+		iMpsIncDamageThunderProper = 0.0;
+		iMpsIncDotDamage = 0.0;
+		iMpsAddSturn2 = 0.0;
+		iMpsAddSpring = 0.0;
+		iMpsAddMagicPowerStick = 0.0;
+		iMpsAddCurseMagicBook = 0.0;
+		iMpsAddManAttackStick = 0.0;
+		iMpsAddAttackSpeedMagicBook = 0.0;
+		iMpsIncPercentBerserker1 = 0.0;
+		iMpsIncPercentBerserker2 = 0.0;
+		iMpsIncValueBerserker3 = 0.0;
+		iMpsIncMinMagicDamage = 0.0;
+		iMpsIncDarkHorseDefense = 0.0;
+		iMpsAddForceWaveDamage = 0.0;
+		iMpsAddDarkSpiritDamage = 0.0;
+		iMpsAddCriticalDamageRate = 0.0;
+		iMpsAddExcellentDamageRate = 0.0;
+		iMpsAddCeptorDamage = 0.0;
+		iMpsIncCeptorManAttack = 0.0;
+		iMpsAddShieldDefense = 0.0;
+		iMpsAddShieldBlockingRage = 0.0;
+		iMpsAddPetAttack = 0.0;
+		iMpsAddControlAttack = 0.0;
+		iMpsAddMinAttack = 0.0;
+		iMpsAddMaxAttack = 0.0;
+		iMpsCriticalRateInc = 0.0;
+		iMpsAddBlockingRate = 0.0;
+		iMpsMonkWeaponDamage = 0.0;
+		iMpsMonkDoubleDamage = 0.0;
+		iMpsMonkAddVitalToDefense = 0.0;
+		iMpsPlusZen = 0.0;
+		iMpsDefence = 0.0;
+		iMpsMaxHP = 0.0;
+		iMpsMaxBP = 0.0;
+		iMpsMaxMana = 0.0;
+		iMpsMonsterDieGetMana = 0.0;
+		iMpsMonsterDieGetLife = 0.0;
+		iMpsMonsterDieGetSD = 0.0;
+		iMpsPlusExp = 0.0;
+		iMpsMaxSD = 0.0;
+		iMpsSDSpeed = 0.0;
+		iMpsMaxAttackDamage = 0.0;
+		iMpsMinAttackDamage = 0.0;
+		iMpsDecreaseMana = 0.0;
+		iMpsMaxMagicDamage = 0.0;
+		iMpsMinMagicDamage = 0.0;
+		iMpsPetDurDownSpeed = 0.0;
+		iMpsMaxAttackMagicDamage = 0.0;
+		iMpsMinAttackMagicDamage = 0.0;
+		iMpsImmuneRate = 0.0;
+		iMpsIncSetItemDefense = 0.0;
+		iMpsReturnEnemyAttack = 0.0;
+		iMpsIncEnergyStat = 0.0;
+		iMpsIncVitalStat = 0.0;
+		iMpsIncDexStat = 0.0;
+		iMpsIncPowerStat = 0.0;
+		iMpsAddWingDamageBlock = 0.0;
+		iMpsAddWingDefense = 0.0;
+		iMpsAddWingDamage = 0.0;
+		iMpsIncLeadershipStat = 0.0;
+		iMpsIncCriticalDamageRate = 0.0;
+		iMpsRecoverManaRate = 0.0;
+		iMpsRecoverHPRate = 0.0;
+		iMpsIncExcellentDamageRate = 0.0;
+		iMpsIncDoubleDamageRate = 0.0;
+		iMpsIncIgnoreEnemyBlock = 0.0;
+		iMpsRecoverSDRate = 0.0;
+		iMpsIncTripleDamageRate = 0.0;
+		iMpsComboDamage = 0.0;
+		iMpsIncMaxBP = 0.0;
+		iMpsMasManaRate_Wizard = 0.0;
+		iMpsIncMaxMagicDamage = 0.0;
+		iMpsIncExcellentDamageRate_Darklord = 0.0;
+		iMpsIncDamageBloodHowling = 0.0;
+		iMpsIncDarkSpiritAttackSpeed = 0.0;
+		iMpsIncDarkSpiritDoubleDamageRate = 0.0;
+		iMpsDarkSpiritIgnoreEnemyDefense = 0.0;
+		iMpsIncSteelArmor = 0.0;
+		iMpsShieldBlock = 0.0;
+		iMpsRageDamage = 0.0;
+	}
+
+	float	iMpsAttackSuccessRate; // done
+	float	iMpsIncDefenseSuccessRate; // done
+	float	iMpsIncreasePvPAttackRate; // done
+	float	iMpsIncreasePvPDefenseRate; // done
+	float	iMpsDurabilityReduction1; // done
+	BYTE	btMpsDownDur1Level; // done
+	float	iMpsDurabilityReduction2; // done
+	float	iMpsDurabilityReduction3; // done
+	float	iMpsResistancePoison; // done
+	float	iMpsResistanceThunder; // done
+	float	iMpsResistanceIce; // done
+	float	iMpsAutoRecoverLife; // done
+	float	iMpsAutoRecoverMana; // done
+	float	iMpsAutoRecoverAG; // done
+	float	iMpsAddPhysicDamage; // done
+	float	iMpsAddDamage; // not used?
+	float	iMpsTwoHandSwordAddDamage; // done
+	float	iMpsSwordAddDamage; // done
+	float	iMpsMaceStrength; // done
+	float	iMpsSpearAddDamage; // done
+	float	iMpsTwoHandsPvPAttack; // done
+	float	iMpsAddAttackSpeed; // done
+	float	iMpsIgnoreEnemyDefence; // done, but no reference in CMasterLevelSkillTreeSystem class
+	float	iMpsAddDoubleDamage; // done
+	float	iMpsAddSturn; // done
+	float	iMpsMaxManaRate; // done
+	float	iMpsAddMagicDamage; // done
+	float	iMpsTwoHandsMagicPower; // done
+	float	iMpsStaffMagicPower; // done
+	float	iMpsIncShield; // done
+	float	iMpsStaffAttackSpeed; // done
+	float	iMpsTwoHandsStaffManAttack;  // done
+	float	iMpsShieldBlockRate; // done
+	float	iMpsBowAddDamage; // done
+	float	iMpsBowAddAttackSpeed; // done
+	float	iMpsTwoHandsBowAddDamage; // done
+	float	iMpsTwoHandsBowManAttack; // done
+	float	iMpsElfAddShield; // done
+	float	iMpsElfShieldBlockRate; // done
+	float	iMpsElfAddPhysicDamage; // done
+	float	iMpsCallMonHp; // done
+	float	iMpsCallMonDefense; // done
+	float	iMpsCallMonAttack; // done
+	float	iMpsIncMagicPower; // done
+	float	iMpsIncDamageFireProper; // done
+	float	iMpsIncDamageWindProper; // done
+	float	iMpsIncDamageThunderProper; // done
+	float	iMpsIncDotDamage; // done
+	float	iMpsAddSturn2; // done
+	float	iMpsAddSpring; // done
+	float	iMpsAddMagicPowerStick; // done
+	float	iMpsAddCurseMagicBook; // done
+	float	iMpsAddManAttackStick; // done
+	float	iMpsAddAttackSpeedMagicBook; // done
+	float	iMpsIncPercentBerserker1; // done
+	float	iMpsIncPercentBerserker2; // done
+	float	iMpsIncValueBerserker3; // done
+	float	iMpsIncMinMagicDamage; // done
+	float	iMpsIncDarkHorseDefense; // done
+	float	iMpsAddForceWaveDamage; // not used
+	float	iMpsAddDarkSpiritDamage; // done
+	float	iMpsAddCriticalDamageRate; // done
+	float	iMpsAddExcellentDamageRate; // done
+	float	iMpsAddCeptorDamage; // done
+	float	iMpsIncCeptorManAttack; // done
+	float	iMpsAddShieldDefense; // done
+	float	iMpsAddShieldBlockingRage; // done
+	float	iMpsAddPetAttack; // done
+	float	iMpsAddControlAttack; // done
+	float	iMpsAddMinAttack; // done
+	float	iMpsAddMaxAttack; // done
+	float	iMpsCriticalRateInc; // done
+	float	iMpsAddBlockingRate; // done
+	float	iMpsMonkWeaponDamage; // done
+	float	iMpsMonkDoubleDamage; // done
+	float	iMpsMonkAddVitalToDefense; // done
+	float	iMpsPlusZen; // done, but no reference in CMasterLevelSkillTreeSystem class
+	float	iMpsDefence; // done
+	float	iMpsMaxHP; // done
+	float	iMpsMaxBP; // done
+	float	iMpsMaxMana; // done
+	float	iMpsMonsterDieGetMana; // done
+	float	iMpsMonsterDieGetLife; // done
+	float	iMpsMonsterDieGetSD; // done
+	float	iMpsPlusExp; // not used
+	float	iMpsMaxSD; // done
+	float	iMpsSDSpeed; // done
+	float	iMpsMaxAttackDamage; // done
+	float	iMpsMinAttackDamage; // done
+	float	iMpsDecreaseMana; // done
+	float	iMpsMaxMagicDamage; // done
+	float	iMpsMinMagicDamage; // done
+	float	iMpsPetDurDownSpeed; // done
+	float	iMpsMaxAttackMagicDamage; // done, but no reference in CMasterLevelSkillTreeSystem class
+	float	iMpsMinAttackMagicDamage; // done, but no reference in CMasterLevelSkillTreeSystem class
+	float	iMpsImmuneRate; // done
+	float	iMpsIncSetItemDefense; // done
+	float	iMpsReturnEnemyAttack; // done
+	float	iMpsIncEnergyStat; // done
+	float	iMpsIncVitalStat; // done
+	float	iMpsIncDexStat; // done
+	float	iMpsIncPowerStat; // done
+	float	iMpsAddWingDamageBlock; // done
+	float	iMpsAddWingDefense; // done
+	float	iMpsAddWingDamage; // done
+	float	iMpsIncLeadershipStat; // done
+	float	iMpsIncCriticalDamageRate; // done
+	float	iMpsRecoverManaRate; // done
+	float	iMpsRecoverHPRate; // done
+	float	iMpsIncExcellentDamageRate; // done
+	float	iMpsIncDoubleDamageRate; // done
+	float	iMpsIncIgnoreEnemyBlock; // done
+	float	iMpsRecoverSDRate; // done
+	float	iMpsIncTripleDamageRate; // done
+	float	iMpsComboDamage; // done
+	float	iMpsIncMaxBP; // done
+	float	iMpsMasManaRate_Wizard; // done
+	float	iMpsIncMaxMagicDamage; // done
+	float	iMpsIncExcellentDamageRate_Darklord; // done
+	float	iMpsIncDamageBloodHowling; // done
+	float	iMpsIncDarkSpiritAttackSpeed; // done
+	float	iMpsIncDarkSpiritDoubleDamageRate; // done
+	float	iMpsDarkSpiritIgnoreEnemyDefense; // done
+	float	iMpsIncSteelArmor; // done
+	float	iMpsShieldBlock; // done
+	float	iMpsRageDamage; // done
+};
+
+struct EFFECTLIST
+{
+	BYTE BuffIndex;
+	BYTE EffectCategory;
+	BYTE EffectType1;
+	BYTE EffectType2;
+	int EffectValue1;
+	int EffectValue2;
+	ULONGLONG EffectSetTime;
+	int EffectDuration;
+};
+
+struct PENTAGRAMJEWEL_INFO
+{
+	BYTE btJewelPos;
+	BYTE btJewelIndex;
+	BYTE btMainAttribute;
+	BYTE btItemType;
+	WORD wItemIndex;
+	BYTE btLevel;
+	BYTE btRank1OptionNum;
+	BYTE btRank1Level;
+	BYTE btRank2OptionNum;
+	BYTE btRank2Level;
+	BYTE btRank3OptionNum;
+	BYTE btRank3Level;
+	BYTE btRank4OptionNum;
+	BYTE btRank4Level;
+	BYTE btRank5OptionNum;
+	BYTE btRank5Level;
+
+	void Clear()
+	{
+		this->btJewelPos = -1;
+		this->btJewelIndex = -1;
+		this->btMainAttribute = -1;
+		this->btItemType = -1;
+		this->wItemIndex = -1;
+		this->btLevel = 0;
+		this->btRank1OptionNum = -1;
+		this->btRank1Level = -1;
+		this->btRank2OptionNum = -1;
+		this->btRank2Level = -1;
+		this->btRank3OptionNum = -1;
+		this->btRank3Level = -1;
+		this->btRank4OptionNum = -1;
+		this->btRank4Level = -1;
+		this->btRank5OptionNum = -1;
+		this->btRank5Level = -1;
+	}
+};
+
+struct PENTAGRAM_OPTION
+{
+	int m_iRuby_1RankAddDamage;
+	int m_iRuby_2RankOptionNum;
+	int m_iRuby_2RankAddAttackRelationshipRate;
+	int m_iRuby_3RankOptionNum;
+	int m_iRuby_3RankAddDamage;
+	int m_iRuby_4RankOptionNum;
+	int m_iRuby_4RankAddDamage;
+	int m_iRuby_5RankOptionNum;
+	int m_iRuby_5RankCriticalDamageRate;
+	int m_iSapph_1RankAddDefense;
+	int m_iSapph_2RankOptionNum;
+	int m_iSapph_2RankAddDefenseRelationshipRate;
+	int m_iSapph_3RankOptionNum;
+	int m_iSapph_3RankAddDefense;
+	int m_iSapph_4RankOptionNum;
+	int m_iSapph_4RankAddDefense;
+	int m_iSapph_5RankOptionNum;
+	int m_iSapph_5RankMinusTargetDamageRate;
+	int m_iEme_1RankAddAttackRate;
+	int m_iEme_2RankOptionNum;
+	int m_iEme_2RankAddAttackRelationshipRate;
+	int m_iEme_3RankOptionNum;
+	int m_iEme_3RankAddDamage;
+	int m_iEme_4RankOptionNum;
+	int m_iEme_4RankAddDamage;
+	int m_iEme_5RankOptionNum;
+	int m_iEme_5RankAddDamageRate;
+	int m_iTopa_1RankOptionNum;
+	int m_iTopa_1RankAddDefenseSuccessRate;
+	int m_iTopa_2RankOptionNum;
+	int m_iTopa_2RankAddDefenseRelationshipRate;
+	int m_iTopa_3RankOptionNum;
+	int m_iTopa_3RankAddDefense;
+	int m_iTopa_4RankOptionNum;
+	int m_iTopa_4RankAddDefense;
+	int m_iTopa_5RankOptionNum;
+	int m_iTopa_5RankDamageAbsorbRate;
+	int m_iOnyx_1RankSlowMoveSkillRate;
+	int m_iOnyx_2RankAddStrength;
+	int m_iOnyx_2RankAddDexterity;
+	int m_iOnyx_2RankAddEnergy;
+	int m_iOnyx_2RankAddVitality;
+	int m_iOnyx_3RankAddMaxLife;
+	int m_iOnyx_3RankAddMaxMana;
+	int m_iOnyx_3RankAddMaxAG;
+	int m_iOnyx_3RankAddMaxSD;
+	int m_iOnyx_4RankOptionNum;
+	int m_iOnyx_4RankAddExllentDamageRate;
+	int m_iOnyx_5RankHalfValueSkillRate;
+	bool m_isAddPentaAttack;
+	bool m_isAddPentaDefense;
+	bool m_isAddCriPentaDamage;
+	bool m_isChangePentaDefense;
+	bool m_isChangePentaAttack;
+	bool m_isAddResistByStrongRelationShip;
+	bool m_isAddResistByPentaAttack;
+};
+
+struct _BOT_BUFF_LIST
+{
+	WORD wBuffId;
+	WORD wDuration;
+	int iEffect;
+	WORD wEffectType;
+};
+
+struct EXC_WING_OPTION
+{
+	EXC_WING_OPTION()
+	{
+		this->Clear();
+	}
+
+	void Clear()
+	{
+		this->iWingOpIgnoreEnemyDefense = 0;
+		this->iWingOpReturnEnemyDamage = 0;
+		this->iWingOpRecoveryHP = 0;
+		this->iWingOpRecoveryMana = 0;
+		this->iWingOpAddDoubleDamage = 0;
+	}
+
+	int iWingOpIgnoreEnemyDefense;
+	int iWingOpReturnEnemyDamage;
+	int iWingOpRecoveryHP;
+	int iWingOpRecoveryMana;
+	int iWingOpAddDoubleDamage;
+};
+
+struct STAT_USER_OPTION
+{
+	STAT_USER_OPTION()
+	{
+		this->Clear();
+	}
+
+	void Clear()
+	{
+		this->StatOptionID = 0;
+		this->StatOptionValMin = 0;
+		this->StatOptionValMax = 0;
+	}
+
+	WORD StatOptionID;
+	WORD StatOptionValMin;
+	WORD StatOptionValMax;
+};
+
+struct MUUN_EFFECT_LIST
+{
+	MUUN_EFFECT_LIST()
+	{
+		this->Clear();
+	}
+
+	void Clear()
+	{
+		this->nIndex = 0;
+		this->nMuunItemNum = 0;
+		this->nCategory = 0;
+		this->bOptEnable = 0;
+		this->nOptType = 0;
+		this->nOptValue = 0;
+		this->bAddOptEnable = 0;
+		this->nAddOptType = 0;
+		this->nAddOptValue = 0;
+		this->nSetTime = 0;
+		this->nDuration = 0;
+		//this->pCMuunInfo = NULL;
+		this->nTotalVal = 0;
+		this->nSkillDelayTime = 0;
+		this->bSkillUsed = false;
+		this->nTargetIndex = -1;
+		this->nTickTime = 0;
+	}
+
+	int nIndex;
+	int nMuunItemNum;
+	char nCategory;
+	bool bOptEnable;
+	char nOptType;
+	int nOptValue;
+	bool bAddOptEnable;
+	char nAddOptType;
+	int nAddOptValue;
+	DWORD nSetTime;
+	int nDuration;
+	//CMuunInfo *pCMuunInfo;
+	int nTotalVal;
+	int nSkillDelayTime;
+	int nTickTime;
+	bool bSkillUsed;
+	int nTargetIndex;
+};
+
+struct MOVE_MAPSERVER_AUTHINFO
+{
+	char szCharName[MAX_ACCOUNT_LEN + 2];
+	int iJA1;
+	int iJA2;
+	int iJA3;
+	int iJA4;
+};
+
+
 #pragma pack ()
 
 #endif

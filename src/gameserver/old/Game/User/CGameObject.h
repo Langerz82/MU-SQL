@@ -6,8 +6,8 @@
 #endif // _MSC_VER > 1000
 
 #include "PrecompiledHeader/StdAfx.h"
-#include "Logging/Log.h"
 #include "generalStructs.h"
+#include "Logging/Log.h"
 #include "TSkillElement.h"
 #include "TMonsterSkillElementInfo.h"
 #include "TMonsterAIAgro.h"

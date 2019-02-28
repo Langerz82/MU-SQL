@@ -30,7 +30,7 @@
 // GS-N 0.99.60T 0x005211D0
 //	GS-N	1.00.18	JPN	0x005527F0	-	Completed
 
-BOOL NpcTalk(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcTalk(CGameObject &Npc, CGameObject* lpObj)
 {
 	int npcnum = lpNpc->Class;
 	//sLog->outError("[K2] %d", npcnum);
@@ -580,7 +580,7 @@ BOOL NpcTalk(CGameObject &Npc, CGameObject lpObj)
 	return FALSE;
 }
 
-BOOL NpcMainatenceMachine(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcMainatenceMachine(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE)
 	{
@@ -591,17 +591,17 @@ BOOL NpcMainatenceMachine(CGameObject &Npc, CGameObject lpObj)
 	return TRUE;
 }
 
-BOOL NpcReira(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcReira(CGameObject &Npc, CGameObject* lpObj)
 {
 	return FALSE;
 }
 
-BOOL NpcBattleAnnouncer(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcBattleAnnouncer(CGameObject &Npc, CGameObject* lpObj)
 {
 	return 0;
 }
 
-BOOL NpcFasi(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcFasi(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (g_DevilSquare.IsEventEnable() != FALSE)
 	{
@@ -697,7 +697,7 @@ BOOL NpcFasi(CGameObject &Npc, CGameObject lpObj)
 
 
 
-BOOL NpcGuildMasterTalk(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcGuildMasterTalk(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (g_ConfigRead.data.common.GuildCreate == FALSE)
 	{
@@ -743,7 +743,7 @@ BOOL NpcGuildMasterTalk(CGameObject &Npc, CGameObject lpObj)
 
 
 
-BOOL NpcRolensiaGuard(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcRolensiaGuard(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (gEnableEventNPCTalk != FALSE)
 	{
@@ -754,7 +754,7 @@ BOOL NpcRolensiaGuard(CGameObject &Npc, CGameObject lpObj)
 
 
 
-BOOL NpcChaosGoblelin(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcChaosGoblelin(CGameObject &Npc, CGameObject* lpObj)
 {
 	gUserFindDevilSquareKeyEyes(Obj.m_Index);
 
@@ -764,7 +764,7 @@ BOOL NpcChaosGoblelin(CGameObject &Npc, CGameObject lpObj)
 
 BOOL g_bUseLotterySystem = TRUE;
 
-BOOL NpcChaosCardMaster(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcChaosCardMaster(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (g_bUseLotterySystem == FALSE)
 		return FALSE;
@@ -804,7 +804,7 @@ BOOL NpcChaosCardMaster(CGameObject &Npc, CGameObject lpObj)
 
 
 
-BOOL NpcRusipher(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcRusipher(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (g_DevilSquare.IsEventEnable() == FALSE)
 	{
@@ -846,35 +846,35 @@ BOOL NpcRusipher(CGameObject &Npc, CGameObject lpObj)
 
 
 
-BOOL NpcPosionGirl(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcPosionGirl(CGameObject &Npc, CGameObject* lpObj)
 {
 	return FALSE;
 }
 
-BOOL NpcDeviasWizard(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcDeviasWizard(CGameObject &Npc, CGameObject* lpObj)
 {
 	return FALSE;
 }
 
 
-BOOL NpcDeviasGuard(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcDeviasGuard(CGameObject &Npc, CGameObject* lpObj)
 {
 	return TRUE;
 }
 
 
-BOOL NpcDeviasWareHousemen(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcDeviasWareHousemen(CGameObject &Npc, CGameObject* lpObj)
 {
 	return FALSE;
 }
 
-BOOL NpcWarehouse(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcWarehouse(CGameObject &Npc, CGameObject* lpObj)
 {
 	return FALSE;
 }
 
 
-BOOL NpcNoriaRara(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcNoriaRara(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (gEnableEventNPCTalk != FALSE)
 	{
@@ -884,7 +884,7 @@ BOOL NpcNoriaRara(CGameObject &Npc, CGameObject lpObj)
 	return FALSE;
 }
 
-BOOL NpcDeviasMadam(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcDeviasMadam(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (gEnableEventNPCTalk != FALSE)
 	{
@@ -901,7 +901,7 @@ struct PMSG_REQ_VIEW_EC_MN
 	char szUID[11];	// 8
 };
 
-BOOL NpcEventChipNPC(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcEventChipNPC(CGameObject &Npc, CGameObject* lpObj)
 {
 	if ((Obj.m_IfState->use) > 0)
 	{
@@ -946,21 +946,21 @@ BOOL NpcEventChipNPC(CGameObject &Npc, CGameObject lpObj)
 }
 
 
-BOOL NpcRorensiaSmith(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcRorensiaSmith(CGameObject &Npc, CGameObject* lpObj)
 {
 	return FALSE;
 }
 
 
 
-BOOL NpcNoriJangIn(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcNoriJangIn(CGameObject &Npc, CGameObject* lpObj)
 {
 	return FALSE;
 }
 
 
 
-BOOL NpcQuestCheck(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcQuestCheck(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (g_QuestInfo.NpcTalk(lpNpc, lpObj) != FALSE)
 	{
@@ -972,7 +972,7 @@ BOOL NpcQuestCheck(CGameObject &Npc, CGameObject lpObj)
 
 
 
-BOOL NpcServerDivision(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcServerDivision(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (gEnableServerDivision == FALSE)
 	{
@@ -993,20 +993,20 @@ BOOL NpcServerDivision(CGameObject &Npc, CGameObject lpObj)
 }
 
 
-BOOL NpcRoadMerchant(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcRoadMerchant(CGameObject &Npc, CGameObject* lpObj)
 {
 	return FALSE;
 }
 
 
 
-BOOL NpcAngelKing(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcAngelKing(CGameObject &Npc, CGameObject* lpObj)
 {
 	return g_BloodCastle.NpcAngelKing(lpNpc, lpObj);
 }
 
 
-BOOL NpcAngelMessanger(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcAngelMessanger(CGameObject &Npc, CGameObject* lpObj)
 {
 	if ((Obj.m_IfState->use) > 0)
 	{
@@ -1029,21 +1029,21 @@ BOOL NpcAngelMessanger(CGameObject &Npc, CGameObject lpObj)
 }
 
 
-BOOL NpcRolensiaMadam(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcRolensiaMadam(CGameObject &Npc, CGameObject* lpObj)
 {
 	return FALSE;
 }
 
 
 
-BOOL NpcDeviasWeapon(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcDeviasWeapon(CGameObject &Npc, CGameObject* lpObj)
 {
 	return FALSE;
 }
 
 
 
-BOOL NpcDarkSpiritTrainer(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcDarkSpiritTrainer(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (bCanChaosBox == TRUE)
 	{
@@ -1091,7 +1091,7 @@ BOOL NpcDarkSpiritTrainer(CGameObject &Npc, CGameObject lpObj)
 
 
 
-BOOL NpcJewelMixDealer(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcJewelMixDealer(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (bCanChaosBox == TRUE)
 	{
@@ -1130,7 +1130,7 @@ struct PMSG_ANS_USE_WEAPON_INTERFACE
 	BYTE btObjIndexL;	// 7
 };
 
-BOOL NpcSiegeMachine_Attack(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcSiegeMachine_Attack(CGameObject &Npc, CGameObject* lpObj)
 {
 	if ((Obj.m_IfState->use) > 0)
 	{
@@ -1174,7 +1174,7 @@ BOOL NpcSiegeMachine_Attack(CGameObject &Npc, CGameObject lpObj)
 }
 
 
-BOOL NpcSiegeMachine_Defense(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcSiegeMachine_Defense(CGameObject &Npc, CGameObject* lpObj)
 {
 	if ((Obj.m_IfState->use) > 0)
 	{
@@ -1217,7 +1217,7 @@ BOOL NpcSiegeMachine_Defense(CGameObject &Npc, CGameObject lpObj)
 	return TRUE;
 }
 
-BOOL NpcElderCircle(CGameObject &Npc, CGameObject lpObj) //GS-CS Decompiled 100%
+BOOL NpcElderCircle(CGameObject &Npc, CGameObject* lpObj) //GS-CS Decompiled 100%
 {
 	if ((Obj.m_IfState->use) > 0)
 	{
@@ -1299,7 +1299,7 @@ BOOL NpcElderCircle(CGameObject &Npc, CGameObject lpObj) //GS-CS Decompiled 100%
 
 
 
-BOOL NpcCastleGuard(CGameObject &Npc, CGameObject lpObj) //GS-CS Decompiled 100%
+BOOL NpcCastleGuard(CGameObject &Npc, CGameObject* lpObj) //GS-CS Decompiled 100%
 {
 	if ((Obj.m_IfState->use) > 0)
 	{
@@ -1334,7 +1334,7 @@ BOOL NpcCastleGuard(CGameObject &Npc, CGameObject lpObj) //GS-CS Decompiled 100%
 
 
 
-BOOL NpcCastleGateLever(CGameObject &Npc, CGameObject lpObj) //GS-CS Decompiled 100%
+BOOL NpcCastleGateLever(CGameObject &Npc, CGameObject* lpObj) //GS-CS Decompiled 100%
 {
 	if ((Obj.m_IfState->use) > 0)
 	{
@@ -1417,7 +1417,7 @@ BOOL NpcCastleGateLever(CGameObject &Npc, CGameObject lpObj) //GS-CS Decompiled 
 
 
 
-BOOL NpcCastleCrown(CGameObject &Npc, CGameObject lpObj) //GS-CS Decompiled 100%
+BOOL NpcCastleCrown(CGameObject &Npc, CGameObject* lpObj) //GS-CS Decompiled 100%
 {
 	if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
 	{
@@ -1494,7 +1494,7 @@ BOOL NpcCastleCrown(CGameObject &Npc, CGameObject lpObj) //GS-CS Decompiled 100%
 
 
 
-BOOL NpcCastleSwitch(CGameObject &Npc, CGameObject lpObj) //GS-CS Decompiled 100%
+BOOL NpcCastleSwitch(CGameObject &Npc, CGameObject* lpObj) //GS-CS Decompiled 100%
 {
 	if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
 	{
@@ -1543,7 +1543,7 @@ BOOL NpcCastleSwitch(CGameObject &Npc, CGameObject lpObj) //GS-CS Decompiled 100
 	return TRUE;
 }
 
-BOOL NpcSeedMaster(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcSeedMaster(CGameObject &Npc, CGameObject* lpObj)
 {
 	PMSG_TALKRESULT pMsg;
 
@@ -1565,7 +1565,7 @@ BOOL NpcSeedMaster(CGameObject &Npc, CGameObject lpObj)
 	IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 	return TRUE;
 }
-BOOL NpcSeedResearcher(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcSeedResearcher(CGameObject &Npc, CGameObject* lpObj)
 {
 	PMSG_TALKRESULT pMsg;
 
@@ -1591,7 +1591,7 @@ BOOL NpcSeedResearcher(CGameObject &Npc, CGameObject lpObj)
 	return TRUE;
 }
 
-bool NpcTitus(CGameObject &Npc, CGameObject lpObj)
+bool NpcTitus(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (Obj.m_IfState->use > 0)
 	{
@@ -1614,7 +1614,7 @@ bool NpcTitus(CGameObject &Npc, CGameObject lpObj)
 	return TRUE;
 }
 /*
-BOOL NpcTitus(CGameObject &Npc,CGameObject lpObj)
+BOOL NpcTitus(CGameObject &Npc,CGameObject* lpObj)
 {
 #if (ENABLETEST_NEWPVP == 1)
 if (Obj.m_IfState->use > 0)
@@ -1644,7 +1644,7 @@ return FALSE;
 }
 */
 
-bool NpcLugard(CGameObject &Npc, CGameObject lpObj)
+bool NpcLugard(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (gObjIsConnected(lpObj) == false)
 	{
@@ -1660,7 +1660,7 @@ bool NpcLugard(CGameObject &Npc, CGameObject lpObj)
 	return true;
 }
 
-bool NpcSilverBox(CGameObject &Npc, CGameObject lpObj)
+bool NpcSilverBox(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (gObjIsConnected(lpObj) == false)
 	{
@@ -1671,7 +1671,7 @@ bool NpcSilverBox(CGameObject &Npc, CGameObject lpObj)
 	return true;
 }
 
-bool NpcGoldBox(CGameObject &Npc, CGameObject lpObj)
+bool NpcGoldBox(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (gObjIsConnected(lpObj) == false)
 	{
@@ -1682,7 +1682,7 @@ bool NpcGoldBox(CGameObject &Npc, CGameObject lpObj)
 	return true;
 }
 
-bool NpcJerint(CGameObject &Npc, CGameObject lpObj)
+bool NpcJerint(CGameObject &Npc, CGameObject* lpObj)
 {
 	PMSG_TALKRESULT pMsg;
 	PHeadSetBE((BYTE*)&pMsg, 0x30, 5);
@@ -1693,7 +1693,7 @@ bool NpcJerint(CGameObject &Npc, CGameObject lpObj)
 	return true;
 }
 
-bool NpcJulia(CGameObject &Npc, CGameObject lpObj)
+bool NpcJulia(CGameObject &Npc, CGameObject* lpObj)
 {
 	PMSG_TALKRESULT pMsg;
 	PHeadSetBE((BYTE*)&pMsg, 0x30, 5);
@@ -1713,7 +1713,7 @@ struct PMSG_ANS_GUARD_IN_CASTLE_HUNTZONE {
 };
 // <size 0x14>
 
-BOOL NpcCastleHuntZoneGuard(CGameObject &Npc, CGameObject lpObj)
+BOOL NpcCastleHuntZoneGuard(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (gObjIsConnected(Obj.m_Index) == FALSE)
 	{
@@ -1774,7 +1774,7 @@ BOOL NpcCastleHuntZoneGuard(CGameObject &Npc, CGameObject lpObj)
 	return TRUE;
 }
 
-bool NpcDavid(CGameObject &Npc, CGameObject lpObj)
+bool NpcDavid(CGameObject &Npc, CGameObject* lpObj)
 {
 	PMSG_TALKRESULT pMsg;
 	pMsg.h.c = 0xC3;
@@ -1796,7 +1796,7 @@ bool NpcDavid(CGameObject &Npc, CGameObject lpObj)
 	return FALSE;
 }
 
-bool NpcLeoHelper(CGameObject &Npc, CGameObject lpObj)
+bool NpcLeoHelper(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (gObjIsConnected(Obj.m_Index) == FALSE)
 	{
@@ -1820,7 +1820,7 @@ bool NpcLeoHelper(CGameObject &Npc, CGameObject lpObj)
 	return TRUE;
 }
 
-bool NpcSantaClause(CGameObject &Npc, CGameObject lpObj)
+bool NpcSantaClause(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (gObjIsConnected(Obj.m_Index) == FALSE)
 	{
@@ -1844,7 +1844,7 @@ bool NpcSantaClause(CGameObject &Npc, CGameObject lpObj)
 	return TRUE;
 }
 
-bool NpcAcheronEntrance(CGameObject &Npc, CGameObject lpObj)
+bool NpcAcheronEntrance(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (gObjIsConnected(Obj.m_Index) == FALSE)
 	{
@@ -1864,7 +1864,7 @@ bool NpcAcheronEntrance(CGameObject &Npc, CGameObject lpObj)
 	return TRUE;
 }
 
-bool NpcArcaWar(CGameObject &Npc, CGameObject lpObj)
+bool NpcArcaWar(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (gObjIsConnected(Obj.m_Index) == FALSE)
 	{
@@ -1884,7 +1884,7 @@ bool NpcArcaWar(CGameObject &Npc, CGameObject lpObj)
 	return TRUE;
 }
 
-bool NpcElementalMaster(CGameObject &Npc, CGameObject lpObj)
+bool NpcElementalMaster(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (Obj.m_IfState->use > 0)
 		return FALSE;
@@ -1923,7 +1923,7 @@ bool NpcElementalMaster(CGameObject &Npc, CGameObject lpObj)
 }
 
 //1.01.00	-> 617C20 -> 99% (Need fix state)
-bool Npc_Dialog(CGameObject &Npc, CGameObject lpObj) //-> Complete
+bool Npc_Dialog(CGameObject &Npc, CGameObject* lpObj) //-> Complete
 {
 	PMSG_ANS_DIG_NPC_CLICK pResult;
 	char * GensName;
@@ -1990,7 +1990,7 @@ bool Npc_Dialog(CGameObject &Npc, CGameObject lpObj) //-> Complete
 
 bool NpcShadowPhantom(int iObjIndex) //-> Complete
 {
-	CGameObject lpObj = getGameObject(iObjIndex);
+	CGameObject* lpObj = getGameObject(iObjIndex);
 
 	if (!gObjIsConnected(Obj.m_Index))
 	{
@@ -2026,7 +2026,7 @@ bool NpcShadowPhantom(int iObjIndex) //-> Complete
 	return true;
 }
 
-bool NpcMarketWall(CGameObject &Npc, CGameObject lpObj)
+bool NpcMarketWall(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (!gObjIsConnected(Obj.m_Index))
 	{
@@ -2045,7 +2045,7 @@ bool NpcMarketWall(CGameObject &Npc, CGameObject lpObj)
 	return true;
 }
 
-bool NpcMonicaTalk(CGameObject &Npc, CGameObject lpObj)
+bool NpcMonicaTalk(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (!gObjIsConnected(Obj.m_Index))
 		return false;
@@ -2063,7 +2063,7 @@ bool NpcMonicaTalk(CGameObject &Npc, CGameObject lpObj)
 	IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pResult, pResult.h.size);
 	return true;
 }
-bool NpcWerewolfQuarrel(CGameObject &Npc, CGameObject lpObj)
+bool NpcWerewolfQuarrel(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (gObjIsConnected(Obj.m_Index))
 	{
@@ -2073,7 +2073,7 @@ bool NpcWerewolfQuarrel(CGameObject &Npc, CGameObject lpObj)
 	return true;
 }
 
-bool NpcGateKeeper(CGameObject &Npc, CGameObject lpObj)
+bool NpcGateKeeper(CGameObject &Npc, CGameObject* lpObj)
 {
 	if (gObjIsConnected(Obj.m_Index))
 	{
