@@ -1386,7 +1386,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 				g_AcheronGuardianEvent.CGReqAcheronEventEnter((_tagPMSG_REQ_ACHERON_EVENT_ENTER *)aRecv, lpObj);
 				break;
 			default:
-				g_Log.AddC(TColor::Blue, "UNKNOWN F8 PACKET: %x %x %x %x %x %x %x %x %x %x", aRecv[0], aRecv[1], aRecv[2], aRecv[3], aRecv[4], aRecv[5], aRecv[6], aRecv[7], aRecv[8], aRecv[9]);
+				sLog->outBasic("UNKNOWN F8 PACKET: %x %x %x %x %x %x %x %x %x %x", aRecv[0], aRecv[1], aRecv[2], aRecv[3], aRecv[4], aRecv[5], aRecv[6], aRecv[7], aRecv[8], aRecv[9]);
 				break;
 			}
 		}
@@ -18197,7 +18197,7 @@ void GameProtocol::CGReqWeaponUse(PMSG_REQ_USEWEAPON * aRecv, CGameObject *lpObj
 	g_CsNPC_Weapon.SetWeaponCalDamageInfo(wObjIndex, pMsg.btPointX, pMsg.btPointY, 10000);
 }
 
-/////////////////////// UP TO HERE MF
+
 
 void GameProtocol::CGReqWeaponDamageValue(PMSG_REQ_WEAPON_DAMAGE_VALUE * aRecv, CGameObject *lpObj)
 {
@@ -18208,22 +18208,17 @@ void GameProtocol::CGReqWeaponDamageValue(PMSG_REQ_WEAPON_DAMAGE_VALUE * aRecv, 
 
 	if (g_CsNPC_Weapon.GetWeaponCalDamageInfo(wObjIndex, btTargetX, btTargetY) == TRUE)
 	{
-		gObjNotifyUseWeaponDamage(&gObj[wObjIndex], btTargetX, btTargetY);
+		gObjNotifyUseWeaponDamage(*getGameObject(wObjIndex), btTargetX, btTargetY);
 	}
 	else
 	{
-		MsgOutput(lpObj, Lang.GetText(0, 181));
+		MsgOutput(*lpObj, Lang.GetText(0, 181));
 	}
 }
 
 void GameProtocol::GCSendObjectCreationState(int iObjectIndex)
 {
-	if (!ObjectMaxRange(iObjectIndex))
-	{
-		return;
-	}
 
-	LPOBJ lpObj = &gObj[iObjectIndex];
 	PMSG_NOTIFY_OBJECT_CREATION_STATE	pMsg = { 0 };
 
 	if (lpObj->Class == 278)
@@ -18238,19 +18233,14 @@ void GameProtocol::GCSendObjectCreationState(int iObjectIndex)
 
 void GameProtocol::CGReqGuildMarkOfCastleOwner(PMSG_REQ_GUILDMARK_OF_CASTLEOWNER * aRecv, CGameObject *lpObj)
 {
-	if (!ObjectMaxRange(lpObj))
-	{
-		return;
-	}
 
-	LPOBJ lpObj = &gObj[iIndex];
 	char szGuildName[MAX_GUILD_LEN + 1] = { 0 };
 
 	memcpy(szGuildName, g_CastleSiegeSync.GetCastleOwnerGuild(), MAX_GUILD_LEN);
 
 	if (szGuildName)
 	{
-		_GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild(szGuildName);
+		GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild(szGuildName);
 
 		if (lpGuild != NULL)
 		{
@@ -18266,13 +18256,6 @@ void GameProtocol::CGReqGuildMarkOfCastleOwner(PMSG_REQ_GUILDMARK_OF_CASTLEOWNER
 
 void GameProtocol::CGReqCastleHuntZoneEntrance(PMSG_REQ_MOVE_TO_CASTLE_HUNTZONE * aRecv, CGameObject *lpObj)
 {
-	if (!ObjectMaxRange(lpObj))
-	{
-		return;
-	}
-
-	LPOBJ lpObj = &gObj[iIndex];
-
 	PMSG_ANS_MOVE_TO_CASTLE_HUNTZONE pMsg = { 0 };
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xB9, 0x05, sizeof(pMsg));
@@ -18321,7 +18304,7 @@ void GameProtocol::CGReqCastleHuntZoneEntrance(PMSG_REQ_MOVE_TO_CASTLE_HUNTZONE 
 		{
 			if (lpObj->MapNumber == MAP_INDEX_CASTLESIEGE)
 			{
-				if (gObjMoveGate(lpObj->m_Index, 95) == TRUE)
+				if (gObjMoveGate(*lpObj, 95) == TRUE)
 				{
 					pMsg.btResult = 1;
 					int iOldMoney = lpObj->m_PlayerData->Money;
@@ -18335,7 +18318,7 @@ void GameProtocol::CGReqCastleHuntZoneEntrance(PMSG_REQ_MOVE_TO_CASTLE_HUNTZONE 
 						lpObj->m_PlayerData->Money = 0;
 					}
 
-					GCMoneySend(lpObj->m_Index, lpObj->m_PlayerData->Money);
+					GCMoneySend(lpObj, lpObj->m_PlayerData->Money);
 
 					sLog->outBasic("[Castle HuntZone] [%s][%s] - Entrance TAX : %d - %d = %d", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, iOldMoney, iEnterTaxMoney, lpObj->m_PlayerData->Money);
 				}
@@ -18352,7 +18335,7 @@ void GameProtocol::CGReqJewelMix(PMSG_REQ_JEWEL_MIX * lpMsg, CGameObject *lpObj)
 		return;
 
 	bool bCheck = false;
-	Check_SameSerialItem(lpObj, 3, bCheck);
+	Check_SameSerialItem(*lpObj, 3, bCheck);
 
 	if (bCheck == true)
 		return;
@@ -18376,7 +18359,7 @@ void GameProtocol::CGReqJewelUnMix(PMSG_REQ_JEWEL_UNMIX * lpMsg, CGameObject *lp
 		return;
 
 	bool bCheck = false;
-	Check_SameSerialItem(lpObj, 3, bCheck);
+	Check_SameSerialItem(*lpObj, 3, bCheck);
 
 	if (bCheck == true)
 		return;
@@ -18395,10 +18378,6 @@ void GameProtocol::GCAnsJewelUnMix(CGameObject *lpObj, int iResult)
 
 void GameProtocol::CGReqCrywolfInfo(PMSG_REQ_CRYWOLF_INFO* lpMsg, CGameObject *lpObj)
 {
-	if (!ObjectMaxRange(lpObj))
-		return;
-
-	LPOBJ lpObj = &gObj[iIndex];
 
 	if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE)
 	{
@@ -18435,20 +18414,9 @@ struct PMSG_ANS_CRYWOLF_ALTAR_CONTRACT
 void GameProtocol::CGReqAlatrContract(PMSG_REQ_CRYWOLF_ALTAR_CONTRACT* lpMsg, CGameObject *lpObj)
 {
 	int iAltarIndex = MAKE_NUMBERW(lpMsg->btObjIndexH, lpMsg->btObjIndexL);
-
-	if (!ObjectMaxRange(lpObj))
-		return;
-
-	if (!ObjectMaxRange(iAltarIndex))
-		return;
-
-	LPOBJ lpObj = &gObj[iIndex];
-	LPOBJ lpAltarObj = &gObj[iAltarIndex];
+	CGameObject* lpAltarObj = getGameObject(iAltarIndex);
 
 	if (!CRYWOLF_ALTAR_CLASS_RANGE(lpAltarObj->Class))
-		return;
-
-	if (!gObjIsConnected(lpObj))
 		return;
 
 	PMSG_ANS_CRYWOLF_ALTAR_CONTRACT pMsg = { 0 };
@@ -18464,14 +18432,14 @@ void GameProtocol::CGReqAlatrContract(PMSG_REQ_CRYWOLF_ALTAR_CONTRACT* lpMsg, CG
 		lpObj->Class == CLASS_ELF &&
 		lpObj->Level >= MIN_ELF_LEVEL_ALTAR)
 	{
-		if (g_CrywolfNPC_Altar.SetAltarUserIndex(iAltarIndex, lpAltarObj->Class, iIndex) != FALSE)
+		if (g_CrywolfNPC_Altar.SetAltarUserIndex(iAltarIndex, lpAltarObj->Class, lpObj) != FALSE)
 		{
 			pMsg.btResult = 1;
 		}
 	}
 	else
 	{
-		MsgOutput(lpObj, Lang.GetText(0, 256), (int)MIN_ELF_LEVEL_ALTAR);
+		MsgOutput(*lpObj, Lang.GetText(0, 256), (int)MIN_ELF_LEVEL_ALTAR);
 	}
 
 	GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, sizeof(pMsg));
@@ -18486,8 +18454,6 @@ struct PMSG_ANS_CRYWOLF_BENEFIT_PLUS_CHAOSRATE
 
 void GameProtocol::CGReqPlusChaosRate(PMSG_REQ_CRYWOLF_BENEFIT_PLUS_CHAOSRATE* lpMsg, CGameObject *lpObj)
 {
-	if (ObjectMaxRange(lpObj) == FALSE)
-		return;
 
 	PMSG_ANS_CRYWOLF_BENEFIT_PLUS_CHAOSRATE pMsg = { 0 };
 
@@ -18499,8 +18465,6 @@ void GameProtocol::CGReqPlusChaosRate(PMSG_REQ_CRYWOLF_BENEFIT_PLUS_CHAOSRATE* l
 
 void GameProtocol::CGReqKanturuStateInfo(PMSG_REQ_KANTURU_STATE_INFO* lpMsg, CGameObject *lpObj)
 {
-	if (ObjectMaxRange(lpObj) == FALSE)
-		return;
 
 	if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
 	{
@@ -18511,8 +18475,6 @@ void GameProtocol::CGReqKanturuStateInfo(PMSG_REQ_KANTURU_STATE_INFO* lpMsg, CGa
 
 void GameProtocol::GCReqEnterKanturuBossMap(PMSG_REQ_ENTER_KANTURU_BOSS_MAP* lpMsg, CGameObject *lpObj)
 {
-	if (ObjectMaxRange(lpObj) == FALSE)
-		return;
 
 	if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
 	{
@@ -18522,12 +18484,8 @@ void GameProtocol::GCReqEnterKanturuBossMap(PMSG_REQ_ENTER_KANTURU_BOSS_MAP* lpM
 
 void GameProtocol::WereWolfQuarrelCheck(CGameObject* lpObj)
 {
-	if (ObjectMaxRange(lpObj) == FALSE)
-	{
-		return;
-	}
 
-	if (lpObj->Type != OBJ_USER || lpObj->Connected <= PLAYER_LOGGED)
+	if (lpObj->Type != OBJ_USER)
 	{
 		return;
 	}
@@ -18537,12 +18495,8 @@ void GameProtocol::WereWolfQuarrelCheck(CGameObject* lpObj)
 
 void GameProtocol::GateKeeperCheck(CGameObject* lpObj)
 {
-	if (ObjectMaxRange(lpObj) == FALSE)
-	{
-		return;
-	}
 
-	if (lpObj->Type != OBJ_USER || lpObj->Connected <= PLAYER_LOGGED)
+	if (lpObj->Type != OBJ_USER)
 	{
 		return;
 	}
@@ -18567,28 +18521,18 @@ void GameProtocol::GCSendIllusionTempleKillPoint(CGameObject* lpObj, BYTE KillPo
 
 void GameProtocol::CGReqIllusionTempleUseSkill(PMSG_REQ_USEILLUSIONTEMPLESKILL * aRecv, CGameObject* lpObj)
 {
-	if (ObjectMaxRange(lpObj) == false)
-	{
-		return;
-	}
 
 	g_IT_Event.ITR_USeSkill(lpObj, MAKE_NUMBERW(aRecv->MagicNumberH, aRecv->MagicNumberL), MAKE_NUMBERW(aRecv->btTargetObjIndexH, aRecv->btTargetObjIndexL), aRecv->btDis);
 }
 
 void GameProtocol::GCIllusionTempleSendReward(CGameObject* lpObj)
 {
-	if (ObjectMaxRange(lpObj) == false)
-	{
-		return;
-	}
 
 	g_IT_Event.ReqEventReward(lpObj);
 }
 
 void GameProtocol::GCMasterLevelUpMsgSend(CGameObject* lpObj)
 {
-	if (!ObjectMaxRange(lpObj))
-		return;
 
 	PMSG_MASTER_LEVEL_UP_SEND pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xF3, 0x51, sizeof(pMsg));
@@ -18627,7 +18571,7 @@ void GameProtocol::CGReqLuckyCoinInfo(CGameObject* lpObj)
 		pMsg.szUID[10] = 0;
 		pMsg.iIndex = lpObj;
 
-		wsDataCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
+		//wsDataCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
 
 		lpObj->UseEventServer = TRUE;
 	}
@@ -18635,12 +18579,6 @@ void GameProtocol::CGReqLuckyCoinInfo(CGameObject* lpObj)
 
 void GameProtocol::CGReqLuckyCoinRegister(PMSG_REQ_LUCKYCOIN_REGISTER *aRecv, CGameObject* lpObj)
 {
-	LPOBJ lpObj = *lpObj;
-
-	if (gObjIsConnectedGP(lpObj) == false)
-	{
-		return;
-	}
 
 	if (lpObj->m_IfState->type == 1)
 	{
@@ -18658,9 +18596,9 @@ void GameProtocol::CGReqLuckyCoinRegister(PMSG_REQ_LUCKYCOIN_REGISTER *aRecv, CG
 
 		for (int i = INVENTORY_BAG_START; i < MAIN_INVENTORY_SIZE; i++)
 		{
-			if (lpObj->pntInventory[i].IsItem() == TRUE)
+			if (lpObj->pntInventory[i]->IsItem() == TRUE)
 			{
-				if (lpObj->pntInventory[i].m_Type == ITEMGET(14, 100))
+				if (lpObj->pntInventory[i]->m_Type == ITEMGET(14, 100))
 				{
 					btPos = i;
 					break;
@@ -18699,12 +18637,6 @@ void GameProtocol::CGReqLuckyCoinRegister(PMSG_REQ_LUCKYCOIN_REGISTER *aRecv, CG
 void GameProtocol::CGReqLuckyCoinTrade(PMSG_REQ_LUCKYCOIN_TRADE * aRecv, CGameObject* lpObj)
 {
 	//CItemBagEx * Bag = NULL;
-	LPOBJ lpObj = *lpObj;
-
-	if (gObjIsConnectedGP(lpObj) == false)
-	{
-		return;
-	}
 
 	if (lpObj->m_IfState->type == 1)
 	{
@@ -18717,14 +18649,14 @@ void GameProtocol::CGReqLuckyCoinTrade(PMSG_REQ_LUCKYCOIN_TRADE * aRecv, CGameOb
 	}
 
 	int Count = 0;
-	CItem Item;
+	CItemObject* Item;
 	time_t Duration;
 	int iBagResult = 0;
 
 	for (int i = INVENTORY_BAG_START; i < MAIN_INVENTORY_SIZE; ++i)
 	{
-		if (lpObj->pntInventory[i].IsItem() == TRUE && lpObj->pntInventory[i].m_Type == ITEMGET(14, 100))
-			Count += lpObj->pntInventory[i].m_Durability;
+		if (lpObj->pntInventory[i]->IsItem() == TRUE && lpObj->pntInventory[i]->m_Type == ITEMGET(14, 100))
+			Count += lpObj->pntInventory[i]->m_Durability;
 	}
 
 	if (Count < aRecv->iLuckyCoinTradeCount)
@@ -18733,7 +18665,7 @@ void GameProtocol::CGReqLuckyCoinTrade(PMSG_REQ_LUCKYCOIN_TRADE * aRecv, CGameOb
 		return;
 	}
 
-	if (!CheckInventoryEmptySpace(lpObj, 4, 2))
+	if (!CheckInventoryEmptySpace(*lpObj, 4, 2))
 	{
 		GCAnsLuckyCoinTrade(lpObj, 2);
 		return;
@@ -18743,18 +18675,18 @@ void GameProtocol::CGReqLuckyCoinTrade(PMSG_REQ_LUCKYCOIN_TRADE * aRecv, CGameOb
 
 	for (int i = INVENTORY_BAG_START; i < MAIN_INVENTORY_SIZE; ++i)
 	{
-		if (lpObj->pntInventory[i].IsItem() == TRUE && lpObj->pntInventory[i].m_Type == ITEMGET(14, 100))
+		if (lpObj->pntInventory[i]->IsItem() == TRUE && lpObj->pntInventory[i]->m_Type == ITEMGET(14, 100))
 		{
-			if (lpObj->pntInventory[i].m_Durability > Count)
+			if (lpObj->pntInventory[i]->m_Durability > Count)
 			{
-				lpObj->pntInventory[i].m_Durability -= Count;
-				GCItemDurSend2(lpObj, i, lpObj->pntInventory[i].m_Durability, 0);
+				lpObj->pntInventory[i]->m_Durability -= Count;
+				GCItemDurSend2(lpObj, i, lpObj->pntInventory[i]->m_Durability, 0);
 				Count = 0;
 			}
 			else
 			{
-				Count -= lpObj->pntInventory[i].m_Durability;
-				gObjInventoryDeleteItem(lpObj, i);
+				Count -= lpObj->pntInventory[i]->m_Durability;
+				gObjInventoryDeleteItem(*lpObj, i);
 				GCInventoryItemDeleteSend(lpObj, i, 1);
 			}
 			if (Count == 0)
@@ -18765,13 +18697,13 @@ void GameProtocol::CGReqLuckyCoinTrade(PMSG_REQ_LUCKYCOIN_TRADE * aRecv, CGameOb
 	switch (aRecv->iLuckyCoinTradeCount)
 	{
 	case 10:
-		iBagResult = g_BagManager.GetItemFromBag(lpObj, BAG_EVENT, EVENTBAG_LUCKYCOIN10, lpObj, Item, Duration);
+		iBagResult = g_BagManager.GetItemFromBag(*lpObj, BAG_EVENT, EVENTBAG_LUCKYCOIN10, lpObj->m_Index, *Item, Duration);
 		break;
 	case 20:
-		iBagResult = g_BagManager.GetItemFromBag(lpObj, BAG_EVENT, EVENTBAG_LUCKYCOIN20, lpObj, Item, Duration);
+		iBagResult = g_BagManager.GetItemFromBag(*lpObj, BAG_EVENT, EVENTBAG_LUCKYCOIN20, lpObj->m_Index, *Item, Duration);
 		break;
 	case 30:
-		iBagResult = g_BagManager.GetItemFromBag(lpObj, BAG_EVENT, EVENTBAG_LUCKYCOIN30, lpObj, Item, Duration);
+		iBagResult = g_BagManager.GetItemFromBag(*lpObj, BAG_EVENT, EVENTBAG_LUCKYCOIN30, lpObj->m_Index, *Item, Duration);
 		break;
 	default:
 		GCAnsLuckyCoinTrade(lpObj, 4);
@@ -18792,9 +18724,9 @@ void GameProtocol::CGReqLuckyCoinTrade(PMSG_REQ_LUCKYCOIN_TRADE * aRecv, CGameOb
 		return;
 	}
 
-	ItemSerialCreateSend(lpObj, 235, 0, 0, Item.m_Type, Item.m_Level, Item.m_Durability, Item.m_Option1, Item.m_Option2, Item.m_Option3, lpObj, Item.m_NewOption, Item.m_SetOption, Duration, 0, 0);
+	ItemSerialCreateSend(lpObj, 235, 0, 0, Item->m_Type, Item->m_Level, Item->m_Durability, Item->m_Option1, Item->m_Option2, Item->m_Option3, lpObj, Item->m_NewOption, Item->m_SetOption, Duration, 0, 0);
 	//sLog->outBasic("[Lucky Coin] [%s][%s] Trade Lucky Coin [%d]", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, aRecv->iLuckyCoinTradeCount);
-	Item.Convert(Item.m_Type, Item.m_Option1, Item.m_Option2, Item.m_Option3, Item.m_NewOption, Item.m_SetOption, Item.m_ItemOptionEx, 0, 0, Duration, CURRENT_DB_VERSION);
+	Item->Convert(Item->m_Type, Item->m_Option1, Item->m_Option2, Item->m_Option3, Item->m_NewOption, Item->m_SetOption, Item->m_ItemOptionEx, 0, 0, Duration, CURRENT_DB_VERSION);
 }
 
 void GameProtocol::GCAnsLuckyCoinTrade(CGameObject* lpObj, BYTE Result)
@@ -18807,40 +18739,25 @@ void GameProtocol::GCAnsLuckyCoinTrade(CGameObject* lpObj, BYTE Result)
 	GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
-void GameProtocol::GCSendObjectHP(CGameObject* lpObj, int aTargetIndex)
+void GameProtocol::GCSendObjectHP(CGameObject* lpObj, CGameObject* lpTargetObj)
 {
 	PMSG_TARGET_HP pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xFA, 0x05, sizeof(pMsg));
 
-	pMsg.m_Index = aTargetIndex;
-	pMsg.m_Hp = gObj[aTargetIndex].Life;
-	pMsg.m_MaxHp = gObj[aTargetIndex].MaxLife + gObj[aTargetIndex].AddLife;
-	pMsg.m_Level = gObj[aTargetIndex].Level;
-	pMsg.m_bIceEffect = gObjCheckUsedBuffEffect(&gObj[aTargetIndex], BUFFTYPE_FREEZE);
-	pMsg.m_bPoisonEffect = gObjCheckUsedBuffEffect(&gObj[aTargetIndex], BUFFTYPE_POISON);
+	pMsg.m_Index = lpTargetObj->m_Index;
+	pMsg.m_Hp = lpTargetObj->Life;
+	pMsg.m_MaxHp = lpTargetObj->MaxLife + lpTargetObj->AddLife;
+	pMsg.m_Level = lpTargetObj->Level;
+	pMsg.m_bIceEffect = gObjCheckUsedBuffEffect(*lpTargetObj, BUFFTYPE_FREEZE);
+	pMsg.m_bPoisonEffect = gObjCheckUsedBuffEffect(*lpTargetObj, BUFFTYPE_POISON);
 
 	GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
-	this->MsgSendV2(&gObj[aTargetIndex], (LPBYTE)&pMsg, pMsg.h.size);
+	this->MsgSendV2(*lpTargetObj, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void GameProtocol::CGReqAntiCheatRecv(CGameObject* lpObj, PMSG_SEND_AH_INFO *aRecv)
 {
-	if (!ObjectMaxRange(lpObj))
-	{
-		return;
-	}
-
-	if (!gObjIsConnected(lpObj))
-	{
-		return;
-	}
-
 	if (lpObj->Type != OBJ_USER)
-	{
-		return;
-	}
-
-	if (lpObj->Connected != PLAYER_PLAYING)
 	{
 		return;
 	}
@@ -18857,10 +18774,7 @@ void GameProtocol::CGReqAntiCheatRecv(CGameObject* lpObj, PMSG_SEND_AH_INFO *aRe
 		if (tick < g_ConfigRead.antihack.PacketTimeMinTime)
 		{
 			sLog->outError("[ANTI-HACK] (%s)(%s)(%s) (Map:%d)(X:%d)(Y:%d) SpeedHack detected -> Tick (Current:%d/Minimum:%d)",
-				lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpObj->m_PlayerData->ConnectUser->Ip_addr, lpObj->MapNumber, lpObj->X, lpObj->Y, tick, g_ConfigRead.antihack.PacketTimeMinTime);
-
-			AntiHackLog->Output("[ANTI-HACK] (%s)(%s)(%s) (Map:%d)(X:%d)(Y:%d) SpeedHack detected -> Tick (Current:%d/Minimum:%d)",
-				lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpObj->m_PlayerData->ConnectUser->Ip_addr, lpObj->MapNumber, lpObj->X, lpObj->Y, tick, g_ConfigRead.antihack.PacketTimeMinTime);
+				lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpObj->m_PlayerData->ConnectUser->IP, lpObj->MapNumber, lpObj->X, lpObj->Y, tick, g_ConfigRead.antihack.PacketTimeMinTime);
 
 			lpObj->m_PlayerData->LiveCheckDetectCount++;
 
@@ -18869,12 +18783,12 @@ void GameProtocol::CGReqAntiCheatRecv(CGameObject* lpObj, PMSG_SEND_AH_INFO *aRe
 
 				if (g_ConfigRead.antihack.EnableHackDetectMessage == TRUE)
 				{
-					MsgOutput(lpObj, (char *)g_ConfigRead.antihack.HackDetectMessage.c_str());
+					MsgOutput(*lpObj, (char *)g_ConfigRead.antihack.HackDetectMessage.c_str());
 				}
 
 				if (g_ConfigRead.EnableAutoBanUserAccount == TRUE)
 				{
-					GDReqBanUser(lpObj, 1, 1);
+					GDReqBanUser(*lpObj, 1, 1);
 				}
 
 				//this->GCSendDisableReconnect(lpObj);
@@ -18892,13 +18806,13 @@ void GameProtocol::CGReqAntiCheatRecv(CGameObject* lpObj, PMSG_SEND_AH_INFO *aRe
 
 	if (g_ConfigRead.antihack.EnabledAgiCheck == false)
 	{
-		lpObj->AgiCheckTime = GetTickCount();
+		lpObj->m_PlayerData->AgiCheckTime = GetTickCount();
 		return;
 	}
 
 	if (lpObj->m_PlayerData->BlessSkillCast == true)
 	{
-		lpObj->AgiCheckTime = GetTickCount();
+		lpObj->m_PlayerData->AgiCheckTime = GetTickCount();
 		return;
 	}
 
@@ -18918,12 +18832,12 @@ void GameProtocol::CGReqAntiCheatRecv(CGameObject* lpObj, PMSG_SEND_AH_INFO *aRe
 
 			if (g_ConfigRead.antihack.EnableHackDetectMessage == TRUE)
 			{
-				MsgOutput(lpObj, (char *)g_ConfigRead.antihack.HackDetectMessage.c_str());
+				MsgOutput(*lpObj, (char *)g_ConfigRead.antihack.HackDetectMessage.c_str());
 			}
 
 			if (g_ConfigRead.EnableAutoBanUserAccount == TRUE)
 			{
-				GDReqBanUser(lpObj, 1, 1);
+				GDReqBanUser(*lpObj, 1, 1);
 			}
 
 			//this->GCSendDisableReconnect(lpObj);
@@ -18932,7 +18846,7 @@ void GameProtocol::CGReqAntiCheatRecv(CGameObject* lpObj, PMSG_SEND_AH_INFO *aRe
 
 		else
 		{
-			lpObj->AgiCheckTime = GetTickCount();
+			lpObj->m_PlayerData->AgiCheckTime = GetTickCount();
 		}
 	}
 	else
@@ -18940,17 +18854,14 @@ void GameProtocol::CGReqAntiCheatRecv(CGameObject* lpObj, PMSG_SEND_AH_INFO *aRe
 		sLog->outError("[ANTI-HACK] (%s)(%s)(%s) Cheat detected: %s", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpObj->m_PlayerData->ConnectUser->Ip_addr,
 			aRecv->Agi == 0 ? "SpeedHack" : "Proxy");
 
-		AntiHackLog->Output("[ANTI-HACK] (%s)(%s)(%s) Cheat detected: %s", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpObj->m_PlayerData->ConnectUser->Ip_addr,
-			aRecv->Agi == 0 ? "SpeedHack" : "Proxy");
-
 		if (g_ConfigRead.antihack.EnableHackDetectMessage == TRUE)
 		{
-			MsgOutput(lpObj, (char *)g_ConfigRead.antihack.HackDetectMessage.c_str());
+			MsgOutput(*lpObj, (char *)g_ConfigRead.antihack.HackDetectMessage.c_str());
 		}
 
 		if (g_ConfigRead.EnableAutoBanUserAccount == TRUE)
 		{
-			GDReqBanUser(lpObj, 1, 1);
+			GDReqBanUser(*lpObj, 1, 1);
 		}
 
 		//this->GCSendDisableReconnect(lpObj);
@@ -18961,18 +18872,6 @@ void GameProtocol::CGReqAntiCheatRecv(CGameObject* lpObj, PMSG_SEND_AH_INFO *aRe
 
 void GameProtocol::CGReqFileCrcRecv(CGameObject* lpObj, PMSG_REQ_CRCDATA *aRecv)
 {
-	if (!ObjectMaxRange(lpObj))
-	{
-		return;
-	}
-
-	if (!gObjIsConnectedGP(lpObj))
-	{
-		return;
-	}
-
-	LPOBJ lpObj = *lpObj;
-
 	if (g_ConfigRead.MainCRC == 0)
 	{
 		lpObj->CrcCheckTime = 0;
@@ -18993,17 +18892,14 @@ void GameProtocol::CGReqFileCrcRecv(CGameObject* lpObj, PMSG_REQ_CRCDATA *aRecv)
 		sLog->outBasic("[ANTI-HACK] (%s)(%s)(%s) Invalid Game-Client files (Recv/Valid) (Main:%X/%X) (IGC:%X/%X) (Player:%X/%X) (SkillCRC: %X/%X)", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpObj->m_PlayerData->ConnectUser->Ip_addr, aRecv->MainExe, g_ConfigRead.MainCRC,
 			aRecv->IGCDLL, g_ConfigRead.DLLCRC, aRecv->PlayerBMD, g_ConfigRead.PlayerCRC, aRecv->SkillCRC, g_ConfigRead.SkillCRC);
 
-		AntiHackLog->Output("[ANTI-HACK] (%s)(%s)(%s) Invalid Game-Client files (Recv/Valid) (Main:%X/%X) (IGC:%X/%X) (Player:%X/%X) (SkillCRC: %X/%X)", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpObj->m_PlayerData->ConnectUser->Ip_addr, aRecv->MainExe, g_ConfigRead.MainCRC,
-			aRecv->IGCDLL, g_ConfigRead.DLLCRC, aRecv->PlayerBMD, g_ConfigRead.PlayerCRC, aRecv->SkillCRC, g_ConfigRead.SkillCRC);
-
 		if (g_ConfigRead.antihack.EnableHackDetectMessage == TRUE)
 		{
-			MsgOutput(lpObj, (char *)g_ConfigRead.antihack.HackDetectMessage.c_str());
+			MsgOutput(*lpObj, (char *)g_ConfigRead.antihack.HackDetectMessage.c_str());
 		}
 
 		if (g_ConfigRead.EnableAutoBanUserAccount == TRUE)
 		{
-			GDReqBanUser(lpObj, 1, 1);
+			GDReqBanUser(*lpObj, 1, 1);
 		}
 
 		//this->GCSendDisableReconnect(lpObj);
@@ -19022,12 +18918,12 @@ void GameProtocol::GCElementalDamageSend(CGameObject* lpObj, int TargetIndex, in
 	pResult.Damage = Damage;
 	pResult.btElement = Elemental;
 	pResult.New = 0; ///NEW
-	pResult.New1 = gObj[TargetIndex].Life; ///[k2]
+	pResult.New1 = getGameObject(TargetIndex)->Life; ///[k2]
 	pResult.New2 = 512; ///NEW
 	pResult.btTargetH = SET_NUMBERH(lpObj);
 	pResult.btTargetL = SET_NUMBERL(lpObj);
 
-	if (gObj[TargetIndex].Type == OBJ_USER)
+	if (getGameObject(TargetIndex)->Type == OBJ_USER)
 	{
 		GIOCP.DataSend(TargetIndex, (LPBYTE)&pResult, pResult.h.size);
 	}
@@ -19045,10 +18941,6 @@ void GameProtocol::GCElementalDamageSend(CGameObject* lpObj, int TargetIndex, in
 
 void GameProtocol::CGReqEnterAcheron(CGameObject* lpObj)
 {
-	if (!ObjectMaxRange(lpObj))
-	{
-		return;
-	}
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -19062,7 +18954,7 @@ void GameProtocol::CGReqEnterAcheron(CGameObject* lpObj)
 		return;
 	}
 
-	if (gObj[iTargetNumber].Class != 580)
+	if (getGameObject(iTargetNumber)->Class != 580)
 	{
 		return;
 	}
@@ -19071,7 +18963,7 @@ void GameProtocol::CGReqEnterAcheron(CGameObject* lpObj)
 
 	for (int i = 12; i < MAIN_INVENTORY_SIZE; i++)
 	{
-		if (lpObj->pntInventory[i].m_Type == ITEMGET(13, 146))
+		if (lpObj->pntInventory[i]->m_Type == ITEMGET(13, 146))
 		{
 			pos = i;
 			break;
@@ -19088,11 +18980,11 @@ void GameProtocol::CGReqEnterAcheron(CGameObject* lpObj)
 		return;
 	}
 
-	gObjMoveGate(lpObj, 417);
-	g_Log.AddC(TColor::Blue, "[%s][%s] Entered to Acheron Map (Spirit Map serial: %I64d)", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name,
+	gObjMoveGate(*lpObj, 417);
+	sLog->outBasic("[%s][%s] Entered to Acheron Map (Spirit Map serial: %I64d)", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name,
 		lpObj->pntInventory[pos]->m_Number);
 
-	gObjInventoryDeleteItem(lpObj, pos);
+	gObjInventoryDeleteItem(*lpObj, pos);
 	this->GCInventoryItemDeleteSend(lpObj, pos, 1);
 }
 
@@ -19138,11 +19030,11 @@ void GameProtocol::GCChaosMachinePriceSend(CGameObject* lpObj)
 	pMsg.Type = 1;
 	for (short i = 0; i < CHAOS_BOX_SIZE; ++i)
 	{
-		if (lpObj->pChaosBox[i].IsItem())
+		if (lpObj->pntChaosBox[i]->IsItem())
 		{
-			lpObj->pChaosBox[i].Value();
-			pList.BuyPrice = lpObj->pChaosBox[i].m_BuyMoney;
-			pList.SellPrice = lpObj->pChaosBox[i].m_SellMoney;
+			lpObj->pntChaosBox[i]->Value();
+			pList.BuyPrice = lpObj->pntChaosBox[i]->m_BuyMoney;
+			pList.SellPrice = lpObj->pntChaosBox[i]->m_SellMoney;
 			pList.Pos = i;
 			memcpy(&SendData[lOfs], &pList, sizeof(pList));
 			lOfs += sizeof(pList);
@@ -19210,11 +19102,11 @@ void GameProtocol::GCPriceSend(CGameObject* lpObj, BYTE type, SHOP_DATA *lpShopD
 
 		for (int i = 0; i < INVENTORY_SIZE; ++i)
 		{
-			if (lpObj->pntInventory[i].IsItem())
+			if (lpObj->pntInventory[i]->IsItem())
 			{
-				lpObj->pntInventory[i].Value();
-				pList.BuyPrice = lpObj->pntInventory[i].m_BuyMoney;
-				pList.SellPrice = lpObj->pntInventory[i].m_SellMoney;
+				lpObj->pntInventory[i]->Value();
+				pList.BuyPrice = lpObj->pntInventory[i]->m_BuyMoney;
+				pList.SellPrice = lpObj->pntInventory[i]->m_SellMoney;
 				pList.Pos = i;
 				memcpy(&SendData[lOfs], &pList, sizeof(pList));
 				lOfs += sizeof(pList);
@@ -19239,10 +19131,11 @@ int GameProtocol::OnCGInviteDuel(LPPMSG_REQ_DUEL_INVITE lpMsg, CGameObject* lpOb
 
 	int nResponsor = MAKEWORD(lpMsg->NumberL, lpMsg->NumberH);
 
-	LPOBJECTSTRUCT lpRequester = (LPOBJECTSTRUCT)*lpObj;
+	CGameObject* lpRequester = lpObj;
+	CGameObject* lpResponser = getGameObject(nResponsor);
 
 	if (!PacketCheckTime(lpObj)) return ENEWPVP::E_LIMIT_PACKETTIME;
-	if (nResponsor == lpObj)			return ENEWPVP::E_INVITE_MYSELF;
+	if (lpResponser == lpObj)			return ENEWPVP::E_INVITE_MYSELF;
 	if (g_MaxStatsInfo.GetClass.IsNonPvP[lpObj->MapNumber])
 	{
 		GCServerMsgStringSend(Lang.GetText(0, 97), lpObj, 1);
@@ -19254,12 +19147,12 @@ int GameProtocol::OnCGInviteDuel(LPPMSG_REQ_DUEL_INVITE lpMsg, CGameObject* lpOb
 		GCServerMsgStringSend(Lang.GetText(0, 98), lpObj, 1);
 		return ENEWPVP::E_NOT_DUEL_MURDERER;
 	}
-	if (!gObjIsConnectedEx(nResponsor))
+	if (!gObjIsConnectedEx(*lpResponser))
 	{
 		sLog->outBasic("error: %s %d (%d)", __FILE__, __LINE__, nResponsor);
 		return ENEWPVP::E_DISCONNECT;
 	}
-	LPOBJECTSTRUCT lpResponsor = (LPOBJECTSTRUCT)&gObj[nResponsor];
+
 	if (g_NewPVP.CheckPKPenalty(lpResponsor))
 	{
 		GCServerMsgStringSend(Lang.GetText(0, 99), lpObj, 1);
@@ -19367,7 +19260,7 @@ int GameProtocol::OnCGInviteDuel(LPPMSG_REQ_DUEL_INVITE lpMsg, CGameObject* lpOb
 	}
 
 	GCServerMsgStringSendEx(lpObj, 1, Lang.GetText(0, 95), lpResponsor->Name);
-	sLog->outBasic("[NewPVP] [%s][%s] Requested to Start Duel to [%s][%s]", lpRequester->AccountID, lpRequester->Name, lpResponsor->AccountID, lpResponsor->Name);
+	sLog->outBasic("[NewPVP] [%s][%s] Requested to Start Duel to [%s][%s]", lpRequester->m_PlayerData->ConnectUser->AccountID, lpRequester->Name, lpResponsor->AccountID, lpResponsor->Name);
 	return ENEWPVP::E_NO_ERROR;
 }
 
@@ -19378,12 +19271,12 @@ int GameProtocol::OnCGAnswerDuel(LPPMSG_ANS_DUEL_ANSWER lpMsg, CGameObject* lpOb
 		return ENEWPVP::E_NOT_DUEL_CSSERVER;
 	}
 
-	LPOBJECTSTRUCT lpRequester = NULL;
-	LPOBJECTSTRUCT lpResponsor = (LPOBJECTSTRUCT)*lpObj;
 	int nRequester = MAKEWORD(lpMsg->NumberL, lpMsg->NumberH);
+	CGameObject* lpRequester = getGameObject(nRequester);
+	CGameObject* lpResponser = lpObj;
 
-	if (!gObjIsConnectedEx(nRequester))	return ENEWPVP::E_DISCONNECT;
-	lpRequester = (LPOBJECTSTRUCT)&gObj[nRequester];
+
+	if (!gObjIsConnectedEx(*lpRequester))	return ENEWPVP::E_DISCONNECT;
 
 	PMSG_ANS_DUEL_INVITE res = { 0 };
 	res.h.c = 0xC1;
@@ -19395,14 +19288,14 @@ int GameProtocol::OnCGAnswerDuel(LPPMSG_ANS_DUEL_ANSWER lpMsg, CGameObject* lpOb
 	{
 		g_NewPVP.Cancel(*lpRequester, *lpResponsor, FALSE);
 		res.nResult = ENEWPVP::E_CONNECTION_CLOSING;
-		GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&res, res.h.size);
+		GIOCP.DataSend(lpResponser->m_PlayerData->ConnectUser->Index, (LPBYTE)&res, res.h.size);
 		return ENEWPVP::E_CONNECTION_CLOSING;
 	}
 	if (!lpMsg->bDuelOK)
 	{
 		g_NewPVP.Cancel(*lpRequester, *lpResponsor, FALSE);
 		res.nResult = ENEWPVP::E_REFUSE_INVATE;
-		GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&res, res.h.size);
+		GIOCP.DataSend(lpRequester->m_PlayerData->ConnectUser->Index, (LPBYTE)&res, res.h.size);
 		return ENEWPVP::E_REFUSE_INVATE;
 	}
 	if (BC_MAP_RANGE(lpRequester->MapNumber) ||
@@ -19414,8 +19307,8 @@ int GameProtocol::OnCGAnswerDuel(LPPMSG_ANS_DUEL_ANSWER lpMsg, CGameObject* lpOb
 		lpRequester->MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 	{
 		g_NewPVP.Cancel(*lpRequester, *lpResponsor, FALSE);
-		GCServerMsgStringSend(Lang.GetText(0, 125), lpResponsor->m_Index, 1);
-		GCServerMsgStringSend(Lang.GetText(0, 125), lpRequester->m_Index, 1);
+		GCServerMsgStringSend(Lang.GetText(0, 125), lpResponsor, 1);
+		GCServerMsgStringSend(Lang.GetText(0, 125), lpRequester, 1);
 		res.nResult = ENEWPVP::E_INVALID_MAP;
 		GIOCP.DataSend(lpResponsor->m_Index, (LPBYTE)&res, res.h.size);
 		GIOCP.DataSend(lpRequester->m_Index, (LPBYTE)&res, res.h.size);
@@ -19472,6 +19365,7 @@ int GameProtocol::OnDuelChannelLeave(LPPMSG_REQ_DUEL_LEAVECNANNEL lpMsg, CGameOb
 	return ENEWPVP::E_NO_ERROR;
 }
 
+/*
 void GameProtocol::CGReqRegGensMember(_tagPMSG_REQ_REG_GENS_MEMBER *lpMsg, CGameObject *lpObj)
 {
 	unsigned char bRet;
@@ -19553,7 +19447,8 @@ void GameProtocol::CGReqRegGensMember(_tagPMSG_REQ_REG_GENS_MEMBER *lpMsg, CGame
 		}
 	}
 }
-
+*/
+/*
 //-> Completed
 void GameProtocol::CGReqSecedeGensMember(_tagPMSG_REQ_SEGEDE_GENS_MEMBER *lpMsg, CGameObject *lpObj)
 {
@@ -19607,7 +19502,8 @@ void GameProtocol::CGReqSecedeGensMember(_tagPMSG_REQ_SEGEDE_GENS_MEMBER *lpMsg,
 		}
 	}
 }
-
+*/
+/*
 //-> Completed
 void GameProtocol::CGReqGensReward(_tagPMSG_GENS_REWARD_CODE *lpMsg, CGameObject *lpObj)
 {
@@ -19639,24 +19535,14 @@ void GameProtocol::CGReqGensMemberInfo(_tagPMSG_REQ_GENS_INFO *lpMsg, CGameObjec
 		}
 	}
 }
+*/
+
 void GameProtocol::CGInventoryEquipment(_tagPMSG_REQ_INVENTORY_EQUIPMENT_ITEM *lpMsg, CGameObject *lpObj)
 {
-	if (ObjectMaxRange(lpObj) == FALSE)
-	{
-		return;
-	}
-
 	if (lpObj->Type != OBJ_USER)
 	{
 		return;
 	}
-
-	if (!gObjIsConnected(lpObj))
-	{
-		return;
-	}
-
-	LPOBJ lpObj = &gObj[iIndex];
 
 	_tagPMSG_ANS_INVENTORY_EQUIPMENT_ITEM pMsg = { 0 };
 
@@ -19665,24 +19551,24 @@ void GameProtocol::CGInventoryEquipment(_tagPMSG_REQ_INVENTORY_EQUIPMENT_ITEM *l
 
 	pMsg.btItemPos = lpMsg->btItemPos;
 
-	if (!IsInvenPet(lpObj->pntInventory[lpMsg->btItemPos].m_Type) &&
-		lpObj->pntInventory[lpMsg->btItemPos].m_Durability == 0.0)
+	if (!IsInvenPet(lpObj->pntInventory[lpMsg->btItemPos]->m_Type) &&
+		lpObj->pntInventory[lpMsg->btItemPos]->m_Durability == 0.0)
 	{
 		pMsg.btResult = -1;
 		GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
-	switch (lpObj->pntInventory[lpMsg->btItemPos].m_Type)
+	switch (lpObj->pntInventory[lpMsg->btItemPos]->m_Type)
 	{
 	case ITEMGET(13, 128):
 	case ITEMGET(13, 129):
 		if (lpObj->m_PlayerData->m_btSculptPos == 0)
 		{
-			if (lpMsg->btValue == (BYTE)-2 && lpObj->pntInventory[lpMsg->btItemPos].m_Durability == 255.0)
+			if (lpMsg->btValue == (BYTE)-2 && lpObj->pntInventory[lpMsg->btItemPos]->m_Durability == 255.0)
 			{
 				lpObj->m_PlayerData->m_btSculptPos = lpMsg->btItemPos;
-				lpObj->pntInventory[lpMsg->btItemPos].m_Durability = 254.0;
+				lpObj->pntInventory[lpMsg->btItemPos]->m_Durability = 254.0;
 				pMsg.btResult = -2;
 			}
 
@@ -19696,9 +19582,9 @@ void GameProtocol::CGInventoryEquipment(_tagPMSG_REQ_INVENTORY_EQUIPMENT_ITEM *l
 
 		if (lpMsg->btValue == (BYTE)-1 && lpObj->m_PlayerData->m_btSculptPos == lpMsg->btItemPos)
 		{
-			if (lpObj->pntInventory[lpMsg->btItemPos].m_Durability == 254.0)
+			if (lpObj->pntInventory[lpMsg->btItemPos]->m_Durability == 254.0)
 			{
-				lpObj->pntInventory[lpMsg->btItemPos].m_Durability = 255.0;
+				lpObj->pntInventory[lpMsg->btItemPos]->m_Durability = 255.0;
 				pMsg.btResult = -1;
 			}
 
@@ -19714,10 +19600,10 @@ void GameProtocol::CGInventoryEquipment(_tagPMSG_REQ_INVENTORY_EQUIPMENT_ITEM *l
 	case ITEMGET(13, 133):
 		if (lpObj->m_PlayerData->m_btCharmPos == 0)
 		{
-			if (lpMsg->btValue == (BYTE)-2 && lpObj->pntInventory[lpMsg->btItemPos].m_Durability == 255.0)
+			if (lpMsg->btValue == (BYTE)-2 && lpObj->pntInventory[lpMsg->btItemPos]->m_Durability == 255.0)
 			{
 				lpObj->m_PlayerData->m_btCharmPos = lpMsg->btItemPos;
-				lpObj->pntInventory[lpMsg->btItemPos].m_Durability = 254.0;
+				lpObj->pntInventory[lpMsg->btItemPos]->m_Durability = 254.0;
 				pMsg.btResult = -2;
 			}
 
@@ -19731,9 +19617,9 @@ void GameProtocol::CGInventoryEquipment(_tagPMSG_REQ_INVENTORY_EQUIPMENT_ITEM *l
 
 		if (lpMsg->btValue == (BYTE)-1 && lpObj->m_PlayerData->m_btCharmPos == lpMsg->btItemPos)
 		{
-			if (lpObj->pntInventory[lpMsg->btItemPos].m_Durability == 254.0)
+			if (lpObj->pntInventory[lpMsg->btItemPos]->m_Durability == 254.0)
 			{
-				lpObj->pntInventory[lpMsg->btItemPos].m_Durability = 255.0;
+				lpObj->pntInventory[lpMsg->btItemPos]->m_Durability = 255.0;
 				pMsg.btResult = -1;
 			}
 
@@ -19746,10 +19632,10 @@ void GameProtocol::CGInventoryEquipment(_tagPMSG_REQ_INVENTORY_EQUIPMENT_ITEM *l
 	case ITEMGET(13, 134):
 		if (lpObj->m_PlayerData->m_btArtifactPos == 0)
 		{
-			if (lpMsg->btValue == (BYTE)-2 && lpObj->pntInventory[lpMsg->btItemPos].m_Durability == 255.0)
+			if (lpMsg->btValue == (BYTE)-2 && lpObj->pntInventory[lpMsg->btItemPos]->m_Durability == 255.0)
 			{
 				lpObj->m_PlayerData->m_btArtifactPos = lpMsg->btItemPos;
-				lpObj->pntInventory[lpMsg->btItemPos].m_Durability = 254.0;
+				lpObj->pntInventory[lpMsg->btItemPos]->m_Durability = 254.0;
 				pMsg.btResult = -2;
 			}
 
@@ -19763,9 +19649,9 @@ void GameProtocol::CGInventoryEquipment(_tagPMSG_REQ_INVENTORY_EQUIPMENT_ITEM *l
 
 		if (lpMsg->btValue == (BYTE)-1 && lpObj->m_PlayerData->m_btArtifactPos == lpMsg->btItemPos)
 		{
-			if (lpObj->pntInventory[lpMsg->btItemPos].m_Durability == 254.0)
+			if (lpObj->pntInventory[lpMsg->btItemPos]->m_Durability == 254.0)
 			{
-				lpObj->pntInventory[lpMsg->btItemPos].m_Durability = 255.0;
+				lpObj->pntInventory[lpMsg->btItemPos]->m_Durability = 255.0;
 				pMsg.btResult = -1;
 			}
 
@@ -19780,10 +19666,10 @@ void GameProtocol::CGInventoryEquipment(_tagPMSG_REQ_INVENTORY_EQUIPMENT_ITEM *l
 	case ITEMGET(13, 179):
 		if (lpObj->m_PlayerData->m_btExpUpCharmPos == 0)
 		{
-			if (lpMsg->btValue == (BYTE)-2 && lpObj->pntInventory[lpMsg->btItemPos].m_Durability == 255.0)
+			if (lpMsg->btValue == (BYTE)-2 && lpObj->pntInventory[lpMsg->btItemPos]->m_Durability == 255.0)
 			{
 				lpObj->m_PlayerData->m_btExpUpCharmPos = lpMsg->btItemPos;
-				lpObj->pntInventory[lpMsg->btItemPos].m_Durability = 254.0;
+				lpObj->pntInventory[lpMsg->btItemPos]->m_Durability = 254.0;
 				pMsg.btResult = -2;
 			}
 
@@ -19797,9 +19683,9 @@ void GameProtocol::CGInventoryEquipment(_tagPMSG_REQ_INVENTORY_EQUIPMENT_ITEM *l
 
 		if (lpMsg->btValue == (BYTE)-1 && lpObj->m_PlayerData->m_btExpUpCharmPos == lpMsg->btItemPos)
 		{
-			if (lpObj->pntInventory[lpMsg->btItemPos].m_Durability == 254.0)
+			if (lpObj->pntInventory[lpMsg->btItemPos]->m_Durability == 254.0)
 			{
-				lpObj->pntInventory[lpMsg->btItemPos].m_Durability = 255.0;
+				lpObj->pntInventory[lpMsg->btItemPos]->m_Durability = 255.0;
 				pMsg.btResult = -1;
 			}
 
@@ -19843,32 +19729,32 @@ void GameProtocol::CGInventoryEquipment(_tagPMSG_REQ_INVENTORY_EQUIPMENT_ITEM *l
 		else if (lpMsg->btValue == (BYTE)-2)
 		{
 
-			if (lpObj->m_wInvenPet != (WORD)-1 || lpObj->pntInventory[lpMsg->btItemPos].m_JewelOfHarmonyOption == 1)
+			if (lpObj->m_wInvenPet != (WORD)-1 || lpObj->pntInventory[lpMsg->btItemPos]->m_JewelOfHarmonyOption == 1)
 			{
 
 				this->GCServerMsgStringSend(Lang.GetText(0, 615), iIndex, 1);
 				return;
 			}
 
-			if (gObjUseInvenPetCheck(lpObj, &lpObj->pntInventory[lpMsg->btItemPos], 1) == FALSE)
+			if (gObjUseInvenPetCheck(*lpObj, lpObj->pntInventory[lpMsg->btItemPos], 1) == FALSE)
 			{
 				this->GCServerMsgStringSend(Lang.GetText(0, 617), iIndex, 1);
 				return;
 			}
 
 			lpObj->m_btInvenPetPos = lpMsg->btItemPos;
-			lpObj->pntInventory[lpMsg->btItemPos].m_JewelOfHarmonyOption = 1;
+			lpObj->pntInventory[lpMsg->btItemPos]->m_JewelOfHarmonyOption = 1;
 			pMsg.btResult = (BYTE)-2;
 
 		}
 
-		gObjMakePreviewCharSet(lpObj);
+		gObjMakePreviewCharSet(*lpObj);
 		this->GCEquipmentChange(lpObj, lpMsg->btItemPos);
 		GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
 		break;
 	default:
 	DEF_SWITCH:
-		gObjCalCharacter.CalcCharacter(lpObj);
+		gObjCalCharacter.CalcCharacter(*lpObj);
 		GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
 		break;
 	}
@@ -19876,10 +19762,6 @@ void GameProtocol::CGInventoryEquipment(_tagPMSG_REQ_INVENTORY_EQUIPMENT_ITEM *l
 
 void GameProtocol::CGReqUseTransformationRing(PMSG_REQ_USETRANSFORMATIONRING * lpMsg, CGameObject* lpObj)
 {
-	if (ObjectMaxRange(lpObj) == false)
-	{
-		return;
-	}
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -19926,19 +19808,13 @@ void GameProtocol::GCSendAttackSpeed(CGameObject* lpObj)
 
 void GameProtocol::CGReqArcaBattleGuildMasterJoin(_tagPMSG_REQ_ARCA_BATTLE_JOIN *lpMsg, CGameObject *lpObj)
 {
-	if (ObjectMaxRange(lpObj) == false)
+
+	if (gObjIsConnected(*lpObj) == false)
 	{
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[iIndex];
-
-	if (gObjIsConnected(lpObj) == false)
-	{
-		return;
-	}
-
-	_GUILD_INFO_STRUCT * lpGuildInfo = lpObj->m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT * lpGuildInfo = lpObj->m_PlayerData->lpGuild;
 	_tagPMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS pMsg;
 
 	pMsg.wNumber = iIndex;
@@ -19978,33 +19854,21 @@ void GameProtocol::CGReqArcaBattleGuildMasterJoin(_tagPMSG_REQ_ARCA_BATTLE_JOIN 
 
 void GameProtocol::CGReqArcaBattleGuildMemberJoin(_tagPMSG_REQ_ARCA_BATTLE_JOIN *lpMsg, CGameObject *lpObj)
 {
-	_tagPMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS pMsg;
-
-	if (ObjectMaxRange(lpObj) == false)
-	{
-		return;
-	}
-
-	LPOBJ lpObj = &gObj[iIndex];
-
-	if (gObjIsConnected(lpObj) == false)
-	{
-		return;
-	}
+	PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS pMsg;
 
 	pMsg.wNumber = iIndex;
 
 	if (lpObj->m_PlayerData->lpGuild == NULL)
 	{
 		pMsg.btResult = 7;
-		DGAnsArcaBattleGuildMemberJoin((_tagPMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *)&pMsg);
+		DGAnsArcaBattleGuildMemberJoin((PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *)&pMsg);
 		return;
 	}
 
 	if (lpObj->m_PlayerData->GuildStatus == GUILD_MASTER)
 	{
 		pMsg.btResult = 13;
-		DGAnsArcaBattleGuildMemberJoin((_tagPMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *)&pMsg);
+		DGAnsArcaBattleGuildMemberJoin((PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *)&pMsg);
 		return;
 	}
 
@@ -20013,14 +19877,14 @@ void GameProtocol::CGReqArcaBattleGuildMemberJoin(_tagPMSG_REQ_ARCA_BATTLE_JOIN 
 	if (iArcaBattleState < 4)
 	{
 		pMsg.btResult = 14;
-		DGAnsArcaBattleGuildMemberJoin((_tagPMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *)&pMsg);
+		DGAnsArcaBattleGuildMemberJoin((PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *)&pMsg);
 		return;
 	}
 
 	if (iArcaBattleState >= 7)
 	{
 		pMsg.btResult = 10;
-		DGAnsArcaBattleGuildMemberJoin((_tagPMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *)&pMsg);
+		DGAnsArcaBattleGuildMemberJoin((PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *)&pMsg);
 		return;
 	}
 
@@ -20029,16 +19893,9 @@ void GameProtocol::CGReqArcaBattleGuildMemberJoin(_tagPMSG_REQ_ARCA_BATTLE_JOIN 
 
 void GameProtocol::CGReqArcaBattleEnter(_tagPMSG_REQ_ARCA_BATTLE_ENTER *lpMsg, CGameObject *lpObj)
 {
-	_tagPMSG_ANS_ARCA_BATTLE_ENTER_DS pMsg;
+	PMSG_ANS_ARCA_BATTLE_ENTER_DS pMsg;
 
-	if (ObjectMaxRange(lpObj) == false)
-	{
-		return;
-	}
-
-	LPOBJ lpObj = &gObj[iIndex];
-
-	if (gObjIsConnected(lpObj))
+	if (gObjIsConnected(*lpObj))
 	{
 		int iArcaBattleState = g_ArcaBattle.GetState();
 
@@ -20076,27 +19933,15 @@ void GameProtocol::CGReqArcaBattleEnter(_tagPMSG_REQ_ARCA_BATTLE_ENTER *lpMsg, C
 
 void GameProtocol::CGReqAcheronEnter(_tagPMSG_REQ_ACHERON_ENTER *lpMsg, CGameObject *lpObj)
 {
-	_tagPMSG_ANS_ACHERON_ENTER pMsg;
-
-	if (ObjectMaxRange(lpObj) == false)
-	{
-		return;
-	}
-
-	LPOBJ lpObj = &gObj[iIndex];
-
-	if (gObjIsConnected(lpObj) == false)
-	{
-		return;
-	}
+	PMSG_ANS_ACHERON_ENTER pMsg;
 
 	for (int pos = INVETORY_WEAR_SIZE; pos < MAIN_INVENTORY_SIZE; pos++)
 	{
 		if (lpObj->pntInventory[pos]->IsItem() && lpObj->pntInventory[pos]->m_Type == ITEMGET(13, 146))
 		{
-			gObjInventoryDeleteItem(lpObj, pos);
+			gObjInventoryDeleteItem(*lpObj, pos);
 			this->GCInventoryItemDeleteSend(lpObj, pos, 1);
-			gObjMoveGate(lpObj, 417);
+			gObjMoveGate(*lpObj, 417);
 			return;
 		}
 	}
@@ -20111,52 +19956,36 @@ void GameProtocol::CGReqAcheronEnter(_tagPMSG_REQ_ACHERON_ENTER *lpMsg, CGameObj
 
 void GameProtocol::CGReqArcaBattleBootyExchange(CGameObject *lpObj)
 {
-	if (ObjectMaxRange(lpObj) == false)
-	{
-		return;
-	}
-	LPOBJ lpObj = &gObj[iIndex];
-
-	if (gObjIsConnected(lpObj) == false)
-	{
-		return;
-	}
 
 	if (bCanChaosBox == TRUE && !lpObj->m_IfState->use)
 	{
 		if (lpObj->m_bPShopOpen == TRUE)
 		{
 			sLog->outBasic("[%s][%s] is Already Opening PShop, ChaosBox Failed", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
-			this->GCServerMsgStringSend(Lang.GetText(0, 531), iIndex, 1);
+			this->GCServerMsgStringSend(Lang.GetText(0, 531), *lpObj, 1);
 			return;
 		}
 
 		lpObj->m_IfState->use = 1;
 		lpObj->m_IfState->type = 7;
-		gObjInventoryTrans(lpObj->m_Index);
+		gObjInventoryTrans(*lpObj);
 		sLog->outBasic("[ArcaBattle][BootyItemMix] [%s][%s]  Booty Item Mix Start", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
-		gObjItemTextSave(lpObj);
-		gObjWarehouseTextSave(lpObj);
+		gObjItemTextSave(*lpObj);
+		gObjWarehouseTextSave(*lpObj);
 	}
 }
 
 void GameProtocol::CGReqSpritemapExchange(CGameObject *lpObj)
 {
-	if (ObjectMaxRange(lpObj) == false)
-	{
-		return;
-	}
 
-	LPOBJ lpObj = &gObj[iIndex];
-
-	if (gObjIsConnected(lpObj))
+	if (gObjIsConnected(*lpObj))
 	{
 		if (bCanChaosBox == 1 && !(lpObj->m_IfState->type & 3))
 		{
 			if (lpObj->m_bPShopOpen == 1)
 			{
 				sLog->outBasic("[%s][%s] is Already Opening PShop, ChaosBox Failed", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
-				this->GCServerMsgStringSend(Lang.GetText(0, 531), iIndex, 1);
+				this->GCServerMsgStringSend(Lang.GetText(0, 531), lpObj, 1);
 			}
 
 			else
@@ -20164,14 +19993,16 @@ void GameProtocol::CGReqSpritemapExchange(CGameObject *lpObj)
 				lpObj->m_IfState->use = 1;
 				lpObj->m_IfState->type = 7;
 
-				gObjInventoryTrans(lpObj->m_Index);
+				gObjInventoryTrans(*lpObj);
 				sLog->outBasic("[ArcaBattle][BootyItemMix] [%s][%s]  Booty Item Mix Start", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
-				gObjItemTextSave((OBJECTSTRUCT *)lpObj);
-				gObjWarehouseTextSave((OBJECTSTRUCT *)lpObj);
+				gObjItemTextSave(*lpObj);
+				gObjWarehouseTextSave(*lpObj);
 			}
 		}
 	}
 }
+
+/// UP TO HEREEEEE!!!! //////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameProtocol::CGReqRegisteredMemberCnt(CGameObject* lpObj)
 {
@@ -24509,7 +24340,7 @@ void GameProtocol::CGReqHuntingLog(CGameObject *lpObj)
 	pMsg.unk3 = 300;
 	pMsg.unk4 = 400;
 
-	g_Log.AddC(TColor::Blue, "Hunting Log in Test");
+	sLog->outBasic("Hunting Log in Test");
 
 }
 
