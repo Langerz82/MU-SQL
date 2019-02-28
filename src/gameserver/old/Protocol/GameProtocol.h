@@ -1468,7 +1468,7 @@ struct CSP_ANS_GUILDREGINFO
 	PBMSG_HEAD2 h;
 	int iResult;	// 4
 	WORD wMapSvrNum;	// 8
-	int iIndex;	// C
+	CGameObject *lpObj;	// C
 	char szGuildName[8];	// 10
 	int iRegMarkCount;	// 18
 	BYTE bIsGiveUp;	// 1C
@@ -1486,7 +1486,7 @@ struct CSP_ANS_GUILDREGMARK
 	struct PBMSG_HEAD2 h;
 	int iResult;
 	WORD wMapSvrNum;
-	int iIndex;
+	CGameObject *lpObj;
 	char szGuildName[8];
 	int iItemPos;
 	int iRegMarkCount;
@@ -1722,7 +1722,7 @@ struct CSP_ANS_NPCDATA
 	PWMSG_HEAD h; // 0
 	int iResult; // 4
 	WORD wMapSvrNum; // 8
-	int iIndex; // c
+	CGameObject *lpObj; // c
 	int iCount; // 10
 };
 
@@ -3814,69 +3814,69 @@ public:
 	//void CGUnionList(PMSG_UNIONLIST_REQ* aRecv, CGameObject* lpObj);
 	//void CGRelationShipReqKickOutUnionMember(PMSG_KICKOUT_UNIONMEMBER_REQ* aRecv, CGameObject* lpObj);
 	
-	void CGReqMapSvrAuth(PMSG_REQ_MAPSERVERAUTH* lpMsg, int iIndex);
-	void GCAnsMapSvrAuth(int iIndex, int iResult);
+	void CGReqMapSvrAuth(PMSG_REQ_MAPSERVERAUTH* lpMsg, CGameObject *lpObj);
+	void GCAnsMapSvrAuth(CGameObject *lpObj, int iResult);
 	
-	//void CGReqCastleSiegeState(PMSG_REQ_CASTLESIEGESTATE* lpMsg, int iIndex);
-	//void GCAnsCastleSiegeState(int iIndex, int iResult, char* lpszGuildName, char* lpszGuildMaster);
-	//void CGReqRegCastleSiege(PMSG_REQ_REGCASTLESIEGE* lpMsg, int iIndex);
-	//void GCAnsRegCastleSiege(int iIndex, int iResult, char* lpszGuildName);
-	//void CGReqGiveUpCastleSiege(PMSG_REQ_GIVEUPCASTLESIEGE* lpMsg, int iIndex);
-	//void GCAnsGiveUpCastleSiege(int iIndex, int iResult, int bGiveUp, int iMarkCount, char* lpszGuildName);
+	//void CGReqCastleSiegeState(PMSG_REQ_CASTLESIEGESTATE* lpMsg, CGameObject *lpObj);
+	//void GCAnsCastleSiegeState(CGameObject *lpObj, int iResult, char* lpszGuildName, char* lpszGuildMaster);
+	//void CGReqRegCastleSiege(PMSG_REQ_REGCASTLESIEGE* lpMsg, CGameObject *lpObj);
+	//void GCAnsRegCastleSiege(CGameObject *lpObj, int iResult, char* lpszGuildName);
+	//void CGReqGiveUpCastleSiege(PMSG_REQ_GIVEUPCASTLESIEGE* lpMsg, CGameObject *lpObj);
+	//void GCAnsGiveUpCastleSiege(CGameObject *lpObj, int iResult, int bGiveUp, int iMarkCount, char* lpszGuildName);
 
-	//void CGReqGuildRegInfo(PMSG_REQ_GUILDREGINFO* lpMsg, int iIndex);
-	//void GCAnsGuildRegInfo(int iIndex, int iResult,CSP_ANS_GUILDREGINFO* lpMsgResult);
-	//void CGReqRegGuildMark(PMSG_REQ_REGGUILDMARK* lpMsg, int iIndex);
-	//void GCAnsRegGuildMark(int iIndex, int iResult,CSP_ANS_GUILDREGMARK* lpMsgResult);
+	//void CGReqGuildRegInfo(PMSG_REQ_GUILDREGINFO* lpMsg, CGameObject *lpObj);
+	//void GCAnsGuildRegInfo(CGameObject *lpObj, int iResult,CSP_ANS_GUILDREGINFO* lpMsgResult);
+	//void CGReqRegGuildMark(PMSG_REQ_REGGUILDMARK* lpMsg, CGameObject *lpObj);
+	//void GCAnsRegGuildMark(CGameObject *lpObj, int iResult,CSP_ANS_GUILDREGMARK* lpMsgResult);
 
-	void CGReqNpcBuy(PMSG_REQ_NPCBUY* lpMsg, int iIndex);
-	void GCAnsNpcBuy(int iIndex, int iResult, int iNpcNumber, int iNpcIndex);
-	void CGReqNpcRepair(PMSG_REQ_NPCREPAIR* lpMsg, int iIndex);
-	void GCAnsNpcRepair(int iIndex, int iResult, int iNpcNumber, int iNpcIndex, int iNpcHP, int iNpcMaxHP);
-	void CGReqNpcUpgrade(PMSG_REQ_NPCUPGRADE* lpMsg, int iIndex);
-	void GCAnsNpcUpgrade(int iIndex, int iResult, int iNpcNumber, int iNpcIndex, int iNpcUpType, int iNpcUpValue);
-	void CGReqTaxMoneyInfo(PMSG_REQ_TAXMONEYINFO* lpMsg, int iIndex);
-	void GCAnsTaxMoneyInfo(int iIndex, int iResult, BYTE btTaxRateChaos, BYTE btTaxRateStore, __int64 i64Money);
-	void CGReqTaxRateChange(PMSG_REQ_TAXRATECHANGE* lpMsg, int iIndex);
-	void GCAnsTaxRateChange(int iIndex, int iResult, BYTE btTaxType, int iTaxRate);
-	void CGReqMoneyDrawOut(PMSG_REQ_MONEYDRAWOUT* lpMsg, int iIndex);
-	void GCAnsMoneyDrawOut(int iIndex, int iResult, __int64 i64Money);
-	void GCAnsCsGateState(int iIndex, int iResult, int iGateIndex);
-	void CGReqCsGateOperate(PMSG_REQ_CSGATEOPERATE* lpMsg, int iIndex);
-	void GCAnsCsGateOperate(int iIndex, int iResult, int iGateIndex, int iGateOperate);
-	void GCAnsCsGateCurState(int iIndex, int iGateIndex, int iGateOperate);
-	void GCAnsCsAccessSwitchState(int iIndex, int iSwitchIndex, int iSwitchUserIndex, BYTE btSwitchState);
-	void GCAnsCsAccessCrownState(int iIndex, BYTE btCrownState);
-	void GCAnsCsNotifyStart(int iIndex, BYTE btStartState);
-	void GCAnsCsNotifyProgress(int iIndex, BYTE btCastleSiegeState, LPCSTR lpszGuildName);
-	void GCAnsCsMapSvrTaxInfo(int iIndex, BYTE btTaxType, BYTE btTaxRate);
-	void CGReqCsMiniMapData(PMSG_REQ_MINIMAPDATA* lpMsg, int iIndex);
-	void GCAnsCsMiniMapData(int iIndex, BYTE btResult);
-	void CGReqStopCsMiniMapData(PMSG_REQ_STOPMINIMAPDATA* lpMsg, int iIndex);
-	void CGReqCsSendCommand(PMSG_REQ_CSCOMMAND* lpMsg, int iIndex);
+	void CGReqNpcBuy(PMSG_REQ_NPCBUY* lpMsg, CGameObject *lpObj);
+	void GCAnsNpcBuy(CGameObject *lpObj, int iResult, int iNpcNumber, int iNpcIndex);
+	void CGReqNpcRepair(PMSG_REQ_NPCREPAIR* lpMsg, CGameObject *lpObj);
+	void GCAnsNpcRepair(CGameObject *lpObj, int iResult, int iNpcNumber, int iNpcIndex, int iNpcHP, int iNpcMaxHP);
+	void CGReqNpcUpgrade(PMSG_REQ_NPCUPGRADE* lpMsg, CGameObject *lpObj);
+	void GCAnsNpcUpgrade(CGameObject *lpObj, int iResult, int iNpcNumber, int iNpcIndex, int iNpcUpType, int iNpcUpValue);
+	void CGReqTaxMoneyInfo(PMSG_REQ_TAXMONEYINFO* lpMsg, CGameObject *lpObj);
+	void GCAnsTaxMoneyInfo(CGameObject *lpObj, int iResult, BYTE btTaxRateChaos, BYTE btTaxRateStore, __int64 i64Money);
+	void CGReqTaxRateChange(PMSG_REQ_TAXRATECHANGE* lpMsg, CGameObject *lpObj);
+	void GCAnsTaxRateChange(CGameObject *lpObj, int iResult, BYTE btTaxType, int iTaxRate);
+	void CGReqMoneyDrawOut(PMSG_REQ_MONEYDRAWOUT* lpMsg, CGameObject *lpObj);
+	void GCAnsMoneyDrawOut(CGameObject *lpObj, int iResult, __int64 i64Money);
+	void GCAnsCsGateState(CGameObject *lpObj, int iResult, int iGateIndex);
+	void CGReqCsGateOperate(PMSG_REQ_CSGATEOPERATE* lpMsg, CGameObject *lpObj);
+	void GCAnsCsGateOperate(CGameObject *lpObj, int iResult, int iGateIndex, int iGateOperate);
+	void GCAnsCsGateCurState(CGameObject *lpObj, int iGateIndex, int iGateOperate);
+	void GCAnsCsAccessSwitchState(CGameObject *lpObj, int iSwitchIndex, int iSwitchUserIndex, BYTE btSwitchState);
+	void GCAnsCsAccessCrownState(CGameObject *lpObj, BYTE btCrownState);
+	void GCAnsCsNotifyStart(CGameObject *lpObj, BYTE btStartState);
+	void GCAnsCsNotifyProgress(CGameObject *lpObj, BYTE btCastleSiegeState, LPCSTR lpszGuildName);
+	void GCAnsCsMapSvrTaxInfo(CGameObject *lpObj, BYTE btTaxType, BYTE btTaxRate);
+	void CGReqCsMiniMapData(PMSG_REQ_MINIMAPDATA* lpMsg, CGameObject *lpObj);
+	void GCAnsCsMiniMapData(CGameObject *lpObj, BYTE btResult);
+	void CGReqStopCsMiniMapData(PMSG_REQ_STOPMINIMAPDATA* lpMsg, CGameObject *lpObj);
+	void CGReqCsSendCommand(PMSG_REQ_CSCOMMAND* lpMsg, CGameObject *lpObj);
 	void GCAnsCsSendCommand(int iCsJoinSide, BYTE btTeam, BYTE btX, BYTE btY, BYTE btCommand);
 	void GCAnsCsLeftTimeAlarm(BYTE btHour, BYTE btMinute);
-	void GCAnsSelfCsLeftTimeAlarm(int iIndex, BYTE btHour, BYTE btMinute);
-	void CGReqCsSetEnterHuntZone(PMSG_REQ_CSHUNTZONEENTER* lpMsg, int iIndex);
-	void GCAnsCsSetEnterHuntZone(int iIndex, BYTE btResult, BYTE btEnterHuntZone);
-	void CGReqNpcDbList(PMSG_REQ_NPCDBLIST* lpMsg, int iIndex);
+	void GCAnsSelfCsLeftTimeAlarm(CGameObject *lpObj, BYTE btHour, BYTE btMinute);
+	void CGReqCsSetEnterHuntZone(PMSG_REQ_CSHUNTZONEENTER* lpMsg, CGameObject *lpObj);
+	void GCAnsCsSetEnterHuntZone(CGameObject *lpObj, BYTE btResult, BYTE btEnterHuntZone);
+	void CGReqNpcDbList(PMSG_REQ_NPCDBLIST* lpMsg, CGameObject *lpObj);
 	
-	//void CGReqCsRegGuildList(PMSG_REQ_CSREGGUILDLIST* lpMsg, int iIndex);
-	//void CGReqCsAttkGuildList(PMSG_REQ_CSATTKGUILDLIST* lpMsg, int iIndex);
+	//void CGReqCsRegGuildList(PMSG_REQ_CSREGGUILDLIST* lpMsg, CGameObject *lpObj);
+	//void CGReqCsAttkGuildList(PMSG_REQ_CSATTKGUILDLIST* lpMsg, CGameObject *lpObj);
 
-	void CGReqWeaponUse(PMSG_REQ_USEWEAPON* aRecv, int iIndex);
-	void CGReqWeaponDamageValue(PMSG_REQ_WEAPON_DAMAGE_VALUE* aRecv, int iIndex);
-	void CGReqGuildMarkOfCastleOwner(PMSG_REQ_GUILDMARK_OF_CASTLEOWNER* aRecv, int iIndex);
-	void CGReqJewelMix(PMSG_REQ_JEWEL_MIX* lpMsg, int iIndex);
-	void GCAnsJewelMix(int iIndex, int iResult);
-	void CGReqJewelUnMix(PMSG_REQ_JEWEL_UNMIX* lpMsg, int iIndex);
-	void GCAnsJewelUnMix(int iIndex, int iResult);
-	void CGReqCrywolfInfo(PMSG_REQ_CRYWOLF_INFO* lpMsg, int iIndex);
-	void GCAnsCrywolfInfo(int iIndex, BYTE btOccupationState, BYTE btCrywolfState);
-	void CGReqAlatrContract(PMSG_REQ_CRYWOLF_ALTAR_CONTRACT* lpMsg, int iIndex);
-	void CGReqPlusChaosRate(PMSG_REQ_CRYWOLF_BENEFIT_PLUS_CHAOSRATE* lpMsg, int iIndex);
-	void CGReqKanturuStateInfo(PMSG_REQ_KANTURU_STATE_INFO* lpMsg, int iIndex);
-	void GCReqEnterKanturuBossMap(PMSG_REQ_ENTER_KANTURU_BOSS_MAP* lpMsg, int iIndex);
+	void CGReqWeaponUse(PMSG_REQ_USEWEAPON* aRecv, CGameObject *lpObj);
+	void CGReqWeaponDamageValue(PMSG_REQ_WEAPON_DAMAGE_VALUE* aRecv, CGameObject *lpObj);
+	void CGReqGuildMarkOfCastleOwner(PMSG_REQ_GUILDMARK_OF_CASTLEOWNER* aRecv, CGameObject *lpObj);
+	void CGReqJewelMix(PMSG_REQ_JEWEL_MIX* lpMsg, CGameObject *lpObj);
+	void GCAnsJewelMix(CGameObject *lpObj, int iResult);
+	void CGReqJewelUnMix(PMSG_REQ_JEWEL_UNMIX* lpMsg, CGameObject *lpObj);
+	void GCAnsJewelUnMix(CGameObject *lpObj, int iResult);
+	void CGReqCrywolfInfo(PMSG_REQ_CRYWOLF_INFO* lpMsg, CGameObject *lpObj);
+	void GCAnsCrywolfInfo(CGameObject *lpObj, BYTE btOccupationState, BYTE btCrywolfState);
+	void CGReqAlatrContract(PMSG_REQ_CRYWOLF_ALTAR_CONTRACT* lpMsg, CGameObject *lpObj);
+	void CGReqPlusChaosRate(PMSG_REQ_CRYWOLF_BENEFIT_PLUS_CHAOSRATE* lpMsg, CGameObject *lpObj);
+	void CGReqKanturuStateInfo(PMSG_REQ_KANTURU_STATE_INFO* lpMsg, CGameObject *lpObj);
+	void GCReqEnterKanturuBossMap(PMSG_REQ_ENTER_KANTURU_BOSS_MAP* lpMsg, CGameObject *lpObj);
 	void GCIllusionTempleSendReward(CGameObject* lpObj);
 	void WereWolfQuarrelCheck(CGameObject* lpObj);
 	void GateKeeperCheck(CGameObject* lpObj);
@@ -3895,7 +3895,7 @@ public:
 	void GCElementalDamageSend(CGameObject* lpObj, int TargetIndex, int Damage, int Elemental);
 	void GCSendErtelInfo(CGameObject* lpObj);
 	void CGReqEnterAcheron(CGameObject* lpObj);
-	void GCObjectLifeInfo(int iIndex, short sObjNum, int iMaxLife, int iCurLife);
+	void GCObjectLifeInfo(CGameObject *lpObj, short sObjNum, int iMaxLife, int iCurLife);
 	void CGAgilityRecv(CGameObject* lpObj, PMSG_AGILITYSEND * aRecv);
 	//void GCPriceSend(CGameObject* lpObj, BYTE type, SHOP_DATA *lpShopData);
 	int OnCGInviteDuel(LPPMSG_REQ_DUEL_INVITE lpMsg, CGameObject* lpObj);
@@ -3903,32 +3903,32 @@ public:
 	int OnCGLeaveDuel(LPPMSG_REQ_DUEL_EXIT lpMsg, CGameObject* lpObj);
 	int OnDuelChannelJoin(LPPMSG_REQ_DUEL_JOINCNANNEL lpMsg, CGameObject* lpObj);
 	int OnDuelChannelLeave(LPPMSG_REQ_DUEL_LEAVECNANNEL lpMsg, CGameObject* lpObj);
-	void CGReqRegGensMember(PMSG_REQ_REG_GENS_MEMBER *lpMsg, int iIndex);
-	void CGReqSecedeGensMember(PMSG_REQ_SEGEDE_GENS_MEMBER *lpMsg, int iIndex);
-	void CGReqGensReward(PMSG_GENS_REWARD_CODE *lpMsg, int iIndex);
-	void CGReqGensMemberInfo(PMSG_REQ_GENS_INFO *lpMsg, int iIndex);
+	void CGReqRegGensMember(PMSG_REQ_REG_GENS_MEMBER *lpMsg, CGameObject *lpObj);
+	void CGReqSecedeGensMember(PMSG_REQ_SEGEDE_GENS_MEMBER *lpMsg, CGameObject *lpObj);
+	void CGReqGensReward(PMSG_GENS_REWARD_CODE *lpMsg, CGameObject *lpObj);
+	void CGReqGensMemberInfo(PMSG_REQ_GENS_INFO *lpMsg, CGameObject *lpObj);
 	void CGInventoryEquipment(PMSG_REQ_INVENTORY_EQUIPMENT_ITEM *lpMsg, CGameObject* lpObj);
-	void CGReqUseTransformationRing(PMSG_REQ_USETRANSFORMATIONRING *lpMsg, int iIndex);
-	void GCSendAttackSpeed(int iIndex);
+	void CGReqUseTransformationRing(PMSG_REQ_USETRANSFORMATIONRING *lpMsg, CGameObject *lpObj);
+	void GCSendAttackSpeed(CGameObject *lpObj);
 	void GCChaosMachinePriceSend(CGameObject* lpObj);
-	void CGReqEnterDoppelGanger(PMSG_REQ_ENTER_DOPPELGANGER *lpMsg, int iIndex);
-	void CGReqEnterZone(PMSG_REQ_ENTER_ZONE *lpMsg, int iIndex);	
+	void CGReqEnterDoppelGanger(PMSG_REQ_ENTER_DOPPELGANGER *lpMsg, CGameObject *lpObj);
+	void CGReqEnterZone(PMSG_REQ_ENTER_ZONE *lpMsg, CGameObject *lpObj);	
 	void CGReqInJewelPentagramItem(PMSG_REQ_IN_PENTAGRAM_JEWEL *lpMsg, CGameObject* lpObj);
 	void GCAnsInJewelPentagramItem(CGameObject* lpObj, int iResult, BYTE btJewelPos, BYTE btJewelIndex, BYTE btItemType, WORD wItemIndex, BYTE btMainAttribute, BYTE btLevel, BYTE btRank1OptionNum, BYTE btRank1Level, BYTE btRank2OptionNum, BYTE btRank2Level, BYTE btRank3OptionNum, BYTE btRank3Level, BYTE btRank4OptionNum, BYTE btRank4Level, BYTE btRank5OptionNum, BYTE btRank5Level);
 	void CGReqOutJewelPentagramItem(PMSG_REQ_OUT_PENTAGRAM_JEWEL *lpMsg, CGameObject* lpObj);
-	void GCAnsOutJewelPentagramItem(int iIndex, int iResult, BYTE btJewelPos, BYTE btJewelDBIndex);
+	void GCAnsOutJewelPentagramItem(CGameObject *lpObj, int iResult, BYTE btJewelPos, BYTE btJewelDBIndex);
 	void CGReqRefinePentagramJewel(PMSG_REQ_REFINE_PENTAGRAM_JEWEL *lpMsg, CGameObject* lpObj);
-	void GCAnsRefinePentagramJewel(int iIndex, BYTE btResult);
+	void GCAnsRefinePentagramJewel(CGameObject *lpObj, BYTE btResult);
 	void CGReqUpgradePentagramJewel(PMSG_REQ_UPGRADE_PENTAGRAM_JEWEL *lpMsg, CGameObject* lpObj);
-	void GCAnsUpgradePentagramJewel(int iIndex, BYTE btResult);
-	void GCAnsPentagramJewelInOut(int iIndex, BYTE btResult);
-	void CGReqArcaBattleGuildMasterJoin(_tagPMSG_REQ_ARCA_BATTLE_JOIN *lpMsg, int iIndex);
-	void CGReqArcaBattleGuildMemberJoin(_tagPMSG_REQ_ARCA_BATTLE_JOIN *lpMsg, int iIndex);
-	void CGReqArcaBattleEnter(_tagPMSG_REQ_ARCA_BATTLE_ENTER *lpMsg, int iIndex);
-	void CGReqAcheronEnter(_tagPMSG_REQ_ACHERON_ENTER *lpMsg, int iIndex);
-	void CGReqArcaBattleBootyExchange(int iIndex);
-	void CGReqSpritemapExchange(int iIndex);
-	void CGReqRegisteredMemberCnt(int iIndex);
+	void GCAnsUpgradePentagramJewel(CGameObject *lpObj, BYTE btResult);
+	void GCAnsPentagramJewelInOut(CGameObject *lpObj, BYTE btResult);
+	void CGReqArcaBattleGuildMasterJoin(_tagPMSG_REQ_ARCA_BATTLE_JOIN *lpMsg, CGameObject *lpObj);
+	void CGReqArcaBattleGuildMemberJoin(_tagPMSG_REQ_ARCA_BATTLE_JOIN *lpMsg, CGameObject *lpObj);
+	void CGReqArcaBattleEnter(_tagPMSG_REQ_ARCA_BATTLE_ENTER *lpMsg, CGameObject *lpObj);
+	void CGReqAcheronEnter(_tagPMSG_REQ_ACHERON_ENTER *lpMsg, CGameObject *lpObj);
+	void CGReqArcaBattleBootyExchange(CGameObject *lpObj);
+	void CGReqSpritemapExchange(CGameObject *lpObj);
+	void CGReqRegisteredMemberCnt(CGameObject *lpObj);
 	void GCSendRecvCheck(CGameObject* lpObj);
 	void CGReqAntihackBreach(CGameObject* lpObj, PMSG_ANTIHACK_BREACH *lpMsg);
 	void CGReqAntihackCheck(CGameObject* lpObj, PMSG_ANTIHACK_CHECK *lpMsg);
@@ -3962,10 +3962,10 @@ public:
 	void CGReqSendMemberPosInfoStop(int nIndex);
 	void GCReqSendNpcPosInfo(PMSG_REQ_NPC_POSITION *lpMsg, int nIndex);
 
-	void CGReqCCF_DayTime(int iIndex);
-	void CGReqCCF_EnterCheck(int iIndex);
+	void CGReqCCF_DayTime(CGameObject *lpObj);
+	void CGReqCCF_EnterCheck(CGameObject *lpObj);
 	void CG_CCF_UI_OnOff(PMSG_CCF_UI_ONOFF *lpMsg, int nUserIndex);
-	int	 CGReqEnterChaosCastleFinal(int iIndex);
+	int	 CGReqEnterChaosCastleFinal(CGameObject *lpObj);
 	void CGRequestRepositionUserInCCF(PMSG_REQ_REPOSUSER_IN_CCF *lpMsg, CGameObject* lpObj);
 	void CGReq_CCF_Ranking(PMSG_REQ_CCF_RANKING *lpMsg, CGameObject* lpObj);
 
@@ -3979,23 +3979,23 @@ public:
 
 	void GCResSendExpEventInfo(CGameObject* lpObj);*/
 
-	void CGReq_ITL_Relics(PMSG_REQ_ITL_RELATE_RELICS *lpMsg, int iIndex);
-	void CG_Req_Enter_ITR(PMSG_REQ_ENTER_ITR *lpMsg, int iIndex);
-	void CG_ReqAcceptEnterITR(PMSG_REQ_ACCEPTENTER_ITR *lpMsg, int iIndex);
-	BYTE EnterITRCheckUser(int iIndex, int &TroubleUserIndex);
+	void CGReq_ITL_Relics(PMSG_REQ_ITL_RELATE_RELICS *lpMsg, CGameObject *lpObj);
+	void CG_Req_Enter_ITR(PMSG_REQ_ENTER_ITR *lpMsg, CGameObject *lpObj);
+	void CG_ReqAcceptEnterITR(PMSG_REQ_ACCEPTENTER_ITR *lpMsg, CGameObject *lpObj);
+	BYTE EnterITRCheckUser(CGameObject *lpObj, int &TroubleUserIndex);
 
-	void CGReqUBFMyCharacterInfo(PMSG_REQ_UBF_INFO *lpMsg, int iIndex);
-	void CGReqUBFJoin(PMSG_REQ_UBF_JOIN *lpMsg, int iIndex);
-	void CGReqUBFCancel(PMSG_REQ_UBF_CANCEL *lpMsg, int iIndex);
-	void CGReqUBFGetRealName(PMSG_REQ_UBF_REAL_NAME *lpMsg, int iIndex);
-	void CGReqUBFGetReward(PMSG_REQ_GET_REWARD *lpMsg, int iIndex);
+	void CGReqUBFMyCharacterInfo(PMSG_REQ_UBF_INFO *lpMsg, CGameObject *lpObj);
+	void CGReqUBFJoin(PMSG_REQ_UBF_JOIN *lpMsg, CGameObject *lpObj);
+	void CGReqUBFCancel(PMSG_REQ_UBF_CANCEL *lpMsg, CGameObject *lpObj);
+	void CGReqUBFGetRealName(PMSG_REQ_UBF_REAL_NAME *lpMsg, CGameObject *lpObj);
+	void CGReqUBFGetReward(PMSG_REQ_GET_REWARD *lpMsg, CGameObject *lpObj);
 
-	void CGReqDSFSchedule(int iIndex);
-	void CGReqDSFEnter(int iIndex);
-	int EnterDSFCheckUser(int iIndex, int & TroubleUserIndex);
-	void CGReqAcceptEnterDSF(PMSG_REQ_DSF_ACCEPTENTER *lpMsg, int iIndex);
-	void CGReqDSFGoFinalParty(PMSG_REQ_DSF_GO_FINAL_PARTY_INFO *lpMsg, int iIndex);
-	void CGReqDSFGetReward(PMSG_REQ_DSF_GET_REWARD *lpMsg, int iIndex);
+	void CGReqDSFSchedule(CGameObject *lpObj);
+	void CGReqDSFEnter(CGameObject *lpObj);
+	int EnterDSFCheckUser(CGameObject *lpObj, int & TroubleUserIndex);
+	void CGReqAcceptEnterDSF(PMSG_REQ_DSF_ACCEPTENTER *lpMsg, CGameObject *lpObj);
+	void CGReqDSFGoFinalParty(PMSG_REQ_DSF_GO_FINAL_PARTY_INFO *lpMsg, CGameObject *lpObj);
+	void CGReqDSFGetReward(PMSG_REQ_DSF_GET_REWARD *lpMsg, CGameObject *lpObj);
 
 	void CGReqDoUsePopupType(CGameObject* lpObj);
 	void GCSendEventBanner(CGameObject* lpObj, int iBannerType);
@@ -4011,8 +4011,8 @@ public:
 	void CGReqUseBoxInInventory(CGameObject* lpObj, PMSG_REQ_USE_BOX * aRecv);
 
 	void CGEventEntryNotice(int EventType, BYTE state); // event entry notify
-	void CGReqNixieBossEnter(_tagPMSG_REQ_NIXIELAKE_ENTER *lpMsg, int iIndex);
-	void CGReqHuntingLog(int iIndex);
+	void CGReqNixieBossEnter(_tagPMSG_REQ_NIXIELAKE_ENTER *lpMsg, CGameObject *lpObj);
+	void CGReqHuntingLog(CGameObject *lpObj);
 
 	void GCPlayerStatsPanelRates(CGameObject* lpObj);
 	void GCPlayerStatsPanelNew(CGameObject* lpObj);
