@@ -45,7 +45,7 @@ QueryResult* CQuery::Fetch(TCHAR* lpszStatement, ...)
 	va_end(pArguments);
 
 	if (this->m_Result != nullptr)
-		(*this->m_Result).CleanUp();
+		(*this->m_Result).Free();
 
 	try {
 		this->m_Result = this->m_Database.Query(szStatement);

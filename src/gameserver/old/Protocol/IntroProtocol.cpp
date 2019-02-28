@@ -1304,6 +1304,7 @@ void IntroProtocol::CGPCharacterCreate(PMSG_CHARCREATE * lpMsg, STR_CS_USER* csU
 	if (lpUser->ConnectUser->Connected < PLAYER_LOGGED)
 	{
 		GIOCP.CloseClient(csUser->Index);
+		criti.unlock();
 		return;
 	}
 
@@ -1311,7 +1312,7 @@ void IntroProtocol::CGPCharacterCreate(PMSG_CHARCREATE * lpMsg, STR_CS_USER* csU
 	{
 		//this->GCSendDisableReconnect(aIndex);
 		GIOCP.CloseClient(csUser->Index);
-
+		criti.unlock();
 		return;
 	}
 
@@ -1326,6 +1327,7 @@ void IntroProtocol::CGPCharacterCreate(PMSG_CHARCREATE * lpMsg, STR_CS_USER* csU
 	{
 		GCServerMsgStringSend(Lang.GetText(0, 512), csUser, 1);
 		JGCharacterCreateFailSend(csUser->Index, lpMsg->Name);
+		criti.unlock();
 		return;
 	}
 
@@ -1333,6 +1335,7 @@ void IntroProtocol::CGPCharacterCreate(PMSG_CHARCREATE * lpMsg, STR_CS_USER* csU
 	{
 		GCServerMsgStringSend(Lang.GetText(0, 513), csUser, 1);
 		JGCharacterCreateFailSend(csUser->Index, lpMsg->Name);
+		criti.unlock();
 		return;
 	}
 
@@ -1343,6 +1346,7 @@ void IntroProtocol::CGPCharacterCreate(PMSG_CHARCREATE * lpMsg, STR_CS_USER* csU
 	else
 	{
 		JGCharacterCreateFailSend(csUser->Index, lpMsg->Name);
+		criti.unlock();
 		return;
 	}
 
@@ -1351,6 +1355,7 @@ void IntroProtocol::CGPCharacterCreate(PMSG_CHARCREATE * lpMsg, STR_CS_USER* csU
 		if ((lpUser->ConnectUser->EnableCharacterCreate & 4) != 4)
 		{
 			JGCharacterCreateFailSend(csUser->Index, lpMsg->Name);
+			criti.unlock();
 			return;
 		}
 	}
@@ -1360,6 +1365,7 @@ void IntroProtocol::CGPCharacterCreate(PMSG_CHARCREATE * lpMsg, STR_CS_USER* csU
 		if ((lpUser->ConnectUser->EnableCharacterCreate & 2) != 2)
 		{
 			JGCharacterCreateFailSend(csUser->Index, lpMsg->Name);
+			criti.unlock();
 			return;
 		}
 	}
@@ -1369,6 +1375,7 @@ void IntroProtocol::CGPCharacterCreate(PMSG_CHARCREATE * lpMsg, STR_CS_USER* csU
 		if ((lpUser->ConnectUser->EnableCharacterCreate & 1) != 1)
 		{
 			JGCharacterCreateFailSend(csUser->Index, lpMsg->Name);
+			criti.unlock();
 			return;
 		}
 	}
@@ -1378,6 +1385,7 @@ void IntroProtocol::CGPCharacterCreate(PMSG_CHARCREATE * lpMsg, STR_CS_USER* csU
 		if ((lpUser->ConnectUser->EnableCharacterCreate & 8) != 8)
 		{
 			JGCharacterCreateFailSend(csUser->Index, lpMsg->Name);
+			criti.unlock();
 			return;
 		}
 	}
@@ -1387,6 +1395,7 @@ void IntroProtocol::CGPCharacterCreate(PMSG_CHARCREATE * lpMsg, STR_CS_USER* csU
 		if ((lpUser->ConnectUser->EnableCharacterCreate & 0x10) != 0x10)
 		{
 			JGCharacterCreateFailSend(csUser->Index, lpMsg->Name);
+			criti.unlock();
 			return;
 		}
 	}
@@ -1394,6 +1403,7 @@ void IntroProtocol::CGPCharacterCreate(PMSG_CHARCREATE * lpMsg, STR_CS_USER* csU
 	if (strlen(lpMsg->Name) >= MAX_ACCOUNT_LEN)
 	{
 		JGCharacterCreateFailSend(csUser->Index, lpMsg->Name);
+		criti.unlock();
 		return;
 	}
 
@@ -1403,18 +1413,21 @@ void IntroProtocol::CGPCharacterCreate(PMSG_CHARCREATE * lpMsg, STR_CS_USER* csU
 	if (!g_prohibitedSymbols.Validate(szName, strlen(szName), TYPE_NAME))
 	{
 		JGCharacterCreateFailSend(csUser->Index, lpMsg->Name);
+		criti.unlock();
 		return;
 	}
 
 	if (SwearFilter.CompareText(lpMsg->Name))
 	{
 		JGCharacterCreateFailSend(csUser->Index, lpMsg->Name);
+		criti.unlock();
 		return;
 	}
 
 	if (strstr(lpMsg->Name, "[A]") != 0)
 	{
 		JGCharacterCreateFailSend(csUser->Index, lpMsg->Name);
+		criti.unlock();
 		return;
 	}
 
@@ -1425,6 +1438,7 @@ void IntroProtocol::CGPCharacterCreate(PMSG_CHARCREATE * lpMsg, STR_CS_USER* csU
 		//pResult.Result = 0;
 		//DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size, __FUNCTION__);
 		JGCharacterCreateFailSend(csUser->Index, lpMsg->Name);
+		criti.unlock();
 		return;
 	}
 
@@ -1482,8 +1496,8 @@ void IntroProtocol::CGPCharacterCreate(PMSG_CHARCREATE * lpMsg, STR_CS_USER* csU
 
 	// Extracted From JGCharacterCreateRequest()
 
-	PMSG_CHARCREATERESULT pResult;
-	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	
+	//char szAccountID[MAX_ACCOUNT_LEN + 1];
 
 	//szAccountID[MAX_ACCOUNT_LEN] = 0;
 	//memcpy(szAccountID, lpMsg->AccountId, sizeof(lpMsg->AccountId));
@@ -1492,9 +1506,11 @@ void IntroProtocol::CGPCharacterCreate(PMSG_CHARCREATE * lpMsg, STR_CS_USER* csU
 	{
 		sLog->outError("Request to create character doesn't match the user %s", lpUser->ConnectUser->AccountID);
 		GIOCP.CloseClient(csUser->Index);
+		criti.unlock();
 		return;
 	}
 
+	PMSG_CHARCREATERESULT pResult;
 	pResult.h.c = 0xC1;
 	pResult.h.size = sizeof(PMSG_CHARCREATERESULT);
 	pResult.h.headcode = 0xF3;
@@ -1571,9 +1587,7 @@ void IntroProtocol::CGPCharDel(PMSG_CHARDELETE * lpMsg, STR_CS_USER* csUser)
 		return;
 	}
 
-	//SDHP_CHARDELETE pCDel;
 	PMSG_RESULT pResult;
-
 	PHeadSubSetB((LPBYTE)&pResult, 0xF3, 0x02, sizeof(pResult));
 	pResult.result = 0;
 
@@ -1624,36 +1638,6 @@ void IntroProtocol::CGPCharDel(PMSG_CHARDELETE * lpMsg, STR_CS_USER* csUser)
 		return;
 	}
 
-	//PHeadSetB((LPBYTE)&pCDel, 0x05, sizeof(pCDel));
-	//pCDel.Number = aIndex;
-	//memcpy(pCDel.AccountID, gObj[aIndex].AccountID, sizeof(pCDel.AccountID));
-	//memcpy(pCDel.Name, lpMsg->Name, sizeof(lpMsg->Name));
-	//pCDel.Guild = 0;
-
-	/*if (lpUser->GuildNumber > 0 && lpUser->lpGuild != NULL)
-	{
-		if (!strcmp(gObj[aIndex].Name, lpUser->lpGuild->Names[0]))
-		{
-			pCDel.Guild = 1;	// Master
-		}
-		else
-		{
-			pCDel.Guild = 2;	// Member
-		}
-
-		memcpy(pCDel.GuildName, gObj[aIndex].m_PlayerData->lpGuild->Name, MAX_GUILD_LEN);
-	}*/
-
-	//g_UnityBattleField.GDReqCancelUnityBattleField(aIndex, 2, lpMsg->Name);
-
-	//szTemp[10] = 0;
-	//szTemp2[10] = 0;
-	//memcpy(szTemp, pCDel.Name, MAX_ACCOUNT_LEN);
-	//memcpy(szTemp2, pCDel.AccountID, MAX_ACCOUNT_LEN);
-
-	//wsDataCli.DataSend((PCHAR)&pCDel, pCDel.h.size);
-	//gObj[aIndex].Level = 0; // ? TODO
-
 	int Result = 0;
 	int iQueryResult = FALSE;
 	{
@@ -1662,8 +1646,6 @@ void IntroProtocol::CGPCharDel(PMSG_CHARDELETE * lpMsg, STR_CS_USER* csUser)
 		{
 			iQueryResult = this->m_AccDB.GetAsInteger(0);
 		}
-		//(*res)->Fetch();
-		//while ((*res)->NextRow()) { ; }
 	}
 
 	if (iQueryResult == TRUE)
@@ -1689,21 +1671,8 @@ void IntroProtocol::CGPCharDel(PMSG_CHARDELETE * lpMsg, STR_CS_USER* csUser)
 			}
 			this->m_AccDB.ExecQuery("UPDATE AccountCharacter SET GameID%d=NULL WHERE `Id`='%s'", iIndex + 1, csUser->AccountID);
 				
-			std::memcpy(&lpUser->Characters[iIndex], 0, sizeof(STR_USER_CHARACTERS));
-			/// This re-shuffles the Characters to match the DB Order.
-			// Not really needed.
-			/*STR_USER_CHARACTERS tUserChars[5] = { 0 };
-			for (iIndex = 0; iIndex < 5; iIndex++)
-			{
-				for (int jIndex = 0; jIndex < 5; jIndex++)
-				{
-					if (strcmp(CharName[iIndex], lpUser->Characters[jIndex].Name) == 0)
-					{
-						std::memcpy(&tUserChars[iIndex], &lpUser->Characters[jIndex], sizeof(STR_USER_CHARACTERS));
-					}
-				}
-			}
-			std::memcpy(&lpUser->Characters[0], &tUserChars[0], sizeof(STR_USER_CHARACTERS) * 5);*/
+			std::memset(&lpUser->Characters[iIndex], 0, sizeof(STR_USER_CHARACTERS));
+
 			sLog->outBasic("[%s] deleted character -> [%s]", csUser->AccountID, lpMsg->Name);
 			Result = 1;
 		}
@@ -1716,20 +1685,6 @@ void IntroProtocol::CGPCharDel(PMSG_CHARDELETE * lpMsg, STR_CS_USER* csUser)
 	}
 
 	PMSG_RESULT pResult2;
-	
-	/*char szAccountId[MAX_ACCOUNT_LEN + 1];
-	int aIndex = lpMsg->Number;
-	szAccountId[MAX_ACCOUNT_LEN] = 0;
-	memcpy(szAccountId, lpMsg->AccountID, sizeof(lpMsg->AccountID));
-
-	if (::gObjIsAccontConnect(aIndex, szAccountId) == FALSE)
-	{
-		g_Log.AddC(TColor::Red, "Request to delete character doesn't match the user %s", szAccountId);
-		IOCP.CloseClient(aIndex);
-
-		return;
-	}*/
-
 	pResult2.h.c = 0xC1;
 	pResult2.h.size = sizeof(PMSG_RESULT);
 	pResult2.h.headcode = 0xF3;

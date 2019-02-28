@@ -26,7 +26,7 @@
 class  ResultSet
 {
     public:
-        ResultSet(MYSQL_RES* result, MYSQL_FIELD* fields, uint64 rowCount, uint32 fieldCount);
+        ResultSet(MYSQL* mysql, MYSQL_RES* result, MYSQL_FIELD* fields, uint64 rowCount = 1, uint32 fieldCount = 1);
         ~ResultSet();
 
         bool NextRow();
@@ -35,8 +35,8 @@ class  ResultSet
 
         Field* Fetch() const { return _currentRow; }
         Field const& operator[](std::size_t index) const;
-
-		void CleanUp();
+		
+		void Free();
 
     protected:
         uint64 _rowCount;
@@ -44,9 +44,11 @@ class  ResultSet
         uint32 _fieldCount;
 
     private:
-       
+		void CleanUp();
+
         MYSQL_RES* _result;
         MYSQL_FIELD* _fields;
+		MYSQL* _mysql;
 
         ResultSet(ResultSet const& right) = delete;
         ResultSet& operator=(ResultSet const& right) = delete;
@@ -64,6 +66,8 @@ class  PreparedResultSet
 
         Field* Fetch() const;
         Field const& operator[](std::size_t index) const;
+
+		void Free();
 
     protected:
         std::vector<Field> m_rows;

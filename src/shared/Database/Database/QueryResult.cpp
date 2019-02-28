@@ -119,7 +119,8 @@ DatabaseFieldTypes MysqlTypeToFieldType(enum_field_types type)
     return DatabaseFieldTypes::Null;
 }
 
-ResultSet::ResultSet(MYSQL_RES *result, MYSQL_FIELD *fields, uint64 rowCount, uint32 fieldCount) :
+ResultSet::ResultSet(MYSQL* mysql, MYSQL_RES* result, MYSQL_FIELD* fields, uint64 rowCount, uint32 fieldCount):
+_mysql(mysql),
 _rowCount(rowCount),
 _fieldCount(fieldCount),
 _result(result),
@@ -324,6 +325,22 @@ bool PreparedResultSet::_NextRow()
     return retval == 0 || retval == MYSQL_DATA_TRUNCATED;
 }
 
+void ResultSet::Free()
+{
+	MYSQL_ROW row;
+	MYSQL_RES* res;
+	do 
+	{
+		res = mysql_use_result(_mysql);
+		if (res != NULL)
+		{
+			mysql_free_result(res);
+		}
+	} while (mysql_next_result(_mysql) == 0);
+
+	this->CleanUp();
+}
+
 void ResultSet::CleanUp()
 {
     if (_currentRow)
@@ -356,6 +373,12 @@ Field const& PreparedResultSet::operator[](std::size_t index) const
     //ASSERT(m_rowPosition < m_rowCount);
     //ASSERT(index < m_fieldCount);
     return m_rows[uint32(m_rowPosition) * m_fieldCount + index];
+}
+
+void PreparedResultSet::Free()
+{
+	while (mysql_fetch_row(m_metadataResult)) { ; }
+	this->CleanUp();
 }
 
 void PreparedResultSet::CleanUp()
