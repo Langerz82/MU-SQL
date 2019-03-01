@@ -2030,14 +2030,14 @@ struct PMSG_REQ_LUCKYCOIN_TRADE
 	int iLuckyCoinTradeCount;
 };
 
-struct _tagPMSG_REQ_INVENTORY_EQUIPMENT_ITEM
+struct PMSG_REQ_INVENTORY_EQUIPMENT_ITEM
 {
 	PBMSG_HEAD2 h;
 	BYTE btItemPos;
 	BYTE btValue;
 };
 
-struct _tagPMSG_ANS_INVENTORY_EQUIPMENT_ITEM
+struct PMSG_ANS_INVENTORY_EQUIPMENT_ITEM
 {
 	PBMSG_HEAD2 h;
 	BYTE btItemPos;
@@ -2248,7 +2248,7 @@ struct PMSG_PRICE_ITEM_LIST
 /************************************************************************/
 /* STRUCTS BELOW FOR PROTOCOL CLIENT ONLY                               */
 /************************************************************************/
-typedef struct _tagPMSG_REQ_DUEL_INVITE
+typedef struct PMSG_REQ_DUEL_INVITE
 {
 	PBMSG_HEAD2 h;
 	BYTE NumberH;
@@ -2256,7 +2256,7 @@ typedef struct _tagPMSG_REQ_DUEL_INVITE
 	char szName[MAX_ACCOUNT_LEN];
 } PMSG_REQ_DUEL_INVITE, *LPPMSG_REQ_DUEL_INVITE;
 
-typedef struct _tagPMSG_ANS_DUEL_ANSWER
+typedef struct PMSG_ANS_DUEL_ANSWER
 {
 	PBMSG_HEAD2 h;
 	BYTE bDuelOK;
@@ -2264,40 +2264,40 @@ typedef struct _tagPMSG_ANS_DUEL_ANSWER
 	BYTE NumberL;
 } PMSG_ANS_DUEL_ANSWER, *LPPMSG_ANS_DUEL_ANSWER;
 
-typedef struct _tagPMSG_REQ_DUEL_EXIT
+typedef struct PMSG_REQ_DUEL_EXIT
 {
 	PBMSG_HEAD2 h;
 } PMSG_REQ_DUEL_EXIT, *LPPMSG_REQ_DUEL_EXIT;
 
-typedef struct _tagPMSG_REQ_DUEL_JOINCNANNEL
+typedef struct PMSG_REQ_DUEL_JOINCNANNEL
 {
 	PBMSG_HEAD2 h;
 	BYTE nChannelId;
 } PMSG_REQ_DUEL_JOINCNANNEL, *LPPMSG_REQ_DUEL_JOINCNANNEL;
 
-typedef struct _tagPMSG_REQ_DUEL_LEAVECNANNEL
+typedef struct PMSG_REQ_DUEL_LEAVECNANNEL
 {
 	PBMSG_HEAD2 h;
 	BYTE nChannelId;
 } PMSG_REQ_DUEL_LEAVECNANNEL, *LPPMSG_REQ_DUEL_LEAVECNANNEL;
 
-struct _tagPMSG_REQ_ARCA_BATTLE_JOIN
+struct PMSG_REQ_ARCA_BATTLE_JOIN
 {
   PBMSG_HEAD2 h;
 };
 
-struct _tagPMSG_REQ_ARCA_BATTLE_ENTER
+struct PMSG_REQ_ARCA_BATTLE_ENTER
 {
   PBMSG_HEAD2 h;
   char btEnterSeq;
 };
 
-struct _tagPMSG_REQ_ACHERON_ENTER
+struct PMSG_REQ_ACHERON_ENTER
 {
   PBMSG_HEAD2 h;
 };
 
-struct _tagPMSG_ANS_ACHERON_ENTER
+struct PMSG_ANS_ACHERON_ENTER
 {
   PBMSG_HEAD2 h;
   char btResult;
@@ -2388,12 +2388,12 @@ struct PMSG_STATS_RESULT
 	float ExcellentDMGInc2;
 };
 
-struct _tagPMSG_REQ_NIXIELAKE_ENTER
+struct PMSG_REQ_NIXIELAKE_ENTER
 {
 	PBMSG_HEAD2 h;
 };
 
-struct _tagPMSG_ANS_NIXIELAKE_ENTER
+struct PMSG_ANS_NIXIELAKE_ENTER
 {
 	PBMSG_HEAD2 h;
 	char btResult;
@@ -3157,18 +3157,18 @@ struct _tagITL_REWARDLIST
 	char szGuildName[MAX_GUILD_LEN + 1];
 };
 
-struct _tagPMSG_REQ_ACHERON_EVENT_ENTER
+struct PMSG_REQ_ACHERON_EVENT_ENTER
 {
 	PBMSG_HEAD2 h;
 };
 
-struct _tagPMSG_ANS_ACHERON_EVENT_ENTER
+struct PMSG_ANS_ACHERON_EVENT_ENTER
 {
 	PBMSG_HEAD2 h;
 	BYTE btResult;
 };
 
-struct _tagPMSG_SEND_WINDOW_CLOSE
+struct PMSG_SEND_WINDOW_CLOSE
 {
 	PBMSG_HEAD2 h;
 };
@@ -3571,7 +3571,7 @@ struct PMSG_ANS_USE_BOX
 };
 
 // test hunting log
-struct _tagPMSG_REQ_HUNTING_LOG
+struct PMSG_REQ_HUNTING_LOG
 {
 	PBMSG_HEAD2 h;
 	WORD unk1;
@@ -3580,7 +3580,7 @@ struct _tagPMSG_REQ_HUNTING_LOG
 	WORD unk4;
 };
 
-struct _tagPMSG_ANS_HUNTING_LOG
+struct PMSG_ANS_HUNTING_LOG
 {
 	PBMSG_HEAD2 h;
 	WORD unk1;
@@ -3620,7 +3620,7 @@ public:
 	void ProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen, CGameObject* lpObj, BOOL Encrypt);
 	void MsgSendV2(CGameObject* lpObj, unsigned char* Msg, int size);
 	void ChatSendV2(CGameObject* lpObj, unsigned char* Msg, int size);
-	void CGLiveClient(PMSG_CLIENTTIME* lpClientTime, short aIndex);
+	void CGLiveClient(PMSG_CLIENTTIME* lpClientTime, CGameObject* lpObj);
 	void GCCheckMainExeKeySend(CGameObject* lpObj);
 	WORD EncryptCheckSumKey(WORD wSource);
 	void CGCheckMainRecv(PMSG_CHECK_MAINEXE_RESULT* lpMsg, CGameObject* lpObj);
@@ -3922,10 +3922,10 @@ public:
 	void CGReqUpgradePentagramJewel(PMSG_REQ_UPGRADE_PENTAGRAM_JEWEL *lpMsg, CGameObject* lpObj);
 	void GCAnsUpgradePentagramJewel(CGameObject *lpObj, BYTE btResult);
 	void GCAnsPentagramJewelInOut(CGameObject *lpObj, BYTE btResult);
-	void CGReqArcaBattleGuildMasterJoin(_tagPMSG_REQ_ARCA_BATTLE_JOIN *lpMsg, CGameObject *lpObj);
-	void CGReqArcaBattleGuildMemberJoin(_tagPMSG_REQ_ARCA_BATTLE_JOIN *lpMsg, CGameObject *lpObj);
-	void CGReqArcaBattleEnter(_tagPMSG_REQ_ARCA_BATTLE_ENTER *lpMsg, CGameObject *lpObj);
-	void CGReqAcheronEnter(_tagPMSG_REQ_ACHERON_ENTER *lpMsg, CGameObject *lpObj);
+	void CGReqArcaBattleGuildMasterJoin(PMSG_REQ_ARCA_BATTLE_JOIN *lpMsg, CGameObject *lpObj);
+	void CGReqArcaBattleGuildMemberJoin(PMSG_REQ_ARCA_BATTLE_JOIN *lpMsg, CGameObject *lpObj);
+	void CGReqArcaBattleEnter(PMSG_REQ_ARCA_BATTLE_ENTER *lpMsg, CGameObject *lpObj);
+	void CGReqAcheronEnter(PMSG_REQ_ACHERON_ENTER *lpMsg, CGameObject *lpObj);
 	void CGReqArcaBattleBootyExchange(CGameObject *lpObj);
 	void CGReqSpritemapExchange(CGameObject *lpObj);
 	void CGReqRegisteredMemberCnt(CGameObject *lpObj);
@@ -3957,14 +3957,14 @@ public:
 	void CGReqCancelPartyMatching(PMSG_REQ_CANCEL_JOIN_PARTYMATCHING *lpMsg, int nUserIndex);
 
 	void GCDisplayBuffeffectPartyMember(CGameObject* lpObj);
-	void GCPartyMemberPosition(int nIndex);
-	void CGReqSendMemberPosInfoStart(int nIndex);
-	void CGReqSendMemberPosInfoStop(int nIndex);
-	void GCReqSendNpcPosInfo(PMSG_REQ_NPC_POSITION *lpMsg, int nIndex);
+	void GCPartyMemberPosition(CGameObject* lpObj);
+	void CGReqSendMemberPosInfoStart(CGameObject* lpObj);
+	void CGReqSendMemberPosInfoStop(CGameObject* lpObj);
+	void GCReqSendNpcPosInfo(PMSG_REQ_NPC_POSITION *lpMsg, CGameObject* lpObj);
 
 	void CGReqCCF_DayTime(CGameObject *lpObj);
 	void CGReqCCF_EnterCheck(CGameObject *lpObj);
-	void CG_CCF_UI_OnOff(PMSG_CCF_UI_ONOFF *lpMsg, int nUserIndex);
+	void CG_CCF_UI_OnOff(PMSG_CCF_UI_ONOFF *lpMsg, CGameObject* lpObj);
 	int	 CGReqEnterChaosCastleFinal(CGameObject *lpObj);
 	void CGRequestRepositionUserInCCF(PMSG_REQ_REPOSUSER_IN_CCF *lpMsg, CGameObject* lpObj);
 	void CGReq_CCF_Ranking(PMSG_REQ_CCF_RANKING *lpMsg, CGameObject* lpObj);
@@ -4011,7 +4011,7 @@ public:
 	void CGReqUseBoxInInventory(CGameObject* lpObj, PMSG_REQ_USE_BOX * aRecv);
 
 	void CGEventEntryNotice(int EventType, BYTE state); // event entry notify
-	void CGReqNixieBossEnter(_tagPMSG_REQ_NIXIELAKE_ENTER *lpMsg, CGameObject *lpObj);
+	void CGReqNixieBossEnter(PMSG_REQ_NIXIELAKE_ENTER *lpMsg, CGameObject *lpObj);
 	void CGReqHuntingLog(CGameObject *lpObj);
 
 	void GCPlayerStatsPanelRates(CGameObject* lpObj);

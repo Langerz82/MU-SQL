@@ -168,11 +168,7 @@ struct STR_CS_USER
 	BYTE ServerPhase;
 
 	// Merged from GameObject/UserData.
-	DWORD CheckTick;	// 3C
-	DWORD CheckTick2;	// 44
-	BYTE CheckTickCount;	// 48
 	DWORD ConnectCheckTime;	// 38
-	BYTE CheckSpeedHack;	// 40
 	int Connected;	// 4
 	char LoginMsgSnd;	// 8
 	char LoginMsgCount;	// 9
@@ -1762,7 +1758,7 @@ struct GREMORYCASE_ITEM_DATA
 		this->btRewardInventory = 0;
 		this->btRewardSource = 0;
 		this->dwItemGUID = (DWORD)-1;
-		this->ItemInfo.Clear();
+		this->ItemInfo->Clear();
 		this->dwAuthCode = 0;
 		this->dwReceiveDate = 0;
 		this->dwExpireTime = 0;
@@ -1771,11 +1767,19 @@ struct GREMORYCASE_ITEM_DATA
 	BYTE btRewardInventory;
 	BYTE btRewardSource;
 	DWORD dwItemGUID;
-	CItem ItemInfo;
+	CItemObject* ItemInfo;
 	DWORD dwAuthCode;
 	DWORD dwReceiveDate;
 	DWORD dwExpireTime;
 };
+
+
+struct PMSG_PENTAGRAM_JEWEL_REFINE_RECV
+{
+	PBMSG_HEAD2 header; // C1:EC:02
+	BYTE type;
+};
+
 
 
 

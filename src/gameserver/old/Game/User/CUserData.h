@@ -298,6 +298,11 @@ public:
 	DWORD AntiHackCheckTime;
 	DWORD64 dwLastHitHackTick;
 
+	DWORD CheckTick;	// 3C
+	DWORD CheckTick2;	// 44
+	BYTE CheckTickCount;	// 48
+	BYTE CheckSpeedHack;	// 40
+
 	struct STR_USER_CHARACTERS Characters[5];
 };
 
