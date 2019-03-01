@@ -3888,7 +3888,7 @@ public:
 	void CGReqLuckyCoinTrade(PMSG_REQ_LUCKYCOIN_TRADE * aRecv, CGameObject* lpObj);
 	void GCAnsLuckyCoinTrade(CGameObject* lpObj, BYTE Result);
 	void CGReqCastleHuntZoneEntrance(PMSG_REQ_MOVE_TO_CASTLE_HUNTZONE* aRecv, CGameObject* lpObj);
-	void GCSendObjectCreationState(int iObjectIndex);
+	void GCSendObjectCreationState(CGameObject* lpObj);
 	void GCSendObjectHP(CGameObject* lpObj, CGameObject* lpTargetObj);
 	void CGReqAntiCheatRecv(CGameObject* lpObj, PMSG_SEND_AH_INFO * aRecv);
 	void CGReqFileCrcRecv(CGameObject* lpObj, PMSG_REQ_CRCDATA * aRecv);

@@ -174,7 +174,7 @@ struct STR_CS_USER
 	char LoginMsgCount;	// 9
 	char CloseCount;	// A
 	char CloseType;	// B
-	DWORD AgiCheckTime;
+
 	char  AccountID[11];	// 68
 	char  Password[20];	// 68
 	char HWID[100];
@@ -1786,6 +1786,102 @@ struct PMSG_GETMUTONUMBER_RESULT
 {
 	PBMSG_HEAD h;	// C1:96
 	short MutoNum[3];	// 4
+};
+
+struct _CS_NPC_DATA
+{
+	_CS_NPC_DATA();
+	virtual ~_CS_NPC_DATA();
+	void Clear();
+	void SetBaseValue();
+
+	BOOL m_bIN_USE;
+
+	int m_iNPC_NUM;
+	int m_iNPC_INDEX;
+
+	BOOL m_bNPC_DBSAVE;
+	int m_iNPC_SIDE;
+	int m_iNPC_OBJINDEX;
+	int m_iNPC_DF_LEVEL;
+	int m_iNPC_RG_LEVEL;
+	int m_iNPC_MAXHP;
+	int m_iNPC_HP;
+	int m_iNPC_SX;
+	int m_iNPC_SY;
+	int m_iNPC_DX;
+	int m_iNPC_DY;
+	int m_iNPC_DIR;
+	int m_iNPC_BASE_DF_LEVEL;
+	int m_iNPC_BASE_RG_LEVEL;
+	int m_iNPC_BASE_MAXHP;
+	int m_iNPC_BASE_HP;
+	int m_iNPC_BASE_SX;
+	int m_iNPC_BASE_SY;
+	int m_iNPC_BASE_DX;
+	int m_iNPC_BASE_DY;
+	int m_iNPC_BASE_DIR;
+	int m_iCS_GATE_LEVER_INDEX;
+	int m_iNPC_LIVE;
+	int m_iNPC_AUTH;
+
+	union
+	{
+		struct
+		{
+			BYTE m_btCsNpcExistVal1;
+			BYTE m_btCsNpcExistVal2;
+			BYTE m_btCsNpcExistVal3;
+			BYTE m_btCsNpcExistVal4;
+		};
+		int m_iCsNpcExistVal;
+	};
+};
+
+
+struct PMSG_MASTER_LEVEL_UP_SEND
+{
+	PBMSG_HEAD2 h;
+	WORD MasterLevel;
+	WORD GainPoint;
+	WORD MLPoint;
+	WORD MaxPoint;
+	WORD MaxLife;
+	WORD MaxMana;
+	WORD MaxShield;
+	WORD MaxBP;
+	int IGCMaxLife;
+	int IGCMaxMana;
+};
+
+
+struct PMSG_REQ_LUCKYCOIN
+{
+	PBMSG_HEAD2 h;
+	int iIndex;
+	char szUID[11];
+};
+
+struct PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	WORD wNumber;
+};
+
+struct PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS
+{
+	PBMSG_HEAD2 h;
+	char btResult;
+	WORD wNumber;
+};
+
+struct PMSG_ANS_ARCA_BATTLE_ENTER_DS
+{
+	PBMSG_HEAD2 h;
+	char btResult;
+	BYTE btEnterSeq;
+	WORD wNumber;
 };
 
 

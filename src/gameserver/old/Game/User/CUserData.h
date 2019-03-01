@@ -302,7 +302,8 @@ public:
 	DWORD CheckTick2;	// 44
 	BYTE CheckTickCount;	// 48
 	BYTE CheckSpeedHack;	// 40
-
+	DWORD AgiCheckTime;
+	MOVE_MAPSERVER_AUTHINFO* m_MapServerAuthInfo;
 	bool m_bMapSvrMoveQuit;	// 1518
 	bool m_bMapSvrMoveReq;	// 1519
 	bool m_bMapSvrMoveReq_2;

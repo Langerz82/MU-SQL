@@ -451,7 +451,7 @@ public:
 	DWORD m_LastAttackTick;
 	WORD m_SkillCheckWrongCastCount;
 	short m_RegenSysGroupNum;
-	MOVE_MAPSERVER_AUTHINFO* m_MapServerAuthInfo;
+	
 	bool m_bBlind;
 	int m_iPentagramMainAttribute;
 	int m_iPentagramAttributePattern;
