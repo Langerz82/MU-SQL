@@ -6,15 +6,15 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-//#include "QuestExpUserInfo.h"
-//#include "TMonsterSkillInfo.h"
-//#include "SkillDelay.h"
-//#include "ItemSystemFor380.h"
-//#include "PentagramSystem.h"
+#include "QuestExpUserInfo.h"
+#include "TMonsterSkillInfo.h"
+#include "SkillDelay.h"
+#include "ItemSystemFor380.h"
+#include "PentagramSystem.h"
 
 struct CharacterNameOfUBF;
 
-/*struct ComboSkillData;
+struct ComboSkillData;
 struct EXC_WING_OPTION;
 struct ExMessageStateMachine;
 struct GREMORYCASE_ITEM_DATA;
@@ -25,18 +25,17 @@ struct MASTERLEVEL_PASSIVE_SKILL_OPTION;
 struct MessageStateMachine;
 struct PENTAGRAM_OPTION;
 struct PENTAGRAMJEWEL_INFO;
-struct SOCKET_OPTION_LIST;
 struct STAT_USER_OPTION;
 struct STR_CONNECT_USER;
-struct STR_USER_SHOP_REBUY_ITEM;*/
+struct STR_USER_SHOP_REBUY_ITEM;
 
 class CUserData;
-/*class CAttackQueue;
+class CAttackQueue;
 class CEvolutionMonsterInfo;
 class CMuRummyInfo;
 class CSkillDelay;
 class CUserData;
-class UserQuestInfo;*/
+class UserQuestInfo;
 
 extern int MaxViewportMonster;
 
@@ -120,8 +119,8 @@ public:
 	int m_iSecurityCode;
 	BYTE RegisterdLMS;
 	BYTE RegisteredLMSRoom;
-	//JEWELOFHARMONY_ITEM_EFFECT* m_JewelOfHarmonyEffect;	// 1914
-	//ITEMOPTION_FOR380ITEM_EFFECT* m_ItemOptionExFor380;	// 193A
+	JEWELOFHARMONY_ITEM_EFFECT* m_JewelOfHarmonyEffect;	// 1914
+	ITEMOPTION_FOR380ITEM_EFFECT* m_ItemOptionExFor380;	// 193A
 	BOOL	m_bKanturuEntranceByNPC;
 	bool m_iGensInfoLoad;
 	bool m_iQuestInfoLoad;
@@ -129,9 +128,9 @@ public:
 	int m_WCoinC;
 	int m_GoblinPoint;
 	int m_iPeriodItemEffectIndex;	// 195C
-	//SOCKET_OPTION_LIST* m_SeedOptionList; // Size=210 Offset=9392
-	//SOCKET_OPTION_LIST* m_BonusOptionList; // Size=42 Offset=9602
-	//SOCKET_OPTION_LIST* m_SetOptionList; // Size=12 Offset=9644
+	SOCKET_OPTION_LIST* m_SeedOptionList; // Size=210 Offset=9392
+	SOCKET_OPTION_LIST* m_BonusOptionList; // Size=42 Offset=9602
+	SOCKET_OPTION_LIST* m_SetOptionList; // Size=12 Offset=9644
 	WORD m_btRefillHPSocketOption; // Size=2 Offset=9656
 	WORD m_btRefillMPSocketOption; // Size=2 Offset=9658
 	WORD m_wSocketOptionMonsterDieGetHp; // Size=2 Offset=9660
@@ -185,7 +184,7 @@ public:
 	char  Password[20];	// 7E
 	bool  PlusStatQuestClear; // 8C
 	bool  ComboSkillquestClear;	// 8D
-	//ComboSkillData* comboSkill; // 90
+	ComboSkillData* comboSkill; // 90
 	int m_GensRanking;
 	int m_GensClass;
 	int m_ContributePoint;
@@ -220,22 +219,22 @@ public:
 	int m_iMiningLevel;
 	int m_iMiningObjectId;
 	int m_iMiningJewelId;
-	//MASTERLEVEL_PASSIVE_SKILL_OPTION* m_MPSkillOpt;
-	//UserQuestInfo m_UserQuestInfo[MAX_QUESTEXP_USER_INFO];
+	MASTERLEVEL_PASSIVE_SKILL_OPTION* m_MPSkillOpt;
+	UserQuestInfo m_UserQuestInfo[MAX_QUESTEXP_USER_INFO];
 	int m_bUserQuestInfoSent;
 	bool m_bUsePolymorphSkin;
 	ULONGLONG LastSkillUseTick;
 	DWORD LastSkillUseNumber;
 	DWORD LastSkillUseCount;
-	//PENTAGRAM_OPTION* m_PentagramOptions;
-	//CItemObject** pPentagramMixBox;
+	PENTAGRAM_OPTION* m_PentagramOptions;
+	CItemObject** pPentagramMixBox;
 	BYTE** pPentagramMixBoxMap;
 	int PentagramMixMoney;
 	int PentagramMixSuccessRate;
 	int m_PentagramMixLock;
 	bool m_bIsPentagramMixCompleted;
-	//std::vector<PENTAGRAMJEWEL_INFO> m_PentagramJewelInfo_Inven;
-	//std::vector<PENTAGRAMJEWEL_INFO> m_PentagramJewelInfo_Warehouse;
+	std::vector<PENTAGRAMJEWEL_INFO> m_PentagramJewelInfo_Inven;
+	std::vector<PENTAGRAMJEWEL_INFO> m_PentagramJewelInfo_Warehouse;
 	DWORD MathAuthenElapsed;
 
 	int m_AttackRatePvM;
@@ -249,7 +248,7 @@ public:
 	int m_nServerChannel;
 	int m_nPartyMatchingIndex;
 	int m_nPartyMatchingMemberCount;
-	//CMuRummyInfo *m_pCMuRummyInfo;
+	CMuRummyInfo *m_pCMuRummyInfo;
 	bool m_bSendMemberPos;
 	bool m_bSendNpcPos;
 	int  m_Resistance_Stun;
@@ -261,18 +260,18 @@ public:
 	bool m_bIsMining;
 	bool m_EnableUseChangeSkin;
 	DWORD m_dwMapMoveKeyValue;
-	//EXC_WING_OPTION* m_WingExcOption;
-	//STAT_USER_OPTION* m_StatSpecOption;
+	EXC_WING_OPTION* m_WingExcOption;
+	STAT_USER_OPTION* m_StatSpecOption;
 	bool m_IsOffLevelling;
-	//STR_USER_SHOP_REBUY_ITEM** m_CancelItemSaleList;
+	STR_USER_SHOP_REBUY_ITEM** m_CancelItemSaleList;
 	bool m_bIsCancelItemSale;
 	int m_JoinUnityBattle;
 	int m_nServerCodeOfHomeWorld;
 	char m_RealNameOfUBF[11];
 	CNameConvert m_NameConvertOfUBF;
 	bool m_bGremoryCaseDBInfo;
-	//GREMORYCASE_ITEM_DATA** m_GremoryCaseData;
-	//CSkillDelay SkillDelay;
+	GREMORYCASE_ITEM_DATA** m_GremoryCaseData;
+	CSkillDelay SkillDelay;
 	DWORD m_dwGensHitTeleportDelay; // Private custom for joinmu
 	DWORD dwOpenWareCnt;
 	DWORD dwCloseWareCnt;
@@ -284,16 +283,20 @@ public:
 
 	int Ruud;
 	BYTE EventEntryCount[6];
-	//CEvolutionMonsterInfo * m_pCEvoMonInfo;
+	CEvolutionMonsterInfo * m_pCEvoMonInfo;
 	//Antihack related (move speed)
 	short MovingDistance;
 	BYTE  MovingIgnore;
 	int RageDMG;
-	//CAttackQueue* m_AttackQueue;
+	CAttackQueue* m_AttackQueue;
 	char  Name[5][11];
 	BYTE CharacterSlotCount;
 	BOOL bEnableDelCharacter;
 	DWORD m_dwDCTimer;
+	BYTE VipType;
+	char VipEffect;
+	DWORD AntiHackCheckTime;
+	DWORD64 dwLastHitHackTick;
 
 	struct STR_USER_CHARACTERS Characters[5];
 };

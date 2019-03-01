@@ -183,10 +183,7 @@ struct STR_CS_USER
 	char  Password[20];	// 68
 	char HWID[100];
 	BYTE  m_cAccountItemBlock; // 1D0
-	BYTE VipType;
-	char VipEffect;
-	DWORD AntiHackCheckTime;
-	DWORD64 dwLastHitHackTick;
+
 	bool m_bMapSvrMoveQuit;	// 1518
 	bool m_bMapSvrMoveReq;	// 1519
 	bool m_bMapSvrMoveReq_2;
@@ -1709,6 +1706,77 @@ struct MOVE_MAPSERVER_AUTHINFO
 	int iJA3;
 	int iJA4;
 };
+
+typedef struct
+{
+	BYTE m_SocketOptionIndex;
+	BYTE m_SocketOptionValueType;
+	WORD m_SocketOptionValue;
+	BYTE m_SocketOptionCount;
+
+	void Clear()
+	{
+		this->m_SocketOptionIndex = 0xFF;
+		this->m_SocketOptionValue = 0;
+		this->m_SocketOptionValueType = 0;
+		this->m_SocketOptionCount = 0;
+	}
+} SOCKET_OPTION_LIST, *LPSOCKET_OPTION_LIST;
+
+struct STR_USER_SHOP_REBUY_ITEM
+{
+	STR_USER_SHOP_REBUY_ITEM()
+	{
+		this->Clear();
+	}
+
+	void Clear()
+	{
+		this->btUsed = FALSE;
+		this->wItemCode = 0xFFFF;
+		this->iLeftTime = 0;
+		memset(this->btItemInfo, 0x00, MAX_ITEM_INFO);
+		this->wItemCount = 0;
+		this->dwItemPrice = 0;
+		this->btItemNumber = 0;
+	}
+
+	BYTE btUsed;
+	WORD wItemCode;
+	int iLeftTime;
+	BYTE btItemInfo[MAX_ITEM_INFO];
+	WORD wItemCount;
+	DWORD dwItemPrice;
+	BYTE btItemNumber;
+};
+
+struct GREMORYCASE_ITEM_DATA
+{
+	GREMORYCASE_ITEM_DATA()
+	{
+		this->Clear();
+	}
+
+	void Clear()
+	{
+		this->btRewardInventory = 0;
+		this->btRewardSource = 0;
+		this->dwItemGUID = (DWORD)-1;
+		this->ItemInfo.Clear();
+		this->dwAuthCode = 0;
+		this->dwReceiveDate = 0;
+		this->dwExpireTime = 0;
+	}
+
+	BYTE btRewardInventory;
+	BYTE btRewardSource;
+	DWORD dwItemGUID;
+	CItem ItemInfo;
+	DWORD dwAuthCode;
+	DWORD dwReceiveDate;
+	DWORD dwExpireTime;
+};
+
 
 
 #pragma pack ()
