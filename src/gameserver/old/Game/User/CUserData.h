@@ -303,6 +303,13 @@ public:
 	BYTE CheckTickCount;	// 48
 	BYTE CheckSpeedHack;	// 40
 
+	bool m_bMapSvrMoveQuit;	// 1518
+	bool m_bMapSvrMoveReq;	// 1519
+	bool m_bMapSvrMoveReq_2;
+	DWORD m_dwMapSvrQuitTick;	// 151C
+	short m_sPrevMapSvrCode;	// 1520
+	short m_sDestMapNumber;	// 1522
+
 	struct STR_USER_CHARACTERS Characters[5];
 };
 

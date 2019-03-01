@@ -180,14 +180,8 @@ struct STR_CS_USER
 	char HWID[100];
 	BYTE  m_cAccountItemBlock; // 1D0
 
-	bool m_bMapSvrMoveQuit;	// 1518
-	bool m_bMapSvrMoveReq;	// 1519
-	bool m_bMapSvrMoveReq_2;
-	DWORD m_dwMapSvrQuitTick;	// 151C
-	short m_sPrevMapSvrCode;	// 1520
-	short m_sDestMapNumber;	// 1522
-	BYTE m_btDestX;	// 1524
-	BYTE m_btDestY;	// 1525
+	//BYTE m_btDestX;	// 1524
+	//BYTE m_btDestY;	// 1525
 	BYTE m_ClientHackLogCount;	// F43
 	bool m_bOff;
 	bool EnableCharacterCreate;
@@ -1779,6 +1773,21 @@ struct PMSG_PENTAGRAM_JEWEL_REFINE_RECV
 	PBMSG_HEAD2 header; // C1:EC:02
 	BYTE type;
 };
+
+struct PMSG_REGEVENTCHIP_RESULT
+{
+	PBMSG_HEAD h;	// C1:95
+	BYTE Type;	// 3
+	int ChipCount;	// 4
+};
+
+
+struct PMSG_GETMUTONUMBER_RESULT
+{
+	PBMSG_HEAD h;	// C1:96
+	short MutoNum[3];	// 4
+};
+
 
 
 
