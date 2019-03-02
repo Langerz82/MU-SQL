@@ -1884,6 +1884,46 @@ struct PMSG_ANS_ARCA_BATTLE_ENTER_DS
 	WORD wNumber;
 };
 
+struct _stPMSG_CCF_RANK_INFO
+{
+	PWMSG_HEAD2 h;
+	BYTE btResult;
+	BYTE btCnt;
+};
+
+
+struct _stPMSG_CCF_RANK_INFO
+{
+	PWMSG_HEAD2 h;
+	BYTE btResult;
+	BYTE btCnt;
+};
+
+
+struct JEWELOFHARMONY_ITEM_EFFECT
+{
+	short HJOpAddMinAttackDamage;	// 0
+	short HJOpAddMaxAttackDamage;	// 2
+	short HJOpRequireStr;	// 4
+	short HJOpRequireDex;	// 6
+	short HJOpAddAttackDamage;	// 8
+	short HJOpAddCriticalDamage;	// A
+	short HJOpAddSkillAttack;	// C
+	short HJOpAddAttackSuccessRatePVP;	// E
+	short HJOpDecreaseSDRate;	// 10
+	short HJOpAddIgnoreSDRate;	// 12
+	short HJOpAddMagicPower;	// 14
+	short HJOpAddDefense;	// 16
+	short HJOpAddMaxAG;	// 18
+	short HJOpAddMaxHP;	// 1A
+	short HJOpAddRefillHP;	// 1C
+	short HJOpAddRefillMP;	// 1E
+	short HJOpAddDefenseSuccessRatePvP;	// 20
+	short HJOpAddDamageDecrease;	// 22
+	short HJOpAddSDRate;	// 24
+};
+
+
 
 
 

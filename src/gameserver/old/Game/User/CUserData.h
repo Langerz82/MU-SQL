@@ -20,8 +20,7 @@ struct ExMessageStateMachine;
 struct GREMORYCASE_ITEM_DATA;
 struct GUILD_INFO_STRUCT;
 struct ITEMOPTION_FOR380ITEM_EFFECT;
-struct JEWELOFHARMONY_ITEM_EFFECT;
-struct MASTERLEVEL_PASSIVE_SKILL_OPTION;
+
 struct MessageStateMachine;
 struct PENTAGRAM_OPTION;
 struct PENTAGRAMJEWEL_INFO;
@@ -219,7 +218,7 @@ public:
 	int m_iMiningLevel;
 	int m_iMiningObjectId;
 	int m_iMiningJewelId;
-	MASTERLEVEL_PASSIVE_SKILL_OPTION* m_MPSkillOpt;
+	_MASTERLEVEL_PASSIVE_SKILL_OPTION* m_MPSkillOpt;
 	UserQuestInfo m_UserQuestInfo[MAX_QUESTEXP_USER_INFO];
 	int m_bUserQuestInfoSent;
 	bool m_bUsePolymorphSkin;

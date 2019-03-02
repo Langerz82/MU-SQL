@@ -3678,7 +3678,7 @@ public:
 	void CGBuyRequestRecv(PMSG_BUYREQUEST* lpMsg, CGameObject* lpObj);
 	void CGSellRequestRecv(PMSG_SELLREQUEST* lpMsg, CGameObject* lpObj);
 	int  GetNeedMoneyItemDurRepaire(/*CGameObject* lpObj, */class CItem* DurItem, int RequestPos);
-	void ItemDurRepaire(CGameObject* lpObj, /*CGameObject* lpObj, */class CItem* DurItem, int pos, int RequestPos);
+	void ItemDurRepaire(CGameObject* lpObj, /*CGameObject* lpObj, */class CItemObject* DurItem, int pos, int RequestPos);
 	void CGModifyRequestItem(PMSG_ITEMDURREPAIR* lpMsg, CGameObject* lpObj);
 	void CGTradeRequestSend(PMSG_TRADE_REQUEST* lpMsg, CGameObject* lpObj);
 	void CGTradeResponseRecv(PMSG_TRADE_RESPONSE* lpMsg, CGameObject* lpObj);
