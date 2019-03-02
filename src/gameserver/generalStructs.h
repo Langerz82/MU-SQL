@@ -1923,6 +1923,20 @@ struct JEWELOFHARMONY_ITEM_EFFECT
 	short HJOpAddSDRate;	// 24
 };
 
+typedef struct ITEMEFFECT
+{
+	WORD wOptionType;
+	WORD wEffectType1;
+	WORD wEffectType2;
+	int iItemNumber;
+	int iItemType;
+	int iItemIndex;
+	int iEffectValue1;
+	int iEffectValue2;
+	int iEffectValidTime;
+
+} ITEMEFFECT, *LPITEMEFFECT;
+
 
 
 
