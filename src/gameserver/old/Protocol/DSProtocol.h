@@ -705,20 +705,20 @@ struct DS_SAVE_PLAYERKILLER
 	char Killer[11];
 };
 
-struct _tagPMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS
+struct PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS
 {
 	PBMSG_HEAD2 h;
 	BYTE btResult;
 	WORD wNumber;
 };
 
-struct _tagPMSG_ANS_ARCA_BATTLE_JOIN
+struct PMSG_ANS_ARCA_BATTLE_JOIN
 {
 	PBMSG_HEAD2 h;
 	char btResult;
 };
 
-struct _tagPMSG_REQ_ARCA_BATTLE_GUILD_JOIN_DS
+struct PMSG_REQ_ARCA_BATTLE_GUILD_JOIN_DS
 {
 	PBMSG_HEAD2 h;
 	char szGuildMaster[11];
@@ -727,14 +727,14 @@ struct _tagPMSG_REQ_ARCA_BATTLE_GUILD_JOIN_DS
 	WORD wNumber;
 };
 
-struct _tagPMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS
+struct PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS
 {
 	PBMSG_HEAD2 h;
 	char btResult;
 	WORD wNumber;
 };
 
-struct _tagPMSG_ANS_ARCA_BATTLE_ENTER_DS
+struct PMSG_ANS_ARCA_BATTLE_ENTER_DS
 {
 	PBMSG_HEAD2 h;
 	char btResult;
@@ -742,13 +742,13 @@ struct _tagPMSG_ANS_ARCA_BATTLE_ENTER_DS
 	WORD wNumber;
 };
 
-struct _tagPMSG_ANS_ARCA_BATTLE_ENTER
+struct PMSG_ANS_ARCA_BATTLE_ENTER
 {
 	PBMSG_HEAD2 h;
 	char btResult;
 };
 
-struct _tagPMSG_ANS_AB_PROC_STATE_DS
+struct PMSG_ANS_AB_PROC_STATE_DS
 {
 	PBMSG_HEAD2 h;
 	BYTE btProcState;
@@ -761,21 +761,21 @@ struct _stGuildUnderMember
 };
 
 /* 5188 */
-struct _tagPMSG_ANS_AB_JOIN_MEMBER_UNDER_DS
+struct PMSG_ANS_AB_JOIN_MEMBER_UNDER_DS
 {
 	PBMSG_HEAD2 h;
 	BYTE btGuildCnt;
 	_stGuildUnderMember GuildMemberCnt[6];
 };
 
-struct _tagPMSG_ANS_AB_JOIN_MEMBER_UNDER
+struct PMSG_ANS_AB_JOIN_MEMBER_UNDER
 {
 	PBMSG_HEAD2 h;
 	char btMinGuildMember;
 	char btGuildMemberCnt;
 };
 
-struct _tagPMSG_REQ_AB_GUILD_JOIN_SELECT_DS
+struct PMSG_REQ_AB_GUILD_JOIN_SELECT_DS
 {
 	PBMSG_HEAD2 h;
 	char szGuildMaster[11];
@@ -783,14 +783,14 @@ struct _tagPMSG_REQ_AB_GUILD_JOIN_SELECT_DS
 	WORD wNumber;
 };
 
-struct _tagPMSG_REQ_AB_GUILD_JOIN_SELECT2ND_DS
+struct PMSG_REQ_AB_GUILD_JOIN_SELECT2ND_DS
 {
 	PBMSG_HEAD2 h;
 	WORD wNumber;
 	DWORD dwGuild;
 };
 
-struct _tagPMSG_REQ_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS
+struct PMSG_REQ_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS
 {
 	PBMSG_HEAD2 h;
 	char szCharName[11];
@@ -799,7 +799,7 @@ struct _tagPMSG_REQ_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS
 	WORD wNumber;
 };
 
-struct _tagPMSG_REQ_ARCA_BATTLE_ENTER_DS
+struct PMSG_REQ_ARCA_BATTLE_ENTER_DS
 {
 	PBMSG_HEAD2 h;
 	char szCharName[11];
@@ -1182,13 +1182,13 @@ void JGCharacterCreateFailSend(CGameObject* lpObj, char* id);
 void JGCharDelRequest( SDHP_CHARDELETERESULT* lpMsg);
 void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT* lpMsg);
 void GCItemListSend(CGameObject* lpObj);
-void GJSetCharacterInfo(struct OBJECTSTRUCT* lpObj, CGameObject* lpObj, BOOL bMapServerMove);
+void GJSetCharacterInfo(CGameObject* lpObj, CGameObject* lpObj2, BOOL bMapServerMove);
 void GDGetWarehouseList(CGameObject* lpObj, char* AccountID);
 void DGGetWarehouseList( SDHP_GETWAREHOUSEDB_SAVE* lpMsg);
 void GDGetWarehouseNoItem( SDHP_GETWAREHOUSEDB_RESULT* lpMsg);
 void GDSetWarehouseList(CGameObject* lpObj, BOOL bCloseWindow);
 void DGSetWarehouseList(PMSG_ANS_WARESAVE* lpMsg);
-void GDUserItemSave( OBJECTSTRUCT* lpObj);
+void GDUserItemSave( CGameObject* lpObj);
 void GDSetWarehouseMoney(CGameObject* lpObj);
 void GDGameServerInfoSave();
 void ItemCreate(CGameObject* lpObj, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption, time_t lDuration, BYTE *SocketOption, BYTE MainAttribute);
@@ -1308,9 +1308,9 @@ void ReqSaveMonsterCount(short aIndex, int monsterid);
 void ReqSavePlayerKiller(short kIndex, short vIndex);
 
 void GDReqArcaBattleGuildJoin(CGameObject* lpObj);
-void DGAnsArcaBattleGuildJoin(_tagPMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *lpMsg);
+void DGAnsArcaBattleGuildJoin(PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *lpMsg);
 
-void DGAnsArcaBattleGuildJoinSelect(_tagPMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *lpMsg);
+void DGAnsArcaBattleGuildJoinSelect(PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *lpMsg);
 
 void GDReqArcaBattleGuildMemberJoin(CGameObject* lpObj);
 void DGAnsArcaBattleGuildMemberJoin(PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *lpMsg);
@@ -1318,7 +1318,7 @@ void DGAnsArcaBattleGuildMemberJoin(PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *l
 void GDReqArcaBattleEnter(CGameObject* lpObj, BYTE btEnterSeq);
 void DGAnsArcaBattleEnter(PMSG_ANS_ARCA_BATTLE_ENTER_DS *lpMsg);
 
-void DGAnsArcaBattleWinGuildInfo(PMSG_ANS_AB_WIN_GUILD_INFO_DS *lpMsg);
+//void DGAnsArcaBattleWinGuildInfo(PMSG_ANS_AB_WIN_GUILD_INFO_DS *lpMsg);
 
 void DGReqArcaBattleProcMultiCast(PMSG_ANS_AB_PROC_STATE_DS *lpMsg);
 

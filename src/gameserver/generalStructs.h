@@ -1938,6 +1938,35 @@ typedef struct ITEMEFFECT
 } ITEMEFFECT, *LPITEMEFFECT;
 
 
+struct PMSG_REQ_AB_REG_MEMBER_CNT_DS
+{
+	PBMSG_HEAD2 h;
+	int iIndex;
+	int iGuildNumber;
+};
+
+struct PMSG_ANS_REGISTERED_MEMBER_CNT
+{
+	PBMSG_HEAD2 h;
+	BYTE unk1;
+	BYTE unk2;
+};
+
+
+struct PMSG_CCF_RANK_INFO
+{
+	PWMSG_HEAD2 h;
+	BYTE btResult;
+	BYTE btCnt;
+};
+
+struct PMSG_ANS_AB_REG_MEMBER_CNT
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	BYTE btRegMemCnt;
+};
+
 
 
 

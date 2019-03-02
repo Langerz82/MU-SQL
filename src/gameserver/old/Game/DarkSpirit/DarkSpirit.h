@@ -18,7 +18,7 @@
 
 struct PMSG_SEND_PET_ITEMINFO
 {
-	PBMSG_HEAD2 h;	// C1:[A9:AC]
+	PBMSG_HEAD h;	// C1:[A9:AC]
 	BYTE PetType;	// 3
 	BYTE InvenType;	// 4
 	BYTE nPos;	// 5

@@ -61,12 +61,12 @@ public:
 	void IllusionTempleUserDie(CGameObject &Obj);
 	void IllusionTempleUserDieRegen(CGameObject &Obj);
 
-	void SetMirageIndex(int nIndex);
+	void SetMirageIndex(CGameObject* lpObj);
 
 	BOOL CheckWearingMOPH(int nUserIndex);
 	BOOL CheckChangeRing(int nType);
-	BOOL CheckRelics(int nIndex);
-	void ReqEventReward(int nIndex);
+	BOOL CheckRelics(CGameObject* lpObj);
+	void ReqEventReward(CGameObject* lpObj);
 
 	int GetRemainTime();
 
@@ -75,7 +75,7 @@ public:
 	bool IsCanEnterTiming();
 	void IncreaseKillCount(int nIndex, BYTE byMapNumber, BYTE byObjectType);
 
-	int CheckEnterLevel(int nIndex);
+	int CheckEnterLevel(CGameObject* lpObj);
 
 	BYTE Find_EmptySlot(int PartyIndex, BYTE &byEmptySlot, int nEnterIllusionIndex);
 	BYTE Update_PartyInfo(BYTE byMapNumber, BYTE bySlotNumber, int PartyIndex, int nUserIndex);

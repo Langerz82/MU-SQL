@@ -378,7 +378,7 @@ void CIllusionTempleEvent_Renewal::IllusionTempleUserDieRegen(CGameObject &Obj)
 	}
 }
 
-void CIllusionTempleEvent_Renewal::SetMirageIndex(int nIndex)
+void CIllusionTempleEvent_Renewal::SetMirageIndex(CGameObject* lpObj)
 {
 	this->m_nMirageIndex = nIndex;
 }
@@ -488,7 +488,7 @@ BOOL CIllusionTempleEvent_Renewal::CheckChangeRing(int nType)
 	return bRet;
 }
 
-BOOL CIllusionTempleEvent_Renewal::CheckRelics(int nIndex)
+BOOL CIllusionTempleEvent_Renewal::CheckRelics(CGameObject* lpObj)
 {
 	if (!gObjIsConnected(nIndex))
 	{
@@ -518,7 +518,7 @@ BOOL CIllusionTempleEvent_Renewal::CheckRelics(int nIndex)
 	return FALSE;
 }
 
-void CIllusionTempleEvent_Renewal::ReqEventReward(int nIndex)
+void CIllusionTempleEvent_Renewal::ReqEventReward(CGameObject* lpObj)
 {
 	if (!IT_MAP_RANGE(getGameObject(nIndex)->MapNumber))
 	{
@@ -581,7 +581,7 @@ void CIllusionTempleEvent_Renewal::IncreaseKillCount(int nIndex, BYTE byMapNumbe
 	}
 }
 
-int CIllusionTempleEvent_Renewal::CheckEnterLevel(int nIndex)
+int CIllusionTempleEvent_Renewal::CheckEnterLevel(CGameObject* lpObj)
 {
 	int nIllusionTempleNumber;
 	if (getGameObject(nIndex)->Level >= 220)
